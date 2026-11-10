@@ -7317,7 +7317,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "5b47de929",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW 11-10 13:27：已在本機接進開發分支，socsci_place 改法同意）",
    "task": "NTU-REF-1110 套件五棟照官網事實改參數（電機二、土木、圖資、農綜、國青；X223）",
    "files": [
     "docs/art-rebuild/second_ai/wip/ntu_ref_kit5_1110/（README、ntu_ref_kit5_1110.patch、ntu_ref_kit5_unit.js、regression.log）"
@@ -7342,6 +7342,22 @@
    "noDirectIntegrate": false,
    "note": "原因①：shader 在輸出色空間混色，THREE.Color(hex) 轉成線性（0x6e7882→(40,48,57)；v2b 0x4f5f73→(20,29,44)＝CC 量到的增加量）→ 改傳 Vector3 輸出色空間數值。②：東南角那一片是東立面一樓（x −21.16、z −75.25～−84.25），skyBox z 延到 −84.3。開發 v2C FAILED 2 → ALL PASS；回歸 28 支過。",
    "next": "等 CC 重拍 putong_north、博思東南角"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "XS-BRICK-WALK-1110 新生南路紅磚人行道磚紋（X246）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/xs_brick_walk_1110/（README、xs_brick_walk_1110.patch、xs_brick_walk_unit.js、regression.log、brick_red_tiled.jpg）",
+    "assets/textures/campus/brick_red_{diff,nor}.webp",
+    "tools/blender/env_second/textures/xs_brick_tex.py"
+   ],
+   "state": "MODEL_READY，待整合；BB 判",
+   "noDirectIntegrate": false,
+   "note": "Poly Haven CC0 brick_pavement_04 調成 #b77a62；紅磚地面共用一個材質、UV 照世界座標（1.8 m）、遠景照舊合成 1 個網格；區域網格 238 → 238。新測試開發 FAILED 4 → ALL PASS；回歸 46 支過。",
+   "next": "佇列空了，等 LAWWW 派"
   }
  ]
 }
