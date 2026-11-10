@@ -1,0 +1,29 @@
+{
+  "rerun": "",
+  "id": "F24_live_pos",
+  "sha": "fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114",
+  "kind": "game",
+  "script": "tests/save_compat_v7.py",
+  "env": "SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-11T03:12:42",
+  "end": "2026-11-11T03:20:19",
+  "seconds": 457,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "17",
+  "url": "http://127.0.0.1:8801/index.html",
+  "url2": "http://127.0.0.1:8805/index.html",
+  "sha2": "3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 54,
+    "mem": 63,
+    "used_gb": 20.0,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
