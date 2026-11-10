@@ -6941,7 +6941,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "da1c77472",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "LIB-B1-COURT-ART-1110 第三輪（X307 白霧 NOT FIXED 退回：真正的原因是玻璃雨遮）",
    "files": [
     "assets/models/env/second_ai/lib_b1_court.glb",
@@ -6949,10 +6949,10 @@
     "tools/blender/env_second/lib_b1_court.py",
     "docs/art-rebuild/second_ai/wip/lib_b1_court_1110/（README 第三輪、b1court_canopy_57d555786.patch、b1court_glass_cam_unit.js、fog3_reg.txt）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "BB 站位 (98,−37) yaw 0：鏡頭 (98,−1.14,−31.14) 在雨遮（−1.45）上方 0.3 m，畫面下半每一條視線第一個碰到的都是雙面半透明的雨遮。雨遮改成只畫朝下那一片。測試第 4 項（1540 個鏡頭、畫面下半 15 條視線）：開發 GLB 119 個有霧 FAIL → 新 GLB 0 個 ALL PASS；回歸 5 支 ALL PASS。",
-   "next": "LAWWW 套 patch；CC 用新門檻（下半部平均亮度 <110）重拍 03、07；BB 判"
+   "note": "BB 站位 (98,−37) yaw 0：鏡頭 (98,−1.14,−31.14) 在雨遮（−1.45）上方 0.3 m，畫面下半每一條視線第一個碰到的都是雙面半透明的雨遮。雨遮改成只畫朝下那一片。測試第 4 項（1540 個鏡頭、畫面下半 15 條視線）：開發 GLB 119 個有霧 FAIL → 新 GLB 0 個 ALL PASS；回歸 5 支 ALL PASS。 ｜ LAWWW 11-10 09:53 接進開發分支 28df8a85c（3 支 ALL PASS）。",
+   "next": "CC 換 SHA 重拍 03、07（<110）；BB 判"
   }
  ]
 }
