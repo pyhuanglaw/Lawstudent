@@ -52389,6 +52389,165 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "WZ-QUICKTRAVEL-1110",
+   "title": "手機／地圖快速前往：溫州街列出全部 11 間店、直接到那一間（X319）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "手機地點",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【LAWWW 11-10 18:4x】子代理實作（places.js 快速前往清單＋站位可站檢查＋tests/wz_quicktravel_1110_unit.js）。"
+  },
+  {
+   "id": "WZ-SHOP-TEA-1110",
+   "title": "溫州街 帝大紅茶：照使用者參考圖重做外觀和內部（X318）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等使用者生參考圖（LAWWW 11-10 18:4x 給了提示詞）",
+   "resumeWhen": "BB 檢查通過、存 ref_images/shops",
+   "next": "外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW。",
+   "xai": {
+    "spec": "X318",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "照參考圖（D133）；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "WZ-SHOP-BOOKS-1110",
+   "title": "溫州街 溫州書屋：照使用者參考圖重做外觀和內部（X318）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等使用者生參考圖（LAWWW 11-10 18:4x 給了提示詞）",
+   "resumeWhen": "BB 檢查通過、存 ref_images/shops",
+   "next": "外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW。",
+   "xai": {
+    "spec": "X318",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "照參考圖（D133）；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "WZ-SHOP-ICE-1110",
+   "title": "溫州街 夏日冰菓室：照使用者參考圖重做外觀和內部（X318）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等使用者生參考圖（LAWWW 11-10 18:4x 給了提示詞）",
+   "resumeWhen": "BB 檢查通過、存 ref_images/shops",
+   "next": "外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW。",
+   "xai": {
+    "spec": "X318",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "照參考圖（D133）；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "WZ-SHOP-MOKUYOBI-1110",
+   "title": "溫州街 木曜日：照使用者參考圖重做外觀和內部（X318）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等使用者生參考圖（LAWWW 11-10 18:4x 給了提示詞）",
+   "resumeWhen": "BB 檢查通過、存 ref_images/shops",
+   "next": "外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW。",
+   "xai": {
+    "spec": "X318",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "照參考圖（D133）；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "WZ-SHOP-OFFBEAT-1110",
+   "title": "溫州街 日常失速：照使用者參考圖重做外觀和內部（X318）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等使用者生參考圖（LAWWW 11-10 18:4x 給了提示詞）",
+   "resumeWhen": "BB 檢查通過、存 ref_images/shops",
+   "next": "外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW。",
+   "xai": {
+    "spec": "X318",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "照參考圖（D133）；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
