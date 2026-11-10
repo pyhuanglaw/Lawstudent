@@ -1,0 +1,178 @@
+{
+ "pid": "classmate_xinci",
+ "tag": "phone_date 今天最近（去 Daybreak 吃早午餐）",
+ "rec0": {
+  "day": 21,
+  "hour": 12.5623,
+  "t": 516.5623,
+  "money": 30000,
+  "rel": {
+   "fam": 50,
+   "trust": 35,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 14.8522,
+  "t": 518.8522,
+  "money": 30000,
+  "rel": {
+   "fam": 53,
+   "trust": 36,
+   "comf": 31,
+   "aff": 0,
+   "rom": 36,
+   "npcRom": 36
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "SHARED_MEAL"
+  ],
+  "zone": "daybreak"
+ },
+ "hours": 2.2898999999999887,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "（餐點送來的時候，她先拿手機拍了一張。）",
+   "h": 12.836,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "芯慈",
+   "c": "classmate_xinci",
+   "t": "……好，可以吃了。",
+   "h": 12.836,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "你和芯慈在 Daybreak 吃早午餐。",
+   "h": 12.836,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "芯慈",
+   "c": "classmate_xinci",
+   "t": "下週同一時間？我寫進去了。",
+   "h": 13.586,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "（餐點送來的時候，她先拿手機拍",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "芯慈",
+   "text": "……好，可以吃了。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "你和芯慈在 Daybreak 吃早午餐。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "芯慈",
+   "text": "下週同一",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "daybreak",
+  "lv": 0,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 0.6,
+  "sameGroup": true,
+  "doorD": 2.04,
+  "spawnD": 0.98,
+  "npc": true,
+  "nD": 0.6,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": 1.9,
+  "nz": 1.55,
+  "p": [
+   1.3,
+   1.55
+  ],
+  "ptable": 4,
+  "ntable": 4,
+  "others": [],
+  "othersInfo": []
+ }
+}
