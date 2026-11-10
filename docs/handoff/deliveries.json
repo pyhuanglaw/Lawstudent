@@ -18765,7 +18765,7 @@
    "what": "CAM-TEAYARD-1109 一盞前院鏡頭碰撞：zones3d.js teaYard 在前院時 camCols 加緣側牆＋鄰居房子／灰泥牆；tests/teahouse_yard_cam_unit.js",
    "task": "CAM-TEAYARD-1109",
    "integration": "已整合待測試",
-   "note": "整合 b6685c824。patch sha256 0b748de7、zones3d cd5b538a、測試 c63d09d3 和交件一致；新測試舊程式 FAILED 2 → ALL PASS；交件 87 支 LAWWW-B 本機全過。待 CC 重拍 180°、270°、BB-B 判。"
+   "note": "整合 b6685c824。patch sha256 0b748de7、zones3d cd5b538a、測試 c63d09d3 和交件一致；新測試舊程式 FAILED 2 → ALL PASS；交件 87 支 LAWWW-B 本機全過。待 CC 重拍 180°、270°、BB-B 判。 GHA node-unit-auto 42722885640（4f888cf3c，含 b6685c824、b8cffd669）success。"
   },
   {
    "id": "DLV-1109-L2-VIEWPANESIDE",
@@ -18778,7 +18778,7 @@
    "what": "CAM-VIEWPANE-SIDE-1109 窗景卡側看：zones3d.js vpPart 記店面左右範圍，鏡頭在範圍外藏窗景卡（阿德影印、林家乾麵、慢輪單車）；tests/viewpane_side_unit.js",
    "task": "CAM-VIEWPANE-SIDE-1109",
    "integration": "已整合待測試",
-   "note": "整合 b8cffd669。patch sha256 e03e7be7、zones3d f667cd55、測試 bc2c1ba0 和交件一致；新測試舊程式 FAILED 5 → ALL PASS；交件 76 支 LAWWW-B 本機全過。待 CC 新舊對照：阿德出生點 270°（補 90°）、慢輪側牆外一張＋店裡斜看前窗（出生點 150°、210°）；BB-B 判。"
+   "note": "整合 b8cffd669。patch sha256 e03e7be7、zones3d f667cd55、測試 bc2c1ba0 和交件一致；新測試舊程式 FAILED 5 → ALL PASS；交件 76 支 LAWWW-B 本機全過。待 CC 新舊對照：阿德出生點 270°（補 90°）、慢輪側牆外一張＋店裡斜看前窗（出生點 150°、210°）；BB-B 判。 GHA node-unit-auto 42722885640（4f888cf3c，含 b6685c824、b8cffd669）success。"
   },
   {
    "id": "DLV-1109-L2-CAMTEAYARD2",
@@ -18791,7 +18791,7 @@
    "what": "CAM-TEAYARD-1109 第二輪（鏡頭在屋簷外緣房子那一側時藏 YARD_EAVE；測試 ④ 用遊戲俯角 0.38）＋CAM-VIEWPANE-SIDE-1109 測試俯角修正（只改測試）",
    "task": "CAM-TEAYARD-1109",
    "integration": "已整合待測試",
-   "note": "整合 4f888cf3c。兩個 patch（db7f13b5、6410cd2c）、zones3d 3ee81197、兩支測試 d11eae35／2047ae97 和交件一致；teahouse ④ 第一輪程式 FAILED 1 → PASS；viewpane 修改前程式照舊 FAILED 5、新的 PASS；130 支 LAWWW-B 本機全過。待 CC 出生點 (−3,9) 預設鏡頭 150°／180°／210° 新舊對照；剩樹葉 wzy_leaf、木柱 wzy_wood 偶爾擋頭（開發本來就有）BB-B 看畫面決定。"
+   "note": "整合 4f888cf3c。兩個 patch（db7f13b5、6410cd2c）、zones3d 3ee81197、兩支測試 d11eae35／2047ae97 和交件一致；teahouse ④ 第一輪程式 FAILED 1 → PASS；viewpane 修改前程式照舊 FAILED 5、新的 PASS；130 支 LAWWW-B 本機全過。待 CC 出生點 (−3,9) 預設鏡頭 150°／180°／210° 新舊對照；剩樹葉 wzy_leaf、木柱 wzy_wood 偶爾擋頭（開發本來就有）BB-B 看畫面決定。 GHA node-unit-auto 42722885640（4f888cf3c，含 b6685c824、b8cffd669）success。"
   }
  ],
  "ignored": [
