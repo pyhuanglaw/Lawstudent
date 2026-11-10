@@ -20,6 +20,7 @@ MT3_later | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planni
 MT3_second | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 25 | CASES=SECOND
 MT3_kxvb | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=KXVB
 MT3_zrnofx_RERUN | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=ZRNOFX
+MT3_lovecap_RERUN | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=LOVECAP
 DLGFX_old_a | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 20 | TAG=old;CASES=DATE,TERMEND
 DLGFX_new_a | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 20 | TAG=new;CASES=DATE,TERMEND
 DLGFX_old_b | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 20 | TAG=old;CASES=CHAT,PHONE,FACE

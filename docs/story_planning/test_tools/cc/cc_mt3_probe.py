@@ -41,8 +41,8 @@ async def watch_pick(pg, cdp, tag, who, iv, opt_text, extra_pick=None):
     await pe.phone(pg, cdp, 'today')
     ok = await pe.tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % iv['id'])
     if not R.check('%s「今天」有「前往」' % tag, ok, ''): return None
-    t0 = time.time(); zones = []; hall = False; chs = []
-    while time.time() - t0 < 480:
+    t0 = time.time(); zones = []; hall = False; chs = []; leadw = {}
+    while time.time() - t0 < 720:
         q = await L.state(pg); z = await pg.evaluate("GAME.G.zone")
         if not zones or zones[-1] != z: zones.append(z)
         if z == 'xs_nanyang_hall': hall = True
@@ -58,6 +58,13 @@ async def watch_pick(pg, cdp, tag, who, iv, opt_text, extra_pick=None):
         if q['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
         st = await pg.evaluate("((id)=>{ const v=(GAME.G.invites||[]).find(x=>String(x.id)===String(id)); return v&&v.state; })(%s)" % J(iv['id']))
         if st in ('done', 'over') and not q['busy'] and (hall or iv.get('nohall')): break
+        # 約念書總圖（sitAt.lead）：她帶路坐下（lead.ph 'wait'）→ 玩家要走到她的位子 2 m 內才開演（INV-SIT-TOGETHER-1104）；像玩家一樣點地板走過去（MT3 r1 LOVECAP 沒走＝TEST_BUG）
+        ld = await pg.evaluate("((id)=>{ const v=(GAME.G.invites||[]).find(x=>String(x.id)===String(id)); return v&&v.lead&&v.state==='accepted'?{ph:v.lead.ph,her:v.lead.her}:null; })(%s)" % J(iv['id']))
+        if ld and ld['ph'] == 'wait' and ld.get('her') and not q['busy'] and not leadw.get(ld['her']['x']):
+            leadw[ld['her']['x']] = 1; hx, hz, hl = ld['her']['x'], ld['her']['z'], ld['her'].get('lv', 0)
+            R.note('%s 她帶路坐下了（%.1f,%.1f lv%s）→ 點地板走到她旁邊' % (tag, hx, hz, hl))
+            ok = await L.go_to(pg, cdp, R, hx, hz, 1.6, '走到%s的位子旁邊' % who, max_s=240, lv=hl)
+            R.note('%s 走到她旁邊：%s' % (tag, ok)); continue
         await pg.wait_for_timeout(450)
     return {'zones': zones, 'hall': hall, 'choices': chs, 'want': want, 'K': K, 'ex': ex}
 
