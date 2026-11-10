@@ -52788,6 +52788,32 @@
     "receiver": "BB",
     "ack": "未派"
    }
+  },
+  {
+   "id": "SIGN-RECTIFY-1110",
+   "title": "照參考圖做的店面招牌從斜的重新截成正的（16 塊；gongguan_shops、wenzhou_street、xinsheng_street 三顆 GLB 只換招牌貼圖）（X323）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館／溫州街／新生南路",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "先公館五塊；交件附每塊前後對照；BB 判",
+   "xai": {
+    "spec": "X323",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "招牌正、字清楚、沒有裁到隔壁的字；前後對照；BB 判（D120）",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
