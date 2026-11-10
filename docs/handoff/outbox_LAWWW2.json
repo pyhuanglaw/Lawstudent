@@ -7750,6 +7750,21 @@
    "noDirectIntegrate": false,
    "note": "底 dev fd4dd9aef，9a5164f24 上 apply --check 乾淨；全部 1241 支 Node 測試通過；套上後 zq_arcade_seat、street_props_nav、flower_notes、tz_shops（六間）、tingzhou、gift_holiday ALL PASS。",
    "next": "等判定；花序第 2 版換花；六間室內第 2 版"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "84e589ba0",
+   "receiver": "LAWWW",
+   "cc": "BB、AA",
+   "ack": "SENT",
+   "task": "NIGHT-MARKET-1110 夜市十攤＋背景三攤第 1 版（X326；使用者 11-10 23:3x「可以，照圖做」UA-LAWWW-1110-111）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/night_market_1110/（README.md、night_market_v1.patch、regression_full.log、preview/）"
+   ],
+   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "noDirectIntegrate": false,
+   "note": "底 dev 9a5164f24，f3c0f9f19 上 apply --3way 乾淨；全部 1242 支 Node 測試沒有失敗。kind guabao→milk、fortune 拿掉；各攤自己的開收時間；公館三攤用 hookGongguan 加；tingzhou_walkers 第 4 項改成比例（請 LAWWW 過目）；價錢以圖為準、和 AA_744 不同的列在 README。",
+   "next": "LAWWW 接看／買、星期幾（套圈圈）、攤主 NPC；CC 拍；BB 判"
   }
  ]
 }
