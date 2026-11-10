@@ -1696,3 +1696,12 @@
 [22:07:28] [res] cpu=9% mem=37% (11.7/31.4 GB) chrome_testing=0  START PERFCG_new_m
 [22:08:06] 正在跑：PERFCG_new_m（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:11:00] [res] cpu=10% mem=35% (11.0/31.4 GB) chrome_testing=0  END PERFCG_new_m
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a8a01e89c..8f93be631  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:11:07] ==== END   PERFCG_new_m  exit=0  214s   ====
+[22:11:10] memory 35% before starting PERFCG_new_d (0 running)
+[22:11:10] ==== START PERFCG_new_d  (probe @ 8d8b475dc3a6b3546853a98fc24b60edb7829989) ====
+[22:11:13] [res] cpu=5% mem=35% (11.1/31.4 GB) chrome_testing=0  START PERFCG_new_d
+[22:13:06] 正在跑：PERFCG_new_d（已跑 1 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:14:50] [res] cpu=3% mem=37% (11.6/31.4 GB) chrome_testing=0  END PERFCG_new_d

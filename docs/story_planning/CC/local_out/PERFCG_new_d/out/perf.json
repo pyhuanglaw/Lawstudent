@@ -1,0 +1,352 @@
+{
+ "run": "new_d",
+ "sha": "8d8b475dc3a6b3546853a98fc24b60edb7829989",
+ "zone": "campus",
+ "glb": "campus_admin_glb",
+ "pos": {
+  "x": -20,
+  "z": 0.5,
+  "yaw": 1.5708
+ },
+ "hour": 14.0,
+ "views_def": {
+  "av_west": [
+   [
+    -10,
+    1.7,
+    0.5
+   ],
+   [
+    -90,
+    5,
+    0
+   ]
+  ],
+  "gate_avenue": [
+   [
+    -110,
+    1.7,
+    0.5
+   ],
+   [
+    100,
+    8,
+    0
+   ]
+  ],
+  "admin_front": [
+   [
+    -30,
+    1.7,
+    14
+   ],
+   [
+    -38,
+    6,
+    28
+   ]
+  ],
+  "arts_front": [
+   [
+    -30,
+    1.7,
+    -12
+   ],
+   [
+    -38,
+    6,
+    -28
+   ]
+  ],
+  "hist_front": [
+   [
+    -69,
+    1.7,
+    -8
+   ],
+   [
+    -77,
+    6,
+    -24
+   ]
+  ]
+ },
+ "formal": {
+  "boot_s": 20.4,
+  "zone_s": 11.09,
+  "glb_s": 11.12,
+  "glb_files": [],
+  "glb_kb_total": 0,
+  "mem": {
+   "textures": 304,
+   "geometries": 268,
+   "texCount": 415,
+   "texPixels": 129845659,
+   "texMP": 129.85,
+   "biggest": {
+    "w": 2048,
+    "h": 2048,
+    "name": "gg_bd_facade"
+   }
+  },
+  "views": {
+   "av_west": {
+    "calls": 205,
+    "tris": 450858,
+    "frames": 264,
+    "avg": 32.86,
+    "min": 12,
+    "low1": 13.85,
+    "calls_live": 267,
+    "tris_live": 504742,
+    "hour": 14.1,
+    "npcs": 26,
+    "npcsVisible": 26
+   },
+   "gate_avenue": {
+    "calls": 382,
+    "tris": 645683,
+    "frames": 229,
+    "avg": 28.57,
+    "min": 5,
+    "low1": 5.45,
+    "calls_live": 458,
+    "tris_live": 794202,
+    "hour": 14.181,
+    "npcs": 26,
+    "npcsVisible": 26
+   },
+   "admin_front": {
+    "calls": 156,
+    "tris": 418482,
+    "frames": 395,
+    "avg": 49.17,
+    "min": 15.02,
+    "low1": 20,
+    "calls_live": 191,
+    "tris_live": 519548,
+    "hour": 14.263,
+    "npcs": 26,
+    "npcsVisible": 26
+   },
+   "arts_front": {
+    "calls": 341,
+    "tris": 471589,
+    "frames": 323,
+    "avg": 40.21,
+    "min": 14.99,
+    "low1": 17.99,
+    "calls_live": 351,
+    "tris_live": 487893,
+    "hour": 14.344,
+    "npcs": 26,
+    "npcsVisible": 26
+   },
+   "hist_front": {
+    "calls": 286,
+    "tris": 423983,
+    "frames": 380,
+    "avg": 47.4,
+    "min": 29.94,
+    "low1": 29.94,
+    "calls_live": 280,
+    "tris_live": 398767,
+    "hour": 14.426,
+    "npcs": 26,
+    "npcsVisible": 26
+   }
+  }
+ },
+ "nobldg": {
+  "boot_s": 17.2,
+  "zone_s": 9.95,
+  "glb_s": null,
+  "glb_files": [],
+  "glb_kb_total": 0,
+  "mem": {
+   "textures": 156,
+   "geometries": 206,
+   "texCount": 242,
+   "texPixels": 56832411,
+   "texMP": 56.83,
+   "biggest": {
+    "w": 1024,
+    "h": 1024,
+    "name": "map"
+   }
+  },
+  "views": {
+   "av_west": {
+    "calls": 205,
+    "tris": 789214,
+    "frames": 228,
+    "avg": 28.32,
+    "min": 2,
+    "low1": 2.14,
+    "calls_live": 284,
+    "tris_live": 875995,
+    "hour": 14.082,
+    "npcs": 26,
+    "npcsVisible": 25
+   },
+   "gate_avenue": {
+    "calls": 335,
+    "tris": 899721,
+    "frames": 265,
+    "avg": 32.99,
+    "min": 2.07,
+    "low1": 2.65,
+    "calls_live": 352,
+    "tris_live": 1000950,
+    "hour": 14.147,
+    "npcs": 26,
+    "npcsVisible": 25
+   },
+   "admin_front": {
+    "calls": 166,
+    "tris": 783094,
+    "frames": 365,
+    "avg": 45.44,
+    "min": 5.45,
+    "low1": 6.86,
+    "calls_live": 185,
+    "tris_live": 834502,
+    "hour": 14.217,
+    "npcs": 26,
+    "npcsVisible": 25
+   },
+   "arts_front": {
+    "calls": 247,
+    "tris": 782178,
+    "frames": 362,
+    "avg": 45.16,
+    "min": 5.46,
+    "low1": 5.85,
+    "calls_live": 252,
+    "tris_live": 791786,
+    "hour": 14.286,
+    "npcs": 26,
+    "npcsVisible": 25
+   },
+   "hist_front": {
+    "calls": 195,
+    "tris": 780444,
+    "frames": 397,
+    "avg": 49.52,
+    "min": 6,
+    "low1": 6,
+    "calls_live": 192,
+    "tris_live": 768976,
+    "hour": 14.355,
+    "npcs": 26,
+    "npcsVisible": 25
+   }
+  }
+ },
+ "table": {
+  "av_west": {
+   "calls": 205,
+   "nobldg_calls": 205,
+   "limit_1.3x": 266.5,
+   "margin": 61.5,
+   "ratio": 1.0,
+   "tris": 450858,
+   "tris_limit": 420000,
+   "tris_margin": -30858,
+   "fps_avg": 32.86,
+   "fps_min": 12,
+   "fps_low1": 13.85,
+   "nobldg_fps_avg": 28.32,
+   "nobldg_fps_min": 2
+  },
+  "gate_avenue": {
+   "calls": 382,
+   "nobldg_calls": 335,
+   "limit_1.3x": 435.5,
+   "margin": 53.5,
+   "ratio": 1.1403,
+   "tris": 645683,
+   "tris_limit": 420000,
+   "tris_margin": -225683,
+   "fps_avg": 28.57,
+   "fps_min": 5,
+   "fps_low1": 5.45,
+   "nobldg_fps_avg": 32.99,
+   "nobldg_fps_min": 2.07
+  },
+  "admin_front": {
+   "calls": 156,
+   "nobldg_calls": 166,
+   "limit_1.3x": 215.8,
+   "margin": 59.8,
+   "ratio": 0.9398,
+   "tris": 418482,
+   "tris_limit": 420000,
+   "tris_margin": 1518,
+   "fps_avg": 49.17,
+   "fps_min": 15.02,
+   "fps_low1": 20,
+   "nobldg_fps_avg": 45.44,
+   "nobldg_fps_min": 5.45
+  },
+  "arts_front": {
+   "calls": 341,
+   "nobldg_calls": 247,
+   "limit_1.3x": 321.1,
+   "margin": -19.9,
+   "ratio": 1.3806,
+   "tris": 471589,
+   "tris_limit": 420000,
+   "tris_margin": -51589,
+   "fps_avg": 40.21,
+   "fps_min": 14.99,
+   "fps_low1": 17.99,
+   "nobldg_fps_avg": 45.16,
+   "nobldg_fps_min": 5.46
+  },
+  "hist_front": {
+   "calls": 286,
+   "nobldg_calls": 195,
+   "limit_1.3x": 253.5,
+   "margin": -32.5,
+   "ratio": 1.4667,
+   "tris": 423983,
+   "tris_limit": 420000,
+   "tris_margin": -3983,
+   "fps_avg": 47.4,
+   "fps_min": 29.94,
+   "fps_low1": 29.94,
+   "nobldg_fps_avg": 49.52,
+   "nobldg_fps_min": 6
+  },
+  "_mem": {
+   "formal": {
+    "textures": 304,
+    "geometries": 268,
+    "texCount": 415,
+    "texPixels": 129845659,
+    "texMP": 129.85,
+    "biggest": {
+     "w": 2048,
+     "h": 2048,
+     "name": "gg_bd_facade"
+    }
+   },
+   "nobldg": {
+    "textures": 156,
+    "geometries": 206,
+    "texCount": 242,
+    "texPixels": 56832411,
+    "texMP": 56.83,
+    "biggest": {
+     "w": 1024,
+     "h": 1024,
+     "name": "map"
+    }
+   },
+   "glb_kb_total": 0,
+   "glb_files": [],
+   "glb_s": 11.12
+  }
+ }
+}
