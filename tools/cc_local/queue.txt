@@ -141,9 +141,13 @@ X295E_fair_keep2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story
 X295E_fair_off2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_off2;CASES=fair;BIKE=off
 # ② GYM-FIT-PROPS 第二包（LAWWW 11:59、BB 12:00）：飛輪（踏板離腳多遠）、划船機（座椅跟著臀部滑）有人在用各一張；探針加 bike、會動零件量測、sideLow 截圖
 GYMPROPS2_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_gym_props_probe.py | index.html | 20 | SOLO=1;TAG=v2;ACTS=bike,row
+# X295E fair r5：off2 走到時學姊的攤位剛好開演（對話框蓋住互動鍵）＝TEST_BUG；探針改成走到後先把劇情演完；off3 重跑（keep2 已重現 GAME_BUG）
+X295E_fair_off3 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_off3;CASES=fair;BIKE=off
 # GIFT-HOLIDAY-1110 節日送禮（子代理交件 bafbeefa3；雲端新版 8 段 ALL PASS 約 31 分）：改後 509b54c2d、改前 fda54d616（預期 xmas／valentine／qixi／birthday／third T-A／hergift／mailbox FAIL，normal 兩版都 PASS）
+# （12:4x HOLD：BB 12:39 要加「送完 love 後人物頁有記錄、包包少那一樣」，探針改好再開）
 GIFTHOL_new | 509b54c2d9d7a2f1ab6f227124abeb4d30747db6 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 75 | TAG=new
 GIFTHOL_old | fda54d616e57b40c74ca1b6404dccb6ea927e50c | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 50 | TAG=old
+# GIFTHOL 第二輪（BB 12:40；AA_732 d1bf75f6f）：②法圖小聲也能送 ③芷若點餐選單有送禮且送得出去 ④學姊生日事件演過當天不再有送禮——等 LAWWW 接好給 SHA，探針加三段後只跑新版
 # 同弦夜景（BB 12:04；LAWWW2 dd079901c 加夜間版）：21:00 窗外要是晚上（暗、有燈），不能和白天一樣；改前 be84c8680 先跑（預期 21:00 和白天一樣）；改後等 LAWWW 整合 SHA
 WINVIEW_tx_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tongxian;HOURS=14,21
 WINVIEW_tx_new | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tongxian;HOURS=14,21
@@ -152,9 +156,14 @@ WINVIEW_sso_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_
 #CANCEL（BB 12:18：小路維持視差窗）WINVIEW_kmc_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=komichi;HOURS=19
 WINVIEW_sso_new | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 20 | SHOPS=sunnyside,offbeat;HOURS=14,21;OWN_ALL=1
 # PUTONG v2C（BB 12:33；LAWWW2 8ff6e7d4a：東南角那片加進範圍、白天玻璃直接混到 [110,120,130]）：量玻璃平均色，和 v2b 並排；校園 shader 冒煙；等 SHA
-#HOLD SHADER_v2c | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 15 | TAG=v2c;ZONES=campus
-#HOLD TEACHVIEW_pn_v2c | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
-#HOLD BOYA1F_v2c | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=v2c;VIEWS=boya1f_gap:campus:-27:-69.5:11:0:2.5:-27:2.3:-74.5:70+boya1f_se:campus:-17:-70:11:1.27:6:-32:2.2:-74.5:50
+SHADER_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 15 | TAG=v2c;ZONES=campus
+TEACHVIEW_pn_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
+BOYA1F_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=v2c;VIEWS=boya1f_gap:campus:-27:-69.5:11:0:2.5:-27:2.3:-74.5:70+boya1f_se:campus:-17:-70:11:1.27:6:-32:2.2:-74.5:50
+# PERF-CAMPUS-GLB ②（LAWWW 12:39）：椰影大道（行政大樓、文學院、校史館）幀率 A/B，舊 a2de61545 vs 新 74da28ca9（貼圖集合併 draw call 47→18）；桌機 1366×768＋手機模擬 844×390 各一組；SOLO＝不和別的一起跑
+PERFCG_old_m | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 25 | SOLO=1;CLEAN=1;RUN=old_m;SHA=a2de61545;PERF_ZONE=campus;PERF_POS={"x":-20,"z":0.5,"yaw":1.5708};PERF_HOUR=14;PERF_GLB=campus_admin_glb;PERF_VIEWS={"av_west":[[-10,1.7,0.5],[-90,5,0]],"gate_avenue":[[-110,1.7,0.5],[100,8,0]],"admin_front":[[-30,1.7,14],[-38,6,28]],"arts_front":[[-30,1.7,-12],[-38,6,-28]],"hist_front":[[-69,1.7,-8],[-77,6,-24]]}
+PERFCG_new_m | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 25 | SOLO=1;CLEAN=1;RUN=new_m;SHA=74da28ca9;PERF_ZONE=campus;PERF_POS={"x":-20,"z":0.5,"yaw":1.5708};PERF_HOUR=14;PERF_GLB=campus_admin_glb;PERF_VIEWS={"av_west":[[-10,1.7,0.5],[-90,5,0]],"gate_avenue":[[-110,1.7,0.5],[100,8,0]],"admin_front":[[-30,1.7,14],[-38,6,28]],"arts_front":[[-30,1.7,-12],[-38,6,-28]],"hist_front":[[-69,1.7,-8],[-77,6,-24]]}
+PERFCG_old_d | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 25 | SOLO=1;CLEAN=1;DESKTOP=1;RUN=old_d;SHA=a2de61545;PERF_ZONE=campus;PERF_POS={"x":-20,"z":0.5,"yaw":1.5708};PERF_HOUR=14;PERF_GLB=campus_admin_glb;PERF_VIEWS={"av_west":[[-10,1.7,0.5],[-90,5,0]],"gate_avenue":[[-110,1.7,0.5],[100,8,0]],"admin_front":[[-30,1.7,14],[-38,6,28]],"arts_front":[[-30,1.7,-12],[-38,6,-28]],"hist_front":[[-69,1.7,-8],[-77,6,-24]]}
+PERFCG_new_d | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 25 | SOLO=1;CLEAN=1;DESKTOP=1;RUN=new_d;SHA=74da28ca9;PERF_ZONE=campus;PERF_POS={"x":-20,"z":0.5,"yaw":1.5708};PERF_HOUR=14;PERF_GLB=campus_admin_glb;PERF_VIEWS={"av_west":[[-10,1.7,0.5],[-90,5,0]],"gate_avenue":[[-110,1.7,0.5],[100,8,0]],"admin_front":[[-30,1.7,14],[-38,6,28]],"arts_front":[[-30,1.7,-12],[-38,6,-28]],"hist_front":[[-69,1.7,-8],[-77,6,-24]]}
 #CANCEL（BB 12:18：小路維持視差窗）HOLD WINVIEW_kmc_new | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=komichi;HOURS=19
 # X295E fair r3（CC 11:4x）：X295E_new 園遊會互動鍵是「騎腳踏車」——存檔騎著車、到了攤位旁車停在那裡？；探針先選選項（舊版點台詞框 190 次）；keep＝照存檔騎車過去、off＝起點先下車；開發分支 head
 X295E_fair_keep | bb8a32765065cc64530791f42aee631e06133b12 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep;CASES=fair;BIKE=keep
@@ -247,3 +256,6 @@ USAPT204b_new | c8af31018a9ce570422ad748aa277af842f8db37 | probe | docs/story_pl
 WINVIEW_own2 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 60 | SHOPS=own;HOURS=14,21;OWN_ALL=1
 WINVIEW_haopai2 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=haopai;HOURS=14;MAXD_haopai=1.6
 WINVIEW_tea21 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tea;HOURS=21
+
+# ART-NANYANG-CINEMA v4（CC 12:4x）：v3 跑的是 fe4d893ac（舊），3 項 FAIL（旁白時場燈沒全關、24:00 散場句不是 AA_695）；用開發分支 74da28ca9 再跑一次看現況
+NANYANG_v4 | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 150 | CC_HEADLESS=0
