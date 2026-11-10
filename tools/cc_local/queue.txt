@@ -313,6 +313,9 @@ WZCAT_old | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planni
 # BB 14:4x：前一批還沒開跑的改最新 head b296c6b56（X199_touch／day2an／ggglb／zone、XSGATE_new、WZCAT_new；已開跑的 99294 結果留著參考）；新三項 ①→②→③ 排在美國篇前面
 # BB 14:47：公館燒臘出得去嗎（gongguan_layout_nav 兩版 FAIL：noodle (0,3.5) hidden、reach false）；排在 ① 前面；出不去＝P1 GAME_BUG
 #HOLD NOODLE_EXIT | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 10 | 
+# BB 15:02：兩支 tests 改了期待值（a1a32fe2f），063cf14ab 重跑
+GUIDE_063 | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+GGNAV_063 | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
 # ① X199 小安新路線台詞（AA_738）：從標題開新遊戲、第二天選去 Café、故意走到公館（提醒＋目標字）、側門前豆花、新生南路一句、進 Café 聊完；walkFallbacks 0
 X199_ANROUTE | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_x199_an_route_probe.py | index.html | 75 | 
 # ② GG-LANE-CLOSE：公館騎樓西端往巷子看（住戶鐵門＋私人巷道告示），白天 14:00、晚上 20:00；新版 b296、舊版 99294（只有盆栽）
@@ -321,6 +324,9 @@ GGLANE_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_plann
 # ③ 映月湖垂柳 v2：鳥瞰、北岸（＋南岸對照）；新版 b296、舊版 99294
 WILLOW_new | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_new;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
 WILLOW_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_old;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
+# BB 15:02 SHIFT-TREAT（X302）：語彤在一盞 A 陌生人／B 朋友 T3（第一樣免費、第二樣扣）／C 同一天再進／D 玩家自己上班／E 點頭之交；新 063cf14ab、舊 8b31bbaa0（合併 bbb0db1e0 之前；aec7f851c^ 已含功能）
+#HOLD SHIFT_new | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 45 | TAG=new
+#HOLD SHIFT_old | 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 45 | TAG=old
 # BB 14:39 美國篇 ART 巡拍（排在橘貓後面；第一批公寓＋社區＋校園，第二批法圖＋超市＋超市街＋季節）
 US_ART_1 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_outside,us_apartment,us_campus
 US_ART_2 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_lawlib,us_market,us_market_street;SEASON=1
