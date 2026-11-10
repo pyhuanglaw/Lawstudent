@@ -12,6 +12,7 @@
 //   7. later：可昕《第三個證人》＝旗標＋隔天晚上的訊息；可昕《颱風夜的貨船》＝訊息有兩個選項（回了＝效果、KX_SHIP_REPORT）；
 //      以安《沉默的書記官》＝接點還沒有（只記旗標、MOVIE_LATER_DUE）；以安《借據》＝下次在圖書館見面時說（之後就不再說）
 //   8. note 的條件：芷若《起霧的城》第三個選項要和她看過《黑白的城市》、她那一句照當時選的換字；學姊《新年快樂，陌生人》第二句只在朋友以上、交往中換句
+//   19 (d2)／18：2026-11-10 改——with.mid 演的那一次不再接 AA_708 第 N 場的小動作（AA 裁定）；沛珊的通用回話關著（MOVIES.CFG.fallbackOff，X327）＝504 組裡有 talk 426、沒有 78
 //   9. 看到一半：沒有第 N 場（一般句）＝演那部片的那一幕（scene）；和沛珊看《雪融之前》（with.mid）＝取代那一幕
 //  10. 舊存檔（沒有 MOVIE_SEEN、MOVIE_TALK；或格式壞掉）：照常演、存檔 JSON 來回不壞
 //  11. 下次見面說（AA 11-10 20:35、第二版）：語彤《m2605b》一盞茶屋；可昕《m2505b》考試以前；子晴《m2805b》她畢業以後；學姊《m2901b》朋友以上
@@ -324,7 +325,7 @@ print(json.dumps({'fid': fid, 'pick': out['pick'].get(fid), 'fx': out['films'][f
     const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>/AA_745_fallback\.json$/.test(e.path));
     const kinds=Object.values(P.films).every(f=>f.talk.opts.every(o=>KD.includes(o.kind)));
     const fbOk=!!REAL&&W.every(w=>REAL[w]&&FK.every(k=>Array.isArray(REAL[w][k])&&REAL[w][k].length>=1&&REAL[w][k].every(e=>typeof e.re==='string'||Array.isArray(e.re)))&&!REAL[w].ask);
-    check('17. 現在開著：src/movies3d.js 的 MOVIES.CFG.fallback＝true、fallback 的稿在白名單、movie_plots.js 有七個人×六種 kind（沒有 ask）；每個選項的 kind 是七種之一',/S\.CFG=\{fallback:true\}/.test(fs.readFileSync(path.join(H.ROOT,'src/movies3d.js'),'utf8'))&&allow&&fbOk&&kinds,J({cfg:MOVIES.CFG,allow,fbOk,kinds}));
+    check('17. 現在開著：src/movies3d.js 的 MOVIES.CFG.fallback＝true（沛珊在 fallbackOff，11-10）、fallback 的稿在白名單、movie_plots.js 有七個人×六種 kind（沒有 ask）；每個選項的 kind 是七種之一',/S\.CFG=\{fallback:true,fallbackOff:\['classmate_peishan'\]\}/.test(fs.readFileSync(path.join(H.ROOT,'src/movies3d.js'),'utf8'))&&allow&&fbOk&&kinds,J({cfg:MOVIES.CFG,allow,fbOk,kinds}));
     MOVIES.CFG.fallback=false; const none0=MOVIES.noTalkPairs(), pick=none0.find(k=>{ const [f,w]=k.split(':'); const F=P.films[f]; return (!F.with||!F.with[w])&&F.talk.opts.filter(o=>o.kind!=='ask').length>=2&&!(P.cond[f]||{}).opt&&!F.talk.nofb&&!F.talk.qOther&&!F.talk.optsOther; }), [nf,nw]=pick.split(':'), TK=film(nf).talk;
     const mk=tag=>{ const o={}; for(const k of FK) o[k]=[{re:'（假）'+tag+k+'一。',fx:{love:2}},{re:['（假）'+tag+k+'二。','（她笑了一下。）'],fx:{fr:1}},{re:'（假）'+tag+k+'三。'}]; return o; };
     const view=async(day)=>{ const G=H.G; G.day=day; CH=[]; H.said=[]; ADJ=[]; G.flags.MOVIE_SEEN={}; (G.daily||(G.daily={}))['mvTalk_'+nw]=null; return MOVIES.after(GM,{place:'xs_nanyang',film:nf,who:nw,id:'ivf'+day},{name:'她',charId:nw}); };
@@ -360,8 +361,9 @@ print(json.dumps({'fid': fid, 'pick': out['pick'].get(fid), 'fx': out['films'][f
       check('17. fallback 的 love 也算在這一次看電影的 +2 裡（已經 +1＝只再 +1）',ADJ.some(([w,d])=>w===nw&&d.npcRom===1)&&!ADJ.some(([w,d])=>w===nw&&d.npcRom===2)&&MOVIES.loveGot(G4,nw,nf)===2,J(ADJ));
       /* 全部 504 組 */
       const none1=MOVIES.noTalkPairs(), G0={flags:{},day:0,hour:0}; let noRe=0, n2=0; for(const f of Object.keys(P.films)) for(const w of W){ const t=MOVIES.talkFor(G0,w,f); if(!t) continue; if(t.opts.length===2) n2++; for(const o of t.opts) if(!o.lines.length) noRe++; }
+      const OFF=(MOVIES.CFG.fallbackOff||[]), nX=none1.filter(k=>!OFF.includes(k.split(':')[1]));   /* 2026-11-10：沛珊的通用回話先關（fallbackOff，X327 口氣重寫中）——她沒有專屬回答的片另外算（第 18 節）*/
       const twoAsk=k=>P.films[k.split(':')[0]].talk.opts.filter(o=>o.kind==='ask').length>=2;
-      check('17. 開了以後 7×72＝504 組：每個選項都有她的回答；還是沒有 talk 的只剩「那部片有兩個以上 ask 的選項、她都沒有專屬回答」（剩不到兩個＝不問；nofb 的 m2907a、m2501b）',none1.length<=12&&none1.every(twoAsk)&&noRe===0,J({none:none1.slice(0,12),n:none1.length,noRe}));
+      check('17. 開了以後 7×72＝504 組：每個選項都有她的回答；還是沒有 talk 的只剩「那部片有兩個以上 ask 的選項、她都沒有專屬回答」（剩不到兩個＝不問；nofb 的 m2907a、m2501b；fallbackOff 的人不算）',nX.length<=12&&nX.every(twoAsk)&&noRe===0,J({none:nX.slice(0,12),n:nX.length,noRe}));
       if(none1.length) console.log('INFO 17. 還是沒有 talk 的：'+none1.join('、'));
       console.log('INFO 17. fallback 開著（假句子）：沒有 talk 的片×人 '+none1.length+'／504；只剩兩個選項的 '+n2+' 組（ask 不出；空存檔算，m2809a、m3007b 有條件的選項不算在內）');
       const bk=TK.opts.find(o=>o.kind!=='ask').kind; delete P.fallback[nw][bk]; const part=MOVIES.talkFor(G,nw,nf), mehO=TK.opts.findIndex(o=>o.kind===bk);
@@ -442,7 +444,15 @@ print(json.dumps(out, ensure_ascii=False))
     /* 504 組 */
     const G0={flags:{},day:0,hour:0}, none=MOVIES.noTalkPairs(), two=[], c={}; let noRe=0; for(const f of Object.keys(P.films)) for(const w of W){ const t=MOVIES.talkFor(G0,w,f), n=t?t.opts.length:0; c[n]=(c[n]|0)+1; if(n===2) two.push(f+':'+w); if(t) for(const o of t.opts) if(!o.lines.length) noRe++; }
     const m2501b=W.filter(w=>w!=='kexin').map(w=>'m2501b:'+w), m2907a=['heroine_01','heroine_02','heroine_03','heroine_04','classmate_peishan'].map(w=>'m2907a:'+w);
-    check('18. 七位×72 部＝504 組：有 talk 的 493 組、沒有的 11 組＝《m2907a》五個人（nofb）＋《m2501b》可昕以外六個人（兩個 ask＝剩一個選項，不到兩個不問；那一段只有可昕約得到）；有 talk 的每個選項都有她的回答',none.length===11&&same(none,m2501b.concat(m2907a))&&noRe===0&&!c[1],J({none,c,noRe}));
+    /* 2026-11-10（LAWWW：沛珊口氣重寫中，使用者 X327）：MOVIES.CFG.fallbackOff=['classmate_peishan']——她不用通用回話：沒有專屬回答的片不問（和 fallback 還沒有的時候一樣），有專屬回答的照演 */
+    const ps='classmate_peishan', psOwn=Object.keys(P.films).filter(f=>MOVIES.ownTalk(P.films[f].talk,ps)), psNone=Object.keys(P.films).filter(f=>!psOwn.includes(f)).map(f=>f+':'+ps), base=m2501b.concat(m2907a), all=[...new Set(base.concat(psNone))];
+    let noRe2=0; for(const f of Object.keys(P.films)) for(const w of W){ if(w===ps) continue; const t=MOVIES.talkFor(G0,w,f); if(t) for(const o of t.opts) if(!o.lines.length) noRe2++; }
+    check('18. 七位×72 部＝504 組（沛珊的通用回話關著）：有 talk 的 426 組、沒有的 78 組＝《m2907a》五個人（nofb）＋《m2501b》可昕以外六個人＋沛珊沒有專屬回答的 67 部；其他六個人有 talk 的每個選項都有她的回答',J(MOVIES.CFG.fallbackOff)===J([ps])&&none.length===78&&same(none,all)&&psNone.length===69&&noRe2===0&&!c[1],J({n:none.length,ps:psNone.length,c,noRe2}));
+    { const f=psOwn[0], T=MOVIES.talkFor(G0,ps,f), fN=Object.keys(P.films).find(x=>!psOwn.includes(x)&&x!=='m2907a'&&x!=='m2501b'); const G=fresh('2026-03-10',19); H.FRIEND(ps); const r=await view(ps,fN), quiet={r,ch:CH.length,said:H.said.length,seen:MOVIES.seenWith(G,ps,fN)};
+      const ownLines=T?T.opts.filter(o=>o.lines.length&&!o.fb).length:0;
+      check('18. 沛珊：有專屬回答的 '+psOwn.length+' 部照問（專屬的回答照演、沒有一句是通用回話）；沒有的片＝不問、不卡、照記看過；MOVIES.fbOn(沛珊)＝false、其他人 true',psOwn.length===3&&!!T&&ownLines>=1&&T.opts.every(o=>!o.fb)&&quiet.r===true&&quiet.ch===0&&quiet.said===0&&quiet.seen&&MOVIES.fbOn(ps)===false&&MOVIES.fbOn('heroine_01')===true,J({psOwn,ownLines,quiet,T:T&&T.opts.map(o=>[o.t,o.lines.length,o.fb||null])}));
+      const k=MOVIES.CFG.fallbackOff; MOVIES.CFG.fallbackOff=[]; const n0=MOVIES.noTalkPairs().length; MOVIES.CFG.fallbackOff=k;
+      check('18. fallbackOff 清空＝回到 493／11（之後 AA 重寫完，把她從名單拿掉就好）',n0===11&&same(MOVIES.noTalkPairs(),all),String(n0)); }
     console.log('INFO 18. fallback 開著：有 talk '+(504-none.length)+'／504；沒有的 '+none.length+' 組：'+none.join('、'));
     console.log('INFO 18. 選項個數（空存檔算，有條件的選項不算在內）：'+J(c)+'；只有兩個選項的片：'+[...new Set(two.map(k=>k.split(':')[0]))].join('、')); });
 
@@ -479,6 +489,14 @@ print(json.dumps(out, ensure_ascii=False))
       check('19. AA_708 第 N 場：這部片的那一幕照演，她不說話的小動作（整句括號的旁白）留在放映中、接在那一幕後面',!!sc3&&!!m0&&sc3.z===HALLZ&&m0.z===HALLZ&&m0.i>sc3.i&&H.said[m0.i].who===null,J({sc3,m0}));
       check('19. AA_708 第 N 場 mid 裡說出口的句子（括號後面還有字的也算）、選項：走出 1 廳以後才說、才選，在道別以前；放映中沒有選項',!!m1&&!!m2&&!!rp&&!!byd&&m1.z===LOB&&m2.z===LOB&&H.said[m1.i].who!==null&&!!oc&&oc.z===LOB&&rp.i>m2.i&&byd.i>rp.i&&CHZ.every(c=>c.z===LOB),J({m1,m2,rp,byd,CHZ}));
       check('19. 第 N 場＋故事線那一拍：順序＝（散場）說出口的那幾句 → talk → 故事線那一拍 → 道別；每一段只演一次、第 N 場照算（下一場）',!!q3&&!!b3&&m1.i<q3.i&&q3.i<b3.i&&b3.i<byd.i&&H.said.filter(s=>s.t===AX.mid[1]).length===1&&STUDYN.act('movie').of(G,id).n===1,J({m1,q3,b3,byd}));
+      /* (d2) with.mid 那一次（AA 11-10 裁定）：這部片和她看的那一幕（with.mid）演了＝AA_708 第 N 場自己的小動作這一次不演（二選一，with.mid 優先）；說出口的句子、選項照舊在散場以後。第二次看同一部（with.mid 只有第一次）＝那一幕＋小動作照舊 */
+      { const id2='heroine_05', f2='m2707b', X2=film(f2).with[id2], AX2={k:1,kind:'movie',seat:['（假）今天坐這裡。'],mid:['（假的小動作：她把外套蓋在腿上。）','假的：這段我看不懂。'],opts:[{t:'（假）等一下說。',reply:['（假）好。']},{t:'（假）噓。'}],bye:['（假）掰掰。']};
+        const go=async(seen)=>{ const G=fresh('2027-07-20',19.4); H.FRIEND(id2); CHZ=[]; ARCS.pick=()=>null; ARCS.rotPick=()=>null; A.pick=()=>AX2; MOVIES.fitScene=(g,iv,x)=>x; if(seen) G.flags.MOVIE_SEEN={[id2]:{[f2]:G.day-30}}; const iv=await watch(id2,f2); return {G,iv}; };
+        const isMid=X2&&X2.kind==='mid'; let r=await go(false); const w0=at(X2.lines[0]), wN=at(X2.lines[X2.lines.length-1]), a0=at(AX2.mid[0]), a1=at(AX2.mid[1]), sc=at(film(f2).scene);
+        check('19. with.mid 演的那一次（學姊《m2707b》）：AA_708 第 N 場的小動作不演（原本接在 with.mid 後面，兩個都演）；那一幕（scene）由 with.mid 取代；說出口的那一句照舊在散場以後',isMid&&r.iv.state==='done'&&!!w0&&!!wN&&w0.z===HALLZ&&!a0&&!sc&&!!a1&&a1.z===LOB&&a1.i>wN.i,J({isMid,w0,wN,a0,a1,sc}));
+        r=await go(true); const b0=at(AX2.mid[0]), sc2=at(film(f2).scene), w1=at(X2.lines[0]);
+        check('19. 第二次看同一部（with.mid 不再演）：這部片的那一幕 → 第 N 場的小動作照舊',!w1&&!!sc2&&!!b0&&b0.z===HALLZ&&b0.i>sc2.i,J({w1,sc2,b0}));
+        const ML=MOVIES.midLines(H.G,{place:'xs_nanyang',film:f2,who:'kexin'},null); check('19. MOVIES.midLines：with.mid 的那一份標 withMid，一般的那一幕沒有',MOVIES.midLines(fresh('2027-07-20',19),{place:'xs_nanyang',film:f2,who:id2},null).withMid===true&&!ML.withMid); }
       /* (e) 輪換那一則：mid 照舊由那一幕取代；選項挪到散場以後 */
       ({G,iv}=await run(false,false,RX)); check('19. 輪換那一則：mid 照舊由這部片的那一幕取代（不演兩個）',!!at(F.scene)&&!at(RX.mid[0]),J(H.said.map(s=>s.t).slice(0,8)));
       /* (f) 資料 */

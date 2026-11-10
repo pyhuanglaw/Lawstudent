@@ -172,8 +172,9 @@ await sec('A2',async()=>{
 });
 await sec('A3',async()=>{
   const din=async(term,day)=>{ fresh(day,19); H.CLOSE(AN); H.date(AN); H.said=[]; H.picks=[]; await TERMEND.dinner(GM,{te:{term,who:AN,kind:'gf'}}); };
-  await din('Y2S1',D('2027-01-15')); const a=has(NEW.A3[0]);
-  await din('Y2S2',D('2027-06-20')); const b=has(NEW.A3[1]);
+  /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版）：這兩頓換成「開頭＋選項」，句子照新稿（NEW.A3 的舊句還在 termend_lines.js，沒有 TERMEND_OPTS 的時候用）*/
+  await din('Y2S1',D('2027-01-15')); const a=has('寒假我去東京兩個禮拜。')&&has('時差一個小時。你那邊比較早。');
+  await din('Y2S2',D('2027-06-20')); const b=has('京都那三個禮拜，我每天晚上會傳訊息。');
   check('A3. 交往中學期末約會：大二上「時差一個小時」、大二下「我有空才傳」（改原句）',a&&b,J(said()));
 });
 await sec('A4',async()=>{
@@ -412,9 +413,10 @@ await sec('Z11',async()=>{
 await sec('Y1',async()=>{
   const din=async(term,day)=>{ fresh(day,21); H.CLOSE(YT); H.date(YT); H.said=[]; H.picks=[]; await TERMEND.dinner(GM,{te:{term,who:YT,kind:'gf'}}); return H.G.flags.YT_MOM_ASKED; };
   const w=t=>TERMEND.windowOf(t).from+3;
-  let f=await din('Y1S1',w('Y1S1')); const a=has(NEW.Y1[0])&&f===H.G.day;
-  f=await din('Y1S2',w('Y1S2')); const b=has(NEW.Y1[1])&&f!=null;
-  f=await din('Y2S1',w('Y2S1')); const c=has(NEW.Y1[2])&&f!=null;
+  /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版）：語彤通用那一格換成 sayByKind 三種開頭＋選項（旗標照舊記）*/
+  let f=await din('Y1S1',w('Y1S1')); const a=has('秀琴姨說，放假以前要煮一桌給你吃。')&&f===H.G.day;
+  f=await din('Y1S2',w('Y1S2')); const b=has('我媽問你暑假要不要來吃飯。')&&has('我說你暑假很忙。')&&f!=null;
+  f=await din('Y2S1',w('Y2S1')); const c=has('秀琴姨又問了。')&&has('我說再等等。')&&f!=null;
   check('Y1. 交往中學期末約會：大一上「……我說你要回家過年。」、大一下「……我說你暑假很忙。」、大二上「我媽又問年菜了。……我說再等等。」；聽過的記 YT_MOM_ASKED',a&&b&&c,J({a,b,c}));
   f=await din('Y2S2',w('Y2S2')); check('Y1. 大二下起是 tableByTerm（沒有「我媽問你」）＝不記',f==null&&!said().some(t=>/我媽/.test(t)),J(said()));
   const a23=async(flags,dt)=>{ fresh('2028-12-14',19.5,flags); H.FRIEND(YT); if(dt) H.date(YT); H.FAMILIAR('zhe'); await runEv('ev_noodle_23rd'); };
