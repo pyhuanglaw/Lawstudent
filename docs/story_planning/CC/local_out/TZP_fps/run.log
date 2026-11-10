@@ -1,0 +1,11 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tzq_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZP_fps\out
+CC TZQ／TZP／WZQ：SHA 3a216dfb2 PARTS TZP_FPS Q low,medium,high；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== TZP_FPS
+  [前置／捷徑] 設定頁畫質改成 high（#setQuality 改值＋change；之後讀檔才照新畫質生路人）→ E.q.level=high
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-01 18.5 時 (0.00,6.00) （高畫質、路中間 18:30）
+  [  60.2s] [B5] 高畫質 18:30 路中間 8 秒：45.8 fps（路人 16、NPC 共 16；Playwright，不是 iPhone；雲端 SwiftShader 不當結論）
+PASS [黑畫面] B5_high_1830 不是黑畫面（平均亮度 70.7、變化 42.1）  [70.7, 42.1]
+PASS [TZP_FPS] 沒有 JS 例外  []
+ALL PASS
