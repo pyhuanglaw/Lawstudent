@@ -6,6 +6,8 @@
 //   3. 校外約會：互動點的 opts＝{first, again, dating}——第二次以後到同一個互動點出 again（好幾組＝輪流）、交往中出 dating；抵達、收尾也可以有；
 //      沒有 opts＝第二次以後沒有選項（原本的樣子）；輪到第幾組記在存檔（dateMemory…optN），舊存檔沒有＝第一組
 //   4. 閒聊階梯（src/story3d.js ladPlay／ladNext）：層的 fx、選項的 fx／re；那個人那個學期的 dating 陣列＝交往中那一階（進度另外記、不占 steps）
+//   5. 期末飯（src/termend3d.js）：話題池／飯桌句的 {say, opts:[{t,re,fx}]}（或 {choice}）＝玩家選、不再自動回「嗯。」；沒有 opts 照舊；
+//      TE-HOOK-REPEAT-1110：鉤子要說的那一句話題池不先說（原本連說兩次）
 // 修改前（35e560bbd）：第 1 節沒有 SOCIAL.applyFx；第 2 節 fx 不算、re 不說；第 3 節第二次以後沒有選項——FAIL。用法：node tests/dlg_fx_mech_1110_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H; const J=JSON.stringify;
@@ -92,5 +94,27 @@ module.exports={H,sec,clone,reset,idx,sum,J,get CH(){ return CH; },set WANT(v){ 
       const old=clone(G); delete old.social.ladder[K+'#dating']; H.G=old; SOCIAL.bind(old); EVENTS.bind(GM); old.day+=1; old.weekday=3; await talk(['（假）丙']);
       check('4. 舊存檔（沒有交往層的進度）：從交往層第一層開始；存檔 JSON 來回不壞',idx('（假）交往層一。')>=0&&JSON.parse(J(old)).social.ladder[K+'#dating']===1,J(old.social.ladder));
     } finally { LADDER.byTerm[T][id]=JSON.parse(keep); WANT=[]; } });
+
+  await sec(5,async()=>{ const Lx=TERMEND_LINES, a='heroine_01', T='Y1S1', keep=Lx.POOL[T][a].slice(), me='祐廷', AN=SOCIAL.displayName(a);
+    const dinner=async(term,who,kind,want,day)=>{ const G=H.fresh(day||'2026-01-15',18.5); H.rel(who,45,30,0); reset(); WANT=want||[]; await TERMEND.dinner(GM,{te:{term,who,kind:kind||'friend'}}); return H.said.map(x=>(x.who||'')+'｜'+x.t); };
+    try{
+      const L0=await dinner(T,a), auto0=L0.filter(x=>Lx.REPLY.some(r=>x===me+'｜'+r)).length, noCh=CH.filter(c=>c.some(t=>/（假）/.test(t))).length;
+      check('5. 資料沒有 opts：話題之間祐廷照舊自動回（「嗯。」「真的假的。」），沒有多的選項',auto0>=1&&noCh===0,J(L0));
+      Lx.POOL[T][a]=[{say:['（假）話題一。'],opts:[{t:'（假）甲',re:['（假）回甲。','（她把菜單推過來。）'],fx:{love:2}},{t:'（假）乙',fx:{fr:-1}}]},keep[1],keep[2]];
+      const L1=await dinner(T,a,'friend',['（假）甲']), i1=L1.indexOf(AN+'｜（假）話題一。'), r1={ch:CH.some(c=>J(c)===J(['（假）甲','（假）乙'])),re:L1[i1+1],narr:L1[i1+2],next:L1[i1+3],rom:sum(a,'npcRom')};
+      const k1=typeof keep[1]==='string'?keep[1]:null;
+      check('5. 話題池那一則有 opts：她先說、玩家選、她照 re 回（括號＝旁白）、fx 算（她的戀愛 +2）；祐廷不再自動回「嗯。」，下一則沒有選項的照舊自動回',
+        i1>=0&&r1.ch&&r1.re===AN+'｜（假）回甲。'&&r1.narr==='｜（她把菜單推過來。）'&&r1.rom===2&&!Lx.REPLY.some(r=>r1.next===me+'｜'+r)&&(k1===null||(r1.next===AN+'｜'+k1&&Lx.REPLY.some(r=>L1[i1+4]===me+'｜'+r))),J({r1,L1}));
+      const L2=await dinner(T,a,'friend',['（假）乙']);
+      check('5. 選乙（沒有 re、fx fr -1）：不出空的框、熟悉信任自在各 -1',ADJ.some(([w,d])=>w===a&&J(d)===J({fam:-1,trust:-1,comf:-1}))&&H.said.every(x=>typeof x.t==='string'&&x.t.trim()),J(L2));
+    } finally { Lx.POOL[T][a]=keep; WANT=[]; }
+    /* 鉤子把話題池剛說過的那一句再說一次（AA audit_1110 termend D6） */
+    const dup=[]; const G0=H.fresh('2026-06-20',18.5);
+    for(const term in Lx.HOOK) for(const who in Lx.HOOK[term]){ const day={Y1S1:'2026-01-15',Y1S2:'2026-06-20',Y2S1:'2027-01-14',Y2S2:'2027-06-19',Y3S1:'2028-01-13',Y3S2:'2028-06-17',Y4S1:'2029-01-11'}[term]; if(!day) continue;
+      for(const kind of ['friend','gf']){ let L; try{ L=await dinner(term,who,who==='kai'?'fallback':kind,[],day); }catch(e){ dup.push([term,who,kind,'例外 '+e]); continue; }
+        const seen={}; for(const x of L){ if(/^｜/.test(x)||x.indexOf(me+'｜')===0) continue; seen[x]=(seen[x]|0)+1; } for(const x in seen) if(seen[x]>1) dup.push([term,who,kind,x]); } }
+    const L3=await dinner('Y1S2','yu','friend',[],'2026-06-20'), n3=L3.filter(x=>/你要不要來探班？/.test(x)).length, hooked=CH.some(c=>c.includes(Lx.HOOK_NO));
+    check('5. 期末飯：同一頓飯她不把同一句說兩次（鉤子要說的那一句，話題池不先說）——Alison 大一下「你要不要來探班？」只說一次、後面接鉤子的選項',n3===1&&hooked&&L3.findIndex(x=>/你要不要來探班？/.test(x))>L3.findIndex(x=>/小隊|營隊|暑假/.test(x)),J(L3));
+    check('5. 七個學期、每個有鉤子的人（朋友版、女朋友版）：沒有一句她的話在同一頓飯重複',dup.length===0,J(dup.slice(0,6))); });
   if(require.main===module) H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

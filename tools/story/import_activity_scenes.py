@@ -29,6 +29,9 @@ def person(hid, v, kind):
                     raise SystemExit(f'{w}[{i}]：輪換至少要有 seat 或 mid')
                 if r.get('if'):
                     e['if'] = r['if']
+                ro = (r.get('choice') or {}).get('opts') if r.get('choice') else r.get('opts')   # DLG-FX-MECH-1110：輪換那幾則也可以有選項（choice.opts 或 opts）
+                if ro:
+                    e['opts'] = ST.opts(ro, f'{w}[{i}].opts')
                 P['rot'].append(e)
             continue
         if not k.isdigit():
