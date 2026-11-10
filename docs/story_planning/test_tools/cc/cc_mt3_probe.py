@@ -278,7 +278,7 @@ MARKS = r"""(()=>{ if(GAME.__arcMk) return; GAME.__arcMk=1; const P=v=>{ try{ (w
   const W=(o,nm,tag)=>{ if(!o||typeof o[nm]!=='function') return; const f=o[nm]; o[nm]=function(){ P(tag+' 開始'); const r=f.apply(this,arguments); Promise.resolve(r).then(()=>P(tag+' 結束'),()=>P(tag+' 出錯')); return r; }; };
   if(typeof ARCS!=='undefined'){ W(ARCS,'run','ARCS.run'); W(ARCS,'rotRun','ARCS.rotRun'); }
   if(typeof STUDYN!=='undefined') W(STUDYN,'mid','STUDYN.mid');
-  if(typeof MOVIES!=='undefined'){ W(MOVIES,'playMid','MOVIES.playMid'); W(MOVIES,'talk','MOVIES.talk'); W(MOVIES,'after','MOVIES.after'); W(MOVIES,'leaveHall','MOVIES.leaveHall'); W(MOVIES,'enterHall','MOVIES.enterHall'); } })()"""
+  if(typeof MOVIES!=='undefined'){ W(MOVIES,'playMid','MOVIES.playMid'); W(MOVIES,'talk','MOVIES.talk'); W(MOVIES,'after','MOVIES.after'); W(MOVIES,'leaveHall','MOVIES.leaveHall'); W(MOVIES,'enterHall','MOVIES.enterHall'); W(MOVIES,'playWith','MOVIES.playWith'); } })()"""
 
 
 async def case_arcafter(pg, cdp, who, day_key, film, axdone, tag):
@@ -312,6 +312,104 @@ async def case_arcafter(pg, cdp, who, day_key, film, axdone, tag):
     R.check('%s 放映中（進 1 廳到散場）沒有要選的東西' % tag, in_show is not None and not in_show, J({'in': i_in, 'out': i_out, 'choose': in_show}))
     R.check('%s 看到一半演了片子的那一幕（MOVIES.playMid）' % tag, i_mid is not None and (i_out is None or i_mid < i_out), J({'mid': i_mid, 'lines': mid_lines}))
     R.check('%s 故事線那一拍（ARCS.run／rotRun／STUDYN.mid）在散場 talk 之後' % tag, bool(arcs) and i_talk is not None and all(a > i_talk for a in arcs), J({'talk': i_talk, 'talk_end': i_talk_end, 'arcs': arcs}))
+    # MT4（BB 21:53）A1：放映中她不講自己的事（她說出口的句子＝「名字｜」開頭、不是整句括號）；A3：走出 1 廳以後 talk → with.after → 最多一拍故事線 → 道別
+    nm = await pg.evaluate("(w=>(CHARACTERS[w]||{}).name||'')(%s)" % J(who))
+    talk_in = [e['v'] for e in (mt[i_in:i_out] if i_in is not None and i_out is not None else []) if e['k'] == 'say' and e['v'].startswith(nm) and not e['v'].split('｜', 1)[-1].startswith('（')]
+    R.check('%s 放映中（進 1 廳到散場）她沒有講自己的事（沒有她說出口的句子）' % tag, i_in is not None and not talk_in, J(talk_in))
+    i_with = [i for i, e in enumerate(mt) if e['k'] == 'mark' and e['v'] == 'MOVIES.playWith 開始' and (i_out is None or i > i_out)]
+    seq = [(i, e['v'], e['z']) for i, e in enumerate(mt) if e['k'] == 'mark' and i_out is not None and i > i_out]
+    R.note('%s 散場以後的順序（含區域）：%s' % (tag, J(seq)))
+    R.check('%s 散場以後：talk → with.after（有的話）→ 故事線最多一拍' % tag, i_talk is not None and all(w_ > i_talk for w_ in i_with) and len(arcs) <= 1 and all(a > max(i_with + [i_talk]) for a in arcs), J({'talk': i_talk, 'with': i_with, 'arcs': arcs}))
+
+
+async def case_fb(pg, cdp, who, day_key, film, opt_text, kind, tag, second=None):
+    """MT4 B：她沒有專屬回答的人×片×選項 → 回話＝MOVIE_PLOTS.fallback[她][kind] 的下一句；效果＝選項自己的 fx，沒有才用那一句的 fx；MOVIE_FB 加一。
+    second＝(film2, opt2, day_key2 用隔天)：同一 kind 第二次 → 輪到下一句。【前置／捷徑】讀檔到 day_key、她朋友＋聯絡方式；約好後片換成 film。"""
+    await M.load(pg, cdp, M.base_state([who]), day_key=day_key, why='%s 08:00、%s 朋友＋聯絡方式' % (day_key, who))
+    await pg.evaluate(MARKS)
+    rounds = [(film, opt_text)] + ([second] if second else [])
+    got = []
+    for ri, (f, ot) in enumerate(rounds):
+        t2 = tag + ('' if ri == 0 else ' 第二次')
+        if ri: await next_day(pg, cdp, t2)
+        iv = await M.book(pg, cdp, t2, who, 0)
+        if not iv: return
+        await setfilm(pg, iv, f, t2)
+        ex = await M.expect_talk(pg, f, who); T = ex['talk'] or {}
+        o = next((x for x in T.get('opts') or [] if x['t'] == ot), None)
+        fb_all = await pg.evaluate("((w,k)=>((MOVIE_PLOTS.fallback||{})[w]||{})[k]||null)(%s,%s)" % (J(who), J(kind)))
+        n0 = await pg.evaluate("((w,k)=>MOVIES.fbN?MOVIES.fbN(GAME.G,w,k):null)(%s,%s)" % (J(who), J(kind)))
+        R.note('%s talkFor：%s；fallback[%s]＝%s；MOVIE_FB 之前 %s' % (t2, J(T), kind, J(fb_all), n0))
+        if not R.check('%s 選項「%s」走 fallback（kind %s）' % (t2, ot, kind), bool(o) and o.get('fb') == kind, J(o)): return
+        fb_re = [x.get('re') for x in (fb_all or [])]
+        er = fb_re[(n0 or 0) % len(fb_re)] if fb_re else None; el = [x for x in ([er] if isinstance(er, str) else (er or [])) if isinstance(x, str) and x.strip()]
+        R.check('%s 預期的回答是她 %s 的第 %d 句' % (t2, kind, (n0 or 0) + 1), bool(el) and o['lines'] == el, J({'lines': o['lines'], 'fb': fb_re}))
+        r = await watch_pick(pg, cdp, t2, who, iv, ot); mt, adj = await M.dump(pg, t2)
+        if not r: return
+        says = [e['v'] for e in mt if e['k'] == 'say']
+        R.check('%s 選了以後她回 fallback 那一句' % t2, all(any(x[:10] in s_ for s_ in says) for x in o['lines']), J(says[-6:]))
+        aft = [c for c in r['choices'] if c['after']]
+        romok = await pg.evaluate("(w=>!!(SOCIAL.romOk&&SOCIAL.romOk(w)))(%s)" % J(who))
+        exp = fxexp(o.get('fx'), romok); n_ = aft[0]['n'] if aft else 10 ** 9
+        nxt = [i for i, e in enumerate(mt) if e['k'] == 'choose' and i > n_]; hi = nxt[0] if nxt else 10 ** 9
+        hit = [a for a in adj if a['id'] == who and n_ <= a['n'] < hi]
+        R.note('%s fx（選項自己的優先，沒有才用 fallback 那一句）＝%s；romOk %s；選了以後到下一個選單之間的 adjust %s' % (t2, J(o.get('fx')), romok, J(hit)))
+        if exp: R.check('%s 效果＝%s' % (t2, J(exp)), any(all(a['d'].get(k) == v for k, v in exp.items()) for a in hit), J(hit))
+        else: R.check('%s 這一句沒有效果：選了以後沒有 adjust' % t2, not hit, J(hit))
+        n1 = await pg.evaluate("((w,k)=>MOVIES.fbN?MOVIES.fbN(GAME.G,w,k):null)(%s,%s)" % (J(who), J(kind)))
+        R.check('%s MOVIE_FB.%s.%s %s → %s（加一）' % (t2, who, kind, n0, n1), n1 == (n0 or 0) + 1, J(await pg.evaluate("(GAME.G.flags||{}).MOVIE_FB||null")))
+        got.append(o['lines'])
+    if second: R.check('%s 同一 kind 第二次輪到下一句（兩次的回答不一樣）' % tag, len(got) == 2 and got[0] != got[1], J(got))
+
+
+async def case_other(pg, cdp, who, day_key, film, tag, mode):
+    """MT4 C／D：qOther（問句換成給其他人的）、optsOther（三個選項整組換）、noask（ask 選項不出）、nofb（整段不出）"""
+    await M.load(pg, cdp, M.base_state([who]), day_key=day_key, why='%s 08:00、%s 朋友＋聯絡方式' % (day_key, who))
+    iv = await M.book(pg, cdp, tag, who, 0)
+    if not iv: return
+    await setfilm(pg, iv, film, tag)
+    ex = await M.expect_talk(pg, film, who); T = ex['talk']
+    raw = await pg.evaluate("(id=>{ const t=(MOVIE_PLOTS.films[id]||{}).talk||{}; return {q:t.q||null, qOther:t.qOther||null, opts:(t.opts||[]).map(o=>o.t), other:((t.optsOther||{}).opts||[]).map(o=>o.t), nofb:!!t.nofb}; })(%s)" % J(film))
+    R.note('%s talkFor＝%s；稿＝%s' % (tag, J(T), J(raw)))
+    r = await watch_pick(pg, cdp, tag, who, iv, None); mt, adj = await M.dump(pg, tag)
+    if not r: return
+    says = [e['v'] for e in mt if e['k'] == 'say']; menus = [c['opts'] for c in r['choices']]
+    R.note('%s 選單 %s' % (tag, J(menus)))
+    if mode == 'qother':
+        R.check('%s 問句是 qOther「%s」' % (tag, raw['qOther']), bool(T) and T.get('qOther') and any(raw['qOther'][-8:] in s_ for s_ in says), J(says[-8:]))
+        R.check('%s 沒有出現原本的問句（「%s」）' % (tag, (raw['q'] or '')[:14]), not any((raw['q'] or 'XXXX')[:10] in s_ for s_ in says), J(says[-8:]))
+    if mode == 'optsother':
+        aft = [m_ for m_ in menus if sorted(m_) == sorted(raw['other'])]
+        R.check('%s 散場三選項＝optsOther 那一組（%s）' % (tag, J(raw['other'])), bool(aft), J(menus))
+        R.check('%s 原本那一組（%s）沒有出現' % (tag, J(raw['opts'])), not any(any(t in m_ for t in raw['opts']) for m_ in menus), J(menus))
+    if mode == 'noask':
+        aft = [m_ for m_ in menus if any(t in m_ for t in raw['opts'])]
+        R.check('%s 散場選單剩兩個、沒有「（把面紙遞過去。）」' % tag, len(aft) == 1 and len(aft[0]) == 2 and '（把面紙遞過去。）' not in aft[0], J(menus))
+    if mode == 'nofb':
+        bad = [s_ for s_ in says if not s_.split('｜', 1)[-1].strip() or 'undefined' in s_]
+        R.check('%s talkFor null、整段不出（沒有問句「%s」、沒有選單、沒有空白）' % (tag, (raw['q'] or '')[:12]), T is None and not any((raw['q'] or 'XXXX')[3:12] in s_ for s_ in says) and not any(any(t in m_ for t in raw['opts']) for m_ in menus) and not bad, J({'T': T, 'says': says[-6:], 'menus': menus, 'bad': bad}))
+
+
+async def case_later_movie(pg, cdp):
+    """MT4 A4：下次見面那一段（MOVIE_LATER）改在燈暗前演——以安 m2603b 看完、隔天再約一場電影"""
+    tag = '[LATER2 以安 m2603b→隔天電影]'; who = 'heroine_01'
+    await M.load(pg, cdp, M.base_state([who]), day_key='2026-03-15', why='2026-03-15 08:00、以安朋友')
+    await pg.evaluate(MARKS)
+    iv = await M.book(pg, cdp, tag, who, 0)
+    if not iv: return
+    await setfilm(pg, iv, 'm2603b', tag)
+    await watch_pick(pg, cdp, tag, who, iv, None); await M.dump(pg, tag)
+    lt = await pg.evaluate("(GAME.G.flags||{}).MOVIE_LATER||null"); R.note('%s 看完 MOVIE_LATER＝%s' % (tag, J(lt)))
+    await next_day(pg, cdp, tag); await pg.evaluate("window.__MT=[]")
+    iv2 = await M.book(pg, cdp, tag + '隔天', who, 0)
+    if not iv2: return
+    if iv2['film'] == 'm2603b': await setfilm(pg, iv2, 'm2603a', tag + '隔天')
+    await watch_pick(pg, cdp, tag + '隔天', who, iv2, None); mt, _ = await M.dump(pg, tag + '隔天')
+    li = next((i for i, e in enumerate(mt) if e['k'] == 'say' and ('筆記本' in e['v'] or '簽名' in e['v'])), None)
+    im = next((i for i, e in enumerate(mt) if e['k'] == 'mark' and e['v'] == 'MOVIES.playMid 開始'), None)
+    ie = next((i for i, e in enumerate(mt) if e['k'] == 'mark' and e['v'] == 'MOVIES.enterHall 結束'), None)
+    R.note('%s 筆記本那段 __MT %s、進 1 廳 %s、看到一半 %s' % (tag, li, ie, im))
+    R.check('%s 隔天電影：筆記本那段（MOVIE_LATER）在燈暗前演（在看到一半那一幕之前）' % tag, li is not None and (im is None or li < im), J([e['v'] for e in mt[max(0, (li or 0) - 2):(li or 0) + 4]]))
 
 
 async def main():
@@ -340,6 +438,18 @@ async def main():
                 elif c == 'SECOND': await case_second(pg, cdp)
                 elif c == 'SKIP': await case_skip(pg, cdp)
                 elif c == 'KXVB': await case_kxvb(pg, cdp)
+                elif c == 'FB_FEEL': await case_fb(pg, cdp, 'heroine_03', '2025-11-15', 'm2511a', '會。我騎了一整晚的車耶。', 'feel', '[FB_FEEL 語彤 m2511a]', ('m2511b', '前半有一點。可是找到自己那一幕，我起雞皮疙瘩。'))
+                elif c == 'FB_NOTICE': await case_fb(pg, cdp, 'heroine_05', '2026-05-16', 'm2605b', '他最後沒有擦掉那行字。', 'notice', '[FB_NOTICE 溫學姊 m2605b]')
+                elif c == 'FB_WONDER': await case_fb(pg, cdp, 'heroine_04', '2025-11-15', 'm2511a', '包裹裡面到底是什麼？', 'wonder', '[FB_WONDER 子晴 m2511a]')
+                elif c == 'FB_SELF': await case_fb(pg, cdp, 'heroine_02', '2026-07-11', 'm2607a', '有。我家後面有一條巷子可以通到學校，比大路快三分鐘。', 'self', '[FB_SELF 芷若 m2607a]')
+                elif c == 'FB_JOKE': await case_fb(pg, cdp, 'kexin', '2027-01-16', 'm2701a', '泡麵。', 'joke', '[FB_JOKE 可昕 m2701a]')
+                elif c == 'FB_CRIT': await case_fb(pg, cdp, 'heroine_01', '2026-01-17', 'm2601b', '中間等極光那九個晚上，可以剪掉五個。', 'crit', '[FB_CRIT 以安 m2601b]')
+                elif c == 'QOTHER': await case_other(pg, cdp, 'kexin', '2025-11-15', 'm2511b', '[QOTHER 可昕 m2511b]', 'qother')
+                elif c == 'OO_3007': await case_other(pg, cdp, 'heroine_01', '2030-07-13', 'm3007b', '[OO 以安 m3007b]', 'optsother')
+                elif c == 'OO_2805': await case_other(pg, cdp, 'heroine_01', '2028-05-13', 'm2805b', '[OO 以安 m2805b]', 'optsother')
+                elif c == 'NOASK': await case_other(pg, cdp, 'heroine_01', '2026-11-14', 'm2611a', '[NOASK 以安 m2611a]', 'noask')
+                elif c == 'NOFB': await case_other(pg, cdp, 'heroine_01', '2029-07-14', 'm2907a', '[NOFB 以安 m2907a]', 'nofb')
+                elif c == 'LATER2': await case_later_movie(pg, cdp)
                 elif c == 'ARC_AN': await case_arcafter(pg, cdp, 'heroine_01', '2027-09-15', 'm2709b', False, '[ARC_AN 以安 借據]')
                 elif c == 'ARC_KX': await case_arcafter(pg, cdp, 'kexin', '2027-05-15', 'm2705a', False, '[ARC_KX 可昕 放學後的球場]')
                 elif c == 'ARC_AXDONE': await case_arcafter(pg, cdp, 'heroine_01', '2027-09-15', 'm2709b', True, '[ARC_AXDONE 以安 借據、電影三場演完]')
