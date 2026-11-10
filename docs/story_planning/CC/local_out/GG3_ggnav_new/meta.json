@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "GG3_ggnav_new",
+  "sha": "dbbe05fa5a03f113ef4a0bae36777a153f98fef8",
+  "kind": "game",
+  "script": "tests/gongguan_layout_nav.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-11T07:37:42",
+  "end": "2026-11-11T07:40:17",
+  "seconds": 155,
+  "exit": 1,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "26",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 73,
+    "mem": 56,
+    "used_gb": 17.6,
+    "chrome_testing": 14
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

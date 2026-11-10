@@ -557,3 +557,11 @@
 [07:37:45] [res] cpu=10% mem=48% (15.1/31.4 GB) chrome_testing=10  START GG3_ggnav_new
 [07:39:02] 正在跑：GG3_int_new_14（已跑 3 分／上限 20 分）、GG3_int_new_2030（已跑 2 分／上限 20 分）、GG3_ggnav_new（已跑 1 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [07:39:16] [res] cpu=7% mem=51% (16.3/31.4 GB) chrome_testing=9  END GG3_int_new_14
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d4555c93a..3f4a9fcd5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:39:22] ==== END   GG3_int_new_14  exit=0  252s   ====
+[07:39:25] memory 51% before starting GG3_ggnav_old (2 running)
+[07:39:25] ==== START GG3_ggnav_old  (game @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
+[07:39:28] [res] cpu=5% mem=51% (16.1/31.4 GB) chrome_testing=10  START GG3_ggnav_old
+[07:40:17] [res] cpu=10% mem=43% (13.2/31.4 GB) chrome_testing=4  END GG3_ggnav_new
