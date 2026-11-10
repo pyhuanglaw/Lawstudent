@@ -1651,3 +1651,11 @@
 [22:01:59] [res] cpu=0% mem=51% (16.2/31.4 GB) chrome_testing=9  START OFFBEAT_ang_new
 [22:03:06] 正在跑：GIFTHOL2_new（已跑 50 分／上限 60 分）、CAMPUSNAV_48aa（已跑 2 分／上限 20 分）、OFFBEAT_ang_new（已跑 1 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:03:40] [res] cpu=9% mem=51% (16.0/31.4 GB) chrome_testing=9  END OFFBEAT_ang_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d2646e852..7d0f51617  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:03:47] ==== END   OFFBEAT_ang_new  exit=0  104s   ====
+[22:03:51] memory 52% before starting OFFBEAT_ang_old (2 running)
+[22:03:51] ==== START OFFBEAT_ang_old  (probe @ be84c86807aa45324daed407996770feb6dbba13) ====
+[22:03:54] [res] cpu=12% mem=51% (16.4/31.4 GB) chrome_testing=9  START OFFBEAT_ang_old
+[22:04:26] [res] cpu=22% mem=46% (14.4/31.4 GB) chrome_testing=9  END CAMPUSNAV_48aa
