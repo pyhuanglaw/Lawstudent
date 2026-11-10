@@ -52117,6 +52117,32 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "MOVIE-POSTERS-ALL-1110",
+   "title": "所有電影海報（AA_730 片單每一段兩部）都放進遊戲；使用者：放完才發布最新版",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "約看電影",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【LAWWW 11-10 17:5x】使用者：「等所有電影海報都放進去，才發佈最新版」→【下一版必須】（D146 releasegate 擋發布）。已有：大一 10 張（9581b9f1a）；BB 已交大二 10 張（MOVIE-POSTERS-Y2-1110）；經濟系 12 張已向使用者要（BB 第 120 組）；其餘 BB 分批（D97 新開頭）。每批到了 LAWWW 當天接、跑 movie_real_1110_unit；全部到齊、BB 判海報 PASS 才改已驗收。",
+   "xai": {
+    "spec": "AA_730 片單（48c0428ab）",
+    "branch": "claude/story-planning",
+    "acceptance": "片單每一段兩部都有海報，大廳和 1 廳看得到；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }

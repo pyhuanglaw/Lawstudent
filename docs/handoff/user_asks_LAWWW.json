@@ -4299,6 +4299,15 @@
    "kind": "原話",
    "status": "規則（永久）",
    "wants": "X313"
+  },
+  {
+   "id": "UA-LAWWW-1110-81",
+   "at": "2026-11-10T17:5xZ",
+   "quote": "等所有電影海報都放進去，才發佈最新版",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X314",
+   "task": "MOVIE-POSTERS-ALL-1110"
   }
  ]
 }
