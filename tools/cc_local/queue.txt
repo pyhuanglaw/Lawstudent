@@ -56,6 +56,9 @@ ROMPRIV_old | 13e84dc2703a340c1ad3ad7ae56ee3a763cce0d6 | probe | docs/story_plan
 SVC2_new | a883f36de45740335f9a1ea30d8512d1f5a9c4a9 | probe | docs/story_planning/test_tools/cc/cc_service2_probe.py | index.html | 40 | CC_HEADLESS=0
 SVC2_old | bc9c1408c0dfb82cbd1fa49d6a64e1d92e94d213 | probe | docs/story_planning/test_tools/cc/cc_service2_probe.py | index.html | 40 | CC_HEADLESS=0
 # X295 三支（BB 08:45）：探針雲端試跑後排在這裡
+X295B_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 40 | TAG=new
+X295B_new_1103 | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 40 | TAG=new1103;DATE=2025-11-03
+X295B_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 30 | TAG=old
 # X283／X285 r2（只補 r1 沒跑到的第二個角度：r1 VIEWS 用 ; 分，被佇列 ENV 切掉＝TEST_BUG；探針改成 + 分）
 X283b_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=oldb;VIEWS=curb_far:campus:29.9:-54.4:18.4:0.82:12
 X283b_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=newb;VIEWS=curb_far:campus:29.9:-54.4:18.4:0.82:12
@@ -79,6 +82,8 @@ FLW_new_2110 | de1f25768e421cf07b2151c2872b5b6d6f70ef5a | probe | docs/story_pla
 FLW_new_0850 | de1f25768e421cf07b2151c2872b5b6d6f70ef5a | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=new_0850;ZONE=gongguan;TARGET=-47.2,13.45;LABEL=看看花攤;LOOK=-47,11.7;NEARDIST=4;WANT=一束花/向日葵;START=-47,20.5;HOUR=8.833;EXPECT=nomenu
 FLW_old_1400 | 28df8a85c788c354fc606a87e64cb5f4f12c5ff9 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=old_1400;ZONE=gongguan;TARGET=-47.2,13.45;LABEL=看看花攤;LOOK=-47,11.7;NEARDIST=4;WANT=一束花/向日葵;START=-35.6,12.6;HOUR=14;EXPECT=menu
 FLWS_new | de1f25768e421cf07b2151c2872b5b6d6f70ef5a | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=flw;VIEWS=flower_day:gongguan:-47:16:14:0:6:-47:1.4:11.7:45+flower_night:gongguan:-47:16:20:0:6:-47:1.4:11.7:45
+# WINVIEW cvs 重拍（LAWWW 10:12／10:15，日和便利店，4d7f556a6）：PC 沒有 PIL→只拍原始 far／nb／nw PNG＋景深 json（cc_views_raw_probe），雲端再去背、存 webp 推 docs/story_planning/CC/views_out/
+VIEWRAW_cvs | 4d7f556a61e028ab5409fcf0103e7448b3038b51 | probe | docs/story_planning/test_tools/cc/cc_views_raw_probe.py | index.html | 30 | NAMES=cvs
 # X276（BB 08:47，LAWWW 72c889ec3＝LAWWW2 24dc0d99b 山嵐文具區 v2）：14:00 門口看文具區＋真的走到文具區（看文具）＋按下去＋近拍。新＝8c050804c（含 72c889ec3）、改前＝3f6dba142；排在 X295 後面、窗景巡拍前面
 X276_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=new;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
 X276_old | 3f6dba142276f8cefcc52570f9b659b930d00861 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=old;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14

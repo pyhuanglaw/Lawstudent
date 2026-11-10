@@ -371,18 +371,18 @@ async def shanlan_case(pg, cdp, orient):
     if not R.check('%s 找得到符合條件的週六（2026-02 起、學期中、週次單數）' % tag, bool(pos), ''): return
     cases = [('neg_1430', pos['key'], 14.5, False, '單數週週六 14:30（時間不對）'), ('neg_even', even and even['key'], 15 + 20 / 60, False, '雙數週週六 15:20'),
              ('neg_jan', jan and jan['key'], 15 + 20 / 60, False, '2026-01 的週六 15:20（2026-02 以前）'), ('pos', pos['key'], 15 + 20 / 60, True, '單數週週六 15:20（符合）')]
-    hername = await pg.evaluate("(()=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('heroine_05'):'')()")
     exp = await pg.evaluate("""(()=>{ if(typeof GIFT_HOLIDAY==='undefined') return null; const sc=GIFT_HOLIDAY.stationery.scenes.find(s=>s.id==='sl_sis_1'); const out=[];
       for(const t of sc.lines){ const m=/^(（[^）]*）)(.+)$/.exec(t); if(m){ out.push(['',m[1]]); out.push(['her',m[2]]); } else out.push([/^（/.test(t)?'':'her',t]); } return {lines:out, choice:sc.choice.map(c=>c.t)}; })()""")
-    R.note('%s 學姊的名字（SOCIAL.displayName）＝%s；sl_sis_1 照 play() 拆的台詞＝%s' % (tag, hername, J(exp)))
+    R.note('%s sl_sis_1 照 play() 拆的台詞＝%s' % (tag, J(exp)))
     for key, day_key, hour, want, label in cases:
         ctag = '%s［%s］' % (tag, label)
         if not day_key: R.check('%s 有這種日子' % ctag, False, ''); continue
         d = await pg.evaluate(DAYOF + '(%s)' % J(day_key))
         s = await load(pg, cdp, ctag, 'xs_shanlan', day_key, hour, social=social_with(d), why='【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）')
         if not R.check('%s 到了山嵐書店' % ctag, s['zone'] == 'xs_shanlan', J(s)): continue
+        hername = await pg.evaluate("(()=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('heroine_05'):'')()")   # 認識以後的名字（讀檔前是「不認識的女生」）
         h = await her_at(pg)
-        R.note('%s %s 時，學姊：%s' % (ctag, s['hour'], J(h)))
+        R.note('%s %s 時，學姊：%s；她的名字（SOCIAL.displayName）＝%s' % (ctag, s['hour'], J(h), hername))
         near = bool(h['here'] and h['d'] <= 0.3 and h['lv'] == 0)
         if want: R.check('%s 學姊在文具區 (%s, %s) 0.3 m 內' % (ctag, SPOT[0], SPOT[1]), near, J(h))
         else: R.check('%s 學姊不在文具區 (%s, %s)（0.3 m 內沒有她）' % (ctag, SPOT[0], SPOT[1]), not near, J(h))
@@ -392,6 +392,14 @@ async def shanlan_case(pg, cdp, orient):
         stop = lambda q: q['dlg'] or q['choices'] > 0
         ok, s, fb = await walk(pg, cdp, ctag + ' 走到「看文具」', STAT[0], STAT[1], 0.5, stop=stop)
         auto = await st(pg)
+        if not (auto['dlg'] or auto['choices']):   # 站在那裡等一下（玩家走到她旁邊會停下來看）：GIFTH.tick 每一格判斷
+            for _ in range(16):
+                await pg.wait_for_timeout(500); auto = await st(pg)
+                if auto['dlg'] or auto['choices']: break
+        if not (auto['dlg'] or auto['choices']):
+            dg = await pg.evaluate(r"""(()=>{ if(typeof GIFTH==='undefined') return null; const T=(typeof STORY!=='undefined'&&STORY.TICKS)||[]; return {slNear:GIFTH.slNear(GAME), slOn:GIFTH.slOn(GAME.G), slPick:GIFTH.slPick(GAME.G),
+              nTicks:T.length, gifthIdx:T.findIndex(f=>/GIFTH|S\.tick\(GM\)/.test(String(f))), busy:!!GAME.E.player.busy, dlg:!!(GAME.D&&GAME.D.active), paused:!!GAME.E.paused}; })()""")
+            R.note('%s 走到旁邊等 8 秒沒有自己開始：診斷 %s' % (ctag, J(dg)))
         auto_log = []
         if auto['dlg'] or auto['choices']:
             await pg.wait_for_timeout(1500); await pg.screenshot(path=os.path.join(OUT, 'gift_%s_sl_%s_1scene.png' % (TAG, key)))

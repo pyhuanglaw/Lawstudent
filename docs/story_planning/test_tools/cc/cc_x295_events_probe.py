@@ -329,7 +329,7 @@ async def case_fair(pg, cdp):
     await shot(pg, 'fair_2_menu')
     R.note('%s 按下去：對話 %s；選單 %s；字幕 %s；插進來的劇情選項（照 dodge 選）%s' % (t, J(lines), J(menus), J(caps), J(story)))
     allm = [c for m in menus if want(m) for c in m]
-    R.check('%s 選單是「去逛：校慶園遊會／先不要」' % t, u['choices'][:1] == ['去逛：校慶園遊會'] and len(u['choices']) == 2 if u['choices'] else False, J(u['choices']))
+    R.check('%s 選單是「去逛：校慶園遊會／先不要」' % t, len(u['choices']) == 2 and u['choices'][0].startswith('去逛：校慶園遊會') and u['choices'][1].startswith('先不要'), J(u['choices']))
     clubby = [c for c in allm + caps if any(w in c for w in CLUB_WORDS)] + [x for x in lines if '社團博覽會' in x]
     R.check('%s 沒有跳出社團博覽會的選單（選項、對話、字幕都沒有社團名、沒有「社團博覽會」）' % t, bool(allm) and not clubby, J(clubby or allm))
     k = pick_text('去逛')(u['choices']) if u['choices'] else None
