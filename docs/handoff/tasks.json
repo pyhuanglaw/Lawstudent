@@ -39959,7 +39959,7 @@
    },
    "source": "LAWWW2 11-02 04:39（交接檔有、總表沒有）",
    "authorized": "D108",
-   "next": "【LAWWW 11-10 10:4x】LAWWW2 a43da6a27：博思一樓帷幕（普通 101 北窗外）改亮一點的灰藍漸層（0.26→0.48），只動這一片；campus_boya.glb 重匯；putong101_window、e05_putong、nav_teach、teach_east_drawcall ALL PASS；CC 跑 teach_views.py putong_north 重拍窗景、BB 用 n28 角度看＋從校園外看博思一樓。 ｜ 【LAWWW（帳號 A）04:4x 登記】1.5～3.5h；D120 起由 BB 驗收場景美術，改好給 BB 看",
+   "next": "【LAWWW 11-10 11:5x】第 2 版 B（LAWWW2 ba050767a）：by_glass extras.skyBox＋zones3d glassSky shader，白天帷幕範圍加 #4f5f73、晚上 0，不多網格；putong101_window（開發 FAIL 2→ALL PASS）、teach_east_drawcall（博雅 4 網格）等 6 支 ALL PASS；GLSL 只在瀏覽器編譯，CC 開校園看 console、teach_views.py putong_north 重拍，BB 判。 ｜ 【LAWWW 11-10 10:4x】LAWWW2 a43da6a27：博思一樓帷幕（普通 101 北窗外）改亮一點的灰藍漸層（0.26→0.48），只動這一片；campus_boya.glb 重匯；putong101_window、e05_putong、nav_teach、teach_east_drawcall ALL PASS；CC 跑 teach_views.py putong_north 重拍窗景、BB 用 n28 角度看＋從校園外看博思一樓。 ｜ 【LAWWW（帳號 A）04:4x 登記】1.5～3.5h；D120 起由 BB 驗收場景美術，改好給 BB 看",
    "xai": {
     "spec": "LAWWW2 HANDOFF.md",
     "branch": "claude/second-ai-env-art",
@@ -39967,7 +39967,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "sha": "a43da6a27"
+   "sha": "ba050767a"
   },
   {
    "id": "D118-B1-1102",
