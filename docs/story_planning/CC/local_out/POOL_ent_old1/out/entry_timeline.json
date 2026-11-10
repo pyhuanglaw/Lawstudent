@@ -1,0 +1,96 @@
+{
+ "timeline": [
+  {
+   "t": 0.09,
+   "zone": "gym",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 0.36,
+   "zone": "gym",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 1.42,
+   "zone": "gym_b1",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 1.71,
+   "zone": "gym_b1",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 4.43,
+   "zone": "gym_b1",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 4.71,
+   "zone": "gym_b1",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 4.99,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": 99.1,
+   "n": 0
+  },
+  {
+   "t": 5.61,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 5.9,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 6.16,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 6.45,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 6.73,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 7.0,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 0
+  }
+ ],
+ "appear": []
+}

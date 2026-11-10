@@ -200,3 +200,11 @@
 [03:20:55] [res] cpu=28% mem=38% (11.8/31.4 GB) chrome_testing=4  START POOL_ent_new2
 [03:20:59] [res] cpu=7% mem=40% (12.1/31.4 GB) chrome_testing=4  END F24_posters_r2
 [03:21:17] 正在跑：F24_posters_r2（已跑 4 分／上限 10 分）、POOL_ent_old1（已跑 0 分／上限 8 分）、POOL_ent_new2（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       bf5696f38..70354a9f9  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:21:26] ==== END   F24_posters_r2  exit=0  254s   ====
+[03:21:30] memory 43% before starting POOL_ent_old2 (2 running)
+[03:21:30] ==== START POOL_ent_old2  (probe @ ecc3e12a798dfab4af60e85fac29b93e5f2d7321) ====
+[03:21:33] [res] cpu=8% mem=43% (13.6/31.4 GB) chrome_testing=8  START POOL_ent_old2
+[03:22:13] [res] cpu=0% mem=42% (13.3/31.4 GB) chrome_testing=9  END POOL_ent_old1
