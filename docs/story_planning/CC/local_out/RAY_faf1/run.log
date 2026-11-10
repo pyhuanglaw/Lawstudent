@@ -1,4 +1,19 @@
-[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_raypick_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\RAY_faf1\out
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_raypick_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\RAY_faf1\out
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
 PASS 遊戲載入
   [前置／捷徑] 【捷徑】讀檔到 corner_records，站 (-3.3, -0.05)；鏡頭 yaw 270.0°、距離 4.5（直接擺，和牆外截圖同一個畫面）
+  [  49.7s] corner_records 像素 (100,338) 畫面 None → {"mesh": "cr_floor_floor", "parent": "corner_interior", "mat": "cr_floor_terrazzo", "x": -3.73, "y": -0.0, "z": -3.5, "uv2": [0.0174, 0.5512], "lightMap": true, "lmValue": [126, 118, 112], "lmName": "corner_lm_day.webp", "dist": 5.85}
+  [  49.7s] corner_records 像素 (250,338) 畫面 None → {"mesh": "cr_floor_floor", "parent": "corner_interior", "mat": "cr_floor_terrazzo", "x": -3.73, "y": -0.0, "z": -1.99, "uv2": [0.0174, 0.6241], "lightMap": true, "lmValue": [118, 112, 107], "lmName": "corner_lm_day.webp", "dist": 5.16}
+  [  49.7s] corner_records 像素 (400,338) 畫面 None → {"mesh": "cr_floor_floor", "parent": "corner_interior", "mat": "cr_floor_terrazzo", "x": -3.73, "y": 0, "z": -0.47, "uv2": [0.0174, 0.6969], "lightMap": true, "lmValue": [103, 96, 94], "lmName": "corner_lm_day.webp", "dist": 4.86}
+  [  49.7s] corner_records 像素 (550,338) 畫面 None → {"mesh": "cr_floor_floor", "parent": "corner_interior", "mat": "cr_floor_terrazzo", "x": -3.73, "y": -0.0, "z": 1.04, "uv2": [0.0174, 0.7697], "lightMap": true, "lmValue": [117, 110, 108], "lmName": "corner_lm_day.webp", "dist": 5.03}
+  [  49.7s] corner_records 像素 (300,300) 畫面 None → {"mesh": "cr_floor_floor", "parent": "corner_interior", "mat": "cr_floor_terrazzo", "x": -3.13, "y": 0, "z": -1.63, "uv2": [0.0462, 0.6415], "lightMap": true, "lmValue": [134, 122, 110], "lmName": "corner_lm_day.webp", "dist": 5.49}
+PASS corner_records 每個像素都打到東西
+  [前置／捷徑] 【捷徑】讀檔到 wz_print，站 (-0.2, -3.8)；鏡頭 yaw 180.0°、距離 4.5（直接擺，和牆外截圖同一個畫面）
+  [  68.6s] wz_print 像素 (250,365) 畫面 None → {"mesh": "ad_vc", "parent": "ade_interior", "mat": "ad_vc", "x": 0.98, "y": 0.07, "z": -4.45, "uv2": null, "lightMap": false, "lmValue": null, "lmName": null, "dist": 4.78}
+  [  68.6s] wz_print 像素 (400,365) 畫面 None → {"mesh": "ad_floor_floor", "parent": "ade_interior", "mat": "ad_floor_tile", "x": -0.39, "y": -0.0, "z": -4.38, "uv2": [0.1251, 0.3936], "lightMap": true, "lmValue": [139, 139, 137], "lmName": "ade_lm_day.webp", "dist": 4.61}
+  [  68.6s] wz_print 像素 (550,365) 畫面 None → {"mesh": "ad_floor_floor", "parent": "ade_interior", "mat": "ad_floor_tile", "x": -1.8, "y": 0, "z": -4.38, "uv2": [0.0305, 0.3936], "lightMap": true, "lmValue": [13, 13, 13], "lmName": "ade_lm_day.webp", "dist": 4.76}
+  [  68.6s] wz_print 像素 (600,365) 畫面 None → {"mesh": "WALL_left_wall_wall", "parent": "ade_interior", "mat": "ad_plaster", "x": -2.16, "y": 0.22, "z": -4.6, "uv2": [0.5848, 0.5848], "lightMap": true, "lmValue": [167, 167, 164], "lmName": "ade_lm_day.webp", "dist": 4.57}
+  [  68.6s] wz_print 像素 (450,310) 畫面 None → {"mesh": "blobShadow", "parent": "human", "mat": "", "x": -0.9, "y": 0.02, "z": -3.63, "uv2": null, "lightMap": false, "lmValue": null, "lmName": null, "dist": 5.16}
+PASS wz_print 每個像素都打到東西
+PASS 沒有 JS 例外  []
+ALL PASS
