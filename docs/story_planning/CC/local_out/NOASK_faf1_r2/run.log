@@ -1,0 +1,184 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_noask_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NOASK_faf1_r2\out
+CC-B 不問座位／不問吃哪家：worktree ?；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+  吃飯的日子（第一堂下課到下一堂 ≥1.7 小時）：[["2025-10-20", "憲法（上）", "體育", 3.33], ["2025-10-27", "憲法（上）", "體育", 3.33], ["2025-11-03", "憲法（上）", "體育", 3.33], ["2025-11-10", "憲法（上）", "體育", 3.33], ["2025-11-17", "憲法（上）", "體育", 3.33]]
+  找到的日子：第一堂就是有座位的課 ["day 22 2025-10-08（週3）", "刑法總則（一）"]；下一堂是有座位的課 ["day 23 2025-10-09（週4）", "大一英文（上）", "民法總則"]；空檔 ≥60 分 5 天
+===== seat_phone_fresh =====
+PASS seat_phone_fresh：找得到要的日子
+PASS seat_phone_fresh：遊戲載入
+  [前置／捷徑] seat_phone_fresh：最小存檔 day 22 2025-10-08（週3） 8.57 campus（條件事件照常，只關要回覆訊息自動打開手機）
+PASS seat_phone_fresh：記錄鉤子都掛上  {"choose": true, "seatMenu": true, "toast": true, "caption": true, "say": true, "lunch": true}
+PASS seat_phone_fresh：手機「今天」有那一堂的按鈕（直接去上課）
+  seat_phone_fresh：點手機「直接去上課」
+PASS seat_phone_fresh：沒有跳出「坐哪裡」的選單（所有選單原文 []）  []
+PASS seat_phone_fresh：有直接坐下（GAME.seatMenu 被叫）
+FAIL seat_phone_fresh：沒有例外  TypeError("unsupported operand type(s) for -: 'str' and 'float'")
+  seat_phone_fresh 用了 70 秒（總共 116 秒）
+===== seat_phone_old =====
+PASS seat_phone_old：找得到要的日子
+PASS seat_phone_old：遊戲載入
+  [前置／捷徑] seat_phone_old：先讀到 classroom 的教室（法律系館A 201）讀座位表，挑離中心最遠的一個當「刑法總則（一）」的老位子（G.courses.seat，和遊戲 rememberSeat 同格式）
+PASS seat_phone_old：教室有座位  {"zone": "classroom", "n": 48, "cx": 0, "cz": 1.45, "seats": [{"x": -5.25, "z": -3.8, "lv": 0, "room": null}, {"x": -3.75, "z": -3.8, "lv": 0, "room": null}, {"x": -2.25, "z": -3.8, "lv": 0, "room": n
+  seat_phone_old：老位子設成 {"x": -5.25, "z": -3.8, "lv": 0, "room": null}（中心 0,1.45，48 個位子）
+  [前置／捷徑] seat_phone_old：最小存檔 day 22 2025-10-08（週3） 8.57 campus（條件事件照常，只關要回覆訊息自動打開手機）
+PASS seat_phone_old：記錄鉤子都掛上  {"choose": true, "seatMenu": true, "toast": true, "caption": true, "say": true, "lunch": true}
+PASS seat_phone_old：手機「今天」有那一堂的按鈕（直接去上課）
+  seat_phone_old：點手機「直接去上課」
+PASS seat_phone_old：沒有跳出「坐哪裡」的選單（所有選單原文 []）  []
+PASS seat_phone_old：有直接坐下（GAME.seatMenu 被叫）
+FAIL seat_phone_old：坐老位子（-5.25,-3.8）  {"x": -0.75, "z": "classroom", "lv": 0, "room": null, "so": {"autoClass": true}, "h": 9.013, "d": 22, "m": 30000}
+FAIL seat_phone_old：坐姿（player.seat 有、姿勢 walk、y 1.65）  {"zone": "classroom", "h": 9.013, "seat": null, "pose": "walk", "y": 1.65, "classNow": false, "done": false, "attend": null, "mem": {"crim_gen1": {"zone": "classroom", "room": null, "x": -5.25, "z": -3.8, "lv": 0}}}
+  選單 ["救生員是拿錢顧人的", "路人不救不對，但刑法不管", "要看路人之前做了什麼", "我想先聽別人說。"] → 救生員是拿錢顧人的
+  選單 ["（A）兩人都成立不作為犯", "（B）救生員因契約負有防止結果發生的義務，可能成立不純正不作為犯；路人原則上不成立", "（C）兩人都不成立，因為刑法不處罰不作為", "（D）路人離得比較近，責任比救生員重"] → （A）兩人都成立不作為犯
+PASS seat_phone_old：課有開始、上完（刑法總則（一） done）  {"zone": "classroom", "h": 12.167, "seat": {"x": -0.75, "z": 0.4, "lv": 0}, "pose": "read", "y": 0.9, "classNow": false, "done": true, "attend": null, "mem": {"crim_gen1": {"zone": "classroom", "room"
+PASS seat_phone_old：沒有 JS 例外  []
+  seat_phone_old 用了 111 秒（總共 227 秒）
+===== lunch_sk03 =====
+PASS lunch_sk03：遊戲載入
+  [前置／捷徑] lunch_sk03：最小存檔 大一下第 13 週週五（day 248）12:18 在 classroom，旗標照 tests/aa350_r_unit.js 的 base（{"P4D_ANSWER": "retake", "ECON_HALLWAY_DAY": 171, "MET_XUN": true, "MET_PINYU": true, "SK03_FIRST": true, "SK03_N": 0}），沒去經原下
+  lunch_sk03：叫之前 {"econ": {"key": "248:econ_principles_2:am", "done": false}, "sk03": "ev_sk03_lunch"}
+  [前置／捷徑] lunch_sk03：CLS.lunchBreak(GAME)（下課選單「先去吃飯」那一條的同一個函式；不指定吃哪家）
+  lunch_sk03：結果 {"r": true, "last": "學活", "huoda": 248, "done": true, "money": 29910}；台詞前三句 ["：（學活二樓，靠窗那一桌。阿勳已經坐在那裡了。）", "阿勳：……你今天沒來上課。坐。", "：週五的學活。品妤點的永遠是同一個便當，阿勳永遠在講統計。"]；選單 []
+PASS lunch_sk03：SK03 還沒演＝直接去學活（LUNCH_LAST 學活）
+PASS lunch_sk03：在學活演了 ev_sk03_lunch（SK03_HUODA 248、done True）
+PASS lunch_sk03：沒有問吃哪家  []
+PASS lunch_sk03：沒有 JS 例外  []
+  lunch_sk03 用了 46 秒（總共 273 秒）
+===== lunch_poor =====
+PASS lunch_poor：找得到空檔 ≥60 分的日子（5 天）
+PASS lunch_poor：遊戲載入
+  [前置／捷徑] lunch_poor：最小存檔 day 34 2025-10-20（週1） 9.12 classroom，錢 50，旗標 {}
+  [前置／捷徑] lunch_poor：第一堂 憲法（上）：CLS.goClass（手機「今天」同一個函式），之後照玩家點
+PASS lunch_poor：下課選單有「先去吃飯」（["先去吃飯，再去下一堂約 40 分", "在附近讀書，再去下一堂讀到 15", "先自由活動手機的「今天」隨時可以", "下一堂不去"]）
+  lunch_poor：下課選單原文 ["先去吃飯，再去下一堂約 40 分鐘", "在附近讀書，再去下一堂讀到 15:10 出門。用掉下午 1 次（還剩 1）", "先自由活動手機的「今天」隨時可以直接去", "下一堂不去"] → 點「先去吃飯，再去下一堂約 40 分鐘」
+  lunch_poor：點了以後 {"menusAfterEat": [], "toasts": ["錢不夠，先不吃了"], "captions": [], "says": [], "money": [50, 50], "LUNCH_LAST": null, "lunch": [{"want": null, "last": null, "h": 12.188, "d": 34, "z": "classroom", "m": 50}]}
+PASS lunch_poor：點「先去吃飯」以後沒有問吃哪家（之後的選單 []）
+PASS lunch_poor：錢 50 不吃（錢沒變 [50, 50]）
+PASS lunch_poor：畫面寫了沒吃的原因（toast ["錢不夠，先不吃了"]）
+PASS lunch_poor：沒有 JS 例外  []
+  lunch_poor 用了 136 秒（總共 409 秒）
+===== lunch_rot =====
+PASS lunch_rot：找得到空檔 ≥60 分的日子（5 天）
+PASS lunch_rot：遊戲載入
+  [前置／捷徑] lunch_rot 第1天 day 34 2025-10-20（週1）：最小存檔 day 34 2025-10-20（週1） 9.12 classroom，錢 30000，旗標 {}
+  [前置／捷徑] lunch_rot 第1天 day 34 2025-10-20（週1）：第一堂 憲法（上）：CLS.goClass（手機「今天」同一個函式），之後照玩家點
+PASS lunch_rot 第1天 day 34 2025-10-20（週1）：下課選單有「先去吃飯」（["先去吃飯，再去下一堂約 40 分", "在附近讀書，再去下一堂讀到 15", "先自由活動手機的「今天」隨時可以", "下一堂不去"]）
+  lunch_rot 第1天 day 34 2025-10-20（週1）：下課選單原文 ["先去吃飯，再去下一堂約 40 分鐘", "在附近讀書，再去下一堂讀到 15:10 出門。用掉下午 1 次（還剩 1）", "先自由活動手機的「今天」隨時可以直接去", "下一堂不去"] → 點「先去吃飯，再去下一堂約 40 分鐘」
+  lunch_rot 第1天 day 34 2025-10-20（週1）：點了以後 {"menusAfterEat": [], "toasts": [], "captions": ["公館燒臘", "你在法律系館A 201 階梯教室待到 15:10。", "走路到體育館。"], "says": ["公館燒臘，一盤叉燒飯加一顆滷蛋。"], "money": [30000, 29900], "LUNCH_LAST": "公館燒臘", "lunch": [{"want": null, "last": null, "h": 12.192, "d": 34, "z": "classroom", "m": 30000}]}
+PASS lunch_rot 第1天 day 34 2025-10-20（週1）：點「先去吃飯」以後沒有問吃哪家（之後的選單 []）
+PASS lunch_rot 第1天：直接去吃了一家（公館燒臘，扣 100 元、字幕 ["公館燒臘", "你在法律系館A 201 階梯教室待到 15:10。"]）
+  [前置／捷徑] lunch_rot：換到下一天（讀檔），只帶遊戲自己記的 LUNCH_LAST＝公館燒臘 和錢
+  [前置／捷徑] lunch_rot 第2天 day 41 2025-10-27（週1）：最小存檔 day 41 2025-10-27（週1） 9.12 classroom，錢 29900，旗標 {"LUNCH_LAST": "公館燒臘"}
+  [前置／捷徑] lunch_rot 第2天 day 41 2025-10-27（週1）：第一堂 憲法（上）：CLS.goClass（手機「今天」同一個函式），之後照玩家點
+PASS lunch_rot 第2天 day 41 2025-10-27（週1）：下課選單有「先去吃飯」（["先去吃飯，再去下一堂約 40 分", "在附近讀書，再去下一堂讀到 15", "先自由活動手機的「今天」隨時可以", "下一堂不去"]）
+  lunch_rot 第2天 day 41 2025-10-27（週1）：下課選單原文 ["先去吃飯，再去下一堂約 40 分鐘", "在附近讀書，再去下一堂讀到 15:10 出門。用掉下午 1 次（還剩 1）", "先自由活動手機的「今天」隨時可以直接去", "下一堂不去"] → 點「先去吃飯，再去下一堂約 40 分鐘」
+  lunch_rot 第2天 day 41 2025-10-27（週1）：點了以後 {"menusAfterEat": [], "toasts": [], "captions": ["便利商店", "你在法律系館A 201 階梯教室待到 15:10。", "走路到體育館。"], "says": ["便利商店的微波義大利麵，在門口的桌子吃完。"], "money": [29900, 29825], "LUNCH_LAST": "便利商店", "lunch": [{"want": null, "last": "公館燒臘", "h": 12.194, "d": 41, "z": "classroom", "m": 29900}]}
+PASS lunch_rot 第2天 day 41 2025-10-27（週1）：點「先去吃飯」以後沒有問吃哪家（之後的選單 []）
+PASS lunch_rot 第2天：直接去吃了一家（便利商店，扣 75 元、字幕 ["便利商店", "你在法律系館A 201 階梯教室待到 15:10。"]）
+  [前置／捷徑] lunch_rot：換到下一天（讀檔），只帶遊戲自己記的 LUNCH_LAST＝便利商店 和錢
+  [前置／捷徑] lunch_rot 第3天 day 48 2025-11-03（週1）：最小存檔 day 48 2025-11-03（週1） 9.12 classroom，錢 29825，旗標 {"LUNCH_LAST": "便利商店"}
+  [前置／捷徑] lunch_rot 第3天 day 48 2025-11-03（週1）：第一堂 憲法（上）：CLS.goClass（手機「今天」同一個函式），之後照玩家點
+PASS lunch_rot 第3天 day 48 2025-11-03（週1）：下課選單有「先去吃飯」（["先去吃飯，再去下一堂約 40 分", "在附近讀書，再去下一堂讀到 15", "先自由活動手機的「今天」隨時可以", "下一堂不去"]）
+  lunch_rot 第3天 day 48 2025-11-03（週1）：下課選單原文 ["先去吃飯，再去下一堂約 40 分鐘", "在附近讀書，再去下一堂讀到 15:10 出門。用掉下午 1 次（還剩 0）", "先自由活動手機的「今天」隨時可以直接去", "下一堂不去"] → 點「先去吃飯，再去下一堂約 40 分鐘」
+  lunch_rot 第3天 day 48 2025-11-03（週1）：點了以後 {"menusAfterEat": [], "toasts": [], "captions": ["小松", "你在法律系館A 201 階梯教室待到 15:10。", "走路到體育館。"], "says": ["小松的自助餐，夾了三樣菜。"], "money": [29825, 29735], "LUNCH_LAST": "小松", "lunch": [{"want": null, "last": "便利商店", "h": 12.195, "d": 48, "z": "classroom", "m": 29825}]}
+PASS lunch_rot 第3天 day 48 2025-11-03（週1）：點「先去吃飯」以後沒有問吃哪家（之後的選單 []）
+PASS lunch_rot 第3天：直接去吃了一家（小松，扣 90 元、字幕 ["小松", "你在法律系館A 201 階梯教室待到 15:10。"]）
+PASS lunch_rot：三天不連著同一家（公館燒臘 → 便利商店 → 小松）
+PASS lunch_rot：沒有 JS 例外  []
+  lunch_rot 用了 173 秒（總共 581 秒）
+===== seat_wake_fresh =====
+PASS seat_wake_fresh：找得到要的日子
+PASS seat_wake_fresh：遊戲載入
+  [前置／捷徑] seat_wake_fresh：最小存檔 day 22 2025-10-08（週3） 7.20 dorm（條件事件照常，只關要回覆訊息自動打開手機）
+PASS seat_wake_fresh：記錄鉤子都掛上  {"choose": true, "seatMenu": true, "toast": true, "caption": true, "say": true, "lunch": true}
+  [前置／捷徑] seat_wake_fresh：CLS.queueWake（睡醒那一刻）
+  seat_wake_fresh：選單 ["直接去上課：刑法總則（一）09:10，法律系館A 201。走路 18 分鐘，09:00 到教室", "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。", "先起床再說手機的「今天」隨時可以直接去"] → 直接去上課：刑法總則（一）09:10，法律系館A 201。走路 18 分鐘，09:00 到教室
+PASS seat_wake_fresh：沒有跳出「坐哪裡」的選單（所有選單原文 [["直接去上課：刑法總則（一）", "翹這堂課", "先起床再說"]]）  []
+PASS seat_wake_fresh：有直接坐下（GAME.seatMenu 被叫）
+FAIL seat_wake_fresh：沒有例外  TypeError("unsupported operand type(s) for -: 'str' and 'float'")
+  seat_wake_fresh 用了 65 秒（總共 647 秒）
+===== seat_wake_old =====
+PASS seat_wake_old：找得到要的日子
+PASS seat_wake_old：遊戲載入
+  [前置／捷徑] seat_wake_old：先讀到 classroom 的教室（法律系館A 201）讀座位表，挑離中心最遠的一個當「刑法總則（一）」的老位子（G.courses.seat，和遊戲 rememberSeat 同格式）
+PASS seat_wake_old：教室有座位  {"zone": "classroom", "n": 48, "cx": 0, "cz": 1.45, "seats": [{"x": -5.25, "z": -3.8, "lv": 0, "room": null}, {"x": -3.75, "z": -3.8, "lv": 0, "room": null}, {"x": -2.25, "z": -3.8, "lv": 0, "room": n
+  seat_wake_old：老位子設成 {"x": -5.25, "z": -3.8, "lv": 0, "room": null}（中心 0,1.45，48 個位子）
+  [前置／捷徑] seat_wake_old：最小存檔 day 22 2025-10-08（週3） 7.20 dorm（條件事件照常，只關要回覆訊息自動打開手機）
+PASS seat_wake_old：記錄鉤子都掛上  {"choose": true, "seatMenu": true, "toast": true, "caption": true, "say": true, "lunch": true}
+  [前置／捷徑] seat_wake_old：CLS.queueWake（睡醒那一刻）
+  seat_wake_old：選單 ["直接去上課：刑法總則（一）09:10，法律系館A 201。走路 18 分鐘，09:00 到教室", "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。", "先起床再說手機的「今天」隨時可以直接去"] → 直接去上課：刑法總則（一）09:10，法律系館A 201。走路 18 分鐘，09:00 到教室
+PASS seat_wake_old：沒有跳出「坐哪裡」的選單（所有選單原文 [["直接去上課：刑法總則（一）", "翹這堂課", "先起床再說"]]）  []
+PASS seat_wake_old：有直接坐下（GAME.seatMenu 被叫）
+FAIL seat_wake_old：坐老位子（-5.25,-3.8）  {"x": -0.75, "z": "classroom", "lv": 0, "room": null, "so": {"autoClass": true}, "h": 9.013, "d": 22, "m": 30000}
+FAIL seat_wake_old：坐姿（player.seat 有、姿勢 walk、y 1.65）  {"zone": "classroom", "h": 9.013, "seat": null, "pose": "walk", "y": 1.65, "classNow": false, "done": false, "attend": null, "mem": {"crim_gen1": {"zone": "classroom", "room": null, "x": -5.25, "z": -3.8, "lv": 0}}}
+  選單 ["救生員是拿錢顧人的", "路人不救不對，但刑法不管", "要看路人之前做了什麼", "我想先聽別人說。"] → 救生員是拿錢顧人的
+  選單 ["（A）兩人都成立不作為犯", "（B）救生員因契約負有防止結果發生的義務，可能成立不純正不作為犯；路人原則上不成立", "（C）兩人都不成立，因為刑法不處罰不作為", "（D）路人離得比較近，責任比救生員重"] → （A）兩人都成立不作為犯
+PASS seat_wake_old：課有開始、上完（刑法總則（一） done）  {"zone": "classroom", "h": 12.167, "seat": {"x": -0.75, "z": 0.4, "lv": 0}, "pose": "read", "y": 0.9, "classNow": false, "done": true, "attend": null, "mem": {"crim_gen1": {"zone": "classroom", "room"
+PASS seat_wake_old：沒有 JS 例外  []
+  seat_wake_old 用了 101 秒（總共 748 秒）
+===== seat_after_fresh =====
+PASS seat_after_fresh：找得到要的日子
+PASS seat_after_fresh：遊戲載入
+  [前置／捷徑] seat_after_fresh：最小存檔 day 23 2025-10-09（週4） 9.12 gongtong（條件事件照常，只關要回覆訊息自動打開手機）
+PASS seat_after_fresh：記錄鉤子都掛上  {"choose": true, "seatMenu": true, "toast": true, "caption": true, "say": true, "lunch": true}
+  [前置／捷徑] seat_after_fresh：第一堂 大一英文（上）：CLS.goClass（手機「今天」同一個函式），之後照玩家點
+  選單 ["「椅子也是。」", "「已報修。——法律系」", "（不回）"] → 「椅子也是。」
+PASS seat_after_fresh：第一堂下課選單有「直接去下一堂」  {"dlg": false, "name": "", "txt": "", "ch": [{"t": "直接去下一堂：民法總則13:20，法律系館A 201。走路 18 分鐘，13:10 到教室", "dim": false}, {"t": "先自由活動手機的「今天」隨時可以直接去", "dim": false}, {"t": "下一堂不去", "dim": false}], "busy": tr
+  seat_after_fresh：下課選單 ["直接去下一堂：民法總則13:20，法律系館A 201。走路 18 分鐘，13:10 到教室", "先自由活動手機的「今天」隨時可以直接去", "下一堂不去"] → 直接去下一堂：民法總則13:20，法律系館A 201。走路 18 分鐘，13:10 到教室
+PASS seat_after_fresh：沒有跳出「坐哪裡」的選單（所有選單原文 [["「椅子也是。」", "「已報修。——法律系」", "（不回）"], ["直接去下一堂：民法總則", "先自由活動", "下一堂不去"]]）  []
+PASS seat_after_fresh：有直接坐下（GAME.seatMenu 被叫）
+FAIL seat_after_fresh：沒有例外  TypeError("unsupported operand type(s) for -: 'str' and 'float'")
+  seat_after_fresh 用了 88 秒（總共 837 秒）
+===== seat_after_old =====
+PASS seat_after_old：找得到要的日子
+PASS seat_after_old：遊戲載入
+  [前置／捷徑] seat_after_old：先讀到 classroom 的教室（法律系館A 201）讀座位表，挑離中心最遠的一個當「民法總則」的老位子（G.courses.seat，和遊戲 rememberSeat 同格式）
+PASS seat_after_old：教室有座位  {"zone": "classroom", "n": 48, "cx": 0, "cz": 1.45, "seats": [{"x": -5.25, "z": -3.8, "lv": 0, "room": null}, {"x": -3.75, "z": -3.8, "lv": 0, "room": null}, {"x": -2.25, "z": -3.8, "lv": 0, "room": n
+  seat_after_old：老位子設成 {"x": -5.25, "z": -3.8, "lv": 0, "room": null}（中心 0,1.45，48 個位子）
+  [前置／捷徑] seat_after_old：最小存檔 day 23 2025-10-09（週4） 9.12 gongtong（條件事件照常，只關要回覆訊息自動打開手機）
+PASS seat_after_old：記錄鉤子都掛上  {"choose": true, "seatMenu": true, "toast": true, "caption": true, "say": true, "lunch": true}
+  [前置／捷徑] seat_after_old：第一堂 大一英文（上）：CLS.goClass（手機「今天」同一個函式），之後照玩家點
+  選單 ["「椅子也是。」", "「已報修。——法律系」", "（不回）"] → 「椅子也是。」
+PASS seat_after_old：第一堂下課選單有「直接去下一堂」  {"dlg": false, "name": "", "txt": "", "ch": [{"t": "直接去下一堂：民法總則13:20，法律系館A 201。走路 18 分鐘，13:10 到教室", "dim": false}, {"t": "先自由活動手機的「今天」隨時可以直接去", "dim": false}, {"t": "下一堂不去", "dim": false}], "busy": tr
+  seat_after_old：下課選單 ["直接去下一堂：民法總則13:20，法律系館A 201。走路 18 分鐘，13:10 到教室", "先自由活動手機的「今天」隨時可以直接去", "下一堂不去"] → 直接去下一堂：民法總則13:20，法律系館A 201。走路 18 分鐘，13:10 到教室
+PASS seat_after_old：沒有跳出「坐哪裡」的選單（所有選單原文 [["「椅子也是。」", "「已報修。——法律系」", "（不回）"], ["直接去下一堂：民法總則", "先自由活動", "下一堂不去"]]）  []
+PASS seat_after_old：有直接坐下（GAME.seatMenu 被叫）
+FAIL seat_after_old：坐老位子（-5.25,-3.8）  {"x": -0.75, "z": "classroom", "lv": 0, "room": null, "so": {"autoClass": true}, "h": 13.18, "d": 23, "m": 30000}
+FAIL seat_after_old：坐姿（player.seat 有、姿勢 walk、y 1.54）  {"zone": "classroom", "h": 13.18, "seat": null, "pose": "walk", "y": 1.54, "classNow": false, "done": false, "attend": null, "mem": {"civ_general": {"zone": "classroom", "room": null, "x": -5.25, "z": -3.8, "lv": 0}, "english_y1": {"zone": "gongtong", "room": "102", "x": -7.6, "z": -5, "lv": 0}}}
+  選單 ["「意思表示。」", "（把筆記推過去）", "「剛開始。」"] → 「意思表示。」
+PASS seat_after_old：課有開始、上完（民法總則 done）  {"zone": "classroom", "h": 15.167, "seat": {"x": -0.75, "z": 0.4, "lv": 0}, "pose": "read", "y": 0.9, "classNow": false, "done": true, "attend": null, "mem": {"civ_general": {"zone": "classroom", "roo
+PASS seat_after_old：沒有 JS 例外  []
+  seat_after_old 用了 111 秒（總共 948 秒）
+===== seat_onetap_fresh =====
+PASS seat_onetap_fresh：找得到要的日子
+PASS seat_onetap_fresh：遊戲載入
+  [前置／捷徑] seat_onetap_fresh：最小存檔 day 22 2025-10-08（週3） 8.57 campus（條件事件照常，只關要回覆訊息自動打開手機）
+PASS seat_onetap_fresh：記錄鉤子都掛上  {"choose": true, "seatMenu": true, "toast": true, "caption": true, "say": true, "lunch": true}
+  seat_onetap_fresh：一鍵選單「到下一堂課的教室」：到下一堂課的教室法律系館A 201（刑法總則（一），09:10–12:10）
+  seat_onetap_fresh：確認框：到下一堂課的教室去：法律系館A 201（刑法總則（一），09:10–12:10）現在：週三 08:37路程：走路 8 分鐘會先跳過時間到 08:52 出門（等 15 分鐘；中途有約好的事、劇情會先停下來）到教室：09:00，直接坐中間的位子取消確定
+PASS seat_onetap_fresh：跳出確認框
+PASS seat_onetap_fresh：沒有跳出「坐哪裡」的選單（所有選單原文 []）  []
+PASS seat_onetap_fresh：有直接坐下（GAME.seatMenu 被叫）
+FAIL seat_onetap_fresh：沒有例外  TypeError("unsupported operand type(s) for -: 'str' and 'float'")
+  seat_onetap_fresh 用了 64 秒（總共 1011 秒）
+===== seat_onetap_old =====
+PASS seat_onetap_old：找得到要的日子
+PASS seat_onetap_old：遊戲載入
+  [前置／捷徑] seat_onetap_old：先讀到 classroom 的教室（法律系館A 201）讀座位表，挑離中心最遠的一個當「刑法總則（一）」的老位子（G.courses.seat，和遊戲 rememberSeat 同格式）
+PASS seat_onetap_old：教室有座位  {"zone": "classroom", "n": 48, "cx": 0, "cz": 1.45, "seats": [{"x": -5.25, "z": -3.8, "lv": 0, "room": null}, {"x": -3.75, "z": -3.8, "lv": 0, "room": null}, {"x": -2.25, "z": -3.8, "lv": 0, "room": n
+  seat_onetap_old：老位子設成 {"x": -5.25, "z": -3.8, "lv": 0, "room": null}（中心 0,1.45，48 個位子）
+  [前置／捷徑] seat_onetap_old：最小存檔 day 22 2025-10-08（週3） 8.57 campus（條件事件照常，只關要回覆訊息自動打開手機）
+PASS seat_onetap_old：記錄鉤子都掛上  {"choose": true, "seatMenu": true, "toast": true, "caption": true, "say": true, "lunch": true}
+  seat_onetap_old：一鍵選單「到下一堂課的教室」：到下一堂課的教室法律系館A 201（刑法總則（一），09:10–12:10）
+  seat_onetap_old：確認框：到下一堂課的教室去：法律系館A 201（刑法總則（一），09:10–12:10）現在：週三 08:37路程：走路 8 分鐘會先跳過時間到 08:52 出門（等 15 分鐘；中途有約好的事、劇情會先停下來）到教室：09:00，直接坐老位子取消確定
+PASS seat_onetap_old：跳出確認框
+PASS seat_onetap_old：沒有跳出「坐哪裡」的選單（所有選單原文 []）  []
+PASS seat_onetap_old：有直接坐下（GAME.seatMenu 被叫）
+FAIL seat_onetap_old：坐老位子（-5.25,-3.8）  {"x": -0.75, "z": "classroom", "lv": 0, "room": null, "so": {"autoClass": true}, "h": 9.014, "d": 22, "m": 30000}
+FAIL seat_onetap_old：坐姿（player.seat 有、姿勢 walk、y 1.65）  {"zone": "classroom", "h": 9.014, "seat": null, "pose": "walk", "y": 1.65, "classNow": false, "done": false, "attend": null, "mem": {"crim_gen1": {"zone": "classroom", "room": null, "x": -5.25, "z": -3.8, "lv": 0}}}
+  選單 ["救生員是拿錢顧人的", "路人不救不對，但刑法不管", "要看路人之前做了什麼", "我想先聽別人說。"] → 救生員是拿錢顧人的
+  選單 ["（A）兩人都成立不作為犯", "（B）救生員因契約負有防止結果發生的義務，可能成立不純正不作為犯；路人原則上不成立", "（C）兩人都不成立，因為刑法不處罰不作為", "（D）路人離得比較近，責任比救生員重"] → （A）兩人都成立不作為犯
+PASS seat_onetap_old：課有開始、上完（刑法總則（一） done）  {"zone": "classroom", "h": 12.167, "seat": {"x": -0.75, "z": 0.4, "lv": 0}, "pose": "read", "y": 0.9, "classNow": false, "done": true, "attend": null, "mem": {"crim_gen1": {"zone": "classroom", "room"
+PASS seat_onetap_old：沒有 JS 例外  []
+  seat_onetap_old 用了 112 秒（總共 1123 秒）
+FAILED 12: seat_phone_fresh：沒有例外；seat_phone_old：坐老位子（-5.25,-3.8）；seat_phone_old：坐姿（player.seat 有、姿勢 walk、y 1.65）；seat_wake_fresh：沒有例外；seat_wake_old：坐老位子（-5.25,-3.8）；seat_wake_old：坐姿（player.seat 有、姿勢 walk、y 1.65）；seat_after_fresh：沒有例外；seat_after_old：坐老位子（-5.25,-3.8）；seat_after_old：坐姿（player.seat 有、姿勢 walk、y 1.54）；seat_onetap_fresh：沒有例外；seat_onetap_old：坐老位子（-5.25,-3.8）；seat_onetap_old：坐姿（player.seat 有、姿勢 walk、y 1.65）
