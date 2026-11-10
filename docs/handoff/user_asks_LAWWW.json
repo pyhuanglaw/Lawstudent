@@ -4279,7 +4279,7 @@
    "at": "2026-11-10T17:0xZ",
    "quote": "這是GitHub 首頁好多已經是上個月才改的，但是都是遊戲一開始發餉還沒有一個雛形很不成熟的一些規則啊，我真的認真考慮你要嘛把它內容改掉要麼直接刪掉（附 GitHub 首頁截圖：REVIEW_FILE_INDEX.txt、SOURCES.md、package.json、play.py、shot3d.py、test_*.html）",
    "kind": "原話",
-   "status": "在開發分支",
+   "status": "進行中",
    "wants": "X311",
    "task": "RULES-CONSOLIDATE-1110",
    "note": "截圖是 main（GitHub 首頁）；開發分支 70e23b32c 已刪，v9.10.24 發布合併 main 後首頁就乾淨"
