@@ -5,7 +5,7 @@
  ② 真的走（白天）：【前置／捷徑】讀檔放在地面樓梯口 (88,−40) → L.go_to 走下樓梯到 B1 門前 (98,−32.2) → 互動鍵「進 B1」→ 按 → library_b1
     → 在 B1 裡找往中庭／校園的出口 → 走過去按 → 回到校園、站在中庭（y≈−4.2）→ 走上樓梯回到地面 (88,−42)；全程 GAME.walkFallbacks 不能增加（要 0）
 Playwright／SwiftShader ≠ iPhone。用法：LW_TESTS=<wt>/tests TAG=old|new python3 cc_b1court_art_probe.py <url> <out>"""
-import os, sys, json, asyncio, math
+import os, sys, json, asyncio, math, base64
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import playlib as L
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -26,6 +26,11 @@ FLOOR = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, rc=new THREE.Raycast
   const m=[].concat(h.object.material)[(h.face&&h.face.materialIndex)||0]; let avg=null; const img=m&&m.map&&m.map.image;
   if(img&&img.width){ try{ const c=document.createElement('canvas'); c.width=32; c.height=32; const x=c.getContext('2d'); x.drawImage(img,0,0,32,32); const d=x.getImageData(0,0,32,32).data; let r=0,g=0,b=0; for(let i=0;i<d.length;i+=4){ r+=d[i]; g+=d[i+1]; b+=d[i+2]; } const n=d.length/4; avg=[r/n|0,g/n|0,b/n|0]; }catch(e){ avg='err'; } }
   return {hits:info, mesh:h.object.name||'(無名)', parent:h.object.parent&&h.object.parent.name||'', mat:m&&m.name||'', color:m&&m.color?'#'+m.color.getHexString():null, mapAvg:avg, y:+h.point.y.toFixed(2)}; })()"""
+TOP_JS = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(50, c.width/c.height, 0.1, 400);
+  cam.position.set(a[0],a[1],a[2]+0.01); cam.up.set(0,0,-1); cam.lookAt(a[0],-4.2,a[2]); cam.updateMatrixWorld(true); r.render(E.scene,cam); return c.toDataURL('image/png'); })"""
+# 白霧量化：畫面下半部（玩家腳下以下）的平均亮度、標準差（白霧＝很亮、對比很低）
+HAZE = r"""(()=>{ const c=GAME.E.renderer.domElement; GAME.E.renderer.render(GAME.E.scene,GAME.E.camera); const w=96,h=54, cv=document.createElement('canvas'); cv.width=w; cv.height=h; const x=cv.getContext('2d'); x.drawImage(c,0,0,w,h);
+  const d=x.getImageData(0,Math.floor(h*0.62),w,h-Math.floor(h*0.62)).data; let s=0,s2=0,n=0; for(let i=0;i<d.length;i+=4){ const l=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; s+=l; s2+=l*l; n++; } const m=s/n; return {mean:+m.toFixed(1), std:+Math.sqrt(Math.max(0,s2/n-m*m)).toFixed(1)}; })()"""
 HUD = "(on=>{ const ids=['hud','minimap','joy','interact','btnPhone','menuBtn','topbar','goalbar']; for(const i of ids){ const e=document.getElementById(i); if(e) e.style.visibility=on?'':'hidden'; } })"
 
 
@@ -50,8 +55,13 @@ async def main():
                     if f and f.get('mapAvg') and f['mapAvg'] != 'err':
                         r_, g_, b_ = f['mapAvg']; lum = 0.299 * r_ + 0.587 * g_ + 0.114 * b_; woodish = r_ > b_ + 25 and r_ > g_ and lum < 110
                         run.check('%s 地面不是深色木頭（D112；貼圖平均色 %s、亮度 %.0f；名字有 wood／木 也算）' % (tag, f['mapAvg'], lum), not woodish and not any(k in (f['mat'] + f['mesh']).lower() for k in ('wood', '木')), J(f))
+                if 'bottom' in name:
+                    hz = await pg.evaluate(HAZE); run.note('%s %s 畫面下半部亮度 %s（白霧＝平均很高、標準差很低）' % (tag, name, J(hz)))
+                    if os.environ.get('EXPECT') == 'fixed': run.check('%s %s 沒有白霧（下半部平均亮度 < 200 或標準差 > 12）' % (tag, name), hz['mean'] < 200 or hz['std'] > 12, J(hz))
                 await pg.evaluate(DL.HUD + '(false)'); await pg.wait_for_timeout(300)
                 await run.shot(pg, '%s_%s' % (tag, name))
+                if name == 'bottom_north':   # 中庭正上方俯視（另一台相機），和使用者的平面圖並排用
+                    u = await pg.evaluate(TOP_JS, [98, 14, -36]); open(os.path.join(OUT, 'court_top_%s.png' % tag), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
                 await pg.evaluate(DL.HUD + '(true)')
         if WALK:
             run.setup('【前置／捷徑】讀檔：9/26 14:30 校園地面樓梯口 (88,−40)；之後全程真的走、真的按')
