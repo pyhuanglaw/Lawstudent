@@ -138,7 +138,8 @@ for(const [k,X] of Object.entries(SH)){ const R=loadZone(X.zone), z=R.z, its=R.i
       const own=views.map(o=>!!(o.material.userData&&o.material.userData.wvOwn));
       check('A6 '+L.name+'：窗景卡晚上調暗（21:00 0.18、12:00 1）；換成街景照片的卡（wvOwn）晚上不調暗',n.every((v,i)=>v===(own[i]?1:0.18))&&d.every(v=>v===1),J({n,d,own})); }
     const st=[]; z.group.traverse(o=>{ if(o.isMesh&&o.material&&o.material.userData.seeThrough) st.push(o.material.name); });
-    const want={brunch:['sns_bulb'],teishoku:[],teahouse:['wzs_washi','wzs_pendant']}[k];
+    /* 2026-11-10 改期望（WZ-SEAT-CAMS-1104，LAWWW2 7bb4bf34f、LAWWW 9d4c54c16）：小路座位鏡頭 288 個裡 126 個被擋，配置重加 seeThru（含 kmc_bulb）＋camWalls——舊期望小路 []（AA seeThruNote：吊燈不擋鏡頭），新期望這個假模型裡的 kmc_bulb 透空 */
+    const want={brunch:['sns_bulb'],teishoku:['kmc_bulb'],teahouse:['wzs_washi','wzs_pendant']}[k];
     check('A6 '+L.name+'：網點透空的材質 '+J(want)+'（AA 新模型的前綴 sns／kmc／yzn 照去掉前綴比；SUNNY SIDE 的吊燈罩沒有自己的材質，等 LAWWW2）',J(st.sort())===J(want.slice().sort()),J(st)); }
   // A8 一盞的前院（AA_659 §3 bc021c7e1）：五個互動點的座標、按得到、走得到；看貓碗只在 WZ_CATBOWL（找到貓以後）有、碗和按鈕一起
   { FAKE={'prop.desk_props':()=>{ const g=new THREE.Group(); const b=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.05,0.05,8),new THREE.MeshStandardMaterial({name:'bowl'})); b.name='item_bowl'; b.position.set(5,0,0); g.add(b); return g; }};

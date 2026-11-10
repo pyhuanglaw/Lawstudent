@@ -170,7 +170,10 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   /* ---------- 人物面板：每一種記憶都有中文名稱（沒有的話面板直接顯示英文代號）---------- */
   { const src=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8')).join('\n')+fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src/data',f),'utf8')).join('\n');
     const used=new Set(); for(const m of src.matchAll(/tag:'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/remember\([^,()]+,'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/"mem":\s*"([A-Z_0-9]+)"/g)) used.add(m[1]); used.delete('ADJUST'); used.delete('AN_SHOP_PAGE');   /* AA_589：看過「想去的店」那一頁，不在面板顯示 */   /* 閒聊階梯、阿凱宿舍事件（src/data/ladder.js 的 "mem"）也算 */
-    const miss=[...used].filter(t=>!SOCIAL.MEMORY_LABEL[t]);
+    /* 2026-11-10（GIFT-HOLIDAY-1110）：gifthol3d.js 的記憶是「前綴＋人物 id」（GIFT_LOVE_<人物>、GIFT_GIVEN_<人物>、GIFT_FROM_<人物>_<節>_<年>），上面的掃描只抓得到前綴；
+       前綴（結尾是 _）改成看「至少有一個以它開頭的 key 有中文名稱」——gifthol3d.js 載入時逐人逐節登記；沒載入 gifthol3d 時照舊算缺 */
+    try{ if(typeof GIFTH==='undefined'){ load('src/data/gift_holiday.js'); load('src/gifthol3d.js'); } }catch(e){ console.log('（gifthol3d 載不進來：'+e.message+'）'); }   /* 送禮的記憶名稱是 gifthol3d.js 載入時登記的 */
+    const miss=[...used].filter(t=>!SOCIAL.MEMORY_LABEL[t]&&!(t.endsWith('_')&&Object.keys(SOCIAL.MEMORY_LABEL).some(k=>k.startsWith(t)&&SOCIAL.MEMORY_LABEL[k])));
     check('人物面板：遊戲裡用到的 '+used.size+' 種記憶都有中文名稱（ADJUST 不顯示）',used.size>30&&!miss.length,miss.join(' '));
     /* AA_344 第 3 節 ③④（2026-10-21）：KX7_LAST_TERM 換新名稱（social3d.js 優先於 ladder.js 匯入的舊名稱）；以安不延畢以後沒人用的 AN8_RETAKE、AN8_DIPLOMA 刪掉 */
     check('人物面板：KX7_LAST_TERM＝「她怕畢業以後約吃飯要排半個月」（AA_344 ③）；AN8_RETAKE、AN8_DIPLOMA 已刪、遊戲裡也沒人記（AA_344 ④）',SOCIAL.MEMORY_LABEL.KX7_LAST_TERM==='她怕畢業以後約吃飯要排半個月'&&!('AN8_RETAKE' in SOCIAL.MEMORY_LABEL)&&!('AN8_DIPLOMA' in SOCIAL.MEMORY_LABEL)&&!used.has('AN8_RETAKE')&&!used.has('AN8_DIPLOMA'),JSON.stringify([SOCIAL.MEMORY_LABEL.KX7_LAST_TERM,SOCIAL.MEMORY_LABEL.AN8_RETAKE,SOCIAL.MEMORY_LABEL.AN8_DIPLOMA])); }

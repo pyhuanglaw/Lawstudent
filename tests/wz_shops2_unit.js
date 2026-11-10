@@ -80,13 +80,14 @@ for(const k of K){ const L=WZ_SHOPS_LAYOUT[k]; const z=loadZone('wz_'+k); if(E.f
 (async()=>{
   { const L=WZ_SHOPS_LAYOUT.teishoku, b=fs.readFileSync(path.join(ROOT,L.glb)), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8'));
     const names=(j.materials||[]).map(m=>m.name), want=L.seeThru||[];
-    check('5. 小路：配置的 seeThru 是空的（AA seeThruNote）、新模型沒有舊的和紙燈籠材質 GLOW_wz_teishoku_washi',/komichi\.glb$/.test(L.glb)&&want.length===0&&!names.includes('GLOW_wz_teishoku_washi')&&/GLOW_wz_teishoku_washi/.test(L.seeThruNote||''),names.join('、')); }
+    /* 2026-11-10 改期望（WZ-SEAT-CAMS-1104，LAWWW2 7bb4bf34f：小路座位鏡頭 288 個裡 126 個被擋）：舊期望「配置的 seeThru 是空的、區域不開 seeThru、材質都不透空」→ 新期望配置有 seeThru（含 kmc_bulb、kmc_walnut_rt 等，每一個都是模型裡真的有的材質）、區域開 seeThru、kmc_bulb 透空、kmc_walnut（桌面）不透空 */
+    check('5. 小路：配置的 seeThru 不是空的、每一個都是新模型裡的材質；沒有舊的和紙燈籠材質 GLOW_wz_teishoku_washi',/komichi\.glb$/.test(L.glb)&&want.length>0&&want.every(m=>names.includes(m))&&!names.includes('GLOW_wz_teishoku_washi')&&/GLOW_wz_teishoku_washi/.test(L.seeThruNote||''),names.join('、')); }
   const pend=[], MATS=['kmc_bulb','kmc_vcm','kmc_walnut'];
   ASSETS.loadOne=k=>{ if(k==='bldg.wz_teishoku_interior_v'+WZ_SHOPS_LAYOUT.teishoku.version){ const g=new THREE.Group(); for(const nm of MATS){ const me=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); me.name=nm; g.add(me); } const p=Promise.resolve({scene:g}); pend.push(p); return p; } return new Promise(()=>{}); };
   const z=loadZone('wz_teishoku'); await Promise.all(pend); await new Promise(r=>setTimeout(r,0));
   const mats={}; z.group.traverse(o=>{ if(o.isMesh&&o.material&&MATS.includes(o.material.name)) mats[o.material.name]=o.material; });
-  check('5. 小路：正式模型（bldg.wz_teishoku_interior_v<配置版本>；2026-11-04 v3→v4）接上、區域不開 seeThru',!!z.formal&&!z.seeThru);
-  check('5. 小路：模型的材質都不透空',MATS.every(nm=>mats[nm]&&!mats[nm].userData.seeThrough),Object.keys(mats).length+' 種材質');
+  check('5. 小路：正式模型（bldg.wz_teishoku_interior_v<配置版本>；2026-11-04 v3→v4）接上、區域開 seeThru（WZ-SEAT-CAMS-1104）',!!z.formal&&!!z.seeThru);
+  check('5. 小路：配置列的材質透空（kmc_bulb）、沒列的不透空（kmc_vcm、kmc_walnut）',MATS.every(nm=>mats[nm]&&(!!mats[nm].userData.seeThrough)===(WZ_SHOPS_LAYOUT.teishoku.seeThru||[]).includes(nm)),Object.keys(mats).length+' 種材質');
   const zl=loadZone('wz_lin'); check('5. 林家乾麵：不開 seeThru',!zl.seeThru);
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();
