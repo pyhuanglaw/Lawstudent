@@ -16,13 +16,13 @@ const set=(id,o)=>{ const r=SOCIAL.rel(id); Object.assign(r,{fam:0,trust:0,comf:
 const P=id=>has?DATE.progress(G,id):null;
 const H='heroine_02';
 fresh(); set(H,{fam:10}); let p=P(H);
-check('1. 不太認識（熟悉 10）：友情條一半、「再熟一點」；戀愛條照她的戀愛（ROM-PRIVATE-DATE-1110：朋友以下也看得到；0＝「她還沒有那樣看你」）',!!p&&Math.abs(p.fr.pct-0.5)<1e-9&&p.fr.hint==='再熟一點'&&p.rom&&p.rom.pct===0&&p.rom.hint==='她還沒有那樣看你',JSON.stringify(p));
+check('1. 不太認識（熟悉 10）：友情條一半、「再熟一點」；戀愛條照她的戀愛（ROM-PRIVATE-DATE-1110：朋友以下也看得到；0＝「她還沒有那樣看你」）',!!p&&Math.abs(p.fr.pct-0.5)<1e-9&&p.fr.hint==='再熟一點'&&p.rom&&p.rom.pct===0&&p.rom.hint==='現在是朋友的感覺',JSON.stringify(p));
 set(H,{fam:45,trust:10}); p=P(H);
 check('2. 有點熟（熟悉 45、信任 10）：差信任＝「再多信任一點」',!!p&&p.fr.hint==='再多信任一點'&&Math.abs(p.fr.pct-0.4)<1e-9,JSON.stringify(p));
 set(H,{fam:50,trust:30,comf:10}); p=P(H);
 check('3. 朋友（自在 10）：往好朋友差自在＝「相處再自在一點」（AA 10-21 定）',!!p&&p.fr.hint==='相處再自在一點'&&p.fr.pct<0.3,JSON.stringify(p));
 set(H,{fam:50,trust:30,comf:10,npcRom:10}); p=P(H);
-check('4. 朋友、她的戀愛 10：戀愛條 1/3、「她還沒有那樣看你」',!!p&&Math.abs(p.rom.pct-1/3)<1e-9&&p.rom.hint==='她還沒有那樣看你',JSON.stringify(p));
+check('4. 朋友、她的戀愛 10：戀愛條 1/3、「現在是朋友的感覺」（AA 11-10 17:40 0482e76f2，取代「她還沒有那樣看你」）',!!p&&Math.abs(p.rom.pct-1/3)<1e-9&&p.rom.hint==='現在是朋友的感覺',JSON.stringify(p));
 set(H,{fam:50,trust:30,comf:10,npcRom:35}); p=P(H);
 check('5. 第 5 階但還不是好朋友：戀愛條最多一半、「先成為好朋友」（AA 10-21 定）',!!p&&p.rom.pct<=0.5&&p.rom.hint==='先成為好朋友',JSON.stringify(p));
 set(H,{fam:70,trust:50,comf:45,npcRom:40,rom:10}); p=P(H);

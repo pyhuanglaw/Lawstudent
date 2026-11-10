@@ -51,7 +51,7 @@ const DATE=(function(){
 
   /* 人物頁的進度條（D36；AA_126 4-1、AA_128 3-2）：友情（往第 4 階好朋友）、戀愛（七位，往第 5、6 階；第 6 階以後是告白的條件），不顯示數字，
      下面一句寫還差哪一種。交往中＝{dating:true}（人物頁只寫「交往中」）；男生朋友只有友情那一條。PROG_HINT 的自在、祐廷的戀愛、先成為好朋友三句：AA 10-21 22:3x 定（企劃線 0b057075，AA_126 4-1；「你還沒有那樣看她」和「她還沒有那樣看你」對著寫）*/
-  S.PROG_HINT={fam:'再熟一點',trust:'再多信任一點',comf:'相處再自在一點',npcRom:'她還沒有那樣看你',rom:'你還沒有那樣看她',close:'先成為好朋友',
+  S.PROG_HINT={fam:'再熟一點',trust:'再多信任一點',comf:'相處再自在一點',npcRom:'現在是朋友的感覺',rom:'你還沒有那樣看她',close:'先成為好朋友',
     count:'再多一些兩個人出去的時間',wishUnknown:'她好像有一個很想去的地方',wishPlace:'她提過想去{place}',
     npcRomHalf:'她好像開始在意你了',romHalf:'你好像開始在意她了',ambi:'你們之間有點曖昧'};   /* 曖昧分三段（ROM-STAGE-TEXT-1110，使用者 11-10 選擇題「照程度寫三段」：「都已經這個程度 她還沒有那樣看我? 要區分曖昧階段吧??」）：戀愛條還沒一半照舊、一半以上「開始在意」、第 6 階多一行「有點曖昧」 */
   S.progress=function(G,id){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return null; const F=(G&&G.flags)||{}; if(F['dating_'+id]) return {dating:true};
