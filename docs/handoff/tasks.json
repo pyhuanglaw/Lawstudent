@@ -51244,6 +51244,26 @@
    "next": "【11-10 02:5x LAWWW-B】截圖 docs/handoff/user_shots/1110_library_arcade_flicker.webp（總圖一樓拱廊）。查：①CK.hall 拱廊柱、拱圈和正式 GLB 是不是同一個位置兩份面（z-fighting）②鏡頭碰撞淡出（fadeWalls）在柱子之間來回切 ③seeThrough 網點透空。場景本來是 LAWWW2（D108），LAWWW2 不在由 LAWWW 修。",
    "evidence": "docs/handoff/user_shots/1110_library_arcade_flicker.webp",
    "sha": null
+  },
+  {
+   "id": "LIB-B1-OUTSIDE-1110",
+   "title": "總圖 B1 入口改成獨立：建築外西側往下的樓梯＋露天下沉中庭＋B1 入口（使用者 11-10 X298）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一次去總圖 B1",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-10 03:0x LAWWW-B】參考 docs/handoff/user_shots/1110_library_b1_plan_ref.webp（只抓動線：建築外西側樓梯下去→露天中庭＋迴廊→B1 入口；D136 不照抄）。要改：校園 zones3d 總圖西側（樓梯、下沉中庭的導航和鏡頭、互動點「走樓梯下 B1」→ library_b1 的入口落點）；library_b1 出口回到下沉中庭；拿掉一樓門廳 b1Door（library_layout.js b1Door、library_hall_v2.js IT、窗的例外、樓層簡介的字）；舊存檔在 library_b1 照舊。美術：先 Blender 做下沉中庭（樓梯、矮牆、迴廊柱），驗收照 D120 BB（BB 不在先記 READY_FOR_ART_REVIEW）。場景本來 LAWWW2（D108），LAWWW2 不在由 LAWWW 做。",
+   "evidence": "docs/handoff/user_shots/1110_library_b1_plan_ref.webp",
+   "sha": null
   }
  ]
 }
