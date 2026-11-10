@@ -163,7 +163,7 @@ X295E_fair_keep_fix | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/st
 GLASSDIAG_v2d | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_glasssky_diag_probe.py | index.html | 10 | X=1
 TEACHVIEW_pn_v2d | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
 BOYA1F_v2d | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=v2d;VIEWS=boya1f_gap:campus:-27:-69.5:11:0:2.5:-27:2.3:-74.5:70+boya1f_se:campus:-17:-70:11:1.27:6:-32:2.2:-74.5:50
-GUI_fix2 | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 25 | TAG=fix2;CASES=shanlan;RERUN=r3
+GUI_fix2 | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 25 | TAG=fix2;CASES=shanlan;RERUN=r4
 # ① XS-DOOR-LABELS（LAWWW 13:02、BB 13:03：新生南路每一家列出來，格式不對的標出來）：真的走到每一間店門讀按鈕字；改前 74da28ca9
 XSDOOR_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_xs_door_labels_probe.py | index.html | 25 | TAG=new
 XSDOOR_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_xs_door_labels_probe.py | index.html | 25 | TAG=old
@@ -171,7 +171,7 @@ XSDOOR_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_plann
 XSPLANT_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 15 | TAG=new;VIEWS=plant_south:xinsheng:13.2:6.5:14:0:3:16.5:0.8:40:62+plant_north:xinsheng:13.2:13.5:14:3.1416:3:16.5:0.8:-20:62+plant_gate:xinsheng:11.5:10:14:1.5708:3:18.4:1.6:10:70;RERUN=hidep
 XSPLANT_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 15 | TAG=old;VIEWS=plant_south:xinsheng:13.2:6.5:14:0:3:16.5:0.8:40:62+plant_north:xinsheng:13.2:13.5:14:3.1416:3:16.5:0.8:-20:62+plant_gate:xinsheng:11.5:10:14:1.5708:3:18.4:1.6:10:70;RERUN=hidep
 # ④ GIFTHOL 第二輪（BB 13:03 順序：②⑤ → ①③⑥ → ④）
-GIFTHOL2_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 60 | TAG=r2;CASES=libbday,counter_event,counter_order,sisbday_tea,sisbday_happy
+GIFTHOL2_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 60 | TAG=r2;CASES=counter_event,counter_order;RERUN=ctr
 # ② X223 套件五棟（LAWWW 13:44；e9af13061 vs 48aa47a5b）：電機二館、土木、圖資、農綜、國青，平視＋高空
 X223KIT_new | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=kit_new;VIEWS=eec2_front:93:1.7:-62:119:8:-62+civil_front:15:1.7:-7:7:6:-28+lis_front:58:1.7:-12:51.5:7:-34+agri_front:52:1.7:12:45:8:33+gq_front:65:1.7:-98:65:15:-119
 X223KIT_old | 48aa47a5b71453a04c983e3185201640d2f9449c | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=kit_old;VIEWS=eec2_front:93:1.7:-62:119:8:-62+civil_front:15:1.7:-7:7:6:-28+lis_front:58:1.7:-12:51.5:7:-34+agri_front:52:1.7:12:45:8:33+gq_front:65:1.7:-98:65:15:-119
@@ -290,3 +290,5 @@ WINVIEW_tea21 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_pl
 
 # ART-NANYANG-CINEMA v4（CC 12:4x）：v3 跑的是 fe4d893ac（舊），3 項 FAIL（旁白時場燈沒全關、24:00 散場句不是 AA_695）；用開發分支 74da28ca9 再跑一次看現況
 NANYANG_v4 | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 150 | CC_HEADLESS=0
+# 一盞 21:00 進不去（places.js：12:00–20:00）＝INFO；改 19:30（還在營業、天已暗）
+WINVIEW_tea195 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tea;HOURS=19.5

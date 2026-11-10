@@ -475,7 +475,7 @@ async def shanlan_case(pg, cdp, orient):
         if want and os.environ.get('SL_FINDHER', '1') == '1':   # GUI_fix2（BB 13:03 ⑤）：送禮還是找得到她＝走到她旁邊按鈕是「和她說話」，說話的選單有「送她禮物…」或「約她去…」
             await L.close_panels(pg, cdp); await pg.wait_for_timeout(800)
             hz = await her_at(pg); tx, tz = hz.get('x', SPOT[0]), hz.get('z', SPOT[1])
-            nb = await pg.evaluate("""(([x,z,sx,sz])=>{ const E=GAME.E; let best=null; for(const r of [0.8,1.0,1.2]) for(let k=0;k<16;k++){ const a=k*Math.PI/8, px=x+Math.sin(a)*r, pz=z+Math.cos(a)*r; if(E.canStand&&E.canStand(px,pz,0.33,0)){ const ds=Math.hypot(px-sx,pz-sz); if(!best||ds>best.dStat) best={x:+px.toFixed(2),z:+pz.toFixed(2),r,dStat:+ds.toFixed(2)}; } } return best; })""", [tx, tz, STAT[0], STAT[1]])   # r3：r2 挑離玩家最近的點＝(4.6,6.5) 就在「看文具」上（按鈕照理是看文具）＝TEST_BUG；改挑離「看文具」最遠、她旁邊 0.8～1.2 m 站得住的點
+            nb = await pg.evaluate("""(([x,z,sx,sz])=>{ const E=GAME.E; let best=null; for(const r of [0.45,0.55,0.7,0.8,1.0,1.2]) for(let k=0;k<16;k++){ const a=k*Math.PI/8, px=x+Math.sin(a)*r, pz=z+Math.cos(a)*r; if(E.canStand&&E.canStand(px,pz,0.33,0)){ const ds=Math.hypot(px-sx,pz-sz); if(!best||ds-r>best.dStat-best.r) best={x:+px.toFixed(2),z:+pz.toFixed(2),r,dStat:+ds.toFixed(2)}; } } return best; })""", [tx, tz, STAT[0], STAT[1]])   # r4：走道窄，她旁邊 0.8 m 外站得住的點都比較靠近「看文具」（r3 挑到 (5.0,6.5)：離她 0.8、離看文具 0.5＝按鈕照理是看文具）；加 0.45～0.7 m，挑「離看文具」減「離她」最大的；r3：r2 挑離玩家最近的點＝(4.6,6.5) 就在「看文具」上（按鈕照理是看文具）＝TEST_BUG；改挑離「看文具」最遠、她旁邊 0.8～1.2 m 站得住的點
             okw, s2, fb3 = (False, await st(pg), 0)
             if nb: okw, s2, fb3 = await walk(pg, cdp, ctag + ' 走到學姊旁邊', nb['x'], nb['z'], 0.35)
             for _ in range(6):
