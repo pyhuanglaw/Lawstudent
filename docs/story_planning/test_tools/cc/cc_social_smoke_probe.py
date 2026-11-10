@@ -120,7 +120,16 @@ QUICK = (os.environ.get('QUICK') or '0') == '1'
 DATE_BRANCH_MAX = int(os.environ.get('DATE_BRANCH_MAX') or MENU_MAX)   # 一場約會換選項重跑最多幾次
 STUDY_ONLY = (os.environ.get('STUDY_ONLY') or '0') == '1'
 IVLOG = (os.environ.get('IVLOG') or '0') == '1'
-MONEYSHOT = (os.environ.get('MONEYSHOT') or '0') == '1'   # CC-B 11-10（BB-B 00:54）：錢不夠那一條，每一層有灰的選項：存全文（innerText、title、aria）、截圖、點一下灰的看會不會跳原因   # CC-B 11-09：存檔那一刻、讀檔以後每秒記 iv（含 goAsked）、選單、事件（BB-B 23:44）
+MONEYSHOT = (os.environ.get('MONEYSHOT') or '0') == '1'
+IVHOOK_JS = r"""(id=>{ const W=window.__IVH=window.__IVH||{log:[]}; const G=()=>GAME.G; const T=()=>({h:+(+G().hour).toFixed(3),d:G().day,z:G().zone});
+  const iv=()=>(G().invites||[]).filter(v=>v.who===id).slice(-1)[0]||{}; const push=(k,x)=>{ W.log.push(Object.assign({k,ms:Math.round(performance.now())},T(),x||{})); if(W.log.length>4000) W.log.splice(0,1000); };
+  push('load',{state:iv().state,goAsked:iv().goAsked||null,ivh:iv().h});
+  if(!W.hooked&&typeof INV!=='undefined'){ W.hooked=1;
+    const gp=INV.goPrompt; INV.goPrompt=async function(GM){ const g=GM&&GM.G, P=GM&&GM.E&&GM.E.player; const due=INV.goDue?INV.goDue(g):null;
+      const why=!due?'goDue null':(P&&P.busy?'busy':((typeof OUT!=='undefined'&&OUT.due&&OUT.due(g))?'OUT.due':'')); const r=await gp.apply(this,arguments); if(due||W.log.filter(x=>x.k==='goPrompt').length<3||r) push('goPrompt',{r,why,due:due?due.id:null,goAsked:iv().goAsked||null}); return r; };
+    const run=EVENTS.run; EVENTS.run=async function(ev){ push('ev.start',{id:ev&&ev.id}); try{ return await run.apply(this,arguments); } finally { push('ev.end',{id:ev&&ev.id}); } };
+    let last=iv().state; setInterval(()=>{ const s=iv().state; if(s!==last){ push('state',{from:last,to:s,goAsked:iv().goAsked||null}); last=s; } },250); }
+  return {hooked:!!W.hooked, iv:{state:iv().state,h:iv().h,goAsked:iv().goAsked||null}}; })"""   # CC-B 11-10（BB-B 00:54）：錢不夠那一條，每一層有灰的選項：存全文（innerText、title、aria）、截圖、點一下灰的看會不會跳原因   # CC-B 11-09：存檔那一刻、讀檔以後每秒記 iv（含 goAsked）、選單、事件（BB-B 23:44）
 STUDY_SHIFT = float(os.environ.get('STUDY_SHIFT') or 0.45)   # 存檔點離約定幾小時（對照組用 2）
 IVRAW_JS = r"""(id=>{ const G=GAME.G, $=x=>document.getElementById(x); const ch=[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,24)); const dv=$('dlg'); return {day:G.day, hour:+(+G.hour).toFixed(3), zone:G.zone, px:+GAME.E.player.obj.position.x.toFixed(1), pz:+GAME.E.player.obj.position.z.toFixed(1), iv:(G.invites||[]).filter(v=>v.who===id).map(v=>Object.assign({},v)), out:(typeof OUT!=='undefined'&&G.outings)?(G.outings||[]).slice(-2):null, choices:ch, dlg:dv&&getComputedStyle(dv).display!=='none'?(dv.textContent||'').trim().slice(0,40):'', phone:!!($('phone')&&!$('phone').classList.contains('hide')), evr:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, cur:(typeof EVENTS!=='undefined'&&(EVENTS.current||EVENTS.cur))||null}; })"""             # 1＝invite／phone_date 只跑「念書」那幾場（STUDY_ctl／STUDY_fix）
 ROSTER = (os.environ.get('ROSTER') or '1') == '1'                     # phone_date：先列「手機能約誰」的名單
@@ -575,6 +584,7 @@ class Person:
                     kd = next(j for j, o in enumerate(s['ch']) if o['dim']); await self.tap_choice(kd); await pg.wait_for_timeout(1300)
                     t1n = await pg.evaluate("(document.getElementById('toast')||{}).innerText||''"); s2 = await self.st()
                     await pg.screenshot(path=os.path.join(OUT, 'money_layer_%d_tapdim.png' % nshot))
+                    await pg.evaluate("(a=>{ window.__CCMONEY=(window.__CCMONEY||[]).concat(a); })", [x['text'] for x in full])
                     self.R.note('MONEYSHOT 第 %d 層（有灰的）：%s；點第一個灰的「%s」→ toast 前「%s」後「%s」、選單還在 %s' % (nshot, J(full), s['ch'][kd]['t'], t0n[:60], t1n[:80], bool(s2['ch'])))
                     continue
                 k = plan(s['ch'], menus)
@@ -1022,6 +1032,9 @@ class Person:
         while time.time() - t0 < 420:
             s = await self.st()
             if s['ch'] and any(re.search('現在出發|^出發$', o['t']) for o in s['ch']): got = True; break
+            if s['ch']:   # BB-B 01:15：等提醒時插進來別的自動事件（例 ev_pool_greet）＝像玩家一樣選第一個、記一行，繼續等
+                R.info('%s：等提醒時插進來 %s（%s %.3f）選單 %s → 選第一個「%s」' % (tag, s.get('evr'), s.get('key'), s.get('hour') or 0, J([o['t'] for o in s['ch']]), s['ch'][0]['t']))
+                await self.tap_choice(0); await pg.wait_for_timeout(1200); continue
             if s['dlg'] or s['dlgVis']: await L.tap(pg, self.cdp, '#dlg')
             if s['phone']: await L.tap(pg, self.cdp, '#btnPhoneClose')
             await pg.wait_for_timeout(1500)
@@ -1419,6 +1432,7 @@ class Person:
         R, pg = self.R, self.pg
         if go_snap: await self.load(snap=go_snap, why='%s：約好、時間快到的那一刻' % tag)
         if IVLOG and go_snap:
+            R.note('IVLOG 掛鉤：%s' % J(await pg.evaluate(IVHOOK_JS, self.pid)))
             t1 = time.time(); seen = None
             while time.time() - t1 < float(os.environ.get('IVLOG_S') or 150):
                 r = await pg.evaluate(IVRAW_JS, self.pid); v = (r['iv'] or [{}])[-1]
@@ -1452,7 +1466,9 @@ class Person:
         if arr['zone'] == iv['zone'] or (iv['zone'] == 'library_hall' and arr['zone'] == 'library'): await self.shot(tag + '_arrive')
         if not R.check('%s：出發、到場、見面那一場一路點得完' % tag, ok, why_not_free(s)): await self.dump(tag, s); self.tx = None; return menus
         if not await self.iv_done(iv['id']):
-            R.check('%s：到了約定的地方、見面那一場有開始' % tag, False, J({'zone': arr['zone'], 'hour': arr['hour'], 'iv': await pg.evaluate(INVS_JS, self.pid)})); self.tx = None; return menus
+            R.check('%s：到了約定的地方、見面那一場有開始' % tag, False, J({'zone': arr['zone'], 'hour': arr['hour'], 'iv': await pg.evaluate(INVS_JS, self.pid)}))
+            if IVLOG: R.note('IVLOG 紀錄（goPrompt／事件／狀態）：%s' % J(await pg.evaluate('(window.__IVH||{log:[]}).log.slice(-120)')))
+            self.tx = None; return menus
         if self.study_on and self.seat_sample is None and self.first_sample is not None:
             self.seat_sample = self.first_sample; R.note('%s：沒有看到 AA_649 的坐下旁白，開演位置用見面第一句那一刻' % tag)
         ss = self.seat_sample
@@ -1571,7 +1587,7 @@ class Person:
             if await self.open_thread('phone_date 錢不夠') and await L.tap(pg, self.cdp, '#phoneBody [data-inv="%s"]' % self.pid):
                 fb0, err0 = await self.base_marks()
                 ok, s, m, l = await self.drive(Plan([{'when': '^出去玩', 'pick': '^出去玩'}]), 'phone_date 錢不夠')
-                seen = any('錢不夠' in x for mm in m for x in mm['opts']) or any('錢不夠' in x for x in l)
+                seen = any('錢不夠' in x for mm in m for x in mm['opts']) or any('錢不夠' in x for x in l) or any('錢不夠' in x for x in (await pg.evaluate("(window.__CCMONEY||[])")))
                 if R.check('phone_date 錢不夠：收尾正常', ok, why_not_free(s)): await self.check_free('phone_date 錢不夠', fb0, err0)
                 else: await self.dump('phone_date_錢不夠', s)
                 R.check('phone_date 錢不夠：選項看得到「錢不夠」的原因', seen, J([[o + ('（灰）' if d else '') for o, d in zip(mm['opts'], mm.get('dim') or [])] for mm in m]))
