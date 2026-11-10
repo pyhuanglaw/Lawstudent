@@ -5264,6 +5264,21 @@
      "approvedBy": "AA 定稿（D109），LAWWW 11-10 接"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_730_nanyang_movies.json",
+   "sha": "48c0428ab",
+   "status": "approved",
+   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
+   "task": "MOVIE-REAL-1110",
+   "kind": "json",
+   "note": "X274 南洋戲院片單：2024-09～2030-08 每兩個月兩部（72 部）、選片 sceneFilm、大廳黑板、燈暗那一句、一個人看的三句——tools/movie/import_nanyang_movies.py → src/data/nanyang_movies.js（48c0428ab：m2507a 片名改《颱風來以前》，id 不變）",
+   "history": [
+    {
+     "sha": "8a246c40f",
+     "approvedBy": "AA 定稿（D109），LAWWW 11-10 接"
+    }
+   ]
   }
  ]
 }
