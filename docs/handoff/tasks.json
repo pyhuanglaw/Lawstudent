@@ -50613,6 +50613,35 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": "df4674cb27",
    "test": null
+  },
+  {
+   "id": "SIS-STATIONERY-1110",
+   "title": "學姊喜歡文具：山嵐書店文具區＋劇情；玩家先買文具、特殊日子送學姊",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次進山嵐書店",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 00:5x LAWWW-B】使用者 X276（人物設定「學姊很喜歡文具」使用者定）。現況：山嵐有「文具」互動點（AA_613 旁白），學姊 2/3 計畫本在公館文具店（sis_grad3d 2-7）。分工：AA 寫文具品項（名稱、價錢、一句說明）、學姊收到的反應（依關係階段）、哪些特殊日子能送（生日等）、文具區的劇情（例：在文具區遇到學姊）；LAWWW2 看山嵐文具區夠不夠（貨架、品項擺設）；LAWWW 接買文具（山嵐文具互動點→選單、扣錢、放進背包）、特殊日子送（和送飲料同一套流程）；BB 測。",
+   "xai": {
+    "spec": "使用者 11-10 00:5x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "山嵐文具區買得到文具、背包裡有；特殊日子能送學姊、她有反應；文具區劇情演得到",
+    "receiver": "AA（劇情、品項）、LAWWW2（文具區）、BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
   }
  ]
 }
