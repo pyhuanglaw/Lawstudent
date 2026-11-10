@@ -314,8 +314,11 @@ async def case_arcafter(pg, cdp, who, day_key, film, axdone, tag):
     R.check('%s 故事線那一拍（ARCS.run／rotRun／STUDYN.mid）在散場 talk 之後' % tag, bool(arcs) and i_talk is not None and all(a > i_talk for a in arcs), J({'talk': i_talk, 'talk_end': i_talk_end, 'arcs': arcs}))
     # MT4（BB 21:53）A1：放映中她不講自己的事（她說出口的句子＝「名字｜」開頭、不是整句括號）；A3：走出 1 廳以後 talk → with.after → 最多一拍故事線 → 道別
     nm = await pg.evaluate("(w=>(CHARACTERS[w]||{}).name||'')(%s)" % J(who))
-    talk_in = [e['v'] for e in (mt[i_in:i_out] if i_in is not None and i_out is not None else []) if e['k'] == 'say' and e['v'].startswith(nm) and not e['v'].split('｜', 1)[-1].startswith('（')]
-    R.check('%s 放映中（進 1 廳到散場）她沒有講自己的事（沒有她說出口的句子）' % tag, i_in is not None and not talk_in, J(talk_in))
+    # r2：「放映中」從燈暗那一句（「（燈暗下來，…」）起算——坐下、燈暗前她說的那一句不算（MT4 r1 TEST_BUG：「電影院的規則，我都會遵守。」在燈暗前）
+    i_dark = next((i for i, e in enumerate(mt) if e['k'] == 'say' and '燈暗' in e['v'] and i_in is not None and i > i_in), None)
+    talk_in = [e['v'] for e in (mt[i_dark:i_out] if i_dark is not None and i_out is not None else []) if e['k'] == 'say' and e['v'].startswith(nm) and not e['v'].split('｜', 1)[-1].startswith('（')]
+    R.note('%s 燈暗那一句 __MT %s：%s' % (tag, i_dark, J(mt[i_dark]['v'] if i_dark is not None else None)))
+    R.check('%s 放映中（燈暗到散場）她沒有講自己的事（沒有她說出口的句子）' % tag, i_dark is not None and not talk_in, J(talk_in))
     i_with = [i for i, e in enumerate(mt) if e['k'] == 'mark' and e['v'] == 'MOVIES.playWith 開始' and (i_out is None or i > i_out)]
     seq = [(i, e['v'], e['z']) for i, e in enumerate(mt) if e['k'] == 'mark' and i_out is not None and i > i_out]
     R.note('%s 散場以後的順序（含區域）：%s' % (tag, J(seq)))
@@ -441,8 +444,8 @@ async def main():
                 elif c == 'FB_FEEL': await case_fb(pg, cdp, 'heroine_03', '2025-11-15', 'm2511a', '會。我騎了一整晚的車耶。', 'feel', '[FB_FEEL 語彤 m2511a]', ('m2511b', '前半有一點。可是找到自己那一幕，我起雞皮疙瘩。'))
                 elif c == 'FB_NOTICE': await case_fb(pg, cdp, 'heroine_05', '2026-05-16', 'm2605b', '他最後沒有擦掉那行字。', 'notice', '[FB_NOTICE 溫學姊 m2605b]')
                 elif c == 'FB_WONDER': await case_fb(pg, cdp, 'heroine_04', '2025-11-15', 'm2511a', '包裹裡面到底是什麼？', 'wonder', '[FB_WONDER 子晴 m2511a]')
-                elif c == 'FB_SELF': await case_fb(pg, cdp, 'heroine_02', '2026-07-11', 'm2607a', '有。我家後面有一條巷子可以通到學校，比大路快三分鐘。', 'self', '[FB_SELF 芷若 m2607a]')
-                elif c == 'FB_JOKE': await case_fb(pg, cdp, 'kexin', '2027-01-16', 'm2701a', '泡麵。', 'joke', '[FB_JOKE 可昕 m2701a]')
+                elif c == 'FB_SELF': await case_fb(pg, cdp, 'heroine_02', '2026-10-17', 'm2609b', '還不知道。可是不想去看不到客戶臉的地方。', 'self', '[FB_SELF 芷若 m2609b]')   # r2：2026-07-11 手機朋友頁沒有芷若
+                elif c == 'FB_JOKE': await case_fb(pg, cdp, 'kexin', '2027-03-20', 'm2703a', '我比較同情過敏的那個。', 'joke', '[FB_JOKE 可昕 m2703a]')   # r2：2027-01-16 寒假她在高雄（只有出去玩）
                 elif c == 'FB_CRIT': await case_fb(pg, cdp, 'heroine_01', '2026-01-17', 'm2601b', '中間等極光那九個晚上，可以剪掉五個。', 'crit', '[FB_CRIT 以安 m2601b]')
                 elif c == 'QOTHER': await case_other(pg, cdp, 'kexin', '2025-11-15', 'm2511b', '[QOTHER 可昕 m2511b]', 'qother')
                 elif c == 'OO_3007': await case_other(pg, cdp, 'heroine_01', '2030-07-13', 'm3007b', '[OO 以安 m3007b]', 'optsother')
