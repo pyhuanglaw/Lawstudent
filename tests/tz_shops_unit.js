@@ -37,7 +37,7 @@ for(const id of ids){ const L=ALL[id], N=L.name;
     { const bad=[]; for(const q of L.seats||[]){ const a=q.ap?(stand(q.ap.x,q.ap.z,0,0.3)?[q.ap.x,q.ap.z,0]:null):approach({x:q.x,z:q.z,yaw:q.yaw,lv:0}); const r=a&&walk(SP,a); if(!a||!r.ok) bad.push(q.id+(a?JSON.stringify(a)+fmt(r).slice(0,90):'沒有走近點')); } check(N+' 3. 每一個座位有「坐下」、走得到（'+(L.seats||[]).length+' 個）',E.interactables.filter(i=>i.tzSeat).length===(L.seats||[]).length&&!bad.length,bad.join(' ')); }
     { const bad=[]; for(const it of E.interactables){ const p=standNear(it); if(!p||!walk(SP,p).ok) bad.push(it.label+'@'+it.x+','+it.z); } check(N+' 3. 每一個互動點旁邊站得住、走得到',!bad.length,bad.join(' ')||E.interactables.length+' 個'); }
     { const inside=[]; for(const b of TZS3.blocks(L)) if(stand(b[0],b[1],0,0.2)) inside.push(b.join('/')); check(N+' 4. 家具、櫃台、廚房裡面站不住',!inside.length,inside.slice(0,4).join(' ')); }
-    if(L.clerk){ const c=L.clerk, r=sim(SP,[c.x,c.z,0],1/30,1.8); check(N+' 4. 店員的位置在櫃台後面：客人走不進去（'+c.x+','+c.z+'）',!!z.shopClerk&&!r.ok); }
+    if(L.clerk&&!L.clerkOpen){ const c=L.clerk, r=sim(SP,[c.x,c.z,0],1/30,1.8); check(N+' 4. 店員的位置在櫃台後面：客人走不進去（'+c.x+','+c.z+'）',!!z.shopClerk&&!r.ok); }
     check(N+' 5. 互動點的 kind 都有（給 LAWWW 接）；座位的 table 寫了桌號',(L.points||[]).every(p=>E.interactables.some(i=>i.kind===p.kind))&&E.interactables.filter(i=>i.tzSeat).every(i=>/_t\d+$/.test(i.seat.table)));
     check(N+' 6. 正式模型：資產有登記、GLB 檔案在、zone_assets 這一區有它',!!ASSETS.manifest[L.asset]&&fs.existsSync(path.join(ROOT,L.glb))&&new RegExp('"'+L.zone+'":\\[[^\\]]*'+L.asset.replace('.','\\.')).test(fs.readFileSync(path.join(ROOT,'src/data/zone_assets.js'),'utf8')),L.glb); } }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

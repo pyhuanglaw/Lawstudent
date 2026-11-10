@@ -90,11 +90,11 @@ if SET == 'gongguan':
     GH = 4.2                # 公館的騎樓店面一樓高 4.2 m（groundH）
     _SHOPS = [dict(n='阿鳳麵店', c='#c9463d', w=10, type='noodle', it='noodle', sub='乾麵・餛飩湯・小菜', v='阿鳳麵店', atlas='gg_afeng_h', vatlas='gg_afeng_v'), dict(n='青木茶室', c='#2f7d5b', w=8, type='tea', it='tea', sub='茶室・外帶'),
               dict(n='頁間書屋', c='#3b5a8c', w=12, type='book', it='books', sub='書店・咖啡'), dict(n='日和便利店', c='#3a6fb0', w=10, type='cvs', it='cvs', band='#e0a030'),
-              dict(n='公館藥局', c='#4a9a6a', w=8, type='none', it='cvs', v='藥局', atlas='gg_yaoju_h', vatlas='gg_yaoju_v'), dict(n='洋洋鹹酥雞', c='#e0b24a', sc='#3b2a1e', w=8, type='none', it='luwei'),
+              dict(n='安泰藥局', c='#f5f5f2', sc='#1f5a3a', w=8, type='none', it='cvs'), dict(n='洋洋鹹酥雞', c='#e0b24a', sc='#3b2a1e', w=8, type='none', it='luwei'),
               dict(n='慢輪單車', c='#b5532c', w=9, type='bike', it='bike', sub='維修・保養・二手單車'), dict(n='Afar café', c='#3e4c42', w=9, type='none', it='cafe'),
-              dict(n='水果行', c='#e0a030', sc='#3b2a1e', w=8, type='none', it='fruit', atlas='gg_shuiguo_h'), dict(n='自助洗衣', c='#4a90c2', w=9, type='none', it='laundry', atlas='gg_laundry_h'),
-              dict(n='影印・輸出', c='#2f3a44', w=9, type='none', it='print', v='影印', atlas='gg_yingyin_h', vatlas='gg_yingyin_v'), dict(n='日日定食', c='#5c3a21', w=10, type='none', it='teishoku', v='定食', atlas='gg_ririteishoku_h', vatlas='gg_ririteishoku_v'),
-              dict(n='轉角唱片', c='#2b3a4a', w=8, type='none', it='books'), dict(n='文具・畫材', c='#8c3b47', w=9, type='none', it='books', atlas='gg_wenju_h'),
+              dict(n='汀州鮮果', c='#e8a33a', sc='#3b2a1e', w=8, type='none', it='fruit'), dict(n='自助洗衣', c='#4a90c2', w=9, type='none', it='laundry', atlas='gg_laundry_h'),
+              dict(n='影印・輸出', c='#2f3a44', w=9, type='none', it='print', v='影印', atlas='gg_yingyin_h', vatlas='gg_yingyin_v'), dict(n='花序 Flower Notes', c='#ece5d8', sc='#8a6e3a', w=10, type='none', it='books'),
+              dict(n='轉角唱片', c='#2b3a4a', w=8, type='none', it='books'), dict(n='榮恩典文具社', c='#f2ede0', sc='#1a1a1a', w=9, type='none', it='books'),
               dict(n='Daybreak', c='#3e5a3e', w=9, type='none', it='cafe')]
     _WALLC = ['#d9cbb0', '#cfc5b2', '#e3ddd0', '#c8bca8', '#d6c3a5', '#e6dfd0', '#bfb2a0']; _WALLT = ['tile', 'mosaic', 'tile', 'plaster']
     # 樓上的住戶（套件沒有；台北商店街的樓上是補習班、診所、髮廊…）：直立招牌（建築另一側：字、底色、字色、長度）、二樓整面大招牌（二樓不開窗）、屋頂廣告看板
@@ -165,10 +165,23 @@ if SET == 'gongguan':
                     decals=[('ggdb_menu', 3.3, 3.95, 1.2, 2.15, 0.03)], lamps=[(3.62, 2.62)],
                     props=[('board', 'ggdb_board', -2.6, 0.5), ('pot', -3.85, 0.35, 'broad'), ('pot', 3.95, 0.4, 'broad')]),
     }
+    # 使用者 2026-11-10 的外觀參考圖（GG-SHOPS3-ART-1110：G04 安泰藥局、G08 汀州鮮果、G13 榮恩典文具社，docs/art-rebuild/second_ai/ref/gg_shops6_1110/；FLOWER-NOTES-ART-1110：G11 花序，docs/handoff/user_specs/flower_notes_ref/exterior.png）。
+    # 貼圖 gg_shops6_tex.py → xs_front_tex.py 的 QG。招牌只有騎樓外面那一塊（參考圖的位置），放大到店面寬（street_fit）。公館的騎樓線照舊（一樓玻璃退 3 m）
+    GG_XS.update({
+        'G04': dict(dep=3.0, wallc='#f1f1ec', frame='alu', street='ggantai_sign', street_fit=8.6, street_lit=True,   # 安泰藥局：白色舊燈箱、深綠字、藥罐圖示；鋁框玻璃自動門、玻璃上一條綠線、店內白光貨架和藥師櫃台
+                    cards=[('ggantai_int', -4.15, 4.15, 0.1, 2.8, 0.8, [-2.1, -0.75, 0.75, 2.1])]),
+        'G08': dict(dep=3.0, wallc='#eef0ec', frame='alu', street='ggfruit_sign', street_fit=7.4, street_lit=True, keep=('stool_r', 'outlet'),   # 汀州鮮果：橘黃燈箱、深咖啡色手寫字；整面開著的水果行（綠色塑膠籃、木箱、吊著的香蕉、吊秤、黃燈泡）
+                    cards=[('ggfruit_shop', -3.65, 3.65, 0.0, 3.0, 0.8)], open=('ggfruit_shop',)),
+        'G13': dict(dep=3.0, wallc='#efe9dc', frame='alu', street='ggrong_sign', street_fit=7.2, street_lit=True,   # 榮恩典文具社：米色招牌、黑字、鉛筆畫筆圖示、四色線；鋁框玻璃、木層架塞滿
+                    cards=[('ggrong_int', -4.15, 4.15, 0.1, 2.85, 0.8, [-2.2, -0.6, 0.9, 2.4])]),
+        'G11': dict(dep=3.0, wallc='#ece5d8', frame='#c9a86a', street='ggfn_sign', street_fit=9.4,   # 花序 Flower Notes：米白洞石色、香檳金細框；兩側大櫥窗、中間雙開玻璃門；招牌帶在騎樓外面；二樓整排玻璃（xs_up）
+                    cards=[('ggfn_winl', -4.3, -1.4, 0.25, 3.1, 0.8, [-2.85]), ('ggfn_door', -1.0, 1.0, 0.0, 2.95, 0.8, [0.0]), ('ggfn_winr', 1.4, 4.3, 0.25, 3.1, 0.8, [2.85])],
+                    props=[('pot', -1.25, 0.45, 'broad'), ('pot', 1.25, 0.45, 'broad')]),
+    })
     SPECS = []; _x = -68.0
     for _i, _s in enumerate(_SHOPS):
         _last = _i == len(_SHOPS) - 1; _X0 = _x; _X1 = _x + _s['w'] + (1.2 if (_i < 8 and not _last) else 0.0); _W = _X1 - _X0; _cx = (_X0 + _X1) / 2
-        _pl = [_W / 2]; _nb = max(1, round(_W / 5)) if (_s['type'] == 'none' and _i not in (5, 7, 12, 14)) else 1   # 第二批四間（AA_650）變成進得去的店：店門前不放中間那根柱子（參考圖沒有；zones3d.js 一起改）
+        _pl = [_W / 2]; _nb = max(1, round(_W / 5)) if (_s['type'] == 'none' and _i not in (4, 5, 7, 8, 11, 12, 13, 14)) else 1   # 第二批四間（AA_650）變成進得去的店：店門前不放中間那根柱子（參考圖沒有；zones3d.js 一起改）；11-10 再加 G04 安泰、G08 汀州鮮果、G11 花序、G13 榮恩典（參考圖門在中間）
         for _k in range(1, _nb): _pl.append(_W / 2 - _k * _W / _nb)
         if _last: _pl.append(-_W / 2)
         _sp = dict(id=f'G{_i:02d}', pos=(_cx, 19.0), ry=math.pi, w=_W, d=16, floors=_GG_FLOORS[_i], wall=_WALLT[_i % 4], color=_WALLC[_i % 7],
@@ -176,8 +189,9 @@ if SET == 'gongguan':
                    shop=SHOP(type=_s['it'], name=_s['n'], sub=_s.get('sub', ''), signBg=_s['c'], signColor=_s.get('sc', '#ffffff'), band=_s.get('band', ''), atlas=_s.get('atlas'),
                              vertical=_s.get('v'), vatlas=_s.get('vatlas'), vBg='#ffffff', vColor=_s['c'], vBand=_s['c']))
         if _sp['id'] in GG_XS: _sp['xs'] = GG_XS[_sp['id']]   # 公館四間新店（AA_647）
+        if _sp['id'] == 'G11': _sp.update(wall='plaster', color='#ece5d8', balcony=False, xs_up=[dict(f=1, x0=-4.5, x1=4.5, y0=GH + 0.75, y1=GH + 2.95, tex='ggfn_up', pane=1.5, frame='#c9a86a')])   # 花序：一、二樓都是店（二樓花藝教室整排玻璃），樓上照舊是公寓
         if _i in _VT: _t = _VT[_i]; _sp['vtenant'] = dict(vertical=_t[0], vBg=_t[1], vColor=_t[2], vBand=_t[2], len=_t[3], vatlas=_VTA.get(_i))
-        if _i in _S2: _t = _S2[_i]; _sp['sign2f'] = dict(sign=_t[0], sub=_t[1], bg=_t[2], color=_t[3], band=_t[4], atlas=_S2A.get(_i))
+        if _i in _S2 and _i != 11: _t = _S2[_i]; _sp['sign2f'] = dict(sign=_t[0], sub=_t[1], bg=_t[2], color=_t[3], band=_t[4], atlas=_S2A.get(_i))
         if _i in _RS: _t = _RS[_i]; _sp['roofsign'] = dict(sign=_t[0], sub=_t[1], bg=_t[2], color=_t[3], band=_t[4], atlas=_RSA.get(_i))
         if _i == 0: _sp['side_wins'] = '+x'   # 麵店西側（朝往溫州街的巷子）開窗
         SPECS.append(_sp); _x = _X1
@@ -381,7 +395,7 @@ if SET == 'tingzhou':
                       cards=[('tztai_winl', -3.6, -0.5, 0.95, 2.75, 0.8, [-2.05]), ('tztai_door', -0.4, 0.7, 0.0, 2.75, 0.8), ('tztai_winr', 0.85, 3.55, 0.95, 2.65, 0.8, [2.2])], open=('tztai_door',),
                       decals=[('tztai_menu', -3.6, -0.5, 0.2, 0.86, 0.03)],
                       props=[('pot', -3.75, 0.35, 'broad'), ('pot', 1.1, 0.4, 'fern')]),
-        'xile': dict(dep=3.0, wallc='#f2f2ee', frame='alu', street='tzxile_sign', street_fit=5.6, street_lit=True,   # 洗樂洗衣坊：淺天藍燈箱；鋁框大玻璃，左一排洗衣機、中間折衣桌、右邊上下疊的烘衣機；騎樓木長椅、盆栽
+        'xile': dict(dep=3.0, wallc='#f2f2ee', frame='alu', street='tzxile_sign', street_fit=5.6, street_lit=True, keep=('bench',),   # 洗樂洗衣坊：淺天藍燈箱；鋁框大玻璃，左一排洗衣機、中間折衣桌、右邊上下疊的烘衣機；騎樓木長椅、盆栽
                      cards=[('tzxile_int', -2.65, 2.65, 0.12, 2.7, 0.8, [-1.3, 0.1, 1.05])], props=[('pot', -2.45, 0.4, 'broad')]),
         'yindehao': dict(dep=3.0, wallc='#e8e6e0', frame='alu', street='tzyin_sign', street_fit=6.1, street_lit=True,   # 印得好：深灰藍招牌；左窗（輸出樣張、色票、窗台的裝訂樣本）、中間玻璃雙開門（影印機、櫃台）、右窗（海報、門外的樣本架）
                          cards=[('tzyin_winl', -2.95, -0.8, 0.12, 2.7, 0.8), ('tzyin_door', -0.7, 0.75, 0.0, 2.7, 0.8, [0.02]), ('tzyin_winr', 0.85, 2.95, 0.12, 2.7, 0.8)],
@@ -869,7 +883,7 @@ def apartment(spec):
             wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(not far and kind_ != 'grille' and rng.random() < 0.5), ac=(not far and rng.random() < spec.get('p_ac', 0.65)), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
     for u in spec.get('xs_up', []):   # 新生南路：照參考圖的整排窗（蓋掉那一層這一段原本的窗）
         wins = [w for w in wins if not (w['f'] == u['f'] and w['x'] + ww / 2 > u['x0'] - 0.3 and w['x'] - ww / 2 < u['x1'] + 0.3)]
-        wins.append(dict(f=u['f'], x=(u['x0'] + u['x1']) / 2, w=u['x1'] - u['x0'], y0=u['y0'], y1=u['y1'], kind='xs', tex=u['tex'], solid=u.get('solid'), blank=u.get('blank'), tiles=u.get('tiles'), pane=u.get('pane', 1.4), hood=False, ac=False, lit=True, acs=1))
+        wins.append(dict(f=u['f'], x=(u['x0'] + u['x1']) / 2, w=u['x1'] - u['x0'], y0=u['y0'], y1=u['y1'], kind='xs', tex=u['tex'], frame=u.get('frame'), solid=u.get('solid'), blank=u.get('blank'), tiles=u.get('tiles'), pane=u.get('pane', 1.4), hood=False, ac=False, lit=True, acs=1))
     if spec.get('xs', {}).get('panel'):   # 日常失速：二樓窗下就是招牌，那一層不掛冷氣、雨遮（原本冷氣蓋住「OFFBEAT」）
         for w in wins:
             if w['f'] == 1: w['ac'] = False; w['hood'] = False

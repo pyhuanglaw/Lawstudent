@@ -36,6 +36,15 @@ check('0. 樓梯的數字對得起來：階數 × 階高＝樓高、階數 × �
   if(door){ const p=standNear(door); check('1. 門口站得住',!!p,JSON.stringify(p));
     const o=[FN3.GG.cx,FN3.GG.outZ,0]; check('1. 從花序出來站的地方站得住（G11 門前的人行道）、走得回門口',stand(o[0],o[1],0)&&!!p&&walk(o,p).ok,JSON.stringify(o)); } }
 
+// ---------- 舊花攤拿掉、G11 門前沒有柱子（B 件）----------
+{ const z=loadZone('gongguan'); const stall=E.interactables.filter(i=>i.kind==='gg_flower'), cx=FN3.GG.cx;
+  check('1b. 公館沒有舊花攤了：沒有 kind gg_flower 的互動點、資產清單沒有 bldg.gg_flower_stall、原本攤子的位置 (−47, 11.7) 走得過去',!stall.length&&!ASSETS.manifest['bldg.gg_flower_stall']&&stand(-47,11.7,0)&&!fs.existsSync(path.join(ROOT,'assets/models/env/second_ai/gg_flower_stall.glb')),stall.map(i=>i.label).join(' '));
+  check('1b. G11 店門正前面沒有騎樓柱（中間那根拿掉；兩邊分界的柱子照舊）',stand(cx,19.3,0)&&stand(cx,20.2,0)&&!stand(cx-5,19.3,0),'cx '+cx);
+  let J=null; try{ J=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gongguan_shops.props.json'),'utf8')); }catch(e){}
+  let imgs=[]; try{ const d=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gongguan_shops.glb')), jl=d.readUInt32LE(12); imgs=(JSON.parse(d.slice(20,20+jl).toString('utf8')).images||[]).map(i=>i.name); }catch(e){}
+  const src=fs.readFileSync(path.join(ROOT,'tools/blender/env_second/textures/gen/gg_fronts_atlas.json'),'utf8');
+  check('1b. 公館店面街的貼圖集有花序外觀（招牌、二樓、櫥窗、門）和三間的招牌（安泰、汀州鮮果、榮恩典）',['ggfn_sign','ggfn_up','ggfn_winl','ggfn_door','ggfn_winr','ggantai_sign','ggfruit_sign','ggrong_sign'].every(k=>src.includes('"'+k+'"'))&&imgs.some(n=>/gg_fronts_atlas/.test(n)),imgs.filter(n=>/fronts/.test(n)).join(' ')); }
+
 // ---------- 花序 ----------
 { const z=loadZone('flower_notes'); const N0=z.levels[0], N1=z.levels[1], SP=[L.spawn.x,L.spawn.z,0];
   check('2. 兩層導航格（第 1 層地板 3.9）、同尺寸同原點',z.levels.length===2&&N1.y0===Y1&&N0.cols===N1.cols&&N0.rows===N1.rows&&N0.ox===N1.ox&&N0.oz===N1.oz);

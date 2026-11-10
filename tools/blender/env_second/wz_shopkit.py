@@ -1246,7 +1246,7 @@ def xs_window(spec, xf, w):
     if w.get('blank'): xf.box(acc(frame_mat(spec.get('color', '#d9cbb0'))), x0, x1, y0 - 0.01, y1 + 0.01, -0.25, -0.005); return   # 這一段不開窗（牆補起來）
     if w.get('solid'):
         xf.box(acc(M['gwall']), x0, x1, y0, y1, -0.25, -0.01); _xq(xf, w['tex'], x0, x1, y0, y1, 0.004, tiles=1); return
-    fr = acc(frame_mat(w.get('frame', '#2a2a28')))
+    fr = acc(frame_mat(w.get('frame') or '#2a2a28'))
     _xq(xf, w['tex'], x0, x1, y0, y1, -0.55, tiles=w.get('tiles'))
     xf.box(acc(frame_mat('#e8e2d6')), x0, x1, y0 - 0.02, y0, -0.55, -0.1); xf.box(acc(frame_mat('#e8e2d6')), x0, x1, y1, y1 + 0.02, -0.55, -0.1)
     xf.quad(acc(M['glass']), [(x0, y0, -0.1), (x1, y0, -0.1), (x1, y1, -0.1), (x0, y1, -0.1)])
@@ -2083,7 +2083,7 @@ def arcade_front_v2(spec, xf, W, wall):
     for (cn, x, y, w, h) in ([] if XSM else sf.get('notes', [])): note(xf, cn, x, y, w, h, gz + (0.32 if kind == 'tea' else 0.03))
     # 騎樓裡貼著店面玻璃的雜物（ART-WZ0 第三批，LAWWW2 10-21；7b-2 第 1 條：騎樓兩樣東西）：玻璃前 0.7 m 內、避開店門和店門口的互動點；
     # 人走的地方：zones3d.js 的 gongguan 照 gongguan_shops.props.json 的腳印擋住那幾格（tests/street_props_nav_unit.js），騎樓照樣整排走得通
-    for it in ([] if XSM else sf.get('clutter', [])):   # 公館四間新店：門口的東西照參考圖（gg_front 的 props）
+    for it in ([c for c in sf.get('clutter', []) if c[0] in XSM.get('keep', ())] if XSM else sf.get('clutter', [])):   # keep＝照參考圖的店面也要留著的騎樓雜物（G08 子晴坐的紅凳子和插座：ZQ-ARCADE-SEAT-1028；洗樂的木長椅）   # 公館四間新店：門口的東西照參考圖（gg_front 的 props）
         k, x, zc = it[0], it[1], it[2]; zz = gz + zc
         if k == 'aboard': aboard(xf, x, zz, it[3] if len(it) > 3 else 'chalk')
         elif k == 'outlet': inst(PROTO['outlet' + ('_z' if len(it) > 4 and it[4] == 'z' else '')], f'sk_outlet_{spec["id"]}', xf, x, it[3] if len(it) > 3 else 0.35, zz)   # 柱子、牆上離地的東西（inst 只替地上的東西登記腳印：不擋路）

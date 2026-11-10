@@ -89,7 +89,7 @@ const Z3 = (function(){
   /* 正式街景模型門口、騎樓裡的雜物：人貼牆走會穿過去的那幾個，模型接上以後才擋住那幾格（ART-WZ0，LAWWW2 10-21；套件備用模型沒有這些雜物，不能先擋，不然是看不見的牆）。
      [x, z, 寬, 深]＝wenzhou_street.props.json／gongguan_shops.props.json 的腳印（wz_street.py 建模時寫出來）；pad 半格（blockRect 只擋格子中心在範圍裡的）。改了 Blender 的雜物要跟著改，tests/street_props_nav_unit.js 會抓 */
   const WZ_PROP_BLOCKS=[[-1.82,5.02,0.83,0.83],[-21.9,-4.9,0.6,0.46],[22.73,-7.6,1.46,0.44],[29.5,-7.5,0.6,0.44],[-37.2,-3.02,0.8,0.64],[-37.23,-3.5,0.63,0.61],[-36.78,-8.5,0.5,0.66]];   /* A2 公寓門邊盆栽、B1 鐵捲門前紙箱、B5 茶飲騎樓回收桶、冰菓室 A 字立牌、W0 兩個盆栽、日常失速門口的 A 字立牌（WZ-OFFBEAT-1104） */
-  const GG_PROP_BLOCKS=[[15.6,19.8,0.34,0.34],[-58.0,21.65,0.34,0.34],[-58.6,21.65,0.34,0.34],[-66.23,21.65,1.46,0.44],[-17.0,21.65,0.6,0.44],[-15.2,21.7,0.6,0.46],[-22.12,21.71,0.82,0.68],[21.4,21.56,2.2,1.09],[17.0,21.7,0.6,0.46],[27.7,21.65,1.4,0.36],[25.1,21.57,0.9,0.74],[40.3,21.57,0.9,0.74],[38.9,21.7,0.6,0.46],[46.4,21.6,0.6,0.44],[43.0,21.7,0.52,0.54],[50.9,21.7,0.25,0.26],[63.7,21.6,0.6,0.44],[62.7,21.7,0.25,0.26],[60.48,21.71,0.77,0.58],[-51.3,21.5,0.64,0.48],[-38.0,21.5,0.64,0.48],[-1.75,21.45,0.64,0.48],[-35.17,21.75,0.75,0.35],[-32.74,21.75,0.83,0.4],[-32.03,21.75,0.53,0.4],[-33.63,21.8,0.89,0.7],[-4.25,21.75,0.3,0.3],[-49.63,21.69,0.7,0.83],[-48.89,21.6,0.65,0.65],[-46.96,21.65,0.65,0.65],[-38.78,21.7,0.85,0.79],[-27.8,21.66,0.53,0.5],[-9.3,21.5,0.64,0.48],[75.7,21.5,0.64,0.48],[9.55,21.88,1.4,0.35],[52.6,21.85,0.8,0.4],[-13.3,21.8,0.7,0.4],[6.06,21.65,0.58,0.56],[51.69,21.67,0.82,0.68],[69.16,21.6,0.61,0.62],[76.95,21.66,0.55,0.58]];   /* 公館騎樓 14 間店玻璃前的雜物（G06 腳踏車行的車另外擋） */
+  const GG_PROP_BLOCKS=[[15.6,19.8,0.34,0.34],[-58.0,21.65,0.34,0.34],[-58.6,21.65,0.34,0.34],[-66.23,21.65,1.46,0.44],[27.7,21.65,1.4,0.36],[25.1,21.57,0.9,0.74],[40.3,21.57,0.9,0.74],[38.9,21.7,0.6,0.46],[-51.3,21.5,0.64,0.48],[-38.0,21.5,0.64,0.48],[-1.75,21.45,0.64,0.48],[-35.17,21.75,0.75,0.35],[-32.74,21.75,0.83,0.4],[-32.03,21.75,0.53,0.4],[-33.63,21.8,0.89,0.7],[-4.25,21.75,0.3,0.3],[-49.63,21.69,0.7,0.83],[-48.89,21.6,0.65,0.65],[-46.96,21.65,0.65,0.65],[-38.78,21.7,0.85,0.79],[-27.8,21.66,0.53,0.5],[-9.3,21.5,0.64,0.48],[75.7,21.5,0.64,0.48],[9.55,21.88,1.4,0.35],[52.6,21.85,0.8,0.4],[-13.3,21.8,0.7,0.4],[6.06,21.65,0.58,0.56],[51.69,21.67,0.82,0.68],[69.16,21.6,0.61,0.62],[76.95,21.66,0.55,0.58],[47.84,21.55,0.74,0.73],[45.35,21.54,0.74,0.73]];   /* 公館騎樓 14 間店玻璃前的雜物（G06 腳踏車行的車另外擋） */
   function propBlocks(nav,list){ for(const [x,z,w,d] of list) nav.blockRect(x,z,w,d,0,0.25); }
   /* 正式模型載好才擋的雜物（盆栽、立牌…）擋好以後：玩家剛好站在擋到的地方就挪到最近站得住的地方（V7-RELOCATE-1104，BB-C 11-04 18:01：v7 舊存檔讀進公館，
      出生點照「模型還沒載好」的導航格找在 (−8.75, 20.75)；一兩秒後模型載好、頁間門口的盆栽（GG_PROP_BLOCKS (−9.3, 21.5)，01505ccd0）擋在旁邊，人站不住）。
@@ -944,7 +944,7 @@ const Z3 = (function(){
     const ggGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.gongguan_shops']; const ggTag=(b,id)=>{ b.userData.ggShop=id; if(ggGLB) b.userData.dyn=true; };
     let x=-68; shops.forEach((s,i)=>{ const last=i===shops.length-1; const X0=x, X1=x+s.w+(i<8&&!last?1.2:0), W=X1-X0, cx=(X0+X1)/2;
       // 柱子（TK 區域座標；建築轉 180°，區域 +x＝世界西側）：西邊分界一根；沒有互動的寬店面中間再一根（有互動的店門口前面不放柱子）；最後一間另加東邊盡頭
-      const pl=[W/2]; const nb=(s.type==='none'&&![5,7,12,14].includes(i))?Math.max(1,Math.round(W/5)):1;   /* 第二批四間（AA_650：洋洋、Afar、轉角、Daybreak）變成進得去的店：店門前不放中間那根柱子（和 wz_street.py 的 gongguan_shops 一樣）*/ for(let k=1;k<nb;k++) pl.push(W/2-k*W/nb); if(last) pl.push(-W/2);
+      const pl=[W/2]; const nb=(s.type==='none'&&![4,5,7,8,11,12,13,14].includes(i))?Math.max(1,Math.round(W/5)):1;   /* 第二批四間（AA_650：洋洋、Afar、轉角、Daybreak）變成進得去的店：店門前不放中間那根柱子（和 wz_street.py 的 gongguan_shops 一樣）*/ for(let k=1;k<nb;k++) pl.push(W/2-k*W/nb); if(last) pl.push(-W/2);
       const b=TK.apartment({w:W,d:SHOPD,floors:4+((i*5)%4),fh:3.1,groundH:GH,wall:WALLT[i%4],color:WALLC[i%7],balcony:i%3===1,tank:i%2===0,roofAdd:i%5===3,ground:{type:'arcade',through:true,pillars:pl,shop:{type:s.it,name:s.n,sub:s.sub,signBg:s.c,signColor:s.sc||'#ffffff',band:s.band,vertical:s.v,vBg:'#ffffff',vColor:s.c,vBand:s.c}}});
       b.position.set(cx,0,FZ); b.rotation.y=Math.PI; g.add(b); buildings.push(b); ggTag(b,'G'+String(i).padStart(2,'0'));
       for(const lx of pl) nav.blockRect(cx-lx,FZ+0.3,0.55,0.55,0,0.1);
@@ -1066,15 +1066,8 @@ const Z3 = (function(){
     for(let i=0;i<9;i++){ const l=W3.lampPost(); place(g,l,-63+i*18,-31.4,0); lamps.push(l); nav.blockCircle(-63+i*18,-31.4,0.5); /* 北側路燈原本在 z=-24（馬路的車道上），移到人行道邊 */ const l2=W3.lampPost(); place(g,l2,-63+i*18,5,Math.PI); lamps.push(l2); nav.blockCircle(-63+i*18,5,0.5); }
     for(let i=0;i<6;i++){ const t=TREE(0.9); place(g,t,-65+i*26,-36,0); nav.blockCircle(-65+i*26,-36,0.7); }
     nav.blockRect(-30,15.1,7.2,1.0,0); for(const fx of [-34.2,-25.8,-25.0]) nav.blockCircle(fx,15.1,0.25);   /* 捷運出口東邊的 GONGGUAN 花台、三朵藍色小花（bldg.gongguan_far；夾在路人 z 16.5、(−40,14.5)→(0,10) 兩條路線中間） */
-    /* 捷運站口的花攤「晨露花舖」（GG-FLOWER-STALL-1110，LAWWW2 帳號 A；GIFT-HOLIDAY-1110 AA_732 的 gg_flower「公館站口花攤」：花束、向日葵，09:00～21:00）：
-       正式模型 gg_flower_stall.glb（tools/blender/env_second/gg_flower_stall.py；公館區域座標、放在原點），位置、阻擋、互動點照 gg_flower_stall.json——
-       捷運出口西邊的人行道 (−47, 11.6)，正面朝騎樓；東邊離捷運出口的阻擋 2.6 m、路人 (−60,10)→(−48,14.5) 在攤子前 2 m。
-       互動點 kind＝gg_flower（買花：GIFTH.shopOpt(G,'gg_flower')／GIFTH.pick 由 LAWWW 接；沒接之前是「看」）。雨棚下的燈泡 ggf_lit_bulb 晚上亮 */
-    { const FL={cx:-47,cz:11.725,w:2.9,d:2.05,ix:-47.2,iz:13.45}; nav.blockRect(FL.cx,FL.cz,FL.w,FL.d,0);
-      E.interactables.push({x:FL.ix,z:FL.iz,radius:1.3,label:'看看花攤',kind:'gg_flower',look:'晨露花舖：捷運站口的小花攤。鋅桶裡插著玫瑰、向日葵、滿天星，老闆在旁邊的工作台用牛皮紙包花束。'});
-      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gg_flower_stall']) ASSETS.loadOne('bldg.gg_flower_stall').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name='gg_flower_stall_glb';
-        r.traverse(o=>{ if(!o.isMesh) return; o.receiveShadow=true; const mn=(o.material&&o.material.name)||''; o.castShadow=!/^ggf_(lit_|cellophane)|leaf|fern|broad/.test(mn); if(/^ggf_lit_/.test(mn)&&!o.material.userData.nightReg){ o.material.userData.nightReg=true; if(TK.addNight) TK.addNight(o.material,1.6,0); } });
-        g.add(r); }).catch(e=>console.warn('公館花攤正式模型載入失敗（攤子沒有畫面，阻擋與互動照舊）',e)); }
+    /* 捷運站口的花攤「晨露花舖」（GG-FLOWER-STALL-1110）拿掉了：使用者 2026-11-10（X325）升級成 G11 的雙層花藝店「花序 Flower Notes」（區域 flower_notes，src/flower_notes3d.js），舊花攤完全取代——
+       阻擋、互動點、模型載入一起拿掉；買花的互動點 kind gg_flower 搬到花序一樓的收銀櫃檯前。 */
     // 集合點：公館圓環意象（小廣場）
     { const c=new THREE.Mesh(new THREE.CylinderGeometry(3,3,0.3,24),M('#d9cbb0')); c.position.set(22,0.15,11.5); g.add(c); nav.blockCircle(22,11.5,3.2); const tree=TREE(1.2); place(g,tree,22,11.5,0); }
     /* 公館往溫州街的巷口拿掉（WZ-ENTRY-XINSHENG-1103；使用者 X199，11-03 選擇題：「溫州街主要入口應該是新生南路側門 溫州街就在新生南路後面」、公館那頭的巷口「拿掉」）：
