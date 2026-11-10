@@ -51082,7 +51082,7 @@
    "id": "BULLETIN-BOARD-1110",
    "title": "公告欄看得到社團社課時間、特殊活動、學生會迎新、社團徵人",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -51094,7 +51094,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:34 AA-B 交班】還沒開工；AA 打算：迎新派對做成活動（每年上學期第 2 週週五、綜合體育館）、特殊活動清單，寫在 AA_交接紀錄 B 類，下一班 AA 接。 ｜ 【11-10 01:5x LAWWW-B】使用者 X295。公告欄互動＝打開「本週公告」：照 ACTIVITIES 列這週的社課、講座、活動（時間、地點）、招生中的社團；AA 寫公告的標題、迎新派對要不要做成活動（AA 決定，D109）。",
+   "next": "【LAWWW 11-10 09:0x】AA_737（2a1c30dc6）接進開發分支：公告欄三區分頁、招生海報、lateJoin、四個特殊活動（gym (0,8.6)、campus (30,−8)、boya 101、campus (−14.5,10.5)）；bulletin_board_1110_unit 改前 FAILED 37／45→ALL PASS、相關 41 支 ALL PASS；待 AA 確認：園遊會日期照現有校慶擺攤日（大二起第 10 週）、「期中考完」那句（D118）、lateJoin 和 AA_613 2-4 的調整；CC 在 PC 跑 6 項｜【11-10 01:34 AA-B 交班】還沒開工；AA 打算：迎新派對做成活動（每年上學期第 2 週週五、綜合體育館）、特殊活動清單，寫在 AA_交接紀錄 B 類，下一班 AA 接。 ｜ 【11-10 01:5x LAWWW-B】使用者 X295。公告欄互動＝打開「本週公告」：照 ACTIVITIES 列這週的社課、講座、活動（時間、地點）、招生中的社團；AA 寫公告的標題、迎新派對要不要做成活動（AA 決定，D109）。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
