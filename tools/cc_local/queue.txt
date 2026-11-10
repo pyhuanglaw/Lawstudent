@@ -310,4 +310,7 @@ XSGATE_old | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_plann
 # ③ X186 橘貓：07:00 跳下、日落跳上、21:00 趴著；跳的那段每 0.1 秒記 body 骨頭位置（不是瞬移）、各拍開始／中間／落地
 WZCAT_new | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_planning/test_tools/cc/cc_wzcat_jump_probe.py | index.html | 20 | TAG=new
 WZCAT_old | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_wzcat_jump_probe.py | index.html | 20 | TAG=old
+# BB 14:39 美國篇 ART 巡拍（排在橘貓後面；第一批公寓＋社區＋校園，第二批法圖＋超市＋超市街＋季節）
+US_ART_1 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_outside,us_apartment,us_campus
+US_ART_2 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_lawlib,us_market,us_market_street;SEASON=1
 
