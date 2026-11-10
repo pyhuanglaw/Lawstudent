@@ -51362,17 +51362,17 @@
     "parallel": true,
     "confirmed": true
    },
-   "sha": null,
+   "sha": "aec7f851c",
    "id": "SHIFT-TREAT-1110",
    "title": "可以攻略的對象打工時專屬的劇情：主動招待、很開心你來（使用者 11-10 X302）",
-   "status": "進行中",
-   "next": "【LAWWW 11-10 14:3x】AA_739（企劃線 5eff96441）交稿：芷若（Café）、語彤（一盞）在班時的專屬反應＋招待（朋友第 3 次起每 3 次隔 7 天、交往每 2 次隔 5 天，rel +1，T3 不扣錢）；LAWWW 子代理實作中。 ｜ 【11-10 03:2x LAWWW-B】AA：芷若（Café）、語彤（一盞）等打工中的女主角，玩家來店裡時的專屬反應（招待一樣東西、很開心你來；頻率、關係門檻）；LAWWW 實作。xai 照 D84。",
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 15:0x】已整合（bbb0db1e0＋aec7f851c，AA_739 dc607dd90；src/shifttreat3d.js、data/shift_treat.js、tests/shift_treat_unit.js ALL PASS）；AA 確認四處解讀、語彤 T3 第一句改進店版；BB 排瀏覽器（芷若 Café 吧檯、語彤一盞打工時走進店裡兩秒後演；朋友以上招待；T3 那次不扣錢）。 ｜ 【LAWWW 11-10 14:3x】AA_739（企劃線 5eff96441）交稿：芷若（Café）、語彤（一盞）在班時的專屬反應＋招待（朋友第 3 次起每 3 次隔 7 天、交往每 2 次隔 5 天，rel +1，T3 不扣錢）；LAWWW 子代理實作中。 ｜ 【11-10 03:2x LAWWW-B】AA：芷若（Café）、語彤（一盞）等打工中的女主角，玩家來店裡時的專屬反應（招待一樣東西、很開心你來；頻率、關係門檻）；LAWWW 實作。xai 照 D84。",
    "xai": {
     "spec": "USER_WANTS X302",
     "branch": "claude/cool-heisenberg-o8kuqx（AA 企劃線）",
     "acceptance": "她在班時玩家進店有專屬反應（至少招待／開心兩種）、不每次都演",
     "receiver": "LAWWW",
-    "ack": "未派"
+    "ack": "ACTIONED"
    }
   },
   {
