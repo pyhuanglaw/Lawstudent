@@ -15,7 +15,7 @@
   只 check：進得了那個區域、窗景卡找得到、截圖有存；美術像不像 BB 判（不判 PASS／FAIL）。21:00 店關了：讀檔放得進去就照拍，放不進去寫 INFO。
   輸出：<out>/winview_audit.json（每間：zone、窗的位置朝向、窗景卡網格名／貼圖網址、店內站位、街上站位、截圖檔名）＋截圖 wv_<key>_*.png；拼圖用 cc_winview_montage.py（雲端，PIL）。
   Windows＋GPU／SwiftShader ≠ iPhone。
-用法：LW_TESTS=<wt>/tests [SHOPS=gen5,xs_shanlan,...] [HOURS=14,21] [DAY=2025-10-18] [MAXCARDS=2] [STREET_OWN=0] [WAIT=9000] python3 cc_winview_audit_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests [SHOPS=gen5,xs_shanlan,...] [HOURS=14,21] [DAY=2025-10-18] [MAXCARDS=2] [STREET_OWN=0] [WAIT=9000] [LENS=18] python3 cc_winview_audit_probe.py <url> <out>"""
 import os, sys, json, math, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
@@ -33,6 +33,7 @@ HOURS = [float(h) for h in (os.environ.get('HOURS') or '14,21').split(',') if h.
 MAXCARDS = int(os.environ.get('MAXCARDS') or 2)
 STREET_OWN = os.environ.get('STREET_OWN', '0') == '1'
 WAIT = int(os.environ.get('WAIT') or 9000)
+LENS = float(os.environ.get('LENS') or 18)   # 店裡往窗外的鏡頭：18＝水平 90°（和窗景照片同一個視角；11-10 試跑 22 太窄、只看到窗台）
 STREETS = ('gongguan', 'wenzhou', 'xinsheng', 'lane118', 'campus')
 
 # (key, 區域, 店名, 群組)
@@ -257,11 +258,11 @@ async def do_shop(pg, cdp, key, zone, name, group):
                 R.note('%s INFO：%05.2f 讀檔放不進 %s（%s；可能打烊）→ 不拍' % (vt, h, zone, J(s))); vrec['shots'][tn] = None; continue
             await clear_ui(pg, cdp)
             if not v['virtual']:
-                await pg.evaluate(D.CAM, {'eye': eye, 'look': look, 'lens': 22}); cc = await wait_tex(pg, 10000); await pg.evaluate(D.UNCAM)
+                await pg.evaluate(D.CAM, {'eye': eye, 'look': look, 'lens': LENS}); cc = await wait_tex(pg, 10000); await pg.evaluate(D.UNCAM)
                 now = next((x for x in cc if x['name'] == c['name'] and abs(x['c'][0] - c['c'][0]) < 0.3 and abs(x['c'][2] - c['c'][2]) < 0.3), None)
                 R.note('%s %05.2f 這片卡現在：%s' % (vt, h, J(now and {k: now[k] for k in ('vis', 'url', 'photoOn', 'loaded')})))
                 vrec.setdefault('url_by_hour', {})[tn] = now and now['url']
-            vrec['shots'][tn] = await ushot(pg, 'wv_%s%s_%s' % (key, sfx, tn), {'eye': eye, 'look': look, 'lens': 22})
+            vrec['shots'][tn] = await ushot(pg, 'wv_%s%s_%s' % (key, sfx, tn), {'eye': eye, 'look': look, 'lens': LENS})
         rec['views'].append(vrec)
     # 門口外面的街景（14:00）：出店落點，鏡頭朝窗戶往外的方向（店裡 → 街上照門的方向轉 90° 的倍數）
     if group != 'own' or STREET_OWN:
