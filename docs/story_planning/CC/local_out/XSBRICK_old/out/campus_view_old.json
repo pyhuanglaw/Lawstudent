@@ -1,0 +1,82 @@
+{
+ "brick_down14": {
+  "yaw": 0,
+  "dist": 3,
+  "cam": [
+   13.2,
+   2.3,
+   7.93
+  ],
+  "player": [
+   13.2,
+   0,
+   5
+  ],
+  "zone": "xinsheng",
+  "hour": 14.09
+ },
+ "brick_along14": {
+  "yaw": 0,
+  "dist": 3,
+  "cam": [
+   13.2,
+   2.3,
+   4.93
+  ],
+  "player": [
+   13.2,
+   0,
+   2
+  ],
+  "zone": "xinsheng",
+  "hour": 14.1
+ },
+ "brick_down20": {
+  "yaw": 0,
+  "dist": 3,
+  "cam": [
+   13.2,
+   2.3,
+   7.93
+  ],
+  "player": [
+   13.2,
+   0,
+   5
+  ],
+  "zone": "xinsheng",
+  "hour": 20.6
+ },
+ "brick_along20": {
+  "yaw": 0,
+  "dist": 3,
+  "cam": [
+   13.2,
+   2.3,
+   4.93
+  ],
+  "player": [
+   13.2,
+   0,
+   2
+  ],
+  "zone": "xinsheng",
+  "hour": 20.6
+ },
+ "brick_close14": {
+  "yaw": 0,
+  "dist": 3,
+  "cam": [
+   13.2,
+   2.3,
+   7.93
+  ],
+  "player": [
+   13.2,
+   0,
+   5
+  ],
+  "zone": "xinsheng",
+  "hour": 14.1
+ }
+}
