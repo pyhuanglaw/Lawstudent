@@ -44753,7 +44753,7 @@
    "priority": "P1",
    "title": "坐著的人有各種樣子＋桌上有東西（筆電、平板、滑手機、看書、寫筆記；咖啡廳、圖書館、店裡座位；USER_WANTS X217）",
    "status": "進行中",
-   "next": "子代理實作：照 desk_props.glb 的 rset／tset／lset 組＋hold_phone，路人與有名字的人坐下讀書時配一種；平板模型請 BB／CC（X215）或 LAWWW2 做",
+   "next": "【待查，loose 11-10 抓到】原本寫「子代理實作」但沒有結果紀錄（前一個帳號留下的）；LAWWW 下一批查程式裡有沒有（desk_props 的 rset／tset／lset、hold_phone），有就補 SHA、沒有就重新排。原文：子代理實作：照 desk_props.glb 的 rset／tset／lset 組＋hold_phone，路人與有名字的人坐下讀書時配一種；平板模型請 BB／CC（X215）或 LAWWW2 做",
    "xai": {
     "spec": "使用者 11-04 06:2x 對 LAWWW",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -53173,6 +53173,25 @@
    "resumeWhen": "使用者確認位置和付費那一題、說可以實作",
    "recheckOn": "2026-11-13",
    "next": "方案 11-10 23:1x 已回使用者；AA 把 AA_750 縮成四類短事件的台詞草案（提案）"
+  },
+  {
+   "id": "HANDOFF-LOOSE-1110",
+   "title": "D148 交班規則：做過的不能不見——FACTS.md、check_handoff.py loose、子代理當回合合併、說「沒有」以前先查、交班 G 類（X333）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "交接",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "四個職位把自己知道的「已經有的東西」各交幾行進 FACTS.md；loose 補單元測試；下次換班實際用一次"
   }
  ]
 }
