@@ -18,6 +18,7 @@ CASES＝bag,profile,shanlan（預設全跑）；ORIENT＝portrait,landscape（ba
   面板裡看得到的文字 Range rect 兩兩重疊（排除祖先／子孫、只算卡片可見範圍內）。
 預期：改前（fda54d616）沒有這些功能＝各段 FAIL；改後 PASS（既有樣式的問題照實 FAIL，不放寬）。
 Playwright 手機模擬（SwiftShader、390×844／844×390）≠ iPhone 實機：safe-area、字型、手指大小、真的滑動慣性都沒驗證。
+GUI_fix（BB 11:36，LAWWW 0ec32e6f6）加兩項：shanlan 開演時距離 ≥0.6 m（剛出現台詞、1.5 秒後各量一次；朝向只記錄）；bag 店名沒有「新」。分頁 44px 原本就量（judge_btn）。
 用法：LW_TESTS=<wt>/tests TAG=new|old [CASES=bag,profile,shanlan] [ORIENT=portrait,landscape] [SL_ORIENT=landscape] python3 cc_gift_ui_probe.py <url> <out>
 其他 ENV：BAG_DAY（預設 2025-10-18，週六但在 2026-02 以前＝學姊不在）BAG_HOUR（14）PROF_DAY（2026-03-10）SL_POS／SL_EVEN／SL_JAN（YYYY-MM-DD，覆寫自動挑的日期）SL_NEG_WALK（even｜all｜none，預設 even）"""
 import os, sys, json, asyncio, math, time
@@ -47,6 +48,9 @@ ST = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, D=GAME.D; const ch
   return {zone:GAME.G.zone, x:+o.x.toFixed(2), z:+o.z.toFixed(2), lv:P.lv|0, busy:!!P.busy, dlg:!!(D&&D.active), typing:!!(D&&D.typing), full:D?(D.full||''):'', name:(dn&&vis(document.getElementById('dlg')))?(dn.textContent||'').trim():'',
     choices, interact:vis(it)?(it.textContent||'').trim().slice(0,24):'', fb:GAME.walkFallbacks||0, hour:+(+GAME.G.hour).toFixed(2), day:GAME.G.day, money:GAME.G.money|0,
     menu:vis(document.getElementById('menu')), phone:vis(document.getElementById('phone'))}; })()"""
+FACE_JS = """(()=>{ const N=GAME.npc||{}; const n=N.heroine_05||N.sis, P=GAME.E.player.obj; if(!n||!n.obj) return {d:null};
+  const a=P.position, b=n.obj.position, d=Math.hypot(a.x-b.x,a.z-b.z); const ang=(o,f,t)=>{ const want=Math.atan2(t.x-f.x,t.z-f.z); let x=((o.rotation.y-want)*180/Math.PI)%360; if(x>180)x-=360; if(x<-180)x+=360; return +x.toFixed(0); };
+  return {d:+d.toFixed(2), player:[+a.x.toFixed(2),+a.z.toFixed(2)], her:[+b.x.toFixed(2),+b.z.toFixed(2)], playerFaceOff:ang(P,a,b), herFaceOff:ang(n.obj,b,a)}; })()"""
 NPC_JS = """(([sx,sz])=>{ const N=GAME.npc||{}; const n=N.heroine_05||N.sis; if(!n||!n.obj) return {here:false, ids:Object.keys(N)};
   const p=n.obj.position; return {here:true, x:+p.x.toFixed(2), z:+p.z.toFixed(2), lv:n.lv|0, d:+Math.hypot(p.x-sx,p.z-sz).toFixed(2), hidden:!!n.hidden, pose:n.pose||'', ids:Object.keys(N)}; })"""
 
@@ -259,6 +263,10 @@ async def bag_case(pg, cdp, orient):
         R.check('%s 標題「包包裡的禮物（%d/%d）」' % (ptag, len(ids), MAXBAG), ('包包裡的禮物（%d/%d）' % (len(ids), MAXBAG)) in txt, txt[:80])
         R.check('%s 每一樣都列出來（%s）' % (ptag, '、'.join(names)), all(n in txt for n in names), J([n for n in names if n not in txt]))
         R.check('%s 「她送的」列出 %s' % (ptag, '、'.join(r['item'] for r in RECV)), '她送的' in txt and all(r['item'] in txt for r in RECV), txt[-160:])
+        newtag = await pg.evaluate(r"""[...document.querySelectorAll('#itemsList .item')].map(e=>(e.innerText||'').split('\n')).filter(ls=>ls.some(l=>/[（，、]新[）]|（新）/.test(l))).map(ls=>ls.join(' / '))""")
+        tabs = await pg.evaluate("[...document.querySelectorAll('#menu [data-tab]')].filter(e=>e.offsetParent!==null).map(e=>{ const r=e.getBoundingClientRect(); return [(e.innerText||'').trim(), Math.round(r.width), Math.round(r.height)]; })")
+        R.check('%s 選單所有分頁按鈕高 ≥44 px（%s）' % (ptag, '、'.join('%s %d' % (t[0], t[2]) for t in tabs)), bool(tabs) and all(t[2] >= 44 for t in tabs), J(tabs))
+        R.check('%s 店名沒有「新」的標記（GUI_fix：例「山嵐書店（文具區，新）」「公館站口花攤（新）」）' % ptag, not newtag, J(newtag))
         judge_btn(ptag + '（最上面）', m, '#btnClose', '關閉「返回遊戲」')
         okb = await scroll_bottom(pg, cdp, ptag, '#menu .card', '#itemsList .item')
         m2 = await panel_check(pg, cdp, ptag + ' 物品頁（捲到底）', MENU_Q, 'gift_%s_%s_bag_%s_2bottom' % (TAG, orient, phase))
@@ -405,7 +413,13 @@ async def shanlan_case(pg, cdp, orient):
             R.note('%s 走到旁邊等 8 秒沒有自己開始：診斷 %s' % (ctag, J(dg)))
         auto_log = []
         if auto['dlg'] or auto['choices']:
-            await pg.wait_for_timeout(1500); await pg.screenshot(path=os.path.join(OUT, 'gift_%s_sl_%s_1scene.png' % (TAG, key)))
+            gap = []   # GUI_fix（BB 11:36，0ec32e6f6）：開演那一刻玩家和學姊的距離 ≥0.6 m（LAWWW：玩家退到 0.8 m）；朝向角度只記錄，面對面、穿模看截圖
+            for t_ in (0, 1500):
+                if t_: await pg.wait_for_timeout(t_)
+                gap.append(await pg.evaluate(FACE_JS))
+            await pg.screenshot(path=os.path.join(OUT, 'gift_%s_sl_%s_1scene.png' % (TAG, key)))
+            R.note('%s 開演：剛出現台詞時 %s；1.5 秒後（截圖那一刻）%s' % (ctag, J(gap[0]), J(gap[1])))
+            if want: R.check('%s 開演時玩家和學姊距離 ≥0.6 m（剛出現 %s m、1.5 秒後 %s m）' % (ctag, gap[0].get('d'), gap[1].get('d')), all((g.get('d') or 0) >= 0.6 for g in gap), J(gap))
             auto_log = await drive(pg, cdp, ctag + ' 走近自己演的', lambda ch: 0)
             await pg.screenshot(path=os.path.join(OUT, 'gift_%s_sl_%s_2after.png' % (TAG, key)))
             ok, s, fb2 = await walk(pg, cdp, ctag + ' 走到「看文具」（演完）', STAT[0], STAT[1], 0.5); fb += fb2
