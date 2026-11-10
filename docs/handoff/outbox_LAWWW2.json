@@ -7214,6 +7214,20 @@
    "noDirectIntegrate": false,
    "note": "16 段花崗石矮花台＋杜鵑（SEASON_AZALEA，3 月開花），GLB extras.planters 擋導航。新測試開發 FAILED 3 → ALL PASS；新生南路 54 支過。差距表：紅磚、廣場、望月台已有；門柱圍牆正式模型、磚紋、停車場另排。",
    "next": "C：NTU-REF-AUDIT 逐棟「保留／改掉」表"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "NTU-REF-AUDIT-1104（X223）逐棟保留／改掉表",
+   "files": [
+    "docs/art-rebuild/second_ai/ntu_ref_keep_change_1110.md"
+   ],
+   "state": "表（沒動模型），等 LAWWW／使用者決定",
+   "noDirectIntegrate": true,
+   "note": "23 處分三類：已照照片重做（普通、博思、體育館、總圖、望月台）、差很多建議排（晨思鐘 A、行政大樓 A、文學院／校史館 B…）、不用改。建議順序：晨思鐘鐘架 → campus_hall 三棟改外牆（行政紅磚、文學院校史館土黃十三溝）→ 男一舍、共同、映月湖。",
+   "next": "等回覆"
   }
  ]
 }
