@@ -7434,6 +7434,21 @@
    "noDirectIntegrate": false,
    "note": "樹冠加一圈往外往下斜的葉片卡（每棵 30 片）、垂枝 46→84 條且交叉兩片、貼圖不透明 22%→63%、綠色比例 0.453→0.494；從上面看蓋住 0%→94～98%；GLB 9,462→10,098 三角形。新測試開發 FAILED 2 → ALL PASS；回歸 38 支過。",
    "next": "等 LAWWW 派"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "LAWWW2-REEXPORT-US-1027 開發分支能重新做出美國公寓、C 棟 208 的 GLB",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/us_reexport_1110/（README、us_reexport_1110.patch、us_reexport_inputs_unit.js、regression.log）",
+    "tools/blender/env_second/lightbake/rebuild_us_rooms.sh"
+   ],
+   "state": "READY_FOR_REVIEW（工具），待整合",
+   "noDirectIntegrate": false,
+   "note": "實際缺的是：us_apartment.py 舊版（concrete_floor_painted 不在開發分支）、glb_split_node.py 不在、步驟沒寫在一起。補上 rebuild_us_rooms.sh（bake_us → 切門板 → partition）；低取樣試跑公寓、208 的節點、網格、材質、三角形、extras 和部署中逐一相同。新測試開發 FAILED 3 → ALL PASS；回歸 47 支過。",
+   "next": "等 LAWWW 派（US-SCENE-GAP 的教室、會所要先問 AA）"
   }
  ]
 }

@@ -1,0 +1,181 @@
+diff --git a/tests/us_reexport_inputs_unit.js b/tests/us_reexport_inputs_unit.js
+new file mode 100644
+index 000000000..62757c7c7
+--- /dev/null
++++ b/tests/us_reexport_inputs_unit.js
+@@ -0,0 +1,29 @@
++// 開發分支能重新做出美國公寓、C 棟 208 的 GLB（LAWWW2-REEXPORT-US-1027，LAWWW2 帳號 A 11-10）——不需要瀏覽器、不跑 Blender（D131）。
++// 重做的指令：bash tools/blender/env_second/lightbake/rebuild_us_rooms.sh apartment|shared（bake_us.sh → 只有公寓切門板 glb_split_node.py → glb_partition_at.py）。
++// 11-10 在開發分支 3f3d48325 用低取樣試過：公寓、208 的節點、網格、材質、三角形、extras 和部署中的逐一相同（docs/art-rebuild/second_ai/wip/us_reexport_1110/README.md）。
++// 這支檢查重做要用的東西都在 repo 裡（不在的話腳本會失敗，或像衛浴道具組那樣悄悄換成簡單版）：
++//   1 us_apartment.py 用到的 Poly Haven 貼圖（L.pbr 的第二個參數）都在（tools/blender/textures/<id>／tools/blender/env_second/textures/<id>，有 _diff）
++//   2 家具道具組都在：aa_support 的 us_living／us_kitchen／us_bath_props.glb、bb_support 的 us_bedroom_props.glb
++//   3 兩份配置在：src/data/us_apartment_layout.js（US_APARTMENT_LAYOUT）、us_shared_layout.js（US_SHARED_LAYOUT）
++//   4 工具都在：bake_us.sh、bake_room.py、glb_split_node.py、glb_partition_at.py、rebuild_us_rooms.sh；rebuild 對公寓切門板（WALL_bath_n_door、x 3.1、WALL_bath_n_door_e）、兩間都跑 partition
++//   5 部署中的公寓 GLB 和重做的結果一樣：有 WALL_bath_n_door_e、door213 是自己一個節點（us_apartment.py 不把它併進 usa_door）
++// 修改前（開發分支 3f3d48325）：1（concrete_floor_painted 不在）、4（glb_split_node.py、rebuild 不在）、5 的腳本那一半 FAIL。用法：node tests/us_reexport_inputs_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..'), R=p=>path.join(ROOT,p), ex=p=>fs.existsSync(R(p));
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const PY='tools/blender/env_second/us_apartment.py', src=ex(PY)?fs.readFileSync(R(PY),'utf8'):'';
++const ids=[...new Set([...src.matchAll(/L\.pbr\([^,]+,\s*'([a-z0-9_]+)'/g)].map(m=>m[1]))];
++const texOK=id=>['tools/blender/textures/','tools/blender/env_second/textures/'].some(d=>ex(d+id)&&fs.readdirSync(R(d+id)).some(f=>/_diff/.test(f)));
++const miss=ids.filter(id=>!texOK(id));
++check('1 us_apartment.py 用到的 Poly Haven 貼圖都在', ids.length>0&&!miss.length, `${ids.length} 種；不在的 ${JSON.stringify(miss)}`);
++const props=['assets/models/env/second_ai/aa_support/us_living_props.glb','assets/models/env/second_ai/aa_support/us_kitchen_props.glb','assets/models/env/second_ai/aa_support/us_bath_props.glb','assets/models/env/second_ai/bb_support/us_bedroom_props.glb'];
++check('2 家具道具組都在（衛浴那一組沒有的話腳本會悄悄換成簡單版）', props.every(ex)&&props.every(p=>src.includes(p.replace('assets/models/env/second_ai/',''))), JSON.stringify(props.filter(p=>!ex(p))));
++const lays=[['src/data/us_apartment_layout.js','US_APARTMENT_LAYOUT'],['src/data/us_shared_layout.js','US_SHARED_LAYOUT']];
++check('3 兩份配置在（腳本照 const 名字讀）', lays.every(([f,c])=>ex(f)&&fs.readFileSync(R(f),'utf8').includes('const '+c+'=')), JSON.stringify(lays.filter(([f])=>!ex(f)).map(q=>q[0])));
++const LB='tools/blender/env_second/lightbake/', tools=['bake_us.sh','bake_room.py','glb_split_node.py','glb_partition_at.py','rebuild_us_rooms.sh'].map(f=>LB+f), rb=ex(LB+'rebuild_us_rooms.sh')?fs.readFileSync(R(LB+'rebuild_us_rooms.sh'),'utf8'):'';
++const rbOK=/bake_us\.sh/.test(rb)&&/glb_split_node\.py[^\n]*--node WALL_bath_n_door --axis x --cut 3\.1 --name WALL_bath_n_door_e/.test(rb)&&/glb_partition_at\.py/.test(rb)&&/apartment\) NAME=us_apartment/.test(rb)&&/shared\) NAME=us_shared/.test(rb);
++check('4 工具都在；rebuild 對公寓切門板、兩間都跑 partition', tools.every(ex)&&rbOK, `不在的 ${JSON.stringify(tools.filter(f=>!ex(f)))}；rebuild ${rbOK?'對':'不對或沒有'}`);
++const g=fs.readFileSync(R('assets/models/env/second_ai/us_apartment.glb')), J=JSON.parse(g.slice(20,20+g.readUInt32LE(12)).toString('utf8')), names=new Set(J.nodes.map(n=>n.name));
++const doorSep=/ob\.name == 'door213'/.test(src);
++check('5 部署中的公寓有 WALL_bath_n_door_e、door213 自己一個節點；腳本也是這樣做（不併進 usa_door）', names.has('WALL_bath_n_door_e')&&names.has('door213')&&doorSep, `GLB：切門板 ${names.has('WALL_bath_n_door_e')}、door213 ${names.has('door213')}；腳本 door213 分開 ${doorSep}`);
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tools/blender/env_second/lightbake/glb_split_node.py b/tools/blender/env_second/lightbake/glb_split_node.py
+new file mode 100644
+index 000000000..17cab3650
+--- /dev/null
++++ b/tools/blender/env_second/lightbake/glb_split_node.py
+@@ -0,0 +1,83 @@
++"""把 GLB 裡一個網格節點，照三角形中心的位置切成兩個節點（LAWWW2-B 2026-11-09；#204 美國公寓 WALL_bath_n_door：一個節點裡兩片開著的門板，各貼不同的牆）。不需要 Blender：
++  python3 tools/blender/env_second/lightbake/glb_split_node.py <in.glb> <out.glb> --node <節點名字> --axis x|y|z --cut <值> --name <新節點名字>
++  - 三角形中心（節點自己的座標）在 cut 以下的留在原本的節點，以上的搬到新節點（名字 --name）。
++  - 新節點：同一個父節點、同樣的變換、同樣的材質、extras 照抄（之後再跑 glb_partition_at.py，規則 B 會把每一片門板改成跟它貼著的牆）。
++  - 兩個節點都換成自己的網格，頂點只留用得到的（POSITION、NORMAL、TEXCOORD_0、TEXCOORD_1… 全部照抄、重新編號），
++    POSITION 的 min／max 照新的頂點算：glb_partition_at.py、遊戲（attachRoomGLB 的淡出判斷點）看外框，外框要是那一片門板自己的。
++  - 第二套 UV（光照）照抄，光照貼圖不用重烘。原本的網格不再被用到（資料留在 BIN 裡，不影響遊戲）。
++安全檢查（不合就停）：節點的網格只有這個節點用、有索引、沒有 morph／skin、切完兩邊都有三角形。"""
++import json, struct, sys
++import numpy as np
++
++
++def opt(k, d=None):
++    return sys.argv[sys.argv.index(k) + 1] if k in sys.argv else d
++
++
++CT = {5126: np.float32, 5125: np.uint32, 5123: np.uint16, 5121: np.uint8, 5122: np.int16, 5120: np.int8}
++NC = {'SCALAR': 1, 'VEC2': 2, 'VEC3': 3, 'VEC4': 4}
++
++
++def main():
++    src, dst = sys.argv[1], sys.argv[2]
++    name, axis, cut, newname = opt('--node'), 'xyz'.index(opt('--axis', 'x')), float(opt('--cut')), opt('--name')
++    b = open(src, 'rb').read(); n = struct.unpack('<I', b[12:16])[0]; J = json.loads(b[20:20 + n]); rest = b[20 + n:]
++    bl = struct.unpack('<I', rest[:4])[0]; B = bytearray(rest[8:8 + bl])
++    idx = [i for i, nd in enumerate(J['nodes']) if nd.get('name') == name]
++    if len(idx) != 1: sys.exit('要剛好一個節點叫 %s（%d）' % (name, len(idx)))
++    ni = idx[0]; nd = J['nodes'][ni]
++    if any(x.get('mesh') == nd['mesh'] for j, x in enumerate(J['nodes']) if j != ni): sys.exit('網格被別的節點用')
++    if any(x.get('name') == newname for x in J['nodes']): sys.exit('已經有節點叫 %s' % newname)
++    me = J['meshes'][nd['mesh']]
++
++    def read(ai):
++        a = J['accessors'][ai]; v = J['bufferViews'][a['bufferView']]; k = NC[a['type']]; dt = CT[a['componentType']]
++        st = v.get('byteStride'); isz = np.dtype(dt).itemsize
++        if st and st != k * isz: sys.exit('interleaved 不處理')
++        return np.frombuffer(bytes(B), dt, a['count'] * k, v.get('byteOffset', 0) + a.get('byteOffset', 0)).reshape(a['count'], k).copy()
++
++    def append(arr, ctype, atype, target, minmax=False, normalized=False):
++        nonlocal B
++        pad = (4 - len(B) % 4) % 4; B += b'\0' * pad; off = len(B); data = np.ascontiguousarray(arr).tobytes(); B += data
++        J['bufferViews'].append({'buffer': 0, 'byteOffset': off, 'byteLength': len(data), 'target': target})
++        acc = {'bufferView': len(J['bufferViews']) - 1, 'componentType': ctype, 'count': int(arr.shape[0]), 'type': atype}
++        if normalized: acc['normalized'] = True
++        if minmax: acc['min'] = [float(x) for x in arr.min(0)]; acc['max'] = [float(x) for x in arr.max(0)]
++        J['accessors'].append(acc); return len(J['accessors']) - 1
++
++    parts = {0: [], 1: []}
++    for pr in me['primitives']:
++        if 'indices' not in pr or pr.get('targets') or 'JOINTS_0' in pr['attributes']: sys.exit('沒有索引或有 morph／skin，不處理')
++        P = read(pr['attributes']['POSITION']).astype(float); I = read(pr['indices']).reshape(-1, 3)
++        side = (P[I].mean(1)[:, axis] >= cut).astype(int)
++        for s in (0, 1):
++            T = I[side == s]
++            if not len(T): continue
++            used = np.unique(T); remap = np.full(len(P), -1, np.int64); remap[used] = np.arange(len(used))
++            prn = {k: v for k, v in pr.items() if k not in ('attributes', 'indices')}; prn['attributes'] = {}
++            for an, ai in pr['attributes'].items():
++                a0 = J['accessors'][ai]
++                prn['attributes'][an] = append(read(ai)[used], a0['componentType'], a0['type'], 34962, 'min' in a0 or an == 'POSITION', bool(a0.get('normalized')))
++            big = len(used) >= 65536
++            prn['indices'] = append(remap[T].reshape(-1).astype(np.uint32 if big else np.uint16).reshape(-1, 1), 5125 if big else 5123, 'SCALAR', 34963)
++            parts[s].append((prn, len(T)))
++    if not parts[0] or not parts[1]: sys.exit('切完有一邊沒有三角形（cut 不對）')
++    J['meshes'].append({'name': me.get('name', name) + '_a', 'primitives': [p for p, _ in parts[0]]}); nd['mesh'] = len(J['meshes']) - 1
++    J['meshes'].append({'name': newname, 'primitives': [p for p, _ in parts[1]]})
++    nn = {k: v for k, v in nd.items() if k not in ('mesh', 'children', 'name')}; nn['name'] = newname; nn['mesh'] = len(J['meshes']) - 1
++    if 'extras' in nn: nn['extras'] = json.loads(json.dumps(nn['extras']))
++    J['nodes'].append(nn); new_i = len(J['nodes']) - 1
++    par = [i for i, x in enumerate(J['nodes']) if ni in x.get('children', [])]
++    if par: ch = J['nodes'][par[0]]['children']; ch.insert(ch.index(ni) + 1, new_i)
++    else:
++        for sc in J['scenes']:
++            if ni in sc['nodes']: sc['nodes'].insert(sc['nodes'].index(ni) + 1, new_i)
++    J['buffers'][0]['byteLength'] = len(B)
++    js = json.dumps(J, ensure_ascii=False, separators=(',', ':')).encode('utf-8'); js += b' ' * ((4 - len(js) % 4) % 4)
++    bn = bytes(B) + b'\0' * ((4 - len(B) % 4) % 4)
++    open(dst, 'wb').write(struct.pack('<III', 0x46546C67, 2, 12 + 8 + len(js) + 8 + len(bn)) + struct.pack('<II', len(js), 0x4E4F534A) + js + struct.pack('<II', len(bn), 0x004E4942) + bn)
++    print('%s：%s 切成兩個節點（%s %s %.3f）：留下 %d 個三角形、%s %d 個三角形 → %s' % (src, name, 'xyz'[axis], '<', cut, sum(t for _, t in parts[0]), newname, sum(t for _, t in parts[1]), dst))
++
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/blender/env_second/lightbake/rebuild_us_rooms.sh b/tools/blender/env_second/lightbake/rebuild_us_rooms.sh
+new file mode 100755
+index 000000000..1bc8bf1cb
+--- /dev/null
++++ b/tools/blender/env_second/lightbake/rebuild_us_rooms.sh
+@@ -0,0 +1,17 @@
++#!/bin/bash
++# 美國公寓、C 棟 208 從頭重做遊戲用的 GLB（LAWWW2-REEXPORT-US-1027，LAWWW2 帳號 A 2026-11-10）。repo 根目錄跑：
++#   bash tools/blender/env_second/lightbake/rebuild_us_rooms.sh apartment|shared [取樣數，預設 256] [輸出資料夾，預設 assets/models/env/second_ai] [貼圖邊長，預設 1024]
++# 步驟（遊戲裡的 us_apartment.glb／us_shared.glb 就是這樣做出來的；11-10 在開發分支 3f3d48325 用低取樣試過一次，節點、網格、材質、三角形、extras 和部署中的逐一相同）：
++#   1. bake_us.sh：us_apartment.py 建模（家具 aa_support／bb_support 的道具組）→ 光照烘焙（白天／晚上）→ WebP → lm_fix_hidden → 單雙面照部署中的還原
++#   2. 只有 apartment：glb_split_node.py 把衣物間、衛浴兩片開著的門板切成兩個節點（#204，docs/art-rebuild/second_ai/wip/us_door_split_1109/README.md）
++#   3. glb_partition_at.py：隔間牆的零件、開著的門板跟它貼著的牆一起淡出（規則 A、B）
++# 檢查輸入都在：node tests/us_reexport_inputs_unit.js
++set -e
++ZONE=${1:?apartment|shared}; SAMPLES=${2:-256}; OUTDIR=${3:-assets/models/env/second_ai}; RES=${4:-1024}
++case "$ZONE" in apartment) NAME=us_apartment;; shared) NAME=us_shared;; *) echo "apartment 或 shared"; exit 2;; esac
++bash tools/blender/env_second/lightbake/bake_us.sh "$ZONE" "$SAMPLES" "$OUTDIR" "$RES"
++if [ "$ZONE" = apartment ]; then
++  python3 tools/blender/env_second/lightbake/glb_split_node.py "$OUTDIR/$NAME.glb" "$OUTDIR/$NAME.glb" --node WALL_bath_n_door --axis x --cut 3.1 --name WALL_bath_n_door_e
++fi
++python3 tools/blender/env_second/lightbake/glb_partition_at.py "$OUTDIR/$NAME.glb" "$OUTDIR/$NAME.glb"
++echo "rebuilt: $OUTDIR/$NAME.glb"
+diff --git a/tools/blender/env_second/us_apartment.py b/tools/blender/env_second/us_apartment.py
+index ea22e8bf9..b927baa54 100644
+--- a/tools/blender/env_second/us_apartment.py
++++ b/tools/blender/env_second/us_apartment.py
+@@ -100,7 +100,8 @@ M = {
+     'wall': L.pbr(P + 'wall', 'painted_plaster_wall', tile=2.5, target='#e3d3b4', normal=0.15, maps=('diff', 'nor')),
+     'wall_k': L.pbr(P + 'wall_kitchen', 'painted_plaster_wall', tile=2.5, target='#ece3cf', normal=0.15, maps=('diff', 'nor')),
+     'siding': img_mat(P + 'siding', 'us_siding.png', rough=0.7),
+-    'concrete': L.pbr(P + 'concrete', 'concrete_floor_painted', tile=1.5, target='#c2bfb8', sat=0.0, normal=0.3, maps=('diff', 'nor')),   # sat 0：原貼圖剝落的藍色油漆在陽台地上一塊一塊藍
++    'concrete': L.pbr(P + 'concrete', 'granular_concrete', tile=1.2, target='#a9a6a0', sat=0.0, normal=0.25, maps=('diff', 'nor')),   # 屋外的陽台、走廊平台、樓梯：素面水泥。
++    # 原本 concrete_floor_painted（sat 0）：剝落的油漆去色以後變成一塊一塊白斑，白天看起來像積雪（11-01 LAWWW-B「公寓門外平台、陽台白天偏白」）；改素面水泥、底色暗一點（#c2bfb8 → #a9a6a0）
+     'backsplash': L.pbr(P + 'backsplash', 'long_white_tiles', tile=0.5, target='#d8d2c4', normal=0.4, maps=('diff', 'nor'), rough_value=0.25),
+     'ceil': L.flat(P + 'ceiling', '#f1efea', rough=0.9, cull=True),
+     'trim': L.flat(P + 'trim', '#f4f2ec', rough=0.4), 'door': L.flat(P + 'door', '#f2f0ea', rough=0.35),
+@@ -273,6 +274,9 @@ for d in LAY['doors']:
+             for v in range(10): wm(wid, 'trim').box(at - 0.025, at - 0.02, 0.35 + v * 0.13, 0.4 + v * 0.13, u0 + 0.04, u1 - 0.04)
+         continue
+     # v3（使用者 10-27 美國公寓）：衣物間、衛浴的門開著、往臥室開（swingOut：門板轉到牆的另一邊）；衛浴的鉸鍊在東邊（hinge E：門板靠在書桌南邊的牆角）
++    #   11-09 #204：衣物間、衛浴這兩片開著的門板都在 bath_n_door 一個網格裡，各貼不同的牆。遊戲用的 GLB 匯出後另外切成兩個節點：
++    #   glb_split_node.py --node WALL_bath_n_door --axis x --cut 3.1 --name WALL_bath_n_door_e，再跑 glb_partition_at.py（規則 B：每片門板跟它貼著的牆淡出）。
++    #   重新匯出要再做一次（docs/art-rebuild/second_ai/wip/us_door_split_1109/README.md）。
+     m = wm(wid, 'door'); six_panel(m, axis, at, c, 0.0, w_ - 0.02, -nrm if d.get('swingOut') else nrm, rot=(math.radians(95) if d.get('openDoor') else 0.0), hinge_end=d.get('hinge', 'W'))
+     if d.get('plate'):   # 門牌（虛構的號碼）：遊戲照 PLATE_FACE 畫字
+         x_, z_ = (c + 0.0, at + 0.03 * nrm * -1) if axis == 'x' else (at, c)
+@@ -750,7 +754,8 @@ for wid, ms in walls.items():
+     if w.get('fadeInside'): props['inside'] = 1   # 南牆（樓梯平台那一面）：遊戲只在玩家在屋裡、鏡頭在平台那一側時淡出（us3d.js）
+     for key, m in ms.items():
+         nm = (f'WALL_{wid}_{key}' if w.get('fade') else f'{wid}_{key}'); m.name = nm; m.finish(root, uv=not key.startswith(('life_art', 'life_pol', 'deco_')), props=props, smooth=key.startswith('deco_coat'))   # 牆上的畫、照片自己有 UV（uv=True 會照世界座標重算，貼圖變成一格一格重複）
+-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or 'EVENT_' in ob.name or (ob.parent is not None and 'EVENT_' in ob.parent.name) or (ob.parent is not None and ('SEASON' in ob.parent.name or ob.parent.name == 'furniture')) or ob.name.startswith('WALL_') or (ob.parent is not None and ob.parent.parent is not None and ob.parent.parent.name == 'furniture'),
++# 平台上鄰居的門（door213）不合進 usa_door（11-01，LAWWW-B 派「鄰居 207 的門白天偏亮」）：自己一個物件，烘焙的 --dayscale 才能只壓它（屋外、白色、屋簷下照到天光；屋裡的門不動）。多一個 draw call
++L.merge_by_material(root, keep=lambda ob: ob.name == 'door213' or 'FACE' in ob.name or 'SEASON' in ob.name or 'EVENT_' in ob.name or (ob.parent is not None and 'EVENT_' in ob.parent.name) or (ob.parent is not None and ('SEASON' in ob.parent.name or ob.parent.name == 'furniture')) or ob.name.startswith('WALL_') or (ob.parent is not None and ob.parent.parent is not None and ob.parent.parent.name == 'furniture'),
+                     key=lambda ob: '')
+ # PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。同一頁上限：公寓 2.0→3.05、C 棟 208 1.85→2.9。
+ _ss = L.single_side(root, keep=r'glass', skip=lambda ob: 'FACE' in ob.name)   # 門牌（PLATE_FACE_*）遊戲照名字接手，不動網格
