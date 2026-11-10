@@ -4,7 +4,7 @@
   playWith（with.choice）、onSeated（later mode meet：下次見面，at＝library 等）。
 CASES：
   ZR0／ZR1／ZR2  芷若（heroine_02）2025-11-01 約南洋（她一定挑 m2511b《黑白的城市》）→ 散場選 MOVIE_PLOTS 第 K 個選項的字：她的回答、選前選後、SOCIAL.adjust（fx；ZR2＝fr −1）；記畫面上的選項順序。
-  ZRNOFX   芷若 2027-03-15【捷徑：約好後片換成 m2703b】→ 選「「你要保重。」」（沒有 fx）：她的回答有、選了以後沒有 adjust。
+  ZRNOFX   芷若 2027-03-13（週六；03-15 週一她在 Café 上班）【捷徑：約好後片換成 m2703b】→ 選「「你要保重。」」（沒有 fx）：她的回答有、選了以後沒有 adjust。
   SHUF     （單元層級＋上面三次的畫面順序）芷若 m2511b：day 46～52 每天 MOVIES.shuffle 的順序有不一樣的；ZR0～2 同一天三次畫面順序一樣。
   NOQ      以安 2025-11-01《聖誕快遞》（稿上沒寫到她）→ 散場不出選項、直接道別，不卡、沒有空白對話。
   LOVECAP  以安 2027-09-15【捷徑：片換成 m2709b《借據》】→ talk 選 love 2 那個 → 隔天約以安總圖念書（下次見面 at library）→ with 那段選「（小聲）「也幫我印一張。」」→ 她的戀愛這部合計只 +2（MOVIE_LOVE）。
@@ -268,7 +268,7 @@ async def main():
         for c in CASES:
             try:
                 if c in ('ZR0', 'ZR1', 'ZR2'): await case_zr(pg, cdp, int(c[2:]))
-                elif c == 'ZRNOFX': await case_zr(pg, cdp, 0, '2027-03-15', 'm2703b', '「你要保重。」', '[ZRNOFX 芷若 m2703b]')
+                elif c == 'ZRNOFX': await case_zr(pg, cdp, 0, '2027-03-13', 'm2703b', '「你要保重。」', '[ZRNOFX 芷若 m2703b]')
                 elif c == 'SHUF':
                     u = await pg.evaluate("(()=>{ const out=[]; const T=MOVIES.talkFor({flags:{},day:46,hour:9},'heroine_02','m2511b'); for(let d=46;d<53;d++) out.push(MOVIES.shuffle(T.opts,MOVIES.seedOf(d,'m2511b','heroine_02')).map(o=>o.t)); return out; })()")
                     R.note('[SHUF] 單元層級 day 46～52 的順序：%s' % J(u))
