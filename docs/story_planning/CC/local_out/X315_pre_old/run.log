@@ -1,0 +1,13 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_outing_gate_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X315_pre_old\out
+CC OUTING_GATE：worktree ?；TAG old；WHO heroine_01；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】day46 存檔、10:00、清邀約；heroine_01 的戀愛 npcRom＝55；拿掉 dating_heroine_01
+  [  35.1s] [S6] 狀態：{"rom": 55, "lvl": "CLOSE_FRIEND", "stage": 5, "cap": 5, "ask": {"ok": true}, "half": 15}
+  [  35.1s] [S6] 人物頁戀愛條提示：你還沒有那樣看她
+  [  35.1s] [S6] DATE.progress 全部：{"fr":{"pct":1,"hint":""},"rom":{"pct":0,"hint":"你還沒有那樣看她"}}
+FAIL [S6] X315：人物頁沒有祐廷自己的戀愛字（她還沒有那樣看你／你還沒有那樣看她／你好像開始在意她了）  ["你還沒有那樣看她"]
+FAIL [S6] X315：rom 0、npcRom 55、好朋友 → 第 6 階（stageNum 5）  {"rom": 55, "lvl": "CLOSE_FRIEND", "stage": 5, "cap": 5, "ask": {"ok": true}, "half": 15}
+  [  35.1s] [S6] 關係值：{"rom": 0, "npcRom": 55, "fam": 65, "trust": 50, "comf": 45, "lvl": "CLOSE_FRIEND"}
+PASS 沒有 JS 例外  []
+FAILED 2: [S6] X315：人物頁沒有祐廷自己的戀愛字（她還沒有那樣看你／你還沒有那樣看她／你好像開始在意她了）；[S6] X315：rom 0、npcRom 55、好朋友 → 第 6 階（stageNum 5）
