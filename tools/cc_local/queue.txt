@@ -55,7 +55,9 @@ X283b_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_vie
 X283b_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=newb;VIEWS=curb_far:campus:29.9:-54.4:18.4:0.82:12
 X285b_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=oldb;VIEWS=av_gate:campus:-95:1.5:18.75:1.5708:6:-210:14:0:40
 X285b_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=newb;VIEWS=av_gate:campus:-95:1.5:18.75:1.5708:6:-210:14:0:40
-# X289 r2（BB 08:52）：LAWWW2 57a9dd322 修好杯子（房間 +z 2.3 m、小物用世界座標）；等 LAWWW 整合 SHA 後用 cc_yizhan_cups_probe day47／day51 新舊對照排在這裡（新版：杯子在 (−2.15,0.34,−2.41) 桌上、浮空候選 0）
+# X289 r2（BB 08:52 預排、LAWWW 08:53 整合 81a2e719d＝LAWWW2 57a9dd322）：新版 EXPECT=fixed（浮空候選 0、杯子在 (−2.15,0.34,−2.41) 桌上）；舊版對照＝r1 的 YZCUP_47／51（dcc9276f8，已跑：浮空 1 個）
+YZCUP2_47 | 81a2e719d5d514f10d9e67b288f2413714096dbe | probe | docs/story_planning/test_tools/cc/cc_yizhan_cups_probe.py | index.html | 20 | EXPECT=fixed;FIX=tests/fixtures/user_save_day47_1110.json
+YZCUP2_51 | 81a2e719d5d514f10d9e67b288f2413714096dbe | probe | docs/story_planning/test_tools/cc/cc_yizhan_cups_probe.py | index.html | 20 | EXPECT=fixed;FIX=tests/fixtures/user_save_day51_1110.json
 # X276（BB 08:47，LAWWW 72c889ec3＝LAWWW2 24dc0d99b 山嵐文具區 v2）：14:00 門口看文具區＋真的走到文具區（看文具）＋按下去＋近拍。新＝8c050804c（含 72c889ec3）、改前＝3f6dba142；排在 X295 後面、窗景巡拍前面
 X276_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=new;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
 X276_old | 3f6dba142276f8cefcc52570f9b659b930d00861 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=old;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14

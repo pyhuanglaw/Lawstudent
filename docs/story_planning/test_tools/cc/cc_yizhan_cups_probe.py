@@ -77,6 +77,10 @@ async def main():
         fl = [q for q in ins['inst'] if q['float'] and q['vis']]
         R.note('② instance %d 個，正下方 0.06 m 內沒有東西（浮空候選）%d 個' % (len(ins['inst']), len(fl)))
         for q in fl: R.note('  浮空候選 %s' % J(q))
+        if os.environ.get('EXPECT') == 'fixed':   # 11-10 BB 08:52：LAWWW2 57a9dd322 修好以後＝浮空候選 0、聊天那桌的杯子在 (−2.15, 0.34, −2.41) 附近的桌上
+            R.check('（修好版）浮空候選 0 個', len(fl) == 0, J(fl))
+            cups = [q for q in ins['inst'] if 'cup' in q['mesh'] and q['vis']]
+            R.check('（修好版）有杯子在 (−2.15, 0.34, −2.41) 0.3 m 內、底下 0.06 m 內有桌面', any(abs(q['x'] + 2.15) < 0.3 and abs(q['z'] + 2.41) < 0.3 and abs(q['y'] - 0.34) < 0.08 and not q['float'] for q in cups), J(cups))
         await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(400)
         await pg.screenshot(path=os.path.join(OUT, 'yz_game.png'))
         bb = ins['bbox']
