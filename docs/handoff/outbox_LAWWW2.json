@@ -7312,6 +7312,20 @@
    "noDirectIntegrate": false,
    "note": "zones3d.js 拿掉 (63,−108) 那一棟與導航阻擋、places.js 拿掉地名；原址變草地、和霖澤館前連通、沒有孤島、沒有鏡頭碰撞（BB_248）。blackforest_unit 拿掉研三舍那一點（國青、萬才館背面照舊走不到）。新測試開發 FAILED 3 → ALL PASS；回歸 36 支過。可套在 74da28ca9、8d8b475dc。",
    "next": "套件五棟（圖資、電機二、農綜、土木、國青）一包"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "NTU-REF-1110 套件五棟照官網事實改參數（電機二、土木、圖資、農綜、國青；X223）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/ntu_ref_kit5_1110/（README、ntu_ref_kit5_1110.patch、ntu_ref_kit5_unit.js、regression.log）"
+   ],
+   "state": "MODEL_READY，待整合；BB 判（第 1 版）；要先套 ③-4",
+   "noDirectIntegrate": false,
+   "note": "zones3d.js 五棟參數＋campuskit3d.js 加 topArch／stairTower／bays／roofCol（預設行為不變）；socsci_place_unit 第 6 項的正規式改成接受 CK.hall（不能有別的 sign）。新測試底 FAILED 5 → ALL PASS；回歸 199 支過。",
+   "next": "等 CC 疊圖、BB 判；PUTONG v2C 等 CC GLASSDIAG"
   }
  ]
 }

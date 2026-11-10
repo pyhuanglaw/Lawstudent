@@ -50,7 +50,10 @@
   - 第 6 項用正規式比對電機二館那一行程式，原本只接受 `CK.modern` 而且不能有別的參數。
   - 改成 `CK.modern` 或 `CK.hall` 都可以，可以多顏色參數。
   - 尺寸、位置、「不能掛社會科學院」照舊要符合：參數裡不能有別的 `sign:`。
-- 回歸：見 `regression.log`（結果見下）。
+- 回歸：讀到校園、套件（CK.hall、CK.modern、campuskit3d）、地名、國青、黑森林、社科院的 199 支，全部通過，見 `regression.log`。
+  - `bookstore_exit_unit` 的最後一行是 stderr 的備用模型警告，單獨重跑 stdout 是 ALL PASS。
+  - `alison.js` 是共用函式庫，不是測試。
+- 已確認：8d8b475dc 先套 ③-4，再套這一包，套得上。
 
 ## 整合
 - 先套 ③-4，再 `git apply ntu_ref_kit5_1110.patch`。
