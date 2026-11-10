@@ -51890,6 +51890,32 @@
     "ack": "SENT"
    },
    "sha": "87d49641a"
+  },
+  {
+   "id": "XS-GATE-FORMAL-1110",
+   "title": "X246 新生南路側門：正式門柱、鐵門、圍牆模型（現在是程序化套件）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次從新生南路側門進出",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 13:4x】派 LAWWW2（X246 差距表大項）：Blender 近景（D38），照 X246 文字＋北牆版位置，D136；導航、門洞、候車亭不動；draw call 盡量不加；D141。",
+   "xai": {
+    "spec": "USER_WANTS X246；LAWWW2 X246 差距表",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "正式門柱鐵門圍牆 GLB 接上、xs 系列 Node PASS；CC 拍、BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "sha": null
   }
  ]
 }
