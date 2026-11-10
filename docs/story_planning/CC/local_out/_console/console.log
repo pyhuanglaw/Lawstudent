@@ -1409,3 +1409,12 @@
 [09:55:26] ==== START RAY_1827  (probe @ 1827999fb488a30bdaccedaa1561697b3266a498) ====
 [09:55:29] [res] cpu=20% mem=47% (14.9/31.4 GB) chrome_testing=9  START RAY_1827
 [09:56:56] [res] cpu=11% mem=48% (15.3/31.4 GB) chrome_testing=9  END RAY_1827
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ea9d4e396..cddea7214  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:57:01] ==== END   RAY_1827  exit=1  90s   ====
+[09:57:05] memory 49% before starting WW1B_old_wz_teahouse (2 running)
+[09:57:05] ==== START WW1B_old_wz_teahouse  (probe @ c8af31018a9ce570422ad748aa277af842f8db37) ====
+[09:57:08] [res] cpu=5% mem=49% (15.5/31.4 GB) chrome_testing=9  START WW1B_old_wz_teahouse
+[09:58:27] 正在跑：NOASK_faf1（已跑 52 分／上限 240 分）、SOCX_8677_date_h5（已跑 35 分／上限 90 分）、WW1B_old_wz_teahouse（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:58:58] [res] cpu=11% mem=47% (15.0/31.4 GB) chrome_testing=9  END WW1B_old_wz_teahouse
