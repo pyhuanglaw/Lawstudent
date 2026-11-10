@@ -139,9 +139,14 @@ async def main():
                 its = await pg.evaluate(ITS); c = next((i for i in its if not i['to'] and not i['hidden'] and any(k in (i['label'] or '') for k in label_keys) and not any(k in (i['label'] or '') for k in ('看',))), None)
                 if not c: R.check('%s 找到「%s」' % (tag, '／'.join(label_keys)), False, J(its)); return None
                 m0 = (await pg.evaluate(ST))['money']
-                await L.go_to(pg, cdp, R, c['x'], c['z'], min(0.9, c['r'] * 0.8), '%s 馬上走到「%s」' % (tag, c['label']), max_s=120, lv=c['lv'])
-                pend = await pg.evaluate("(()=>typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'))()"); R.note('%s 按下去之前 SHIFTT.pending：%s（pending＝還沒等滿兩秒）' % (tag, pend))
-                await L.tap(pg, cdp, '#interact'); picked = []; t0 = time.time(); bought = False
+                if os.environ.get('THROTTLE'):
+                    await L.go_to(pg, cdp, R, c['x'], c['z'], min(0.9, c['r'] * 0.8), '%s 馬上走到「%s」' % (tag, c['label']), max_s=120, lv=c['lv'])
+                    pend = await pg.evaluate("(()=>typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'))()"); R.note('%s 按下去之前 SHIFTT.pending：%s（pending＝還沒等滿兩秒）' % (tag, pend))
+                    await L.tap(pg, cdp, '#interact')
+                else:   # r5（BB 21:38）：不降速；進店後第一個畫面就把玩家放到那個互動點、直接按（GAME.doInteract）——【捷徑】，模擬「等兩秒還沒到就按了」
+                    pend = await pg.evaluate("(c=>{ const pe=typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'); const E=GAME.E, P=E.player; if(E.placeAt) E.placeAt(P,c.x,c.z,c.lv); else { P.obj.position.x=c.x; P.obj.position.z=c.z; } void GAME.doInteract(); return pe; })", c)
+                    R.setup('%s【捷徑】進店第一個畫面：玩家放到「%s」(%.1f,%.1f) 直接按（GAME.doInteract）；按之前 SHIFTT.pending＝%s' % (tag, c['label'], c['x'], c['z'], pend))
+                picked = []; t0 = time.time(); bought = False
                 while time.time() - t0 < 150:
                     await pg.wait_for_timeout(700); s2 = await L.state(pg)
                     if s2['choices']:
@@ -153,9 +158,9 @@ async def main():
                     if s2['dlg']: await L.tap(pg, cdp, '#dlg'); continue
                     if not s2['busy'] and time.time() - t0 > 8: break
                 return {'delta': (await pg.evaluate(ST))['money'] - m0, 'picked': picked, 'pend': pend, 'seat': await pg.evaluate("!!GAME.E.player.seat")}
-            THR = float(os.environ.get('THROTTLE') or 8)
-            await cdp.send('Emulation.setCPUThrottlingRate', {'rate': THR})   # r4：PC 60 fps 走到櫃台要 2 秒多，「等兩秒」已經結束（r3 兩版 pending 都是 clear）——CPU 降速 8 倍模擬手機低幀率（BB 15:47 P3 的情境），按之前 pending 要還在才算有測到
-            R.setup('【前置】CPU 降速 %g 倍（CDP Emulation.setCPUThrottlingRate）：模擬手機低幀率' % THR)
+            THR = float(os.environ.get('THROTTLE') or 0)
+            if THR: await cdp.send('Emulation.setCPUThrottlingRate', {'rate': THR})   # r4：PC 60 fps 走到櫃台要 2 秒多，「等兩秒」已經結束（r3 兩版 pending 都是 clear）——CPU 降速 8 倍模擬手機低幀率（BB 15:47 P3 的情境），按之前 pending 要還在才算有測到
+            if THR: R.setup('【前置】CPU 降速 %g 倍（CDP Emulation.setCPUThrottlingRate）：模擬手機低幀率' % THR)
             for case in CASES:
                 tag = '[IMM %s]' % case
                 if case == 'B':   # 語彤：進一盞馬上點單
