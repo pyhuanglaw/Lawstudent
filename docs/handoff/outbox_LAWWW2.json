@@ -7116,6 +7116,20 @@
    "noDirectIntegrate": false,
    "note": "by_glass extras.skyBox＋zones3d.js glassSky（ck_glass shader：範圍內白天加 #4f5f73、晚上 0、霧裡淡掉；半透明才除以 alpha）。putong101_window 開發 0ec32e6f6 第 3、4 項 FAIL → ALL PASS；回歸 28 支全過（含 teach_east_drawcall）。GLSL 沒有在瀏覽器編譯過：請 CC 看主控台、重拍 putong_north。取代 v2（多一個網格）。",
    "next": "GG-LETTERS-BACK（BB P3：公館 GONGGUAN 立體字背面加素色背板）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "XS-TONGXIAN-VIEW-1110（同弦樂器臨街窗白天／晚上窗景；BB X254 GAME_BUG P2）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/xs_tongxian_view_1110/（README、xs_tongxian_view_1110.patch、render.sh、xs_tongxian_view_unit.js、regression.log、views_tongxian_sheet.jpg）"
+   ],
+   "state": "MODEL_READY，待整合",
+   "noDirectIntegrate": false,
+   "note": "tongxian3d.js 加一片 Z3.shopViewPane（擋在 CC 模型那塊白天街景板前面）＋2 張照片。新測試開發 0ec32e6f6 FAILED 4 → ALL PASS；同弦／吉他回歸 49 支＋xs_wincard_1105 過（bulletin_board_1110 開發原樣也 FAIL：缺企劃線檔）。",
+   "next": "BB 回覆青木（a／b／不動）、日常失速（維持？）；SUNNY SIDE 窗景（P3）"
   }
  ]
 }
