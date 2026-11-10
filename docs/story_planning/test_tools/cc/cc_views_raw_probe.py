@@ -22,7 +22,10 @@ for k in NAMES:
                       'state': {'zone': zone, 'hour': h, 'pos': {'x': ppos[0], 'z': ppos[1], 'yaw': 0}}, 'cam': {'pos': pos, 'look': look},
                       'js': "(async()=>{ %s GAME.E.camera.fov=%s; GAME.E.camera.updateProjectionMatrix(); })()" % (WAIT_ASSETS, FOV), 'wait': 5000, 'post': LAYERS % (D, top[0] if top else 99)})
 spec = os.path.join(tmp, 'shots.json'); json.dump(shots, open(spec, 'w'), indent=1)
-r = subprocess.run([sys.executable, os.path.join(WT, 'tools/blender/env_second/shots/fast_shots.py'), URL, spec], capture_output=True, text=True, timeout=1500)
+FS = os.path.join(WT, 'tools/blender/env_second/shots/fast_shots.py')
+GW = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tools', 'cc_local', 'gpu_wrap.py'))   # r1（PC 11:13）：fast_shots 寫死雲端 chromium 路徑＋SwiftShader＝PC 開不了瀏覽器；經 gpu_wrap 換成本機 chromium＋GPU
+cmd = [sys.executable, GW, FS, URL, spec] if os.path.exists(GW) else [sys.executable, FS, URL, spec]   # gpu_wrap-ok
+r = subprocess.run(cmd, capture_output=True, text=True, timeout=1500)
 depth = {}; fails = []
 for line in r.stdout.splitlines():
     if line.startswith('shotfail'): print(line[:300]); fails.append(line[:120]); continue
