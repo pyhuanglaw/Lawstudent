@@ -52,7 +52,7 @@ try:
     for k, v in json.loads(os.environ.get('FN_CAMS') or '{}').items(): CAMS.setdefault(k, {'lens': 24}).update(v)
 except Exception as e:
     print('FN_CAMS 讀不懂：%r' % e, flush=True)
-LOOP = [('入口', 0.0, 5.6), ('中央展示台', -0.4, 5.0), ('左：永生花', -3.7, 3.6), ('左後：鮮花花束', -3.4, -2.6), ('後：冷藏花櫃', 0.1, -5.5), ('右：收銀', 2.45, 4.4), ('回入口', 0.0, 5.6)]
+LOOP = [('入口', 0.0, 5.6), ('中央展示台（南面）', -0.4, 4.75), ('左：永生花', -3.7, 3.6), ('左後：鮮花花束', -3.4, -2.6), ('後：冷藏花櫃', 0.1, -5.5), ('右：收銀', 2.45, 4.4), ('回入口', 0.0, 5.6)]
 CAMLOG = []; CTX = {}
 
 LAY_JS = r"""(()=>{ if(typeof FLOWER_NOTES_LAYOUT==='undefined'||typeof FN3==='undefined') return null; const L=FLOWER_NOTES_LAYOUT;
@@ -69,7 +69,12 @@ DUP_JS = r"""(()=>{ const E=GAME.E, g=E.zone&&E.zone.group; if(!g) return null; 
   const top=Object.values(by).filter(e=>e.n>1).sort((a,b)=>b.n-a.n).slice(0,15).map(e=>({n:e.n, names:[...e.names], mat:e.mat, tris:e.tris|0}));
   inst.sort((a,b)=>b.count-a.count); let meshes=0; g.traverse(o=>{ if(o.isMesh) meshes++; });
   return {meshes, sharedGeom:top, instanced:inst.slice(0,15), formal:!!(E.zone&&E.zone.formal)}; })()"""
+NEAR_T_JS = r"""((q)=>{ const E=GAME.E; for(let r=0;r<=q.r+1e-6;r+=0.1) for(let a=0;a<360;a+=15){ const x=q.x+r*Math.sin(a*Math.PI/180), z=q.z+r*Math.cos(a*Math.PI/180); if(E.canStand(x,z,0.3,q.lv)) return {x:+x.toFixed(2),z:+z.toFixed(2),r:+r.toFixed(2)}; } return null; })"""   # 離「目標」最近、站得住的點（D.standable_near 是離「人」最近）
 POS_JS = r"""(()=>{ const P=GAME.E.player, o=P.obj.position; return [+o.x.toFixed(3), +o.z.toFixed(3), P.lv|0, +o.y.toFixed(2), GAME.G.zone]; })()"""
+
+
+async def near_t(pg, x, z, lv, r=1.0):
+    return await pg.evaluate("(%s)(%s)" % (NEAR_T_JS, J({'x': x, 'z': z, 'lv': lv, 'r': r}))) or {'x': x, 'z': z}
 
 
 def cam(name):
@@ -211,7 +216,7 @@ async def part_loop(pg, cdp):
         R.check('%s %dF 導航格：房間裡被擋住的格子都在家具／樓梯那一條裡（沒有隱形牆；掃 %s 格，可疑 %d 格）' % (tag, lv + 1, w and w['n'], len(w['bad']) if w else -1), bool(w) and not w['bad'], J(w and w['bad'][:40]))
     fb0 = (await D.st(pg))['fb']; allS = []
     for name, x, z in LOOP:
-        tgt = await D.standable_near(pg, x, z, 0.8, 0) or {'x': x, 'z': z}
+        tgt = await near_t(pg, x, z, 0)
         with Sampler(pg) as sp:
             r = await F.joy_to(pg, cdp, tag, tgt['x'], tgt['z'], near=0.6, lv=0, max_s=90)
             ss = await sp.stop()
@@ -242,7 +247,7 @@ async def part_up(pg, cdp, tag='[UP]'):
     R.check('%s 搖桿走上樓梯到二樓平台（lv %s、y %s、%s 秒、沒有跳）' % (tag, r['end']['lv'], r['end'].get('y'), r['t']), r['ok'] and r['end']['lv'] == 1 and abs((r['end'].get('y') or 0) - lay['Y1']) < 0.3 and not r['jumps'],
             J({'end': r['end'], 'why': r.get('why'), 'jumps': r['jumps'], 'stairY': ys[:: max(1, len(ys) // 12)]}))
     if not r['ok']: await F.shot(pg, cdp, 'fni_up_stuck'); return False
-    tgt = await D.standable_near(pg, -0.8, -2.0, 1.0, 1) or {'x': -0.8, 'z': -2.0}
+    tgt = await near_t(pg, -0.8, -2.0, 1)
     with Sampler(pg) as sp:
         r = await F.joy_to(pg, cdp, tag, tgt['x'], tgt['z'], near=0.6, lv=1, max_s=90)
         ss = await sp.stop()
