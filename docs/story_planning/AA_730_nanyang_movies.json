@@ -845,7 +845,7 @@
      "tags": [
       "romance"
      ],
-     "line": "末班車上的兩個陌生人，坐過了站。",
+     "line": "末班車上的兩個陌生人，坐過了站，在便利商店等到第一班車。",
      "fits": [
       "classmate_peishan",
       "heroine_03"
@@ -1017,10 +1017,9 @@
      "title": "時間的抽屜",
      "genre": "奇幻愛情",
      "tags": [
-      "romance",
-      "bookstore"
+      "romance"
      ],
-     "line": "舊書店裡有一個抽屜，打開就回到昨天，可是只能回去一次。",
+     "line": "老鐘錶行有一個抽屜，打開就回到昨天，可是只能回去一次。",
      "fits": [
       "heroine_02",
       "classmate_peishan"
@@ -1051,13 +1050,13 @@
    "term": "大四上",
    "bill": [
     {
-     "title": "重力少女",
+     "title": "一個人的舉重社",
      "genre": "運動熱血",
      "tags": [
       "sports",
       "action"
      ],
-     "line": "學校只有一個人的舉重社，要去參加全國賽。",
+     "line": "學校只有一個人的舉重社，要拿到全國賽的資格。",
      "fits": [
       "kexin",
       "heroine_04"
@@ -1215,7 +1214,7 @@
      "tags": [
       "romance"
      ],
-     "line": "一個每年九月回到海邊小鎮的人，和一直留在那裡的人。",
+     "line": "她回海邊的老家賣房子，隔壁修船的是高中同學。",
      "fits": [
       "heroine_02",
       "classmate_peishan"
