@@ -354,7 +354,7 @@ async def part_zqseat(pg, cdp):
         R.note('%s 子晴：%s' % (tag, J(her)))
         if not her: R.note('%s 這天公館沒有子晴，換下一天' % tag); continue
         await pg.evaluate("window.__TZ=[]")
-        for lab, frm, at_, fov in [('正面', (SX + 0.6, 1.5, SZ - 4.2), (SX, 0.8, SZ), 45), ('側面', (SX + 3.5, 1.5, SZ + 0.6), (SX, 0.8, SZ), 45), ('放大', (SX + 0.3, 1.3, SZ - 2.0), (SX, 0.7, SZ), 30)]:
+        for lab, frm, at_, fov in [('騎樓這一側正面', (SX + 0.4, 1.4, SZ + 2.6), (SX, 0.8, SZ), 50), ('騎樓斜看', (SX + 2.8, 1.5, SZ + 1.8), (SX, 0.8, SZ), 48), ('放大', (SX + 0.3, 1.2, SZ + 1.5), (SX, 0.75, SZ), 35)]   # r2：r1 機位在柱子靠馬路那一側（z<19），被柱子、機車擋住看不到她:
             u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '子晴 騎樓板凳 %s %.1f %s' % (day, h, lab), 'full': True})
             save(u, 'zqseat_%s_%s.jpg' % (day, lab))
         b = await pg.screenshot(type='jpeg', quality=82); open(os.path.join(OUT, 'zqseat_%s_game.jpg' % day), 'wb').write(b)
@@ -363,7 +363,8 @@ async def part_zqseat(pg, cdp):
         fr = await pg.evaluate("(()=>{ const N=GAME.E.nav; return [[15.6,20.6],[15.6,21.2],[14.6,20.6],[16.6,20.6]].map(([x,z])=>[x,z,!!(N&&N.free(x,z))]); })()")
         R.check('%s 她前面（騎樓那一側）站得住、沒有被擋' % tag, any(f[2] for f in fr), J(fr))
         ok = await L.go_to(pg, cdp, R, SX, SZ + 1.0, 1.1, '%s 走到她前面' % tag, max_s=120)
-        await pg.wait_for_timeout(800); s = await L.state(pg); her2 = await pg.evaluate(HER, {'who': who, 'sx': SX, 'sz': SZ})
+        await pg.wait_for_timeout(800); bb = await pg.screenshot(type='jpeg', quality=82); open(os.path.join(OUT, 'zqseat_%s_game_front.jpg' % day), 'wb').write(bb)
+        s = await L.state(pg); her2 = await pg.evaluate(HER, {'who': who, 'sx': SX, 'sz': SZ})
         R.check('%s 走得到她前面' % tag, ok, J({k: s[k] for k in ('x', 'z', 'interact')}))
         R.note('%s 按鈕：「%s」；她還坐著：%s' % (tag, s['interact'], J(her2)))
         R.check('%s 按鈕是和她說話（不是「坐下」或別的）' % tag, bool(s['interact']) and '坐' not in s['interact'], s['interact'])
