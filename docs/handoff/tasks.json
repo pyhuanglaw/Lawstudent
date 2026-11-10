@@ -51424,11 +51424,11 @@
     "parallel": true,
     "confirmed": true
    },
-   "sha": null,
+   "sha": "8ef32cb82",
    "id": "FRIENDS-PARTNER-TOP-1110",
    "title": "朋友名單看不到可昕（使用者 11-10 X306）",
-   "status": "進行中",
-   "next": "【11-10 03:5x LAWWW-B】knownIds 有她（FIRST_MET、dating_kexin；線上版同一套）——可能在清單最下面；game3d.js friendsHTML 交往中的排最上面。等使用者確認；還是沒有就要存檔。交往中的人物頁只寫「交往中」，要不要加條待使用者說。"
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 17:0x】程式已在開發分支（8ef32cb82）：交往中的排最上面；BB 排 CC 測朋友頁（day 54 存檔可昕在第一個）；交往中人物頁要不要加條，下次一起用選擇題問使用者。 ｜ 【11-10 03:5x LAWWW-B】knownIds 有她（FIRST_MET、dating_kexin；線上版同一套）——可能在清單最下面；game3d.js friendsHTML 交往中的排最上面。等使用者確認；還是沒有就要存檔。交往中的人物頁只寫「交往中」，要不要加條待使用者說。"
   },
   {
    "id": "LIB-B1-NOOK-1110",
