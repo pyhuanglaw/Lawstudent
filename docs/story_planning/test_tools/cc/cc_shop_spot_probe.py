@@ -11,11 +11,14 @@ URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 TAG = os.environ.get('TAG') or 'x'; ZONE = os.environ.get('ZONE') or 'xs_shanlan'; DAY = os.environ.get('DAY') or '2025-10-18'; HOUR = float(os.environ.get('HOUR') or 14)
 TX, TZ = [float(v) for v in (os.environ.get('TARGET') or '4.5,6.5').split(',')]; LV = int(os.environ.get('LV') or 0)
 LABEL = os.environ.get('LABEL') or '看文具'; LOOK = [float(v) for v in (os.environ.get('LOOK') or '6.8,6.35').split(',')]; NEARDIST = float(os.environ.get('NEARDIST') or 2.6)
+START = [float(v) for v in os.environ['START'].split(',')] if os.environ.get('START') else None   # 起點（不給＝出生點）；例：花攤從騎樓 -47,20.5 走過去
+EXPECT = os.environ.get('EXPECT') or ''   # menu＝要有 WANT 裡的選項（營業中）；nomenu＝不能有（打烊）；空＝只要有選單或對話
+WANT = [w for w in (os.environ.get('WANT') or '').split('/') if w]
 R = L.Run('shop_spot_%s_%s' % (ZONE, TAG), OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-UI = """(()=>{ const ib=document.getElementById('interact'), d=document.getElementById('dlg'); const vis=e=>!!(e&&e.offsetParent!==null&&getComputedStyle(e).display!=='none'&&getComputedStyle(e).visibility!=='hidden');
+UI = """(()=>{ const ib=document.getElementById('interact'), d=document.getElementById('dlg'), cp=document.getElementById('caption'); const vis=e=>!!(e&&e.offsetParent!==null&&getComputedStyle(e).display!=='none'&&getComputedStyle(e).visibility!=='hidden');
   const P=GAME.E.player.obj.position; const ch=[...document.querySelectorAll('#choices button,.choice,#menu button,.menu button,.shopMenu button')].filter(vis).map(e=>(e.innerText||'').trim()).slice(0,12);
-  return {zone:GAME.G.zone, x:+P.x.toFixed(2), z:+P.z.toFixed(2), lv:GAME.E.player.lv|0, fb:GAME.walkFallbacks|0, interact:vis(ib)?(ib.innerText||'').trim():'', dlg:vis(d)&&GAME.D&&GAME.D.active?(d.innerText||'').replace('▼ 點一下繼續','').trim().slice(0,160):'', choices:ch}; })()"""
+  return {zone:GAME.G.zone, x:+P.x.toFixed(2), z:+P.z.toFixed(2), lv:GAME.E.player.lv|0, fb:GAME.walkFallbacks|0, interact:vis(ib)?(ib.innerText||'').trim():'', dlg:vis(d)&&GAME.D&&GAME.D.active?(d.innerText||'').replace('▼ 點一下繼續','').trim().slice(0,160):'', cap:cp&&vis(cp)&&!cp.classList.contains('hide')&&+getComputedStyle(cp).opacity>0.05?(cp.innerText||'').trim().slice(0,160):'', choices:ch}; })()"""
 ITS = "((lb)=>(GAME.E.interactables||[]).filter(i=>(i.label||'').indexOf(lb)>=0).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),lv:i.lv|0,r:i.radius||null})))"
 
 
@@ -38,7 +41,9 @@ async def main():
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
         R.setup('【前置／捷徑】讀檔到 %s %s %.1f 時（出生點＝門口），條件事件關掉' % (ZONE, DAY, HOUR))
-        await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=9000)
+        if START:
+            R.setup('【前置／捷徑】起點改成 (%s, %s)' % (START[0], START[1])); await D.load_zone(pg, cdp, ZONE, DAY, HOUR, x=START[0], z=START[1], yaw=0.0, wait=9000)
+        else: await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=9000)
         u = await pg.evaluate(UI); R.note('出生點：%s' % J(u)); R.note('含「%s」的互動點：%s' % (LABEL, J(await pg.evaluate(ITS + '(%s)' % J(LABEL)))))
         if not R.check('在 %s' % ZONE, u['zone'] == ZONE, J(u)): await b.close(); return
         y = await look_at(pg, LOOK[0], LOOK[1]); R.note('門口看向 (%s, %s)：鏡頭直接擺 yaw %.2f（只為截圖）' % (LOOK[0], LOOK[1], y)); await shot(pg, '1_from_door')
@@ -51,10 +56,13 @@ async def main():
             await L.tap(pg, cdp, '#interact'); got = None
             for _ in range(8):
                 await pg.wait_for_timeout(500); v = await pg.evaluate(UI)
-                if v['dlg'] or v['choices']: got = v; break
+                if v['dlg'] or v['choices'] or v['cap']: got = v; break
             await pg.screenshot(path=os.path.join(OUT, 'spot_%s_%s_3_tap.png' % (ZONE, TAG)))
-            R.check('按下去 4 秒內出現選單或對話', bool(got), J(got or v))
+            R.check('按下去 4 秒內出現選單、對話或字幕', bool(got), J(got or v))
             R.note('按下去：%s' % J(got or v))
+            chs = (got or v)['choices']; has = [w for w in WANT if any(w in c for c in chs)]
+            if EXPECT == 'menu': R.check('%.2f 時（營業中）有買的清單 %s' % (HOUR, J(WANT)), len(has) == len(WANT) and len(WANT) > 0, J(chs))
+            if EXPECT == 'nomenu': R.check('%.2f 時（沒開）沒有買的清單 %s' % (HOUR, J(WANT)), not has, J({'choices': chs, 'cap': (got or v)['cap'], 'dlg': (got or v)['dlg']}))
         else:
             R.check('按下去 4 秒內出現選單或對話', False, '沒有互動鍵可以按')
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
