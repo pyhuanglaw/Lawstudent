@@ -898,6 +898,7 @@ const Z3 = (function(){
   function attachLakeGLB(E,g,lakeU,m){ m.name='campus_lake_glb'; m.position.set(lakeU.cx,0,lakeU.cz);
     m.traverse(o=>{ if(!o.isMesh) return; const nm=o.name+'|'+((o.material&&o.material.name)||''); o.receiveShadow=true; o.castShadow=!/lake_rim|lake_rocks/.test(nm);   /* 網格名（Blender 物件名）：lake_rim_stone、lake_rocks_rock、lake_pavilion_*、lake_boardwalk_* */
       if(/lake_pavilion_(tile|soffit|gold|teal|red)/.test(nm)&&E.patchSeeThrough){ o.material.userData.seeThrough=true; E.patchSeeThrough(o.material); }
+      if(/lake_willow_(bark|willow)/.test(nm)){ const mt=o.material; if(E.patchSeeThrough&&!mt.userData.seeThrough){ mt.userData.seeThrough=true; E.patchSeeThrough(mt); } if(/willow_willow/.test(nm)){ o.castShadow=false; mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } }   /* 垂柳（NTU-REF-1110 ③-3）：枝條是葉片卡（透明裁切、雙面、不投影）；樹幹、枝條擋住玩家時網點透空（和行道樹一樣）*/
       if(/lake_lantern_paper/.test(nm)){ const mt=o.material; mt.emissive=new THREE.Color(0xffc477); TK.addNight(mt,1.15,0); o.castShadow=false; } });   /* 宮燈的燈紙：和路燈同一個開關（校園 onLamps → CK.setNight → TK.setNight）*/
     g.add(m); if(lakeU.fb) lakeU.fb.visible=false; }
   function updateLake(L,E){ if(!L||!E.sky) return; const U=L.mat.uniforms, S=E.sky.material.uniforms; U.time.value=E.time||0; U.skyLo.value.copy(S.bot.value).lerp(S.mid.value,0.25); U.skyHi.value.copy(S.mid.value).lerp(S.top.value,0.5); U.sunDir.value.copy(S.sunDir.value); U.sunCol.value.copy(E.sun.color).multiplyScalar(Math.min(1.6,E.sun.intensity)); U.lampK.value=E.lampsOn?1:0; }
