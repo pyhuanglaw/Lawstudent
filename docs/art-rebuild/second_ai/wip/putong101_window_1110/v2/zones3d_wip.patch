@@ -1,0 +1,23 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index cc6d0e7d5..55a2fb557 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1348,7 +1348,8 @@ const Z3 = (function(){
+      SIGN_FACE_<棟>／VSIGN_FACE_<棟>_a|b／INTERIOR_FACE_<棟>＝空白板面（自訂屬性帶店名、顏色、店種）：招牌照套件原本的設計（底色、色帶、粗體字、小字）
+      但畫成板面的比例（套件的 512×128 貼在 6.5×0.75 m 的招牌上，字被拉寬）；店內景深卡用套件的 TK.interiorTex 依板面寬度重複 */
+   /* 亮燈的窗：深色窗玻璃（55% 不透明）在溫州街夜間的環境光下會變淺灰、把燈光蓋掉——亮燈那戶改用比較透明的玻璃（wz_win_glass_lit，30%）＋晚上自己帶一點暖光，窗內房間與窗簾也要夠亮（1.5–1.9） */
+-  const WZ_NIGHT={wz_signs_lit:[0xffffff,1.1,0.25],   /* 溫州街 v5 的燈箱招牌（設計稿貼圖、emissiveTexture）：晚上亮、白天微亮 */ ext_glass_lit:[0xffcf8f,1.5,0],wz_room_lit:[0xffb866,1.9,0],wz_win_glass_lit:[0xffc070,0.55,0],cafe_bulb:[0xfff1d6,2.2,0.6],wz_tube:[0xffffff,1.3,0.2],jp_lamp:[0xffcf8a,1.6,0.15],jp_shoji:[0xffe2b8,0.7,0],wz_lamp_lens:[0xffe0a0,2.2,0],ck_glass_lit:[0xffd49a,1.0,0],ck_glass:[0xffd49a,1.0,0],ck_pav_dark:[0xffd49a,0.9,0],ck_ceiling:[0xfff2dc,0.04,0.15],ck_bell_lens:[0xfff1d6,1.6,0]};   /* ck_glass_lit：總圖亮燈的窗（約七成，和套件一樣；自發光貼圖由上往下漸暗）；ck_ceiling：拱廊、門廊、屋簷底下白天在陰影裡只有半球光，加一點地面反射上來的光——晚上沒有陽光反射，要比白天暗（第一版晚上 0.3：沒有燈的拱廊天花板整片發亮） */   /* 亮燈的窗（窗簾、房間）、門燈、騎樓日光燈：晚上發光，白天不亮 */   /* ck_bell_lens：傅鐘前面兩盞地燈的燈罩（和套件一樣 1.6） */
++  const WZ_NIGHT={ck_glass_skyref:[0x4f5f73,0.001,1.0],   /* PUTONG101-WINDOW-1102 第 2 版：博思一樓玻璃的「反射天空」，白天 1、晚上幾乎 0（加法混合，見 attachWenzhouModel）。晚上寫 0.001 不寫 0：TK.addNight／setNight 用 nightI||1，0 會變成 1 */
++    wz_signs_lit:[0xffffff,1.1,0.25],   /* 溫州街 v5 的燈箱招牌（設計稿貼圖、emissiveTexture）：晚上亮、白天微亮 */ ext_glass_lit:[0xffcf8f,1.5,0],wz_room_lit:[0xffb866,1.9,0],wz_win_glass_lit:[0xffc070,0.55,0],cafe_bulb:[0xfff1d6,2.2,0.6],wz_tube:[0xffffff,1.3,0.2],jp_lamp:[0xffcf8a,1.6,0.15],jp_shoji:[0xffe2b8,0.7,0],wz_lamp_lens:[0xffe0a0,2.2,0],ck_glass_lit:[0xffd49a,1.0,0],ck_glass:[0xffd49a,1.0,0],ck_pav_dark:[0xffd49a,0.9,0],ck_ceiling:[0xfff2dc,0.04,0.15],ck_bell_lens:[0xfff1d6,1.6,0]};   /* ck_glass_lit：總圖亮燈的窗（約七成，和套件一樣；自發光貼圖由上往下漸暗）；ck_ceiling：拱廊、門廊、屋簷底下白天在陰影裡只有半球光，加一點地面反射上來的光——晚上沒有陽光反射，要比白天暗（第一版晚上 0.3：沒有燈的拱廊天花板整片發亮） */   /* 亮燈的窗（窗簾、房間）、門燈、騎樓日光燈：晚上發光，白天不亮 */   /* ck_bell_lens：傅鐘前面兩盞地燈的燈罩（和套件一樣 1.6） */
+   const WZ_SANS='"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif', WZ_SERIF='"Noto Serif TC","Songti TC",serif';
+   function wzSignTex(d,wM,hM,vertical){ const H=vertical?Math.round(128*hM/wM):128, W=vertical?128:Math.min(1536,Math.round(128*wM/hM));
+     return wzCanvas(W,H,(x,w,h)=>{ const bg=vertical?d.vBg:d.bg, band=vertical?d.vBand:d.band; x.fillStyle=bg||'#ffffff'; x.fillRect(0,0,w,h);
+@@ -1602,6 +1603,8 @@ const Z3 = (function(){
+       if(!mt||mt.userData.wzReg) return; mt.userData.wzReg=true;
+       const nn=WZ_NIGHT[nm]; if(nn){ mt.emissive=new THREE.Color(nn[0]); TK.addNight(mt,nn[1],nn[2]); }
+       if((nm==='ck_glass'||nm==='ck_pav_dark')&&mt.emissiveMap){ const t=mt.emissiveMap; t.generateMipmaps=false; t.minFilter=THREE.LinearFilter; t.needsUpdate=true; }   /* 校園地標的玻璃：亮燈、沒亮燈的窗同一個材質，自發光貼圖左半黑、右半燈光（campus_hall.py）；不用 mipmap，遠處左右兩半才不會混在一起（沒亮燈的窗發光） */
++      if(nm==='ck_glass_skyref'){ mt.color=new THREE.Color(0x000000); mt.emissiveMap=null; mt.transparent=true; mt.depthWrite=false; mt.blending=THREE.AdditiveBlending; mt.toneMapped=false; mt.needsUpdate=true;   /* PUTONG101-WINDOW-1102 第 2 版（BB PARTIAL 11-10）：博思一樓玻璃大廳外 5 mm 的「反射天空」那一片（campus_teach.py）——加法混合、只有灰藍色的自發光：白天把深色玻璃加亮成像反射天空（目標約 [110,120,130]），晚上 0（看得到室內的燈）；顏色、白天晚上的亮度在 WZ_NIGHT（每次進區域重新登記）。測試：node tests/putong101_window_unit.js */
++        if(o) o.castShadow=false; }
+       if(nm==='jp_shoji'){ mt.emissiveMap=mt.map; }   /* 紙拉門：亮燈時整片紙發光、木格比較暗 */
+       if((/^wz_pillar_/.test(nm)||/^seethru_/.test(nm)||nm==='wz_pole_concrete'||nm==='gt_palm_bark'||nm==='gt_palm')&&E.patchSeeThrough){ mt.userData.seeThrough=true; E.patchSeeThrough(mt); }   /* seethru_ 開頭：校舍門廊、拱廊的柱子（campus_hall.py 的 seethru_ck_col、seethru_ck_pier；CAM-PILLAR-HALLS-1031，測試 node tests/campus_hall_pillar_seethru_unit.js）*/ /* 騎樓柱子、共同教學館前的蒲葵：擋住玩家時網點透空（和套件的柱子、樹一樣） */
+       if(nm&&nm.indexOf('cafe_leaf_')===0){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; }

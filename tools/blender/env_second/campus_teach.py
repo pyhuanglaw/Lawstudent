@@ -223,6 +223,10 @@ def build_boya():
     _gt, _gb = K.GL_TOP, K.GL_BOT; K.GL_TOP, K.GL_BOT = (0.48, 0.55, 0.62), (0.20, 0.24, 0.28)
     curtain(IN, a0, a1, 0.15, YF[1] - 0.35, 1.5, 10, door_at=0.0, door_w=3.0)
     K.GL_TOP, K.GL_BOT = _gt, _gb
+    # 第 2 版（BB PARTIAL：白天 RGB 只從 [35,31,22] 到 [42,38,28]）：遊戲的 ck_glass 白天不發光、這片又照不到光，頂點色調亮看不出來。
+    # 玻璃外 5 mm 加一片「反射天空」的面（材質 ck_glass_skyref：遊戲 zones3d.js 設成加法混合、只有自發光的灰藍色，白天亮、晚上 0），晚上照舊看得到室內的燈
+    M['skyref'] = L.flat('ck_glass_skyref', '#000000', rough=1.0)
+    kit.face('skyref', [IN.p(a0, 0.15, 0.005), IN.p(a1, 0.15, 0.005), IN.p(a1, YF[1] - 0.35, 0.005), IN.p(a0, YF[1] - 0.35, 0.005)], IN.N)
     kit.fbox('trim', IN, a0, a1, YF[1] - 0.35, YF[1], 0.0, 0.02, skip=('in',))
     kit.face('ceil', [IN.p(a0, YF[1] - 0.35, 0.0), IN.p(a1, YF[1] - 0.35, 0.0), fr.p(a1, YF[1] - 0.35, 0.0), fr.p(a0, YF[1] - 0.35, 0.0)], (0, -1, 0))
     for s_ in (-1, 1):
