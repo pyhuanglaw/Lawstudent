@@ -864,15 +864,17 @@ class Person:
         WDONLY = (os.environ.get('GREET_WD') or '').strip()   # BB 09:47：只補測平日（她坐著不走開的時段）。'auto'＝掃上課前在教室等的時段；或 'zone,hour,YYYY-MM-DD' 直接指定
         if WDONLY:
             if WDONLY == 'auto':
-                cand = await pg.evaluate(r"""(id=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday,zone:G.zone}, out=[]; const T=CALENDAR.termDays('Y1S1');
+                cand = await pg.evaluate(r"""(a=>{ const id=a.id; const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday,zone:G.zone}, out=[]; const T=CALENDAR.termDays('Y1S1');
                   try{ for(let d=T.from; d<=T.to&&out.length<12; d++){ const t=CALENDAR.termOf(d); if(!t||(t.week|0)<3) continue; const wd=CALENDAR.dateOf(d).wd%7; if(wd<1||wd>5) continue; if(CALENDAR.kind&&CALENDAR.kind(d)==='holiday') continue;
                     for(let hr=7.5; hr<=18; hr+=0.25){ G.day=d; G.hour=hr; G.weekday=wd; let w=null; try{ w=STORY.whereIs(GAME,id); }catch(e){} if(!w||!w.zone||w.away) continue;
-                      if(w.zone==='classroom'&&!/上課/.test(w.act||'')){ G.hour=hr+0.25; let w2=null; try{ w2=STORY.whereIs(GAME,id); }catch(e){} if(w2&&w2.zone==='classroom') { out.push({d, wd, key:CALENDAR.dateOf(d).key, hr, zone:w.zone, act:w.act||'', term:'Y1S1', week:t.week|0}); break; } } } } }
-                  finally{ Object.assign(G,keep); } return out; })""", self.pid)
-                cand.sort(key=lambda q: (0 if q['wd'] == 3 else 1, q['d']))
-                R.note('greetn 平日補測：上課前在教室等的時段 %s' % J(cand[:6]))
+                      /* r1：她在作息裡沒有「上課前在 classroom 等」這種時段（掃到 0）→ 改成：平日、不是上課中、不是走動、不在讀書區／店內偶遇的店，30 分鐘後還在同一區；教室、系館優先 */
+                      if(/上課|上班/.test(w.act||'')||/走/.test(w.act||'')||(a.noz||[]).includes(w.zone)) continue; G.hour=hr+0.5; let w2=null; try{ w2=STORY.whereIs(GAME,id); }catch(e){} G.hour=hr;
+                      if(w2&&w2.zone===w.zone&&!/走/.test(w2.act||'')){ out.push({d, wd, key:CALENDAR.dateOf(d).key, hr, zone:w.zone, act:w.act||'', term:'Y1S1', week:t.week|0, pri:/classroom|linze|lawhall|wancai/.test(w.zone)?0:1}); break; } } } }
+                  finally{ Object.assign(G,keep); } return out; })""", {'id': self.pid, 'noz': noz})
+                cand.sort(key=lambda q: (q.get('pri', 1), 0 if q['wd'] == 3 else 1, q['d']))
+                R.note('greetn 平日補測：平日她不走動、不上課、30 分鐘不換地方的時段（教室／系館優先）%s' % J(cand[:6]))
                 if not cand:
-                    R.check('greetn 平日補測：找得到她上課前在教室等的平日時段', False, ''); return
+                    R.check('greetn 平日補測：找得到平日她不走動的時段', False, ''); return
                 sl0 = cand[0]
             else:
                 z, hr, key = [x.strip() for x in WDONLY.split(',')]
