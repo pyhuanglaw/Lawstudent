@@ -873,3 +873,11 @@
 [19:00:47] ==== START X295E_old  (probe @ 10df264ed291cbef985ed22109443d26535ce790) ====
 [19:00:50] [res] cpu=42% mem=48% (15.2/31.4 GB) chrome_testing=9  START X295E_old
 [19:01:23] [res] cpu=16% mem=48% (15.0/31.4 GB) chrome_testing=9  END GGDC_tree2_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       fa7b02df7..9bf93af17  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:01:30] ==== END   GGDC_tree2_new  exit=0  110s   ====
+[19:01:33] memory 40% before starting GGDC_flw_new (2 running)
+[19:01:33] ==== START GGDC_flw_new  (probe @ d8b669175bcf363974b401e1eed3d6709f2b0949) ====
+[19:01:36] [res] cpu=28% mem=40% (12.8/31.4 GB) chrome_testing=4  START GGDC_flw_new
+[19:01:42] [res] cpu=27% mem=42% (13.1/31.4 GB) chrome_testing=4  END GGDC_tree2_old
