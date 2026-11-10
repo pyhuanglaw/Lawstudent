@@ -415,8 +415,11 @@ async def shanlan_case(pg, cdp, orient):
         if want and near:   # GUI_fix2（LAWWW 13:02 ⑤）：她身體 0.25 m 半徑、0.05～1.6 m 高的盒子和家具網格的包圍盒有沒有重疊（只看 >2 公升，包圍盒會偏大：判定看截圖）
             cl = await pg.evaluate(CLIP_JS); R.note('%s 學姊身體和家具包圍盒重疊：%s' % (ctag, J(cl)))
             if cl and cl['hits']: print('  INFO %s 學姊身體盒子和這些家具的包圍盒重疊（包圍盒會偏大，看截圖）：%s' % (ctag, J([(x['name'], x['vol']) for x in cl['hits']])), flush=True)
-            await pg.evaluate("""(([x,z])=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(x+1.8,1.5,z+1.6),new THREE.Vector3(x,0.9,z)); })""", list(SPOT))
-            await pg.wait_for_timeout(1200); await pg.screenshot(path=os.path.join(OUT, 'gift_%s_sl_%s_0her.png' % (TAG, key)))
+            await pg.evaluate("(()=>{ const st=document.createElement('style'); st.id='ccHud'; st.textContent='body *{visibility:hidden!important} #c{visibility:visible!important}'; document.head.appendChild(st); })()")
+            for sfx, dz in (('s', 2.6), ('n', -2.6)):   # r2：從她的 +z、−z 兩側高處往下看（r1 1.5 m 高被貨架擋住）
+                await pg.evaluate("""(([x,z,dz])=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(x+0.6,3.3,z+dz),new THREE.Vector3(x,0.8,z)); })""", [SPOT[0], SPOT[1], dz])
+                await pg.wait_for_timeout(1500); await pg.screenshot(path=os.path.join(OUT, 'gift_%s_sl_%s_0her_%s.png' % (TAG, key, sfx)))
+            await pg.evaluate("(()=>{ const st=document.getElementById('ccHud'); if(st) st.remove(); })()")
             await pg.evaluate("(()=>{ const E=GAME.E; if(E.endCinematic) E.endCinematic(); else if(E.cam) E.cam.mode=null; })()")
         else: R.check('%s 學姊不在文具區 (%s, %s)（0.3 m 內沒有她）' % (ctag, SPOT[0], SPOT[1]), not near, J(h))
         await pg.screenshot(path=os.path.join(OUT, 'gift_%s_sl_%s_0load.png' % (TAG, key)))

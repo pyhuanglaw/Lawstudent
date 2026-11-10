@@ -15,7 +15,8 @@ R = L.Run('campus_view_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 CAM = "(()=>{ const C=GAME.E.cam, c=GAME.E.camera.position, P=GAME.E.player.obj.position; return {yaw:+C.yaw.toFixed(3), dist:+C.dist.toFixed(2), cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+P.x.toFixed(2),+P.y.toFixed(2),+P.z.toFixed(2)], zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(2)}; })()"
 SNAP_JS = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov, c.width/c.height, 0.1, 2000);
-  cam.position.set(a.from[0],a.from[1],a.from[2]); cam.lookAt(a.at[0],a.at[1],a.at[2]); cam.updateMatrixWorld(true); r.render(E.scene,cam); return c.toDataURL('image/png'); })"""
+  cam.position.set(a.from[0],a.from[1],a.from[2]); cam.lookAt(a.at[0],a.at[1],a.at[2]); cam.updateMatrixWorld(true);
+  const pv=E.player.obj.visible; E.player.obj.visible=false; try{ r.render(E.scene,cam); } finally { E.player.obj.visible=pv; } return c.toDataURL('image/png'); })"""   # 11-10 r2：另一台相機在玩家頭的位置＝會拍到自己的頭（XSPLANT north／gate），拍的時候藏玩家
 CLOSE = "(()=>{ const d=document.querySelector('#dlg'); return !!(d && d.offsetParent!==null && getComputedStyle(d).display!=='none'); })()"
 
 
