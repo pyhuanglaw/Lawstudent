@@ -435,7 +435,7 @@ const Z3 = (function(){
       for(const [x0,y0,z0,x1,y1,z1] of SOCX.cams){ const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); g.add(m); E.colliders.push(m); }
       for(const [x,z,w,d,yaw] of SOCX.benches){ const y=yaw||0; seats.push({x:+(x+0.06*Math.sin(y)).toFixed(2),z:+(z+0.06*Math.cos(y)).toFixed(2),yaw:y,label:'坐在社科院中庭的長椅'}); }   /* 清水混凝土長椅：朝中庭坐（X75 以後 z −67.1 的兩張面向北、x −10.6 的兩張面向東；坐的位置往面向那一邊 6 cm）*/
       /* 社科院原本的位置（萬才館東南、總圖北邊）：X75 搬走以後放一棟沒有名字的系館（白色現代系館的套件，不掛名字；正面朝西、門對著 z=-60 那條路）*/
-      { const hall=CK.modern({w:44,d:20,floors:4,gfh:4.4,fh:3.85,sign:'電機二館'}); ckPlace(hall,LR?119:112,-62,-Math.PI/2); buildings.push(hall); }   /* CAMPUS-RELAYOUT-1102（使用者 11-02 09:03「舊的那棟要叫什麼」）：官方地圖總圖東北邊的電機二館 */
+      { const hall=CK.hall({w:44,d:20,floors:4,gfh:4.4,fh:3.85,wall:'#9b4f3c',trim:'#d6cdbb',roofType:'flat',arcade:false,sign:'電機二館'}); ckPlace(hall,LR?119:112,-62,-Math.PI/2); buildings.push(hall); }   /* NTU-REF-1110 套件五棟（LAWWW2 帳號 A；X223／D136）：官網是長條的紅磚樓、拱窗 → 紅磚、拱窗、平屋頂；不照抄山牆、大拱門 */   /* CAMPUS-RELAYOUT-1102（使用者 11-02 09:03「舊的那棟要叫什麼」）：官方地圖總圖東北邊的電機二館 */
     } else {   /* 舊外觀（manifest 沒有新模型時）*/
       const soc=CK.modern({w:56,d:22,floors:4,gfh:4.4,fh:3.85,sign:'社會科學院'}); ckPlace(soc,110,-70,-Math.PI/2); buildings.push(soc);
       socGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_modern']; soc.userData.ckTag='soc'; if(socGLB) soc.userData.dyn=true;
@@ -467,9 +467,9 @@ const Z3 = (function(){
     // 真實的椰林大道兩側幾乎整排都是系館（離大道 20–30 m、前面是草地）；原本這裡大道東半段兩側、行政大樓東邊、男一舍兩側都是空草地。
     // 補上沒有掛名字的系館（不冒用真實系館的名字和位置），同一套校園套件語彙：紅磚／面磚、一樓拱廊、拱窗或方窗
     { const fill=[
-        [CK.hall({w:26,d:14,floors:3,gfh:4.4,fh:3.8,wall:'#c8a27c',trim:'#e6dfd0',roof:'#4a3a33',roofH:3.8,arcade:true,porch:{bays:1,depth:2.4,pediment:false},sign:'土木工程館'}),7,-28,0],          // 大道北側、文學院東邊
-        [CK.hall({w:LIBF?23:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#a35c48',trim:'#ddd5c6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'},sign:'圖書資訊學系館'}),LIBF?51.5:57,-34,0],   // 大道北側、小椰林道東邊（LIB-FRONT-1102：總圖前的廣場 x 63.5～73.75、|z| ≤ 30，原本 x 43～71 壓到廣場西北角 → 23 m 寬、中心 x 51.5：x 40～63）
-        [CK.hall({w:34,d:14,floors:4,gfh:4.2,fh:3.5,wall:'#d2c3a5',trim:'#ebe4d6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'},sign:'農業綜合大樓'}),45,33,Math.PI],   // 大道南側、往宿舍的路東邊
+        [CK.hall({w:26,d:14,floors:4,gfh:4.4,fh:3.6,wall:'#c8a27c',trim:'#e6dfd0',roofType:'flat',win:'rect',arcade:false,stairTower:{w:4.2,d:2.4},sign:'土木工程館'}),7,-28,0],   /* NTU-REF-1110：官網是平屋頂、4 層、中間一座玻璃樓梯塔 → 拿掉一樓拱廊和斜屋頂（方正的大門改成塔一樓的玻璃門）*/          // 大道北側、文學院東邊
+        [CK.hall({w:LIBF?23:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#e8e4da',trim:'#f3f0e9',roofType:'flat',win:'rect',topArch:true,arcade:true,porch:{bays:3,depth:2.6,style:'flat'},sign:'圖書資訊學系館'})   /* NTU-REF-1110：官網是白色、頂層拱形窗 */,LIBF?51.5:57,-34,0],   // 大道北側、小椰林道東邊（LIB-FRONT-1102：總圖前的廣場 x 63.5～73.75、|z| ≤ 30，原本 x 43～71 壓到廣場西北角 → 23 m 寬、中心 x 51.5：x 40～63）
+        [CK.hall({w:34,d:14,floors:5,gfh:4.2,fh:3.5,wall:'#9a5040',trim:'#b8b3aa',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'},sign:'農業綜合大樓'}),45,33,Math.PI],   /* NTU-REF-1110：官網是紅磚＋花崗石帶、5 層（樓層腰帶、勒腳用花崗石的灰） */   // 大道南側、往宿舍的路東邊
         [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#bfb5a3',trim:'#e4ddd0',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),-34,68,Math.PI],   // 舟山路南側、宿舍區
         [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#c9b49a',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),74,68,Math.PI],
 ];   // 第二十批的「舟山路西段南側」(-92,66) 2026-10-13 換成大一女舍（見行政大樓後面的大一女舍那一段）
@@ -661,7 +661,7 @@ const Z3 = (function(){
     // （以下放在校園建構的最後面：TK.tree、小灌木用共用亂數，放在這裡才不會讓前面其他樹的形狀跟著變）
     // 國青中心（第二十四批，使用者提供的法律學院配置圖：霖澤館與萬才館中間、靠辛亥路的灰色宿舍）：遊戲的法學院區是壓縮過的（D25），兩館之間只剩約 20 m，
     // 放在兩館中間的後方（中庭與北側圍牆之間，玩家走不到，不加導航），從兩館之間、霖澤館前都看得到。外觀沒有照片：灰色現代板樓是推測
-    { const gq=CK.modern({w:LR?20:30,d:10,floors:7,gfh:4.0,fh:3.2,wall:'#a9aba6',slab:'#c8c9c4',sign:'國際學苑'}); place(g,gq,LR?65:64,LR?-119:-134,0);
+    { const gq=CK.modern({w:LR?20:30,d:10,floors:LR?11:7,gfh:4.0,fh:3.2,wall:LR?'#d6c9ad':'#a9aba6',slab:LR?'#e4dccb':'#c8c9c4',bays:LR?{floors:3,col:'#4a3527'}:null,roofCol:'#77736b',sign:'國際學苑'})   /* NTU-REF-1110：官網是 11 層、米色面磚、上面三層深褐色凸窗（研三舍在這一棟裡面）；屋頂面灰色（BB_248 P3）*/; place(g,gq,LR?65:64,LR?-119:-134,0);
       if(LR){ nav.blockRect(65,-119,20,10,0,0);   /* 重排：國青大樓在霖澤館東邊、辛亥路旁（官方地圖）；後面到圍牆走不到 */
         /* 研三舍那一棟拿掉（NTU-REF-1110 ③-4，LAWWW2 帳號 A 11-10；X223）：住宿組「研三舍位於國青大樓」＝同一棟（男 5～7 樓、女 2、8～11 樓），原本另外蓋的 4 層「研三舍」(63,−108) 是多的；AA 11-10：劇情沒用到 */
         { const bk=WCW(-1,-17.3); nav.blockRect(bk[0],bk[1],34,12,-WRY,0); } } }   /* 萬才館背面到辛亥路圍牆（法學院後面不能走，D31 同一個做法）*/
