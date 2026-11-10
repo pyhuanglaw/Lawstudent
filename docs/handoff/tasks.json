@@ -51946,6 +51946,32 @@
     "ack": "ACTIONED"
    },
    "sha": "f09ac1444"
+  },
+  {
+   "id": "GG-LANE-CLOSE-1110",
+   "title": "X199 配套：公館往溫州街的巷口在正式模型上加住戶鐵門，一看就進不去",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次在公館騎樓西端",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 14:3x】LAWWW2 900705400：巷口 z 22.3 住戶鐵門（清水混凝土柱、深綠拉門、「私人巷道 請勿進入」），716 三角形；導航不動；zone_assets 重產；gg_lane_close（開發 FAIL 4→PASS）、wz_entry_xinsheng、zone_prefetch、gg 2 支 ALL PASS；CC 拍騎樓西端往巷子看白天晚上，BB 判。",
+   "xai": {
+    "spec": "X199；LAWWW 11-10 派",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "巷口一看就進不去；BB 判",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "sha": "900705400"
   }
  ]
 }
