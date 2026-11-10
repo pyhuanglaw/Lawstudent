@@ -196,13 +196,32 @@ async def part_fps(pg, cdp):
     R.note('[FPS] 中畫質、路中間 18:30 站 %d 秒：%s fps（NPC %d；PC GPU，不是 iPhone）' % (FS, fps, npc))
 
 
+async def part_scoot(pg, cdp):
+    """BB 22:44：汀州路路邊機車有沒有換成正式模型（scooter.glb）。c17a9919e 沒有 zone.tzScooterGLB 這個值：
+    看場景裡 'tz_scooters_glb' 那一組有沒有掛上、裡面幾個物件、套件備用機車還在不在（tingzhou3d.js 68～75 行）"""
+    for h in [float(x) for x in (os.environ.get('HOURS') or '14').split(',')]:
+        await at(pg, cdp, 'tingzhou', h, 0.0, 6.0, '（機車模型）')
+        res = None
+        for k in range(30):
+            await pg.wait_for_timeout(1000)
+            res = await pg.evaluate("""(()=>{ const E=GAME.E, z=(typeof E3!=='undefined'&&E3.zone)||E.zone||{}; const g=E.scene.getObjectByName('tz_scooters_glb');
+              let meshes=0, kinds=new Set(); if(g) g.traverse(o=>{ if(o.isMesh){ meshes++; kinds.add((o.geometry&&o.geometry.uuid)||o.name); } });
+              const a=(typeof ASSETS!=='undefined'&&ASSETS.manifest)?ASSETS.manifest['bldg.wz_scooter']:null;
+              return {tzScooters:z.tzScooters===undefined?'undefined':z.tzScooters, tzScooterGLB:z.tzScooterGLB===undefined?'undefined':z.tzScooterGLB, glbGroup:!!g, glbChildren:g?g.children.length:0, glbMeshes:meshes, glbGeoKinds:kinds.size,
+                manifest:!!a, url:a&&a.url, state:a&&(a.state||a.status||null)}; })()""")
+            if res['glbGroup'] or k >= 29: break
+        R.note('[SCOOT %.2f] 等 %d 秒：%s' % (h, k + 1, J(res)))
+        R.check('[SCOOT %.2f] 正式機車模型有掛上（tz_scooters_glb 存在、有網格）' % h, bool(res and res['glbGroup'] and res['glbMeshes'] > 0), J(res))
+        b = await pg.screenshot(type='jpeg', quality=80); open(os.path.join(OUT, 'scoot_%s.jpg' % str(h).replace('.', '')), 'wb').write(b)
+
+
 async def main():
     print('CC 汀州路 v1：PARTS %s；Playwright ≠ iPhone' % ','.join(PARTS), flush=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps)):
+        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
