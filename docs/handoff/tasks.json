@@ -18079,9 +18079,9 @@
    "title": "美術製作 SOP（ART_SOP.md v1、SCENE_RULES.md、sop_demo 示範案例）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把三份從 focused-cray 合進開發分支（D88：不要只存在一條分支），然後結案 ｜ 【02:3x LAWWW2：四份文件就在 claude/focused-cray-c9uwvw（和 funny 分支一模一樣），從那條分支拿，不用再複製】｜69e4b181、644a322f、5c6a0391 完成；開發分支只有 AI_SESSION_HANDOFF HV-9a 的入口，文件本身只在 funny 分支 docs/art-rebuild/second_ai/——下一班把三份複製進開發分支保存（D88：不要只存在一條分支）",
+   "next": "【LAWWW 11-10 12:2x】文件合進開發分支，結案。 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把三份從 focused-cray 合進開發分支（D88：不要只存在一條分支），然後結案 ｜ 【02:3x LAWWW2：四份文件就在 claude/focused-cray-c9uwvw（和 funny 分支一模一樣），從那條分支拿，不用再複製】｜69e4b181、644a322f、5c6a0391 完成；開發分支只有 AI_SESSION_HANDOFF HV-9a 的入口，文件本身只在 funny 分支 docs/art-rebuild/second_ai/——下一班把三份複製進開發分支保存（D88：不要只存在一條分支）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -18113,7 +18113,9 @@
      "evidence": "ART_SOP.md、SCENE_RULES.md、sop_demo/README.md 只在 origin/claude/focused-cray-c9uwvw docs/art-rebuild/second_ai/；開發分支沒有（git ls-files 無）",
      "note": "同 VAC-A1"
     }
-   ]
+   ],
+   "sha": "c8f5200ba",
+   "evidence": "LAWWW2 c8f5200ba：ART_SOP.md、SCENE_RULES.md、sop_demo/README.md 合進開發分支（文件，內容和 LAWWW2 分支一致、引用的圖開發分支都有）"
   },
   {
    "id": "ART-YUTING-FACETEST",
