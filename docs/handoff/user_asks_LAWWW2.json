@@ -905,7 +905,8 @@
    "kind": "原話",
    "status": "進行中",
    "replaces": "LAWWW2 21:0x 自己畫的洗樂／印得好／泰米招牌（tz_signs_tex.py）改用圖上的",
-   "note": "六張使用者生成的外觀參考圖：印得好、泰米村食、洗樂洗衣坊（汀州路）、安泰藥局、汀州鮮果、榮恩典文具社（公館）。存 docs/art-rebuild/second_ai/ref/gg_shops6_1110/concept/。照 RULES_2D_TO_3D：招牌從圖拉正裁、店內景深卡、門口的東西做模型。汀州路三間進 TINGZHOU-AREA-1110 第 2 版；公館三間＝GG-SHOPS3-ART-1110。"
+   "note": "六張使用者生成的外觀參考圖：印得好、泰米村食、洗樂洗衣坊（汀州路）、安泰藥局、汀州鮮果、榮恩典文具社（公館）。存 docs/art-rebuild/second_ai/ref/gg_shops6_1110/concept/。照 RULES_2D_TO_3D：招牌從圖拉正裁、店內景深卡、門口的東西做模型。汀州路三間進 TINGZHOU-AREA-1110 第 2 版；公館三間＝GG-SHOPS3-ART-1110。",
+   "wants": "X320"
   }
  ]
 }
