@@ -12,6 +12,18 @@
 - 回歸（打 patch 後）：gg_glow_shoplit、gg_shoplit_reentry、prop_restand、street_props_nav、zq_arcade_seat、singleside_streets、zone_prefetch、gg_interiors_1104、gg_shops2_1104 ——9 支 ALL PASS。
 - 沒有新的測試：這是換圖，數得出來的只有「其他內容不變」（上面的 md5 比對）；招牌正不正要看圖（BB 判）。
 
+## 第 2 包：新生南路；第 3 包：溫州街（11-10 20:2x）
+- `xs_signs_rectify.patch`：`xinsheng_street.glb` 只換 `xs_fronts_atlas`（山嵐書店、同弦樂器、大口漢堡、南洋戲院四格）；2,070,708 → 2,130,724 bytes。
+- `wz_signs_rectify.patch`：`wenzhou_street.glb` 只換 `wz_fronts_atlas`（SUNNY SIDE、小路、2:30 AM 三格）；10,279,468 → 10,312,288 bytes。
+- 三個 patch 互相獨立；`glb_replace_image.py` 在第 1 包（公館）的 patch 裡。底都是開發分支 70047bb79。
+- 驗證同第 1 包：其他 bufferView md5 相同、nodes／meshes／materials／accessors 相同。回歸 14 支 ALL PASS（offbeat_storefront、singleside_streets、lampshade_flip、street_props_nav、wz_slim、wz_vc_pack、wz_copy_shop、xs_door_labels、xinsheng、cafe230_nobldg_nav、xs_planters、xs_farview、zone_prewarm、zone_prefetch）。
+- **沒有在 GLB 上看過這兩包的招牌**（公館那包有 `gg_glb_before_after.jpg`；這兩包只有圖集的前後 `before_after.jpg`）：要 CC 的遊戲截圖。
+- **這兩包換了不一定看得到的**（查 GLB 的圖才發現）：
+  - 2:30 AM 的招牌在它自己的模型 `cafe230.glb`（貼圖 `a23_print`），不在 `wenzhou_street.glb`；`wz_fronts_atlas` 的那一格可能沒有在用。
+  - 日常失速的招牌在 `offbeat_storefront.glb`（`offbeat_storefront_bake`，烘焙貼圖），這次沒有換。
+  - SUNNY SIDE、小路在 `wz_signs_atlas` 也各有一格（sign_atlas.py），遊戲實際用哪一格要看截圖。
+  - → 這四塊（2:30 AM、日常失速、SUNNY SIDE、小路）等 CC 截圖確認哪一張圖在用，再換那一張。
+
 ## 盤點（看圖集的每一塊招牌）
 - 原因：`xs_front_tex.py` 本來就會把參考圖上的四邊形拉正，但之前量的四個角不準（有的直接用長方形、有的把屋簷、燈、隔壁的招牌一起框進去），所以拉完還是斜的。
 - 斜的、這次重做（13 塊）：
