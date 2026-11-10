@@ -1,0 +1,11 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_outing_gate_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\OUTING_old\out
+CC OUTING_GATE：worktree ?；TAG old；WHO heroine_01；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】day46 存檔、10:00、清邀約；heroine_01 的戀愛 npcRom＝15；拿掉 dating_heroine_01
+  [  34.5s] [R15] 狀態：{"rom": 15, "lvl": "CLOSE_FRIEND", "stage": 4, "cap": 4, "ask": {"ok": false, "why": "她還沒有那樣看你（人物頁的戀愛條滿了就可以約）"}, "half": null}
+  [  38.9s] [R15] 邀約第一層：[{"t": "念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館", "dim": false}, {"t": "吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜", "dim": false}, {"t": "喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café", "dim": false}, {"t": "看電影、逛書店…南洋戲院、頁間書屋、山嵐書店", "dim": false}, {"t": "散步…溫州街、映月湖、一一八茶飲", "dim": false}, {"t": "運動…新體育館羽球場、椰影大道、游泳池", "dim": false}, {"t": "出去玩…她還沒有那樣看你（人物頁的戀愛條滿了就可以約）", "dim": true}, {"t": "算了", "dim": false}]
+PASS [R15] 邀約選單有「出去玩…」  [{"t": "念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館", "dim": false}, {"t": "吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜", "dim": false}, {"t": "喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café", "dim": false}, {"t": "看電影、逛書店…南洋戲院、頁間書屋、山嵐書店", "dim": false}, {"t": "散步…溫州街、映月湖、一一八茶飲", "dim": false}, {"t": "運動…新體育館羽球場、椰影大道、游泳池", "dim": false}, {"t": "出去玩…她還沒有那樣看你（人物頁的戀愛條滿了就可以約）", "dim": true}, {"t": "算了", "dim": false}]
+FAIL [R15] 「出去玩…」是亮的（可以選）  {"t": "出去玩…她還沒有那樣看你（人物頁的戀愛條滿了就可以約）", "dim": true}
+PASS 沒有 JS 例外  []
+FAILED 1: [R15] 「出去玩…」是亮的（可以選）
