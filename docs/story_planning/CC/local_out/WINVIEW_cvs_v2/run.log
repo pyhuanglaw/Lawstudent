@@ -1,0 +1,27 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_winview_audit_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_cvs_v2\out
+CC WINVIEW-AUDIT（X254 窗景巡拍）：worktree ?；店 ['cvs']；HOURS=[14.0, 21.0]；DAY=2025-10-18；Windows＋GPU／SwiftShader ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== cvs 日和便利店（gen5）
+  [前置／捷徑] [日和便利店 cvs] 讀檔 cvs 2025-10-18 14.00（區域出生點；條件事件關掉）
+PASS [日和便利店 cvs] 進得了 cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  42.9s] [日和便利店 cvs] 窗景卡（全部，含藏起來的）3 片：[{"name": "cvs_glass", "kind": "glass", "vis": true, "lv": 0, "c": [0.307, 1.145, -1.121], "size": [10.53, 2.05, 8.55], "url": null}, {"name": "GLASS_front", "kind": "glass", "vis": true, "lv": 0, "c": [-1.185, 1.385, 5.439], "size": [8.23, 2.69, 0.1], "url": null}, {"name": "VIEWPANE_cvs", "kind": "parallax", "vis": true, "lv": 0, "c": [-1.18, 1.4, 6.1], "size": [18.9, 7.84, 0], "url": "assets/models/env/views/cvs_day.webp"}]
+PASS [日和便利店 cvs] 找得到看得見的窗景卡（沒有卡時：玻璃）  [["cvs_glass", "glass", true], ["GLASS_front", "glass", true], ["VIEWPANE_cvs", "parallax", true]]
+  [  42.9s] [日和便利店 cvs] 卡 VIEWPANE_cvs 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐在窗邊吧台」(-4.75, 4.52)，離窗 1.58 m、左右偏 3.57 m；人放在 [-4.75, 3.92]（第 0 層）；鏡頭 eye [-4.75, 1.2, 4.37] → look [-4.75, 1.15, 6.1]
+  [前置／捷徑] [日和便利店 cvs] 卡 VIEWPANE_cvs 14.00 讀檔把人放到 [-4.75, 3.92]（第 0 層）
+  [  53.9s] [日和便利店 cvs] 卡 VIEWPANE_cvs 14.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/cvs_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_cvs_day.png 有存  {"cam": {"eye": [-4.75, 1.2, 4.37], "look": [-4.75, 1.15, 6.1], "lens": 18, "vfov": 58.72}, "lum": [181.4, 49.6]}
+  [  55.7s] [截圖] wv_cvs_day：鏡頭 {"eye": [-4.75, 1.2, 4.37], "look": [-4.75, 1.15, 6.1], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[181.4, 49.6]；鏡頭旁藏起來的人 []
+  [前置／捷徑] [日和便利店 cvs] 卡 VIEWPANE_cvs 21.00 讀檔把人放到 [-4.75, 3.92]（第 0 層）
+  [  66.6s] [日和便利店 cvs] 卡 VIEWPANE_cvs 21.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/cvs_night.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_cvs_night.png 有存  {"cam": {"eye": [-4.75, 1.2, 4.37], "look": [-4.75, 1.15, 6.1], "lens": 18, "vfov": 58.72}, "lum": [114, 78]}
+  [  68.3s] [截圖] wv_cvs_night：鏡頭 {"eye": [-4.75, 1.2, 4.37], "look": [-4.75, 1.15, 6.1], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[114, 78]；鏡頭旁藏起來的人 []
+PASS [日和便利店 cvs] 有回街上的出口（含出店落點）  [{"label": "離開日和便利店", "x": 0.4, "z": 4.9, "lv": 0, "to": "gongguan", "spawn": {"x": -29.4, "z": 18, "yaw": 3.142, "lv": 0}}]
+  [前置／捷徑] [日和便利店 cvs] 讀檔 gongguan 14.00 出店落點 {"x": -29.4, "z": 18, "yaw": 3.142, "lv": 0}
+PASS [日和便利店 cvs] 到了街上（gongguan）  {"zone": "gongguan", "x": -29.4, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [  93.4s] [日和便利店 cvs] 街景：店門 {"label": "進入便利商店", "x": -29.4, "z": 21}、出店落點 [-29.4, 18]；店裡出口方向 [0.48699066645647804, 0.8734071735360749] ↔ 街上 [0.0, -1.0]（轉 180°）；窗往外 [0.0, 1.0] → 街上看 [0.0, -1.0]；鏡頭 eye [-29.4, 1.6, 18] → look [-29.4, 1.3, -2.0]
+PASS [截圖] wv_cvs_street.png 有存  {"cam": {"eye": [-29.4, 1.6, 18], "look": [-29.4, 1.3, -2], "lens": 18, "vfov": 58.72}, "lum": [149.2, 45.4]}
+  [  95.2s] [截圖] wv_cvs_street：鏡頭 {"eye": [-29.4, 1.6, 18], "look": [-29.4, 1.3, -2], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[149.2, 45.4]；鏡頭旁藏起來的人 []
+PASS 沒有 JS 例外  []
+  [  95.9s] 專屬照片窗景卡的店：[]；JSON：C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_cvs_v2\out\winview_audit.json
+ALL PASS
