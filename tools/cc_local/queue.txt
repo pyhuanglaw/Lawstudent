@@ -26,12 +26,23 @@ LE738_touch | e73888074c | game | tests/touch_flow_wenzhou.py | index.html?turbo
 #   探針 night（桌遊夜重演）K1～K3 舊 FAIL／新 PASS；day（白天出遊回原地）、eve（14:50～18:20 晚上沒用）、exam（考試週晚上多一次）新舊都要 PASS =====
 BGN_new | 063592f18baec790f772bd64a32835cd98a0a950 | probe | docs/story_planning/test_tools/cc/cc_bgn_after_home_probe.py | index.html | 40 | CC_HEADLESS=0
 BGN_old | cdcb2650730bc9a90563690e63f35e75e63c9fb3 | probe | docs/story_planning/test_tools/cc/cc_bgn_after_home_probe.py | index.html | 40 | CC_HEADLESS=0
+# X289（BB 08:21 排序第 3）：LAWWW2 08:20 YIZHAN-FLOAT-CUPS-1110 一盞杯子浮空診斷——day47／day51 存檔、11/8（六）18:28、wz_teahouse；LAWWW2 的 JS 原樣＋每個 instance 正下方有沒有東西＋俯視／眼高截圖
+YZCUP_47 | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_yizhan_cups_probe.py | index.html | 20 | FIX=tests/fixtures/user_save_day47_1110.json
+YZCUP_51 | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_yizhan_cups_probe.py | index.html | 20 | FIX=tests/fixtures/user_save_day51_1110.json
+# X283／X285（LAWWW 08:21 dcc9276f8，BB 排序第 4）：改前 e73888074c／改後 dcc9276f8。X283 路緣長條：day51b、校園 (29.9,−54.4) 18:24、鏡頭 yaw 0.82；X285 遠景看板：椰影大道往校門（西）18:45，另一台相機看校門外 (−210,14,0)
+X283_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=old;VIEWS=curb:campus:29.9:-54.4:18.4:0.82:6;curb_far:campus:29.9:-54.4:18.4:0.82:12
+X283_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=new;VIEWS=curb:campus:29.9:-54.4:18.4:0.82:6;curb_far:campus:29.9:-54.4:18.4:0.82:12
+X285_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=old;VIEWS=av_mid:campus:-40:1.5:18.75:1.5708:6:-210:14:0:45;av_gate:campus:-95:1.5:18.75:1.5708:6:-210:14:0:40
+X285_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=new;VIEWS=av_mid:campus:-40:1.5:18.75:1.5708:6:-210:14:0:45;av_gate:campus:-95:1.5:18.75:1.5708:6:-210:14:0:40
 # ===== ROMPRIV／SVC2（BB 11-10 08:1x）：ROM-PRIVATE-DATE-1110（新＝modest-rubin 6c7e3918f、舊＝13e84dc27＝d7e722c90 的上一個，兩個 commit 都沒進來）day51b 學姊 a 約會加戀愛＋信任一天一次／b 朋友以下選項、送東西加她的戀愛／c 人物頁戀愛條／d 選完先說祐廷那一句：A1 B1 B2 C1 C2 D1 舊 FAIL／新 PASS，A2 兩版 PASS；
 #   SERVICE2-LEGAL-1110（新＝a883f36de、舊＝bc9c1408c）大二上第 4 週週三 15:05 走進法律系館B 到東側接待桌報到、出席記到 G.courses.attend.service_2：V1～V5 舊 FAIL／新 PASS =====
 ROMPRIV_new | 6c7e3918f26db59161d8f284f4fa25ca02be2964 | probe | docs/story_planning/test_tools/cc/cc_rom_private_probe.py | index.html | 60 | CC_HEADLESS=0
 ROMPRIV_old | 13e84dc2703a340c1ad3ad7ae56ee3a763cce0d6 | probe | docs/story_planning/test_tools/cc/cc_rom_private_probe.py | index.html | 60 | CC_HEADLESS=0
 SVC2_new | a883f36de45740335f9a1ea30d8512d1f5a9c4a9 | probe | docs/story_planning/test_tools/cc/cc_service2_probe.py | index.html | 40 | CC_HEADLESS=0
 SVC2_old | bc9c1408c0dfb82cbd1fa49d6a64e1d92e94d213 | probe | docs/story_planning/test_tools/cc/cc_service2_probe.py | index.html | 40 | CC_HEADLESS=0
+# WAKE a r2（BB 08:1x 第 4 項）：r1 新舊同一步 FAIL＝剛到校園時「提示」蓋著，按 📱 手機沒打開（截圖證實）＝TEST_BUG；探針改成確認手機開了再點。b 在 WAKE_new 已 PASS（起床選單有出）
+WAKE_a_new2 | 8677568a378f133e45179f251f37f9dfa75943e6 | probe | docs/story_planning/test_tools/cc/cc_wake_stale_probe.py | index.html | 60 | CASES=a
+WAKE_a_old2 | faf1b75a4081a575d797a90f8cbe7fca8a087b58 | probe | docs/story_planning/test_tools/cc/cc_wake_stale_probe.py | index.html | 40 | CASES=a
 # WW3 夜間 r2（BB 08:1x 第 5 項）：21:00 轉角唱片（12–21）、一盞（12–20）都已打烊，人被留在街上＝TEST_BUG；改 19:30（轉角、阿德 09–22、一盞都還開著、天已經黑）
 WW3B_old_n1930 | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_wallfade_walls_probe.py | index.html | 20 | ZONES=corner_records:@-3.3@-0.05@270,wz_print:@-0.2@-3.8@180;DIST=4.5;HOUR=19.5;TAG=oldn1930
 WW3T_old_n1930 | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_wallfade_walls_probe.py | index.html | 20 | ZONES=wz_teahouse:@3.65@-4.00@15;DIST=4.0;HOUR=19.5;TAG=oldn1930
@@ -42,9 +53,6 @@ TEA2_old | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/story_plannin
 TEA2_new | edaedb2672eac7f5047d518e9c07f63b5e2f7537 | probe | docs/story_planning/test_tools/cc/cc_teayard_cam_probe.py | index.html | 20 | OCC=1;ZONE=wz_teahouse;SPOTS=-3@9@150,-3@9@165,-3@9@180,-3@9@210;TAG=new;RERUN=nopil
 RAY_faf1 | faf1b75a4081a575d797a90f8cbe7fca8a087b58 | probe | docs/story_planning/test_tools/cc/cc_raypick_probe.py | index.html | 20 | SPOTS=corner_records@-3.3@-0.05@270@100:338/250:338/400:338/550:338/300:300+wz_print@-0.2@-3.8@180@250:365/400:365/550:365/600:365/450:310;TAG=faf1;RERUN=nopil
 RAY_1827 | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_raypick_probe.py | index.html | 20 | SPOTS=corner_records@-3.3@-0.05@270@100:338/250:338/400:338/550:338/300:300+wz_print@-0.2@-3.8@180@250:365/400:365/550:365/600:365/450:310;TAG=1827;RERUN=nopil
-# WAKE a r2（BB 08:1x 第 4 項）：r1 新舊同一步 FAIL＝剛到校園時「提示」蓋著，按 📱 手機沒打開（截圖證實）＝TEST_BUG；探針改成確認手機開了再點。b 在 WAKE_new 已 PASS（起床選單有出）
-WAKE_a_new2 | 8677568a378f133e45179f251f37f9dfa75943e6 | probe | docs/story_planning/test_tools/cc/cc_wake_stale_probe.py | index.html | 60 | CASES=a
-WAKE_a_old2 | faf1b75a4081a575d797a90f8cbe7fca8a087b58 | probe | docs/story_planning/test_tools/cc/cc_wake_stale_probe.py | index.html | 40 | CASES=a
 # ===== GREET／NOASK r2（BB 11-10 08:1x 第 2、3 項）：r1 都是 TEST_BUG、沒測到要測的——
 #   GREET：週日掃到 cafe＝第 1 次演店內偶遇、週三／國定假日掃到 library＝第一次只點頭，而且每次說完檢查移動走開了、第 2 次旁邊沒有她的互動鍵（新舊同樣 FAILED 6）；
 #     探針改成掃時段排除讀書區和她的店內偶遇、每次按之前走回她旁邊確認互動鍵是她的（標準不變）。
