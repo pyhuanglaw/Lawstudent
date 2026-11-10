@@ -1,0 +1,27 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_mt3_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MT3_lovecap_RERUN\out
+CC MT3（MOVIE-TALK-1110 第二輪）：CASES LOVECAP；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】2027-09-15 08:00、以安朋友
+PASS [LOVECAP 以安 借據] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《星河快遞》②《借據》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [LOVECAP 以安 借據] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [  46.1s] [LOVECAP 以安 借據] 約好：{"id": "iv55", "h": 9.83, "film": "m2709b", "title": "借據"}；對話 ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [LOVECAP 以安 借據] 約成了  ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [LOVECAP 以安 借據]「今天」有「前往」
+  [  87.4s] [LOVECAP 以安 借據] talk 以後：{"love": {"m2709b": 2}, "later": [{"f": "m2709b", "w": "heroine_01", "d": 729}], "rom": 12}；選單 [{"after": false, "opts": ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"], "pick": 0, "picked": "有一次半夜睡不著，我騎車去河堤吹風。", "n": 15, "rel_before": {"fam": 100, "trust": 45, "comf": 49, "npcRom": 9}}, {"after": true, "opts": ["翻微捲翻一個學期，我做不到。", "法律上沒用了。可是他知道阿公是什麼人了。", "寫「免還」算不算債務免除？"], "pick": 2, "picked": "寫「免還」算不算債務免除？", "n": 21, "rel_before": {"fam": 100, "trust": 49, "comf": 52, "npcRom": 10}}]
+PASS [LOVECAP 以安 借據] talk 選 love 2 的：MOVIE_LOVE.m2709b＝2  {"love": {"m2709b": 2}, "later": [{"f": "m2709b", "w": "heroine_01", "d": 729}], "rom": 12}
+PASS [LOVECAP 以安 借據] 下次見面排了（MOVIE_LATER 有 m2709b）  {"love": {"m2709b": 2}, "later": [{"f": "m2709b", "w": "heroine_01", "d": 729}], "rom": 12}
+  [前置／捷徑] [LOVECAP 以安 借據]【捷徑】存檔快照 → 隔天 08:00 宿舍讀回來（MOVIE_LATER、MOVIE_LOVE 照舊）
+PASS [LOVECAP 以安 借據]隔天 選得到 總圖  [{"t": "去 2:30 AM 念書", "dim": false}, {"t": "去總圖一起念書", "dim": false}, {"t": "去慢讀咖啡念書", "dim": false}, {"t": "去法圖一起念書", "dim": false}, {"t": "去木曜日念書", "dim": false}, {"t": "去 afar café 念書", "dim": false}, {"t": "去社科圖一起念書", "dim": false}, {"t": "返回", "dim": false}]
+PASS [LOVECAP 以安 借據]隔天 有能選的時間  [{"t": "今天 12:10", "dim": false}, {"t": "今天 15:30", "dim": false}, {"t": "今天 17:30", "dim": false}, {"t": "今天 19:00", "dim": false}, {"t": "今天 21:00", "dim": false}, {"t": "明天 12:10", "dim": false}, {"t": "明天 19:00", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [ 104.2s] [LOVECAP 以安 借據]隔天 約好：{"id": "iv56", "h": 12.167, "day": 730, "place": "library", "film": null}
+PASS [LOVECAP 以安 借據]隔天 約成了
+PASS [LOVECAP 以安 借據]隔天總圖「今天」有「前往」
+  [ 160.3s] [LOVECAP 以安 借據]隔天總圖 她帶路坐下了（-7.0,2.2 lv1）→ 點地板走到她旁邊
+  [ 276.3s] 到達「走到heroine_01的位子旁邊」附近（0.22 m）：點地面 12 次、轉鏡頭 1 次、搖桿 0 次，116 秒
+  [ 276.3s] [LOVECAP 以安 借據]隔天總圖 走到她旁邊：True
+  [ 276.4s] [LOVECAP 以安 借據] 隔天總圖：選單 [{"after": false, "opts": ["照樣跳過會錯過：09:10 民事訴訟法甲上", "先不要"], "pick": 0, "picked": "照樣跳過會錯過：09:10 民事訴訟法甲上", "n": 36, "rel_before": {"fam": 100, "trust": 49, "comf": 52, "npcRom": 12}}]；之後 {"love": {"m2709b": 2}, "rom": 13, "flag": 730}；npcRom 12 → 13
+PASS [LOVECAP 以安 借據] 下次見面（總圖）演了微捲機那段  ["沈以安｜溫州街有一間店，我經過四次了。", "沈以安｜每次走到門口，我就想到我沒有理由進去。", "沈以安｜我不渴，也不餓。我只是想進去看看。這樣算理由嗎？", "沈以安｜你會一個人去一間店嗎？就只是因為想去？", "祐廷｜會。我常一個人走進沒去過的店，就只是想看看。", "沈以安｜就只是想看看……那你最近進去的是哪一間？我要寫下來。", "｜（她把螢光筆照顏色排回筆袋。）", "沈以安｜下次換你決定讀哪一科。"]
+FAIL [LOVECAP 以安 借據] 選了「也幫我印一張。」（love 2）、這部合計不超過 +2：MOVIE_LOVE 仍 2、這次沒有加 npcRom  {"ml2": {"love": {"m2709b": 2}, "rom": 13, "flag": 730}, "adj": [{"id": "heroine_01", "d": {"npcRom": 2}, "h": 11.599, "z": "xs_nanyang", "n": 22}, {"id": "heroine_01", "d": {"trust": 1, "comf": 2}, "h": 13.134, "z": "library_hall", "n": 53}, {"id": "heroine_01", "d": {"fam": 3, "trust": 2, "comf": 1}, "h": 13.884, "z": "library_hall", "n": 55}, {"id": "heroine_01", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 13.884, "z": "library_hall", "n": 55}]}
+PASS 沒有 JS 例外  []
+FAILED 1: [LOVECAP 以安 借據] 選了「也幫我印一張。」（love 2）、這部合計不超過 +2：MOVIE_LOVE 仍 2、這次沒有加 npcRom
