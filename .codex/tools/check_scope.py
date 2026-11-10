@@ -31,9 +31,14 @@ def git(root: Path, *args: str) -> str:
 
 def changed(root: Path, base: str) -> set[str]:
     git(root, "rev-parse", "--verify", f"{base}^{{commit}}")
-    tracked = git(root, "diff", "--name-only", "--no-renames", "-z", base, "--")
+    # A base-to-worktree diff alone can hide an out-of-scope staged change
+    # when the worktree is restored to the base before checking. Inspect each
+    # layer separately so committed/index/worktree changes cannot cancel out.
+    committed = git(root, "diff", "--name-only", "--no-renames", "-z", base, "HEAD", "--")
+    staged = git(root, "diff", "--cached", "--name-only", "--no-renames", "-z", "--")
+    unstaged = git(root, "diff", "--name-only", "--no-renames", "-z", "--")
     untracked = git(root, "ls-files", "--others", "--exclude-standard", "-z")
-    return set(filter(None, (tracked + untracked).split("\0")))
+    return set(filter(None, (committed + staged + unstaged + untracked).split("\0")))
 
 
 def valid_path(root: Path, path: str) -> bool:
