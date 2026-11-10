@@ -1514,7 +1514,7 @@
    "at": "2026-10-30T04:4x",
    "quote": "2點半咖啡看出去窗景 進門那個方向 還是非動態 很像貼一張圖",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在遊戲裡",
    "wants": "X132",
    "task": "CAFE-WINDOW-LIVE-1030"
   },
@@ -1586,7 +1586,7 @@
    "at": "2026-10-30T05:1x",
    "quote": "去經濟系辦拿東西 怎麼說我轉系 我是重考欸",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在遊戲裡",
    "wants": "X140",
    "task": "SK02-LINE-JACKET-1030"
   },
@@ -1595,7 +1595,7 @@
    "at": "2026-10-30T05:1x",
    "quote": "我選了穿去霖澤上課 結果我的衣服在遊戲裡面也沒換",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在遊戲裡",
    "wants": "X140",
    "task": "SK02-LINE-JACKET-1030"
   },
@@ -2982,7 +2982,7 @@
    "at": "2026-11-05T03:4xZ",
    "quote": "可以上傳試",
    "kind": "選擇題答案",
-   "status": "進行中",
+   "status": "已完成",
    "wants": "X225",
    "task": "OPEN-SRC-2D3D-1104",
    "note": "LAWWW2 挑幾張使用者的參考圖上傳 TRELLIS.2 線上版試跑，結果好才考慮用；已轉 LAWWW2-C"
@@ -2992,7 +2992,7 @@
    "at": "2026-11-05T03:4xZ",
    "quote": "我去加那 20 個網域",
    "kind": "選擇題答案",
-   "status": "進行中",
+   "status": "已完成",
    "wants": "X225",
    "task": "OPEN-SRC-2D3D-1104",
    "note": "使用者自己改雲端環境 Network access；03:5x 改好，LAWWW-C 實測 proxy 全部放行"
@@ -3127,7 +3127,7 @@
    "at": "2026-11-05T07:0xZ",
    "quote": "路人裙子卡進椅子（體育館一樓長椅截圖）",
    "kind": "原話",
-   "status": "在開發分支",
+   "status": "在遊戲裡",
    "wants": "X239",
    "task": "SKIRT-BENCH-CLIP-1105",
    "note": "交 LAWWW2（人物模型小穿模，D100a）"
@@ -3185,7 +3185,7 @@
    "at": "2026-11-05T07:5xZ",
    "quote": "新生南路側門有 但怎麼跟公館同側 我希望他在映月湖和博思中間（校園內看側門的截圖）",
    "kind": "原話",
-   "status": "進行中",
+   "status": "已完成",
    "wants": "X245",
    "task": "XS-GATE-MOVE-1105"
   },
