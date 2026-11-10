@@ -324,6 +324,24 @@ GGLANE_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_plann
 # ③ 映月湖垂柳 v2：鳥瞰、北岸（＋南岸對照）；新版 b296、舊版 99294
 WILLOW_new | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_new;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
 WILLOW_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_old;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
+# ===== P0 BB 17:04：v9.10.24 發布前回歸（70e23b32c）排最前面；每支跑完就推結果 =====
+V24_deploy | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
+V24_p0 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+V24_zone | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+V24_mini | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+V24_classreal | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
+V24_reach | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+V24_main12 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+V24_touch | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
+V24_guide | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+V24_ggnav | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+V24_outing | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=new
+V24_capgap | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=v24
+V24_v7 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
+# BB 17:06：線上 v9.10.23（main 3a34dbaa5）→ 70e23b32c 的存檔相容（比 v7 重要）。兩支：save_compat_v95（舊版自己做第 1 天自動存檔＋第 3、9、23 天三個欄位，最完整）、save_compat_v7（新遊戲存檔＋48 個位置）；兩支都是「舊版網址＝{url2}」
+V24_live | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+V24_live_pos | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+# ===== P0 以上；以下是原本的佇列 =====
 # BB 16:04／16:05：LAWWW 字幕修正＋測試修正推上來以後，同一個 SHA 跑（SHA 到了再打開；舊＝8a98ff1e0）
 FIX_ggnav | aa691df333d23bc46abb9445c249090d4b57f3d1 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
 FIX_day2an | aa691df333d23bc46abb9445c249090d4b57f3d1 | game | tests/flow_day2_an.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
@@ -349,11 +367,8 @@ SHIFT_r6_F_old | 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed | probe | docs/story_p
 # USCLS r2（開發分支最新）：ONE／EXAM 改 09:15（r1 08:30 公寓還沒有「去上課」）、FINAL 每頁停 2.5 秒看教授走到門口、WALK 字卡過了再拍坐著、坐著 8 秒幀率
 USCLS_r2 | aa691df333d23bc46abb9445c249090d4b57f3d1 | probe | docs/story_planning/test_tools/cc/cc_us_class_story_probe.py | index.html | 60 | CASES=WALK,ONE,EXAM,FINAL;Q=medium
 # BB 16:46 OUTING_GATE：戀愛 ≥15 就能約出去玩（200dad724）；以安同一份存檔只改戀愛：14 灰、15 亮且約到底（出發、到達、fb）、15＋冷淡期灰；D34 舊 aa691 在 15 要灰
-#HOLD OUTING_new | SHA_TBD | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=new   # BB 16:55：等 LAWWW 新 SHA（AA 說明字 08543d6fd），不要用 06e7
 OUTING_old | aa691df333d23bc46abb9445c249090d4b57f3d1 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 15 | TAG=old;CASES=R15
 # BB 16:55：LAWWW 下一個 SHA 到了再開——guide_flow（總圖那項的 [診斷]：最近互動點、6 m 內互動點、4 m 內的人）、gongguan_layout_nav（E.placeAt＋600 ms、[診斷] 加 lv／nearest／entering）
-#HOLD NEXT_guide | SHA_TBD | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
-#HOLD NEXT_ggnav | SHA_TBD | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
 # 接著（BB 15:53 順序）：SHIFT-TREAT 新舊對照（IMM）→ SHIFT r3（A～F）
 # BB 15:02 SHIFT-TREAT（X302）：語彤在一盞 A 陌生人／B 朋友 T3（第一樣免費、第二樣扣）／C 同一天再進／D 玩家自己上班／E 點頭之交；新 063cf14ab、舊 8b31bbaa0（合併 bbb0db1e0 之前；aec7f851c^ 已含功能）
 # BB 15:52 SHIFT-TREAT 新修（01bab1823）D34 對照：進店「馬上」點單／坐下要先演、不扣錢；出口不演。舊 8a98ff1e0（要扣錢＝FAIL）
