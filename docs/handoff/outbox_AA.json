@@ -6139,6 +6139,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "使用者 11-10「禮拜天遇到沈以安 他問我今天還有課嗎」；X271"
+  },
+  {
+   "task": "MOVIE-REAL-1110",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_730_nanyang_movies.json",
+    "docs/story_planning/AA_708_activity_scenes.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-10",
+   "next": "LAWWW：邀約句「看《片名》」、大廳海報牆＋黑板、1 廳銀幕、MOVIE_DIM 換 dimTitle、選片照 pick＋sceneFilm；AA_708 重新匯入（語彤第 2 場 mid）。BB：照 D97 跟使用者要 72 張海報（id＝檔名）",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false
   }
  ],
  "items": [
