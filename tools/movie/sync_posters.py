@@ -3,7 +3,7 @@
 讀 origin/claude/story-planning 的 docs/story_planning/bg_approved/posters/README.md：表格裡「檢查」欄以「通過」開頭的 id，
 而且那個 .webp 在企劃線上有、在片單（src/data/nanyang_movies.js）裡有 → 複製到 assets/posters/<id>.webp。
 再改 src/movies3d.js 的 S.POSTERS（assets/posters 裡所有的）、LICENSES.md「南洋戲院電影海報第四批起」那一列的 id 清單。
-用法：git fetch origin claude/story-planning；python3 tools/movie/sync_posters.py [--ref origin/claude/story-planning]
+用法：git fetch origin claude/story-planning；python3 tools/movie/sync_posters.py [--ref origin/claude/story-planning] [--ok m2901a,m2907a（BB 交件訊息寫通過、README 表格沒寫的）]
 最後印：遊戲裡幾張、片單幾張、還缺哪些。"""
 import os, re, subprocess, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -16,6 +16,8 @@ def git(*a, binary=False):
 need = sorted(set(re.findall(r'm\d{4}[ab]', open(os.path.join(ROOT, 'src/data/nanyang_movies.js'), encoding='utf-8').read())))
 readme = git('show', f'{ref}:{D}README.md')
 ok = sorted({m.group(1) for m in re.finditer(r'^\| (m\d{4}[ab]) \|[^|]*\| *通過', readme, re.M)})
+# README 表格以外寫通過的（例：重生後通過寫在條列，11-10 BB 7d58a6eb1 的 m2901a、m2907a）：交件訊息寫的 id 用 --ok id,id 補
+if '--ok' in sys.argv: ok = sorted(set(ok) | set(sys.argv[sys.argv.index('--ok') + 1].split(',')))
 have_remote = set(re.findall(r'(m\d{4}[ab])\.webp', git('ls-tree', '--name-only', f'{ref}:{D}')))
 os.makedirs(os.path.join(ROOT, 'assets/posters'), exist_ok=True)
 added, replaced = [], []
