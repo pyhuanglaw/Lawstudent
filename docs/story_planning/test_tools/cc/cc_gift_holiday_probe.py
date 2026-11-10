@@ -18,6 +18,7 @@ CASES（預設全跑）：xmas,valentine,qixi,birthday,normal,third,hergift,mail
   hergift：聖誕當天找她（遊戲裡 GIFTH.herCell 成立的人），說話、選單選「就這樣」（你沒送）→ 她送你（scene＋lines），recv 多一筆。
   mailbox：交往中、節日那天她不在臺北（STORY.presence here=false）的人；存檔裡沒有就【捷徑】設 flags.dating_<她>；讀檔到校園宿舍門口 6 m 外，走進宿舍 → 包裹旁白＋卡片。
      （遊戲的做法：進 dorm 開頭的區域就自動演，不是按「看信箱」；探針另外走到「看信箱」按一次，只記 INFO。）
+BB 12:39：love 那兩段（xmas、birthday）送完以後加查「包包沒有那一樣」＋手機人物頁「她喜歡」有它（她當天回送的也要在「她送的」）。third 照 AA_732（同節日第三個收禮人），旁邊有人只記 INFO、不開 strict。
 存檔：tests/fixtures/user_save_day54_1110.json（以安熟悉 100、信任 51、自在 64＝第 4 階；可昕交往中）。包包【前置／捷徑】＝G.flags.GIFTH.bag（[{id,day,shop}]，等於事先在店裡買好）。
 條件事件：讀檔用 quiet_events（關 EVENTS.onEnter／tick、手機自動打開）＝【前置】；送禮、她送你、信箱都不走條件事件。
 候選：同一天先排不走動的（「走走」排最後）、圖書館排後面；一個候選說完話沒有出說話最後的選單（offerInvite，有「就這樣」）就換下一個，最多三個。
@@ -278,6 +279,27 @@ def decline(o):
     return len(o) - 1
 
 
+
+SECT_JS = """(()=>{ const out={}; for(const sp of document.querySelectorAll('#phoneBody span.muted')){ const t=(sp.textContent||'').trim(); if(t==='她喜歡'||t==='她送的'){ out[t]=(sp.parentElement.innerText||'').trim(); } } return out; })()"""
+
+
+async def person_page(pg, cdp, run, pid, tag):
+    """BB 12:39：送完 love 以後，手機 → 朋友 → 她的「資料」（GIFTH.personHTML 的「她喜歡」「她送的」）。照玩家點；回傳 (有沒有打開, 區塊文字)"""
+    for _ in range(20):   # 等對話、選單都收掉（她可能接著回送）
+        busy = await pg.evaluate("(()=>!!(GAME.D&&GAME.D.active)||!!document.querySelector('#choices:not(.hide) button'))()")
+        if not busy: break
+        if await pg.evaluate("!!(GAME.D&&GAME.D.active)"): await L.tap(pg, cdp, '#dlg')
+        await pg.wait_for_timeout(700)
+    await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1500)
+    if not await pg.evaluate("(()=>{ const e=document.getElementById('phone'); return !!(e&&e.offsetParent!==null&&!e.classList.contains('hide')); })()"): return False, {'err': '手機沒打開'}
+    await L.tap(pg, cdp, '#phoneTabs [data-ptab="friends"]'); await pg.wait_for_timeout(1200)
+    sel = '#phoneBody [data-person="%s"]' % pid
+    if not await pg.evaluate("(s=>!!document.querySelector(s))", sel): return False, {'err': '朋友清單沒有 %s 的「資料」' % pid}
+    await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1500)
+    found = await pg.evaluate(SECT_JS); await run.shot(pg, '%s_person' % tag)
+    await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(900)
+    return True, found
+
 async def holiday_case(pg, cdp, run, S, name, kind, cat, errs):
     print('== %s（%s；送 %s 類）' % (name, kind, cat), flush=True)
     c = await candidates(pg, kind, 'alone', S, bday=(kind == 'bday'))
@@ -331,6 +353,13 @@ async def holiday_case(pg, cdp, run, S, name, kind, cat, errs):
         got = [x['d'] for x in adj]
         info('[%s] SOCIAL.adjust(%s) 實際收到' % (name, pid), J(adj))
         check('[%s] 好感：SOCIAL.adjust(%s, %s)（%s 類；她第 %s 階%s）' % (name, pid, J(exp), cat, g0['stage'], '，love 的戀愛 +2 認識就算＝509b54c2d' if cat == 'love' else ''), exp in got, J(got))
+        if cat == 'love' and give:   # BB 12:39：送完 love 以後，人物頁有記錄、包包少了那一樣
+            check('[%s] 包包裡沒有剛送出去的「%s」（%s）' % (name, give['name'], give['id']), give['id'] not in (g1['bag'] or []), J(g1['bag']))
+            okp, found = await person_page(pg, cdp, run, pid, name)
+            info('[%s] 人物頁（手機 → 朋友 → 資料）的區塊' % name, J(found))
+            check('[%s] 人物頁「她喜歡」有剛送的 love「%s」' % (name, give['name']), okp and give['name'] in (found.get('她喜歡') or ''), J(found))
+            gl = [x for x in (g1['recv'] or []) if x['pid'] == pid and x.get('k') == kind]
+            if gl: check('[%s] 她當天回送的「%s」也在人物頁「她送的」' % (name, gl[-1]['item']), okp and gl[-1]['item'] in (found.get('她送的') or ''), J(found))
         info('[%s] 遊戲時間 %.2f → %.2f（送禮不扣時段：不 GM.advance）' % (name, h0, g1['h']))
         check('[%s] 沒有 JS 例外' % name, not errs, J(errs[:3]))
         return
