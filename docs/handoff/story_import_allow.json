@@ -5117,6 +5117,15 @@
      "note": "被 7ac7380ff 取代（AA-B 11-08 09:54：朋友的 no 改成飲料、早餐都通）"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_729_greet_classday.json",
+   "sha": "fa0bc1c9d",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-10 00:42「回 BUG-GREET-NOCLASS-1110」：classDay 22、playerNoClass 3、nextClassDay 1、add 23 句週末／放假招呼，lint 0）",
+   "task": "BUG-GREET-NOCLASS-1110",
+   "kind": "json",
+   "note": "招呼只在上課日說的標記＋週末、放假的招呼（使用者 11-10「禮拜天遇到沈以安 他問我今天還有課嗎」）；tools/story/import_greet_classday.py → src/data/greet_classday.js"
   }
  ]
 }

@@ -684,9 +684,19 @@ const STORY = (function(){
   /* AA_378 #9（源檔 6e0d1313 的 choiceVariants）：以安 A7-L5 選項②兩種說法一次只出一個——演過新 18 當面那一場（AN_CHOICE here：萬才館走廊）＝「妳媽媽後來呢？」，沒演過（群組、美國的私訊、還沒到）＝「妳媽媽知道嗎？」*/
   S.LADDER_CHOICE_IF['A7-L5']={'「妳媽媽後來呢？」':{flagIs:{AN_CHOICE:['here','video']}},'「妳媽媽知道嗎？」':{custom:G=>!(G&&G.flags&&['here','video'].includes(G.flags.AN_CHOICE))}};   /* AA_296 2-3-1 ①：美國路線她打來的視訊（AN_CHOICE video）也是聽她當面說完，當成 here 那一類 */
   S.ladChoices=function(st){ const R=S.LADDER_CHOICE_IF[st.id]; if(!R||!st.choices) return st.choices||[]; const ec=typeof EVENTS!=='undefined'&&EVENTS.cond; return st.choices.filter(c=>!R[c.t]||(ec&&EVENTS.cond(R[c.t]))); };
+  /* 招呼只在上課日說（BUG-GREET-NOCLASS-1110；使用者 11-10「禮拜天遇到沈以安 他問我今天還有課嗎」；AA_729＝src/data/greet_classday.js）：
+     上課日＝學期中（CALENDAR.kind＝term）週一～週五、不是颱風假；classDay 的句子只在上課日、playerNoClass 上課日而且玩家今天沒有還沒上的課、nextClassDay 隔天是上課日；
+     add＝週末（weekend）、放假（offDay：國定假日、寒暑假）的新招呼，和 base 一起抽 */
+  S.classDayOf=function(d){ if(typeof CALENDAR==='undefined') return true; if(CALENDAR.kind&&CALENDAR.kind(d)!=='term') return false; const wd=(CALENDAR.dateOf(d).wd|0)%7; if(wd===0||wd===6) return false; return !(CALENDAR.typhoon&&CALENDAR.typhoon(d)); };
+  S.playerFreeToday=function(G){ if(typeof CLS==='undefined'||!CLS.dayItems) return false; const R=CLS.rec(G); return !CLS.dayItems(G).some(it=>!(R.done&&R.done[it.key])&&(!CLS.status||CLS.status(G,it)!=='missed')); };
+  const GCD=()=>typeof GREET_CLASSDAY!=='undefined'?GREET_CLASSDAY:null;
+  S.greetDayOk=function(G,id,t){ const C=GCD(); if(!C) return true; const has=tag=>((C[tag]||{})[id]||[]).includes(t);
+    if(has('classDay')&&!S.classDayOf(G.day)) return false; if(has('playerNoClass')&&!(S.classDayOf(G.day)&&S.playerFreeToday(G))) return false; if(has('nextClassDay')&&!S.classDayOf(G.day+1)) return false; return true; };
+  S.greetAdd=function(G,id){ const C=GCD(), A=(C&&C.add&&C.add[id])||[]; if(!A.length||typeof CALENDAR==='undefined') return []; const wd=(CALENDAR.dateOf(G.day).wd|0)%7, k=CALENDAR.kind?CALENDAR.kind(G.day):'term';
+    return A.filter(e=>e.kind==='weekend'?(wd===0||wd===6):(k==='holiday'||k==='break')).map(e=>e.t); };
   S.ladGreet=function(G,id){ const D=S.ladData(G,id), L=D&&D.L; if(!L||!L.greet) return null; const so=ladRec(G), u=so.greetUsed[id]&&so.greetUsed[id].day===G.day?so.greetUsed[id]:(so.greetUsed[id]={day:G.day,list:[],last:(so.greetUsed[id]||{}).last}); const g=L.greet;
-    const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(!ladGreetOk(G,w.t)) continue; if(datingQuiet(G,w,id,g,'greet')) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; ladGreetUsed(G,w.t); return w.t; } }
-    const B=(g.base||[]).filter(t=>ladGreetOk(G,t)); if(!B.length) return null;   /* base 也看 LADDER_GREET_IF（條件不到的那一句跳過）*/ const n=(((G.day*7+(so.ladder[D.key]|0)+u.list.length)%B.length)+B.length)%B.length; let t=B[n]; if(t===u.last&&B.length>1) t=B[(n+1)%B.length]; u.list.push(t); u.last=t; return t; };
+    const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(!ladGreetOk(G,w.t)||!S.greetDayOk(G,id,w.t)) continue; if(datingQuiet(G,w,id,g,'greet')) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; ladGreetUsed(G,w.t); return w.t; } }
+    const B=(g.base||[]).filter(t=>ladGreetOk(G,t)&&S.greetDayOk(G,id,t)).concat(S.greetAdd(G,id).filter(t=>ladGreetOk(G,t))); if(!B.length) return null;   /* base 也看 LADDER_GREET_IF（條件不到的那一句跳過）*/ const n=(((G.day*7+(so.ladder[D.key]|0)+u.list.length)%B.length)+B.length)%B.length; let t=B[n]; if(t===u.last&&B.length>1) t=B[(n+1)%B.length]; u.list.push(t); u.last=t; return t; };
   /* 播一層：她說的話 → 玩家的回答（最多 2）→ 她的收尾；rel、mem 照資料；推進一層（今天不再推進）*/
   /* linesIf／extraIf 的一套：情境 key（week、term、weekday、time、location、weather、weekParity、dayMin、locTime）照 ladCtxOk 檢查，其他（if、unless、或直接寫的條件）交給 EVENTS.cond。
      2026-10-16 AA-B 驗收：原本整套丟給 EVENTS.cond，它不認得 week 就忽略＝永遠成立（以安大一下第 3 週就說「杜鵑花謝了」）*/
