@@ -1,0 +1,1444 @@
+{
+ "_meta": {
+  "doc": "AA_730 南洋戲院片單（MOVIE-REAL-1110）",
+  "by": "AA-B 2026-11-10",
+  "level": "第①級，AA 定稿（D109）",
+  "task": "MOVIE-REAL-1110；USER_WANTS X274",
+  "user": "使用者 11-10 01:1x（經 LAWWW-B）：「約看電影 根本沒進場 還在買票區的椅子上就看完了? 而且應該要有什麼電影的資訊吧 至少你可以規定大幾的幾月到幾月是什麼電影? 再跟我要電影海報 請AA寫是什麼電影 BB跟我要電影海報」",
+  "rules": [
+   "南洋戲院是二輪戲院，一張票看兩部（AA_615 第 3 節），只有 1 廳。每一段期間 bill 兩部：slot 1＝第一部（一年前很紅的那部，多半是動作、科幻、動畫、賀歲片），slot 2＝第二部（法庭、推理、愛情、紀錄片、老片重映）。",
+   "期間照月份，from～to 含頭尾，兩個月換一次：經濟系那一年（2024-09）到畢業以後一年（2030-08），共 36 段 72 部。2030-08 以後照最後一段。交換路線在國外的那幾個月照列（玩家去不了，不影響）。",
+   "片名、內容全部虛構（D77）；不寫導演、演員、片商。之後查到和真的電影同名，AA 改名、id 不變。",
+   "id＝海報檔名用（例 m2409a＝2024-09 那一段的第一部）；BB 照 D97 跟使用者要海報：一部一張，直式，片名照 title 寫在海報上。",
+   "tags＝這部有什麼（給下面的 sceneFilm 用）：action 動作、scifi 科幻、anime 動畫、comedy 喜劇、romance 愛情、court 法庭、mystery 推理、doc 紀錄片、drama 劇情、family 家庭、sports 運動、music 音樂、art 老片重映、cat 有貓、library 有人在圖書館讀到閉館、bookstore 有書店、long 三個小時的長片。",
+   "fits＝這部是她喜歡的類型（以安法庭推理、芷若老片和安靜的愛情片、語彤紀錄片和人的故事、子晴動作科幻遊戲和貓、學姊長片和法律人的片、沛珊動畫喜劇和會哭的片、可昕當紅的大片和運動片）。芯慈、Alison 不列（Alison 在戲院打工，每一部都看過）；朋友（柏翰等）約看電影＝第一部。"
+  ]
+ },
+ "pick": [
+  "1. 約的那天落在哪一段，就是那一段的 bill。",
+  "2. 先看那一次會演 AA_708 movie 的哪一場（次數＋階段，照 AA_708 _meta）。那一場在 sceneFilm 有寫：want＝挑有其中一個 tag 的那部；not＝挑沒有那些 tag 的那部；billHas＝bill 裡要有一部有這個 tag（以安「今天有新的法庭片……我們看別的」）。",
+  "3. bill 兩部都不合：這一次不演那一場，照「階段不夠」演 AA_649 第 4 節的一般句，下一次再演那一場（同 AA_708 _meta 第 1 條）。輪換（rot）不合的那一則跳過，演別則。",
+  "4. sceneFilm 沒寫：挑 fits 有她的那一部；兩部都有她或都沒有她＝第一部。以安第 3 場「看你想看的」照 not 挑。",
+  "5. 片在約的時候就定，存進那一筆約（約好的那天如果跨到下一段，照約的時候選的那部）；邀約句寫「看《片名》」。",
+  "6. 戲院大廳：海報牆貼那一段的兩張；黑板「今日放映」寫 nowBoard。1 廳的銀幕：那次看的那部的海報（電影畫面 movie_01～10 等使用者給圖照舊接）。",
+  "7. 看電影的旁白：invites3d.js S.MOVIE_DIM 換成 dimTitle（片名照第 5 條那部）。一個人看（AA_615 第 3 節的隨機旁白）換成 solo 三句。"
+ ],
+ "nowBoard": "今日放映　①《{big}》②《{small}》　一張票兩部 150 元",
+ "dimTitle": "（燈暗下來，《{title}》開始了。）",
+ "solo": [
+  "（第一部是《{big}》，一年前很紅的那部。你這次才看懂結局。）",
+  "（第二部《{small}》看到一半，前面有人睡著了。）",
+  "（散場的時候已經很晚，新生南路上的車少了。）"
+ ],
+ "sceneFilm": {
+  "heroine_01": {
+   "1": {
+    "want": [
+     "court",
+     "mystery"
+    ],
+    "why": "mid「那個證人剛剛說的，跟前面矛盾吧？」"
+   },
+   "2": {
+    "want": [
+     "court"
+    ],
+    "why": "seat「這次我選的。是法庭片。」"
+   },
+   "3": {
+    "not": [
+     "court"
+    ],
+    "why": "seat「今天不看法庭片。看你想看的。」"
+   },
+   "rot.1": {
+    "billHas": [
+     "court"
+    ],
+    "not": [
+     "court"
+    ],
+    "why": "seat「今天有新的法庭片。……我們看別的。」"
+   }
+  },
+  "heroine_03": {
+   "2": {
+    "want": [
+     "doc"
+    ],
+    "why": "seat「是紀錄片。」（mid 這次改成不指定哪一間店）"
+   },
+   "rot.1": {
+    "want": [
+     "doc"
+    ],
+    "why": "seat「今天也有紀錄片。」"
+   }
+  },
+  "heroine_04": {
+   "1": {
+    "want": [
+     "action"
+    ],
+    "why": "seat「我只看動作片。」"
+   },
+   "3": {
+    "want": [
+     "romance"
+    ],
+    "why": "mid「是一部愛情片。」"
+   },
+   "rot.0": {
+    "want": [
+     "action"
+    ],
+    "why": "seat「動作片。大桶的。」"
+   },
+   "rot.1": {
+    "want": [
+     "cat"
+    ],
+    "why": "seat「今天這部有貓。我查過了。」"
+   }
+  },
+  "heroine_05": {
+   "2": {
+    "want": [
+     "library"
+    ],
+    "why": "mid「有一幕主角在圖書館讀到閉館。」"
+   },
+   "3": {
+    "want": [
+     "long"
+    ],
+    "why": "mid「三個小時的電影」"
+   },
+   "rot.1": {
+    "want": [
+     "bookstore"
+    ],
+    "not": [
+     "library"
+    ],
+    "why": "seat「今天這部沒有圖書館。」mid「電影裡有一間書店。」"
+   }
+  },
+  "classmate_peishan": {
+   "1": {
+    "want": [
+     "anime"
+    ],
+    "why": "seat「我要看動畫電影！」"
+   },
+   "rot.1": {
+    "want": [
+     "comedy"
+    ],
+    "why": "seat「今天這部是喜劇，不會哭。」"
+   }
+  }
+ },
+ "aa708": "同一個 commit 改 AA_708 movie.heroine_03.2.mid：「（紀錄片拍的是一間開了四十年的老茶行……）」→「（是一部紀錄片，拍一個做了幾十年生意的老闆。……）」——片單有四部紀錄片（老茶行、老街照相館、騎樓下的修鞋攤、巷口的燒臘店），不指定是哪一間；bye「我想像那個老闆那樣，記得每一個客人。」照留。",
+ "periods": [
+  {
+   "from": "2024-09",
+   "to": "2024-10",
+   "term": "經濟系大一上",
+   "bill": [
+    {
+     "title": "深海七號站",
+     "genre": "科幻驚悚",
+     "tags": [
+      "action",
+      "scifi"
+     ],
+     "line": "海底研究站斷了通訊，只剩七個人。",
+     "fits": [
+      "heroine_04",
+      "kexin"
+     ],
+     "id": "m2409a",
+     "slot": 1
+    },
+    {
+     "title": "第三個證人",
+     "genre": "法庭推理",
+     "tags": [
+      "court",
+      "mystery"
+     ],
+     "line": "三個證人說的都不一樣，只有一個人沒說謊。",
+     "fits": [
+      "heroine_01",
+      "heroine_05"
+     ],
+     "id": "m2409b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2024-11",
+   "to": "2024-12",
+   "term": "經濟系（10/17 休學以後）",
+   "bill": [
+    {
+     "title": "高速公路最後一夜",
+     "genre": "動作",
+     "tags": [
+      "action"
+     ],
+     "line": "一個貨車司機載著一箱不能打開的東西，要在天亮以前開到墾丁。",
+     "fits": [
+      "heroine_04",
+      "kexin"
+     ],
+     "id": "m2411a",
+     "slot": 1
+    },
+    {
+     "title": "夜班店員",
+     "genre": "日常劇情",
+     "tags": [
+      "drama",
+      "cat"
+     ],
+     "line": "便利商店的夜班店員，和每天凌晨兩點來的同一隻貓。",
+     "fits": [
+      "heroine_03",
+      "heroine_02",
+      "heroine_04"
+     ],
+     "id": "m2411b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2025-01",
+   "to": "2025-02",
+   "term": "休學在家・重考準備",
+   "bill": [
+    {
+     "title": "雪地上的腳印",
+     "genre": "動畫冒險",
+     "tags": [
+      "anime"
+     ],
+     "line": "一隻小狐狸跟著雪地上的腳印，走過一整個冬天。",
+     "fits": [
+      "classmate_peishan",
+      "heroine_04"
+     ],
+     "id": "m2501a",
+     "slot": 1
+    },
+    {
+     "title": "年夜飯的位子",
+     "genre": "家庭喜劇",
+     "tags": [
+      "comedy",
+      "family"
+     ],
+     "line": "大年夜，一家人吵著誰要坐哪裡。",
+     "fits": [
+      "classmate_peishan",
+      "kexin"
+     ],
+     "id": "m2501b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2025-03",
+   "to": "2025-04",
+   "term": "重考準備",
+   "bill": [
+    {
+     "title": "第一次進火場",
+     "genre": "動作",
+     "tags": [
+      "action"
+     ],
+     "line": "消防隊最年輕的隊員，第一次進火場。",
+     "fits": [
+      "kexin",
+      "heroine_04"
+     ],
+     "id": "m2503a",
+     "slot": 1
+    },
+    {
+     "title": "春天的轉學生",
+     "genre": "青春愛情",
+     "tags": [
+      "romance"
+     ],
+     "line": "學期中轉來的女生，坐到了靠窗的最後一個位子。",
+     "fits": [
+      "classmate_peishan",
+      "heroine_02"
+     ],
+     "id": "m2503b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2025-05",
+   "to": "2025-06",
+   "term": "重考準備・考試",
+   "bill": [
+    {
+     "title": "存檔點",
+     "genre": "遊戲改編動畫",
+     "tags": [
+      "anime",
+      "action",
+      "comedy"
+     ],
+     "line": "一個掉進老遊戲裡的工程師，要找到下一個存檔點才回得來。",
+     "fits": [
+      "heroine_04",
+      "classmate_peishan"
+     ],
+     "id": "m2505a",
+     "slot": 1
+    },
+    {
+     "title": "最後一題",
+     "genre": "青春",
+     "tags": [
+      "drama",
+      "library"
+     ],
+     "line": "重考生每天在圖書館讀到閉館。考試那天寫到最後一題，筆沒水了。",
+     "fits": [
+      "kexin"
+     ],
+     "id": "m2505b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2025-07",
+   "to": "2025-08",
+   "term": "放榜・暑假",
+   "bill": [
+    {
+     "title": "夏日海灘大作戰",
+     "genre": "動作喜劇",
+     "tags": [
+      "action",
+      "comedy"
+     ],
+     "line": "一群救生員要在颱風來以前，找回一個走失的小孩。",
+     "fits": [
+      "kexin",
+      "classmate_peishan"
+     ],
+     "id": "m2507a",
+     "slot": 1
+    },
+    {
+     "title": "海邊的修車廠",
+     "genre": "公路劇情",
+     "tags": [
+      "drama"
+     ],
+     "line": "一台壞掉的車，讓一個人在海邊小鎮多待了一個夏天。",
+     "fits": [
+      "heroine_02",
+      "heroine_03"
+     ],
+     "id": "m2507b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2025-09",
+   "to": "2025-10",
+   "term": "法律系大一上",
+   "bill": [
+    {
+     "title": "第十三號月台",
+     "genre": "動作懸疑",
+     "tags": [
+      "action",
+      "mystery"
+     ],
+     "line": "捷運停在兩站中間，車廂裡有一個人不該在那裡。",
+     "fits": [
+      "heroine_04",
+      "heroine_01"
+     ],
+     "id": "m2509a",
+     "slot": 1
+    },
+    {
+     "title": "三份證詞",
+     "genre": "法庭懸疑",
+     "tags": [
+      "court",
+      "mystery"
+     ],
+     "line": "一場車禍，三份證詞，時間都差了五分鐘。",
+     "fits": [
+      "heroine_01",
+      "heroine_05"
+     ],
+     "id": "m2509b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2025-11",
+   "to": "2025-12",
+   "term": "大一上",
+   "bill": [
+    {
+     "title": "聖誕快遞",
+     "genre": "動畫愛情喜劇",
+     "tags": [
+      "anime",
+      "romance",
+      "comedy"
+     ],
+     "line": "聖誕夜的最後一件包裹，地址寫錯了。",
+     "fits": [
+      "classmate_peishan",
+      "heroine_02"
+     ],
+     "id": "m2511a",
+     "slot": 1
+    },
+    {
+     "title": "黑白的城市",
+     "genre": "經典重映（黑白片）",
+     "tags": [
+      "art",
+      "library"
+     ],
+     "line": "一個攝影師在找一張拍壞的照片，每天在圖書館翻舊報紙翻到閉館。",
+     "fits": [
+      "heroine_02"
+     ],
+     "id": "m2511b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2026-01",
+   "to": "2026-02",
+   "term": "大一寒假",
+   "bill": [
+    {
+     "title": "紅包去哪了",
+     "genre": "賀歲喜劇",
+     "tags": [
+      "comedy",
+      "family"
+     ],
+     "line": "四個表兄弟姊妹為了一個紅包，從除夕找到初五。",
+     "fits": [
+      "classmate_peishan",
+      "kexin"
+     ],
+     "id": "m2601a",
+     "slot": 1
+    },
+    {
+     "title": "去看極光的那年",
+     "genre": "愛情",
+     "tags": [
+      "romance",
+      "long"
+     ],
+     "line": "十年前說好要一起去看極光，只剩一個人去了。片長三小時。",
+     "fits": [
+      "heroine_02",
+      "heroine_05"
+     ],
+     "id": "m2601b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2026-03",
+   "to": "2026-04",
+   "term": "大一下",
+   "bill": [
+    {
+     "title": "斷橋以後",
+     "genre": "災難動作",
+     "tags": [
+      "action"
+     ],
+     "line": "地震把一條山路切成兩半，兩邊的人要在一天之內會合。",
+     "fits": [
+      "heroine_04",
+      "kexin"
+     ],
+     "id": "m2603a",
+     "slot": 1
+    },
+    {
+     "title": "沉默的書記官",
+     "genre": "法庭懸疑",
+     "tags": [
+      "court",
+      "mystery"
+     ],
+     "line": "開庭的時候，只有書記官發現證人改了一個字。",
+     "fits": [
+      "heroine_01",
+      "heroine_05"
+     ],
+     "id": "m2603b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2026-05",
+   "to": "2026-06",
+   "term": "大一下",
+   "bill": [
+    {
+     "title": "鋼鐵快遞",
+     "genre": "科幻動作動畫",
+     "tags": [
+      "action",
+      "scifi",
+      "anime"
+     ],
+     "line": "一台送貨機器人在城市裡被追了一整晚。",
+     "fits": [
+      "heroine_04",
+      "classmate_peishan"
+     ],
+     "id": "m2605a",
+     "slot": 1
+    },
+    {
+     "title": "老茶行",
+     "genre": "紀錄片",
+     "tags": [
+      "doc"
+     ],
+     "line": "一間開了四十年的老茶行，最後一個月。",
+     "fits": [
+      "heroine_03"
+     ],
+     "id": "m2605b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2026-07",
+   "to": "2026-08",
+   "term": "大一升大二暑假",
+   "bill": [
+    {
+     "title": "地圖上沒有的路",
+     "genre": "動畫",
+     "tags": [
+      "anime",
+      "comedy"
+     ],
+     "line": "三個小學生為了寫一份暑假作業，跑遍了整座城市。",
+     "fits": [
+      "classmate_peishan"
+     ],
+     "id": "m2607a",
+     "slot": 1
+    },
+    {
+     "title": "八月的冰店",
+     "genre": "青春愛情",
+     "tags": [
+      "romance",
+      "drama"
+     ],
+     "line": "一間只開暑假的冰店，和每年夏天回來打工的三個人。",
+     "fits": [
+      "heroine_03",
+      "classmate_peishan"
+     ],
+     "id": "m2607b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2026-09",
+   "to": "2026-10",
+   "term": "大二上",
+   "bill": [
+    {
+     "title": "颱風夜的貨船",
+     "genre": "動作",
+     "tags": [
+      "action"
+     ],
+     "line": "一艘貨船在颱風夜被困在海上，船長只剩三個船員。",
+     "fits": [
+      "kexin",
+      "heroine_04"
+     ],
+     "id": "m2609a",
+     "slot": 1
+    },
+    {
+     "title": "律師的早餐",
+     "genre": "法律職人喜劇",
+     "tags": [
+      "court",
+      "comedy"
+     ],
+     "line": "一個新律師每天早上都在早餐店接案子。",
+     "fits": [
+      "heroine_05",
+      "kexin"
+     ],
+     "id": "m2609b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2026-11",
+   "to": "2026-12",
+   "term": "大二上",
+   "bill": [
+    {
+     "title": "雪人信差",
+     "genre": "動畫",
+     "tags": [
+      "anime",
+      "cat"
+     ],
+     "line": "一個雪人和一隻貓，要在春天來以前把信送到。",
+     "fits": [
+      "classmate_peishan",
+      "heroine_04"
+     ],
+     "id": "m2611a",
+     "slot": 1
+    },
+    {
+     "title": "老街照相館",
+     "genre": "紀錄片",
+     "tags": [
+      "doc"
+     ],
+     "line": "一間照相館的老闆，幫整條街的人拍了五十年的證件照。",
+     "fits": [
+      "heroine_03",
+      "heroine_02"
+     ],
+     "id": "m2611b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2027-01",
+   "to": "2027-02",
+   "term": "大二寒假",
+   "bill": [
+    {
+     "title": "太空站的年夜飯",
+     "genre": "科幻喜劇",
+     "tags": [
+      "scifi",
+      "comedy"
+     ],
+     "line": "太空站上的三個人，要用剩下的材料煮一頓年夜飯。",
+     "fits": [
+      "heroine_04",
+      "classmate_peishan"
+     ],
+     "id": "m2701a",
+     "slot": 1
+    },
+    {
+     "title": "回家的高鐵",
+     "genre": "家庭劇情",
+     "tags": [
+      "drama",
+      "family",
+      "long"
+     ],
+     "line": "除夕的最後一班高鐵，一節車廂裡的七個人。片長三小時。",
+     "fits": [
+      "heroine_03",
+      "heroine_05"
+     ],
+     "id": "m2701b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2027-03",
+   "to": "2027-04",
+   "term": "大二下",
+   "bill": [
+    {
+     "title": "黑貓特工",
+     "genre": "動作喜劇",
+     "tags": [
+      "action",
+      "comedy",
+      "cat"
+     ],
+     "line": "一隻黑貓被當成特工，跟著真的特工出了一次任務。",
+     "fits": [
+      "heroine_04",
+      "classmate_peishan"
+     ],
+     "id": "m2703a",
+     "slot": 1
+    },
+    {
+     "title": "一句台詞的三天",
+     "genre": "劇情",
+     "tags": [
+      "drama",
+      "library"
+     ],
+     "line": "一個字幕翻譯每天在圖書館待到閉館，為了一句台詞想了三天。",
+     "fits": [
+      "heroine_02"
+     ],
+     "id": "m2703b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2027-05",
+   "to": "2027-06",
+   "term": "大二下",
+   "bill": [
+    {
+     "title": "放學後的球場",
+     "genre": "運動青春",
+     "tags": [
+      "sports"
+     ],
+     "line": "一支只剩五個人的籃球隊，最後一場比賽。",
+     "fits": [
+      "kexin",
+      "heroine_04"
+     ],
+     "id": "m2705a",
+     "slot": 1
+    },
+    {
+     "title": "密室的第五個人",
+     "genre": "推理",
+     "tags": [
+      "mystery"
+     ],
+     "line": "四個人被關在一個房間，可是桌上有五杯茶。",
+     "fits": [
+      "heroine_01"
+     ],
+     "id": "m2705b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2027-07",
+   "to": "2027-08",
+   "term": "大二升大三暑假",
+   "bill": [
+    {
+     "title": "四十分鐘的晴天",
+     "genre": "災難動作",
+     "tags": [
+      "action"
+     ],
+     "line": "颱風眼經過的四十分鐘，一架直升機要把人救出來。",
+     "fits": [
+      "heroine_04",
+      "kexin"
+     ],
+     "id": "m2707a",
+     "slot": 1
+    },
+    {
+     "title": "最後一晚的放映",
+     "genre": "劇情",
+     "tags": [
+      "drama",
+      "long"
+     ],
+     "line": "小鎮唯一的二輪戲院，要在最後一晚放完一百部片。片長三小時。",
+     "fits": [
+      "heroine_02",
+      "heroine_05"
+     ],
+     "id": "m2707b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2027-09",
+   "to": "2027-10",
+   "term": "大三上",
+   "bill": [
+    {
+     "title": "星河快遞",
+     "genre": "科幻動畫",
+     "tags": [
+      "anime",
+      "scifi",
+      "action"
+     ],
+     "line": "一艘送貨的小太空船，接到一張要送去銀河另一頭的單。",
+     "fits": [
+      "heroine_04",
+      "classmate_peishan"
+     ],
+     "id": "m2709a",
+     "slot": 1
+    },
+    {
+     "title": "借據",
+     "genre": "法律懸疑",
+     "tags": [
+      "court",
+      "mystery",
+      "library"
+     ],
+     "line": "一張三十年前的借據。一個法律系學生在圖書館翻了一整個學期的舊報紙。",
+     "fits": [
+      "heroine_01",
+      "heroine_05"
+     ],
+     "id": "m2709b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2027-11",
+   "to": "2027-12",
+   "term": "大三上",
+   "bill": [
+    {
+     "title": "最後一班捷運",
+     "genre": "愛情",
+     "tags": [
+      "romance"
+     ],
+     "line": "末班車上的兩個陌生人，坐過了站。",
+     "fits": [
+      "classmate_peishan",
+      "heroine_03"
+     ],
+     "id": "m2711a",
+     "slot": 1
+    },
+    {
+     "title": "騎樓下的修鞋攤",
+     "genre": "紀錄片",
+     "tags": [
+      "doc"
+     ],
+     "line": "一個在騎樓下修了五十年鞋的阿伯，和他記得的每一雙鞋。",
+     "fits": [
+      "heroine_03"
+     ],
+     "id": "m2711b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2028-01",
+   "to": "2028-02",
+   "term": "大三寒假",
+   "bill": [
+    {
+     "title": "新年快樂，陌生人",
+     "genre": "愛情喜劇",
+     "tags": [
+      "romance",
+      "comedy"
+     ],
+     "line": "跨年夜在同一張長椅上倒數的兩個人。",
+     "fits": [
+      "classmate_peishan",
+      "heroine_05"
+     ],
+     "id": "m2801a",
+     "slot": 1
+    },
+    {
+     "title": "貓咪咖啡館的星期三",
+     "genre": "溫馨",
+     "tags": [
+      "drama",
+      "cat"
+     ],
+     "line": "只有星期三開的咖啡館，和一隻不讓人摸的貓。",
+     "fits": [
+      "heroine_04",
+      "heroine_03"
+     ],
+     "id": "m2801b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2028-03",
+   "to": "2028-04",
+   "term": "大三下（交換路線在國外）",
+   "bill": [
+    {
+     "title": "往下開的火車",
+     "genre": "科幻動作",
+     "tags": [
+      "action",
+      "scifi"
+     ],
+     "line": "一列往地底下開的火車，車上只有一張回程票。",
+     "fits": [
+      "heroine_04"
+     ],
+     "id": "m2803a",
+     "slot": 1
+    },
+    {
+     "title": "檢察官的雨傘",
+     "genre": "法律劇情",
+     "tags": [
+      "court"
+     ],
+     "line": "一個檢察官每天下雨都忘了帶傘，直到他接到那個案子。",
+     "fits": [
+      "heroine_01",
+      "kexin"
+     ],
+     "id": "m2803b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2028-05",
+   "to": "2028-06",
+   "term": "大三下",
+   "bill": [
+    {
+     "title": "畢業旅行沒有我",
+     "genre": "青春喜劇",
+     "tags": [
+      "comedy"
+     ],
+     "line": "全班去畢業旅行，只有一個人留在學校。",
+     "fits": [
+      "classmate_peishan",
+      "kexin"
+     ],
+     "id": "m2805a",
+     "slot": 1
+    },
+    {
+     "title": "第八關",
+     "genre": "遊戲劇情",
+     "tags": [
+      "drama"
+     ],
+     "line": "一款沒有人破得了的遊戲，第八關藏著做遊戲的人留的話。",
+     "fits": [
+      "heroine_04"
+     ],
+     "id": "m2805b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2028-07",
+   "to": "2028-08",
+   "term": "大三升大四暑假",
+   "bill": [
+    {
+     "title": "沙漠的救援",
+     "genre": "動作",
+     "tags": [
+      "action"
+     ],
+     "line": "一支救援隊在沙漠裡找一架失聯的小飛機。",
+     "fits": [
+      "kexin",
+      "heroine_04"
+     ],
+     "id": "m2807a",
+     "slot": 1
+    },
+    {
+     "title": "鯨魚唱歌的地方",
+     "genre": "動畫",
+     "tags": [
+      "anime"
+     ],
+     "line": "一個小女孩坐船去找會唱歌的鯨魚。",
+     "fits": [
+      "classmate_peishan"
+     ],
+     "id": "m2807b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2028-09",
+   "to": "2028-10",
+   "term": "大四上",
+   "bill": [
+    {
+     "title": "時間的抽屜",
+     "genre": "奇幻愛情",
+     "tags": [
+      "romance",
+      "bookstore"
+     ],
+     "line": "舊書店裡有一個抽屜，打開就回到昨天，可是只能回去一次。",
+     "fits": [
+      "heroine_02",
+      "classmate_peishan"
+     ],
+     "id": "m2809a",
+     "slot": 1
+    },
+    {
+     "title": "律師不在",
+     "genre": "法律喜劇",
+     "tags": [
+      "court",
+      "comedy"
+     ],
+     "line": "事務所的律師全部出差，只剩一個實習生和三個客戶。",
+     "fits": [
+      "heroine_05",
+      "kexin"
+     ],
+     "id": "m2809b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2028-11",
+   "to": "2028-12",
+   "term": "大四上",
+   "bill": [
+    {
+     "title": "重力少女",
+     "genre": "運動熱血",
+     "tags": [
+      "sports",
+      "action"
+     ],
+     "line": "學校只有一個人的舉重社，要去參加全國賽。",
+     "fits": [
+      "kexin",
+      "heroine_04"
+     ],
+     "id": "m2811a",
+     "slot": 1
+    },
+    {
+     "title": "教室裡的第十三個人",
+     "genre": "校園懸疑",
+     "tags": [
+      "mystery"
+     ],
+     "line": "點名的時候是十二個人，教室裡坐了十三個。",
+     "fits": [
+      "heroine_01"
+     ],
+     "id": "m2811b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2029-01",
+   "to": "2029-02",
+   "term": "大四寒假",
+   "bill": [
+    {
+     "title": "過年的麻將桌",
+     "genre": "賀歲喜劇",
+     "tags": [
+      "comedy",
+      "family"
+     ],
+     "line": "過年的麻將桌上，一家人打了四天，誰都不肯先下桌。",
+     "fits": [
+      "classmate_peishan",
+      "kexin"
+     ],
+     "id": "m2901a",
+     "slot": 1
+    },
+    {
+     "title": "一個人的山",
+     "genre": "登山劇情",
+     "tags": [
+      "drama",
+      "long"
+     ],
+     "line": "一個人走完中央山脈，走了四十天。片長三小時。",
+     "fits": [
+      "heroine_05",
+      "heroine_03"
+     ],
+     "id": "m2901b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2029-03",
+   "to": "2029-04",
+   "term": "大四下",
+   "bill": [
+    {
+     "title": "鋼鐵颶風",
+     "genre": "科幻動作",
+     "tags": [
+      "action",
+      "scifi"
+     ],
+     "line": "一場颶風裡，一台救災機器人第一次自己做決定。",
+     "fits": [
+      "heroine_04",
+      "kexin"
+     ],
+     "id": "m2903a",
+     "slot": 1
+    },
+    {
+     "title": "證據之外",
+     "genre": "法庭劇",
+     "tags": [
+      "court"
+     ],
+     "line": "所有證據都指向他，只有他的律師不信。",
+     "fits": [
+      "heroine_01",
+      "heroine_05"
+     ],
+     "id": "m2903b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2029-05",
+   "to": "2029-06",
+   "term": "大四下・畢業",
+   "bill": [
+    {
+     "title": "地下室的樂團",
+     "genre": "音樂青春",
+     "tags": [
+      "music",
+      "comedy"
+     ],
+     "line": "一個只在地下室練團的樂團，第一次上台。",
+     "fits": [
+      "heroine_04",
+      "classmate_peishan"
+     ],
+     "id": "m2905a",
+     "slot": 1
+    },
+    {
+     "title": "期末最後一堂",
+     "genre": "校園劇情",
+     "tags": [
+      "drama",
+      "library"
+     ],
+     "line": "一個老師退休前的最後一堂課，全班沒有人缺席。前一天晚上，她在圖書館留到閉館。",
+     "fits": [
+      "heroine_03",
+      "heroine_01"
+     ],
+     "id": "m2905b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2029-07",
+   "to": "2029-08",
+   "term": "畢業以後（國考那年暑假）",
+   "bill": [
+    {
+     "title": "國考前一夜",
+     "genre": "喜劇",
+     "tags": [
+      "comedy"
+     ],
+     "line": "三個國考生在考前一晚，同時發現准考證不見了。",
+     "fits": [
+      "kexin",
+      "heroine_05"
+     ],
+     "id": "m2907a",
+     "slot": 1
+    },
+    {
+     "title": "九月的海風",
+     "genre": "愛情",
+     "tags": [
+      "romance"
+     ],
+     "line": "一個每年九月回到海邊小鎮的人，和一直留在那裡的人。",
+     "fits": [
+      "heroine_02",
+      "classmate_peishan"
+     ],
+     "id": "m2907b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2029-09",
+   "to": "2029-10",
+   "term": "畢業以後／大五",
+   "bill": [
+    {
+     "title": "行星備忘錄",
+     "genre": "科幻",
+     "tags": [
+      "scifi",
+      "long"
+     ],
+     "line": "一個人留在快沒有人的行星上，每天寫一則備忘錄。片長三小時。",
+     "fits": [
+      "heroine_04",
+      "heroine_05"
+     ],
+     "id": "m2909a",
+     "slot": 1
+    },
+    {
+     "title": "巷口的燒臘店",
+     "genre": "紀錄片",
+     "tags": [
+      "doc"
+     ],
+     "line": "一間開了四十年的燒臘店，最後一個月。",
+     "fits": [
+      "heroine_03"
+     ],
+     "id": "m2909b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2029-11",
+   "to": "2029-12",
+   "term": "畢業以後／大五",
+   "bill": [
+    {
+     "title": "南極十天",
+     "genre": "動作",
+     "tags": [
+      "action"
+     ],
+     "line": "南極的研究站失火，最近的船要開十天。",
+     "fits": [
+      "heroine_04",
+      "kexin"
+     ],
+     "id": "m2911a",
+     "slot": 1
+    },
+    {
+     "title": "冬至湯圓",
+     "genre": "家庭溫馨",
+     "tags": [
+      "family",
+      "drama"
+     ],
+     "line": "奶奶每年冬至都多煮一碗湯圓，給一個還沒回來的人。",
+     "fits": [
+      "classmate_peishan",
+      "heroine_05"
+     ],
+     "id": "m2911b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2030-01",
+   "to": "2030-02",
+   "term": "畢業以後／大五",
+   "bill": [
+    {
+     "title": "貓的新年",
+     "genre": "動畫喜劇",
+     "tags": [
+      "anime",
+      "cat",
+      "comedy"
+     ],
+     "line": "一隻家貓在過年的時候走丟了，跟著鞭炮聲走回家。",
+     "fits": [
+      "classmate_peishan",
+      "heroine_04"
+     ],
+     "id": "m3001a",
+     "slot": 1
+    },
+    {
+     "title": "地方法院的星期一",
+     "genre": "法庭劇",
+     "tags": [
+      "court"
+     ],
+     "line": "一個法官的星期一，從早上九點開到晚上九點。",
+     "fits": [
+      "heroine_01",
+      "heroine_05"
+     ],
+     "id": "m3001b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2030-03",
+   "to": "2030-04",
+   "term": "畢業以後／大五",
+   "bill": [
+    {
+     "title": "機器人不哭",
+     "genre": "科幻劇情",
+     "tags": [
+      "scifi",
+      "drama"
+     ],
+     "line": "一個照顧老人的機器人，學會了說謊。",
+     "fits": [
+      "heroine_04",
+      "heroine_03"
+     ],
+     "id": "m3003a",
+     "slot": 1
+    },
+    {
+     "title": "書店打烊以後",
+     "genre": "愛情",
+     "tags": [
+      "romance",
+      "bookstore"
+     ],
+     "line": "二手書店打烊以後，店員發現每本書裡都夾著同一個人的書籤。",
+     "fits": [
+      "heroine_02",
+      "heroine_05"
+     ],
+     "id": "m3003b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2030-05",
+   "to": "2030-06",
+   "term": "畢業以後／大五",
+   "bill": [
+    {
+     "title": "一百樓外面",
+     "genre": "動作",
+     "tags": [
+      "action"
+     ],
+     "line": "一個擦窗工人吊在一百樓外面，看到了不該看的東西。",
+     "fits": [
+      "heroine_04",
+      "kexin"
+     ],
+     "id": "m3005a",
+     "slot": 1
+    },
+    {
+     "title": "迷宮裡的偵探",
+     "genre": "推理喜劇",
+     "tags": [
+      "mystery",
+      "comedy"
+     ],
+     "line": "一棟像迷宮的老公寓，偵探在第三層迷路了。",
+     "fits": [
+      "heroine_01",
+      "classmate_peishan"
+     ],
+     "id": "m3005b",
+     "slot": 2
+    }
+   ]
+  },
+  {
+   "from": "2030-07",
+   "to": "2030-08",
+   "term": "畢業以後",
+   "bill": [
+    {
+     "title": "逆風的起跑線",
+     "genre": "運動熱血",
+     "tags": [
+      "sports",
+      "action"
+     ],
+     "line": "一個受傷的短跑選手，最後一次站上起跑線。",
+     "fits": [
+      "kexin"
+     ],
+     "id": "m3007a",
+     "slot": 1
+    },
+    {
+     "title": "起霧的城",
+     "genre": "經典重映（黑白片）",
+     "tags": [
+      "art"
+     ],
+     "line": "一座常年起霧的城市，一個找不到回家路的人。",
+     "fits": [
+      "heroine_02"
+     ],
+     "id": "m3007b",
+     "slot": 2
+    }
+   ]
+  }
+ ]
+}

@@ -82,8 +82,9 @@ function sweep(pk, live, B) {
     const m0 = G.msgs.length; const i0=(G.invites||[]).length;
     for (let h = 7; h < 24; h += 0.25) { G.hour = h; try { STORY.phoneRules(GM); PHONE.tick(G); answer(G, row); } catch (e) { if (errs.length < 40) errs.push(x.key + ' ' + fmtH(h) + ' 手機：' + String(e.message).slice(0, 80)); }
       if (h === 10 || h === 15 || h === 20) { try { for (const id of HOME.mustEvs(G)) if (!row.evs.includes(id)) row.evs.push(id); } catch (e) { if (errs.length < 40) errs.push(x.key + ' mustEvs：' + e.message); } } }
-    row.msgs = G.msgs.slice(m0).map(m => (m.ask ? '【要回】' : '') + (m.th || '') + '｜' + (NM[m.from] || m.from || m.name || '') + '：' + String(m.text || '').slice(0, 140));
-    row.mfrom = G.msgs.slice(m0).map(m => m.from || ''); row.inv=(G.invites||[]).slice(i0).map(iv=>(NM[iv.who]||iv.who)+' '+(iv.day-d)+'d '+iv.h+' '+iv.place+' '+iv.state+' '+(iv.kind||iv.type||''));
+    const thOf = m => { try { return (typeof PHONE !== 'undefined' && PHONE.th) ? (PHONE.th(m) || m.th || '') : (m.th || ''); } catch (e) { return m.th || ''; } }, whoOf = m => m.from || m.who || m.name || '';   /* LAWWW-C 11-04：邀約只有 who，PHONE.th 會用 who 放進她的私訊 */
+    row.msgs = G.msgs.slice(m0).map(m => (m.ask ? '【要回】' : '') + thOf(m) + '｜' + (NM[whoOf(m)] || whoOf(m)) + '：' + String(m.text || '').slice(0, 140));
+    row.mfrom = G.msgs.slice(m0).map(m => whoOf(m)); row.inv=(G.invites||[]).slice(i0).map(iv=>(NM[iv.who]||iv.who)+' '+(iv.day-d)+'d '+iv.h+' '+iv.place+' '+iv.state+' '+(iv.kind||iv.type||''));
     row.outs = (OUT.rec ? OUT.rec(G) : []).filter(q => q.day === d).map(q => fmtH(q.h) + ' ' + (q.title || q.id) + '（' + q.state + '）');
     G.hour = 12; for (const id of WHO) { try { const p = STORY.presence(id, G); if (p && p.here === false) row.away[NM[id]] = String(p.where || p.place || p.kind || p.why || '不在').slice(0, 14); } catch (e) {} }
     row.blank = !row.stops.length && !row.evs.length && !row.msgs.length && !row.outs.length && !row.cram && !row.play;

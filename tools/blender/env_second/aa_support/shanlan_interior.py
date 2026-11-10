@@ -330,7 +330,7 @@ for rt in IT['reading_table']:
     K.table_lamp(sh, rt['x'] - 0.55, rt['z'], y=y2 + 0.75, r=0.12, lvl='L2')
     for q in range(2): Xf(rt['x'] + 0.2 + q * 0.3, rt['z'] + 0.1, 0.2 * q, y2 + 0.75).rbox(sh.a('vcg', 'L2'), -0.11, 0.11, 0.0, 0.03, -0.15, 0.15, r=0.003, col=('#2f4a3a', '#e8e0cc')[q])
     K.dome_pendant(sh, rt['x'], rt['z'], y2 + 2.4, r=0.24, col='#e8e2d4', inner='#fbf3e0', lvl='L2', glow_size=0.8)
-sh.plant(-1.15, 1.6, h=1.3, r=0.22, pot_col='#e8e4dc', y0=y2); sh.plant(6.5, 1.6, h=1.1, r=0.2, pot_col='#d8d0c0', y0=y2)
+sh.plant(-1.15, 1.6, h=1.3, r=0.22, pot_col='#e8e4dc', y0=y2, lvl='L2'); sh.plant(6.5, 1.6, h=1.1, r=0.2, pot_col='#d8d0c0', y0=y2, lvl='L2')   # v5.1：二樓這兩盆原本漏了 lvl，被併進一樓的網格（LAWWW-C 11-05）
 for zz in (-8.0, -1.2): track(-6.0, 6.0, zz, H, 8, 'L2')
 for xx in (-3.2, -0.4, 2.4, 5.2):
     Xf(0, 0).rbox(sh.a('vcm', 'L2'), xx - 0.02, xx + 0.02, H - 0.04, H, -7.4, -2.0, r=0.004, seg=1, col='#2a2a2a')

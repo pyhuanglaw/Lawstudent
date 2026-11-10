@@ -5,15 +5,15 @@
  "tris_drawn": 82836,
  "materials": 18,
  "out": "assets/models/env/second_ai/aa_support/shanlan.glb",
- "bytes": 5440888,
+ "bytes": 5440896,
  "texres": 512,
  "layout": 2,
  "seats": 16,
  "floorSit": 10,
  "tris_by_level": {
-  "L1": 57826,
-  "L2": 23380,
+  "L1": 55450,
+  "L2": 25756,
   "walls": 1630
  },
- "version": "v5"
+ "version": "v5.1"
 }
