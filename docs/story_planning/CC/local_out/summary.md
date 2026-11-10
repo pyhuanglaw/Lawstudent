@@ -2692,3 +2692,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 4.1s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 131.3s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 131.3s] BROWSER DISCONNECTED
 - 2026-11-10T16:17:25  LE738_zone  sha=e73888074c  exit=0  261s    PASS 校門 → 公館：回到校園後走得到霖澤館前 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 3.9s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 179.9s] page close url=http://127.0.0.1:8801/index.html?turbo?turbo | [gpu_wrap 179.9s] BROWSER DISCONNECTED
+- 2026-11-10T16:23:17  LE738_libfloors  sha=e73888074c  exit=0  351s    PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 3.9s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 313.0s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 313.0s] BROWSER DISCONNECTED

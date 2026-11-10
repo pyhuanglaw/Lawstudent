@@ -58,3 +58,14 @@
 [16:17:25] [res] cpu=8% mem=40% (12.8/31.4 GB) chrome_testing=4  END LE738_zone
 [16:17:25] memory 40% before starting LE738_libfloors (2 running)
 [16:17:25] ==== START LE738_libfloors  (game @ e73888074c) ====
+[16:17:28] [res] cpu=17% mem=40% (12.8/31.4 GB) chrome_testing=4  START LE738_libfloors
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       77a67d4a3..60a6414e5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:17:30] ==== END   LE738_zone  exit=0  261s   ====
+[16:17:58] memory 47% before starting LE738_main12 (2 running)
+[16:17:58] ==== START LE738_main12  (game @ e73888074c) ====
+[16:18:01] [res] cpu=11% mem=48% (14.9/31.4 GB) chrome_testing=8  START LE738_main12
+[16:18:05] 正在跑：LE738_reach（已跑 1 分／上限 30 分）、LE738_libfloors（已跑 0 分／上限 60 分）、LE738_main12（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:23:05] 正在跑：LE738_reach（已跑 6 分／上限 30 分）、LE738_libfloors（已跑 5 分／上限 60 分）、LE738_main12（已跑 5 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:23:16] [res] cpu=10% mem=52% (16.4/31.4 GB) chrome_testing=9  END LE738_libfloors
