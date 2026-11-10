@@ -1,213 +1,117 @@
-[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_x295_board_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X295B_new_1103\out
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_x295_board_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X295B_new_1103\out
 CC X295 公告欄分頁版面：worktree ?；TAG new1103；2025-11-03（博思螢幕 2025-11-03）12.0 時；ORIENT ['portrait', 'landscape']；BOARDS ['gongtong', 'putong', 'boya']；Playwright 手機模擬 ≠ iPhone 實機
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
 PASS [portrait] 遊戲載入
   [前置／捷徑] [portrait｜gongtong] GAME.applySave 放到 gongtong（區域預設出生點＝入口附近）2025-11-03 12.0 時；條件事件、手機自動打開關掉
 PASS [portrait｜gongtong] 到了 gongtong  {"zone": "gongtong", "x": 0, "z": 4.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.04}
-  [  41.5s] [portrait｜gongtong] gongtong 的公告欄互動點：[{"label": "看公告欄", "x": -2.4, "z": 4.9, "lv": 0, "r": 1, "onInteract": true}]
+  [  38.4s] [portrait｜gongtong] gongtong 的公告欄互動點：[{"label": "看公告欄", "x": -2.4, "z": 4.9, "lv": 0, "r": 1, "onInteract": true}]
 PASS [portrait｜gongtong] 有「看公告欄」互動點  [{"label": "看公告欄", "x": -2.4, "z": 4.9, "lv": 0, "r": 1, "onInteract": true}]
-  [  41.5s] [portrait｜gongtong] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
-  [  41.5s] [portrait｜gongtong] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
+  [  38.4s] [portrait｜gongtong] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [  38.4s] [portrait｜gongtong] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
 PASS [portrait｜gongtong] 公告欄互動範圍裡有站得住的地方  {"label": "看公告欄", "x": -2.4, "z": 4.9, "lv": 0, "r": 1, "onInteract": true}
-  [  41.5s] [portrait｜gongtong] 從 (0, 4.8) 走到公告欄前 {"x": -1.8, "z": 4.9, "d": 1.8027756377319943}（互動點 (-2.4, 4.9)）
-  [  46.8s] 到達「[portrait｜gongtong] 走到公告欄」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  38.4s] [portrait｜gongtong] 從 (0, 4.8) 走到公告欄前 {"x": -1.8, "z": 4.9, "d": 1.8027756377319943}（互動點 (-2.4, 4.9)）
+  [  43.7s] 到達「[portrait｜gongtong] 走到公告欄」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
 PASS [portrait｜gongtong] 真的走到公告欄前（沒有被放到目的地）、互動鍵是「看公告欄」  {"x": -1.557, "z": 4.887, "lv": 0, "interact": "看公告欄", "fb": 0}
-PASS [portrait｜gongtong] 按下去 4 秒內出現對話框（分頁）或字幕  {"x": -1.56, "z": 4.89, "lv": 0, "busy": true, "interact": "", "dlg": true, "typing": true, "text": "公告欄：教室借用時間表、課", "full": "公告欄：教室借用時間表、課程異動、社團招生的海報。", "name": "", "caption": "", "zone": "gongtong", "hour": 12.08}
-  [  49.4s] [portrait｜gongtong] 第 1 頁「公告欄：教室借用時間表、課程異動、社團招生的海報。」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、2 行、字 16px
+PASS [portrait｜gongtong] 按下去 4 秒內出現對話框（分頁）或字幕  {"x": -1.56, "z": 4.89, "lv": 0, "busy": true, "interact": "", "dlg": true, "typing": true, "text": "公告欄：教室借用時間表、課程", "full": "公告欄：教室借用時間表、課程異動、社團招生的海報。", "name": "", "caption": "", "zone": "gongtong", "hour": 12.08}
+  [  46.3s] [portrait｜gongtong] 第 1 頁「公告欄：教室借用時間表、課程異動、社團招生的海報。」框 {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}、2 行、字 16px
 PASS [portrait｜gongtong] 第 1 頁 看得到整頁（#dlgText 的字＝這一句全文，25 字）  {"shown": 25, "full": 25}
-PASS [portrait｜gongtong] 第 1 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜gongtong] 第 1 頁 長內容沒有被裁（文字 2 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 812.6, "l": 31, "r": 351}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
+PASS [portrait｜gongtong] 第 1 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}、畫面 390x844）  {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}
+PASS [portrait｜gongtong] 第 1 頁 長內容沒有被裁（文字 2 行；scrollHeight 67／clientHeight 67、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 747.8, "b": 797.4, "l": 31, "r": 351}, "box": {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}}
 PASS [portrait｜gongtong] 第 1 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
 PASS [portrait｜gongtong] 第 1 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
 PASS [portrait｜gongtong] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜gongtong] 第 1 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [  50.9s] [portrait｜gongtong] 第 2 頁「本週公告　11/3（一）～11/9（日）」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、1 行、字 16px
-PASS [portrait｜gongtong] 第 2 頁 看得到整頁（#dlgText 的字＝這一句全文，20 字）  {"shown": 20, "full": 20}
-PASS [portrait｜gongtong] 第 2 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜gongtong] 第 2 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 787, "l": 31, "r": 288.8}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
-PASS [portrait｜gongtong] 第 2 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜gongtong] 第 2 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜gongtong] 第 2 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜gongtong] 第 2 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [  56.2s] [portrait｜gongtong] 第 3 頁「【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他…」框 {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}、6 行、字 16px
-PASS [portrait｜gongtong] 第 3 頁 看得到整頁（#dlgText 的字＝這一句全文，139 字）  {"shown": 139, "full": 139}
-PASS [portrait｜gongtong] 第 3 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}、畫面 390x844）  {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}
-PASS [portrait｜gongtong] 第 3 頁 長內容沒有被裁（文字 6 行；scrollHeight 154／clientHeight 154、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 661.4, "b": 813.4, "l": 31, "r": 357.8}, "box": {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}}
-PASS [portrait｜gongtong] 第 3 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜gongtong] 第 3 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜gongtong] 第 3 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜gongtong] 第 3 頁 點下一頁的範圍（整個對話框）≥44×44（362x181.6）
-  [  58.1s] [portrait｜gongtong] 第 4 頁「【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、2 行、字 16px
-PASS [portrait｜gongtong] 第 4 頁 看得到整頁（#dlgText 的字＝這一句全文，40 字）  {"shown": 40, "full": 40}
-PASS [portrait｜gongtong] 第 4 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜gongtong] 第 4 頁 長內容沒有被裁（文字 2 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 812.6, "l": 31, "r": 348}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
-PASS [portrait｜gongtong] 第 4 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜gongtong] 第 4 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜gongtong] 第 4 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜gongtong] 第 4 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [  59.1s] [portrait｜gongtong] 翻了 4 頁：["公告欄：教室借用時間表、課程異動、社團招生的海報。", "本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 1", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+PASS [portrait｜gongtong] 第 1 頁 點下一頁的範圍（整個對話框）≥44×44（362x95.2）
+  [  47.3s] [portrait｜gongtong] 翻了 1 頁：["公告欄：教室借用時間表、課程異動、社團招生的海報。"]
 PASS [portrait｜gongtong]［探針］每一頁都量到、截到圖  []
-PASS [portrait｜gongtong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 4, "want": 4, "diff": []}
-PASS [portrait｜gongtong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": false, "interact": "看公告欄"}
-  [  60.2s] [portrait｜gongtong] 中途離開：要一頁一頁點完 4 頁才關得掉（沒有「關閉」可以中途跳出）
+FAIL [portrait｜gongtong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 1, "want": 4, "diff": []}
+FAIL [portrait｜gongtong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": true, "interact": ""}
+  [  48.3s] [portrait｜gongtong] 中途離開：要一頁一頁點完 1 頁才關得掉（沒有「關閉」可以中途跳出）
   [前置／捷徑] [portrait｜putong] GAME.applySave 放到 putong（區域預設出生點＝入口附近）2025-11-03 12.0 時；條件事件、手機自動打開關掉
 PASS [portrait｜putong] 到了 putong  {"zone": "putong", "x": 0, "z": 5.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.05}
-  [  70.1s] [portrait｜putong] putong 的公告欄互動點：[{"label": "看公告欄", "x": -3.35, "z": 6.6, "lv": 0, "r": 1, "onInteract": true}]
+  [  59.1s] [portrait｜putong] putong 的公告欄互動點：[{"label": "看公告欄", "x": -3.35, "z": 6.6, "lv": 0, "r": 1, "onInteract": true}]
 PASS [portrait｜putong] 有「看公告欄」互動點  [{"label": "看公告欄", "x": -3.35, "z": 6.6, "lv": 0, "r": 1, "onInteract": true}]
-  [  70.1s] [portrait｜putong] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
-  [  70.1s] [portrait｜putong] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
+  [  59.1s] [portrait｜putong] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [  59.1s] [portrait｜putong] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
 PASS [portrait｜putong] 公告欄互動範圍裡有站得住的地方  {"label": "看公告欄", "x": -3.35, "z": 6.6, "lv": 0, "r": 1, "onInteract": true}
-  [  70.1s] [portrait｜putong] 從 (0, 5.8) 走到公告欄前 {"x": -2.77, "z": 6.44, "d": 2.8444704067751387}（互動點 (-3.35, 6.6)）
-  [  80.5s] 到達「[portrait｜putong] 走到公告欄」附近（0.24 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+  [  59.1s] [portrait｜putong] 從 (0, 5.8) 走到公告欄前 {"x": -2.77, "z": 6.44, "d": 2.8444704067751387}（互動點 (-3.35, 6.6)）
+  [  69.6s] 到達「[portrait｜putong] 走到公告欄」附近（0.24 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，10 秒
 PASS [portrait｜putong] 真的走到公告欄前（沒有被放到目的地）、互動鍵是「看公告欄」  {"x": -2.543, "z": 6.388, "lv": 0, "interact": "看公告欄", "fb": 0}
 PASS [portrait｜putong] 按下去 4 秒內出現對話框（分頁）或字幕  {"x": -2.54, "z": 6.39, "lv": 0, "busy": true, "interact": "", "dlg": true, "typing": true, "text": "公告欄：教室借用時間表、課", "full": "公告欄：教室借用時間表、課程異動、社團招生的海報。", "name": "", "caption": "", "zone": "putong", "hour": 12.13}
-  [  83.0s] [portrait｜putong] 第 1 頁「公告欄：教室借用時間表、課程異動、社團招生的海報。」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、2 行、字 16px
+  [  72.0s] [portrait｜putong] 第 1 頁「公告欄：教室借用時間表、課程異動、社團招生的海報。」框 {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}、2 行、字 16px
 PASS [portrait｜putong] 第 1 頁 看得到整頁（#dlgText 的字＝這一句全文，25 字）  {"shown": 25, "full": 25}
-PASS [portrait｜putong] 第 1 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜putong] 第 1 頁 長內容沒有被裁（文字 2 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 812.6, "l": 31, "r": 351}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
+PASS [portrait｜putong] 第 1 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}、畫面 390x844）  {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}
+PASS [portrait｜putong] 第 1 頁 長內容沒有被裁（文字 2 行；scrollHeight 67／clientHeight 67、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 747.8, "b": 797.4, "l": 31, "r": 351}, "box": {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}}
 PASS [portrait｜putong] 第 1 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
 PASS [portrait｜putong] 第 1 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜putong] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜putong] 第 1 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [  84.6s] [portrait｜putong] 第 2 頁「本週公告　11/3（一）～11/9（日）」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、1 行、字 16px
-PASS [portrait｜putong] 第 2 頁 看得到整頁（#dlgText 的字＝這一句全文，20 字）  {"shown": 20, "full": 20}
-PASS [portrait｜putong] 第 2 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜putong] 第 2 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 787, "l": 31, "r": 288.8}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
-PASS [portrait｜putong] 第 2 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜putong] 第 2 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜putong] 第 2 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜putong] 第 2 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [  89.9s] [portrait｜putong] 第 3 頁「【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他…」框 {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}、6 行、字 16px
-PASS [portrait｜putong] 第 3 頁 看得到整頁（#dlgText 的字＝這一句全文，139 字）  {"shown": 139, "full": 139}
-PASS [portrait｜putong] 第 3 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}、畫面 390x844）  {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}
-PASS [portrait｜putong] 第 3 頁 長內容沒有被裁（文字 6 行；scrollHeight 154／clientHeight 154、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 661.4, "b": 813.4, "l": 31, "r": 357.8}, "box": {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}}
-PASS [portrait｜putong] 第 3 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜putong] 第 3 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜putong] 第 3 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜putong] 第 3 頁 點下一頁的範圍（整個對話框）≥44×44（362x181.6）
-  [  91.9s] [portrait｜putong] 第 4 頁「【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、2 行、字 16px
-PASS [portrait｜putong] 第 4 頁 看得到整頁（#dlgText 的字＝這一句全文，40 字）  {"shown": 40, "full": 40}
-PASS [portrait｜putong] 第 4 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜putong] 第 4 頁 長內容沒有被裁（文字 2 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 812.6, "l": 31, "r": 348}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
-PASS [portrait｜putong] 第 4 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜putong] 第 4 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜putong] 第 4 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜putong] 第 4 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [  92.8s] [portrait｜putong] 翻了 4 頁：["公告欄：教室借用時間表、課程異動、社團招生的海報。", "本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 1", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+FAIL [portrait｜putong] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["c", "c", "c", "c", "c"], "lineHits": ["c", "c"]}
+PASS [portrait｜putong] 第 1 頁 點下一頁的範圍（整個對話框）≥44×44（362x95.2）
+  [  73.0s] [portrait｜putong] 翻了 1 頁：["公告欄：教室借用時間表、課程異動、社團招生的海報。"]
 PASS [portrait｜putong]［探針］每一頁都量到、截到圖  []
-PASS [portrait｜putong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 4, "want": 4, "diff": []}
-PASS [portrait｜putong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": false, "interact": "看公告欄"}
-  [  93.9s] [portrait｜putong] 中途離開：要一頁一頁點完 4 頁才關得掉（沒有「關閉」可以中途跳出）
+FAIL [portrait｜putong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 1, "want": 4, "diff": []}
+FAIL [portrait｜putong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": true, "interact": ""}
+  [  74.1s] [portrait｜putong] 中途離開：要一頁一頁點完 1 頁才關得掉（沒有「關閉」可以中途跳出）
   [前置／捷徑] [portrait｜boya] GAME.applySave 放到 boya（區域預設出生點＝入口附近）2025-11-03 12.0 時；條件事件、手機自動打開關掉
 PASS [portrait｜boya] 到了 boya  {"zone": "boya", "x": 0, "z": 6.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.05}
-  [ 103.3s] [portrait｜boya] boya 的公告欄互動點：[{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
+  [  83.1s] [portrait｜boya] boya 的公告欄互動點：[{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
 PASS [portrait｜boya] 有「看講座資訊」互動點  [{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
-  [ 103.3s] [portrait｜boya] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
-  [ 103.3s] [portrait｜boya] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
+  [  83.1s] [portrait｜boya] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [  83.1s] [portrait｜boya] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
 PASS [portrait｜boya] 公告欄互動範圍裡有站得住的地方  {"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}
-  [ 103.3s] [portrait｜boya] 從 (0, 6.8) 走到公告欄前 {"x": -0.4, "z": -7.25, "d": 14.055692796870597}（互動點 (-0.4, -7.85)）
-  [ 112.0s] 到達「[portrait｜boya] 走到公告欄」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [  83.1s] [portrait｜boya] 從 (0, 6.8) 走到公告欄前 {"x": -0.4, "z": -7.25, "d": 14.055692796870597}（互動點 (-0.4, -7.85)）
+  [  91.8s] 到達「[portrait｜boya] 走到公告欄」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
 PASS [portrait｜boya] 真的走到公告欄前（沒有被放到目的地）、互動鍵是「看講座資訊」  {"x": -0.317, "z": -7.035, "lv": 0, "interact": "看講座資訊（螢幕）", "fb": 0}
 PASS [portrait｜boya] 按下去 4 秒內出現對話框（分頁）或字幕  {"x": -0.32, "z": -7.03, "lv": 0, "busy": true, "interact": "", "dlg": true, "typing": true, "text": "講座資訊螢幕：這一週博思的", "full": "講座資訊螢幕：這一週博思的演講、活動、教室異動。", "name": "", "caption": "", "zone": "boya", "hour": 12.12}
-  [ 114.3s] [portrait｜boya] 第 1 頁「講座資訊螢幕：這一週博思的演講、活動、教室異動。」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、2 行、字 16px
+  [  94.2s] [portrait｜boya] 第 1 頁「講座資訊螢幕：這一週博思的演講、活動、教室異動。」框 {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}、2 行、字 16px
 PASS [portrait｜boya] 第 1 頁 看得到整頁（#dlgText 的字＝這一句全文，24 字）  {"shown": 24, "full": 24}
-PASS [portrait｜boya] 第 1 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜boya] 第 1 頁 長內容沒有被裁（文字 2 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 812.6, "l": 31, "r": 351}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
+PASS [portrait｜boya] 第 1 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}、畫面 390x844）  {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}
+PASS [portrait｜boya] 第 1 頁 長內容沒有被裁（文字 2 行；scrollHeight 67／clientHeight 67、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 747.8, "b": 797.4, "l": 31, "r": 351}, "box": {"l": 14, "t": 734.8, "r": 376, "b": 830, "w": 362, "h": 95.2}}
 PASS [portrait｜boya] 第 1 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
 PASS [portrait｜boya] 第 1 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜boya] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜boya] 第 1 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [ 115.8s] [portrait｜boya] 第 2 頁「本週公告　11/3（一）～11/9（日）」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、1 行、字 16px
-PASS [portrait｜boya] 第 2 頁 看得到整頁（#dlgText 的字＝這一句全文，20 字）  {"shown": 20, "full": 20}
-PASS [portrait｜boya] 第 2 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜boya] 第 2 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 787, "l": 31, "r": 288.8}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
-PASS [portrait｜boya] 第 2 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜boya] 第 2 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜boya] 第 2 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜boya] 第 2 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [ 117.7s] [portrait｜boya] 第 3 頁「【社課】辯論社　每週二 19:00–21:00　博思 201」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、2 行、字 16px
-PASS [portrait｜boya] 第 3 頁 看得到整頁（#dlgText 的字＝這一句全文，30 字）  {"shown": 30, "full": 30}
-PASS [portrait｜boya] 第 3 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜boya] 第 3 頁 長內容沒有被裁（文字 2 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 812.6, "l": 31, "r": 347.1}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
-PASS [portrait｜boya] 第 3 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜boya] 第 3 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜boya] 第 3 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜boya] 第 3 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [ 119.6s] [portrait｜boya] 第 4 頁「【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、2 行、字 16px
-PASS [portrait｜boya] 第 4 頁 看得到整頁（#dlgText 的字＝這一句全文，40 字）  {"shown": 40, "full": 40}
-PASS [portrait｜boya] 第 4 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜boya] 第 4 頁 長內容沒有被裁（文字 2 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 812.6, "l": 31, "r": 348}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
-PASS [portrait｜boya] 第 4 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜boya] 第 4 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜boya] 第 4 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜boya] 第 4 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [ 120.6s] [portrait｜boya] 翻了 4 頁：["講座資訊螢幕：這一週博思的演講、活動、教室異動。", "本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+FAIL [portrait｜boya] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["c", "c", "c", "c", "c"], "lineHits": ["c", "c"]}
+PASS [portrait｜boya] 第 1 頁 點下一頁的範圍（整個對話框）≥44×44（362x95.2）
+  [  95.2s] [portrait｜boya] 翻了 1 頁：["講座資訊螢幕：這一週博思的演講、活動、教室異動。"]
 PASS [portrait｜boya]［探針］每一頁都量到、截到圖  []
-PASS [portrait｜boya] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 4, "want": 4, "diff": []}
-PASS [portrait｜boya] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": false, "interact": "看講座資訊（螢幕）"}
-  [ 121.6s] [portrait｜boya] 中途離開：要一頁一頁點完 4 頁才關得掉（沒有「關閉」可以中途跳出）
+FAIL [portrait｜boya] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 1, "want": 4, "diff": []}
+FAIL [portrait｜boya] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": true, "interact": ""}
+  [  96.2s] [portrait｜boya] 中途離開：要一頁一頁點完 1 頁才關得掉（沒有「關閉」可以中途跳出）
   [前置／捷徑] [portrait｜boya_board] GAME.applySave 放到 boya（區域預設出生點＝入口附近）2025-11-03 12.0 時；條件事件、手機自動打開關掉
 PASS [portrait｜boya_board] 到了 boya  {"zone": "boya", "x": 0, "z": 6.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.05}
-  [ 129.9s] [portrait｜boya_board] boya 的公告欄互動點：[{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
+  [ 104.5s] [portrait｜boya_board] boya 的公告欄互動點：[{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
 PASS [portrait｜boya_board] 有「看公告欄」互動點  [{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
-  [ 130.0s] [portrait｜boya_board] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
-  [ 130.0s] [portrait｜boya_board] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
+  [ 104.5s] [portrait｜boya_board] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [ 104.5s] [portrait｜boya_board] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
 PASS [portrait｜boya_board] 公告欄互動範圍裡有站得住的地方  {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}
-  [ 130.0s] [portrait｜boya_board] 從 (0, 6.8) 走到公告欄前 {"x": 1.3, "z": -7.25, "d": 14.11001417433732}（互動點 (1.3, -7.85)）
-  [ 138.7s] 到達「[portrait｜boya_board] 走到公告欄」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [ 104.6s] [portrait｜boya_board] 從 (0, 6.8) 走到公告欄前 {"x": 1.3, "z": -7.25, "d": 14.11001417433732}（互動點 (1.3, -7.85)）
+  [ 113.3s] 到達「[portrait｜boya_board] 走到公告欄」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
 PASS [portrait｜boya_board] 真的走到公告欄前（沒有被放到目的地）、互動鍵是「看公告欄」  {"x": 1.28, "z": -7.03, "lv": 0, "interact": "看公告欄", "fb": 0}
 PASS [portrait｜boya_board] 按下去 4 秒內出現對話框（分頁）或字幕  {"x": 1.28, "z": -7.03, "lv": 0, "busy": true, "interact": "", "dlg": true, "typing": true, "text": "公告欄：社團招生、講座海報", "full": "公告欄：社團招生、講座海報、失物招領。", "name": "", "caption": "", "zone": "boya", "hour": 12.11}
-  [ 140.9s] [portrait｜boya_board] 第 1 頁「公告欄：社團招生、講座海報、失物招領。」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、1 行、字 16px
+  [ 115.6s] [portrait｜boya_board] 第 1 頁「公告欄：社團招生、講座海報、失物招領。」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、1 行、字 16px
 PASS [portrait｜boya_board] 第 1 頁 看得到整頁（#dlgText 的字＝這一句全文，19 字）  {"shown": 19, "full": 19}
 PASS [portrait｜boya_board] 第 1 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
 PASS [portrait｜boya_board] 第 1 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 787, "l": 31, "r": 335}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
 PASS [portrait｜boya_board] 第 1 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
 PASS [portrait｜boya_board] 第 1 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜boya_board] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
+FAIL [portrait｜boya_board] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["c", "c", "c", "c", "c"], "lineHits": ["c"]}
 PASS [portrait｜boya_board] 第 1 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [ 142.4s] [portrait｜boya_board] 第 2 頁「本週公告　11/3（一）～11/9（日）」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、1 行、字 16px
-PASS [portrait｜boya_board] 第 2 頁 看得到整頁（#dlgText 的字＝這一句全文，20 字）  {"shown": 20, "full": 20}
-PASS [portrait｜boya_board] 第 2 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜boya_board] 第 2 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 787, "l": 31, "r": 288.8}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
-PASS [portrait｜boya_board] 第 2 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜boya_board] 第 2 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜boya_board] 第 2 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜boya_board] 第 2 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [ 147.6s] [portrait｜boya_board] 第 3 頁「【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他…」框 {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}、6 行、字 16px
-PASS [portrait｜boya_board] 第 3 頁 看得到整頁（#dlgText 的字＝這一句全文，139 字）  {"shown": 139, "full": 139}
-PASS [portrait｜boya_board] 第 3 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}、畫面 390x844）  {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}
-PASS [portrait｜boya_board] 第 3 頁 長內容沒有被裁（文字 6 行；scrollHeight 154／clientHeight 154、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 661.4, "b": 813.4, "l": 31, "r": 357.8}, "box": {"l": 14, "t": 648.4, "r": 376, "b": 830, "w": 362, "h": 181.6}}
-PASS [portrait｜boya_board] 第 3 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜boya_board] 第 3 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜boya_board] 第 3 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜boya_board] 第 3 頁 點下一頁的範圍（整個對話框）≥44×44（362x181.6）
-  [ 149.5s] [portrait｜boya_board] 第 4 頁「【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101」框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、2 行、字 16px
-PASS [portrait｜boya_board] 第 4 頁 看得到整頁（#dlgText 的字＝這一句全文，40 字）  {"shown": 40, "full": 40}
-PASS [portrait｜boya_board] 第 4 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}、畫面 390x844）  {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}
-PASS [portrait｜boya_board] 第 4 頁 長內容沒有被裁（文字 2 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 763, "b": 812.6, "l": 31, "r": 348}, "box": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}}
-PASS [portrait｜boya_board] 第 4 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [portrait｜boya_board] 第 4 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [portrait｜boya_board] 第 4 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [portrait｜boya_board] 第 4 頁 點下一頁的範圍（整個對話框）≥44×44（362x80）
-  [ 150.5s] [portrait｜boya_board] 翻了 4 頁：["公告欄：社團招生、講座海報、失物招領。", "本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 1", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [ 116.6s] [portrait｜boya_board] 翻了 1 頁：["公告欄：社團招生、講座海報、失物招領。"]
 PASS [portrait｜boya_board]［探針］每一頁都量到、截到圖  []
-PASS [portrait｜boya_board] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 4, "want": 4, "diff": []}
-PASS [portrait｜boya_board] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": false, "interact": "看公告欄"}
-  [ 151.5s] [portrait｜boya_board] 中途離開：要一頁一頁點完 4 頁才關得掉（沒有「關閉」可以中途跳出）
+FAIL [portrait｜boya_board] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 1, "want": 4, "diff": []}
+FAIL [portrait｜boya_board] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": true, "interact": ""}
+  [ 117.6s] [portrait｜boya_board] 中途離開：要一頁一頁點完 1 頁才關得掉（沒有「關閉」可以中途跳出）
 PASS [portrait] 沒有 JS 例外  []
 PASS [landscape] 遊戲載入
   [前置／捷徑] [landscape｜gongtong] GAME.applySave 放到 gongtong（區域預設出生點＝入口附近）2025-11-03 12.0 時；條件事件、手機自動打開關掉
 PASS [landscape｜gongtong] 到了 gongtong  {"zone": "gongtong", "x": 0, "z": 4.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.04}
-  [ 193.9s] [landscape｜gongtong] gongtong 的公告欄互動點：[{"label": "看公告欄", "x": -2.4, "z": 4.9, "lv": 0, "r": 1, "onInteract": true}]
+  [ 161.9s] [landscape｜gongtong] gongtong 的公告欄互動點：[{"label": "看公告欄", "x": -2.4, "z": 4.9, "lv": 0, "r": 1, "onInteract": true}]
 PASS [landscape｜gongtong] 有「看公告欄」互動點  [{"label": "看公告欄", "x": -2.4, "z": 4.9, "lv": 0, "r": 1, "onInteract": true}]
-  [ 193.9s] [landscape｜gongtong] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
-  [ 193.9s] [landscape｜gongtong] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
+  [ 161.9s] [landscape｜gongtong] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [ 161.9s] [landscape｜gongtong] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
 PASS [landscape｜gongtong] 公告欄互動範圍裡有站得住的地方  {"label": "看公告欄", "x": -2.4, "z": 4.9, "lv": 0, "r": 1, "onInteract": true}
-  [ 194.0s] [landscape｜gongtong] 從 (0, 4.8) 走到公告欄前 {"x": -1.8, "z": 4.9, "d": 1.8027756377319943}（互動點 (-2.4, 4.9)）
-  [ 196.7s] 到達「[landscape｜gongtong] 走到公告欄」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-PASS [landscape｜gongtong] 真的走到公告欄前（沒有被放到目的地）、互動鍵是「看公告欄」  {"x": -1.557, "z": 4.887, "lv": 0, "interact": "看公告欄", "fb": 0}
-PASS [landscape｜gongtong] 按下去 4 秒內出現對話框（分頁）或字幕  {"x": -1.56, "z": 4.89, "lv": 0, "busy": true, "interact": "", "dlg": true, "typing": true, "text": "公告欄：教室借用時間表、課", "full": "公告欄：教室借用時間表、課程異動、社團招生的海報。", "name": "", "caption": "", "zone": "gongtong", "hour": 12.06}
-  [ 199.2s] [landscape｜gongtong] 第 1 頁「公告欄：教室借用時間表、課程異動、社團招生的海報。」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
+  [ 161.9s] [landscape｜gongtong] 從 (0, 4.8) 走到公告欄前 {"x": -1.8, "z": 4.9, "d": 1.8027756377319943}（互動點 (-2.4, 4.9)）
+  [ 164.7s] 到達「[landscape｜gongtong] 走到公告欄」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [landscape｜gongtong] 真的走到公告欄前（沒有被放到目的地）、互動鍵是「看公告欄」  {"x": -1.558, "z": 4.887, "lv": 0, "interact": "看公告欄", "fb": 0}
+PASS [landscape｜gongtong] 按下去 4 秒內出現對話框（分頁）或字幕  {"x": -1.56, "z": 4.89, "lv": 0, "busy": true, "interact": "", "dlg": true, "typing": true, "text": "公告欄：教室借用時間表、課程", "full": "公告欄：教室借用時間表、課程異動、社團招生的海報。", "name": "", "caption": "", "zone": "gongtong", "hour": 12.06}
+  [ 167.2s] [landscape｜gongtong] 第 1 頁「公告欄：教室借用時間表、課程異動、社團招生的海報。」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
 PASS [landscape｜gongtong] 第 1 頁 看得到整頁（#dlgText 的字＝這一句全文，25 字）  {"shown": 25, "full": 25}
 PASS [landscape｜gongtong] 第 1 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
 PASS [landscape｜gongtong] 第 1 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 459}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
@@ -215,178 +119,82 @@ PASS [landscape｜gongtong] 第 1 頁 字沒有疊在一起（畫面上的文字
 PASS [landscape｜gongtong] 第 1 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
 PASS [landscape｜gongtong] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
 PASS [landscape｜gongtong] 第 1 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 200.7s] [landscape｜gongtong] 第 2 頁「本週公告　11/3（一）～11/9（日）」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
-PASS [landscape｜gongtong] 第 2 頁 看得到整頁（#dlgText 的字＝這一句全文，20 字）  {"shown": 20, "full": 20}
-PASS [landscape｜gongtong] 第 2 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
-PASS [landscape｜gongtong] 第 2 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 316.8}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
-PASS [landscape｜gongtong] 第 2 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜gongtong] 第 2 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜gongtong] 第 2 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜gongtong] 第 2 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 206.0s] [landscape｜gongtong] 第 3 頁「【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他…」框 {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}、4 行、字 16px
-PASS [landscape｜gongtong] 第 3 頁 看得到整頁（#dlgText 的字＝這一句全文，139 字）  {"shown": 139, "full": 139}
-PASS [landscape｜gongtong] 第 3 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}、畫面 844x390）  {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}
-PASS [landscape｜gongtong] 第 3 頁 長內容沒有被裁（文字 4 行；scrollHeight 77／clientHeight 77、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 284.2, "b": 359.4, "l": 59, "r": 783.6}, "box": {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}}
-PASS [landscape｜gongtong] 第 3 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜gongtong] 第 3 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜gongtong] 第 3 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜gongtong] 第 3 頁 點下一頁的範圍（整個對話框）≥44×44（760x104.8）
-  [ 208.0s] [landscape｜gongtong] 第 4 頁「【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
-PASS [landscape｜gongtong] 第 4 頁 看得到整頁（#dlgText 的字＝這一句全文，40 字）  {"shown": 40, "full": 40}
-PASS [landscape｜gongtong] 第 4 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
-PASS [landscape｜gongtong] 第 4 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 534.2}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
-PASS [landscape｜gongtong] 第 4 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜gongtong] 第 4 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜gongtong] 第 4 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜gongtong] 第 4 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 209.0s] [landscape｜gongtong] 翻了 4 頁：["公告欄：教室借用時間表、課程異動、社團招生的海報。", "本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 1", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [ 168.2s] [landscape｜gongtong] 翻了 1 頁：["公告欄：教室借用時間表、課程異動、社團招生的海報。"]
 PASS [landscape｜gongtong]［探針］每一頁都量到、截到圖  []
-PASS [landscape｜gongtong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 4, "want": 4, "diff": []}
-PASS [landscape｜gongtong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": false, "interact": "看公告欄"}
-  [ 210.0s] [landscape｜gongtong] 中途離開：要一頁一頁點完 4 頁才關得掉（沒有「關閉」可以中途跳出）
+FAIL [landscape｜gongtong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 1, "want": 4, "diff": []}
+FAIL [landscape｜gongtong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": true, "interact": ""}
+  [ 169.2s] [landscape｜gongtong] 中途離開：要一頁一頁點完 1 頁才關得掉（沒有「關閉」可以中途跳出）
   [前置／捷徑] [landscape｜putong] GAME.applySave 放到 putong（區域預設出生點＝入口附近）2025-11-03 12.0 時；條件事件、手機自動打開關掉
 PASS [landscape｜putong] 到了 putong  {"zone": "putong", "x": 0, "z": 5.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.05}
-  [ 219.4s] [landscape｜putong] putong 的公告欄互動點：[{"label": "看公告欄", "x": -3.35, "z": 6.6, "lv": 0, "r": 1, "onInteract": true}]
+  [ 178.9s] [landscape｜putong] putong 的公告欄互動點：[{"label": "看公告欄", "x": -3.35, "z": 6.6, "lv": 0, "r": 1, "onInteract": true}]
 PASS [landscape｜putong] 有「看公告欄」互動點  [{"label": "看公告欄", "x": -3.35, "z": 6.6, "lv": 0, "r": 1, "onInteract": true}]
-  [ 219.4s] [landscape｜putong] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
-  [ 219.4s] [landscape｜putong] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
+  [ 178.9s] [landscape｜putong] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [ 178.9s] [landscape｜putong] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
 PASS [landscape｜putong] 公告欄互動範圍裡有站得住的地方  {"label": "看公告欄", "x": -3.35, "z": 6.6, "lv": 0, "r": 1, "onInteract": true}
-  [ 219.4s] [landscape｜putong] 從 (0, 5.8) 走到公告欄前 {"x": -2.77, "z": 6.44, "d": 2.8444704067751387}（互動點 (-3.35, 6.6)）
-  [ 224.6s] 到達「[landscape｜putong] 走到公告欄」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
-PASS [landscape｜putong] 真的走到公告欄前（沒有被放到目的地）、互動鍵是「看公告欄」  {"x": -2.543, "z": 6.387, "lv": 0, "interact": "看公告欄", "fb": 0}
+  [ 178.9s] [landscape｜putong] 從 (0, 5.8) 走到公告欄前 {"x": -2.77, "z": 6.44, "d": 2.8444704067751387}（互動點 (-3.35, 6.6)）
+  [ 184.1s] 到達「[landscape｜putong] 走到公告欄」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [landscape｜putong] 真的走到公告欄前（沒有被放到目的地）、互動鍵是「看公告欄」  {"x": -2.543, "z": 6.388, "lv": 0, "interact": "看公告欄", "fb": 0}
 PASS [landscape｜putong] 按下去 4 秒內出現對話框（分頁）或字幕  {"x": -2.54, "z": 6.39, "lv": 0, "busy": true, "interact": "", "dlg": true, "typing": true, "text": "公告欄：教室借用時間表、課", "full": "公告欄：教室借用時間表、課程異動、社團招生的海報。", "name": "", "caption": "", "zone": "putong", "hour": 12.09}
-  [ 227.0s] [landscape｜putong] 第 1 頁「公告欄：教室借用時間表、課程異動、社團招生的海報。」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
+  [ 186.6s] [landscape｜putong] 第 1 頁「公告欄：教室借用時間表、課程異動、社團招生的海報。」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
 PASS [landscape｜putong] 第 1 頁 看得到整頁（#dlgText 的字＝這一句全文，25 字）  {"shown": 25, "full": 25}
 PASS [landscape｜putong] 第 1 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
 PASS [landscape｜putong] 第 1 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 459}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
 PASS [landscape｜putong] 第 1 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
 PASS [landscape｜putong] 第 1 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜putong] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
+FAIL [landscape｜putong] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["c", "c", "c", "c", "c"], "lineHits": ["c"]}
 PASS [landscape｜putong] 第 1 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 228.5s] [landscape｜putong] 第 2 頁「本週公告　11/3（一）～11/9（日）」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
-PASS [landscape｜putong] 第 2 頁 看得到整頁（#dlgText 的字＝這一句全文，20 字）  {"shown": 20, "full": 20}
-PASS [landscape｜putong] 第 2 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
-PASS [landscape｜putong] 第 2 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 316.8}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
-PASS [landscape｜putong] 第 2 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜putong] 第 2 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜putong] 第 2 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜putong] 第 2 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 233.8s] [landscape｜putong] 第 3 頁「【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他…」框 {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}、4 行、字 16px
-PASS [landscape｜putong] 第 3 頁 看得到整頁（#dlgText 的字＝這一句全文，139 字）  {"shown": 139, "full": 139}
-PASS [landscape｜putong] 第 3 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}、畫面 844x390）  {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}
-PASS [landscape｜putong] 第 3 頁 長內容沒有被裁（文字 4 行；scrollHeight 77／clientHeight 77、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 284.2, "b": 359.4, "l": 59, "r": 783.6}, "box": {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}}
-PASS [landscape｜putong] 第 3 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜putong] 第 3 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜putong] 第 3 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜putong] 第 3 頁 點下一頁的範圍（整個對話框）≥44×44（760x104.8）
-  [ 235.7s] [landscape｜putong] 第 4 頁「【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
-PASS [landscape｜putong] 第 4 頁 看得到整頁（#dlgText 的字＝這一句全文，40 字）  {"shown": 40, "full": 40}
-PASS [landscape｜putong] 第 4 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
-PASS [landscape｜putong] 第 4 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 534.2}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
-PASS [landscape｜putong] 第 4 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜putong] 第 4 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜putong] 第 4 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜putong] 第 4 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 236.7s] [landscape｜putong] 翻了 4 頁：["公告欄：教室借用時間表、課程異動、社團招生的海報。", "本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 1", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [ 187.6s] [landscape｜putong] 翻了 1 頁：["公告欄：教室借用時間表、課程異動、社團招生的海報。"]
 PASS [landscape｜putong]［探針］每一頁都量到、截到圖  []
-PASS [landscape｜putong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 4, "want": 4, "diff": []}
-PASS [landscape｜putong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": false, "interact": "看公告欄"}
-  [ 237.8s] [landscape｜putong] 中途離開：要一頁一頁點完 4 頁才關得掉（沒有「關閉」可以中途跳出）
+FAIL [landscape｜putong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 1, "want": 4, "diff": []}
+FAIL [landscape｜putong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": true, "interact": ""}
+  [ 188.6s] [landscape｜putong] 中途離開：要一頁一頁點完 1 頁才關得掉（沒有「關閉」可以中途跳出）
   [前置／捷徑] [landscape｜boya] GAME.applySave 放到 boya（區域預設出生點＝入口附近）2025-11-03 12.0 時；條件事件、手機自動打開關掉
 PASS [landscape｜boya] 到了 boya  {"zone": "boya", "x": 0, "z": 6.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.05}
-  [ 246.8s] [landscape｜boya] boya 的公告欄互動點：[{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
+  [ 197.9s] [landscape｜boya] boya 的公告欄互動點：[{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
 PASS [landscape｜boya] 有「看講座資訊」互動點  [{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
-  [ 246.8s] [landscape｜boya] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
-  [ 246.8s] [landscape｜boya] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
+  [ 197.9s] [landscape｜boya] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [ 197.9s] [landscape｜boya] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
 PASS [landscape｜boya] 公告欄互動範圍裡有站得住的地方  {"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}
-  [ 246.9s] [landscape｜boya] 從 (0, 6.8) 走到公告欄前 {"x": -0.4, "z": -7.25, "d": 14.055692796870597}（互動點 (-0.4, -7.85)）
-  [ 255.5s] 到達「[landscape｜boya] 走到公告欄」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [ 197.9s] [landscape｜boya] 從 (0, 6.8) 走到公告欄前 {"x": -0.4, "z": -7.25, "d": 14.055692796870597}（互動點 (-0.4, -7.85)）
+  [ 206.6s] 到達「[landscape｜boya] 走到公告欄」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
 PASS [landscape｜boya] 真的走到公告欄前（沒有被放到目的地）、互動鍵是「看講座資訊」  {"x": -0.317, "z": -7.035, "lv": 0, "interact": "看講座資訊（螢幕）", "fb": 0}
 PASS [landscape｜boya] 按下去 4 秒內出現對話框（分頁）或字幕  {"x": -0.32, "z": -7.03, "lv": 0, "busy": true, "interact": "", "dlg": true, "typing": true, "text": "講座資訊螢幕：這一週博思的", "full": "講座資訊螢幕：這一週博思的演講、活動、教室異動。", "name": "", "caption": "", "zone": "boya", "hour": 12.12}
-  [ 257.8s] [landscape｜boya] 第 1 頁「講座資訊螢幕：這一週博思的演講、活動、教室異動。」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
+  [ 208.8s] [landscape｜boya] 第 1 頁「講座資訊螢幕：這一週博思的演講、活動、教室異動。」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
 PASS [landscape｜boya] 第 1 頁 看得到整頁（#dlgText 的字＝這一句全文，24 字）  {"shown": 24, "full": 24}
 PASS [landscape｜boya] 第 1 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
 PASS [landscape｜boya] 第 1 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 443}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
 PASS [landscape｜boya] 第 1 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
 PASS [landscape｜boya] 第 1 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜boya] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
+FAIL [landscape｜boya] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["c", "c", "c", "c", "c"], "lineHits": ["c"]}
 PASS [landscape｜boya] 第 1 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 259.3s] [landscape｜boya] 第 2 頁「本週公告　11/3（一）～11/9（日）」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
-PASS [landscape｜boya] 第 2 頁 看得到整頁（#dlgText 的字＝這一句全文，20 字）  {"shown": 20, "full": 20}
-PASS [landscape｜boya] 第 2 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
-PASS [landscape｜boya] 第 2 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 316.8}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
-PASS [landscape｜boya] 第 2 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜boya] 第 2 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜boya] 第 2 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜boya] 第 2 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 261.1s] [landscape｜boya] 第 3 頁「【社課】辯論社　每週二 19:00–21:00　博思 201」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
-PASS [landscape｜boya] 第 3 頁 看得到整頁（#dlgText 的字＝這一句全文，30 字）  {"shown": 30, "full": 30}
-PASS [landscape｜boya] 第 3 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
-PASS [landscape｜boya] 第 3 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 405.3}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
-PASS [landscape｜boya] 第 3 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜boya] 第 3 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜boya] 第 3 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜boya] 第 3 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 263.0s] [landscape｜boya] 第 4 頁「【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
-PASS [landscape｜boya] 第 4 頁 看得到整頁（#dlgText 的字＝這一句全文，40 字）  {"shown": 40, "full": 40}
-PASS [landscape｜boya] 第 4 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
-PASS [landscape｜boya] 第 4 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 534.2}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
-PASS [landscape｜boya] 第 4 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜boya] 第 4 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜boya] 第 4 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜boya] 第 4 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 264.0s] [landscape｜boya] 翻了 4 頁：["講座資訊螢幕：這一週博思的演講、活動、教室異動。", "本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [ 209.8s] [landscape｜boya] 翻了 1 頁：["講座資訊螢幕：這一週博思的演講、活動、教室異動。"]
 PASS [landscape｜boya]［探針］每一頁都量到、截到圖  []
-PASS [landscape｜boya] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 4, "want": 4, "diff": []}
-PASS [landscape｜boya] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": false, "interact": "看講座資訊（螢幕）"}
-  [ 265.0s] [landscape｜boya] 中途離開：要一頁一頁點完 4 頁才關得掉（沒有「關閉」可以中途跳出）
+FAIL [landscape｜boya] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 1, "want": 4, "diff": []}
+FAIL [landscape｜boya] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": true, "interact": ""}
+  [ 210.8s] [landscape｜boya] 中途離開：要一頁一頁點完 1 頁才關得掉（沒有「關閉」可以中途跳出）
   [前置／捷徑] [landscape｜boya_board] GAME.applySave 放到 boya（區域預設出生點＝入口附近）2025-11-03 12.0 時；條件事件、手機自動打開關掉
 PASS [landscape｜boya_board] 到了 boya  {"zone": "boya", "x": 0, "z": 6.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.05}
-  [ 273.6s] [landscape｜boya_board] boya 的公告欄互動點：[{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
+  [ 219.5s] [landscape｜boya_board] boya 的公告欄互動點：[{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
 PASS [landscape｜boya_board] 有「看公告欄」互動點  [{"label": "看講座資訊（螢幕）", "x": -0.4, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}, {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}]
-  [ 273.7s] [landscape｜boya_board] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
-  [ 273.7s] [landscape｜boya_board] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
+  [ 219.5s] [landscape｜boya_board] 這一版的 ACTIVITIES.boardPages：["本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [ 219.5s] [landscape｜boya_board] posterText：本週公告　11/3（一）～11/9（日）　【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他社　每週一、三 19:00–21:00　法律系館B 多功能教室；系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）　【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101
 PASS [landscape｜boya_board] 公告欄互動範圍裡有站得住的地方  {"label": "看公告欄", "x": 1.3, "z": -7.85, "lv": 0, "r": 1, "onInteract": true}
-  [ 273.7s] [landscape｜boya_board] 從 (0, 6.8) 走到公告欄前 {"x": 1.3, "z": -7.25, "d": 14.11001417433732}（互動點 (1.3, -7.85)）
-  [ 282.3s] 到達「[landscape｜boya_board] 走到公告欄」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [ 219.5s] [landscape｜boya_board] 從 (0, 6.8) 走到公告欄前 {"x": 1.3, "z": -7.25, "d": 14.11001417433732}（互動點 (1.3, -7.85)）
+  [ 228.2s] 到達「[landscape｜boya_board] 走到公告欄」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
 PASS [landscape｜boya_board] 真的走到公告欄前（沒有被放到目的地）、互動鍵是「看公告欄」  {"x": 1.28, "z": -7.03, "lv": 0, "interact": "看公告欄", "fb": 0}
 PASS [landscape｜boya_board] 按下去 4 秒內出現對話框（分頁）或字幕  {"x": 1.28, "z": -7.03, "lv": 0, "busy": true, "interact": "", "dlg": true, "typing": true, "text": "公告欄：社團招生、講座海報", "full": "公告欄：社團招生、講座海報、失物招領。", "name": "", "caption": "", "zone": "boya", "hour": 12.11}
-  [ 284.6s] [landscape｜boya_board] 第 1 頁「公告欄：社團招生、講座海報、失物招領。」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
+  [ 230.5s] [landscape｜boya_board] 第 1 頁「公告欄：社團招生、講座海報、失物招領。」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
 PASS [landscape｜boya_board] 第 1 頁 看得到整頁（#dlgText 的字＝這一句全文，19 字）  {"shown": 19, "full": 19}
 PASS [landscape｜boya_board] 第 1 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
 PASS [landscape｜boya_board] 第 1 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 363}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
 PASS [landscape｜boya_board] 第 1 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
 PASS [landscape｜boya_board] 第 1 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜boya_board] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
+FAIL [landscape｜boya_board] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["c", "c", "c", "c", "c"], "lineHits": ["c"]}
 PASS [landscape｜boya_board] 第 1 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 286.1s] [landscape｜boya_board] 第 2 頁「本週公告　11/3（一）～11/9（日）」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
-PASS [landscape｜boya_board] 第 2 頁 看得到整頁（#dlgText 的字＝這一句全文，20 字）  {"shown": 20, "full": 20}
-PASS [landscape｜boya_board] 第 2 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
-PASS [landscape｜boya_board] 第 2 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 316.8}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
-PASS [landscape｜boya_board] 第 2 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜boya_board] 第 2 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜boya_board] 第 2 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜boya_board] 第 2 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 291.3s] [landscape｜boya_board] 第 3 頁「【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 19:30–21:00　普通 201；吉他…」框 {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}、4 行、字 16px
-PASS [landscape｜boya_board] 第 3 頁 看得到整頁（#dlgText 的字＝這一句全文，139 字）  {"shown": 139, "full": 139}
-PASS [landscape｜boya_board] 第 3 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}、畫面 844x390）  {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}
-PASS [landscape｜boya_board] 第 3 頁 長內容沒有被裁（文字 4 行；scrollHeight 77／clientHeight 77、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 284.2, "b": 359.4, "l": 59, "r": 783.6}, "box": {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}}
-PASS [landscape｜boya_board] 第 3 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜boya_board] 第 3 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜boya_board] 第 3 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜boya_board] 第 3 頁 點下一頁的範圍（整個對話框）≥44×44（760x104.8）
-  [ 293.2s] [landscape｜boya_board] 第 4 頁「【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101」框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、1 行、字 16px
-PASS [landscape｜boya_board] 第 4 頁 看得到整頁（#dlgText 的字＝這一句全文，40 字）  {"shown": 40, "full": 40}
-PASS [landscape｜boya_board] 第 4 頁 #dlg 整個框在畫面內（含 safe-area；框 {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}、畫面 844x390）  {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}
-PASS [landscape｜boya_board] 第 4 頁 長內容沒有被裁（文字 1 行；scrollHeight 52／clientHeight 52、overflow-y visible；超出框 0 行、超出畫面 0 行）  {"clipY": false, "clipX": false, "scrollY": false, "boxClipY": false, "boxOv": "visible", "outBox": 0, "outView": 0, "lineBox": {"t": 309, "b": 333, "l": 59, "r": 534.2}, "box": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}}
-PASS [landscape｜boya_board] 第 4 頁 字沒有疊在一起（畫面上的文字元素兩兩不重疊、框裡行和行不疊）  {"overlaps": [], "selfOv": 0}
-PASS [landscape｜boya_board] 第 4 頁 沒有文字溢出被切掉（overflow 不是 visible 又裝不下）  []
-PASS [landscape｜boya_board] 第 4 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）  {"hits": ["OK", "OK", "OK", "OK", "OK"], "lineHits": []}
-PASS [landscape｜boya_board] 第 4 頁 點下一頁的範圍（整個對話框）≥44×44（760x80）
-  [ 294.2s] [landscape｜boya_board] 翻了 4 頁：["公告欄：社團招生、講座海報、失物招領。", "本週公告　11/3（一）～11/9（日）", "【社課】辯論社　每週二 19:00–21:00　博思 201；登山社　每週四 1", "【演講・活動】11/6（四） 19:00–21:00　學生會電影夜　博思 101"]
+  [ 231.5s] [landscape｜boya_board] 翻了 1 頁：["公告欄：社團招生、講座海報、失物招領。"]
 PASS [landscape｜boya_board]［探針］每一頁都量到、截到圖  []
-PASS [landscape｜boya_board] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 4, "want": 4, "diff": []}
-PASS [landscape｜boya_board] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": false, "interact": "看公告欄"}
-  [ 295.2s] [landscape｜boya_board] 中途離開：要一頁一頁點完 4 頁才關得掉（沒有「關閉」可以中途跳出）
+FAIL [landscape｜boya_board] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣  {"seen": 1, "want": 4, "diff": []}
+FAIL [landscape｜boya_board] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來  {"dlg": false, "busy": true, "interact": ""}
+  [ 232.5s] [landscape｜boya_board] 中途離開：要一頁一頁點完 1 頁才關得掉（沒有「關閉」可以中途跳出）
 PASS [landscape] 沒有 JS 例外  []
-ALL PASS
+FAILED 22: [portrait｜gongtong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣；[portrait｜gongtong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來；[portrait｜putong] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）；[portrait｜putong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣；[portrait｜putong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來；[portrait｜boya] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）；[portrait｜boya] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣；[portrait｜boya] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來；[portrait｜boya_board] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）；[portrait｜boya_board] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣；[portrait｜boya_board] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來；[landscape｜gongtong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣；[landscape｜gongtong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來；[landscape｜putong] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）；[landscape｜putong] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣；[landscape｜putong] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來；[landscape｜boya] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）；[landscape｜boya] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣；[landscape｜boya] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來；[landscape｜boya_board] 第 1 頁 框沒有被別的東西蓋住（中心、四角、每一行中間 elementFromPoint 都是框）；[landscape｜boya_board] 每一頁都翻到：look＋boardPages 3 頁＝4 頁，逐字一樣；[landscape｜boya_board] 關閉：沒有獨立的關閉鈕，最後一頁手指點對話框＝對話框關掉、人可以動（busy=false）、互動鍵回來
