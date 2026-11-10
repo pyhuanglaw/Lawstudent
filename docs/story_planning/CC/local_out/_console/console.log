@@ -661,3 +661,11 @@
 [18:09:17] ==== START FLW_new_0850  (probe @ de1f25768e421cf07b2151c2872b5b6d6f70ef5a) ====
 [18:09:19] [res] cpu=21% mem=47% (15.0/31.4 GB) chrome_testing=9  START FLW_new_0850
 [18:09:53] [res] cpu=9% mem=47% (14.8/31.4 GB) chrome_testing=9  END FLW_new_2110
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5a3e756b5..5bee08663  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:09:58] ==== END   FLW_new_2110  exit=0  105s   ====
+[18:10:01] memory 47% before starting FLW_old_1400 (2 running)
+[18:10:01] ==== START FLW_old_1400  (probe @ 28df8a85c788c354fc606a87e64cb5f4f12c5ff9) ====
+[18:10:04] [res] cpu=1% mem=47% (15.1/31.4 GB) chrome_testing=9  START FLW_old_1400
+[18:11:00] [res] cpu=26% mem=48% (15.3/31.4 GB) chrome_testing=8  END FLW_new_0850
