@@ -6191,6 +6191,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false
+  },
+  {
+   "task": "SERVICE2-LEGAL-1110",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_735_service2_legal.json",
+    "docs/story_planning/AA_103_四年八學期課程與課表.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-10",
+   "next": "LAWWW：courses.js service_2 的 room（WANCAI_LSC_DESK）、profName、serviceLines；CAMPUS_SVC 換成法律系館B 接待桌",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false
   }
  ],
  "items": [
