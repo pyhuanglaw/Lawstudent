@@ -51719,6 +51719,32 @@
     "ack": "ACTIONED"
    },
    "sha": "b8d833642"
+  },
+  {
+   "id": "XS-TONGXIAN-VIEW-1110",
+   "title": "同弦樂器窗外 21:00 沒有夜景（BB X254 GAME_BUG P2）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "晚上去同弦樂器",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 12:0x】LAWWW2 dd079901c：tongxian3d.js 加 PANES＋Z3.shopViewPane 擋在模型的白天街景板前面，xs_tongxian_day／night.webp（Blender 新生南路場景拍）；xs_tongxian_view（開發 FAIL 4→ALL PASS）、吉他 2 支、窗景卡 2 支 ALL PASS；CC 拍白天晚上、BB 判。青木、日常失速 LAWWW2 回 BB 不用重拍，等 BB 定。",
+   "xai": {
+    "spec": "BB X254 窗景清單（11-10）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "21:00 窗外是夜景；BB 判",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "sha": "dd079901c"
   }
  ]
 }
