@@ -24,7 +24,7 @@ const ZONE_ASSETS={
   "gg_antai":["bldg.gg_antai_interior"],
   "gg_rongendian":["bldg.gg_rongendian_interior"],
   "gg_xianguo":["bldg.gg_xianguo_interior"],
-  "gongguan":["bldg.gongguan_shops","bldg.gongguan_far","bldg.wz_scooter","bldg.gongguan_mrt","bldg.campus_gate","bldg.gg_lane_gate"],
+  "gongguan":["bldg.gongguan_shops","bldg.tingzhou_stalls","bldg.gongguan_far","bldg.wz_scooter","bldg.gongguan_mrt","bldg.campus_gate","bldg.gg_lane_gate"],
   "gongtong":["bldg.gongtong_interior","prop.furniture_study"],
   "gongtong_3f":["bldg.gongtong_3f"],
   "gym":["bldg.gym_interior"],
