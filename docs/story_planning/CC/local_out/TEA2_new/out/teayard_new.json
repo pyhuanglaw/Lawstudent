@@ -1,0 +1,124 @@
+{
+ "150": {
+  "yawDeg": 155,
+  "dist": 4,
+  "distTarget": 4,
+  "camHead": 4.08,
+  "cam": [
+   -1.71,
+   2.71,
+   5.91
+  ],
+  "player": [
+   -3.28,
+   -0.42,
+   9.28
+  ],
+  "zone": "wz_teahouse",
+  "occ": {
+   "nearFrac": 0.226,
+   "seen": {
+    "head": true,
+    "shoulderL": true,
+    "shoulderR": true
+   },
+   "blockedBy": {},
+   "meshes": 69
+  },
+  "lumaStd": null
+ },
+ "165": {
+  "yawDeg": 160,
+  "dist": 4,
+  "distTarget": 4,
+  "camHead": 4.08,
+  "cam": [
+   -2.01,
+   2.71,
+   5.79
+  ],
+  "player": [
+   -3.28,
+   -0.42,
+   9.28
+  ],
+  "zone": "wz_teahouse",
+  "occ": {
+   "nearFrac": 0.262,
+   "seen": {
+    "head": true,
+    "shoulderL": true,
+    "shoulderR": false
+   },
+   "blockedBy": {
+    "shoulderR": "wzy_wood @0.45"
+   },
+   "meshes": 69
+  },
+  "lumaStd": null
+ },
+ "180": {
+  "yawDeg": 175,
+  "dist": 4,
+  "distTarget": 4,
+  "camHead": 4.08,
+  "cam": [
+   -2.96,
+   2.71,
+   5.58
+  ],
+  "player": [
+   -3.28,
+   -0.42,
+   9.28
+  ],
+  "zone": "wz_teahouse",
+  "occ": {
+   "nearFrac": 0.274,
+   "seen": {
+    "head": false,
+    "shoulderL": false,
+    "shoulderR": false
+   },
+   "blockedBy": {
+    "head": "wzy_leaf @2.41",
+    "shoulderL": "wzy_leaf @2.66",
+    "shoulderR": "wzy_leaf @2.24"
+   },
+   "meshes": 68
+  },
+  "lumaStd": null
+ },
+ "210": {
+  "yawDeg": 207.1,
+  "dist": 4,
+  "distTarget": 4,
+  "camHead": 4.08,
+  "cam": [
+   -4.97,
+   2.71,
+   5.97
+  ],
+  "player": [
+   -3.28,
+   -0.42,
+   9.28
+  ],
+  "zone": "wz_teahouse",
+  "occ": {
+   "nearFrac": 0.422,
+   "seen": {
+    "head": false,
+    "shoulderL": false,
+    "shoulderR": false
+   },
+   "blockedBy": {
+    "head": "wzy_leaf @2.25",
+    "shoulderL": "wzy_leaf @2.28",
+    "shoulderR": "wzy_leaf @2.28"
+   },
+   "meshes": 67
+  },
+  "lumaStd": null
+ }
+}

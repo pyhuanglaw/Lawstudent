@@ -3,5 +3,17 @@ CC 一盞前院鏡頭：worktree ?；TAG new；Playwright ≠ iPhone
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
 PASS 遊戲載入
   [前置／捷徑] 【前置／捷徑】讀檔到 wz_teahouse 2025-10-18 14.0，站 (-3.0, 9.0)
-  [  60.4s] 轉到 150.0°：{"yawDeg": 155, "dist": 4, "distTarget": 4, "camHead": 4.08, "cam": [-1.71, 2.71, 5.91], "player": [-3.28, -0.42, 9.28], "zone": "wz_teahouse"}
-  [  67.2s] 150.0° 遮擋：比頭近的東西佔畫面 22.6%；看得到 頭 True、左肩 True、右肩 True；擋住的 {}
+  [  60.2s] 轉到 150.0°：{"yawDeg": 155, "dist": 4, "distTarget": 4, "camHead": 4.08, "cam": [-1.71, 2.71, 5.91], "player": [-3.28, -0.42, 9.28], "zone": "wz_teahouse"}
+  [  69.0s] 150.0° 遮擋：比頭近的東西佔畫面 22.6%；看得到 頭 True、左肩 True、右肩 True；擋住的 {}
+PASS 150.0° 鏡頭轉到了（差 <6°）  155
+  [  87.6s] 轉到 165.0°：{"yawDeg": 160, "dist": 4, "distTarget": 4, "camHead": 4.08, "cam": [-2.01, 2.71, 5.79], "player": [-3.28, -0.42, 9.28], "zone": "wz_teahouse"}
+  [  97.6s] 165.0° 遮擋：比頭近的東西佔畫面 26.2%；看得到 頭 True、左肩 True、右肩 False；擋住的 {"shoulderR": "wzy_wood @0.45"}
+PASS 165.0° 鏡頭轉到了（差 <6°）  160
+  [ 115.6s] 轉到 180.0°：{"yawDeg": 175, "dist": 4, "distTarget": 4, "camHead": 4.08, "cam": [-2.96, 2.71, 5.58], "player": [-3.28, -0.42, 9.28], "zone": "wz_teahouse"}
+  [ 123.3s] 180.0° 遮擋：比頭近的東西佔畫面 27.4%；看得到 頭 False、左肩 False、右肩 False；擋住的 {"head": "wzy_leaf @2.41", "shoulderL": "wzy_leaf @2.66", "shoulderR": "wzy_leaf @2.24"}
+PASS 180.0° 鏡頭轉到了（差 <6°）  175
+  [ 128.5s] 轉到 210.0°：{"yawDeg": 207.1, "dist": 4, "distTarget": 4, "camHead": 4.08, "cam": [-4.97, 2.71, 5.97], "player": [-3.28, -0.42, 9.28], "zone": "wz_teahouse"}
+  [ 137.0s] 210.0° 遮擋：比頭近的東西佔畫面 42.2%；看得到 頭 False、左肩 False、右肩 False；擋住的 {"head": "wzy_leaf @2.25", "shoulderL": "wzy_leaf @2.28", "shoulderR": "wzy_leaf @2.28"}
+PASS 210.0° 鏡頭轉到了（差 <6°）  207.1
+PASS 沒有 JS 例外  []
+ALL PASS
