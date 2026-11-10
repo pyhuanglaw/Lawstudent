@@ -6808,6 +6808,23 @@
    "noDirectIntegrate": false,
    "note": "室內預設俯角是 0.38（不是 0.22）：0.38／距離 4／180° 鏡頭在屋簷體積裡，頭被 wzy_wood_yard_eave 擋、近物 67%。改法：鏡頭在屋簷外緣（z 6.93）房子那一側時藏 YARD_EAVE（±0.1 緩衝），碰撞不動。teahouse_yard_cam_unit ④ 開發 2d58e8a52 FAILED 1→ALL PASS；回歸 130／0（兩包都套）。兩份補丁對 8fd90fc6a 都能套。剩：樹葉 wzy_leaf 180°～210°、165° 木柱（開發本來就有，回報 BB-B）（LAWWW-B 23:44 整合 4f888cf3c，DLV-1109-L2-CAMTEAYARD2）",
    "next": "LAWWW-B 整合；CC 出生點 (−3,9) 預設鏡頭拍 150°／180°／210°，BB-B 判"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "134c01b93",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "#204 第三批：落地 WALL_ 櫃子底下的地板（BB-B 23:22／23:33）＋一盞遊戲真正用的 yizhan（第一批補錯檔）",
+   "files": [
+    "assets/models/env/second_ai/bb_support/{ade,corner}_lm_{day,night}.webp",
+    "assets/models/env/second_ai/aa_support/yizhan_lm_{day,night}.webp",
+    "tools/blender/env_second/lightbake/lm_fill_covered.py",
+    "docs/art-rebuild/second_ai/wip/wall_base_fill3_1109/（README、lm_covered_fill_check_1109c.patch、check_before／after、regression_new、tests、scan、tools）"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "規則 (c)：地板往上碰到落地 WALL_ 也算被蓋住（櫃子沒底面）；測試加分群檢查（整間平均會稀釋黑塊）、茶屋換成 yizhan。13 間＋一盞重掃，只補阿德、轉角唱片、一盞。lm_covered_fill_check 開發貼圖 FAILED 10→ALL PASS；回歸 109／0。站位已給 CC-B。大口 WALL_BANDS 遊戲裡改名 DK_BANDS 不淡出＝不用拍。",
+   "next": "LAWWW-B 整合；CC 照 README 站位拍新舊；BB-B 判"
   }
  ]
 }
