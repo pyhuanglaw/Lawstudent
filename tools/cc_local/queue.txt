@@ -84,6 +84,12 @@ FLW_old_1400 | 28df8a85c788c354fc606a87e64cb5f4f12c5ff9 | probe | docs/story_pla
 FLWS_new | de1f25768e421cf07b2151c2872b5b6d6f70ef5a | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=flw;VIEWS=flower_day:gongguan:-47:16:14:0:6:-47:1.4:11.7:45+flower_night:gongguan:-47:16:20:0:6:-47:1.4:11.7:45
 # WINVIEW cvs 重拍（LAWWW 10:12／10:15，日和便利店，4d7f556a6）：PC 沒有 PIL→只拍原始 far／nb／nw PNG＋景深 json（cc_views_raw_probe），雲端再去背、存 webp 推 docs/story_planning/CC/views_out/
 VIEWRAW_cvs | 4d7f556a61e028ab5409fcf0103e7448b3038b51 | probe | docs/story_planning/test_tools/cc/cc_views_raw_probe.py | index.html | 30 | NAMES=cvs
+# GIFT holiday（子代理寫好、雲端試跑後排在這裡）
+# GIFT shops（BB 10:15 寫好，企劃線 b68e5872b 複製過來；雲端 509b54c2d 13 家 111 項 PASS、de1f25768 花攤＋好拍 PASS）
+GSHOP_new | de1f25768e421cf07b2151c2872b5b6d6f70ef5a | probe | docs/story_planning/test_tools/cc/cc_gift_shops_probe.py | index.html | 60 | TAG=new
+GSHOP_old | fda54d616e57b40c74ca1b6404dccb6ea927e50c | probe | docs/story_planning/test_tools/cc/cc_gift_shops_probe.py | index.html | 60 | TAG=old
+GSHOP_flower_old | 28df8a85c788c354fc606a87e64cb5f4f12c5ff9 | probe | docs/story_planning/test_tools/cc/cc_gift_shops_probe.py | index.html | 30 | TAG=flower_old;ONLY=gg_flower
+# GIFT ui（子代理寫好、雲端試跑後排在這裡）
 # X276（BB 08:47，LAWWW 72c889ec3＝LAWWW2 24dc0d99b 山嵐文具區 v2）：14:00 門口看文具區＋真的走到文具區（看文具）＋按下去＋近拍。新＝8c050804c（含 72c889ec3）、改前＝3f6dba142；排在 X295 後面、窗景巡拍前面
 X276_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=new;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
 X276_old | 3f6dba142276f8cefcc52570f9b659b930d00861 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=old;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
@@ -109,6 +115,12 @@ RAY_1827 | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_plannin
 GREET_968b_new2 | 968bd311f878693a984103ae6deb3bd24c30c52f | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=greetn;ROSTER=0
 GREET_968b_old2 | 97b2e03c353b3dcd68b27ec76042f8bfc035b2e3 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=greetn;ROSTER=0
 NOASK_faf1_r2 | faf1b75a4081a575d797a90f8cbe7fca8a087b58 | probe | docs/story_planning/test_tools/cc/cc_noask_probe.py | index.html | 40 | X=1;RERUN=seatz
+# BB 10:17 補排（佇列最後）：①ART-NANYANG-CINEMA-1103 南洋戲院 NANYANG_v2 同一支探針用開發分支 head（r1 是 63 PASS／5 FAIL，看那 5 項）②SEATFIG-LOD1-HAIR-1104 遠處替身的頭：1eb7182b7 已接，同一支 cc_sitamb_probe_d8 同鏡頭，head 對 1eb7182b7^＝5aff1d18e，遠（預設三張）＋近（NEAR=1）
+NANYANG_v3 | 93d3e92691b344385636dc1f50741a871a4406a9 | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 75 | CC_HEADLESS=0
+SEATFIG_new | 93d3e92691b344385636dc1f50741a871a4406a9 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe_d8.py | index.html | 25 | TAG=head
+SEATFIG_old | 5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe_d8.py | index.html | 25 | TAG=before
+SEATFIG_new_near | 93d3e92691b344385636dc1f50741a871a4406a9 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe_d8.py | index.html | 25 | TAG=head_near;NEAR=1
+SEATFIG_old_near | 5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe_d8.py | index.html | 25 | TAG=before_near;NEAR=1
 
 L98E_b1court | 98e81fe06bd856d6ec953948c5c4c6a64cb08e74 | probe | docs/story_planning/test_tools/cc/lawww_b1court_shot_probe.py | index.html | 20 | X=1
 L98E_reach | 98e81fe06bd856d6ec953948c5c4c6a64cb08e74 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
