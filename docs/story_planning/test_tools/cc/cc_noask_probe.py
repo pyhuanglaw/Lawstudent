@@ -265,7 +265,7 @@ async def sk03_case(p):
         pre = await pg.evaluate("(()=>{ const G=GAME.G; const it=CLS.dayItems(G).find(q=>q.c&&q.c.id==='econ_principles_2'&&!q.exam); const ev=CLS.sk03Huoda(G); return {econ:it?{key:it.key,done:!!CLS.rec(G).done[it.key]}:null, sk03:ev?ev.id:null}; })()")
         note('%s：叫之前 %s' % (case, J(pre)))
         setup('%s：CLS.lunchBreak(GAME)（下課選單「先去吃飯」那一條的同一個函式；不指定吃哪家）' % case)
-        await pg.evaluate("window.__LB=null; CLS.lunchBreak(GAME).then(r=>window.__LB=r, e=>window.__LB='err '+e)")
+        await pg.evaluate("(()=>{ window.__LB=null; void CLS.lunchBreak(GAME).then(r=>window.__LB=r, e=>window.__LB='err '+e); })()")   # 11-10 BB：原本運算式的值是 Promise，evaluate 會等它，lunchBreak 又要等 drive() 點對話＝互等卡 240 分（TEST_BUG）
         log = []
         await drive(pg, cdp, "window.__LB!==null&&!GAME.D.active", 300, (), log)
         W = await pg.evaluate("window.__NA"); r = await pg.evaluate("({r:window.__LB, last:(GAME.G.flags||{}).LUNCH_LAST, huoda:(GAME.G.flags||{}).SK03_HUODA, done:!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_sk03_lunch), money:GAME.G.money})")
