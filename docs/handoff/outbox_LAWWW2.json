@@ -7689,6 +7689,21 @@
    "noDirectIntegrate": false,
    "note": "底 dev 2a7edffd5；tz_shops_unit ALL PASS。和 AA_743 的差異表在 README（以圖為準）。互動點 kind tz_taimi_order／menu／kitchen／photo、zone.shopClerk 給 LAWWW 接。",
    "next": "洗樂洗衣坊 → 印得好 → 安泰藥局 → 汀州鮮果 → 榮恩典文具社"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "51a7dfb8d",
+   "receiver": "LAWWW",
+   "cc": "BB、AA",
+   "ack": "SENT",
+   "task": "GG-SHOPS3-ART-1110 泰米村食＋洗樂洗衣坊室內第 1 版（一個 patch）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README.md、tz_shops_int_v1_taimi_xile.patch、preview_taimi.jpg、preview_xile.jpg、regression_taimi.log）"
+   ],
+   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "noDirectIntegrate": false,
+   "note": "底 dev 2a7edffd5；tz_shops_unit 兩間 ALL PASS。kind tz_taimi_*、tz_xile_*、zone.shopClerk 給 LAWWW 接。",
+   "next": "印得好 → 安泰藥局 → 汀州鮮果 → 榮恩典文具社"
   }
  ]
 }
