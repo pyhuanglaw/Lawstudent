@@ -136,6 +136,9 @@ BOYA1F_v2b | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_plann
 WINVIEW_cvs_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=cvs;HOURS=14,21
 # ① XS-WINCARD 第二批：山嵐、運動廣場一二樓、南洋一樓（南洋有窗景卡以後要拍到那張卡）；改前＝WINVIEW_B 9d4c54c16
 WINVIEW_xs3_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 30 | SHOPS=shanlan,xsports,nanyang;HOURS=14,21;MAXCARDS=3
+# X295E fair r4（CC 12:2x）：r3 用 bb8a32765＝modest-rubin 的舊 head，那一版沒有 school_fair（活動資料 null）＝TEST_BUG（CC 選錯分支）；改 be84c8680（confident-ritchie）
+X295E_fair_keep2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep2;CASES=fair;BIKE=keep
+X295E_fair_off2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_off2;CASES=fair;BIKE=off
 # ② GYM-FIT-PROPS 第二包（LAWWW 11:59、BB 12:00）：飛輪（踏板離腳多遠）、划船機（座椅跟著臀部滑）有人在用各一張；探針加 bike、會動零件量測、sideLow 截圖
 GYMPROPS2_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_gym_props_probe.py | index.html | 20 | SOLO=1;TAG=v2;ACTS=bike,row
 # 同弦夜景（BB 12:04；LAWWW2 dd079901c 加夜間版）：21:00 窗外要是晚上（暗、有燈），不能和白天一樣；改前 be84c8680 先跑（預期 21:00 和白天一樣）；改後等 LAWWW 整合 SHA
