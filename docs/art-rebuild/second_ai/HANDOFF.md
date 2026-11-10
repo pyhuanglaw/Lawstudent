@@ -22,6 +22,16 @@
   - X296 總圖樓層簡介看板浮空、X298／X299 總圖 B1：LAWWW 先處理了，等我看要不要收進 Blender。
   - 更早的：X227、X228、X229、X239、X247、X254、X257。照 user_asks_LAWWW2.json 和 TODO_SHORTCUTS.md。
 - 下一步照下面交班一節的 D：先把 `wip/campus_curb_gap_1110/` 交給 LAWWW → 做 AVENUE-FAR-SIGNS-1110 → 一盞飲料 → 法服攤位 → SIS-STATIONERY-1110。
+- **進度（11-10 09:1x UTC）**：
+  - X283 路緣、X285 遠景看板：整合 dcc9276f8，BB 判 PASS（BB_255）。
+  - X294 法服攤位：整合 9202e2fab。X307 總圖 B1 中庭：整合 10df264ed。
+  - X276 山嵐文具區：LAWWW 接進 72c889ec3，等 CC 拍。AA 的品項清單（AA_732 shops[1]，18 樣）到了，照這份可以再調 `stationery_add.py`，P3。
+  - X289 一盞杯子浮空：已交付 57a9dd322（`wip/yz_cup_float_1110/`）。原因是 seatact 桌上群組掛在一盞往 +z 搬 2.3 m 的房間群組底下。
+  - X296 總圖樓層簡介：LAWWW-B 已修在開發分支（7a019726d），重跑測試 PASS，不用做。
+  - X257 GYM-MOVE-1105：XS-GATE-NORTH 的 patch 已整合，外觀 campus_gymext.glb 也接了，只差驗收。兩件都已告訴 LAWWW。
+  - X254 窗景：等 BB／CC 的判定清單（BB 排在 X295 後面）。
+    - 已查：日和便利店、公館燒臘的窗景是 tools/shots/shop_views_layers.py 在遊戲裡拍的（舊店面的位置）；慢輪單車、阿德、林家是通用視差。
+    - 重拍有兩條路：用 Blender（afar／gg_shop_views.sh 的做法），或請 CC 用瀏覽器重拍（D131）。
 
 ## 🔁 交班（2026-11-10 01:4x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 
