@@ -7553,6 +7553,21 @@
    "noDirectIntegrate": false,
    "note": "一行 9 個字要 4.5 倍板高、牌子只有 3.2 倍 → 兩行（text＋sub）；GLB 二進位不變、只有 extras；測試加 2b，開發 FAILED 1 → ALL PASS；回歸 159／160（aa498_pool_unit 開發分支上一樣失敗）。",
    "next": "MOVIE-POSTER-POS-1110（等截圖）→ US-LONG-3D-1110"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "US-LONG-3D-1110 何俊朗自己的 3D 模型（圓框眼鏡、背包奶茶杯鑰匙圈）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/us_long_3d_1110/（README、us_long_3d_1110.patch、us_long_model_unit.js、regression.log、Blender 算圖 4 張）"
+   ],
+   "state": "待整合（角色美術待 BB 驗收 D59；遊戲畫面待 CC）",
+   "noDirectIntegrate": false,
+   "note": "底 a8d8b9f7c、apply --check 乾淨；VRM 2.64 MB（Sakurada_Fumiriya 改作，耳上短髮、單眼皮、濃眉、深藍敞開外套＋白 T）；眼鏡 glasses_long.glb、鑰匙圈 keychain_milktea.glb；us_life3d.js specOf 接線（lazy 下載、失敗退回路人樣子）；新測試開發 FAILED 7 → ALL PASS；回歸 14／14 ALL PASS。沒有參考圖：照 AA_80 5-2、AA_145 3-5 文字做。",
+   "next": "LIFE-DETAILS-SEASONAL-1110 提案 → MOVIE-POSTER-POS-1110（等截圖）"
   }
  ]
 }
