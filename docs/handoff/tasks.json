@@ -52910,13 +52910,39 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "使用者 21:1x「你可以自己決定嗎」＝位置、開工交 LAWWW 定：位置 G11（原泰米村食）；AA 先寫商品文案、店員台詞、畢業／母親節規劃；LAWWW 做商品資料與遷移（店代號 gg_flower、g_bouquet、g_sunflower 不改）；LAWWW2 的外觀、室內模型等使用者兩張正式參考圖",
+   "next": "使用者 21:1x「你可以自己決定嗎」＝位置、開工交 LAWWW 定：位置 G11（原泰米村食）；AA 先寫商品文案、店員台詞、畢業／母親節規劃；LAWWW 做商品資料與遷移（店代號 gg_flower、g_bouquet、g_sunflower 不改）；LAWWW2 的外觀、室內模型等使用者兩張正式參考圖；使用者 21:3x 已給兩張參考圖（docs/handoff/user_specs/flower_notes_ref/），LAWWW2 可以開始做模型（FLOWER-NOTES-ART-1110）",
    "xai": {
     "spec": "X325，docs/handoff/user_specs/FLOWER_NOTES_1110.md",
     "branch": "claude/confident-ritchie-8rwh7t",
     "acceptance": "規格書第十四節驗收條件；BB 判",
     "receiver": "BB",
     "ack": "未派"
+   }
+  },
+  {
+   "id": "FLOWER-NOTES-ART-1110",
+   "title": "花序 Flower Notes 外觀（公館 G11 雙層立面）＋一樓室內＋二樓花藝教室，照使用者兩張參考圖（X325）；舊花攤 gg_flower_stall 拿掉",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "照 RULES_2D_TO_3D；排在汀州路第 2 版後面",
+   "xai": {
+    "spec": "X325；docs/handoff/user_specs/FLOWER_NOTES_1110.md 第四～六節；參考圖 docs/handoff/user_specs/flower_notes_ref/",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "同角度疊圖；BB 判（D120、D141）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
    }
   }
  ]
