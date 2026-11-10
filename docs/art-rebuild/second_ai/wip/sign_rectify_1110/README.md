@@ -24,6 +24,13 @@
   - SUNNY SIDE、小路在 `wz_signs_atlas` 也各有一格（sign_atlas.py），遊戲實際用哪一格要看截圖。
   - → 這四塊（2:30 AM、日常失速、SUNNY SIDE、小路）等 CC 截圖確認哪一張圖在用，再換那一張。
 
+## 第 3 包第二版：溫州街補齊（11-10 20:3x；LAWWW 20:09：補齊再一次交）
+- `wz_signs_rectify.patch` 換成第二版：`wenzhou_street.glb` 換兩張圖——`wz_fronts_atlas`（SUNNY SIDE、小路、2:30 AM 三格，同第一版）＋ **`wz_signs_atlas`（溫州書屋、夏日冰菓室、帝大紅茶、SUNNY SIDE、小路五格）**；10,279,468 → 10,415,748 bytes。SUNNY SIDE、小路兩張圖裡的那一格都換了，遊戲用哪一張都是正的。
+- `wz_signs_atlas_after.jpg`：換完的整張圖集。第二批三塊的四個角：溫州書屋 [(544,304),(1516,90),(1516,256),(544,410)]、夏日冰菓室 [(410,118),(964,244),(956,336),(400,258)]、帝大紅茶 [(230,176),(994,326),(990,402),(224,326)]（參考圖 `wip/wz_second_1104/ref/`）。
+- 回歸 10 支 ALL PASS（offbeat_storefront、singleside_streets、lampshade_flip、street_props_nav、wz_copy_shop、wz_slim、wz_vc_pack、cafe230_nobldg_nav、zone_prewarm、zone_prefetch）；其他 bufferView 不動（工具只動那一張圖）。
+- **2:30 AM**：查了 `cafe230.glb` 的 `a23_print`——它自己的招牌是程式畫的、本來就是正的，**不用改**。
+- **日常失速**：`offbeat_storefront.glb` 是整間烘焙（招牌烘在光照貼圖裡，認不出哪一塊），不能直接換圖；要用拉正的 `offbeat_sign` 重烘。等 CC 的遊戲截圖看它在遊戲裡斜不斜再做（還要先修右上角補色的直條紋）。**這一塊還沒做。**
+
 ## 盤點（看圖集的每一塊招牌）
 - 原因：`xs_front_tex.py` 本來就會把參考圖上的四邊形拉正，但之前量的四個角不準（有的直接用長方形、有的把屋簷、燈、隔壁的招牌一起框進去），所以拉完還是斜的。
 - 斜的、這次重做（13 塊）：
