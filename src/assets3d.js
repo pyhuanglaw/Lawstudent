@@ -186,6 +186,7 @@ const ASSETS = (function(){
        第一個人坐下、或 SEATACT 第一次要用的時候才下載（lazy：片段約 0.4 MB、配件約 0.08 MB）。重做：python3 -I tools/anim/sit_task_loops.py、tools/anim/sit_task_props.py
        配件是 type:'building'：和 desk_props 同一張貼圖，建築的載入器（texDedup）會共用 */
     'char.ual_sit_tasks':{url:'assets/models/char/second_ai/ual_sit_tasks.glb', type:'clips', lazy:true, source:'本作 tools/anim/sit_task_loops.py（LAWWW2-C 2026-11-04：打字、打字＋觸控板、寫字、滑手機、翻書頁、喝飲料、吃飯 × 女生／男生 VRoid 骨架，Sit_<動作>_<F|M>_Loop，每個 5 秒；身體的呼吸、前後晃是 Quaternius UAL 的 Sitting_Idle_Loop）', license:'本作（用到的 UAL 部分 CC0 1.0）'},
+    'prop.gym_moving':{url:'assets/models/env/second_ai/gym_moving_parts.glb', type:'building', lazy:true, source:'本作 tools/blender/env_second/gym_moving_parts.py（從 gym_b1.glb 搬出來的會動零件：飛輪曲柄、踏板，划船機座椅、拉把；GYM-FIT-PROPS-1103 第二包，LAWWW2 帳號 A）', license:'本作'},
     'prop.gym_hand':{url:'assets/models/char/second_ai/gym_hand_props.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gym_hand_props.py（健身中心手上的道具：啞鈴、槓鈴、划船機拉把；原點＝握把中心、軸沿 +x；GYM-FIT-PROPS-1103，LAWWW2 帳號 A）', license:'本作'},
     'prop.hand_props':{url:'assets/models/char/second_ai/hand_props.glb', type:'building', lazy:true, source:'本作 tools/anim/sit_task_props.py（LAWWW2-C 2026-11-04：右手的紙杯 hand_cup、手機 hand_phone、原子筆 hand_pen，已經擺在右手骨頭 J_Bip_R_Hand 的座標裡；網格、貼圖照用 desk_props）', license:'本作'},
   };

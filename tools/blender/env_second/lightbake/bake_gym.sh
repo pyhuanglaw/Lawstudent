@@ -125,4 +125,6 @@ python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}
 #   ②interior：高窗的亮度由遊戲的 gym 區域自己照時段調（見開頭）：extras.lightmap.dayEmit 拿掉（arena 留著）
 python3 tools/blender/env_second/lightbake/glb_restore_sides.py "$OUTDIR/$NAME.glb" "$REF" $([ "$ZONE" = interior ] && echo --drop-dayemit)
 cp "$TMP/lm.json" tools/blender/env_second/lightbake/${NAME}_lm.json
+# b1：飛輪的曲柄、踏板，划船機的座椅、拉把從器材的原型網格拿出來，寫成會動的零件 gym_moving_parts.glb（GYM-FIT-PROPS-1103 第二包；器材是 --nolm，不用重烘）
+[ "$ZONE" = b1 ] && python3 tools/blender/env_second/gym_moving_parts.py --dst "$OUTDIR/$NAME.glb" --out "$OUTDIR/gym_moving_parts.glb"
 echo "done: $OUTDIR/$NAME.glb + ${NAME}_lm_day/night.webp"
