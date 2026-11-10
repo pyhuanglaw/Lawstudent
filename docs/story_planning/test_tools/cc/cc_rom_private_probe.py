@@ -18,7 +18,7 @@
   S3 戀愛條單獨看：【捷徑】把她的戀愛改成 15（SOCIAL.rel 直接設，友情不動、還是朋友以下）→ 手機人物頁的戀愛條約 50%（舊版朋友以下一律 0）。
 記錄（只記不改）：SOCIAL.adjust 的每一次呼叫（誰、加了什麼）、GAME.say 的每一句（bbplay.say_hook）。
 判定：PASS／FAIL／INFO，最後 ALL PASS 或 FAILED n。舊版應該 FAIL 的：A1、B1、B2、C1、C2、D1（A2「一天一次」、前置檢查兩版都 PASS）。
-用法：LW_TESTS=<樹>/tests python3 cc_rom_private_probe.py <url> <out>（PC：URL 不加 ?turbo）"""
+用法：LW_TESTS=<樹>/tests [CASES=S1,S2] python3 cc_rom_private_probe.py <url> <out>（PC：URL 不加 ?turbo）"""
 import os, sys, json, asyncio, time, copy, subprocess
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
@@ -35,6 +35,7 @@ GIFT_ITEM = '無糖綠茶（去冰）'
 GO_EARLY = 0.17
 J = lambda o: json.dumps(o, ensure_ascii=False)
 FAILS = []
+CASES = [c.strip() for c in (os.environ.get('CASES') or 'S1,S2').split(',') if c.strip()]   # S1＝約會（a b-選項 c d）、S2＝送東西＋戀愛條（b-送東西 c）
 
 
 def check(name, ok, info=''):
@@ -287,9 +288,15 @@ async def s2_gift(pg, cdp, run, S, errs):
     r0 = await rel(pg); info('S2 送之前學姊的關係', J(r0))
     check('S2 前置：學姊在朋友以下（DATE.stageNum＜3）', r0['stage'] is not None and r0['stage'] < 3, J(r0))
     a0 = len(await pg.evaluate("window.__ADJ||[]"))
-    r = await P.talk_full(pg, cdp, run, WHO, 'S2送她', picks=('送她' + GIFT_ITEM,))
+    gave = False; r = None; allopts = []
+    for k in range(3):   # 走近時她先點頭（自動的一句旁白）也算「開始說話」：talk_to 就回來了——沒選到送東西就再按一次「和她說話」
+        r = await P.talk_full(pg, cdp, run, WHO, 'S2送她%d' % (k + 1), picks=('送她' + GIFT_ITEM,))
+        allopts += (r or {}).get('opts') or []
+        gave = bool(r) and any(p.startswith('送她' + GIFT_ITEM) for p in r.get('picked', []))
+        if gave: break
+        await pg.wait_for_timeout(1500)
+    if r is not None: r['opts'] = allopts
     adj = await adj_log(pg, a0); r1 = await rel(pg)
-    gave = bool(r) and any(p.startswith('送她' + GIFT_ITEM) for p in r.get('picked', []))
     info('S2 SOCIAL.adjust(%s)' % WHO, J(adj)); info('S2 送之後的關係', J(r1))
     if not check('S2 前置：走到學姊旁邊說話、選到「送她%s」' % GIFT_ITEM, gave, J((r or {}).get('opts'))): return
     fav = [x for x in adj if x['d'].get('trust') == 2 and x['d'].get('comf') == 2]
@@ -313,6 +320,7 @@ async def main():
     S = S.get('G', S); info('day51b 來源', '%s；day %s %s %.2f' % (src, S.get('day'), S.get('zone'), S.get('hour') or 0))
     async with async_playwright() as p:
         for name, fn in (('S1', s1_date), ('S2', s2_gift)):
+            if name not in CASES: continue
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
             try:
                 await pg.goto(URL)

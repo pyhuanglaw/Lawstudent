@@ -19,6 +19,8 @@ X296_old | 9f3133b998dc3cf4631f019d085e59a8550f5d29 | probe | docs/story_plannin
 # X307 r3：r2 的 top_mouth 鏡頭朝外（看不到中庭）＋HUD 沒藏＝探針問題；加 top_mouth_in（樓梯口往中庭看）、bottom_door_far（中庭看 B1 門，距離 6）
 X307_new | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_b1court_art_probe.py | index.html | 40 | TAG=new;RERUN=r3
 X307_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_b1court_art_probe.py | index.html | 40 | TAG=old;RERUN=r3
+# X307 fix（LAWWW 09:25 fda54d616＝LAWWW2 bc4598101：B1 玻璃帷幕單面、修南側鏡頭白霧；BB 09:24 預排）：EXPECT=fixed（03、07 白霧量化判）＋樓梯口往中庭看＋中庭距離 6 看門＋中庭俯視（和平面圖並排）
+X307F_new | fda54d616e57b40c74ca1b6404dccb6ea927e50c | probe | docs/story_planning/test_tools/cc/cc_b1court_art_probe.py | index.html | 40 | TAG=fix;EXPECT=fixed
 # ===== LE738（CC 帳號 A 接班 11-10，使用者「電腦測試都跑完了，趕快安排新的」）：開發分支 modest-rubin 最新 e73888074c（B1 中庭門上壁燈、玻璃門透光；B1 寄物櫃；LAWWW-B 04:1x 交班時的版本）=====
 LE738_b1court | e73888074c | probe | docs/story_planning/test_tools/cc/lawww_b1court_shot_probe.py | index.html | 20 | X=1
 LE738_p0 | e73888074c | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
