@@ -39885,7 +39885,7 @@
    "title": "男一舍走廊、樓梯間牆接頭的縫：改建模＋重烘",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -39899,7 +39899,7 @@
    },
    "source": "LAWWW2 11-02 04:39（交接檔有、總表沒有）",
    "authorized": "D108",
-   "next": "【LAWWW（帳號 A）04:4x 登記】1.5～3h；玩家每天經過，排在 FAIR-TENT-CAM 之後",
+   "next": "【LAWWW 11-10 10:3x】LAWWW2 盤點更正 6d19463fc：早已整合（LAWWW2-C 4eada314b → 開發 4b5a0ebd8，11-05：T 形接頭 176→3、重烘；tests/dorm_hall_tjunc_unit.js）。 ｜ 【LAWWW（帳號 A）04:4x 登記】1.5～3h；玩家每天經過，排在 FAIR-TENT-CAM 之後",
    "xai": {
     "spec": "LAWWW2 HANDOFF.md",
     "branch": "claude/second-ai-env-art",
@@ -42284,10 +42284,10 @@
    "id": "ART-OLDROAD-SHELF-1103",
    "title": "舊路書房書架背板全黑，要貼木紋（P3）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P3",
    "note": "BB 11-03 01:08 發現（BB_247 補證據時）、01:12 請 LAWWW 代記；證據 cc-local ART_lband y090、y180",
-   "next": "LAWWW2 下一班：書架背板貼淺色木紋（D112）→ 交 BB 看 cc-local 截圖",
+   "next": "【LAWWW 11-10 10:3x】LAWWW2 盤點更正 6d19463fc：取消／被取代（GG-SHOPS-REDO-1104）。 ｜ LAWWW2 下一班：書架背板貼淺色木紋（D112）→ 交 BB 看 cc-local 截圖",
    "xai": {
     "spec": "BB 11-03 01:08／01:12 send_message",
     "branch": "claude/second-ai-env-art",
@@ -42295,7 +42295,9 @@
     "receiver": "BB",
     "ack": "未派",
     "owner": "LAWWW2"
-   }
+   },
+   "replacedBy": "GG-SHOPS-REDO-1104",
+   "reason": "舊路書房模型 11-04 起已不用，bookstore 區域是頁間書屋 v2；WIP fc50cc3ba 改的是舊模型（LAWWW2 6d19463fc）"
   },
   {
    "first": {
@@ -45070,7 +45072,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 12:4x 補進總表】LAWWW2-C 10-28 開的（LM-SEAM-1028 重烘以後還剩、要改模型）；排在溫州街、公館之後",
+   "next": "【LAWWW 11-10 10:3x】LAWWW2 盤點更正 6d19463fc：男一舍那一半＝DORM1-WALL-SEAM-1102 已整合；只剩萬才館柱子細倒角（P3）。 ｜ 【LAWWW-C 11-04 12:4x 補進總表】LAWWW2-C 10-28 開的（LM-SEAM-1028 重烘以後還剩、要改模型）；排在溫州街、公館之後",
    "source": "LAWWW2-C 10-28（LM-SEAM-1028 後續）；11-04 12:38 指出總表沒有這個 ID",
    "xai": {
     "spec": "LAWWW2-C 10-28",
