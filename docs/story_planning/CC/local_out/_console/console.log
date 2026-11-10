@@ -508,3 +508,9 @@
 [04:59:32] ==== START TZ_shots  (probe @ 7a625da3c321c2d3fcaaa2ac865c1dde60ccff5d) ====
 [04:59:35] [res] cpu=13% mem=40% (12.7/31.4 GB) chrome_testing=5  START TZ_shots
 [05:01:54] [res] cpu=4% mem=41% (12.9/31.4 GB) chrome_testing=5  END TZ_walk
+[05:01:56] 正在跑：TZ_walk（已跑 8 分／上限 20 分）、TZ_shots（已跑 2 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0ef081851..5b28cac05  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:01:59] ==== END   TZ_walk  exit=0  515s   ====
+[05:02:16] [res] cpu=8% mem=32% (10.2/31.4 GB) chrome_testing=0  END TZ_shots
