@@ -159,6 +159,10 @@ WINVIEW_sso_new | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_
 GLASSDIAG_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_glasssky_diag_probe.py | index.html | 10 | X=1
 GLASSDIAG_v2b | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_glasssky_diag_probe.py | index.html | 10 | X=1
 X295E_fair_keep_fix | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep_fix;CASES=fair;BIKE=keep;RERUN=r2
+# ① PUTONG v2D（LAWWW 13:44：GLASSDIAG 兩點都對，LAWWW2 380ceac62 顏色改傳輸出色空間、skyBox 延到東立面一樓；e9af13061）：同一組鏡頭重拍，目標玻璃約 [110,120,130]、東立面一樓那片也要變
+GLASSDIAG_v2d | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_glasssky_diag_probe.py | index.html | 10 | X=1
+TEACHVIEW_pn_v2d | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
+BOYA1F_v2d | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=v2d;VIEWS=boya1f_gap:campus:-27:-69.5:11:0:2.5:-27:2.3:-74.5:70+boya1f_se:campus:-17:-70:11:1.27:6:-32:2.2:-74.5:50
 GUI_fix2 | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 25 | TAG=fix2;CASES=shanlan;RERUN=r3
 # ① XS-DOOR-LABELS（LAWWW 13:02、BB 13:03：新生南路每一家列出來，格式不對的標出來）：真的走到每一間店門讀按鈕字；改前 74da28ca9
 XSDOOR_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_xs_door_labels_probe.py | index.html | 25 | TAG=new
