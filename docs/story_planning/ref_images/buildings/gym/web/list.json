@@ -1,0 +1,85 @@
+[
+ {
+  "file": "gym_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40523",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "主球場（畢業典禮）：三面看台、上方白色屋頂與鋼桁架、計分板",
+  "size": "640×480",
+  "src_id": "map q=40523"
+ },
+ {
+  "file": "gym_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40522",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "室內球場（羽球）：木地板、木條天花板",
+  "size": "640×480",
+  "src_id": "map q=40522"
+ },
+ {
+  "file": "gym_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40521",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "外觀仰視：紅褐色面磚、弧形量體、空橋",
+  "size": "480×640",
+  "src_id": "map q=40521"
+ },
+ {
+  "file": "gym_web_04.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40520",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "夜景（遠眺）：白色膜屋頂發光、旁邊是操場",
+  "size": "640×480",
+  "src_id": "map q=40520"
+ },
+ {
+  "file": "gym_web_05.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40519",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "夜景：圓形量體、戶外大樓梯、玻璃樓梯塔",
+  "size": "640×480",
+  "src_id": "map q=40519"
+ },
+ {
+  "file": "gym_web_06.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40518",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "外觀：磚紅色面磚的弧形牆、一排圓窗、玻璃雨遮入口、上方白色膜屋頂",
+  "size": "640×480",
+  "src_id": "map q=40518"
+ },
+ {
+  "file": "gym_web_07_pe_1f_court.png",
+  "url": "https://rent.pe.ntu.edu.tw/udf/1_600x399.png",
+  "page": "https://rent.pe.ntu.edu.tw/venues/",
+  "caption": "一樓多功能球場：淺色木地板、羽球網、斜條木格柵天花、藍色收納看台",
+  "size": "600×399"
+ },
+ {
+  "file": "gym_web_08_pe_3f_arena.jpg",
+  "url": "https://rent.pe.ntu.edu.tw/udf/1649339704060818000_600x413.jpg",
+  "page": "https://rent.pe.ntu.edu.tw/venues/",
+  "caption": "三樓主球場（魚眼）：木地板、四周紅黃色座椅看台、白色網格鋼桁架屋頂、中間的計分板",
+  "size": "600×413"
+ },
+ {
+  "file": "gym_web_09_pe_fitness.jpg",
+  "url": "https://rent.pe.ntu.edu.tw/udf/1649340147016960600_600x401.jpg",
+  "page": "https://rent.pe.ntu.edu.tw/venues/",
+  "caption": "健身中心：成排的跑步機、飛輪、鏡牆、淺色地板",
+  "size": "600×401"
+ },
+ {
+  "file": "gym_web_10_pe_pool.jpg",
+  "url": "https://rent.pe.ntu.edu.tw/udf/1649339334087606700_600x413.jpg",
+  "page": "https://rent.pe.ntu.edu.tw/venues/",
+  "caption": "室內游泳池：水道繩、出發台、條狀天花板、高窗、白色磁磚",
+  "size": "600×413"
+ },
+ {
+  "file": "gym_web_11_pe_tabletennis.jpg",
+  "url": "https://rent.pe.ntu.edu.tw/udf/5_600x399.jpg",
+  "page": "https://rent.pe.ntu.edu.tw/venues/",
+  "caption": "桌球室：綠色地板、藍色球桌、圍板、高窗",
+  "size": "600×399"
+ }
+]

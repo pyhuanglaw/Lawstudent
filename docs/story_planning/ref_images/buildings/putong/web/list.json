@@ -1,0 +1,26 @@
+[
+ {
+  "file": "putong_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40321",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1009",
+  "caption": "教室外走廊：白牆、綠色木窗框、紅色地磚、牆上公告欄",
+  "size": "640×480",
+  "src_id": "map q=40321"
+ },
+ {
+  "file": "putong_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40320",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1009",
+  "caption": "從球場看普通教學館：五層紅磚、中央山牆、平屋頂；前面是網球場（綠色圍網）",
+  "size": "640×480",
+  "src_id": "map q=40320"
+ },
+ {
+  "file": "putong_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40318",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1009",
+  "caption": "正面街景：紅磚外牆、一樓半圓拱廊、綠色玻璃的樓梯塔、整排腳踏車、大王椰子",
+  "size": "640×480",
+  "src_id": "map q=40318"
+ }
+]

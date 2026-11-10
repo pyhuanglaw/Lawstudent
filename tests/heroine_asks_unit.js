@@ -23,8 +23,9 @@ check('0. 載得到；index.html：data/heroine_asks.js → heroine_asks3d.js（
 if(!ok){ H.done(); }
 let doc=''; try{ doc=cp.execSync('git show b3ecc563c:"docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 { const [d]=require('./an_rev_doc.js').overlay(doc,/^heroine_asks\.js/); doc=d; }   /* 以安改稿④b（AA_594 第 15～18 列：她主動約你的溫州街兩句、回覆兩句）：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
-{ const bad=[]; let n=0; for(const [id,p] of Object.entries(HASK_DATA.people)){ const L=[p.later,p.no,p.yes].concat(Object.values(p.yesBy||{})); for(const e of p.daily.concat(p.out)) for(const v of ['pre','dat']) if(e[v]) L.push(e[v].line); for(const t of L){ n++; if(!doc.includes(t)) bad.push(id+'：'+t); } }
-  check('0. 每一句都在 AA_494 稿裡（一字不差；'+n+' 句）',doc.length>1000&&!bad.length&&n>=100,doc?J(bad):'git fetch origin claude/magical-albattani-bk7b4n'); }
+{ const bad=[], A593=require('./aa593_doc.js'); let n=0;   /* 學姊：AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 50～63 列換過的句子在 AA_593 的表上 */
+  for(const [id,p] of Object.entries(HASK_DATA.people)){ const L=[p.later,p.no,p.yes].concat(Object.values(p.yesBy||{})); for(const e of p.daily.concat(p.out)) for(const v of ['pre','dat']) if(e[v]) L.push(e[v].line); for(const t of L){ n++; if(!doc.includes(t)&&!(id==='heroine_05'&&A593.has(t))) bad.push(id+'：'+t); } }
+  check('0. 每一句都在 AA_494 稿裡（一字不差；'+n+' 句；學姊 AA_593 換過的在 AA_593 的表上）',doc.length>1000&&!bad.length&&n>=100,doc?J(bad):'git fetch origin claude/magical-albattani-bk7b4n'); }
 { const W=DATE.HEROINES.filter(h=>!(DATE.WISH_X&&DATE.WISH_X[h])).map(h=>DATE.wishOf(h)).filter(Boolean), hit=[];   /* 2026-10-30 芯慈的 D04（DATE.WISH_X，XINCI-ROMANCE-1030）不算：她的心願是午夜場這件事，芷若、子晴的西門 D04 照舊（AA-B 16:31；heroine_asks3d.js wishLocs 同）*/ for(const [id,p] of Object.entries(HASK_DATA.people)) for(const e of p.out) if(W.includes(e.loc)) hit.push(id+' '+e.loc);
   check('0. 心願地點（七位的）不在任何一位的校外表裡',W.length>=5&&!hit.length,J({W,hit})); }
 
@@ -101,7 +102,7 @@ const thread=id=>(H.G.msgs||[]).filter(m=>PHONE.th(m)==='p:'+id);
   check('8. 暫停期間不約',more===0,more); }
 { const G=fresh('2025-09-22',9); friend('heroine_01'); let d=G.day, x=null; for(let n=0;n<20&&!x;n++,d++){ day(d); x=sent().find(q=>q.id==='heroine_01'); }
   const r=INV.answer(G,x.iv,'later'); const last=thread('heroine_01').slice(-1)[0], rd=R().redo.find(q=>q.sid===x.sid);
-  check('8. 改天：她回「好。那改天。」、不打開自己選時間（noFlow）、3 天後同一個地點',!!r&&r.noFlow===true&&last.text==='好。那改天。'&&!!rd&&rd.due===G.day+3&&rd.place===x.place,J({r,rd}));
+  check('8. 改天：她回「好。那改天。」、打開選日子（flowPlace＝她說的地點；2026-11-10 HER-ASK-LATER-DAY-1110 改，原本 noFlow）；沒選的話 3 天後同一個地點再約',!!r&&!r.noFlow&&r.flowPlace===x.place&&last.text==='好。那改天。'&&!!rd&&rd.due===G.day+3&&rd.place===x.place,J({r,rd}));
   let y=null; for(let n=0;n<12&&!y;n++,d++){ day(d); y=sent().find(q=>q.id==='heroine_01'&&q.sid!==x.sid); }
   check('8. 改天以後：同一個地點再約一次（標 redo）',!!y&&y.place===x.place&&y.redo===x.sid&&y.send.day>=rd.due,J(y));
   INV.answer(G,y.iv,'later'); check('8. 再約的那一次又改天：不會再排第三次',!R().redo.some(q=>q.sid===y.sid),J(R().redo)); }

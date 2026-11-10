@@ -47,7 +47,8 @@ const ANYTHOL=(function(){
   const hm=m=>{ const h=Math.floor(m/60), r=m%60; return (h?h+' 小時':'')+(h&&r?' ':'')+(r?r+' 分鐘':''); };
   S.drive=function(G,day){ const tr=typeof DATE!=='undefined'&&DATE.travel?DATE.travel(S.DRIVE.loc,'car'):null, min=tr&&tr.mode==='car'?tr.minutes:150, fare=tr&&tr.mode==='car'?tr.fare:900;
     const home=!!G&&day!=null&&typeof DATE!=='undefined'&&!!DATE.fromHomeOn&&DATE.fromHomeOn(G,day);   /* 寒暑假從家出發（車就在家裡）：不加回家取車的 30 分、不寫那一句（DATE-C7，DATE.fromHomeOn）；2/14、2/15 都在寒假 */
-    return {travelH:min/60+(home?0:S.DRIVE.pick),travel:'開車到台中約 '+hm(min),fare}; };
+    const pick=home?0:((typeof DATE!=='undefined'&&DATE.CAR_PICK_H)||S.DRIVE.pick);   /* DRIVE-PICKUP-1105（AA_704）：從宿舍出發先走到望月台停車場（約 5 分鐘）；從家出發不加 */
+    return {travelH:min/60+pick,travel:pick?(DATE.CAR_PICK_TEXT||'')+hm(min):'開車到台中約 '+hm(min),fare,car:true}; };   /* car：從宿舍出發要先走到望月台停車場按「開車出發」（DRIVE-PICKUP-1105 第二步，src/carlot3d.js；從家出發照舊）*/
   S.payDrive=function(G,GM,q){ if(!q||!q.fare||q.paid) return 0; q.paid=true; if(GM&&GM.money) GM.money(-q.fare,'交通'); return q.fare; };   /* 出發的時候付；到了以後讀檔重演不再扣 */
 
   /* ---------------- 表（AA_414 第 1、2 節）：ask 約的那天（21:00）、opts 回覆（no＝不行）、out 出遊、miss 答應了沒到她傳的（[時間, 句子]）---------------- */

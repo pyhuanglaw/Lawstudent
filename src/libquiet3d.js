@@ -7,14 +7,15 @@
    - LIBQ.whisper(GM,who,text)：game3d.js 的 say、caption 呼叫；在讀書區＝加前綴，順便把說話的人記成「今天見過」（事件自己開口的也算見過）。
    讀書區（AA_595 開頭的區域；「AA 處理決定」：圖書館大廳、影印機、閉館後離開、美國的會所和中庭不算）：
      總圖 3F 閱覽區 library、總圖大廳只算二樓以上的自習區 library_hall（lv≥1）、研究小間 library_carrels、5F 書庫 library_stacks、
-     法圖 lawlib（一樓的影印室、館員辦公室、櫃台和門口不算）、社科圖 soclib、總圖 B1 只算 24 小時自習室和討論室（study24、disc1、disc2；影印中心、門廳、走廊不算）、
+     法圖 lawlib（一樓的影印室、館員辦公室、櫃台和門口不算）、社科圖 soclib、社科圖東側館 soclib_2f 只算二樓的自習室（AA_669 第 6 節：自習室「進門後就要安靜」、討論室「可以講話（裡面不用「（小聲）」）」；
+     一樓門廳、影印區、樓梯、二樓走廊、洗手間前不算；SOCLIB-2F-1104）、總圖 B1 只算 24 小時自習室和討論室（study24、disc1、disc2；影印中心、門廳、走廊不算）、
      美國法學院圖書館只算 2F 書庫 us_lawlib_2f（一樓中庭不算）。
    討論室（AA_595 拿不準 Q1～Q5）：「AA 處理決定」拿不準的照小聲講的原則處理，不算讀書區的只列了大廳、影印機、閉館後離開、美國的會所和中庭——討論室照小聲講。
    2D 場景（ADV 背景是圖片）：照背景判斷——法圖二樓、總圖二樓、B1 自習室、B1 討論室、社科圖閱覽區的背景算；門口、台階、簡餐等其他背景都不算（事件搬到館外演就不會加）。
    事件想整場不加：事件定義寫 loud:true（events3d.js 開演時 LIBQ.loudBegin()）；程式裡用 LIBQ.loud(async()=>{…})。
    事件演到一半搬到館外（AA 2026-11-02 20:54 第 3 點）：那一步寫 libOut:true（events3d.js runLines：從那一步到這段對話結束都不加，前面的照加）。
    不是事件的字串（invites.js 的 firstAt、rel_lines.js 的見面旁白 meetLine；AA 2026-11-02 22:30 定稿 1-D10、Q16）：沒辦法寫 libOut——
-     LIBQ.isOut(text)＝這一句就是走出館外：開頭「（走出」的（1-D10「（走出法圖）「館員人好好……」」），或 S.OUT_LINES 列的整句（Q16 以安約總圖的見面旁白「閉館音樂響了，她才抬頭問你晚餐吃什麼。」）；
+     LIBQ.isOut(text)＝這一句就是走出館外：開頭「（走出」的（1-D10「（走出法圖）館員人好好……」：第六批拿掉說的話那一對「」，開頭照舊是「（走出」，判斷不用改；她說的、不是旁白照 invites3d.js S.narrLine），或 S.OUT_LINES 列的整句（Q16 以安約總圖的見面旁白「閉館音樂響了，她才抬頭問你晚餐吃什麼。」）；
      開頭「（走出」的那一句本身不加前綴（needsPrefix）；invites3d.js 的 INV.meet 用 LIBQ.scope()：從那一句起到這次見面結束（含道別那句）都不加，結束一定配對 loudEnd。
    約好在讀書區見面（第 2 點）：免點頭（S.invited），對話照加。前綴的位置（第 4 點）：開頭有動作括號的合成「（抬頭，小聲）」（S.quiet）；玩家選項不加。
    存檔：G.libNod＝{day, ids:{角色 id:1}}（今天在讀書區見過的人；換一天就清空）。舊存檔沒有這個欄位＝今天誰都還沒見過（LIBQ.rec 補預設值，壞掉的也重設）。
@@ -24,7 +25,7 @@ const LIBQ=(function(){
   const S={};
   S.PREFIX='（小聲）';
   S.NOD={f:'（她抬頭看到你，點了一下頭。）',m:'（他抬頭看到你，點了一下頭。）'};   /* AA_595 1-A1「建議改法」的那一句（她＝同表 1-A2 的寫法）*/
-  S.ZONES={library:1,library_hall:1,library_carrels:1,library_stacks:1,lawlib:1,soclib:1,library_b1:1,us_lawlib_2f:1};
+  S.ZONES={library:1,library_hall:1,library_carrels:1,library_stacks:1,lawlib:1,soclib:1,soclib_2f:1,library_b1:1,us_lawlib_2f:1};
   S.BG_STUDY=['law_library.webp','ntu_library_2f.webp','ntu_lib_b1.webp','library_b1.webp','soc_library.webp'];   /* outings3d.js 的背景：法圖・二樓、總圖・二樓、總圖 B1・24 小時自習室、總圖 B1・討論室、社科院圖書館・閱覽區 */
   const G_=GM=>GM&&GM.G;
   /* 區域＋位置＝是不是讀書區 */
@@ -36,6 +37,8 @@ const LIBQ=(function(){
       return true; }
     if(zone==='library_b1'){ const L=typeof LIBRARY_B1_LAYOUT!=='undefined'?LIBRARY_B1_LAYOUT:null; if(!L||!L.rooms||typeof x!=='number'||typeof z!=='number') return false;
       return L.rooms.some(r=>/^(study24|disc\d)$/.test(r.id)&&x>=r.x0&&x<=r.x1&&z>=r.z0&&z<=r.z1); }
+    if(zone==='soclib_2f'){ if(lv<1) return false; const R=typeof SOCLIB2F_LAYOUT!=='undefined'&&SOCLIB2F_LAYOUT.study; if(!R||typeof x!=='number'||typeof z!=='number') return true;   /* 二樓自習室（配置的 study：牆的中心線）*/
+      return x>=R.x0&&x<=R.x1&&z>=R.z0&&z<=R.z1; }
     return true; };
   let loudN=0;
   S.loudBegin=()=>{ loudN++; }; S.loudEnd=()=>{ loudN=Math.max(0,loudN-1); };
@@ -76,9 +79,11 @@ const LIBQ=(function(){
     return true; };
   /* 一句台詞要不要加「（小聲）」：只有動作（整句在（）裡）、已經是小聲／氣音／口型／噓的不加 */
   const SOFT=/小聲|氣音|口型|噓|壓低聲音|悄悄/;
-  S.needsPrefix=function(text){ const t=String(text==null?'':text).trim(); if(!t) return false;
+  /* 外面整句一對「」（「A」「B」這種好幾段的不算）：拿掉再看（AA-B 2026-11-08 00:21：有名字的台詞不加「」；「好。」→（小聲）好。，不是（小聲）「好。」）*/
+  S.unq=t=>{ if(typeof t!=='string'||t.length<2||t[0]!=='「'||t[t.length-1]!=='」') return t; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='「') d++; else if(ch==='」'){ d--; if(d===0&&i!==t.length-1) return t; } } return d===0?t.slice(1,-1):t; };
+  S.needsPrefix=function(text){ const t=S.unq(String(text==null?'':text).trim()).trim(); if(!t) return false;
     if(t.startsWith(S.PREFIX)) return false;
-    if(t.startsWith(OUT_HEAD)) return false;   /* 「（走出法圖）「……」」：走出去以後才說的（1-D10）*/
+    if(t.startsWith(OUT_HEAD)) return false;   /* 「（走出法圖）館員人好好。……」：走出去以後才說的（1-D10；說的話外面原本有「」，TEXT-QUOTE-UNIFY-1108 第六批拿掉，看的是開頭，照舊）*/
     if(t.startsWith('「'+S.PREFIX)) return false;   /* 稿上把（小聲）寫在引號裡的：「（小聲）二樓靠窗那排比較安靜。」（AA_649，invites.js 的 libStudy）——不再加一次 */
     let rest=t, lead='';
     while(rest.startsWith('（')){ let depth=0, k=-1; for(let i=0;i<rest.length;i++){ const ch=rest[i]; if(ch==='（') depth++; else if(ch==='）'){ depth--; if(depth===0){ k=i; break; } } } if(k<0) break; lead+=rest.slice(0,k+1); rest=rest.slice(k+1).trim(); }
@@ -87,10 +92,10 @@ const LIBQ=(function(){
     return true; };
   const isPhone=who=>{ const nm=who&&typeof who==='object'?who.name:who; return typeof nm==='string'&&nm.indexOf('（手機）')>=0; };
   /* 加上去（AA 2026-11-02 20:54 第 4 點）：開頭已經有動作括號的合成一個——「（抬頭）喔，hi。」→「（抬頭，小聲）喔，hi。」；好幾個括號的合進第一個；沒有括號的才在最前面加「（小聲）」*/
-  S.quiet=function(text){ if(!S.needsPrefix(text)) return text; const s=String(text), k0=s.length-s.trimStart().length, t=s.slice(k0);
-    if(!t.startsWith('（')) return S.PREFIX+s;
+  S.quiet=function(text){ if(!S.needsPrefix(text)) return text; const s=String(text), k0=s.length-s.trimStart().length, t0=s.slice(k0), u=S.unq(t0.trimEnd()), uq=u!==t0.trimEnd(), t=uq?u:t0, body=uq?s.slice(0,k0)+u:s;   /* 「好。」→（小聲）好。（外面的「」拿掉再加；AA-B 11-08 00:21）*/
+    if(!t.startsWith('（')) return S.PREFIX+body;
     let depth=0, k=-1; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') depth++; else if(ch==='）'){ depth--; if(depth===0){ k=i; break; } } }
-    if(k<0) return S.PREFIX+s;
+    if(k<0) return S.PREFIX+body;
     let inner=t.slice(1,k), tail='';
     if(/[。]$/.test(inner)){ tail=inner.slice(-1); inner=inner.slice(0,-1); }   /* 「（抬頭。）」→「（抬頭，小聲。）」*/
     return s.slice(0,k0)+'（'+inner+'，小聲'+tail+'）'+t.slice(k+1); };

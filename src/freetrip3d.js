@@ -94,6 +94,16 @@ const TRIP=(function(){
     if(p.afterSunset){ const ss=S.sunset(G); if(h<ss+10/60-1e-6) return '天還沒黑'; if(h>ss+1+1e-6) return '已經全黑了'; }   /* D30 看第一顆星：日落後 10～60 分 */
     if(p.sunset){ const ss=S.sunset(G); if(h<ss-40/60) return '還沒到夕陽的時間'; if(h>ss+10/60) return '太陽已經下山了'; }
     if((G.money|0)<(p.cost|0)) return '錢不夠'; if(h+(p.minutes||0)/60>s.open[1]+1e-6) return '快關門了，來不及'; return ''; };
+  /* AA_685 C 節第 1 點（企劃線 91f240e50，AA-C 定 D109）：nightOf 的那一項（D14「海風與燈」，tools/freetrip/import_spots.py 補的）＝取代 nightOf 那一項（「海風與夕陽」）——
+     那一項是「太陽已經下山了」（寒假 18:00 以後、暑假日落以後）、而且同行的人有這一項的台詞（src/data/enc_walk.js）才列，夕陽那一項就不列；
+     一個人來、她沒有這一項的台詞＝照原本（不列這一項，夕陽那一項灰掉）。做過夕陽那一項、下雨＝夕陽那一項先灰掉（不是「下山了」），不換
+     AA_686 第 5 項（企劃線 1df3c189e，AA-C 定 D109）：源稿 spots_v3.json 補了這一項（night:true＝取代同一個景點寫 sunset 的那一項；一個人的旁白兩句），匯入工具的 EXTRA（nightOf）拿掉——
+     一個人來也列（旁白照 lines）；同行的人照 AA_685 C1（她有這一項的台詞才列，沒有＝照原本夕陽那一項灰掉）。舊的 nightOf 寫法照樣認 */
+  S.nightBase=(s,q)=>!q||!s?null:((q.nightOf?(s.points||[]).find(x=>x.id===q.nightOf):(q.night?(s.points||[]).find(x=>x.sunset&&!x.night):null))||null);
+  S.nightOn=function(G,s,q){ const T=G&&G.trip, o=S.nightBase(s,q); if(!o||!T) return false; if(pointState(G,s,o)!=='太陽已經下山了') return false;
+    if(!T.with) return !!q.night&&!!(q.lines||[]).length;   /* 一個人來（AA_686 第 5 項）：有旁白才列 */
+    if(typeof ENC==='undefined'||!ENC.walkLine||!ENC.tier) return false; const c=T.with, tr=ENC.tier(G,c.who); return !!ENC.walkLine(G,c.who,s.id,q.id,Object.assign({},tr,{t:c.tier})); };
+  const nightSkip=(G,s,p)=>(p.nightOf||p.night)?!S.nightOn(G,s,p):s.points.some(q=>(q.nightOf||q.night)&&S.nightBase(s,q)===p&&S.nightOn(G,s,q));
   /* 景點的選單迴圈（4-4）*/
   let busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['freetrip3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
@@ -109,7 +119,7 @@ const TRIP=(function(){
         else { const w=s.walk, onBase=x=>!x||!x.base||!T.base||x.base===T.base; if(w&&onBase(w)&&(T.walk|0)<(w.times||1)) O.push({t:w.label,hint:w.minutes+' 分鐘',k:'walk'});
           const fx=s.fixed; if(fx&&!T.fixedDone){ const fs=(G.money|0)<(fx.cost|0)?'錢不夠':(G.hour+(fx.minutes||0)/60>s.open[1]+1e-6?'快關門了，來不及':''); O.push({t:fx.label,hint:fs||(fx.minutes+' 分鐘'+(fx.cost?'・'+fx.cost+' 元':'')),dim:!!fs,k:'fixed'}); }   /* 固定段落（D05 看電影，rulesV3.fixed）*/
           const mv=s.move; if(mv&&T.base===mv.fromBase&&!T.moved) O.push({t:mv.label,hint:mv.minutes+' 分鐘',k:'move'});   /* 換底圖（D28 公車去安平，只能一次）*/
-          for(const p of s.points){ if(!onBase(p)) continue; const st=pointState(G,s,p); O.push({t:p.label,hint:st?st:((p.minutes?p.minutes+' 分鐘':'')+(p.cost?'・'+p.cost+' 元':'')),dim:!!st,k:'pt',p}); }
+          for(const p of s.points){ if(!onBase(p)||nightSkip(G,s,p)) continue; const st=pointState(G,s,p); O.push({t:p.label,hint:st?st:((p.minutes?p.minutes+' 分鐘':'')+(p.cost?'・'+p.cost+' 元':'')),dim:!!st,k:'pt',p}); }
           if(!s.points.some(p=>p.photo)&&!T.photo) O.push({t:'拍一張照',hint:'存進相簿（一趟一張）',k:'photo'});
           O.push({t:'回去',k:'back'}); }
         const o=O[await GM.choose(O)]||O[O.length-1];

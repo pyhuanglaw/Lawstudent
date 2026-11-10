@@ -102,21 +102,24 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('5. 烏來的偶遇（自由出行）：4/4 不排、4/18 照排；大一上第 6 週照舊（對照）',!e1.ok&&e2.ok&&e3.ok,J([e1.why,e2.why,e3.why])); }
   // ===== 第 6 項：沛珊的課輔班 =====
   { const ps=CHARACTERS.classmate_peishan, at=(wk,wd,h)=>{ fresh(termDay('Y1S2',wk,wd),h,'wenzhou',{}); return STORY.schedEnt(ps,G)||{}; };
-    const A=[[5,2,16],[5,4,17.5],[9,2,16.5],[15,4,17.9]].map(x=>at(...x).zone), B=[[5,1,16.5],[5,5,18.5],[4,2,16.5],[16,2,16.5]].map(x=>at(...x).zone);
-    check('6. 沛珊作息：大一下第 5～15 週週二、四 16:00～18:00 在溫州街（課輔班）',A.every(z=>z==='wenzhou'),J(A));
+    /* AA-B 2026-11-07 21:11～21:12（AA_614 第 1 節 a0b8a3e40；AA614-CLASSMATE-JOBS-1103）：課輔班改每週三 18:00～21:00（原本 AA_373 #6 週二、四 16:00～18:00）——這一項照新的作息改 */
+    const A=[[5,3,18],[5,3,20.5],[9,3,19],[15,3,20.9]].map(x=>at(...x).zone), A2=[[5,2,16],[5,4,17.5],[9,2,16.5],[15,4,17.9]].map(x=>at(...x).zone), B=[[5,1,16.5],[5,5,18.5],[4,2,16.5],[16,2,16.5]].map(x=>at(...x).zone);
+    check('6. 沛珊作息：每週三 18:00～21:00 在溫州街（課輔班；AA-B 11-07，原本週二、四 16:00～18:00）',A.every(z=>z==='wenzhou'),J(A));
+    check('6. 週二、四 16:00～18:00 不在溫州街了（AA-B 11-07）',A2.every(z=>z!=='wenzhou'),J(A2));
     check('6. 對照：週一、五 16～19 照舊在總圖；第 4 週週二照舊在總圖；第 16 週週二（4/6～6/14 和柏翰那一段）＝總圖大廳二樓自習區（AA_527 2-5，原本三樓閱覽區）',J(B)===J(['library','library','library','library_hall']),J(B));
-    const T=evText('ev_peishan_tutoring'); check('6. 溫州街課輔班（P3b）：「喔，是你。我在這裡當志工。一週兩天。」',T.includes('喔，是你。我在這裡當志工。一週兩天。')&&!T.some(t=>/一週三天/.test(t)),J(T.slice(0,2)));
+    const T=evText('ev_peishan_tutoring'); check('6. 溫州街課輔班（P3b）：「喔，是你。我在這裡當助教。每個禮拜三。」（AA-B 11-07，原本「一週兩天。」）',T.includes('喔，是你。我在這裡當助教。每個禮拜三。')&&!T.some(t=>/一週三天|一週兩天/.test(t)),J(T.slice(0,2)));
     const L3=LADDER.byTerm.Y1S2.classmate_peishan.steps.find(s=>s.id==='P2-L3');
     check('6. 閒聊階梯 P2-L3：「我在溫州街的課輔班當志工。一週兩天。」',!!L3&&L3.lines[0]==='我在溫州街的課輔班當志工。一週兩天。',L3&&L3.lines[0]);
     fresh(termDay('Y1S2',6,2),17,'wenzhou',{}); R('classmate_peishan','FAM'); const g=[]; for(let i=0;i<6;i++){ const t=STORY.ladGreet(G,'classmate_peishan'); if(t) g.push(t); }
-    check('6. 第 6 週週二 17:00 她在溫州街，招呼「（她帶著一排小孩過馬路，對你點頭）……等一下！」接得上（她真的在那裡）',STORY.schedEnt(ps,G).zone==='wenzhou'&&g.includes('（她帶著一排小孩過馬路，對你點頭）……等一下！'),J(g)); }
+    /* AA-B 11-07 以後週二 17:00 她不在溫州街（在總圖）：招呼的條件（ladder.js 的 when：週二、四 16:30～18:00）是 AA 的資料，沒有改——已問 AA（AA614 回報）；這裡只確認資料還在、她週二不在溫州街 */
+    check('6. 第 6 週週二 17:00：招呼「（她帶著一排小孩過馬路，對你點頭）……等一下！」的資料照舊；她已經不在溫州街（AA-B 11-07 課輔班改週三）',STORY.schedEnt(ps,G).zone!=='wenzhou'&&g.includes('（她帶著一排小孩過馬路，對你點頭）……等一下！'),J([STORY.schedEnt(ps,G).zone,g])); }
   // ===== 第 7 項＋BB-5：語彤大一下期末邀約「禮拜五」=====
   { const inv=(term,kind)=>{ const w=TERMEND.windowOf(term); fresh(w.from,20,'dorm',{}); R('heroine_03','FRI'); TERMEND.rec(G,term).plan={back:w.from,heart:kind==='heart'?['heroine_03']:[],friend:kind==='friend'?['heroine_03']:[],fallback:null,gf:[],nope:{},kx:false};
       G.hour=20.9; TERMEND.phone(GM); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='te_'+term+'_heroine_03'); return m?m.text:null; };
     const f=inv('Y1S2','friend'), h=inv('Y1S2','heart');
-    check('7／BB-5. 語彤大一下期末邀約（一般）：「考完了。禮拜五，要吃飯嗎。」',f==='考完了。禮拜五，要吃飯嗎。',f);
-    check('7／BB-5. 語彤大一下期末邀約（心意）：「禮拜五晚上我有空。……店裡打烊以後，我煮。只有我們。」',h==='禮拜五晚上我有空。……店裡打烊以後，我煮。只有我們。',h);
-    check('7. 對照：大二上照舊「禮拜四」（一般、心意）',inv('Y2S1','friend')==='考完了。禮拜六，秀琴姨說要煮火鍋。'&&inv('Y2S1','heart')==='禮拜六我沒排班。……茶屋打烊以後，我泡茶。只有我們。');
+    check('7／BB-5. 語彤大一下期末邀約（一般）：原本「考完了。禮拜五，要吃飯嗎。」——AA_687 第 1、2 項（企劃線 d41750385）：Y1S2 那一欄拿掉、用 gen；AA_687 補（企劃線 1881111f2）：加回來——邀約在 6/18 以前＝「考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。」（飯排在 6/18 以後的週六）',f==='考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。',f);
+    check('7／BB-5. 語彤大一下期末邀約（心意）：AA_661 第 72 列（使用者 11-04 選）「禮拜六我上班到五點。下班以後，你要不要來店裡？」（原本「禮拜五晚上我有空。……店裡打烊以後，我煮。只有我們。」）',h==='禮拜六我上班到五點。下班以後，你要不要來店裡？',h);
+    check('7. 對照：大二上（一般：AA_687 第 2 項「考完了。禮拜六我五點下班。小路，我想吃那裡的玉子燒。」，原本「考完了。禮拜六，秀琴姨說要煮火鍋。」；心意的基本版 AA_684 第 6 項「打烊以後」改「下班以後」；AA_685 B3「禮拜六我上班到五點。下班以後，我泡茶。只有我們。」）',inv('Y2S1','friend')==='考完了。禮拜六我五點下班。小路，我想吃那裡的玉子燒。'&&inv('Y2S1','heart')==='禮拜六我上班到五點。下班以後，我泡茶。只有我們。');
     const w=TERMEND.windowOf('Y1S2'); fresh(w.from,20,'dorm',{}); const dd=TERMEND.dinnerDay(G,w,{h:19,wd:4},'heroine_03');
     check('7. 對照：大一下語彤的飯在 6/19（五）（6/18 雙主修筆試）',K(dd)==='2026-06-19',K(dd)); }
   // ===== 第 8、14 項：學姊 S2-L6、以安的招呼 =====
@@ -155,8 +158,8 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   // ===== 第 15、16 項：期中晚餐 =====
   { const sup=async know=>{ fresh(D('2026-04-15'),19,'gongguan',{}); R('zhe','FAM'); if(know) R('heroine_03','FAM'); said=[]; await EVENTS.run(ev('ev_midterm_supper_y1s2')); return lines(); };
     const a=await sup(false), b=await sup(true);
-    check('15. 考完的晚餐，還沒認識語彤：「（今天端麵的是一個沒見過的女生。）」（D118 晚餐在期末，AA_581 第 7 節 B 護腕改字）',a.includes('（今天端麵的是一個沒見過的女生。）')&&!a.some(t=>/語彤|護腕/.test(t)),J(a.slice(0,2)));
-    check('15. 對照：認識語彤的「（阿姨的手好了，今天端麵的還是語彤。）」（AA_581 第 7 節 B）',b.includes('（阿姨的手好了，今天端麵的還是語彤。）')&&!b.some(t=>/沒見過的女生|護腕/.test(t)),J(b.slice(0,2)));
+    check('15. 考完的晚餐，還沒認識語彤：「（今天端麵的是一個沒見過的女生。）」拿掉（AA_679 第 1 列：她不在燒臘店端麵），也沒有語彤、護腕',!a.some(t=>/端麵|語彤|護腕/.test(t)),J(a.slice(0,2)));
+    check('15. 對照：認識語彤的「（阿姨的手好了，今天端麵的還是語彤。）」也拿掉（AA_679 第 1 列）——兩種玩家開頭一樣',!b.some(t=>/端麵|沒見過的女生|護腕/.test(t))&&J(a.slice(0,2))===J(b.slice(0,2)),J(b.slice(0,2)));
     fresh(D('2026-04-15'),21,'dorm',{}); R('classmate_peishan','FAM'); PHONE.join(G,'noodle_team','麵店團'); ev('ev_psbh_public_0415').missedPhoto(G,G.day); PHONE.tick(G);   /* AA_588 第 1 節：滷蛋照片跟著公開搬到 4/15 傍晚麵店（原本考完的晚餐的 outingMissed）*/
     const M=TH('g:noodle_team').filter(m=>m.tag==='zhe_supper_mid2_egg').map(m=>m.from+':'+m.text);
     check('16. 4/15 傍晚沒到麵店（認識沛珊；AA_588 第 1 節）：麵店團群組阿哲傳滷蛋照片，配「柏翰幫沛珊切的」「……他們在一起了」（不再只有「……喔。」）',J(M)===J(['zhe:📷（一顆切成兩半的滷蛋）','zhe:柏翰幫沛珊切的','zhe:……他們在一起了']),J(M)); }
@@ -216,7 +219,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const S6=LADDER.byTerm.Y1S2.heroine_05.steps.find(s=>s.id==='S2-L6'), fl=S6&&(S6.linesIf||[]).find(x=>x.if&&J(x.if).includes('ev_sis_empty_flask'));
     check('第 6-2 節第 4 題. 學姊 S2-L6 看過空保溫瓶那一套：整層刪了（AA_584 第 11 節第 6 點，空保溫瓶這條線拿掉）',!S6&&!fl,fl&&fl.lines[0]);
     const h2=TERMEND.heart('heroine_03','Y1S2'), h3=TERMEND.heart('heroine_03','Y2S1');
-    check('第 6-2 節第 7 題. 語彤大一下心意第二次：「禮拜五。打烊以後。……你上次說要想，想好了嗎。」（對照：大二上照舊「禮拜四」）',!!h2&&h2.invite2==='禮拜五。打烊以後。……你上次說要想，想好了嗎。'&&!!h3&&h3.invite2==='禮拜四。打烊以後。……你上次說要想，想好了嗎。',J([h2&&h2.invite2,h3&&h3.invite2]));
+    check('第 6-2 節第 7 題. 語彤大一下心意第二次：AA_661 第 72 列換成「我會在吧檯收杯子。你到了敲門。」（原本「禮拜五。打烊以後。……」；對照：大二上 AA_661 第 71 列改「禮拜六」，她週六、日上班）',!!h2&&h2.invite2==='我會在吧檯收杯子。你到了敲門。'&&!!h3&&h3.invite2==='禮拜六。下班以後。……你上次說要想，想好了嗎。',J([h2&&h2.invite2,h3&&h3.invite2]));   /* 大二上的基本版：AA_684 第 6 項「打烊以後」改「下班以後」 */
     const dbt=async day=>{ fresh(day,15,'library',{}); R('classmate_peishan','FAM'); picks=['妳呢']; said=[]; await EVENTS.run(ev('ev_peishan_doubt')); return lines().filter(t=>/A館/.test(t)); };
     const y2=await dbt(termDay('Y2S1',3,3));
     check('第 6-2 節第 10 題. 大二上才第一次演沛珊 P2：「…比坐在A館這一年多都自在。」（不是「這半年」「這一個多月」）',J(y2)===J(['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這一年多都自在。']),J(y2));

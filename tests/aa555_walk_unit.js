@@ -63,7 +63,8 @@ for(const ln of A580.split('\n')){ const c=ln.split('|').map(x=>x.trim()); if(c.
 if(!A580) UNMATCHED.push('AA_580 讀不到（git fetch 企劃線 759e5c000）');
 /* AA_592 以安改稿①b 第 52 列（企劃線 4162d22e1；AA_589 第 9 節第 8 點：媽媽那一句統一）：w118_an_10 的 AA_580 改成→AA_592 改成（逐列核對在 tests/aa592_an_1b_unit.js）*/
 for(const r of require('./an_rev_doc.js').ROWS.filter(r=>/AA_592_/.test(r.doc)&&/^invites\.js/.test(r.where))){ const x=(EXP.heroine_01||[]).find(e=>e.text===r.old); if(x) x.text=r.nw; else UNMATCHED.push('AA592 '+r.n); }
-const splitVar=t=>{ const m=/^有 `([A-Z_]+)`：(「[^」]*」)／沒有：(「[^」]*」)$/.exec(t); return m?[m[2],m[3]]:[t]; };   /* Alison 大四上總圖：有 YU_ALONE／沒有 兩個版本 */
+const uq=t=>/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;   /* invites.js 一起走路的句子不加外面的「」（AA-B 2026-11-08 00:21）：稿上的「…」拿掉再比；「…」「…」好幾段的照留 */
+const splitVar=t=>{ const m=/^有 `([A-Z_]+)`：(「[^」]*」)／沒有：(「[^」]*」)$/.exec(t); return (m?[m[2],m[3]]:[t]).map(uq); };   /* Alison 大四上總圖：有 YU_ALONE／沒有 兩個版本 */
 check('0. 稿讀得到（AA_118、AA_555、AA_185 @56c11668d）；模組都載得到',A118.length>10000&&A555.length>4000&&!!AN185&&!loadErr.length,loadErr.join('　')||'git fetch 企劃線（56c11668d）');
 check('0. 同行聊天：AA_118 六人各 24 句、AA_555 的改稿每一列都對到原句（芯慈 1-4 整張 24 列）',Object.keys(W118).length===6&&Object.values(W118).every(L=>L.length===24)&&!UNMATCHED.length&&EXP.classmate_xinci&&EXP.classmate_xinci.length===24,J({n:Object.fromEntries(Object.entries(W118).map(([k,v])=>[k,v.length])),UNMATCHED}));
 const WALK=(typeof INVITE_DATA!=='undefined'&&INVITE_DATA.walk118)||null;
@@ -90,6 +91,7 @@ const MEMS=[['yu','BREAKFAST_YU'],['yu','YU_ALONE'],['yu','YU_CLUB_BEAR'],['hero
 const NOTDONE=['ev_yu_together','ev_zhe_deposit','ev_bohan_third_floor','ev_an_dorm_appeal_result','ev_yt_moon','ev_yt_ta_news_lib'];
 const STATE=(kind,route)=>{ const G=H.fresh('2025-09-01',10,'campus',{}); G.contacts={}; for(const id of CH) G.contacts[id]=-900; PHONE.rec(G);
   for(const g of ['noodle_team','lawclub_study','public_law']) PHONE.join(G,g,g);
+  if(kind!=='none') Object.assign(G.flags,{lawclub:true,CLUB_lawclub_study:true});   /* D118-B5a（2026-11-04）：柏翰「本週值班表」只給真的加入法服的社員（只看過公告、在群組裡的舊存檔不收）＝在法服群組裡的玩家補上加入的旗標 */
   if(kind!=='none'){ for(const [w,t] of MEMS) SOCIAL.remember(w,t,''); for(const id of CH) H.FRIEND(id);
     Object.assign(G.flags,{YU2_PICK:'a',ZHE2_ASKED:1,YT_TA:true,AN_CHOICE:'dm',SIS_RESULT_OUT:true,SK10_DONE:['Y2S1_6'],EXCHANGE_ROUTE:route||'TW'}); if(kind==='all') Object.assign(G.flags,{ZHE3:true,BH4_DONE:true,STUDYGROUP_LEADER:false});
     for(const ev of ALL_EV){ if(kind==='mixed'&&NOTDONE.includes(ev)) continue; G.events.done[ev]=1; G.events.last[ev]=-500; }
@@ -129,10 +131,10 @@ sec('3',()=>{ if(!WALK){ check('3. 沒有 walk118',false); return; }
   check('3. 阿哲（大一上第 5 週、去麵店）：AA_118 的句子和 AA_70 原有的一起輪；AA_118 每句只說一次、條件成立的都說到了；AA_70 的照舊重複',new Set(a118).size===a118.length&&J([...new Set(a118)].sort())===J(avail.sort())&&a70.length>=3&&new Set(a70).size<a70.length,J({a118,avail,a70:a70.slice(0,4)}));
   check('3. 說過的記在 G.flags.walkSaid（鍵＝one、值＝那一天）',avail.length>0&&Object.keys(G.flags.walkSaid||{}).length===avail.length&&Object.values(G.flags.walkSaid).every(v=>v===G.day),J(G.flags.walkSaid));
   const G2=H.fresh('2025-10-01',21,'campus',{}); const Lc=[]; for(let i=0;i<30;i++){ const p=INV.walkPick(G2,'zhe','cafe'); if(!p) break; Lc.push(p.lines.join('')); p.next(); }
-  check('3. 目的地：「法律系館A → 麵店」那句只在去麵店的路上，去 Café 不說',L.includes('「哥，第一排的人都在幹嘛？我坐後面只看得到他們的後腦勺在點頭。」')&&!Lc.includes('「哥，第一排的人都在幹嘛？我坐後面只看得到他們的後腦勺在點頭。」'),J(Lc.slice(0,5)));
+  check('3. 目的地：「法律系館A → 麵店」那句只在去麵店的路上，去 Café 不說',L.includes('哥，第一排的人都在幹嘛？我坐後面只看得到他們的後腦勺在點頭。')&&!Lc.includes('哥，第一排的人都在幹嘛？我坐後面只看得到他們的後腦勺在點頭。'),J(Lc.slice(0,5)));
   const G3=H.fresh('2025-10-01',9,'campus',{}); SOCIAL.remember('yu','BREAKFAST_YU',''); let y=null; for(let i=0;i<20&&!y;i++){ const p=INV.walkPick(G3,'yu','library'); if(!p) break; if(p.lines.some(t=>/晨思鐘到底/.test(t))) y=p.lines; p.next(); }
   const G4=H.fresh('2025-10-01',9,'campus',{}); let y2=null; for(let i=0;i<20&&!y2;i++){ const p=INV.walkPick(G4,'yu','library'); if(!p) break; if(p.lines.some(t=>/晨思鐘到底/.test(t))) y2=p.lines; p.next(); }
-  check('3. Alison 大一早上：有 BREAKFAST_YU 先說「欸，今天也經過！」（AA_118 稿上那一句）；沒有就只說主句；兩個版本算同一句',J(y)===J(['「欸，今天也經過！」','「晨思鐘到底幾點會敲？……不要查，我想先聽你猜。」'])&&J(y2)===J(['「晨思鐘到底幾點會敲？……不要查，我想先聽你猜。」'])&&A118.includes('「欸，今天也經過！」'),J([y,y2]));
+  check('3. Alison 大一早上：有 BREAKFAST_YU 先說「欸，今天也經過！」（AA_118 稿上那一句）；沒有就只說主句；兩個版本算同一句',J(y)===J(['欸，今天也經過！','晨思鐘到底幾點會敲？……不要查，我想先聽你猜。'])&&J(y2)===J(['晨思鐘到底幾點會敲？……不要查，我想先聽你猜。'])&&A118.includes('欸，今天也經過！'),J([y,y2]));
   const G5=H.fresh('2025-10-01',21,'campus',{}); delete G5.flags.walkSaid; const ok5=!!INV.walkPick(G5,'classmate_bohan','library');
   const G6=H.fresh('2024-10-08',21,'campus',{}); G6.stage='econ'; const L6=[]; for(let i=0;i<10;i++){ const p=INV.walkPick(G6,'zhe','noodle'); if(!p) break; L6.push(p.lines.join('')); p.next(); }
   check('3. 舊存檔（沒有 walkSaid）照常；經濟系那一年（學年 0）沒有 AA_118 的句子；柏翰原本沒有 walk，現在有',ok5&&!L6.some(t=>WALK.zhe.some(e=>e.l.join('')===t)),J(L6)); });
@@ -164,6 +166,7 @@ for(const r of P118){ const mods=MP.filter(m=>m.term===r.term&&m.who===r.who); l
   if(mod){ if(/^\*\*遊戲裡已改過/.test(mod.to)) special='han3'; else if(/照用|條件改|換 Alison|^「……|……」$/.test(mod.to)) {} else b=bubbles(mod.to); }
   if(r.who==='zhe'&&b[0]==='哥我今天在總圖'&&ZHE_GE) b[0]=ZHE_GE[1];
   if(r.who==='heroine_03') b=b.map(t=>require('./aa630_expect.js').fix(t,'src/aa555_3d.js')).map(t=>t==='📷（秀琴姨在我家陽台烤肉，旁邊一隻貓）'?'📷（公園的橘子，旁邊一塊烤肉）':(t==='📷（阿姨在新合約上簽名，手有點抖）'?'📷（秀琴姨在新的租約上簽名，手有點抖）':t));   /* 大三上續約那張：AA_643 第 9-2 節 */   /* 中秋那張：AA_642 第 2 節用 A-017 的備選（秀琴姨不去烤肉）*/   /* 語彤的照片句照 AA_627 表 A（A-007、A-009、A-017，位置 src/aa555_3d.js）換：稿寫「（照片：…）」，換字表寫「📷（…）」*/
+  if(r.who==='classmate_bohan'&&b[0]==='本週值班表') b=['這學期的預約，有的話前一天晚上在這裡講','📷（一張空白的預約登記表）'].concat(b.slice(2));   /* AA_696（企劃線 f5de71174）：D118 法服沒有值班 */
   PEXP.push({term:r.term,who:r.who,cond:r.cond,b,special,skip:skipKey(r),mod:!!mod}); }
 /* AA-B 11-01 回 12 題：阿哲系籃改私訊（第 1 題）、芯慈 2028 暑假換句（第 10 題）、柏翰期中倒數二十一天每天一則（第 11 題；AA_581 改成期末倒數）*/
 { const CN=n=>{ const d='零一二三四五六七八九'; return n<10?d[n]:(n===10?'十':(n<20?'十'+d[n-10]:d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''))); }, SP={14:'期末前十四天。進度落後半天。',7:'期末前七天。……今天念得很慢，可是記得住。',1:'明天考。我今天十點就睡。'};   /* AA_581 第 1～3 列（D118 沒有期中考）：稿的「期中前」→ 遊戲「期末前」*/
@@ -171,6 +174,10 @@ for(const r of P118){ const mods=MP.filter(m=>m.term===r.term&&m.who===r.who); l
   fix(p=>p.term==='Y3S1'&&p.who==='zhe'&&/隊長/.test(p.cond),['明天練球','不來的要買飲料','來的也要買','我是隊長']);
   fix(p=>p.who==='classmate_xinci'&&p.b.some(t=>/影印機我已經會修了/.test(t)),['實習第一週。名牌上我的名字打錯一個字。……我還沒去改。']);
   fix(p=>p.who==='classmate_bohan'&&p.b[0]==='期中前二十一天。',Array.from({length:21},(_,k)=>SP[21-k]||('期末前'+CN(21-k)+'天。'))); }
+/* AA_625「接線時補的」第 1 點（企劃線 3248430b3，AA-B 11-07；AA555／AA627 的稿沒改，照 AA_625 這一節）：語彤大四上那則的「12/14 週四晚上，你有空嗎。」（12/14 是燒臘二十三週年）→ 兩句（十週年 2028-12-16（六））*/
+{ const d625=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show 3248430b3:"docs/story_planning/AA_625_語彤新版事件台詞.md"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
+  const m=/`aa555_3d\.js:104` 那則改成兩句：語彤「([^」]+)」「([^」]+)」/.exec(d625), OLD='12/14 週四晚上，你有空嗎。', p=PEXP.find(q=>q.who==='heroine_03'&&q.b.includes(OLD));
+  if(m&&p) p.b.splice(p.b.indexOf(OLD),1,m[1],m[2]); else PUN.push('AA625-1107'); }
 check('0. 手機小事：AA_118 八學期（刪掉的語彤法服那則不算）＋ZHE_PHOTOS；AA_555 第 2 節每一列都對到原句',P118.length===96&&MP.length===21&&MP.every(m=>PEXP.some(p=>p.mod&&p.term===m.term&&p.who===m.who)),J({n:P118.length,mp:MP.length,沒對到:MP.filter(m=>!PEXP.some(p=>p.mod&&p.term===m.term&&p.who===m.who)).map(m=>m.term+m.who+m.orig)}));
 const A5=(typeof AA555!=='undefined')?AA555:null;
 const termOfAt=d=>{ const t=CALENDAR.termOf(d); if(t) return t.id; const m=CALENDAR.dateOf(d).m; for(let k=1;k<200;k++){ const x=CALENDAR.termOf(m<=2?d+k:d-k); if(x) return x.id; } return null; };   /* 寒假（1～2 月）算下一學期、暑假算上一學期（稿把「寒假回新竹」放大一下、「暑期實習之後」放大三下）*/
@@ -208,6 +215,8 @@ sec('5',()=>{ if(!A5){ check('5. 沒有 aa555_3d.js',false); return; }
   check('5. 語彤「（照片：麵店門口的雨）今天沒人。」只在下雨天',!r1&&r2,J([r1,r2]));
   const o1=ok('y3s2_an_onigiri','2028-04-10',()=>{ G.flags.EXCHANGE_ROUTE='JP'; }), o2=ok('y3s2_an_onigiri','2028-04-10',()=>{ G.flags.EXCHANGE_ROUTE='TW'; }), o3=ok('y3s2_an_onigiri','2028-04-10',()=>{ G.flags.EXCHANGE_ROUTE='US'; });
   check('5. 以安飯糰：台灣、美國路線的祐廷收到；日本路線不另傳',!o1&&o2&&o3,J([o1,o2,o3]));
+  { const set=()=>{ G.flags.EXCHANGE_ROUTE='TW'; }, e1=ok('y3s2_an_onigiri','2028-03-17',set), e2=ok('y3s2_an_group','2028-03-18',set), l1=ok('y3s2_an_onigiri','2028-03-28',set), l2=ok('y3s2_an_group','2028-03-28',set);
+    check('5. 以安飯糰、Alison 代主持：3/25 她出國以前（3/17、3/18）不傳，大三下第 6 週（3/27 那週）起才傳（AA-B 11-08 01:50）',!e1&&!e2&&l1&&l2,J([e1,e2,l1,l2])); }
   const c1=ok('y1s1_an_row','2025-10-08'), c2=ok('y1s1_an_row','2025-10-09');   /* 民總週四：週三晚上傳 */
   check('5. 以安「明天民總，第二排。」：隔天有民總（週三晚上）才傳',c1&&!c2,J([c1,c2])); });
 

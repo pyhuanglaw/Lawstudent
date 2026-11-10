@@ -14,7 +14,7 @@
    - 約人：src/data/invites.js 的地點 offbeat（吃飯；見面照邀約一般的旁白——AA_618 沒有寫）。說話照一般音量（不加小聲）。
    - 店員站在吧檯裡面（STORY.populate；路人底模，不說話）。
    存檔：G.offbeat＝{n:來過幾次, first, catDay, pet:上一次摸摸那句, gos:{t:學期, n:這學期幾句, k:下一句, day}, enc:{人物:那天}, look:{種類:上一句}, game:第幾款, gameEnd, chatDay, chatK}；舊存檔沒有＝game3d.js defaults 補 {n:0}，壞掉的欄位 S.rec 重設。
-   看公告板、看社團佈告欄、看桌遊櫃、玩桌遊、冰拿鐵、01:00 打烊、找店員聊天、約去答應、阿哲「練完好餓」的選項：AA_648 第 3 節（企劃線 1ebf7a590）。
+   看公告板、看社團佈告欄、看桌遊櫃、玩桌遊、冰拿鐵、01:00 打烊（那一句改照 AA_700：XSCLOSE）、找店員聊天、約去答應、阿哲「練完好餓」的選項：AA_648 第 3 節（企劃線 1ebf7a590）。
    測試：node tests/offbeat_aa618_unit.js */
 'use strict';
 const OFFB=(function(){
@@ -23,25 +23,26 @@ const OFFB=(function(){
   const LAY=()=>typeof DAILY_OFFBEAT_LAYOUT!=='undefined'?DAILY_OFFBEAT_LAYOUT:null;
   const CLERK={name:'店員'};
   /* ---------- 台詞（AA_618 第 2 節，一字照抄）---------- */
+  /* TEXT-QUOTE-UNIFY-1108 第四批（AA-B 2026-11-08 05:31）：對話框有名字說的（偶遇 enc、阿哲選項以後的 say、找店員聊天 chat）不加外面的「」；選項（zheOpts 的 t）、旁白裡的「」照留 */
   S.L={
     first:[[null,'（玻璃門一推開，裡面很吵。中間的長桌坐滿了人，在玩一個要拍桌子的遊戲。）'],[null,'（一隻虎斑貓趴在空椅子上睡覺。椅子上貼著一張紙：「店長，請勿打擾」。）'],['店員','一位嗎？靠窗那邊！貓不用理他，他很習慣。']],   /* 2-1 */
     menu:[['冰拿鐵',120,'（冰拿鐵上面的奶泡慢慢沉下去。）'],['檸檬氣泡美式',130,'（檸檬氣泡美式。第一口很奇怪，第二口就習慣了。）'],['肉桂捲',110,'（肉桂捲是熱的，糖霜一直滴下來。）'],['明太子厚片',140,'（明太子厚片烤得很脆。你吃到最後一口才發現嘴角都是。）']],   /* 2-2：品項、價錢、點完的那一句 */
     catLook:'看看', catPet:'摸摸', catFirst:'（店長睜開一隻眼睛看你，又閉上。）', catAgain:'（店長在睡覺。）',   /* 2-3 */
     pet:['（店長讓你摸了兩下，起身換了一張椅子。）','（店長把頭靠過來。店員說：『他今天心情很好。』）','（店長看了你一眼，沒動。你決定不摸了。）'],
     gossip:['（隔壁桌：『聽說那個教授期末考只考一題。』『哪一個？』『不知道，聽說的。』）','（隔壁桌：『系籃今年要拿冠軍。』『去年也這樣說。』）','（隔壁桌：『你有看到社博那個魔術社嗎？』『有，他猜錯我的牌。』）','（隔壁桌：『兩點半的老闆說他要換菜單。』『不要換鬆餅就好。』）'],   /* 2-6 */
-    enc:{classmate_peishan:[['classmate_peishan','「你也在這！……我買個肉桂捲就走，明天早八。」']],   /* 2-5 */
-      yu:[['yu','「欸！坐這邊。……我在寫報告，你不要讓我分心。」'],[null,'（三分鐘後）'],['yu','「……你覺得這段要怎麼寫？」']],
-      zhe:[['zhe','「練完好餓。你要不要一起？」']]},
+    enc:{classmate_peishan:[['classmate_peishan','你也在這！……我買個肉桂捲就走，明天早八。']],   /* 2-5 */
+      yu:[['yu','欸！坐這邊。……我在寫報告，你不要讓我分心。'],[null,'（三分鐘後）'],['yu','……你覺得這段要怎麼寫？']],
+      zhe:[['zhe','練完好餓。你要不要一起？']]},
     /* ===== AA_648 第 3 節（企劃線 1ebf7a590，AA 定稿）===== */
-    zheOpts:[{t:'「好，一起。」',say:[[null,'（你們點了兩份厚片。阿哲吃完他那份，一直看著你那份。）'],['classmate_mingxuan','「他每次都這樣。」']],h:40/60},{t:'「今天不行。」',say:[['zhe','「好，下次。」']],h:0}],   /* 阿哲「練完好餓」的兩個選項（好＝時間過 40 分鐘）*/
+    zheOpts:[{t:'「好，一起。」',say:[[null,'（你們點了兩份厚片。阿哲吃完他那份，一直看著你那份。）'],['classmate_mingxuan','他每次都這樣。']],h:40/60},{t:'「今天不行。」',say:[['zhe','好，下次。']],h:0}],   /* 阿哲「練完好餓」的兩個選項（好＝時間過 40 分鐘）*/
     look:{board:['（公告板上貼著「徵室友」「二手書出清」，還有一張手寫的「誰掉了一把藍色雨傘」。）','（有人在便利貼上寫：「期中加油。」下面又有人補了一句：「你也是。」）','（一張傳單被撕掉了一半，只剩電話號碼的最後四碼。）'],
       clubs:['（整面都是社團的傳單，新的蓋在舊的上面。最上面一張是「系學會 迎新宿營」。）','（熱舞社的傳單上寫：「零基礎也可以！」旁邊有人用筆畫了一個笑臉。）','（籃球社新生盃的報名表貼在最下面，已經寫滿了一半。）'],
       shelf:['（櫃子裡的桌遊一盒疊一盒。「拍桌大作戰」的盒子邊角都磨白了。）','（有一盒「島嶼建築師」貼著紙條：「缺一顆藍色骰子，已經跟店長報備。」）','（最上面那層是店長的位子。牠不在。）']},
     game:{start:'（你們把「{遊戲}」攤開在長桌上。）',names:['拍桌大作戰','貓咪快遞','巷口夜市','島嶼建築師'],
       end:['（你們玩了兩局。第二局你贏了，大家說是新手運。）','（玩到一半店長跳上桌，坐在牌堆上。大家只好等牠走。）','（一局玩了一個小時。收盒子的時候，有人說下次要玩快一點的。）'],
       none:'（長桌上沒有人。桌遊要幾個人一起才好玩。）',h:1},
-    close:[['店員','「我們一點打烊喔。……桌遊放回櫃子就好。」'],[null,'（你走出店門。巷子很安靜，只剩路燈。）']],
-    chat:['「今天店長睡了一整天。客人摸牠都不醒。」','「考試週的時候，長桌都被讀書的人坐走了。我們也不好意思趕。」','「厚片今天賣完了。……明天早一點來。」','「那面佈告欄每個學期都要清一次，不然會掉下來。」'],
+    /* 打烊的字（AA_648 第 3 節的 close）作廢，照 AA_700 一句：XSCLOSE.say（下面 S.closeOut）*/
+    chat:['今天店長睡了一整天。客人摸牠都不醒。','考試週的時候，長桌都被讀書的人坐走了。我們也不好意思趕。','厚片今天賣完了。……明天早一點來。','那面佈告欄每個學期都要清一次，不然會掉下來。'],
     chatLabel:'找店員聊天',   /* 按鈕的字（稿：「聊天（找店員；隨機一句，一天一次）」）*/
     /* 期末考完的聚餐（AA_648 第 1 節：取代燒臘店那一場；開頭照 AA_618 2-4 第 2 點的揪人句、旁白一句照學期輪）*/
     finalAsk:{Y1:['zhe','最後一科！老地方！'],Y2:['yu','大家考完了沒！日常失速！'],Y3:['classmate_xinci','七點日常失速，我訂了長桌。'],Y4:['zhe','最後一科！老地方！']},
@@ -126,10 +127,11 @@ const OFFB=(function(){
   S.door=async function(GM){ const G=GM.G, r=S.rec(G); doorVisit=GM.enterN|0; r.n=(r.n|0)+1; if(!S.alone(G)) return 'together';
     if(!r.first){ r.first=G.day; GM.sceneBegin(); try{ await sayAll(GM,S.L.first); } finally { GM.sceneEnd(); } return 'first'; } return null; };
   /* ---------- 打烊（01:00）、還沒開：請你出來（稿上沒有句子）---------- */
-  /* 01:00 打烊那一刻（01:00～01:30，那天不是颱風）＝店員一句＋旁白（AA_648 第 3 節）；讀檔回到早上、颱風＝只寫開放時間 */
+  /* 01:00 打烊那一刻（01:00～01:30，那天不是颱風）或這一趟進來時開著＝店員「我們今天要打烊了。」（AA_700，取代 AA_648 第 3 節）；讀檔回到早上、颱風＝只寫開放時間 */
   S.closingNow=G=>{ const h=((G.hour%24)+24)%24; return h>=1-1e-6&&h<1.5&&!(typeof PLACES!=='undefined'&&PLACES.typhoonClosed&&PLACES.typhoonClosed(ZONE,G.day)); };
-  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player, L=LAY(); if(P&&P.seat&&GM.standUp) GM.standUp(P); const t=S.closedText(G), cl=S.closingNow(G);
-    if(cl){ GM.sceneBegin(); try{ await sayAll(GM,S.L.close); } finally { GM.sceneEnd(); } }
+  /* AA_700：這一趟進來時開著、或打烊那一刻＝店員「我們今天要打烊了。」（不另外出旁白；src/xs_close3d.js 的 XSCLOSE）*/
+  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player, L=LAY(); if(P&&P.seat&&GM.standUp) GM.standUp(P); const t=S.closedText(G), c0=S.closingNow(G), cl=typeof XSCLOSE!=='undefined'&&XSCLOSE.gen?XSCLOSE.gen(GM,ZONE,c0):c0;
+    if(cl){ GM.sceneBegin(); try{ if(typeof XSCLOSE!=='undefined'&&XSCLOSE.say) await XSCLOSE.say(GM,'店員'); else await GM.say(CLERK,'我們今天要打烊了。'); } finally { GM.sceneEnd(); } }
     await GM.enter('wenzhou',Object.assign({},(L&&L.exit&&L.exit.spawn)||{x:-34.8,z:-9.6,yaw:Math.PI/2})); if(!cl) GM.toast(t,5000); return cl?'close':'out'; };
   /* ---------- 每 0.5 秒（STORY.TICKS）：打烊 → 進門 → 偶遇 ---------- */
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||G.zone!==ZONE||busy||GM.titleIdle||!sceneFree(GM)) return false;
@@ -159,7 +161,7 @@ const OFFB=(function(){
         return oi.apply(this,arguments); }; }
       if(STORY.populate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(zoneId===ZONE) S.populate(GM); }catch(e){ console.warn('OFFB.populate',e); } return r; }; } } }
   /* AA_648 第 3 節：約去日常失速答應的那一句——十三人各一句在 src/data/invites.js（people[人].acc.offbeat），沒列的人＝一般那句 */
-  S.ACC0='「好啊。那裡吃什麼都好吃。」';
+  S.ACC0='好啊。那裡吃什麼都好吃。';   /* 包 INV.personal 的 lines → S.playLines(GM,who,…)＝有名字說的，不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
   if(typeof INV!=='undefined'&&INV.personal&&!INV._offb){ INV._offb=true; const p0=INV.personal; INV.personal=function(G,id,P,day,h,r){ const out=p0.apply(this,arguments);
       if(P&&P.id==='offbeat'&&out&&out.res==='accept'&&!(Array.isArray(out.lines)&&out.lines.length)) return Object.assign({},out,{lines:[S.ACC0]}); return out; }; }
   /* ---------- AA_648 第 1 節：期末考完的聚餐（取代燒臘店那一場）----------

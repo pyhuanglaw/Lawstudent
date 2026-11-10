@@ -12,7 +12,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const src=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
-const m=src.match(/function shadowLevels\(SM\)\{[\s\S]*?finally\{ for\(const g of hid\) g\.visible=true; \} \}; \}/);
+const m=src.match(/function shadowLevels\(SM\)\{[\s\S]*?finally\{ for\(const g of hid\) g\.visible=true;[^}]*\} \}; \}/);   // finally 裡可以再還原別的（PERF-WZ-DC-1107：人物描邊）
 check('1. engine3d.js 有 shadowLevels，E.init 包住 renderer.shadowMap', !!m&&/renderer\.shadowMap\.type=THREE\.PCFShadowMap; shadowLevels\(renderer\.shadowMap\);/.test(src));
 if(m){
   const ctx={E:{zone:null}}; vm.createContext(ctx); vm.runInContext(m[0]+'\nthis.shadowLevels=shadowLevels;',ctx);

@@ -33,9 +33,11 @@ for(const line of DOC.split('\n')){ const m=/^\|\s*(\d+)\s*\|\s*ladder\.js:3 (\S
 { const want=[]; for(let i=1;i<=78;i++) want.push(i); for(let i=89;i<=93;i++) want.push(i);
   check('1. 稿上 ladder.js 的列＝第 1～78、89～93 列',J(rows.map(r=>r.n).sort((a,b)=>a-b))===J(want),rows.length); }
 { const bad=[], skip=[]; let ok=0;
+  const AA661={'Y1S1 S-L5.lines[0]':['我媽是公務員。從小就一直跟我說，考上司法官很好。','我媽每次見面都說，考上司法官很好。']};   /* AA_661 第 33 列（AA_611 #10：爸爸在她國小時過世、她跟阿公奶奶住）*/
   for(const r of rows){ const inDrop=DROP.some(([t,s])=>t===r.term&&r.path.split('.')[0]===s)||(r.term==='Y2S1'&&/^S3-L6\.extraIf\[0\]/.test(r.path))||r.nw==='（刪這一格）';
     if(inDrop){ skip.push(r.n); continue; }
-    const v=at(r.term,r.path); if(v===r.nw&&DOC.includes(r.nw)) ok++; else bad.push([r.n,r.term,r.path,v,r.nw]); }
+    const L661=AA661[r.term+' '+r.path];   /* AA_661（企劃線 5df89d95a，AA 定稿）後來又改的格：遊戲＝AA_661 的字、稿上 AA_584 的改成＝AA_661 的原句 */
+    const v=at(r.term,r.path); if(L661?(v===L661[1]&&r.nw===L661[0]):(v===r.nw&&DOC.includes(r.nw))) ok++; else bad.push([r.n,r.term,r.path,v,r.nw]); }
   check('1. 刪掉的層、格以外，每一列遊戲資料那個位置＝稿上的「改成」（'+ok+' 列）',bad.length===0&&ok===rows.length-skip.length,J(bad));
   check('1. 在刪掉的層、格裡的列（不用換）：第 5、6、16～25、34、35、38、39、53～57、72～77 列',J(skip.sort((a,b)=>a-b))===J([5,6,16,17,18,19,20,21,22,23,24,25,34,35,38,39,53,54,55,56,57,72,73,74,75,76,77]),J(skip)); }
 
@@ -64,13 +66,14 @@ for(const line of DOC.split('\n')){ const m=/^\|\s*(\d+)\s*\|\s*ladder\.js:3 (\S
   const R=[];
   for(const line of DOC.split('\n')){ const m=/^\|\s*(\d+)\s*\|\s*(\S*(?:invites\.js|sis_grad3d\.js)\S*)[^|]*\|[^|]*\|([^|]*)\|([^|]*)\|/.exec(line); if(m) R.push({n:+m[1],f:/sis_grad/.test(m[2])?sg:inv,old:m[3].trim(),nw:m[4].trim()}); }
   check('4. 稿上邀約、STUDY_YES 的列＝第 79～88 列',J(R.map(r=>r.n))===J([79,80,81,82,83,84,85,86,87,88]));
-  const q=(r,s)=>r.n===88?"'「"+s+"」'":"'"+s+"'";
-  const bad=R.filter(r=>!r.f.includes(q(r,r.nw))||r.f.includes(q(r,r.old))||!DOC.includes(r.nw));
+  const uq=s=>/^「[^「」]*」$/.test(s)?s.slice(1,-1):s;   /* invites.js 有名字的台詞不加外面的「」（AA-B 2026-11-08 00:21）：稿上的「…」對 invites.js 拿掉再比 */
+  const q=(r,s)=>"'"+uq(s)+"'";   /* 第 88 列（sis_grad3d.js S.STUDY_YES）原本在程式裡加「」，第三批（TEXT-QUOTE-UNIFY-1108）也拿掉了：稿上就是沒有「」的字 */
+  const bad=R.filter(r=>!r.f.includes(q(r,r.nw))||r.f.includes(q(r,r.old))||r.f.includes("'「"+uq(r.old)+"」'")||!DOC.includes(r.nw));
   check('4. 第 79～88 列：新句在 src（invites.js、sis_grad3d.js）、舊句不在、新句一字不差在稿裡',bad.length===0,J(bad.map(r=>r.n)));
   const L=INVITE_DATA.lawlibLines[ID], K=INVITE_DATA.lakeLines[ID];
-  check('4. 法圖：first「好。我在三樓。」（第 82 列，使用者）、acc.A、here、walk；映月湖 acc「好啊。」、firstAt 第 1 則',J(L.first)===J(['「好。我在三樓。」'])&&J(L.acc.A)===J(['「好。我平常的位子旁邊有空位。」'])&&J(L.here)===J(['「好啊，我在法圖三樓。到了跟我說。」'])
-    &&J(L.walk)===J(['「法圖的樓梯很陡。我大一常常爬到一半就喘。」'])&&J(K.acc)===J(['「好啊。」'])&&K.firstAt[0]==='（她站在湖邊，手上什麼都沒拿。）',J({L,K}));
-  check('4. STUDY_YES＝「好。我帶刑訴。」（第 88 列）',/S\.STUDY_YES='「好。我帶刑訴。」';/.test(sg)); }
+  check('4. 法圖：first「好。我在三樓。」（第 82 列，使用者）、acc.A、here、walk；映月湖 acc「好啊。」、firstAt 第 1 則',J(L.first)===J(['好。我在三樓。'])&&J(L.acc.A)===J(['好。我平常的位子旁邊有空位。'])&&J(L.here)===J(['好啊，我在法圖三樓。到了跟我說。'])
+    &&J(L.walk)===J(['法圖的樓梯很陡。我大一常常爬到一半就喘。'])&&J(K.acc)===J(['好啊。'])&&K.firstAt[0]==='（她站在湖邊，手上什麼都沒拿。）',J({L,K}));
+  check('4. STUDY_YES＝「好。我帶刑訴。」（第 88 列；有名字說的，外面不加「」）',/S\.STUDY_YES='好。我帶刑訴。';/.test(sg)); }
 
 // ===== 5 記憶名稱、修正本私訊 =====
 { const M=SOCIAL.MEMORY_LABEL, want={SIS_PARENTS_HEARD:'聽學姊說她媽媽一直覺得考上司法官很好',SIS_PUBLIC_LAW_FAN:'跟學姊說公法不無聊（她說你是少數）',SIS4_CLIPPINGS:'學姊說過法律扶助的剪報',SIS6_FATHER_COPY:'學姊說過論文要印一本',SIS7_PAGES:'論文一百四十二頁'};

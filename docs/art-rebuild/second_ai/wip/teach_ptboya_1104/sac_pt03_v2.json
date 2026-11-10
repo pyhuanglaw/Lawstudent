@@ -1,0 +1,722 @@
+{
+ "ref": "putong_web_03.jpg（不進 repo）",
+ "shot": "pt03_new.png（v1＝old、v2＝new）",
+ "size": [
+  640,
+  480
+ ],
+ "tol_px": 7.7,
+ "edge": {
+  "precision": 0.439,
+  "recall": 0.448,
+  "F": 0.443
+ },
+ "line": {
+  "precision": 0.091,
+  "recall": 0.169,
+  "F": 0.118,
+  "n_ref": 115,
+  "n_shot": 146
+ },
+ "line_after_best_shift": {
+  "F": 0.277
+ },
+ "lift_vs_shifted_decoys": 0.012,
+ "decoy_F": [
+  0.253,
+  0.052,
+  0.049,
+  0.07
+ ],
+ "vanishing_point": {
+  "ref": [
+   0.102,
+   0.844,
+   0.81
+  ],
+  "shot": [
+   0.101,
+   0.846,
+   0.67
+  ],
+  "diff_pct": 0.26,
+  "note": "[x/寬, y/高, 支持的線長比例]"
+ },
+ "vertical_tilt_deg": {
+  "ref_left_right": [
+   -2.7533935880622753,
+   2.0785807186575966
+  ],
+  "shot_left_right": [
+   -4.856129803520362,
+   4.04917284428039
+  ],
+  "note": "線往下走時往右偏為正。左正右負＝往下收攏＝鏡頭往下看；左負右正＝鏡頭往上看；兩邊都≈0＝鏡頭水平（或參考圖用了移軸／AI 圖常見）"
+ },
+ "camera_fix": {
+  "fov_now": 50.0,
+  "fov_suggest_from_scale": 45.9,
+  "note": "先對消失點（左右、上下），對好以後再看縮放：縮放 s＜1＝截圖要縮小才對得上＝遊戲 FOV 太窄。兩者混在一起時縮放不可靠。",
+  "ref_axis_right_of_center_deg": -26.32,
+  "ref_pitch_down_deg": -17.8,
+  "shot_axis_right_of_center_deg": -26.4,
+  "shot_pitch_down_deg": -17.9,
+  "turn_left_deg": 0.08,
+  "pitch_down_more_deg": 0.1,
+  "how": "假設參考圖和截圖的 FOV 一樣（--fov）。消失點＝房間主軸的方向：參考圖的消失點在右邊＝參考的鏡頭偏左看；在上面＝鏡頭往下看（或移軸）。turn_left 正＝遊戲鏡頭要往左轉；pitch_down_more 正＝要再往下看。參考圖的垂直線幾乎平行、消失點卻偏高＝移軸（three.js camera.setViewOffset、Blender camera shift_y），不要用俯角。"
+ },
+ "best_shift": {
+  "scale": 1.1,
+  "dx_pct": 15.0,
+  "dy_pct": -6.6
+ },
+ "ssim_struct": 0.424,
+ "region_color": [
+  {
+   "cell": "0,0",
+   "dE_mean": 38.4,
+   "ab_hist_intersection": 0.02
+  },
+  {
+   "cell": "0,1",
+   "dE_mean": 39.6,
+   "ab_hist_intersection": 0.32
+  },
+  {
+   "cell": "0,2",
+   "dE_mean": 20.4,
+   "ab_hist_intersection": 0.15
+  },
+  {
+   "cell": "1,0",
+   "dE_mean": 53.9,
+   "ab_hist_intersection": 0.12
+  },
+  {
+   "cell": "1,1",
+   "dE_mean": 23.8,
+   "ab_hist_intersection": 0.42
+  },
+  {
+   "cell": "1,2",
+   "dE_mean": 21.9,
+   "ab_hist_intersection": 0.11
+  },
+  {
+   "cell": "2,0",
+   "dE_mean": 41.7,
+   "ab_hist_intersection": 0.17
+  },
+  {
+   "cell": "2,1",
+   "dE_mean": 4.5,
+   "ab_hist_intersection": 0.56
+  },
+  {
+   "cell": "2,2",
+   "dE_mean": 9.0,
+   "ab_hist_intersection": 0.23
+  }
+ ],
+ "detail_gap": [
+  {
+   "cell": "0,0",
+   "ref": 0.069,
+   "shot": 0.0,
+   "ratio": 14.76
+  },
+  {
+   "cell": "0,1",
+   "ref": 0.093,
+   "shot": 0.003,
+   "ratio": 12.23
+  },
+  {
+   "cell": "0,2",
+   "ref": 0.0,
+   "shot": 0.125,
+   "ratio": 0.04
+  },
+  {
+   "cell": "0,3",
+   "ref": 0.074,
+   "shot": 0.112,
+   "ratio": 0.68
+  },
+  {
+   "cell": "0,4",
+   "ref": 0.08,
+   "shot": 0.037,
+   "ratio": 2.02
+  },
+  {
+   "cell": "0,5",
+   "ref": 0.117,
+   "shot": 0.059,
+   "ratio": 1.89
+  },
+  {
+   "cell": "1,0",
+   "ref": 0.021,
+   "shot": 0.0,
+   "ratio": 5.26
+  },
+  {
+   "cell": "1,1",
+   "ref": 0.068,
+   "shot": 0.074,
+   "ratio": 0.92
+  },
+  {
+   "cell": "1,2",
+   "ref": 0.054,
+   "shot": 0.135,
+   "ratio": 0.42
+  },
+  {
+   "cell": "1,3",
+   "ref": 0.143,
+   "shot": 0.066,
+   "ratio": 2.09
+  },
+  {
+   "cell": "1,4",
+   "ref": 0.102,
+   "shot": 0.042,
+   "ratio": 2.25
+  },
+  {
+   "cell": "1,5",
+   "ref": 0.118,
+   "shot": 0.024,
+   "ratio": 4.29
+  },
+  {
+   "cell": "2,0",
+   "ref": 0.015,
+   "shot": 0.0,
+   "ratio": 3.91
+  },
+  {
+   "cell": "2,1",
+   "ref": 0.117,
+   "shot": 0.104,
+   "ratio": 1.12
+  },
+  {
+   "cell": "2,2",
+   "ref": 0.078,
+   "shot": 0.09,
+   "ratio": 0.87
+  },
+  {
+   "cell": "2,3",
+   "ref": 0.098,
+   "shot": 0.046,
+   "ratio": 2.01
+  },
+  {
+   "cell": "2,4",
+   "ref": 0.095,
+   "shot": 0.049,
+   "ratio": 1.85
+  },
+  {
+   "cell": "2,5",
+   "ref": 0.047,
+   "shot": 0.009,
+   "ratio": 3.63
+  },
+  {
+   "cell": "3,0",
+   "ref": 0.019,
+   "shot": 0.008,
+   "ratio": 1.84
+  },
+  {
+   "cell": "3,1",
+   "ref": 0.127,
+   "shot": 0.026,
+   "ratio": 4.26
+  },
+  {
+   "cell": "3,2",
+   "ref": 0.152,
+   "shot": 0.043,
+   "ratio": 3.3
+  },
+  {
+   "cell": "3,3",
+   "ref": 0.082,
+   "shot": 0.057,
+   "ratio": 1.41
+  },
+  {
+   "cell": "3,4",
+   "ref": 0.048,
+   "shot": 0.061,
+   "ratio": 0.8
+  },
+  {
+   "cell": "3,5",
+   "ref": 0.058,
+   "shot": 0.0,
+   "ratio": 12.7
+  }
+ ],
+ "mode": "campus",
+ "campus": {
+  "mass_ssim": 0.578,
+  "rhythm": {
+   "bay_px_ref": 54.0,
+   "bay_px_shot": 110.0,
+   "bay_ratio": 2.04,
+   "floor_px_ref": 41.0,
+   "floor_px_shot": 24.0,
+   "floor_ratio": 0.59
+  },
+  "material_cells_ok": 0,
+  "material": [
+   {
+    "cell": "0,0",
+    "dE": 39.8,
+    "texture_ratio": 0.11,
+    "ok": false
+   },
+   {
+    "cell": "0,1",
+    "dE": 26.3,
+    "texture_ratio": 1.25,
+    "ok": false
+   },
+   {
+    "cell": "0,2",
+    "dE": 19.3,
+    "texture_ratio": 0.65,
+    "ok": false
+   },
+   {
+    "cell": "1,0",
+    "dE": 65.7,
+    "texture_ratio": 0.12,
+    "ok": false
+   },
+   {
+    "cell": "1,1",
+    "dE": 19.1,
+    "texture_ratio": 0.71,
+    "ok": false
+   },
+   {
+    "cell": "1,2",
+    "dE": 18.0,
+    "texture_ratio": 0.5,
+    "ok": false
+   },
+   {
+    "cell": "2,0",
+    "dE": 47.5,
+    "texture_ratio": 0.15,
+    "ok": false
+   },
+   {
+    "cell": "2,1",
+    "dE": 11.2,
+    "texture_ratio": 0.34,
+    "ok": false
+   },
+   {
+    "cell": "2,2",
+    "dE": 4.7,
+    "texture_ratio": 0.57,
+    "ok": false
+   }
+  ],
+  "copy_cells": [],
+  "cells_checked": 35,
+  "cells": [
+   {
+    "cell": "0,0",
+    "F_fine": 0.0,
+    "ncc": 0.0,
+    "edge_density_ref": 0.058
+   },
+   {
+    "cell": "0,1",
+    "F_fine": 0.0,
+    "ncc": 0.87,
+    "edge_density_ref": 0.129
+   },
+   null,
+   null,
+   {
+    "cell": "0,4",
+    "F_fine": 0.4,
+    "ncc": 0.24,
+    "edge_density_ref": 0.066,
+    "found_at": {
+     "scale": 1.0,
+     "dx_pct": -10.2,
+     "dy_pct": 1.2
+    }
+   },
+   null,
+   {
+    "cell": "0,6",
+    "F_fine": 0.53,
+    "ncc": 0.34,
+    "edge_density_ref": 0.129,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": -14.1,
+     "dy_pct": 11.3
+    }
+   },
+   {
+    "cell": "0,7",
+    "F_fine": 0.35,
+    "ncc": 0.12,
+    "edge_density_ref": 0.098,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": -0.4,
+     "dy_pct": 4.7
+    }
+   },
+   null,
+   {
+    "cell": "1,1",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.088
+   },
+   {
+    "cell": "1,2",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.033
+   },
+   null,
+   {
+    "cell": "1,4",
+    "F_fine": 0.44,
+    "ncc": 0.26,
+    "edge_density_ref": 0.167,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": 3.7,
+     "dy_pct": -3.4
+    }
+   },
+   null,
+   {
+    "cell": "1,6",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.138
+   },
+   {
+    "cell": "1,7",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.118
+   },
+   null,
+   null,
+   {
+    "cell": "2,2",
+    "F_fine": 0.0,
+    "ncc": 0.81,
+    "edge_density_ref": 0.072
+   },
+   {
+    "cell": "2,3",
+    "F_fine": 0.4,
+    "ncc": 0.23,
+    "edge_density_ref": 0.071,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": -13.9,
+     "dy_pct": -13.7
+    }
+   },
+   {
+    "cell": "2,4",
+    "F_fine": 0.52,
+    "ncc": 0.26,
+    "edge_density_ref": 0.174,
+    "found_at": {
+     "scale": 1.0,
+     "dx_pct": 5.2,
+     "dy_pct": -4.6
+    }
+   },
+   {
+    "cell": "2,5",
+    "F_fine": 0.33,
+    "ncc": 0.25,
+    "edge_density_ref": 0.061,
+    "found_at": {
+     "scale": 1.0,
+     "dx_pct": 8.6,
+     "dy_pct": -1.5
+    }
+   },
+   {
+    "cell": "2,6",
+    "F_fine": 0.0,
+    "ncc": 0.94,
+    "edge_density_ref": 0.103
+   },
+   {
+    "cell": "2,7",
+    "F_fine": 0.0,
+    "ncc": 0.82,
+    "edge_density_ref": 0.085
+   },
+   null,
+   {
+    "cell": "3,1",
+    "F_fine": 0.0,
+    "ncc": 0.67,
+    "edge_density_ref": 0.053
+   },
+   {
+    "cell": "3,2",
+    "F_fine": 0.51,
+    "ncc": 0.28,
+    "edge_density_ref": 0.112,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": -7.3,
+     "dy_pct": 12.0
+    }
+   },
+   {
+    "cell": "3,3",
+    "F_fine": 0.4,
+    "ncc": 0.26,
+    "edge_density_ref": 0.067,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": -1.9,
+     "dy_pct": 1.6
+    }
+   },
+   {
+    "cell": "3,4",
+    "F_fine": 0.5,
+    "ncc": 0.26,
+    "edge_density_ref": 0.126,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": -10.4,
+     "dy_pct": 6.2
+    }
+   },
+   {
+    "cell": "3,5",
+    "F_fine": 0.3,
+    "ncc": 0.22,
+    "edge_density_ref": 0.08,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": 9.7,
+     "dy_pct": -5.1
+    }
+   },
+   {
+    "cell": "3,6",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.039
+   },
+   {
+    "cell": "3,7",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.032
+   },
+   null,
+   {
+    "cell": "4,1",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.116
+   },
+   {
+    "cell": "4,2",
+    "F_fine": 0.35,
+    "ncc": 0.28,
+    "edge_density_ref": 0.077,
+    "found_at": {
+     "scale": 1.0,
+     "dx_pct": -2.3,
+     "dy_pct": 7.9
+    }
+   },
+   {
+    "cell": "4,3",
+    "F_fine": 0.46,
+    "ncc": 0.38,
+    "edge_density_ref": 0.078,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": 1.9,
+     "dy_pct": 5.6
+    }
+   },
+   {
+    "cell": "4,4",
+    "F_fine": 0.38,
+    "ncc": 0.27,
+    "edge_density_ref": 0.066,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": 0.0,
+     "dy_pct": 0.0
+    }
+   },
+   {
+    "cell": "4,5",
+    "F_fine": 0.43,
+    "ncc": 0.35,
+    "edge_density_ref": 0.107,
+    "found_at": {
+     "scale": 1.0,
+     "dx_pct": -1.9,
+     "dy_pct": 10.8
+    }
+   },
+   {
+    "cell": "4,6",
+    "F_fine": 0.0,
+    "ncc": 0.99,
+    "edge_density_ref": 0.058
+   },
+   {
+    "cell": "4,7",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.032
+   },
+   null,
+   {
+    "cell": "5,1",
+    "F_fine": 0.0,
+    "ncc": 0.59,
+    "edge_density_ref": 0.076
+   },
+   {
+    "cell": "5,2",
+    "F_fine": 0.27,
+    "ncc": 0.23,
+    "edge_density_ref": 0.155,
+    "found_at": {
+     "scale": 1.0,
+     "dx_pct": -11.9,
+     "dy_pct": -0.2
+    }
+   },
+   {
+    "cell": "5,3",
+    "F_fine": 0.35,
+    "ncc": 0.21,
+    "edge_density_ref": 0.16,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": -13.2,
+     "dy_pct": -8.3
+    }
+   },
+   {
+    "cell": "5,4",
+    "F_fine": 0.43,
+    "ncc": 0.32,
+    "edge_density_ref": 0.08,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": -2.8,
+     "dy_pct": -10.4
+    }
+   },
+   null,
+   null,
+   {
+    "cell": "5,7",
+    "F_fine": 0.2,
+    "ncc": 0.1,
+    "edge_density_ref": 0.065,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": -11.6,
+     "dy_pct": -7.9
+    }
+   }
+  ],
+  "skyline": {
+   "columns_with_sky": 0.44,
+   "detail_corr": 0.7,
+   "rmse_frac_H": 0.5595,
+   "detail_std_ref": 0.0556,
+   "copy_flag": false
+  },
+  "thresholds": {
+   "copy_F_fine": 0.6,
+   "copy_ncc": 0.55,
+   "tol_px": 1.6
+  }
+ },
+ "checks": [
+  {
+   "name": "[鏡頭] 消失點位置差 ≤ 2%（左右、上下看的方向一樣）",
+   "ok": true,
+   "info": "0.3%"
+  },
+  {
+   "name": "[鏡頭] 垂直線傾斜差 ≤ 1.5°（俯仰／移軸一樣）",
+   "ok": false,
+   "info": "2.1°"
+  },
+  {
+   "name": "[鏡頭] 畫面比例相同（±3%）",
+   "ok": true,
+   "info": "參考 1.333｜截圖 1.333"
+  },
+  {
+   "name": "[相似] 大體量 SSIM（重模糊）≥ 0.50",
+   "ok": true,
+   "info": "0.58"
+  },
+  {
+   "name": "[相似] 材質區塊（色差 ≤ 15、紋理強度 0.6～1.6 倍）≥ 5／9",
+   "ok": false,
+   "info": "0／9"
+  },
+  {
+   "name": "[不能照抄] 細部 1:1 重疊的格子 = 0，屋頂輪廓不是 1:1",
+   "ok": true,
+   "info": "疑似照抄 0／35 格；屋頂輪廓細部相關 0.7、誤差 56.0%"
+  }
+ ],
+ "info": [
+  {
+   "name": "（參考）line_F 有方向的長直線",
+   "value": "0.12；移開 25% 的平均 0.11；lift +0.01；最佳 2D 對位後 0.28"
+  },
+  {
+   "name": "（參考）ssim_struct 大形狀",
+   "value": "0.42"
+  },
+  {
+   "name": "（參考）最佳 2D 對位",
+   "value": "縮放 1.10、平移 +15.0%／-6.6%（消失點對好以後還差很多＝房間比例／深度不一樣，不是鏡頭）"
+  },
+  {
+   "name": "（參考）開窗／柱距、樓層節奏（自相關；透視大的畫面不準）",
+   "value": "柱距 54.0→110.0 px；樓層 41.0→24.0 px"
+  }
+ ],
+ "vertical_tilt_diff_deg": 2.102736215458087,
+ "pass_all": false
+}

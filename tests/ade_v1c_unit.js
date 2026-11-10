@@ -40,8 +40,13 @@ function touchable(it,from){ const r=(it.radius||1.5)-0.05, P=E.player, c=[];
   for(let dz=-r;dz<=r+1e-6;dz+=0.1) for(let dx=-r;dx<=r+1e-6;dx+=0.1){ const d=Math.hypot(dx,dz); if(d>r) continue; const x=it.x+dx, z=it.z+dz; if(E.canStand(x,z,0.32,0)) c.push([d,x,z]); }
   c.sort((a,b)=>a[0]-b[0]); for(const [,x,z] of c){ P.obj.position.set(x,0,z); if(E.nearestInteractable()!==it) continue; if(from&&!walk(from,[x,z]).ok) continue; return [r2(x),r2(z)]; } return null; }
 // ---- 1 ----
-{ const c=Object.assign({},L); delete c.version; delete c.moved;
-  check('1. WZ_SHOPS_LAYOUT.print＝ade_layout.js v3 的 print（version、moved 以外深度比較）',!!AP&&A.version===3&&L.version===3&&deq(c,AP)&&!!L.moved&&!!L.moved.enterAt,J({ade:!!AP,ver:L.version,glb:L.glb}));
+{ const c=JSON.parse(JSON.stringify(L)); delete c.version; delete c.moved; const AP2=AP?JSON.parse(JSON.stringify(AP)):AP;
+  /* ADE-SEAT-CLIP-1105（LAWWW2 0.25 m）：wz_shops_layout.js 在照抄的那一筆後面把三張電腦椅往後挪（chairShift）——比較時兩邊都拿掉這三張（座位＋椅子），其他照舊深度比較；挪了幾張要和 chairShift 一樣多 */
+  const MV=c.chairShift||[]; delete c.chairShift; let dropA=0, dropC=0;
+  if(AP2&&MV.length){ const nr=(q,x,z)=>Math.abs(q.x-x)<0.01&&Math.abs(q.z-z)<0.01;
+    for(const k of ['seats','items']){ const before=(AP2[k]||[]).length; AP2[k]=(AP2[k]||[]).filter(q=>!(q.kind==='chair'&&MV.some(m=>nr(q,m.from[0],m.from[1])))); dropA+=before-AP2[k].length;
+      const b2=(c[k]||[]).length; c[k]=(c[k]||[]).filter(q=>!(q.kind==='chair'&&(AP[k]||[]).every(o=>!nr(o,q.x,q.z)))); dropC+=b2-c[k].length; } }
+  check('1. WZ_SHOPS_LAYOUT.print＝ade_layout.js v3 的 print（version、moved 以外深度比較；chairShift 挪的三張椅子另外算：兩邊各拿掉 '+dropA+'／'+dropC+' 筆）',!!AP&&A.version===3&&L.version===3&&dropA===dropC&&dropA===MV.length*2&&deq(c,AP2)&&!!L.moved&&!!L.moved.enterAt,J({ade:!!AP,ver:L.version,glb:L.glb}));
   let out=''; try{ out=cp.execFileSync('node',[path.join(ROOT,'tools/layout/sync_wz_aa_layouts.js'),'--check'],{encoding:'utf8'}); }catch(e){ out=String(e.stdout||e); }
   check('1. tools/layout/sync_wz_aa_layouts.js --check（含 print）',/OK/.test(out)&&/'print','src\/data\/ade_layout\.js'/.test(rd('tools/layout/sync_wz_aa_layouts.js')),out.trim()); }
 const R=loadZone('wz_print'), z=R.z, its=R.its, sp=[z.spawn.x,z.spawn.z];

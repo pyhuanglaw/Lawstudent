@@ -17,7 +17,7 @@ const ACTIVITIES={
   list:[
     {id:'lib_tour_y1s1',title:'總圖新生導覽',kind:'tour',zone:'library_hall',roomName:'總圖大廳',spot:{x:-3.0,z:2.8,lv:0,label:'新生導覽集合點'},dates:['2025-09-19','2025-09-23','2025-09-25','2025-09-26'],datesW1:['2025-09-08','2025-09-10','2025-09-12','2025-09-16'],t0:15.5,t1:16+20/60,once:true,
      desc:'館員帶看閱覽室、借還書、自習座位。去一次就好。',story:false},
-    {id:'lawlib_intro_y1s1',title:'法律資料怎麼查',kind:'lecture',zone:'lawlib',room:'discA',roomName:'法律學院圖書館 討論室 A',dates:['2025-09-24','2025-10-01'],t0:15.5,t1:16.5,once:true,
+    {id:'lawlib_intro_y1s1',title:'法律資料怎麼查',kind:'lecture',zone:'lawlib',room:'discA',roomName:'法律學院圖書館 討論室 A',smallRoom:true,dates:['2025-09-24','2025-10-01'],t0:15.5,t1:16.5,once:true,
      desc:'法規要查最新版、判決怎麼找、指定參考書放哪裡（只講方法）。',story:false},
     {id:'club_debate',title:'辯論社社課',clubName:'辯論社',kind:'club',zone:'boya',room:'201',roomName:'博思 201',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15],weekday:2,t0:19,t1:21,crowd:{n:8},
      desc:'正反方練習、計時；題目用生活題（例：「大學該不該點名」）。',story:false,

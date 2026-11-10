@@ -45,7 +45,9 @@ const T=()=>said.map(s=>s.t);
   let spec=''; try{ spec=cp.execSync('git -c core.quotepath=off show '+SPEC_SHA+':"'+SPEC_PATH+'"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   const s1=spec.slice(spec.indexOf('## 1.'),spec.indexOf('## 2.'));
   check('0. 讀得到稿 AA_618@'+SPEC_SHA+' 第 1 節',!!s1&&/木曜日/.test(s1),spec.slice(0,40));
-  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,''); return s1.includes(x); };
+  const AA_DIRECT={'（小聲）課輔班的小朋友說我寫的講義太多字。……他們說得對。':'AA-B 11-07 23:40 回 LAWWW-B（原稿「國中生說我寫的講義太多字。」；沛珊是國小課輔班，AA_614 32a5f7e12 說法統一）'};   /* 稿外、AA 直接給的句子 */
+  const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,''); return s1.includes(x)||!!AA_DIRECT[t]; };
+  check('0. 稿外的那一句：沛珊木曜日「課輔班的小朋友」（原稿「國中生」那句不在程式裡）',MOKS.DATE.classmate_peishan.line==='（小聲）課輔班的小朋友說我寫的講義太多字。……他們說得對。'&&!J(MOKS.DATE).includes('國中生'));
   { const L0=MOKS.L, all=[]; for(const [,t] of L0.first) all.push(t); for(const m of L0.menu) all.push(m[2]); all.push(L0.water,L0.waterOk,L0.old,L0.oldYes,L0.oldNo,L0.oldNoBoss,L0.waterNarr,L0.waterBoss,L0.exam,L0.bhAsk,L0.bhGo,L0.bhHome,L0.bhBye,L0.meet);
     for(const t of L0.narr.concat(L0.chat,L0.rain)) all.push(t); for(const [,t] of L0.bh.concat(L0.mx)) all.push(t); for(const o of L0.rainOpts){ all.push(o.t,o.narr); }
     for(const id in MOKS.DATE){ all.push(MOKS.DATE[id].first,MOKS.DATE[id].line,MOKS.DATE[id].order); } for(const id in MOKS.FRIEND) all.push(MOKS.FRIEND[id]); for(const id in MOKS.RAIN) all.push(MOKS.RAIN[id]);
@@ -92,12 +94,12 @@ const T=()=>said.map(s=>s.t);
     GM.enterN++; picks=[0]; await STORY.onSeat(GM,seat);
     GM.enterN++; said=[]; opts=[]; picks=['好。']; seatMenuCalls=[]; const k1=await MOKS.door(GM);
     check('6. 坐過三次：一個人進門「（小聲）老位子？」→「好。」＝走過去坐那個位子',k1==='old'&&said[0].who==='老闆'&&said[0].t===MOKS.L.old&&J(opts[0])===J(['「好。」','「今天坐別的。」'])&&seatMenuCalls.length===1&&seatMenuCalls[0].seat===seat,J([k1,said,opts]));
-    GM.enterN++; said=[]; picks=['今天坐別的。']; const k2=await MOKS.door(GM); check('6.「今天坐別的。」→ 老闆「（小聲）都可以。」',k2==='other'&&said[1].t==='「（小聲）都可以。」',J(said)); }
+    GM.enterN++; said=[]; picks=['今天坐別的。']; const k2=await MOKS.door(GM); check('6.「今天坐別的。」→ 老闆「（小聲）都可以。」',k2==='other'&&said[1].t==='（小聲）都可以。',J(said)); }
   // ===== 7. 讀書 =====
   { fresh(wed,17); delete G.mokuyobi; const got=[]; for(let i=0;i<5;i++){ STORY.onStudy(GM,1); got.push(STORY.studyNarr(GM)); }
     check('7. 讀完的旁白四句輪流（第五次回到第一句）',J(got)===J(MOKS.L.narr.concat([MOKS.L.narr[0]])),J(got));
     G.hour=22; STORY.onStudy(GM,1.5); const w=STORY.studyNarr(GM);
-    check('7. 20:30～22:00 讀書（21:40 還在讀）：老闆放溫水＋「十點打烊。……慢慢收。」',J(w)===J(['（老闆放了一杯溫水在你桌上。）',['老闆','「（小聲）十點打烊。……慢慢收。」']]),J(w));
+    check('7. 20:30～22:00 讀書（21:40 還在讀）：老闆放溫水＋「十點打烊。……慢慢收。」',J(w)===J(['（老闆放了一杯溫水在你桌上。）',['老闆','（小聲）十點打烊。……慢慢收。']]),J(w));
     G.day=wed+1; G.hour=22; STORY.onStudy(GM,1.5); const w2=STORY.studyNarr(GM); check('7. 同一學期第二次：不再放（一學期一次）',typeof w2==='string'&&MOKS.L.narr.includes(w2),J(w2));
     G.day=TD('Y1S2',3,3); G.hour=21.6; STORY.onStudy(GM,1); const w3=STORY.studyNarr(GM); check('7. 讀到 21:36 結束（沒到 21:40）：沒有溫水',typeof w3==='string',J(w3));
     G.hour=21.9; STORY.onStudy(GM,1); const w4=STORY.studyNarr(GM); check('7. 下一學期：又有一次',Array.isArray(w4),J(w4));
@@ -122,9 +124,9 @@ const T=()=>said.map(s=>s.t);
   // ===== 10. 打烊 =====
   { const ex=TD('Y1S1',8,1); fresh(ex,22.02); know('classmate_bohan',S4); E.player.seat={x:0,z:0}; picks=['去。']; const r=await MOKS.closeOut(GM);
     const iv=G.invites.find(q=>q.who==='classmate_bohan');
-    check('10. 考試週 22:00、柏翰在：「兩點半還開。你要去嗎？」→「去。」＝一起走過去兩點半（邀約 going）、出來在 B4 門口',r==='cafe'&&said[0].t==='「兩點半還開。你要去嗎？」'&&!!iv&&iv.place==='cafe'&&iv.state==='going'&&entered[0][0]==='wenzhou'&&entered[0][1].x===7.4&&!E.player.seat,J([r,said,iv,entered]));
+    check('10. 考試週 22:00、柏翰在：「兩點半還開。你要去嗎？」→「去。」＝一起走過去兩點半（邀約 going）、出來在 B4 門口',r==='cafe'&&said[0].t==='兩點半還開。你要去嗎？'&&!!iv&&iv.place==='cafe'&&iv.state==='going'&&entered[0][0]==='wenzhou'&&entered[0][1].x===7.4&&!E.player.seat,J([r,said,iv,entered]));
     fresh(ex,22.02); know('classmate_bohan',S4); picks=['我回去了。']; const r2=await MOKS.closeOut(GM);
-    check('10.「我回去了。」→ 柏翰「嗯，明天見。」',r2==='home'&&said[1].t==='「嗯，明天見。」'&&!G.invites.length,J(said));
+    check('10.「我回去了。」→ 柏翰「嗯，明天見。」',r2==='home'&&said[1].t==='嗯，明天見。'&&!G.invites.length,J(said));
     fresh(TD('Y1S1',5,3),3); const r3=await MOKS.closeOut(GM); check('10. 還沒開（讀檔回到店裡）：請你出來＋開放時間',r3==='out'&&!said.length&&/木曜日/.test(toasts.join(''))&&entered[0][0]==='wenzhou',J([r3,toasts]));
     fresh(TD('Y1S1',5,3),22.02); check('10. tick：打烊了人在店裡＝開演',MOKS.tick(GM)===true); await new Promise(r=>setTimeout(r,10)); check('10. tick 演完人在溫州街',G.zone==='wenzhou'); }
   // ===== 11. 邀約 =====
@@ -164,8 +166,8 @@ const T=()=>said.map(s=>s.t);
   // ===== 15～20. AA_645（企劃線 ed6a4329d；第 6 節三題 350c90382：叫法、明軒那句、海報第三句）=====
   let s645=''; try{ s645=cp.execSync('git -c core.quotepath=off show 350c90382:"docs/story_planning/AA_645_木曜日補台詞_回LAWWW.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   const in645=t=>s645.includes(String(t).replace(/^「|」$/g,''));
-  { const L0=MOKS.L, all=[].concat(L0.look.bookcase,L0.look.record,L0.look.poster,L0.close.map(x=>x[1]),L0.xc.map(x=>x[1]),[L0.meetFmt,MOKS.ACC0],Object.values(INVITE_DATA.mokuyobiAcc||{}));
-    const bad=all.filter(t=>!in645(t)); check('15. 讀得到 AA_645@350c90382；AA_645 的每一句（'+all.length+' 句）都在稿上',!!s645&&all.length===24&&!bad.length,J(bad));
+  { const L0=MOKS.L, all=[].concat(L0.look.bookcase,L0.look.record,L0.look.poster,L0.xc.map(x=>x[1]),[L0.meetFmt,MOKS.ACC0],Object.values(INVITE_DATA.mokuyobiAcc||{}));
+    const bad=all.filter(t=>!in645(t)); check('15. 讀得到 AA_645@350c90382；AA_645 的每一句（'+all.length+' 句）都在稿上',!!s645&&all.length===22&&!bad.length&&!L0.close,J(bad));
     check('15. 書櫃三句、唱片機三句、海報三句（第 6 節第 3 點補第三句）；答應十人各一句',L0.look.bookcase.length===3&&L0.look.record.length===3&&L0.look.poster.length===3&&Object.keys(INVITE_DATA.mokuyobiAcc).length===10);
     check('15.「靠書櫃那桌」「窗邊那桌」都在稿上',s645.includes('窗邊那桌」改「靠書櫃那桌」')); }
   { fresh(wed,15); E.interactables=[]; MOK3.zone.build(E); const lk=k=>E.interactables.find(q=>q.mokLook===k);
@@ -181,10 +183,10 @@ const T=()=>said.map(s=>s.t);
     E.npcs.push({seat:{x:win[3].x,z:win[3].z,lv:1}}); check('17. 窗邊兩桌都有人：「靠書櫃那桌」',MOKS.meetLine(GM,'heroine_02')==='（'+nm+'坐在靠書櫃那桌，已經點好了。）',MOKS.meetLine(GM,'heroine_02'));
     E.npcs=[]; }
   { fresh(TD('Y1S1',5,3),22.02); const r=await MOKS.closeOut(GM);
-    check('18. 一般的 22:00 打烊：老闆「（小聲）十點了。……要打烊了。」＋旁白，出來在 B4 門口（沒有開放時間的提示）',r==='close'&&J(said)===J([{who:'老闆',t:'「（小聲）十點了。……要打烊了。」'},{who:null,t:'（你收好書，走下樓梯。巷子裡只剩路燈。）'}])&&entered[0][0]==='wenzhou'&&!toasts.length,J([r,said,toasts]));
+    check('18. 一般的 22:00 打烊：老闆「我們今天要打烊了。」（AA_700；二樓店裡照第 10 點小聲）、不另外出旁白，出來在 B4 門口（沒有開放時間的提示）',r==='close'&&J(said)===J([{who:'老闆',t:'（小聲）我們今天要打烊了。'}])&&entered[0][0]==='wenzhou'&&!toasts.length,J([r,said,toasts]));
     fresh(TD('Y1S1',5,4),22); STORY.onStudy(GM,1.5); const w=STORY.studyNarr(GM); G.hour=22.02; said=[]; const r2=await MOKS.closeOut(GM);
-    check('18. 當晚出過 21:40 溫水：只出旁白，老闆不再說',Array.isArray(w)&&r2==='close'&&J(T())===J(['（你收好書，走下樓梯。巷子裡只剩路燈。）']),J([w,T()]));
-    fresh(TD('Y1S1',5,4),22.02); G.mokuyobi={n:1,seats:{},water:'Y1S1',waterDay:TD('Y1S1',5,4)-1}; said=[]; await MOKS.closeOut(GM); check('18. 前一晚的溫水不算',T().length===2,J(T())); }
+    check('18. 當晚出過 21:40 溫水：照樣老闆那一句（AA_700：所有店打烊都一句）',Array.isArray(w)&&r2==='close'&&J(T())===J(['（小聲）我們今天要打烊了。']),J([w,T()]));
+    fresh(TD('Y1S1',5,4),22.02); G.mokuyobi={n:1,seats:{},water:'Y1S1',waterDay:TD('Y1S1',5,4)-1}; said=[]; await MOKS.closeOut(GM); check('18. 前一晚的溫水：一樣一句',J(T())===J(['（小聲）我們今天要打烊了。']),J(T())); }
   { const sat=TD('Y1S1',7,6), P=INV.place('mokuyobi'); const ok=[];
     for(const id of Object.keys(INVITE_DATA.mokuyobiAcc)){ fresh(sat,10,id==='kexin'?{dating_kexin:true}:{}); G.zone='dorm'; G.visited.wz_mokuyobi=true; know(id,S4); let slot=null; for(const h of [14,15,16,17,18,19,20,13]) if(slot==null&&INV.freeAt(G,id,P,sat,h)) slot=h;
       const d=slot==null?null:INV.personal(G,id,P,sat,slot,INV.decide(G,id,'mokuyobi',sat,slot)); ok.push([id,slot,d&&d.res,d&&J(d.lines)===J([INVITE_DATA.mokuyobiAcc[id]]),d&&d.lines]); }
@@ -198,7 +200,7 @@ const T=()=>said.map(s=>s.t);
     const a=at(ex,15), b=at(ex3,16.5), c=at(ex4,15), d=at(wk5,15), e=at(ex,17.5);
     check('20. 芯慈：考試週週一、週三 14:00～17:00 在木曜日（週四、17:00 以後、平常週不在）',!!a&&a.zone==='wz_mokuyobi'&&!!b&&b.zone==='wz_mokuyobi'&&!(c&&c.mokuyobi)&&!(d&&d.mokuyobi)&&!(e&&e.mokuyobi),J([a,b,c,d,e].map(x=>x&&x.zone)));
     said=[]; await MOKS.greet(GM,{name:'芯慈'},'classmate_xinci'); const g=T(); said=[]; await MOKS.greet(GM,{name:'芯慈'},'classmate_xinci');
-    check('20. 看到芯慈的一句「（小聲）這裡的燈剛好，看書不累。」（一天一次）',J(g)===J(['「（小聲）這裡的燈剛好，看書不累。」'])&&!said.length,J(g));
+    check('20. 看到芯慈的一句「（小聲）這裡的燈剛好，看書不累。」（一天一次）',J(g)===J(['（小聲）這裡的燈剛好，看書不累。'])&&!said.length,J(g));
     const mx=STORY.schedEnt(CHARACTERS.classmate_mingxuan,Object.assign({},G,{day:TD('Y1S1',8,2),hour:16,weekday:2,flags:G.flags})); check('20. 明軒只排週四（週二不在木曜日）',!(mx&&mx.mokuyobi)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

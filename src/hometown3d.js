@@ -15,6 +15,8 @@ const HV=(function(){
   const pres=(G,id,day)=>typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,day==null?G:Object.assign({},G,{day})):{here:true};
   const nm=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):((typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].name)||id);
   const dating=(G,id)=>!!(G.flags&&G.flags['dating_'+id]===true);
+  /* AA_723（AA723-CONFESS-PS-1107）：沛珊沒交往的線，2028-12-29 重聚（PS_REUNION）以前不能去台中、台南找她，她也不約美術館（STORY.psPre）*/
+  const psPre=(G,id)=>id==='classmate_peishan'&&typeof STORY!=='undefined'&&!!STORY.psPre&&STORY.psPre(G);
   const ym=day=>{ const d=CALENDAR.dateOf(day); return d.y+'-'+d.m; };
   const WD='日一二三四五六日';
   const label=day=>{ const d=CALENDAR.dateOf(day); return d.m+'/'+d.d+'（週'+WD[d.wd%7]+'）'; };
@@ -22,7 +24,7 @@ const HV=(function(){
   S.key=function(G,id,day){ const p=pres(G,id,day), c=p&&(p.city||p.home); return c&&L(id+'@'+c)?id+'@'+c:id; };
   const away=(G,id,p,day)=>p.here===false&&(p.kind==='home'||S.key(G,id,day)!==id);   /* 寒暑假在老家（kind 'home'），或在有自己那一組的城市 */
   /* 手機約她的清單要不要多這一項：null＝不出現；{ok:false,why}＝出現但不能選（沛珊重考消失期一個月一次）*/
-  S.offer=function(G,id){ if(!G||(G.stage||'law')!=='law') return null; const C=L(S.key(G,id)); if(!C) return null; const p=pres(G,id); if(!away(G,id,p)||p.lost) return null;   /* lost：還沒重新聯絡上，玩家不知道她在哪（AA_282 第 2 節）*/
+  S.offer=function(G,id){ if(!G||(G.stage||'law')!=='law') return null; if(psPre(G,id)) return null; const C=L(S.key(G,id)); if(!C) return null; const p=pres(G,id); if(!away(G,id,p)||p.lost) return null;   /* lost：還沒重新聯絡上，玩家不知道她在哪（AA_282 第 2 節）*/
     if(S.planned(G,id)) return {ok:false,why:'已經約好了'};
     if(C.fare&&(G.money|0)<C.fare) return {ok:false,why:'高鐵票錢不夠'};   /* AA_276 第 7 節第 2 點：來回 2980／1400 元，消失期例外也一樣 */
     if(p.keep&&(G.flags.HV_KEEP_M||{})[ym(G.day)]) return {ok:false,why:'這個月已經去過了（她說一個月一次）'};
@@ -123,7 +125,7 @@ const HV=(function(){
   const monOf=day=>{ const w=CALENDAR.dateOf(day).wd%7; return day-((w+6)%7); };   /* 那一週的週一 */
   const single=(G,id)=>!Object.keys(G.flags||{}).some(k=>k.indexOf('dating_')===0&&k!=='dating_'+id&&G.flags[k]===true);
   S.museumPhone=function(G){ const id='classmate_peishan', key=id+'@台南', C=L(key), M=C&&C.museum, F=G&&G.flags; if(!M||!F||(G.stage||'law')!=='law'||typeof PHONE==='undefined'||typeof DATE==='undefined'||typeof CALENDAR==='undefined') return;
-    if(S.wishDone(G,id)||F.PS_MUSEUM==='yes'||S.key(G,id)!==key||pres(G,id).lost) return; if(typeof INV!=='undefined'&&INV.hasContact&&!INV.hasContact(G,id)) return;
+    if(S.wishDone(G,id)||F.PS_MUSEUM==='yes'||psPre(G,id)||S.key(G,id)!==key||pres(G,id).lost) return; if(typeof INV!=='undefined'&&INV.hasContact&&!INV.hasContact(G,id)) return;
     const t=CALENDAR.termOf(G.day); if(!t||t.week<3||(G.hour%24)<21) return; const tag='ps_museum_'+t.id; if(PHONE.sent(G,tag)) return;
     if(!(dating(G,id)||(single(G,id)&&DATE.stageNum(id)>=5))) return;   /* 雙方都單身（或她是祐廷的女友）、第 5 階以上（她這時候沒有伴侶）*/
     const I=M.invite, P_=t=>({th:'p:'+id,from:id,text:t}); const items=I.lines.map(P_);

@@ -59,8 +59,10 @@ const FEST=(function(){
   /* ---------------- 1-1 日子 ---------------- */
   S.YEARS={vday:[2026,2027,2028,2029],white:[2026,2027,2028,2029],qixi:[2026,2027,2028,2029],bday:[2026,2027,2028,2029],mybday:[2025,2026,2027,2028,2029],xmas:[2025,2026,2027,2028],nye:[2025,2026,2027,2028]};
   S.cell=(id,k)=>((X.PEOPLE[id]||{}).fest||{})[k]||null;
+  /* earlyIfClosed（那一格寫的店，例：語彤的聖誕＝一盞茶屋 wz_teahouse）：那一天是那家店的公休日（places.js 那個星期沒有營業時段）＝提早一天（AA_675 2-2，AA_661 第 80 列，AA-C 定 D109）。
+     遊戲的聖誕是 12/24：2025 週三、2026 週四、2027 週五、2028 週日，一盞（週一、二公休）都有開——現在的四年都不會換日子 */
   S.dayOf=function(id,k,y){ const md={vday:'02-14',white:'03-14',xmas:'12-24',nye:'12-31'}[k];
-    if(md) return D(y+'-'+md); if(k==='qixi') return X.QIXI[y]?D(X.QIXI[y]):null; if(k==='bday') return X.BDAY[id]?D(y+'-'+X.BDAY[id]):null; return null; };
+    if(md){ const d=D(y+'-'+md), c=S.cell(id,k); if(d!=null&&c&&c.earlyIfClosed&&typeof PLACES!=='undefined'&&PLACES.windowsOf&&PLACES.windowsOf(c.earlyIfClosed,d)==null) return d-1; return d; } if(k==='qixi') return X.QIXI[y]?D(X.QIXI[y]):null; if(k==='bday') return X.BDAY[id]?D(y+'-'+X.BDAY[id]):null; return null; };
   S.years=(id,k)=>{ const c=S.cell(id,k); return (c&&c.years)||S.YEARS[k]||[]; };
   /* 那一天是她的哪幾個節日（有寫通用版的）*/
   S.festsOn=function(id,day){ const y=yrOf(day), out=[]; if(y==null) return out; const P=X.PEOPLE[id]; if(!P) return out;
@@ -141,8 +143,8 @@ const FEST=(function(){
   const hmText=m=>{ const h=Math.floor(m/60), r=m%60; return (h?h+' 小時':'')+(h&&r?' ':'')+(r?r+' 分鐘':''); };
   /* 出發地（DATE-C7、AA_128 4-1、11-1）：寒暑假住家裡（車就在家裡）＝不加回家取車、還車的 30 分（DATE.fromHomeOn）；學期中從宿舍出發照舊去回各多 30 分 */
   S.drive=function(loc,city,G,day){ const tr=typeof DATE!=='undefined'&&DATE.travel?DATE.travel(loc,'car'):null; const min=tr&&tr.mode==='car'?tr.minutes:(loc==='D15'?40:150), fare=tr&&tr.mode==='car'?tr.fare:(loc==='D15'?150:900);
-    const home=!!G&&day!=null&&typeof DATE!=='undefined'&&!!DATE.fromHomeOn&&DATE.fromHomeOn(G,day), pick=0;   /* AA_599 更正：開車從宿舍直接出發（原本 home?0:0.5）*/
-    return {travelH:min/60+pick,travel:'開車到'+city+'約 '+hmText(min),fare,backH:min/60+pick,home}; };
+    const home=!!G&&day!=null&&typeof DATE!=='undefined'&&!!DATE.fromHomeOn&&DATE.fromHomeOn(G,day), pick=home?0:((typeof DATE!=='undefined'&&DATE.CAR_PICK_H)||0);   /* DRIVE-PICKUP-1105（AA_704 第 2 節）：從宿舍出發＝先走到望月台停車場取車（約 5 分鐘）；從家出發（寒暑假）車在家裡，不加；AA_599 更正：不再回家取車 */
+    return {travelH:min/60+pick,travel:pick?(DATE.CAR_PICK_TEXT||'')+hmText(min):'開車到'+city+'約 '+hmText(min),fare,backH:min/60+pick,home}; };
 
   /* ---------------- 出遊（OUT）---------------- */
   const outId=(f,mode)=>'fest_'+f.id+'_'+f.k+'_'+f.y+(mode?'_'+mode:'');
@@ -156,7 +158,7 @@ const FEST=(function(){
   S.planDrive=function(G,f,o){ const c=S.cell(f.id,f.k)||{}, P=X.PEOPLE[f.id]||{}, city=o.city, loc=o.loc||X.CITY[city], dr=S.drive(loc,city,G,f.d), day=!o.eve;
     const bg=o.bg||((P.fixedBg||{})[f.k]||{})[city]||(c.tripBg)||((P.homeBy||{})[city])||(P.home&&P.home.city===city?P.home.bg:null)||'dark';
     const h=o.h!=null?o.h:(c.tripH!=null?c.tripH:(day?12:19)), stay=day?(h>=18?2:3):2;
-    const q={id:outId(f),day:f.d,h,late:0.5,place:city,title:S.name(f.k)+(day?'（開車去'+city+'找'+nm(f.id)+'）':'（開車上'+city+'）'),travel:dr.travel,travelH:dr.travelH,back:day?'回到臺北。':undefined,
+    const q={id:outId(f),day:f.d,h,late:0.5,place:city,car:true,title:S.name(f.k)+(day?'（開車去'+city+'找'+nm(f.id)+'）':'（開車上'+city+'）'),travel:dr.travel,travelH:dr.travelH,back:day?'回到臺北。':undefined,
       fest:{id:f.id,k:f.k,y:f.y,mode:'meet',scene:city,bg,after:stay+dr.backH,fare:dr.fare,day,slot:day?'day':'eve'}};
     if(plan(G,q)){ S.book(G,{d:f.d,who:f.id,k:f.k,y:f.y,slot:day?'day':'eve',mode:'meet',ref:q.id}); return q; } return null; };
   /* 視訊、電話（不算外出、不扣錢）：her＝她打來 */
@@ -175,7 +177,7 @@ const FEST=(function(){
     const dt=dating(G,c.id), video=c.mode==='video', L=c.lines||(video?(cell.vid&&cell.vid.lines):S.cellLines(cell,S.ver(G,c.id,c.k))); if(!L) return false;   /* c.lines：換掉開頭那幾句（AA_204 1-4 群戲以後那一段，S.grpAfter）*/
     R.done[key]=video?'video':'meet';   /* 先記：演到一半出錯也不會每次重來 */
     const head=c.scene!==undefined?[c.bg!==undefined?{scene:c.scene,bg:c.bg}:{scene:c.scene}]:[];
-    await runLines(head.concat(L),c.id);
+    await runLines(head.concat(S.headOf(G,c),L),c.id);
     if(c.no&&((G.flags||{})[c.no.flag]===c.no.is)){ R.done[key]='declined'; return 'declined'; }   /* AA_204 1-4 語彤「今天不行。」：這一場結束——不給節日好感、不記節日記憶、不送禮（不扣分）；done 記著，不再重排 */
     S.reward(G,c.id,c.k,c.y,video?'video':(dt?'dt':'s6'));
     if((c.k==='bday'||c.k==='xmas')&&!video) await S.gift(GM,c.id,c.k,c.y);
@@ -220,6 +222,7 @@ const FEST=(function(){
     if(f.W.fixed) return [{kind:'2d',t:f.W.fixed.place,place:f.W.fixed.place,bg:f.W.fixed.bg,h:f.W.fixed.h}];   /* 沛珊 2026 白色情人節：醉月湖邊 */
     if(id==='kexin') return [{kind:'2d',t:(P.ask||{}).place||'公館',place:(P.ask||{}).place||'公館',bg:(P.ask||{}).bg,h}];   /* 可昕在政大：約在公館 */
     const ver=S.ver(G,id,f.k), vb=c.venueBy&&c.venueBy[ver], want=c.venue||(vb&&typeof vb==='object'?vb[f.y]:vb)||null;
+    { const v2=c.venue2d&&c.venue2d[ver]; if(v2){ const sl=S.slotOf(v2.h); return sl===slot?[{kind:'2d',t:v2.place,place:v2.place,bg:v2.bg,h:v2.h}]:[]; } }   /* 那一版寫了 2D 的地方（AA_675 2-3：語彤交往中的生日 18:30 在她家，新生南路）：只有那個時段、只有那個地方 */
     for(const Q of ((typeof INVITE_DATA!=='undefined'&&INVITE_DATA.places)||[])){ if(!S.PLACES.includes(Q.id)||(want&&Q.id!==want)) continue;
       if(typeof INV!=='undefined'&&INV.placeWhy&&INV.placeWhy(G,id,Q)) continue;
       if(typeof INV!=='undefined'&&INV.neverAt&&INV.neverAt(id,Q)) continue;   /* 語彤不在燒臘店（AA_610／AA_624，invites3d.js S.NEVER_AT）*/
@@ -243,6 +246,7 @@ const FEST=(function(){
     if(!o) return null;
     let v=null; if(o.slot){ const V=o.V; if(V.length===1&&V[0].kind!=='inv') v=V[0]; else { const i=await GM.choose(V.map(x=>({t:x.t})).concat([{t:'算了'}])); if(i>=V.length) return null; v=V[i]; } }
     await S.reply(GM,id,who,f,'accept',v||{h:o.kind==='video'?21:12});
+    if(o.slot&&typeof INV!=='undefined'&&INV.townLine){ const tw=INV.townLine(G,id,{day:f.d,h:(v&&v.h)||S.TIME[o.slot]}); if(tw) await GM.say(who,tw); }   /* AA_675 1-1：語彤寒暑假平日在淡水，答應臺北的那一場多一句（同邀約） */
     if(o.kind==='trip'){ const q=S.planDrive(G,f,{city:o.city}); if(q) await GM.say(null,'約好 '+dLabel(f.d)+'，開車去'+o.city+'。'); return q; }
     if(o.kind==='video'){ const q=S.planVideo(G,f,false); if(q) await GM.say(null,'約好 '+dLabel(f.d)+' '+hm(q.h)+'，'+q.place+'。'); return q; }
     if(v.kind==='drive'){ const q=S.planDrive(G,f,{city:v.city,loc:v.loc,eve:true,h:v.h,bg:'d15_base_night'}); if(q) await GM.say(null,'約好 '+dLabel(f.d)+' '+hm(q.h)+'，開車上陽明山。'); return q; }
@@ -255,6 +259,10 @@ const FEST=(function(){
 
   /* ---------------- 1-4 ②她約（只有交往中、不是生日）---------------- */
   S.HER_K=['vday','white','qixi','xmas'];
+  /* 別的事件包加的（AA_667 第 3 節，src/aa667_3d.js）：ASK_PRE＝fn(G,f)→她約的訊息前面多的幾句（字串）；HEAD＝fn(G,c)→那一場開頭（地點字幕後面）多的幾行（EVENTS 的行）。沒有＝照舊 */
+  S.ASK_PRE=[]; S.HEAD=[];
+  S.askPre=function(G,f){ let out=[]; for(const fn of S.ASK_PRE){ try{ const r=fn(G,f); if(Array.isArray(r)) out=out.concat(r); }catch(e){ console.warn('FEST.ASK_PRE',e); } } return out; };
+  S.headOf=function(G,c){ let out=[]; for(const fn of S.HEAD){ try{ const r=fn(G,c); if(Array.isArray(r)) out=out.concat(r); }catch(e){ console.warn('FEST.HEAD',e); } } return out; };
   S.herLines=function(id,k,home,city){ const A=(X.PEOPLE[id]||{}).ask||{}, hb=home&&A.homeBy?A.homeBy[k]:null, HB=Array.isArray(hb)?hb:(hb&&hb[city]); if(Array.isArray(HB)) return HB.slice();   /* AA_457 第 3 節：沛珊回家的時候照節日、照城市換（homeBy[節日][城市]；d809cdd21：情人節、七夕台中，三月十四、聖誕台南）；沒寫的照原本 */
     if(A.by&&Array.isArray(A.by[k])&&!(home&&A.homeLines)) return A.by[k].slice();   /* AA_445 1-2：芷若、語彤、子晴、學姊、可昕照節日換整組（by.vday／white／qixi／bday／xmas）；以安 AA_460 4-2 起也有（沒有生日那一列；沛珊在臺北那張當作沒有：AA_460 第 9 節）*/
     const L=(home&&A.homeLines)||A.lines||[]; return L.map((t,i)=>i===0&&k!=='vday'?String(t).replace('情人節',S.name(k)):t); };   /* 沒有 by 的：第一句照節日換（沛珊在臺北、以安的生日）*/
@@ -266,7 +274,7 @@ const FEST=(function(){
           const home=!!W&&W.mode==='home'&&!!A.homeLines&&!!S.cellLines(S.cell(id,k),'dt'), here=!!W&&W.mode==='taipei'&&!W.fixed;
           const busy=S.bookedWith(G,id,d)||(G.invites||[]).some(iv=>iv.who===id&&iv.day===d&&liveIv(iv));   /* 玩家已經約她了 */
           const win=home?[0,24]:[A.h-0.25,A.h+2], ok=(home||here)&&!busy&&contact(G,id,a)&&S.slotOk(G,d,home?'day':(S.slotOf(A.h)||'eve'),id,win).ok;
-          if(ok){ const M=S.herLines(id,k,home,W&&W.city).map(dm(id)); M[M.length-1].ask={id:tag,until:T(d,A.h),opts:[{t:'好。',set:{[fk]:home?'home':'yes'}},{t:'那天不行。',set:{[fk]:'no'},say:(A.no||[]).map(t=>({from:id,text:t}))}]};
+          if(ok){ const M=S.askPre(G,f).concat(S.herLines(id,k,home,W&&W.city)).map(dm(id)); M[M.length-1].ask={id:tag,until:T(d,A.h),opts:[{t:'好。',set:{[fk]:home?'home':'yes'}},{t:'那天不行。',set:{[fk]:'no'},say:(A.no||[]).map(t=>({from:id,text:t}))}]};
             PHONE.at(G,a,21,M,tag); } }
         if((F[fk]==='yes'||F[fk]==='home')&&now(G)<T(d,A.h+0.25)&&!(typeof OUT!=='undefined'&&OUT.get(G,outId(f)))){ const c=S.cell(id,k)||{}, W=S.where(G,id,k,y,d)||{};
           if(F[fk]==='home') S.planDrive(G,f,{city:W.city||((X.PEOPLE[id].home||{}).city)});

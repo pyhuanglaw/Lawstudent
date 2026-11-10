@@ -2,7 +2,7 @@
 """AA_630＋AA_627（語彤台詞改寫，YT-REWRITE-1103）→ tools/story/aa630_fix.json（讀稿換字表，和 aa612_fix.json 同一個做法）。
 遊戲 src 已經照表換了；企劃源稿（AA_11、AA_414、AA_202、ladder／Dxx 的原稿…）還是舊句——匯入工具讀稿（import_guard.py read_fix）、
 讀稿比對的測試（tests/alison.js）照這張表換，舊稿讀進來就是新句。只收「一句話」的列（8 個字以上、不是程式片段、不是整段換或刪），長的先換。
-用法：python3 tools/story/gen_aa630_fix.py（讀白名單上的 AA_630、AA_627，原稿不經 read_fix）"""
+用法：python3 tools/story/gen_aa630_fix.py [--out 檔名]（讀白名單上的 AA_630、AA_627，原稿不經 read_fix）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -34,6 +34,7 @@ for r in rows:
                 pairs.setdefault(x, y) if pairs.get(x, y) == y else pairs.__setitem__(x, None)
         continue
     if BAD.search(o) or BAD.search(n) or o == n: continue
+    o = re.sub(r'^選項(?=「)', '', o); n = re.sub(r'^選項(?=「)', '', n)   # MSG2-GEN-DRIFT-1104：「選項「…」」的格（同 aa630._pairs）先拿掉「選項」，不然收成「選項「生日快樂。回去請妳吃麵。」這種對不到的字
     o = o.strip('「」'); n = n.strip('「」')
     if '」「' in o or '」「' in n: continue
     if len(o) < 8 or re.match(r'^[A-Z_0-9]+$', o): continue
@@ -57,5 +58,6 @@ for o, n in list(pairs.items()):
     if o2 != o and o2 not in pairs and o2 not in n: pairs[o2] = n
 P = sorted(((a, b) for a, b in pairs.items() if b), key=lambda x: -len(x[0]))
 out = {'note': 'YT-REWRITE-1103（AA_630 bb4401fd3＋AA_627 40374c664 表 A／B【改句】【換字】，語彤新背景）：遊戲 src 已照表換；企劃源稿還是舊句，讀稿、讀稿比對時照這張表換（import_guard.py read_fix、tests/alison.js）。tools/story/gen_aa630_fix.py 產生，不要手改。', 'pairs': [list(x) for x in P]}
-json.dump(out, open(os.path.join(ROOT, 'tools', 'story', 'aa630_fix.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+_OUT = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else os.path.join(ROOT, 'tools', 'story', 'aa630_fix.json')   # MSG2-GEN-DRIFT-1104：--out 檔名＝寫到別的地方（測試比對用）
+json.dump(out, open(_OUT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print('aa630_fix.json：', len(P), '組')

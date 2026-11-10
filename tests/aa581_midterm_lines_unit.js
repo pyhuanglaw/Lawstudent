@@ -51,17 +51,17 @@ const ROWS = [
   ['29', 'src/data/home_lines.js', '"dad": "不太好就下次好。"', '"dad": "不順的先放著，先吃飯。"'],
   ['30', 'src/data/events.js', '你們法律系的期中考，也要背那麼多嗎？', '你們法律系考試，也要背那麼多嗎？'],
   ['31', 'src/data/events.js', '經濟系的期中，會不會跟法律系的撞在同一週？', '經濟系的期末，會不會跟法律系的撞在同一週？'],
-  ['32', 'src/data/events.js', '期中考前一週我會出現。這是我和學分的約定。', '期末考前一週我會出現。這是我和學分的約定。'],
-  ['33', 'src/data/sup497_lines.js', '期中考前一週我會出現。這是我和學分的約定。', '期末考前一週我會出現。這是我和學分的約定。'],
+  ['32', 'src/data/events.js', '期中考前一週我會出現。這是我和學分的約定。', '期末考前一週我會出現。學分要顧。'],
+  ['33', 'src/data/sup497_lines.js', '期中考前一週我會出現。這是我和學分的約定。', '期末考前一週我會出現。學分要顧。'],
   ['34', 'src/story3d.js', '不用啦，期中前再看就好。要的時候跟我說。', '不用啦，期末前再看就好。要的時候跟我說。'],
   ['35', 'src/story3d.js', '期中考應該全部改成開書考', '考試應該全部改成開書考'],
-  ['36', 'src/data/needed_msgs.js', '期中成績出來，不要跟我說以安考幾分。……我想先自己對完。', '作業發回來了，不要跟我說以安拿幾分。……我想先自己對完。'],
+  ['36', 'src/data/needed_msgs.js', '期中成績出來，不要跟我說以安考幾分。……我想先自己對完。', '作業發回來了。……我想先自己對完答案。'],   /* D116：AA-B 11-07 06:18 再改，不提以安的分數 */
   ['37', 'src/data/noodle_table.js', '期中考範圍我整理成一張表了。', '期末考範圍我整理成一張表了。'],
   ['38', 'src/data/invites.js', '財管的期中跟債總同一天。早上算利息，下午寫遲延利息。……至少主題有連起來。', '財管的期中考完，下午接債總。早上算利息，下午聽遲延利息。……至少主題有連起來。'],
   ['39', 'src/data/eat_lines.js', '你今天的課，老師有講到期中考的範圍嗎？我那時候在恍神。', '你今天的課，老師有講到期末考的範圍嗎？我那時候在恍神。'],
-  ['40', 'src/data/date_lines.js', '……還好。期中考從這裡看也很小。', '……還好。期末考從這裡看也很小。'],
-  ['41', 'src/data/date_lines.js', '……不能。我剛剛在想期中考。', '……不能。我剛剛在想期末考。'],
-  ['42', 'src/data/date_lines.js', '這部跟你的期中考撞到了。……換下一場。', '這部跟你的期末考撞到了。……換下一場。'],
+  ['40', 'src/data/date_lines.js', '還好。期中考從這裡看也很小。', '還好。期末考從這裡看也很小。'],   /* 第 40～42 列、下面允許清單的那一句：AA_694（DATE-ELLIPSIS-1105）拿掉句首、。！？後的「……」以後的字 */
+  ['41', 'src/data/date_lines.js', '不能。我剛剛在想期中考。', '不能。我剛剛在想期末考。'],
+  ['42', 'src/data/date_lines.js', '這部跟你的期中考撞到了。換下一場。', '這部跟你的期末考撞到了。換下一場。'],
   ['43', 'src/linze_upper3d.js', '白板上寫著期中考的範圍，旁邊畫了一張表，三格打勾，兩格還空著。', '白板上寫著期末考的範圍，旁邊畫了一張表，三格打勾，兩格還空著。'],
   ['44', 'src/data/ladder.js', '期中準備得怎樣？', '期中週了，你讀得怎樣？'],
   ['45', 'src/data/ladder.js', '期中考完了，你考得怎樣？', '最近讀得怎樣？'],
@@ -86,14 +86,16 @@ const ROWS = [
   ['70', 'src/data/events.js', null, "text:'明天晚上日常失速，來不來？'"],   /* AA_623 第 3 節：A15 改日常失速 */
   ['71', 'src/data/events.js', null, "text:'明天晚上燒臘店，七點，來不來？'"],
   ['72', 'src/story3d.js', null, "s2.day!==s2.exam?'考完了 今天燒臘店，七點，長桌':'刑總考完了 今天燒臘店，七點，長桌'"],   /* AA_612 A-373 */
-  ['7B', 'src/data/events.js', '（阿姨的手腕綁著護腕。', '（阿姨的手好了，今天端麵的還是語彤。）'],
-  ['7B', 'src/data/events.js', null, "text:'（今天端麵的是一個沒見過的女生。）'"],
-  ['7C', 'src/data/noodle_table.js', "if:{weeks:[6,7,14,15]}", "{who:['zhe'],if:{weeks:[14,15]}"],
-];
+  /* 第 7B 列的兩句（「（阿姨的手好了，今天端麵的還是語彤。）」「（今天端麵的是一個沒見過的女生。）」）AA_679 第 1 列整句拿掉（她不在燒臘店端麵）：改在下面那一項查不在 */
+];   /* 第 7C 列（noodle_table.js 大二「考試前的燒臘店」的 if:{weeks:[14,15]}）：AA_684 第 11 項整則刪了（換不了），改在下面那一項查不在 */
 for (const [row, f, oldS, newS] of ROWS) {
   const s = R(f);
   check('(a) 第 ' + row + ' 列 ' + f + '：有「' + newS.slice(0, 40) + '」' + (oldS ? '、沒有「' + oldS.slice(0, 30) + '」' : ''), !!s && s.includes(newS) && (!oldS || !s.includes(oldS)), JSON.stringify({有新: s.includes(newS), 舊還在: oldS ? cnt(s, oldS) : 0}));
 }
+{ const s = R('src/data/noodle_table.js');
+  check('(a) 第 7C 列 src/data/noodle_table.js：舊的「if:{weeks:[6,7,14,15]}」不在；那一則（考試前的燒臘店）AA_684 第 11 項整則刪了', !!s && !s.includes('if:{weeks:[6,7,14,15]}') && !s.includes("text:'考試前的燒臘店，長桌比平常安靜。")); }
+{ const s = R('src/data/events.js');
+  check('(a) 第 7B 列 src/data/events.js：護腕那一句不在；AA_679 第 1 列：「端麵的還是語彤」「端麵的是一個沒見過的女生」兩句也拿掉', !!s && !s.includes('（阿姨的手腕綁著護腕。') && !s.includes("text:'（阿姨的手好了，今天端麵的還是語彤。）'") && !s.includes("text:'（今天端麵的是一個沒見過的女生。）'")); }
 /* 第 63～65 列：民總、刑分、債總二第 7 週的黑板（經濟系那一年的會計學 acct_y0 同字，照舊）*/
 { const s = R('src/data/syllabus.js'), j = s.indexOf('{'), J = s ? JSON.parse(s.slice(j, s.lastIndexOf('}') + 1)) : null, bd = c => J && J.courses[c] && J.courses[c][6] ? J.courses[c][6].board[2] : null;
   check('(a) 第 63～65 列：民總、刑分、債總二第 7 週黑板「下週、下下週：前七週整理＋案例作業」；經濟系那一年的會計學照舊「下週、下下週：期中考」',
@@ -150,8 +152,9 @@ const ALLOW = [
   ['src/story3d.js', '期中前，兩校互考。'],   /* 保18（可昕的期中）*/
   ['src/y2r2_3d.js', '第一次：期中前那個週五，晚上六點半，山下那一攤。不能來就視訊'],   /* 保20 */
   /* AA_581 改成以後，講的是別人的期中考（芯慈雙主修的經濟系課、可昕在政大）*/
-  ['src/data/invites.js', '「財管的期中考完，下午接債總。早上算利息，下午聽遲延利息。…'],   /* 第 38 列 */
+  ['src/data/invites.js', '財管的期中考完，下午接債總。早上算利息，下午聽遲延利息。……'],   /* 第 38 列（AA-B 2026-11-08 00:21：外面的「」拿掉）*/
   ['src/r3_3d.js', '民訴期中考完了。最後一題沒寫完。'],   /* 第 53 列 */
+  ['src/data/events.js', '經濟的期中考，跟債總的小考同一週。兩科我都還沒念完……我可能要放棄一科。'],   /* AA_673 第 3 列（ev_xinci_double，AA 定稿 D109）：芯慈雙主修的經濟系課照樣有期中考，債總是小考 */
   /* 舊存檔備註的比對鍵（social3d.js NOTE_RENAMED_N9：存檔裡的舊字，畫面上顯示右邊的新字）*/
   ['src/social3d.js', 'ASKED_BACK|期中放榜'],
   ['src/social3d.js', 'ASKED_BACK|期中放榜，反問他考幾分'],
@@ -166,11 +169,11 @@ const ALLOW = [
   ['src/data/characters.js', '自由出行第二批的偶遇（AA_162 第 8 節 aca122d2：讀書會期中'],
   ['src/data/crowd_depts.js', 'A：你期中考完了嗎？／B：考完一科，還有三科。／A：那你現在要去'],
   ['src/data/crowd_depts.js', 'A：通識也有期中考？／B：有，選擇題。／A：選擇題我可以。'],
-  ['src/data/date_lines.js', '上次的好運，我拿去考期中考了。……有用。'],
+  ['src/data/date_lines.js', '上次的好運，我拿去考期中考了。有用。'],
   ['src/data/date_lines.js', '這條路我走過。期中考前一個人走的。'],
   ['src/data/dorm_layout.js', '102 寢室。門上貼著一張紙：「期中考週，請小聲，謝謝。」'],
   ['src/data/events.js', 'AA_376 #2（企劃線 69aa3b0c，AA 定）：v7 舊課堂，課表系統已'],
-  ['src/data/events.js', '「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」'],
+  ['src/data/events.js', '家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。'],
   ['src/data/events.js', '下下禮拜就期中考了。你經原讀到哪了？'],
   ['src/data/events.js', '今天？快期中考了耶。'],
   ['src/data/events.js', '大一期中考那週，你有沒有發現我不在圖書館？'],
@@ -203,7 +206,7 @@ const ALLOW = [
   ['src/data/needed_msgs.js', '期中考你在總圖哪一層？我想找一個不會遇到茶屋客人的地方。'],
   ['src/data/pool_story_b3.js', '好。那你要是期中前改變主意，B1 找我。'],
   ['src/data/postgrad_lines.js', '我在帶大學部刑訴的討論課。期中考完，我第一件事是問他們錯哪裡。'],
-  ['src/data/sup497_lines.js', '「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」'],
+  ['src/data/sup497_lines.js', '「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」'],   /* sup497_lines.js 是稿的紀錄（遊戲不讀），照稿有「」；events.js 的閒聊拿掉外面的「」（TEXT-QUOTE-UNIFY-1108 第四批）*/
   ['src/data/syllabus.js', '下下週：期中考'],
   ['src/data/syllabus.js', '下週、下下週：期中考'],   /* 經濟系那一年的會計學（acct_y0）；法律課三處看 (a) 第 63～65 列 */
   ['src/data/syllabus.js', '期中考：一份完整的財報。'],
@@ -226,7 +229,8 @@ const ALLOW = [
   ['src/story3d.js', '期中考週停社課，下下週見'],
   ['src/story3d.js', '民總期中考，我的答案被老師拿去當範例。匿名的，可是我認得自己的字。'],
   ['src/story3d.js', '玩了一整晚。明天去總圖念書吧。期中考快到了。'],
-  ['src/data/study_units.js', '在系上的群組裡造謠，說某位同學「期中考作弊被抓」：這是一件具體、可以查證的事'],   /* 觀念卡（AA 的誹謗例子，crim_spec_w6／const_1_w11）：法律舉例，不是遊戲的期中考 */
+  ['src/data/study_units.js', '在系上的群組裡造謠，說某位同學「期中考作弊被抓」：這是一件具體、可以查證的事'],
+  ['src/data/aa720.js', '書有念。期中考考完了。'],   /* AA_720 ev_yt_tell_mom live（AA-B 11-08 定稿，D109）：語彤（社會系一年級）對媽媽說她自己的期中考＝別人的期中（同上 r2y4b3d 那句）；已列給 AA 確認 */   /* 觀念卡（AA 的誹謗例子，crim_spec_w6／const_1_w11）：法律舉例，不是遊戲的期中考 */
 ];
 const okKey = new Set(ALLOW.map(([f, p]) => f + '\t' + p.slice(0, 30)));
 const bad = [];

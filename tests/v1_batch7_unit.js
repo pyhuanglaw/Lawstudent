@@ -86,8 +86,9 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     check('晚一點才出發（14:30）：抵達 15:00、演完 18:00',Math.abs(G.hour-18)<0.01,String(G.hour)); }
   /* ---------- K1「念了幾個禮拜」照實際的週數（AA 審 9-1 第 2 點）---------- */
   { check('數字：3→三、4→四、10→十、12→十二、20→二十',[3,4,10,12,20].map(STORY.zhNum).join(',')==='三,四,十,十二,二十');
-    fresh(FRI3,8,'campus'); run(8,20); const m=G.msgs.find(x=>x.tag==='kx_tour_ask'); const F0=G.flags, ms=G.msgs, ph=G.phone; fresh(SAT3+3,10,'campus',F0); G.msgs=ms; G.phone=ph; PHONE.answer(G,m.ask.id,0); run(10,10.2);
-    const o=OUT.get(G,'kx_tour'); check('K1 延後到第 4 週週六：記下「四」',!!o&&CALENDAR.termOf(o.day).week===4&&G.flags.kxTourWeeks==='四',JSON.stringify({o,w:G.flags.kxTourWeeks}));
+    /* UX-WEEKEND-ASK-EXPIRE-1108（AA-B 11-08 09:19）：第一則週日 24:00 收起來，不能再晚回；沒回＝記 NO、第 4 週週五「這週末呢？」再約——從那一則答應＝延到第 4 週週六 */
+    fresh(FRI3,8,'campus'); run(8,20); const F0=G.flags, ms=G.msgs, ph=G.phone; fresh(SAT3+6,10,'campus',F0); G.msgs=ms; G.phone=ph; run(10,20); const m2=G.msgs.find(x=>x.tag==='kx_tour_ask2'); if(m2) PHONE.answer(G,m2.ask.id,0); run(20,20.2);
+    const o=OUT.get(G,'kx_tour'); check('K1 延後到第 4 週週六（第一則沒回、第 4 週週五第二次邀約答應）：記下「四」',!!m2&&G.flags.KX_TOUR_NO==='expired'&&!!o&&CALENDAR.termOf(o.day).week===4&&G.flags.kxTourWeeks==='四',JSON.stringify({m2:!!m2,no:G.flags.KX_TOUR_NO,o,w:G.flags.kxTourWeeks}));
     G.day=o.day; G.hour=13.5; picks=['出發','妳推薦哪一家','她推薦']; said=[]; await tickOut(); check('K1 延後：「我在這裡念了四個禮拜，所以比你懂這裡四個禮拜。」',lines().includes('我在這裡念了四個禮拜，所以比你懂這裡四個禮拜。'),JSON.stringify(lines().slice(0,3))); }
   /* ---------- K1b 予樂說：及格（BB_95 9-2）---------- */
   { const W5MON=STORY.termDay('Y1S1',5,1); let W6MON=STORY.termDay('Y1S1',6,1); const hol=CALENDAR.holiday(W6MON); while(CALENDAR.holiday(W6MON)||CALENDAR.dateOf(W6MON).wd>5) W6MON++;   /* 第 6 週週一 10/6 中秋放假：第一個上課的平日 */

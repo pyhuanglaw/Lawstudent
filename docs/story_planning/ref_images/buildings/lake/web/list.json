@@ -1,0 +1,50 @@
+[
+ {
+  "file": "lake_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42035",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=8",
+  "caption": "黃昏：湖心亭倒影、湖邊木欄杆",
+  "size": "640×480",
+  "src_id": "map q=42035"
+ },
+ {
+  "file": "lake_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42034",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=8",
+  "caption": "湖面＋湖心亭、遠處的建築、刺桐紅花、白鴨",
+  "size": "640×480",
+  "src_id": "map q=42034"
+ },
+ {
+  "file": "lake_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42033",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=8",
+  "caption": "湖邊的白色木花架＋長椅、騎腳踏車的人，遠處湖心亭",
+  "size": "640×480",
+  "src_id": "map q=42033"
+ },
+ {
+  "file": "lake_web_04.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42032",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=8",
+  "caption": "湖邊步道：紅色木欄杆、大樹，遠處湖心亭",
+  "size": "640×480",
+  "src_id": "map q=42032"
+ },
+ {
+  "file": "lake_web_05.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42031",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=8",
+  "caption": "石砌拱橋、紅色欄杆，遠處湖心亭和高樓",
+  "size": "640×480",
+  "src_id": "map q=42031"
+ },
+ {
+  "file": "lake_web_06.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42030",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=8",
+  "caption": "湖心亭（六角、綠色琉璃瓦）＋鴿子",
+  "size": "640×480",
+  "src_id": "map q=42030"
+ }
+]

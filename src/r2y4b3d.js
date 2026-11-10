@@ -153,7 +153,7 @@ const R2Y4B=(function(){
   S.springCar=async function(GM){ GM.G.flags.Y4_SPRING_CAR=true; return true; };   /* AA_599 補（BB 11-03、AA 定字）：「（你回家把車開出來。）」刪掉，只記旗標（開車從宿舍出發，不寫取車）*/   /* 4/2 晚上 */
 
   /* ===================== 2-Y4-36 沛珊 P6 公開課（4/12 21:00 私訊、4/14 14:00 台南）===================== */
-  S.psReconnected=G=>{ const F=G.flags||{}; return !!F.PS_RECONNECT||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number'; };   /* 放榜以後重新聯絡上（AA_282 第 2 節；玩家先傳過訊息）*/
+  S.psReconnected=G=>{ const F=G.flags||{}; return (!!F.PS_RECONNECT||F.PS_REUNION!=null||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number')&&!(typeof STORY!=='undefined'&&STORY.psPre&&STORY.psPre(G)); };   /* 放榜以後重新聯絡上（AA_282 第 2 節；玩家先傳過訊息）。AA_723：沒交往的線＝2028-12-29 重聚以後（PS_REUNION）；PS_BACK_* 只有舊存檔照原本的流程聯絡上的才有 */
   S.psOpenOk=G=>dating(G,'classmate_peishan')||(!isEx(G,'classmate_peishan')&&S.psReconnected(G)&&met(G,'classmate_peishan','FAMILIAR'));
   const psOpenPhone=G=>{ const d12=DK('2029-04-12'), d14=DK('2029-04-14'), F=G.flags; if(d12==null||G.day<d12||G.day>d14+1) return; const Pp=t=>P_('classmate_peishan',t);
     if(G.day<=d14&&at(G,'2029-04-12',21)&&(G.day<d14||hh(G)<12)&&S.psOpenOk(G)){
@@ -334,7 +334,7 @@ const R2Y4B=(function(){
 
   /* ===================== 2-Y4-54 多段感情：畢業前（5/21）、畢業後一年內（2030-05-25）、尾聲的座位（U5）===================== */
   S.TELL={
-    heroine_01:{loc:'法律系館B 研討室外的走廊',loc30:'麵店，兩人桌',lines:['……多久了？',{narr:'（你回答以後，她點了一下頭，沒有再問。）'},'我要想一下。這個禮拜先不要約。']},
+    heroine_01:{loc:'法律系館B 研討室外的走廊',loc30:'燒臘店，兩人桌',   /* AA_689 4-3（企劃線 1f2983981）：原本「麵店，兩人桌」（AA_612 燒臘店有靠牆的兩人桌）*/lines:['……多久了？',{narr:'（你回答以後，她點了一下頭，沒有再問。）'},'我要想一下。這個禮拜先不要約。']},
     heroine_03:{loc:'茶屋打烊以後，她在吧檯後面洗杯子',   /* 地點字幕跟著 AA_627 A-357（她在麵店剝蒜頭→茶屋洗杯子）*/lines:['……嗯。',{narr:'（很久以後）'},'杯子洗完了。','……我要想。你先回去。']},
     heroine_02:{loc:'約好的視訊（她在英國，那邊下午）',loc30:'打烊後的 Café',lines:['……嗯。','我先掛了。……我會寫一張明信片給你。寫完才寄。'],last30:'……今天先這樣。我收店了。'},
     heroine_04:{loc:'吉他社辦外面的樓梯（她晚上回來看社課）',loc30:'工作室樓下',lines:['……你是來跟我說，你還有別人。','……我還以為你要問社課的事。','我要想一下啦。想完我會找你。']},
@@ -403,8 +403,8 @@ const R2Y4B=(function(){
   /* 每個人：h＝[2029, 2030] 幾點；at29／at30＝地點（place 也是出遊的地點、字幕）；open29／open30＝地點的旁白；knew／ask／told／quiet／last＝台詞
      （字串＝她說；{narr}＝旁白，n30＝2030 的那一句；{t, t30}＝她說、2030 換成 t30）*/
   S.APART={   /* AA_346 第 3-0 節（企劃線 12d52835，AA-C 10-21）改句：五位「謝謝你自己說」太像、四位「我不問」、以安的理由欄比喻、「我知道是誰」→ 照表換 */
-    heroine_01:{h:[18,19],at29:Object.assign({place:'法律系館B 研討室外的走廊',bg:'wancai_seminar'},NEAR),at30:Object.assign({place:'麵店，兩人桌',bg:'noodle_table'},Y30),
-      open29:'（讀書會散了。法律系館B 研討室外的走廊，只剩你們兩個。她手上還拿著白板筆。）',open30:'（麵店，兩人桌。她先到，點了兩碗，一碗推到你面前。）',
+    heroine_01:{h:[18,19],at29:Object.assign({place:'法律系館B 研討室外的走廊',bg:'wancai_seminar'},NEAR),at30:Object.assign({place:'燒臘店，兩人桌',bg:'noodle_table'},Y30),   /* AA_689 補（企劃線 fc3da48ca，AA-C 23:03）：原本「麵店，兩人桌」；背景 noodle_table 就是公館燒臘那一張（termend_lines.js PLACE.noodle）*/
+      open29:'（讀書會散了。法律系館B 研討室外的走廊，只剩你們兩個。她手上還拿著白板筆。）',open30:'（燒臘店，兩人桌。她先到，點了兩份叉燒飯，一盤推到你面前。）',   /* AA_689 補：原本「（麵店，兩人桌。她先到，點了兩碗，一碗推到你面前。）」*/
       knew:['……我知道。不用說名字。','你選了。好。'],ask:['為什麼？'],
       told:[{narr:'（她沒有馬上說話。）'},'……你說實話了。','我要一點時間。'],quiet:['……好。',{narr:'（她把白板筆的蓋子蓋上。）',n30:'（她把筷子在碗上放好。）'}],
       last:[{narr:'（她低下頭，把東西收進包包。）'},'好了。你先走。我再坐一下。']},
@@ -413,7 +413,7 @@ const R2Y4B=(function(){
       open29:'（茶屋打烊以後。她在吧檯後面洗杯子，沒有抬頭。）',open30:'（一盞茶屋。她坐在吧檯最旁邊的位子，蘇姨放下一杯茶就走開了。）',
       knew:[{narr:'（杯子一個一個倒扣在架子上。）',n30:'（她轉著手上的茶杯。）'},'……嗯。我知道會有這一天。'],
       told:['……嗯。',{narr:'（很久以後。）'},'你坐。我把這幾個洗完。'],quiet:['……嗯。',{narr:'（她沒有問為什麼。杯子洗完了，她又拿起一個。）',n30:'（她轉著手上的茶杯。）'}],
-      last:['那我把這段時間，還給我自己。……謝謝你教我分時間。']},
+      last:['嗯。那這段時間，我自己用。']},
     heroine_02:{h:[22,21.5],at29:{place:'約好的視訊',bg:'video',video:true},at30:Object.assign({place:'打烊後的 Café',bg:'dark'},Y30),
       open29:'（視訊。她那邊是下午，窗外是英國灰灰的天。）',open30:'（打烊後的 Café。只開了吧檯一盞燈。）',
       knew:['……我猜到了。你最近話都很短。'],told:[{narr:'（她沒有接話。平常她都會接話。）'},'……我知道了。'],
@@ -736,7 +736,7 @@ const R2Y4B=(function(){
 
   /* ===================== 手機（STORY.PHONE_RULES，每 0.5 秒）===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; const F=G.flags;
-    if(!F.PS_RECONNECT&&(F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number')) F.PS_RECONNECT=true;   /* 放榜以後重新聯絡上：AA_319 1A-13 ⑦（6/2 學生的卡片照片）讀這個 */
+    if(!F.PS_RECONNECT&&(F.PS_REUNION!=null||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number')) F.PS_RECONNECT=true;   /* 放榜以後重新聯絡上：AA_319 1A-13 ⑦（6/2 學生的卡片照片）讀這個 */
     const y=d=>DK(d); const n=G.day; if(n<y('2028-08-01')) return;
     try{ usCanyonPhone(G); saWeekly(G); sisCanyonRules(G); }catch(e){ console.warn('R2Y4B 2028',e); }
     if(n<y('2029-02-20')) return;

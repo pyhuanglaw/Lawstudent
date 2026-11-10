@@ -9,6 +9,10 @@
   const G_=()=>typeof GAME!=='undefined'?GAME.G:null;
   function glowMats(root,re){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(m&&re.test(m.name||'')&&!out.includes(m)){ if(m.userData.wrBase==null) m.userData.wrBase=m.emissiveIntensity!=null?m.emissiveIntensity:1; out.push(m); } } }); return out; }
   function setGlow(mats,k){ for(const m of mats) m.emissiveIntensity=m.userData.wrBase*k; }
+  /* 同一間、不同布置的光照貼圖（LAWWW2-B 11-07，萬才研討室 B：平常的初談隔間／2028-10-26 推甄面試）：GLB 的 extras.lightmap.sets.<布置>＝{day,night}
+     （tools/blender/env_second/lightbake/lm_sets.py：兩次烘的第二套 UV 一樣才寫進去）。今天的布置有自己的那一張就換；沒有就照預設那一張（平常那一套烘的）。
+     root 是這一次 clone 的（userData 是複製的），換的是新物件，不動快取的 GLB。測試：tests/wancai_sem_lm_unit.js */
+  function pickLM(root,sk){ const lm=root.userData&&root.userData.lightmap; if(!lm||!lm.sets) return; const v=sk&&lm.sets[sk]; if(v) root.userData.lightmap=Object.assign({},lm,v); }
   function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
   const HOST=()=>({wancai:typeof WANCAI_LAYOUT!=='undefined'?WANCAI_LAYOUT:null, linze:typeof LINZE_LAYOUT!=='undefined'?LINZE_LAYOUT:null, dorm_hall:typeof DORM_LAYOUT!=='undefined'?DORM_LAYOUT:null, library_hall:typeof LIBRARY_LAYOUT!=='undefined'?LIBRARY_LAYOUT:null});   /* dorm_hall：宿舍的門（洗衣間、205；dorm3d.js 認 d.to／d.gate）；library_hall：總圖 2F 多媒體中心（library3d.js）*/
   function hostDoor(id){ const h=ROOM_GLB_LAYOUTS[id].host_door, HL=HOST()[h.zone]; return HL?{h,HL,d:HL.doors.find(q=>q.id===h.id)}:null; }
@@ -65,7 +69,7 @@
       /* glb：借另一個區域的正式模型（法圖 2F 書庫＝一樓那一個 us_lawlib.glb 往下 glb_y，glb_hide 的節點藏起來）；自己的 GLB（bldg.<id>）只放這一層才有的東西，另外加進來（LAWWW2-B 10-24）*/
       z.formal=false; const key='bldg.'+(L.glb||id); if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(L.glb_y) root.position.y=L.glb_y;
         root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } if(L.glb_hide&&L.glb_hide.includes(o.name)) o.visible=false; });
-        if(L.glb&&has('bldg.'+id)) ASSETS.loadOne('bldg.'+id).then(c2=>{ if(!c2||!c2.scene||E.zone!==z) return; const r2=c2.scene.clone(true); r2.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(r2); glow=glow.concat(glowMats(r2,/^GLOW_/)); }).catch(e=>console.warn('房間的另一個模型載入失敗',id,e)); Z3.attachRoomGLB(z,g0,fb,root); if(L.dorm_interior&&Z3.attachDormInterior) Z3.attachDormInterior(z,g0,root); z.formal=true; if(L.sets) root.traverse(o=>{ if(/^SET_/.test(o.name)) o.visible=!!SET&&o.name===SET.node; });
+        if(L.glb&&has('bldg.'+id)) ASSETS.loadOne('bldg.'+id).then(c2=>{ if(!c2||!c2.scene||E.zone!==z) return; const r2=c2.scene.clone(true); r2.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(r2); glow=glow.concat(glowMats(r2,/^GLOW_/)); }).catch(e=>console.warn('房間的另一個模型載入失敗',id,e)); pickLM(root,sk); Z3.attachRoomGLB(z,g0,fb,root); if(L.dorm_interior&&Z3.attachDormInterior) Z3.attachDormInterior(z,g0,root); z.formal=true; if(L.sets) root.traverse(o=>{ if(/^SET_/.test(o.name)) o.visible=!!SET&&o.name===SET.node; });
         glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('萬才館房間正式模型載入失敗',id,e));
       return z; } }; }
   if(typeof ROOM_GLB_LAYOUTS!=='undefined') for(const id of Object.keys(ROOM_GLB_LAYOUTS)){ Z3.ZONES[id]=zoneFor(id);

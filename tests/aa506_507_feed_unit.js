@@ -114,7 +114,7 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i3=sc('src/data/feed_
   check('0. 大二下：動態 40 則（以安 8、芷若 8、語彤 7、子晴 7、學姊 5、沛珊 1、可昕 4）、私訊 1 則；大三上：動態 41 則（7、8、6、7、5、4、4）、私訊 1 則',
     !!SET.Y2S2&&!!SET.Y3S1&&J(cnt(SET.Y2S2))===J([8,8,7,7,5,1,4])&&SET.Y2S2.dms.length===1&&J(cnt(SET.Y3S1))===J([7,8,6,7,5,4,4])&&SET.Y3S1.dms.length===1,J([cnt(SET.Y2S2),cnt(SET.Y3S1)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 五個學期的 id 都不重複（動態 44＋47＋38＋40＋41、私訊 10＋7＋3＋1＋1；大二上 38＝AA_514 加的 kx4bc）',ids.length===232&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  check('0. 五個學期的 id 都不重複（動態 43＋46＋38＋40＋41、私訊 10＋7＋3＋1＋1；大二上 38＝AA_514 加的 kx4bc）（大一上 sis2 保溫瓶、大一下 ps2b 志工報名表 2026-11-04 拿掉：D127④、AA_661 第 48、51 列）',ids.length===230&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   /* 2026-10-28 AA_518 第 4-1、4-5 改的（企劃線 973dd1b74，SIS-B15-1028；對 AA_518 的稿在 tests/aa518_sis_b15_unit.js）：sis4d 私訊回兩版（聽過 S4-Lx＝「你知道的。……美國那邊的書。」，went sisS4Lx）、sis2e 留言回「最近加得比較快。」*/
   const AA518_T=new Set(['你知道的。……美國那邊的書。','最近加得比較快。']), AA518_ROW={sis4d:e=>{ e.dm=[e.dm[0],{no:e.dm[1],yes:'你知道的。……美國那邊的書。'}]; e.went='sisS4Lx'; },sis2e:e=>{ e.cm=[e.cm[0],'最近加得比較快。']; }};
   for(const term of ['Y2S2','Y3S1']){ const S=SET[term], md=doc[term];
@@ -171,13 +171,16 @@ const runAll=(from,to,flags,setup)=>{ fresh(from,0,flags); for(const id of SEVEN
   let worst=0, wid=''; for(const i of L){ if(!FEED.isHeroine(i.who)) continue; const n=L.filter(j=>j.who===i.who&&T(j.day,j.h)<=T(i.day,i.h)&&T(i.day,i.h)-T(j.day,j.h)<7*24).length; if(n>worst){ worst=n; wid=i.id; } }
   return {log,L,maxDay:Math.max(0,...Object.values(byDay)),worst,wid}; };
 sec('2',()=>{ if(!HAS()||!SET.Y2S2||!SET.Y3S1){ check('2. 走一遍',false,'沒有資料'); return; }
-  let r=runAll(DK('2027-02-15'),DK('2027-09-05'));
+  /* AA_723（企劃線 d8570a14b posts，AA723-CONFESS-PS-1107）：沛珊沒交往的新線沉默期（2026-12-18～2028-12-28）一則動態都不發、柏翰說她動態的 h506～h509 不說（tests/ps_silence_unit.js 第 7、8 節）；這裡測原本的流程＝舊存檔已經照原本流程聯絡上（PS_BACK_READ）*/
+  const PSL={PS_BACK_READ:STORY.dayOfKey('2027-08-07')};
+  let r=runAll(DK('2027-02-15'),DK('2027-09-05'),PSL);
   let miss=SET.Y2S2.posts.map(p=>p.id).filter(id=>!r.log.has(id));
   check('2. 大二下＋暑假走一遍（七位都很熟、沒有交往）：40 則都出',!miss.length,J({miss,done:miss.map(id=>R().done[id])}));
   check('2. 大二下＋暑假：一天不超過四則（最多 '+r.maxDay+'）、每位連續七天不超過兩則（最多 '+r.worst+'）',r.maxDay<=4&&r.worst<=2,r.wid);
   const ps=r.L.filter(i=>i.who==='classmate_peishan').map(i=>CALENDAR.dateOf(i.day).key);
   check('2. AA_506 6-3：沛珊 2/22～9/3 沒有任何動態，9/4 一則（20:00）',J(ps)===J(['2027-09-04'])&&Math.abs(r.log.get('ps1d').h-20)<0.01,J(ps));
-  r=runAll(DK('2027-09-06'),DK('2028-02-20'));
+  { fresh(DK('2027-09-04'),19); who('classmate_peishan','CLOSE'); walk(DK('2027-09-04'),20.5); check('2. AA_723 沒交往的新線：9/4 那一則不發（x:psSilent）',R().done.ps1d==='x:psSilent'&&!R().items.some(i=>i.id==='ps1d'),J(R().done.ps1d)); }
+  r=runAll(DK('2027-09-06'),DK('2028-02-20'),PSL);
   miss=SET.Y3S1.posts.map(p=>p.id).filter(id=>!r.log.has(id));
   check('2. 大三上＋寒假走一遍：41 則都出',!miss.length,J({miss,done:miss.map(id=>R().done[id])}));
   check('2. 大三上＋寒假：一天不超過四則（最多 '+r.maxDay+'）、每位連續七天不超過兩則（最多 '+r.worst+'）',r.maxDay<=4&&r.worst<=2,r.wid);
@@ -186,7 +189,7 @@ sec('2',()=>{ if(!HAS()||!SET.Y2S2||!SET.Y3S1){ check('2. 走一遍',false,'沒�
   /* 一個月最多一則：同一個月多一則就不出（x:month）；拿掉 capMonth 就會出（不是其他上限擋的）*/
   const fake={id:'t_ps_oct',who:'classmate_peishan',t:'2027-10-20 20:00',st:'認識',pic:'測試',say:'測試',cm:null,dm:['a','b']};
   const tryFake=(cap)=>{ FEED_Y3S1.posts.push(fake); const c0=FEED_Y3S1.capMonth; if(!cap) delete FEED_Y3S1.capMonth;
-    try{ fresh(DK('2027-10-01'),12); who('classmate_peishan','CLOSE'); walk(DK('2027-10-21'),12,{step:0.5}); return {ps1e:R().done.ps1e,fake:R().done.t_ps_oct}; }
+    try{ fresh(DK('2027-10-01'),12,PSL); who('classmate_peishan','CLOSE'); walk(DK('2027-10-21'),12,{step:0.5}); return {ps1e:R().done.ps1e,fake:R().done.t_ps_oct}; }
     finally{ FEED_Y3S1.posts.pop(); FEED_Y3S1.capMonth=c0; } };
   const a=tryFake(true), b=tryFake(false);
   check('2. 沛珊同一個月第二則（測試用 10/20）：10/9 那則先出、10/20 那則不出（x:month）；拿掉 capMonth 就出（14 天一則、七天兩則的上限都沒擋）',a.ps1e==='p'&&a.fake==='x:month'&&b.fake==='p',J({a,b}));

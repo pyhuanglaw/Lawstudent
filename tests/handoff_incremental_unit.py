@@ -115,15 +115,15 @@ DUTY = {'roles': {'BB': {'branch': 'bb'}}}
 r = I.scan(d, WM, DV, TASKS, DUTY, remote=False)
 expect('二 分支停在水位線 → 0 個新 commit、沒有異常', r['BB']['new'] == 0 and not r['BB']['problems'], r)
 git(d, 'checkout', '-q', 'bb')
-c3 = commit(d, 'b.md', 'BB_181 口氣審 WIP')
-c4 = commit(d, 'b.md', '修錯字')   # 沒有任何交付關鍵字：舊版關鍵字掃描會放過
+c3 = commit(d, 'src/b.js', 'BB_181 口氣審 WIP')   # D135：會改遊戲的路徑才逐筆分類（原本是 b.md）
+c4 = commit(d, 'src/b.js', '修錯字')   # 沒有任何交付關鍵字：舊版關鍵字掃描會放過
 r = I.scan(d, WM, DV, TASKS, DUTY, remote=False)
 expect('二 水位線之後 2 個 commit 都沒分類 → 兩個都報（不靠關鍵字）', r['BB']['new'] == 2 and len(r['BB']['unclassified']) == 2, r)
 expect('二 只掃水位線以後（不重掃舊的 c1、c2）', r['BB']['scanned'] == 2, r)
 ok, msg = I.advance(d, WM, r, 'BB', 'LAWWW-C', remote=False, dry=True)
 expect('二 還有沒分類的 → 水位線不能前進', not ok, msg)
 DV['ignored'] = [{'sha': c4[:8], 'kind': 'not_delivery', 'reason': '錯字'}]
-OB = {'role': 'BB', 'entries': [{'task': 'AB-65', 'branch': 'bb', 'sha': c3[:8], 'files': ['b.md'], 'state': 'WIP', 'remaining': '後半', 'next': '審完交 AA', 'noDirectIntegrate': True, 'receiver': 'AA', 'ack': 'SENT'}]}
+OB = {'role': 'BB', 'entries': [{'task': 'AB-65', 'branch': 'bb', 'sha': c3[:8], 'files': ['src/b.js'], 'state': 'WIP', 'remaining': '後半', 'next': '審完交 AA', 'noDirectIntegrate': True, 'receiver': 'AA', 'ack': 'SENT'}]}
 r = I.scan(d, WM, DV, TASKS, DUTY, remote=False, outboxes={'BB': OB})
 expect('三 outbox 登記的 WIP＋ignored 的 not_delivery → 全部分類', not r['BB']['unclassified'] and not r['BB']['problems'], r)
 ok, msg = I.advance(d, WM, r, 'BB', 'LAWWW-C', remote=False, dry=True)
@@ -218,6 +218,28 @@ for f in ('docs/handoff/user_asks_AA.json', 'docs/handoff/user_asks_LAWWW2.json'
     expect(f'五 登記檔照路徑分類：{f}', bool(I.REGISTRY.match(f)))
 for f in ('docs/handoff/user_asks_AA.md', 'docs/handoff/tasks.json', 'src/user_asks_AA.json'):
     expect(f'五 不是登記檔：{f}', not I.REGISTRY.match(f))
+
+# ---------- 六、D135（使用者 2026-11-04 12:5x 選擇題「只分類會改遊戲的」）：沒改到遊戲的 commit 不逐筆分類 ----------
+d6 = repo()
+b0 = commit(d6, 'a.md', '基準')
+git(d6, 'branch', 'cc')
+git(d6, 'checkout', '-q', 'cc')
+g1 = commit(d6, 'docs/story_planning/CC/CC_01.md', 'CC 測試紀錄')   # 只改文件
+g2 = commit(d6, 'tools/dev_scratch/probe.py', 'CC 探針')             # 只改工具
+g3 = commit(d6, 'src/zones3d.js', 'CC 改了遊戲程式')                 # 改到遊戲
+g4 = commit(d6, 'assets/models/env/x.glb', '模型')                   # 改到遊戲素材
+g5 = commit(d6, 'index.html', '版本字樣')                            # 改到遊戲入口
+g6 = commit(d6, 'tests/x_unit.js', '測試')                           # 遊戲的測試也算
+TK6 = {'tasks': [{'id': 'X-1', 'status': '進行中'}]}
+DV6 = {'deliveries': [], 'ignored': []}
+WM6 = {'version': 1, 'roles': {'CC': {'branch': 'cc', 'sha': b0, 'at': '2026-11-04T12:00Z', 'by': 'LAWWW-C', 'open': []}}}
+r6 = I.scan(d6, WM6, DV6, TK6, {'roles': {'CC': {'branch': 'cc'}}}, remote=False, roles=['CC'])
+un6 = {u[0] for u in r6['CC']['unclassified']}
+expect('六 只改文件、工具的 commit 自動算分類（docsOnly 2）', r6['CC'].get('docsOnly') == 2 and g1[:8] not in un6 and g2[:8] not in un6, r6)
+expect('六 改到 src／assets／index.html／tests 的 commit 照舊要逐筆分類（4 個）', un6 == {g3[:8], g4[:8], g5[:8], g6[:8]}, r6)
+for f, want in (('src/a.js', True), ('assets/x.glb', True), ('tests/t.js', True), ('lib/three.module.js', True), ('index.html', True),
+                ('docs/x.md', False), ('tools/x.py', False), ('docs/handoff/tasks.json', False), ('build.py', False), ('src_old/a.js', False)):
+    expect(f'六 touches_game({f}) == {want}', I.touches_game([f]) == want)
 
 print(f'\n{"全部通過" if not fails else f"{fails} 項失敗"}')
 sys.exit(1 if fails else 0)

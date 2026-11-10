@@ -101,7 +101,7 @@ def ndl542(s):
     if _NDL is None:
         import json as _json, os as _os
         _NDL = []
-        for fn in ('ndl542_fix.json', 'nocmp_fix.json', 'd118_fix.json', 'aa595_fix.json', 'aa602_fix.json', 'aa600_fix.json', 'aa612_fix.json', 'aa630_fix.json', 'aa647_fix.json', 'aa655_fix.json', 'aa658_fix.json'):   # aa600_fix.json：AA_600 分手後不主動聯絡＋AA_591 整合九件（企劃線 031414cad、43d27cd80）；aa602_fix.json：AA_602 以安動態與零星台詞（企劃線 e648d5b31）；aa595_fix.json：「臺北的家」→「家」（AA_595 第 4 節，使用者 11-02 選「回家」）；nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法；d118_fix.json：D118 沒有期中考（AA_578 b13db535f）
+        for fn in ('ndl542_fix.json', 'nocmp_fix.json', 'd118_fix.json', 'aa595_fix.json', 'aa602_fix.json', 'aa600_fix.json', 'aa612_fix.json', 'aa630_fix.json', 'aa647_fix.json', 'aa655_fix.json', 'aa657_fix.json', 'aa658_fix.json', 'aa663_fix.json', 'aa661_fix.json', 'aa664_fix.json', 'aa665_fix.json', 'aa666_fix.json', 'aa668_fix.json', 'aa670_fix.json', 'aa671_fix.json', 'aa672_fix.json', 'aa673_fix.json', 'aa674_fix.json', 'aa676_fix.json', 'aa677_fix.json', 'aa678_fix.json', 'aa681_fix.json', 'aa682_fix.json', 'aa683_fix.json', 'aa685_fix.json'):   # aa600_fix.json：AA_600 分手後不主動聯絡＋AA_591 整合九件（企劃線 031414cad、43d27cd80）；aa602_fix.json：AA_602 以安動態與零星台詞（企劃線 e648d5b31）；aa595_fix.json：「臺北的家」→「家」（AA_595 第 4 節，使用者 11-02 選「回家」）；nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法；d118_fix.json：D118 沒有期中考（AA_578 b13db535f）
             try:
                 with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), fn), encoding='utf-8') as f:
                     _NDL += _json.load(f)['pairs']
@@ -162,6 +162,23 @@ def alison(s):
         nxt = s[b] if b < len(s) else ''
         return (' ' if pre and _CJK.match(pre) else '') + 'Alison' + (' ' if nxt and _CJK.match(nxt) else '')
     return _re.sub('小語', rep, s)
+
+
+def unq(t):
+    """有名字說的台詞拿掉外面整句的一對「」（AA-B 2026-11-08 00:21／01:09，TEXT-QUOTE-UNIFY-1108）：對話框已經寫了是誰說的，不再加「」。
+    「A」「B」這種好幾段的、沒有整句包起來的、旁白（…）不動；稿上照舊有「」，匯入工具寫進遊戲檔的時候才拿掉（tools/invite/build_replies.py、
+    tools/story/import_place_acc.py、import_sport_invites.py；遊戲裡同一把尺：src/invites3d.js 的 S.unq）"""
+    if not isinstance(t, str) or len(t) < 2 or t[0] != '「' or t[-1] != '」':
+        return t
+    d = 0
+    for i, c in enumerate(t):
+        if c == '「':
+            d += 1
+        elif c == '」':
+            d -= 1
+            if d == 0 and i != len(t) - 1:
+                return t
+    return t[1:-1] if d == 0 else t
 
 
 if __name__ == '__main__':   # 測試讀稿用（tests/alison.js）：python3 tools/story/import_guard.py read_fix < 稿 > 換好的稿

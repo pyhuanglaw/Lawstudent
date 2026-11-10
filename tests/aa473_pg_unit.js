@@ -49,7 +49,7 @@ await tsec(2,async()=>{ const S2=sec(2), L1='二試過了。一月面試。', L2
   check('2. 稿：12/14「以安：'+L1+'」、1/25「以安：'+L2+'」（麵店團、不用回）',S2.includes('> 以安：'+L1)&&S2.includes('> 以安：'+L2)&&/前任改成麵店團群組\*\*（21:00，不用回）/.test(S2));
   const noodle=G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.from==='heroine_01').map(m=>m.text);
   /* AA_589 第 7-5 節 S6（第 95、96 列）：群組也不由她宣布——阿哲先貼「以安二試過了」「以安上了 司法官」（不加句號），她回「一月面試。」「謝謝。」；不是前任的那一步不再是她打來的電話（祐廷自己查到、她回訊息）*/
-  const Z1='以安二試過了', Z2='以安上了 司法官', H1='一月面試。', H2='謝謝。', zhe=G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&/^pg_an_/.test(m.tag||'')).map(m=>m.text);
+  const Z1='以安二試過了', Z2='以安上了 司法官', H1='一月口試。', H2='謝謝。', zhe=   /* H1：AA_685 A6-1（企劃線 c96613e51）「一月面試。」→「一月口試。」（同 AA_674 第 1 列）；稿（上面 L1）照舊是 AA_473 的舊句 */G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&/^pg_an_/.test(m.tag||'')).map(m=>m.text);
   for(const route of [null,'JP']){ const tag=route?'日本路線（交換延畢）':'臺灣路線';
     const G=H.fresh('2029-12-14',20.6,'dorm',route?{EXCHANGE_ROUTE:route}:{}); graduated(G); PHONE.join(G,'noodle_team','麵店團'); ex('heroine_01');
     PG.rules(GM); H.at('2029-12-14',21); const s1=PG.due(G); H.said=[]; if(s1) await PG.runStep(GM,s1); H.tick();   /* 照實際流程：時間到了有場景就演 */
@@ -61,8 +61,8 @@ await tsec(2,async()=>{ const S2=sec(2), L1='二試過了。一月面試。', L2
   /* 不是前任（FRIEND）：照舊打電話、麵店團沒有那兩則 */
   { const G=H.fresh('2029-12-14',20.6,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('heroine_01'); PG.rules(GM); H.at('2029-12-14',21); const c=PG.due(G);
     check('2. 不是前任（FRIEND）：21:00 照舊有那一步（an1；S6 起是祐廷自己查到、她回訊息）',!!c&&c.id==='an1'); H.said=[]; await PG.runStep(GM,c); H.tick();
-    check('2. S6：她回「謝謝。一月面試。」、不是交往中不提美國（「'+US+'」不在）；麵店團沒有那一則',H.has('謝謝。一月面試。')&&!H.has(US)&&!H.has(L1)&&!noodle(G).length,J(noodle(G))); }
-  /* 交往中：照舊打電話（「……我只跟你講了。」）*/
+    check('2. S6：她回「謝謝。一月口試。」、不是交往中不提美國（「'+US+'」不在）；麵店團沒有那一則',H.has('謝謝。一月口試。')&&!H.has(US)&&!H.has(L1)&&!noodle(G).length,J(noodle(G))); }
+  /* 交往中：照舊打電話（「……紐約那間。」，AA_674 第 2 列）*/
   { const G=H.fresh('2029-12-14',21,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('heroine_01'); H.date('heroine_01'); const c=PG.due(G);
     check('2. 交往中：照舊打電話',!!c&&c.id==='an1'); }
   /* 前任但不到 FRIEND：照原本（12/14 沒有、1/25 麵店團一則）*/

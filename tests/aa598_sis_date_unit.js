@@ -8,6 +8,7 @@
 // 修改前（int/m590 d7a468868）：第 0～4 項 FAIL（D15 那一項除外）。用法：node tests/aa598_sis_date_unit.js（在沒有 .git 的目錄跑：設環境變數 AA598_DOCREPO＝有企劃線 commit 的 repo）
 'use strict';
 const fs=require('fs'), path=require('path'), cp=require('child_process');
+const E694=require('./ellipsis694.js');   /* AA_694（DATE-ELLIPSIS-1105）：約會台詞拿掉句首、。！？後、）後的「……」——表上的句子照同一條規則換了再和 date_lines.js 比 */
 const ROOT=path.resolve(__dirname,'..');
 const src=fs.readFileSync(path.join(ROOT,'src/data/date_lines.js'),'utf8'), t=src.split('\n')[2], DL=JSON.parse(t.slice(t.indexOf('=')+1,t.lastIndexOf(';')));
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info&&!ok?'　'+info:'')); if(!ok) fails++; };
@@ -125,11 +126,11 @@ check('0. 讀得到稿（企劃線 '+SHA+'）',DOC.includes('## 8. AA 審查決�
 
 /* 1 */
 check('1. 表上 92 列＋九份一句（列號 1～92 各一次）',ROWS.length===93&&J(ROWS.filter(r=>typeof r[0]==='number').map(r=>r[0]).sort((a,b)=>a-b))===J(Array.from({length:92},(_,i)=>i+1)));
-const badPos=ROWS.filter(([n,loc,p,o,nw])=>at(loc,p)!==nw);
+const badPos=ROWS.filter(([n,loc,p,o,nw])=>at(loc,p)!==E694.strip(nw));
 check('1. 每一列：同一個地點、同一個位置現在是新句（'+(ROWS.length-badPos.length)+'／'+ROWS.length+'）',!badPos.length,J(badPos.map(r=>[r[0],r[1],r[2],at(r[1],r[2])])));
-const oldLeft=ROWS.filter(([n,loc,p,o])=>allHers(loc).includes(o));
+const oldLeft=ROWS.filter(([n,loc,p,o,nw])=>allHers(loc).includes(o)||(E694.strip(o)!==E694.strip(nw)&&allHers(loc).includes(E694.strip(o))));
 check('1. 原句在那個地點學姊的台詞裡一句都不剩',!oldLeft.length,J(oldLeft.map(r=>[r[0],r[1],r[3]])));
-const oldAnywhere=ROWS.filter(([n,loc,p,o])=>src.includes(J(o)));
+const oldAnywhere=ROWS.filter(([n,loc,p,o,nw])=>src.includes(J(o))||(E694.strip(o)!==E694.strip(nw)&&src.includes(J(E694.strip(o)))));
 check('1. 原句在 date_lines.js 整個檔都不在（稿第 4 節：92 句原本都只出現一次）',!oldAnywhere.length,J(oldAnywhere.map(r=>[r[0],r[3]])));
 
 /* 2 */
@@ -152,12 +153,12 @@ check('3. 學姊的約會地點台詞不說「研究室」（決1 採甲：法�
 const lib=ROWS.filter(r=>r[2].startsWith('lines/hotspots/D11.library/'));
 check('3. D11 北投圖書館九句（第 16～24 列）都是小聲講、沒有「……」',lib.length===9&&lib.every(r=>/（小聲）|她小聲說）/.test(r[4])&&!r[4].includes('……')),J(lib.map(r=>r[4])));
 const D15=at('D15','lines/hotspots/D15.sky/normal/0/lines/0');
-check('3. D15 停車場邊的草地平常第 1 套是 AA_436 的新句（稿 7-6；企劃線 D15.py:23 還是舊句，D15.json 和遊戲是新句）',D15==='上次那顆是飛機。……今天雲比較多，連飛機都沒有。',D15);
+check('3. D15 停車場邊的草地平常第 1 套是 AA_436 的新句（稿 7-6；企劃線 D15.py:23 還是舊句，D15.json 和遊戲是新句）',D15===E694.strip('上次那顆是飛機。……今天雲比較多，連飛機都沒有。'),D15);
 
 /* 4 AA_591「整合時的 AA 決定」第 9 點（企劃線 43d27cd80，D12.py、D12.json 已改；白名單 D12.json 換到 43d27cd80 重匯）：她爸爸在遊戲開始前過世、不提 */
 const TEA_OLD='這種茶我爸以前每天喝。我那時候覺得好苦。', TEA_NEW='這種茶我奶奶每天喝。我小時候覺得好苦。';   /* AA_609 第 6 點（使用者 11-03 爸爸改奶奶）：白名單 D12.json 前進到 2b4969352 */
 const d12=allow.files.filter(e=>e.path==='docs/story_planning/date_system/lines/D12.json');
-check('4. 白名單 D12.json＝2b4969352（AA_609；approved；舊的 a5b936a69、43d27cd80 留在 history）',d12.length===1&&d12[0].sha==='2b4969352'&&d12[0].status==='approved'&&(d12[0].history||[]).some(h=>h.sha==='a5b936a69')&&(d12[0].history||[]).some(h=>h.sha==='43d27cd80')&&String(DL.source).includes('D12.json@2b4969352'),J(d12.map(e=>e.sha)));
+check('4. 白名單 D12.json＝1b095a239（AA_694 拿掉「……」；approved；舊的 2b4969352（AA_609）、a5b936a69、43d27cd80 留在 history）',d12.length===1&&d12[0].sha==='1b095a239'&&d12[0].status==='approved'&&['2b4969352','a5b936a69','43d27cd80'].every(x=>(d12[0].history||[]).some(h=>h.sha===x))&&String(DL.source).includes('D12.json@1b095a239'),J(d12.map(e=>e.sha)));
 check('4. D12 老茶行第一次：學姊說「'+TEA_NEW+'」（同一個位置），「我爸」那句整個檔都不在',at('D12','lines/hotspots/D12.tea/first/lines/1')===TEA_NEW&&!src.includes(TEA_OLD),at('D12','lines/hotspots/D12.tea/first/lines/1'));
 const dad=[]; for(const loc of Object.keys(DL.loc)) for(const s of allHers(loc)) if(/我爸|爸爸/.test(s)) dad.push(loc+' '+s);
 check('4. 學姊的約會地點台詞不提爸爸',!dad.length,J(dad));

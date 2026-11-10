@@ -20,7 +20,7 @@ check('A3 法律系換日標題寫日期：第 1 天＝9 月 17 日、9/4＝9 �
 { const e=ev('ev_midnight_snack'); check('A5 考前宵夜：第 7～8 週，沒有 day_min',e&&!e.day_min&&JSON.stringify(e.weeks)==='[7,8]'); }
 check('A6 campusMorning：主線第 2 天 12:30 以後才演',/S\.mainDay\(G\)===2&&!F\.classDone&&!F\.campusIntro&&h\(G\)>=12\.5/.test(st));
 check('A7 Alison 溫州街的作息要 afternoonDone',/hr>=19&&hr<21\.5&&F\.afternoonDone\)\{ GM\.spawnNPC\('yu'/.test(st));
-check('A8 一般同學隨機句「周老師點過的那個」只在 afternoonDone 以後',/if\(F0\.afternoonDone\) L\.push\('「欸，你是周老師點過的那個。」'\)/.test(st)&&!/'「欸，你是周老師點過的那個。」'\]\[\(Math\.random\(\)\*3\)\|0\]/.test(st));
+check('A8 一般同學隨機句「周老師點過的那個」只在 afternoonDone 以後',/if\(F0\.afternoonDone\) L\.push\('欸，你是周老師點過的那個。'\)/.test(st)&&!/'「?欸，你是周老師點過的那個。」?'\]\[\(Math\.random\(\)\*3\)\|0\]/.test(st));   /* 有名字說的不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）；否定的那一半有沒有「」都算 */
 { const e=ev('ev_xinci_notes'); check('A9 芯慈借筆記：第 7 週起',e&&e.minWeek&&e.minWeek.term==='Y1S1'&&e.minWeek.week===7); }
 check('A10 新局的錢 7,000（帳戶約 5,000＋錢包約 2,000）、allowanceMonth＝8（9/1 照常匯）；經濟系轉過來的不動',/F\.allowanceMonth=S\.dateOf\(d\)\.m; F\.LAW_RECAP_SEEN=true; if\(!o\.econ\) G\.money=7000;/.test(st)&&STORY.dateOf(D('2025-08-29')).m===8);
 { const civ=COURSES.list?COURSES.list.find(c=>c.id==='civ_general'):null; const all=(COURSES.list||COURSES.courses||[]); const c1=all.find(c=>c.id==='civ_general'), e1=all.find(c=>c.id==='econ_principles_1');

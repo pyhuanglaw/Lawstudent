@@ -24,6 +24,8 @@ for p in BATCHES:
     for s in d['spots']:
         spots[s['id']] = dict(s, batch=d.get('batch', 2))
     used.append(f'{os.path.basename(p)}@{APPROVED[p]}')
+# AA_686 第 5 項（企劃線 1df3c189e，AA-C 定稿 D109）：D14「海風與燈」（D14.lights，night:true、一個人的旁白兩句）源稿 spots_v3.json 補了，白名單換 1df3c189e，
+# 原本照 AA_685 C 節第 1 點在這裡補的那一項（EXTRA，nightOf、沒有句子）拿掉。night＝取代同一個景點 sunset 那一項（src/freetrip3d.js S.nightOn）。
 out = {'rules': cur['rules'], 'source': '第一批＝DL-06 照抄（free_trips.js 原有）＋白名單 ' + '＋'.join(used), 'spots': list(spots.values())}
 if not head.strip().endswith('*/'):
     head = head.rstrip() + '\n'

@@ -5,6 +5,7 @@
 //   4  升一階以後第一次見到阿哲：「你最近有在練喔？下次系籃缺人找你。」每一階一次
 //   6  AA_417：子晴、可昕升階一句＋戀愛 +4（可昕在出遊開頭）；其他人注意到（一般／經常鍛鍊）
 //   5  辦過卡、8 週沒運動：起床後一句「你很久沒去健身房了。卡還在錢包裡。」一學期一次；沒辦卡不說
+//   7  GYM-FIT-1107：STORY.tick 這一輪不往下（劇情在演、自由出行途中 TRIP……）也先套走路、騎車加成（原本只在 STORY.TICKS 裡的 S.tick 才設——修改前 FAIL）
 // 修改前（開發分支 0c22e9423）：沒有 src/fit3d.js——FAIL。用法：node tests/fit_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -56,13 +57,18 @@ await sec(6,async()=>{ H.fresh('2026-03-02',10,'campus'); H.FRIEND('heroine_04')
   gym().fit=80; const r1=SOCIAL.rel('heroine_04').npcRom||0; await X().preTalk(GM,{name:'子晴',charId:'heroine_04'},'heroine_04');
   check('6. 跳到經常鍛鍊：三拍（含旁白「（她把筆電闔上。）」）、戀愛 +8（跳兩階）',H.has('你練了一年。我的遊戲也做了一年。')&&H.said.some(x=>x.who===null&&x.t==='（她把筆電闔上。）')&&H.has('……我們都還在做。')&&(SOCIAL.rel('heroine_04').npcRom||0)-r1===8);
   H.fresh('2026-03-02',10,'campus'); gym().fit=55; gym().card=H.G.day-30;   /* 有會員證（GYM-NOTICE-1027 起沒有會員證的玩家，以安說「你最近走路變快了。」，tests/gym_notice_1027_unit.js 測）*/
-  await X().preTalk(GM,{name:'以安',charId:'heroine_01'},'heroine_01'); check('6. 以安（結實、有會員證）：一般那一句',H.has('你最近下課都往新體育館走。……我只是看到了。'));
+  await X().preTalk(GM,{name:'以安',charId:'heroine_01'},'heroine_01'); check('6. 以安（結實、有會員證）：一般那一句',H.has('你最近下課都往新體育館走。我去讀書會也走那條路。'));
   gym().fit=90; await X().preTalk(GM,{name:'以安',charId:'heroine_01'},'heroine_01'); check('6. 以安（經常鍛鍊）：右邊兩句',H.has('你搬讀書會的資料，一次搬兩箱。')&&H.has('……以前你要搬兩趟。'));
   H.fresh('2026-03-02',10,'campus'); gym().fit=30; await X().preTalk(GM,{name:'語彤',charId:'heroine_03'},'heroine_03'); check('6. 語彤：「蘇姨說你最近搬桌子，都一次搬兩張。」',H.has('蘇姨說你最近搬桌子，都一次搬兩張。'));
   H.fresh('2026-03-02',10,'campus'); gym().fit=30; H.FRIEND('kexin'); const k0=SOCIAL.rel('kexin').npcRom||0; await X().outingPre(GM,{},{participants:['kexin']});
   check('6. 可昕在出遊開頭（OUT.BEFORE）：「你爬上來沒有喘。……你每天都去？」、戀愛 +4',H.has('你爬上來沒有喘。……你每天都去？')&&(SOCIAL.rel('kexin').npcRom||0)-k0===4&&OUT.BEFORE.includes(X().outingPre));
   const m=H.said.length; await X().outingPre(GM,{},{participants:['kexin'],kxAway:true}); check('6. 可昕不在場的出遊不說',H.said.length===m);
   const all=J(X().UP)+J(X().NOTICE); check('6. 沒有「欸不是」「這不是問句」「假設」「重點是」',!/欸不是|這不是問句|假設|重點是/.test(all)); });
+
+await sec(7,()=>{ H.fresh('2026-03-02',10,'campus'); gym().fit=80; E.fitWalk=undefined; E.fitBike=undefined; E.player.busy=true; try{ STORY.tick(GM,1); } finally { E.player.busy=false; }
+  check('7. 劇情在演（E.player.busy，S.tick 一開始就 return）：STORY.tick 照樣先套經常鍛鍊的 1.12／1.15',E.fitWalk===1.12&&E.fitBike===1.15&&!!STORY.tick._fit,J([E.fitWalk,E.fitBike]));
+  H.fresh('2026-03-02',10,'campus'); gym().fit=30; E.fitWalk=undefined; E.fitBike=undefined; const T0=global.TRIP; global.TRIP={at:()=>true,tick(){}}; try{ STORY.tick(GM,1); } finally { if(T0===undefined) delete global.TRIP; else global.TRIP=T0; }
+  check('7. 自由出行途中（TRIP.at，TRIP.tick 以後 return、走不到 STORY.TICKS）：照樣套有在運動的 1.04／1.05',E.fitWalk===1.04&&E.fitBike===1.05,J([E.fitWalk,E.fitBike])); });
 
 H.done();
 })();

@@ -1,0 +1,90 @@
+[
+ {
+  "file": "admin_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40476",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2032",
+  "caption": "正面遠景：紅磚二層樓、白色列柱門廊、灰色瓦的四坡屋頂；前面大榕樹、杜鵑",
+  "size": "640×480",
+  "src_id": "map q=40476"
+ },
+ {
+  "file": "admin_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40475",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2032",
+  "caption": "同一個角度：大榕樹、騎腳踏車的人、正面門廊",
+  "size": "640×480",
+  "src_id": "map q=40475"
+ },
+ {
+  "file": "admin_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40474",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2032",
+  "caption": "走廊：紅磚方柱＋花崗石柱腳、拱、走廊旁的草地與窗型冷氣",
+  "size": "640×480",
+  "src_id": "map q=40474"
+ },
+ {
+  "file": "admin_web_04.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40473",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2032",
+  "caption": "紅磚牆近景：二樓白框木窗、一樓半圓拱窗（綠色窗框）",
+  "size": "640×480",
+  "src_id": "map q=40473"
+ },
+ {
+  "file": "admin_web_05.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40472",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2032",
+  "caption": "門廊仰視：科林斯式凹槽圓柱與柱頭、門廊上方的木窗、山花線腳",
+  "size": "640×480",
+  "src_id": "map q=40472"
+ },
+ {
+  "file": "admin_web_06.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40471",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2032",
+  "caption": "夜景：門廊列柱打燈、紅磚、四坡屋頂",
+  "size": "640×480",
+  "src_id": "map q=40471"
+ },
+ {
+  "file": "admin_web_07.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40470",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2032",
+  "caption": "正面（直幅，從大榕樹的氣根下拍）",
+  "size": "480×640",
+  "src_id": "map q=40470"
+ },
+ {
+  "file": "admin_web_08.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40469",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2032",
+  "caption": "正面（直幅）：門廊、杜鵑、紅磚鋪面的車道",
+  "size": "480×640",
+  "src_id": "map q=40469"
+ },
+ {
+  "file": "admin_web_09.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40468",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2032",
+  "caption": "正面遠景：門前的弧形車道（紅磚鋪面）、兩側大樹",
+  "size": "640×480",
+  "src_id": "map q=40468"
+ },
+ {
+  "file": "admin_web_10.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40467",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2032",
+  "caption": "正面近景：兩對科林斯柱、二樓窗、一樓拱窗、門前台階",
+  "size": "640×480",
+  "src_id": "map q=40467"
+ },
+ {
+  "file": "admin_web_11.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42583",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=21",
+  "caption": "正面全景（高解析 4624×2604）：紅磚兩層、灰瓦、門廊、紅磚鋪面的前庭",
+  "size": "4624×2604",
+  "src_id": "map q=42583"
+ }
+]

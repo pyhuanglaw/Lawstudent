@@ -60,7 +60,7 @@ const CALENDAR=(function(){
     for(const [k,n] of Object.entries(SCHOOL)) if(k.startsWith(String(y))) H[k]=H[k]||n;
     for(const [k,n] of Object.entries(TYPHOON)) if(k.startsWith(String(y))) H[k]=H[k]||n;
     return cache[y]=H; }
-  const C={ TERMS, TERMS_DELAYED, SCHOOL,
+  const C={ TERMS, TERMS_DELAYED, SCHOOL, LUNAR,
     /* 延畢的玩家這一天在不在大五上：{id:'Y5S1', week（1～16）, exam:null（大五上沒有期末考，AA_357 第 4 節）, delayed:true}；不在＝null。要不要用由呼叫的人判斷（STORY.routeAbroadRoute）*/
     termOfDelayed(day){ const t=C.tOf(day); for(const T of TERMS_DELAYED){ if(t>=T.t0&&t<T.t1) return {id:T.id,week:Math.floor((t-T.t0)/(7*DAY))+1,exam:null,delayed:true}; } return null; },
     tOf(day){ return DAY1+((day|0)-1)*DAY; },

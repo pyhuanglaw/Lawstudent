@@ -80,8 +80,8 @@ const D2=STORY._day2||{};
     check('3. 舊存檔已經演了很多次（7 次）：不會再演、不會壞',!chk('ev_xinci_notes',w8,12,'library',7)&&!chk('ev_bohan_kaogu',w8,12,'library',12)&&!chk('ev_mingxuan_ball',m5,16,'campus',9));
     const once=['ev_xinci_notes','ev_bohan_kaogu','ev_mingxuan_ball'].every(id=>{ const e=ev(id); return e.once===true&&J(e.term)===J(['Y1S1']); });
     check('3. 三個事件都是 once、term Y1S1',once);
-    check('3／第 6 節第 2 題. 柏翰升到「有點熟」：「我現在每天記讀書時數。……昨天四小時二十分。」「我想調一下我的時間表。」（後半加回來；不再問「你一週大概念幾小時？」）',J(REL_LINES.classmate_bohan.up.FAMILIAR.l)===J(['「我現在每天記讀書時數。……昨天四小時二十分。」','「我想調一下我的時間表。」']),J(REL_LINES.classmate_bohan.up.FAMILIAR.l));
-    check('3. 芯慈升到「有點熟」那一句改成「我的筆記用了四種顏色。……你要的話，我可以借你。」（不再借他的筆記）',J(REL_LINES.classmate_xinci.up.FAMILIAR.l)===J(['「我的筆記用了四種顏色。……你要的話，我可以借你。」']),J(REL_LINES.classmate_xinci.up.FAMILIAR.l)); }
+    check('3／第 6 節第 2 題. 柏翰升到「有點熟」：「我現在每天記讀書時數。……昨天四小時二十分。」「我想調一下我的時間表。」（後半加回來；不再問「你一週大概念幾小時？」）',J(REL_LINES.classmate_bohan.up.FAMILIAR.l)===J(['我現在每天記讀書時數。……昨天四小時二十分。','我想調一下我的時間表。']),J(REL_LINES.classmate_bohan.up.FAMILIAR.l));
+    check('3. 芯慈升到「有點熟」那一句改成「我的筆記用了四種顏色。……你要的話，我可以借你。」（不再借他的筆記）',J(REL_LINES.classmate_xinci.up.FAMILIAR.l)===J(['我的筆記用了四種顏色。……你要的話，我可以借你。']),J(REL_LINES.classmate_xinci.up.FAMILIAR.l)); }
   // ===== 第 4、5 項：以安自我介紹以前 =====
   { const prof={id:'prof',name:'周教授',obj:{position:{x:0,y:0,z:-4}}}, zhe={id:'zhe',name:'阿哲',obj:{position:{x:1,y:0,z:0}}};
     if(typeof D2.classScene==='function'){
@@ -139,7 +139,7 @@ const D2=STORY._day2||{};
     check('18. 以安 A-L9：「你報告哪一週最多？期中週我有三份要交。」（AA_580 第 6 列，取消期中考 AA_578；原本「你期中哪一週最多？期中考那週我有三科。」）',!!L9&&J(L9.lines)===J(['你報告哪一週最多？期中週我有三份要交。']),J(L9&&L9.lines));
     const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_372_/.test(e.path));
     const lad=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path==='docs/story_planning/ladder/ladder_aa.json');
-    check('13/18／第 6 節. 那兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（白名單 approved；2026-11-02 AA_580 換成 759e5c000、7fca0df5 在 history；ladder.js 的來源寫 759e5c000、不再寫 AA_372@ 疊句）；AA_372 本身的白名單換到 7fca0df5（第 6 節），之後第 7 節週末回台中（da55ec2b→965815f5，7fca0df5 在 history）',lad.length===1&&lad[0].sha==='759e5c000'&&(lad[0].history||[]).some(h=>h.sha==='7fca0df5')&&lad[0].status==='approved'&&allow.length===1&&allow[0].sha==='965815f5'&&allow[0].status==='approved'&&(allow[0].history||[]).some(h=>h.sha==='7fca0df5'&&h.task==='AA372-Y1S1-FIX-1021')&&/759e5c000（8 檔）/.test(LADDER.source)&&!/AA_372@/.test(LADDER.source),J([lad.map(e=>e.sha),allow.map(e=>e.sha)])+' '+LADDER.source.slice(-60)); }
+    check('13/18／第 6 節. 那兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（白名單 approved；2026-11-02 AA_580 換成 759e5c000、7fca0df5 在 history；ladder.js 的來源寫 759e5c000、不再寫 AA_372@ 疊句；LADDER-IMPORT-AA657-1104：ladder_aa_y3s1 換到 AA_657 的 65a1b2fe9 以後 759e5c000 剩 7 檔）；AA_372 本身的白名單換到 7fca0df5（第 6 節），之後第 7 節週末回台中（da55ec2b→965815f5，7fca0df5 在 history）',lad.length===1&&lad[0].sha==='759e5c000'&&(lad[0].history||[]).some(h=>h.sha==='7fca0df5')&&lad[0].status==='approved'&&allow.length===1&&allow[0].sha==='965815f5'&&allow[0].status==='approved'&&(allow[0].history||[]).some(h=>h.sha==='7fca0df5'&&h.task==='AA372-Y1S1-FIX-1021')&&/759e5c000（7 檔）/.test(LADDER.source)&&/65a1b2fe9（1 檔）/.test(LADDER.source)&&!/AA_372@/.test(LADDER.source),J([lad.map(e=>e.sha),allow.map(e=>e.sha)])+' '+LADDER.source.slice(-60)); }
   // ===== 第 8 項：以安、沛珊說回台中的週末 =====
   { const pr=(id,k)=>STORY.presence(id,Object.assign({},G,{day:D(k)}));
     fresh(D('2025-09-26'),18,'campus',{introDone:true,classDone:true,afternoonDone:true}); R('heroine_01','FAM'); R('classmate_peishan','FAM');

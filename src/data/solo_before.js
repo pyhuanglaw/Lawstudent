@@ -1,7 +1,7 @@
 /* 「你來過一次」（AA_160 4-4、AA_271、BB_213）：tools/freetrip/import_solo_before.py 產生，不要手改。src/date3d.js 的 S.soloBefore 讀 */
 'use strict';
 const SOLO_BEFORE={
- "source": "白名單 solo_before_aa_v1.json@01e9d706c＋solo_before_bb_v1.json@be14d2d58",
+ "source": "白名單 solo_before_aa_v1.json@01e9d706c＋solo_before_bb_v1.json@9aa8ec40c",
  "rules": {
   "if": "G.places.free[地點] ≥ 1（自由出行的次數；約會、心願不算）",
   "when": "約會抵達的台詞說完以後",
@@ -838,7 +838,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "heroine_05",
-     "text": "重點是，今天我們兩個都不讀。"
+     "text": "今天我們兩個都不讀。"
     }
    ],
    "D12": [
@@ -848,7 +848,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "heroine_05",
-     "text": "重點是，你沒有被人潮推著走。我小時候一直被推。"
+     "text": "你沒有被人潮推著走。我小時候一直被推。"
     }
    ],
    "D13": [
@@ -888,7 +888,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "heroine_05",
-     "text": "……重點是，你有放自己一天假。很好。"
+     "text": "……你有放自己一天假。很好。"
     }
    ],
    "D24": [
@@ -898,7 +898,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "heroine_05",
-     "text": "重點是，你知道累了要去哪裡。我現在才知道。"
+     "text": "你知道累了要去哪裡。我現在才知道。"
     }
    ],
    "D25": [
@@ -974,7 +974,7 @@ const SOLO_BEFORE={
    "D19": [
     {
      "who": "heroine_05",
-     "text": "你一個人來過金瓜石？重點是，你走完那段上坡了。"
+     "text": "你一個人來過金瓜石？那段上坡你走完了。"
     }
    ],
    "D21": [
@@ -1224,11 +1224,11 @@ const SOLO_BEFORE={
    "D06": [
     {
      "who": "kexin",
-     "text": "你一個人看過展？假設你看了那個講規則的展——"
+     "text": "你一個人看過展？那個講規則的展？"
     },
     {
      "who": "kexin",
-     "text": "……不准劇透。這是告知。"
+     "text": "……不准跟我講內容。我自己看。"
     }
    ],
    "D12": [
@@ -1244,11 +1244,11 @@ const SOLO_BEFORE={
    "D13": [
     {
      "who": "kexin",
-     "text": "你一個人來過淡水？假設你上次許了一個願——"
+     "text": "你一個人來過淡水？……你上次是不是有許願。"
     },
     {
      "who": "kexin",
-     "text": "……不用說。我猜得到一半。"
+     "text": "不用講。我猜得到一半。"
     }
    ],
    "D09": [
@@ -1268,7 +1268,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "kexin",
-     "text": "……我們學校的階梯比較多。我不是在比。我是在比。"
+     "text": "……我們學校的階梯，爬到上面腿會抖。我每天爬兩趟。"
     }
    ],
    "D20": [
@@ -1284,11 +1284,11 @@ const SOLO_BEFORE={
    "D24": [
     {
      "who": "kexin",
-     "text": "你一個人來泡過腳？假設你上次先泡、後吃——"
+     "text": "你一個人來泡過腳？先泡還是先吃？"
     },
     {
      "who": "kexin",
-     "text": "……你看，我就知道。今天照我的順序。"
+     "text": "……我就知道。今天照我的順序。"
     }
    ],
    "D01": [
@@ -1366,7 +1366,7 @@ const SOLO_BEFORE={
    "D26": [
     {
      "who": "kexin",
-     "text": "你一個人去過台中？假設你先跟我說，我可以給你一張清單。"
+     "text": "你一個人去過台中？早講啊，我可以給你一張清單。"
     }
    ],
    "D27": [

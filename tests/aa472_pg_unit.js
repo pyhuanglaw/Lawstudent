@@ -6,6 +6,7 @@
 //   5 學姊交往中、2030 第二次考的考場那一句換成「同一家便利商店。……我坐去年那個位子。」（2029 照舊；去年她沒在便利商店等的照原句）
 //   6 沛珊 2030-06「說好的，運河一圈。……」（AA_367 白名單改 1ebcf530、重新匯入 pg_dates.js）
 // 每一節都逐字對稿（git 讀企劃線 1ebcf530e 的 AA_472、AA_367）。修改前（243db0938）的結果見檔尾。用法：node tests/aa472_pg_unit.js
+// 2026-11-04 AA_688 第 2 節（企劃線 8dce2f94c，CANON-PURGE-SRC-1104）：AA_367 第 3 節語彤整段換，白名單改成 8dce2f94c（history 留 1ebcf530）——第 6 節「匯入來源」照新的一版查（沛珊那一格不變）
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -32,7 +33,8 @@ check('0. 讀得到企劃線 1ebcf530e 的 AA_472、AA_367',DOC.length>1000&&DOC
 await tsec(1,async()=>{ const NEW='明年。……讀書計畫你先排，我幫你看。';
   check('1. 稿：「學姊：'+NEW+'」；字卡「你自己排」不動',sec(1).includes('> 學姊：'+NEW)&&PG.CARDS_2030.some(r=>r[3]==='（考前三個禮拜。這次的讀書計畫表，你自己排。）'));
   const G=grad('2029-09-07',15.1,{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:5,BAR_STAGE_2029:'none'}); H.FRIEND('heroine_05'); H.tick(); H.at('2029-09-07',15.4); H.tick();
-  check('1. 2029 一試不到 12 題、學姊 FRIEND 以上：15:20 私訊「'+NEW+'」（不再是「我幫你排」）',J(H.msgs('p:heroine_05'))===J([NEW]),J(H.msgs('p:heroine_05'))); });
+  /* AA_593 決3 甲＋第 10 節第 12 點（企劃線 6cbb0b4ab，使用者 11-02）：AA_472 的「明年。……讀書計畫你先排，我幫你看。」換成共創那一段——15:10 祐廷「沒上。」、15:20 她「很厲害了啊。」「考完就先放鬆一下。」（逐字、順序在 tests/aa593_sis_1b_unit.js）*/
+  check('1. 2029 一試不到 12 題、學姊 FRIEND 以上：15:10 祐廷「沒上。」、15:20 她「很厲害了啊。」「考完就先放鬆一下。」（AA_593 決3；AA_472 那一句「'+NEW+'」不在了）',J(H.msgs('p:heroine_05'))===J(['沒上。','很厲害了啊。','考完就先放鬆一下。'])&&!H.msgs('p:heroine_05').includes(NEW),J(H.msgs('p:heroine_05'))); });
 
 /* ======================= 2. 2030 第二次考的便條：一張一句 ======================= */
 await tsec(2,async()=>{ const NOTE='（便條：「你比去年多念了一年。」）';
@@ -116,7 +118,7 @@ await tsec(6,async()=>{ const NEW='說好的，運河一圈。……下學期就
   const row=(PG_DATES.six.classmate_peishan||[]).find(x=>x.ym==='2030-06'), ev=STORY_EVENTS.find(e=>e.id==='ev_pg_date_classmate_peishan_2030-06'), ln=ev&&ev.dialogue.find(l=>l.speaker==='classmate_peishan');
   check('6. pg_dates.js（重新匯入）與那一格的事件：2030-06 那一句、台南',!!row&&row.line===NEW&&row.note==='台南'&&!!ln&&ln.text===NEW,J([row,ln&&ln.text]));
   check('6. 2030-04 視訊那一句照舊（「下次你來，我們走一圈好不好？」）',((PG_DATES.six.classmate_peishan||[]).find(x=>x.ym==='2030-04')||{}).line==='運河那邊晚上很漂亮！下次你來，我們走一圈好不好？');
-  check('6. 匯入來源：AA_367@1ebcf530（白名單同一版）',/AA_367.*@1ebcf530/.test(PG_DATES.source.AA_367)&&JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>e.path==='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md'&&e.sha==='1ebcf530'&&e.status==='approved')); });
+  check('6. 匯入來源：AA_367 白名單同一版（1ebcf530 起；AA_688 以後是 8dce2f94c；AA_593 學姊①b 以後是 9aa8ec40c，history 留 1ebcf530、8dce2f94c；沛珊那一格不變）',/AA_367.*@9aa8ec40c/.test(PG_DATES.source.AA_367)&&JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>e.path==='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md'&&e.sha==='9aa8ec40c'&&e.status==='approved'&&(e.history||[]).some(x=>x.sha==='1ebcf530')&&(e.history||[]).some(x=>x.sha==='8dce2f94c'))&&git('9aa8ec40c','docs/story_planning/AA_367_畢業以後的交往節奏_六位.md').includes('| 2030-06 | 「'+NEW+'」（台南） |')); });
 
 H.done();
 })();

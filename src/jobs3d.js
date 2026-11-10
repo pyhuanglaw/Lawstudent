@@ -120,7 +120,7 @@ const JOBS=(function(){
     if(cap<2) return [first]; const O2=ok.filter(wd=>wd!==first).map(wd=>({t:'再加一天：'+WD[wd],hint,days:[first,wd]})).concat([{t:'就'+WD[first]+'一天',days:[first]}]);
     const i2=await GM.choose(O2.map(o=>({t:o.t,hint:o.hint}))); return (O2[i2]||O2[O2.length-1]).days.sort((a,b)=>a-b); };
   /* 撞時段的提醒（AA_420 第 12 條第 3 點：只有撞到的玩家）*/
-  S.clashLine=(G,k,days)=>{ const F=G.flags||{}; if(k==='brunch'&&days.includes(6)&&(F.LAWCLUB_SAT_VISITS|0)>0) return D().clash.brunch;
+  S.clashLine=(G,k,days)=>{ const F=G.flags||{}; if(k==='brunch'&&days.includes(6)&&(typeof STORY!=='undefined'&&STORY.fafuBeen?STORY.fafuBeen(G):(F.LAWCLUB_SAT_VISITS|0)>0)) return D().clash.brunch;   /* D118-B5a：加入法服或去過一次（原本只看去過的次數）*/
     if(k==='copy'&&days.includes(4)&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'public_law_group')) return D().clash.copy; return null; };
   /* 應徵（或出國回來重選班表）：選班表 → 撞時段那一句 → 記下來 */
   S.apply=async function(GM,k,o){ o=o||{}; const G=GM.G, J=S.rec(G); const days=await S.pickDays(GM,k); if(!days) return false;
@@ -154,6 +154,17 @@ const JOBS=(function(){
   const extra=(G,k,n,seg)=>{ const out=[]; for(const f of S.SHIFT_LINES){ try{ const r=f(G,k,n,seg); if(r) out.push(...r); }catch(e){ console.warn('JOBS.SHIFT_LINES',e); } } return out; };
   S.running=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['jobs3d:running']=()=>{ S.running=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
+  /* 打工的站位（ADE-SEATS-NAV-1104，LAWWW2-C 11-05 提案）：WZ_SHOPS_LAYOUT 的 work.{a,b,c}.me＝一班三段（接單／做的時候／交件）玩家在店裡的位置。
+     原本沒有程式讀它：整班人都站在走進來的地方（CC ADE_int_job：三個站位最近 1.94／2.04／1.1 m）。每一段開始前走過去；坐的那一段照座位的走近點（ap）坐下。
+     人不在那一間店裡（G.zone）、配置沒有這一段就不動。先只開阿德影印（S.STATION_SHOPS）：早午餐、茶屋的 work 還沒對過新室內 */
+  S.STATION_SHOPS={copy:'print'};
+  S.station=async function(GM,k,seg){ const key=S.STATION_SHOPS[k], E=GM&&GM.E, G=GM&&GM.G; if(!key||!E||!E.player||!G||G.zone!==shop(k).zone) return false;
+    const L=typeof WZ_SHOPS_LAYOUT!=='undefined'?WZ_SHOPS_LAYOUT[key]:null, w=L&&L.work&&L.work[seg], m=w&&w.me; if(!m) return false;
+    const P=E.player; if(P.seat&&GM.standUp) GM.standUp(P);
+    if(m.act==='sit'){ const st=Object.assign({x:m.x,z:m.z,yaw:m.yaw||0},m.ap?{ap:m.ap}:{}), ap=GM.seatApproach?GM.seatApproach(st):[m.x,m.z];
+      if(GM.walkTo) await GM.walkTo(P,ap[0],ap[1]); if(GM.sitAt) GM.sitAt(P,st); }
+    else { if(GM.walkTo) await GM.walkTo(P,m.x,m.z); if(P.obj&&m.yaw!=null) P.obj.rotation.y=m.yaw; }
+    return true; };
   S.runShift=async function(GM,k){ if(shop(k).x) return S.runShiftX(GM,k); const G=GM.G, j=fix(S.job(G,k)); if(!j||S.running) return false; const s=shop(k), d=G.day, n=(j.shifts|0)+1, ctx={day:d,n};
     S.running=true; GM.sceneBegin();
     try{
@@ -164,13 +175,13 @@ const JOBS=(function(){
       if(k==='tea'&&typeof YTJOB!=='undefined'&&YTJOB.firstShift) await YTJOB.firstShift(GM,ctx);   /* AA_610 第 2 節：茶屋的班第一次遇到語彤（接在蘇姨「水不要滾太久……」之後；收店那兩句在 SHIFT_EV）*/
       if(j.missPend){ await S.play(GM,S.missLines(k,j)); j.missN=(j.missN|0)+1; }   /* 上週沒去（第 6 條）*/
       const sg=S.segs(G,k,n);
-      await S.play(GM,sg.a); GM.advance(seg);
+      await S.station(GM,k,'a'); await S.play(GM,sg.a); GM.advance(seg);   /* 站位（ADE-SEATS-NAV-1104）：接單 */
       { const sl=S.skillLine(k,j.skill|0); if(sl) await say(GM,null,sl); }   /* 熟練描述（AA_165 1-4／2-5／3-4）*/
-      await S.play(GM,sg.b); await S.play(GM,extra(G,k,n,'mid'));
+      await S.station(GM,k,'b'); await S.play(GM,sg.b); await S.play(GM,extra(G,k,n,'mid'));   /* 做的時候 */
       for(const f of S.MID_EV){ try{ await f(GM,k,n,ctx); }catch(e){ console.warn('JOBS.MID_EV',e); } }   /* 一班的中間（第二段工作之後）：語彤 AA_625 10' 媽媽來、茶屋平常的班那一句（src/ytjob3d.js）*/
       GM.advance(seg);
       if(k==='brunch'&&S.natHoliday(d)&&!j.b5) await S.b5(GM,j);   /* WZ-B5 國定假日的班（一次）*/
-      await S.play(GM,sg.c);
+      await S.station(GM,k,'c'); await S.play(GM,sg.c);   /* 交件 */
       if(k==='brunch'&&j.b5next&&j.b5!==d){ await say(GM,null,D().b5.next); j.b5next=false; }   /* WZ-B5 的下一班 */
       await S.play(GM,extra(G,k,n,'close'));
       for(const f of S.SHIFT_EV){ try{ await f(GM,k,n,ctx); }catch(e){ console.warn('JOBS.SHIFT_EV',e); } }

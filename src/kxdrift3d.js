@@ -260,7 +260,7 @@ const KXDRIFT=(function(){
       return; }
     if(r.st==='asked2'){ const a=F.KXD_R4_ANS;
       if(a==='sat'){ delete F.KXD_R4_ANS; S.r4Plan(G,r,r.fri+1); return; }
-      if(a==='no2'||now(G)>T(r.fri+1,18)){ delete F.KXD_R4_ANS; if(a!=='no2') PHONE.post(G,K(S.L.r4.ok)); r.st='declined'; R.r4Pick='decline'; if(!R.r5) R.r5={st:'pending',at:now(G),via:'r4'}; } } };   /* 再不行＝她「好。」，直接等 D5 */
+      if(a==='no2'||now(G)>T(r.fri+1,18)){ delete F.KXD_R4_ANS; r.st='declined';   /* 沒回＝不出字（UX-WEEKEND-ASK-EXPIRE-1108，AA-B 11-08 09:39：漂流期她不再追，沉默就是她的回答；原本補傳「好。」像玩家說了不行）*/ R.r4Pick='decline'; if(!R.r5) R.r5={st:'pending',at:now(G),via:'r4'}; } } };   /* 再不行＝她「好。」，直接等 D5 */
   S.r4Plan=(G,r,day)=>{ r.st='planned'; r.day=day; OUT.plan(G,{id:'kx_drift_r4',ev:'ev_kx_drift_r4',day,h:19,late:0.75,place:S.L.r4.scene,title:'和可昕：'+S.L.r4.scene,travel:'開車約 30 分鐘',travelH:0.5,alarm:true}); };
   /* 修補期（D4 之後 35 天）：結束那天 <6＝不分手（KX_REPAIRED）；還在 6 以上＝D5 */
   S.repairTick=function(G,R){ if(R.repairEnd==null||R.repairDone!=null||G.day<R.repairEnd) return; R.repairDone=G.day;

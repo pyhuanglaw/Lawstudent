@@ -17,6 +17,8 @@ let ran=[]; EVENTS.run=async e=>{ ran.push(e.id); };   /* 只記 onEnter 挑了�
 const R0=Math.random, roll=v=>{ Math.random=()=>v; };
 const enter=z=>{ ran=[]; const r=EVENTS.onEnter(z); return {r,ran:ran.slice()}; };
 check('0. 情境：「咖啡買錯」在清單上排在「回來」前面（隨機、35%）',idx('ev_wrong_coffee')>=0&&idx('ev_back_home_cafe')>idx('ev_wrong_coffee')&&ev('ev_wrong_coffee').random_weight===0.35,J({wrong:idx('ev_wrong_coffee'),back:idx('ev_back_home_cafe')}));
+check('0b. 遊戲裡「咖啡買錯」已經拿掉（retired；使用者 11-10 選「拿掉」，WRONG-COFFEE-OFF-1110）',ev('ev_wrong_coffee').retired===true);
+const WC=ev('ev_wrong_coffee'); delete WC.retired;   /* [前置] 下面 1、2 只拿它當「隨機事件排在主線前面」的例子（排序規則照測），測完放回去 */
 /* 1 */
 { const G=H.fresh('2028-09-05',15,'cafe',{EXCHANGE_ROUTE:'JP',CAFE_VISITS:4}); roll(0);
   const both=[EVENTS.check(ev('ev_wrong_coffee')),EVENTS.check(ev('ev_back_home_cafe'))]; const a=enter('cafe');
@@ -25,6 +27,7 @@ check('0. 情境：「咖啡買錯」在清單上排在「回來」前面（隨�
 { const G=H.fresh('2028-09-05',15,'cafe',{EXCHANGE_ROUTE:'JP',CAFE_VISITS:4,BACK_HOME:D('2028-09-05')});
   roll(0); const a=enter('cafe'); roll(0.99); const b=enter('cafe');
   check('2. 「回來」演過以後：骰到＝「咖啡買錯」；沒骰到＝什麼都不演',J(a.ran)===J(['ev_wrong_coffee'])&&b.r===false&&!b.ran.length,J({a,b})); }
+WC.retired=true;
 /* 3 */
 { const G=H.fresh('2028-03-08',15,'zz_order',{}); const mk=(id,more)=>Object.assign({id,title:id,participants:[],location:'zz_order',trigger:'enter',background:'freeze',dialogue:[{speaker:null,text:id}]},more||{});
   const T=[mk('t_rand1',{random_weight:0.5}),mk('t_story1'),mk('t_rand2',{random_weight:0.5}),mk('t_story2')]; STORY_EVENTS.push(...T);

@@ -83,7 +83,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
 
   // ---------- 2-Y4-18 芝加哥 ----------
   fresh('2028-11-03',21.1,'us_apartment',US()); date('heroine_05'); rules();
-  check('C0. 沒有 MET_LONG：「香港來的那個同學也去，我們一起認識他。」＋去／這週不行', txt('p:heroine_05').join('|')==='heroine_05:下週末去芝加哥。巴士早上七點出發，帶厚外套。|heroine_05:香港來的那個同學也去，我們一起認識他。'&&PHONE.byAsk(G,'us_chi').ask.opts.length===2);
+  check('C0. 沒有 MET_LONG：「下週末去芝加哥。巴士早上七點出發。那邊很冷。」（AA_593 第 35 列）「香港來的那個同學也去，我們一起認識他。」＋去／這週不行', txt('p:heroine_05').join('|')==='heroine_05:下週末去芝加哥。巴士早上七點出發。那邊很冷。|heroine_05:香港來的那個同學也去，我們一起認識他。'&&PHONE.byAsk(G,'us_chi').ask.opts.length===2);
   fresh('2028-11-03',21.1,'us_apartment',US({MET_LONG:true})); date('heroine_05'); rules(); answer('us_chi',0); rules();
   const qc=OUT.get(G,'us_chicago'); check('C1. 有 MET_LONG：「……到了再看。」（AA_450 1-6，原「……我們去驗證。」是可昕的話）；去＝11/11 07:00 出遊', txt('p:heroine_05').includes('heroine_05:何俊朗也去。他說他知道哪一家的披薩最好吃。……到了再看。')&&!txt('p:heroine_05').some(t=>t.includes('我們去驗證'))&&!!qc&&qc.day===D('2028-11-11')&&qc.h===7);
   at('2028-11-11',6.9); said=[]; await OUT.go(GM,qc);
@@ -285,26 +285,26 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-12-21',12.2,'dorm',US({US_RETURNED:D('2028-12-23')})); R('heroine_03','FRI'); ct('heroine_03'); rules(); const s3a=!PHONE.sent(G,'y4_yt16_a'); at('2028-12-28',12.2); rules();
   check('S3. 美國路線：12/21 沒有；12/28 12:10 那兩則', s3a&&txt('p:heroine_03').includes('heroine_03:今天我在總圖三樓'));
 
-  // ---------- 2-Y4-11 芷若第二輪明信片 ----------
+  // ---------- 2-Y4-11 芷若第二輪明信片 ----------（對話框寫「明信片」＝有名字說的，TEXT-QUOTE-UNIFY-1108 第三批起外面不加「」；回寄的選項照舊有「」）
   const pc=async(k,h,pk)=>{ at(k,h); await tick(); const it=E.interactables.find(x=>x.zrPostcard2); picks=pk||[]; said=[]; opts=[]; if(it) await R2Y4A.pc2Scene(GM); return !!it; };
   fresh('2028-09-21',12,'dorm',TWF()); R('heroine_02','FAM'); SOCIAL.remember('heroine_02','POSTCARDS',''); await tick(); const z0=!E.interactables.find(x=>x.zrPostcard2);
   const z9=await pc('2028-09-22',12.5,['（先不回）']);
-  check('Z0. 9/22 中午以後宿舍有明信片（9/21 還沒有）；大三收過第一輪：「又開始寄來了。」；九月兩行；回寄三個選項（戲院那句三月以後才有）', z0&&z9&&has('（明信片又開始寄來了。這次的字比較小，寫得比較多。）')&&has('「到英國了。宿舍窗戶看出去，是一棵很大的樹。」')&&has('「我還不知道它叫什麼。」')&&opts[0].length===4&&!opts[0].some(t=>/戲院/.test(t))&&G.flags.ZR_POSTCARD2.includes(9), JSON.stringify(opts));
+  check('Z0. 9/22 中午以後宿舍有明信片（9/21 還沒有）；大三收過第一輪：「又開始寄來了。」；九月兩行；回寄三個選項（戲院那句三月以後才有）', z0&&z9&&has('（明信片又開始寄來了。這次的字比較小，寫得比較多。）')&&has('到英國了。宿舍窗戶看出去，是一棵很大的樹。')&&has('我還不知道它叫什麼。')&&opts[0].length===4&&!opts[0].some(t=>/戲院/.test(t))&&G.flags.ZR_POSTCARD2.includes(9), JSON.stringify(opts));
   const z10=await pc('2028-10-20',13,['台北也下雨了']); const z11=await pc('2028-11-17',13,['（先不回）']);
-  check('Z1. 十月回寄「台北也下雨了。我帶了傘。」→ 十一月第一行「你說台北下雨。這裡也是。我們今天一樣。」；ZR_REPLY2', z10&&z11&&said[0]&&said[0].t==='「你說台北下雨。這裡也是。我們今天一樣。」'&&has('「又到四點就天黑的時候了。去年很不習慣，今年還好。」')&&JSON.stringify(G.flags.ZR_REPLY2)===JSON.stringify(['rain'])&&!opts[0].some(t=>/台北也下雨/.test(t)), JSON.stringify(lines().slice(0,2)));
+  check('Z1. 十月回寄「台北也下雨了。我帶了傘。」→ 十一月第一行「你說台北下雨。這裡也在下，下一整天了。」；ZR_REPLY2', z10&&z11&&said[0]&&said[0].t==='你說台北下雨。這裡也在下，下一整天了。'&&has('又到四點就天黑的時候了。去年很不習慣，今年還好。')&&JSON.stringify(G.flags.ZR_REPLY2)===JSON.stringify(['rain'])&&!opts[0].some(t=>/台北也下雨/.test(t)), JSON.stringify(lines().slice(0,2)));
   await pc('2028-12-15',13,['（先不回）']);
-  check('Z3. 十二月那張：報告兩行＋（背面最後一行）「燒臘店生日快樂。」', has('「我在寫一篇關於『一個人看電影』的報告。」')&&has('（背面最後一行）')&&has('「燒臘店生日快樂。」')&&!has('「你也在國外。我們今天都不在家。」'));
+  check('Z3. 十二月那張：報告兩行＋（背面最後一行）「燒臘店生日快樂。」', has('我在寫一篇關於『一個人看電影』的報告。')&&has('（背面最後一行）')&&has('燒臘店生日快樂。')&&(!has('你也在國外。我們今天都不在家。')&&!has('「你也在國外。我們今天都不在家。」')));
   await pc('2029-01-05',13,['（先不回）']); await pc('2029-02-19',13,['（先不回）']); await pc('2029-03-16',13,['（先不回）']); const tk=opts[0]&&opts[0].some(t=>/妳的戲院，我要第一張票。/.test(t)); await pc('2029-04-20',13,[]);
   const FY='（四月那張的最後一行，是另一種筆跡：「這棵樹叫英國櫟。……他說的。」）';
-  check('Z. 三月那張以後才有「妳的戲院，我要第一張票。」；沒走方奕廷那條路＝四月沒有另一種筆跡', tk&&has('「論文開始寫了。題目還是很小。」')&&!has(FY)&&!hasRe(/另一種筆跡/));
+  check('Z. 三月那張以後才有「妳的戲院，我要第一張票。」；沒走方奕廷那條路＝四月沒有另一種筆跡', tk&&has('論文開始寫了。題目還是很小。')&&!has(FY)&&!hasRe(/另一種筆跡/));
   fresh('2029-04-20',13,'dorm',TWF({ZR_FY:true})); R('heroine_02','FAM'); { const Rr=R2Y4A.pc2Rec(G); Rr.first=1; for(const k of ['2028-09-22','2028-10-20','2028-11-17','2028-12-15','2029-01-05','2029-02-19','2029-03-16']) Rr.read[k]=1; } await pc('2029-04-20',13,[]);
-  const fy=said.some(s=>s.t===FY&&s.who===null)&&said.indexOf(said.find(s=>s.t===FY))>said.findIndex(s=>s.t==='「每天寫五百字，寫完去公園坐一下。」')&&!has('（另一種筆跡）')&&!has('「這棵樹叫英國櫟。……他說的。」');   /* AA_345 F3：一句旁白，接在四月那張的字後面 */
-  fresh('2028-09-22',13,'dorm',TWF()); R('heroine_02','FAM'); date('heroine_02'); await pc('2028-09-22',13,['（先不回）']); const gf=has('「熱可可在這裡叫 hot chocolate。加濃縮，他們看我的表情很奇怪。」')&&has('（信箱裡有一張明信片。英國的郵戳。）');
-  fresh('2028-09-22',13,'dorm',TWF()); R('heroine_02','FAM'); date('heroine_02'); ROM.get(G,'heroine_02').sinceDay=D('2028-08-26'); await pc('2028-09-22',13,['（先不回）']); const gf2=!has('「熱可可在這裡叫 hot chocolate。加濃縮，他們看我的表情很奇怪。」');
+  const fy=said.some(s=>s.t===FY&&s.who===null)&&said.indexOf(said.find(s=>s.t===FY))>said.findIndex(s=>s.t==='每天寫五百字，寫完去公園坐一下。')&&!has('（另一種筆跡）')&&(!has('這棵樹叫英國櫟。……他說的。')&&!has('「這棵樹叫英國櫟。……他說的。」'));   /* AA_345 F3：一句旁白，接在四月那張的字後面 */
+  fresh('2028-09-22',13,'dorm',TWF()); R('heroine_02','FAM'); date('heroine_02'); await pc('2028-09-22',13,['（先不回）']); const gf=has('熱可可在這裡叫 hot chocolate。加濃縮，他們看我的表情很奇怪。')&&has('（信箱裡有一張明信片。英國的郵戳。）');
+  fresh('2028-09-22',13,'dorm',TWF()); R('heroine_02','FAM'); date('heroine_02'); ROM.get(G,'heroine_02').sinceDay=D('2028-08-26'); await pc('2028-09-22',13,['（先不回）']); const gf2=(!has('熱可可在這裡叫 hot chocolate。加濃縮，他們看我的表情很奇怪。')&&!has('「熱可可在這裡叫 hot chocolate。加濃縮，他們看我的表情很奇怪。」'));
   check('Z. 方奕廷那條路：四月多一行另一種筆跡；沒收過第一輪＝「英國的郵戳。」；交往中九月多熱可可那一行（8/26 才交往的不加）', fy&&gf&&gf2);
   fresh('2028-08-20',9.2,'us_apartment',US()); R('heroine_02','FAM'); ct('heroine_02'); rules(); const zaddr=!PHONE.sent(G,'y4_zr_addr')&&!txt('p:heroine_02').includes('heroine_02:給我你在那邊的地址。英國寄到美國要多久，我想試試看。');   /* AA_370 M1：8/20 不再要地址（只在 8/10，us_life3d.js 的 usl_zr_0810）*/
   at('2028-12-15',13); G.zone='us_apartment'; await tick(); const zus=!!E.interactables.find(x=>x.zrPostcard2); said=[]; for(let i=0;i<4;i++){ picks=['（先不回）']; await R2Y4A.pc2Scene(GM); }
-  check('Z2. 美國路線：8/20 不再要地址（AA_370 M1：8/10 那則在 us_life3d.js）；九～十二月寄到公寓 214；十二月多一行「你也在國外。我們今天都不在家。」', zaddr&&zus&&has('「你也在國外。我們今天都不在家。」')&&has('「燒臘店生日快樂。」'));
+  check('Z2. 美國路線：8/20 不再要地址（AA_370 M1：8/10 那則在 us_life3d.js）；九～十二月寄到公寓 214；十二月多一行「你也在國外。我們今天都不在家。」', zaddr&&zus&&has('你也在國外。我們今天都不在家。')&&has('燒臘店生日快樂。'));
   at('2029-01-05',13); G.flags.US_RETURNED=D('2028-12-23'); G.zone='dorm'; E.interactables=[]; await tick(); check('Z2. 一月起照常寄回臺灣（宿舍）', !!E.interactables.find(x=>x.zrPostcard2));
 
   // ---------- 2-Y4-12 主線 8「回來」 ----------
@@ -417,7 +417,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2029-01-02',21.1,'dorm',TWF({KX_TRIP:{Y1S2:'sea'}})); date('kexin'); rules(); const kh0=txt('p:kexin'); answer('y4_kh',0); rules(); const qh=OUT.get(G,'y4_kh'); const m0=G.money; at('2029-01-06',6.8); picks=[2]; said=[]; await OUT.go(GM,qh);
   check('KH1. 1/2 21:00「寒假的旅行，一天也算。……」「你來高雄。我開車。」；「好。」＝出發選單「高鐵 07:00（去高雄）」；票錢 2980；左營站「上車。……音樂你管。」；一起旅行過＝「今年交換。」；「坐著就好。」；傍晚「二月十四號，視訊。」；KX_TRIP.Y4WIN', seq(kh0,['kexin:寒假的旅行，一天也算。……而且今年真的只有一天。','kexin:你來高雄。我開車。'])&&!!qh&&qh.title==='高鐵 07:00（去高雄）'&&m0-G.money===2980&&has('（她靠在一台舊舊的家用車旁邊。）')&&has('上車。……音樂你管。')&&has('第一次去的時候，我管音樂，你管方向。')&&has('今年交換。')&&has('……你很無聊。')&&has('回去讀書。……二月十四號，視訊。')&&!hasRe(/假設/)&&G.flags.KX_TRIP.Y4WIN==='kaohsiung', JSON.stringify({m:m0-G.money}));
   fresh('2029-01-02',21.1,'dorm',TWF()); date('kexin'); rules(); answer('y4_kh',0); rules(); at('2029-01-06',6.8); picks=[0]; said=[]; await OUT.go(GM,OUT.get(G,'y4_kh'));
-  check('KH. 沒有一起旅行過：「我們沒有「第一次去的地方」。……那今天就是。」', has('我們沒有「第一次去的地方」。……那今天就是。')&&!has('今年交換。'));
+  check('KH. 沒有一起旅行過：「我們沒有「第一次去的地方」。……那就今天去一個。」', has('我們沒有「第一次去的地方」。……那就今天去一個。')&&!has('今年交換。'));
   fresh('2029-01-02',21.1,'dorm',TWF()); date('kexin'); rules(); answer('y4_kh',1); at('2029-01-06',7.1); rules(); at('2029-01-06',12.1); rules();
   check('KH2. 「這次不行。」＝沒去：畫了一輛車的表「欠著。考完再去。」', txt('p:kexin').includes('kexin:📷（讀書計畫表，那一天的格子畫了一輛車）')&&txt('p:kexin').includes('kexin:欠著。考完再去。'));
 

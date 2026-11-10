@@ -47,7 +47,7 @@ const AA555=(function(){
     /* ---- 大一下 ---- */
     ['y1s2_yt_noodle',YT,wk('Y1S2'),(G,d)=>got(G,YT,d),()=>[M(YT,'秀琴姨今天試做新的菜。不好吃。她自己說的。')]],
     ['y1s2_yt_azalea',YT,wk('Y1S2'),(G,d)=>got(G,YT,d)&&mon(d)===3,()=>SQ(YT,['📷（茶屋門口一盆小杜鵑）','蘇姨買的。她說椰影大道太遠了。'])],   /* 杜鵑花季＝3 月 */
-    ['y1s2_zhe_group',ZHE,wk('Y1S2'),G=>grp(G,'noodle_team'),()=>SQ(ZHE,['今天有人要吃大碗嗎','我是說我要','有人陪就好'],NG)],
+    ['y1s2_zhe_group',ZHE,wk('Y1S2'),G=>grp(G,'noodle_team'),()=>SQ(ZHE,['今天有人要吃三寶飯嗎','我要','有人陪就好'],NG)],
     ['y1s2_zhe_bell',ZHE,wk('Y1S2',14),(G,d)=>got(G,ZHE,d)&&typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows(YU,G)&&!done(G,'ev_yu_together'),()=>SQ(ZHE,['哥我今天早上又剛好路過晨思鐘','好巧','Alison 也在','好巧']),9+10/60],   /* 語 2 的徵兆（大一下第 14～16 週）；AA_555〔名〕*/
     ['y1s2_yu_hotpot',YU,wk('Y1S2'),(G,d)=>got(G,YU,d),()=>SQ(YU,['欸你知道一個人吃火鍋要怎麼點嗎','我幫朋友問的','朋友是我'])],
     ['y1s2_yu_debate',YU,wk('Y1S2'),(G,d)=>got(G,YU,d),()=>[M(YU,'明天比賽，我抽到反方。我等一下要先說服我自己。')]],   /* 辯論比賽前一天：遊戲沒有辯論比賽的日子＝大一下任何一天 */
@@ -58,8 +58,8 @@ const AA555=(function(){
     ['y2s1_zhe_quiz',ZHE,wk('Y2S1'),(G,d)=>got(G,ZHE,d)&&G.flags.ZHE2_ASKED!=null,()=>SQ(ZHE,['哥我又沒過','但我知道錯在哪','你可以假裝很驚訝'])],   /* 哲 2（story3d.js ZHE2_ASKED）之後 */
     ['y2s1_zhe_together',ZHE,wk('Y2S1'),G=>grp(G,'noodle_team')&&done(G,'ev_yu_together'),()=>[M(ZHE,'從今天開始，我跟 Alison 坐一起',0,NG),M(ZHE,'其他人照舊',1/60,NG),M(YU,'沒有人問你',2/60,NG)]],   /* 語 3 之後；AA_555〔名〕〔麵〕*/
     ['y2s1_yu_meetings',YU,wk('Y2S1'),(G,d)=>got(G,YU,d),()=>SQ(YU,['我今天開了三個會','第三個會在討論第一個會的結論','我好想睡'])],
-    ['y2s1_yu_soymilk',YU,wk('Y2S1'),(G,d)=>got(G,YU,d)&&!done(G,'ev_yu_together'),()=>SQ(YU,['欸阿哲今天又剛好路過','他拿了兩杯豆漿','一杯是我的','我是說，剛好']),9+20/60],   /* 語 2 的徵兆：還沒在一起 */
-    ['y2s1_bh_duty',BH,wk('Y2S1'),G=>grp(G,'lawclub_study'),()=>SQ(BH,['本週值班表','📷（一張表）','有問題私訊','沒有問題也可以私訊','……最後一句當我沒說'],'g:lawclub_study')],   /* 法服群組（lawclub_study）；柏翰大二是法服社長 */
+    ['y2s1_yu_soymilk',YU,wk('Y2S1'),(G,d)=>got(G,YU,d)&&!done(G,'ev_yu_together'),()=>SQ(YU,['欸阿哲今天又剛好路過','他拿了兩杯豆漿','一杯是我的','……他每次都剛好']),9+20/60],   /* 語 2 的徵兆：還沒在一起 */
+    ['y2s1_bh_duty',BH,wk('Y2S1'),G=>grp(G,'lawclub_study')&&typeof STORY!=='undefined'&&!!STORY.fafuMember&&STORY.fafuMember(G),()=>SQ(BH,['這學期的預約，有的話前一天晚上在這裡講','📷（一張空白的預約登記表）','有問題私訊','沒有問題也可以私訊','……最後一句當我沒說'],'g:lawclub_study')],   /* 法服群組（lawclub_study）；柏翰大二是法服社長。D118-B5a：只給真的加入的社員（舊存檔只看過公告、已經在群組裡的不收，D118_PLAN 第 8 節第 6 點）*/
     ['y2s1_bh_group',BH,wk('Y2S1'),(G,d)=>got(G,BH,d)&&done(G,'ev_bohan_exam_group'),()=>[M(BH,'這週第三題全組都錯。出題的人想考什麼，我也不知道。我去問老師。')]],   /* 翰 2 */
     ['y2s1_xc_cvs',XC,wk('Y2S1'),(G,d)=>got(G,XC,d)&&done(G,'ev_xinci_second'),()=>[M(XC,'便利商店那杯，下次換你請。')]],   /* AA_555〔慈〕：慈 3 新版 */
     ['y2s1_xc_mid',XC,wk('Y2S1',5,7),(G,d)=>got(G,XC,d),()=>[M(XC,'要不要一起讀債總。我讀要件，你讀例外。……我最怕例外。')]],
@@ -98,10 +98,11 @@ const AA555=(function(){
     ['y3s2_bh_plan',BH,wk('Y3S2',10),(G,d)=>got(G,BH,d),()=>[M(BH,'讀書計畫第三版。'),M(BH,'📷（一張截圖）',1/60),M(BH,'這版沒有分數了。',2/60)]],
     ['y3s2_bh_abroad',BH,wk('Y3S2'),(G,d)=>got(G,BH,d)&&abroad(G),()=>SQ(BH,['你在國外上的課，有考試嗎？','……我只是想知道。'])],
     ['y3s2_xc_tables',XC,wk('Y3S2',14),(G,d)=>got(G,XC,d),()=>SQ(XC,['併購的期末報告，我做了十二張表。','全部對起來了。'])],   /* AA_555〔慈〕*/
-    ['y3s2_an_onigiri',AN,wk('Y3S2'),(G,d)=>got(G,AN,d)&&route(G)!=='JP',()=>SQ(AN,['📷（便利商店一整排飯糰）','三十種。我說每天吃一種，一個月不重複。……我已經重複了。'])],   /* 日本路線的祐廷在場景 J1 當面看到，不另傳 */
-    ['y3s2_an_group',AN,wk('Y3S2'),(G,d)=>got(G,AN,d),()=>[M(AN,'Alison 今天主持讀書會。她傳照片給我。……她把我的三條規則貼在白板上。')]],   /* AA_555〔名〕*/
+    /* y3s2_an_onigiri、y3s2_an_group：以安 3/25 才出國（飯糰是日本的便利商店、Alison 代主持是她走了以後）＝大三下第 6 週（3/27 那週）起（AA-B 11-08 01:50）*/
+    ['y3s2_an_onigiri',AN,wk('Y3S2',6),(G,d)=>got(G,AN,d)&&route(G)!=='JP',()=>SQ(AN,['📷（便利商店一整排飯糰）','三十種。我說每天吃一種，一個月不重複。……我已經重複了。'])],   /* 日本路線的祐廷在場景 J1 當面看到，不另傳 */
+    ['y3s2_an_group',AN,wk('Y3S2',6),(G,d)=>got(G,AN,d),()=>[M(AN,'Alison 今天主持讀書會。她傳照片給我。……她把我的三條規則貼在白板上。')]],   /* AA_555〔名〕*/
     /* ---- 大四上 ---- */
-    ['y4s1_yt_23',YT,wk('Y4S1'),(G,d)=>{ const a=DK('2028-12-04'), b=DK('2028-12-10'); return got(G,YT,d)&&!abroad(G)&&a!=null&&d>=a&&d<=b; },()=>SQ(YT,['蘇姨說十週年不要辦。','我們要辦。','12/14 週四晚上，你有空嗎。'])],   /* 二十三週年前（12/11 起是群組的倒數，y34b3d.js 1B-20）*/
+    ['y4s1_yt_23',YT,wk('Y4S1'),(G,d)=>{ const a=DK('2028-12-04'), b=DK('2028-12-10'); return got(G,YT,d)&&!abroad(G)&&a!=null&&d>=a&&d<=b; },()=>SQ(YT,['蘇姨說十週年不要辦。','我們要辦。','十六號，週六晚上。你有空嗎。','……茶屋十週年。蘇姨說你要來。'])],   /* 一盞茶屋十週年（2028-12-16（六）19:00，src/aa625_3d.js）前。AA_625「接線時補的」第 1 點（企劃線 3248430b3，AA-B 11-07）：原本「12/14 週四晚上，你有空嗎。」（12/14 是燒臘二十三週年）改成這兩句 */
     ['y4s1_yt_report',YT,wk('Y4S1',14),(G,d)=>got(G,YT,d),()=>[M(YT,'報告交了。最後一個是秀琴姨。她說她不要被寫。我寫了。')]],
     ['y4s1_zhe_book',ZHE,wk('Y4S1'),(G,d)=>got(G,ZHE,d),()=>SQ(ZHE,['哥我買了一本很厚的書','翻了三頁','我覺得三頁很多了'])],
     ['y4s1_zhe_banner',ZHE,wk('Y4S1'),(G,d)=>{ const a=DK('2028-12-12'), b=DK('2028-12-14'); return got(G,ZHE,d)&&a!=null&&d>=a&&d<=b; },()=>SQ(ZHE,['📷（燒臘店門口一條手寫的紅布條）','我寫的。字很醜。阿姨說很好。']),17],   /* 二十三週年（12/14 19:00）那幾天、開始以前 */

@@ -27,14 +27,19 @@ const advCalls=[]; ADV.begin=o=>{ advCalls.push(o); ADV.active=true; }; ADV.end=
   const day=STORY.termDay('Y1S1',4,2);
   for(const [meal,img,price] of [['公館燒臘','noodle_table',100],['便利商店','cvs_table_day',75],['小松',null,90]]){
     fresh(day,12,'classroom',{}); advCalls.length=0; const m0=G.money, h0=G.hour; picks=[meal];
-    const r=await CLS.lunchBreak(GM); const bg=advCalls[0]&&advCalls[0].background;
+    const r=await CLS.lunchBreak(GM,meal); const bg=advCalls[0]&&advCalls[0].background;
     check(meal+'：吃飯那一段開了 ADV（換到店裡，不是停在教室的 3D）',r===true&&advCalls.length===1,JSON.stringify(advCalls));
     if(img) check(meal+'：背景是那家店的圖（'+img+'）',!!bg&&typeof bg==='object'&&String(bg.image||'').includes(img),JSON.stringify(bg));
     else check(meal+'：還沒有圖＝深色底（不是模糊的教室）',bg==='dark'||(bg&&typeof bg==='object'),JSON.stringify(bg));
     check(meal+'：地點字幕是店名',caps.includes(meal),JSON.stringify(caps));
     check(meal+'：吃完 ADV 關掉、扣錢、過 40 分鐘',ADV.active===false&&G.money===m0-price&&Math.abs(G.hour-h0-40/60)<1e-6,JSON.stringify({a:ADV.active,m:m0-G.money,h:G.hour-h0}));
   }
-  fresh(STORY.termDay('Y1S1',4,2),19,'classroom',{}); advCalls.length=0; picks=['便利商店']; await CLS.lunchBreak(GM);
+  fresh(STORY.termDay('Y1S1',4,2),19,'classroom',{}); advCalls.length=0; await CLS.lunchBreak(GM,'便利商店');
   check('晚上（19:00 以後）便利商店用夜晚的圖',String((advCalls[0]&&advCalls[0].background||{}).image||'').includes('cvs_table_night'),JSON.stringify(advCalls[0]));
+  /* LUNCH-NO-ASK-1110（使用者 11-10）：不問吃哪家，直接挑一家；不連著同一家；錢不夠＝不吃 */
+  { fresh(day,12,'classroom',{}); opts.length=0; advCalls.length=0; const r=await CLS.lunchBreak(GM); const a=G.flags.LUNCH_LAST;
+    check('不問吃哪家（沒有選單）、直接吃一家',r===true&&opts.length===0&&!!a&&caps.includes(a),JSON.stringify({r,opts,a,caps}));
+    G.day+=1; G.hour=12; caps.length=0; await CLS.lunchBreak(GM); check('下一次不是同一家',!!G.flags.LUNCH_LAST&&G.flags.LUNCH_LAST!==a,a+'→'+G.flags.LUNCH_LAST);
+    G.money=10; opts.length=0; const r2=await CLS.lunchBreak(GM); check('錢都不夠：不吃、不問',r2===false&&opts.length===0&&G.money===10); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

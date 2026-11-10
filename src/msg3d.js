@@ -26,7 +26,7 @@ const MSG=(function(){
      free＝有空時幾分鐘；sleep～wake＝睡了（wake 點回，先說 wakeLine）；win＝固定不回的時段（days 星期、from～to，to 以後才回）；slots＝只在這幾個時間回（學姊）*/
   const TIMING={
     heroine_01:{free:[1,10],sleep:22.5,wake:7.25,wakeLine:['昨天睡了。早。']},
-    heroine_03:{free:[10,60],win:[{days:[2,4],from:17,to:20.5}]},   /* 週二、週四麵店時間，20:30 以後才回 */
+    heroine_03:{free:[10,60],win:[{days:[6,0],from:13,to:17}]},   /* 週六、週日下午在茶屋上班，17:00 以後才回（AA_661 第 14 列；原本週二、週四麵店時間 17:00～20:30）*/
     zhe:{free:[1,3]}, yu:{free:[1,5]}, classmate_bohan:{free:[5,30],sleep:2,wake:8.5}, classmate_xinci:{free:[10,30],sleep:3,wake:9.5,fastFrom:0.5,fastTo:3},   /* 00:30 以後反而秒回 */
     heroine_02:{free:[5,30],sleep:1,wake:9,wakeLine:['昨天太晚看到了。']},   /* 上班時間由作息判斷；祐廷交往中改 15:10 回（replyAt 另外處理）*/
     heroine_04:{free:[1,10],sleep:3,wake:14,wakeLine:['早','剛看到'],fastFrom:22,fastTo:24},   /* 22～24 點最活躍、下午兩點才醒 */
@@ -130,7 +130,7 @@ const MSG=(function(){
     /* 子晴：原本要演過 Q6（ev_ziqing_secret_game）才開——2026-10-30 使用者「很多女生腳色都不能在訊息頁面傳訊息!!!!!!講很多次了 請統一」：七位女生見過、有聯絡方式就開（PHONE-UNIFY-1030）。
        Q6 以前不出講到她的遊戲的句子（S.zqSpoil：還不知道她在做遊戲）*/
     if(id==='heroine_05'){ const chat=stageNum(id)>=3&&!S.takenFor(G,id)&&!Object.keys(G.flags||{}).some(k=>k.indexOf('dating_')===0&&k!=='dating_heroine_05'&&G.flags[k]); return {ok:true,mode:chat||G.flags.dating_heroine_05?null:'business'}; }   /* AA_485 第 4 節：不用等第 2 階，加了好友就是事務版（直屬學姊，事務上的訊息本來就該回）；閒聊照舊（第 3 階、雙方單身）*/
-    if(id==='classmate_peishan'&&inDates(G,'2026-12-18','2027-08-06')) return typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G)?{ok:true,mode:'keep'}:{ok:true,mode:'silent'};   /* 交往中的例外（AA_276 第 4、6-1 節）：她 23:00 以後回，句子在 hometown_lines.js；AA_374 第 17 項：從 12/18 00:00 起算（12/17 當天她 21:30、22:00 還在發，照常回）*/
+    if(id==='classmate_peishan'&&(inDates(G,'2026-12-18','2027-08-06')||(typeof STORY!=='undefined'&&!!STORY.psSilent&&STORY.psSilent(G)))) return typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G)?{ok:true,mode:'keep'}:{ok:true,mode:'silent'};   /* AA_723：沒交往的線一直到 2028-12-29 18:30 重聚（不在公法讀書會群組＝12/30 21:00 她私訊你）都只顯示已送達（她只回一次，src/ps_silence3d.js；STORY.psSilent）*/   /* 交往中的例外（AA_276 第 4、6-1 節）：她 23:00 以後回，句子在 hometown_lines.js；AA_374 第 17 項：從 12/18 00:00 起算（12/17 當天她 21:30、22:00 還在發，照常回）*/
     return {ok:true}; };
   S.sentToday=(G,id)=>S.rec(G).sent[id]===G.day;
   S.canSend=(G,id)=>{ const o=S.open(G,id); return o.ok&&!S.sentToday(G,id); };
@@ -143,7 +143,10 @@ const MSG=(function(){
   /* 子晴的遊戲（Q6 ev_ziqing_secret_game「她在做的東西」、或記憶 PLAYTESTED）：演過以前不出講到她的遊戲的句子（回覆池 A 層放假版「（截圖：她的遊戲新的一關）」；第二批新年快樂 R「只有第一則」照原本的標籤）*/
   S.zqQ6=G=>evDone(G,'ev_ziqing_secret_game')||(typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_04','PLAYTESTED'))||!!(G.flags&&G.flags.PLAYTESTED);
   S.zqSpoil=(G,id,e)=>id==='heroine_04'&&!!e&&/她的遊戲/.test((e.msgs||[]).join('／'))&&!S.zqQ6(G);
-  S.msgsOf=(G,id,e)=>S.datedSwap(G,id,id==='heroine_04'&&(e.tags||[]).some(g=>/^看過 Q6 才用；沒看過：只有第一則$/.test(g))&&!S.zqQ6(G)?(e.msgs||[]).slice(0,1):(e.msgs||[]));
+  S.msgsOf=(G,id,e)=>S.teaSwap(G,id,S.datedSwap(G,id,id==='heroine_04'&&(e.tags||[]).some(g=>/^看過 Q6 才用；沒看過：只有第一則$/.test(g))&&!S.zqQ6(G)?(e.msgs||[]).slice(0,1):(e.msgs||[])));
+  /* AA_686 第 4 項（企劃線 72707f636，AA-C 定 D109；回 LAWWW-C 20:44）：語彤「新年快樂」L（msg2_pool.js，AA_202 7-3、AA_630）「初四開店。你要第一個來喝。」——
+     「初四」照那一年茶屋過年以後第一個開門的日子換（2027＝初五），照片那一則和其他字不動。回覆池是產生的檔、不手改：在這裡換（只認這一整句，NOODLE_CLOSED.teaText；那天不在過年店休裡＝照原句）*/
+  S.teaSwap=(G,id,L)=>id==='heroine_03'&&!!G&&G.day!=null&&typeof NOODLE_CLOSED!=='undefined'&&!!NOODLE_CLOSED.teaText?L.map(t=>NOODLE_CLOSED.teaText(t,G.day)):L;
   /* 那幾天換一句（回覆池照原文產生、不手改：在這裡換）。AA_550 第 4 節第 3 點（企劃線 2664ed6f1；ZR-SUMMER-LINES-1031）：芷若大一暑假在台中（2026-07-01～08-25，含頭尾）深夜那一則 */
   S.DATED_SWAP=[{id:'heroine_02',from:'2026-07-01',to:'2026-08-25',old:'剛洗完澡。下班回來都這個時間。',text:'剛洗完澡。台中的晚上比臺北安靜。'}];
   S.datedSwap=(G,id,L)=>{ const W=S.DATED_SWAP.filter(w=>w.id===id); if(!W.length||!G||G.day==null) return L;
@@ -168,6 +171,7 @@ const MSG=(function(){
   /* 不在回覆池的人，由她自己的模組決定能不能傳、有哪些話題、回什麼（SHOP-ENCOUNTER-1103：宋知寧，AA_641 第 2 節「回了也只回一句」，src/shopenc3d.js）：
      S.EXTRA[id]＝{open(G)→{ok,why}, topics(G)→[{k,t}], reply(G,topic,sub)→她回的那一句, at(G)→{day,h}（沒寫＝S.replyAt）}。祐廷傳的字照舊（S.playerText）；熟悉度不加（她不在 SOCIAL 裡）*/
   S.EXTRA={};
+  S.REPLY_OVERRIDE=[];   /* (G,id,topic)→她回的那一句（有＝整個回覆只有這一句，照 replyAt 的時間）；null＝照原本（S.send）*/
   /* 這個人現在有哪些話題 */
   S.topics=function(G,id){ const o=S.open(G,id); if(!o.ok) return []; if(S.EXTRA[id]&&S.EXTRA[id].topics) return S.EXTRA[id].topics(G); const t=T(G), h=G.hour%24, tier=S.tier(G,id), out=[];
     if(o.mode==='y0'){ const L=S.y0Pool(G); for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&h<21.5&&h>=5) continue; if(L.some(e=>q.k==='share'?/^share/.test(e.topic):e.topic===q.k)) out.push(q); } return out; }   /* 經濟系那一年的可昕（AA_301）*/
@@ -454,6 +458,8 @@ const MSG=(function(){
     if(topic==='bday') R.bday[id+':'+calY(G)]=G.day;   /* 沛珊放榜那天（2027-08-06）看 3/15 有沒有傳過（AA_257 §4 表下註）*/
     { const X=S.EXTRA[id]; if(X&&X.reply){ const at=X.at?X.at(G):S.replyAt(G,id), t=X.reply(G,topic,sub); if(t&&typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,[{th,from:id,name:X.name,text:t}],null); return {ok:true,text,at}; } }   /* 宋知寧（S.EXTRA）：只回一句 */
     if(o.mode==='silent') return {ok:true,silent:true,text};   /* 沛珊重考消失期：已送達、不回（BB_178 0-1）*/
+    for(const f of S.REPLY_OVERRIDE){ let t=null; try{ t=f(G,id,topic); }catch(e){ console.warn('MSG.REPLY_OVERRIDE',e); } if(!t) continue;   /* 她這幾天只回一句（AA_720 kx_waited_after：可昕等了一個小時以後兩天，src/aa720_3d.js）*/
+      const at=S.replyAt(G,id); if(typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,[{th,from:id,text:t}],null); if(W.n<=3&&typeof SOCIAL!=='undefined'&&SOCIAL.activity&&id!=='kevin') SOCIAL.activity(id,'msg'); return {ok:true,text,at,override:t}; }
     if(id==='heroine_05'&&typeof V6EX!=='undefined'&&V6EX.sisExMsg&&V6EX.noContact(G,id)){ const n=V6EX.sisExMsg(G,topic), at=S.replyAt(G,id);   /* AA_600 S8（企劃線 031414cad）：前任的學姊——第 1、2 則已讀不回；第 3 則才回最短的一句（「嗯。」「好。」「謝謝。」），回完計數歸零 */
       if(typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,[n<3?{th,text:V6EX.SIS_EX_READ}:{th,from:id,text:V6EX.sisExShort(topic)}],null);
       return n<3?{ok:true,exRead:true,text,at}:{ok:true,exShort:V6EX.sisExShort(topic),text,at}; }

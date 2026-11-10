@@ -82,8 +82,8 @@ const run=async(id,picks)=>{ H.said=[]; H.cgs=[]; H.picks=picks||[]; await EVENT
       check('3. 學姊畢業那天傍晚（大四下）答應：一樣有便條那一拍、BCG-44 在「我很難相處喔。」（AA_590 決3）',r==='yes'&&idx(N1)>=0&&cgAt(C44)===idx('我很難相處喔。')-1&&idx(NY)===idx('（她把便條收進口袋，把手伸給你。）走吧。')+1,JSON.stringify(H.said)); } }
   // 已經寫好 cg 的事件：key 都登錄了（之前 ADV.cg 找不到就不顯示）
   { const src=['src/y34b3d.js','src/data/postgrad_lines.js'].map(f=>fs.readFileSync(path.join(ROOT,f),'utf8')).join('\n');
-    const ids=['cg_depart_together_heroine01','cg_final_stage_heroine04','cg_last_row_kexin','cg_anniversary_23','cg_defense_day_heroine05','cg_this_time_heroine05'];
-    check('3. 已經寫好的 cg 步驟（1B-12 CG-22、1B-15 BCG-03、1B-16 BCG-12、1B-20 CG-8、1B-25 BCG-10、學姊 2029 生日 BCG-39）都登錄了',ids.every(id=>src.includes("cg:'"+id+"'")&&!!REG[id]),ids.filter(id=>!REG[id]).join(' ')); }
+    const ids=['cg_depart_together_heroine01','cg_final_stage_heroine04','cg_last_row_kexin','cg_defense_day_heroine05','cg_this_time_heroine05'];   /* 1B-20 的 CG-8（cg_anniversary_23）拿掉了：它是一盞茶屋十週年（AA_625 接線補第 3 點，企劃線 3248430b3），茶屋那張圖來了以後在 src/aa625_3d.js 接（AA625.TEA10_CG）；登錄還在（BATCH2）*/
+    check('3. 已經寫好的 cg 步驟（1B-12 CG-22、1B-15 BCG-03、1B-16 BCG-12、1B-25 BCG-10、學姊 2029 生日 BCG-39）都登錄了；燒臘二十三週年不再出 CG-8',!/cg:'cg_anniversary_23'/.test(src)&&ids.every(id=>src.includes("cg:'"+id+"'")&&!!REG[id]),ids.filter(id=>!REG[id]).join(' ')); }
   // 遊戲裡寫了 cg 步驟、還沒有圖的 id：只列出來（先寫 cg 步驟、圖之後才登錄是允許的做法，ADV.cg 找不到就不顯示）
   { const all=new Set(); const walk=d=>{ for(const f of fs.readdirSync(d)){ const p=path.join(d,f); if(fs.statSync(p).isDirectory()) walk(p); else if(/\.js$/.test(f)&&f!=='adv3d.js') for(const mm of fs.readFileSync(p,'utf8').matchAll(/cg:'(cg_[a-z0-9_]+)'/g)) all.add(mm[1]); } }; walk(path.join(ROOT,'src'));
     const no=[...all].filter(id=>!REG[id]); console.log('INFO src/ 裡寫的 cg 步驟 '+all.size+' 個 id；還沒有圖：'+(no.join(' ')||'（沒有）')); }

@@ -270,24 +270,24 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     check('11. 「（不貼）」：沒有後續（也不替你傳字）', GT().length===2&&!G.flags.SIS_PLAN_POSTED);
     fresh(a21,20,'us_apartment',{EXCHANGE_ROUTE:'US'}); PHONE.join(G,'family_law','法律系直屬家族'); run(a21,20,21); check('11. 美國路線：沒有 A', !PHONE.sent(G,'r3_sis_plan_a'));
     fresh(b18,18.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); C('heroine_05'); run(b18,18.5,19.25);
-    { const q=OUT.get(G,'r3_sis_plan_us'); check('11. S2 美國路線、交往中：10/18 當地 19:00「你的讀書計畫，帶去會所給我看。八點。」＋20:00 會所（出遊）', txt('p:heroine_05').slice(-1)[0]==='heroine_05:你的讀書計畫，帶去會所給我看。八點。'&&!!q&&q.day===b18&&q.h===20&&q.late===0.5); }
+    { const q=OUT.get(G,'r3_sis_plan_us'); check('11. S2 美國路線、交往中（私訊照 AA_593 第 29～34 列，企劃線 6cbb0b4ab）：10/18 當地 19:00「你的讀書計畫，我想看。八點，會所。」＋20:00 會所（出遊）', txt('p:heroine_05').slice(-1)[0]==='heroine_05:你的讀書計畫，我想看。八點，會所。'&&!!q&&q.day===b18&&q.h===20&&q.late===0.5); }
     let P=await play('ev_sis_plan_us',['妳自己']);
     check('11. S2 會所（11-02 起背景 us_club_study，原本深色底）「你週六排了十二個小時。」「改成八個。……」；選項是「妳自己呢？」→「……我也改。我們一起改。」；名字照交往中的叫法；SIS_PLAN_SEEN us', has('（會所的自習室。她把你的讀書計畫從頭看到尾。）')&&has('你週六排了十二個小時。')&&has('改成八個吧。剩下四個拿去睡覺。')&&JSON.stringify(opts[0])===JSON.stringify(['「好。」','「妳自己呢？」'])&&has('……我也改。我們一起改。')&&G.flags.SIS_PLAN_SEEN==='us'&&said.find(s=>s.t==='你週六排了十二個小時。').who===(SOCIAL.datingName('heroine_05')||NAME('heroine_05'))&&scenes.some(b=>b&&b.image==='assets/bg/us_club_study.webp'), JSON.stringify(P));
     G.day=c20; G.hour=20.5; run(c20,20.5,21.25); check('11. B 演過的：C 不再演', !PHONE.sent(G,'r3_sis_plan_c'));
     fresh(b18,18.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); C('heroine_05'); run(b18,18.5,19.25); G.hour=20.6; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(b18,20.75,21.25);
-    check('11. B 沒到（20:30 前）：21:00「……下次帶來。」；SIS_PLAN_SEEN missed', txt('p:heroine_05').slice(-1)[0]==='heroine_05:……下次帶來。'&&G.flags.SIS_PLAN_SEEN==='missed');
+    check('11. B 沒到（20:30 前）：21:00「……下次再給我看。」；SIS_PLAN_SEEN missed', txt('p:heroine_05').slice(-1)[0]==='heroine_05:……下次再給我看。'&&G.flags.SIS_PLAN_SEEN==='missed');
     fresh(b18,18.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); R('heroine_05','FRI'); C('heroine_05'); run(b18,18.5,20); check('11. 美國路線、沒交往（挽回中）：沒有 B', !PHONE.sent(G,'r3_sis_plan_b')&&!OUT.get(G,'r3_sis_plan_us'));
     fresh(c8,20.5,'dorm',{Y4_PATH:'grad',SIS_PLAN_POSTED:true}); R('heroine_05','FRI'); C('heroine_05'); run(c8,20.5,21.25);
-    { const q=OUT.get(G,'r3_sis_plan_lab'); check('11. S3 要考 2/3 筆試：1/8 21:00「你的讀書計畫，拿來研究室給我看。明天晚上七點。」＋1/9 19:00 研究室', txt('p:heroine_05').slice(-1)[0]==='heroine_05:你的讀書計畫，拿來研究室給我看。明天晚上七點。'&&!!q&&q.day===c8+1&&q.h===19); }
+    { const q=OUT.get(G,'r3_sis_plan_lab'); check('11. S3 要考 2/3 筆試：1/8 21:00「你的讀書計畫，我想看。明天晚上七點，研究室。」＋1/9 19:00 研究室', txt('p:heroine_05').slice(-1)[0]==='heroine_05:你的讀書計畫，我想看。明天晚上七點，研究室。'&&!!q&&q.day===c8+1&&q.h===19); }
     P=await play('ev_sis_plan_lab',['學姊自己']);
     check('11. C 研究室（不是交往中）：選項「學姊自己呢？」；SIS_PLAN_SEEN lab；背景＝研究室的走廊', JSON.stringify(opts[0])===JSON.stringify(['「好。」','「學姊自己呢？」'])&&has('……我也改。我們一起改。')&&G.flags.SIS_PLAN_SEEN==='lab'&&scenes.some(b=>b&&b.image==='assets/bg/linze_prof_hall.webp'), JSON.stringify(P));
     fresh(c8,20.5,'dorm',{Y4_PATH:'grad',SIS_PLAN_POSTED:true}); R('heroine_05','FRI'); C('heroine_05'); run(c8,20.5,21.25); G.day=c8+1; G.hour=19.6; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(c8+1,19.75,21.25);
-    check('11. S4 1/9 沒到、貼過計畫：21:00「我自己看了你傳在群組的那張。……週六十二個小時，改成八個。」', txt('p:heroine_05').slice(-1)[0]==='heroine_05:我自己看了你傳在群組的那張。……週六十二個小時，改成八個。'&&G.flags.SIS_PLAN_SEEN==='missed');
+    check('11. S4 1/9 沒到、貼過計畫：21:00「我自己看了你傳在群組的那張。……週六十二個小時，太多了。」', txt('p:heroine_05').slice(-1)[0]==='heroine_05:我自己看了你傳在群組的那張。……週六十二個小時，太多了。'&&G.flags.SIS_PLAN_SEEN==='missed');
     fresh(c20,20.5,'dorm',{Y4_PATH:'bar'}); date('heroine_05'); C('heroine_05'); run(c20,20.5,21.25);
     check('11. 其他（不考筆試）、交往中：2/20 21:00 私訊、2/21 19:00；1/8 沒有', PHONE.sent(G,'r3_sis_plan_c')&&OUT.get(G,'r3_sis_plan_lab').day===c20+1);
     P=await play('ev_sis_plan_lab',['妳自己']); check('11. 交往中：選項「妳自己呢？」', JSON.stringify(opts[0])===JSON.stringify(['「好。」','「妳自己呢？」']));
     fresh(c20,20.5,'dorm',{Y4_PATH:'bar'}); date('heroine_05'); C('heroine_05'); run(c20,20.5,21.25); G.day=c20+1; G.hour=19.6; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(c20+1,19.75,21.25);
-    check('11. C 沒到、沒貼過：21:00「……下次拿來。」', txt('p:heroine_05').slice(-1)[0]==='heroine_05:……下次拿來。');
+    check('11. C 沒到、沒貼過：21:00「……下次再給我看。」', txt('p:heroine_05').slice(-1)[0]==='heroine_05:……下次再給我看。');
     fresh(c20,20.5,'dorm',{Y4_PATH:'bar'}); R('heroine_05','FRI'); C('heroine_05'); run(c20,20.5,21.5); check('11. 不是交往中、她不知道你的計畫（沒貼過）：沒有 C', !PHONE.sent(G,'r3_sis_plan_c'));
     fresh(c20,20.5,'dorm',{Y4_PATH:'bar',SIS_PLAN_POSTED:true}); R('heroine_05','FAM'); C('heroine_05'); run(c20,20.5,21.5); check('11. 和她不到 FRIEND：沒有 C', !PHONE.sent(G,'r3_sis_plan_c'));
     fresh(d3,8.1,'dorm',{Y4_PATH:'grad'}); R('heroine_05','FRI');
@@ -349,7 +349,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     { const e=R3_EVENTS.find(x=>x.id==='ev_sis_y4_father');
       check('13. W3 3/17 她奶奶的晚餐（AA_609）：不 retired、沒有 outingMissed、台詞沒有「爸」', !!e&&!e.retired&&e.title==='她奶奶的晚餐'&&typeof e.outingMissed!=='function'&&!/爸/.test(JSON.stringify(e.dialogue))); }
     fresh(a27,20.5,'dorm'); date('heroine_05'); C('heroine_05'); run(a27,20.5,21.25);
-    check('13. 2-7c 4/27 21:00「明天我不寫論文。」「……你排。去哪裡都可以。」＋三選一', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:明天我不寫論文。','heroine_05:……你排。去哪裡都可以。'])&&JSON.stringify(askOpts('r3_sis_dayoff'))===JSON.stringify(['河堤，騎腳踏車。','貓空，喝茶。','哪裡都不去。妳睡到中午。']));
+    check('13. 2-7c 4/27 21:00「明天我不寫論文。」「……去哪裡都可以。你想去哪？」＋三選一', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:明天我不寫論文。','heroine_05:……去哪裡都可以。你想去哪？'])&&JSON.stringify(askOpts('r3_sis_dayoff'))===JSON.stringify(['河堤，騎腳踏車。','貓空，喝茶。','哪裡都不去。妳睡到中午。']));
     ans('r3_sis_dayoff',0); run(a27,21.25,21.5);
     check('13. 河堤：「好。……我騎很慢。不要等我。」、祐廷「要等。」；4/28 10:00 河濱（出遊）', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:好。……我騎很慢。不要等我。','player:要等。'])&&OUT.get(G,'r3_sis_dayoff').day===a28&&OUT.get(G,'r3_sis_dayoff').h===10&&OUT.get(G,'r3_sis_dayoff').ev==='ev_sis_y4_dayoff_river');
     G.day=a28; G.hour=10; W1=await play('ev_sis_y4_dayoff_river');

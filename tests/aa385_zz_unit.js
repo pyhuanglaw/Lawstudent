@@ -60,7 +60,8 @@ const stepOf=(term,who,id)=>((LADDER.byTerm[term]||{})[who]||{steps:[]}).steps.f
   /* ===================== 0 讀稿、白名單 ===================== */
   await chk('0. 稿讀得到：AA_385@946b1b72（第 1～8 項＋第 9、10 節）、AA_232@088556ed（跟著改的版本）',()=>[!!A385&&/## 7\. 日本路線/.test(A385)&&/## 9\./.test(A385)&&/## 10\./.test(A385)&&!!A232&&A232.includes('……可是我九月要去英國了。'),'']);
   await chk('0. 新台詞每一句都在 AA_385 裡（4-4 那一句、選奕廷的旁白、自己告訴祐廷的兩組＋選項＋回答、4-6 宵夜那五句、日本路線那四句）',()=>{
-    if(!A385||!L) return [false,'讀不到稿']; const bad=[]; const say=(w,t)=>{ const lab=WHO[w.slice(0,2)]; const ok=lab?A385.includes(lab+'「'+t+'」'):(A385.includes('旁白「'+t+'」')||A385.includes('「'+t+'」')); if(!ok) bad.push(w+' '+t); };
+    if(!A385||!L) return [false,'讀不到稿']; const bad=[]; const say=(w,t)=>{ const lab=WHO[w.slice(0,2)], m=/^（[^（）]*）/.exec(t), alt=m&&m[0].length<t.length?[t,m[0]+'「'+t.slice(m[0].length)+'」']:[t];   /* 「（動作）說的話」：稿上是（動作）「說的話」（有名字說的拿掉裡面那一對「」，TEXT-QUOTE-UNIFY-1108 第六批）*/
+      const ok=alt.some(x=>lab?A385.includes(lab+'「'+x+'」'):(A385.includes('旁白「'+x+'」')||A385.includes('「'+x+'」'))); if(!ok) bad.push(w+' '+t); };
     if(!A385.includes('改：「'+L.SERIOUS.HELD[0][1]+'」')) bad.push('HELD[0]'); for(const [w,t] of L.SERIOUS.HELD.slice(1)) if(!A385.includes('「'+t+'」')) bad.push('HELD '+t);
     if(!A385.includes('「'+L.END.C_FY+'」')) bad.push('C_FY');
     for(const k of ['zr','zq']){ const T=L.TOLD&&L.TOLD[k]; if(!T){ bad.push('TOLD.'+k); continue; } for(const [w,t] of T.lines) say(w,t);
@@ -75,7 +76,7 @@ const stepOf=(term,who,id)=>((LADDER.byTerm[term]||{})[who]||{steps:[]}).steps.f
     const a385=f('docs/story_planning/AA_385_芷若子晴_實作後七題.md'), a232=f('docs/story_planning/AA_232_芷若子晴_摯友到戀人_核對與台詞.md'), lb=f('docs/story_planning/ladder/ladder_bb.json'), l2=f('docs/story_planning/ladder/ladder_bb_y1s2.json');
     const hist=(e,s)=>!!e&&(e.history||[]).some(h=>h.sha===s);
     const ok=a385.length===1&&a385[0].sha==='946b1b72'&&(a385[0].history||[]).some(h=>h.sha==='028dc128')&&a385[0].status==='approved'&&a385[0].kind==='text'&&!!a385[0].approvedBy
-      &&a232.length===1&&a232[0].sha==='088556ed'&&hist(a232[0],'afebee54')&&lb.length===1&&(lb[0].sha==='088556ed'||lb[0].sha==='03af79d17'&&hist(lb[0],'088556ed'))&&hist(lb[0],'49ed7e6a')&&l2.length===1&&(l2[0].sha==='088556ed'||l2[0].sha==='03af79d17'&&hist(l2[0],'088556ed'))&&hist(l2[0],'2e255e9a');   /* 2026-11-02 19:29 AA 照 AA_584 改源稿→03af79d17，088556ed 在 history（重匯後 ladder.js 不變）*/
+      &&a232.length===1&&a232[0].sha==='088556ed'&&hist(a232[0],'afebee54')&&lb.length===1&&(lb[0].sha==='088556ed'||lb[0].sha==='03af79d17'&&hist(lb[0],'088556ed')||lb[0].sha==='47b179e7f'&&hist(lb[0],'03af79d17'))&&hist(lb[0],'49ed7e6a')&&l2.length===1&&(l2[0].sha==='088556ed'||l2[0].sha==='03af79d17'&&hist(l2[0],'088556ed'))&&hist(l2[0],'2e255e9a');   /* 2026-11-02 19:29 AA 照 AA_584 改源稿→03af79d17，088556ed 在 history（重匯後 ladder.js 不變）；2026-11-05 AA_703 沛珊 P-L6→47b179e7f（03af79d17 在 history）*/
     return [ok,J({a385:a385.map(e=>e.sha),a232:a232.map(e=>e.sha),lb:lb.map(e=>e.sha),l2:l2.map(e=>e.sha)})]; });
   await chk('0. tests/zrzq_line_unit.js 對 AA_232@088556ed（不是 afebee54）',()=>{ const t=fs.readFileSync(path.join(ROOT,'tests/zrzq_line_unit.js'),'utf8'); return [/const SPEC=show\(\['088556ed'/.test(t)&&!/afebee54/.test(t),'']; });
 
@@ -179,7 +180,7 @@ const stepOf=(term,who,id)=>((LADDER.byTerm[term]||{})[who]||{steps:[]}).steps.f
     fresh('2027-10-18',23,'gongguan'); both('FRI'); datingZZ({yt:'confirmed'}); const e1=STORY_EVENTS.find(x=>x.id==='ev_zz_uk_1');
     const a=EVENTS.check(e1)&&ZRZQ.ukOk(G,1); at('2027-10-18',21.5); const b=!ZRZQ.ukOk(G,1); at('2027-10-19',4.3); G.zone='dorm'; const c=!ZRZQ.ukOk(G,1); at('2027-10-18',23); G.zone='campus'; const d=!ZRZQ.ukOk(G,1);
     G.zone='gongguan'; said=[]; await EVENTS.run(e1);
-    return [a&&b&&c&&d&&seq(L.UK[0])&&has('（打字，念出來）「在吃宵夜。第二份。」')&&!has('想妳。'),J({a,b,c,d,t:txt()})]; });
+    return [a&&b&&c&&d&&seq(L.UK[0])&&has('（打字，念出來）在吃宵夜。第二份。')&&!has('想妳。'),J({a,b,c,d,t:txt()})]; });
 
   /* ===================== 6 互斥 ===================== */
   await chk('6. 她們交往中：祐廷約子晴吃飯（麵店、半熟）、散步（溫州街）、一盞都照常（不是「兩個人單獨去…不太好」）',()=>{

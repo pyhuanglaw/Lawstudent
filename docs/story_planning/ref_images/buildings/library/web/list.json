@@ -1,0 +1,116 @@
+[
+ {
+  "file": "library_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40505",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3041",
+  "caption": "一樓大廳：挑高、中央天窗、半圓拱窗、米白牆面、木桌椅與木書架，地坪是石材加菱形圖案",
+  "size": "640×480",
+  "src_id": "map q=40505"
+ },
+ {
+  "file": "library_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40503",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3041",
+  "caption": "正面全景（黃昏）：中央四層樓高的大拱窗、左（北）側方形鐘塔、一樓連續拱廊、前面的平台和草坪",
+  "size": "640×480",
+  "src_id": "map q=40503"
+ },
+ {
+  "file": "library_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40496",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3041",
+  "caption": "正面：「圖書館」石碑、中央山牆大拱窗、一樓白色拱廊、紅磚",
+  "size": "640×480",
+  "src_id": "map q=40496"
+ },
+ {
+  "file": "library_web_04.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40499",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3041",
+  "caption": "鐘塔（直幅）：方形紅磚塔、每層小窗、頂層鐘樓開拱窗；塔下花圃",
+  "size": "480×640",
+  "src_id": "map q=40499"
+ },
+ {
+  "file": "library_web_05.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40504",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3041",
+  "caption": "拱廊（夜）：紅磚拱柱＋石材柱腳，燈從柱子內側往上打",
+  "size": "640×480",
+  "src_id": "map q=40504"
+ },
+ {
+  "file": "library_web_06.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42028",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=1",
+  "caption": "側翼＋下沉草坪的階梯：紅磚、白色石材收邊、拱窗、塔狀凸出量體",
+  "size": "640×480",
+  "src_id": "map q=42028"
+ },
+ {
+  "file": "library_web_07.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42029",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=1",
+  "caption": "側邊紅磚步道（直幅）：側翼紅磚牆、一樓拱廊、往舟山路方向",
+  "size": "480×640",
+  "src_id": "map q=42029"
+ },
+ {
+  "file": "library_web_08.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42027",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=1",
+  "caption": "一樓外牆近景（直幅）：白色石材牆面、半圓拱窗（深色窗框）、窗下線腳",
+  "size": "480×640",
+  "src_id": "map q=42027"
+ },
+ {
+  "file": "library_web_09.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40506",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3041",
+  "caption": "閱覽室窗內（夜）：學生在長桌讀書、綠色檯燈；窗外是紅磚牆",
+  "size": "640×427",
+  "src_id": "map q=40506"
+ },
+ {
+  "file": "library_web_10_plan_B1.png",
+  "url": "https://www.lib.ntu.edu.tw/img/B1.png",
+  "page": "https://www.lib.ntu.edu.tw/node/31",
+  "caption": "B1 平面圖：24 小時自習室 A、B、中庭、國際會議廳、影印中心",
+  "size": "2978×2480"
+ },
+ {
+  "file": "library_web_11_plan_1F.png",
+  "url": "https://www.lib.ntu.edu.tw/img/1f.png",
+  "page": "https://www.lib.ntu.edu.tw/node/31",
+  "caption": "1F 平面圖：多元共享區、數位媒體區、服務台、校友中心",
+  "size": "2105×2978"
+ },
+ {
+  "file": "library_web_12_plan_2F.png",
+  "url": "https://www.lib.ntu.edu.tw/img/2f.png",
+  "page": "https://www.lib.ntu.edu.tw/node/31",
+  "caption": "2F 平面圖：中央挑空、書架區、密集書庫、研究小間",
+  "size": "3285×2550"
+ },
+ {
+  "file": "library_web_13_plan_3F.png",
+  "url": "https://www.lib.ntu.edu.tw/img/3f.png",
+  "page": "https://www.lib.ntu.edu.tw/node/31",
+  "caption": "3F 平面圖：期刊、參考書、閱覽座位、研究小間",
+  "size": "2526×3573"
+ },
+ {
+  "file": "library_web_14_plan_4F.png",
+  "url": "https://www.lib.ntu.edu.tw/img/4F.png",
+  "page": "https://www.lib.ntu.edu.tw/node/31",
+  "caption": "4F 平面圖：書架區、研究小間",
+  "size": "2523×2978"
+ },
+ {
+  "file": "library_web_15_plan_5F.png",
+  "url": "https://www.lib.ntu.edu.tw/img/5f.png",
+  "page": "https://www.lib.ntu.edu.tw/node/31",
+  "caption": "5F 平面圖：特藏、閉架書庫",
+  "size": "2105×2978"
+ }
+]

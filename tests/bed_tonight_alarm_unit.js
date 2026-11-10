@@ -35,8 +35,12 @@ const sisDay=h=>{ const G=H.fresh('2028-03-15',h,'dorm',{met_sis:true,SIS_W1:tru
     check('5. 沒有今晚的約：照舊睡到明天（早上、中午、下午、晚上）',base.filter(k=>k.startsWith('sleep@')).length>=3&&!base.some(k=>k.startsWith('nap')),J(base));
     const G=H.fresh('2027-10-06',22,'dorm',{}); OUT.plan(G,{id:'t_out2',ev:'ev_t_out',day:G.day,h:21,place:'溫州街',title:'已經過了的約',travel:'',travelH:0,alarm:true});
     check('5. 約已經過了（21:00，現在 22:00）：照舊',J(kinds(G))===J(base),J(kinds(G)));
-    const G2=H.fresh('2027-10-06',18,'dorm',{}); OUT.plan(G2,{id:'t_out3',ev:'ev_t_out',day:G2.day,h:20,place:'溫州街',title:'沒有鬧鐘的約',travel:'',travelH:0});
-    check('5. 不是 alarm 的出遊：照舊（和 18:00 沒有約一樣）',J(kinds(G2))===J(kinds(H.fresh('2027-10-06',18,'dorm',{}))),J(kinds(G2)));
+    /* BUG-OUT-ALARM-SKIP-1109（11-09）：沒寫 alarm 的出遊預設也停；不停的要寫 alarm:false——這一項改成 alarm:false 驗「不停」，另外加沒寫 alarm＝停 */
+    const G2=H.fresh('2027-10-06',18,'dorm',{}); OUT.plan(G2,{id:'t_out3',ev:'ev_t_out',day:G2.day,h:20,place:'溫州街',title:'沒有鬧鐘的約',travel:'',travelH:0,alarm:false});
+    { const G2b=H.fresh('2027-10-06',18,'dorm',{}); OUT.plan(G2b,{id:'t_out4',ev:'ev_t_out',day:G2b.day,h:20,place:'溫州街',title:'沒寫 alarm 的約',travel:'',travelH:0}); check('5. 沒寫 alarm 的出遊：預設也停（BUG-OUT-ALARM-SKIP-1109）',J(kinds(G2b))!==J(kinds(H.fresh('2027-10-06',18,'dorm',{}))),J(kinds(G2b))); }
+    check('5. alarm:false 的出遊：照舊（和 18:00 沒有約一樣）',J(kinds(G2))===J(kinds(H.fresh('2027-10-06',18,'dorm',{}))),J(kinds(G2)));
+    /* 舊存檔排好的校外約會（dateTrip、沒寫 alarm）：約會有自己的鬧鐘（DATE.alarmsFor），OUT 這邊不再停一次 */
+    { const G2c=H.fresh('2027-10-06',18,'dorm',{}); OUT.plan(G2c,{id:'date_t_old',dateTrip:'t_old',ev:null,day:G2c.day,h:20,place:'淡水',title:'舊存檔的約會',travel:'',travelH:0}); check('5. 舊存檔的校外約會（dateTrip、沒寫 alarm）：OUT 不重複停',OUT.alarmOn(G2c.outings.find(q=>q.id==='date_t_old'))===false&&J(kinds(G2c))===J(kinds(H.fresh('2027-10-06',18,'dorm',{}))),J(kinds(G2c))); }
     const G3=sisDay(22); check('5. 3/15 22:00（電話的時間過了）：照舊睡到明天',kinds(G3).some(k=>k.startsWith('sleep@'))&&!kinds(G3).some(k=>k.startsWith('nap')),J(kinds(G3))); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

@@ -68,7 +68,7 @@ const HCIRCLE_DATA={
     {hc:'c506_3_1',who:'heroine_03',e:{days:[1],from:12.2,to:12.5,zone:'campus',act:'linger',at:[36.6,-97.4,Math.PI/2,0],terms:['Y2S2'],weeks:[2,3,4,5,6,7,10,11,12,13,14,15],noHoliday:true,label:'法律系館A門口（債各下課）'}},
     /* c506_3_3 語彤暑假週二、四 14:30～15:30 在麵店（午休）的作息補：AA_624（使用者 11-03）她從來不在燒臘店，拿掉 */
     /* AA_657 第 1 節（WZ-YIZHAN-1104）：兩列搬到一盞，作息補這兩筆（放在她 daily_schedule 最前面）——c506_3_3 週四、五 14:30～15:30 茶席最東邊（read，seatAt）；c510_3_2 週四 17:30～20:00 水屋旁（linger 在她上班的點 (2.95, 2.4)，圈子那一列成立再坐到木凳、客人進來站起來：hcircle3d.js S.shopSeat）*/
-    {hc:'c506_3_3',who:'heroine_03',e:{days:[4,5],from:14.5,to:15.5,zone:'wz_teahouse',act:'read',seatAt:[-0.7,0.95],dates:[['2027-07-09','2027-09-05']],label:'一盞：茶席最東邊（午後）',note:'AA_657 第 1 節'}},
+    {hc:'c506_3_3',who:'heroine_03',e:{days:[4,5],from:14.5,to:15.5,zone:'wz_teahouse',act:'read',seatAt:[-0.7,0.95],dates:[['2027-07-09','2027-09-05']],taipei:'both',label:'一盞：茶席最東邊（午後）',note:'AA_657 第 1 節；AA_675 1-1：taipei both＝暑假的平日她在淡水的日子也照這一筆（她自己的行程）'}},
     {hc:'c510_3_2',who:'heroine_03',e:{days:[4],from:17.5,to:20,zone:'wz_teahouse',act:'linger',at:[2.95,2.4,-Math.PI/2,0],noPair:true,dates:[['2029-06-04','2029-09-02']],label:'一盞（顧店）',note:'AA_657 第 1 節'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[1,2,3,4,5],from:10,to:18,zone:null,act:'out',away:'在實習',dates:[['2027-07-06','2027-09-03']],note:'AA_506 4-1：暑假平日 10:00～18:00 實習（7/6 第一天、9/3 最後一天，AA_506 4-2 第 5 點），不在 3D'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[2,4],from:21,to:23.5,zone:'gongguan',act:'read',seatAt:[15.6,19.8],prop:'laptop_lap',at:[16,20.6,Math.PI,0],terms:['Y2S2'],weeks:[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],label:'公館騎樓（插座旁邊）'}},
@@ -131,7 +131,7 @@ const HCIRCLE_DATA={
     {id:'c504_6_1',doc:'AA_504',sec:'6-1',k:1,who:'classmate_peishan',with:['classmate_bohan'],days:[1,2,4,5],from:16,to:19,terms:['Y1S2'],dates:[['2026-04-06','2026-06-14']],zone:'library_hall',cond:'psBohan',aa527:'2-5',heard:'柏翰：五十分鐘到了。休息十分鐘。／沛珊：我這頁還沒看完……好啦。',
       place:'總圖二樓＝總圖大廳二樓自習區（library_hall 二樓；AA_527 2-5，企劃線 bfede0a62；原本放總圖三樓閱覽區）：沛珊那幾格的作息在 characters.js 改 library_hall，柏翰照圈子跟著她（STORY.SCHED_WITH）；週二、四 16～18 第 5～15 週她在溫州街課輔班（作息在前面）'},
     {id:'c504_6_2',doc:'AA_504',sec:'6-1',k:2,who:'classmate_peishan',ref:true,heard:'照現有'},
-    {id:'c504_6_3',doc:'AA_504',sec:'6-1',k:3,who:'classmate_peishan',with:['hc_kid'],days:[2,4],from:16,to:18,terms:['Y1S2'],wk:[5,15],zone:'wenzhou',heard:'小朋友：老師！這題我會了！／沛珊：好棒！……那下一題呢？'},
+    {id:'c504_6_3',doc:'AA_504',sec:'6-1',k:3,who:'classmate_peishan',with:['hc_kid'],days:[3],from:18,to:21,terms:['Y1S2'],wk:[5,15],zone:'wenzhou',note:'AA_504 6-1 寫「週二、四 課輔班（現有）」＝跟著課輔班的作息；AA-B 2026-11-07（AA_614 第 1 節 a0b8a3e40）課輔班改每週三 18:00～21:00＝這一列跟著搬（原本週二、四 16～18；AA614-CLASSMATE-JOBS-1103）',heard:'小朋友：老師！這題我會了！／沛珊：好棒！……那下一題呢？'},
     /* ===================== AA_505 大二上＋寒假 ===================== */
     {id:'c505_1_1',doc:'AA_505',sec:'1-1',k:1,who:'heroine_01',with:['yu'],always:true,days:[1,3],from:18,to:18+50/60,terms:['Y2S1'],wk:[1,7],zone:'campus',cond:'beforePlgRules',heard:'Alison：欸讀書會的規則妳又寫了幾條？／以安：十二條。／Alison：……我等一下撕一半。',
       place:'「只在第 7 週以前說」＝第 1～7 週、ev_plg_rules（Alison 撕掉一半）還沒演'},

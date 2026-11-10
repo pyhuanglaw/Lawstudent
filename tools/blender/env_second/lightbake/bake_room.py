@@ -10,7 +10,7 @@ GLB → Blender Cycles 烘焙「光照貼圖」（只有光、不含顏色：直
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in <房間.glb> --out <輸出.glb> --lm <輸出前綴（不含 _day.png）> --url <遊戲裡的路徑前綴>
    [--res 1024] [--samples 64] [--emit 材質名=強度,...] [--hide 材質名或物件名的正規式（烘焙時當作不存在：玻璃）]
    [--sun 方位角,仰角,強度（白天的太陽，遊戲座標的羅盤方位）] [--dark [--darksky 0.045] [--darkpoints x,y,z,W[,r,g,b];…]（第三張：熄燈）] [--sky 1.0] [--nightsky 0.03] [--scale 2.0] [--keep-instances]
-   [--dayemit 材質名=強度,...（只在白天那一張發光、晚上不亮：天窗）] [--points x,y,z,W[,r,g,b];...（點光源）] [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--daylights 1.0（白天那一張的燈乘多少）] [--daywb r,g,b] [--nightwb r,g,b]（白平衡） [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）] [--emit-oneside（發光材質只有正面發光）] [--drop 正規式（只在烘焙時擋光、不輸出的物件）]
+   [--dayemit 材質名=強度,...（只在白天那一張發光、晚上不亮：天窗）] [--points x,y,z,W[,r,g,b];...（點光源）] [--dayfill …（格式同 --lights；只在白天那一張、朝下的補光）] [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--daylights 1.0（白天那一張的燈乘多少）] [--daywb r,g,b] [--nightwb r,g,b]（白平衡） [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）] [--emit-oneside（發光材質只有正面發光）] [--drop 正規式（只在烘焙時擋光、不輸出的物件）]
 物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）；lmhide＝[x,y,z]：朝這個方向的面看不到、不分像素（'side'＝所有側面）。
 之後用系統的 python3 把 _day.png／_night.png 轉成 WebP（lightbake/to_webp.py），放到 --url 指的位置。
 --scale：貼圖存 (光/π)/scale（8 位元存不下太亮的地方），遊戲的 lightMapIntensity＝π×scale（寫進 <prefix>.json）。
@@ -72,7 +72,9 @@ realize()
 # ---- 2. 烘焙的物件：網格、不是玻璃（HIDE）、有面 ----
 def mats(o): return [s.material.name for s in o.material_slots if s.material]
 def hidden(o): return bool(HIDE and (HIDE.search(o.name) or any(HIDE.search(m) for m in mats(o))))
-objs = [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons) and not hidden(o) and not (NOLM and NOLM.search(o.name))]
+objs = [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons) and not hidden(o) and not (NOLM and NOLM.search(o.name))
+        and not (KEEP_INST and o.data.users > 1)]   # --keep-instances：好幾個物件共用的網格（GPU instancing）不烘——每個實例的光不一樣，同一份 UV 給不了；
+#   而且 Blender 匯入時第二個以後的實例叫「網格名.001」，--nolm 的 …_vc$、…_inst$ 認不到，烘進去以後共用網格的全部多了第二套 UV（LAWWW2-B 11-07 轉角唱片試烘）
 for o in bpy.data.objects:
     if o.type == 'MESH' and hidden(o): o.hide_render = True   # 玻璃：烘焙時當作不存在（窗外的光直接進來）
 print('bake objects', len(objs), flush=True)
@@ -151,7 +153,7 @@ if FLIP:
 # 這種材質自動複製一份給不烘的物件用（名字後面加 _rt＝即時光）；不同物件本來就各畫一次，draw call 不會變多
 OBJS = set(objs); mine = {m for o in objs for m in mats(o)}; split = {}
 for o in bpy.data.objects:
-    if o.type != 'MESH' or not len(o.data.polygons) or o in OBJS or hidden(o): continue
+    if o.type != 'MESH' or not len(o.data.polygons) or o in OBJS: continue   # --hide 的也要複製（11-07：研討室 B 面試那一套家具烘的時候藏起來，但照樣輸出；共用烘焙的材質，遊戲會拿沒有的第二套 UV 讀光照貼圖）
     for sl in o.material_slots:
         m = sl.material
         if m and m.name in mine:
@@ -189,6 +191,9 @@ for o in objs:   # 自訂屬性 lm：這個物件的島整個縮放（之後一�
 # 現在這些面不參加排版（排版前取消選取），排完以後都放到同一個物件最大那一面的中心（取那一點的光；面積是 0，烘焙不會寫）。整個物件都看不到的照舊參加排版。
 def hidden_faces(o):
     d = o.get('dir'); dv = Vector((d[0], -d[2], d[1])) if d is not None and len(d) == 3 else None   # 遊戲座標 → Blender
+    # 隔間牆（自訂屬性 partition＝1）兩面都看得到（遊戲的 fadeWalls 也照兩邊判斷）：dir 只是淡出用的方向，背面不能當成看不到（11-08 LAWWW2-B，BB-B PC GPU：
+    #   霖澤 5F 研究室那面隔間牆整片借了走廊那一面中心的 0.745，整片泛白、沒有明暗；總圖 B1、研究小間、體育館 B1、美國兩間的隔間牆背面也一樣）
+    if o.get('partition'): dv = None
     h = o.get('lmhide'); hs_side = isinstance(h, str) and 'side' in h.split(',')   # 自訂屬性 lmhide：朝這個方向（遊戲座標）的面看不到（例：樓板上面被地板蓋住 [0,1,0]；霖澤館大廳 10-28）；
     hv = Vector((h[0], -h[2], h[1])) if h is not None and not isinstance(h, str) and len(h) == 3 else None   # 'side'＝所有側面（地板方塊的四邊：埋在牆裡或在玻璃外面，烘出來是天空的顏色）
     # 字串也可以寫好幾個方向，用逗號分開：side、up、down、N（遊戲 −z）、S、E、W（例：男一舍走廊的牆 'N,up'＝背面是沒做模型的寢室、牆頂在天花板上面；DORM-HALL-LM-1028）
@@ -250,6 +255,14 @@ if '--uvonly' in A:   # 只看 UV 排版、不烘焙（幾十秒）：輸出加�
                               export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False, export_gpu_instances=KEEP_INST)
     print('uvonly exported', OUT, flush=True); sys.exit(0)
 
+# --emit／--dayemit 會改材質的發光強度：先記下原本的，匯出前（第 6 步）照原本的設回去。
+#   11-08 以前一律設成 1.0：原本是 1.0 的材質沒差（到 11-08 交過的都是），大口一樓的燈板原本 26，用 --emit 就會在遊戲裡變暗。
+ORIG_EMIT = {}
+for _m in bpy.data.materials:
+    if _m.node_tree and any(k in _m.name for k in list(EMIT) + list(DAYEMIT)):
+        _b = next((x for x in _m.node_tree.nodes if x.type == 'BSDF_PRINCIPLED'), None)
+        if _b: ORIG_EMIT[_m.name] = _b.inputs['Emission Strength'].default_value
+
 # ---- 4. 貼圖＋每個材質裡一個「要寫進去」的貼圖節點（Cycles 烘焙寫到作用中的貼圖節點，用作用中的 UV）----
 img = bpy.data.images.new('LM_bake', RES, RES, alpha=False, float_buffer=True)
 img.colorspace_settings.name = 'Non-Color'
@@ -288,13 +301,38 @@ if '--emit-oneside' in A:
 
 # ---- 5. 光：天空（Nishita）＋太陽（白天）；晚上只有夜空 ----
 sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = SAMPLES
+# 用哪一個裝置烘（BAKE-PC-1102，BB 11-02 P1：烘焙搬到使用者的 PC，CC runner 的 KIND=blender）：
+#   環境變數 CC_BLENDER_DEVICE＝HIP／CUDA／OPTIX／METAL／ONEAPI → Cycles 用那一種 GPU（PC 是 RX 6600M＝HIP）；沒設或 CPU＝CPU（雲端照舊，行為不變）。
+#   要 GPU 卻找不到那一種裝置：照樣用 CPU 烘完，但 DEVICE 那一行和 <prefix>.json 的 device 寫 'CPU（要 HIP 找不到）'，結果不能拿來當 GPU 對照。
+DEVICE = 'CPU'
+_want = (os.environ.get('CC_BLENDER_DEVICE') or '').strip().upper()
+if _want and _want != 'CPU':
+    try:
+        cp = bpy.context.preferences.addons['cycles'].preferences; cp.compute_device_type = _want
+        try: cp.refresh_devices()
+        except Exception: cp.get_devices()
+        devs = [d for d in cp.devices if d.type == _want]
+        for d in cp.devices: d.use = (d.type == _want)
+        if devs: sc.cycles.device = 'GPU'; DEVICE = _want + '：' + '、'.join(d.name for d in devs)
+        else: DEVICE = 'CPU（要 %s 找不到；裝置：%s）' % (_want, '、'.join('%s/%s' % (d.type, d.name) for d in cp.devices) or '沒有')
+    except Exception as e: DEVICE = 'CPU（要 %s 失敗：%s）' % (_want, e)
+print('DEVICE', DEVICE, 'blender', bpy.app.version_string, flush=True)
+import time as _time; _T0 = _time.time()
 if os.environ.get('BAKE_THREADS'): sc.render.threads_mode = 'FIXED'; sc.render.threads = int(os.environ['BAKE_THREADS'])   # 環境變數 BAKE_THREADS＝只用幾個執行緒（同時跑測試時讓出 CPU；10-31 加）
 sc.cycles.max_bounces = 6; sc.cycles.diffuse_bounces = 4; sc.cycles.glossy_bounces = 1; sc.cycles.transparent_max_bounces = 16
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; nt = w.node_tree; bg = nt.nodes['Background']
 sky = nt.nodes.new('ShaderNodeTexSky')
 try: sky.sky_type = 'NISHITA'; sky.sun_disc = False; sky.sun_elevation = math.radians(max(SUN[1], 2)); sky.sun_rotation = math.radians(SUN[0])
 except Exception: pass
-nt.links.new(sky.outputs['Color'], bg.inputs['Color'])
+# --skytint r,g,b（11-08 LAWWW2-B，一盞 WZ6_LM_cloud：BB-B 判店門口的淺色木地板白天變灰藍、像水泥）：白天那一張的天光乘這個顏色（只乘天光，燈不受影響；晚上那一張照舊）。
+#   Nishita 晴空沒有太陽（這幾間的 --sun 強度 0）只剩藍天光，開口大的店門口一帶光照貼圖藍／紅到 1.4（WebP），遊戲室內白天的即時光是暖灰（0xf4f1ea），木頭乘上去變灰藍。
+#   沒給 --skytint 就不加這個節點（和原本完全一樣）。
+SKYTINT = [float(t) for t in arg('--skytint').split(',')] if arg('--skytint') else None
+if SKYTINT:
+    sky_tint = nt.nodes.new('ShaderNodeVectorMath'); sky_tint.operation = 'MULTIPLY'; sky_tint.inputs[1].default_value = SKYTINT
+    nt.links.new(sky.outputs['Color'], sky_tint.inputs[0]); nt.links.new(sky_tint.outputs['Vector'], bg.inputs['Color'])
+else:
+    nt.links.new(sky.outputs['Color'], bg.inputs['Color'])
 sd = bpy.data.lights.new('sun', 'SUN'); sd.angle = math.radians(1.0); so = bpy.data.objects.new('sun', sd); sc.collection.objects.link(so)
 # 遊戲座標的羅盤方位（0＝北＝−z、90＝東＝+x）→ 太陽「照過來」的方向；Blender 的太陽沿自己的 −Z 照
 az, el = math.radians(SUN[0]), math.radians(SUN[1])
@@ -303,7 +341,7 @@ to_sun = Vector((to_sun_game.x, -to_sun_game.z, to_sun_game.y))
 so.rotation_euler = to_sun.to_track_quat('Z', 'Y').to_euler()
 
 # 日光燈：在燈具的位置放真的面光源（發光的網格本身也亮，但 Cycles 從很小的發光面取樣很吵：10-28 第一次烘焙牆上一塊一塊的）
-# --lights x0,x1,z0,z1,y,nx,nz,W[,sx,sz[,r,g,b]]（可以重複，用 ; 分開）：x0..x1 × z0..z1 的格子中心、高 y，nx×nz 盞，每盞 W 瓦，燈的大小 sx×sz（預設 1.2×0.3 m），顏色（預設日光燈 1,0.97,0.92；檯燈偏暖）
+# --lights x0,x1,z0,z1,y,nx,nz,W[,sx,sz[,r,g,b[,擴散角]]]（可以重複，用 ; 分開）：x0..x1 × z0..z1 的格子中心、高 y，nx×nz 盞，每盞 W 瓦，燈的大小 sx×sz（預設 1.2×0.3 m），顏色（預設日光燈 1,0.97,0.92；檯燈偏暖）
 # --points x,y,z,W[,r,g,b[,半徑]]（用 ; 分開）：點光源（壁燈、往上打的燈；總圖大廳 LIB-HALL-LM-1028）；半徑預設 0.06 m（影子很硬），補光用大一點（0.4～0.6）
 AREAS = []
 for spec in (arg('--lights', '') or '').split(';'):
@@ -313,13 +351,28 @@ for spec in (arg('--lights', '') or '').split(';'):
         for j in range(int(nz)):
             x = x0 + (x1 - x0) * (i + 0.5) / nx; z = z0 + (z1 - z0) * (j + 0.5) / nz
             ld = bpy.data.lights.new(f'fx{i}_{j}', 'AREA'); ld.shape = 'RECTANGLE'; ld.size = lsx; ld.size_y = lsz; ld.energy = Wt; ld.color = col
+            if len(v) >= 14: ld.spread = math.radians(v[13])   # 第 14 個數＝光束的擴散角（度；軌道投射燈 40°：地上一圈一圈亮，2:30 AM BB 11-04「局部打亮」）；沒寫＝180°（日光燈）
             lo = bpy.data.objects.new(ld.name, ld); sc.collection.objects.link(lo); lo.location = Vector((x, -z, y - 0.01)); AREAS.append(lo)   # 朝下（Blender 的面光源朝 −Z）
 for spec in (arg('--points', '') or '').split(';'):
     if not spec.strip(): continue
     v = [float(t) for t in spec.split(',')]; x, y, z, Wt = v[:4]; col = tuple(v[4:7]) if len(v) >= 7 else (1.0, 0.85, 0.7)
     ld = bpy.data.lights.new('pt', 'POINT'); ld.energy = Wt; ld.color = col; ld.shadow_soft_size = v[7] if len(v) >= 8 else 0.06   # 第 8 個數＝光源半徑（影子的軟硬；BOYA-LM-1030 燈具下方的補光原本 6 cm，講桌在後牆、地上打出一塊硬影子）
     lo = bpy.data.objects.new(ld.name, ld); sc.collection.objects.link(lo); lo.location = Vector((x, -z, y)); AREAS.append(lo)
-print('area lights', len(AREAS), flush=True)
+# --dayfill x0,x1,z0,z1,y,nx,nz,W[,sx,sz[,r,g,b]]（格式和 --lights 一樣，用 ; 分開；11-01 LAWWW2-B，美國 C 棟合租戶客廳東邊）：
+#   只在白天那一張、朝下的柔和面光源（晚上、熄燈那兩張不亮；不乘 --daylights；顏色預設偏白的天光 0.97,0.98,1.0）。
+# 為什麼：窗只在一邊的房間，離窗遠的那一頭白天很暗（合租戶客廳東邊、臥室門前 0.17～0.25，中間 0.68）——Cycles 算的反射光是對的，
+#   但遊戲沒有曝光調整：人在屋裡眼睛會適應、看得清楚的角落，畫面上是一塊暗的。代表白色天花板、牆之間來回的天光。
+#   用朝下的面光源、不用點光源：點光源離天花板只有幾十公分，天花板會烘出一塊亮斑。
+DAYFILL = []
+for spec in (arg('--dayfill', '') or '').split(';'):
+    if not spec.strip(): continue
+    v = [float(t) for t in spec.split(',')]; x0, x1, z0, z1, y, nx, nz, Wt = v[:8]; lsx, lsz = (v[8], v[9]) if len(v) >= 10 else (1.2, 1.2); col = tuple(v[10:13]) if len(v) >= 13 else (0.97, 0.98, 1.0)
+    for i in range(int(nx)):
+        for j in range(int(nz)):
+            x = x0 + (x1 - x0) * (i + 0.5) / nx; z = z0 + (z1 - z0) * (j + 0.5) / nz
+            ld = bpy.data.lights.new(f'dayfill{i}_{j}', 'AREA'); ld.shape = 'RECTANGLE'; ld.size = lsx; ld.size_y = lsz; ld.energy = Wt; ld.color = col
+            lo = bpy.data.objects.new(ld.name, ld); sc.collection.objects.link(lo); lo.location = Vector((x, -z, y - 0.01)); lo['W0'] = Wt; DAYFILL.append(lo)
+print('area lights', len(AREAS), 'day-only fill', len(DAYFILL), flush=True)
 
 # 房間外殼（--shell 開著的方向，用逗號分開：N＝遊戲 −z、S＝+z、E＝+x、W＝−x，例：S＝窗在 +z 那一面）：烘焙時才有、不輸出的黑色厚板，
 # 把房間其他幾面（含天花板上面、地板下面）包起來。為什麼：烘焙的場景房間外面就是天空，門縫、牆角的縫會漏進天光
@@ -348,7 +401,9 @@ DAYL = float(arg('--daylights', '1.0'))   # 白天那一張的燈（--lights）�
 for lo in AREAS: lo['W0'] = lo.data.energy
 def bake(tag, sky_strength, sun_energy, emit_scale, lamp_scale=1.0):
     bg.inputs['Strength'].default_value = sky_strength; sd.energy = sun_energy
+    if SKYTINT: sky_tint.inputs[1].default_value = SKYTINT if tag == 'day' else (1.0, 1.0, 1.0)   # --skytint 只乘白天
     for lo in AREAS: lo.data.energy = lo['W0'] * lamp_scale
+    for lo in DAYFILL: lo.data.energy = lo['W0'] if tag == 'day' else 0.0   # --dayfill：只有白天那一張
     # 發光的強度（--emit、--dayemit）：所有網格的材質都要設，不是只有要烘的物件——發光面通常在 --nolm 裡（不烘、照樣發光）。
     # 原本只設要烘的物件：總圖大廳的天窗（--nolm）白天沒有照 --dayemit 加強，晚上也沒有關掉，晚上的光照貼圖裡天窗照樣發光（LIB-HALL-LM-1028：二樓連廊晚上比大廳還亮）
     for o in [x for x in bpy.data.objects if x.type == 'MESH']:
@@ -397,6 +452,46 @@ def knee(px):
     mm = np.where(hi, K + (A_ - K) * (1 - np.exp(-(m - K) / (A_ - K))), m)
     return np.where(hi, px * (mm / np.maximum(m, 1e-6)), px)
 
+# --dayscale 'PAT=F[,K,A];…'（11-01 LAWWW2-B，美國公寓門外平台、陽台）：白天那一張，名稱符合 PAT 的物件（屋外的地板、屋簷、外牆）的像素乘 F，
+#   有 K,A 的再把超過 K 的平滑壓到最多 A（和 --knee 同一個公式）。只改這些物件 LM UV 蓋到的像素，加上 Blender 烘焙留的邊（margin）——邊只往沒有別的物件的空白長。
+# 為什麼：屋外天光比屋裡亮好幾倍，遊戲沒有曝光調整，有屋簷的平台、陽台白天照舊 0.85、1.36（淺色水泥看起來一片白）。整體的天光調暗，屋裡就太暗。晚上那一張不動。
+DAYSCALE = [(re.compile(k), [float(t) for t in v.split(',')]) for k, v in (s.split('=') for s in arg('--dayscale', '').split(';') if s)]
+def uvmask(sel, margin=0):
+    """sel 裡的物件的 LM UV 三角形蓋到的像素（像素中心在三角形內）；margin＞0：再往外長 margin 圈，只長進「沒有任何物件」的空白"""
+    def raster(L):
+        m = np.zeros((RES, RES), np.bool_)
+        for o in L:
+            me = o.data; me.calc_loop_triangles(); uvd = me.uv_layers['LM'].data
+            uv = np.empty(len(uvd) * 2, dtype=np.float32); uvd.foreach_get('uv', uv); uv = uv.reshape(-1, 2) * RES
+            for t in me.loop_triangles:
+                P = uv[list(t.loops)]; x0, y0 = np.floor(P.min(0)).astype(int); x1, y1 = np.ceil(P.max(0)).astype(int)
+                x0, y0 = max(x0, 0), max(y0, 0); x1, y1 = min(x1, RES), min(y1, RES)
+                if x1 <= x0 or y1 <= y0: continue
+                X, Y = np.meshgrid(np.arange(x0, x1) + 0.5, np.arange(y0, y1) + 0.5)
+                (ax, ay), (bx, by), (cx, cy) = P; d = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
+                if abs(d) < 1e-12: continue
+                w0 = ((by - cy) * (X - cx) + (cx - bx) * (Y - cy)) / d; w1 = ((cy - ay) * (X - cx) + (ax - cx) * (Y - cy)) / d; w2 = 1 - w0 - w1
+                m[y0:y1, x0:x1] |= (w0 >= -1e-4) & (w1 >= -1e-4) & (w2 >= -1e-4)
+        return m
+    m = raster(sel)
+    if margin > 0:
+        free = ~raster(objs)
+        for _ in range(margin):
+            g = m.copy(); g[1:, :] |= m[:-1, :]; g[:-1, :] |= m[1:, :]; g[:, 1:] |= m[:, :-1]; g[:, :-1] |= m[:, 1:]
+            m = m | (g & free)
+    return m
+def dayscale(px):
+    for rx, v in DAYSCALE:
+        sel = [o for o in objs if rx.search(o.name)]
+        if not sel: print('dayscale: 沒有符合', rx.pattern, flush=True); continue
+        msk = uvmask(sel, 6); F = v[0]; q = px[msk] * F
+        if len(v) >= 3:
+            K, A_ = v[1], v[2]; mm = q.max(axis=1, keepdims=True); hi = mm > K
+            q = np.where(hi, q * ((K + (A_ - K) * (1 - np.exp(-(mm - K) / (A_ - K)))) / np.maximum(mm, 1e-6)), q)
+        print('dayscale', rx.pattern, [o.name for o in sel], int(msk.sum()), 'px', 'mean', float(px[msk].mean()), '→', float(q.mean()), flush=True)
+        px = px.copy(); px[msk] = q
+    return px
+
 def save(px, path):
     px = smooth(px, SMOOTH)
     v = np.clip(px / SCALE, 0, 1)
@@ -411,8 +506,31 @@ def save(px, path):
 WB = {k: [float(t) for t in arg('--' + k + 'wb').split(',')] if arg('--' + k + 'wb') else None for k in ('day', 'night')}
 def wb(px, k): return px * np.array(WB[k], dtype=np.float32)[None, None, :] if WB[k] else px
 os.makedirs(os.path.dirname(os.path.abspath(LM)), exist_ok=True)
-day = bake('day', SKY, SUN[2], 1.0, DAYL); save(knee(wb(day, 'day')), LM + '_day.png')
-night = bake('night', NIGHTSKY, 0.0, 1.0); save(wb(night, 'night'), LM + '_night.png')
+# 續烘（11-08 LAWWW2-B，總圖 B1：512 取樣、1024 貼圖、350 盞面光源，一張要 65 分鐘，白天＋晚上超過雲端背景工作兩小時的上限，晚上那張烘到一半被停掉兩次）：
+#   環境變數 BAKE_CACHE＝資料夾：每烘完一張，原始值存成 <資料夾>/<day|night>.npy，旁邊 .sha＝這一次的「輸入檔＋參數（--lm、--out 除外）＋光照 UV」雜湊；
+#   下一次跑同一個指令，雜湊一樣就直接讀、不重烘（UV 排版不一樣、參數改過就照樣重烘）。BAKE_STOP_AFTER＝day：白天那張存好就結束（exit 3），下一次再跑晚上。
+#   沒設這兩個變數和原本完全一樣。
+CACHE = os.environ.get('BAKE_CACHE'); STOP_AFTER = os.environ.get('BAKE_STOP_AFTER'); UVSHA = None
+if CACHE:
+    import hashlib
+    os.makedirs(CACHE, exist_ok=True); _h = hashlib.sha256(open(IN, 'rb').read())
+    _h.update('\0'.join(v for i, v in enumerate(A) if not (i and A[i - 1] in ('--lm', '--out', '--in'))).encode())
+    for o in objs:
+        _uvd = o.data.uv_layers['LM'].data; _a = np.empty(len(_uvd) * 2, dtype=np.float32); _uvd.foreach_get('uv', _a)
+        _h.update(o.name.encode()); _h.update(_a.tobytes())
+    UVSHA = _h.hexdigest(); print('BAKE_CACHE', CACHE, 'sha', UVSHA[:12], flush=True)
+def cbake(tag, *a):
+    f = os.path.join(CACHE, tag + '.npy') if CACHE else None
+    if f and os.path.exists(f):
+        if open(f[:-4] + '.sha').read().strip() == UVSHA:
+            px = np.load(f); print(tag, 'from cache', f, 'lm mean', float(px.mean()), 'p99', float(np.percentile(px, 99)), flush=True); return px
+        print(tag, 'cache 不能用（雜湊不一樣）：重烘', flush=True)
+    px = bake(tag, *a)
+    if f: np.save(f, px); open(f[:-4] + '.sha', 'w').write(UVSHA); print(tag, 'cached', f, flush=True)
+    if STOP_AFTER == tag: print('BAKE_STOP_AFTER', tag, flush=True); sys.exit(3)
+    return px
+day = cbake('day', SKY, SUN[2], 1.0, DAYL); save(knee(dayscale(wb(day, 'day'))), LM + '_day.png')
+night = cbake('night', NIGHTSKY, 0.0, 1.0); save(wb(night, 'night'), LM + '_night.png')
 # 第三張「熄燈」（--dark；宿舍睡覺 DORM-SLEEP-VISUAL-1030，使用者 10-30「睡覺要真的有畫面」）：室內的燈（--lights、--points）全關、所有發光材質（燈管、燈條、螢幕）也關，
 # 只剩夜空（--darksky，預設 --nightsky 的 1.5 倍）＋窗外的路燈（--darkpoints x,y,z,W[,r,g,b];…，只在這一張）。遊戲：Z3.roomLightmap 的 z.lightsOff(0～1) 從晚上那張換到這張
 DARK = None
@@ -483,7 +601,7 @@ for m in bpy.data.materials:
     for k, v in list(EMIT.items()) + list(DAYEMIT.items()):
         if k in m.name and m.node_tree:
             b = next((x for x in m.node_tree.nodes if x.type == 'BSDF_PRINCIPLED'), None)
-            if b: b.inputs['Emission Strength'].default_value = 1.0
+            if b: b.inputs['Emission Strength'].default_value = ORIG_EMIT.get(m.name, 1.0)   # 設回原本的（見第 4 步前面）
 for m, src, dv in ONESIDE:   # --emit-oneside 的混合拿掉、發光顏色接回原本的（匯出的材質和白模一樣）
     nt = m.node_tree; b = next((x for x in nt.nodes if x.type == 'BSDF_PRINCIPLED'), None); inp = b.inputs['Emission Color']
     for n in [x for x in nt.nodes if x.name in ('ONESIDE_geo', 'ONESIDE_mix')]: nt.nodes.remove(n)
@@ -501,7 +619,7 @@ for o in SHELL: bpy.data.objects.remove(o)   # 外殼只在烘焙時用
 if arg('--drop'):
     _drop = re.compile(arg('--drop'))
     for o in [o for o in bpy.data.objects if _drop.search(o.name)]: bpy.data.objects.remove(o)
-json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'knee': KNEE, 'lights': arg('--lights'), 'points': arg('--points'), 'wb': WB,
+json.dump({'device': DEVICE, 'blender': bpy.app.version_string, 'bake_seconds': round(_time.time() - _T0, 1), 'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'knee': KNEE, 'dayscale': arg('--dayscale'), 'lights': arg('--lights'), 'points': arg('--points'), 'dayfill': arg('--dayfill'), 'wb': WB, 'skytint': SKYTINT,
            'objects': [o.name for o in objs]}, open(LM + '.json', 'w'), ensure_ascii=False, indent=1)
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
 if URL:

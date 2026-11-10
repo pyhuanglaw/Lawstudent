@@ -40,7 +40,7 @@ const OUT=(function(){
   /* BB_132 第 100 組十張：第 1～5 張（使用者 11-02 生成、直接交給 LAWWW-B；沒有人物、沒有看得清楚的字）*/
   Object.assign(S.BG,{ coach_night:{label:'夜班客運上',image:'assets/bg/coach_night.webp'}, treasure_hill:{label:'寶藏巖',image:'assets/bg/treasure_hill.webp'}, oia_meeting:{label:'國際事務處・會議室',image:'assets/bg/oia_meeting.webp'}, visa_counter:{label:'簽證櫃台',image:'assets/bg/visa_counter.webp'}, hypermarket:{label:'大賣場',image:'assets/bg/hypermarket.webp'},
     /* 第 6～10 張（同日）；cvs_table_night 玻璃上的綠橙條紋 LAWWW-B 改成灰藍（D77 不照抄品牌配色）；mucha_cafe_night 是使用者選的重生淺色地板版（D112 擴大到 2D）；cvs_table_day 是使用者選的重生白天版（學姊訪談在上午）*/ mucha_cafe_night:{label:'木柵大學山下・咖啡店（晚上）',image:'assets/bg/mucha_cafe_night.webp'}, teishoku_night:{label:'小路（晚上）',image:'assets/bg/teishoku_night.webp'}, tn_cafe:{label:'台南・老房子咖啡店',image:'assets/bg/tn_cafe.webp'}, cvs_table_night:{label:'便利商店門口的桌子（傍晚）',image:'assets/bg/cvs_table_night.webp'}, cvs_table_day:{label:'便利商店門口的桌子（上午）',image:'assets/bg/cvs_table_day.webp'},
-    /* 第二批（BB_132 第 101、102 組；使用者 11-02 生成）：car_night／car_morning／car_rain 換檔不換鍵（D104：Blender 算圖換成使用者生成）*/ /* 第三批（使用者 11-02 生成；yilan_minsu_night 背包上的小標誌 LAWWW-B 柔化）*/ town_market:{label:'小鎮車站後面的早市',image:'assets/bg/town_market.webp'}, dihua_newyear:{label:'迪化街（過年前）',image:'assets/bg/dihua_newyear.webp'}, yilan_minsu_night:{label:'宜蘭・民宿（晚上）',image:'assets/bg/yilan_minsu_night.webp'}, office_buffet:{label:'辦公大樓一樓的自助餐',image:'assets/bg/office_buffet.webp'}, us_bus_chicago:{label:'往芝加哥的巴士上',image:'assets/bg/us_bus_chicago.webp'},
+    /* 第二批（BB_132 第 101、102 組；使用者 11-02 生成）：car_night／car_morning／car_rain 換檔不換鍵（D104：Blender 算圖換成使用者生成）*/ /* 第三批（使用者 11-02 生成；yilan_minsu_night 背包上的小標誌 LAWWW-B 柔化）*/ town_market:{label:'小鎮車站後面的早市',image:'assets/bg/town_market.webp'}, dihua_newyear:{label:'迪化街（過年前）',image:'assets/bg/dihua_newyear.webp'}, yilan_minsu_night:{label:'宜蘭・民宿（晚上）',image:'assets/bg/yilan_minsu_night.webp'}, teishoku_dusk:{label:'小路（傍晚）',image:'assets/bg/teishoku_dusk.webp'}, yilan_minsu_roof:{label:'民宿頂樓',image:'assets/bg/yilan_minsu_roof.webp'}, yms_grassland:{label:'擎天崗草原',image:'assets/bg/yms_grassland.webp'}, tongxian_shop:{label:'同弦樂器',image:'assets/bg/tongxian_shop.webp'}, office_buffet:{label:'辦公大樓一樓的自助餐',image:'assets/bg/office_buffet.webp'}, us_bus_chicago:{label:'往芝加哥的巴士上',image:'assets/bg/us_bus_chicago.webp'},
     /* 第三批第 6～10 張（同日）；gg_family_diner 電視上的小字樣、機車車牌 LAWWW-B 柔化；az_canyon 是白天，傍晚告白那場（gc_rim_sunset）另外要圖 */ az_roadside:{label:'亞利桑那・公路旁',image:'assets/bg/az_roadside.webp'}, az_canyon:{label:'大峽谷',image:'assets/bg/az_canyon.webp'}, us_coat_shop:{label:'草原超市旁邊那家店',image:'assets/bg/us_coat_shop.webp'}, lawlib_diner:{label:'法圖旁邊的簡餐',image:'assets/bg/lawlib_diner.webp'}, gg_family_diner:{label:'公館・巷子裡的簡餐店',image:'assets/bg/gg_family_diner.webp'},
     /* 第四批（使用者 11-02 生成；lawlib_steps_night 門框上的小標籤 LAWWW-B 柔化）*/ gc_rim_sunset:{label:'大峽谷（傍晚）',image:'assets/bg/gc_rim_sunset.webp'}, us_chapel_snow:{label:'小教堂前的台階（下雪）',image:'assets/bg/us_chapel_snow.webp'}, lawlib_steps_night:{label:'法圖外面的台階（晚上）',image:'assets/bg/lawlib_steps_night.webp'}, taipei_botanical_winter:{label:'臺北植物園（冬天）',image:'assets/bg/taipei_botanical_winter.webp'}, botanical_lotus:{label:'植物園・荷花池',image:'assets/bg/botanical_lotus.webp'},
     /* 11-02 19:4x BB 交（BB_241 第五、六節，企劃線 62395d7da bg_approved/）：亞利桑那公路旁租的車（ev_us_canyon、ev_sis_canyon 開頭）、研究所筆試的考場（ev_grad_exam「考場」）*/ gc_roadside_car:{label:'亞利桑那・公路旁',image:'assets/bg/gc_roadside_car.webp'}, grad_exam_room:{label:'考場',image:'assets/bg/grad_exam_room.webp'},
@@ -69,6 +69,7 @@ const OUT=(function(){
   /* 車上：照當時的天氣、時間挑一張（下雨＝雨天、18:00～05:59＝晚上、其他＝早上）；事件要固定哪一張就直接寫 car_morning／car_night／car_rain */
   const usLakeVariant=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof CALENDAR==='undefined') return 'us_lake'; const d=CALENDAR.dateOf(G.day), k=(d.m>=6&&d.m<=8)?'us_lake_summer':((d.m===11&&d.d>=15)||d.m===12||d.m<=3)?'us_lake_bare':'us_lake'; return S.BG[k]&&S.BG[k].image?k:'us_lake'; };   /* BG-US-SEASON-1024（AA_448 第 2 節）：美國的湖邊照季節——6～8 月夏天、11/15 以後到 3 月樹掉光、其他＝秋天那張（us_lake）*/
   const carVariant=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G) return 'car_day'; if(G.weather==='rain') return 'car_rain'; const h=G.hour%24; return (h>=18||h<6)?'car_night':'car_day'; };
+  S.BG.gym_b1_fitness={label:'新體育館 B1・健身中心',image:'assets/bg/gym_b1_fitness.webp'};   /* 陪子晴去健身房（AA_716 heroine_04:3）：LAWWW2-B 從遊戲的 gym_b1.glb 拍（AA716-GYM-BG，1c5696b4b）*/
   S.bg=id=>{ if(id==='blur'||id==='freeze') return id;   /* 場景要模糊／定格的 3D（不是圖）：原本查不到圖＝深色底 */ if(id==='car') id=carVariant(); if(id==='us_lake') id=usLakeVariant(); const b=S.BG[id]; return b&&b.image?(b.night?{image:b.image,night:true}:{image:b.image}):'dark'; };   /* night：白天的圖調暗當晚上（adv3d.js #adv.night）*/
   S.rec=G=>{ if(!Array.isArray(G.outings)) G.outings=[];
     if(G.outings.length&&!(G.flags&&G.flags.OUT_WORLDREN)&&typeof SOCIAL!=='undefined'&&SOCIAL.worldName){ const wn=SOCIAL.worldName; for(const q of G.outings) if(q&&typeof q==='object') for(const k of ['title','place','back','travel','label']) if(typeof q[k]==='string') q[k]=wn(q[k]); if(G.flags) G.flags.OUT_WORLDREN=1; }   /* 舊存檔：排好的出遊（標題、地點、回程字幕）裡的真實校名、館名換成虛構的（WORLD-RENAME-1030，D115；BB-B 10-30 讀程式發現；旁白、地點寫正式名；只做一次）*/
@@ -87,8 +88,11 @@ const OUT=(function(){
   const lateEnd=q=>Math.max(t(q.day,q.h)+(q.late!=null?q.late:0.75),q.lateTo!=null?q.lateTo:-1e9);   /* lateTo：總圖導覽擋到的那一場，從導覽結束重新給寬限（BUG-TOUR-PHOTO-MISSED-1103）*/   /* late：開始後多久還能出發（小時；預設 45 分鐘。AA_154 2-1b 的聚會是 15 分鐘）*/
   /* 休學以後住在家裡（經濟系 Y0_MOVED_OUT，AA_154 1-3b、A46 ②）：所有出遊、約好的見面（含只帶到校園某處的 goto）從家裡出發＝捷運＋公車 約 30 分鐘、0.5 小時；問要不要出發的時間跟著提早。視訊不用出門 */
   const baseHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);   /* 人在家裡＝照家裡出發算車程（PG-ASKAT-HOME-1021：原本只有經濟系那一年 HOME.baseMode 才算，法律系以後在家（寒暑假、畢業後住家裡）該問「出發」的時間照學校算、從家裡的選單出發卻照家裡算 30 分鐘，問得太晚、到了就遲到——OUT.due、PG 固定格的 askAt、鬧鐘都用這裡）*/
+  S.CAR_PICKUP_LINE='（望月台底下的停車場有點暗。你找到車，把副駕駛座上的東西收到後座。）';   /* AA_704 第 2 節原句（企劃線 55a1c5a53）*/
   S.trip=(G,q,fromHome)=>(fromHome||baseHome(G))&&!q.call&&q.verb!=='接起來'&&q.place!=='視訊'?((q.travelH||0)>0.5?{travelH:q.travelH,travel:q.travel||''}:{travelH:0.5,travel:q.homeTravel||'捷運＋公車 約 30 分鐘'}):{travelH:q.travelH||0,travel:q.travel||''};   /* 比 30 分鐘遠的（例：政大 40 分鐘，A40）照原本的；homeTravel：從家裡出發那一行有自己的寫法（例：2029 中秋河濱「捷運＋走路 約 30 分鐘」，AA_363 T9），沒寫＝照舊 */
   S.fromHome=false;
+  /* DRIVE-PICKUP-1105 第二步（AA_704 第 2 節；使用者 11:1x）：開車而且從家出發（寒暑假住家裡 DATE.fromHomeOn、經濟系／畢業後住家裡、人在家 HOME.at）＝車在家裡：不走去望月台停車場、不演取車旁白 */
+  S.carHome=(G,q,o)=>!!(o&&o.fromHome)||!!baseHome(G)||(typeof DATE!=='undefined'&&!!DATE.fromHomeOn&&q&&q.day!=null&&!!DATE.fromHomeOn(G,q.day));
   S.BEFORE=[]; S.STAGE=[];
   S.tt=t=>typeof SOCIAL!=='undefined'&&SOCIAL.shuyuT?SOCIAL.shuyuT(t):t;   /* 顯示用的標題：和學姊交往中「學姊」→「書瑀」（AA_411 第 2 節；q.title 存的字不改）*/   /* q.call：電話（打給她、她打來）——在家也不用出門（S.trip 不加車程）*/
   /* 每一趟出遊的結尾、分開以前（OUT.AFTER.push(fn)，fn(GM,q,ev)；例：AA_338 第 3 題，期末成績打賭的宵夜「（這次是你請。）」）：
@@ -97,7 +101,11 @@ const OUT=(function(){
   const afterDone=new Set();   /* 這一趟已經做過結尾的（不存檔；S.go 結束時清掉）*/
   S.runAfter=async function(GM,q,ev){ if(!q||afterDone.has(q.id)) return; afterDone.add(q.id); for(const f of S.AFTER){ try{ await f(GM,q,ev); }catch(e){ console.warn('OUT.AFTER',e); } } };
   const running=new Set();   /* 正在演的那一個（不存檔）：演完才標 done，演的途中不能再被叫出來 */
-  S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&!running.has(q.id)&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
+  /* 跳過時間、小睡、睡覺要不要停在出發前（BUG-OUT-ALARM-SKIP-1109，BB-B 11-09 19:53：沒寫 alarm 的出遊——看電影、系烤…——按「等到晚上」直接跳過、安靜地變 missed，和排進行程時的「時間到會跳出『出發』」對不上）：
+     預設都停；真的不用停的出遊寫 alarm:false。CLS.skipStops、STORY.wakeAlarms、STORY.outStopsToday 都看這一個 */
+  S.alarmOn=q=>!!q&&q.alarm!==false&&!q.dateTrip;   /* 校外約會（date3d.js，dateTrip）有自己的鬧鐘（DATE.alarmsFor），不重複；舊存檔排好的約會也一樣 */
+  S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&!running.has(q.id)&&!(typeof CARLOT!=='undefined'&&CARLOT.walking&&CARLOT.walking(G,q))&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
+  S.lateEnd=q=>lateEnd(q); S.isRunning=id=>running.has(id);   /* 望月台停車場的「開車出發」（src/carlot3d.js）用：出發的時間窗、正在演的那一趟 */   /* CARLOT.walking：選了出發、正走去停車場的那一趟不再跳出發選單（到車旁邊按「開車出發」）*/
   /* 過了時間（後 45 分鐘以上）還沒出發＝missed */
   S.expire=function(G){ const now=t(G.day,G.hour), out=[]; for(const q of S.rec(G)) if(q.state==='planned'&&now>lateEnd(q)){ q.state='missed'; out.push(q); } return out; };
   const evOf=id=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===id)||null:null;
@@ -123,10 +131,11 @@ const OUT=(function(){
     try{ const tl=String(q.title||''), hh=hm(q.h), O=[{t:(q.verb||'出發')+'：'+S.tt(q.title),hint:[q.place&&!tl.includes(q.place)?q.place:'',tl.includes(hh)?'':hh,q.travel||''].filter(Boolean).join('　')}];   /* 小字不重複標題已經寫的地點、時間（BB218-P3 ④，和 home3d.js outHint 同一個做法）*/ if(!q.must){ const ask=S.laterAsk(G,q); O.push(ask==null?null:{t:ask-t(G.day,G.hour)>=1/3-1e-6?'晚一點（20 分鐘後再提醒）':'晚一點（'+(m=>String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'))(Math.round((ask-G.day*24)*60))+' 再提醒）'},{t:q.no||'不去了'}); } k=await GM.choose(O.filter(Boolean)); if(O[1]===null&&k>=1) k++; } finally { GM.sceneEnd(); }   /* must：一定會去的（法律系迎新宿營，AA_205 2-3）只有「出發」*/   /* verb：視訊是「接起來」；no：「不去了」以外的說法 */
     if(k===1){ q.ask=S.laterAsk(G,q); if(q.ask==null) q.ask=t(G.day,G.hour)+1/3; return 'later'; }
     if(k!==0){ q.state='missed'; S.onMissed(GM,q); return 'no'; }
+    if(typeof CARLOT!=='undefined'&&CARLOT.need&&CARLOT.need(G,q)){ await CARLOT.toLot(GM,q); return 'lot'; }   /* 開車、從宿舍出發：先走到望月台停車場（AA_704 第 2 節，src/carlot3d.js）*/
     await S.go(GM,q); return 'go'; };
   /* 出發：轉場 → 抵達（不早於約好的時間）→ 演事件（深色底開始，避免看到原本的 3D 畫面）→ 時間往後 → 回到原本的地方 */
   /* 演完的地點字幕（出遊沒寫 back 的）：畢業以後退宿了（MOVED_OUT）＝回到家／公館的套房，不是「回到台大。」（BUG-PG-RETURN-TEXT-1021：6/9 典禮、K26、麵店、畢業以後的固定格）*/
-  S.backText=G=>{ if(typeof HOME!=='undefined'&&HOME.movedOut&&HOME.movedOut(G)) return HOME.suite&&HOME.suite(G)?'回到公館的套房。':'回到家。'; return '回到首都帝大。'; };
+  S.backText=G=>{ if(typeof HOME!=='undefined'&&HOME.movedOut&&HOME.movedOut(G)) return HOME.suite&&HOME.suite(G)?'回到公館的套房。':'回到家。'; if(typeof JP!=='undefined'&&JP.homeOn&&JP.homeOn(G)) return '回到家。'; return '回到首都帝大。'; };   /* 日本路線住家裡（2/20 退宿～3/25 出發、8/5 回來～搬進 409，JP.homeOn）也是回到家（BB-B 11-07 19:4x：3/23 子晴在家附近的便利商店，演完說「回到首都帝大。」）*/
   S.homeSaid=null;   /* AA_529 6-1：這一趟演完、階梯前面已經說了「（晚上，回到家。）」的出遊 id */
   S.go=async function(GM,q,o){ const G=GM.G, ev=evOf(q.ev), tr=S.trip(G,q,o&&o.fromHome); S.homeSaid=null;   /* o.fromHome：從家裡的選單出發（選單先把「在家」關掉了）*/
     if(q.camp&&typeof STORY!=='undefined'&&STORY.campY1){ q.state='done'; await STORY.campY1(GM,{next:false});   /* 法律系迎新宿營（經濟系路線，AA_205 2-3）：三天全部在 S.campY1 演，演完回到 8/24 下午的家 */
@@ -138,8 +147,10 @@ const OUT=(function(){
     if(!dt&&(!ev||typeof EVENTS==='undefined')) return false;
     if(o&&o.fromHome) S.fromHome=true;   /* 從家裡出發的 2D 出遊：途中 3D 一直藏著（home3d.js backdrop），演完不會露出最後一個 3D 區域（使用者 10-18：「跨年的劇情結束之後居然是跳回醉月湖」）*/
     GM.sceneBegin(); try{   /* 整趟出遊是一段劇情：路上、演完、回程的轉場中間，校園的自動事件（偶遇、打招呼）不能插進來（使用者 2026-10-16：和可昕走完「回到台大」就卡住，畫面疊了偶遇的旁白）*/
-    await GM.fade(true); if(GM.titleCard&&o&&o.card) await GM.titleCard(o.card[0],o.card[1]||'',2400); else if(GM.titleCard&&!(o&&o.noCard)) await GM.titleCard(S.tt(q.title),tr.travel,2400);   /* o.noCard：已經到了、字卡出過了（寒暑假出國在 3D 出境大廳「登機」以後接著演，E08 vac3d.js）；o.card＝[標題, 小字]：換成這一張（登機以後的「飛往〇〇」，AA_478 第 1 節）*/
+    await GM.fade(true); if(GM.titleCard&&o&&o.card) await GM.titleCard(o.card[0],o.card[1]||'',2400); else if(GM.titleCard&&!(o&&o.noCard)) await GM.titleCard(S.tt(q.title),tr.travel,2400);
+    if(q.car&&G.flags&&!G.flags.DRIVE_PICKUP_SEEN&&GM.caption&&!S.carHome(G,q,o)){ G.flags.DRIVE_PICKUP_SEEN=G.day; await GM.caption(null,S.CAR_PICKUP_LINE); }   /* DRIVE-PICKUP-1105（AA_704 第 2 節）：第一次開車出去，取車那一下的旁白（之後不出）；舊存檔沒有旗標＝下一次開車出一次 */   /* o.noCard：已經到了、字卡出過了（寒暑假出國在 3D 出境大廳「登機」以後接著演，E08 vac3d.js）；o.card＝[標題, 小字]：換成這一張（登機以後的「飛往〇〇」，AA_478 第 1 節）*/
     const arrive=q.arrived?t(G.day,G.hour):Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.syncWeekday) GM.syncWeekday(); if(GM.updateHUD) GM.updateHUD();
+    /* 演完以後：那個時段用完＝和約好的見面一樣排「時段用完」（CLS.queueJump；晚上＝回宿舍睡，CLS.eveSleep）——BGN-AFTER-HOME-1110（使用者 11-10：「桌遊日桌遊完回到前往之前的系館 ?都晚上這麼晚了 而且行動次數用完不是應該回去睡覺嗎」：出遊只填時段、沒有排，演完就留在出發前的地方）*/
     const h0=G.hour, fill=()=>{ if(typeof CLS!=='undefined'&&CLS.slotFillSpan) CLS.slotFillSpan(G,h0,G.day*24+G.hour-Math.floor(arrive/24)*24); };   /* 出遊、校外約會＝到了那裡起的時段都算一件主要的事（DEC-SLOTS-1018 ③；約好的照樣能去）*/
     q.arrived=true; if(GM.autosave) GM.autosave(true);   /* 到了再存一次：中途被踢回標題，讀檔就是到了那裡、重新演這一段（不用再搭一次車）*/
     if(dt){ const L0=DATE.loc((DATE.trip(G,q.dateTrip)||{locs:[]}).locs[0])||{}; const bg=DATE.bgKey?DATE.bgKey(L0.id,0):Object.keys(S.BG).find(k=>k.startsWith(String(L0.id||'').toLowerCase()+'_base'));   /* DATE.bgKey：地點的底圖（D28 兩天都用 d28a，夕陽那一點才換 d28b：AA_359 5-1 B12，date3d.js 的 S.POINT_BG）*/
@@ -162,7 +173,7 @@ const OUT=(function(){
       if(go) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
     await S.runAfter(GM,q,ev);   /* 結尾、分開以前（OUT.AFTER）：畫面還在那裡（可昕在場的還在右邊）*/
     if(kxTail&&ADV.active) ADV.end();
-    await GM.fade(true); if(stg&&stg.restore){ try{ await stg.restore(); }catch(e){ console.warn('OUT.STAGE restore',e); } } GM.advance(ev.hours||2); fill(); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||S.backText(G),2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
+    await GM.fade(true); if(stg&&stg.restore){ try{ await stg.restore(); }catch(e){ console.warn('OUT.STAGE restore',e); } } GM.advance(ev.hours||2); fill(); if(typeof CLS!=='undefined'&&CLS.queueJump&&!(o&&o.fromHome)) CLS.queueJump(G); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||S.backText(G),2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
     if(typeof ev.afterBack==='function') await ev.afterBack(G,GM,q);   /* 回程的地點字幕之後才接的（例：ev_y0_gather「（回家的路上，手機震了一下。）」排在「在公館的路口散了。」後面，AA_529 第⑤點）；劇情還沒結束（sceneEnd 在 finally）*/
     } finally { GM.sceneEnd(); S.fromHome=false; afterDone.delete(q.id); }
     if(GM.autosave) GM.autosave(); return true; };

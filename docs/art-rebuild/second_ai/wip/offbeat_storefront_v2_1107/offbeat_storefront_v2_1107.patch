@@ -1,0 +1,53 @@
+diff --git a/tests/offbeat_storefront_unit.js b/tests/offbeat_storefront_unit.js
+new file mode 100644
+index 000000000..9d5e22313
+--- /dev/null
++++ b/tests/offbeat_storefront_unit.js
+@@ -0,0 +1,34 @@
++// 日常失速從街上看的立體店內第二版（#167，LAWWW2-B 2026-11-07；BB-B 11-07 判「換新版」後的兩點）——不需要瀏覽器，只讀 GLB 的 JSON。
++// ① 「店內整片偏黃綠、單調」：第一版烘焙工具的 bug——AA 室內的頂點色材質沒寫層名，合成一個網格後讀不到顏色，珊瑚色椅子、陶土盆栽、吊燈烘成灰色；
++//    燈色也是 2700K 的琥珀光。第二版修好、燈色往白光拉（offbeat_storefront.py --warm 0.45）。檢查：烘好的圖裡珊瑚色 ≥ 5%、綠色 ≥ 1%（工具寫在 extras.storefront.color；第一版量起來 2.3%、0.1%）
++// ② 「店前那一格三角形多 4.4 萬」：店內 2.2 萬三角形在陰影那一輪又畫一次。第二版節點叫 NOSHADOW_…（zones3d.js 的 wzCastsShadow 不投影）；
++//    街上看不到的面不放進模型（只在烘焙時擋光）。檢查：兩個節點都是 NOSHADOW_ 開頭、wzCastsShadow 認得這個前綴、店內 ≤ 19,500 三角形（第一版 21,808）
++// ③ 葉子和店內一樣「店裡開著燈」：自發光＝葉子貼圖、底色壓暗（第一版照街上的光，在大樓裡偏黑）
++// 修改前（開發 0f4b0394a）：①②③ FAIL。用法：node tests/offbeat_storefront_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'+i:'')); if(!ok) fails++; };
++const glb=f=>{ const b=fs.readFileSync(path.join(ROOT,f)), jl=b.readUInt32LE(12); return JSON.parse(b.slice(20,20+jl).toString('utf8')); };
++const J=glb('assets/models/env/second_ai/wenzhou_street.glb');
++const nodes=J.nodes.filter(n=>/offbeat_storefront/.test(n.name||'')&&n.mesh!=null);
++const tris=n=>J.meshes[n.mesh].primitives.reduce((s,p)=>s+(J.accessors[p.indices].count/3),0);
++const store=nodes.find(n=>!/leaf/.test(n.name)), leaf=nodes.find(n=>/leaf/.test(n.name));
++check('（前提）溫州街模型裡有日常失速的店內、葉子兩個網格',!!store&&!!leaf,nodes.map(n=>n.name).join('、'));
++if(!store||!leaf){ console.log('FAILED '+fails); process.exit(1); }
++// ①
++const ex=(store.extras||{}).storefront||{}, col=ex.color||{};
++check('① 店內是第二版（extras.storefront.version ≥ 2）',(ex.version|0)>=2,JSON.stringify({version:ex.version,warm:ex.warm}));
++check('① 珊瑚色（椅子、陶土盆栽）≥ 5%、綠色（植物、吧檯）≥ 1%',col.coral>=0.05&&col.green>=0.01,'珊瑚色 '+((col.coral||0)*100).toFixed(1)+'%、綠色 '+((col.green||0)*100).toFixed(1)+'%（第一版 2.3%、0.1%）');
++// ②
++check('② 店內、葉子不投影：節點 NOSHADOW_ 開頭',/^NOSHADOW_/.test(store.name)&&/^NOSHADOW_/.test(leaf.name),store.name+'、'+leaf.name);
++const z=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
++check('② zones3d.js 的 wzCastsShadow 認得 NOSHADOW_ 前綴',/function wzCastsShadow\(o\)\{[^\n]*\/\^NOSHADOW_\/\.test\(o\.name\)\)\s*return false/.test(z));
++const t=tris(store);
++check('② 店內 ≤ 19,500 三角形（街上看不到的面拿掉了）',t<=19500,t+'（第一版 21,808）');
++if(ex.cull) check('② 可見性：從街上看不到的面有分出去',ex.cull.hidden>0&&ex.cull.viewpoints>=50,JSON.stringify(ex.cull));
++// ③
++const lm=J.materials[J.meshes[leaf.mesh].primitives[0].material], pb=lm.pbrMetallicRoughness||{}, bc=pb.baseColorFactor||[1,1,1,1];
++check('③ 葉子自己亮（emissiveTexture）、底色壓暗（≤ 0.2）',!!lm.emissiveTexture&&Math.max(bc[0],bc[1],bc[2])<=0.2,lm.name+' emissive '+JSON.stringify(lm.emissiveFactor)+' base '+JSON.stringify(bc.slice(0,3).map(v=>+v.toFixed(2))));
++const sm=J.materials[J.meshes[store.mesh].primitives[0].material], sp=sm.pbrMetallicRoughness||{}, sb=sp.baseColorFactor||[1,1,1,1];
++check('③ 店內照舊只有自發光（底色黑、emissiveTexture）',!!sm.emissiveTexture&&Math.max(sb[0],sb[1],sb[2])<=0.01,sm.name);
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/singleside_streets_unit.js b/tests/singleside_streets_unit.js
+index d1ca7ce84..0c85a79d7 100644
+--- a/tests/singleside_streets_unit.js
++++ b/tests/singleside_streets_unit.js
+@@ -11,7 +11,7 @@ const ROOT=path.resolve(__dirname,'..');
+ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+ function load(n){ const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+n+'.glb')), jl=b.readUInt32LE(12); return JSON.parse(b.slice(20,20+jl).toString('utf8')); }
+ const BIG=/^(wz_in_goods|wz_in_shop|wz_wall_|wz_in_tiles_|wz_room_lit|wz_pillar_|wz_ground_wall)/;
+-const W={wenzhou_street:{big:10,tris:158124,face:5,mats:55},   /* 溫州街 11-07 SHOP-WINDOW-2D-1105（LAWWW2-B）：日常失速玻璃後面換成立體店內 offbeat_storefront（+22,602 三角形、+2 材質：烘好燈光的店內、葉子），原本 135,522／53 */ lane118_street:{big:7,tris:63826,face:45,mats:33}};
++const W={wenzhou_street:{big:10,tris:155087,face:5,mats:55},   /* 溫州街 11-07 #167 日常失速店內第二版（LAWWW2-B）：店內 21,808 → 18,771（街上看不到的面拿掉）。11-07 SHOP-WINDOW-2D-1105（LAWWW2-B）：日常失速玻璃後面換成立體店內 offbeat_storefront（+22,602 三角形、+2 材質：烘好燈光的店內、葉子），原本 135,522／53 */ lane118_street:{big:7,tris:63826,face:45,mats:33}};
+ for(const [n,want] of Object.entries(W)){ const J=load(n), M=J.materials;
+   const big=M.filter(m=>BIG.test(m.name)), bigDs=big.filter(m=>m.doubleSided).map(m=>m.name);
+   check('1. '+n+'：大面的材質單面（'+want.big+' 個）', big.length===want.big&&!bigDs.length, bigDs.length?'還是雙面：'+bigDs.join(' '):big.map(m=>m.name).join(' '));

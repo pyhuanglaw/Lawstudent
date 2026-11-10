@@ -31,7 +31,7 @@
   const st5={exam:false,lab:'all'}; let nodes5=null, light5=null;
   const k5=()=>st5.lab==='all'?1:(st5.lab==='sis'?0.05:0.03);
   function apply5(){ if(nodes5){ for(const o of nodes5.exam) for(const m of [].concat(o.material)) if(m) m.visible=st5.exam;   /* 牌子是 WALL_P3 的一部分（跟著隔間牆淡出）：引擎每一格照淡出設 o.visible（engine3d.js hideFaded），所以開關用材質的 visible（attachRoomGLB 已經每個牆面各自複製材質）*/ for(const o of nodes5.tubes) o.visible=st5.lab==='all'; for(const o of nodes5.lamp) o.visible=st5.lab!=='off'; }
-    const E=typeof GAME!=='undefined'&&GAME.E; if(light5&&E&&E.zone===light5.z){ light5.sl.intensity=st5.lab==='sis'?2.6:(st5.lab==='all'?0.6:0); if(light5.z.onLamps) light5.z.onLamps(!!E.lampsOn); if(E.applyTime) E.applyTime(E.hour); } }
+    const E=typeof GAME!=='undefined'&&GAME.E; if(light5&&E&&E.zone===light5.z){ if(light5.z.lightsOff) light5.z.lightsOff(st5.lab==='all'?0:1);   /* 研究室的燈不是全開（'sis'／'off'）：GLB 有全關那一張光照貼圖時（Z3.roomDarkMap，INTERIOR-AAA 5F 光照，LAWWW2-B 11-07）換過去，燈管的自發光一起暗；它也會把區域的點光源調暗，所以學姊的檯燈在後面才設 */ light5.sl.intensity=st5.lab==='sis'?2.6:(st5.lab==='all'?0.6:0); if(light5.z.onLamps) light5.z.onLamps(!!E.lampsOn); if(E.applyTime) E.applyTime(E.hour); } }
   S_.examSign=on=>{ st5.exam=!!on; apply5(); }; S_.labLights=m=>{ st5.lab=(m==='sis'||m==='off')?m:'all'; apply5(); }; S_.state5=()=>Object.assign({},st5);
   /* 看微波爐、販賣機、公告欄、白板的字：配置檔的 note 是 LAWWW2 寫給開發組的（「說明文字由 AA 寫」），那幾個字不能出現在遊戲裡；正式的字 AA 寫好再換 */
   /* 看微波爐、販賣機、垃圾桶、公告欄、白板：AA_320 5-2（AA-C e48d8e09）；期末週沿用。沒有的才用配置檔的 note（去掉給開發組的話）。

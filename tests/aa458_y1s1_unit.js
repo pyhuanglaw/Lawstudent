@@ -161,7 +161,7 @@ await sec(3,()=>{
   fresh('2025-12-15',20,{met_sis:true}); H.FAMILIAR('heroine_05'); grp(); at(D('2025-12-15'),21.05); FAMXMAS.phone(H.G); PHONE.tick(H.G);
   check('3-3. 12/15 21:00 家族群組 Kevin：「'+Q33[0].t+'」（原本「期末考完那天」）',T()[0]==='Kevin：'+Q33[0].t&&!T().some(t=>/考完那天/.test(t)),J(T()));
   const tue=STORY.termDay('Y1S1',7,2); fresh(tue,21.6,{SIS_W1:true}); H.FRIEND('heroine_05'); SISG.unlockRule(H.G,tue*24+21.6); PHONE.tick(H.G); const sm=byTag('sisg_study_invite').filter(m=>m.from==='heroine_05');
-  check('3-4. 學姊 10/14 21:30 兩句尾巴各補一個「。」',keyOf(tue)==='2025-10-14'&&J(sm.map(m=>m.text))===J(S34.map(t=>t+'。')),J(sm.map(m=>m.text)));
+  check('3-4. 學姊 10/14 21:30 兩句尾巴各補一個「。」（第二句再照 AA_593 第 10 列拿掉「不要講話就好。」，企劃線 6cbb0b4ab）',keyOf(tue)==='2025-10-14'&&J(sm.map(m=>m.text))===J(S34.map(t=>t+'。').map(t=>require('./aa593_doc.js').MAP[t]||t))&&sm[1].text==='閉館的時候，可以一起去買飲料。',J(sm.map(m=>m.text)));
 });
 
 /* ---- 4 中秋當天、颱風假前一晚 ---- */

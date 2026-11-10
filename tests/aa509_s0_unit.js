@@ -43,7 +43,8 @@ const ent=(k,h,id)=>{ fresh(D(k),h,'campus',{}); const e=STORY.schedEnt(CHARACTE
     a.includes("SIS('八月走，十二月回來。論文的第四章，要在那邊寫。')")&&!a.includes('論文的第三章，要在那邊寫')&&m.includes('"在改論文的第四章。"')&&!m.includes('在改論文的第二章')&&b.includes("SIS('我四月中會寫到第三章。寫到了，拍給你看。')")&&b.includes("SIS('第三章被教授退回來一半。')")&&!b.includes('第四章被教授退回來一半')); }
 { const s=rd('src/r2y3b3d.js'); check('2. 語彤 2028-07-09 生日回覆「……謝謝。今年的田野，訪問到第二十二個了。」',s.includes("text:'……謝謝。今年的田野，訪問到第二十二個了。'")&&!s.includes('訪問到第二十三個了')); }
 { const n1=ent('2028-09-14',19,'heroine_01'), n13=ent('2028-11-30',19,'heroine_01'), n14=ent('2028-12-07',19,'heroine_01'), rg=ent('2028-11-30',20.5,'heroine_01'), lib=ent('2028-12-07',20.5,'heroine_01'), y3=ent('2027-09-16',19,'heroine_01');
-  check('3. 以安大四上週四 19:00 在麵店（第 2 週 9/14、第 13 週 11/30）；第 14 週 12/7 不是；大三上不是',n1&&n1.zone==='noodle'&&n13&&n13.zone==='noodle'&&!(n14&&n14.zone==='noodle')&&!(y3&&y3.zone==='noodle'),J({n1,n13,n14,y3}));
+  /* AA_661 第 3 列（AA_623）：以安大四上週四 18:30 燒臘店那一筆拿掉（「麵店日」已經沒有）——原本第 2～13 週在店裡 */
+  check('3. 以安大四上週四 19:00 不在燒臘店（第 2 週 9/14、第 13 週 11/30、第 14 週 12/7、大三上都不是；AA_661 第 3 列）',!(n1&&n1.zone==='noodle')&&!(n13&&n13.zone==='noodle')&&!(n14&&n14.zone==='noodle')&&!(y3&&y3.zone==='noodle'),J({n1,n13,n14,y3}));
   check('3. 以安 11/30 20:30 還在讀書會（萬才館，交棒那天）；12/7 20:30 在總圖三樓',rg&&rg.zone==='wancai'&&lib&&lib.zone==='library',J({rg,lib}));
   const y1=ent('2028-12-07',18,'heroine_03'), y2=ent('2028-12-07',21,'heroine_03'), y0=ent('2028-11-23',21,'heroine_03');
   check('3. 語彤 12/7（週四）18:00、21:00 都在總圖三樓（九點半先走）；11/23 21:00 不在總圖',y1&&y1.zone==='library'&&y2&&y2.zone==='library'&&!(y0&&y0.zone==='library'),J({y1,y2,y0})); }

@@ -124,7 +124,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     await OUT.go(GM,q); const L=lines(); const c=G.flags.kxVideoCourse; const R1=CLS.rec(G).prep;
     const Q=['我的螢光筆沒水了。……你那邊的黃色借我。算了，你又遞不過來。','你們期末考還剩幾科？我在算哪天可以見面。','這是我今天第三杯咖啡。你不要跟我媽說。','我眼睛快閉起來了。……你先不要掛。'];   /* AA_295 */
     check('K4：開始前先選讀哪一科；四題照順序（BB_95 原文）',L[0]==='今天讀哪一科？'&&!!c&&Q.every((t,i)=>L.indexOf(t)>=0&&(i===0||L.indexOf(t)>L.indexOf(Q[i-1]))),JSON.stringify(L));
-    check('K4：回她＝「你分心了。很好。」、不回＝「你今天好認真。我有點寂寞。……繼續。」，各自只說第一次',L.filter(t=>t==='你分心了。很好。').length===1&&L.filter(t=>t==='你今天好認真。我有點寂寞。……繼續。').length===1&&L.indexOf('你分心了。很好。')<L.indexOf(Q[1])&&L.indexOf('你今天好認真。我有點寂寞。……繼續。')<L.indexOf(Q[2]));
+    check('K4：回她＝「你分心了。很好。」、不回＝「你今天好認真，都沒人跟我講話。……好啦，你繼續。」，各自只說第一次',L.filter(t=>t==='你分心了。很好。').length===1&&L.filter(t=>t==='你今天好認真，都沒人跟我講話。……好啦，你繼續。').length===1&&L.indexOf('你分心了。很好。')<L.indexOf(Q[1])&&L.indexOf('你今天好認真，都沒人跟我講話。……好啦，你繼續。')<L.indexOf(Q[2]));
     check('K4：讀書時間算進期末準備（兩個小時＝那一科 +2）、時間往後兩小時、記 VIDEO_STUDY',(R1[c]||0)-(R0[c]||0)===2&&((G.stats&&G.stats.study)||0)-st0===2&&Math.abs(G.hour-23)<0.05&&SOCIAL.has('kexin','VIDEO_STUDY'),JSON.stringify({c,before:R0[c]||0,after:R1[c],hour:G.hour}));
     run(23,23.9); check('K4：去了就沒有書桌的照片',!G.msgs.some(x=>x.tag==='kx_video_photo'));
     fresh(D,19.9,'dorm',{dating_kexin:true}); run(19.9,20.1); m=ask(); G.hour=20.3; PHONE.answer(G,m.ask.id,1); run(20.3,23.1);

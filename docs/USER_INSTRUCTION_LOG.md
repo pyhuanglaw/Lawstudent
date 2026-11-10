@@ -1187,3 +1187,10 @@
 - 取代：D119「CC 只和 BB 溝通」、D130「其他職位要找 CC 照舊經 BB」。
 - 處理：CC-B 直接改 RULE_SOURCE 的 CLAUDE.md（D134）、AI_SESSION_HANDOFF.md（HV-25、CC 啟動提示詞）、PROJECT_DECISIONS.md；判定權照舊 BB；D75 照舊。
 - 通知：LAWWW-B、BB-B、AA-B、LAWWW2-B（帳號 B 值班中）。
+
+## 2026-11-05 03:4x UTC｜電腦不能用時瀏覽器測試丟 GitHub（D139；BB-C 收到）、2D 轉 3D 照疊圖流程（D140；LAWWW2-C 收到）、睡醒一次處理的事（LAWWW-C 收到）
+- 原話：對 BB-C「Node不是用GitHub免費就好嗎」→ 選「要，電腦不能用時丟 GitHub（建議）」；對 LAWWW2-C「疊圖畫出來的3d真的很棒寫成規則 以後任何2d轉3d都要參考這次透過開源或者新增的各種美術方法都要寫進規則交接給下一個lawww2」；對 LAWWW-C「我現在回來了 我睡的時候要問我或要我處理的事情現在一次給我」。
+- 取代：D131「瀏覽器測試一律排使用者電腦」（電腦不能用時的例外）。
+- 處理：D139、D140 寫進 CLAUDE.md、PROJECT_DECISIONS、HV-29；USER_WANTS X230～X232；任務 GHA-BROWSER-1105（CC）、DATE-ELLIPSIS-1105、RULES-2D3D-1105。LAWWW-C 用選擇題代問 AA 三題、LAWWW2 兩題（UA-LAWWW-1105-01～11）。
+- 教訓：使用者要網域清單問了五次——清單夾在長訊息中間、回合又長。使用者要一樣具體的東西，回覆第一行就給。
+- 通知：AA-C、LAWWW2-C（已送）；BB-C、CC-C（附 SHA）。

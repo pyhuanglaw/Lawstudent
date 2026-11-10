@@ -182,9 +182,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb.json",
-   "sha": "03af79d17",
+   "sha": "47b179e7f",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-05 07:0x AA_703（企劃線 47b179e7f）：沛珊 P-L6 第 1 句改「我隔週會回台中一趟。禮拜天搭客運回來，過了林口就開始塞。」＋week [4,18]（使用者 07:4x 截圖，PS-BUS-1105）；其他 step 不變",
    "task": "AB65-3-Y1S1／K-D5",
    "history": [
     {
@@ -202,6 +202,10 @@
     {
      "sha": "72ea87f5",
      "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    },
+    {
+     "sha": "03af79d17",
+     "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history"
     }
    ],
    "note": "BB-C 13:27：九個檔用 408398d7"
@@ -455,9 +459,9 @@
   },
   {
    "path": "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
-   "sha": "ab9d70fe0",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA（帳號 A／AA-C）企劃原檔：9fecc202 可昕不出假設題（使用者 10-18 選擇題，AA_295）、10816dd5／03985a6c AA_313 第 2、4、6 節逐句改（60 句直接改、原檔同步）、3229ad05「記得上次」不綁選項；LAWWW（帳號 A）10-22 15:1x 換版：634f6324（10-21）重匯時白名單還停在 741e94f1，把這些句子蓋回舊版（AA_313 盤點子代理查到）｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA（帳號 A／AA-C）企劃原檔：9fecc202 可昕不出假設題（使用者 10-18 選擇題，AA_295）、10816dd5／03985a6c AA_313 第 2、4、6 節逐句改（60 句直接改、原檔同步）、3229ad05「記得上次」不綁選項；LAWWW（帳號 A）10-22 15:1x 換版：634f6324（10-21）重匯時白名單還停在 741e94f1，把這些句子蓋回舊版（AA_313 盤點子代理查到）｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-S6",
    "scope": "只用 3-6「不分地點的句子」的取消、放鴿子兩欄與 3-7 預約句子；DATE-C4/C5（2026-10-23）另用第 3 節心願事件逐字核對 date_wish.js（tools/date/import_wish.py）",
    "history": [
@@ -484,6 +488,10 @@
     {
      "sha": "cb5caad65",
      "note": "AA_475 以前"
+    },
+    {
+     "sha": "ab9d70fe0",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ],
    "note": "2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）；cb5caad65：AA_459 第 5 節／AA_460 第 6、9 節三句（芷若「……這樣才算約好。」「……兩點半是巧合。跟店名沒關係。」、沛珊「你可以說不。我只是問問看。」）LAWWW-B 10-25 換版、拿掉 import_wish.py 的 REPLACE 暫代；ab9d70fe0：AA_475 第 1、3 節沛珊心願、芷若心願句（wish_bb.json 同一個 commit），import_wish.py 逐句對原稿用"
@@ -523,26 +531,38 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D04.json",
-   "sha": "a5b936a69",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-S6",
-   "note": "2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "efe575813",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "1b095a239",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ]
   },
   {
    "path": "docs/story_planning/date_system/lines/D06.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-S6",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "1ced2f8b3",
      "note": "AA_439 以前"
@@ -551,11 +571,15 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D12.json",
-   "sha": "2b4969352",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-S6",
    "history": [
+    {
+     "sha": "2b4969352",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "57de1709",
      "note": "AA_439 以前"
@@ -569,16 +593,20 @@
      "note": "AA_591 第 9 點（我媽）"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描；43d27cd80（2026-11-02 子代理代登 sisdate，給值班 LAWWW 核）：AA_591「整合時的 AA 決定」第 9 點，學姊 D12.tea 第一次「這種茶我爸以前每天喝。我那時候覺得好苦。」→「這種茶我媽每天喝。我小時候覺得好苦。」（她爸爸在遊戲開始前過世、不提；任務 AA598-SIS-1C-1102 一起做）。a5b936a69→43d27cd80 這個檔另外只有可昕兩處政大→木柵大學（RENAME-1030；import_guard 讀稿時本來就換名，遊戲不變）；2b4969352（2026-11-03 LAWWW）：AA_609 第 6 點，D12.tea 改「這種茶我奶奶每天喝。我小時候覺得好苦。」（AA 定稿，使用者 11-03 學姊爸爸改奶奶）"
+   "note": "a5b936a69：AA_439 禁用句總掃描；43d27cd80（2026-11-02 子代理代登 sisdate，給值班 LAWWW 核）：AA_591「整合時的 AA 決定」第 9 點，學姊 D12.tea 第一次「這種茶我爸以前每天喝。我那時候覺得好苦。」→「這種茶我媽每天喝。我小時候覺得好苦。」（她爸爸在遊戲開始前過世、不提；任務 AA598-SIS-1C-1102 一起做）。a5b936a69→43d27cd80 這個檔另外只有可昕兩處政大→木柵大學（RENAME-1030；import_guard 讀稿時本來就換名，遊戲不變）；2b4969352（2026-11-03 LAWWW）：AA_609 第 6 點，D12.tea 改「這種茶我奶奶每天喝。我小時候覺得好苦。」（AA 定稿，使用者 11-03 學姊爸爸改奶奶）；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D13.json",
-   "sha": "9ba14498e",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA-B 2026-10-23 AA_389 改原檔（第 1 點 D13 交換回來版 ZR_UK_BACK、第 7 點以安放鴿子兩句），LAWWW-B 重新匯入（AA389-L-1023）",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA-B 2026-10-23 AA_389 改原檔（第 1 點 D13 交換回來版 ZR_UK_BACK、第 7 點以安放鴿子兩句），LAWWW-B 重新匯入（AA389-L-1023）；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-S6",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描；9ba14498e：AA 2026-11-03 語彤第三版（AA_624～AA_626，d72ae942d：不問爸爸、警衛說溜嘴、交往前不到家裡；D13 心願與重訪句照新背景、notMomCheckup→notTeaShift）",
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描；9ba14498e：AA 2026-11-03 語彤第三版（AA_624～AA_626，d72ae942d：不問爸爸、警衛說溜嘴、交往前不到家裡；D13 心願與重訪句照新背景、notMomCheckup→notTeaShift）；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "9ba14498e",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "efe575813",
      "note": "AA_439 以前"
@@ -586,6 +614,10 @@
     {
      "sha": "a5b936a69",
      "note": "2026-11-03 以前（AA 2026-11-03 語彤第三版（AA_624～AA_626，d72ae9）"
+    },
+    {
+     "sha": "1b095a239",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ]
   },
@@ -1016,11 +1048,20 @@
   },
   {
    "path": "docs/story_planning/free_trip/spots_v3.json",
-   "sha": "3b599624",
+   "sha": "1df3c189e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 17:34（已審：照 AA_188 口語修訂 36 句旁白，build_spots_v3.py --check 通過 18 處、61 個互動點；時間、價錢、門票、休館、legs、rules 沒動）",
+   "approvedBy": "AA-C 2026-10-17 17:34（已審：照 AA_188 口語修訂 36 句旁白，build_spots_v3.py --check 通過 18 處、61 個互動點；時間、價錢、門票、休館、legs、rules 沒動）；1df3c189e：AA_686 第 5 項（AA-C 2026-11-04 定稿，D109）D14 補「海風與燈」（D14.lights：一個人的旁白兩句、night:true；任務 AA686-FIX3-1104）",
    "task": "DL-06C",
-   "kind": "text"
+   "kind": "text",
+   "note": "11-04 換 1df3c189e（AA_686 第 5 項；和 3b599624 只差 D14.lights 這一項）；tools/freetrip/import_spots.py 拿掉 EXTRA（AA_685 C1 補的那一項，改從源稿匯入），重匯 src/data/free_trips.js",
+   "history": [
+    {
+     "sha": "3b599624",
+     "approvedBy": "AA-C 2026-10-17 17:34（已審：照 AA_188 口語修訂 36 句旁白，build_spots_v3.py --check 通過 18 處、61 個互動點；時間、價錢、門票、休館、legs、rules 沒動）",
+     "task": "DL-06C",
+     "note": "2026-11-04 換成 1df3c189e 以前的版本"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_250_期末聚餐話題池_大一.md",
@@ -1047,11 +1088,20 @@
   },
   {
    "path": "docs/story_planning/free_trip/aa_walk_v1.json",
-   "sha": "b5acbaad",
+   "sha": "1df3c189e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 18:12：第一、二批同步成 AA_209 附錄 A 改稿版（和遊戲逐字一致）；第三批景點和 0b478a53 相同（已比對）；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+   "approvedBy": "AA-C 2026-10-17 18:12：第一、二批同步成 AA_209 附錄 A 改稿版（和遊戲逐字一致）；第三批景點和 0b478a53 相同（已比對）；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句；1df3c189e：AA_686 第 5 項（AA-C 2026-11-04 定稿，D109）語彤 D14.lights 的 friend／dating 兩句（和 AA_685 C1 同字；任務 AA686-FIX3-1104）",
    "task": "ENC-B3-1017",
-   "kind": "text"
+   "kind": "text",
+   "note": "11-04 換 1df3c189e（AA_686 第 5 項）；和 b5acbaad 之間另外改的句子（D04、D06、D09、D12、D13 的同行句和離開、重訪、小支線各一兩句，AA 的換句）src/data/enc_walk.js 已經是新字；D14.lights 兩句 AA_685 C1 已經在 enc_walk.js（照抄的檔、沒有匯入工具，這次只改註解）",
+   "history": [
+    {
+     "sha": "b5acbaad",
+     "approvedBy": "AA-C 2026-10-17 18:12：第一、二批同步成 AA_209 附錄 A 改稿版（和遊戲逐字一致）；第三批景點和 0b478a53 相同（已比對）；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+     "task": "ENC-B3-1017",
+     "note": "2026-11-04 換成 1df3c189e 以前的版本"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/BB_213_自由出行第三批_BB五位偶遇.md",
@@ -1070,18 +1120,24 @@
   },
   {
    "path": "docs/story_planning/free_trip/bb_walk_v1.json",
-   "sha": "cbdbc69bf",
+   "sha": "4e39653c9",
    "status": "approved",
-   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句；4e39653c9：AA_678 第 6、7 列（AA-C 2026-11-04 定稿，D109）芷若 D04 line「那部老片下週重映。週六早場。」、沛珊 D06 dating「下午見！我在繪本區。」（任務 AA678-LINES-1104；cbdbc69bf 到這一版之間另外只有 4618aed21 RENAME-1030 換名，遊戲已經是新名）",
    "task": "ENC-B3-1017",
    "kind": "text",
    "history": [
     {
      "sha": "b5acbaad",
      "note": "AA_439 第 4 節以前"
+    },
+    {
+     "sha": "cbdbc69bf",
+     "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+     "task": "ENC-B3-1017",
+     "note": "cbdbc69bf：AA_439 第 4 節禁用句第二次掃；2026-11-04 換成 4e39653c9 以前的版本"
     }
    ],
-   "note": "cbdbc69bf：AA_439 第 4 節禁用句第二次掃"
+   "note": "4e39653c9：AA_678 第 6、7 列（src/data/enc_walk.js 不是產生的，照 738cc7ffc 的做法手動換這兩句）"
   },
   {
    "path": "docs/story_planning/AA_162_偶遇人物表_AA六位.md",
@@ -1108,11 +1164,20 @@
   },
   {
    "path": "docs/story_planning/AA_202_玩家主動傳訊息_規格.md",
-   "sha": "b10d0567f",
+   "sha": "3b5043eef",
    "status": "approved",
-   "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：6-2 三句、7-3 謝謝 L；msg_pool、msg2_pool 都用這一版",
+   "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：6-2 三句、7-3 謝謝 L；msg_pool、msg2_pool 都用這一版；3b5043eef：AA_671 第 3 列（AA-C 2026-11-04 定稿，D109）7-3 柏翰生日 R「謝謝。今天收到三則生日快樂。兩則是我媽。」（任務 AA671-LINES-1104）；msg2_pool 用這一版",
    "task": "SYS-PHONE-CHAT, MSG-2",
-   "kind": "text"
+   "kind": "text",
+   "note": "11-04 換 3b5043eef（AA_671 第 3 列；tools/msg/build_msg2.py 字面值、來源一起換，msg2_pool.js 同一句改）；msg_pool.js（tools/msg/build_pool.py）照舊讀 b10d0567f，第 6 節兩版相同",
+   "history": [
+    {
+     "sha": "b10d0567f",
+     "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：6-2 三句、7-3 謝謝 L；msg_pool、msg2_pool 都用這一版",
+     "task": "SYS-PHONE-CHAT, MSG-2",
+     "note": "2026-11-04 換成 3b5043eef 以前的版本（msg_pool.js 照舊讀這一版：第 6 節和 3b5043eef 相同）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md",
@@ -1132,11 +1197,20 @@
   },
   {
    "path": "docs/story_planning/AA_257_MSG2_BB九位回覆池.md",
-   "sha": "759e5c000",
+   "sha": "3b5043eef",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）；558ccff8 Kevin 生日 R 拿掉「你是第一個」（AA-C AA_335，口氣表 0-3）；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 3 節學姊生日 R、新年 R／L 三句；msg2_pool 用這一版（之前 build_msg2.py 讀 5f9957a2）",
+   "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）；558ccff8 Kevin 生日 R 拿掉「你是第一個」（AA-C AA_335，口氣表 0-3）；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 3 節學姊生日 R、新年 R／L 三句；msg2_pool 用這一版（之前 build_msg2.py 讀 5f9957a2）；3b5043eef：AA_671 第 4 列（AA-C 2026-11-04 定稿，D109）第 8 節方奕廷 F3「還好嗎」R「還好。她說得很清楚。……我去溫室待一下就好。」（任務 AA671-LINES-1104）；msg2_pool 用這一版",
    "task": "MSG-2",
-   "kind": "text"
+   "kind": "text",
+   "note": "11-04 換 3b5043eef（AA_671 第 4 列；tools/msg/build_msg2.py 字面值、來源一起換，msg2_pool.js 同一句改）",
+   "history": [
+    {
+     "sha": "759e5c000",
+     "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）；558ccff8 Kevin 生日 R 拿掉「你是第一個」（AA-C AA_335，口氣表 0-3）；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 3 節學姊生日 R、新年 R／L 三句；msg2_pool 用這一版（之前 build_msg2.py 讀 5f9957a2）",
+     "task": "MSG-2",
+     "note": "2026-11-04 換成 3b5043eef 以前的版本"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_208_宿舍四人房_室友.md",
@@ -1385,12 +1459,17 @@
   },
   {
    "path": "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md",
-   "sha": "1ebcf530",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-25 AA_472 第 6 節（企劃線 1ebcf530e：沛珊 2030-06「說好的，運河一圈。……」，接 2030-04 視訊那一句；D109 AA 的稿就是定稿）；import_pg_dates.py 重新匯入（LAWWW-C 子代理 PG-FIX-471-473-1027）",
-   "task": "PG-FIX-471-473-1027",
+   "approvedBy": "AA-C 2026-11-04 22:0x AA_688 第 2 節（企劃線 8dce2f94c：第 3 節語彤畢業以後的十八格整段換——照 AA_629 2029-06-02 畢業、2029 年考上律師、2030 事務所；2029-10「事務所的實習……」搬到 2030-03、字不動；方式改週六 17:30 一盞茶屋；D109 AA 的稿就是定稿）；import_pg_dates.py 重新匯入（LAWWW-C 子代理 aa688）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
+   "task": "CANON-PURGE-SRC-1104",
    "kind": "text",
    "history": [
+    {
+     "sha": "1ebcf530",
+     "approvedBy": "AA-B 2026-10-25 AA_472 第 6 節（企劃線 1ebcf530e：沛珊 2030-06「說好的，運河一圈。……」，接 2030-04 視訊那一句；D109 AA 的稿就是定稿）；import_pg_dates.py 重新匯入（LAWWW-C 子代理 PG-FIX-471-473-1027）",
+     "task": "PG-FIX-471-473-1027"
+    },
     {
      "sha": "e6d4a198",
      "approvedBy": "AA（帳號 A）2026-10-22 AA_382 第 2、3 節改好的版本（AA_366 第 2 節可昕週日開庭四句；AA_367 第 1～6 節十句「哪一個週六都說得通」、第 10 節 A4）；import_pg_dates.py 重新匯入",
@@ -1400,6 +1479,10 @@
      "sha": "a7bd9741",
      "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿）；第 1～6 節每個月她說的一句由 tools/story/import_pg_dates.py 匯入 src/data/pg_dates.js；第 0 節共通規格、各節的方式與不排的月份照稿手動寫進 src/pgdates3d.js（tests/aa367_pg_dates_unit.js）；第 9 節語彤 2030-10-01 那一則開發分支已經是新句",
      "task": "AA367-PG-DATES-1021"
+    },
+    {
+     "sha": "8dce2f94c",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ]
   },
@@ -1476,11 +1559,15 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D01.json",
-   "sha": "a5b936a69",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-L01",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "57de1709",
      "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入"
@@ -1488,17 +1575,25 @@
     {
      "sha": "ffd7eef8",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "1b095a239",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D02.json",
-   "sha": "a1bc53f4c",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-L02",
    "history": [
+    {
+     "sha": "a1bc53f4c",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "ffd7eef8",
      "note": "AA_439 以前"
@@ -1506,31 +1601,47 @@
     {
      "sha": "a5b936a69",
      "note": "AA_447 以前"
+    },
+    {
+     "sha": "1b095a239",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）"
+   "note": "a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D03.json",
-   "sha": "a5b936a69",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-L03",
-   "note": "2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "e78814663",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "1b095a239",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ]
   },
   {
    "path": "docs/story_planning/date_system/lines/D05.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）",
+   "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L05",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "57de1709",
      "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入"
@@ -1540,30 +1651,38 @@
      "note": "AA_439 以前"
     }
    ],
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描"
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D07.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L07",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "ffd7eef8",
      "note": "AA_439 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D15.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L15",
-   "note": "2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "efe575813",
      "note": "AA_439 以前"
@@ -1572,12 +1691,16 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D16.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L16",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "e78814663",
      "note": "AA_439 以前"
@@ -1586,12 +1709,16 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D17.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L17",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "e78814663",
      "note": "AA_439 以前"
@@ -1600,26 +1727,38 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D18.json",
-   "sha": "a5b936a69",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-L18",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "1ced2f8b3",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "1b095a239",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ]
   },
   {
    "path": "docs/story_planning/date_system/lines/D19.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L19",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "e78814663",
      "note": "AA_439 以前"
@@ -1628,25 +1767,33 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D08.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L08",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "57de1709",
      "note": "AA_439 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D09.json",
-   "sha": "ab9d70fe0",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L09",
    "history": [
+    {
+     "sha": "ab9d70fe0",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "ffd7eef8",
      "note": "AA_439 以前"
@@ -1660,16 +1807,20 @@
      "note": "AA_475 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入"
+   "note": "a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D10.json",
-   "sha": "e089e8788",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L10",
-   "note": "2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入；e089e8788：AA_475 自查更正（D10 子晴牽手「……晃成這樣，抓著比較穩。」、D11 以安「……有點不甘心。」；AA 訊息寫 ab9d70fe0，自查更正在它之後，LAWWW-C 照 AA_475 最後版本用 e089e8788）",
+   "note": "2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入；e089e8788：AA_475 自查更正（D10 子晴牽手「……晃成這樣，抓著比較穩。」、D11 以安「……有點不甘心。」；AA 訊息寫 ab9d70fe0，自查更正在它之後，LAWWW-C 照 AA_475 最後版本用 e089e8788）；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "e089e8788",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "1ced2f8b3",
      "note": "AA_439 以前"
@@ -1682,29 +1833,41 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D11.json",
-   "sha": "e089e8788",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-L11",
    "history": [
     {
+     "sha": "e089e8788",
+     "note": "AA_694 以前"
+    },
+    {
      "sha": "ffd7eef8",
      "note": "AA_439 以前"
     },
     {
      "sha": "a5b936a69",
      "note": "AA_475 以前"
+    },
+    {
+     "sha": "1b095a239",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入；e089e8788：AA_475 自查更正（D10 子晴牽手「……晃成這樣，抓著比較穩。」、D11 以安「……有點不甘心。」；AA 訊息寫 ab9d70fe0，自查更正在它之後，LAWWW-C 照 AA_475 最後版本用 e089e8788）"
+   "note": "a5b936a69：AA_439 禁用句總掃描；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入；e089e8788：AA_475 自查更正（D10 子晴牽手「……晃成這樣，抓著比較穩。」、D11 以安「……有點不甘心。」；AA 訊息寫 ab9d70fe0，自查更正在它之後，LAWWW-C 照 AA_475 最後版本用 e089e8788）；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D14.json",
-   "sha": "ab9d70fe0",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L14",
    "history": [
+    {
+     "sha": "ab9d70fe0",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "ffd7eef8",
      "note": "AA_439 以前"
@@ -1714,16 +1877,20 @@
      "note": "AA_475 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入"
+   "note": "a5b936a69：AA_439 禁用句總掃描；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D20.json",
-   "sha": "ab9d70fe0",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-L20",
-   "note": "2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入",
+   "note": "2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "ab9d70fe0",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "efe575813",
      "note": "AA_439 以前"
@@ -1731,31 +1898,43 @@
     {
      "sha": "a5b936a69",
      "note": "AA_475 以前"
+    },
+    {
+     "sha": "1b095a239",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ]
   },
   {
    "path": "docs/story_planning/date_system/lines/D21.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L21",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "57de1709",
      "note": "AA_439 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D22.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L22",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "e78814663",
      "note": "AA_439 以前"
@@ -1764,12 +1943,16 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D23.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L23",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "e78814663",
      "note": "AA_439 以前"
@@ -1778,26 +1961,38 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D24.json",
-   "sha": "a5b936a69",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-L24",
    "history": [
     {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
+    {
      "sha": "ffd7eef8",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "1b095a239",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D25.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L25",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "e78814663",
      "note": "AA_439 以前"
@@ -1806,26 +2001,34 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D26.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L26",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "57de1709",
      "note": "AA_439 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D27.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L27",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "e78814663",
      "note": "AA_439 以前"
@@ -1834,54 +2037,70 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D28.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L28",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "ffd7eef8",
      "note": "AA_439 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D29.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L29",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "57de1709",
      "note": "AA_439 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D30.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L30",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "ffd7eef8",
      "note": "AA_439 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D31.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L31",
-   "note": "2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "1ced2f8b3",
      "note": "AA_439 以前"
@@ -1890,17 +2109,21 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D32.json",
-   "sha": "a5b936a69",
+   "sha": "1b095a239",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）",
    "task": "DATE-L32",
    "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_694 以前"
+    },
     {
      "sha": "57de1709",
      "note": "AA_439 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）"
   },
   {
    "path": "docs/story_planning/AA_359_兩天一夜的約會_住宿那一段.md",
@@ -2367,9 +2590,9 @@
   },
   {
    "path": "docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md",
-   "sha": "166dc131a",
+   "sha": "94ab0865e",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）；166dc131a：AA 2026-11-02 10:18 回 AA_579 第 7 節第 2 點——學姊 sis4（第 2 階約麵店）「好啊。這次你選地方。」→「好啊。」（AA_415:246；地點已經選好的邀約不問地方）",
+   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）；166dc131a：AA 2026-11-02 10:18 回 AA_579 第 7 節第 2 點——學姊 sis4（第 2 階約麵店）「好啊。這次你選地方。」→「好啊。」（AA_415:246；地點已經選好的邀約不問地方）；c71772fbc：AA-B 11-07 03:30 語彤 5 句照新背景改（使用者實玩 PLAYTEST-1107，D109）",
    "task": "D14-T9",
    "kind": "text",
    "note": "tools/invite/build_replies.py → src/data/invite_replies.js（INVITE_REPLIES）；選句 src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）",
@@ -2389,6 +2612,14 @@
     {
      "sha": "759e5c000",
      "approvedBy": "AA_580 以安改稿第二批（新1～新3）"
+    },
+    {
+     "sha": "166dc131a",
+     "approvedBy": "（11-07 前的版本；c71772fbc 取代：語彤 5 句）"
+    },
+    {
+     "sha": "c71772fbc",
+     "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"
     }
    ]
   },
@@ -2737,9 +2968,9 @@
   },
   {
    "path": "docs/story_planning/date_system/wish/wish_bb.json",
-   "sha": "ab9d70fe0",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA-B 定稿（D109；心願事件七位的資料檔，BB 那三位的台詞 D100 起由 AA 定稿）",
+   "approvedBy": "AA-B 定稿（D109；心願事件七位的資料檔，BB 那三位的台詞 D100 起由 AA 定稿）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-C5",
    "kind": "text",
    "note": "tools/date/import_wish.py → src/data/date_wish.js；子晴、學姊、可昕三位違反人物規則的句子在 DATE_WISH.hold 先不演（已轉 AA 改稿，改好重匯就解除）；2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）；cb5caad65：AA_459 第 5 節／AA_460 第 6、9 節三句（芷若「……這樣才算約好。」「……兩點半是巧合。跟店名沒關係。」、沛珊「你可以說不。我只是問問看。」）LAWWW-B 10-25 換版、拿掉 import_wish.py 的 REPLACE 暫代；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入",
@@ -2759,6 +2990,10 @@
     {
      "sha": "cb5caad65",
      "note": "AA_475 以前"
+    },
+    {
+     "sha": "ab9d70fe0",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
     }
    ]
   },
@@ -3740,11 +3975,17 @@
   },
   {
    "path": "docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md",
-   "sha": "b3e5bca3b",
+   "sha": "94ab0865e",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109、D111；第②級；INVITE-OPTS-1030 第二份；b3e5bca3b 加第 4 節：回 LAWWW-B 實作問答、更正語彤慢讀的 walk、補可昕六句、沛珊慢讀撞到書店課輔班）",
    "task": "INVITE-OPTS-1030",
-   "note": "子代理登記（LAWWW-B 的 invite-menu，10-30）：1-1 以安、語彤、可昕缺的 meet、1-2 可昕的 bye（src/data/rel_lines.js 尾巴）；1-3 以安、語彤校外 depart／enough／leaveEarly／noPair（src/date3d.js 的 S.EXTRA_LINES：date_lines.js 是匯入工具產生的，不手改）；2-1 法圖、2-2 映月湖（src/data/invites.js 尾巴、rel_lines.js meet.lawlib／meet.lake）；第 4 節（b3e5bca3b）：4-1 語彤慢讀的 walk 看 118 巷 H8（滇香小館）、4-2 可昕 Pasta 118／茶席的 acc 與 Café／總圖／麵店／溫州街的 firstAt（INVITE_DATA.people.kexin）、4-3 沛珊大三起約慢讀撞到書店／課輔班改到下一個她有空的早上 10:00（invites.js 沛珊的 rule）。台詞一字照稿；tests/aa535b_lawlib_lake_unit.js 逐句對稿。"
+   "note": "子代理登記（LAWWW-B 的 invite-menu，10-30）：1-1 以安、語彤、可昕缺的 meet、1-2 可昕的 bye（src/data/rel_lines.js 尾巴）；1-3 以安、語彤校外 depart／enough／leaveEarly／noPair（src/date3d.js 的 S.EXTRA_LINES：date_lines.js 是匯入工具產生的，不手改）；2-1 法圖、2-2 映月湖（src/data/invites.js 尾巴、rel_lines.js meet.lawlib／meet.lake）；第 4 節（b3e5bca3b）：4-1 語彤慢讀的 walk 看 118 巷 H8（滇香小館）、4-2 可昕 Pasta 118／茶席的 acc 與 Café／總圖／麵店／溫州街的 firstAt（INVITE_DATA.people.kexin）、4-3 沛珊大三起約慢讀撞到書店／課輔班改到下一個她有空的早上 10:00（invites.js 沛珊的 rule）。台詞一字照稿；tests/aa535b_lawlib_lake_unit.js 逐句對稿。",
+   "history": [
+    {
+     "sha": "b3e5bca3b",
+     "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md",
@@ -3781,12 +4022,24 @@
   },
   {
    "path": "docs/story_planning/free_trip/solo_before_bb_v1.json",
-   "sha": "be14d2d58",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "BB_213（AA-B 核對；BB-C b6697e981 第三批）＋ffd7eef85 學姊不說「三件事」＋4618aed21 RENAME-1030（D115 換名）；D100 起台詞歸 AA、AA 核對過的照用",
+   "approvedBy": "BB_213（AA-B 核對；BB-C b6697e981 第三批）＋ffd7eef85 學姊不說「三件事」＋4618aed21 RENAME-1030（D115 換名）；D100 起台詞歸 AA、AA 核對過的照用；ab65c4b22：AA_664 第 1 節（AA-C 2026-11-04 定稿，D109）可昕 D06／D13／D24／D26 拿掉「假設你……」和「這是告知」、D18 同 AA_663 第 19 列（任務 AA664-LINES-1104）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "ENC-B3-1017",
    "kind": "text",
-   "note": "同上；narr 沿用 solo_before_aa_v1.json；11-02 AA_573 #3 刪「這不是問句。」（be14d2d58）"
+   "note": "同上；narr 沿用 solo_before_aa_v1.json；11-02 AA_573 #3 刪「這不是問句。」（be14d2d58）；11-04 換 ab65c4b22（AA_664，tools/freetrip/import_solo_before.py 重匯）",
+   "history": [
+    {
+     "sha": "be14d2d58",
+     "approvedBy": "BB_213（AA-B 核對；BB-C b6697e981 第三批）＋ffd7eef85 學姊不說「三件事」＋4618aed21 RENAME-1030（D115 換名）；D100 起台詞歸 AA、AA 核對過的照用",
+     "task": "ENC-B3-1017",
+     "note": "11-02 AA_573 #3 刪「這不是問句。」；2026-11-04 換成 ab65c4b22 以前的版本"
+    },
+    {
+     "sha": "ab65c4b22",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_323_事件包_第三批之六_1B18到1B25.md",
@@ -4101,11 +4354,21 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D33.json",
-   "sha": "9ba14498e",
+   "sha": "9aa8ec40c",
    "status": "approved",
-   "approvedBy": "AA 2026-11-03 定稿（AA_631，D109；七位 211 行，d9d1c2a0f 審稿修四句）",
+   "approvedBy": "AA 2026-11-03 定稿（AA_631，D109；七位 211 行，d9d1c2a0f 審稿修四句）；1b095a239：AA-C AA_694（使用者選「整批改」UA-LAWWW-1105-06）；9aa8ec40c（AA-B 11-08 05:5x AA_593 學姊①b 源稿：使用者 11-02 第 10 節確認、D109）",
    "task": "DATE-D33-1103",
-   "note": "D33 信義區・光年影城：tools/date/import_date_lines.py；企劃線 ca876b23d 是 AA 子代理用錯分支的壞 commit，不用。底圖 d33_base 還沒有（CG 由使用者處理），S.listable 有底圖才列；互動點的時間花費 point_specs 沒有 D33，src/date3d.js S.POINT_X 暫定（LAWWW）"
+   "note": "D33 信義區・光年影城：tools/date/import_date_lines.py；企劃線 ca876b23d 是 AA 子代理用錯分支的壞 commit，不用。底圖 d33_base 還沒有（CG 由使用者處理），S.listable 有底圖才列；互動點的時間花費 point_specs 沒有 D33，src/date3d.js S.POINT_X 暫定（LAWWW）；2026-11-05 改到 1b095a239（AA_694：拿掉句首、句末標點後、）後的「……」，DATE-ELLIPSIS-1105）",
+   "history": [
+    {
+     "sha": "9ba14498e",
+     "note": "AA_694 以前"
+    },
+    {
+     "sha": "1b095a239",
+     "note": "被 9aa8ec40c 取代（AA593-SIS-1B-1102：AA_593 學姊①b 產生檔的源稿，AA-B 11-08 05:53）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_626_語彤D13淡水_新背景改寫.md",
@@ -4118,13 +4381,21 @@
   },
   {
    "path": "docs/story_planning/AA_625_語彤新版事件台詞.md",
-   "sha": "65a1b2fe9",
+   "sha": "3248430b3",
    "status": "approved",
    "approvedBy": "AA 2026-11-03 定稿（D109；第三版 d72ae942d＋f6ef9278b 一起念書）",
    "task": "YT-REWRITE-1103",
    "kind": "text",
-   "note": "語彤四年的事件台詞（AA_624 結構）；手抄進 src（tests/aa625_yt_unit.js 逐句對這份）；65a1b2fe9：AA_657 補二「三號桌」→「常來的阿伯」逐句定稿（AA 2026-11-04 07:11，D109）",
+   "note": "語彤四年的事件台詞（AA_624 結構）；手抄進 src（tests/aa625_yt_unit.js 逐句對這份）；65a1b2fe9：AA_657 補二「三號桌」→「常來的阿伯」逐句定稿（AA 2026-11-04 07:11，D109）；0787572c6（AA_674 第十批：第 17 節「FB」改「社群」）：AA624-YT-BACKGROUND-1103 接「語彤約一起念書」「15 一盞茶屋十週年」兩段（src/aa625_3d.js；tests/aa625_yt_study_unit.js 逐句對這一版）；3248430b3（AA-B 2026-11-07 回 LAWWW-B，D109）：「接線時補的」八點——十週年邀約兩句（src/aa555_3d.js y4s1_yt_23）、「這次我有帶兩把。」要看過事件 1、燒臘二十三週年拿掉語彤的傘和 CG-8（y34b3d.js）、可昕的照片、來的朋友各一句、美國路線的照片、第一則民總改刑總（src/aa625_3d.js；tests/aa625_yt_study_unit.js、aa555_walk_unit.js 逐句對這一版）",
    "history": [
+    {
+     "sha": "0787572c6",
+     "note": "3248430b3 之前的版本（3248430b3：第一則民總→刑總、最後加「接線時補的（2026-11-07 AA-B）」一節）"
+    },
+    {
+     "sha": "65a1b2fe9",
+     "note": "0787572c6 之前的版本（和 0787572c6 只差第 17 節「FB 貼文」→「社群貼文」一處）"
+    },
     {
      "sha": "9ba14498e",
      "note": "65a1b2fe9 之前的版本"
@@ -4214,12 +4485,18 @@
   },
   {
    "path": "docs/story_planning/AA_652_afar與Daybreak店內台詞.md",
-   "sha": "89b4367ca",
+   "sha": "94ab0865e",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "GG-SHOPS2-1104",
    "kind": "text",
-   "note": "afar café、Daybreak 店內台詞：進門（一天一次）、點餐（含錢不夠）、看甜點櫃／書架／菜單、照位子的坐下句、打烊、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；gg_shops2_1104_unit 逐字對照；同一份內容也在 4a98d57f6）；89b4367ca 補 afar 打烊以後、afar／Daybreak 颱風假門口句"
+   "note": "afar café、Daybreak 店內台詞：進門（一天一次）、點餐（含錢不夠）、看甜點櫃／書架／菜單、照位子的坐下句、打烊、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；gg_shops2_1104_unit 逐字對照；同一份內容也在 4a98d57f6）；89b4367ca 補 afar 打烊以後、afar／Daybreak 颱風假門口句",
+   "history": [
+    {
+     "sha": "89b4367ca",
+     "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_653_回LAWWW_公館三間室內缺的台詞_青木外帶與讀書.md",
@@ -4293,6 +4570,608 @@
     }
    ],
    "note": "一盞：c510_3_2、c506_3_3 從麵店搬到 wz_teahouse（座標、時間、「常來的阿伯」、place 說明）；ev_yt_family_dinner 當天 20:00～21:00 茶屋的門讓玩家進去、20:00 以後門口旁白。照抄進 src/data/heroine_circle.js、src/hcircle3d.js、src/aa187_3d.js、src/story3d.js（tests/cafe230_aa657_unit.js）；65a1b2fe9：AA_657 補二「三號桌」→「常來的阿伯」逐句定稿（AA 2026-11-04 07:11，D109）"
+  },
+  {
+   "path": "docs/story_planning/AA_660_交換路線_出發前回國後的空白_缺口表與第一批稿.md",
+   "sha": "de9628d67",
+   "status": "approved",
+   "approvedBy": "AA-C（D109 定稿）",
+   "task": "AA660-VAC-GAP-1104",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "d88f39e3f",
+     "note": "第一版（AA-C 11-04 13:49）；090981ebe 只改 G1-1 第一個回法（AA_667 第 4 節：09:30 起飛，「早上九點半。」→ 媽媽「那六點要出門」）"
+    },
+    {
+     "sha": "090981ebe",
+     "note": "（2026-11-04 換成 0777c92ac 以前的版本）0777c92ac＝AA-C 回 LAWWW-C 的五件：G2-1 改成 12/23 約 10:30 媽媽接到人、回到家以後在群組報（沒有「你（自動）：到了」）、G2-2「見面再給你們看。」→ Alison「好啦 那也算」、G3-2 1/13 改寒假那一句、G1-3 Alison 不在＝芯慈拿清單（G1-5、G2-2 換句表）、G1-1 第二個回法「不用載，我自己去。」→ 媽媽「我要去。我要看你進去。」"
+    },
+    {
+     "sha": "0777c92ac",
+     "note": "（2026-11-04 換成 de9628d67 以前的版本）de9628d67＝AA-C 回 LAWWW-C 16:48 兩點：沒有清單、也沒認識 Alison＝G2-2 明軒「回來了？」「下次桌遊夜，位子留給你。」；只認識明軒（Alison、芯慈都不在）＝餞行不排，7/31 21:00 明軒私訊「八月二號走？」「到了拍一張你自己。不要只拍風景。」、不記清單"
+    }
+   ],
+   "note": "日本／美國路線在臺灣的空白第一批（第 2 節 G1～G6、第 3 節接線；第 5 節下一批不做）：美國 7/27 家人群組、7/29 摘要日、7/30 桌遊團群組＋7/31 19:00 餞行（拍照清單 US_PHOTO_LIST；Alison 不在＝芯慈拿清單，US_PHOTO_LIST_XC）、8/1 家人群組、8/5 松鼠的照片、12/23 10:30 家人群組（AA660.G21_ON 打開、G21_H）與 21:00 群組、12/24 Kevin 第一句、12/25／1/13 摘要日；日本 3/23 阿哲第一句、8/5 家人群組與 21:00 群組、8/12／8/22／8/29 摘要日。照抄進 src/aa660_3d.js（S.L）、src/data/heard_lines.js（h509_kevin 的 alt）、src/y34b3d.js（y3_an_farewell_ask）；第 4 節第 3 點：src/data/heroine_asks.js 子晴那句店名換 2:30 AM（tools/story/aa655_fix.json）；0777c92ac 同一個 commit 的 AA_494 子晴交往中、可昕兩句店名也換 2:30 AM（heroine_asks.js；AA_494 白名單照舊 b3ecc563c，讀稿照 aa655_fix.json pairs 換）。稿上芯慈那一版清單旁白後面的「（芯慈的顏色筆，這學期用這一次）」是口頭禪額度註記（00_台詞寫作規則.md 第 6 節），不演。tests/aa660_vac_gap_unit.js 逐字對照"
+  },
+  {
+   "path": "docs/story_planning/AA_669_期末考前的圖書館_位子很滿_請朋友占位子_社科圖二樓.md",
+   "sha": "6a4b6ba22",
+   "status": "approved",
+   "approvedBy": "AA-C（D109 定稿）",
+   "task": "EXAM-LIB-CROWD-1104",
+   "kind": "text",
+   "note": "AA_669 第 0～5、7 節（第 6 節社科圖二樓的場景是 LAWWW2 的 SOCLIB-2F-1104，沒有匯入）：第 1 節一進門的旁白六句、第 2 節找不到位子（提示、再繞一圈、去別間、回宿舍讀／回家讀、招手、收書包、還是沒有）、第 3 節十一位＋pool 的（小聲）那幾句與交往中的動作、4-1 答應／到了以後／沒到／不行、4-2 前一天 21:00 的訊息／到了以後／沒占到、第 5 節經濟系三位。照抄進 src/data/examlib_lines.js（手寫，一字不差；tests/exam_lib_crowd_unit.js 用 git show 468a1d0b9 逐句對照），接線 src/examlib3d.js",
+   "history": [
+    {
+     "sha": "468a1d0b9",
+     "note": "（2026-11-04 換成 6a4b6ba22 以前的版本）6a4b6ba22＝AA-C 18:2x 回 LAWWW-C 第 6 節四件：長桌第一次坐下也演（新的一句）、兩種都記 SOCLIB_2F_SEAT、老位子照舊靠窗第三個；crowd_depts 加 soclib_2f"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_604_法服純劇情_FAFU_STORY場次與台詞.md",
+   "sha": "23581d5b6",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_604 23581d5b6）",
+   "task": "D118-B5b-1102",
+   "kind": "text",
+   "note": "法服固定日期的四場（D118-B5b，aa_asks 第 6 項）：第 1 節規則、第 2 節場次表（日期、新個案、回訪、前一天 20:00 法服群組的提醒；第 4 場兩週以後雅筑學姊那一則）、第 3 節共同開頭、沒看過上一場的一句、收尾四句、第 4 節舊存檔（換下一件、八件都演過＝FAFU_LOG 第 1 句）。手抄進 src/story3d.js（S.FAFU_STORY、S.FAFU_STORY_OPEN、S.FAFU_STORY_BACK_MISS、S.FAFU_STORY_AFTER4）；新個案、回訪的法律句子照 S.FAFU_CASES／S.FAFU_BACK 原字（BB_160 查過）。tests/d118_b5b_unit.js 逐字對這份"
+  },
+  {
+   "path": "docs/story_planning/AA_638_總複習介面字定稿_D118三項規則確認.md",
+   "sha": "3271973c6",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_638 3271973c6）",
+   "task": "D118-B5a-1102",
+   "kind": "text",
+   "note": "第 3 節 ④-7：法服旁觀大一第二次來就說「你又來了。明年可以報名當志工，來坐圓桌。」（旗標 LAWCLUB_SAT_FIVE 照舊）——開發分支 90b5cf014 已手抄進 src/story3d.js S.fafuWatch（tests/v1f_fafu_sat_unit.js、tests/d118_b5a_unit.js e1）；④-8 沛珊「我接。」也在同一個 commit。第 1、2 節總複習的介面字是 D118-B3 的事（這一筆只記 ④-7、④-8 已照稿）"
+  },
+  {
+   "path": "docs/story_planning/AA_619_吉他店_買吉他_吉他社社遊.md",
+   "sha": "c4b14a901",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_619 c4b14a901＝bf0efded8＋AA_693 C 頂樓那一句；AA-C 11-05 00:45 確認店就是新生南路那一間 xinsheng_layout.js 的 tongxian）",
+   "task": "AA619-GUITAR-1104",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "22a6c4d43",
+     "note": "第一版（AA-C 11-04 13:18）；bf0efded8 只把三處「公館」改「新生南路」（第 1 節位置、2-1 社長學長那句「新生南路有一家同弦，報吉他社打九折。」、第 4 節第 1 點）"
+    },
+    {
+     "sha": "bf0efded8",
+     "note": "新生南路版（2b0fac3da 合併的那一版照這份）；c4b14a901 只改 3-1 頂樓「問了」那一支子晴的第二句：「還沒寫完。你不要跟別人說。」→「還沒寫完。結尾我還沒想到。」（AA_693 C：模板句）"
+    }
+   ],
+   "note": "同弦樂器（吉他店）、加入吉他社買吉他、吉他社社遊（X196）：第 1 節營業時間（12:00～21:30、週一休、颱風天關）、看看／試彈／買東西的旁白與價錢（九折＝吉他社成員）、老闆三句輪流、子晴偶遇（週六 15:00～16:00，大一上第 6、10、14 週）；2-1 第一次社課（社長學長四句、兩個選項、那一次的旁白）、2-2 第 6 週週三子晴、2-3 第 6 週週六 15:00 和子晴去同弦（三個選項、九折 3,420／5,850、調音裝袋、出來那一句）、2-4 之後社課的兩句旁白與宿舍「彈吉他」兩句；3-1 宜蘭兩天一夜（群組報名表、2,500、各段旁白與選項、頂樓、回程兩版、ZQ_ROOFTOP_TUNE／HEARD_HER_SONG、BORROWED_ZQ_GUITAR）、3-2 陽明山一日（600）、3-3 和子晴交往中頂樓最後一句、大一下 ev_ziqing_secret_game 開頭一句。照抄進 src/guitar3d.js（S.L、事件 S.EVENTS）與 src/data/events.js（ev_ziqing_secret_game 開頭）；子晴的記憶 HEARD_HER_SONG 的面板名稱照 AA_693 A1（src/social3d.js）；缺字與判斷照 AA_693（下一筆）；tests/aa619_guitar_unit.js 用 git show c4b14a901 逐句對照"
+  },
+  {
+   "path": "docs/story_planning/AA_693_回LAWWW_AA619同弦吉他社缺字與判斷.md",
+   "sha": "c4b14a901",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_693 c4b14a901：回 LAWWW-C 11-05 02:27 的缺字與判斷）",
+   "task": "AA619-GUITAR-1104",
+   "kind": "text",
+   "note": "AA_619 接進開發分支（2b0fac3da）以後的缺字 11 處、判斷 14 件、C 一句：A1 HEARD_HER_SONG 面板名稱（src/social3d.js）、A2 烏克麗麗「看看」、A3 21:30 打烊老闆一句、A4 第一次社課已經有琴的 2-1（S.D21_OWN）、A5 還沒去過社課的試彈、A6 宜蘭民宿烤肉輪到你、A7 頂樓去不去、A8 第二天早上與羅東、A9 陽明山 10:00 校門口出發與 18:00 回來、A10 已經自己買了琴的 2-3（不取消）、A11 買小東西以後；B 兩句描述加括號、社長那一句兩版都加「買弦也有。」；C 頂樓那一句（AA_619 同步改）。照抄進 src/guitar3d.js（S.L、S.D21、S.D21_OWN、S.EVENTS）；tests/aa619_guitar_unit.js 第 14 節用 git show c4b14a901 逐句對照"
+  },
+  {
+   "path": "docs/story_planning/AA_694_約會台詞整批拿掉沒必要的刪節號.md",
+   "sha": "1b095a239",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-05 定稿（D109；使用者 11-05 03:4x 選「整批改」UA-LAWWW-1105-06，LAWWW-C 03:53 轉述）",
+   "task": "DATE-ELLIPSIS-1105",
+   "kind": "text",
+   "note": "約會台詞拿掉沒必要的「……」：源稿 date_system/lines/D*.json 同一個 commit 改好（4,478 句）；第 3 節 252 句（不在 Dxx.json 的）由 tools/date/import_date_lines.py 照同一條規則（tools/date/ellipsis694.py）整份再套一次，逐列核對表上的新句。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_695_山嵐書店互動點與坐地板的字.md",
+   "sha": "88ed60310",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_695 88ed60310：回 LAWWW-C 11-05 04:33；取代 AA_613 第 3 節那幾句）",
+   "task": "ART-SHANLAN-BOOKSTORE-1103",
+   "kind": "text",
+   "note": "山嵐書店（xs_shanlan）：第 1 節互動點 7 句（看看新書平台×2、看雜誌、看文具、結帳＝買書還沒做那一句、看看法律書、看看二樓）、第 2 節坐地板五區各一句（藝術區 17:00 以前換白天那一句）。照抄進 src/shanlan_sys3d.js（SHL.L）；tests/shanlan_act_unit.js 用 git show 88ed60310 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_697_大口漢堡互動點的字.md",
+   "sha": "54bf612c3",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_697 54bf612c3：回 LAWWW-C 11-05 05:13；大口漢堡互動點的按鈕字）",
+   "task": "XS-SHOPS-REST-1105",
+   "kind": "text",
+   "note": "大口漢堡（xs_dakou）：一樓 點餐（櫃檯）店員兩句＋旁白、自助點餐兩句旁白、取餐兩種（有點／沒點）、回收餐盤；二樓 插座、看書架；坐下讀書照 AA_621 第 2 節。照抄進 src/dakou_sys3d.js（DKS.L）；tests/dakou_act_unit.js 用 git show 54bf612c3 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_621_大口漢堡_24小時速食.md",
+   "sha": "52e3d83a8",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_621 52e3d83a8：店名改大口漢堡那一版；AA_697 指過來）；第 2 節阿哲、芯慈：AA-C D109（AA_705 補 4f71f7719「也做，照 AA_621 原稿」）；第 3 節宵夜訊息：AA-C D109（AA_705 補 2c62cdf1e）",
+   "task": "XS-SHOPS-REST-1105",
+   "kind": "text",
+   "note": "大口漢堡（xs_dakou）：第 1 節菜單八樣（價錢、早餐 05:00～10:30 豬肉滿福堡）、第 2 節讀書的旁白四句輪流＋第一次進去兩句＋天亮一句、第 3 節一個人深夜去一句。照抄進 src/dakou_sys3d.js（DKS.L）；第 2 節同學：柏翰（考試那兩週 02:30～05:00、那一句）照 AA_705 第二批接進 src/data/shop_npc.js（xs_dakou_bh_exam，SHOP_NPC.src.AA_621）；阿哲（大一上期末考週 00:00～02:00）、芯慈（考試那兩週的週日 22:00～01:00）的作息與那一句也接進 shop_npc.js（xs_dakou_zhe_exam、xs_dakou_xc_exam，AA_705 補 4f71f7719）；第 3 節阿哲「宵夜？大口漢堡」私訊：AA_705 補 2c62cdf1e（10:06 第 2 點）定了時間與句子（每學期一次第 11 週週五 22:30、「好。」→ 23:00 大口漢堡一樓出遊、「今天不了。」→「OK 下次」；和 AA_614 第 3 節第 1 列分開、不輪流〔那一列照舊是 AA614-CLASSMATE-JOBS-1103〕）→ 已接進 src/zhedakou3d.js（字在 SHOP_NPC.zheDakou，照 AA_705 2c62cdf1e 那一節抄）。tests/dakou_act_unit.js 用 git show 52e3d83a8 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_698_大步球鞋好拍運動互動點的字.md",
+   "sha": "481cf075d",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_698 481cf075d：回 LAWWW-C 11-05 05:27；買東西要做）",
+   "task": "SPORT-SHOPS-1103",
+   "kind": "text",
+   "note": "大步球鞋（xs_dabu）6 個互動點、試穿長凳；好拍運動（xs_haopai）3 個互動點、高腳凳（在等穿線／沒在等）、紅色圓凳；穿線兩版（有拍子／沒有）。照抄進 src/xsshop_sys3d.js（XSSA.L）；tests/xsshop_act_unit.js 用 git show 481cf075d 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_620_運動用品店_球鞋_球拍_球衣.md",
+   "sha": "bf0efded8",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_620 bf0efded8：三家運動用品店，新生南路那一側）",
+   "task": "SPORT-SHOPS-1103",
+   "kind": "text",
+   "note": "只用第 2 節：大步、好拍的價錢、店員／老闆的話（輪流）、試穿、看看（好拍）、買羽球拍「要穿線嗎？等二十分鐘。」、穿線等二十分鐘那一句（AA_698 指過去的原句）。照抄進 src/xsshop_sys3d.js；第 3 節（3-1 阿哲、3-2 系服、3-3、3-4 偶遇）、新生運動廣場還沒做。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_699_新生運動廣場互動點與三間打烊.md",
+   "sha": "0e112816a",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_699 0e112816a：回 LAWWW-C 11-05 06:26）",
+   "task": "SPORT-SHOPS-1103",
+   "kind": "text",
+   "note": "第 1 節打烊那一句（大步、好拍、新生運動廣場）照抄進 src/xs_close3d.js；第 2 節新生運動廣場（xs_xsports）5 個互動點（看看球架、看看球鞋牆、買東西＝AA_620 第 2 節七樣、二樓看看球衣牆、系服訂做兩版）、一樓試穿椅「坐下試穿」旁白；裁縫圓凳不開放。照抄進 src/xsports_sys3d.js（XPA.L）；tests/xsports_act_unit.js 用 git show 0e112816a 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_700_打烊統一一句.md",
+   "sha": "4f60052c8",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_700 4f60052c8：使用者 11-05 06:4x 對 AA-C「打烊時間到了就直接安排一個店員說我們今天要打烊了然後玩家就出店面」；取代 AA_695 第 4 節、AA_699 第 1 節）",
+   "task": "CLOSE-UNIFY-1105",
+   "kind": "text",
+   "note": "所有有營業時間、走得進去的店打烊時一句「我們今天要打烊了。」（店員；只有老闆在顧的店＝老闆），玩家走到門口外面、不另外出旁白；24 小時的店沒有。照抄進 src/xs_close3d.js（XSCLOSE.LINE），afar、Daybreak、青木、日常失速、木曜日、同弦各自的打烊也改叫它；tests/close_unify_unit.js 用 git show 4f60052c8 對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_705_新店面裡遇得到的人_第一批作息.md",
+   "sha": "2c62cdf1e",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_705 補 2c62cdf1e，11-05 10:0x 回 LAWWW-C 10:06：柏翰好拍週四 17:15 也永遠撞總圖（學期中週一二四五 15:20～21:00 在總圖）→ 改週六 14:00～14:30（大一下起、句子照舊）；阿哲「宵夜？大口漢堡」（AA_621 第 3 節）每學期一次第 11 週週五 22:30、選項與見面句，和 AA_614 第 3 節第 1 列分開、不輪流、明軒那兩句不要；其他照 15eb48dfa）",
+   "task": "SHOP-NAMED-NPC-1105",
+   "kind": "text",
+   "note": "新店面裡遇得到有名字的人：第一批（大一上）新生南路、公館、溫州街 14 列的星期、時段、位置、act、聽一句＋第二批（大一下～大四下、可昕頁間書屋）照抄進 src/data/shop_npc.js 的 SHOP_NPC.rows（系統 src/shopnpc3d.js）；芷若那一列照稿「給 LAWWW」的規則改週日下午；第三批三列（xs_dabu_kai、xs_haopai_bh、xs_xsports_yu）；tests/shop_npc_unit.js 用 git show 44af68368（第一、二批）、2c62cdf1e（第三批＋09:21、09:25、10:06 三節補）逐句對照；可昕交往中那一句＝SHOP_NPC.rows bookstore_kx.hearDating。LAWWW-C 子代理 2026-11-05 代登；10:06 第 2 點阿哲「宵夜？大口漢堡」照抄進 SHOP_NPC.zheDakou（系統 src/zhedakou3d.js，tests/zhe_dakou_msg_unit.js 用 git show 2c62cdf1e 逐句對照）",
+   "history": [
+    {
+     "sha": "ebea3a2b0",
+     "approvedBy": "AA-C D109（AA_705 ebea3a2b0：使用者 11-05 08:4x「店面裡要遇的到NPC」，AA-C 定第一批作息）"
+    },
+    {
+     "sha": "f8bd25439",
+     "approvedBy": "AA-C D109（AA_705 補一節 f8bd25439，11-05 08:17：山嵐以安改週六 19:30～20:30、青木學姊改單數週週日 15:00～16:30、日常失速芷若週日 14:00～16:00、散步不算撞；AA_615 遞一小杯補旁白）"
+    },
+    {
+     "sha": "4e6755340",
+     "approvedBy": "AA-C D109（AA_705 補一節 4e6755340，11-05 08:19：青木學姊改單數週週日 16:30～18:00；其他照 f8bd25439）"
+    },
+    {
+     "sha": "44af68368",
+     "approvedBy": "AA-C D109（AA_705 第二批 44af68368，11-05 09:0x：第一批延到大一下～大四下、聽一句只在大一上、學姊大二起判決評釋那一句、子晴同弦只有大一上、柏翰考試週照 AA_621、可昕頁間書屋雙數週週六；第一批照 4e6755340）"
+    },
+    {
+     "sha": "a0f562527",
+     "approvedBy": "AA-C D109（AA_705 第三批 dd765aec6＋a0f562527，11-05 09:2x：使用者「不要新的人物」「原本的人物就好」→ 只補 AA_620 3-4 三列（阿凱大步週六 18:40～19:20、柏翰好拍大一下起週二 20:00～20:30、Alison 運動廣場大二起週日 13:00～14:00）；「不用每天都遇到人，但要遇得到」→ 照現在密度、不再加；第一、二批照 44af68368）"
+    },
+    {
+     "sha": "15eb48dfa",
+     "approvedBy": "AA-C D109（AA_705 補 4f71f7719＋15eb48dfa，11-05 09:2x 回 LAWWW-C：可昕交往中也會在頁間遇到（只有那一天有約才不出）＋交往版一句；學姊大二起旁白、「第 2 週起」只大一上、柏翰考試週照 LAWWW-C；AA_621 阿哲、芯慈考試週和宵夜訊息「也做」；第三批兩列永遠撞→阿凱大步改週日 16:30～17:15、柏翰好拍改週四 17:15～17:45；第一～三批其他照 a0f562527）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_615_新生南路那一側_公館二輪戲院_爆米花.md",
+   "sha": "ebea3a2b0",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_615 第 4 節：AA_705 南洋戲院那一列指過來「遇到她、送爆米花照原稿」）",
+   "task": "SHOP-NAMED-NPC-1105",
+   "kind": "text",
+   "note": "只用第 4 節「遇到她、送爆米花」：第一次（櫃檯）旁白兩句、Alison 四句、兩個選項的回話、拿到爆米花的旁白；之後再遇到三句隨機；KNOWS_SIS_ALISON 那一句。照抄進 src/data/shop_npc.js（SHOP_NPC.alison）；和朋友一起來、人物頁打工那一行、看電影時多一句：AA615-ALISON-CINEMA-1103（LAWWW-B 11-07）照 ba26f7f7d（和 ebea3a2b0 內容相同）補——第 3 節 1 廳坐下來看三句旁白隨機一句、第 4 節「三位？……你們三個看同一部喔。」（AA_614 第 3 節第 3 列那一場）、「禮拜五晚上我在戲院。……禮拜天下午？」（邀約撞到她的班）照抄進 src/aa614_3d.js（AA614.L），人物頁「打工：南洋戲院（週五、週六晚上）」在 src/whois3d.js；tests/aa614_jobs_unit.js 對稿。tests/shop_npc_unit.js 用 git show ebea3a2b0 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_707_study_scenes.json",
+   "sha": "2840eeb1d",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:25／05:28「AA_707 改版，請重匯」：心事搬到 AA_712 故事線；旗標、unlock、need、第 6 場算約會不動）；2840eeb1d（AA-B 11-07 23:38：語彤第 1 場開頭「你先讀。我把這一章看完就好。」）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "七位一起念書第 1～6 次＋輪換 6 則；tools/story/import_study_scenes.py → src/data/study_scenes.js（第一批 49d01b2b2 被這一版取代）",
+   "history": [
+    {
+     "sha": "6a0018b90",
+     "note": "被 2840eeb1d 取代"
+    },
+    {
+     "sha": "05d8a816e",
+     "approvedBy": "（11-07 04:05 以前的版本；c47f8ab4d 取代：以安第 1 場旁白、語彤第 5 場 alt 改成完整 opts）"
+    },
+    {
+     "sha": "c47f8ab4d",
+     "approvedBy": "（11-07 05:2x 以前的版本；6a0018b90 取代：心事搬進 AA_712，只留一起念書的樣子）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_710_gifts.json",
+   "sha": "be775af69",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:02「AA_710 改了你說的六句」）",
+   "task": "GIFT-FLIRT-1107",
+   "kind": "json",
+   "note": "第二版（BB_304 第 7 節）：七位送飲料、早餐：yes（need 1／4、dating 交往中；pool 兩三組輪流）、no（一天第二次，輪流）、fav（七位都有，AA_410）、opinion（她有意見的那一樣）、ctx（again／exam／night／winterCold／summerHot）；tools/story/import_gifts.py → src/data/gift_lines.js",
+   "history": [
+    {
+     "sha": "4be26c44d",
+     "approvedBy": "AA-B D109（11-07 04:14：以安早餐那句「（她咬了一口，才說：）」，遊戲還沒有早餐店）；74aa33345 取代（第二版）"
+    },
+    {
+     "sha": "e2e92dcf4",
+     "approvedBy": "（11-07 04:14 以前的版本；4be26c44d 取代：以安熟了收早餐那句不寫蛋餅）"
+    },
+    {
+     "sha": "74aa33345",
+     "approvedBy": "（11-07 06:00 以前；be775af69 取代：改六句（以安晚上、芷若 no／opinion、語彤交往中、子晴 no、可昕有糖））"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_709_msg_replies.json",
+   "sha": "ce8e3db3c",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:18「AA_709 第五批」、06:26「第六批」）；5c8664179（AA-B 11-08 01:50「AA_709 第七批」：大三寒假＋大三下臺灣路線 16 則）；f82035701（AA-B 11-08 01:56「AA_709 第八批」：日本路線 20 則）；cc38793f7（AA-B 11-08 01:58「AA_709 第九批」：大四上 17 則）；359a545eb（AA-B 11-08 02:04「AA_709 第十批」：大四臺灣路線 27 則）；0a4e74f2b（AA-B 11-08 02:27 SIS-NO-THREE：學姊南瓜回覆改「……不要拐彎說我。」）；211b71958（AA-B 11-08 02:28「AA_709 第十一批」：畢業以後一年 子晴 2029-08-29 一則）；ce8e3db3c（AA-B 11-08 06:26 AA_593 第 11 節：學姊「七月排滿了。八月二號出發。」＋選項跟著換）",
+   "task": "MSG-REPLY-1107",
+   "kind": "json",
+   "note": "女主角主動傳的「分享生活」私訊，最後一則掛三個回覆選項（rel、她的回話）；tools/story/import_msg_replies.py → src/data/msg_replies.js",
+   "history": [
+    {
+     "sha": "0a4e74f2b",
+     "note": "被 211b71958 取代"
+    },
+    {
+     "sha": "359a545eb",
+     "note": "被 0a4e74f2b 取代"
+    },
+    {
+     "sha": "cc38793f7",
+     "note": "被 359a545eb 取代"
+    },
+    {
+     "sha": "f82035701",
+     "note": "被 cc38793f7 取代"
+    },
+    {
+     "sha": "5c8664179",
+     "note": "被 f82035701 取代"
+    },
+    {
+     "sha": "1e9257401",
+     "note": "被 5c8664179 取代"
+    },
+    {
+     "sha": "bc0e755be",
+     "approvedBy": "（11-07 05:3x 以前；b6019bbd1 取代：新寫五串、拿掉秀琴姨試菜回覆、以安除夕選項、set、第三批寒暑假 9 串＋芯慈過了吧三個選項）"
+    },
+    {
+     "sha": "b6019bbd1",
+     "approvedBy": "（11-07 06:0x 以前；c8cceccf9 加第四批：大二上＋跨年 20 串）"
+    },
+    {
+     "sha": "c8cceccf9",
+     "approvedBy": "（11-07 06:3x 以前；1e9257401 加第五批 7a01b883e 大二寒假＋大二下 15 串、第六批大二暑假＋大三上 24 串）"
+    },
+    {
+     "sha": "211b71958",
+     "note": "被 ce8e3db3c 取代（AA_593 第 11 節第 3 點：學姊日本路線 2028-06-26 那一則 text＋三個選項）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_711_flirt.json",
+   "sha": "09e3a8d03",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 04:10「AA_709、AA_711 都推了」）",
+   "task": "GIFT-FLIRT-1107",
+   "kind": "json",
+   "note": "七位各 5 則（need 3～5、ok／early）；tools/story/import_flirt.py → src/data/flirt_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_712_heroine_arcs.json",
+   "sha": "026a2dd34",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:00「AA_712 修三處我妹多一個空白」）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "七位各 8 拍（BB_305 欄位）；tools/story/import_arcs.py → src/data/heroine_arcs.js；src/arcs3d.js 播放",
+   "history": [
+    {
+     "sha": "7a24f8ce1",
+     "approvedBy": "（11-07 06:00 以前；026a2dd34 取代：學姊那幾拍「我妹 」多一個空白）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_714_invite_places_acc.json",
+   "sha": "696254f1c",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:48 交付 AA_714）",
+   "task": "INVITE-PLACES-1107",
+   "kind": "json",
+   "note": "七個新地點 × 七位：acc（答應句）＋firstAt（第一次一起去）；tools/story/import_place_acc.py → src/data/invite_place_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_708_activity_scenes.json",
+   "sha": "e0e92919e",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:30「AA_708 改好了，可以接（取消不整合）」：只留活動的樣子、心事在 AA_712）；11-07 16:15 e0e92919e 加 day（可昕講末班車的四句，18:00 以前開始換句，KX-MOVIE-BYE-1107）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "吃飯、咖啡各 4 場、電影、書店各 3 場＋輪換；tools/story/import_activity_scenes.py → src/data/activity_scenes.js"
+  },
+  {
+   "path": "docs/story_planning/AA_713_gym_equip.json",
+   "sha": "a6cb4f488",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:12「AA_713 加了 mat」）",
+   "task": "GYM-FIT-1107",
+   "kind": "json",
+   "note": "健身房七種器材（treadmill、bike、rower、dumbbell↔db_rack、squat↔squat_rack、smith、bench；墊子沒有稿）四階各三句＋levelUp（升階以後第一次練完一句）；tools/story/import_gym_equip.py → src/data/gym_equip_lines.js（GYM_EQUIP_LINES），播放 src/gym3d.js（器材）、src/fit3d.js（升階）。LAWWW-B 子代理 2026-11-07 代登",
+   "history": [
+    {
+     "sha": "60f8f6b6a",
+     "approvedBy": "（11-07 05:48；89da798d1 取代：健身中心在 B1，拿掉一句窗戶、兩句喝水）"
+    },
+    {
+     "sha": "89da798d1",
+     "approvedBy": "（11-07 05:51；a6cb4f488 取代：加 mat 伸展墊四階）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_715_sport_gym_pool_invites.json",
+   "sha": "2205d6058",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:51「AA_715 運動健身」）",
+   "task": "GYM-FIT-1107",
+   "kind": "json",
+   "note": "gym_fitness、gym_pool × 七位（acc、firstAt、sport during／end、學姊 beforeLearn）＋shared.sport；tools/story/import_sport_invites.py → src/data/sport_invite_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_717_rot_life.json",
+   "sha": "033b5150a",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:11「交付 BB_305 第 5、6 節」）；963afea74（AA-B 11-08 01:39 AA_720 第一批同 commit：子晴 life 第 3 階 state 改「第一關的畫面出來了」、芷若「2:30 AM 吧檯」）；ee689cfb8（AA-B 11-08 02:4x 同 AA_720 wiringAnswers：子晴 rot 第 13 則每一版改字、第 14／15 則 altIntern）；033b5150a（AA-B 11-08：芷若 life 第 5 階 state 改「外文三，帶新人；開始接試譯」，第一筆稿費是 11/11）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "七位輪換句 15～19 則（when／beat／if／life／lifeMax／from／until／alt）＋life 7～12 階；tools/story/import_arc_rot.py → src/data/arc_rot.js；ee689cfb8 起子晴第 14、15 則有 altIntern（dec:heroine_04.summer=intern；延長實習辭掉前／後）",
+   "history": [
+    {
+     "sha": "578ba675e",
+     "note": "被 963afea74 取代"
+    },
+    {
+     "sha": "963afea74",
+     "note": "被 ee689cfb8 取代（子晴 rot 第 13 則還是「第一關做好了。」、第 14／15 則沒有 altIntern）"
+    },
+    {
+     "sha": "ee689cfb8",
+     "note": "被 033b5150a 取代（芷若 life 第 5 階 state 還寫「試譯、拿到第一筆稿費」）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_716_arc_invites.json",
+   "sha": "026a2dd34",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:00「AA_716 故事線的下次帶你去變成真的約會」）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "7 個 invite（offer、plan、scene、by、set、noPlan）；tools/story/import_arc_invites.py → src/data/arc_invites.js"
+  },
+  {
+   "path": "docs/story_planning/AA_719_decide_rules.json",
+   "sha": "963afea74",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 08:10 經 BB-B 轉「AN-1 rule 0 say 第一句」）；963afea74（AA-B 11-08 01:39：SIS-1 before 2026-01-31、沛珊 before 要交往中、子晴 intern 使用者 Q1 同意）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "14 個決定拍（七位各 2）：style、lean、default、opts stance、rules（stance×trust×opt→result、rel、delay、say）、keyNote；tools/story/import_decide_rules.py → src/data/decide_rules.js",
+   "history": [
+    {
+     "sha": "13acd106d",
+     "note": "被 963afea74 取代"
+    },
+    {
+     "sha": "3788d00c1",
+     "approvedBy": "AA-B D109（11-07 06:40「分岔稿第一份：規則表」）（11-07 07:1x 以前；851167f68 加 before／revealAt、trust 門檻寫 60）"
+    },
+    {
+     "sha": "851167f68",
+     "approvedBy": "AA-B D109（11-07 07:10「AA_719 兩個小改」）（11-07 08:1x 以前；13acd106d AN-1 rule 0 第一句改傳單）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_721_l118_invite_acc.json",
+   "sha": "94ab0865e",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 09:27「INVITE-PLACES 第二批」）",
+   "task": "INVITE-PLACES-1107",
+   "kind": "json",
+   "note": "118 巷七家店 × 七位 acc／firstAt；可昕不去好家自助餐（no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js",
+   "history": [
+    {
+     "sha": "b782e2c08",
+     "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_722_study_unlock_slots.json",
+   "sha": "897ddd17e",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 09:41「念書第 6 次的她那一格」；09:50 bbeb58f34 語彤那一場改成她下班、店還開著；10:04 897ddd17e 小路、滷味照 partnerBlock 擋＋以安的 fallback）",
+   "task": "INVITE-PLACES-1107",
+   "kind": "json",
+   "note": "六格（以安小路一次性、芷若週六早場、語彤一盞下班後、子晴公館滷味、沛珊課輔班、可昕木柵圖書館）× acc／first／rot；tools/story/import_study_slots.py → src/data/study_slots.js"
+  },
+  {
+   "path": "docs/story_planning/AA_723_confess_retry_ps_silence.json",
+   "sha": "eca6139aa",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 10:51「AA_723 使用者 Q2、Q4 的稿」；使用者 10:4x 回 AA 四題；13:42 21e9f6c50 加 pending；f5cb310d6 沉默期動態全關、柏翰一句、不在群組的 12/30 私訊；d8570a14b noGroup.optAlt；f68c998cc confess 規則文字（不進遊戲）；70b0b51a9 重聚改在 wz_lin 演：兩張小方桌併在一起）；18:0x eca6139aa 加 confess.lines[人].secondYes（第二次告白接原本答應那一場的換句）",
+   "task": "AA723-CONFESS-PS-1107",
+   "kind": "json",
+   "note": "告白 heart＋fail／normal／ready／second（七位）；沛珊沒交往的線 reply1、reunion（noGroup）、posts.bohan；tools/story/import_aa723.py → src/data/aa723.js"
+  },
+  {
+   "path": "docs/story_planning/AA_724_洋洋鹹酥雞店內台詞.md",
+   "sha": "bf5c3e6c6",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "YANGYANG-IN-1107",
+   "kind": "text",
+   "note": "洋洋鹹酥雞店內台詞：進門（一天一次）、點炸物（內用還外帶、錢不夠、調味兩題、大辣多一句）、等炸好、吃完、看炸物櫃／菜單板／自助區／冷飲櫃／廚房、四人桌／兩人桌的坐下句、01:00 打烊（bf5c3e6c6：照 AA_700 老闆「我們今天要打烊了。」一句、不加旁白）、鐵門、颱風假、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；yangyang_shop_unit 逐字對照）"
+  },
+  {
+   "path": "docs/story_planning/AA_725_轉角唱片店內台詞.md",
+   "sha": "94ab0865e",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "CORNER-IN-1107",
+   "kind": "text",
+   "note": "轉角唱片店內台詞：進門（一天一次）、翻唱片（七箱，拿去試聽／買這張／放回去）、試聽（開始：高腳椅／站著／同一天第二次，聽的時候六種，結束）、買一張（一百五、兩百五、買完兩句、錢不夠、第一次在櫃台問）、看音響、高腳椅／沙發的坐下句、21:00 打烊（bf5c3e6c6：照 AA_700 店員「我們今天要打烊了。」一句、不加旁白）、木門、颱風假、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；corner_shop_unit 逐字對照）",
+   "history": [
+    {
+     "sha": "bf5c3e6c6",
+     "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_667_交換路線_同時交往的另一位_出發前回國當天.md",
+   "sha": "0ba033578",
+   "status": "approved",
+   "approvedBy": "AA-C（D109 定稿）",
+   "task": "AA667-VAC-GAP2-1104",
+   "kind": "text",
+   "note": "日本／美國路線第二批：同時交往、沒有一起出國的另一位，祐廷出發前、出發當天、回國當天（第 2 節日本：子晴、語彤、芷若、沛珊、學姊、可昕 8/5；第 3 節美國：以安、子晴、語彤、芷若、沛珊；第 5 節接線、同一晚兩場提早一天）。照抄進 src/aa667_3d.js（S.L）；第 5 節三處：src/data/termend_lines.js（H6 子晴 Y4S1 期末飯美國路線版）、src/ytjob3d.js（H7 S.homePhone 看語彤的 presence；2-2 第一次去她家那一頓的兩個 call）、src/data/fest_events.js（沛珊聖誕台南拿掉「……不用勉強。」）；第 4 節 AA_660 G1-1 已經在 src/aa660_3d.js。第 7 節（1905ae629，AA-B 11-07 回 LAWWW-B）：7-1 子晴 3/23 住家裡的版本（家附近的便利商店門口）、7-2 沛珊住家裡「你回家了嗎？」、7-3 語彤已經去過她家的那一小場、7-4「七號才下來」＋8/7 那串最後一句、8/8 她在臺北（src/story3d.js STORY.VAC_STAY；src/ytjob3d.js 8/8 不另外約）、7-5 同一晚兩場改成被綁住的不動、其他往前一天（「明天」→「後天」）。tests/aa667_vacgap2_unit.js 逐字對照；0ba033578（AA-B 11-07 18:47）：7-1 開頭旁白、講出發「明天」的句子都照移的天數換、語彤那一週改 3/18～3/23"
+  },
+  {
+   "path": "docs/story_planning/AA_613_開學活動同學約_系籃怎麼加入_兩層書店.md",
+   "sha": "232fe4149",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "AA613-OPENING-ACTS-1103",
+   "kind": "text",
+   "note": "開學活動有同學約一起去、系籃怎麼加入（第 1 節：社博阿哲私訊＋第七小隊群組＋合唱團攤位、法律資料怎麼查芯慈、第一次社課群組、開學典禮柏翰旁白、說了好沒來；第 2 節：2-1 晨思鐘、2-2 攤位兩句、2-3 第一次練球前一天、2-4 球場學長兩句＋阿哲）。照抄進 src/aa613_3d.js（S.L）、src/data/club_fair.js（2-2 BOOTHS basketball.say 後兩句、2-4 DOOR_SAY_BY）；第 3 節（兩層樓的書店）不在這裡。tests/aa613_opening_acts_unit.js 對稿；232fe4149（AA-B 11-07 20:3x「接線時補的」）：晨思鐘晚到版開頭旁白、填表系統字移到「好欸。」後面、芯慈 15:30 以後到的旁白"
+  },
+  {
+   "path": "docs/story_planning/AA_614_同學也在打工_約了不能來.md",
+   "sha": "32a5f7e12",
+   "status": "approved",
+   "approvedBy": "AA（D109）；第 1 節沛珊每週三 18:00～21:00、做到 2026-12-17＝AA-B 2026-11-07 21:11～21:12",
+   "task": "AA614-CLASSMATE-JOBS-1103",
+   "kind": "text",
+   "note": "同學也在打工（第 1 節作息：src/data/characters.js 阿凱週六程式教室、沛珊週三課輔班、Alison 南洋戲院，作息那一筆的 job；第 2 節邀約撞到上班五人的句子與改約時間；第 3 節群組、私訊五則（第 3 列「好。」＝當天 19:30 南洋戲院出遊）；第 4 節路上遇到沛珊、阿凱；第 5 節阿凱、沛珊閒聊各一句）。照抄進 src/aa614_3d.js（AA614.L）；ev_peishan_tutoring 搬到週三 20:45～21:15、兩句照 AA-B 11-07 改（src/data/events.js）。人物頁「打工：……」稿上沒有字＝沒做（問 AA）。tests/aa614_jobs_unit.js 用 git show a0b8a3e40 逐句對照；73ee9256d（AA-B 11-07 21:56「接線時補的」）：國小生／五年級的、E7 改週四、階梯招呼搬週三 20:50～21:10、P2-L3「每個禮拜三。」、Alison 週六那句、whois 打工兩行；32a5f7e12（AA-B 11-07 22:00 說法統一：助教、教國小的小朋友；ev_peishan_tutoring 那句與記憶 note 改「助教」）"
+  },
+  {
+   "path": "docs/story_planning/AA_11_事件書_陳語彤.md",
+   "sha": "0787572c6",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "AA624-YT-BACKGROUND-1103",
+   "kind": "text",
+   "note": "只用事件 15「一盞茶屋十週年」誰會來、兩個版本的句子（和別人交往中「兩把。你們自己分。」；和語彤交往中「（散場下雨。語彤拿出兩把傘。）」＋兩句）：AA_625 第 15 節「同班圈誰會來照 AA_11 事件 15 的規則」。照抄進 src/aa625_3d.js（AA625.L11）；tests/aa625_yt_study_unit.js 逐句對這一版（最後改這份的是 56cf47f22，內容和 0787572c6 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_720_decide_opened_scenes.json",
+   "sha": "3e6a7ff71",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-08 01:39 AA_720 第一批）；3e9cc0385（AA-B 11-08 第二批：endings 尾聲七位照 DECIDE 各最多一句＋confFail）；4f37a68bb（AA-B 11-08 quietMove：SIS1-QUIET-LIB-1108 學姊第 6 拍在總圖安靜區＝走到樓梯間再演）；ee689cfb8（AA-B 11-08 02:4x wiringAnswers：回 LAWWW-B 02:39 十二點＋沒做的三件——ps_result 改 09:58 先傳兩則、原本照演；可昕 waited 之後兩天的短回覆 kx_waited_after；子晴 1/9 demo intern 版 demoJan9＋動態說明）；075eae472（AA-B 11-08 03:2x an1_later＋wiringAnswers2：回 LAWWW-B 03:16——以安 AN-1 later 版 3/19 Alison 群組＋以安私訊三選項；1/9 demo 實習版三處照 ZQ-2；沒交往 Café 當面版加「……獎學金拿到一半。」；選信的 9/28 生日電話照舊打）；3e6a7ff71（AA-B 11-08 03:3x wiringAnswers3：回 LAWWW-B 03:33——選信的 9/28 電話開頭旁白「（台灣晚上十點，手機響了。）」；選信、那時和別人交往中的沒有這通；1/9 demo 第一句保留「資工系館的電腦教室。」再接 AA 那一句）",
+   "task": "AA720-DECIDE-OPENED-1108",
+   "kind": "json",
+   "note": "決定拍打開的 19 場（events：invite／plan／scene／opts／end／missed）＋zr_letters、zr_call、zq_intern、ps_result、kx_quiet、kx_eat、kx_slot＋endings＋quietMove；tools/story/import_aa720.py → src/data/aa720.js（AA720），播放 src/aa720_3d.js；ee689cfb8 起多 kx_waited_after、wiringAnswers（AA720-WIRING-1108）；075eae472 起多 an1_later、wiringAnswers2（wiringAnswers* 是說明、不進遊戲，要演的句子照 import_aa720.py QUOTES／DEMO3 抽）",
+   "history": [
+    {
+     "sha": "963afea74",
+     "note": "被 3e9cc0385 取代（第一批，沒有 endings）"
+    },
+    {
+     "sha": "3e9cc0385",
+     "note": "被 4f37a68bb 取代（沒有 quietMove）"
+    },
+    {
+     "sha": "4f37a68bb",
+     "note": "被 ee689cfb8 取代（沒有 wiringAnswers、kx_waited_after、zq_intern.demoJan9；ps_result 還是 10:00 三則＋三個選項）"
+    },
+    {
+     "sha": "ee689cfb8",
+     "note": "被 075eae472 取代（沒有 an1_later、wiringAnswers2；1/9 demo 只換「第三關。橋是新的。」那一句）"
+    },
+    {
+     "sha": "075eae472",
+     "note": "被 3e6a7ff71 取代（wiringAnswers3：選信版 9/28 旁白、和別人交往中排除、1/9 demo 保留地點半句）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_593_學姊改稿_1b_手機與其他系統.md",
+   "sha": "6cbb0b4ab",
+   "status": "approved",
+   "approvedBy": "使用者 2026-11-02 19:xx 第 10 節選擇題（學姊手機 12 題看完，「照本節可以交 LAWWW」）；AA-B D109 第 9 節審查決定；BB_239 口氣審 PASS",
+   "task": "AA593-SIS-1B-1102",
+   "kind": "md",
+   "note": "學姊改稿①b（手機與其他系統）逐句表：手抄檔照 apply_line_table.py；產生檔的源稿在企劃線 9aa8ec40c（AA_367、BB_128 3-6、wish_bb、solo_before_bb、date_system/lines）；tools/date/import_wish.py 第 82 列（學姊 herInvite.decline「好。……那下次。」）對這一份",
+   "history": []
+  },
+  {
+   "path": "docs/story_planning/AA_728_gifts_friends.json",
+   "sha": "7ac7380ff",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-08 08:24「回 08:21 PLAYTEST-1107 兩項」：送給朋友要、六位 drink／breakfast yes 三組輪流＋no；AA_710 itemOnly 清單在 _meta）；6528d7681（AA-B 11-08 08:49 回五點：豆漿米漿是飲料、四位補早餐、咖啡類只算美式和拿鐵、冰你一下只配冰的）；7ac7380ff（AA-B 11-08 09:54：阿哲、Alison、柏翰、明軒的 no 改成飲料早餐都通——BB-B P3）",
+   "task": "GIFT-FLIRT-1107",
+   "kind": "json",
+   "note": "送飲料、早餐給朋友（阿哲、阿凱、Alison、柏翰、明軒、芯慈）；_meta.itemOnly＝AA_710 只配某一樣的那幾組；tools/story/import_gifts.py",
+   "history": [
+    {
+     "sha": "955ea3a03",
+     "note": "被 6528d7681 取代（AA-B 11-08 08:49：豆漿、米漿改回飲料；阿哲、Alison、柏翰、明軒補 breakfast）"
+    },
+    {
+     "sha": "6528d7681",
+     "note": "被 7ac7380ff 取代（AA-B 11-08 09:54：朋友的 no 改成飲料、早餐都通）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_729_greet_classday.json",
+   "sha": "fa0bc1c9d",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-10 00:42「回 BUG-GREET-NOCLASS-1110」：classDay 22、playerNoClass 3、nextClassDay 1、add 23 句週末／放假招呼，lint 0）",
+   "task": "BUG-GREET-NOCLASS-1110",
+   "kind": "json",
+   "note": "招呼只在上課日說的標記＋週末、放假的招呼（使用者 11-10「禮拜天遇到沈以安 他問我今天還有課嗎」）；tools/story/import_greet_classday.py → src/data/greet_classday.js"
+  },
+  {
+   "path": "docs/story_planning/AA_731_invite_acc_no_time.json",
+   "sha": "94ab0865e",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-10 00:58，BB_255 BUG-INV-ACC-TIME-1110）",
+   "task": "BUG-INV-ACC-TIME-1110",
+   "kind": "json",
+   "note": "10 句答應句 old→new（invites.js 手寫的照 rows 換；invite_replies、invite_place_lines 重新匯入）"
+  },
+  {
+   "path": "docs/story_planning/AA_735_service2_legal.json",
+   "sha": "d14a03136",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-10 01:09，SERVICE2-LEGAL-1110；使用者 11-10「服務學習另外有法律服務一學期」）",
+   "task": "SERVICE2-LEGAL-1110",
+   "kind": "json",
+   "note": "服務學習（二）改法律服務中心：room、profName、serviceLines 九句（courses.js 手動照抄）"
   }
  ]
 }

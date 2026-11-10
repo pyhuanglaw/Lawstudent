@@ -40,9 +40,10 @@ sec('0. 台詞對稿',()=>{ const L=[]; const add=(x,w)=>{ if(x==null||x==='') r
   add(FEED_Y1S1.video.start,'video'); add(FEED_Y1S1.video.end,'video');
   /* YT-REWRITE-1103：語彤的句子照 AA_630 第 3 節（F 列）換了；短句（tests/alison.js 的語料不收）直接對 AA_630 表上的「改成」那一格 */
   const A630=(()=>{ try{ return (cp.__worldEf||cp.execFileSync).call(cp,'git',['-C',H.ROOT,'show','bb4401fd3:docs/story_planning/AA_630_語彤台詞改寫.md'],{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();
-  const bad=L.filter(([w,t])=>!doc.includes(t)&&!(A630&&A630.includes(' | '+t+' | ')));
+  const D116={'老師說我們那一段寫得很清楚。消失的那一段。':'AA-B 11-07 04:10 訊息：原句「寫得最好」違反 D116（不跟別人比），改「寫得很清楚」；AA 會在 AA_503 稿補更正'};   /* AA 直接給的更正（不在 d13ab3ab7 稿裡）*/
+  const UE=require('./user_line_edits.js'), bad=L.filter(([w,t])=>!doc.includes(t)&&!(A630&&A630.includes(' | '+t+' | '))&&!D116[t]&&!(UE[t]&&doc.includes(UE[t])));   /* UE：使用者核准改過的句子（2026-11-10 KX-NO-SWEAR-1110）*/
   check('0. 每一句都在 AA_503 稿裡（'+SHA+'，一字不差；'+L.length+' 句）',doc.length>1000&&L.length>=250&&!bad.length,doc?J(bad.slice(0,8)):'git fetch origin claude/magical-albattani-bk7b4n');
-  check('0. 動態 44 則（以安 8、芷若 6、語彤 6、子晴 7、學姊 3、可昕 8、沛珊 6）、私訊 10 則',FEED_Y1S1.posts.length===44&&FEED_Y1S1.dms.length===10,J([FEED_Y1S1.posts.length,FEED_Y1S1.dms.length]));
+  check('0. 動態 43 則（以安 8、芷若 6、語彤 6、子晴 7、學姊 2、可昕 8、沛珊 6）、私訊 10 則（2026-11-04：學姊 sis2「空的保溫瓶」拿掉，D127④、AA_661 第 48 列 ebdd2fb59）',FEED_Y1S1.posts.length===43&&!FEED_Y1S1.posts.some(p=>p.id==='sis2')&&FEED_Y1S1.dms.length===10,J([FEED_Y1S1.posts.length,FEED_Y1S1.dms.length]));
   /* AA 更正：74916d73b 芷若的拉花比賽、語彤的訪問作業；62849944b 可昕第 5 則的予樂生日——都不放進遊戲 */
   const GONE=['比完了。','小婷贏。','我的那一杯老闆喝掉了，他說歪的比較好喝。','作業交了。','我訪問了每天來吃乾麵的那個伯伯。','他講了一個小時。他太太的事。','寫他每天點一樣的。……其他的我沒寫。那是他的。','嗯。他今天也來了。一樣不要蔥。','一杯拉花，愛心歪到右邊','兩杯拉花並排，左邊那杯明顯比較好看','一本筆記本，寫滿了字，最上面寫著「伯伯」','小婷很厲害。我教的。',
     '宿舍走廊，一個蛋糕，蠟燭被風吹斜了','予樂生日。','我幫你轉達。她說：你誰？','一個鬧鐘。她每天遲到。'];
@@ -139,7 +140,7 @@ sec('3',()=>{ const P=FEED_Y1S1.posts, add=[
   const L=[...log.values()], byDay={}; for(const i of L) byDay[i.day]=(byDay[i.day]||0)+1;
   let worst=0, wid=''; for(const i of L){ const n=L.filter(j=>j.who===i.who&&T(j.day,j.h)<=T(i.day,i.h)&&T(i.day,i.h)-T(j.day,j.h)<7*24).length; if(n>worst){ worst=n; wid=i.id; } }
   const miss=FEED_Y1S1.posts.map(p=>p.id).filter(id=>!log.has(id));
-  check('3. 大一上走一遍（七位都很熟）：44 則都出',L.length===44&&!miss.length,J({n:L.length,miss,done:miss.map(id=>R().done[id])}));
+  check('3. 大一上走一遍（七位都很熟）：43 則都出（sis2 保溫瓶拿掉）',L.length===43&&!miss.length,J({n:L.length,miss,done:miss.map(id=>R().done[id])}));
   check('3. 大一上走一遍：一天不超過四則（最多 '+Math.max(0,...Object.values(byDay))+'）、每位連續七天不超過兩則（最多 '+worst+'）',Math.max(0,...Object.values(byDay))<=4&&worst<=2,wid);
   const kx3=log.get('kx3'); check('3. 可昕第 3 則（沒去過木柵大學、沒有 K1b）：照第一個能問的日子，第 6 週週四 12:30（予樂的宵夜在週三晚上）',!!kx3&&kx3.day===TD(6,4)&&Math.abs(kx3.h-12.5)<0.01,J(kx3)); });
 
@@ -169,11 +170,11 @@ sec('5',()=>{ const SAT=TD(11,6);
 sec('6',()=>{ const TUE=TD(11,2), WED=TUE+1, THU=TUE+2;
   const go=(pick,o)=>{ o=o||{}; fresh(TUE,20,{dating_kexin:o.dating!==false}); if(o.lv) rel('kexin',o.lv); walk(TUE,23+10/60); const m=dm('kx_rpt'); const n=th('kexin').length; if(m&&pick!=null) PHONE.answer(H.G,m.ask.id,pick); return {m,L:th('kexin').slice(n)}; };
   let {m,L}=go(0);
-  check('6. 第 11 週週二 23:10 三則（交往中）、三個選項；回覆到午夜',!!m&&Math.abs(m.h-(23+10/60))<0.02&&J(th('kexin').filter(x=>x.tag==='aa503_kx_rpt').map(x=>x.text))===J(['我們組有一個人消失了。','報告後天交。他那一段還是空的。','操。'])&&J(m.ask.opts.map(o=>o.t))===J(['我陪妳熬夜。','他人呢？','妳先睡，明天再做。'])&&m.ask.until===T(WED,0),J(m&&m.ask));
+  check('6. 第 11 週週二 23:10 三則（交往中）、三個選項；回覆到午夜',!!m&&Math.abs(m.h-(23+10/60))<0.02&&J(th('kexin').filter(x=>x.tag==='aa503_kx_rpt').map(x=>x.text))===J(['我們組有一個人消失了。','報告後天交。他那一段還是空的。','……真的會瘋掉。'])&&J(m.ask.opts.map(o=>o.t))===J(['我陪妳熬夜。','他人呢？','妳先睡，明天再做。'])&&m.ask.until===T(WED,0),J(m&&m.ask));
   const q=OUT.get(H.G,'aa503_kx_video'), ev=STORY_EVENTS.find(e=>e.id==='ev_kexin_video_report'), said=ev?ev.dialogue.filter(d=>d.text).map(d=>d.text):[];
   check('6. 「我陪妳熬夜。」→ 她回一句、KX_RPT stay；當晚 00:00 排視訊（接起來）；事件只有開頭「你念你的」、結尾「好了。睡覺。」、兩個小時',J(L.map(x=>x.text))===J(['我陪妳熬夜。','你在首都帝大陪我熬夜？……好啊。視訊開著，你不要講話。'])&&H.G.flags.KX_RPT==='stay'&&!!q&&q.day===WED&&q.h===0&&q.ev==='ev_kexin_video_report'&&q.verb==='接起來'&&!!ev&&ev.trigger==='outing'&&ev.hours===2&&J(said)===J(['你念你的','好了。睡覺。'])&&ev.dialogue[0].bg==='video',J({q,said}));
   walk(THU,17.9); const a=th('kexin').some(x=>x.tag==='aa503_kx_rpt2'); walk(THU,18.1);
-  check('6. 週四 18:00「報告交了。」「老師說我們那一段寫得最好。消失的那一段。」',!a&&J(th('kexin').filter(x=>x.tag==='aa503_kx_rpt2').map(x=>x.text))===J(['報告交了。','老師說我們那一段寫得最好。消失的那一段。']));
+  check('6. 週四 18:00「報告交了。」「老師說我們那一段寫得很清楚。消失的那一段。」（D116 不跟別人比：AA-B 11-07 04:10 把「寫得最好」改成「寫得很清楚」）',!a&&J(th('kexin').filter(x=>x.tag==='aa503_kx_rpt2').map(x=>x.text))===J(['報告交了。','老師說我們那一段寫得很清楚。消失的那一段。']));
   ({m,L}=go(1)); walk(THU,18.1);
   check('6. 「他人呢？」→ 兩句（KX_RPT who）、不排視訊；週四那一則也有',J(L.map(x=>x.text))===J(['他人呢？','邵鈞說他去宜蘭。宜蘭耶。','我明天要在群組裡講清楚。講清楚，不罵他。'])&&H.G.flags.KX_RPT==='who'&&!OUT.get(H.G,'aa503_kx_video')&&th('kexin').some(x=>x.tag==='aa503_kx_rpt2'));
   ({m,L}=go(2));
@@ -267,5 +268,20 @@ sec('10',()=>{ fresh(TD(13,5),8); who('heroine_03','ACQ'); who('classmate_peisha
   walk(TD(14,6),2); check('10. 只顯示七天：第 13 週週六 01:10 那一則，第 14 週週六 02:00 已經不在畫面上',!HT().includes('夜行列車與貓'));
   HT(); walk(TD(15,4),22); FEED.respond(H.G,'an5','cm');   /* 以安沒有聯絡方式：沒有 an5 */
   check('10. 沒有她的聯絡方式：動態頁上沒有她',!HT().includes('民總。剩六張。')); });
+
+/* ---------- 11 動態類私訊的回覆鍵 7 天收起來（UX-FEED-ASK-EXPIRE-1108；BB-B 11-08 03:20、AA-B 03:21：沒寫期限的 7 天後收、過期＝跟沒回一樣、不出字；有寫 until 的照原本；其他私訊不受影響）---------- */
+sec('11',()=>{ const SAT=TD(10,6), t0=T(SAT,10+12/60);
+  fresh(TD(10,5),8); who('heroine_01','CLOSE'); walk(SAT,10.25); const m=dm('an_mom');
+  check('11. 前置：以安 an_mom 有回覆鍵、沒寫期限',!!m&&m.ask.until==null);
+  const open=h=>{ const d=Math.floor(h/24); at(d,h-d*24); return PHONE.askOpen(H.G,m); };
+  check('11. 第 6 天、7 天整還能回（askOpen）',open(t0+6*24)&&open(t0+7*24-0.01));
+  check('11. 過了 7 天：收起來（askOpen false、不在待回覆、按回覆沒反應）',!open(t0+7*24+0.5)&&!PHONE.pending(H.G).includes(m)&&PHONE.answer(H.G,m.ask.id,0)===null&&m.ans==null&&!H.G.flags.AN_LIST&&H.G.flags.AN_MOM_DM==null,J({ans:m.ans,f:H.G.flags.AN_MOM_DM}));
+  const th0=(PHONE.threads(H.G).find(t=>t.th==='p:heroine_01')||{pending:9});
+  check('11. 那一段對話不算待回覆、不出新的字',th0.pending===0&&th('heroine_01').slice(-1)[0].text==='七家。她說我一家都還沒去。',J(th0));
+  /* 有寫 until 的（可昕第 11 週報告）照原本，不另外收；其他私訊（不是 aa503_）不受影響 */
+  const fake=(id,until)=>{ const x={th:'p:heroine_02',from:'heroine_02',text:'測試',day:SAT,h:10,ask:{id,opts:[{t:'好'}]}}; if(until!=null) x.ask.until=until; H.G.msgs.push(x); return x; };
+  const a=fake('aa503_t_until',T(SAT+30,0)), b=fake('other_t',null), c=fake('aa503_t_none',null); at(SAT+10,12);
+  check('11. 有寫 until 的照 until（第 10 天還能回）；不是動態類的沒寫期限照舊開著；動態類沒寫期限的收起來',PHONE.askOpen(H.G,a)&&PHONE.askOpen(H.G,b)&&!PHONE.askOpen(H.G,c),J([PHONE.askOpen(H.G,a),PHONE.askOpen(H.G,b),PHONE.askOpen(H.G,c)]));
+  check('11. FEED.ASK_DAYS＝7、只包一次（PHONE._feedAskExp）',FEED.ASK_DAYS===7&&PHONE._feedAskExp===true); });
 
 H.done();

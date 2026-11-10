@@ -47,7 +47,7 @@ const inDoc=(t,doc)=>{ doc=doc||DOC; return !doc||doc.indexOf(t)>=0||doc.indexOf
     check('0. 掛勾：STORY.PHONE_RULES、STORY.TICKS 各一個；PG.epiLine 包過（尾聲）',STORY.PHONE_RULES.some(f=>/S\.phone\(G\)/.test(String(f)))&&STORY.TICKS.some(f=>/umbDay/.test(String(f)))&&PG.epiLine._aa187===true);
     /* 每一句台詞、旁白、選項都在稿裡（補的系統選項「（各自回去）」除外；選項的括號是遊戲的動作寫法：「送她回去」照字比）*/
     const COMPOSED=new Set(['（各自回去）']);
-    const bad=[]; for(const e of X().EVENTS) for(const l of e.dialogue){ if(l.text!==undefined&&!inDoc(l.text)) bad.push(e.id+'：'+l.text); for(const c of (l.choice||[])) if(!COMPOSED.has(c.text)&&!inDoc(c.text.replace(/^（|）$/g,''))) bad.push(e.id+' 選項：'+c.text); }
+    const bad=[]; for(const e of X().EVENTS) if(!e.retired) for(const l of e.dialogue){   /* AA_661 第 62 列：退場的（ev_yt_umbrella_hook，AA_630 Y-007）不比——企劃線 AA_187 傘那一句已經拿掉 */ if(l.text!==undefined&&!inDoc(l.text)) bad.push(e.id+'：'+l.text); for(const c of (l.choice||[])) if(!COMPOSED.has(c.text)&&!inDoc(c.text.replace(/^（|）$/g,''))) bad.push(e.id+' 選項：'+c.text); }
     for(const t of X().FD_MSG.concat(X().FD_MISS,[X().FD_EPI])) if(!inDoc(t)) bad.push('私訊／尾聲：'+t);
     check('0. 每一句都在 AA_187（一字不差；補的只有不送的那個選項「（各自回去）」）',bad.length===0,bad.slice(0,6).join('｜'));
     const src=fs.readFileSync(path.join(H.ROOT,'src/aa187_3d.js'),'utf8');
@@ -107,9 +107,10 @@ const inDoc=(t,doc)=>{ doc=doc||DOC; return !doc||doc.indexOf(t)>=0||doc.indexOf
   /* ===== 3 2-1 語彤 ===== */
   await sec('3',async()=>{
     const over=TERMEND_LINES.HEART.heroine_03.over.find(o=>o.terms.includes('Y4S1')), f=over.she.find(x=>typeof x==='function');
-    fresh('2028-12-20',21,'noodle',{}); const a=f(H.G); SOCIAL.remember(YT,'NOTICED_EMPTY_SEAT',''); const b=f(H.G);
-    check('3. (a) 大四上心意邀約她的理由句：沒有 NOTICED_EMPTY_SEAT＝「你每次吃完，都自己把碗拿到櫃台。」「……我都有看到。」（AA_187 2-1）',J(a)===J(['你每次吃完，都自己把碗拿到櫃台。','……我都有看到。'])&&inDoc(a[0])&&inDoc(a[1]),J(a));
-    check('3. (a) 事件 10 選過「我那週有注意到妳的位子空著」（NOTICED_EMPTY_SEAT）＝另一版；字照 AA_313 第 4 節（2026-10-20，比 AA_187 10-18 的改字晚）',J(b)===J(['大一期中那週，我的位子空著。……你那時候就看到了。'])&&(!DOC313||DOC313.indexOf('大一期中那週，我的位子空著。……你那時候就看到了。')>=0),J(b));
+    fresh('2028-12-20',21,'wenzhou',{}); const a=f(H.G); SOCIAL.remember(YT,'NOTICED_EMPTY_SEAT',''); const a2=f(H.G); SOCIAL.remember(YT,'RAIN_LIBRARY',''); const b=f(H.G);
+    /* AA_661 第 56 列（使用者 11-04 選「拿掉，只留前兩句」；條件換成雨天的總圖門口 RAIN_LIBRARY）：原本空位子／把碗拿到櫃台兩版（事件 10 已退場、她不在店裡端麵）*/
+    check('3. (a) 大四上心意邀約她的理由句：沒有雨天總圖門口的記憶＝「第一次一起上班，你把我洗好的杯子又擦了一遍。」（AA_661 第 56 列）；NOTICED_EMPTY_SEAT 不再換句',J(a)===J(['第一次一起上班，你把我洗好的杯子又擦了一遍。'])&&J(a2)===J(a),J([a,a2]));
+    check('3. (a) 雨天的總圖門口演過（RAIN_LIBRARY）＝「大一那天下雨，你陪我在總圖門口等雨停。」（AA_661 第 56 列）',J(b)===J(['大一那天下雨，你陪我在總圖門口等雨停。']),J(b));
     { const e10=STORY_EVENTS.find(e=>(e.dialogue||[]).some(l=>(l.choice||[]).some(c=>c.text==='「我那週有注意到妳的位子空著。」'))), ix=e10?e10.dialogue.findIndex(l=>l.label==='seen'):-1, seen=ix>=0?e10.dialogue.slice(ix,ix+4):[];
       check('3. (a) 事件 10 那個選項記 NOTICED_EMPTY_SEAT（'+(e10&&e10.id)+'）',seen.some(l=>(l.mem||[]).some(m=>m.npc===YT&&m.tag==='NOTICED_EMPTY_SEAT'))); }
     const U=ev('ev_yt_umbrella_hook');

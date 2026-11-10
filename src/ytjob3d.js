@@ -41,7 +41,7 @@ const YTJOB=(function(){
   S.sync=G=>{ if(!G||!G.flags) return; const j=typeof JOBS!=='undefined'&&JOBS.at?JOBS.at(G,'tea'):null; G.flags.JOB_TEA=!!j; };
   S.CATS={ ask:[[YT,'……嗯。你下班有事嗎？'],[YT,'要不要一起去找公園的貓？大安森林公園那邊，晚上會有好幾隻出來。']], no:[[YT,'嗯。下次。']],
     a:[[null,'（公園的長椅旁邊，一隻橘貓從草叢裡走出來，在語彤腳邊坐下。）'],[YT,'牠每天都在這裡。我叫牠「橘子」。……很普通的名字。'],[null,'（她蹲下來，摸了摸貓的頭。）'],[YT,'我很想養一隻。'],['player','那就養啊。'],[YT,'我一個人住。白天上課、週末打工，牠會常常自己待在家。'],[YT,'……那樣不好。']],
-    b:[[YT,'嗯。我是新北人，家在淡水。'],[YT,'我爸媽離婚了。上大學以前，我跟我媽住。'],[YT,'淡水到學校太遠，我媽就在學校附近買了房子給我住。'],[YT,'晚上有一個阿姨會來煮飯。秀琴姨。……她煮的比茶屋的點心好吃。不要跟蘇姨說。'],
+    b:[[YT,'嗯。我是新北人，家在淡水。'],[YT,'我爸媽離婚了。上大學以前，我跟我媽住。'],[YT,'淡水到學校太遠，我媽就在學校附近買了房子給我住。'],[YT,'晚上有一個阿姨會來煮飯。秀琴姨。……她煮的比茶屋的點心好吃。蘇姨的點心是買的。'],
       [null,'（橘子吃完你們帶來的小魚乾，走回草叢裡。）'],[null,'（你沒有再問。你們坐著看橘子走遠，坐到十點。）'],[YT,'……謝謝你陪我找貓。']] };
   S.cats=async function(GM){ const G=GM.G, F=G.flags; if(F.YT_CATS||F.YT_CATS_NO) return false; await JOBS.play(GM,S.CATS.ask);
     const k=await ch(GM,[{t:'「好啊。」'},{t:'「今天不行。」',say:S.CATS.no}]); if(k===1){ F.YT_CATS_NO=true; return true; }   /* 不記；之後的班不再問（第一次去她家可以補聽到）*/
@@ -114,6 +114,8 @@ const YTJOB=(function(){
   S.homePhone=function(G){ const F=G.flags; if(!F||F.YT_HOME_SEEN||!datingYT(G)||typeof PHONE==='undefined'||typeof OUT==='undefined') return;
     const R=romR(G,YT), since=R&&typeof R.sinceDay==='number'?R.sinceDay:null, wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd%7:0, h=((+G.hour||0)%24+24)%24;
     if(since!=null&&G.day<=since) return; if(wd<1||wd>5||h<17||h>=18.5) return;   /* 交往以後的平日傍晚（開始那一天不算）*/
+    { const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(YT,G):null; if(p&&p.here===false) return; }   /* AA_667 H7：她不在臺北（宜蘭田野收不到訊號、寒暑假平日回淡水）不約你去她家吃飯 */
+    if(typeof AA667!=='undefined'&&AA667.ytHomeSkip&&AA667.ytHomeSkip(G)) return;   /* AA_667 7-4：日本路線 8/8（她在臺北的例外）＝8/7 那串已經約了這一天，這則不另外傳 */
     const tag='yt_home_'+G.day; if(PHONE.sent(G,tag)||OUT.get(G,'yt_home_first')) return; if(F.YT_HOME_ASK===G.day) return; F.YT_HOME_ASK=G.day;
     PHONE.at(G,G.day,17,[{th:'p:'+YT,from:YT,text:S.HOME_INV[0],ask:{id:tag,until:G.day*24+18.5,opts:[{t:'好。',set:{YT_HOME_GO:G.day}},{t:'今天不行。'}]}}],tag); };
   S.homePlan=function(G){ const F=G.flags; if(!F||F.YT_HOME_SEEN||F.YT_HOME_GO!==G.day||typeof OUT==='undefined'||OUT.get(G,'yt_home_first')) return;
@@ -125,11 +127,12 @@ const YTJOB=(function(){
       {speaker:null,text:'（兩房一廳。客廳很大，只有一張長桌、一張沙發。另一間房間的門開著，裡面堆滿書和紙箱。廚房裡，一個阿姨在盛湯。）'},
       {speaker:'秀琴姨',text:'你就是祐廷喔？坐、坐。'},
       {speaker:YT,text:'……嗯。這是秀琴姨。'},
-      {speaker:'秀琴姨',text:'她都不帶人回來。你是第一個。'},
+      {speaker:'秀琴姨',text:'她都不帶人回來。……我多煮一碗飯。'},
       {speaker:YT,text:'秀琴姨。'},
+      {call:async(G,GM)=>{ if(typeof AA667!=='undefined'&&AA667.ytHomeHead) await AA667.ytHomeHead(GM); }},   /* AA_667 2-2：日本路線 8/7 約的 8/8 那一頓＝秀琴姨那一問（src/aa667_3d.js）*/
       /* 事件 6「在她家當面」（AA_625 第 6 節；AA_643 第 5 節保留）：大一下第 10 週以後、還沒在茶屋聽她說過 */
       {if:{custom:G=>S.homeRentDue(G)},goto:'rent'},
-      {speaker:null,text:'（晚餐。秀琴姨煮了三菜一湯，收完碗就走了。）'},{goto:'opt'},
+      {unless:{custom:G=>typeof AA667!=='undefined'&&!!AA667.ytJp&&AA667.ytJp(G)},speaker:null,text:'（晚餐。秀琴姨煮了三菜一湯，收完碗就走了。）'},{goto:'opt'},   /* AA_667 2-2：日本路線出發前那一週＝秀琴姨吃完飯還在（最後拿滷肉的做法出來），這一句不演 */
       {label:'rent'},
       {speaker:null,text:'（秀琴姨把最後一盤菜端上桌，在餐桌旁邊坐下來，沒有拿包包。）'},
       {speaker:'秀琴姨',text:'房東說要把房子賣了。我住了十四年。賣了我要住哪裡。'},
@@ -139,8 +142,9 @@ const YTJOB=(function(){
       {label:'opt'},
       {choice:[{text:'「妳一個人住這麼大？」',goto:'a'},{text:'「秀琴姨煮得很好吃。」',goto:'b'}]},
       {label:'a'},{speaker:YT,text:'我媽買的。……我只是想知道一個人過日子是什麼感覺。'},{goto:'e'},
-      {label:'b'},{speaker:YT,text:'嗯。比茶屋的點心好吃。……不要跟蘇姨說。'},
-      {label:'e'},{set:{YT_HOME_SEEN:true}} ],
+      {label:'b'},{speaker:YT,text:'嗯。比茶屋的點心好吃。……蘇姨聽到會難過。'},
+      {label:'e'},{call:async(G,GM)=>{ if(typeof AA667!=='undefined'&&AA667.ytHomeTail) await AA667.ytHomeTail(GM); }},   /* AA_667 2-2：日本路線出發前那一週答應的那一次＝最後接稿上那一段（滷肉的做法、護照；YT_JP_BYE）*/
+      {set:{YT_HOME_SEEN:true}} ],
     after:G=>{ G.flags.YT_HOME_SEEN=true; if(G.flags.YT_RENT_AT_HOME&&G.events&&G.events.done) G.events.done.ev_yutong_landlord=G.day; } };
   S.homeInstall=function(){ if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(e=>e&&e.id===S.HOME_EV.id)) STORY_EVENTS.push(S.HOME_EV);
     if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)&&!S._homeRule){ S._homeRule=true; STORY.PHONE_RULES.push(G=>{ try{ S.homePhone(G); S.homePlan(G); }catch(e){ console.warn('YTJOB home',e); } }); } };

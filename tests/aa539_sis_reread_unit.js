@@ -50,7 +50,7 @@ const fresh=(key,h,kind,flags,o)=>{ o=o||{}; const met=kind!=='none';
 /* 她們主動約你：從 k0 到 k1 每天跑（12:00 決定、23:55 傳），回傳學姊的每一則（傳出去的：{day 傳的那天, inv 約的那天, place, h, text}）*/
 const simHask=(k0,k1,kind,o)=>{ fresh(k0,9,kind,{},o||{});
   const K=HA(); if(!K) return []; for(let d=D(k0);d<=D(k1);d++){ at(d,12); K.phone(H.G); at(d,23.95); K.phone(H.G); PHONE.tick(H.G); }
-  return K.rec(H.G).sent.filter(x=>x.id===ID&&x.state!=='dropped'&&x.state!=='planned').map(x=>({day:x.send.day,inv:x.day,k:x.k,place:x.place||x.loc,from:x.from||x.place||x.loc,h:x.h,vk:x.vk,text:lineOf(x)})); };
+  return K.rec(H.G).sent.filter(x=>x.id===ID&&x.state!=='dropped'&&x.state!=='planned').map(x=>({day:x.send.day,inv:x.day,k:x.k,place:x.place||x.loc,from:x.from||x.place||x.loc,h:x.h,vk:x.vk,alt:x.alt|0,text:lineOf(x)})); };
 const dupIn28=L=>{ const bad=[]; for(let i=0;i<L.length;i++) for(let j=i+1;j<L.length;j++) if(L[i].text===L[j].text&&Math.abs(L[j].day-L[i].day)<28) bad.push([keyOf(L[i].day),keyOf(L[j].day),L[i].text]); return bad; };
 const show=L=>L.map(x=>keyOf(x.day)+'→'+keyOf(x.inv)+' '+x.place+'@'+x.h+' '+x.text);
 /* 稿：第 2 節的編號清單（標題下面的 1.～4.；去掉「（原句…）」）*/
@@ -58,13 +58,17 @@ const docList=head=>{ const i=docLines.findIndex(l=>l.trim()===head); if(i<0) re
 const tbl=hd=>{ const i=docLines.findIndex(l=>l.indexOf(hd)>=0), out=[]; for(let j=i+1;i>=0&&j<docLines.length&&/^\|/.test(docLines[j]);j++){ if(/^\|\s*-/.test(docLines[j])) continue; out.push(docLines[j].split('|').slice(1,-1).map(x=>x.trim())); } return out; };
 const LN=()=>typeof SIS539_LINES!=='undefined'?SIS539_LINES:{friendDm:[],famGrp:[]};
 const NEW_TE='時差還沒調回來。……今天晚上，法圖旁邊那家？', OLD_TE='我回來了。今天晚上，法圖旁邊那家。';
-const NO_LAB='明天六點半。跑完一起去吃早餐。……之後我回家念書。', SR_PRE='明天下午三點，慢讀。你帶要問的題目。', SR_DAT='明天下午三點，慢讀。今天不問題目。';
+/* AA_593（學姊改稿①b，企劃線 6cbb0b4ab；使用者 11-02 第 10 節第 2 點）第 50～56、60 列：稿（AA_539）上的句子照 AA_593 的表換成遊戲現在的字（M593）；
+   第 50、53 列使用者選兩則都用「明天五點以後，我在總圖三樓。」＝朋友版總圖第 1、4 句同一句：輪流照 pickVar 記的 alt（第幾句）比，不照字找第幾句 */
+const A593=require('./aa593_doc.js'), M593=t=>A593.MAP[t]||t;
+const NO_LAB='明天六點半。跑完一起去吃早餐。……之後我回家念書。', SR_PRE=M593('明天下午三點，慢讀。你帶要問的題目。'), SR_DAT=M593('明天下午三點，慢讀。今天不問題目。');
 const JP0529=['（照片：法圖討論室的白板，寫滿了字）','讀書會還在。Kevin 說要讀到考前一個月。'];
 const C720=['學生證停了。今天想借書，機器不讓我借。','……我在總圖三樓。你如果在附近。'], C720_YES='好。三樓靠窗。', C720_CARD='你借我的那三本，第一本讀完了。';   /* 5-1 */
 const LV=v=>[v&&v.line].concat(((v&&v.alt)||[]).map(a=>a.line));
 /* 輪流的順序：下一句＝上一句的下一句；只有慢讀那一句（那天不行）可以跳過 */
-const cycOk=(L,pool)=>{ const ix=L.map(x=>pool.indexOf(x.text)); if(ix.some(i=>i<0)) return false; const n=pool.length, sr=pool.findIndex(t=>t===SR_PRE||t===SR_DAT);
-  return (ix[0]===0)&&ix.every((b,k)=>{ if(!k) return true; const a=ix[k-1], nx=(a+1)%n; return b===nx||(nx===sr&&b===(sr+1)%n); }); };
+const cycOk=(L,pool)=>{ const ix=L.map(x=>pool[x.alt]===x.text?x.alt:-1); if(ix.some(i=>i<0)) return false;   /* 第幾句照記的 alt、而且那一句的字要對（AA_593：第 1、4 句同一句）*/ const n=pool.length, sr=pool.findIndex(t=>t===SR_PRE||t===SR_DAT);
+  const skip=i=>i===sr||pool.indexOf(pool[i])!==pool.lastIndexOf(pool[i]);   /* 可以跳過的：慢讀那一句（那天不行）、和別句同字的那兩句（四週內傳過同一個字就跳，AA_593 第 50、53 列）*/
+  return (ix[0]===0)&&ix.every((b,k)=>{ if(!k) return true; let nx=(ix[k-1]+1)%n; for(let g=0;g<n&&b!==nx&&skip(nx);g++) nx=(nx+1)%n; return b===nx; }); };
 
 (async()=>{
 /* ================= 0 讀稿 ================= */
@@ -76,11 +80,11 @@ await sec(0,()=>{
   for(const pl of ['library','run_avenue']) for(const vk of ['pre','dat']){ const v=entry(pl)[vk]; if(v&&v.alt) for(const a of v.alt) L.push(a.line); }
   if(typeof US208!=='undefined') for(const s of US208.SCENES) for(const t of (s.dmMore||[])) L.push(t);
   for(const a of LN().friendDm){ L.push(...a.L); if(a.yes) L.push(a.yes,a.noT,a.no,a.yesRe); if(a.card) L.push(...a.card); } for(const a of LN().famGrp) for(const [,t] of a.L) L.push(t);
-  const bad=L.filter(t=>!t||!doc.includes(t));
+  const bad=L.filter(t=>!t||(!doc.includes(t)&&!A593.has(t)));   /* AA_593 換過的句子在 AA_593 的表上 */
   check('0. 遊戲裡新的句子都在稿裡（一字不差；'+L.length+' 句：改字 3、輪流 11、208 四（3-3 剪報 AA_591 決2 刪過、AA_609 改成她奶奶恢復）、私訊 8＋7/20 的選項回覆 4＋演過 12-1 那一則 1、群組 9）',L.length===40&&!bad.length,J(bad));
   const want={'**朋友版（總圖）**':[LV(entry('library').pre),SR_PRE],'**交往版（總圖）**':[LV(entry('library').dat),SR_DAT],'**交往版（晨跑）**':[LV(entry('run_avenue').dat),null]};
   for(const hd in want){ const dl=docList(hd), [g,sr]=want[hd], exp=sr?dl.concat([sr]):dl;
-    check('0. 第 2 節 '+hd.replace(/\*/g,'')+'：順序和稿一樣（第 1 句是原句）'+(sr?'；第五句＝5-1 的慢讀「'+sr+'」':'；晨跑四句'),dl.length===4&&J(g)===J(exp),J({doc:exp,game:g})); }
+    check('0. 第 2 節 '+hd.replace(/\*/g,'')+'：順序和稿一樣（第 1 句是原句）'+(sr?'；第五句＝5-1 的慢讀「'+sr+'」':'；晨跑四句'),dl.length===4&&J(g)===J(exp.map(M593)),J({doc:exp.map(M593),game:g})); }
   const lib=entry('library'), run=entry('run_avenue'), s5=v=>((v&&v.alt)||[])[3]||{};
   check('0. 5-1：慢讀那一句的地點是慢讀、下午三點（15:00）；1-3 的 noCard 拿掉了；1-2 研究室以前的晨跑照舊',s5(lib.pre).place==='slowread'&&J(s5(lib.pre).h)==='[15]'&&s5(lib.dat).place==='slowread'&&J(s5(lib.dat).h)==='[15]'&&!lib.pre.noCard&&!lib.dat.noCard&&!!run.dat&&!!run.dat.noLab&&run.dat.noLab.line===NO_LAB&&doc.includes('> 學姊：'+NO_LAB)&&doc.includes('**1-3 作廢**')&&doc.includes('加進第 2 節的輪流，當第五句'),J({pre:s5(lib.pre),dat:s5(lib.dat)}));
   /* 1-4 的表 */
@@ -137,7 +141,7 @@ await sec('5-1',()=>{
   fresh('2027-03-26',12,'friend'); hist(H.G,H.G.day,3); let iv=null, m=null; K.phone(H.G); at(H.G.day,23.95); K.phone(H.G); PHONE.tick(H.G); { const rec=K.rec(H.G).sent.find(x=>x.id===ID&&x.sid!==900); iv=rec&&rec.iv?INV.byId(H.G,rec.iv):null; m=(H.G.msgs||[]).find(x=>x.iv&&iv&&x.iv===iv.id&&x.who===ID); }
   check('5-1. 3/26（五）傳、約 3/27（六）：INV 的邀約＝慢讀咖啡 15:00、她傳的是「'+SR_PRE+'」',!!iv&&iv.place==='slowread'&&iv.h===15&&keyOf(iv.day)==='2027-03-27'&&!!m&&m.text===SR_PRE,J({iv,m:m&&m.text}));
   fresh('2026-09-21',13,'friend'); const c=K.candidates(H.G,H.G.day).filter(x=>x.id===ID);
-  check('5-1. 沒有紀錄的第一則照原句：9/21 傳、約 9/22 總圖 17:30「明天五點以後，總圖三樓。你帶要問的題目。」',c.length===1&&c[0].place==='library'&&c[0].h===17.5&&c[0].v.line===pool[0],J(c.map(x=>[x.place,x.h,x.v.line]))); });
+  check('5-1. 沒有紀錄的第一則照原句：9/21 傳、約 9/22 總圖 17:30「明天五點以後，我在總圖三樓。」（AA_593 第 50 列）',c.length===1&&c[0].place==='library'&&c[0].h===17.5&&c[0].v.line===pool[0],J(c.map(x=>[x.place,x.h,x.v.line]))); });
 
 /* ================= 1-4 美國 208：每一句最多傳一次 ================= */
 await sec('1-4',()=>{
@@ -186,7 +190,7 @@ await sec('2',()=>{
   const F=simHask(term[0],term[1],'friend'), Fl=F.filter(x=>x.from==='library');
   check('2. 朋友版大二下（2027-02-22～06-13）：同一句四週內不重複（原本同一句一學期 7～10 次）',F.length>=4&&!dupIn28(F).length,J({dup:dupIn28(F),L:show(F)}));
   const fl=LV(entry('library').pre);
-  check('2. 朋友版總圖照稿的順序輪（1→2→3→4→5→1…；第五句慢讀那天不行可以跳過），至少四句用到',fl.length===5&&Fl.length>=4&&cycOk(Fl,fl)&&new Set(Fl.map(x=>x.text)).size>=4,J(show(Fl)));
+  check('2. 朋友版總圖照稿的順序輪（1→2→3→4→5→1…；第五句慢讀那天不行可以跳過），至少四句用到',fl.length===5&&Fl.length>=4&&cycOk(Fl,fl)&&new Set(Fl.map(x=>x.alt)).size>=4,J(show(Fl)));
   const Dt=simHask(term[0],term[1],'dating'), Dl=Dt.filter(x=>x.from==='library'), Dr=Dt.filter(x=>x.from==='run_avenue');
   check('2. 交往版大二下：同一句四週內不重複（總圖、晨跑、其他地點）',Dt.length>=6&&!dupIn28(Dt).length,J({dup:dupIn28(Dt),L:show(Dt)}));
   const dl=LV(entry('library').dat), dr=LV(entry('run_avenue').dat);
@@ -196,7 +200,7 @@ await sec('2',()=>{
   const K=HA(), e=entry('library'); fresh('2027-03-29',12,'friend'); const R=K?K.rec(H.G):{sent:[]}, d0=D('2027-03-29');
   fl.forEach((t,i)=>R.sent.push({sid:100+i,id:ID,k:'d',vk:'pre',place:i===4?'slowread':'library',from:i===4?'library':undefined,h:17,day:d0-20+i*5+1,send:{day:d0-20+i*5,h:22.5},state:'sent',alt:i||undefined,line:t}));
   const x=K&&K.pickVar?K.pickVar(H.G,ID,e,'pre',e.pre,false,d0+1,d0):'?';
-  R.sent.splice(0,1); const y=K&&K.pickVar?K.pickVar(H.G,ID,e,'pre',e.pre,false,d0+1,d0):null;
+  for(let i=R.sent.length-1;i>=0;i--) if(R.sent[i].line===fl[0]) R.sent.splice(i,1);   /* 第一句的紀錄拿掉（AA_593 第 50、53 列：第 4 句和第 1 句同字，那一筆也拿掉）*/ const y=K&&K.pickVar?K.pickVar(H.G,ID,e,'pre',e.pre,false,d0+1,d0):null;
   check('2. 五句都在四週內傳過＝這次不約總圖（null）；第一句的紀錄拿掉＝輪回第一句',x===null&&!!y&&y.v.line===fl[0],J([x,y&&y.v.line]));
   /* 改天：3 天後同一個地點、換下一句 */
   fresh('2027-03-02',12,'friend'); let r1=null, r2=null; if(K){ K.phone(H.G); at(H.G.day,23.95); K.phone(H.G); PHONE.tick(H.G); r1=K.rec(H.G).sent.find(z=>z.id===ID); if(r1&&r1.iv) INV.answer(H.G,r1.iv,'later');

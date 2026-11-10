@@ -16,6 +16,7 @@
 // 修改前：2、3、5、6、7、8、9（解凍、出錯收乾淨、手機）、10、11（小聲重複）FAIL。用法：node tests/inv_sit_together_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H;
+CLS.afterSlot=async()=>false;   /* 這支測約念書本身的時間（stay 1.5 小時…）；見面用完時段跳到下一個時段（ACTION-BUDGET-1107）另外在 tests/action_budget_1107_unit.js 測 */
 const fs=require('fs'), path=require('path'), vm=require('vm');
 vm.runInThisContext(fs.readFileSync(path.join(H.ROOT,'src/libquiet3d.js'),'utf8').replace(/^const LIBQ\s*=/m,'globalThis.LIBQ='),{filename:'src/libquiet3d.js'});
 vm.runInThisContext(fs.readFileSync(path.join(H.ROOT,'src/data/library_layout.js'),'utf8').replace(/^const (LIBRARY_\w+)\s*=/mg,'globalThis.$1='),{filename:'src/data/library_layout.js'});
@@ -108,6 +109,7 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     check('6. 二樓都坐滿：她先走上二樓看（不在一樓找位子坐），還沒說滿了',iv.lead&&iv.lead.ph==='full'&&!n.seat&&(n.lv|0)===1&&!lines().includes(LS.full[0]),JSON.stringify({L:iv.lead,lv:n.lv}));
     place(E.player,n.obj.position.x+1,n.obj.position.z,1); const said0=H.said.length; INV.tick(GM); await W(10); const got=lines().slice(said0);
     check('6. 你走上二樓到她旁邊：「（二樓的長桌都坐滿了。）」「（小聲）去三樓好了。三樓沒有人講話。」（逐字）',JSON.stringify(got)===JSON.stringify(LS.full),JSON.stringify(got));
+    { const who=H.said.slice(said0).map(x=>x.who); check('6. 「（二樓的長桌都坐滿了。）」是旁白、「（小聲）去三樓好了。…」是她說的（「（小聲）」外面不再有「」以後照樣認得是台詞，AA-B 11-08 00:05）',who.length===2&&who[0]==null&&who[1]!=null,JSON.stringify(who)); }
     check('6. 接著一起走去三樓閱覽區（going、iv.zone library）、她跟著你',iv.state==='going'&&iv.zone==='library'&&n.beh==='follow'&&/三樓/.test(G.goal||''),JSON.stringify({st:iv.state,z:iv.zone,beh:n.beh}));
     G.zone='library'; E.zone={seats:readingSeats(),spawn:SPAWN3,roomAt:()=>null}; E.player.lv=0; place(E.player,SPAWN3.x,SPAWN3.z-0.4,0); n.lv=0; place(n,SPAWN3.x+0.8,SPAWN3.z,0);
     const s1=H.said.length; await INV.arrive(GM,'library'); await W(5); const L=iv.lead, her=L&&INV.seatObj(E,L.her), me=L&&INV.seatObj(E,L.me);
@@ -122,7 +124,7 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     check('10. 兩個人一起坐下（Café）：開場句是 AA_649 第 4 節咖啡的其中一則',INVITE_DATA.seatOpen.coffee.some(L=>L.every(x=>lines().includes(x))),JSON.stringify(lines()));
     check('9. 剛演完見面（30 秒內）：手機不自己再打開（INV.phoneBack false）；31 秒後可以',INV.phoneBack(G)===false&&(t+=31000,INV.phoneBack(G)===true));
     const src=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
-    check('9. game3d.js：手機約人、改天之後打開手機前問 INV.phoneBack；改天那一條 promise 有 catch（console.warn）',(src.match(/INV\.phoneBack\(G\)\) openPhone\('msg'\)/g)||[]).length>=2&&/INV\.flow\(GM,v\.who,null,false\)\.catch\(e=>console\.warn/.test(src)); }
+    check('9. game3d.js：手機約人、改天之後打開手機前問 INV.phoneBack；改天那一條 promise 有 catch（console.warn）',(src.match(/INV\.phoneBack\(G\)\) openPhone\('msg'\)/g)||[]).length>=2&&/INV\.flow\(GM,v\.who,null,false(,r\.flowPlace\?\{place:r\.flowPlace\}:undefined)?\)\.catch\(e=>console\.warn/.test(src)); }   /* 2026-11-10 HER-ASK-LATER-DAY-1110：改天可以帶地點（flowPlace）*/
   { const G=setup('2025-09-12',15,'library_hall',hallSeats(),SPAWN); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','library',G.day,15,{by:'player'}); npc('heroine_05',SPAWN.x+1,SPAWN.z,{beh:'idle'}); holdWalk=true; INV.tick(GM); await W(5);
     check('9. 她正在帶路：手機不自己再打開',iv.lead&&INV.phoneBack(G)===false); }
   { const G=setup('2025-09-12',14.3,'library_hall',hallSeats(),SPAWN); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','library',G.day,15,{by:'player'});
@@ -139,9 +141,9 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     let doc=null; try{ doc=require('child_process').execFileSync('git',['show','37daf8027:docs/story_planning/AA_649_約念書走到桌子坐下＋約會到座位的開場句.md'],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ doc=null; }
     if(doc){ const miss=all.filter(t=>!doc.includes(t)); check('11. 每一句都逐字出現在 AA_649（37daf8027）',!miss.length,JSON.stringify(miss));
       const want=['以安','芷若','語彤','子晴','學姊','沛珊','可昕'].length; check('11. 第 3 節七個人都有（坐下、道別）',Object.keys(LS.first).length===want&&Object.values(LS.first).every(f=>doc.includes('| '+f.sit+' | '+f.bye+' |')||(doc.includes(f.sit)&&doc.includes(f.bye))));
-      check('11. AA_649 第 2 節的一般句都在（坐下兩句、道別兩句）',['「（小聲）我讀到六點。你呢？」','「（小聲）手機先收起來。」','「今天讀得比我想的多。……下次再約。」','「好累。……可是很好。」'].every(t=>LS.sit.concat(LS.bye).includes(t))); }
+      check('11. AA_649 第 2 節的一般句都在（坐下兩句、道別兩句）',['（小聲）我讀到六點。你呢？','（小聲）手機先收起來。','今天讀得比我想的多。……下次再約。','好累。……可是很好。'].every(t=>LS.sit.concat(LS.bye).includes(t))); }
     else console.log('SKIP 11. 這個 checkout 沒有企劃線 37daf8027（git fetch origin claude/story-planning 以後再跑）');
-    check('11. 稿上寫在引號裡的（小聲）不再加一次；沒寫的照舊加；整句旁白不加',LIBQ.needsPrefix('「（小聲）二樓靠窗那排比較安靜。」')===false&&LIBQ.quiet('「好。」')==='（小聲）「好。」'&&LIBQ.needsPrefix(LS.seated)===false); }
+    check('11. 稿上寫在引號裡的（小聲）不再加一次；沒寫的照舊加（外面有「」的拿掉再加：「好。」→（小聲）好。，AA-B 11-08 00:21）；整句旁白不加',LIBQ.needsPrefix('「（小聲）二樓靠窗那排比較安靜。」')===false&&LIBQ.quiet('「好。」')==='（小聲）好。'&&LIBQ.needsPrefix(LS.seated)===false); }
   /* ---- 12 CC 11-04 讀 909c729a6 的疑點 1～3 ---- */
   { const G=setup('2025-09-13',15,'cafe',[{x:0,z:0,yaw:0,lv:0},{x:0.8,z:0,yaw:0,lv:0}],{x:0,z:4,lv:0}); H.FRIEND('heroine_02'); const iv=INV.accept(G,'heroine_02','cafe',G.day,15,{by:'player'}); npc('heroine_02',2,2,{beh:'idle'});
     const W0=globalThis.WISH; globalThis.WISH={meetMention:async()=>{ throw new Error('test'); }}; const ce=console.error; let errs=0; console.error=()=>{ errs++; };
@@ -154,5 +156,20 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     check('12. 帶路途中走出那一區＝作罷：除了訊息，畫面有提示（toast）、手機有紅點（phoneBadge）',iv.state==='cancelled'&&toasts.slice(t0).some(t=>/後來作罷了/.test(t))&&badge>=1,JSON.stringify({st:iv.state,t:toasts.slice(t0),badge})); holdWalk=false; held=[]; }
   { const src=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'); const m=src.match(/S\.phoneAuto=function[\s\S]*?GM\.openPhone\('msg'\)/);
     check('12. STORY.phoneAuto 打開手機前問 INV.phoneBack（帶路中、一起走過去、剛演完 30 秒內不自己打開）',!!m&&/INV\.phoneBack\(G\)/.test(m[0])); }
+  /* ---- 13 BB-B 11-07（AA_717 探針第 2 次見面、第 538 天）：她坐著等你（ph wait、_ivLead 還是這一筆），可是不在那個位子上（被拉起來、座位差一點）——
+         原本：不會再帶路（_ivLead 是這一筆）、也不開演（要坐在那個位子），兩小時後作罷。改：你離得遠＝她走回那個位子；你走到她本人旁邊＝照樣開演（leadScene 讓她坐回去）---- */
+  { const G=setup('2025-09-12',15,'campus',hallSeats(),SPAWN); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','library',G.day,15,{now:true,by:'player'}); const n=npc('heroine_05',SPAWN.x+1,SPAWN.z);
+    G.zone='library_hall'; await INV.arrive(GM,'library_hall'); await W(5);
+    const L=iv.lead, her=L&&INV.seatObj(E,L.her);
+    GM.standUp(n); n.beh='idle'; n.path=null; const w0=walks.length; G.hour=15.2; INV.tick(GM); await W(5);
+    const back=walks.slice(w0).some(w=>w.who==='heroine_05'&&!!her&&Math.hypot(w.x-her.x,w.z-her.z)<1);
+    check('13. 她不在那個位子上、你離得遠：她走回那個位子坐下（不會兩邊都不動）',!!L&&back&&L.ph==='wait'&&n.seat===her&&iv.state==='accepted',JSON.stringify({back,ph:L&&L.ph,seat:n.seat,st:iv.state}));
+    GM.standUp(n); n.path=null; const said0=H.said.length; place(E.player,n.obj.position.x+0.4,n.obj.position.z+0.6,1); G.hour=15.3; INV.tick(GM); await W(20);
+    check('13. 她不在那個位子上、你走到她本人旁邊：照樣開演（她坐回那個位子、演完 done）',iv.state==='done'&&lines().slice(said0).includes(LS.seated),JSON.stringify({st:iv.state,said:lines().slice(said0,said0+3)})); }
+  /* ---- 14 BB-B 11-07 10:42（AA_717 探針第 2 次見面）：約完收起手機、走去找她，手機又自己打開＝暫停、時間停住、那一場不開始——約好的時間前 30 分鐘到開始後 1 小時手機不自己打開 ---- */
+  { const G=setup('2025-09-13',11,'campus',[{x:0,z:0,yaw:0,lv:0}],{x:0,z:4,lv:0}); H.FRIEND('heroine_01'); const iv=INV.accept(G,'heroine_01','library',G.day,12,{by:'player'}); INV._now=()=>Date.now()+5e9;   /* 離上一項的見面很久了（不是「剛演完 30 秒內」）*/
+    const at=h=>{ G.hour=h; return INV.phoneBack(G); }; const r=[at(11.4),at(11.6),at(12.01),at(12.9),at(13.1)];
+    check('14. 約好 12:00：11:24 可以自己打開；11:36～12:54 不自己打開；13:06 以後可以',JSON.stringify(r)===JSON.stringify([true,false,false,false,true]),JSON.stringify(r));
+    iv.state='cancelled'; check('14. 約取消了：照常可以打開',at(12.01)===true); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

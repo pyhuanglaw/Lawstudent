@@ -93,7 +93,8 @@ for line in t367.split('\n'):
     if not (m and who): continue
     line_, note = one_quote(m.group(2), f'AA_367 {who} {m.group(1)}')
     six.setdefault(who, []).append({'ym': m.group(1), 'line': line_, 'note': note.strip('（）')})
-if list(six) != ORDER or sum(len(v) for v in six.values()) != 102: sys.exit(f'AA_367：{ {k: len(v) for k, v in six.items()} }（應該是六位、102 句）')
+# 9aa8ec40c（AA_593 學姊①b 第 38 列）：學姊 2029-09 整列刪掉（「2029-09：不排」）＝101 句；表上沒有那個月＝那個月不排（src/pgdates3d.js 第 21 行的規則）
+if list(six) != ORDER or sum(len(v) for v in six.values()) != 101 or any(c['ym'] == '2029-09' for c in six.get('heroine_05', [])): sys.exit(f'AA_367：{ {k: len(v) for k, v in six.items()} }（應該是六位、101 句；學姊沒有 2029-09）')
 
 # ---------- AA_523（學姊第十六批，SIS-B16-1028；白名單上的 commit，AA-C 定稿）第 6 節 6-5：學姊 2029-06 那一格「論文送進圖書館了。……」早於 6/20「交了。」（修正本）——
 #      換成「修正本改完了。這禮拜印，下禮拜交。」（送圖書館的事放在 7 月以後，這一批不寫）。整句相同才換；已經是新句就跳過，都不是＝停下來（同 tools/ladder/import_ladder.py 的 _fix）----------

@@ -1,12 +1,12 @@
 // 好感看得見：門檻台詞、見面結束的一句、手機聯絡人的名字、見面時的旁白（使用者 2026-10-14 試玩 v9.6：「約了朋友在溫州街散步，是不是沒有增加好感？
 // 在咖啡廳遇到溫學姊跟他講話好像也沒有增進什麼感情」；內容＝企劃分支 AA_124 1-6〔886ff09〕、BB_120 第 1 節〔6338153〕，第②級）。不需要瀏覽器：
-//   1. 資料：13 個人都在 CHARACTERS、三階的門檻台詞、三種見面結束的一句；BB 的七位四個地點的旁白、聯絡人；台詞的格式（「」或（））
+//   1. 資料：13 個人都在 CHARACTERS、三階的門檻台詞、三種見面結束的一句；BB 的七位四個地點的旁白、聯絡人；台詞的格式（旁白整句（…）、說的話不加外面的「」，AA-B 11-08）
 //   2. 門檻台詞：升到有點熟的下一次見面說一次、說過就不再說；跳階（認識 → 好朋友）只說最高的；學姊照一般階段（AA_219 A-11 拿掉 W8 上限）；小選擇照選的回答
 //   3. 見面結束的一句照現在的階段；明軒二四六（家教的晚上）換一句；阿凱好朋友那句大一和大二以後不一樣；{name} 換成玩家的名字
-//   4. 見面時的旁白：地點×階段；「—」的格子照舊（null）；明軒總圖朋友以上看 SAW_HIM_STUDY；說話的那種（「開頭）是那個人說的
+//   4. 見面時的旁白：地點×階段；「—」的格子照舊（null）；明軒總圖朋友以上看 SAW_HIM_STUDY；說話的那種（{t,say:true}，原本「開頭）是那個人說的
 //   5. 任一方有伴侶時，芷若好朋友那句的旁白拿掉
 //   6. 約好的見面（INV.meet）：門檻台詞 → 地點的旁白 → 見面結束的一句；手機聯絡人的名字跟著關係改（phone3d.js 的 nm）
-//   （2026-11-01 LAWWW-B：稿上整句「」括起來的台詞，說話框裡不再多一層「」——social3d.js playSteps；BB-B n40。資料本身照舊有「」，第 1 項照查）
+//   （2026-11-01 LAWWW-B：稿上整句「」括起來的台詞，說話框裡不再多一層「」——social3d.js playSteps；BB-B n40。2026-11-08 AA-B：資料本身也拿掉外面的「」了，第 1 項改查：旁白整句（…）、她說的不加「」）
 //   7. 接線：talkCharacter、舊的對話函式（以安、阿哲、學姊、阿凱、Alison）、index.html 載入 data/rel_lines.js
 // 修正前（沒有 data/rel_lines.js、SOCIAL.playUp）這個測試會失敗。用法：node tests/rel_lines_unit.js
 const fs=require('fs'), path=require('path'), vm=require('vm');
@@ -26,10 +26,11 @@ const AA=['heroine_01','heroine_03','zhe','yu','classmate_bohan','classmate_xinc
 const ids=Object.keys(REL_LINES);
 check('1. 13 個人（AA 六位、BB 七位）都有資料、都在 CHARACTERS；另外可昕只有見面旁白、道別（AA_535 慢讀、AA_535b 1-1／1-2：她不走「認識→有點熟」，沒有 up）',AA.concat(BB).every(id=>REL_LINES[id]&&CHARACTERS[id])&&ids.length===14&&ids.includes('kexin')&&!!CHARACTERS.kexin&&!REL_LINES.kexin.up,ids.join(','));
 const steps=v=>Array.isArray(v)?(v.length&&v[0]&&typeof v[0]==='object'&&('l' in v[0])?v.flatMap(x=>x.l):v):(v&&v.l)||[];
-const fmtOK=st=>typeof st==='string'?/^[「（]/.test(st):(st&&typeof st.n==='string'&&/^（/.test(st.n));
+/* 格式（AA-B 2026-11-08 01:09 起）：旁白＝整句（…）；那個人說的不加外面的「」（對話框寫了名字），也不是（ 開頭（不然 playSteps 會當旁白）；原本是「」或（）*/
+const fmtOK=st=>typeof st==='string'?(/^（.*）$/.test(st)||(st.trim().length>0&&!/^[「（]/.test(st))):(st&&typeof st.n==='string'&&/^（/.test(st.n));
 /* 2026-10-28 改：AA_497 4-6（企劃線 7a38216ca）明軒的滷蛋只留 M1、M2、德文那三處——朋友階的道別「下次我請。……一顆滷蛋。」拿掉，朋友階照 base（SOCIAL.byeLine 往下找）；AA 要另外補一句再加回來 */
 const BYE_NONE={classmate_mingxuan:['FRIEND']};
-check('1. 每個人三階的門檻台詞、三種見面結束的一句（明軒朋友階的道別 AA_497 拿掉、照 base；可昕沒有 up，道別三階另外驗，AA_535b 1-2）；格式都是「」或（）',ids.filter(id=>id!=='kexin').every(id=>{ const d=REL_LINES[id]; return ['FAMILIAR','FRIEND','CLOSE_FRIEND'].every(k=>steps(d.up[k]).length&&steps(d.up[k]).every(fmtOK))&&['base','FRIEND','CLOSE_FRIEND'].every(k=>(BYE_NONE[id]||[]).includes(k)?!d.bye[k]:(steps(d.bye[k]).length&&steps(d.bye[k]).every(fmtOK))); }));
+check('1. 每個人三階的門檻台詞、三種見面結束的一句（明軒朋友階的道別 AA_497 拿掉、照 base；可昕沒有 up，道別三階另外驗，AA_535b 1-2）；格式：旁白整句（…）、說的話不加外面的「」（AA-B 11-08）',ids.filter(id=>id!=='kexin').every(id=>{ const d=REL_LINES[id]; return ['FAMILIAR','FRIEND','CLOSE_FRIEND'].every(k=>steps(d.up[k]).length&&steps(d.up[k]).every(fmtOK))&&['base','FRIEND','CLOSE_FRIEND'].every(k=>(BYE_NONE[id]||[]).includes(k)?!d.bye[k]:(steps(d.bye[k]).length&&steps(d.bye[k]).every(fmtOK))); }));
 check('1. BB 的七位：Café、總圖、公館吃飯有旁白，溫州街只有朋友以上；聯絡人有 base 和朋友（阿凱開學就叫阿凱）',BB.every(id=>{ const M=REL_LINES[id].meet, C=REL_LINES[id].contact; return M&&['cafe','library','noodle'].every(p=>M[p]&&M[p].R)&&M.wenzhou&&M.wenzhou.R&&!M.wenzhou.A&&!M.wenzhou.F&&C&&C.base&&(C.FRIEND||id==='kai'); }));
 check('1. AA 的六位：朋友以後的聯絡人；以安好朋友以後是「小安」',AA.every(id=>REL_LINES[id].contact&&REL_LINES[id].contact.FRIEND)&&REL_LINES.heroine_01.contact.CLOSE_FRIEND==='小安');
 // ---------- 2. 門檻台詞 ----------
@@ -53,11 +54,11 @@ R('heroine_01',25);
   check('2. 子晴好朋友的小選擇：選「妳呢？」→ 兩句回答',gm.out.join('｜')==='S:你最近還好嗎？看起來很累。｜C:還好。/有點累。/妳呢？｜S:我？還行啦。｜S:就最近都很晚睡。',gm.out.join('｜'));
   // ---------- 3. 見面結束的一句 ----------
   R('classmate_mingxuan',10); G.weekday=2; const b2=steps(SOCIAL.byeLine('classmate_mingxuan')); G.weekday=1; const b1=steps(SOCIAL.byeLine('classmate_mingxuan'));
-  check('3. 明軒「認識」：二四六（家教的晚上）「我去家教了，掰。」、其他天「好，下次見。」',b2[0]==='「我去家教了，掰。」'&&b1[0]==='「好，下次見。」',b2+' / '+b1);
-  R('heroine_01',45,30,5); check('3. 以安「朋友」：見面結束「下次換我挑地方。」、聯絡人「以安」',steps(SOCIAL.byeLine('heroine_01'))[0]==='「下次換我挑地方。」'&&SOCIAL.contactName('heroine_01')==='以安');
+  check('3. 明軒「認識」：二四六（家教的晚上）「我去家教了，掰。」、其他天「好，下次見。」',b2[0]==='我去家教了，掰。'&&b1[0]==='好，下次見。',b2+' / '+b1);
+  R('heroine_01',45,30,5); check('3. 以安「朋友」：見面結束「下次換我挑地方。」、聯絡人「以安」',steps(SOCIAL.byeLine('heroine_01'))[0]==='下次換我挑地方。'&&SOCIAL.contactName('heroine_01')==='以安');
   R('heroine_01',65,50,45); check('3. 以安「好朋友」：聯絡人「小安」',SOCIAL.contactName('heroine_01')==='小安');
   R('kai',65,50,45); const py=SOCIAL.playerYear; SOCIAL.playerYear=()=>1; const k1=SOCIAL.upLine('kai'); SOCIAL.playerYear=()=>2; const k2=SOCIAL.upLine('kai'); SOCIAL.playerYear=py;
-  check('3. 阿凱好朋友那句（沒有 KAI_TAPE）：大一（宵夜）、大二以後（新房間）',k1&&k1.l[0]==='「欸，今天宵夜你要不要？我請。」'&&k2&&k2.l[0]==='「欸，你哪天來我新房間，我螢幕換大的了。」');
+  check('3. 阿凱好朋友那句（沒有 KAI_TAPE）：大一（宵夜）、大二以後（新房間）',k1&&k1.l[0]==='欸，今天宵夜你要不要？我請。'&&k2&&k2.l[0]==='欸，你哪天來我新房間，我螢幕換大的了。');
   R('npc_fangyt',25); G.name='小明'; gm=mockGM(); await SOCIAL.playUp(gm,{name:'方奕廷'},'npc_fangyt'); G.name='祐廷';
   check('3. 玩家的名字換進去（方奕廷有點熟那句；BB_169 F-1。阿哲好朋友那句 AA_194 改稿以後沒有 {name}）',gm.out[0]==='S:小明，你等一下要去哪？',gm.out[0]);
   // ---------- 4. 見面時的旁白 ----------

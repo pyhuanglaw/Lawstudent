@@ -1,0 +1,222 @@
+diff --git a/index.html b/index.html
+index 14901c8e5..db3497c12 100644
+--- a/index.html
++++ b/index.html
+@@ -276,6 +276,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/data/socsci_layout.js?v=9.10.19"></script>
+ <script src="src/data/soclib_layout.js?v=9.10.19"></script>
+ <script src="src/soclib3d.js?v=9.10.19"></script>
++<script src="src/data/soclib2f_layout.js?v=9.10.19"></script>
++<script src="src/soclib2f3d.js?v=9.10.19"></script>
+ <script src="src/data/gym_layout.js?v=9.10.19"></script>
+ <script src="src/gym3d.js?v=9.10.19"></script>
+ <script src="src/badminton_clip3d.js?v=9.10.19"></script>
+diff --git a/src/classes3d.js b/src/classes3d.js
+index 3509ec397..c19a07c9e 100644
+--- a/src/classes3d.js
++++ b/src/classes3d.js
+@@ -1071,7 +1071,7 @@ const CLS=(function(){
+   /* 路線（R2；1-3 第 3 點「宿舍 → 校園 → 那棟建築 → 教室」）：每一區出去是哪裡，往外走到校園，再走進要去的那一棟。
+      樓上樓層、房間照 PLACES.base 對到那一棟（宿舍房間→男生宿舍、總圖 3F→總圖、霖澤館 3F→霖澤館、溫州街的店→溫州街）；
+      公館、溫州街從校門進校園。走不到校園的區域（國外、日本、美國…）＝不知道路線，不停（照舊直接到）。 */
+-  const OUTER={classroom:'linze',lawlib:'wancai',linze:'campus',wancai:'campus',dorm_hall:'campus',library_hall:'campus',gongtong:'campus',putong:'campus',boya:'campus',gym:'campus',soclib:'campus',lane118:'campus',gongguan:'campus',
++  const OUTER={classroom:'linze',lawlib:'wancai',linze:'campus',wancai:'campus',dorm_hall:'campus',library_hall:'campus',gongtong:'campus',putong:'campus',boya:'campus',gym:'campus',soclib:'campus',soclib_2f:'soclib',lane118:'campus',gongguan:'campus',
+                noodle:'gongguan',cvs:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',aoki:'gongguan',afar:'gongguan',daybreak:'gongguan',wenzhou:'gongguan',cafe:'wenzhou'};
+   const outerOf=z=>{ if(OUTER[z]) return OUTER[z]; const b=typeof PLACES!=='undefined'&&PLACES.base?PLACES.base(z):z; return b&&b!==z?b:null; };
+   const upTo=z=>{ const out=[]; for(let q=z,n=0;q&&n<8;n++){ out.push(q); if(q==='campus') return out; q=outerOf(q); } return null; };
+diff --git a/src/crowd3d.js b/src/crowd3d.js
+index cc243a028..a9701b437 100644
+--- a/src/crowd3d.js
++++ b/src/crowd3d.js
+@@ -545,7 +545,7 @@ const CROWD=(function(){
+      從座位表後面往前找（劇情用的固定位子都在前面）；劇情寫死的位子不坐（DEPT_KEEP：總圖大廳 0、1＝小安「總圖的下午」，library3d.js；社科圖 16＝r3_3d.js SK12）；
+      坐下的人有 seat：作息（populateSchedule）、約出去（INV.pairSeats）、樓上的自習區都會避開 */
+   S.DEPT_KEEP={library_hall:[0,1],soclib:[16]};
+-  S.DEPT_SIT={library_hall:1,library:1,soclib:1,gym:1};   /* 一起坐的對話放在哪些區域：總圖大廳（2F 自習區）、總圖 3F 閱覽區、社科圖、體育館 1F。B1 自習室、5F 書庫、研究小間有自己的人（LB1、LUP）和討論室的劇情站位，不放 */
++  S.DEPT_SIT={library_hall:1,library:1,soclib:1,soclib_2f:1,gym:1};   /* 一起坐的對話放在哪些區域：總圖大廳（2F 自習區）、總圖 3F 閱覽區、社科圖、體育館 1F。B1 自習室、5F 書庫、研究小間有自己的人（LB1、LUP）和討論室的劇情站位，不放 */
+   S.deptSeatPair=function(GM,zone,stand){ const E=GM.E, G=GM.G, seats=(E.zone&&E.zone.seats)||[], N=seats.length; if(!N) return null; const near=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z), keep=(S.DEPT_KEEP[zone]||[]).map(i=>seats[i]);
+     const busy=st=>!!st.taken||E.npcs.some(n=>{ const q=n.seat||n.seatTarget||(n.obj&&n.obj.position); return !!q&&(n.lv|0)===(st.lv|0)&&near(q,st)<0.45; })||!!(E.player&&E.player.seat&&near(E.player.seat,st)<0.45);
+     const ok=st=>(zone!=='gym'||st.z<11)&&!keep.includes(st)&&!st.label&&!busy(st)&&!!S.seatSide(E,st), yd=(a,b)=>Math.abs(Math.atan2(Math.sin((b.yaw||0)-(a.yaw||0)),Math.cos((b.yaw||0)-(a.yaw||0))));
+diff --git a/src/game3d.js b/src/game3d.js
+index 8858414b8..021a29c85 100644
+--- a/src/game3d.js
++++ b/src/game3d.js
+@@ -613,7 +613,7 @@ const GAME = (function(){
+     body.querySelectorAll('[data-go]').forEach(b=>b.onclick=async()=>{ const it=CLS.dayItems(G).find(q=>q.key===b.dataset.go); if(!it) return; if(E.player.busy){ closePhone(); if(menuOpen) closeMenu(); toast(document.getElementById('choices')&&!document.getElementById('choices').classList.contains('hide')?'先選完畫面上的選項':'現在不能移動'); return; } closePhone(); if(menuOpen) closeMenu(); await CLS.goClass(GM,it); });   /* 正在選選項（例：下課選單）時按「直接去上課」：收起手機，讓選項露出來（2026-10-17 瀏覽器實測：手機蓋住選項，看起來像卡住）*/ }   /* DL-01（AA_160 1-1）：「直接去上課」走 CLS.goClass（照路程、出門時間、選位子；2026-10-13 起建築裡的教室也可以）*/
+   /* 快速前往（D54 ①）：主要地點從第一天就知道（第 1 天是開學第三週）；依距離花遊戲時間（CLS.travelMinutes）；關門的地方寫幾點開 */
+   function PLACE_LIST(){ if(typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G)) return EXCH.places(); if(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G)) return []; const moved=typeof HOME!=='undefined'&&HOME.baseMode&&HOME.baseMode(G), jpOut=(typeof JP!=='undefined'&&JP.movedOut&&JP.movedOut(G))||(typeof HOME!=='undefined'&&!!HOME.movedOut&&HOME.movedOut(G)); return PLACES.quickList().filter(p=>p&&Z3.ZONES[p[0]]&&!(moved&&NTU_ZONES.includes(p[0]))&&!(jpOut&&(p[0]==='dorm'||p[0]==='dorm_hall'))); }   /* HOME.movedOut：畢業後宿舍期滿退宿（AA_357 1-5）＝地點也沒有宿舍 */   /* 人在日本（src/jp3d.js，AA_341 J-S10）：臺灣的地點都不能快速前往；日本路線 2/20 退宿以後：宿舍不在清單上 */   /* 經濟系退宿以後（HOME.baseMode，休學在家到 8/29）：快速前往沒有宿舍、也沒有台大校園裡的地方（2026-10-18 使用者：「我都休學退宿了還是能去宿舍」「一個休學的人根本不會想再踏入台大」「重考中不要讓我去台大」「尤其可昕也休學，之後更不應該」）；公館、溫州街照舊；回家在清單最上面「回家」*/
+-  const NTU_ZONES=['campus','classroom','linze','wancai','library_hall','library','lawlib','soclib','boya','putong','gongtong','dorm','dorm_hall','gym'];   /* gym：新體育館也在校內（BB 2026-11-02 P3：經濟系退宿以後快速前往還留著「新體育館（大廳）」）*/   /* 在美國：只有公寓、社區（src/exchange3d.js）*/   /* 清單在 src/data/places.js（tests/quick_travel_unit.js 逐一檢查落點站得住、走得出去）*/
++  const NTU_ZONES=['campus','classroom','linze','wancai','library_hall','library','lawlib','soclib','soclib_2f','boya','putong','gongtong','dorm','dorm_hall','gym'];   /* gym：新體育館也在校內（BB 2026-11-02 P3：經濟系退宿以後快速前往還留著「新體育館（大廳）」）*/   /* 在美國：只有公寓、社區（src/exchange3d.js）*/   /* 清單在 src/data/places.js（tests/quick_travel_unit.js 逐一檢查落點站得住、走得出去）*/
+   /* 不在快速前往清單上的區域（手機「朋友」直接過去：樓上樓層、房間、118 巷的店，PHONE-UNIFY-1030）開不開：那一棟關門（總圖 B1 照總圖）、有開放時段的房間（Z3.roomGlbOpen：系辦、研討室 B、205…）、118 巷的店（L118.isOpen）＝進不去；回傳關門的說明或空字串。清單上的地點這裡都是空的（照舊） */
+   function zoneShut(z){ const b=typeof PLACES!=='undefined'&&PLACES.base?PLACES.base(z):z, nm=(PLACES.names&&PLACES.names[z])||(Z3.ZONES[z]&&Z3.ZONES[z].name)||z;
+     if(b!==z&&typeof PLACES!=='undefined'&&!PLACES.isOpen(b,G.hour,G.day)) return PLACES.closedText(b,G.hour,G.day);
+diff --git a/src/grades3d.js b/src/grades3d.js
+index 3fa972f62..9a78917da 100644
+--- a/src/grades3d.js
++++ b/src/grades3d.js
+@@ -35,7 +35,7 @@ const GRADES=(function(){
+   S.windowTerm=function(G){ if(typeof CALENDAR==='undefined') return null; for(let i=LAW_TERMS.length-1;i>=0;i--){ const t=LAW_TERMS[i], g=gd(t); if(g==null||G.day<g) continue;
+       const nx=LAW_TERMS[i+1], r=nx?CALENDAR.termDays(nx):null, end=r?r.from+20:g+20; return G.day<=end?t:null; } return null; };
+   /* ---- 讀書地點的次數（每學期）---- */
+-  const LIBS=['library','library_hall','library_carrels','library_stacks','library_b1','lawlib','soclib'];
++  const LIBS=['library','library_hall','library_carrels','library_stacks','library_b1','lawlib','soclib','soclib_2f'];
+   S.studyN=function(G,t,kind){ const R=(G.flags&&G.flags.GR_STUDY&&G.flags.GR_STUDY[t])||{}; return R[kind]|0; };
+   S.onStudy=function(GM){ const G=GM&&GM.G; if(!law(G)||typeof CALENDAR==='undefined') return; const T=CALENDAR.termOf(G.day); if(!T) return;
+     const kind=G.zone==='cafe'?'cafe':(LIBS.includes(G.zone)?'lib':(G.zone==='dorm'?'dorm':null)); if(!kind) return;
+diff --git a/src/guide3d.js b/src/guide3d.js
+index 8e7ea78d9..b912e4c60 100644
+--- a/src/guide3d.js
++++ b/src/guide3d.js
+@@ -15,7 +15,7 @@ const GUIDE=(function(){
+   // 區域之間怎麼走（只有名字；第一步一定用當下區域真正的出口）。宿舍走廊（dorm_hall）還在開發分支外，存在時才會用到
+   const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm'], campus:['gongguan','linze','wancai','library_hall','dorm','dorm_hall','gongtong','putong','boya','soclib'], gongtong:['campus'], boya:['campus'], putong:['campus'],   /* 博雅：校園上還沒有門（位置等使用者決定），只連出去 */
+     gongguan:['campus','wenzhou','afar','daybreak','cvs','noodle','bookstore','bikeshop','aoki'], wenzhou:['gongguan','cafe','wz_mokuyobi','wz_offbeat'], cafe:['wenzhou'], wz_mokuyobi:['wenzhou'], wz_offbeat:['wenzhou'], cvs:['gongguan'], noodle:['gongguan'], bookstore:['gongguan'], bikeshop:['gongguan'], aoki:['gongguan'], afar:['gongguan'], daybreak:['gongguan'],
+-    linze:['campus','classroom','linze_3f','linze_202'], classroom:['linze'], linze_202:['linze'], linze_3f:['linze','linze_4f'], linze_4f:['linze_3f'], linze_5f:['linze_4f'], wancai:['campus','lawlib','wancai_multi','wancai_sema'], wancai_multi:['wancai'], wancai_sema:['wancai'], lawlib:['wancai'], library_hall:['campus','library','library_b1','library_carrels'], library:['library_hall'], library_b1:['library_hall'], library_carrels:['library_hall'], soclib:['campus'] };
++    linze:['campus','classroom','linze_3f','linze_202'], classroom:['linze'], linze_202:['linze'], linze_3f:['linze','linze_4f'], linze_4f:['linze_3f'], linze_5f:['linze_4f'], wancai:['campus','lawlib','wancai_multi','wancai_sema'], wancai_multi:['wancai'], wancai_sema:['wancai'], lawlib:['wancai'], library_hall:['campus','library','library_b1','library_carrels'], library:['library_hall'], library_b1:['library_hall'], library_carrels:['library_hall'], soclib:['campus','soclib_2f'], soclib_2f:['soclib'] };
+   const ELEV={ library:['library_hall','library_stacks'], library_hall:['library','library_stacks'], library_stacks:['library_hall','library'], linze:['linze_3f','linze_4f'], linze_3f:['linze','linze_4f'], linze_4f:['linze','linze_3f'], linze_5f:['linze','linze_3f','linze_4f'] };   // 搭電梯可以到的別的區域（總圖：閱覽室 ⇄ 大廳；霖澤館 1F、2F ⇄ 3F、4F，LINZE-34F-TABLES-1020；5F 研究室只能往下，往 5F 要學姊開門，不指路）
+   const st={ key:'', route:null, routeKey:'', reT:0, tgt:null, info:null, uiT:0, markers:[], markerZone:null, view:null, open:false, tipT:0, bmImgs:[] };
+ 
+diff --git a/src/libquiet3d.js b/src/libquiet3d.js
+index 8b4945bb4..593530b68 100644
+--- a/src/libquiet3d.js
++++ b/src/libquiet3d.js
+@@ -24,7 +24,7 @@ const LIBQ=(function(){
+   const S={};
+   S.PREFIX='（小聲）';
+   S.NOD={f:'（她抬頭看到你，點了一下頭。）',m:'（他抬頭看到你，點了一下頭。）'};   /* AA_595 1-A1「建議改法」的那一句（她＝同表 1-A2 的寫法）*/
+-  S.ZONES={library:1,library_hall:1,library_carrels:1,library_stacks:1,lawlib:1,soclib:1,library_b1:1,us_lawlib_2f:1};
++  S.ZONES={library:1,library_hall:1,library_carrels:1,library_stacks:1,lawlib:1,soclib:1,soclib_2f:1,library_b1:1,us_lawlib_2f:1};
+   S.BG_STUDY=['law_library.webp','ntu_library_2f.webp','ntu_lib_b1.webp','library_b1.webp','soc_library.webp'];   /* outings3d.js 的背景：法圖・二樓、總圖・二樓、總圖 B1・24 小時自習室、總圖 B1・討論室、社科院圖書館・閱覽區 */
+   const G_=GM=>GM&&GM.G;
+   /* 區域＋位置＝是不是讀書區 */
+diff --git a/src/placemap3d.js b/src/placemap3d.js
+index d289c9a8b..1731782bd 100644
+--- a/src/placemap3d.js
++++ b/src/placemap3d.js
+@@ -35,7 +35,7 @@ const PLACEMAP=(function(){
+   const inPin=(p,pl)=>p.m.some(m=>m[0]===pl[0]&&m[1]===pl[1]);
+   S.pinOf=function(pl){ return S.PINS.find(p=>inPin(p,pl))||null; };
+   /* 玩家在哪個圖釘：校園照座標找最近的；其他區域＝那一區的圖釘；不在圖上＝null */
+-  S.ZONE_PIN={linze:'linze',classroom:'linze',wancai:'wancai',lawlib:'wancai',library_hall:'library',library:'library',library_b1:'library',library_carrels:'library',library_stacks:'library',soclib:'soclib',dorm:'dorm',dorm_hall:'dorm',lane118:'lane118',gym:'dorm',gym_b1:'dorm',gym_arena:'dorm',
++  S.ZONE_PIN={linze:'linze',classroom:'linze',wancai:'wancai',lawlib:'wancai',library_hall:'library',library:'library',library_b1:'library',library_carrels:'library',library_stacks:'library',soclib:'soclib',soclib_2f:'soclib',dorm:'dorm',dorm_hall:'dorm',lane118:'lane118',gym:'dorm',gym_b1:'dorm',gym_arena:'dorm',
+     gongguan:'gongguan',noodle:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',aoki:'gongguan',afar:'gongguan',daybreak:'gongguan',cvs:'gongguan',cafe:'wenzhou',wz_mokuyobi:'wenzhou',wz_offbeat:'wenzhou',wenzhou:'wenzhou',boya:'boya',putong:'boya',gongtong:'gongtong'};
+   S.hereId=function(zone,x,z){ if(zone==='campus'&&x!=null){ let b=null, bd=1e9; for(const p of S.PINS){ if(p.cx==null) continue; const d=Math.hypot(p.cx-x,p.cz-z); if(d<bd){ bd=d; b=p.id; } } return b; }
+     return S.ZONE_PIN[zone]||null; };
+diff --git a/src/romance3d.js b/src/romance3d.js
+index 444a4afc2..2bdfa8828 100644
+--- a/src/romance3d.js
++++ b/src/romance3d.js
+@@ -48,7 +48,7 @@ const ROM=(function(){
+      Alison→子晴：BB 寫「定以前不傳」；語彤、阿哲、Alison、柏翰、方奕廷知道了也不傳給女主角；沛珊聽說以後不再往下傳（她的朋友圈沒有表上的人）。
+      阿凱（室友）一定知道、不主動說：只有子晴問的時候（zqAsk：子晴第 5 階以上、沒和祐廷交往、還不知道、祐廷和可昕交往中 → 第一個上課日 17:00 資工系下課；那晚睡覺時演 ev_zq_ask_kai）。
+      不是每一幀都從頭算：F.spreadScan 記每一組看到哪一天（存檔讀進來很久以後也會補到正確的那一天）*/
+-  S.CAMPUS_ZONES=['campus','linze','classroom','wancai','library','library_hall','lawlib','soclib','boya','putong','gym','gym_b1','gym_arena'];   /* gym_arena：新體育館 3F 主球場（ART-GYM2-INT 2026-10-21）*/
++  S.CAMPUS_ZONES=['campus','linze','classroom','wancai','library','library_hall','lawlib','soclib','soclib_2f','boya','putong','gym','gym_b1','gym_arena'];   /* gym_arena：新體育館 3F 主球場（ART-GYM2-INT 2026-10-21）*/
+   S.SPREAD=[{from:'heroine_01',to:'classmate_peishan',meet:'plg'},{from:'heroine_04',to:'heroine_02',meet:'fri'},{from:'heroine_02',to:'heroine_04',meet:'fri'}];
+   const onCampus=(G,id,day,hh,wd)=>{ if(typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return false; const Gx=Object.assign({},G,{day,hour:hh,weekday:wd});
+     if(STORY.presence&&!STORY.presence(id,Gx).here) return false; const e=STORY.schedEnt(CHARACTERS[id],Gx); return !!(e&&e.zone&&S.CAMPUS_ZONES.includes(e.zone)); };
+diff --git a/src/seatact3d.js b/src/seatact3d.js
+index 778c261a0..94ea47ade 100644
+--- a/src/seatact3d.js
++++ b/src/seatact3d.js
+@@ -31,7 +31,7 @@ const SEATACT=(function(){
+   S.CAP=24;
+   S.FOOD=/(food|snack|bento|cake|sandwich|plate|bowl|toast|bread|noodle|rice|dessert)/i;
+   /* 場所：圖書館、咖啡廳（可以用筆電）、輕食（茶屋、早午餐、茶飲：不用筆電）、吃飯的店（只有滑手機、什麼都不做）*/
+-  S.LIB_ZONES={library:1,library_hall:1,library_stacks:1,library_carrels:1,library_b1:1,lawlib:1,soclib:1,us_lawlib:1,us_lawlib_2f:1};
++  S.LIB_ZONES={library:1,library_hall:1,library_stacks:1,library_carrels:1,library_b1:1,lawlib:1,soclib:1,soclib_2f:1,us_lawlib:1,us_lawlib_2f:1};
+   S.CAFE_ZONES={cafe:1,afar:1,l118_cafe2:1,wz_mokuyobi:1,wz_offbeat:1};
+   S.LIGHT_ZONES={daybreak:1,wz_brunch:1,wz_teahouse:1,aoki:1,l118_tea:1,wz_tea:1};
+   S.placeOf=function(zone){ if(!zone) return null; if(S.LIB_ZONES[zone]) return 'library'; if(S.CAFE_ZONES[zone]) return 'cafe'; if(S.LIGHT_ZONES[zone]) return 'light';
+diff --git a/src/social3d.js b/src/social3d.js
+index 30ed6a221..f1191d7aa 100644
+--- a/src/social3d.js
++++ b/src/social3d.js
+@@ -112,7 +112,7 @@ const SOCIAL = (function(){
+   /* 停用的事件（events.js 的 retired，例：書記官那一段 ev_an_mother）留下的記憶：人物面板只寫標籤（「聊過家裡的事」），不寫舊備註；存檔不改（AA 2026-10-14）*/
+   let retiredNotes=null;
+   /* 記憶的備註是地點 id 的（SOCIAL.meet 記的 where：camp、dorm、wancai…）→ 人物面板顯示中文（AA_205 6-14 程式 3）*/
+-  S.PLACE_LABEL={camp:'宿營',dorm:'宿舍',dorm_hall:'宿舍',wancai:'法律系館B',family_group:'家族群組',campus:'校園',classroom:'教室',linze:'法律系館A',library:'總圖',library_hall:'總圖',cafe:'2:30 AM',cvs:'便利商店',noodle:'公館燒臘',bookstore:'書店',gongguan:'公館',wenzhou:'溫州街',boya:'博思教學館',putong:'普通教學館',gongtong:'共同教學館',soclib:'社科院圖書館',lawlib:'法律學院圖書館',gym:'體育館',socsci:'社科院',home:'家'};
++  S.PLACE_LABEL={camp:'宿營',dorm:'宿舍',dorm_hall:'宿舍',wancai:'法律系館B',family_group:'家族群組',campus:'校園',classroom:'教室',linze:'法律系館A',library:'總圖',library_hall:'總圖',cafe:'2:30 AM',cvs:'便利商店',noodle:'公館燒臘',bookstore:'書店',gongguan:'公館',wenzhou:'溫州街',boya:'博思教學館',putong:'普通教學館',gongtong:'共同教學館',soclib:'社科院圖書館',soclib_2f:'社科院圖書館',lawlib:'法律學院圖書館',gym:'體育館',socsci:'社科院',home:'家'};
+   S.dayLabel=function(day){ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf){ const d=CALENDAR.dateOf(day); if(d&&d.m) return d.m+'/'+d.d; } return '第 '+day+' 天'; };   /* 人物面板的記憶：日期（8/22），不是「第 -25 天」*/
+   /* AA380 改名 Alison（使用者 10-21 23:2x「改成Alison」）：舊存檔裡已經存下的字還是舊名（\u5c0f\u8a9e）——顯示的時候照匯入工具同一套規則換（Alison 和中文字之間半形空格、挨標點不空；tools/story/import_guard.py 的 alison），存檔不改（同 filmRename）*/
+   const ALISON_OLD=/\u5c0f\u8a9e/g, ALISON_CJK=/[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uf900-\ufaff]/;
+diff --git a/src/soclib3d.js b/src/soclib3d.js
+index d0f5a62a5..df300d88c 100644
+--- a/src/soclib3d.js
++++ b/src/soclib3d.js
+@@ -85,6 +85,14 @@ const SL3=(function(){
+       g.setAttribute('uv',new THREE.BufferAttribute(uv,2)); }
+     const t=signTex((o.userData||{}).sign,true); const m=o.material; m.map=t; m.color=new THREE.Color(0xffffff); m.emissive=new THREE.Color(0xffffff); m.emissiveMap=t; m.emissiveIntensity=0.25; m.needsUpdate=true; }
+ 
++  // ---- 東牆往東側館的門（SOCLIB-2F-1104）：雙開門＋門框＋上面的指標；貼在東牆內側（x＝W/2 − 0.12），面向西 ----
++  function eastDoor(HL,W){ const g=new THREE.Group(); g.name='SOCLIB_EAST_DOOR'; g.userData.dyn=true; const b=new TK.Bin(), x=W/2-0.12, w=HL.w, h=2.35;
++    const trim=M('#d8d2c4',{rough:0.6}), leafM=M('#c3ad84',{rough:0.55}), metal=M('#9aa0a6',{rough:0.35}), dark=M('#2f3337',{rough:0.5});
++    for(const s of [-1,1]) b.add(trim,TK.boxG(0.06,h+0.1,0.1),x,(h+0.1)/2,HL.z+s*(w/2+0.05)); b.add(trim,TK.boxG(0.06,0.1,w+0.2),x,h+0.05,HL.z);
++    for(const s of [-1,1]){ const cz=HL.z+s*w/4; b.add(leafM,TK.boxG(0.04,h-0.02,w/2-0.02),x+0.01,h/2,cz); b.add(dark,TK.boxG(0.01,0.9,w/2-0.3),x-0.012,1.45,cz); b.add(metal,TK.boxG(0.04,0.04,w/2-0.2),x-0.04,1.05,cz); }
++    b.build(g); const sg=new THREE.Mesh(new THREE.PlaneGeometry(1.5,0.33),new THREE.MeshBasicMaterial({map:TK.signTex('2F 自習室・討論室',{bg:'#2f4f5e',color:'#f3efe4'})})); sg.position.set(x-0.04,h+0.42,HL.z); sg.rotation.y=-Math.PI/2; g.add(sg);
++    return g; }
++
+   // ---- 區域 ----
+   const soclib={ id:'soclib', name:'社科院圖書館', indoor:true, camDist:4.6, build(E){ const L=LAYOUT(), W=L.W, D=L.D, H=L.H;
+     const z=Z3.room(E,{w:W,d:D,h:H,windows:false,cool:true,wallColor:'#f1efea',floorTex:W3.stoneTex('#d6d3cb'),spawn:Object.assign({},L.entrance.spawn)}); const g0=z.group, nav=z.nav;
+@@ -103,6 +111,10 @@ const SL3=(function(){
+     for(const st of seats){ if(st.kind!=='lounge') Z3.chair(fb,st.x,st.z,st.yaw,'#c9a46a'); IT.push({x:st.x,z:st.z,radius:0.8,lv:0,label:seatLabel(st),seat:st,study:true}); }
+     const EN=L.entrance; IT.push({x:EN.x,z:D/2-0.5,radius:0.9,lv:0,label:'離開圖書館（回社科院前）',exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});   /* 南牆的門：配置的 exitZ（10.2）離出生點只有 0.9 m，一進來就會跳出「離開」——貼著牆放（出生點 1.2 m 外）*/
+     { const dk=L.desk; IT.push({x:(dk.x0+dk.x1)/2,z:dk.z0-0.7,radius:1.2,lv:0,label:'服務台',look:'服務台：借書、還書都在這裡辦。館員小聲說：「閱覽室裡請保持安靜，飲料要有蓋子喔。」'}); }
++    /* 東牆的門：往東側館（soclib_2f：樓梯、電梯上 2F 自習室、討論室、洗手間；SOCLIB-2F-1104，LAWWW2-C 11-04，src/soclib2f3d.js）。
++       門的畫面放在 g0（正式模型載入後照樣在）；跟著東牆淡出（z.winParts：鏡頭在牆外時一起藏，不然會浮在半空中；正式模型載入後 attachRoomGLB 重設 winParts，下面再加回去）*/
++    let eastPart=null; if(typeof SOCLIB2F_LAYOUT!=='undefined'&&Z3.ZONES.soclib_2f){ const HL=SOCLIB2F_LAYOUT.hall; IT.push({x:HL.it.x,z:HL.it.z,radius:HL.it.r,lv:0,label:'往 2F 自習室、討論室',door:true,exit:{to:'soclib_2f',spawn:Object.assign({},SOCLIB2F_LAYOUT.entrance.spawn)}});
++      const dg=eastDoor(HL,W); g0.add(dg); eastPart={obj:dg,at:new THREE.Vector3(W/2,1.2,HL.z),dir:new THREE.Vector3(-1,0,0)}; (z.winParts||(z.winParts=[])).push(eastPart); }
+     for(const f of L.furniture){
+       if(f.type==='opac') IT.push({x:f.x,z:f.z-0.85,radius:0.9,lv:0,label:'館藏查詢',look:'館藏查詢：輸入書名就查得到書在哪一區、有沒有被借走。這裡的書大多是社會科學——經濟、政治、社會、社工、國發。'});
+       else if(f.type==='display') IT.push({x:f.x,z:f.z-f.d/2-0.7,radius:1.0,lv:0,label:'看新書展示',look:'新書展示：這個月新進的書，經濟學、公共政策、社會學都有。'});
+@@ -112,7 +124,7 @@ const SL3=(function(){
+     for(const gv of groves(L)) IT.push({x:gv.x,z:gv.z,radius:1.0,lv:0,label:'看書架（林間書房）',look:'弧形的竹書架圍著一根白色的樹狀柱，像樹林裡的小書房。抬頭看，柱頂像荷葉一樣散開，光從天窗灑下來。'});
+     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）；招牌畫字；窗外的景搬到玻璃外面
+     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.soclib_interior']){ ASSETS.loadOne('bldg.soclib_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+-      Z3.attachRoomGLB(z,g0,fb,root);
++      Z3.attachRoomGLB(z,g0,fb,root); if(eastPart&&!(z.winParts||[]).includes(eastPart)) (z.winParts||(z.winParts=[])).push(eastPart);
+       root.traverse(o=>{ if(o.isMesh&&/SIGN_FACE/.test(o.name)) paintSign(o);
+         if(o.isMesh&&o.material&&/^soclib_skylight/.test(o.material.name||'')&&!skyMats.includes(o.material)){ if(o.material.userData.slBase==null) o.material.userData.slBase=o.material.emissiveIntensity||1; skyMats.push(o.material); } });   /* 引擎每 5 格呼叫 applyTime，天窗的亮度下一次就跟上時段。
+         原本的亮度只記第一次：clone 出來的模型共用快取的材質，第二次進館時材質已經被調暗過（2026-10-13 批次 2：晚上量到 0.0064＝0.08×0.08）*/
+diff --git a/src/story3d.js b/src/story3d.js
+index b0959f696..bca6f855f 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -1269,7 +1269,7 @@ const STORY = (function(){
+       if(w&&hr>=w[1]-1/6&&hr<w[1]&&F.lawlibWarn!==G.day){ F.lawlibWarn=G.day; GM.toast('廣播：「本館將於 '+PLACES.hhmm(w[1])+' 閉館，請準備離館。」',5000); }
+       if(!PLACES.isOpen('lawlib',hr,G.day)&&!S._llOut){ S._llOut=true; (async()=>{ try{ GM.sceneBegin(); await GM.say(null,'館員：「同學，我們閉館了喔。」你收好東西，走出圖書館。'); GM.sceneEnd(); await GM.enter('wancai',Object.assign({},LL3.HALL)); GM.toast(PLACES.closedText('lawlib',h(G),G.day),6000); } finally { S._llOut=false; } })(); return; } }
+     /* 社科院圖書館閉館（D62，使用者 2026-10-14 查證館方網頁）：和法圖一樣——閉館前 10 分鐘廣播；過了閉館時間人還在館裡，館員請你離館（回到社科院正門前）*/
+-    if(G.zone==='soclib'&&typeof PLACES!=='undefined'&&PLACES.hours.soclib&&typeof SL3!=='undefined'){ const hr=h(G), w=PLACES.windowOf('soclib',G.day);
++    if((G.zone==='soclib'||G.zone==='soclib_2f')&&typeof PLACES!=='undefined'&&PLACES.hours.soclib&&typeof SL3!=='undefined'){   /* soclib_2f：東側館（二樓自習室、討論室；SOCLIB-2F-1104）跟著閱覽室的開放時間 */ const hr=h(G), w=PLACES.windowOf('soclib',G.day);
+       if(w&&hr>=w[1]-1/6&&hr<w[1]&&F.soclibWarn!==G.day){ F.soclibWarn=G.day; GM.toast('廣播：「本館將於 '+PLACES.hhmm(w[1])+' 閉館，請準備離館。」',5000); }
+       if(!PLACES.isOpen('soclib',hr,G.day)&&!S._slOut){ S._slOut=true; (async()=>{ try{ GM.sceneBegin(); await GM.say(null,'館員：「同學，我們閉館了喔。」你收好東西，走出圖書館。'); GM.sceneEnd(); await GM.enter('campus',Object.assign({},SL3.CAMPUS)); GM.toast(PLACES.closedText('soclib',h(G),G.day),6000); } finally { S._slOut=false; } })(); return; } }
+     /* 之後的週四：13:20 民法總則的目標，下課以後換成自由活動（v9.5 審查：F.classDone 第二天之後一直是 true，不會再有上課劇情來換目標，導航整晚指著空的 201）*/
+diff --git a/src/zrzq3d.js b/src/zrzq3d.js
+index 19b858ec5..c87f4b78b 100644
+--- a/src/zrzq3d.js
++++ b/src/zrzq3d.js
+@@ -267,7 +267,7 @@ const ZRZQ=(function(){
+   S.fyEnd=function(G){ const R=G&&G.flags&&G.flags.ZZ; return !!R&&typeof R==='object'&&R.fy==='seeing'&&!(R.state==='held'&&R.held==='uk')&&S.ending(G)==='C'; };
+ 
+   /* ---------- 帶到場 ---------- */
+-  S.zoneCat=function(G){ const z=G.zone||''; if(atHome(G)) return 'home'; if(z==='cafe') return 'cafe'; if(['library','library_hall','lawlib','soclib'].includes(z)) return 'lib';
++  S.zoneCat=function(G){ const z=G.zone||''; if(atHome(G)) return 'home'; if(z==='cafe') return 'cafe'; if(['library','library_hall','lawlib','soclib','soclib_2f'].includes(z)) return 'lib';
+     if(/^dorm/.test(z)) return 'dorm'; if(['gongguan','noodle','bookstore','bikeshop','aoki','cvs','wenzhou','lane118','afar','daybreak'].includes(z)||/^l118|^wz_/.test(z)) return 'town'; return 'campus'; };
+   /* {課名}：那天實際上的最後一堂課（有去上的、在現在以前下課的；am＝只看上午）*/
+   S.lastClass=function(G,o){ if(typeof CLS==='undefined'||!CLS.dayItems) return null; const Dn=(G.courses&&G.courses.done)||{};
+diff --git a/tests/soclib_hours_unit.js b/tests/soclib_hours_unit.js
+index 2b823856f..9a748efa0 100644
+--- a/tests/soclib_hours_unit.js
++++ b/tests/soclib_hours_unit.js
+@@ -41,6 +41,9 @@ const flush=()=>new Promise(r=>setTimeout(r,20));
+   { at('soclib','2025-10-07',22+1/60); STORY.tick(GM,0.016); await flush(); await flush();
+     const e=entered[0]||{};
+     check('平日 22:01 還在館裡：館員請你離館、回到社科院正門前（SL3.CAMPUS）、說明下次開館',said.some(t=>/我們閉館了/.test(t))&&e.z==='campus'&&e.sp&&e.sp.x===95.6&&e.sp.z===-70&&toasts.some(t=>/社科院圖書館 現在沒有開/.test(t)&&/明天 08:20/.test(t)),JSON.stringify({said,entered,toasts})); }
++  { at('soclib_2f','2025-10-07',22+1/60); STORY.tick(GM,0.016); await flush(); await flush();   /* SOCLIB-2F-1104：人在東側館（二樓自習室）也一樣被請出去 */
++    const e=entered[0]||{};
++    check('平日 22:01 在東側館（soclib_2f，二樓自習室）：一樣請你離館、回到社科院正門前',said.some(t=>/我們閉館了/.test(t))&&e.z==='campus'&&e.sp&&e.sp.x===95.6&&e.sp.z===-70,JSON.stringify({said,entered,toasts})); }
+   { at('soclib','2025-10-07',15); STORY.tick(GM,0.016); await flush();
+     check('平日 15:00 在館裡：不廣播、不請你離館',!toasts.length&&!said.length&&!entered.length,JSON.stringify({toasts,said,entered})); }
+   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

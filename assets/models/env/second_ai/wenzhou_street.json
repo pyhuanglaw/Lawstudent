@@ -1,11 +1,11 @@
 {
- "objects": 1043,
- "unique_meshes": 79,
- "tris": 128837,
- "tris_drawn": 181933,
- "materials": 169,
+ "objects": 1081,
+ "unique_meshes": 97,
+ "tris": 155087,
+ "tris_drawn": 214867,
+ "materials": 186,
  "out": "assets/models/env/second_ai/wenzhou_street.glb",
- "bytes": 11073516,
+ "bytes": 10279468,
  "texres": 512,
  "buildings": [
   "A1",
@@ -38,5 +38,18 @@
   "W2",
   "P1",
   "P2"
- ]
+ ],
+ "slim": {
+  "normal_i8": 84,
+  "normal_drop": 13,
+  "color_u8": 17,
+  "color_u16": 21,
+  "skip_shared": 5,
+  "color_a1": 9,
+  "emi_as_map": 1,
+  "single": 2,
+  "before": 13618976,
+  "after": 10279468,
+  "excluded_meshes": 5
+ }
 }

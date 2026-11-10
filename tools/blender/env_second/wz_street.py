@@ -24,13 +24,13 @@ ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(name, default=None):
     return ARGS[ARGS.index(name) + 1] if name in ARGS else default
 SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面；lane118＝和平東路二段 118 巷（⑭；同一套公寓、材質與窗戶原型）；nccu_food＝政大山下的小吃街（只給 2D 背景算圖：bg_nccu.py）
-OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongguan': 'gongguan_shops.glb', 'lane118': 'lane118_street.glb', 'nccu_food': 'bg_nccu_food_street.glb', 'xinsheng': 'xinsheng_street.glb'}.get(SET, 'wenzhou_street.glb')))
+OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongguan': 'gongguan_shops.glb', 'lane118': 'lane118_street.glb', 'nccu_food': 'bg_nccu_food_street.glb', 'xinsheng': 'xinsheng_street.glb', 'xinsheng_far': 'xinsheng_far.glb'}.get(SET, 'wenzhou_street.glb')))
 
 # ---------------- 遊戲裡的配置（照 zones3d.js buildWenzhou；改那邊要一起改這裡） ----------------
 SHOP = lambda **k: k
 SPECS = [
     # A 側（z>0，立面朝 −z）：aptA(x0,x1,spec) → 位置 ((x0+x1)/2, 5)、rotation.y=π、深 12
-    dict(id='A1', side='A', x0=-12, x1=-4, floors=4, wall='tile', color='#d9c9a8', ground='shop', shop=SHOP(type='print', name='阿德影印輸出', sub='影印・膠裝・大圖輸出', signBg='#f4f1ea', signColor='#1f4e8c', band='#1f4e8c', vertical='影印', vBg='#ffffff', vColor='#1f4e8c', vBand='#1f4e8c')),
+    dict(id='A1', side='A', x0=-12, x1=-4, floors=4, wall='tile_sq', color='#efd6b0', p_grille=1.0, p_pot=1.0, pots_n=4, pot_mix=True, p_laundry=0.7, ground='shop', shop=SHOP(type='print', name='阿德影印輸出', frame='#c3c7ca', sub='影印・膠裝・大圖輸出', signBg='#f4f1ea', signColor='#1f4e8c', band='#1f4e8c', vertical='影印', vBg='#ffffff', vColor='#1f4e8c', vBand='#1f4e8c')),
     dict(id='A2', side='A', x0=-4, x1=3.1, floors=5, wall='mosaic', color='#cfd8d0', ground='door', door='#9c2f2a'),
     dict(id='A3', side='A', x0=8.4, x1=20, floors=4, wall='tile', color='#c9b49a', balcony=True, ground='shop', shop=SHOP(type='books', name='溫州書屋', sub='二手書・人文社會・法律', signBg='#2f4a3a', signColor='#f4ead8', serif=True, awning='#2f4a3a', vertical='書', vBg='#f4ead8', vColor='#2f4a3a', vBand='#2f4a3a')),
     dict(id='A4', side='A', x0=32, x1=40, floors=4, wall='tile', color='#e9e6df', ground='shop', shop=SHOP(type='noodle', name='林家乾麵', sub='乾麵・餛飩・滷味', signBg='#2f5a47', signColor='#e9d9a8', awning='#2f5a47', atlas='wz_lin_h')),
@@ -82,7 +82,8 @@ OFFBEAT_XS = dict(arcade=False, dep=0.3, glass=(-4.55, 5.25), glass_h=3.1, int='
                   panel=dict(x0=-5.3, x1=5.3, y0=3.4, y1=4.2, color='#efe4cc', text=[('offbeat_sign', -2.0, 2.66, 3.48, 4.21)]),
                   lamps=[(-4.6, 3.55), (-3.1, 3.55)],
                   side=dict(z0=-8.8, z1=-4.7, glass_h=3.1, dep=0.3, int='offbeat_side', awning=dict(y0=3.36, y1=3.0, d=0.9, color='#3f6a4a')),
-                  clutter=[('aboard', -5.0, 0.42), ('bistro', 4.5, 0.42)], lit=True)
+                  clutter=[('aboard', -5.0, 0.42), ('bistro', 4.5, 0.42)], lit=True,
+                  int3d=os.path.exists(os.path.join(L.ROOT, 'assets/models/env/second_ai/offbeat_storefront.glb')) and '--no-int3d' not in ARGS)   # SHOP-WINDOW-2D-1105：有立體店內就不畫景深卡
 
 # ---------------- 公館（--set gongguan）：照 zones3d.js gongguan 區塊的 shops（位置、寬度、樓層、牆、顏色、招牌、柱子），改那邊要一起改這裡 ----------------
 if SET == 'gongguan':
@@ -218,9 +219,9 @@ def _xinsheng_lj():
     wl = X['wenzhouLane']
     return {"sides": ["W"], "lane": {"z0": X['road']['z0'], "z1": X['road']['z1']}, "facade": {"west": X['facade']['upper'], "east": -X['facade']['upper']},
             "floorH": X['facade']['floorH'], "groundH": X['facade']['groundH'], "alleys": [{"side": "W", "z0": wl['z0'], "z1": wl['z1']}], "shops": sh, "X": X}
-if SET in ('lane118', 'nccu_food', 'xinsheng'):
+if SET in ('lane118', 'nccu_food', 'xinsheng', 'xinsheng_far'):
     import json as _json
-    if SET == 'xinsheng':
+    if SET in ('xinsheng', 'xinsheng_far'):
         LJ = _xinsheng_lj()
     elif SET == 'lane118':
         _src = open(os.path.join(L.ROOT, 'src/data/lane118_layout.js'), encoding='utf8').read()
@@ -317,15 +318,70 @@ if SET in ('lane118', 'nccu_food', 'xinsheng'):
                 _t = _VT_L[(_n // 2) % len(_VT_L)]; base['vtenant'] = dict(vertical=_t[0], vBg=_t[1], vColor=_t[2], vBand=_t[2], len=min(_t[3], GH + (base['floors'] - 1) * FH - GH - 0.8))
             SPECS.append(base); _n += 1
 
+# XS-FARVIEW-1105（LAWWW2-B 2026-11-07；使用者 11-05 08:1x「新生南路側門 遠景太假」＝一排方盒、路口外面平的）：--set xinsheng_far → xinsheng_far.glb。
+#   新生南路區域（src/xinsheng3d.js）走得到的是 z −68～68；街的兩頭原本只有平地，遠景是引擎的城市剪影圓筒（半徑 118 m，在校園那一側就落在校園裡面）。
+#   這裡做街廓：西側店面那一排往兩頭接下去（和 xinsheng_street.glb 同一套公寓、材質、窗戶原型 → draw call 幾乎不加）、北端 T 字路口（往西）、南端十字路口、
+#   南端路口過去東側（校園的西南角外面）也是一排樓房、店面那一排後面一排 6～13 層的樓（從街上看得到屋頂線上面多一層）、路口盡頭擋視線的樓、號誌桿。
+#   路面、人行道、分隔島、圍牆、行道樹、路燈是遊戲的程式畫（docs/art-rebuild/second_ai/wip/xs_farview_1107/ 的 patch），兩邊的數字是同一組 XSF。
+XSF = dict(zN=-178.0, zS=178.0, armN=(-100.0, -84.0), armS=(74.0, 90.0), backW=-37.0, backE=38.0, endW=-66.0, endE=70.0)
+if SET == 'xinsheng_far':
+    def _xs_far_specs():
+        R = random.Random(1105); WF, EF = LJ['facade']['west'], LJ['facade']['east']; out = []; cnt = [0]
+        WALLC = _WALLC + ['#c9c6bf', '#b9b4aa', '#d8d4cb', '#c4bdb0']
+        def one(side, fx, a, b, floors, far, ground, sw=None, d=12, tag='F'):
+            k = cnt[0]; cnt[0] += 1; w = b - a
+            sp = dict(id=f'{tag}{side}{k:02d}', pos=(fx, (a + b) / 2), ry=math.pi / 2 if side == 'W' else -math.pi / 2, w=w, d=d, floors=floors,
+                      wall=_WALLT[k % 4], color=WALLC[(k * 3) % len(WALLC)], balcony=(k % 3 == 1 and w > 5 and not far), tank=k % 2 == 0, roofAdd=(k % 5 == 3 and w > 5),
+                      far=far, flatwin=far, p_grille=0.3 if far else 0.6, p_pot=0.0 if far else 0.35, p_ac=0.0 if far else 0.55)
+            if sw: sp['side_wins'] = sw
+            if ground == 'shop' and w >= 4.0:
+                nm, ty, bg, fg = _FILL[k % len(_FILL)]; sp.update(ground='shop', shop=SHOP(type=ty, name=nm, sub='', signBg=bg, signColor=fg, band=''))
+            elif ground == 'shutter' and w >= 3.0: sp.update(ground='shutter', door=_DOOR[k % 4])
+            else: sp.update(ground='door', door=_DOOR[k % 4])
+            out.append(sp)
+        def row(side, fx, z0, z1, fmin, fmax, far, wmax=9.0, gaps_n=False, gaps_s=False, tag='F', d=12, irregular=False):
+            # gaps_n：這一段北端（−z）是路口（側面開窗）；gaps_s：南端（+z）
+            segs = []
+            if irregular:   # 後排：9～16 m 一棟，偶爾留 2～4 m 的防火巷
+                z = z0
+                while z < z1 - 0.5:
+                    w = min(z1 - z, R.uniform(9.0, 16.0))
+                    if z1 - (z + w) < 6.0: w = z1 - z
+                    segs.append((z, z + w)); z += w + (R.uniform(2.0, 4.0) if R.random() < 0.3 else 0.0)
+            else:
+                k = max(1, math.ceil((z1 - z0) / wmax)); w = (z1 - z0) / k; segs = [(z0 + i * w, z0 + (i + 1) * w) for i in range(k)]
+            for i, (a, b) in enumerate(segs):
+                sw = None
+                if i == 0 and gaps_n: sw = '+x' if side == 'W' else '-x'
+                elif i == len(segs) - 1 and gaps_s: sw = '-x' if side == 'W' else '+x'
+                g = ['shop', 'door', 'shutter'][(cnt[0]) % 3] if not far else ['door', 'shutter'][cnt[0] % 2]
+                one(side, fx, a, b, R.randint(fmin, fmax), far, g, sw=sw, d=d, tag=tag)
+        zN, zS, (n0, n1), (s0, s1) = XSF['zN'], XSF['zS'], XSF['armN'], XSF['armS']
+        # ① 西側店面那一排接下去（樓層和 xinsheng_street 差不多：3～6 層；離區域遠的那幾段只有窗）
+        row('W', WF, zN, n0, 4, 7, True, gaps_s=True); row('W', WF, n1, -68.0, 3, 5, False, gaps_n=True)
+        row('W', WF, 68.0, s0, 3, 5, False, gaps_s=True); row('W', WF, s1, zS, 4, 7, True, gaps_n=True)
+        # ② 南端路口過去的東側（校園西南角外面）
+        row('E', EF, s1, zS, 4, 7, True, gaps_n=True)
+        # ③ 後排：店面那一排後面（西側，x −37 起）；南端東側那一排的後面
+        for a, b in ((zN, n0), (n1, s0), (s1, zS)): row('W', XSF['backW'], a, b, 6, 13, True, gaps_n=a != zN, gaps_s=b != zS, tag='B', d=14, irregular=True)
+        row('E', XSF['backE'], s1 + 2.0, zS, 7, 12, True, gaps_n=True, tag='B', d=14, irregular=True)
+        # ④ 路口的路往兩邊看過去，盡頭的樓（不是一直看到天邊）
+        one('W', XSF['endW'], n0 - 6.0, n1 + 6.0, 9, True, 'door', tag='E', d=14)
+        one('W', XSF['endW'], s0 - 6.0, s1 + 6.0, 8, True, 'door', tag='E', d=14)
+        one('E', XSF['endE'], s0 - 6.0, s1 + 6.0, 10, True, 'door', tag='E', d=14)
+        return out
+    SPECS = _xs_far_specs()
+    print('{"xs_far_specs": %d}' % len(SPECS))
+
 random.seed(707)
 B.reset(texres=512)
-_RN = {'gongguan': 'gongguan_shops', 'lane118': 'lane118_street', 'nccu_food': 'nccu_food_street', 'xinsheng': 'xinsheng_street'}.get(SET, 'wenzhou_street')
+_RN = {'gongguan': 'gongguan_shops', 'lane118': 'lane118_street', 'nccu_food': 'nccu_food_street', 'xinsheng': 'xinsheng_street', 'xinsheng_far': 'xinsheng_far'}.get(SET, 'wenzhou_street')
 root = B.group(_RN, props={'kind': _RN})
 base = CL.materials()      # Café 的共用材質（鋁窗、鐵窗、冷氣、浪板、水塔、植物…，名稱相同→遊戲同一套夜間設定）
 _mats = {}
 
 
-NEUTRAL = {'tile': '#dadada', 'mosaic': '#dadada', 'plaster': '#e9e9e9'}   # 外牆貼圖的平均色（最亮的那棟也不超過，頂點色 ≤ 1）
+NEUTRAL = {'tile': '#dadada', 'mosaic': '#dadada', 'plaster': '#e9e9e9', 'tile_sq': '#ebe0cd'}   # tile_sq：暖米色小方磚（ambientCG Tiles139，CC0；阿德影印 ADE-V2-1104，參考圖 wz_ade_ext）   # 外牆貼圖的平均色（最亮的那棟也不超過，頂點色 ≤ 1）
 
 
 def pillar_mat(kind):
@@ -341,6 +397,7 @@ def wall_mat(kind):
     if kind not in _mats:
         nm = f'wz_wall_{kind}'; c = NEUTRAL[kind]
         if kind == 'mosaic': m = L.pbr(nm, 'rounded_square_tiled_wall', tile=1.0, target=c, normal=0.8, maps=('diff', 'nor'), rough_value=0.45)
+        elif kind == 'tile_sq': m = L.pbr(nm, 'acg_tiles139', tile=0.6, target=c, normal=0.55, maps=('diff', 'nor'), rough_value=0.42, contrast=0.8)   # 一張 6×6 塊：一塊 10 cm、磚縫細、每塊深淺不同（v2b：7 cm 從街上看磚縫太密、整面偏灰）
         elif kind == 'plaster': m = L.pbr(nm, 'plaster_grey_04', tile=1.5, target=c, normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.9)
         else: m = L.pbr(nm, 'long_white_tiles', tile=1.2, target=c, normal=0.8, maps=('diff', 'nor'), rough_value=0.5)
         _mats[kind] = vc_tint(m)
@@ -539,10 +596,10 @@ def window_proto(wh, part):
     return _WIN[key]
 
 
-def potted_proto(kind, r, h, lift, size, n, seed):
-    """盆栽（instancing）：陶盆＋葉片卡。原點＝盆底中央"""
+def potted_proto(kind, r, h, lift, size, n, seed, potm='pot_terra', prof='taper4'):
+    """盆栽（instancing）：陶盆＋葉片卡。原點＝盆底中央；potm／prof：盆子的材質、形狀（ADE-V2.1：白瓷、水泥盆）"""
     random.seed(seed)
-    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper4', y0=0.0, seg=8)   # 街上的盆栽：8 邊、4 點輪廓（Café 裡 18 邊）
+    pm = Mesh('pot', M[potm]); pot(pm, 0.0, 0.0, r, h, prof, y0=0.0, seg=8)   # 街上的盆栽：8 邊、4 點輪廓（Café 裡 18 邊）
     lv = Mesh('leaves', M[kind]); bush(lv, 0.0, lift, 0.0, size, n=n, span=0.45)
     return combine([pm.finish(None, smooth=True), lv.finish(None, uv=False)], f'potted_{kind}_{seed}')
 
@@ -568,7 +625,7 @@ def laundry_proto(seed):
 
 LAUNDRY = [laundry_proto(s) for s in (21, 22, 23)]
 POT_FERN = [potted_proto('fern', 0.09, 0.16, 0.33, 0.32, 4, 11)] * 2   # 效能第二輪：兩個種子的蕨類盆栽合成一個原型（每個原型 2 次 draw call；擺的時候本來就各自轉向）
-def broad_proto(r, h, seed):
+def broad_proto(r, h, seed, potm='pot_terra', prof='taper4', ph=0.62, pw=0.42, stems=3):
     """大葉盆栽（instancing）：陶盆＋土＋plants.py 的模型葉子（v6d：葉片卡的大葉子遠看像折紙）。原點＝盆底中央"""
     import plants as PL_
     if '_PLM_ST' not in globals():
@@ -577,10 +634,10 @@ def broad_proto(r, h, seed):
         for k_, hx_ in (('leaf_dark', '#3d6a3a'), ('leaf_mid', '#55894a')):
             _PLM_ST[k_].node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (*PL_._srgb(hx_), 1.0)
     random.seed(seed)
-    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper4', y0=0.0, seg=8); parts = [pm.finish(None, smooth=True)]
+    pm = Mesh('pot', M[potm]); pot(pm, 0.0, 0.0, r, h, prof, y0=0.0, seg=8); parts = [pm.finish(None, smooth=True)]
     tmp = B.group('tmp_pl', None)
     bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=12, radius1=r * 0.95, radius2=r * 0.95, depth=0.02); bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(0.0, h - 0.03, 0.0)); B.mesh_obj('tmp_pl_soil', bm, _PLM_ST['soil'], tmp)
-    PL_.broad_plant(B.mesh_obj, _PLM_ST, 'tmp_pl', tmp, 0.0, h - 0.02, 0.0, 0.62, 0.42, seed, stems=3, leaf_n=4)   # 街上的盆栽遠看：3 根莖（室內 5 根）、葉子 4 段（室內 6）
+    PL_.broad_plant(B.mesh_obj, _PLM_ST, 'tmp_pl', tmp, 0.0, h - 0.02, 0.0, ph, pw, seed, stems=stems, leaf_n=4)   # 街上的盆栽遠看：3 根莖（室內 5 根）、葉子 4 段（室內 6）
     for ob in list(tmp.children):
         ob.parent = None
         if ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
@@ -590,6 +647,11 @@ def broad_proto(r, h, seed):
 
 
 POT_BROAD = broad_proto(0.16, 0.3, 13)
+# ADE-V2.1（BB_255 第 4 點：門口的盆栽大多是同一種紅陶盆，D133 H）：白瓷、水泥盆，大小、高度都不同（放在 random.seed(707) 前面：不改後面的亂數）
+M['pot_conc'] = L.flat('wz_pot_concrete', '#9d9b95', rough=0.92)
+POT_TALL_W = broad_proto(0.19, 0.5, 17, potm='ceramic', prof='cyl', ph=0.95, pw=0.55, stems=4)   # 高的白瓷圓筒盆＋大葉（總高約 1.4 m）
+POT_BROAD_W = broad_proto(0.15, 0.24, 23, potm='ceramic', prof='bowl', ph=0.5, pw=0.4)          # 白瓷碗形盆的矮大葉
+POT_FERN_C = potted_proto('fern', 0.15, 0.26, 0.4, 0.4, 5, 19, potm='pot_conc', prof='cyl')     # 水泥圓筒盆的蕨類
 random.seed(707)
 
 # 累積的網格（同材質一個）：用 dict 依材質名取用
@@ -641,6 +703,22 @@ def prop_fp(mesh, tag, wx, wz, ry, sx=1.0):
     if bb is None or bb[4] < 0.1: return                                                  # 貼地的薄片不算
     c, s_ = math.cos(ry), math.sin(ry); pts = [(wx + lx * sx * c + lz * s_, wz - lx * sx * s_ + lz * c) for lx in (bb[0], bb[1]) for lz in (bb[2], bb[3])]
     PROP_FP.append(dict(tag=tag, rect=[round(min(p[0] for p in pts), 3), round(min(p[1] for p in pts), 3), round(max(p[0] for p in pts), 3), round(max(p[1] for p in pts), 3)], h=round(bb[4], 2)))
+
+
+def far_window(xf, x0, x1, y0, y1, lit, grille, band):
+    """XS-FARVIEW-1105：遠景（新生南路兩頭、後排高樓）的窗。牆是每層一整片（flatwin：不挖窗洞），玻璃貼在牆面前 1.5 cm；
+    亮燈那戶用 wz_room_lit（白天是深色、晚上發光，和近景同一個材質），其他是深灰藍的玻璃；窗台、鐵窗只做朝外的那一面（遠景只從街上看）。
+    近景的做法（窗洞＋窗框、玻璃、窗簾 instancing＋鐵窗原型）一扇幾十到幾百個三角形，遠景幾千扇乘上去太多（第一版畫出來 26.6 萬）；這樣一扇 4 個，有鐵窗 20 個。"""
+    gm = acc(M['room_lit'] if lit else flat('wz_far_glass', '#59636c', rough=0.18)); z = 0.015
+    xf.quad(gm, [(x0, y0, z), (x1, y0, z), (x1, y1, z), (x0, y1, z)])
+    xf.quad(band, [(x0 - 0.06, y0, 0.07), (x1 + 0.06, y0, 0.07), (x1 + 0.06, y0, 0.0), (x0 - 0.06, y0, 0.0)])            # 窗台上面
+    xf.quad(band, [(x0 - 0.06, y0 - 0.06, 0.07), (x1 + 0.06, y0 - 0.06, 0.07), (x1 + 0.06, y0, 0.07), (x0 - 0.06, y0, 0.07)])   # 窗台正面
+    if grille:
+        g = acc(M['grille']); d = 0.34
+        for a, b in ((y0 - 0.12, y0 - 0.06), (y1 + 0.08, y1 + 0.14)): xf.quad(g, [(x0 - 0.08, a, d), (x1 + 0.08, a, d), (x1 + 0.08, b, d), (x0 - 0.08, b, d)])
+        for k in range(5):
+            xx = x0 - 0.05 + k * (x1 - x0 + 0.1) / 4; xf.quad(g, [(xx - 0.015, y0 - 0.06, d), (xx + 0.015, y0 - 0.06, d), (xx + 0.015, y1 + 0.08, d), (xx - 0.015, y1 + 0.08, d)])
+        xf.quad(acc(M['corr']), [(x0 - 0.12, y1 + 0.14, d + 0.08), (x1 + 0.12, y1 + 0.14, d + 0.08), (x1 + 0.12, y1 + 0.32, 0.0), (x0 - 0.12, y1 + 0.32, 0.0)])   # 鐵窗頂上的浪板
 
 
 def apartment(spec):
@@ -700,6 +778,7 @@ def apartment(spec):
     for f in range(1, F):
         y0 = GH + (f - 1) * FH; y1 = y0 + FH; wl = wall_hi if (HI and f >= 6) else wall
         ws = sorted([w for w in wins if w['f'] == f], key=lambda w: w['x'])
+        if spec.get('flatwin'): xf.box(wl, -W / 2, W / 2, y0, y1, -0.25, 0); continue   # XS-FARVIEW-1105：遠景每層一整片牆（窗貼在牆面上，far_window）
         xs = [-W / 2] + [v for w in ws for v in (w['x'] - w.get('w', ww) / 2, w['x'] + w.get('w', ww) / 2)] + [W / 2]   # w：這扇窗自己的寬（木曜日的整排窗）
         for k in range(0, len(xs), 2): xf.box(wl, xs[k], xs[k + 1], y0, y1, -0.25, 0)
         for w in ws:   # 窗下的牆停在窗台裡面（低 1 cm）：原本牆頂和窗台頂同一個平面，一直閃（BUG-WZFLICKER）
@@ -724,6 +803,7 @@ def apartment(spec):
         if w['kind'] == 'mok': mok_window(spec, xf, w); continue   # 木曜日二樓的木框窗（wz_shopkit.py）
         if w['kind'] == 'xs': xs_window(spec, xf, w); continue     # 新生南路照參考圖的整排窗
         x0, x1, y0, y1, cx = w['x'] - ww / 2, w['x'] + ww / 2, w['y0'], w['y1'], w['x']
+        if spec.get('flatwin'): far_window(xf, x0, x1, y0, y1, w['lit'], w['kind'] == 'grille', band); continue   # XS-FARVIEW-1105：遠景的窗（不用 instancing 的窗框原型）
         inst(window_proto(wh, 'shell'), f'win_{spec["id"]}', xf, cx, y0, 0.0, sx=ww / WIN_W)
         inst(window_proto(wh, 'lit' if w['lit'] else 'dark'), f'pane_{spec["id"]}', xf, cx, y0, 0.0, sx=ww / WIN_W)
         cm = acc(M['curtain_lit'] if w['lit'] else M['curtain']); cw = ww * rng.uniform(0.3, 0.55)
@@ -731,10 +811,14 @@ def apartment(spec):
         else: xf.quad(cm, [(x0 + 0.03, y0 + 0.03, -0.29), (x0 + cw, y0 + 0.03, -0.29), (x0 + cw, y1 - 0.05, -0.29), (x0 + 0.03, y1 - 0.05, -0.29)])
         if w['kind'] == 'grille':
             inst(GRILLE, f'grille_{spec["id"]}', xf, cx, y0 - 0.14, 0.0); inst(HOOD, f'ghood_{spec["id"]}', xf, cx, y0 - 0.14 + 1.77, 0.0)
-            if not spec.get('far') and lrng.random() < 0.28: bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
+            if not spec.get('far') and lrng.random() < spec.get('p_laundry', 0.28): bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)   # p_laundry：ADE-V2.1 阿德樓上多曬一點衣服（BB_255 第 5 點）
             if not spec.get('far') and rng.random() < spec.get('p_pot', 0.6):
-                px_ = cx + rng.uniform(-0.9, 0.9); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
-                B.instance(POT_FERN[rng.randrange(2)], f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
+                npot = spec.get('pots_n', 1)   # ADE-V2-1104：阿德（參考圖 wz_ade_ext）鐵窗裡一排盆栽——一扇窗放 npot 盆，蕨類和大葉輪流、間距和角度不一樣
+                for k_ in range(npot):
+                    px_ = (cx + rng.uniform(-0.9, 0.9)) if npot == 1 else (cx - 0.95 + (k_ + 0.5) * 1.9 / npot + rng.uniform(-0.12, 0.12)); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
+                    pm_ = POT_FERN[rng.randrange(2)] if (npot == 1 or k_ % 2 == 0) else POT_BROAD
+                    if spec.get('pot_mix'): pm_ = (POT_FERN[0], POT_BROAD_W, POT_FERN_C, POT_BROAD)[(k_ + int(abs(cx) * 3)) % 4]   # ADE-V2.1：紅陶、白瓷、水泥盆混著放（上面那行照舊用掉亂數，後面的配置不變）
+                    B.instance(pm_, f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
         elif w['kind'] == 'balcony':
             bx0, bx1, bd = x0 - 0.6, x1 + 0.6, 1.05; xf.box(band, bx0, bx1, y0 - 0.3, y0 - 0.16, -0.25, bd)
             xf.box(wall, bx0, bx1, y0 - 0.16, y0 + 0.4, bd - 0.12, bd); xf.box(wall, bx0, bx0 + 0.12, y0 - 0.16, y0 + 0.4, 0, bd); xf.box(wall, bx1 - 0.12, bx1, y0 - 0.16, y0 + 0.4, 0, bd)
@@ -771,6 +855,11 @@ def apartment(spec):
     elif spec.get('xs', {}).get('stair'):   # 新生南路同弦樂器：樓梯口那一段挖開（裡面的踏階在 wz_shopkit.xs_stair）
         st = spec['xs']['stair']; dz = spec['xs'].get('dep', 3.5) + st['depth']
         xf.box(wall, -W / 2, st['x0'], 0, GH, -D, -rec); xf.box(wall, st['x1'], W / 2, 0, GH, -D, -rec); xf.box(wall, st['x0'], st['x1'], GH - 0.38, GH, -D, -rec); xf.box(wall, st['x0'], st['x1'], 0, GH - 0.38, -D, -dz)
+    elif spec.get('xs', {}).get('int3d'):   # 日常失速（W2）有立體店內（SHOP-WINDOW-2D-1105）：一樓量體只留店內後面那一段（室內 z −5～5＝本地 z −10～0），北面窗兩側是薄牆
+        sd = spec['xs']['side']; xg = W / 2 - sd.get('dep', 0.3); IZ = -10.0
+        xf.box(wall, -W / 2, W / 2, 0, GH, -D, IZ)
+        xf.box(wall, xg + 0.05, W / 2, 0, GH, IZ, sd['z0']); xf.box(wall, xg + 0.05, W / 2, 0, GH, sd['z1'], -rec)
+        xf.box(wall, xg + 0.05, W / 2, sd.get('glass_h', 3.1) + 0.08, GH, sd['z0'], sd['z1'])   # 窗上的牆
     elif spec.get('xs', {}).get('side'):   # 日常失速（W2）：側面（本地 x＝+W/2）的落地窗那一段挖進去 dep＋0.85 m（裡面是 wz_shopkit.xs_side_window 的景深卡）
         sd = spec['xs']['side']; xi = W / 2 - sd.get('dep', 0.3) - 0.85
         xf.box(wall, -W / 2, xi, 0, GH, -D, -rec); xf.box(wall, xi, W / 2, 0, GH, -D, sd['z0']); xf.box(wall, xi, W / 2, 0, GH, sd['z1'], -rec)
@@ -858,8 +947,10 @@ def side_windows(spec, xf, wall, band, W, D, F, totalH, sd, rng, wall_hi=None, b
         y0 = GH + (f - 1) * FH; y1 = y0 + FH; ws = sorted([w for w in wins if w['f'] == f], key=lambda w: w['x'])
         xs = [-Ls / 2] + [v for w in ws for v in (w['x'] - ww / 2, w['x'] + ww / 2)] + [Ls / 2]
         wl = wall_hi if (hi_f and f >= hi_f) else wall; bd = band_hi if (hi_f and f >= hi_f) else band
-        for k in range(0, len(xs), 2): sx_.box(wl, xs[k], xs[k + 1], y0, y1, -T, 0)
-        for w in ws: sx_.box(wl, w['x'] - ww / 2, w['x'] + ww / 2, y0, w['y0'] - 0.01, -T, 0); sx_.box(wl, w['x'] - ww / 2, w['x'] + ww / 2, w['y1'], y1, -T, 0)   # 窗下的牆停在窗台裡面
+        if spec.get('flatwin'): sx_.box(wl, -Ls / 2, Ls / 2, y0, y1, -T, 0)   # XS-FARVIEW-1105：遠景每層一整片牆
+        else:
+            for k in range(0, len(xs), 2): sx_.box(wl, xs[k], xs[k + 1], y0, y1, -T, 0)
+            for w in ws: sx_.box(wl, w['x'] - ww / 2, w['x'] + ww / 2, y0, w['y0'] - 0.01, -T, 0); sx_.box(wl, w['x'] - ww / 2, w['x'] + ww / 2, w['y1'], y1, -T, 0)   # 窗下的牆停在窗台裡面
         # 樓板線：往正面多伸 0.325 m 接到正面的樓板線（側牆座標 sd<0 時正面在 +x'）。比正面的薄 1 cm、停在正面樓板線的前緣後 5 mm：
         # 重疊的地方不能有同一個平面上的面（Cycles 會變黑、遊戲裡會閃爍）
         if f > 1: sx_.box(bd, -Ls / 2 - (0.325 if sd > 0 else 0), Ls / 2 + (0.325 if sd < 0 else 0), y0 - 0.085, y0 + 0.085, -T, 0.08)
@@ -867,6 +958,7 @@ def side_windows(spec, xf, wall, band, W, D, F, totalH, sd, rng, wall_hi=None, b
     ac_at = []
     for w in wins:
         cx, y0, y1 = w['x'], w['y0'], w['y1']; x0, x1 = cx - ww / 2, cx + ww / 2
+        if spec.get('flatwin'): far_window(sx_, x0, x1, y0, y1, w['lit'], w['grille'], band); continue
         inst(window_proto(wh, 'shell'), f'swin_{spec["id"]}', sx_, cx, y0, 0.0, sx=ww / WIN_W)
         inst(window_proto(wh, 'lit' if w['lit'] else 'dark'), f'spane_{spec["id"]}', sx_, cx, y0, 0.0, sx=ww / WIN_W)
         cm = acc(M['curtain_lit'] if w['lit'] else M['curtain']); cw = ww * rng.uniform(0.3, 0.55)
@@ -960,8 +1052,22 @@ def housedoor(spec, xf, W, rng, rec):
 
 
 SF, SF_HOUSE, SF_SHUTTER = {}, {}, {}
-if SET in ('wenzhou', 'gongguan', 'lane118', 'xinsheng'): exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）；公館只用招牌設計稿（日日便利和溫州街同一家連鎖，招牌要一樣），店面照舊
+if SET in ('wenzhou', 'gongguan', 'lane118', 'xinsheng', 'xinsheng_far'): exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）；公館只用招牌設計稿（日日便利和溫州街同一家連鎖，招牌要一樣），店面照舊
 for sp in SPECS: apartment(sp)
+if SET == 'xinsheng_far':   # XS-FARVIEW-1105：路口的號誌（台灣常見的橫式燈頭掛在懸臂上；行人號誌在桿子上）。燈頭的綠燈自己發光（白天也亮）
+    def _signals():
+        pole = acc(flat('wz_sig_pole', '#7b8086', rough=0.45, metal=0.35)); head = acc(flat('wz_sig_head', '#2b2e31', rough=0.6))
+        lens = {c: acc(flat('wz_sig_' + c, h, rough=0.3, **({'emit': B.srgb(h)} if c == 'green' else {}))) for c, h in (('red', '#5a1c18'), ('amber', '#5a4418'), ('green', '#36d07a'))}
+        def sig(x, z, dx, arm):   # (x, z) 桿子；dx＝懸臂往馬路的方向（±1，沿 x）；arm＝懸臂長
+            pole.cyl((x, 0, z), (x, 6.2, z), 0.11, seg=10); pole.cyl((x, 5.9, z), (x + dx * arm, 5.9, z), 0.06, seg=8)
+            hx = x + dx * (arm - 0.6); head.box(hx - 0.75, hx + 0.75, 5.45, 5.85, z - 0.16, z + 0.16)
+            for i, c in enumerate(('red', 'amber', 'green')): lens[c].cyl((hx - 0.48 + i * 0.48, 5.65, z - 0.17), (hx - 0.48 + i * 0.48, 5.65, z - 0.2), 0.15, seg=10)
+            head.box(x - 0.17, x + 0.17, 2.3, 2.95, z - 0.17 - dx * 0, z + 0.17)   # 行人號誌
+            lens['green'].box(x - 0.11, x + 0.11, 2.36, 2.58, z - 0.19, z - 0.17)
+        (n0, n1), (s0, s1) = XSF['armN'], XSF['armS']
+        sig(-8.6, n1 + 1.2, 1, 7.0); sig(8.6, n0 - 1.2, -1, 7.0)            # 北端 T 字路口：西南角、東北角（東側是校園圍牆外的人行道）
+        sig(-8.6, s0 - 1.2, 1, 7.0); sig(8.6, s1 + 1.2, -1, 7.0); sig(-8.6, s1 + 1.2, 1, 7.0); sig(8.6, s0 - 1.2, -1, 7.0)   # 南端十字路口四個角
+    _signals()
 if SET in ('xinsheng', 'wenzhou', 'gongguan') and 'xs_finish' in globals(): xs_finish()   # 新生南路的店面貼圖、溫州街日常失速（各一個網格）
 if SET == 'wenzhou' and 'copy_variants' in globals(): copy_variants()   # ART-WZ6：阿德影印的兩種外觀（COPY_* 節點，遊戲照 WZ_COPY_SHOP 開關）
 if SET in ('wenzhou', 'gongguan'): build_notes()   # 玻璃上的紙條（公館騎樓店面也有，ART-GG-SHOPS-1018）
@@ -1000,6 +1106,17 @@ if SET == 'wenzhou' and os.path.exists(WZ7):
     _put7('WZ7_RECYCLE', 44 + 3.2, 0.0, 5 + 0.45, math.pi - 0.08)      # 日日便利（A5）門廊的西端（門在東邊）：要拿去回收的紙箱捆＋一袋寶特瓶
     for _o in _new:
         if _o.name in bpy.data.objects: bpy.data.objects.remove(_o)
+
+# 日常失速的立體店內（SHOP-WINDOW-2D-1105 試做，LAWWW2-B 11-07）：offbeat_storefront.glb（offbeat_storefront.py：AA 的室內拿掉臨街兩面牆、燈光烘成一張自發光貼圖）
+#   擺在 W2 的一樓：室內 (x, z) → 溫州街 (z − 42.2, −13.5 − x)＝遊戲 rotation.y π/2、位置 (−42.2, −13.5)。OFFBEAT_XS 的 int3d 讓外觀不畫景深卡。
+STOREFRONT = os.path.join(L.ROOT, arg('--storefront', 'assets/models/env/second_ai/offbeat_storefront.glb'))
+if SET == 'wenzhou' and OFFBEAT_XS.get('int3d') and os.path.exists(STOREFRONT):
+    _before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=STOREFRONT); _new = [o for o in bpy.data.objects if o not in _before]
+    _gs = B.group('offbeat_storefront', root); _gs.rotation_mode = 'XYZ'; _gs.location = g2b(-42.2, 0.01, -13.5); _gs.rotation_euler = (0, 0, math.pi / 2)
+    _gs.scale = (1, 1, 0.99)   # 抬 1 cm、高度縮 1%：店內地板（0）和街面、天花板（3.4）和樓上量體的底面不在同一個平面（會閃）
+    for _o in _new:
+        if _o.parent is None: _o.parent = _gs; _o.matrix_parent_inverse.identity()
+    print('storefront', len(_new), flush=True)
 
 if "goods_finish" in globals(): goods_finish()   # 店裡的商品（wz_shopkit.goods；2026-10-23）：整條街一個網格、一張貼圖
 
@@ -1060,6 +1177,20 @@ for _ob in [o for o in root.children_recursive if o.type == 'MESH' and o.name.st
         _cull += sum(len(f.verts) - 2 for f in _del); bmesh.ops.delete(_bm, geom=_del, context='FACES_ONLY'); _bm.to_mesh(_ob.data)
     _bm.free()
 print('{"cull_bottoms_tris": %d}' % _cull)
+# LANEEAST-TRIS2-1104（LAWWW2-C 11-04）：店裡隔著玻璃的東西（sk_* 的 wz_in_* 材質：貨架上的商品、書、水果、桌椅）背對街道的面刪掉——
+# 街上只看得到朝街、朝上、朝左右的面；朝店裡後牆的那一面（A 側 z>0 的店：法線 +z；B 側 z<0：法線 −z）從街上永遠看不到（玻璃另一邊沒有鏡頭）。
+# 單面材質（PERF-SINGLESIDE）雖然顯示卡會剔除，但 renderer.info 照樣算三角形、照樣送進去；刪掉才真的少。店內是另一個區域（另一個 GLB），不受影響
+_cullb = 0
+if SET == 'wenzhou':
+    for _ob in [o for o in root.children_recursive if o.type == 'MESH' and o.name.startswith('sk_') and o.data.users == 1]:
+        _mw = _ob.matrix_world; _side = 1.0 if (_mw @ Vector([sum(c[i] for c in _ob.bound_box) / 8.0 for i in range(3)])).y < 0 else -1.0   # Blender y＝遊戲 −z：y<0＝遊戲 z>0＝A 側
+        _bm = bmesh.new(); _bm.from_mesh(_ob.data); _n3 = _mw.to_3x3().inverted().transposed(); _mats = _ob.data.materials
+        _del = [f for f in _bm.faces if f.material_index < len(_mats) and _mats[f.material_index] and _mats[f.material_index].name.startswith('wz_in_')
+                and (_n3 @ f.normal).normalized().y * _side < -0.9]   # 遊戲 +z（A 側背向街）＝Blender −y；B 側背向街＝Blender +y
+        if _del:
+            _cullb += sum(len(f.verts) - 2 for f in _del); bmesh.ops.delete(_bm, geom=_del, context='FACES_ONLY'); _bm.to_mesh(_ob.data)
+        _bm.free()
+print('{"cull_backs_tris": %d}' % _cullb)
 L.vc_consolidate(root, WZ_VC)
 L.split_by_material(root, keep=_keep)
 if SET == 'gongguan':   # PERF-GG-DC-1104：上面合進來的 instancing 零件照舊不投影（見上）
@@ -1083,24 +1214,60 @@ L.atlas_tiles(root, os.path.join(HERE, 'textures', 'gen', f'wz_tiles_{SET}'), f'
               reps={'wz_sf_wood_dark': 2, 'wz_sf_wood_light': 2, 'wz_sf_mosaic': 2, 'wz_sf_granite': 2, 'wz_sf_terrazzo': 2, 'wz_sf_white': 2, 'wz_sf_floral': 2})
 # ↑ 木頭多半是店裡的小家具、店內地板隔著玻璃看：一格放 2×2 個週期，少切很多刀；騎樓地板（近看、走在上面）、鐵捲門、石材牆基維持一格一個週期
 if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊面掃描（tools/glb_coplanar.py）就看得到每個零件的名字
+    # 整條街共用的大材質（LANEEAST-TRIS2-1104，LAWWW2-C 11-04：BB_255「lane_east 三角形 ≤ 42 萬」）：頂點色雜物、金屬件、牆面磁磚、店內地磚原本各自整條街一個網格
+    # （cafe_vc_wz_matte 2.1 萬、cafe_vc_wz_metal 1.2 萬、wz_wall_tile 1.1 萬、wz_in_tiles_wenzhou 0.5 萬三角形），不管鏡頭看哪裡都整條畫、陰影那一輪也整條畫。
+    # 照零件中心的 x 分四段（x < 5／5～18／18～31／≥ 31，切在棟和棟中間：A2|A3、B4|B5、B5|B6）各自合併：站在東段往東看時西邊兩段整段裁掉；
+    # 不分南北兩側（包圍球大一點，但 draw call 少一半：每種材質在鏡頭裡多 1～2 次）。材質不變、名字 wzx<段>_<材質>，遊戲照材質名做事的都不受影響
+    #   第一版照零件（合併前的物件）中心分段不行：很多零件本身就跨半條街（實體化的 instancing 組、貼圖集切過的面），每一段還是從西到東。
+    #   改成合併以後照「每一個面」的中心切（_xseg_split），每一段只含自己那一截的面
+    WZ_XSEG_MATS = {'cafe_vc_wz_matte', 'cafe_vc_wz_metal', 'wz_wall_tile', 'wz_in_tiles_wenzhou'}
+    WZ_XSEG_CUTS = (5.0, 18.0, 31.0)
+    def _xseg_split(root):
+        made = []
+        for ob in [o for o in root.children if o.type == 'MESH' and len(o.data.materials) == 1 and o.data.materials[0] and o.data.materials[0].name in WZ_XSEG_MATS]:
+            if ob.data.users > 1: continue   # instancing（共用網格）不動
+            props = {kk: (vv.to_list() if hasattr(vv, 'to_list') else (vv.to_dict() if hasattr(vv, 'to_dict') else vv)) for kk, vv in ob.items()}
+            mw = ob.matrix_world.copy(); bm0 = bmesh.new(); bm0.from_mesh(ob.data); bm0.faces.ensure_lookup_table()
+            bins = {}
+            for f in bm0.faces: bins.setdefault(sum(1 for c in WZ_XSEG_CUTS if (mw @ f.calc_center_median()).x >= c), []).append(f.index)
+            if len(bins) < 2: bm0.free(); continue
+            for k, idx in sorted(bins.items()):
+                bm = bm0.copy(); bm.faces.ensure_lookup_table(); keep_ = set(idx)
+                bmesh.ops.delete(bm, geom=[f for f in bm.faces if f.index not in keep_], context='FACES_ONLY')
+                bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context='VERTS')
+                me = bpy.data.meshes.new('wzx%d_%s' % (k, ob.name)); bm.to_mesh(me); bm.free(); me.materials.append(ob.data.materials[0])
+                nob = bpy.data.objects.new('wzx%d_%s' % (k, ob.name), me); B.scene().collection.objects.link(nob); nob.parent = root; nob.matrix_world = mw
+                for kk, vv in props.items(): nob[kk] = vv
+                made.append((nob.name, len(idx)))
+            bm0.free(); old = ob.data; bpy.data.objects.remove(ob); bpy.data.meshes.remove(old)
+        import json as _j; print(_j.dumps({'xseg_split': made}, ensure_ascii=False))
     def _seg(ob):   # 溫州街的店內（wz_in_shop）一間店一個網格合併（LAWWW 11-04 08:16 lane_east 三角形超標）：整條街一個網格的話，站在東段往東看時西段的書屋、帝大紅茶、常在洗衣、小路
         # 也整個要畫（裁不掉）；材質不變，看得到的店才畫。名字 wz_in_<棟號>_wz_in_shop 照舊 wz_in_ 開頭（遊戲不投影）
         if SET != 'wenzhou' or len(ob.data.materials) != 1 or not ob.data.materials[0] or ob.data.materials[0].name != 'wz_in_shop': return ''
         m = re.match(r'sk_in_([A-Z]\d+i?)', ob.name)   # 店內的頂點色網格叫 sk_in_<棟號>：一間店一個網格（包圍球小，背後的店整間裁掉；分東西兩段的話包圍球太大、跨到鏡頭前面，裁不掉）
         return ('wz_in_' + m.group(1)) if m else ''
+    if SET == 'wenzhou' and not os.environ.get('WZ_NOPACK'):   # 除錯：WZ_NOPACK=1 不打包（和改之前一樣）。PERF-WZ-DC-1107（LAWWW2-B 11-07；LAWWW-B 09:04「主模型 −13」）：只差粗糙度、金屬度的頂點色材質合成一個（lib2.vc_pack：粗糙度、金屬度放在一張
+        # 小貼圖，每個面讀它原本那一格，畫面不變）。投影的（wz_vc_*）和不投影的（cafe_vc_wz_*：遊戲 WZ_NO_SHADOW）分開打包，影子照舊；
+        # instancing 原型（窗、冷氣、鐵窗…遊戲裡本來就不投影）全部用不投影那一個。四段 wzx 每段霧面＋金屬＋亮面合成一個網格
+        L.vc_pack(root, {'wz_vc_matte': 'wz_vc_pack', 'wz_vc_metal': 'wz_vc_pack', 'cafe_vc_wz_matte': 'cafe_vc_wz_pack', 'cafe_vc_wz_gloss': 'cafe_vc_wz_pack',
+                         'cafe_vc_wz_metal': 'cafe_vc_wz_pack'}, 'cafe_vc_wz_pack', os.path.join(HERE, 'textures', 'gen', 'wz_vc_pack_rm.png'))
+        WZ_XSEG_MATS.add('cafe_vc_wz_pack')
     L.merge_by_material(root, keep=_keep,
                         key=lambda ob: 'NOSHADOW' if ob.name.startswith('NOSHADOW_') else _seg(ob))   # 公館七樓以上：合併後名字是 NOSHADOW_<材質>
+    if SET == 'wenzhou': _xseg_split(root)   # LANEEAST-TRIS2-1104：整條街一個網格的四種材質照面的 x 切四段
 for _g in [o for o in root.children if o.name.startswith('COPY_')]: L.merge_by_material(_g)
 if SET == 'gongguan':   # PERF-GG-DC-1104：店面的燈（小燈泡、燈管）、店內景深卡、亮窗的玻璃、新店面的灰泥牆（騎樓裡，影子本來就在騎樓的陰影裡）、騎樓梁上的招牌（薄板，影子落在騎樓的影子裡）不投影：陰影那一輪少 9 次 draw call
     for _ob in list(root.children):
         if _ob.type != 'MESH' or len(_ob.data.materials) != 1 or not _ob.data.materials[0] or _ob.name.startswith('NOSHADOW_'): continue
         if re.match(r'(wz_sf_lamp|wz_tube$|wz_xs_fronts|wz_win_glass_lit$|gg_xs_plaster_|wz_signs)', _ob.data.materials[0].name): _ob.name = 'NOSHADOW_' + _ob.name   # ART-WZ6：開關的店面各自照材質合併（節點保留，遊戲照名字開關；原本 15 個網格＝15 次 draw call）
-if SET in ('wenzhou', 'lane118'):   # PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：只把「大面、背面看不到」的材質改單面——立面的牆與柱（只從巷子看）、
+if SET in ('wenzhou', 'lane118', 'xinsheng_far'):   # PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：只把「大面、背面看不到」的材質改單面——立面的牆與柱（只從巷子看）、
     # 店內的殼和商品（隔著玻璃）、店內地板、亮窗的房間卡。網格不動、不補反面（鐵窗、鋁框、葉片卡這些照舊雙面：公館試過全部單面＋薄零件補反面，instancing 乘上去反而沒變快）。
     # 同一頁量（路人拿掉）：溫州街 +11%、118 巷 +15%／+3%；公館量不出差別，不改
     for _m in {s.material for o in root.children_recursive if o.type == 'MESH' for s in o.material_slots if s.material}:
-        if re.match(r'(wz_in_goods|wz_in_shop|wz_wall_|wz_in_tiles_|wz_room_lit|wz_pillar_|wz_ground_wall)', _m.name): _m.use_backface_culling = True
+        if re.match(r'(wz_in_goods|wz_in_price_u|wz_in_board_u|wz_in_shop|wz_wall_|wz_in_tiles_|wz_room_lit|wz_pillar_|wz_ground_wall)', _m.name): _m.use_backface_culling = True   # wz_in_price_u、wz_in_board_u（PERF-WZ-SHADERS 11-07）：和 wz_in_goods 同一個 shader；價目牌、黑板朝街（和店內外殼同方向）
 info = L.export(OUT, gpu_instances=True)
+if SET == 'wenzhou' and not os.environ.get('WZ_NOSLIM'):   # PERF-COLD-RT（LAWWW2-B 11-07；CC-B：第一次進溫州街慢在下載這個檔）：法線 8 位元、頂點色 0～255，位置、UV、節點不動；
+    import glb_slim; info['slim'] = glb_slim.slim(OUT, OUT); info['bytes'] = os.path.getsize(OUT)   # 招牌、門牌、景深卡（遊戲會改幾何）不碰；見 glb_slim.py
 info.update({'buildings': [s['id'] for s in SPECS]})
 L.write_json(OUT[:-4] + '.json', info)
 L.write_json(OUT[:-4] + '.props.json', {'set': SET, 'note': '地上雜物的腳印（世界座標 [minx,minz,maxx,maxz]、高度）；tests/street_props_nav_unit.js 用', 'props': PROP_FP})

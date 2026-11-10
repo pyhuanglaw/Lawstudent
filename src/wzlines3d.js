@@ -289,7 +289,7 @@ const WZL=(function(){
   S.patch=function(){ if(typeof STORY_EVENTS==='undefined') return; const E=id=>STORY_EVENTS.find(e=>e.id===id);
     const zq=E('ev_ziqing_show'); if(zq&&!zq._wz){ zq._wz=true; const D=zq.dialogue; D.unshift({if:{flags:['WZ_ZQ_POSTER']},speaker:null,text:'法律系館B門口貼著那張藍色的海報。藍色是對的。'});
       const line={if:{flags:['WZ_ZQ_POSTER']},speaker:'heroine_04',text:'海報的藍色，台下的人有看到。'};
-      const a=D.findIndex(l=>l.text==='我看到你了。你拍得超大聲。很丟臉。……謝啦。'); if(a>=0) D.splice(a+1,0,line);
+      const a=D.findIndex(l=>l.text==='我有看到你。你拍超大聲，很丟臉。……不過謝啦。'); if(a>=0) D.splice(a+1,0,line);
       const b=D.findIndex(l=>l.text==='你有來。'); if(b>=0) D.splice(b+1,0,Object.assign({},line)); }   /* BB_148 8b：開場一句、她下台後一句（拍手、沒按兩個版本；沒去的沒有）*/
     const sd=E('ev_sis_defense'); if(sd&&!sd._wz&&Array.isArray(sd.dialogue)){ sd._wz=true; const D=sd.dialogue, i=D.findIndex(l=>l.set&&l.set.SIS_DEFENSE==='there'); const line={if:{flags:['WZ_SIS_THESIS']},speaker:'heroine_05',text:'委員翻開以前，先摸了一下書背。……書背是你裝的。'}; if(i>=0) D.splice(i,0,line); }
     const am=E('ev_an_mother_map'); if(am&&!am._wz&&Array.isArray(am.dialogue)){ am._wz=true; am.dialogue.push({if:{flags:['AN_MOM_TEA']},speaker:'heroine_01',text:'我媽說，你泡的茶很穩。……她很少稱讚人。'}); } };   /* AA_166 第 5 節 WZ-T5 */

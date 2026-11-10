@@ -12,7 +12,8 @@
      - 品妤 SK12 那四天（2027-12-20～23）在社科圖點她：這裡不接（照事件；talkCharacter 照現有）。
      - 阿勳大三下 3/22 以後那一句「在別處遇到也可以說」：社科圖以外和他說話（認識、有 MET_XUN、今天還沒說過），這一次說這一句；其他時候照現有。
    不新增邀約、手機訊息、事件（第 3 節）。
-   存檔：G.flags.ECON_SL＝{人物 id:{day:今天說過一句的那天, once:{句子:第幾天}, g:打招呼輪到第幾句}}；舊存檔沒有＝從那時起。MET_PINYU、MET_XUN、MET_TANG、MET_WEILUN 照現有的旗標。
+   存檔：G.flags.ECON_SL＝{人物 id:{day:今天說過一句的那天, once:{句子:第幾天}, g:打招呼輪到第幾句}}；舊存檔沒有＝從那時起。
+     once 的 key 是句子本身：TEXT-QUOTE-UNIFY-1108 第五批（AA-B 2026-11-08 11:05）台詞拿掉外面的「」以後，舊存檔記的有「」的句子讀檔時 STORY.smallQuoteMigrate（game3d.js migrate）換成現在的句子。MET_PINYU、MET_XUN、MET_TANG、MET_WEILUN 照現有的旗標。
    測試：node tests/econ_soclib_1030_unit.js */
 'use strict';
 const ECONSL=(function(){

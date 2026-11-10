@@ -25,9 +25,9 @@ const play=async(picks)=>{ H.said=[]; H.picks=(picks||[]).slice(); await EVENTS.
   /* 1 */
   { const G=setup('2026-09-14',20,'cafe'); const ok=EVENTS.check(E); const r0=SOCIAL.rel('heroine_05').fam||0; const L=await play([1]);
     check('1. 大二上 9/14 20:00 Café、沒認識：演晚到版',ok&&L[0]==='（她坐在靠窗的位子，計畫本攤開，旁邊一個保溫瓶。你認得她——家族群組大頭貼上那個學姊。）'&&L[1]==='學姊好，我是祐廷，妳的直屬學弟。'&&L.includes('家族群組裡的那個名字。家聚你一次都沒來。')&&L.includes('我還以為，你是不需要學姊的那種人。'),J(L));
-    check('1. 選「我不知道去哪裡找學姊。」→「晚上我大多在 Café 或法圖。不難找。」；最後「以後有問題，私訊我就好。」',L.includes('晚上我大多在 Café 或法圖。不難找。')&&!L.includes('嗯。大一都很忙。我也是。')&&L[L.length-1]==='以後有問題，私訊我就好。'&&L[L.length-2]==='溫書瑀。現在在念研究所。',J(L));
+    check('1. 選「我不知道去哪裡找學姊。」→「晚上我大多在 Café 或法圖。不難找。」；最後「以後有問題，私訊我就好。」',L.includes('晚上我大多在 Café 或法圖。不難找。')&&!L.includes('大一都很忙。我那時候也是。')&&L[L.length-1]==='以後有問題，私訊我就好。'&&L[L.length-2]==='溫書瑀。現在在念研究所。',J(L));
     check('1. 記 met_sis、SIS_W1、SIS_W1_LATE、FIRST_MET',G.flags.met_sis===true&&G.flags.SIS_W1===true&&G.flags.SIS_W1_LATE===true&&SOCIAL.has('heroine_05','FIRST_MET'),J({f:[G.flags.met_sis,G.flags.SIS_W1,G.flags.SIS_W1_LATE]})); }
-  { setup('2026-09-14',20,'cafe'); const L=await play([0]); check('1. 選「大一太忙了。」→「嗯。大一都很忙。我也是。」',L.includes('嗯。大一都很忙。我也是。')&&!L.includes('晚上我大多在 Café 或法圖。不難找。'),J(L)); }
+  { setup('2026-09-14',20,'cafe'); const L=await play([0]); check('1. 選「大一太忙了。」→「大一都很忙。我那時候也是。」',L.includes('大一都很忙。我那時候也是。')&&!L.includes('晚上我大多在 Café 或法圖。不難找。'),J(L)); }
   /* 2 */
   { const first={}; for(const z of ['lawlib','library','library_hall']){ setup('2027-03-10',19.5,z); const ok=EVENTS.check(E); const L=await play([0]); first[z]=ok?L[0]:null; }
     setup('2027-03-10',19.5,'campus'); const camp=EVENTS.check(E);

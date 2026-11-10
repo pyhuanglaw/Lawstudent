@@ -41,7 +41,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('她週六 14–18 照作息在溫州街（走得到）',!!sch&&sch.from<=14&&sch.to>=18,JSON.stringify(sch));
     const play=async(pick,dating)=>{ fresh(termDay('Y1S2',12,6),15,'wenzhou',dating?{dating_kexin:true}:{}); SOCIAL.meet('heroine_02','cafe'); R('heroine_02',25,10,10); const r0=Object.assign({},SOCIAL.rel('heroine_02')); picks=[pick]; await EVENTS.run(z); const r1=SOCIAL.rel('heroine_02'); return {L:lines(),d:{trust:r1.trust-r0.trust,aff:(r1.aff||0)-(r0.aff||0),comf:r1.comf-r0.comf,resp:(r1.resp||0)-(r0.resp||0)}}; };
     let r1=await play(0);
-    const base=['林芷若：週六我都在溫州街。這裡的人不會問我週末在幹嘛。','林芷若：交換的申請，我拖了兩個月。不是懶。','林芷若：我媽每天晚上十點打給我。講店裡的事。','林芷若：誰來印考卷、哪一台又卡紙。','林芷若：我去英國的話，那邊是下午三點。','林芷若：……她十點要打給誰？'];
+    const base=['林芷若：週六我都在溫州街。這裡的人不會問我週末在幹嘛。','林芷若：交換的申請，我拖了兩個月。','林芷若：我媽每天晚上十點打給我。講店裡的事。','林芷若：誰來印考卷、哪一台又卡紙。','林芷若：我去英國的話，那邊是下午三點。','林芷若：……她十點要打給誰？'];
     check('Z4 台詞照原文；沒有「你不要跟別人說」',JSON.stringify(r1.L.slice(0,6))===JSON.stringify(base)&&!JSON.stringify(z.dialogue).includes('不要跟別人說'),JSON.stringify(r1.L.slice(0,6).filter((t,i)=>t!==base[i])));
     check('Z4 三個選項照原文',JSON.stringify(opts[0])==='["「妳想去嗎？」","「先交件再說，錄取了再煩惱。」","「家裡的事比較重要吧。」"]',JSON.stringify(opts[0]));
     check('「妳想去嗎？」：（她沉默很久。）「……想。」（捲頭髮三圈）「好可怕。說出來就變成真的了。」；trust+8 aff+3；SHARED_SECRET；Z4_PICK want',JSON.stringify(r1.L.slice(6))==='["她沉默很久。","林芷若：……想。","她用手指捲頭髮，捲了三圈。","林芷若：好可怕。說出來就變成真的了。"]'&&r1.d.trust===8&&r1.d.aff===3&&SOCIAL.has('heroine_02','SHARED_SECRET')&&G.flags.Z4_PICK==='want',JSON.stringify(r1.d));
@@ -50,13 +50,14 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     r1=await play(2); check('「家裡的事比較重要吧。」：不扣分——「嗯。」（她點頭。）「我也這樣跟自己說了兩個月。」；trust+2、comf 沒有減',JSON.stringify(r1.L.slice(6))==='["林芷若：嗯。","她點頭。","林芷若：我也這樣跟自己說了兩個月。"]'&&r1.d.trust===2&&r1.d.comf>=0&&G.flags.Z4_PICK==='family',JSON.stringify(r1.d)); }
   /* P3b */
   { const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,o.zone||'wenzhou'); if(!o.noP2) G.events.done.ev_peishan_doubt=1; return EVENTS.check(p); };
-    const r={ok:at(5,2,17),thu:at(9,4,16.6),w4:at(4,2,17),wed:at(5,3,17),early:at(5,2,16),late:at(5,2,18.1),noP2:at(5,2,17,{noP2:true}),gg:at(5,2,17,{zone:'gongguan'})};
-    check('P3b：第 5 週起的週二、週四 16:30–18:00 走進溫州街、P2 之後（第 4 週、週三、16:00、18:06、沒有 P2、在公館都沒有）',r.ok&&r.thu&&!r.w4&&!r.wed&&!r.early&&!r.late&&!r.noP2&&!r.gg,JSON.stringify(r));
+    /* AA-B 2026-11-07 21:11～21:12（AA_614 第 1 節 a0b8a3e40；AA614-CLASSMATE-JOBS-1103）：課輔班改每週三，P3b 跟著搬到週三 20:45–21:15（原本週二、週四 16:30–18:00）——照新的時間改 */
+    const r={ok:at(5,3,21),wed2:at(9,3,20.8),w4:at(4,3,21),tue:at(5,2,17),thu:at(9,4,16.6),early:at(5,3,20.6),late:at(5,3,21.3),noP2:at(5,3,21,{noP2:true}),gg:at(5,3,21,{zone:'gongguan'})};
+    check('P3b：第 5 週起的週三 20:45–21:15 走進溫州街、P2 之後（第 4 週、週二、週四、20:36、21:18、沒有 P2、在公館都沒有）',r.ok&&r.wed2&&!r.w4&&!r.tue&&!r.thu&&!r.early&&!r.late&&!r.noP2&&!r.gg,JSON.stringify(r));
     check('P3b：走進溫州街就演（enter）；2D 背景「溫州街・課輔班門口」（不需要臨時位置）',p.trigger==='enter'&&p.dialogue[0].bg==='wenzhou_tutoring'&&!!OUT.BG.wenzhou_tutoring);
-    const play=async(pick,club,formOnly)=>{ fresh(termDay('Y1S2',5,2),17,'wenzhou',club||formOnly?{CLUB_lawclub_study:true}:{}); if(club){ G.acts={att:{}}; G.acts.att['lawclub_study@'+(G.day-7)]={h:19}; } G.events.done.ev_peishan_doubt=1; picks=[pick]; await EVENTS.run(p); return lines(); };   /* BB_161 ④：去過讀書會＝出席紀錄；只有博覽會填表（CLUB_lawclub_study）不算 */
+    const play=async(pick,club,formOnly)=>{ fresh(termDay('Y1S2',5,3),21,'wenzhou',club||formOnly?{CLUB_lawclub_study:true}:{}); if(club){ G.acts={att:{}}; G.acts.att['lawclub_study@'+(G.day-7)]={h:19}; } G.events.done.ev_peishan_doubt=1; picks=[pick]; await EVENTS.run(p); return lines(); };   /* BB_161 ④：去過讀書會＝出席紀錄；只有博覽會填表（CLUB_lawclub_study）不算 */
     let L=await play('開心');
     const nm=(CHARACTERS.classmate_peishan&&CHARACTERS.classmate_peishan.name)||'郭沛珊';
-    check('P3b 台詞照原文',JSON.stringify(L.slice(0,4))===JSON.stringify(['她帶著一群國小生從課輔班走出來，手上拿著一疊作業本。',nm+'：喔，是你。我在這裡當志工。一週兩天。'/* AA_373 #6 */,'一個小孩拉她的衣角。她蹲下來聽他講完，站起來。',nm+'：……我在這裡的時候，不會看時間。']),JSON.stringify(L.slice(0,4)));
+    check('P3b 台詞照原文（開頭旁白、「每個禮拜三。」照 AA-B 11-07 改）',JSON.stringify(L.slice(0,4))===JSON.stringify(['她帶著一群國小生從課輔班走出來。門口有幾個家長在等，她手上還拿著一疊作業本。',nm+'：喔，是你。我在這裡當助教。每個禮拜三。'/* AA_373 #6 → AA-B 11-07 */,'一個小孩拉她的衣角。她蹲下來聽他講完，站起來。',nm+'：……我在這裡的時候，不會看時間。']),JSON.stringify(L.slice(0,4)));
     check('沒去過讀書會：兩個選項（沒有「讀書會最近比較少看到妳」）',JSON.stringify(opts[0])==='["「妳看起來很開心。」","（幫她拿一半的作業本）"]',JSON.stringify(opts[0]));
     check('「妳看起來很開心。」：「有嗎。」（她想了一下。）「……有。」；SAW_HER_TEACH',JSON.stringify(L.slice(4))===JSON.stringify([nm+'：有嗎。','她想了一下。',nm+'：……有。'])&&SOCIAL.has('classmate_peishan','SAW_HER_TEACH'),JSON.stringify(L.slice(4)));
     { const Lf=await play('看起來',false,true); check('BB_161 ④：只在博覽會填了表、沒去過讀書會＝沒有「讀書會最近比較少看到妳。」',!opts[0].includes('「讀書會最近比較少看到妳。」'),JSON.stringify(opts[0])); }

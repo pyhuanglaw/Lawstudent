@@ -61,6 +61,7 @@ const inBed=f=>f.pose==='lie'&&near(f.x,L.feet[0])&&near(f.z,L.feet[2])&&near(f.
 const SEE={x:(L.feet[0]+L.head[0])/2,y:L.mattress_top_y+0.28,z:(L.feet[2]+L.head[2])/2,r:0.2,aspect:0.5};   /* ⑨ LAWWW2-B #120 建議：身體中段、床墊上 0.25～0.3 m、r 0.2、aspect 0.5 */
 const seeOK=s=>!!s&&near(s.x,SEE.x,1e-6)&&near(s.y,SEE.y,1e-6)&&near(s.z,SEE.z,1e-6)&&near(s.r,SEE.r,1e-9)&&near(s.aspect,SEE.aspect,1e-9);
 (async()=>{
+  STORY.WAKE_AT_DOOR=false;   /* ①～⑨的爬下來是舊的起床；預設改成直接站到房門口（WAKE-AT-DOOR-1105），在 ⑩ 測 */
   STORY.SLEEP_FULL=true;   /* ①～⑨測的是原本完整的上床演出（留在 goToBedFull）；預設（使用者 11-03 BUG-SLEEP-CINEMATIC-1103）在最後一段 ⑩ 測 */
   /* ===== ①～⑥：晚上 22:00 在 203（第 6 天＝9/22 週一）選「睡到明天早上」===== */
   { const gm=mkGM({day:6,hour:22}); const d0=gm.G.day; const want=STORY.bedOptions(gm.G)[0];
@@ -143,9 +144,10 @@ const seeOK=s=>!!s&&near(s.x,SEE.x,1e-6)&&near(s.y,SEE.y,1e-6)&&near(s.z,SEE.z,1
     check('⑧ game3d.js：loadRelease 清掉 GM.onBlack；fade(true) 全黑以後才叫 GM.onBlack',/function loadRelease\(\)\{[^\n]*GM\.onBlack=null;/.test(g3)&&/function fade\(on\)\{[^\n]*sleep\(on\?480:500\)\.then\(\(\)=>\{ if\(on&&GM\.onBlack\)/.test(g3)); }
   STORY.onEnter=realOnEnter;
   /* ===== ⑩ 預設（BUG-SLEEP-CINEMATIC-1103，使用者 11-03「不要每天都給我撥放走上床躺下熄燈 只要第二天從床上起來就好」）：不走、不爬、不演躺下熄燈；醒來照舊從床上起來、爬下來 ===== */
-  { STORY.SLEEP_FULL=false; const gm=mkGM({day:6,hour:22}); const d0=gm.G.day; await STORY.interact({sleep:true},gm); const Fr=gm.frames;
+  { STORY.SLEEP_FULL=false; STORY.WAKE_AT_DOOR=true; const gm=mkGM({day:6,hour:22}); { const RMX=DORM_ROOM.room.exit; if(RMX) gm.E.interactables.push({x:RMX[0],z:RMX[1],radius:1.4,label:'走出房間',exit:{to:'dorm_hall',spawn:{x:0,z:0}}}); }   /* 房門（zones3d.js 照 RM.exit 加的「走出房間」）*/ const d0=gm.G.day; await STORY.interact({sleep:true},gm); const Fr=gm.frames;
     const lie0=Fr.findIndex(f=>inBed(f)); const up=Fr.slice(0,lie0<0?Fr.length:lie0).filter(f=>f.pose==='climb');
     check('⑩ 上床：不走到梯子前、不爬梯子（淡出裡直接放到床上）',gm.walks.length===0&&up.length===0&&lie0>=0,JSON.stringify({walks:gm.walks.length,climb:up.length,lie0}));
     const down=Fr.slice(lie0<0?0:lie0).filter(f=>f.pose==='climbdown');
-    check('⑩ 醒來照舊：從床上起來、一階一階爬下來、換到第二天',down.length>=3&&gm.G.day===d0+1,JSON.stringify({down:down.length,day:gm.G.day-d0})); }
+    const ex=(gm.E.interactables||[]).find(it=>it.exit&&it.exit.to==='dorm_hall'), pp=gm.E.player.obj.position, dd=ex?Math.hypot(pp.x-ex.x,pp.z-ex.z):null;
+    check('⑩ 醒來（WAKE-AT-DOOR-1105，使用者 11-05「睡在床上 下一秒站好在宿舍門口」）：不演爬下來、站在房門口（離「走出房間」2 m 內）、站著、換到第二天',down.length===0&&!!ex&&dd<=2&&pp.y===0&&!['lie','climb','climbdown','kneel'].includes(gm.E.player.pose)&&gm.G.day===d0+1,JSON.stringify({down:down.length,door:!!ex,dd,pose:gm.E.player.pose,day:gm.G.day-d0})); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); console.log('FAILED '+(fails+1)); process.exit(1); });

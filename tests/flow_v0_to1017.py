@@ -4,7 +4,7 @@
   - 空下來、21:00 以前：打開手機「今天」，按最後一個「跳過時間」（遇到課、約好的時間、劇情會自己停）；
   - 21:00 以後、或跳不過去：用手機「地點」快速前往宿舍（照樣花遊戲時間），走到床邊「睡覺」（快速前往不能用時才一路走回去）。
 走路一律點地面／搖桿（playlib.go_to），不瞬移；不改旗標、不撥時間。網址不用 ?turbo（真實速度；SwiftShader 很慢，整支要好幾個小時）。
-檢查（10/17 晚上）：每一天都過到（沒有跳日）、宿營旗標（ECON_CAMP_OPEN、E15_BUS）、10/17 一天（dating_kexin、KX_DATING_SINCE、E26_DAY、KX_CAR）、
+檢查（10/17 晚上）：每一個停點都到過（AA_300 短版事件接事件；不是短版照舊每一天都過到）、宿營旗標（ECON_CAMP_OPEN、E15_BUS）、10/17 一天（dating_kexin、KX_DATING_SINCE、E26_DAY、KX_CAR）、
 11 月不排 E15、沒有卡住保險（walkFallbacks）、黑幕沒有擋住對話、沒有 JS 例外。中途卡住超過 4 分鐘會截圖、記下狀態後停止（判失敗）。
 分段跑（2026-10-17：整支 SwiftShader 下約每遊戲日 9 分鐘、整段 7 小時，背景工作的上限是 2 小時，一次都沒跑完）：
   SEG_TO=2024-09-10  過完這一天（隔天早上空下來）就用選單存到欄位 1，把存檔寫到 SEG_SAVE 的檔案，這一段結束；
@@ -14,7 +14,7 @@
 用法：python3 tests/flow_v0_to1017.py URL [輸出資料夾]（環境變數 SEG_FROM、SEG_TO、SEG_SAVE 見上）"""
 import asyncio, json, sys, time, os, datetime
 from playwright.async_api import async_playwright
-sys.path.insert(0, __import__('os').path.dirname(__file__))
+sys.path.insert(0, __import__('os').environ.get('LW_TESTS') or __import__('os').path.dirname(__file__))
 import playlib as L
 import screencheck as SC   # 看畫面的自動檢查（使用者 2026-10-17 23:3x）
 
@@ -68,6 +68,17 @@ async def quick_go(pg, cdp, key):
     await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(800)
     return None
 
+
+
+async def close_or_answer(pg, cdp, run):
+    """CC-B 11-08（BB-B 05:27）：手機開著且有 ask.must（PHONE.mustOpen）＝打開那一串、點第一個回覆鍵（像玩家）；其他＝close_panels"""
+    mo = await pg.evaluate("(()=>{ try{ const G=GAME.G; if(!PHONE.mustOpen||!PHONE.mustOpen(G)) return null; const m=PHONE.pending(G).find(q=>q.ask&&q.ask.must); const th=PHONE.th(m); GAME.openPhone('msg',th); return th; }catch(e){ return null; } })()")
+    if mo:
+        await pg.wait_for_timeout(1200)
+        c = await pg.evaluate("(()=>{ const b=document.querySelector('#phoneBody [data-ask]'); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,b.textContent.trim()]; })()")
+        if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); print('   手機有一定要回的（%s）：回「%s」' % (mo, c[2]), flush=True)
+        return ['must:' + mo]
+    return await L.close_panels(pg, cdp)
 
 async def main():
     run = L.Run('flow_v0_to1017', OUT); sc = SC.Checker(run, OUT); day_check = None; was_dlg = False; last_opts = None
@@ -127,9 +138,9 @@ async def main():
                 run.note('超過 4 分鐘沒有進展：' + json.dumps(s, ensure_ascii=False)); await run.shot(pg, 'stuck_%d' % recover)
                 recover += 1
                 if recover > 3: break
-                shut = await L.close_panels(pg, cdp); run.note('  關掉的面板：' + json.dumps(shut)); stuck_t = time.time(); continue
+                shut = await close_or_answer(pg, cdp, run); run.note('  關掉的面板：' + json.dumps(shut)); stuck_t = time.time(); continue
             if s['choices'] and s.get('paused'):
-                shut = await L.close_panels(pg, cdp)
+                shut = await close_or_answer(pg, cdp, run)
                 if shut: print('   關掉蓋住選項的面板', shut, flush=True); continue
             if s['choices']:
                 free_since = None
@@ -169,6 +180,8 @@ async def main():
             ok = await L.go_to(pg, cdp, run, hop['x'], hop['z'], max(0.5, hop['r'] * 0.7), hop['label'], max_s=300, lv=hop['lv'],
                                stop=lambda st: st['dlg'] or st['choices'] > 0)
             s = await L.state(pg)
+            if s.get('paused') or await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"):   # CC-B 11-08（BB-B 05:26）：走到床邊時手機自動打開（待回覆）＝遊戲暫停、「睡覺」不出來：先關掉再點床
+                shut = await close_or_answer(pg, cdp, run); print('   走到床邊時手機開著（遊戲暫停），先關掉', shut, flush=True); await pg.wait_for_timeout(1200); s = await L.state(pg)
             if ok and not s['dlg'] and not s['choices'] and s['interact']:
                 await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         await run.shot(pg, 'end')
@@ -186,7 +199,15 @@ async def main():
             run.check(f'這一段玩到 {SEG_TO} 過完、隔天存檔（欄位 1）', seg_saved, json.dumps(st, ensure_ascii=False))
         else:
             run.check('一路玩到 10/17 晚上（沒有中途卡住停下）', await pg.evaluate(END_JS), json.dumps(st, ensure_ascii=False))
-        run.check(f'{want[0] if want else d0}～{d1} 每一天都過到（沒有跳日）', not miss, json.dumps(miss[:10]))
+        # AA_300 短版（ECONFF.short，D102 事件接事件）：中間沒事的日子本來就跳過（例：9/3～9/11、9/14）——改成「每一個停點都到過」（BB-B 11-08 06:14）；不是短版照舊每一天
+        stops = await pg.evaluate("(()=>{ try{ const G=GAME.G; if(!(typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G))) return null; return ECONFF.STEPS.filter(s=>!ECONFF.stepCut(G,s)).map(s=>s.key); }catch(e){ return null; } })()")
+        if stops is not None:
+            want_s = sorted(set(k for k in stops if want and want[0] <= k <= want[-1]))
+            miss_s = [k for k in want_s if k not in days]
+            run.note(f'  短版跳過的日子（不算缺）：{len(miss)} 天 ' + json.dumps(miss[:12]))
+            run.check(f'{want[0] if want else d0}～{d1} 每一個停點都到過（AA_300 短版事件接事件：{len(want_s)} 個停點）', len(want_s) > 0 and not miss_s, json.dumps(miss_s[:10]))
+        else:
+            run.check(f'{want[0] if want else d0}～{d1} 每一天都過到（沒有跳日）', not miss, json.dumps(miss[:10]))
         run.check('宿營：ECON_CAMP_OPEN、遊覽車回答 E15_BUS', st['camp'] and st['bus'] in ('nosleep', 'watching'), json.dumps(st, ensure_ascii=False))
         if not SEG_TO:
             run.check('10/17：交往（dating_kexin、KX_DATING_SINCE、E26_DAY）、車上的回答 KX_CAR', st['dk'] and bool(st['since']) and bool(st['e26']) and bool(st['car']), json.dumps(st, ensure_ascii=False))

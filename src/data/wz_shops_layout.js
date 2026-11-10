@@ -88,6 +88,7 @@ const WZ_SHOPS_LAYOUT = {
     pricesNote: 'AA_654：價目照室內圖（外觀圖的價目表寫黑白 NT$1／頁，和室內不同；照 AA_654 用室內這一份，外觀那張 LAWWW2 跟著改或 AA 定）',
     note: '溫州街 A1（AA_654）。v1c（11-04）：BB_257 §7 退件——印東西、買文具放回 FIXED 原座標、加 clerk、stands、出生點 3.65；前面那張長桌只留一張椅子、後面三張（一張沒推進去）；模型：資料夾一本一本、紙包紙箱多種尺寸、兩台自助／兩台生產用影印機不同機型（見 CC_49 v1c）。v1b（11-04）：LAWWW2 用遊戲的導航格驗收 v1，7／8 個互動點 NG，照 0.4 m 格重排（長桌變窄、東側那張椅子拿掉、左右兩排變淺、櫃台改短），shopchk2 NG 0。v1（11-04）：尺寸照現在的 wz_print（LAWWW2：不要動）。參考圖的店看起來比 4.4 m 寬：左右兩排都照圖排，中間的長桌往東靠，西側是主走道。',
     front: {door: {x: 0.0, w: 1.4, h: 2.5}, windows: [[-2.0, -0.85, 0.4, 2.5], [0.85, 2.0, 0.4, 2.5]],
+      view: 'wz_print', viewY: 1.45, viewDepth: 10,   /* 窗外的視差窗景（WINVIEW-AUDIT-1105，LAWWW2-C）：assets/models/env/views/wz_print_{day,night}.webp，Blender 用溫州街正式模型從視差窗中心（地平線 1.45 m＝窗台 0.4 和窗頂 2.5 的中間）往外拍；景深 10＝對面 B 側立面 */
       note: '照 LAWWW2（wz_shops_layout.js print）：門 x −0.7～0.7；窗 x −2～−0.85、0.85～2（窗台 0.4、窗頂 2.5）；windows：[x0, x1, 窗台, 窗頂]。門是外觀那一側的玻璃雙開門（外觀模型做），室內只做門框；門高 2.5 照窗頂（LAWWW2 沒給門高）'},
     windowKeep: [[-1.425, 4.24, 1.15, 0.48], [1.425, 4.24, 1.15, 0.48]],
     spawn: {x: 0.0, z: 3.65, yaw: Math.PI},   /* v1c：3.9 → 3.65（WZ_SHOPS1_FIXED_COORDS §7-1：牆內 0.4 m 不能站，3.9 每次進門都要 unstick；區域自己的出生點本來就改成 3.65）*/
@@ -140,7 +141,7 @@ const WZ_SHOPS_LAYOUT = {
       {x: -0.07, z: 0.85, yaw: Math.PI / 2, h: 0.46, kind: 'chair', label: '坐下來用電腦', note: '自助電腦（後面那張長桌）'},
       {x: -0.07, z: 0.25, yaw: Math.PI / 2, h: 0.46, kind: 'chair', label: '坐下來用電腦'},
       {x: -0.2, z: -0.45, yaw: Math.PI / 2, h: 0.46, kind: 'chair', label: '坐一下', note: '沒推進去的那一張'},
-      {x: -1.84, z: -3.55, yaw: 0.3, h: 0.48, kind: 'office_chair', label: '坐在櫃台後面（打工時）'},
+      {x: -1.84, z: -3.55, yaw: 0.3, h: 0.48, kind: 'office_chair', label: '坐在櫃台後面（打工時）', ap: [-1.1, -3.4], apNote: 'ADE-SEATS-NAV-1104（LAWWW2-C 11-05）：椅子貼著西牆，前、後、兩側的走近點都站不住（櫃台、牆、後櫃、椅子本身）；從櫃台後面那條通道的西端（−1.1, −3.4）走近'},
       {x: 1.5, z: -2.85, yaw: Math.PI / 2, h: 0.45, kind: 'stool', label: '（阿芃的位子）', npcOnly: true}
     ],
     interact: [
@@ -162,7 +163,7 @@ const WZ_SHOPS_LAYOUT = {
       kid: {id: '阿芃', x: 1.5, z: -2.85, yaw: Math.PI / 2, act: 'sit', note: '阿芃：晚上在小桌寫功課（坐著，面向東牆）'}
     },
     /* 打工的站位（照 wz_shops_layout.js 的 print.work 的格式；a＝接單、b＝做的時候、c＝交件）。這一版櫃台東端是開的（從客人區走得進櫃台後面），下班不必再放回客人區，end 留著相容 */
-    work: {a: {me: {x: -1.84, z: -3.55, yaw: 0.3, act: 'sit', note: '櫃台後面的辦公椅，面向客人'}, boss: {x: 1.0, z: -1.35, yaw: Math.PI / 2, act: 'stand', note: '長工作檯前'}, kid: {x: 1.5, z: -2.85, yaw: Math.PI / 2, act: 'sit', note: '阿芃的位子'}},
+    work: {a: {me: {x: -1.84, z: -3.55, yaw: 0.3, act: 'sit', ap: [-1.1, -3.4], note: '櫃台後面的辦公椅，面向客人（ap：走近點，同 seats 的辦公椅）'}, boss: {x: 1.0, z: -1.35, yaw: Math.PI / 2, act: 'stand', note: '長工作檯前'}, kid: {x: 1.5, z: -2.85, yaw: Math.PI / 2, act: 'sit', note: '阿芃的位子'}},
            b: {me: {x: 1.0, z: -1.0, yaw: Math.PI / 2, act: 'stand', note: '長工作檯前（膠裝機、裁紙刀）'}, boss: {x: 0.6, z: -3.05, yaw: Math.PI, act: 'stand', note: '生產用影印機前'}, kid: {x: 1.5, z: -2.85, yaw: Math.PI / 2, act: 'sit'}},
            c: {me: {x: -0.95, z: -3.4, yaw: 0, act: 'stand', note: '櫃台後面，交件給客人'}, boss: {x: 1.0, z: -2.3, yaw: Math.PI / 2, act: 'stand', note: '阿芃的小桌旁'}, kid: {x: 1.5, z: -2.85, yaw: Math.PI / 2, act: 'sit'}},
            end: {x: -0.6, z: 3.4, yaw: 0, note: '客人區、門口，面向店門'}},
@@ -381,4 +382,15 @@ const WZ_SHOPS_LAYOUT = {
   ]);
   T.work = Object.assign({}, T.work, {end: {x: -3.0, z: 8.0, yaw: 0, note: '前院、冠木門前，面向門口（WZ-YIZHAN-1104：出口搬到冠木門 (-3.0, 9.3)；原本在玄關 (-3.0, 4.2)，離新出口 5.1 m）'}});
 })(WZ_SHOPS_LAYOUT.teahouse);
+/* ===== 阿德影印：長桌那三張椅子往後 0.2 m（ADE-SEAT-CLIP-1105，LAWWW2-C 11-05；使用者 06:5x 截圖：靠走道坐著的男生胸口、手臂卡進桌子） =====
+   上面的 print 是照抄 ade_layout.js（不要手改那一筆）。v1c 的三張電腦椅中心在 x −0.07，長桌西緣在 x −0.04：座位離桌緣只有 0.03 m（椅子前緣伸進桌子底下 0.19 m），
+   人坐下去，胸口、手臂就在桌子裡（SEATACT 的近桌片段最近只到桌緣 0.14 m）。這裡把那三張（座位和椅子）沿著自己面向的反方向往後挪 0.25 m（11-05 LAWWW-C 回報 0.2 m 時 M2 偶爾還有 2 點穿過桌板）：座位離桌緣 0.285 m；
+   第四張「沒推進去」的（x −0.2，離桌緣 0.16）不動。模型裡的椅子是 instancing（ad_chair_0_*_inst），zones3d.js wzAAattach 照 chairShift 把那三個 instance 一起挪。
+   tests/ade_seat_clip_unit.js。AA／CC 改 ade_layout.js 把椅子拉開以後，這一段要拿掉（from 對不上就不動）。 */
+(function(T){ if(!T||!/\/ade\.glb$/.test(T.glb||'')) return; const D=0.25, near=(a,x,z)=>Math.abs(a.x-x)<0.01&&Math.abs(a.z-z)<0.01, FROM=[[-0.07,2.6],[-0.07,0.85],[-0.07,0.25]], moved=[];
+  for(const [x,z] of FROM){ const s=(T.seats||[]).find(q=>q.kind==='chair'&&near(q,x,z)), it=(T.items||[]).find(q=>q.kind==='chair'&&near(q,x,z)); if(!s||!it) continue;
+    const sx=Math.sin(s.yaw), sz=Math.cos(s.yaw), ix=Math.sin(it.yaw), iz=Math.cos(it.yaw);
+    s.x=+(s.x-sx*D).toFixed(3); s.z=+(s.z-sz*D).toFixed(3); it.x=+(it.x-ix*D).toFixed(3); it.z=+(it.z-iz*D).toFixed(3); moved.push({from:[x,z],to:[it.x,it.z]}); }
+  T.chairShift=moved;
+})(WZ_SHOPS_LAYOUT.print);
 if (typeof module !== 'undefined') module.exports = WZ_SHOPS_LAYOUT;

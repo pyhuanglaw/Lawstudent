@@ -4,7 +4,7 @@
 //     friends、feelings_emerging、mutual_interest、held＝好朋友「芷若這個月打來了」「她說那邊的貓不給摸」〔每月第一個週日以後那一週〕；
 //     「兩人是朋友」（下雨的照片）只給沒有 ZZ 的舊存檔
 //   2 方奕廷「還好嗎（F3 芷若婉拒）」（AA_257 §8；msg2_pool 的 cond f3_declined）：他傳「她跟我說了。」那三則（zrzq3d.js，tag zz_f3_fang）收到那天起 3 天開；
-//     排著還沒收到、第 4 天不開；A「還好。謝謝。」、R「還好。她說得很清楚。……這樣比較好。」
+//     排著還沒收到、第 4 天不開；A「還好。謝謝。」、R「還好。她說得很清楚。……我去溫室待一下就好。」
 //   3 S.tok「週日 22:30 以後」（只有一個星期幾）、「每月第一個週日以後那一週」
 // 修改前（開發分支 ddeb53a0）：第 1、2、3 項 FAIL；第 9 節（好朋友那一句）修改前（3740c127）：第 0、1、3 項 FAIL。用法：node tests/zz_msg_lines_unit.js
 'use strict';
@@ -54,7 +54,7 @@ const ALL3=[DATE_L,FRI_L,GOOD_L], any3=L=>L.some(m=>ALL3.some(x=>eq(m,x)));
   check('2. 排著還沒收到（20:00）不開；21:00 收到以後開，到第 3 天；第 4 天不開',!t0.includes('ok')&&t1.includes('ok')&&t3.includes('ok')&&!t4.includes('ok'),J({t0,t1,t3,t4,got:(G.msgs||[]).filter(m=>m.tag==='zz_f3_fang').map(m=>m.text)}));
   const send=(G,d,h)=>{ setT(G,d,h); PHONE.tick(G); MSG.rec(G).sent={}; const before=new Set(G.msgs); const r=MSG.send(G,FY,'ok'); if(r&&r.at){ setT(G,r.at.day,r.at.h+0.01); PHONE.tick(G); } return (G.msgs||[]).filter(m=>!before.has(m)&&m.from===FY).map(m=>m.text); };
   const a=send(mk(25,0),d0+1,12), r=send(mk(45,30),d0+1,12);
-  check('2. 回覆：A「還好。謝謝。」、R「還好。她說得很清楚。……這樣比較好。」',eq(a,['還好。謝謝。'])&&eq(r,['還好。她說得很清楚。……這樣比較好。']),J({a,r})); }
+  check('2. 回覆：A「還好。謝謝。」、R「還好。她說得很清楚。……我去溫室待一下就好。」',eq(a,['還好。謝謝。'])&&eq(r,['還好。她說得很清楚。……我去溫室待一下就好。']),J({a,r})); }
 /* 3 */
 { const G=H.fresh('2027-09-20',12,'dorm',{}); const sun=nextWd('2027-10-10',0);
   const L=[[sun,22.4],[sun,22.5],[sun,23.9],[sun-1,23],[sun+1,0.2]].map(([d,h])=>{ setT(G,d,h); return MSG.tok(G,ZQ,'週日 22:30 以後'); });

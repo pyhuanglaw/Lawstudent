@@ -1,0 +1,34 @@
+[
+ {
+  "file": "gate_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42002",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=14",
+  "caption": "從高處看校門（直幅）：中間的守衛室、兩側出入口、門內的圓環車道與旗桿、大王椰子",
+  "size": "480×640",
+  "src_id": "map q=42002"
+ },
+ {
+  "file": "gate_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42001",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=14",
+  "caption": "校門守衛室：面磚、石材基座、上面的旗桿、校名石牌",
+  "size": "640×480",
+  "src_id": "map q=42001"
+ },
+ {
+  "file": "gate_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42000",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=14",
+  "caption": "夜景：校門、車流光軌、兩側燈座",
+  "size": "640×480",
+  "src_id": "map q=42000"
+ },
+ {
+  "file": "gate_web_04.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41991",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=13",
+  "caption": "大學廣場夜景（從高處看，相片日期 2007-03-16）",
+  "size": "720×540",
+  "src_id": "map q=41991"
+ }
+]

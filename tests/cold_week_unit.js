@@ -101,7 +101,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
 
   // 5. C5
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); R('heroine_03','CLO'); R('heroine_05','FRI'); picks=[2]; await night(); const L5=lines();
-  check('5. C5 語彤帶粥＋學姊的湯：「學姊叫我拿來的。她說她不上來。」＋學姊手機兩則（逐字）', L5.includes('陳語彤：嗯。秀琴姨煮的粥。不要問我怎麼知道的。')&&L5.includes('陳語彤：學姊叫我拿來的。她說她不上來。')&&L5.some(x=>/^[^：]*（手機）：語彤說你病了。$/.test(x))&&L5.some(x=>/^[^：]*（手機）：湯喝完。然後睡覺。$/.test(x))&&L5.includes('陳語彤：嗯。……那你要先好起來。'), JSON.stringify(L5));
+  check('5. C5 語彤帶粥＋學姊的湯：「學姊叫我拿來的。她說她不上來。」＋學姊手機兩則（逐字；第二則 AA_593 第 5 列、第 10 節第 7 點「燒退了嗎？」，原本「湯喝完。然後睡覺。」）', L5.includes('陳語彤：嗯。秀琴姨煮的粥。不要問我怎麼知道的。')&&L5.includes('陳語彤：學姊叫我拿來的。她說她不上來。')&&L5.some(x=>/^[^：]*（手機）：語彤說你病了。$/.test(x))&&L5.some(x=>/^[^：]*（手機）：燒退了嗎？$/.test(x))&&!L5.some(x=>/湯喝完。然後睡覺。/.test(x))&&L5.includes('陳語彤：嗯。……那你要先好起來。'), JSON.stringify(L5));
   check('5. C5 學姊沒有來（不在 COLD_WEEK_PRESENT）', JSON.stringify(G.flags.COLD_WEEK_PRESENT)==='["heroine_03"]');
 
   // 6. C6
@@ -163,7 +163,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
     check('12. sleepNow：法律系的醒來時間 S.lawWakeAt', /const cw=S\.coreCallAt\(G\), lw=cw==null\?S\.lawWakeAt\(G\):null;/.test(s));
     { const lp=hm.slice(hm.indexOf('S.loop=async function')); check('12. home3d.js：在家醒來打噴嚏（起床選單之前）、10/24 18:00 回宿舍', /STORY\.coldHomeBackDue\(G\)\)\{ coldBack=true; break; \}/.test(lp)&&/STORY\.coldSneezeDue\(G,true\)\)\{ await STORY\.coldWeekSneeze\(GM\); continue; \}/.test(lp)&&/if\(coldBack\) await S\.coldBack\(GM\);/.test(lp)&&lp.indexOf('coldSneezeDue(G,true)')>0&&lp.indexOf('coldSneezeDue(G,true)')<lp.indexOf('if(H.wakeAsk===G.day)')); } }
   fresh(d24,18.2,'dorm',{COLD_WEEK:'night'}); G.home={at:true}; check('12. 10/24 18:00 人在家：回宿舍到期', STORY.coldHomeBackDue(G)===true);
-  said=[]; cards=[]; entered=[]; await HOME.coldBack(GM); check('12. 回宿舍：旁白「（後天要考試。你提早回宿舍。）」→ 字卡「回宿舍」→ 房間', said[0]&&said[0].t==='（後天要考試。你提早回宿舍。）'&&cards[0]&&cards[0][0]==='回宿舍'&&entered[0]==='dorm'&&!HOME.at(G), JSON.stringify(cards));
+  said=[]; cards=[]; entered=[]; await HOME.coldBack(GM); check('12. 回宿舍：旁白「（你提早回宿舍。）」（AA_661 第 86 列：沒有期中考，AA_578）→ 字卡「回宿舍」→ 房間', said[0]&&said[0].t==='（你提早回宿舍。）'&&cards[0]&&cards[0][0]==='回宿舍'&&entered[0]==='dorm'&&!HOME.at(G), JSON.stringify(cards));
   fresh(d23,8,'dorm'); G.home={at:true}; check('12. 10/23 在家醒來：打噴嚏到期（home3d.js 的選單問）', STORY.coldSneezeDue(G,true)===true&&STORY.coldSneezeDue(G)===false);
   { const src=fs.readFileSync(path.join(ROOT,'src/adv3d.js'),'utf8'); const m=src.match(/cg_cold_week_friends:\{file:'([^']+)',title:'([^']+)'\}/);
     check('12. CG 登記（adv3d.js）、檔案在 repo（和企劃線 cg_approved 那張一樣大小）', !!m&&fs.existsSync(path.join(ROOT,m[1]))&&fs.statSync(path.join(ROOT,m[1])).size===283384&&/cg_cold_week_friends/.test(fs.readFileSync(path.join(ROOT,'LICENSES.md'),'utf8')), m&&m[1]); }

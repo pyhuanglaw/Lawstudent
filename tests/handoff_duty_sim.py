@@ -433,11 +433,57 @@ def stale_sync():
               json.dumps({'st': st, 'pending': dj.get('pending'), 'lh': (dj.get('lastHandoff') or {}).get('from'), 'sync': out[-300:]}, ensure_ascii=False))
     finally:
         w.done()
+    # ③ 2026-11-04 事故（帳號 C 第三次接班）：duty.json 上一筆 BB 是帳號 A 已交班、沒有 since（只有 handedOffAt）；帳號 C 的 BB 分支還留著 10-27 的 state on
+    w = World('C')
+    try:
+        d = w.clone('BB', 'C'); reg = w.rjson(d, 'docs/handoff/duty_BB.json'); reg['since'] = '2026-10-27T17:21Z'
+        w.wjson(d, 'docs/handoff/duty_BB.json', reg); w.push(d, 'BB 10-27 登記')
+        w.work('C', 'C1'); w.handoff('C', skip=('LAWWW2', 'AA', 'BB', 'CC'))
+        w.takeover('A', user_ok=True); w.work('A', 'A1'); w.handoff('A')   # 帳號 A 五個職位都正式交班
+        lw = w.clone('LAWWW', 'A'); dj = w.rjson(lw, 'docs/handoff/duty.json')
+        dj['roles']['BB'].pop('since', None); dj['roles']['BB'].setdefault('handedOffAt', '2026-11-04T09:04Z')   # 舊工具留下的樣子：沒有 since、只有 handedOffAt
+        w.wjson(lw, 'docs/handoff/duty.json', dj); w.push(lw, 'BB since 拿掉（模擬舊工具）')
+        r3 = w.takeover('C', user_ok=True, roles=('LAWWW',))   # 帳號 C 回來，只有 LAWWW 先登記
+        bb = r3['duty']['roles']['BB']
+        check('HV-20 ③ 11-04 事故：上一筆 BB（帳號 A）已交班、沒有 since；帳號 C 的 BB 分支留著 10-27 的 state on——sync 不收（印「略過」），BB 照舊是帳號 A handed-off',
+              bb.get('account') == 'A' and bb.get('state') == 'handed-off' and '[略過] BB' in (r3.get('sync') or ''),
+              json.dumps({'bb': bb, 'sync': (r3.get('sync') or '')[-300:]}, ensure_ascii=False))
+    finally:
+        w.done()
+
+
+def post_handoff_records():
+    """2026-11-04 帳號 B→C 接班的 duty verify 異常 6 三項誤報：①交班 commit 本身順手存了最後的成果（duty handoff 記的 sha 是它的前一個）
+    ②交班以後一分鐘補交接檔（「交班紀錄補」）——兩種都不是另一個帳號還在寫；交班以後再改真的內容照樣要報（fail closed）"""
+    w = World('A')
+    try:
+        w.work('A', 'A1')
+        rs = branch('LAWWW', 'A')
+        da = w.clone('AA', 'A')
+        w.wtext(da, 'work/AA_final.txt', '交班前最後的成果（和交班登記同一個 commit）\n')
+        rc, out = w.tool(da, 'snapshot', '--role', 'AA', '--account', 'A')
+        fn = out.split('snapshots/')[1].split('（')[0].strip()
+        rc, out = w.tool(da, 'duty', 'handoff', '--account', 'A', '--role', 'AA', '--snapshot', fn, '--ref', f'origin/{rs}'); assert rc == 0, out
+        w.push(da, 'AA 交班（同一個 commit 存了最後的成果）')
+        w.handoff('A', skip=('AA',)); w.takeover('B')
+        lb = w.clone('LAWWW', 'B')
+        rc, out = w.tool(lb, 'duty', 'verify')
+        check('交班 commit 本身存了最後成果：verify 不報「交班以後還在寫」', 'AA：帳號 A 的分支 aa-A 在它交班' not in out, out[-300:])
+        da = w.clone('AA', 'A'); w.wtext(da, 'docs/story_planning/AA_交接紀錄.md', '交班紀錄補：下一班第一步\n'); w.push(da, 'AA 交班紀錄補')
+        lb = w.clone('LAWWW', 'B')
+        rc, out = w.tool(lb, 'duty', 'verify')
+        check('交班以後只補自己的交接檔：verify 不報', 'AA：帳號 A 的分支 aa-A 在它交班' not in out, out[-300:])
+        da = w.clone('AA', 'A'); w.wtext(da, 'work/AA_more.txt', '交班以後又寫了內容\n'); w.push(da, 'AA 交班以後又寫')
+        lb = w.clone('LAWWW', 'B')
+        rc, out = w.tool(lb, 'duty', 'verify')
+        check('交班以後又改了真的內容：verify 照樣報異常 6（fail closed）', rc == 1 and 'AA：帳號 A 的分支 aa-A 在它交班' in out and 'work/AA_more.txt' in out, out[-300:])
+    finally:
+        w.done()
 
 
 def main():
-    if 'stale' in sys.argv[1:] or 'cc' in sys.argv[1:]:   # 只跑 HV-20 的兩個情境／D119 CC 的兩個情境
-        stale_sync() if 'stale' in sys.argv[1:] else cc_role()
+    if 'stale' in sys.argv[1:] or 'cc' in sys.argv[1:] or 'post' in sys.argv[1:]:   # 只跑 HV-20 的兩個情境／D119 CC 的兩個情境／交班紀錄誤報（11-04）
+        stale_sync() if 'stale' in sys.argv[1:] else (cc_role() if 'cc' in sys.argv[1:] else post_handoff_records())
         bad = [n for n, ok, _ in results if not ok]
         print(f'結果：{len(results) - len(bad)}／{len(results)} PASS' + (f'；FAIL：{bad}' if bad else ''))
         return 1 if bad else 0
@@ -451,6 +497,7 @@ def main():
     role_branch_no_ref()
     cc_role()
     stale_sync()
+    post_handoff_records()
     bad = [n for n, ok, _ in results if not ok]
     print(f'結果：{len(results) - len(bad)}／{len(results)} PASS' + (f'；FAIL：{bad}' if bad else ''))
     return 1 if bad else 0

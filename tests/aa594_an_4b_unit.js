@@ -51,7 +51,8 @@ check('2. 第 33 列（v6ex_lines.js 前任「理由我懂。不用解釋。」�
   const get=p=>{ const toks=p.match(/\['[^']*'\]|\[\d+\]|[^.[\]]+/g); let cur={lines:D.lines,loc:D.loc}; for(let i=0;i<toks.length;i++){ let t=toks[i], k=t.startsWith("['")?t.slice(2,-2):t.startsWith('[')?+t.slice(1,-1):t;
       if(cur&&typeof cur==='object'&&!(k in cur)&&i+1<toks.length&&!toks[i+1].startsWith('[')&&(k+'.'+toks[i+1]) in cur){ k=k+'.'+toks[i+1]; i++; } if(cur==null) return undefined; cur=cur[k]; } return cur; };
   if(D) for(const r of LR){ const pm=r.where.match(/`([^`]+)`/); const v=pm?get(pm[1]):undefined, t=typeof v==='string'?v:(v&&v.text);
-    if(!(t===r.nw||('（'+t+'）'===r.nw))) bad.push('#'+r.n+' '+(pm&&pm[1])+'＝'+t); }
+    const nw=require('./ellipsis694.js').strip(r.nw);   /* AA_694（DATE-ELLIPSIS-1105）：約會台詞拿掉句首、。！？後、）後的「……」——改成那一格照同一條規則換了再比 */
+    if(!(t===nw||('（'+t+'）'===nw))) bad.push('#'+r.n+' '+(pm&&pm[1])+'＝'+t); }
   check('4. date_lines.js：第 2-14 節 '+LR.length+' 列，位置欄的路徑那一格＝改成（'+LR.filter(r=>r.old===r.nw).length+' 列 BB_240 補回原句）',!!D&&LR.length===314&&!bad.length,J(bad.slice(0,5)));
   check('4. source 寫明 AA_594；import_date_lines.py 疊 AA_594（白名單 AA_594_、路徑對不上就停）',!!D&&/AA_594_以安改稿_4b_不分年級系統事件\.md@4162d22e1/.test(D.source)&&/A594 = G\.approved_files\(ALLOW, SP \+ 'AA_594_'\)/.test(fs.readFileSync(path.join(GITDIR,'tools/date/import_date_lines.py'),'utf8')));
   check('4. date_lines.js 以安的台詞裡沒有「理由」「手帳」（表上改的都換了；舊句只剩她以外的人）',!!D&&!/理由|手帳/.test(J(D.lines.heroine_01))); }

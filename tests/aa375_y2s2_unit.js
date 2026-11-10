@@ -68,8 +68,8 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   // 約她（BB 測試）：6/4 起「我在 Café，今天是客人。你要來嗎？」
   { fresh('2027-06-07',13,'dorm'); R('heroine_02','FAM'); const P=INV.place('cafe'); const r1=INV.personal(G,'heroine_02',P,D('2027-06-07'),15,{res:'accept'});
     const r2=INV.personal(G,'heroine_02',P,D('2027-05-31'),12,{res:'accept'});
-    check('1. 6/7 15:00 約她去 Café：「我在 Café，今天是客人。你要來嗎？」（BB 測試）',!!r1&&r1.res==='here'&&J(r1.lines)===J(['「我在 Café，今天是客人。你要來嗎？」']),J(r1));
-    check('1. 對照：5/31（一）12:00 她在班＝「我會在 Café 啊，你直接過來，我幫你做一杯。」（BB_172 Z16）',!!r2&&r2.res==='here'&&J(r2.lines)===J(['「我會在 Café 啊，你直接過來，我幫你做一杯。」']),J(r2)); }
+    check('1. 6/7 15:00 約她去 Café：「我在 Café，今天是客人。你要來嗎？」（BB 測試）',!!r1&&r1.res==='here'&&J(r1.lines)===J(['我在 Café，今天是客人。你要來嗎？']),J(r1));
+    check('1. 對照：5/31（一）12:00 她在班＝「我會在 Café 啊，你直接過來，我幫你做一杯。」（BB_172 Z16）',!!r2&&r2.res==='here'&&J(r2.lines)===J(['我會在 Café 啊，你直接過來，我幫你做一杯。']),J(r2)); }
   // 招呼：大二下 6/4 起只用不上班的版本
   { fresh('2027-06-07',15,'cafe',{CAFE_VISITS:5}); R('heroine_02','FAM'); const BAD=['（她把杯子推過來）你的。我看到你在門口就做了。','（她在吧檯後面點了一下頭，手沒停）','（她在吧檯後面抬頭）……嗨。','要打烊了。……你可以坐到我擦完這張桌子。','期末了。我還有一份報告沒寫，店裡也要盤點。'];
     const got=[]; for(let i=0;i<6;i++){ G.social.greetUsed={}; const t=STORY.ladGreet(G,'heroine_02'); got.push(t); G.day++; G.weekday=wdOf(G.day); if(G.weekday===6||G.weekday===0){ G.day+=G.weekday===6?2:1; G.weekday=wdOf(G.day); } }
@@ -84,7 +84,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('1. 6/7 深夜「在幹嘛」：不說「下班回來都這個時間」、不說「怎麼跟客人介紹」',got.length>0&&!got.some(t=>/下班|客人/.test(t)),J(got)); }
   // 期末：心意、女朋友、朋友
   { const H=TERMEND.heart('heroine_02','Y2S2'), F=TERMEND.gf('heroine_02','Y2S2'), Fr=TERMEND.friend?TERMEND.friend('heroine_02','Y2S2'):null;
-    check('1. 心意邀約（大二下）：「這禮拜五晚上我有空。……我想吃飯，不想吃店裡的東西。」、不在 Café 打烊以後',!!H&&H.invite==='這禮拜五晚上我有空。……我想吃飯，不想吃店裡的東西。'&&H.place!=='cafe',J(H&&[H.invite,H.place]));
+    check('1. 心意邀約（大二下）：「下禮拜五晚上我有空。……我想吃飯，不想吃店裡的東西。」（AA_689 第五節：原本「這禮拜五」，週五晚上到、飯在下週五）、不在 Café 打烊以後',!!H&&H.invite==='下禮拜五晚上我有空。……我想吃飯，不想吃店裡的東西。'&&H.place!=='cafe',J(H&&[H.invite,H.place]));
     check('1. 交往中期末約會（大二下）：「禮拜五晚上，我們去吃宵夜。……我現在不用上班了。」、公館宵夜',!!F&&F.invite==='禮拜五晚上，我們去吃宵夜。……我現在不用上班了。'&&F.place==='yexiao',J(F&&[F.invite,F.place]));
     check('1. 朋友的期末飯（大二下）：她不顧店了，不在 Café 打烊以後；句子照 AA_369 M2',!!Fr&&Fr.place!=='cafe'&&Fr.genByTerm.Y2S2==='考完了嗎？九月我就走了。……出來吃個東西？',J(Fr&&Fr.place));
     const all=[H.invite,F.invite,Fr&&Fr.genByTerm.Y2S2];
@@ -187,7 +187,10 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('15. 20:30 群組「麵店分店」不算 Alison、柏翰',J(G.flags.NOODLE_BRANCH_MEMBERS)===J(['kexin','yule','zhe']),J(G.flags.NOODLE_BRANCH_MEMBERS)); }
   // ===== 第 16 項：語彤第 8～9 週 =====
   { fresh('2027-04-13',18,'dorm'); const a=sched('heroine_03'); to('2027-04-20',18); const b=sched('heroine_03'); to('2027-03-30',18); const c=sched('heroine_03');
-    check('16. 大二下第 8～9 週語彤不排麵店（4/13、4/20 週二 18:00）；第 6 週（3/30）也不在（AA_610／AA_624：她從來不在燒臘店）',!!a&&a.zone!=='noodle'&&!!b&&b.zone!=='noodle'&&!(c&&c.zone==='noodle'),J([a&&a.zone,b&&b.zone,c&&c.zone])); }
+    to('2027-04-17',14); const w8=sched('heroine_03'); to('2027-04-25',14); const w9=sched('heroine_03'); to('2027-04-10',14); const w7=sched('heroine_03');
+    /* AA_661 第 11 列（AA_627 P-05、AA_630 L-131）：第 8～9 週改成蘇姨叫她不用來上班、週末那兩格（茶屋 13～17）放總圖；原本週二、四麵店時段那一筆拿掉（週二 18:00 不再一定有一筆）*/
+    check('16. 大二下第 8～9 週語彤不排麵店（4/13、4/20 週二 18:00）；第 6 週（3/30）也不在（AA_610／AA_624：她從來不在燒臘店）',!(a&&a.zone==='noodle')&&!(b&&b.zone==='noodle')&&!(c&&c.zone==='noodle'),J([a&&a.zone,b&&b.zone,c&&c.zone]));
+    check('16. 第 8～9 週的週末 14:00 在總圖（4/17、4/25；AA_661 第 11 列）；第 7 週週六照常在一盞茶屋',!!w8&&w8.zone==='library'&&!!w9&&w9.zone==='library'&&!!w7&&w7.zone==='wz_teahouse',J([w8&&w8.zone,w9&&w9.zone,w7&&w7.zone])); }
   // ===== 第 17 項：以安「上次那份公文」=====
   { fresh('2027-04-27',18,'noodle'); R('heroine_01','FAM'); STORY.neededRec(G).shown.an_admin=D('2026-12-06'); const L=await play('ev_an_mother_map',[0]);
     check('17. an_admin 發過（聽過）：「上次那份公文，你還記得嗎？我後來陪他們寫了訴願書。」，不再當新消息講',L.includes('上次那份公文，你還記得嗎？我後來陪他們寫了訴願書。')&&!L.includes('我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。'),J(L.slice(0,2)));
@@ -201,7 +204,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('19. 語彤雙主修的法律課：大二下週一上午債各在霖澤館 201',!!a&&a.zone==='classroom'&&a.act==='class',J(a&&[a.zone,a.act]));
     check('19. 對照：大二上週一上午照舊在總圖',!!b&&b.zone==='library',J(b&&b.zone)); }
   // ===== 第 20 項 =====
-  { const L=SMALLTALK.prof_xu||[], e=L.find(x=>typeof x==='object'&&x.t==='「行政法大二再說。先把民總讀好。」');
+  { const L=SMALLTALK.prof_xu||[], e=L.find(x=>typeof x==='object'&&x.t==='行政法大二再說。先把民總讀好。');
     check('20. 許教授「行政法大二再說。先把民總讀好。」只在大一',!!e&&J(e.term)===J(['Y1S1','Y1S2']),J(e)); }
   // ===== 第 21 項：語彤事件 11 補演和期末飯互斥 =====
   { fresh('2027-06-16',12,'dorm'); const b0=Y2R2.yt11bDay?Y2R2.yt11bDay(G):null;

@@ -227,5 +227,5 @@ def d14_before_sunset(R, loc):
             else: L.insert(0, {'who': 'heroine_03', 'text': D14_END})
     ss = (y.get('hotspots') or {}).get('D14.sunset') or {}
     if isinstance(ss.get('normal'), list):
-        ss['normal'] = [b for b in ss['normal'] if not any(l.get('text') == '……再五分鐘。天黑就走。' for l in b.get('lines') or [])]
+        ss['normal'] = [b for b in ss['normal'] if not any(l.get('text') in ('……再五分鐘。天黑就走。', '再五分鐘。天黑就走。') for l in b.get('lines') or [])]   # 後者＝AA_694 拿掉句首「……」以後的源稿
     return 1

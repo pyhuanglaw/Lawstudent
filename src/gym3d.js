@@ -6,7 +6,7 @@
 const GY3=(function(){
   const L=()=>GYM_LAYOUT;
   const M=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.8},o||{}));
-  const CAMPUS={x:74,z:58.0,yaw:Math.PI};
+  const CAMPUS={x:-75,z:-123.4,yaw:0};   /* XS-GATE-NORTH-1105：體育館搬到北牆邊（望月台東邊）、門朝南；舊的 (74, 58)、面北 */
   /* 1F 大廳 ⇄ 3F 主球場（ART-GYM2-INT）：上樓的點在樓梯口朝大廳那一側（配置的 (−18, 18.6) 在樓梯量體和前牆之間，站不住）；從 3F 下來落在它東邊 0.9 m、面向大廳（不一落地就出「上樓」）*/
   const ARENA_UP={x:-16.0,z:17.4}, ARENA_DOWN={x:-15.1,z:17.4,yaw:Math.PI/2};
   /* 3F 主球場的「看主球場」「大螢幕」（AA_371 第 2 節，企劃線 7eb45d69，AA 定稿）：分平常、典禮的日子。平常的看主球場兩句輪流（每按一次換一句），第二句「有人在睡午覺」只在 11～17 點出（LAWWW 照「看」的做法定：晚上不講午覺）。
@@ -86,9 +86,9 @@ const GY3=(function(){
     if(i===0){ if(!plan.ok){ GM.toast(plan.why||'今天這個時段已經排滿了',3000); return; }
       if(!r.joined){ r.joined=1; await GM.say(null,'場邊有一塊白板，你把名字寫在最下面，排在三個人後面。'); }
       GM.advance(1); if(C&&C.slotUse){ C.slotUse(G,plan.uses); if(C.queueJump) C.queueJump(G); } r.sportDay=G.day;
-      const wk=wkOf(G); if(r.wk!==wk){ r.wk=wk; r.wkN=0; r.seen=[]; } if((r.wkN|0)<2){ r.wkN=(r.wkN|0)+1; r.fit=Math.min(100,(r.fit|0)+1); } r.fitDay=G.day;   /* 體能 +1，每週最多算 2 次（和健身的 3 次分開）*/
+      const wk=wkOf(G), ix0=stageIx(r.fit|0); if(r.wk!==wk){ r.wk=wk; r.wkN=0; r.seen=[]; } if((r.wkN|0)<2){ r.wkN=(r.wkN|0)+1; r.fit=Math.min(100,(r.fit|0)+1); } r.fitDay=G.day; { const F=FITX(); if(F&&F.upCheck) F.upCheck(G,ix0); }   /* 體能 +1，每週最多算 2 次（和健身的 3 次分開）；跨過一階：打完提示（GYM-FIT-1107）*/
       let cand=JOIN.filter(l=>!r.seen.includes(l)); if(!cand.length){ r.seen=[]; cand=JOIN.slice(); } const l=cand[Math.floor(Math.random()*cand.length)]; r.seen.push(l); await GM.say(null,l);
-      if((r.fit|0)>=50){ r.strongN=((r.strongN|0)+1)%3; if(r.strongN===0) await GM.say(null,'以前追不到的球，你現在追得到了。'); } }   /* 結實以上：三次裡一次 */
+      if((r.fit|0)>=50){ r.strongN=((r.strongN|0)+1)%3; if(r.strongN===0) await GM.say(null,'以前追不到的球，你現在追得到了。'); } await upNote(GM); }   /* 結實以上：三次裡一次 */
     else if(i===1){ GM.advance(1/3); r.sportDay=G.day; r.serveN=((r.serveN|0)+1)%SERVE.length; await GM.say(null,SERVE[r.serveN]); } }
   async function vending(GM){ const G=GM.G, r=rec(G), sport=r.sportDay===G.day; const i=await GM.choose(VEND.map(v=>({t:v[0]+'　'+v[1]+' 元',dim:G.money<v[1]})).concat([{t:'不用了'}]));
     if(i>=VEND.length) return; const v=VEND[i]; if(G.money<v[1]){ GM.toast('錢不夠'); return; } GM.money(-v[1]); await GM.say(null,i===0&&sport?'運動完的那一罐，總是喝得特別快。':v[2]); }   /* 只是一句旁白，不放進背包 */
@@ -144,16 +144,62 @@ const GY3=(function(){
   /* 單次／月票：first＝第一次辦卡那一段的選項（回答不同）；回傳 0 單次、1 月票、−1 錢不夠 */
   async function buyPass(GM,r,first){ const G=GM.G; const i=await GM.choose([{t:'「單次。」',dim:G.money<50},{t:'「這個月的月票。」',dim:G.money<200}]); const cost=i===1?200:50; if(G.money<cost){ GM.toast('錢不夠'); return -1; }
     GM.money(-cost); if(i===1){ r.pass=ym(G); if(first) await SAY_DESK(GM,'好，兩百。用到這個月底喔。'); } else { r.single=ym(G); if(first) await SAY_DESK(GM,'好，五十。下次刷卡就可以。'); } return i; }
-  async function workout(GM){ const G=GM.G, r=rec(G), h=G.hour%24, wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:((G.weekday|0)||7);
-    if(fourthMonday(G)){ await GM.say(null,'今天第四個星期一，健身房休館。'); return; }
-    const open=wd>=6?9:8, last=wd===7?17.5:21.5; if(h<open){ GM.caption('',LOOK.gym_hours,3600); return; } if(h>=last){ await GM.say(null,'健身房在清場了。明天吧。'); return; }
-    const C=typeof CLS!=='undefined'?CLS:null, plan=C&&C.slotPlan?C.slotPlan(G,1,'gym'):{ok:true,uses:[]}; if(!plan.ok){ GM.toast(plan.why||'今天這個時段已經排滿了',3000); return; }
-    if(!r.card){ if(!await cardScene(GM,r)) return; }
-    else if(r.pass!==ym(G)){ if(r.single===ym(G)){ if(G.money<50){ GM.toast('錢不夠'); return; } GM.money(-50); }   /* 這個月選了單次：之後直接扣，不再問 */
-      else { await SAY_DESK(GM,'這個月要買月票嗎？'); if(await buyPass(GM,r,false)<0) return; } }
+  /* 「去健身房」和一台一台用器材（GYM-FIT-1107）共用同一套規則，拆成三段（不是兩份）：
+     fitOpen＝休館日、開放時間、這個時段的行動次數（CLS.slotPlan）——不行就說為什麼、回傳 null，不扣錢不扣時間；
+     fitPay＝會員卡（第一次辦卡）、這個月的月票、單次——不行（錢不夠）回傳 false；
+     fitDone＝練一小時：扣時間、扣這個時段的次數、體能 +2（每週最多算 3 次）、fitDay；跨過一階記給 FIT.upCheck（src/fit3d.js，做完再提示）*/
+  async function fitOpen(GM){ const G=GM.G, h=G.hour%24, wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:((G.weekday|0)||7);
+    if(fourthMonday(G)){ await GM.say(null,'今天第四個星期一，健身房休館。'); return null; }
+    const open=wd>=6?9:8, last=wd===7?17.5:21.5; if(h<open){ GM.caption('',LOOK.gym_hours,3600); return null; } if(h>=last){ await GM.say(null,'健身房在清場了。明天吧。'); return null; }
+    const C=typeof CLS!=='undefined'?CLS:null, plan=C&&C.slotPlan?C.slotPlan(G,1,'gym'):{ok:true,uses:[]}; if(!plan.ok){ GM.toast(plan.why||'今天這個時段已經排滿了',3000); return null; }
+    return plan; }
+  async function fitPay(GM){ const G=GM.G, r=rec(G);
+    if(!r.card){ if(!await cardScene(GM,r)) return false; }
+    else if(r.pass!==ym(G)){ if(r.single===ym(G)){ if(G.money<50){ GM.toast('錢不夠'); return false; } GM.money(-50); }   /* 這個月選了單次：之後直接扣，不再問 */
+      else { await SAY_DESK(GM,'這個月要買月票嗎？'); if(await buyPass(GM,r,false)<0) return false; } }
+    return true; }
+  const stageIx=f=>f>=75?3:(f>=50?2:(f>=25?1:0));   /* 和 fitStage、src/fit3d.js S.stageIx 同一組門檻 */
+  const FITX=()=>typeof FIT!=='undefined'?FIT:null;   /* src/fit3d.js 在後面載入：用的時候才找 */
+  function fitDone(GM,plan){ const G=GM.G, r=rec(G), C=typeof CLS!=='undefined'?CLS:null, ix0=stageIx(r.fit|0);
     GM.advance(1); if(C&&C.slotUse){ C.slotUse(G,plan.uses); if(C.queueJump) C.queueJump(G); } r.sportDay=G.day;
     const wk=wkOf(G); if(r.fitWk!==wk){ r.fitWk=wk; r.fitN=0; } if((r.fitN|0)<3){ r.fitN=(r.fitN|0)+1; r.fit=Math.min(100,(r.fit|0)+2); } r.fitDay=G.day;   /* fitDay：最後一次運動（src/fit3d.js 的 8 週提醒）*/   /* 重訓一小時 +2，每週最多算 3 次（和打羽球的 2 次分開）*/
-    const st=fitStage(r.fit|0), L=FIT_LINES[st]; r.fitLast=r.fitLast||{}; const prev=r.fitLast[st]; let k=(prev==null?0:(prev+1)%L.length); r.fitLast[st]=k; await GM.say(null,L[k]); }   /* 三句輪流、不連續重複 */
+    const F=FITX(); if(F&&F.upCheck) F.upCheck(G,ix0); }
+  async function upNote(GM){ const F=FITX(); if(F&&F.upNote) await F.upNote(GM); }   /* 升階：做完運動以後提示一次（旁白 AA_713 levelUp＋系統字）*/
+  async function workout(GM){ const plan=await fitOpen(GM); if(!plan) return; if(!await fitPay(GM)) return; fitDone(GM,plan); const r=rec(GM.G);
+    const st=fitStage(r.fit|0), L=FIT_LINES[st]; r.fitLast=r.fitLast||{}; const prev=r.fitLast[st]; let k=(prev==null?0:(prev+1)%L.length); r.fitLast[st]=k; await GM.say(null,L[k]); await upNote(GM); }   /* 三句輪流、不連續重複 */
+  /* ---------- 器材一台一台用（GYM-FIT-1107；使用者 11-07 試玩「健身器材我還是不能用」）----------
+     gym_layout.js b1.fitness.equip（LAWWW2-B 4f05d68d0）22 件：每一件在 stand（走過去站的地方）放一個互動點，只有人在健身中心裡面、那一台還有空位（use 沒有路人）才出現。
+     按了：規則和「去健身房」一樣（fitOpen → 走到 stand → fitPay → fitDone）；人放到那一台的 use（位置、朝向、跑步機皮帶的高度 y），播那一台的動作（pose；體能「普通」用 alt：跑步機用走的），
+     和 crowd3d.js 路人擺的位置、動作是同一套；播一句旁白：AA_713（src/data/gym_equip_lines.js 的 GYM_EQUIP_LINES.kinds，器材種類×體能階段三句輪流，tools/story/import_gym_equip.py 匯入），
+     墊子沒有稿＝FIT_LINES 那一階提到伸展的、或沒提到任何器材的那幾句（都沒有就不說）；做完站回 stand。
+     有路人正在用（或正走過去要用）＝那一台的互動點不出現（啞鈴架兩個位子，一個有人另一個照樣能用）。
+     存檔：G.daily.gym.eqLast＝{種類|階段: 上一句}（舊存檔沒有＝從第一句開始）*/
+  const EQ_LABEL={treadmill:'用跑步機',bike:'用腳踏車機',rower:'用划船機',squat_rack:'用深蹲架',smith:'用史密斯機',db_rack:'用啞鈴',bench:'用臥推椅',mat:'做伸展'};
+  const EQ_WORD={treadmill:'跑步機',bike:'腳踏車機',rower:'划船機',squat_rack:'深蹲架',smith:'史密斯機',db_rack:'啞鈴',bench:'座椅',mat:'伸展'};   /* 沒有 AA_713 稿時，FIT_LINES 裡提到哪一種器材 */
+  const eqOn=(E,u)=>!!(E&&Array.isArray(E.npcs)&&E.npcs.some(n=>{ if(!n||!n.obj||n.leaving||n.hidden||(n.lv|0)!==0) return false; const p=n.obj.position, t=n.path&&n.path.length?n.path[n.path.length-1]:null;
+    return Math.hypot(p.x-u.x,p.z-u.z)<0.3||(!!t&&Math.hypot(t[0]-u.x,t[1]-u.z)<0.3); }));   /* 路人在 use 上（位置比對，±0.3 m），或正走過去（路線的終點在那裡）；走開的人（leaving）不算 */
+  const eqFree=(E,e)=>(e.use||[]).find(u=>!eqOn(E,u))||null;
+  const inFit=(F,p)=>!!p&&p.x>F.x0&&p.x<F.x1&&p.z>F.z0&&p.z<F.z1;
+  function eqLine(G,e){ const r=rec(G), st=fitStage(r.fit|0), A=typeof GYM_EQUIP_LINES!=='undefined'&&GYM_EQUIP_LINES&&GYM_EQUIP_LINES.kinds?GYM_EQUIP_LINES.kinds[e.kind]:null;
+    let L=A&&Array.isArray(A[st])&&A[st].length?A[st]:null, key=e.kind+'|'+st;
+    if(!L){ const all=FIT_LINES[st], own=all.filter(t=>t.includes(EQ_WORD[e.kind]||'\u0000')), plain=all.filter(t=>!Object.values(EQ_WORD).some(w=>t.includes(w))); L=own.length?own:(plain.length?plain:null); key='f:'+key; }
+    if(!L) return null; r.eqLast=r.eqLast&&typeof r.eqLast==='object'?r.eqLast:{}; const prev=r.eqLast[key]; const k=prev==null?0:(prev+1)%L.length; r.eqLast[key]=k; return L[k]; }   /* 照階段三句輪流、不連續重複 */
+  async function useEquip(GM,e){ const G=GM.G, E=GM.E, P=E&&E.player; if(!G||!P) return;
+    if(!eqFree(E,e)){ GM.toast('有人在用',2400); return; }
+    const plan=await fitOpen(GM); if(!plan) return;
+    const s=e.stand; if(GM.walkTo) await GM.walkTo(P,s.x,s.z,{lv:0});
+    const u=eqFree(E,e); if(!u){ GM.toast('有人在用',2400); return; }   /* 走過去的時候被人用了：還沒扣錢、扣時間 */
+    if(!await fitPay(GM)) return;
+    const pose=(u.alt&&stageIx(rec(G).fit|0)===0)?u.alt:u.pose;
+    try{ E.placeAt(P,u.x,u.z,0); P.obj.position.y+=(u.y||0); P.obj.rotation.y=u.yaw||0; P.path=null; P.pose=pose; eqUse={id:e.id,u}; P.poseHold=eqHold; if(E.prePose) E.prePose(P);   /* poseHold：跑步機上原地跑、走（engine3d.js 不把停著的 run／walk 改回 idle）；用完 eqUse＝null 就不再擋 */
+      fitDone(GM,plan); const t=eqLine(G,e); if(t) await GM.say(null,t); else if(GM.sleep) await GM.sleep(1500); }
+    finally { eqUse=null; P.pose='idle'; E.placeAt(P,s.x,s.z,0); P.obj.rotation.y=s.yaw||0; }   /* 做完（例外也一樣）站回 stand */
+    await upNote(GM); }
+  let eqUse=null; const eqHold=()=>!!eqUse;   /* 正在用的那一台（{id, u}）；玩家的 poseHold＝eqHold */
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['gym3d:eqUse']=()=>{ eqUse=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：用到一半讀檔，舊流程走不到上面的 finally；姿勢由 game3d.js enter 設回 idle */
+  function equipIts(E,B,IT){ const F=B.fitness, P=()=>E.player&&E.player.obj&&E.player.obj.position;
+    for(const e of (F&&F.equip)||[]){ if(!e.stand||!(e.use||[]).length) continue; const s=e.stand;
+      IT.push({x:s.x,z:s.z,radius:0.8,lv:0,label:EQ_LABEL[e.kind]||('用'+(e.label||'器材')),gymEquip:e.id,get hidden(){ return !inFit(F,P())||!eqFree(E,e); },onInteract:()=>scene(GAME,GM=>useEquip(GM,e))}); } }   /* 只在健身中心裡面（走廊、游泳池看不到）；有人在用＝不出現 */
   async function deskB1(GM){ const r=rec(GM.G); if(!r.card){ await cardScene(GM,r); return; } GM.toast(r.pass===ym(GM.G)?'會員證：這個月的月票':'會員證：單次 50 元（或買這個月的月票）',3200); }
   const gym_b1={ id:'gym_b1', name:'綜合體育館 B1', indoor:true, windowless:true, camDist:3.6, build(E){ const Ly=L(), B=Ly.b1, cz=-5;   /* 配置：x −24～24、z −24～14（room() 中心在原點，整個往 −z 移 5 m）*/
     const z=Z3.room(E,{w:48,d:38,h:B.h,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#3a3d40'),spawn:Object.assign({},B.spawn)}); const g0=z.group, nav=z.nav;
@@ -175,6 +221,7 @@ const GY3=(function(){
     /* 游泳週的體育課在池邊集合（AA_644）：那天有在 B1 上的體育課才出現（CLS.peSwim）；按了和 1F 中圈「體育課集合」同一套 */
     { const P=typeof CLS!=='undefined'&&CLS.PE_POOL; if(P) IT.push({x:17.4,z:-3.2,radius:1.2,lv:0,label:'體育課集合（池邊）',mark:true,peSwim:true,visIf:p=>p.z<B.pool.z1&&(()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; return !!G&&CLS.dayItems(G).some(it=>it.room&&it.room.door==='gym'&&CLS.peSwim(G,it)); })(),onInteract:()=>peClass(GAME)}); }
     for(const q of B.interact){ if(q.kind==='gym_fitness') IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:'去健身房',mark:true,visIf:p=>p.z>B.pool.z1,onInteract:()=>scene(GAME,workout)});   /* visIf：人在游泳池（牆的北邊）看不到走廊的名牌（使用者 11-03 截圖）*/ else if(q.kind==='gym_b1_desk') IT.push({x:q.x,z:q.z,radius:1.1,lv:0,label:'服務櫃台',onInteract:()=>scene(GAME,deskB1)}); }   /* 看游泳池、更衣室：還沒有字（要 AA／BB），先不開 */
+    equipIts(E,B,IT);   /* 器材一台一台用（GYM-FIT-1107）*/
     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); b1Plates(root,B); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
   /* ---------- 3F 主球場（ART-GYM2-INT，LAWWW2 2026-10-21；gym_layout.js 的 arena 段＋gym_arena.glb（LAWWW2-B 3effc0e0、f1e732f8、f1d23fd4））----------
@@ -189,6 +236,15 @@ const GY3=(function(){
     const cont=d=>Math.max(0,Math.min(1,(d+0.42)/(DEPTH+0.42)))*TOP;   /* 走道：碰撞、找路用的連續斜面（前緣外 0.42 m 的那一階起算，到最上一排）*/
     const step=d=>{ if(d<-0.42) return 0; if(d<0) return H0/2; const r=Math.min(N-1,Math.floor(d/T)), y=H0+r*R; return (d-r*T)<T/2?(r?y-R/2:H0*0.75):y; };   /* 畫面上一階一階 */
     return {T,R,H0,N,DEPTH,TOP,AW:A.aisles.w,sides,cont,step}; }
+  /* 看台可以點的面（點地移動；GYM-ARENA-TAP-1105，LAWWW2-C 11-05）：每一面看台（缺口兩邊分開）一片，沿著碰撞用的連續斜面 cont(d)（前緣外 0.42 m 起、到最上面一排）。
+     沒有這幾片時 E.screenToFloor 退回 y 0 的平面：看台最上面 5.2 m，點走道、座位會落到看台後面的地板那一層（和南洋 1 廳斜地板同一個問題，CC-C 13700be8f）。
+     點在座位上照舊由 tapRedirect 改成走到那張座位前面；點在走不進去的看台上，找路走到最近能站的地方（走道）。場地（y 0）不用另外加：打不到看台就是 y 0 的平面。tests/gym_arena_tap_unit.js */
+  function arenaWalk(G,g){ const mat=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[], d0=-0.42, d1=G.DEPTH;
+    for(const s of G.sides){ const segs=s.gap?[[s.along[0],s.gap[0]],[s.gap[1],s.along[1]]]:[s.along];
+      for(const [u0,u1] of segs){ const P=[]; for(const [u,d] of [[u0,d0],[u1,d0],[u1,d1],[u0,d1]]){ const [x,zz]=s.at(u,d); P.push(x,G.cont(d)+0.01,zz); }
+        const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute(P,3)); geo.setIndex([0,1,2,0,2,3]); geo.computeBoundingBox(); geo.computeBoundingSphere();
+        const m=new THREE.Mesh(geo,mat); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); out.push(m); } }
+    return out; }
   function arenaNav(A,G){ const nav=new E3.NavGrid(66.3,56.4,0.3,-33.15,-28.35); nav.fillBlocked();   /* 格子 0.3 m、中心在 0.3 的整數倍：走道中心（z 0、±9；x ±12）剛好在格子中心，三格寬 0.9 m（走道 1.2 m） */
     const F=A.floor, V=A.vomitory; nav.freeRect(F.x0+0.3,F.z0+0.3,F.x1-0.3,F.z1-0.3); nav.freeRect(V.x0+0.35,F.z1-0.4,V.x1-0.35,V.z1-0.35);   /* 入口通道整條走得到，盡頭是回 1F 的門（z1＝看台後牆）*/
     for(const s of G.sides) for(const c of s.aisles){ const [ax0,az0]=s.at(c-0.45,-0.42), [ax1,az1]=s.at(c+0.45,G.DEPTH-0.15);
@@ -223,7 +279,7 @@ const GY3=(function(){
   const gym_arena={ id:'gym_arena', name:'綜合體育館 3F 主球場', indoor:true, camDist:5.2, build(E){ const A=L().arena, G=arenaGeo(A);
     const z=Z3.room(E,{w:66,d:56,h:A.h,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#c8a36a'),spawn:Object.assign({},A.spawn)}); const g0=z.group;
     const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
-    z.nav=arenaNav(A,G); z.camCols=[arenaCamCols(A,G,g0)];
+    z.nav=arenaNav(A,G); z.camCols=[arenaCamCols(A,G,g0)]; z.walkMeshes=arenaWalk(G,g0);
     const G0c=typeof GAME!=='undefined'?GAME.G:null, cer=ceremonyDay(G0c); z.ceremonyOn=cer; if(cer){ ceremonyNav(z.nav,A); z.cerSpots=A.sets.ceremony.spots; }
     { const st=M('#5c6670',{roughness:0.7}); for(const s of G.sides){ const segs=s.gap?[[s.along[0],s.gap[0]],[s.gap[1],s.along[1]]]:[s.along];   /* 備用模型：每一排一條量體（正式模型載入前、失敗時）*/
         for(let r=0;r<G.N;r+=2) for(const [u0,u1] of segs){ const [xa,za]=s.at(u0,r*G.T), [xb,zb]=s.at(u1,(r+2)*G.T), h=G.H0+(r+1)*G.R; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.abs(xb-xa),h,Math.abs(zb-za)),st); m.position.set((xa+xb)/2,h/2,(za+zb)/2); fb.add(m); } } }
@@ -240,8 +296,8 @@ const GY3=(function(){
     z.lookN={};
     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_arena']){ ASSETS.loadOne('bldg.gym_arena').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
       const sets=['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].map(n=>root.getObjectByName(n)).filter(Boolean); for(const o of sets) o.visible=!!z.ceremonyOn&&(o.name==='SET_STAGE'||o.name==='SET_CEREMONY');   /* 典禮那天打開舞台＋典禮（SET-CEREMONY-1023）*/   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
-      Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
+      Z3.attachRoomGLB(z,g0,fb,root); { const hp=root.getObjectByName('SET_HOOPS'); if(hp) hp.visible=!z.ceremonyOn; }   /* 籃架（ART-ARENA-HOOPS-1105，LAWWW2-B 11-07：屋頂吊下來、放下來的樣子，平常一直在）：典禮那天北端有舞台，籃架在舞台前緣上方——收起來 */ glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
-  return {b1Plates,gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday};
+  return {b1Plates,gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday,fitOpen,fitPay,fitDone,useEquip,eqLine,eqFree,eqOn,EQ_LABEL,stageIx,using:()=>eqUse};
 })();
 Z3.ZONES.gym=GY3.gym; Z3.ZONES.gym_b1=GY3.gym_b1; Z3.ZONES.gym_arena=GY3.gym_arena;

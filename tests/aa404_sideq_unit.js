@@ -36,10 +36,10 @@ const wd=d=>CALENDAR.dateOf(d).wd%7;
 const lapse=(id)=>{ R(id).by=H.G.day; set(keyOf(H.G.day+1),H.G.hour); X().lapse(H.G); return R(id).state; };
 
 (async()=>{
-let d404='', d405='', d408='', d408b=''; const sh=(c,f)=>cp.execSync('git show '+c+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8'});
-try{ d404=sh('30bf21de8','AA_404_店員的支線_第二批.md'); d405=sh('1fa2b494a','AA_405_店員的支線_第三批.md'); d408=sh('29e41dd8','AA_408_店員支線補字_回LAWWW實作問題.md'); d408b=sh('b0b80a54','AA_408_店員支線補字_回LAWWW實作問題.md'); }catch(e){}
+let d404='', d405='', d408='', d408b='', d663=''; const sh=(c,f)=>cp.execSync('git show '+c+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8'});
+try{ d404=sh('30bf21de8','AA_404_店員的支線_第二批.md'); d405=sh('1fa2b494a','AA_405_店員的支線_第三批.md'); d408=sh('29e41dd8','AA_408_店員支線補字_回LAWWW實作問題.md'); d408b=sh('b0b80a54','AA_408_店員支線補字_回LAWWW實作問題.md'); d663=sh('e89728272','AA_663_檢查表試跑_遊戲裡30句改前改後.md'); }catch(e){}
 const RN647=s=>String(s).replace(/舊路書房/g,'頁間書屋').replace(/清葉茶行/g,'青木茶室').replace(/輪轉單車/g,'慢輪單車').replace(/日日便利/g,'日和便利店');   /* 2026-11-04 改期望：公館四間店改名（AA_647 第 6 節，企劃線 403b7c51c）——稿裡的舊店名照改名清單換成新店名再比 */
-const doc=RN647(d404+d405+d408+d408b), IDS=['SQ10','SQ11','SQ12','SQ13','SQ14','SQ15','SQ17','SQ18','SQ19','SQ20'];
+const doc=RN647(d404+d405+d408+d408b+d663),   /* 2026-11-04：AA_663 第 29 列（企劃線 e89728272，D116）SQ19 筆記本最後一頁改字 */ IDS=['SQ10','SQ11','SQ12','SQ13','SQ14','SQ15','SQ17','SQ18','SQ19','SQ20'];
 /* ---- 0 稿 ---- */
 await sec(0,()=>{ check('0. sideq3d.js 載得到；第二、三批十則都在（SQ16 輪轉單車 2026-10-23 AA_405 第 3 節以後也有：tests/sq_traces_unit.js 第 4 節）',ok&&!!X()&&IDS.every(id=>X().Q[id]&&X().LINES[id])&&!!X().Q.SQ16,err||J(Object.keys((X()||{Q:{}}).Q)));
   const out=[]; const walk=v=>{ if(v==null) return; if(typeof v==='string'){ if(!/^[a-z_0-9]+$/.test(v)) out.push(v); } else if(Array.isArray(v)) v.forEach(walk); else if(typeof v==='object') for(const k in v) walk(v[k]); };
@@ -48,7 +48,7 @@ await sec(0,()=>{ check('0. sideq3d.js 載得到；第二、三批十則都在�
   for(const e of [X().HWAXIN_EV,X().PASTA_EV,X().VET_EV,X().PARK18_EV,X().XC_EV,X().BRUNCH1_EV,X().BRUNCH2_EV]) for(const l of e.dialogue){ if(l.text&&!win.includes(l.text)) out.push(l.text); if(l.choice) for(const c of l.choice) out.push(c.text); }
   const segs=t=>String(t).split(/[（）「」]/).map(x=>x.replace(/^[。，：、]+|[。，：]+$/g,'').trim()).filter(x=>x.length>=2);
   const miss0=[...new Set(out)].filter(t=>segs(t).some(s=>doc.indexOf(s)<0));
-  check('0. 每一句台詞、旁白、選項都在 AA_404＋AA_405＋AA_408（29e41dd8、b0b80a54）稿裡（一字不差）',!!d404&&!!d405&&!!d408&&!!d408b&&out.length>120&&!miss0.length,out.length+' '+J(miss0));
+  check('0. 每一句台詞、旁白、選項都在 AA_404＋AA_405＋AA_408（29e41dd8、b0b80a54）＋AA_663 第 29 列（e89728272）稿裡（一字不差）',!!d663&&!!d404&&!!d405&&!!d408&&!!d408b&&out.length>120&&!miss0.length,out.length+' '+J(miss0));
   const T={}; for(const ln of d408b.split('\n')){ const m=/^\| (SQ\d\d) [^|]+\| 「(.+?)」 \|/.exec(ln); if(m) T[m[1]]=m[2]; }
   const bad=IDS.filter(id=>X().LINES[id].lapse!==T[id]);
   check('0. 過期一句（SQ10～SQ20，SQ16 以外）和 AA_408 第 1 節的表一字不差',Object.keys(T).length===19&&!bad.length,J(bad.map(id=>[id,X().LINES[id].lapse,T[id]])));
@@ -232,8 +232,8 @@ await sec('2 SQ18',async()=>{ fresh('2027-03-03',15,'gongguan'); know('清葉茶
   fresh('2027-02-20',15,'gongguan'); know('清葉茶行',5); check('2. SQ18 大二下起',!X().canOffer(H.G,'SQ18')&&(set('2027-03-01',15),X().canOffer(H.G,'SQ18'))); });
 await sec('2 SQ19',async()=>{ fresh('2026-10-07',19,'wz_teishoku'); know('巷子裡定食',4); SOCIAL.remember(XC,'FIRST_MET','');   /* 大二上（週三）；19:00（2026-11-04 改期望：小路 18:00 才開，AA_655 第 4 節）*/
   H.said=[]; H.opts=[]; H.picks=[0,0]; await WZS.order364(GM,'teishoku');
-  check('2. SQ19 定食店點餐出現（order364）：定食店長「昨天有個女生把筆記本忘在這裡。…」「……你認識嗎？」；「看」筆記本：封面「吳芯慈」、最後一頁那張表、「下次換我先約她。」；一週內還她',
-    !!R('SQ19')&&R('SQ19').step==='ret'&&seq(['昨天有個女生把筆記本忘在這裡。封面寫法律系。','……你認識嗎？','（封面寫著「吳芯慈」，裡面每一頁都是三種顏色的筆，像印刷的。）','（筆記本最後一頁不是筆記。是一張兩欄的表，左邊寫「以安」，右邊寫「我」。一格一格是考試、報告、發言的次數。）','（表的最下面另外寫了一行，字比較小：「下次換我先約她。」）'])&&whoOf('……你認識嗎？')==='小路的老闆'&&R('SQ19').by===H.G.day+7,J(said()));
+  check('2. SQ19 定食店點餐出現（order364）：定食店長「昨天有個女生把筆記本忘在這裡。…」「……你認識嗎？」；「看」筆記本：封面「吳芯慈」、最後一頁那張財報比率表、「下次換我先約以安。」（AA_663 第 29 列，D116）；一週內還她',
+    !!R('SQ19')&&R('SQ19').step==='ret'&&seq(['昨天有個女生把筆記本忘在這裡。封面寫法律系。','……你認識嗎？','（封面寫著「吳芯慈」，裡面每一頁都是三種顏色的筆，像印刷的。）','（筆記本最後一頁是一張手畫的表：三家公司的財報比率，旁邊用紅筆圈了一個數字。）','（表的最下面另外寫了一行，字比較小：「下次換我先約以安。」）'])&&whoOf('……你認識嗎？')==='小路的老闆'&&R('SQ19').by===H.G.day+7,J(said()));
   set('2026-10-08',12,'campus'); const due=EVENTS.check(X().XC_EV); H.said=[]; H.opts=[]; H.picks=[0]; await EVENTS.run(X().XC_EV);
   check('2. SQ19 找芯慈說話（interact 事件）：（她接過筆記本，第一件事是翻到最後一頁。）「……你看了嗎？」；「看了最後一行。」→「……喔。」（她把那一頁摺起來。）「那一行，我會自己去做。」；做完',
     due&&seq(['（她接過筆記本，第一件事是翻到最後一頁。）','……你看了嗎？','……喔。','（她把那一頁摺起來。）','那一行，我會自己去做。'])&&!has('……謝謝。')&&J(H.opts[0])===J(['「看了最後一行。」','「沒有。」'])&&R('SQ19').state==='done'&&R('SQ19').saw&&!H.G.flags.SQ19_SAW&&!EVENTS.check(X().XC_EV)&&X().XC_EV.participants[0]===XC&&X().XC_EV.trigger==='interact',J(said()));

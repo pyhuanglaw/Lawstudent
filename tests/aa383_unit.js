@@ -44,7 +44,7 @@ const cp=require('child_process'), SPEC_SHA='98516b51';
 (async()=>{
   // ---- 0. 逐字對稿 ----
   let spec=''; try{ spec=cp.execSync('git -c core.quotepath=false show '+SPEC_SHA+':"docs/story_planning/AA_383_回BB_0400_五題_台詞與企劃對不上.md"',{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
-  const GAME3=['（球場的看台。韋綸一邊看球，一邊在手機上記數字。）','（他們的隊每得一分，他就站起來喊「走啦！」，坐下來，再記一個數字。）','（可昕坐在你旁邊。她看的不是球，是韋綸的手機。）'];
+  const GAME3=['（球場的看台。韋綸一邊看球，一邊在手機上記數字。）','（他們的隊每得一分，他就站起來喊「走啦！」，坐下來，再記一個數字。）','（可昕坐在你旁邊。她沒在看球，在看韋綸的手機。）'];
   const DM=['你借我的筆記，我抄完了！','你哪天經過女舍門口跟我說，我拿下去給你！'], DESK='筆記我上課的時候放你桌上了！謝謝你借我！';
   const gameEv=ev('ev_b106_42_game'), st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
   check('0. 讀得到稿（AA_383@'+SPEC_SHA+'）',/韋綸的球賽/.test(spec)&&/沛珊還筆記/.test(spec));

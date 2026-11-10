@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Builds msg_pool.json from AA_202 section 6 and BB_178 sections 0-8b (first version 8a08c312 / 64aaaa82; 67f74502: AA-C 2026-10-17 回問／問句改句; b61e4f55: 同內容，和 MSG-2 用同一個版本; b10d0567f: AA_576 以安改稿第一批，6-2 三句——在幹嘛 R「剛從家教回來」、分享吃的 R「一直想去」、L 回問「在想妳」拆兩則；AA 2026-11-02 08:36 交，BB_226 口氣審 PASS、使用者確認; 759e5c000: AA_579 學姊改稿第一批，BB_178 第 3 節七句（問課 A「你卡在哪一句。」、R「課程網站最上面那則公告有寫」與回問「看完還有問題再問我。」、考試週兩句、分享吃的 A／R）、AA_393 第 4 節三句（祐廷在日本）；AA 2026-11-02 09:38 交，BB_228 口氣審 PASS、使用者看過精選句).
+# Builds msg_pool.json from AA_202 section 6 and BB_178 sections 0-8b (first version 8a08c312 / 64aaaa82; 67f74502: AA-C 2026-10-17 回問／問句改句; b61e4f55: 同內容，和 MSG-2 用同一個版本; b10d0567f: AA_576 以安改稿第一批，6-2 三句——在幹嘛 R「剛從家教回來」、分享吃的 R「一直想去」、L 回問「在想妳」拆兩則；AA 2026-11-02 08:36 交，BB_226 口氣審 PASS、使用者確認; 759e5c000: AA_579 學姊改稿第一批，BB_178 第 3 節七句（問課 A「你卡在哪一句。」、R「課程網站最上面那則公告有寫」與回問「看完還有問題再問我。」、考試週兩句、分享吃的 A／R）、AA_393 第 4 節三句（祐廷在日本）；AA 2026-11-02 09:38 交，BB_228 口氣審 PASS、使用者看過精選句; 3b5043eef（MSG2-GEN-DRIFT-1104）: 白名單上 AA_202 的現行版本；只改第 7 節 7-3 柏翰生日 R（AA_671 第 3 列），第 6 節和 b10d0567f 一字不差，msg_pool 的句子不變).
 # ZHE_ASK = AA_202 6-4 表下「回問」（67f74502）.
 # Every Chinese string below is copied verbatim from the source docs; verify_pool.py checks that.
 import json, os, copy
@@ -795,7 +795,7 @@ people.append(p)
 # ───────────────────────── assemble ─────────────────────────
 TOPIC_ORDER = ['chat', 'course', 'share_cat', 'share_food', 'share_notes', 'share', 'night', 'daily']
 TIER_ORDER = {'A': 0, 'R': 1, 'L': 2}
-data = {'source': {'AA_202': 'b10d0567f', 'BB_178': '759e5c000', 'AA_370': '9eaf4e98', 'AA_393': '759e5c000', 'AA_531': 'a28201f61', 'AA_538': 'b9d816288'}, 'people': {}, 'tagsSeen': []}
+data = {'source': {'AA_202': '3b5043eef', 'BB_178': '759e5c000', 'AA_370': '9eaf4e98', 'AA_393': '759e5c000', 'AA_531': 'a28201f61', 'AA_538': 'b9d816288'}, 'people': {}, 'tagsSeen': []}
 seen = []
 
 

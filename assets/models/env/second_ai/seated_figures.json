@@ -4,73 +4,73 @@
    "source": "assets/models/char/second_ai/bl_npc_nf1.vrm",
    "high_tris": 31109,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   },
   "npc_nf2": {
    "source": "assets/models/char/second_ai/bl_npc_nf2.vrm",
    "high_tris": 30609,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   },
   "npc_nf3": {
    "source": "assets/models/char/second_ai/bl_npc_nf3.vrm",
    "high_tris": 30155,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   },
   "npc_nf6": {
    "source": "assets/models/char/second_ai/bl_npc_nf6.vrm",
    "high_tris": 30182,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   },
   "npc_nf13": {
    "source": "assets/models/char/second_ai/bl_npc_nf13.vrm",
    "high_tris": 31755,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   },
   "npc_nf15": {
    "source": "assets/models/char/second_ai/bl_npc_nf15.vrm",
    "high_tris": 31640,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   },
   "npc_nm2": {
    "source": "assets/models/char/second_ai/bl_npc_nm2.vrm",
    "high_tris": 31091,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   },
   "npc_nm3": {
    "source": "assets/models/char/second_ai/bl_npc_nm3.vrm",
    "high_tris": 31219,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   },
   "npc_nm8": {
    "source": "assets/models/char/second_ai/bl_npc_nm8.vrm",
    "high_tris": 31510,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   },
   "npc_nm11": {
    "source": "assets/models/char/second_ai/bl_npc_nm11.vrm",
    "high_tris": 31783,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   },
   "npc_nm13": {
    "source": "assets/models/char/second_ai/bl_npc_nm13.vrm",
    "high_tris": 31231,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   },
   "npc_nm15": {
    "source": "assets/models/char/second_ai/bl_npc_nm15.vrm",
    "high_tris": 31231,
    "lod0_tris": 2400,
-   "lod1_tris": 400
+   "lod1_tris": 800
   }
  },
  "meshes": {
@@ -86,7 +86,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf1_write_c0": {
    "base": "npc_nf1",
@@ -100,7 +100,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf1_phone_c0": {
    "base": "npc_nf1",
@@ -114,7 +114,7 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf2_listen_c0": {
    "base": "npc_nf2",
@@ -128,7 +128,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf2_write_c0": {
    "base": "npc_nf2",
@@ -142,7 +142,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf2_phone_c0": {
    "base": "npc_nf2",
@@ -156,7 +156,7 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf3_listen_c0": {
    "base": "npc_nf3",
@@ -170,7 +170,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf3_write_c0": {
    "base": "npc_nf3",
@@ -184,7 +184,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf3_phone_c0": {
    "base": "npc_nf3",
@@ -198,7 +198,7 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf6_listen_c0": {
    "base": "npc_nf6",
@@ -212,7 +212,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf6_write_c0": {
    "base": "npc_nf6",
@@ -226,7 +226,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf6_phone_c0": {
    "base": "npc_nf6",
@@ -240,7 +240,7 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf13_listen_c0": {
    "base": "npc_nf13",
@@ -254,7 +254,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf13_write_c0": {
    "base": "npc_nf13",
@@ -268,7 +268,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf13_phone_c0": {
    "base": "npc_nf13",
@@ -282,7 +282,7 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf15_listen_c0": {
    "base": "npc_nf15",
@@ -296,7 +296,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf15_write_c0": {
    "base": "npc_nf15",
@@ -310,7 +310,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nf15_phone_c0": {
    "base": "npc_nf15",
@@ -324,7 +324,7 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm2_listen_c0": {
    "base": "npc_nm2",
@@ -338,7 +338,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm2_write_c0": {
    "base": "npc_nm2",
@@ -352,7 +352,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm2_phone_c0": {
    "base": "npc_nm2",
@@ -366,7 +366,7 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm3_listen_c0": {
    "base": "npc_nm3",
@@ -380,7 +380,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm3_write_c0": {
    "base": "npc_nm3",
@@ -394,7 +394,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm3_phone_c0": {
    "base": "npc_nm3",
@@ -408,7 +408,7 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm8_listen_c0": {
    "base": "npc_nm8",
@@ -422,7 +422,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm8_write_c0": {
    "base": "npc_nm8",
@@ -436,7 +436,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm8_phone_c0": {
    "base": "npc_nm8",
@@ -450,7 +450,7 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm11_listen_c0": {
    "base": "npc_nm11",
@@ -464,7 +464,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm11_write_c0": {
    "base": "npc_nm11",
@@ -478,7 +478,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm11_phone_c0": {
    "base": "npc_nm11",
@@ -492,7 +492,7 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm13_listen_c0": {
    "base": "npc_nm13",
@@ -506,7 +506,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm13_write_c0": {
    "base": "npc_nm13",
@@ -520,7 +520,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm13_phone_c0": {
    "base": "npc_nm13",
@@ -534,7 +534,7 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm15_listen_c0": {
    "base": "npc_nm15",
@@ -548,7 +548,7 @@
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm15_write_c0": {
    "base": "npc_nm15",
@@ -562,7 +562,7 @@
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   },
   "fig_npc_nm15_phone_c0": {
    "base": "npc_nm15",
@@ -576,11 +576,11 @@
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 400
+   "tris": 800
   }
  },
  "note": "原點＝座位的地面中心（和 furniture_study.glb 的講堂椅同一個原點）、+z 朝前（講台）。每個底模一種顏色（路人自己的穿搭）；共用一個材質 seated_fig（貼圖集 512×512 一格）。第二版：外殼（加厚＋體素重建）再減面、烤顏色。",
- "bytes": 3289552,
+ "bytes": 3641612,
  "atlas": "tools/blender/env_second/textures/gen/seated/seated_atlas.png",
  "seat": {
   "origin": "座位地面中心",

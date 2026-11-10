@@ -173,7 +173,8 @@ await sec(6,()=>{
   const src=fs.readFileSync(path.join(H.ROOT,'src/data/feed_y4s2.js'),'utf8');
   check('6. 動態 sis3h：祐廷「恭喜。最後幾頁？」、她「一百二十二頁。指導教授要我刪二十頁，刪了。」；「刪了二十頁？」不在',src.includes("dm:['恭喜。最後幾頁？','一百二十二頁。指導教授要我刪二十頁，刪了。']")&&!src.includes('刪了二十頁？')&&(!s3||J(s3.dm)===J(['恭喜。最後幾頁？','一百二十二頁。指導教授要我刪二十頁，刪了。'])));
   check('6. 修正本私訊：「修正本印好了。」「多印了一本。……你說過要的。」；沒有「一本給我爸了」',J(SISB13_LINES.thesisMsg)===J(['修正本印好了。','多印了一本。……你說過要的。'])&&!inAny('一本給我爸了'),J(SISB13_LINES.thesisMsg));
-  check('6. 人物卡 family_context：「媽媽是公務員，期待她考司法官」（不寫爸爸）',CHARACTERS.heroine_05.family_context==='媽媽是公務員，期待她考司法官',CHARACTERS.heroine_05.family_context);
+  /* AA_661 第 21 列（AA_611 #6，2026-11-03 學姊和 Alison 是姊妹、爸爸在她國小時過世）：取代 AA 對 AA_584 補充的「媽媽是公務員，期待她考司法官」（不寫爸爸）*/
+  check('6. 人物卡 family_context：AA_661 第 21 列「爸爸在她國小時過世；小時候跟阿公奶奶住，奶奶很開明；媽媽是公務員，比較會問考試和工作；妹妹 Alison（從母姓，同校法律系）」',CHARACTERS.heroine_05.family_context==='爸爸在她國小時過世；小時候跟阿公奶奶住，奶奶很開明；媽媽是公務員，比較會問考試和工作；妹妹 Alison（從母姓，同校法律系）',CHARACTERS.heroine_05.family_context);
   check('6. us208：3-3 剪報 AA_609 恢復成她奶奶（七場）、heardClip 回來；驗法在 tests/aa609_sis_grandma_unit.js',US208.SCENES.length===7&&typeof US208.heardClip==='function');
 });
 
@@ -186,7 +187,7 @@ await sec(7,async()=>{
   { const Y=TERMEND_LINES.HEART.heroine_05.yes, s=Y.map(x=>typeof x==='string'?x:(x.cg?'CG:'+x.cg:'N:'+x.narr));
     check('7. 告白「收進口袋」不重複：第 82 列「（她把便條收進口袋，把手伸給你。）走吧。」留、最後旁白「（便條上寫的字，她一句都沒有念。）」',s[s.length-2]==='（她把便條收進口袋，把手伸給你。）走吧。'&&s[s.length-1]==='N:（便條上寫的字，她一句都沒有念。）'&&(J(Y).match(/收進口袋/g)||[]).length===1,J(s)); }
   { const a=CONFESS_LINES[ID].yes({flags:{SIS_DECLINED_PREEXAM:{day:1}}}), b=CONFESS_LINES[ID].yes({flags:{}});
-    check('7. confess_lines 學姊答應：婉拒過的也沒有「你上次說的，我有記得。」（照 AA_254 第 3 節作廢），其餘照留',J(a)===J(['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。','好。'])&&J(a)===J(b)&&!inAny('你上次說的，我有記得。'),J(a)); }
+    check('7. confess_lines 學姊答應：婉拒過的也沒有「你上次說的，我有記得。」（照 AA_254 第 3 節作廢）；三句照 AA_593 決5 乙（企劃線 6cbb0b4ab，第 114、115、117 列：和期末飯告白同一套共創句）',J(a)===J(['（她笑了。）你確定？','我很難相處喔。','（她把手伸給你。）走吧。'])&&J(a)===J(b)&&!inAny('你上次說的，我有記得。'),J(a)); }
   for(const fl of [{MET_SIS_FATHER:'grad'},{MET_SIS_FATHER:true},{SIS_FATHER_ASKED:'msg',SIS_FATHER_GO:false},{SIS_FATHER_ASKED:'face',SIS_FATHER_GO:true}]){ setup('2029-06-02',12,'campus','CLOSE',fl); H.date(ID); H.said=[]; H.picks=[0,0]; let err=null; try{ await PG.thermos(GM); }catch(e){ err=String(e); }
     const L=said(); check('7. 舊存檔旗標 '+J(fl)+'：畢業典禮保溫瓶照演、沒有她爸爸、不丟例外；SIS_THERMOS 照記（AA_609：MET_SIS_FATHER true＋交往中＝她奶奶先來說畢業快樂；THERMOS.father 照舊沒有）',!err&&!L.some(x=>/爸/.test(x))&&L.includes('恭喜畢業。')&&H.G.flags.SIS_THERMOS===true&&POSTGRAD_LINES.THERMOS.father===undefined&&(L[0]==='（典禮結束，學姊身邊站著她奶奶。）')===(fl.MET_SIS_FATHER===true),J({err,L})); }
   { const src=fs.readFileSync(path.join(H.ROOT,'tests/sis_no_three_unit.js'),'utf8');

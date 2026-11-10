@@ -21,7 +21,8 @@ const CLUB_FAIR={
     {id:'guitar',sign:'吉他社',club:'club_guitar',who:'學長',say:['會不會彈都沒關係，我們從 C 和弦教起。','社課週一、週三晚上，B館。第五週開始。']},
     {id:'debate',sign:'辯論社',club:'club_debate',who:'學姊',say:['題目我們出，立場用抽的。抽到哪邊就幫哪邊講。','社課週二晚上，博思。第五週開始。']},
     {id:'hiking',sign:'登山社',club:'club_hiking',who:'學長',say:['第一次出隊走郊山，鞋子好走就好。','行前會週四晚上，普通教室。第五週開始。']},
-    {id:'basketball',sign:'法律系系學會（系籃）',club:'dept_basketball',who:'學長',say:['法律系的？系籃缺人。會不會打不重要，有來比較重要。','練球在映月湖旁邊的球場。']},
+    {id:'basketball',sign:'法律系系學會（系籃）',club:'dept_basketball',who:'學長',say:['法律系的？系籃缺人。會不會打不重要，有來比較重要。','練球在映月湖旁邊的球場。',
+      '系籃是系學會的，法律系大一到大四都可以，不用甄試。名字寫這裡就好。','第五週開始，每週五。練球前一天群組會講。']},   /* 後兩句：AA_613 2-2（企劃線 52e3d83a8）——系籃怎麼加入要講清楚（使用者 11-03「系藍怎麼參加的要說阿」）*/
     {id:'dance',sign:'熱舞社',who:'學姊',look:[['say','十一點半我們上台，大道中間那個舞台。']]},
     {id:'choir',sign:'合唱團',who:'學姊',look:[['say','不用唱，哼一句就好。'],['narr','（你哼了一句。她說：「音很準。」）']]},
     {id:'photo',sign:'攝影社',who:'學長',look:[['say','我們每個月辦一次外拍。手機也可以，不一定要相機。']]},
@@ -45,6 +46,8 @@ const CLUB_FAIR={
   BOARD:{x:-13.5,z:13.6,r:1.3},   /* 傅鐘旁的公告欄（zones3d.js 平常的公告欄 (-13.5,14.6) 前面；社博那天換成服務台）*/
   /* 錯過社博（3-4）：社課照現在，第一次去的旁白多一句、記 CLUB_<id> */
   DOOR_LINE:'（你在門口填了表。）',
-  DOOR_LINE_BY:{dept_basketball:'（你在場邊填了表。）'}   /* AA_491 C：系籃練球在醉月湖旁邊的球場，沒有門口 */
+  DOOR_LINE_BY:{},   /* 某個社團換一句旁白（原本 AA_491 C 的系籃「（你在場邊填了表。）」——AA_613 2-4 改成下面 DOOR_SAY_BY 學長兩句）*/
+  /* 某個社團換成有人說的幾句 [說的人, 句子]（AA_613 2-4，企劃線 52e3d83a8：系籃第一次到球場、沒填過表的）；之後照現在記 CLUB_<id>。阿哲那一句「我就說吧。」在 src/aa613_3d.js（CLUBFAIR.DOOR_AFTER）*/
+  DOOR_SAY_BY:{dept_basketball:[['學長','新來的？大一？'],['學長','名字寫這裡。之後每週五，有空就來。']]}
 };
 if(typeof window!=='undefined') window.CLUB_FAIR=CLUB_FAIR;

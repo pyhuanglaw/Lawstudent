@@ -1,0 +1,26 @@
+[
+ {
+  "file": "socsci_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41593",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3046",
+  "caption": "辜振甫紀念圖書館室內：白色樹狀柱（柱頭像蓮葉張開）、天花板的圓形天窗、木書架、長閱覽桌",
+  "size": "448×336",
+  "src_id": "map q=41593"
+ },
+ {
+  "file": "socsci_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41592",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3046",
+  "caption": "圖書館外觀：玻璃帷幕、白色樹狀柱撐出圓盤形屋簷、草坪步道；後面是社科院大樓（清水混凝土）",
+  "size": "448×252",
+  "src_id": "map q=41592"
+ },
+ {
+  "file": "socsci_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41590",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3046",
+  "caption": "圖書館旁的長水池：玻璃牆倒影、草坪；遠處是紅磚建築",
+  "size": "448×252",
+  "src_id": "map q=41590"
+ }
+]

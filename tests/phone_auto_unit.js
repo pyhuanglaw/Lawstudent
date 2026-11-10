@@ -28,7 +28,7 @@ S.phoneAuto(GM); check('空下來：開第二則',opened.length===2);
 /* 打開手機的捲動位置（BB 10-22 13:4x）：game3d.js openPhone——有 th（直接進那段對話）＝捲到最下面（最新）；沒有 th（列表）＝回到最上面（待回覆、最新的在最上面）。修改前（開發分支 cd262656）列表留著上一次的位置 */
 { const gsrc=fs.readFileSync(path.join(__dirname,'..','src/game3d.js'),'utf8'); const mo=/  function openPhone\(tab,th\)\{[\s\S]*?\n/.exec(gsrc);
   const pb={scrollTop:0,scrollHeight:900}, el={classList:{remove(){},add(){}}};
-  const c2={G:{},GM:{titleIdle:false},menuOpen:false,closeMenu(){},phoneOpen:false,phoneTab:'msg',phoneThread:null,phonePerson:null,E:{paused:false},$:id=>id==='phoneBody'?pb:el,renderPhone(){},phoneBadge(){}};
+  const c2={G:{},GM:{titleIdle:false},menuOpen:false,closeMenu(){},phoneOpen:false,phoneTab:'msg',phoneThread:null,phonePerson:null,E:{paused:false},$:id=>id==='phoneBody'?pb:el,renderPhone(){},phoneBadge(){},askBelowHead(){}};   /* askBelowHead：可以回的那一則不被表頭蓋住（tests/phone_ask_head_unit.js 另外測）*/
   let ok=!!mo; if(mo){ vm.runInNewContext(mo[0]+';this.openPhone=openPhone;',c2);
     pb.scrollTop=0; c2.openPhone('msg','p:kexin'); const a=pb.scrollTop; pb.scrollTop=850; c2.openPhone('msg',null); const b=pb.scrollTop;
     check('打開手機：直接進對話＝捲到最新（最下面）；打開列表＝回到最上面（不留著上一次看對話的位置）',a===900&&b===0,JSON.stringify({a,b})); } else check('game3d.js 找得到 openPhone',false); }

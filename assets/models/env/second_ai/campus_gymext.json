@@ -1,0 +1,10 @@
+{
+ "objects": 9,
+ "unique_meshes": 9,
+ "tris": 4192,
+ "tris_drawn": 4192,
+ "materials": 9,
+ "out": "assets/models/env/second_ai/campus_gymext.glb",
+ "bytes": 530388,
+ "texres": 512
+}

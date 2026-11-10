@@ -171,7 +171,7 @@ const V6B=(function(){
   S.PSL_ASK='v6b_ps_lesson_ask'; S.PSL_OUT='v6b_ps_lesson'; S.PSL_EV='ev_peishan_first_lesson';
   const TN=()=>(typeof HOMETOWN_LINES!=='undefined'&&HOMETOWN_LINES[PS+'@台南'])||{travel:'高鐵約一小時四十分鐘',travelH:1.75,fare:2700};
   const inTainan=(G,day)=>{ if(typeof DATE!=='undefined'&&DATE.whereOn) return (DATE.whereOn(G,PS,day)||{}).city==='台南'; return false; };
-  S.psReconnected=G=>{ if(typeof R2Y4B!=='undefined'&&R2Y4B.psReconnected) return !!R2Y4B.psReconnected(G); const F=G.flags||{}; return !!F.PS_RECONNECT||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number'; };
+  S.psReconnected=G=>{ if(typeof R2Y4B!=='undefined'&&R2Y4B.psReconnected) return !!R2Y4B.psReconnected(G); const F=G.flags||{}; return (!!F.PS_RECONNECT||F.PS_REUNION!=null||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number')&&!(typeof STORY!=='undefined'&&STORY.psPre&&STORY.psPre(G)); };   /* AA_723：沒交往的線看 PS_REUNION */
   S.psCond=function(G,day){ if(!law(G)||day==null) return false; if(abroadOn(G,day)) return false;
     if(dating(G,PS)||isEx(G,PS)||!knows(PS,G)||!stageAt(PS,'FRIEND')||!contact(G,PS)||!S.psReconnected(G)) return false;
     return inTainan(G,day); };

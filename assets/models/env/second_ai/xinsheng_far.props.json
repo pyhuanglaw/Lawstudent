@@ -1,0 +1,5 @@
+{
+ "set": "xinsheng_far",
+ "note": "地上雜物的腳印（世界座標 [minx,minz,maxx,maxz]、高度）；tests/street_props_nav_unit.js 用",
+ "props": []
+}

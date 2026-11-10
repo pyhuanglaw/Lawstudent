@@ -28,6 +28,7 @@ const ZRSENDOFF=(function(){
   S.DAYS={ask:'2027-09-01',day:'2027-09-02'};
   S.ASK='zr_sendoff_ask_2027'; S.OUT_ID='zr_sendoff_2027'; S.EV='ev_zr_sendoff_2027'; S.H=8.5; S.LATE=1; S.MISS_H=9+40/60;   /* 08:30；09:30 還沒到＝沒來；09:40 那一則 */
   S.TAGS={miss:'zr_sendoff_miss_2027'};
+  S.openNoHook=G=>false; S.askLines=G=>S.LINES.ask;   /* AA_720（src/aa720_3d.js）：沒有 HOOK 也打開、第二句換「……你要來嗎？」*/
   S.LINES={ ask:['明天八點半，第二航廈。','你說要來的。'],
     opts:[{t:'會到。',r:'嗯。',go:true},{t:'妳東西收好了嗎？',r:'收了三次。每次都多一件。',go:true},{t:'明天臨時有事，沒辦法去。',r:'好。',go:false}],
     missed:'我要進去了。', declined:'我出發了。' };
@@ -38,7 +39,7 @@ const ZRSENDOFF=(function(){
     if(typeof VAC!=='undefined'&&VAC.all&&VAC.state&&VAC.daysOf) return VAC.all().some(I=>(I.A.trip||I.A.place.kind!=='taipei')&&['yes','done'].includes(VAC.state(G,I.key))&&VAC.daysOf(I).includes(d));
     return false; };
   S.cond=function(G,why){ const out=r=>why?{ok:r===true,why:r===true?'':r}:r===true; if(!law(G)) return out('不是法律系'); const F=G.flags;
-    if(F.HOOK_ZR_SENDOFF==null) return out('期末聚餐沒有答應送機');
+    if(F.HOOK_ZR_SENDOFF==null&&!S.openNoHook(G)) return out('期末聚餐沒有答應送機');   /* AA_720 ev_zr_sendoff_airport：distance=letters＝沒有 HOOK 也傳 9/1 那則（src/aa720_3d.js 換 S.openNoHook）*/
     if(F.ZR_SENDOFF_2027!=null||sent(G,S.ASK)) return out('只演一次');
     const d=D(S.DAYS.day); if(d==null||S.away(G,d)) return out('9/2 祐廷不在臺灣');
     if(!contact(G)) return out('沒有她的聯絡方式');
@@ -47,7 +48,7 @@ const ZRSENDOFF=(function(){
   /* ---------- 手機（第 2、4 節）---------- */
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined') return; const F=G.flags, d1=D(S.DAYS.ask), d2=D(S.DAYS.day); if(d1==null||d2==null) return; const t=now(G);
     if(t<T(d1,21)||G.day>d2+1) return;
-    if(t<T(d2,S.H)&&!sent(G,S.ASK)&&S.cond(G)){ const M=S.LINES.ask.map(dm);
+    if(t<T(d2,S.H)&&!sent(G,S.ASK)&&S.cond(G)){ const M=S.askLines(G).map(dm);
       M[M.length-1].ask={id:S.ASK,until:T(d2,S.H),opts:S.LINES.opts.map(o=>({t:o.t,say:[{from:ZR,text:o.r}],set:o.go?{ZR_SENDOFF_GO:true}:{ZR_SENDOFF_2027:'declined'}}))};
       PHONE.at(G,d1,G.day===d1?Math.max(21,G.hour):G.hour,M,S.ASK); }
     if(!sent(G,S.ASK)) return;

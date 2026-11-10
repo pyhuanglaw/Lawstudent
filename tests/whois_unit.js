@@ -48,6 +48,9 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     if(!DOC||!W()) return;
     /* 遊戲 → 稿：每一行（字串）都在稿的表格裡；函式的幾種結果另外列 */
     const COMPOSED=new Set(['隔週五在日常失速辦桌遊。',   /* 明軒：AA_618 第 2-4 節第 3 點（企劃線 ace533a43「去過三次以上，明軒的人物頁多一行」；AA_623 桌遊團），不在這份稿裡 */
+      '打工：南洋戲院（週五、週六晚上）',
+      '打工：新生南路的兒童程式教室（助教）','打工：溫州街的國小課輔班（助教）',   /* 阿凱、沛珊：AA_614 接線時補的（企劃線 73ee9256d；tests/aa614_jobs_unit.js 對 AA_614 的稿），不在這份稿裡 */   /* Alison：AA_615 第 4 節（企劃線 ba26f7f7d，第一次在櫃檯遇到以後；tests/aa614_jobs_unit.js 對 AA_615 的稿），不在這份稿裡 */
+      '學姊的妹妹。',   /* Alison：AA_611 第 1 節第 8 列（企劃線 3f85566f4，KNOWS_SIS_ALISON 才有；tests/aa611_sisters_unit.js 對 AA_611 的稿），不在這份稿裡 */
       '室友：大二 312。','室友：大二 312、大三 507。','室友：大二 312、大三 507、大四 409。',   /* 柏翰沒有 DORM_FOUR：1-3「從有的那一年寫起」*/
       '大二同住 312。大三起他搬去別間。','打系籃。大三當上隊長。',
       '宿營撕名牌，撕掉你名牌的那個。','宿營自由時間找你打牌。','宿營第二天晚上才到，坐你旁邊。','開學第 3 週，給你一張公館便宜好吃的清單。']);   /* AA 11-03 宿營改稿表（阿哲、芯慈、沛珊的「怎麼認識」；稿在 AA_543 以後）*/   /* 5-1 合併：兩句照稿接起來（沒有 203 的阿哲、沒演 17 號那場就當上隊長、明軒「同樣」）*/
@@ -156,7 +159,7 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
   await sec(7,()=>{ const four={DORM_FOUR:true,ROOM_Y2:D('2026-09-06'),ROOM_Y3:D('2027-09-05'),ROOM_Y4:D('2028-09-03')};
     save('2028-10-01',four,['classmate_bohan']); check('7. 柏翰大四（四年都同房）：「四年都是室友：203、312、507、409。」',has('classmate_bohan','四年都是室友：203、312、507、409。'),J(L('classmate_bohan')));
     save('2028-10-01',Object.assign({},four,{DORM_FOUR:false})); check('7. 柏翰沒有 DORM_FOUR：從有的那一年寫起「室友：大二 312、大三 507、大四 409。」；舊開局「第一排那個」',has('classmate_bohan','室友：大二 312、大三 507、大四 409。')&&has('classmate_bohan','許柏翰。法律系，跟你同班，第一排那個。'),J(L('classmate_bohan')));
-    save('2026-10-20',{}); SOCIAL.remember('classmate_bohan','FIRST_MET',''); H.G.social.small={classmate_bohan:{once:{'「法服的值班表，我排到十二月了。」':'Y2S1'}}};
+    save('2026-10-20',{}); SOCIAL.remember('classmate_bohan','FIRST_MET',''); H.G.social.small={classmate_bohan:{once:{'法服的值班表，我排到十二月了。':'Y2S1'}}};
     check('7. 柏翰：大二起、聽過法服值班表那一句＝「大二當法服社長。」',has('classmate_bohan','大二當法服社長。'),J(L('classmate_bohan')));
     save('2025-10-20',{}); done('ev_xinci_notes'); SOCIAL.remember('classmate_xinci','LENT_NOTES','');
     check('7. 芯慈舊開局（演過借筆記、沒有宿營）：第一行「……大一上借筆記那次說上話。」，不再另外寫「她的筆記借過你。」',J(L('classmate_xinci'))===J(['吳芯慈。法律系，跟你同班。大一上借筆記那次說上話。']),J(L('classmate_xinci')));

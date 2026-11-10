@@ -377,8 +377,8 @@ for r in LECT:
         legs = [sx0 + 0.012, sx1 - 0.012] + [(rs[k] + rs[k + 1]) / 2 for k in range(1, len(rs) - 1, 2)]
         for bx in legs:                                                                                                  # 懸臂鋼板桌腳：擋板那一側落地、往學生那一側斜上去托住桌板
             prism_x(stl, bx - 0.006, bx + 0.006, [(zF - fwd * 0.024, h), (zF - fwd * 0.17, h), (zR + fwd * 0.035, top - 0.03), (zF - fwd * 0.024, top - 0.03)])
-        stl.box(sx0 + 0.02, sx1 - 0.02, top - 0.235, top - 0.225, *sorted([zF - fwd * 0.03, zF - fwd * 0.33]))       # 桌下置物架
-        stl.box(sx0 + 0.02, sx1 - 0.02, top - 0.235, top - 0.2, *sorted([zF - fwd * 0.325, zF - fwd * 0.335]))       # 置物架的前緣
+        stl.box(sx0 + 0.02, sx1 - 0.02, top - 0.12, top - 0.11, *sorted([zF - fwd * 0.03, zF - fwd * 0.33]))       # 桌下置物架（SIT-HEIGHT-1104：原本 top−0.235，坐高以後男生膝蓋穿過去；lecture_shelf_raise.py 已改 GLB）
+        stl.box(sx0 + 0.02, sx1 - 0.02, top - 0.12, top - 0.085, *sorted([zF - fwd * 0.325, zF - fwd * 0.335]))       # 置物架的前緣
         for k in range(1, len(rs) - 1, 3):                                                                               # 桌上的電源盒（擋板那一側，兩個位子共用一個）
             ox = (rs[k] + rs[k + 1]) / 2; mk(lv, 'dark').box(ox - 0.07, ox + 0.07, top, top + 0.007, *sorted([zF - fwd * 0.03, zF - fwd * 0.11]))
     for st in r['seats']:

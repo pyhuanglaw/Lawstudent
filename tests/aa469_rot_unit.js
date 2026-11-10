@@ -67,7 +67,7 @@ await sec(1,()=>{   /* AA_542 2-3：有來沒來都不揪、不問「你最近�
   start(); for(let d=W4THU+1;d<=R1.to;d++) day(d,false);
   check('1. 大一上一直沒來：群組裡沒有阿哲的定時揪人，也沒有「'+OKQ+'」',ND.length>4&&pings().length===0&&!(H.G.msgs||[]).some(m=>m.text===OKQ),J(pings().slice(0,3))); });
 /* ---- 2 法服值班 ---- */
-const SAT=TD('Y2S1',7,6), MEM={lawclub:true,CLUB_lawclub_study:true};
+const SAT=TD('Y2S1',11,6), MEM={lawclub:true,CLUB_lawclub_study:true};   /* D118-B5b（2026-11-04）：原本第 7 週六 10/24，那天是 AA_604 法服固定場次第 1 場（坐圓桌＝那一場、輪替跳過它用過的民眾）；輪替的測試改用一般的值班週六（第 11 週）*/
 const shift=async()=>{ const G=H.G; G.flags.LAWCLUB_SAT_LAST=null; at(SAT,9,'wancai'); H.said=[]; H.opts=[]; H.picks=[]; await STORY.fafuShift(GM); return H.said.map(s=>({w:s.who,t:s.t})); };
 await sec(2,async()=>{
   fresh(SAT,9,'wancai',MEM); H.G.stage='law'; const S=[], O=[]; for(let i=0;i<20;i++){ S.push(await shift()); O.push(H.opts.slice()); }

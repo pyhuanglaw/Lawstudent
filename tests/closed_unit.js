@@ -62,9 +62,9 @@ await sec(4,async()=>{ fresh('2026-09-29',20.4); H.FRIEND(SIS); await SISY23.pre
 await sec(5,async()=>{ const it={label:'洗衣間',look:'洗衣間。投幣式洗衣機、烘衣機各四台。現在沒有要洗的衣服。'};
   fresh('2025-10-05',21.2,'dorm_hall'); H.picks=['洗衣服']; const h0=H.G.hour; await STORY.interact(it,GM);
   check('5. 洗衣間：選項「洗衣服／算了」',J(H.opts[0])===J(['洗衣服','算了']),J(H.opts));
-  check('5. 40 分鐘；大一週日 21:12 第一次：阿凱「這台烘衣機要投兩次。第一次是騙你的。」',Math.abs(H.G.hour-h0-40/60)<1e-9&&H.has('這台烘衣機要投兩次。第一次是騙你的。'),J({dh:H.G.hour-h0,said:H.lines()}));
+  check('5. 40 分鐘；大一週日 21:12 第一次：阿凱「這台烘衣機要投兩次。第一次它會假裝在轉。」',Math.abs(H.G.hour-h0-40/60)<1e-9&&H.has('這台烘衣機要投兩次。第一次它會假裝在轉。'),J({dh:H.G.hour-h0,said:H.lines()}));
   H.G.hour=21.2; H.said.length=0; H.picks=['洗衣服']; await STORY.interact(it,GM); check('5. 第二次沒有阿凱、提示「衣服洗好了。」',H.said.length===0&&toasts.includes('衣服洗好了。'));
-  fresh('2026-10-04',21.2,'dorm_hall'); H.picks=['洗衣服']; await STORY.interact(it,GM); check('5. 大二的週日沒有阿凱',!H.has('這台烘衣機要投兩次。第一次是騙你的。'));
+  fresh('2026-10-04',21.2,'dorm_hall'); H.picks=['洗衣服']; await STORY.interact(it,GM); check('5. 大二的週日沒有阿凱',!H.has('這台烘衣機要投兩次。第一次它會假裝在轉。'));
   fresh('2025-10-05',21.2,'dorm_hall'); H.picks=['算了']; const h1=H.G.hour; await STORY.interact(it,GM); check('5. 「算了」：時間沒動',H.G.hour===h1); });
 
 await sec(6,()=>{ const E=H.E; /* 阿忠水果的老闆（LAWWW2-B 5437ec936 的 owner 站位）：營業時間站在攤子後面，22:00 以後離開 */
@@ -81,7 +81,7 @@ await sec(6,()=>{ const E=H.E; /* 阿忠水果的老闆（LAWWW2-B 5437ec936 的
 
 await sec(7,async()=>{ const it={label:'洗衣機',look:'洗衣機'};
   fresh('2025-10-12',21.2,'dorm_laundry'); H.picks=['洗衣服']; const h0=H.G.hour; await STORY.interact(it,GM);
-  check('7. 洗衣間裡面的洗衣機：選項「洗衣服／算了」、40 分鐘、大一週日第一次阿凱那一句',J(H.opts[0])===J(['洗衣服','算了'])&&Math.abs(H.G.hour-h0-40/60)<1e-9&&H.has('這台烘衣機要投兩次。第一次是騙你的。'),J({opts:H.opts,dh:H.G.hour-h0}));
+  check('7. 洗衣間裡面的洗衣機：選項「洗衣服／算了」、40 分鐘、大一週日第一次阿凱那一句',J(H.opts[0])===J(['洗衣服','算了'])&&Math.abs(H.G.hour-h0-40/60)<1e-9&&H.has('這台烘衣機要投兩次。第一次它會假裝在轉。'),J({opts:H.opts,dh:H.G.hour-h0}));
   fresh('2025-10-12',21.2,'dorm_laundry'); H.opts.length=0; const r=await CLOSED.interact({label:'烘衣機',look:'烘衣機'},GM); check('7. 烘衣機不是洗衣服（照舊只是看）',r===false&&!H.opts.length); });
 
 H.done();

@@ -11,6 +11,7 @@
      pass → STORY.TICKS：以安和媽媽在公館窗邊的路過字幕（S.pass；店門口的位置 S.GG_DOORS）。存檔：G.flags.AN_MOM_SEEN＝{學期:那一天}。
    ■ AA_520（AA-C 2026-10-28，481dd8238，予樂自己的線）：phone 的 ask（最後一則可以回：h509_yule 的三個選項，S.askOf）、COND.yuleOwn（yule＋和可昕沒有鬧翻）；
      h503_yule 後面兩句照原本的條件。予樂自己的事（十四則、演講那一晚、23:55、1/12、可昕 9/16）在 src/yule3d.js（tests/aa520_yule_unit.js）。
+   ■ AA_660 G2-3（AA-C 2026-11-04，企劃線 090981ebe）：phone 的 alt（條件成立整份換：h509_kevin 美國路線第一句「學姊跟學弟都回來了」，S.altItems）、COND.usRoute（tests/aa660_vac_gap_unit.js）。
    測試：node tests/aa503_others_unit.js、node tests/aa508_509_feed_unit.js（第 6 段：AA_508、AA_509 的別人說起她）、node tests/aa510_511_feed_unit.js（AA_510 的別人說起她、第五輪補的曾靖雯、阿凱）、
      node tests/aa513_unit.js（阿凱的私訊、窗邊字幕） */
 'use strict';
@@ -61,9 +62,13 @@ const HEARD=(function(){
     /* 子晴的私訊說芷若（AA_508、AA_509 2-4「私訊或公館」：放私訊）：有子晴的聯絡方式、認識芷若 */
     zqZr:G=>hasContact(G,'heroine_04')&&knows('heroine_02'),
     /* 阿凱的私訊說子晴（AA_513 第 1 節）：手機裡有阿凱（開場就有：INVITE_DATA.contacts0）、認識子晴；法律系由 S.phone 本身擋 */
-    kaiZq:G=>hasContact(G,'kai')&&knows('heroine_04')
+    kaiZq:G=>hasContact(G,'kai')&&knows('heroine_04'),
+    /* 美國路線（AA_660 G2-3：h509_kevin 的 alt，學弟和學姊同一班飛機回來）*/
+    usRoute:G=>typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US'
   };
   const condOk=(G,c)=>!c||!!(S.COND[c]&&S.COND[c](G));
+  /* alt：[{cond, items}]——那個條件成立就整份換成那一份 items（第一個成立的；tag、時間、說話的串照舊）。AA_660 G2-3 h509_kevin 的美國路線版 */
+  S.altItems=(G,e)=>{ for(const a of (e&&e.alt)||[]) if(a&&Array.isArray(a.items)&&condOk(G,a.cond)) return a.items; return null; };
   /* ---------- 她本人在旁邊就不說（AA_527 2-1，企劃線 bfede0a62；heard_lines.js 全部、以後的批次照這條）----------
      說的那一刻，說起的那個人（about）和說的人（who）在同一個圈子（HCIRCLE 這一區現在成立的列，兩個人都在那一列；或 3D 裡她跟著說的人：_hcWith、配對、一起走），
      或她在玩家 4 m 內（同一層）＝不說，等下一次（不記說過）。例：12/11 子晴說芷若（兩個人同框）、筱涵說語彤（大三上週二、四 12～13）、晨希說子晴（吉他社）。
@@ -78,15 +83,19 @@ const HEARD=(function(){
     if(who&&typeof HCIRCLE!=='undefined'&&HCIRCLE&&typeof HCIRCLE.rowsIn==='function'){ try{ for(const r of HCIRCLE.rowsIn(G,G.zone)){ const ids=[r.who].concat(r.with||[]); if(ids.includes(about)&&ids.includes(who)) return true; } }catch(e){ console.warn('HEARD.herNear',e); } }
     return false; };
   /* ---------- talk：閒聊前面先說一句 ---------- */
+  /* AA_723（企劃線 d8570a14b peishan.posts.bohan.rule；AA723-CONFESS-PS-1107）：沛珊沒交往的線（STORY.psNewLine）她沒有發動態——柏翰說她動態的那四句（AA_506～509 6-4）關掉，
+     換成 2027-06 他私訊你的那一句（src/ps_silence3d.js）。交往中、舊存檔照原本 */
+  S.PS_POST_TALK=['h506_bh_ps','h507_bh_ps','h508_bh_ps','h509_bh_ps'];
+  const psOff=(G,e)=>e.about==='classmate_peishan'&&S.PS_POST_TALK.includes(e.id)&&typeof STORY!=='undefined'&&!!STORY.psNewLine&&STORY.psNewLine(G);
   S.talkDue=function(G,id,GM){ if(!law(G)) return null; const R=S.rec(G); if(R.day[id]===G.day) return null;
-    for(const e of L.talk||[]){ if(e.who!==id||R.said[e.id]!=null) continue; if(e.after&&R.said[e.after]==null) continue; if(e.about&&!knows(e.about)) continue;
+    for(const e of L.talk||[]){ if(e.who!==id||R.said[e.id]!=null) continue; if(e.after&&R.said[e.after]==null) continue; if(e.about&&(!knows(e.about)||psOff(G,e))) continue;
       if(!S.inWin(G,e)||!condOk(G,e.cond)) continue; if(e.notZone&&G.zone===e.notZone) continue;   /* notZone：不在那一區說（AA_527 2-1 陳助教那幾句：他自己的時段，不在公館）*/
       if(e.about&&S.herNear(G,e.about,id,GM)) continue; return e; }
     return null; };
   S.preTalk=async function(GM,who,id){ const G=GM&&GM.G; if(!G) return false; S.bind(GM); const e=S.talkDue(G,id,GM); if(!e) return false; const R=S.rec(G); R.said[e.id]=G.day; R.day[id]=G.day; await GM.say(who,e.t); return true; };
   /* ---------- kai203：203 房間裡的阿凱 ---------- */
   S.kaiDue=function(G){ if(!law(G)||G.zone!=='dorm'||typeof DORM203==='undefined'||!DORM203.era||!DORM203.era(G)) return null; const R=S.rec(G), F=G.flags;
-    for(const e of L.kai203||[]){ if(R.said[e.id]!=null) continue; if(e.flag&&Object.keys(e.flag).some(k=>F[k]!==e.flag[k])) continue; if(e.about&&!knows(e.about)) continue;
+    for(const e of L.kai203||[]){ if(R.said[e.id]!=null) continue; if(e.flag&&Object.keys(e.flag).some(k=>F[k]!==e.flag[k])) continue; if(e.about&&(!knows(e.about)||psOff(G,e))) continue;
       if(!S.inWin(G,e)||!condOk(G,e.cond)) continue; if(e.about&&S.herNear(G,e.about,'kai')) continue; return e; }
     return null; };
   S.kai203=async function(GM,n){ const G=GM&&GM.G; if(!G) return false; S.bind(GM); const D=typeof DORM203!=='undefined'&&DORM203.rec?DORM203.rec(G,true):null; if(!D||D.tday.kai===G.day) return false;
@@ -99,7 +108,7 @@ const HEARD=(function(){
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined') return 0; const R=S.rec(G), t=now(G); let n=0;
     for(const e of L.phone||[]){ if(R.ph[e.id]) continue; const w0=S.when(e.at); if(!w0||w0.h==null||abs(w0.day,w0.h)>t+24) continue; const w=S.loc(G,w0), t0=abs(w.day,w.h); if(t<t0) continue;   /* 一天以後的先不算時差 */
       if(t-t0>S.LATE){ R.ph[e.id]='x:late'; continue; } if(!condOk(G,e.cond)){ R.ph[e.id]='x:'+e.cond; continue; }
-      const M=e.items.map(([from,name,text])=>({th:e.th,from,name,text}));   /* items 第 4 欄（有的話）＝那一句的稿（例：'AA_520 2'），遊戲不讀 */
+      const M=(S.altItems(G,e)||e.items).map(([from,name,text])=>({th:e.th,from,name,text}));   /* items 第 4 欄（有的話）＝那一句的稿（例：'AA_520 2'），遊戲不讀；alt＝條件成立換一份（S.altItems）*/
       if(e.ask&&M.length&&condOk(G,e.ask.cond)) M[M.length-1].ask=S.askOf(G,e.ask,M[M.length-1]);
       PHONE.at(G,w.day,w.h,M,'heard_'+e.id); R.ph[e.id]='sent'; n++; }
     return n; };
@@ -117,7 +126,7 @@ const HEARD=(function(){
   S.nearDoors=function(key,p,r){ const D=S[key]; if(!D||!p) return false; for(const x of D.x) if(Math.hypot(p.x-x,p.z-D.z)<=r) return true; return false; };
   const seenOf=(G,e)=>{ const v=G.flags&&G.flags[e.flag]; return v&&typeof v==='object'?v:{}; };
   S.passDue=function(G,p){ if(!law(G)) return null; const h=+G.hour||0;
-    for(const e of L.pass||[]){ if(G.zone!==e.zone||(e.about&&!knows(e.about))) continue; const R=seenOf(G,e);
+    for(const e of L.pass||[]){ if(G.zone!==e.zone||(e.about&&(!knows(e.about)||psOff(G,e)))) continue; const R=seenOf(G,e);
       for(let i=0;i<e.terms.length;i++){ const term=e.terms[i], w=S.when(term+':'+e.at); if(!w||w.day!==G.day||h<e.from||h>=e.until||R[term]!=null) continue;
         if(!S.nearDoors(e.near,p,e.r)) continue;
         const n=e.terms.slice(0,i).filter(t=>R[t]!=null).length; return {e,term,t:e.t[Math.min(n,e.t.length-1)]}; } }   /* 第幾次看到用第幾句：前面的學期沒看到的，用第一句 */

@@ -55,17 +55,18 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. 兩場都在 STORY_EVENTS（ev_sis_abstract 出遊、ev_sis_defense_date 遇到就演）',['ev_sis_abstract','ev_sis_defense_date'].every(id=>STORY_EVENTS.some(e=>e.id===id))&&STORY_EVENTS.find(e=>e.id==='ev_sis_abstract').trigger==='outing');
   const all=J(SISB11_EVENTS)+J(SISB11_LINES), q=[...all.matchAll(/"(?:text|t|r)":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB11_LINES).flat().filter(x=>typeof x==='string'));
   const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，6b35748c7）改過的句子在 AA_591 的表上；稿上的原句照表換 */
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t.replace(/^「|」$/g,''))&&!['（樓下的自助餐。她付錢的時候，摘要的資料夾一直夾在手臂下面。）'].includes(t));   /* AA_470 4-4（企劃線 5f54b6545）加的一句旁白，對字在 tests/aa470_sis_b12_unit.js */
+  const A593=require('./aa593_doc.js');   /* AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 24 列：「十二點半。帶筆。」→「十二點半。我帶兩支筆。」 */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t.replace(/^「|」$/g,''))&&!A593.has(t)&&!['（樓下的自助餐。她付錢的時候，摘要的資料夾一直夾在手臂下面。）'].includes(t));   /* AA_470 4-4（企劃線 5f54b6545）加的一句旁白，對字在 tests/aa470_sis_b12_unit.js */
   check('0. 每一句台詞、旁白、選項、私訊都在稿裡（一字不差）',!!doc&&q.length>30&&!notIn.length,J(notIn));
   const body=doc.slice(doc.indexOf('## 1.'),doc.indexOf('## 3.')), lines=[...body.matchAll(/(?:學姊|旁白)：([^\n]+)/g)].map(m=>m[1].trim()), mine=new Set(q.map(t=>t.replace(/^「|」$/g,'')));
-  const lost=lines.filter(t=>!mine.has(A591.MAP[t]||t));
+  const lost=lines.filter(t=>!mine.has(A593.MAP[t]||A591.MAP[t]||t));
   check('0. 稿裡 11-1、11-2 的每一句學姊、旁白都在遊戲裡（'+lines.length+' 句）',!!doc&&lines.length>=25&&!lost.length,J(lost));
   check('0. 人物頁：SIS_ABSTRACT＝「她給你看過論文摘要」、SIS_DEFENSE_DATE＝「她告訴你口試的日子」（AA_455 3-1 節②）',SOCIAL.MEMORY_LABEL&&SOCIAL.MEMORY_LABEL.SIS_ABSTRACT==='她給你看過論文摘要'&&SOCIAL.MEMORY_LABEL.SIS_DEFENSE_DATE==='她告訴你口試的日子'); });
 /* ---- 1 ---- */
 await sec(1,async()=>{ fresh('2029-03-20',20,'FAMILIAR'); ph(); const early=byTag('sisb11_abs_ask').length; H.at('2029-03-20',21); ph(); const M=byTag('sisb11_abs_ask'), m=M.find(x=>x.ask);
   check('1. 3/20 21:00 她私訊「明天中午有空嗎。法圖二樓。」「我需要一個不是財經法組的人。」（21:00 以前沒有）；回「有。」／「明天不行。」',early===0&&J(M.map(x=>x.text))===J(['明天中午有空嗎。法圖二樓。','我需要一個不是財經法組的人。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['有。','明天不行。'])&&m.ask.until===T(D('2029-03-21'),12.5),J(M));
   PHONE.answer(H.G,'sisb11_abs_ask',0); ph(); const q=OUT.get(H.G,'sisb11_abs');
-  check('1. 回「有。」→「十二點半。帶筆。」；排出遊「法圖 12:30」（3/21 12:30、法圖二樓、快轉／睡覺停在出發前）',th().some(x=>x.text==='十二點半。帶筆。'&&x.from===ID)&&!!q&&q.day===D('2029-03-21')&&q.h===12.5&&q.title==='法圖 12:30'&&q.ev==='ev_sis_abstract'&&q.alarm===true,J(q));
+  check('1. 回「有。」→「十二點半。我帶兩支筆。」（AA_593 第 24 列）；排出遊「法圖 12:30」（3/21 12:30、法圖二樓、快轉／睡覺停在出發前）',th().some(x=>x.text==='十二點半。我帶兩支筆。'&&x.from===ID)&&!th().some(x=>x.text==='十二點半。帶筆。')&&!!q&&q.day===D('2029-03-21')&&q.h===12.5&&q.title==='法圖 12:30'&&q.ev==='ev_sis_abstract'&&q.alarm===true,J(q));
   for(const [pick,want] of [[0,['（看了一眼）……我寫的時候覺得剛好。','好。切成兩句。','（她拿起筆，在中間畫了一個句號。）']],[1,['都這樣寫。所以才找你。']],[2,['（她看了那個圈很久，然後把整句劃掉，在旁邊重寫。）']]]){
     fresh('2029-03-20',21,'FAMILIAR'); ph(); PHONE.answer(H.G,'sisb11_abs_ask',0); ph(); const r0=relNow(); H.at('2029-03-21',12.2); await goOut('sisb11_abs',[pick]); const r1=relNow();
     check('1. 法圖二樓（選項 '+(pick+1)+'）：開場三句 →「'+want[0]+'」…→「好。下禮拜給教授。」「謝謝。樓下的自助餐，我請。」「5/29」便利貼；熟悉 +2、自在 +2；記憶 SIS_ABSTRACT',

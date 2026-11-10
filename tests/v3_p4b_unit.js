@@ -42,6 +42,7 @@ GM.money=function(n){ G.money+=n; };
   for(const o of [{mirror:true},{friend:true},{mirror:true,dating:'kexin',knows:'kexin'}]){ base(f,20.5,o); run(20.5,21.5); check('1. 第 2 週週五 21:00：不發 P4b、不開小組（'+JSON.stringify(o)+'）',!PHONE.sent(G,'ps_p4b')&&!PHONE.inGroup(G,'ps_study')); }
   base(c,12,{mirror:true,friend:true}); run(12,13); check('2. 4/17：沒有「總圖滿了」那則',!PHONE.sent(G,'ps_p4b_cafe'));
   G.zone='cafe'; G.hour=13.5; check('2. Café 13～15 點不演 ev_peishan_cafe_42',!EVENTS.check(ev('ev_peishan_cafe_42')));
-  check('3. STORY.psGone：12/17 還在、12/18～2027-08-05 消失、8/6 回來',!STORY.psGone(G,D('2026-12-17'))&&STORY.psGone(G,D('2026-12-18'))&&STORY.psGone(G,D('2027-08-05'))&&!STORY.psGone(G,D('2027-08-06')));
+  check('3. STORY.psGone：12/17 還在、12/18～2027-08-05 消失；AA_723 沒交往的線 8/6 以後也還沒回來（到 2028-12-29 重聚）',!STORY.psGone(G,D('2026-12-17'))&&STORY.psGone(G,D('2026-12-18'))&&STORY.psGone(G,D('2027-08-05'))&&STORY.psGone(G,D('2027-08-06'))&&STORY.psGone(G,D('2028-12-28')));
+  { const G0=Object.assign({},G,{flags:Object.assign({},G.flags,{PS_BACK_READ:D('2027-08-07')})}); check('3. 舊存檔已經重新聯絡上（PS_BACK_READ）：8/6 回來（原本的期待值）',!STORY.psGone(G0,D('2027-08-06'))); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

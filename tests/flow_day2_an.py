@@ -171,7 +171,7 @@ async def main():
         run.check('走到兩點半門口（點地面／搖桿）', ok)
         if ok:
             await pg.wait_for_timeout(800)
-            run.check('門口出現「進入兩點半 Café」', await use_interact(pg, cdp, run, '進入兩點半'))
+            run.check('門口出現「進入 2:30 AM」', await use_interact(pg, cdp, run, '進入 2:30 AM'))   # WORLD_NAMING／AA_655 改名（e8c657891）：原本「進入兩點半 Café」
             t0 = time.time(); seated = False
             while time.time() - t0 < 300:
                 s = await L.state(pg)

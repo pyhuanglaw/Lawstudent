@@ -134,7 +134,9 @@ if(REAL){ global.MSG_POOL=realPool; const P=realPool.people;
   { mk('heroine_04',3,day,10); G.events.done.ev_ziqing_secret_game=1; MSG.send(G,'heroine_04','chat'); const q=PHONE.rec(G).q[0];
     check('G6b. 子晴早上傳：下午兩點多回，開頭「早／剛看到」或「剛起床」（上午傳的），再接一般句、不接「你就傳了」',q.h>=14&&q.h<14.4&&['早','剛起床'].includes(q.items[0].text)&&q.items.length>=3&&!q.items.some(x=>x.text==='你就傳了'),JSON.stringify(q.items)); }
   { mk('kai',3,day,10); const at=MSG.replyAt(G,'kai'); check('G7. 阿凱一點以前傳的：一點多回，先「剛醒」',at.late&&at.h>=13&&at.h<13.4&&MSG.timing('kai').wakeLine[0]==='剛醒',JSON.stringify(at)); }
-  { mk('heroine_03',3,STORY.termDay('Y1S1',5,2),18); const at=MSG.replyAt(G,'heroine_03'); check('G8. 語彤週二麵店時間：20:30 以後才回',Math.abs(at.h-20.5)<1e-6,JSON.stringify(at)); }
+  /* AA_661 第 14 列：語彤回覆時間＝週六、週日下午在茶屋上班，17:00 以後才回（原本週二、週四麵店時間 20:30 以後）*/
+  { mk('heroine_03',3,STORY.termDay('Y1S1',5,6),14); const at=MSG.replyAt(G,'heroine_03'); check('G8. 語彤週六茶屋上班（14:00 傳）：17:00 以後才回（AA_661 第 14 列）',Math.abs(at.h-17)<1e-6,JSON.stringify(at)); }
+  { mk('heroine_03',3,STORY.termDay('Y1S1',5,2),18); const at=MSG.replyAt(G,'heroine_03'); check('G8. 語彤週二 18:00 不再是麵店時間：不等到 20:30',!(Math.abs(at.h-20.5)<1e-6),JSON.stringify(at)); }
   /* 全部的人、話題、層、時間掃一遍：不出錯、不挑到停用的；平日下午學期中每個人的「在幹嘛」都挑得到 */
   { const errs=[], none=[]; const ids=Object.keys(P).filter(id=>id!=='kevin'); const days=[day,STORY.termDay('Y2S1',8,6),STORY.dayOfKey('2026-07-15'),STORY.dayOfKey('2027-01-20'),STORY.termDay('Y3S2',16,3),STORY.termDay('Y4S1',3,1)];
     for(const id of ids) for(const d of days) for(const h of [9,15,20,23.5,1]) for(const st of [1,3,4,6]){ try{ fresh(d,h,id==='kexin'?{dating_kexin:true}:{}); INV.addContact(G,id); STAGE[id]=st; G.events.done.ev_ziqing_secret_game=1;

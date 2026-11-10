@@ -4,13 +4,16 @@
 使用者 2026-10-17 01:0x（附實際宿舍照片）：「台大宿舍是這樣 床在上面 書桌在下面 一個房間有四組這個／門口進來右邊是洗手間 再進來是四組這個」
 - 照片：白色床架（實心床欄、天花板吊桿、床尾一根立柱）、床下是淺木紋書桌（抽屜櫃、白色開放層架）、高衣櫃；
   床頭那一端是木踏板的階梯收納櫃＋白色彎扶手；白色塑膠椅；淺木紋地板；捲簾；分離式冷氣；圓形吸頂燈。
-- 取代 dorm_interior.py 的雙人房（舊腳本保留）。房間大小、門、出口照舊：6×7×3.0 m，門在前牆 z=+3.5 中間（x −0.48..0.48）。
+- 取代 dorm_interior.py 的雙人房（舊腳本保留）。房間 4.2×7×3.4 m（11-03 DORM-CEIL-1103 以前高 3.0；11-02 以前 6×7：使用者「走道太大……開門看起來會是深的」），門在前牆 z=+3.5 中間（x −0.48..0.48），出口、進門的位置照舊。
 - 座標＝遊戲 dorm 區域座標（x 右、y 上、z 往門）。牆內面 x ±2.9、z ±3.4。
 - 配置（--layout 輸出 JSON，給 LAWWW-B 改 zones3d.js 的 dorm 區塊）：
-  - 洗手間：進門右邊（+x）x 0.65..2.9、z 1.45..3.4，門開向入口走道（x=0.65 那一面）。
-  - 床桌組：右牆兩組（R1 後、R2 前）、左牆兩組（L1 後、L2 前），每組沿牆 2.4 m、離牆 0.95 m；階梯在每組靠門那一端。
+  - 洗手間：進門右邊（+x）x 0.65..2.9、z 1.83..3.4（11-02 以前 1.45），門開向入口走道（x=0.65 那一面）。
+  - 床桌組：右牆兩組（R1 後、R2 前）、左牆兩組（L1 後、L2 前），每組沿牆 2.57 m、離牆 1.05 m；階梯在每組靠門那一端（寬 0.52、五階 32 cm）；床板 1.66～1.70、床欄頂 2.12、床墊 2.0×1.0 m。
+    11-02 DORM-LOFT-SCALE-1102 使用者「宿舍的床跟人的比例太奇怪了，床太小，階梯太小」：以前每組 2.4 m、離牆 0.95、階梯寬 0.40 四階、床板 1.56～1.60、床墊 1.95 m；洗手間 z 1.45 → 1.83。
     誰用哪一組照 AA_208 第 4 節：203＝R1 柏翰（靠窗、先到）、R2 阿凱、L1 阿哲、L2 祐廷（門口那組）；412（經濟系那年，同一個模型換東西）＝R1 唐睿、R2 阿勳、L1 韋綸、L2 祐廷。
   - 窗移到後牆中間（x −1.1..1.1、y 0.95..2.4），冷氣在窗的右上方。
+  - 階梯兩側都有扶手（DORM-LADDER-HEAD-GRIP-1102 ②，LAWWW2-C 11-05：以前只有門那一側）：靠床那一側照門那一側的下半段鏡像，斜上到床尾板的邊（1.84 m）彎進床尾板。
+    sleep_scene 多 grips（每一階爬上／爬下兩手抓的點，給 LAWWW 的 climbIK）、rails（扶手、床尾板頂、上下床扶手的中心線）。
 - 節點：WALL_<front|back|left|right|bath_n|bath_w>_*（會淡出的牆，dir＝往室內）；LOFT_<組>_TOP（床板、床欄、床墊、吊桿、扶手上段：材質 seethru_*）＋子節點 BEDDING_<組>（被子、枕頭）；
   每個人的東西一組一個節點（可以整組藏起來）：Y203_YUTING、ROOMMATE_KAI、Y203_ZHE、Y203_BOHAN、Y412_YUTING、Y412_TANGRUI、Y412_WEILUN；經濟系第一晚的名牌 NAMETAG_TANGRUI／NAMETAG_WEILUN。
   大二～大四（LAWWW2-C 2026-10-17，AA_208 第 7、8 節；SCN-V3-01／V4-01／V5-01）：Y312_YUTING／Y312_ZHE／Y312_BOHAN／Y312_FRESH、Y507_YUTING／Y507_BOHAN／Y507_SOPH／Y507_PEER、
@@ -32,26 +35,26 @@ ONLY = arg('--only')                               # --only 205：只做那一�
 ROOM_LAYOUT_OUT = arg('--room-layout')             # --only 時：rooms_glb3d.js 格式的配置（bounds、blocks、seats、spots、open…）
 EXTRA_SETS = ('205',)                              # 只在 --only 時做的那幾間（玩家的房間不能有：zones3d.js 的 DORM_SETS 不會藏 Y205_）
 
-W, D, H = 6.0, 7.0, 3.0
+W, D, H = 4.2, 7.0, 3.4   # DORM-CEIL-1103（使用者 11-03「宿舍天花板太低了 走上去都撞到頭」「至少微微彎腰不要整個頭卡進去天花板」）：3.0 → 3.4 m（梯子最上面一階 1.60 m＋身高 1.75＝3.35 m；跪在床墊 1.86 m 上頭頂約 3.05 m）。 11-02 使用者：「宿舍走道太大了……床之間大概只能走同時站三個人的寬度……打開門看起來會是深的」：寬 6.0 → 4.2（兩排床桌組中間的走道 4 m → 1.8 m），深 7 m 照舊
 X0, X1, Z0, Z1 = -W / 2, W / 2, -D / 2, D / 2
 T = 0.1
 IX0, IX1, IZ0, IZ1 = X0 + T, X1 - T, Z0 + T, Z1 - T          # 牆的內面
 DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0], 'bath_n': [0, 0, -1], 'bath_w': [-1, 0, 0]}
-WIN = (-1.1, 1.1, 0.95, 2.4)                       # 後牆的窗洞 x0,x1,y0,y1（窗景平面：中心 (0, 1.675)、2.2×1.45，往外放）
+WIN = (-0.8, 0.8, 0.95, 2.4)                       # 後牆的窗洞 x0,x1,y0,y1（窗景平面：中心 (0, 1.675)、2.2×1.45，往外放）
 DOOR = (-0.48, 0.48, 2.1)                          # 前牆的門洞（照舊）
-BATH = dict(x0=0.65, x1=IX1, z0=1.45, z1=IZ1, t=0.1, door=(2.2, 3.0), door_h=2.05)
+BATH = dict(x0=0.65, x1=IX1, z0=1.83, z1=IZ1, t=0.1, door=(2.3, 2.95), door_h=2.05)   # DORM-LOFT-SCALE-1102：z0 1.45 → 1.83（床桌組加長，洗手間往門口縮；裡面 2.25×1.5 m）
 # 床桌組：沿牆座標 u（＝z）、離牆距離 v；階梯在 ub 那一端（靠門）
-VD, STW = 0.95, 0.40                               # 床桌組的深度、階梯寬（10-30 DORM203-LM-1030：0.45→0.40，床長多 5 cm）
-STW0 = 0.45                                        # 原本的階梯寬：書桌、衣櫃的位置照舊用這個算（座位、走近點、導航不動），衣櫃往階梯那邊寬 5 cm 補縫
-DECK0, DECK1, GUARD = 1.56, 1.60, 2.02             # 床板底、床板頂、床欄頂
-RISE, NST = 0.32, 4                                # 階梯：四階、每階 32 cm（頂 1.28），再一步上床
+VD, STW = 1.05, 0.52                               # 床桌組的深度、階梯寬（10-30 DORM203-LM-1030：0.45→0.40；11-02 DORM-LOFT-SCALE-1102 使用者「床太小，階梯太小」：0.95→1.05、0.40→0.52）
+STW0 = STW   # 11-02 以前是 0.45（書桌、衣櫃照舊位置）；這一版整組重排，座位、走近點、導航都跟著配置重產                                        # 原本的階梯寬：書桌、衣櫃的位置照舊用這個算（座位、走近點、導航不動），衣櫃往階梯那邊寬 5 cm 補縫
+DECK0, DECK1, GUARD = 1.66, 1.70, 2.12             # 床板底、床板頂、床欄頂（11-02 以前 1.56／1.60／2.02）
+RISE, NST = 0.32, 5                                # 階梯：五階、每階 32 cm（頂 1.60），再一步上床（11-02 以前四階，頂 1.28、要跨 0.3 m 上床）
 # 誰用哪一組（AA_208 第 4 節，AA 分支 65978067）：柏翰先到、用靠窗那組；「門口那張床是你的」＝祐廷在左前；阿凱的書桌在祐廷對面（遙控器放在兩張書桌中間）
 # 大二～大四（AA_208 第 7、8 節）：312＝祐廷 L2、阿哲 L1、柏翰 R1、大一學弟 R2（背景）；507＝祐廷、柏翰、大二學弟 L1、別系的同屆 R2；409＝祐廷、柏翰、大二學弟 L1、大一學弟 R2
 # 205（方奕廷的房間，AA_399 第 11 節；只在 --only 205）：方奕廷 R1（靠窗：盆栽要光）、其他三個是沒有名字的室友（背景）
-UNITS = [('R1', 'R', IZ0 + 0.005, -1.0, {'203': 'bohan', '412': 'tangrui', '312': 'bohan', '507': 'bohan', '409': 'bohan', '205': 'fang'}),
-         ('R2', 'R', -0.98, 1.39, {'203': 'kai', '412': 'xun', '312': 'fresh', '507': 'peer', '409': 'fresh', '205': 'fresh'}),
-         ('L1', 'L', IZ0 + 0.005, -1.0, {'203': 'zhe', '412': 'weilun', '312': 'zhe', '507': 'soph', '409': 'soph', '205': 'soph'}),
-         ('L2', 'L', -0.98, 1.39, {'203': 'yuting', '412': 'yuting', '312': 'yuting', '507': 'yuting', '409': 'yuting', '205': 'peer'})]
+UNITS = [('R1', 'R', IZ0 + 0.005, -0.825, {'203': 'bohan', '412': 'tangrui', '312': 'bohan', '507': 'bohan', '409': 'bohan', '205': 'fang'}),
+         ('R2', 'R', -0.805, 1.765, {'203': 'kai', '412': 'xun', '312': 'fresh', '507': 'peer', '409': 'fresh', '205': 'fresh'}),
+         ('L1', 'L', IZ0 + 0.005, -0.825, {'203': 'zhe', '412': 'weilun', '312': 'zhe', '507': 'soph', '409': 'soph', '205': 'soph'}),
+         ('L2', 'L', -0.805, 1.765, {'203': 'yuting', '412': 'yuting', '312': 'yuting', '507': 'yuting', '409': 'yuting', '205': 'peer'})]
 DUVET = {'R1': '#e2ddd2', 'R2': '#6b6f75', 'L1': '#3f6fa0', 'L2': '#4d6f8f'}   # 每一組的被子（柏翰淺灰、阿凱深灰、阿哲藍、祐廷灰藍）
 random.seed(23)
 TEXGEN = os.path.join(HERE, 'textures', 'gen')
@@ -158,7 +161,7 @@ def lbox(m, side, u0, u1, y0, y1, v0, v1, fn='box', **kw):
 Mesh('dorm_floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root, props={'lm': 1.3, 'lmhide': 'side,down'})   # lm、lmhide：光照烘焙（DORM203-LM-1030，bake_dorm_room4.sh）分給地板多一點；地板方塊的四邊埋在牆裡、底面看不到
 ce = Mesh('dorm_ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=False, props={'lm': 0.35})   # 天花板：玩家鏡頭往下看，幾乎看不到
 tb = Mesh('dorm_tubes', M['tube']); fx = Mesh('dorm_fixtures', M['fixture'])
-for (cx, cz, r) in ((0.0, -1.7, 0.24), (0.0, 0.7, 0.24), (1.8, 2.45, 0.13)):     # 圓形吸頂燈（照片）：外殼＋乳白燈罩；最後一盞在洗手間
+for (cx, cz, r) in ((0.0, -1.7, 0.24), (0.0, 0.7, 0.24), (round((BATH['x0'] + IX1) / 2, 3), 2.6, 0.13)):     # 圓形吸頂燈（照片）：外殼＋乳白燈罩；最後一盞在洗手間
     fx.add_bm(L.lathe([(r, 0.0), (r, -0.035), (r - 0.02, -0.045), (0.0, -0.045)], seg=24), Matrix.Translation(g2b(cx, H - 0.002, cz)))
     tb.add_bm(L.lathe([(r - 0.03, 0.0), (r - 0.04, -0.012), (0.0, -0.016)], seg=24), Matrix.Translation(g2b(cx, H - 0.046, cz)))
 fx.cyl((-1.4, H - 0.002, -0.4), (-1.4, H - 0.035, -0.4), 0.055, seg=14)        # 偵煙器
@@ -175,8 +178,9 @@ for a0, a1 in ((X0 + T, dx0), (dx1, X1 - T)): wall_box('front', 'wall', a0, a1, 
 wall_box('front', 'wall', dx0, dx1, dh, H)
 # 踢腳板：只放在露出來的牆腳（床桌組底下、洗手間裡面不放）
 sk = lambda side, a0, a1: wall_box(side, 'skirt', a0, a1, 0.0, 0.08, T, T + 0.012)
-sk('back', -1.94, 1.94)
-sk('front', -1.9, dx0 - 0.07); sk('front', dx1 + 0.07, BATH['x0'] - 0.005)
+AISLE = IX1 - VD - 0.05                            # 走道半寬（床桌組阻擋的內緣）
+sk('back', -AISLE - 0.04, AISLE + 0.04)
+sk('front', IX0 + 0.9, dx0 - 0.07); sk('front', dx1 + 0.07, BATH['x0'] - 0.005)
 sk('left', 1.41, IZ1 - 0.012)
 
 # 窗：鋁框推拉窗（兩扇）、窗台、窗洞側面、捲簾（拉下三分之一）
@@ -215,14 +219,14 @@ wm('front', 'black').box(dx0 - 0.275, dx0 - 0.245, 1.255, 1.305, zi - 0.016, zi 
 hk = wm('front', 'chrome')                                                                           # 門左邊的掛勾＋毛巾、帆布袋
 for i in range(4):
     x = -2.3 + i * 0.22; hk.box(x - 0.012, x + 0.012, 1.68, 1.74, zi - 0.02, zi); hk.cyl((x, 1.7, zi - 0.02), (x, 1.75, zi - 0.07), 0.008, seg=5)
-hk.box(-2.42, -1.56, 1.66, 1.76, zi - 0.012, zi)
-soft_box(wm('front', 'blind'), -2.24, -1.94, 1.12, 1.71, zi - 0.06, zi - 0.03, r=0.012, seg=1)
-soft_box(wm('front', 'pillow'), -1.88, -1.56, 1.22, 1.62, zi - 0.1, zi - 0.04, r=0.02, seg=1)
+hk.box(-1.52, -0.66, 1.66, 1.76, zi - 0.012, zi)   # 11-02 房間變窄：門左邊這一段整組往右 0.9（左牆 x −2.9 → −2.0）
+soft_box(wm('front', 'blind'), -1.34, -1.04, 1.12, 1.71, zi - 0.06, zi - 0.03, r=0.012, seg=1)
+soft_box(wm('front', 'pillow'), -0.98, -0.66, 1.22, 1.62, zi - 0.1, zi - 0.04, r=0.02, seg=1)
 
 # 冷氣（後牆、窗的右上方）＋冷媒管蓋板
 ac = wm('back', 'ac'); soft_box(ac, 0.25, 1.15, 2.55, 2.84, IZ0, IZ0 + 0.22, r=0.03, seg=2)
 wm('back', 'black').box(0.3, 1.1, 2.555, 2.575, IZ0 + 0.12, IZ0 + 0.225)
-wm('back', 'trim').box(1.14, 1.4, 2.6, 2.66, IZ0, IZ0 + 0.06); wm('back', 'trim').box(1.34, 1.4, 2.66, 2.97, IZ0, IZ0 + 0.06)
+wm('back', 'trim').box(1.14, 1.4, 2.6, 2.66, IZ0, IZ0 + 0.06); wm('back', 'trim').box(1.34, 1.4, 2.66, H - 0.03, IZ0, IZ0 + 0.06)
 
 # ======================================================================= 洗手間（進門右邊）：隔間牆＋門；裡面：馬桶、洗手台、鏡子、淋浴間
 bx0, bx1, bz0, bz1, bt = BATH['x0'], BATH['x1'], BATH['z0'], BATH['z1'], BATH['t']
@@ -233,7 +237,7 @@ bw.box(bx0 - bt / 2, bx0 + bt / 2, -0.01, H + 0.01, bz0 + bt / 2, d0)
 bw.box(bx0 - bt / 2, bx0 + bt / 2, -0.01, H + 0.01, d1, Z1 - 0.05)
 bw.box(bx0 - bt / 2, bx0 + bt / 2, bdh, H + 0.01, d0, d1)
 xo = bx0 - bt / 2                                                                                     # 隔間牆在房間那一面
-wm('bath_n', 'skirt').box(bx0 - bt / 2 - 0.012, IX1 - 0.95 - 0.02, 0.0, 0.08, bz0 - bt / 2 - 0.012, bz0 - bt / 2)
+wm('bath_n', 'skirt').box(bx0 - bt / 2 - 0.012, IX1 - VD - 0.02, 0.0, 0.08, bz0 - bt / 2 - 0.012, bz0 - bt / 2)
 wm('bath_w', 'skirt').box(xo - 0.012, xo, 0.0, 0.08, bz0 - bt / 2 - 0.012, d0 - 0.06)
 wm('bath_w', 'skirt').box(xo - 0.012, xo, 0.0, 0.08, d1 + 0.06, IZ1 - 0.012)
 bt_ = wm('bath_w', 'trim')
@@ -261,13 +265,13 @@ tx, tz = bi1 - 0.36, bj1 - 0.42                                                 
 cer.add_bm(L.lathe([(0.0, 0.0), (0.12, 0.0), (0.16, 0.2), (0.19, 0.38), (0.17, 0.4), (0.0, 0.4)], seg=16), Matrix.Translation(g2b(tx, 0.015, tz)) @ Matrix.Scale(1.0, 4))
 cer.rbox(tx + 0.12, tx + 0.3, 0.38, 0.78, tz - 0.2, tz + 0.2, r=0.03, seg=2)
 cer.add_bm(L.lathe([(0.0, 0.0), (0.2, 0.0), (0.2, 0.025), (0.0, 0.025)], seg=16), Matrix.Translation(g2b(tx - 0.02, 0.4, tz)))
-sx_, sz_ = bi0 + 0.62, bj0 + 0.3                                                                      # 洗手台（靠北面隔間）＋鏡子
-cer.rbox(sx_ - 0.28, sx_ + 0.28, 0.72, 0.86, bj0 + 0.008, bj0 + 0.47, r=0.04, seg=2)
+sx_, sz_ = bi0 + 0.2, bj0 + 0.3                                                                      # 洗手台（靠北面隔間）＋鏡子
+cer.rbox(sx_ - 0.18, sx_ + 0.18, 0.72, 0.86, bj0 + 0.008, bj0 + 0.4, r=0.04, seg=2)   # 11-02 洗手間 1.3 m 寬：小洗手台在西北角（淋浴間在東北角）
 cer.cyl((sx_, 0.0, bj0 + 0.15), (sx_, 0.72, bj0 + 0.15), 0.07, seg=12)
 fin(cer, smooth=0.7, uv=False)
-mr = Mesh('dorm_mirror', M['mirror']); mr.box(sx_ - 0.3, sx_ + 0.3, 1.1, 1.8, bj0 + 0.008, bj0 + 0.02); fin(mr, uv=False)
+mr = Mesh('dorm_mirror', M['mirror']); mr.box(sx_ - 0.18, sx_ + 0.18, 1.1, 1.7, bj0 + 0.008, bj0 + 0.02); fin(mr, uv=False)
 bch2 = Mesh('dorm_chrome', M['chrome']); bch2.cyl((sx_, 0.86, bj0 + 0.06), (sx_, 1.0, bj0 + 0.06), 0.015, seg=8); bch2.cyl((sx_, 1.0, bj0 + 0.06), (sx_, 0.97, bj0 + 0.17), 0.012, seg=6)
-bch2.cyl((bi1 - 0.9, 2.05, bj0 + 0.008), (bi1 - 0.9, 2.05, bj0 + 0.95), 0.012, seg=8)                # 淋浴間的浴簾桿（東北角）
+bch2.cyl((bi1 - 0.9, 2.05, bj0 + 0.008), (bi1 - 0.9, 2.05, bj0 + 0.85), 0.012, seg=8)                # 淋浴間的浴簾桿（東北角）
 bch2.cyl((bi1 - 0.008, 1.9, bj0 + 0.45), (bi1 - 0.2, 1.9, bj0 + 0.45), 0.02, seg=8); bch2.sphere((bi1 - 0.2, 1.88, bj0 + 0.45), 0.05, seg=10, rings=6)
 fin(bch2, smooth=0.8, uv=False)
 shc = Mesh('dorm_shower_curtain', M['shower']); n = 12
@@ -466,6 +470,50 @@ def desk_lamp(G, side, u, Y, v=0.12, du=1.0):
     G['led'].sphere(W3(side, u + 0.1 * du, Y + 0.37, v + 0.25), 0.026, seg=10, rings=6)
 
 
+GRIP_BODY = {'shoulder_y': 1.32, 'half': 0.14, 'fw': {'up': 0.09, 'down': 0.04}, 'target': {'up': [0.26, 0.05], 'down': [0.10, -0.40]}, 'reach': [0.22, 0.50]}
+
+
+def ladder_grips(side, uc, steps, door, bed):
+    """爬梯子每一階兩手抓哪裡（DORM-LADDER-HEAD-GRIP-1102 ②，LAWWW2-C 2026-11-05；給 LAWWW 的 climbIK）。
+    steps＝每一階的踏點（遊戲座標，同 sleep_scene.steps）；door／bed＝那一側抓得到的東西 [(點, 切線, 名字)]（每 1 cm 一點）。
+    人物（GRIP_BODY）照祐廷 1.75 m 在遊戲 climb／climbdown 姿勢量的肩關節：腳上 1.32 m、左右各 0.14、往前 0.09（上去）／0.04（下來）。
+    每隻手在自己那一側挑離「自然的位置」（上去：肩膀往前 0.26、往上 0.05＝抓前上方；下來：往前 0.10、往下 0.40＝扶在腰旁邊）最近、
+    離肩膀 0.22～0.50 m（祐廷肩膀到手腕 0.46；太近＝手縮在肩膀旁邊）的那一點；都搆不到＝None（最上面一階：轉身跪上床／從床上下來，手放開）。
+    回傳 {'up': [[左手, 右手], …], 'down': […]}（人物自己的左右；上去面向牆、下來面向房間）；每隻手 {'p': 點, 'on': 抓在哪, 'dir': 那裡的切線}"""
+    gb = GRIP_BODY; fx = -1.0 if side == 'L' else 1.0   # 上去＝往牆（L 牆 −x、R 牆 +x）
+    out = {}
+    for dn in ('up', 'down'):
+        f = fx if dn == 'up' else -fx; tf_, tu = gb['target'][dn]; rows = []
+        for s in steps:
+            row = {}
+            for nm, cands, lat in (('door', door, gb['half']), ('bed', bed, -gb['half'])):   # 門那一側＝+z（ub）、床那一側＝−z
+                S = (s[0] + f * gb['fw'][dn], s[1] + gb['shoulder_y'], s[2] + lat); T = (S[0] + f * tf_, S[1] + tu, S[2])
+                best = None
+                for p, d, tag in cands:
+                    r = math.dist(p, S)
+                    if r < gb['reach'][0] or r > gb['reach'][1]: continue
+                    c = math.dist(p, T)
+                    if best is None or c < best[0]: best = (c, p, d, tag)
+                row[nm] = None if best is None else {'p': [round(v, 3) for v in best[1]], 'on': best[3], 'dir': [round(v, 3) for v in best[2]]}
+            door_left = f < 0   # 面向 −x：右手在 −z（床那一側）；面向 +x：右手在 +z（門那一側）
+            rows.append([row['door'], row['bed']] if door_left else [row['bed'], row['door']])
+        out[dn] = rows
+    return out
+
+
+def grip_samples(pts, tag, keep=lambda p: True, step=0.01):
+    """折線每 1 cm 一點＋切線（抓得到的地方）"""
+    out = []
+    for a, b in zip(pts, pts[1:]):
+        L = math.dist(a, b)
+        if L < 1e-6: continue
+        n = max(1, int(L / step)); d = tuple((bb - aa) / L for aa, bb in zip(a, b))
+        for i in range(n + 1):
+            p = tuple(aa + (bb - aa) * i / n for aa, bb in zip(a, b))
+            if keep(p): out.append((p, d, tag))
+    return out
+
+
 def loft(uid, side, ua, ub, sets):
     ust = ub - STW
     TOPG = B.group(f'LOFT_{uid}_TOP', root, {'kind': 'loft_top', 'unit': uid})          # 1.5 m 以上：鏡頭擋到時遊戲可以整組淡出
@@ -479,7 +527,8 @@ def loft(uid, side, ua, ub, sets):
     lbox(tf, side, ust - 0.025, ust, DECK1, GUARD, 0.47, VD - 0.025)   # 床尾（階梯那一端）的擋板在走道那一半；靠牆那一半是上床的開口（階梯從走道往牆邊爬，最上面一階靠牆；10-30 以前擋板在靠牆那一半，人從最上面一階上不了床——DORM-SLEEP-VISUAL-1030）
     for uu in (ua + 0.1, ust - 0.12):
         tr.cyl(W3(side, uu, GUARD - 0.02, VD - 0.012), W3(side, uu, H, VD - 0.012), 0.009, seg=8); tr.cyl(W3(side, uu, H - 0.004, VD - 0.012), W3(side, uu, H - 0.012, VD - 0.012), 0.03, seg=12)
-    sweep(tf, bend([W3(side, ust - 0.035, DECK1 + 0.05, 0.55), W3(side, ust - 0.035, 2.32, 0.55), W3(side, ust - 0.035, 2.32, 0.88), W3(side, ust - 0.035, GUARD - 0.03, 0.88)], r=0.07), 0.016, seg=8)
+    HOOP = bend([W3(side, ust - 0.035, DECK1 + 0.05, 0.55), W3(side, ust - 0.035, GUARD + 0.3, 0.55), W3(side, ust - 0.035, GUARD + 0.3, 0.88), W3(side, ust - 0.035, GUARD - 0.03, 0.88)], r=0.07)   # 床尾板上面的上下床扶手
+    sweep(tf, HOOP, 0.016, seg=8)
     lbox(ts, side, ua + 0.025, ust - 0.025, DECK1, DECK1 + 0.16, 0.03, VD - 0.05, fn='soft', r=0.04, seg=2)   # 床墊 1.92～1.95 m（使用者 10-30「床的比例也要注意」：原本 1.85～1.875，祐廷 1.75 m 躺下只剩 10 cm；標準單人床約 1.9 m）
     neat = sets.get('203') == 'bohan'
     lbox(tdv, side, ua + 0.5, ust - 0.06, DECK1 + 0.1, DECK1 + 0.24, 0.02, VD - 0.04, fn='soft', r=0.05, seg=2)
@@ -512,9 +561,19 @@ def loft(uid, side, ua, ub, sets):
         lbox(wht, side, ust + 0.02, ub - 0.018, bot, top - 0.025, v0 + 0.002, v0 + 0.017)
         if k > 0: lbox(wht, side, ust + 0.02, ub - 0.018, bot - 0.018, bot, v0 + 0.017, v1)
     ur = ub - 0.04
-    sweep(tf, bend([W3(side, ur, 1.5, VD - dd * 1.6), W3(side, ur, 2.05, dd * 0.6), W3(side, ur, 2.2, dd * 0.6)], r=0.08), 0.016, seg=8)   # 扶手 1.5 m 以上的那段（透視群組）
-    sweep(wht, [W3(side, ur, RISE - 0.025, VD - dd / 2), W3(side, ur, 1.12, VD - dd / 2), W3(side, ur, 1.5, VD - dd * 1.6)], 0.016, seg=8)
-    wht.cyl(W3(side, ur, RISE * NST, dd * 0.6), W3(side, ur, 1.5, dd * 0.6), 0.014, seg=8); tf.cyl(W3(side, ur, 1.5, dd * 0.6), W3(side, ur, 2.05, dd * 0.6), 0.014, seg=8)
+    DOOR_UP = bend([W3(side, ur, DECK0, VD - dd * 1.6), W3(side, ur, GUARD + 0.03, dd * 0.6), W3(side, ur, GUARD + 0.18, dd * 0.6)], r=0.08)
+    DOOR_LO = [W3(side, ur, RISE - 0.025, VD - dd / 2), W3(side, ur, 1.2, VD - dd / 2), W3(side, ur, DECK0, VD - dd * 1.6)]
+    sweep(tf, DOOR_UP, 0.016, seg=8)   # 扶手 1.5 m 以上的那段（透視群組）
+    sweep(wht, DOOR_LO, 0.016, seg=8)
+    wht.cyl(W3(side, ur, RISE * NST, dd * 0.6), W3(side, ur, DECK0 + 0.04, dd * 0.6), 0.014, seg=8); tf.cyl(W3(side, ur, DECK0 + 0.04, dd * 0.6), W3(side, ur, GUARD + 0.03, dd * 0.6), 0.014, seg=8)
+    # 靠床那一側的扶手（DORM-LADDER-HEAD-GRIP-1102 ②，LAWWW2-C 2026-11-05；LAWWW 爬梯子手勢 CLIMB-POSE-1102「只有門那一側有扶手……靠床那一側的手在低幾階時是抓在空中」）：
+    #   門那一側扶手的下半段照鏡像（踏板上的直段到 1.2 m、斜段到床板底 1.66 m），再照上半段的斜度到床尾板的邊（v 0.50、1.84 m），彎進床尾板、鎖在法蘭上。
+    #   上床的開口（靠牆那一半，v < 0.47）不擋；離人（祐廷，每一階爬上爬下）的腿和身體 3 cm 以上，和門那一側一樣（tests/dorm_ladder_grips_unit.js）。
+    ul = ust + 0.04; vb = 0.50; yb = DECK0 + (VD - dd * 1.6 - vb) * (GUARD + 0.03 - DECK0) / (VD - dd * 1.6 - dd * 0.6)
+    BED_LO = [W3(side, ul, RISE - 0.025, VD - dd / 2), W3(side, ul, 1.2, VD - dd / 2), W3(side, ul, DECK0, VD - dd * 1.6)]
+    BED_UP = bend([W3(side, ul, DECK0, VD - dd * 1.6), W3(side, ul, yb, vb), W3(side, ust - 0.006, yb, vb)], r=0.03)
+    sweep(wht, BED_LO, 0.016, seg=8); sweep(tf, BED_UP, 0.016, seg=8)
+    tf.cyl(W3(side, ust + 0.006, yb, vb), W3(side, ust, yb, vb), 0.028, seg=12)   # 法蘭（鎖在床尾板上）
     cu_ = (k0 + 0.45 + k1) / 2
     plastic_chair(side, cu_, 0.86)
     if uid == 'L2' and not ONLY: jacket_chair(side, cu_, 0.86, root)   # 祐廷的椅子：系外套（預設藏）
@@ -532,12 +591,12 @@ def loft(uid, side, ua, ub, sets):
     if sets.get('412') in ('tangrui', 'weilun'):                                                       # 經濟系第一晚：床欄上的名牌
         nm = sets['412']; g = B.group(f'NAMETAG_{nm.upper()}', root, {'kind': 'nametag', 'unit': uid}); uc = (ua + ust) / 2; xg = wx(side, VD + 0.003)
         a, b = (uc - 0.11, uc + 0.11) if side == 'R' else (uc + 0.11, uc - 0.11)
-        label_quad(f'NAMETAG_{nm.upper()}_card', g, [(xg, 1.78, a), (xg, 1.78, b), (xg, 1.89, b), (xg, 1.89, a)], (0.0, 0.0, 0.5, 0.5) if nm == 'tangrui' else (0.5, 0.0, 1.0, 0.5))
+        label_quad(f'NAMETAG_{nm.upper()}_card', g, [(xg, DECK1 + 0.08, a), (xg, DECK1 + 0.08, b), (xg, DECK1 + 0.19, b), (xg, DECK1 + 0.19, a)], (0.0, 0.0, 0.5, 0.5) if nm == 'tangrui' else (0.5, 0.0, 1.0, 0.5))
     # ---- 配置資料
     yaw = math.pi / 2 if side == 'R' else -math.pi / 2
     LAYOUT['units'].append({'id': uid, 'side': side, 'sets': sets, 'u': [round(ua, 3), round(ub, 3)], 'stair_u': [round(ust, 3), round(ub, 3)],
                             'block': {'x': sorted((round(wx(side, 0), 3), round(wx(side, VD + 0.05), 3))), 'z': [round(ua, 3), round(ub, 3)]},
-                            'seat': {'x': round(wx(side, 0.86), 3), 'z': round(cu_, 3), 'yaw': round(yaw, 4)}, 'seat_approach': [round(wx(side, 1.35), 3), round(cu_, 3)],
+                            'seat': {'x': round(wx(side, 0.86), 3), 'z': round(cu_, 3), 'yaw': round(yaw, 4)}, 'seat_approach': [round(wx(side, 1.45), 3), round(cu_, 3)],
                             'desk_center': [round(wx(side, 0.31), 3), round((k0 + k1) / 2, 3)], 'desk_top_y': Y, 'desk_u': [round(k0, 3), round(k1, 3)],
                             'sleep': [round(wx(side, VD + 0.4), 3), round((ust + ub) / 2, 3)], 'bed_top_y': DECK1 + 0.16,
                             'floor_under_bed_spot': [round(wx(side, 0.3), 3), round(w0 - 0.35, 3)],
@@ -553,7 +612,21 @@ def loft(uid, side, ua, ub, sets):
         'bed_entry': [r3(wx(side, 0.25)), r3(mtop), r3(ust - 0.25)],
         'lie': {'head': [r3(wx(side, mv)), r3(mtop + 0.1), r3(ua + 0.155)], 'feet': [r3(wx(side, mv)), r3(mtop + 0.05), r3(ua + 1.775)], 'head_dir_yaw': 3.1416, 'mattress_top_y': r3(mtop),
                 'mattress': {'x': sorted([r3(wx(side, 0.03)), r3(wx(side, VD - 0.05))]), 'z': [r3(ua + 0.025), r3(ust - 0.025)]}},
-        'cam': {'eye': [r3(wx(side, mv) + sx * 1.6), 2.75, r3(zc_ + 0.7)], 'look': [r3(wx(side, mv)), 1.85, r3(zc_)]}}
+        'cam': {'eye': [r3(wx(side, mv) + sx * 1.6), 2.75, r3(zc_ + 0.7)], 'look': [r3(wx(side, mv)), 1.85, r3(zc_)]},
+        # DORM-CEIL-1103：頭不能進天花板——人物（含頭髮）最高到 head_max；最上面一階站直頭頂約 3.35 m（微微彎腰）、上床那一步（bed_entry，床墊上）要跪或爬（站直會到 3.6 m）
+        'ceil_y': H, 'head_max': r3(H - 0.08), 'bed_entry_pose': 'kneel'}
+    # 爬梯子兩手抓哪裡（DORM-LADDER-HEAD-GRIP-1102 ②）：門那一側＝扶手（踏板以上）＋最上面的直柱；靠床那一側＝新扶手（彎進床尾板以前）＋床尾板頂（手扣在板子上緣）＋上下床扶手（床尾板頂 4 cm 以上那一段）
+    st_ = LAYOUT['units'][-1]['sleep_scene']['steps']; ry = lambda p: p[1] >= RISE   # 埋在第一階踏板裡的那一截不算
+    fb = [W3(side, ust - 0.0125, GUARD - 0.015, 0.47 + 0.03), W3(side, ust - 0.0125, GUARD - 0.015, VD - 0.045)]
+    post = [W3(side, ur, RISE * NST, dd * 0.6), W3(side, ur, GUARD + 0.03, dd * 0.6)]
+    door_c = grip_samples(DOOR_LO, 'door_rail', ry) + grip_samples(DOOR_UP, 'door_rail') + grip_samples(post, 'door_post')
+    bed_c = grip_samples(BED_LO, 'bed_rail', ry) + grip_samples(BED_UP, 'bed_rail', lambda p: (p[2] - ust) * 1.0 >= 0.025) + grip_samples(fb, 'footboard_top') + grip_samples(HOOP, 'hoop', lambda p: p[1] >= GUARD + 0.04)
+    g = ladder_grips(side, uc_, st_, door_c, bed_c)
+    rp = lambda P: [[r3(v) for v in p] for p in P]
+    LAYOUT['units'][-1]['sleep_scene']['grips'] = {'up': g['up'], 'down': g['down'], 'body': GRIP_BODY,
+        'note': 'DORM-LADDER-HEAD-GRIP-1102：每一階（同 steps）[左手, 右手]（人物自己的左右；up＝爬上去面向牆、down＝爬下來面向房間）；p＝抓的點（扶手中心線、床尾板上緣）、on＝抓在哪、dir＝那裡扶手的方向；null＝搆不到（轉身跪上床／從床上下來那一階，手放開）。body＝挑點時用的人（祐廷 1.75 m 的肩膀）'}
+    LAYOUT['units'][-1]['sleep_scene']['rails'] = {'r': 0.016, 'door_rail': rp([DOOR_LO[0][:1] + (RISE,) + DOOR_LO[0][2:]] + DOOR_LO[1:] + DOOR_UP[1:]), 'door_post': rp(post),
+        'bed_rail': rp([BED_LO[0][:1] + (RISE,) + BED_LO[0][2:]] + BED_LO[1:] + BED_UP[1:]), 'footboard_top': rp(fb), 'hoop': rp(HOOP)}
 
 
 # ---- 每個人的東西
@@ -686,8 +759,8 @@ def bohan_y(year):
 def handbook(G, side, ua, ust):
     """宿舍發的新生手冊：貼在床欄外面（從房間看得到；封面淺藍＋白色帶子，沒有字）"""
     uc = (ua + ust) / 2 + 0.3; a, b = uc - 0.075, uc + 0.075
-    lbox(G['it'], side, a, b, 1.6, 1.81, VD + 0.002, VD + 0.009, fn='cbox', hexcol='#9cc0d8'); lbox(G['it'], side, a, b, 1.74, 1.77, VD + 0.009, VD + 0.011, fn='cbox', hexcol='#f4f2ec')
-    for t in (1.8, 1.61): lbox(G['it'], side, uc - 0.03, uc + 0.03, t - 0.005, t + 0.012, VD + 0.009, VD + 0.012, fn='cbox', hexcol='#e9e4d2')   # 膠帶
+    lbox(G['it'], side, a, b, DECK1, DECK1 + 0.21, VD + 0.002, VD + 0.009, fn='cbox', hexcol='#9cc0d8'); lbox(G['it'], side, a, b, DECK1 + 0.14, DECK1 + 0.17, VD + 0.009, VD + 0.011, fn='cbox', hexcol='#f4f2ec')
+    for t in (DECK1 + 0.2, DECK1 + 0.01): lbox(G['it'], side, uc - 0.03, uc + 0.03, t - 0.005, t + 0.012, VD + 0.009, VD + 0.012, fn='cbox', hexcol='#e9e4d2')   # 膠帶
 
 
 def carton(G, side, u0, u1, y0, y1, v0, v1):
@@ -840,22 +913,22 @@ LAYOUT['player_unit'] = 'L2'
 label_quad('WALL_bath_w_sign', root, [(xo - 0.012, 1.48, d0 + 0.26), (xo - 0.012, 1.48, d1 - 0.26), (xo - 0.012, 1.6, d1 - 0.26), (xo - 0.012, 1.6, d0 + 0.26)], (0.0, 0.5, 1.0, 1.0))['dir'] = DIRS['bath_w']
 
 # ======================================================================= 前左角：鞋櫃、垃圾桶、資源回收、曬衣架
-lbox(wht, 'L', 1.62, 2.82, 0.0, 0.95, 0.005, 0.34, fn='rbox', r=0.008, seg=1)
-for j in range(3): lbox(wood, 'L', 1.63 + j * 0.4, 2.01 + j * 0.4, 0.06, 0.92, 0.34, 0.352)
-for j, c in enumerate(['#202225', '#e8e2d4', '#2f4f6b', '#7a1f24']): lbox(it, 'L', 1.7 + j * 0.27, 1.92 + j * 0.27, 0.95, 1.05, 0.06, 0.3, fn='cbox', hexcol=c)
-for (x_, c) in ((-1.25, '#5f6a73'), (-0.95, '#3a6ea5')):
+lbox(wht, 'L', 1.82, 2.82, 0.0, 0.95, 0.005, 0.34, fn='rbox', r=0.008, seg=1)   # 11-02：1.62 → 1.82（祐廷那組床桌組加長到 1.765）
+for j in range(3): lbox(wood, 'L', 1.83 + j * 0.333, 2.153 + j * 0.333, 0.06, 0.92, 0.34, 0.352)
+for j, c in enumerate(['#202225', '#e8e2d4', '#2f4f6b', '#7a1f24']): lbox(it, 'L', 1.86 + j * 0.235, 2.04 + j * 0.235, 0.95, 1.05, 0.06, 0.3, fn='cbox', hexcol=c)
+for (x_, c) in ((-1.55, '#5f6a73'), (-1.25, '#3a6ea5')):   # 11-02：房間變窄，垃圾桶、資源回收往左牆靠（不擋門）
     painted(it, lambda: it.add_bm(L.lathe([(0.0, 0.0), (0.12, 0.0), (0.14, 0.42), (0.0, 0.42)], seg=14), Matrix.Translation(g2b(x_, 0.0, IZ1 - 0.2))), c)
-RX0, RX1, RZ = -2.42, -1.72, 2.62                                                                                        # 折疊曬衣架
+RX0, RX1, RZ = -1.52, -0.82, 2.62                                                                                        # 折疊曬衣架
 for x_ in (RX0, RX1):
     met.cyl((x_, 0.0, RZ - 0.27), (x_, 1.1, RZ), 0.008, seg=5); met.cyl((x_, 0.0, RZ + 0.27), (x_, 1.1, RZ), 0.008, seg=5)
 for (y_, dz) in ((1.1, 0.0), (0.85, -0.1), (0.85, 0.1)): met.cyl((RX0, y_, RZ + dz), (RX1, y_, RZ + dz), 0.006, seg=5)
-it.cbox(-2.3, -2.0, 0.62, 1.1, RZ - 0.015, RZ + 0.015, '#e6e0d2'); it.cbox(-1.95, -1.8, 0.7, 1.1, RZ - 0.115, RZ - 0.085, '#4a6c8c')
+it.cbox(-1.4, -1.1, 0.62, 1.1, RZ - 0.015, RZ + 0.015, '#e6e0d2'); it.cbox(-1.05, -0.9, 0.7, 1.1, RZ - 0.115, RZ - 0.085, '#4a6c8c')
 # 大家共用的東西（DORM203-LM-1030；四個年級、經濟系那年都一樣）：洗手間門口的吸水腳踏墊（走道上、平的，不擋路）；門左邊角落靠牆的掃把和畚箕
-bmat = Mesh('dorm_bathmat', L.flat('dorm_bathmat', '#7f8b92', rough=0.97)); soft_box(bmat, 0.1, 0.58, 0.0, 0.012, 2.33, 2.87, r=0.005, seg=1); fin(bmat, uv=False, props={'lm': 0.6})
-met.cyl((-2.79, 0.06, 3.12), (-2.84, 1.22, 3.27), 0.011, seg=6)                                                                      # 掃把：鋁管＋塑膠頭＋刷毛
-it.cbox(-2.86, -2.72, 0.02, 0.1, 3.05, 3.19, '#2f6f8f'); it.cbox(-2.85, -2.73, 0.0, 0.03, 3.06, 3.18, '#c9b98a')
-it.cbox(-2.86, -2.62, 0.0, 0.015, 3.24, 3.36, '#2f6f8f'); it.cbox(-2.86, -2.84, 0.015, 0.2, 3.24, 3.36, '#2f6f8f')                    # 畚箕（立在牆角）
-LAYOUT['blocks'] += [{'id': 'shoe_cabinet', 'x': [IX0, round(IX0 + 0.36, 3)], 'z': [1.62, 2.82]}, {'id': 'bins', 'x': [-1.4, -0.8], 'z': [3.05, IZ1]},
+bmat = Mesh('dorm_bathmat', L.flat('dorm_bathmat', '#7f8b92', rough=0.97)); soft_box(bmat, 0.1, 0.58, 0.0, 0.012, 2.35, 2.9, r=0.005, seg=1); fin(bmat, uv=False, props={'lm': 0.6})
+met.cyl((-1.89, 0.06, 3.12), (-1.94, 1.22, 3.27), 0.011, seg=6)                                                                      # 掃把：鋁管＋塑膠頭＋刷毛
+it.cbox(-1.96, -1.82, 0.02, 0.1, 3.05, 3.19, '#2f6f8f'); it.cbox(-1.95, -1.83, 0.0, 0.03, 3.06, 3.18, '#c9b98a')
+it.cbox(-1.96, -1.72, 0.0, 0.015, 3.24, 3.36, '#2f6f8f'); it.cbox(-1.96, -1.94, 0.015, 0.2, 3.24, 3.36, '#2f6f8f')                    # 畚箕（立在牆角）
+LAYOUT['blocks'] += [{'id': 'shoe_cabinet', 'x': [IX0, round(IX0 + 0.36, 3)], 'z': [1.765, 2.82]}, {'id': 'bins', 'x': [-1.72, -1.08], 'z': [3.05, IZ1]},
                      {'id': 'drying_rack', 'x': [RX0 - 0.05, RX1 + 0.05], 'z': [RZ - 0.3, RZ + 0.3]}, {'id': 'bath', 'x': [round(bx0 - bt / 2, 3), IX1], 'z': [round(bz0 - bt / 2, 3), IZ1]}]
 
 # ======================================================================= 只在烘焙時擋光的東西（--bakeblock；bake_dorm_room4.sh 的 --nolm、--drop 都有 BAKEONLY：不分光照貼圖、輸出前刪掉）
@@ -908,15 +981,16 @@ if ONLY == '205' and ROOM_LAYOUT_OUT:
              dict(id='sill', x=0.0, z=f2(IZ0 + 0.75), r=0.7, label='窗台的盆栽', note='', dev='三盆多肉，和祐廷房間窗台那三盆同一種；遊戲裡顯示的字等 AA 寫'),
              ]   # 洗手間不放「看」：它的點離進門的位置 0.25 m，一進門就跳出「洗手間（門關著）」（第一輪截圖）
     spots = {'fang': dict(x=r1['seat']['x'], z=r1['seat']['z'], yaw=r1['seat']['yaw'], act='sit', note='方奕廷坐在自己的書桌前（R1，靠窗）'),
-             'fang_stand': dict(x=0.55, z=f2(IZ0 + 0.55), yaw=round(math.pi, 4), act='stand', note='方奕廷站在窗台前（拿噴水瓶）'),
-             'player': dict(x=1.15, z=f2(r1['seat']['z'] + 0.75), yaw=round(math.pi / 2 + 0.6, 4), act='stand', note='玩家（站在他的書桌旁邊）')}
+             'fang_stand': dict(x=0.3, z=f2(IZ0 + 0.55), yaw=round(math.pi, 4), act='stand', note='方奕廷站在窗台前（拿噴水瓶）'),   # 11-02 走道剩 1.8 m：x ≤ 0.38 才站得進導航格（0.4 m 格、半徑 0.32）
+             'player': dict(x=f2(AISLE - 0.55), z=f2(r1['seat']['z'] + 0.75), yaw=round(math.pi / 2 + 0.6, 4), act='stand', note='玩家（站在他的書桌旁邊）')}
     ROOMLAY = dict(version=1, zone='dorm_205', name='205 寢室（方奕廷的房間）', type='寢室', src='AA_399 第 11 節（企劃線 5d09bb725）；LAWWW-B 10-24 03:53 任務 #82；dorm_room4.py --only 205',
                    bounds=dict(x0=X0, x1=X1, z0=Z0, z1=Z1), h=H, cam_dist=3.6, door=dict(x=0.0, w=round(DOOR[1] - DOOR[0], 3), z=Z1, note='+z 那一面中間（和祐廷的房間同一型）'),
                    spawn=dict(x=RM['spawn'][0], z=RM['spawn'][1], yaw=round(math.pi, 4), note='進門、面向房間裡（−z）'),
                    exits=[dict(x=RM['exit'][0], z=RM['exit'][1], r=0.7, label='離開 205', to='dorm_hall', spawn_note='回到宿舍 2F 走廊、205 門前面（back_spawn）')],
                    windows=dict(side='N', wall='back', z=Z0, xs=LAYOUT['window']['winXs'], y=LAYOUT['window']['view_center'][1], w=LAYOUT['window']['view_size'][0], h=LAYOUT['window']['view_size'][1], note='後牆中間一扇窗（和祐廷的房間同一型）；窗景借 dorm_room'),
                    view='dorm_room', counter=None, clerk=None, teacherSpot=None, order=None, seats=seats, interact=inter, blocks=blocks, spots=spots,
-                   cam_box=dict(x=[-1.6, 1.6]), see_thru=True, dorm_interior=True,
+                   cam_box=dict(x=[f2(-AISLE + 0.1), f2(AISLE - 0.1)]),   # 11-02 房間變窄：鏡頭只在走道（以前 ±1.6）
+                   see_thru=True, dorm_interior=True,
                    open=dict(range=['2025-09-01', '2026-06-30'], h0=21, h1=23, who='npc_fangyt', note='AA_399 第 11 節：大一（2025-09～2026-06）21～23 他在的時候可以敲門進去；他不在（characters.js 的 absentDates：寒假回台中）就照舊關著。大二起他搬走了，門關著'),
                    back_spawn=dict(x=-5.55, z=0.53, lv=1, yaw=round(math.pi, 4), note='宿舍 2F 走廊、205 門前面＝dorm3d.js 門的互動點'),
                    host_door=dict(zone='dorm_hall', id='r205', lv=1, label='敲門（205）', note='dorm3d.js 的門：時段內是「敲門（205）」、時段外照舊「205 寢室。門關著。」'))

@@ -56,3 +56,11 @@
 - 不改的：地板米色、灰色布椅的簡化、窗外的樹（照 LAWWW2）。
 - 規格：**39,464** 三角形、材質 12、2.64 MB。鏡頭、渲染設定同 v1。
 - **ref_match ALL PASS**：亮度 0.404／0.432、對比 0.601／0.552、冷暖 +0.273／+0.242、ΔE 8.7、九宮格 0.060。圖 `model_renders/afar_v1b_refcam{.png,_cmp.jpg,_report.json}`。
+
+## v1c（BB 11-04 03:52：從街上看進去，窗卡上要看得到吧台、層板、吊燈、植物）
+- 門邊靠東牆加一座咖啡工作檯（`side_station` x 4.8、z 2.35，0.6 × 1.7 m）：小咖啡機、磨豆機、杯子；上面兩層層板（咖啡罐、豆袋，層板下燈條）、一盞深綠吊燈、一串黃金葛。從門的玻璃看進去就在正前方（圖 `model_renders/afar_aoki_street_check.jpg` 左）。block 多一格 `[4.8, 2.35, 0.6, 1.7]`；`afar_layout.js` version 2。
+- 規格：42,426 三角形、12 材質、2.8 MB；參考鏡頭 ref_match ALL PASS。
+
+## v1d（LAWWW2 11-04 04:29：窗卡 ggafar_int 的視線〔x −0.3～1.75 看進去〕是後牆，要有咖啡店的樣子）
+- 後牆 x −0.4～1.8 上半加兩層開放層板（1.6／2.05 m；咖啡罐、豆袋、小盆栽、層板下燈條、黑鐵吊桿），前面一盞深綠吊燈、一串黃金葛；原本 along 0.9 那幅畫拿掉（`back_shelf`，掛牆、不動導航）。門邊的 side_station 留著。
+- 從窗外的檢查圖 `model_renders/afar_v1d_window_check.png`。規格 46,458 三角形、12 材質、3.0 MB；參考鏡頭 ref_match ALL PASS。

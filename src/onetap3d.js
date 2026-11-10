@@ -35,7 +35,7 @@ const ONETAP=(function(){
     if(typeof HOME!=='undefined'&&((HOME.breakMode&&HOME.breakMode(G))||(HOME.baseMode&&HOME.baseMode(G))||(HOME.pgHome&&HOME.pgHome(G))||(typeof JP!=='undefined'&&JP.homeOn&&JP.homeOn(G)))) return {k:'home',name:'家'};   /* 放假住家裡、經濟系休學住家裡、畢業後住家裡、日本路線出發前後住家裡（forceHome＋jp3d.js 包的那一段）*/
     if(typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G)) return {k:'us',name:'公寓',zone:'us_apartment'};
     if(typeof HOME!=='undefined'&&HOME.suite&&HOME.suite(G)) return {k:'suite',name:'公館的套房',zone:'gongguan'};
-    return {k:'dorm',name:'宿舍 203',zone:'dorm'}; };
+    const no=typeof DM3!=='undefined'&&DM3.homeOf?DM3.homeOf(G).plate:'203'; return {k:'dorm',name:'宿舍 '+no,zone:'dorm'}; };   /* 房號照現在住的（經濟系 412、大二 312、大三 507、大四 409；DM3.homeOf）——原本寫死 203（BB-B 11-07 BUG-ONETAP-DORM203-1107）*/
   const trav=(G,E,zone)=>{ if(G.zone===zone) return 0; const pos=E&&E.player&&E.player.obj?E.player.obj.position:null; return typeof CLS!=='undefined'&&CLS.travelMinutes?CLS.travelMinutes(G,G.zone,zone,pos,null):15; };
   S.sleepPlan=function(GM){ const G=GM.G, E=GM.E, why=S.busyWhy(GM); if(why) return {k:'sleep',ok:false,why};
     const w=S.where(G), jump=typeof STORY!=='undefined'&&STORY.sleepJumpMode&&STORY.sleepJumpMode(G), hh=((G.hour%24)+24)%24, night=G.hour>=24||hh>=17.5||hh<5;
@@ -83,14 +83,15 @@ const ONETAP=(function(){
       out.push({kind:'out',q,day:q.day,h:q.h,dep,travel:tr.travel||'',travelH:tr.travelH||0,label:(typeof OUT!=='undefined'&&OUT.tt?OUT.tt(q.title):q.title)||q.place||'出遊',place:q.place||''}); }
     if(typeof INV!=='undefined') for(const iv of (G.invites||[])){ if(iv.state!=='accepted'||iv.day<G.day) continue; const P=INV.place?INV.place(iv.place)||{}:{}; if(iv.day===G.day&&(G.hour%24)>=iv.h+(INV.WAIT_H||0.5)) continue;
       const tg=INV.goTarget?INV.goTarget(G,iv):{zone:P.zone,name:P.name||'',spawn:null}, pos=GM.E&&GM.E.player&&GM.E.player.obj?GM.E.player.obj.position:null, mins=G.zone===tg.zone?0:(typeof CLS!=='undefined'&&CLS.travelMinutes?CLS.travelMinutes(G,G.zone,tg.zone,pos,tg.spawn):15);
-      out.push({kind:'inv',iv,tg,day:iv.day,h:iv.h,dep:iv.day*24+iv.h-0.25-mins/60,mins,label:'和'+nameOf(iv.who)+'約在'+(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(P.name||tg.name||''):(P.name||tg.name||'')),place:P.name||tg.name||''}); }
+      const T=iv.day===G.day&&INV.goTimes?INV.goTimes(G,iv,mins,GM.openAt?h=>GM.openAt(tg.zone,h):null):null;   /* 出發時間和 INV.goNow 同一個算法：她到的時間（還沒開門＝開門那一刻）減路程（INV-GO-JUMP-1110）*/
+      out.push({kind:'inv',iv,tg,day:iv.day,h:iv.h,dep:iv.day*24+(T?T.leave:iv.h-0.25-mins/60),mins,label:'和'+nameOf(iv.who)+'約在'+(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(P.name||tg.name||''):(P.name||tg.name||'')),place:P.name||tg.name||''}); }
     return out.sort((a,b)=>(a.day*24+a.h)-(b.day*24+b.h)); };
   S.datePlan=function(GM){ const G=GM.G, why=S.busyWhy(GM); if(why) return {k:'date',ok:false,why};
     if(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G)) return {k:'date',ok:false,why:'在日本：從宿舍的選單出發'};
     const L=S.dateList(GM), c=L.find(x=>x.day===G.day);
     if(!c){ const nx=L[0]; if(!nx) return {k:'date',ok:false,why:'今天沒有約'}; const d=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(nx.day):null; return {k:'date',ok:false,why:'今天沒有約（下一個：'+(d?d.m+'/'+d.d+' ':'')+hm(nx.h)+' '+nx.label+'）'}; }
     if(c.kind==='inv'&&G.zone===c.tg.zone) return {k:'date',ok:false,why:'你已經在約好的地方了（'+c.place+'）'};
-    const t=now(G), wait=c.dep-t>0.25?c.dep-t-(c.kind==='out'?0.25:0):0;   /* 出遊：出發時間前 15 分鐘就可以出發（OUT.due 的窗口）；當面約：她從約好的時間前 15 分鐘就在那裡 */
+    const t=now(G), wait=c.kind==='inv'?(c.dep-t>0.05?c.dep-t:0):(c.dep-t>0.25?c.dep-t-0.25:0);   /* 當面約：照 INV.goNow 跳到出發時間（INV-GO-JUMP-1110；原本 15 分鐘以內就直接出發，到了還沒開門）*/   /* 出遊：出發時間前 15 分鐘就可以出發（OUT.due 的窗口）；當面約：她從約好的時間前 15 分鐘就在那裡 */
     if(wait&&typeof CLS!=='undefined'&&CLS.canSkip){ const cs=CLS.canSkip(GM); if(cs) return {k:'date',ok:false,why:cs}; }
     if(wait&&(t+wait)>=G.day*24+23.99) return {k:'date',ok:false,why:'時間還早，跳不過半夜'};
     const leave=t+wait, arrive=c.kind==='out'?Math.max(leave+c.travelH,G.day*24+c.h-((c.q&&c.q.early)||0)):leave+c.mins/60;
@@ -106,6 +107,7 @@ const ONETAP=(function(){
     if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);
     if(c.kind==='inv') return INV.goNow(GM,c.iv);
     const q=c.q; if(q.state!=='planned') return false;
+    if(typeof CARLOT!=='undefined'&&CARLOT.need&&CARLOT.need(G,q)){ await CARLOT.toLot(GM,q); return true; }   /* 開車、從宿舍出發：先走到望月台停車場（DRIVE-PICKUP-1105 第二步）*/
     if(q.dateTrip&&typeof DATE!=='undefined'&&DATE.trip){ const tp=DATE.trip(G,q.dateTrip); if(tp&&tp.kind==='overnight'&&DATE.stillOn&&!DATE.stillOn(G,tp).ok) return !!(await DATE.prompt(GM,q)); if(tp){ tp.departed=true; tp.status='going'; } }   /* 同 DATE.early 的「現在出發」*/
     return OUT.go(GM,q); };
   /* ---------- 共同 ---------- */

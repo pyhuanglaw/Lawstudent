@@ -34,7 +34,7 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
   const nm={classmate_bohan:['柏翰','許柏翰'],classmate_mingxuan:['明軒','江明軒'],classmate_xinci:['芯慈','吳芯慈'],classmate_peishan:['沛珊','郭沛珊']};
   check('N1. 柏翰、明軒、芯慈、沛珊：name＝大家叫的名字、fullname＝三字全名（同阿哲、阿凱、Alison）；對話框（displayName）、3D 說話按鈕（npcName）都是叫的名字',Object.entries(nm).every(([id,[a,b]])=>CHARACTERS[id].name===a&&CHARACTERS[id].fullname===b&&SOCIAL.displayName(id)===a&&SOCIAL.npcName(id)===a)&&SOCIAL.displayName('zhe')==='阿哲'&&SOCIAL.displayName('kai')==='阿凱'&&SOCIAL.displayName('yu')==='Alison',Object.keys(nm).map(id=>SOCIAL.displayName(id)).join(' '));
   said=[]; await EVENTS.run(ev('ev_mingxuan_ball'));
-  check('N2. 事件的對話框：明軒說話寫「明軒：」，第一次自我介紹那一句照舊是全名',said.length>0&&said.every(t=>!/^江明軒：/.test(t))&&said.some(t=>t==='明軒：江明軒。阿哲的隊友。他說你們同班。'),said.slice(0,2).join(' / '));
+  check('N2. 事件的對話框：明軒說話寫「明軒：」，第一次自我介紹那一句照舊是全名',said.length>0&&said.every(t=>!/^江明軒：/.test(t))&&said.some(t=>t==='明軒：我江明軒，阿哲的隊友。他說你們同班。'),said.slice(0,2).join(' / '));
   fresh(); SOCIAL.meet('classmate_peishan','camp'); SOCIAL.meet('classmate_xinci','camp'); SOCIAL.meet('classmate_mingxuan','classroom'); SOCIAL.meet('classmate_bohan','dorm');
   const cn=id=>SOCIAL.contactName(id);
   check('N3. 手機聯絡人：叫的名字＋來處（宿營認識＝「（宿營同隊）」；明軒沒在宿營認識＝「明軒（系籃）」、柏翰在宿舍認識＝「柏翰」）',cn('classmate_peishan')==='沛珊（宿營同隊）'&&cn('classmate_xinci')==='芯慈（宿營同隊）'&&cn('classmate_mingxuan')==='明軒（系籃）'&&cn('classmate_bohan')==='柏翰',['classmate_peishan','classmate_xinci','classmate_mingxuan','classmate_bohan'].map(cn).join(' / '));
@@ -97,7 +97,7 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
     fresh(); G.day=wk13; G.weekday=3; G.hour=12.2; SOCIAL.adjust('zhe',{fam:45,trust:30}); const fr=EVENTS.check(e);
     check('C18. 第 4 節條件：第 13 週刑總下課（afterClass crim_gen1）；演過四碗麵、或和阿哲 FRIEND 以上才演',e.afterClass==='crim_gen1'&&!no&&yes&&fr&&!w12,JSON.stringify({no,yes,fr,w12}));
     fresh(); G.day=wk13; G.hour=12.2; picks=['明軒那家']; await EVENTS.run(e);
-    check('C19. 第 4 節台詞照順序；選「明軒那家。」記 Y1S1_EXAM_MEAL_PICK mx',!block(['（刑總下課。走廊上，阿哲已經在點人數。）','考完那天，吃飯。柏翰、明軒、Alison、祐廷。芯慈呢？','她說要提前一天約才算數。我幫她約了！','最後一科考完是下午三點十分。','燒臘店四點半才開。……我知道一家三點就開的。','所以哪家？','（拿出手機）表上第三列。'])&&optsSeen.includes('「我都可以。」/「明軒那家。」')&&G.flags.Y1S1_EXAM_MEAL_PICK==='mx',said.join(' / '));
+    check('C19. 第 4 節台詞照順序（AA_609 8-1：Alison「我姊二月要考研究所……」，AA_606 企劃線 7b9fee50b）；選「明軒那家。」記 Y1S1_EXAM_MEAL_PICK mx',!block(['（刑總下課。走廊上，阿哲已經在點人數。）','考完那天，吃飯。柏翰、明軒、Alison、祐廷。芯慈呢？','她說要提前一天約才算數。我幫她約了！','我姊二月要考研究所，法律的。她最近都在讀書，我傳訊息她都沒回。','最後一科考完是下午三點十分。','燒臘店四點半才開。……我知道一家三點就開的。','所以哪家？','（拿出手機）表上第三列。'])&&optsSeen.includes('「我都可以。」/「明軒那家。」')&&G.flags.Y1S1_EXAM_MEAL_PICK==='mx',said.join(' / '));
     fresh(); G.day=wk13; G.hour=12.2; await EVENTS.run(e); check('C20. 選「我都可以。」不記旗標',G.flags.Y1S1_EXAM_MEAL_PICK==null); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

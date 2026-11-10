@@ -4,6 +4,7 @@
 //   2. 畫的街景（view）在 3D 街接上以後從 winParts 拿掉（winParts 每一幀照鏡頭重設顯示，不拿掉會蓋在 3D 街前面）
 //   3. 路人的路線全部在玻璃外（裁切平面外）
 //   4. 複製材質（不動到溫州街本身共用的材質）、晚上 TK.setNight、白天補亮、晚上壓暗
+//   5. 天空、光圈也只畫玻璃外面；沒有裁切的東西整個在玻璃外（BB-B 11-07 P3：側牆淡出時看到天空半球的內壁＝一大塊橘色）
 // 畫面：tools/blender/env_second/shots/cafe_window_shots.py（瀏覽器，白天／黃昏／晚上同角度改前改後）
 const fs=require('fs'), path=require('path'); const Z=fs.readFileSync(path.join(__dirname,'..','src','zones3d.js'),'utf8');
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'  '+info:'')); if(!ok) fails++; };
@@ -23,5 +24,12 @@ const pts=routes.flat(); const bad=pts.filter(p=>OFF-p[0]<=CLIP+0.3);
 check('3. 路人路線都在玻璃外（裁切平面外 0.3 m 以上）', pts.length>=8&&bad.length===0, pts.length+' 個點'+(bad.length?'；不行：'+JSON.stringify(bad):''));
 check('4. 材質複製一份再改（裁切、補亮、壓暗不動到溫州街共用的材質）', /const c=m\.clone\(\); c\.userData=Object\.assign\(\{\},m\.userData\); delete c\.userData\.wzReg; c\.clippingPlanes=clip;/.test(Z));
 check('4. 晚上照溫州街的時段公式 TK.setNight', /function cafeStreetNight\(h\)\{ const k=h>=19\.2\|\|h<5\.6\?1:\(h>=17\.4\?\(h-17\.4\)\/1\.8:\(h<6\.3\?\(6\.3-h\)\/0\.7:0\)\);/.test(Z)&&/TK\.setNight\(k\);/.test(Z));
+check('5. 天空的半球也只畫玻璃外面（BB-B 11-07 P3：牆淡出時側牆外一大塊橘色＝黃昏的天空半球內壁）', /const skyM=new THREE\.MeshBasicMaterial\(\{[^}]*clippingPlanes:clip[^}]*\}\)/.test(Z));
+check('5. 路燈、店門口的光圈只畫玻璃外面（門口那一圈有一截在店內地板上）', /const p=TK\.lightPool\(r,col\); p\.material\.clippingPlanes=clip;/.test(Z));
+{ /* 沒有裁切的東西（行道樹、路口的路燈、斑馬線：材質複製、沒加裁切）要整個在玻璃外：溫州街 x → Café z＝OFF−x，減掉樹冠／燈臂的半徑還在裁切平面外 */
+  const F=Z.slice(Z.indexOf('function cafeStreetLive('),Z.indexOf('z.winParts.push({obj:st'));   /* 只看 cafeStreetLive 裡面（溫州街區域有一樣寫法的迴圈）*/
+  const tr=[...F.matchAll(/for\(const \[tx,tz,sc\] of (\[\[[^;]*?\]\])\)/g)].map(m=>JSON.parse(m[1])).flat(), lamp=/L\.position\.set\(([\d.]+),0,[\d.]+\); L\.rotation\.y=Math\.PI\/2;/.exec(F), zeb=/m\.position\.set\(([\d.]+),0\.012,0\)/.exec(F);
+  const zs=tr.map(t=>OFF-t[0]-3.5*t[2]).concat(lamp?[OFF-(+lamp[1])-1.0]:[NaN]).concat(zeb?[OFF-(+zeb[1])-4.2]:[NaN]);
+  check('5. 沒有裁切的東西（行道樹、路燈、斑馬線）整個在玻璃外', tr.length===2&&zs.every(v=>v>CLIP), 'Café z 最靠近玻璃的一點：'+zs.map(v=>v.toFixed(2)).join('、')+'（裁切 '+CLIP+'）'); }
 check('4. 載入失敗時照舊用畫的街景（catch 不藏 view）', /\.catch\(e=>console\.warn\('Café 窗外的溫州街載入失敗，照舊用畫的街景',e\)\)/.test(Z));
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

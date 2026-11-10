@@ -30,13 +30,13 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     check('G1. 畢業以後 2029-12-21：子晴的 presence 是工作室（taipei，不在首都帝大）——原本 termAt＝null 變成「在」',STORY.presence('heroine_04',H.G).here===false&&STORY.presence('heroine_04',H.G).kind==='taipei',JSON.stringify(STORY.presence('heroine_04',H.G)));
     check('G1. 畢業以後 2029-12-21：不熟的同學不再寫「一年級」',!/一年級/.test(tag('pool_1')),tag('pool_1')); }
   { grad('2029-10-01',10);
-    const want={heroine_01:'首都帝大法研所・碩一',heroine_02:'2:30 AM',heroine_03:'社會系・延畢（修法律必修）',heroine_04:'獨立遊戲工作室',heroine_05:'大學研究中心（助理）',kexin:'木柵大學法律系畢業',zhe:'準備國考',classmate_bohan:'首都帝大法研所・碩一',kai:'資工系畢業・上班',classmate_mingxuan:'德國',yu:'準備司法官',classmate_xinci:'事務所',npc_fangyt:'嘉義'};
+    const want={heroine_01:'首都帝大法研所・碩一',heroine_02:'2:30 AM',heroine_03:'準備國考',heroine_04:'獨立遊戲工作室',heroine_05:'大學研究中心（助理）',kexin:'木柵大學法律系畢業',zhe:'準備國考',classmate_bohan:'首都帝大法研所・碩一',kai:'資工系畢業・上班',classmate_mingxuan:'德國',yu:'準備司法官',classmate_xinci:'事務所',npc_fangyt:'嘉義'};
     const bad=Object.keys(want).filter(id=>tag(id)!==want[id]), ps=tag('classmate_peishan');
     check('G1. 2-1 表：畢業以後 2029-10-01，十三個人照表寫「現在在做什麼」；沛珊「照現在（台南）」不換',!bad.length&&ps==='法律系・二年級',bad.map(id=>id+'='+tag(id)).join('、')+'｜沛珊='+ps); }
   { grad('2029-12-14',10); const a=tag('kexin'); grad('2030-07-02',10); const b=tag('heroine_03'); grad('2030-08-11',10); const c=tag('heroine_01'), m=tag('classmate_mingxuan');
     const G0=H.fresh('2029-08-20',10,'dorm',{}); const pre=tag('heroine_01');
-    check('G1. 2-1 表「之後」那一欄：可昕 2029-12-14 起「律師（職前訓練）」、語彤 2030-07 起「準備國考」、以安 2030-08-11 起「紐約」、明軒 2030-08-01 以後照樣「德國」（AA_363 T4：畢業以後不退回「法律系・四年級」；修改前 FAIL）；還沒畢業（沒有 GRADUATED）照原本的規則（以安「法律系・四年級」）',
-      a==='律師（職前訓練）'&&b==='準備國考'&&c==='紐約'&&m==='德國'&&pre==='法律系・四年級',[a,b,c,m,pre].join('｜')); }
+    check('G1. 2-1 表「之後」那一欄：可昕 2029-12-14 起「律師（職前訓練）」、語彤 2030-03 起「律師（事務所實習）」（AA_689 4-1：2029 國考上；原本 2030-07 起「準備國考」）、以安 2030-08-11 起「紐約」、明軒 2030-08-01 以後照樣「德國」（AA_363 T4：畢業以後不退回「法律系・四年級」；修改前 FAIL）；還沒畢業（沒有 GRADUATED）照原本的規則（以安「法律系・四年級」）',
+      a==='律師（職前訓練）'&&b==='律師（事務所實習）'&&c==='紐約'&&m==='德國'&&pre==='法律系・四年級',[a,b,c,m,pre].join('｜')); }
   { const L=SOCIAL.PG_TAG.kai, n=L.length; L.push(['2030-03-01',null]); grad('2030-04-01',10); const k=tag('kai'); L.splice(n); grad('2029-08-20',10); const s=tag('heroine_01'); grad('2031-05-01',10); const y=tag('classmate_mingxuan'), z=tag('heroine_04');
     check('G1. AA_363 T4 通則：畢業以後表上沒有新的一列（或那一列是 null）就沿用最後一列，不回到學年的規則（所有在表上的人）；2029-06-02～08-31 表還沒開始＝照原本的年級（照現在）',
       k==='資工系畢業・上班'&&s==='法律系・四年級'&&y==='德國'&&z==='獨立遊戲工作室',[k,s,y,z].join('｜')); }
@@ -191,7 +191,7 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     H.said=[]; await TERMEND.dinner(GM,{te:{term:'Y5S1',who:'kexin',kind:'kexin'}}); const LK=H.said.map(x=>x.t);
     const Gt=grad('2029-12-20',20,{EXCHANGE_ROUTE:'TW'}); H.date('heroine_01'); const wt=TERMEND.window(Gt);
     check('G5. 3-4 大五上女朋友的學期末約會：六位邀約照 AA 稿（芷若、語彤照原本）、只有女朋友的約、出遊在 12/19～12/23、飯桌是 Y5S1 那一句；可昕「學期結束了吧」三則、河堤、飯桌兩句；臺灣路線沒有大五上',
-      !bad.length&&!!qk&&JSON.stringify(kx.slice(-3))===JSON.stringify(['學期結束了吧','你沒有期末考 我知道',TERMEND.dayWord(D('2029-12-19'),qk.day)+' 河堤 五點半'])/* AA_460 第 5 節：地點前寫約會那天（今天／明天／禮拜幾）*/&&LK.includes('十四號以後，我就是律師了。……還要受訓。')&&LK.includes('受訓的時候不能看手機。……你週末再打給我。')&&!wt,bad.join('｜')+JSON.stringify([kx,LK,wt])); }
+      !bad.length&&!!qk&&JSON.stringify(kx.slice(-3))===JSON.stringify(['學期結束了吧','你沒有期末考 我知道',TERMEND.dayWord(D('2029-12-19'),qk.day)+' 河堤 五點半'])/* AA_460 第 5 節：地點前寫約會那天（今天／明天／禮拜幾）*/&&LK.includes('十四號以後，我就是律師了。……還要受訓。')&&LK.includes('受訓的時候白天都在上課。你週末再打給我。')&&!wt,bad.join('｜')+JSON.stringify([kx,LK,wt])); }
   // ===== G5 2-2 人在哪裡（七處矛盾＋過時的閒聊）=====
   { const ent=(id,key,h)=>{ const G=grad(key,h,{EXCHANGE_ROUTE:'TW'}); return STORY.schedEnt(CHARACTERS[id],G); }, z=e=>e?e.zone:null;
     const k0=ent('kai','2029-06-20',20), kai0=k0?(k0.zone||k0.away||null):null, kai1=z(ent('kai','2029-07-02',20)), kai2=z(ent('kai','2029-07-06',22.5));   /* kai0：大二起他住別棟（BUG-KAI-Y2-SCHED-1022，c89f17df）＝「在他那棟宿舍」，不是你這棟的 dorm */
@@ -205,10 +205,10 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     check('G5. 2-2 作息、presence：阿凱 6/28 起不在宿舍（6/20 還在他那棟宿舍；臺北上班、只留週五晚上公館）；學姊 7 月起平日白天、週三法圖拿掉（一二四晚上 Café、週六上午總圖）；芷若 9 月起校園兩筆拿掉；心慈 6 月起平日下午總圖拿掉；方奕廷 2028-07 起在嘉義；同屆不熟的同學 6/28 起畢業不在學校',
       okAll,JSON.stringify({kai0,kai1,kai2,kp,kAway,sis0,sis1,sis2,sis3,sis4,zr1,zr2,zr3,xc0,xc1,fy,fyR,fyT,p1,p4,p1b})); }
   { const okIf=(id,t)=>{ const e=(SMALLTALK[id]||[]).find(x=>typeof x==='object'&&x.t===t); return !!e&&(!e.if||EVENTS.cond(e.if)); };
-    grad('2029-07-02',20,{}); const k1=okIf('kai','「宿舍網路又斷了。你們有教這個嗎？」'), z1=okIf('zhe','「系籃週五練球，來坐也可以。」'), z2=okIf('zhe','「總圖 B1 的冷氣，比去年冷。」');
-    H.fresh('2029-03-01',10,'dorm',{}); const k0=okIf('kai','「宿舍網路又斷了。你們有教這個嗎？」'), z0=okIf('zhe','「系籃週五練球，來坐也可以。」'), z3=okIf('zhe','「總圖 B1 的冷氣，比去年冷。」');
+    grad('2029-07-02',20,{}); const k1=okIf('kai','宿舍網路又斷了。你們有教這個嗎？'), z1=okIf('zhe','系籃週五練球，來坐也可以。'), z2=okIf('zhe','總圖 B1 的冷氣，比去年冷。');
+    H.fresh('2029-03-01',10,'dorm',{}); const k0=okIf('kai','宿舍網路又斷了。你們有教這個嗎？'), z0=okIf('zhe','系籃週五練球，來坐也可以。'), z3=okIf('zhe','總圖 B1 的冷氣，比去年冷。');
     /* 2026-10-28 AA_519 第 6 節改：方奕廷「森林系的野外實習，下週去溪頭。」每學期一次同一句 → 照學年三句（大一溪頭、大二奧萬大、大三嘉義），大四以後（2028-07 起他在嘉義）一句都不說 */
-    const FY=['「下週去溪頭。……第一次上山，我帶了太多襪子。」','「這學期去奧萬大。樣區要自己找。」','「畢業專題的樣區在嘉義。……我可能會留在那邊。」'];
+    const FY=['下週去溪頭。……第一次一個人上山，我帶了太多襪子。','這學期去奧萬大。樣區要自己找。','畢業專題的樣區在嘉義。……我可能會留在那邊。'];   /* 閒聊不加外面的「」（TEXT-QUOTE-UNIFY-1108 第四批）；第一句照現在的字（AA_560 C7「第一次一個人上山」，原本寫舊字＝找不到那一句、這一項空過）*/
     H.fresh('2028-05-01',10,'dorm',{}); const f0=okIf('npc_fangyt',FY[2])&&!okIf('npc_fangyt',FY[0])&&!okIf('npc_fangyt',FY[1]); H.fresh('2028-09-01',10,'dorm',{}); const f1=FY.some(t=>okIf('npc_fangyt',t));
     check('G5. 2-2 過時的閒聊：畢業以後阿凱不說「宿舍網路又斷了」、阿哲「系籃週五練球」換成「總圖 B1 的冷氣，比去年冷。」；方奕廷 2028 畢業以後不說野外實習（AA_519 第 6 節：照學年的三句，大三那句到 2028-06）',
       !k1&&!z1&&z2&&k0&&z0&&!z3&&f0&&!f1,[k1,z1,z2,k0,z0,z3,f0,f1].join(',')); }

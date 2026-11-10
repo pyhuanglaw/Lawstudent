@@ -1,0 +1,26 @@
+[
+ {
+  "file": "guoqing_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40278",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3035",
+  "caption": "外觀：十一層、米色面磚，上面三層是深褐色的凸窗；前面噴水池、置石",
+  "size": "640×480",
+  "src_id": "map q=40278"
+ },
+ {
+  "file": "guoqing_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40277",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3035",
+  "caption": "正面近景：「國立臺灣大學國青宿舍」字、米色小口磚",
+  "size": "640×480",
+  "src_id": "map q=40277"
+ },
+ {
+  "file": "guoqing_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40276",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3035",
+  "caption": "外觀：塔狀樓梯間（深色橫條）、深褐色上層",
+  "size": "640×480",
+  "src_id": "map q=40276"
+ }
+]

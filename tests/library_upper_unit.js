@@ -103,7 +103,7 @@ const C=LU.carrels, S=LU.stacks, door=LL.doors.find(d=>d.id==='carrels');
   check('7. 背景的讀者只坐窗下的閱覽桌（study）、開館時段有人、22:00 以後沒有', w15.length>0&&w15.every(i=>seats[i].study&&seats[i].z>7)&&w23.length===0, w15.length+' 位');
   const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), g=fs.readFileSync(path.join(ROOT,'src/guide3d.js'),'utf8'), pm=fs.readFileSync(path.join(ROOT,'src/placemap3d.js'),'utf8'), pl=fs.readFileSync(path.join(ROOT,'src/data/places.js'),'utf8');
   check('7. story3d.js 進來、待著都叫 LUP.populate（書庫）', /zoneId==='library_stacks'&&typeof LUP!=='undefined'\)\{ try\{ LUP\.populate\(GM,true\)/.test(st)&&/LUP\.populate\(GM,false\)/.test(st));
-  check('7. guide3d.js（大廳 ⇄ 研究小間、電梯 ⇄ 書庫）、placemap 的地圖釘（總圖）、places 的名字和開館時間', /library_hall:\['campus','library','library_b1','library_carrels'\]/.test(g)&&/library_carrels:\['library_hall'\]/.test(g)&&/library_stacks:\['library_hall','library'\]/.test(g)
+  check('7. guide3d.js（大廳 ⇄ 研究小間、電梯 ⇄ 書庫；2026-11-10 起大廳不連 B1：B1 從北側中庭進去）、placemap 的地圖釘（總圖）、places 的名字和開館時間', /library_hall:\['campus','library','library_carrels'\]/.test(g)&&/library_carrels:\['library_hall'\]/.test(g)&&/library_stacks:\['library_hall','library'\]/.test(g)
     &&/library_carrels:'library',library_stacks:'library'/.test(pm)&&/library_carrels:'總圖 2F 研究小間'/.test(pl)&&/library_stacks:'總圖 5F 書庫'/.test(pl)&&/library_stacks:\{open:8,close:22/.test(pl)); }
 // 8. 研究小間玻璃後面的讀者（LAWWW 11-03 12:08；CARREL-FREE-1103）
 { const C=LIBRARY_UPPER_LAYOUTS.carrels, ids=C.carrels.map(c=>c.id); let any=0, bad=[];

@@ -166,7 +166,7 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     fresh(fri-1,21.1,'campus',{}); grp(); STORY.phoneRules(GM); PHONE.tick(G); check('家族聚餐 前一天 21:00 Kevin 提醒一次「明天六點半，公館。記得來。」（AA_218 17-12a）',T().filter(t=>t==='Kevin：明天六點半，公館。記得來。').length===1&&!T().some(t=>/三件事/.test(t)),JSON.stringify(T()));
     fresh(fri,17.6,'campus',{}); grp(); toasts=[]; STORY.phoneRules(GM); STORY.phoneRules(GM); check('家族聚餐 當天 17:30 一則 toast「今天 18:30 家族聚餐（公館）」（只一次）',toasts.filter(t=>t==='今天 18:30 家族聚餐（公館）').length===1,JSON.stringify(toasts));
     fresh(fri,17.6,'campus',{}); toasts=[]; STORY.phoneRules(GM); check('不在家族群組：沒有當天的 toast',!toasts.some(t=>/家族聚餐/.test(t)));
-    { const fsat=STORY.termDay('Y1S1',11,6); fresh(fsat-1,21.1,'campus',{}); PHONE.join(G,'lawclub_study','法服讀書會'); STORY.phoneRules(GM); PHONE.tick(G); const L=PHONE.thread(G,'g:lawclub_study').map(m=>m.text);
+    { const fsat=STORY.termDay('Y1S1',11,6); fresh(fsat-1,21.1,'campus',{lawclub:true,CLUB_lawclub_study:true}); PHONE.join(G,'lawclub_study','法服讀書會');   /* D118-B5a（2026-11-04，D118_PLAN 第 8 節第 6 點）：法服群組的訊息只給真的加入的人（只看過公告、在群組裡的舊存檔不收）＝前置補上加入法服 */ STORY.phoneRules(GM); PHONE.tick(G); const L=PHONE.thread(G,'g:lawclub_study').map(m=>m.text);
       check('校慶前一天（週五）21:00 法服群組：學姊「明天校慶，問答攤十點開。輪班表在記事本。」',L.includes('明天校慶，問答攤十點開。輪班表在記事本。'),JSON.stringify(L));
       const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('沒加入法服：校慶前一天走過大道的公告欄，旁白「公告欄：明天校慶，各社團擺攤。」（AMBIENT festEve）',/key:'festEve'[^]*?PHONE\.inGroup\(G,'lawclub_study'\)\)\) return null; return \['公告欄：明天校慶，各社團擺攤。'\]/.test(src)); }
     fresh(fri,19.2,'campus',{}); grp(); STORY.phoneRules(GM); G.hour=22.6; STORY.phoneRules(GM); PHONE.tick(G);

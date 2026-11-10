@@ -47,7 +47,7 @@ const J=JSON.stringify, day=k=>STORY.dayOfKey(k), ev=id=>STORY_EVENTS.find(e=>e.
     /GM\.say\(bo,'（從書裡抬頭）你也住這間？'\);[^\n]*GM\.say\(bo,'許柏翰。新竹。'\)/.test(code)&&code.includes("GM.say(zhe,F.ZHE_CALLS_GE?'哥！撕名牌那個就是你嘛，你也住這間喔？':'欸？撕名牌那個！你也住這間喔？')")&&!/只差一個明軒|明軒住別棟|喔，是你。'|你也這間喔！/.test(code));
   // ---------- 5 系籃 ----------
   for(const [nm,setup,wantIntro] of [['名片場認識（FRIEND_CARD_classmate_mingxuan）、去過宿營',()=>{ G.flags.FRIEND_CARD_classmate_mingxuan=true; G.flags.CAMP_Y1=true; },false],['名片場認識、沒去宿營',()=>{ G.flags.FRIEND_CARD_classmate_mingxuan=true; },false],['都沒見過（防呆）',()=>{},true]]){
-    fresh(); setup(); said=[]; await EVENTS.run(ev('ev_mingxuan_ball')); const intro=said.includes('明軒：江明軒。阿哲的隊友。他說你們同班。');
+    fresh(); setup(); said=[]; await EVENTS.run(ev('ev_mingxuan_ball')); const intro=said.includes('明軒：我江明軒，阿哲的隊友。他說你們同班。');
     check('5. 系籃 '+nm+'：'+(wantIntro?'自我介紹照舊':'不再自我介紹、照樣「欸，你也來打球喔？」'),intro===wantIntro&&(wantIntro||said.includes('明軒：欸，你也來打球喔？')),said.slice(0,3).join(' / ')); }
   // ---------- 6 人物頁 ----------
   fresh(); G.day=day('2025-09-10'); for(const id of ['zhe','classmate_xinci','classmate_peishan']) SOCIAL.meet(id,'camp'); G.flags.CAMP_BUS='win';

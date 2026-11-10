@@ -1,0 +1,20 @@
+library_hall  A_cold    avg   0.97 fps  1%low   0.97  worst 1033.4 ms  p50 1033.4  >50ms   1  >100ms   1 | CPU upd  9.60 rnd  7.90 story  0.00 upg  0.00 (換模型 0) | 新 shader 0 | calls 197.0 tris 250919 | meshes 720 vis 562 casters 208 npcs 10 extras 0 shadow {'enabled': True, 'auto': True, 'size': 1024}
+library_hall  B_again   avg   1.56 fps  1%low   0.71  worst 1416.6 ms  p50 1100.0  >50ms   2  >100ms   2 | CPU upd  8.57 rnd 354.55 story 85.42 upg  9.05 (換模型 1) | 新 shader 0 | calls 213.75 tris 298752 | meshes 721 vis 563 casters 208 npcs 10 extras 0 shadow {'enabled': True, 'auto': True, 'size': 1024}
+    PERFPANEL：library_hall：黑畫面 9.9 秒（建區域 0.9、預熱 4.2）；淡入後 10 秒最長一格 2.70 秒、卡 8 次；shader 黑畫面 +47、淡入後 +24
+library_hall  C_night   avg   2.14 fps  1%low   1.58  worst  633.3 ms  p50 550.0  >50ms   4  >100ms   4 | CPU upd  6.84 rnd  6.54 story  0.00 upg  0.02 (換模型 0) | 新 shader 0 | calls 179.4 tris 220046 | meshes 663 vis 533 casters 201 npcs 7 extras 0 shadow {'enabled': True, 'auto': False, 'size': 1024}
+    PERFPANEL：library_hall：黑畫面 3.3 秒（建區域 0.6、預熱 0.0）；淡入後 10 秒最長一格 2.40 秒、卡 8 次；shader 黑畫面 +23、淡入後 +23
+library_hall  D_base    avg   1.59 fps  1%low   1.50  worst  666.6 ms  p50 633.4  >50ms   3  >100ms   3 | CPU upd  8.73 rnd 21.40 story  5.87 upg 11.17 (換模型 1) | 新 shader 0 | calls 203.33 tris 269338 | meshes 720 vis 562 casters 208 npcs 10 extras 0 shadow {'enabled': True, 'auto': True, 'size': 1024}
+library_hall  D_noshadow avg   1.54 fps  1%low   1.46  worst  683.4 ms  p50 683.4  >50ms   2  >100ms   2 | CPU upd  7.75 rnd  9.65 story  0.00 upg  0.00 (換模型 0) | 新 shader 0 | calls 197.0 tris 270178
+library_hall  D_nonpc   avg   1.54 fps  1%low   1.50  worst  666.6 ms  p50 666.6  >50ms   2  >100ms   2 | CPU upd 14.40 rnd  8.20 story  0.00 upg  0.00 (換模型 0) | 新 shader 0 | calls 219.0 tris 308762
+library_hall  D_norender avg  60.00 fps  1%low  59.52  worst   16.8 ms  p50  16.7  >50ms   0  >100ms   0 | CPU upd  6.50 rnd  0.04 story  0.29 upg  0.00 (換模型 0) | 新 shader 0 | calls 219.0 tris 308762
+library_hall  D_base2   avg   1.58 fps  1%low   1.58  worst  633.3 ms  p50 633.3  >50ms   3  >100ms   3 | CPU upd  8.63 rnd  8.53 story  0.00 upg  0.00 (換模型 0) | 新 shader 1 | calls 219.0 tris 308762
+    A_cold 慢的一格 #0：dt=1033.4 upd=9.6 rnd=7.9 story=0 upg=0 upgN=0 prog=0 tex=159 geo=385 calls=197 tris=250919 heap=462 dtex=0 dgeo=0 dheap=0 gap=1015.9
+    B_again 慢的一格 #2：dt=1416.6 upd=7.7 rnd=14.4 story=0 upg=0 upgN=0 prog=0 tex=231 geo=268 calls=216 tris=302475 heap=476 dtex=5 dgeo=2 dheap=0 gap=1394.5
+    B_again 慢的一格 #1：dt=1100 upd=8.5 rnd=1373.2 story=0 upg=36.2 upgN=1 prog=0 tex=226 geo=266 calls=230 tris=345664 heap=476 dtex=46 dgeo=28 dheap=-65 gap=-281.7
+    B_again 慢的一格 #3：dt=33.3 upd=11.1 rnd=7.4 story=0 upg=0 upgN=0 prog=0 tex=231 geo=268 calls=216 tris=302475 heap=476 dtex=0 dgeo=0 dheap=0 gap=14.8
+    B_again 慢的一格 #0：dt=16.6 upd=7 rnd=23.2 story=341.7 upg=0 upgN=0 prog=0 tex=180 geo=238 calls=193 tris=244394 heap=541 dtex=0 dgeo=0 dheap=0 gap=-13.6
+    C_night 慢的一格 #1：dt=633.3 upd=8.1 rnd=8.1 story=0 upg=0 upgN=0 prog=0 tex=232 geo=273 calls=175 tris=212330 heap=467 dtex=0 dgeo=0 dheap=-23 gap=617.1
+    C_night 慢的一格 #4：dt=583.3 upd=6.3 rnd=6 story=0 upg=0 upgN=0 prog=0 tex=232 geo=273 calls=175 tris=212330 heap=481 dtex=0 dgeo=0 dheap=5 gap=571.0
+    C_night 慢的一格 #2：dt=550 upd=6.7 rnd=6.5 story=0 upg=0.1 upgN=0 prog=0 tex=232 geo=273 calls=175 tris=212330 heap=471 dtex=0 dgeo=0 dheap=4 gap=536.8
+    C_night 慢的一格 #3：dt=550 upd=6.9 rnd=7.2 story=0 upg=0 upgN=0 prog=0 tex=232 geo=273 calls=197 tris=250914 heap=476 dtex=0 dgeo=0 dheap=5 gap=535.9
+    C_night 慢的一格 #0：dt=16.7 upd=6.2 rnd=4.9 story=0 upg=0 upgN=0 prog=0 tex=232 geo=273 calls=175 tris=212330 heap=490 dtex=0 dgeo=0 dheap=0 gap=5.6

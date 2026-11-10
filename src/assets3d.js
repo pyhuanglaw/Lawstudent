@@ -26,7 +26,7 @@ const ASSETS = (function(){
     'prop.bagFlat':   {url:'assets/models/env/bag-flat.glb', source:'market.pmnd.rs', license:'CC0', ground:true, fitHeight:0.25},
     // 人物（正式）：VRoid 官方 CC0 樣本模型（pixiv，VRoid Studio β 版樣本；檔內 meta licenseName=CC0），
     // 用 tools/vroid_build.py 改成本作角色：移植衣物、換色、縮貼圖。主要角色各一個檔；路人用 4 個底模＋材質顏色相乘。
-    'char.yuting':     {url:'assets/models/char/vroid_yuting.vrm', blUrl:'assets/models/char/bl_yuting.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.75,role:'PLAYER',source:'VRoid CC0 樣本「HairSample_Male」（pixiv）；本作修改：拿掉帽子／抽繩／口袋線的淺灰上衣、深灰直筒褲、白球鞋、拿掉呆毛、眼睛縮小；後背包是 src/props3d.js；經濟系系外套 JACKET_ECON 是 tools/jacket_econ.py 加的網格（預設藏，CHAR.setJacket 切換）',license:'CC0',hide:['JACKET_ECON']},
+    'char.yuting':     {url:'assets/models/char/vroid_yuting.vrm', blUrl:'assets/models/char/bl_yuting.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.75,role:'PLAYER',source:'VRoid CC0 樣本「HairSample_Male」（pixiv）；本作修改：拿掉帽子／抽繩／口袋線的淺灰上衣、深灰直筒褲、白球鞋、拿掉呆毛、眼睛縮小；後背包是 src/props3d.js；經濟系系外套 JACKET_ECON 是 tools/jacket_econ.py 加的網格（預設藏，CHAR.setJacket 切換）；健身短袖運動服 GYM_TOP、GYM_SHORTS 是 tools/gym_wear.py 加的網格（預設藏，CHAR.setGymWear 切換）',license:'CC0',hide:['JACKET_ECON','GYM_TOP','GYM_SHORTS']},
     'char.heroine_01': {url:'assets/models/char/vroid_heroine_01.vrm', blUrl:'assets/models/char/bl_heroine_01.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,source:'VRoid CC0 樣本「HairSample_Female」＋「HairSample_Male」的上衣與長褲＋「Sendagaya Shino」的樂福鞋（pixiv）；本作修改：單一高馬尾、米白針織衫、藍灰直筒寬褲；托特包是 src/props3d.js',license:'CC0'},
     'char.heroine_02': {url:'assets/models/char/bl_heroine_02.vrm',blUrl:'assets/models/char/bl_heroine_02.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.61,source:'本作 Blender（tools/blender/char/heroine_02.py＋p02_face／p02_hair／p02_clothes；使用者 10-22「好憨」LAWWW2 改臉、瀏海）；底模 VRoid CC0 樣本「Victoria Rubin」（pixiv）；眼鏡 prop.glasses_zhiruo、耳環、圍裙是 src/props3d.js（舊的 VRoid 加工版 vroid_heroine_02.vrm 不再載入）',license:'CC0'},
     /* ART-05（BB-B BB_131 第 9 節 b6270efc，2026-10-16）：阿哲、芯慈、柏翰、沛珊、可昕的 Blender 版比原本的預設接近標準圖 → v9.9 起是預設（不標 ART_APPROVED；臉、瀏海、頭髮 LAWWW2-B 還在精修）。阿哲原本的 VRoid 版 vroid_zhe.vrm 留在 repo */
@@ -127,6 +127,8 @@ const ASSETS = (function(){
     'prop.seated_figures':{url:'assets/models/env/second_ai/seated_figures.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/seated_figures.py（LAWWW2 167fc2d：坐著的聽眾替身，遊戲路人底模 vroid_npc_f1/f2/m1/m2 減面＋烤色；聽講、抄筆記、滑手機×2 配色×LOD0/LOD1；原點＝座位地面中心、+z 朝講台；VISUAL_REVIEW（second_ai）第 24 節）', license:'本作；底模 VRoid CC0 樣本改作'},
     'bldg.campus_freshman':{url:'assets/models/env/second_ai/campus_freshman.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_freshman.py（大一女舍 A、B 兩棟外觀＋二樓天橋＋門口；校園世界座標；本體與門廊位置照 zones3d.js campus 區塊的 CK.hall（導航不用改）；外觀是依文字資料的遊戲化設計（米色二丁掛、樓梯間、窗型冷氣、屋頂水塔與太陽能熱水器、背面曬衣），沒有照片；面磚、粉刷、花崗石、隔熱磚貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     'bldg.campus_putong':{url:'assets/models/env/second_ai/campus_putong.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_teach.py --set putong（普通教學館外觀；校園世界座標；本體、門廊位置照 zones3d.js 的 CK.hall（導航不用改）；五層（真的樓層數）；紅褐面磚＋洗石子；依文字資料的遊戲化設計，沒有照片；ART-EXT-TEACH，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（exterior_wall_cladding_02、granular_concrete、granite_tile_03）'},
+    'bldg.campus_moon':{url:'assets/models/env/second_ai/campus_moon.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_xsnorth.py --set moon（望月台＝新月台外觀；校園世界座標；本體照 zones3d.js 的 XSG.moon；XS-NORTH-EXT-1105，LAWWW2-C）', license:'本作（CC0 貼圖 Poly Haven painted_plaster_wall）'},
+    'bldg.campus_gymext':{url:'assets/models/env/second_ai/campus_gymext.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_xsnorth.py --set gym（體育館外觀；校園世界座標；本體照 zones3d.js 的 XSG.gym；XS-NORTH-EXT-1105，LAWWW2-C）', license:'本作（CC0 貼圖 Poly Haven painted_plaster_wall）'},
     'bldg.campus_boya':{url:'assets/models/env/second_ai/campus_boya.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_teach.py --set boya（博雅教學館外觀；校園世界座標；本體範圍照 zones3d.js 的 CK.modern（導航不用改）；五層（真的樓層數）；現代建築（淺灰外牆、玻璃大廳、橫向長窗＋鋁鰭）是依文字資料推測，沒有照片；ART-EXT-TEACH，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（white_plaster_02、concrete_wall_006、granite_tile_03）'},
     'bldg.campus_gate':{url:'assets/models/env/second_ai/campus_gate.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_gate.py（臺大校門整座；校門自己的座標，校園、公館共用；照查到的真實配置：門房在正中間、兩側通道、四座燈柱，磚＋石材；尺寸和 campuskit3d.js 的 GATE 一樣；依文字資料的遊戲化設計，沒有照片；ART-EXT-GATE，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（exterior_wall_cladding_02、sandstone_blocks_08、granite_tile_03）'},
     'bldg.campus_male1':{url:'assets/models/env/second_ai/campus_male1.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_male1.py（男一舍外觀；校園世界座標；本體與門廊位置照 zones3d.js campus 區塊的 CK.hall（導航不用改）；地上 4 層照住宿組資料；外觀是依文字資料的遊戲化設計（沒有照片）：馬賽克磚、露明混凝土框架、鏤空花磚樓梯間、背面陽台；ART-EXT-M1，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（rounded_square_tiled_wall、painted_plaster_wall、granite_tile_03）＋本作程式產生（m1_breeze.png）'},
@@ -176,6 +178,13 @@ const ASSETS = (function(){
     'bldg.us_asian_market':{url:'assets/models/env/second_ai/us_asian_market.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_asian_market.py（美國交換：大超市對面的小亞洲超市「竹葉亞洲超市」室內；店名、商品包裝虛構；配置 us_asian_market.layout.json；LAWWW2-C，使用者 2026-10-17 23:0x）', license:'本作；貼圖 CC0'},
     // ==== 第二個 AI 區塊結束 ====
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
+    /* 坐著的人會動（NPC-AMBIENT-ANIM-1104）：character3d.js 的 sitAmbient；第一次有人坐下才下載（lazy，約 0.3 MB）。重抽：python3 -I tools/anim/extract_ual.py --ual1 <UAL1.glb> --ual2 <UAL2.glb> */
+    'char.ual_sit_clips':{url:'assets/models/char/ual_sit_clips.glb', type:'clips', lazy:true, source:'Quaternius「Universal Animation Library」（UAL1）＋「Universal Animation Library 2」（UAL2），https://quaternius.com/packs/universalanimationlibrary.html；本作只抽出骨架節點與旋轉軌道（tools/anim/extract_ual.py）：Sitting_Idle_Loop、Sitting_Idle02_Loop、Sitting_Idle03_Loop、Sitting_Talking_Loop、Sitting_Nodding_Loop、Sitting_Enter、Sitting_Exit、Drink、Idle_LookAround_Loop（UAL1）；Yes、Consume、Idle_TalkingPhone_Loop（UAL2）', license:'CC0 1.0'},
+    /* 坐在桌前做事的循環（NPC-ANIM-LOOPS-1104，LAWWW2-C 2962616ac；docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/README.md）：character3d.js 的 C.SIT_TASK；
+       第一個人坐下、或 SEATACT 第一次要用的時候才下載（lazy：片段約 0.4 MB、配件約 0.08 MB）。重做：python3 -I tools/anim/sit_task_loops.py、tools/anim/sit_task_props.py
+       配件是 type:'building'：和 desk_props 同一張貼圖，建築的載入器（texDedup）會共用 */
+    'char.ual_sit_tasks':{url:'assets/models/char/second_ai/ual_sit_tasks.glb', type:'clips', lazy:true, source:'本作 tools/anim/sit_task_loops.py（LAWWW2-C 2026-11-04：打字、打字＋觸控板、寫字、滑手機、翻書頁、喝飲料、吃飯 × 女生／男生 VRoid 骨架，Sit_<動作>_<F|M>_Loop，每個 5 秒；身體的呼吸、前後晃是 Quaternius UAL 的 Sitting_Idle_Loop）', license:'本作（用到的 UAL 部分 CC0 1.0）'},
+    'prop.hand_props':{url:'assets/models/char/second_ai/hand_props.glb', type:'building', lazy:true, source:'本作 tools/anim/sit_task_props.py（LAWWW2-C 2026-11-04：右手的紙杯 hand_cup、手機 hand_phone、原子筆 hand_pen，已經擺在右手骨頭 J_Bip_R_Hand 的座標裡；網格、貼圖照用 desk_props）', license:'本作'},
   };
   /* 路人底模（LAWWW2 Blender；第一批 2026-10-14 整合；第二批 nf5–8／nm5–8＋nf4、nm3 低彩度重建 2026-10-17，9442e59b／b1680957）：使用者 2026-10-17 P0（「長得很像的路人真的太多了」「路人數量要再加倍」，經 LAWWW2-C、AA-C 轉達）→ 預設打開。
      anon：只給沒有名字的路人（character3d.js 的 C.anonPool）；lazy：不在開場預載——每次換區域從池子挑最多 4 女＋4 男在背景下載、沒有人在用的放掉（A.unloadVRM）。
@@ -278,6 +287,9 @@ const ASSETS = (function(){
      在第一次畫出來（上傳 GPU）之前縮；同一張圖只縮一次。網址 ?texfull＝不縮；?texcap＝桌機也縮（測試用）。 */
   A.texCap=(()=>{ try{ const q=location.search||''; if(/[?&]texfull/.test(q)) return null; const ua=navigator.userAgent||''; const mobile=/iPhone|iPad|iPod|Android|Mobile/i.test(ua)||(navigator.maxTouchPoints>1&&/Macintosh/.test(ua)); return (mobile||/[?&]texcap/.test(q))?{color:1024,data:512}:null; }catch(e){ return null; } })();
   const TEX_KEYS=['map','emissiveMap','normalMap','roughnessMap','metalnessMap','aoMap','bumpMap','alphaMap','lightMap','shadeMultiplyTexture','shadingShiftTexture','rimMultiplyTexture','matcapTexture','outlineWidthMultiplyTexture','uvAnimationMaskTexture'];
+  /* 建築 GLB 原本不透明的材質記 userData.op0（OPAQUE、MASK：transparent 是 false）。各區域淡出時把牆的材質複製（userData 跟著複製）、設成 transparent；
+     engine3d.js 的 hideFaded 看 op0 決定牆能不能一次畫完（PERF-XS-NPC-1108 (C)，LAWWW2-B 11-09）*/
+  A.markOpaque=function(root){ let n=0; root.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])) if(mt&&!mt.transparent&&!mt.userData.op0){ mt.userData.op0=true; n++; } }); return n; };
   const capDone=new WeakSet(), capImg=new WeakMap();   /* WeakMap：原圖沒有人用了就可以回收（原本 Map 的 key 會把全尺寸原圖一直留著）*/
   const capImgKeys=[];   /* 這一次 capTextures 縮過的原圖（做完檢查要不要 close）*/
   A.capTextures=function(root){ const cap=A.texCap; if(!cap||!root||typeof document==='undefined') return 0; let n=0;
@@ -305,14 +317,41 @@ const ASSETS = (function(){
   /* PERF-ZONE-POPIN-1103（使用者 11-03：「進入新場景的時候 都會先出現畫質很爛的版本 卡一下才出現完整的……溫州街地圖還沒讀取完畢……也會看到腳踏車自己在動」）：
      換區域時記下區域建立當下要的正式模型（A.reqStart／A.reqTake），淡入以前等它們載好（A.waitLoaded，最多 cap 毫秒）；原本第一次去的地方先淡入、看到方塊備用模型，GLB 載好才換 */
   A._req=null; A.reqStart=function(){ A._req=new Set(); }; A.reqTake=function(){ const r=A._req?Array.from(A._req):[]; A._req=null; return r; };
-  A.waitLoaded=async function(keys,cap){ const pend=(keys||[]).filter(k=>!A.cache[k]&&A.status[k]&&(A.manifest[k]||{}).type==='building'); const out={pending:pend.length,waited:0,timedOut:false}; if(!pend.length) return out;
+  /* PERF-COLD-1107（LAWWW2-B；LAWWW-B 11-07 08:41 選 (A)）：NPC 的 VRM、動作檔（clips）也等。原本只等 building——PC 冷快取量（CC-B PERF_COLD b987cb1cf）：
+     溫州街淡入以後才 parseVRM（兩次共 3.7 s）、主模型第 18.5 s 才到、接上那一格 5.1 s；總圖大廳淡入後還有 12 個在載（3.1 fps）。先載好再淡入：溫州街 8.8→27.5 fps、總圖大廳 3.1→19.2 fps，黑畫面多 2～4 s */
+  A.WAIT_TYPES={building:1,vrm:1,clips:1};
+  A.waitLoaded=async function(keys,cap){ const pend=(keys||[]).filter(k=>!A.cache[k]&&A.status[k]&&A.WAIT_TYPES[(A.manifest[k]||{}).type]); const out={pending:pend.length,waited:0,timedOut:false}; if(!pend.length) return out;
     const t0=Date.now(); let to=null; const all=Promise.all(pend.map(k=>Promise.resolve(A.status[k]).catch(()=>null)));
     const ok=await Promise.race([all.then(()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,cap|0)); })]); clearTimeout(to);
     await new Promise(r=>setTimeout(r,0));   /* 載好以後區域的 .then（接上正式模型、藏起備用方塊）先跑完 */
     out.waited=Date.now()-t0; out.timedOut=!ok; return out; };
+  /* PERF-COLD-1107 (B)（LAWWW2-B 2026-11-07；LAWWW-B 08:41／09:04 排在 (A) 之後）：走到出口附近，先把出口那一區的正式模型「只下載、不解析」放進瀏覽器的快取。
+     (A) 讓第一次進一個區域時黑畫面等模型載好再淡入（PC 冷快取：溫州街黑 18 s、總圖大廳 12 s）；這裡讓下載那一段在玩家走過去的路上就先做完。
+     只下載：不解析、不上傳 GPU、不留在記憶體（邊讀邊丟），走路中不會卡；真的進去時 loadOne 的 fetch 直接讀快取（同一個網址正在下載時，瀏覽器會等它下載完再讀快取）。
+     每一區要哪些模型：src/data/zone_assets.js（tools/gen_zone_assets.js 產生）。一次只下載一個；換區域時清掉排隊的（正在下載的那一個讓它下載完）；
+     省流量模式、2G／3G 不做；這次開遊戲最多 PREFETCH_MAX_BYTES。測試：node tests/zone_prefetch_unit.js */
+  A.PREFETCH_NEAR_M=30; A.PREFETCH_MAX_BYTES=150e6; A.prefetched={}; A.prefetchBytes=0; A._pf={q:[],cur:null};
+  A.prefetchOK=function(){ if(typeof fetch!=='function') return false; try{ const c=typeof navigator!=='undefined'&&navigator.connection; if(c&&(c.saveData||/(^|-)(2g|3g)$/.test(c.effectiveType||''))) return false; }catch(e){} return true; };
+  const pfWant=k=>!!A.manifest[k]&&!A.cache[k]&&!A.status[k]&&A.prefetched[k]===undefined&&A._pf.cur!==k&&!A._pf.q.includes(k);
+  A.prefetchWanted=function(keys){ return (keys||[]).some(pfWant); };
+  function pfPump(){ if(A._pf.cur) return; while(A._pf.q.length){ const k=A._pf.q.shift(); if(!pfWant(k)) continue; if(A.prefetchBytes>=A.PREFETCH_MAX_BYTES){ A._pf.q.length=0; return; }
+      const m=A.manifest[k]; A._pf.cur=k; let n=0;
+      Promise.resolve().then(()=>fetch(m.url,{priority:'low'})).then(r=>{ if(!r.ok) throw new Error('http '+r.status); if(!r.body||!r.body.getReader) return r.arrayBuffer().then(b=>b.byteLength);
+          const rd=r.body.getReader(); const pump=()=>rd.read().then(({done,value})=>{ if(done) return n; n+=value.length; return pump(); }); return pump(); })   /* 邊讀邊丟：不把整個檔留在記憶體 */
+        .then(len=>{ A.prefetched[k]=len; A.prefetchBytes+=len; },()=>{ A.prefetched[k]=-1; })   /* 失敗（離線、artifact 單檔版沒有這個檔）就算了，不重試；真的進去時 loadOne 照原本的流程 */
+        .then(()=>{ if(A._pf.cur===k) A._pf.cur=null; pfPump(); });
+      return; } }
+  A.prefetch=function(keys){ if(!A.prefetchOK()) return 0; let n=0; for(const k of keys||[]) if(pfWant(k)){ A._pf.q.push(k); n++; } pfPump(); return n; };
+  A.prefetchStop=function(){ A._pf.q.length=0; };   /* 換區域時：排隊的不下載了（正在下載的那一個照常下載完，說不定就是要進去的那一區的） */
+  const pfSettled={};   /* 有沒有正式模型還在載（loadOne 的 status 還沒有結果）：有的話先不下載，不和這一區還沒載完的人物、模型搶頻寬 */
+  A.loadingNow=function(){ let n=0; for(const k in A.status){ if(A.cache[k]||pfSettled[k]) continue; if(pfSettled[k]===undefined){ pfSettled[k]=false; Promise.resolve(A.status[k]).then(()=>{ pfSettled[k]=true; },()=>{ pfSettled[k]=true; }); } n++; } return n>0; };
+  /* 玩家附近（PREFETCH_NEAR_M 以內）最近的出口，那一區的模型還沒載過、沒下載過就排進去。E＝引擎（interactables、player）；zoneId＝現在的區域 */
+  A.prefetchNear=function(E,zoneId){ if(typeof ZONE_ASSETS==='undefined'||!E||!E.player||!E.player.obj||A._pf.cur||A._pf.q.length||A.loadingNow()) return null; const p=E.player.obj.position; let best=null, bd=A.PREFETCH_NEAR_M;
+    for(const it of E.interactables||[]){ const to=it&&it.exit&&typeof it.exit.to==='string'?it.exit.to:null; if(!to||to===zoneId||!ZONE_ASSETS[to]) continue; const d=Math.hypot(it.x-p.x,it.z-p.z); if(d<bd&&A.prefetchWanted(ZONE_ASSETS[to])){ bd=d; best=to; } }
+    if(best) A.prefetch(ZONE_ASSETS[best]); return best; };
   A.loadOne=function(key){ const m=A.manifest[key]; if(!m) return Promise.reject(new Error('unknown asset '+key)); if(A._req) A._req.add(key); if(A.cache[key]) return Promise.resolve(A.cache[key]); if(A.status[key]) return A.status[key];
     const b64ToBuf=(data)=>{ const bin=atob(data); const buf=new ArrayBuffer(bin.length); const u8=new Uint8Array(buf); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return buf; };
-    A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
+    A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='building') A.markOpaque(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
       if(m.type==='vrm'){ // VRM：只 parse 一次。第一個實例用原本的 VRM（表情、彈簧骨、視線）；之後的實例用骨架 clone（共用幾何與貼圖，手機記憶體才夠）
         const lu=A.lodUrl(key), lodP=lu?loadLOD(lu).catch(e=>{ console.warn('npc far LOD',key,e&&e.message); return null; }):Promise.resolve(null);   /* 路人底模的遠距離版本：和 VRM 一起下載（小檔）；沒有或失敗＝照舊畫原本的人 */
         const setup=(buf)=>A.parseVRM(buf).then(x=>{ A.capTextures(x.vrm.scene); const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); copyColliderShapes(x.vrm.scene,rest); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); const ent={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; return lodP.then(lod=>{ ent.lod=lod; A.cache[key]=ent; res(ent); }); });

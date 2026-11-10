@@ -3,13 +3,13 @@
 'use strict';
 const SISB8_LINES={
   /* 第 1 節：8/12（三）21:00 約 → 8/14（五）15:00 Café */
-  courseAsk:['選課系統下禮拜開。','週五下午三點，Café。課表帶來，我幫你看。'], courseYes:'好。', courseDone:'我已經排好了。', courseDoneR:'那帶來給我看。排好的最需要看。',
-  courseNoT:'那天不行。', courseNo:'好。截圖傳給我。', courseNoLater:'債總選周老師那班。他會點人，你會被逼著想。',
+  courseAsk:['選課系統下禮拜開。','週五下午三點，Café。我幫你看課表。'], courseYes:'好。', courseDone:'我已經排好了。', courseDoneR:'那我看一下。排好的最需要看。',
+  courseNoT:'那天不行。', courseNo:'好。有截圖的話，傳給我看看。', courseNoLater:'債總選周老師那班。他會點人，你會被逼著想。',
   /* 2-2：11/4（三）21:00 約 → 11/6（五）12:20 公館的自助餐 */
   lunchAsk:['週五中午有空嗎。直屬要請一次飯。','系上的規矩，不是我想的。……也有一點是我想的。'], lunchYes:'好。', lunchNoT:'那天不行。', lunchNo:'好。下次。',
   /* 第 4 節：7/20（二）21:00 約 → 7/22（四）15:00 研究室；不行＝7/25 她傳 */
-  ch1Ask:['論文第一章寫完了。','週四下午三點，研究室。幫我讀。你不是做這個題目的，剛好。'], ch1Yes:'好。', ch1Q:'我看得懂嗎？', ch1QR:'看不懂的地方，就是我要改的地方。',
-  ch1NoT:'那天不行。', ch1No:'好。我寄給你，看不懂的劃起來。', ch1Mail:'收到了。你劃的三個地方，我改了兩個。' };
+  ch1Ask:['論文第一章寫完了。','週四下午三點，研究室。可以幫我讀嗎？你不是做這個題目的，剛好。'], ch1Yes:'好。', ch1Q:'我看得懂嗎？', ch1QR:'看不懂的地方，就是我要改的地方。',
+  ch1NoT:'那天不行。', ch1No:'好。我寄給你。看不懂的地方，幫我劃起來。', ch1Mail:'收到了。你劃的三個地方，我改了兩個。' };
 
 const SISB8_EVENTS=(function(){
   const ID='heroine_05', X=()=>typeof SISB8!=='undefined'?SISB8:null;
@@ -63,7 +63,7 @@ const SISB8_EVENTS=(function(){
         {label:'b'},SIS('嗯。右邊寫得比較像在跟人講話。'),
         {label:'c'},SIS('謝謝。……這不算洩題，你們大二早就考過了。'),
         Object.assign({set:{SIS_TA_PAPERS:true}},rel({trust:1,comf:1})) ] },
-    /* ---------- 3-1：大二下第 3 週週三 19:30 以後，法圖：那張圖（她論文讀到經濟學的論文；祐廷念過一年經濟）---------- */
+    /* ---------- 3-1：大二下第 3 週週三 19:30 以後，法圖：那張圖（她論文讀到經濟學的論文；祐廷念過一個多月經濟）---------- */
     { id:'ev_sis_econ_graph', title:'那張圖', participants:[ID], location:'lawlib', trigger:'manual', once:true, background:'blur',
       dialogue:[ Object.assign(N('（她把筆電轉過來，指了指門外。）'),{libOut:true}),   /* libOut（AA_595 1-B29：取代「（她把筆電轉過來。螢幕上是一張曲線圖。）」，搬到走廊；AA 11-02 22:30 定稿）*/
         SIS('你念過經濟。這張圖，我看了二十分鐘。'),

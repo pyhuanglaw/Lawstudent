@@ -308,7 +308,7 @@ const date=id=>H.date(id);
     at('2029-09-03',12); const p1=STORY.presence('classmate_mingxuan',H.G); at('2030-07-31',12); const p2=STORY.presence('classmate_mingxuan',H.G); at('2030-08-01',12); const p3=STORY.presence('classmate_mingxuan',H.G);
     check('2-Y4-48 presence：2029-09-02～2030-07-31 在德國', p1.here===false&&p1.kind==='abroad'&&p2.here===false&&p3.here!==false); }
   /* ===== 2-Y4-49 以安：二試放榜、三試放榜（已在 AA_319 1A-18）===== */
-  check('2-Y4-49 已在 AA_319（AA_589 第 7-5 節 S6 起改成祐廷自己查到）：以安二試、錄取兩步還在 postgrad_lines.js（「謝謝。一月面試。」「謝謝。」「但我不去。」）、麵店團那一則還在', POSTGRAD_LINES.AN.call1[0]==='謝謝。一月面試。'&&POSTGRAD_LINES.AN.call2[0]==='謝謝。'&&POSTGRAD_LINES.AN.call2[1]==='但我不去。'&&PG.MSGS.some(m=>m.tag==='pg_an_group'));
+  check('2-Y4-49 已在 AA_319（AA_589 第 7-5 節 S6 起改成祐廷自己查到）：以安二試、錄取兩步還在 postgrad_lines.js（「謝謝。一月口試。」「謝謝。」「但我不去。」）、麵店團那一則還在', POSTGRAD_LINES.AN.call1[0]==='謝謝。一月口試。'&&POSTGRAD_LINES.AN.call2[0]==='謝謝。'&&POSTGRAD_LINES.AN.call2[1]==='但我不去。'&&PG.MSGS.some(m=>m.tag==='pg_an_group'));
   /* ===== 2-Y4-50 以安：哥大＋紐約送機 ===== */
   const ANF=()=>{ H.FRIEND('heroine_01'); contact('heroine_01'); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); grp(); };
   { fresh('2030-03-27',20,'dorm',GD); ANF(); at('2030-03-27',21); pg();
@@ -350,7 +350,7 @@ const date=id=>H.date(id);
     at('2030-05-09',21); H.said=[]; await H.run('r2y4b_rt_reg');
     check('2-Y4-51 2030-05-09（四）21:00（系統）「國考報名，這週五截止。」→（你按了報名。）', has('國考報名，這週五截止。')&&has('（你按了報名。）')&&th('sys').includes('國考報名，這週五截止。')&&H.G.flags.BAR_REG===true); }
   { fresh('2029-09-07',15,'dorm',Object.assign({},GD,RT)); H.FRIEND('heroine_05'); at('2029-09-07',15.4); pg();
-    check('2-Y4-51 9/7 15:20 學姊（FRIEND 以上）「明年。……讀書計畫你先排，我幫你看。」（AA_319 那一批的 postgrad 已接）', th('p:heroine_05').includes('明年。……讀書計畫你先排，我幫你看。')); }
+    check('2-Y4-51 9/7 學姊（FRIEND 以上）：15:10 祐廷「沒上。」、15:20 她「很厲害了啊。」「考完就先放鬆一下。」（AA_593 決3 甲＋第 10 節第 12 點；原本 AA_327 2-Y4-51「明年。……讀書計畫你先排，我幫你看。」；AA_319 那一批的 postgrad 已接）', JSON.stringify(th('p:heroine_05').slice(-3))===JSON.stringify(['沒上。','很厲害了啊。','考完就先放鬆一下。'])&&!th('p:heroine_05').includes('明年。……讀書計畫你先排，我幫你看。'), JSON.stringify(th('p:heroine_05'))); }
   { fresh('2030-08-02',21,'dorm',Object.assign({},GD,RT)); H.FRIEND('heroine_05'); date('kexin'); at('2030-08-02',22); pg();
     const N=PG.noteItems(H.G,2030).map(x=>x.text);
     check('2-Y4-51 2030-08-02 學姊的便條（「你比去年多念了一年。」）＋可昕 22:00「明天你考。」「……早點睡。我十點不打給你。」', JSON.stringify(N)===JSON.stringify(['（照片：一張手寫的便條）','（便條：「你比去年多念了一年。」）'])&&JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['明天你考。','……早點睡。我十點不打給你。'])); }

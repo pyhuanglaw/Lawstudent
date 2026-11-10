@@ -24,6 +24,7 @@ const COURSES={
     BOYA:{name:'博思教學館 101',zone:'boya',room:'101',door:'boya'},           /* boya_hall（方案 A）：普通北邊；經濟系大一的經濟學原理（D56，劇情做好之前不會排到）*/
     LAWLIB_DESK:{name:'法律學院圖書館 櫃台',door:'lawlib_desk',zone:'lawlib'},     /* 服務學習（一）：在櫃台報到，和門口上課一樣用 2D 帶過（AA_110 6-1）*/
     CAMPUS_SVC:{name:'晨思鐘旁的服務學習集合點',door:'campus_service'},                /* 服務學習（二）：椰林大道、醉月湖的校園環境（大二上；內容 AA 大二前再補）*/
+    WANCAI_LSC_DESK:{name:'法律服務中心（法律系館B 一樓）',door:'wancai_lsc_desk',zone:'wancai'},   /* 服務學習（二）（AA_735，企劃線 d14a03136；使用者 11-10「服務學習另外有法律服務一學期」）：法律系館B 一樓大廳東側的接待桌，一張桌子（像 LAWLIB_DESK）*/
     GYM:{name:'體育館',door:'gym'},                                             /* field：企劃寫操場、程式寫體育館，兩個都可以（AA_110）*/
     OFF:{name:'法扶・臺北的辦公室',offsite:true,bg:'legal_aid_office'}   /* AA_441 第 0 節：大四下法律實習在法扶（韓律師）；黑底 legal_aid_office 同 C16、大五上的實習 */                               /* offsite */
   },
@@ -83,7 +84,8 @@ const COURSES={
     {id:'japanese_1',name:'日文（上）',kind:'elective',term:'Y2S1',prof:null,profName:'日文老師',room:'GONGTONG',slots:[{wd:1,block:'pm1'}],topics:['五十音','打招呼','自我介紹']},   /* 遊戲安排（使用者 2026-10-13：大二上下是遊戲安排的候選，不是真實修課年份）*/
     {id:'pe_y2s1',name:'體育',kind:'general',term:'Y2S1',prof:null,room:'GYM',slots:[{wd:1,block:'pm2'}],topics:['桌球','籃球','體適能']},
     /* 服務學習（二）（AA_110 6-1，AA 暫定）：週三下午二（下午一原本是法理學，2026-10-14 刪除），椰林大道、醉月湖的校園環境；每次的一句 AA 大二前再補（現在用一般句子）*/
-    {id:'service_2',name:'服務學習（二）',kind:'service',term:'Y2S1',prof:null,profName:'服務學習老師',room:'CAMPUS_SVC',slots:[{wd:3,block:'pm2'}],weeks:[4,5,6,7,10,11,12,13,14],makeupWeeks:[15,16]},
+    {id:'service_2',name:'服務學習（二）',kind:'service',term:'Y2S1',prof:null,profName:"法律服務中心的老師",room:'WANCAI_LSC_DESK',slots:[{wd:3,block:'pm2'}],weeks:[4,5,6,7,10,11,12,13,14],makeupWeeks:[15,16],   /* AA_735（企劃線 d14a03136）：法律服務中心的民眾諮詢；學生做接待、填單、整理紀錄，不回答法律問題；和法服（D118，純劇情）分開 */
+     serviceLines:["第一次報到。負責的老師說：「你們不回答法律問題。你們聽，然後寫下來。」", "接待桌。一位阿姨抱著一個資料夾進來，裡面是十年份的房租收據。你幫她抽了號碼牌。", "你負責填諮詢單。「事情經過」那一欄，阿伯講了二十分鐘，你寫了四行。律師看完，點了一下頭。", "有人在門口站了很久才進來。你倒了一杯水給她。她開口的第一句是：「這種事也可以問嗎？」", "整理上一週的諮詢紀錄。名字、電話都要塗掉才能歸檔。你塗得很慢。", "一個大學生來問押金的事，看起來跟你差不多大。律師講完，他轉頭問你：「你們以後都會當律師嗎？」你說還不知道。", "下雨，來的人很少。老師讓你們練習問問題：「先問發生什麼事。不要一開口就問有沒有證據。」", "你陪一位阿嬤去樓下影印她的存摺。來回五分鐘，她一直跟你說謝謝。", "最後一次。老師在服務紀錄上簽名：「十八小時。辛苦了。」你把號碼牌一張一張收回盒子裡。"]},
     {id:'crim_spec',name:'刑法分則',kind:'required',term:'Y2S1',prof:'prof_wu',room:'L201',slots:[{wd:2,block:'am'}],topics:['生命法益','身體法益','自由法益','財產法益','侵占與背信的差別'],specials:[{w:12,title:'幫社團管錢，侵占還是背信'}]},
     {id:'property',name:'民法物權',kind:'required',term:'Y2S1',prof:'prof_zheng',room:'WMULTI',slots:[{wd:2,block:'pm1'}],topics:['物權概念','所有權','占有','登記','共有','用益物權'],specials:[{w:10,title:'買了房子，卻沒有房子下面那塊地'}]},
     {id:'oblig_gen2',name:'民法債編總論（二）',kind:'required',term:'Y2S1',prof:'prof_zhou',room:'L201',slots:[{wd:4,block:'am'}],topics:['債務不履行','債的效力','多數債務人','時效']},

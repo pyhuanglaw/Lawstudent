@@ -60,7 +60,7 @@ const PGDATE=(function(){
     if(ym==='2030-03') return PG.delayed(G)&&(F.GRAD_EXAM_2030===true||F.GRAD_EXAM_RESULT!=null);   /* 延畢、研究所筆試有結果的（3/15 私訊，r2y4a3d.js y5_kx_grad）*/
     if(ym==='2030-08') return PG.retaker(G);   /* 重考的（8/2 私訊，r2y4b3d.js y5_kx_0802）*/
     if(ym==='2030-10') return !!F.KX_SHELF;   /* 有 KX_SHELF 的（10/1 私訊，y6_kx_shelf）*/
-    if(ym==='2030-12') return PG.sits(G,2030)&&!(PG.failed&&PG.failed(G,2030));   /* 2030 年考的（12/13 麵店，她最後到）；一試沒過的沒有那一場（A4 取消保底以後）*/
+    if(ym==='2030-12') return PG.sits(G,2030)&&!(PG.failed&&PG.failed(G,2030));   /* 2030 年考的（12/13 燒臘店，她最後到）；一試沒過的沒有那一場（A4 取消保底以後）*/
     return false; };
   S.kxWhen=function(G,s){ const K=D().kexin, seg=K.segs[s.seg], d0=DK(s.key); if(d0==null) return null;
     if(s.week){ const OD=G.flags.KX_OUR_DAY, off=OD&&S.KX_DAY[OD.day]; if(off==null) return null; return {day:d0+off,h:seg.h[OD.day]}; }
@@ -89,7 +89,7 @@ const PGDATE=(function(){
     ny:{kind:'video',place:'視訊（紐約）',bg:'video',hours:1},   /* 以安 2030-08-11 以後：視訊，臺灣時間週日 08:00（紐約週六晚上）*/
     cafe:{kind:'meet',place:'2:30 AM 打烊以後',bg:'dark',travel:'走過去約 15 分鐘',travelH:0.25,hours:1},   /* 芷若雙月：週六 22:00，Café 打烊以後（字幕照 termend_lines.js PLACE.cafe）*/
     movie:{kind:'meet',place:'早場電影',bg:'gongguan_cinema',travel:'走過去約 15 分鐘',travelH:0.25,hours:2},   /* 芷若單月：週日早上 10:00，早場電影 */
-    noodle:{kind:'meet',place:'一盞茶屋打烊以後',bg:'wenzhou_teahouse',travel:'走過去約 15 分鐘',travelH:0.25,hours:1},   /* 語彤：週六 21:30，一盞茶屋打烊以後（AA_643 第 11 節第 2 點；key 名 noodle 是內部 id 不改）*/
+    noodle:{kind:'meet',place:'一盞茶屋',bg:'wenzhou_teahouse',travel:'走過去約 15 分鐘',travelH:0.25,hours:1},   /* 語彤：週六 17:30，一盞茶屋（2029 年她下班以後；2030 年她週末回去喝茶）。喝完一壺，你陪她走回新生南路。key 名 noodle 是內部 id 不改 */   /* AA_688 第 2 節（企劃線 8dce2f94c，AA-C 定 D109；AA_367 第 3 節源稿同步）：原本「週六 21:30，一盞茶屋打烊以後」（AA_643 第 11 節第 2 點）*/
     yexiao:{kind:'meet',place:'公館宵夜',bg:'gongguan_luwei',travel:'走過去約 15 分鐘',travelH:0.25,hours:1},   /* 子晴：週六 23:00，公館宵夜 */
     eatery:{kind:'meet',place:'法圖旁邊那家',bg:'xiaofu',travel:'走過去約 10 分鐘',travelH:1/6,hours:1.5},   /* 學姊：週六 18:30，法圖旁邊那家（背景照期末飯那一家 termend_lines.js PLACE.eatery_lib）*/
     video:{kind:'video',place:'視訊',bg:'video',hours:1},   /* 沛珊平常：週六 22:00 視訊 */
@@ -98,7 +98,7 @@ const PGDATE=(function(){
     switch(who){
       case 'heroine_01': return ym>'2030-08'?{m:'ny',off:1,h:8}:{m:'lib',off:0,h:15};   /* 2030-08 是送機（不排）：9 月起在紐約 */
       case 'heroine_02': return m%2===0?{m:'cafe',off:0,h:22}:{m:'movie',off:1,h:10};
-      case 'heroine_03': return {m:'noodle',off:0,h:21.5};
+      case 'heroine_03': return {m:'noodle',off:0,h:17.5};   /* AA_688 第 2 節：週六 17:30（原本 21:30）*/
       case 'heroine_04': return {m:'yexiao',off:0,h:23};
       case 'heroine_05': return {m:'eatery',off:0,h:18.5};
       case 'classmate_peishan': return S.TN.includes(ym)?{m:'tn',off:0,h:10.5}:{m:'video',off:0,h:22};
@@ -111,8 +111,8 @@ const PGDATE=(function(){
     const sg=PG.studyGroup(G), yt=sg==='three'||sg==='yutong', pass29=F.BAR_SIT_2029===true&&PG.stage2(G,2029);   /* 2029 年上榜＝一試過了（這一版二試都會上，12/14 放榜）*/
     if(who==='heroine_03'){
       if(yt&&ym>='2029-06'&&ym<='2029-08') return true;   /* 有讀書小組的玩家：2029-06～08 照小組 */
-      if(ym==='2029-12'&&yt&&pass29) return true;   /* 2029 年上榜、有讀書小組的（放榜那天的麵店）*/
-      if((ym==='2030-07'||(ym==='2030-12'&&!(PG.failed&&PG.failed(G,2030))))&&yt&&PG.sits(G,2030)) return true; }   /* 2030 年考、有讀書小組的（7/11 總圖 B1、12/13 麵店：那兩場會演就不排）——重考的，和交換延畢 2030 第一次考的（AA_367 第 10 節 A4，企劃線 e6d4a198）*/
+      if(ym==='2029-12'&&yt&&pass29) return true;   /* 2029 年上榜、有讀書小組的（放榜那天那一場；AA_688 第 2 節照現在）*/
+      if((ym==='2030-07'||(ym==='2030-12'&&!(PG.failed&&PG.failed(G,2030))))&&yt&&PG.sits(G,2030)) return true; }   /* 2030 年考、讀書小組有她的（7/11 總圖 B1 她帶菜來陪、12/13 那一場她帶紅紙來：那兩場會演就不排；AA_688 第 2 節照現在）——重考的，和交換延畢 2030 第一次考的（AA_367 第 10 節 A4，企劃線 e6d4a198）*/
     if(who==='heroine_05'){
       if(ym==='2029-08'&&PG.sits(G,2029)) return true;   /* 2029 年報國考的台灣路線（8/4 考場門口當面給便條）*/
       if(ym==='2029-09'&&F.BAR_SIT_2029===true&&PG.stage(G,2029)==='none') return true;   /* 2029 年沒考上、要重考的（9/7 私訊）*/

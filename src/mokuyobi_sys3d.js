@@ -27,40 +27,41 @@ const MOKS=(function(){
   const LAY=()=>typeof MOKUYOBI_LAYOUT!=='undefined'?MOKUYOBI_LAYOUT:null;
   const BOSS={name:'老闆'};
   /* ---------- 台詞（AA_618 第 1 節，一字照抄）---------- */
+  /* TEXT-QUOTE-UNIFY-1108 第四批（AA-B 2026-11-08 05:31）：對話框有名字說的（柏翰 bhAsk、bhBye；雨天 S.RAIN）不加外面的「」；選項（oldYes、oldNo、bhGo、bhHome、rainOpts 的 t）照留「」*/
   S.L={
     first:[[null,'（窄樓梯走上二樓。門上的鈴響了一下。）'],[null,'（店裡很安靜。六七個人各坐一桌，大部分在看書、寫筆記。黑膠唱片機在放鋼琴。）'],['老闆','（小聲）一位？窗邊那桌剛好空。'],['老闆','（小聲）我們沒有插座，要充電的話樓下便利商店有。']],   /* 1-1 */
     menu:[['焙茶拿鐵',150,'（焙茶拿鐵上面有一層很細的奶泡。）'],['焦糖布丁',120,'（布丁的焦糖很苦，底下很甜。）'],['巴斯克乳酪蛋糕',140,'（蛋糕外面焦得很黑，切開是軟的。）']],   /* 1-2：品項、價錢、點完的那一句 */
     none:'什麼都不點', water:'只要水。', waterOk:'（小聲）好。',
     narr:['（旁邊那桌的人翻書翻得很輕。你也跟著翻得很輕。）','（窗外的老樹在動。你讀完一章才發現天黑了。）','（筆電剩百分之二十。你把它闔上，改看紙本。）','（唱片換了一面。老闆走過去，把燈調暗一格。每張桌子的小檯燈亮了。）'],   /* 1-3 */
-    old:'「（小聲）老位子？」', oldYes:'「好。」', oldNo:'「今天坐別的。」', oldNoBoss:'「（小聲）都可以。」',   /* 1-4 */
-    waterNarr:'（老闆放了一杯溫水在你桌上。）', waterBoss:'「（小聲）十點打烊。……慢慢收。」',
-    chat:['「（小聲）我以前在出版社，一天看三份稿子。現在一天看三頁就好。」','「（小聲）那邊書櫃的書可以拿下來看，看完放回去就好。」','「（小聲）下雨天人比較多。大家都不想回家。」'],
+    old:'（小聲）老位子？', oldYes:'「好。」', oldNo:'「今天坐別的。」', oldNoBoss:'（小聲）都可以。',   /* 1-4 */
+    waterNarr:'（老闆放了一杯溫水在你桌上。）', waterBoss:'（小聲）十點打烊。……慢慢收。',
+    chat:['（小聲）我以前在出版社，一天看三份稿子。現在一天看三頁就好。','（小聲）那邊書櫃的書可以拿下來看，看完放回去就好。','（小聲）下雨天人比較多。大家都不想回家。'],
     exam:'（今天每一桌都坐了人。只剩吧檯旁邊一個位子。）',   /* 1-5 */
-    bh:[[null,'（柏翰抬頭，指了一下旁邊的位子。）'],['classmate_bohan','「（小聲）總圖位子搶不到。」']],
-    mx:[['classmate_mingxuan','「（小聲）我七點半家教。……再讀一章就走。」']],
-    bhAsk:'「兩點半還開。你要去嗎？」', bhGo:'「去。」', bhHome:'「我回去了。」', bhBye:'「嗯，明天見。」',
+    bh:[[null,'（柏翰抬頭，指了一下旁邊的位子。）'],['classmate_bohan','（小聲）總圖位子搶不到。']],
+    mx:[['classmate_mingxuan','（小聲）我七點半家教。……再讀一章就走。']],
+    bhAsk:'兩點半還開。你要去嗎？', bhGo:'「去。」', bhHome:'「我回去了。」', bhBye:'嗯，明天見。',
     meet:'（她坐在窗邊那桌，已經點好了。）',   /* AA_618 1-6 原句：AA_645 第 2 節改成 S.meetLine（不分男女、名字代入），留著給對照 */
     meetFmt:'（{名字}坐在窗邊那桌，已經點好了。）', meetBook:'靠書櫃那桌', meetWin:'窗邊那桌',   /* AA_645 第 2 節 */
     look:{bookcase:['（書櫃上的書都很舊，書背褪成差不多的顏色。有一本詩集夾著別人留下的書籤。）','（最下面一層貼著一張紙：「可以拿下來看，看完請放回原位。」）','（你抽出一本小說，翻了兩頁，又放回去。旁邊那個人抬頭看了你一眼，又低頭讀書。）'],
       record:['（唱片機在轉，放的是一張沒有歌詞的鋼琴曲。）','（旁邊的木箱裡，唱片照年份一張一張排好。）','（一面放完了。老闆走過來把唱片翻面，又回到吧檯。）'],
       poster:['（《夏の残光》。海報上的女生站在海邊，看著畫面外面。下面一行小字：一九九八年上映。）','（海報的角落有一點泛黃，框是和書櫃一樣的胡桃木。）','（海報下面夾著一張手寫的小卡：「老闆看了七次。」）']},   /* AA_645 第 6 節第 3 點補第三句，三句輪流 */   /* AA_645 第 1 節（海報稿上只有兩句；第三點是 D77 的註）*/
     lookLabel:{bookcase:'看看書櫃',record:'看唱片機',poster:'看海報'},   /* 按鈕的字照配置 interact 的 label */
-    close:[['老闆','「（小聲）十點了。……要打烊了。」'],[null,'（你收好書，走下樓梯。巷子裡只剩路燈。）']],   /* AA_645 第 3 節：一般 22:00 打烊（當晚出過 21:40 溫水＝只出旁白）*/
-    xc:[['classmate_xinci','「（小聲）這裡的燈剛好，看書不累。」']],   /* AA_645 5-b：進門看到芯慈 */
+    /* 打烊的字（AA_645 第 3 節的 close）作廢，照 AA_700：老闆一句「我們今天要打烊了。」（XSCLOSE.say，下面 S.closeOut；當晚出過溫水也一樣）*/
+    xc:[['classmate_xinci','（小聲）這裡的燈剛好，看書不累。']],   /* AA_645 5-b：進門看到芯慈 */
     rain:['（下樓的時候，外面的雨變大了。兩個人站在樓梯口的鐵門裡面。）','（巷子裡沒有人。雨打在樓下洗衣店的鐵皮上。）'],   /* 1-7 */
     rainOpts:[{t:'「等雨小一點。」',narr:'（你們站了十分鐘。雨小了，你們一起走出巷子。）',h:10/60},{t:'「我去樓下便利商店買傘。」',narr:'（你跑回來的時候，她笑了。傘只買到一把。）',h:5/60}] };
   /* 1-6：七位（第一次來，坐下以後／點什麼／在這裡聊的時候隨機一次）*/
   S.DATE={
-    heroine_01:{first:'「（小聲）我常來這裡讀書。……第一次跟人一起來。」',order:'焙茶拿鐵',line:'「（小聲）這裡沒有插座，所以我只帶紙本。……讀得比較進去。」'},
-    heroine_05:{first:'「（小聲）大學的時候我都坐這裡。考試前一個禮拜。」',order:'焙茶拿鐵，不加糖',line:'「（小聲）老闆以前是編輯。我的讀書計畫他幫我改過錯字。」'},
-    heroine_02:{first:'「（小聲）書櫃那本《挪威的森林》是中文翻譯。……我想看看他們怎麼翻。」',order:'巴斯克乳酪蛋糕',line:'「（小聲）翻譯最難的是安靜的句子。」'},
-    heroine_03:{first:'「（小聲）蘇姨說這間的焙茶不錯。……我來偷學。」',order:'焙茶拿鐵',line:'「（小聲）比我們的苦一點。……我們的比較好喝。」'},
-    heroine_04:{first:'「（小聲）好安靜。……我手會想打拍子。」',order:'焦糖布丁',line:'「（小聲）那台唱片機是真的耶。我想看他換面。」'},
-    classmate_peishan:{first:'「（小聲）課輔班的備課我都在這裡寫。」',order:'焦糖布丁',line:'「（小聲）國中生說我寫的講義太多字。……他們說得對。」'},
-    kexin:{first:'「（小聲）台北的咖啡廳都好小。……可是這間我喜歡。」',order:'巴斯克乳酪蛋糕',line:'「（小聲）我們學校附近沒有這種店。只有早餐店。」'} };
-  S.FRIEND={zhe:'「（小聲）這裡我講話會被瞪吧。」',classmate_bohan:'「（小聲）好，讀書。」',classmate_mingxuan:'「（小聲）我只坐一個小時。」',classmate_xinci:'「（小聲）我把兩份報告都帶來了。」',yu:'「（小聲）好安靜……我不太習慣。……但很舒服。」'};
-  S.RAIN={heroine_01:'「……再等一下。不急。」',heroine_05:'「以前我在這裡等雨，都一個人。」',heroine_02:'「這種雨，英文有一個字。……我想不起來。不想了。」',heroine_03:'「我們等它小一點。……你冷嗎？」',
-    heroine_04:'「這個聲音可以錄起來。……算了，聽就好。」',classmate_peishan:'「我很喜歡下雨天。大家都會慢下來。」',kexin:'「台北的雨好多。……今天不討厭。」'};
+    heroine_01:{first:'（小聲）我常來這裡讀書。……第一次跟人一起來。',order:'焙茶拿鐵',line:'（小聲）這裡沒有插座，所以我只帶紙本。……讀得比較進去。'},
+    heroine_05:{first:'（小聲）大學的時候我都坐這裡。考試前一個禮拜。',order:'焙茶拿鐵，不加糖',line:'（小聲）老闆以前是編輯。我的讀書計畫他幫我改過錯字。'},
+    heroine_02:{first:'（小聲）書櫃那本《挪威的森林》是中文翻譯。……我想看看他們怎麼翻。',order:'巴斯克乳酪蛋糕',line:'（小聲）翻譯最難的是安靜的句子。'},
+    heroine_03:{first:'（小聲）蘇姨說這間的焙茶不錯。……我來偷學。',order:'焙茶拿鐵',line:'（小聲）比我們的苦一點。……我們的比較好喝。'},
+    heroine_04:{first:'（小聲）好安靜。……我手會想打拍子。',order:'焦糖布丁',line:'（小聲）那台唱片機是真的耶。我想看他換面。'},
+    classmate_peishan:{first:'（小聲）課輔班的備課我都在這裡寫。',order:'焦糖布丁',line:'（小聲）課輔班的小朋友說我寫的講義太多字。……他們說得對。'}   /* AA-B 11-07 23:40：「國中生」→「課輔班的小朋友」（國小課輔班，不寫年級）*/,
+    kexin:{first:'（小聲）台北的咖啡廳都好小。……可是這間我喜歡。',order:'巴斯克乳酪蛋糕',line:'（小聲）我們學校附近沒有這種店。只有早餐店。'} };
+  S.FRIEND={zhe:'（小聲）這裡我講話會被瞪吧。',classmate_bohan:'（小聲）好，讀書。',classmate_mingxuan:'（小聲）我只坐一個小時。',classmate_xinci:'（小聲）我把兩份報告都帶來了。',yu:'（小聲）好安靜……我不太習慣。……但很舒服。'};
+  S.RAIN={heroine_01:'……再等一下。不急。',heroine_05:'以前我在這裡等雨，都一個人。',heroine_02:'這種雨，英文有一個字。……我想不起來。不想了。',heroine_03:'我們等它小一點。……你冷嗎？',
+    heroine_04:'這個聲音可以錄起來。……算了，聽就好。',classmate_peishan:'我很喜歡下雨天。大家都會慢下來。',kexin:'台北的雨好多。……今天不討厭。'};
   S.RAIN_CG=id=>'cg_mokuyobi_rain_'+id;   /* CG「木曜日的樓梯口，雨天」（每位一張，先做以安、學姊；D127 第 2 點 BB 跟使用者要）：放進 CG_REGISTRY 以後才出 */
 
   /* ---------- 共用 ---------- */
@@ -128,11 +129,11 @@ const MOKS=(function(){
     const c=CHARACTERS.classmate_bohan; if(!c) return false; const e=STORY.schedEnt(c,Object.assign({},G,{hour:21.9})); if(!e||!e.mokuyobi) return false;
     if(typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.stage('classmate_bohan')==='STRANGER') return false;
     return !(G.invites||[]).some(iv=>iv&&iv.who==='classmate_bohan'&&(iv.state==='going'||(iv.state==='accepted'&&iv.day===G.day))); };
-  /* 一般的 22:00 打烊（AA_645 第 3 節）：那天有開、現在是打烊那一刻（22:00～22:30）；颱風、週二、還沒開、讀檔回到半夜＝照舊只寫開放時間 */
+  /* 一般的 22:00 打烊（AA_700；原 AA_645 第 3 節）：那天有開、現在是打烊那一刻（22:00～22:30）或這一趟進來時開著（XSCLOSE.gen）；颱風、週二、還沒開、讀檔回到半夜＝照舊只寫開放時間 */
   S.closingNow=G=>{ const h=G.hour%24; if(h<22-1e-6||h>=22.5) return false; const ws=typeof PLACES!=='undefined'&&PLACES.windowsOf?PLACES.windowsOf(ZONE,G.day):null; return !!(ws&&ws.length)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(ZONE,G.day)); };
-  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player; let go=false; const bh=S.bohanOut(G), gen=!bh&&S.closingNow(G), r=S.rec(G);
+  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player; let go=false; const bh=S.bohanOut(G), c0=S.closingNow(G), gen=!bh&&(typeof XSCLOSE!=='undefined'&&XSCLOSE.gen?XSCLOSE.gen(GM,ZONE,c0):c0);
     GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P);
-      if(gen){ const L0=r.waterDay===G.day?S.L.close.filter(x=>x[0]==null):S.L.close; await sayAll(GM,L0); }   /* 當晚出過溫水：老闆不再說 */
+      if(gen){ if(typeof XSCLOSE!=='undefined'&&XSCLOSE.say) await XSCLOSE.say(GM,'老闆'); else await GM.say(BOSS,'我們今天要打烊了。'); }   /* AA_700：老闆一句，不另外出旁白 */
       if(bh) await S.mute(async()=>{ const w=whoOf(GM,'classmate_bohan'); await GM.say(w,S.L.bhAsk); const k=await GM.choose([{t:S.L.bhGo},{t:S.L.bhHome}]); if(k===0) go=true; else await GM.say(w,S.L.bhBye); }); }
     finally { GM.sceneEnd(); }
     if(go&&typeof INV!=='undefined'&&INV.accept) INV.accept(G,'classmate_bohan','cafe',G.day,G.hour%24,{now:true,by:'npc'});   /* 一起走到兩點半（邀約的「現在一起過去」：他跟著你，到了照兩點半的見面）*/
@@ -185,7 +186,7 @@ const MOKS=(function(){
     if(F){ if(!before||S.rand()<0.5) await GM.say(who,F); return; }
     if(iv.now) await GM.say(null,'你和'+nameOf(id)+'在木曜日坐坐。'); };   /* 稿上沒有的人、一起走過來的（沒有進門那一句）：照邀約一般的見面旁白 */
   /* AA_645 第 4 節：約去木曜日答應的那一句——十人各一句在 src/data/invites.js（people[人].acc.mokuyobi）；沒列的人（答應了、沒有自己的句子）＝一般那句 */
-  S.ACC0='「好啊。那裡要小聲一點喔。」';
+  S.ACC0='好啊。那裡要小聲一點喔。';   /* 包 INV.personal 的 lines → S.playLines(GM,who,…)＝有名字說的，不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
   if(typeof INV!=='undefined'&&INV.personal&&!INV._moks){ INV._moks=true; const p0=INV.personal; INV.personal=function(G,id,P,day,h,r){ const out=p0.apply(this,arguments);
       if(P&&P.id==='mokuyobi'&&out&&out.res==='accept'&&!(Array.isArray(out.lines)&&out.lines.length)) return Object.assign({},out,{lines:[S.ACC0]}); return out; }; }
   if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL) SOCIAL.MEMORY_LABEL.MOKUYOBI_TOGETHER=SOCIAL.MEMORY_LABEL.MOKUYOBI_TOGETHER||'一起去木曜日';   /* 人物頁的記憶名稱 */
