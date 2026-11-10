@@ -292,3 +292,22 @@ WINVIEW_tea21 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_pl
 NANYANG_v4 | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 150 | CC_HEADLESS=0
 # 一盞 21:00 進不去（places.js：12:00–20:00）＝INFO；改 19:30（還在營業、天已暗）
 WINVIEW_tea195 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tea;HOURS=19.5
+# ① X199 溫州街只從新生南路進出（LAWWW 14:21、BB 14:23 順序 ①→②→③；新 99294fead、改前 e9af13061）：瀏覽器測試只改了期待沒跑過；flow_day2_an 一定要跑完；入口探針看盆栽、走不進去、新生南路進出
+X199_entry_new | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_planning/test_tools/cc/cc_wz_entry_probe.py | index.html | 15 | TAG=new
+X199_entry_old | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_wz_entry_probe.py | index.html | 15 | TAG=old
+X199_guide | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+X199_guide_old | e9af1306192fe33a31db4c4b44a38f42d779913d | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+X199_ggnav | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+X199_ggnav_old | e9af1306192fe33a31db4c4b44a38f42d779913d | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+X199_reach | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+X199_touch | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | game | tests/touch_flow_wenzhou.py | index.html | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
+X199_day2an | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | game | tests/flow_day2_an.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
+X199_ggglb | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | game | tests/gongguan_glb_integration.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+X199_zone | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | game | tests/zone_transitions.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+# ② XS-GATE-FORMAL（X246）：正面白天／晚上、北門柱石牌、圍牆往北、晚上燈籠、停車架俯視；量停車架和花台的距離、停車點在不在花台裡
+XSGATE_new | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_planning/test_tools/cc/cc_xs_gate_probe.py | index.html | 15 | TAG=new
+XSGATE_old | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_xs_gate_probe.py | index.html | 15 | TAG=old
+# ③ X186 橘貓：07:00 跳下、日落跳上、21:00 趴著；跳的那段每 0.1 秒記 body 骨頭位置（不是瞬移）、各拍開始／中間／落地
+WZCAT_new | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_planning/test_tools/cc/cc_wzcat_jump_probe.py | index.html | 20 | TAG=new
+WZCAT_old | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_wzcat_jump_probe.py | index.html | 20 | TAG=old
+
