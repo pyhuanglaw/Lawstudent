@@ -1,0 +1,44 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_us_class_story_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\USCLS_A\out
+CC US_CLASS_STORY：worktree ?；CASES ['GATE', 'WALK', 'ONE']；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 2028-08-21 9.50 us_campus＋交換旗標（EXCHANGE_ROUTE US、US_ARRIVED…，同 us_classroom_story_unit.js）；週一 09:30，Introduction 10:00
+PASS [GATE] 美國校園有「進教室」
+  [  67.5s] 到達「[GATE] 走到「進教室」」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，19 秒
+PASS [GATE] 走到「進教室」、互動按鈕出現  {"x": -0.04, "z": 7.94, "interact": "進教室", "fallbacks": 0}
+PASS [GATE] 有課時段（開始前 30 分）按「進教室」：進 Room 120  {"zone": "us_classroom", "h": 9.746, "seat": null, "pose": "idle", "busy": false, "fallbackVisible": false, "formal": true, "fade": 1, "fps": 2114, "fb": 0}
+  [前置／捷徑] 【前置／捷徑】讀檔到 2028-08-21 14.00 us_campus＋交換旗標（EXCHANGE_ROUTE US、US_ARRIVED…，同 us_classroom_story_unit.js）；週一 14:00 沒課
+  [ 115.4s] 到達「[GATE] 沒課 走到「進教室」」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，18 秒
+PASS [GATE] 沒課 走到「進教室」、互動按鈕出現  {"x": -0.04, "z": 7.94, "interact": "進教室", "fallbacks": 0}
+PASS [GATE] 沒課時段按「進教室」：不進 3D（還在 us_campus）  {"me": {"zone": "us_campus", "h": 14.283, "seat": null, "pose": "idle", "busy": false, "fallbackVisible": true, "formal": false, "fade": 0, "fps": 4563, "fb": 0}, "cap": []}
+  [前置／捷徑] 【前置／捷徑】讀檔到 2028-08-22 12.50 us_campus＋交換旗標（EXCHANGE_ROUTE US、US_ARRIVED…，同 us_classroom_story_unit.js）；週二 12:30，Comparative 13:00
+PASS [WALK] 美國校園有「進教室」
+  [ 158.2s] 到達「[WALK] 走到「進教室」」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，18 秒
+PASS [WALK] 走到「進教室」、互動按鈕出現  {"x": -0.04, "z": 7.94, "interact": "進教室", "fallbacks": 0}
+  [ 168.4s] [WALK] 進來時坐著的人 14 個：[{"who": "german", "x": 5.25, "z": -1.7, "seat": true, "leaving": false, "beh": "idle"}, {"who": "brazil", "x": -5.25, "z": -3.8, "seat": true, "leaving": false, "beh": "idle"}, {"who": "japan", "x": -0.75, "z": -1.7, "seat": true, "leaving": false, "beh": "idle"}, {"who": "prof", "x": 2.16, "z": -6.1, "seat": false, "leaving": false, "beh": "wander"}, {"who": "student", "x": -3.75, "z": -3.8, "seat": true, "leaving": false, "beh": "idle"}, {"who": "student", "x": -2.25, "z": -3.8, "seat": true, "leaving": false, "beh": "idle"}, {"who": "student", "x": 2.25, "z": -3.8, "seat": true, "leaving": false, "beh": "idle"}, {"who": "student", "x": 3.75, "z": -3.8, "seat": true, "leaving": false, "beh": "idle"}, {"who": "student", "x": -5.25, "z": -1.7, "seat": true, "leaving": false, "beh": "idle"}, {"who": "student", "x": -3.75, "z": -1.7, "seat": true, "leaving": false, "beh": "idle"}, {"who": "student", "x": -2.25, "z": -1.7, "seat": true, "leaving": false, "beh": "idle"}, {"who": "student", "x": 0.75, "z": -1.7, "seat": true, "leaving": false, "beh": "idle"}, {"who": "student", "x": 2.25, "z": -1.7, "seat": true, "leaving": false, "beh": "idle"}, {"who": "student", "x": 3.75, "z": -1.7, "seat": true, "leaving": false, "beh": "idle"}]
+PASS [WALK] 自己的座位顯示「坐下（你常坐的位置）」、在 comp [0,4]  {"label": "坐下（你常坐的位置）", "x": 0.75, "z": -3.4499999999999997, "r": 0.62, "lv": 0, "rc": [0, 4], "sx": 0.75, "sz": -3.8}
+  [ 188.6s] 到達「[WALK] 走到自己的座位」附近（0.19 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，20 秒
+PASS [WALK] 走到座位旁、按鈕「坐下（你常坐的位置）」  {"x": 0.74, "z": -3.26, "interact": "坐下（你常坐的位置）"}
+  [ 192.7s] [WALK] 選單 ["上課：Comparative Constitutional Law13:00–14:15　快轉到下課（點對話可以略過）", "坐一下，看看四周時間 +20 分鐘", "起身"] → 選 "上課：Comparative Constitutional Law13:00–14:15　快轉到下課（點對話可以略過）"
+  [ 205.4s] [WALK] 坐著上課那段幀率：12.1 fps（163 格／13.5 秒）；教室裡的人 14
+  [ 205.4s] [WALK] 坐著的狀態：[{"zone": "us_classroom", "h": 12.934, "seat": [0, 4], "pose": "sit", "busy": true, "fallbackVisible": false, "formal": true, "fade": 0, "fps": 7160, "fb": 0}, {"zone": "us_classroom", "h": 12.934, "seat": [0, 4], "pose": "read", "busy": true, "fallbackVisible": false, "formal": true, "fade": 1, "fps": 7191, "fb": 0}]
+  [ 205.4s] [WALK] 上課字幕（GAME.caption 原文，ms＝顯示多久）：[{"w": "", "t": "Comparative Constitutional Law", "ms": 2400, "z": "us_classroom", "h": 13, "rt": 1794326760238}, {"w": "", "t": "今天比較兩國的言論自由。教授要你講臺灣的。", "ms": 4110, "z": "us_classroom", "h": 13, "rt": 1794326761042}]
+PASS [WALK] 選了「上課：…」、有上課的字幕（蓋在 3D 上，不切 2D 背景）  {"picked": ["上課：Comparative Constitutional Law13:00–14:15　快轉到下課（點對話可以略過）"], "caps": [{"w": "", "t": "Comparative Constitutional Law", "ms": 2400, "z": "us_classroom", "h": 13, "rt": 1794326760238}, {"w": "", "t": "今天比較兩國的言論自由。教授要你講臺灣的。", "ms": 4110, "z": "us_classroom", "h": 13, "rt": 1794326761042}]}
+  [ 205.4s] [WALK] 字幕長度／秒數（每字少於 120 ms 的：[[30, 2400], [21, 4110]]）
+  [ 205.4s] [WALK] 教授位置（每秒）9 筆，總共走了 6.4 m：[[0.0, 1.34, -6.74], [2.3, 2.24, -6.64], [3.7, 2.24, -6.64], [5.5, 1.77, -6.62], [7.4, -0.22, -6.99], [8.5, -1.41, -6.78], [9.5, -2.42, -6.45], [11.4, -2.42, -6.45], [12.4, -3.07, -6.19]]
+PASS [WALK] 教授有在講桌和白板之間來回（x 範圍 ≥ 2 m）  {"xmin": -3.07, "xmax": 2.24}
+  [ 220.6s] [WALK] 下課離開（每 0.5 秒：人數、正在走的、最近兩人距離）：[{"t": 0.0, "n": 14, "leaving": 14, "dmin": 1.14}, {"t": 0.6, "n": 14, "leaving": 14, "dmin": 0.51}, {"t": 1.2, "n": 14, "leaving": 14, "dmin": 0.36}, {"t": 2.1, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 2.7, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 3.2, "n": 14, "leaving": 14, "dmin": 0.29}, {"t": 3.7, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 4.2, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 5.2, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 5.7, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 6.3, "n": 14, "leaving": 14, "dmin": 0.19}, {"t": 6.8, "n": 14, "leaving": 14, "dmin": 0.26}, {"t": 7.3, "n": 14, "leaving": 14, "dmin": 0.27}, {"t": 7.9, "n": 14, "leaving": 14, "dmin": 0.3}, {"t": 8.4, "n": 14, "leaving": 14, "dmin": 0.29}, {"t": 8.9, "n": 14, "leaving": 14, "dmin": 0.29}, {"t": 9.4, "n": 14, "leaving": 14, "dmin": 0.29}, {"t": 10.0, "n": 12, "leaving": 12, "dmin": 0.29}, {"t": 10.5, "n": 12, "leaving": 12, "dmin": 0.3}, {"t": 11.0, "n": 12, "leaving": 12, "dmin": 0.29}, {"t": 11.6, "n": 9, "leaving": 9, "dmin": 0.54}, {"t": 12.1, "n": 9, "leaving": 9, "dmin": 0.53}, {"t": 12.6, "n": 5, "leaving": 5, "dmin": 0.6}, {"t": 13.1, "n": 5, "leaving": 5, "dmin": 0.61}, {"t": 13.6, "n": 3, "leaving": 3, "dmin": 0.62}, {"t": 14.1, "n": 1, "leaving": 1, "dmin": null}, {"t": 14.7, "n": 1, "leaving": 1, "dmin": null}, {"t": 15.2, "n": 0, "leaving": 0, "dmin": null}]
+PASS [WALK] 下課大家走出去（25 秒內走完）  [{"t": 14.1, "n": 1, "leaving": 1, "dmin": null}, {"t": 14.7, "n": 1, "leaving": 1, "dmin": null}, {"t": 15.2, "n": 0, "leaving": 0, "dmin": null}]
+  [ 220.6s] [WALK] 最近兩人距離 < 0.3 m 的時間點 15 個（疊在一起的候選，看截圖判）：[{"t": 2.1, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 2.7, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 3.2, "n": 14, "leaving": 14, "dmin": 0.29}, {"t": 3.7, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 4.2, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 5.2, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 5.7, "n": 14, "leaving": 14, "dmin": 0.28}, {"t": 6.3, "n": 14, "leaving": 14, "dmin": 0.19}, {"t": 6.8, "n": 14, "leaving": 14, "dmin": 0.26}, {"t": 7.3, "n": 14, "leaving": 14, "dmin": 0.27}]
+PASS [WALK] 下課玩家留在教室、可以自己走  {"zone": "us_classroom", "h": 14.358, "seat": null, "pose": "idle", "busy": false, "fallbackVisible": false, "formal": true, "fade": 0, "fps": 7955, "fb": 0}
+  [前置／捷徑] 【前置／捷徑】讀檔到 2028-08-23 8.50 us_apartment＋交換旗標（EXCHANGE_ROUTE US、US_ARRIVED…，同 us_classroom_story_unit.js）；週三 08:30，Introduction 10:00
+PASS [ONE] 公寓有「去上課」
+  [ 252.1s] 到達「[ONE] 走到「去上課」」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+FAIL [ONE] 走到「去上課」、互動按鈕出現  {"x": 0.4, "z": 4, "interact": "", "fallbacks": 0}
+  [ 343.0s] [ONE] 淡入前後 731 筆：[]
+  [ 343.0s] [ONE] 淡入那一刻：null
+FAIL [ONE] 一鍵上課：淡入時已坐在 intro [2,7]  null
+FAIL [ONE] 一鍵上課：淡入時沒有露出方塊備用模型（fallback 群組藏著＝正式模型已載完）  null
+FAIL [ONE] 下課回到法學院台階下（us_campus）  {"zone": "us_apartment", "h": 13.228, "seat": null, "pose": "idle", "busy": false, "fallbackVisible": false, "formal": true, "fade": 0, "fps": 50462, "fb": 0}
+PASS 沒有 JS 例外  []
+FAILED 4: [ONE] 走到「去上課」、互動按鈕出現；[ONE] 一鍵上課：淡入時已坐在 intro [2,7]；[ONE] 一鍵上課：淡入時沒有露出方塊備用模型（fallback 群組藏著＝正式模型已載完）；[ONE] 下課回到法學院台階下（us_campus）
