@@ -4,7 +4,7 @@
 G11 的位置：場景物件 userData.ggShop＝'G11'（src/zones3d.js 946 ggTag）的外框（改之前 x 41.3～51.6、前緣 z≈18.1），偵測不到用 FN_G11='x0,x1,前緣z'。
 店門：exit 的 label／區域名有「花序」「Flower」、或在 G11 寬度裡（cc_fn_lib.find_door）；FN_DOOR_LABEL 可指定。
 PARTS（逗號分隔；預設 EXT,SIGN,VIEWS,INT,STAIRS,FPS）：
-  EXT     外觀：14:00、17:15、20:30（【前置】讀檔公館、晴）各拍正面 ext_front、斜 ext_obl。
+  EXT     外觀：14:00、17:15、20:30（【前置】讀檔公館、晴）各拍正面 ext_front、斜 ext_obl（SHOT_HOURS=1400,1715,2030 選時段）。
   SIGN    招牌近拍 sign（14:00）。
   VIEWS   從捷運口 view_mrt、校門 view_gate、騎樓 view_arcade 看向 G11（14:00）。
   INT     有門才拍：觸控走進店（D.use_exit）→ 入口往裡一張（站在進門的位置、照人面向的方向）→ 五個區（中央展示、鮮花、永生花、收銀、入口）各一張：
@@ -29,6 +29,7 @@ R = L.Run('fn_shots', OUT); F.setup(R, OUT)
 J = F.J
 DAY = os.environ.get('SHOT_DAY') or '2025-11-01'
 HOURS = [(14.0, '1400'), (17.25, '1715'), (20.5, '2030')]
+if os.environ.get('SHOT_HOURS'): HOURS = [x for x in HOURS if x[1] in os.environ['SHOT_HOURS'].split(',')]   # 例 SHOT_HOURS=1400,2030（拆開跑）
 # 相機（可調）：rel[0]＝eye 相對 G11、rel[1]＝look 相對 G11（G11 中間 x、0、G11 前緣 z）
 CAMS = {
     'ext_front':   {'eye': [0, 1.7, -16.0], 'look': [0, 4.5, 0.5], 'lens': 20, 'rel': [True, True]},     # 馬路對面（人行道外緣）正對
