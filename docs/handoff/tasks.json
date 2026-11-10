@@ -52864,7 +52864,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "AA_745 v2 已重匯（開發分支）；BB／CC 用這一版重測、文字核對；504 組裡 398 組沒有 talk（AA 決定補不補）",
+   "next": "AA_745 4e41f0d09 重匯、fallback 開：504 組有 talk 493、沒有 11；BB／CC MT4；【發布前】BB 文字核對通過才發",
    "xai": {
     "spec": "X324、AA_745",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -52994,7 +52994,7 @@
    "id": "MOVIE-ARC-AFTER-1110",
    "title": "看電影時她的故事線那一拍（ARC／RT）不在放映中演：地點是南洋戲院時改到散場 talk 之後、道別之前；片中固定演片子的 scene（有 with.mid 照舊）（BB 11-10 21:30 P2）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53007,7 +53007,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "AA 21:37 同意；子代理在做（連 AA_745 43f4736ab 的 qOther、optsOther、nofb、kind 七種）"
+   "next": "開發分支（子代理 6e43ca121 合併）；BB／CC MT4"
   },
   {
    "id": "US-FINAL-PROF-PASS-1110",
