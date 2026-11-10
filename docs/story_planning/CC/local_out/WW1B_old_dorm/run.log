@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wallfade_walls_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WW1B_old_dorm\out
+CC 牆外往裡拍：worktree ?；TAG old；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [dorm] 【前置／捷徑】讀檔到 dorm 2025-10-18 14.0（出生點，先量可走範圍）
+  [  42.8s] [dorm] 指定站位 (0.12, 2.26) yaw 270°
+  [前置／捷徑] [dorm] 【捷徑】讀檔站到 (0.12, 2.26)
+PASS [dorm] 牆 @0.12@2.26@270 在 dorm  {"zone": "dorm", "x": 0.12, "z": 2.26, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "走出房間", "stand": true, "fb": 0, "
+  [前置／捷徑] [dorm] 【前置／捷徑】讀檔到 dorm 2025-10-18 14.0（出生點，先量可走範圍）
+  [  81.3s] [dorm] 指定站位 (-0.75, 1.93) yaw 330°
+  [前置／捷徑] [dorm] 【捷徑】讀檔站到 (-0.75, 1.93)
+PASS [dorm] 牆 @-0.75@1.93@330 在 dorm  {"zone": "dorm", "x": -0.75, "z": 1.93, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "收拾背包回家", "stand": true, "fb": 0
+PASS 沒有 JS 例外  []
+ALL PASS
