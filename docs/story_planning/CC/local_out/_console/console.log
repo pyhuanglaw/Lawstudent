@@ -230,3 +230,14 @@
 [06:23:19] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
 [06:23:19] memory 38% before starting TZQ_zone (2 running)
 [06:23:19] ==== START TZQ_zone  (game @ 5e6f4990ce37fb9b1809d056eaa64c8024476948) ====
+[06:23:22] [res] cpu=18% mem=38% (12.1/31.4 GB) chrome_testing=4  START TZQ_zone
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       05009692c..d91475d88  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:23:26] ==== END   TZ3_signs_v2  exit=0  141s   ====
+[06:23:51] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[06:23:51] memory 46% before starting TZQ_reach (2 running)
+[06:23:51] ==== START TZQ_reach  (game @ 5e6f4990ce37fb9b1809d056eaa64c8024476948) ====
+[06:23:55] [res] cpu=46% mem=47% (14.7/31.4 GB) chrome_testing=8  START TZQ_reach
+[06:23:58] 正在跑：TZQ_ggnav（已跑 1 分／上限 25 分）、TZQ_zone（已跑 0 分／上限 25 分）、TZQ_reach（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:25:15] [res] cpu=6% mem=47% (14.7/31.4 GB) chrome_testing=8  END TZQ_ggnav
