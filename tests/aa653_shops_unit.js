@@ -52,7 +52,7 @@ for(const k of ['cvs','bookstore','aoki']){ const L=LAY[k], R=loadZone(k), its=R
   check('2 青木茶室門口：「外帶」（shop:tea、ggsTake）一個、「進入青木茶室」一個',tk.length===1&&tk[0].label==='外帶'&&tk[0].ggsTake===true&&!!dr,J(tk.map(q=>[q.label,q.x,q.z])));
   if(dr&&tk[0]){ const a=touchable(tk[0],[tk[0].x,15]), b=touchable(dr,[dr.x,15]); check('2 青木茶室門口：兩個都按得到、從人行道走得到',!!a&&!!b,J([a,b]));
     const d=Math.hypot(tk[0].x-dr.x,tk[0].z-dr.z); check('2 青木茶室門口：外帶窗口和門不重疊（相距 ≥ 1.5 m；窗口在門的西邊）',d>=1.5&&tk[0].x<dr.x,d.toFixed(2)+' m');
-    const old=rd('src/story3d.js'); check("2 外帶照舊：story3d.js shop:'tea'＝counter(GM,'清葉茶行',…) 三種茶（AA_647 §6）",/if\(it\.shop==='tea'\)\{ await counter\(GM,'清葉茶行',\[\['桂花烏龍奶茶',70,10\],\['柚香綠茶',60,6\],\['春摘白茶',65,6\]\]\)/.test(old)); } }
+    const old=rd('src/story3d.js'); check("2 外帶照舊：story3d.js shop:'tea'＝counter(GM,'清葉茶行',…) 三種茶（AA_647 §6）",/if\(it\.shop==='tea'\)\{ await counter\(GM,'清葉茶行',\[\['桂花烏龍奶茶',70,10\],\['柚香綠茶',60,6\],\['春摘白茶',65,6\]\](,'aoki')?\)/.test(old)); } }
 
 // ---- 3 青木茶室可以讀書 ----
 { const R=loadZone('aoki'), seats=R.its.filter(q=>q.seat), L=AOKI_LAYOUT, at=s=>seats.find(q=>q.seat.x===s.x&&q.seat.z===s.z);

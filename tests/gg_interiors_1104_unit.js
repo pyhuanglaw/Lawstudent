@@ -105,7 +105,7 @@ for(const k of ['cvs','bookstore','aoki']){ const S=SPEC[k], L=S.L; let R;
     check('6 頁間書屋：「找書的女生」（pool_story.js）站的地方站得住、面向書牆',!!ent&&E.canStand(ent.at[0],ent.at[1],0.3,0)&&Math.abs(ent.at[2]-Math.PI)<1e-6,J(ent&&ent.at)); }
 }
 // ---- 5 story3d.js 的點茶 ----
-{ const s=rd('src/story3d.js'); check("5 story3d.js：shop:'tea'＝counter(GM,'清葉茶行',…) 桂花烏龍奶茶 70、柚香綠茶 60、春摘白茶 65（存檔 key 照舊）",/if\(it\.shop==='tea'\)\{ await counter\(GM,'清葉茶行',\[\['桂花烏龍奶茶',70,10\],\['柚香綠茶',60,6\],\['春摘白茶',65,6\]\]\)/.test(s));
+{ const s=rd('src/story3d.js'); check("5 story3d.js：shop:'tea'＝counter(GM,'清葉茶行',…) 桂花烏龍奶茶 70、柚香綠茶 60、春摘白茶 65（存檔 key 照舊）",/if\(it\.shop==='tea'\)\{ await counter\(GM,'清葉茶行',\[\['桂花烏龍奶茶',70,10\],\['柚香綠茶',60,6\],\['春摘白茶',65,6\]\](,'aoki')?\)/.test(s));
   check('6 story3d.js：三間的店員照 Z3.SHOP_IN（青木茶室多一個）',/zoneId==='cvs'\)\{ const c=ck\('cvs'\)/.test(s)&&/zoneId==='bookstore'\)\{ const c=ck\('bookstore'\)/.test(s)&&/zoneId==='aoki'&&ck\('aoki'\)/.test(s)); }
 // ---- 6 其他接線 ----
 { const Q=PLACES.quickList(), q=k=>Q.find(p=>p[0]===k);

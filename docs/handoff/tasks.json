@@ -51592,7 +51592,7 @@
    "id": "BIKE-PARK-B1-1110",
    "title": "從總圖 B1 中庭出來，最近的合法腳踏車停車處 28.5 m（bike_park_1104_unit ① 門檻 12 m）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -51604,15 +51604,15 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 11:0x】GHA 全套 9d4c54c16 唯一剩下的 FAIL（在 35d250cf6 就 FAIL，B1 中庭 X298／X307 加了新出口）。LAWWW2：B1 中庭出口附近加合法停車處（停車架），或照 D108 判斷要不要改出口落點；改完跑 bike_park_1104、lib_b1_court、campus_layout_nav 相關 Node。",
+   "next": "【LAWWW 11-10 11:1x】LAWWW2 cdf7a32de：BIKE_RACKS.campus 加一座 [89.5,−35,π/2]（下沉中庭西邊、樓梯口南邊，離 B1 出口 8.8 m，地面層）；bike_park_1104、lib_b1_court、lib_b1_court_art ALL PASS；CC 順手拍停車架。 ｜ 【LAWWW 11-10 11:0x】GHA 全套 9d4c54c16 唯一剩下的 FAIL（在 35d250cf6 就 FAIL，B1 中庭 X298／X307 加了新出口）。LAWWW2：B1 中庭出口附近加合法停車處（停車架），或照 D108 判斷要不要改出口落點；改完跑 bike_park_1104、lib_b1_court、campus_layout_nav 相關 Node。",
    "xai": {
     "spec": "tests/bike_park_1104_unit.js ①（library_b1 → campus 落點 (98,−32.8)）",
     "branch": "claude/second-ai-env-art",
     "acceptance": "bike_park_1104 ALL PASS",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "sha": null
+   "sha": "cdf7a32de"
   }
  ]
 }
