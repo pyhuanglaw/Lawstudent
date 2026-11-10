@@ -42846,10 +42846,10 @@
    "id": "ART-GYM-POOL-SWIMMERS-1103",
    "title": "游泳池水裡游泳的人：游泳動作（自由式／蛙式）＋泳裝人物模型，接 crowd3d 游泳池那一群",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "X169 的後半（使用者 11-03「游泳池完全沒人」）；LAWWW2 休班中，回來接",
-   "next": "【LAWWW 11-10 16:3x】不用等使用者：VRM 外掛、VRoid 樣本 10-10 起就在用（LICENSES.md、D33），使用者 16:2x「不是早就應該已經裝了嗎」；D144 新增 tools/blender/setup_env.sh（LAWWW 雲端實測裝好、VRM 外掛 OK、樣本 9 個），LAWWW2 跑完照正式人物生產線做。 ｜ 【LAWWW 11-10 10:5x】卡在權限：等使用者決定（問過）。LAWWW2 先做 GYM-FIT-PROPS 第二包。 ｜ LAWWW2 回來：動作與模型 → LAWWW 接進 crowd3d 的 pool（水道裡來回）",
+   "next": "【LAWWW 11-10 18:1x】泳客模型（LAWWW2 980fdb24e）＋泳池接線（crowd3d S.swim*）已整合：開館 2～4 人、畫質上限、VRM 載好才放（不算進進場要等的清單，黑畫面不變長）、池邊轉身才出現或消失、只在 gym_b1；pool_swimmers_wire_unit、crowd3d 相關全過。BB／CC：趴姿與水面、手機效能、轉身時出現消失。 ｜ 【LAWWW 11-10 16:3x】不用等使用者：VRM 外掛、VRoid 樣本 10-10 起就在用（LICENSES.md、D33），使用者 16:2x「不是早就應該已經裝了嗎」；D144 新增 tools/blender/setup_env.sh（LAWWW 雲端實測裝好、VRM 外掛 OK、樣本 9 個），LAWWW2 跑完照正式人物生產線做。 ｜ 【LAWWW 11-10 10:5x】卡在權限：等使用者決定（問過）。LAWWW2 先做 GYM-FIT-PROPS 第二包。 ｜ LAWWW2 回來：動作與模型 → LAWWW 接進 crowd3d 的 pool（水道裡來回）",
    "xai": {
     "spec": "使用者 11-03 截圖；gym_layout.js b1.pool（7 水道、水深 1.4）",
     "branch": "LAWWW2 自己的分支",

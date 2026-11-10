@@ -287,7 +287,8 @@ const CROWD=(function(){
   const swimReady=key=>typeof CHAR!=='undefined'&&(CHAR.canVRM?CHAR.canVRM({model:key}):(typeof ASSETS!=='undefined'&&!!ASSETS.has&&ASSETS.has(key)));
   /* 下載泳客的 VRM（和它的動作檔）：一次；失敗就不放那個人（不重試）*/
   S.swimFetch=function(key){ if(swimLoad.has(key)||typeof ASSETS==='undefined'||!ASSETS.loadOne||!ASSETS.manifest||!ASSETS.manifest[key]) return false; const m=ASSETS.manifest[key]; swimLoad.set(key,'loading');
-    Promise.all([key].concat(m.anims&&ASSETS.manifest[m.anims]?[m.anims]:[]).map(k=>ASSETS.loadOne(k))).then(()=>{ swimLoad.set(key,'ok'); }).catch(()=>{ swimLoad.set(key,'fail'); }); return true; };
+    const rq=ASSETS._req; ASSETS._req=null; const ks=[key].concat(m.anims&&ASSETS.manifest[m.anims]?[m.anims]:[]), pr=Promise.all(ks.map(k=>{ try{ return ASSETS.loadOne(k); }catch(e){ return Promise.reject(e); } })); ASSETS._req=rq;   /* 不算進進場要等的清單（ASSETS._req）：泳客 VRM 約 6.5 MB，不能讓第一次進 B1 的黑畫面變長；載好了在池邊轉身時才放 */
+    pr.then(()=>{ swimLoad.set(key,'ok'); }).catch(()=>{ swimLoad.set(key,'fail'); }); return true; };
   S.swimAt=p=>{ const q=CHAR.swimLap(swimT+p.off,S.SWIM.L,p.v); return {x:p.x0+q.x,z:p.z,yaw:q.yaw,turn:q.turn}; };
   S.swimTick=function(GM,dt,instant){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!E.npcs) return; swimT+=dt>0?dt:0;
     if(swimLastH!=null&&Math.abs(G.hour-swimLastH)>0.2) instant=true; swimLastH=G.hour;   /* 時間跳了：直接照新的時間 */
