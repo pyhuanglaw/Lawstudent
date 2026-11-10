@@ -1,0 +1,38 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_tbl_edge\out
+CC NM1 夜市：PARTS TABLE,EDGE；SHA bd3f67410；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 （讀配置）
+PASS [TABLE] 有 TINGZHOU_LAYOUT.stalls（kinds、list、gongguan）  {"kinds": {"milk": {"name": "沈三盃黑糖鮮奶", "size": "M", "w": 2, "d": 0.9, "block": {"w": 2.9, "d": 1.7, "back": 0.25}, "from": 17, "to": 24, "buy": true, "items": [["黑糖珍珠鮮奶（青蛙撞奶）", 65], ["黑糖鮮奶", 55], ["黑糖珍珠奶茶", 55], ["黑糖鮮奶茶", 50], ["黑糖珍珠鮮奶（熱）", 65]]}, "pepper": {"name": "皇家高端胡椒餅", "size": "MW", "w": 2.4
+  [  49.6s] [TABLE] 攤數：汀州路 10、公館 3；合計 13
+  [  49.6s] [TABLE] 各攤開收時間（nm_hours_table.md）：
+| id | 攤名 | 在哪 | from | to | 買 | 只開星期 |
+|---|---|---|---|---|---|---|
+| st_eggcake | 陳家古早味雞蛋糕 | tingzhou alleyA | 15（1500） | 21.5（2130） | True |  |
+| st_wheelcake | 二十元紅豆餅 | gongguan gongguan | 15（1500） | 22（2200） | True |  |
+| st_socks | 襪子 | tingzhou road | 16（1600） | 22（2200） | False |  |
+| st_phonecase | 手機殼 | gongguan gongguan | 16（1600） | 22.5（2230） | False |  |
+| st_scallion | 當蔥蔥油餅 | tingzhou alleyA | 16（1600） | 23（2300） | True |  |
+| st_cane | 節節高甘蔗汁 | tingzhou road | 16（1600） | 23（2300） | True |  |
+| st_pepper | 皇家高端胡椒餅 | tingzhou road | 17（1700） | 23（2300） | True |  |
+| st_jelly | 公館阿婆甜湯 | tingzhou road | 17（1700） | 23（2300） | True |  |
+| st_ball | 一個地球 | tingzhou alleyA | 17（1700） | 24（0000+1） | True |  |
+| st_milk | 沈三盃黑糖鮮奶 | gongguan gongguan | 17（1700） | 24（0000+1） | True |  |
+| st_stinky | 紹興炸豆腐 | tingzhou road | 17.5（1730） | 24（0000+1） | True |  |
+| st_ring | 套圈圈 | tingzhou road | 18（1800） | 22.5（2230） | False | [5, 6, 0] |
+| st_corn | 玉皇大帝 | tingzhou road | 18（1800） | 24（0000+1） | True |  |
+PASS [TABLE] 每一攤的時間不一樣（from／to 組合不全相同）
+PASS [TABLE] 背景攤 ring 的名字只寫賣的東西「套圈圈」（沒有店名）、不能買  {"name": "套圈圈", "size": "BG", "w": 2.2, "d": 1.6, "block": {"w": 2.9, "d": 2.2, "back": 0.2}, "from": 18, "to": 22.5, "buy": false, "days": [5, 6, 0]}
+PASS [TABLE] 背景攤 phonecase 的名字只寫賣的東西「手機殼」（沒有店名）、不能買  {"name": "手機殼", "size": "BG", "w": 1.6, "d": 0.7, "block": {"w": 2.2, "d": 1.5, "back": 0.25}, "from": 16, "to": 22.5, "buy": false}
+PASS [TABLE] 背景攤 socks 的名字只寫賣的東西「襪子」（沒有店名）、不能買  {"name": "襪子", "size": "BG", "w": 1.6, "d": 0.7, "block": {"w": 2.2, "d": 1.5, "back": 0.25}, "from": 16, "to": 22, "buy": false}
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 （讀配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1459 (10.50,0.85) （最早開 邊界 -1 分鐘）
+FAIL [EDGE 最早開 st_eggcake 陳家古早味雞蛋糕 1459] isOpen＝False  {"isOpen": true, "openVis": true, "closedVis": false}
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1501 (10.50,0.85) （最早開 邊界 +1 分鐘）
+PASS [EDGE 最早開 st_eggcake 陳家古早味雞蛋糕 1501] isOpen＝True  {"isOpen": true, "openVis": true, "closedVis": false}
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2359 (18.50,0.85) （最晚收 邊界 -1 分鐘）
+FAIL [EDGE 最晚收 st_ball 一個地球 2359] isOpen＝True  {"isOpen": false, "openVis": false, "closedVis": true}
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 0001+1 (18.50,0.85) （最晚收 邊界 +1 分鐘）
+PASS [EDGE 最晚收 st_ball 一個地球 0001+1] isOpen＝False  {"isOpen": false, "openVis": false, "closedVis": true}
+PASS 沒有 JS 例外  []
+FAILED 2: [EDGE 最早開 st_eggcake 陳家古早味雞蛋糕 1459] isOpen＝False；[EDGE 最晚收 st_ball 一個地球 2359] isOpen＝True
