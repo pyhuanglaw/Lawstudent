@@ -585,7 +585,8 @@ const INV=(function(){
   S.walkEntry=function(id,key){ const w=((D().people||{})[id]||{}).walk||{}; for(const k of Object.keys(w)) for(const e of oneW(w[k])) if(e&&!Array.isArray(e)&&typeof e==='object'&&e.once===key) return e; return null; };
   /* 見面開始前（S.meet 一開始）：路上抽到的選項句——她先說、你選、她回（芷若：三個都會聽到她的答案）*/
   S.walkAsk=async function(GM,iv,who){ const G=GM.G, F=G.flags||(G.flags={}), key=iv.ask; iv.ask=null; const e=key?S.walkEntry(iv.who,key):null; if(!e||F[key]) return false; F[key]=true;
-    await S.playLines(GM,who,e.l); const k=await GM.choose(e.ch.map(c=>({t:c.t}))); const c=e.ch[k]||e.ch[0]; if(c.r) await S.playLines(GM,who,c.r);
+    await S.playLines(GM,who,e.l); const k=await GM.choose(e.ch.map(c=>({t:c.t}))); const c=e.ch[k]||e.ch[0]; if(c.r||c.re!=null) await S.playLines(GM,who,c.r||[].concat(c.re));
+    if(c.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx) SOCIAL.applyFx(G,iv.who,c.fx);   /* 邀約見面路上的選項 {t, r|re, fx}（DLG-FX-MECH-1110；fx＝{fr, love}，沒有＝照舊不加）*/
     if(c.mem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(iv.who,c.mem,'');   /* 子晴「說換方向的事」→ TOLD_HER_CHANGE（前置鏈第 5 環）*/
     const af=e.after&&e.after.length&&typeof e.after[0]==='object'&&!Array.isArray(e.after[0])?((e.after.find(v=>!v.if||v.if(G))||{}).l||[]):e.after;   /* 好幾個版本取第一個成立的（沛珊：大一上問讀書會、大一下起問課輔班）*/
     if(af&&af.length) await S.playLines(GM,who,af); return true; };

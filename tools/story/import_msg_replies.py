@@ -52,6 +52,13 @@ def build(src, sha):
                     raise SystemExit(f'{w}.opts[{j}]：沒有 t')
                 say = [IG.read_fix(x) for x in (o.get('say') or [])]
                 q = {'t': IG.read_fix(o['t']), 'rel': rel(o.get('rel'), f'{w}.opts[{j}]'), 'say': say}
+                if 're' in o and not say:   # DLG-FX-MECH-1110：re＝say 的另一個寫法（一句或陣列）
+                    q['say'] = [IG.read_fix(x) for x in ([o['re']] if isinstance(o['re'], str) else o['re'])]
+                if 'fx' in o:   # fx＝{fr, love}（整數，可以是 0 或負的）
+                    fx = o['fx']
+                    if not isinstance(fx, dict) or any(k not in ('fr', 'love') or not isinstance(n, int) or isinstance(n, bool) for k, n in fx.items()):
+                        raise SystemExit(f'{w}.opts[{j}].fx：只能是 fr／love（整數）')
+                    q['fx'] = dict(fx)
                 if o.get('tell'):
                     if o['tell'] not in TELL:
                         raise SystemExit(f'{w}.opts[{j}].tell「{o["tell"]}」：只能是 {TELL}')
