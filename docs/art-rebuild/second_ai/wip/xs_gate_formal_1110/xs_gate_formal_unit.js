@@ -4,6 +4,8 @@
 //   2 GLB：圍牆蓋住近景 z −68～68、遠景北到 −178、南端轉角往東；街那一面不超過 x 18.15（人行道花台靠牆，xs_planters.py WALL_IN−0.05）；門洞（導航開的那一格 x 17.7～19.3、z 7.4～12.6）裡沒有東西
 //   3 遊戲（Node 建出新生南路、接上真的 GLB）：接上了；標 xsGate 的套件（近景牆、壓頂、門柱、遠景的牆）都藏起來；欄杆 alphaTest ≥ 0.5、兩面、不投影；燈籠晚上會亮（登記 WZ_NIGHT）；石牌畫了字
 //   4 導航不動：門洞站得住、門柱擋住、人行道中間（x 12）站得住；看得到的網格數不比套件多（draw call 不增加）
+//   5 側門兩邊的腳踏車停車架不疊進花台（BB_255 P3；架子的外框和 xs_planters.json 的每一段花台不重疊），停車架照舊站得到旁邊
+// 修改前（開發分支 48aa47a5b）：第 5 項也 FAIL（兩台都疊進花台）。
 // 修改前（開發分支 48aa47a5b）：1、2、3 FAIL（沒有模型）；4 是不能壞掉的項目，修改前後都要 PASS。用法：node tests/xs_gate_formal_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -63,4 +65,8 @@ const before=countVis(); const kit=[]; z.group.children.forEach(o=>{ if(o.userDa
   const cellOf=(x,zz)=>[Math.floor((x-nav.ox)/nav.cell),Math.floor((zz-nav.oz)/nav.cell)], free=(x,zz)=>{ const [c,r]=cellOf(x,zz); return c>=0&&r>=0&&c<nav.cols&&r<nav.rows&&!nav.b[nav.idx(c,r)]; };
   const navOK=free(CW.x,10)&&free(17.2,10)&&!free(CW.x,CW.gateGap[0])&&!free(CW.x,CW.gateGap[1])&&free(12,0)&&!free(CW.x,-30);
   check('4 導航不動（門洞、門口站得住；門柱、圍牆擋住；人行道中間站得住）；看得到的網格不比套件多（draw call 不增加）', navOK&&after<=before, `導航 ${navOK?'對':'不對'}；看得到的網格 套件 ${before} → 接上 ${after}`);
+  { const PL=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/xs_planters.json'),'utf8')).planters||[]; const over=[];
+    z.group.children.filter(o=>o.name==='xs_bike_rack').forEach(o=>{ const b=new THREE.Box3().setFromObject(o); for(const [x0,z0,x1,z1] of PL) if(b.max.x>x0&&b.min.x<x1&&b.max.z>z0&&b.min.z<z1) over.push(`架子 (${o.position.x}, ${o.position.z}) x ${b.min.x.toFixed(2)}～${b.max.x.toFixed(2)} 疊到花台 ${JSON.stringify([x0,z0,x1,z1])}`); });
+    const racks=z.group.children.filter(o=>o.name==='xs_bike_rack').length;
+    check('5 側門兩邊的腳踏車停車架不疊進花台', PL.length>0&&racks>=2&&over.length===0, over.length?over.join('；'):`停車架 ${racks} 個、花台 ${PL.length} 段，沒有重疊`); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();

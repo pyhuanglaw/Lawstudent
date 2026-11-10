@@ -37,6 +37,13 @@
   - 石牌是空白的，遊戲畫字。
 - 左上、右上兩張的鏡頭擺得不好，看下面兩張：左下是北邊門柱和石牌，右下是從校內看門洞。
 
+## 腳踏車停車架（LAWWW 13:47 併進來：BB_255 P3「側門正面右邊那台腳踏車疊進花台」）
+- `src/zones3d.js` 的 `BIKE_RACKS.xinsheng`：側門兩邊那兩個停車架從 x 17 移到 **x 15.5**（往人行道 1.5 m）。
+- 量過：架子的外框是 x 16.18～17.82，花台是 x 16.45～18.15。
+  - LAWWW 說的 0.5 m 不夠，移 0.5 m 還會疊 0.87 m；
+  - BB 說的是右邊那台，但左邊那台（z 1.5）一樣疊到花台，兩台一起移。
+- 新位置的停車架佔 x 14.7～16.3：人行道中間（x 12）、椰子（x 11.2）不受影響；腳踏車的合法停車處（bike3d.js）讀同一份。
+
 ## 做法
 - `tools/blender/env_second/xs_gate.py` → `assets/models/env/second_ai/xs_gate.glb`：7 個網格、3,222 個三角形、357 KB。
 - 材質：
@@ -71,10 +78,11 @@
    - 燈籠有登記晚上亮；
    - 石牌有畫字，合成 plates atlas。
 4. 導航不動：門洞、門口站得住，門柱、圍牆擋住，人行道中間站得住；看得到的網格不比套件多。
+5. 側門兩邊的停車架不疊進花台（照 xs_planters.json 每一段的範圍）。
 
 結果：
-- **開發分支 48aa47a5b：FAILED 3**（第 1、2、3 項；第 4 項是不能壞掉的項目，修改前後都 PASS）；套上 patch：**ALL PASS**。
-- 回歸：新生南路 46 支（含新測試），全部通過，見 `regression.log`。
+- **開發分支 48aa47a5b：FAILED 4**（第 1、2、3、5 項；第 4 項是不能壞掉的項目，修改前後都 PASS）；套上 patch：**ALL PASS**。
+- 回歸：新生南路、腳踏車（BIKE_RACKS、bike3d）的 106 支（含新測試、bike_park_1104、xs_planters），全部通過，見 `regression.log`。
 
 ## 沒驗證
 - 遊戲畫面：
@@ -86,7 +94,7 @@
 
 ## 整合
 - `git apply --binary xs_gate_formal_1110.patch`。
-- 內容：xinsheng3d.js、xs_gate.glb／json、xs_gate.py、新測試、LICENSES.md。
+- 內容：xinsheng3d.js、zones3d.js（停車架兩個座標）、xs_gate.glb／json、xs_gate.py、新測試、LICENSES.md。
 - 欄杆貼圖 `textures/gen/xs_gate_rail.png` 不放進 patch：腳本每次會重畫，已經嵌在 GLB 裡。
 
 ## 先將就（D141：BB 判了再說）

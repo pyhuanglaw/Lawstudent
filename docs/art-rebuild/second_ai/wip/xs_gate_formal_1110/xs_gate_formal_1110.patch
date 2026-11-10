@@ -3361,18 +3361,34 @@ index 5f32ba7b9..123b98a2d 100644
    if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.xs_planters']) ASSETS.manifest['bldg.xs_planters']={url:'assets/models/env/second_ai/xs_planters.glb',type:'building',lazy:true,source:'LAWWW2 tools/blender/env_second/xs_planters.py（X246 新生南路人行道花台：花崗石框＋修剪杜鵑，杜鵑貼圖同溫州公園）',license:'本作'};
    if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.xinsheng_street']) ASSETS.manifest['bldg.xinsheng_street']={url:'assets/models/env/second_ai/xinsheng_street.glb',type:'building',lazy:true,source:'LAWWW2 tools/blender/env_second/wz_street.py --set xinsheng（店面貼圖：使用者提供的參考圖 ref_images/shops/*_ext.webp）',license:'本作'};
    if(typeof Z3!=='undefined'&&Z3.ZONES) Z3.ZONES.xinsheng={id:'xinsheng',name:'新生南路',indoor:false,cityLight:0.9,size:[76,136],camDist:5.6,build(E){ return S.build(E); }};
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 3959292db..1a82dedfb 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -12,7 +12,8 @@ const Z3 = (function(){
+     campus:[[-45,-72.1,Math.PI],[-45,-44.9,0],[66.5,59.5,0],[15.5,-66.4,0],[61.5,9,0],[61.5,-9,Math.PI],[23,-99.2,Math.PI],[94.21,-77.01,2.304],
+             [-121.5,-10,-Math.PI/2],[-121.5,10,-Math.PI/2],[-94.6,-131,Math.PI/2],[-68,-123.0,0],[89.5,-35,Math.PI/2]],   /* BIKE-PARK-B1-1110（LAWWW2 帳號 A 11-10；GHA bike_park_1104 ①：從總圖 B1 中庭出來 (98,−32.8) 最近的停車處 28.5 m）：下沉中庭西邊、樓梯口南邊的空地，架子沿 z（離 B1 出口 8.8 m；腳踏車不會牽下樓梯）*/   /* XS-GATE-NORTH-1105：新生南路側門內小廣場（原本西牆舊側門那一座 (−113.5,−82.5) 搬過來）、體育館門前（原本的 (66.5,59.5) 照舊留著）*/   // 博雅、普通、體育館、社科院圖書館、總圖（大道兩側）、霖澤館、萬才館（照萬才館轉 42°）、校門內兩側、新生南路側門（往 118 巷的後門那裡是 2.5 m 的窄通道，不放架子：bike3d.js 的 spots 停一台）
+     gongguan:[[0,-42,Math.PI]],   // 校門外（從校園走到公館的地方）
+-    xinsheng:[[17,18.5,Math.PI/2],[17,1.5,Math.PI/2],[-8.6,15,Math.PI/2],[-8.6,-8,Math.PI/2],[-8.6,37,Math.PI/2],[-8.6,-22,Math.PI/2]] };   // 側門兩邊（圍牆前）、店面那一側的路邊
++    xinsheng:[[15.5,18.5,Math.PI/2],[15.5,1.5,Math.PI/2],   /* 側門兩邊：XS-GATE-FORMAL-1110（BB_255 P3「側門正面右邊那台腳踏車疊進花台」）原本 x 17，架子 x 16.18～17.82 疊進花台（x 16.45～18.15，xs_planters）——兩台都疊到；往人行道移 1.5 m（只移 0.5 m 還疊 0.87 m）*/
++               [-8.6,15,Math.PI/2],[-8.6,-8,Math.PI/2],[-8.6,37,Math.PI/2],[-8.6,-22,Math.PI/2]] };   // 側門兩邊（圍牆前）、店面那一側的路邊
+   /* 校園西北角（XS-GATE-NORTH-1105，LAWWW2-C 11-05；使用者 09:0x「新月台…要很靠新生南路那門 就不要往左邊開了 直接往上面開 跟公館不同側／新月台也貼著上方的最左邊」、
+      09:1x「好」（北牆外西段叫新生南路、辛亥路從東邊一點才開始；118 巷後門照舊在東邊）、09:2x「體育館實際上是在新生南路辛亥路交接口 遊戲中就改到新月台法學院中間」）：
+      新生南路側門開在北側圍牆（z −141）、靠西北角，往北出去；望月台（真實的新月台：側門旁兩層樓，紀念品店＋咖啡）在西北角貼北牆；新南停車場在望月台南邊；
 diff --git a/tests/xs_gate_formal_unit.js b/tests/xs_gate_formal_unit.js
 new file mode 100644
-index 000000000..b43714ff5
+index 000000000..720f99468
 --- /dev/null
 +++ b/tests/xs_gate_formal_unit.js
-@@ -0,0 +1,66 @@
+@@ -0,0 +1,72 @@
 +// 新生南路側門的正式門柱、鐵門、圍牆（X246，XS-GATE-FORMAL-1110；LAWWW2 帳號 A 11-10；LAWWW 13:39 派；sideGate.note：門柱寫「首都帝大」、鐵柵門開著、門柱上一盞燈）——不需要瀏覽器（D131）。
 +// tools/blender/env_second/xs_gate.py → bldg.xs_gate。檢查：
 +//   1 GLB：兩根門柱在 gateGap（z 6.8、13.2）、各有一盞燈籠（wz_lamp_lens）和 GLOW_；北邊門柱面向馬路（−x）有「首都帝大」石牌（PLATE_FACE_）；欄杆貼圖卡 xg_rail 是 MASK
 +//   2 GLB：圍牆蓋住近景 z −68～68、遠景北到 −178、南端轉角往東；街那一面不超過 x 18.15（人行道花台靠牆，xs_planters.py WALL_IN−0.05）；門洞（導航開的那一格 x 17.7～19.3、z 7.4～12.6）裡沒有東西
 +//   3 遊戲（Node 建出新生南路、接上真的 GLB）：接上了；標 xsGate 的套件（近景牆、壓頂、門柱、遠景的牆）都藏起來；欄杆 alphaTest ≥ 0.5、兩面、不投影；燈籠晚上會亮（登記 WZ_NIGHT）；石牌畫了字
 +//   4 導航不動：門洞站得住、門柱擋住、人行道中間（x 12）站得住；看得到的網格數不比套件多（draw call 不增加）
++//   5 側門兩邊的腳踏車停車架不疊進花台（BB_255 P3；架子的外框和 xs_planters.json 的每一段花台不重疊），停車架照舊站得到旁邊
++// 修改前（開發分支 48aa47a5b）：第 5 項也 FAIL（兩台都疊進花台）。
 +// 修改前（開發分支 48aa47a5b）：1、2、3 FAIL（沒有模型）；4 是不能壞掉的項目，修改前後都要 PASS。用法：node tests/xs_gate_formal_unit.js
 +const fs=require('fs'), vm=require('vm'), path=require('path');
 +const ROOT=path.resolve(__dirname,'..');
@@ -3432,6 +3448,10 @@ index 000000000..b43714ff5
 +  const cellOf=(x,zz)=>[Math.floor((x-nav.ox)/nav.cell),Math.floor((zz-nav.oz)/nav.cell)], free=(x,zz)=>{ const [c,r]=cellOf(x,zz); return c>=0&&r>=0&&c<nav.cols&&r<nav.rows&&!nav.b[nav.idx(c,r)]; };
 +  const navOK=free(CW.x,10)&&free(17.2,10)&&!free(CW.x,CW.gateGap[0])&&!free(CW.x,CW.gateGap[1])&&free(12,0)&&!free(CW.x,-30);
 +  check('4 導航不動（門洞、門口站得住；門柱、圍牆擋住；人行道中間站得住）；看得到的網格不比套件多（draw call 不增加）', navOK&&after<=before, `導航 ${navOK?'對':'不對'}；看得到的網格 套件 ${before} → 接上 ${after}`);
++  { const PL=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/xs_planters.json'),'utf8')).planters||[]; const over=[];
++    z.group.children.filter(o=>o.name==='xs_bike_rack').forEach(o=>{ const b=new THREE.Box3().setFromObject(o); for(const [x0,z0,x1,z1] of PL) if(b.max.x>x0&&b.min.x<x1&&b.max.z>z0&&b.min.z<z1) over.push(`架子 (${o.position.x}, ${o.position.z}) x ${b.min.x.toFixed(2)}～${b.max.x.toFixed(2)} 疊到花台 ${JSON.stringify([x0,z0,x1,z1])}`); });
++    const racks=z.group.children.filter(o=>o.name==='xs_bike_rack').length;
++    check('5 側門兩邊的腳踏車停車架不疊進花台', PL.length>0&&racks>=2&&over.length===0, over.length?over.join('；'):`停車架 ${racks} 個、花台 ${PL.length} 段，沒有重疊`); }
 +  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();
 diff --git a/tools/blender/env_second/xs_gate.py b/tools/blender/env_second/xs_gate.py
 new file mode 100644

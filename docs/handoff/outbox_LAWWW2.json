@@ -7374,6 +7374,20 @@
    "noDirectIntegrate": false,
    "note": "紅磚矮牆＋鑄鐵欄杆＋牆墩、門柱（石材柱帽、燈籠、「首都帝大」石牌）、開著的鐵門；近景＋遠景兩頭；套件標 xsGate 接上就藏，遠景牆拆成 xs_far_wall；導航不動；網格 238→237（多兩個光暈 sprite）。新測試開發 FAILED 3 → ALL PASS；回歸 46 支過。和磚紋那包疊起來套得上。",
    "next": "等 CC 拍、BB 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "XS-GATE-FORMAL-1110 第 1 版補：側門兩邊腳踏車停車架不疊進花台（BB_255 P3，LAWWW 13:47 併進來）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/xs_gate_formal_1110/（patch 重做：多 zones3d.js BIKE_RACKS.xinsheng 兩個座標；測試多第 5 項）"
+   ],
+   "state": "MODEL_READY，待整合（取代 1ce81da56 那一份 patch）",
+   "noDirectIntegrate": false,
+   "note": "架子外框 x 16.18～17.82、花台 x 16.45～18.15，移 0.5 m 還疊 0.87 m → 移到 x 15.5（1.5 m）；左邊那台也疊到，一起移。測試第 5 項開發 FAIL → PASS；回歸 106 支（新生南路＋腳踏車）全過。",
+   "next": "等 CC 拍、BB 判"
   }
  ]
 }
