@@ -485,6 +485,17 @@
    "task": "MOVIE-REAL-1110",
    "src": "使用者對 LAWWW-B 說，LAWWW-B 11-10 00:47Z 轉給 BB-B",
    "note": "順序：AA-B 先寫片單（大一到大四各段期間上映的原創電影＋類型＋一句簡介），BB 照 D97 寫海報的生成提示詞，純海報一次 10 組、原創片名、不像真實電影或品牌，再跟使用者要圖；LAWWW-B 接進大廳海報牆和 1 廳銀幕；01:1x AA_730 片單到（8a246c40f），第一批 10 張提示詞 BB_132 第 119 組（2fa4a2dac4）已給使用者，片名由遊戲寫上去"
+  },
+  {
+   "id": "UA-BB-1110-02",
+   "at": "2026-11-10T01:1x",
+   "quote": "桌遊日桌遊完回到前往之前的系館 ?都晚上這麼晚了 而且行動次數用完不是應該回去睡覺嗎（附存檔 day52、截圖：11/7 週五 23:36 普通教學館出口）；我傳錯了 要傳給LAWWW 你幫我船",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "待 LAWWW-B 開列",
+   "task": "BUG-BGN-RETURN-ZONE-1110",
+   "src": "使用者直接對 BB-B 說（原本要給 LAWWW），BB-B 01:1x 轉 LAWWW-B",
+   "note": "存檔＋截圖放 BB 分支 docs/story_planning/BB_saves/user_save_day52_1110_bgn.*；LAWWW-B 開 USER_WANTS 列和任務以後回填 wants"
   }
  ]
 }
