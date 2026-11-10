@@ -51781,6 +51781,32 @@
     "ack": "ACTIONED"
    },
    "sha": "a15058787"
+  },
+  {
+   "id": "XS-GATE-PLANTER-1110",
+   "title": "X246 新生南路側門：人行道花台（使用者照片有、遊戲沒有）；磚紋、正式門柱圍牆記在差距表",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次從新生南路側門進校園",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 12:4x】LAWWW2 差距表：紅磚人行道（只有純色，小）、廣場、望月台都有；人行道花台沒有 → 做（圍牆內側 x 15.5～17.8，避開門洞、候車亭，花崗石矮框＋灌木杜鵑，導航擋住）；側門門柱、鐵門、圍牆還是程序化（大，D38 近景）→ 先不做、待排；停車場取車是 DRIVE-PICKUP（系統）。",
+   "xai": {
+    "spec": "USER_WANTS X246（使用者照片，不在 repo）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "側門人行道有花台、走得過、reachability 與 xs 系列 Node PASS；CC 拍、BB 判",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "sha": null
   }
  ]
 }
