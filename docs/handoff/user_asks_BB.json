@@ -533,9 +533,10 @@
    "quote": "Lawstudent 公館商圈六間店鋪正式修改指令……安泰藥局、汀州鮮果、洗樂洗衣坊、印得好、泰米村食（泰式，不是日式定食）、榮恩典文具社……所有修改請先提交至工作分支或 Draft PR，提供我檢查。未經我明確核准，不得合併 main、發布新版或部署正式版本。（全文 BB_307 附錄）",
    "kind": "原話",
    "status": "進行中",
-   "task": "GG-SHOP-G04～G13-1110",
+   "task": "GG-SHOPS3-TEST-1110",
    "src": "使用者直接對 BB（帳號 A）說",
-   "note": "全文 docs/story_planning/BB_307；已轉 LAWWW（開 USER_WANTS 列、派 AA／LAWWW2／CC）；BB 負責新店名的參考圖和招牌提示詞（BB_132 第 127 組，第 126 組作廢）、一致性檢查和測試判定"
+   "note": "全文 docs/story_planning/BB_307；已轉 LAWWW（開 USER_WANTS 列、派 AA／LAWWW2／CC）；BB 負責新店名的參考圖和招牌提示詞（BB_132 第 127 組，第 126 組作廢）、一致性檢查和測試判定",
+   "wants": "X320"
   },
   {
    "id": "UA-BB-1110-07",
@@ -543,9 +544,10 @@
    "quote": "仍然給lawww 包括這六間",
    "kind": "選擇題答案",
    "status": "規則（永久）",
-   "task": "GG-SHOP-G04～G13-1110",
+   "task": "GG-SHOPS3-TEST-1110",
    "src": "BB 問：「未經我明確核准不得合併 main、發布」是否也管 v9.10.24；使用者在『其他』回答",
-   "note": "合併 main、發布照舊由 LAWWW 決定（D85），包括公館六間店的修改；BB_307 第七點的核准限制由這一則取代"
+   "note": "合併 main、發布照舊由 LAWWW 決定（D85），包括公館六間店的修改；BB_307 第七點的核准限制由這一則取代",
+   "wants": "X320"
   }
  ]
 }
