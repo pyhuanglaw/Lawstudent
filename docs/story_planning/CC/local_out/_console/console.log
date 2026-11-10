@@ -917,3 +917,11 @@
 [19:09:55] [res] cpu=44% mem=41% (13.1/31.4 GB) chrome_testing=5  START X295E_thu_new
 [19:09:57] worktree add f3b47894b3b10643fb91fd30be70bc28cad68035: invalid reference - fetching main and the commit itself
 [19:10:00] [res] cpu=38% mem=42% (13.1/31.4 GB) chrome_testing=5  END WINVIEW_A
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f153bc1e1..0c8b8a9f5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:10:44] ==== END   WINVIEW_A  exit=0  390s   ====
+[19:10:52] memory 46% before starting X295E_thu_old (2 running)
+[19:10:52] ==== START X295E_thu_old  (probe @ 8c050804c22e6e9b846e5d02b868cefc1a858af1) ====
+[19:10:55] [res] cpu=40% mem=47% (14.7/31.4 GB) chrome_testing=9  START X295E_thu_old
+[19:12:27] [res] cpu=54% mem=49% (15.7/31.4 GB) chrome_testing=10  END X295E_thu_new
