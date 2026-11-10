@@ -7494,6 +7494,21 @@
    "noDirectIntegrate": false,
    "note": "新區域 us_clubhouse_in（38 個座位、自習室 16 席帶 usClubStudy）、配置 us_clubhouse_layout.js（人、五場劇情站位）、us_clubhouse.glb 2.3 MB（九個切換節點：聖誕樹、燈、平常／併桌、晚餐、外套、公布欄單子、讀書計畫、櫃台百葉）、窗景 16 張（後面草地＋烤肉架、正面停車場）。新測試開發 01bab1823 FAILED 4 → ALL PASS；回歸 363 支過。劇情接線（進來、讀書、招呼、旁白、晚餐）LAWWW 做，README 寫了怎麼接。",
    "next": "US-EXAM-PROPS-1110 → US-LONG-3D-1110 → GG-LANE 告示牌字（BB P3）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "US-EXAM-PROPS-1110 美國教室 12/6 期末考桌上的考卷和書（z.setExam）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/us_exam_props_1110/（README、us_exam_props_1110.patch、us_exam_props_unit.js、regression.log、blender_preview.jpg）"
+   ],
+   "state": "MODEL_READY，待整合",
+   "noDirectIntegrate": false,
+   "note": "us_classroom.glb 加 EXAM_PROPS 群組（Introduction 有人坐的 30 個位子：藍色答案本、筆、攤開的書，玩家那本貼滿便利貼；講桌一疊空白答案本），3.58→3.97 MB，其他 62 個網格不變；us_classroom3d.js 加 z.setExam(on)。新測試開發 FAILED 2 → ALL PASS；回歸 446 支過；可以套在 06e779533 上。",
+   "next": "ART-GYM-POOL-SWIMMERS-1103（D144：工具直接裝）→ GG-LANE 告示牌字 → US-LONG-3D-1110"
   }
  ]
 }
