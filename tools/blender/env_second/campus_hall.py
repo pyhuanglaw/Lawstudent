@@ -38,23 +38,25 @@ SETS = {
     # CK.hall({w:46,d:16,floors:3,gfh:4.2,fh:3.4,wall:'#cdb48e',trim:'#e8e0cf',roof:'#4a3a33',roofH:4.2,arcade:true,porch:{bays:3,depth:3.0,pediment:false},sign:'行政大樓'})；
     # ckPlace(admin,-38,33,Math.PI)（正面朝北對著傅鐘、椰林大道）
     'admin': dict(name='campus_admin', prefix='adm_', out='assets/models/env/second_ai/campus_admin.glb', place=(-38.0, 33.0, math.pi),
-                  w=46.0, d=16.0, floors=3, gfh=4.2, fh=3.4, arcDepth=None, roofH=4.2,
+                  w=46.0, d=16.0, floors=2, gfh=4.2, fh=3.4, arcDepth=None, roofH=4.2,
                   porch=dict(bays=3, depth=3.0, pediment=False), tower=None,
-                  wall='#cdb48e', wall_sat=0.3, trim='#e2dac9', roof='#4a3a33',
+                  # NTU-REF-1110 ②（LAWWW2 帳號 A 11-10；X223）：官網「外牆以紅色清水磚為主」、北棟（臨椰林大道）二層——原本米黃面磚 #cdb48e、3 層是錯的。
+                  #   紅色清水磚＝Poly Haven red_brick（和望月台同一張），每 1.6 m 一張；樓層 3 → 2（zones3d.js 的套件 CK.hall 一起改：鏡頭碰撞、備用外觀）
+                  wall='#9e5139', wall_tex='red_brick', wall_tile=1.6, wall_sat=0.85, trim='#e2dac9', roof='#4a3a33',
                   plate=dict(name='PLATE_FACE_ADMIN', text='行政大樓', where='frieze', w=5.2, h=0.42, fs=0.72), expect=dict(nb=13, nbs=4)),   # 第一版 4.4×0.36、字 0.6 倍：字只有 0.22 m 高，比套件的招牌小很多、遠看讀不出來
     # CK.hall({w:40,d:18,floors:2,gfh:4.8,fh:4.4,wall:'#9b5a42',trim:'#d8cfbd',roof:'#43342e',roofH:4.8,arcade:true,porch:{bays:3,depth:3.0,pediment:true,pedH:1.8},sign:'文學院'})；
     # ckPlace(arts,-38,-34,0)（大道北側，正面朝南對著行政大樓）。中央拱上方到檐部只剩 0.67 m（放不下有框的匾額）→ 匾額刻在檐部正面（和行政大樓一樣）
     'arts': dict(name='campus_arts', prefix='art_', out='assets/models/env/second_ai/campus_arts.glb', place=(-38.0, -34.0, 0.0),
                  w=40.0, d=18.0, floors=2, gfh=4.8, fh=4.4, arcDepth=None, roofH=4.8,
                  porch=dict(bays=3, depth=3.0, pediment=True, pedH=1.8, oculus=True), tower=None,
-                 wall='#9b5a42', trim='#d8cfbd', roof='#43342e',
+                 wall='#9a8560', wall_sat=0.5, trim='#d8cfbd', roof='#43342e',   # NTU-REF-1110 ②：官網「國防色的十三溝面磚」（土黃～褐）——原本偏紅褐 #9b5a42
                  plate=dict(name='PLATE_FACE_ARTS', text='文學院', where='frieze', w=4.0, h=0.42, fs=0.72), expect=dict(nb=11, nbs=5)),
     # CK.hall({w:24,d:16,floors:2,gfh:5.0,fh:4.6,wall:'#a25d43',trim:'#d8cfbd',roof:'#43342e',roofH:4.4,arcade:true,porch:{bays:3,depth:2.6,pediment:true,pedH:1.6},sign:'校史館'})；
     # ckPlace(hist,-77,-29,0)（大道北側、靠近大門）。中央拱上方到檐部有 0.98 m：有框的匾額放在拱上方（bh＝石框高度）
     'hist': dict(name='campus_hist', prefix='his_', out='assets/models/env/second_ai/campus_hist.glb', place=(-77.0, -29.0, 0.0),
                  w=24.0, d=16.0, floors=2, gfh=5.0, fh=4.6, arcDepth=None, roofH=4.4,
                  porch=dict(bays=3, depth=2.6, pediment=True, pedH=1.6, oculus=True, cols='round'), tower=None,
-                 wall='#a25d43', trim='#d8cfbd', roof='#43342e',
+                 wall='#b39762', wall_sat=0.5, trim='#d8cfbd', roof='#43342e',   # NTU-REF-1110 ②：官網「土黃色的十三溝面磚」——原本偏紅褐 #a25d43
                  plate=dict(name='PLATE_FACE_HIST', text='校史館', where='spandrel', w=3.0, h=0.6, bh=0.8, fs=0.72), expect=dict(nb=7, nbs=4)),
 }
 
@@ -82,7 +84,7 @@ def build(c, out=None):
     root = B.group(c['name'], props={'kind': c['name']})
     M = {
         # 面磚：實際 2 m 一張（一塊約 22×8 cm，接近二丁掛）。總圖第一版 tile=1.0 把磚縮成一半，近看變成一片紅色雜訊、看不出磚縫
-        'wall': L.pbr('ck_wall', 'exterior_wall_cladding_02', tile=2.0, target=c['wall'], normal=0.8, maps=('diff', 'nor'), rough_value=0.88,
+        'wall': L.pbr('ck_wall', c.get('wall_tex', 'exterior_wall_cladding_02'), tile=c.get('wall_tile', 2.0), target=c['wall'], normal=0.8, maps=('diff', 'nor'), rough_value=0.88,
                       **({'sat': c['wall_sat']} if c.get('wall_sat') else {})),   # wall_sat：先降低彩度再校正顏色（行政大樓的米黃面磚：原圖橘、褐、深色混在一起，校正成米黃後近看太花）
         # 石材：切石塊（實際 3 m 一張、一塊約 0.86×0.57 m；降低彩度＋校正到套件的石材顏色）。
         # 總圖第一版用 concrete_wall_006（清水混凝土）：遊戲裡門廊的柱子滿是褐色水痕，比套件的切石還髒（library_after_porch 第一版）
@@ -91,7 +93,7 @@ def build(c, out=None):
         # 柱子（CAM-PILLAR-HALLS-1031，LAWWW2-B 2026-10-31）：和石材、面磚同一張貼圖，另外一個材質。名字 seethru_ 開頭：遊戲（zones3d.js attachWenzhouModel）標成樹幹透視，
         #   擋在跟隨鏡頭和玩家之間時網點透空（從門廊側邊走向大門時柱子把人切掉一半）。收邊（簷口、拱圈、門廊頂板）、牆照舊不透
         'col': L.pbr('seethru_ck_col', 'sandstone_blocks_08', tile=3.0, sat=0.45, target=c['trim'], normal=0.6, maps=('diff', 'nor'), res=512, rough_value=0.8),   # 門廊石柱（柱身、柱頭、柱礎）、拱廊柱墩的柱頭柱腳
-        'pier': L.pbr('seethru_ck_pier', 'exterior_wall_cladding_02', tile=2.0, target=c['wall'], normal=0.8, maps=('diff', 'nor'), rough_value=0.88,
+        'pier': L.pbr('seethru_ck_pier', c.get('wall_tex', 'exterior_wall_cladding_02'), tile=c.get('wall_tile', 2.0), target=c['wall'], normal=0.8, maps=('diff', 'nor'), rough_value=0.88,
                       **({'sat': c['wall_sat']} if c.get('wall_sat') else {})),   # 拱廊的面磚柱墩
         'base': L.pbr('ck_stone_base', 'granite_tile_03', tile=1.2, target='#9a948a', maps=('diff',), res=256, rough_value=0.7),
         'roof': L.pbr('ck_roof', 'grey_roof_tiles', tile=3.0, target=c['roof'], normal=0.8, maps=('diff', 'nor'), rough_value=0.82),   # 實際 3 m 一張
