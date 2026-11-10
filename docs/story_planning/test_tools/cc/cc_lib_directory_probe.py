@@ -18,8 +18,10 @@ BOARDS = r"""(()=>{ const out=[]; GAME.E.scene.traverse(o=>{ if(!o.isMesh) retur
   if(!/board|directory|lbboard/i.test(n)) return; let vis=true; for(let p=o;p;p=p.parent) if(p.visible===false){ vis=false; break; } if(!vis) return; const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new THREE.Vector3());
   out.push({name:o.name||'(無名)', tex:tn||null, c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], minY:+b.min.y.toFixed(2)}); }); return out; })()"""
 UI = """(()=>{ const ib=document.getElementById('interact'), d=document.getElementById('dlg'); const vis=e=>!!(e&&e.offsetParent!==null&&getComputedStyle(e).display!=='none');
-  const P=GAME.E.player.obj.position; let clip=null; if(vis(d)){ const ts=[d,...d.querySelectorAll('*')].filter(e=>e.scrollHeight>e.clientHeight+2&&getComputedStyle(e).overflowY!=='visible'); const r=d.getBoundingClientRect(); clip={scroll:ts.map(e=>(e.id||e.className||e.tagName)+':'+e.scrollHeight+'>'+e.clientHeight), rect:[r.left|0,r.top|0,r.right|0,r.bottom|0], vw:innerWidth, vh:innerHeight}; }
-  return {zone:GAME.G.zone, x:+P.x.toFixed(2), z:+P.z.toFixed(2), fb:GAME.walkFallbacks|0, interact:vis(ib)?(ib.innerText||'').trim():'', dlg:vis(d)&&GAME.D&&GAME.D.active?(d.innerText||'').replace('▼ 點一下繼續','').trim():'', clip}; })()"""
+  const P=GAME.E.player.obj.position; const cp=document.getElementById('caption'); const capOn=!!(cp&&vis(cp)&&!cp.classList.contains('hide')&&+getComputedStyle(cp).opacity>0.05&&(cp.innerText||'').trim());
+  /* 11-10 r1：「看樓層簡介」是 it.look＝GAME.caption（#caption 字幕），不是 #dlg 對話框＝TEST_BUG；字幕和對話框都看 */
+  const box=capOn?cp:(vis(d)?d:null); let clip=null; if(box){ const d=box; const ts=[d,...d.querySelectorAll('*')].filter(e=>e.scrollHeight>e.clientHeight+2&&getComputedStyle(e).overflowY!=='visible'); const r=d.getBoundingClientRect(); clip={scroll:ts.map(e=>(e.id||e.className||e.tagName)+':'+e.scrollHeight+'>'+e.clientHeight), rect:[r.left|0,r.top|0,r.right|0,r.bottom|0], vw:innerWidth, vh:innerHeight}; }
+  return {zone:GAME.G.zone, x:+P.x.toFixed(2), z:+P.z.toFixed(2), fb:GAME.walkFallbacks|0, interact:vis(ib)?(ib.innerText||'').trim():'', dlg:capOn?(cp.innerText||'').trim():(vis(d)&&GAME.D&&GAME.D.active?(d.innerText||'').replace('▼ 點一下繼續','').trim():''), cap:capOn, clip}; })()"""
 
 
 async def one(p, orient):
@@ -46,6 +48,7 @@ async def one(p, orient):
         if first is None:
             first = v; await pg.screenshot(path=os.path.join(OUT, 'dir_%s_%s_2_text.png' % (TAG, orient)))
         if not lines or lines[-1] != v['dlg']: lines.append(v['dlg'])
+        if v.get('cap'): await pg.wait_for_timeout(1200); continue   # 字幕自己會消失（4.6 秒），不用點
         await pg.wait_for_timeout(1500); v2 = await pg.evaluate(UI)
         if v2['dlg'] == v['dlg']: await L.tap(pg, cdp, '#dlg')
     full = '\n'.join(lines); R.note('[%s] 對話框全文：%s' % (orient, J(lines)))
