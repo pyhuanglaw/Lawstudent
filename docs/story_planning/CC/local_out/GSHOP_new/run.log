@@ -1,0 +1,209 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gift_shops_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GSHOP_new\out
+CC 買禮物 13 家＋花攤：worktree ?；new；直向；這次 14 家：cafe,cvs,aoki,bookstore,afar,corner_records,bikeshop,xs_tongxian,xs_nanyang,xs_shanlan,xs_shanlan_stationery,xs_dabu,xs_haopai,gg_flower；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  24.5s] GIFTH.shopOpt 存在：True（舊版沒有）
+  [前置／捷徑] [cafe] 讀檔到 cafe 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [cafe] 在 cafe  {"zone": "cafe", "x": 0, "z": 4.6, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.05, "interact": "離開咖啡廳", "dlg": false, "dtext": "", "choices": []}
+PASS [cafe] 有櫃台互動點「到吧檯點餐」  {"label": "到吧檯點餐", "x": -2.5, "z": -3.2, "lv": 0, "r": 1.6}
+  [  51.1s] 到達「[cafe] 走到「到吧檯點餐」」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS [cafe] 真的走到「到吧檯點餐」（互動鍵是它、walkFallbacks 沒加）  {"x": -2.22, "z": -2.11, "interact": "到吧檯點餐", "fb": 0}
+  [  52.2s] [cafe] 按下去的選單：["拿鐵　120 元", "手沖咖啡　150 元", "檸檬塔　110 元", "買一份帶走送人…", "買禮物…", "不用了"]
+PASS [cafe] 選單有「買禮物…」（不是灰的）  [{"t": "拿鐵　120 元", "hint": "", "dim": false}, {"t": "手沖咖啡　150 元", "hint": "", "dim": false}, {"t": "檸檬塔　110 元", "hint": "", "dim": false}, {"t": "買一份帶走送人…", "hint": "飲料、早餐，帶在身上，見面的時候送人", "dim": false}, {"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "不用了", "hint": "", "dim": false}]
+  [  52.2s] [cafe] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [cafe] 禮物清單出來了（2 樣＋「算了」；和 GIFTH.sells(cafe) 一樣）  {"shown": ["一包咖啡豆　450 元", "一盒濾掛咖啡　280 元"], "sells": ["一包咖啡豆　450 元", "一盒濾掛咖啡　280 元"]}
+PASS [黑畫面] gift_new_cafe_list 不是黑畫面（平均亮度 69.2、變化 41.5）  [69.2, 41.5]
+PASS [cafe] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [  53.8s] [cafe] 用了 29 秒
+  [前置／捷徑] [cvs] 讀檔到 cvs 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [cvs] 在 cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.06, "interact": "", "dlg": false, "dtext": "", "choices": []}
+PASS [cvs] 有櫃台互動點「結帳」  {"label": "結帳：飯糰／咖啡／飲料", "x": 1.5, "z": 0.75, "lv": 0, "r": 1.1}
+  [  68.2s] 到達「[cvs] 走到「結帳」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [cvs] 真的走到「結帳」（互動鍵是它、walkFallbacks 沒加）  {"x": 1.25, "z": 1.55, "interact": "結帳：飯糰／咖啡／飲料", "fb": 0}
+  [  69.1s] [cvs] 按下去的選單：["飯糰　35 元", "美式咖啡　45 元", "運動飲料　30 元", "微波義大利麵　75 元", "買一份帶走送人…", "買禮物…", "不用了"]
+PASS [cvs] 選單有「買禮物…」（不是灰的）  [{"t": "飯糰　35 元", "hint": "", "dim": false}, {"t": "美式咖啡　45 元", "hint": "", "dim": false}, {"t": "運動飲料　30 元", "hint": "", "dim": false}, {"t": "微波義大利麵　75 元", "hint": "", "dim": false}, {"t": "買一份帶走送人…", "hint": "飲料、早餐，帶在身上，見面的時候送人", "dim": false}, {"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "不用了", "hint": "", "dim": false}]
+  [  69.1s] [cvs] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [cvs] 禮物清單出來了（3 樣＋「算了」；和 GIFTH.sells(cvs) 一樣）  {"shown": ["一把好一點的傘　350 元", "一盒巧克力　120 元", "一張卡片　40 元"], "sells": ["一把好一點的傘　350 元", "一盒巧克力　120 元", "一張卡片　40 元"]}
+PASS [黑畫面] gift_new_cvs_list 不是黑畫面（平均亮度 136.3、變化 77）  [136.3, 77]
+PASS [cvs] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [前置／捷徑] [cvs] G.money=50（錢不夠）
+PASS [cvs] 錢不夠：選單還是有「買禮物…」  [{"t": "飯糰　35 元", "hint": "", "dim": false}, {"t": "美式咖啡　45 元", "hint": "", "dim": false}, {"t": "運動飲料　30 元", "hint": "", "dim": false}, {"t": "微波義大利麵　75 元", "hint": "", "dim": true}, {"t": "買一份帶走送人…", "hint": "飲料、早餐，帶在身上，見面的時候送人", "dim": false}, {"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "不用了", "hint": "", "dim": false}]
+PASS [cvs] 錢 50：價錢 > 50 的都灰（class dim）、買得起的不灰  {"rows": [["一把好一點的傘　350 元", true], ["一盒巧克力　120 元", true], ["一張卡片　40 元", false]], "bad": []}
+PASS [黑畫面] gift_new_cvs_poor 不是黑畫面（平均亮度 146.1、變化 69.3）  [146.1, 69.3]
+  [  72.6s] [cvs] 按灰的那一樣（一把好一點的傘　350 元）：toast ["錢不夠"]
+PASS [cvs] 按灰的那一樣：沒買（錢 50 不變、包包 0）、toast 有「錢不夠」  {"money": 50, "bag": 0, "toast": ["錢不夠"]}
+  [  72.7s] [cvs] 用了 19 秒
+  [前置／捷徑] [aoki] 讀檔到 aoki 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [aoki] 在 aoki  {"zone": "aoki", "x": 1.85, "z": 2.05, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.06, "interact": "坐下", "dlg": false, "dtext": "", "choices": []}
+PASS [aoki] 有櫃台互動點「點茶」  {"label": "點茶", "x": 3.9, "z": -1.2, "lv": 0, "r": 0.9}
+  [  90.0s] 到達「[aoki] 走到「點茶」」附近（0.23 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [aoki] 真的走到「點茶」（互動鍵是它、walkFallbacks 沒加）  {"x": 3.6, "z": -0.55, "interact": "點茶", "fb": 0}
+  [  91.0s] [aoki] 按下去的選單：["桂花烏龍（一壺）　220 元", "東方美人（一壺）　260 元", "春摘白茶（一壺）　240 元", "包種（一壺）　200 元", "柚香綠茶（冷泡）　120 元", "綠豆糕　80 元", "桂花糕　80 元", "買禮物…", "不用了"]
+PASS [aoki] 選單有「買禮物…」（不是灰的）  [{"t": "桂花烏龍（一壺）　220 元", "hint": "熱茶一壺，可以回沖", "dim": false}, {"t": "東方美人（一壺）　260 元", "hint": "熱茶一壺，可以回沖", "dim": false}, {"t": "春摘白茶（一壺）　240 元", "hint": "熱茶一壺，可以回沖", "dim": false}, {"t": "包種（一壺）　200 元", "hint": "熱茶一壺，可以回沖", "dim": false}, {"t": "柚香綠茶（冷泡）　120 元", "hint": "冷泡", "dim": false}, {"t": "綠豆糕　80 元", "hint": "茶點", "dim": false}, {"t": "桂花糕　80 元", "hint": "茶點", "dim": false}, {"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "不用了", "hint": "", "dim": false}]
+  [  91.0s] [aoki] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [aoki] 禮物清單出來了（2 樣＋「算了」；和 GIFTH.sells(aoki) 一樣）  {"shown": ["一罐高山茶葉　600 元", "一個手作的茶杯　450 元"], "sells": ["一罐高山茶葉　600 元", "一個手作的茶杯　450 元"]}
+PASS [黑畫面] gift_new_aoki_list 不是黑畫面（平均亮度 88.7、變化 49.5）  [88.7, 49.5]
+PASS [aoki] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [  92.5s] [aoki] 用了 20 秒
+  [前置／捷徑] [bookstore] 讀檔到 bookstore 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [bookstore] 在 bookstore  {"zone": "bookstore", "x": -4.6, "z": 3, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.06, "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "dlg": false, "dtext": "", "choices": []}
+PASS [bookstore] 有櫃台互動點「看看法律書」  {"label": "看看法律書與文具", "x": -4, "z": -3.9, "lv": 0, "r": 1}
+  [ 107.4s] 到達「[bookstore] 走到「看看法律書」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [bookstore] 真的走到「看看法律書」（互動鍵是它、walkFallbacks 沒加）  {"x": -4.02, "z": -3.06, "interact": "看看法律書與文具", "fb": 0}
+  [ 108.2s] [bookstore] 按下去的選單：["《憲法》教科書　650 元", "《刑法總則》教科書　650 元", "《民法總則》教科書　650 元", "《經濟學原理》教科書　650 元", "螢光筆一組　80 元", "只是看看", "買禮物…"]
+PASS [bookstore] 選單有「買禮物…」（不是灰的）  [{"t": "《憲法》教科書　650 元", "hint": "讀這一科時準備多一些；期末多一次想起答案", "dim": false}, {"t": "《刑法總則》教科書　650 元", "hint": "讀這一科時準備多一些；期末多一次想起答案", "dim": false}, {"t": "《民法總則》教科書　650 元", "hint": "讀這一科時準備多一些；期末多一次想起答案", "dim": false}, {"t": "《經濟學原理》教科書　650 元", "hint": "讀這一科時準備多一些；期末多一次想起答案", "dim": false}, {"t": "螢光筆一組　80 元", "hint": "讓筆記好看一點", "dim": false}, {"t": "只是看看", "hint": "", "dim": false}, {"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}]
+  [ 108.2s] [bookstore] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [bookstore] 禮物清單出來了（4 樣＋「算了」；和 GIFTH.sells(bookstore) 一樣）  {"shown": ["一本絕版的電影書　900 元", "一本繪本　320 元", "一本講茶的書　400 元", "一組明信片　120 元"], "sells": ["一本絕版的電影書　900 元", "一本繪本　320 元", "一本講茶的書　400 元", "一組明信片　120 元"]}
+PASS [黑畫面] gift_new_bookstore_list 不是黑畫面（平均亮度 67.8、變化 41.1）  [67.8, 41.1]
+PASS [bookstore] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [ 109.5s] [bookstore] 用了 17 秒
+  [前置／捷徑] [afar] 讀檔到 afar 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [afar] 在 afar  {"zone": "afar", "x": 2.58, "z": 2, "lv": 0, "fb": 0, "busy": true, "money": 20000, "bag": 0, "hour": 14.01, "interact": "", "dlg": true, "dtext": "（吧台後面的店員抬頭說了一聲「歡迎光臨」，又低頭繼續磨豆子。）", "choices": []}
+PASS [afar] 有櫃台互動點「點咖啡」  {"label": "點咖啡", "x": -1.75, "z": 1.4, "lv": 0, "r": 0.9}
+  [ 141.6s] 到達「[afar] 走到「點咖啡」」附近（0.07 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，20 秒
+PASS [afar] 真的走到「點咖啡」（互動鍵是它、walkFallbacks 沒加）  {"x": -1.3, "z": 1.72, "interact": "點咖啡", "fb": 0}
+  [ 143.5s] [afar] 按下去的選單：["濃縮咖啡　100 元", "美式　110 元", "拿鐵　140 元", "卡布奇諾　140 元", "摩卡　160 元", "手沖　170 元", "起司蛋糕　120 元", "布丁　90 元", "選物…", "不用了"]
+PASS [afar] 選單有「選物…」（不是灰的）  [{"t": "濃縮咖啡　100 元", "hint": "", "dim": false}, {"t": "美式　110 元", "hint": "", "dim": false}, {"t": "拿鐵　140 元", "hint": "", "dim": false}, {"t": "卡布奇諾　140 元", "hint": "", "dim": false}, {"t": "摩卡　160 元", "hint": "", "dim": false}, {"t": "手沖　170 元", "hint": "", "dim": false}, {"t": "起司蛋糕　120 元", "hint": "", "dim": false}, {"t": "布丁　90 元", "hint": "", "dim": false}, {"t": "選物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "不用了", "hint": "", "dim": false}]
+  [ 143.5s] [afar] 「選物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [afar] 禮物清單出來了（5 樣＋「算了」；和 GIFTH.sells(afar) 一樣）  {"shown": ["一盒手工巧克力　800 元", "一個馬克杯　350 元", "一個香氛蠟燭　450 元", "一面隨身鏡　220 元", "一個長頸鹿的鑰匙圈　180 元"], "sells": ["一盒手工巧克力　800 元", "一個馬克杯　350 元", "一個香氛蠟燭　450 元", "一面隨身鏡　220 元", "一個長頸鹿的鑰匙圈　180 元"]}
+PASS [黑畫面] gift_new_afar_list 不是黑畫面（平均亮度 72.6、變化 48.8）  [72.6, 48.8]
+PASS [afar] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [前置／捷徑] [afar] 用 GIFTH.rec(G).bag 放到 10 樣（遊戲自己的存檔結構；沒有對外的加一樣函式）、G.money=20000
+PASS [afar] 包包放到 10 樣  10
+  [ 146.3s] [afar] 包包滿的選單：[{"t": "濃縮咖啡　100 元", "hint": "", "dim": false}, {"t": "美式　110 元", "hint": "", "dim": false}, {"t": "拿鐵　140 元", "hint": "", "dim": false}, {"t": "卡布奇諾　140 元", "hint": "", "dim": false}, {"t": "摩卡　160 元", "hint": "", "dim": false}, {"t": "手沖　170 元", "hint": "", "dim": false}, {"t": "起司蛋糕　120 元", "hint": "", "dim": false}, {"t": "布丁　90 元", "hint": "", "dim": false}, {"t": "選物…", "hint": "包包已經放了 10 樣", "dim": true}, {"t": "不用了", "hint": "", "dim": false}]
+PASS [afar] 包包滿：「選物…」灰掉、提示寫 10 樣  {"t": "選物…", "hint": "包包已經放了 10 樣", "dim": true}
+PASS [黑畫面] gift_new_afar_bagfull 不是黑畫面（平均亮度 65.7、變化 43.9）  [65.7, 43.9]
+  [ 148.5s] [afar] 包包滿按「選物…」：toast ["包包已經放了 10 樣"]；之後的畫面 {"choices": [], "dtext": ""}
+PASS [afar] 包包滿按下去：被擋（包包還是 10、錢 20000 不變、有提示字）  {"bag": 10, "money": 20000, "toast": ["包包已經放了 10 樣"]}
+  [ 148.5s] [afar] 用了 39 秒
+  [前置／捷徑] [corner_records] 讀檔到 corner_records 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [corner_records] 在 corner_records  {"zone": "corner_records", "x": 1.63, "z": 4.25, "lv": 0, "fb": 0, "busy": true, "money": 20000, "bag": 0, "hour": 14.01, "interact": "", "dlg": true, "dtext": "（木門推開，店裡在放一張很舊的爵士。唱針沙沙的聲音比音樂還清楚。）", "choices": []}
+PASS [corner_records] 有櫃台互動點「問店員」  {"label": "問店員／結帳", "x": -0.4, "z": -2.9, "lv": 0, "r": 0.9}
+  [ 169.1s] 到達「[corner_records] 走到「問店員」」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [corner_records] 真的走到「問店員」（互動鍵是它、walkFallbacks 沒加）  {"x": -0.04, "z": -2.33, "interact": "問店員／結帳", "fb": 0}
+  [ 171.3s] [corner_records] 按下去的選單：["搖滾／Indie", "民謠／Folk", "電子／Electronic", "爵士／Jazz", "城市流行／City Pop", "原聲帶／OST", "買禮物…", "先不用"]
+PASS [corner_records] 選單有「買禮物…」（不是灰的）  [{"t": "搖滾／Indie", "hint": "150 元", "dim": false}, {"t": "民謠／Folk", "hint": "150 元", "dim": false}, {"t": "電子／Electronic", "hint": "150 元", "dim": false}, {"t": "爵士／Jazz", "hint": "250 元", "dim": false}, {"t": "城市流行／City Pop", "hint": "150 元", "dim": false}, {"t": "原聲帶／OST", "hint": "250 元", "dim": false}, {"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "先不用", "hint": "", "dim": false}]
+  [ 171.3s] [corner_records] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [corner_records] 禮物清單出來了（4 樣＋「算了」；和 GIFTH.sells(corner_records) 一樣）  {"shown": ["一張老唱片　600 元", "一張動畫原聲帶　450 元", "一張爵士 CD　380 元", "一個唱片行的帆布袋　250 元"], "sells": ["一張老唱片　600 元", "一張動畫原聲帶　450 元", "一張爵士 CD　380 元", "一個唱片行的帆布袋　250 元"]}
+PASS [黑畫面] gift_new_corner_records_list 不是黑畫面（平均亮度 78.8、變化 58.1）  [78.8, 58.1]
+PASS [corner_records] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [ 172.6s] [corner_records] 用了 24 秒
+  [前置／捷徑] [bikeshop] 讀檔到 bikeshop 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [bikeshop] 在 bikeshop  {"zone": "bikeshop", "x": 0.55, "z": 4, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.06, "interact": "", "dlg": false, "dtext": "", "choices": []}
+PASS [bikeshop] 有櫃台互動點「車燈」  {"label": "車燈・車鈴・鎖", "x": 0.2, "z": -0.15, "lv": 0, "r": 0.7}
+  [ 188.9s] 到達「[bikeshop] 走到「車燈」」附近（0.15 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [bikeshop] 真的走到「車燈」（互動鍵是它、walkFallbacks 沒加）  {"x": 0.22, "z": 0.4, "interact": "車燈・車鈴・鎖", "fb": 0}
+  [ 189.7s] [bikeshop] 按下去的選單：["車燈　350 元", "鈴　120 元", "鎖　680 元", "買禮物…", "不用了"]
+PASS [bikeshop] 選單有「買禮物…」（不是灰的）  [{"t": "車燈　350 元", "hint": "", "dim": false}, {"t": "鈴　120 元", "hint": "", "dim": false}, {"t": "鎖　680 元", "hint": "", "dim": false}, {"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "不用了", "hint": "", "dim": false}]
+  [ 189.7s] [bikeshop] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [bikeshop] 禮物清單出來了（2 樣＋「算了」；和 GIFTH.sells(bikeshop) 一樣）  {"shown": ["一個腳踏車燈　350 元", "一個復古的車鈴　200 元"], "sells": ["一個腳踏車燈　350 元", "一個復古的車鈴　200 元"]}
+PASS [黑畫面] gift_new_bikeshop_list 不是黑畫面（平均亮度 78.7、變化 58）  [78.7, 58]
+PASS [bikeshop] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [ 190.9s] [bikeshop] 用了 18 秒
+  [前置／捷徑] [xs_tongxian] 讀檔到 xs_tongxian 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [xs_tongxian] 在 xs_tongxian  {"zone": "xs_tongxian", "x": 0.25, "z": 4.62, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.06, "interact": "", "dlg": false, "dtext": "", "choices": []}
+PASS [xs_tongxian] 有櫃台互動點「買東西」  {"label": "買東西", "x": 0.25, "z": 0.6, "lv": 0, "r": 0.9}
+  [ 216.8s] 到達「[xs_tongxian] 走到「買東西」」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [ 220.1s] 到達「[xs_tongxian] 往「買東西」中心」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [xs_tongxian] 真的走到「買東西」（互動鍵是它、walkFallbacks 沒加）  {"x": 0.11, "z": 0.8, "interact": "買東西", "fb": 0}
+  [ 222.3s] [xs_tongxian] 按下去的選單：["民謠吉他 入門款　3,800 元", "民謠吉他 面單款　6,500 元", "一包弦　350 元", "Pick　20 元", "移調夾　300 元", "買禮物…", "不用了"]
+PASS [xs_tongxian] 選單有「買禮物…」（不是灰的）  [{"t": "民謠吉他 入門款　3,800 元", "hint": "", "dim": false}, {"t": "民謠吉他 面單款　6,500 元", "hint": "", "dim": false}, {"t": "一包弦　350 元", "hint": "", "dim": false}, {"t": "Pick　20 元", "hint": "", "dim": false}, {"t": "移調夾　300 元", "hint": "", "dim": false}, {"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "不用了", "hint": "", "dim": false}]
+  [ 222.3s] [xs_tongxian] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [xs_tongxian] 禮物清單出來了（4 樣＋「算了」；和 GIFTH.sells(xs_tongxian) 一樣）  {"shown": ["一組吉他彈片　150 元", "一套吉他弦　350 元", "一個移調夾　280 元", "一個拇指琴　680 元"], "sells": ["一組吉他彈片　150 元", "一套吉他弦　350 元", "一個移調夾　280 元", "一個拇指琴　680 元"]}
+PASS [黑畫面] gift_new_xs_tongxian_list 不是黑畫面（平均亮度 55.7、變化 28.5）  [55.7, 28.5]
+PASS [xs_tongxian] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [ 223.5s] [xs_tongxian] 用了 33 秒
+  [前置／捷徑] [xs_nanyang] 讀檔到 xs_nanyang 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [xs_nanyang] 在 xs_nanyang  {"zone": "xs_nanyang", "x": 0, "z": 5.2, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.06, "interact": "", "dlg": false, "dtext": "", "choices": []}
+PASS [xs_nanyang] 有櫃台互動點「買票」  {"label": "買票", "x": -2.6, "z": -2.8, "lv": 0, "r": 0.9}
+  [ 241.7s] 到達「[xs_nanyang] 走到「買票」」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [xs_nanyang] 真的走到「買票」（互動鍵是它、walkFallbacks 沒加）  {"x": -2.27, "z": -2.21, "interact": "買票", "fb": 0}
+  [ 242.5s] [xs_nanyang] 按下去的選單：["買票　150 元", "買禮物…", "不用了"]
+PASS [xs_nanyang] 選單有「買禮物…」（不是灰的）  [{"t": "買票　150 元", "hint": "", "dim": false}, {"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "不用了", "hint": "", "dim": false}]
+  [ 242.5s] [xs_nanyang] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [xs_nanyang] 禮物清單出來了（2 樣＋「算了」；和 GIFTH.sells(xs_nanyang) 一樣）  {"shown": ["一張老電影的海報　400 元", "兩張電影招待券　300 元"], "sells": ["一張老電影的海報　400 元", "兩張電影招待券　300 元"]}
+PASS [黑畫面] gift_new_xs_nanyang_list 不是黑畫面（平均亮度 56.5、變化 48.6）  [56.5, 48.6]
+PASS [xs_nanyang] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [ 243.8s] [xs_nanyang] 用了 20 秒
+  [前置／捷徑] [xs_shanlan] 讀檔到 xs_shanlan 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [xs_shanlan] 在 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.05, "interact": "", "dlg": false, "dtext": "", "choices": []}
+PASS [xs_shanlan] 有櫃台互動點「結帳」  {"label": "結帳", "x": 3.85, "z": 2.4, "lv": 0, "r": 0.9}
+  [ 263.5s] 到達「[xs_shanlan] 走到「結帳」」附近（0.25 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS [xs_shanlan] 真的走到「結帳」（互動鍵是它、walkFallbacks 沒加）  {"x": 3.41, "z": 2.99, "interact": "結帳", "fb": 0}
+  [ 264.5s] [xs_shanlan] 按下去的選單：["買禮物…", "就這樣"]
+PASS [xs_shanlan] 選單有「買禮物…」（不是灰的）  [{"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "就這樣", "hint": "", "dim": false}]
+  [ 264.5s] [xs_shanlan] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [xs_shanlan] 禮物清單出來了（5 樣＋「算了」；和 GIFTH.sells(xs_shanlan) 一樣）  {"shown": ["一本商事法的書　450 元", "一本入門的哲學書　350 元", "一本程式設計的書　600 元", "一本英國的旅遊書　380 元", "一本薄薄的詩集　280 元"], "sells": ["一本商事法的書　450 元", "一本入門的哲學書　350 元", "一本程式設計的書　600 元", "一本英國的旅遊書　380 元", "一本薄薄的詩集　280 元"]}
+PASS [黑畫面] gift_new_xs_shanlan_list 不是黑畫面（平均亮度 80.1、變化 43.5）  [80.1, 43.5]
+PASS [xs_shanlan] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [ 265.9s] [xs_shanlan] 用了 22 秒
+  [前置／捷徑] [xs_shanlan_stationery] 讀檔到 xs_shanlan 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [xs_shanlan_stationery] 在 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.05, "interact": "", "dlg": false, "dtext": "", "choices": []}
+PASS [xs_shanlan_stationery] 有櫃台互動點「看文具」  {"label": "看文具", "x": 4.5, "z": 6.5, "lv": 0, "r": 0.9}
+  [ 288.7s] 到達「[xs_shanlan_stationery] 走到「看文具」」附近（0.22 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+PASS [xs_shanlan_stationery] 真的走到「看文具」（互動鍵是它、walkFallbacks 沒加）  {"x": 3.89, "z": 6.81, "interact": "看文具", "fb": 0}
+  [ 290.8s] [xs_shanlan_stationery] 按下去的選單：["買禮物…", "就這樣"]
+PASS [xs_shanlan_stationery] 選單有「買禮物…」（不是灰的）  [{"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "就這樣", "hint": "", "dim": false}]
+  [ 290.8s] [xs_shanlan_stationery] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [xs_shanlan_stationery] 禮物清單出來了（18 樣＋「算了」；和 GIFTH.sells(xs_shanlan_stationery) 一樣）  {"shown": ["一盒綠色螢光筆　120 元", "一本空白筆記本　250 元", "一本方格筆記本　180 元", "一支好寫的鋼筆　800 元", "一組三色墨水　350 元", "一支好寫的筆　200 元", "一組很細的筆　180 元", "一包透明的索引標籤　60 元", "一枚黃銅書籤　220 元", "一個皮的筆袋　480 元", "一個刻名字的小印章　300 元", "一盒和紙膠帶　150 元", "一把金屬尺　90 元", "一個卡通熊的筆袋　180 元", "一個修正帶　45 元", "一盒給小孩的貼紙　100 元", "一個貓的紙鎮　280 元", "一條髮圈　120 元"], "sells": ["一盒綠色螢光筆　120 元", "一本空白筆記本　250 元", "一本方格筆記本　180 元", "一支好寫的鋼筆　800 元", "一組三色墨水　350 元", "一支好寫的筆　200 元", "一組很細的筆　180 元", "一包透明的索引標籤　60 元", "一枚黃銅書籤　220 元", "一個皮的筆袋　480 元", "一個刻名字的小印章　300 元", "一盒和紙膠帶　150 元", "一把金屬尺　90 元", "一個卡通熊的筆袋　180 元", "一個修正帶　45 元", "一盒給小孩的貼紙　100 元", "一個貓的紙鎮　280 元", "一條髮圈　120 元"]}
+PASS [黑畫面] gift_new_xs_shanlan_stationery_list 不是黑畫面（平均亮度 65、變化 50.4）  [65, 50.4]
+PASS [xs_shanlan_stationery] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [前置／捷徑] [xs_shanlan_stationery] G.money=50（錢不夠）
+PASS [xs_shanlan_stationery] 錢不夠：選單還是有「買禮物…」  [{"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "就這樣", "hint": "", "dim": false}]
+PASS [xs_shanlan_stationery] 錢 50：價錢 > 50 的都灰（class dim）、買得起的不灰  {"rows": [["一盒綠色螢光筆　120 元", true], ["一本空白筆記本　250 元", true], ["一本方格筆記本　180 元", true], ["一支好寫的鋼筆　800 元", true], ["一組三色墨水　350 元", true], ["一支好寫的筆　200 元", true], ["一組很細的筆　180 元", true], ["一包透明的索引標籤　60 元", true], ["一枚黃銅書籤　220 元", true], ["一個皮的筆袋　480 元", true], ["一個刻名字的小印章　300 元", true], ["一盒和紙膠帶　150 元", true], ["一把金屬尺　90 元", true], ["一個卡通熊的筆袋　180 元", true], ["一個修正帶　45 元", false], ["一盒給小孩的貼紙　100 元", true], ["一個貓的紙鎮　280 元", true], ["一條髮圈　120 元", true]], "bad": []}
+PASS [黑畫面] gift_new_xs_shanlan_stationery_poor 不是黑畫面（平均亮度 87.7、變化 39）  [87.7, 39]
+  [ 295.8s] [xs_shanlan_stationery] 按灰的那一樣（一盒綠色螢光筆　120 元）：toast ["錢不夠"]
+PASS [xs_shanlan_stationery] 按灰的那一樣：沒買（錢 50 不變、包包 0）、toast 有「錢不夠」  {"money": 50, "bag": 0, "toast": ["錢不夠"]}
+  [ 295.8s] [xs_shanlan_stationery] 用了 30 秒
+  [前置／捷徑] [xs_dabu] 讀檔到 xs_dabu 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [xs_dabu] 在 xs_dabu  {"zone": "xs_dabu", "x": 2.5, "z": 4.4, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.05, "interact": "", "dlg": false, "dtext": "", "choices": []}
+PASS [xs_dabu] 有櫃台互動點「買東西」  {"label": "買東西", "x": 0.85, "z": -3.88, "lv": 0, "r": 0.9}
+  [ 318.6s] 到達「[xs_dabu] 走到「買東西」」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [xs_dabu] 真的走到「買東西」（互動鍵是它、walkFallbacks 沒加）  {"x": 1.25, "z": -3.28, "interact": "買東西", "fb": 0}
+  [ 320.6s] [xs_dabu] 按下去的選單：["籃球鞋　2,800 元", "籃球鞋　3,600 元", "跑鞋　2,500 元", "休閒鞋　1,900 元", "球襪　150 元", "買禮物…", "不用了"]
+PASS [xs_dabu] 選單有「買禮物…」（不是灰的）  [{"t": "籃球鞋　2,800 元", "hint": "", "dim": false}, {"t": "籃球鞋　3,600 元", "hint": "", "dim": false}, {"t": "跑鞋　2,500 元", "hint": "", "dim": false}, {"t": "休閒鞋　1,900 元", "hint": "", "dim": false}, {"t": "球襪　150 元", "hint": "", "dim": false}, {"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "不用了", "hint": "", "dim": false}]
+  [ 320.6s] [xs_dabu] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [xs_dabu] 禮物清單出來了（2 樣＋「算了」；和 GIFTH.sells(xs_dabu) 一樣）  {"shown": ["一雙上班穿的布鞋　500 元", "一雙運動襪　150 元"], "sells": ["一雙上班穿的布鞋　500 元", "一雙運動襪　150 元"]}
+PASS [黑畫面] gift_new_xs_dabu_list 不是黑畫面（平均亮度 98.5、變化 54.8）  [98.5, 54.8]
+PASS [xs_dabu] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [ 321.8s] [xs_dabu] 用了 26 秒
+  [前置／捷徑] [xs_haopai] 讀檔到 xs_haopai 2025-10-18 14.0 時（出生點＝門口）、條件事件關掉、G.money=20000、包包清空
+PASS [xs_haopai] 在 xs_haopai  {"zone": "xs_haopai", "x": 0, "z": 5.4, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.06, "interact": "", "dlg": false, "dtext": "", "choices": []}
+PASS [xs_haopai] 有櫃台互動點「買東西」  {"label": "買東西", "x": -0.2, "z": 1.2, "lv": 0, "r": 0.9}
+  [ 339.4s] 到達「[xs_haopai] 走到「買東西」」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [xs_haopai] 真的走到「買東西」（互動鍵是它、walkFallbacks 沒加）  {"x": 0.1, "z": 1.83, "interact": "買東西", "fb": 0}
+  [ 341.5s] [xs_haopai] 按下去的選單：["羽球拍 入門　1,200 元", "羽球拍 中階　2,800 元", "羽球一筒　450 元", "桌球拍 成品拍　800 元", "桌球拍 自己組　2,600 元", "桌球一盒　150 元", "護腕　120 元", "買禮物…", "不用了"]
+PASS [xs_haopai] 選單有「買禮物…」（不是灰的）  [{"t": "羽球拍 入門　1,200 元", "hint": "", "dim": false}, {"t": "羽球拍 中階　2,800 元", "hint": "", "dim": false}, {"t": "羽球一筒　450 元", "hint": "", "dim": false}, {"t": "桌球拍 成品拍　800 元", "hint": "", "dim": false}, {"t": "桌球拍 自己組　2,600 元", "hint": "", "dim": false}, {"t": "桌球一盒　150 元", "hint": "", "dim": false}, {"t": "護腕　120 元", "hint": "", "dim": false}, {"t": "買禮物…", "hint": "節日、生日的時候送她（包包 0/10）", "dim": false}, {"t": "不用了", "hint": "", "dim": false}]
+  [ 341.5s] [xs_haopai] 「買禮物…」的提示：節日、生日的時候送她（包包 0/10）
+PASS [xs_haopai] 禮物清單出來了（1 樣＋「算了」；和 GIFTH.sells(xs_haopai) 一樣）  {"shown": ["一對護腕　180 元"], "sells": ["一對護腕　180 元"]}
+PASS [黑畫面] gift_new_xs_haopai_list 不是黑畫面（平均亮度 120.6、變化 72.7）  [120.6, 72.7]
+PASS [xs_haopai] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+  [前置／捷徑] [xs_haopai] 用 GIFTH.rec(G).bag 放到 10 樣（遊戲自己的存檔結構；沒有對外的加一樣函式）、G.money=20000
+PASS [xs_haopai] 包包放到 10 樣  10
+  [ 342.9s] [xs_haopai] 包包滿的選單：[{"t": "羽球拍 入門　1,200 元", "hint": "", "dim": false}, {"t": "羽球拍 中階　2,800 元", "hint": "", "dim": false}, {"t": "羽球一筒　450 元", "hint": "", "dim": false}, {"t": "桌球拍 成品拍　800 元", "hint": "", "dim": false}, {"t": "桌球拍 自己組　2,600 元", "hint": "", "dim": false}, {"t": "桌球一盒　150 元", "hint": "", "dim": false}, {"t": "護腕　120 元", "hint": "", "dim": false}, {"t": "買禮物…", "hint": "包包已經放了 10 樣", "dim": true}, {"t": "不用了", "hint": "", "dim": false}]
+PASS [xs_haopai] 包包滿：「買禮物…」灰掉、提示寫 10 樣  {"t": "買禮物…", "hint": "包包已經放了 10 樣", "dim": true}
+PASS [黑畫面] gift_new_xs_haopai_bagfull 不是黑畫面（平均亮度 105.5、變化 76.1）  [105.5, 76.1]
+  [ 344.7s] [xs_haopai] 包包滿按「買禮物…」：toast ["包包已經放了 10 樣"]；之後的畫面 {"choices": [], "dtext": ""}
+PASS [xs_haopai] 包包滿按下去：被擋（包包還是 10、錢 20000 不變、有提示字）  {"bag": 10, "money": 20000, "toast": ["包包已經放了 10 樣"]}
+  [ 344.8s] [xs_haopai] 用了 23 秒
+  [前置／捷徑] [gg_flower] 讀檔到 gongguan 2025-10-18 14.0 時（位置 (-47.0, 18.0)）、條件事件關掉、G.money=20000、包包清空
+PASS [gg_flower] 在 gongguan  {"zone": "gongguan", "x": -48.25, "z": 16.75, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.05, "interact": "", "dlg": false, "dtext": "", "choices": []}
+PASS [gg_flower] 有櫃台互動點「看看花攤」  {"label": "看看花攤", "x": -47.2, "z": 13.45, "lv": 0, "r": 1.3}
+  [ 368.2s] 到達「[gg_flower] 走到「看看花攤」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [gg_flower] 真的走到「看看花攤」（互動鍵是它、walkFallbacks 沒加）  {"x": -47.46, "z": 14.36, "interact": "看看花攤", "fb": 0}
+  [ 369.2s] [gg_flower] 按下去的選單：["一束花　450 元", "一朵向日葵　120 元", "算了"]
+PASS [gg_flower] 按「看看花攤」直接出現禮物清單（價錢＋「算了」）  {"zone": "gongguan", "x": -47.46, "z": 14.36, "lv": 0, "fb": 0, "busy": false, "money": 20000, "bag": 0, "hour": 14.07, "interact": "看看花攤", "dlg": false, "dtext": "", "choices": [{"t": "一束花　450 元", "hint": "老闆幫你配的，包裝紙是牛皮紙。", "dim": false}, {"t": "一朵向日葵　120 元", "hint": "一朵，用玻璃紙包著。", "dim": false}, {"t": "算了", "hint": "", "dim": false}]}
+PASS [gg_flower] 禮物清單出來了（2 樣＋「算了」；和 GIFTH.sells(gg_flower) 一樣）  {"shown": ["一束花　450 元", "一朵向日葵　120 元"], "sells": ["一束花　450 元", "一朵向日葵　120 元"]}
+PASS [黑畫面] gift_new_gg_flower_list 不是黑畫面（平均亮度 73.3、變化 47.2）  [73.3, 47.2]
+PASS [gg_flower] 按「算了」：沒買、錢不變（20000）  {"bag": 0, "money": 20000}
+PASS [gg_flower] 買：清單出來了  [{"t": "一束花　450 元", "hint": "老闆幫你配的，包裝紙是牛皮紙。", "dim": false}, {"t": "一朵向日葵　120 元", "hint": "一朵，用玻璃紙包著。", "dim": false}, {"t": "算了", "hint": "", "dim": false}]
+PASS [gg_flower] 買「一束花　450 元」：錢 20000 → 19550（少 450）、包包 +1（g_bouquet, gg_flower）、旁白「你買了…放進包包」  {"money": 19550, "bag": [["g_bouquet", "gg_flower"]], "said": "你買了一束花，放進包包。／"}
+  [前置／捷徑] [gg_flower] G.money=50（錢不夠）
+PASS [gg_flower] 錢不夠：選單還是有「禮物清單」  [{"t": "一束花　450 元", "hint": "老闆幫你配的，包裝紙是牛皮紙。", "dim": true}, {"t": "一朵向日葵　120 元", "hint": "一朵，用玻璃紙包著。", "dim": true}, {"t": "算了", "hint": "", "dim": false}]
+PASS [gg_flower] 錢 50：價錢 > 50 的都灰（class dim）、買得起的不灰  {"rows": [["一束花　450 元", true], ["一朵向日葵　120 元", true]], "bad": []}
+PASS [黑畫面] gift_new_gg_flower_poor 不是黑畫面（平均亮度 72.5、變化 46.8）  [72.5, 46.8]
+  [ 375.1s] [gg_flower] 按灰的那一樣（一束花　450 元）：toast ["錢不夠"]
+PASS [gg_flower] 按灰的那一樣：沒買（錢 50 不變、包包 0）、toast 有「錢不夠」  {"money": 50, "bag": 0, "toast": ["錢不夠"]}
+  [ 375.1s] [gg_flower] 用了 30 秒
+PASS 沒有 JS 例外  []
+ALL PASS
