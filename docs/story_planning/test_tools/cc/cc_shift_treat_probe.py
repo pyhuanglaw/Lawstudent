@@ -104,7 +104,7 @@ async def buy_one(pg, cdp, tag):
         if s['choices']:
             opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>({t:b.textContent.trim(),dim:b.disabled||b.classList.contains('dim')}))")
             k = None
-            if not bought: k = next((j for j, o in enumerate(opts) if '元' in o['t'] and not o['dim']), None); bought = k is not None
+            if not bought: k = next((j for j, o in enumerate(opts) if ('元' in o['t'] or any(w in o['t'] for w in ('拿鐵', '手沖', '檸檬塔', '老樣子', '好'))) and not o['dim'] and not any(w in o['t'] for w in ('看看', '不用', '就這樣', '也幫'))), None); bought = k is not None   # r6：Café「兩點半的店員」的選項沒有寫價錢（「拿鐵。…」，錢在 consequences 裡）；r5 選到「只是看看。」沒買到
             if k is None: k = next((j for j, o in enumerate(opts) if any(w in o['t'] for w in ('不用', '就這樣', '外帶', '不了', '離開'))), len(opts) - 1)
             picked.append(opts[k]['t']); await P.tap_choice(pg, cdp, k); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); continue
@@ -147,7 +147,7 @@ async def main():
                     if s2['choices']:
                         opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>({t:b.textContent.trim(),dim:b.disabled||b.classList.contains('dim')}))")
                         k = None
-                        if not bought: k = next((j for j, o in enumerate(opts) if '元' in o['t'] and not o['dim']), None); bought = k is not None
+                        if not bought: k = next((j for j, o in enumerate(opts) if ('元' in o['t'] or any(w in o['t'] for w in ('拿鐵', '手沖', '檸檬塔', '老樣子', '好'))) and not o['dim'] and not any(w in o['t'] for w in ('看看', '不用', '就這樣', '也幫'))), None); bought = k is not None   # r6：Café「兩點半的店員」的選項沒有寫價錢（「拿鐵。…」，錢在 consequences 裡）；r5 選到「只是看看。」沒買到
                         if k is None: k = next((j for j, o in enumerate(opts) if any(w in o['t'] for w in ('不用', '就這樣', '外帶', '不了', '離開'))), len(opts) - 1)
                         picked.append(opts[k]['t']); await P.tap_choice(pg, cdp, k); continue
                     if s2['dlg']: await L.tap(pg, cdp, '#dlg'); continue
@@ -215,7 +215,9 @@ async def main():
                 R.check('F 芷若朋友：進店兩秒後演 2～4 句、有「熱可可」', rec.get('day') == st1['day'] and 2 <= len(said) <= 4 and any('熱可可' in x[1] for x in said), J({'said': said, 'rec': rec}))
                 R.check('F T3：記下今天在 Café 點的下一樣免費', ((st1['sh'] or {}).get('free') or {}).get('zone') == 'cafe', J(st1['sh']))
                 d1, p1 = await buy_one(pg, cdp, '[F 第一樣]'); R.note('[F 第一樣] 錢 %s、選了 %s' % (d1, J(p1)))
-                R.check('F T3：在 Café 點第一樣不扣錢', d1 == 0 and bool(p1), J({'delta': d1, 'picked': p1}))
+                R.check('F T3：在 Café 點第一樣（真的點了一杯）不扣錢', d1 == 0 and bool(p1) and not any('看看' in x for x in p1), J({'delta': d1, 'picked': p1}))
+                d2, p2 = await buy_one(pg, cdp, '[F 第二樣]'); R.note('[F 第二樣] 錢 %s、選了 %s' % (d2, J(p2)))
+                R.check('F T3：在 Café 點第二樣照標價扣錢', d2 is not None and d2 < 0, J({'delta': d2, 'picked': p2}))   # r6（BB 16:42）
                 R.check('[F] walkFallbacks 0', st1['fb'] == 0, J(st1))
                 continue
             if case == 'C':   # 接著 B：同一天出店再進來（不重讀）
