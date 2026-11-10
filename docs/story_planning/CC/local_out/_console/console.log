@@ -747,3 +747,12 @@
 [18:30:33] ==== START GGDC_art_old  (probe @ fe4d893acdb08eb93f93b688380bd0700ff5ad48) ====
 [18:30:36] [res] cpu=5% mem=48% (15.1/31.4 GB) chrome_testing=5  START GGDC_art_old
 [18:31:09] [res] cpu=24% mem=46% (14.6/31.4 GB) chrome_testing=9  END X295B_skip
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       26a6ece7c..dd3584815  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:31:16] ==== END   X295B_skip  exit=0  319s   ====
+[18:31:20] memory 47% before starting GGDC_tree_new (2 running)
+[18:31:20] ==== START GGDC_tree_new  (probe @ d8b669175bcf363974b401e1eed3d6709f2b0949) ====
+[18:31:23] [res] cpu=22% mem=48% (14.9/31.4 GB) chrome_testing=9  START GGDC_tree_new
+[18:33:06] 正在跑：GGDC_art_new（已跑 3 分／上限 20 分）、GGDC_art_old（已跑 2 分／上限 20 分）、GGDC_tree_new（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:33:35] [res] cpu=27% mem=46% (14.5/31.4 GB) chrome_testing=10  END GGDC_tree_new
