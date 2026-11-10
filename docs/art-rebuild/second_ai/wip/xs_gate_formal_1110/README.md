@@ -93,6 +93,7 @@
 - 手機效能：多 3,222 個三角形、三張 PBR 貼圖（紅磚和行政大樓共用同一張原圖，但材質是這個模型自己的）。
 
 ## 整合
+- **LAWWW 已經接了第一份（1ce81da56）的話**：只要再 `git apply xs_gate_bike_racks_addon.patch`（停車架兩個座標＋測試第 5 項）。已確認套在「48aa47a5b＋第一份」上，xs_gate_formal、bike_park_1104 都 ALL PASS。
 - `git apply --binary xs_gate_formal_1110.patch`。
 - 內容：xinsheng3d.js、zones3d.js（停車架兩個座標）、xs_gate.glb／json、xs_gate.py、新測試、LICENSES.md。
 - 欄杆貼圖 `textures/gen/xs_gate_rail.png` 不放進 patch：腳本每次會重畫，已經嵌在 GLB 裡。
