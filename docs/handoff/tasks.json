@@ -51126,6 +51126,64 @@
    "next": "【11-10 02:0x】等 LAWWW2、AA、BB、CC duty handoff 完成，LAWWW-B 存快照、duty handoff。",
    "evidence": "11-08 20:5x 五職位 duty handoff（duty.json handed-off；快照 2026-11-08T2044Z_B_CC、2047Z_B_BB、2047Z_B_AA、2050Z_B_LAWWW2、2053Z_B_LAWWW）；d56e4f051",
    "sha": null
+  },
+  {
+   "id": "BUG-INV-ACC-TIME-1110",
+   "title": "答應句不寫幾點、週末、早上（約 10:00 回「九點，不要遲到」）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次約 Daybreak／SUNNY SIDE",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 LAWWW-B】AA_731（企劃線 94ab0865e）十句：invites.js 九句手換、invite_replies／invite_place_lines 重新匯入、白名單更新（a1c0c2bc5、bc9c1408c）；相關測試照新句子（be7c2c374）。BB-B 找出、P3。待 CC 抽測幾句答應。",
+   "xai": {
+    "spec": "使用者 11-10 00:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "約的時間和答應句不再矛盾",
+    "receiver": "BB（測）",
+    "ack": "未派",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": "bc9c1408c0",
+   "test": "aa415、aa535b、corner_shop、gg_shops2、dl12_bb158、v1_inv_wording、invites_quote、invites_quote_b6"
+  },
+  {
+   "id": "BUG-INV-GOASK-PERSIST-1110",
+   "title": "讀檔後約好的見面變 missed：goAsked 跟著存檔，讀回來「直接過去」不再提醒",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "約好見面的前 30 分鐘存檔讀檔",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:2x BB-B】CC PC SOCX_edae_study_h1_iv：invites3d.js:463 S.goPrompt 跳選單前就設 iv.goAsked=1，goAsked 存在 G.invites、讀檔 LOADLOCKS 只放 goBusy；提醒跳出時存檔（或自動存檔）讀回來就不再提醒、站著等到錯過。改法（LAWWW 決定）：讀檔時把還沒到期、在提醒時間範圍內的那筆 goAsked 清掉，或 goAsked 不存進存檔。改好給 BB SHA，CC 用同一個存檔重測。",
+   "xai": {
+    "spec": "使用者 11-10 00:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "提醒時存檔讀回來，時間到照樣跳「直接過去」；不會再 missed",
+    "receiver": "BB（測）",
+    "ack": "未派",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
   }
  ]
 }
