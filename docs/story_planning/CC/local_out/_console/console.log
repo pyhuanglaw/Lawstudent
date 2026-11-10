@@ -704,3 +704,11 @@
 [06:46:34] [res] cpu=5% mem=35% (11.1/31.4 GB) chrome_testing=0  START TZ_scoot_head
 [06:47:22] worktree add fd4dd9aef6cb0d31b06d137636a25ab52eceedc4: invalid reference - fetching main and the commit itself
 [06:48:03] [res] cpu=6% mem=44% (13.7/31.4 GB) chrome_testing=8  END TZ_scoot_v2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a1d773861..82f3907ac  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:48:08] ==== END   TZ_scoot_v2  exit=0  92s   ====
+[06:48:12] memory 45% before starting SHIFT_IMM_r8_old (2 running)
+[06:48:12] ==== START SHIFT_IMM_r8_old  (probe @ 8a98ff1e06c06cfb52be41dc3402ba05305945a6) ====
+[06:48:15] [res] cpu=16% mem=44% (14.1/31.4 GB) chrome_testing=8  START SHIFT_IMM_r8_old
+[06:48:53] [res] cpu=8% mem=46% (14.6/31.4 GB) chrome_testing=9  END TZ_scoot_head
