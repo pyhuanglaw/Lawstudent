@@ -53041,7 +53041,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "使用者 11-10 23:3x 授權「可以，照圖做」。LAWWW2 照十張圖做 tingzhou_stalls（公館側三攤另一包）；AA 商品表、看買句照圖上的價錢口味改；LAWWW 接買東西、各攤營業時間"
+   "next": "使用者 11-10 23:3x 授權「可以，照圖做」。LAWWW2 照十張圖做 tingzhou_stalls（公館側三攤另一包）；AA 商品表、看買句照圖上的價錢口味改；LAWWW 接買東西、各攤營業時間｜AA 稿已交：企劃線 751e2f550 docs/story_planning/AA_752_night_market.json（s01～s10：name／look／closed／greet／items 31 樣，價錢口味照圖；s10 換季；背景攤 b12～b14 只有看）。等 LAWWW2 攤位模型；LAWWW：匯入工具、買東西（沿用 eat3d 現有吃東西機制）、各攤營業時間"
   },
   {
    "id": "PEISHAN-VOICE-1110",
