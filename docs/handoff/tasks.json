@@ -51899,7 +51899,7 @@
    "id": "XS-GATE-FORMAL-1110",
    "title": "X246 新生南路側門：正式門柱、鐵門、圍牆模型（現在是程序化套件）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -51911,15 +51911,15 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 13:4x】派 LAWWW2（X246 差距表大項）：Blender 近景（D38），照 X246 文字＋北牆版位置，D136；導航、門洞、候車亭不動；draw call 盡量不加；D141。",
+   "next": "【LAWWW 13:5x】第 1 版 LAWWW2 1ce81da56：xs_gate.glb（7 網格、3,222 三角形）花崗石勒腳＋紅磚矮牆＋石材壓頂＋鑄鐵欄杆、紅磚門柱＋燈籠＋北門柱「首都帝大」石牌、兩扇鐵門開向校內；套件牆接上就藏、遠景牆拆出；導航不動、網格 238→237；xs_gate_formal（開發 FAIL 3→PASS）＋新生南路 5 支 ALL PASS；CC 拍正面、石牌近照、圍牆往北、晚上燈籠，BB 判。 ｜ 【LAWWW 11-10 13:4x】派 LAWWW2（X246 差距表大項）：Blender 近景（D38），照 X246 文字＋北牆版位置，D136；導航、門洞、候車亭不動；draw call 盡量不加；D141。",
    "xai": {
     "spec": "USER_WANTS X246；LAWWW2 X246 差距表",
     "branch": "claude/second-ai-env-art",
     "acceptance": "正式門柱鐵門圍牆 GLB 接上、xs 系列 Node PASS；CC 拍、BB 判",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "sha": null
+   "sha": "1ce81da56"
   }
  ]
 }
