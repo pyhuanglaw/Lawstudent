@@ -5252,12 +5252,18 @@
   },
   {
    "path": "docs/story_planning/AA_739_shift_treat.json",
-   "sha": "5eff96441",
+   "sha": "dc607dd90",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
+   "approvedBy": "AA 定稿（D109）dc607dd90：語彤 T3 第一句改「（你還沒開口點，她已經端了一壺過來。）」（進店就演，AA 11-10 14:46 回 LAWWW）；LAWWW 四處解讀 AA 確認",
    "task": "SHIFT-TREAT-1110",
    "kind": "json",
-   "note": "X302 她打工時你走進店裡：芷若（兩點半 Café 吧檯）、語彤（一盞茶屋打工）四個階段、happy／treat——tools/shift/import_shift_treat.py → src/data/shift_treat.js"
+   "note": "X302 她打工時你走進店裡：芷若（兩點半 Café 吧檯）、語彤（一盞茶屋打工）四個階段、happy／treat——tools/shift/import_shift_treat.py → src/data/shift_treat.js",
+   "history": [
+    {
+     "sha": "5eff96441",
+     "approvedBy": "AA 定稿（D109），LAWWW 11-10 接"
+    }
+   ]
   }
  ]
 }

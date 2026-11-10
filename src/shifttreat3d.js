@@ -16,7 +16,7 @@
      dating＝離上次招待至少隔 2 次、5 天以上；輪不到就演 happy。「第幾次」數的是朋友以上（friend、dating）那幾次演出（nf），上次招待記 tn、tday。
    - 每一組照順序輪，演完一輪從頭（存檔記每個人每一組的 idx）。
    - 招待的效果：熟悉 +1（SOCIAL.adjust fam，一般關係線；不動戀愛點數 npcRom、不記送禮、不扣錢）；這次點的東西照舊付錢。
-     T3（friend.treat 第 3 組：芷若的熱可可、語彤收走單子）例外：今天在那家店點的下一樣不扣錢（S.freeTake）——
+     T3（friend.treat 第 3 組：芷若的熱可可、語彤先端來一壺）例外：今天在那家店點的下一樣不扣錢（S.freeTake）——
      兩點半：story3d.js counter() 點餐、「兩點半的店員」事件裡點的第一樣（EVENTS.run 包起來，只在那一場裡免第一筆沒有標籤的扣錢）；一盞：wzshops3d.js buy()。
    存檔：G.flags.SHIFTT＝{p:{人物:{day,n,nf,tn,tday,idx:{組:下一個}}}, free:{pid,zone,day}|null}；舊存檔沒有＝空的（讀的時候補），第一次走進去每一組從 idx 0 開始。
    測試：node tests/shift_treat_unit.js */
@@ -27,7 +27,7 @@ const SHIFTT=(function(){
   S.on=()=>!!X();
   S.SHOP={heroine_02:'cafe',heroine_03:'wz_teahouse'};
   S.YT_LABEL='一盞茶屋（打工）';
-  S.FREE={heroine_02:2,heroine_03:2};   /* friend.treat 的第幾組（0 起）是 T3：import_shift_treat.py 核對過字（熱可可、單子收走）*/
+  S.FREE={heroine_02:2,heroine_03:2};   /* friend.treat 的第幾組（0 起）是 T3：import_shift_treat.py 核對過字（熱可可、端了一壺）*/
   S.GAP=2;   /* 上次演完那天 +2 起（隔一天以上：今天、明天都不演）*/
   S.TREAT={friend:{from:3,every:3,days:7},dating:{from:1,every:2,days:5}};
   S.ROUTINE=['ev_cafe_barista_zhiruo'];   /* 每天的點餐（兩點半的店員），不算「她的其他事件」*/

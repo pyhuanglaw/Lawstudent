@@ -1,9 +1,9 @@
-/* 自動產生：tools/shift/import_shift_treat.py（docs/story_planning/AA_739_shift_treat.json@5eff96441）。不要手改，改企劃 AA_739 再重新匯入。
+/* 自動產生：tools/shift/import_shift_treat.py（docs/story_planning/AA_739_shift_treat.json@dc607dd90）。不要手改，改企劃 AA_739 再重新匯入。
    她打工的時候你走進店裡（SHIFT-TREAT-1110，X302；播放 src/shifttreat3d.js）：lines[人物]＝acq／familiar／friend{happy,treat}／dating{happy,treat}，一組＝句子陣列 */
 'use strict';
 const SHIFT_TREAT={
  "src": [
-  "docs/story_planning/AA_739_shift_treat.json@5eff96441"
+  "docs/story_planning/AA_739_shift_treat.json@dc607dd90"
  ],
  "id": "AA_739",
  "task": "SHIFT-TREAT-1110",
@@ -27,7 +27,7 @@ const SHIFT_TREAT={
   "階段：ACQUAINTANCE 用 acq；FAMILIAR 用 familiar；FRIEND、CLOSE_FRIEND 用 friend（happy／treat）；交往中用 dating（happy／treat）。",
   "招待（treat）：FRIEND 以上才有。朋友＝第 3 次演出起、每 3 次一次，而且離上次招待 7 天以上；交往中＝每 2 次一次，離上次招待 5 天以上。輪不到招待就演 happy。",
   "同一組裡照順序輪，三句都演過再從頭（存檔記每個人的 idx）。",
-  "招待的效果：好感 rel +1（一般關係，不算戀愛點數、不算送禮、不扣錢）；這次點的東西照舊付錢，招待的是多出來的那一樣。T3 那兩句（芷若熱可可、語彤收走單子）例外：那次點的東西不扣錢。",
+  "招待的效果：好感 rel +1（一般關係，不算戀愛點數、不算送禮、不扣錢）；這次點的東西照舊付錢，招待的是多出來的那一樣。T3 那兩句（芷若熱可可、語彤先端來一壺）例外：那次點的東西不扣錢。",
   "新玩家、舊存檔都一樣；舊存檔第一次走進去照 idx 0 開始。"
  ],
  "format": "字串以（開頭＝旁白，其他＝她說的話（對話框寫她的名字，照 rel_lines 的格式，不加「」）；旁白裡引用的字照留「」。",
@@ -173,7 +173,7 @@ const SHIFT_TREAT={
       "這是我自己喜歡的。你喝喝看，不喜歡就說。"
      ],
      [
-      "（你要結帳的時候，她把單子收走。）",
+      "（你還沒開口點，她已經端了一壺過來。）",
       "今天這壺，算我的。",
       "我昨天剛領薪水。"
      ]

@@ -18,7 +18,7 @@ import import_guard as IG
 SRC = 'docs/story_planning/AA_739_shift_treat.json'
 OUT = 'src/data/shift_treat.js'
 PEOPLE = ('heroine_02', 'heroine_03')
-T3_WORD = {'heroine_02': '熱可可', 'heroine_03': '單子收走'}   # rules：「T3 那兩句（芷若熱可可、語彤收走單子）例外：那次點的東西不扣錢」
+T3_WORD = {'heroine_02': '熱可可', 'heroine_03': '端了一壺'}   # rules：「T3 那兩句（芷若熱可可、語彤先端來一壺）例外：那次點的東西不扣錢」（dc607dd90 起；5eff96441 是「單子收走」）
 
 
 def git(*a):

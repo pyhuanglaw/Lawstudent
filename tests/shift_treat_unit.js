@@ -1,6 +1,6 @@
 // 她打工的時候你走進店裡（SHIFT-TREAT-1110；USER_WANTS X302）——不需要瀏覽器（D131）。
-// 台詞 AA_739（企劃線 5eff96441，AA 定稿 D109），一律從 src/data/shift_treat.js 讀來比對（不寫死台詞）。檢查：
-//   0. shift_treat.js 和白名單上的 AA_739 一致（import_shift_treat.py --check）、和 5eff96441 的 lines 一字不差；index.html 載入順序
+// 台詞 AA_739（企劃線 dc607dd90，AA 定稿 D109），一律從 src/data/shift_treat.js 讀來比對（不寫死台詞）。檢查：
+//   0. shift_treat.js 和白名單上的 AA_739 一致（import_shift_treat.py --check）、和 dc607dd90 的 lines 一字不差；index.html 載入順序
 //   1. 在班／不在班：芷若（作息 barista＝ladWorking）、語彤（作息 label「一盞茶屋（打工）」）；不在場、正在下班（leaving）不演；經濟系那一年不演
 //   2. 未認識（沒有 FIRST_MET）不演；今天才認識也不演
 //   3. 玩家自己在這家店上班（JOBS 這一班）不演；別家店的班、這家店下班以後照演
@@ -9,7 +9,7 @@
 //   6. 四個階段各一組照順序輪（acq 2 句輪、familiar／friend.happy／dating.happy 三組輪），旁白／她說的分開
 //   7. 招待頻率：朋友＝朋友以上第 3 次起、隔 3 次、7 天以上；交往＝隔 2 次、5 天以上；輪不到演 happy
 //   8. 招待：熟悉 +1（不動戀愛點數）；happy 不加
-//   9. T3（芷若熱可可、語彤收走單子）：那天在那家店點的下一樣不扣錢（兩點半點餐、「兩點半的店員」事件、一盞點茶）；別家店、隔天不算；其他招待照付
+//   9. T3（芷若熱可可、語彤先端來一壺）：那天在那家店點的下一樣不扣錢（兩點半點餐、「兩點半的店員」事件、一盞點茶）；別家店、隔天不算；其他招待照付
 //  10. 走進店裡（STORY.onEnter）等兩秒才演；讀檔回到店裡不演；對話中等
 //  11. 舊存檔（沒有 G.flags.SHIFTT、壞掉的）讀得進來、從 idx 0 開始
 // 用法：node tests/shift_treat_unit.js
@@ -42,11 +42,11 @@ const playAt=async(id,day)=>{ at(day,id===ZR?20:14); return run(()=>SHIFTT.play(
   /* ======================= 0 資料 ======================= */
   await sec(0,async()=>{ check('0. 載入 shift_treat.js、shifttreat3d.js',ok0&&typeof SHIFTT!=='undefined'&&SHIFTT.on(),err.slice(0,300));
     let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/shift/import_shift_treat.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
-    check('0. shift_treat.js 和白名單上的 AA_739（5eff96441）一致（import_shift_treat.py --check）',ok&&J(SHIFT_TREAT.src)===J(['docs/story_planning/AA_739_shift_treat.json@5eff96441']),out.trim().slice(0,200));
-    let src=null; try{ src=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show','5eff96441:docs/story_planning/AA_739_shift_treat.json'],{encoding:'utf8',stdio:['ignore','pipe','ignore']})); }catch(e){}
-    check('0. lines 和企劃線 5eff96441 一字不差（拿得到那個 commit 才比）',!src||J(src.lines)===J(SHIFT_TREAT.lines),src?'':'（沒有 5eff96441：先 git fetch origin claude/story-planning）');
+    check('0. shift_treat.js 和白名單上的 AA_739（dc607dd90）一致（import_shift_treat.py --check）',ok&&J(SHIFT_TREAT.src)===J(['docs/story_planning/AA_739_shift_treat.json@dc607dd90']),out.trim().slice(0,200));
+    let src=null; try{ src=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show','dc607dd90:docs/story_planning/AA_739_shift_treat.json'],{encoding:'utf8',stdio:['ignore','pipe','ignore']})); }catch(e){}
+    check('0. lines 和企劃線 dc607dd90 一字不差（拿得到那個 commit 才比）',!src||J(src.lines)===J(SHIFT_TREAT.lines),src?'':'（沒有 dc607dd90：先 git fetch origin claude/story-planning）');
     const L=SHIFT_TREAT.lines; check('0. 兩人都有 acq、familiar、friend{happy,treat}、dating{happy,treat}',[ZR,YT].every(p=>L[p].acq.length&&L[p].familiar.length===3&&['friend','dating'].every(s=>L[p][s].happy.length===3&&L[p][s].treat.length===3)));
-    check('0. T3＝friend.treat 第 3 組（芷若熱可可、語彤收走單子）',L[ZR].friend.treat[SHIFTT.FREE[ZR]].join('').includes('熱可可')&&L[YT].friend.treat[SHIFTT.FREE[YT]].join('').includes('單子收走'));
+    check('0. T3＝friend.treat 第 3 組（芷若熱可可、語彤先端來一壺）',L[ZR].friend.treat[SHIFTT.FREE[ZR]].join('').includes('熱可可')&&L[YT].friend.treat[SHIFTT.FREE[YT]].join('').includes('端了一壺'));
     check('0. 每一句：（開頭的整句是旁白（以）結尾）、其他是她說的（不加「」）',[ZR,YT].every(p=>{ const all=[].concat(...['acq','familiar'].map(k=>L[p][k]),...['friend','dating'].map(s=>[].concat(L[p][s].happy,L[p][s].treat))); return all.every(g=>g.every(t=>/^（/.test(t)?/）$/.test(t):!/^「.*」$/.test(t))); }));
     const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), i=f=>html.indexOf('src="'+f);
     check('0. index.html：shift_treat.js → shifttreat3d.js，在 story3d.js、wzshops3d.js 之後、gift_holiday.js 之前',i('src/data/shift_treat.js')>0&&i('src/data/shift_treat.js')<i('src/shifttreat3d.js')&&i('src/story3d.js')<i('src/shifttreat3d.js')&&i('src/wzshops3d.js')<i('src/shifttreat3d.js')&&i('src/shifttreat3d.js')<i('src/data/gift_holiday.js')); });
@@ -158,7 +158,7 @@ const playAt=async(id,day)=>{ at(day,id===ZR?20:14); return run(()=>SHIFTT.play(
     /* 語彤：一盞點茶（wzshops3d.js buy）*/
     let okW=false, ew=''; try{ okW=typeof WZS!=='undefined'||load('src/wzshops3d.js'); }catch(e){ ew=String(e&&e.message||e); }
     const Y=setup(YT,'friend'); const oy=SHIFTT.per(Y,YT); oy.idx['friend.treat']=2; oy.nf=5; oy.tn=0; oy.tday=Y.day-30; r=await playAt(YT,Y.day);
-    check('9. 語彤 T3＝收走單子那一組',r.r.free&&r.L.map(x=>x[1]).join('').includes('單子收走')&&SHIFTT.freeOn(Y,'wz_teahouse'));
+    check('9. 語彤 T3＝先端來一壺那一組',r.r.free&&r.L.map(x=>x[1]).join('').includes('端了一壺')&&SHIFTT.freeOn(Y,'wz_teahouse'));
     if(okW&&WZS.interact){ m0=Y.money; await run(()=>WZS.interact(GM,{wzShop:'teahouse',kind:'tea'}),[0]); check('9. 一盞點茶（buy）：T3 那天點的第一樣不扣錢、free 用掉',Y.money===m0&&!SHIFTT.freeOn(Y,'wz_teahouse'),Y.money-m0+' '+J(H.said.map(s=>s.t)).slice(0,160));
       m0=Y.money; await run(()=>WZS.interact(GM,{wzShop:'teahouse',kind:'tea'}),[0]); check('9. 再點一壺照付',Y.money<m0,Y.money-m0); }
     else check('9. 載入 wzshops3d.js（一盞點茶）',false,ew);
