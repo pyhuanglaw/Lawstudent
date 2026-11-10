@@ -65,10 +65,11 @@ ME = r"""(()=>{ const E=GAME.E, P=E.player, p=P.obj.position, N=E.nav, it=docume
     ent:!!(GAME.isEntering&&GAME.isEntering()), busy:!!P.busy, fb:GAME.walkFallbacks|0, clockZ:((document.getElementById('clockZ')||{}).textContent||'').trim(),
     phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()), dlg:!!(GAME.D&&GAME.D.active), toast:((document.getElementById('toast')||{}).textContent||'').trim().slice(0,60),
     q:E.q?E.q.level:null}; })()"""
-# 手機「地點」：地區按鈕（順序、展開了沒）、每一列（名字、狀態字、前往按鈕的 data-place、在哪一區的框裡；框外＝圖釘選中的那一塊）
+# 手機「地點」：地區按鈕（順序、展開了沒）、每一列（名字、狀態字、前往按鈕的 data-place、在哪一區的框裡 area；圖釘選中的那一塊 pin＝圖釘名字（placemap3d.js S.html 的 <b>）；最上面的「回家」兩個都是 null）
 AREAS = "(()=>[...document.querySelectorAll('#phoneBody [data-parea]')].map(b=>({id:b.dataset.parea, on:b.getAttribute('aria-expanded')==='true', txt:(b.textContent||'').trim()})))()"
 ROWS = r"""(()=>[...document.querySelectorAll('#phoneBody .phrow')].map(r=>{ const d=r.querySelector('div'); const nm=d&&d.childNodes[0]?(d.childNodes[0].textContent||'').trim():''; const mu=r.querySelector('.muted');
-  const b=r.querySelector('[data-place]'); const box=r.closest('[data-parea-box]'); return {name:nm, st:mu?(mu.textContent||'').trim():'', place:b?b.dataset.place:null, btn:b?(b.textContent||'').trim():null, area:box?box.dataset.pareaBox:null}; }))()"""
+  const b=r.querySelector('[data-place]'); const box=r.closest('[data-parea-box]'), pb=r.parentElement&&r.parentElement.querySelector(':scope > b');
+  return {name:nm, st:mu?(mu.textContent||'').trim():'', place:b?b.dataset.place:null, btn:b?(b.textContent||'').trim():null, area:box?box.dataset.pareaBox:null, pin:(!box&&pb)?(pb.textContent||'').trim():null}; }))()"""
 # 汀州路的幾何（配置＋區域）：攤子擋導航的範圍（tingzhou3d.js：blockRect(x−sin·back, z−cos·back, ax?d:w, ax?w:d)）、店門互動點、路寬、攤子現在擺不擺
 TZGEO = r"""(()=>{ const L=TINGZHOU_LAYOUT, Z=GAME.E.zone||{}, B=L.stalls?L.stalls.block:null;
   const stalls=(L.stalls?L.stalls.list:[]).map(q=>{ const c=Math.cos(q.yaw), s=Math.sin(q.yaw), ax=Math.abs(s)>0.5; return {id:q.id,kind:q.kind,x:q.x,z:q.z,cx:q.x-s*B.back,cz:q.z-c*B.back,w:ax?B.d:B.w,d:ax?B.w:B.d}; });
@@ -207,7 +208,7 @@ async def part_tzq_map(pg, cdp, errs):
     c = await pg.evaluate("(()=>{ const g=document.querySelector('#phoneBody [data-pmap=\"tingzhou\"]'); if(!g) return null; const k=g.querySelector('circle')||g; k.scrollIntoView({block:'center'}); const r=k.getBoundingClientRect(); const x=r.left+r.width/2, y=r.top+r.height/2; const e=document.elementFromPoint(x,y); return {x,y,inSvg:!!(e&&e.closest&&e.closest('[data-pmapsvg]'))}; })()")
     if c and c['inSvg']:
         await L.touch_tap(cdp, c['x'], c['y']); await pg.wait_for_timeout(900)
-    rows = await pg.evaluate(ROWS); pinrows = [r for r in rows if r['area'] is None]
+    rows = await pg.evaluate(ROWS); pinrows = [r for r in rows if r['pin'] == '汀州路']
     R.note('[A1] 點汀州路圖釘（螢幕 %s）→ 圖釘那一塊列出：%s' % (J(c), J(pinrows)))
     R.check('[A1] 點汀州路圖釘：列出九筆（汀州路＋八間店，名字一字不差）', sorted(r['name'] for r in pinrows) == sorted(TZ9), J([r['name'] for r in pinrows]))
     await pg.screenshot(path=os.path.join(OUT, 'A1_phone_pin.png'))
@@ -312,7 +313,7 @@ async def part_tzq_old(pg, cdp, errs):
     R.check('[A4] 公館那一區的清單沒有泰米村食、洗樂洗衣坊、印得好', rows and not [r for r in rows if r['name'] in GG3], J([r['name'] for r in rows]))
     c = await pg.evaluate("(()=>{ const g=document.querySelector('#phoneBody [data-pmap=\"gongguan\"]'); if(!g) return null; const k=g.querySelector('circle')||g; k.scrollIntoView({block:'center'}); const r=k.getBoundingClientRect(); return {x:r.left+r.width/2,y:r.top+r.height/2}; })()")
     if c: await L.touch_tap(cdp, c['x'], c['y']); await pg.wait_for_timeout(900)
-    pr = [r for r in await pg.evaluate(ROWS) if r['area'] is None]
+    pr = [r for r in await pg.evaluate(ROWS) if r['pin'] == '公館']
     R.note('[A4] 點公館圖釘：%s' % J([r['name'] for r in pr]))
     R.check('[A4] 公館圖釘列出的地點沒有那三間', pr and not [r for r in pr if r['name'] in GG3], J([r['name'] for r in pr]))
     lm = await pg.evaluate("(()=>(PLACES.landmarks&&PLACES.landmarks.gongguan||[]).map(q=>q[0]))()")
