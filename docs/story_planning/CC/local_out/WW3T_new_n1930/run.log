@@ -1,0 +1,10 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wallfade_walls_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WW3T_new_n1930\out
+CC 牆外往裡拍：worktree ?；TAG newn1930；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [wz_teahouse] 【前置／捷徑】讀檔到 wz_teahouse 2025-10-18 19.5（出生點，先量可走範圍）
+  [  45.4s] [wz_teahouse] 指定站位 (3.65, -4.0) yaw 15°
+  [前置／捷徑] [wz_teahouse] 【捷徑】讀檔站到 (3.65, -4.0)
+PASS [wz_teahouse] 牆 @3.65@-4.00@15 在 wz_teahouse  {"zone": "wz_teahouse", "x": 3.65, "z": -4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, 
+PASS 沒有 JS 例外  []
+ALL PASS
