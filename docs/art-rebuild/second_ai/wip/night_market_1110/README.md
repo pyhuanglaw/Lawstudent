@@ -1,6 +1,6 @@
 # NIGHT-MARKET-1110 夜市十攤＋背景三攤 第 1 版（LAWWW2 帳號 A，2026-11-11）
 
-狀態：**WORK_IN_PROGRESS → 全部 Node 測試跑完才算交付**（結果寫在最下面）。Blender 算圖不是遊戲截圖（D131）；遊戲畫面要 CC 拍、BB 判。
+狀態：**READY_FOR_REVIEW（已交付 LAWWW）**。全部 Node 測試 1242 支跑完、沒有失敗（`regression_full.log`；`bookstore_exit_unit` 最後一行是既有的非同步警告、exit 0、沒有 FAIL）。使用者 11-10 23:3x 對 LAWWW 選「可以，照圖做」（UA-LAWWW-1110-111）。Blender 算圖不是遊戲截圖（D131）；遊戲畫面要 CC 拍、BB 判。
 
 - patch：`night_market_v1.patch`（`git diff --binary`；基底 dev `9a5164f24`；`git apply --3way`）
 - 依據：使用者 11-10 的十張攤位參考圖（`../../ref/night_market_1110/concept/`）＋規格 `docs/handoff/user_specs/NIGHT_MARKET_1110.md`（X326）＋使用者 11-10 的四個回答（配置照方案／背景攤只寫賣的東西／公館那一側也擺幾攤／各攤時間不一樣）＋使用者 11-11「圖都給了」（我的理解：照圖做，不必再等授權）。
@@ -35,3 +35,9 @@
 - 甜湯夏冬換展示內容沒做（P3）。
 - 公館三攤的位置只照導航格量；人行道上有沒有只畫不擋的東西（樹、地磚花紋）要看遊戲截圖。
 - 招牌自己發光（整張貼圖），白天 0.25、晚上 1.1；白天會不會太亮要看遊戲。
+
+## 測試
+- `node tests/tingzhou_unit.js`：ALL PASS（第 9 節十項＋第 11 節公館三攤兩項是新的或改過的）。
+- `node tests/tingzhou_walkers_1110_unit.js`：ALL PASS（第 4 項改過，見上）。
+- 全部 `tests/*_unit.js` 1242 支（基底 dev 9a5164f24）：沒有失敗。patch 在 dev f3c0f9f19 上 `git apply --3way` 乾淨套得上。
+- 沒有遊戲截圖（要 CC 拍）：十三攤白天／晚上／收攤各一輪、巷 A、汀州路西側三攤、水源市場前、公館人行道三攤。
