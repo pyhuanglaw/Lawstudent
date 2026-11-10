@@ -15,6 +15,9 @@ X307_new | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_plannin
 X307_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_b1court_art_probe.py | index.html | 40 | TAG=old;RERUN=r2
 # BGN_old（BB 08:45：X288 只差這支就能結案，排在 X307 後面）
 BGN_old | cdcb2650730bc9a90563690e63f35e75e63c9fb3 | probe | docs/story_planning/test_tools/cc/cc_bgn_after_home_probe.py | index.html | 40 | CC_HEADLESS=0
+# X296 r2（cap）：r1 讀 #dlg，但「看樓層簡介」是字幕 #caption＝TEST_BUG；提前重跑
+X296_new | 7a019726dfddc3f90dc0cc60189db19084871503 | probe | docs/story_planning/test_tools/cc/cc_lib_directory_probe.py | index.html | 25 | TAG=new;RERUN=cap
+X296_old | 9f3133b998dc3cf4631f019d085e59a8550f5d29 | probe | docs/story_planning/test_tools/cc/cc_lib_directory_probe.py | index.html | 25 | TAG=old;RERUN=cap
 # ===== LE738（CC 帳號 A 接班 11-10，使用者「電腦測試都跑完了，趕快安排新的」）：開發分支 modest-rubin 最新 e73888074c（B1 中庭門上壁燈、玻璃門透光；B1 寄物櫃；LAWWW-B 04:1x 交班時的版本）=====
 LE738_b1court | e73888074c | probe | docs/story_planning/test_tools/cc/lawww_b1court_shot_probe.py | index.html | 20 | X=1
 LE738_p0 | e73888074c | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
@@ -65,8 +68,6 @@ X257_old | fca5f80a386dd529fcd40a749b809ec30c5bb3eb | probe | docs/story_plannin
 X276_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=new;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
 X276_old | 3f6dba142276f8cefcc52570f9b659b930d00861 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=old;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
 # X296（BB 08:52）：總圖大廳樓層簡介只留一塊（LAWWW 7a019726d；改前 9f3133b99）。直向＋橫向：互動點數（新 1／舊 2）、真的走到、按下去全文（B1＝24 小時自習室、1F～3F）、對話框沒被切
-X296_new | 7a019726dfddc3f90dc0cc60189db19084871503 | probe | docs/story_planning/test_tools/cc/cc_lib_directory_probe.py | index.html | 25 | TAG=new
-X296_old | 9f3133b998dc3cf4631f019d085e59a8550f5d29 | probe | docs/story_planning/test_tools/cc/cc_lib_directory_probe.py | index.html | 25 | TAG=old
 # X254 窗景巡拍（BB 08:46，WINVIEW-AUDIT-1105）：探針寫好排在這裡、WAKE 前面
 # WAKE a r2（BB 08:1x 第 4 項）：r1 新舊同一步 FAIL＝剛到校園時「提示」蓋著，按 📱 手機沒打開（截圖證實）＝TEST_BUG；探針改成確認手機開了再點。b 在 WAKE_new 已 PASS（起床選單有出）
 WAKE_a_new2 | 8677568a378f133e45179f251f37f9dfa75943e6 | probe | docs/story_planning/test_tools/cc/cc_wake_stale_probe.py | index.html | 60 | CASES=a
