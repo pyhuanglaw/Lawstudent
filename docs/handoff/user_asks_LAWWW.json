@@ -3662,6 +3662,16 @@
    "wants": "X277",
    "task": "GIFT-HOLIDAY-1110",
    "src": "使用者對 LAWWW-B，AskUserQuestion"
+  },
+  {
+   "id": "UA-LAWWW-1110-15",
+   "at": "2026-11-10T01:0xZ",
+   "quote": "好感度到一定程度 聖誕節或情人節(七夕還有2/14) 對方也會送我禮物 只限可攻略對象",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X278",
+   "task": "GIFT-HOLIDAY-1110",
+   "src": "使用者對 LAWWW-B（接 X277；七夕算情人節）"
   }
  ]
 }
