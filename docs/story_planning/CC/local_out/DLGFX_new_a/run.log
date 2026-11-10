@@ -1,0 +1,34 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_dlgfx_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DLGFX_new_a\out
+CC DLGFX（DLG-FX-MECH-1110）：TAG new；SHA 0160bb208cd10b06c5dd98851a59beb5db0e7bd2；CASES DATE,TERMEND；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  23.9s] 畫面上的版本：版本 v9.10.24
+  [前置／捷徑] [DATE] day46 10:00、清邀約；heroine_01 的戀愛 npcRom 9 → 15（出去玩的門檻 15，同 cc_outing_gate R15）；拿掉 dating_heroine_01、冷淡期
+  [  33.5s] [DATE] 不選的（心願那一類／心願地點／去過的地點＝不是 first）：["她說過想去的", "國家人權博物館景美紀念園區"]
+PASS [DATE] 手機「朋友」有 heroine_01
+PASS [DATE] 「出去玩…」可以選  [{"t": "念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館", "dim": false}, {"t": "吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜", "dim": false}, {"t": "喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café", "dim": false}, {"t": "看電影、逛書店…南洋戲院、頁間書屋、山嵐書店", "dim": false}, {"t": "散步…溫州街、映月湖、一一八茶飲", "dim": false}, {"t": "運動…新體育館羽球場、椰影大道、游泳池", "dim": false}, {"t": "出去玩…選地點、日期、時間", "dim": false}, {"t": "算了", "dim": false}]
+  [  48.9s] [DATE] 約的一路選了：["臺北市：看展・電影…華山1914文創園區、松山文創園區、參創生活園區、西門町電影院、光典臺北、臺北市立美術館", "華山1914文創園區臺北市　捷運 約 25 分", "今天 11/1（六）", "15:00 出發回到首都帝大約 18:20"]；約好：{"trip": "T0004", "day": 46, "depart": 15, "back": 18.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half", "spots": []}
+PASS [DATE] 約成了（G.trips 有一筆 booked）  {"trip": "T0004", "day": 46, "depart": 15, "back": 18.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half", "spots": []}
+  [前置／捷徑] [DATE] 【捷徑】出發前 61 分鐘（提醒 60 分鐘前跳「現在出發」）：日期改到第 46 天、13.983 點（G 其他欄位不動）
+  [  86.2s] [DATE] 行程結束：{"trip": "T0004", "day": 46, "depart": 15, "back": 18.333333333333332, "status": "done", "locs": ["D01"], "kind": "half", "spots": ["D01.expo", "D01.market", "D01.lawn", "D01.wall"]}
+  [  86.4s] [DATE] 原文 31 句、選單 10 個、SOCIAL.adjust 4 筆；關係 {"fam": 100, "trust": 45, "comf": 49, "npcRom": 15, "rom": 9} → {"fam": 100, "trust": 47, "comf": 56, "npcRom": 21, "rom": 13}；選的：[["現在出發華山1914文創園區　捷運 約 25 分鐘"], ["「……對。」"], ["老倉庫裡的展覽30 分　250 元"], ["「妳猜什麼？」"], ["週末市集20 分"], ["「不需要也可以買。」"], ["大草地20 分"], ["「往後靠。」"], ["紅磚牆前15 分"], ["「笑一下。」"]]
+PASS [DATE] 流程走完（沒有 60 秒沒進展、沒有逾時）  {"stuck": false, "done": true, "secs": 32.3}
+PASS [DATE] 最後沒有對話框、選單開著  {"zone": "dorm", "dlg": false, "choices": 0, "busy": false, "hour": 17.26, "dtext": "（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）"}
+PASS [DATE] 沒有連續重複的句子（同一句連續兩次）  []
+PASS [DATE] 沒有 JS 例外  []
+PASS [DATE] walkFallbacks 0（這一項 0 → 0）
+PASS [TERMEND] 前置：有 Y1S1 的期末時段  {"id": "Y1S1", "from": 93, "to": 103, "termTo": 96}
+  [  91.9s] [TERMEND] 讀檔以後先有的劇情（照 pe.settle 點完，不算這一項）：["（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）"]
+  [前置／捷徑] [TERMEND] 日期改到 Y1S1 期末時段第一天（第 93 天）12:00（day46 存檔其他欄位不變）
+  [前置／捷徑] [TERMEND]【捷徑】TERMEND.rec(Y1S1).picked＝{heroine_01, friend}＋TERMEND.planDinner（＝termend3d.js S.pickCheck 那一行：玩家在手機答應了她的期末飯）：{"ok": true, "had": null, "w": {"id": "Y1S1", "from": 93, "to": 103, "termTo": 96}, "q": {"id": "te_Y1S1", "day": 95, "h": 18.5, "travelH": 0.25, "title": "學期末的飯：沈以安（系館附近的簡餐）", "place": "系館附近的簡餐"}, "open": null}
+PASS [TERMEND] 排好了期末飯（OUT 有一筆 planned）  {"ok": true, "had": null, "w": {"id": "Y1S1", "from": 93, "to": 103, "termTo": 96}, "q": {"id": "te_Y1S1", "day": 95, "h": 18.5, "travelH": 0.25, "title": "學期末的飯：沈以安（系館附近的簡餐）", "place": "系館附近的簡餐"}, "open": null}
+  [前置／捷徑] [TERMEND] 【捷徑】期末飯前 24 分鐘（OUT.due：開始前 travelH＋15 分鐘起跳「出發」）：日期改到第 95 天、18.100 點（G 其他欄位不動）
+  [ 109.4s] [TERMEND] 飯桌那一句（FRIEND.openByTerm.Y1S1）期望 null；實際 []；出遊結束 {"state": "done", "day": 95, "h": 18.5}
+  [ 109.5s] [TERMEND] 原文 10 句、選單 2 個、SOCIAL.adjust 0 筆；關係 {"fam": 100, "trust": 45, "comf": 49, "npcRom": 9, "rom": 9} → {"fam": 100, "trust": 45, "comf": 49, "npcRom": 9, "rom": 9}；選的：[["出發：學期末的飯：沈以安（系館附近的簡餐）18:30　走過去約 15 分鐘"], ["「我也會去總圖。」"]]
+PASS [TERMEND] 流程走完（沒有 60 秒沒進展、沒有逾時）  {"stuck": false, "done": true, "secs": 13.0}
+PASS [TERMEND] 最後沒有對話框、選單開著  {"zone": "dorm", "dlg": false, "choices": 0, "busy": false, "hour": 20.51, "dtext": "（餐盤疊好，拿去回收。外面的路燈已經亮了。）"}
+PASS [TERMEND] 沒有連續重複的句子（同一句連續兩次）  []
+PASS [TERMEND] 沒有 JS 例外  []
+PASS [TERMEND] walkFallbacks 0（這一項 0 → 0）
+PASS 全程沒有 JS 例外  []
+ALL PASS
