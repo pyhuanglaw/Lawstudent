@@ -144,6 +144,8 @@ async def part_shots(pg, cdp):
     HRS = [float(x) for x in (os.environ.get('HOURS') or '14,18.5,20.5').split(',')]   # r2（BB 21:05）：第 2 版加 17:15（HOURS=14,17.25,18.5,20.5）
     for h in HRS:
         await at(pg, cdp, 'tingzhou', h, 0.0, 6.0, '（拍照）'); await pg.evaluate("window.__TZ=[]")
+        sg = await pg.evaluate("(()=>{ const z=(typeof E3!=='undefined'&&E3.zone)||(GAME.E&&GAME.E.zone)||{}; return {tzScooterGLB:z.tzScooterGLB===undefined?'undefined':z.tzScooterGLB}; })()")
+        R.note('[SHOTS %.2f] 正式機車模型載入台數 zone.tzScooterGLB＝%s（undefined＝沒載入、畫面上是套件的備用機車；LAWWW2 22:19）' % (h, J(sg)))
         hh = '%02d:%02d' % (int(h), int(round((h % 1) * 60)))
         V = [('巷A出口看泰米村食', (7.0, 1.65, 0.0), (-8.0, 3.0, -1.0), 55), ('概念圖機位', (4.6, 1.65, 34.5), (-6.5, 3.0, 12.0), 55),
              ('路中間往南', (0.0, 1.65, -2.0), (0.0, 2.6, 40.0), 60), ('路中間往北', (0.0, 1.65, 2.0), (0.0, 2.6, -40.0), 60)]
