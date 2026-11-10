@@ -143,12 +143,12 @@ X295E_fair_off2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_
 GYMPROPS2_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_gym_props_probe.py | index.html | 20 | SOLO=1;TAG=v2;ACTS=bike,row
 # 同弦夜景（BB 12:04；LAWWW2 dd079901c 加夜間版）：21:00 窗外要是晚上（暗、有燈），不能和白天一樣；改前 be84c8680 先跑（預期 21:00 和白天一樣）；改後等 LAWWW 整合 SHA
 WINVIEW_tx_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tongxian;HOURS=14,21
-#HOLD WINVIEW_tx_new | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tongxian;HOURS=14,21
-# SUNNY SIDE、日常失速、小路（BB 12:16；LAWWW2 a15058787 拿掉擋住的備用卡通窗、小路改用模型照片卡）：窗外要是照片卡寫實街景，不能還是卡通樹／樓；小路 14 時沒開（18–02）只拍 19 時；改前 be84c8680，改後等 SHA
-WINVIEW_sso_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 20 | SHOPS=sunnyside,offbeat;HOURS=14
-WINVIEW_kmc_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=komichi;HOURS=19
-#HOLD WINVIEW_sso_new | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 20 | SHOPS=sunnyside,offbeat;HOURS=14
-#HOLD WINVIEW_kmc_new | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=komichi;HOURS=19
+WINVIEW_tx_new | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tongxian;HOURS=14,21
+# （12:2x：小路取消；LAWWW a2de61545 整合，SUNNY SIDE／日常失速改 14＋21 時（LAWWW 要白天晚上）、同弦改後打開）SUNNY SIDE、日常失速、小路（BB 12:16；LAWWW2 a15058787 拿掉擋住的備用卡通窗、小路改用模型照片卡）：窗外要是照片卡寫實街景，不能還是卡通樹／樓；小路 14 時沒開（18–02）只拍 19 時；改前 be84c8680，改後等 SHA
+WINVIEW_sso_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 20 | SHOPS=sunnyside,offbeat;HOURS=14,21;OWN_ALL=1
+#CANCEL（BB 12:18：小路維持視差窗）WINVIEW_kmc_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=komichi;HOURS=19
+WINVIEW_sso_new | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 20 | SHOPS=sunnyside,offbeat;HOURS=14,21;OWN_ALL=1
+#CANCEL（BB 12:18：小路維持視差窗）HOLD WINVIEW_kmc_new | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=komichi;HOURS=19
 # X295E fair r3（CC 11:4x）：X295E_new 園遊會互動鍵是「騎腳踏車」——存檔騎著車、到了攤位旁車停在那裡？；探針先選選項（舊版點台詞框 190 次）；keep＝照存檔騎車過去、off＝起點先下車；開發分支 head
 X295E_fair_keep | bb8a32765065cc64530791f42aee631e06133b12 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep;CASES=fair;BIKE=keep
 X295E_fair_off | bb8a32765065cc64530791f42aee631e06133b12 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_off;CASES=fair;BIKE=off
