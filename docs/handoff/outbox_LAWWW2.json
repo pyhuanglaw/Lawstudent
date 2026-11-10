@@ -7012,6 +7012,20 @@
    "noDirectIntegrate": false,
    "note": "AA 12ae10d3e 的透空與鏡頭牆被 SUNNY v1e／小路 v4 配置蓋掉了；照現在 GLB 材質名重加 seeThru＋camWalls（SUNNY 左、後牆；小路右、後、左牆），sync 到 wz_shops_layout。新測試：開發 SUNNY 擋 37／224、小路 126／288 → 0。相關 30 支：29 PASS，aa655_wz_rename FAILED 1 開發原樣也一樣（story3d.js GIFTH 對照表的「兩點半 Café」）。 ｜ LAWWW 11-10 10:30 接進開發分支 9d4c54c16（wz_seat_cams、sync --check OK）；aa655 的舊店名 LAWWW 已修 78762a2b1。",
    "next": "CC 拍吧台、卡座坐下轉一圈；BB 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "FAIR-TENT-CAM-1102（社博帳篷擋跟隨鏡頭）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/fair_tent_cam_1110/（README、fair_tent_cam_9d4c54c16.patch、fair_tent_cam_unit.js、regression_9d4c54c16.txt）"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "社博正式模型每攤一個合併網格、帳篷頂分不開 → 整攤接樹幹透視（zones3d.js fairSeeThru）。新測試：大一穿過 421 次、大二 1861 次，開發全部擋住 FAIL → 0 ALL PASS；社博相關 11 支＋校園 seethru 2 支 ALL PASS。",
+   "next": "LAWWW 套 patch；CC 社博兩天走攤位中間、站攤位後面；BB 判"
   }
  ]
 }
