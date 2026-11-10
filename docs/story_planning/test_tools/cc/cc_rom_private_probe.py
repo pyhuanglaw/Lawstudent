@@ -179,6 +179,12 @@ async def meet_once(pg, cdp, run, cat, words, tag, pick=None):
     while time.time() - t0 < 900:
         q = await P.ts(pg)
         if q['phone']:   # 手機開著會蓋住選單（「直接過去／自己走過去」在手機後面，按了沒反應）：先收起來
+            if reopen == 0:   # BB 11-10 09:37：玩家沒有手動關手機時，選單是不是真的被手機蓋住（遊戲 UI 問題 vs 探針問題）——收之前先留證據
+                cov = await pg.evaluate(r"""(()=>{ const vis=e=>!!(e&&e.offsetParent!==null&&getComputedStyle(e).display!=='none'); const bs=[...document.querySelectorAll('#choices button,#choices .choice')].filter(vis);
+                  return bs.map(b=>{ const r=b.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2, h=document.elementFromPoint(x,y); return {t:(b.innerText||'').trim().slice(0,30), hit:!!h&&(h===b||b.contains(h)), top:h?((h.id||'')+'.'+(h.className||'')).slice(0,40):null}; }); })()""")
+                info('[%s] 按「前往」以後手機還開著（玩家沒有手動關）：選單 %d 個；每個按鈕中心點按得到嗎 %s' % (tag, len(cov), J(cov)), '')
+                await run.shot(pg, '%s_phone_over_menu' % tag)
+                if cov: check('[%s] UI：按「前往」以後出現的選單沒有被手機蓋住（玩家不用自己關手機就按得到）' % tag, all(c['hit'] for c in cov), J(cov))
             reopen += 1; await L.phone_away(pg, cdp); await P.phone_close(pg, cdp)
             if reopen > 12: break
             continue
