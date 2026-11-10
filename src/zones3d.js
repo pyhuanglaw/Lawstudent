@@ -1593,14 +1593,14 @@ const Z3 = (function(){
      改成直接混到目標色（輸出色空間 [110,120,130]、往上亮一點，混 85%，alpha 一起混到 1：透明不透明都一樣）——結果不受玻璃原本多暗、透明度影響；skyBox 往東延到東南角那一片。 */
   const GLASS_SKY=0x6e7882, GLASS_SKY_K=0.85;   /* 第 3 版：目標色 [110,120,130]（輸出色空間），往上亮一點（×0.9～1.1）；混 85%（還看得到一點窗框後面的東西）*/
   function glassSky(o,mt,bx){
-    if(!mt.userData.skyPatch){ const U=mt.userData.skyPatch={uDay:{value:0},uMin:{value:new THREE.Vector3(bx[0],bx[1],bx[2])},uMax:{value:new THREE.Vector3(bx[3],bx[4],bx[5])},uCol:{value:new THREE.Color(GLASS_SKY)}}, prev=mt.onBeforeCompile, k0=mt.customProgramCacheKey;
+    if(!mt.userData.skyPatch){ const U=mt.userData.skyPatch={uDay:{value:0},uMin:{value:new THREE.Vector3(bx[0],bx[1],bx[2])},uMax:{value:new THREE.Vector3(bx[3],bx[4],bx[5])},uCol:{value:new THREE.Vector3(((GLASS_SKY>>16)&255)/255,((GLASS_SKY>>8)&255)/255,(GLASS_SKY&255)/255)}}   /* 第 4 版（v2D）：輸出色空間的數值直接傳（THREE.Color(hex) 會轉成線性：0x6e7882 → (40,48,57)，v2c 因此比 v2b 暗；v2b 的 0x4f5f73 → (20,29,44)＝CC 量到的「只到三成」）*/, prev=mt.onBeforeCompile, k0=mt.customProgramCacheKey;
       mt.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,{uSkyDay:U.uDay,uSkyMin:U.uMin,uSkyMax:U.uMax,uSkyCol:U.uCol});
         sh.vertexShader='varying vec3 vSkyP;\n'+sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n  vSkyP=position;');
         sh.fragmentShader='uniform float uSkyDay;\nuniform vec3 uSkyMin, uSkyMax, uSkyCol;\nvarying vec3 vSkyP;\n'+sh.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n'+
           '  if(uSkyDay>0.0&&all(greaterThanEqual(vSkyP,uSkyMin))&&all(lessThanEqual(vSkyP,uSkyMax))){\n    float skyF=uSkyDay*'+GLASS_SKY_K.toFixed(3)+';\n'+
           '    #ifdef USE_FOG\n    skyF*=1.0-fogFactor;\n    #endif\n    float skyT=clamp((vSkyP.y-uSkyMin.y)/max(uSkyMax.y-uSkyMin.y,0.01),0.0,1.0);\n'+
           '    gl_FragColor=mix(gl_FragColor,vec4(uSkyCol*(0.9+0.2*skyT),1.0),skyF);\n  }'); };
-      mt.customProgramCacheKey=function(){ return (k0?k0.call(this):'')+'|glassSky3'; }; mt.needsUpdate=true; }
+      mt.customProgramCacheKey=function(){ return (k0?k0.call(this):'')+'|glassSky4'; }; mt.needsUpdate=true; }
     const U=mt.userData.skyPatch; o.onBeforeRender=function(){ U.uDay.value=Math.max(0,Math.min(1,1-(mt.emissiveIntensity||0)/(mt.userData.nightI||1))); }; }
   function attachWenzhouModel(E,g,root,tag,name,tagVal){ let n=0; const box=new THREE.Box3(), sz=new THREE.Vector3(); const signFaces=[], plateFaces=[], intFaces=[];   /* tag＝套件建築上的標記（wzApt 公寓、wzJp 日式宿舍與院牆、ggShop 公館店面、ckTag 校園地標）；tagVal：只藏標記等於這個值的（校園一棟一個模型） */
     for(const b of g.children) if(b.userData&&b.userData[tag]&&(tagVal===undefined||b.userData[tag]===tagVal)){ if(b.isMesh) b.visible=false; else for(const m of b.children) if(m.isMesh||m.isSprite){ m.visible=false; if(m.isSprite&&m.userData.nightO!==undefined){ m.userData.nightO=0; m.userData.dayO=0; } } b.userData.formal=true; n++; }   /* 套件的光暈（TK.glowSprite）：TK.setNight 每次會依時段重設 visible，只藏起來的話晚上又會出現（和正式模型的光暈疊在一起）→ 日夜的亮度都設成 0 */

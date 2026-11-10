@@ -376,6 +376,11 @@ def finish(root, accs, VC, plates, out, note):
     if pre == 'by' and SKYBOX:   # 玻璃網格（材質 ck_glass）的 extras.skyBox：遊戲 zones3d.js attachWenzhouModel 讀
         gls = [ob for ob in root.children_recursive if ob.type == 'MESH' and ob.material_slots and ob.material_slots[0].material and ob.material_slots[0].material.name == 'ck_glass']
         assert len(gls) == 1, ('ck_glass 的網格不是一個', [ob.name for ob in gls])
+        # 第 4 版（v2D，BB 11-10 v2c：東南角三版都沒變）：「東南角那一片」其實是東立面一樓的玻璃（朝東，x≈−21.16、z −75.25～−84.25），
+        # 範圍的 z 只到帷幕往內 0.7 m，只碰到它的邊。照玻璃網格實際的頂點，把範圍往南延到東立面一樓那一片的盡頭（一樓沒有別的玻璃在這個範圍裡，測試第 3 項會查）
+        _M = gls[0].matrix_world; _g = [(_M @ v.co) for v in gls[0].data.vertices]; _g = [(q.x, q.z, -q.y) for q in _g]   # Blender → 校園座標（glTF：y 朝上、z＝−Blender y）
+        _e = [q for q in _g if q[1] <= SKYBOX[4] and q[0] >= SKYBOX[3] - 0.4]
+        if _e: SKYBOX[2] = min(SKYBOX[2], min(q[2] for q in _e) - 0.05)
         gls[0]['skyBox'] = [round(v, 3) for v in SKYBOX]
     info = L.export(out, gpu_instances=False); info['note'] = note
     L.write_json(out[:-4] + '.json', info)

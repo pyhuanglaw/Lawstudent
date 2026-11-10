@@ -39963,7 +39963,7 @@
    },
    "source": "LAWWW2 11-02 04:39（交接檔有、總表沒有）",
    "authorized": "D108",
-   "next": "【LAWWW 11-10 12:3x】第 3 版 v2C（LAWWW2 8ff6e7d4a；D141 最後一版）：skyBox 延到東南角那片、shader 改成直接混 85% 到 [110,120,130]（不靠原本玻璃的亮度）；putong101_window、teach_east_drawcall 等 4 支 ALL PASS；GLSL 只能瀏覽器編譯，CC 重拍 putong_north＋博思東南角量平均色、看 console。之後只改使用者說的或擋玩的（D141）。 ｜ 【LAWWW 11-10 12:2x】BB_255（12:21）：v2B 還是 PARTIAL（已回 LAWWW2，不擋；D141 最多再 1 版）。 ｜ 【LAWWW 11-10 11:5x】第 2 版 B（LAWWW2 ba050767a）：by_glass extras.skyBox＋zones3d glassSky shader，白天帷幕範圍加 #4f5f73、晚上 0，不多網格；putong101_window（開發 FAIL 2→ALL PASS）、teach_east_drawcall（博雅 4 網格）等 6 支 ALL PASS；GLSL 只在瀏覽器編譯，CC 開校園看 console、teach_views.py putong_north 重拍，BB 判。 ｜ 【LAWWW 11-10 10:4x】LAWWW2 a43da6a27：博思一樓帷幕（普通 101 北窗外）改亮一點的灰藍漸層（0.26→0.48），只動這一片；campus_boya.glb 重匯；putong101_window、e05_putong、nav_teach、teach_east_drawcall ALL PASS；CC 跑 teach_views.py putong_north 重拍窗景、BB 用 n28 角度看＋從校園外看博思一樓。 ｜ 【LAWWW（帳號 A）04:4x 登記】1.5～3.5h；D120 起由 BB 驗收場景美術，改好給 BB 看",
+   "next": "【LAWWW 13:3x】v2D（LAWWW2 380ceac62）＝v2C 的 bug 修正、不是新設計：①顏色用 THREE.Color 被轉成線性（0x6e7882→(40,48,57)），改傳輸出色空間 [110,120,130]；②東立面一樓 z 到 −84.25、skyBox 只到 −75.37，延到 −84.3。putong101_window 第 3 項改成一樓玻璃全部在範圍、新增第 5 項查顏色值、第 4 項拿掉 getHex（依據：v2C 規格本來就是 [110,120,130]、東南角在範圍內）；開發 FAIL 2→ALL PASS。D141：設計仍是第 3 版；這次是讓第 3 版照規格生效，之後只改使用者說的或擋玩的。CC 重拍 putong_north＋博思東南角。 ｜ 【LAWWW 11-10 12:3x】第 3 版 v2C（LAWWW2 8ff6e7d4a；D141 最後一版）：skyBox 延到東南角那片、shader 改成直接混 85% 到 [110,120,130]（不靠原本玻璃的亮度）；putong101_window、teach_east_drawcall 等 4 支 ALL PASS；GLSL 只能瀏覽器編譯，CC 重拍 putong_north＋博思東南角量平均色、看 console。之後只改使用者說的或擋玩的（D141）。 ｜ 【LAWWW 11-10 12:2x】BB_255（12:21）：v2B 還是 PARTIAL（已回 LAWWW2，不擋；D141 最多再 1 版）。 ｜ 【LAWWW 11-10 11:5x】第 2 版 B（LAWWW2 ba050767a）：by_glass extras.skyBox＋zones3d glassSky shader，白天帷幕範圍加 #4f5f73、晚上 0，不多網格；putong101_window（開發 FAIL 2→ALL PASS）、teach_east_drawcall（博雅 4 網格）等 6 支 ALL PASS；GLSL 只在瀏覽器編譯，CC 開校園看 console、teach_views.py putong_north 重拍，BB 判。 ｜ 【LAWWW 11-10 10:4x】LAWWW2 a43da6a27：博思一樓帷幕（普通 101 北窗外）改亮一點的灰藍漸層（0.26→0.48），只動這一片；campus_boya.glb 重匯；putong101_window、e05_putong、nav_teach、teach_east_drawcall ALL PASS；CC 跑 teach_views.py putong_north 重拍窗景、BB 用 n28 角度看＋從校園外看博思一樓。 ｜ 【LAWWW（帳號 A）04:4x 登記】1.5～3.5h；D120 起由 BB 驗收場景美術，改好給 BB 看",
    "xai": {
     "spec": "LAWWW2 HANDOFF.md",
     "branch": "claude/second-ai-env-art",
@@ -39971,7 +39971,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "sha": "8ff6e7d4a"
+   "sha": "380ceac62"
   },
   {
    "id": "D118-B1-1102",
