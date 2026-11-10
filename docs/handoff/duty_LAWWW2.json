@@ -1,10 +1,10 @@
 {
  "role": "LAWWW2",
- "account": "B",
- "session": "session_01GV1WG3UeT2DhuDpxeWJsvD",
- "branch": "claude/funny-albattani-iawshm",
- "state": "handed-off",
- "handedOffAt": "2026-11-10T01:40Z",
- "sha": "49f2fe92",
- "snapshot": "docs/handoff/snapshots/2026-11-10T0140Z_B_LAWWW2.json"
+ "account": "A",
+ "session": "session_01AC1WVgJSmoJK1uRsPK2Zn1",
+ "branch": "claude/second-ai-env-art",
+ "since": "2026-11-10T08:11Z",
+ "state": "on",
+ "sinceSha": "9b3c9b62",
+ "userOk": false
 }

@@ -6,6 +6,23 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
+## ✅ 值班登記（2026-11-10 08:xx UTC；帳號 A LAWWW2；使用者：「是接班 幫我通知其他AI」）
+- 工作階段 `session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`。
+- 接班基準：快轉到 LAWWW2-B 最後一筆 `9b3c9b62b`（`claude/funny-albattani-iawshm`）。帳號 A 上一班的最後一筆 5f85444cd 是它的祖先，所以不用合併。
+- RULE_SOURCE：`claude/modest-rubin-2lyp7g`（duty find，seq 124；值班：沒有人，上一任 B）；規則 SHA `6c6bfd421`。
+- `duty register` 已寫 `duty_LAWWW2.json`，等值班 LAWWW `duty sync`。
+- `roles` OK：LAWWW2 158 行全部待辦都在總表。
+- 已通知帳號 A 的 LAWWW、AA、BB、CC，四則都是 DELIVERED。CC 已經接班，也回了 ACK。
+- 帳號 B 期間使用者說過、還沒做完、歸 LAWWW2 的（USER_WANTS）：
+  - X283 CAMPUS-FLOOR-STRIP-1110 路緣長條：補丁 READY_FOR_REVIEW，還沒交件。
+  - X285 AVENUE-FAR-SIGNS-1110 椰影大道遠景都是補習班：只查了、還沒改。
+  - X289 YIZHAN-FLOAT-CUPS-1110 一盞飲料飄在半空：要查。
+  - X294 LAWCLUB-BOOTH-MOVE-1110 法服攤位搬到法學院前：要做。
+  - X276 SIS-STATIONERY-1110 山嵐文具區：WIP 第二輪。
+  - X296 總圖樓層簡介看板浮空、X298／X299 總圖 B1：LAWWW 先處理了，等我看要不要收進 Blender。
+  - 更早的：X227、X228、X229、X239、X247、X254、X257。照 user_asks_LAWWW2.json 和 TODO_SHORTCUTS.md。
+- 下一步照下面交班一節的 D：先把 `wip/campus_curb_gap_1110/` 交給 LAWWW → 做 AVENUE-FAR-SIGNS-1110 → 一盞飲料 → 法服攤位 → SIS-STATIONERY-1110。
+
 ## 🔁 交班（2026-11-10 01:4x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 
 **交班紀錄不代表新帳號已經接班。** 分支 `claude/funny-albattani-iawshm`，最後一筆 commit 見 `git log -1 origin/claude/funny-albattani-iawshm`（就是寫這一段的那一筆）。開發分支基準 `a883f36de`。
