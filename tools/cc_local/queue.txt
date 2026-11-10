@@ -57,9 +57,6 @@ SVC2_new | a883f36de45740335f9a1ea30d8512d1f5a9c4a9 | probe | docs/story_plannin
 SVC2_old | bc9c1408c0dfb82cbd1fa49d6a64e1d92e94d213 | probe | docs/story_planning/test_tools/cc/cc_service2_probe.py | index.html | 40 | CC_HEADLESS=0
 # X295 三支（BB 08:45）：探針雲端試跑後排在這裡
 # X295B（BB 10:21）：改用 7f2093f92（BUG-DLG-NEXT-OVERLAP-1110 #dlgText padding-bottom 16px＋P3 先問「看公告（N 則）／先不看」）；直向三行頁重疊要 0；skip＝選先不看馬上關、互動鍵恢復；改前照舊 10df264ed（疊字改前證據＝8c050804c 雲端 FAILED 6）
-X295B_new | 7f2093f9282ca36ec56109736e8ba8aa6f4736a9 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 40 | TAG=new
-X295B_new_1103 | 7f2093f9282ca36ec56109736e8ba8aa6f4736a9 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 40 | TAG=new1103;DATE=2025-11-03
-X295B_skip | 7f2093f9282ca36ec56109736e8ba8aa6f4736a9 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 30 | TAG=skip;ASK=skip
 X295B_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 30 | TAG=old
 # X295 clubs（社課入社單；雲端 8c050804c 六段 PASS、later 第 5、6 週 PASS、第 7 週雲端還在跑）：新 8c050804c／改前 10df264ed（沒有 LATE_JOIN，預期 FAIL）
 # （11-10 10:41 CC：SHADER 原本插在 X307 第三輪那一段前面，可是那一段在 X295B／GGDC 下面，PC 先跑了那些＝我排錯位置；移到這裡＝下一個就跑）
@@ -68,6 +65,10 @@ SHADER_new | d8b669175bcf363974b401e1eed3d6709f2b0949 | probe | docs/story_plann
 SHADER_p0 | d8b669175bcf363974b401e1eed3d6709f2b0949 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 SHADER_zone | d8b669175bcf363974b401e1eed3d6709f2b0949 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
 SHADER_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 30 | TAG=old
+# X295B r2（7f2093f92）：r1「看公告／先不看」在第 1 頁以後才出現、探針以為關了＝TEST_BUG；修好提前重跑
+X295B_new | 7f2093f9282ca36ec56109736e8ba8aa6f4736a9 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 40 | TAG=new;RERUN=ask2
+X295B_new_1103 | 7f2093f9282ca36ec56109736e8ba8aa6f4736a9 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 40 | TAG=new1103;DATE=2025-11-03;RERUN=ask2
+X295B_skip | 7f2093f9282ca36ec56109736e8ba8aa6f4736a9 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 30 | TAG=skip;ASK=skip;RERUN=ask2
 X295C_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_clubs_probe.py | index.html | 120 | TAG=new
 X295C_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_x295_clubs_probe.py | index.html | 60 | TAG=old
 # X295 events（迎新派對 9/12、捐血 10/14→10/15、學生會電影夜 11/6、園遊會 11/15；雲端改後四段分次 PASS，fair 選單判斷修正後沒重跑）：新 8c050804c／改前 10df264ed（四個 id 都沒有，預期 FAIL）

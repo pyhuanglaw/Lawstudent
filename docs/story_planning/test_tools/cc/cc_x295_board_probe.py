@@ -164,9 +164,20 @@ async def one_board(pg, cdp, orient, zone, key, label0, zfilter):
         return
     # 改後：一頁一頁
     seen = []; missed = []; closed = False
+    asked = False
     for i in range(MAXP):
         u, stuck = await wait_typed(pg, TYPE_S)
-        if not u['dlg']: closed = True; break
+        if not u['dlg']:
+            chs = await pg.evaluate(CH)   # r1（PC 10:3x）：7f2093f92 的「看公告（N 則）／先不看」是在第 1 頁（look）點掉以後才出現＝探針以為關掉了（TEST_BUG）
+            if not asked and any(c.startswith('看公告') for c in chs):
+                asked = True; R.note('%s 第 1 頁以後先問：%s' % (tag, J(chs))); await pg.screenshot(path=os.path.join(OUT, 'x295_%s_%s_%s_0ask.png' % (TAG, orient, key)))
+                R.check('%s 先出現「看公告（N 則）／先不看」' % tag, any(c.startswith('先不看') for c in chs), J(chs))
+                if ASK == 'skip':
+                    await pg.evaluate(PICK, '先不看'); await L.tap(pg, cdp, '[data-ccpick="1"]'); await pg.wait_for_timeout(1500); u2 = await pg.evaluate(UI); s2 = await D.st(pg)
+                    R.check('%s 選「先不看」馬上關掉、互動鍵恢復「%s」' % (tag, label0), not u2['dlg'] and not u2['busy'] and not (await pg.evaluate(CH)) and s2['interact'].startswith(label0), J({'ui': {k: u2[k] for k in ('dlg', 'busy')}, 'interact': s2['interact']}))
+                    await pg.screenshot(path=os.path.join(OUT, 'x295_%s_%s_%s_0skip.png' % (TAG, orient, key))); return
+                await pg.evaluate(PICK, '看公告'); await L.tap(pg, cdp, '[data-ccpick="1"]'); R.note('%s 選「看公告」' % tag); await pg.wait_for_timeout(900); continue
+            closed = True; break
         if stuck:
             # 字打太慢（SwiftShader 低幀率）：手指點一下＝這一頁整頁出來（不是翻頁）。剛好打完的那一瞬間點到會翻到下一頁——用全文認頁，翻過頭照實記
             full0 = u['full']; R.note('%s 第 %d 頁 %d 秒字還沒打完：手指點一下讓它整頁出來' % (tag, i + 1, TYPE_S)); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700)
