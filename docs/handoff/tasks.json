@@ -50497,6 +50497,64 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": null,
    "test": null
+  },
+  {
+   "id": "SEAT-NO-ASK-1110",
+   "title": "去上課不再問坐哪裡：直接坐老位子，沒有就中間（朋友占位子之後再加）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次從手機「今天」或下課選單去上課",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 00:5x LAWWW-B】使用者選「先直接坐，占位子之後再加」。CLS.seatPick 一律坐第一個；dl01_oneclick 4 改。之後：朋友占位子（AA 台詞）另開。tests/flow_classes.py 原本選「自己找位子」那段要 CC 改探針。",
+   "xai": {
+    "spec": "使用者 11-10 00:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "手機今天、上課提醒、下課直接去下一堂都不問坐哪裡、直接坐好上課",
+    "receiver": "BB（測）",
+    "ack": "未派",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": "1afc519eb7",
+   "test": null
+  },
+  {
+   "id": "LUNCH-NO-ASK-1110",
+   "title": "下課「先去吃飯」不再問吃哪家：直接挑一家",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次從手機「今天」或下課選單去上課",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:0x LAWWW-B】lunchBreak 自動挑：SK03 學活事件優先、其他輪流不連著同一家、錢不夠不吃；eat_after_class、aa350_r 測試更新。",
+   "xai": {
+    "spec": "使用者 11-10 00:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "選「先去吃飯」不跳選單、直接吃一家、學活的劇情照演",
+    "receiver": "BB（測）",
+    "ack": "未派",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": "42fff61057",
+   "test": null
   }
  ]
 }
