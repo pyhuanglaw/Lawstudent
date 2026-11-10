@@ -162,7 +162,8 @@ const HASK=(function(){
     const ord=cands.map((c,i)=>({c,i})).sort((a,b)=>(dating(G,b.c.id)-dating(G,a.c.id))||(lastOf(a.c.id)-lastOf(b.c.id))||((a.c.k==='o'?0:1)-(b.c.k==='o'?0:1))||(placeLast(a.c.id,a.c.from||a.c.place||a.c.loc)-placeLast(b.c.id,b.c.from||b.c.place||b.c.loc))||(a.i-b.i));
     return ord[0].c; };
   /* 改天：3 天後同一個地點再約一次（只再一次；校外照週三才傳＝3 天後的那個週三起）*/
-  S.redoCands=function(G,day0){ const R=S.rec(G), out=[]; for(const r of R.redo){ if(r.done||day0<r.due) continue; const all=S.candidates(G,day0,{id:r.id,k:r.k}).filter(c=>(c.from||c.place||c.loc)===(r.from||r.place||r.loc)); if(all.length) out.push(Object.assign(all[0],{redo:r.sid})); else if(day0>r.due+10) r.done=true; } return out; };   /* 10 天內一直約不成＝這一次的改天作廢 */
+  S.redoBooked=(G,r)=>!!r&&r.k!=='o'&&!!r.place&&(G.invites||[]).some(iv=>iv&&iv.who===r.id&&iv.by==='player'&&iv.place===r.place&&iv.day>=r.due-3&&['accepted','going','done'].includes(iv.state));   /* 改天以後自己約好了同一個地點（HER-ASK-LATER-DAY-1110）*/
+  S.redoCands=function(G,day0){ const R=S.rec(G), out=[]; for(const r of R.redo){ if(!r.done&&S.redoBooked(G,r)) r.done=true; if(r.done||day0<r.due) continue; const all=S.candidates(G,day0,{id:r.id,k:r.k}).filter(c=>(c.from||c.place||c.loc)===(r.from||r.place||r.loc)); if(all.length) out.push(Object.assign(all[0],{redo:r.sid})); else if(day0>r.due+10) r.done=true; } return out; };   /* 10 天內一直約不成＝這一次的改天作廢 */
   S.plan=function(G){ const R=S.rec(G), day0=G.day; if(R.plan===day0) return null; R.plan=day0;
     const rc=S.redoCands(G,day0); const x=S.pick(G,day0,rc.length?rc:S.candidates(G,day0)); if(!x) return null;
     R.seq=(R.seq|0)+1; const rec={sid:R.seq,id:x.id,k:x.k,vk:x.vk,day:x.day,send:x.send,state:'planned'}; if(x.vac) rec.vac=true;   /* AA_532 第 3 節：放假版（舊存檔沒有＝學期中那一句）*/ if(x.k==='o') Object.assign(rec,{loc:x.loc,depart:x.depart,kind:x.kind}); else { Object.assign(rec,{place:x.place,h:x.h,here:!!x.e.here}); if(x.from&&x.from!==x.place) rec.from=x.from; if(x.alt) rec.alt=x.alt; if(x.nl) rec.nl=true; const v0=x.e[x.vk]; if(v0&&(v0.alt||v0.noLab)) rec.line=x.v.line; if(x.vs){ rec.vs=x.vs; rec.line=x.v.line; } }   /* AA_539：記用了哪一句（四週內不重複看 line）；AA_549 3-6：假期版記 vs */ if(x.redo){ rec.redo=x.redo; const r=R.redo.find(q=>q.sid===x.redo); if(r) r.done=true; }
@@ -192,10 +193,11 @@ const HASK=(function(){
     if(ans==='yes'){ s.no=0; say(G,rec.id,(p.yesBy&&p.yesBy[rec.place||rec.loc])||(rec.k==='o'&&p.yesOut)||p.yes); return; }   /* yesOut：校外那一種換一句（AA_532 第 3 節：芷若週三約週六，不說「明天見」）*/
     if(ans==='later'){ s.no=0; say(G,rec.id,p.later); if(!rec.redo){ const R=S.rec(G), due=rec.k==='o'?G.day+3+((3-wdOf(G,G.day+3)+7)%7):G.day+3; R.redo.push(Object.assign({sid:rec.sid,id:rec.id,k:rec.k,place:rec.place,loc:rec.loc,due},rec.from?{from:rec.from}:{})); } return; }
     say(G,rec.id,p.no); s.no=(s.no|0)+1; if(s.no>=2){ s.pause=G.day+(dating(G,rec.id)?14:28); s.no=0; } };
-  /* INV.ON_ANSWER：日常（INV 的邀約）的回覆。改天不打開「自己選時間」（她 3 天後會再約）*/
+  /* INV.ON_ANSWER：日常（INV 的邀約）的回覆。改天＝她回「好。哪天。」以後打開選日子，地點固定她說的那裡（HER-ASK-LATER-DAY-1110，使用者 11-10 X282「沒辦法選哪天」；
+     原本 noFlow、只等她 3 天後再約）。選日子的時候按「算了」＝照舊 3 天後她再約；自己約好了（INV.accept by player、同一個地點）就不再約（S.redoCands）*/
   S.onInv=function(G,iv,ans,res){ if(!iv||!iv.hask) return null; const rec=S.byId(G,iv.hask); if(!rec) return null;
     if(ans==='yes'&&(!res||res.res!=='accept')) return null;   /* 那個時間你已經約了別人：照舊（還可以回）*/
-    S.answered(G,rec,ans); return ans==='later'?{noFlow:true}:null; };
+    S.answered(G,rec,ans); return ans==='later'?(iv.place?{flowPlace:iv.place}:{noFlow:true}):null; };
   /* PHONE.ON_ANSWER：校外、她本來就在那裡（here）的回覆（opts：0 答應、1 改天、2 不了）*/
   S.onAsk=function(G,m,o,k){ const id=m&&m.ask&&m.ask.id; if(!id||id.indexOf('hask_')!==0) return; const rec=S.byId(G,+id.slice(5)); if(!rec||rec.state!=='sent') return;
     const ans=['yes','later','no'][k]||'no';

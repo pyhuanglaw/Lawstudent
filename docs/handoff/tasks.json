@@ -50763,7 +50763,7 @@
    "id": "HER-ASK-LATER-DAY-1110",
    "title": "她主動約、選「改天」以後可以自己選日子（地點照她說的）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50775,7 +50775,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:4x LAWWW-B】使用者 X282「沒辦法選哪天」。heroine_asks3d.js later：她回「好。哪天。」以後（AA_494 0-2 原本是 3 天後她再約、noFlow），改成打開邀約選日子（INV.flow 同一套，地點固定她說的那裡）；不選＝照舊 3 天後她再約。",
+   "next": "【11-10 03:2x LAWWW-B】heroine_asks3d.js S.onInv 改天回 {flowPlace}（不是 noFlow）、S.redoBooked（自己約好同一個地點＝redo done）；invites3d.js S.answer 帶 flowPlace、S.flow 第 5 個參數 fo.place（跳過地點選單）；game3d.js 改天按鈕把 flowPlace 交給 INV.flow。校外（k o）、語彤 AA_625 的照舊。tests/her_ask_later_day_unit.js 修改前 FAIL 5 項；heroine_asks_unit 第 8 項改成新做法；相關 47 支 ALL PASS。等瀏覽器測試。｜【11-10 01:4x LAWWW-B】使用者 X282「沒辦法選哪天」。heroine_asks3d.js later：她回「好。哪天。」以後（AA_494 0-2 原本是 3 天後她再約、noFlow），改成打開邀約選日子（INV.flow 同一套，地點固定她說的那裡）；不選＝照舊 3 天後她再約。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -51182,7 +51182,7 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "sha": "ec38870a8",
    "test": null
   },
   {

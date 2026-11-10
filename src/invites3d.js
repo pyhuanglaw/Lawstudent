@@ -756,7 +756,7 @@ const INV=(function(){
   S.entAt=(G,id,day,h)=>entAt(G,id,day,h);
   /* 回覆對方的邀約：yes＝答應（時間衝突時照樣改天）、later＝改天（玩家另外選時間，走一般的 decide）、no＝不了（不扣分） */
   S.answer=function(G,ivId,ans){ const iv=S.byId(G,ivId); if(!iv||iv.state!=='offered') return null; const nm=nameOf(iv.who), P=S.place(iv.place);
-    const hook=r=>{ for(const f of S.ON_ANSWER){ let x=null; try{ x=f(G,iv,ans,r); }catch(e){ console.warn('INV.ON_ANSWER',e); } if(x&&x.noFlow) r.noFlow=true; } return r; };
+    const hook=r=>{ for(const f of S.ON_ANSWER){ let x=null; try{ x=f(G,iv,ans,r); }catch(e){ console.warn('INV.ON_ANSWER',e); } if(x&&x.noFlow) r.noFlow=true; if(x&&x.flowPlace&&!r.flowPlace) r.flowPlace=x.flowPlace; } if(r.noFlow) delete r.flowPlace; return r; };   /* flowPlace：改天以後自己選日子，地點固定（HER-ASK-LATER-DAY-1110）*/
     if(ans==='yes'){ if(clash(G,null,iv.day,iv.h,P.stay,iv)||tripAt(G,iv.day,iv.h,P.stay)){ S.msg(G,null,'那個時間你已經約了別人。',iv); return hook({res:'mine'}); }   /* 校外約會那段時間也一樣（BUG-DATE-OVERLAP-1021）*/ iv.state='accepted'; iv.accepted=true; S.msg(G,iv.who,'答應了：'+when(G,iv.day,iv.h)+'，'+P.name+'（'+nm+'）。',iv); return hook({res:'accept'}); }
     iv.state='declined'; S.msg(G,iv.who,ans==='later'?'你跟'+nm+'說改天。':'你跟'+nm+'說這次不了。',iv); return hook({res:ans}); };
   /* 臨時改約：to＝{day,h} 新的時間；null＝這次取消 */
@@ -825,7 +825,7 @@ const INV=(function(){
       for(;;){ const ti=await GM.choose(rows.map(r=>({t:hh(r.h),hint:r.ok?'':no,dim:!r.ok})).concat([{t:'換一天'}])); if(!(ti>=0&&ti<rows.length)) break; const r=rows[ti];
         if(!r.ok){ await GM.say(null,no+'。'); continue; } return {t:when(G,day,r.h),day,h:r.h}; } } };
   S.offWhy=(G,P,day)=>P&&Array.isArray(P.off)&&P.off.includes(wdOf(G,day))?P.name+'週'+WK[wdOf(G,day)]+'休':'';   /* 公休日（慢讀咖啡週二休，AA_535 4-1）*/
-  S.flow=async function(GM,id,n,together){ const G=GM.G; S.rec(G); const nm=nameOf(id), c=CHARACTERS[id]||{}, her=c.gender==='f'?'她':'他';
+  S.flow=async function(GM,id,n,together,fo){ fo=fo||{}; const G=GM.G; S.rec(G);   /* fo.place：地點已經定了（她主動約、你回改天：HER-ASK-LATER-DAY-1110），直接選日子和時間 */ const nm=nameOf(id), c=CHARACTERS[id]||{}, her=c.gender==='f'?'她':'他';
     const t7=!n&&t7a(G,id);   /* AA_350 T7a：以安、芷若在台中＝和可昕一樣只有「去校外…」（清單只列 D26，DATE.menu）*/
     const far=!n&&typeof STORY!=='undefined'&&!!STORY.reachable&&!STORY.reachable(id,G);   /* INVITE-MENU-1030 E：手機約、她今天不在臺北（沛珊大三起在台南、寒暑假在老家）＝校內的地點不列（比照 T7a；原本照列、每一個都回「不在臺北」）*/
     const PL=(t7||far?[]:D().places.filter(Q=>!kxGF(G,id)||S.kxPlaceOk(G,Q))).filter(Q=>!Q.show||Q.show(G,id)).filter(Q=>!S.neverAt(id,Q)); let k, P=null;   /* show：還沒開放的地點不列（茶席，src/wzlines3d.js）*/   /* 可昕交往中：答應句接得上的校內地點都可以約（她從政大下來；羽球場用祐廷台大的帳號預約，AA_417 3-2）*/
@@ -844,7 +844,8 @@ const INV=(function(){
     if(fsO) sp.push(Object.assign({},fsO,{go:'fest'}));
     for(const Q of PL) if(S.catsOf(Q).includes('when')) sp.push(leafOf(Q));   /* 有日期的地點（一盞的茶席：每月第三個週日）*/
     nodes.push({t:S.WHEN_LABEL,items:sp});   /* 這個時候才有（AA_535 第 2 節）：過節、茶席、去她的城市、視訊；有才出現，只有一個就直接列 */
-    const x=await S.menuTree(GM,nodes,async x=>{ if(x.P){ const why=S.placeWhy(G,id,x.P); if(!why) return x; await GM.say(null,why);
+    const fixP=fo.place?S.place(fo.place):null;
+    const x=fixP?{P:fixP}:await S.menuTree(GM,nodes,async x=>{ if(x.P){ const why=S.placeWhy(G,id,x.P); if(!why) return x; await GM.say(null,why);
         { const ps=S.partnerBlock(G,id,x.P)&&(((D().people||{})[id]||{}).partnerSay||{})[x.P.id]; if(ps) await S.playLines(GM,n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id},ps); }   /* 有伴侶時她自己的一句（學姊的一盞，AA_172 3b）*/
         return S.STAY_MENU; }
       if(x.go==='fest'&&x.dim){ await GM.say(null,x.hint+'。'); return S.STAY_MENU; } return x; });

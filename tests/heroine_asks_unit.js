@@ -102,7 +102,7 @@ const thread=id=>(H.G.msgs||[]).filter(m=>PHONE.th(m)==='p:'+id);
   check('8. 暫停期間不約',more===0,more); }
 { const G=fresh('2025-09-22',9); friend('heroine_01'); let d=G.day, x=null; for(let n=0;n<20&&!x;n++,d++){ day(d); x=sent().find(q=>q.id==='heroine_01'); }
   const r=INV.answer(G,x.iv,'later'); const last=thread('heroine_01').slice(-1)[0], rd=R().redo.find(q=>q.sid===x.sid);
-  check('8. 改天：她回「好。那改天。」、不打開自己選時間（noFlow）、3 天後同一個地點',!!r&&r.noFlow===true&&last.text==='好。那改天。'&&!!rd&&rd.due===G.day+3&&rd.place===x.place,J({r,rd}));
+  check('8. 改天：她回「好。那改天。」、打開選日子（flowPlace＝她說的地點；2026-11-10 HER-ASK-LATER-DAY-1110 改，原本 noFlow）；沒選的話 3 天後同一個地點再約',!!r&&!r.noFlow&&r.flowPlace===x.place&&last.text==='好。那改天。'&&!!rd&&rd.due===G.day+3&&rd.place===x.place,J({r,rd}));
   let y=null; for(let n=0;n<12&&!y;n++,d++){ day(d); y=sent().find(q=>q.id==='heroine_01'&&q.sid!==x.sid); }
   check('8. 改天以後：同一個地點再約一次（標 redo）',!!y&&y.place===x.place&&y.redo===x.sid&&y.send.day>=rd.due,J(y));
   INV.answer(G,y.iv,'later'); check('8. 再約的那一次又改天：不會再排第三次',!R().redo.some(q=>q.sid===y.sid),J(R().redo)); }
