@@ -170,10 +170,12 @@ async def part_shots(pg, cdp):
                 V.append(('%s 正面' % s3['name'], (-sx * 3.5, 2.2, s3['zc']), (sx * 7.0, 4.2, s3['zc']), 55))
                 V.append(('%s 招牌近拍' % s3['name'], (sx * (1.6 if s3['arc'] else 3.6), 3.4, s3['zc']), (sx * (5.2 if s3['arc'] else 8.4), 3.9, s3['zc']), 48))
                 V.append(('%s 斜看' % s3['name'], (0.0, 1.65, s3['zc'] + 9.0), (sx * 6.0, 3.0, s3['zc']), 55))
+                V.append(('%s 路中間玩家視角' % s3['name'], (-sx * 1.0, 3.2, s3['zc'] + 6.5), (sx * 6.0, 2.6, s3['zc']), 60))   # BB 21:59：站在街上讀得出來（跟隨鏡頭的高度約 3 m、在玩家後上方）
         for lab, frm, at_, fov in V:
-            u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '%s %s' % (hh, lab), 'full': lab in ('概念圖機位', '巷A出口看泰米村食') or os.environ.get('SHOPS3') == '1'})
+            u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '%s %s' % (hh, lab), 'full': lab in ('概念圖機位', '巷A出口看泰米村食') or os.environ.get('SHOPS3') == '1' or os.environ.get('FULLALL') == '1'})
             if u: save(u, 'tz_%s_%s.jpg' % (hh.replace(':', ''), 'concept' if lab == '概念圖機位' else 'alleyA'))
             if os.environ.get('SHOPS3') == '1' and u: save(u, 'tz3_%s_%s.jpg' % (hh.replace(':', ''), lab.replace(' ', '_')))   # 三間每張存全尺寸（拼並排用）
+            elif os.environ.get('FULLALL') == '1' and u: save(u, 'tzf_%s_%s.jpg' % (hh.replace(':', ''), lab.replace(' ', '_')))   # BB 21:59：成排的東西（機車、攤子）要裁放大圖：每張存全尺寸
         for k, (tx, tz) in enumerate(((0.0, 14.0), (0.0, -10.0))):
             await L.go_to(pg, cdp, R, tx, tz, 0.8, '[SHOTS %s] 玩家視角走路' % hh, max_s=40)
             b = await pg.screenshot(type='jpeg', quality=82); await pg.evaluate(PUSHGAME, 'data:image/jpeg;base64,' + base64.b64encode(b).decode())
