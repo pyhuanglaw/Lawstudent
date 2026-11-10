@@ -380,7 +380,8 @@ async def case_other(pg, cdp, who, day_key, film, tag, mode):
         if o_: await pe.choose(pg, cdp, next((t for t in o_ if t.startswith('算了')), o_[-1]), True)   # r4：點開她的選單以後要按「算了」關掉（r3 沒關，後面 M.book 點不到她）
         await pe.close_phone(pg, cdp); await pe.settle(pg, cdp, [], 10)
         R.note('%s %s：時間 %.2f、朋友頁有 %s：%s、選單 %s' % (tag, dk, hr_, who, ok_, J(o_)))
-        if ok_ and mv_ and hr_ < 9.5: break
+        if ok_ and mv_ and hr_ < 9.5:   # r5：預先檢查動過手機，同一天重新讀檔再約（r4 關掉選單後 M.book 點到家裡的選單）
+            await M.load(pg, cdp, M.base_state([who]), day_key=dk, why='%s 08:00、%s 朋友＋聯絡方式（預先檢查後重讀）' % (dk, who)); break
     iv = await M.book(pg, cdp, tag, who, 0)
     if not iv: return
     await setfilm(pg, iv, film, tag)
@@ -466,7 +467,7 @@ async def main():
                 elif c == 'OO_3007': await case_other(pg, cdp, 'heroine_01', ['2030-08-03', '2030-08-10', '2030-08-17'], 'm3007b', '[OO 以安 m3007b]', 'optsother')
                 elif c == 'OO_2805': await case_other(pg, cdp, 'heroine_02', ['2028-05-13', '2028-05-20', '2028-05-27', '2028-06-03'], 'm2805b', '[OO 芷若 m2805b]', 'optsother')   # BB 22:36：以安 2028-03-25～08-05 在日本交換；optsOther 子晴以外都適用 → 芷若
                 elif c == 'NOASK': await case_other(pg, cdp, 'heroine_01', '2026-11-14', 'm2611a', '[NOASK 以安 m2611a]', 'noask')
-                elif c == 'NOFB': await case_other(pg, cdp, 'heroine_01', ['2029-07-28', '2029-08-04', '2029-08-18'], 'm2907a', '[NOFB 以安 m2907a]', 'nofb')
+                elif c == 'NOFB': await case_other(pg, cdp, 'heroine_01', ['2029-08-04', '2029-08-11', '2029-08-18'], 'm2907a', '[NOFB 以安 m2907a]', 'nofb')
                 elif c == 'LATER2': await case_later_movie(pg, cdp)
                 elif c == 'ARC_AN': await case_arcafter(pg, cdp, 'heroine_01', '2027-09-15', 'm2709b', False, '[ARC_AN 以安 借據]')
                 elif c == 'ARC_KX': await case_arcafter(pg, cdp, 'kexin', '2027-05-15', 'm2705a', False, '[ARC_KX 可昕 放學後的球場]')
