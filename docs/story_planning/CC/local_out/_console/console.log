@@ -1155,3 +1155,13 @@
 [20:00:40] [res] cpu=4% mem=36% (11.4/31.4 GB) chrome_testing=0  START GSHOP_old
 [20:00:40] [res] cpu=4% mem=36% (11.4/31.4 GB) chrome_testing=0  START GSHOP_flower_old
 [20:02:47] [res] cpu=14% mem=48% (15.3/31.4 GB) chrome_testing=10  END GSHOP_flower_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       43387fa91..6a5dd48ef  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:02:53] ==== END   GSHOP_flower_old  exit=1  130s   ====
+[20:03:01] memory 49% before starting SHADER_v2b (2 running)
+[20:03:01] ==== START SHADER_v2b  (probe @ be84c86807aa45324daed407996770feb6dbba13) ====
+[20:03:04] [res] cpu=14% mem=49% (15.4/31.4 GB) chrome_testing=10  START SHADER_v2b
+[20:03:04] worktree add be84c86807aa45324daed407996770feb6dbba13: invalid reference - fetching main and the commit itself
+[20:03:06] 正在跑：GSHOP_new（已跑 2 分／上限 60 分）、GSHOP_old（已跑 2 分／上限 60 分）、SHADER_v2b（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:07:14] [res] cpu=26% mem=50% (15.9/31.4 GB) chrome_testing=10  END SHADER_v2b
