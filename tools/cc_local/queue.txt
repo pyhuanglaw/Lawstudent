@@ -325,12 +325,13 @@ GGLANE_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_plann
 WILLOW_new | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_new;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
 WILLOW_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_old;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
 # BB 16:04／16:05：LAWWW 字幕修正＋測試修正推上來以後，同一個 SHA 跑（SHA 到了再打開；舊＝8a98ff1e0）
-#HOLD FIX_ggnav | SHA_TBD | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
-#HOLD FIX_day2an | SHA_TBD | game | tests/flow_day2_an.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
-#HOLD FIX_capgap_new | SHA_TBD | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=new
-#HOLD FIX_capgap_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=old
-#HOLD FIX_guide | SHA_TBD | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
-#HOLD FIX_noodle_ev | SHA_TBD | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 10 | EV=1
+FIX_ggnav | aa691df333d23bc46abb9445c249090d4b57f3d1 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+FIX_day2an | aa691df333d23bc46abb9445c249090d4b57f3d1 | game | tests/flow_day2_an.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
+FIX_capgap_new | aa691df333d23bc46abb9445c249090d4b57f3d1 | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=new
+FIX_capgap_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=old
+FIX_guide | aa691df333d23bc46abb9445c249090d4b57f3d1 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+FIX_noodle_ev | aa691df333d23bc46abb9445c249090d4b57f3d1 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 10 | EV=1
+X199_ANROUTE_fix | aa691df333d23bc46abb9445c249090d4b57f3d1 | probe | docs/story_planning/test_tools/cc/cc_x199_an_route_probe.py | index.html | 75 | 
 # BB 15:52 US_CLASS_STORY（b1d9457ed 劇情接線，01bab1823）：進教室時段、走進來坐自己的位子上課（字幕、教授來回、下課走道）、一鍵上課淡入有沒有方塊、10/26／12/6／12/7(b)／12/8 在 3D 演、PC 幀率（medium）
 USCLS_A | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_us_class_story_probe.py | index.html | 60 | CASES=GATE,WALK,ONE;Q=medium
 USCLS_B | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_us_class_story_probe.py | index.html | 75 | CASES=MID,EXAM,FINAL,LAST;Q=medium
