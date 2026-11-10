@@ -1433,3 +1433,17 @@
 [21:02:20] [res] cpu=19% mem=35% (11.0/31.4 GB) chrome_testing=0  START PERFCG_old_d
 [21:03:06] 正在跑：PERFCG_old_d（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:05:58] [res] cpu=11% mem=36% (11.4/31.4 GB) chrome_testing=0  END PERFCG_old_d
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       75ee6b5d6..84843f08e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:06:09] ==== END   PERFCG_old_d  exit=0  221s   ====
+[21:06:16] memory 37% before starting X295E_fair_keep_fix (0 running)
+[21:06:16] memory 37% before starting GUI_fix2 (1 running)
+[21:06:16] ==== START X295E_fair_keep_fix  (probe @ 8d8b475dc3a6b3546853a98fc24b60edb7829989) ====
+[21:06:16] ==== START GUI_fix2  (probe @ 8d8b475dc3a6b3546853a98fc24b60edb7829989) ====
+[21:06:16] solo item PERFCG_new_m waits: no new items start until the 2 running item(s) finish
+[21:06:19] [res] cpu=3% mem=37% (11.7/31.4 GB) chrome_testing=0  START X295E_fair_keep_fix
+[21:06:19] [res] cpu=5% mem=37% (11.7/31.4 GB) chrome_testing=0  START GUI_fix2
+[21:06:19] worktree add 8d8b475dc3a6b3546853a98fc24b60edb7829989: invalid reference - fetching main and the commit itself
+[21:08:06] 正在跑：X295E_fair_keep_fix（已跑 1 分／上限 20 分）、GUI_fix2（已跑 1 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:08:34] [res] cpu=11% mem=41% (12.9/31.4 GB) chrome_testing=5  END X295E_fair_keep_fix
