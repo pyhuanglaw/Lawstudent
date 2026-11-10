@@ -14511,8 +14511,8 @@
    "title": "故事小物件 wz6_items.glb（半熟計時器、阿德的筆記本、茶罐、卡片、白板影印、吉他社海報、貓碗）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "【LAWWW-C 11-04 14:08】BB-C 14:04：wz6_items.glb 在、src 沒有載入（git grep 0），遊戲裡看不到 → 已實作待整合，不是等 ART 驗收｜【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：ART_APPROVED 由 BB 標（D120／D128），不等使用者｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；溫州街故事小物件＝場景美術；任務自己寫 ART_APPROVED 等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB 測（截圖對照 test_shots/wz6_1024、wz_market_1023）；建築場景 ART_APPROVED 等使用者",
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 10:3x】LAWWW2 3ebccd9f1 更正：10-24 025ab4f30（f6ace8353）已用 dorm_wz_items.glb、wenzhou_street COPY_*、WZ_CATBOWL 接進遊戲；aa_support/wz6_items.glb 是被取代的樣品、本來就不載入；測試 dorm_wz_items、wz_copy_shop、wz_work_spots。 ｜ 【LAWWW-C 11-04 14:08】BB-C 14:04：wz6_items.glb 在、src 沒有載入（git grep 0），遊戲裡看不到 → 已實作待整合，不是等 ART 驗收｜【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：ART_APPROVED 由 BB 標（D120／D128），不等使用者｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；溫州街故事小物件＝場景美術；任務自己寫 ART_APPROVED 等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB 測（截圖對照 test_shots/wz6_1024、wz_market_1023）；建築場景 ART_APPROVED 等使用者",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -48140,7 +48140,7 @@
    "title": "體育館搬到新月台和法學院中間（北牆邊、新生南路辛亥路口旁）",
    "area": "SCENE",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -48152,7 +48152,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 10:2x】BB_255：PASS，只剩腳踏車停車一段待查（BB 自己查 BIKE.parkOK）。 ｜ 【LAWWW 11-10 08:5x】LAWWW2 查證：已隨 XS-GATE-NORTH-1105 patch cf6a29f7e 進開發分支——門口座標（classes3d gym (−75,−125)、gym3d CAMPUS／gym_layout exit (−75,−123.4)、ev_sis13_pool near）、手機地圖體育館圖釘 cx −75、外觀 campus_gymext.glb（zones3d.js:483，CK.modern 備用）、舊位置 (74,68) 無名系館；下一步 BB／CC 驗收：進出館、體育課、腳踏車架、門外新生南路｜LAWWW2 做外觀與 patch（館內三區不動、舊位置留無名系館）；LAWWW 照 09:1x 給 LAWWW2 的清單改 9 處門口座標、手機地圖拆「宿舍・體育館」格、ev_sis13_pool near；BB 測進出館、體育課、腳踏車架；下一版。USER_WANTS X257。",
+   "next": "【LAWWW 11-10 10:3x】BB_255 X257 整項 PASS。BB 的 P3 建議（手動下車離停車位 1.5 m 內擺正到架上）LAWWW 決定先不做（D99 不影響遊玩、只記錄）。 ｜ 【LAWWW 11-10 10:2x】BB_255：PASS，只剩腳踏車停車一段待查（BB 自己查 BIKE.parkOK）。 ｜ 【LAWWW 11-10 08:5x】LAWWW2 查證：已隨 XS-GATE-NORTH-1105 patch cf6a29f7e 進開發分支——門口座標（classes3d gym (−75,−125)、gym3d CAMPUS／gym_layout exit (−75,−123.4)、ev_sis13_pool near）、手機地圖體育館圖釘 cx −75、外觀 campus_gymext.glb（zones3d.js:483，CK.modern 備用）、舊位置 (74,68) 無名系館；下一步 BB／CC 驗收：進出館、體育課、腳踏車架、門外新生南路｜LAWWW2 做外觀與 patch（館內三區不動、舊位置留無名系館）；LAWWW 照 09:1x 給 LAWWW2 的清單改 9 處門口座標、手機地圖拆「宿舍・體育館」格、ev_sis13_pool near；BB 測進出館、體育課、腳踏車架；下一版。USER_WANTS X257。",
    "source": "UA-LAWWW-1105-29",
    "authorized": "使用者原話",
    "xai": {
@@ -48163,7 +48163,8 @@
     "ack": "ACK"
    },
    "src": "UA-LAWWW-1105-29",
-   "sha": "cf6a29f7e"
+   "sha": "cf6a29f7e",
+   "evidence": "BB_255（BB 11-10 10:15）X257 整項 PASS（FIXED）：腳踏車段是探針太嚴（手動下車本來就停在人所在處，parkOK 只用於自動停車）"
   },
   {
    "id": "SHORTCUTS-TODO-1105",
