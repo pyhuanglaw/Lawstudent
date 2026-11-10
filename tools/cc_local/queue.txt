@@ -62,6 +62,12 @@ X295B_new_1103 | 7f2093f9282ca36ec56109736e8ba8aa6f4736a9 | probe | docs/story_p
 X295B_skip | 7f2093f9282ca36ec56109736e8ba8aa6f4736a9 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 30 | TAG=skip;ASK=skip
 X295B_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 30 | TAG=old
 # X295 clubs（社課入社單；雲端 8c050804c 六段 PASS、later 第 5、6 週 PASS、第 7 週雲端還在跑）：新 8c050804c／改前 10df264ed（沒有 LATE_JOIN，預期 FAIL）
+# （11-10 10:41 CC：SHADER 原本插在 X307 第三輪那一段前面，可是那一段在 X295B／GGDC 下面，PC 先跑了那些＝我排錯位置；移到這裡＝下一個就跑）
+# ===== GG-DOOR-CAMS-1104 ①（BB 10:23：全遊戲行道樹葉片 shader 改了，最先跑）：d8b669175 公館／校園／溫州街／總圖大廳 × 14／20 時，console 不能有 shader／WebGL 編譯錯誤、畫面不黑不洋紅；＋p0、zone_transitions；改前 fe4d893ac 對照 =====
+SHADER_new | d8b669175bcf363974b401e1eed3d6709f2b0949 | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 30 | TAG=new
+SHADER_p0 | d8b669175bcf363974b401e1eed3d6709f2b0949 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+SHADER_zone | d8b669175bcf363974b401e1eed3d6709f2b0949 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+SHADER_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 30 | TAG=old
 X295C_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_clubs_probe.py | index.html | 120 | TAG=new
 X295C_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_x295_clubs_probe.py | index.html | 60 | TAG=old
 # X295 events（迎新派對 9/12、捐血 10/14→10/15、學生會電影夜 11/6、園遊會 11/15；雲端改後四段分次 PASS，fair 選單判斷修正後沒重跑）：新 8c050804c／改前 10df264ed（四個 id 都沒有，預期 FAIL）
@@ -85,11 +91,6 @@ YZCUP2_51 | 1c767edf819136d164df68e5cefca5605993b7fe | probe | docs/story_planni
 # X257 體育館搬家（BB 08:54；LAWWW 1c767edf8）：搬家實際在 11-05 b92a2791e（收 LAWWW2 61f619791）進開發分支；BB 寫的改前 210b0663d＝LAWWW2 分支的舊樹（沒有 gym3d／placemap）＝不能比，改用 b92a2791e^＝fca5f80a3（體育館門口還在 (74,59.4)）。改前只跑 gymdoor、oldsite（BB：第 2、7 項舊 FAIL／新 PASS）
 X257_new | 1c767edf819136d164df68e5cefca5605993b7fe | probe | docs/story_planning/test_tools/cc/cc_x257_gym_move_probe.py | index.html | 75 | TAG=new;RERUN=r2
 X257_old | fca5f80a386dd529fcd40a749b809ec30c5bb3eb | probe | docs/story_planning/test_tools/cc/cc_x257_gym_move_probe.py | index.html | 30 | TAG=old;CASES=gymdoor,oldsite;RERUN=r2
-# ===== GG-DOOR-CAMS-1104 ①（BB 10:23：全遊戲行道樹葉片 shader 改了，最先跑）：d8b669175 公館／校園／溫州街／總圖大廳 × 14／20 時，console 不能有 shader／WebGL 編譯錯誤、畫面不黑不洋紅；＋p0、zone_transitions；改前 fe4d893ac 對照 =====
-SHADER_new | d8b669175bcf363974b401e1eed3d6709f2b0949 | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 30 | TAG=new
-SHADER_p0 | d8b669175bcf363974b401e1eed3d6709f2b0949 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
-SHADER_zone | d8b669175bcf363974b401e1eed3d6709f2b0949 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
-SHADER_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 30 | TAG=old
 # X307 第三輪（BB 09:53 預排、LAWWW 09:53 28df8a85c＝LAWWW2 da1c77472：白霧是門上玻璃雨遮，改成只畫朝下那一面）：EXPECT=fixed（下半部亮度 <110）、樓梯頂端往下看、中庭往上看雨遮、中庭俯視；排在 GREET_WD 前面（使用者點名）。fda54d616 那輪作廢
 X307F2_new | 28df8a85c788c354fc606a87e64cb5f4f12c5ff9 | probe | docs/story_planning/test_tools/cc/cc_b1court_art_probe.py | index.html | 40 | TAG=fix2;EXPECT=fixed
 # GREET 平日補測（BB 09:47：「平日照舊問」那半條沒測到就不能結案）：只跑新版，GREET_WD=auto＝她上課前在教室等的平日時段（週三優先）；判第 1 次說話有問上課、沒有週末／放假新句
