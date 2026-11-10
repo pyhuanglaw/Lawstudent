@@ -30,7 +30,9 @@
   - X296 總圖樓層簡介：LAWWW-B 已修在開發分支（7a019726d），重跑測試 PASS，不用做。
   - X257 GYM-MOVE-1105：XS-GATE-NORTH 的 patch 已整合，外觀 campus_gymext.glb 也接了，只差驗收。兩件都已告訴 LAWWW。
   - X254 窗景：等 BB／CC 的判定清單（BB 排在 X295 後面）。
-    - 已查：日和便利店、公館燒臘的窗景是 tools/shots/shop_views_layers.py 在遊戲裡拍的（舊店面的位置）；慢輪單車、阿德、林家是通用視差。
+    - 已查（09:3x 更正）：每一間都有自己位置的照片。慢輪是 views/bikeshop_*（Blender），阿德是 wz_print_*，林家是 wz_lin_*；
+      日和便利店 cvs_*、公館燒臘 noodle_* 是 10-23 在遊戲裡拍的兩層（cvs 的註解寫「舊店面的角度，要重拍」）。等 BB 判角度和內容對不對。
+  - X307 第二輪 B1 中庭白霧：已整合 fda54d616（玻璃只畫朝中庭那一面），等 CC 重拍 03、07。
     - 重拍有兩條路：用 Blender（afar／gg_shop_views.sh 的做法），或請 CC 用瀏覽器重拍（D131）。
 
 ## 🔁 交班（2026-11-10 01:4x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
