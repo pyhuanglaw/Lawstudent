@@ -53060,7 +53060,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "AA 分批重寫（階梯、約會、期末飯、告白、訊息、事件），每批 SHA 交 LAWWW 重匯；BB 看",
+   "next": "AA 第一份已交（企劃線 5c89cf094 docs/story_planning/AA_751_peishan_termend.json，BB_318 已改完）：①termend_lines HEART 她先說那條（invite／table＋tableOpts／walk＋walkOpts／guess／she／confessOpts 三個都答應／yes／think／invite2／she2／yes2／over_Y4S1）②FRIEND.y1s1 一句③phone 五則④GF table＋Y3S1／Y3S2／Y4S1／Y5S1⑤friend_v2 五頓（Y3S1 鉤子不念 say；大一上、大一下交往中聯絡不到不發）⑥fallback 整組換、換完打開她的電影通用回話（MOVIES.CFG.fallbackOff 拿掉她）。LAWWW：等 TERMEND 子代理（可昕 set）合併後接著派（同一批檔），連「她先說」模式和芷若告白（d5b6fb0d9）一起做。她其他地方（階梯、約會、訊息、事件）AA 接著重寫",
    "xai": {
     "spec": "X327、UA-AA-1110-06",
     "branch": "claude/story-planning",
