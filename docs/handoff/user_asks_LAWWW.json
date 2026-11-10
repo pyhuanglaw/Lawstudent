@@ -3832,6 +3832,26 @@
    "wants": "X288",
    "task": "BGN-AFTER-HOME-1110",
    "src": "使用者 01:1x 傳給 BB-B（「我傳錯了 要傳給LAWWW 你幫我船」），BB-B 原文轉 LAWWW-B；UA-BB-1110-02"
+  },
+  {
+   "id": "UA-LAWWW-1110-32",
+   "at": "2026-11-10T01:3xZ",
+   "quote": "一盞有飲料飄在半空中（附截圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X289",
+   "task": "YIZHAN-FLOAT-CUPS-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-33",
+   "at": "2026-11-10T01:3xZ",
+   "quote": "一鍵前往約會地點 時間也要到那時候 有時候會出現還沒開 或時間還沒到 一鍵前往就是要跳到那個時間 那個地點",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X290",
+   "task": "INV-GO-JUMP-1110",
+   "src": "使用者對 LAWWW-B"
   }
  ]
 }

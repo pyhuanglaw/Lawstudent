@@ -50932,6 +50932,64 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": null,
    "test": null
+  },
+  {
+   "id": "YIZHAN-FLOAT-CUPS-1110",
+   "title": "一盞：外帶杯飄在半空中（榻榻米房間）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "走進溫州街一盞",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:3x LAWWW-B】使用者 X289。11/8 週六 18:28 一盞，左側榻榻米房間：兩個外帶紙杯浮在半空（靠近跪坐的客人、沒有桌子的地方）。LAWWW2 查是 yizhan.glb 的擺設、還是路人（crowd3d）的道具位置；修好附 Node 測試，BB 截圖判。",
+   "xai": {
+    "spec": "使用者 11-10 02:0x 對 LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "一盞裡沒有浮在空中的杯子",
+    "receiver": "LAWWW（整合）→ BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW2"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
+  },
+  {
+   "id": "INV-GO-JUMP-1110",
+   "title": "一鍵前往約會：跳到約好的時間、帶到那個地點",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "她第一次主動約你",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:3x LAWWW-B】使用者 X290。game3d.js invTodayHTML 的「前往」（data-invgo／INV.goTarget）在店還沒開、時間還沒到時只寫幾點開；改成按「前往」＝時間跳到約好的時間前 5～10 分鐘（照跳過時間的規則，遇到更早的課、劇情照停）、帶到那個地點。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "按前往：時間到約好的時候、人在那裡；不再顯示還沒開",
+    "receiver": "BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
   }
  ]
 }
