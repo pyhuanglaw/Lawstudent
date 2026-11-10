@@ -144,6 +144,8 @@ GSHOP_flower_old | 28df8a85c788c354fc606a87e64cb5f4f12c5ff9 | probe | docs/story
 # GIFT ui（物品分頁、人物頁、山嵐學姊；雲端 509b54c2d：剩 6 項分頁 40px＝遊戲既有樣式、4 項探針已修沒重跑）：新 de1f25768／改前 fda54d616
 GUI_new | de1f25768e421cf07b2151c2872b5b6d6f70ef5a | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 40 | TAG=new
 GUI_old | fda54d616e57b40c74ca1b6404dccb6ea927e50c | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 40 | TAG=old
+# GUI_fix（BB 11:36）：LAWWW 0ec32e6f6 修了山嵐學姊開演玩家退到 0.8 m、物品頁店名拿掉「新」、分頁 44px；探針加：開演距離 ≥0.6、店名沒有「新」、所有分頁高 ≥44；改前對照＝GUI_new（de1f25768）
+GUI_fix | 0ec32e6f6cc85ba9a9ff68a41ce60d8751a6a2da | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 40 | TAG=fix
 # X276（BB 08:47，LAWWW 72c889ec3＝LAWWW2 24dc0d99b 山嵐文具區 v2）：14:00 門口看文具區＋真的走到文具區（看文具）＋按下去＋近拍。新＝8c050804c（含 72c889ec3）、改前＝3f6dba142；排在 X295 後面、窗景巡拍前面
 X276_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=new;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
 X276_old | 3f6dba142276f8cefcc52570f9b659b930d00861 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=old;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
