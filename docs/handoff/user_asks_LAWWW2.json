@@ -947,6 +947,16 @@
    "replaces": "",
    "wants": "X326",
    "note": "十張夜市攤位參考圖（01～10）存 docs/art-rebuild/second_ai/ref/night_market_1110/concept/，README 每張的重點和跟規格、現有模型的差別。使用者沒有明說可以實作——已在對話裡問她；圖上的價錢和 AA 的商品表有幾處不一樣（要對）。三個問題已經回答：要的圖清單、電腦 Blender 快多少還沒有實測、哪些有沿用以前的做法哪些沒有。"
+  },
+  {
+   "id": "UA-LAWWW2-1111-02",
+   "at": "2026-11-11T00:xx",
+   "quote": "（一張圖）算命店：禮貌生財",
+   "kind": "原話",
+   "status": "進行中",
+   "replaces": "",
+   "wants": "X332",
+   "note": "禮貌生財外觀參考圖存 ref/night_market_1110/concept/shop_limao_shengcai_exterior.webp，README 記了圖上的重點。招牌從圖裁（解決書法字）；位置改成提議巷 A 後段南側那一棟靠公館那一端的轉角。還沒有實作授權；室內沒有圖。"
   }
  ]
 }
