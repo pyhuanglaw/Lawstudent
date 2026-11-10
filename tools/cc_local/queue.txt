@@ -6,6 +6,11 @@
 #        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
 #        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
+# ===== P1 BB 21:00：BUG-NY-EXIT-1110 看完電影走不出南洋大廳？線上 main 779ddd650＋開發分支最新 9f20f1808，觸控／搖桿各一次（排最前面）=====
+NYX_live_tap | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_ny_exit_probe.py | index.html | 15 | MODE=tap
+NYX_live_joy | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_ny_exit_probe.py | index.html | 15 | MODE=joy
+NYX_dev_tap | 9f20f1808d4e15192c105acafa381b0f323a230c | probe | docs/story_planning/test_tools/cc/cc_ny_exit_probe.py | index.html | 15 | MODE=tap
+NYX_dev_joy | 9f20f1808d4e15192c105acafa381b0f323a230c | probe | docs/story_planning/test_tools/cc/cc_ny_exit_probe.py | index.html | 15 | MODE=joy
 # ===== P0 BB 20:10：v9.10.24 已上線（main 779ddd650，PR #34），驗線上網址；Pages 還沒更新完（仍 v9.10.23）就等 5 分鐘再跑 LIVE_V91024_deploy RERUN，最多 3 次 =====
 LIVE_V91024_deploy | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/deploy_check.py | index.html | 15 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.24;CC_HEADLESS=0
 LIVE_V91024_p0 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/p0_movement.py | index.html | 20 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
