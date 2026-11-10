@@ -330,6 +330,9 @@ SHIFT_old | 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed | probe | docs/story_planni
 # BB 15:52 SHIFT-TREAT 新修（01bab1823）D34 對照：進店「馬上」點單／坐下要先演、不扣錢；出口不演。舊 8a98ff1e0（要扣錢＝FAIL）
 SHIFT_IMM_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 40 | TAG=imm_new;IMM=1;CASES=B,F,X
 SHIFT_IMM_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 40 | TAG=imm_old;IMM=1;CASES=B,F,X
+# BB 15:52 US_CLASS_STORY（b1d9457ed 劇情接線，01bab1823）：進教室時段、走進來坐自己的位子上課（字幕、教授來回、下課走道）、一鍵上課淡入有沒有方塊、10/26／12/6／12/7(b)／12/8 在 3D 演、PC 幀率（medium）
+USCLS_A | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_us_class_story_probe.py | index.html | 60 | CASES=GATE,WALK,ONE;Q=medium
+USCLS_B | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_us_class_story_probe.py | index.html | 75 | CASES=MID,EXAM,FINAL,LAST;Q=medium
 # BB 14:39 美國篇 ART 巡拍（排在橘貓後面；第一批公寓＋社區＋校園，第二批法圖＋超市＋超市街＋季節）
 US_ART_1 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_outside,us_apartment,us_campus
 US_ART_2 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_lawlib,us_market,us_market_street;SEASON=1
