@@ -1226,7 +1226,7 @@ const CLS=(function(){
     return out; };
   S.seatPick=async function(GM,it,o){ const G=GM.G, E=GM.E; if(E.zone&&(roomy(E.zone)||G.zone==='classroom')){ try{ S.syncRoom(GM); }catch(e){} }
     const ch=S.seatChoices(GM,it); if(!ch.length||!GM.seatMenu){ GM.toast('上課的教室：'+(it.room.name||'')+'（找個位子坐下）',4200); return false; }
-    const k=0;   /* 不問坐哪裡（SEAT-NO-ASK-1110，使用者 11-10：「一鍵去上課的時候 不要再出現坐哪裡 隨便好嗎」、選擇題「先直接坐，占位子之後再加」）：所有去上課的路（手機的今天、上課提醒、下課的直接去下一堂、一鍵）都直接坐第一個＝老位子，沒有就中間的位子；想換位子自己走進教室坐。朋友幫忙占位子等 AA 的台詞再加。原本 o.autoSeat 只有一鍵（ONE-TAP-GO-1103）這樣 */
+    const k=0;   /* 不問坐哪裡（SEAT-NO-ASK-1110，使用者 11-10：「一鍵去上課的時候 不要再出現坐哪裡 隨便好嗎」、選擇題「先直接坐，占位子之後再加」）：所有去上課的路（手機的今天、上課提醒、下課的直接去下一堂、一鍵）都直接坐第一個＝老位子，沒有就中間的位子；想換位子自己走進教室坐。朋友幫忙占位子之後另外加（台詞歸 AA）。原本 o.autoSeat 只有一鍵（ONE-TAP-GO-1103）這樣 */
     await GM.seatMenu(ch[k].it,{autoClass:true}); return true; };
   /* 下課選單（1-4）：課後事件演完、玩家站起來以後；今天還有下一堂才出 */
   S.afterMenu=async function(GM,key){ const G=GM.G; if(S.canGo(GM)) return false; const nx=S.goList(G).find(q=>q.key!==key&&!S.rec(G).done[q.key]&&!S.planSkip(G,q));

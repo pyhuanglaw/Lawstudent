@@ -50787,6 +50787,64 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": null,
    "test": null
+  },
+  {
+   "id": "CAMPUS-FLOOR-STRIP-1110",
+   "title": "校園步道中間一條條凸起的長條（使用者截圖）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "騎車經過校園那一帶",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 02:0x LAWWW-B】使用者 X283。截圖 docs/handoff/user_shots/1110_campus_floor_strip.webp、存檔 tests/fixtures/user_save_day51b_1110.json（校園 (29.88,−54.4) 18:29，騎腳踏車）。LAWWW2 查是哪個網格（路緣、地磚接縫、重疊面），修完 Node 測試＋BB 截圖。",
+   "xai": {
+    "spec": "使用者 11-10 02:0x 對 LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "那一帶步道沒有突兀的長條；BB 截圖判",
+    "receiver": "LAWWW（整合）→ BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW2"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
+  },
+  {
+   "id": "AVENUE-FAR-SIGNS-1110",
+   "title": "椰影大道遠景（校門外）都是補習班招牌",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "走在椰影大道往校門看",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 02:0x LAWWW-B】使用者 X285。截圖 docs/handoff/user_shots/1110_avenue_far_cram.webp：大道盡頭校門外的遠景大樓一排粉紅直式「○○文理補習班」招牌。LAWWW2 查 campusBackdrop／TK.bgCity 的招牌：照公館實際（各種店家、銀行、餐廳），不要全是補習班，店名照 D77 原創。",
+   "xai": {
+    "spec": "使用者 11-10 02:0x 對 LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "遠景招牌多樣、不像全是補習班；BB 截圖判",
+    "receiver": "LAWWW（整合）→ BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW2"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
   }
  ]
 }

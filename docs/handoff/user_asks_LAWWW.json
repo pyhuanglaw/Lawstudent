@@ -3772,6 +3772,36 @@
    "wants": "X282",
    "task": "HER-ASK-LATER-DAY-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-26",
+   "at": "2026-11-10T02:0xZ",
+   "quote": "路上有奇怪的地磚?畫面中間 人物左前方（附截圖兩張、存檔 fatiao3d_save_day51_2.json）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X283",
+   "task": "CAMPUS-FLOOR-STRIP-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-27",
+   "at": "2026-11-10T02:0xZ",
+   "quote": "這個中間我選了 學姊旁邊 的選項 沒顯示我說什麼 而且這個對話就是典型回答 學姊旁邊 應該要增加戀愛值（附截圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X284",
+   "task": "ROM-PRIVATE-DATE-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-28",
+   "at": "2026-11-10T02:0xZ",
+   "quote": "椰林大道遠景怎麼都是文理補習班（附截圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X285",
+   "task": "AVENUE-FAR-SIGNS-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
   }
  ]
 }
