@@ -219,7 +219,8 @@ const DATE=(function(){
   S.askHalf=id=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return false; const r=SOCIAL.rel(id); return (+r.npcRom||0)>=S.ASK_ROM_HALF; };
   S.canAskCore=function(G,id){ const F=G.flags||{}, dating=!!F['dating_'+id];
     const raw=S.stageNum(id), sn=typeof INV!=='undefined'&&INV.capStage?INV.capStage(G,id,raw):raw;   /* 分手後的冷淡期照朋友的階段（AA_434 4-3；INV.capStage）*/
-    if(!dating&&sn<5&&!(sn===raw&&S.askHalf(id))) return {ok:false,why:sn>=3?S.ASK_NOT_YET_FRIEND:S.ASK_NOT_YET};   /* 已經是朋友以上、差她的戀愛（第 5 階要她的戀愛 30）：說清楚差什麼（ROM-STAGE-TEXT-1110，使用者 11-10「而且也不能約校外?」）*/
+    const cool=typeof INV!=='undefined'&&typeof INV.cool==='function'&&INV.cool(G,id);   /* 分手後的冷淡期（V6EX.cool）：戀愛條過一半也不放行——原本 sn===raw 擋不住「本來就是好朋友 4 階」的人（BB 11-10 17:15 X304 FAIL，day46 存檔以安）*/
+    if(!dating&&sn<5&&!(!cool&&sn===raw&&S.askHalf(id))) return {ok:false,why:sn>=3?S.ASK_NOT_YET_FRIEND:S.ASK_NOT_YET};   /* 已經是朋友以上、差她的戀愛（第 5 階要她的戀愛 30）：說清楚差什麼（ROM-STAGE-TEXT-1110，使用者 11-10「而且也不能約校外?」）*/
     if(typeof ROM!=='undefined'&&ROM.get){ const R=ROM.get(G,id); if(R&&R.status==='paused') return {ok:false,why:'她在等你把話說清楚'}; }
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))) return {ok:false,why:'她現在有交往的對象'};
     return {ok:true}; };

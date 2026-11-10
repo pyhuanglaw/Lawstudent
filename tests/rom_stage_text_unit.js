@@ -34,4 +34,6 @@ check('5. 出去玩：戀愛條還沒一半（她的戀愛 10）不能約，不�
 set(H,{fam:50,trust:30,npcRom:15}); const c=DATE.canAskCore(G,H); set(H,{fam:25,npcRom:15}); const d=DATE.canAskCore(G,H); set(H,{fam:50,trust:30,npcRom:14}); const e=DATE.canAskCore(G,H);
 check('5b. 戀愛條過一半（她的戀愛 15，人物頁「她好像開始在意你了」）就能約出去玩，朋友、有點熟都一樣；14 還不行（使用者 11-10 16:2x 選擇題）',c.ok&&d.ok&&!e.ok,JSON.stringify([c,d,e]));
 check('5c. 過一半時人物頁的提示是「開始在意」，和能約一致',(()=>{ set(H,{fam:50,trust:30,npcRom:15}); const q=DATE.progress(G,H); return !!q&&q.rom&&q.rom.hint==='她好像開始在意你了'; })());
+{ const c0=global.INV, H2=H; global.INV=Object.assign({},c0||{},{cool:(G,id)=>id===H2,capStage:(G,id,n)=>n}); set(H,{fam:100,trust:45,comf:49,npcRom:15}); const cc=DATE.canAskCore(G,H); global.INV=c0;
+  check('5d. 冷淡期（V6EX.cool）：戀愛條過一半、本來就是好朋友（capStage 沒壓低）也不能約出去玩（BB 11-10 17:15 FAIL 重現）',!cc.ok&&!/還沒有那樣看你/.test(cc.why),JSON.stringify(cc)); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
