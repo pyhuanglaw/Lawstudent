@@ -339,3 +339,11 @@
 [17:05:12] ==== START X276_old  (probe @ 3f6dba142276f8cefcc52570f9b659b930d00861) ====
 [17:05:15] [res] cpu=9% mem=43% (13.6/31.4 GB) chrome_testing=4  START X276_old
 [17:05:20] [res] cpu=1% mem=42% (12.9/31.4 GB) chrome_testing=4  END YZCUP2_51
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f9486d9ed..d4c4bc587  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:05:47] ==== END   YZCUP2_51  exit=0  98s   ====
+[17:05:50] memory 43% before starting X296_new (2 running)
+[17:05:50] ==== START X296_new  (probe @ 7a019726dfddc3f90dc0cc60189db19084871503) ====
+[17:05:53] [res] cpu=11% mem=40% (13.5/31.4 GB) chrome_testing=4  START X296_new
+[17:05:59] [res] cpu=3% mem=42% (12.8/31.4 GB) chrome_testing=4  END X276_new
