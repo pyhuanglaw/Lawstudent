@@ -506,7 +506,7 @@ def analyze(t, case, run, segs, info, check=True):
         if s.get('ordered'):
             ck('%s [%s] 說出來的選項照稿、照順序（不洗）＋「（先不說）」第四個' % (t, s['id']), i is not None and dl[i]['v'] == s['menu'], '期望 %s；實際 %s' % (J(s['menu']), J(dl[i]['v'] if i is not None else [e['v'] for e in dl[cur:] if e.get('k') == 'choose'])))
         else:
-            ck('%s [%s] 三個選項的字照稿（%s）' % (t, s['id'], s.get('why') or ''), i is not None, '期望 %s；實際選單 %s' % (J(sorted(o['t'] for o in s['opts'])), J([e['v'] for e in dl[cur:] if e.get('k') == 'choose'])))
+            ck('%s [%s] 三個選項的字照稿（開頭用 %s）' % (t, s['id'], s.get('why') or ''), i is not None, '期望 %s；實際選單 %s' % (J(sorted(o['t'] for o in s['opts'])), J([e['v'] for e in dl[cur:] if e.get('k') == 'choose'])))
             if s.get('snowNot'):
                 hit = [e['v'] for e in dl[start:] if e.get('k') == 'choose' and set(s['snowNot']) & set(str(x) for x in (e.get('v') or []))]
                 ck('%s 沒有 SNOWQ＝不演 snow 那一段的選項' % t, not hit, J(hit[:1]))

@@ -162,7 +162,7 @@ async def go_in(pg, cdp, tag, joy=True):
 async def ensure_in(pg, cdp, tag):
     if (await D.st(pg))['zone'] == ZONE: return True
     await street(pg, cdp, '%s 的前置' % tag)
-    s = await go_in(pg, cdp, tag + '【前置】', joy=False)
+    s = await go_in(pg, cdp, tag + '【前置】', joy=True)   # 搖桿進門（觸控點地板在騎樓柱子旁邊常常要 1～3 分鐘才點到，雲端 SwiftShader）
     return bool(s)
 
 
@@ -259,7 +259,7 @@ async def part_up(pg, cdp, tag='[UP]'):
 async def part_down(pg, cdp, tag='[DOWN]'):
     if not await ensure_in(pg, cdp, tag): return False
     lay = CTX['lay']
-    if (await D.st(pg))['lv'] != 1: R.note('%s 人不在二樓（先跑 UP）' % tag); return False
+    if (await D.st(pg))['lv'] != 1 and not await part_up(pg, cdp, tag + '【前置】'): return False
     r = await F.joy_to(pg, cdp, tag, 4.2, 2.0, near=0.6, lv=0, max_s=150)
     R.check('%s 搖桿走下樓梯到一樓樓梯口（lv %s、y %s、%s 秒、沒有跳）' % (tag, r['end']['lv'], r['end'].get('y'), r['t']), r['ok'] and r['end']['lv'] == 0 and abs(r['end'].get('y') or 0) < 0.1 and not r['jumps'], J({'end': r['end'], 'why': r.get('why'), 'jumps': r['jumps']}))
     if not r['ok']: await F.shot(pg, cdp, 'fni_down_stuck'); return False
