@@ -1,0 +1,97 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index f243f1c3c..cb5ff6cf5 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -54,12 +54,26 @@ const Z3 = (function(){
+   const stripOf=new WeakMap();
+   function stripLayer(m,L){ m.userData.stripLayer=L; const mt=m.material; if(L>0){ mt.polygonOffset=true; mt.polygonOffsetFactor=-L; mt.polygonOffsetUnits=-2*L; } else { mt.polygonOffset=false; mt.polygonOffsetFactor=0; mt.polygonOffsetUnits=0; } mt.needsUpdate=true; }
+   function strip(g,x0,z0,x1,z1,w,tex,rep){ const dx=x1-x0, dz=z1-z0; const len=Math.hypot(dx,dz); const t=tex.clone(); t.needsUpdate=true; t.repeat.set(w/rep,len/rep); const m=new THREE.Mesh(new THREE.PlaneGeometry(w,len),texMat(t)); m.rotation.x=-Math.PI/2; m.rotation.z=-Math.atan2(dx,dz); m.position.set((x0+x1)/2,0.02,(z0+z1)/2); m.receiveShadow=true; photoNor(tex,t,m); g.add(m);
+-    const ux=dx/(len||1), uz=dz/(len||1), hx=Math.abs(uz)*w/2, hz=Math.abs(ux)*w/2; const box={x0:Math.min(x0,x1)-hx,x1:Math.max(x0,x1)+hx,z0:Math.min(z0,z1)-hz,z1:Math.max(z0,z1)+hz,road:!!(t.userData&&t.userData.asphalt),m};
++    const ux=dx/(len||1), uz=dz/(len||1), hx=Math.abs(uz)*w/2, hz=Math.abs(ux)*w/2; const box={x0:Math.min(x0,x1)-hx,x1:Math.max(x0,x1)+hx,z0:Math.min(z0,z1)-hz,z1:Math.max(z0,z1)+hz,road:!!(t.userData&&t.userData.asphalt),m,o:{cx:(x0+x1)/2,cz:(z0+z1)/2,ux,uz,w,len}};
+     let list=stripOf.get(g); if(!list){ list=[]; stripOf.set(g,list); } const hit=list.filter(b=>Math.min(b.x1,box.x1)-Math.max(b.x0,box.x0)>0.01&&Math.min(b.z1,box.z1)-Math.max(b.z0,box.z0)>0.01);
+     let L=0; for(const b of hit) if(!(b.road&&!box.road)) L=Math.max(L,b.m.userData.stripLayer+1); stripLayer(m,L);
+     for(const b of hit) if(b.road&&!box.road&&b.m.userData.stripLayer<=L) stripLayer(b.m,L+1);   /* 步道後蓋、和柏油路重疊：柏油路往上一層 */
+     list.push(box); return m; }
+-  function curb(g,x0,z0,x1,z1,w){ const dx=x1-x0, dz=z1-z0; const len=Math.hypot(dx,dz); for(const s of [-1,1]){ const m=new THREE.Mesh(new THREE.BoxGeometry(0.25,0.14,len),M('#d9d3c6')); const ang=-Math.atan2(dx,dz); m.rotation.y=ang; m.position.set((x0+x1)/2+Math.cos(ang)*s*(w/2+0.12),0.07,(z0+z1)/2-Math.sin(ang)*s*(w/2+0.12)); g.add(m); } }
++  /* 路緣（步道兩側 0.25 × 0.14 m 的石條）。CAMPUS-FLOOR-STRIP-1110（使用者 11-10 截圖「路上有奇怪的地磚」，LAWWW2-B）：以前照整條路放，
++     碰到別條步道也不斷開——x 30 南北向和 z −60 東西向兩條 10 m 步道的 T 字路口，兩邊的路緣橫過對方的石磚（浮起來的長條），大道路緣也橫過步道口。
++     改成先記下來，等整個校園的步道都鋪好（flushCurbs，campus.build 最後），落在別條步道裡面的那幾段不放；剩下的合成一個網格（10 個 → 1 個 draw call）。 */
++  const curbQ=new WeakMap();
++  function curb(g,x0,z0,x1,z1,w){ let q=curbQ.get(g); if(!q){ q=[]; curbQ.set(g,q); } q.push([x0,z0,x1,z1,w]); }
++  function flushCurbs(g){ const q=curbQ.get(g); if(!q) return null; curbQ.delete(g); const S=(stripOf.get(g)||[]).filter(b=>b.o);
++    const inside=(x,z)=>S.some(b=>{ const o=b.o, dx=x-o.cx, dz=z-o.cz, al=dx*o.ux+dz*o.uz, ac=-dx*o.uz+dz*o.ux; return Math.min(o.len/2-Math.abs(al),o.w/2-Math.abs(ac))>0.02; });
++    const geos=[];
++    for(const [x0,z0,x1,z1,w] of q){ const dx=x1-x0, dz=z1-z0, len=Math.hypot(dx,dz); if(len<1e-6) continue; const ux=dx/len, uz=dz/len, r=w/2+0.12, n=Math.max(1,Math.ceil(len/0.05));
++      for(const s of [-1,1]){ const ox=uz*s*r, oz=-ux*s*r; let k0=null;
++        const emit=(a,b)=>{ if(b-a<0.3) return; const gg=new THREE.BoxGeometry(0.25,0.14,b-a); const c=(a+b)/2; gg.rotateY(Math.atan2(ux,uz)); gg.translate(x0+ux*c+ox,0.07,z0+uz*c+oz); geos.push(gg); };
++        for(let k=0;k<=n;k++){ const t=(k+0.5)*len/n, px=x0+ux*t+ox, pz=z0+uz*t+oz, free=k<n&&![0,-0.11,0.11].some(e=>inside(px+uz*e,pz-ux*e));   /* 路緣整個寬度（0.25 m）都要在步道外面：斜著接進來的小步道也不會壓到一角 */
++          if(free&&k0===null) k0=k; else if(!free&&k0!==null){ emit(k0*len/n,k*len/n); k0=null; } } } }
++    if(!geos.length) return null; const merged=THREE_JSM.BufferGeometryUtils.mergeGeometries(geos,false); for(const gg of geos) gg.dispose(); if(!merged) return null;
++    const m=new THREE.Mesh(merged,M('#d9d3c6')); m.name='campus_curbs'; g.add(m); return m; }
+   // ---- 資產層：樹／長椅／小道具（有 GLB 就用 GLB，沒有就 fallback 到 W3 placeholder）----
+   let treeIdx=0, leafyCount=0; const TREE=(scale)=>{ treeIdx++; /* 闊葉樹（townkit 葉片卡，和溫州街同一套）；舊的 GLB 方塊葉樹／針葉樹看起來不像台北的樹，只在 TK 不存在時退回 */ if(typeof TK!=='undefined'&&TK.tree) return TK.tree(6.4*(scale||1)); const useLeafy=(treeIdx%2===1)&&leafyCount<14; if(useLeafy) leafyCount++; return ASSETS.get(useLeafy?'tree.leafy':'tree.conifer',{height:6*(scale||1)}); };
+   let palmIdx=0; const PALM=(h)=>{ palmIdx++; /* 大王椰子：townkit 程序化（灰白筆直樹幹＋綠色葉鞘＋羽狀葉）；舊 GLB 是彎曲的椰子樹，只在 TK 不存在時退回 */ if(typeof TK!=='undefined'&&TK.royalPalm) return TK.royalPalm((h||9)*1.35,palmIdx); return ASSETS.get('tree.palm',{height:h||9}); };
+@@ -702,6 +716,7 @@ const Z3 = (function(){
+     if(pavGLB) ASSETS.loadOne('bldg.campus_pavilion').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_pavilion_glb','pavilion'); }).catch(e=>console.warn('洞洞館正式模型載入失敗，用套件的外觀',e));
+     if(socGLB){ const key=SOCX?'bldg.campus_socsci':'bldg.campus_modern'; ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); if(SOCX&&SOCX.place){ root.rotation.y=SOCX.place.ry; root.position.set(SOCX.place.x,0,SOCX.place.z); }   /* X75：模型是原本的世界座標（萬才館東南），轉 180° 再平移到霖澤館西南（socsci_layout.js 的 place）*/
+       attachWenzhouModel(E,g,root,'ckTag',SOCX?'campus_socsci_glb':'campus_modern_glb','soc'); }).catch(e=>console.warn('社科院正式模型載入失敗，用備用的外觀',e)); }
++    flushCurbs(g);   /* CAMPUS-FLOOR-STRIP-1110：步道都鋪好了才放路緣（在別條步道上的那幾段斷開） */
+     return zone; } };
+   // 建築外觀的正式模型（Blender GLB，建築自己的座標）接到套件的建築上：套件的外觀藏起來（招牌 keepWithFormal 留著）；導航、走路高度、鏡頭碰撞照舊由套件給。
+   // 窗玻璃、大廳玻璃、穿堂嵌燈登記成夜間會亮（材質名稱約定見 tools/blender/linze_exterior.py）
+diff --git a/tests/campus_curb_gap_unit.js b/tests/campus_curb_gap_unit.js
+new file mode 100644
+index 000000000..1e7821629
+--- /dev/null
++++ b/tests/campus_curb_gap_unit.js
+@@ -0,0 +1,50 @@
++// 校園步道的路緣不能橫在別條步道上（CAMPUS-FLOOR-STRIP-1110，LAWWW2-B 2026-11-10；使用者試玩截圖 docs/handoff/user_shots/1110_campus_floor_strip.webp：
++//   「路上有奇怪的地磚? 畫面中間 人物左前方」——晚上 18:25 騎腳踏車在 (29.88, −54.4)，石磚步道上斜斜幾條浮起來的長條）——不需要瀏覽器（D131）。
++// 原因：zones3d.js 的 curb() 照整條路放路緣（0.25 × 0.14 m 的石條），碰到別條步道也不斷開：x 30 南北向、z −60 東西向兩條 10 m 步道的 T 字路口，
++//   東西向的路緣從 x 30（南北向步道的正中間）開始、南北向東側的路緣橫過東西向的路口；大道、z 47 那條路的路緣也橫過幾個步道口。
++//   1. 截圖那一帶（x 22～40、z −70～−45）：路緣的頂面沒有落在別條步道裡面
++//   2. 整個校園：路緣的頂面落在步道裡面（離步道邊 > 5 cm）的面積＝0
++//   3. 路緣還在：大道、南北向、東西向、z 47 那條路兩側，不是路口的地方都還有路緣（不是整條拿掉）
++// 修改前 FAIL（1、2）。用法：node tests/campus_curb_gap_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
++  'src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/classes3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|TB3|ACTIVITIES|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++const z=Z3.ZONES.campus.build(E); z.group.updateMatrixWorld(true);
++// 步道：y 0.02 的水平平面（strip()）；記中心、方向、寬、長
++const strips=[]; z.group.traverse(o=>{ if(!o.isMesh) return; const g=o.geometry, p=g.parameters||{};
++  if(g.type==='PlaneGeometry'&&Math.abs(o.position.y-0.02)<1e-6&&Math.abs(o.rotation.x+Math.PI/2)<1e-6){ const ang=o.rotation.z; strips.push({cx:o.position.x,cz:o.position.z,w:p.width,len:p.height,ux:-Math.sin(ang),uz:Math.cos(ang)}); } });
++const depth=(x,zz)=>{ let d=-1e9; for(const s of strips){ const dx=x-s.cx, dz=zz-s.cz, al=dx*s.ux+dz*s.uz, ac=-dx*s.uz+dz*s.ux; d=Math.max(d,Math.min(s.len/2-Math.abs(al),s.w/2-Math.abs(ac))); } return d; };
++// 路緣：#d9d3c6、整個網格不超過 15 cm 高的東西；取頂面（y ≈ 0.14、朝上）的三角形
++const curbs=[], tops=[]; const v=new THREE.Vector3(), a=new THREE.Vector3(), b=new THREE.Vector3(), c=new THREE.Vector3();
++z.group.traverse(o=>{ if(!o.isMesh||!o.material||Array.isArray(o.material)||!o.material.color||o.material.color.getHexString()!=='d9d3c6') return;
++  const bb=new THREE.Box3().setFromObject(o); if(bb.max.y>0.15||bb.min.y<-0.01) return; curbs.push(o);
++  const P=o.geometry.attributes.position, I=o.geometry.index, n=I?I.count:P.count;
++  for(let k=0;k<n;k+=3){ const ia=I?I.getX(k):k, ib=I?I.getX(k+1):k+1, ic=I?I.getX(k+2):k+2;
++    a.fromBufferAttribute(P,ia).applyMatrix4(o.matrixWorld); b.fromBufferAttribute(P,ib).applyMatrix4(o.matrixWorld); c.fromBufferAttribute(P,ic).applyMatrix4(o.matrixWorld);
++    if(Math.abs(a.y-0.14)>0.005||Math.abs(b.y-0.14)>0.005||Math.abs(c.y-0.14)>0.005) continue; tops.push([a.clone(),b.clone(),c.clone()]); } });
++// 每個頂面三角形取點（每 0.004 m² 一點，低差異數列），算落在步道裡面（深 > 5 cm）的面積
++const inArea=(box)=>{ let area=0, where=[]; for(const [p,q,r] of tops){ const A=Math.abs((q.x-p.x)*(r.z-p.z)-(r.x-p.x)*(q.z-p.z))/2; const n=Math.max(8,Math.ceil(A/0.004)); let hit=0;
++    for(let i=0;i<n;i++){ let u=((i+0.5)*0.6180339887)%1, w=((i+0.5)*0.7548776662)%1; if(u+w>1){ u=1-u; w=1-w; } const x=p.x+u*(q.x-p.x)+w*(r.x-p.x), zz=p.z+u*(q.z-p.z)+w*(r.z-p.z);
++      if(box&&!(x>=box[0]&&x<=box[1]&&zz>=box[2]&&zz<=box[3])) continue; if(depth(x,zz)>0.05){ hit++; if(where.length<4&&(!where.length||Math.hypot(where[where.length-1][0]-x,where[where.length-1][1]-zz)>3)) where.push([+x.toFixed(1),+zz.toFixed(1)]); } }
++    area+=A*hit/n; } return {area, where}; };
++check('0. 找得到步道、路緣', strips.length>=10&&tops.length>=10, '步道 '+strips.length+' 條、路緣 '+curbs.length+' 個網格（頂面 '+tops.length+' 個三角形）');
++const r1=inArea([22,40,-70,-45]); check('1. 截圖那一帶（x 22～40、z −70～−45）路緣不在步道上', r1.area<0.01, '路緣頂面在步道裡面 '+r1.area.toFixed(2)+' m²'+(r1.where.length?'，例如 '+JSON.stringify(r1.where):''));
++const r2=inArea(null); check('2. 整個校園的路緣都不橫在步道上', r2.area<0.01, '路緣頂面在步道裡面 '+r2.area.toFixed(2)+' m²（0.25 m 寬，約 '+(r2.area/0.25).toFixed(1)+' m 長）'+(r2.where.length?'，例如 '+JSON.stringify(r2.where):''));
++// 3. 路緣還在（從上往下打，打得到路緣的頂面）：不是路口的地方
++const rc=new THREE.Raycaster(), dn=new THREE.Vector3(0,-1,0);
++const spots=[['大道北側 x 0',0,-8.12],['大道南側 x 0',0,8.12],['大道北側 x −80',-80,-8.12],['南北向步道西側 z −30',24.88,-30],['南北向步道東側 z −30',35.12,-30],
++  ['東西向步道北側 x 60',60,-54.88],['東西向步道南側 x 60',60,-65.12],['z 47 那條路北側 x −50',-50,42.38],['z 47 那條路南側 x −50',-50,51.62]];
++const miss=spots.filter(([n,x,zz])=>{ rc.set(new THREE.Vector3(x,1,zz),dn); rc.far=2; return !rc.intersectObjects(curbs,false).length; }).map(s=>s[0]);
++check('3. 不是路口的地方路緣還在（'+spots.length+' 個點）', !miss.length, miss.length?'沒有路緣：'+miss.join('、'):'');
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

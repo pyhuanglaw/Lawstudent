@@ -6,6 +6,49 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
+## 🔁 交班（2026-11-10 01:4x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
+
+**交班紀錄不代表新帳號已經接班。** 分支 `claude/funny-albattani-iawshm`，最後一筆 commit 見 `git log -1 origin/claude/funny-albattani-iawshm`（就是寫這一段的那一筆）。開發分支基準 `a883f36de`。
+
+### A. 這一班已交、已整合（等 CC 拍、BB-B 判）
+- **CAM-VIEWPANE-SIDE-1109**：已驗收（BB-B D120 PASS）。
+- **CAM-TEAYARD-1109 第二輪**：已整合 4f888cf3c，等 CC 拍 150°／180°／210°。
+- **#204 第三批**：已整合 faf1b75a4，等 CC 拍。
+
+### B. 交班時進行中（都已存在遠端）
+1. **CAMPUS-FLOOR-STRIP-1110**（使用者試玩回報，LAWWW-B 01:08 派，排在文具區前面）：
+   - 狀態 `READY_FOR_REVIEW`。補丁和測試都完成，**還沒正式交給 LAWWW-B**（只在 ACK 裡說了在做）。
+   - 檔案：`wip/campus_curb_gap_1110/`。
+   - 原因：`curb()` 不在路口斷開，7 段約 56 m 的路緣橫在別條步道上。
+   - 新測試：開發分支 FAILED 2 → 加補丁 ALL PASS。回歸 38 支 ALL PASS。
+   - 遊戲內等 CC 用使用者存檔拍。
+2. **AVENUE-FAR-SIGNS-1110**（同一則派工）：**只查了、還沒改**。
+   - 來源：`tools/blender/env_second/gg_textures.py` 的 `BILLBOARDS`（8 張大看板）。
+     - 8 張是：明日文理補習班、晴川美語、晨光牙醫、明澈眼科、學府套房、公職補習、動能健身、遠帆留學。
+     - `gg_backdrop.py` 每棟樓用 `rr.randrange(8)` 隨便挑，校門外剛好挑到好幾張粉紅的「明日文理」。
+   - 驗證：在開發分支重跑 `gg_backdrop.py`，產出的 `campus_gongguan_bd.glb` 和現有的 sha 完全相同（7f358630646e4bc3），可以放心改了重匯。
+   - 下一步：
+     - 把 `BILLBOARDS` 換成銀行、餐廳、書店、藥局、手機行、眼鏡、牙醫、美語（最多留一家），店名原創、不諧音（D77）。
+     - 挑看板改成相鄰的樓不重複。挑的時候照舊呼叫一次 `rr.randrange(8)`，這樣其他亂數不變，樓的長相不會跟著變。
+     - 重匯兩顆：`campus_gongguan_bd.glb`，以及 `--zone gongguan` 的 `gongguan_far.glb`。
+     - `LIGHTBOX` 的「補習」也可以換掉。
+     - 附 Node 測試，例如檢查貼圖的看板文字裡沒有補習班。BB 判。
+3. **SIS-STATIONERY-1110**：
+   - 狀態 `WORK_IN_PROGRESS`。判斷「現在的不夠」，新版做到第二輪。
+   - 腳本：7bbb957fb。說明與預覽圖：`wip/sis_stationery_1110/`。
+   - v2 三張預覽還沒看；`shanlan_unit` 等測試還沒跑；還沒交件。
+   - 這件排在上面兩件後面。
+
+### C. 沒有遠端備份的
+- 合併後的 `shanlan.glb` 新版：用 README 的三行指令重產，不存 repo。
+- `scratchpad/wt_d` 裡的工作目錄改動，已經做成補丁存進 wip。其他沒有。
+
+### D. 下一班第一步
+1. 接班程序照 `docs/AI_SESSION_HANDOFF.md` 第 4 節。
+2. 把 `wip/campus_curb_gap_1110/` 交給 LAWWW-B：補丁 `git apply --check` 對當時的開發分支；新增 outbox 一筆。
+3. 做 AVENUE-FAR-SIGNS-1110（見 B-2）。
+4. 回到 SIS-STATIONERY-1110。
+
 ## ✅ 值班登記（2026-11-09 16:1x UTC；帳號 B LAWWW2-B；使用者：「現在接班」）
 
 - 工作階段 `session_01GV1WG3UeT2DhuDpxeWJsvD`，分支 `claude/funny-albattani-iawshm`。接班基準 `07725e9fc`，就是上一班（我自己，11-08 20:50 UTC 正常交班）最後 push 的那一筆。
