@@ -5295,6 +5295,33 @@
      "approvedBy": "AA 定稿（D109），LAWWW 11-10 接"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_745_movie_plots_1.json",
+   "sha": "d94b6ae6d",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "MOVIE-TALK-1110",
+   "kind": "json",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 1 批：m2409a～m2607b 24 部（情節、場景、散場三選項含效果、13 組片×人）"
+  },
+  {
+   "path": "docs/story_planning/AA_745_movie_plots_2.json",
+   "sha": "c7152c522",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "MOVIE-TALK-1110",
+   "kind": "json",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 2 批：m2609a～m2807b 24 部（15 組片×人）"
+  },
+  {
+   "path": "docs/story_planning/AA_745_movie_plots_3.json",
+   "sha": "4de16b994",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "MOVIE-TALK-1110",
+   "kind": "json",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 3 批：m2809a～m3007b 24 部（72 部寫完）"
   }
  ]
 }

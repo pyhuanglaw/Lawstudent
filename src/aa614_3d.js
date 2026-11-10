@@ -152,7 +152,7 @@ const AA614=(function(){
     const NY=typeof NY3!=='undefined'?NY3:null; if(NY&&NY.houseLights) NY.houseLights(false);
     if(GM.fade) await GM.fade(true); if(GM.advance) GM.advance(dur); if(typeof CLS!=='undefined'&&CLS.slotFillSpan) CLS.slotFillSpan(G,h0,h0+dur);   /* 看一場電影＝那段時間的一件主要的事（出遊同一個做法）*/
     if(GM.fade) await GM.fade(false);
-    { const SL=typeof MOVIES!=='undefined'&&MOVIES.soloLines?MOVIES.soloLines(G):null; if(SL&&SL.length){ for(const t of SL) await GM.say(null,t); } else await GM.say(null,S.L.watch[S.pick()]); }   /* 一個人看：AA_730 的 solo 三句（片名照那一段；MOVIE-REAL-1110，AA_730 pick 第 7 條取代 AA_615 的隨機旁白）；片單沒載入照舊 */
+    { const SL=typeof MOVIES!=='undefined'&&MOVIES.soloLines?MOVIES.soloLines(G):null; if(SL&&SL.length&&MOVIES.soloPlay&&typeof MOVIE_PLOTS!=='undefined'&&await MOVIES.soloPlay(GM)){ /* AA_745：solo 三句中間接兩部片的那一幕（scene），兩部都算看過（MOVIE-TALK-1110）*/ } else if(SL&&SL.length){ for(const t of SL) await GM.say(null,t); } else await GM.say(null,S.L.watch[S.pick()]); }   /* 一個人看：AA_730 的 solo 三句（片名照那一段；MOVIE-REAL-1110，AA_730 pick 第 7 條取代 AA_615 的隨機旁白）；片單沒載入照舊 */
     if(typeof SHOPNPC!=='undefined'&&SHOPNPC.popcorn&&SHOPNPC.popcorn(G)&&typeof SHOP_NPC!=='undefined'&&SHOP_NPC.alison&&SHOP_NPC.alison.movieLine) await GM.say(null,SHOP_NPC.alison.movieLine);   /* AA_615 第 4 節：今天拿到爆米花 */
     if(NY&&NY.houseLights) NY.houseLights(true); if(GM.autosave) GM.autosave(); return true; };
   S.onSeat=async function(GM,seat){ const G=GM&&GM.G; if(!seat||seat.kind!=='cinema'||!S.canWatch(G)) return false; return S.watch(GM); };
