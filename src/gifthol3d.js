@@ -90,7 +90,8 @@ const GIFTH=(function(){
 
   /* ---------------- 包包 ---------------- */
   S.item=gid=>(X()&&X().items[gid])||null;
-  S.shopName=key=>{ const s=X()&&X().shops[key]; return s?s.name.replace(/（新）$/,'').replace(/，新）$/,'）'):''; };   /* AA_732 店名後面的「新」是企劃註記（新店），畫面不顯示（BB 11-10 BUG-GIFT-SHOPNAME-NEW-1110）*/
+  S.SHOP_RENAME={gg_flower:'花序 Flower Notes'};   /* 使用者 2026-11-10（X325）：站口花攤升級成 G11 的「花序 Flower Notes」，店名是她給的；包包、送禮選單顯示新店名（舊存檔買過的花一樣）*/
+  S.shopName=key=>{ if(S.SHOP_RENAME[key]) return S.SHOP_RENAME[key]; const s=X()&&X().shops[key]; return s?s.name.replace(/（新）$/,'').replace(/，新）$/,'）'):''; };   /* AA_732 店名後面的「新」是企劃註記（新店），畫面不顯示（BB 11-10 BUG-GIFT-SHOPNAME-NEW-1110）*/
   S.bag=G=>F(G).bag.filter(b=>b&&S.item(b.id));
   S.full=G=>S.bag(G).length>=S.MAX;
   /* AA_416 1-8 舊的送禮（G.fest.gifts）：同名的那一樣算送過了；以安 2028 情人節的鋼筆（AN_VDAY_GIFT pen，AA_733 reuse）*/
