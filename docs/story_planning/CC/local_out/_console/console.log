@@ -269,3 +269,12 @@
 [23:25:09] [res] cpu=2% mem=35% (11.2/31.4 GB) chrome_testing=0  START X199_ANROUTE
 [23:25:09] [res] cpu=4% mem=35% (11.2/31.4 GB) chrome_testing=0  START US_ART_1b
 [23:27:32] [res] cpu=13% mem=49% (15.5/31.4 GB) chrome_testing=10  END US_ART_1b
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b36a76dd8..d489fb430  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:27:39] ==== END   US_ART_1b  exit=0  147s   ====
+[23:27:42] memory 50% before starting US_ART_1d (2 running)
+[23:27:42] ==== START US_ART_1d  (probe @ d78228f85825e139790bc42904bb7056ebf31e50) ====
+[23:27:45] [res] cpu=16% mem=50% (15.9/31.4 GB) chrome_testing=10  START US_ART_1d
+[23:27:45] worktree add d78228f85825e139790bc42904bb7056ebf31e50: invalid reference - fetching main and the commit itself
+[23:29:54] [res] cpu=15% mem=48% (15.2/31.4 GB) chrome_testing=9  END GUIDE_063

@@ -1,4 +1,4 @@
-[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_GUIDE_063\tests\guide_flow.py http://127.0.0.1:8801/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GUIDE_063\out
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_GUIDE_063\tests\guide_flow.py http://127.0.0.1:8800/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GUIDE_063\out
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
   [前置／捷徑] 讀檔：第二天 15:30 校園A館前，舊存檔格式（只有目標文字、沒有 goalDest）
 {"dest": {"zone": "cafe", "name": "2:30 AM"}, "tgt": {"x": -101.4, "z": -139.4, "text": "往新生南路（側門）", "via": "xinsheng"}, "route": 9, "bar": true, "txt": "往新生南路（側門）（往2:30 AM） · 約 160 m", "arrow": "rotate(-85.7deg)", "markers": 18}
