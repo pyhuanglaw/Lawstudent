@@ -52091,6 +52091,32 @@
    },
    "sha": null,
    "next": "【LAWWW 11-10 17:2x】使用者：「什麼時候可以發下一個版本了」。候選＝GHA 綠的開發分支最新；BB 照 TESTING 第五節發布前清單（CC 在 PC）給 GO；LAWWW 發布（D85）。"
+  },
+  {
+   "id": "MOVIE-POSTERS-Y2-1110",
+   "title": "接 BB 電影海報第四批（大二那一年 m2607a～m2703b，10 張）進 assets/posters",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "大二約看電影",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【LAWWW 11-10 17:1x】BB 交件：企劃線 docs/story_planning/bg_approved/posters/m2607a～m2703b.webp（1024×1536，README 有檢查紀錄）；v9.10.24 發完以後接（複製進 assets/posters、LICENSES 一列、movie_real_1110_unit 海報表）。",
+   "xai": {
+    "spec": "BB 交件 11-10 17:17",
+    "branch": "claude/story-planning",
+    "acceptance": "大二那一年約看電影，大廳和 1 廳看得到海報",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
