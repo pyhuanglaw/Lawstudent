@@ -401,3 +401,12 @@
 [04:40:52] worktree add 354b527b5f0b4e37db85138edca7b8f9c26e7ebd: invalid reference - fetching main and the commit itself
 [04:41:56] 正在跑：MT_info_again_skip（已跑 1 分／上限 20 分）、MT_talk0（已跑 1 分／上限 25 分）、MT_talk12（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [04:43:47] [res] cpu=5% mem=46% (14.6/31.4 GB) chrome_testing=10  END MT_talk12
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e309b7c05..627427334  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:43:53] ==== END   MT_talk12  exit=0  178s   ====
+[04:44:01] memory 46% before starting GG16r5c_new (2 running)
+[04:44:01] ==== START GG16r5c_new  (probe @ 35e560bbdef3aabbc1aea11b5f6d1c5d58b7e7f7) ====
+[04:44:04] [res] cpu=2% mem=46% (14.6/31.4 GB) chrome_testing=10  START GG16r5c_new
+[04:44:04] worktree add 35e560bbdef3aabbc1aea11b5f6d1c5d58b7e7f7: invalid reference - fetching main and the commit itself
+[04:44:39] [res] cpu=31% mem=37% (11.6/31.4 GB) chrome_testing=4  END MT_info_again_skip
