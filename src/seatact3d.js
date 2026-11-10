@@ -332,7 +332,11 @@ const SEATACT=(function(){
       const ims={}; for(const [nm,n] of cnt){ const a=R.props[nm], b=R.props[nm+'_lod1']; const mk=(src,name)=>{ const im=new THREE.InstancedMesh(src.geometry,src.material,n); im.count=0; im.castShadow=false; im.receiveShadow=true; im.name=name; im.frustumCulled=true; g.add(im); return im; };
         const A=a?mk(a,'desk:'+nm):null; ims[nm]={near:A,far:b?mk(b,'desk:'+nm+'_lod1'):A,item:!b}; }
       g.userData.rs=rs; g.userData.ims=ims;
-      const LG=E.zone.levelGroups, lg=LG&&LG[lv]; (lg&&lg.group||E.zone.group||E.scene).add(g); R.groups.set(lv,g); lay(g,P,true); } }
+      const LG=E.zone.levelGroups, lg=LG&&LG[lv], par=lg&&lg.group||E.zone.group||E.scene; par.add(g);
+      /* 桌上的東西是世界座標（S.probe 用 matrixWorld 找桌子）：掛的群組自己有位移的區域（一盞：zones3d.js wzShop 把整個房間 g0 往 +z 搬了 cz＝2.3 m），
+         這一組要抵銷掉——不然每一件都多偏 2.3 m（BUG X289，11-08 BB：一盞的外帶杯浮在離座位 1.87 m、下面沒有桌子的地方）。群組沒有位移＝單位矩陣＝照舊 */
+      par.updateWorldMatrix(true,false); new THREE.Matrix4().copy(par.matrixWorld).invert().decompose(g.position,g.quaternion,g.scale); g.updateMatrixWorld(true);
+      R.groups.set(lv,g); lay(g,P,true); } }
   let M4=null, Q4=null, V4=null, ONE=null, UP=null;   /* 第一次畫的時候才建（只載資料、THREE 是假的測試環境也載得起來）*/
   S.NEAR=7; S.ITEM_FAR=12;
   function lay(g,P,force){ if(!M4){ M4=new THREE.Matrix4(); Q4=new THREE.Quaternion(); V4=new THREE.Vector3(); ONE=new THREE.Vector3(1,1,1); UP=new THREE.Vector3(0,1,0); } const rs=g.userData.rs, ims=g.userData.ims; let ch=!!force;

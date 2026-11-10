@@ -50937,7 +50937,7 @@
    "id": "YIZHAN-FLOAT-CUPS-1110",
    "title": "一盞：外帶杯飄在半空中（榻榻米房間）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -50949,7 +50949,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:36 LAWWW2-B】交班後才讀到，0 進度；下一班 LAWWW2 照順序：路緣 → 遠景招牌 → 一盞浮杯、法服攤位 → 文具區 → 接待桌。 ｜ 【11-10 01:3x LAWWW-B】使用者 X289。11/8 週六 18:28 一盞，左側榻榻米房間：兩個外帶紙杯浮在半空（靠近跪坐的客人、沒有桌子的地方）。LAWWW2 查是 yizhan.glb 的擺設、還是路人（crowd3d）的道具位置；修好附 Node 測試，BB 截圖判。",
+   "next": "【LAWWW 11-10 08:5x】LAWWW2 57a9dd322：一盞房間群組 g0 往 +z 搬 2.3 m，seatact3d 桌上小物世界座標卻掛在 g0 底下——rebuild 抵銷父群組 matrixWorld；seatact_offset_group_unit 改前 FAIL→ALL PASS；CC 拍、BB 判｜【11-10 01:36 LAWWW2-B】交班後才讀到，0 進度；下一班 LAWWW2 照順序：路緣 → 遠景招牌 → 一盞浮杯、法服攤位 → 文具區 → 接待桌。 ｜ 【11-10 01:3x LAWWW-B】使用者 X289。11/8 週六 18:28 一盞，左側榻榻米房間：兩個外帶紙杯浮在半空（靠近跪坐的客人、沒有桌子的地方）。LAWWW2 查是 yizhan.glb 的擺設、還是路人（crowd3d）的道具位置；修好附 Node 測試，BB 截圖判。",
    "xai": {
     "spec": "使用者 11-10 02:0x 對 LAWWW-B",
     "branch": "claude/funny-albattani-iawshm",
@@ -50959,7 +50959,7 @@
     "owner": "LAWWW2"
    },
    "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "sha": "57a9dd322",
    "test": null
   },
   {
@@ -51209,7 +51209,7 @@
    "id": "LIB-BOARD-FLOAT-1110",
    "title": "總圖大廳「樓層簡介」看板兩個、一個浮在半空（使用者 11-10 X296）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -51221,7 +51221,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 08:4x】LAWWW2 回來了，場景歸 LAWWW2（D108），轉給 LAWWW2｜【11-10 02:4x LAWWW-B】library_hall_v2.js 的樓層簡介：字（canvas 平面）加在 lv0 一直顯示、架子在 fb0（備用模型），正式 GLB 載入後換成 GLB 的架子——查 GLB 架子位置和 L.directory 是不是一樣、是不是有兩份；場景本來是 LAWWW2（D108），LAWWW2 不在由 LAWWW 修（SOLO-LAWWW-B-1110）。",
+   "next": "【LAWWW 11-10 08:5x】LAWWW2 查到 LAWWW-B 已修（7a019726d「總圖大廳的樓層簡介只留一塊」，library_board_float_unit），最新開發分支 ALL PASS；只差 CC 截圖｜【LAWWW 11-10 08:4x】LAWWW2 回來了，場景歸 LAWWW2（D108），轉給 LAWWW2｜【11-10 02:4x LAWWW-B】library_hall_v2.js 的樓層簡介：字（canvas 平面）加在 lv0 一直顯示、架子在 fb0（備用模型），正式 GLB 載入後換成 GLB 的架子——查 GLB 架子位置和 L.directory 是不是一樣、是不是有兩份；場景本來是 LAWWW2（D108），LAWWW2 不在由 LAWWW 修（SOLO-LAWWW-B-1110）。",
    "evidence": "docs/handoff/user_shots/1110_library_board_float.webp",
    "sha": null,
    "xai": {
@@ -51229,7 +51229,7 @@
     "branch": "claude/second-ai-env-art",
     "acceptance": "patch＋測試；樓層簡介看板不浮空",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {
