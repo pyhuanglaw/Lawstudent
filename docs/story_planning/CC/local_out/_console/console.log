@@ -1073,3 +1073,17 @@
 [19:45:06] [res] cpu=5% mem=36% (11.4/31.4 GB) chrome_testing=0  START GYMPROPS_new
 [19:48:06] 正在跑：GYMPROPS_new（已跑 3 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:48:07] [res] cpu=12% mem=36% (11.4/31.4 GB) chrome_testing=0  END GYMPROPS_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1fe36c9b4..e589ad747  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:48:15] ==== END   GYMPROPS_new  exit=0  184s   ====
+[19:48:22] memory 34% before starting GGDC_tree4g_new (0 running)
+[19:48:22] memory 34% before starting GGDC_tree4g_old (1 running)
+[19:48:22] ==== START GGDC_tree4g_new  (probe @ d8b669175bcf363974b401e1eed3d6709f2b0949) ====
+[19:48:22] memory 34% before starting GGDC_tree4c_new (2 running)
+[19:48:22] ==== START GGDC_tree4g_old  (probe @ fe4d893acdb08eb93f93b688380bd0700ff5ad48) ====
+[19:48:22] ==== START GGDC_tree4c_new  (probe @ d8b669175bcf363974b401e1eed3d6709f2b0949) ====
+[19:48:25] [res] cpu=6% mem=34% (10.8/31.4 GB) chrome_testing=0  START GGDC_tree4c_new
+[19:48:25] [res] cpu=6% mem=34% (10.8/31.4 GB) chrome_testing=0  START GGDC_tree4g_new
+[19:48:25] [res] cpu=6% mem=34% (10.8/31.4 GB) chrome_testing=0  START GGDC_tree4g_old
+[19:50:35] [res] cpu=30% mem=48% (15.1/31.4 GB) chrome_testing=10  END GGDC_tree4g_old
