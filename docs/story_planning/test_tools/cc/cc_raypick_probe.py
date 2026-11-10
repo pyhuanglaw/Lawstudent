@@ -45,13 +45,20 @@ async def main():
             await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(300)
             fn = os.path.join(OUT, 'ray_%s_%s.png' % (TAG, zone)); await pg.screenshot(path=fn)
             r = await pg.evaluate(PICK_JS, px); await pg.evaluate(D.HUD + '(true)')
-            from PIL import Image, ImageDraw
-            im = Image.open(fn).convert('RGB'); dr = ImageDraw.Draw(im)
+            try:   # 11-10：PC 沒有 PIL（RAY r1 在這裡當掉）→ 沒有就不畫圈、不讀像素，雲端從截圖補
+                from PIL import Image, ImageDraw
+                im = Image.open(fn).convert('RGB'); dr = ImageDraw.Draw(im)
+            except ImportError:
+                im = dr = None
             for h in r['hits']:
-                sx, sy = h['px']; dr.ellipse([sx - 5, sy - 5, sx + 5, sy + 5], outline=(255, 0, 0), width=2)
-                h['screen'] = list(im.getpixel((int(sx), int(sy))))
+                sx, sy = h['px']
+                if im is not None:
+                    dr.ellipse([sx - 5, sy - 5, sx + 5, sy + 5], outline=(255, 0, 0), width=2)
+                    h['screen'] = list(im.getpixel((int(sx), int(sy))))
+                else: h['screen'] = None
                 R.note('%s 像素 (%d,%d) 畫面 %s → %s' % (zone, sx, sy, h['screen'], json.dumps({k: h.get(k) for k in ('mesh', 'parent', 'mat', 'x', 'y', 'z', 'uv2', 'lightMap', 'lmValue', 'lmName', 'dist')}, ensure_ascii=False)))
-            im.save(fn.replace('.png', '_marked.png')); allres[zone] = r
+            if im is not None: im.save(fn.replace('.png', '_marked.png'))
+            allres[zone] = r
             R.check('%s 每個像素都打到東西' % zone, all(h.get('mesh') for h in r['hits']), '')
         json.dump(allres, open(os.path.join(OUT, 'raypick_%s.json' % TAG), 'w'), ensure_ascii=False, indent=1)
         R.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))

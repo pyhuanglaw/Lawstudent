@@ -117,7 +117,14 @@ async def wait_free(pg, cdp, tag, max_s=90):
 
 async def phone_go(pg, cdp, zone, tag, max_s=180):
     """手機「地點」頁點那一區的「前往」（地區收起來的話先點地區展開）；等到進了那一區、人能動"""
-    await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
+    # 11-10 r2：WAKE r1 剛到校園時畫面上有「提示」和停車 toast，按 📱 沒打開手機（截圖 wake_a_phone.png 手機根本沒開）→ 等提示消失、確認手機真的開了再點分頁
+    opened = False
+    for k in range(5):
+        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1500)
+        if await pg.evaluate("(()=>{ const e=document.getElementById('phone'); return !!e&&!e.classList.contains('hide'); })()"): opened = True; break
+        note('%s：手機沒打開（第 %d 次），等 3 秒再按' % (tag, k + 1)); await pg.wait_for_timeout(3000)
+    if not opened:
+        await pg.screenshot(path=os.path.join(OUT, 'wake_%s_phone.png' % tag)); return False
     await L.tap(pg, cdp, '#phoneTabs [data-ptab="places"]'); await pg.wait_for_timeout(1500)
     sel = '#phoneBody [data-place^="%s|"]' % zone
     if not await pg.evaluate("s=>!!document.querySelector(s)", sel):
@@ -127,6 +134,7 @@ async def phone_go(pg, cdp, zone, tag, max_s=180):
             if await pg.evaluate("s=>!!document.querySelector(s)", sel): note('%s：手機地點：展開地區 %s' % (tag, a)); break
     row = await pg.evaluate("s=>{ const b=document.querySelector(s); if(!b) return null; const r=b.closest('.item')||b.parentElement; return (r.textContent||'').trim().slice(0,80); }", sel)
     note('%s：手機地點那一列：%s' % (tag, row))
+    if not row: note('%s：手機上有的地點：%s' % (tag, J(await pg.evaluate("(()=>[...document.querySelectorAll('#phoneBody [data-place]')].map(b=>b.dataset.place).slice(0,40))()"))))
     if not row: await pg.screenshot(path=os.path.join(OUT, 'wake_%s_phone.png' % tag)); return False
     await L.tap(pg, cdp, sel)
     t0 = time.time()

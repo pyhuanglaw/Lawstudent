@@ -78,10 +78,14 @@ async def main():
             await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(300)
             fn = os.path.join(OUT, 'camdrag_%s_%s_%s.png' % (ZONE, TAG, label)); await pg.screenshot(path=fn)
             await pg.evaluate(D.HUD + '(true)')
-            from PIL import Image, ImageStat
-            sd = ImageStat.Stat(Image.open(fn).convert('L')).stddev[0]; s['lumaStd'] = round(sd, 1); res[label] = s
+            try:   # 11-10：PC 沒有 PIL（TEA2 r1 在這裡當掉）→ 沒有就跳過，亮度雲端從截圖算
+                from PIL import Image, ImageStat
+                sd = ImageStat.Stat(Image.open(fn).convert('L')).stddev[0]; s['lumaStd'] = round(sd, 1)
+            except ImportError:
+                sd = -1.0; s['lumaStd'] = None
+            res[label] = s
             R.check('%s° 鏡頭轉到了（差 <6°）' % yd, abs((yd - s['yawDeg'] + 540) % 360 - 180) < 6, str(s['yawDeg']))
-            R.note('%s° 畫面亮度標準差 %.1f（整片牆通常 <15）' % (yd, sd))
+            if sd >= 0: R.note('%s° 畫面亮度標準差 %.1f（整片牆通常 <15）' % (yd, sd))
         json.dump(res, open(os.path.join(OUT, 'teayard_%s.json' % TAG), 'w'), ensure_ascii=False, indent=1)
         R.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
