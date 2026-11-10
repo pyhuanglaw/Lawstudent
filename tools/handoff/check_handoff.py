@@ -966,6 +966,28 @@ def lastnote(src, tasks, log):
     return nb
 
 
+def releasegate(args):
+    """D146（使用者 11-10 17:4x：「一鍵前往一定要在下個版本，你沒做好前就不要發佈」「曖昧要分期 某個程度可以約對方出去校外玩 也一定要在下個版本」）：
+    USER_WANTS 列有【下一版必須】的，連到的任務都要「已驗收」（BB 在瀏覽器判 PASS）才可以發布；有一項沒有＝結束碼 1，不准發布。發布前必跑。"""
+    src = Src(args.root, args.ref)
+    tasks = {t.get('id'): t for t in (json.loads(src.read(TASKS)).get('tasks') or [])}
+    text = src.read('docs/handoff/USER_WANTS.md')
+    bad, n = [], 0
+    for l in text.splitlines():
+        m = WANT_ROW.match(l)
+        if not m or '【下一版必須】' not in l:
+            continue
+        n += 1
+        tids = [t for t in re.findall(r'[A-Z][A-Z0-9]+(?:-[A-Z0-9]+)+', l) if t in tasks]
+        st = {t: tasks[t].get('status') for t in tids}
+        ok = bool(tids) and all(v in ('已驗收',) for v in st.values())
+        print(f'- [{"可以" if ok else "還不行"}] {m.group(1)} → ' + (', '.join(f'{t}:{v}' for t, v in st.items()) or '（沒有任務 ID）'))
+        if not ok:
+            bad.append(m.group(1))
+    print(f'【下一版必須】{n} 項；' + ('結果：OK，可以發布' if not bad else f'結果：{len(bad)} 項還沒驗收（{", ".join(bad)}）——不准發布'))
+    return 1 if bad else 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', default=ROOT)
@@ -995,13 +1017,15 @@ def main(argv=None):
     w = sub.add_parser('userwork', help='USERWORK-1110：使用者交代、還沒做完、歸這個職位的事，這一班有沒有動過（接班確認逐項寫）')
     w.add_argument('--owner', default='LAWWW')
     w.add_argument('--ref')
+    g = sub.add_parser('releasegate', help='D146：USER_WANTS【下一版必須】的任務都已驗收才可以發布')
+    g.add_argument('--ref')
     i = sub.add_parser('incr', help='增量核對：各職位水位線以後的新 commit、outbox、WIP 索引')
     i.add_argument('--ref')
     i.add_argument('--advance', action='append', choices=INC.ROLES + ['all'], help='全部分類、沒有異常、已 push 才前進水位線')
     i.add_argument('--by', help='誰核對的（例：LAWWW-C）')
     duty_state.add_parser(sub)
     a = ap.parse_args(argv)
-    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'asks': asks, 'askuser': askuser, 'userwork': userwork, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
+    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'asks': asks, 'askuser': askuser, 'userwork': userwork, 'releasegate': releasegate, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
 
 
 if __name__ == '__main__':
