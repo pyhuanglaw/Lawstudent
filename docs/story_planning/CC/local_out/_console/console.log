@@ -352,3 +352,11 @@
 [00:02:14] ==== START USCLS_A  (probe @ 01bab1823003df827be3d76bc7d2c13ef034dacb) ====
 [00:02:17] [res] cpu=18% mem=51% (16.0/31.4 GB) chrome_testing=10  START USCLS_A
 [00:03:03] [res] cpu=25% mem=48% (14.9/31.4 GB) chrome_testing=9  END SHIFT_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       dde0c488b..97ddcc5c9  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:03:10] ==== END   SHIFT_new  exit=0  411s   ====
+[00:03:18] memory 49% before starting USCLS_B (2 running)
+[00:03:18] ==== START USCLS_B  (probe @ 01bab1823003df827be3d76bc7d2c13ef034dacb) ====
+[00:03:21] [res] cpu=2% mem=50% (15.6/31.4 GB) chrome_testing=9  START USCLS_B
+[00:04:08] [res] cpu=13% mem=48% (14.9/31.4 GB) chrome_testing=9  END SHIFT_old
