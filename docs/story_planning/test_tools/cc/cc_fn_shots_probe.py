@@ -4,7 +4,7 @@
 G11 的位置：場景物件 userData.ggShop＝'G11'（src/zones3d.js 946 ggTag）的外框（改之前 x 41.3～51.6、前緣 z≈18.1），偵測不到用 FN_G11='x0,x1,前緣z'。
 店門：exit 的 label／區域名有「花序」「Flower」、或在 G11 寬度裡（cc_fn_lib.find_door）；FN_DOOR_LABEL 可指定。
 PARTS（逗號分隔；預設 EXT,SIGN,VIEWS,INT,STAIRS,FPS）：
-  EXT     外觀：14:00、17:15、20:30（【前置】讀檔公館、晴）各拍正面 ext_front、斜 ext_obl（SHOT_HOURS=1400,1715,2030 選時段）。
+  EXT     外觀：14:00、17:15、20:30（【前置】讀檔公館、晴）各拍 ext_ref（對照 exterior.png 的角度）、正面近一點 ext_front、斜 ext_obl（SHOT_HOURS=1400,1715,2030 選時段）。
   SIGN    招牌近拍 sign（14:00）。
   VIEWS   從捷運口 view_mrt、校門 view_gate、騎樓 view_arcade 看向 G11（14:00）。
   INT     有門才拍：觸控走進店（D.use_exit）→ 入口往裡一張（站在進門的位置、照人面向的方向）→ 五個區（中央展示、鮮花、永生花、收銀、入口）各一張：
@@ -32,6 +32,7 @@ HOURS = [(14.0, '1400'), (17.25, '1715'), (20.5, '2030')]
 if os.environ.get('SHOT_HOURS'): HOURS = [x for x in HOURS if x[1] in os.environ['SHOT_HOURS'].split(',')]   # 例 SHOT_HOURS=1400,2030（拆開跑）
 # 相機（可調）：rel[0]＝eye 相對 G11、rel[1]＝look 相對 G11（G11 中間 x、0、G11 前緣 z）
 CAMS = {
+    'ext_ref':     {'eye': [3.5, 1.6, -15.0], 'look': [0, 4.0, 0.0], 'lens': 24, 'rel': [True, True]},      # 對照 exterior.png：馬路對面略偏東，行道樹 (46, 9.6) 落在畫面左邊
     'ext_front':   {'eye': [0, 1.7, -7.5], 'look': [0, 4.2, 0.5], 'lens': 16, 'rel': [True, True]},      # 人行道上正對（行道樹在 G11 前面 (46, 9.6)＝前緣 −8.5 m：相機放在樹和店之間）
     'ext_obl':     {'eye': [-13.0, 1.7, -12.0], 'look': [0, 4.5, 0.5], 'lens': 22, 'rel': [True, True]},  # 西邊斜 45°
     'sign':        {'eye': [0, 2.2, -6.0], 'look': [0, 4.3, 0.0], 'lens': 40, 'rel': [True, True]},       # 招牌近拍（改之前套件燈箱高 3.85 m，cc_gg_signs_probe.py）
@@ -70,7 +71,7 @@ async def load_street(pg, cdp, h, g=None, why=''):
 async def part_ext(pg, cdp, g):
     for h, hs in HOURS:
         await load_street(pg, cdp, h, g, '：外觀')
-        for nm in ('ext_front', 'ext_obl'):
+        for nm in ('ext_ref', 'ext_front', 'ext_obl'):
             await snap(pg, cdp, 'fns_%s_%s' % (nm, hs), cam_of(nm, g), '%s %s' % (nm, hs))
 
 
@@ -120,6 +121,7 @@ async def part_int(pg, cdp, g):
     try: ov = json.loads(os.environ.get('FN_AREAS') or '{}')
     except Exception as e: R.note('%s FN_AREAS 讀不懂：%r' % (tag, e))
     det = await pg.evaluate("(%s)(%s)" % (AREA_JS, J(AREA_PAT)))
+    bd = await pg.evaluate("(()=>{ const b=GAME.E.zone&&GAME.E.zone.bounds; return b?[b.w,b.d]:null; })()")
     R.note('%s 店裡的場景物件名稱（前 200）：%s' % (tag, J(det['names'])))
     for k in AREA_PAT:
         if k in ov:
@@ -127,8 +129,10 @@ async def part_int(pg, cdp, g):
         h = det['hit'].get(k)
         if not h:
             R.note('%s 「%s」偵測不到（場景物件名稱沒有 /%s/；請給 FN_AREAS）' % (tag, k, AREA_PAT[k])); continue
-        c = h['c']; dx, dz = sp['x'] - c[0], sp['z'] - c[2]; d = math.hypot(dx, dz) or 1; back = max(2.5, max(h['size'][0], h['size'][2]) * 1.2)
-        cam = {'eye': [round(c[0] + dx / d * back, 2), 1.6, round(c[2] + dz / d * back, 2)], 'look': [c[0], max(0.8, c[1]), c[2]], 'lens': 22}
+        c = h['c']; dx, dz = sp['x'] - c[0], sp['z'] - c[2]; d = math.hypot(dx, dz) or 1; back = max(2.5, min(4.5, max(h['size'][0], h['size'][2]) * 0.6))
+        ex, ez = c[0] + dx / d * back, c[2] + dz / d * back
+        if bd: ex, ez = max(-bd[0] / 2 + 0.4, min(bd[0] / 2 - 0.4, ex)), max(-bd[1] / 2 + 0.4, min(bd[1] / 2 - 0.4, ez))   # 相機留在房間裡（zone.bounds；不然會拍到牆的背面）
+        cam = {'eye': [round(ex, 2), 1.6, round(ez, 2)], 'look': [c[0], max(0.8, c[1]), c[2]], 'lens': 22}
         R.note('%s 「%s」＝物件 %s（中心 %s、大小 %s）：從入口那一側 %.1f m 拍' % (tag, k, h['name'], J(c), J(h['size']), back))
         await snap(pg, cdp, 'fns_area_%s' % k, cam, '%s（物件 %s）' % (k, h['name']))
 

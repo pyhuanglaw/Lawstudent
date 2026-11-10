@@ -66,8 +66,8 @@ async def part_list(pg, cdp):
         R.note('%s G11 沒有門（exit 在 G11 寬度 %s～%s 裡、或 label 有「花序」的都沒有）' % (tag, g and g['x0'], g and g['x1']))
     src = await pg.evaluate("(%s)(%s)" % (F.SRC_SCAN_JS, J(F.FLOWER_KIND)))
     R.note('%s 遊戲載入的 src 裡寫到 gg_flower 的行（%d 行）：%s' % (tag, len(src), J(src)))
-    kinds = [x for x in src if ("kind:'gg_flower'" in x[2] or 'kind:"gg_flower"' in x[2]) and 'interactables.push' in x[2]]
-    R.note('%s 其中「interactables.push…kind:gg_flower」的：%s' % (tag, J(kinds)))
+    kinds = [x for x in src if ("kind:'gg_flower'" in x[2] or 'kind:"gg_flower"' in x[2]) and '.push(' in x[2]]
+    R.note('%s 其中「…push({…kind:gg_flower…})」的（互動點）：%s' % (tag, J(kinds)))
     allf = [x for x in fl if not x['hidden']] + [x for x in inside if not x['hidden']]
     R.check('%s 公館（含花序店裡）只剩 1 個 kind gg_flower 的互動點（%d 個）' % (tag, len(allf)), len(allf) == 1, J(allf))
     near = [x for x in fl if math.hypot(x['x'] - OS['cx'], x['z'] - OS['cz']) < 4]
