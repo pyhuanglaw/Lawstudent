@@ -114,9 +114,15 @@ const SHIFTT=(function(){
     const pid=Object.keys(S.SHOP).find(id=>S.SHOP[id]===G.zone); pend=null; if(!pid||!S.due(GM,pid)) return false;
     busy=true; Promise.resolve(S.play(GM,pid)).catch(e=>console.warn('SHIFTT.play',e)).finally(()=>{ busy=false; }); return true; };
 
+  /* 走進來還沒等滿兩秒就按了店裡的東西（點餐、坐下…）：先把這一場演完再做那件事（BB 11-10 15:47 P3：手機 20 fps 時 STORY.tick 四格約 6 秒，
+     玩家直接走到櫃台點單會先被扣錢、之後才演「今天這壺，算我的」）*/
+  S.flush=async function(GM){ const G=GM&&GM.G; if(!pend||busy||!G||G.zone!==pend.zone||(GM.enterN|0)!==pend.n) return false;
+    const pid=Object.keys(S.SHOP).find(id=>S.SHOP[id]===G.zone); pend=null; if(!pid||!S.due(GM,pid)) return false;
+    busy=true; try{ await S.play(GM,pid); } catch(e){ console.warn('SHIFTT.play',e); } finally { busy=false; } return true; };
   /* ---------------- 掛上去 ---------------- */
   if(typeof STORY!=='undefined'&&!STORY._shiftt){ STORY._shiftt=true;
     if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>S.tick(GM));
+    if(typeof STORY.interact==='function'){ const oi=STORY.interact; STORY.interact=async function(it,GM){ try{ if(pend&&!(it&&it.exit)) await S.flush(GM); }catch(e){ console.warn('SHIFTT.flush',e); } return oi.apply(this,arguments); }; }   /* 出口不算：要走了就不演 */
     if(typeof STORY.onEnter==='function'){ const o0=STORY.onEnter; STORY.onEnter=function(zoneId,GM,opts){ try{ S.entered(zoneId,GM,opts); }catch(e){ console.warn('SHIFTT.entered',e); } return o0.apply(this,arguments); }; } }
   /* 「兩點半的店員」（點餐那一場）：T3 那天，那一場裡第一筆沒有標籤的扣錢（她做的你那一杯）不扣 */
   if(typeof EVENTS!=='undefined'&&EVENTS.run&&!EVENTS._shiftt){ EVENTS._shiftt=true; const r0=EVENTS.run;

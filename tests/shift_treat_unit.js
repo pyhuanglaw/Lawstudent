@@ -9,6 +9,7 @@
 //   6. 四個階段各一組照順序輪（acq 2 句輪、familiar／friend.happy／dating.happy 三組輪），旁白／她說的分開
 //   7. 招待頻率：朋友＝朋友以上第 3 次起、隔 3 次、7 天以上；交往＝隔 2 次、5 天以上；輪不到演 happy
 //   8. 招待：熟悉 +1（不動戀愛點數）；happy 不加
+//  10b. 還沒等滿兩秒就按了店裡的東西（點餐）：先演完再點（BB 11-10 15:47）
 //   9. T3（芷若熱可可、語彤先端來一壺）：那天在那家店點的下一樣不扣錢（兩點半點餐、「兩點半的店員」事件、一盞點茶）；別家店、隔天不算；其他招待照付
 //  10. 走進店裡（STORY.onEnter）等兩秒才演；讀檔回到店裡不演；對話中等
 //  11. 舊存檔（沒有 G.flags.SHIFTT、壞掉的）讀得進來、從 idx 0 開始
@@ -177,6 +178,10 @@ const playAt=async(id,day)=>{ at(day,id===ZR?20:14); return run(()=>SHIFTT.play(
     GM.D.active=false; f3=SHIFTT.tick(GM); await new Promise(r=>setTimeout(r,20)); check('10. 對話結束接著演',f3&&SHIFTT.per(G,ZR).day===G.day);
     GM.enterN=9; STORY.onEnter('cafe',GM,{}); G.zone='wenzhou'; check('10. 等的時候離開了＝不演',!SHIFTT.tick(GM)&&!SHIFTT.pending()); G.zone='cafe';
     GM.enterN=10; STORY.onEnter('noodle',GM,{}); check('10. 別家店不記',!SHIFTT.pending());
+    at(G.day+4,20); GM.enterN=11; STORY.onEnter('cafe',GM,{}); SHIFTT.tick(GM); const fl=await SHIFTT.flush(GM);   /* BB 11-10 15:47 P3：還沒等滿就按了店裡的東西 */
+    check('10. 等滿以前按了店裡的東西（flush）＝先演完',fl===true&&SHIFTT.per(G,ZR).day===G.day&&!SHIFTT.pending(),fl);
+    check('10. 演過了再 flush 不重演',(await SHIFTT.flush(GM))===false);
+    check('10. STORY.interact 包了 flush（出口不算）',/SHIFTT\.flush|S\.flush/.test(String(STORY.interact))&&/it\.exit/.test(String(STORY.interact)));
     check('10. STORY.TICKS 有登記',STORY.TICKS.some(f=>/SHIFTT|S\.tick/.test(String(f)))||STORY._shiftt===true); });
 
   /* ======================= 11 舊存檔 ======================= */
