@@ -24,6 +24,14 @@
   - SUNNY SIDE、小路在 `wz_signs_atlas` 也各有一格（sign_atlas.py），遊戲實際用哪一格要看截圖。
   - → 這四塊（2:30 AM、日常失速、SUNNY SIDE、小路）等 CC 截圖確認哪一張圖在用，再換那一張。
 
+## 第 2 包第二版：大口漢堡不要拉寬（BB 11-10 20:34 判 PARTIAL）
+- BB（CC 的遊戲截圖 gg16r4_xinsheng_front）：字水平了，但整塊被橫向拉寬——左邊漢堡圖示被切掉一半、右邊橘色弧形跑出板子、字變糊。
+- 原因（我的錯）：第一版只框招牌的正面（寬 709 px、高約 112 px，6.3:1），直接貼滿整塊板（遊戲裡 13.2 × 1.42 m＝9.3:1）→ 橫向拉寬 1.3 倍，圖示被擠到板子最左邊。舊版框得比較寬（連左邊轉角那一面），所以圖示完整。
+- 第二版：正面拉正以後照板子的比例縮（不拉伸），放在板子中間；左右多出來的地方照左緣的深藍、右緣的白橘色帶接下去。整個漢堡圖示、字、橘色弧形都在板內（`dakou_sign_v2.jpg`）。
+- `xs_signs_rectify_v2.patch`：底＝開發分支 054102ec4（已經有第一版）；`xinsheng_street.glb` 2,130,724 → 2,124,896 bytes。回歸：xinsheng、xs_door_labels、xs_farview、xs_planters、zone_prefetch ALL PASS。
+- **字糊**：這一格在 GLB 的圖集裡只有 512×64 px（招牌 13.2 m 寬＝每公尺 39 px），拉正前後一樣；要更清楚得重排圖集（下一步，如果 BB 看了還是糊）。
+- 山嵐書店被行道樹擋一半（P3，新舊一樣）：樹是遊戲端擺的（xinsheng_layout trees），要移請 LAWWW／BB 決定，這一包不動。
+
 ## 第 3 包第三版：加日常失速（11-10 20:4x）——十七塊全部做完
 - CC 20:22 的遊戲截圖（cc-testing `gg16_offbeat_old_new.jpg`）：日常失速在遊戲裡是斜的（字往右下）；公館五塊新版都水平了。
 - **更正上一版寫的**：`offbeat_storefront.glb` 烘的是「從街上看的店內」，不是招牌。日常失速的招牌在 `wenzhou_street.glb` 的 `wz_fronts_atlas` 的 `offbeat_sign` 那一格（外觀 OFFBEAT_XS）——上一版就是漏了這一格，不用重烘。
