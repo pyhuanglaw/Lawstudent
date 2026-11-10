@@ -394,7 +394,7 @@ async def third_case(pg, cdp, run, S, errs):
             done = True; break
         if not done: check('[third T-A] 「%s」灰掉（三個候選都沒有出說話最後的選單）' % GIVE, False)
     # ---- T-B：BB 要求的「旁邊真的有第三個人」
-    seen_all = []; found = None
+    seen_all = []; found = None; crowd_ok = []; tries = 0
     for kind in ('xmas', 'vday', 'qixi', 'bday'):
         cc = await candidates(pg, kind, 'crowd', S, bday=(kind == 'bday'))
         seen_all += [(kind, x['k'], x['p'], x['h'], x['zone'], x['rows']) for x in cc['out'][:8]]
@@ -402,29 +402,36 @@ async def third_case(pg, cdp, run, S, errs):
         for rec in cc['out']:
             if (rec['k'], rec['p'], rec['zone']) in used: continue
             used.add((rec['k'], rec['p'], rec['zone'])); n += 1
-            if n > 2: break
+            if n > 2 or tries >= 4: break
+            tries += 1
             pid = rec['p']; it = await pg.evaluate(ITEMS_JS, pid)
             bag = [it['love'], it['ok']] if it else []
             await load_at(pg, cdp, run, S, rec, bag, '%s 那時候和圈子的人同框（HCIRCLE %s；遊戲自己生的人，不是 JS 塞的）' % (pid, J(rec['rows'])))
             if not await approach(pg, run, pid, 'third-B'): continue
             await pg.wait_for_timeout(3000); g0 = await gstate(pg, pid)
             info('[third T-B] 讀檔後 3D：crowdNow %s withNow %s' % (g0['crowd'], J(g0['withNow'])))
-            if g0['crowd']: found = (kind, rec, g0, it); break
+            if not g0['crowd']: continue
+            crowd_ok.append([g0['key'], pid, g0['h'], g0['zone'], g0['withNow']])
+            state = {'opt': None}
+
+            async def polb(o, i):
+                k = find(o, GIVE)
+                if k is not None and state['opt'] is None: state['opt'] = o[k]; await run.shot(pg, 'third_B_menu')
+                return decline(o)
+            r = await talk_menus(pg, cdp, run, pid, '[third T-B] 和 %s 說話（旁邊 %s）' % (pid, J(g0['withNow'])), polb)
+            g1 = await gstate(pg, pid)
+            if not r['offer'] and not state['opt']:
+                info('[third T-B] 沒有說到話／沒有出說話最後的選單（她和朋友在走動，追不上），換下一個', J(r['said'][-3:])); continue
+            found = (kind, rec, g0, g1, r, state['opt']); break
         if found: break
     info('[third T-B] 掃過的同框候選（前 8 筆／節）', J(seen_all))
-    if not check('[third T-B] 前置：找到節日裡她旁邊真的有她圈子的人的時段（作息掃描＋3D 的 STORY.crowdNow 都成立）', bool(found), J(seen_all[:20])):
+    if not check('[third T-B] 前置：找到節日裡她旁邊真的有她圈子的人的時段（作息掃描＋3D 的 STORY.crowdNow 都成立）', bool(crowd_ok), J(seen_all[:20])):
         check('[third] 沒有 JS 例外', not errs, J(errs[:3])); return
-    kind, rec, g0, it = found
-    state = {'opt': None}
-
-    async def polb(o, i):
-        k = find(o, GIVE)
-        if k is not None and state['opt'] is None: state['opt'] = o[k]; await run.shot(pg, 'third_B_menu')
-        return decline(o)
-    r = await talk_menus(pg, cdp, run, rec['p'], '[third T-B] 和 %s 說話（旁邊 %s）' % (rec['p'], J(g0['withNow'])), polb)
+    if not check('[third T-B] 前置：在那個時段走到她旁邊說到話、出了說話最後的選單（3D 裡同框成立的 %s）' % J(crowd_ok), bool(found), J(crowd_ok)):
+        check('[third] 沒有 JS 例外', not errs, J(errs[:3])); return
+    kind, rec, g0, g1, r, o = found
     allm = [[x['t'] for x in m] for m in r['menus']]
-    o = state['opt']
-    info('[third T-B] %s %s %.2f %s，旁邊 %s：選單 %s；「%s」＝%s' % (g0['key'], rec['p'], g0['h'], g0['zone'], J(g0['withNow']), J(allm), GIVE, J(o)))
+    info('[third T-B] %s %s %.2f %s，旁邊 %s（說完話時 %s）：選單 %s；「%s」＝%s' % (g0['key'], rec['p'], g0['h'], g0['zone'], J(g0['withNow']), J(g1['withNow']), J(allm), GIVE, J(o)))
     msg = '[third T-B] 旁邊有第三個人（%s %s 旁邊 %s）時「%s」灰掉（BB 的定義；AA_732 規格沒有這條）' % (g0['key'], rec['p'], J(g0['withNow']), GIVE)
     if STRICT_B: check(msg, bool(o) and o['dim'], J(o))
     else: info(msg + '（THIRD_BYSTANDER=strict 才判定）：' + ('灰掉' if (o and o['dim']) else ('沒有灰掉' if o else '選單沒有這一項')), J(o))
