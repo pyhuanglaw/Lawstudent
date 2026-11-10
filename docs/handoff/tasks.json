@@ -52654,6 +52654,60 @@
    },
    "sha": null,
    "next": "BB 下一輪看電影流程順便看"
+  },
+  {
+   "id": "TINGZHOU-AREA-1110",
+   "title": "新區域「汀州路商圈」：和公館相連、走得過去；放泰米村食、洗樂洗衣坊、印得好三間（使用者：LAWWW2 優先規劃生成）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館→汀州路",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "LAWWW2 先出配置提案（從公館哪裡接過去、街道長度、三間店的位置、其他店面），再建模、接區域和出入口（D108）；公館原本 G09／G10／G11 三個店面改成什麼也由 LAWWW2 提",
+   "xai": {
+    "spec": "X321（UA-LAWWW-1110-89）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "從公館自然走到汀州路、三間店進得去；BB 判（D120）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "TINGZHOU-SHOPS-MOVE-1110",
+   "title": "三間店搬到汀州路以後：地圖標記、手機快速前往、場景入口、劇情地點文字（公館→汀州路）、相關資料與測試",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館→汀州路",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等 LAWWW2 的汀州路區域（TINGZHOU-AREA-1110）",
+   "resumeWhen": "LAWWW2 交區域配置",
+   "next": "區域交了就接 places.js、快速前往、小地圖；店的商品互動照 GG-SHOPS3 不重做",
+   "xai": {
+    "spec": "X321",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB 在瀏覽器判 PASS（場景切換、進出店）",
+    "receiver": "BB",
+    "ack": "未派"
+   }
   }
  ]
 }
