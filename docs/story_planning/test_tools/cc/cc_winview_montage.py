@@ -41,7 +41,7 @@ def rows_of(shops):
             rows.append((s, None, [None, None, None])); continue
         for k, v in enumerate(views):
             sh = v.get('shots') or {}
-            if s.get('group') == 'own': cells = [sh.get('day'), '—', sh.get('street') or '—']
+            if s.get('group') == 'own': cells = [sh.get('day') or ('—' if 'day' not in sh else None), sh.get('night') or ('—' if 'night' not in sh else None), sh.get('street') or '—']   # 11-10 r1：own 用 19 時拍的是 night，舊版只找 day＝洋洋、小路拼圖空白（TEST_BUG）
             else: cells = [sh.get('day'), sh.get('night'), sh.get('street')]
             rows.append((s, (k, v), cells))
     return rows
