@@ -6975,15 +6975,15 @@
    "branch": "claude/second-ai-env-art",
    "sha": "c16014ada",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "WINVIEW-AUDIT-1105 日和便利店（拍攝位置修正；照片要 CC 在遊戲裡重拍）",
    "files": [
     "docs/art-rebuild/second_ai/wip/winview_cvs_1110/（README、cvs_view_cam_6355ec91b.patch、cvs_view_cam_1110_unit.js、render.sh、blender_try_before_after.jpg）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "現在的 cvs 照片是 10-23 在舊店面門口 (−29.4,2.1,21.7) 拍的，和正式模型的視差窗中心 (−27.62,1.4,21.41) 差 1.78 m／高 0.7 m；11-04 工具改成 (−27.7,1.4,21.7) 但照片沒重拍。Blender 版試過不採用（沒有遊戲的天空、天際線、路人，反而比較假）。patch：shop_views_layers.py 的 cvs 鏡頭改成視差窗中心＋測試（開發 FAIL 差 0.30 m → ALL PASS）。",
-   "next": "LAWWW 套 patch；CC 跑 shop_views_layers.py … cvs 重拍（換 cvs_*.webp、json 景深、VIEW_LAYERS.cvs）；拿掉 buildCvs2 的舊註解；BB 判"
+   "note": "現在的 cvs 照片是 10-23 在舊店面門口 (−29.4,2.1,21.7) 拍的，和正式模型的視差窗中心 (−27.62,1.4,21.41) 差 1.78 m／高 0.7 m；11-04 工具改成 (−27.7,1.4,21.7) 但照片沒重拍。Blender 版試過不採用（沒有遊戲的天空、天際線、路人，反而比較假）。patch：shop_views_layers.py 的 cvs 鏡頭改成視差窗中心＋測試（開發 FAIL 差 0.30 m → ALL PASS）。 ｜ LAWWW 11-10 10:12 接進開發分支 4d7f556a6（ALL PASS）；已請 CC 重拍四張。",
+   "next": "CC 重拍 cvs_*；LAWWW 改 VIEW_LAYERS.cvs、拿掉舊註解；BB 判"
   }
  ]
 }
