@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_mt3_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MT3_kxvb\out
+CC MT3（MOVIE-TALK-1110 第二輪）：CASES KXVB；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】2027-05-15 08:00、可昕朋友
+PASS [KXVB 可昕 m2705a] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《放學後的球場》②《密室的第五個人》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [KXVB 可昕 m2705a] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [  46.5s] [KXVB 可昕 m2705a] 約好：{"id": "iv54", "h": 9.83, "film": "m2705a", "title": "放學後的球場"}；對話 ["看電影？好。我要坐中間那排。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [KXVB 可昕 m2705a] 約成了  ["看電影？好。我要坐中間那排。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [KXVB 可昕 m2705a]「今天」有「前往」
+  [  88.4s] [KXVB 可昕 m2705a] 選單 [{"after": false, "opts": ["在幫我媽對帳。她報稅季很忙。", "我睡著了。對不起。", "我在讀書，手機收起來了。"], "pick": 0, "picked": "在幫我媽對帳。她報稅季很忙。", "n": 14, "rel_before": {"fam": 50, "trust": 35, "comf": 30, "npcRom": 24}}, {"after": true, "opts": ["那個國文老師抄課本的評語很好笑。", "不會。贏了反而假。", "有一點。我想看他們贏一次。"], "pick": 1, "picked": "不會。贏了反而假。", "n": 21, "rel_before": {"fam": 53, "trust": 38, "comf": 32, "npcRom": 24}}]
+PASS [KXVB 可昕 m2705a] 全程沒有「排球」的段落  []
+  [前置／捷徑] 【前置／捷徑】2028-11-15 08:00、可昕朋友
+PASS [KXVB 可昕 m2811a] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《一個人的舉重社》②《教室裡的第十三個人》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [KXVB 可昕 m2811a] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [ 108.8s] [KXVB 可昕 m2811a] 約好：{"id": "iv55", "h": 9.83, "film": "m2811a", "title": "一個人的舉重社"}；對話 ["看電影？好。我要坐中間那排。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [KXVB 可昕 m2811a] 約成了  ["看電影？好。我要坐中間那排。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [KXVB 可昕 m2811a]「今天」有「前往」
+  [ 136.6s] [KXVB 可昕 m2811a] 選單 [{"after": false, "opts": ["在幫我媽對帳。她報稅季很忙。", "我睡著了。對不起。", "我在讀書，手機收起來了。"], "pick": 0, "picked": "在幫我媽對帳。她報稅季很忙。", "n": 15, "rel_before": {"fam": 50, "trust": 35, "comf": 30, "npcRom": 24}}, {"after": true, "opts": ["我舉不起來的東西，都會先懷疑是它的問題。", "不敢。我會選原本的重量。", "教練站起來又坐回去，那裡我笑了。"], "pick": 1, "picked": "不敢。我會選原本的重量。", "n": 22, "rel_before": {"fam": 53, "trust": 38, "comf": 32, "npcRom": 24}}]
+PASS [KXVB 可昕 m2811a] 全程沒有「排球」的段落  []
+PASS [KXVB] 單元層級：m3007a 沒有可昕的 with、三部沒有可昕的 later、need 沒有排球開關  {"with": null, "later": [], "need": []}
+PASS 沒有 JS 例外  []
+ALL PASS
