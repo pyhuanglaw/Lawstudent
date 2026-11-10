@@ -815,3 +815,11 @@
 [18:49:25] ==== START SHADER_zone  (game @ d8b669175bcf363974b401e1eed3d6709f2b0949) ====
 [18:49:28] [res] cpu=34% mem=47% (14.8/31.4 GB) chrome_testing=9  START SHADER_zone
 [18:51:13] [res] cpu=23% mem=49% (15.8/31.4 GB) chrome_testing=9  END X295E_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c2d55793a..fa49b57b4  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:51:21] ==== END   X295E_new  exit=0  606s   ====
+[18:51:24] memory 51% before starting SHADER_old (2 running)
+[18:51:24] ==== START SHADER_old  (probe @ fe4d893acdb08eb93f93b688380bd0700ff5ad48) ====
+[18:51:27] [res] cpu=34% mem=51% (16.1/31.4 GB) chrome_testing=9  START SHADER_old
+[18:52:07] [res] cpu=33% mem=47% (15.0/31.4 GB) chrome_testing=8  END SHADER_p0
