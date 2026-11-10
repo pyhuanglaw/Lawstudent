@@ -12,6 +12,7 @@
   SEASON=1：ART-US-SEASON 社區同一個地點 2028-08-20、2028-12-15 各一張（14:00）。
 日子：交換在 2028/8/2～12/23（BB_215），預設 2028-09-15（usSeasonKey＝summer）。
 【前置／捷徑】load_zone 讀檔到區域出生點（不走交換流程；功能已在 flow_us_exchange 那邊測）。Playwright（PC GPU）≠ iPhone。
+r2：存 JPEG（品質 88）——PC runner 每一項只上傳到二十幾張（PNG 太大，US_ART_1 的 us_outside、us_campus 全部沒上傳）。
 用法：LW_TESTS=<wt>/tests ZONES=us_outside,us_apartment,us_campus [HOURS=14,20] [SEASON=1] [DATE=2028-09-15] python3 cc_us_art_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -42,7 +43,7 @@ V = {
 SETTLED = "(async()=>{ for(let i=0;i<480;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(55, c.width/c.height, 0.05, 2000); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const hid=[]; const P=E.player.obj; hid.push([P,P.visible]); P.visible=false; for(const n of (E.npcs||[])) if(n.obj){ hid.push([n.obj,n.obj.visible]); n.obj.visible=false; }
-  try{ r.render(E.scene,cam); } finally { for(const [o,v] of hid) o.visible=v; } return c.toDataURL('image/png'); })"""
+  try{ r.render(E.scene,cam); } finally { for(const [o,v] of hid) o.visible=v; } return c.toDataURL('image/jpeg',0.88); })"""
 INFO = r"""(()=>{ const E=GAME.E, z=E.zone||{}; let glb=[]; (z.group||E.scene).traverse(o=>{ if(o.name&&/glb|GLB|formal/i.test(o.name)) glb.push(o.name); });
   const lp=(E.lampGlows||[]).length; const P=E.player.obj.position;
   return {zone:GAME.G.zone, formal:!!z.formal, glb:glb.slice(0,8), lampGlows:lp, season:(typeof US3!=='undefined'&&US3.seasonKey)?US3.seasonKey():null, p:[+P.x.toFixed(2),+P.z.toFixed(2)]}; })()"""
@@ -59,9 +60,9 @@ async def visit(pg, cdp, zone, date, h, views, tag):
     info = await pg.evaluate(INFO); R.note('%s %s %.0f 時：等模型 %s 次；%s' % (zone, date, h, n, J(info)))
     if not R.check('%s %s %.0f 時 讀得進這個區域' % (zone, date, h), info['zone'] == zone, J(info)): await pg.evaluate(D.HUD + '(true)'); return []
     files = []
-    await pg.screenshot(path=os.path.join(OUT, 'us_%s_%s_player.png' % (zone, tag))); files.append('us_%s_%s_player.png' % (zone, tag))   # 玩家視角（遊戲鏡頭、人在畫面裡）
+    await pg.screenshot(path=os.path.join(OUT, 'us_%s_%s_player.jpg' % (zone, tag)), type='jpeg', quality=88); files.append('us_%s_%s_player.jpg' % (zone, tag))   # 玩家視角（遊戲鏡頭、人在畫面裡）
     for nm, frm, at in views:
-        fn = 'us_%s_%s_%s.png' % (zone, tag, nm); await snap(pg, fn, frm, at); files.append(fn)
+        fn = 'us_%s_%s_%s.jpg' % (zone, tag, nm); await snap(pg, fn, frm, at); files.append(fn)
     await pg.evaluate(D.HUD + '(true)')
     return files
 

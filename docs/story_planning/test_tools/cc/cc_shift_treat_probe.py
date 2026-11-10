@@ -31,6 +31,12 @@ ITS = "(()=>(GAME.E.interactables||[]).map(i=>({label:i.label,x:+i.x.toFixed(2),
 ST = "(()=>({zone:GAME.G.zone, money:GAME.G.money, day:GAME.G.day, hour:+(+GAME.G.hour).toFixed(2), fb:GAME.walkFallbacks|0, sh:(GAME.G.flags||{}).SHIFTT||null, fam:(SOCIAL.rel('heroine_03')||{}).fam, lvl:SOCIAL.friendLevel?SOCIAL.friendLevel('heroine_03'):null, famZ:(SOCIAL.rel('heroine_02')||{}).fam, on:typeof SHIFTT!=='undefined'}))()"
 
 
+DIAG = r"""(pid=>{ if(typeof SHIFTT==='undefined') return {on:false}; const S=SHIFTT, G=GAME.G; let e=null; try{ e=STORY.schedEnt(CHARACTERS[pid],G); }catch(err){ e=String(err); }
+  const o=((G.flags.SHIFTT||{}).p||{})[pid]||{}; let oth=null; try{ oth=S.otherEv(G,pid,G.zone); }catch(err){ oth=String(err); }
+  return {on:S.on(), stage:G.stage, zone:G.zone, shop:S.SHOP[pid], known:SOCIAL.has?SOCIAL.has(pid,'FIRST_MET'):null, sched:e&&{zone:e.zone,label:e.label,act:e.act}, onShift:S.onShift(G,pid), npc:!!(GAME.npc&&GAME.npc[pid]), leaving:!!(GAME.npc&&GAME.npc[pid]&&GAME.npc[pid].leaving),
+    gapOk:o.day==null||G.day-o.day>=S.GAP, playerShift:S.playerShift(G,G.zone), upToday:S.upToday(G,pid), otherEv:oth, pick:S.pick(G,pid), due:S.due(GAME,pid), pending:S.pending&&S.pending(), enterN:GAME.enterN}; })"""   # 只讀：為什麼演／不演（SHIFTT 的每一個條件）
+
+
 def load_fixture():
     for root in [os.environ.get('LW_TESTS') and os.path.join(os.environ['LW_TESTS'], '..'), '.']:
         if root and os.path.exists(os.path.join(root, FIX)): return json.load(open(os.path.join(root, FIX), encoding='utf-8'))
@@ -133,7 +139,7 @@ async def main():
                 await P.say_hook(pg); n0 = await pg.evaluate("window.__SAY.length")
                 if not await enter_shop(pg, cdp, tag, 'cafe'): R.check('F 進了 Café', False, J(await pg.evaluate(ST))); continue
                 await pg.wait_for_timeout(8000); await drain(pg, cdp, 5)
-                said = await P.said(pg, n0); st1 = await pg.evaluate(ST)
+                said = await P.said(pg, n0); st1 = await pg.evaluate(ST); R.note('[F] SHIFTT 條件：%s' % J(await pg.evaluate(DIAG, 'heroine_02')))
                 await pg.screenshot(path=os.path.join(OUT, 'shift_%s_F.png' % TAG))
                 rec = ((st1['sh'] or {}).get('p') or {}).get('heroine_02') or {}
                 R.note('[F] 進店以後 GAME.say：%s；狀態 %s' % (J(said), J(st1)))
@@ -159,7 +165,7 @@ async def main():
             st0 = await pg.evaluate(ST); R.note('%s 進店前：%s' % (tag, J(st0)))
             if not await enter_shop(pg, cdp, tag): R.check('%s 進了一盞' % tag, False, J(await pg.evaluate(ST))); continue
             await pg.wait_for_timeout(8000); await drain(pg, cdp, 5)
-            said = await P.said(pg, n0); st1 = await pg.evaluate(ST)
+            said = await P.said(pg, n0); st1 = await pg.evaluate(ST); R.note('%s SHIFTT 條件：%s' % (tag, J(await pg.evaluate(DIAG, YT))))
             await pg.screenshot(path=os.path.join(OUT, 'shift_%s_%s.png' % (TAG, case)))
             yt = [x for x in said if '語彤' in x[0] or x[0] == '' and x[1].startswith('（')]
             R.note('%s 進店以後 GAME.say：%s；狀態 %s' % (tag, J(said), J(st1)))
