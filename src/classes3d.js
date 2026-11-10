@@ -1084,8 +1084,11 @@ const CLS=(function(){
   const WAKE_GRACE=2500, FREE_MS=1500;
   S.wakeMenuOn=GM=>!(GM&&GM.S&&GM.S.wakeMenu===false);
   S.planSkip=(G,it)=>!!S.rec(G).note['plan_skip_'+it.key];
-  S.queueWake=GM=>{ if(GM&&GM.G) wakeP={day:GM.G.day,t:Date.now()}; };   /* story3d.js 的 sleepNow、小睡醒來（skipTo nap）*/
+  S.queueWake=GM=>{ if(GM&&GM.G) wakeP={day:GM.G.day,t:Date.now(),zone:GM.G.zone,h:hr(GM.G)}; };   /* zone、h：醒來的地方、時間（WAKE-STALE-1110）*/   /* story3d.js 的 sleepNow、小睡醒來（skipTo nap）*/
   S.goList=G=>S.dayItems(G).filter(it=>{ const st=S.status(G,it); return (st==='open'||st==='upcoming')&&!S.storyClass(G,it); });
+  /* 起床選單只在剛醒來的地方出（WAKE-STALE-1110，使用者 11-10：「我都移動到圖書館 顯示要不要去某堂課 居然還有再睡一下的選項?還可以起床?」）：
+     醒來以後馬上走開、或先演了別的，選單會一直等到人停下來才出——人已經在別的區域、或過了 30 分鐘遊戲時間＝不出（手機的「今天」照樣能直接去上課）。舊的排隊沒有 zone／h＝照舊 */
+  S.wakeFresh=(G,w)=>!!w&&w.day===G.day&&(w.zone==null||w.zone===G.zone)&&(w.h==null||hr(G)-w.h<=0.5);
   S.pending=()=>({wake:wakeP,after:afterP,cont:contP});   /* 測試用 */
   S.clearPending=()=>{ wakeP=afterP=contP=null; goBusy=false; freeSince=0; freeTicks=0; };
   const bldName=it=>String((it.room&&(it.room.label||it.room.name))||'教室').replace(/ \S+$/,'');
@@ -1274,7 +1277,7 @@ const CLS=(function(){
     if(S.day2Due(G)&&S.day2PullReady(G,now-freeSince)){ run(()=>S.goDay2(GM)); return; }   /* 開學第二天的民總（AA_294 ①）；阿哲那一段演完以後等到上課前 5 分鐘、而且空下來 8 秒（UX-DAY2-AUTOPULL）*/
     if(contP){ const c=contP; contP=null; if(c.day===G.day){ const it=S.dayItems(G).find(q=>q.key===c.key); if(it&&!S.rec(G).done[it.key]&&S.status(G,it)!=='missed'){ run(async()=>{ let k=1; GM.sceneBegin(); try{ k=await GM.choose([{t:'繼續去上課：'+it.c.name,hint:S.planHint(GM,it)},{t:'先不去了'}]); } finally { GM.sceneEnd(); } if(k===0) await S.goClass(GM,it); }); return; } } }
     if(afterP&&now-(afterP.t||0)>=WAKE_GRACE){ const a=afterP; afterP=null; if(a.day===G.day){ run(()=>S.afterMenu(GM,a.key)); return; } }   /* 下課選單也排在這一區的 auto／enter 事件之後（AA_160 3-4 C，AA-B 10-16：例 週五 12:06 普通的芷若 ev_zhiruo_ge_group）*/
-    if(wakeP&&now-wakeP.t>=WAKE_GRACE){ const w=wakeP; wakeP=null; if(w.day===G.day) run(()=>S.wakeMenu(GM)); } };
+    if(wakeP&&now-wakeP.t>=WAKE_GRACE){ const w=wakeP; wakeP=null; if(S.wakeFresh(G,w)) run(()=>S.wakeMenu(GM)); } };
 
   // ---------- 時段次數制（DL-03，AA_160 第 2 節；取代體力）----------
   /* 一天三個時段：上午（起床～12:00）、下午（12:00～18:00）、晚上（18:00～睡覺；過了午夜還是晚上）。

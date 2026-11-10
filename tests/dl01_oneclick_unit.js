@@ -86,5 +86,12 @@ const THU=dayOf('2025-09-25');
       CLS.oneTick(gm); T+=800; CLS.oneTick(gm); check('7. 剛空下來（不到 1.5 秒、不到 3 次 tick）還不出',!gm.menus.length);
       T+=1000; CLS.oneTick(gm); await new Promise(r=>setTimeout(r,20)); check('7. 空下來 1.5 秒以上、3 次 tick：出起床選單',gm.menus.length===1&&gm.menus[0][0].startsWith('直接去上課'),JSON.stringify(gm.menus));
     } finally { Date.now=real; CLS.clearPending(); } }
+  // ---------- 8. 起床選單只在剛醒來的地方出（WAKE-STALE-1110，使用者 11-10：走到圖書館才跳「先起床再說」）----------
+  { const real=Date.now; let T=1e12; Date.now=()=>T;
+    const settle=async gm=>{ T+=3000; CLS.oneTick(gm); T+=2000; CLS.oneTick(gm); CLS.oneTick(gm); CLS.oneTick(gm); await new Promise(r=>setTimeout(r,20)); };
+    try{ { const gm=mkGM('dorm',THU,7.5,[2]); CLS.clearPending(); CLS.queueWake(gm); gm.G.zone='library_hall'; await settle(gm); check('8. 醒來以後走到圖書館才空下來：不出起床選單',!gm.menus.length,JSON.stringify(gm.menus)); }
+      { const gm=mkGM('dorm',THU,7.5,[2]); CLS.clearPending(); CLS.queueWake(gm); gm.G.hour=8.2; await settle(gm); check('8. 同一個地方但過了 30 分鐘以上：不出',!gm.menus.length,JSON.stringify(gm.menus)); }
+      { const gm=mkGM('dorm',THU,7.5,[2]); CLS.clearPending(); CLS.queueWake(gm); gm.G.hour=7.7; await settle(gm); check('8. 還在宿舍、12 分鐘內：照舊出',gm.menus.length===1&&gm.menus[0][0].startsWith('直接去上課'),JSON.stringify(gm.menus)); }
+    } finally { Date.now=real; CLS.clearPending(); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
