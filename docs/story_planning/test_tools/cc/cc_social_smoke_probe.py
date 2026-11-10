@@ -855,20 +855,22 @@ class Person:
         async def scan(extra):
             a = dict({'id': self.pid, 'terms': ['Y1S1'], 'hours': HOURS, 'wk0': 3}, **extra)
             o = await pg.evaluate(SCAN_JS, dict(a, noZones=noz))
+            o.sort(key=lambda q: 1 if '走' in (q.get('act') or '') else 0)   # r2 雲端試跑：校園「走走」她一直走動、很難走到旁邊＝坐著／站著的時段優先
             if o: return o
             o = await pg.evaluate(SCAN_JS, a)
             if o: R.info('greetn：%s 排除讀書區／店內偶遇以後掃不到，退回不排除（第一次可能是點頭或偶遇，照樣記下來）' % J({k: v for k, v in extra.items() if k != 'days'}), J(o[:1]))
             return o
 
-        sun = await scan({'max': 3, 'wds': [0]})
+        sun = await scan({'max': 6, 'wds': [0]})
         targets = []
         if sun:
             targets.append(('週日', sun[0]))
-            wd = await scan({'max': 1, 'days': [sun[0]['d'] - 4, sun[0]['d'] + 3, sun[0]['d'] - 5, sun[0]['d'] - 3]})
-            if wd: targets.append(('同一週週三' if wd[0]['wd'] == 3 else '同一週平日（週%d）' % wd[0]['wd'], wd[0]))
+            d0 = sun[0]['d']; wd = await scan({'max': 10, 'days': [d0 - 4, d0 + 3, d0 - 5, d0 - 3, d0 - 6, d0 - 2, d0 + 1, d0 + 2, d0 + 4, d0 + 5]})
+            wd.sort(key=lambda q: (1 if '走' in (q.get('act') or '') else 0, 0 if q['wd'] == 3 else 1, abs(q['d'] - d0)))
+            if wd: targets.append(('同一週週三' if wd[0]['wd'] == 3 else '前後一週平日（週%d）' % wd[0]['wd'], wd[0]))
         hol = await pg.evaluate("(()=>{ const out=[]; const T=CALENDAR.termDays('Y1S1'); for(let d=T.from; d<=T.to; d++){ const w=CALENDAR.dateOf(d).wd%7; if(w>=1&&w<=5&&CALENDAR.kind&&CALENDAR.kind(d)==='holiday') out.push(d); } return out; })()")
-        hs = await scan({'max': 1, 'days': hol}) if hol else []
-        R.note('greetn：學期中平日的國定假日 %s；她在 3D 的 %s' % (J(hol), J(hs)))
+        hs = await scan({'max': 6, 'days': hol}) if hol else []
+        R.note('greetn：學期中平日的國定假日 %s；她在 3D 的 %s' % (J(hol), J(hs[:3])))
         if hs: targets.append(('國定假日（平日）', hs[0]))
         if not sun: R.check('greetn：找得到週日她在 3D 的時段', False, '')
         NOT_GREET = ('點了一下頭', '你也來這裡', '沒有注意到你')
@@ -898,7 +900,7 @@ class Person:
             flat = [x for g in got for x in g]
             hit_cls = sorted(set(x for x in flat if x in cls)); hit_add = sorted(set(x for x in flat if x in add))
             R.note('%s（%s）：按了 %d 次；講到上課的 %s；週末放假新句 %s；不是一般招呼的回應（點頭／偶遇）%d 次' % (tag, J(info), len(got), J(hit_cls), J(hit_add), len(other)))
-            if name.startswith('同一週'):
+            if name.startswith(('同一週', '前後一週')):
                 if info['classDay'] is False: R.info('%s：這一天不是上課日（%s），不判問上課' % (tag, J(info))); continue
                 R.check('%s：問上課那幾句出現（≥1）' % tag, len(hit_cls) >= 1, J(hit_cls))
             else:

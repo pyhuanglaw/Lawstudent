@@ -55,9 +55,16 @@ X283b_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_vie
 X283b_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=newb;VIEWS=curb_far:campus:29.9:-54.4:18.4:0.82:12
 X285b_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=oldb;VIEWS=av_gate:campus:-95:1.5:18.75:1.5708:6:-210:14:0:40
 X285b_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=newb;VIEWS=av_gate:campus:-95:1.5:18.75:1.5708:6:-210:14:0:40
+# X289 r2（BB 08:52 預排、LAWWW 08:53 整合 81a2e719d；BB 08:54 改用 1c767edf8＝LAWWW2 57a9dd322）：新版 EXPECT=fixed（浮空候選 0、杯子在 (−2.15,0.34,−2.41) 桌上）；舊版對照＝r1 的 YZCUP_47／51（dcc9276f8，已跑：浮空 1 個）
+YZCUP2_47 | 1c767edf819136d164df68e5cefca5605993b7fe | probe | docs/story_planning/test_tools/cc/cc_yizhan_cups_probe.py | index.html | 20 | EXPECT=fixed;FIX=tests/fixtures/user_save_day47_1110.json
+YZCUP2_51 | 1c767edf819136d164df68e5cefca5605993b7fe | probe | docs/story_planning/test_tools/cc/cc_yizhan_cups_probe.py | index.html | 20 | EXPECT=fixed;FIX=tests/fixtures/user_save_day51_1110.json
+# X257 體育館搬家（BB 08:54，LAWWW 1c767edf8＝XS-GATE-NORTH-1105 cf6a29f7e；改前 210b0663d＝cf6a29f7e^）：探針寫好排在這裡、X276 前面
 # X276（BB 08:47，LAWWW 72c889ec3＝LAWWW2 24dc0d99b 山嵐文具區 v2）：14:00 門口看文具區＋真的走到文具區（看文具）＋按下去＋近拍。新＝8c050804c（含 72c889ec3）、改前＝3f6dba142；排在 X295 後面、窗景巡拍前面
 X276_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=new;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
 X276_old | 3f6dba142276f8cefcc52570f9b659b930d00861 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=old;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
+# X296（BB 08:52）：總圖大廳樓層簡介只留一塊（LAWWW 7a019726d；改前 9f3133b99）。直向＋橫向：互動點數（新 1／舊 2）、真的走到、按下去全文（B1＝24 小時自習室、1F～3F）、對話框沒被切
+X296_new | 7a019726dfddc3f90dc0cc60189db19084871503 | probe | docs/story_planning/test_tools/cc/cc_lib_directory_probe.py | index.html | 25 | TAG=new
+X296_old | 9f3133b998dc3cf4631f019d085e59a8550f5d29 | probe | docs/story_planning/test_tools/cc/cc_lib_directory_probe.py | index.html | 25 | TAG=old
 # X254 窗景巡拍（BB 08:46，WINVIEW-AUDIT-1105）：探針寫好排在這裡、WAKE 前面
 # WAKE a r2（BB 08:1x 第 4 項）：r1 新舊同一步 FAIL＝剛到校園時「提示」蓋著，按 📱 手機沒打開（截圖證實）＝TEST_BUG；探針改成確認手機開了再點。b 在 WAKE_new 已 PASS（起床選單有出）
 WAKE_a_new2 | 8677568a378f133e45179f251f37f9dfa75943e6 | probe | docs/story_planning/test_tools/cc/cc_wake_stale_probe.py | index.html | 60 | CASES=a
