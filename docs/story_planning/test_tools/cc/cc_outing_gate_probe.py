@@ -64,7 +64,7 @@ async def main():
             R.note('[%s] 邀約第一層：%s' % (case, J(top)))
             if not R.check('[%s] 邀約選單有「出去玩…」' % case, bool(out), J(top)): await pe.close_phone(pg, cdp); continue
             bad = '她還沒有那樣看你' in out['t']
-            WANT = {'R14': '你們現在是朋友。再多相處一陣子。', 'NF': '你們還沒那麼熟。'}   # AA 稿 08543d6fd（BB 16:55）
+            WANT = {'R14': '你們現在是朋友。再多相處一陣子。', 'NF': '你們還沒那麼熟。', 'COOL': '你們現在是朋友。再多相處一陣子。'}   # AA 稿 08543d6fd（BB 16:55）
             if case in WANT: R.check('[%s] 說明字是 AA 的稿「%s」（原文：%s）' % (case, WANT[case], out['t']), WANT[case] in out['t'], J(out))
             if case in ('R14', 'NF', 'COOL'):
                 R.check('[%s] 「出去玩…」灰掉' % case, out['dim'], J(out))
