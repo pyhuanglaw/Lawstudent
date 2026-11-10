@@ -13,24 +13,25 @@ URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 TAG = os.environ.get('TAG') or 'new'
 R = L.Run('gg_signs_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-GROUPS = [('gongguan', '公館', ['青木茶室', '頁間書屋', '慢輪單車', 'afar', '轉角唱片']),
-          ('xinsheng', '新生南路', ['山嵐', '同弦', '大口漢堡', '南洋戲院']),
-          ('wenzhou', '溫州街', ['SUNNY SIDE', '小路', '書店的櫥窗|溫州書屋', '夏日冰菓', '帝大紅茶', '2:30 AM']),
-          ('wenzhou', '日常失速', ['日常失速'])]   # r2（BB 20:12）：16 間；溫州書屋在遊戲裡是「看書店的櫥窗」；2:30 AM 是對照組（本來就正）
+GROUPS = [('gongguan', '公館', ['青木茶室', '頁間書屋', '慢輪單車', 'afar', '轉角唱片'], 3),
+          ('xinsheng', '新生南路', ['山嵐', '同弦', '大口漢堡', '南洋戲院'], 9),
+          ('wenzhou', '溫州街', ['SUNNY SIDE', '小路', '書店的櫥窗|溫州書屋', '夏日冰菓', '買一杯飲料|帝大紅茶', '2:30 AM'], 3),
+          ('wenzhou', '日常失速', ['日常失速'], 3)]   # r3：第 4 欄＝相機最少退幾 m（新生南路 r2 相機在騎樓裡、招牌被天花板切掉 → 至少 9 m 不管導航格）；帝大紅茶在遊戲裡是「買一杯飲料」(17.4,−7.3)   # r2（BB 20:12）：16 間；溫州書屋在遊戲裡是「看書店的櫥窗」；2:30 AM 是對照組（本來就正）
 ONLY = [g for g in (os.environ.get('GROUPS') or '').split(',') if g]
-FIND = r"""(names=>{ const E=GAME.E, N=E.nav, ZN=id=>(typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[id]&&Z3.ZONES[id].name)||'';
+FIND = r"""((names,mind)=>{ const E=GAME.E, N=E.nav, ZN=id=>(typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[id]&&Z3.ZONES[id].name)||'';
   const free=(x,z)=>!N||N.free(x,z);
   return names.map(key=>{ const ks=key.split('|'), nm=ks[ks.length-1]; const it=(E.interactables||[]).find(i=>!i.hidden&&ks.some(k=>String(i.label||'').includes(k)||(i.exit&&ZN(i.exit.to).includes(k))));
     if(!it) return {nm, x:null};
     /* 店門朝哪邊：16 個方向找最近的擋住的格子＝店面那一邊；相反方向＝街上 */
     let best=null; for(let a=0;a<16;a++){ const t=a*Math.PI/8, dx=Math.sin(t), dz=Math.cos(t); for(let r=0.25;r<=3.5;r+=0.25){ if(!free(it.x+dx*r,it.z+dz*r)){ if(!best||r<best.r) best={r,dx,dz,t}; break; } } }
     if(!best) best={r:1.5,dx:0,dz:-1,t:Math.PI};
-    const fx=it.x+best.dx*best.r, fz=it.z+best.dz*best.r, ox=-best.dx, oz=-best.dz;
+    let ox=-best.dx, oz=-best.dz; if(Math.abs(ox)>=Math.abs(oz)){ ox=Math.sign(ox); oz=0; } else { oz=Math.sign(oz); ox=0; }   /* r3：貼齊最近的軸（街都是沿 x 或 z；r2 斜 22.5°）*/
+    let fr=best.r; for(let r=0.25;r<=3.5;r+=0.25){ if(!free(it.x-ox*r,it.z-oz*r)){ fr=r; break; } } const fx=it.x-ox*fr, fz=it.z-oz*fr;
     const run=(vx,vz)=>{ let d=0; for(let r=0.5;r<=12;r+=0.25){ if(!free(fx+vx*r,fz+vz*r)) break; d=r; } return d; };
-    const dOut=run(ox,oz), dist=Math.max(3,Math.min(10,dOut*0.85));
+    const dOut=run(ox,oz), dist=Math.max(mind||3,Math.min(10,dOut*0.85));
     const rot=(ang)=>{ const c=Math.cos(ang), s=Math.sin(ang); return [ox*c-oz*s, ox*s+oz*c]; };
     let ob=null; for(const ang of [Math.PI/6,-Math.PI/6]){ const v=rot(ang), d=run(v[0],v[1]); if(!ob||d>ob.d) ob={v,d,ang}; }
-    const dOb=Math.max(3,Math.min(dist,ob.d*0.85));
+    const dOb=Math.max(mind||3,Math.min(dist,ob.d*0.85));
     return {nm, label:it.label, to:it.exit?it.exit.to:null, x:+it.x.toFixed(2), z:+it.z.toFixed(2), face:[+fx.toFixed(2),+fz.toFixed(2)], out:[+ox.toFixed(2),+oz.toFixed(2)], dOut:+dOut.toFixed(2), dist:+dist.toFixed(2),
       front:[+(fx+ox*dist).toFixed(2),2.2,+(fz+oz*dist).toFixed(2)], obl:[+(fx+ob.v[0]*dOb).toFixed(2),2.2,+(fz+ob.v[1]*dOb).toFixed(2)], dOb:+dOb.toFixed(2), at:[+fx.toFixed(2),3.6,+fz.toFixed(2)]}; }); })"""
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov, c.width/c.height, 0.1, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
@@ -51,14 +52,14 @@ async def main():
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
         try:
-            for zone, title, keys in GROUPS:
+            for zone, title, keys, mind in GROUPS:
                 if ONLY and title not in ONLY: continue
                 await pg.evaluate("window.__GS=[]")
                 cnt = 0
                 for h in (14.0, 20.0):
                     await D.load_zone(pg, cdp, zone, '2025-11-01', h, wait=8000)
                     R.setup('【前置／捷徑】讀檔到 %s 2025-11-01 %02d:00（晴）' % (zone, h))
-                    shops = await pg.evaluate("(%s)(%s)" % (FIND, J(keys)))
+                    shops = await pg.evaluate("(%s)(%s,%s)" % (FIND, J(keys), mind))
                     R.note('[%s] %02d:00 店（門口、店面方向、相機）：%s' % (title, h, J(shops)))
                     if any(q['x'] is None for q in shops):
                         its = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>[i.label,+i.x.toFixed(1),+i.z.toFixed(1),i.exit?i.exit.to:null]))()")
