@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wallfade_walls_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WW3B_old_night\out
+CC 牆外往裡拍：worktree ?；TAG oldnight；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [corner_records] 【前置／捷徑】讀檔到 corner_records 2025-10-18 21.0（出生點，先量可走範圍）
+  [  44.8s] [corner_records] 指定站位 (-3.3, -0.05) yaw 270°
+  [前置／捷徑] [corner_records] 【捷徑】讀檔站到 (-3.3, -0.05)
+FAIL [corner_records] 牆 @-3.3@-0.05@270 在 corner_records  {"zone": "gongguan", "x": 53.97, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "h
+  [前置／捷徑] [wz_print] 【前置／捷徑】讀檔到 wz_print 2025-10-18 21.0（出生點，先量可走範圍）
+  [  82.5s] [wz_print] 指定站位 (-0.2, -3.8) yaw 180°
+  [前置／捷徑] [wz_print] 【捷徑】讀檔站到 (-0.2, -3.8)
+PASS [wz_print] 牆 @-0.2@-3.8@180 在 wz_print  {"zone": "wz_print", "x": -0.6, "z": -3.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "
+PASS 沒有 JS 例外  []
+FAILED 1: [corner_records] 牆 @-3.3@-0.05@270 在 corner_records
