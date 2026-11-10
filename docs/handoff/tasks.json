@@ -51036,7 +51036,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:5x LAWWW-B】使用者 X293。heroine_asks3d：日常（INV 8 處）原本 stage<3（朋友）不約、5 天內見過面不約；改成可以攻略的對象有點熟（第 2 階）起就會約，間隔看她上次約你（不是見面），週末校外照舊（第 6 階或交往中）。存檔 tests/fixtures/user_save_day54_1110.json。",
+   "next": "【11-10 02:0x LAWWW-B 交班】WIP 沒驗證：wip_backup/HER-ASK-MORE-1110_wip.patch（heroine_asks3d.js 三處：全域門檻 sn<3→<2、你剛約過她的間隔 3/5→2/3 天、日常邀約間隔 14/7→7/5 天）。還沒跑相關測試；資料每則 th 都是 3／5，光改程式有點熟也不會約——要請 AA 把適合有點熟的幾則 th 改成 2。下一班：先請 AA 改 th、再套 patch、跑 heroine_asks 相關測試、交 BB。 ｜ 【11-10 01:5x LAWWW-B】使用者 X293。heroine_asks3d：日常（INV 8 處）原本 stage<3（朋友）不約、5 天內見過面不約；改成可以攻略的對象有點熟（第 2 階）起就會約，間隔看她上次約你（不是見面），週末校外照舊（第 6 階或交往中）。存檔 tests/fixtures/user_save_day54_1110.json。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -51106,6 +51106,26 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": null,
    "test": null
+  },
+  {
+   "id": "HANDOFF-B-1110",
+   "title": "帳號 B 交班（11-10，使用者「他們交班完之後你也交班」）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "換班",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-10 02:0x】等 LAWWW2、AA、BB、CC duty handoff 完成，LAWWW-B 存快照、duty handoff。",
+   "evidence": "11-08 20:5x 五職位 duty handoff（duty.json handed-off；快照 2026-11-08T2044Z_B_CC、2047Z_B_BB、2047Z_B_AA、2050Z_B_LAWWW2、2053Z_B_LAWWW）；d56e4f051",
+   "sha": null
   }
  ]
 }
