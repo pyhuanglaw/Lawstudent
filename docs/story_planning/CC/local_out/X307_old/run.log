@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_b1court_art_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X307_old\out
+CC X307 B1 中庭：worktree ?；TAG old；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔：9/26 14.5 校園 {'x': 88, 'z': -40}；鏡頭直接擺 yaw 1.5708
+PASS day top_mouth：站的高度 0  {"zone": "campus", "x": 88, "y": 0, "z": -40, "lv": 0, "fb": 0, "interact": ""}
+  [前置／捷徑] 【前置／捷徑】讀檔：9/26 14.5 校園 {'x': 98, 'z': -33}；鏡頭直接擺 yaw 3.1416
+PASS day bottom_north：站的高度 -4.2  {"zone": "campus", "x": 98, "y": -4.2, "z": -33, "lv": 0, "fb": 0, "interact": ""}
+  [前置／捷徑] 【前置／捷徑】讀檔：9/26 14.5 校園 {'x': 98, 'z': -37}；鏡頭直接擺 yaw 0.0
+PASS day bottom_south：站的高度 -4.2  {"zone": "campus", "x": 98, "y": -4.2, "z": -37, "lv": 0, "fb": 0, "interact": ""}
+  [前置／捷徑] 【前置／捷徑】讀檔：9/26 14.5 校園 {'x': 98, 'z': -36}；鏡頭直接擺 yaw 0.6、距離 1.6
+PASS day floor_close：站的高度 -4.2  {"zone": "campus", "x": 98, "y": -4.2, "z": -36, "lv": 0, "fb": 0, "interact": ""}
+  [ 100.9s] day 地面（腳邊射線）：{"mesh": "(無名)", "parent": "", "mat": "", "color": "#ffffff", "mapAvg": null, "y": -4.19}
+  [前置／捷徑] 【前置／捷徑】讀檔：9/26 20.0 校園 {'x': 88, 'z': -40}；鏡頭直接擺 yaw 1.5708
+PASS night top_mouth：站的高度 0  {"zone": "campus", "x": 88, "y": 0, "z": -40, "lv": 0, "fb": 0, "interact": ""}
+  [前置／捷徑] 【前置／捷徑】讀檔：9/26 20.0 校園 {'x': 98, 'z': -33}；鏡頭直接擺 yaw 3.1416
+PASS night bottom_north：站的高度 -4.2  {"zone": "campus", "x": 98, "y": -4.2, "z": -33, "lv": 0, "fb": 0, "interact": ""}
+  [前置／捷徑] 【前置／捷徑】讀檔：9/26 20.0 校園 {'x': 98, 'z': -37}；鏡頭直接擺 yaw 0.0
+PASS night bottom_south：站的高度 -4.2  {"zone": "campus", "x": 98, "y": -4.2, "z": -37, "lv": 0, "fb": 0, "interact": ""}
+  [前置／捷徑] 【前置／捷徑】讀檔：9/26 20.0 校園 {'x': 98, 'z': -36}；鏡頭直接擺 yaw 0.6、距離 1.6
+PASS night floor_close：站的高度 -4.2  {"zone": "campus", "x": 98, "y": -4.2, "z": -36, "lv": 0, "fb": 0, "interact": ""}
+  [ 167.4s] night 地面（腳邊射線）：{"mesh": "(無名)", "parent": "", "mat": "", "color": "#ffffff", "mapAvg": null, "y": -4.19}
+  [前置／捷徑] 【前置／捷徑】讀檔：9/26 14:30 校園地面樓梯口 (88,−40)；之後全程真的走、真的按
+  [ 181.5s] 起點：{"zone": "campus", "x": 88, "y": 0, "z": -40, "lv": 0, "fb": 0, "interact": ""}
+  [ 205.9s] 到達「走下樓梯到 B1 門前 (98, −32.2)」附近（0.27 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，24 秒
+PASS 走下樓梯到 B1 門前（y≈−4.2、沒有被放到目的地）  {"zone": "campus", "x": 97.78, "y": -4.2, "z": -32.35, "lv": 0, "fb": 0, "interact": "進 B1（24 小時自習室）"}
+PASS 門前有「進 B1」  {"zone": "campus", "x": 97.78, "y": -4.2, "z": -32.35, "lv": 0, "fb": 0, "interact": "進 B1（24 小時自習室）"}
+PASS 按了走進 B1（library_b1）  {"zone": "library_b1", "x": -20.5, "y": 0, "z": -2.4, "lv": 0, "fb": 0, "interact": ""}
+  [ 227.2s] B1 往外的出口：[{"label": "中庭", "to": null, "x": -21, "z": -8.8, "lv": 0}, {"label": "走出去（總圖北側的中庭）", "to": null, "x": -21.4, "z": -2.4, "lv": 0}]
+PASS B1 找得到往中庭的出口
+  [ 235.8s] 到達「走到 B1 出口「中庭」」附近（0.24 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [ 237.0s] 出口前：{"zone": "library_b1", "x": -20.98, "y": 0, "z": -8.56, "lv": 0, "fb": 0, "interact": "中庭"}
+FAIL 出得來：回到校園、站在中庭（y≈−4.2）  {"zone": "library_b1", "x": -20.98, "y": 0, "z": -8.56, "lv": 0, "fb": 0, "interact": "中庭"}
+PASS 全程 walkFallbacks 沒有增加（0 → 0）  {"zone": "library_b1", "x": -20.98, "y": 0, "z": -8.56, "lv": 0, "fb": 0, "interact": "中庭"}
+PASS 沒有 JS 錯誤  []
+FAILED: 出得來：回到校園、站在中庭（y≈−4.2）

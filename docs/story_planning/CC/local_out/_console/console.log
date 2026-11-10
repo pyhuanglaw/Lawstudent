@@ -213,3 +213,11 @@
 [16:41:39] ==== START X294S_new  (probe @ 9202e2fab36b4c6fa6b10487a1e2ac2c113ae464) ====
 [16:41:42] [res] cpu=12% mem=48% (15.1/31.4 GB) chrome_testing=10  START X294S_new
 [16:42:14] [res] cpu=21% mem=48% (14.9/31.4 GB) chrome_testing=9  END X307_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7074be46a..8421a56e8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:42:22] ==== END   X307_new  exit=1  326s   ====
+[16:42:25] memory 48% before starting X294S_old (2 running)
+[16:42:25] ==== START X294S_old  (probe @ dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963) ====
+[16:42:28] [res] cpu=13% mem=49% (15.2/31.4 GB) chrome_testing=9  START X294S_old
+[16:43:00] [res] cpu=19% mem=47% (14.6/31.4 GB) chrome_testing=6  END X307_old
