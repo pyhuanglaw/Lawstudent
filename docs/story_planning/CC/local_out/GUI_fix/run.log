@@ -1,0 +1,313 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gift_ui_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GUI_fix\out
+CC GIFT-HOLIDAY 畫面＋山嵐學姊：worktree ?；TAG fix；CASES ['bag', 'profile', 'shanlan']；ORIENT ['portrait', 'landscape']；shanlan 只跑 landscape；Playwright 手機模擬 ≠ iPhone 實機
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS [portrait] 遊戲載入
+  [前置／捷徑] [portrait｜bag] GAME.applySave：xs_shanlan 2025-10-18（day 32）14.00 時（區域預設出生點）；條件事件、手機自動打開關掉；學姊不在（2026-02 以前）、錢＝預設 22000；【前置／捷徑】認識學姊（FIRST_MET，「她送的」才會寫她的名字）
+PASS [portrait｜bag] 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 14.03, "day": 32, "money": 22000, "menu": false, "phone": false}
+  [  42.5s] [portrait｜bag] GIFT_HOLIDAY：有（包包上限 10）
+  [  42.6s] [portrait｜bag] 山嵐的「看文具／結帳」互動點：[{"label": "看文具", "x": 4.5, "z": 6.5, "shlLook": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"}, {"label": "結帳", "x": 3.85, "z": 2.4, "shlLook": "（店員在幫前面的人包書套。你手上沒有要買的。）"}]
+  [  56.2s] 到達「[portrait｜bag] 走到「看文具」」附近（0.22 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+PASS [portrait｜bag] 真的走到「看文具」(4.5, 6.5)（walkFallbacks 沒加）、互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 14.12, "day": 32, "money": 22000, "menu": false, "phone": false}
+  [  63.1s] [portrait｜bag] 看文具 → 買 對話紀錄：[["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"], ["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "買禮物…\n節日、生日的時候送她（包包 0/10）"], ["choose", ["一盒綠色螢光筆　120 元\n淺綠色，劃過去不會透到背面。", "一本空白筆記本　250 元\n布面精裝，沒有格線。", "一本方格筆記本　180 元\n五公釐的方格，紙很厚。", "一支好寫的鋼筆　800 元\n試寫台上那一支，寫起來不刮紙。", "一組三色墨水　350 元\n藍、黑、墨綠，三小瓶裝在木盒裡。", "一支好寫的筆　200 元\n握的地方軟軟的，寫很久手不會痠。", "一組很細的筆　180 元\n○．三八的，寫出來的字像印的。", "一包透明的索引標籤　60 元\n貼在書頁邊上，看得到底下的字。", "一枚黃銅書籤　220 元\n薄薄一片，拿在手上有點重。", "一個皮的筆袋　480 元\n深咖啡色，拉鍊很順。", "一個刻名字的小印章　300 元\n在櫃台填名字，十分鐘刻好。", "一盒和紙膠帶　150 元\n十二種花色，有一捲是星星。", "一把金屬尺　90 元\n十五公分，邊緣磨得很平。", "一個卡通熊的筆袋　180 元\n熊在笑。整個筆袋都是那隻熊的臉。", "一個修正帶　45 元\n櫃台旁邊的小籃子裡拿的。", "一盒給小孩的貼紙　100 元\n獎勵用的，星星、蘋果、笑臉。", "一個貓的紙鎮　280 元\n一隻蜷起來睡覺的黑貓，鑄鐵的。", "一條髮圈　120 元\n文具區旁邊的小飾品架上的，素色、不會勾頭髮。", "算了"], "一盒綠色螢光筆　120 元\n淺綠色，劃過去不會透到背面。"], ["say", "", "你買了一盒綠色螢光筆，放進包包。"]]
+PASS [portrait｜bag] 「看文具」有「買禮物…」  [["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "買禮物…\n節日、生日的時候送她（包包 0/10）"], ["choose", ["一盒綠色螢光筆　120 元\n淺綠色，劃過去不會透到背面。", "一本空白筆記本　250 元\n布面精裝，沒有格線。", "一本方格筆記本　180 元\n五公釐的方格，紙很厚。", "一支好寫的鋼筆　800 元\n試寫台上那一支，寫起來不刮紙。", "一組三色墨水　350 元\n藍、黑、墨綠，三小瓶裝在木盒裡。", "一支好寫的筆　200 元\n握的地方軟軟的，寫很久手不會痠。", "一組很細的筆　180 元\n○．三八的，寫出來的字像印的。", "一包透明的索引標籤　60 元\n貼在書頁邊上，看得到底下的字。", "一枚黃銅書籤　220 元\n薄薄一片，拿在手上有點重。", "一個皮的筆袋　480 元\n深咖啡色，拉鍊很順。", "一個刻名字的小印章　300 元\n在櫃台填名字，十分鐘刻好。", "一盒和紙膠帶　150 元\n十二種花色，有一捲是星星。", "一把金屬尺　90 元\n十五公分，邊緣磨得很平。", "一個卡通熊的筆袋　180 元\n熊在笑。整個筆袋都是那隻熊的臉。", "一個修正帶　45 元\n櫃台旁邊的小籃子裡拿的。", "一盒給小孩的貼紙　100 元\n獎勵用的，星星、蘋果、笑臉。", "一個貓的紙鎮　280 元\n一隻蜷起來睡覺的黑貓，鑄鐵的。", "一條髮圈　120 元\n文具區旁邊的小飾品架上的，素色、不會勾頭髮。", "算了"], "一盒綠色螢光筆　120 元\n淺綠色，劃過去不會透到背面。"]]
+PASS [portrait｜bag] 買了「一盒綠色螢光筆」：進包包（G.flags.GIFTH.bag）、扣 120 元、說「你買了…放進包包。」  {"bag": ["g_green_hl"], "money": [22000, 21880]}
+  [前置／捷徑] [portrait｜bag] 【前置／捷徑】再放 3 樣進包包（g_law_book、g_old_vinyl、g_bouquet）、她送的 2 樣（GIFTH.recv）——直接寫 G.flags.GIFTH
+PASS [portrait｜bag]［幾樣：4 樣］ 手指按 ☰（#btnMenu）選單打開  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "你買了一盒綠色螢光筆，放進包包。", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 14.16, "day": 32, "money": 21880, "menu": true, "phone": false}
+  [  68.0s] [portrait｜bag]［幾樣：4 樣］ 選單分頁：[["筆記", 58, 44], ["日誌", 58, 44], ["物品", 58, 44], ["法律", 58, 44], ["存檔", 58, 44], ["設定", 58, 44], ["說明", 58, 44]]
+PASS [portrait｜bag]［幾樣：4 樣］ 「物品」分頁 看得到  {"sel": "#menu [data-tab=\"items\"]", "found": true, "t": "物品", "rect": {"l": 159, "t": 344.8, "r": 217, "b": 388.8, "w": 58, "h": 44}, "w": 58, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜bag]［幾樣：4 樣］ 「物品」分頁 在畫面內、中心 elementFromPoint 是它自己（{"l": 159, "t": 344.8, "r": 217, "b": 388.8, "w": 58, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜bag]［幾樣：4 樣］ 「物品」分頁 可按範圍 ≥44×44（58×44）
+PASS [portrait｜bag]［幾樣：4 樣］ 手指按「物品」→ #tab-items 打開
+  [  69.0s] [portrait｜bag]［幾樣：4 樣］ 物品頁（最上面） 卡片 {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}、捲動容器 {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}（scrollHeight 857／clientHeight 818、scrollTop 0）；區塊 8 個；截圖 gift_fix_portrait_bag_few_1top.png
+PASS [portrait｜bag]［幾樣：4 樣］ 物品頁（最上面） 卡片整個在畫面內（390x844）  {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}
+PASS [portrait｜bag]［幾樣：4 樣］ 物品頁（最上面） 內容左右沒有被裁（區塊、文字都在卡片寬度內；沒有 overflow 切掉的字；卡片沒有橫向捲動）  {"xOutBlocks": [], "xOutText": [], "cut": [], "cardHScroll": false}
+PASS [portrait｜bag]［幾樣：4 樣］ 物品頁（最上面） 字沒有疊在一起（面板裡看得到的文字兩兩不重疊）  []
+PASS [portrait｜bag]［幾樣：4 樣］ 物品頁（最上面） 內容比框長：框可以捲（overflow-y auto/scroll）  {"sh": 857, "ch": 818}
+PASS [portrait｜bag]［幾樣：4 樣］ 標題「包包裡的禮物（4/10）」  包包裡的禮物（4/10）
+節日、她的生日當面見到她，說話的時候可以送。不會過期。
+一盒綠色螢光筆
+山嵐書店（文具區）・120 元
+淺綠色，劃過去不會透到背面。
+
+PASS [portrait｜bag]［幾樣：4 樣］ 每一樣都列出來（一盒綠色螢光筆、一本商事法的書、一張老唱片、一束花）  []
+PASS [portrait｜bag]［幾樣：4 樣］ 「她送的」列出 一包濾掛咖啡、她選的筆記本  劃過去不會透到背面。
+一本商事法的書
+山嵐書店（書架）・450 元
+封面很素，厚得可以當枕頭。
+一張老唱片
+轉角唱片・600 元
+封套有一點舊，唱片沒有刮痕。
+一束花
+公館站口花攤・450 元
+老闆幫你配的，包裝紙是牛皮紙。
+她送的
+她選的筆記本
+溫書瑀
+一包濾掛咖啡
+溫書瑀・2025 的聖誕節
+期末很長。……晚上喝。
+PASS [portrait｜bag]［幾樣：4 樣］ 選單所有分頁按鈕高 ≥44 px（筆記 44、日誌 44、物品 44、法律 44、存檔 44、設定 44、說明 44）  [["筆記", 58, 44], ["日誌", 58, 44], ["物品", 58, 44], ["法律", 58, 44], ["存檔", 58, 44], ["設定", 58, 44], ["說明", 58, 44]]
+PASS [portrait｜bag]［幾樣：4 樣］ 店名沒有「新」的標記（GUI_fix：例「山嵐書店（文具區，新）」「公館站口花攤（新）」）  []
+PASS [portrait｜bag]［幾樣：4 樣］（最上面） 關閉「返回遊戲」 看得到  {"sel": "#btnClose", "found": true, "t": "返回遊戲", "rect": {"l": 265, "t": 29, "r": 359, "b": 73, "w": 94, "h": 44}, "w": 94, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜bag]［幾樣：4 樣］（最上面） 關閉「返回遊戲」 在畫面內、中心 elementFromPoint 是它自己（{"l": 265, "t": 29, "r": 359, "b": 73, "w": 94, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜bag]［幾樣：4 樣］（最上面） 關閉「返回遊戲」 可按範圍 ≥44×44（94×44）
+  [  70.5s] [portrait｜bag]［幾樣：4 樣］ 手指往上滑，#menu .card 捲到底
+  [  70.6s] [portrait｜bag]［幾樣：4 樣］ 物品頁（捲到底） 卡片 {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}、捲動容器 {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}（scrollHeight 857／clientHeight 818、scrollTop 39）；區塊 8 個；截圖 gift_fix_portrait_bag_few_2bottom.png
+PASS [portrait｜bag]［幾樣：4 樣］ 物品頁（捲到底） 卡片整個在畫面內（390x844）  {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}
+PASS [portrait｜bag]［幾樣：4 樣］ 物品頁（捲到底） 內容左右沒有被裁（區塊、文字都在卡片寬度內；沒有 overflow 切掉的字；卡片沒有橫向捲動）  {"xOutBlocks": [], "xOutText": [], "cut": [], "cardHScroll": false}
+PASS [portrait｜bag]［幾樣：4 樣］ 物品頁（捲到底） 字沒有疊在一起（面板裡看得到的文字兩兩不重疊）  []
+PASS [portrait｜bag]［幾樣：4 樣］ 物品頁（捲到底） 內容比框長：框可以捲（overflow-y auto/scroll）  {"sh": 857, "ch": 818}
+PASS [portrait｜bag]［幾樣：4 樣］ 捲到底：最後一樣（她送的最後一筆）整個看得到（沒有被裁在卡片外）  [{"t": "一包濾掛咖啡 溫書瑀・2025 的聖誕節 期末很長。……晚上喝。", "rect": {"l": 31, "t": 729.5, "r": 359, "b": 815.1, "w": 328, "h": 85.5}, "xOut": false, "hOver": false, "fullyVisible": true}]
+  [  70.6s] [portrait｜bag]［幾樣：4 樣］ 捲到底以後「返回遊戲」跟著捲出畫面（{"l": 265, "t": -10, "r": 359, "b": 34, "w": 94, "h": 44}）：要往回滑才按得到（L.tap 會先捲回來＝像玩家往下滑一下）
+PASS [portrait｜bag]［幾樣：4 樣］ 手指按「返回遊戲」選單關掉  {"menu": false}
+  [前置／捷徑] [portrait｜bag] 【前置／捷徑】包包補到 10 樣（g_film_book、g_mug、g_beans、g_kalimba、g_oolong、g_umbrella）
+PASS [portrait｜bag]［滿：10 樣］ 手指按 ☰（#btnMenu）選單打開  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "你買了一盒綠色螢光筆，放進包包。", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 14.19, "day": 32, "money": 21880, "menu": true, "phone": false}
+  [  75.9s] [portrait｜bag]［滿：10 樣］ 選單分頁：[["筆記", 58, 44], ["日誌", 58, 44], ["物品", 58, 44], ["法律", 58, 44], ["存檔", 58, 44], ["設定", 58, 44], ["說明", 58, 44]]
+PASS [portrait｜bag]［滿：10 樣］ 「物品」分頁 看得到  {"sel": "#menu [data-tab=\"items\"]", "found": true, "t": "物品", "rect": {"l": 159, "t": 344.8, "r": 217, "b": 388.8, "w": 58, "h": 44}, "w": 58, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜bag]［滿：10 樣］ 「物品」分頁 在畫面內、中心 elementFromPoint 是它自己（{"l": 159, "t": 344.8, "r": 217, "b": 388.8, "w": 58, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜bag]［滿：10 樣］ 「物品」分頁 可按範圍 ≥44×44（58×44）
+PASS [portrait｜bag]［滿：10 樣］ 手指按「物品」→ #tab-items 打開
+  [  77.0s] [portrait｜bag]［滿：10 樣］ 物品頁（最上面） 卡片 {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}、捲動容器 {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}（scrollHeight 1418／clientHeight 818、scrollTop 0）；區塊 14 個；截圖 gift_fix_portrait_bag_full_1top.png
+PASS [portrait｜bag]［滿：10 樣］ 物品頁（最上面） 卡片整個在畫面內（390x844）  {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}
+PASS [portrait｜bag]［滿：10 樣］ 物品頁（最上面） 內容左右沒有被裁（區塊、文字都在卡片寬度內；沒有 overflow 切掉的字；卡片沒有橫向捲動）  {"xOutBlocks": [], "xOutText": [], "cut": [], "cardHScroll": false}
+PASS [portrait｜bag]［滿：10 樣］ 物品頁（最上面） 字沒有疊在一起（面板裡看得到的文字兩兩不重疊）  []
+PASS [portrait｜bag]［滿：10 樣］ 物品頁（最上面） 內容比框長：框可以捲（overflow-y auto/scroll）  {"sh": 1418, "ch": 818}
+PASS [portrait｜bag]［滿：10 樣］ 標題「包包裡的禮物（10/10）」  包包裡的禮物（10/10）
+節日、她的生日當面見到她，說話的時候可以送。不會過期。
+一盒綠色螢光筆
+山嵐書店（文具區）・120 元
+淺綠色，劃過去不會透到背面。
+PASS [portrait｜bag]［滿：10 樣］ 每一樣都列出來（一盒綠色螢光筆、一本商事法的書、一張老唱片、一束花、一本絕版的電影書、一個馬克杯、一包咖啡豆、一個拇指琴、一罐高山茶葉、一把好一點的傘）  []
+PASS [portrait｜bag]［滿：10 樣］ 「她送的」列出 一包濾掛咖啡、她選的筆記本  ・450 元
+店裡這一季的豆子。
+一個拇指琴
+同弦樂器・680 元
+木頭的，彈起來像水滴。
+一罐高山茶葉
+青木茶室・600 元
+鐵罐，老闆說是今年的春茶。
+一把好一點的傘
+日和便利店・350 元
+骨架是十二根的，風大不會翻。
+她送的
+她選的筆記本
+溫書瑀
+一包濾掛咖啡
+溫書瑀・2025 的聖誕節
+期末很長。……晚上喝。
+PASS [portrait｜bag]［滿：10 樣］ 選單所有分頁按鈕高 ≥44 px（筆記 44、日誌 44、物品 44、法律 44、存檔 44、設定 44、說明 44）  [["筆記", 58, 44], ["日誌", 58, 44], ["物品", 58, 44], ["法律", 58, 44], ["存檔", 58, 44], ["設定", 58, 44], ["說明", 58, 44]]
+PASS [portrait｜bag]［滿：10 樣］ 店名沒有「新」的標記（GUI_fix：例「山嵐書店（文具區，新）」「公館站口花攤（新）」）  []
+PASS [portrait｜bag]［滿：10 樣］（最上面） 關閉「返回遊戲」 看得到  {"sel": "#btnClose", "found": true, "t": "返回遊戲", "rect": {"l": 265, "t": 29, "r": 359, "b": 73, "w": 94, "h": 44}, "w": 94, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜bag]［滿：10 樣］（最上面） 關閉「返回遊戲」 在畫面內、中心 elementFromPoint 是它自己（{"l": 265, "t": 29, "r": 359, "b": 73, "w": 94, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜bag]［滿：10 樣］（最上面） 關閉「返回遊戲」 可按範圍 ≥44×44（94×44）
+  [  81.2s] [portrait｜bag]［滿：10 樣］ 手指往上滑，#menu .card 捲到底
+  [  81.3s] [portrait｜bag]［滿：10 樣］ 物品頁（捲到底） 卡片 {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}、捲動容器 {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}（scrollHeight 1418／clientHeight 818、scrollTop 600）；區塊 14 個；截圖 gift_fix_portrait_bag_full_2bottom.png
+PASS [portrait｜bag]［滿：10 樣］ 物品頁（捲到底） 卡片整個在畫面內（390x844）  {"l": 12, "t": 12, "r": 378, "b": 832, "w": 366, "h": 820}
+PASS [portrait｜bag]［滿：10 樣］ 物品頁（捲到底） 內容左右沒有被裁（區塊、文字都在卡片寬度內；沒有 overflow 切掉的字；卡片沒有橫向捲動）  {"xOutBlocks": [], "xOutText": [], "cut": [], "cardHScroll": false}
+PASS [portrait｜bag]［滿：10 樣］ 物品頁（捲到底） 字沒有疊在一起（面板裡看得到的文字兩兩不重疊）  []
+PASS [portrait｜bag]［滿：10 樣］ 物品頁（捲到底） 內容比框長：框可以捲（overflow-y auto/scroll）  {"sh": 1418, "ch": 818}
+PASS [portrait｜bag]［滿：10 樣］ 捲到底：最後一樣（她送的最後一筆）整個看得到（沒有被裁在卡片外）  [{"t": "一包濾掛咖啡 溫書瑀・2025 的聖誕節 期末很長。……晚上喝。", "rect": {"l": 31, "t": 729.6, "r": 359, "b": 815.2, "w": 328, "h": 85.5}, "xOut": false, "hOver": false, "fullyVisible": true}]
+  [  81.3s] [portrait｜bag]［滿：10 樣］ 捲到底以後「返回遊戲」跟著捲出畫面（{"l": 265, "t": -571, "r": 359, "b": -527, "w": 94, "h": 44}）：要往回滑才按得到（L.tap 會先捲回來＝像玩家往下滑一下）
+PASS [portrait｜bag]［滿：10 樣］ 手指按「返回遊戲」選單關掉  {"menu": false}
+PASS [portrait｜bag] 包包滿 10 樣：「看文具」的「買禮物…」灰掉、提示「包包已經放了 10 樣」  [{"t": "買禮物…\n包包已經放了 10 樣", "dim": true}, {"t": "就這樣", "dim": false}]
+  [  87.0s] [portrait｜bag] 收掉 對話紀錄：[["choose", ["買禮物…\n包包已經放了 10 樣", "就這樣"], "就這樣"]]
+  [前置／捷徑] [portrait｜profile] GAME.applySave：dorm 2026-03-10（day 175）20.00 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 45）；G.flags.GIFTH：送過她 g_fountain、g_leather_case、g_green_hl、g_bouquet、g_beans、她送的 一包濾掛咖啡、她選的筆記本、一盒巧克力（mail 標成已經演過，不在宿舍跳信箱）
+  [ 100.2s] [portrait｜profile] 照 GIFT_HOLIDAY.items 的 love：她喜歡＝["一支好寫的鋼筆", "一個皮的筆袋", "一盒綠色螢光筆", "一束花"]；不該列＝["一包咖啡豆"]
+PASS [portrait｜profile] 手指按 📱 手機打開  {"zone": "dorm", "x": 0, "z": 2.4, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "走出房間", "fb": 0, "hour": 20.05, "day": 175, "money": 22000, "menu": false, "phone": true}
+PASS [portrait｜profile] 「朋友」分頁 看得到  {"sel": "#phoneTabs [data-ptab=\"friends\"]", "found": true, "t": "朋友", "rect": {"l": 95, "t": 236.8, "r": 153, "b": 280.8, "w": 58, "h": 44}, "w": 58, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜profile] 「朋友」分頁 在畫面內、中心 elementFromPoint 是它自己（{"l": 95, "t": 236.8, "r": 153, "b": 280.8, "w": 58, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜profile] 「朋友」分頁 可按範圍 ≥44×44（58×44）
+PASS [portrait｜profile] 朋友清單有學姊的「資料」
+  [ 104.7s] [portrait｜profile] 人物頁的區塊：{"她喜歡": "她喜歡\n· 一支好寫的鋼筆、一個皮的筆袋、一盒綠色螢光筆、一束花", "她送的": "她送的\n· 一包濾掛咖啡（2025 的聖誕節）\n· 她選的筆記本\n· 一盒巧克力（2026 的情人節）"}
+PASS [portrait｜profile] 有「她喜歡」：一支好寫的鋼筆、一個皮的筆袋、一盒綠色螢光筆、一束花（不列 一包咖啡豆）  "她喜歡\n· 一支好寫的鋼筆、一個皮的筆袋、一盒綠色螢光筆、一束花"
+PASS [portrait｜profile] 有「她送的」：一包濾掛咖啡、她選的筆記本、一盒巧克力  "她送的\n· 一包濾掛咖啡（2025 的聖誕節）\n· 她選的筆記本\n· 一盒巧克力（2026 的情人節）"
+  [ 104.9s] [portrait｜profile] 人物頁 卡片 {"l": 12, "t": 85.4, "r": 378, "b": 758.6, "w": 366, "h": 673.2}、捲動容器 {"l": 31, "t": 252.4, "r": 359, "b": 741.6, "w": 328, "h": 489.2}（scrollHeight 489／clientHeight 489、scrollTop 0）；區塊 4 個；截圖 gift_fix_portrait_prof_1gift.png
+PASS [portrait｜profile] 人物頁 卡片整個在畫面內（390x844）  {"l": 12, "t": 85.4, "r": 378, "b": 758.6, "w": 366, "h": 673.2}
+PASS [portrait｜profile] 人物頁 內容左右沒有被裁（區塊、文字都在卡片寬度內；沒有 overflow 切掉的字；卡片沒有橫向捲動）  {"xOutBlocks": [], "xOutText": [], "cut": [], "cardHScroll": false}
+PASS [portrait｜profile] 人物頁 字沒有疊在一起（面板裡看得到的文字兩兩不重疊）  []
+PASS [portrait｜profile] 「她喜歡／她送的」兩塊整個看得到（在 #phoneBody 可見範圍裡、沒有超出左右）  [{"t": "她喜歡 · 一支好寫的鋼筆、一個皮的筆袋、一盒綠色螢光筆、一束花", "rect": {"l": 44, "t": 428.1, "r": 346, "b": 490.1, "w": 302, "h": 62}, "xOut": false, "hOver": false, "fullyVisible": true}, {"t": "她送的 · 一包濾掛咖啡（2025 的聖誕節） · 她選的筆記本 · 一盒巧克力", "rect": {"l": 44, "t": 494.1, "r": 346, "b": 576.2, "w": 302, "h": 82.1}, "xOut": false, "hOver": false, "fullyVisible": true}]
+  [ 104.9s] [portrait｜profile] 兩塊每一行（行數、最右邊／所在 .item 的右邊）：[{"t": "· 一支好寫的鋼筆、一個皮的筆袋、一盒綠色螢光筆、一束花", "lines": 2, "right": 333, "itemR": 359}, {"t": "· 一包濾掛咖啡（2025 的聖誕節）", "lines": 1, "right": 248, "itemR": 359}, {"t": "· 她選的筆記本", "lines": 1, "right": 138, "itemR": 359}, {"t": "· 一盒巧克力（2026 的情人節）", "lines": 1, "right": 235, "itemR": 359}]
+PASS [portrait｜profile] 「‹ 朋友」返回 看得到  {"sel": "#phoneBody [data-personback]", "found": true, "t": "‹ 朋友", "rect": {"l": 44, "t": 263.4, "r": 115.9, "b": 307.4, "w": 71.9, "h": 44}, "w": 71.9, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜profile] 「‹ 朋友」返回 在畫面內、中心 elementFromPoint 是它自己（{"l": 44, "t": 263.4, "r": 115.9, "b": 307.4, "w": 71.9, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜profile] 「‹ 朋友」返回 可按範圍 ≥44×44（71.9×44）
+PASS [portrait｜profile] 關閉「收起來」 看得到  {"sel": "#btnPhoneClose", "found": true, "t": "收起來", "rect": {"l": 280, "t": 102.4, "r": 359, "b": 146.4, "w": 79, "h": 44}, "w": 79, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜profile] 關閉「收起來」 在畫面內、中心 elementFromPoint 是它自己（{"l": 280, "t": 102.4, "r": 359, "b": 146.4, "w": 79, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜profile] 關閉「收起來」 可按範圍 ≥44×44（79×44）
+PASS [portrait｜profile] 手指按「收起來」手機關掉  {"phone": false}
+PASS [portrait] 沒有 JS 例外  []
+PASS [landscape] 遊戲載入
+  [前置／捷徑] [landscape｜bag] GAME.applySave：xs_shanlan 2025-10-18（day 32）14.00 時（區域預設出生點）；條件事件、手機自動打開關掉；學姊不在（2026-02 以前）、錢＝預設 22000；【前置／捷徑】認識學姊（FIRST_MET，「她送的」才會寫她的名字）
+PASS [landscape｜bag] 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 14.04, "day": 32, "money": 22000, "menu": false, "phone": false}
+  [ 148.1s] [landscape｜bag] GIFT_HOLIDAY：有（包包上限 10）
+  [ 148.1s] [landscape｜bag] 山嵐的「看文具／結帳」互動點：[{"label": "看文具", "x": 4.5, "z": 6.5, "shlLook": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"}, {"label": "結帳", "x": 3.85, "z": 2.4, "shlLook": "（店員在幫前面的人包書套。你手上沒有要買的。）"}]
+  [ 151.1s] 到達「[landscape｜bag] 走到「看文具」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [landscape｜bag] 真的走到「看文具」(4.5, 6.5)（walkFallbacks 沒加）、互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 14.06, "day": 32, "money": 22000, "menu": false, "phone": false}
+  [ 158.3s] [landscape｜bag] 看文具 → 買 對話紀錄：[["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"], ["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "買禮物…\n節日、生日的時候送她（包包 0/10）"], ["choose", ["一盒綠色螢光筆　120 元\n淺綠色，劃過去不會透到背面。", "一本空白筆記本　250 元\n布面精裝，沒有格線。", "一本方格筆記本　180 元\n五公釐的方格，紙很厚。", "一支好寫的鋼筆　800 元\n試寫台上那一支，寫起來不刮紙。", "一組三色墨水　350 元\n藍、黑、墨綠，三小瓶裝在木盒裡。", "一支好寫的筆　200 元\n握的地方軟軟的，寫很久手不會痠。", "一組很細的筆　180 元\n○．三八的，寫出來的字像印的。", "一包透明的索引標籤　60 元\n貼在書頁邊上，看得到底下的字。", "一枚黃銅書籤　220 元\n薄薄一片，拿在手上有點重。", "一個皮的筆袋　480 元\n深咖啡色，拉鍊很順。", "一個刻名字的小印章　300 元\n在櫃台填名字，十分鐘刻好。", "一盒和紙膠帶　150 元\n十二種花色，有一捲是星星。", "一把金屬尺　90 元\n十五公分，邊緣磨得很平。", "一個卡通熊的筆袋　180 元\n熊在笑。整個筆袋都是那隻熊的臉。", "一個修正帶　45 元\n櫃台旁邊的小籃子裡拿的。", "一盒給小孩的貼紙　100 元\n獎勵用的，星星、蘋果、笑臉。", "一個貓的紙鎮　280 元\n一隻蜷起來睡覺的黑貓，鑄鐵的。", "一條髮圈　120 元\n文具區旁邊的小飾品架上的，素色、不會勾頭髮。", "算了"], "一盒綠色螢光筆　120 元\n淺綠色，劃過去不會透到背面。"], ["say", "", "你買了一盒綠色螢光筆，放進包包。"]]
+PASS [landscape｜bag] 「看文具」有「買禮物…」  [["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "買禮物…\n節日、生日的時候送她（包包 0/10）"], ["choose", ["一盒綠色螢光筆　120 元\n淺綠色，劃過去不會透到背面。", "一本空白筆記本　250 元\n布面精裝，沒有格線。", "一本方格筆記本　180 元\n五公釐的方格，紙很厚。", "一支好寫的鋼筆　800 元\n試寫台上那一支，寫起來不刮紙。", "一組三色墨水　350 元\n藍、黑、墨綠，三小瓶裝在木盒裡。", "一支好寫的筆　200 元\n握的地方軟軟的，寫很久手不會痠。", "一組很細的筆　180 元\n○．三八的，寫出來的字像印的。", "一包透明的索引標籤　60 元\n貼在書頁邊上，看得到底下的字。", "一枚黃銅書籤　220 元\n薄薄一片，拿在手上有點重。", "一個皮的筆袋　480 元\n深咖啡色，拉鍊很順。", "一個刻名字的小印章　300 元\n在櫃台填名字，十分鐘刻好。", "一盒和紙膠帶　150 元\n十二種花色，有一捲是星星。", "一把金屬尺　90 元\n十五公分，邊緣磨得很平。", "一個卡通熊的筆袋　180 元\n熊在笑。整個筆袋都是那隻熊的臉。", "一個修正帶　45 元\n櫃台旁邊的小籃子裡拿的。", "一盒給小孩的貼紙　100 元\n獎勵用的，星星、蘋果、笑臉。", "一個貓的紙鎮　280 元\n一隻蜷起來睡覺的黑貓，鑄鐵的。", "一條髮圈　120 元\n文具區旁邊的小飾品架上的，素色、不會勾頭髮。", "算了"], "一盒綠色螢光筆　120 元\n淺綠色，劃過去不會透到背面。"]]
+PASS [landscape｜bag] 買了「一盒綠色螢光筆」：進包包（G.flags.GIFTH.bag）、扣 120 元、說「你買了…放進包包。」  {"bag": ["g_green_hl"], "money": [22000, 21880]}
+  [前置／捷徑] [landscape｜bag] 【前置／捷徑】再放 3 樣進包包（g_law_book、g_old_vinyl、g_bouquet）、她送的 2 樣（GIFTH.recv）——直接寫 G.flags.GIFTH
+PASS [landscape｜bag]［幾樣：4 樣］ 手指按 ☰（#btnMenu）選單打開  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "你買了一盒綠色螢光筆，放進包包。", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 14.1, "day": 32, "money": 21880, "menu": true, "phone": false}
+  [ 163.1s] [landscape｜bag]［幾樣：4 樣］ 選單分頁：[["筆記", 58, 44], ["日誌", 58, 44], ["物品", 58, 44], ["法律", 58, 44], ["存檔", 58, 44], ["設定", 58, 44], ["說明", 58, 44]]
+PASS [landscape｜bag]［幾樣：4 樣］ 「物品」分頁 看得到  {"sel": "#menu [data-tab=\"items\"]", "found": true, "t": "物品", "rect": {"l": 209, "t": 142.8, "r": 267, "b": 186.8, "w": 58, "h": 44}, "w": 58, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜bag]［幾樣：4 樣］ 「物品」分頁 在畫面內、中心 elementFromPoint 是它自己（{"l": 209, "t": 142.8, "r": 267, "b": 186.8, "w": 58, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜bag]［幾樣：4 樣］ 「物品」分頁 可按範圍 ≥44×44（58×44）
+PASS [landscape｜bag]［幾樣：4 樣］ 手指按「物品」→ #tab-items 打開
+  [ 164.2s] [landscape｜bag]［幾樣：4 樣］ 物品頁（最上面） 卡片 {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}、捲動容器 {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}（scrollHeight 787／clientHeight 364、scrollTop 0）；區塊 8 個；截圖 gift_fix_landscape_bag_few_1top.png
+PASS [landscape｜bag]［幾樣：4 樣］ 物品頁（最上面） 卡片整個在畫面內（844x390）  {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}
+PASS [landscape｜bag]［幾樣：4 樣］ 物品頁（最上面） 內容左右沒有被裁（區塊、文字都在卡片寬度內；沒有 overflow 切掉的字；卡片沒有橫向捲動）  {"xOutBlocks": [], "xOutText": [], "cut": [], "cardHScroll": false}
+PASS [landscape｜bag]［幾樣：4 樣］ 物品頁（最上面） 字沒有疊在一起（面板裡看得到的文字兩兩不重疊）  []
+PASS [landscape｜bag]［幾樣：4 樣］ 物品頁（最上面） 內容比框長：框可以捲（overflow-y auto/scroll）  {"sh": 787, "ch": 364}
+PASS [landscape｜bag]［幾樣：4 樣］ 標題「包包裡的禮物（4/10）」  包包裡的禮物（4/10）
+節日、她的生日當面見到她，說話的時候可以送。不會過期。
+一盒綠色螢光筆
+山嵐書店（文具區）・120 元
+淺綠色，劃過去不會透到背面。
+
+PASS [landscape｜bag]［幾樣：4 樣］ 每一樣都列出來（一盒綠色螢光筆、一本商事法的書、一張老唱片、一束花）  []
+PASS [landscape｜bag]［幾樣：4 樣］ 「她送的」列出 一包濾掛咖啡、她選的筆記本  劃過去不會透到背面。
+一本商事法的書
+山嵐書店（書架）・450 元
+封面很素，厚得可以當枕頭。
+一張老唱片
+轉角唱片・600 元
+封套有一點舊，唱片沒有刮痕。
+一束花
+公館站口花攤・450 元
+老闆幫你配的，包裝紙是牛皮紙。
+她送的
+她選的筆記本
+溫書瑀
+一包濾掛咖啡
+溫書瑀・2025 的聖誕節
+期末很長。……晚上喝。
+PASS [landscape｜bag]［幾樣：4 樣］ 選單所有分頁按鈕高 ≥44 px（筆記 44、日誌 44、物品 44、法律 44、存檔 44、設定 44、說明 44）  [["筆記", 58, 44], ["日誌", 58, 44], ["物品", 58, 44], ["法律", 58, 44], ["存檔", 58, 44], ["設定", 58, 44], ["說明", 58, 44]]
+PASS [landscape｜bag]［幾樣：4 樣］ 店名沒有「新」的標記（GUI_fix：例「山嵐書店（文具區，新）」「公館站口花攤（新）」）  []
+PASS [landscape｜bag]［幾樣：4 樣］（最上面） 關閉「返回遊戲」 看得到  {"sel": "#btnClose", "found": true, "t": "返回遊戲", "rect": {"l": 669, "t": 29, "r": 763, "b": 73, "w": 94, "h": 44}, "w": 94, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜bag]［幾樣：4 樣］（最上面） 關閉「返回遊戲」 在畫面內、中心 elementFromPoint 是它自己（{"l": 669, "t": 29, "r": 763, "b": 73, "w": 94, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜bag]［幾樣：4 樣］（最上面） 關閉「返回遊戲」 可按範圍 ≥44×44（94×44）
+  [ 167.0s] [landscape｜bag]［幾樣：4 樣］ 手指往上滑，#menu .card 捲到底
+  [ 167.1s] [landscape｜bag]［幾樣：4 樣］ 物品頁（捲到底） 卡片 {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}、捲動容器 {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}（scrollHeight 787／clientHeight 364、scrollTop 423）；區塊 8 個；截圖 gift_fix_landscape_bag_few_2bottom.png
+PASS [landscape｜bag]［幾樣：4 樣］ 物品頁（捲到底） 卡片整個在畫面內（844x390）  {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}
+PASS [landscape｜bag]［幾樣：4 樣］ 物品頁（捲到底） 內容左右沒有被裁（區塊、文字都在卡片寬度內；沒有 overflow 切掉的字；卡片沒有橫向捲動）  {"xOutBlocks": [], "xOutText": [], "cut": [], "cardHScroll": false}
+PASS [landscape｜bag]［幾樣：4 樣］ 物品頁（捲到底） 字沒有疊在一起（面板裡看得到的文字兩兩不重疊）  []
+PASS [landscape｜bag]［幾樣：4 樣］ 物品頁（捲到底） 內容比框長：框可以捲（overflow-y auto/scroll）  {"sh": 787, "ch": 364}
+PASS [landscape｜bag]［幾樣：4 樣］ 捲到底：最後一樣（她送的最後一筆）整個看得到（沒有被裁在卡片外）  [{"t": "一包濾掛咖啡 溫書瑀・2025 的聖誕節 期末很長。……晚上喝。", "rect": {"l": 81, "t": 275.4, "r": 763, "b": 360.9, "w": 682, "h": 85.5}, "xOut": false, "hOver": false, "fullyVisible": true}]
+  [ 167.1s] [landscape｜bag]［幾樣：4 樣］ 捲到底以後「返回遊戲」跟著捲出畫面（{"l": 669, "t": -394, "r": 763, "b": -350, "w": 94, "h": 44}）：要往回滑才按得到（L.tap 會先捲回來＝像玩家往下滑一下）
+PASS [landscape｜bag]［幾樣：4 樣］ 手指按「返回遊戲」選單關掉  {"menu": false}
+  [前置／捷徑] [landscape｜bag] 【前置／捷徑】包包補到 10 樣（g_film_book、g_mug、g_beans、g_kalimba、g_oolong、g_umbrella）
+PASS [landscape｜bag]［滿：10 樣］ 手指按 ☰（#btnMenu）選單打開  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "你買了一盒綠色螢光筆，放進包包。", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 14.13, "day": 32, "money": 21880, "menu": true, "phone": false}
+  [ 172.5s] [landscape｜bag]［滿：10 樣］ 選單分頁：[["筆記", 58, 44], ["日誌", 58, 44], ["物品", 58, 44], ["法律", 58, 44], ["存檔", 58, 44], ["設定", 58, 44], ["說明", 58, 44]]
+PASS [landscape｜bag]［滿：10 樣］ 「物品」分頁 看得到  {"sel": "#menu [data-tab=\"items\"]", "found": true, "t": "物品", "rect": {"l": 209, "t": 142.8, "r": 267, "b": 186.8, "w": 58, "h": 44}, "w": 58, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜bag]［滿：10 樣］ 「物品」分頁 在畫面內、中心 elementFromPoint 是它自己（{"l": 209, "t": 142.8, "r": 267, "b": 186.8, "w": 58, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜bag]［滿：10 樣］ 「物品」分頁 可按範圍 ≥44×44（58×44）
+PASS [landscape｜bag]［滿：10 樣］ 手指按「物品」→ #tab-items 打開
+  [ 173.6s] [landscape｜bag]［滿：10 樣］ 物品頁（最上面） 卡片 {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}、捲動容器 {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}（scrollHeight 1348／clientHeight 364、scrollTop 0）；區塊 14 個；截圖 gift_fix_landscape_bag_full_1top.png
+PASS [landscape｜bag]［滿：10 樣］ 物品頁（最上面） 卡片整個在畫面內（844x390）  {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}
+PASS [landscape｜bag]［滿：10 樣］ 物品頁（最上面） 內容左右沒有被裁（區塊、文字都在卡片寬度內；沒有 overflow 切掉的字；卡片沒有橫向捲動）  {"xOutBlocks": [], "xOutText": [], "cut": [], "cardHScroll": false}
+PASS [landscape｜bag]［滿：10 樣］ 物品頁（最上面） 字沒有疊在一起（面板裡看得到的文字兩兩不重疊）  []
+PASS [landscape｜bag]［滿：10 樣］ 物品頁（最上面） 內容比框長：框可以捲（overflow-y auto/scroll）  {"sh": 1348, "ch": 364}
+PASS [landscape｜bag]［滿：10 樣］ 標題「包包裡的禮物（10/10）」  包包裡的禮物（10/10）
+節日、她的生日當面見到她，說話的時候可以送。不會過期。
+一盒綠色螢光筆
+山嵐書店（文具區）・120 元
+淺綠色，劃過去不會透到背面。
+PASS [landscape｜bag]［滿：10 樣］ 每一樣都列出來（一盒綠色螢光筆、一本商事法的書、一張老唱片、一束花、一本絕版的電影書、一個馬克杯、一包咖啡豆、一個拇指琴、一罐高山茶葉、一把好一點的傘）  []
+PASS [landscape｜bag]［滿：10 樣］ 「她送的」列出 一包濾掛咖啡、她選的筆記本  ・450 元
+店裡這一季的豆子。
+一個拇指琴
+同弦樂器・680 元
+木頭的，彈起來像水滴。
+一罐高山茶葉
+青木茶室・600 元
+鐵罐，老闆說是今年的春茶。
+一把好一點的傘
+日和便利店・350 元
+骨架是十二根的，風大不會翻。
+她送的
+她選的筆記本
+溫書瑀
+一包濾掛咖啡
+溫書瑀・2025 的聖誕節
+期末很長。……晚上喝。
+PASS [landscape｜bag]［滿：10 樣］ 選單所有分頁按鈕高 ≥44 px（筆記 44、日誌 44、物品 44、法律 44、存檔 44、設定 44、說明 44）  [["筆記", 58, 44], ["日誌", 58, 44], ["物品", 58, 44], ["法律", 58, 44], ["存檔", 58, 44], ["設定", 58, 44], ["說明", 58, 44]]
+PASS [landscape｜bag]［滿：10 樣］ 店名沒有「新」的標記（GUI_fix：例「山嵐書店（文具區，新）」「公館站口花攤（新）」）  []
+PASS [landscape｜bag]［滿：10 樣］（最上面） 關閉「返回遊戲」 看得到  {"sel": "#btnClose", "found": true, "t": "返回遊戲", "rect": {"l": 669, "t": 29, "r": 763, "b": 73, "w": 94, "h": 44}, "w": 94, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜bag]［滿：10 樣］（最上面） 關閉「返回遊戲」 在畫面內、中心 elementFromPoint 是它自己（{"l": 669, "t": 29, "r": 763, "b": 73, "w": 94, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜bag]［滿：10 樣］（最上面） 關閉「返回遊戲」 可按範圍 ≥44×44（94×44）
+  [ 179.2s] [landscape｜bag]［滿：10 樣］ 手指往上滑，#menu .card 捲到底
+  [ 179.4s] [landscape｜bag]［滿：10 樣］ 物品頁（捲到底） 卡片 {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}、捲動容器 {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}（scrollHeight 1348／clientHeight 364、scrollTop 984）；區塊 14 個；截圖 gift_fix_landscape_bag_full_2bottom.png
+PASS [landscape｜bag]［滿：10 樣］ 物品頁（捲到底） 卡片整個在畫面內（844x390）  {"l": 62, "t": 12, "r": 782, "b": 378, "w": 720, "h": 366}
+PASS [landscape｜bag]［滿：10 樣］ 物品頁（捲到底） 內容左右沒有被裁（區塊、文字都在卡片寬度內；沒有 overflow 切掉的字；卡片沒有橫向捲動）  {"xOutBlocks": [], "xOutText": [], "cut": [], "cardHScroll": false}
+PASS [landscape｜bag]［滿：10 樣］ 物品頁（捲到底） 字沒有疊在一起（面板裡看得到的文字兩兩不重疊）  []
+PASS [landscape｜bag]［滿：10 樣］ 物品頁（捲到底） 內容比框長：框可以捲（overflow-y auto/scroll）  {"sh": 1348, "ch": 364}
+PASS [landscape｜bag]［滿：10 樣］ 捲到底：最後一樣（她送的最後一筆）整個看得到（沒有被裁在卡片外）  [{"t": "一包濾掛咖啡 溫書瑀・2025 的聖誕節 期末很長。……晚上喝。", "rect": {"l": 81, "t": 275.5, "r": 763, "b": 361, "w": 682, "h": 85.5}, "xOut": false, "hOver": false, "fullyVisible": true}]
+  [ 179.4s] [landscape｜bag]［滿：10 樣］ 捲到底以後「返回遊戲」跟著捲出畫面（{"l": 669, "t": -955, "r": 763, "b": -911, "w": 94, "h": 44}）：要往回滑才按得到（L.tap 會先捲回來＝像玩家往下滑一下）
+PASS [landscape｜bag]［滿：10 樣］ 手指按「返回遊戲」選單關掉  {"menu": false}
+PASS [landscape｜bag] 包包滿 10 樣：「看文具」的「買禮物…」灰掉、提示「包包已經放了 10 樣」  [{"t": "買禮物…\n包包已經放了 10 樣", "dim": true}, {"t": "就這樣", "dim": false}]
+  [ 184.8s] [landscape｜bag] 收掉 對話紀錄：[["choose", ["買禮物…\n包包已經放了 10 樣", "就這樣"], "就這樣"]]
+  [前置／捷徑] [landscape｜profile] GAME.applySave：dorm 2026-03-10（day 175）20.00 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 45）；G.flags.GIFTH：送過她 g_fountain、g_leather_case、g_green_hl、g_bouquet、g_beans、她送的 一包濾掛咖啡、她選的筆記本、一盒巧克力（mail 標成已經演過，不在宿舍跳信箱）
+  [ 198.3s] [landscape｜profile] 照 GIFT_HOLIDAY.items 的 love：她喜歡＝["一支好寫的鋼筆", "一個皮的筆袋", "一盒綠色螢光筆", "一束花"]；不該列＝["一包咖啡豆"]
+PASS [landscape｜profile] 手指按 📱 手機打開  {"zone": "dorm", "x": 0, "z": 2.4, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "走出房間", "fb": 0, "hour": 20.05, "day": 175, "money": 22000, "menu": false, "phone": true}
+PASS [landscape｜profile] 「朋友」分頁 看得到  {"sel": "#phoneTabs [data-ptab=\"friends\"]", "found": true, "t": "朋友", "rect": {"l": 211, "t": 123, "r": 269, "b": 167, "w": 58, "h": 44}, "w": 58, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜profile] 「朋友」分頁 在畫面內、中心 elementFromPoint 是它自己（{"l": 211, "t": 123, "r": 269, "b": 167, "w": 58, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜profile] 「朋友」分頁 可按範圍 ≥44×44（58×44）
+PASS [landscape｜profile] 朋友清單有學姊的「資料」
+  [ 202.8s] [landscape｜profile] 人物頁的區塊：{"她喜歡": "她喜歡\n· 一支好寫的鋼筆、一個皮的筆袋、一盒綠色螢光筆、一束花", "她送的": "她送的\n· 一包濾掛咖啡（2025 的聖誕節）\n· 她選的筆記本\n· 一盒巧克力（2026 的情人節）"}
+PASS [landscape｜profile] 有「她喜歡」：一支好寫的鋼筆、一個皮的筆袋、一盒綠色螢光筆、一束花（不列 一包咖啡豆）  "她喜歡\n· 一支好寫的鋼筆、一個皮的筆袋、一盒綠色螢光筆、一束花"
+PASS [landscape｜profile] 有「她送的」：一包濾掛咖啡、她選的筆記本、一盒巧克力  "她送的\n· 一包濾掛咖啡（2025 的聖誕節）\n· 她選的筆記本\n· 一盒巧克力（2026 的情人節）"
+  [ 204.4s] [landscape｜profile] 手指往上滑，看到「她喜歡／她送的」
+  [ 204.5s] [landscape｜profile] 人物頁 卡片 {"l": 192, "t": 12, "r": 652, "b": 378, "w": 460, "h": 366}、捲動容器 {"l": 211, "t": 179, "r": 633, "b": 361, "w": 422, "h": 182}（scrollHeight 447／clientHeight 182、scrollTop 107）；區塊 4 個；截圖 gift_fix_landscape_prof_1gift.png
+PASS [landscape｜profile] 人物頁 卡片整個在畫面內（844x390）  {"l": 192, "t": 12, "r": 652, "b": 378, "w": 460, "h": 366}
+PASS [landscape｜profile] 人物頁 內容左右沒有被裁（區塊、文字都在卡片寬度內；沒有 overflow 切掉的字；卡片沒有橫向捲動）  {"xOutBlocks": [], "xOutText": [], "cut": [], "cardHScroll": false}
+PASS [landscape｜profile] 人物頁 字沒有疊在一起（面板裡看得到的文字兩兩不重疊）  []
+PASS [landscape｜profile] 人物頁 內容比框長：框可以捲（overflow-y auto/scroll）  {"sh": 447, "ch": 182}
+PASS [landscape｜profile] 「她喜歡／她送的」兩塊整個看得到（在 #phoneBody 可見範圍裡、沒有超出左右）  [{"t": "她喜歡 · 一支好寫的鋼筆、一個皮的筆袋、一盒綠色螢光筆、一束花", "rect": {"l": 224, "t": 226.1, "r": 620, "b": 267.9, "w": 396, "h": 41.8}, "xOut": false, "hOver": false, "fullyVisible": true}, {"t": "她送的 · 一包濾掛咖啡（2025 的聖誕節） · 她選的筆記本 · 一盒巧克力", "rect": {"l": 224, "t": 271.9, "r": 620, "b": 354, "w": 396, "h": 82.1}, "xOut": false, "hOver": false, "fullyVisible": true}]
+  [ 204.5s] [landscape｜profile] 兩塊每一行（行數、最右邊／所在 .item 的右邊）：[{"t": "· 一支好寫的鋼筆、一個皮的筆袋、一盒綠色螢光筆、一束花", "lines": 1, "right": 578, "itemR": 633}, {"t": "· 一包濾掛咖啡（2025 的聖誕節）", "lines": 1, "right": 428, "itemR": 633}, {"t": "· 她選的筆記本", "lines": 1, "right": 318, "itemR": 633}, {"t": "· 一盒巧克力（2026 的情人節）", "lines": 1, "right": 415, "itemR": 633}]
+  [ 204.5s] [landscape｜profile] 「‹ 朋友」捲到上面去了（這一頁不量它）
+PASS [landscape｜profile] 關閉「收起來」 看得到  {"sel": "#btnPhoneClose", "found": true, "t": "收起來", "rect": {"l": 554, "t": 29, "r": 633, "b": 73, "w": 79, "h": 44}, "w": 79, "h": 44, "inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜profile] 關閉「收起來」 在畫面內、中心 elementFromPoint 是它自己（{"l": 554, "t": 29, "r": 633, "b": 73, "w": 79, "h": 44}）  {"inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜profile] 關閉「收起來」 可按範圍 ≥44×44（79×44）
+PASS [landscape｜profile] 手指按「收起來」手機關掉  {"phone": false}
+  [ 205.5s] [landscape｜shanlan] 2025-12～2026-07 的週六（CALENDAR.termOf 週次；slDay＝程式的 GIFTH.slDay 對照）：[["2025-12-06", "Y1S1", 14, false], ["2025-12-13", "Y1S1", 15, false], ["2025-12-20", "Y1S1", 16, false], ["2025-12-27", null, null, false], ["2026-01-03", null, null, false], ["2026-01-10", null, null, false], ["2026-01-17", null, null, false], ["2026-01-24", null, null, false], ["2026-01-31", null, null, false], ["2026-02-07", null, null, false], ["2026-02-14", null, null, false], ["2026-02-21", null, null, false], ["2026-02-28", "Y1S2", 1, true], ["2026-03-07", "Y1S2", 2, false], ["2026-03-14", "Y1S2", 3, true], ["2026-03-21", "Y1S2", 4, false], ["2026-03-28", "Y1S2", 5, true], ["2026-04-04", "Y1S2", 6, false], ["2026-04-11", "Y1S2", 7, true], ["2026-04-18", "Y1S2", 8, false], ["2026-04-25", "Y1S2", 9, true], ["2026-05-02", "Y1S2", 10, false], ["2026-05-09", "Y1S2", 11, true], ["2026-05-16", "Y1S2", 12, false], ["2026-05-23", "Y1S2", 13, true], ["2026-05-30", "Y1S2", 14, false], ["2026-06-06", "Y1S2", 15, true], ["2026-06-13", "Y1S2", 16, false], ["2026-06-20", null, null, false], ["2026-06-27", null, null, false], ["2026-07-04", null, null, false], ["2026-07-11", null, null, false], ["2026-07-18", null, null, false], ["2026-07-25", null, null, false]]
+  [ 205.5s] [landscape｜shanlan] 挑的日期：符合＝{"d": 165, "key": "2026-02-28", "y": 2026, "m": 2, "term": "Y1S2", "week": 1, "slDay": true}；雙數週＝{"d": 172, "key": "2026-03-07", "y": 2026, "m": 3, "term": "Y1S2", "week": 2, "slDay": false}；2026-01＝{"d": 109, "key": "2026-01-03", "y": 2026, "m": 1, "term": null, "week": null, "slDay": false}（2026-01 沒有單數週的週六，用這一天：週次不是單數也照樣測「不在」）
+  [ 205.5s] [landscape｜shanlan] 符合 2026-02-28：程式 GIFTH.slDay＝True（探針自己算＝True）
+  [ 205.5s] [landscape｜shanlan] 雙數週 2026-03-07：程式 GIFTH.slDay＝False（探針自己算＝False）
+  [ 205.5s] [landscape｜shanlan] 2026-01 2026-01-03：程式 GIFTH.slDay＝False（探針自己算＝False）
+PASS [landscape｜shanlan] 找得到符合條件的週六（2026-02 起、學期中、週次單數）
+  [ 205.5s] [landscape｜shanlan] sl_sis_1 照 play() 拆的台詞＝{"lines": [["", "（試寫台前，學姊把一排筆一支一支試過去。）"], ["her", "學弟。"], ["her", "……這支不錯。寫起來不會斷水。"], ["her", "你也來買筆？"]], "choice": ["來買螢光筆。", "隨便看看。"]}
+  [前置／捷徑] [landscape｜shanlan]［單數週週六 14:30（時間不對）］ GAME.applySave：xs_shanlan 2026-02-28（day 165）14.50 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
+PASS [landscape｜shanlan]［單數週週六 14:30（時間不對）］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 14.55, "day": 165, "money": 22000, "menu": false, "phone": false}
+  [ 213.5s] [landscape｜shanlan]［單數週週六 14:30（時間不對）］ 14.55 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
+PASS [landscape｜shanlan]［單數週週六 14:30（時間不對）］ 學姊不在文具區 (4.15, 6.5)（0.3 m 內沒有她）  {"here": false, "ids": []}
+  [前置／捷徑] [landscape｜shanlan]［雙數週週六 15:20］ GAME.applySave：xs_shanlan 2026-03-07（day 172）15.33 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
+PASS [landscape｜shanlan]［雙數週週六 15:20］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 15.38, "day": 172, "money": 22000, "menu": false, "phone": false}
+  [ 222.2s] [landscape｜shanlan]［雙數週週六 15:20］ 15.38 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
+PASS [landscape｜shanlan]［雙數週週六 15:20］ 學姊不在文具區 (4.15, 6.5)（0.3 m 內沒有她）  {"here": false, "ids": []}
+  [ 225.2s] 到達「[landscape｜shanlan]［雙數週週六 15:20］ 走到「看文具」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 234.6s] [landscape｜shanlan]［雙數週週六 15:20］ 走到旁邊等 8 秒沒有自己開始：診斷 {"slNear": false, "slOn": false, "slPick": "sl_sis_1", "nTicks": 63, "gifthIdx": 1, "busy": false, "dlg": false, "paused": false}
+  [ 234.9s] [landscape｜shanlan]［雙數週週六 15:20］ 走到旁邊：玩家 (4.32, 6.63) 15.41 時；學姊 {"here": false, "ids": []}
+PASS [landscape｜shanlan]［雙數週週六 15:20］ 走到旁邊：沒有學姊的台詞  []
+PASS [landscape｜shanlan]［雙數週週六 15:20］ 互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 15.41, "day": 172, "money": 22000, "menu": false, "phone": false}
+  [ 240.0s] [landscape｜shanlan]［雙數週週六 15:20］ 按「看文具」 對話紀錄：[["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"], ["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "就這樣"]]
+  [ 240.0s] [landscape｜shanlan]［雙數週週六 15:20］ 按「看文具」：shlLook＝"（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"；她的台詞 0 句
+PASS [landscape｜shanlan]［雙數週週六 15:20］ 按「看文具」：沒有學姊的台詞（第一句是 shlLook）  [["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"], ["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "就這樣"]]
+  [前置／捷徑] [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ GAME.applySave：xs_shanlan 2026-01-03（day 109）15.33 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
+PASS [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 15.38, "day": 109, "money": 22000, "menu": false, "phone": false}
+  [ 247.9s] [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ 15.38 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
+PASS [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ 學姊不在文具區 (4.15, 6.5)（0.3 m 內沒有她）  {"here": false, "ids": []}
+  [前置／捷徑] [landscape｜shanlan]［單數週週六 15:20（符合）］ GAME.applySave：xs_shanlan 2026-02-28（day 165）15.33 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 15.38, "day": 165, "money": 22000, "menu": false, "phone": false}
+  [ 257.3s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 15.38 時，學姊：{"here": true, "x": 4.15, "z": 6.5, "lv": 0, "d": 0, "hidden": false, "pose": "idle", "ids": ["heroine_05"]}；她的名字（SOCIAL.displayName）＝溫書瑀
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 學姊在文具區 (4.15, 6.5) 0.3 m 內  {"here": true, "x": 4.15, "z": 6.5, "lv": 0, "d": 0, "hidden": false, "pose": "idle", "ids": ["heroine_05"]}
+  [ 260.3s] 「[landscape｜shanlan]［單數週週六 15:20（符合）］ 走到「看文具」」途中停下（離目標 2.41 m）：（試寫台前，學姊把一排筆一支一支試過去。）
+  [ 262.9s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 開演：剛出現台詞時 {"d": 2.09, "player": [2.27, 7.41], "her": [4.15, 6.5], "playerFaceOff": 0, "herFaceOff": 154}；1.5 秒後（截圖那一刻）{"d": 2.09, "player": [2.27, 7.41], "her": [4.15, 6.5], "playerFaceOff": 0, "herFaceOff": 154}
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 開演時玩家和學姊距離 ≥0.6 m（剛出現 2.09 m、1.5 秒後 2.09 m）  [{"d": 2.09, "player": [2.27, 7.41], "her": [4.15, 6.5], "playerFaceOff": 0, "herFaceOff": 154}, {"d": 2.09, "player": [2.27, 7.41], "her": [4.15, 6.5], "playerFaceOff": 0, "herFaceOff": 154}]
+  [ 270.7s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 走近自己演的 對話紀錄：[["say", "", "（試寫台前，學姊把一排筆一支一支試過去。）"], ["say", "溫書瑀", "學弟。"], ["say", "溫書瑀", "……這支不錯。寫起來不會斷水。"], ["say", "溫書瑀", "你也來買筆？"], ["choose", ["來買螢光筆。", "隨便看看。"], "來買螢光筆。"], ["say", "祐廷", "來買螢光筆。"], ["say", "溫書瑀", "綠色的在第二層。那一種比較不會透。"]]
+  [ 273.7s] 到達「[landscape｜shanlan]［單數週週六 15:20（符合）］ 走到「看文具」（演完）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 274.5s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 走到旁邊：玩家 (4.32, 6.63) 15.43 時；學姊 {"here": true, "x": 4.15, "z": 6.5, "lv": 0, "d": 0, "hidden": false, "pose": "idle", "ids": ["heroine_05"]}
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 真的走到「看文具」旁邊（walkFallbacks 沒加）  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "綠色的在第二層。那一種比較不會透。", "name": "", "choices": [], "interact": "和溫書瑀說話", "fb": 0, "hour": 15.43, "day": 165, "money": 22000, "menu": false, "phone": false}
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 走到旁邊（2.5 m 內）她的那一場自己開始（sl_sis_1，第 1～2 階第一次）：台詞都出現、名字是「溫書瑀」  {"miss": []}
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ sl_sis_1 有兩個選項（來買螢光筆。／隨便看看。）  [["choose", ["來買螢光筆。", "隨便看看。"], "來買螢光筆。"]]
+FAIL [landscape｜shanlan]［單數週週六 15:20（符合）］ 互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "綠色的在第二層。那一種比較不會透。", "name": "", "choices": [], "interact": "和溫書瑀說話", "fb": 0, "hour": 15.46, "day": 165, "money": 22000, "menu": false, "phone": false}
+PASS [landscape] 沒有 JS 例外  []
+FAILED 1: [landscape｜shanlan]［單數週週六 15:20（符合）］ 互動鍵是「看文具」
