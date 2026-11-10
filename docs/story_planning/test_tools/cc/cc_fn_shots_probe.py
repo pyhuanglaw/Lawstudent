@@ -90,7 +90,7 @@ async def enter_shop(pg, cdp, g, tag):
     door, exs = await F.find_door(pg, g)
     if not door:
         R.note('%s G11 沒有門（改之前＝泰米村食進不去，src/zones3d.js 937 type none）：這一段新版才有，沒拍' % tag); return None
-    s = await D.use_exit(pg, cdp, tag, door['label'], door['to'])
+    s = await F.enter_door(pg, cdp, tag, door)
     if not s: return None
     s = await D.settle(pg)
     sp = await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position; return {x:+o.x.toFixed(2), z:+o.z.toFixed(2), lv:P.lv|0, ry:+P.obj.rotation.y.toFixed(3), levels:GAME.E.levels?GAME.E.levels.length:1}; })()")

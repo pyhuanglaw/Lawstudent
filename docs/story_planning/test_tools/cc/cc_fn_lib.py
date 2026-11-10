@@ -150,6 +150,16 @@ async def joy_to(pg, cdp, tag, tx, tz, near=0.6, lv=None, max_s=90, straight=Fal
     return {'ok': False, 't': round(time.time() - t0, 1), 'pushes': pushes, 'jumps': jumps, 'end': s, 'log': log, 'why': '%d 秒沒走到' % max_s}
 
 
+async def enter_door(pg, cdp, tag, door, max_s=120):
+    """搖桿走到店門（door＝EXITS_JS 的一筆）、按鈕是它就按、等換區域；回傳 D.st 或 None（觸控點地板 D.use_exit 在騎樓柱子旁邊雲端常要 1～3 分鐘，改搖桿）"""
+    r = await joy_to(pg, cdp, tag, door['x'], door['z'], near=min(0.9, door['r'] * 0.5), lv=door['lv'], max_s=max_s)
+    s = await wait_btn(pg, door['label'], 5)
+    if not R.check('%s 搖桿走到「%s」，按鈕是它（%s 秒、沒有跳）' % (tag, door['label'], r['t']), s['interact'].startswith(door['label']) and not r['jumps'], J({'end': [s['x'], s['z']], 'btn': s['interact'], 'jumps': r['jumps'], 'why': r.get('why')})): return None
+    await L.tap(pg, cdp, '#interact'); await D.wait_zone(pg, cdp, door['to']); await pg.wait_for_timeout(2500); await L.close_panels(pg, cdp); s = await D.st(pg)
+    R.check('%s 按「%s」到了 %s、站得住' % (tag, door['label'], door['to']), s['zone'] == door['to'] and s['stand'], J(s))
+    return s if s['zone'] == door['to'] else None
+
+
 async def tap_near(pg, cdp, tag, x, z, near, max_s=180, lv=None):
     """觸控點地板走過去（L.go_to）；走完等人停下來"""
     ok = await L.go_to(pg, cdp, R, x, z, near, tag, max_s=max_s, lv=lv)
