@@ -211,8 +211,87 @@ async def part_scoot(pg, cdp):
                 manifest:!!a, url:a&&a.url, state:a&&(a.state||a.status||null)}; })()""")
             if res['glbGroup'] or k >= 29: break
         R.note('[SCOOT %.2f] 等 %d 秒：%s' % (h, k + 1, J(res)))
+        # BB 22:45：一排裡有幾種外形、同款同色連續最多幾台、兩側各有幾段空位。照 zones3d.js attachWzScooters 的挑法（位置雜湊＋weight、palette）重算每台的款式
+        st = await pg.evaluate(r"""(async()=>{ const E=GAME.E, z=(typeof E3!=='undefined'&&E3.zone)||E.zone||{}, out=E.scene.getObjectByName('tz_scooters_glb');
+          const ud=out?out.userData:{}; let root=null; try{ const c=await ASSETS.loadOne('bldg.wz_scooter'); root=c&&c.scene; }catch(e){}
+          const V=[]; if(root){ root.updateMatrixWorld(true); root.traverse(o=>{ const m=/^scooter_(S\w+)$/.exec(o.name); if(!m||/_lod1$/.test(o.name)||!o.userData||!(o.userData.weight>0)) return; let pal=[]; try{ pal=JSON.parse(o.userData.palette||'[]'); }catch(e){} V.push({code:m[1],w:+o.userData.weight,pal}); }); }
+          const W=V.reduce((a,b)=>a+b.w,0), hash=(x,z,k)=>{ const t=Math.sin(x*12.9898+z*78.233+k*37.719)*43758.5453; return t-Math.floor(t); };
+          let scG=null; E.scene.traverse(o=>{ if(!scG&&o.isGroup&&o.children.length>20&&o.children.every(c=>c.userData&&c.userData.dyn)&&o!==out&&o.parent&&o.parent.getObjectByName&&o.parent.getObjectByName('tz_scooters_glb')) scG=o; });
+          const items=[]; if(scG) for(const o of scG.children){ o.updateMatrixWorld(true); const p=new THREE.Vector3().setFromMatrixPosition(o.matrixWorld); let r=hash(p.x,p.z,1)*W, v=V[V.length-1]; for(const c of V){ if((r-=c.w)<=0){ v=c; break; } }
+            const col=v&&v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:null; items.push({x:+p.x.toFixed(2),z:+p.z.toFixed(2),code:v?v.code:null,col}); }
+          const side={W:items.filter(i=>i.x<0).sort((a,b)=>a.z-b.z),E:items.filter(i=>i.x>0).sort((a,b)=>a.z-b.z)}, res={};
+          for(const k of ['W','E']){ const L=side[k]; let run=1,maxRun=L.length?1:0,runC=1,maxRunC=L.length?1:0,gaps=0; for(let i=1;i<L.length;i++){ if(L[i].code===L[i-1].code&&L[i].col===L[i-1].col) run++; else run=1; maxRun=Math.max(maxRun,run); if(L[i].code===L[i-1].code) runC++; else runC=1; maxRunC=Math.max(maxRunC,runC); if(L[i].z-L[i-1].z>1.4) gaps++; }
+            res[k]={n:L.length,kinds:new Set(L.map(i=>i.code)).size,colors:new Set(L.map(i=>i.col)).size,maxSameCodeColor:maxRun,maxSameCode:maxRunC,gaps}; }
+          return {tzScooters:z.tzScooters, tzBikes:z.tzBikes, tzParkGroups:z.tzParkGroups, tzParkGaps:z.tzParkGaps, tzScooterGLB:z.tzScooterGLB===undefined?'undefined':z.tzScooterGLB,
+            glbModels:V.map(v=>v.code), scPick:ud.scPick||null, scColors:ud.scColors||null, groups:ud.scPerGroup?Object.keys(ud.scPerGroup).length:null, fallbackFound:!!scG, side:res}; })()""")
+        R.note('[SCOOT %.2f] 統計：%s' % (h, J(st)))
+        open(os.path.join(OUT, 'scoot_stats_%s.json' % str(h).replace('.', '')), 'w', encoding='utf-8').write(J(st))
         R.check('[SCOOT %.2f] 正式機車模型有掛上（tz_scooters_glb 存在、有網格）' % h, bool(res and res['glbGroup'] and res['glbMeshes'] > 0), J(res))
         b = await pg.screenshot(type='jpeg', quality=80); open(os.path.join(OUT, 'scoot_%s.jpg' % str(h).replace('.', '')), 'wb').write(b)
+
+
+async def part_int(pg, cdp):
+    """BB 22:45 B：汀州路三間室內第 1 版（f6947aff3；src/tz_shops3d.js、src/data/tz_shops_layout.js）。互動、台詞還沒接，不測。
+    每間：街上走到「進＋店名」→ 按 → 進到 tz_<id>（記黑畫面秒數）→ 店裡走四個角落（沒有隱形牆）→ 拍照（門口往裡、另外兩個角度、一張放大）→ 8 秒幀率
+    → 走到「離開＋店名」→ 按 → 回到汀州路、站在門口外面（layout.out）、站得住、搖桿推得動。HOURS 每個時間一組。
+    舊存檔：【前置／捷徑】讀檔站在那間門口外面（layout.out＝改之前也是汀州路的同一個位置）→ 站得住、走得動。"""
+    lay = await pg.evaluate("(()=>typeof TZ_SHOPS_LAYOUT==='undefined'?null:Object.fromEntries(Object.entries(TZ_SHOPS_LAYOUT).map(([k,v])=>[k,{zone:v.zone,name:v.name,w:v.w,d:v.d,spawn:v.spawn,exit:v.exit,out:v.out}])))()")
+    if not R.check('[INT] 有 TZ_SHOPS_LAYOUT（室內配置）', bool(lay), ''): return
+    only = [x for x in (os.environ.get('SHOPS') or ','.join(lay.keys())).split(',') if x in lay]
+    for h in [float(x) for x in (os.environ.get('HOURS') or '14').split(',')]:
+        hh = '%02d%02d' % (int(h), int(round((h % 1) * 60)))
+        for sid in only:
+            L_ = lay[sid]; tag = '[INT %s %s]' % (L_['name'], hh)
+            await at(pg, cdp, 'tingzhou', h, L_['out']['x'], L_['out']['z'], '（%s 門口外面＝舊存檔站的位置）' % L_['name'])
+            me = await pg.evaluate(ME); R.check('%s 舊存檔站在門口外面：站得住' % tag, me['zone'] == 'tingzhou' and me['free'] is not False, J(me))
+            its = await pg.evaluate(ITS); it = next((i for i in its if i.get('tz') == sid), None)
+            if not R.check('%s 街上有「進%s」' % (tag, L_['name']), bool(it) and it['label'].startswith('進'), J(it)): continue
+            t0 = time.time(); await tap_it(pg, cdp, it, tag)
+            ent = None
+            for _ in range(80):
+                me = await pg.evaluate(ME)
+                if me['zone'] == L_['zone'] and not me['ent']: ent = round(time.time() - t0, 2); break
+                await pg.wait_for_timeout(250)
+            R.note('%s 進店：%s 秒後在 %s（%s）' % (tag, ent, me['zone'], J(me)))
+            if not R.check('%s 走進去：區域 %s、站得住' % (tag, L_['zone']), me['zone'] == L_['zone'] and me['free'] is not False, J(me)): continue
+            await pg.wait_for_timeout(2500)
+            fm = await pg.evaluate("(()=>{ const z=GAME.E.zone||{}; return {formal:!!z.formal, glb:!!GAME.E.scene.getObjectByName(%s)}; })()" % J(L_['zone'] + '_glb'))
+            R.note('%s 正式模型：%s' % (tag, J(fm)))
+            # 店裡走四個角（導航格站得住的點）
+            W_, D_ = L_['w'], L_['d']
+            pts = await pg.evaluate("(a=>{ const N=GAME.E.nav, out=[]; for(const [cx,cz] of a){ let best=null; for(let r=0;r<=2.5&&!best;r+=0.25) for(let k=0;k<16&&!best;k++){ const x=cx+Math.cos(k/16*6.283)*r, z=cz+Math.sin(k/16*6.283)*r; if(N&&N.free(x,z)) best=[+x.toFixed(2),+z.toFixed(2)]; } out.push(best); } return out; })", [[-W_ / 2 + 0.8, D_ / 2 - 1.2], [W_ / 2 - 0.8, D_ / 2 - 1.2], [W_ / 2 - 0.8, -D_ / 2 + 1.5], [-W_ / 2 + 0.8, -D_ / 2 + 1.5]])
+            miss = []
+            for k, pt in enumerate(pts):
+                if not pt: miss.append(['角落%d 附近沒有站得住的格子' % (k + 1)]); continue
+                ok = await L.go_to(pg, cdp, R, pt[0], pt[1], 0.6, '%s 走到角落 %d (%.1f,%.1f)' % (tag, k + 1, pt[0], pt[1]), max_s=60)
+                if not ok: miss.append(pt)
+            R.check('%s 店裡走一圈（四個角落都走得到、沒有隱形牆）' % tag, not miss, J({'pts': pts, 'miss': miss}))
+            await pg.evaluate("window.__TZ=[]")
+            sp = L_['spawn']
+            V = [('門口往裡', (sp['x'], 1.6, D_ / 2 - 0.3), (0.0, 1.3, -D_ / 2 + 1.0), 62),
+                 ('後面往門口', (W_ / 2 - 0.6, 1.8, -D_ / 2 + 1.4), (-W_ / 4, 1.1, D_ / 2 - 1.0), 62),
+                 ('左前往右後', (-W_ / 2 + 0.5, 1.7, D_ / 2 - 0.7), (W_ / 4, 1.0, -D_ / 4), 62),
+                 ('放大（看桌椅、機器是不是同一個複製很多次）', (sp['x'], 1.5, 0.8), (W_ / 2 - 0.5, 0.8, -D_ / 4), 32),
+                 ('放大（另一側）', (sp['x'], 1.5, 0.8), (-W_ / 2 + 0.5, 0.8, -D_ / 4), 32)]
+            for lab, frm, at_, fov in V:
+                u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '%s %s %s' % (L_['name'], hh, lab), 'full': True})
+                save(u, 'tz4int_%s_%s_%s.jpg' % (sid, hh, lab.split('（')[0]))
+            b = await pg.screenshot(type='jpeg', quality=82); open(os.path.join(OUT, 'tz4int_%s_%s_game.jpg' % (sid, hh)), 'wb').write(b)
+            fps = await pg.evaluate("new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<8000) requestAnimationFrame(f); else res(+(n/((performance.now()-t0)/1000)).toFixed(1)); }; requestAnimationFrame(f); })")
+            R.note('%s 店內 8 秒幀率 %s fps（PC GPU，不是 iPhone）' % (tag, fps))
+            # 出來
+            its = await pg.evaluate(ITS); ex = next((i for i in its if i.get('to') == 'tingzhou'), None)
+            if not R.check('%s 店裡有「%s」' % (tag, L_['exit']['label']), bool(ex), J(its)[:300]): continue
+            t1 = time.time(); await tap_it(pg, cdp, ex, tag)
+            for _ in range(80):
+                me = await pg.evaluate(ME)
+                if me['zone'] == 'tingzhou' and not me['ent']: break
+                await pg.wait_for_timeout(250)
+            d_ = ((me['x'] - L_['out']['x']) ** 2 + (me['z'] - L_['out']['z']) ** 2) ** 0.5
+            R.check('%s 走出來：回到汀州路門口外面（離 layout.out %.2f m）、站得住' % (tag, d_), me['zone'] == 'tingzhou' and d_ < 1.5 and me['free'] is not False, J(me))
+            p0 = (me['x'], me['z']); await L.joystick(pg, cdp, 0, -45, 1200); me2 = await pg.evaluate(ME)
+            R.check('%s 出來以後搖桿推得動（沒有卡在門口）' % tag, ((me2['x'] - p0[0]) ** 2 + (me2['z'] - p0[1]) ** 2) ** 0.5 > 0.3, J(me2))
+            R.check('%s walkFallbacks 0' % tag, me2['fb'] == 0, J(me2))
 
 
 async def main():
@@ -221,7 +300,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot)):
+        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('INT', part_int)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])

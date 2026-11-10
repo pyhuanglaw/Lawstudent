@@ -63,9 +63,19 @@ MT4_nofb_r3 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_plan
 MT4_oo_r4 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=OO_3007,OO_2805
 MT4_nofb_r4 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=NOFB
 MT4_oo2805_r5 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=OO_2805
+# ===== TZ4（BB 22:45 P1；LAWWW 驗收 f6947aff3＝開發分支 fd4dd9aef；舊版 c17a9919e）=====
+TZ4_scoot | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 5 | PARTS=SCOOT;HOURS=14
+TZ4_scoot_v2 | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 5 | PARTS=SCOOT;HOURS=14
+TZ4_int_day | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;HOURS=14
+TZ4_shots_a | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=14;V2=1;FULLALL=1
+TZ4_shots_b | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=20.5;V2=1;FULLALL=1
+TZ4_shots_v2a | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=14;V2=1;FULLALL=1
+TZ4_shots_v2b | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=20.5;V2=1;FULLALL=1
+TZ4_walk | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=WALK
+TZ4_int_night | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;HOURS=20.5
 # BB 22:44：汀州路機車正式模型有沒有載入（第 2 版、開發分支最新）
 TZ_scoot_v2 | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 5 | PARTS=SCOOT;HOURS=14
-TZ_scoot_head | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 5 | PARTS=SCOOT;HOURS=14
+#SUPERSEDED(換成 TZ4_scoot，含統計) TZ_scoot_head | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 5 | PARTS=SCOOT;HOURS=14
 MT4_nofb_r5 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=NOFB
 SHIFT_IMM_r7_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 15 | TAG=imm7_new;IMM=1;CASES=F
 SHIFT_IMM_r7_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 15 | TAG=imm7_old;IMM=1;CASES=F
