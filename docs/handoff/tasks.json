@@ -52708,6 +52708,34 @@
     "receiver": "BB",
     "ack": "未派"
    }
+  },
+  {
+   "id": "TINGZHOU-NIGHTMARKET-1110",
+   "title": "汀州路夜市攤：每攤「看」「買」（扣錢、+10 分、一句；不加數值、不算正餐），和她一起時買一樣她說一句；17:00～24:00 才擺、白天帆布、颱風大雨不擺（AA_744 dcd945b7f）",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "汀州路晚上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等 LAWWW2 的汀州路區域和攤位位置（TINGZHOU-AREA-1110）",
+   "resumeWhen": "LAWWW2 交區域",
+   "next": "區域到了照 AA_744 接",
+   "xai": {
+    "spec": "X321、AA_744",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB 判",
+    "receiver": "BB",
+    "ack": "未派"
+   }
   }
  ]
 }
