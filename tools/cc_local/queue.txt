@@ -42,6 +42,11 @@ X294_new | 9202e2fab36b4c6fa6b10487a1e2ac2c113ae464 | probe | docs/story_plannin
 X294_old | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_lawclub_booth_probe.py | index.html | 30 | TAG=old
 X294S_new | 9202e2fab36b4c6fa6b10487a1e2ac2c113ae464 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=new;VIEWS=plaza:campus:30:-78:14:-0.426:7:34.5:1.2:-90.2:50
 X294S_old | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=old;VIEWS=plaza:campus:30:-78:14:-0.426:7:34.5:1.2:-90.2:50
+# X283／X285 r2（只補 r1 沒跑到的第二個角度：r1 VIEWS 用 ; 分，被佇列 ENV 切掉＝TEST_BUG；探針改成 + 分）
+X283b_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=oldb;VIEWS=curb_far:campus:29.9:-54.4:18.4:0.82:12
+X283b_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=newb;VIEWS=curb_far:campus:29.9:-54.4:18.4:0.82:12
+X285b_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=oldb;VIEWS=av_gate:campus:-95:1.5:18.75:1.5708:6:-210:14:0:40
+X285b_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=newb;VIEWS=av_gate:campus:-95:1.5:18.75:1.5708:6:-210:14:0:40
 # ===== ROMPRIV／SVC2（BB 11-10 08:1x）：ROM-PRIVATE-DATE-1110（新＝modest-rubin 6c7e3918f、舊＝13e84dc27＝d7e722c90 的上一個，兩個 commit 都沒進來）day51b 學姊 a 約會加戀愛＋信任一天一次／b 朋友以下選項、送東西加她的戀愛／c 人物頁戀愛條／d 選完先說祐廷那一句：A1 B1 B2 C1 C2 D1 舊 FAIL／新 PASS，A2 兩版 PASS；
 #   SERVICE2-LEGAL-1110（新＝a883f36de、舊＝bc9c1408c）大二上第 4 週週三 15:05 走進法律系館B 到東側接待桌報到、出席記到 G.courses.attend.service_2：V1～V5 舊 FAIL／新 PASS =====
 ROMPRIV_new | 6c7e3918f26db59161d8f284f4fa25ca02be2964 | probe | docs/story_planning/test_tools/cc/cc_rom_private_probe.py | index.html | 60 | CC_HEADLESS=0
