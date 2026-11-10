@@ -64,7 +64,7 @@ await sec(1,async()=>{
   fresh('2028-05-10',22.2,'campus',JPF); date2(YT,KX,H.G.day-40); clr(); H.picks=[0]; await play(due());
   check('1. 語彤視訊版：「等妳下班，可以視訊嗎？」（視訊。她在茶屋後面，聽得到蘇姨在洗杯子。）…「明天還要上班。……我先掛了。」',J(T())===J(['等妳下班，可以視訊嗎？','（視訊。她在茶屋後面，聽得到蘇姨在洗杯子。）','我跟可昕也在一起。一個多月了。','……嗯。','你自己講的。','好。我知道了。','明天還要上班。……我先掛了。','（視訊斷了。）']),J(T()));
   fresh('2028-05-10',22.2,'campus',Object.assign({dating_kexin:true},JPF)); H.CLOSE(A1); ROM.start(H.G,A1); clr(); H.picks=[0]; await play(due());
-  check('1. 可昕視訊版：（她把鏡頭轉開。畫面裡只剩天花板，很久。）…「……我現在不想看到你。我掛了。」',seq(['……你再講一次。','我跟以安也在一起。','操。','（她把鏡頭轉開。畫面裡只剩天花板，很久。）','你還知道要自己講。','……我現在不想看到你。我掛了。'])&&!H.has('（她轉過去，背對你站了很久。）'),J(T()));
+  check('1. 可昕視訊版：（她把鏡頭轉開。畫面裡只剩天花板，很久。）…「……我現在不想看到你。我掛了。」',seq(['……你再講一次。','我跟以安也在一起。','……你在開玩笑吧。','（她把鏡頭轉開。畫面裡只剩天花板，很久。）','你還知道要自己講。','……我現在不想看到你。我掛了。'])&&!H.has('（她轉過去，背對你站了很久。）'),J(T()));
   fresh('2028-10-10',8.4,'campus',{EXCHANGE_ROUTE:'US',EXCH_RULE:1}); date2(ZQ,KX,H.G.day-40); check('1. 印第安納（台灣 −12）早上 08:24＝台灣 20:24，還不到',!X().confAskDue(H.G));
   setD(H.G.day,9.1); check('1. 09:00 起（台灣 21:00）',(due()||{}).k==='conf_ask');
   fresh('2027-04-07',15); date2(ZQ,KX); X().confLater(H.G,ZQ,KX); const ab=X().heAbroad; X().heAbroad=()=>true; const tz=STORY.tzOffset; STORY.tzOffset=()=>1; setD(H.G.day+1,22.3); a=due(); X().heAbroad=ab; STORY.tzOffset=tz;
@@ -109,7 +109,7 @@ await sec(1,async()=>{
   setD(H.G.day+2,13.6); a=due(); check('1. 可昕：下一次她來（我們的日子，出遊前 30 分鐘起）',a&&a.k==='conf'&&a.x===KX);
   clr(); await play(a);
   check('1. 可昕原文：「……你再講一次。」「我跟以安也在一起。」「操。」（她轉過去，背對你站了很久。）「你還知道要自己講。」「……我現在不想看到你。你不要跟過來。」；那一趟取消',
-    seq(['我有件事要跟妳講。','……你再講一次。','我跟以安也在一起。','操。','（她轉過去，背對你站了很久。）','你還知道要自己講。','……我現在不想看到你。你不要跟過來。'])&&OUT.get(H.G,'kx_od_x').state==='skipped',J(T()));
+    seq(['我有件事要跟妳講。','……你再講一次。','我跟以安也在一起。','……你在開玩笑吧。','（她轉過去，背對你站了很久。）','你還知道要自己講。','……我現在不想看到你。你不要跟過來。'])&&OUT.get(H.G,'kx_od_x').state==='skipped',J(T()));
   fresh('2027-04-07',12,'campus',{dating_kexin:true}); H.CLOSE(A1); ROM.start(H.G,A1); X().confLater(H.G,KX,A1); H.G.flags.YT_LIED={kexin:{[A1]:true}};
   const m=X().meetAction(H.G,KX,'date'); clr(); await m.run(GM);
   check('1. 可昕：正式約會那天講也可以（disc＝這一趟不去）；曾說謊「我上次問你，你說沒有。」',m.disc===true&&seq(['我上次問你，你說沒有。','我跟以安也在一起。'])&&!H.has('……你再講一次。'));

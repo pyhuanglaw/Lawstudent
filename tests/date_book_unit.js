@@ -32,7 +32,7 @@ const ADV2=global.ADV; ADV2.active=false;
   OUT.BG.d13_base_sunset=OUT.BG.d13_base_sunset||{label:'淡水',image:'x'};   /* 有底圖才列（遊戲裡 D04、D06、D12、D13 有）*/
   // ---------- 1 誰約得到 ----------
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; R('heroine_03',...LV.FRI);
-  let ca=DATE.canAsk(G,'heroine_03'); check('1. 第 5 階以前約不到（AA_126 4-1：第 5 階以後的私下約會），寫原因',!ca.ok&&/還沒熟/.test(ca.why),JSON.stringify(ca)+' stage '+DATE.stageNum('heroine_03'));
+  let ca=DATE.canAsk(G,'heroine_03'); check('1. 第 5 階以前約不到（AA_126 4-1：第 5 階以後的私下約會），寫原因（2026-11-10 ROM-STAGE-TEXT-1110：朋友以上寫「她還沒有那樣看你…」）',!ca.ok&&/還沒熟|還沒有那樣看你/.test(ca.why),JSON.stringify(ca)+' stage '+DATE.stageNum('heroine_03'));
   G.flags.dating_heroine_03=true; ca=DATE.canAsk(G,'heroine_03'); check('1. 交往中不看階段',ca.ok,JSON.stringify(ca)); delete G.flags.dating_heroine_03;
   check('1. 不是七位女主角：不能約',!DATE.canAsk(G,'zhe').ok);
   delete G.contacts.heroine_03; check('1. 沒有聯絡方式：照 INV.whyNot 的原因',!DATE.canAsk(G,'heroine_03').ok); G.contacts.heroine_03=1;

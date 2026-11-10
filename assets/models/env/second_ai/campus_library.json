@@ -4,7 +4,7 @@
  "tris": 9081,
  "tris_drawn": 9081,
  "materials": 13,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/lib1102/v32/campus_library.glb",
+ "out": "assets/models/env/second_ai/campus_library.glb",
  "bytes": 765396,
  "texres": 512
 }

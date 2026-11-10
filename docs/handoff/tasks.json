@@ -51229,7 +51229,7 @@
    "id": "LIB-ARCADE-FLICKER-1110",
    "title": "總圖外面拱廊的柱子會閃（使用者 11-10 X297）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -51241,7 +51241,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-10 02:5x LAWWW-B】截圖 docs/handoff/user_shots/1110_library_arcade_flicker.webp（總圖一樓拱廊）。查：①CK.hall 拱廊柱、拱圈和正式 GLB 是不是同一個位置兩份面（z-fighting）②鏡頭碰撞淡出（fadeWalls）在柱子之間來回切 ③seeThrough 網點透空。場景本來是 LAWWW2（D108），LAWWW2 不在由 LAWWW 修。",
+   "next": "【11-10 03:3x LAWWW-B】使用者選「表面花紋一直跳動」。tools/blender/env_second/check_coplanar.py：campus_library.glb 的 lib_pier／lib_col × lib_trim 20 對 0 mm（拱洞側面到 SPRING、拱墩 SPRING−0.22～SPRING）。campus_library.py 換成 LAWWW2 v3.2（b661ab0c4，模型本來就是它匯出的）＋拱洞側面只到 SPRING−0.22；重新匯出（建模環境裝了 Pillow），layout.json 一字不差；疊面「一定會閃」40→20、柱子 0。tests/lib_arcade_flicker_unit.js。等電腦（GPU）實際看。",
    "evidence": "docs/handoff/user_shots/1110_library_arcade_flicker.webp",
    "sha": null
   },
