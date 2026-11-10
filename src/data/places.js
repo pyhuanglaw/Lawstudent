@@ -110,13 +110,20 @@ const PLACES={
     /* 新生南路（XS-PHONEMAP-1105，使用者 11-05 手機「地點」沒有新生南路）：落點＝從側門進來站的地方（XINSHENG_LAYOUT.sideGate.spawn，也是區域的出生點）；
        店照配置 shops 的順序（xs_＋id；名字照 PLACES.names），落點 null＝區域的出生點＝從店門進去站的地方（xinsheng3d.js 的店門 exit 沒寫 spawn）。南洋戲院 1 廳要從大廳進去（買票），不放 */
     const XL=typeof XINSHENG_LAYOUT!=='undefined'?XINSHENG_LAYOUT:null, XS=XL?[['xinsheng',PLACES.names.xinsheng,Object.assign({},XL.sideGate.spawn)]].concat(XL.shops.filter(q=>PLACES.names['xs_'+q.id]).map(q=>['xs_'+q.id,PLACES.names['xs_'+q.id],null])):[];
+    /* 溫州街其他的店（WZ-QUICKTRAVEL-1110，使用者 11-10 18:3x「溫州街在地圖上就只能到溫州街……像手機裡面你點某個地區會出現那個地區的所有店家你可以馬上到達……地圖上的馬上過去要改」）：
+       和公館一樣，溫州街那一區列出每一家店。進得去的店（SUNNY SIDE、阿德影印輸出、林家乾麵、小路）落點 null＝區域出生點（從店門進去站的地方，和一盞一樣）；
+       只有騎樓窗口、櫥窗的店（帝大紅茶、夏日冰菓室、溫州書屋）落在溫州街、站在窗口前面對它（座標照 src/wzshops3d.js S.WINDOW、溫州街「看書店的櫥窗」(14.2, 3.8)，往街上退 0.5～0.8 m；tests/wz_quicktravel_1110_unit.js 驗站得住）。
+       第 4 格＝營業時間照哪一家（game3d.js placeState：關著＝「已閉館」、按了說幾點開，和公館的店一樣；冰菓室 10～4 月照 places.js 的 months）。
+       溫州街照舊只從新生南路走進去（X199）；快速前往直接到店和 2:30 AM 一樣 */
+    const N=PLACES.names, WZ=[['wz_brunch',N.wz_brunch,null],['wz_print',N.wz_print,null],['wz_lin',N.wz_lin,null],['wz_teishoku',N.wz_teishoku,null],
+      ['wenzhou',N.wz_tea,{x:17.4,z:-6.85,yaw:Math.PI},'wz_tea'],['wenzhou',N.wz_ice,{x:24.4,z:-6.9,yaw:Math.PI},'wz_ice'],['wenzhou',N.wz_books,{x:14.2,z:3.0,yaw:0},'wz_books']];
     /* BUG-YIZHAN-1107（使用者 11-07 試玩「一盞不見了？」）：一盞（wz_teahouse）進得去，但手機「地點」、大地圖、導航都沒列；落點 null＝區域出生點（從冠木門進來站的地方）。營業週三～週日 12–20 */
     return [['campus','首都帝大校園（法律系館A前）',{x:34,z:-98,yaw:0}],['campus','椰影大道・晨思鐘',{x:-38,z:6,yaw:0}],['campus','校門口',{x:-112,z:0,yaw:-Math.PI/2}],['campus','共同教學館',{x:2,z:21.4,yaw:0}],['campus','普通教學館',{x:-38,z:-47.4,yaw:0}],['campus','博思教學館',{x:-38,z:-71.4,yaw:0}],['campus','大一女舍（門口）',{x:-93,z:56,yaw:0}],GY&&['gym','新體育館（大廳）',GY],
       L1&&['linze','法律系館A（大廳）',L1],['classroom','法律系館A 201 教室',null],['wancai','法律系館B（大廳）',{x:0,z:5,yaw:Math.PI}],LL&&['lawlib','法律學院圖書館',LL],LB&&['library_hall','總圖書館（大廳）',LB],SC&&['soclib','社科院圖書館',SC],
       /* 公館商圈：面向南邊的店（yaw 0；鏡頭在背後、校門那一側）。原本 yaw π 面向校門，店在鏡頭後面，要去店裡只能往鏡頭走（CAM-GONGGUAN-GATE-1107，LAWWW2-B）。
          位置和「走出校門」同一點 (−2.5, −29)（BB-B 11-07 18:40 P3：原本 (0, −30) 鏡頭和人中間是校門正前方那一台機車 (0, −32)，直向畫面擋住腿）*/
       ['gongguan','公館商圈',{x:-2.5,z:-29,yaw:0}],['gongguan','捷運公館站',{x:-35.6,z:13.2,yaw:0}],['noodle','公館燒臘',{x:0,z:3.4,yaw:Math.PI}],['cvs','日和便利店',IN('cvs')||{x:0,z:3.4,yaw:Math.PI}],['bookstore','頁間書屋',IN('bookstore')||{x:0,z:4,yaw:Math.PI}],AK&&['aoki','青木茶室',AK],AF&&['afar','afar café',AF],DB&&['daybreak','Daybreak',DB],YY&&['yangyang','洋洋鹹酥雞',YY],CR&&['corner_records','轉角唱片',CR],
-      ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}],['cafe','2:30 AM',{x:0,z:5,yaw:Math.PI}],['wz_mokuyobi','木曜日',{x:-3.75,z:5.4,yaw:Math.PI,lv:0}],['wz_offbeat','日常失速',{x:-3.9,z:3.0,yaw:Math.PI}],['wz_teahouse','一盞',null]].concat(XS,[['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]]).filter(Boolean); },
+      ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}],['cafe','2:30 AM',{x:0,z:5,yaw:Math.PI}],['wz_mokuyobi','木曜日',{x:-3.75,z:5.4,yaw:Math.PI,lv:0}],['wz_offbeat','日常失速',{x:-3.9,z:3.0,yaw:Math.PI}],['wz_teahouse','一盞',null]].concat(WZ,XS,[['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]]).filter(Boolean); },
   /* 一個區域在哪一棟、哪一條街（PHONE-UNIFY-1030）：樓上樓層、房間、店面對到它的那一棟／那條街（霖澤館 3F→linze、總圖 B1→library_hall、118 巷的店→lane118、溫州街的店→wenzhou、新生南路的店（xs_）→xinsheng、宿舍 205→dorm_hall）；
      其他照原樣。用在：手機「朋友」直接過去的開放時間（那一棟關門＝進不去）、休學退宿以後不回台大、路程的時間（classes3d.js travelMinutes 沒有那一區的位置時照那一棟算）*/
   base(z){ z=String(z||''); if(/^l118_/.test(z)) return 'lane118'; if(/^wz_/.test(z)) return 'wenzhou'; if(/^xs_/.test(z)) return 'xinsheng'; if(z==='library'||/^library_/.test(z)) return 'library_hall'; if(z==='dorm'||/^dorm_/.test(z)) return 'dorm_hall';
