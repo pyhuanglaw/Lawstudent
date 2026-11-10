@@ -43,6 +43,15 @@ const LB1=(function(){
     const nav=new E3.NavGrid(W,D,0.4,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
     for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.4),Math.max(b.z1-b.z0,0.4),0,0);
     nav._cm=null; z.nav=nav; z.bounds={w:W+3,d:D+3};
+    /* 洗手間東邊那一塊（x −10～−6、z 9～13，三面是牆）：長期寄物櫃（LIB-B1-NOOK-1110，使用者 11-10 X299「總圖B1洗手間門口後面是空的」；平面圖洗手間旁邊是長期寄物櫃）。
+       正式模型（LAWWW2 的 library_b1.py）還沒有：先在這裡畫（一直顯示，不放在 fallback；做法照 library_b1.py 西門廳的置物櫃），之後收進 Blender 腳本。南牆一排門朝北、東牆一排門朝西 */
+    { const bodyM=M('#d6d8d4',{rough:0.6}), doorM=M('#c4c8c4',{rough:0.5}), hM=M('#5a5f63',{rough:0.4}), lg=new THREE.Group(); lg.name='nook_lockers';
+      const bx=(x0,x1,y0,y1,z0,z1,m)=>{ const b=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),m); b.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); b.receiveShadow=true; lg.add(b); };
+      for(let k=0;k<3;k++){ const x0=-9.8+k*1.2; bx(x0,x0+1.15,0,1.9,12.55,12.98,bodyM); for(let r=0;r<4;r++) for(let q=0;q<2;q++){ const y=0.08+r*0.45, xx=x0+0.04+q*0.55; bx(xx,xx+0.52,y,y+0.42,12.54,12.55,doorM); bx(xx+0.42,xx+0.47,y+0.2,y+0.24,12.525,12.54,hM); } }
+      for(let k=0;k<3;k++){ const z0=9.15+k*1.1; bx(-6.5,-6.07,0,1.9,z0,z0+1.05,bodyM); for(let r=0;r<4;r++) for(let q=0;q<2;q++){ const y=0.08+r*0.45, zz=z0+0.03+q*0.5; bx(-6.51,-6.5,y,y+0.42,zz,zz+0.47,doorM); bx(-6.525,-6.51,y+0.2,y+0.24,zz+0.04,zz+0.09,hM); } }
+      g0.add(lg); z.nookLockers=lg;
+      nav.blockRect(-8.0,12.77,3.6,0.5,0,0); nav.blockRect(-6.28,10.8,0.5,3.3,0,0); nav._cm=null;
+      E.interactables.push({x:-8.3,z:11.0,radius:1.3,lv:0,id:'long_lockers',label:'看長期寄物櫃',look:'長期寄物櫃：一學期租一格，要先上網申請。有幾格門上貼著寫了學號的小紙條。'}); }   /* 暫定的字（AA 回來可以改）*/
     /* 程序化備用（正式模型載入失敗、?nobldg）：地板＋擋路的東西畫成方塊 */
     plane(fb,W,D,M('#d2d0ca'),0,0,0.005); const bm=M('#b9a486'), gm=M('#cfd8dc',{rough:0.2}); for(const b of L.blocks){ const tall=/elevator|lockers|partition|kiosk/.test(b.why), h=b.why==='glass_partition'?2.6:(tall?1.9:0.75); const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),b.why==='glass_partition'?gm:bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
     /* 燈：日光燈（地下室，白天晚上一樣亮）*/

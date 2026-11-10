@@ -51261,7 +51261,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-10 03:5x LAWWW-B 第一階段 已整合待測試】zones3d.js Z3.B1C（x 92～104、z −41～−31、深 4.2；樓梯 z −41～−39、x 92→99.2、24 階；門 (98,−31)）：groundHoles 地面開洞、中庭牆／台階／欄杆／扶手／玻璃門／招牌（程序化 BLOCKOUT）、導航 addSurf（地面 −4.2、樓梯 tread 0.3 rise 0.175）＋四周 blockRect、點地面的透明面、「進 B1（24 小時自習室）」→ library_b1；library_b1_layout stairs.up → campus（「走出去（總圖北側的中庭）」，落點 Z3.B1C.spawn）；library_hall_v2.js 門廳 b1Door 只能看、樓層簡介字；guide3d LINKS、classes3d OUTER。tests/lib_b1_court_unit.js（在 Node 建校園、simWalk 從總圖前走到 B1 門）；campus_backdrop_ground、library_b1、library_upper 照新接法。第二階段：Blender 模型（中庭牆、台階、欄杆、植栽），X299 洗手間後面的空房、電腦看畫面。",
+   "next": "【11-10 04:1x】注意：B1 的配置（library_b1_layout.js）是 LAWWW2 的 library_b1.py 產生的；那支下次重新產生，stairs.up 要改成 to campus、label「走出去（總圖北側的中庭）」，不然會蓋回去。｜【11-10 03:5x LAWWW-B 第一階段 已整合待測試】zones3d.js Z3.B1C（x 92～104、z −41～−31、深 4.2；樓梯 z −41～−39、x 92→99.2、24 階；門 (98,−31)）：groundHoles 地面開洞、中庭牆／台階／欄杆／扶手／玻璃門／招牌（程序化 BLOCKOUT）、導航 addSurf（地面 −4.2、樓梯 tread 0.3 rise 0.175）＋四周 blockRect、點地面的透明面、「進 B1（24 小時自習室）」→ library_b1；library_b1_layout stairs.up → campus（「走出去（總圖北側的中庭）」，落點 Z3.B1C.spawn）；library_hall_v2.js 門廳 b1Door 只能看、樓層簡介字；guide3d LINKS、classes3d OUTER。tests/lib_b1_court_unit.js（在 Node 建校園、simWalk 從總圖前走到 B1 門）；campus_backdrop_ground、library_b1、library_upper 照新接法。第二階段：Blender 模型（中庭牆、台階、欄杆、植栽），X299 洗手間後面的空房、電腦看畫面。",
    "evidence": "docs/handoff/user_shots/1110_library_b1_plan_ref.webp",
    "sha": null
   },
@@ -51406,6 +51406,26 @@
    "title": "朋友名單看不到可昕（使用者 11-10 X306）",
    "status": "進行中",
    "next": "【11-10 03:5x LAWWW-B】knownIds 有她（FIRST_MET、dating_kexin；線上版同一套）——可能在清單最下面；game3d.js friendsHTML 交往中的排最上面。等使用者確認；還是沒有就要存檔。交往中的人物頁只寫「交往中」，要不要加條待使用者說。"
+  },
+  {
+   "id": "LIB-B1-NOOK-1110",
+   "title": "總圖 B1 洗手間東邊的空房改成長期寄物櫃（使用者 11-10 X299）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上第一次去總圖 B1",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-10 04:1x LAWWW-B】那一塊＝洗手間（x −16～−10、z 9～13）東邊三面是牆的凹處（x −10～−6、z 9～13）。library_b1_3d.js：南牆、東牆各一排長期寄物櫃（3 組 × 8 格，做法照 LAWWW2 library_b1.py 西門廳的置物櫃；一直顯示、不在 fallback）、nav 擋、「看長期寄物櫃」（暫定的字）。library_layout.js 大廳 b1Door 上的字改「員工樓梯　B1 請走北側中庭」。tests/lib_b1_nook_unit.js（修改前 FAIL）。之後：收進 LAWWW2 的 tools/blender/env_second/library_b1.py（那支重新產生配置時，stairs.up 要照 LIB-B1-OUTSIDE-1110 改成 campus）；電腦截圖看。",
+   "evidence": "docs/handoff/user_shots/1110_library_b1_wc_empty.webp",
+   "sha": null
   }
  ]
 }
