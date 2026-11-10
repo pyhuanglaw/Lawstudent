@@ -12,7 +12,7 @@
 //   6. 沒有 1 廳（Z3 沒有 xs_nanyang_hall）＝照舊在大廳演、燈暗那一句一樣寫片名、不卡住
 //   7. 舊存檔的約（沒有 iv.film）：開演時才挑；存檔 JSON 來回不壞
 //   8. 大廳「看今日放映」：nowBoard（兩部片名）＋兩部各一句；一個人在 1 廳坐下看＝solo 三句（片名照那一段）
-//   9. 海報：10 張在 assets/posters、LICENSES.md 有記；MOVIES.posterUrl 只給有圖的
+//   9. 海報：assets/posters 裡每一張都在 MOVIES.POSTERS、LICENSES.md 每張有記（11-10 起 40 張，X314）；MOVIES.posterUrl 只給有圖的
 // 修改前（06e779533）FAIL。用法：node tests/movie_real_1110_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H; const J=JSON.stringify;
@@ -103,6 +103,6 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     if(typeof AA614!=='undefined'&&!loadErr.length){ fresh('2025-10-18',15,'xs_nanyang_hall'); H.G.stage='law'; H.G.flags.NY_TICKET=H.G.day; H.said=[]; await STORY.onSeat(GM,{kind:'cinema',row:3}); solo=H.said.map(s=>s.t); }
     check('8. 一個人在 1 廳坐下看＝solo 三句（片名照那一段）',J(SL)===J(want)&&(solo==null||J(solo.slice(0,3))===J(want)),J({SL,solo,err:loadErr})); });
   await sec(9,async()=>{ const miss=MOVIES.POSTERS.filter(id=>!fs.existsSync(path.join(H.ROOT,'assets/posters/'+id+'.webp'))||!MOVIES.film(id)), lic=fs.readFileSync(path.join(H.ROOT,'LICENSES.md'),'utf8');
-    check('9. 海報 10 張在 assets/posters、都是片單上的片、LICENSES.md 有記；沒有圖的不給網址',MOVIES.POSTERS.length===10&&!miss.length&&/assets\/posters\//.test(lic)&&MOVIES.posterUrl('m2509a')==='assets/posters/m2509a.webp'&&MOVIES.posterUrl('m2409a')===null,J(miss)); });
+    check('9. 海報（assets/posters 裡的每一張）都在 MOVIES.POSTERS、都是片單上的片、LICENSES.md 每一張都有記；沒有圖的不給網址',MOVIES.POSTERS.length===fs.readdirSync(path.join(H.ROOT,'assets/posters')).filter(f=>f.endsWith('.webp')).length&&MOVIES.POSTERS.every(id=>lic.includes(id))&&!miss.length&&/assets\/posters\//.test(lic)&&MOVIES.posterUrl('m2509a')==='assets/posters/m2509a.webp'&&MOVIES.posterUrl('m2409a')===null,J(miss)); });
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });
