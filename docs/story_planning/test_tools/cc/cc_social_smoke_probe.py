@@ -273,7 +273,7 @@ SETUP_JS = r"""(c=>{ const G=GAME.G, F=G.flags||(G.flags={}), id=c.id, so=G.soci
 SCAN_JS = r"""(a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday,zone:G.zone}, out=[];
   const where=(d,hr)=>{ G.day=d; G.hour=hr; G.weekday=CALENDAR.dateOf(d).wd%7; let w=null; try{ w=STORY.whereIs(GAME,a.id); }catch(e){} return w&&w.zone&&!w.away?w:null; };
   try{ for(const tm of a.terms){ const T=CALENDAR.termDays(tm); if(!T) continue;
-      for(let d=T.from; d<=T.to && out.length<a.max; d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==tm||(t.week|0)<(a.wk0||3)) continue;
+      for(let d=T.from; d<=T.to && out.length<a.max; d++){ if(a.days&&!a.days.includes(d)) continue; const t=CALENDAR.termOf(d); if(!t||t.id!==tm||(!a.days&&(t.week|0)<(a.wk0||3))) continue;
         for(const hr of a.hours){ const w=where(d,hr); if(!w) continue; if(w.zone==='classroom'||/上課|上班/.test(w.act||'')) continue; if(a.zone&&w.zone!==a.zone) continue; if(a.wds&&!a.wds.includes(CALENDAR.dateOf(d).wd%7)) continue; const w2=where(d,hr+0.5); if(!w2||w2.zone!==w.zone) continue;
           out.push({d, wd:CALENDAR.dateOf(d).wd%7, hr, zone:w.zone, act:w.act||'', key:CALENDAR.dateOf(d).key, term:tm, week:t.week}); break; } } } }
   finally{ Object.assign(G,keep); }
@@ -820,6 +820,46 @@ class Person:
         sl, w = await self.go_any({'met': True, 'rel': REL['FAMILIAR'], 'relUp': 4, 'ladEnd': True, 'noContact': True}, '前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完', 'greet')
         if not w: return self.R.skip('greet', '找不到她在 3D 的時段（或走不到她旁邊）')
         await self.talk('greet 連按兩次', Plan([{'when': '^就這樣$', 'pick': '^就這樣$'}]), dbl=True)
+
+    async def step_greetn(self):
+        """CC-B 11-10（BB-B 01:01，BUG-GREET-NOCLASS-1110）：週日／同週週三／學期中的國定假日，各讀檔到她在 3D 的時段，連按招呼 GREET_N 次，記每一句原文；
+        分類照新版 src/data/greet_classday.js（GREET_TXT＝那個檔的路徑：classDay／playerNoClass／nextClassDay＝講到上課的；add weekend／offDay＝週末放假的新句）"""
+        R, pg = self.R, self.pg; N = int(os.environ.get('GREET_N') or 12)
+        txt = open(os.environ.get('GREET_TXT') or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'greet_classday_968bd311f.js'), encoding='utf-8').read(); C = json.loads(txt[txt.index('{'):txt.rindex('}') + 1])
+        cls = set(); [cls.update((C.get(k) or {}).get(self.pid) or []) for k in ('classDay', 'playerNoClass', 'nextClassDay')]
+        add = [e['t'] for e in ((C.get('add') or {}).get(self.pid) or [])]
+        R.note('greetn：講到上課的（AA_729 標記）%d 句、週末／放假新句 %d 句' % (len(cls), len(add)))
+        await self.scratch()
+        sun = await pg.evaluate(SCAN_JS, {'id': self.pid, 'terms': ['Y1S1'], 'hours': HOURS, 'max': 3, 'wk0': 3, 'wds': [0]})
+        targets = []
+        if sun:
+            targets.append(('週日', sun[0]))
+            wd = await pg.evaluate(SCAN_JS, {'id': self.pid, 'terms': ['Y1S1'], 'hours': HOURS, 'max': 1, 'days': [sun[0]['d'] - 4, sun[0]['d'] + 3]})
+            if wd: targets.append(('同一週週三', wd[0]))
+        hol = await pg.evaluate("(()=>{ const out=[]; const T=CALENDAR.termDays('Y1S1'); for(let d=T.from; d<=T.to; d++){ const w=CALENDAR.dateOf(d).wd%7; if(w>=1&&w<=5&&CALENDAR.kind&&CALENDAR.kind(d)==='holiday') out.push(d); } return out; })()")
+        hs = await pg.evaluate(SCAN_JS, {'id': self.pid, 'terms': ['Y1S1'], 'hours': HOURS, 'max': 1, 'days': hol}) if hol else []
+        R.note('greetn：學期中平日的國定假日 %s；她在 3D 的 %s' % (J(hol), J(hs)))
+        if hs: targets.append(('國定假日（平日）', hs[0]))
+        if not sun: R.check('greetn：找得到週日她在 3D 的時段', False, '')
+        for name, sl in targets:
+            tag = 'greetn %s %s' % (name, sl['key'])
+            w = await self.go_slot(sl, {'met': True, 'rel': REL['FAMILIAR'], 'relUp': 4, 'ladEnd': True, 'noContact': True}, tag, '前置：認識、有點熟、門檻台詞說過、階梯走完')
+            if not w: R.check('%s：走得到她旁邊' % tag, False, ''); continue
+            info = await pg.evaluate("(d=>({kind:CALENDAR.kind?CALENDAR.kind(d):null, wd:CALENDAR.dateOf(d).wd%7, classDay:STORY.classDayOf?STORY.classDayOf(d):null}))", sl['d'])
+            got = []
+            for i in range(N):
+                ok, menus, lines, s2 = await self.talk('%s 第%d次' % (tag, i + 1), Plan([{'when': '^就這樣$', 'pick': '^就這樣$'}]))
+                ls = [l.split('｜', 1)[1] if '｜' in l else l for l in lines]
+                got.append(ls[:2]); R.note('%s 第%d次 原文：%s' % (tag, i + 1, J(lines[:3])))
+                if not ok: break
+                await pg.wait_for_timeout(800)
+            flat = [x for g in got for x in g]
+            hit_cls = sorted(set(x for x in flat if x in cls)); hit_add = sorted(set(x for x in flat if x in add))
+            R.note('%s（%s）：講到上課的 %s；週末放假新句 %s' % (tag, J(info), J(hit_cls), J(hit_add)))
+            if name == '同一週週三': R.check('%s：問上課那幾句出現（≥1）' % tag, len(hit_cls) >= 1, J(hit_cls))
+            else:
+                R.check('%s：沒有講到今天上課的句子' % tag, not hit_cls, J(hit_cls))
+                R.check('%s：週末／放假新句至少一句' % tag, len(hit_add) >= 1, J(hit_add))
 
     async def step_up(self):
         sl, w = await self.go_any({'met': True, 'rel': REL['FRIEND'], 'relUp': 0, 'ladEnd': True}, '前置：朋友（FRIEND）、門檻台詞還沒說（relUp＝0）', 'up')
