@@ -83,7 +83,9 @@ const dWin=t=>Math.min(...winC.filter(c=>c[0]>=sr.x0-0.01&&c[0]<=sr.x1+0.01&&c[1
   const r=both([z.seatById('st_NE_n1').x,-0.2],[o.x,o.z]); check('5. 從自習室最裡面走得回門口',r.ok,fmt(r));
   check('5. 聖誕樹：12/1 起（11/30 沒有）',US_CLUBHOUSE.xmasOn({m:12,d:1})&&US_CLUBHOUSE.xmasOn({m:12,d:23})&&!US_CLUBHOUSE.xmasOn({m:11,d:30})&&!US_CLUBHOUSE.xmasOn({m:9,d:4}));
   const t=L.furniture.find(q=>q.type==='xmasTree'); check('5. 聖誕樹在交誼廳、站不進去',t.x>room('lounge').x0&&t.x<room('lounge').x1&&!stand(t.x,t.z));
-  check('5. 「看」只有櫃台（AA_741 不加新台詞：字由 LAWWW 接）',IT.filter(i=>i.usClubLook).map(i=>i.usClubLook).join()==='counter'&&IT.filter(i=>i.usClubLook).every(i=>!i.look)); }
+  const lks=IT.filter(i=>i.usClubLook), shown=lks.filter(i=>!i.hidden), lc=lks.find(i=>i.usClubLook==='lounge_closed');
+  check('5. 「看」平常只有櫃台、沒有自己編的字（AA_741 不加新台詞：櫃台的字由 LAWWW 接）；交誼廳關門的「看」平常藏著、字是 AA 定的那一句（US-CLUB-LOUNGE-CLOSE-1110）',
+    shown.map(i=>i.usClubLook).join()==='counter'&&shown.every(i=>!i.look)&&(!lc||(lc.hidden===true&&lc.look==='今晚交誼廳有聚餐。'))); }
 // ---------- 6. 正式模型 ----------
 { const m=ASSETS.manifest['bldg.us_clubhouse']; const glb=m&&path.join(ROOT,m.url);
   check('6. ASSETS.manifest 有 bldg.us_clubhouse（type building、有來源與授權、檔案在）',!!m&&m.type==='building'&&!!m.source&&!!m.license&&fs.existsSync(glb),m&&m.url);

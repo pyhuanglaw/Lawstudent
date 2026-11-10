@@ -272,6 +272,7 @@ await sec('G',async()=>{
   /* 12/14 晚餐那晚（AA 11-10 17:14）：沒排晚餐 18:30～21:30——學姊、何俊朗不在自習室、交誼廳沒有住戶、走到交誼廳一句「今晚交誼廳有聚餐。」；19:00 以前、別天照舊 */
   { const G=H.G; const d0=G.day, h0=G.hour; G.day=D('2028-12-14'); G.hour=19.2; const dn=USL.dinnerNight(G); G.hour=18; const before=USL.dinnerNight(G); G.day=D('2028-12-15'); G.hour=19.2; const other=USL.dinnerNight(G); G.day=d0; G.hour=h0;
     check('G. 12/14 18:30～21:30 沒排晚餐＝dinnerNight；18:00、12/15 不是',dn===true&&before===false&&other===false,J({dn,before,other}));
+    check('G. dinnerNight 那晚交誼廳的門關起來（clubSync 呼叫 z.setLoungeClosed(dinnerNight)，LAWWW2 575ef8ae3）',/z\.setLoungeClosed\(dn\)/.test(USL_SRC));
     check('G. dinnerNight 那晚：學姊、何俊朗不在、交誼廳沒有住戶、交誼廳一句「今晚交誼廳有聚餐。」（原始碼）',/S\.longHere\(G\)&&!S\.dinnerNight\(G\)/.test(USL_SRC)&&/S\.sisClub\(G\)&&!S\.dinnerNight\(G\)/.test(USL_SRC)&&/if\(!dn\) for/.test(USL_SRC)&&USL.DINNER_NOTE==='今晚交誼廳有聚餐。'); }
 H.done();
 })();

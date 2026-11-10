@@ -5,6 +5,7 @@
 - 交誼廳：淺色木地板（D112：不用深色木地板）、西牆一面灰綠色的牆＋電視、L 型布沙發、茶几、地毯、東牆小廚房（水槽、微波爐、吊櫃）、熱飲販賣機、北牆通後面草地的鋁框玻璃門（關著）
   兩張長桌：TABLES_APART（平常分開）、TABLES_MERGED（併成一張）＋DINNER_SET（桌巾、一排菜、碗盤；12/14 晚餐）；XMAS_TREE＋XMAS_LIGHTS（12/1 起，晚上亮燈）
 - 自習室：灰色地毯、四張長桌×四張椅子、每張桌子一盞檯燈、北牆軟木公布欄（CORK_NOTICE＝ev_usl_long3 多貼的一張單子）；SIS_COAT（學姊旁邊那張椅子上的外套）、SIS_PLAN（讀書計畫）
+- LOUNGE_DOOR：交誼廳的門（12/14 晚上沒排晚餐時關著；US-CLUB-LOUNGE-CLOSE-1110）
 - 窗：白色百葉拉下一半；窗外不在模型裡（遊戲在窗外放視差窗景 views/usch_<季節>_{day,night}.webp）。外牆外面一層米褐色壁板（社區會所的外觀色 #b8ad95）。
 會淡出的牆：WALL_<id>_*（props dir＝配置的 dir；隔間另加 partition＝1）。天花板朝下的單面（ucl_ceiling）。
 告示、傳單、販賣機面板上的英文都是虛構的通用字（不放社區名、校名、真的品牌：D77）。"""
@@ -324,6 +325,17 @@ def glass_double(wid, a, b_, y1=DOOR_H, push=True):
 for w in LAY['walls']:
     for (a, b_, kind) in w.get('open', []):
         if kind in ('frontDoor', 'patioDoor'): glass_double(w['id'], a, b_); frame(w['id'], a, b_, 0.0, DOOR_H, sides=(1,))
+# 交誼廳的門（US-CLUB-LOUNGE-CLOSE-1110，AA：12/14 晚上沒排晚餐的玩家走進會所，交誼廳的門關著；LOUNGE_DOOR 群組平常藏著，z.setLoungeClosed(true) 才看得到）：
+# 門廳→交誼廳那個 1.6 m 的口，兩扇淺色木門關著（上半截一塊小玻璃窗、直的拉把）
+lw = WALLS['lf']; la, lb = [o for o in lw['open'] if o[2] == 'opening'][0][:2]; lx = lw['at']; lm = (la + lb) / 2
+grp('LOUNGE_DOOR', '交誼廳的門關著（12/14 晚上有聚餐、沒排晚餐的玩家：z.setLoungeClosed(true)）')
+for (a, b_) in ((la + 0.01, lm - 0.004), (lm + 0.004, lb - 0.01)):
+    acc('oak', 'LOUNGE_DOOR').box(lx - 0.022, lx + 0.022, 0.01, DOOR_H - 0.01, a, b_)
+    c_ = (a + b_) / 2; acc('glass', 'LOUNGE_DOOR').quad([(lx + 0.0235, 1.45, c_ - 0.12), (lx + 0.0235, 1.45, c_ + 0.12), (lx + 0.0235, 1.85, c_ + 0.12), (lx + 0.0235, 1.85, c_ - 0.12)])
+    acc('glass', 'LOUNGE_DOOR').quad([(lx - 0.0235, 1.45, c_ + 0.12), (lx - 0.0235, 1.45, c_ - 0.12), (lx - 0.0235, 1.85, c_ - 0.12), (lx - 0.0235, 1.85, c_ + 0.12)])
+    for sx in (-1, 1): acc('vcm', 'LOUNGE_DOOR').cbox(lx + sx * 0.024 - 0.008, lx + sx * 0.024 + 0.008, 1.42, 1.88, c_ - 0.124, c_ - 0.116, '#b8bcc0'); acc('vcm', 'LOUNGE_DOOR').cbox(lx + sx * 0.024 - 0.008, lx + sx * 0.024 + 0.008, 1.42, 1.88, c_ + 0.116, c_ + 0.124, '#b8bcc0')
+for zz in (lm - 0.07, lm + 0.07):   # 兩扇各一支直的拉把（兩面）
+    for sx in (-1, 1): acc('vcm', 'LOUNGE_DOOR').cbox(lx + sx * 0.05 - 0.01, lx + sx * 0.05 + 0.01, 0.85, 1.25, zz - 0.01, zz + 0.01, '#c9ccd0'); acc('vcm', 'LOUNGE_DOOR').cbox(lx + sx * 0.03, lx + sx * 0.05, 0.9, 0.92, zz - 0.008, zz + 0.008, '#c9ccd0') if sx > 0 else acc('vcm', 'LOUNGE_DOOR').cbox(lx - 0.05, lx - 0.03, 0.9, 0.92, zz - 0.008, zz + 0.008, '#c9ccd0')
 # 大門裡面的腳踏墊（深灰、有邊；不是全黑：BB P3 超市的地墊看起來像破洞）
 V = acc('vc')
 V.cbox(0.35, 1.65, 0.0, 0.012, 3.15, 3.85, '#5b5e61'); V.cbox(0.4, 1.6, 0.012, 0.014, 3.2, 3.8, '#6c6f72')

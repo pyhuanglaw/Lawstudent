@@ -101,13 +101,25 @@ const US_CLUBHOUSE=(function(){
     z.noticeOn=false; z.planOn=false; z.xmasForce=null;
     z.refreshState=function(){ const xm=z.xmasForce!=null?z.xmasForce:S.xmasOn(); const G=G_(), h=G?((G.hour%24)+24)%24:12, night=h<6||h>=17.5;
       vis('XMAS_TREE',xm); vis('XMAS_LIGHTS',xm&&night); vis('TABLES_APART',!z.dinnerOn); vis('TABLES_MERGED',z.dinnerOn); vis('DINNER_SET',z.dinnerOn); vis('SIS_COAT',z.sisCoatOn);
-      vis('CORK_NOTICE',z.noticeOn); vis('SIS_PLAN',z.planOn); const op=S.officeOpen(G); vis('SHUTTER_DOWN',!op); vis('OFFICE_LIT',op);
+      vis('CORK_NOTICE',z.noticeOn); vis('SIS_PLAN',z.planOn); vis('LOUNGE_DOOR',z.loungeClosed); const op=S.officeOpen(G); vis('SHUTTER_DOWN',!op); vis('OFFICE_LIT',op);
       const t=fb.userData.longTables; if(t){ const f=L.furniture.find(q=>q.type==='longTables'); const xs=z.dinnerOn?f.merged:f.apart; t.forEach((m,i)=>{ m.position.x=xs[i]; }); } };
     z.setDinner=on=>{ z.dinnerOn=!!on; z.refreshState(); };      /* 12/14 晚餐：兩張長桌併成一張、桌巾、一排菜；座位換成併桌的 10 個（ld_*）*/
     z.setSisCoat=on=>{ z.sisCoatOn=!!on; z.refreshState(); };    /* 挽回中：學姊旁邊那張椅子放著她的外套，不能坐 */
     z.setNotice=on=>{ z.noticeOn=!!on; z.refreshState(); };      /* ev_usl_long3 開頭：公布欄貼一張單子 */
     z.setPlan=on=>{ z.planOn=!!on; z.refreshState(); };          /* ev_sis_plan_us：學姊那張桌上攤著讀書計畫 */
     z.setXmas=on=>{ z.xmasForce=on==null?null:!!on; z.refreshState(); };   /* 不給＝照日期（12/1 起）*/
+    /* 交誼廳的門（US-CLUB-LOUNGE-CLOSE-1110，AA：12/14 晚上 18:30～21:30 沒排晚餐的玩家走進會所，交誼廳的門關著；門廳、自習室照常）：
+       z.setLoungeClosed(true)＝門板（正式模型的 LOUNGE_DOOR）、導航擋住門口、鏡頭不穿過、門廳這邊一個「看」（字 LAWWW 給：「今晚交誼廳有聚餐。」）；false＝打開。
+       玩家已經在交誼廳裡（x < 門口）時不關（D36：玩家一定離得開）：回傳 false，門照舊開著 */
+    const LO=L.walls.find(w=>w.id==='lf'), LOP=LO.open.find(o=>o[2]==='opening'), LZ0=Math.min(LOP[0],LOP[1]), LZ1=Math.max(LOP[0],LOP[1]), LX=LO.at;
+    const loungeCam=new THREE.Mesh(new THREE.BoxGeometry(0.24,2.1,LZ1-LZ0+0.12),new THREE.MeshBasicMaterial({visible:false})); loungeCam.position.set(LX,1.05,(LZ0+LZ1)/2); loungeCam.userData.noMerge=true;
+    const loungeLook={x:LX+0.55,z:(LZ0+LZ1)/2,radius:0.9,lv:0,label:'交誼廳',usClubLook:'lounge_closed',look:'今晚交誼廳有聚餐。'}; Object.defineProperty(loungeLook,'hidden',{get:()=>!z.loungeClosed,enumerable:true,configurable:true}); IT.push(loungeLook);
+    z.loungeClosed=false;
+    z.setLoungeClosed=on=>{ on=!!on; const P=E.player&&E.player.obj&&E.player.obj.position; if(on&&P&&E.zone===z&&P.x<LX-0.05) return false;
+      if(on===z.loungeClosed) return true; z.loungeClosed=on; const cc=z.camCols&&z.camCols[0];
+      if(on){ z.nav.blockRect(LX,(LZ0+LZ1)/2,0.2,LZ1-LZ0+0.02,0,0); if(cc&&!cc.includes(loungeCam)){ g0.add(loungeCam); cc.push(loungeCam); } }
+      else { z.nav.freeRect(LX-0.1,LZ0+0.1,LX+0.1,LZ1-0.1);   /* 門口兩端那兩格本來就是牆：只放開中間 */ if(cc){ const i=cc.indexOf(loungeCam); if(i>=0) cc.splice(i,1); } g0.remove(loungeCam); }
+      z.nav._cm=null; if(E.levels) for(const n of E.levels) n._cm=null; z.refreshState(); return true; };
     // ---- 正式模型 ----
     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.us_clubhouse']) ASSETS.loadOne('bldg.us_clubhouse').then(c=>{ if(!c||!c.scene||E.zone!==z) return; root=c.scene.clone(true);
       Z3.attachRoomGLB(z,g0,fb,root); z.winParts=(z.winParts||[]).concat(myParts.filter(p=>!(z.winParts||[]).includes(p)));

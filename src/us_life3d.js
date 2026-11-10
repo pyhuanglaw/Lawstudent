@@ -461,6 +461,7 @@ const USL=(function(){
   S.clubSync=function(GM){ const G=GM.G, E=GM.E, z=E&&E.zone; if(!G||G.zone!==CZ||!z||!z.npc||clubStaged||!S.here(G)||!E.npcs) return 0; let k=0; const P=E.player&&E.player.obj&&E.player.obj.position;
     const far=o=>!P||!o||Math.hypot(P.x-o.x,P.z-o.z)>4;
     /* 住戶 */
+    if(typeof z.setLoungeClosed==='function'){ const dn=S.dinnerNight(G); if(!!z.loungeClosedWant!==dn){ if(z.setLoungeClosed(dn)!==false||!dn) z.loungeClosedWant=dn; } }   /* 12/14 晚餐那晚交誼廳的門關起來（LAWWW2 575ef8ae3 z.setLoungeClosed；玩家已經在交誼廳裡就先不關，下一格再試）*/
     const want=S.residents(G,z), keys=new Set(want.map(q=>'res:'+q.key));
     for(const n of E.npcs.slice()) if(n&&typeof n.usClub==='string'&&/^res:/.test(n.usClub)&&!keys.has(n.usClub)){ E.removeNPC(n); k--; }
     for(const q of want){ const tag='res:'+q.key; if(E.npcs.some(n=>n&&n.usClub===tag)||(q.sit&&taken(E,q.at))) continue;
