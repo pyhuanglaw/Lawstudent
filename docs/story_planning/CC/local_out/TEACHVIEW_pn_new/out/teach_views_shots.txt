@@ -1,0 +1,2 @@
+shot C:\Users\USER\AppData\Local\Temp\ccteach_a_xgwwqu\putong_north_day.png {'zone': 'campus', 'hour': 11, 'hud': '9/17 週三 11:00', 'player': [-27, -70], 'cam': [-27.2, 1.85, -67.3], 'mode': 'cinematic'} errors: []
+shot C:\Users\USER\AppData\Local\Temp\ccteach_a_xgwwqu\putong_north_night.png {'zone': 'campus', 'hour': 20.5, 'hud': '9/17 週三 20:30', 'player': [-27, -70], 'cam': [-27.2, 1.85, -67.3], 'mode': 'cinematic'} errors: []

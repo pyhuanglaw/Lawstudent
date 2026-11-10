@@ -939,3 +939,14 @@
        22385edf9..7c3c435ae  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [19:13:26] ==== END   X295E_thu_old  exit=0  145s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7c3c435ae..c388343a6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:13:30] ==== END   VIEWRAW_cvs  exit=1  41s   ====
+[19:13:34] memory 43% before starting TEACHVIEW_pn_new (2 running)
+[19:13:34] ==== START TEACHVIEW_pn_new  (probe @ f3b47894b3b10643fb91fd30be70bc28cad68035) ====
+[19:13:36] [res] cpu=20% mem=44% (13.7/31.4 GB) chrome_testing=5  START TEACHVIEW_pn_new
+[19:13:37] memory 44% before starting TEACHVIEW_pn_old (2 running)
+[19:13:37] ==== START TEACHVIEW_pn_old  (probe @ 35b88d5ff2613c039115576877e7f8a7525295a3) ====
+[19:13:40] [res] cpu=19% mem=45% (13.9/31.4 GB) chrome_testing=5  START TEACHVIEW_pn_old
+[19:17:01] [res] cpu=27% mem=53% (16.5/31.4 GB) chrome_testing=9  END TEACHVIEW_pn_new
