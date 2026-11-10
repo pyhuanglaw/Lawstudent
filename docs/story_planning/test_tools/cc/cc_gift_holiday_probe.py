@@ -687,6 +687,11 @@ async def counter_case(pg, cdp, run, S, errs, path):
         staff = await pg.evaluate("id=>{ const n=__BBF.npc(id); return n?(n.staff||null):null; }", pid)
         if not w or w['hidden'] or staff != 'cafe': info('[%s] 她不在吧檯（staff=%s）' % (name, staff), J(w)); continue
         if w['dMe'] > 9: await P.place_near(pg, run, w['x'], w['z'], 7.0, w['lv'], what=pid)
+        # r2（CC 14:2x）：r1 talk_menus 想走到她旁邊 (−3.5, −5.1)＝吧檯後面走不到＝TEST_BUG；店員 2.2 m 內就比點餐點優先（engine3d.js nearestInteractable），站吧檯前 (−2.5, −3.3) 離她 1.85 m
+        await L.go_to(pg, cdp, run, -2.5, -3.3, 0.35, '[%s] 走到吧檯前（點餐點）' % name, max_s=90)
+        await pg.wait_for_timeout(1000)
+        lab = await pg.evaluate("(()=>{ const ib=document.getElementById('interact'); return ib&&ib.offsetParent!==null?(ib.innerText||'').trim():''; })()")
+        info('[%s] 站在吧檯前，互動按鈕' % name, J(lab))
         g0 = await gstate(pg, pid); state = {}
         r = await talk_menus(pg, cdp, run, pid, '[%s] 和吧檯的芷若說話' % name, give_pol(state, give, run, pg, name))
         if not r['started']: info('[%s] 沒說到話，換下一個時段' % name); continue
