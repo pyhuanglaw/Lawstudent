@@ -1,0 +1,7 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_teach_views_raw_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TEACHVIEW_pn_v2d\out
+CC 教學館窗景原始拍攝：worktree e9af13061；['putong_north']；Playwright＋GPU ≠ iPhone
+  putong_north：區域 campus、玩家 [-27, -70]、鏡頭 [-27.2, 1.85, -67.3] → [-27.2, 1.6, -120]、寬 2048×512
+  執行：gpu_wrap.py fast_shots.py
+PASS 拍到 putong_north_day.png {'zone': 'campus', 'hour': 11, 'hud': '9/17 週三 11:00', 'player': [-27, -70], 'cam': [-27.2, 1.85, -67.3], 'mode': 'cinematic'} errors: []
+PASS 拍到 putong_north_night.png {'zone': 'campus', 'hour': 20.5, 'hud': '9/17 週三 20:30', 'player': [-27, -70], 'cam': [-27.2, 1.85, -67.3], 'mode': 'cinematic'} errors: []
+ALL PASS
