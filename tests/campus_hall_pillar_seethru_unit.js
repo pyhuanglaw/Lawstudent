@@ -5,6 +5,9 @@
 //   zones3d.js 的 attachWenzhouModel 把 seethru_ 開頭的材質標 userData.seeThrough、E.patchSeeThrough（和騎樓柱子 wz_pillar_ 同一套）。
 // 檢查：①真的 GLB：兩個柱子材質都在、只在一樓（柱子，不含簷口、屋頂）；收邊、牆照舊在、比柱子高 3 m 以上 ②在 Node 建出校園、四棟正式模型換成假的：
 //   seethru_ 材質標了透視、patch 過 shader，收邊、牆、玻璃沒有。
+// PERF-CAMPUS-GLB-1102 ②（LAWWW2 帳號 A 11-10）：行政大樓、文學院、校史館的材質合併了——兩個柱子材質合成一張 seethru_ck_tiles、牆和收邊併進 wz_vc_<前綴>。
+//   檢查的內容不變，只是照合併後的名字找：柱子＝seethru_ck_col／seethru_ck_pier／seethru_ck_tiles，牆和收邊＝ck_wall／ck_trim 或 wz_vc_*；
+//   合併的那三棟柱子和柱墩在同一個材質裡：「柱墩 8 m 以下、從 0.5 m 以下開始」由合併材質的範圍（＝門廊高度、從地面開始）一起檢查。總圖照舊兩個材質。
 // 用法：node tests/campus_hall_pillar_seethru_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -33,15 +36,16 @@ function yRange(j,bin,pred){ let lo=Infinity, hi=-Infinity, tri=0; const names=j
 /* ① 真的 GLB */
 for(const [k,nm] of Object.entries(SETS)){
   const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/campus_'+k+'.glb')), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8')), off=20+n, bin=b.slice(off+8,off+8+b.readUInt32LE(off));
-  const col=yRange(j,bin,x=>x==='seethru_ck_col'), pier=yRange(j,bin,x=>x==='seethru_ck_pier'), trim=yRange(j,bin,x=>x==='ck_trim'), wall=yRange(j,bin,x=>x==='ck_wall');
+  const merged=j.materials.some(m=>m.name==='seethru_ck_tiles');   /* PERF-CAMPUS-GLB ②：柱子、柱墩同一個材質；牆、收邊在 wz_vc_* */
+  const col=yRange(j,bin,x=>x==='seethru_ck_col'||x==='seethru_ck_tiles'), pier=yRange(j,bin,x=>x==='seethru_ck_pier'||x==='seethru_ck_tiles'), trim=yRange(j,bin,x=>x==='ck_trim'||(merged&&/^wz_vc_/.test(x))), wall=yRange(j,bin,x=>x==='ck_wall'||(merged&&/^wz_vc_/.test(x)));
   check(`① ${nm}：門廊石柱（seethru_ck_col）、拱廊柱墩（seethru_ck_pier）都在，只在一樓（10 m 以下：柱子，不含簷口、屋頂；總圖門廊 9 m）`,col.tri>0&&pier.tri>0&&col.hi<10&&pier.hi<8&&col.lo<(LO[k]||0.05)&&pier.lo<(LO[k]||0.5),`柱子 ${col.tri} 個三角形、高 ${col.lo.toFixed(2)}～${col.hi.toFixed(2)} m；柱墩 ${pier.tri} 個、${pier.lo.toFixed(2)}～${pier.hi.toFixed(2)} m`);
   check(`① ${nm}：收邊（ck_trim）、牆（ck_wall）照舊在、比柱子高 3 m 以上（簷口、上面的樓層照舊不透視）`,trim.tri>0&&wall.tri>0&&trim.hi>col.hi+3&&wall.hi>pier.hi+3,`收邊到 ${trim.hi.toFixed(1)} m、牆到 ${wall.hi.toFixed(1)} m`);
   check(k==='library'?`①b ${nm}：一樓拱廊的正面牆（拱和拱之間、到簷口下 ${PH[k]} m）是 seethru_ck_col／seethru_ck_pier（柱子材質的最高點＝簷口下緣）`:`①b ${nm}：門廊兩端的側牆（0.9 m 寬、通高 ${PH[k]} m）也在 seethru_ck_col（柱子材質的最高點＝門廊高度）`,Math.abs(col.hi-PH[k])<0.02,`柱子材質最高 ${col.hi.toFixed(2)} m`);
   const st=j.materials.map(m=>m.name).filter(x=>/^seethru_/.test(x)).sort().join();
-  check(`① ${nm}：seethru_ 開頭的只有這兩個材質`,st==='seethru_ck_col,seethru_ck_pier',st);
+  check(`① ${nm}：seethru_ 開頭的只有柱子的材質（兩個，或合併成 seethru_ck_tiles 一個）`,st==='seethru_ck_col,seethru_ck_pier'||st==='seethru_ck_tiles',st);
 }
 /* ② 校園：四棟正式模型換成假的（每一種材質一個小網格）*/
-const MATS=['seethru_ck_col','seethru_ck_pier','ck_trim','ck_trim_win','ck_wall','ck_roof','ck_glass'];
+const MATS=['seethru_ck_col','seethru_ck_pier','ck_trim','ck_trim_win','ck_wall','ck_roof','ck_glass','seethru_ck_tiles','wz_vc_adm','ck_win_tiles'];   /* 後三個：PERF-CAMPUS-GLB ② 合併後的名字 */
 function fakeModel(){ const g=new THREE.Group(); for(const nm of MATS){ const me=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); me.name=nm; g.add(me); } return g; }
 const KEYS=Object.keys(SETS).map(k=>'bldg.campus_'+k), pend=[], got={};
 ASSETS.loadOne=k=>{ if(KEYS.includes(k)){ const p=Promise.resolve({scene:fakeModel()}); pend.push(p); return p; } return new Promise(()=>{}); };
@@ -52,7 +56,7 @@ global.GAME={G:{hour:14,weather:'clear',flags:{},zone:'campus'}};
   check('② 四棟的正式模型都接上了（假的模型）',pend.length===4,pend.length+' 棟');
   const bad=[], ok={}; z.group.traverse(o=>{ if(!o.isMesh||!o.material||!MATS.includes(o.material.name)) return; const m=o.material, see=/^seethru_/.test(m.name);
     if(see){ ok[m.name]=(ok[m.name]||0)+((m.userData.seeThrough&&m.userData._st)?1:0); if(!(m.userData.seeThrough&&m.userData._st)) bad.push(m.name); } else if(m.userData.seeThrough) bad.push(m.name); });
-  check('② 柱子（seethru_ck_col、seethru_ck_pier）標了透視、patch 過 shader',(ok.seethru_ck_col||0)>=4&&(ok.seethru_ck_pier||0)>=4,JSON.stringify(ok));
-  check('② 收邊、窗、牆、屋頂、玻璃不透；柱子沒有漏標',bad.length===0,bad.join('、'));
+  check('② 柱子（seethru_ck_col、seethru_ck_pier、合併的 seethru_ck_tiles）標了透視、patch 過 shader',(ok.seethru_ck_col||0)>=4&&(ok.seethru_ck_pier||0)>=4&&(ok.seethru_ck_tiles||0)>=4,JSON.stringify(ok));
+  check('② 收邊、窗、牆、屋頂、玻璃（含合併的 wz_vc_*、ck_win_tiles）不透；柱子沒有漏標',bad.length===0,bad.join('、'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();

@@ -491,6 +491,22 @@ def build(c, out=None):
         else: m.finish(root, uv=True)
     if rcol: rcol.finish(root, uv=True, smooth=True)
     uv01(plate.finish(root, uv=True, props=dict({'text': pl['text'], 'bg': '#d8d0c0', 'color': '#3b2a1e', 'serif': 1}, **({'fs': pl['fs']} if pl.get('fs') else {}))))   # fs：字高是板面高的幾倍（遊戲的 wzPlateTex；沒給＝0.6）
+    if '--no-tiles' not in sys.argv:
+        # PERF-CAMPUS-GLB-1102 ②（LAWWW2 帳號 A 11-10；census_1110.md：行政大樓、文學院、校史館一棟 11 個網格，椰林大道同時入鏡）：照 campus_teach.py（TEACH-EAST-DRAWCALL-1104）的壓法——
+        # 有貼圖的材質（面磚、洗石子、石材基座、屋瓦）合成一張貼圖集，純色的天花板併進頂點色（UV 指到貼圖集的白色帶子）→ 一個材質 wz_vc_<前綴>（遊戲照 wz_vc_ 投影）；
+        # 門廊、拱廊的柱子（seethru_：遊戲的樹幹透視照名字開）兩個材質另外合成一張 seethru_ck_tiles；玻璃（夜間燈光貼圖）、匾額（FACE）照舊分開。
+        # 一格 512 px（和原本每個週期一樣清楚）；洗石子一格放 2×2 個週期、木窗框 4×4（細木條每公尺切一刀三角形會多一倍多：2866 → 6572）。--no-tiles：照舊（比較用）
+        pre = c['prefix'].rstrip('_')
+        VCM = L.vc_material(f'wz_vc_{pre}', rough=0.9)
+        L.vc_consolidate(root, {'ck_ceiling': VCM})
+        gen = os.path.join(HERE, 'textures', 'gen')
+        sol = {'color': '#ffffff', 'rough': 0.8, 'metal': 0.0, 'px': 32}
+        L.atlas_tiles(root, os.path.join(gen, f'hall_{pre}_tiles'), f'{pre}_tiles', only={'ck_wall', 'ck_trim', 'ck_stone_base', 'ck_roof'},
+                      cell=512, keep=lambda ob: 'FACE' in ob.name, reps={'ck_trim': 2}, solid=sol, orm_div=8)
+        # 窗邊的洗石子、木窗框另一張（材質 ck_win_tiles，不併進 wz_vc_*）：原本就不投影（遊戲 wzCastsShadow 照平均面積判斷），併進會投影的 wz_vc_* 陰影那一輪多 2 萬個三角形
+        L.atlas_tiles(root, os.path.join(gen, f'hall_{pre}_win'), 'ck_win_tiles', only={'ck_trim_win', 'ck_frame'}, cell=512, keep=lambda ob: 'FACE' in ob.name, reps={'ck_trim_win': 2, 'ck_frame': 4})
+        L.fold_vc(root, f'wz_vc_{pre}', f'{pre}_tiles', sol['uv'], new_name=f'wz_vc_{pre}')
+        L.atlas_tiles(root, os.path.join(gen, f'hall_{pre}_seethru'), 'seethru_ck_tiles', only={'seethru_ck_col', 'seethru_ck_pier'}, cell=512, keep=lambda ob: 'FACE' in ob.name)   # 門廊柱子離玩家最近：一格一個週期（不放 2×2，近看不糊）
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
     info = L.export(out, gpu_instances=False)
     L.write_json(out[:-4] + '.json', info)
