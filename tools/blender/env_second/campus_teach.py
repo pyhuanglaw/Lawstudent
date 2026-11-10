@@ -218,7 +218,11 @@ def build_boya():
     SET_ = 0.6; fr = FRONT; a0, a1 = -W / 2 + 8.0, W / 2 - 8.0
     IN = K.Fr(tuple(fr.O[i] - fr.N[i] * SET_ for i in range(3)), fr.R, fr.N)
     kit.wall_strip(fr, -W / 2, a0, 0.0, YF[1], []); kit.wall_strip(fr, a1, W / 2, 0.0, YF[1], [], mk='trim')
+    # PUTONG101-WINDOW-1102（LAWWW2 帳號 A 11-10；BB-B n28：普通 101 北窗白天整片深藍黑）：一樓玻璃大廳往內退 0.6 m、上面有樓板，遊戲裡照不到光，
+    # 照 archkit 的玻璃色（上 0.26、下 0.06）幾乎是黑的；真的玻璃白天會反射對面的天空和普通的白牆——這一片帷幕換亮一點、偏灰藍的漸層（只有這一片，其他棟的 ck_glass 不動）
+    _gt, _gb = K.GL_TOP, K.GL_BOT; K.GL_TOP, K.GL_BOT = (0.48, 0.55, 0.62), (0.20, 0.24, 0.28)
     curtain(IN, a0, a1, 0.15, YF[1] - 0.35, 1.5, 10, door_at=0.0, door_w=3.0)
+    K.GL_TOP, K.GL_BOT = _gt, _gb
     kit.fbox('trim', IN, a0, a1, YF[1] - 0.35, YF[1], 0.0, 0.02, skip=('in',))
     kit.face('ceil', [IN.p(a0, YF[1] - 0.35, 0.0), IN.p(a1, YF[1] - 0.35, 0.0), fr.p(a1, YF[1] - 0.35, 0.0), fr.p(a0, YF[1] - 0.35, 0.0)], (0, -1, 0))
     for s_ in (-1, 1):

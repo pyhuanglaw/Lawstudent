@@ -39945,7 +39945,7 @@
    "title": "普通 101 北窗白天整片深藍黑（博思一樓深色玻璃不反射天空）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -39959,14 +39959,15 @@
    },
    "source": "LAWWW2 11-02 04:39（交接檔有、總表沒有）",
    "authorized": "D108",
-   "next": "【LAWWW（帳號 A）04:4x 登記】1.5～3.5h；D120 起由 BB 驗收場景美術，改好給 BB 看",
+   "next": "【LAWWW 11-10 10:4x】LAWWW2 a43da6a27：博思一樓帷幕（普通 101 北窗外）改亮一點的灰藍漸層（0.26→0.48），只動這一片；campus_boya.glb 重匯；putong101_window、e05_putong、nav_teach、teach_east_drawcall ALL PASS；CC 跑 teach_views.py putong_north 重拍窗景、BB 用 n28 角度看＋從校園外看博思一樓。 ｜ 【LAWWW（帳號 A）04:4x 登記】1.5～3.5h；D120 起由 BB 驗收場景美術，改好給 BB 看",
    "xai": {
     "spec": "LAWWW2 HANDOFF.md",
     "branch": "claude/second-ai-env-art",
     "acceptance": "遊戲內截圖＋相關 Node 測試；交 LAWWW 合併、BB 看畫面",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "a43da6a27"
   },
   {
    "id": "D118-B1-1102",
