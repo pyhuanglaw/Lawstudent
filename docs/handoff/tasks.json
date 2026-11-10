@@ -51201,7 +51201,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-10 04:1x LAWWW-B】電腦佇列（claude/cc-testing tools/cc_local/queue.txt，cba181cf4）改成短版：L492_*（開發分支 492ef334a：flow_inv_go_jump、flow_invite_phone、flow_library_floors、p0、reach、zone、mini、class_real、main_day12、touch）＋CC-B 沒跑完的 9 項；舊整份在 31d4ce230。結果在 claude/cc-local local_out/L492_*，LAWWW-B 代判（BB 回來複核）。GHA node-unit-auto 跑 492ef334a。｜【11-10 02:0x 使用者選擇題】①電腦測試：LAWWW 排（GitHub 工具改 claude/cc-testing 的 queue.txt）、LAWWW 讀結果代判（標「LAWWW 代判」，BB 回來複核）②新台詞（說明頁、公告欄、約會中選項）等 AA 回來，只用 AA 已交的稿 ③先修使用者回報的問題：INV-GO-JUMP、INV-NOW-GOAL、BGN-AFTER-HOME、ATTEND-TIDY、HER-ASK-LATER-DAY、BUG-INV-GOASK-PERSIST；之後才接已交素材。不合併 main、不發布。",
+   "next": "【11-10 03:1x LAWWW-B】電腦佇列（claude/cc-testing tools/cc_local/queue.txt，cba181cf4）改成短版：L492_*（開發分支 492ef334a：flow_inv_go_jump、flow_invite_phone、flow_library_floors、p0、reach、zone、mini、class_real、main_day12、touch）＋CC-B 沒跑完的 9 項；舊整份在 31d4ce230。結果在 claude/cc-local local_out/L492_*，LAWWW-B 代判（BB 回來複核）。GHA node-unit-auto 跑 492ef334a。｜【11-10 02:0x 使用者選擇題】①電腦測試：LAWWW 排（GitHub 工具改 claude/cc-testing 的 queue.txt）、LAWWW 讀結果代判（標「LAWWW 代判」，BB 回來複核）②新台詞（說明頁、公告欄、約會中選項）等 AA 回來，只用 AA 已交的稿 ③先修使用者回報的問題：INV-GO-JUMP、INV-NOW-GOAL、BGN-AFTER-HOME、ATTEND-TIDY、HER-ASK-LATER-DAY、BUG-INV-GOASK-PERSIST；之後才接已交素材。不合併 main、不發布。",
    "evidence": "duty register LAWWW-B @ 60fbe977（11-10 01:54Z）",
    "sha": null
   },
