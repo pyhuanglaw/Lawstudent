@@ -377,3 +377,14 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | 洋洋鹹酥雞 室內 v1c `assets/models/env/second_ai/bb_support/yangyang_interior.glb`（配置 `src/data/yangyang_layout.js` v3；區域 `yangyang`） | 本作 Blender（`tools/blender/env_second/bb_support/yangyang_interior.py`、`yangyang_tex.py`：PIL＋numpy 自己畫的貼圖，沒有下載素材；在 `claude/cool-heisenberg-o8kuqx`；BB〔帳號 A〕製作、LAWWW2 驗收 ART_APPROVED（v1c），`e5e9351e0`）；店名虛構（D77） | 本作 | 公館 G05 洋洋鹹酥雞（新區域 `yangyang`，YANGYANG-IN-1107） |
 | 總圖北側的露天下沉中庭 `assets/models/env/second_ai/lib_b1_court.glb` | 本作 Blender 腳本 `tools/blender/env_second/lib_b1_court.py`（LAWWW2 帳號 A 2026-11-10，LIB-B1-COURT-ART-1110；尺寸照 `src/zones3d.js` 的 B1C，照使用者給的 B1 平面圖的氣氛、不照抄，D136）；貼圖 Poly Haven CC0（`socsci_formwork`、`granite_tile`、`forest_ground_04`）、葉片卡本作 `gen_leaves.py`；招牌字用文泉驛正黑（GPL＋字型嵌入例外，只畫成點陣圖） | 本作；貼圖 CC0 | 校園：總圖北側的下沉中庭（B1 入口；接線 zones3d.js B1C） |
 | 公館捷運站口花攤「晨露花舖」 `assets/models/env/second_ai/gg_flower_stall.glb` | 本作 Blender 腳本 `tools/blender/env_second/gg_flower_stall.py`（LAWWW2 帳號 A 2026-11-10，GG-FLOWER-STALL-1110；木頭花台、鋅桶的花、花束、工作台、條紋雨棚、燈泡串；店名原創） | 本作；貼圖 Poly Haven CC0（walnut_veneer、dark_wood）＋本作程式產生（條紋、布簾店名、價目板；字型文泉驛正黑 GPL＋字型例外） |
+
+## 第三方原始碼（不在 repo 內，需要時重新 clone；2026-11-10 從 CLAUDE.md 搬來）
+
+| 用途 | 來源 | 當時 commit |
+|---|---|---|
+| three.js（lib/three*.bundle.js） | https://github.com/mrdoob/three.js | 1af6de5 |
+| three-vrm（lib/three-vrm.bundle.js，見 tools/vrmbuild/） | https://github.com/pixiv/three-vrm | 1b4fc0c |
+| Seed-san VRM 原檔 | https://github.com/vrm-c/vrm-specification（samples/Seed-san） | 821c11b |
+| CC0 環境模型 | https://github.com/pmndrs/market-assets | c9cfa02 |
+| Draco 解碼（tools/undraco.js，離線） | https://github.com/google/draco | 15bdb3a |
+| 評估過未採用 | KenneyNL/Starter-Kit-3D-Platformer、Starter-Kit-City-Builder | 3fa8a04、4535092 |
