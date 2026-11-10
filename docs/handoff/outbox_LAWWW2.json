@@ -7589,15 +7589,31 @@
    "sha": "e01c46dd5",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "TINGZHOU-AREA-1110 汀州路商圈第 1 版（X321／X322）：區域、街道模型、使用者指定的八間店、公館入口",
    "files": [
     "docs/art-rebuild/second_ai/wip/tingzhou_1110/（README、tingzhou_v1.patch、regression.log、Blender 預覽 2 張、招牌對照、貼圖集）"
    ],
-   "state": "待整合（第 1 版；BB 判 D120；遊戲截圖待 CC）",
+   "state": "已整合 dev 7a625da3c；BB 第 1 版：功能 PASS、美術要第 2 版",
    "noDirectIntegrate": false,
    "note": "底 25c3039ec、apply --check 乾淨；新區域 tingzhou（tingzhou3d.js、tingzhou_layout.js v3、tingzhou_street.glb 7.2 MB）；五間店面照使用者概念圖；公館加「往汀州路」互動點（不改 zones3d.js）；tests/tingzhou_unit.js 12 項、相關回歸 85 支 ALL PASS。先將就的 9 點寫在 README。",
    "next": "等使用者回騎樓的決定 → 第 2 版（樓上加密、三間外觀照規格、夜市攤模組、遠景、公館 G10 巷口模型）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "39fcb2b72",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "TINGZHOU-AREA-1110 汀州路商圈第 2 版（D141 2／3）：五間沒有騎樓（使用者「混合」）、洗樂／印得好／泰米照使用者 21:1x 參考圖、夜市攤位模組、路邊機車、BB 第 1 版五點",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tingzhou_1110/（README_v2.md、tingzhou_v2.patch、regression_v2.log、Blender 預覽、crops_three_from_ref.jpg）",
+    "docs/art-rebuild/second_ai/ref/gg_shops6_1110/（使用者六張外觀參考圖）"
+   ],
+   "state": "待整合（第 2 版；BB 判；遊戲截圖待 CC 同機位重拍）",
+   "noDirectIntegrate": false,
+   "note": "底 dev 6c55e63e3、apply --check 乾淨（一行行尾空白警告）；tingzhou_unit ALL PASS（新增第 8～10 項）；1235 項 Node 測試三項沒過都指到 dev 的 movie_plots.js／bookstore json，和這次無關。src/zones3d.js 只多匯出 attachWzScooters。攤位的看、買互動點沒有（zone.tzStalls 給 LAWWW 接）。攤位顏色、店內調暗沒有在遊戲裡看過。",
+   "next": "FLOWER-NOTES-ART-1110（花序）→ GG-SHOPS3-ART-1110 公館三間（安泰、汀州鮮果、榮恩典，照參考圖）→ 汀州路第 3 版（泰米室內、遠景、G10 巷口）"
   }
  ]
 }
