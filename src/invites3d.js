@@ -468,7 +468,11 @@ const INV=(function(){
   S.goTarget=function(G,iv){ const P=S.place(iv.place)||{}, QL=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[], Q=QL.find(p=>p&&p[0]===P.zone&&P.meetAt&&P.name&&String(p[1]).includes(P.name))||QL.find(p=>p&&p[0]===P.zone); return {zone:P.zone,name:P.name||'',spawn:Q&&Q[2]?Q[2]:null}; };   /* 晨跑：落在「椰林大道・傅鐘」（不是校園的第一個落點霖澤館前）*/
   S.hereNote=function(G,iv){ if(!iv||iv.state!=='accepted'||iv.day!==G.day) return null; const h=G.hour%24, P=S.place(iv.place)||{}; if(!P.zone||G.zone!==P.zone||h>=iv.h+S.WAIT_H) return null; return '你已經在這裡了。收起手機，等她就好。'; };   /* 手機「今天約好的」：人已經在約好的地方（看手機時間不走）*/
   S.canGo=function(G,iv){ if(!iv||iv.state!=='accepted'||iv.day!==G.day) return false; const h=G.hour%24, P=S.place(iv.place)||{}; return !!P.zone&&G.zone!==P.zone&&h<iv.h+S.WAIT_H; };
-  S.goDue=function(G){ if(!G||!Array.isArray(G.invites)) return null; const h=G.hour%24; return G.invites.find(iv=>S.canGo(G,iv)&&!iv.goAsked&&h>=iv.h-0.5&&h<iv.h+0.25)||null; };
+  /* 問過「直接過去」的記號不跟著存檔（BUG-INV-GOASK-PERSIST-1110，BB-B 11-10 CC PC SOCX_edae_study_h1_iv：提醒跳出來的那一刻自動存檔，讀回來就不再提醒、站著等到錯過）：
+     設成不能列舉的屬性（JSON 存檔不會帶）；舊存檔裡帶著的（可以列舉的 goAsked）當作沒問過 */
+  const markAsked=iv=>{ try{ Object.defineProperty(iv,'goAsked',{value:1,writable:true,configurable:true,enumerable:false}); }catch(e){ iv.goAsked=1; } };
+  S.asked=iv=>{ const d=iv?Object.getOwnPropertyDescriptor(iv,'goAsked'):null; return !!(d&&d.value&&!d.enumerable); };
+  S.goDue=function(G){ if(!G||!Array.isArray(G.invites)) return null; const h=G.hour%24; return G.invites.find(iv=>S.canGo(G,iv)&&!S.asked(iv)&&h>=iv.h-0.5&&h<iv.h+0.25)||null; };
   /* 一鍵前往＝時間跳到約好的時間、人帶到那裡（INV-GO-JUMP-1110，使用者 11-10 X290「一鍵前往約會地點 時間也要到那時候 有時候會出現還沒開 或時間還沒到 一鍵前往就是要跳到那個時間 那個地點」）：
      到的時間＝她到的時間（約好的前 15 分鐘，S.entryFor）；那裡還沒開門＝到的時間改成開門那一刻（每 5 分鐘一格，到等她的時間結束為止）；出發＝到的時間減路程。
      isOpen(h)：那一區 h 點開不開（game3d.js 的 openAt）。回傳當天的小時 {arrive,leave}；等她的時間裡都沒開＝null（手機照舊寫「現在沒有開」）。
@@ -477,14 +481,14 @@ const INV=(function(){
     for(let k=Math.ceil(a0*12-1e-6); k/12<end-1e-6; k++){ let ok=true; try{ ok=!isOpen||!!isOpen(k/12); }catch(e){ ok=true; } if(ok){ arrive=k/12; break; } }
     if(arrive==null) return null; return {arrive,leave:arrive-(mins||0)/60}; };
   S.goNow=async function(GM,iv){ const G=GM.G, t=S.goTarget(G,iv); if(!S.canGo(G,iv)||!GM.quickGo) return false;
-    iv.goAsked=1;   /* 等出發的這段時間不再跳「直接過去」（同一筆已經在前往了）*/
+    markAsked(iv);   /* 等出發的這段時間不再跳「直接過去」（同一筆已經在前往了）*/
     const pos=GM.E&&GM.E.player&&GM.E.player.obj?GM.E.player.obj.position:null, mins=GM.placeMins?GM.placeMins([t.zone,t.name,t.spawn]):(typeof CLS!=='undefined'&&CLS.travelMinutes?CLS.travelMinutes(G,G.zone,t.zone,pos,t.spawn):15);
     const T=S.goTimes(G,iv,mins,GM.openAt?h=>GM.openAt(t.zone,h):null);
     if(T&&T.leave>(G.hour%24)+0.05&&typeof CLS!=='undefined'&&CLS.skipTo){ const ok=await CLS.skipTo(GM,T.leave,{why:'等到該出發去赴約'}); if(!ok||(G.hour%24)<T.leave-0.02||!S.canGo(G,iv)) return false; }   /* 中途停下來（課、劇情、約取消）＝停在那裡，之後再按一次 */
     await GM.quickGo([t.zone,t.name,t.spawn],{force:true,arriveOpen:true}); return G.zone===t.zone; };
   S.goPrompt=async function(GM){ const G=GM&&GM.G; if(goBusy||!G||!GM.choose) return false; const iv=S.goDue(G); if(!iv) return false;
     if((GM.E&&GM.E.player&&GM.E.player.busy)||(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G))) return false;   /* 該出發的出遊先問（同一輪 OUT.tick 接著跑，不能兩個選單一起開）*/
-    iv.goAsked=1; goBusy=true; const t=S.goTarget(G,iv); let k=1;
+    markAsked(iv); goBusy=true; const t=S.goTarget(G,iv); let k=1;
     try{ GM.sceneBegin(); try{ k=await GM.choose([{t:'直接過去：和'+nameOf(iv.who)+'約在'+(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(t.name):t.name)+'（'+hh(iv.h)+'）',hint:'照快速前往的路程時間'},{t:'自己走過去'}],{menu:true}); } finally { GM.sceneEnd(); }
       if(k===0) await S.goNow(GM,iv); return k===0; } finally { goBusy=false; } };
   /* 約好的事：時間到了、兩個人都在約定的地方＝直接開始，不用一起走過去、不用先找她說話（使用者 10-21 23:2x：「有約好任何事情 改成只要兩個都在場 就不用一起走或說話才能開始」）。

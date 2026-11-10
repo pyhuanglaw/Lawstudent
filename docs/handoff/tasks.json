@@ -51017,7 +51017,7 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "sha": "39b316018",
    "test": null
   },
   {
@@ -51160,7 +51160,7 @@
    "id": "BUG-INV-GOASK-PERSIST-1110",
    "title": "讀檔後約好的見面變 missed：goAsked 跟著存檔，讀回來「直接過去」不再提醒",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -51172,7 +51172,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:2x BB-B】CC PC SOCX_edae_study_h1_iv：invites3d.js:463 S.goPrompt 跳選單前就設 iv.goAsked=1，goAsked 存在 G.invites、讀檔 LOADLOCKS 只放 goBusy；提醒跳出時存檔（或自動存檔）讀回來就不再提醒、站著等到錯過。改法（LAWWW 決定）：讀檔時把還沒到期、在提醒時間範圍內的那筆 goAsked 清掉，或 goAsked 不存進存檔。改好給 BB SHA，CC 用同一個存檔重測。 ｜ BB-B 交接檔【表外】已補（LAWWW-B 11-10）；測試 owner BB。",
+   "next": "【11-10 03:0x LAWWW-B】invites3d.js：goAsked 改成不能列舉的屬性（markAsked；JSON 存檔不帶），S.asked 只認這一種——舊存檔裡帶著的當作沒問過。tests/inv_goask_persist_unit.js 修改前 FAIL 3 項；碰到 INV／存檔的 429 支 ALL PASS。CC 原本那份存檔（SOCX_edae_study_h1_iv）要用新 SHA 重測：BB、CC 不在，LAWWW 排電腦佇列代判。｜【11-10 01:2x BB-B】CC PC SOCX_edae_study_h1_iv：invites3d.js:463 S.goPrompt 跳選單前就設 iv.goAsked=1，goAsked 存在 G.invites、讀檔 LOADLOCKS 只放 goBusy；提醒跳出時存檔（或自動存檔）讀回來就不再提醒、站著等到錯過。改法（LAWWW 決定）：讀檔時把還沒到期、在提醒時間範圍內的那筆 goAsked 清掉，或 goAsked 不存進存檔。改好給 BB SHA，CC 用同一個存檔重測。 ｜ BB-B 交接檔【表外】已補（LAWWW-B 11-10）；測試 owner BB。",
    "xai": {
     "spec": "使用者 11-10 00:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
