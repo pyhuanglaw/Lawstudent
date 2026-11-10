@@ -364,6 +364,12 @@
     "match": "【表外】（交給值班 LAWWW 補進總表）",
     "task": "HANDOFF-B-1101",
     "why": "標題行；底下兩件已補成 LAKE-LAMPS-STAGGER-1101、ZQ-C504-LAPTOP-1101（LAWWW-B 11-01）"
+   },
+   {
+    "role": "BB",
+    "match": "BUG-LIB-DOOR-LABEL-1110",
+    "task": "BUG-LIB-DOOR-LABEL-1110",
+    "why": "BB 11-10 20:56 表外，LAWWW 補成任務"
    }
   ],
   "timeNote1023": "LAWWW-B 10-23 17:2x～18:0x 的紀錄（tasks notes、USER_WANTS、BB 清單、commit 訊息、給其他 AI 的訊息）裡寫的「19:0x～21:1x」是時間標錯：實際都在 17:2x～18:0x UTC 之間（18:05 核對 date -u）。內容照舊有效。"
@@ -52944,6 +52950,25 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BUG-LIB-DOOR-LABEL-1110",
+   "title": "早上 07:12 站在總圖門口 (84.5,0)，互動鍵顯示「互動」不是「進入總圖書館」，閉館訊息出不來（guide_flow 那一項 FAIL；已加 [診斷]）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "總圖門口（開館前）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "看 guide_flow 的 [診斷] 輸出（是哪個互動點搶了）再修"
   }
  ]
 }
