@@ -214,3 +214,7 @@ WZDAY_ct_tea_1400 | 8be828ca6427c544da0ec942209828066564adba | probe | docs/stor
 WZDAY_ct_tea_1930 | 8be828ca6427c544da0ec942209828066564adba | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=wz_teahouse;HOUR=19.5;SETTLE=30;SECS=20;CPU_THROTTLE=4
 USAPT204b_old | 07ce887a13d3aa3b743567b857dfd7b22e44a5b8 | probe | docs/story_planning/test_tools/cc/cc_usapt_probe.py | index.html | 15 | SOLO=1;TAG=oldb;HOURS=14;VIEWS=bathdoor:4.2:1.4:0:6,bathdoor_l:4.2:1.4:0.5:6,bathdoor_r:4.2:1.4:-0.5:6
 USAPT204b_new | c8af31018a9ce570422ad748aa277af842f8db37 | probe | docs/story_planning/test_tools/cc/cc_usapt_probe.py | index.html | 15 | SOLO=1;TAG=newb;HOURS=14;VIEWS=bathdoor:4.2:1.4:0:6,bathdoor_l:4.2:1.4:0.5:6,bathdoor_r:4.2:1.4:-0.5:6
+# X254 補拍（BB 11:48，BB_255）：同一版 9d4c54c16；探針 r2：OWN_ALL（專屬照片也拍 21 時＋門外，打烊照實 INFO）、鏡頭左右夾在同一面牆的玻璃範圍（2:30 AM 東窗）、MAXD（好拍白天鏡頭往窗移）
+WINVIEW_own2 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 60 | SHOPS=own;HOURS=14,21;OWN_ALL=1
+WINVIEW_haopai2 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=haopai;HOURS=14;MAXD_haopai=1.6
+WINVIEW_tea21 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tea;HOURS=21

@@ -15,6 +15,7 @@
   只 check：進得了那個區域、窗景卡找得到、截圖有存；美術像不像 BB 判（不判 PASS／FAIL）。21:00 店關了：讀檔放得進去就照拍，放不進去寫 INFO。
   輸出：<out>/winview_audit.json（每間：zone、窗的位置朝向、窗景卡網格名／貼圖網址、店內站位、街上站位、截圖檔名）＋截圖 wv_<key>_*.png；拼圖用 cc_winview_montage.py（雲端，PIL）。
   Windows＋GPU／SwiftShader ≠ iPhone。
+r2（BB 11:48）：OWN_ALL=1（own 也拍全部時段＋門外）；MAXD_<key>＝鏡頭離窗最多幾公尺；鏡頭左右夾在同一面牆的玻璃範圍內（2:30 AM 東窗只拍到牆）。
 用法：LW_TESTS=<wt>/tests [SHOPS=gen5,xs_shanlan,...] [HOURS=14,21] [DAY=2025-10-18] [MAXCARDS=2] [STREET_OWN=0] [WAIT=9000] [LENS=18] python3 cc_winview_audit_probe.py <url> <out>"""
 import os, sys, json, math, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -32,6 +33,8 @@ DAY = os.environ.get('DAY') or '2025-10-18'
 HOURS = [float(h) for h in (os.environ.get('HOURS') or '14,21').split(',') if h.strip()]
 MAXCARDS = int(os.environ.get('MAXCARDS') or 2)
 STREET_OWN = os.environ.get('STREET_OWN', '0') == '1'
+OWN_ALL = os.environ.get('OWN_ALL', '0') == '1'   # r2（BB 11:48）：own 也拍 HOURS 全部＋門外街景（打烊放不進去照舊寫 INFO）
+if OWN_ALL: STREET_OWN = True
 WAIT = int(os.environ.get('WAIT') or 9000)
 LENS = float(os.environ.get('LENS') or 18)   # 店裡往窗外的鏡頭：18＝水平 90°（和窗景照片同一個視角；11-10 試跑 22 太窄、只看到窗台）
 STREETS = ('gongguan', 'wenzhou', 'xinsheng', 'lane118', 'campus')
@@ -241,15 +244,27 @@ async def do_shop(pg, cdp, key, zone, name, group):
         if not v['virtual']:
             dp = (c['c'][0] - eye_xz[0]) * out[0] + (c['c'][2] - eye_xz[1]) * out[1]
             if dp < 1.2: eye_xz = [eye_xz[0] - out[0] * (1.2 - dp), eye_xz[1] - out[1] * (1.2 - dp)]   # 離玻璃至少 1.2 m（太近只看到窗框、斜著擦過玻璃）
+        if not v['virtual']:
+            mxd = os.environ.get('MAXD_%s' % key)   # r2（BB 11:48 好拍白天鏡頭朝店裡）：鏡頭離卡最多幾公尺
+            dp = (c['c'][0] - eye_xz[0]) * out[0] + (c['c'][2] - eye_xz[1]) * out[1]
+            if mxd and dp > float(mxd): eye_xz = [eye_xz[0] + out[0] * (dp - float(mxd)), eye_xz[1] + out[1] * (dp - float(mxd))]; R.note('%s MAXD_%s=%s：鏡頭往窗移 %.2f m' % (vt, key, mxd, dp - float(mxd)))
+            # r2（BB 11:48 2:30 AM 東窗只拍到牆）：同一面牆的玻璃（平面差 <3 m、同一軸）左右範圍；鏡頭左右在範圍外就夾進去（留 0.4 m）
+            gl = [g for g in cards if g['kind'] == 'glass' and g['vis'] and g['lv'] == c['lv'] and card_axis(g) == ax and abs(g['c'][ax] - c['c'][ax]) < 3 and min(g['size'][0], g['size'][2]) < 0.3 and g['size'][lat_ax] > 0.8]
+            if gl:
+                lo = min(g['c'][lat_ax] - g['size'][lat_ax] / 2 for g in gl) + 0.4; hi = max(g['c'][lat_ax] + g['size'][lat_ax] / 2 for g in gl) - 0.4
+                li = 0 if lat_ax == 0 else 1; e0 = eye_xz[li]
+                if hi > lo and not (lo <= e0 <= hi):
+                    eye_xz[li] = min(max(e0, lo), hi); R.note('%s 鏡頭左右 %.2f 在同一面牆的玻璃範圍 [%.2f, %.2f] 外：夾到 %.2f' % (vt, e0, lo, hi, eye_xz[li]))
         eye = [round(eye_xz[0], 3), round(fy + eyeh, 3), round(eye_xz[1], 3)]
         look = [c['c'][0], round(fy + eyeh - 0.05, 3), c['c'][2]]
+        if not v['virtual'] and gl and c['size'][lat_ax] <= 3: look[lat_ax] = eye[lat_ax]   # 窄的卡：照鏡頭左右正對
         if not v['virtual'] and c['size'][lat_ax] > 3:   # 寬的窗（放大的視差窗、整面玻璃）：正對著看（看的點＝鏡頭在窗面上的投影，左右夾在窗的範圍內 0.5 m）
             half = c['size'][lat_ax] / 2 - 0.5; e_lat = eye[lat_ax]; look[lat_ax] = round(min(max(e_lat, c['c'][lat_ax] - half), c['c'][lat_ax] + half), 3)
         if abs(look[0] - eye[0]) < 0.05 and abs(look[2] - eye[2]) < 0.05: look = [eye[0] + out[0] * 3, look[1], eye[2] + out[1] * 3]
         R.note('%s 窗往外 %s（%s）；店內站位：%s；人放在 %s（第 %d 層）；鏡頭 eye %s → look %s' % (vt, J(out), '+x 東' if out == [1.0, 0.0] else '-x 西' if out == [-1.0, 0.0] else '+z' if out == [0.0, 1.0] else '-z' if out == [0.0, -1.0] else '', where, J(put), c['lv'], J(eye), J(look)))
         vrec = {'card': c['name'], 'kind': c['kind'], 'url': c.get('url'), 'center': c['c'], 'size': c['size'], 'lv': c['lv'], 'out': out, 'virtual': v['virtual'],
                 'dedicated': dedicated(c), 'inside': {'where': where, 'player': put, 'eye': eye, 'look': look}, 'shots': {}}
-        hrs = HOURS[:1] if group == 'own' else HOURS
+        hrs = HOURS[:1] if (group == 'own' and not OWN_ALL) else HOURS
         for h in hrs:
             tn = 'day' if 6 <= h < 18.8 else 'night'
             R.setup('%s %05.2f 讀檔把人放到 %s（第 %d 層）' % (vt, h, J(put), c['lv']))

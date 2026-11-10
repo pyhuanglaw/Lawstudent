@@ -413,6 +413,8 @@ async def case_fair(pg, cdp):
     ok, u, fb = await walk_to_spot(pg, cdp, t, sp[0], sp[1], sp[2])
     NEAR = "(()=>{ const P=GAME.E.player.obj.position; return GAME.E.interactables.filter(i=>!i.hidden&&Math.hypot(i.x-P.x,i.z-P.z)<3).map(i=>({label:i.label,d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2),r:i.radius||null,bike:!!i.bike})); })()"
     R.note('%s 走到以後：車 %s；玩家 3 m 內的互動點（距離）%s' % (t, J(await pg.evaluate(BK)), J(await pg.evaluate(NEAR))))
+    PK = "(()=>{ const b=GAME.E.interactables.find(i=>i.bike&&!i.hidden); if(!b) return null; return {bike:[+b.x.toFixed(2),+b.z.toFixed(2)], within2m:GAME.E.interactables.filter(i=>i!==b&&!i.hidden&&Math.hypot(i.x-b.x,i.z-b.z)<=2).map(i=>({label:i.label,d:+Math.hypot(i.x-b.x,i.z-b.z).toFixed(2)}))}; })()"
+    R.note('%s 停著的車（騎腳踏車互動點）和它 2 m 內的其他互動點（BB 11:46：店門、攤位都算）：%s' % (t, J(await pg.evaluate(PK))))
     await shot(pg, 'fair_1_front')
     R.check('%s 真的走到晨思鐘旁（沒有被放到目的地）' % t, ok and not fb, J({'x': u['x'], 'z': u['z'], 'fb': fb}))
     if not R.check('%s 互動鍵是「校慶園遊會」' % t, u['interact'].startswith('校慶園遊會'), J(u['interact'])): return
