@@ -5,7 +5,8 @@
 //   2. 大看板裡語言補習／留學這一類最多一家
 //   3. 每一張看板的店名都不一樣（不重複出現同一家）
 //   4. gg_backdrop.py 挑大看板經過 _bb()：相鄰的樓不掛同一張
-// 修改前（開發分支）：第 1、4 項 FAIL（「明日文理補習班」「公職補習」、燈箱「補習」；直接 randrange(8)）。用法：node tests/avenue_far_signs_unit.js
+//   5. _bb() 照固定順序輪流（8 張平均出現，不靠亂數）
+// 修改前（開發分支）：第 1、2、4、5 項 FAIL（「明日文理補習班」「公職補習」、燈箱「補習」；直接 randrange(8)）。用法：node tests/avenue_far_signs_unit.js
 const fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const TX = fs.readFileSync(path.join(ROOT, 'tools/blender/env_second/gg_textures.py'), 'utf8');
@@ -28,4 +29,6 @@ const names = bb.map(t => t[0]);
 check('3. 大看板的店名都不一樣', new Set(names).size === names.length, names.join('、'));
 const calls = [...BD.matchAll(/'bb%d' % ([^)]*\))\)?/g)].map(m => m[1]);
 check('4. 挑大看板都經過 _bb()（相鄰的樓不掛同一張）', calls.length >= 2 && calls.every(c => /^_bb\(/.test(c)) && /def _bb\(k\)/.test(BD), calls.join(' ／ '));
+const om = BD.match(/_BB_ORDER = \(([^)]*)\)/), ord = om ? om[1].split(',').map(x => +x) : [];
+check('5. 輪流的順序 8 張各一次、相鄰不同（不靠亂數，避免同一張一直出現）', ord.length === 8 && new Set(ord).size === 8 && ord.every((v, i) => v !== ord[(i + 1) % 8]) && /_BB_ORDER\[n % 8\]/.test(BD), ord.join(','));
 console.log(fails ? `FAILED ${fails}` : 'ALL PASS'); process.exit(fails ? 1 : 0);

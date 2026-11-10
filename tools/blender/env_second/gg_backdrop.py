@@ -23,11 +23,12 @@ OUT = os.path.join(L.ROOT, ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else
 NMIN, SMAX = (-230.0, 230.0) if ZONE else (-142.0, 152.0)
 CORE = (-88.0, 77.6)   # 公館區域自己蓋的：轉角公寓（−88～−74）、巷子、15 棟店面（−68～77.6）——公館區域的遠景不重複蓋
 GEN = TXS.GEN; PI = math.pi
-_BB_LAST = [-1]
+_BB_N = [0]
+_BB_ORDER = (0, 3, 6, 1, 4, 7, 2, 5)   # 8 張輪流：相鄰的兩棟一定不同，8 棟裡每張各一次
 def _bb(k):
-    """大看板挑第幾張：照舊呼叫一次 randrange(8)（其他亂數、樓的長相都不變），只是和上一張一樣時換下一張——相鄰的樓不會掛同一張（AVENUE-FAR-SIGNS-1110）"""
-    if k == _BB_LAST[0]: k = (k + 1) % 8
-    _BB_LAST[0] = k; return k
+    """大看板挑第幾張（AVENUE-FAR-SIGNS-1110）：照舊呼叫一次 randrange(8)（其他亂數、樓的長相都不變），但不用它的結果——
+    原本亂數挑到第 0 格的機會特別多（第一版改名以後「穗豐銀行」在同一個畫面出現三次），改成照 _BB_ORDER 輪流"""
+    n = _BB_N[0]; _BB_N[0] += 1; return _BB_ORDER[n % 8]
 GH, FH = 4.2, 3.1                  # 一樓（騎樓）高、樓層高
 X1F, D1 = -189.0, 16.0             # 第一排：立面在 x −189、朝 +x（校園）、往西 16 m
 X2F, D2 = -212.0, 18.0             # 第二排（高樓）
