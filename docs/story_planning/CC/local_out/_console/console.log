@@ -633,3 +633,18 @@
 [06:35:54] ==== START BLENDER_PING  (blender @ b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91) ====
 [06:35:57] [res] cpu=1% mem=32% (10.3/31.4 GB) chrome_testing=0  START BLENDER_PING
 [06:36:47] [res] cpu=13% mem=34% (10.9/31.4 GB) chrome_testing=0  END BLENDER_PING
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6a3d88ce3..3d3371a5b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:36:52] ==== END   BLENDER_PING  exit=0  52s   ====
+[06:37:00] memory 35% before starting MT4_oo_r4 (0 running)
+[06:37:00] memory 35% before starting MT4_nofb_r4 (1 running)
+[06:37:00] ==== START MT4_oo_r4  (probe @ b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91) ====
+[06:37:00] memory 35% before starting SHIFT_IMM_r7_new (2 running)
+[06:37:00] ==== START MT4_nofb_r4  (probe @ b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91) ====
+[06:37:00] ==== START SHIFT_IMM_r7_new  (probe @ 01bab1823003df827be3d76bc7d2c13ef034dacb) ====
+[06:37:04] [res] cpu=5% mem=32% (11.0/31.4 GB) chrome_testing=0  START SHIFT_IMM_r7_new
+[06:37:04] [res] cpu=5% mem=32% (11.0/31.4 GB) chrome_testing=0  START MT4_nofb_r4
+[06:37:04] [res] cpu=5% mem=32% (11.0/31.4 GB) chrome_testing=0  START MT4_oo_r4
+[06:38:58] 正在跑：MT4_oo_r4（已跑 1 分／上限 15 分）、MT4_nofb_r4（已跑 1 分／上限 15 分）、SHIFT_IMM_r7_new（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:39:18] [res] cpu=25% mem=47% (14.8/31.4 GB) chrome_testing=10  END SHIFT_IMM_r7_new

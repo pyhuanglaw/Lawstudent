@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shift_treat_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHIFT_IMM_r7_new\out
+CC SHIFT-TREAT：worktree ?；TAG imm7_new；CASES ['F']；Playwright ≠ iPhone
+PASS 找到 day54 存檔  tests/fixtures/user_save_day54_1110.json
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 找得到語彤在一盞打工的日子（週六 14:00）
+  [  40.6s] 日子：{"d": 61, "wd": 0, "key": "2025-11-16"}
+  [  40.6s] 芷若在吧檯的日子：{"d": 55, "wd": 1, "key": "2025-11-10"}
+  [前置／捷徑] 【前置／捷徑】day54 存檔 → 2025-11-10 20.0 溫州街；芷若朋友（熟悉 45 信任 30＋SHIFTT nf 2、friend.treat idx 2＝T3 輪到）
+PASS [IMM F] 溫州街有進 cafe 的入口  [{"label": "往新生南路", "x": -33.4, "z": -28.4, "r": 2.2, "lv": 0, "hidden": false, "to": "xinsheng", "shop": null, "kind": null}, {"label": "進去日常失速", "x": -36.5, "z": -9.6, "r": 1.2, "lv": 0, "hidden": false, "to": "wz_offbeat", "shop": null, "kind": null}, {"label": "進入 2:30 AM", "x": 54.2, "z": 0, "r": 2.3, "lv": 0, "hidden": false, "to": "cafe", "shop": null, "kind": null}, {"label": "上二樓（木曜日）", "
+  [  80.9s] 到達「[IMM F] 走到「進入 2:30 AM」」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [IMM F] 走到門口、按鈕「進入 2:30 AM」  {"zone": "wenzhou", "x": 54, "z": -0.02, "ry": 1.47, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "進入 2:30 AM", "hour": 20.12, "stand": true, "camYaw": 4.614, "fallbacks": 0, "y": 0, "lv": 0, "frame": 831, "paused": false}
+  [前置／捷徑] [IMM F]【捷徑】進店第一個畫面：玩家放到「坐在窗邊的雙人桌」(4.5,-1.7) 直接按（GAME.doInteract）；按之前 SHIFTT.pending＝pending@4113ms
+  [ 101.2s] [IMM F] 結果 {"delta": 0, "picked": [], "pend": "pending@4113ms", "seat": false, "dtexts": ["（小聲）明天要", "（小聲）明天要交的，我現在才開始寫。"]}；GAME.say [["路人", "（小聲）明天要交的，我現在才開始寫。"]]
+PASS [IMM F] 前置：按坐下那一刻還沒等滿兩秒（SHIFTT.pending 還在）  {"delta": 0, "picked": [], "pend": "pending@4113ms", "seat": false, "dtexts": ["（小聲）明天要", "（小聲）明天要交的，我現在才開始寫。"]}
+FAIL [IMM F] 馬上坐下：先演芷若那一場（有「熱可可」；GAME.say 或畫面上的對話框）  {"said": [["路人", "（小聲）明天要交的，我現在才開始寫。"]], "dtexts": ["（小聲）明天要", "（小聲）明天要交的，我現在才開始寫。"]}
+FAIL [IMM F] 記下今天在 Café 點的下一樣免費  {"p": {"heroine_02": {"day": 45, "n": 5, "nf": 2, "tn": 0, "idx": {"friend.treat": 2, "friend.happy": 0}}}, "free": null}
+PASS 沒有 JS 例外  []
+FAILED 2: [IMM F] 馬上坐下：先演芷若那一場（有「熱可可」；GAME.say 或畫面上的對話框）；[IMM F] 記下今天在 Café 點的下一樣免費
