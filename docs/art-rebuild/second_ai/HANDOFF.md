@@ -1,5 +1,18 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+
+## 交接（最新｜帳號 A｜2026-11-10 20:5x UTC）
+- **正在做：汀州路商圈（TINGZHOU-AREA-1110，X321／X322）**。第 1 版已交、LAWWW 已套（開發分支 7a625da3c）；CC 在拍遊戲截圖（14:00、18:30、20:30；機位在我 20:4x 給 LAWWW 的訊息、wip/tingzhou_1110/README）。
+  - 依據全在 `docs/art-rebuild/second_ai/ref/tingzhou_1110/`（USER_INSTRUCTION_1110.md 四則原文、concept/ 七張使用者的概念圖、REF_ANALYSIS.md）。交件 `wip/tingzhou_1110/`。
+  - **等使用者決定**：五間概念圖店面前面要不要騎樓（現在有 3 m 騎樓；概念圖是直接臨人行道；可以混合）。其他 21 間店面只寫種類、店名等使用者定（她說「店面新增由我決定」，AA_744 的店名取消）。
+  - 第 2 版要做（README「先將就的」9 點）：樓上加密（鐵窗、冷氣、盆栽、管線）、泰米村食／洗樂洗衣坊／印得好外觀照 `docs/handoff/user_specs/GG_SHOPS3_1110.md` 第三節（開發分支）、泰米村食室內（AA_743，10×9、18～20 座，最急）、夜市攤模組（`STALL_<種類>_open／_closed`，位置寫 layout 的 stalls；AA_744 第 2 節品項；時間切換和看／買 LAWWW 接）、街兩頭遠景、公館 G10 巷口模型、柱子導航對 GLB 的測試。會動的車這一版不做。
+  - 建置：`bash tools/blender/setup_env.sh`；`textures/gen` 用這個分支的；缺的 Poly Haven 貼圖 `lib2.fetch`；`TZ_CONCEPT=<概念圖資料夾> tz_fronts_tex.py` → `wz_street.py -- --set tingzhou`。預覽 `tingzhou_preview.py`（雲端一張 1.5～4 分鐘；`TZ_SCOOTER_SKIP=1.1` 不放機車——預覽的機車是整個檔複製、全白，使用者看了問過，不是遊戲的樣子）。
+  - 踩到的：景深卡最深 0.8 m（樓房後牆在玻璃後 0.85 m）；src 不能出現「自助洗衣」（aa655 測試）；新的模組層旗標要登記 LOADLOCKS。
+- **SIGN-RECTIFY-1110（X323）做完**：十七塊斜招牌照參考圖重新量四角拉正，三顆 GLB 只換嵌入的圖集（`glb_replace_image.py`；`wip/sign_rectify_1110/`）。BB 已判 FIXED 12 塊；大口漢堡第二版等 CC 重拍。**還欠：同弦樂器招牌被二樓鐵窗、冷氣擋住（BB P2）**——要重建 `xinsheng_street.glb`（XS_FRONTS tongxian 那一段鐵窗開口、冷氣移開）；重建前先把 `textures/gen/xs_fronts_atlas.jpg` 換成拉正＋大口 v2 的版本（現在 gen 裡的是第一輪拉正的，大口還是拉寬的）。
+- **排著的**：GG-SHOPS3-ART-1110 公館三間（安泰藥局、汀州鮮果、榮恩典文具社）外觀＋室內；POOL-SWIM-LOOK-1110 泳池水面（P3）；LIFE-DETAILS-SEASONAL-1110（X317：使用者決定 20 項全做、含萬聖節、攤販能看能買；AA_747 有攤販品項；提案 `proposals/life_details_seasonal_1110.md`）；MOVIE-POSTER-POS-1110（v9.10.24 已上線，等 CC 截圖）；使用者說要給晨露花舖參考圖（LAWWW 轉）。
+- 已完成、已上線或已套：US-LONG-3D-1110（v9.10.24，LAWWW ART_APPROVED）、泳客、會所、教室、夜景、巷口告示牌、規則整合（四個舊規則檔已刪）。
+- 這一班的使用者原話都在 `docs/handoff/user_asks_LAWWW2.json`（UA-LAWWW2-1110-01～07）。
+
 > **規則只放一處（RULES-CONSOLIDATE-1110，LAWWW 11-10 19:12）**：共同規則＝開發分支的 `CLAUDE.md`；LAWWW2 的職位規則＝`docs/rules/ROLE_LAWWW2.md`（原本的 WORK_RULES、ART_SOP、SCENE_RULES、RULES_2D_TO_3D、ART_DIRECTION §12 都併進去，節號保留）。這個分支上那四個檔 11-10 刪掉了；新方法、工具表、踩到的坑要改規則，把文字交給 LAWWW 改 ROLE_LAWWW2，不在這裡另外寫規則。
 
 
