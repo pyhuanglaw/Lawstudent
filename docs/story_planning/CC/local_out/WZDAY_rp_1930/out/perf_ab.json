@@ -1,0 +1,484 @@
+[
+ {
+  "zone": "wz_mokuyobi",
+  "floor": "1f",
+  "info": {
+   "zone": "wz_mokuyobi",
+   "lv": 0,
+   "pos": [
+    -3.75,
+    5.4
+   ],
+   "yaw": 6.28,
+   "hour": 19.59,
+   "weather": "sunny",
+   "q": "medium",
+   "dpr": 1,
+   "pr": 1,
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "out": {
+   "zone": "wz_mokuyobi",
+   "sec": 30,
+   "frames": 1576,
+   "fps": 52.5,
+   "npc": 11,
+   "frustumCulledSkinned": [],
+   "computeBoundingSphere": [
+    {
+     "name": "Facebaked",
+     "path": "Facebaked < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.6,
+     "verts": 110,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_5",
+     "path": "Facebaked_5 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.7,
+     "verts": 160,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_6",
+     "path": "Facebaked_6 < Face < Group < vrmWrap < human < Scene",
+     "ms": 1,
+     "verts": 266,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_7",
+     "path": "Facebaked_7 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.2,
+     "verts": 50,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_2",
+     "path": "Facebaked_2 < Face < Group < vrmWrap < human < Scene",
+     "ms": 1,
+     "verts": 274,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_3",
+     "path": "Facebaked_3 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.5,
+     "verts": 168,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_4",
+     "path": "Facebaked_4 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.5,
+     "verts": 110,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_7",
+     "path": "Facebaked_7 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.2,
+     "verts": 50,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked",
+     "path": "Facebaked < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.4,
+     "verts": 110,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_5",
+     "path": "Facebaked_5 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.5,
+     "verts": 160,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_6",
+     "path": "Facebaked_6 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.4,
+     "verts": 266,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_7",
+     "path": "Facebaked_7 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0,
+     "verts": 50,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_2",
+     "path": "Facebaked_2 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.7,
+     "verts": 274,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_3",
+     "path": "Facebaked_3 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.4,
+     "verts": 168,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_4",
+     "path": "Facebaked_4 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.3,
+     "verts": 110,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_7",
+     "path": "Facebaked_7 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.1,
+     "verts": 50,
+     "frustumCulled": false
+    }
+   ],
+   "programReasonsPerSec": [
+    {
+     "name": "mok_walnut",
+     "draws": 367.4,
+     "version": 314.9,
+     "programChanged": 314.9
+    },
+    {
+     "name": "mok_glass",
+     "draws": 105,
+     "version": 105,
+     "programChanged": 105
+    },
+    {
+     "name": "mks_street_view",
+     "draws": 105,
+     "version": 105,
+     "programChanged": 105
+    },
+    {
+     "name": "mok_window_view",
+     "draws": 105,
+     "version": 105,
+     "programChanged": 105
+    },
+    {
+     "name": "(no name)",
+     "draws": 743.2,
+     "skinning": 1,
+     "morphTargets": 1,
+     "morphTargetsCount": 1,
+     "programChanged": 1
+    },
+    {
+     "name": "npc_far",
+     "draws": 596,
+     "version": 0.1
+    },
+    {
+     "name": "M00_000_00_FaceMouth_00_FACE",
+     "draws": 67.1,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_EyeWhite_00_EYE",
+     "draws": 67.1,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_Face_00_SKIN",
+     "draws": 67.1,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_Face_00_SKIN (Outline)",
+     "draws": 67.1,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_001_01_Body_00_SKIN",
+     "draws": 67.1,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_001_01_Body_00_SKIN (Outline)",
+     "draws": 67.1,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_FaceBrow_00_FACE",
+     "draws": 67.1,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_FaceEyeline_00_FACE",
+     "draws": 67.1,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_FaceEyelash_00_FACE",
+     "draws": 67.1,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "H01_Iris_EYE",
+     "draws": 19.4,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1,
+     "version": 0
+    },
+    {
+     "name": "NM3_Trouser_CLOTH",
+     "draws": 9.9,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM3_Knit_CLOTH",
+     "draws": 9.9,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM3_Loafer_CLOTH",
+     "draws": 9.9,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM3_Trouser_CLOTH (Outline)",
+     "draws": 9.9,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM3_Knit_CLOTH (Outline)",
+     "draws": 9.9,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM3_Loafer_CLOTH (Outline)",
+     "draws": 9.9,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM3_HairCard_HAIR",
+     "draws": 9.9,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM4_Trouser_CLOTH",
+     "draws": 4.8,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM4_Knit_CLOTH",
+     "draws": 4.8,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM4_Loafer_CLOTH",
+     "draws": 4.8,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM4_Trouser_CLOTH (Outline)",
+     "draws": 4.8,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM4_Knit_CLOTH (Outline)",
+     "draws": 4.8,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NM4_Loafer_CLOTH (Outline)",
+     "draws": 4.8,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF5_Trouser_CLOTH",
+     "draws": 4.8,
+     "version": 0
+    }
+   ]
+  }
+ },
+ {
+  "zone": "wz_teahouse",
+  "floor": "1f",
+  "info": {
+   "zone": "wz_teahouse",
+   "lv": 0,
+   "pos": [
+    -3,
+    9
+   ],
+   "yaw": 6.28,
+   "hour": 19.6,
+   "weather": "sunny",
+   "q": "medium",
+   "dpr": 1,
+   "pr": 1,
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "out": {
+   "zone": "wz_teahouse",
+   "sec": 30,
+   "frames": 1714,
+   "fps": 57.1,
+   "npc": 3,
+   "frustumCulledSkinned": [],
+   "computeBoundingSphere": [],
+   "programReasonsPerSec": [
+    {
+     "name": "yzn_print",
+     "draws": 285.6,
+     "version": 228.5,
+     "programChanged": 228.5
+    },
+    {
+     "name": "yzn_vc",
+     "draws": 171.4,
+     "version": 114.2,
+     "programChanged": 114.2
+    },
+    {
+     "name": "yzn_glass",
+     "draws": 114.2,
+     "version": 114.2,
+     "programChanged": 114.2
+    },
+    {
+     "name": "(no name)",
+     "draws": 519.6,
+     "skinning": 1,
+     "morphTargets": 1,
+     "morphTargetsCount": 1,
+     "programChanged": 1
+    },
+    {
+     "name": "NF4_Trouser_CLOTH",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF4_Knit_CLOTH",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF4_Loafer_CLOTH",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF4_Trouser_CLOTH (Outline)",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF4_Knit_CLOTH (Outline)",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF4_Loafer_CLOTH (Outline)",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "F00_000_00_FaceMouth_00_FACE",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "F00_000_00_EyeWhite_00_EYE",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "F00_000_00_Face_00_SKIN",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "F00_000_00_Face_00_SKIN (Outline)",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "F00_002_02_Body_00_SKIN",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "F00_002_02_Body_00_SKIN (Outline)",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "H01_Iris_EYE",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF4_HairCard_HAIR",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "F00_000_00_FaceEyeline_00_FACE",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "F00_000_00_FaceBrow_00_FACE",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "F00_000_00_FaceEyelash_00_FACE",
+     "draws": 0.1,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    }
+   ]
+  }
+ }
+]
