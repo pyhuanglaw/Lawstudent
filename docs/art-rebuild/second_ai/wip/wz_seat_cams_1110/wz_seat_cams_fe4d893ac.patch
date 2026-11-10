@@ -1,0 +1,99 @@
+diff --git a/src/data/komichi_layout.js b/src/data/komichi_layout.js
+index e6073e4a3..8e907e9dc 100644
+--- a/src/data/komichi_layout.js
++++ b/src/data/komichi_layout.js
+@@ -13,7 +13,9 @@ const KOMICHI_LAYOUT = {
+   note: '約 8×8 m 的昭和懷舊居酒屋（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張綠色皮面高腳凳），吧台後面是開放廚房：炭烤台、排油煙罩、整面酒瓶層架；吧台上方橫樑掛木札、上面一排清酒瓶、吊杯架。窗邊兩個隔板四人座，西牆綠色皮卡座，中間一張四人桌。黃銅吊燈、壁燈、懷舊電影海報、舊照片。',
+   front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, -3.1], [-0.6, 3.4]], sill: 0.85, head: 2.3, views: [[-3.7, 3.7]], view: 'wz_teishoku', viewDepth: 10, viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '照舊（LAWWW2 11-04 04:47）'},
+   spawn: {x: -2.0, z: 3.05, yaw: Math.PI},
+-  seeThru: [],
++  seeThru: ['kmc_vc', 'kmc_vc_gloss', 'kmc_vc_metal', 'kmc_walnut_rt', 'kmc_ceiling_wood', 'kmc_print', 'kmc_leaf_pothos', 'kmc_bulb'],
++  camWalls: [[4.0, 0, 0.12, 8], [0, -4.0, 8, 0.12], [-4.0, 0, 0.12, 8]],
++  camNote: 'WZ-SEAT-CAMS-1104（LAWWW2 帳號 A 11-10；BB-C 11-04 BB_255「小路座位鏡頭卡在樑和酒瓶層架之間」）：AA 12ae10d3e 加過一次，v4 配置蓋掉了；這次照 komichi.glb 現在的材質名重加——家具與隔板（kmc_vc）、酒瓶（kmc_vc_gloss）、吊著的鍋具與金屬架（kmc_vc_metal）、樑與層架（kmc_walnut_rt）、天花板木條、吊著的木札菜單與海報（kmc_print）、黃金葛、燈泡網點透空；右、後、左三面牆當鏡頭碰撞（[x, z, 寬, 深]）。tests/wz_seat_cams_1104_unit.js',
+   tagNote: 'tag（LAWWW 11-04 FIXED_COORDS §7-3，店內偶遇照標記挑位子）：corner＝西牆卡座、bar＝吧台凳、door＝離門最近的窗邊座。',
+   seeThruNote: '舊版的 GLOW_wz_teishoku_washi（和紙燈籠）沒有了；新版的吊燈都在吧台上方（y 2.0）和卡座上方，不會擋在鏡頭前面。',
+   exit: {at: {x: -2.0, z: 3.55}, label: '離開小路', to: 'wenzhou', spawn: {x: -4.8, z: -4.1, yaw: 0}},
+diff --git a/src/data/sunnyside_layout.js b/src/data/sunnyside_layout.js
+index 318bd04a9..990efa003 100644
+--- a/src/data/sunnyside_layout.js
++++ b/src/data/sunnyside_layout.js
+@@ -15,7 +15,8 @@ const SUNNYSIDE_LAYOUT = {
+   rightWindow: {z0: -2.4, z1: 4.6, sill: 0.75, head: 2.55, mullions: 13, transom: 2.0, color: '#3f5a3c', note: 'v1d（BB_257 §11①、LAWWW2 11-04 06:58）：轉角店的右牆整面落地窗；z 4.6～5.0 是轉角柱，z −5～−2.4 留牆給廚房'},
+   front: {door: {x: 0.4, w: 1.0}, windows: [[-3.0, -0.3], [1.1, 3.0]], sill: 0.75, head: 2.55, note: '照舊（FIXED_COORDS §3）'},
+   spawn: {x: 0.4, z: 4.0, yaw: Math.PI},
+-  seeThru: ['wzs_pendant', 'wzs_bulb'],
++  seeThru: ['wzs_pendant', 'wzs_bulb', 'sns_vc', 'sns_vc_metal', 'sns_vc_gloss', 'sns_walnut_rt', 'sns_print', 'sns_leaf_pothos'],   /* WZ-SEAT-CAMS-1104（LAWWW2 帳號 A 11-10；BB-C 11-04 BB_255 吧台座位鏡頭被吊架擋）：AA 12ae10d3e 加過 sns_vc_metal，v1e 配置蓋掉了；這次重加，再加家具（sns_vc）、光亮的小東西（sns_vc_gloss）、出餐檯的胡桃木框與層架（sns_walnut_rt）、出餐檯上方的菜單板（sns_print）、吊著的黃金葛（sns_leaf_pothos）；左牆（卡座那一面）、後牆當鏡頭碰撞（右牆是整面落地窗、前面是門窗，照舊淡出）。tests/wz_seat_cams_1104_unit.js */
++  camWalls: [[-3.2, 0, 0.12, 10], [0, -5.0, 6.4, 0.12]],
+   seeThruNote: '吊燈照舊叫 wzs_pendant（燈罩）、wzs_bulb（燈泡）的材質名稱沒有沿用；新版的吊燈是 GLOW_pendant_*，兩盞在中間桌子上方 2.3 m。LAWWW2 拍鏡頭遮擋時再定要不要透空。',
+   exit: {at: {x: 0.4, z: 4.45}, label: '離開 SUNNY SIDE', to: 'wenzhou', spawn: {x: 42.0, z: -4.1, yaw: 0}},
+   enterAt: {x: 42.0, z: -4.6, label: '進去 SUNNY SIDE', note: '照舊（B7 店門）'},
+diff --git a/src/data/wz_shops_layout.js b/src/data/wz_shops_layout.js
+index 0e6cb48f9..3dddb67b1 100644
+--- a/src/data/wz_shops_layout.js
++++ b/src/data/wz_shops_layout.js
+@@ -19,7 +19,8 @@ const WZ_SHOPS_LAYOUT = {
+     rightWindow: {z0: -2.4, z1: 4.6, sill: 0.75, head: 2.55, mullions: 13, transom: 2.0, color: '#3f5a3c', note: 'v1d（BB_257 §11①、LAWWW2 11-04 06:58）：轉角店的右牆整面落地窗；z 4.6～5.0 是轉角柱，z −5～−2.4 留牆給廚房'},
+     front: {door: {x: 0.4, w: 1.0}, windows: [[-3.0, -0.3], [1.1, 3.0]], sill: 0.75, head: 2.55, note: '照舊（FIXED_COORDS §3）'},
+     spawn: {x: 0.4, z: 4.0, yaw: Math.PI},
+-    seeThru: ['wzs_pendant', 'wzs_bulb'],
++    seeThru: ['wzs_pendant', 'wzs_bulb', 'sns_vc', 'sns_vc_metal', 'sns_vc_gloss', 'sns_walnut_rt', 'sns_print', 'sns_leaf_pothos'],   /* WZ-SEAT-CAMS-1104（LAWWW2 帳號 A 11-10；BB-C 11-04 BB_255 吧台座位鏡頭被吊架擋）：AA 12ae10d3e 加過 sns_vc_metal，v1e 配置蓋掉了；這次重加，再加家具（sns_vc）、光亮的小東西（sns_vc_gloss）、出餐檯的胡桃木框與層架（sns_walnut_rt）、出餐檯上方的菜單板（sns_print）、吊著的黃金葛（sns_leaf_pothos）；左牆（卡座那一面）、後牆當鏡頭碰撞（右牆是整面落地窗、前面是門窗，照舊淡出）。tests/wz_seat_cams_1104_unit.js */
++    camWalls: [[-3.2, 0, 0.12, 10], [0, -5.0, 6.4, 0.12]],
+     seeThruNote: '吊燈照舊叫 wzs_pendant（燈罩）、wzs_bulb（燈泡）的材質名稱沒有沿用；新版的吊燈是 GLOW_pendant_*，兩盞在中間桌子上方 2.3 m。LAWWW2 拍鏡頭遮擋時再定要不要透空。',
+     exit: {at: {x: 0.4, z: 4.45}, label: '離開 SUNNY SIDE', to: 'wenzhou', spawn: {x: 42.0, z: -4.1, yaw: 0}},
+     enterAt: {x: 42.0, z: -4.6, label: '進去 SUNNY SIDE', note: '照舊（B7 店門）'},
+@@ -285,7 +286,9 @@ const WZ_SHOPS_LAYOUT = {
+     note: '約 8×8 m 的昭和懷舊居酒屋（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張綠色皮面高腳凳），吧台後面是開放廚房：炭烤台、排油煙罩、整面酒瓶層架；吧台上方橫樑掛木札、上面一排清酒瓶、吊杯架。窗邊兩個隔板四人座，西牆綠色皮卡座，中間一張四人桌。黃銅吊燈、壁燈、懷舊電影海報、舊照片。',
+     front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, -3.1], [-0.6, 3.4]], sill: 0.85, head: 2.3, views: [[-3.7, 3.7]], view: 'wz_teishoku', viewDepth: 10, viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '照舊（LAWWW2 11-04 04:47）'},
+     spawn: {x: -2.0, z: 3.05, yaw: Math.PI},
+-    seeThru: [],
++    seeThru: ['kmc_vc', 'kmc_vc_gloss', 'kmc_vc_metal', 'kmc_walnut_rt', 'kmc_ceiling_wood', 'kmc_print', 'kmc_leaf_pothos', 'kmc_bulb'],
++    camWalls: [[4.0, 0, 0.12, 8], [0, -4.0, 8, 0.12], [-4.0, 0, 0.12, 8]],
++    camNote: 'WZ-SEAT-CAMS-1104（LAWWW2 帳號 A 11-10；BB-C 11-04 BB_255「小路座位鏡頭卡在樑和酒瓶層架之間」）：AA 12ae10d3e 加過一次，v4 配置蓋掉了；這次照 komichi.glb 現在的材質名重加——家具與隔板（kmc_vc）、酒瓶（kmc_vc_gloss）、吊著的鍋具與金屬架（kmc_vc_metal）、樑與層架（kmc_walnut_rt）、天花板木條、吊著的木札菜單與海報（kmc_print）、黃金葛、燈泡網點透空；右、後、左三面牆當鏡頭碰撞（[x, z, 寬, 深]）。tests/wz_seat_cams_1104_unit.js',
+     tagNote: 'tag（LAWWW 11-04 FIXED_COORDS §7-3，店內偶遇照標記挑位子）：corner＝西牆卡座、bar＝吧台凳、door＝離門最近的窗邊座。',
+     seeThruNote: '舊版的 GLOW_wz_teishoku_washi（和紙燈籠）沒有了；新版的吊燈都在吧台上方（y 2.0）和卡座上方，不會擋在鏡頭前面。',
+     exit: {at: {x: -2.0, z: 3.55}, label: '離開小路', to: 'wenzhou', spawn: {x: -4.8, z: -4.1, yaw: 0}},
+diff --git a/tests/wz_seat_cams_1104_unit.js b/tests/wz_seat_cams_1104_unit.js
+new file mode 100644
+index 000000000..678f2938e
+--- /dev/null
++++ b/tests/wz_seat_cams_1104_unit.js
+@@ -0,0 +1,39 @@
++// 溫州街兩間店坐下後的鏡頭被擋（WZ-SEAT-CAMS-1104；BB-C 11-04 BB_255：SUNNY SIDE 吧台 F12／F13 被吊架擋、小路座位鏡頭卡在樑和酒瓶層架之間）——不需要瀏覽器（D131）。
++// AA 12ae10d3e（11-04 13:19）加過透空材質和小路三面鏡頭牆，後來 SUNNY SIDE v1e、小路 v4 配置（dc21c5949）把它蓋掉了，而且有幾個材質名和現在的 GLB 對不上。
++// 這次照 sunnyside.glb、komichi.glb 現在的材質名重加（src/data/sunnyside_layout.js、komichi_layout.js → tools/layout/sync_wz_aa_layouts.js → wz_shops_layout.js）。
++// 檢查（在 Node 建出遊戲真正的 wz_brunch、wz_teishoku，正式模型從檔案讀；鏡頭照 E.followCam：室內 camDist、俯角 0.38、zone.camCols）：
++//   每一個座位（店裡所有 E.seats；頭在 lift＋1.2 m）× 鏡頭 16 個方向：鏡頭 → 頭這一條線上（頭前 0.35 m 以內不算），第一個「畫得到、不透明、不會網點透空（userData.seeThrough）、
++//   不是會淡出的牆（WALL_）」的網格＝鏡頭被擋。兩間各算擋住的次數，要 0。
++// 修改前（開發分支 fe4d893ac）：SUNNY SIDE、小路都 FAIL。用法：node tests/wz_seat_cams_1104_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,"..");
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch')); console.warn=()=>{};
++const HTML=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), SRCS=[...HTML.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]);
++for(const f of SRCS){ try{ vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (\w+)\s*=/mg,'globalThis.$1='),{filename:f}); }catch(e){} }
++function glbScene(file){ const b=fs.readFileSync(file), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString('utf8')), bin=b.slice(20+jl+8);
++  const acc=i=>{ const a=J.accessors[i], v=J.bufferViews[a.bufferView], n={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type], off=(v.byteOffset||0)+(a.byteOffset||0); const T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5121:Uint8Array}[a.componentType]; return new T(bin.buffer.slice(bin.byteOffset+off,bin.byteOffset+off+a.count*n*T.BYTES_PER_ELEMENT)); };
++  const mats=(J.materials||[]).map(m=>{ const t=new THREE.MeshStandardMaterial({side:m.doubleSided?THREE.DoubleSide:THREE.FrontSide}); t.name=m.name||''; t.transparent=m.alphaMode==='BLEND'; return t; });
++  const objs=J.nodes.map(nd=>{ let o; if(nd.mesh!=null){ const prs=J.meshes[nd.mesh].primitives.map(pr=>{ const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(acc(pr.attributes.POSITION),3)); if(pr.indices!=null) g.setIndex(new THREE.BufferAttribute(acc(pr.indices),1)); return new THREE.Mesh(g,mats[pr.material]); }); if(prs.length===1) o=prs[0]; else { o=new THREE.Group(); for(const q of prs) o.add(q); } } else o=new THREE.Object3D();
++    o.name=nd.name||''; if(nd.translation) o.position.fromArray(nd.translation); if(nd.rotation) o.quaternion.fromArray(nd.rotation); if(nd.scale) o.scale.fromArray(nd.scale); return o; });
++  J.nodes.forEach((nd,i)=>{ for(const c of nd.children||[]) objs[i].add(objs[c]); }); const sc=new THREE.Group(); for(const r of J.scenes[J.scene||0].nodes) sc.add(objs[r]); return sc; }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
++const GLB={}; ASSETS.loadOne=k=>{ const m=ASSETS.manifest[k]; if(m&&/building/.test(m.type)&&fs.existsSync(path.join(ROOT,m.url))){ if(!GLB[k]) GLB[k]=glbScene(path.join(ROOT,m.url)); return Promise.resolve({scene:GLB[k]}); } return new Promise(()=>{}); };
++async function shop(ZID){ global.GAME=global.GAME||{}; GAME.G={hour:14,weather:'clear',flags:{},zone:ZID,day:1};
++  E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; const zd=Z3.ZONES[ZID]; const z=zd.build(E); E.zone=z; E.nav=z.nav; E.indoor=true; for(let i=0;i<40;i++) await new Promise(r=>setTimeout(r,0)); z.group.updateMatrixWorld(true);
++  const vis=[]; z.group.traverse(o=>{ if(!o.isMesh) return; for(let p=o;p;p=p.parent) if(!p.visible) return; const m=[].concat(o.material)[0]; if(!m||m.visible===false||m.colorWrite===false) return; vis.push(o); });
++  const DIST=zd.camDist||3.8, PITCH=0.38, seats=z.seats||[]; let shots=0, bad=[];
++  for(const st of seats){ const head=new THREE.Vector3(st.x,(st.lift||0)+1.2,st.z);
++    for(let k=0;k<16;k++){ const yaw=k*Math.PI/8, cam=new THREE.Vector3(); E.followCam(head,yaw,PITCH,DIST,0,cam); shots++; const dir=head.clone().sub(cam), len=dir.length(); dir.normalize(); const rc=new THREE.Raycaster(cam,dir,0.05,len-0.35);
++      const hs=rc.intersectObjects(vis,false).filter(h=>{ const m=[].concat(h.object.material)[0]; if(m.side===THREE.FrontSide&&h.face&&h.face.normal.clone().transformDirection(h.object.matrixWorld).dot(dir)>0) return false;
++        return !(m.userData&&m.userData.seeThrough)&&!m.transparent&&!/WALL_/.test(h.object.name||'')&&!(h.object.parent&&/WALL_/.test(h.object.parent.name||'')); });
++      if(hs.length) bad.push(`(${st.x},${st.z}) ${Math.round(yaw*180/Math.PI)}°：${[].concat(hs[0].object.material)[0].name}@${hs[0].distance.toFixed(2)}`); } }
++  return {z,seats,shots,bad}; }
++(async()=>{
++  for(const [ZID,nm] of [['wz_brunch','SUNNY SIDE'],['wz_teishoku','小路']]){ const r=await shop(ZID);
++    check(`${nm}（${ZID}）：坐下以後鏡頭 16 個方向都沒有被擋`, r.seats.length>0&&r.bad.length===0, `${r.seats.length} 個座位、${r.shots} 個鏡頭、擋住 ${r.bad.length} 個；透空材質 ${(r.z.seeThru?'開':'關')}、鏡頭牆 ${((r.z.camCols&&r.z.camCols[0])||[]).length} 面`+(r.bad.length?'；例：'+r.bad.slice(0,4).join('、'):'')); }
++  console.log(fails?`FAILED ${fails}`:'ALL PASS'); process.exit(fails?1:0); })();

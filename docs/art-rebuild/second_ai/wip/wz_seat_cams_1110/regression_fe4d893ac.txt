@@ -1,0 +1,4 @@
+跑過 30 支讀到 komichi／sunnyside／wz_brunch／wz_teishoku／WZ_SHOPS_LAYOUT 的 *_unit.js（fe4d893ac＋patch）：29 支 ALL PASS。
+aa655_wz_rename_unit.js FAILED 1：開發分支原樣也一樣（src/story3d.js 的 GIFTH.shopOpt 對照表裡有「兩點半 Café」字串，GIFT-HOLIDAY-1110），不是這個 patch 造成的。
+wz_seat_cams_1104_unit.js：開發 FAIL（SUNNY 擋 37／224、小路 126／288）→ ALL PASS（0／224、0／288）。
+tools/layout/sync_wz_aa_layouts.js --check：OK 一樣。
