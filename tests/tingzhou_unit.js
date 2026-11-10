@@ -63,14 +63,33 @@ check('4. 店面玻璃後面、樓房裡面站不住',!freeAt(F.west-F.arcade-0.
 /* 第 2 版：夜市攤（使用者 11-10：照時間出現、營業、收攤的模組；種類不一樣；不擋固定店家的門口；不是整條封閉的夜市） */
 { const ST=L.stalls||{list:[]}, glb=path.join(ROOT,'assets/models/env/second_ai/tingzhou_stalls.glb'); let nodes=[]; try{ const d=fs.readFileSync(glb), jl=d.readUInt32LE(12); nodes=(JSON.parse(d.slice(20,20+jl).toString('utf8')).nodes||[]).map(n=>n.name); }catch(e){}
   const miss=ST.list.filter(q=>!nodes.includes('STALL_'+q.kind+'_open')||!nodes.includes('STALL_'+q.kind+'_closed')).map(q=>q.kind);
-  check('9. 攤位至少十種、種類不重複；每一種在模型裡有營業、收攤兩個節點',ST.list.length>=10&&new Set(ST.list.map(q=>q.kind)).size===ST.list.length&&!miss.length,miss.join(' ')||ST.list.length+' 攤');
-  check('9. 幾點擺：16:59 收著、17:00 營業、23:59 營業、00:00 收',!TZ3.stallsOpen(16.98,L)&&TZ3.stallsOpen(17,L)&&TZ3.stallsOpen(23.98,L)&&!TZ3.stallsOpen(0,L)&&!TZ3.stallsOpen(12,L));
+  const GG=ST.gongguan||[], ALL=ST.list.concat(GG), missG=Object.keys(ST.kinds||{}).filter(k=>!nodes.includes('STALL_'+k+'_open')||!nodes.includes('STALL_'+k+'_closed'));
+  check('9. 十三攤（汀州路十攤＋公館那一側三攤）、種類不重複；每一種在模型裡有營業、收攤兩個節點；舊的刈包、算命節點不在',ST.list.length===10&&GG.length===3&&new Set(ALL.map(q=>q.kind)).size===13&&!miss.length&&!missG.length&&!nodes.some(n=>/guabao|fortune/.test(n)),miss.concat(missG).join(' ')||ALL.length+' 攤');
+  { const K=ST.kinds||{}, o=(k,h)=>TZ3.stallOpen(h,{kind:k},L), ten=['milk','pepper','wheelcake','ball','scallion','stinky','corn','eggcake','cane','jelly'], names=['沈三盃黑糖鮮奶','皇家高端胡椒餅','二十元紅豆餅','一個地球','當蔥蔥油餅','紹興炸豆腐','玉皇大帝','陳家古早味雞蛋糕','節節高甘蔗汁','公館阿婆甜湯'];
+    check('9. 十攤的正式店名（使用者定的，不能改）和背景三攤（不取名）；刈包、算命攤拿掉',ten.every((k,i)=>K[k]&&K[k].name===names[i])&&['ring','phonecase','socks'].every(k=>K[k]&&K[k].buy===false)&&!K.guabao&&!K.fortune&&!ST.list.some(q=>q.kind==='guabao'||q.kind==='fortune'),ten.filter((k,i)=>!K[k]||K[k].name!==names[i]).join(' '));
+    check('9. 各攤時間不一樣（使用者 11-10）：鮮奶 14:00 開、胡椒餅 16:59 還沒開 17:00 開、紅豆餅 21:30 收、炸豆腐開到隔天 00:30（00:15 開著、00:45 收了）、玉米 00:00 收',o('milk',14)&&!o('milk',13.9)&&!o('pepper',16.98)&&o('pepper',17)&&o('wheelcake',21.4)&&!o('wheelcake',21.5)&&o('stinky',23.9)&&o('stinky',0.25)&&!o('stinky',0.75)&&!o('corn',0)&&o('corn',23.9)&&new Set(ten.map(k=>K[k].from+'-'+K[k].to)).size>=7);
+    check('9. 有沒有任何一攤開著：中午沒有、14:00 有、00:15 有、01:00 沒有、清晨沒有',!TZ3.stallsOpen(12,L)&&TZ3.stallsOpen(14,L)&&TZ3.stallsOpen(0.25,L)&&!TZ3.stallsOpen(1,L)&&!TZ3.stallsOpen(6,L));
+    z.applyTimeOutdoor(15,null); const a15=z.tzStalls.filter(q=>q.isOpen).map(q=>q.kind).sort().join(' '); z.tzStallOff={st_cane:true}; z.applyTimeOutdoor(15,null); const offOk=!z.tzStalls.find(q=>q.id==='st_cane').isOpen; z.tzStallOff=null; z.applyTimeOutdoor(19,null); const a19=z.tzStalls.filter(q=>q.isOpen).length;
+    check('9. 區域照每一攤切換：15:00 汀州路只有甘蔗汁、甜湯開著；單獨一攤可以不擺（tzStallOff）；19:00 十攤都開',a15==='cane jelly'&&offOk&&a19===10,a15+' / '+a19);
+    check('9. 四種尺寸（規格）：小推車、中型、中型寬、較大型都有；甜湯最大（含兩張折疊桌）',['S','M','MW','L'].every(sz=>ten.some(k=>K[k].size===sz))&&K.jelly.block.w>=5.5&&K.wheelcake.w<K.milk.w&&K.milk.w<K.corn.w&&K.corn.w<K.jelly.w);
+    check('9. 圖上的價錢：紅豆餅 20、胡椒餅 60、玉米 70、粉圓冰 50、燒仙草 55、甘蔗汁 50／65、地瓜球 50／55／60',K.wheelcake.items.every(i=>i[1]===20)&&K.pepper.items[0][1]===60&&K.corn.items[0][1]===70&&K.jelly.items[0][1]===50&&K.jelly.items[1][1]===55&&K.cane.items.map(i=>i[1]).join()==='50,65'&&K.ball.items.map(i=>i[1]).join()==='50,55,60'&&K.wheelcake.items.map(i=>i[0]).join()==='紅豆,奶油,花生'); }
   check('9. 攤車站的地方擋住（不會穿過攤車）；區域有每一攤的資料給 LAWWW 接看、買',ST.list.every(q=>!freeAt(q.x,q.z))&&Array.isArray(z.tzStalls)&&z.tzStalls.length===ST.list.length,ST.list.filter(q=>freeAt(q.x,q.z)).map(q=>q.id).join(' '));
   const doors=E.interactables.filter(q=>q.tzShop), near=[]; for(const d of doors) for(const q of ST.list) if(Math.hypot(d.x-q.x,d.z-q.z)<1.6) near.push(q.id+'→'+d.tzShop);
   const cut=doors.filter(d=>!freeAt(d.x,d.z)||!reach(sp,[d.x,d.z])).map(d=>d.tzShop);
   check('9. 攤位不擋店門：每一間店門口照舊站得住、走得到；攤車離店門互動點 ≥ 1.6 m',!near.length&&!cut.length,near.concat(cut).join(' '));
   const A=L.alleys[0]; let narrow=[]; for(let x=F.east+1;x<F.east+A.len-2;x+=0.5){ let n=0; for(let zz=A.z0+0.25;zz<A.z1;zz+=0.5) if(freeAt(x,zz)) n++; if(n*0.5<2.0) narrow.push(x.toFixed(1)+':'+n*0.5); }
-  check('9. 巷 A 擺了攤還留至少 2 m 寬可以走（不是整條堵住）；汀州路的車道沒有攤',!narrow.length&&ST.list.every(q=>q.where==='alleyA'||Math.abs(q.x)>=3.4),narrow.slice(0,5).join(' ')); }
+  check('9. 巷 A 擺了攤還留至少 2 m 寬可以走（不是整條堵住）；汀州路的車道沒有攤',!narrow.length&&ST.list.every(q=>q.where==='alleyA'||Math.abs(q.x)>=3.4),narrow.slice(0,5).join(' '));
+  { const aa=ST.list.filter(q=>q.where==='alleyA'), face=[]; for(const p of aa) for(const q of aa) if(p!==q&&Math.sign(p.z)!==Math.sign(q.z)&&Math.abs(p.x-q.x)<(TZ3.stallBlock(p,L).w+TZ3.stallBlock(q,L).w)/2) face.push(p.id+'×'+q.id);
+    const ov=[], side=q=>q.where==='alleyA'?'A'+Math.sign(q.z):'R'+Math.sign(q.x), along=q=>q.where==='alleyA'?q.x:q.z; for(const p of ST.list) for(const q of ST.list) if(p.id<q.id&&side(p)===side(q)&&Math.abs(along(p)-along(q))<(TZ3.stallBlock(p,L).w+TZ3.stallBlock(q,L).w)/2) ov.push(p.id+'×'+q.id);
+    check('9. 巷 A 兩側的攤交錯、不面對面；同一側的攤不重疊',!face.length&&!ov.length,face.concat(ov).join(' ')); } }
+/* 公館那一側的三攤（使用者 11-10「公館那一側也擺幾攤」）：建真正的公館區域 */
+{ const E2=mk(), g=Z3.ZONES.gongguan.build(E2), GG=(L.stalls.gongguan||[]), gs=g.ggStalls||[]; E2.zone=g; E2.levels=g.levels||null; E2.nav=g.nav; E2.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
+  const st=(x,zz)=>E2.canStand(x,zz,0.33,0), sp2=L.toGongguan.spawn, bad=[];
+  for(const q of GG){ if(st(q.x,q.z)) bad.push(q.id+' 攤車沒擋'); if(!st(q.x,q.z+1.9)) bad.push(q.id+' 攤前站不住'); const r=E2.simWalk(sp2.x,sp2.z,q.x,q.z+1.9,{lv0:0,lv1:0,dt:0.1,speed:1.45}); if(!r||!r.ok) bad.push(q.id+' 走不到');
+    for(const i of E2.interactables) if(Math.hypot(i.x-q.x,i.z-q.z)<2.2) bad.push(q.id+' 太靠近互動點 '+(i.label||'')); if(q.x>39&&q.x<52.6) bad.push(q.id+' 在花序門前'); if(Math.abs(q.x-sp2.x)<3) bad.push(q.id+' 擋巷口'); if(q.z>17) bad.push(q.id+' 進騎樓'); }
+  check('11. 公館三攤：鮮奶、紅豆餅、手機殼；攤車擋住、攤前站得住、從巷口走得到；不進騎樓、不擋花序門前和巷口、離互動點 ≥ 2.2 m',GG.map(q=>q.kind).sort().join()==='milk,phonecase,wheelcake'&&gs.length===3&&!bad.length,bad.join(' | '));
+  g.applyTimeOutdoor(15,null); const m15=gs.filter(q=>q.isOpen).map(q=>q.kind).join(); g.applyTimeOutdoor(19,null); const m19=gs.filter(q=>q.isOpen).length; g.applyTimeOutdoor(23.5,null); const m23=gs.filter(q=>q.isOpen).length; g.tzStallsClosed=true; g.applyTimeOutdoor(19,null); const ty=gs.filter(q=>q.isOpen).length; g.tzStallsClosed=false;
+  check('11. 公館三攤照各自的時間：15:00 只有鮮奶開、19:00 三攤都開、23:30 都收了；颱風（tzStallsClosed）不擺',m15==='milk'&&m19===3&&m23===0&&ty===0,[m15,m19,m23,ty].join(' / ')); }
 check('10. 路邊的機車是一小群一小群停、有空位（使用者 11-10：不要兩側排滿、長得一樣）：40～80 台、至少 12 個空檔、有腳踏車；巷 A 口和斑馬線前不停；Z3 有匯出機車模型的函式',z.tzScooters>=40&&z.tzScooters<=80&&z.tzParkGaps>=12&&z.tzBikes>=4&&typeof Z3.attachWzScooters==='function'&&reach(sp,[F.west-1.5,0])&&freeAt(F.east-0.8,0),`機車 ${z.tzScooters}、腳踏車 ${z.tzBikes}、群 ${z.tzParkGroups}、空檔 ${z.tzParkGaps}`);
 { const PW=L.road.parkW||1.6; let worst=0; for(const sx of [-1,1]){ const x=sx*(L.road.x1-PW/2); let run=0; for(let zz=L.walk.z0+1;zz<L.walk.z1-1;zz+=0.25){ if(!freeAt(x,zz)){ run+=0.25; worst=Math.max(worst,run); } else run=0; } }
   check('10. 沒有連續超過 7 m 的一整排車（路邊每隔一小段就有空位可以穿過去）',worst<=7,worst.toFixed(2)+' m'); }

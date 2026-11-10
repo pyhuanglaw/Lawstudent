@@ -46,7 +46,8 @@ check('4. 每個時段、每個畫質都有路人（> 0）',T.every(r=>r.every(n
 check('4. 畫質低的人不比畫質高的多（low ≤ medium ≤ high）',T.every(r=>r[0]<=r[1]&&r[1]<=r[2]));
 { const at=(h,l)=>W.count(h,l||'high'), night=[17,18,20,22.5].map(h=>at(h)), day=[9,12,15].map(h=>at(h)), late=[2,5].map(h=>at(h));
   check('4. 夜市時段（17:00～23:00）比白天多、白天比深夜多；23:00 以後比夜市少；最多 16 個（和公館一樣）',Math.min(...night)>Math.max(...day)&&Math.min(...day)>Math.max(...late)&&at(23.5)<Math.min(...night)&&at(0.5)<at(23.5)&&Math.max(...T.map(r=>r[2]))<=16,J([night,day,late,at(23.5),at(0.5)]));
-  check('4. 夜市時段和攤位的時間對得上（17:00 攤位開始擺＝路人變多）',W.night(17)&&!W.night(16.9)&&TZ3.stallsOpen(17,L)&&!TZ3.stallsOpen(16.9,L)&&W.night(22.9)&&TZ3.stallsOpen(22.9,L));
+  { const nOpen=h=>L.stalls.list.filter(q=>TZ3.stallOpen(h,q,L)).length, n=L.stalls.list.length;   /* NIGHT-MARKET-1110（使用者 11-10：各攤時間不一樣）：不再是 17:00 全部一起開；改成比「夜市時段大部分的攤開著、下午只有少數」 */
+    check('4. 夜市時段和攤位的時間對得上（17:00 起路人變多＝大部分的攤已經開；下午三點只有少數幾攤；22:54 還有一半以上）',W.night(17)&&!W.night(16.9)&&nOpen(17.5)>=n*0.7&&nOpen(15)<=n*0.3&&nOpen(15)>0&&W.night(22.9)&&nOpen(22.9)>=n*0.4&&TZ3.stallsOpen(22.9,L),[nOpen(15),nOpen(17.5),nOpen(22.9),n].join('/')); }
   check('4. 時間超過 24（凌晨 G.hour 25＝01:00）照 01:00 算',W.count(25,'high')===W.count(1,'high'));
   check('4. 颱風假：街上只剩一個人',LV.every(l=>W.count(19,l,true)===1)); }
 { const cnt=[0,0,0]; for(let i=0;i<W.count(19,'high');i++) cnt[W.routeOf(i,19)]++; const cd=[0,0,0]; for(let i=0;i<W.count(12,'low');i++) cd[W.routeOf(i,12)]++;

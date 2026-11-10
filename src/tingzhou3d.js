@@ -14,7 +14,10 @@ const TZ3=(function(){
   S.GLASS_IN=0.35;      // 騎樓走到店面玻璃前 0.35 m
   /* 騎樓柱子：每一棟一根，在那一棟的一端、立面往裡 0.3 m（wz_street.py 的 pillars=[w/2]：本地 +x 那一端——西側的樓本地 +x＝北（z0），東側＝南（z1））；巷口兩邊的不重複 */
   S.pillars=function(L){ const F=L.facade, out=[]; for(const q of L.shops){ if(q.arcade===false) continue;   /* 沒有騎樓的五間（使用者「混合」）：門前沒有柱子 */ const w=q.side==='W'; out.push({x:(w?F.west-0.3:F.east+0.3),z:(w?q.z0:q.z1),id:q.id}); } return out; };
-  S.stallsOpen=function(h,L){ const ST=(L||LAY()).stalls; return !!ST&&h>=ST.from&&h<ST.to; };   /* 夜市攤幾點擺（配置 stalls.from～to） */
+  /* 夜市攤幾點擺（NIGHT-MARKET-1110：各攤不一樣，配置 stalls.kinds[kind].from～to；跨午夜的 to 寫 24 以上，凌晨的鐘點加 24 再比）。stallOpen＝這一攤；stallsOpen＝有沒有任何一攤開著 */
+  S.stallOpen=function(h,q,L){ const ST=(L||LAY()).stalls; if(!ST) return false; const K=(ST.kinds&&ST.kinds[q.kind||q])||ST, a=K.from!=null?K.from:ST.from, b=K.to!=null?K.to:ST.to; return (h>=a&&h<b)||(h+24>=a&&h+24<b); };
+  S.stallsOpen=function(h,L){ const ST=(L||LAY()).stalls; return !!ST&&ST.list.some(q=>S.stallOpen(h,q,L)); };
+  S.stallBlock=function(q,L){ const ST=(L||LAY()).stalls, K=ST.kinds&&ST.kinds[q.kind]; return (K&&K.block)||ST.block; };
   S.build=function(E){ const L=LAY(); const g=new THREE.Group(); g.name='tingzhou_zone';
     const N=L.nav, nav=new E3.NavGrid(N.w,N.d,N.cell,N.x0,N.z0); nav.b.fill(1);
     const open=(x0,z0,x1,z1)=>{ for(let cz=0;cz<nav.rows;cz++) for(let cx=0;cx<nav.cols;cx++){ const [wx,wz]=nav.toWorld(cx,cz); if(wx>=x0&&wx<=x1&&wz>=z0&&wz<=z1) nav.b[nav.idx(cx,cz)]=0; } };
@@ -57,11 +60,12 @@ const TZ3=(function(){
       if(W3.lampPost){ const lp=W3.lampPost(); lp.position.set(x,0,z); lp.rotation.y=sx>0?-Math.PI/2:Math.PI/2; g.add(lp); } nav.blockCircle(x,z,0.3);
       const pl=TK.lightPool(4.2,'rgba(255,206,140,1)'); pl.position.set(x-sx*1.0,0.03,z); pl.userData.dyn=true; g.add(pl); pools.push(pl); }
     // 夜市攤（第 2 版）：位置照配置 stalls；導航照攤車＋後面站人的範圍擋（營業、收攤一樣大：導航不隨時間變）。模型 tingzhou_stalls.glb 的 STALL_<kind>_open／_closed，照時間切換
-    const ST=L.stalls, stalls=[]; if(ST) for(const q of ST.list){ const b=ST.block, c=Math.cos(q.yaw), sn=Math.sin(q.yaw), ax=Math.abs(sn)>0.5;
-      nav.blockRect(q.x-sn*b.back,q.z-c*b.back,ax?b.d:b.w,ax?b.w:b.d,0); stalls.push({id:q.id,kind:q.kind,x:q.x,z:q.z,yaw:q.yaw,open:null,closed:null}); }
+    const ST=L.stalls, stalls=[]; if(ST) for(const q of ST.list){ const b=S.stallBlock(q,L), c=Math.cos(q.yaw), sn=Math.sin(q.yaw), ax=Math.abs(sn)>0.5;
+      nav.blockRect(q.x-sn*b.back,q.z-c*b.back,ax?b.d:b.w,ax?b.w:b.d,0); stalls.push({id:q.id,kind:q.kind,x:q.x,z:q.z,yaw:q.yaw,half:b.w/2,name:(ST.kinds&&ST.kinds[q.kind]||{}).name,isOpen:false,open:null,closed:null}); }
     nav._cm=null;
     const zoneTime=(h,E2)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E2&&E2.hemi) E2.hemi.intensity+=0.7*k; for(const p of pools) if(p.material) p.material.opacity=0.55*k; 
-      const on=S.stallsOpen(h,L)&&!zone.tzStallsClosed; for(const q of stalls){ if(q.open) q.open.visible=on; if(q.closed) q.closed.visible=!on; } if(zone.tzStallMat) zone.tzStallMat.emissiveIntensity=0.25+0.85*k; zone.tzStallsOn=on; };
+      let on=false; const off=zone.tzStallOff||{}; for(const q of stalls){ const o=!zone.tzStallsClosed&&!off[q.id]&&S.stallOpen(h,q,L); q.isOpen=o; on=on||o; if(q.open) q.open.visible=o; if(q.closed) q.closed.visible=!o; }
+      if(zone.tzStallMat) zone.tzStallMat.emissiveIntensity=0.25+0.85*k; if(zone.tzGlowMat) zone.tzGlowMat.emissiveIntensity=0.5+2.5*k; zone.tzStallsOn=on; };
     const FG=L.fromGongguan, zone={group:g,nav,spawn:{x:FG.x,z:FG.z,yaw:FG.yaw},lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.tingzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       Z3.attachWenzhouModel(E,g,c.scene.clone(true),'tzfb','tingzhou_street_glb'); zone.tzFormal=true; }).catch(e=>console.warn('汀州路正式模型載入失敗，用方塊立面',e));
@@ -70,7 +74,7 @@ const TZ3=(function(){
     //   店門口、巷 A 口、斑馬線、攤位前不停。機車用公館、溫州街同一套模型（十二款，各自的配色，照位置挑）；腳踏車用校園那一套（W3.bikeAny）。
     { const scG=new THREE.Group(), scList=[], scC=['#c9463d','#2b2b2d','#e8e6e0','#3d6fb0','#8a8f98','#2f6a4a','#d9b23a']; const hash=(a,b)=>{ const t=Math.sin(a*12.9898+b*78.233)*43758.5453; return t-Math.floor(t); };
       const doors=L.shops.filter(q=>q.enter||q.arcade===false||q.concept).map(q=>({s:q.side==='W'?-1:1,z:(q.z0+q.z1)/2}));
-      const busy=(x,zz,sx)=>stalls.some(q=>Math.abs(q.x-x)<1.6&&Math.abs(q.z-zz)<2.2)||(L.crossings||[]).some(c=>Math.abs(zz-c.z)<c.w/2+0.6)||doors.some(d=>d.s===sx&&Math.abs(d.z-zz)<1.1);
+      const busy=(x,zz,sx)=>stalls.some(q=>Math.abs(q.x-x)<1.6&&Math.abs(q.z-zz)<q.half+0.9)||(L.crossings||[]).some(c=>Math.abs(zz-c.z)<c.w/2+0.6)||doors.some(d=>d.s===sx&&Math.abs(d.z-zz)<1.1);
       const PW=R.parkW||1.6; let lastC=-1, bikes=0, groups=0; const gaps={'-1':0,'1':0};
       for(const sx of [-1,1]){ const x=sx*(R.x1-PW/2); let zz=WK.z0+1.2+hash(sx,1)*2, gi=0;
         while(zz<WK.z1-1.5){ gi++; const hg=hash(gi*3.1+sx*17,2), n=3+Math.floor(hash(gi,sx+5)*4), isBike=hash(gi*1.7,sx+9)<0.2, slant=(hash(gi,sx+11)-0.5)*0.5, pitch=isBike?0.62:0.8+hash(gi,sx+13)*0.14;
@@ -83,20 +87,35 @@ const TZ3=(function(){
       nav._cm=null; g.add(scG); zone.tzScooters=scList.length; zone.tzBikes=bikes; zone.tzParkGroups=groups; zone.tzParkGaps=gaps[-1]+gaps[1];
       if(scList.length&&Z3.attachWzScooters&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_scooter']){ if(typeof P3!=='undefined'&&P3.mergeStatic) P3.mergeStatic(scG);
         ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=Z3.attachWzScooters(g,scG,scList,c.scene,'tz_scooters_glb'); zone.tzScooterGLB=n; }).catch(e=>console.warn('汀州路機車模型載入失敗',e)); } }
-    zone.tzStalls=stalls;   /* LAWWW 接看／買：每一攤的 id、kind、位置；zone.tzStallsClosed＝true 強制收攤（颱風、大雨） */
+    zone.tzStalls=stalls;   /* LAWWW 接看／買：每一攤的 id、kind、name、位置、isOpen（現在開著嗎）；zone.tzStallsClosed＝true 全部收攤（颱風、大雨）；zone.tzStallOff[id]＝true 那一攤今天不擺（套圈圈只有週五六日：配置 kinds.ring.days） */
     if(stalls.length&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_stalls']) ASSETS.loadOne('bldg.tingzhou_stalls').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       for(const q of stalls) for(const st of ['open','closed']){ const src=c.scene.getObjectByName('STALL_'+q.kind+'_'+st); if(!src) continue; const o=src.clone(true); o.position.set(q.x,0,q.z); o.rotation.set(0,q.yaw,0); o.userData.dyn=true;
-        o.traverse(m=>{ if(m.isMesh){ m.castShadow=true; if(m.material&&m.material.name==='tzs_atlas') zone.tzStallMat=m.material; } }); o.visible=false; g.add(o); q[st]=o; }
+        o.traverse(m=>{ if(m.isMesh){ m.castShadow=true; if(m.material&&m.material.name==='tzs_atlas') zone.tzStallMat=m.material; if(m.material&&m.material.name==='tzs_glow'){ zone.tzGlowMat=m.material; m.castShadow=false; } } }); o.visible=false; g.add(o); q[st]=o; }
       if(E.applyTime) try{ E.applyTime(); }catch(e){} else zoneTime(E.hour||12,E); }).catch(e=>console.warn('汀州路攤位模型載入失敗',e));
     return zone; };
+  /* 公館那一側的三攤（NIGHT-MARKET-1110；使用者 11-10「公館那一側也擺幾攤」；配置 stalls.gongguan，公館區域的座標）：擋導航、照各攤的時間切換營業／收攤（包住公館的 applyTimeOutdoor）。
+     zone.ggStalls＝每一攤的 id、kind、name、位置、isOpen（LAWWW 接看／買）；zone.tzStallsClosed、zone.tzStallOff 和汀州路同一套開關 */
+  S.gongguanStalls=function(E,zone,L){ const ST=L&&L.stalls, list=(ST&&ST.gongguan)||[]; if(!zone||!zone.nav||!list.length) return 0; const stalls=[];
+    for(const q of list){ const b=S.stallBlock(q,L), c=Math.cos(q.yaw), sn=Math.sin(q.yaw), ax=Math.abs(sn)>0.5; zone.nav.blockRect(q.x-sn*b.back,q.z-c*b.back,ax?b.d:b.w,ax?b.w:b.d,0);
+      stalls.push({id:q.id,kind:q.kind,x:q.x,z:q.z,yaw:q.yaw,half:b.w/2,name:(ST.kinds&&ST.kinds[q.kind]||{}).name,isOpen:false,open:null,closed:null}); }
+    zone.nav._cm=null; zone.ggStalls=stalls; const t0=zone.applyTimeOutdoor;
+    zone.applyTimeOutdoor=function(h,E2){ if(t0) t0.call(this,h,E2); let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); const off=zone.tzStallOff||{};
+      for(const q of stalls){ const o=!zone.tzStallsClosed&&!off[q.id]&&S.stallOpen(h,q,L); q.isOpen=o; if(q.open) q.open.visible=o; if(q.closed) q.closed.visible=!o; }
+      if(zone.tzStallMat) zone.tzStallMat.emissiveIntensity=0.25+0.85*k; if(zone.tzGlowMat) zone.tzGlowMat.emissiveIntensity=0.5+2.5*k; };
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_stalls']) ASSETS.loadOne('bldg.tingzhou_stalls').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
+      for(const q of stalls) for(const st of ['open','closed']){ const src=c.scene.getObjectByName('STALL_'+q.kind+'_'+st); if(!src) continue; const o=src.clone(true); o.position.set(q.x,0,q.z); o.rotation.set(0,q.yaw,0); o.userData.dyn=true;
+        o.traverse(m=>{ if(m.isMesh){ m.castShadow=true; if(m.material&&m.material.name==='tzs_atlas') zone.tzStallMat=m.material; if(m.material&&m.material.name==='tzs_glow'){ zone.tzGlowMat=m.material; m.castShadow=false; } } }); o.visible=false; zone.group.add(o); q[st]=o; }
+      if(E.applyTime) try{ E.applyTime(); }catch(e){} }).catch(e=>console.warn('公館攤位模型載入失敗',e));
+    return stalls.length; };
   /* 公館那一邊的入口（這一版）：店面街 G10 門口（配置 toGongguan.spawn 的位置往店面 3 m）多一個「往汀州路」的互動點。G10 的店面模型改成巷口、G09／G11 換店是下一步（等使用者定）。
      包住 gongguan 的 build（不改 zones3d.js）：build 完以後加互動點 */
   S.hookGongguan=function(){ if(typeof Z3==='undefined'||!Z3.ZONES||!Z3.ZONES.gongguan||Z3.ZONES.gongguan._tz) return false; const zd=Z3.ZONES.gongguan, b0=zd.build;
     zd.build=function(E){ const z=b0.call(this,E); const L=LAY(); if(L&&Z3.ZONES.tingzhou){ const sp=L.toGongguan.spawn, FG=L.fromGongguan;
-        E.interactables.push({x:sp.x,z:sp.z+3,radius:1.6,prio:1,label:'往汀州路（巷子）',exit:{to:'tingzhou',spawn:{x:FG.x,z:FG.z,yaw:FG.yaw}},tzGate:true}); } return z; };
+        E.interactables.push({x:sp.x,z:sp.z+3,radius:1.6,prio:1,label:'往汀州路（巷子）',exit:{to:'tingzhou',spawn:{x:FG.x,z:FG.z,yaw:FG.yaw}},tzGate:true}); }
+      S.gongguanStalls(E,z,L); return z; };
     zd._tz=true; return true; };
   if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.tingzhou_street']) ASSETS.manifest['bldg.tingzhou_street']={url:'assets/models/env/second_ai/tingzhou_street.glb',type:'building',lazy:true,source:'LAWWW2 tools/blender/env_second/wz_street.py --set tingzhou（汀州路三段一段街的樓房、騎樓、店面；五間店面的貼圖從使用者 11-10 的概念圖裁出來：tz_fronts_tex.py）',license:'本作'};
-  if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.tingzhou_stalls']) ASSETS.manifest['bldg.tingzhou_stalls']={url:'assets/models/env/second_ai/tingzhou_stalls.glb',type:'building',lazy:true,source:'LAWWW2 tools/blender/env_second/tz_stalls.py（汀州路夜市攤位模組：十四種，各有營業、收攤兩個樣子）',license:'本作'};
+  if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.tingzhou_stalls']) ASSETS.manifest['bldg.tingzhou_stalls']={url:'assets/models/env/second_ai/tingzhou_stalls.glb',type:'building',lazy:true,source:'LAWWW2 tools/blender/env_second/nm_stalls.py（夜市十攤＋背景三攤，各有營業、收攤兩個樣子；招牌、菜單從使用者 11-10 的十張參考圖裁：nm_stalls_tex.py）',license:'本作'};
   if(typeof Z3!=='undefined'&&Z3.ZONES&&LAY()){ Z3.ZONES.tingzhou={id:'tingzhou',name:'汀州路',indoor:false,cityLight:0.95,size:[LAY().nav.w,LAY().nav.d],camDist:5.6,build(E){ return S.build(E); }}; S.hookGongguan(); }
   return S;
 })();
