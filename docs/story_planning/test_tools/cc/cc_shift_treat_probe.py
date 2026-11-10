@@ -136,7 +136,8 @@ async def main():
                 R.setup('【前置／捷徑】day54 存檔 → %s %.1f 溫州街；%s（熟悉 45 信任 30＋SHIFTT nf 2、friend.treat idx 2＝T3 輪到）' % (fd['key'], hh, why))
                 await P.say_hook(pg); return await pg.evaluate("window.__SAY.length")
             async def act(label_keys, tag):
-                its = await pg.evaluate(ITS); c = next((i for i in its if not i['to'] and not i['hidden'] and any(k in (i['label'] or '') for k in label_keys) and not any(k in (i['label'] or '') for k in ('看',))), None)
+                nokeys = ('看',) if '坐' in label_keys else ('看', '坐')   # r6：點單不要對到「坐下喝茶」（r5 兩版都坐下了，選單只有「起身」）
+                its = await pg.evaluate(ITS); c = next((i for i in its if not i['to'] and not i['hidden'] and any(k in (i['label'] or '') for k in label_keys) and not any(k in (i['label'] or '') for k in nokeys)), None)
                 if not c: R.check('%s 找到「%s」' % (tag, '／'.join(label_keys)), False, J(its)); return None
                 m0 = (await pg.evaluate(ST))['money']
                 if os.environ.get('THROTTLE'):
@@ -144,7 +145,8 @@ async def main():
                     pend = await pg.evaluate("(()=>typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'))()"); R.note('%s 按下去之前 SHIFTT.pending：%s（pending＝還沒等滿兩秒）' % (tag, pend))
                     await L.tap(pg, cdp, '#interact')
                 else:   # r5（BB 21:38）：不降速；進店後第一個畫面就把玩家放到那個互動點、直接按（GAME.doInteract）——【捷徑】，模擬「等兩秒還沒到就按了」
-                    pend = await pg.evaluate("(c=>{ const pe=typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'); const E=GAME.E, P=E.player; if(E.placeAt) E.placeAt(P,c.x,c.z,c.lv); else { P.obj.position.x=c.x; P.obj.position.z=c.z; } void GAME.doInteract(); return pe; })", c)
+                    # r6：r5 進店後馬上按、SHIFTT.entered 還沒登記（pending＝clear，兩版都沒演）→ 在瀏覽器裡每 50 ms 看，pending 一出現就放人、按（同一個 JS 回合）；最多等 8 秒
+                    pend = await pg.evaluate("(c=>new Promise(res=>{ const t0=performance.now(); const go=()=>{ const has=typeof SHIFTT!=='undefined'; const pe=!has?'none':(SHIFTT.pending()?'pending':'clear'); if(pe==='pending'||(!has&&performance.now()-t0>1500)||performance.now()-t0>8000){ const E=GAME.E, P=E.player; if(E.placeAt) E.placeAt(P,c.x,c.z,c.lv); else { P.obj.position.x=c.x; P.obj.position.z=c.z; } void GAME.doInteract(); res(pe+'@'+Math.round(performance.now()-t0)+'ms'); } else setTimeout(go,50); }; go(); }))", c)
                     R.setup('%s【捷徑】進店第一個畫面：玩家放到「%s」(%.1f,%.1f) 直接按（GAME.doInteract）；按之前 SHIFTT.pending＝%s' % (tag, c['label'], c['x'], c['z'], pend))
                 picked = []; t0 = time.time(); bought = False
                 while time.time() - t0 < 150:
@@ -167,7 +169,7 @@ async def main():
                     n0 = await imm_load(YT, f, 14.0, '語彤朋友')
                     if not await enter_shop(pg, cdp, tag): R.check('%s 進了一盞' % tag, False, ''); continue
                     r = await act(('點', '喝茶', '飲料', '菜單'), tag); said = await P.said(pg, n0); R.note('%s 結果 %s；GAME.say %s' % (tag, J(r), J(said)))
-                    R.check('%s 前置：按點單那一刻還沒等滿兩秒（SHIFTT.pending 還在；舊版沒有 SHIFTT 也記）' % tag, r is not None and r['pend'] in ('pending', 'none'), J(r))
+                    R.check('%s 前置：按點單那一刻還沒等滿兩秒（SHIFTT.pending 還在；舊版沒有 SHIFTT 也記）' % tag, r is not None and str(r['pend']).split('@')[0] in ('pending', 'none'), J(r))
                     i1 = next((i for i, x in enumerate(said) if '端了一壺' in x[1] or '算我的' in x[1]), None)
                     R.check('%s 馬上點單：先演「今天這壺，算我的」（台詞在點單之前出現）' % tag, i1 is not None, J(said))
                     R.check('%s 馬上點單：這一樣不扣錢' % tag, r is not None and r['delta'] == 0 and bool(r['picked']), J(r))
@@ -176,7 +178,7 @@ async def main():
                     n0 = await imm_load('heroine_02', fz, 20.0, '芷若朋友')
                     if not await enter_shop(pg, cdp, tag, 'cafe'): R.check('%s 進了 Café' % tag, False, ''); continue
                     r = await act(('坐',), tag); said = await P.said(pg, n0); R.note('%s 結果 %s；GAME.say %s' % (tag, J(r), J(said)))
-                    R.check('%s 前置：按坐下那一刻還沒等滿兩秒（SHIFTT.pending 還在）' % tag, r is not None and r['pend'] in ('pending', 'none'), J(r))
+                    R.check('%s 前置：按坐下那一刻還沒等滿兩秒（SHIFTT.pending 還在）' % tag, r is not None and str(r['pend']).split('@')[0] in ('pending', 'none'), J(r))
                     R.check('%s 馬上坐下：先演芷若那一場（有「熱可可」）' % tag, any('熱可可' in x[1] for x in said), J(said))
                     st_ = await pg.evaluate(ST); R.check('%s 記下今天在 Café 點的下一樣免費' % tag, ((st_['sh'] or {}).get('free') or {}).get('zone') == 'cafe', J(st_['sh']))
                 if case == 'X':   # 出口不算：進一盞馬上走出口

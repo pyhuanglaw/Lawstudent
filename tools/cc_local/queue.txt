@@ -41,6 +41,8 @@ SHIFT_IMM_r5_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story
 SHIFT_IMM_r5_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=imm5_old;IMM=1;CASES=B,F
 ARCAFTER_base_a | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=ARC_AN,ARC_KX
 ARCAFTER_base_b | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=ARC_AXDONE
+SHIFT_IMM_r6_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=imm6_new;IMM=1;CASES=B,F
+SHIFT_IMM_r6_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=imm6_old;IMM=1;CASES=B,F
 # ===== P0 BB 20:10：v9.10.24 已上線（main 779ddd650，PR #34），驗線上網址；Pages 還沒更新完（仍 v9.10.23）就等 5 分鐘再跑 LIVE_V91024_deploy RERUN，最多 3 次 =====
 LIVE_V91024_deploy | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/deploy_check.py | index.html | 15 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.24;CC_HEADLESS=0
 LIVE_V91024_p0 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/p0_movement.py | index.html | 20 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
