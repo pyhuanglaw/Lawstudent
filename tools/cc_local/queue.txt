@@ -56,6 +56,9 @@ ROMPRIV_old | 13e84dc2703a340c1ad3ad7ae56ee3a763cce0d6 | probe | docs/story_plan
 SVC2_new | a883f36de45740335f9a1ea30d8512d1f5a9c4a9 | probe | docs/story_planning/test_tools/cc/cc_service2_probe.py | index.html | 40 | CC_HEADLESS=0
 SVC2_old | bc9c1408c0dfb82cbd1fa49d6a64e1d92e94d213 | probe | docs/story_planning/test_tools/cc/cc_service2_probe.py | index.html | 40 | CC_HEADLESS=0
 # X295 三支（BB 08:45）：探針雲端試跑後排在這裡
+X295B_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 40 | TAG=new
+X295B_new_1103 | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 40 | TAG=new1103;DATE=2025-11-03
+X295B_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_x295_board_probe.py | index.html | 30 | TAG=old
 # X283／X285 r2（只補 r1 沒跑到的第二個角度：r1 VIEWS 用 ; 分，被佇列 ENV 切掉＝TEST_BUG；探針改成 + 分）
 X283b_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=oldb;VIEWS=curb_far:campus:29.9:-54.4:18.4:0.82:12
 X283b_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=newb;VIEWS=curb_far:campus:29.9:-54.4:18.4:0.82:12

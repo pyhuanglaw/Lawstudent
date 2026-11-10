@@ -397,7 +397,7 @@ async def shanlan_case(pg, cdp, orient):
                 await pg.wait_for_timeout(500); auto = await st(pg)
                 if auto['dlg'] or auto['choices']: break
         if not (auto['dlg'] or auto['choices']):
-            dg = await pg.evaluate("""(()=>{ if(typeof GIFTH==='undefined') return null; const T=(typeof STORY!=='undefined'&&STORY.TICKS)||[]; return {slNear:GIFTH.slNear(GAME), slOn:GIFTH.slOn(GAME.G), slPick:GIFTH.slPick(GAME.G),
+            dg = await pg.evaluate(r"""(()=>{ if(typeof GIFTH==='undefined') return null; const T=(typeof STORY!=='undefined'&&STORY.TICKS)||[]; return {slNear:GIFTH.slNear(GAME), slOn:GIFTH.slOn(GAME.G), slPick:GIFTH.slPick(GAME.G),
               nTicks:T.length, gifthIdx:T.findIndex(f=>/GIFTH|S\.tick\(GM\)/.test(String(f))), busy:!!GAME.E.player.busy, dlg:!!(GAME.D&&GAME.D.active), paused:!!GAME.E.paused}; })()""")
             R.note('%s 走到旁邊等 8 秒沒有自己開始：診斷 %s' % (ctag, J(dg)))
         auto_log = []
