@@ -610,4 +610,9 @@ R8A_main12 | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/flow_main_d
 R8A_ggnav | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
 R8A_guide | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
 R8A_touch | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
-
+# 常備回歸（D143：佇列空、PC 閒；開發分支最新 9da05d8eb；汀州路發布前暖身）
+REG_9da05d8_deploy | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
+REG_9da05d8_p0 | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+REG_9da05d8_zone | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+REG_9da05d8_mini | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+REG_9da05d8_tzgate | 9da05d8ebba1822de6de1490217755d6ca5353af | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=GATE,SHOPS
