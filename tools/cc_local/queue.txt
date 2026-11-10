@@ -619,6 +619,19 @@ TZP_fps | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning
 WZQ_new | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 15 | PARTS=WZQ;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
 WZQ_old | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 10 | PARTS=WZQ;SHA=c17a9919ec13ff237181709df0a3ee70e4e4d5e2
 TZQ_go_old | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 15 | PARTS=TZQ_MAP,TZQ_GO;SHA=c17a9919ec13ff237181709df0a3ee70e4e4d5e2
+# BB 23:15 GG3（公館六間：安泰藥局、汀州鮮果、榮恩典文具社室內＋外觀＋子晴騎樓板凳＋搖桿走公館）：新＝3a216dfb2、舊＝fd4dd9aef（舊版沒有三間室內，INT 只跑新）
+GG3_walk_new | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=GGWALK,ZQSEAT;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
+GG3_walk_old | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=GGWALK,ZQSEAT;SHA=fd4dd9aef6cb0d31b06d137636a25ab52eceedc4
+GG3_ext_new | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=GGEXT;HOURS=14,20.5;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
+GG3_ext_old | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=GGEXT;HOURS=14,20.5;SHA=fd4dd9aef6cb0d31b06d137636a25ab52eceedc4
+GG3_int_new_14 | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;SHOPS=antai,xianguo,rongendian;HOURS=14;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
+GG3_int_new_2030 | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;SHOPS=antai,xianguo,rongendian;HOURS=20.5;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
+GG3_ggnav_new | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+GG3_ggnav_old | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+GG3_zone_new | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+GG3_zone_old | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+GG3_reach_new | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+GG3_reach_old | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
 # 常備回歸（D143：佇列空、PC 閒；開發分支最新 9da05d8eb；汀州路發布前暖身）
 REG_9da05d8_deploy | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
 REG_9da05d8_p0 | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
