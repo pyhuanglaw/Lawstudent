@@ -1482,3 +1482,10 @@
 [21:12:34] memory 37% before starting GIFTHOL2_new (2 running)
 [21:12:34] ==== START GIFTHOL2_new  (probe @ 8d8b475dc3a6b3546853a98fc24b60edb7829989) ====
 [21:12:36] [res] cpu=6% mem=38% (11.7/31.4 GB) chrome_testing=0  START GIFTHOL2_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a546b9cc1..a9176dbed  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:13:02] ==== END   XSDOOR_new  exit=0  224s   ====
+[21:13:06] 正在跑：XSPLANT_old（已跑 0 分／上限 15 分）、GIFTHOL2_new（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:13:29] solo item PERFCG_new_m waits: no new items start until the 2 running item(s) finish
+[21:14:30] [res] cpu=13% mem=43% (13.6/31.4 GB) chrome_testing=4  END XSPLANT_old
