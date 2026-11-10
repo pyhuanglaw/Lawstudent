@@ -6989,15 +6989,15 @@
    "branch": "claude/second-ai-env-art",
    "sha": "c91a79854",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "GG-DOOR-CAMS-1104（公館青木、頁間門口鏡頭被擋）",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_door_cams_1110/（README、gg_door_cams_4042c708a.patch、gg_door_cams_1104_unit.js、bb_1104_doors_before.jpg）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "青木：鏡頭在行道樹樹冠裡、葉子沒有透視 → 正式行道樹葉片離鏡頭 4 m 內網點透空＋接樹幹透視（townkit3d.js）；頁間：捷運出口亭鏡頭碰撞盒比模型小 0.8 m → 照模型外框（zones3d.js）。新測試開發 FAIL 3 → ALL PASS；回歸 13 支 ALL PASS。GLSL 要 CC 在瀏覽器確認編譯。",
-   "next": "LAWWW 套 patch；CC 重拍 art_aoki_door、art_yejian_door＋椰林大道樹下；BB 判"
+   "note": "青木：鏡頭在行道樹樹冠裡、葉子沒有透視 → 正式行道樹葉片離鏡頭 4 m 內網點透空＋接樹幹透視（townkit3d.js）；頁間：捷運出口亭鏡頭碰撞盒比模型小 0.8 m → 照模型外框（zones3d.js）。新測試開發 FAIL 3 → ALL PASS；回歸 13 支 ALL PASS。GLSL 要 CC 在瀏覽器確認編譯。 ｜ LAWWW 11-10 10:22 接進開發分支 d8b669175（gg_door_cams、street_trees、seethru、gg_* ALL PASS）；CC 排 PC。",
+   "next": "CC 瀏覽器確認 shader 編譯、重拍兩張門口；BB 判"
   },
   {
    "branch": "claude/second-ai-env-art",
