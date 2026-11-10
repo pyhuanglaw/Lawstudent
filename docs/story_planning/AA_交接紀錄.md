@@ -1,13 +1,29 @@
+### AA 帳號 A 目前狀態與全部待辦（2026-11-10 21:1x UTC 更新；roles 讀這一節）
+
+- DLG-FULL-REVIEW-1110（X324，進行中）：全部對話重審。電影 `AA_745` 第二版三批已交、BB 複看通過（BB_309）、LAWWW 已重匯（0160bb208）；**還缺**：398 組「人×片」沒有她的回答（要補每人一組沒有專屬回答時的回話＋選項分類）。告白 `AA_748` 已交 BB（BB_310 五處已改），還沒交 LAWWW；等使用者選芷若、沛珊告白新舊版。之後照 `AA_746` 第 3 節：期末飯朋友版／女朋友版 → 設定錯的清掉 → 一起活動與念書補選項 → 校外約會 → 閒聊階梯 → 邀約與手機訊息 → 第二輪稽核 events.js。每批送 BB 第二意見（UA-AA-1110-05）。
+- MOVIE-TALK-1110（LAWWW 的任務；AA 待辦：SIS_HEHUAN 合歡山那一趟的台詞、ZQ_VOICE_MEMO 十則語音、幾個只記著的旗標接到劇情）。
+- DLG-FX-MECH-1110（LAWWW 的任務，機制已在開發分支；AA 待辦：期末飯鉤子 10 處「幾乎相同」的句子改字；可昕 dating 約 200 句重寫後請 LAWWW 打開）。
+- FLOWER-NOTES-1110（X325，待開工）：花序 Flower Notes 十樣商品說明、花藝師的句子、喜好對應；`AA_747` A5 的「晨露花舖」一起改。
+- LIFE-DETAILS-SEASONAL-1110（X317，已交 `AA_747`，BB 看過；等 LAWWW2 模型、LAWWW 接）。
+- GG-SHOPS3-STORY-1110（X320，已交 `AA_742`、`AA_743`；等 LAWWW2 室內、LAWWW 接；店寬確定後 AA 對一次配置）。
+- TINGZHOU-AREA-1110（X321／X322）：夜市攤已交（`AA_744` 第 2、3 節）；店名由使用者決定（AA 不取）；五間正式店要做室內時 LAWWW 再派。
+- US-CLASSROOM-3D-1110、US-CLUBHOUSE-3D-1110（已交 `AA_740`、`AA_741`，LAWWW 已接；何俊朗 3D 模型、期末考桌上的考卷是美術待辦）。
+- SHIFT-TREAT-1110（X302，已交 `AA_739`，LAWWW 已接，等 BB 測）。
+- BULLETIN-BOARD-1110（X295，已交 `AA_737`，LAWWW 已接，等 BB 測）。
+- DIALOGUE-DEPTH-1031：語彤共創，11-11 用選擇題問使用者。
+- 等使用者回答（選擇題還沒送到）：芷若、沛珊告白新舊版；可昕高中排球要不要；「新增店面都不自己取」是不是永久規則（UA-AA-1110-03）。
+- 等別人：VAC-GAP-ROUTES（國外逐週重讀等 BB 測完 AA_660／AA_667）、DRIVE-PICKUP（等 LAWWW2 停車場）、AA530（等 LAWWW）、AA_720 背景（BB）、溫州街四間室內（2:30 AM 等 LAWWW2 重烘、BB 判）。
+
 值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning｜接班基準 1cc9d07a4（快轉合併 AA-B 的 `claude/cool-heisenberg-o8kuqx`，含帳號 A 11-04 的 81f740cb7）｜2026-11-10 08:1x UTC
 上一班：帳號 B｜AA-B｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 1cc9d07a4｜正常交班（2026-11-10 01:34 UTC，快照 `2026-11-10T0134Z_B_AA.json`）
 接班核對（RULE_SOURCE `origin/claude/modest-rubin-2lyp7g` bb8a32765，`duty find`：值班沒有人、上一任 B、seq 124；規則到 D143／HV-30）：
 - 使用者 11-10 對 AA：「接班」；CC 08:08 轉使用者「是接班！幫我通知其他AI」。
-- `roles --role AA`：OK（全部待辦 9 行、5 個 ID）；`asks --role AA`：OK（176 筆）。
-- 全部待辦照上一節 AA-B 交班 B 類：第一項 BULLETIN-BOARD-1110（AA_737 公告欄：社團社課時間、特殊活動、學生會迎新派對、社團徵人）；語彤共創 11-11 用選擇題問使用者（DIALOGUE-DEPTH-1031）。
+- `roles --role AA`：OK（全部未完成（舊） 9 行、5 個 ID）；`asks --role AA`：OK（176 筆）。
+- 全部未完成（舊）照上一節 AA-B 交班 B 類：第一項 BULLETIN-BOARD-1110（AA_737 公告欄：社團社課時間、特殊活動、學生會迎新派對、社團徵人）；語彤共創 11-11 用選擇題問使用者（DIALOGUE-DEPTH-1031）。
 - AA 每小時保險喚醒 `trig_01Gs1X6fU3cVNnAyuA26KnRZ` 重新打開（D129）。
 - **08:3x**：BULLETIN-BOARD-1110 交了：`AA_737`（2a1c30dc6；outbox 41858c41c）——本週公告三區、五張招生海報＋第 5、6 週補入社、四個特殊活動（迎新派對、捐血車、期中電影夜、校慶園遊會）；已交 LAWWW（副本 BB），等 LAWWW 實作、BB 測。
 - **08:4x**：LAWWW2 交山嵐文具區（24dc0d99b，已交 LAWWW）。**以後 AA 重新匯出 shanlan.glb，要先 `bake_xs.sh shanlan`，再跑 `tools/blender/env_second/shanlan_stationery/` 的三行（README 有），不然文具區會不見。** 品項清單照 AA_732 shops[1] 18 樣分區給了 LAWWW2。
-- 剩下的全部待辦都在等別人（國外逐週重讀等 BB、DRIVE-PICKUP 等 LAWWW2 停車場、AA530 等 LAWWW、AA_720 背景等 BB、LAWWW-B 匯入那幾批）；語彤共創 11-11 用選擇題問使用者。
+- 剩下的全部未完成（舊）都在等別人（國外逐週重讀等 BB、DRIVE-PICKUP 等 LAWWW2 停車場、AA530 等 LAWWW、AA_720 背景等 BB、LAWWW-B 匯入那幾批）；語彤共創 11-11 用選擇題問使用者。
 
 ## 交班（帳號 B｜AA-B｜2026-11-10 01:4x UTC｜使用者：「現在交班」）
 - **A 本班成果**（接班 2026-11-09 16:11 起；全部在 claude/cool-heisenberg-o8kuqx、已 push、outbox_AA.json 有登記、都已送 LAWWW-B）：
@@ -18,7 +34,7 @@
   - AA_735 服務學習（二）法律服務（SERVICE2-LEGAL-1110／X279，d14a03136；LAWWW-B 已接 a883f36de）＋AA_342 象棋兩句拿掉（4470f4908）。
   - AA_736 祐廷少提經濟系、重考（DLG-NO-ECON-REPEAT-1110，256bcdc42）。
   - 00_台詞寫作規則 第 9 節加兩條（答應句不寫時間、少提經濟系）。
-- **B 全部待辦**（下一班 AA 從這裡接）：
+- **B 全部未完成（舊）**（下一班 AA 從這裡接）：
   - **BULLETIN-BOARD-1110（P2，LAWWW-B 01:32 轉使用者「公告欄要看的到社團社課時間 特殊活動?學生會迎新派對? 社團徵人?」）：還沒寫，只讀過開發分支 src/data/activities.js（19 筆活動）**。下一步寫 AA_737：①每種公告（club 社課、recruit 招新、lecture、event、fair、tour、學生會、學校公告）標題＋一兩句；19 筆現有活動各一則公告文。②學生會新生晚會：AA 的打算是做成活動，每年上學期第 2 週週五 19:00～21:30 綜合體育館，經濟系那年、法律系大一可以參加（三四句旁白、story:false、不出現有名字的人），之後幾年只貼公告。③其他學期的特殊活動（打算列：二手書市集、捐血車、校慶園遊會、聖誕點燈、春季校園開放日、就業博覽會、法研所招生說明會、學生會選舉、颱風停課公告、各社團招新），日期照 calendar.js 的 TERMS 算出每一年的。ACK 已回 LAWWW-B。
   - DIALOGUE-DEPTH-1031：語彤共創 **11-11 用選擇題（AskUserQuestion）問使用者**。
   - 國外每週重讀：等 BB 測完 AA_660／667。
@@ -37,7 +53,7 @@
 接班核對（RULE_SOURCE `origin/claude/modest-rubin-2lyp7g` d56e4f05，seq 110；LAWWW-B 16:06 已重新登記）：
 - 使用者 11-09：「現在交班 你上次交班後沒有人接班 我會通知其他AI上線」→「現在接班」。
 - 規則：RULE_SOURCE 的 CLAUDE.md 有 D131～D143（11-03～11-07），AA 相關的 D135（接班精簡）、D137（台詞照 00_台詞寫作規則.md＋00_人物口氣表）已在照做。
-- 全部待辦照上一節交班紀錄 B 類（語彤共創 11-11 再問使用者為第一優先）。
+- 全部未完成（舊）照上一節交班紀錄 B 類（語彤共創 11-11 再問使用者為第一優先）。
 
 ## 進度（帳號 B｜AA-B｜2026-11-10 00:3x～01:2x UTC）
 - 交付（都已 push、outbox_AA.json 有登記、LAWWW-B 已收）：
@@ -74,7 +90,7 @@
 - `duty verify`：異常 3 項。AA 那一項是「帳號 B 的 cool-heisenberg 在交班記錄 699789b7 以後多 1 個 commit」＝我 11-04 自己的交班 commit 69a24fa5d（duty handoff 先寫、後 commit），AA-C 已經從它快轉，不是雙寫；BB 那項是 BB 的。
 - `asks --role AA`：OK（162 筆）。`roles --role AA`：OK。
 - 「醒來要問的」三題：使用者 11-05 03:4x 都答了，不用再問。語彤共創 11-11 再問（DIALOGUE-DEPTH-1031）。
-- **使用者 11-07 03:2x 實玩回報＋四個存檔**（UA-AA-1107-01、-02；存檔在 `docs/story_planning/user_saves/2026-11-07/`）：AA 的部分登記在「全部待辦」最上面 PLAYTEST-1107；開發的部分交 LAWWW-B。
+- **使用者 11-07 03:2x 實玩回報＋四個存檔**（UA-AA-1107-01、-02；存檔在 `docs/story_planning/user_saves/2026-11-07/`）：AA 的部分登記在「全部未完成（舊）」最上面 PLAYTEST-1107；開發的部分交 LAWWW-B。
 - **AA-B 2026-11-08 進度（隨時更新；交班時照這一段寫 A～F）**：
   - 已交：`AA_720` 第一批 19 場（963afea74）＋第二批結局分版本（3e9cc0385）＋quietMove 學姊第 6 拍樓梯間（4f37a68bb）＋wiringAnswers（ee689cfb8）；LAWWW-B 已接（43c4030cd／6146b9b16），逐字 642 句 0 缺。`AA_709` 第七～十一批（5c8664179、f82035701、cc38793f7、359a545eb、211b71958＋學姊南瓜改句 0a4e74f2b）：大一上到畢業以後一年全掃完。`AA_717` 子晴 rot 13～15、芷若 life 5 改字（ee689cfb8、033b5150a，要重匯）。VAC-GAP-ROUTES 複查（da5ff447a）。
   - 04:0x 對過開發分支 9dc7ae574：AA_720 第三輪（075eae472、3e6a7ff71）、AA_712 cite（ARCS.citePick）、AA_717 三處、動態回覆鍵 7 天到期都已接（BB 驗了到期那項）。
@@ -87,7 +103,7 @@
 
 ## 交班（帳號 C｜AA-C｜2026-11-05 10:4x UTC｜使用者：「現在交班」）
 - **A 本班成果**：11-04 12:2x 接班～11-05 10:4x：`AA_664`～`AA_705`（全部在企劃線，每份都有 outbox 登記、SHA）。重點：台詞分批清（`AA_664`～`AA_683`）、`AA_669` 期末考前圖書館（使用者）、`AA_688`／`AA_689` 語彤畢業以後的舊設定、`AA_694` 約會台詞拿掉多餘「……」（使用者選整批改）、`AA_700` 打烊統一一句（使用者）、`AA_701` 社團布告欄（使用者）、`AA_703` 沛珊客運（使用者截圖）、`AA_704` 望月台、`AA_705` 新店面裡遇得到的人（使用者；只用主要角色、照現在密度）、山嵐模型 v5.1。
-- **B 全部未完成**：見本檔「AA-C 全部待辦」最上面「AA-C 2026-11-05 09:1x 新增」那一節（逐項寫了下一步）；其中 SHOP-NAMED-NPC-1105 已收尾（LAWWW-C `e4426bd6c` 全部接好，撞時段都過）。其他：VAC-GAP-ROUTES 等 AA667-VAC-GAP2-1104；DIALOGUE-DEPTH-1031 語彤共創 **11-11 用選擇題再問使用者**；AA530-PG-CONFESS-1030（P3，語彤列照 `AA_688` 第 5 節）；DRIVE-PICKUP-1105 等 LAWWW2 停車場。
+- **B 全部未完成**：見本檔「AA-C 全部未完成（舊）」最上面「AA-C 2026-11-05 09:1x 新增」那一節（逐項寫了下一步）；其中 SHOP-NAMED-NPC-1105 已收尾（LAWWW-C `e4426bd6c` 全部接好，撞時段都過）。其他：VAC-GAP-ROUTES 等 AA667-VAC-GAP2-1104；DIALOGUE-DEPTH-1031 語彤共創 **11-11 用選擇題再問使用者**；AA530-PG-CONFESS-1030（P3，語彤列照 `AA_688` 第 5 節）；DRIVE-PICKUP-1105 等 LAWWW2 停車場。
 - **C 正在做**：無（沒有做到一半的檔案；工作樹乾淨）。
 - **D 新決策、規則（使用者 11-05，都記在 `user_asks_AA.json`）**：打烊統一店員一句（X236）；社團布告欄（X237）；店裡遇得到的人只用主要角色、不用每天遇到但要遇得到（X259，規則永久）；「留給下一批的交接紀錄要寫好」；新月台→望月台（`WORLD_NAMING.md` 已加）。
 - **E 跨 AI**：給 LAWWW-C、BB-C 的訊息都 DELIVERED；LAWWW-C 對 `AA_686`～`AA_705` 都回了 ACK／ACTIONED（最後一則 10:35 `e4426bd6c`）。沒有等 ACK 的。
@@ -102,7 +118,7 @@
   - HV-22（CC 第五個職位）、HV-23（交班後停用喚醒）、HV-24（LAWWW 可以直接聯絡 CC）、HV-25（CC 可以直接聯絡任何職位）；
   - D116（不跟別人比）、D117（選擇題）、D118、D125（等測試不閒著）、D126（每小時推）、D127（AA 內容規則：圖書館小聲講、保溫瓶空不空整條拿掉、學姊不說「你們系」、不寫「回臺北」、「臺北的家」改「家」）、D128（美術驗收不經使用者）；
   - `docs/WORLD_NAMING.md`（首都帝大等新名稱）。
-- `duty verify --ref`：OK。`asks --role AA`：OK（138 筆）。`roles --role AA`：OK（全部待辦 9 行、5 個 ID）。
+- `duty verify --ref`：OK。`asks --role AA`：OK（138 筆）。`roles --role AA`：OK（全部未完成（舊） 9 行、5 個 ID）。
 - `check --ref`：異常 4 項，都是 LAWWW 的總表：TEST-TRACE-1104 負責人 CC、TEST-OFFLOAD-1103／-*、SYS-1102 沒進 tasks.json。給值班 LAWWW。
 - `incr --ref`：異常 559 項。
   - AA 179 項：帳號 A 和 AA-B 的建模、layout commit 沒登記進 outbox／deliveries。
@@ -217,7 +233,7 @@
 ## 交班（AA-B 帳號 B → 下一班）｜2026-11-04 12:3x UTC｜使用者：「我開錯帳號了 你們使用量快沒了 現在交班」
 - 帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 `claude/cool-heisenberg-o8kuqx`｜接班 12:1x（基準 81f740cb7＝快轉 `claude/story-planning`）→ 只做了約 20 分鐘就交班。最後 commit＝含本節的交班 commit。**交班紀錄不代表下一班已經接班。**
 - **A. 本班成果**：值班登記 699789b7f；`AA_659` §3 一盞前院五點座標照 LAWWW 開發分支 0310aa37a 改寫（看院子 (0.4,7.7)、石燈籠 (−0.85,8.9)、樟樹 (2.95,8.75)、貓碗 (3.95,7.9)／碗 (4.05,8.35)、木牌 (−2.0,8.4)；舊座標標「不要再用」），台詞沒動。通訊測試：CC-B ACK、LAWWW-B ACK（它 12:17 接班、RULE_SOURCE `claude/modest-rubin-2lyp7g` @ 9f4d237e2、已 duty sync AA-B）；BB-B、LAWWW2-B 已 DELIVERED、還沒回。
-- **B. 全部待辦**：照帳號 A 11-04 09:0x 交班那一節（溫州街四間等 BB 判定、2:30 AM 等 LAWWW2 用 30c2d5998 重烘、AA_659 §3 前院 LAWWW 實作中）＋下方「全部待辦」。本班新增：
+- **B. 全部未完成（舊）**：照帳號 A 11-04 09:0x 交班那一節（溫州街四間等 BB 判定、2:30 AM 等 LAWWW2 用 30c2d5998 重烘、AA_659 §3 前院 LAWWW 實作中）＋下方「全部未完成（舊）」。本班新增：
   - LAWWW-B 12:17 的 B3「ASK-5NAMES 企劃稿換名」：**大部分帳號 A 已做**（`AA_639` afed9e592：AA 檔 53 個 305 處、「紐約那間法學院上了。八月出發。」說法在 §2）。還剩 AA 的三個檔沒換：`voice_canon/heroine_01.md`（哥大 4 處→紐約的法學院；第 90 行台詞照 AA_639 §2 改「紐約那間法學院，上了。我要去。」）、`voice_canon/npc_fangyt.md:89`（杜鵑花節→松鼠節）、`ladder/ladder_aa_y3s2.json` 281／306／311（杜鵑花節→松鼠節；遊戲 ladder.js 已換）。**還沒回 LAWWW-B 這件**（要告訴它看 AA_639 §2）。
 - **C. 正在做**：上面那三個檔的換名，**還沒動手**（沒有未存檔的改動）。
 - **D. 規則**：沒有新的。
@@ -230,7 +246,7 @@
 接班核對（RULE_SOURCE `origin/claude/confident-ritchie-8rwh7t`，`duty find`：值班沒有人、上一任 A、HV-20、seq 55）：
 - 使用者 11-04 12:0x 對 AA-B：「現在接班 請同步 GitHub 最新進度，接續工作 接班之後跟其他AI試著傳訊息」。
 - `duty verify`：OK（值班狀態一致；AA、BB 在 story-planning 交班記錄之後多的 commit 是各自的交班 commit）。
-- `asks --role AA`：OK（138 筆）。`roles --role AA`：OK（全部待辦 9 行、5 個 ID 都在總表）。
+- `asks --role AA`：OK（138 筆）。`roles --role AA`：OK（全部未完成（舊） 9 行、5 個 ID 都在總表）。
 - `duty register --account B --role AA`：已寫 `docs/handoff/duty_AA.json`，等值班 LAWWW `duty sync`。
 - 新規則已讀：HV-22（CC 第五個職位，BB 的測試助手）、HV-23（交班後停用每小時喚醒）、HV-24（LAWWW 可以直接聯絡 CC）；AA_596 第五節（不要停下來等使用者、該問就出選擇題、不用「要繼續嗎？」結束回合）。
 - 以安共創：帳號 A 已做到第十七批，使用者 11-02 說「以安定型了」（`AA_以安共創紀錄.md`、`AA_565`）；我 11-01 交班時那一題已經由帳號 A 接下去，不再重問。
@@ -275,11 +291,11 @@
   - 公館：頁間書屋、青木茶室、afar café、Daybreak 室內（MODEL_READY）。
   - 溫州街第一批（AA_654）：2:30 AM v1f（30c2d5998；BB 模型關過、等遊戲內 ART）、小路 v1f＋layout v4（bc021c7e1）、SUNNY SIDE v1e（86688bd91；layout 照 LAWWW 同步 efe1982c7）、一盞 v1e（bc021c7e1）——四間都 MODEL_READY。
   - 台詞：AA_655 §7、AA_657（站位＋補二「三號桌」八句 65a1b2fe9）、AA_658（改名）、AA_659（新台詞、前院五個互動點座標、掛軸括號）。
-- **B. 全部未完成（全部待辦）**：
+- **B. 全部未完成（全部未完成（舊））**：
   - 溫州街四間：等 LAWWW 接小路 v4／SUNNY v1e／一盞 v1e（阿德子代理合併後）→ BB 看遊戲內截圖判 ART_APPROVED；有退件 AA 改模型。
   - 2:30 AM：等 LAWWW2 用 30c2d5998 重烘光照（f785028e6 那顆是舊 v1d 烘的，不要接）。
   - AA_659 §3 前院互動（石燈籠、樟樹、貓碗、木牌、第一次進前院旁白）：LAWWW 實作中。
-  - 先前的待辦照本檔下方「全部待辦」（AA-C 全部待辦、BACKLOG-SWEEP-AA-1021 等）。
+  - 先前的待辦照本檔下方「全部未完成（舊）」（AA-C 全部未完成（舊）、BACKLOG-SWEEP-AA-1021 等）。
 - **C. 正在做**：沒有進行中的建模或寫稿；沒有背景子代理。
 - **D. 最新規則**：改這四間的 layout 先拉 LAWWW 開發分支那份再改（LAWWW 會照 GLB 實測修座標）；美術規則 SCENE_RULES §9-7、G（照參考圖）、H（不准複製貼上）。
 - **E. 跨 AI**：BB（2:30 AM v1e 模型 PASS、等遊戲內截圖）、LAWWW（ACK bc021c7e1、86688bd91、efe1982c7）、LAWWW2（ACK 重烘 30c2d5998）——全部 DELIVERED＋ACK。
@@ -313,8 +329,8 @@
 - 11-01：`AA_以安共創紀錄.md`（WIP）；`docs/story_planning/tools_aa/vsweep_routes.js`（逐日掃描工具存檔）。
 - 11-01 回 LAWWW-B 的決定（都 DELIVERED、對方說不用 ACK）：`AA_554` 13 題（Q5 只拿掉原句「你拍得超大聲。」）；L1～L3 6 題（電梯陌生人三句專用句；大二合照 9/25 中秋→9/24）；SYS-14 `AA_13` G2 放榜班群**整段取消**（D116）；V3-AA170 選 (a) 結案；`AA_416` 1-4 麵店團不加她約 (b)；`BB_119` v6 九題照現況；PS-MSG-LESS-1018 選 (a)；AA255-Y2S2 yu_exam 照現況。
 
-### B. 全部未完成工作（全部待辦）
-- 完整清單：本檔「AA-C 全部待辦」（約 840 行起，含「AA-B 2026-10-23 新增」「BACKLOG-SWEEP-AA-1021」）＋本節；`check_handoff.py roles --role AA` 11-01 08:5x 結果 OK（421 行、185 個 ID 都在總表）。
+### B. 全部未完成工作（全部未完成（舊））
+- 完整清單：本檔「AA-C 全部未完成（舊）」（約 840 行起，含「AA-B 2026-10-23 新增」「BACKLOG-SWEEP-AA-1021」）＋本節；`check_handoff.py roles --role AA` 11-01 08:5x 結果 OK（421 行、185 個 ID 都在總表）。
 - 本班新增／狀態有變的：
   - **DIALOGUE-DEPTH-1031**（AA，進行中）：角色個性共創。以安停在第 2 輪（見 C）；其他 15 位還沒開始；每位定型後寫聲音規格（`AA_565` 起）＋改稿＋通知 LAWWW-B。`AA_559`～`AA_564` 屬於這一項，暫停到各角色定型。
   - 【表外】**VAC-GAP-ROUTES**（AA，暫停）：日本／美國路線寒暑假、出發前、回國後空白缺口表＋第一批稿。原因：使用者改要角色共創。恢復條件：使用者說繼續，或共創告一段落。掃描輸出要重跑（工具已存檔）。
@@ -355,7 +371,7 @@
 上一班：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit ea43bd9a0（2026-10-28 15:23 UTC，回 LAWWW-C 15:22、AA_519 第 9 節對稿完成）｜**沒有正式交班** → 使用者 10-30 對 AA-B：「上個帳號來不及交班 你現在要接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
 接班核對（RULE_SOURCE `origin/claude/adoring-meitner-mqzst8` @ c76d0cb69，`duty find`：值班 C、上一任 B、HV-20、seq 32）：
 - `check --ref`：OK（十一項都沒有異常；提醒：分支唯讀稽核上次 10-28 09:02，是值班 LAWWW 的事）。
-- `roles --role AA`：OK（全部待辦 421 行、185 個 ID）。
+- `roles --role AA`：OK（全部未完成（舊） 421 行、185 個 ID）。
 - `asks --role AA`：OK（52 筆）。
 - `duty register --account B --role AA --user-ok`：已寫 `docs/handoff/duty_AA.json`（`tools/handoff/` 從 RULE_SOURCE 取新版），等值班 LAWWW `duty sync`。
 - **上一班最後在做什麼**（照 commit 和本檔 1995～2038 行）：
@@ -625,7 +641,7 @@
 接班核對（RULE_SOURCE `origin/claude/modest-rubin-2lyp7g`，`duty find`：值班 B、上一任 A、HV-18、seq 27）：
 - `check --ref`：OK（十一項都沒有異常）。
 - `asks --role AA`：OK（48 筆）。
-- `roles --role AA`：異常 16 項，全是 AA 全部待辦表的「表外」（上一班已交、還沒補成 tasks.json 任務），補任務是值班 LAWWW 的事，已列給 LAWWW-C。
+- `roles --role AA`：異常 16 項，全是 AA 全部未完成（舊）表的「表外」（上一班已交、還沒補成 tasks.json 任務），補任務是值班 LAWWW 的事，已列給 LAWWW-C。
 - `duty register --account C --role AA --user-ok`：已寫 `docs/handoff/duty_AA.json`，等值班 LAWWW `duty sync`。
 - 上一班最後在做什麼（照 commit 和使用者貼來的最後對話核對）：
   - AA_470～473（學姊總檢查、大五、畢業以後、前任的畢業以後）已交 LAWWW-B。
@@ -761,16 +777,16 @@
 上一班：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜最後 commit dea49ab3（`duty_AA.json` handed-off）｜2026-10-22 15:04 正常交班 → 使用者對 AA-B 說「我回來了，請同步 GitHub 最新進度，接續工作」。
 接班核對（RULE_SOURCE `origin/claude/confident-ritchie-8rwh7t` @ 719cca3b）：
 - `check`：異常 1 項。`HANDOFF-A-1022` 已驗收但沒有 evidence，是 LAWWW 的任務，已轉告。
-- `roles --role AA`：OK（全部待辦 301 行、104 個 ID）。
+- `roles --role AA`：OK（全部未完成（舊） 301 行、104 個 ID）。
 - `asks --role AA`：OK（48 筆）。
 - `duty register`：已登記。
 
 > **【進度 2026-10-23 18:3x UTC，AA-B】（16:3x 以後；下一班從這裡看）**
 > - **LAWWW-B 派的十一項**（使用者經 LAWWW-B 17:17：「接下來十小時……把沒做完的事都做完」）：
 >   - 交完 1、2、4、6～11：`AA_411`～`AA_420`；第 3 項取消。
->   - 各項的 SHA 在「全部待辦」AA-B 那張表。
+>   - 各項的 SHA 在「全部未完成（舊）」AA-B 那張表。
 >   - LAWWW-B 已實作：`AA_412`（`1fe50a751`）、`AA_413`（`f30686b38`）、`AA_417` 第 1、2 節（`873ea4b9f`）。其他在排。
-> - **不是待辦、搬出全部待辦表的紀錄**（2026-10-23 19:1x）：
+> - **不是待辦、搬出全部未完成（舊）表的紀錄**（2026-10-23 19:1x）：
 >   - 永久規則：時段③（上午、下午、晚上各一件主要的事）、X99（問使用者一律 A／B／C）——口氣表 0-5 已加；
 >   - LAWWW-B 派的十一項＝下面各任務；
 >   - 表頭時間更正（`5d09bb72`、`81c14898`）；
@@ -858,7 +874,7 @@
 >   - 核對方法：grep 開發分支「去年在研究室說的。剛回來一天。」「她在等她說好的那一天」「票根，還在嗎？」「我一個人去看了。」；沒有就提醒 LAWWW。
 > - **#101 學姊**：第一～四批都已交；下一批看 BB 測試結果再補。候選：七夕、白色情人節的學姊版；`BB_122` 9-1 對質等多段感情那邊一起做。
 > - **沒有遠端備份的**：無。工作樹乾淨；scratchpad 只有暫存腳本和兩個唯讀 worktree（`wt_base`、`wt_dev`），不需要保存。
-> - **全部待辦**（LAWWW 15:05 要求寫齊）：
+> - **全部未完成（舊）**（LAWWW 15:05 要求寫齊）：
 >   - `SIS-LEAD-1021`（#101 學姊）：進行中。四批都已交；下一批等 BB 測試結果。
 >   - 上面「已交 LAWWW、還沒確認做到的」1～4 點：等 LAWWW 做，下一班核對。
 >   - `AA_387` 解讀 A1～A6：**已回**（`021ffe76`，第 10 節）。LAWWW 15:05 的訊息比這則回覆早寫，所以列成待回。
@@ -959,7 +975,7 @@
 >   - `AA_364`：USER_WANTS B09 溫州街其他店面哪幾家能進（`2b0429cd`）。
 >   - `AA_288` 第 8 節：指向 `AA_351` 定稿（`504ca1a7`）。
 >   - 核對 AA_360、AA_357 已進開發分支（S.zqGame、學姊考前、沛珊尾聲、芷若 Z7、Y5S1、中秋、第五年、最後一次實習、跳日期那句都在）。
-> - **AA（帳號 A）全部待辦**：
+> - **AA（帳號 A）全部未完成（舊）**：
 >   - ~~AA-Q-1021-AAFIX~~ **核完（16:1x UTC）**：LAWWW 合併 WIP（`32148711`）。`AA_355` 第 5 節（4b 昨天、4c 冷靜中不約、6 運動會只標字、7 以安電話、5-1 十個物件的旁白）、`AA_358` 第 2 節（2-1～2-5 加條件、2-6 八句測試寫死的換句）在開發分支上都對；舊句都清掉了。
 >   - 阿凱國界膠帶（LAWWW2 16:04 問；BB_218 實測字看不到）：AA 定膠帶寫「國界」→演過 ev_kai_tape2 後「法律系免簽」；旁白改「（膠帶上多了一行麥克筆的大字：「法律系免簽」。）」，`tests/aa347_y1_unit.js` 寫死，交 LAWWW 連測試一起改。
 >   - 經濟系生活費 S2 補問：選 A（9/1 起 30,000，8 月不補）。
@@ -978,7 +994,7 @@
 >   - `duty verify` 結束碼 1：異常 7「LAWWW 交班快照找不到」——檔案其實在（`docs/handoff/snapshots/2026-10-21T1459Z_C_LAWWW.json`），是 `duty.json` 的 `lastHandoff.snapshots` 寫了完整路徑、工具又加一次資料夾（和 `3468c35c` 修過的一樣）。LAWWW 的檔，記給 LAWWW。
 >   - `check` 結束碼 0。
 >   - `incr` 結束碼 1：7 項都是 `WIP-LAWWW-AAFIX-1021`——commit `8a9a5e5a` 在所有遠端都找不到（vac_activities.js、vac3d.js、jp_dorm3d.js、aa355／aa358 測試）。這是 LAWWW 實作 AA_355、AA_358 的 WIP，可能沒推；**AA 要核對 AA_355 第 5 節、AA_358 到底進開發分支了沒**。
->   - `roles` 結束碼 1：36 項——本檔「全部待辦」裡的子項編號（J-S1～J-S19、C-1、C-4、F-K1、AB65-1、CG-16、BB-LOGIC-13）、規則版本（HV-17、HV-18）、使用者要求編號（UA-AA-1017-38～41、UA-AA-1018-03、UA-AA-1020-31、UA-AA-1021-37、UA-LAWWW-1021-02）在總表找不到，另 1 行【表外】（第 224 行附近「C.」）。要值班 LAWWW 補任務或寫進 `meta.reconcileIgnore`。**逐職位核對：異常 36 項未處理**（不宣稱交接完整）。
+>   - `roles` 結束碼 1：36 項——本檔「全部未完成（舊）」裡的子項編號（J-S1～J-S19、C-1、C-4、F-K1、AB65-1、CG-16、BB-LOGIC-13）、規則版本（HV-17、HV-18）、使用者要求編號（UA-AA-1017-38～41、UA-AA-1018-03、UA-AA-1020-31、UA-AA-1021-37、UA-LAWWW-1021-02）在總表找不到，另 1 行【表外】（第 224 行附近「C.」）。要值班 LAWWW 補任務或寫進 `meta.reconcileIgnore`。**逐職位核對：異常 36 項未處理**（不宣稱交接完整）。
 >   - `asks` 結束碼 1：AA 4 項（UA-AA-1020-31／33／34／35 是 AI 解讀、使用者還沒確認）、LAWWW 1 項。
 > - D90／HV-9 ACK（AA，帳號 A）：已讀 RULE_SOURCE `CLAUDE.md`「P0 使用者訊息優先協定」；規則 HV-18＠`7c58b598`；沒有沒處理的使用者指示；沒有在跑的長工作。（第 14 節 ACK 表是 LAWWW 的檔，請值班 LAWWW 抄進去。）
 > - 還沒做：第 9b 步（USER_WANTS「不在遊戲裡」、`check_orphans.py`）、BB-C 分支要不要合併、AA-C 交班時「沒做完」的兩項、核對 AA_357／358／360 的實作。
@@ -1171,7 +1187,7 @@
 > 2026-11-10（X311／HV-31）：這裡原本抄的規則（劇情總監、讀訊息優先、新訊息優先制度、期末考素材、美術支援 SOP、永久保存規則）已刪，現行規則只在 RULE_SOURCE 的 `CLAUDE.md` 和 `docs/rules/ROLE_AA.md`；舊文字在 git 歷史。
 
 
-## AA-C 全部待辦（分批；2026-10-17 10:4x UTC；使用者經 LAWWW-C：「先自己審每一批要做什麼、排出順序，手上沒事就先做下一批」）
+## AA-C 全部未完成（舊）（分批；2026-10-17 10:4x UTC；使用者經 LAWWW-C：「先自己審每一批要做什麼、排出順序，手上沒事就先做下一批」）
 
 ### AA-B 2026-11-07 新增（使用者實玩回報，UA-AA-1107-01；PLAYTEST-1107【表外】已請 LAWWW-B 開）
 
@@ -1550,7 +1566,7 @@
 > - 已完成（今天）：`AA_301`～`AA_307`、階梯 `AA_306`（只剩韋綸大一下 L5～L8）、retake_home 照 `AA_303`。
 > - 未完成／下一班第一步：①讀 QA 劇本第三版（開發分支 `docs/qa/econ_transcript_1_開學到退宿_1018b.md`、`econ_transcript_2_休學到放榜_1018b.md`）寫 `AA_308`；②問韋綸大一下階梯 L5～L8；③問使用者法律系要不要也逐場確認；④`AA_299` 第 2 組圖（car_morning、car_rain）等使用者要；⑤`AA_296` 法律系四年的手機盤點。
 > - 等 LAWWW：`AA_307` 給 LAWWW 的 9 處（測試寫死）、retake_home 重匯（`712dad6b`）、階梯重匯（最新企劃分支）、K7 票根，預定 v9.10.2。
-> - **六類（AI_SESSION_HANDOFF 第 7 節）**：**A 已完成**＝上面「已完成」＋`outbox_AA.json` 最後 8 筆（每筆有 SHA）；開發分支 AA 推的字串已進 v9.10.1。**B 全部未完成**＝上面①～⑤＋本檔「AA-C 全部待辦」以下各段（舊的待辦照舊有效）＋`AA_306`「還沒問」。**C 正在做**＝無（交班時沒有做到一半的檔案；兩個 worktree 都乾淨）。**D 新決策（使用者 10-18，都寫在檔裡）**：可昕不跟祐廷比較（口氣表 1-6；`AA_298` 第 10 節）；休學只告訴可昕、宿舍住到 10/31、10/29 小松被唐睿問（`AA_305`）；阿勳整個不講冷笑話（`AA_305` 第 9 節）；重考期在祐廷房間的書桌讀書，不是餐桌（`AA_306`「⚠」節）；2/14「比誰先坐到桌子前面」照現在（`AA_304` 第 8 列）；首都帝大就在公館，台詞不說「去公館」當目的地（`AA_306` 韋綸 L1）。**E 跨 AI**：給 LAWWW-C 的訊息都 DELIVERED（`AA_302`～`AA_307`、階梯重匯）；LAWWW-C 已 ACTIONED `AA_303`／`AA_304`／`AA_305`、v9.10.1 已發布；`AA_307` 那 9 處還沒 ACTIONED。**F 測試**：AA 推開發分支前都跑了相關單元測試（g3、g5、g6、e16、e36、e37、econ_ff、econ_ff2、q34、v0_home_ff、batch7／9／12、v3_d7、discuss、contact_moments 都 ALL PASS）；`v0_a3_move_unit` 3／5／6 的舊失敗不是 AA 的（找已拿掉的「去學校」選項）；沒有實機測試。
+> - **六類（AI_SESSION_HANDOFF 第 7 節）**：**A 已完成**＝上面「已完成」＋`outbox_AA.json` 最後 8 筆（每筆有 SHA）；開發分支 AA 推的字串已進 v9.10.1。**B 全部未完成**＝上面①～⑤＋本檔「AA-C 全部未完成（舊）」以下各段（舊的待辦照舊有效）＋`AA_306`「還沒問」。**C 正在做**＝無（交班時沒有做到一半的檔案；兩個 worktree 都乾淨）。**D 新決策（使用者 10-18，都寫在檔裡）**：可昕不跟祐廷比較（口氣表 1-6；`AA_298` 第 10 節）；休學只告訴可昕、宿舍住到 10/31、10/29 小松被唐睿問（`AA_305`）；阿勳整個不講冷笑話（`AA_305` 第 9 節）；重考期在祐廷房間的書桌讀書，不是餐桌（`AA_306`「⚠」節）；2/14「比誰先坐到桌子前面」照現在（`AA_304` 第 8 列）；首都帝大就在公館，台詞不說「去公館」當目的地（`AA_306` 韋綸 L1）。**E 跨 AI**：給 LAWWW-C 的訊息都 DELIVERED（`AA_302`～`AA_307`、階梯重匯）；LAWWW-C 已 ACTIONED `AA_303`／`AA_304`／`AA_305`、v9.10.1 已發布；`AA_307` 那 9 處還沒 ACTIONED。**F 測試**：AA 推開發分支前都跑了相關單元測試（g3、g5、g6、e16、e36、e37、econ_ff、econ_ff2、q34、v0_home_ff、batch7／9／12、v3_d7、discuss、contact_moments 都 ALL PASS）；`v0_a3_move_unit` 3／5／6 的舊失敗不是 AA 的（找已拿掉的「去學校」選項）；沒有實機測試。
 
 > **【最新：2026-10-18 10:4x～11:0x UTC，AA-C；使用者約一小時後換帳號——接班的人先看這一段】**
 > - **12:1x 補（LAWWW-C 七則訊息）**：`AA_307`（`c1185dc3`）回完 18 處句子；retake_home 照 `AA_303` 改好（`712dad6b`）；開發分支 AA 推 `f4b47480`。**下一班第一步**：①讀 QA 劇本第三版（開發分支 `docs/qa/econ_transcript_1_開學到退宿_1018b.md`、`econ_transcript_2_休學到放榜_1018b.md`），寫 `AA_308`；②問韋綸大一下階梯 L5～L8；③問使用者法律系要不要也逐場確認。
@@ -1757,7 +1773,7 @@
 
 - **職位**：AA（帳號 C，AA-C）；工作階段 `session_019evvieJUJD23EGf4nyLPgo`；**分支 `claude/magical-albattani-bk7b4n`**（從 AA-B 的 `claude/cool-heisenberg-o8kuqx` `ec63dd53` 接續，歷史相同、沒有 rebase／force push；系統指定的新分支原本只有 main，沒有獨有成果）。
 - **RULE_SOURCE**：`claude/modest-rubin-2lyp7g`（`duty find`：值班沒有人、上一任 B、規則 HV-11、seq 5；規則 SHA `9266693c`）。已讀 CLAUDE.md（D90、D92、D93）、AI_SESSION_HANDOFF.md 第 0a、4、7.7、13、14 節。
-- **上一任**：AA-B，state `handed-off`（02:39Z，快照 `2026-10-17T0238Z_B_AA.json`）。已讀它的交班六類 A～F 與「全部待辦」。
+- **上一任**：AA-B，state `handed-off`（02:39Z，快照 `2026-10-17T0238Z_B_AA.json`）。已讀它的交班六類 A～F 與「全部未完成（舊）」。
 - **對帳**：`check` 結束碼 0（603 項、未結 565，十一項沒有異常）；`duty verify` 0（值班狀態一致）；`roles` 0（AA 待辦 60 行、43 個 ID，**異常 0 項**）。**逐職位核對：OK。**
 - **登記**：`duty register --account C --role AA`（本 commit 的 `docs/handoff/duty_AA.json`）；值班 LAWWW 上線後 `duty sync` 收進 duty.json。
 - **D90／HV-9 ACK**（AI_SESSION_HANDOFF 第 14 節；AA 不能改那份檔，由值班 LAWWW 代登記）：規則 HV-11＠`9266693c`；已讀 D90；沒有沒處理的使用者指示；沒有正在跑的長工作；新工作階段，`turn_check` 尚無紀錄。
@@ -1849,7 +1865,7 @@
 
 **交班最後核對**：D93 逐職位核對重跑（AA 分支 `571d2b93`，規則來源 `origin/claude/modest-rubin-2lyp7g`）：待辦 60 行、提到 43 個 ID，結果 OK，**異常 0 項**。交班快照 `docs/handoff/snapshots/2026-10-17T0238Z_B_AA.json`；交班登記 `docs/handoff/duty_AA.json`（state `handed-off`，sha＝最後 commit）。
 
-## AA-B 全部待辦（2026-10-17 02:4x UTC 交班時更新；D93 持續登記；使用者 00:0x「待辦事項全部都要交接」；接班的人先看這裡）
+## AA-B 全部未完成（舊）（2026-10-17 02:4x UTC 交班時更新；D93 持續登記；使用者 00:0x「待辦事項全部都要交接」；接班的人先看這裡）
 
 > 規則：`docs/AI_SESSION_HANDOFF.md` 第 5 節 B 類（RULE_SOURCE `e844a0e6`）。下面是 AA-B 的**全部**待辦，不只手上那一件。狀態照 `AA_199` 第 5 節的用語。總表 `tasks.json` 沒有的，已列給 LAWWW-B 補。
 
@@ -2598,7 +2614,7 @@
 - **其他**：AA_611（學姊與 Alison 是姊妹）、AA_612（麵店→公館燒臘改字定稿）、AA_628（舊腳本清查，20 支標過時；common_bb.json、BB_102 大四上閱讀版標作廢）、AA_596 第八節第 7 點（不拿科系互相對比）。
 - **臨時美術支援**（使用者：「這是的美術協助是臨時的 不是永久工作規則」）：三間室內第一版交 LAWWW2（ddbb5ed61：日常失速、木曜日、山嵐），第二版（木曜日、山嵐）已交 LAWWW2、副本 BB（75e8dc3ca，READY_FOR_REVIEW；比較圖 ref_images/model_renders/*_v1_v2_compare.png；木曜日 58,578 三角形／3.61 MB、山嵐 4.69 MB）。等 LAWWW2 整合、BB 照 D120 驗收。
 - **事故**：子代理和主 checkout 共用本機分支名，ca876b23d 等互相蓋檔；9ba14498e 救回，BB 核對無缺。之後子代理一律用自己的本機分支、`git push origin HEAD:claude/story-planning`。
-- **全部待辦**：
+- **全部未完成（舊）**：
   - 【使用者】木曜日、山嵐第二版交 LAWWW2：已交（75e8dc3ca），等整合與 BB 驗收。
   - JP-STREAM-LINE-1101：AA_636 子晴發表會直播旁白已交 LAWWW（81a9a8fd2）。
   - 【使用者】STORY-FRIENDS-EVENTS-1103：AA_637 第二批（第 9～15 週七場＋名字卡建議）已交 LAWWW（bad289195，b1ad8aa99 補芯慈 F2-08／09）；BB 核對民法第 71 條。
