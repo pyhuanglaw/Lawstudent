@@ -1141,3 +1141,17 @@
 [19:58:53] ==== START GYMPROPS_smith_new  (probe @ f3b47894b3b10643fb91fd30be70bc28cad68035) ====
 [19:58:56] [res] cpu=3% mem=34% (10.8/31.4 GB) chrome_testing=0  START GYMPROPS_smith_new
 [20:00:23] [res] cpu=8% mem=35% (11.3/31.4 GB) chrome_testing=0  END GYMPROPS_smith_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       72cca7d13..43387fa91  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:00:29] ==== END   GYMPROPS_smith_new  exit=0  91s   ====
+[20:00:37] memory 36% before starting GSHOP_new (0 running)
+[20:00:37] memory 36% before starting GSHOP_old (1 running)
+[20:00:37] ==== START GSHOP_new  (probe @ de1f25768e421cf07b2151c2872b5b6d6f70ef5a) ====
+[20:00:37] memory 36% before starting GSHOP_flower_old (2 running)
+[20:00:37] ==== START GSHOP_old  (probe @ fda54d616e57b40c74ca1b6404dccb6ea927e50c) ====
+[20:00:37] ==== START GSHOP_flower_old  (probe @ 28df8a85c788c354fc606a87e64cb5f4f12c5ff9) ====
+[20:00:40] [res] cpu=2% mem=36% (11.4/31.4 GB) chrome_testing=0  START GSHOP_new
+[20:00:40] [res] cpu=4% mem=36% (11.4/31.4 GB) chrome_testing=0  START GSHOP_old
+[20:00:40] [res] cpu=4% mem=36% (11.4/31.4 GB) chrome_testing=0  START GSHOP_flower_old
+[20:02:47] [res] cpu=14% mem=48% (15.3/31.4 GB) chrome_testing=10  END GSHOP_flower_old
