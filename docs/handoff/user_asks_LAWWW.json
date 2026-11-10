@@ -4398,6 +4398,23 @@
    "status": "進行中",
    "wants": "X321",
    "task": "TINGZHOU-AREA-1110"
+  },
+  {
+   "id": "UA-LAWWW-1110-92",
+   "at": "2026-11-10T20:3xZ",
+   "quote": "用短範本（選擇題「啟動提示詞用哪一種？」的回答）",
+   "kind": "選擇題答案",
+   "status": "已完成",
+   "task": "RULES-CONSOLIDATE-1110"
+  },
+  {
+   "id": "UA-LAWWW-1110-93",
+   "at": "2026-11-10T20:3xZ",
+   "quote": "全部都做／要（萬聖節）／能看能買（選擇題：生活細節美術做哪些、節日要不要含萬聖節、季節攤販要不要能買）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X317",
+   "task": "LIFE-DETAILS-SEASONAL-1110"
   }
  ]
 }

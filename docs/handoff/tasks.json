@@ -52058,7 +52058,7 @@
    "id": "RULES-CONSOLIDATE-1110",
    "title": "規則整合：CLAUDE.md 只留現行共同規則（短）＋各職位一頁（docs/rules/），被取代的舊規則、舊文件、根目錄舊檔直接刪掉（git 歷史留著）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52071,7 +52071,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW 11-10 17:0x】使用者 X311 選擇題：舊的直接刪、一份規則＋各職位一頁。第一步：盤點所有帶規則的文件和根目錄舊檔（現行／被取代／過時），列每條現行規則搬到哪；第二步：寫新 CLAUDE.md＋docs/rules/ROLE_*.md、刪舊的、改讀這些檔的工具和測試；第三步：通知各職位整併自己分支上的職位文件。"
+   "next": "第二階段 d0435a63f 完成；啟動提示詞使用者選短範本；各職位分支清理 AA、BB 已做，LAWWW2、CC 今天內"
   },
   {
    "id": "RELEASE-V91024-1110",
@@ -52174,7 +52174,7 @@
    "id": "LIFE-DETAILS-SEASONAL-1110",
    "title": "生活細節環境美術：季節性攤販、店門口隨季節／時間的小變化、節日布置（X317）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52187,7 +52187,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW 11-10 18:1x】使用者對 LAWWW2：「季節性的攤販、店門口的小變化、節日的布置 很棒」→ LAWWW2 先出清單提案（哪些店、哪些節日、季節、要不要劇情條件），劇情部分問 AA；LAWWW 接（節日日期、時段開關）。",
+   "next": "使用者 20:3x：20 項全做、含萬聖節、攤販能看能買；LAWWW2 做模型與 SEASON_ 節點（排汀州路、公館六間後）；AA 寫攤販看／買句；LAWWW 接買的互動",
    "xai": {
     "spec": "使用者 11-10 18:1x 對 LAWWW2",
     "branch": "claude/second-ai-env-art",
