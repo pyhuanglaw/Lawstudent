@@ -39963,7 +39963,7 @@
    },
    "source": "LAWWW2 11-02 04:39（交接檔有、總表沒有）",
    "authorized": "D108",
-   "next": "【LAWWW 11-10 11:5x】第 2 版 B（LAWWW2 ba050767a）：by_glass extras.skyBox＋zones3d glassSky shader，白天帷幕範圍加 #4f5f73、晚上 0，不多網格；putong101_window（開發 FAIL 2→ALL PASS）、teach_east_drawcall（博雅 4 網格）等 6 支 ALL PASS；GLSL 只在瀏覽器編譯，CC 開校園看 console、teach_views.py putong_north 重拍，BB 判。 ｜ 【LAWWW 11-10 10:4x】LAWWW2 a43da6a27：博思一樓帷幕（普通 101 北窗外）改亮一點的灰藍漸層（0.26→0.48），只動這一片；campus_boya.glb 重匯；putong101_window、e05_putong、nav_teach、teach_east_drawcall ALL PASS；CC 跑 teach_views.py putong_north 重拍窗景、BB 用 n28 角度看＋從校園外看博思一樓。 ｜ 【LAWWW（帳號 A）04:4x 登記】1.5～3.5h；D120 起由 BB 驗收場景美術，改好給 BB 看",
+   "next": "【LAWWW 11-10 12:2x】BB_255（12:21）：v2B 還是 PARTIAL（已回 LAWWW2，不擋；D141 最多再 1 版）。 ｜ 【LAWWW 11-10 11:5x】第 2 版 B（LAWWW2 ba050767a）：by_glass extras.skyBox＋zones3d glassSky shader，白天帷幕範圍加 #4f5f73、晚上 0，不多網格；putong101_window（開發 FAIL 2→ALL PASS）、teach_east_drawcall（博雅 4 網格）等 6 支 ALL PASS；GLSL 只在瀏覽器編譯，CC 開校園看 console、teach_views.py putong_north 重拍，BB 判。 ｜ 【LAWWW 11-10 10:4x】LAWWW2 a43da6a27：博思一樓帷幕（普通 101 北窗外）改亮一點的灰藍漸層（0.26→0.48），只動這一片；campus_boya.glb 重匯；putong101_window、e05_putong、nav_teach、teach_east_drawcall ALL PASS；CC 跑 teach_views.py putong_north 重拍窗景、BB 用 n28 角度看＋從校園外看博思一樓。 ｜ 【LAWWW（帳號 A）04:4x 登記】1.5～3.5h；D120 起由 BB 驗收場景美術，改好給 BB 看",
    "xai": {
     "spec": "LAWWW2 HANDOFF.md",
     "branch": "claude/second-ai-env-art",
@@ -42938,7 +42938,7 @@
    "status": "已整合待測試",
    "priority": "P2",
    "note": "GYM-FIT-ACTIVE-1103 合併後的缺點（子代理截圖：空手、器材不動）",
-   "next": "【LAWWW 11-10 11:5x】第二包 LAWWW2 ff443d9da：飛輪曲柄、踏板跟腳轉，划船座椅跟臀部滑 34～37 cm，有人划時拉把在手上、掛著的藏起來；gym_moving_parts.glb（從 gym_b1 搬出 540 三角形，不重烘）；gym_moving_parts（開發 FAIL 3→ALL PASS）＋健身房 6 支 ALL PASS；B1 多 18 個小網格。CC 拍飛輪、划船機各一張有人在用的，LAWWW 判動作。 ｜ 【LAWWW 11-10 10:4x】第一包 LAWWW2 86751d821 接進開發分支：gym_hand_props.glb（啞鈴、槓鈴、划船拉把）＋character3d.js gymProps（gymIK 後照掌心擺）；gym_hand_props＋gym／seat／stairs 等 7 支 ALL PASS。第二包（飛輪踏板、划船座椅會動，要重建 gym_b1、重烘 B1）另交。CC 拍健身房各動作近景、LAWWW 判（人物動作／道具）。 ｜ LAWWW2 總圖重排之後",
+   "next": "【LAWWW 11-10 12:2x】BB_255（12:21）：第一包（手上道具）PASS；第二包（飛輪、划船）等拍。 ｜ 【LAWWW 11-10 11:5x】第二包 LAWWW2 ff443d9da：飛輪曲柄、踏板跟腳轉，划船座椅跟臀部滑 34～37 cm，有人划時拉把在手上、掛著的藏起來；gym_moving_parts.glb（從 gym_b1 搬出 540 三角形，不重烘）；gym_moving_parts（開發 FAIL 3→ALL PASS）＋健身房 6 支 ALL PASS；B1 多 18 個小網格。CC 拍飛輪、划船機各一張有人在用的，LAWWW 判動作。 ｜ 【LAWWW 11-10 10:4x】第一包 LAWWW2 86751d821 接進開發分支：gym_hand_props.glb（啞鈴、槓鈴、划船拉把）＋character3d.js gymProps（gymIK 後照掌心擺）；gym_hand_props＋gym／seat／stairs 等 7 支 ALL PASS。第二包（飛輪踏板、划船座椅會動，要重建 gym_b1、重烘 B1）另交。CC 拍健身房各動作近景、LAWWW 判（人物動作／道具）。 ｜ LAWWW2 總圖重排之後",
    "xai": {
     "spec": "GYM-FIT-ACTIVE-1103（df63cb10c 以後的 gym_b1）",
     "branch": "claude/second-ai-env-art",
@@ -45248,7 +45248,7 @@
    "id": "GG-DOOR-CAMS-1104",
    "title": "公館店門口鏡頭被擋：青木茶室門口（−54.05,21）整片行道樹樹冠（樹葉沒走透視）、頁間書屋門口（−36.4,21）整片白牆或柱子",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45260,7 +45260,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 11:2x】BB_255：樹葉 shader 冒煙 PASS（CC SHADER_new 8 種情況 0 錯誤、p0、zone PASS）；樹冠與青木／頁間門口截圖下一輪判。 ｜ 【LAWWW 11-10 10:5x】LAWWW2 c91a79854 接進開發分支：行道樹葉片 4 m 內網點透空、1.4 m 內不畫（全遊戲行道樹）；捷運出口亭鏡頭碰撞盒照模型外框；gg_door_cams_1104（開發 FAIL 3→ALL PASS）、street_trees、seethru、gg_* ALL PASS；CC 確認 shader 編譯、重拍青木／頁間門口、椰影大道樹下網點。 ｜ 【LAWWW-C 11-04 13:1x】不擋 v9.10.20",
+   "next": "【LAWWW 11-10 12:2x】BB_255（12:21）：三項都 FIXED／PASS。 ｜ 【LAWWW 11-10 11:2x】BB_255：樹葉 shader 冒煙 PASS（CC SHADER_new 8 種情況 0 錯誤、p0、zone PASS）；樹冠與青木／頁間門口截圖下一輪判。 ｜ 【LAWWW 11-10 10:5x】LAWWW2 c91a79854 接進開發分支：行道樹葉片 4 m 內網點透空、1.4 m 內不畫（全遊戲行道樹）；捷運出口亭鏡頭碰撞盒照模型外框；gg_door_cams_1104（開發 FAIL 3→ALL PASS）、street_trees、seethru、gg_* ALL PASS；CC 確認 shader 編譯、重拍青木／頁間門口、椰影大道樹下網點。 ｜ 【LAWWW-C 11-04 13:1x】不擋 v9.10.20",
    "source": "BB-C 11-04 13:07（809163ee4 GG_int_art）",
    "xai": {
     "spec": "GG_int_art art_aoki_door、art_yejian_door",
@@ -45269,7 +45269,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "sha": "c91a79854"
+   "sha": "c91a79854",
+   "evidence": "BB_255：shader 冒煙 FIXED、樹冠網點 FIXED、青木／頁間門口 GGDC_art ALL PASS（CC PC＋GPU）"
   },
   {
    "id": "DATE-LEAD-PACE-1104",
@@ -48079,7 +48080,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 11:5x】日和便利店照片重拍完成：CC PC＋GPU 拍原始、雲端去背（cc-testing d4854c6ce views_out/cvs/），四張換進 assets/models/env/views/、shop_views_layers.json 併入 cvs_day／night（D 9、near 5.91、far 17.07、cam (−27.62,1.4,21.41)）、world3d VIEW_LAYERS.cvs 改 far 17.07 near 5.91、拿掉 zones3d「舊店面角度」註解；窗景 10 支 ALL PASS；BB 判 ART（CC：GONGGUAN 字牌從店裡看是背面，照實）。 ｜ 【LAWWW 11-10 10:1x】日和便利店：LAWWW2 c16014ada 查到照片拍在舊店面門口（差 1.78 m、高 0.7 m），shop_views_layers.py VIEWS.cvs 改成視差窗中心 (−27.62,1.4,21.41)＋tests/cvs_view_cam_1110_unit.js 接進開發分支；照片要 CC 在 PC 跑 shop_views_layers.py cvs 重拍四張，回來 LAWWW 改 VIEW_LAYERS.cvs、拿掉 buildCvs2「舊店面角度」註解。 ｜ 【LAWWW 11-10 10:1x】先做日和便利店（程式註解自己寫舊角度要重拍），照木曜日 345574e2d 做法；其他間等 BB 判角度清單。 ｜ 【11-07 04:4x LAWWW-B】木曜日 BB-B PASS（26d1babdc，溫州街公寓＋招牌日／夜）。其他店的窗景照舊待做。 ｜ 【11-07 03:5x LAWWW-B】木曜日窗景（mok_window_view）換成溫州街正式模型白天／晚上照片（LAWWW2-B 345574e2d winview_moku_1107.patch）接進開發；tests/mok_view_1107_unit.js；等 CC-B 木曜日二樓窗邊白天／晚上。門前種樹：不種（D99、D141，窗外照真的街景）。其他店的窗景照舊待做。 ｜ LAWWW2 先交每間店窗外的表，公館三間先換",
+   "next": "【LAWWW 11-10 12:2x】BB_255（12:21）：日和便利店窗景重拍 PASS；青木、日常失速不重拍（LAWWW2 查過）；同弦、SUNNY SIDE 另立任務。 ｜ 【LAWWW 11-10 11:5x】日和便利店照片重拍完成：CC PC＋GPU 拍原始、雲端去背（cc-testing d4854c6ce views_out/cvs/），四張換進 assets/models/env/views/、shop_views_layers.json 併入 cvs_day／night（D 9、near 5.91、far 17.07、cam (−27.62,1.4,21.41)）、world3d VIEW_LAYERS.cvs 改 far 17.07 near 5.91、拿掉 zones3d「舊店面角度」註解；窗景 10 支 ALL PASS；BB 判 ART（CC：GONGGUAN 字牌從店裡看是背面，照實）。 ｜ 【LAWWW 11-10 10:1x】日和便利店：LAWWW2 c16014ada 查到照片拍在舊店面門口（差 1.78 m、高 0.7 m），shop_views_layers.py VIEWS.cvs 改成視差窗中心 (−27.62,1.4,21.41)＋tests/cvs_view_cam_1110_unit.js 接進開發分支；照片要 CC 在 PC 跑 shop_views_layers.py cvs 重拍四張，回來 LAWWW 改 VIEW_LAYERS.cvs、拿掉 buildCvs2「舊店面角度」註解。 ｜ 【LAWWW 11-10 10:1x】先做日和便利店（程式註解自己寫舊角度要重拍），照木曜日 345574e2d 做法；其他間等 BB 判角度清單。 ｜ 【11-07 04:4x LAWWW-B】木曜日 BB-B PASS（26d1babdc，溫州街公寓＋招牌日／夜）。其他店的窗景照舊待做。 ｜ 【11-07 03:5x LAWWW-B】木曜日窗景（mok_window_view）換成溫州街正式模型白天／晚上照片（LAWWW2-B 345574e2d winview_moku_1107.patch）接進開發；tests/mok_view_1107_unit.js；等 CC-B 木曜日二樓窗邊白天／晚上。門前種樹：不種（D99、D141，窗外照真的街景）。其他店的窗景照舊待做。 ｜ LAWWW2 先交每間店窗外的表，公館三間先換",
    "source": "UA-LAWWW-1105-41",
    "authorized": "使用者原話",
    "xai": {
@@ -50692,7 +50693,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 10:0x】子代理 4180c910f 合併進開發分支 d4ea487b7：gifthol3d.js＋data/gift_holiday.js（匯入工具 tools/gift/import_gift_holiday.py、白名單三筆）；13 家店「買禮物…」、包包 10 樣、物品分頁（X291）、聖誕／2/14／七夕／生日當面送、每節兩人、她送祐廷（X278，含信箱包裹）、山嵐文具區學姊四場（X276）；gift_holiday＋37 支既有單元測試 ALL PASS（Node）。PARTIAL：可昕專屬場次那天的擋法、AA_734 existing 的判斷；公館站口花攤遊戲裡沒有（花束、向日葵買不到）→ LAWWW2；AI 解讀 7 項問 AA。CC 排 PC、BB 判。 ｜ 【LAWWW 11-10 09:3x】帳號 A LAWWW 開工：子代理（worktree）照 AA_732（1edb14888 版）、AA_733、AA_734 實作買禮物、包包／物品欄（X291）、節日生日送、她送祐廷（X278）、山嵐文具區學姊四場（X276）；完成後 LAWWW 合併、Node 單元測試、CC 排 PC、BB 判。 ｜ 【11-10 01:4x LAWWW-B】使用者 X291：買了的禮物要有物品欄位看得到（品名、哪裡買、說明；她送的另一欄）。AA 三批交齊：AA_732 fc9ff6d3d（規則、14 店 57 樣、學姊）、AA_733 1edb14888（七位）、AA_734 246ef6735（她送你、門檻、山嵐文具區學姊四場）。 ｜ 【11-10 01:0x LAWWW-B】使用者 X278：好感度到一定程度，聖誕、情人節（七夕和 2/14 都算）她也送玩家禮物（只限可以攻略的對象）；七夕也是送禮的節日（玩家送的「每節最多兩人」照算）。AA 寫她送的禮物、情境、門檻建議（照現有的戀愛／好感階段）。 ｜ 【11-10 00:5x LAWWW-B】使用者 X277（選擇題：只送可以攻略的對象＝七位女主角＋芯慈（她的線打開時），和送飲料一樣）。分工：AA 寫各店賣的禮物（品名原創、價錢、一句說明）、每位的喜好與收禮反應（照關係階段、喜歡／普通／不喜歡）、節日當天的情境；LAWWW 接：店家購買選單、背包（存檔欄位、舊存檔預設空）、節日／她生日那天見到她可以送、不扣時段（slot）、聖誕／情人節每節最多兩人（生日不限）；LAWWW2 看各店的商品區；BB 測。SIS-STATIONERY-1110（學姊文具、山嵐文具區）是這一套的一部分。",
+   "next": "【LAWWW 11-10 12:2x】BB_255（12:21）：GIFT shops（各店買禮物）FIXED；GIFT ui 三項已修等重拍；GIFT holiday 等。 ｜ 【LAWWW 11-10 10:0x】子代理 4180c910f 合併進開發分支 d4ea487b7：gifthol3d.js＋data/gift_holiday.js（匯入工具 tools/gift/import_gift_holiday.py、白名單三筆）；13 家店「買禮物…」、包包 10 樣、物品分頁（X291）、聖誕／2/14／七夕／生日當面送、每節兩人、她送祐廷（X278，含信箱包裹）、山嵐文具區學姊四場（X276）；gift_holiday＋37 支既有單元測試 ALL PASS（Node）。PARTIAL：可昕專屬場次那天的擋法、AA_734 existing 的判斷；公館站口花攤遊戲裡沒有（花束、向日葵買不到）→ LAWWW2；AI 解讀 7 項問 AA。CC 排 PC、BB 判。 ｜ 【LAWWW 11-10 09:3x】帳號 A LAWWW 開工：子代理（worktree）照 AA_732（1edb14888 版）、AA_733、AA_734 實作買禮物、包包／物品欄（X291）、節日生日送、她送祐廷（X278）、山嵐文具區學姊四場（X276）；完成後 LAWWW 合併、Node 單元測試、CC 排 PC、BB 判。 ｜ 【11-10 01:4x LAWWW-B】使用者 X291：買了的禮物要有物品欄位看得到（品名、哪裡買、說明；她送的另一欄）。AA 三批交齊：AA_732 fc9ff6d3d（規則、14 店 57 樣、學姊）、AA_733 1edb14888（七位）、AA_734 246ef6735（她送你、門檻、山嵐文具區學姊四場）。 ｜ 【11-10 01:0x LAWWW-B】使用者 X278：好感度到一定程度，聖誕、情人節（七夕和 2/14 都算）她也送玩家禮物（只限可以攻略的對象）；七夕也是送禮的節日（玩家送的「每節最多兩人」照算）。AA 寫她送的禮物、情境、門檻建議（照現有的戀愛／好感階段）。 ｜ 【11-10 00:5x LAWWW-B】使用者 X277（選擇題：只送可以攻略的對象＝七位女主角＋芯慈（她的線打開時），和送飲料一樣）。分工：AA 寫各店賣的禮物（品名原創、價錢、一句說明）、每位的喜好與收禮反應（照關係階段、喜歡／普通／不喜歡）、節日當天的情境；LAWWW 接：店家購買選單、背包（存檔欄位、舊存檔預設空）、節日／她生日那天見到她可以送、不扣時段（slot）、聖誕／情人節每節最多兩人（生日不限）；LAWWW2 看各店的商品區；BB 測。SIS-STATIONERY-1110（學姊文具、山嵐文具區）是這一套的一部分。",
    "xai": {
     "spec": "使用者 11-10 00:5x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -51702,7 +51703,7 @@
    "id": "XS-WINCARD-1110",
    "title": "新生南路店面窗景卡第二批（山嵐一二樓、X-Sports 一二樓、南洋一樓）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -51714,7 +51715,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 11:4x】第二批 LAWWW2 b8d833642 接進開發分支：山嵐一二樓、X-Sports 一二樓、南洋一樓 5 片 shopViewPane＋10 張白天／晚上照片（統一館二樓沒正面玻璃跳過）；xs_wincard2_1110（開發 FAIL 12→ALL PASS）、xs_wincard_1105、shanlan、nanyang、xsports 等 ALL PASS；CC 拍、BB 判。",
+   "next": "【LAWWW 11-10 12:2x】BB_255（12:21）：第二批 ART_APPROVED。 ｜ 【LAWWW 11-10 11:4x】第二批 LAWWW2 b8d833642 接進開發分支：山嵐一二樓、X-Sports 一二樓、南洋一樓 5 片 shopViewPane＋10 張白天／晚上照片（統一館二樓沒正面玻璃跳過）；xs_wincard2_1110（開發 FAIL 12→ALL PASS）、xs_wincard_1105、shanlan、nanyang、xsports 等 ALL PASS；CC 拍、BB 判。",
    "xai": {
     "spec": "BB 11-10 10:52 派",
     "branch": "claude/second-ai-env-art",
@@ -51722,7 +51723,8 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "sha": "b8d833642"
+   "sha": "b8d833642",
+   "evidence": "BB_255：第二批 ART_APPROVED（D120）"
   },
   {
    "id": "XS-TONGXIAN-VIEW-1110",
