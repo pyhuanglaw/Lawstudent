@@ -337,6 +337,10 @@ USCLS_A | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning
 USCLS_B | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_us_class_story_probe.py | index.html | 75 | CASES=MID,EXAM,FINAL,LAST;Q=medium
 # BB 15:53：順手補拍 row1_back（抬高）、社區 home_s（改從東南斜看）
 US_ART_fix | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_classroom,us_outside
+# SHIFT r4（16:1x）：D 改用週六（玩家一盞的班）、F 等待時每 5 秒記 pending；IMM 加 CPU 降速 8 倍（r3 PC 60 fps 走到櫃台時兩秒已經過了，pending 都是 clear，沒測到）
+SHIFT_r4_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 30 | TAG=r4_new;CASES=D,F
+SHIFT_IMM_r4_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 45 | TAG=imm4_new;IMM=1;CASES=B,F,X
+SHIFT_IMM_r4_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 45 | TAG=imm4_old;IMM=1;CASES=B,F,X
 # 接著（BB 15:53 順序）：SHIFT-TREAT 新舊對照（IMM）→ SHIFT r3（A～F）
 # BB 15:02 SHIFT-TREAT（X302）：語彤在一盞 A 陌生人／B 朋友 T3（第一樣免費、第二樣扣）／C 同一天再進／D 玩家自己上班／E 點頭之交；新 063cf14ab、舊 8b31bbaa0（合併 bbb0db1e0 之前；aec7f851c^ 已含功能）
 # BB 15:52 SHIFT-TREAT 新修（01bab1823）D34 對照：進店「馬上」點單／坐下要先演、不扣錢；出口不演。舊 8a98ff1e0（要扣錢＝FAIL）

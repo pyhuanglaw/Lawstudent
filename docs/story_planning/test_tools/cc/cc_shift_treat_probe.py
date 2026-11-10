@@ -26,7 +26,7 @@ YT, ZONE = 'heroine_03', 'wz_teahouse'
 FIX = 'tests/fixtures/user_save_day54_1110.json'
 FIND = r"""(a=>{ const C=CHARACTERS[a.pid]; for(let d=a.from; d<a.from+60; d++){ const c=CALENDAR.dateOf(d); const wd=c.wd===7?0:c.wd; if(CALENDAR.holiday&&CALENDAR.holiday(d)) continue;
   const g=Object.assign({},GAME.G,{day:d,weekday:wd,hour:a.h,zone:a.zone}); let e=null; try{ e=STORY.schedEnt(C,g); }catch(err){}
-  if(e&&e.zone===a.zone&&(!a.label||e.label===a.label)&&(!a.act||e.act===a.act)) return {d, wd, key:c.key}; } return null; })"""
+  if(e&&e.zone===a.zone&&(!a.label||e.label===a.label)&&(!a.act||e.act===a.act)&&(!a.wd||a.wd.includes(wd))) return {d, wd, key:c.key}; } return null; })"""
 ITS = "(()=>(GAME.E.interactables||[]).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,lv:i.lv|0,hidden:!!i.hidden,to:i.exit?i.exit.to:null,shop:i.wzShop||i.shop||null,kind:i.kind||null})))()"
 ST = "(()=>({zone:GAME.G.zone, money:GAME.G.money, day:GAME.G.day, hour:+(+GAME.G.hour).toFixed(2), fb:GAME.walkFallbacks|0, sh:(GAME.G.flags||{}).SHIFTT||null, fam:(SOCIAL.rel('heroine_03')||{}).fam, lvl:SOCIAL.friendLevel?SOCIAL.friendLevel('heroine_03'):null, famZ:(SOCIAL.rel('heroine_02')||{}).fam, on:typeof SHIFTT!=='undefined'}))()"
 
@@ -153,12 +153,16 @@ async def main():
                     if s2['dlg']: await L.tap(pg, cdp, '#dlg'); continue
                     if not s2['busy'] and time.time() - t0 > 8: break
                 return {'delta': (await pg.evaluate(ST))['money'] - m0, 'picked': picked, 'pend': pend, 'seat': await pg.evaluate("!!GAME.E.player.seat")}
+            THR = float(os.environ.get('THROTTLE') or 8)
+            await cdp.send('Emulation.setCPUThrottlingRate', {'rate': THR})   # r4：PC 60 fps 走到櫃台要 2 秒多，「等兩秒」已經結束（r3 兩版 pending 都是 clear）——CPU 降速 8 倍模擬手機低幀率（BB 15:47 P3 的情境），按之前 pending 要還在才算有測到
+            R.setup('【前置】CPU 降速 %g 倍（CDP Emulation.setCPUThrottlingRate）：模擬手機低幀率' % THR)
             for case in CASES:
                 tag = '[IMM %s]' % case
                 if case == 'B':   # 語彤：進一盞馬上點單
                     n0 = await imm_load(YT, f, 14.0, '語彤朋友')
                     if not await enter_shop(pg, cdp, tag): R.check('%s 進了一盞' % tag, False, ''); continue
                     r = await act(('點', '喝茶', '飲料', '菜單'), tag); said = await P.said(pg, n0); R.note('%s 結果 %s；GAME.say %s' % (tag, J(r), J(said)))
+                    R.check('%s 前置：按點單那一刻還沒等滿兩秒（SHIFTT.pending 還在；舊版沒有 SHIFTT 也記）' % tag, r is not None and r['pend'] in ('pending', 'none'), J(r))
                     i1 = next((i for i, x in enumerate(said) if '端了一壺' in x[1] or '算我的' in x[1]), None)
                     R.check('%s 馬上點單：先演「今天這壺，算我的」（台詞在點單之前出現）' % tag, i1 is not None, J(said))
                     R.check('%s 馬上點單：這一樣不扣錢' % tag, r is not None and r['delta'] == 0 and bool(r['picked']), J(r))
@@ -167,6 +171,7 @@ async def main():
                     n0 = await imm_load('heroine_02', fz, 20.0, '芷若朋友')
                     if not await enter_shop(pg, cdp, tag, 'cafe'): R.check('%s 進了 Café' % tag, False, ''); continue
                     r = await act(('坐',), tag); said = await P.said(pg, n0); R.note('%s 結果 %s；GAME.say %s' % (tag, J(r), J(said)))
+                    R.check('%s 前置：按坐下那一刻還沒等滿兩秒（SHIFTT.pending 還在）' % tag, r is not None and r['pend'] in ('pending', 'none'), J(r))
                     R.check('%s 馬上坐下：先演芷若那一場（有「熱可可」）' % tag, any('熱可可' in x[1] for x in said), J(said))
                     st_ = await pg.evaluate(ST); R.check('%s 記下今天在 Café 點的下一樣免費' % tag, ((st_['sh'] or {}).get('free') or {}).get('zone') == 'cafe', J(st_['sh']))
                 if case == 'X':   # 出口不算：進一盞馬上走出口
@@ -174,7 +179,9 @@ async def main():
                     if not await enter_shop(pg, cdp, tag): R.check('%s 進了一盞' % tag, False, ''); continue
                     ex = [e for e in await pg.evaluate(ITS) if e['to'] == 'wenzhou']
                     if ex:
-                        await L.go_to(pg, cdp, R, ex[0]['x'], ex[0]['z'], 0.8, '%s 馬上走到出口' % tag, max_s=120, lv=ex[0]['lv']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(8000)
+                        await L.go_to(pg, cdp, R, ex[0]['x'], ex[0]['z'], 0.8, '%s 馬上走到出口' % tag, max_s=120, lv=ex[0]['lv'])
+                        pend = await pg.evaluate("(()=>typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'))()"); R.check('%s 前置：按出口那一刻還沒等滿兩秒' % tag, pend in ('pending', 'none'), pend)
+                        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(8000)
                     said = await P.said(pg, n0); st_ = await pg.evaluate(ST); rec = ((st_['sh'] or {}).get('p') or {}).get(YT) or {}
                     R.check('%s 走出口：不演（沒有她的台詞、SHIFTT 沒記今天）、回到溫州街' % tag, st_['zone'] == 'wenzhou' and rec.get('day') != st_['day'] and not [x for x in said if '語彤' in x[0]], J({'said': said, 'rec': rec, 'zone': st_['zone']}))
             R.check('沒有 JS 例外', not errs, J(errs[:3])); await b.close()
@@ -193,6 +200,7 @@ async def main():
                     pend = await pg.evaluate("(()=>typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'))()")
                     if pend == 'none' and time.time() - t0w > 10: break
                     if pend == 'clear': break
+                    if int(time.time() - t0w) % 5 == 0: R.note('%s 等待中 %.0f 秒：%s' % (tag, time.time() - t0w, J(await pg.evaluate("(()=>({p:typeof SHIFTT==='undefined'?null:SHIFTT.pending(), busy:GAME.E.player.busy, dlg:!!(GAME.D&&GAME.D.active), ev:typeof EVENTS!=='undefined'&&!!EVENTS.running, frame:GAME.E.frame}))()"))))
                     s_ = await L.state(pg)
                     if s_['dlg']: await L.tap(pg, cdp, '#dlg')
                     await pg.wait_for_timeout(1000)
@@ -215,9 +223,12 @@ async def main():
                 R.setup('【前置】C 接著 B 那一份（同一天、沒有重讀）：出店到溫州街再走進一盞')
             else:
                 hh = 14.0 if case != 'D' else 14.5
-                s = mk(S, f, hh, case)
+                fd = f
+                if case == 'D':   # r4：存檔裡玩家一盞的班是 day [6]＝週六；r3 用的 2025-11-16 是週日（玩家那天沒班）＝TEST_BUG
+                    fd = await pg.evaluate(FIND, {'pid': YT, 'from': S['day'] + 1, 'h': 14.5, 'zone': ZONE, 'label': '一盞茶屋（打工）', 'wd': [6]}) or f; R.note('[D] 週六：%s' % J(fd))
+                s = mk(S, fd, hh, case)
                 await L.load_state(pg, s, quiet_events=False, quiet_phone=True); await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp); await drain(pg, cdp, 4)
-                R.setup('【前置／捷徑】day54 存檔 → %s %.1f 溫州街；%s' % (f['key'], hh, {'A': '拿掉語彤 FIRST_MET、熟悉 0（陌生人）', 'B': '語彤熟悉 45 信任 30（朋友）＋SHIFTT nf 2、friend.treat idx 2（T3 輪到）；玩家週六沒班',
+                R.setup('【前置／捷徑】day54 存檔 → %s %.1f 溫州街；%s' % (fd['key'], hh, {'A': '拿掉語彤 FIRST_MET、熟悉 0（陌生人）', 'B': '語彤熟悉 45 信任 30（朋友）＋SHIFTT nf 2、friend.treat idx 2（T3 輪到）；玩家週六沒班',
                     'D': '同 B，但保留玩家 jobs.tea 的週六班（現在 14:30＝班上）', 'E': '語彤熟悉 10（點頭之交）；玩家週六沒班'}[case]))
             await P.say_hook(pg); n0 = await pg.evaluate("window.__SAY.length")
             st0 = await pg.evaluate(ST); R.note('%s 進店前：%s' % (tag, J(st0)))
@@ -227,6 +238,7 @@ async def main():
                 pend = await pg.evaluate("(()=>typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'))()")
                 if pend == 'none' and time.time() - t0w > 10: break
                 if pend == 'clear': break
+                if int(time.time() - t0w) % 5 == 0: R.note('%s 等待中 %.0f 秒：%s' % (tag, time.time() - t0w, J(await pg.evaluate("(()=>({p:typeof SHIFTT==='undefined'?null:SHIFTT.pending(), busy:GAME.E.player.busy, dlg:!!(GAME.D&&GAME.D.active), ev:typeof EVENTS!=='undefined'&&!!EVENTS.running, frame:GAME.E.frame}))()"))))
                 s_ = await L.state(pg)
                 if s_['dlg']: await L.tap(pg, cdp, '#dlg')
                 await pg.wait_for_timeout(1000)
