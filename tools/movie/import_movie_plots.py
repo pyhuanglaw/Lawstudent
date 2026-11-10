@@ -32,71 +32,54 @@ NEED = {
     '朋友以上，而且散場是 21:00 以後': {'stage': 3, 'hourMin': 21},
     '不是 skip 整部：是她一定挑這部（有貓）': {'force': True},
     '和沛珊交往中，或重聚以前已經重新聯絡上（AA_282）': {'psLink': True},
-    '有 KX_VOLLEYBALL（第 2 批《放學後的球場》）': {'flag': 'KX_VOLLEYBALL'},
+    '朋友以上': {'stage': 3},
     '大四下（2029-03～04），朋友以上': {'stage': 3},
 }
 # later 的時機（when）→ 怎麼演：msg＝她傳訊息（d＝看完後第幾天、h＝幾點；at＝指定日期；series＝連續幾天一天一則）；
-# meet＝下一次和她見面（INV.meet 坐下以後；days 天內〔沒寫＝不限〕、at 地點、before＝這一天起不演）；hook＝要接在別的劇情裡（那一場還沒有接點＝只記旗標，列在報告）
+# meet＝下一次和她見面（INV.meet 坐下以後；days 天內〔沒寫＝不限〕、at 地點、before＝這一天起不演、from＝這一天起才演）；hook＝要接在別的劇情裡（那一場還沒有接點＝只記旗標，列在報告）
 LATER = {
     'm2409b:kexin': {'mode': 'msg', 'd': 1, 'h': 21},
     'm2505b:kexin': {'mode': 'meet', 'before': '2025-07-11'},   # AA 11-10 20:35：考試（2025-07-11）以前的下一次見面，過了就不演
-    'm2507b:heroine_03': {'mode': 'meet', 'days': 7, 'at': 'teaOrMeal'},
     'm2603b:heroine_01': {'mode': 'meet'},   # AA 11-10 20:35：下一次見面
     'm2605b:heroine_03': {'mode': 'meet', 'at': 'teahouse'},   # AA 11-10 20:35：下一次在一盞茶屋見面（INV 的 teahouse／wz_teahouse）
-    'm2607a:classmate_peishan': {'mode': 'meet', 'before': '2026-12-17', 'needFlag': 'PS_SECRET_PATH'},   # AA 11-10 20:35：下一次見面，2026-12-17 起不演
     'm2609a:kexin': {'mode': 'msg', 'd': 1, 'h': 21},
     'm2703a:heroine_04': {'mode': 'msg', 'd': 0, 'h': 22},
-    'm2703b:heroine_02': {'mode': 'msg', 'at': '2027-09-02', 'h': 11, 'needFlag': 'ZR_FOUR_WORDS'},   # AA 11-10 20:35：沒有機場那一場，改成出發那天（zr_sendoff3d.js 2027-09-02）她傳訊息；句子在 OVERRIDE
+    'm2703b:heroine_02': {'mode': 'msg', 'at': '2027-09-02', 'h': 11, 'needFlag': 'ZR_FOUR_WORDS'},   # 第二版：沒有送機場面，她出發那天（zr_sendoff3d.js 2027-09-02）登機前傳一張照片
     'm2709b:heroine_01': {'mode': 'meet', 'days': 7, 'at': 'library'},
-    'm2805b:heroine_04': {'mode': 'msg', 'at': '2028-07-03', 'h': 21, 'needFlag': 'ZQ_LEVEL8'},
+    'm2805b:heroine_04': {'mode': 'meet', 'from': '2028-07-01', 'needFlag': 'ZQ_LEVEL8'},   # 第二版：她畢業（2028-06）以後、下一次當面見到她
     'm2807b:classmate_peishan': {'mode': 'msg', 'd': 0, 'h': 22, 'anyView': True},
-    'm2901b:heroine_05': {'mode': 'msg', 'd': 2, 'h': 21, 'stage': 3},
+    'm2901b:heroine_05': {'mode': 'meet'},   # 第二版：下一次當面見到她（need「朋友以上」在 NEED）
     'm2909a:heroine_04': {'mode': 'msg', 'd': 1, 'h': 22, 'series': True},
 }
-# AA 交稿以後另外改的句子（稿 films 不動、另外放 override；src/movies3d.js S.withOf 套上去）。每一筆寫出處；選項的字（t）要和稿上一樣。
-OVERRIDE = {
-    'm2703b:heroine_02': {
-        'src': 'AA 11-10 20:35 回覆（MOVIE-TALK-1110：沒有機場那一場，她出發那天改傳訊息）',
-        'lines': ['欸。那四個字。', '你再傳一次。'],
-        'choice': [{'t': '「不要走遠。」', 'say': ['半年而已。'], 'fx': {'love': 3}},
-                   {'t': '「妳要保重。」', 'say': ['這個是放手的人講的。……我會啦。'], 'fx': {'love': 1}}],
-    },
-}
+OVERRIDE = {}   # AA 交稿以後另外改的句子（稿 films 不動、另外放 override，每一筆寫 src 出處；選項的字要和稿上一樣）。第二版以後沒有（m2703b 已經寫進稿）
 # talk.q 寫的是給程式的說明、不是台詞的片（不說 q，三個選項照出）
-NOQ = {'m2807b': '這部沒有人約得到沛珊'}
+NOQ = {}   # {片 id: q 裡的一段字}；第一版的 m2807b 第二版已經改成台詞，拿掉
 # 她一定挑的片（AA 11-10 20:11 答：子晴《貓咪咖啡館的星期三》《第八關》、芷若《黑白的城市》；寫在 note 裡，不是 skip 欄）
 # noRule＝只在 AA_708 那一場沒有指定片（sceneFilm 沒寫）的時候（芷若那則 note：「sceneFilm 沒指定時」）
 FORCE = {
     'm2511b:heroine_02': {'noRule': True, 'noteHas': '她一定會挑這部（sceneFilm 沒指定時）'},
-    'm2805b:heroine_04': {'noteHas': '約她這一段一定是這部'},
 }
 # note 裡的條件（AA 寫的字 → 程式的條件 id，src/movies3d.js S.COND）。text／sub 的字要一字不差在那一則 note 裡
 #   re.<key>：opt＝只管第幾個選項（沒寫＝每個選項）；if＝成立才說（不成立：else 有字＝換成那一句，沒有＝不說）；dating＝交往中換成這一句；sub＝換掉句子裡的一段
 #   opt.<k>：if＝成立才出這個選項（不成立：else＝{t,fx,re} 換成這個選項，沒有＝不出）
 #   with.<人>：line＝第 i 句在條件成立時換成 text；subs＝交往中換掉的字
-COND = {
-    'm2801a': {'re': {'heroine_052': {'if': 'friend', 'dating': '今年跟我看。不要去擠。'}}},
-    'm2807a': {'re': {'heroine_042': {'if': 'from:2028-07'}}},
-    'm2809a': {'opt': {'1': {'if': 'friend', 'else': {'t': '我還在想。', 'fx': {}, 're': {}}}},
+COND = {   # 第二版（14536ff5e／77f5d0463／7c2de85b6）的 note 重看過
+    'm2801a': {'re': {'heroine_052': {'dating': '今年跟我看。不要去擠。'}}},
+    'm2809a': {'opt': {'1': {'if': 'friend'}},   # 朋友以上才出現，不然只有兩個選項
                're': {'heroine_032': {'if': 'flag:YT_MET_JOB', 'else': '那天下雨。你傘很小。'}}},
-    'm2809b': {'opt': {'0': {'if': 'intern'}}},
-    'm2907b': {'re': {'heroine_022': {'if': 'zrKeep', 'opt': 2}}},
-    'm2911a': {'re': {'kexin': {'if': 'kxZq', 'cut': '先活過今晚再說。'}}},
-    'm2911b': {'re': {'heroine_052': {'if': 'close', 'else': '（她沒有再講話。）', 'opt': 2}}},
+    'm2811b': {'re': {'heroine_012': {'if': 'dating', 'opt': 1}}},
     'm3001b': {'re': {'heroine_012': {'if': 'close'}}},
     'm3003b': {'re': {'heroine_052': {'if': 'giftBookmark'}}},
-    'm3005a': {'re': {'kexin': {'if': 'ev:ev_y0_e26', 'else': '我知道。你怕高。', 'opt': 0}}},
-    'm3007a': {'re': {'kexin2': {'if': 'flag:KX_VOLLEYBALL'}}},
+    'm3005a': {'re': {'kexin': {'if': 'ev:ev_y0_e26', 'else': '你怕高，我早就知道。', 'opt': 0}}},
     'm3007b': {'opt': {'2': {'if': 'seen:m2511b:heroine_02'}},
-               're': {'heroine_02': {'sub': {'from': '第一部你說很悶。', 'film': 'm2511b',
-                                             'by': {'0': '第一部你說起雞皮疙瘩。', '1': '第一部你說喜歡翻報紙的聲音。'}}}}},
+               # 「第一部你說很悶」照當時選的換句：第二版的 note 沒有寫另外兩句（第一版有）——當時選的不是「蠻悶的」（MOVIE_TALK 那一格不是 2）＝這一句只說到「第二部。」（不自己寫字；等 AA 補句）
+               're': {'heroine_02': {'if': 'zrBoring', 'cut': '第二部。', 'opt': 2}}},
     'with': {
-        'm2411b:heroine_03': {'line': {'i': 2, 'if': 'flag:YT_CATS', 'text': '公園那隻比較胖。'}},
         'm2707b:heroine_02': {'subs': [['抓住你的袖子', '抓住你的手'], ['抱歉，你袖子皺了。', '我九月就看不到這間戲院了。']], 'if': 'dating',
                               'noteHas': ['袖子改成手', '我九月就看不到這間戲院了。']},
     },
 }
-COND_IDS = ('friend', 'close', 'dating', 'intern', 'zrKeep', 'kxZq', 'giftBookmark')
+COND_IDS = ('friend', 'close', 'dating', 'intern', 'zrKeep', 'kxZq', 'giftBookmark', 'zrBoring')
 
 
 def git(*a):
@@ -160,7 +143,12 @@ def chk_film(fid, f, ids):
     w = fid
     if fid not in ids:
         raise SystemExit(f'{w}：不在 AA_730 片單')
-    bad = [k for k in f if k not in ('plot', 'scene', 'talk', 'with')]
+    if 'title_new' in f:   # 第二版：改過片名的片 AA 另外寫一格（片名只認 AA_730／nanyang_movies.js；這裡只核對有沒有同步）
+        t730 = open(os.path.join(ROOT, FILMS_JS), encoding='utf-8').read()
+        m = re.search(r'"id": "' + fid + r'",[^{}]*?"title": "([^"]+)"', t730)
+        if not m or m.group(1) != f['title_new']:
+            WARN.append(f'{w}.title_new「{f["title_new"]}」和片單（{m.group(1) if m else "找不到"}）不一樣：先重匯 AA_730（import_nanyang_movies.py）')
+    bad = [k for k in f if k not in ('plot', 'scene', 'talk', 'with', 'title_new')]
     if bad:
         raise SystemExit(f'{w}：不認得的欄位 {bad}')
     for k in ('plot', 'scene'):
@@ -186,7 +174,7 @@ def chk_film(fid, f, ids):
             continue
         if x.get('kind') not in KINDS or not isinstance(x.get('lines'), list):
             raise SystemExit(f'{wx}：kind 要是 {KINDS}、要有 lines')
-        bad = [k for k in x if k not in ('kind', 'lines', 'when', 'set', 'note', 'need', 'choice')]
+        bad = [k for k in x if k not in ('kind', 'lines', 'when', 'set', 'note', 'need', 'choice', 'pick')]
         if bad:
             raise SystemExit(f'{wx}：不認得的欄位 {bad}')
         if 'need' in x and x['need'] not in NEED:
@@ -294,7 +282,7 @@ def build(batches):
         for who, x in (f.get('with') or {}).items():
             if who not in PEOPLE:
                 continue
-            if x['kind'] == 'pick':
+            if x['kind'] == 'pick' or x.get('pick') is True:   # 第二版：kind pick，或 with 裡寫 pick:true＝她一定挑這部
                 pick.setdefault(fid, {})[who] = {'mode': 'force'}
             if x['kind'] == 'skip':
                 nd = NEED.get(x.get('need'), {})
@@ -302,7 +290,7 @@ def build(batches):
     for key, x in FORCE.items():
         f, who = key.split(':')
         if f in films:
-            pick.setdefault(f, {})[who] = {'mode': 'force', 'noRule': bool(x.get('noRule'))}
+            pick.setdefault(f, {}).setdefault(who, {'mode': 'force'}).update({'mode': 'force', 'noRule': bool(x.get('noRule'))})
     later = {k: v for k, v in LATER.items() if k.split(':')[0] in films}
     override = {}
     for key, o in OVERRIDE.items():

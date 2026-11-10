@@ -5283,13 +5283,17 @@
   },
   {
    "path": "docs/story_planning/AA_730_nanyang_movies.json",
-   "sha": "48c0428ab",
+   "sha": "7c2de85b6",
    "status": "approved",
    "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
    "task": "MOVIE-REAL-1110",
    "kind": "json",
-   "note": "X274 南洋戲院片單：2024-09～2030-08 每兩個月兩部（72 部）、選片 sceneFilm、大廳黑板、燈暗那一句、一個人看的三句——tools/movie/import_nanyang_movies.py → src/data/nanyang_movies.js（48c0428ab：m2507a 片名改《颱風來以前》，id 不變）",
+   "note": "X274 南洋戲院片單：2024-09～2030-08 每兩個月兩部（72 部）、選片 sceneFilm、大廳黑板、燈暗那一句、一個人看的三句——tools/movie/import_nanyang_movies.py → src/data/nanyang_movies.js（48c0428ab：m2507a 片名改《颱風來以前》，id 不變）；7c2de85b6：m2811a 片名改《一個人的舉重社》、m2809a／m2907b／m2711a 一句話改、m2809a 拿掉書店標籤（AA_745 第二版同一個 commit）",
    "history": [
+    {
+     "sha": "48c0428ab",
+     "approvedBy": "AA（D109）"
+    },
     {
      "sha": "8a246c40f",
      "approvedBy": "AA 定稿（D109），LAWWW 11-10 接"
@@ -5298,30 +5302,48 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_1.json",
-   "sha": "d94b6ae6d",
+   "sha": "14536ff5e",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 1 批：m2409a～m2607b 24 部（情節、場景、散場三選項含效果、13 組片×人）"
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 1 批：m2409a～m2607b 24 部（情節、場景、散場三選項含效果、13 組片×人）；14536ff5e：第二版（照 BB_308；LAWWW 11-10 重匯）",
+   "history": [
+    {
+     "sha": "d94b6ae6d",
+     "approvedBy": "AA（D109）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_2.json",
-   "sha": "c7152c522",
+   "sha": "77f5d0463",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 2 批：m2609a～m2807b 24 部（15 組片×人）"
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 2 批：m2609a～m2807b 24 部（15 組片×人）；77f5d0463：第二版（照 BB_308：pick、可昕排球段拿掉；LAWWW 11-10 重匯）",
+   "history": [
+    {
+     "sha": "c7152c522",
+     "approvedBy": "AA（D109）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_3.json",
-   "sha": "4de16b994",
+   "sha": "7c2de85b6",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 3 批：m2809a～m3007b 24 部（72 部寫完）"
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 3 批：m2809a～m3007b 24 部（72 部寫完）；7c2de85b6：第二版（照 BB_308；LAWWW 11-10 重匯）",
+   "history": [
+    {
+     "sha": "4de16b994",
+     "approvedBy": "AA（D109）"
+    }
+   ]
   }
  ]
 }
