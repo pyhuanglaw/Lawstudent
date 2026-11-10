@@ -139,6 +139,7 @@ const USL=(function(){
   /* 何俊朗自己的 3D 模型（US-LONG-3D-1110，LAWWW2）：manifest 是 lazy，第一次要用時才下載；下載完以前 CHAR.build 先建備用的人（藏起來），到了由 GM.upgradeModels 換上。
      下載失敗：記下來，之後的人用路人的樣子（不要求那個模型），已經在場、藏起來等的人也露出來（不能一直隱形）*/
   const LONG_KEY='char.us_long'; S._longFail=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['us_life3d:longLoading']=()=>{ S._longLoading=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：何俊朗模型下載中讀檔＝新的一局可以再要一次（ASSETS.loadOne 同一個 key 不會重複下載：A.status 留著那個 promise）*/
   S.longModel=function(){ if(S._longFail||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[LONG_KEY]) return null;
     if(ASSETS.has&&!ASSETS.has(LONG_KEY)&&ASSETS.loadOne&&!S._longLoading){ S._longLoading=true; let p; try{ p=Promise.resolve(ASSETS.loadOne(LONG_KEY)); }catch(e){ p=Promise.reject(e); } p.catch(e=>{ S._longFail=true; console.warn('USL long model',e&&e.message); S.longReveal(); }).finally(()=>{ S._longLoading=false; }); }
     return LONG_KEY; };
