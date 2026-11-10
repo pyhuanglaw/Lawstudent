@@ -7060,6 +7060,20 @@
    "noDirectIntegrate": false,
    "note": "character3d.js gymProps：gymIK 之後每格照掌心擺；彎舉／推舉兩個啞鈴、深蹲槓鈴、划船拉把；換動作藏、release 拿掉、isFar 不放。新測試開發 FAIL → ALL PASS（男女各一）；gym_pose、gym_crowd、gym、sit_task、stairs_feet、seat_ambient ALL PASS。第二包（飛輪曲柄、划船座椅會動）要拆器材重烘，另交。 ｜ LAWWW 11-10 10:46 本機接進開發分支（gym_hand_props＋7 支 ALL PASS），GHA 跑完一起推。 ｜ LAWWW 11-10 10:59：已推上開發分支（18c73515b 以前）。",
    "next": "LAWWW 推；CC 拍 B1 四個動作；LAWWW 角色美術判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "BIKE-PARK-B1-1110（總圖 B1 中庭出口附近的停車架）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/bike_park_b1_1110/（README、bike_park_b1_f3b47894b.patch、regression_f3b47894b.txt）"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "BIKE_RACKS.campus 加 [89.5,−35,π/2]（中庭西邊樓梯口南邊的空地，離 B1 出口 8.8 m）。bike_park_1104 開發 FAIL（28.5 m）→ ALL PASS；腳踏車相關 67 支＋3 支，65 PASS；aa653_shops、gg_interiors_1104 各 FAIL 1 開發原樣也一樣（story3d.js 清葉茶行外帶）。",
+   "next": "LAWWW 套 patch"
   }
  ]
 }
