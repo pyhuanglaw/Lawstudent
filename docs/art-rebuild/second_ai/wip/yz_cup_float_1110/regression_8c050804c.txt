@@ -1,0 +1,9 @@
+seatact_offset_group_unit: ALL PASS
+seatact_lib3f_unit: ALL PASS
+seat_activity_1104_unit: ALL PASS
+seat_ambient_unit: ALL PASS
+exam_lib_crowd_unit: ALL PASS
+read_phone_unit: ALL PASS
+sit_task_wire_unit: ALL PASS
+ade_seat_clip_unit: ALL PASS
+teahouse_tap_unit: ALL PASS
