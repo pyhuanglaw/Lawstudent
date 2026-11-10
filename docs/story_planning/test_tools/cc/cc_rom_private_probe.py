@@ -196,7 +196,7 @@ async def meet_once(pg, cdp, run, cat, words, tag, pick=None):
         if st and (st['ph'] == 'wait' or (st['st'] == 'accepted' and not st['ph'])) and not q['busy']:
             g = await P.who(pg, WHO)
             if g and not g['hidden'] and g['dMe'] > 1.8:
-                await L.go_to(pg, cdp, run, g['x'], g['z'], 1.6, '[%s] 走到她旁邊' % tag, max_s=120, lv=g['lv'], stop=lambda s: s['dlg'] or s['choices'] > 0)   # stop：對話一開始就交回來（不給 stop，go_to 會自己點掉對話、選第一個選項）
+                await L.go_to(pg, cdp, run, g['x'], g['z'], 1.6, '[%s] 走到她旁邊' % tag, max_s=120, lv=g['lv'], stop=lambda s: s['busy'] or s['dlg'] or s['choices'] > 0)   # stop：開演（busy）、對話、選單一出現就交回來——go_to 碰到 busy 會自己 advance_dialogs、選第一個選項
                 await pg.wait_for_timeout(800); continue
             if g and g['dMe'] <= 1.8 and ('溫書瑀' in q['lab'] or '學姊' in q['lab']):
                 await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue
