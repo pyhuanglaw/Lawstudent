@@ -47,6 +47,16 @@
     - PUTONG101-WINDOW-1102 交付 a43da6a27：博思一樓玻璃換亮一點的灰藍漸層；窗景照片要 CC 重拍（teach_views.py putong_north）。
     - 盤點表再更正（6d19463fc）：DORM1-WALL-SEAM 早已整合（4b5a0ebd8）、ART-OLDROAD-SHELF 被頁間取代。**以後搜 git log 要用沒有日期的短 ID。**
     - 剩下的佇列：ART-GYM-POOL-SWIMMERS-1103、GYM-FIT-PROPS-1103（要新的人物泳裝、動作，先確認 D99 人物凍結還算不算）→ CROWD-DEPTS-LOOK-1028 → PERF-CAMPUS-GLB-1102 → ART-SOP → BAKE-PC-1102-S2 → LAWWW2-REEXPORT-US-1027 → INTERIOR-AAA P3、萬才館倒角。
+  - **10:5x 進度**：
+    - GYM-FIT-PROPS-1103 第一包（手上的道具）：交付 86751d821，LAWWW 本機整合。
+    - **ART-GYM-POOL-SWIMMERS-1103 卡住**：泳裝人物要用正式人物生產線（tools/blender/char_second/npc.py＋tools/blender/char/common.py），
+      需要 Blender 的 VRM 外掛（github saturday06/VRM-Addon-for-Blender）和 VRoid CC0 樣本（tools/fetch_vroid_src.sh）。這個容器沒有，安裝時被自動權限擋下；要使用者同意或換有環境的工作階段。
+    - **GYM-FIT-PROPS 第二包的做法**（還沒動手）：
+      - 器材（gym_b1_props.glb）在 bake_gym.sh b1 裡是 --nolm（不烘），所以可以不重烘：
+        直接改 gym_b1.glb 裡 GYM_BIKE 的曲柄、踏板，以及 GYM_ROWER 的座椅、滑車三角形（GPU instancing 的原型網格），拿掉；
+        另外做一顆會動零件的 GLB（形狀照 gym_b1_props.py 的 bike()、rower()）。
+      - gym3d.js 照 layout 的 equipment 每台都放會動零件：沒人用的停在原本的角度；有人用的照 gymIK 的 g.ph 轉曲柄、照臀部 z 滑座椅。
+      - 人的原點＝器材原點。
   - X307 第 3 版候選（BB 11-10 09:25 參考意見，D141，P3，不擋 ART）：使用者的平面圖 1110_library_b1_plan_ref.webp 上，真的中庭是三面有柱子的迴廊、中間綠地、西側書店、西南角兩段樓梯；
     遊戲現在是北邊一段樓梯＋花崗石地面＋兩個樹槽。要做的話：lib_b1_court.py 加迴廊、草地，連 zones3d.js B1C 的導航和碰撞 patch。等 BB 判完 r3 或使用者決定。
     - 重拍有兩條路：用 Blender（afar／gg_shop_views.sh 的做法），或請 CC 用瀏覽器重拍（D131）。
