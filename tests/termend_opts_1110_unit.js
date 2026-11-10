@@ -7,7 +7,7 @@
 //   4. 顯示順序洗過：同一天（讀檔以後）一樣、效果跟著選項走；+2 不再幾乎都排第一個
 //   5. 子晴通用那一格 Q6／noQ6 兩組各三個；學姊大四上 snow 分支（SNOWQ）、XM3 兩句照舊；學姊大二上她請的那一句；語彤 sayByKind、YT_DINNER_YES
 //   6. 心意的邀約：飯桌句之後的選項（學姊大四上換句的那一頓沒有）；說出來的三句（子晴兩組、語彤沒有 YT_MET_JOB 照原本）、yesLead 接在 yes 前面
-//   7. 可昕：say＋選項＋then，KX_ASK 的二選一照舊；美國路線那一組
+//   7. 可昕：say＋選項＋then；有選項稿的學期不再接 KX_ASK 的二選一（AA 11-10），KX_KHH.Y2W 由選項記；美國路線那一組
 //   8. 沒匯入的人照現在的字：沛珊女朋友版（一句＋話題池）、芷若心意邀約（沒有飯桌選項、通用三句）；沒有 TERMEND_OPTS（舊資料）＝全部照原本；舊存檔（沒有 G.termend）照演
 // 修改前（b99dfd4dd）：沒有 TERMEND_OPTS、女朋友版沒有選項——第 1～7 節 FAIL。用法：node tests/termend_opts_1110_unit.js
 const H=require('./pg_harness.js');
@@ -130,7 +130,10 @@ const GFP=['heroine_01','heroine_03','heroine_05','heroine_02','heroine_04'], HP
   await sec(7,async()=>{ if(!ok0){ check('7. 可昕',false,'沒有 TERMEND_OPTS'); return; }
     const kx=async(term,want,pre)=>{ const G=H.fresh(DAY[term],18); H.rel('kexin',65,50,45); G.flags.dating_kexin=true; if(pre) pre(G); H.said=[]; CH=[]; WANT=want||[]; const l0=love('kexin'); await TERMEND.dinner(GM,{te:{term,who:'kexin',kind:'kexin'}}); return {G,dl:love('kexin')-l0}; };
     const a=await kx('Y2S1',['「我去。妳排哪幾天？」','「好。哪幾天？」']);
-    check('7. 可昕大二上：開頭兩句 → 三個選項 → 她的回答（+2）→ KX_ASK 的二選一照舊（記 KX_KHH）',has('我家附近那個夜市你還沒去過。我已經跟我媽說了。')&&CH[0].length===3&&has('你住旅館喔，我家沒有多的房間。有也不給你住。')&&a.dl===2&&CH[1]&&CH[1].length===2&&a.G.flags.KX_KHH&&a.G.flags.KX_KHH.Y2W==='yes'&&!has('我們期末考完，你寒假來高雄。'),J({ch:CH,dl:a.dl,khh:a.G.flags.KX_KHH}));
+    /* 2026-11-10 改期望（AA 11-10 經 LAWWW）：有選項稿的學期 KX_ASK 的二選一不再接在後面；KX_KHH.Y2W 由選項「我去。妳排哪幾天？」記 */
+    check('7. 可昕大二上：開頭兩句 → 三個選項 → 她的回答（+2）；不再接 KX_ASK 的二選一；選「我去。妳排哪幾天？」＝記 KX_KHH.Y2W yes',has('我家附近那個夜市你還沒去過。我已經跟我媽說了。')&&CH.length===1&&CH[0].length===3&&has('你住旅館喔，我家沒有多的房間。有也不給你住。')&&a.dl===2&&a.G.flags.KX_KHH&&a.G.flags.KX_KHH.Y2W==='yes'&&!has('我們期末考完，你寒假來高雄。')&&!has('你自己挑。我那幾天都在。'),J({ch:CH,dl:a.dl,khh:a.G.flags.KX_KHH}));
+    const a2=await kx('Y2S1',['「寒假我可能要打工。」']); check('7. 選別的＝不記 KX_KHH.Y2W；六頓都只有一組選項',!(a2.G.flags.KX_KHH&&a2.G.flags.KX_KHH.Y2W)&&CH.length===1,J({ch:CH,khh:a2.G.flags.KX_KHH||null}));
+    const one=[]; for(const t of ['Y2S2','Y3S1','Y3S2','Y4S1','Y5S1']){ await kx(t,[]); if(CH.length!==1||CH[0].length!==3) one.push([t,CH]); } check('7. 大二下～大五上：各一組三個選項、後面沒有二選一',one.length===0,J(one));
     await kx('Y3S1',['「所以能不能？」']); check('7. 大三上：選項之後接 then「寒假你來高雄。我們都沒去過的地方，我來排。」',idx('寒假你來高雄。我們都沒去過的地方，我來排。')>idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')&&idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')>=0,J(said().slice(0,9)));
     await kx('Y3S2',[]); const tw={say:has('暑假你在臺北，我在高雄。'),g:CH[0].includes('「那晚上講電話。」')&&CH[0].length===3};
     await kx('Y3S2',[],G=>{ G.flags.EXCHANGE_ROUTE='US'; }); const usOn=Lx.COND.US(H.G), us={say:has('八月你就去美國了。')&&!has('暑假你在臺北，我在高雄。'),g:CH[0].includes('「幾天？」')&&CH[0].length===3};

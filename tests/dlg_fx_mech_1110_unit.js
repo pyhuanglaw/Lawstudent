@@ -101,6 +101,7 @@ module.exports={H,sec,clone,reset,idx,sum,J,get CH(){ return CH; },set WANT(v){ 
 
   await sec(5,async()=>{ const Lx=TERMEND_LINES, a='heroine_01', T='Y1S1', keep=Lx.POOL[T][a].slice(), me='祐廷', AN=SOCIAL.displayName(a);
     const dinner=async(term,who,kind,want,day)=>{ const G=H.fresh(day||'2026-01-15',18.5); H.rel(who,45,30,0); reset(); WANT=want||[]; await TERMEND.dinner(GM,{te:{term,who,kind:kind||'friend'}}); return H.said.map(x=>(x.who||'')+'｜'+x.t); };
+    const keepTO=globalThis.TERMEND_OPTS; if(keepTO) globalThis.TERMEND_OPTS=Object.assign({},keepTO,{FRIEND:undefined});   /* TERMEND-OPTS-1110（朋友版）：以安大一上現在讀 TERMEND_OPTS.FRIEND、不抽話題池；這一節測的是話題池的機制（沛珊、多人桌還在用），先把 FRIEND 拿掉 */
     try{
       const L0=await dinner(T,a), auto0=L0.filter(x=>Lx.REPLY.some(r=>x===me+'｜'+r)).length, noCh=CH.filter(c=>c.some(t=>/（假）/.test(t))).length;
       check('5. 資料沒有 opts：話題之間祐廷照舊自動回（「嗯。」「真的假的。」），沒有多的選項',auto0>=1&&noCh===0,J(L0));
@@ -111,7 +112,7 @@ module.exports={H,sec,clone,reset,idx,sum,J,get CH(){ return CH; },set WANT(v){ 
         i1>=0&&r1.ch&&r1.re===AN+'｜（假）回甲。'&&r1.narr==='｜（她把菜單推過來。）'&&r1.rom===2&&!Lx.REPLY.some(r=>r1.next===me+'｜'+r)&&(k1===null||(r1.next===AN+'｜'+k1&&Lx.REPLY.some(r=>L1[i1+4]===me+'｜'+r))),J({r1,L1}));
       const L2=await dinner(T,a,'friend',['（假）乙']);
       check('5. 選乙（沒有 re、fx fr -1）：不出空的框、熟悉信任自在各 -1',ADJ.some(([w,d])=>w===a&&J(d)===J({fam:-1,trust:-1,comf:-1}))&&H.said.every(x=>typeof x.t==='string'&&x.t.trim()),J(L2));
-    } finally { Lx.POOL[T][a]=keep; WANT=[]; }
+    } finally { Lx.POOL[T][a]=keep; WANT=[]; globalThis.TERMEND_OPTS=keepTO; }
     /* 鉤子把話題池剛說過的那一句再說一次（AA audit_1110 termend D6） */
     const dup=[]; const G0=H.fresh('2026-06-20',18.5);
     for(const term in Lx.HOOK) for(const who in Lx.HOOK[term]){ const day={Y1S1:'2026-01-15',Y1S2:'2026-06-20',Y2S1:'2027-01-14',Y2S2:'2027-06-19',Y3S1:'2028-01-13',Y3S2:'2028-06-17',Y4S1:'2029-01-11'}[term]; if(!day) continue;
