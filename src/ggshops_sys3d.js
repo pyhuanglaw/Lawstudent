@@ -13,6 +13,12 @@
      營業每天 11:00～21:00、颱風假不開（places.js hours.aoki、typhoonShops）：門口「進入青木茶室」「外帶」打烊／颱風天＝門口那一句（AA_653 §0）、不進去不賣；
      21:00 人還在店裡＝店員一句＋旁白、站到公館門口（STORY.TICKS）；讀檔、颱風天在店裡＝直接出來、寫開放時間。
    - 約去青木茶室：src/data/invites.js 的地點 aoki（答應的一句七人＋一般那句 INVITE_DATA.aokiAcc0；坐下以後的開場句 seatOpen.aoki）。
+   - 頁間書屋的人物動作（BUG-YEJIAN-NO-VISUAL-1110，使用者 11-10 00:3x「在頁間書屋點任何東西都只有對話?沒有畫面?」→ 選擇題答「人物沒有動作」；USER_WANTS X269）：台詞一句都不改（AA_653），只加動作——
+       看看書牆、看新書：祐廷走到書牆／斜面書架前、面向它，出那一句（照舊隨機）；不是「一本也沒拿」那一句＝拿一本走到最近的空位（閱讀桌、沙發；窗邊高腳椅不拿書過去）坐下翻（pose read：手上捧著打開的書，character3d.js readIK），
+         接著照一般的座位選單（讀書、坐一下、起身…；GM.seatMenu）——要走就按「起身」，人不會卡在位子上。沒有空位＝只站在書架前看（不拿書）。
+       點咖啡：走到咖啡吧前、面向吧檯點（點完那幾句照舊），點了東西＝走到最近的空位坐下（高腳椅最後才挑）：飲料＝坐著喝（坐在桌前做事的片段 Drink＋手上的杯子，CHAR.sitTaskFit；
+         片段、配件還沒載好或這張桌子合不上＝一般坐姿），蛋糕＝坐下；錢不夠、不用了＝不走。起身（座位選單的「起身」）就把喝的片段拿掉。
+       走路用 GM.walkTo（劇情自動走路；卡住 4 秒有保險放到目的地），站的點照導航格找站得住的（互動點本身站不住就往外退，最多 1 m）。測試：node tests/yejian_actions_1110_unit.js
    測試：node tests/aa653_shops_unit.js */
 'use strict';
 const GGS=(function(){
@@ -79,14 +85,54 @@ const GGS=(function(){
   S.interact=async function(it,GM){ const G=GM&&GM.G; if(!it||!G) return false;
     /* 青木茶室的門口：打烊、颱風天不進去、不外帶（門口那一句）*/
     if((it.exit&&it.exit.to===S.AOKI)||it.ggsTake){ const dl=S.doorLine(G); if(!dl) return false; GM.sceneBegin(); try{ await GM.say(null,dl); } finally { GM.sceneEnd(); } return true; }
-    if(!it.ggs) return false; const z=G.zone, k=it.ggs, key=z+'.'+k;
+    if(!it.ggs) return false; const z=G.zone, k=it.ggs, key=z+'.'+k, yj=z===S.YJ&&!!S.YJ_FACE[k]; let then=null;
     GM.sceneBegin(); try{
-      if(S.MENU[key]){ if(z==='cvs'&&k==='hotfood') await GM.say(null,S.lookLine(G,z,k)); await S.buy(GM,key); }   /* 熱食櫃：先看（白天兩句隨機、晚上那一句），再問要不要買 */
+      if(yj) await S.yjGo(GM,it,k);   /* 頁間：先走過去、面向書牆／書架／咖啡吧（BUG-YEJIAN-NO-VISUAL-1110）*/
+      if(S.MENU[key]){ if(z==='cvs'&&k==='hotfood') await GM.say(null,S.lookLine(G,z,k)); const got=await S.buy(GM,key); if(yj&&got&&got!=='poor'&&got!=='gift') then={act:S.YJ_DRINKS.includes(got)?'drink':'sit',item:got}; }   /* 熱食櫃：先看（白天兩句隨機、晚上那一句），再問要不要買 */
       else if(key==='cvs.parcel'){ const F=G.flags||(G.flags={}); if(F.CVS_PARCEL){ F.CVS_PARCEL=null; await sayL(GM,S.L.parcelYes); } else await sayL(GM,[S.L.parcelNo]); }
       else if(key==='cvs.microwave'){ const F=G.flags||(G.flags={}); if(F.CVS_HEAT===G.day){ F.CVS_HEAT=null; if(GM.advance) GM.advance(1/60); await GM.say(null,S.L.microYes); } else await GM.say(null,S.L.microNo); }
-      else { const l=S.lookLine(G,z,k); if(l) await GM.say(null,l); }
+      else { const l=S.lookLine(G,z,k); if(l) await GM.say(null,l); if(yj&&l&&!S.YJ_NO_TAKE.test(l)) then={act:'read'}; }
     } finally { GM.sceneEnd(); }
+    if(then){ try{ await S.yjSit(GM,it,then); }catch(e){ console.warn('GGS.yjSit',e); } }   /* 拿書／端著咖啡去坐（場景結束以後：照一般坐下的流程，座位選單可以起身離開）*/
     return true; };
+
+  /* ---------- 頁間書屋：人物的動作（BUG-YEJIAN-NO-VISUAL-1110；上面開頭的說明）---------- */
+  S.YJ='bookstore';
+  S.YJ_FACE={shelf_browse:'bookwall',new_books:'display_rack',cafe_order:'cafe_counter'};   /* 互動點 → 面向配置裡哪一件家具 */
+  S.YJ_NO_TAKE=/一本也沒拿/;   /* 「（你在「散文・人文」那一格停了很久。最後一本也沒拿。）」：不拿書 */
+  S.YJ_DRINKS=['美式','拿鐵','紅茶'];
+  S.YJ_READ_TABLES=[1,2,4];   /* 拿書去看：閱讀桌、沙發（窗邊高腳椅不拿書過去）*/
+  const YL=()=>typeof YEJIAN_LAYOUT!=='undefined'?YEJIAN_LAYOUT:null;
+  /* 面向哪一點：書牆＝正對（同一個 x、書牆的 z）；斜面書架＝最近那一座的中心；咖啡吧＝同一個 z、吧檯的 x */
+  S.yjFaceAt=function(k,it){ const L=YL(), kind=S.YJ_FACE[k]; if(!L||!kind||!it) return null; const its=(L.items||[]).filter(q=>q.kind===kind&&typeof q.x==='number'); if(!its.length) return null;
+    const q=its.reduce((a,b)=>Math.hypot(b.x-it.x,b.z-it.z)<Math.hypot(a.x-it.x,a.z-it.z)?b:a);
+    if(kind==='bookwall') return [it.x,q.z]; if(kind==='cafe_counter') return [q.x,it.z]; return [q.x,q.z]; };
+  /* 站的點：互動點本身站得住就站那裡；站不住就往外（背對家具的方向）退，每 10 cm 試一次、最多 1 m；都不行＝null（不走，只轉身）*/
+  S.yjStand=function(E,it,f){ const ok=(x,z)=>!E||!E.canStand||E.canStand(x,z,0.32,0); if(ok(it.x,it.z)) return [it.x,it.z];
+    let dx=it.x-(f?f[0]:it.x), dz=it.z-(f?f[1]:it.z); const d=Math.hypot(dx,dz); if(d<1e-6) return null; dx/=d; dz/=d;
+    for(let s=0.1;s<=1.0+1e-6;s+=0.1){ const x=+(it.x+dx*s).toFixed(2), z=+(it.z+dz*s).toFixed(2); if(ok(x,z)) return [x,z]; } return null; };
+  S.yjGo=async function(GM,it,k){ const E=GM.E, P=E&&E.player; if(!P||!P.obj||!P.obj.position) return false; const f=S.yjFaceAt(k,it);
+    if(P.seat&&GM.standUp) GM.standUp(P);
+    const at=S.yjStand(E,it,f), p=P.obj.position; if(at&&GM.walkTo&&Math.hypot(p.x-at[0],p.z-at[1])>0.25) await GM.walkTo(P,at[0],at[1],{lv:0});
+    if(f&&GM.face) GM.face(P,f[0],f[1]); if(GM.sleep) await GM.sleep(250); return true; };
+  /* 去哪一個位子坐：店裡空著的座位（座位的互動點；GM.freeSeat 沒人坐、原樣回來的）裡離這個互動點最近的；拿書＝只挑閱讀桌、沙發；端咖啡＝高腳椅最後才挑 */
+  S.yjSeatIt=function(GM,it,act){ const E=GM.E, L=YL(); if(!E||!L) return null; const tab=s=>{ const q=(L.seats||[]).find(q=>Math.hypot(q.x-s.x,q.z-s.z)<0.05); return q?q.table:null; };
+    let best=null, bd=1e9; for(const q of (E.interactables||[])){ if(!q||!q.seat||q.hidden||q.exHeld||(q.shop&&q.shop!==S.YJ)) continue; const t=tab(q.seat); if(t==null) continue;
+      if(act==='read'&&!S.YJ_READ_TABLES.includes(t)) continue; if(GM.freeSeat&&GM.freeSeat(q.seat)!==q.seat) continue; if(q.seat.taken) continue;
+      const d=Math.hypot(q.seat.x-it.x,q.seat.z-it.z)+((+q.seat.lift||0)>0.02?3:0); if(d<bd){ bd=d; best=q; } }
+    return best; };
+  let pend=null;   /* 坐下那一刻要做的（STORY.onSeat）：{act:'read'|'drink'|'sit'} */
+  S.yjSit=async function(GM,it,then){ const E=GM.E, P=E&&E.player; if(!P||!P.obj||!GM.seatMenu) return null; const si=S.yjSeatIt(GM,it,then.act); if(!si) return null;
+    pend={act:then.act}; try{ await GM.seatMenu(si); } finally { pend=null; S.yjDrinkOff(P); } return si.seat; };
+  /* 坐下：拿書＝捧著書（pose read）；喝飲料＝做事的片段 Drink（量這張桌子合不合得上；合不上＝一般坐姿）*/
+  S.yjDrinkOff=function(P){ const o=P&&P.obj, u=o&&o.userData; if(!u||!u.ggsDrink) return; u.ggsDrink=false; if(typeof CHAR!=='undefined'&&CHAR.setSitTask) CHAR.setSitTask(o,null); };
+  S.yjOnSeat=function(GM,seat){ const G=GM&&GM.G, P=GM&&GM.E&&GM.E.player; if(!P) return false; const a=pend; pend=null;
+    if(!a||!G||G.zone!==S.YJ){ S.yjDrinkOff(P); return false; }   /* 別的坐下：上一次喝的片段沒拿掉（讀檔打斷）＝拿掉 */
+    if(a.act==='read'){ P.pose='read'; P.idlePose='read'; if(typeof CHAR!=='undefined'&&CHAR.setReadItem&&P.obj) CHAR.setReadItem(P.obj,'book'); return 'read'; }
+    if(a.act==='drink'&&P.obj&&typeof CHAR!=='undefined'&&CHAR.sitTaskFit&&CHAR.setSitTask){ let fit=null;
+      try{ const tb=typeof SEATACT!=='undefined'&&SEATACT.probe?SEATACT.probe(GM.E,seat):null; if(tb&&!((+seat.lift||0)>0.02)) fit=CHAR.sitTaskFit(P.obj,'drink',{h:tb.h,edge:tb.edge,depth:tb.depth},true); }catch(e){ fit=null; }
+      if(fit){ CHAR.setSitTask(P.obj,fit); P.obj.userData.ggsDrink=true; return 'drink'; } }
+    return 'sit'; };
 
   /* ---------- 青木茶室：坐下照位子一句 ---------- */
   const AL=()=>typeof AOKI_LAYOUT!=='undefined'?AOKI_LAYOUT:null;
@@ -122,6 +168,7 @@ const GGS=(function(){
     if(Array.isArray(STORY.TICKS)&&!STORY.TICKS.includes(S.tick)) STORY.TICKS.push(S.tick);
     if(!STORY._ggs){ STORY._ggs=true;
       if(STORY.interact){ const oi=STORY.interact; STORY.interact=async function(it,GM){ if(await S.interact(it,GM)) return true; return oi.apply(this,arguments); }; }
-      const os=STORY.onSeat; STORY.onSeat=async function(GM,seat){ const r=os?await os.apply(this,arguments):false; try{ if(GM&&GM.G&&GM.G.zone===S.AOKI) await S.onSeat(GM,seat); }catch(e){ console.warn('GGS.onSeat',e); } return r; }; } }
+      const os=STORY.onSeat; STORY.onSeat=async function(GM,seat){ try{ S.yjOnSeat(GM,seat); }catch(e){ console.warn('GGS.yjOnSeat',e); }   /* 頁間：坐下就捧書／喝（在其他坐下的事件之前套好姿勢）*/
+        const r=os?await os.apply(this,arguments):false; try{ if(GM&&GM.G&&GM.G.zone===S.AOKI) await S.onSeat(GM,seat); }catch(e){ console.warn('GGS.onSeat',e); } return r; }; } }
   return S;
 })();
