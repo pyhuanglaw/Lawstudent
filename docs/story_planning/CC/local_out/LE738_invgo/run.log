@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_LE738_invgo\tests\flow_inv_go_jump.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LE738_invgo\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：10/23 13:00 宿舍房間；和阿哲約好 15:00 2:30 AM（INV.accept）；關掉條件事件
+PASS A 手機「今天」：那一筆有「前往」、寫會先跳到幾點出發  今天約好的15:00　和阿哲約在 2:30 AM按「前往」會先跳到 14:25 出發前往10/23 週四・大一上 第 8 週現在 13:01今天的時間　上午 ○○　下午 ○○　晚上 ○○每個時段一件主要的事：上課、社團活動、出遊約會、自習、
+PASS A 按「前往」：人到 2:30 AM、時間跳到 14:30～15:00（約好的時間前）  {"zone": "cafe", "hour": 14.754}
+  [前置／捷徑] 讀檔：10/23 17:20 校園；約好 18:00 小路（18:00 才開門）
+PASS B 還沒開門：照樣有「前往」、寫「（18:00 開門）」  今天約好的18:00　和阿哲約在小路按「前往」會先跳到 17:40 出發（18:00 開門）前往10/23 週四・大一上 第 8 週現在 17:22今天的時間　上午 ○○　下午 ○○　晚上 ○○每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上
+PASS B 按「前往」：人到小路、時間 18:00 以後（開門以後）、沒有「還沒開」  {"zone": "wz_teishoku", "hour": 18.004, "toasts": []}
+  [前置／捷徑] 讀檔：10/16 16:00 校園；和阿哲「現在一起過去」公館燒臘（INV.accept now）
+PASS C 一起過去的途中：上方目標列寫「和阿哲一起去…」  目標：和阿哲一起去公館燒臘
+PASS D 手機「課表」：出席一門課一行（.attRow 5 行以上）  9 行
+PASS 沒有 JS 錯誤  []
+ALL PASS
