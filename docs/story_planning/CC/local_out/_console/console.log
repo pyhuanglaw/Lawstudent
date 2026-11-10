@@ -1276,3 +1276,11 @@
 [20:24:15] ==== START GUI_new  (probe @ de1f25768e421cf07b2151c2872b5b6d6f70ef5a) ====
 [20:24:18] [res] cpu=22% mem=48% (15.0/31.4 GB) chrome_testing=8  START GUI_new
 [20:25:01] [res] cpu=23% mem=46% (14.7/31.4 GB) chrome_testing=9  END WINVIEW_tx_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       da916d03f..f3c766656  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:25:07] ==== END   WINVIEW_tx_new  exit=0  139s   ====
+[20:25:11] memory 49% before starting GUI_old (2 running)
+[20:25:11] ==== START GUI_old  (probe @ fda54d616e57b40c74ca1b6404dccb6ea927e50c) ====
+[20:25:14] [res] cpu=8% mem=49% (15.4/31.4 GB) chrome_testing=9  START GUI_old
+[20:26:45] [res] cpu=14% mem=43% (13.7/31.4 GB) chrome_testing=9  END WINVIEW_sso_new
