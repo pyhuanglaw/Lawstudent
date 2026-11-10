@@ -274,6 +274,46 @@ async def case_kxvb(pg, cdp):
     R.check('[KXVB] 單元層級：m3007a 沒有可昕的 with、三部沒有可昕的 later、need 沒有排球開關', not u['with'] and not u['later'] and not u['need'], J(u))
 
 
+MARKS = r"""(()=>{ if(GAME.__arcMk) return; GAME.__arcMk=1; const P=v=>{ try{ (window.__MT=window.__MT||[]).push({k:'mark', v, h:+(+GAME.G.hour).toFixed(3), z:GAME.G.zone}); }catch(e){} };
+  const W=(o,nm,tag)=>{ if(!o||typeof o[nm]!=='function') return; const f=o[nm]; o[nm]=function(){ P(tag+' 開始'); const r=f.apply(this,arguments); Promise.resolve(r).then(()=>P(tag+' 結束'),()=>P(tag+' 出錯')); return r; }; };
+  if(typeof ARCS!=='undefined'){ W(ARCS,'run','ARCS.run'); W(ARCS,'rotRun','ARCS.rotRun'); }
+  if(typeof STUDYN!=='undefined') W(STUDYN,'mid','STUDYN.mid');
+  if(typeof MOVIES!=='undefined'){ W(MOVIES,'playMid','MOVIES.playMid'); W(MOVIES,'talk','MOVIES.talk'); W(MOVIES,'after','MOVIES.after'); W(MOVIES,'leaveHall','MOVIES.leaveHall'); W(MOVIES,'enterHall','MOVIES.enterHall'); } })()"""
+
+
+async def case_arcafter(pg, cdp, who, day_key, film, axdone, tag):
+    """MOVIE-ARC-AFTER-1110（BB 21:38；LAWWW 給 SHA 後跑）：故事線那一拍移到散場後。
+    要看：放映中（進 1 廳到 leaveHall 之間）沒有要選的東西；看到一半演片子的那一幕（MOVIES.playMid）；散場 talk（MOVIES.talk）之後才演故事線（ARCS.run／rotRun／STUDYN.mid）。
+    【前置／捷徑】讀檔到 day_key 08:00、她朋友＋聯絡方式；約好後片換成 film；axdone＝把 G.flags.ACTN.movie[她] 設成三場都演完（之後是輪換）。"""
+    await M.load(pg, cdp, M.base_state([who]), day_key=day_key, why='%s 08:00、%s 朋友＋聯絡方式' % (day_key, who))
+    await pg.evaluate(MARKS)
+    if axdone:
+        r = await pg.evaluate("(w=>{ const K=STUDYN.act('movie'), r=K.of(GAME.G,w), n=K.size?K.size(w):3; r.n=n; r.k=n+1; r.last=null; return {n, rec:r}; })(%s)" % J(who))
+        R.setup('%s【捷徑】電影第 N 場三場都演完：G.flags.ACTN.movie.%s＝%s' % (tag, who, J(r)))
+    iv = await M.book(pg, cdp, tag, who, 0)
+    if not iv: return
+    await setfilm(pg, iv, film, tag)
+    pv = await pg.evaluate("(w=>{ let a=null, ax=null; try{ a=ARCS.pick(GAME.G,w,{kind:'movie'}); }catch(e){ a=String(e); } try{ ax=STUDYN.act('movie').pick(GAME.G,w); }catch(e){ ax=String(e); } return {arc:a&&(a.id||a.k||a), ax:ax&&(ax.k!=null?ax.k:(ax.generic?'generic':ax))}; })(%s)" % J(who))
+    R.note('%s 預覽：ARCS.pick＝%s；STUDYN movie pick＝%s' % (tag, J(pv['arc']), J(pv['ax'])))
+    r = await watch_pick(pg, cdp, tag, who, iv, None); mt, adj = await M.dump(pg, tag)
+    if not r: return
+    idx = lambda pred: next((i for i, e in enumerate(mt) if pred(e)), None)
+    i_in = idx(lambda e: e['k'] == 'mark' and e['v'] == 'MOVIES.enterHall 開始')
+    i_out = idx(lambda e: e['k'] == 'mark' and e['v'] == 'MOVIES.leaveHall 開始')
+    i_mid = idx(lambda e: e['k'] == 'mark' and e['v'] == 'MOVIES.playMid 開始')
+    i_talk = idx(lambda e: e['k'] == 'mark' and e['v'] == 'MOVIES.talk 開始')
+    i_talk_end = idx(lambda e: e['k'] == 'mark' and e['v'] == 'MOVIES.talk 結束')
+    arcs = [i for i, e in enumerate(mt) if e['k'] == 'mark' and e['v'].endswith('開始') and e['v'].split(' ')[0] in ('ARCS.run', 'ARCS.rotRun', 'STUDYN.mid')]
+    marks = [(i, e['v'], e['z'], e['h']) for i, e in enumerate(mt) if e['k'] == 'mark']
+    R.note('%s 標記順序：%s' % (tag, J(marks)))
+    in_show = [e for e in mt[(i_in or 0):(i_out if i_out is not None else len(mt))] if e['k'] == 'choose'] if i_in is not None else None
+    mid_lines = [e['v'] for e in mt[i_mid:i_mid + 6] if e['k'] == 'say'] if i_mid is not None else []
+    R.note('%s 看到一半那幾句：%s' % (tag, J(mid_lines)))
+    R.check('%s 放映中（進 1 廳到散場）沒有要選的東西' % tag, in_show is not None and not in_show, J({'in': i_in, 'out': i_out, 'choose': in_show}))
+    R.check('%s 看到一半演了片子的那一幕（MOVIES.playMid）' % tag, i_mid is not None and (i_out is None or i_mid < i_out), J({'mid': i_mid, 'lines': mid_lines}))
+    R.check('%s 故事線那一拍（ARCS.run／rotRun／STUDYN.mid）在散場 talk 之後' % tag, bool(arcs) and i_talk is not None and all(a > i_talk for a in arcs), J({'talk': i_talk, 'talk_end': i_talk_end, 'arcs': arcs}))
+
+
 async def main():
     print('CC MT3（MOVIE-TALK-1110 第二輪）：CASES %s；Playwright ≠ iPhone' % ','.join(CASES), flush=True)
     async with async_playwright() as p:
@@ -300,6 +340,9 @@ async def main():
                 elif c == 'SECOND': await case_second(pg, cdp)
                 elif c == 'SKIP': await case_skip(pg, cdp)
                 elif c == 'KXVB': await case_kxvb(pg, cdp)
+                elif c == 'ARC_AN': await case_arcafter(pg, cdp, 'heroine_01', '2027-09-15', 'm2709b', False, '[ARC_AN 以安 借據]')
+                elif c == 'ARC_KX': await case_arcafter(pg, cdp, 'kexin', '2027-05-15', 'm2705a', False, '[ARC_KX 可昕 放學後的球場]')
+                elif c == 'ARC_AXDONE': await case_arcafter(pg, cdp, 'heroine_01', '2027-09-15', 'm2709b', True, '[ARC_AXDONE 以安 借據、電影三場演完]')
             except Exception as e:
                 R.check('[%s] 沒有中斷' % c, False, repr(e)[:300])
             open(os.path.join(OUT, 'movie_talk_lines.txt'), 'w', encoding='utf-8').write('\n'.join(TXT))
