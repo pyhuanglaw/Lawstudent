@@ -65,14 +65,24 @@ const TZ3=(function(){
     const FG=L.fromGongguan, zone={group:g,nav,spawn:{x:FG.x,z:FG.z,yaw:FG.yaw},lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.tingzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       Z3.attachWenzhouModel(E,g,c.scene.clone(true),'tzfb','tingzhou_street_glb'); zone.tzFormal=true; }).catch(e=>console.warn('汀州路正式模型載入失敗，用方塊立面',e));
-    // 路邊的機車（第 2 版；BB：街上是空的）：兩側機車格一排，車頭朝店面；巷 A 口、斑馬線、攤位的位置不停，每五六台空一兩格。用公館、溫州街同一套機車模型（十二款、各自的配色）
+    // 路邊的機車、腳踏車（第 3 版；使用者 11-10 21:5x：「路邊新加的機車……長得幾乎一樣莫名其妙」；BB：兩側從頭排到尾、同樣間距、同樣角度，像複製貼上的一道牆）：
+    //   一小群一小群停（三到六台），群和群之間空一到三格，有的路段整段沒車；同一群斜的方向差不多、每台再歪一點；有的車頭朝外；五群裡一群是腳踏車（淑女車、公共單車、登山車…混著）。
+    //   店門口、巷 A 口、斑馬線、攤位前不停。機車用公館、溫州街同一套模型（十二款，各自的配色，照位置挑）；腳踏車用校園那一套（W3.bikeAny）。
     { const scG=new THREE.Group(), scList=[], scC=['#c9463d','#2b2b2d','#e8e6e0','#3d6fb0','#8a8f98','#2f6a4a','#d9b23a']; const hash=(a,b)=>{ const t=Math.sin(a*12.9898+b*78.233)*43758.5453; return t-Math.floor(t); };
-      const busy=(x,zz)=>stalls.some(q=>Math.abs(q.x-x)<1.6&&Math.abs(q.z-zz)<2.2)||(L.crossings||[]).some(c=>Math.abs(zz-c.z)<c.w/2+0.4); let i=0;
-      for(const sx of [-1,1]){ const x=sx*(R.x1-(R.parkW||1.6)/2); for(let zz=WK.z0+1.2;zz<WK.z1-1;zz+=0.85){ i++; if(busy(x,zz)||hash(Math.floor(zz/5)+sx*31,7)<0.22||hash(zz,sx)<0.1) continue;
-          const c=scC[(i*5+3)%7], o=TK.scooter(c); o.position.set(x+(hash(zz,3)-0.5)*0.12,0,zz); o.rotation.y=sx*Math.PI/2+(hash(zz,5)-0.5)*0.16; o.userData.dyn=true; scG.add(o); scList.push({o,color:c,grp:(sx>0?'E':'W')+Math.floor((zz-WK.z0)/20)}); nav.blockRect(x,zz,(R.parkW||1.6)-0.2,0.8,0); } }
-      nav._cm=null; g.add(scG); zone.tzScooters=scList.length;
+      const doors=L.shops.filter(q=>q.enter||q.arcade===false||q.concept).map(q=>({s:q.side==='W'?-1:1,z:(q.z0+q.z1)/2}));
+      const busy=(x,zz,sx)=>stalls.some(q=>Math.abs(q.x-x)<1.6&&Math.abs(q.z-zz)<2.2)||(L.crossings||[]).some(c=>Math.abs(zz-c.z)<c.w/2+0.6)||doors.some(d=>d.s===sx&&Math.abs(d.z-zz)<1.1);
+      const PW=R.parkW||1.6; let lastC=-1, bikes=0, groups=0; const gaps={'-1':0,'1':0};
+      for(const sx of [-1,1]){ const x=sx*(R.x1-PW/2); let zz=WK.z0+1.2+hash(sx,1)*2, gi=0;
+        while(zz<WK.z1-1.5){ gi++; const hg=hash(gi*3.1+sx*17,2), n=3+Math.floor(hash(gi,sx+5)*4), isBike=hash(gi*1.7,sx+9)<0.2, slant=(hash(gi,sx+11)-0.5)*0.5, pitch=isBike?0.62:0.8+hash(gi,sx+13)*0.14;
+          if(hg<0.18){ zz+=4+hash(gi,sx+3)*4; gaps[sx]++; continue; }   /* 這一段整段沒車 */
+          groups++; for(let k=0;k<n&&zz<WK.z1-1.2;k++,zz+=pitch){ if(busy(x,zz,sx)) continue; const jx=(hash(zz,3)-0.5)*0.24, ry=sx*Math.PI/2+slant+(hash(zz,5)-0.5)*0.14+(hash(zz,7)<0.12?Math.PI:0);
+            if(isBike){ if(W3.bikeAny){ const b=W3.bikeAny(scC[Math.floor(hash(zz,9)*7)],Math.round(zz*10)+sx*999,null,1.7); b.position.set(x+jx,0,zz); b.rotation.y=ry; g.add(b); bikes++; nav.blockRect(x,zz,PW-0.2,0.55,0); } continue; }
+            let ci=Math.floor(hash(zz,sx+21)*7); if(ci===lastC) ci=(ci+3)%7; lastC=ci; const c=scC[ci], o=TK.scooter(c); o.position.set(x+jx,0,zz); o.rotation.y=ry; o.userData.dyn=true; scG.add(o);
+            scList.push({o,color:c,grp:(sx>0?'E':'W')+Math.floor((zz-WK.z0)/20)}); nav.blockRect(x,zz,PW-0.2,0.8,0); }
+          zz+=1.5+hash(gi,sx+15)*2.6; gaps[sx]++; } }
+      nav._cm=null; g.add(scG); zone.tzScooters=scList.length; zone.tzBikes=bikes; zone.tzParkGroups=groups; zone.tzParkGaps=gaps[-1]+gaps[1];
       if(scList.length&&Z3.attachWzScooters&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_scooter']){ if(typeof P3!=='undefined'&&P3.mergeStatic) P3.mergeStatic(scG);
-        ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; Z3.attachWzScooters(g,scG,scList,c.scene,'tz_scooters_glb'); }).catch(e=>console.warn('汀州路機車模型載入失敗',e)); } }
+        ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=Z3.attachWzScooters(g,scG,scList,c.scene,'tz_scooters_glb'); zone.tzScooterGLB=n; }).catch(e=>console.warn('汀州路機車模型載入失敗',e)); } }
     zone.tzStalls=stalls;   /* LAWWW 接看／買：每一攤的 id、kind、位置；zone.tzStallsClosed＝true 強制收攤（颱風、大雨） */
     if(stalls.length&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_stalls']) ASSETS.loadOne('bldg.tingzhou_stalls').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       for(const q of stalls) for(const st of ['open','closed']){ const src=c.scene.getObjectByName('STALL_'+q.kind+'_'+st); if(!src) continue; const o=src.clone(true); o.position.set(q.x,0,q.z); o.rotation.set(0,q.yaw,0); o.userData.dyn=true;

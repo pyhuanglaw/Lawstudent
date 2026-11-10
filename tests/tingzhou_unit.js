@@ -71,5 +71,7 @@ check('4. 店面玻璃後面、樓房裡面站不住',!freeAt(F.west-F.arcade-0.
   check('9. 攤位不擋店門：每一間店門口照舊站得住、走得到；攤車離店門互動點 ≥ 1.6 m',!near.length&&!cut.length,near.concat(cut).join(' '));
   const A=L.alleys[0]; let narrow=[]; for(let x=F.east+1;x<F.east+A.len-2;x+=0.5){ let n=0; for(let zz=A.z0+0.25;zz<A.z1;zz+=0.5) if(freeAt(x,zz)) n++; if(n*0.5<2.0) narrow.push(x.toFixed(1)+':'+n*0.5); }
   check('9. 巷 A 擺了攤還留至少 2 m 寬可以走（不是整條堵住）；汀州路的車道沒有攤',!narrow.length&&ST.list.every(q=>q.where==='alleyA'||Math.abs(q.x)>=3.4),narrow.slice(0,5).join(' ')); }
-check('10. 路邊有機車（BB 第 1 版：街上是空的）：至少 60 台、巷 A 口和斑馬線前不停；Z3 有匯出機車模型的函式',z.tzScooters>=60&&typeof Z3.attachWzScooters==='function'&&reach(sp,[F.west-1.5,0])&&freeAt(F.east-0.8,0),String(z.tzScooters));
+check('10. 路邊的機車是一小群一小群停、有空位（使用者 11-10：不要兩側排滿、長得一樣）：40～80 台、至少 12 個空檔、有腳踏車；巷 A 口和斑馬線前不停；Z3 有匯出機車模型的函式',z.tzScooters>=40&&z.tzScooters<=80&&z.tzParkGaps>=12&&z.tzBikes>=4&&typeof Z3.attachWzScooters==='function'&&reach(sp,[F.west-1.5,0])&&freeAt(F.east-0.8,0),`機車 ${z.tzScooters}、腳踏車 ${z.tzBikes}、群 ${z.tzParkGroups}、空檔 ${z.tzParkGaps}`);
+{ const PW=L.road.parkW||1.6; let worst=0; for(const sx of [-1,1]){ const x=sx*(L.road.x1-PW/2); let run=0; for(let zz=L.walk.z0+1;zz<L.walk.z1-1;zz+=0.25){ if(!freeAt(x,zz)){ run+=0.25; worst=Math.max(worst,run); } else run=0; } }
+  check('10. 沒有連續超過 7 m 的一整排車（路邊每隔一小段就有空位可以穿過去）',worst<=7,worst.toFixed(2)+' m'); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
