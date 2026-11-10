@@ -975,3 +975,11 @@
 [19:18:43] ==== START VIEWRAW_cvs  (probe @ 4d7f556a61e028ab5409fcf0103e7448b3038b51) ====
 [19:18:46] [res] cpu=9% mem=46% (14.7/31.4 GB) chrome_testing=9  START VIEWRAW_cvs
 [19:20:16] [res] cpu=40% mem=50% (16.0/31.4 GB) chrome_testing=9  END WINVIEW_lin
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e7188df25..bdae8a6ba  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:20:22] ==== END   WINVIEW_lin  exit=0  137s   ====
+[19:20:26] memory 48% before starting BOYA1F_new (2 running)
+[19:20:26] ==== START BOYA1F_new  (probe @ f3b47894b3b10643fb91fd30be70bc28cad68035) ====
+[19:20:29] [res] cpu=15% mem=48% (15.3/31.4 GB) chrome_testing=9  START BOYA1F_new
+[19:22:19] [res] cpu=7% mem=48% (15.3/31.4 GB) chrome_testing=9  END BOYA1F_new
