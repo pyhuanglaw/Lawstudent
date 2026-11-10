@@ -51955,10 +51955,8 @@
    "id": "US-CLASSROOM-3D-1110",
    "title": "美國教室做 3D（目前 2D us_classroom；20 週每個上課日都會去）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
-   "pausedReason": "要 AA 先給座位、NPC（誰坐哪、上課時誰在）規格",
-   "resumeWhen": "AA 交規格",
    "first": {
     "term": "Y3S1",
     "week": 1,
@@ -51969,9 +51967,9 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP 建議第一；D99 第三優先（美國交換）。",
+   "next": "【LAWWW 11-10 14:4x】AA_740（961025d4c）規格到：Room 120 階梯教室三門課共用、照 201（6×8）、灰藍地毯、不放學姊；已轉 LAWWW2（模型＋layout＋區域接線 D108），劇情接線 LAWWW。 ｜ 【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP 建議第一；D99 第三優先（美國交換）。",
    "xai": {
-    "spec": "docs/art-rebuild/second_ai/us_scene_gap_1110.md",
+    "spec": "企劃線 961025d4c docs/story_planning/AA_740_美國教室3D_座位與NPC.md＋docs/art-rebuild/second_ai/us_scene_gap_1110.md",
     "branch": "claude/second-ai-env-art",
     "acceptance": "進教室、一鍵上課、研討課、期中報告在 3D 教室演；BB 判",
     "receiver": "LAWWW",
