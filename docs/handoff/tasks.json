@@ -52388,7 +52388,7 @@
    "id": "WZ-QUICKTRAVEL-1110",
    "title": "手機／地圖快速前往：溫州街列出全部 11 間店、直接到那一間（X319）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52401,7 +52401,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW 11-10 18:4x】子代理實作（places.js 快速前往清單＋站位可站檢查＋tests/wz_quicktravel_1110_unit.js）。"
+   "next": "11-10 22:0x 才真的進開發分支（之前只在子代理分支 d24d3743f，LAWWW 以為已合併）；BB／CC 測"
   },
   {
    "id": "WZ-SHOP-TEA-1110",
@@ -52691,7 +52691,7 @@
    "id": "TINGZHOU-SHOPS-MOVE-1110",
    "title": "三間店搬到汀州路以後：地圖標記、手機快速前往、場景入口、劇情地點文字（公館→汀州路）、相關資料與測試",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52704,7 +52704,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "子代理在做：地點名、快速前往（汀州路＋八間）、路人",
+   "next": "地點名、地圖標記、快速前往（汀州路＋八間門口）、路人（時段、畫質分級、不複製同一個人）在開發分支；BB／CC 測；室內做好後快速前往改到店內",
    "xai": {
     "spec": "X321",
     "branch": "claude/confident-ritchie-8rwh7t",
