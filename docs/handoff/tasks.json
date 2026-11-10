@@ -52169,6 +52169,32 @@
     "receiver": "BB",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "LIFE-DETAILS-SEASONAL-1110",
+   "title": "生活細節環境美術：季節性攤販、店門口隨季節／時間的小變化、節日布置（X317）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館、溫州街、校園",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW 11-10 18:1x】使用者對 LAWWW2：「季節性的攤販、店門口的小變化、節日的布置 很棒」→ LAWWW2 先出清單提案（哪些店、哪些節日、季節、要不要劇情條件），劇情部分問 AA；LAWWW 接（節日日期、時段開關）。",
+   "xai": {
+    "spec": "使用者 11-10 18:1x 對 LAWWW2",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "清單提案→實作；BB 判",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
