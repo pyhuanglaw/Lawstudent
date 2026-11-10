@@ -1431,3 +1431,15 @@
        f6b22ed64..2f40369fd  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [10:01:43] ==== END   SOCX_8677_date_h5  exit=1  2322s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2f40369fd..91c74e93e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:01:48] ==== END   WW1B_old_dorm  exit=0  150s   ====
+[10:01:51] memory 40% before starting WW1B_old_wancai (2 running)
+[10:01:51] ==== START WW1B_old_wancai  (probe @ c8af31018a9ce570422ad748aa277af842f8db37) ====
+[10:01:54] [res] cpu=8% mem=40% (12.7/31.4 GB) chrome_testing=4  START WW1B_old_wancai
+[10:01:55] memory 40% before starting WW1B_old_corner_records (2 running)
+[10:01:55] ==== START WW1B_old_corner_records  (probe @ c8af31018a9ce570422ad748aa277af842f8db37) ====
+[10:01:57] [res] cpu=8% mem=42% (12.8/31.4 GB) chrome_testing=4  START WW1B_old_corner_records
+[10:03:27] 正在跑：NOASK_faf1（已跑 57 分／上限 240 分）、WW1B_old_wancai（已跑 1 分／上限 20 分）、WW1B_old_corner_records（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:03:43] [res] cpu=8% mem=46% (14.4/31.4 GB) chrome_testing=8  END WW1B_old_wancai
