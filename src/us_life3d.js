@@ -136,13 +136,21 @@ const USL=(function(){
     return out; };
   /* 外型：有名字的四位、何俊朗、三位教授固定；路人照順序輪（STORY.extraSpecUS：偶數女、奇數男）*/
   const NAMED={korean:{i:7,skin:'#f3d9c4',hair:'#1f1613'},german:{i:4,skin:'#f3d9c4',hair:'#b88a4a'},brazil:{i:9,skin:'#c68e65',hair:'#2a1d16'},japan:{i:14,skin:'#f6dcc9',hair:'#1f1613'},long:{i:21,skin:'#efd0b3',hair:'#1f1613'}};
+  /* 何俊朗自己的 3D 模型（US-LONG-3D-1110，LAWWW2）：manifest 是 lazy，第一次要用時才下載；下載完以前 CHAR.build 先建備用的人（藏起來），到了由 GM.upgradeModels 換上。
+     下載失敗：記下來，之後的人用路人的樣子（不要求那個模型），已經在場、藏起來等的人也露出來（不能一直隱形）*/
+  const LONG_KEY='char.us_long'; S._longFail=false;
+  S.longModel=function(){ if(S._longFail||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[LONG_KEY]) return null;
+    if(ASSETS.has&&!ASSETS.has(LONG_KEY)&&ASSETS.loadOne&&!S._longLoading){ S._longLoading=true; let p; try{ p=Promise.resolve(ASSETS.loadOne(LONG_KEY)); }catch(e){ p=Promise.reject(e); } p.catch(e=>{ S._longFail=true; console.warn('USL long model',e&&e.message); S.longReveal(); }).finally(()=>{ S._longLoading=false; }); }
+    return LONG_KEY; };
+  S.longReveal=function(){ const E=typeof GAME!=='undefined'&&GAME.E; for(const n of (E&&E.npcs)||[]){ const u=n&&n.obj&&n.obj.userData; if(!u||u.wantModel!==LONG_KEY) continue; u.wantModel=null; if(u.degradedHidden){ for(const c of n.obj.children) c.visible=true; u.degradedHidden=false; } } };
   const specOf=(q,i,ck)=>{ const xs=STORY.extraSpecUS||STORY.extraSpec; let s=null;
     if(q.who==='prof'&&STORY.profSpec){ s=STORY.profSpec({id:'us_prof_'+ck,name:'',gender:PROF_SEX[ck]});
       if(ck==='intro'){ s.hair=Object.assign({},s.hair,{color:'#8a8580'}); if(s.outfit) s.outfit=Object.assign({},s.outfit,{top:{type:'cardiganOpen',color:'#4a4238',inner:'#f2f0ea'}}); }   /* 年紀大的男教授（西裝背心：還沒有背心的衣服，暫用深色開襟）*/
       if(ck==='lw'&&s.outfit) s.outfit=Object.assign({},s.outfit,{top:{type:'shirt',color:'#c9d3dd',inner:'#c9d3dd'}}); }   /* 年輕的男教授，襯衫 */
-    else if(NAMED[q.who]&&xs){ const N=NAMED[q.who]; s=xs(N.i); s.skin=N.skin; s.hair=Object.assign({},s.hair,{color:N.hair}); }
+    else if(NAMED[q.who]&&xs){ const N=NAMED[q.who]; s=xs(N.i); s.skin=N.skin; s.hair=Object.assign({},s.hair,{color:N.hair}); if(q.who==='long'){ const k=S.longModel(); if(k) s.model=k; } }   /* 何俊朗：自己的模型（US-LONG-3D-1110）；路人的穿搭留著當備用 */
     else if(xs) s=xs(30+i);
     s=Object.assign({},s||{}); s.id='usc_'+q.who+'_'+i; s.name=''; return s; };
+  S.specOf=specOf;   /* 測試用（tests/us_long_model_unit.js）*/
   const HINT='坐下（你常坐的位置）';
   const hintSet=(E,seat)=>{ for(const q of (E.interactables||[])){ if(!q.seat) continue; if(q.seat===seat){ if(q.uscHint==null) q.uscHint=q.label; q.label=HINT; } else if(q.uscHint!=null){ q.label=q.uscHint; q.uscHint=null; } } };
   S.cast3d=function(GM,it,mode){ const G=GM.G, E=GM.E, z=E&&E.zone; S.uncast(GM,true); if(!z||G.zone!=='us_classroom'||!it||!CK[it.c.id]) return [];

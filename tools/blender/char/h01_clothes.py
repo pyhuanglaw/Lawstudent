@@ -43,10 +43,22 @@ CREW_FRONT_Z = 1.352
 SLEEVE_K = 0.82           # 袖子粗細（設計輪廓的倍數；沈以安 0.82）
 SLEEVE_LEN = 1.0          # 袖長（手臂全長的比例；1＝長袖到手腕。林芷若的短袖 ≈ 0.55：過手肘一點）
 CUFF_EASE = 0.0085        # 袖口離手臂的距離（長袖羅紋收口 8.5 mm；短袖反摺袖口鬆一點）
-TOP_TEX = 'knit'          # 上衣布料：'knit'（粗針織，沈以安、祐廷）／'linen'（亞麻，林芷若）
+TOP_TEX = 'knit'          # 上衣布料：'knit'（粗針織，沈以安、祐廷）／'linen'（亞麻，林芷若）／'jersey'（棉 T，陳語彤）／'cotton'（平織棉、直紋很淡，阿勳）
 PANTS_DROP = True         # 寬褲從臀部直落（False：合身褲，褲管照腿的形狀）
 PANTS_HEM_UP = 0.0        # 褲腳往上（九分褲：露出腳踝）
+PANTS_FOLLOW = False      # 褲管中心線跟著腿骨（大腿根 → 膝蓋 → 腳踝）走；False＝舊做法（垂直的管子，x 固定 0.086）。腿往內斜的樣本（Sakurada：膝蓋 x 0.055、腳踝 0.043）用舊做法時褲腳在腳的外側、遊戲裡像喇叭褲（LAWWW2-C 2026-10-17，阿勳）
 EASE_K = 0.85             # 身片寬鬆量的倍數（沈以安第二版 1.0 → 0.85：側面看毛衣從胸口直落、下擺收緊，像氣球）
+BOX_W = 0.152              # 身片「箱形」的半寬（胸口以下；肩膀接到 DROP_X）。預設不變；沛珊第十七版 0.128（BB-C：胸口往前撐、圓鼓鼓：箱形比她的胸寬 2 cm 以上）
+SHOULDER_SAG = 0.0         # 肩膀上面那一段比 T 字姿勢的皮膚低多少（m；靠肩膀最多、到領口 0）。T 字姿勢的肩膀比手放下來高 2～3 cm，照 T 字做的布手放下來以後堆在肩膀上面（沛珊「肩膀到領口的布堆成一團」）；預設不變
+DRAPE = 0.0                # 胸口以下的垂墜皺褶（半徑的起伏比例，0＝不變）；沛珊第十五版 0.014（BB-C：棉 T 有往下垂的自然皺褶，現在是圓桶）
+DRAPE_N = 7
+SLEEVE_IN = 0.010           # 袖子從肩關節往身體裡面多少開始（預設不變）。手從 T 字放下來時袖子往下轉，肩膀上面和身片之間會裂開，身片底下的皮膚已經剪掉，看得到後面（沛珊第十版「肩膀的亮縫」）→ 沛珊 0.035
+NECK_RIB_L = 0.022          # 領口羅紋的寬度（沿布面）；NECK_RIB_T＝羅紋比身片厚多少；NECK_FOLD＝羅紋往內折的量（r、z）。預設不變；沛珊第十一版 0.016／0.0015／(−0.004, −0.003)（BB-C：45 度看像一圈管子）
+NECK_RIB_T = 0.003
+NECK_FOLD = (-0.006, -0.004)
+NECK_GAP = 0.013           # 領口離脖子的距離（後半圈＋側面）；預設不變。沛珊第九版 0.008（1.3 cm 時領口一圈離脖子遠，正面看像連帽衫的帽緣）
+SHOULDER_SKIN = False      # 肩膀上面那一段（落肩線 → 領口）：False＝原本的凸弧（靠肩膀那頭先升高，像一個圓頂）；True＝靠肩膀那頭慢慢升、貼著斜方肌（LAWWW2-C 2026-10-17，沛珊、經濟系四人「像連帽衫」）
+NECK_CALM = 0.0           # 0～1：肩膀上面、靠脖子那一段身片的上臂權重移給上胸（預設 0＝不變）。手從 T 字放下來時，那段布跟著上臂往上、往脖子擠，變成領口周圍一圈像連帽衫的鼓起（LAWWW2-C 2026-10-17，沛珊、阿勳、品妤）
 WSRC = None               # 權重來源：VRoid 原本的上衣網格（祐廷：連帽上衣）。有的話，毛衣的身片、袖子根部照它的權重（VRoid 調過手放下的姿勢）
 TOP_FIT = 0.0             # 上衣合身度（0＝從胸口直落的寬鬆箱形：沈以安、祐廷；林芷若 0.65：腰部跟著身體收）
 HEM_LOOSE = False         # 下擺不收緊（亞麻上衣；針織衫的羅紋下擺會收）
@@ -293,6 +305,12 @@ def build_pants(skin, arm, mb):
     if PANTS_HEM_UP > 0: zl = [z for z in zl if z > 0.09 + PANTS_HEM_UP + 0.012] + [0.09 + PANTS_HEM_UP]   # 九分褲：褲腳上面的圈不能低於褲腳
     zs = np.array(zt + zl)
     def zhem(ph): return 0.049 - 0.020 * np.sin(ph) + PANTS_HEM_UP        # 後面 3 cm、前面 6.9 cm（褲管蓋在鞋面上）
+    legx = {}
+    if PANTS_FOLLOW:
+        for side in ('L', 'R'):
+            pts = [C.bone_head(arm, 'J_Bip_%s_%s' % (side, b)) for b in ('Foot', 'LowerLeg', 'UpperLeg')]
+            legx[side] = (np.array([p[2] for p in pts]), np.array([abs(p[0]) for p in pts]))
+        print('  pants follow legs', {k: np.round(v[1], 3).tolist() for k, v in legx.items()})
     legs = {}
     for side, sg in (('L', 1.0), ('R', -1.0)):
         # 褲頭在腰上（1.03–1.085 m）：那裡的皮膚綁 Spine＋Chest，每個頂點單一骨頭的權重常常 < 0.5——第一版只用 Hips/Spine、門檻 0.5，
@@ -303,6 +321,7 @@ def build_pants(skin, arm, mb):
             zz = 0.06 if isinstance(z, str) else z
             wl = sstep(z_crotch + 0.07, z_crotch - 0.05, zz)              # 0：臀部（貼身體）、1：寬褲管
             cx = 0.073 + (0.086 - 0.073) * wl; cy = hips_c[1] + 0.004 - 0.004 * wl
+            if PANTS_FOLLOW: cx = 0.073 + (max(0.040, float(np.interp(zz, *legx[side]))) - 0.073) * wl
             a = PANTS_ELLIPSE[0]; b = PANTS_ELLIPSE[1] + 0.020 * (PANTS_ELLIPSE[1] / 0.102) * np.clip((0.80 - zz) / 0.70, 0, 1)
             gap = -0.004 if zz > z_crotch - 0.005 else 0.0015     # 胯下以上：兩片在中線稍微重疊（前後中縫沒有縫隙）
             ring = []
@@ -419,7 +438,7 @@ def build_top(skin, arm, mb, pants):
     EASE = np.where(np.abs(np.sin(th)) > 0.5, 0.024, 0.016) * EASE_K
     HR = np.zeros((K, len(zgrid)))
     for iz, z in enumerate(zgrid):
-        W = 0.152 + (DROP_X - 0.152) * float(sstep(1.28, 1.34, z))
+        W = BOX_W + (DROP_X - BOX_W) * float(sstep(1.28, 1.34, z))
         Df = RBmax[0, iz] + 0.024 * EASE_K; Db = RBmax[K // 2, iz] + 0.022 * EASE_K
         pts = [dirs[k][:2] * (RBmax[k, iz] + EASE[k]) for k in range(K)]
         for k in range(K):
@@ -434,7 +453,7 @@ def build_top(skin, arm, mb, pants):
         t = th[k]; s = math.sin(t)
         if s >= -0.05:      # 後半圈＋側面：圓領口
             z = BACK_NECK_Z + (SIDE_NECK[1] - BACK_NECK_Z) * abs(math.cos(t)) ** 1.5
-            return rneck(k, z) + 0.013, z
+            return rneck(k, z) + NECK_GAP, z
         if NECK_STYLE == 'crew':        # 前面：圓領（前中心最低，往側頸點圓弧上升）
             z = CREW_FRONT_Z + (SIDE_NECK[1] - CREW_FRONT_Z) * abs(math.cos(t)) ** 1.8
             return max(rneck(k, z), rbody(k, z)) + 0.012, z
@@ -463,6 +482,7 @@ def build_top(skin, arm, mb, pants):
         dense = []
         for z in np.arange(KNIT_HEM_TOP, zbt, 0.002):
             rb = box_r(k, z); rh = max(band_r(k, KNIT_HEM_TOP) + 0.014, box_r(k, KNIT_HEM_TOP + 0.08) - 0.016)   # 第二版：下擺只比身片小一點（第一版緊箍）
+            if DRAPE > 0: rb = rb * (1 + DRAPE * math.sin(DRAPE_N * th[k] + 0.6 * math.sin(3 * th[k])) * float(sstep(1.27, 1.16, z)) * float(sstep(KNIT_HEM_TOP, KNIT_HEM_TOP + 0.10, z)))   # 胸口以下才有、下擺收掉
             if HEM_LOOSE: rh = max(rh, box_r(k, KNIT_HEM_TOP) - 0.002)
             w = float(sstep(KNIT_HEM_TOP, KNIT_HEM_TOP + 0.075, z))
             r = rh + (rb - rh) * (1 - (1 - w) ** 2)
@@ -470,20 +490,21 @@ def build_top(skin, arm, mb, pants):
         if zn > zbt + 1e-4:
             r0 = box_r(k, zbt) if dense else rn
             for t in np.linspace(0, 1, 60)[1:]:
-                r = r0 + (rn - r0) * t; z = zbt + (zn - zbt) * (1 - (1 - t) ** 1.6)
+                r = r0 + (rn - r0) * t; z = zbt + (zn - zbt) * (t ** 1.5 if SHOULDER_SKIN else 1 - (1 - t) ** 1.6)
                 # 肩膀上面：從上往下量身體（肩膀、上臂的上緣），衣服比它高 1 cm（第一版從側面往內量，打到 T 字姿勢的手臂）
                 zt_ = top_z(dirs[k][0] * r, YC(z) + dirs[k][1] * r)
                 if t < 0.97: z = max(z, zt_ + 0.010)
+                if SHOULDER_SAG > 0: z -= SHOULDER_SAG * float(sstep(rn + 0.008, r0, r)) * float(sstep(1.0, 0.85, t))
                 dense.append((r, z))
         else:
             dense.append((rn, zn))
         dense = np.array(dense)
         # 領邊羅紋：最後 2.2 cm
         s = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(dense, axis=0), axis=1))]); L = s[-1]
-        sb = np.linspace(0, L - 0.022, NB); sn = np.linspace(L - 0.022, L, NNECK + 1)[1:]
+        sb = np.linspace(0, L - NECK_RIB_L, NB); sn = np.linspace(L - NECK_RIB_L, L, NNECK + 1)[1:]
         body_rz = np.stack([np.interp(sb, s, dense[:, 0]), np.interp(sb, s, dense[:, 1])], -1)
-        neck_rz = np.stack([np.interp(sn, s, dense[:, 0]) + 0.003, np.interp(sn, s, dense[:, 1])], -1)
-        fold = neck_rz[-1] + np.array([-0.006, -0.004])
+        neck_rz = np.stack([np.interp(sn, s, dense[:, 0]) + NECK_RIB_T, np.interp(sn, s, dense[:, 1])], -1)
+        fold = neck_rz[-1] + np.array(NECK_FOLD)
         band_rz = []
         for i, z in enumerate(hem_rows):
             r = max(band_r(k, z) + 0.011, box_r(k, KNIT_HEM_TOP + 0.08) - 0.020) + 0.003 * (i / NBAND) + 0.002 * math.sin(math.pi * i / NBAND)
@@ -491,7 +512,7 @@ def build_top(skin, arm, mb, pants):
             band_rz.append((r, z))
         band_rz = np.array(band_rz); hem_fold = band_rz[0] + np.array([-0.005, 0.004])
         col = np.concatenate([[hem_fold], band_rz, body_rz[1:], neck_rz, [fold]])
-        vs = np.concatenate([[0.755], 0.76 + (hem_rows - KNIT_HEM) * 2.0, 0.02 + sb[1:] * 1.4, 0.90 + (sn - (L - 0.022)) * 3.0, [0.975]])
+        vs = np.concatenate([[0.755], 0.76 + (hem_rows - KNIT_HEM) * 2.0, 0.02 + sb[1:] * 1.4, 0.90 + (sn - (L - NECK_RIB_L)) * 3.0 * 0.022 / NECK_RIB_L, [0.975]])
         cols.append((col, vs))
     R = len(cols[0][0])
     P = np.zeros((R, K, 3)); UV = np.zeros((R, K + 1, 2)); cens = []
@@ -514,10 +535,10 @@ def build_top(skin, arm, mb, pants):
             if s <= Lu: return S + (E - S) * (s / Lu), unit(E - S)
             return E + (Wr - E) * ((s - Lu) / Lf), unit(Wr - E)
         s_end = Lt - 0.008
-        st_body = list(np.linspace(-0.010, Lt - 0.075, 20))
+        st_body = list(np.linspace(-SLEEVE_IN, Lt - 0.075, 20 + int(round((SLEEVE_IN - 0.010) / 0.012))))
         st_cuff = list(np.linspace(Lt - 0.062, s_end, 5))
         KS = 24; ph = np.arange(KS) * 2 * math.pi / KS
-        prof_s = np.array([-0.01, 0.03, 0.08, 0.14, Lu, Lu + 0.08, Lt - 0.10, Lt - 0.075])
+        prof_s = np.array([-max(0.01, SLEEVE_IN), 0.03, 0.08, 0.14, Lu, Lu + 0.08, Lt - 0.10, Lt - 0.075])
         prof_r = np.array([0.058, 0.060, 0.066, 0.069, 0.071, 0.072, 0.068, 0.056]) * SLEEVE_K   # 第二版：袖子細一點（第一版正面看像氣球）
         rings = []; cens_s = []; vv = []
         for i, s in enumerate(st_body + st_cuff + ['fold']):
@@ -719,6 +740,20 @@ def jersey_texture(S=1024, seed=17):
     return np.concatenate([np.clip(rgb, 0, 1), np.ones((S, S, 1))], -1)
 
 
+def cotton_texture(S=1024, seed=19):
+    """平織棉 T（阿勳的白色長袖 T，LAWWW2-C 2026-10-17）：jersey 的直條淡很多（遊戲裡 jersey 的 360 條直紋在白色上看起來像羅紋毛衣）＋布料的大塊明暗；
+    v 0.75 以上（領口、袖口、下擺的邊）照 jersey 的細羅紋"""
+    rng = np.random.default_rng(seed)
+    v = (np.arange(S)[::-1] + 0.5)[:, None] / S; u = (np.arange(S) + 0.5)[None, :] / S
+    wale = 0.5 + 0.5 * np.cos(2 * math.pi * u * 360)
+    lum = 0.975 + 0.008 * wale + (_noise(rng, S, S, 4) - 0.5) * 0.05 + (_noise(rng, S, S, 40) - 0.5) * 0.02
+    m = (v > 0.75).astype(float)
+    rib = np.abs(np.cos(math.pi * ((u * 180) % 1.0 - 0.5))) ** 1.2
+    lum = lum * (1 - m) + (0.90 + 0.10 * rib) * m
+    rgb = KNIT_RGB[None, None, :] * lum[:, :, None]
+    return np.concatenate([np.clip(rgb, 0, 1), np.ones((S, S, 1))], -1)
+
+
 def trouser_texture(S=512, seed=11):
     rng = np.random.default_rng(seed)
     v = (np.arange(S)[::-1] + 0.5)[:, None] / S; u = (np.arange(S) + 0.5)[None, :] / S
@@ -827,7 +862,14 @@ def compute_weights(skin, arm, mb, top, pants, shoes):
         return out
     # 軀幹：最近點內插（胸部的彈簧骨不要）
     m = tags == 'torso'
-    Wt = near_w(V[m]); Wt[:, bust] = 0; W[m] = Wt
+    Wt = near_w(V[m]); Wt[:, bust] = 0
+    if NECK_CALM > 0:          # 肩膀上面、落肩線以內的身片：上臂權重漸漸移給上胸（越靠脖子移越多），手放下時那段布不往脖子擠
+        Vt = V[m]; ua = [col[n] for n in ('J_Bip_L_UpperArm', 'J_Bip_R_UpperArm', 'J_Bip_L_Shoulder', 'J_Bip_R_Shoulder') if n in col]
+        uc = col.get('J_Bip_C_UpperChest', col.get('J_Bip_C_Chest'))
+        t = NECK_CALM * sstep(DROP_X + 0.015, DROP_X - 0.035, np.abs(Vt[:, 0])) * sstep(SHOULDER_Z - 0.09, SHOULDER_Z - 0.03, Vt[:, 2])
+        mv = Wt[:, ua].sum(1) * t; Wt[:, ua] *= (1 - t)[:, None]; Wt[:, uc] += mv
+        print('  neck calm: torso verts moved %d (mean arm weight moved %.2f)' % (int((t > 0.05).sum()), float(mv[t > 0.05].mean()) if (t > 0.05).any() else 0.0))
+    W[m] = Wt
     if os.environ.get('WDEBUG'):
         Vt = V[m]; ua = [col[n] for n in ('J_Bip_L_UpperArm', 'J_Bip_R_UpperArm', 'J_Bip_L_Shoulder', 'J_Bip_R_Shoulder') if n in col]
         sel = (np.abs(Vt[:, 0]) > DROP_X - 0.04) & (Vt[:, 2] > SHOULDER_Z - 0.06)
@@ -945,7 +987,7 @@ def _apply(m, arm, body):
     top = build_top(skin, arm, mb, pants)
     shoes = build_shoes(skin, arm, mb)
     os.makedirs(WIP, exist_ok=True)
-    img_k = C.image_from_array('H01_Knit', {'linen': linen_texture, 'jersey': jersey_texture}.get(TOP_TEX, knit_texture)(), os.path.join(WIP, 'clothes_Knit.png'))
+    img_k = C.image_from_array('H01_Knit', {'linen': linen_texture, 'jersey': jersey_texture, 'cotton': cotton_texture}.get(TOP_TEX, knit_texture)(), os.path.join(WIP, 'clothes_Knit.png'))
     img_t = C.image_from_array('H01_Trouser', trouser_texture(), os.path.join(WIP, 'clothes_Trouser.png'))
     img_l = C.image_from_array('H01_Loafer', loafer_texture(), os.path.join(WIP, 'clothes_Loafer.png'))
     def tmpl(pat):      # 範本材質（女性樣本 F00_002_01_Tops_01_CLOTH、男性樣本 M00_006_01_Tops_01_CLOTH……）
