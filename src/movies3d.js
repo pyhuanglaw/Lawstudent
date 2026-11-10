@@ -69,12 +69,15 @@ const MOVIES=(function(){
       return {me,her:{kind:'cinema',row:s.row,x:hx,z:s.z,y:s.y,yaw:s.yaw,lv:0,mate:true}}; }
     return null; };
   S.nowFilm=null;   /* 1 廳銀幕上的那一部（約的那一場）；null＝那一段的第一部 */
+  /* 換區域用 noFade（畫面已經是黑的）＝game3d.js enter 不等正式模型：這裡照 enter 平常的做法等一下（最多那一區的上限），淡入時不先露出方塊備用模型（PERF-ZONE-POPIN-1103）*/
+  const waitZone=async(GM,z)=>{ try{ if(typeof ASSETS!=='undefined'&&ASSETS.waitLoaded&&GM._zoneReq) await ASSETS.waitLoaded(GM._zoneReq,GM.zoneWaitCap?GM.zoneWaitCap(z):3000); if(GM.E&&GM.E.update) GM.E.update(0.016); }catch(e){ console.warn('MOVIES.waitZone',e); } };
   S.enterHall=async function(GM,iv,n){ const G=GM.G, E=GM.E, P=E&&E.player, L=LAY().hall; let m=null, ok=false;
     if(GM.fade) await GM.fade(true);
     try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(n&&n.seat&&GM.standUp) GM.standUp(n);
       S.nowFilm=iv.film||null;
       await GM.enter(ZH,Object.assign({lv:0},L.enterAt),ENTER_O);
       if(G.zone!==ZH){ S.nowFilm=null; return null; }
+      await waitZone(GM,ZH);
       (G.flags||(G.flags={})).NY_WATCHED=G.day;   /* 今天的票這一場用掉（之後自己坐下不會再看一次；src/aa614_3d.js S.canWatch）*/
       ok=true; S.showScreen(iv.film);
       const pr=S.seatPair(GM), L1=L.enterAt, at=pr?pr.her:{x:L1.x-0.8,z:L1.z,yaw:L1.yaw||0};   /* 整廳坐滿（不會發生：1 廳只有約的人和你）＝站在門口演 */
@@ -88,6 +91,7 @@ const MOVIES=(function(){
     if(GM.fade) await GM.fade(true);
     try{ S.lights(true); if(P&&P.seat&&GM.standUp) GM.standUp(P); if(n&&n.seat&&GM.standUp) GM.standUp(n); S.nowFilm=null;
       await GM.enter(ZL,out,ENTER_O); if(G.zone!==ZL) return n;
+      await waitZone(GM,ZL);
       const y=out.yaw||0, sx=+(out.x+Math.cos(y)*0.75).toFixed(3), sz=+(out.z-Math.sin(y)*0.75).toFixed(3);   /* 站在你旁邊（大廳往 1 廳那組門前面）*/
       let m=(GM.npc&&GM.npc[iv.who])||null;
       if(!m&&GM.spawnCharacter) m=GM.spawnCharacter(iv.who,sx,sz,{yaw:y+Math.PI/2,lv:0}); else if(m&&E&&E.placeAt) E.placeAt(m,sx,sz,0);
