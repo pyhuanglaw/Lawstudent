@@ -48,7 +48,7 @@ const MOVIES=(function(){
     const a=S.pickAdj(p.bill,who,r.film,R); return {id:a.film.id,key,ok:a.film===r.film?r.ok:S.fitsRule(a.film,R,p.bill),say:a.say||null}; };
   /* AA_745 with.skip（AA 11-10 20:11）：她不看的片（子晴不看黑白片）＝選到那一部就換同一段的另一部，她說 lines（不是拒絕、不扣好感，約好的那一筆存換過的片）；
      她一定挑的片（子晴《貓咪咖啡館的星期三》《第八關》、芷若《黑白的城市》——芷若那一部只在 AA_708 那一場沒指定片的時候）＝那一段約她一定是這部（有 lines＝她答應時說的）*/
-  S.pickAdj=function(bill,who,film,R){ const P=PL(), K=(P&&P.pick)||{}, rule=id=>(K[id]||{})[who]||null, line=id=>{ const x=S.withOf(id,who); return x&&Array.isArray(x.lines)&&x.lines.length?x.lines.slice():null; };
+  S.pickAdj=function(bill,who,film,R){ const P=PL(), K=(P&&P.pick)||{}, rule=id=>(K[id]||{})[who]||null, line=id=>{ const x=S.withOf(id,who); return x&&x.kind==='skip'&&Array.isArray(x.lines)&&x.lines.length?x.lines.slice():null; };   /* 只有 skip 欄的 lines 是約的時候說的（芷若、子晴《第八關》的 with 是散場後、之後的訊息）*/
     const f=bill.find(b=>{ const k=rule(b.id); return k&&k.mode==='force'&&!(k.noRule&&R); }); if(f) return {film:f,say:f===film?null:line(f.id)||null,forced:true};
     const k=rule(film.id); if(k&&k.mode==='skip'){ const o=bill.find(b=>b!==film&&!((rule(b.id)||{}).mode==='skip')); if(o) return {film:o,say:line(film.id)}; }
     return {film}; };
