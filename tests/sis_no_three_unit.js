@@ -89,7 +89,9 @@ const OK={
 /* ---- 學姊的、AA_398 沒列到，已問 AA（2026-10-23）---- */
 const PENDING_AA={};   /* 2026-11-08 AA-B 02:27：學姊南瓜那句換成「……不要拐彎說我。」（AA_709 0a4e74f2b） */   /* 2026-10-23 AA_398 1-7 節（企劃線 f1883309）四句都給字、改好了 */
 const bad=[], pend=[];
-for(const [s,f] of found){ if(OK[s]) continue; if(PENDING_AA[s]){ pend.push(s); continue; } bad.push(f+'：'+s); }
+/* 2026-11-10：movie_plots.js 的 plot、scene 是電影情節（AA_745），不是學姊的話——不算；同一個檔的 talk、re 照查 */
+const FILM_TEXT=(()=>{ try{ const src=require('fs').readFileSync(require('path').join(__dirname,'..','src/data/movie_plots.js'),'utf8'); const M=new Function(src+'; return MOVIE_PLOTS;')(); const o=new Set(); for(const x of Object.values(M.films||{})){ if(x.plot) o.add(x.plot); if(x.scene) o.add(x.scene); } return o; }catch(e){ return new Set(); } })();
+for(const [s,f] of found){ if(OK[s]) continue; if(/movie_plots\.js$/.test(f)&&FILM_TEXT.has(s)) continue; if(PENDING_AA[s]){ pend.push(s); continue; } bad.push(f+'：'+s); }
 check('1. 沒有新的「數件數」句子（學姊不數件數、不編號；AA_398）——找到的每一句都看過（'+found.size+' 句）',!bad.length,bad.slice(0,12).join('｜'));
 const gone=Object.keys(OK).concat(Object.keys(PENDING_AA)).filter(s=>!found.has(s));
 check('2. 兩張表沒有已經不存在的句子（改掉的要從表上拿掉，不留過期的豁免）',!gone.length,gone.slice(0,8).join('｜'));
