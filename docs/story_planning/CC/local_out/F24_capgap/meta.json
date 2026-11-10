@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "F24_capgap",
+  "sha": "fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_caption_gap_probe.py",
+  "env": "TAG=f24",
+  "machine": "MSI",
+  "start": "2026-11-11T03:07:09",
+  "end": "2026-11-11T03:09:20",
+  "seconds": 131,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "17",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 10,
+    "mem": 53,
+    "used_gb": 16.6,
+    "chrome_testing": 12
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
