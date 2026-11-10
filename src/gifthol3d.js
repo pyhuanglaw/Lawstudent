@@ -108,6 +108,8 @@ const GIFTH=(function(){
     if(GM.money) GM.money(-it.price,'禮物'); else G.money=(G.money|0)-it.price;
     F(G).bag.push({id:gid,day:G.day,shop:key}); await GM.say(null,'你買了'+it.name+'，放進包包。'); if(GM.autosave) GM.autosave(); return gid; };
   /* 店家選單接一行：opts 裡有 S.shopOpt 的那一項被選到 → 買 */
+  /* 公館站口花攤「晨露花舖」（GG-FLOWER-STALL-1110，LAWWW2 9356eeb39；AA_732 gg_flower）：09:00～21:00 開著，按「看看花攤」就是買花清單；沒開照舊是看（zones3d 的 look）*/
+  S.flowerOpen=G=>{ const h=+G.hour||0; return h>=9&&h<21; };
   S.pick=async function(GM,o){ if(!o||!o.giftH) return false; if(o.dim){ GM.toast&&GM.toast(o.hint); return true; } await S.buy(GM,o.giftH); return true; };
 
   /* ---------------- 這個節日、她 ---------------- */
@@ -299,7 +301,7 @@ const GIFTH=(function(){
     if(Array.isArray(STORY.SCHED_X)) STORY.SCHED_X.push(S.sched);
     if(Array.isArray(STORY.ROOM_EXTRA)) STORY.ROOM_EXTRA.push((G,L)=>S.roomExtra(G,L));
     if(typeof STORY.offerInvite==='function'){ const oi=STORY.offerInvite; STORY.offerInvite=async function(GM,id,n,who){ const r=await oi.apply(this,arguments); try{ if(S.PEOPLE.includes(id)) await S.afterTalk(GM,who||S.who(id,n),id); }catch(e){ console.warn('GIFTH.afterTalk',e); } return r; }; }
-    if(STORY.interact){ const oi=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G; if(it&&it.shlLook&&G&&G.zone===S.SL_ZONE&&(it.label==='看文具'||it.label==='結帳')&&S.on()) return S.shanlan(GM,it); return oi.apply(this,arguments); }; } }
+    if(STORY.interact){ const oi=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G; if(it&&it.shlLook&&G&&G.zone===S.SL_ZONE&&(it.label==='看文具'||it.label==='結帳')&&S.on()) return S.shanlan(GM,it); if(it&&it.kind==='gg_flower'&&G&&S.flowerOpen(G)){ const o=S.shopOpt(G,'gg_flower'); if(o){ await S.pick(GM,o); return true; } } return oi.apply(this,arguments); }; } }
   if(typeof FEST!=='undefined'&&FEST.gift&&!FEST._gifth){ FEST._gifth=true; const g0=FEST.gift; FEST.gift=async function(GM,id,k,y){ if(!S.on()) return g0.apply(this,arguments); return S.festGift(GM,id,k,y); }; }
   return S;
 })();

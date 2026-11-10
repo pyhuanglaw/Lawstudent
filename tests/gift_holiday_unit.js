@@ -64,6 +64,9 @@ const flat=L=>L.join('');
   await sec(1,async()=>{ const G=setup('2025-10-15',15);
     const keys=['xs_shanlan','xs_shanlan_stationery','bookstore','corner_records','xs_tongxian','xs_nanyang','cafe','afar','aoki','xs_dabu','xs_haopai','bikeshop','cvs'];
     check('1. 各店都有「買禮物…」（afar＝「選物…」）',keys.every(k=>{ const o=GIFTH.shopOpt(G,k); return o&&o.t===(k==='afar'?'選物…':'買禮物…')&&!o.dim; }),keys.filter(k=>!GIFTH.shopOpt(G,k)).join('、'));
+    { const o=GIFTH.shopOpt(G,'gg_flower'), L=GIFTH.sells(G,'gg_flower'), gH=G.hour;
+      G.hour=15; const op=GIFTH.flowerOpen(G); G.hour=22; const cl=GIFTH.flowerOpen(G); G.hour=8.5; const cl2=GIFTH.flowerOpen(G); G.hour=gH;
+      check('1. 公館站口花攤（GG-FLOWER-STALL-1110）：gg_flower 有「買禮物…」、賣花束和向日葵；09:00～21:00 開',o&&o.t==='買禮物…'&&L.indexOf('g_bouquet')>=0&&L.indexOf('g_sunflower')>=0&&op&&!cl&&!cl2,J(L)); }
     check('1. 沒有這家店的 key＝沒有（daybreak、yangyang）',!GIFTH.shopOpt(G,'daybreak')&&!GIFTH.shopOpt(G,'yangyang'));
     const m0=G.money; let r=await run(()=>GIFTH.buy(GM,'xs_shanlan_stationery'),['一盒綠色螢光筆']);
     const it=GIFT_HOLIDAY.items.g_green_hl;
@@ -82,7 +85,9 @@ const flat=L=>L.join('');
       /GIFTH\.shopOpt\(G,\(\{'兩點半 Café':'cafe','便利商店':'cvs','清葉茶行':'aoki'\}\)\[shop\]\)/.test(src('src/story3d.js'))&&/GIFTH\.shopOpt\(G,'bookstore'\)/.test(src('src/story3d.js'))&&/GIFTH\.shopOpt\(G,k\)/.test(src('src/gg2shops3d.js'))&&/GIFTH\.shopOpt\(G,'corner_records'\)/.test(src('src/gg2shops3d.js'))&&/GIFTH\.shopOpt\(G,'aoki'\)/.test(src('src/ggshops_sys3d.js'))&&/GIFTH\.shopOpt\(G,'xs_tongxian'\)/.test(src('src/guitar3d.js'))&&/GIFTH\.shopOpt\(G,'xs_'\+k\)/.test(src('src/xsshop_sys3d.js'))&&/GIFTH\.shopOpt\(G,'xs_nanyang'\)/.test(src('src/nanyang_sys3d.js'))&&/GIFTH\.shopOpt\(G,'bikeshop'\)/.test(src('src/bikeshop3d.js')));
     /* story3d.js 的 counter（便利商店）真的走一次：選「買禮物…」→ 買 */
     { const G2=setup('2025-10-15',15); const r2=await run(()=>STORY.interact({shop:'cvs'},GM),['買禮物…','一張卡片']);
-      check('1. 便利商店結帳的選單多「買禮物…」，選了就是買（不扣時段）',GIFTH.bag(G2).some(b=>b.id==='g_card'&&b.shop==='cvs')&&r2.O[0].includes('買禮物…')&&G2.hour===15,J(r2.O[0])); } });
+      check('1. 便利商店結帳的選單多「買禮物…」，選了就是買（不扣時段）',GIFTH.bag(G2).some(b=>b.id==='g_card'&&b.shop==='cvs')&&r2.O[0].includes('買禮物…')&&G2.hour===15,J(r2.O[0])); }
+    { const G3=setup('2025-10-15',15); G3.money=2000; const FL={kind:'gg_flower',label:'看看花攤',look:'晨露花舖'}; const r3=await run(()=>STORY.interact(FL,GM),['一束花']);
+      check('1. 花攤：營業時間按「看看花攤」＝買花清單，買得到一束花、記 gg_flower、不扣時段',GIFTH.bag(G3).some(b=>b.id==='g_bouquet'&&b.shop==='gg_flower')&&G3.hour===15,J(r3.O)); } });
 
   /* ======================= 2 誰、哪一天 ======================= */
   await sec(2,async()=>{ const G=setup('2025-12-23',15,{lv:{[AN]:3,[ZR]:3}}); buy('g_law_book');

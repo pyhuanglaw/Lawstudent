@@ -1054,6 +1054,15 @@ const Z3 = (function(){
     for(let i=0;i<9;i++){ const l=W3.lampPost(); place(g,l,-63+i*18,-31.4,0); lamps.push(l); nav.blockCircle(-63+i*18,-31.4,0.5); /* 北側路燈原本在 z=-24（馬路的車道上），移到人行道邊 */ const l2=W3.lampPost(); place(g,l2,-63+i*18,5,Math.PI); lamps.push(l2); nav.blockCircle(-63+i*18,5,0.5); }
     for(let i=0;i<6;i++){ const t=TREE(0.9); place(g,t,-65+i*26,-36,0); nav.blockCircle(-65+i*26,-36,0.7); }
     nav.blockRect(-30,15.1,7.2,1.0,0); for(const fx of [-34.2,-25.8,-25.0]) nav.blockCircle(fx,15.1,0.25);   /* 捷運出口東邊的 GONGGUAN 花台、三朵藍色小花（bldg.gongguan_far；夾在路人 z 16.5、(−40,14.5)→(0,10) 兩條路線中間） */
+    /* 捷運站口的花攤「晨露花舖」（GG-FLOWER-STALL-1110，LAWWW2 帳號 A；GIFT-HOLIDAY-1110 AA_732 的 gg_flower「公館站口花攤」：花束、向日葵，09:00～21:00）：
+       正式模型 gg_flower_stall.glb（tools/blender/env_second/gg_flower_stall.py；公館區域座標、放在原點），位置、阻擋、互動點照 gg_flower_stall.json——
+       捷運出口西邊的人行道 (−47, 11.6)，正面朝騎樓；東邊離捷運出口的阻擋 2.6 m、路人 (−60,10)→(−48,14.5) 在攤子前 2 m。
+       互動點 kind＝gg_flower（買花：GIFTH.shopOpt(G,'gg_flower')／GIFTH.pick 由 LAWWW 接；沒接之前是「看」）。雨棚下的燈泡 ggf_lit_bulb 晚上亮 */
+    { const FL={cx:-47,cz:11.725,w:2.9,d:2.05,ix:-47.2,iz:13.45}; nav.blockRect(FL.cx,FL.cz,FL.w,FL.d,0);
+      E.interactables.push({x:FL.ix,z:FL.iz,radius:1.3,label:'看看花攤',kind:'gg_flower',look:'晨露花舖：捷運站口的小花攤。鋅桶裡插著玫瑰、向日葵、滿天星，老闆在旁邊的工作台用牛皮紙包花束。'});
+      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gg_flower_stall']) ASSETS.loadOne('bldg.gg_flower_stall').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name='gg_flower_stall_glb';
+        r.traverse(o=>{ if(!o.isMesh) return; o.receiveShadow=true; const mn=(o.material&&o.material.name)||''; o.castShadow=!/^ggf_(lit_|cellophane)|leaf|fern|broad/.test(mn); if(/^ggf_lit_/.test(mn)&&!o.material.userData.nightReg){ o.material.userData.nightReg=true; if(TK.addNight) TK.addNight(o.material,1.6,0); } });
+        g.add(r); }).catch(e=>console.warn('公館花攤正式模型載入失敗（攤子沒有畫面，阻擋與互動照舊）',e)); }
     // 集合點：公館圓環意象（小廣場）
     { const c=new THREE.Mesh(new THREE.CylinderGeometry(3,3,0.3,24),M('#d9cbb0')); c.position.set(22,0.15,11.5); g.add(c); nav.blockCircle(22,11.5,3.2); const tree=TREE(1.2); place(g,tree,22,11.5,0); }
     // 通往溫州街（西側）
