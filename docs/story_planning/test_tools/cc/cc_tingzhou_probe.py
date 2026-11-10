@@ -23,7 +23,7 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 DAY = '2025-11-01'
 SHOPS8 = ['泰米村食', '洗樂洗衣坊', '印得好', '越好吃小館', '客居雲南', '東南大聯商行', '汀州聯通', '溫特寶邸']
 ME = "(()=>{ const P=GAME.E.player, p=P.obj.position, N=GAME.E.nav; return {zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), x:+p.x.toFixed(2), z:+p.z.toFixed(2), free:N?N.free(p.x,p.z):null, ent:!!(GAME.isEntering&&GAME.isEntering()), busy:!!P.busy, fb:GAME.walkFallbacks|0}; })()"
-ITS = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,to:i.exit?i.exit.to:null,look:i.look||null,tz:i.tzShop||null,gate:!!i.tzGate})))()"
+ITS = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,to:i.exit?i.exit.to:null,look:i.look||null,tz:i.tzShop||null,tzd:i.tzsDoor||null,gate:!!i.tzGate,seat:!!i.seat})))()"
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||50, c.width/c.height, 0.1, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const z=E.zone, P=E.player&&E.player.obj; if(z&&z.fadeWalls){ try{ z.fadeWalls(cam,P?P.position:cam.position); if(E.hideFaded) E.hideFaded(); }catch(e){} }
   const hid=[]; if(P){ hid.push([P,P.visible]); P.visible=false; }
@@ -244,17 +244,18 @@ async def part_int(pg, cdp):
     每間：街上走到「進＋店名」→ 按 → 進到 tz_<id>（記黑畫面秒數）→ 店裡走四個角落（沒有隱形牆）→ 拍照（門口往裡、另外兩個角度、一張放大）→ 8 秒幀率
     → 走到「離開＋店名」→ 按 → 回到汀州路、站在門口外面（layout.out）、站得住、搖桿推得動。HOURS 每個時間一組。
     舊存檔：【前置／捷徑】讀檔站在那間門口外面（layout.out＝改之前也是汀州路的同一個位置）→ 站得住、走得動。"""
-    lay = await pg.evaluate("(()=>typeof TZ_SHOPS_LAYOUT==='undefined'?null:Object.fromEntries(Object.entries(TZ_SHOPS_LAYOUT).map(([k,v])=>[k,{zone:v.zone,name:v.name,w:v.w,d:v.d,spawn:v.spawn,exit:v.exit,out:v.out}])))()")
+    lay = await pg.evaluate("(()=>typeof TZ_SHOPS_LAYOUT==='undefined'?null:Object.fromEntries(Object.entries(TZ_SHOPS_LAYOUT).map(([k,v])=>[k,{zone:v.zone,name:v.name,w:v.w,d:v.d,spawn:v.spawn,exit:v.exit,out:v.out,outZone:v.outZone||'tingzhou',gg:v.gg||null,door:v.door||null}])))()")
     if not R.check('[INT] 有 TZ_SHOPS_LAYOUT（室內配置）', bool(lay), ''): return
     only = [x for x in (os.environ.get('SHOPS') or ','.join(lay.keys())).split(',') if x in lay]
     for h in [float(x) for x in (os.environ.get('HOURS') or '14').split(',')]:
         hh = '%02d%02d' % (int(h), int(round((h % 1) * 60)))
         for sid in only:
-            L_ = lay[sid]; tag = '[INT %s %s]' % (L_['name'], hh)
-            await at(pg, cdp, 'tingzhou', h, L_['out']['x'], L_['out']['z'], '（%s 門口外面＝舊存檔站的位置）' % L_['name'])
-            me = await pg.evaluate(ME); R.check('%s 舊存檔站在門口外面：站得住' % tag, me['zone'] == 'tingzhou' and me['free'] is not False, J(me))
-            its = await pg.evaluate(ITS); it = next((i for i in its if i.get('tz') == sid), None)
+            L_ = lay[sid]; tag = '[INT %s %s]' % (L_['name'], hh); OZ = L_['outZone']
+            await at(pg, cdp, OZ, h, L_['out']['x'], L_['out']['z'], '（%s 門口外面＝舊存檔站的位置）' % L_['name'])
+            me = await pg.evaluate(ME); R.check('%s 舊存檔站在門口外面：站得住' % tag, me['zone'] == OZ and me['free'] is not False, J(me))
+            its = await pg.evaluate(ITS); it = next((i for i in its if i.get('tz') == sid or i.get('tzd') == sid), None)
             if not R.check('%s 街上有「進%s」' % (tag, L_['name']), bool(it) and it['label'].startswith('進'), J(it)): continue
+            if os.environ.get('EXT') == '1': await ext_shots(pg, L_, it, sid, hh, tag)
             t0 = time.time(); await tap_it(pg, cdp, it, tag)
             ent = None
             for _ in range(80):
@@ -295,18 +296,139 @@ async def part_int(pg, cdp):
             fps = await pg.evaluate("new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<8000) requestAnimationFrame(f); else res(+(n/((performance.now()-t0)/1000)).toFixed(1)); }; requestAnimationFrame(f); })")
             R.note('%s 店內 8 秒幀率 %s fps（PC GPU，不是 iPhone）' % (tag, fps))
             # 出來
-            its = await pg.evaluate(ITS); ex = next((i for i in its if i.get('to') == 'tingzhou'), None)
+            its = await pg.evaluate(ITS); ex = next((i for i in its if i.get('to') == OZ), None)
             if not R.check('%s 店裡有「%s」' % (tag, L_['exit']['label']), bool(ex), J(its)[:300]): continue
             t1 = time.time(); await tap_it(pg, cdp, ex, tag)
             for _ in range(80):
                 me = await pg.evaluate(ME)
-                if me['zone'] == 'tingzhou' and not me['ent']: break
+                if me['zone'] == OZ and not me['ent']: break
                 await pg.wait_for_timeout(250)
             d_ = ((me['x'] - L_['out']['x']) ** 2 + (me['z'] - L_['out']['z']) ** 2) ** 0.5
-            R.check('%s 走出來：回到汀州路門口外面（離 layout.out %.2f m）、站得住' % (tag, d_), me['zone'] == 'tingzhou' and d_ < 1.5 and me['free'] is not False, J(me))
+            R.check('%s 走出來：回到 %s 門口外面（離 layout.out %.2f m）、站得住' % (tag, OZ, d_), me['zone'] == OZ and d_ < 1.5 and me['free'] is not False, J(me))
             p0 = (me['x'], me['z']); await L.joystick(pg, cdp, 0, -45, 1200); me2 = await pg.evaluate(ME)
             R.check('%s 出來以後搖桿推得動（沒有卡在門口）' % tag, ((me2['x'] - p0[0]) ** 2 + (me2['z'] - p0[1]) ** 2) ** 0.5 > 0.3, J(me2))
             R.check('%s walkFallbacks 0' % tag, me2['fb'] == 0, J(me2))
+
+
+async def ext_shots(pg, L_, it, sid, hh, tag):
+    """GG3（BB 23:15）外觀：從門口外面（layout.out）往店門（街上的「進＋店名」）看——正面、招牌近拍、斜看；全尺寸 gg3ext_*（對照 LAWWW2 的參考圖 gg_shops6_1110/concept 由 CC 在雲端拼）"""
+    ox, oz = L_['out']['x'], L_['out']['z']; ux, uz = it['x'] - ox, it['z'] - oz; m = math.hypot(ux, uz) or 1; ux, uz = ux / m, uz / m; px, pz = -uz, ux
+    V = [('正面', (ox - ux * 7, 1.7, oz - uz * 7), (ox + ux * 2, 2.6, oz + uz * 2), 55),
+         ('招牌近拍', (ox - ux * 3, 2.0, oz - uz * 3), (ox + ux * 1.0, 3.8, oz + uz * 1.0), 34),
+         ('斜看左', (ox - ux * 6 + px * 5, 1.7, oz - uz * 6 + pz * 5), (ox + ux * 2, 2.4, oz + uz * 2), 50),
+         ('斜看右', (ox - ux * 6 - px * 5, 1.7, oz - uz * 6 - pz * 5), (ox + ux * 2, 2.4, oz + uz * 2), 50),
+         ('騎樓裡看門', (ox + px * 2.4, 1.6, oz + uz * 0.4), (it['x'] + ux * 1.5, 1.4, it['z'] + uz * 1.5), 60)]
+    await pg.evaluate("window.__TZ=[]")
+    for lab, frm, at_, fov in V:
+        u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '%s %s 外觀 %s' % (L_['name'], hh, lab), 'full': True})
+        save(u, 'gg3ext_%s_%s_%s.jpg' % (sid, hh, lab))
+    R.note('%s 外觀照 %d 張（gg3ext_%s_%s_*）' % (tag, len(V), sid, hh))
+
+
+HER = r"""(a=>{ const E=GAME.E, n=(GAME.npc&&GAME.npc[a.who])||(E.npcs||[]).find(q=>q&&(q.charId===a.who||q.id===a.who)); if(!n||!n.obj) return null; const p=n.obj.position; let lap=null;
+  n.obj.traverse(o=>{ if(/laptop/i.test(o.name||'')) lap=(lap||false)||!!o.visible; });
+  return {x:+p.x.toFixed(2),z:+p.z.toFixed(2),y:+p.y.toFixed(2),vis:!!n.obj.visible,seat:n.seat?{x:n.seat.x,z:n.seat.z,label:n.seat.label||null}:null,beh:n.beh||null,act:n.act||null,frozen:!!n.frozen,
+    dseat:+Math.hypot(p.x-a.sx,p.z-a.sz).toFixed(2),lap}; })"""
+
+
+async def part_zqseat(pg, cdp):
+    """GG3 第 5 項（BB 23:15）：子晴在公館騎樓的板凳（座位 (15.6,19.8) yaw 0「坐在騎樓的板凳」；heroine_circle 的「公館騎樓（插座旁邊）」act read＋seatAt）。
+    新舊同時間同位置：【前置／捷徑】讀檔到公館 ZQDATES 裡第一個她在的日子 21:30、站在 (15.6,15.5)；等她坐下 → 固定機位拍 → 走過去（點地面）→ 看按鈕、按一下有沒有對話。"""
+    who, SX, SZ = 'heroine_04', 15.6, 19.8
+    for day in (os.environ.get('ZQDATES') or '2027-06-15,2027-06-17,2027-03-16,2027-03-18').split(','):
+        h = float(os.environ.get('ZQH') or 21.5); tag = '[ZQSEAT %s %.1f]' % (day, h)
+        await D.load_zone(pg, cdp, 'gongguan', day, h, SX, 15.5, wait=8000)
+        R.setup('【前置／捷徑】讀檔到公館 %s %.1f 時 (15.6,15.5)（子晴騎樓板凳那一場）' % (day, h))
+        her = None
+        for _ in range(60):
+            her = await pg.evaluate(HER, {'who': who, 'sx': SX, 'sz': SZ})
+            if her and her['dseat'] < 0.5: break
+            await pg.wait_for_timeout(1000)
+        R.note('%s 子晴：%s' % (tag, J(her)))
+        if not her: R.note('%s 這天公館沒有子晴，換下一天' % tag); continue
+        await pg.evaluate("window.__TZ=[]")
+        for lab, frm, at_, fov in [('正面', (SX + 0.6, 1.5, SZ - 4.2), (SX, 0.8, SZ), 45), ('側面', (SX + 3.5, 1.5, SZ + 0.6), (SX, 0.8, SZ), 45), ('放大', (SX + 0.3, 1.3, SZ - 2.0), (SX, 0.7, SZ), 30)]:
+            u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '子晴 騎樓板凳 %s %.1f %s' % (day, h, lab), 'full': True})
+            save(u, 'zqseat_%s_%s.jpg' % (day, lab))
+        b = await pg.screenshot(type='jpeg', quality=82); open(os.path.join(OUT, 'zqseat_%s_game.jpg' % day), 'wb').write(b)
+        R.check('%s 子晴坐在板凳上（離座位 %.2f m、seat %s）' % (tag, her['dseat'], J(her['seat'])), her['dseat'] < 0.4 and bool(her['seat']), J(her))
+        R.note('%s 筆電道具看得到：%s' % (tag, her['lap']))
+        fr = await pg.evaluate("(()=>{ const N=GAME.E.nav; return [[15.6,20.6],[15.6,21.2],[14.6,20.6],[16.6,20.6]].map(([x,z])=>[x,z,!!(N&&N.free(x,z))]); })()")
+        R.check('%s 她前面（騎樓那一側）站得住、沒有被擋' % tag, any(f[2] for f in fr), J(fr))
+        ok = await L.go_to(pg, cdp, R, SX, SZ + 1.0, 1.1, '%s 走到她前面' % tag, max_s=120)
+        await pg.wait_for_timeout(800); s = await L.state(pg); her2 = await pg.evaluate(HER, {'who': who, 'sx': SX, 'sz': SZ})
+        R.check('%s 走得到她前面' % tag, ok, J({k: s[k] for k in ('x', 'z', 'interact')}))
+        R.note('%s 按鈕：「%s」；她還坐著：%s' % (tag, s['interact'], J(her2)))
+        R.check('%s 按鈕是和她說話（不是「坐下」或別的）' % tag, bool(s['interact']) and '坐' not in s['interact'], s['interact'])
+        await L.tap(pg, cdp, '#interact'); lines = []
+        for _ in range(40):
+            q = await L.state(pg)
+            if q['choices']:
+                o = await pg.evaluate("[...document.querySelectorAll('#choices button, .choice')].map(b=>b.textContent.trim()).filter(Boolean)"); lines.append('（選項）' + ' / '.join(o))
+                await L.tap(pg, cdp, '#choices button'); await pg.wait_for_timeout(600); continue
+            if q['dlg']:
+                t = await pg.evaluate("(document.getElementById('dlgText')||document.getElementById('dlg')||{}).textContent||''")
+                if not lines or lines[-1] != t: lines.append(t.strip()[:80])
+                if len(lines) == 2: b = await pg.screenshot(type='jpeg', quality=80); open(os.path.join(OUT, 'zqseat_%s_talk.jpg' % day), 'wb').write(b)
+                await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+            if lines: break
+            await pg.wait_for_timeout(400)
+        R.check('%s 按了有對話' % tag, bool(lines), '')
+        R.note('%s 對話：%s' % (tag, J(lines[:12])))
+        R.check('%s walkFallbacks 0' % tag, (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
+        return
+    R.check('[ZQSEAT] ZQDATES 裡有一天子晴在公館', False, '四天都沒看到她（前置不成立，不是判定）')
+
+
+async def part_ggext(pg, cdp):
+    """GG3 第 4 項外觀（新舊同機位）：公館 GGS（預設 G04,G08,G13＝安泰、汀州鮮果、榮恩典）每一棟：站 (棟 x, 18)、往店門 (棟 x, 21) 看——正面、招牌近拍、斜看左右、騎樓裡看門。HOURS 每個時間一組。"""
+    names = {'G04': 'antai', 'G08': 'xianguo', 'G13': 'rongendian', 'G11': 'g11'}
+    for h in [float(x) for x in (os.environ.get('HOURS') or '14').split(',')]:
+        hh = '%02d%02d' % (int(h), int(round((h % 1) * 60)))
+        await at(pg, cdp, 'gongguan', h, 0.0, 16.0, '（公館外觀照）'); await pg.wait_for_timeout(4000)
+        bx = await pg.evaluate("(()=>{ const o={}; for(const b of (GAME.E.zone.buildings||[])) if(b.userData&&b.userData.ggShop) o[b.userData.ggShop]=+b.position.x.toFixed(2); return o; })()")
+        glb = await pg.evaluate("!!GAME.E.scene.getObjectByName('gongguan_shops_glb')")
+        R.note('[GGEXT %s] 棟號 x：%s；正式店面模型 gongguan_shops_glb：%s' % (hh, J(bx), glb))
+        for g in (os.environ.get('GGS') or 'G04,G08,G13').split(','):
+            if g not in bx: R.check('[GGEXT %s] 有 %s' % (hh, g), False, J(bx)); continue
+            its = await pg.evaluate(ITS); near = sorted(its, key=lambda i: math.hypot(i['x'] - bx[g], i['z'] - 21.0))[:2]
+            R.note('[GGEXT %s] %s 店門附近的互動點：%s' % (hh, g, J(near)))
+            L_ = {'name': g, 'out': {'x': bx[g], 'z': 18.0}}
+            await ext_shots(pg, L_, {'x': bx[g], 'z': 21.0}, names.get(g, g), hh, '[GGEXT %s %s]' % (hh, g))
+
+
+async def part_ggwalk(pg, cdp):
+    """GG3 第 2 項（BB 23:15）：搖桿走公館一趟——舊花攤那一塊 (−47,11.6)：走得過去、沒有花攤；G04／G08／G11／G13 店門口：停下來看按鈕、拍一張。
+    【前置／捷徑】讀檔到公館 14:00 (−58,14)；之後全程搖桿（照鏡頭方向往目標推；卡住 3 秒就往側邊推 0.8 秒再試，紀錄次數）。"""
+    await at(pg, cdp, 'gongguan', 14.0, -58.0, 14.0, '（公館西邊人行道）')
+    bx = await pg.evaluate("(()=>{ const o={}; for(const b of (GAME.E.zone.buildings||[])) if(b.userData&&b.userData.ggShop) o[b.userData.ggShop]=+b.position.x.toFixed(2); return o; })()")
+    R.note('[GGWALK] 店面棟號 x：%s' % J(bx))
+    old = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>i.kind==='gg_flower'||/花攤|晨露/.test(i.label||'')||/晨露/.test(i.look||'')).map(i=>({label:i.label,x:+i.x.toFixed(1),z:+i.z.toFixed(1),hidden:!!i.hidden})))()")
+    R.check('[GGWALK] 公館街上沒有舊花攤的互動點（kind gg_flower／晨露花舖）', not [o for o in old if not o['hidden']], J(old))
+    T = [('舊花攤那一塊', -47.0, 11.6, None)] + [('%s 店門口' % g, bx[g], 21.0, g) for g in ('G04', 'G08', 'G11', 'G13') if g in bx]
+    for lab, tx, tz, g in T:
+        t0 = time.time(); stuck = 0; side = 1; last = (time.time(), None); reached = False
+        while time.time() - t0 < 120:
+            s = await L.state(pg); d = math.hypot(tx - s['x'], tz - s['z'])
+            if d < 0.9: reached = True; break
+            if last[1] is None or math.hypot(s['x'] - last[1][0], s['z'] - last[1][1]) > 0.3: last = (time.time(), (s['x'], s['z']))
+            elif time.time() - last[0] > 3:
+                stuck += 1; side = -side; yaw = await pg.evaluate("GAME.E.cam.yaw")
+                await L.joystick(pg, cdp, side * 45, 0, 800); last = (time.time(), None); continue
+            yaw = await pg.evaluate("GAME.E.cam.yaw"); fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw)
+            vx, vz = (tx - s['x']) / d, (tz - s['z']) / d; sx, sy = vx * rx + vz * rz, -(vx * fx + vz * fz); m = math.hypot(sx, sy) or 1
+            await L.joystick(pg, cdp, sx / m * 45, sy / m * 45, 700 if d > 3 else 300)
+        await pg.wait_for_timeout(900); s = await L.state(pg)
+        free = await pg.evaluate("(([x,z])=>{ const N=GAME.E.nav; return N?!!N.free(x,z):null; })", [tx, tz])
+        R.check('[GGWALK] 搖桿走到%s (%.1f,%.1f)（%.0f 秒、卡住改側推 %d 次）' % (lab, tx, tz, time.time() - t0, stuck), reached, J({k: s[k] for k in ('x', 'z', 'interact')}))
+        if g: R.note('[GGWALK] %s 停下來的按鈕：「%s」' % (lab, s['interact']))
+        else: R.check('[GGWALK] 舊花攤那一塊站得住（導航格 free）', bool(free), J([tx, tz, free]))
+        b = await pg.screenshot(type='jpeg', quality=80); open(os.path.join(OUT, 'ggwalk_%s.jpg' % (g or 'oldstall')), 'wb').write(b)
+        if not g:
+            await pg.evaluate("window.__TZ=[]")
+            u = await pg.evaluate(SNAP, {'from': [-47.0, 1.7, 5.5], 'at': [-47.0, 1.0, 13.0], 'fov': 55, 'tw': 560, 'label': '舊花攤那一塊 (−47,11.6) 14:00', 'full': True})
+            save(u, 'ggwalk_oldstall_snap.jpg')
+    R.check('[GGWALK] walkFallbacks 0', (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
 
 
 async def part_scoot3(pg, cdp):
@@ -393,7 +515,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('SCOOT3', part_scoot3), ('SCOOT4', part_scoot4), ('INT', part_int)):
+        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('SCOOT3', part_scoot3), ('SCOOT4', part_scoot4), ('INT', part_int), ('ZQSEAT', part_zqseat), ('GGWALK', part_ggwalk), ('GGEXT', part_ggext)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
