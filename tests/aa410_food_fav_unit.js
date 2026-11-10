@@ -162,7 +162,8 @@ await sec(6,async()=>{ const KX='kexin', d=td('Y2S1',17,4);
   const plan=()=>OUT.plan(H.G,{id:'te_kx_Y2S1',ev:'ev_termend_dinner',day:d,h:18,late:0.25,place:'政大正門',title:'和可昕的學期末約會（政大正門）',travel:'開車約 40 分鐘',travelH:2/3,te:{term:'Y2S1',who:KX,kind:'kexin'}});
   const setup=(h,f)=>{ fresh(d,h,'wenzhou',Object.assign({dating_kexin:true},f||{})); plan(); };
   const tea=async(picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); return WZS.order364(GM,'tea'); };
-  const date=async(term)=>{ H.said=[]; H.opts=[]; H.picks=[]; return TERMEND.kexinDinner(GM,{term:term||'Y2S1',who:KX,kind:'kexin'}); };
+  /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版）：這一節測的是帶給她的那一杯（開頭旁白之後、她的第一句之前），不是飯桌——飯桌的新選項（會加減數值）先收起來，照 termend_lines.js 原本的兩句演；新選項在 tests/termend_opts_1110_unit.js 第 7 節 */
+  const date=async(term)=>{ H.said=[]; H.opts=[]; H.picks=[]; const k=TERMEND_OPTS.KX; TERMEND_OPTS.KX={}; try{ return await TERMEND.kexinDinner(GM,{term:term||'Y2S1',who:KX,kind:'kexin'}); } finally{ TERMEND_OPTS.KX=k; } };
   setup(16.2); await tea(['紅茶']); check('6. 出發（17:20）前一小時以前（16:12）：巷口茶飲沒有「帶一杯給可昕」',!H.opts.some(o=>o.includes('帶一杯給可昕')),J(H.opts));
   setup(16.5); let m0=H.G.money; await tea(['紅茶','帶一杯給可昕','紅茶','半糖']);
   check('6. 出發前一小時內（16:30）：點完自己的「帶一杯給可昕」→ 帝大紅茶的六樣（AA_658 第 4 節）→「無糖」「半糖」；錢照扣',J(H.opts.slice(1,4))===J([['帶一杯給可昕','（就這樣）'],['紅茶（中）　30 元','紅茶（大）　35 元','奶茶（中）　45 元','奶茶（大）　55 元','檸檬紅茶（中）　45 元','檸檬紅茶（大）　55 元'],['無糖','半糖']])&&H.G.money===m0-60,J(H.opts));

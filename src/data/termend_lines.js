@@ -177,6 +177,8 @@ const TERMEND_LINES=(function(){
   /* 交往中的女朋友：學期末約會（AA_250 10-3；不佔「只能接一個」；可昕照 9-2 另外做）。
      飯桌一句每學期不一樣（AA_352，企劃 6f472c61）：tableByTerm[學期]，沒寫的學期照 table（語彤的寒暑假、子晴的 Q6 是大一下、大二上的預設）；大四下是畢業那天的約會（AA_263），不用這張表。
      邀約那一句也照學期換（AA_456 1-5，企劃線 71f260ecc）：invByTerm[學期]，沒寫的學期照 invite；over 寫了 invite 的學期照 over（大五上、大四下照舊；芷若大一上～大二上寫在 over）。tag 不變 */
+  /* TERMEND-OPTS-1110：學姊大四上 XM3 那兩句（AA_386 3-3）抽出來——有選項的那一版（TERMEND_OPTS，AA_749）接在選項後面（termend3d.js 讀 GF_MORE）；沒有 TERMEND_OPTS 的照舊在 tableByTerm 裡，字沒有動 */
+  const SIS_XM3=[G=>XM3(G)?'去年在研究室說的。剛回來一天。':null,G=>XM3(G)?(XM3US(G)?'……我們做到了。':'……我做到了。'):null];
   const GF={
     heroine_01:{invite:'考完了。……今天不讀書，你也不准讀。',place:'eatery',placeName:'公館那家小店',h:19,table:'這學期我手機裡的照片，一半都是你。……你不准看。',
       invByTerm:{Y1S1:'考完了。……今天不讀書，你也不准讀。',Y1S2:'考完了。暑假還沒排。……先排今天。',Y2S1:'最後一科交卷了。今天不讀書。……你也一樣。',Y2S2:'考完了。京都以前，今天先空給你。',Y3S1:'考完了。三月我就去日本了。今天吃飯嗎。',Y4S1:'考完了。……二月以前，我只空今天。'},
@@ -186,7 +188,7 @@ const TERMEND_LINES=(function(){
       tableByTerm:{Y2S2:[{narr:'（她把兩碗飯推過來。她那碗多了一把蔥。）'},'……今天想吃蔥。'],Y3S1:['秀琴姨續約那天，買了一瓶汽水，倒了三杯。','……一杯是你的。我幫你喝了。'],Y3S2:['暑假田野要出去兩個禮拜。','……那兩個禮拜，蘇姨會一直問你我在哪。'],Y4S1:['你國考前那幾個月，晚上去大口漢堡讀。','……二樓最裡面那個位子，我幫你占。'],Y5S1:['你多一學期。我先畢業了。','……蘇姨說，那你可以多排幾個班。']}},
     heroine_05:{invite:'考完了吧？今天晚上我空著。法圖旁邊那家。',place:'eatery_lib',placeName:'法圖旁邊的簡餐',h:18.5,table:'今天我沒帶計畫本出門。',
       invByTerm:{Y1S2:'考完了吧？今天晚上我空著。法圖旁邊那家。',Y2S1:'考完了吧。今天晚上不排別的。法圖旁邊那家。',Y2S2:'考完了吧。七點，法圖旁邊那家。……我先去占位子。',Y3S1:'考完了吧。法圖旁邊那家，我訂了靠窗的。',Y3S2:'考完了吧。今天晚上我空著。……這個暑假，能空的晚上不多。',Y4S1:G=>XM3US(G)?'時差還沒調回來。……今天晚上，法圖旁邊那家？':'我回來了。今天晚上，法圖旁邊那家。'},   /* AA_539 1-1（企劃線 c9f6dd6cb）：美國路線兩個人同一班飛機回來，「我回來了」不成立——換句；臺灣路線照原句 */
-      tableByTerm:{Y2S1:['碩一的報告，教授退了兩次。',G=>YOUPAY(G)?'……第三次他說可以。':'……第三次他說可以。這一頓我請。'],Y2S2:['這學期我待在研究室的時間，比在家還長。','……今天不回研究室了。'],Y3S1:['美國那邊的結果三月出來。','……收到信那天，我打給你。'],Y3S2:[{narr:'（她把一張紙推過來。是行李清單。）'},'你幫我看。……我總覺得少了什麼。'],Y4S1:['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。',G=>XM3(G)?'去年在研究室說的。剛回來一天。':null,G=>XM3(G)?(XM3US(G)?'……我們做到了。':'……我做到了。'):null,G=>SNOWQ(G)?'美國下雪那天，我說回去再跟你說。':null,G=>SNOWQ(G)?'論文還要改兩章。我不知道碩三畢不畢得了業。':null,G=>SNOWQ(G)?'還有，我其實不知道自己為什麼要念研究所。以前有人問，我都說「先不要問我」。':null],Y5S1:['上班以後，計畫本裡都是中心的事。','……今天這一頓，是我自己約的。']},
+      tableByTerm:{Y2S1:['碩一的報告，教授退了兩次。',G=>YOUPAY(G)?'……第三次他說可以。':'……第三次他說可以。這一頓我請。'],Y2S2:['這學期我待在研究室的時間，比在家還長。','……今天不回研究室了。'],Y3S1:['美國那邊的結果三月出來。','……收到信那天，我打給你。'],Y3S2:[{narr:'（她把一張紙推過來。是行李清單。）'},'你幫我看。……我總覺得少了什麼。'],Y4S1:['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。',...SIS_XM3,G=>SNOWQ(G)?'美國下雪那天，我說回去再跟你說。':null,G=>SNOWQ(G)?'論文還要改兩章。我不知道碩三畢不畢得了業。':null,G=>SNOWQ(G)?'還有，我其實不知道自己為什麼要念研究所。以前有人問，我都說「先不要問我」。':null],Y5S1:['上班以後，計畫本裡都是中心的事。','……今天這一頓，是我自己約的。']},
       lastByTerm:{Y2S1:[G=>YOUPAY(G)?{narr:'（結帳的時候，她站在旁邊沒有動。）'}:null,G=>YOUPAY(G)?'……說好你請。':null],   /* AA_518 第 3 節第 8 點：11/6 交往版「……下次你請。」以後第一頓學期末的飯（大二上）收尾多兩行 */
         Y4S1:[G=>BK470(G)?{narr:'（你把那本書推過去。這半年，它一直放在你書桌最上面那一格。）'}:null,G=>BK470(G)?'（翻到書籤那一頁）……你沒有往後翻。':null,
         G=>BK470(G)?{choice:[{t:'「我翻了一頁。」',say:['哪一頁。……算了，不要講。']},{t:'「沒有。」',say:['嗯。']}]}:null]},   /* AA_470 4-2 交往版：那一頓的最後（收尾旁白之前，termend3d.js S.dinner）；聽過「另外一本，放你那邊。」的（sis_b12_3d.js S.bookWithYou）*/
@@ -395,5 +397,6 @@ const TERMEND_LINES=(function(){
   const AUTO_NO_GRAD_DELAYED={heroine_01:'好。今天恭喜。',classmate_xinci:'好。今天恭喜。',yu:'好吧！！今天恭喜！',heroine_05:'好。今天恭喜。'};   /* 交換延畢的玩家（日本、美國路線，PG.delayed）：典禮那天不說「畢業快樂」（AA_381 第 1 節，企劃線 d14a0388）*/
   const ENDED={heroine_01:'這學期不了。謝謝你約我。',heroine_03:'這次先不要。',heroine_05:'這學期我排不出來。你自己保重。',heroine_02:'謝謝。這次我想自己過。',heroine_04:'這次先不要啦。',classmate_peishan:'謝謝你問。……這次我先不去。',kexin:'現在還不行。謝謝你還會約我。'};
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
-  return {KX_ASK,KX_EXTRA,PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
+  const GF_MORE={heroine_05:{Y4S1:SIS_XM3}}, COND={Q6,SNOWQ,YOUPAY,C10,US:US3};   /* TERMEND-OPTS-1110：termend_opts.js 的 if 用的條件 */
+  return {GF_MORE,COND,KX_ASK,KX_EXTRA,PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
 })();
