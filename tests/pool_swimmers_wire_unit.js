@@ -84,6 +84,9 @@ loaded(false);
   for(const [lv,mx] of [['low',2],['medium',3],['high',4]]){ E.q={level:lv}; let mxN=0, mnN=9; for(let d=0;d<20;d++){ const day=dayOf(TUE)+d*7; const G={day,hour:18.5,flags:{},weekday:2,stage:'law'}; if(!CROWD.gymHours(G)) continue; enter('gym_b1',G); mxN=Math.max(mxN,swimmers().length); mnN=Math.min(mnN,swimmers().length); }
     check('畫質 '+lv+'：每天 2～'+mx+' 個泳客',mnN>=2&&mxN<=mx,mnN+'～'+mxN); }
   E.q={level:'high'}; }
+// ---------- 2b. 換區域還在黑幕裡才載好（game3d.js enter 等正式模型載好才淡入：GM.isEntering）----------
+{ loaded(false); const {GM}=enter('gym_b1',mkG(TUE,18.5)); GM.isEntering=()=>true; loaded(true); CROWD.tick(GM,1/30); const n1=swimmers().length;
+  check('2b. 換區域的黑幕裡才載好：淡入以前就直接放進水道',n1>=2,n1+' 人'); }
 // ---------- 5. 關館 ----------
 { enter('gym_b1',mkG(TUE,22.5)); check('5. 22:30（關館）：水裡沒有人',swimmers().length===0,swimmers().length+' 人');
   enter('gym_b1',mkG(TUE,7.5)); check('5. 07:30（還沒開）：水裡沒有人',swimmers().length===0,swimmers().length+' 人');

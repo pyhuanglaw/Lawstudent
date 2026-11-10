@@ -267,7 +267,7 @@ const CROWD=(function(){
      開館時間（S.gymHours，和健身中心、救生員同一個）水道裡 2～4 個人來回游：模型 char.swim_sm1／sm2／sf1／sf2（manifest lazy，進 B1 才下載）、姿勢 swim_free（自由式）或 swim_breast（蛙式）。
      - 水道：GYM_LAYOUT.b1.pool.basin（7 道、每道 2.5 m）；中線 z＝basin.z0＋2.5×(i＋0.5)，挑不相鄰的水道、每人一道；每人速度 0.9～1.2 m/s、起始時間不同（不同步）。
      - 每一格：q＝CHAR.swimLap(時間＋偏移, 23.4, 速度)（25 m 扣兩頭各 0.8 m；到池邊停 1.4 秒轉身）；人物 (池中線 x＋q.x, 0, 水道中線)、朝向 q.yaw；趴到水面的高度由 character3d.js 的 C.GYM.swim 處理。
-     - 泳客的 VRM 還沒載好、載入失敗＝那個人不放進水裡（備用人物沒有游泳的動作，會直挺挺站在水裡：GYM_FALL）。進場時（換區域的黑幕裡）照現在的時間直接放；
+     - 泳客的 VRM 還沒載好、載入失敗＝那個人不放進水裡（備用人物沒有游泳的動作，會直挺挺站在水裡：GYM_FALL）。進場時（換區域的黑幕裡，包括黑幕裡才載好的：game3d.js enter 等這一區的 VRM 載好才淡入）照現在的時間直接放；
        之後才載好的，等他在畫面外、或游到池邊轉身的那一刻才放（不在玩家眼前憑空出現在水道中間）。關館：在畫面外、或游到池邊時拿掉；時間跳了（睡覺、跳時間、讀檔）直接拿掉。
      - 同一天同一批人（日期當種子，D55）；人數照畫質（低 2、中 3、高 4 個以內，同 story3d 路人的 qf）、B1 一層最多 16 個完整人物（gym_crowd_unit 的上限；放不下就少放，不擠掉別人）。
      - 不是 E3 的導航、碰撞（池子的導航本來整個擋住；泳客不走導航，每一格直接設位置）、沒有 talk＝不能點、只在 gym_b1。不改任何台詞。測試：node tests/pool_swimmers_wire_unit.js */
@@ -291,6 +291,7 @@ const CROWD=(function(){
   S.swimAt=p=>{ const q=CHAR.swimLap(swimT+p.off,S.SWIM.L,p.v); return {x:p.x0+q.x,z:p.z,yaw:q.yaw,turn:q.turn}; };
   S.swimTick=function(GM,dt,instant){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!E.npcs) return; swimT+=dt>0?dt:0;
     if(swimLastH!=null&&Math.abs(G.hour-swimLastH)>0.2) instant=true; swimLastH=G.hour;   /* 時間跳了：直接照新的時間 */
+    if(GM.isEntering&&GM.isEntering()) instant=true;   /* 換區域還在黑幕裡（game3d.js enter：等這一區的正式模型載好才淡入，泳客的 VRM 也在等的清單裡）：載好就直接放進水道 */
     for(const k in swimLive) if(!E.npcs.includes(swimLive[k].n)) delete swimLive[k];   /* 換區域、別的地方拿掉了 */
     const plan=G.zone===S.SWIM.zone&&typeof CHAR!=='undefined'&&CHAR.swimLap?S.swimPlan(G,E.q&&E.q.level):[], want={}; for(const p of plan) want[p.key]=p;
     for(const k in swimLive){ const L=swimLive[k], p=want[k]&&want[k].model===L.p.model&&want[k].lane===L.p.lane?want[k]:null; if(p) continue;   /* 關館（或換了一天）：畫面外、游到池邊才拿掉 */
