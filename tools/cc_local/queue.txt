@@ -338,6 +338,9 @@ V24_ggnav | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/gongguan_lay
 V24_outing | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=new
 V24_capgap | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=v24
 V24_v7 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
+# BB 17:06：線上 v9.10.23（main 3a34dbaa5）→ 70e23b32c 的存檔相容（比 v7 重要）。兩支：save_compat_v95（舊版自己做第 1 天自動存檔＋第 3、9、23 天三個欄位，最完整）、save_compat_v7（新遊戲存檔＋48 個位置）；兩支都是「舊版網址＝{url2}」
+V24_live | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+V24_live_pos | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
 # ===== P0 以上；以下是原本的佇列 =====
 # BB 16:04／16:05：LAWWW 字幕修正＋測試修正推上來以後，同一個 SHA 跑（SHA 到了再打開；舊＝8a98ff1e0）
 FIX_ggnav | aa691df333d23bc46abb9445c249090d4b57f3d1 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
