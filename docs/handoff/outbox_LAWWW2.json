@@ -7256,6 +7256,20 @@
    "noDirectIntegrate": false,
    "note": "campus_hall.py wall_tex／wall_tile；三棟重匯（PERF ② 合併照舊、一棟 5 網格）；zones3d 套件同組數字。新測試開發 74da28ca9 FAILED 3 → ALL PASS；回歸 49 支過（含 campus_hall_drawcall）。",
    "next": "③ 男一舍清水模、共同舊館紅磚、映月湖亭、拿掉多的研三舍"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "NTU-REF-1110 ③-1 男一舍清水模＋樓梯塔圓窗（X223）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/ntu_ref_male1_1110/（README、ntu_ref_male1_1110.patch、ntu_ref_male1_unit.js、regression.log、male1_before_after.jpg）"
+   ],
+   "state": "MODEL_READY，待整合；BB 判（第 1 版）",
+   "noDirectIntegrate": false,
+   "note": "馬賽克→清水模（socsci_formwork）、鏤空花磚樓梯間→清水模＋5 個圓窗（D136 數量位置不照抄）；5 層照舊。新測試開發 FAILED 2 → ALL PASS；回歸 38 支過。",
+   "next": "③-2 共同（模型好了）、③-3 映月湖亭、③-4 拿掉多的研三舍"
   }
  ]
 }

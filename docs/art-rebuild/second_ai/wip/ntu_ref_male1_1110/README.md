@@ -20,7 +20,7 @@
   2. 樓梯塔有 5 個暗的圓窗；
   3. 照舊是 5 層。
 - **開發分支 74da28ca9：FAILED 2**（1、2）；套上 patch：**ALL PASS**。
-- 回歸：讀到 campus_male1、校園、attachWenzhouModel 的測試，見 `regression.log`。
+- 回歸：讀到 campus_male1、校園、attachWenzhouModel 的測試，38 支全過，見 `regression.log`。
 
 ## 整合
 `git apply --binary ntu_ref_male1_1110.patch`。內容：campus_male1.glb／json、campus_male1.py、新測試。
