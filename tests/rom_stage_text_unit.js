@@ -4,7 +4,7 @@
 //   2 一半以上（她的戀愛 20／30）：「她好像開始在意你了」
 //   3 第 5 階、差祐廷的戀愛一半以上：「你好像開始在意她了」
 //   4 第 6 階：多一行「你們之間有點曖昧」（mood），game3d.js 印出來
-//   5 「出去玩」：朋友以上、差她的戀愛＝「她還沒有那樣看你（人物頁的戀愛條滿了就可以約）」；還不是朋友＝照舊「還沒熟到可以兩個人出去」
+//   5 「出去玩」：戀愛條過一半（她的戀愛 ≥15）就能約（使用者 11-10 16:2x）；還沒一半＝「還沒熟到可以兩個人出去」（等 AA 定句子），不再寫「她還沒有那樣看你」
 // 修改前 2、3、4、5 FAIL。用法：node tests/rom_stage_text_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -30,5 +30,8 @@ set(H,{fam:70,trust:50,comf:45,npcRom:60,rom:35}); G.dateLog[H]={count:2,wishKno
 const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('4. 第 6 階：mood「你們之間有點曖昧」，hint 照舊；game3d.js 把 mood 印出來',!!p&&p.rom.mood==='你們之間有點曖昧'&&p.rom.hint==='再多一些兩個人出去的時間'&&/b\.mood\?'<div[^']*'\+esc\(b\.mood\)/.test(g),JSON.stringify(p));
 set(H,{fam:50,trust:30,npcRom:10}); const a=DATE.canAskCore(G,H); set(H,{fam:25,npcRom:10}); const b=DATE.canAskCore(G,H);
-check('5. 出去玩：朋友以上差她的戀愛＝說清楚；還不是朋友＝照舊',!a.ok&&a.why==='她還沒有那樣看你（人物頁的戀愛條滿了就可以約）'&&!b.ok&&b.why==='還沒熟到可以兩個人出去',JSON.stringify([a,b]));
+check('5. 出去玩：戀愛條還沒一半（她的戀愛 10）不能約，不再寫「她還沒有那樣看你」',!a.ok&&a.why===DATE.ASK_NOT_YET&&!/還沒有那樣看你/.test(a.why)&&!b.ok&&b.why==='還沒熟到可以兩個人出去',JSON.stringify([a,b]));
+set(H,{fam:50,trust:30,npcRom:15}); const c=DATE.canAskCore(G,H); set(H,{fam:25,npcRom:15}); const d=DATE.canAskCore(G,H); set(H,{fam:50,trust:30,npcRom:14}); const e=DATE.canAskCore(G,H);
+check('5b. 戀愛條過一半（她的戀愛 15，人物頁「她好像開始在意你了」）就能約出去玩，朋友、有點熟都一樣；14 還不行（使用者 11-10 16:2x 選擇題）',c.ok&&d.ok&&!e.ok,JSON.stringify([c,d,e]));
+check('5c. 過一半時人物頁的提示是「開始在意」，和能約一致',(()=>{ set(H,{fam:50,trust:30,npcRom:15}); const q=DATE.progress(G,H); return !!q&&q.rom&&q.rom.hint==='她好像開始在意你了'; })());
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
