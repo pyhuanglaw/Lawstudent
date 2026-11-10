@@ -16,6 +16,7 @@ CASES（逗號分隔；每個 case 重新讀檔）：
   OLD（要兩個網址：python3 cc_movie_talk_probe.py <舊版 v9.10.24 網址> <新版網址> <out>）：舊版用 day46 約以安看完一場 → 取 localStorage 自動存檔
            → 新版讀進來（標題「繼續」）→ 沒有 JS 例外、NY_WATCHED／MOVIE_TOGETHER 還在、MOVIES.seenRec 可以用、海報牆照常。
 全程 JS 例外 0、walkFallbacks 0；所有 GAME.say／caption／choose 原文存 movie_talk_lines.txt。
+  KX1～KX4（BB 20:36）：經濟系那一年（2024-11、2025-03、2025-05、2025-07）約可昕看 m2411b／m2503b／m2505a／m2507b（稿上沒有可昕的回答）→ 散場選完不卡住、沒有 undefined／空白對話框。
 用法：LW_TESTS=<wt>/tests CASES=... python3 cc_movie_talk_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, copy
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -304,6 +305,30 @@ async def case_old(p, b, ctx, pg, cdp):
     R.check('%s MOVIES.seenRec／海報牆照常（不是 ERR）' % tag, not str(st['seenRec']).startswith('ERR') and not str(st['info']).startswith('ERR'), J(st))
 
 
+KX = {'KX1': ('2024-11-15', 'm2411b'), 'KX2': ('2025-03-15', 'm2503b'), 'KX3': ('2025-05-15', 'm2505a'), 'KX4': ('2025-07-15', 'm2507b')}
+
+
+async def case_kexin(pg, cdp, c):
+    """BB 20:36：經濟系那一年約可昕看這四部（稿上沒有可昕的回答）→ 散場選完不卡住、沒有 undefined／空白對話框；記實際顯示了什麼"""
+    key, film = KX[c]; tag = '[%s 可昕 %s]' % (c, film)
+    await load(pg, cdp, base_state(['kexin']), day_key=key, why='日期改 %s（經濟系那一年，負的天數）08:00、可昕朋友＋聯絡方式（day46 存檔的其他欄位不變）' % key)
+    iv = await book(pg, cdp, tag, 'kexin', 0)
+    if not iv: return
+    if iv['film'] != film:
+        await pg.evaluate("((id,f)=>{ const v=(GAME.G.invites||[]).find(x=>String(x.id)===String(id)); if(v) v.film=f; })(%s,%s)" % (J(iv['id']), J(film)))
+        R.setup('%s【捷徑】約好的是 %s，改成 %s' % (tag, iv['film'], film))
+    ex = await expect_talk(pg, film, 'kexin'); TXT.append('==== %s 期望 %s' % (tag, J(ex)))
+    want = [o['t'] for o in ((ex['talk'] or {}).get('opts') or [])]
+    r = await go_watch(pg, cdp, tag, 'kexin', iv, 0, want); mt, adj = await dump(pg, tag)
+    says = [e['v'] for e in mt if e['k'] == 'say']
+    bad = [v for v in says if 'undefined' in v or 'null' in v or not v.split('｜', 1)[-1].strip()]
+    R.note('%s 選單：%s；散場以後的對話：%s' % (tag, J(r and r['choices']), J(says[-8:])))
+    R.check('%s 有散場三選項（%s）' % (tag, J(want)), bool(r) and any(c_['after'] for c_ in r['choices']), J(r and r['choices']))
+    R.check('%s 選完不卡住（見面結束、回到大廳）' % tag, bool(r) and r['hall'] and r['zones'][-1] == 'xs_nanyang', J(r and r['zones']))
+    R.check('%s 沒有 undefined／null／空白的對話' % tag, not bad, J(bad))
+    R.check('%s walkFallbacks 0' % tag, (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
+
+
 async def main():
     print('CC MOVIE_TALK（X324）：CASES %s；Playwright ≠ iPhone' % ','.join(CASES), flush=True)
     async with async_playwright() as p:
@@ -323,6 +348,7 @@ async def main():
                     elif c == 'WITHZQ1': await case_with(pg, cdp, 'heroine_04', '2028-01-15', 'm2801b')
                     elif c == 'WITHZQ2': await case_with(pg, cdp, 'heroine_04', '2028-05-15', 'm2805b')
                     elif c == 'WITHZR': await case_with(pg, cdp, 'heroine_02', '2025-11-01', 'm2511b')
+                    elif c in KX: await case_kexin(pg, cdp, c)
                 except Exception as e:
                     R.check('[%s] 沒有中斷' % c, False, repr(e)[:300])
                 open(os.path.join(OUT, 'movie_talk_lines.txt'), 'w', encoding='utf-8').write('\n'.join(TXT))
