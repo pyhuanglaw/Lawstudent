@@ -1,0 +1,34 @@
+{
+ "offbeat_pz": {
+  "yaw": 0,
+  "dist": 3,
+  "cam": [
+   1.1,
+   2.76,
+   4.29
+  ],
+  "player": [
+   1.1,
+   0,
+   1.5
+  ],
+  "zone": "wz_offbeat",
+  "hour": 14.08
+ },
+ "offbeat_pz21": {
+  "yaw": 0,
+  "dist": 3,
+  "cam": [
+   1.1,
+   2.76,
+   4.29
+  ],
+  "player": [
+   1.1,
+   0,
+   1.5
+  ],
+  "zone": "wz_offbeat",
+  "hour": 21.1
+ }
+}
