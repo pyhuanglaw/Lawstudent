@@ -41,6 +41,8 @@ SHIFT_IMM_r5_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story
 SHIFT_IMM_r5_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=imm5_old;IMM=1;CASES=B,F
 ARCAFTER_base_a | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=ARC_AN,ARC_KX
 # ===== MT4（BB 21:53，MOVIE-ARC-AFTER＋fallback 開；b99dfd4dd；舊版對照 c17a9919e）=====
+# X331（LAWWW 21:58）：PC Blender 自檢（版本、存 .blend、匯出 GLB；blender 獨佔、約 1 分鐘）
+BLENDER_PING | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | blender | docs/story_planning/test_tools/cc/cc_blender_ping.py | index.html | 10 | SCRIPT_FROM=cc;XARGS=--out {out}
 MT4_arc_a | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=ARC_AN,ARC_KX
 MT4_arc_b | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=ARC_AXDONE,LATER2
 MT4_fb_a | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=FB_FEEL,FB_NOTICE,FB_WONDER
