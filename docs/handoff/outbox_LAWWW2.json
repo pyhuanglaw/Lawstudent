@@ -7680,12 +7680,12 @@
    "sha": "8219cff63",
    "receiver": "LAWWW",
    "cc": "BB、AA",
-   "ack": "SENT",
+   "ack": "SUPERSEDED",
    "task": "GG-SHOPS3-ART-1110 泰米村食室內第 1 版（D141 1／3；使用者 11-10 室內參考圖）：區域 tz_taimi、配置、模型、測試；六間共用的 tz_shops 三個檔",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README.md、taimi_int_v1.patch、regression_taimi.log、preview_taimi.jpg）"
    ],
-   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "state": "被下一筆取代（泰米＋洗樂合成一個 patch）",
    "noDirectIntegrate": false,
    "note": "底 dev 2a7edffd5；tz_shops_unit ALL PASS。和 AA_743 的差異表在 README（以圖為準）。互動點 kind tz_taimi_order／menu／kitchen／photo、zone.shopClerk 給 LAWWW 接。",
    "next": "洗樂洗衣坊 → 印得好 → 安泰藥局 → 汀州鮮果 → 榮恩典文具社"

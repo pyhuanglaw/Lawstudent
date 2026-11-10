@@ -5,13 +5,13 @@
 
 | 店 | 區域 | 狀態 |
 |---|---|---|
-| 泰米村食 | `tz_taimi`（汀州路） | **第 1 版已交：`taimi_int_v1.patch`** |
-| 洗樂洗衣坊 | `tz_xile`（汀州路） | 下一間 |
+| 泰米村食 | `tz_taimi`（汀州路） | **第 1 版已交** |
+| 洗樂洗衣坊 | `tz_xile`（汀州路） | **第 1 版已交** |
 | 印得好 | `tz_yindehao`（汀州路） | 還沒做 |
 | 安泰藥局、汀州鮮果、榮恩典文具社 | 公館 | 還沒做（公館那邊的店門入口要 LAWWW 接，或照花序用包住 build 的方式加） |
 
 ## 泰米村食 第 1 版（D141 1／3）
-patch `taimi_int_v1.patch`（base＝dev `2a7edffd5`）：`index.html` 兩行、配置、區域、模型 `tz_taimi_interior.glb`（1.1 MB、1.6 萬三角形）、貼圖集 `tz_taimi_int_atlas.jpg`（牆上的菜色照片板、兩張街景照片，從參考圖裁）、測試、`zone_assets.js`、LICENSES。
+**patch：`tz_shops_int_v1_taimi_xile.patch`（base＝dev `2a7edffd5`；泰米＋洗樂兩間一起，取代原本只有泰米的 `taimi_int_v1.patch`）**。泰米的部分：`index.html` 兩行、配置、區域、模型 `tz_taimi_interior.glb`（1.1 MB、1.6 萬三角形）、貼圖集 `tz_taimi_int_atlas.jpg`（牆上的菜色照片板、兩張街景照片，從參考圖裁）、測試、`zone_assets.js`、LICENSES。
 
 照參考圖做的：8 × 10 m；左牆皮面長卡座＋五張兩人木桌；右邊三張四人木桌、深色木椅皮坐墊；右牆大幅菜色照片板；正後方木櫃台（直紋木板、底下燈條、收銀螢幕、蘭花、醬料瓶）；後面開放式廚房（不鏽鋼、排煙罩、鍋、冰箱）、紅格紋布棚；左後方隔牆和格紋布簾的門；藤編吊燈九盞；左牆街景照片、藤編圓盤、層板和蕨類；裸露風管、冷氣出風口、軌道燈；灰色石紋地磚；門口兩側深木框窗、門上的米色布簾（和外觀一樣）。**22 個座位**（卡座 5、兩人桌椅子 5、四人桌 12）。
 
@@ -39,3 +39,11 @@ patch `taimi_int_v1.patch`（base＝dev `2a7edffd5`）：`index.html` 兩行、�
 ### 驗證
 - `node tests/tz_shops_unit.js` ALL PASS（13 項；沒有這一件時第 0 項失敗）。
 - 相關 28 支 Node 測試（`regression_taimi.log`）：只有 `gg_shops2_1104_unit` 第 6 項沒過——dev `2a7edffd5` 本來就沒過（大地圖判定 afar、daybreak），不是這一件。
+
+## 洗樂洗衣坊 第 1 版（D141 1／3）
+同一個 patch。新區域 `tz_xile`（6 × 9 m）、模型 `tz_xile_interior.glb`（1.1 萬三角形）。
+照參考圖做的：白牆＋淺天藍腰帶、淺灰地磚、六支日光燈；左牆從門口往裡——三連座淺藍塑膠椅（三個座位）、兌幣機（不鏽鋼）和洗衣精販賣機（白色、看得到瓶子）、七台滾筒洗衣機；右牆四組上下疊的大烘衣機；後方木折衣桌、三個洗衣籃、置物架、後門、水槽；牆上使用說明海報（四格圖示，沒有字）、三塊層板上的黃金葛、壁扇、冷氣、監視器。沒有店員（投幣式）。
+給 LAWWW 接：kind `tz_xile_wash`（洗衣機）、`tz_xile_dry`（烘衣機）、`tz_xile_change`（兌幣機・洗衣精）、`tz_xile_fold`（折衣桌）；座位 `seat.table＝'xile_t1'`（等衣服的椅子）。
+和 AA_743 的差異：等拿到 AA_743 洗樂那一節再對（我這次只對了泰米）；以圖為準。
+先將就的：海報沒有字；洗衣機、烘衣機的控制面板只有一塊深色板和一小塊藍色螢幕；滾筒玻璃是不透明的深色（看不到裡面的衣服）；沒有光照貼圖。預覽 `preview_xile.jpg`（Blender，不是遊戲截圖）。
+`node tests/tz_shops_unit.js` 兩間都 ALL PASS。
