@@ -45183,7 +45183,7 @@
    "id": "WZ-SEAT-CAMS-1104",
    "title": "座位鏡頭被擋：SUNNY 吧台 F12／F13 被 sns_vcm 金屬吊架擋、小路座位鏡頭卡在樑和酒瓶層架之間",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45195,7 +45195,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:08】BB-C 14:03：F13 被 sns_vc_metal 擋（AA 12ae10d3e 有處理）；F12 被 sns_ceiling（材質 sns_wall_cream）擋，12ae10d3e 沒有，同步時一起加 seeThru／camWalls｜【LAWWW-C 11-04 13:1x】不擋 v9.10.20；接鏡頭淡出或 seeThrough",
+   "next": "【LAWWW 11-10 11:0x】LAWWW2 7bb4bf34f：SUNNY v1e／小路 v4 配置把 AA 12ae10d3e 的透空材質、鏡頭牆蓋掉；照現在 GLB 材質名重加 seeThru、camWalls 並同步 wz_shops_layout.js（--check OK）；wz_seat_cams_1104（座位×16 方向：SUNNY 37→0、小路 126→0）ALL PASS；CC 拍座位鏡頭、BB 判。AA 之後改這兩份配置要保留 seeThru、camWalls。 ｜ 【LAWWW-C 11-04 14:08】BB-C 14:03：F13 被 sns_vc_metal 擋（AA 12ae10d3e 有處理）；F12 被 sns_ceiling（材質 sns_wall_cream）擋，12ae10d3e 沒有，同步時一起加 seeThru／camWalls｜【LAWWW-C 11-04 13:1x】不擋 v9.10.20；接鏡頭淡出或 seeThrough",
    "source": "BB-C 11-04 12:55、12:58",
    "xai": {
     "spec": "BB_255",
@@ -45203,7 +45203,8 @@
     "acceptance": "坐下後鏡頭不被吊架、樑擋",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "7bb4bf34f"
   },
   {
    "id": "ADE-SEATS-NAV-1104",
