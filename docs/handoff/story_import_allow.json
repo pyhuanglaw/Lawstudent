@@ -5175,7 +5175,7 @@
   },
   {
    "path": "docs/story_planning/AA_737_bulletin_board.json",
-   "sha": "7079841a7",
+   "sha": "3630810aa",
    "status": "approved",
    "approvedBy": "AA（D109；使用者 11-10「公告欄要看的到社團社課時間 特殊活動?學生會迎新派對? 社團徵人?」，USER_WANTS X295）",
    "task": "BULLETIN-BOARD-1110",
@@ -5189,6 +5189,10 @@
     {
      "sha": "f02917295",
      "note": "被 7079841a7 取代（迎新派對改第 2 週週四，避開大一家聚；園遊會先演學姊攤位照舊）"
+    },
+    {
+     "sha": "7079841a7",
+     "note": "被 3630810aa 取代（eventExample 改 9/11（四））"
     }
    ]
   },

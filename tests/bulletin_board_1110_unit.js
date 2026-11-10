@@ -1,5 +1,5 @@
 // BULLETIN-BOARD-1110（USER_WANTS X295；使用者 11-10「公告欄要看的到社團社課時間 特殊活動?學生會迎新派對? 社團徵人?」）——不需要瀏覽器（D131）。
-// AA 定稿：企劃線 7079841a7 的 docs/story_planning/AA_737_bulletin_board.json（D109，照稿接、不改字）。這支測試用 git show 讀那個 commit，逐字比對。
+// AA 定稿：企劃線 3630810aa 的 docs/story_planning/AA_737_bulletin_board.json（D109，照稿接、不改字）。這支測試用 git show 讀那個 commit，逐字比對。
 //   0. 台詞、文字逐字對 AA_737：本週公告標題、empty、五張招生海報（text／textLater）、lateJoin 五句＋系籃兩處換字＋第 6 週那句、四個特殊活動（標題、說明、旁白、地點名稱、時間、海報天數、按鈕的字、捐血那句、吉他社社員那句）。
 //   1. 本週公告分三區：副標「m/d（週）～m/d（週）」；社課一行「{社團}　每週{星期們} {t0}–{t1}　{地點}」（同一社團一週好幾天合成一行；系籃加「（下雨改新體育館一樓走廊）」）；
 //      演講・活動一行「{今天／明天／m/d（週）} {t0}–{t1}　{標題}　{地點}」；這週沒有的那一區整區不顯示；三區都沒有＝「這週沒有新的公告。」（原本的「目前沒有公告的演講或活動。」不再出現）。
@@ -22,8 +22,8 @@ const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Ma
 const J=JSON.stringify;
 
 // ---------- AA_737（git show）----------
-let AA=null; try{ AA=JSON.parse(cp.execSync('git show 7079841a7:docs/story_planning/AA_737_bulletin_board.json',{cwd:REPO,encoding:'utf8',stdio:['ignore','pipe','ignore']})); }catch(e){ AA=null; }
-check('0. 讀得到 AA_737（企劃線 7079841a7；沒有就先 git fetch origin claude/story-planning）',!!AA);
+let AA=null; try{ AA=JSON.parse(cp.execSync('git show 3630810aa:docs/story_planning/AA_737_bulletin_board.json',{cwd:REPO,encoding:'utf8',stdio:['ignore','pipe','ignore']})); }catch(e){ AA=null; }
+check('0. 讀得到 AA_737（企劃線 3630810aa；沒有就先 git fetch origin claude/story-planning）',!!AA);
 if(!AA){ console.log('FAILED '+fails); process.exit(1); }
 const q=(s,re)=>{ const m=String(s).match(re); return m?m[1]:null; };
 
@@ -62,8 +62,7 @@ const gB=(k,h,o)=>Object.assign({day:dayOf(k),hour:h==null?9:h,flags:{},stage:'l
   check('1. 社課一區：辯論社、登山社各一行；系籃那一行後面加「（下雨改新體育館一樓走廊）」',cl.includes('辯論社　每週二 19:00–21:00　博思 201')&&cl.includes('登山社　每週四 19:30–21:00　普通 201')&&/系籃（系學會）　每週五 17:30–19:00　籃球場（映月湖東側）（下雨改新體育館一樓走廊）/.test(cl),cl);
   check('1. 社課只列一般社團（story:false）：公法讀書會（以安的劇情）、停用的法服讀書會不列',!/公法讀書會|法服讀書會/.test(cl),cl);
   const ev=pages(gB('2025-09-08')).find(p=>p.startsWith('【演講・活動】'))||'';
-  { const EX='9/11（四） 19:00–21:30　學生會迎新派對　新體育館';   /* AA_737 eventExample 的格式；7079841a7 派對改週四，範例字串還寫舊的 9/12（五），日期照新的（已請 AA 更新範例） */
-  check('1. 演講・活動一行：「'+EX+'」（AA_737 eventExample 的格式，日期照 7079841a7）',ev.split(/[】；]/).includes(EX)&&AA.board.lineFormat.eventExample.replace(/^\d+\/\d+（.）/,'')===EX.replace(/^\d+\/\d+（.）/,''),ev); }
+  check('1. 演講・活動一行：「'+AA.board.lineFormat.eventExample+'」（同 AA_737 eventExample；3630810aa 改成 9/11（四））',ev.split(/[】；]/).includes(AA.board.lineFormat.eventExample),ev);
   const tm=pages(gB('2025-10-13')).find(p=>p.startsWith('【演講・活動】'))||''; check('1. 「明天」的寫法：10/13 看＝「明天 10:00–16:00　捐血車　學活前」',tm.split(/[】；]/).includes('明天 10:00–16:00　捐血車　學活前'),tm);
   const P2=pages(gB('2025-12-01')); check('1. 這週沒有演講、活動、招生（12/1）：那兩區整區不顯示、只有社課',P2.length===2&&P2[1].startsWith('【社課】')&&!P2.some(p=>/【演講・活動】|【社團招生】/.test(p)),J(P2));
   { const src=fs.readFileSync(path.join(ROOT,'src/teach3d.js'),'utf8'); check('1. 教學館的公告欄按下去＝一頁一頁看本週公告（teach3d.js 的公告欄 onInteract 讀 ACTIVITIES.boardPages；原本只有 4.6 秒的字幕）',/board:true[\s\S]{0,400}onInteract:async\(\)=>[\s\S]{0,400}ACTIVITIES\.boardPages\(GM\.G/.test(src)); }
@@ -83,7 +82,7 @@ const gB=(k,h,o)=>Object.assign({day:dayOf(k),hour:h==null?9:h,flags:{},stage:'l
 { const evs=k=>(pages(gB(k)).find(p=>p.startsWith('【演講・活動】'))||'');
   check('3. 學生會迎新派對（AA_737 7079841a7 改期望：原本第 2 週週五 9/12，撞大一家聚 → 週四）：大一上第 2 週週四 9/11 19:00–21:30 新體育館（9/8 那週的公告）；大二 9/17（9/14 看）；9/12 週五、第 3 週週四 9/18 沒有',evs('2025-09-08').includes('9/11（四） 19:00–21:30　學生會迎新派對　新體育館')&&evs('2026-09-14').includes('9/17（四） 19:00–21:30　學生會迎新派對　新體育館')&&!!A('su_welcome_party')&&!ACTIVITIES.on(A('su_welcome_party'),dayOf('2025-09-12'),{flags:{}})&&!ACTIVITIES.on(A('su_welcome_party'),dayOf('2025-09-18'),{flags:{}}),evs('2025-09-08')+' / '+evs('2026-09-14'));
   check('3. 捐血車：大一上第 7 週週二三（10/14、10/15）10:00–16:00 學活前；下學期第 7 週（4/7、4/8）也有；海報提前 5 天（10/8 看不到、10/9 看得到）',evs('2025-10-10').includes('10/14（二） 10:00–16:00　捐血車　學活前')&&evs('2025-10-10').includes('10/15（三） 10:00–16:00　捐血車　學活前')&&evs('2026-04-03').includes('4/7（二） 10:00–16:00　捐血車　學活前')&&!evs('2025-10-08').includes('捐血車')&&evs('2025-10-09').includes('捐血車'),evs('2025-10-10'));
-  check('3. 學生會電影夜（AA_737 7079841a7 改名；原期望「期中電影夜」）：大一上第 10 週週四 11/6 19:00–21:00 博思 101',evs('2025-11-03').includes('11/6（四） 19:00–21:00　學生會電影夜　博思 101'),evs('2025-11-03'));
+  check('3. 學生會電影夜（AA_737 f02917295 改名；原期望「期中電影夜」）：大一上第 10 週週四 11/6 19:00–21:00 博思 101',evs('2025-11-03').includes('11/6（四） 19:00–21:00　學生會電影夜　博思 101'),evs('2025-11-03'));
   check('3. 校慶園遊會：11/15（六）10:00–16:00 椰影大道（11/10 看）；11/8（六）沒有',evs('2025-11-10').includes('11/15（六） 10:00–16:00　校慶園遊會　椰影大道')&&!!A('school_fair')&&!ACTIVITIES.on(A('school_fair'),dayOf('2025-11-08'),{flags:{}}),evs('2025-11-10'));
   check('3. 當天結束以後公告欄不再列（9/11 21:40 看不到迎新派對）',evs('2025-09-11').includes('今天 19:00–21:30　學生會迎新派對')&&!pages(gB('2025-09-11',21.7)).join('').includes('學生會迎新派對'),pages(gB('2025-09-11',21.7)).join('｜')); }
 
@@ -109,7 +108,7 @@ const LL=AA.recruit.lateJoin.lines, NO6='好，那有空再來玩。', BALL_YES=
     const flags=G.flags, acts=G.acts; mkG('2025-10-07',18.9,{zone:'boya'}); G.flags=Object.assign(flags,{}); G.acts=acts; reset([1]); await run(()=>CLS.attendActivity(GM,deb));
     check('4. 第 6 週（10/7）再去：再問一次；「先不要」＝「'+NO6+'」',texts().includes(LL[0].text)&&whoSaid(NO6)==='社長'&&!G.flags.CLUB_club_debate&&G.flags.CLUB_LATE_club_debate===6,J(log));
     const f2=G.flags, a2=G.acts; mkG('2025-10-14',18.9,{zone:'boya'}); G.flags=f2; G.acts=a2; reset([]); await run(()=>CLS.attendActivity(GM,deb));
-    /* 2026-11-10 改期望（AA_737 7079841a7 第 3 點：選「先不要」不鎖）：原本「第 7 週再去＝旁聽、不自動入社、不演門口那句」；現在跟從沒去過的人一樣照 AA_485 3-4 一去就入社＋門口那句，不再問 */
+    /* 2026-11-10 改期望（AA_737 f02917295 第 3 點：選「先不要」不鎖）：原本「第 7 週再去＝旁聽、不自動入社、不演門口那句」；現在跟從沒去過的人一樣照 AA_485 3-4 一去就入社＋門口那句，不再問 */
     check('4. 第 7 週（10/14）再去：不再問；照 AA_485 3-4 一去就入社（CLUB_）、演「你在門口填了表」',!texts().includes(LL[0].text)&&!!G.flags.CLUB_club_debate&&texts().includes(CLUB_FAIR.DOOR_LINE)&&chose.length===0,J([chose,log])); }
   // 4c. 第 7 週以後才第一次去（沒被問過）：照舊第一次去就入社（門口那句）
   { mkG('2025-10-14',18.9,{zone:'boya'}); reset([]); await run(()=>CLS.attendActivity(GM,deb));
