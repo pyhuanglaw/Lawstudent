@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gym_props_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GYMPROPS_smith_new\out
+CC 健身房手上的道具：worktree ?；TAG smith；['smith']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  22.4s] 這一版：{"gy3": true, "layout": true, "props": true, "asset": true}（props／asset false＝GYM-FIT-PROPS-1103 之前的版本，道具那一項會 FAIL）
+PASS 這一版有健身器材互動（GY3.useEquip、b1.fitness.equip）  {"gy3": true, "layout": true, "props": true, "asset": true}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gym_b1 出生點 2025-09-23 10.00 時、條件事件關掉；G.daily.gym 設會員卡＋這個月月票、錢 ≥ 2000（不演辦卡／買月票）
+  [  36.5s] 前置後：{"card": 7, "pass": "2025-09", "fit": 0, "money": 22000, "open": true, "wd": 2, "key": "2025-09-23"}；位置 {"zone": "gym_b1", "x": 18, "z": 7, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.06}
+  [  36.5s] smith 10.00 時 器材：[{"id": "smith_1", "kind": "smith", "label": "史密斯機 1", "stand": {"x": -15, "z": 12.55, "yaw": 0}, "use": [{"x": -15, "z": 12.55, "yaw": 0, "pose": "gym_squat"}], "free": true}]
+PASS smith：用史密斯機 有一台有空位（smith_1）  {"hours": [10.0, 8.6, 14.2]}
+  [  50.1s] 到達「smith 走到 smith_1 的 stand (-15, 12.55)」附近（0.17 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+PASS smith：真的走到 smith_1 的 stand（0.45 m 內、walkFallbacks 沒加）  {"zone": "gym_b1", "x": -14.849, "z": 12.621, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "用史密斯機", "stand": true, "fb": 0, "hour": 10.16}
+PASS smith：互動鍵是「用史密斯機」、最近的互動點是 smith_1  {"interact": "用史密斯機", "near": {"label": "用史密斯機", "eq": "smith_1"}}
+PASS smith：按下去以後在用 smith_1、玩家 pose＝gym_squat  {"using": "smith_1", "pose": "gym_squat", "x": -15, "z": 12.55, "y": 0, "yaw": 0, "dlg": true}
+PASS smith：手上看得到 1 個 gymProp:bar*（道具載好 True、遠距離版本 False）  {"vis": [["gymProp:bar0", ["gym_barbell__chrome", "gym_barbell__grip", "gym_barbell__red", "gym_barbell__rubber"]]], "failed": 0, "gymPose": "gym_squat"}
+  [  53.3s] smith 第 1 次：手 L [-14.706, 0.945, 12.534] R [-15.295, 0.945, 12.533]；道具 [{"name": "gymProp:bar0", "vis": true, "meshes": ["gym_barbell__chrome", "gym_barbell__grip", "gym_barbell__red", "gym_barbell__rubber"], "pos": [-15.001, 0.915, 12.556], "dL": 0.297, "dR": 0.296, "dMid": 0.038, "perpL": 0.038, "perpR": 0.038, "alongL": 0.295, "alongR": -0.294}]
+  [  53.3s] smith 第 2 次：手 L [-14.608, 1.062, 12.514] R [-15.39, 1.065, 12.514]；道具 [{"name": "gymProp:bar0", "vis": true, "meshes": ["gym_barbell__chrome", "gym_barbell__grip", "gym_barbell__red", "gym_barbell__rubber"], "pos": [-14.999, 1.092, 12.524], "dL": 0.392, "dR": 0.391, "dMid": 0.03, "perpL": 0.031, "perpR": 0.03, "alongL": 0.391, "alongR": -0.39}]
+  [  53.3s] smith 第 3 次：手 L [-14.599, 1.198, 12.524] R [-15.399, 1.202, 12.525]；道具 [{"name": "gymProp:bar0", "vis": true, "meshes": ["gym_barbell__chrome", "gym_barbell__grip", "gym_barbell__red", "gym_barbell__rubber"], "pos": [-14.999, 1.231, 12.531], "dL": 0.402, "dR": 0.401, "dMid": 0.032, "perpL": 0.032, "perpR": 0.031, "alongL": 0.4, "alongR": -0.4}]
+  [  53.3s] smith 第 4 次：手 L [-14.598, 1.323, 12.534] R [-15.398, 1.328, 12.534]；道具 [{"name": "gymProp:bar0", "vis": true, "meshes": ["gym_barbell__chrome", "gym_barbell__grip", "gym_barbell__red", "gym_barbell__rubber"], "pos": [-14.998, 1.357, 12.538], "dL": 0.402, "dR": 0.401, "dMid": 0.032, "perpL": 0.032, "perpR": 0.031, "alongL": 0.4, "alongR": -0.4}]
+  [  53.3s] smith 第 5 次：手 L [-14.597, 1.374, 12.537] R [-15.397, 1.381, 12.537]；道具 [{"name": "gymProp:bar0", "vis": true, "meshes": ["gym_barbell__chrome", "gym_barbell__grip", "gym_barbell__red", "gym_barbell__rubber"], "pos": [-14.997, 1.409, 12.539], "dL": 0.402, "dR": 0.401, "dMid": 0.032, "perpL": 0.032, "perpR": 0.031, "alongL": 0.4, "alongR": -0.4}]
+  [  53.3s] smith 第 6 次：手 L [-14.597, 1.332, 12.533] R [-15.397, 1.34, 12.534]；道具 [{"name": "gymProp:bar0", "vis": true, "meshes": ["gym_barbell__chrome", "gym_barbell__grip", "gym_barbell__red", "gym_barbell__rubber"], "pos": [-14.997, 1.368, 12.537], "dL": 0.402, "dR": 0.401, "dMid": 0.032, "perpL": 0.032, "perpR": 0.031, "alongL": 0.4, "alongR": -0.4}]
+  [  53.3s] smith：道具離手（啞鈴＝自己那隻手骨；槓鈴、拉把＝兩手中點）、手到軸線都 ≤ 0.15 m
+PASS [黑畫面] gp_smith_smith_game 不是黑畫面（平均亮度 58.3、變化 55.7）  [58.3, 55.7]
+  [  54.2s] smith 遊戲鏡頭：{"cam": [-11.74, 2.99, 11.79], "yaw": 8.083, "dist": 3.6, "mode": "follow"}
+  [  54.3s] smith 另一台相機 sideL：[-13.3, 1.34, 12.53] → 兩手中點 [-14.997, 1.336, 12.534]（fov 50）
+  [  54.3s] smith 另一台相機 sideR：[-16.7, 1.34, 12.53] → 兩手中點 [-14.997, 1.336, 12.534]（fov 50）
+  [  54.4s] smith 另一台相機 front：[-15.0, 1.34, 14.23] → 兩手中點 [-14.997, 1.336, 12.534]（fov 50）
+PASS smith：旁白點掉以後站回 stand、pose idle、手上的道具藏起來  {"u": {"using": null, "pose": "idle", "x": -15, "z": 12.55, "y": 0, "yaw": 0, "dlg": false}, "vis": []}
+PASS 沒有 JS 例外  []
+ALL PASS

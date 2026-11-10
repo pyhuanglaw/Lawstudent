@@ -1,0 +1,67 @@
+[
+ {
+  "act": "smith",
+  "hour": 10.0,
+  "use": {
+   "using": "smith_1",
+   "pose": "gym_squat",
+   "x": -15,
+   "z": 12.55,
+   "y": 0,
+   "yaw": 0,
+   "dlg": true
+  },
+  "props": {
+   "pose": "gym_squat",
+   "gymPose": "gym_squat",
+   "isFar": false,
+   "loaded": true,
+   "failed": 0,
+   "lh": [
+    -14.597,
+    1.332,
+    12.533
+   ],
+   "rh": [
+    -15.397,
+    1.34,
+    12.534
+   ],
+   "mid": [
+    -14.997,
+    1.336,
+    12.534
+   ],
+   "props": [
+    {
+     "name": "gymProp:bar0",
+     "vis": true,
+     "meshes": [
+      "gym_barbell__chrome",
+      "gym_barbell__grip",
+      "gym_barbell__red",
+      "gym_barbell__rubber"
+     ],
+     "pos": [
+      -14.997,
+      1.368,
+      12.537
+     ],
+     "axis": [
+      1,
+      -0.009,
+      -0.001
+     ],
+     "dL": 0.402,
+     "dR": 0.401,
+     "dMid": 0.032,
+     "perpL": 0.032,
+     "perpR": 0.031,
+     "alongL": 0.4,
+     "alongR": -0.4
+    }
+   ]
+  },
+  "info": []
+ }
+]

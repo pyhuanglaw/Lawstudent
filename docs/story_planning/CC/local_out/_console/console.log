@@ -1133,3 +1133,11 @@
 [19:54:59] [res] cpu=3% mem=35% (11.0/31.4 GB) chrome_testing=0  START GYMPROPS_old
 [19:58:06] 正在跑：GYMPROPS_old（已跑 3 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:58:42] [res] cpu=0% mem=36% (11.5/31.4 GB) chrome_testing=0  END GYMPROPS_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       622747371..72cca7d13  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:58:50] ==== END   GYMPROPS_old  exit=0  226s   ====
+[19:58:53] memory 34% before starting GYMPROPS_smith_new (0 running)
+[19:58:53] ==== START GYMPROPS_smith_new  (probe @ f3b47894b3b10643fb91fd30be70bc28cad68035) ====
+[19:58:56] [res] cpu=3% mem=34% (10.8/31.4 GB) chrome_testing=0  START GYMPROPS_smith_new
+[20:00:23] [res] cpu=8% mem=35% (11.3/31.4 GB) chrome_testing=0  END GYMPROPS_smith_new
