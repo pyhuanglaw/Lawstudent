@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "L98E_b1court",
+  "sha": "98e81fe06bd856d6ec953948c5c4c6a64cb08e74",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/lawww_b1court_shot_probe.py",
+  "env": "X=1",
+  "machine": "MSI",
+  "start": "2026-11-10T11:57:00",
+  "end": "2026-11-10T12:00:28",
+  "seconds": 208,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 94,
+    "mem": 57,
+    "used_gb": 18.0,
+    "chrome_testing": 12
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

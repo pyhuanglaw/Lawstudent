@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\lawww_b1court_shot_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L98E_b1court\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：9/26 14.5 校園 {'x': 88, 'z': -40} yaw 1.5708
+PASS day top_mouth：站的高度 0  0
+  [前置／捷徑] 讀檔：9/26 14.5 校園 {'x': 98, 'z': -33} yaw 3.1416
+PASS day bottom_north：站的高度 -4.2  -4.2
+  [前置／捷徑] 讀檔：9/26 14.5 校園 {'x': 98, 'z': -37} yaw 0.0
+PASS day bottom_south：站的高度 -4.2  -4.2
+  [前置／捷徑] 讀檔：9/26 20.0 校園 {'x': 88, 'z': -40} yaw 1.5708
+PASS night top_mouth：站的高度 0  0
+  [前置／捷徑] 讀檔：9/26 20.0 校園 {'x': 98, 'z': -33} yaw 3.1416
+PASS night bottom_north：站的高度 -4.2  -4.2
+  [前置／捷徑] 讀檔：9/26 20.0 校園 {'x': 98, 'z': -37} yaw 0.0
+PASS night bottom_south：站的高度 -4.2  -4.2
+PASS 門前有「進 B1（24 小時自習室）」  進 B1（24 小時自習室）
+PASS 按了走進 B1（library_b1）
+PASS 沒有 JS 錯誤  []
+ALL PASS
