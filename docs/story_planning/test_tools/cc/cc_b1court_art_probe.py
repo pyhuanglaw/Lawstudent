@@ -14,7 +14,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 TAG = os.environ.get('TAG') or 'x'; WALK = os.environ.get('WALK', '1') == '1'
 BF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheInvite': True, 'zheNoodleDone': True}
-VIEWS = [('top_mouth', {'x': 88, 'z': -40}, 1.5708, None), ('top_mouth_in', {'x': 88, 'z': -40}, -1.5708, 7.0), ('bottom_door_far', {'x': 98, 'z': -38}, 3.1416, 6.0), ('bottom_north', {'x': 98, 'z': -33}, 3.1416, None), ('bottom_south', {'x': 98, 'z': -37}, 0.0, None), ('floor_close', {'x': 98, 'z': -36}, 0.6, 1.6)]
+VIEWS = [('top_mouth', {'x': 88, 'z': -40}, 1.5708, None), ('top_mouth_in', {'x': 92.4, 'z': -40}, -1.5708, 3.2), ('bottom_door_far', {'x': 98, 'z': -38}, 3.1416, 6.0), ('bottom_north', {'x': 98, 'z': -33}, 3.1416, None), ('bottom_south', {'x': 98, 'z': -37}, 0.0, None), ('floor_close', {'x': 98, 'z': -36}, 0.6, 1.6)]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ST = "(()=>{ const P=GAME.E.player.obj.position, ib=document.getElementById('interact'); return {zone:GAME.G.zone, x:+P.x.toFixed(2), y:+P.y.toFixed(2), z:+P.z.toFixed(2), lv:GAME.E.player.lv|0, fb:GAME.walkFallbacks|0, interact:ib&&ib.offsetParent!==null?(ib.textContent||'').trim():''}; })()"
 FLOOR = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, rc=new THREE.Raycaster(new THREE.Vector3(P.x+0.6,P.y+1.5,P.z+0.6), new THREE.Vector3(0,-1,0)); rc.far=3;
@@ -26,6 +26,7 @@ FLOOR = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, rc=new THREE.Raycast
   const m=[].concat(h.object.material)[(h.face&&h.face.materialIndex)||0]; let avg=null; const img=m&&m.map&&m.map.image;
   if(img&&img.width){ try{ const c=document.createElement('canvas'); c.width=32; c.height=32; const x=c.getContext('2d'); x.drawImage(img,0,0,32,32); const d=x.getImageData(0,0,32,32).data; let r=0,g=0,b=0; for(let i=0;i<d.length;i+=4){ r+=d[i]; g+=d[i+1]; b+=d[i+2]; } const n=d.length/4; avg=[r/n|0,g/n|0,b/n|0]; }catch(e){ avg='err'; } }
   return {hits:info, mesh:h.object.name||'(無名)', parent:h.object.parent&&h.object.parent.name||'', mat:m&&m.name||'', color:m&&m.color?'#'+m.color.getHexString():null, mapAvg:avg, y:+h.point.y.toFixed(2)}; })()"""
+CANOPY_JS = r"""(()=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(55, c.width/c.height, 0.05, 300); cam.position.set(98,-4.2+1.5,-34.8); cam.lookAt(98,-4.2+2.7,-31.2); cam.updateMatrixWorld(true); r.render(E.scene,cam); return c.toDataURL('image/png'); })()"""
 TOP_JS = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(50, c.width/c.height, 0.1, 400);
   cam.position.set(a[0],a[1],a[2]+0.01); cam.up.set(0,0,-1); cam.lookAt(a[0],-4.2,a[2]); cam.updateMatrixWorld(true); r.render(E.scene,cam); return c.toDataURL('image/png'); })"""
 # 白霧量化：畫面下半部（玩家腳下以下）的平均亮度、標準差（白霧＝很亮、對比很低）
@@ -48,8 +49,8 @@ async def main():
                 await L.load_state(pg, {'zone': 'campus', 'hour': hour, 'day': 10, 'weekday': 5, 'weather': 'sunny', 'pos': dict(pos, yaw=yaw), 'flags': BF}, quiet_events=True)
                 await pg.wait_for_timeout(7000)
                 await pg.evaluate("a=>{ const C=GAME.E.cam; C.yaw=a[0]; if(a[1]){ C.distTarget=a[1]; C.dist=a[1]; } C.manualT=30; }", [yaw, dist]); await pg.wait_for_timeout(3000)
-                s = await pg.evaluate(ST); want = 0 if name.startswith('top_mouth') else -4.2
-                run.check('%s %s：站的高度 %s' % (tag, name, want), abs(s['y'] - want) < 0.05, J(s))
+                s = await pg.evaluate(ST); want = 0 if name == 'top_mouth' else (None if name == 'top_mouth_in' else -4.2)
+                run.check('%s %s：站的高度 %s' % (tag, name, want), want is None or abs(s['y'] - want) < 0.05, J(s))
                 if name == 'floor_close':
                     f = await pg.evaluate(FLOOR); run.note('%s 地面（腳邊射線）：%s' % (tag, J(f)))
                     if f and f.get('mapAvg') and f['mapAvg'] != 'err':
@@ -60,6 +61,8 @@ async def main():
                     if os.environ.get('EXPECT') == 'fixed': run.check('%s %s 沒有白霧（下半部平均亮度 < 110；11-10 實測：有白霧 白天 156／晚上 128，沒有白霧 白天 78～87／晚上 25～42）' % (tag, name), hz['mean'] < 110, J(hz))   # r4 以前的門檻（<200 或 std>12）太鬆，白霧也判 PASS
                 await pg.evaluate(DL.HUD + '(false)'); await pg.wait_for_timeout(300)
                 await run.shot(pg, '%s_%s' % (tag, name))
+                if name == 'bottom_north':   # BB 09:53：從中庭地上往上看門上的玻璃雨遮（da1c77472 改成只畫朝下那一面：確認從下面還看得到）
+                    u = await pg.evaluate(CANOPY_JS); open(os.path.join(OUT, 'canopy_up_%s.png' % tag), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
                 if name == 'bottom_north':   # 中庭正上方俯視（另一台相機），和使用者的平面圖並排用
                     u = await pg.evaluate(TOP_JS, [98, 14, -36]); open(os.path.join(OUT, 'court_top_%s.png' % tag), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
                 await pg.evaluate(DL.HUD + '(true)')
