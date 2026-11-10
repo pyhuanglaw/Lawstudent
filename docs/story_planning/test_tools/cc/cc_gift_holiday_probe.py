@@ -6,6 +6,7 @@
   - 同一個節日最多送兩個人（生日不限）：第三個人的「送她禮物…」灰掉，按下去演 third 旁白。
   - 她送祐廷（AA_734）：聖誕第 4 階起（B）、2/14 七夕第 6 階或交往中；當面那天給（你沒送也給）。交往中、她那天不在臺北＝宿舍信箱的包裹（進 dorm 開頭的區域就演，S.tick→mailPlay）。
 CASES（預設全跑）：xmas,valentine,qixi,birthday,normal,third,hergift,mailbox
+第二輪（CC 13:1x，AA_732 d1bf75f6f＋5acf44bbc，LAWWW 8d8b475dc）：libbday（期末考前法圖小聲送禮）、counter_event／counter_order（芷若吧檯：店員事件演完／點餐選單）、sisbday_tea／sisbday_happy（學姊生日遞茶葉當天不再出送禮／選生日快樂照樣能送）——要寫 CASES 才跑
   xmas／valentine／qixi／birthday：用遊戲自己的作息（STORY.whereIs、HCIRCLE.on，暫時改 G.day／hour 掃完還原＝只讀）找「她當天在場、身邊沒有她圈子的人」的時段；
      讀檔到那裡（【前置／捷徑】）→ 站到她 7 m 外（【前置】）→ 走到她旁邊按「和她說話」→ 點對話 → 選單有「送她禮物…」（沒灰）→ 按 → 選包包裡的那一樣 → 讀反應。
      記 SOCIAL.adjust 實際收到的值（love＝{trust:3,npcRom:2}；ok＝{trust:2}）。聖誕、生日送 love，2/14、七夕送 ok。
@@ -42,6 +43,7 @@ STRICT_B = (os.environ.get('THIRD_BYSTANDER') or '').lower() == 'strict'
 J = lambda o: json.dumps(o, ensure_ascii=False)
 FAILS = []
 ALL = ['xmas', 'valentine', 'qixi', 'birthday', 'normal', 'third', 'hergift', 'mailbox']
+ALL2 = ['libbday', 'counter_event', 'counter_order', 'sisbday_tea', 'sisbday_happy']   # 第二輪（只跑新版：CASES=libbday,counter_event,…）
 CASES = [c.strip() for c in (os.environ.get('CASES') or ','.join(ALL)).split(',') if c.strip()]
 PEOPLE = ['heroine_01', 'heroine_05', 'heroine_03', 'heroine_02', 'classmate_peishan', 'heroine_04', 'classmate_xinci', 'kexin']
 GIVE = '送她禮物…'
@@ -173,8 +175,11 @@ async def candidates(pg, kind, mode, S, pids=None, bday=False):
     return r
 
 
-def mk_save(S, d, hour, zone, bag=None, flags=None, pos=None):
+def mk_save(S, d, hour, zone, bag=None, flags=None, pos=None, ev_done=None):
     s = copy.deepcopy(S); s.pop('_stuck', None); s.pop('_busy', None)
+    if ev_done:   # 第二輪：【前置／捷徑】這些事件今天已經演過（events.done +1、events.last＝今天）
+        ev = s.setdefault('events', {}); dn = ev.setdefault('done', {}); ls = ev.setdefault('last', {})
+        for e in ev_done: dn[e] = (dn.get(e) or 0) + 1; ls[e] = d['d']
     s.update(day=d['d'], weekday=d['wd'], hour=hour, zone=zone, pos=pos)
     s['invites'] = [v for v in s.get('invites', []) if v.get('state') not in ('going', 'accepted')]
     f = s.setdefault('flags', {})
@@ -183,13 +188,13 @@ def mk_save(S, d, hour, zone, bag=None, flags=None, pos=None):
     return s
 
 
-async def load_at(pg, cdp, run, S, rec, bag, why, flags=None, extra_gifth=None):
+async def load_at(pg, cdp, run, S, rec, bag, why, flags=None, extra_gifth=None, ev_done=None):
     d = await P.day_of(pg, rec['k'])
-    s = mk_save(S, d, rec['h'], rec['zone'], bag, flags)
+    s = mk_save(S, d, rec['h'], rec['zone'], bag, flags, ev_done=ev_done)
     if extra_gifth: s['flags'].setdefault('GIFTH', {}).update(extra_gifth)
     await P.load(pg, cdp, s, quiet=True); await hooks(pg)
     run.setup('讀 day54 存檔（GAME.applySave、quiet_events）→ %s（星期 %s）%.2f %s；%s；包包 G.flags.GIFTH.bag＝%s%s%s' % (
-        d['key'], d['wd'], rec['h'], rec['zone'], why, J([b and b['name'] for b in (bag or [])]), ('；flags ' + J(flags)) if flags else '', ('；GIFTH ' + J(extra_gifth)) if extra_gifth else ''))
+        d['key'], d['wd'], rec['h'], rec['zone'], why, J([b and b['name'] for b in (bag or [])]), ('；flags ' + J(flags)) if flags else '', ('；GIFTH ' + J(extra_gifth)) if extra_gifth else '') + (('；【前置／捷徑】今天已經演過 ' + J(ev_done)) if ev_done else ''))
     return d
 
 
@@ -602,6 +607,141 @@ async def mailbox_case(pg, cdp, run, S, errs):
     check('[mailbox] 沒有 JS 例外', not errs, J(errs[:3]))
 
 
+
+# ---------------- 第二輪（AA_732 d1bf75f6f＋5acf44bbc；LAWWW 13:02 ④、BB 12:40）----------------
+LIB_Z = ('lawlib', 'library', 'library_hall', 'soclib')
+CNARR = '（她把東西收到吧檯下面。）'
+QUIET = '（小聲）'
+
+
+async def hername(pg, pid):
+    return await pg.evaluate("(id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id)", pid)
+
+
+def give_pol(state, give, run, pg, name):
+    async def pol(o, i):
+        k = find(o, GIVE)
+        if k is not None and not state.get('gave_menu'):
+            state['gave_menu'] = True; state['give_opt'] = o[k]; state['menu_all'] = [x['t'] for x in o]; await run.shot(pg, '%s_menu' % name); return k
+        if state.get('gave_menu') and state.get('item_menu') is None and give and find(o, give['name']) is not None:
+            state['item_menu'] = o; return find(o, give['name'])
+        return decline(o)
+    return pol
+
+
+async def libbday_case(pg, cdp, run, S, errs):
+    """② 期末考前在法圖（讀書區小聲那一套，examlib3d.js → GIFTH.libTalk）遇到生日的學姊：有「送她禮物…」、送了以後她的第一句前面是「（小聲）」"""
+    name = 'libbday'; pid = 'heroine_05'; print('== %s（法圖期末考前、學姊生日）' % name, flush=True)
+    c = await candidates(pg, 'bday', 'alone', S, pids=[pid], bday=True)
+    cand = [x for x in c['out'] if x['zone'] in LIB_Z]
+    info('[%s] 她生日那天在圖書館的時段' % name, J([(x['k'], x['h'], x['zone'], x['act']) for x in cand[:10]]))
+    if not check('[%s] 前置：找到她生日那天在圖書館讀書區的時段' % name, bool(cand), J([(x['k'], x['h'], x['zone'], x['act']) for x in c['out'][:10]])): return
+    tried = 0
+    for rec in cand:
+        tried += 1
+        if tried > 3: break
+        it = await pg.evaluate(ITEMS_JS, pid); bag = [it['love'], it['ok']] if it else []; give = (it or {}).get('love')
+        y = rec['k'][:4]; ev = 'ev_sis_bday_y1' if y == '2026' else 'ev_sis_bday_y2'; fl = 'SIS_BDAY_Y1' if y == '2026' else 'SIS_BDAY_Y2'
+        await load_at(pg, cdp, run, S, rec, bag, '學姊生日 %s 那時候照作息在 %s（%s）；生日原本的事件已經演過、選「生日快樂」（%s＝there：不算送過，照樣能送；只測法圖小聲送禮）' % (rec['k'], rec['zone'], rec['act'], fl),
+                      flags={fl: 'there'}, ev_done=[ev, 'ev_sis_bday_date_y1' if y == '2026' else 'ev_sis_bday_date_y2'])
+        exl = await pg.evaluate("(()=>{ const E=typeof EXLIB!=='undefined'?EXLIB:null; if(!E) return null; const o={}; for(const k of Object.keys(E)) if(typeof E[k]!=='function') o[k]=E[k]; let on=null; try{ on=E.on?E.on(GAME.G):(E.active?E.active(GAME.G):null); }catch(e){} return {on, keys:Object.keys(E).slice(0,20)}; })()")
+        info('[%s] EXLIB（期末考前圖書館那一套）' % name, J(exl))
+        w = await approach(pg, run, pid, name)
+        if not w: continue
+        g0 = await gstate(pg, pid); hn = await hername(pg, pid); state = {}
+        r = await talk_menus(pg, cdp, run, pid, '[%s] 和學姊說話（法圖）' % name, give_pol(state, give, run, pg, name))
+        if not r['started']: info('[%s] 沒說到話，換下一個時段' % name); continue
+        g1 = await gstate(pg, pid); await run.shot(pg, '%s_after' % name)
+        allm = [[x['t'] for x in m] for m in r['menus']]
+        info('[%s] 選單' % name, J(allm))
+        lib_style = any(m and all(x['t'] in (GIVE, '就這樣') or x['t'].startswith(GIVE) for x in m) for m in r['menus'])
+        info('[%s] 走的是小聲那一套（選單只有「送她禮物…／就這樣」，沒有「約她去…」）＝%s' % (name, lib_style))
+        gopt = state.get('give_opt')
+        check('[%s] %s %s 法圖：選單有「%s」、沒有灰掉' % (name, g0['key'], g0['zone'], GIVE), bool(gopt) and not gopt['dim'], J(allm))
+        key = '%s|bday|%s' % (pid, y)
+        check('[%s] 送出去：GIFTH.sent[%s]＝%s、包包少一樣' % (name, key, give and give['id']), bool(give) and (g1['sent'] or {}).get(key) == (give and give['id']) and len(g1['bag'] or []) == len(g0['bag'] or []) - 1, J({'sent': g1['sent'], 'bag': g1['bag']}))
+        said = r['said']; hi = next((i for i, x in enumerate(said) if x[1].startswith('你把')), None)
+        first = next((x[1] for x in said[hi + 1:] if x[0] == hn), None) if hi is not None else None
+        info('[%s] 遞出去以後她的第一句' % name, J(first))
+        check('[%s] 遞出去以後她的第一句前面是「%s」' % (name, QUIET), bool(first) and first.startswith(QUIET), J(said[(hi or 0):(hi or 0) + 6]))
+        check('[%s] 沒有 JS 例外' % name, not errs, J(errs[:3])); return
+    check('[%s] 三個時段都沒說到話' % name, False, '')
+
+
+async def counter_case(pg, cdp, run, S, errs, path):
+    """③ 節日當天芷若在吧檯上班：path=event＝今天第一次說話（「兩點半的店員」演完接「送她禮物…」）；path=order＝今天的店員事件已經演過（直接點餐選單裡有「送她禮物…」）。送了以後旁白「（她把東西收到吧檯下面。）」"""
+    name = 'counter_' + path; pid = 'heroine_02'; print('== %s（芷若在吧檯，%s）' % (name, '店員事件演完' if path == 'event' else '點餐選單'), flush=True)
+    cand = []
+    for kind in ('xmas', 'vday', 'qixi'):
+        c = await candidates(pg, kind, 'alone', S, pids=[pid])
+        cand += [dict(x, kind=kind) for x in c['out'] if x['zone'] == 'cafe']
+    info('[%s] 節日她在 Café 的時段' % name, J([(x['k'], x['h'], x['act']) for x in cand[:10]]))
+    if not check('[%s] 前置：找到節日她在 Café 的時段' % name, bool(cand), ''): return
+    tried = 0
+    for rec in cand:
+        tried += 1
+        if tried > 4: break
+        it = await pg.evaluate(ITEMS_JS, pid); bag = [it['love'], it['ok']] if it else []; give = (it or {}).get('love')
+        await load_at(pg, cdp, run, S, rec, bag, '%s 芷若照作息在 Café（%s）' % (rec['k'], rec['act']), ev_done=(['ev_cafe_barista_zhiruo'] if path == 'order' else None))
+        w = await P.wait_present(pg, pid, 75)
+        staff = await pg.evaluate("id=>{ const n=__BBF.npc(id); return n?(n.staff||null):null; }", pid)
+        if not w or w['hidden'] or staff != 'cafe': info('[%s] 她不在吧檯（staff=%s）' % (name, staff), J(w)); continue
+        if w['dMe'] > 9: await P.place_near(pg, run, w['x'], w['z'], 7.0, w['lv'], what=pid)
+        g0 = await gstate(pg, pid); state = {}
+        r = await talk_menus(pg, cdp, run, pid, '[%s] 和吧檯的芷若說話' % name, give_pol(state, give, run, pg, name))
+        if not r['started']: info('[%s] 沒說到話，換下一個時段' % name); continue
+        g1 = await gstate(pg, pid); await run.shot(pg, '%s_after' % name)
+        allm = [[x['t'] for x in m] for m in r['menus']]; said = r['said']
+        info('[%s] 選單' % name, J(allm))
+        gopt = state.get('give_opt'); menu_all = state.get('menu_all') or []
+        if path == 'order': info('[%s] 有「送她禮物…」的那個選單是點餐選單（有飲料、價錢）＝%s' % (name, any('元' in t for t in menu_all)), J(menu_all))
+        else: info('[%s] 有「送她禮物…」的那個選單＝店員事件演完以後問的（%s）' % (name, J(menu_all)))
+        check('[%s] %s 吧檯的芷若：選單有「%s」、沒有灰掉' % (name, g0['key'], GIVE), bool(gopt) and not gopt['dim'], J(allm))
+        kk = rec['kind'] if rec['kind'] != 'vday' else 'vday'; key = '%s|%s|%s' % (pid, kk, rec['k'][:4])
+        sent = (g1['sent'] or {}).get(key)
+        check('[%s] 送得出去：GIFTH.sent[%s]＝%s、包包少一樣' % (name, key, give and give['id']), bool(give) and sent == give['id'] and len(g1['bag'] or []) == len(g0['bag'] or []) - 1, J({'sent': g1['sent'], 'bag': g1['bag']}))
+        check('[%s] 送完旁白「%s」' % (name, CNARR), any(x[1] == CNARR for x in said), J(said[-8:]))
+        check('[%s] 沒有 JS 例外' % name, not errs, J(errs[:3])); return
+    check('[%s] 四個時段都沒在吧檯說到話' % name, False, '')
+
+
+async def sisbday_case(pg, cdp, run, S, errs, pick):
+    """④ 學姊生日（2026-06-02 Café 19:00～22:00）原本的事件：pick=tea＝遞茶葉 → 當天不再出「送她禮物…」；pick=happy＝「生日快樂」（沒給東西）→ 當天照樣能送（AA_732 5acf44bbc）"""
+    name = 'sisbday_' + pick; pid = 'heroine_05'; print('== %s（學姊生日原本的事件，選%s）' % (name, '遞茶葉' if pick == 'tea' else '生日快樂'), flush=True)
+    c = await candidates(pg, 'bday', 'alone', S, pids=[pid], bday=True)
+    cand = [x for x in c['out'] if x['k'] == '2026-06-02' and x['zone'] == 'cafe' and x['h'] >= 19]
+    if not check('[%s] 前置：2026-06-02 19 點以後她在 Café' % name, bool(cand), J([(x['k'], x['h'], x['zone']) for x in c['out'][:10]])): return
+    want = '（遞給她一包茶葉）' if pick == 'tea' else '「生日快樂。」'
+    for rec in cand[:3]:
+        it = await pg.evaluate(ITEMS_JS, pid); bag = [it['love'], it['ok']] if it else []
+        await load_at(pg, cdp, run, S, rec, bag, '學姊生日 2026-06-02 %.2f 她在 Café（%s）' % (rec['h'], rec['act']))
+        w = await approach(pg, run, pid, name)
+        if not w: continue
+        st = {'picked': None, 'give_after': []}
+
+        async def pol(o, i):
+            k = find(o, want)
+            if k is not None and st['picked'] is None: st['picked'] = o[k]['t']; await run.shot(pg, '%s_event' % name); return k
+            if find(o, GIVE) is not None: st['give_after'].append({'menu': [x['t'] for x in o], 'after_pick': st['picked'] is not None})
+            return decline(o)
+        r1 = await talk_menus(pg, cdp, run, pid, '[%s] 第一次說話（生日事件）' % name, pol)
+        if st['picked'] is None: info('[%s] 這次說話沒出生日事件的選單，換時段' % name, J([[x['t'] for x in m] for m in r1['menus']])); continue
+        flag = await pg.evaluate("(()=>GAME.G.flags.SIS_BDAY_Y1||null)()")
+        check('[%s] 生日事件演了，選「%s」，SIS_BDAY_Y1＝%s' % (name, want, flag), flag == ('tea' if pick == 'tea' else 'there'), J(flag))
+        await pg.wait_for_timeout(1500)
+        r2 = await talk_menus(pg, cdp, run, pid, '[%s] 同一天再說一次話' % name, pol)
+        allm = [[x['t'] for x in m] for m in r1['menus'] + r2['menus']]
+        info('[%s] 兩次說話的選單' % name, J(allm))
+        after = [x for x in st['give_after'] if x['after_pick']]
+        if pick == 'tea':
+            check('[%s] 遞過茶葉以後，同一天說話都沒有「%s」' % (name, GIVE), not after and bool(r2['started']), J({'give_after': after, 'r2_started': r2['started']}))
+            g1 = await gstate(pg, pid)
+            check('[%s] 記成那一年的生日禮物（GIFTH.sent[heroine_05|bday|2026]＝sis_bday_tea）' % name, (g1['sent'] or {}).get('heroine_05|bday|2026') == 'sis_bday_tea', J(g1['sent']))
+        else:
+            check('[%s] 選「生日快樂」（沒給東西），同一天說話照樣有「%s」' % (name, GIVE), bool(after), J({'give_after': st['give_after'], 'menus': allm}))
+        check('[%s] 沒有 JS 例外' % name, not errs, J(errs[:3])); return
+    check('[%s] 三個時段都沒演到生日事件' % name, False, '')
+
 async def main():
     os.makedirs(OUT, exist_ok=True); run = Run()
     S, src = load_fixture()
@@ -615,7 +755,12 @@ async def main():
             ('normal', lambda pg, cdp, e: normal_case(pg, cdp, run, S, e)),
             ('third', lambda pg, cdp, e: third_case(pg, cdp, run, S, e)),
             ('hergift', lambda pg, cdp, e: hergift_case(pg, cdp, run, S, e)),
-            ('mailbox', lambda pg, cdp, e: mailbox_case(pg, cdp, run, S, e))]
+            ('mailbox', lambda pg, cdp, e: mailbox_case(pg, cdp, run, S, e)),
+            ('libbday', lambda pg, cdp, e: libbday_case(pg, cdp, run, S, e)),
+            ('counter_event', lambda pg, cdp, e: counter_case(pg, cdp, run, S, e, 'event')),
+            ('counter_order', lambda pg, cdp, e: counter_case(pg, cdp, run, S, e, 'order')),
+            ('sisbday_tea', lambda pg, cdp, e: sisbday_case(pg, cdp, run, S, e, 'tea')),
+            ('sisbday_happy', lambda pg, cdp, e: sisbday_case(pg, cdp, run, S, e, 'happy'))]
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         try:

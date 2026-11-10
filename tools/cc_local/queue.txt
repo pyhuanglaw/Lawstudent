@@ -147,7 +147,8 @@ X295E_fair_off3 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_
 # （12:4x HOLD：BB 12:39 要加「送完 love 後人物頁有記錄、包包少那一樣」，探針改好再開）
 GIFTHOL_new | 509b54c2d9d7a2f1ab6f227124abeb4d30747db6 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 75 | TAG=new
 GIFTHOL_old | fda54d616e57b40c74ca1b6404dccb6ea927e50c | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 50 | TAG=old
-# GIFTHOL 第二輪（BB 12:40；AA_732 d1bf75f6f）：②法圖小聲也能送 ③芷若點餐選單有送禮且送得出去 ④學姊生日事件演過當天不再有送禮——等 LAWWW 接好給 SHA，探針加三段後只跑新版
+# GIFTHOL 第二輪（BB 12:40；AA_732 d1bf75f6f）：②法圖小聲也能送 ③芷若點餐選單有送禮且送得出去 ④學姊生日事件演過當天不再有送禮——等 LAWWW 接好給 SHA，探針加三段後只跑新版（13:1x：LAWWW 8d8b475dc 接好，探針加五段，只跑新版）
+GIFTHOL2_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 60 | TAG=r2;CASES=libbday,counter_event,counter_order,sisbday_tea,sisbday_happy
 # 同弦夜景（BB 12:04；LAWWW2 dd079901c 加夜間版）：21:00 窗外要是晚上（暗、有燈），不能和白天一樣；改前 be84c8680 先跑（預期 21:00 和白天一樣）；改後等 LAWWW 整合 SHA
 WINVIEW_tx_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tongxian;HOURS=14,21
 WINVIEW_tx_new | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tongxian;HOURS=14,21
