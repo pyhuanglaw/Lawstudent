@@ -1,0 +1,13 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_cpu_trace_probe.py http://127.0.0.1:8800/index.html?perf C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZDAY_ct_moku_1400\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wz_mokuyobi 2025-10-18 14（條件事件、手機關），出生點
+  [  45.1s] INFO {"zone": "wz_mokuyobi", "lv": 0, "npc": 11, "q": "medium", "pr": 1, "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"}
+PASS 在 wz_mokuyobi
+  [  45.1s] 先站 30.0 秒（暖機）
+  [  75.1s] CPU 降速 4 倍（手機模擬）
+  [ 119.1s] 卡頓 >100 ms：92 個 [{"at_ms": 347, "ms": 383, "ts_us": 1794288003989400, "mark": "cc_hitch_347"}, {"at_ms": 547, "ms": 200, "ts_us": 1794288004189300, "mark": "cc_hitch_547"}, {"at_ms": 747, "ms": 200, "ts_us": 1794288004389300, "mark": "cc_hitch_747"}, {"at_ms": 963, "ms": 217, "ts_us": 1794288004606000, "mark": "cc_hitch_963"}, {"at_ms": 1163, "ms": 200, "ts_us": 1794288004806000, "mark": "cc_hitch_1163"}, {"at_ms": 1347, "ms": 183, "ts_us": 1794288004989300, "mark": "cc_hitch_1347"}, {"at_ms": 1563, "ms": 217, "ts_us": 1794288005206000, "mark": "cc_hitch_1563"}, {"at_ms": 1780, "ms": 217, "ts_us": 1794288005422600, "mark": "cc_hitch_1780"}, {"at_ms": 1997, "ms": 217, "ts_us": 1794288005639300, "mark": "cc_hitch_1997"}, {"at_ms": 2197, "ms": 200, "ts_us": 1794288005839300, "mark": "cc_hitch_2197"}, {"at_ms": 2497, "ms": 300, "ts_us": 1794288006139300, "mark": "cc_hitch_2497"}, {"at_ms": 2713, "ms": 217, "ts_us": 1794288006355900, "mark": "cc_hitch_2713"}, {"at_ms": 2947, "ms": 233, "ts_us": 1794288006589300, "mark": "cc_hitch_2947"}, {"at_ms": 3163, "ms": 217, "ts_us": 1794288006806000, "mark": "cc_hitch_3163"}, {"at_ms": 3363, "ms": 200, "ts_us": 1794288007005900, "mark": "cc_hitch_3363"}, {"at_ms": 3597, "ms": 233, "ts_us": 1794288007239300, "mark": "cc_hitch_3597"}, {"at_ms": 3846, "ms": 250, "ts_us": 1794288007489200, "mark": "cc_hitch_3846"}, {"at_ms": 4063, "ms": 217, "ts_us": 1794288007705900, "mark": "cc_hitch_4063"}, {"at_ms": 4263, "ms": 200, "ts_us": 1794288007905900, "mark": "cc_hitch_4263"}, {"at_ms": 4463, "ms": 200, "ts_us": 1794288008105900, "mark": "cc_hitch_4463"}]
+  [ 119.1s] 檔案：cpu.cpuprofile 839 KB、trace.json.gz 1016 KB（事件 40959 個）
+PASS 錄到 trace 事件  40959
+PASS 沒有 JS 例外  []
+ALL PASS

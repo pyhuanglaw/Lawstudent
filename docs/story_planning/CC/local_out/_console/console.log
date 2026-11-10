@@ -1769,3 +1769,12 @@
 [13:14:12] ==== START WZDAY_rp_1930  (probe @ 8be828ca6427c544da0ec942209828066564adba) ====
 [13:14:15] [res] cpu=19% mem=37% (11.8/31.4 GB) chrome_testing=0  START WZDAY_rp_1930
 [13:18:00] [res] cpu=10% mem=36% (11.6/31.4 GB) chrome_testing=0  END WZDAY_rp_1930
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b441046d9..949c28759  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:18:05] ==== END   WZDAY_rp_1930  exit=0  228s   ====
+[13:18:09] memory 34% before starting WZDAY_ct_moku_1400 (0 running)
+[13:18:09] ==== START WZDAY_ct_moku_1400  (probe @ 8be828ca6427c544da0ec942209828066564adba) ====
+[13:18:11] [res] cpu=10% mem=34% (10.9/31.4 GB) chrome_testing=0  START WZDAY_ct_moku_1400
+[13:18:28] 正在跑：WZDAY_ct_moku_1400（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:20:40] [res] cpu=10% mem=38% (12.2/31.4 GB) chrome_testing=0  END WZDAY_ct_moku_1400
