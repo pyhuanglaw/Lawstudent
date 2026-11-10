@@ -77,6 +77,9 @@ X295C_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planni
 # X295 events（迎新派對 9/12、捐血 10/14→10/15、學生會電影夜 11/6、園遊會 11/15；雲端改後四段分次 PASS，fair 選單判斷修正後沒重跑）：新 8c050804c／改前 10df264ed（四個 id 都沒有，預期 FAIL）
 X295E_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 120 | TAG=new
 X295E_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 60 | TAG=old
+# X295E 迎新改週四（AA_737，BB 10:59）：f3b47894b party＝9/11（四）、party_fri＝9/12 家聚照舊、派對不再出現；舊 8c050804c 對照（party_fri 應 FAIL）
+X295E_thu_new | f3b47894b3b10643fb91fd30be70bc28cad68035 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 30 | TAG=thu_new;CASES=party,party_fri
+X295E_thu_old | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 30 | TAG=thu_old;CASES=party,party_fri
 # GG-DOOR-CAMS-1104 ②③（BB 10:23：X295B 後面）：cc_gg_int_probe art 重拍青木、頁間門口（改前 fe4d893ac）；椰影大道樹冠網點（鏡頭距離 1.8 卡進樹冠）；花攤清單打開時的截圖 d8b669175 對 de1f25768（看左半邊網點）
 GGDC_art_new | d8b669175bcf363974b401e1eed3d6709f2b0949 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 20 | CASES=art;CC_HEADLESS=0
 GGDC_art_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 20 | CASES=art;CC_HEADLESS=0
@@ -118,6 +121,8 @@ TEACHVIEW_pn_old | 35b88d5ff2613c039115576877e7f8a7525295a3 | probe | docs/story
 BOYA1F_new | f3b47894b3b10643fb91fd30be70bc28cad68035 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=new;VIEWS=boya1f_gap:campus:-27:-69.5:11:0:2.5:-27:2.3:-74.5:70+boya1f_se:campus:-17:-70:11:1.27:6:-32:2.2:-74.5:50
 BOYA1F_old | 35b88d5ff2613c039115576877e7f8a7525295a3 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=old;VIEWS=boya1f_gap:campus:-27:-69.5:11:0:2.5:-27:2.3:-74.5:70+boya1f_se:campus:-17:-70:11:1.27:6:-32:2.2:-74.5:50
 # FAIR-TENT（BB 10:59：GIFT 前面；子代理寫中，寫好插在這裡）
+FAIRTENT_new | f3b47894b3b10643fb91fd30be70bc28cad68035 | probe | docs/story_planning/test_tools/cc/cc_fair_tent_probe.py | index.html | 40 | TAG=new
+FAIRTENT_old | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_fair_tent_probe.py | index.html | 40 | TAG=old
 # GYM-FIT-PROPS-1103 第一包（BB 10:59：FAIR-TENT 後面；器材交 BB、動作交 LAWWW）：改前 63d8f328c（9e6883d9d^）
 GYMPROPS_new | f3b47894b3b10643fb91fd30be70bc28cad68035 | probe | docs/story_planning/test_tools/cc/cc_gym_props_probe.py | index.html | 25 | SOLO=1;TAG=new
 GYMPROPS_old | 63d8f328c479b688ac7b27054c5b76cb0cb32f79 | probe | docs/story_planning/test_tools/cc/cc_gym_props_probe.py | index.html | 25 | SOLO=1;TAG=old
