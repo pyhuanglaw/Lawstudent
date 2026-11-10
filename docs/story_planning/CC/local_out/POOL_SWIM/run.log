@@ -1,0 +1,54 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_pool_swim_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\POOL_SWIM\out
+CC POOL_SWIM：CASES ENTRY,POSE,TURN,FPS,QUAL,CLOSED；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  28.1s] 挑的日子：{"day4": 42, "closed": 41, "key4": "2025-10-28", "keyC": "2025-10-27", "hours4": [8, 22]}
+PASS 找得到 14:00 開館、原本 4 個人的一天  {"day4": 42, "closed": 41, "key4": "2025-10-28", "keyC": "2025-10-27", "hours4": [8, 22]}
+  [前置／捷徑] 【前置／設定】畫質選單 #setQuality＝medium（結果 E.q.level＝medium）
+  [前置／捷徑] 【前置／捷徑】讀檔到 1F 綜合體育館（gym）入口出生點 (0,17.6)、2025-10-28 14:00
+PASS 1F 有「下樓到 B1」
+  [  64.6s] 到達「走到「下樓到 B1（健身中心・游泳池）」」附近（0.22 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，19 秒
+  [ 125.2s] [ENTRY] 按下去 → 畫面亮 None 秒；→ 第一個泳客 10.67 秒；出現的那一刻：[{"k": "swim|1", "t": 10.67, "turn": 0, "view": false, "entering": false}, {"k": "swim|0", "t": 14.05, "turn": 0.23, "view": true, "entering": false}, {"k": "swim|2", "t": 14.05, "turn": 0.16, "view": true, "entering": false}]
+  [ 125.2s] [ENTRY] 時間軸（前 40 筆）：[{"t": 0.18, "zone": "gym", "ent": true, "lum": 0, "n": 0}, {"t": 0.48, "zone": "gym", "ent": true, "lum": 0, "n": 0}, {"t": 1.8, "zone": "gym_b1", "ent": true, "lum": 0, "n": 0}, {"t": 2.27, "zone": "gym_b1", "ent": true, "lum": 0, "n": 0}, {"t": 5.7, "zone": "gym_b1", "ent": true, "lum": 0, "n": 0}, {"t": 6.02, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 6.32, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 6.64, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 6.96, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 7.27, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 7.59, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 7.9, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 8.2, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 8.53, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 8.84, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 9.15, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 10.34, "zone": "gym_b1", "ent": false, "lum": 0, "n": 0}, {"t": 10.67, "zone": "gym_b1", "ent": false, "lum": 0, "n": 1}, {"t": 10.99, "zone": "gym_b1", "ent": false, "lum": 0, "n": 1}, {"t": 11.31, "zone": "gym_b1", "ent": false, "lum": 0, "n": 1}, {"t": 11.64, "zone": "gym_b1", "ent": false, "lum": 0, "n": 1}, {"t": 11.97, "zone": "gym_b1", "ent": false, "lum": 0, "n": 1}, {"t": 12.3, "zone": "gym_b1", "ent": false, "lum": 0, "n": 1}, {"t": 12.61, "zone": "gym_b1", "ent": false, "lum": 0, "n": 1}, {"t": 12.93, "zone": "gym_b1", "ent": false, "lum": 0, "n": 1}, {"t": 13.24, "zone": "gym_b1", "ent": false, "lum": 0, "n": 1}, {"t": 13.56, "zone": "gym_b1", "ent": false, "lum": 0, "n": 1}, {"t": 14.05, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 14.39, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 14.72, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 15.06, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 15.37, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 15.69, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 16.01, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 16.33, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 16.67, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 16.99, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 17.33, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 17.66, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 17.99, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}]
+FAIL [ENTRY] 進得去 B1、畫面亮起來（None 秒）  [{"t": 59.12, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 59.45, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}, {"t": 59.76, "zone": "gym_b1", "ent": false, "lum": 0, "n": 3}]
+PASS [ENTRY] 泳客出現的時候：黑幕裡、池邊轉身、或不在畫面裡（不能在畫面中間突然冒出來）  []
+  [ 142.2s] 到達「走到泳池門口」附近（0.24 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，17 秒
+  [ 144.9s] 到達「走進泳池」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 152.2s] 到達「站到池邊 (0,−2.6)」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+  [ 155.3s] [ENTRY] 池邊：{"zone": "gym_b1", "x": -0.22, "z": -2.53, "fb": 0}；泳客 {"zone": "gym_b1", "entering": false, "h": 14.736, "q": "medium", "plan": 3, "n": 3, "sw": [{"k": "swim|1", "model": "char.swim_sf2", "pose": "swim_free", "lane": 4, "x": 7.95, "z": -9.75, "turn": 0, "view": true, "vis": true, "hips": -0.238, "head": -0.225, "lo": -0.379, "hi": -0.104}, {"k": "swim|0", "model": "char.swim_sm2", "pose": "swim_free", "lane": 0, "x": 1.86, "z": -19.75, "turn": 0, "view": false, "vis": false, "hips": -0.24, "head": -0.235, "lo": -0.506, "hi": -0.004}, {"k": "swim|2", "model": "char.swim_sf1", "pose": "swim_breast", "lane": 6, "x": -6.8, "z": -4.75, "turn": 0, "view": false, "vis": false, "hips": -0.236, "head": -0.035, "lo": -0.496, "hi": -0.004}]}
+PASS [ENTRY] 中畫質泳客數＝那一天的人數（3）且 ≤ 3  {"n": 3, "plan": 3}
+PASS [ENTRY] 走到池邊沒有被放到目的地（walkFallbacks 0）  {"zone": "gym_b1", "x": -0.22, "z": -2.53, "fb": 0}
+  [ 162.5s] [POSE] swim|1 高度（世界 y，6 秒）：{"model": "char.swim_sf2", "pose": "swim_free", "hips": [-0.238, -0.238], "head": [-0.228, -0.223], "hi": 0.117, "lo": -0.527, "water": -0.14}
+PASS [POSE] swim|1（swim_free）臀部在水面下 0～0.6 m（-0.24～-0.24，水面 -0.14）  {"model": "char.swim_sf2", "pose": "swim_free", "hips": [-0.238, -0.238], "head": [-0.228, -0.223], "hi": 0.117, "lo": -0.527, "water": -0.14}
+PASS [POSE] swim|1 沒有整個沉下去（頭最高 -0.22 ≥ 水面 −0.4）  {"model": "char.swim_sf2", "pose": "swim_free", "hips": [-0.238, -0.238], "head": [-0.228, -0.223], "hi": 0.117, "lo": -0.527, "water": -0.14}
+PASS [POSE] swim|1 沒有浮在水面上（最高骨頭 0.12 ≤ 水面 +0.45）  {"model": "char.swim_sf2", "pose": "swim_free", "hips": [-0.238, -0.238], "head": [-0.228, -0.223], "hi": 0.117, "lo": -0.527, "water": -0.14}
+  [ 162.5s] [POSE] swim|0 高度（世界 y，6 秒）：{"model": "char.swim_sm2", "pose": "swim_free", "hips": [-0.24, -0.24], "head": [-0.237, -0.231], "hi": 0.134, "lo": -0.556, "water": -0.14}
+PASS [POSE] swim|0（swim_free）臀部在水面下 0～0.6 m（-0.24～-0.24，水面 -0.14）  {"model": "char.swim_sm2", "pose": "swim_free", "hips": [-0.24, -0.24], "head": [-0.237, -0.231], "hi": 0.134, "lo": -0.556, "water": -0.14}
+PASS [POSE] swim|0 沒有整個沉下去（頭最高 -0.23 ≥ 水面 −0.4）  {"model": "char.swim_sm2", "pose": "swim_free", "hips": [-0.24, -0.24], "head": [-0.237, -0.231], "hi": 0.134, "lo": -0.556, "water": -0.14}
+PASS [POSE] swim|0 沒有浮在水面上（最高骨頭 0.13 ≤ 水面 +0.45）  {"model": "char.swim_sm2", "pose": "swim_free", "hips": [-0.24, -0.24], "head": [-0.237, -0.231], "hi": 0.134, "lo": -0.556, "water": -0.14}
+  [ 162.5s] [POSE] swim|2 高度（世界 y，6 秒）：{"model": "char.swim_sf1", "pose": "swim_breast", "hips": [-0.236, -0.236], "head": [-0.222, -0.035], "hi": -0.001, "lo": -0.506, "water": -0.14}
+PASS [POSE] swim|2（swim_breast）臀部在水面下 0～0.6 m（-0.24～-0.24，水面 -0.14）  {"model": "char.swim_sf1", "pose": "swim_breast", "hips": [-0.236, -0.236], "head": [-0.222, -0.035], "hi": -0.001, "lo": -0.506, "water": -0.14}
+PASS [POSE] swim|2 沒有整個沉下去（頭最高 -0.04 ≥ 水面 −0.4）  {"model": "char.swim_sf1", "pose": "swim_breast", "hips": [-0.236, -0.236], "head": [-0.222, -0.035], "hi": -0.001, "lo": -0.506, "water": -0.14}
+PASS [POSE] swim|2 沒有浮在水面上（最高骨頭 -0.00 ≤ 水面 +0.45）  {"model": "char.swim_sf1", "pose": "swim_breast", "hips": [-0.236, -0.236], "head": [-0.222, -0.035], "hi": -0.001, "lo": -0.506, "water": -0.14}
+  [ 166.3s] [POSE] swim_free 連拍 8 張：pool_swim_free_0～7.jpg（側後方 2.4 m）
+  [ 170.1s] [POSE] swim_breast 連拍 8 張：pool_swim_breast_0～7.jpg（側後方 2.4 m）
+  [ 170.2s] [POSE] 近看 pool_near.jpg（swim|1，1.6 m）、遠看 pool_far.jpg（池邊西北角斜看整個池子）
+  [ 200.3s] [TURN] 30 秒出現／消失：[]
+PASS [TURN] 30 秒內沒有人在畫面裡、不在池邊轉身的時候突然出現或消失  []
+  [ 210.4s] [FPS] 中畫質、池邊站 10 秒：31.6 fps（泳客 3 人；PC GPU，不是 iPhone）
+  [前置／捷徑] 【前置／設定】畫質選單 #setQuality＝low（結果 E.q.level＝low）
+  [ 228.5s] [QUAL] low：{"zone": "gym_b1", "q": "low", "plan": 2, "n": 2}
+PASS [QUAL] low 畫質泳客 2 人＝上限 2（那一天原本 4 人）  {"q": "low", "plan": 2, "n": 2}
+  [前置／捷徑] 【前置／設定】畫質選單 #setQuality＝medium（結果 E.q.level＝medium）
+  [ 242.6s] [QUAL] medium：{"zone": "gym_b1", "q": "medium", "plan": 3, "n": 3}
+PASS [QUAL] medium 畫質泳客 3 人＝上限 3（那一天原本 4 人）  {"q": "medium", "plan": 3, "n": 3}
+  [前置／捷徑] 【前置／設定】畫質選單 #setQuality＝high（結果 E.q.level＝high）
+  [ 255.1s] [QUAL] high：{"zone": "gym_b1", "q": "high", "plan": 4, "n": 4}
+PASS [QUAL] high 畫質泳客 4 人＝上限 4（那一天原本 4 人）  {"q": "high", "plan": 4, "n": 4}
+  [前置／捷徑] 【前置／設定】畫質選單 #setQuality＝medium（結果 E.q.level＝medium）
+  [ 267.3s] [CLOSED] 關館 22:30（2025-10-28）：{"zone": "gym_b1", "h": 22.577, "plan": 0, "n": 0}
+PASS [CLOSED] 關館 22:30 泳池沒有人  {"zone": "gym_b1", "plan": 0, "n": 0}
+  [ 279.2s] [CLOSED] 第四個週一 14:00（2025-10-27）：{"zone": "gym_b1", "h": 14.077, "plan": 0, "n": 0}
+PASS [CLOSED] 第四個週一 14:00 泳池沒有人  {"zone": "gym_b1", "plan": 0, "n": 0}
+PASS 沒有 JS 例外  []
+FAILED 1: [ENTRY] 進得去 B1、畫面亮起來（None 秒）
