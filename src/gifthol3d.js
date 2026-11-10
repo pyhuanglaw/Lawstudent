@@ -131,7 +131,7 @@ const GIFTH=(function(){
     return false; };
   /* ④ 學姊生日原本的事件（sis_y2y3_events.js 2-4）：2026、2027 兩年；旗標 there／tea／water＝演過（missed＝沒演到）*/
   S.SIS_BDAY={2026:'SIS_BDAY_Y1',2027:'SIS_BDAY_Y2'};
-  S.SIS_BDAY_PLAYED=['there','tea','water'];
+  S.SIS_BDAY_PLAYED=['tea'];   /* AA_732 5acf44bbc：只有「遞茶葉」算送過（GIFT_GIVEN、當天不出送禮）；選「生日快樂」「陪她裝熱水」沒給東西，當天照樣可以送（原本三個都算）*/
   S.SIS_TEA='一包茶葉';   /* 原本事件的那一項「（遞給她一包茶葉）」*/
   S.sisBdayPlayed=(G,y)=>{ const f=S.SIS_BDAY[y]; return !!f&&S.SIS_BDAY_PLAYED.includes(((G&&G.flags)||{})[f]); };
   /* 今天是她的生日、原本的事件演過了：記成那一年的生日（sent bday|年）；遞茶葉＝記 GIFT_GIVEN（那一天那一筆）。只記一次 */
@@ -239,6 +239,8 @@ const GIFTH=(function(){
   /* ③ 芷若在吧檯上班（story3d.js counter 的點餐選單）：條件同 S.talkOpts；送出去以後演完加旁白 */
   S.COUNTER_NARR='（她把東西收到吧檯下面。）';
   S.counterOpt=function(G,pid){ const o=S.talkOpts(G,pid)[0]; return o?{t:o.t,hint:o.hint,dim:o.dim,giftHer:pid}:null; };
+  /* ③b 每天第一次和她說話演的「兩點半的店員」（ev_cafe_barista_zhiruo，一天一次，有自己的點餐）：演完、能送的節日／她生日，接著問「送她禮物…／（就這樣）」（AA_732 5acf44bbc） */
+  S.barEventGift=async function(GM){ const o=S.counterOpt(GM.G,'heroine_02'); if(!o||o.dim) return null; GM.sceneBegin&&GM.sceneBegin(); try{ const k=await GM.choose([{t:o.t,hint:o.hint},{t:'（就這樣）'}]); if(k===0) return await S.counterGive(GM,null,'heroine_02'); } finally { GM.sceneEnd&&GM.sceneEnd(); } return null; };
   S.counterGive=async function(GM,who,pid){ const r=await S.giveTalk(GM,who||S.who(pid),pid); if(r==='love'||r==='ok'||r==='no') await GM.say(null,S.COUNTER_NARR); return r; };
   /* 交往中、那一天她在國外／老家：宿舍信箱的包裹（還沒交往的不寄）*/
   S.MAIL_NARR='（宿舍的信箱裡有一個包裹，寄件人寫著她的名字。）';
@@ -344,6 +346,7 @@ const GIFTH=(function(){
     if(Array.isArray(STORY.ROOM_EXTRA)) STORY.ROOM_EXTRA.push((G,L)=>S.roomExtra(G,L));
     if(typeof STORY.offerInvite==='function'){ const oi=STORY.offerInvite; STORY.offerInvite=async function(GM,id,n,who){ const r=await oi.apply(this,arguments); try{ if(S.PEOPLE.includes(id)) await S.afterTalk(GM,who||S.who(id,n),id); }catch(e){ console.warn('GIFTH.afterTalk',e); } return r; }; }
     if(STORY.interact){ const oi=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G; if(it&&it.shlLook&&G&&G.zone===S.SL_ZONE&&(it.label==='看文具'||it.label==='結帳')&&S.on()) return S.shanlan(GM,it); if(it&&it.kind==='gg_flower'&&G&&S.flowerOpen(G)){ const o=S.shopOpt(G,'gg_flower'); if(o){ await S.pick(GM,o); return true; } } return oi.apply(this,arguments); }; } }
+  if(typeof EVENTS!=='undefined'&&EVENTS.run&&!EVENTS._gifth){ EVENTS._gifth=true; const r0=EVENTS.run; EVENTS.run=async function(ev){ const r=await r0.apply(this,arguments); try{ if(ev&&ev.id==='ev_cafe_barista_zhiruo'&&S.on()&&typeof GAME!=='undefined'&&GAME.G) await S.barEventGift(GAME); }catch(e){} return r; }; }   /* ③b：芷若「兩點半的店員」演完接送禮 */
   if(typeof FEST!=='undefined'&&FEST.gift&&!FEST._gifth){ FEST._gifth=true; const g0=FEST.gift; FEST.gift=async function(GM,id,k,y){ if(!S.on()) return g0.apply(this,arguments); return S.festGift(GM,id,k,y); }; }
   return S;
 })();

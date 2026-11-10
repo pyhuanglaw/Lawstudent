@@ -14,7 +14,7 @@
 //  10. 可昕專屬場次那一天不出現；special 只有那一位的選單會列
 //  11. 山嵐文具區學姊：學期中週六 15～16、隔週；sl_sis_1／2／3／rot 的挑法；sl_sis_3 扣 250、錢不夠她付；作息 SCHED_X；提示一年一次
 //  12. 物品分頁、人物頁、宿舍櫃子
-//  13. AA_732 rules 最後一條（d1bf75f6f，11-10 12:4x 四問）：
+//  13. AA_732 rules 最後一條（d1bf75f6f，11-10 12:4x 四問；5acf44bbc 補：芷若兩點半店員事件也能送、學姊生日只有遞茶葉算送過）：
 //      ② 圖書館讀書區「小聲」那套：期末考前 EXLIB.talk（打完招呼）多「送她禮物…」；她的第一句加（小聲）（讀書區 LIBQ 本來就整段加；A館 4F 只有第一句）；第一次只點頭不出；平常日子沒有
 //      ③ 芷若在吧檯上班（點餐那套）：節日點餐選單多「送她禮物…」，送完演完加「（她把東西收到吧檯下面。）」；平常日子沒有；送滿兩個人＝third、不加那句
 //      ④ 學姊生日原本的事件（SIS_BDAY_Y1／Y2）演過＝那一天沒有「送她禮物…」；遞茶葉（tea）記 sent＋GIFT_GIVEN（那一天）；沒演到（missed、沒有旗標）照一般；2028 照一般
@@ -51,7 +51,7 @@ const flat=L=>L.join('');
   /* ======================= 0 資料 ======================= */
   await sec(0,async()=>{ let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/gift/import_gift_holiday.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     check('0. 載入 fest3d、gift_holiday.js、gifthol3d.js',okF&&okG&&typeof GIFTH!=='undefined',err.slice(0,300));
-    check('0. gift_holiday.js 和白名單上的 AA_732（d1bf75f6f）、AA_733（1edb14888）、AA_734（246ef6735）一致（import_gift_holiday.py --check）',ok&&J(GIFT_HOLIDAY.src)===J(['docs/story_planning/AA_732_gift_holiday_1.json@d1bf75f6f','docs/story_planning/AA_733_gift_holiday_2.json@1edb14888','docs/story_planning/AA_734_gift_holiday_3.json@246ef6735']),out.trim().slice(0,200));
+    check('0. gift_holiday.js 和白名單上的 AA_732（5acf44bbc）、AA_733（1edb14888）、AA_734（246ef6735）一致（import_gift_holiday.py --check）',ok&&J(GIFT_HOLIDAY.src)===J(['docs/story_planning/AA_732_gift_holiday_1.json@5acf44bbc','docs/story_planning/AA_733_gift_holiday_2.json@1edb14888','docs/story_planning/AA_734_gift_holiday_3.json@246ef6735']),out.trim().slice(0,200));
     const X=GIFT_HOLIDAY, n=Object.keys(X.items).filter(g=>X.items[g].shop!=='special').length;
     check('0. 14 家店（山嵐書架、文具區分開＝14 個 key）57 樣＋special 2 樣',Object.keys(X.shops).length===14&&n===57&&X.items.g_test_report.shop==='special'&&X.items.g_no_edit.shop==='special',Object.keys(X.shops).length+' 店 '+n+' 樣');
     check('0. 八位都有反應（open 四個節 × A～D、love／ok／no）、八位都有她送的（聖誕 B～D2、2/14 C～D2、七夕 C／D）',GIFTH.PEOPLE.every(p=>X.react[p]&&['xmas','vday','qixi','bday'].every(k=>['A','B','C','D'].every(b=>X.react[p].open[k][b].length))&&X.give[p]&&X.give[p].xmas.B&&X.give[p].vday.C&&X.give[p].qixi.D));
@@ -330,7 +330,10 @@ const flat=L=>L.join('');
     check('13④ 原本的事件演過（遞茶葉 tea）：那一天沒有「送她禮物…」；記 sent（bday|2026）、GIFT_GIVEN（那一天、一包茶葉）',!o&&!!GIFTH.rec(G).sent[SIS+'|bday|2026']&&M.length===1&&M[0].day===G.day&&M[0].note==='一包茶葉',J(M));
     GIFTH.sisBdaySync(G); check('13④ 只記一次',SOCIAL.memories(SIS).filter(m=>m.tag==='GIFT_GIVEN_'+SIS).length===1);
     const G2=setup('2026-06-02',20,{lv:{[SIS]:3},flags:{SIS_BDAY_Y1:'water'}}); GIFTH.tick(GM);
-    check('13④ 演過（陪她裝熱水 water）：那一天也沒有「送她禮物…」；不記 GIFT_GIVEN（沒有給東西）',!opt(SIS)&&!!GIFTH.rec(G2).sent[SIS+'|bday|2026']&&!SOCIAL.memories(SIS).some(m=>m.tag==='GIFT_GIVEN_'+SIS));
+    /* 2026-11-10 改期望（AA_732 5acf44bbc：只有遞茶葉算送過）：舊期望「選陪她裝熱水（water）那天也沒有送她禮物…」→ 新期望那天照樣有「送她禮物…」、不記 sent、不記 GIFT_GIVEN */
+    { const hasFn=typeof GIFTH.barEventGift==='function', src=require('fs').readFileSync(require('path').join(H.ROOT,'src/gifthol3d.js'),'utf8');
+      check('13③b 芷若「兩點半的店員」（ev_cafe_barista_zhiruo）演完接「送她禮物…／（就這樣）」（AA_732 5acf44bbc）：barEventGift 存在、EVENTS.run 包了那個事件 id',hasFn&&/ev\.id==='ev_cafe_barista_zhiruo'[\s\S]{0,80}barEventGift/.test(src)); }
+    check('13④ 選陪她裝熱水（water）：沒給東西＝那一天照樣有「送她禮物…」；不記成送過、不記 GIFT_GIVEN（AA_732 5acf44bbc）',!!opt(SIS)&&!GIFTH.rec(G2).sent[SIS+'|bday|2026']&&!SOCIAL.memories(SIS).some(m=>m.tag==='GIFT_GIVEN_'+SIS));
     const G3=setup('2026-06-02',20,{lv:{[SIS]:3},flags:{SIS_BDAY_Y1:'missed'}}); buy('g_green_hl');
     check('13④ 沒演到（missed）：照一般送禮',!!opt(SIS)&&!opt(SIS).dim);
     const G4=setup('2026-06-02',17,{lv:{[SIS]:3}}); buy('g_green_hl'); let r=await run(()=>opt(SIS).run(GM,who(SIS)),['螢光筆']);

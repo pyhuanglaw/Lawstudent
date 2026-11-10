@@ -5198,7 +5198,7 @@
   },
   {
    "path": "docs/story_planning/AA_732_gift_holiday_1.json",
-   "sha": "d1bf75f6f",
+   "sha": "5acf44bbc",
    "status": "approved",
    "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
    "task": "GIFT-HOLIDAY-1110",
@@ -5216,6 +5216,10 @@
     {
      "sha": "30c4cbd45",
      "note": "被 d1bf75f6f 取代（rules 最後一條 11-10 12:4x：①第三個人 ②法圖小聲也能送 ③芷若吧檯點餐選單 ④學姊生日遞茶葉算那一年的生日禮物）"
+    },
+    {
+     "sha": "d1bf75f6f",
+     "note": "被 5acf44bbc 取代（芷若兩點半店員事件也能送、學姊生日只有遞茶葉算送過）"
     }
    ]
   },
