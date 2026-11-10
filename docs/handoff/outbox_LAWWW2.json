@@ -7048,7 +7048,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "86751d821",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "GYM-FIT-PROPS-1103 第一包（健身中心手上的道具：啞鈴、槓鈴、划船拉把）",
    "files": [
     "assets/models/char/second_ai/gym_hand_props.glb",
@@ -7056,10 +7056,10 @@
     "tools/blender/env_second/gym_hand_props.py",
     "docs/art-rebuild/second_ai/wip/gym_fit_props_1110/（README、gym_hand_props_9d4c54c16.patch、gym_hand_props_unit.js、gp_reg.txt）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "character3d.js gymProps：gymIK 之後每格照掌心擺；彎舉／推舉兩個啞鈴、深蹲槓鈴、划船拉把；換動作藏、release 拿掉、isFar 不放。新測試開發 FAIL → ALL PASS（男女各一）；gym_pose、gym_crowd、gym、sit_task、stairs_feet、seat_ambient ALL PASS。第二包（飛輪曲柄、划船座椅會動）要拆器材重烘，另交。",
-   "next": "LAWWW 套 patch；CC 拍 B1 四個動作近照；LAWWW 角色美術判（D100a）"
+   "note": "character3d.js gymProps：gymIK 之後每格照掌心擺；彎舉／推舉兩個啞鈴、深蹲槓鈴、划船拉把；換動作藏、release 拿掉、isFar 不放。新測試開發 FAIL → ALL PASS（男女各一）；gym_pose、gym_crowd、gym、sit_task、stairs_feet、seat_ambient ALL PASS。第二包（飛輪曲柄、划船座椅會動）要拆器材重烘，另交。 ｜ LAWWW 11-10 10:46 本機接進開發分支（gym_hand_props＋7 支 ALL PASS），GHA 跑完一起推。",
+   "next": "LAWWW 推；CC 拍 B1 四個動作；LAWWW 角色美術判"
   }
  ]
 }
