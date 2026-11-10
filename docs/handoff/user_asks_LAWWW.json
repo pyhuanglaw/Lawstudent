@@ -3862,6 +3862,46 @@
    "wants": "X291",
    "task": "GIFT-HOLIDAY-1110",
    "src": "使用者對 LAWWW-B"
+  },
+  {
+   "id": "UA-LAWWW-1110-35",
+   "at": "2026-11-10T01:5xZ",
+   "quote": "太亂了（附出席紀錄截圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X292",
+   "task": "ATTEND-TIDY-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-36",
+   "at": "2026-11-10T01:5xZ",
+   "quote": "我到現在還沒遇到可攻略對象約我（附存檔 fatiao3d_save_day54_1.json）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X293",
+   "task": "HER-ASK-MORE-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-37",
+   "at": "2026-11-10T01:5xZ",
+   "quote": "法服徵人 到底為何不在法律系館前? 為什麼在校園中間（附截圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X294",
+   "task": "LAWCLUB-BOOTH-MOVE-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-38",
+   "at": "2026-11-10T01:5xZ",
+   "quote": "公告欄要看的到社團社課時間 特殊活動?學生會迎新派對? 社團徵人?（附截圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X295",
+   "task": "BULLETIN-BOARD-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
   }
  ]
 }

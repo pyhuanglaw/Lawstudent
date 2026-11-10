@@ -50990,6 +50990,122 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": null,
    "test": null
+  },
+  {
+   "id": "ATTEND-TIDY-1110",
+   "title": "出席紀錄改成一門課一行、好讀",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "她第一次主動約你",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:5x LAWWW-B】使用者 X292「太亂了」。改成表格：課名／出席次數（點名課寫點過幾次名）／缺課。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "按前往：時間到約好的時候、人在那裡；不再顯示還沒開",
+    "receiver": "BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
+  },
+  {
+   "id": "HER-ASK-MORE-1110",
+   "title": "她主動約你太少：日常邀約從有點熟就會約、不看 5 天內見過面",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "她第一次主動約你",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:5x LAWWW-B】使用者 X293。heroine_asks3d：日常（INV 8 處）原本 stage<3（朋友）不約、5 天內見過面不約；改成可以攻略的對象有點熟（第 2 階）起就會約，間隔看她上次約你（不是見面），週末校外照舊（第 6 階或交往中）。存檔 tests/fixtures/user_save_day54_1110.json。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "按前往：時間到約好的時候、人在那裡；不再顯示還沒開",
+    "receiver": "BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
+  },
+  {
+   "id": "LAWCLUB-BOOTH-MOVE-1110",
+   "title": "法服招生攤位搬到法學院前（原本晨思鐘廣場東側）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "她第一次主動約你",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:5x LAWWW-B】使用者 X294。zones3d.js 社團招生攤位（SX=-18,SZ=14.5，面向椰影大道）搬到法學院廣場（兩館前面），互動點跟著搬；博覽會那兩天照舊收起來。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "按前往：時間到約好的時候、人在那裡；不再顯示還沒開",
+    "receiver": "BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW2"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
+  },
+  {
+   "id": "BULLETIN-BOARD-1110",
+   "title": "公告欄看得到社團社課時間、特殊活動、學生會迎新、社團徵人",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "她第一次主動約你",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:5x LAWWW-B】使用者 X295。公告欄互動＝打開「本週公告」：照 ACTIVITIES 列這週的社課、講座、活動（時間、地點）、招生中的社團；AA 寫公告的標題、迎新派對要不要做成活動（AA 決定，D109）。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "按前往：時間到約好的時候、人在那裡；不再顯示還沒開",
+    "receiver": "BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
   }
  ]
 }
