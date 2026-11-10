@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "V24_invgo",
+  "sha": "70e23b32c1b1f02e0b450ea7c0dde4426d4d799c",
+  "kind": "game",
+  "script": "tests/flow_inv_go_jump.py",
+  "env": "XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-11T01:16:16",
+  "end": "2026-11-11T01:18:23",
+  "seconds": 127,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "11",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 14,
+    "mem": 58,
+    "used_gb": 18.4,
+    "chrome_testing": 13
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
