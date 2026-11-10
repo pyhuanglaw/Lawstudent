@@ -51446,6 +51446,31 @@
    "next": "【11-10 04:1x】快照 2026-11-10T0410Z_B_LAWWW、duty handoff、每小時喚醒停用。",
    "evidence": "HANDOFF_GAP_MATRIX 第 1 節",
    "sha": null
+  },
+  {
+   "id": "LIB-B1-COURT-ART-1110",
+   "title": "總圖 B1 下沉中庭第二階段：Blender 正式模型——現在是程序化 BLOCKOUT，使用者「中庭的部分，我現在看不出來」；北側樓梯往下到露天中庭、中庭牆、台階、欄杆、植栽、B1 玻璃門要一眼看得出是往地下的中庭（X298、X307）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一次去總圖 B1",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 接班】使用者對 LAWWW：「總圖b1樓梯 是往地下走到一個中庭 中庭的部分，我現在看不出來 你請lawww2做」。位置照 zones3d.js Z3.B1C（x 92～104、z −41～−31、深 4.2；樓梯 z −41～−39、24 階；門 (98,−31)），導航不動；參考 docs/handoff/user_shots/1110_library_b1_plan_ref.webp（照氣氛、不照抄，D136）；D141 最多 3 版先進遊戲",
+   "xai": {
+    "spec": "USER_WANTS X298、X307；LIB-B1-OUTSIDE-1110 第一階段（modest-rubin e73888074 壁燈）；參考圖 1110_library_b1_plan_ref.webp",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "GLB＋接線 patch（導航、門、樓梯位置不動）＋outbox；BB／CC 電腦截圖白天、晚上看得出是往下的中庭入口",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
