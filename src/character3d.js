@@ -222,7 +222,7 @@ const CHAR = (function(){
     if(bp&&on&&!was){ u.gymBp=u.propOn&&Object.prototype.hasOwnProperty.call(u.propOn,'backpack')?u.propOn.backpack:null; C.setProp(h,'backpack',false); }   /* null＝原本沒設過（照角色預設顯示）*/
     else if(bp&&!on&&was){ if(u.gymBp==null){ if(u.propOn) delete u.propOn.backpack; bp.visible=true; } else C.setProp(h,'backpack',u.gymBp); u.gymBp=undefined; }
     return true; };
-  C.release=function(h){ const u=h&&h.userData; if(!u||u.driver!=='vrm') return; try{ if(u.farLOD){ for(const p of u.farLOD.parts){ if(p.parent) p.parent.remove(p); p.skeleton.dispose(); } if(u.isFar) for(const o of u.farLOD.near) o.visible=true; u.farLOD=null; u.isFar=false; }   /* 遠距離版本：拿掉、骨架貼圖放掉；原本的網格恢復顯示（第一個實例會被下一個人重用）*/ if(u.props&&typeof PROPS!=='undefined') PROPS.detach(u.props); u.props=null; if(u.taskProps){ for(const k in u.taskProps){ const o=u.taskProps[k]; if(o&&o.parent) o.parent.remove(o); } u.taskProps=null; u.taskPropOn=null; }   /* 坐著做事的配件（掛在真實骨頭上：VRM 的第一個實例會被下一個人重用）*/ const sbm=u.vrm.springBoneManager; if(sbm) sbm.joints.forEach(j=>{ j.center=null; }); }catch(e){} try{ for(const n in u.anim.actions) u.anim.actions[n].stop(); u.anim.mixer.stopAllAction(); u.vrm.humanoid.resetNormalizedPose(); if(u.vrm.expressionManager) u.vrm.expressionManager.expressions.forEach(ex=>u.vrm.expressionManager.setValue(ex.expressionName,0)); for(const t of (u.tinted||[])){ const cur=Array.isArray(t.mesh.material)?t.mesh.material:[t.mesh.material]; const orig=Array.isArray(t.orig)?t.orig:[t.orig]; cur.forEach((mt,i)=>{ if(mt!==orig[i]){ C.rimMats.delete(mt); if(mt.dispose) mt.dispose(); } }); t.mesh.material=t.orig; } u.tinted=[]; }catch(e){} ASSETS.releaseVRM(u.key,u.vrm); };
+  C.release=function(h){ const u=h&&h.userData; if(!u||u.driver!=='vrm') return; try{ if(u.farLOD){ for(const p of u.farLOD.parts){ if(p.parent) p.parent.remove(p); p.skeleton.dispose(); } if(u.isFar) for(const o of u.farLOD.near) o.visible=true; u.farLOD=null; u.isFar=false; }   /* 遠距離版本：拿掉、骨架貼圖放掉；原本的網格恢復顯示（第一個實例會被下一個人重用）*/ if(u.props&&typeof PROPS!=='undefined') PROPS.detach(u.props); u.props=null; if(u.taskProps){ for(const k in u.taskProps){ const o=u.taskProps[k]; if(o&&o.parent) o.parent.remove(o); } u.taskProps=null; u.taskPropOn=null; } if(u.gymProp){ for(const k in u.gymProp) for(const o of u.gymProp[k]) if(o.parent) o.parent.remove(o); u.gymProp=null; u.gymPropOn=null; }   /* 健身房手上的道具（GYM-FIT-PROPS-1103）*/   /* 坐著做事的配件（掛在真實骨頭上：VRM 的第一個實例會被下一個人重用）*/ const sbm=u.vrm.springBoneManager; if(sbm) sbm.joints.forEach(j=>{ j.center=null; }); }catch(e){} try{ for(const n in u.anim.actions) u.anim.actions[n].stop(); u.anim.mixer.stopAllAction(); u.vrm.humanoid.resetNormalizedPose(); if(u.vrm.expressionManager) u.vrm.expressionManager.expressions.forEach(ex=>u.vrm.expressionManager.setValue(ex.expressionName,0)); for(const t of (u.tinted||[])){ const cur=Array.isArray(t.mesh.material)?t.mesh.material:[t.mesh.material]; const orig=Array.isArray(t.orig)?t.orig:[t.orig]; cur.forEach((mt,i)=>{ if(mt!==orig[i]){ C.rimMats.delete(mt); if(mt.dispose) mt.dispose(); } }); t.mesh.material=t.orig; } u.tinted=[]; }catch(e){} ASSETS.releaseVRM(u.key,u.vrm); };
   // 走樓梯、台階時的腳步貼合（v9.4，D36；使用者：「人物在樓梯上不能滑動、漂浮或腳穿進階梯」）。
   // 走路動畫是平地做的：腳底永遠在「身體所在那一階」的高度。這裡依每隻腳底下那一階的實際高度把腳移上去／移下來：
   // 兩段式 IK（大腿轉向目標、膝蓋彎曲角用餘弦定理），腳掌維持動畫原本的方向；比身體低的那隻腳搆不到時，整個身體先往下沉。
@@ -967,6 +967,31 @@ const CHAR = (function(){
           const pA=S.clone().addScaledVector(tf.lf,s*0.4).addScaledVector(tf.up,-0.3), pB=S.clone().addScaledVector(tf.lf,s*0.15).addScaledVector(tf.fw,-0.5);   /* 舉過頭那隻：手肘往後（pole 在手走的那個面外面，不會和目標排成一直線）*/
           return [T,toward?pA:pA.lerp(pB,Math.min(1,m*3))]; },0.3); } } }
   C._gymIK=gymIK;
+  /* ===== 健身中心手上的道具（GYM-FIT-PROPS-1103；GYM-FIT-ACTIVE-1103 合併後的缺點：彎舉、推舉、深蹲、划船都是空手）=====
+     assets/models/char/second_ai/gym_hand_props.glb（ASSETS 'prop.gym_hand'，lazy；tools/blender/env_second/gym_hand_props.py）：gym_dumbbell、gym_barbell、gym_row_handle，
+     原點＝握把中心、軸沿 +x。gymIK 擺好骨頭以後每一格照手的位置擺（掛在人物的根節點 h 底下，複製節點、網格材質共用）：
+       gym_curl、gym_press＝每隻手一個啞鈴：握把中心＝手骨頭往中指根部 55%、軸線＝食指根部 → 小指根部（橫過掌心）；
+       gym_squat＝槓鈴、gym_row＝拉把：中心＝兩隻手掌心的中間、軸線＝右手 → 左手；飛輪、拉筋手上沒東西。
+     沒載好、載入失敗（最多 3 次）、遠距離版本（u.isFar，手指不算）＝不放；換成別的動作、C.release＝藏起來／拿掉。每一格不配置新物件。測試：node tests/gym_hand_props_unit.js */
+  C.GYM_PROP_KEY='prop.gym_hand'; const GPROP={scene:null,loading:false,failed:0}; C._gymProps=GPROP;
+  const GYM_PROP_OF={gym_curl:'dd',gym_press:'dd',gym_squat:'bar',gym_row:'row'}, GPN={dd:'gym_dumbbell',bar:'gym_barbell',row:'gym_row_handle'};
+  const GPV=[0,1,2,3,4,5].map(()=>new THREE.Vector3()), GPQ=[new THREE.Quaternion(),new THREE.Quaternion()], GPX=new THREE.Vector3(1,0,0), GPS=new THREE.Vector3();
+  function gymPropLoad(){ if(GPROP.scene||GPROP.loading||GPROP.failed>2||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[C.GYM_PROP_KEY]) return; GPROP.loading=true;
+    ASSETS.loadOne(C.GYM_PROP_KEY).then(c=>{ GPROP.scene=c&&c.scene||null; GPROP.loading=false; if(!GPROP.scene) GPROP.failed++; },()=>{ GPROP.loading=false; GPROP.failed++; }); }
+  function gymPropHide(u){ const P=u&&u.gymProp; if(!P) return; for(const k in P) for(const o of P[k]) o.visible=false; u.gymPropOn=null; }
+  function gymPropGet(h,u,key){ const P=u.gymProp||(u.gymProp={}); if(P[key]) return P[key]; const src=GPROP.scene&&GPROP.scene.getObjectByName(GPN[key]); if(!src) return null;
+    const n=key==='dd'?2:1, out=[]; for(let i=0;i<n;i++){ const o=src.clone(true); o.name='gymProp:'+key+i; o.traverse(x=>{ if(x.isMesh){ x.castShadow=false; x.receiveShadow=false; x.frustumCulled=false; } }); o.visible=false; h.add(o); out.push(o); } return (P[key]=out); }
+  /* 掌心（世界座標）和橫過掌心的方向：手骨頭往中指根部 55%；食指根部 → 小指根部 */
+  function gymPalm(R,i,pos,ax){ const hand=R[i?'rightHand':'leftHand'], fb=R[i?'rightF':'leftF']; hand.getWorldPosition(pos); if(fb&&fb[1]&&fb[1][0]) pos.lerp(fb[1][0].getWorldPosition(GPV[4]),0.55);
+    if(ax){ if(fb&&fb[0][0]&&fb[3][0]) ax.copy(fb[3][0].getWorldPosition(GPV[5])).sub(fb[0][0].getWorldPosition(GPV[4])); else ax.set(i?-1:1,0,0).applyQuaternion(GPQ[1]); if(ax.lengthSq()<1e-8) ax.set(1,0,0); ax.normalize(); } return pos; }
+  function gymPropSet(h,o,pos,ax){ h.updateWorldMatrix(true,false); h.getWorldQuaternion(GPQ[1]); o.position.copy(h.worldToLocal(GPV[3].copy(pos))); const sc=h.getWorldScale(GPS);   /* 不能用 GPV[2]：槓鈴、拉把的軸線就放在 GPV[2] */ o.scale.set(1/(sc.x||1),1/(sc.y||1),1/(sc.z||1));
+    GPQ[0].setFromUnitVectors(GPX,ax); o.quaternion.copy(GPQ[1].invert().multiply(GPQ[0])); o.visible=true; }
+  function gymProps(h,u){ const g=u.gym, key=g&&C.gymIK&&!u.isFar?GYM_PROP_OF[g.pose]:null; if(!key){ gymPropHide(u); return; }
+    if(!GPROP.scene){ gymPropLoad(); return; } const R=u.rawGym; if(!R||!R.leftHand||!R.rightHand) return; const L=gymPropGet(h,u,key); if(!L) return;
+    if(u.gymPropOn!==key){ gymPropHide(u); u.gymPropOn=key; } h.getWorldQuaternion(GPQ[1]);
+    if(key==='dd'){ for(const i of [0,1]) gymPropSet(h,L[i],gymPalm(R,i,GPV[0],GPV[1]),GPV[1]); }
+    else { const a=gymPalm(R,0,GPV[0],null), b=gymPalm(R,1,GPV[1],null), ax=GPV[2].copy(a).sub(b); if(ax.lengthSq()<1e-6) ax.set(1,0,0).applyQuaternion(GPQ[1]); ax.normalize(); gymPropSet(h,L[0],a.add(b).multiplyScalar(0.5),ax); } }
+  C._gymPropsStep=gymProps;
   const GYM_FALL={gym_squat:'idle',gym_curl:'idle',gym_press:'sit',gym_bike:'sit',gym_row:'sit',gym_stretch:'sit'};
   /* ===== 坐著的人會動、在做事（NPC-AMBIENT-ANIM-1104，USER_WANTS X222；使用者 11-04 13:5x「就算只是拿著書和拿著手機都太不自然了一個人坐在那裡什麼都不做」）=====
      舊版：pose sit／read 是靜態姿勢（每一格寫一樣的 SIT_VRM、READ_VRM），只剩頭 0.02～0.15 弧度的 sin 晃動和眨眼＝坐著的人凍住。
@@ -1349,7 +1374,7 @@ const CHAR = (function(){
     updateVRM(vrm,dt,()=>{ if(u.fitOff){ u.fitOff=false; u.model.position.y=(u.model.userData.baseY||0)-(u.ikDrop||0); u.model.position.z=0; u.model.position.x=0; }   /* 上一格蹲低、跪的位移先放回去（不累加）*/
       footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u);
       if(kw>0) kneelBody(h,u,kw); if(u.climbW>0) climbIK(h,u,'lean'); if(fit) headFit(h,u,1-kw); else u.fitE=null; if(u.climbW>0) climbIK(h,u,'arms'); if(kw>0) kneelArms(h,u,kw);
-      if(u.gym) gymIK(h,u,dt); if(u.readOn) readIK(h,u,u.rawGet||(u.rawGet=n=>vrm.humanoid.getRawBoneNode(n))); if(u.drive) skirtDrive(u.drive); },u.isFar); }
+      if(u.gym){ gymIK(h,u,dt); gymProps(h,u); } else if(u.gymPropOn) gymPropHide(u); if(u.readOn) readIK(h,u,u.rawGet||(u.rawGet=n=>vrm.humanoid.getRawBoneNode(n))); if(u.drive) skirtDrive(u.drive); },u.isFar); }
   // VRM 更新：彈簧骨（頭髮、馬尾）用固定小步長。低幀率（SwiftShader 1–4 fps、手機突然卡頓）時一次積分太大，馬尾會失穩往上翹
   // 彈簧骨前先更新整個 VRM 的 world matrix：three-vrm 用「子骨頭的 matrixWorld」算骨長，人物移動／瞬移／動畫之後子骨頭還停在上一幀，
   // 低幀率時一幀差幾十公分 → 骨長算錯、頭髮被甩到耳朵高度往外翹（林芷若走路截圖；30 fps 時也會讓髮尾抖）

@@ -1,0 +1,16 @@
+{
+ "objects": 10,
+ "unique_meshes": 10,
+ "tris": 1096,
+ "tris_drawn": 1096,
+ "materials": 6,
+ "out": "assets/models/char/second_ai/gym_hand_props.glb",
+ "bytes": 74000,
+ "texres": 256,
+ "axis": "+x 是握把的方向，原點是握把中心；遊戲 src/character3d.js gymProps 照兩隻手擺",
+ "props": {
+  "gym_dumbbell": "彎舉、坐姿推舉：每隻手一個",
+  "gym_barbell": "深蹲：兩隻手中間",
+  "gym_row_handle": "划船：兩隻手中間"
+ }
+}

@@ -42932,7 +42932,7 @@
    "status": "待開工",
    "priority": "P2",
    "note": "GYM-FIT-ACTIVE-1103 合併後的缺點（子代理截圖：空手、器材不動）",
-   "next": "LAWWW2 總圖重排之後",
+   "next": "【LAWWW 11-10 10:4x】第一包 LAWWW2 86751d821 接進開發分支：gym_hand_props.glb（啞鈴、槓鈴、划船拉把）＋character3d.js gymProps（gymIK 後照掌心擺）；gym_hand_props＋gym／seat／stairs 等 7 支 ALL PASS。第二包（飛輪踏板、划船座椅會動，要重建 gym_b1、重烘 B1）另交。CC 拍健身房各動作近景、LAWWW 判（人物動作／道具）。 ｜ LAWWW2 總圖重排之後",
    "xai": {
     "spec": "GYM-FIT-ACTIVE-1103（df63cb10c 以後的 gym_b1）",
     "branch": "claude/second-ai-env-art",
