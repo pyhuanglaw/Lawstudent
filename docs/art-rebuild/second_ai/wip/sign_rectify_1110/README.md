@@ -2,7 +2,15 @@
 
 使用者 11-10 20:0x：「之前…依照我的參考圖深層的店面他的參考圖是招牌是斜的結果遊戲裡也是寫的你幫我檢查…招牌如果是斜的看起來不合理的你就幫我重新製作招牌，依照我的參考圖把招牌截出來就是像你現在這樣做成正的」（UA-LAWWW2-1110-07）。
 
-狀態：**WORK_IN_PROGRESS**——貼圖集已經換好（這個資料夾），**還沒做進 GLB，遊戲裡還是舊的斜招牌**。
+狀態：**公館五塊交件（第 1 包，待整合）**；新生南路、溫州街的貼圖集已經換好，GLB 還沒換（第 2、3 包）。遊戲截圖還沒有（CC，D131）。
+
+## 第 1 包：公館（LAWWW 20:00：三顆 GLB 分開交、公館先）
+- `gg_signs_rectify.patch`（底：開發分支 70047bb79，`git apply --check` 乾淨）：`assets/models/env/second_ai/gongguan_shops.glb`（只換嵌入的 `gg_fronts_atlas` 那一張圖；9,889,432 → 9,989,912 bytes）、`gongguan_shops.json` 的 bytes、新工具 `tools/blender/env_second/glb_replace_image.py`。
+- 做法：`embed_tool.py` 從 GLB 取出原本嵌入的圖集當底，只把五塊招牌（青木茶室、頁間書屋、慢輪單車、afar、轉角唱片）拉正後貼回原本那一格，其他格子一個像素都不動；`glb_replace_image.py` 換回 GLB。
+- 驗證：nodes／meshes／materials／accessors／textures 的 JSON 完全相同；除了那一張圖以外，所有 bufferView 的內容 md5 相同（幾何、UV、導航相關的都沒動）。
+- `gg_glb_before_after.jpg`：GLB 上五塊招牌的前後（Workbench 預覽、不打光；每間上下兩塊＝騎樓梁靠街那一面、店面上方）。
+- 回歸（打 patch 後）：gg_glow_shoplit、gg_shoplit_reentry、prop_restand、street_props_nav、zq_arcade_seat、singleside_streets、zone_prefetch、gg_interiors_1104、gg_shops2_1104 ——9 支 ALL PASS。
+- 沒有新的測試：這是換圖，數得出來的只有「其他內容不變」（上面的 md5 比對）；招牌正不正要看圖（BB 判）。
 
 ## 盤點（看圖集的每一塊招牌）
 - 原因：`xs_front_tex.py` 本來就會把參考圖上的四邊形拉正，但之前量的四個角不準（有的直接用長方形、有的把屋簷、燈、隔壁的招牌一起框進去），所以拉完還是斜的。

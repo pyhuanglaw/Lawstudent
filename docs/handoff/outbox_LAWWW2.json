@@ -7568,6 +7568,21 @@
    "noDirectIntegrate": false,
    "note": "底 a8d8b9f7c、apply --check 乾淨；VRM 2.64 MB（Sakurada_Fumiriya 改作，耳上短髮、單眼皮、濃眉、深藍敞開外套＋白 T）；眼鏡 glasses_long.glb、鑰匙圈 keychain_milktea.glb；us_life3d.js specOf 接線（lazy 下載、失敗退回路人樣子）；新測試開發 FAILED 7 → ALL PASS；回歸 14／14 ALL PASS。沒有參考圖：照 AA_80 5-2、AA_145 3-5 文字做。",
    "next": "LIFE-DETAILS-SEASONAL-1110 提案 → MOVIE-POSTER-POS-1110（等截圖）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "SIGN-RECTIFY-1110 第 1 包：公館五塊招牌拉正（青木茶室、頁間書屋、慢輪單車、afar、轉角唱片）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/sign_rectify_1110/（README、gg_signs_rectify.patch、gg_glb_before_after.jpg、before_after.jpg、工具）"
+   ],
+   "state": "待整合（BB 判；遊戲截圖待 CC）",
+   "noDirectIntegrate": false,
+   "note": "底 70047bb79；只換 gongguan_shops.glb 裡的 gg_fronts_atlas 一張圖，幾何、UV、其他貼圖 md5 相同；回歸 9 支 ALL PASS。",
+   "next": "第 2 包新生南路四塊、第 3 包溫州街四塊＋第二批三塊（溫州書屋、夏日冰菓室、帝大紅茶）"
   }
  ]
 }
