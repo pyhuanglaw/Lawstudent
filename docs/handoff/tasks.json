@@ -45000,7 +45000,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 12:3x】② 行政大樓、文學院、校史館貼圖集合併（LAWWW2 384686fd3）：一棟 11→5 網格，椰影大道鏡頭 draw call 47→18、三角形 37k→64k（代價）；外觀前後一樣；campus_hall_drawcall（新）、campus_hall_pillar_seethru（LAWWW2 改成也接受合併後材質名，檢查內容不變，LAWWW 同意）等 6 支 ALL PASS。LAWWW 判：手機上 draw call 比三角形貴，接受；請 CC 在 PC 量 A/B 幀率（舊 be84c8680 vs 新）確認再做社科院、總圖、黑森林、醉月湖。 ｜ 【LAWWW-C 11-04 12:4x 補進總表】LAWWW2-A 交班清單有這一項、總表沒有；範圍與量法請 LAWWW2-C 補（和 PERF-GG-DC-1104 同一套 census／GG_glb_measure2 量法）",
+   "next": "【LAWWW 13:3x】BB_255：② 之後 draw call 只少 5～14%，PC 手機模擬 FPS 在誤差內 → 社科院、總圖、黑森林、醉月湖不做（LAWWW2、LAWWW 同意）；② 已在遊戲裡（三棟外牆隨 X223 又改過，網格數照舊）。 ｜ 【LAWWW 11-10 12:3x】② 行政大樓、文學院、校史館貼圖集合併（LAWWW2 384686fd3）：一棟 11→5 網格，椰影大道鏡頭 draw call 47→18、三角形 37k→64k（代價）；外觀前後一樣；campus_hall_drawcall（新）、campus_hall_pillar_seethru（LAWWW2 改成也接受合併後材質名，檢查內容不變，LAWWW 同意）等 6 支 ALL PASS。LAWWW 判：手機上 draw call 比三角形貴，接受；請 CC 在 PC 量 A/B 幀率（舊 be84c8680 vs 新）確認再做社科院、總圖、黑森林、醉月湖。 ｜ 【LAWWW-C 11-04 12:4x 補進總表】LAWWW2-A 交班清單有這一項、總表沒有；範圍與量法請 LAWWW2-C 補（和 PERF-GG-DC-1104 同一套 census／GG_glb_measure2 量法）",
    "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
    "xai": {
     "spec": "LAWWW2-A 交班清單",
