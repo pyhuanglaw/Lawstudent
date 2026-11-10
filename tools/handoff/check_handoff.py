@@ -909,15 +909,61 @@ def userwork(args):
         mine = [t for t in tids if tasks[t].get('owner') == role] or tids
         touched = (re.search(r'(?<![A-Z0-9])' + re.escape(wid) + r'(?![0-9])', log) is not None) or any(t in log for t in mine)
         out.append((touched, wid, st, mine))
+    nb = lastnote(src, tasks, log) if role == 'LAWWW' else 0
     if not out:
-        print(f'使用者交代、還沒做完、歸 {role} 的：0 項。結果：OK')
-        return 0
+        print(f'使用者交代、還沒做完、歸 {role} 的：0 項。' + ('結果：OK' if not nb else f'結果：上一班交代的 {nb} 項這一班還沒動'))
+        return 1 if nb else 0
     bad = [o for o in out if not o[0]]
     print(f'使用者交代、還沒做完、歸 {role} 的 {len(out)} 項（這一班：LAWWW {since or "接班時間不明"} 起；commit 提到列號或任務 ID＝這一班動過）：')
     for touched, wid, st, mine in sorted(out, key=lambda o: (o[0], o[1])):
         print(f'- [{"這一班動過" if touched else "這一班還沒動"}] {wid}（{st[:40]}）→ {", ".join(f"{t}:{tasks[t].get(chr(115)+chr(116)+chr(97)+chr(116)+chr(117)+chr(115))}" for t in mine) or "（沒有任務 ID）"}')
-    print('結果：OK' if not bad else f'結果：{len(bad)} 項這一班還沒動——接班確認逐項寫下一步和什麼時候做；使用者的要求排在接別人的交付之前')
-    return 1 if bad else 0
+    print('結果：OK' if not (bad or nb) else f'結果：{len(bad)} 項使用者要求、{nb} 項上一班交代的這一班還沒動——接班確認逐項寫下一步和什麼時候做；使用者的要求、上一班交代的排在接別人的交付之前')
+    return 1 if (bad or nb) else 0
+
+
+def lastnote(src, tasks, log):
+    """上一班 LAWWW 交班快照（HANDOFF_GAP_MATRIX 第 11 節最上面那一則）：印「下一班第一件事」和 B｜全部未完成 每一條；
+    這一班 commit 沒提到它的任務 ID（或那一條沒有任務 ID）＝還沒動（D145：帳號 B 交班寫了 AA_342 svc 兩句、256bcdc42 匯入，都沒有任務 ID，帳號 A 整班沒做）。"""
+    try:
+        text = src.read('docs/HANDOFF_GAP_MATRIX.md')
+    except Exception:
+        return 0
+    i = text.find('## 11. 交班快照歷史')
+    if i < 0:
+        return 0
+    j = text.find('\n### ', i)
+    k = text.find('\n### ', j + 5)
+    sec = text[j:k if k > 0 else len(text)]
+    head = sec.strip().splitlines()[0] if sec.strip() else ''
+    first = next((l for l in sec.splitlines() if '下一班第一件事' in l), '')
+    print(f'\n上一班的交班（{head.lstrip("# ")[:80]}）：')
+    if first:
+        print('  下一班第一件事：' + re.sub(r'\*\*', '', first).split('：', 1)[-1][:300])
+    b = sec.find('**B｜')
+    if b < 0:
+        return 0
+    e = sec.find('\n- **C｜', b)
+    blk = sec[b:e if e > 0 else len(sec)]
+    items = []
+    for l in blk.splitlines()[1:]:
+        l = l.strip()
+        if not l.startswith('- '):
+            continue
+        for part in re.split(r'[；;]', l[2:]):
+            part = part.strip()
+            if len(part) < 4:
+                continue
+            ids = [t for t in re.findall(r'[A-Z][A-Z0-9]+(?:-[A-Z0-9]+)+', part) if t in tasks]
+            shas = re.findall(r'\b[0-9a-f]{9}\b', part)
+            done = any(t in log for t in ids) or any(sh in log for sh in shas)
+            items.append((done, part, ids))
+    nb = 0
+    for done, part, ids in items:
+        if not done:
+            nb += 1
+        tag = '這一班動過' if done else ('這一班還沒動' if ids else '這一班還沒動｜沒有任務 ID（表外：先建任務）')
+        print(f'  - [{tag}] {part[:160]}')
+    return nb
 
 
 def main(argv=None):

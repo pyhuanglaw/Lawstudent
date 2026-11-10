@@ -52,9 +52,9 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
     const SVC2_LINES=(CLS.byId('service_2').serviceLines||[]).slice();   /* AA_735（11-10）：服務學習（二）改法律服務中心、有自己的九句；10/7 那一堂換完要換回這九句 */
     const svc=async(k,flags)=>{ const G=fresh(k,15.3,'campus',flags||{}); const it=CLS.dayItems(G).find(i=>i.c.id==='service_2'); H.said=[]; await CLS.attend(GM,it,{door:true}); return {L:H.said.map(s=>s.t),G}; };
     let r=await svc('2026-10-07');
-    check('1. 10/7（三）服務學習（二）那一堂換旁白：「（服務學習的第二次。…陪一位阿公下象棋。他贏了三盤。）」；記 Y2_SVC_CHESS；課程的 serviceLines 換回去',J(r.L)===J([L().svc1007])&&r.G.flags.Y2_SVC_CHESS===r.G.day&&J(CLS.byId('service_2').serviceLines)===J(SVC2_LINES),J(r.L));
-    r=await svc('2026-11-18',{Y2_SVC_CHESS:H.D('2026-10-07')}); check('1. 11/18（三）接 10/7：「（服務學習快結束了。阿公終於輸了一盤。…其實是他讓的。）」',J(r.L)===J([L().svc1118]),J(r.L));
-    r=await svc('2026-11-18'); check('1. 11/18 沒看過 10/7 那一堂：照一般的句子（阿公沒見過）',r.L.length===1&&r.L[0]!==L().svc1118&&!/阿公/.test(r.L[0]),J(r.L));
+    check('1. 10/7 服務學習（二）照一般的句子（法律服務九句），不再有老人中心象棋、不記 Y2_SVC_CHESS（AA_342 4470f4908 拿掉）',r.L.length===1&&!/阿公|象棋/.test(r.L[0])&&!(r.G.flags&&r.G.flags.Y2_SVC_CHESS!=null),J(r.L));
+    r=await svc('2026-11-18',{Y2_SVC_CHESS:H.D('2026-10-07')}); check('1. 11/18 也照一般的句子（沒有「阿公終於輸了一盤」）',r.L.length===1&&!/阿公/.test(r.L[0]),J(r.L));
+    check('1. twfill_events 沒有 svc1007、svc1118',!('svc1007' in L())&&!('svc1118' in L()));
     r=await svc('2026-10-14'); check('1. 其他週照一般的句子',r.L.length===1&&!/阿公/.test(r.L[0]),J(r.L));
     const N=ev('ev_y2s1_noodle_1210');
     G=fresh('2026-12-10',18,'noodle'); EVENTS.zoneChanged&&EVENTS.zoneChanged(); const a=EVENTS.check(N); setT('2026-12-03',18); const b=EVENTS.check(N); G=fresh('2026-12-10',18,'noodle',{},{groups:[]}); const c=EVENTS.check(N);

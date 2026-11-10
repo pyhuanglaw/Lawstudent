@@ -121,7 +121,7 @@ const GGS=(function(){
       if(act==='read'&&!S.YJ_READ_TABLES.includes(t)) continue; if(GM.freeSeat&&GM.freeSeat(q.seat)!==q.seat) continue; if(q.seat.taken) continue;
       const d=Math.hypot(q.seat.x-it.x,q.seat.z-it.z)+((+q.seat.lift||0)>0.02?3:0); if(d<bd){ bd=d; best=q; } }
     return best; };
-  let pend=null;   /* 坐下那一刻要做的（STORY.onSeat）：{act:'read'|'drink'|'sit'} */
+  let pend=null; (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['ggshops:yjPend']=()=>{ pend=null; };   /* 坐下那一刻要做的（STORY.onSeat）：{act:'read'|'drink'|'sit'}；讀檔時放開（LOADGEN-LOCKS-1028）*/
   S.yjSit=async function(GM,it,then){ const E=GM.E, P=E&&E.player; if(!P||!P.obj||!GM.seatMenu) return null; const si=S.yjSeatIt(GM,it,then.act); if(!si) return null;
     pend={act:then.act}; try{ await GM.seatMenu(si); } finally { pend=null; S.yjDrinkOff(P); } return si.seat; };
   /* 坐下：拿書＝捧著書（pose read）；喝飲料＝做事的片段 Drink（量這張桌子合不合得上；合不上＝一般坐姿）*/

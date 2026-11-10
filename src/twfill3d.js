@@ -114,7 +114,7 @@ const TWFILL=(function(){
 
   /* ===================== 上課那一堂的一句 ===================== */
   /* 2-1 服務學習（二）：10/7（第 5 週）、11/18（第 11 週，接 10/7：看過 10/7 那一堂才換）*/
-  S.SVC=[{date:'2026-10-07',line:L.svc1007,mark:'Y2_SVC_CHESS'},{date:'2026-11-18',line:L.svc1118,need:'Y2_SVC_CHESS'}];
+  S.SVC=[];   /* AA_342 拿掉服務學習（二）老人中心象棋兩句（企劃線 4470f4908；服務學習（二）照 AA_735 是法律服務中心的九句）；帳號 B 交班交代、11-10 LAWWW 補做 */
   S.svcFor=(G,it)=>{ if(!G||!it||!it.c||it.c.id!=='service_2') return null; for(const x of S.SVC){ if(D(x.date)!==G.day||!x.line) continue; if(x.need&&!(G.flags&&G.flags[x.need]!=null)) continue; return x; } return null; };
   /* 4-2 海商法考試：考卷前一句——原本期中考 4/11；D118 沒有期中考，AA_578 第 2 節 #2 改到海商法期末考那堂（不限日期：那門課期末考哪天考就哪天）*/
   S.EXAM=[{course:'maritime',kind:'final',line:L.maritimeFinal}];
