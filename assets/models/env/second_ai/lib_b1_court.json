@@ -1,0 +1,37 @@
+{
+ "objects": 22,
+ "unique_meshes": 22,
+ "tris": 8582,
+ "tris_drawn": 8582,
+ "materials": 68,
+ "out": "assets/models/env/second_ai/lib_b1_court.glb",
+ "bytes": 967048,
+ "texres": 512,
+ "B1C": [
+  92.0,
+  104.0,
+  -41.0,
+  -31.0,
+  4.2
+ ],
+ "planters": [
+  [
+   102.2,
+   103.9,
+   -32.8,
+   -31.1
+  ],
+  [
+   102.2,
+   103.9,
+   -38.9,
+   -37.2
+  ]
+ ],
+ "bench": [
+  103.35,
+  103.95,
+  -36.4,
+  -33.8
+ ]
+}

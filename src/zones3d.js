@@ -339,28 +339,35 @@ const Z3 = (function(){
         m.rotation.order='ZYX'; m.rotation.z=Math.atan2(yb-ya,dx); m.rotation.x=-Math.PI/2; m.position.set((s1.x0+s1.x1)/2,(ya+yb)/2+0.01,(s1.z0+s1.z1)/2); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); campusWalk.push(m); }
       { const T=[82.1,0,-37.5,87.5,28,-32.1]; const m=new THREE.Mesh(new THREE.BoxGeometry(T[3]-T[0],T[4]-T[1],T[5]-T[2]),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((T[0]+T[3])/2,(T[1]+T[4])/2,(T[2]+T[5])/2); g.add(m); E.colliders.push(m); }   /* 方塔的鏡頭碰撞 */
     }
-    // ---- 總圖 B1 的下沉中庭（LIB-B1-OUTSIDE-1110；B1C）：程序化 BLOCKOUT（之後換 Blender 模型）----
-    { const C=B1C, Y=-C.dep, T=0.3, PH=1.0, cx=(C.x0+C.x1)/2, cz=(C.z0+C.z1)/2, wM=new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.stoneTex('#bfbab0').clone(); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(3,1.2); t.needsUpdate=true; return t; })(),roughness:0.9});
+    // ---- 總圖 B1 的下沉中庭（LIB-B1-OUTSIDE-1110；B1C）：程序化 BLOCKOUT＝正式模型（LIB-B1-COURT-ART-1110，LAWWW2 lib_b1_court.glb）載入失敗時的備用 ----
+    { const fbg=new THREE.Group(); fbg.name='b1c_fallback'; g.add(fbg); const C=B1C, Y=-C.dep, T=0.3, PH=1.0, cx=(C.x0+C.x1)/2, cz=(C.z0+C.z1)/2, wM=new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.stoneTex('#bfbab0').clone(); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(3,1.2); t.needsUpdate=true; return t; })(),roughness:0.9});
       const railM=new THREE.MeshStandardMaterial({color:0x3a3d41,roughness:0.45,metalness:0.4}), pv=pavingTex();
-      const box=(x0,x1,y0,y1,z0,z1,m,col)=>{ const b=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),m); b.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); b.castShadow=true; b.receiveShadow=true; g.add(b); if(col) E.colliders.push(b); return b; };
-      { const f=ground(g,C.x1-C.x0,C.z1-C.z0,pv,[(C.x1-C.x0)/3,(C.z1-C.z0)/3],cx,cz,Y); f.userData.dyn=true; }   // 中庭地面
+      const box=(x0,x1,y0,y1,z0,z1,m,col)=>{ const b=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),m); b.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); b.castShadow=true; b.receiveShadow=true; fbg.add(b); if(col) E.colliders.push(b); return b; };   /* 碰撞盒（col）藏起來照樣擋鏡頭（Raycaster 不看 visible）*/
+      { const f=ground(g,C.x1-C.x0,C.z1-C.z0,pv,[(C.x1-C.x0)/3,(C.z1-C.z0)/3],cx,cz,Y); f.userData.dyn=true; fbg.add(f); }   // 中庭地面
       box(C.x0-T,C.x1+T,Y,0,C.z0-T,C.z0,wM,true);                        // 北牆（樓梯靠著它）
       box(C.x1,C.x1+T,Y,0,C.z0-T,C.z1+T,wM,true);                         // 東牆
       box(C.x0-T,C.x0,Y,0,C.st1,C.z1+T,wM,true);                          // 西牆（北邊是樓梯口）
       const D=C.door; box(C.x0-T,D.x-D.w/2,Y,0,C.z1,C.z1+T,wM,true); box(D.x+D.w/2,C.x1+T,Y,0,C.z1,C.z1+T,wM,true); box(D.x-D.w/2,D.x+D.w/2,Y+D.h,0,C.z1,C.z1+T,wM,true);   // 南牆（靠總圖）：中間 B1 的門
       { const dm=new THREE.MeshStandardMaterial({color:0x4b5966,emissive:0x8fa6b8,emissiveIntensity:0.35,roughness:0.15,metalness:0.3,transparent:true,opacity:0.85});   /* 玻璃門透出一點 B1 的燈（晚上看得出是入口；GPU 截圖 L98E_b1court 晚上太暗）*/ box(D.x-D.w/2,D.x+D.w/2,Y,Y+D.h,C.z1+0.12,C.z1+0.18,dm,true); box(D.x-0.03,D.x+0.03,Y,Y+D.h,C.z1+0.1,C.z1+0.2,railM); }   // 玻璃門
       { const lm=new THREE.MeshStandardMaterial({color:0xfff4dc,emissive:0xfff1d6,emissiveIntensity:1.2}); box(D.x-0.35,D.x+0.35,Y+D.h+0.85,Y+D.h+0.95,C.z1-0.18,C.z1,lm); const pl=new THREE.PointLight(0xfff1d6,7,10,2); pl.position.set(D.x,Y+D.h+0.6,C.z1-1.0); g.add(pl); }   // 門上的壁燈（地下中庭晚上很暗）
-      { const sg=new THREE.Mesh(new THREE.PlaneGeometry(2.4,0.42),new THREE.MeshBasicMaterial({map:TK.signTex('總圖書館 B1　24 小時自習室',{bg:'#24303a',color:'#f3efe4'})})); sg.position.set(D.x,Y+D.h+0.45,C.z1-0.02); sg.rotation.y=Math.PI; g.add(sg); }
+      { const sg=new THREE.Mesh(new THREE.PlaneGeometry(2.4,0.42),new THREE.MeshBasicMaterial({map:TK.signTex('總圖書館 B1　24 小時自習室',{bg:'#24303a',color:'#f3efe4'})})); sg.position.set(D.x,Y+D.h+0.45,C.z1-0.02); sg.rotation.y=Math.PI; fbg.add(sg); }
       for(let k=0;k<Math.round(C.dep/0.175);k++){ const xa=C.stx-(k+1)*C.tread, xb=C.stx-k*C.tread, top=Y+(k+1)*0.175; if(top>-0.01) continue; box(xa,xb,Y,top,C.st0,C.st1,wM); }   // 台階（畫面上一階一階，和導航 visualHeightAt 同一個算法：低的那端在 stx）
       for(const [x0,x1,z0,z1] of [[C.x0-T,C.x1+T,C.z0-T,C.z0],[C.x1,C.x1+T,C.z0-T,C.z1+T],[C.x0-T,C.x0,C.st1,C.z1+T],[C.x0-T,C.x1+T,C.z1,C.z1+T]]){   // 地面那一圈：石砌矮牆（0.5 m，就是擋土牆往上）＋細的金屬扶手和立柱（樓梯口不擋）
         box(x0,x1,0,0.5,z0,z1,wM); const ax=(x1-x0)>(z1-z0), mx=(x0+x1)/2, mz=(z0+z1)/2, L2=ax?x1-x0:z1-z0;
         box(ax?x0:mx-0.025,ax?x1:mx+0.025,PH-0.05,PH,ax?mz-0.025:z0,ax?mz+0.025:z1,railM);
         for(let u=0.15;u<L2;u+=1.5){ const px=ax?x0+u:mx, pz=ax?mz:z0+u; box(px-0.02,px+0.02,0.5,PH,pz-0.02,pz+0.02,railM); } }
-      { const L=C.stx-C.x0, H=C.dep, rail=new THREE.Mesh(new THREE.BoxGeometry(Math.hypot(L,H),0.06,0.06),railM); rail.position.set((C.x0+C.stx)/2,Y+H/2+0.9,C.st1+0.05); rail.rotation.z=-Math.atan2(H,L); g.add(rail); for(let x=C.x0+0.6;x<C.stx;x+=1.2){ const yy=-(x-C.x0)/L*H; box(x-0.03,x+0.03,yy,yy+0.9,C.st1+0.02,C.st1+0.08,railM); } }   // 樓梯靠中庭那一側的扶手
+      { const L=C.stx-C.x0, H=C.dep, rail=new THREE.Mesh(new THREE.BoxGeometry(Math.hypot(L,H),0.06,0.06),railM); rail.position.set((C.x0+C.stx)/2,Y+H/2+0.9,C.st1+0.05); rail.rotation.z=-Math.atan2(H,L); fbg.add(rail); for(let x=C.x0+0.6;x<C.stx;x+=1.2){ const yy=-(x-C.x0)/L*H; box(x-0.03,x+0.03,yy,yy+0.9,C.st1+0.02,C.st1+0.08,railM); } }   // 樓梯靠中庭那一側的扶手
       // 導航：中庭地面、樓梯斜面；四周（含地面那一圈）擋住，只留樓梯口、樓梯底
       nav.addSurf({x0:C.x0,x1:C.x1,z0:C.z0,z1:C.z1,y:Y}); nav.addSurf({x0:C.x0,x1:C.stx,z0:C.st0,z1:C.st1,axis:'x',ya:0,yb:Y,tread:C.tread,rise:0.175,low:'x1'});
       nav.blockRect(cx,C.z0-0.35,C.x1-C.x0+1.4,0.7,0); nav.blockRect(cx,C.z1+0.35,C.x1-C.x0+1.4,0.7,0); nav.blockRect(C.x1+0.35,cz,0.7,C.z1-C.z0+1.4,0); nav.blockRect(C.x0-0.35,(C.st1+C.z1)/2+0.35,0.7,C.z1-C.st1+0.7,0);
       nav.blockRect((C.x0+C.stx-0.6)/2,C.st1+0.1,C.stx-0.6-C.x0,0.5,0);   // 樓梯和中庭地面之間（扶手），樓梯底 0.6 m 留開
+      /* LIB-B1-COURT-ART-1110（使用者 11-10「總圖b1樓梯 是往地下走到一個中庭 中庭的部分，我現在看不出來」，X307；LAWWW2 帳號 A）：正式模型 lib_b1_court.glb（清水模擋土牆、花崗石地面、樓梯踏面＋扶手＋腳燈、
+         B1 的玻璃帷幕＋玻璃門＋雨遮＋招牌、亮著的自習室、種花槽、兩個樹槽、一張石凳）。尺寸照 B1C，導航、門、樓梯不動；樹槽兩個、石凳一張是新的，在這裡加阻擋（座標＝lib_b1_court.json 的 planters、bench）。
+         載好以後藏備用的方塊（碰撞盒照舊擋鏡頭）；燈的材質 lbc_lit_* 晚上亮 */
+      for(const r of [[102.2,103.9,-32.8,-31.1],[102.2,103.9,-38.9,-37.2],[103.35,103.95,-36.4,-33.8]]) nav.blockRect((r[0]+r[1])/2,(r[2]+r[3])/2,r[1]-r[0],r[3]-r[2],0,0.05);
+      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lib_b1_court']) ASSETS.loadOne('bldg.lib_b1_court').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name='lib_b1_court_glb';
+        r.traverse(o=>{ if(!o.isMesh) return; o.receiveShadow=true; const mn=(o.material&&o.material.name)||''; o.castShadow=!/^lbc_(lit_|glass|canopy|ivy|cafe_leaf)|^cafe_leaf/.test(mn); if(/^lbc_lit_/.test(mn)&&!o.material.userData.nightReg){ o.material.userData.nightReg=true; if(TK.addNight) TK.addNight(o.material,1.4,0.35);   /* 晚上 1.4、白天 0.35 */ } });
+        g.add(r); fbg.visible=false; }).catch(e=>console.warn('總圖 B1 中庭正式模型載入失敗，用備用的方塊',e));
       for(const s1 of [{x0:C.x0,x1:C.x1,z0:C.z0,z1:C.z1,y:Y},{x0:C.x0,x1:C.stx,z0:C.st0,z1:C.st1,ya:0,yb:Y}]){ const ya=s1.y!==undefined?s1.y:s1.ya, yb=s1.y!==undefined?s1.y:s1.yb, dx=s1.x1-s1.x0;   // 點地面移動打得到的透明地面（同總圖台階）
         const m=new THREE.Mesh(new THREE.PlaneGeometry(Math.hypot(dx,yb-ya),s1.z1-s1.z0),new THREE.MeshBasicMaterial({visible:false})); m.rotation.order='ZYX'; m.rotation.z=Math.atan2(yb-ya,dx); m.rotation.x=-Math.PI/2; m.position.set((s1.x0+s1.x1)/2,(ya+yb)/2+0.01,(s1.z0+s1.z1)/2); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); campusWalk.push(m); }
       E.interactables.push({x:D.x,z:C.z1-0.9,radius:1.0,lv:0,label:'進 B1（24 小時自習室）',exit:{to:'library_b1',spawn:Object.assign({},(typeof LIBRARY_B1_LAYOUT!=='undefined'&&LIBRARY_B1_LAYOUT.stairs.spawn)||{x:-20.5,z:-2.4,yaw:Math.PI/2})}});
