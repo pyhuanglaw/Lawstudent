@@ -1,5 +1,8 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+> **規則只放一處（RULES-CONSOLIDATE-1110，LAWWW 11-10 19:12）**：共同規則＝開發分支的 `CLAUDE.md`；LAWWW2 的職位規則＝`docs/rules/ROLE_LAWWW2.md`（原本的 WORK_RULES、ART_SOP、SCENE_RULES、RULES_2D_TO_3D、ART_DIRECTION §12 都併進去，節號保留）。這個分支上那四個檔 11-10 刪掉了；新方法、工具表、踩到的坑要改規則，把文字交給 LAWWW 改 ROLE_LAWWW2，不在這裡另外寫規則。
+
+
 > **新容器第一件事：跑 `bash tools/blender/setup_env.sh`（D144，使用者 11-10 16:2x：「不是早就應該已經裝了嗎？為什麼現在才問我？……為什麼每次都要重新講一次」）**。
 > - 它裝 Blender 的 VRM 外掛、VRoid CC0 樣本。這些 10-10 起就在用、有登記（LICENSES.md、D33、`tools/blender/char/common.py` 開頭）。
 > - **已經在用、有登記的工具，接班時直接裝，不要問使用者。**
@@ -841,11 +844,7 @@
 - 下一步：小路深色木立面、阿德轉角外觀、2:30 AM 外觀（WZ-FIVE-1104）。
 - 暫存 worktree 的 diff 備份：`docs/art-rebuild/second_ai/wip/wip_backup_1104/`。
 
-## ⚠️ 新規則 D131（使用者 11-03 22:3x 對 BB 回「好」，LAWWW 22:42 轉達）
-- 瀏覽器測試一律排使用者的電腦：包括探針、流程、截圖、test_charlook、deploy、線上版。排 CC 的 cc-local 佇列，找 BB 或 CC 排。我的模型遊戲內截圖、瀏覽器 lookdev 也一樣。
-- Node 全套丟 GHA。
-- 雲端只留：幾秒鐘的 Node 單元測試、讀 log、Node 模擬、Blender（CPU）。
-- 新生南路第 1 批的瀏覽器測試（reachability_all、campus_layout_nav、zone_transitions、touch_flow_wenzhou、wz_street_integration），和交件截圖，都照這條排 PC。
+## ⚠️ 新規則 D131：已併入開發分支 `CLAUDE.md`／`docs/rules/ROLE_LAWWW2.md`（RULES-CONSOLIDATE-1110），這裡不再抄。
 
 ## 🔨 現在在做（11-04 06:4x UTC 更新）
 - **WZ-SECOND-1104（使用者 05:4x 直接交辦）溫州街第二批五間：MODEL_READY，已交 LAWWW**。溫州書屋、常在洗衣、帝大紅茶、夏日冰菓室、阿忠鮮果，都不能進去。
@@ -3879,7 +3878,7 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
   - 沒驗收的不接進正式遊戲；發布由 LAWWW-B 負責。
   - 原本「黃昏調色 KEY_GOLDEN 等使用者決定」那一項，現在由 LAWWW2-B 依這個方向決定。
 
-## ⚠ 不停工規則（使用者 2026-10-16 06:1x UTC，永久）：提交半成品、截圖還在跑、等待素材、寫完計畫、回報進度，都不是停止工作的理由——全文見 `WORK_RULES.md` 第 0-1 節。流程是：診斷 → 實際修改 → 截圖比較 → 修正 → 驗收 → 交付 → 主動接下一項。
+## ⚠ 不停工規則：已併入開發分支 `CLAUDE.md`／`docs/rules/ROLE_LAWWW2.md`（RULES-CONSOLIDATE-1110），這裡不再抄。
 
 ## 精修進度（LAWWW2-B，2026-10-16 06:0x UTC）——WORK_IN_PROGRESS
 
@@ -3933,23 +3932,7 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 - **招牌店名改成諧音或替代名**，不畫商標、不照抄品牌配色。
 - 詳見 `WORK_RULES.md` 第 0 節。
 
-## ⚠ D76（使用者 2026-10-16 P0 永久規則）：工作中也要一直收件——LAWWW2 的每個繼任者先讀這一節
-
-全文：`CLAUDE.md` 與 `docs/AI_SESSION_HANDOFF.md` 最上面「P0 永久規則：工作中仍須優先讀取使用者及其他 AI 的新訊息」（LAWWW-B 寫入，`b2d498e`；LAWWW2-B 已合併）。LAWWW2 要特別注意：
-1. **Blender 建模、Cycles 算圖、Playwright 截圖都是長工作**：
-   - 拆成小段，每段之間讀通知。有 queued notifications 就立刻 `ReadNotifications`，讀到 0。
-   - 長的算圖放背景跑。等的時候不要用一個長時間的 `sleep` 迴圈把自己鎖住（等的期間收不到訊息）。
-2. **這次的教訓（LAWWW2-B 2026-10-16 00:02Z）**：
-   - 我在算政大背景、做沛珊模型時，連續跑了一長串工具呼叫。
-   - BB-B（立繪 P0）和 LAWWW-B 的 4 則訊息在佇列裡等了最久 13 分鐘才讀到，使用者因此訂了這條規則。
-3. **分級**：
-   - P0 立刻處理：使用者的新指示、停止或換班、更正；其他 AI 通報衝突或重大 bug。
-   - P1 最近的安全節點：LAWWW-B 的分派、驗收請求；企劃組交付；交接板更新。
-   - P2 可以合併處理。
-   - 收到先回 ACK，說明怎麼排進工作。
-4. **GitHub 也要同步**：開始新的主要任務前，fetch 並重讀以下文件，不靠啟動時讀過的舊版：
-   - LAWWW-B 分支的 `docs/AI_SESSION_HANDOFF.md`、`docs/DUAL_AI_BOARD.md`。
-   - 企劃線的 `docs/story_planning/給開發組_交接板.md`。帳號 B 值班期間在 `claude/cool-heisenberg-o8kuqx`。
+## ⚠ D76：已併入開發分支 `CLAUDE.md`／`docs/rules/ROLE_LAWWW2.md`（RULES-CONSOLIDATE-1110），這裡不再抄。
 
 ## 使用者 2026-10-16 更正（P0）：政大的背景要用真實的店，不要虛構
 
@@ -4048,18 +4031,7 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 - 接下來照下面「交班（最新）」的順序：①便利商店商品第二版（WIP）→ ②女舍門燈罩加大 → ③盤點 READY_FOR_ART_REVIEW 成果；④汽車／約會美術不開工。以 LAWWW-B 的分派為準。
 - 本機 worktree（`/home/user/bg_wt`、`npc_wt`…）是帳號 A 容器上的，這個容器沒有；要重建。
 
-## ⚠ P0：使用者新訊息優先（2026-10-14 使用者給四個 AI 的永久工作規則，D72）——先讀這一節
-
-來源：開發分支 `CLAUDE.md` 最上面「P0 使用者新訊息優先與期末考素材來源」一節（使用者自己寫的 f6c836e／ace5d7e 為準；LAWWW 補註 ccb2edd）、`docs/AI_SESSION_HANDOFF.md` 第 0、4、7 節、`docs/PROJECT_DECISIONS.md` D72、`docs/USER_INSTRUCTION_LOG.md`。LAWWW 15:06Z P0 轉達，LAWWW2 15:08Z 讀過原文確認。
-
-1. **使用者新訊息是 P0**：任何工作中、接班中，使用者一傳訊息，在下一個能處理訊息的時點先完整讀、直接回覆，判斷是提問、討論、糾正、停止命令還是新任務，再決定要不要恢復原本的工作。不能把自己的待辦（Blender 建模、渲染、測試、截圖）排在使用者訊息前面。
-2. **被糾正就立刻停**：收到糾正或「不要做 X」，先停掉衝突的 X，不能嘴上答應卻繼續；已做的成果**只保存、不整合**。不能安全中斷的原子操作（匯出、Git）先完成並保存。工具執行期間讀不到訊息時，不宣稱能即時監控。
-3. **重大指示用固定格式確認**（【新指示確認】）：收到的新指示／對既有工作的影響／立即停止或修改／需要同步的 AI／GitHub 紀錄狀態／接下來處理。不只回「收到」；寫進 GitHub（這份交接最前面、工作清單）並記 commit SHA，沒同步前不說「規則已落實」。
-4. **溝通不等於已讀**：send_message 的 SENT／DELIVERED 不是 ACK；重要更正要同步到 GitHub 交接文件，等對方實際確認；聯絡不到就寫「待確認」，不說對方已處理。
-5. **跨帳號接班**（LAWWW2-B 也一樣）：讀舊待辦之前，先讀這一節和最新交接。GitHub 更新不會自動中斷已經在跑的工作階段，只有實際同步／讀檔後才算採用。
-6. 期末考題庫的緊急停止線是給 AA、BB 的（LAWWW2 不出題）；LAWWW2 只要不把任何考題寫進自己的成果。
-
-**待正式分派（LAWWW 15:06Z 預告，現在不用動）**：使用者 10/14 的新決策（健身體態、汽車、跨縣市約會、校外單獨約會 32 處、半互動 2D 約會場景）之後可能要 LAWWW2 做人物透明素材、道具、腳踏車與汽車相關美術；等 AA、BB 互審交接後 LAWWW 正式分派。
+## ⚠ P0：已併入開發分支 `CLAUDE.md`／`docs/rules/ROLE_LAWWW2.md`（RULES-CONSOLIDATE-1110），這裡不再抄。
 
 ## 交班（最新）：2026-10-14 17:4x UTC｜帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜正常交班
 
