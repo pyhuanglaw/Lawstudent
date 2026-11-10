@@ -124,7 +124,7 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     check('10. 兩個人一起坐下（Café）：開場句是 AA_649 第 4 節咖啡的其中一則',INVITE_DATA.seatOpen.coffee.some(L=>L.every(x=>lines().includes(x))),JSON.stringify(lines()));
     check('9. 剛演完見面（30 秒內）：手機不自己再打開（INV.phoneBack false）；31 秒後可以',INV.phoneBack(G)===false&&(t+=31000,INV.phoneBack(G)===true));
     const src=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
-    check('9. game3d.js：手機約人、改天之後打開手機前問 INV.phoneBack；改天那一條 promise 有 catch（console.warn）',(src.match(/INV\.phoneBack\(G\)\) openPhone\('msg'\)/g)||[]).length>=2&&/INV\.flow\(GM,v\.who,null,false\)\.catch\(e=>console\.warn/.test(src)); }
+    check('9. game3d.js：手機約人、改天之後打開手機前問 INV.phoneBack；改天那一條 promise 有 catch（console.warn）',(src.match(/INV\.phoneBack\(G\)\) openPhone\('msg'\)/g)||[]).length>=2&&/INV\.flow\(GM,v\.who,null,false(,r\.flowPlace\?\{place:r\.flowPlace\}:undefined)?\)\.catch\(e=>console\.warn/.test(src)); }   /* 2026-11-10 HER-ASK-LATER-DAY-1110：改天可以帶地點（flowPlace）*/
   { const G=setup('2025-09-12',15,'library_hall',hallSeats(),SPAWN); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','library',G.day,15,{by:'player'}); npc('heroine_05',SPAWN.x+1,SPAWN.z,{beh:'idle'}); holdWalk=true; INV.tick(GM); await W(5);
     check('9. 她正在帶路：手機不自己再打開',iv.lead&&INV.phoneBack(G)===false); }
   { const G=setup('2025-09-12',14.3,'library_hall',hallSeats(),SPAWN); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','library',G.day,15,{by:'player'});

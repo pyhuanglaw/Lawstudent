@@ -6,6 +6,7 @@
 //   4 途中別的劇情改了目標：不再蓋過去；結束時也不還原（不把別人的目標改掉）
 //   5 她帶路（accepted＋lead）也算；二樓坐滿改去三樓（alt）＝跟著改成新的地方
 //   6 沒有一起走的約（只是約好晚一點）：目標不動
+//   7 STORY.tick 一開始就跑 INV.goingGoal（後面劇情的 return 擋不到）
 // 修改前 1、2、3、5 FAIL（沒有 S.goingGoal）。用法：node tests/inv_now_goal_unit.js
 const H=require('./pg_harness.js');
 const {check,GM}=H; const J=JSON.stringify;
@@ -33,5 +34,7 @@ const tick=()=>{ try{ INV.tick(GM); }catch(e){ console.warn(e); } };
     } finally { globalThis.Z3=z0; } }
   { const G=setup(13); INV.accept(G,'heroine_01','cafe',G.day,15,{}); tick();
     check('6. 只是約好 15:00（沒有一起走）：目標不動',G.goal==='去總圖念書'&&!goals.length,J({g:G.goal,n:goals.length})); }
+  { const st=require('fs').readFileSync(require('path').join(H.ROOT,'src/story3d.js'),'utf8'), i=st.indexOf('S.tick=function(GM,dt){'), j=st.indexOf('INV.goingGoal(GM)',i), b=st.indexOf('if(E.player.busy||GM.D.active',i);
+    check('7. STORY.tick 一開始就跑 INV.goingGoal（在各段劇情的 return 之前；瀏覽器 flow_inv_go_jump C 抓到 INV.tick 整輪跑不到）',i>0&&j>i&&b>j,J({i,j,b})); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });
