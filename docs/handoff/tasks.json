@@ -53028,7 +53028,7 @@
    "id": "NIGHT-MARKET-1110",
    "title": "公館／汀州路夜市十一攤正式規格（店名、外觀、營業／收攤）＋禮貌生財上師算命支線（X326）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53041,7 +53041,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "模型第 1 版已整合 b810b809b（LAWWW2 22ee82b76：十攤＋背景三攤＋公館三攤，各攤開收時間、收攤樣子）；10 支相關測試 ALL PASS，瀏覽器沒跑（BB 排 CC 拍十三攤白天／晚上／收攤）。背景子代理（worktree，基準 b810b809b）在接「能看能買」：匯入 AA_752 @3259b5f78、買東西、套圈圈週五六日；回來當回合合併（D148）。LAWWW2 已知缺點：沒有攤主、沒有蒸氣、食物是簡單形狀"
+   "next": "模型 b810b809b＋能看能買 ecd4fdd61（src/night_market3d.js、src/data/night_market.js、tools/story/import_night_market.py；AA_752 @3259b5f78）都在開發分支；night_market_unit 23 項等 8 支 ALL PASS，瀏覽器沒跑（BB 排第二批）。各攤時間用 AA 的（執行時蓋過配置；配置檔數字和 tingzhou_unit 第 9 項還是舊時間——請 LAWWW2 下一包把配置改成 AA 的）。沒做：攤主 NPC、坐下吃（甜湯折疊桌）、賣完提早收、EAT「老樣子」紀錄。問 AA：說話人寫「老闆」、s10「阿婆」可不可以"
   },
   {
    "id": "PEISHAN-VOICE-1110",
