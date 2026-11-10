@@ -27,3 +27,28 @@
 - 新的店、店名一律她給（D147）；發布由 LAWWW 決定（D85，11-10 再確認），但花序、汀州路、夜市、禮貌生財那幾份規格書寫了「發布前先問」的照規格書。
 - 選擇題要她看的稿寫在本文或選項說明（X329）；生圖提示詞格式照 ROLE_BB（D97）。
 - 沛珊：有趣、聰明、會接梗；家裡是台中的小型連鎖餐廳（X327）。上師＝退休的刑法教授、全部免費（X326／X332，付費那句待她最後確認）。
+
+## 5. 各職位自己交來的（2026-11-10 22:4x；過時的那一行直接刪）
+
+### BB（企劃線 `claude/story-planning`）
+- 判定紀錄全部在 `docs/story_planning/BB_255_v9.10.20驗收.md`（PASS／FAIL／ART_APPROVED，照日期往下加）。
+- 通過的 2D 背景、CG：`docs/story_planning/bg_approved/`（README 逐張紀錄）；電影海報 72 張 `bg_approved/posters/`（都在遊戲裡，X314）。
+- 跟使用者要圖的提示詞：`BB_132`（第 119～127 組＝海報、公館六間）、`BB_221`（深色底場景）、`BB_176`（公館招牌）；格式 D97。
+- 使用者給過的參考圖：企劃線 `docs/story_planning/ref_images/`（shops／wz_cafes／model_renders）。官方建築照片不上 GitHub。
+- 檢查表：BB_308～311、BB_313（電影）、BB_310（告白）、BB_314（期末飯）、BB_312（花序驗收計畫）、BB_315（夜市＋禮貌生財）、BB_316（AA_750 意見）、BB_307（公館六間指令原文）。
+
+### AA（企劃線）
+- 現行設定只看：`00_現行設定總表.md`、`00_人物口氣表.md`、`00_台詞寫作規則.md`、`voice_canon/<id>.md`、`docs/WORLD_NAMING.md`。
+- 交了還沒匯入：AA_748 芷若告白（2cb84d6df，可匯）；AA_749 朋友版期末飯 Y1S1／Y1S2／Y2S1（20145308e、9665a9075，可匯）、Y2S2（53e872a89，BB 還沒看）；Y3S1 以後還沒寫。
+- **不匯**：AA_749 gf 版的沛珊整段、AA_745 fallback 的沛珊 18 句（等 X327 重寫；AA 在等使用者回「沛珊樣稿口氣對不對」）。
+- AA_750 禮貌生財上師提案最新版 871b331c9（BB 看過，等使用者授權）。AA_747 攤名、AA_744 第 0、1 節店名作廢（X328）。
+- 使用者選過的：沛珊告白＝帶一點開玩笑的眼神直接說「我真的很喜歡你」；芷若告白＝寫在杯子上（六句定稿）；可昕高中打排球；上師＝退休的著名刑法教授、不缺錢、喜歡找法律系學生聊天。
+- 工具：`docs/story_planning/tools_aa/line_lint.py <檔>`；稽核結果 `audit_1110/`；改稿順序 AA_746。
+
+### CC（`claude/cc-testing`；結果在 `claude/cc-local`）
+- 使用者電腦（機器名 MSI）的測試 runner：桌面捷徑「啟動測試迴圈」→ `Documents\Lawstudent_cclocal\tools\cc_local\run_forever.ps1`（不要搬、不要改名）；並行數 `tools/cc_local/config.txt` 的 PARALLEL。
+- 佇列 `tools/cc_local/queue.txt`：`ID | 40 碼 SHA | kind | script | url | 分鐘 | ENV`；kind＝probe／game／node／blender／webkit。runner 會自己換新版，使用者不用重開（只有改 run_forever.ps1 才要）。
+- 結果 `docs/story_planning/CC/local_out/<ID>/`（run.log、meta.json、out/）。**cc-local 很大，雲端不要整支 fetch**，用 GitHub 工具讀單一檔。
+- Blender 工作：一律 CPU、獨佔跑；ENV 寫 `SCRIPT_FROM=lawww2`、`XARGS=--out {out}`；說明 `tools/cc_local/README.md` 第 151～155 行。
+- 探針：CC 的在 `docs/story_planning/test_tools/cc/`，BB 的在 `docs/story_planning/test_tools/`；排之前跑 `tools/cc_local/probe_lint.py`。
+- 存檔樣本：`test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json`（使用者 day46）、`fixtures/heavy_save_m5.json`、開發分支 `tests/fixtures/user_save_day54_1110.json`。使用者原始存檔不 commit。
