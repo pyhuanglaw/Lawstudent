@@ -272,7 +272,8 @@ const EXLIB=(function(){
     if(S.storyFirst(G,id,n)) return false;
     if(S.isPool(id)&&!S.inCast(G,id)){ const t=termOf(G); const nd=S.nodRec(G,G.zone); if(nd[id]&&t&&sub(S.rec(G).pool.said,t.id)[id]) return false; }   /* pool：這學期說過了＝照原本的閒聊 */
     GM.sceneBegin({adv:id}); let r=false;
-    try{ const E=GM.E; if(n&&!n.seat&&GM.face&&E&&E.player) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); if(GM.cine&&E&&E.player&&n) GM.cine('talk',E.player.obj,n.obj); r=await S.greet(GM,id,n); }
+    try{ const E=GM.E; if(n&&!n.seat&&GM.face&&E&&E.player) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); if(GM.cine&&E&&E.player&&n) GM.cine('talk',E.player.obj,n.obj); const nod1=!S.nodRec(G,G.zone)[id]; r=await S.greet(GM,id,n);
+      if(r&&!nod1&&typeof GIFTH!=='undefined'&&GIFTH.libTalk) await GIFTH.libTalk(GM,{name:nameOf(id),obj:n&&n.obj,charId:id,pose:n&&n.pose},id); }   /* 節日、她生日：打完招呼多「送她禮物…」（AA_732 rules 最後一條 ②，d1bf75f6f；src/gifthol3d.js）。這一段這一間第一次＝只點頭，不出 */
     finally { if(n&&typeof SOCIAL!=='undefined'&&SOCIAL.npcName){ n.name=SOCIAL.npcName(id); n.talkLabel='和'+n.name+'說話'; } GM.sceneEnd(); }
     return !!r; };
 

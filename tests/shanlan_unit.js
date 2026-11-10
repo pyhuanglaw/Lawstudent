@@ -107,4 +107,12 @@ if(PLACES.hours&&PLACES.hours.xs_shanlan){ const o=(h,d)=>PLACES.isOpen('xs_shan
   const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), gate=/it\.exit\.to==='xs_shanlan'&&!PLACES\.isOpen\('xs_shanlan'/.test(st);
   check('⑩ 營業時間：週四 11:00 開、22:00 關；週五開到 23:00；名字「山嵐書店」；story3d.js 店門照開放時間擋',ok&&gate,PLACES.closedText('xs_shanlan',10,thu)+(gate?'':'｜story3d.js 沒有店門擋')); }
 else console.log('略過 ⑩ 營業時間：places.js 還沒有 xs_shanlan（接線 patch 沒套）');
+// ⑪ 節日送禮：學姊在文具區的站位（src/gifthol3d.js GIFTH.SL_SCHED；BB P3 BUG-SHANLAN-SIS-STEAL-1110）——站得住、從店門走得到、走得回店門；
+//    離「看文具」(4.5, 6.5) ≥ 1.2 m：玩家站在「看文具」旁邊（0.6 m 內、站得住的點）一定離「看文具」比離她近（nearestInteractable 照距離）。修改前 (4.15, 6.5)：0.35 m，FAIL
+{ const zz0=loadZone('xs_shanlan'); let SL=null; try{ for(const f of ['src/data/gift_holiday.js','src/gifthol3d.js']){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); } SL=GIFTH.SL_SCHED; }catch(e){ console.log('gifthol3d 載入失敗 '+e); }
+  const look=(L.interact||[]).find(q=>q.label==='看文具'&&(q.lv|0)===0), at=SL&&SL.at, IN=[L.enterAt.x,L.enterAt.z,0];
+  const d=at&&look?Math.hypot(at[0]-look.x,at[1]-look.z):0, n0s=zz0.levels[0], ok1=!!at&&n0s.clear(at[0],at[1],0.33)&&E.canStand(at[0],at[1],0.33,0);
+  const wIn=at?walk(IN,[at[0],at[1],0]):{ok:false}, wOut=at?walk([at[0],at[1],0],IN):{ok:false};
+  let steal=[]; if(at&&look) for(let r=0;r<=0.6+1e-9;r+=0.1) for(let a=0;a<24;a++){ const x=look.x+Math.cos(a*Math.PI/12)*r, zz=look.z+Math.sin(a*Math.PI/12)*r; if(!E.canStand(x,zz,0.32,0)) continue; if(Math.hypot(x-at[0],zz-at[1])<=Math.hypot(x-look.x,zz-look.z)) steal.push(x.toFixed(2)+','+zz.toFixed(2)); }
+  check(`⑪ 學姊在文具區的站位 (${at?at[0]+', '+at[1]:'—'})：站得住、從店門走得到也走得回去、離「看文具」${d.toFixed(2)} m（≥1.2）、「看文具」0.6 m 內站得住的點都離「看文具」比較近`,ok1&&wIn.ok&&wOut.ok&&d>=1.2&&!steal.length,fmt({ok1,wIn,wOut,steal:steal.slice(0,4)})); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

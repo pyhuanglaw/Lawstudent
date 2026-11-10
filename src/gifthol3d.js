@@ -18,6 +18,14 @@
    她送祐廷（AA_734）：gate（聖誕第 4 階以上 B／C／D／D2；2/14、七夕第 6 階或交往中 C／D／D2）、how（當面那天給；交往中沒見到＝7 天內第一次見到給、多一句 late；
      交往中她在國外／老家＝宿舍信箱包裹、卡片；existing＝那一年那個節照專屬場次）；收到的東西進宿舍房間的櫃子（STORY.ROOM_EXTRA）、人物頁「她送的」、選單「物品」。
    山嵐文具區學姊（AA_734 stationery）：學期中週六 15:00～16:00、隔週（上課週次單數）在文具區（STORY.SCHED_X）；走到文具區旁邊＝那一場（sl_sis_1／2／3／rot）；兩則提示。
+   AA_732 rules 最後一條（d1bf75f6f，11-10 12:4x 補四問，AA 定）：
+     ① 第三個人＝同一個節日第三個收禮人（S.capped，程式本來就對）；旁邊有沒有別人不影響。
+     ② 圖書館讀書區「小聲」那套（D127；期末考前 EXLIB.talk 的點頭／（小聲）那幾句不走 offerInvite）：打完招呼多一個「送她禮物…」（S.libTalk，examlib3d.js 呼叫）；
+        反應照一般的 open／item／love-ok-no，她的第一句前面加「（小聲）」（o.quiet：LIBQ.quiet，讀書區的 GM.say 本來就會整段加；A館 4F 不是 LIBQ 的區域＝只有第一句加）。
+        平常（不是期末考前）的讀書區照舊走 offerInvite 的 TALK_OPTS，GM.say 的 LIBQ.whisper 自動加。
+     ③ 芷若在吧檯上班（story3d.js counter，n.staff==='cafe'）：點餐選單多「送她禮物…」（S.counterOpt，條件同 S.talkOpts）；送出去以後演完加旁白 S.COUNTER_NARR。
+     ④ 學姊生日原本的事件（sis_y2y3_events.js 2-4 bday：ev_sis_bday_y1／y2、ev_sis_bday_date_y1／y2；旗標 SIS_BDAY_Y1／Y2）演過＝那一天不出「送她禮物…」（S.sentThis）；
+        選了遞茶葉（'tea'）＝那一年的生日禮物，記 sent（bday|年）＋GIFT_GIVEN_heroine_05（S.sisBdaySync）；沒演到（missed、沒有旗標）＝照一般送禮。
    存檔：G.flags.GIFTH＝{bag:[{id,day,shop}], given:{人物:[id]}, fest:{'節|年':[人物]}, sent:{'人物|節|年':id}, got:{'人物|節|年':{day,band,mode}}, recv:[{pid,k,y,band,item,line,day,mail}],
      mail:{'人物|節|年':{day,played}}, sl:{s1,s2,s3,rot,day}, hint:{'pen|年','case|年'}, third}；舊存檔沒有＝空的（讀的時候補）。
    測試：node tests/gift_holiday_unit.js */
@@ -51,7 +59,10 @@ const GIFTH=(function(){
   S.text=(G,t)=>String(t).replace(/\{name\}/g,(G&&G.name)||'祐廷');
   S.who=(id,n)=>({name:nm(id),obj:n&&n.obj,charId:id,pose:n&&n.pose});
   /* 一句開頭是（動作）、後面接著講話的，拆成旁白＋她說的（字不改；同 gift3d.js）*/
-  const play=async(GM,who,lines)=>{ for(const t of lines||[]){ const s=S.text(GM.G,t), m=/^(（[^）]*）)(.+)$/.exec(s); if(m){ await GM.say(null,m[1]); await GM.say(who,m[2]); } else if(/^（/.test(s)) await GM.say(null,s); else await GM.say(who,s); } };
+  /* q＝{first:true}：她說的第一句前面加「（小聲）」（② 讀書區；LIBQ.quiet：已經是小聲的不重複），加過就清掉 */
+  S.QUIET='（小聲）';
+  const hush=(q,s)=>{ if(!q||!q.first) return s; q.first=false; return typeof LIBQ!=='undefined'&&LIBQ.quiet?LIBQ.quiet(s):(/小聲/.test(s)?s:S.QUIET+s); };
+  const play=async(GM,who,lines,q)=>{ for(const t of lines||[]){ const s=S.text(GM.G,t), m=/^(（[^）]*）)(.+)$/.exec(s); if(m){ await GM.say(null,m[1]); await GM.say(who,hush(q,m[2])); } else if(/^（/.test(s)) await GM.say(null,s); else await GM.say(who,hush(q,s)); } };
   S.play=play;
 
   /* ---------------- 節日 ---------------- */
@@ -116,21 +127,32 @@ const GIFTH=(function(){
   S.capped=function(G,pid,h){ if(!h||h.k==='bday') return false; const L=F(G).fest[h.k+'|'+h.y]||[]; return L.length>=2&&!L.includes(pid); };
   S.sentThis=function(G,pid,h){ if(!h) return false; if(F(G).sent[hkey(pid,h.k,h.y)]) return true;
     if(pid==='heroine_05'&&h.k==='xmas'&&h.y===2025&&typeof FAMXMAS!=='undefined'&&FAMXMAS.gave&&FAMXMAS.gave(G)) return true;   /* AA_406：家族的那一份算那一年的聖誕禮物（同 fest3d.js）*/
+    if(pid==='heroine_05'&&h.k==='bday'&&S.sisBdayPlayed(G,h.y)) return true;   /* ④ 她生日原本的事件演過了（AA_732 rules 最後一條）*/
     return false; };
+  /* ④ 學姊生日原本的事件（sis_y2y3_events.js 2-4）：2026、2027 兩年；旗標 there／tea／water＝演過（missed＝沒演到）*/
+  S.SIS_BDAY={2026:'SIS_BDAY_Y1',2027:'SIS_BDAY_Y2'};
+  S.SIS_BDAY_PLAYED=['there','tea','water'];
+  S.SIS_TEA='一包茶葉';   /* 原本事件的那一項「（遞給她一包茶葉）」*/
+  S.sisBdayPlayed=(G,y)=>{ const f=S.SIS_BDAY[y]; return !!f&&S.SIS_BDAY_PLAYED.includes(((G&&G.flags)||{})[f]); };
+  /* 今天是她的生日、原本的事件演過了：記成那一年的生日（sent bday|年）；遞茶葉＝記 GIFT_GIVEN（那一天那一筆）。只記一次 */
+  S.sisBdaySync=function(G){ if(!S.on()||!G) return false; const pid='heroine_05', h=S.holOf(pid,G.day); if(!h||h.k!=='bday'||!S.sisBdayPlayed(G,h.y)) return false;
+    const R=F(G), key=hkey(pid,h.k,h.y); if(R.sent[key]) return false; const v=G.flags[S.SIS_BDAY[h.y]]; R.sent[key]='sis_bday_'+v;
+    if(v==='tea'&&typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(pid,'GIFT_GIVEN_'+pid,S.SIS_TEA);
+    return true; };
   /* 當面說話時：今天能不能出「送她禮物…」——{h, items, capped}／null */
-  S.state=function(G,pid){ if(!S.on()||!G||!S.canGet(G,pid)) return null; const h=S.holOf(pid,G.day); if(!h) return null;
+  S.state=function(G,pid){ if(!S.on()||!G||!S.canGet(G,pid)) return null; const h=S.holOf(pid,G.day); if(!h) return null; if(pid==='heroine_05') S.sisBdaySync(G);
     if(pid==='kexin'&&S.kxSkip(G,h.k,h.y)) return null; if(S.sentThis(G,pid,h)) return null;
     return {h,items:S.givable(G,pid),capped:S.capped(G,pid,h)}; };
   S.talkOpts=function(G,id){ const st=S.state(G,id); if(!st) return [];
     const hint=st.capped?'這個節日已經送了兩個人':(st.items.length?'包包裡有 '+st.items.length+' 樣可以送她':'包包裡沒有可以送她的（店裡可以買）');
     return [{t:S.TALK,hint,dim:st.capped||!st.items.length,run:async(GM,who)=>{ await S.giveTalk(GM,who||S.who(id),id); }}]; };
   S.thirdLine=async function(GM){ const R=F(GM.G), T=X().third; await GM.say(null,T[R.third%T.length]); R.third++; };
-  S.giveTalk=async function(GM,who,pid){ const G=GM.G, st=S.state(G,pid); if(!st) return null;
+  S.giveTalk=async function(GM,who,pid,o){ const G=GM.G, st=S.state(G,pid); if(!st) return null; o=o||{};
     if(st.capped){ await S.thirdLine(GM); return 'third'; }
     if(!st.items.length){ GM.toast&&GM.toast('包包裡沒有可以送她的禮物'); return null; }
     const opts=st.items.map(b=>({t:S.item(b.id).name,hint:b.special?'':S.shopName(b.shop)})); opts.push({t:'算了'});
     const i=await GM.choose(opts), b=st.items[i]; if(!b) return null;
-    const r=await S.hand(GM,who,pid,b.id,st.h,{}); await S.herGive(GM,who,pid,{gave:true}); return r; };
+    const r=await S.hand(GM,who,pid,b.id,st.h,{quiet:!!o.quiet}); await S.herGive(GM,who,pid,{gave:true}); return r; };
   /* 交出去：記錄、演反應、好感、記憶。o.date＝節日約會裡（不演 open）*/
   S.hand=async function(GM,who,pid,gid,h,o){ const G=GM.G, R=F(G), it=S.item(gid); if(!it) return null; o=o||{};
     if(it.shop!=='special'){ const k=R.bag.findIndex(b=>b&&b.id===gid); if(k>=0) R.bag.splice(k,1); }
@@ -138,8 +160,9 @@ const GIFTH=(function(){
     if(h.k!=='bday'){ const L=R.fest[h.k+'|'+h.y]||(R.fest[h.k+'|'+h.y]=[]); if(!L.includes(pid)) L.push(pid); }
     const T=X().react[pid], band=S.band(G,pid), cat=S.cat(pid,gid);
     await GM.say(null,'你把'+it.name+'遞給'+(who&&who.name||nm(pid))+'。');
-    if(!o.date) await play(GM,who,T.open[h.k][band]);
-    const ic=T.item[gid]; await play(GM,who,ic?(ic[band]||ic['*']):T[cat][band]);
+    const q=o.quiet?{first:true}:null;   /* ② 讀書區：她的第一句前面加「（小聲）」*/
+    if(!o.date) await play(GM,who,T.open[h.k][band],q);
+    const ic=T.item[gid]; await play(GM,who,ic?(ic[band]||ic['*']):T[cat][band],q);
     S.adjust(G,pid,cat);
     if(typeof SOCIAL!=='undefined'&&SOCIAL.remember){ if(cat==='love') SOCIAL.remember(pid,'GIFT_LOVE_'+pid,it.name); SOCIAL.remember(pid,'GIFT_GIVEN_'+pid,it.name); }
     if(pid==='heroine_02'&&gid==='g_old_poster'&&G.flags) G.flags.ZR_POSTER=true;   /* AA_416 1-8 的老電影海報（AA_524 Z8，src/aa524_3d.js）：送到的一樣記 */
@@ -207,6 +230,16 @@ const GIFTH=(function(){
     if(GM.autosave) GM.autosave(); return d.band; };
   /* 說完話（offerInvite 的選單結束）還沒給的：她給（你今天沒有送她）*/
   S.afterTalk=async function(GM,who,pid){ if(!S.herDue(GM.G,pid)) return null; return S.herGive(GM,who||S.who(pid),pid,{}); };
+  /* ② 圖書館讀書區「小聲」那套（examlib3d.js EXLIB.talk 打完招呼以後呼叫）：今天能送＝選單「送她禮物…」「就這樣」；送了照 giveTalk（她的第一句加（小聲））；
+     沒送＝她給（同 offerInvite 後面的 S.afterTalk）。今天不能送＝什麼都不做（null）*/
+  S.libTalk=async function(GM,who,pid){ const O=S.talkOpts(GM.G,pid); if(!O.length) return null; who=who||S.who(pid);
+    const k=await GM.choose(O.map(o=>({t:o.t,hint:o.hint,dim:o.dim})).concat([{t:'就這樣'}]));
+    if(k===0){ const r=await S.giveTalk(GM,who,pid,{quiet:true}); if(r==='love'||r==='ok'||r==='no') return r; }
+    await S.afterTalk(GM,who,pid); return k===0?'none':'skip'; };
+  /* ③ 芷若在吧檯上班（story3d.js counter 的點餐選單）：條件同 S.talkOpts；送出去以後演完加旁白 */
+  S.COUNTER_NARR='（她把東西收到吧檯下面。）';
+  S.counterOpt=function(G,pid){ const o=S.talkOpts(G,pid)[0]; return o?{t:o.t,hint:o.hint,dim:o.dim,giftHer:pid}:null; };
+  S.counterGive=async function(GM,who,pid){ const r=await S.giveTalk(GM,who||S.who(pid),pid); if(r==='love'||r==='ok'||r==='no') await GM.say(null,S.COUNTER_NARR); return r; };
   /* 交往中、那一天她在國外／老家：宿舍信箱的包裹（還沒交往的不寄）*/
   S.MAIL_NARR='（宿舍的信箱裡有一個包裹，寄件人寫著她的名字。）';
   S.mailMake=function(G){ if(!S.on()||!G) return 0; const R=F(G); let n=0;
@@ -223,7 +256,10 @@ const GIFTH=(function(){
 
   /* ---------------- 山嵐文具區：學姊（AA_734 stationery）---------------- */
   S.SL_ZONE='xs_shanlan'; S.SL_AT={x:4.5,z:6.5,lv:0};   /* 配置 interact「看文具」(4.5, 6.5) */
-  S.SL_SCHED={days:[6],from:15,to:16,zone:'xs_shanlan',act:'linger',at:[4.15,6.5,Math.PI/2,0],label:'山嵐書店（文具區）',note:'AA_734 stationery：學期中的週六 15:00～16:00、隔週一次'};
+  /* 她站的地方（BB P3 BUG-SHANLAN-SIS-STEAL-1110）：原本 (4.15, 6.5) 離「看文具」0.35 m——演完那一場玩家走到「看文具」，按鈕被「和溫書瑀說話」搶走（nearestInteractable 照距離）。
+     改站兩張文具桌中間的走道 (5.8, 6.5)（桌子 z 6.95～7.85／5.15～6.05、東牆文具架 x 6.6 起；人物半徑 0.33 站得住，從店門走得到——tests/shanlan_unit.js），
+     面向東牆的文具架；離「看文具」1.3 m（≥1.2）：站在「看文具」旁邊（0.6 m 內）一定是「看文具」，往她那邊走才是和她說話。S.slSpace 的 0.6 m 照留 */
+  S.SL_SCHED={days:[6],from:15,to:16,zone:'xs_shanlan',act:'linger',at:[5.8,6.5,Math.PI/2,0],label:'山嵐書店（文具區）',note:'AA_734 stationery：學期中的週六 15:00～16:00、隔週一次'};
   /* 她在文具區的日子：學期中（CALENDAR.termOf）、週六、上課週次單數（隔週）、2026-02 起、她在美國（2028-08～12）不在；認識了、人在臺北 */
   S.slDay=function(G,day){ const d=day==null?G.day:day, D0=DK('2026-02-01'), U0=DK('2028-08-01'), U1=DK('2028-12-31'); if(D0==null||d<D0) return false; if(U0!=null&&U1!=null&&d>=U0&&d<=U1) return false;
     const w=(ymd(d)||{}).wd; if(w!==6) return false; const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null; return !!t&&(t.week|0)%2===1; };
@@ -261,7 +297,7 @@ const GIFTH=(function(){
     const o=P.obj.position; return (P.lv|0)===S.SL_AT.lv&&Math.hypot(o.x-S.SL_AT.x,o.z-S.SL_AT.z)<2.5&&!!S.slPick(G); };
   let busy=false; (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['gifthol:busy']=()=>{ busy=false; };
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!S.on()) return false; if(GM.D&&GM.D.active) return false; if(GM.E&&GM.E.player&&GM.E.player.busy) return false;
-    S.mailMake(G);
+    S.mailMake(G); S.sisBdaySync(G);   /* ④ 她生日原本的事件演完：記成那一年的生日禮物 */
     let f=null; if(S.DORM.test(String(G.zone||''))&&S.mailDue(G).length) f=()=>S.mailPlay(GM);
     else if(S.slNear(GM)) f=async()=>{ GM.sceneBegin&&GM.sceneBegin({adv:'heroine_05'}); try{ await S.slPlay(GM,S.who('heroine_05',GM.npc.heroine_05||GM.npc.sis)); } finally { GM.sceneEnd&&GM.sceneEnd(); } };
     if(!f) return false; busy=true; Promise.resolve(f()).catch(e=>console.warn('GIFTH.tick',e)).finally(()=>{ busy=false; }); return true; };
