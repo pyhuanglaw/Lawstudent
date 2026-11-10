@@ -1,0 +1,25 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_poster_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\F24_posters_r2\out
+CC 南洋海報 72 張：PARTS B；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  28.4s] 片單：36 段、72 部
+PASS [B] 2029-05 大廳兩張海報貼上了（m2905a、m2905b）  [{"id": "m2905a", "vis": true, "map": true}, {"id": "m2905b", "vis": true, "map": true}]
+  [  73.9s] [B] 2029-07 讀檔以後：{"zone": "dorm_hall", "day": 1398, "key": "2029-07-15", "h": 14.01, "want": "2029-07-15", "dlg": "（你連夜把東西裝好。）▼ 點一下繼續", "caption": "你的房間在四樓，409。樓梯在走廊北邊。"}
+FAIL [B] 2029-07 大廳兩張海報貼上了（m2907a、m2907b）  []
+  [  93.5s] [B] 2029-09 讀檔以後：{"zone": "dorm_hall", "day": 1460, "key": "2029-09-15", "h": 14.01, "want": "2029-09-15", "dlg": "（你連夜把東西裝好。）▼ 點一下繼續", "caption": "你的房間在四樓，409。樓梯在走廊北邊。"}
+FAIL [B] 2029-09 大廳兩張海報貼上了（m2909a、m2909b）  []
+  [ 113.0s] [B] 2029-11 讀檔以後：{"zone": "dorm_hall", "day": 1521, "key": "2029-11-15", "h": 14.01, "want": "2029-11-15", "dlg": "（你連夜把東西裝好。）▼ 點一下繼續", "caption": "你的房間在四樓，409。樓梯在走廊北邊。"}
+FAIL [B] 2029-11 大廳兩張海報貼上了（m2911a、m2911b）  []
+  [ 133.1s] [B] 2030-01 讀檔以後：{"zone": "dorm_hall", "day": 1582, "key": "2030-01-15", "h": 14.01, "want": "2030-01-15", "dlg": "（你連夜把東西裝好。）▼ 點一下繼續", "caption": "你的房間在四樓，409。樓梯在走廊北邊。"}
+FAIL [B] 2030-01 大廳兩張海報貼上了（m3001a、m3001b）  []
+  [ 152.4s] [B] 2030-03 讀檔以後：{"zone": "dorm_hall", "day": 1641, "key": "2030-03-15", "h": 14.01, "want": "2030-03-15", "dlg": "（你連夜把東西裝好。）▼ 點一下繼續", "caption": "你的房間在四樓，409。樓梯在走廊北邊。"}
+FAIL [B] 2030-03 大廳兩張海報貼上了（m3003a、m3003b）  []
+  [ 171.8s] [B] 2030-05 讀檔以後：{"zone": "dorm_hall", "day": 1702, "key": "2030-05-15", "h": 14.01, "want": "2030-05-15", "dlg": "（你連夜把東西裝好。）▼ 點一下繼續", "caption": "你的房間在四樓，409。樓梯在走廊北邊。"}
+FAIL [B] 2030-05 大廳兩張海報貼上了（m3005a、m3005b）  []
+  [ 191.1s] [B] 2030-07 讀檔以後：{"zone": "dorm_hall", "day": 1763, "key": "2030-07-15", "h": 14.01, "want": "2030-07-15", "dlg": "（你連夜把東西裝好。）▼ 點一下繼續", "caption": "你的房間在四樓，409。樓梯在走廊北邊。"}
+FAIL [B] 2030-07 大廳兩張海報貼上了（m3007a、m3007b）  []
+  [ 191.3s] [B] 大廳每段一張拼成 poster_lobby.jpg（第一個到得了的段 2024-09）
+  [ 191.3s] 海報相關的 4xx 回應：[]；console：[]
+PASS 沒有海報 404／載入失敗  {"resp": [], "console": []}
+PASS 沒有 JS 例外  []
+FAILED 7: [B] 2029-07 大廳兩張海報貼上了（m2907a、m2907b）；[B] 2029-09 大廳兩張海報貼上了（m2909a、m2909b）；[B] 2029-11 大廳兩張海報貼上了（m2911a、m2911b）；[B] 2030-01 大廳兩張海報貼上了（m3001a、m3001b）；[B] 2030-03 大廳兩張海報貼上了（m3003a、m3003b）；[B] 2030-05 大廳兩張海報貼上了（m3005a、m3005b）；[B] 2030-07 大廳兩張海報貼上了（m3007a、m3007b）
