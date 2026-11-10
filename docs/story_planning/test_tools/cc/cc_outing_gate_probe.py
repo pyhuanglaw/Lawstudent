@@ -14,16 +14,18 @@ L = pe.L
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 TAG = os.environ.get('TAG') or 'x'; WHO = os.environ.get('WHO') or 'heroine_01'; pe.WHO = WHO
-CASES = (os.environ.get('CASES') or 'R14,R15,COOL').split(',')
+CASES = (os.environ.get('CASES') or 'R14,NF,R15,COOL').split(',')   # NF（BB 16:55）：還不是朋友（熟悉 10）
 R = L.Run('outing_gate_' + TAG, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 SAVE = os.path.join(HERE, 'fixtures', 'user_saves_1107', 'fatiao3d_save_day46.json')
 
 
-def state(rom, cool):
+def state(rom, cool, notfriend=False):
     s = json.load(open(SAVE, encoding='utf-8')); s = dict(s.get('G', s))
     s['hour'] = 10.0; s['invites'] = []; s['money'] = 3000
-    soc = copy.deepcopy(s.get('social') or {}); r = soc.setdefault('rel', {}).setdefault(WHO, {}); r['npcRom'] = rom; s['social'] = soc
+    soc = copy.deepcopy(s.get('social') or {}); r = soc.setdefault('rel', {}).setdefault(WHO, {}); r['npcRom'] = rom
+    if notfriend: r.update(fam=10, trust=0, comf=0)
+    s['social'] = soc
     f = dict(s.get('flags') or {}); f.pop('dating_' + WHO, None)
     v6 = copy.deepcopy(f.get('V6EX') or {})
     if cool: v6.setdefault('cool', {})[WHO] = {'from': s['day'] - 1, 'until': s['day'] + 30, 'n': {}}
@@ -47,8 +49,8 @@ async def main():
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
         for case in CASES:
-            rom, cool = {'R14': (14, False), 'R15': (15, False), 'COOL': (15, True)}[case]
-            await L.load_state(pg, state(rom, cool), quiet_phone=True); await pg.wait_for_timeout(3000); await pe.settle(pg, cdp, [], 30)
+            rom, cool = {'R14': (14, False), 'NF': (14, False), 'R15': (15, False), 'COOL': (15, True)}[case]
+            await L.load_state(pg, state(rom, cool, case == 'NF'), quiet_phone=True); await pg.wait_for_timeout(3000); await pe.settle(pg, cdp, [], 30)
             R.setup('【前置／捷徑】day46 存檔、10:00、清邀約；%s 的戀愛 npcRom＝%d%s；拿掉 dating_%s' % (WHO, rom, '＋冷淡期（V6EX.cool：昨天起 30 天）' if cool else '', WHO))
             info = await pg.evaluate("(w=>({rom:(SOCIAL.rel(w)||{}).npcRom, lvl:SOCIAL.friendLevel?SOCIAL.friendLevel(w):null, stage:DATE.stageNum?DATE.stageNum(w):null, cap:(typeof INV!=='undefined'&&INV.capStage)?INV.capStage(GAME.G,w,DATE.stageNum(w)):null, ask:DATE.canAsk?DATE.canAsk(GAME.G,w):null, half:DATE.ASK_ROM_HALF}))(%s)" % J(WHO))
             R.note('[%s] 狀態：%s' % (case, J(info)))
@@ -58,7 +60,9 @@ async def main():
             R.note('[%s] 邀約第一層：%s' % (case, J(top)))
             if not R.check('[%s] 邀約選單有「出去玩…」' % case, bool(out), J(top)): await pe.close_phone(pg, cdp); continue
             bad = '她還沒有那樣看你' in out['t']
-            if case in ('R14', 'COOL'):
+            WANT = {'R14': '你們現在是朋友。再多相處一陣子。', 'NF': '你們還沒那麼熟。'}   # AA 稿 08543d6fd（BB 16:55）
+            if case in WANT: R.check('[%s] 說明字是 AA 的稿「%s」（原文：%s）' % (case, WANT[case], out['t']), WANT[case] in out['t'], J(out))
+            if case in ('R14', 'NF', 'COOL'):
                 R.check('[%s] 「出去玩…」灰掉' % case, out['dim'], J(out))
                 R.check('[%s] 說明不是「她還沒有那樣看你」（原文：%s）' % (case, out['t']), not bad, J(out))
                 await pe.close_phone(pg, cdp); continue
