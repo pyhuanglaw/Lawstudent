@@ -334,10 +334,13 @@ const Z3 = (function(){
       box(C.x1,C.x1+T,Y,0,C.z0-T,C.z1+T,wM,true);                         // 東牆
       box(C.x0-T,C.x0,Y,0,C.st1,C.z1+T,wM,true);                          // 西牆（北邊是樓梯口）
       const D=C.door; box(C.x0-T,D.x-D.w/2,Y,0,C.z1,C.z1+T,wM,true); box(D.x+D.w/2,C.x1+T,Y,0,C.z1,C.z1+T,wM,true); box(D.x-D.w/2,D.x+D.w/2,Y+D.h,0,C.z1,C.z1+T,wM,true);   // 南牆（靠總圖）：中間 B1 的門
-      { const dm=new THREE.MeshStandardMaterial({color:0x4b5966,roughness:0.15,metalness:0.3,transparent:true,opacity:0.8}); box(D.x-D.w/2,D.x+D.w/2,Y,Y+D.h,C.z1+0.12,C.z1+0.18,dm); box(D.x-0.03,D.x+0.03,Y,Y+D.h,C.z1+0.1,C.z1+0.2,railM); }   // 玻璃門
+      { const dm=new THREE.MeshStandardMaterial({color:0x4b5966,roughness:0.15,metalness:0.3,transparent:true,opacity:0.8}); box(D.x-D.w/2,D.x+D.w/2,Y,Y+D.h,C.z1+0.12,C.z1+0.18,dm,true); box(D.x-0.03,D.x+0.03,Y,Y+D.h,C.z1+0.1,C.z1+0.2,railM); }   // 玻璃門
       { const sg=new THREE.Mesh(new THREE.PlaneGeometry(2.4,0.42),new THREE.MeshBasicMaterial({map:TK.signTex('總圖書館 B1　24 小時自習室',{bg:'#24303a',color:'#f3efe4'})})); sg.position.set(D.x,Y+D.h+0.45,C.z1-0.02); sg.rotation.y=Math.PI; g.add(sg); }
       for(let k=0;k<Math.round(C.dep/0.175);k++){ const xa=C.stx-(k+1)*C.tread, xb=C.stx-k*C.tread, top=Y+(k+1)*0.175; if(top>-0.01) continue; box(xa,xb,Y,top,C.st0,C.st1,wM); }   // 台階（畫面上一階一階，和導航 visualHeightAt 同一個算法：低的那端在 stx）
-      for(const [x0,x1,z0,z1] of [[C.x0-T,C.x1+T,C.z0-T-0.2,C.z0-T],[C.x1+T,C.x1+T+0.2,C.z0-T-0.2,C.z1+T],[C.x0-T-0.2,C.x0-T,C.st1,C.z1+T],[C.x0-T,C.x1+T,C.z1+T,C.z1+T+0.2]]) box(x0,x1,0,PH,z0,z1,railM);   // 地面那一圈欄杆（樓梯口不擋）
+      for(const [x0,x1,z0,z1] of [[C.x0-T,C.x1+T,C.z0-T,C.z0],[C.x1,C.x1+T,C.z0-T,C.z1+T],[C.x0-T,C.x0,C.st1,C.z1+T],[C.x0-T,C.x1+T,C.z1,C.z1+T]]){   // 地面那一圈：石砌矮牆（0.5 m，就是擋土牆往上）＋細的金屬扶手和立柱（樓梯口不擋）
+        box(x0,x1,0,0.5,z0,z1,wM); const ax=(x1-x0)>(z1-z0), mx=(x0+x1)/2, mz=(z0+z1)/2, L2=ax?x1-x0:z1-z0;
+        box(ax?x0:mx-0.025,ax?x1:mx+0.025,PH-0.05,PH,ax?mz-0.025:z0,ax?mz+0.025:z1,railM);
+        for(let u=0.15;u<L2;u+=1.5){ const px=ax?x0+u:mx, pz=ax?mz:z0+u; box(px-0.02,px+0.02,0.5,PH,pz-0.02,pz+0.02,railM); } }
       { const L=C.stx-C.x0, H=C.dep, rail=new THREE.Mesh(new THREE.BoxGeometry(Math.hypot(L,H),0.06,0.06),railM); rail.position.set((C.x0+C.stx)/2,Y+H/2+0.9,C.st1+0.05); rail.rotation.z=-Math.atan2(H,L); g.add(rail); for(let x=C.x0+0.6;x<C.stx;x+=1.2){ const yy=-(x-C.x0)/L*H; box(x-0.03,x+0.03,yy,yy+0.9,C.st1+0.02,C.st1+0.08,railM); } }   // 樓梯靠中庭那一側的扶手
       // 導航：中庭地面、樓梯斜面；四周（含地面那一圈）擋住，只留樓梯口、樓梯底
       nav.addSurf({x0:C.x0,x1:C.x1,z0:C.z0,z1:C.z1,y:Y}); nav.addSurf({x0:C.x0,x1:C.stx,z0:C.st0,z1:C.st1,axis:'x',ya:0,yb:Y,tread:C.tread,rise:0.175,low:'x1'});
