@@ -127,6 +127,15 @@ GGDC_tree4g_new | d8b669175bcf363974b401e1eed3d6709f2b0949 | probe | docs/story_
 GGDC_tree4g_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_canopy_shot_probe.py | index.html | 20 | TAG=4g_old;ZONE=gongguan;X=-49;Z=13;R=25;EXCL=palm+bark;LEAF=1;DISTS=3,7
 GGDC_tree4c_new | d8b669175bcf363974b401e1eed3d6709f2b0949 | probe | docs/story_planning/test_tools/cc/cc_canopy_shot_probe.py | index.html | 20 | TAG=4c_new;EXCL=palm+bark;LEAF=1;DISTS=3,7
 GGDC_tree4c_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_canopy_shot_probe.py | index.html | 20 | TAG=4c_old;EXCL=palm+bark;LEAF=1;DISTS=3,7
+# LAWWW 11:59 四項（BB 12:00 順序 ④→③→①→②，新版 be84c8680；改前用已有的 f3b47894b／9d4c54c16）
+# ④ PUTONG101 v2B：shader 冒煙（GLSL 只在瀏覽器編譯）＋北窗重拍（BB：白天玻璃平均約 [110,120,130] 灰藍、不能接近黑）＋博思一樓同角度
+SHADER_v2b | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 30 | TAG=v2b
+TEACHVIEW_pn_v2b | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
+BOYA1F_v2b | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=v2b;VIEWS=boya1f_gap:campus:-27:-69.5:11:0:2.5:-27:2.3:-74.5:70+boya1f_se:campus:-17:-70:11:1.27:6:-32:2.2:-74.5:50
+# ③ 日和便利店換上 CC 拍的四張：店裡往外白天／晚上（改前＝WINVIEW_A 9d4c54c16）
+WINVIEW_cvs_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=cvs;HOURS=14,21
+# ① XS-WINCARD 第二批：山嵐、運動廣場一二樓、南洋一樓（南洋有窗景卡以後要拍到那張卡）；改前＝WINVIEW_B 9d4c54c16
+WINVIEW_xs3_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 30 | SHOPS=shanlan,xsports,nanyang;HOURS=14,21;MAXCARDS=3
 # X295E fair r3（CC 11:4x）：X295E_new 園遊會互動鍵是「騎腳踏車」——存檔騎著車、到了攤位旁車停在那裡？；探針先選選項（舊版點台詞框 190 次）；keep＝照存檔騎車過去、off＝起點先下車；開發分支 head
 X295E_fair_keep | bb8a32765065cc64530791f42aee631e06133b12 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep;CASES=fair;BIKE=keep
 X295E_fair_off | bb8a32765065cc64530791f42aee631e06133b12 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_off;CASES=fair;BIKE=off
