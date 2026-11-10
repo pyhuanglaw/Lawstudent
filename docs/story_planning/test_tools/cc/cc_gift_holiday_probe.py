@@ -20,6 +20,10 @@ CASES（預設全跑）：xmas,valentine,qixi,birthday,normal,third,hergift,mail
      （遊戲的做法：進 dorm 開頭的區域就自動演，不是按「看信箱」；探針另外走到「看信箱」按一次，只記 INFO。）
 存檔：tests/fixtures/user_save_day54_1110.json（以安熟悉 100、信任 51、自在 64＝第 4 階；可昕交往中）。包包【前置／捷徑】＝G.flags.GIFTH.bag（[{id,day,shop}]，等於事先在店裡買好）。
 條件事件：讀檔用 quiet_events（關 EVENTS.onEnter／tick、手機自動打開）＝【前置】；送禮、她送你、信箱都不走條件事件。
+候選：同一天先排不走動的（「走走」排最後）、圖書館排後面；一個候選說完話沒有出說話最後的選單（offerInvite，有「就這樣」）就換下一個，最多三個。
+11-10 雲端試跑（新版 509b54c2d）看到的（遊戲行為，只記）：
+  - 期末考前的圖書館（2026-06-02 學姊在法圖）說話走 src/examlib3d.js 的「（小聲）」那一套，沒有 offerInvite 選單＝她生日那天在那裡送不了（規格沒寫圖書館例外；列給 BB／LAWWW 判）。
+  - 2026-12-24 語彤和黃筱涵同框（HCIRCLE c505_3_2，3D 裡 crowdNow true）：「送她禮物…」沒有灰掉（＝照 AA_732，不是 bug；BB 的「旁邊有人就灰」規格沒有）。
 判定：PASS／FAIL／INFO，最後 ALL PASS 或 FAILED n。
 用法：LW_TESTS=<樹>/tests TAG=new|old [CASES=xmas,third] [THIRD_BYSTANDER=strict] python3 cc_gift_holiday_probe.py <url> <out>（URL 不加 ?turbo）"""
 import os, sys, json, asyncio, time, copy, subprocess
@@ -41,7 +45,7 @@ PEOPLE = ['heroine_01', 'heroine_05', 'heroine_03', 'heroine_02', 'classmate_pei
 GIVE = '送她禮物…'
 MAIL_NARR = '（宿舍的信箱裡有一個包裹，寄件人寫著她的名字。）'
 HOURS = [9.0 + 0.5 * i for i in range(25)]   # 09:00～21:00
-OK_ZONES_FIRST = ['campus', 'library_hall', 'library', 'lawlib', 'cafe', 'wancai', 'linze', 'soclib', 'wenzhou', 'gongguan']
+OK_ZONES_FIRST = ['campus', 'cafe', 'wancai', 'linze', 'wz_teahouse', 'wenzhou', 'gongguan', 'library_hall', 'soclib', 'library', 'lawlib']   # 圖書館排後面：期末考前的圖書館說話是「（小聲）」那一套（src/examlib3d.js），不出 offerInvite 的選單（11-10 雲端試跑：學姊 6/2 在法圖）
 
 
 def check(name, ok, info=''):
@@ -97,7 +101,7 @@ CAND_JS = r"""((a)=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.week
           const rec={k,d,wd:G.weekday,p,h,zone:w.zone,act:w.act||'',rows,can}; seen.push(rec);
           if(/課|考/.test(rec.act)) continue;
           if(a.mode==='alone'?rows.length===0:rows.length>0) out.push(rec); } } } } finally { Object.assign(G,keep); }
-  const rank=r=>{ const i=a.zones.indexOf(r.zone); return i<0?99:i; };
+  const rank=r=>{ const i=a.zones.indexOf(r.zone); return (/走走|散步|逛/.test(r.act)?100:0)+(i<0?50:i); };   /* 在走動的排後面（11-10 試跑：以安 18:00「走走」越走越遠，追 6 輪追不到）*/
   out.sort((x,y)=>(x.d-y.d)||(rank(x)-rank(y))||(x.h-y.h));
   return {out:out.slice(0,40), seen:seen.length, sample:seen.slice(0,30)}; })"""
 
@@ -219,11 +223,15 @@ async def talk_menus(pg, cdp, run, pid, tag, policy, max_s=420):
                 if time.time() - idle > 4: break
             await pg.wait_for_timeout(400)
         if not started_here: run.note('%s：按了沒有開始說話，再走近一次' % tag); continue
-        if len(menus) > m0: break   # 有出選單（offerInvite）＝這次說話完整
-        run.note('%s：說了話但沒有出選單（可能是升階台詞、事件），再說一次' % tag)
+        if any(is_offer(m) for m in menus[m0:]): break   # 出了說話最後的選單（offerInvite：有「就這樣」）＝這次說話完整
+        run.note('%s：說了話但沒有出說話最後的選單（offerInvite；可能是升階台詞、期末圖書館的小聲那一套、事件），再說一次' % tag)
     said = await P.said(pg, n0)
     run.note('%s：GAME.say %s' % (tag, J(said[-20:])))
-    return {'menus': menus, 'picked': picked, 'said': said, 'started': started}
+    return {'menus': menus, 'picked': picked, 'said': said, 'started': started, 'offer': any(is_offer(m) for m in menus)}
+
+
+def is_offer(m):
+    return any(x['t'] == '就這樣' for x in m) or any(x['t'].startswith(GIVE) for x in m)
 
 
 def find(o, pref):
@@ -242,10 +250,10 @@ async def holiday_case(pg, cdp, run, S, name, kind, cat, errs):
     c = await candidates(pg, kind, 'alone', S, bday=(kind == 'bday'))
     info('[%s] 作息掃描（只讀）：掃了 %d 筆、她一個人的候選 %d 筆' % (name, c['seen'], len(c['out'])), J([(x['k'], x['p'], x['h'], x['zone'], x['act']) for x in c['out'][:12]]))
     if not check('[%s] 前置：找到她當天在場、身邊沒有她圈子的人的時段' % name, bool(c['out']), J(c['sample'][:10])): return
-    tried = 0; used = set()
+    tried = 0; used = set(); tries_log = []
     for rec in c['out']:
-        if (rec['k'], rec['p']) in used: continue
-        used.add((rec['k'], rec['p'])); tried += 1
+        if (rec['k'], rec['p'], rec['zone']) in used: continue
+        used.add((rec['k'], rec['p'], rec['zone'])); tried += 1
         if tried > 3: break
         pid = rec['p']; it = await pg.evaluate(ITEMS_JS, pid)
         bag = [it['love'], it['ok']] if it else [{'id': 'g_law_book', 'name': '（舊版沒有 GIFT_HOLIDAY）', 'shop': 'xs_shanlan'}]
@@ -273,6 +281,9 @@ async def holiday_case(pg, cdp, run, S, name, kind, cat, errs):
         await run.shot(pg, '%s_after' % name)
         allm = [[x['t'] for x in m] for m in r['menus']]
         gopt = state.get('give_opt')
+        if not r['offer'] and not gopt:
+            tries_log.append([rec['k'], pid, rec['h'], rec['zone'], r['said'][-3:]])
+            info('[%s] 這個候選沒有出說話最後的選單（走不到她旁邊、或那裡說話不走 offerInvite），換下一個' % name, J(tries_log[-1])); continue
         if not check('[%s] 說話的選單有「%s」、沒有灰掉（%s，%s %s）' % (name, GIVE, pid, g0['key'], kind), bool(gopt) and not gopt['dim'], J({'選單': allm, 'opt': gopt})):
             if not r['menus']: info('[%s] 這次說話沒有出任何選單' % name)
             check('[%s] 沒有 JS 例外' % name, not errs, J(errs[:3])); return
@@ -290,7 +301,7 @@ async def holiday_case(pg, cdp, run, S, name, kind, cat, errs):
         info('[%s] 遊戲時間 %.2f → %.2f（送禮不扣時段：不 GM.advance）' % (name, h0, g1['h']))
         check('[%s] 沒有 JS 例外' % name, not errs, J(errs[:3]))
         return
-    check('[%s] 前置：三個候選都走得到她旁邊、她身邊沒有人' % name, False, J([(x['k'], x['p'], x['h'], x['zone']) for x in c['out'][:6]]))
+    check('[%s] 說話的選單有「%s」（三個候選都沒有說到話、或沒有出說話最後的選單）' % (name, GIVE), False, J(tries_log))
 
 
 async def normal_case(pg, cdp, run, S, errs):
@@ -298,7 +309,11 @@ async def normal_case(pg, cdp, run, S, errs):
     c = await candidates(pg, 'normal', 'alone', S, pids=PEOPLE[:5])
     info('[normal] 候選', J([(x['k'], x['p'], x['h'], x['zone'], x['act']) for x in c['out'][:10]]))
     if not check('[normal] 前置：找到平常日她一個人的時段', bool(c['out']), J(c['sample'][:10])): return
-    for rec in c['out'][:3]:
+    used = set(); n = 0
+    for rec in c['out']:
+        if (rec['p'], rec['zone']) in used: continue
+        used.add((rec['p'], rec['zone'])); n += 1
+        if n > 3: break
         pid = rec['p']; it = await pg.evaluate(ITEMS_JS, pid)
         bag = [it['love'], it['ok']] if it else []
         await load_at(pg, cdp, run, S, rec, bag, '平常日 %s 照作息在這一區（%s）；包包有禮物（＝買了先放著）' % (pid, rec['act']))
@@ -313,7 +328,8 @@ async def normal_case(pg, cdp, run, S, errs):
         r = await talk_menus(pg, cdp, run, pid, '[normal] 和 %s 說話' % pid, pol)
         allm = [[x['t'] for x in m] for m in r['menus']]
         info('[normal] %s %s %.2f 的選單' % (g0['key'], pid, g0['h']), J(allm))
-        check('[normal] 說到話了（%s %s）' % (g0['key'], pid), r['started'], J(r['said'][-4:]))
+        if not r['offer']: info('[normal] 沒有出說話最後的選單，換下一個', J(r['said'][-3:])); continue
+        check('[normal] 說到話、出了說話最後的選單（%s %s）' % (g0['key'], pid), r['started'] and r['offer'], J(r['said'][-4:]))
         check('[normal] 平常日（%s）當面說話沒有「%s」（舊版本來就沒有＝兩版都 PASS）' % (g0['key'], GIVE), not any(x.startswith(GIVE) for m in allm for x in m), J(allm))
         check('[normal] 沒有 JS 例外', not errs, J(errs[:3]))
         return
@@ -327,7 +343,11 @@ async def third_case(pg, cdp, run, S, errs):
     info('[third T-A] 聖誕她一個人的候選', J([(x['k'], x['p'], x['h'], x['zone']) for x in c['out'][:10]]))
     done = False
     if check('[third T-A] 前置：找到聖誕她一個人的時段', bool(c['out']), J(c['sample'][:8])):
-        for rec in c['out'][:3]:
+        used = set(); n = 0
+        for rec in c['out']:
+            if (rec['k'], rec['p'], rec['zone']) in used: continue
+            used.add((rec['k'], rec['p'], rec['zone'])); n += 1
+            if n > 3: break
             pid = rec['p']; it = await pg.evaluate(ITEMS_JS, pid)
             bag = [it['love'], it['ok']] if it else []
             others = [p for p in PEOPLE[:5] if p != pid][:2]
@@ -346,19 +366,24 @@ async def third_case(pg, cdp, run, S, errs):
             r = await talk_menus(pg, cdp, run, pid, '[third T-A] 和 %s 說話' % pid, pol)
             g1 = await gstate(pg, pid); said = await P.said(pg, n0)
             o = state['opt']
+            if not r['offer'] and not o: info('[third T-A] 沒有出說話最後的選單，換下一個', J(said[-3:])); continue
             check('[third T-A] 這個聖誕已經送了兩個人（%s）：%s 的「%s」灰掉、提示「這個節日已經送了兩個人」' % (J(others), pid, GIVE), bool(o) and o['dim'] and '已經送了兩個人' in o['full'], J(o))
             th = (it or {}).get('third') or []
             check('[third T-A] 按下去演 third 旁白（%s 其中一句）、沒有送出、包包不變' % J(th),
                   bool(o) and any(x[1] in th for x in said) and not any(k.startswith(pid + '|xmas') for k in (g1['sent'] or {})) and (g1['bag'] == g0['bag']), J({'said': said[-6:], 'sent': g1['sent'], 'bag': [g0['bag'], g1['bag']]}))
             await run.shot(pg, 'third_A_after')
             done = True; break
-        if not done: check('[third T-A] 前置：三個候選都找得到她一個人', False)
+        if not done: check('[third T-A] 「%s」灰掉（三個候選都沒有出說話最後的選單）' % GIVE, False)
     # ---- T-B：BB 要求的「旁邊真的有第三個人」
     seen_all = []; found = None
     for kind in ('xmas', 'vday', 'qixi', 'bday'):
         cc = await candidates(pg, kind, 'crowd', S, bday=(kind == 'bday'))
         seen_all += [(kind, x['k'], x['p'], x['h'], x['zone'], x['rows']) for x in cc['out'][:8]]
-        for rec in cc['out'][:3]:
+        used = set(); n = 0
+        for rec in cc['out']:
+            if (rec['k'], rec['p'], rec['zone']) in used: continue
+            used.add((rec['k'], rec['p'], rec['zone'])); n += 1
+            if n > 2: break
             pid = rec['p']; it = await pg.evaluate(ITEMS_JS, pid)
             bag = [it['love'], it['ok']] if it else []
             await load_at(pg, cdp, run, S, rec, bag, '%s 那時候和圈子的人同框（HCIRCLE %s；遊戲自己生的人，不是 JS 塞的）' % (pid, J(rec['rows'])))
@@ -406,7 +431,11 @@ async def hergift_case(pg, cdp, run, S, errs):
         c = await candidates(pg, kind, 'alone', S, pids=[x for x in pids if any(y['p'] == x and y['hk'] == kind for y in ks)])
         okc = [x for x in c['out'] if any(y['k'][:4] == x['k'][:4] and y['p'] == x['p'] for y in ks)]
         info('[hergift] %s 她一個人的候選' % kind, J([(x['k'], x['p'], x['h'], x['zone']) for x in okc[:8]]))
-        for rec in okc[:3]:
+        used = set(); n = 0
+        for rec in okc:
+            if (rec['k'], rec['p'], rec['zone']) in used: continue
+            used.add((rec['k'], rec['p'], rec['zone'])); n += 1
+            if n > 3: break
             pid = rec['p']
             await load_at(pg, cdp, run, S, rec, [], '%s 那時候在這一區；包包空的（你沒有準備）' % pid)
             if not await approach(pg, run, pid, name): continue
@@ -417,6 +446,7 @@ async def hergift_case(pg, cdp, run, S, errs):
             if not due: continue
             r = await talk_menus(pg, cdp, run, pid, '[hergift] 和 %s 說話（不送）' % pid, lambda o, i: asyncio.sleep(0, decline(o)))
             g1 = await gstate(pg, pid); await run.shot(pg, 'hergift_after')
+            if not r['offer'] and not r['said']: info('[hergift] 沒有說到話，換下一個'); continue
             txt = [x[1] for x in r['said']]
             body = [t for t in due['lines'] if not t.startswith('（')]
             hit = [t for t in body if any(t in s or s in t for s in txt)]
