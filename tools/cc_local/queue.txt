@@ -324,26 +324,48 @@ GGLANE_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_plann
 # ③ 映月湖垂柳 v2：鳥瞰、北岸（＋南岸對照）；新版 b296、舊版 99294
 WILLOW_new | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_new;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
 WILLOW_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_old;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
+# ===== P0 BB 17:18：v9.10.24 候選改成 ecc3e12a7（70e23 跑過的全部重跑）=====
+# 1 releasegate：X304 出去玩（冷淡期新舊對照）、X290 一鍵前往
+W24_outing | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=w24
+W24_outing_old | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 15 | TAG=w24old;CASES=COOL
+W24_invgo | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
+W24_invgo_real | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_invgo_real_probe.py | index.html | 20 | 
+# 2 發布前回歸
+W24_deploy | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
+W24_p0 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+W24_zone | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+W24_mini | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+W24_reach | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+W24_classreal | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
+W24_main12 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+W24_touch | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
+W24_guide | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+W24_ggnav | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+W24_capgap | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=w24
+W24_v7 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
+W24_live | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+W24_live_pos | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+# 3 新功能各玩一次（探針寫好就補上）
 # ===== P0 BB 17:12（D146 下一版必須，排最前面）：X290 一鍵前往、X304 出去玩分期 =====
-V24_invgo | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
-V24_invgo_real | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_invgo_real_probe.py | index.html | 20 | 
-V24_outing | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=v24
+#SUPERSEDED(ecc3e12a7) V24_invgo | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_invgo_real | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_invgo_real_probe.py | index.html | 20 | 
+#SUPERSEDED(ecc3e12a7) V24_outing | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=v24
 # ===== P0 BB 17:04：v9.10.24 發布前回歸（70e23b32c）排最前面；每支跑完就推結果 =====
-V24_deploy | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
-V24_p0 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
-V24_zone | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
-V24_mini | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
-V24_classreal | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
-V24_reach | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
-V24_main12 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
-V24_touch | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
-V24_guide | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
-V24_ggnav | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
-V24_capgap | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=v24
-V24_v7 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_deploy | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_p0 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_zone | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_mini | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_classreal | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_reach | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_main12 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_touch | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_guide | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_ggnav | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_capgap | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=v24
+#SUPERSEDED(ecc3e12a7) V24_v7 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
 # BB 17:06：線上 v9.10.23（main 3a34dbaa5）→ 70e23b32c 的存檔相容（比 v7 重要）。兩支：save_compat_v95（舊版自己做第 1 天自動存檔＋第 3、9、23 天三個欄位，最完整）、save_compat_v7（新遊戲存檔＋48 個位置）；兩支都是「舊版網址＝{url2}」
-V24_live | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
-V24_live_pos | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_live | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+#SUPERSEDED(ecc3e12a7) V24_live_pos | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
 # ===== P0 以上；以下是原本的佇列 =====
 # BB 16:04／16:05：LAWWW 字幕修正＋測試修正推上來以後，同一個 SHA 跑（SHA 到了再打開；舊＝8a98ff1e0）
 FIX_ggnav | aa691df333d23bc46abb9445c249090d4b57f3d1 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
