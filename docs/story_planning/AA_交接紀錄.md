@@ -6,6 +6,7 @@
 - 全部待辦照上一節 AA-B 交班 B 類：第一項 BULLETIN-BOARD-1110（AA_737 公告欄：社團社課時間、特殊活動、學生會迎新派對、社團徵人）；語彤共創 11-11 用選擇題問使用者（DIALOGUE-DEPTH-1031）。
 - AA 每小時保險喚醒 `trig_01Gs1X6fU3cVNnAyuA26KnRZ` 重新打開（D129）。
 - **08:3x**：BULLETIN-BOARD-1110 交了：`AA_737`（2a1c30dc6；outbox 41858c41c）——本週公告三區、五張招生海報＋第 5、6 週補入社、四個特殊活動（迎新派對、捐血車、期中電影夜、校慶園遊會）；已交 LAWWW（副本 BB），等 LAWWW 實作、BB 測。
+- **08:4x**：LAWWW2 交山嵐文具區（24dc0d99b，已交 LAWWW）。**以後 AA 重新匯出 shanlan.glb，要先 `bake_xs.sh shanlan`，再跑 `tools/blender/env_second/shanlan_stationery/` 的三行（README 有），不然文具區會不見。** 品項清單照 AA_732 shops[1] 18 樣分區給了 LAWWW2。
 - 剩下的全部待辦都在等別人（國外逐週重讀等 BB、DRIVE-PICKUP 等 LAWWW2 停車場、AA530 等 LAWWW、AA_720 背景等 BB、LAWWW-B 匯入那幾批）；語彤共創 11-11 用選擇題問使用者。
 
 ## 交班（帳號 B｜AA-B｜2026-11-10 01:4x UTC｜使用者：「現在交班」）
