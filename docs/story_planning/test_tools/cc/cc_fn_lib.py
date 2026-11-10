@@ -20,6 +20,7 @@ SAVE = os.path.join(HERE, 'fixtures', 'user_saves_1107', 'fatiao3d_save_day46.js
 OLD_STALL = {'cx': -47.0, 'cz': 11.725, 'w': 2.9, 'd': 2.05, 'ix': -47.2, 'iz': 13.45}   # 改之前的花攤（src/zones3d.js 1073）
 FLOWER_KIND = 'gg_flower'
 SHOP_KEY = os.environ.get('FN_SHOP') or 'gg_flower'   # GIFTH 的店代號（BB_312 第 1 節：不改）
+EXPECT_NAME = os.environ.get('FN_SHOP_NAME') or '花序 Flower Notes'   # 包包、送禮選單上要看到的店名（dbbe05fa5 GIFTH.SHOP_RENAME.gg_flower；店名再改就用 FN_SHOP_NAME 蓋過）
 
 
 def setup(run, out):
@@ -225,7 +226,7 @@ async def open_shop(pg, cdp, tag, label, sells, max_steps=30):
     for _ in range(max_steps):
         await pg.wait_for_timeout(700); q = await L.state(pg)
         cap = await pg.evaluate(CAPTION_JS)   # 「看」的旁白是 GM.caption（#caption，game3d.js doInteract：it.look → caption('',it.look,4600)），不是對話框
-        if cap and cap not in caps: caps.add(cap); trace.append('旁白：' + cap[:80])
+        if cap and cap not in caps: caps.add(cap); trace.append('旁白：' + cap[:300])
         if q['choices']:
             o = await pe_opts(pg); trace.append('選項：' + '｜'.join(x['t'][:24] for x in o))
             if any(x['t'].startswith(n) for x in o for n in names): return {'opts': o, 'trace': trace}
@@ -313,7 +314,7 @@ async def give(pg, cdp, tag, pid, gid, max_walk=180, select=True):
         for _ in range(120):
             await pg.wait_for_timeout(600); q = await L.state(pg)
             if q['choices']:
-                o = await pe_opts(pg); out['opts'].append([x['t'][:24] for x in o])
+                o = await pe_opts(pg); out['opts'].append([x['t'][:40] for x in o])
                 if not out['picked']:
                     k = next((i for i, x in enumerate(o) if x['t'].startswith('送她禮物')), None)
                     if k is not None and not out['offered']:
@@ -337,6 +338,47 @@ async def give(pg, cdp, tag, pid, gid, max_walk=180, select=True):
 
 TALK_DIAG_JS = r"""((pid)=>{ const n=(GAME.npc&&GAME.npc[pid])||(GAME.E.npcs||[]).find(q=>q.charId===pid); const it=GAME.E.nearestInteractable&&GAME.E.nearestInteractable();
   return {talking:!!(n&&n._talking), busyDepth:GAME.D?GAME.D.busyDepth:null, pbusy:!!GAME.E.player.busy, ev:typeof EVENTS!=='undefined'&&EVENTS.running?(EVENTS.running.id||1):null, near:it?(it.label||''):null, nearNpc:!!(it&&it.npc), hour:+(+GAME.G.hour).toFixed(2)}; })"""
+
+
+async def go_her(pg, cdp, tag, pid):
+    """【捷徑】GAME.enter 到她現在在的區域（STORY.whereIs）；回傳這一區有沒有她"""
+    w = await pg.evaluate("(%s)(%s)" % (WHO_JS, J([pid])))
+    R.note('%s 她（%s）：%s' % (tag, pid, J(w)))
+    z = (w[0].get('where') or {}).get('zone') if w else None
+    if not R.check('%s %s 現在在遊戲的場景裡（STORY.whereIs）、GIFTH.canGet' % (tag, pid), bool(z) and w[0]['can'], J(w)): return False
+    if await pg.evaluate("GAME.G.zone") != z:
+        await pg.evaluate("(z=>{ void GAME.enter(z); })(%s)" % J(z))
+        await D.wait_zone(pg, cdp, z); await pg.wait_for_timeout(4000); await L.close_panels(pg, cdp)
+        R.setup('%s【捷徑】GAME.enter(%s)（她 %s 在那裡；不測走過去的路）' % (tag, z, pid))
+    n = None
+    for _ in range(10):
+        n = await pg.evaluate("(%s)(%s)" % (NPC_JS, J(pid)))
+        if n: break
+        await pg.wait_for_timeout(1000)
+    return R.check('%s 這一區有她（%s）' % (tag, pid), bool(n), J(n))
+
+
+async def shop_names(pg, cdp, tag, ui=None, gift_opts=None):
+    """店名：GIFTH.shopName(店代號)（遊戲現在顯示的）、包包（選單「物品」）每一樣的那一行、送禮選單（「送她禮物…」之後那一層）每一樣的 hint；對 EXPECT_NAME"""
+    sn = await pg.evaluate("(k=>typeof GIFTH!=='undefined'?GIFTH.shopName(k):null)(%s)" % J(SHOP_KEY))
+    R.note('%s GIFTH.shopName(%s)＝%s（要「%s」）' % (tag, SHOP_KEY, J(sn), EXPECT_NAME))
+    R.check('%s GIFTH.shopName(%s)＝「%s」' % (tag, SHOP_KEY, EXPECT_NAME), sn == EXPECT_NAME, J(sn))
+    if ui is not None:
+        lines = [x for x in ui.split('\n') if '元' in x and '・' in x]
+        R.note('%s 包包（選單「物品」）的店名那幾行：%s' % (tag, J(lines)))
+        R.check('%s 包包裡每一樣的店名那一行（「店名・價錢 元」）都寫「%s」（這幾支探針的包包裡只有花）' % (tag, EXPECT_NAME), bool(lines) and all(x.startswith(EXPECT_NAME + '・') for x in lines), J(lines))
+    if gift_opts is not None:
+        R.note('%s 送禮選單（「送她禮物…」之後）：%s' % (tag, J(gift_opts)))
+        fl = [t for t in gift_opts if t.startswith('一束花') or t.startswith('一朵向日葵')]
+        R.check('%s 送禮選單上花的店名是「%s」' % (tag, EXPECT_NAME), bool(fl) and all(EXPECT_NAME in t for t in fl), J(gift_opts))
+    return sn
+
+
+def gift_menu(g):
+    """F.give 的 opts 裡「送她禮物…」之後那一層（品名＋店名 hint）"""
+    for o in g.get('opts') or []:
+        if any(t.startswith('一束花') or t.startswith('一朵向日葵') for t in o): return o
+    return None
 
 
 async def shot(pg, cdp, name, cam=None):

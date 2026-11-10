@@ -15,10 +15,13 @@ PARTS（逗號分隔；預設全部）：
            每一類（資料有 cat／category／kind／type／group 欄位就照它分，沒有就每一樣一類；BUY_ALL=1 全買）買一樣：買前買後 G.money 相減＝價格、包包多 1 樣；
            連點兩下（70 ms）只扣一次、只多 1 樣；錢不夠（【前置】錢改成最便宜的價格−1）按：不扣錢、不給東西（記 toast）；
            買完看包包：GIFTH.bag 有那一樣、shop＝gg_flower；選單「物品」頁看得到品名。
-  HOURS    在 gg_flower 前面：【前置】時間改 08:54、09:03、20:54、21:01，再抽一個營業時間外的（SEED；06:00～08:50、21:05～23:30）各按一次：
-           營業時間內出買花清單、外面不出，記實際顯示什麼（對話、toast、選項）。
+           買完看包包上的店名：GIFTH.shopName('gg_flower')、選單「物品」每一樣「店名・價錢 元」那一行＝FN_SHOP_NAME（預設「花序 Flower Notes」，dbbe05fa5 GIFTH.SHOP_RENAME）。
+  HOURS    在 gg_flower 前面：【前置】時間改 08:54、09:03、20:59、21:01，再抽一個營業時間外的（SEED；06:00～08:50、21:05～23:30）各按一次：
+           營業時間內出買花清單、外面不出；畫面上的字逐句記（旁白 #caption 全文、對話、選項、toast）。
+  GIFT     送禮選單上的店名：【前置】GIFT_DAY（預設 2025-12-24 聖誕）11:00 → 走到 gg_flower 買一束花 →【捷徑】GAME.enter 到 GIFT_WHO（預設 heroine_05 溫書瑀，那天 10～17 在 library）
+           → 觸控走過去說話（讀書區第一次只點頭＝再按一次）→「送她禮物…」→ 那一層每一樣的店名 hint＝FN_SHOP_NAME → 送出（given 記上）。
 全程：JS 例外 0。
-環境變數：PARTS、START（街上起點 'x,z'，預設 −40,8 捷運口西邊人行道）、BUY_ALL、SEED、FN_G11（'x0,x1,立面z'）、FN_DOOR_LABEL（門的 label 開頭）、FN_SHOP（GIFTH 店代號，預設 gg_flower）。
+環境變數：PARTS、GIFT_DAY、GIFT_WHO、FN_SHOP_NAME、START（街上起點 'x,z'，預設 −40,8 捷運口西邊人行道）、BUY_ALL、SEED、FN_G11（'x0,x1,立面z'）、FN_DOOR_LABEL（門的 label 開頭）、FN_SHOP（GIFTH 店代號，預設 gg_flower）。
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=LIST,OLDSPOT python3 cc_fn_func_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, random, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -29,7 +32,7 @@ import cc_d141_lib as D
 import cc_fn_lib as F
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
-PARTS = [x.strip().upper() for x in (os.environ.get('PARTS') or 'LIST,OLDSPOT,DOOR,BUY,HOURS').split(',') if x.strip()]
+PARTS = [x.strip().upper() for x in (os.environ.get('PARTS') or 'LIST,OLDSPOT,DOOR,BUY,HOURS,GIFT').split(',') if x.strip()]
 R = L.Run('fn_func', OUT); F.setup(R, OUT)
 J = F.J
 START = [float(v) for v in (os.environ.get('START') or '-40,8').split(',')]
@@ -236,6 +239,7 @@ async def part_buy(pg, cdp):
     R.note('%s 包包（GIFTH.bag）：%s；選單「物品」：%s' % (tag, J(bg['bag']), J(ui[:400])))
     for itm in picks:
         R.check('%s 選單「物品」看得到「%s」' % (tag, itm['name']), itm['name'] in ui, '')
+    await F.shop_names(pg, cdp, tag, ui=ui)   # LAWWW 23:16：包包上的店名要是「花序 Flower Notes」（FN_SHOP_NAME）
     R.check('%s 包包裡每一樣的 shop 都是 %s' % (tag, F.SHOP_KEY), bool(bg['bag']) and all(b['shop'] == F.SHOP_KEY for b in bg['bag']), J(bg['bag']))
     CTX['buy_it'] = it
 
@@ -248,7 +252,7 @@ async def part_hours(pg, cdp):
     rnd = random.Random(SEED); a = rnd.random()
     hr = round(6.0 + a * 2.83, 2) if a < 0.5 else round(21.08 + (a - 0.5) * 4.8, 2)
     sells = (await F.expect(pg) or {}).get('sells') or []
-    for h, want in ((8.9, False), (9.05, True), (20.9, True), (21.02, False), (hr, False)):
+    for h, want in ((8.9, False), (9.05, True), (20 + 59 / 60, True), (21 + 1 / 60, False), (hr, False)):   # LAWWW 23:16：20:59、21:01 各按一次，畫面上的字逐句記
         await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; })(%f)" % h)
         R.setup('%s【前置】時間改 %05.2f%s' % (tag, h, '（SEED %d 抽的營業時間外）' % SEED if h == hr else ''))
         await pg.wait_for_timeout(1200); await F.toasts(pg, clear=True)
@@ -257,9 +261,29 @@ async def part_hours(pg, cdp):
         got = bool(r['opts']); ts = await F.toasts(pg)
         if got: await D.shot(pg, 'fn_hours_%04d' % int(h * 100), judge_black=False)
         said = await F.finish_dialog(pg, cdp)
-        R.note('%s %05.2f（GIFTH.flowerOpen＝%s）：出清單 %s；顯示 %s；toast %s；收尾 %s' % (tag, h, ex and ex['open'], got, J(r['trace']), J(ts), J(said)))
+        hm = '%02d:%02d' % (int(h), round((h % 1) * 60))
+        R.note('%s %s（%05.3f；GIFTH.flowerOpen＝%s；按的時候遊戲時間 %s）：出清單 %s；畫面上的字逐句（旁白／對話／選項）%s；toast %s；收尾 %s' % (tag, hm, h, ex and ex['open'], ex and ex['hour'], got, J(r['trace']), J(ts), J(said)))
         if not got and not r['trace']: await D.shot(pg, 'fn_hours_%04d' % int(h * 100), judge_black=False)
-        R.check('%s %05.2f %s買花清單' % (tag, h, '有' if want else '沒有'), got == want, J({'trace': r['trace'], 'toast': ts}))
+        R.check('%s %s %s買花清單' % (tag, hm, '有' if want else '沒有'), got == want, J({'trace': r['trace'], 'toast': ts}))
+
+
+async def part_gift(pg, cdp):
+    """送禮選單上的店名（LAWWW 23:16）：【前置】GIFT_DAY（預設 2025-12-24 聖誕）11:00、包包清空 → 到 gg_flower 買一束花 →【捷徑】GAME.enter 到 GIFT_WHO（預設 heroine_05）那時候在的區域
+    → 走過去說話 →「送她禮物…」→ 那一層每一樣的店名（hint）→ 送出一束花（GIFTH.hand：given 記上）"""
+    tag = '[GIFT]'; who = os.environ.get('GIFT_WHO') or 'heroine_05'
+    await F.load(pg, cdp, '%s 公館街上' % tag, x=START[0], z=START[1], hour=11.0, day_key=os.environ.get('GIFT_DAY') or '2025-12-24', money=5000, quiet_events=False)
+    it = await reach_flower(pg, cdp, tag)
+    if not it: return
+    sells = (await F.expect(pg) or {}).get('sells') or []; bq = next((x for x in sells if x['id'] == 'g_bouquet'), None)
+    if not R.check('%s 有一束花可以買' % tag, bool(bq), J(sells)): return
+    b0, b1, said = await buy_one(pg, cdp, tag, it, bq)
+    if not R.check('%s 買了一束花' % tag, len(b1['bag']) == len(b0['bag']) + 1, J(b1)): return
+    if not await F.go_her(pg, cdp, tag, who): return
+    g = await F.give(pg, cdp, tag, who, 'g_bouquet')
+    R.note('%s 送花：%s' % (tag, J(g)))
+    await F.shop_names(pg, cdp, tag, gift_opts=F.gift_menu(g) or [])
+    rec = await pg.evaluate("(%s)(%s)" % (F.GIFTREC_JS, J(who)))
+    R.check('%s 一束花送出去了（given 有它）' % tag, g['picked'] and 'g_bouquet' in rec['given'], J(rec))
 
 
 async def main():
@@ -269,7 +293,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('LIST', part_list), ('OLDSPOT', part_oldspot), ('DOOR', part_door), ('BUY', part_buy), ('HOURS', part_hours)):
+        for part, fn in (('LIST', part_list), ('OLDSPOT', part_oldspot), ('DOOR', part_door), ('BUY', part_buy), ('HOURS', part_hours), ('GIFT', part_gift)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e:

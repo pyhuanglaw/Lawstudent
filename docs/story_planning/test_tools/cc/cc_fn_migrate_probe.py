@@ -68,22 +68,7 @@ async def to_stall(pg, cdp, tag):
     return it
 
 
-async def go_her(pg, cdp, tag, pid):
-    """【捷徑】GAME.enter 到她現在在的區域（STORY.whereIs）"""
-    w = await pg.evaluate("(%s)(%s)" % (F.WHO_JS, J([pid])))
-    R.note('%s 她（%s）：%s' % (tag, pid, J(w)))
-    z = (w[0].get('where') or {}).get('zone') if w else None
-    if not R.check('%s %s 現在在遊戲的場景裡（STORY.whereIs）、GIFTH.canGet' % (tag, pid), bool(z) and w[0]['can'], J(w)): return False
-    if await pg.evaluate("GAME.G.zone") != z:
-        await pg.evaluate("(z=>{ void GAME.enter(z); })(%s)" % J(z))
-        await D.wait_zone(pg, cdp, z); await pg.wait_for_timeout(4000); await L.close_panels(pg, cdp)
-        R.setup('%s【捷徑】GAME.enter(%s)（她 %s 在那裡；不測走過去的路）' % (tag, z, pid))
-    n = None
-    for _ in range(10):
-        n = await pg.evaluate("(%s)(%s)" % (F.NPC_JS, J(pid)))
-        if n: break
-        await pg.wait_for_timeout(1000)
-    return R.check('%s 這一區有她（%s）' % (tag, pid), bool(n), J(n))
+go_her = F.go_her
 
 
 async def make(pg, cdp):
@@ -183,10 +168,13 @@ async def load_one(pg, cdp, url, k, ent, save):
         await F.ready(pg, cdp, 15); ui = await F.bag_ui(pg, cdp)
         R.note('%s 選單「物品」：%s' % (tag, J(ui[:300])))
         R.check('%s 選單「物品」看得到一束花、一朵向日葵' % tag, '一束花' in ui and '一朵向日葵' in ui, '')
+        await F.shop_names(pg, cdp, tag + '（舊花攤時期買的花）', ui=ui)
         if await go_her(pg, cdp, tag, GIFT_WHO):
             g = await F.give(pg, cdp, tag, GIFT_WHO, GIFT_ITEM)
             rec = await pg.evaluate("(%s)(%s)" % (F.GIFTREC_JS, J(GIFT_WHO))); bg2 = await pg.evaluate(F.BAG_JS)
             R.note('%s 送花：%s；紀錄 %s；包包 %s' % (tag, J(g), J(rec), J(bg2['bag'])))
+            gm = F.gift_menu(g)
+            if gm is not None or g['offered']: await F.shop_names(pg, cdp, tag + '（舊花攤時期買的花）', gift_opts=gm or [])
             R.check('%s 舊花送得出去：「送她禮物…」→ %s（given 有它、包包少一樣）' % (tag, GIFT_ITEM), g['offered'] and g['picked'] and GIFT_ITEM in rec['given'] and len(bg2['bag']) == len(bg['bag']) - 1, J({'give': g, 'rec': rec}))
     if k == '3b':
         p0 = (s['x'], s['z']); r = await F.joy_to(pg, cdp, tag, s['x'], s['z'] - 3.0, near=0.5, max_s=30, straight=True)
