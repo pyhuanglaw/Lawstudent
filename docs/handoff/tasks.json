@@ -52032,7 +52032,7 @@
    "id": "US-EXAM-PROPS-1110",
    "title": "美國教室 12/6 期末考桌上的考卷和書",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y3S1",
@@ -52044,14 +52044,14 @@
     "parallel": true,
     "confirmed": false
    },
-   "sha": null,
-   "next": "【LAWWW 11-10 15:4x】AA 回：美術排 LAWWW2、不擋 v9.10。",
+   "sha": "b146570f8",
+   "next": "【LAWWW 11-10 17:1x】接 LAWWW2 b146570f8（us_classroom.glb EXAM_PROPS：30 位答案本、筆、書，玩家那本貼滿便利貼；講桌空白答案本、題目卷；z.setExam）＋LAWWW 接 us_life3d：12/6 期末考那一場開、演完關；us_exam_props、us_classroom_story ALL PASS。截圖 CC、ART BB。 ｜ 【LAWWW 11-10 15:4x】AA 回：美術排 LAWWW2、不擋 v9.10。",
    "xai": {
     "spec": "AA_740 第 4 點（12/6 期末考）",
     "branch": "claude/second-ai-env-art",
     "acceptance": "12/6 期末考那一場每個有人的座位桌上有考卷（和書），其他天不出現；BB 判",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {

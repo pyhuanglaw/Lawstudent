@@ -59,7 +59,11 @@ const US_CLASSROOM=(function(){
     z.seatOf=(course,key)=>at(SP[course]&&SP[course][key]);
     z.others=course=>((SP[course]&&SP[course].others)||[]).map(at).filter(Boolean);
     P3.mergeStatic(g);
-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.us_classroom']) ASSETS.loadOne('bldg.us_classroom').then(c=>{ if(!c||!c.scene||E.zone!==z) return; Z3.attachRoomGLB(z,g0,g,c.scene.clone(true)); }).catch(e=>console.warn('Room 120 正式模型載入失敗，用程序化備用模型',e));
+    /* 期末考（US-EXAM-PROPS-1110，LAWWW2 帳號 A 11-10；12/6 Introduction 開書考）：正式模型的 EXAM_PROPS 群組＝Introduction 有人坐的 30 個位子上的答案本、筆、攤開的書
+       （玩家那本貼滿便利貼）＋講桌上一疊空白答案本。平常藏著；劇情那一場 z.setExam(true)、結束 z.setExam(false)。模型還沒載入時先記著，載入後照這個開關 */
+    z.examOn=false; let examNode=null; z.setExam=on=>{ z.examOn=!!on; if(examNode) examNode.visible=z.examOn; };
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.us_classroom']) ASSETS.loadOne('bldg.us_classroom').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); Z3.attachRoomGLB(z,g0,g,root);
+      examNode=root.getObjectByName('EXAM_PROPS'); if(examNode) examNode.visible=z.examOn; }).catch(e=>console.warn('Room 120 正式模型載入失敗，用程序化備用模型',e));
     return z; } };
   S.SPAWN=(()=>{ const C=LAY(); return C?{x:C.door.x,z:C.door.spawnZ,yaw:Math.PI}:{x:0,z:7.4,yaw:Math.PI}; })();
   if(typeof Z3!=='undefined'&&Z3.ZONES&&LAY()) Z3.ZONES.us_classroom=S.zone;

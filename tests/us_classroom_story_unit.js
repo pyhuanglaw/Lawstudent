@@ -43,7 +43,8 @@ const {check,GM,E}=H, J=JSON.stringify;
 const mkZone=()=>{ const seats=ZD.seats.map(s=>Object.assign({},s)); const at=rc=>rc?seats.find(s=>s.row===rc[0]&&s.col===rc[1])||null:null;
   const z={id:'us_classroom',seats,spawn:Object.assign({},ZD.spawn),roomAt:()=>null,present:{player:Object.assign({},ZD.present.player),partner:Object.assign({},ZD.present.partner),professorSeat:at(ZD.present.professorSeat)},
     examProf:Object.assign({},ZD.examProf),teacherSpot:Object.assign({},ZD.teacherSpot),teacherWalk:ZD.teacherWalk.map(p=>Object.assign({},p)),
-    seatOf:(c,k)=>at(ZD.plan[c]&&ZD.plan[c][k]),others:c=>((ZD.plan[c]&&ZD.plan[c].others)||[]).map(at).filter(Boolean)};
+    seatOf:(c,k)=>at(ZD.plan[c]&&ZD.plan[c][k]),others:c=>((ZD.plan[c]&&ZD.plan[c].others)||[]).map(at).filter(Boolean),
+    examOn:false,examLog:[],setExam(on){ this.examOn=!!on; this.examLog.push(!!on); }};   /* US-EXAM-PROPS-1110：桌上的答案本只在期末考那一場 */
   E.interactables=seats.map(s=>({x:s.x,z:s.z+0.35,y:s.y,radius:0.62,label:'坐下',seat:s})).concat([{x:ZD.exit.x,z:ZD.exit.z,radius:1.2,label:'離開教室',exit:{to:'us_campus'}}]); return z; };
 global.Z3={ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 const EXPORT=/^(EXCH|US3|US_\w+|AIRPORT_T2_LAYOUT|Y34B|R2Y4A|R2Y4A_EVENTS|USL|US_LIFE_EVENTS|ROM|PORTRAIT_ONLY|US_CLASSROOM)$/;
@@ -198,8 +199,9 @@ await sec('E',async()=>{
   check('E. 12/7 選 b：「教授經過你旁邊」＝她從第 1 排起身、經過講台（玩家旁邊）走到門口',!!pfWalk&&!pfWalk.seat&&pfWalk.walk&&pfWalk.to&&pfWalk.to.length>=1&&Math.abs(pfWalk.to[0].x-pp.x)<1e-6,J(pfWalk));
   // 12/6 期末考
   fresh('2028-12-06',9.5,'us_apartment',US()); H.said=[]; let ex=null;
-  { const r0=EVENTS.run; EVENTS.run=async function(e,o){ if(e&&e.id==='ev_usl_intro_final'&&!ex){ const pf=who('prof'); ex={player:rcOf(E.player.seat),prof:pf&&[pf.obj.position.x,pf.obj.position.z,!!pf.seat,pf.beh],korean:seatRC('korean'),bg:e.background}; } return r0.apply(this,arguments); }; await USL.attend(GM,item('us_intro')); EVENTS.run=r0; }
+  { const r0=EVENTS.run; EVENTS.run=async function(e,o){ if(e&&e.id==='ev_usl_intro_final'&&!ex){ const pf=who('prof'); ex={player:rcOf(E.player.seat),prof:pf&&[pf.obj.position.x,pf.obj.position.z,!!pf.seat,pf.beh],korean:seatRC('korean'),bg:e.background,examOn:!!(E.zone&&E.zone.examOn),zone:E.zone}; } return r0.apply(this,arguments); }; await USL.attend(GM,item('us_intro')); EVENTS.run=r0; }
   check('E. 12/6 期末考：大家坐自己的位子（玩家 [2,7]、韓國同學 [3,7]），教授站講桌後面（z.examProf、不走動）、背景 freeze',!!ex&&eq(ex.player,[2,7])&&eq(ex.korean,[3,7])&&eq(ex.prof,[ZD.examProf.x,ZD.examProf.z,false,'idle'])&&ex.bg==='freeze',J(ex));
+  check('E. 12/6 期末考：桌上的答案本、筆、書演的時候開（z.setExam(true)）、演完關（US-EXAM-PROPS-1110）',!!ex&&ex.examOn===true&&!!ex.zone&&ex.zone.examOn===false&&J(ex.zone.examLog)==='[true,false]',J(ex&&ex.zone&&ex.zone.examLog));
   check('E. 12/6 期末考：台詞一字不差',eq(H.said.map(s=>s.t),evTexts('ev_usl_intro_final')),J(H.said.map(s=>s.t)));
   // 12/8 最後一堂
   for(const met of [true,false]){ fresh('2028-12-08',8.5,'us_apartment',US(met?{MET_LONG:true}:{})); H.said=[]; let st=null;

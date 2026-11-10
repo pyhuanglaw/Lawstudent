@@ -193,7 +193,7 @@ const USL=(function(){
     if(P.seat){ P.pose='read'; P.idlePose='read'; } if(E.recenter) E.recenter();   /* 鏡頭轉到玩家背後（看講台；報告時看台下）*/
     S.cast3d(GM,it,mode);
     await GM.fade(false);
-    if(sp){ const e=S.ev3d(GM,sp); if(e&&typeof EVENTS!=='undefined') await EVENTS.run(e,{noTitle:true}); }
+    if(sp){ const e=S.ev3d(GM,sp), ex=mode==='exam'&&z&&typeof z.setExam==='function'; if(ex) z.setExam(true); try{ if(e&&typeof EVENTS!=='undefined') await EVENTS.run(e,{noTitle:true}); } finally { if(ex) z.setExam(false); } }   /* 12/6 期末考：桌上的答案本、筆、書（US-EXAM-PROPS-1110，LAWWW2 b146570f8 z.setExam）只在那一場 */
     else { if(typeof ADV!=='undefined'&&ADV.log) ADV.log('',it.c.name); GM.caption('',it.c.name,2400); await GM.sleep(700);
       const line=S.classLine(it.c.id,n,G), ms=Math.max(3600,Math.min(7000,1800+String(line).length*110)); if(typeof ADV!=='undefined'&&ADV.log) ADV.log('',line); GM.caption('',line,ms); await GM.sleep(ms); }   /* 旁白＝字幕蓋在 3D 上（AA_740 第 3 節）；紀錄裡看得到 */
     await GM.fade(true); const end=T(it.day,it.t1); if(now(G)<end) GM.advance(end-now(G)); live=null;

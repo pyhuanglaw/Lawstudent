@@ -554,6 +554,45 @@ for dz in (-0.12, 0.12): ccyl(ep, wall_pt('E', -1.05 + dz, 3.77, 0.09), wall_pt(
 ccyl(ep, wall_pt('E', 7.0, 3.1, 0.0), wall_pt('E', 7.0, 3.1, 0.06), 0.09, '#c42a22', seg=16)   # 火警警鈴＋按鈕
 wbox(ep, 'E', 6.92, 7.08, 2.75, 2.9, 0.0, 0.04, '#c42a22', r=0.008)
 
+# ================= 期末考（US-EXAM-PROPS-1110；12/6 Introduction 期末考＝開書考，AA_531：「你帶去的書，有一半的頁數貼了便利貼」）=================
+# EXAM_PROPS 群組：平常藏著，遊戲那一場 z.setExam(true) 才打開。Introduction 有人坐的位子（配置 seatPlan.intro：玩家、韓國同學、其他 28 人）每個一份：
+#   攤開的藍色答案本（藍封面、白內頁、手寫的灰線）＋一支筆＋一本攤開的教科書（幾張便利貼）；隔幾個位子一瓶水。玩家那一份的書側面貼滿便利貼。講桌上一疊空白答案本＋題目卷
+EXAMG = B.group('EXAM_PROPS', ROOTG, {'toggle': 1, 'note': 'US-EXAM-PROPS-1110：12/6 期末考桌上的考卷和書（z.setExam(true)）'})
+EX = L.CMesh('EXAM_PROPS_vc', MAT['vc'])
+SPI = C['seatPlan']['intro']; rr = random.Random(1206)
+def seat_rc(rc): return rc[0], rc[1]
+exam_seats = [('player', SPI['player']), ('korean', SPI['korean'])] + [('other', q) for q in SPI['others']]
+def booklet(cx, t, cz, open_=True):
+    """藍色答案本（攤開）：封面露出一圈藍邊、兩頁白紙、中間的釘線、寫了幾行（灰線）"""
+    EX.cbox(cx - 0.215, cx + 0.215, t, t + 0.003, cz - 0.14, cz + 0.14, '#2c5aa0')
+    for sx in (-1, 1):
+        a, b = (cx - 0.208, cx - 0.004) if sx < 0 else (cx + 0.004, cx + 0.208)
+        EX.cbox(a, b, t + 0.003, t + 0.006, cz - 0.134, cz + 0.134, '#f4f3ee')
+        n = rr.randint(3, 9) if sx < 0 else rr.randint(0, 6)
+        for k in range(n):   # 手寫的線：紙面上的一片（只有朝上那一面；方塊的話一條 24 個頂點，第一次匯出光這些就多 0.4 MB）
+            x0, x1, z0_, z1_ = a + 0.015, a + 0.015 + rr.uniform(0.09, 0.18), cz - 0.11 + k * 0.024, cz - 0.108 + k * 0.024; y_ = t + 0.0063
+            EX.poly([(x0, y_, z1_), (x1, y_, z1_), (x1, y_, z0_), (x0, y_, z0_)], '#5a6070')
+    EX.cbox(cx - 0.003, cx + 0.003, t + 0.006, t + 0.007, cz - 0.134, cz + 0.134, '#b8bcc4')
+def textbook(cx, t, cz, tabs):
+    """攤開的教科書：深色硬殼、厚厚的書頁、側面一排便利貼（tabs 張）"""
+    col = rr.choice(['#6a2f2a', '#2f3f5a', '#3a4a32', '#4a3a5a'])
+    EX.cbox(cx - 0.235, cx + 0.235, t, t + 0.006, cz - 0.16, cz + 0.16, col)
+    EX.cbox(cx - 0.225, cx - 0.004, t + 0.006, t + 0.03, cz - 0.15, cz + 0.15, '#efe9da'); EX.cbox(cx + 0.004, cx + 0.225, t + 0.006, t + 0.022, cz - 0.15, cz + 0.15, '#efe9da')
+    for k in range(tabs):
+        side = 1 if k % 2 else -1; zz = cz - 0.13 + (k // 2) * (0.26 / max(1, (tabs + 1) // 2))
+        x0 = cx + side * 0.225; EX.cbox(min(x0, x0 + side * 0.02), max(x0, x0 + side * 0.02), t + 0.01 + (k % 3) * 0.006, t + 0.012 + (k % 3) * 0.006, zz, zz + 0.02, rr.choice(['#f2d44a', '#f29ab0', '#8fd0f0', '#a8e07a', '#f5a05a']))
+for who, rc in exam_seats:
+    r_, c_ = seat_rc(rc); z0 = rowZ(r_); t = desk_top(r_); sx = colX(c_) if 'colX' in globals() else C['colX0'] + c_ * C['colDX']
+    cz = z0 + dk['dz'] + 0.03
+    booklet(sx - 0.17, t, cz)
+    textbook(sx + 0.3, t, cz - 0.02, 22 if who == 'player' else rr.randint(0, 5))
+    pz = cz + rr.uniform(-0.06, 0.06); ccyl(EX, (sx + 0.04, t + 0.005, pz - 0.07), (sx + 0.06, t + 0.005, pz + 0.07), 0.004, rr.choice(['#20242a', '#1f3f8a', '#8a1f1f']), seg=5)
+    if rr.random() < 0.25: ccyl(EX, (sx + 0.58, t, z0 + 0.15), (sx + 0.58, t + 0.2, z0 + 0.15), 0.032, '#a9c8dc', seg=10)
+# 講桌：一疊空白答案本、題目卷
+lt = Lc['h']
+for k in range(10): EX.cbox(Lc['x'] - 0.42, Lc['x'] - 0.12, lt + k * 0.004, lt + (k + 1) * 0.004, Lc['z'] - 0.14, Lc['z'] + 0.1, '#2c5aa0' if k % 2 else '#2a5596')
+for k in range(8): EX.cbox(Lc['x'] - 0.05, Lc['x'] + 0.17, lt + k * 0.003, lt + (k + 1) * 0.003, Lc['z'] - 0.15, Lc['z'] + 0.13, '#f4f3ee' if k % 2 else '#ecebe5')
+
 # ================= 合成、光照貼圖的比例、匯出 =================
 SMOOTH = {'SEATPANS', 'seats_wood', 'seats_steel'}
 UVKEEP = {'WALL_N_board', 'PROPS_print', 'WALL_S_print', 'WALL_E_print', 'WALL_S_exit'}   # 自己指定 UV 的（貼圖集的一塊）：不做盒狀 UV
@@ -563,6 +602,7 @@ for name, (m, p) in MESH.items():
     if name in ('desks_top', 'lectern_dark'):   # 桌面的木紋沿長邊（貼圖的紋是直的：u、v 對調）
         uvl = ob.data.uv_layers.active
         for lp in ob.data.loops: u, v = uvl.data[lp.index].uv; uvl.data[lp.index].uv = (v, u)
+EX.finish(EXAMG, props={'lm': 0.35}, uv=False)
 print(json.dumps({'meshes': len(MESH), 'tris': sum(sum(len(p.vertices) - 2 for p in o.data.polygons) for o in bpy.data.objects if o.type == 'MESH'),
                   'seats': len(SEATS)}, ensure_ascii=False))
 L.export(OUT, gpu_instances=False)
