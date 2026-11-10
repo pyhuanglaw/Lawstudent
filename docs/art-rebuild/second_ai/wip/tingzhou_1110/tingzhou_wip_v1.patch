@@ -61,7 +61,7 @@ index 000000000..d26f2dec7
 +};
 diff --git a/tools/blender/env_second/tingzhou_preview.py b/tools/blender/env_second/tingzhou_preview.py
 new file mode 100644
-index 000000000..d24e8761e
+index 000000000..7a296a436
 --- /dev/null
 +++ b/tools/blender/env_second/tingzhou_preview.py
 @@ -0,0 +1,156 @@
@@ -130,7 +130,7 @@ index 000000000..d24e8761e
 +# ---------- 地面：路、標線、路邊機車格、紅線 ----------
 +R = TZ['road']; z0, z1 = -70, 70
 +asph = L.pbr('tz_prev_asph', 'asphalt_02', tile=4.0, target='#8f8e8a', maps=('diff', 'nor'), res=512) if L.fetch('asphalt_02') else L.flat('tz_prev_asph', '#8f8e8a')
-+B.quad('road', asph, [g2b(R['x0'], 0, z0), g2b(R['x1'], 0, z0), g2b(R['x1'], 0, z1), g2b(R['x0'], 0, z1)])
++B.box('road', asph, R['x0'], R['x1'], -0.05, 0.0, z0, z1)
 +yel = L.flat('tz_prev_yel', '#e8c040', rough=0.6); wht = L.flat('tz_prev_wht', '#eeeeea', rough=0.6); red = L.flat('tz_prev_red', '#b8332a', rough=0.6)
 +for dx in (-0.09, 0.09): B.box(f'yl{dx}', yel, dx - 0.05, dx + 0.05, 0.004, 0.012, z0, z1)
 +pw = R.get('parkW', 1.6)
@@ -143,7 +143,7 @@ index 000000000..d24e8761e
 +# 斑馬線（巷 A 口）
 +for c in TZ['crossings']:
 +    for i in range(-4, 5): B.box(f'zb{c["z"]}_{i}', wht, i * 1.0 - 0.3, i * 1.0 + 0.3, 0.004, 0.013, c['z'] - c['w'] / 2, c['z'] + c['w'] / 2)
-+B.quad('far_ground', L.flat('tz_prev_ground', '#8a8780'), [g2b(-80, -0.02, -120), g2b(80, -0.02, -120), g2b(80, -0.02, 120), g2b(-80, -0.02, 120)])
++B.box('far_ground', L.flat('tz_prev_ground', '#8a8780'), -80, 80, -0.1, -0.06, -120, 120)
 +# ---------- 機車（路邊機車格，斜停；巷口、斑馬線不停）----------
 +try:
 +    before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(ROOT, 'assets/models/env/second_ai/scooter.glb'))
@@ -154,7 +154,7 @@ index 000000000..d24e8761e
 +    for sx in (-1, 1):
 +        x = sx * (R['x1'] - pw / 2)
 +        for z in [v * 0.9 for v in range(-44, 45)]:
-+            if abs(z) < 3.6 or rng.random() < 0.25: continue
++            if abs(z) < 3.6 or rng.random() < float(os.environ.get('TZ_SCOOTER_SKIP', '0.25')): continue
 +            cp = proto.copy(); SC.collection.objects.link(cp)
 +            for ch in proto.children: c2 = ch.copy(); SC.collection.objects.link(c2); c2.parent = cp
 +            cp.location = g2b(x, 0, z); cp.rotation_euler = (0, 0, (math.pi / 2 if sx > 0 else -math.pi / 2) + rng.uniform(-0.35, 0.35)); n += 1
@@ -172,23 +172,22 @@ index 000000000..d24e8761e
 +    for j in range(3): B.cyl(f'w{k}_{j}', wire, g2b(R['x0'] - 1, 6.2 + j * 0.25, z + j * 0.4), g2b(R['x1'] + 1, 6.0 + j * 0.3, z + 2.5 - j * 0.3), 0.012, seg=4)
 +
 +# ---------- 光 ----------
++SC.render.engine = 'BLENDER_EEVEE'
++try: SC.eevee.taa_render_samples = int(os.environ.get('TZ_SAMPLES', '8')); SC.eevee.use_shadows = os.environ.get('TZ_SHADOWS', '1') == '1'
++except Exception as _e: print('eevee opt', _e)
 +SC.render.engine = 'BLENDER_EEVEE'; SC.render.resolution_x, SC.render.resolution_y = RES; SC.view_settings.view_transform = 'AgX'
 +world = bpy.data.worlds.new('w'); SC.world = world; world.use_nodes = True; WN = world.node_tree.nodes; bg = WN['Background']
-+sky = WN.new('ShaderNodeTexSky')
-+try: sky.sky_type = 'NISHITA'
-+except Exception: pass
-+world.node_tree.links.new(sky.outputs['Color'], bg.inputs['Color'])
++SKYC = {'day': (0.42, 0.62, 0.95), 'dusk': (0.62, 0.42, 0.50), 'night': (0.02, 0.03, 0.07)}   # 天空：純色（Sky 貼圖節點在這一版 bpy 是黑的）
 +sun = bpy.data.objects.new('sun', bpy.data.lights.new('sun', 'SUN')); SC.collection.objects.link(sun)
 +EMIT = {'wz_signs_lit': 6.0, 'wz_room_lit': 3.0, 'wz_tube': 8.0, 'wz_win_glass_lit': 2.0, 'ext_glass_lit': 3.0, 'cafe_bulb': 10.0, 'wz_sf_lamp': 8.0, 'wz_sf_lamp_cool': 8.0}
 +
 +
 +def set_time(t):
 +    k = {'day': 0.0, 'dusk': 0.65, 'night': 1.0}[t]
-+    if t == 'day': sun.data.energy = 4.0; sun.rotation_euler = (math.radians(40), 0, math.radians(150)); sun.data.color = (1, 0.97, 0.92); bg.inputs['Strength'].default_value = 0.8
-+    elif t == 'dusk': sun.data.energy = 1.2; sun.rotation_euler = (math.radians(83), 0, math.radians(250)); sun.data.color = (1, 0.62, 0.38); bg.inputs['Strength'].default_value = 0.25
-+    else: sun.data.energy = 0.0; bg.inputs['Strength'].default_value = 0.03
-+    try: sky.sun_elevation = math.radians({'day': 50, 'dusk': 3, 'night': -6}[t]); sky.sun_rotation = math.radians(250)
-+    except Exception: pass
++    if t == 'day': sun.data.energy = 4.0; sun.rotation_euler = (math.radians(40), 0, math.radians(150)); sun.data.color = (1, 0.97, 0.92); bg.inputs['Strength'].default_value = 1.0
++    elif t == 'dusk': sun.data.energy = 1.2; sun.rotation_euler = (math.radians(83), 0, math.radians(250)); sun.data.color = (1, 0.62, 0.38); bg.inputs['Strength'].default_value = 0.45
++    else: sun.data.energy = 0.0; bg.inputs['Strength'].default_value = 0.6
++    bg.inputs['Color'].default_value = (*SKYC[t], 1.0)
 +    for m in SIGN_MATS: m.node_tree.nodes['Principled BSDF'].inputs['Emission Strength'].default_value = 0.15 + 2.6 * k
 +    for m in bpy.data.materials:
 +        if not m.use_nodes: continue
@@ -212,6 +211,7 @@ index 000000000..d24e8761e
 +    'taimi_side': ((2.8, 1.6, 8.5), (-7.0, 2.4, -1.5), 28),   # 泰米村食斜角
 +    'xile_yin': ((-3.2, 1.6, 0.0), (8.2, 2.2, 0.0), 30),      # 洗樂（左）、印得好（右），從對面看巷口
 +    'ref5': ((-1.5, 1.5, -28), (-6.0, 7.5, 16), 26),          # 參考圖 5 的構圖：沿西側立面往前看、仰角（直立招牌一整排）
++    'ref_street': ((4.6, 1.65, 34.5), (-6.5, 3.0, 12.0), 24),   # 概念圖 street_dusk_five_shops 的構圖：從對面人行道斜看西側五間（左＝越好吃小館 → 右＝溫特寶邸）
 +    'ref6': ((1.0, 1.4, 34), (-1.5, 5.0, -10), 28),           # 參考圖 6 的構圖：夜間沿街看、招牌一路亮過去
 +}
 +cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); SC.collection.objects.link(cam); SC.camera = cam
@@ -221,31 +221,40 @@ index 000000000..d24e8761e
 +    for vn in views:
 +        eye, look, lens = VIEWS[vn]; cam.data.lens = lens; cam.location = g2b(*eye); d = g2b(*look) - g2b(*eye); cam.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler()
 +        SC.render.filepath = os.path.join(OUTD, f'tz_{vn}_{t}.png'); bpy.ops.render.render(write_still=True); print('render', SC.render.filepath)
-diff --git a/tools/blender/env_second/tingzhou_signs_tex.py b/tools/blender/env_second/tingzhou_signs_tex.py
+diff --git a/tools/blender/env_second/tz_fronts_tex.py b/tools/blender/env_second/tz_fronts_tex.py
 new file mode 100644
-index 000000000..4bf09692a
+index 000000000..05a6aec83
 --- /dev/null
-+++ b/tools/blender/env_second/tingzhou_signs_tex.py
-@@ -0,0 +1,42 @@
-+"""汀州路五間店的招牌貼圖集（TINGZHOU-AREA-1110，LAWWW2 帳號 A 11-10）。
-+來源：使用者 11-10 19:2x 自己生成的五張店面概念圖（docs/art-rebuild/second_ai/ref/tingzhou_1110/concept/shop_*.webp；招牌字就是正式店名）。
-+做法（同 xs_front_tex.py：從參考圖裁）：每一塊招牌量四個角（概念圖像素），透視拉正，排進一張 2048×2048 的圖集；寫出每一塊的 UV、長寬比。
-+輸出：textures/gen/tz_signs_atlas.jpg、tz_signs_atlas.json（wz_street.py --set tingzhou、tingzhou_preview.py 讀）。
-+用法：/opt/blenv/bin/python tools/blender/env_second/tingzhou_signs_tex.py"""
++++ b/tools/blender/env_second/tz_fronts_tex.py
+@@ -0,0 +1,51 @@
++"""汀州路五間店的店面貼圖集（TINGZHOU-AREA-1110／TINGZHOU-SHOPS5-1110，X322；LAWWW2 帳號 A 11-10）。
++來源：使用者 11-10 19:2x 自己生成的五張店面概念圖（docs/art-rebuild/second_ai/ref/tingzhou_1110/concept/shop_*.webp）。參考圖就是規格（ROLE_LAWWW2 SCENE_RULES §12）：
++招牌、玻璃後面看到的店內、門、照片菜單從概念圖裁出來拉正（做法同新生南路、公館的 xs_front_tex.py）；牆、框、玻璃、雨棚、燈、盆栽是 3D（wz_shopkit.gg_front）。
++招牌字就是使用者指定的正式店名（越好吃小館、客居雲南、東南大聯商行、汀州聯通、溫特寶邸）。
++輸出：textures/gen/tz_fronts_atlas.jpg、tz_fronts_atlas.json（key → [u0, v0, u1, v1, 寬高比]；wz_shopkit.py 的 XS_ATLAS 讀）。
++用法：/opt/blenv/bin/python tools/blender/env_second/tz_fronts_tex.py"""
 +import json, os
 +import numpy as np
 +from PIL import Image
 +HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 +SRC = os.environ.get('TZ_CONCEPT') or os.path.join(ROOT, 'docs/art-rebuild/second_ai/ref/tingzhou_1110/concept'); GEN = os.path.join(HERE, 'textures', 'gen')
-+# 鍵：(概念圖, 四角 左上／右上／右下／左下, 寬, 高)
-+Q = {'liantong_h': ('shop_tingzhou_liantong', [(468, 224), (1344, 221), (1344, 378), (466, 383)], 1120, 200),
-+     'liantong_v': ('shop_tingzhou_liantong', [(372, 24), (440, 28), (436, 366), (368, 362)], 128, 600),
-+     'yuehaochi_h': ('shop_yuehaochi', [(528, 256), (1298, 170), (1306, 350), (531, 392)], 1120, 220),
-+     'yuehaochi_v': ('shop_yuehaochi', [(412, 60), (488, 82), (486, 362), (410, 345)], 128, 500),
-+     'wente_h': ('shop_wentebaodi', [(566, 170), (1292, 256), (1278, 352), (570, 306)], 1120, 190),
-+     'keju_h': ('shop_kejuyunnan', [(460, 258), (1325, 205), (1328, 348), (462, 378)], 1120, 180),
-+     'keju_v': ('shop_kejuyunnan', [(330, 25), (430, 45), (425, 350), (326, 335)], 160, 500),
-+     'dongnan_h': ('shop_dongnan_dalian', [(385, 235), (1430, 172), (1433, 322), (388, 362)], 1280, 170)}
++# key：(概念圖, 四角 左上／右上／右下／左下（像素）, 輸出寬, 高)
++Q = {'tzlian_sign': ('shop_tingzhou_liantong', [(468, 224), (1344, 221), (1344, 378), (466, 383)], 1024, 184),
++     'tzlian_vsign': ('shop_tingzhou_liantong', [(372, 24), (440, 28), (436, 366), (368, 362)], 112, 520),
++     'tzlian_int': ('shop_tingzhou_liantong', [(600, 402), (1298, 402), (1298, 748), (600, 748)], 768, 380),
++     'tzyue_sign': ('shop_yuehaochi', [(528, 256), (1298, 170), (1306, 350), (531, 392)], 1024, 200),
++     'tzyue_vsign': ('shop_yuehaochi', [(412, 60), (488, 82), (486, 362), (410, 345)], 112, 440),
++     'tzyue_int': ('shop_yuehaochi', [(672, 398), (1162, 402), (1166, 792), (680, 778)], 512, 400),
++     'tzyue_menu': ('shop_yuehaochi', [(1180, 430), (1300, 426), (1302, 696), (1184, 693)], 128, 288),
++     'tzwen_sign': ('shop_wentebaodi', [(566, 170), (1292, 256), (1278, 352), (570, 306)], 1024, 176),
++     'tzwen_win': ('shop_wentebaodi', [(552, 345), (966, 350), (966, 602), (556, 600)], 512, 312),
++     'tzwen_door': ('shop_wentebaodi', [(975, 356), (1216, 366), (1212, 722), (977, 722)], 256, 380),
++     'tzkeju_sign': ('shop_kejuyunnan', [(460, 258), (1325, 205), (1328, 348), (462, 378)], 1024, 168),
++     'tzkeju_vsign': ('shop_kejuyunnan', [(330, 25), (430, 45), (425, 350), (326, 335)], 144, 440),
++     'tzkeju_int': ('shop_kejuyunnan', [(572, 446), (1186, 440), (1186, 772), (576, 766)], 640, 344),
++     'tzkeju_menu': ('shop_kejuyunnan', [(1205, 470), (1305, 470), (1305, 722), (1205, 722)], 112, 284),
++     'tzdong_sign': ('shop_dongnan_dalian', [(385, 235), (1430, 172), (1433, 322), (388, 362)], 1024, 138),
++     'tzdong_shop': ('shop_dongnan_dalian', [(482, 432), (1340, 416), (1340, 792), (492, 802)], 896, 392)}
 +
 +
 +def coeffs(dst, src):
@@ -256,21 +265,39 @@ index 000000000..4bf09692a
 +
 +
 +def main():
-+    W, H = 2048, 2048; atlas = Image.new('RGB', (W, H), (30, 30, 30)); info = {}; x = y = 0; rowh = 0
-+    for k in sorted(Q, key=lambda k: (k.endswith('_v'), k)):
++    W = H = 2048; atlas = Image.new('RGB', (W, H), (30, 30, 30)); info = {}; x = y = 0; rowh = 0; P = 4
++    for k in sorted(Q, key=lambda k: (-Q[k][3], k)):
 +        n, quad, w, h = Q[k]; im = Image.open(os.path.join(SRC, n + '.webp')).convert('RGB').transform((w, h), Image.PERSPECTIVE, coeffs([(0, 0), (w, 0), (w, h), (0, h)], quad), Image.BICUBIC)
-+        if x + w > W: x = 0; y += rowh + 4; rowh = 0
-+        atlas.paste(im, (x, y)); info[k] = {'uv': [x / W, 1 - (y + h) / H, (x + w) / W, 1 - y / H], 'aspect': round(w / h, 3), 'px': [x, y, w, h]}
-+        x += w + 4; rowh = max(rowh, h)
++        if x + w > W: x = 0; y += rowh + P; rowh = 0
++        atlas.paste(im, (x, y)); info[k] = [x / W, 1 - (y + h) / H, (x + w) / W, 1 - y / H, round(w / h, 4)]
++        x += w + P; rowh = max(rowh, h)
 +    assert y + rowh <= H, (y, rowh)
-+    os.makedirs(GEN, exist_ok=True); atlas.save(os.path.join(GEN, 'tz_signs_atlas.jpg'), quality=90)
-+    json.dump(info, open(os.path.join(GEN, 'tz_signs_atlas.json'), 'w'), indent=1); print('saved', len(info), 'signs', y + rowh)
++    os.makedirs(GEN, exist_ok=True); atlas.save(os.path.join(GEN, 'tz_fronts_atlas.jpg'), quality=90)
++    json.dump(info, open(os.path.join(GEN, 'tz_fronts_atlas.json'), 'w'), indent=1); print('saved', len(info), 'used height', y + rowh)
 +
 +
 +if __name__ == '__main__':
 +    main()
+diff --git a/tools/blender/env_second/wz_shopkit.py b/tools/blender/env_second/wz_shopkit.py
+index 213d3d559..16b7b8f05 100644
+--- a/tools/blender/env_second/wz_shopkit.py
++++ b/tools/blender/env_second/wz_shopkit.py
+@@ -860,11 +860,11 @@ def mok_window(spec, xf, w):
+ # ======================================================================== 新生南路七家店（ART-XINSHENG-FRONTS-1104，LAWWW2）
+ # 參考圖就是規格（SCENE_RULES 第 12 節）：招牌、玻璃後面看到的店內、二樓窗後面，都是從使用者的參考圖直接裁出來校正透視（xs_front_tex.py → xs_fronts_atlas.jpg，整條街一個材質）；
+ # 框、玻璃、招牌板、騎樓柱子、天花板、店內的地板／兩側牆／天花燈是 3D。店內景深卡在玻璃後 0.8 m（看斜一點看得到兩側的牆，不是貼在玻璃上的一張照片）。
+-_XSA = {'xinsheng': 'xs_fronts_atlas', 'wenzhou': 'wz_fronts_atlas', 'gongguan': 'gg_fronts_atlas'}.get(SET)   # 溫州街（日常失速，WZ-OFFBEAT-1104）用自己的小圖集：兩條街不同 GLB，各帶各的
++_XSA = {'xinsheng': 'xs_fronts_atlas', 'wenzhou': 'wz_fronts_atlas', 'gongguan': 'gg_fronts_atlas', 'tingzhou': 'tz_fronts_atlas'}.get(SET)   # 溫州街（日常失速，WZ-OFFBEAT-1104）用自己的小圖集：兩條街不同 GLB，各帶各的
+ XS_ATLAS = _json.load(open(os.path.join(GEN, _XSA + '.json'), encoding='utf-8')) if (_XSA and os.path.exists(os.path.join(GEN, _XSA + '.json'))) else {}
+ XS_MAT = _img_mat('wz_xs_fronts', _XSA + '.jpg', rough=0.55, emit=0.85) if XS_ATLAS else None   # 店裡、二樓窗後面、燈箱：自發光（參考圖裡店都是亮的；在騎樓的陰影裡只靠反光會變成一片暗）
+ XS_MAT_M = _img_mat('wz_xs_fronts_matte', _XSA + '.jpg', rough=0.75, emit=0.1) if XS_ATLAS else None   # 外牆上的字、招牌板、海報櫃：不發光
+-XS_LIT = ('_int', '_up', '_side', 'nanyang_sign', 'dakou_sign', 'dakou_v', 'xsports_v', '_door', '_take', '_shop', 'ggcvs_sign', 'ggcvs_vend', '_kitchen', '_win', 'ggyy_sign')
++XS_LIT = ('_int', '_up', '_side', 'nanyang_sign', 'dakou_sign', 'dakou_v', 'xsports_v', '_door', '_take', '_shop', 'ggcvs_sign', 'ggcvs_vend', '_kitchen', '_win', 'ggyy_sign', 'tzlian_sign', 'tzyue_sign', 'tzkeju_sign', 'tzdong_sign', '_vsign', '_menu')   # 汀州路五間（tz_fronts_tex.py）：燈箱招牌、照片菜單燈箱晚上亮；溫特寶邸的黑底招牌不發光（上面三盞鵝頸燈照）
+ _XSQ = []   # 先收起來，最後一次做成兩個網格（同材質合併）
+ XS_SHOPS = []   # 窗卡的店前綴（照第一次出現的順序編號，寫進 xs_fronts_lit 的 extras xsShops）
+ 
 diff --git a/tools/blender/env_second/wz_street.py b/tools/blender/env_second/wz_street.py
-index 2d3c7a05b..f2f349945 100644
+index 2d3c7a05b..e698072b5 100644
 --- a/tools/blender/env_second/wz_street.py
 +++ b/tools/blender/env_second/wz_street.py
 @@ -24,7 +24,7 @@ ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
@@ -282,7 +309,7 @@ index 2d3c7a05b..f2f349945 100644
  
  # ---------------- 遊戲裡的配置（照 zones3d.js buildWenzhou；改那邊要一起改這裡） ----------------
  SHOP = lambda **k: k
-@@ -318,6 +318,77 @@ if SET in ('lane118', 'nccu_food', 'xinsheng', 'xinsheng_far'):
+@@ -318,6 +318,97 @@ if SET in ('lane118', 'nccu_food', 'xinsheng', 'xinsheng_far'):
                  _t = _VT_L[(_n // 2) % len(_VT_L)]; base['vtenant'] = dict(vertical=_t[0], vBg=_t[1], vColor=_t[2], vBand=_t[2], len=min(_t[3], GH + (base['floors'] - 1) * FH - GH - 0.8))
              SPECS.append(base); _n += 1
  
@@ -298,7 +325,8 @@ index 2d3c7a05b..f2f349945 100644
 +    GH, FH = TZ['groundH'], TZ['floorH']; _FW, _FE, _DEP = TZ['facade']['west'], TZ['facade']['east'], TZ['facade']['depth']
 +    _P = dict(p_grille=0.85, p_pot=0.55, p_ac=0.85)
 +    # 招牌（底色、字色、色帶）：東南亞餐館用各自的配色（不照抄任何真實店家）；三間有互動的照 GG_SHOPS3_1110.md 第三節
-+    _LK = {'taimi': ('#f2e8d6', '#5a3a22', '#d9772e'), 'xile': ('#bfe2f2', '#ffffff', '#5aa7d0'), 'yindehao': ('#2f4256', '#ffffff', ''),
++    _LK = {'wente': ('#26221f', '#e6d3a8', ''), 'liantong': ('#1f3f9a', '#ffffff', '#6fa3e0'), 'dongnan': ('#f2c230', '#b8231c', '#2f7d5b'), 'keju': ('#f1e3c4', '#8a2a22', '#8a2a22'), 'yuehaochi': ('#8a2a26', '#f4e6c8', ''),
++           'e_books': ('#2f4a3a', '#f4ead8', ''), 'taimi': ('#f2e8d6', '#5a3a22', '#d9772e'), 'xile': ('#bfe2f2', '#ffffff', '#5aa7d0'), 'yindehao': ('#2f4256', '#ffffff', ''),
 +           'w_burma': ('#8a1f2a', '#f2d27a', '#d9a640'), 'w_indo': ('#b8231c', '#ffffff', '#ffffff'), 'e_malay': ('#1f6b4a', '#f6e27a', '#e0b24a'), 'e_hainan': ('#f6e7c8', '#8a2a22', '#c9a24a'),
 +           'w_viet': ('#2f6f4a', '#ffffff', '#e8c040'), 'w_bento': ('#c9463d', '#ffffff', ''), 'w_sport': ('#1f4e8c', '#ffffff', '#c9463d'), 'w_phone': ('#ffffff', '#1f6fb0', '#1f6fb0'),
 +           'w_tea': ('#f4ead8', '#2f7d5b', '#2f7d5b'), 'w_cafe': ('#3b2a1e', '#f4ead8', ''), 'w_mian': ('#f2b33e', '#7a2a1e', ''), 'w_daily': ('#e8f0f4', '#c9463d', '#c9463d'),
@@ -307,14 +335,14 @@ index 2d3c7a05b..f2f349945 100644
 +           'e_dump': ('#f2c230', '#8a2a22', ''), 'e_lotto': ('#e0b24a', '#9c2f2a', ''), 'e_bfast': ('#ffffff', '#e0731e', '#e0731e'), 'e_shoes': ('#3a3a3a', '#ffffff', '#e0731e'),
 +           'e_cvs': ('#f4f4f0', '#2f7d5b', '#e0731e'), 'e_market': ('#2f5d50', '#f4ead8', '#c9a24a')}
 +    # 店內景（wz_shopkit.shallow_interior 的種類；藥局那一種有綠十字燈箱，不用）、門、地磚、燈
-+    _KIND = {'taimi': 'brunch', 'xile': 'laundry', 'yindehao': 'print', 'w_burma': 'noodle', 'w_bento': 'buffet', 'w_sport': 'stationery', 'w_phone': 'cvs', 'w_indo': 'noodle', 'w_tea': 'tea',
++    _KIND = {'wente': 'records', 'liantong': 'cvs', 'dongnan': 'cvs', 'keju': 'brunch', 'yuehaochi': 'brunch', 'e_books': 'books', 'taimi': 'brunch', 'xile': 'laundry', 'yindehao': 'print', 'w_burma': 'noodle', 'w_bento': 'buffet', 'w_sport': 'stationery', 'w_phone': 'cvs', 'w_indo': 'noodle', 'w_tea': 'tea',
 +             'w_cafe': 'books', 'w_mian': 'noodle', 'w_viet': 'buffet', 'w_daily': 'cvs', 'w_books': 'books', 'w_luwei': 'luwei', 'w_moto': 'bike', 'w_brunch': 'brunch',
 +             'e_glass': 'cvs', 'e_chicken': 'luwei', 'e_malay': 'noodle', 'e_douhua': 'buffet', 'e_cloth': 'records', 'e_dump': 'noodle', 'e_lotto': 'cvs', 'e_bfast': 'tea',
 +             'e_hainan': 'buffet', 'e_shoes': 'stationery', 'e_cvs': 'cvs', 'e_market': 'fruit'}
 +    _ERA = {'old': dict(floor=['f_mosaic', 'f_concrete', 'f_floral', 'f_terrazzo'], light='cool', door={'open': 'open', 'glass': 'alu', 'half': 'alu'}),
 +            'mid': dict(floor=['f_granite', 'f_white', 'f_terrazzo'], light='cool', door={'open': 'open', 'glass': 'alu', 'half': 'alu'}),
 +            'new': dict(floor=['f_white', 'f_floral', 'f_granite'], light='warm', door={'open': 'open', 'glass': 'wood', 'half': 'wood'})}
-+    _WARM = {'taimi', 'w_burma', 'w_indo', 'e_malay', 'e_hainan', 'w_viet', 'w_cafe', 'w_books', 'w_brunch', 'e_douhua', 'w_mian', 'e_dump', 'w_luwei', 'e_chicken', 'e_market', 'w_bento'}
++    _WARM = {'wente', 'keju', 'yuehaochi', 'e_books', 'taimi', 'w_burma', 'w_indo', 'e_malay', 'e_hainan', 'w_viet', 'w_cafe', 'w_books', 'w_brunch', 'e_douhua', 'w_mian', 'e_dump', 'w_luwei', 'e_chicken', 'e_market', 'w_bento'}
 +    # 門口的雜物（wz_shopkit 的原型；每一間不一樣）：小吃＝塑膠凳、菜單立牌、桶子；東南亞餐館＝照片菜單立牌、盆栽；玻璃店面＝傘桶、立牌、盆栽；市場＝箱子、水果架
 +    _CL = {'open': [('stool_r', -1.2, 0.35), ('stool_b', -0.6, 0.4), ('bins', 1.2, 0.35)], 'half': [('aboard', -0.9, 0.45, 'menu'), ('pot', 1.3, 0.3, 'broad')],
 +           'glass': [('umb', -1.1, 0.3), ('aboard', 0.9, 0.45, 'menu')], 'market': [('crates', -3.0, 0.55), ('boxes', -1.0, 0.35), ('crates', 2.2, 0.55), ('boxes', 4.0, 0.3)]}
@@ -323,6 +351,24 @@ index 2d3c7a05b..f2f349945 100644
 +    _VTZ = [('文理補習班', '#fff2a8', '#c9463d', 3.6), ('牙醫診所', '#ffffff', '#2f7d5b', 3.0), ('套房出租', '#ffffff', '#3b5a8c', 2.8), ('美髮沙龍', '#2b2b2b', '#f4ead8', 2.8), ('中醫', '#f4ead8', '#2f5d50', 2.6),
 +            ('英語教室', '#1f4e8c', '#ffffff', 3.2), ('會計事務所', '#ffffff', '#2f3a44', 3.4), ('按摩', '#ffffff', '#8c3b47', 2.6), ('瑜珈', '#e8f0e8', '#2f6f4a', 2.6), ('桌遊二樓', '#2b2b2b', '#e0b24a', 2.8),
 +            ('二樓咖啡', '#3b2a1e', '#f4ead8', 3.0), ('鋼琴教室', '#ffffff', '#3a3a3a', 3.0)]
++    # 使用者指定的五間（X322）：照概念圖 docs/art-rebuild/second_ai/ref/tingzhou_1110/concept/shop_*.webp（wz_shopkit.gg_front；貼圖 tz_fronts_tex.py → tz_fronts_atlas）。
++    # 本地 x＝從街上看的左→右；店面在騎樓後面 z −3；概念圖沒有畫騎樓（總覽圖寫「騎樓連續」）：招牌掛在騎樓梁靠街那一面（street）
++    TZ_XS = {
++        'wente': dict(dep=3.0, wallc='#8b979c', frame='#3a2a1e', street='tzwen_sign',   # 溫特寶邸：藍灰小方磚柱、深色木作櫥窗（假人、皮夾克、檯燈）、木門；招牌上三盞鵝頸燈
++                      cards=[('tzwen_win', -2.35, 0.55, 0.75, 2.55, 0.8)], door=dict(x0=0.8, x1=2.2, y1=2.65, style='wood', key='tzwen_door', d=0.6, hinge='left'),
++                      lamps=[(-1.6, 3.05), (-0.2, 3.05), (1.2, 3.05)], props=[('pot', -2.45, 0.35, 'broad'), ('pot', 2.45, 0.35, 'fern')]),
++        'liantong': dict(dep=3.0, wallc='#eeeeea', frame='alu', street='tzlian_sign', street_lit=True,   # 汀州聯通：鋁框玻璃、白光、手機殼牆、玻璃展示櫃
++                         cards=[('tzlian_int', -1.9, 1.9, 0.12, 2.7, 0.9, [-0.35, 0.7])], props=[('pot', -2.0, 0.35, 'broad'), ('pot', 2.0, 0.35, 'broad')]),
++        'dongnan': dict(dep=3.0, wallc='#e8e4da', frame='alu', street='tzdong_sign', street_lit=True,   # 東南大聯商行：整面開著、貨架塞滿、門口鐵網架和塑膠籃；墨綠帆布雨棚
++                        cards=[('tzdong_shop', -3.4, 3.4, 0.0, 2.75, 1.2)], open=('tzdong_shop',),
++                        awning=dict(x0=-3.5, x1=3.5, y0=3.1, y1=2.75, d=1.0, color='#2f5d50', style='canvas'), props=[('pot', 3.45, 0.35, 'broad')]),
++        'keju': dict(dep=3.0, wallc='#efe6d6', frame='#2a2a28', street='tzkeju_sign', street_lit=True,   # 客居雲南：黑框玻璃、藤編吊燈、木桌；右邊酒紅柱子上的照片菜單；酒紅帆布雨棚
++                     cards=[('tzkeju_int', -2.35, 1.5, 0.1, 2.7, 0.9, [-0.45])], decals=[('tzkeju_menu', 1.75, 2.35, 0.8, 2.3, 0.03)],
++                     awning=dict(x0=-2.5, x1=2.5, y0=3.1, y1=2.78, d=0.9, color='#7a2a2a', style='canvas'), props=[('pot', -2.45, 0.35, 'broad'), ('pot', 2.5, 0.35, 'broad')]),
++        'yuehaochi': dict(dep=3.0, wallc='#e9e2d2', frame='#3a2a1e', street='tzyue_sign', street_lit=True,   # 越好吃小館：深色木框玻璃門窗、藤編吊燈、木桌椅；右邊照片菜單；大盆栽
++                          cards=[('tzyue_int', -2.3, 1.25, 0.05, 2.8, 0.9, [-0.5])], decals=[('tzyue_menu', 1.55, 2.3, 0.7, 2.45, 0.03)],
++                          props=[('pot', -2.6, 0.35, 'broad'), ('pot', -2.6, 0.9, 'fern'), ('pot', 2.65, 0.35, 'broad')]),
++    }
 +    _WALLC = ['#e6e2d8', '#d9d4c6', '#cfd2cc', '#e2d6c0', '#d4c7b0', '#c9cfc6', '#ddd2c2', '#bfb7aa', '#e9e4da', '#cbbfae']; _WALLT = ['mosaic', 'tile', 'mosaic', 'plaster', 'tile', 'mosaic']
 +    SPECS = []
 +    for _n, q in enumerate(sorted(TZ['shops'], key=lambda q: (q['side'], q['z0']))):
@@ -346,6 +392,7 @@ index 2d3c7a05b..f2f349945 100644
 +        base = dict(id='T' + q['id'], pos=(_fx, _cz), ry=_ry, w=_w, d=_DEP, floors=_floors, wall=_WALLT[(_n * 5 + len(q['id'])) % len(_WALLT)], color=_WALLC[(_n * 3 + 1) % len(_WALLC)],
 +                    balcony=_rr.random() < 0.35 and _w > 4, tank=_rr.random() < 0.5, roofAdd=_rr.random() < 0.45 and _w > 4, ground='arcade', pillars=[_w / 2], rollbox=_rr.random() < 0.6,
 +                    shop=shop, sf=sf, **_P)
++        if q['id'] in TZ_XS: base['xs'] = TZ_XS[q['id']]; base['rollbox'] = False; sf['clutter'] = []; sf['notes'] = []   # 照概念圖的店面（門口的東西在 xs 的 props）
 +        if _w > 3.5 and _floors >= 4 and _rr.random() < 0.85:
 +            _t = _VTZ[(_n * 5) % len(_VTZ)]; base['vtenant'] = dict(vertical=_t[0][:5], vBg=_t[1], vColor=_t[2], vBand=_t[2], len=min(_t[3], (_floors - 1) * FH - 0.8))
 +        if q['id'] == 'e_market': base.update(balcony=False, roofAdd=False, tank=False, wall='plaster', color='#cfc8b8')
@@ -360,7 +407,7 @@ index 2d3c7a05b..f2f349945 100644
  # XS-FARVIEW-1105（LAWWW2-B 2026-11-07；使用者 11-05 08:1x「新生南路側門 遠景太假」＝一排方盒、路口外面平的）：--set xinsheng_far → xinsheng_far.glb。
  #   新生南路區域（src/xinsheng3d.js）走得到的是 z −68～68；街的兩頭原本只有平地，遠景是引擎的城市剪影圓筒（半徑 118 m，在校園那一側就落在校園裡面）。
  #   這裡做街廓：西側店面那一排往兩頭接下去（和 xinsheng_street.glb 同一套公寓、材質、窗戶原型 → draw call 幾乎不加）、北端 T 字路口（往西）、南端十字路口、
-@@ -763,11 +834,11 @@ def apartment(spec):
+@@ -763,11 +854,11 @@ def apartment(spec):
      if w2:   # 木曜日（B4 二樓，ART-MOKUYOBI-1103）：二樓一整排木框窗（對齊店內 mokuyobi_layout.js 的 front.windows），蓋掉這一段原本的窗
          wins = [w for w in wins if not (w['f'] == 1 and w['x'] + ww / 2 > w2['x0'] - 0.3 and w['x'] - ww / 2 < w2['x1'] + 0.3)]
          wins.append(dict(f=1, x=(w2['x0'] + w2['x1']) / 2, w=w2['x1'] - w2['x0'], y0=w2['y0'], y1=w2['y1'], kind='mok', hood=False, ac=False, lit=True, acs=1))
@@ -374,7 +421,7 @@ index 2d3c7a05b..f2f349945 100644
          if spec.get('vtenant'): vs.append((-W / 2 + 0.5, GH + 0.3, GH + 0.3 + spec['vtenant']['len']))
          for w in wins:
              for vx, a, b in vs:
-@@ -1000,7 +1071,7 @@ def shopfront(spec, xf, W, gt):
+@@ -1000,7 +1091,7 @@ def shopfront(spec, xf, W, gt):
      if s.get('vatlas') and 'SIGN_ATLAS' in globals() and s['vatlas'] in SIGN_ATLAS:   # 設計稿直立招牌（使用者生成、BB-B 通過）：0.74×2.60 m，兩面貼圖，不留 VSIGN_FACE
          vsign_tex(xf, spec['id'], s['vatlas'], W / 2 - 0.5, GH + 0.3, vw=0.74)
      elif s.get('vertical'):
@@ -383,7 +430,7 @@ index 2d3c7a05b..f2f349945 100644
          xf.box(acc(M['metal']), vx - 0.04, vx + 0.04, vy1 + 0.02, vy1 + 0.08, 0.0, 0.95); xf.box(acc(M['metal']), vx - 0.04, vx + 0.04, vy0 - 0.08, vy0 - 0.02, 0.0, 0.95)
          xf.box(acc(M['ac']), vx - 0.07, vx + 0.07, vy0, vy1, 0.18, 0.92)
          vp = {'vertical': s['vertical'], 'vBg': s.get('vBg', '#ffffff'), 'vColor': s.get('vColor', '#b0332a'), 'vBand': s.get('vBand', '#b0332a'), 'serif': 1 if s.get('serif') else 0}
-@@ -1052,7 +1123,7 @@ def housedoor(spec, xf, W, rng, rec):
+@@ -1052,7 +1143,7 @@ def housedoor(spec, xf, W, rng, rec):
  
  
  SF, SF_HOUSE, SF_SHUTTER = {}, {}, {}
@@ -392,16 +439,19 @@ index 2d3c7a05b..f2f349945 100644
  for sp in SPECS: apartment(sp)
  if SET == 'xinsheng_far':   # XS-FARVIEW-1105：路口的號誌（台灣常見的橫式燈頭掛在懸臂上；行人號誌在桿子上）。燈頭的綠燈自己發光（白天也亮）
      def _signals():
-@@ -1070,7 +1141,7 @@ if SET == 'xinsheng_far':   # XS-FARVIEW-1105：路口的號誌（台灣常見
+@@ -1068,9 +1159,9 @@ if SET == 'xinsheng_far':   # XS-FARVIEW-1105：路口的號誌（台灣常見
+         sig(-8.6, n1 + 1.2, 1, 7.0); sig(8.6, n0 - 1.2, -1, 7.0)            # 北端 T 字路口：西南角、東北角（東側是校園圍牆外的人行道）
+         sig(-8.6, s0 - 1.2, 1, 7.0); sig(8.6, s1 + 1.2, -1, 7.0); sig(-8.6, s1 + 1.2, 1, 7.0); sig(8.6, s0 - 1.2, -1, 7.0)   # 南端十字路口四個角
      _signals()
- if SET in ('xinsheng', 'wenzhou', 'gongguan') and 'xs_finish' in globals(): xs_finish()   # 新生南路的店面貼圖、溫州街日常失速（各一個網格）
+-if SET in ('xinsheng', 'wenzhou', 'gongguan') and 'xs_finish' in globals(): xs_finish()   # 新生南路的店面貼圖、溫州街日常失速（各一個網格）
++if SET in ('xinsheng', 'wenzhou', 'gongguan', 'tingzhou') and 'xs_finish' in globals(): xs_finish()   # 新生南路的店面貼圖、溫州街日常失速（各一個網格）
  if SET == 'wenzhou' and 'copy_variants' in globals(): copy_variants()   # ART-WZ6：阿德影印的兩種外觀（COPY_* 節點，遊戲照 WZ_COPY_SHOP 開關）
 -if SET in ('wenzhou', 'gongguan'): build_notes()   # 玻璃上的紙條（公館騎樓店面也有，ART-GG-SHOPS-1018）
 +if SET in ('wenzhou', 'gongguan', 'tingzhou'): build_notes()   # 玻璃上的紙條（公館騎樓店面也有，ART-GG-SHOPS-1018）
  if SET == 'wenzhou':
      acc(M['sidewalk']).box(11.8, 37.2, -0.01, 0.015, 29.3, 31.0)   # 小公園北牆和 P1、P2 之間的地（區域地面到 z=30 為止）
  for k, m in _acc.items():
-@@ -1148,7 +1219,7 @@ L.realize_small_instances(root, keep=_keep)   # 只擺一兩個的店面小物
+@@ -1148,7 +1239,7 @@ L.realize_small_instances(root, keep=_keep)   # 只擺一兩個的店面小物
  # 公館的 instancing 原型每個材質一次 draw call（6 個原型 12 次）。小的（一個原型 ≤ 120 個三角形、全部 ≤ 12,500）改成各自一份網格，合進大網格；
  # 最大的（騎樓前的欄杆 397 個）照舊 instancing（合進去檔案會再大 1 MB 以上）。
  # 原本 instancing 不投影（遊戲的 wzCastsShadow），合進去以後也不能投影：材質換成同參數、不投影的 cafe_vc_wz_*，其他會投影的材質物件名加 NOSHADOW_
@@ -410,7 +460,7 @@ index 2d3c7a05b..f2f349945 100644
      _by = {}
      for _ob in root.children_recursive:
          if _ob.type == 'MESH' and _ob.data.users > 1 and not _keep(_ob): _by.setdefault(_ob.data.name, []).append(_ob)
-@@ -1193,7 +1264,7 @@ if SET == 'wenzhou':
+@@ -1193,7 +1284,7 @@ if SET == 'wenzhou':
  print('{"cull_backs_tris": %d}' % _cullb)
  L.vc_consolidate(root, WZ_VC)
  L.split_by_material(root, keep=_keep)
@@ -419,7 +469,7 @@ index 2d3c7a05b..f2f349945 100644
      _NOSH = re.compile(r'^(wz_menu_|wz_in_|wz_shop_notes|wz_shutter|cafe_int_|cafe_room_dark|cafe_curtain|ext_glass_lit|wz_room_lit|jp_shoji|cafe_leaf_|cafe_glass|cafe_win_glass|cafe_lampglass|cafe_bulb|cafe_books|cafe_vc_)')   # ＝zones3d.js 的 WZ_NO_SHADOW
      for _ob in [o for o in root.children_recursive if o.type == 'MESH' and o.get('gg_real')]:
          for _i, _m in enumerate(_ob.data.materials):
-@@ -1256,11 +1327,11 @@ if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊
+@@ -1256,11 +1347,11 @@ if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊
                          key=lambda ob: 'NOSHADOW' if ob.name.startswith('NOSHADOW_') else _seg(ob))   # 公館七樓以上：合併後名字是 NOSHADOW_<材質>
      if SET == 'wenzhou': _xseg_split(root)   # LANEEAST-TRIS2-1104：整條街一個網格的四種材質照面的 x 切四段
  for _g in [o for o in root.children if o.name.startswith('COPY_')]: L.merge_by_material(_g)
