@@ -57,7 +57,7 @@ async def main():
                         run.check('%s 地面不是深色木頭（D112；貼圖平均色 %s、亮度 %.0f；名字有 wood／木 也算）' % (tag, f['mapAvg'], lum), not woodish and not any(k in (f['mat'] + f['mesh']).lower() for k in ('wood', '木')), J(f))
                 if 'bottom' in name:
                     hz = await pg.evaluate(HAZE); run.note('%s %s 畫面下半部亮度 %s（白霧＝平均很高、標準差很低）' % (tag, name, J(hz)))
-                    if os.environ.get('EXPECT') == 'fixed': run.check('%s %s 沒有白霧（下半部平均亮度 < 200 或標準差 > 12）' % (tag, name), hz['mean'] < 200 or hz['std'] > 12, J(hz))
+                    if os.environ.get('EXPECT') == 'fixed': run.check('%s %s 沒有白霧（下半部平均亮度 < 110；11-10 實測：有白霧 白天 156／晚上 128，沒有白霧 白天 78～87／晚上 25～42）' % (tag, name), hz['mean'] < 110, J(hz))   # r4 以前的門檻（<200 或 std>12）太鬆，白霧也判 PASS
                 await pg.evaluate(DL.HUD + '(false)'); await pg.wait_for_timeout(300)
                 await run.shot(pg, '%s_%s' % (tag, name))
                 if name == 'bottom_north':   # 中庭正上方俯視（另一台相機），和使用者的平面圖並排用
