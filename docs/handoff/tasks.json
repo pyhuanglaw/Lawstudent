@@ -45255,7 +45255,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 10:5x】LAWWW2 c91a79854 接進開發分支：行道樹葉片 4 m 內網點透空、1.4 m 內不畫（全遊戲行道樹）；捷運出口亭鏡頭碰撞盒照模型外框；gg_door_cams_1104（開發 FAIL 3→ALL PASS）、street_trees、seethru、gg_* ALL PASS；CC 確認 shader 編譯、重拍青木／頁間門口、椰影大道樹下網點。 ｜ 【LAWWW-C 11-04 13:1x】不擋 v9.10.20",
+   "next": "【LAWWW 11-10 11:2x】BB_255：樹葉 shader 冒煙 PASS（CC SHADER_new 8 種情況 0 錯誤、p0、zone PASS）；樹冠與青木／頁間門口截圖下一輪判。 ｜ 【LAWWW 11-10 10:5x】LAWWW2 c91a79854 接進開發分支：行道樹葉片 4 m 內網點透空、1.4 m 內不畫（全遊戲行道樹）；捷運出口亭鏡頭碰撞盒照模型外框；gg_door_cams_1104（開發 FAIL 3→ALL PASS）、street_trees、seethru、gg_* ALL PASS；CC 確認 shader 編譯、重拍青木／頁間門口、椰影大道樹下網點。 ｜ 【LAWWW-C 11-04 13:1x】不擋 v9.10.20",
    "source": "BB-C 11-04 13:07（809163ee4 GG_int_art）",
    "xai": {
     "spec": "GG_int_art art_aoki_door、art_yejian_door",
@@ -51122,7 +51122,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 09:0x】AA_737（2a1c30dc6）接進開發分支：公告欄三區分頁、招生海報、lateJoin、四個特殊活動（gym (0,8.6)、campus (30,−8)、boya 101、campus (−14.5,10.5)）；bulletin_board_1110_unit 改前 FAILED 37／45→ALL PASS、相關 41 支 ALL PASS；待 AA 確認：園遊會日期照現有校慶擺攤日（大二起第 10 週）、「期中考完」那句（D118）、lateJoin 和 AA_613 2-4 的調整；CC 在 PC 跑 6 項｜【11-10 01:34 AA-B 交班】還沒開工；AA 打算：迎新派對做成活動（每年上學期第 2 週週五、綜合體育館）、特殊活動清單，寫在 AA_交接紀錄 B 類，下一班 AA 接。 ｜ 【11-10 01:5x LAWWW-B】使用者 X295。公告欄互動＝打開「本週公告」：照 ACTIVITIES 列這週的社課、講座、活動（時間、地點）、招生中的社團；AA 寫公告的標題、迎新派對要不要做成活動（AA 決定，D109）。",
+   "next": "【LAWWW 11-10 11:2x】BB_255：社課入社單 FIXED、迎新派對改週四 FIXED、先不看 PASS；捐血／電影夜／園遊會是探針問題重跑中。 ｜ 【LAWWW 11-10 09:0x】AA_737（2a1c30dc6）接進開發分支：公告欄三區分頁、招生海報、lateJoin、四個特殊活動（gym (0,8.6)、campus (30,−8)、boya 101、campus (−14.5,10.5)）；bulletin_board_1110_unit 改前 FAILED 37／45→ALL PASS、相關 41 支 ALL PASS；待 AA 確認：園遊會日期照現有校慶擺攤日（大二起第 10 週）、「期中考完」那句（D118）、lateJoin 和 AA_613 2-4 的調整；CC 在 PC 跑 6 項｜【11-10 01:34 AA-B 交班】還沒開工；AA 打算：迎新派對做成活動（每年上學期第 2 週週五、綜合體育館）、特殊活動清單，寫在 AA_交接紀錄 B 類，下一班 AA 接。 ｜ 【11-10 01:5x LAWWW-B】使用者 X295。公告欄互動＝打開「本週公告」：照 ACTIVITIES 列這週的社課、講座、活動（時間、地點）、招生中的社團；AA 寫公告的標題、迎新派對要不要做成活動（AA 決定，D109）。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -51566,7 +51566,7 @@
    "id": "BUG-DLG-NEXT-OVERLAP-1110",
    "title": "手機直向三行台詞最後一行被「▼ 點一下繼續」壓住（共用對話框）；公告欄先問看／先不看（P3）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -51578,7 +51578,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 10:4x】7f2093f92：#dlgText padding-bottom 16px；tests/dlg_next_overlap_1110_unit.js（修前 FAIL）；公告欄多於一則先問「看公告（N 則）／先不看」；bulletin_board_1110、aa581、adv_skip_typing、say_cover ALL PASS；BB 排 CC X295B 直向重拍。",
+   "next": "【LAWWW 11-10 11:2x】BB_255：FIXED。 ｜ 【LAWWW 11-10 10:4x】7f2093f92：#dlgText padding-bottom 16px；tests/dlg_next_overlap_1110_unit.js（修前 FAIL）；公告欄多於一則先問「看公告（N 則）／先不看」；bulletin_board_1110、aa581、adv_skip_typing、say_cover ALL PASS；BB 排 CC X295B 直向重拍。",
    "xai": {
     "spec": "BB 11-10 10:17（CC x295_portrait_putong_p07_overlap.png）",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -51586,7 +51586,8 @@
     "receiver": "BB",
     "ack": "SENT"
    },
-   "sha": "7f2093f92"
+   "sha": "7f2093f92",
+   "evidence": "BB_255（11-10 11:16）FIXED＋公告欄「先不看」PASS；CC X295B 直向重拍"
   },
   {
    "id": "BIKE-PARK-B1-1110",
