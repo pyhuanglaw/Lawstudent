@@ -11,7 +11,8 @@
   Alison 大三上第三個選項（note：日本路線不出＝noJP）、柏翰大三下（note：鉤子不念 say＝hookNoSay）。{子晴學姊|一個學姊} 照字留著，播放時照 Q6 二選一。
 - 可昕（企劃線 1cf434dee）：每個選項的 set 取代舊的 KX_ASK 二選一（有選項稿的學期 KX_ASK 不再接在後面）——
   KX_KHH true／false → 選項的 khh＝[那一次寒暑假的 key（Y2W、Y2S、Y3W、Y3S、Y4W）, 'yes'／'no']（和原本二選一記進 G.flags.KX_KHH 的值一樣：yes＝去、no＝沒空）；
-  KX_Y5_CALL true → 選項的 y5＝'sat'（原本「週末一定打。」記的值，src/kx_khh3d.js 只認這個值排「打給可昕」的提醒）。美國路線 optsUS 不能有 set（不記）。
+  KX_Y5_CALL true → 選項的 y5＝'sat'（原本「週末一定打。」記的值，src/kx_khh3d.js 只認這個值排「打給可昕」的提醒）。美國路線 optsUS 不能有 set（不記）；
+  例外：大三下（Y3S2）的 optsUS 三個選項一律記 khh ['Y3S','yes']（KX_US_YES，AA 2026-11-10 23:4x：七月第 3 天「七月你空哪天。」照舊發）。
 - 朋友版 thenIf｛if, lines｝（學姊大三上，1cf434dee）：選項演完（then 之後）照條件多說的；if 只認得 SIS_FU（termend_lines.js 的 SIS_FU）。
 - 鉤子（AA 11-10 回 LAWWW，不在稿上）：子晴女朋友版 Q6 通用格（大一下）——選「（現在玩。）」＝鉤子整個不出（opts 的 hook:'skip'），
   另外兩個＝不念 say、直接出選項（hook:'nosay'）；那一頓記 hookTerm:'Y1S2'（只有大一下的鉤子「要不要玩？」這樣）。以安女朋友版大二下（京都）在 src/termend3d.js 的 S.HOOK_NOSAY。
@@ -40,6 +41,10 @@ TERMS = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y5S1']
 IFS = {'Q6', 'noQ6'}
 FR_IFS = {'ZR_LAST', 'noZR_LAST', 'noUS', 'noJP'}
 KX_KEY = {'Y2S1': 'Y2W', 'Y2S2': 'Y2S', 'Y3S1': 'Y3W', 'Y3S2': 'Y3S', 'Y4S1': 'Y4W'}   # 那一頓問的是哪一次寒暑假（termend_lines.js KX_ASK 的 khh[0]）
+# 明確的例外（AA 2026-11-10 23:4x 回覆 LAWWW）：可昕大三下（Y3S2）美國路線的 optsUS 三個選項都要記 KX_KHH true（＝khh ['Y3S','yes']，和臺灣路線答應的存檔值一樣）——
+# 他八月才出發，七月第 3 天那則「七月你空哪天。」照舊要發（src/kx_khh3d.js）。稿（1cf434dee）的 optsUS 還沒有 set，AA 之後才補：沒寫＝一律補 yes；
+# 之後補上 {KX_KHH: true} 就一致、不衝突，寫別的＝停下來。
+KX_US_YES = {'Y3S2'}
 
 
 def git(*a):
@@ -103,8 +108,13 @@ def opts(a, where, extra=()):
 
 def kx_opts(a, term, where, us=False):
     """可昕的選項：set → khh／y5（存檔值和原本 KX_ASK 二選一記的一樣）；美國路線那一組不記"""
-    O = opts(a, where, extra=() if us else ('set',))
+    O = opts(a, where, extra=('set',) if (not us or term in KX_US_YES) else ())
     if us:
+        if term in KX_US_YES:   # 大三下美國路線：三個選項都記 KX_KHH true（稿沒寫 set＝一律補 yes；稿補上了要一致）
+            for i, (o, r) in enumerate(zip(a, O)):
+                if 'set' in o and o['set'] != {'KX_KHH': True}:
+                    die(f'{where}[{i}].set：大三下美國路線只認得 {{KX_KHH: true}}（AA 2026-11-10 23:4x）（{json.dumps(o["set"], ensure_ascii=False)}）')
+                r['khh'] = [KX_KEY[term], 'yes']
         return O
     for i, (o, r) in enumerate(zip(a, O)):
         s, w = o.get('set'), f'{where}[{i}].set'

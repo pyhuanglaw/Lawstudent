@@ -54,9 +54,19 @@ await sec('1b',async()=>{ const te={term:'Y2S1'}; fresh('2026-12-30',18); H.said
         for(let i=0;i<src.length;i++){ const day={Y2S1:'2026-12-30',Y2S2:'2027-06-19',Y3S1:'2028-01-14',Y3S2:'2028-06-17',Y4S1:'2028-12-24',Y5S1:'2029-12-20'}[term];
           fresh(day,18,us?{EXCHANGE_ROUTE:'US'}:null); if(us&&!TERMEND_LINES.COND.US(H.G)) continue; H.said=[]; H.opts=[]; H.picks=[i]; await TERMEND.kexinDinner(GM,{term}); n++;
           const F=H.G.flags, s=src[i].set, got=J([F.KX_KHH||null,F.KX_Y5_CALL||null]);
-          const want=us?J([null,null]):(term==='Y5S1'?J([null,'sat']):J([{[KEY[term]]:s.KX_KHH?'yes':'no'},null]));
-          if(H.opts.length!==1||H.opts[0][i]!==src[i].t||(us?s!=null:s==null)||got!==want) bad.push([term,us,src[i].t,got,want]); } } } finally{ TERMEND.SHUFFLE=k0; }
-    check('1. 六頓每個選項（'+n+' 個）記的存檔值＝照稿的 set：KX_KHH true→yes、false→no（key＝那一次寒暑假）；美國路線不記；大五上三個都 KX_Y5_CALL sat',!!kx&&n>=18&&bad.length===0,J(bad.slice(0,4))); }
+          /* 2026-11-11 改期望（AA 2026-11-10 23:4x 回 LAWWW）：大三下（Y3S2）美國路線的三個選項都記 KX_KHH.Y3S yes（他八月才出發，七月第 3 天「七月你空哪天。」照舊發）——
+             稿（1cf434dee）的 optsUS 還沒有 set（AA 之後補；匯入工具 KX_US_YES 沒寫＝一律補 yes），所以這一組稿上可以沒有 set、有的話要是 {KX_KHH:true}。原本期望「美國路線一律不記」 */
+          const usYes=us&&term==='Y3S2';
+          const want=usYes?J([{Y3S:'yes'},null]):(us?J([null,null]):(term==='Y5S1'?J([null,'sat']):J([{[KEY[term]]:s.KX_KHH?'yes':'no'},null])));
+          if(H.opts.length!==1||H.opts[0][i]!==src[i].t||(usYes?(s!=null&&J(s)!==J({KX_KHH:true})):(us?s!=null:s==null))||got!==want) bad.push([term,us,src[i].t,got,want]); } } } finally{ TERMEND.SHUFFLE=k0; }
+    check('1. 六頓每個選項（'+n+' 個）記的存檔值＝照稿的 set：KX_KHH true→yes、false→no（key＝那一次寒暑假）；美國路線不記（大三下例外：三個都記 Y3S yes）；大五上三個都 KX_Y5_CALL sat',!!kx&&n>=18&&bad.length===0,J(bad.slice(0,4))); }
+  /* 大三下美國路線（AA 2026-11-10 23:4x）：三個選項任選 → KX_KHH.Y3S yes → 暑假她回高雄第 3 天 21:00「七月你空哪天。」會發 */
+  { const bad=[]; TERMEND.SHUFFLE=false;
+    try{ for(let i=0;i<3;i++){ fresh('2028-06-17',18,{EXCHANGE_ROUTE:'US'}); const usOn=TERMEND_LINES.COND.US(H.G); H.said=[]; H.opts=[]; H.picks=[i]; await TERMEND.kexinDinner(GM,{term:'Y3S2'});
+        const khh=(H.G.flags.KX_KHH||{}).Y3S, R=homeRun('2028-06-18','2028-08-31'); let m3=[];
+        if(R){ H.at(keyOf(R.a+2),21.1); ph(); m3=th().filter(m=>m.tag==='kxkhh_d3_Y3S').map(m=>m.text); }
+        if(!usOn||H.opts.length!==1||H.opts[0].length!==3||khh!=='yes'||!R||R.key!=='Y3S'||J(m3)!==J(['七月你空哪天。'])) bad.push([i,usOn,H.opts[0],khh,R&&R.key,m3]); } } finally{ TERMEND.SHUFFLE=k0; }
+    check('1. 大三下美國路線：三個選項任選一個 → KX_KHH.Y3S 記 yes → 暑假她回高雄第 3 天 21:00「七月你空哪天。」照舊發',bad.length===0,J(bad.slice(0,2))); }
   { fresh('2029-12-20',18); H.said=[]; H.opts=[]; H.picks=[2]; await TERMEND.kexinDinner(GM,{term:'Y5S1'}); const F=H.G.flags; const real=typeof PGDATE!=='undefined'?PGDATE.kxList:null, day=D('2030-02-16');
     if(typeof PGDATE==='undefined') globalThis.PGDATE={}; PGDATE.kxList=()=>[{kind:'call',day}];
     try{ H.at('2030-02-16',22.1); ph(); check('1. 大五上選第三個「妳比我早。」→ 受訓第一個週六 22:00「打給可昕」提醒照舊',F.KX_Y5_CALL==='sat'&&(H.G.msgs||[]).some(x=>x.tag==='kxkhh_y5_call'&&x.text==='打給可昕'),J([F.KX_Y5_CALL,(H.G.msgs||[]).slice(-2)])); } finally{ if(real) PGDATE.kxList=real; else delete PGDATE.kxList; } }

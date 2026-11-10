@@ -5355,6 +5355,10 @@ const TERMEND_OPTS={
      "fx": {
       "love": 2
      },
+     "khh": [
+      "Y3S",
+      "yes"
+     ],
      "if": "US"
     },
     {
@@ -5366,6 +5370,10 @@ const TERMEND_OPTS={
      "fx": {
       "love": 2
      },
+     "khh": [
+      "Y3S",
+      "yes"
+     ],
      "if": "US"
     },
     {
@@ -5373,6 +5381,10 @@ const TERMEND_OPTS={
      "re": [
       "機票錢你出嗎？",
       "我要補習啦。你講得好像去墾丁。"
+     ],
+     "khh": [
+      "Y3S",
+      "yes"
      ],
      "if": "US"
     },
