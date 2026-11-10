@@ -209,7 +209,8 @@ async def open_items(pg, cdp, tag, shot):
 
 async def bag_case(pg, cdp, orient):
     tag = '[%s｜bag]' % orient
-    s = await load(pg, cdp, tag, 'xs_shanlan', BAG_DAY, BAG_HOUR, why='學姊不在（2026-02 以前）、錢＝預設 22000')
+    d0 = await pg.evaluate(DAYOF + '(%s)' % J(BAG_DAY))
+    s = await load(pg, cdp, tag, 'xs_shanlan', BAG_DAY, BAG_HOUR, social=social_with(d0), why='學姊不在（2026-02 以前）、錢＝預設 22000；【前置／捷徑】認識學姊（FIRST_MET，「她送的」才會寫她的名字）')
     if not R.check('%s 到了山嵐書店' % tag, s['zone'] == 'xs_shanlan', J(s)): return
     exp = await pg.evaluate("(()=>{ if(typeof GIFT_HOLIDAY==='undefined') return null; const X=GIFT_HOLIDAY, it=X.items; return {green:it.g_green_hl.name, price:it.g_green_hl.price, names:Object.fromEntries(Object.keys(it).map(k=>[k,it[k].name])), max:(typeof GIFTH!=='undefined'?GIFTH.MAX:null)}; })()")
     R.note('%s GIFT_HOLIDAY：%s' % (tag, '有（包包上限 %s）' % exp['max'] if exp else '沒有（改前）'))
@@ -258,10 +259,12 @@ async def bag_case(pg, cdp, orient):
         R.check('%s 標題「包包裡的禮物（%d/%d）」' % (ptag, len(ids), MAXBAG), ('包包裡的禮物（%d/%d）' % (len(ids), MAXBAG)) in txt, txt[:80])
         R.check('%s 每一樣都列出來（%s）' % (ptag, '、'.join(names)), all(n in txt for n in names), J([n for n in names if n not in txt]))
         R.check('%s 「她送的」列出 %s' % (ptag, '、'.join(r['item'] for r in RECV)), '她送的' in txt and all(r['item'] in txt for r in RECV), txt[-160:])
+        judge_btn(ptag + '（最上面）', m, '#btnClose', '關閉「返回遊戲」')
         okb = await scroll_bottom(pg, cdp, ptag, '#menu .card', '#itemsList .item')
         m2 = await panel_check(pg, cdp, ptag + ' 物品頁（捲到底）', MENU_Q, 'gift_%s_%s_bag_%s_2bottom' % (TAG, orient, phase))
         R.check('%s 捲到底：最後一樣（她送的最後一筆）整個看得到（沒有被裁在卡片外）' % ptag, okb, J(m2.get('blocks', [])[-1:] if isinstance(m2, dict) else None))
-        judge_btn(ptag, m2, '#btnClose', '關閉「返回遊戲」')
+        cb = next((x for x in m2.get('btns', []) if x['sel'] == '#btnClose'), None)
+        if cb and cb.get('found') and not (cb['inView'] and cb['hit']): R.note('%s 捲到底以後「返回遊戲」跟著捲出畫面（%s）：要往回滑才按得到（L.tap 會先捲回來＝像玩家往下滑一下）' % (ptag, J(cb.get('rect'))))
         await L.tap(pg, cdp, '#btnClose'); await pg.wait_for_timeout(900); s = await st(pg)
         R.check('%s 手指按「返回遊戲」選單關掉' % ptag, not s['menu'], J({'menu': s['menu']}))
         await L.close_panels(pg, cdp)
