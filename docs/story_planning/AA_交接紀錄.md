@@ -1,3 +1,26 @@
+## 交班（帳號 B｜AA-B｜2026-11-10 01:4x UTC｜使用者：「現在交班」）
+- **A 本班成果**（接班 2026-11-09 16:11 起；全部在 claude/cool-heisenberg-o8kuqx、已 push、outbox_AA.json 有登記、都已送 LAWWW-B）：
+  - AA_729 招呼照有沒有課（BUG-GREET-NOCLASS-1110，fa0bc1c9d；LAWWW-B 已接 968bd311f）。
+  - AA_730 南洋片單＋AA_708 語彤一句（MOVIE-REAL-1110／X274，8a246c40f）。
+  - AA_731 答應句不寫幾點（BUG-INV-ACC-TIME-1110，94ab0865e）。
+  - AA_732／733／734 節日送禮三批（GIFT-HOLIDAY-1110／X276，fc9ff6d3d、1edb14888、246ef6735）；「學姊很喜歡文具」進總表與口氣表。
+  - AA_735 服務學習（二）法律服務（SERVICE2-LEGAL-1110／X279，d14a03136；LAWWW-B 已接 a883f36de）＋AA_342 象棋兩句拿掉（4470f4908）。
+  - AA_736 祐廷少提經濟系、重考（DLG-NO-ECON-REPEAT-1110，256bcdc42）。
+  - 00_台詞寫作規則 第 9 節加兩條（答應句不寫時間、少提經濟系）。
+- **B 全部待辦**（下一班 AA 從這裡接）：
+  - **BULLETIN-BOARD-1110（P2，LAWWW-B 01:32 轉使用者「公告欄要看的到社團社課時間 特殊活動?學生會迎新派對? 社團徵人?」）：還沒寫，只讀過開發分支 src/data/activities.js（19 筆活動）**。下一步寫 AA_737：①每種公告（club 社課、recruit 招新、lecture、event、fair、tour、學生會、學校公告）標題＋一兩句；19 筆現有活動各一則公告文。②學生會新生晚會：AA 的打算是做成活動，每年上學期第 2 週週五 19:00～21:30 綜合體育館，經濟系那年、法律系大一可以參加（三四句旁白、story:false、不出現有名字的人），之後幾年只貼公告。③其他學期的特殊活動（打算列：二手書市集、捐血車、校慶園遊會、聖誕點燈、春季校園開放日、就業博覽會、法研所招生說明會、學生會選舉、颱風停課公告、各社團招新），日期照 calendar.js 的 TERMS 算出每一年的。ACK 已回 LAWWW-B。
+  - DIALOGUE-DEPTH-1031：語彤共創 **11-11 用選擇題（AskUserQuestion）問使用者**。
+  - 國外每週重讀：等 BB 測完 AA_660／667。
+  - DRIVE-PICKUP-1105：等 LAWWW2 停車場。
+  - AA530-PG-CONFESS-1030（P3）：等 LAWWW 開工。
+  - AA_720 背景：BB 跟使用者要。
+  - 等 LAWWW-B 匯入（不用 AA 動）：activity_scenes（AA_708）、invites 手寫句（AA_731）、invite_replies、invite_place_lines、heroine_arcs、arc_invites、禮物系統三批、片單。
+- **C 交班那一刻正在做**：BULLETIN-BOARD-1110 剛開始（沒有寫任何檔案，沒有 WIP）。
+- **D 最新決策與規則**：學姊很喜歡文具（使用者 11-10 00:5x 定的設定）；送禮只給可攻略的八位、聖誕／2/14／七夕各最多兩人、生日不限、不扣時段、她好感夠也回送（使用者 11-10）；服務學習一學期圖書館、一學期法律服務（使用者 11-10）；少提經濟系、重考（使用者 11-10 02:1x）。
+- **E 跨 AI**：上面每一件都 SENT 給 LAWWW-B（副本 BB-B 的有片單、答應句、送禮、少提經濟系）；LAWWW-B 已回收到的：AA_729、AA_735、AA_733、DLG／svc／GIFT 第三批；BB-B 已回 AA_730（海報第一批已跟使用者要，BB_132 第 119 組）。
+- **F 測試與問題**：AA 不跑遊戲測試；本班交的台詞 line_lint 都是 0。斷橋以後一片 BB 查到相近的中國片《斷·橋》，AA 判斷不改名。
+- 排程：AA-B 每小時保險喚醒 `trig_01W3yfBzHQB4WDePUXL3evQd` 交班時停用（D129）；沒有 send_later。
+
 值班登記：帳號 B｜AA-B｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 claude/cool-heisenberg-o8kuqx｜接班基準 0a61c0990（自己 11-08 20:48 交班的那一版，之後沒人接過）｜2026-11-09 16:11 UTC
 上一班：帳號 B｜AA-B（同一個工作階段）｜正常交班 2026-11-08 20:48 UTC（快照 `2026-11-08T2047Z_B_AA.json`）
 接班核對（RULE_SOURCE `origin/claude/modest-rubin-2lyp7g` d56e4f05，seq 110；LAWWW-B 16:06 已重新登記）：
