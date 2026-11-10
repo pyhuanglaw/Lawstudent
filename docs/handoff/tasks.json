@@ -50427,11 +50427,11 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 00:3x LAWWW-B】頁間書屋的互動（看書架、新書、點咖啡）是 ggshops_sys3d.js 的旁白／店員一句，沒有特寫圖或選單畫面；先問使用者「沒有畫面」指哪一種（3D 畫面不見／想要特寫圖／其他），再定改法。",
+   "next": "【11-10 00:4x LAWWW-B】使用者選擇題答「人物沒有動作」：點書架、新書＝祐廷走過去、拿一本翻（拿書動作）；點咖啡＝走到咖啡吧、點完坐下喝。只有旁白、人站著不動。LAWWW 接動作（走過去、面向、拿書／坐下），台詞照 AA_653 不動。 ｜ 【11-10 00:3x LAWWW-B】頁間書屋的互動（看書架、新書、點咖啡）是 ggshops_sys3d.js 的旁白／店員一句，沒有特寫圖或選單畫面；先問使用者「沒有畫面」指哪一種（3D 畫面不見／想要特寫圖／其他），再定改法。",
    "xai": {
     "spec": "使用者 11-10 00:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
-    "acceptance": "照使用者確認的改法；BB 截圖驗收",
+    "acceptance": "點書架／新書人物走過去拿書翻、點咖啡走到吧台坐下；台詞不變；BB 截圖驗收",
     "receiver": "BB（測）",
     "ack": "未派",
     "owner": "LAWWW"
@@ -50461,6 +50461,35 @@
     "spec": "使用者 11-10 00:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "考試週進門旁白和店裡一致：其他桌有人、吧檯旁邊那個位子坐得下；舊存檔可讀",
+    "receiver": "BB（測）",
+    "ack": "未派",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
+  },
+  {
+   "id": "BUG-GREET-NOCLASS-1110",
+   "title": "禮拜天遇到沈以安，她問「今天還有課嗎」：招呼沒看今天有沒有課（使用者試玩）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "週末在校園遇到沈以安",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 00:4x LAWWW-B】src/data/ladder.js（匯入白名單，不直接改）heroine_01 greet.base 有「你今天還有課嗎？」，選招呼時沒看星期幾、假日、放假。改法：選招呼的程式在今天沒課（週末、國定假日、寒暑假、玩家今天沒排課）時跳過問課的那幾句；請 AA 在企劃標出「只在有課的日子說」的招呼（七位都看），之後照標記，不靠關鍵字。",
+   "xai": {
+    "spec": "使用者 11-10 00:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "週末、假日、放假不出問課的招呼；平日照舊；舊存檔不受影響",
     "receiver": "BB（測）",
     "ack": "未派",
     "owner": "LAWWW"

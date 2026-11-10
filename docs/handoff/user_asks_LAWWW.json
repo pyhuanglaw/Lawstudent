@@ -3562,6 +3562,26 @@
    "wants": "X270",
    "task": "BUG-MOKU-EXAM-SEATS-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-05",
+   "at": "2026-11-10T00:40Z",
+   "quote": "（選擇題「頁間書屋」）人物沒有動作",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X269",
+   "task": "BUG-YEJIAN-NO-VISUAL-1110",
+   "src": "使用者對 LAWWW-B，AskUserQuestion"
+  },
+  {
+   "id": "UA-LAWWW-1110-06",
+   "at": "2026-11-10T00:41Z",
+   "quote": "禮拜天遇到沈以安 他問我今天還有課嗎",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X271",
+   "task": "BUG-GREET-NOCLASS-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
   }
  ]
 }
