@@ -386,7 +386,8 @@ const INV=(function(){
       const SCN=!!P.scene&&!!SN&&iv.cat==='study';   /* 有自己見面那一段的地點（木曜日 MOKS.meetScene）在「念書」那一類約的：先演那一段，再照一起念書第 N 場（原本第 N 場被跳過、次數照加、讀書不算；AA624-YT-BACKGROUND-1103）*/
       const AKd=!SNx&&!P.sport&&!P.scene&&!P.ownMeal&&!(lines&&lines.length)&&typeof STUDYN!=='undefined'&&STUDYN.act?S.actKind(iv,P):null, AXx=AKd?STUDYN.act(AKd).pick(G,iv.who):null; let AX=AXx&&!AXx.generic?AXx:null;
       if(AKd==='movie'&&AX&&typeof MOVIES!=='undefined'&&MOVIES.fitScene) AX=MOVIES.fitScene(G,iv,AX);
-      const MV=AKd==='movie'&&typeof MOVIES!=='undefined'&&MOVIES.midLines?MOVIES.midLines(G,iv,AX):null;   /* 看到一半的那一幕（AA_745，MOVIE-TALK-1110）*/   /* 這一場和約好的片對不上＝這次一般句、下次再演；輪換對不上＝演別則（AA_730 pick 第 3 條）*/   /* 一起吃飯、咖啡、電影、書店第 N 次（AA_708）：null＝照一般句（AA_649 第 4 節）*/
+      const CIN=P.id==='xs_nanyang'&&typeof MOVIES!=='undefined'&&!!MOVIES.splitMid;   /* 南洋戲院看電影：放映中只演那一幕和不說話的小動作，她的故事線／她最近的事挪到散場、聊完片子以後（MOVIE-ARC-AFTER-1110）*/
+      const MV=AKd==='movie'&&typeof MOVIES!=='undefined'&&MOVIES.midLines?MOVIES.midLines(G,iv,AX):null; let SPL=null;   /* 看到一半的那一幕（AA_745，MOVIE-TALK-1110）*/   /* 這一場和約好的片對不上＝這次一般句、下次再演；輪換對不上＝演別則（AA_730 pick 第 3 條）*/   /* 一起吃飯、咖啡、電影、書店第 N 次（AA_708）：null＝照一般句（AA_649 第 4 節）*/
       const AQ=typeof LIBQ!=='undefined'&&LIBQ.studyAt&&GM.E&&GM.E.player&&GM.E.player.obj?LIBQ.studyAt(G.zone,GM.E.player.lv|0,GM.E.player.obj.position.x,GM.E.player.obj.position.z):false;
       const ARC=typeof ARCS!=='undefined'&&!P.scene&&!P.ownMeal&&!P.sport&&!(lines&&lines.length)?ARCS.pick(G,iv.who,{kind:ARCS.kindOf(iv,P,S.isStudy(iv,P)),quiet:AQ}):null;   /* 她自己的故事線（AA_712、BB_305）：這一次的「中途那件事」換成下一拍；null＝照活動自己的 */
       const RT=!ARC&&typeof ARCS!=='undefined'&&ARCS.rotPick&&!P.scene&&!P.ownMeal&&!P.sport&&!(lines&&lines.length)&&!(SN&&SN.k)&&!(AX&&AX.k)?ARCS.rotPick(G,iv.who,{alt:!!((SN&&SN.rot!=null)||(AX&&AX.rot!=null))}):null;   /* 故事線這次不演、活動的第 N 場也演完了：中途說她最近的事（AA_717；期末、颱風、過年前、她的生活到哪）；null＝照活動自己的輪換句 */   /* 約念書兩個人坐下以後（INV-SIT-TOGETHER-1104、AA_649）：坐下的旁白＋她一句 */
@@ -401,10 +402,15 @@ const INV=(function(){
       else { if(lines&&lines.length){ for(const t of lines) await GM.say(who,t); } else if(P.scene) await P.scene(GM,iv,who); /* 地點自己的見面（茶席：AA_167，src/wzlines3d.js）*/ else if(ml){ if(LQ) LQ.chk(ml); await GM.say(mp.say?who:null,ml); } else await GM.say(null,'你和'+nm+P.verb.replace(/^去/,'在')+'。');
         { const FA=FAof(); if(FA) await S.playLines(GM,who,FA,undefined,LQ); } }   /* 第一次和她（他）去那個地方：在那裡多說的（BB_158 的 first：點完餐、脫鞋、老闆娘說的三分四十秒）*/
       { const DQ=typeof DECIDE!=='undefined'&&DECIDE.due?DECIDE.due(G,iv.who):null; if(DQ) await DECIDE.playDue(GM,who,iv.who,DQ); }   /* 她幾天後才跟你說的決定（AA_719 delay，「我想了想，還是……」）：見面坐下以後先說 */
+      if(CIN) await hooks(S.ON_SEATED,GM,iv,who,P,'ON_SEATED');   /* 看電影：坐下以後要說的（她上次那部片之後想跟你說的，AA_745 with.later）在燈暗以前說，不在放映中 */
       if(!SN&&!LB&&((D().seatOpen||{}).byPlace||{})[P.id]==='movie'){ if(HALL) MOVIES.lights(false); await GM.say(null,(typeof MOVIES!=='undefined'&&MOVIES.dimLine&&MOVIES.dimLine(G,iv))||S.MOVIE_DIM); }   /* 1 廳：場燈關掉；燈暗那一句寫片名（AA_730 dimTitle）*/   /* 看電影：坐下的開場句以後燈暗、電影開始，再接中途那件事、散場句（AA-B 10:02 經 BB，CINEMA-CG-1107）；電影畫面 movie_01～10 等使用者給圖再接在這一句後面 */
-      await hooks(S.ON_SEATED,GM,iv,who,P,'ON_SEATED');
+      if(!CIN) await hooks(S.ON_SEATED,GM,iv,who,P,'ON_SEATED');
       const SNo=SN&&!LB&&!(lines&&lines.length)&&(!P.scene||SCN)&&!P.ownMeal;
       if(LB) await S.libStay(GM,iv,who,P,SN,ARC,RT); else if(SNo){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(RT) await ARCS.rotRun(GM,who,iv.who,RT); else { await STUDYN.mid(GM,who,iv.who,SN,S.fxCap(G,iv)); if(SN.rot!=null&&typeof ARCS!=='undefined'&&ARCS.rotDone) ARCS.rotDone(G,iv.who,null); } await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(G.stats) G.stats.study=(G.stats.study|0)+Math.max(1,Math.round(P.stay)); if(typeof STORY!=='undefined'&&STORY.onStudy){ try{ STORY.onStudy(GM,P.stay); }catch(e){ console.warn('STORY.onStudy',e); } } }   /* 其他地方一起念書：時間一半、中途那件事、另一半；讀書照算（和總圖一樣）*/
+      else if(CIN&&!P.ownMeal&&(ARC||AX||RT||MV)){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false);   /* 看電影（MOVIE-ARC-AFTER-1110，AA、BB 11-10 21:37）：看到一半＝那部片的那一幕（每次都演）→ AA_708 第 N 場自己的小動作（只留旁白）；沒有選項、她不講自己的事 */
+        if(MV) await MOVIES.playMid(GM,who,MV);
+        if(AX){ SPL=MOVIES.splitMid(AX,!!MV&&AX.k==null); if(SPL.dark.length) await STUDYN.play(GM,who,SPL.dark); if(!ARC&&!RT&&AX.rot!=null&&typeof ARCS!=='undefined'&&ARCS.rotDone) ARCS.rotDone(G,iv.who,null); }
+        await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); }
       else if(!P.ownMeal&&(ARC||AX||RT)){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(MV) await MOVIES.playMid(GM,who,MV); if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(RT) await ARCS.rotRun(GM,who,iv.who,RT); else { await STUDYN.mid(GM,who,iv.who,MV?Object.assign({},AX,{mid:[]}):AX,S.fxCap(G,iv)); if(AX.rot!=null&&typeof ARCS!=='undefined'&&ARCS.rotDone) ARCS.rotDone(G,iv.who,null); } await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); }   /* 吃飯、咖啡、電影、書店：時間一半 → 故事線那一拍 → 另一半 */   /* MV：電影那一幕（AA_745 scene／with.mid；AA_708 第 N 場有自己的 mid＝null）——取代輪換那一則的 mid、接在故事線那一拍前面 */
       else if(!P.ownMeal&&MV){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); await MOVIES.playMid(GM,who,MV); await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); }   /* 看電影、這一次沒有第 N 場：看到一半演那部片的那一幕（AA_745 scene）*/
       else if(!P.ownMeal){ await GM.fade(true); GM.advance(P.stay); await GM.fade(false); } GM.caption('',[P.name,nm,'（'+(P.stay>=1?P.stay+' 小時':Math.round(P.stay*60)+' 分鐘')+'）'].join('・'),2600);   /* ownMeal：地點的 scene 自己點餐、走時間（Pasta 118 照 L118.order，AA_480 第 5 節）*/
@@ -415,7 +421,9 @@ const INV=(function(){
       if(sp) S.sportAfter(G,iv.who,P);   /* 子晴、可昕：自在 +3、她的戀愛 +3（AA_126 6-3）；羽球＝打羽球的體能 */
       { const SO2=D().seatOpen, mk=SO2&&(SO2.byPlace||{})[P.id]; if(mk==='movie'&&!AX&&Array.isArray(SO2.movieEnd)&&SO2.movieEnd.length) await S.playLines(GM,who,pick(SO2.movieEnd)); }   /* 看電影：散場那一句（AA_649 第 4 節 movieEnd；INVITE-PLACES-1107）*/
       if(HALL){ n=await MOVIES.leaveHall(GM,iv,n); who.obj=n&&n.obj; }   /* 走出 1 廳回大廳，接著道別（MOVIE-REAL-1110）*/
+      if(CIN&&SPL&&(SPL.after.length||SPL.opts)) await STUDYN.mid(GM,who,iv.who,Object.assign({},AX,{mid:SPL.after,opts:SPL.opts}),S.fxCap(G,iv));   /* AA_708 那一場 mid 裡說出口的句子、選項：走出 1 廳以後才說 */
       if(P.id==='xs_nanyang'&&typeof MOVIES!=='undefined'&&MOVIES.after) await MOVIES.after(GM,iv,who);   /* 散場以後聊這部片（三個選項、效果）、和她看多出來的那一段（AA_745，MOVIE-TALK-1110）；第二次看同一部＝一句旁白 */
+      if(CIN){ if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(RT) await ARCS.rotRun(GM,who,iv.who,RT); }   /* 聊完片子以後、道別以前：她的故事線那一拍，或她最近的事——一次看電影最多一個（MOVIE-ARC-AFTER-1110）*/
       if(typeof WISH!=='undefined'&&WISH.meetMention) await WISH.meetMention(GM,iv,who);   /* 心願：聊天提到（DATE-C4、C5；src/wish3d.js）——見面那一段演完、道別以前，條件到了說一次 */
       { const AM=(D().people[iv.who]||{}).afterMeet; const L=typeof AM==='function'?AM(G,iv,P.id):null; if(L&&L.length) for(const t of L) await GM.say(S.narrLine(t)?null:who,t); }   /* 見面之後那個人的一句（沛珊 P4b 的便條）。旁白／說的話照 S.narrLine 分（和 S.playLines 同一把尺；原本看開頭的「，有名字的台詞不加「」以後認不出來，AA-B 11-08）*/
       if(LB) await S.libEnd(GM,iv,n,who,lib1,SN);

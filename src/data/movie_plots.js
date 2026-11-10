@@ -1,12 +1,13 @@
-/* 自動產生：tools/movie/import_movie_plots.py（docs/story_planning/AA_745_movie_plots_1.json@b189e6bdb、docs/story_planning/AA_745_movie_plots_2.json@b189e6bdb、docs/story_planning/AA_745_movie_plots_3.json@b189e6bdb）。不要手改，改企劃 AA_745 再重新匯入。
+/* 自動產生：tools/movie/import_movie_plots.py（docs/story_planning/AA_745_movie_plots_1.json@4e41f0d09、docs/story_planning/AA_745_movie_plots_2.json@4e41f0d09、docs/story_planning/AA_745_movie_plots_3.json@4e41f0d09、docs/story_planning/AA_745_fallback.json@4e41f0d09）。不要手改，改企劃 AA_745 再重新匯入。
    南洋戲院每部片的情節（plot）、大家會記得的那一幕（scene）、散場後聊什麼（talk）、和誰看多出來的（with）——MOVIE-TALK-1110；
    again＝同一部片和同一個人第二次看的旁白；need／later／pick／cond＝稿上的條件、時機、一定挑／不看的片、note 裡的條件（對照表在匯入工具）。播放在 src/movies3d.js */
 'use strict';
 const MOVIE_PLOTS={
  "src": [
-  "docs/story_planning/AA_745_movie_plots_1.json@b189e6bdb",
-  "docs/story_planning/AA_745_movie_plots_2.json@b189e6bdb",
-  "docs/story_planning/AA_745_movie_plots_3.json@b189e6bdb"
+  "docs/story_planning/AA_745_movie_plots_1.json@4e41f0d09",
+  "docs/story_planning/AA_745_movie_plots_2.json@4e41f0d09",
+  "docs/story_planning/AA_745_movie_plots_3.json@4e41f0d09",
+  "docs/story_planning/AA_745_fallback.json@4e41f0d09"
  ],
  "again": {
   "comedy": "（這部你們看過了。她還是在同一個地方笑。）",
@@ -204,6 +205,799 @@ const MOVIE_PLOTS={
    }
   }
  },
+ "fallback": {
+  "heroine_01": {
+   "feel": [
+    {
+     "re": "我想的跟你差不多。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "你會這樣想喔。我回去要再想一下。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "我不太一樣。可是我還沒想好要怎麼講。"
+    }
+   ],
+   "notice": [
+    {
+     "re": "你有看到？我以為只有我在注意。",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "等一下，你再講一次。我要對一下我記得的。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "那裡我漏掉了。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "wonder": [
+    {
+     "re": "我也卡在那裡。片尾的字幕我有看完，沒有寫。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "我有一個猜法。可是我還不確定。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "不知道。我不喜歡不知道。"
+    }
+   ],
+   "self": [
+    {
+     "re": "你沒講過這個。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "你是這樣的人喔。我記一下。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "我跟你相反。"
+    }
+   ],
+   "joke": [
+    {
+     "re": "（她看了你一眼，沒有笑，可是嘴角動了一下。）"
+    },
+    {
+     "re": "你看電影都在想這個喔。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "不好笑。……有一點。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "crit": [
+    {
+     "re": "會嗎。我看得很專心。",
+     "fx": {
+      "fr": -1
+     }
+    },
+    {
+     "re": "那下次你選。",
+     "fx": {
+      "fr": -1
+     }
+    },
+    {
+     "re": "喔。"
+    }
+   ]
+  },
+  "heroine_02": {
+   "feel": [
+    {
+     "re": "對！我就是想講這個！你怎麼講得比我快！",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "欸，你看電影會想這麼多喔。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "我跟你相反耶。等一下邊走邊吵。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "notice": [
+    {
+     "re": "對！那裡！我差點叫出來。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "有嗎？那裡我在看別的。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "你看得好細。我都看大的。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "wonder": [
+    {
+     "re": "我也想知道！我回去找找看有沒有人寫。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "片子故意不講的吧。我喜歡它不講。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "不知道耶。你猜一個，我猜一個。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "self": [
+    {
+     "re": "真的假的？你再講多一點。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "哈哈哈我可以想像。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "我完全不一樣。你要聽嗎？很長喔。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "joke": [
+    {
+     "re": "你很煩耶。（她笑到拍你的手臂。）",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "不要在我感動的時候講這個啦。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "哈。好啦，有好笑。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "crit": [
+    {
+     "re": "蛤，你不喜歡喔。",
+     "fx": {
+      "fr": -1
+     }
+    },
+    {
+     "re": "我覺得很好啊。……好啦，一半一半。"
+    },
+    {
+     "re": "好吧。那爆米花錢我出，補償你。"
+    }
+   ]
+  },
+  "heroine_03": {
+   "feel": [
+    {
+     "re": "嗯。我也是。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "……你會講出來。我都只是想。",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "我沒有想到那裡。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "notice": [
+    {
+     "re": "你也看到了。",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "我有注意到。我以為你沒有。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "那裡我沒看到。我在看後面。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "wonder": [
+    {
+     "re": "不知道。片子沒有講的，我不太敢猜。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "……我有想過。我想的可能不對。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "我也想問。"
+    }
+   ],
+   "self": [
+    {
+     "re": "……你是這樣喔。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "我不是這樣。你再講一點。",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "（她聽完，沒有說話，走得比剛才靠近你一點。）",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "joke": [
+    {
+     "re": "……"
+    },
+    {
+     "re": "（她過了三秒才笑。）你剛剛那句，我現在才懂。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "你很吵。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "crit": [
+    {
+     "re": "喔。我覺得還好。"
+    },
+    {
+     "re": "你累了。早點回去。"
+    },
+    {
+     "re": "……那下次不要勉強陪我看。",
+     "fx": {
+      "fr": -1
+     }
+    }
+   ]
+  },
+  "heroine_04": {
+   "feel": [
+    {
+     "re": "喔。我沒有想那麼多。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "你看得好認真。我中間在想別的事。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "……好啦，你這樣講我有一點被說服。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "notice": [
+    {
+     "re": "對。那裡做得很細。",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "你眼睛很利。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "有嗎。我要再看一次才知道。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "wonder": [
+    {
+     "re": "那個我回去查。查到傳給你。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "我也覺得那裡怪。片子沒交代。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "不知道。不重要，後面有接上就好。"
+    }
+   ],
+   "self": [
+    {
+     "re": "你是這種人喔。看不出來。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "好好笑。你繼續講。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "你講的時候表情很好笑。再講一次。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "joke": [
+    {
+     "re": "（她笑到停下來扶著路燈。）等一下。",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "爛。可是我笑了。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "你講笑話都不看時機的。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "crit": [
+    {
+     "re": "是有一點。走，吃東西。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "還好吧。你要求很高。"
+    },
+    {
+     "re": "那看另一部就好了。現在講有什麼用。"
+    }
+   ]
+  },
+  "heroine_05": {
+   "feel": [
+    {
+     "re": "我想的跟你差不多。你講得比較清楚。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "我想的沒有你認真。我中間在想晚餐。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "我不太一樣。吃飯的時候跟你講。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "notice": [
+    {
+     "re": "你有看到。我以為你那時候在吃爆米花。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "那裡我沒注意。你回去畫給我看。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "對，我也有看到。我們兩個都看到，那就不是我眼花。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "wonder": [
+    {
+     "re": "那裡我也卡住。我們兩個都卡住，那就是片子的問題。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "不知道。我看電影不帶腦的，平常用太多了。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "你問我，我問誰。……我猜一個，猜錯不要笑。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "self": [
+    {
+     "re": "你會這樣喔。我想聽後面。",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "我可以想像你那時候的臉。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "這個你以前沒講。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "joke": [
+    {
+     "re": "（她笑出聲，前面的人回頭看。她跟人家點頭說抱歉。）",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "你這句可以。我要拿去用。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "這個比電影好笑。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "crit": [
+    {
+     "re": "我也是。我只是不好意思先講。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "會嗎。我看得還蠻開心的。"
+    },
+    {
+     "re": "那等一下的東西我請。當作賠你。"
+    }
+   ]
+  },
+  "classmate_peishan": {
+   "feel": [
+    {
+     "re": "對！我也是！我剛剛就想講，可是怕講出來會哭。",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "你會這樣想，好好喔。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "咦，我想的不一樣耶。你為什麼這樣想？",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "notice": [
+    {
+     "re": "真的耶！我都沒發現！",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "你看得好仔細喔。我只顧著緊張。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "對對對，我也有看到那個！",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "wonder": [
+    {
+     "re": "我也想問這個！那你覺得呢？",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "我不知道耶……我回去問我同學，她看過兩次。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "會不會是我們漏看了？要不要再看一次？",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "self": [
+    {
+     "re": "真的嗎？然後呢然後呢？",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "你都沒講過！還有嗎？",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "哈哈哈你好好笑。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "joke": [
+    {
+     "re": "哈哈哈哈你不要鬧啦！",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "你很壞耶。（她笑著打你一下。）",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "討厭，我本來很感動的。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "crit": [
+    {
+     "re": "啊……對不起，是我想看的。"
+    },
+    {
+     "re": "沒關係啦，你陪我看我就很開心了。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "真的喔？我覺得還不錯耶……那我自己偷偷喜歡。"
+    }
+   ]
+  },
+  "kexin": {
+   "feel": [
+    {
+     "re": "你講這種話的時候都很認真。好啦，我有在聽。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "我覺得你想太多。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "我不同意。你說服我。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "notice": [
+    {
+     "re": "你有看到？我以為你在滑手機。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "對，我剛剛就想講。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "有嗎。你確定不是你看錯。"
+    }
+   ],
+   "wonder": [
+    {
+     "re": "不知道。不重要啦，好看就好。"
+    },
+    {
+     "re": "片子沒講。我也想知道。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "你問我？我看起來像編劇嗎。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "self": [
+    {
+     "re": "你喔。",
+     "fx": {
+      "fr": 1
+     }
+    },
+    {
+     "re": "這個你沒講過。講。",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "哈。果然是你。",
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "joke": [
+    {
+     "re": "你有病。（她笑了。）",
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "re": "白痴喔。走啦。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "這句還可以。",
+     "fx": {
+      "fr": 1
+     }
+    }
+   ],
+   "crit": [
+    {
+     "re": "不喜歡你早講。我們可以中途走掉。",
+     "fx": {
+      "fr": -1
+     }
+    },
+    {
+     "re": "嫌東嫌西。爆米花你倒是吃完了。",
+     "fx": {
+      "fr": -1
+     }
+    },
+    {
+     "re": "你很難伺候。"
+    }
+   ]
+  }
+ },
  "films": {
   "m2409a": {
    "plot": "海底研究站「七號站」和海面斷了通訊，站上剩七個人，氧氣只夠撐四天。他們發現斷訊不是意外：有人把通訊艙的閥門從裡面鎖上了。七個人一個一個對彼此起疑，最後才知道鎖門的是站長，她算過，救援船一次只載得走五個人，她想讓大家晚一點知道。結局是七個人擠上了那艘只能載五個人的船，船很慢很慢地浮上來。",
@@ -234,7 +1028,7 @@ const MOVIE_PLOTS={
         "fr": -1
        }
       },
-      "kind": "meh"
+      "kind": "feel"
      },
      {
       "t": "我可能會先算第二次。",
@@ -263,7 +1057,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "detail"
+      "kind": "feel"
      },
      {
       "t": "三個人都沒說謊，這個我沒想到。",
@@ -275,7 +1069,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "feel"
      },
      {
       "t": "法律好像蠻有趣的。",
@@ -328,7 +1122,7 @@ const MOVIE_PLOTS={
       "re": {
        "kexin": "你很乖耶。"
       },
-      "kind": "meh"
+      "kind": "feel"
      },
      {
       "t": "我只想知道石虎後來有沒有活下來。",
@@ -340,7 +1134,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ]
    }
@@ -375,7 +1169,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "老實說我中間有點想睡。",
@@ -387,7 +1181,7 @@ const MOVIE_PLOTS={
         "fr": -1
        }
       },
-      "kind": "meh"
+      "kind": "crit"
      }
     ]
    }
@@ -429,7 +1223,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      }
     ]
    }
@@ -451,14 +1245,14 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "self"
+      "kind": "ask"
      },
      {
       "t": "會。吵誰要洗碗。",
       "re": {
        "kexin": "那很好解決。猜拳。"
       },
-      "kind": "joke"
+      "kind": "self"
      },
      {
       "t": "妳們家呢？",
@@ -504,7 +1298,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "feel"
      },
      {
       "t": "我大概當不了消防員。",
@@ -553,7 +1347,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ]
    }
@@ -587,7 +1381,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "meh"
+      "kind": "crit"
      },
      {
       "t": "我比較想知道同學有沒有還他卡帶。",
@@ -600,7 +1394,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ]
    }
@@ -623,7 +1417,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "feel"
+      "kind": "ask"
      },
      {
       "t": "「我們會考上的。」",
@@ -648,9 +1442,10 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "joke"
+      "kind": "feel"
      }
-    ]
+    ],
+    "qOther": "（散場以後，你們走到新生南路才有人開口。）"
    },
    "with": {
     "kexin": {
@@ -695,7 +1490,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "科學麵分六份那段，我餓了。",
@@ -782,7 +1577,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "detail"
+      "kind": "feel"
      },
      {
       "t": "我一開始就懷疑對講機那個聲音。",
@@ -798,7 +1593,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "我沒有在猜。我只想趕快出隧道。",
@@ -811,7 +1606,7 @@ const MOVIE_PLOTS={
         "fr": -1
        }
       },
-      "kind": "meh"
+      "kind": "joke"
      }
     ]
    },
@@ -869,7 +1664,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      },
      {
       "t": "我不知道。可是三個鐘都不準，這個很真實。",
@@ -953,7 +1748,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ]
    }
@@ -987,7 +1782,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "老實說，蠻悶的。",
@@ -999,9 +1794,10 @@ const MOVIE_PLOTS={
         "fr": -1
        }
       },
-      "kind": "meh"
+      "kind": "crit"
      }
-    ]
+    ],
+    "qOther": "（黑白片散場，外面的招牌看起來特別亮。她問你：）會不會覺得很悶？"
    },
    "with": {
     "heroine_02": {
@@ -1134,7 +1930,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      },
      {
       "t": "中間等極光那九個晚上，可以剪掉五個。",
@@ -1147,7 +1943,7 @@ const MOVIE_PLOTS={
         "fr": -1
        }
       },
-      "kind": "meh"
+      "kind": "crit"
      }
     ],
     "note": "2026-01～02：學姊 2/2 法研所筆試，這一段不約看電影（約她她會說考完再說）；只寫芷若。"
@@ -1203,7 +1999,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ]
    }
@@ -1229,7 +2025,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "有。「的」不見了。",
@@ -1246,7 +2042,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "她明明可以不管的。",
@@ -1262,7 +2058,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "meh"
+      "kind": "feel"
      }
     ]
    },
@@ -1347,7 +2143,7 @@ const MOVIE_PLOTS={
         "fr": -1
        }
       },
-      "kind": "meh"
+      "kind": "joke"
      },
      {
       "t": "洗車機那段是我今年看過最好笑的。",
@@ -1363,7 +2159,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "joke"
+      "kind": "feel"
      }
     ]
    }
@@ -1386,7 +2182,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "妳會不會想到一盞？",
@@ -1408,10 +2204,11 @@ const MOVIE_PLOTS={
        "heroine_032": "問了，老闆就要替小孩解釋。"
       },
       "fx": {},
-      "kind": "detail"
+      "kind": "wonder"
      }
     ],
-    "note": "這部只有語彤的 re。蘇姨六十一歲、先生在開店那天在牆上寫了日期：AA 新加的設定（D109），已寫進總表第 2 節。"
+    "note": "這部只有語彤的 re。蘇姨六十一歲、先生在開店那天在牆上寫了日期：AA 新加的設定（D109），已寫進總表第 2 節。",
+    "qOther": "（字幕跑完，燈才亮。）"
    },
    "with": {
     "heroine_03": {
@@ -1565,7 +2362,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "joke"
+      "kind": "ask"
      },
      {
       "t": "我比較在意那個鍋子。",
@@ -1578,7 +2375,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      }
     ]
    },
@@ -1701,7 +2498,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "feel"
+      "kind": "ask"
      },
      {
       "t": "「貓明明就不是順路。」",
@@ -1717,7 +2514,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "「雪人早就知道自己會融吧。」",
@@ -1733,9 +2530,10 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "meh"
+      "kind": "feel"
      }
-    ]
+    ],
+    "qOther": "（散場的燈亮了，前後都有人在吸鼻子。）"
    },
    "with": {
     "classmate_peishan": {
@@ -1794,7 +2592,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "我的學生證照片很醜。",
@@ -1807,7 +2605,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "joke"
+      "kind": "self"
      },
      {
       "t": "妳覺得那個女人知道自己被排成一排嗎？",
@@ -1823,9 +2621,10 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "ask"
      }
-    ]
+    ],
+    "qOther": "（走出戲院，你們經過一間已經打烊的照相館。）"
    },
    "with": {
     "heroine_03": {
@@ -1927,7 +2726,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "那個老人。沒有人等他。",
@@ -1959,7 +2758,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "meh"
+      "kind": "crit"
      }
     ]
    },
@@ -1993,7 +2792,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "不知道。貓只是在當貓。",
@@ -2177,7 +2976,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "joke"
+      "kind": "feel"
      }
     ],
     "note": "可昕高中排球的那一段（with）已拿掉：新的人物設定要使用者同意（2026-11-10 已問，還沒回）。同意以後再寫回來。"
@@ -2200,7 +2999,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "feel"
      },
      {
       "t": "有一點。主人不見了，可是沒有人報警。",
@@ -2213,7 +3012,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "所以根本沒有案子？白看了。",
@@ -2225,7 +3024,7 @@ const MOVIE_PLOTS={
         "fr": -1
        }
       },
-      "kind": "meh"
+      "kind": "crit"
      }
     ]
    }
@@ -2260,7 +3059,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      },
      {
       "t": "我剛剛一直在幫他算時間。",
@@ -2272,7 +3071,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "feel"
      }
     ],
     "note": "暑假的片：可昕在高雄，只寫子晴。"
@@ -2299,7 +3098,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "旁邊那兩個人在吵前面演什麼，我一直在聽。",
@@ -2315,7 +3114,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "joke"
+      "kind": "feel"
      },
      {
       "t": "我在想南洋戲院哪天也會這樣。",
@@ -2370,7 +3169,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "它無聊。跑了三十年的同一條線。",
@@ -2382,7 +3181,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "joke"
+      "kind": "feel"
      },
      {
       "t": "番茄後來有結果嗎？",
@@ -2394,7 +3193,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ],
     "note": "2027-09～10：芷若在英國、沛珊不在，只寫子晴。"
@@ -2437,7 +3236,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      },
      {
       "t": "翻微捲翻一個學期，我做不到。",
@@ -2453,7 +3252,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "joke"
+      "kind": "self"
      }
     ]
    },
@@ -2607,7 +3406,7 @@ const MOVIE_PLOTS={
        }
       },
       "set": "YT_SHOE_STALL",
-      "kind": "detail"
+      "kind": "feel"
      },
      {
       "t": "「你爸的右腳比較用力」，他怎麼知道的。",
@@ -2619,10 +3418,11 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ],
-    "note": "四部紀錄片只有語彤有 re；每一部她在意的東西不一樣。"
+    "note": "四部紀錄片只有語彤有 re；每一部她在意的東西不一樣。",
+    "qOther": "（走出戲院，騎樓下的攤子都收了。）"
    }
   },
   "m2801a": {
@@ -2694,7 +3494,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "牠那天也沒有別人了。",
@@ -2723,7 +3523,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ]
    },
@@ -2776,7 +3576,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "feel"
      }
     ],
     "note": "大三下：交換路線的玩家人在國外看不到。只寫子晴。"
@@ -2948,7 +3748,25 @@ const MOVIE_PLOTS={
       },
       "kind": "joke"
      }
-    ]
+    ],
+    "optsOther": {
+     "note": "子晴以外的人看這部：用這三個選項（原本前兩個是對子晴說的）。",
+     "opts": [
+      {
+       "t": "魔王開口那一段，我起雞皮疙瘩。",
+       "kind": "feel"
+      },
+      {
+       "t": "一個人做一款遊戲，要做多久？",
+       "kind": "wonder"
+      },
+      {
+       "t": "三分鐘不動，我做不到。",
+       "kind": "joke"
+      }
+     ]
+    },
+    "qOther": "（走出戲院，外面的風有點涼。）"
    },
    "with": {
     "heroine_04": {
@@ -3072,7 +3890,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "她唱得很難聽。",
@@ -3088,7 +3906,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "meh"
+      "kind": "crit"
      }
     ]
    },
@@ -3211,7 +4029,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "joke"
+      "kind": "feel"
      },
      {
       "t": "我實習都在影印。",
@@ -3236,7 +4054,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ],
     "note": "2028-09～10：學姊在美國；只寫可昕。"
@@ -3279,7 +4097,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "joke"
+      "kind": "feel"
      },
      {
       "t": "我舉不起來的東西，都會先懷疑是它的問題。",
@@ -3317,7 +4135,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "沒有發現。我以為是鬼。",
@@ -3343,7 +4161,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ],
     "note": "以安第二個選項的 heroine_012 只在交往中才說。"
@@ -3448,7 +4266,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "feel"
      },
      {
       "t": "三個小時沒什麼對白，我竟然沒有睡著。",
@@ -3464,7 +4282,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "meh"
+      "kind": "feel"
      }
     ]
    },
@@ -3539,7 +4357,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "meh"
+      "kind": "feel"
      },
      {
       "t": "它違反指令，要不要負責？",
@@ -3552,7 +4370,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ]
    }
@@ -3594,7 +4412,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "找狗找三個月，太扯了。",
@@ -3610,7 +4428,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "meh"
+      "kind": "crit"
      }
     ]
    },
@@ -3686,10 +4504,11 @@ const MOVIE_PLOTS={
       "re": {
        "heroine_04": "會嗎。我覺得剛好。他要是整首唱完我會出戲。"
       },
-      "kind": "meh"
+      "kind": "crit"
      }
     ],
-    "note": "2029-05～06 畢業前：寫給子晴（已經在上班）。"
+    "note": "2029-05～06 畢業前：寫給子晴（已經在上班）。",
+    "qOther": "（散場以後，她問你：）你們系館有人在練團嗎？"
    }
   },
   "m2905b": {
@@ -3774,7 +4593,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "self"
+      "kind": "ask"
      },
      {
       "t": "「重考第四年那個，我笑不出來。」",
@@ -3791,7 +4610,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "feel"
+      "kind": "ask"
      },
      {
       "t": "「還沒。明天再印。」",
@@ -3804,10 +4623,11 @@ const MOVIE_PLOTS={
         "fr": -1
        }
       },
-      "kind": "meh"
+      "kind": "ask"
      }
     ],
-    "note": "2029-07～08，國考一試 8/4 前後。國考入場證是自己上網列印的。可昕這個暑假留在臺北準備到 8/4 考完（新設定，已寫進總表）；LAWWW 她的作息如果還是回高雄，就只留學姊的 re。學姊不考，她是陪考的口氣。"
+    "note": "2029-07～08，國考一試 8/4 前後。國考入場證是自己上網列印的。可昕這個暑假留在臺北準備到 8/4 考完（新設定，已寫進總表）；LAWWW 她的作息如果還是回高雄，就只留學姊的 re。學姊不考，她是陪考的口氣。",
+    "nofb": true
    }
   },
   "m2907b": {
@@ -3971,7 +4791,7 @@ const MOVIE_PLOTS={
        }
       },
       "set": "YT_SHAOLA_TOMORROW",
-      "kind": "detail"
+      "kind": "feel"
      },
      {
       "t": "「她寫名字寫了十幾年。」",
@@ -3984,7 +4804,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "「妳還好嗎？」",
@@ -3994,7 +4814,8 @@ const MOVIE_PLOTS={
       },
       "kind": "ask"
      }
-    ]
+    ],
+    "qOther": "（散場以後，你們走了一段才有人開口。）"
    },
    "with": {
     "heroine_03": {
@@ -4165,7 +4986,7 @@ const MOVIE_PLOTS={
         "fr": -1
        }
       },
-      "kind": "meh"
+      "kind": "crit"
      }
     ],
     "note": "寒假；寫子晴、以安。"
@@ -4193,7 +5014,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      },
      {
       "t": "「十一件。一天。」",
@@ -4209,7 +5030,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "「這部沒有劇情，我有點撐不住。」",
@@ -4225,10 +5046,11 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "meh"
+      "kind": "crit"
      }
     ],
-    "note": "2030-01～02。以安的 heroine_012 只在好朋友以上或交往中才說。"
+    "note": "2030-01～02。以安的 heroine_012 只在好朋友以上或交往中才說。",
+    "qOther": "（走出戲院，外面已經全黑了。）"
    }
   },
   "m3003a": {
@@ -4279,7 +5101,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ]
    }
@@ -4306,7 +5128,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "joke"
+      "kind": "self"
      },
      {
       "t": "不夾。我折角。",
@@ -4322,7 +5144,7 @@ const MOVIE_PLOTS={
         "fr": -1
        }
       },
-      "kind": "meh"
+      "kind": "self"
      },
      {
       "t": "妳呢？",
@@ -4377,7 +5199,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "joke"
+      "kind": "self"
      },
      {
       "t": "他假裝沒看到、繼續洗窗，那個很厲害。",
@@ -4393,7 +5215,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "泡沫上寫字，小孩怎麼看得懂？",
@@ -4406,7 +5228,7 @@ const MOVIE_PLOTS={
         "fr": -1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      }
     ],
     "note": "可昕「我們第一次坐的時候」＝2024-10-17 摩天輪：只在那一場演過的存檔才說，否則改「你怕高，我早就知道。」"
@@ -4429,7 +5251,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      },
      {
       "t": "沒有。我跟偵探一起迷路了。",
@@ -4455,7 +5277,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "meh"
+      "kind": "crit"
      }
     ],
     "note": "2030-05～06。以安如果已經出國（LL.M. 出發日照 AA_285）就約不到，只有通用選項。"
@@ -4502,7 +5324,7 @@ const MOVIE_PLOTS={
         "fr": 1
        }
       },
-      "kind": "detail"
+      "kind": "notice"
      }
     ],
     "note": "2030-07～08：可昕畢業以後留在臺北工作（律師，已寫進總表），不再回高雄過暑假。"
@@ -4526,7 +5348,7 @@ const MOVIE_PLOTS={
         "love": 2
        }
       },
-      "kind": "feel"
+      "kind": "ask"
      },
      {
       "t": "「門開了以後，他看到誰？」",
@@ -4538,7 +5360,7 @@ const MOVIE_PLOTS={
         "love": 1
        }
       },
-      "kind": "detail"
+      "kind": "wonder"
      },
      {
       "t": "「這是我陪妳看的第幾部黑白片？」",
@@ -4565,7 +5387,25 @@ const MOVIE_PLOTS={
       "kind": "ask"
      }
     ],
-    "note": "片單最後一部，只寫芷若。第三個選項只在和她看過《黑白的城市》才出現；她的第一句照當時選的換（reBy 三句）；第二句「這部呢？」都一樣。子晴不看黑白片（skip）。"
+    "note": "片單最後一部，只寫芷若。第三個選項只在和她看過《黑白的城市》才出現；她的第一句照當時選的換（reBy 三句）；第二句「這部呢？」都一樣。子晴不看黑白片（skip）。",
+    "qOther": "（散場以後，外面沒有起霧，路燈很清楚。）",
+    "optsOther": {
+     "note": "芷若以外的人看這部（子晴不看黑白片）：用這三個選項。",
+     "opts": [
+      {
+       "t": "晴天他反而走不了，那裡我有感覺。",
+       "kind": "feel"
+      },
+      {
+       "t": "門開了以後，他看到誰？",
+       "kind": "wonder"
+      },
+      {
+       "t": "整部都是霧，我眼睛好累。",
+       "kind": "crit"
+      }
+     ]
+    }
    },
    "with": {
     "heroine_04": {
