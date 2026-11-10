@@ -50618,7 +50618,7 @@
    "id": "SIS-STATIONERY-1110",
    "title": "學姊喜歡文具：山嵐書店文具區＋劇情；玩家先買文具、特殊日子送學姊",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50630,7 +50630,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 08:4x】LAWWW2 24dc0d99b shanlan.glb v2 文具區接進開發分支；shanlan、shanlan_act、xs_lm、lm_instancing ALL PASS；CC 拍、BB 判｜【11-10 01:36 LAWWW2-B 交班】文具區 WIP（分區＋原創分類牌＋「文具選物」木牌），還沒交件。 ｜ 【11-10 00:5x LAWWW-B】併進 GIFT-HOLIDAY-1110（使用者 X277：各店都有東西買、節日生日送禮）；學姊文具是其中一店一人。 ｜ 【11-10 00:5x LAWWW-B】使用者 X276（人物設定「學姊很喜歡文具」使用者定）。現況：山嵐有「文具」互動點（AA_613 旁白），學姊 2/3 計畫本在公館文具店（sis_grad3d 2-7）。分工：AA 寫文具品項（名稱、價錢、一句說明）、學姊收到的反應（依關係階段）、哪些特殊日子能送（生日等）、文具區的劇情（例：在文具區遇到學姊）；LAWWW2 看山嵐文具區夠不夠（貨架、品項擺設）；LAWWW 接買文具（山嵐文具互動點→選單、扣錢、放進背包）、特殊日子送（和送飲料同一套流程）；BB 測。",
+   "next": "【LAWWW 11-10 09:2x】BB_255：山嵐文具區（場景）PASS；買文具、背包、特殊日子送學姊、文具區劇情還沒做，併 GIFT-HOLIDAY-1110 等 AA 稿。 ｜ 【LAWWW 11-10 08:4x】LAWWW2 24dc0d99b shanlan.glb v2 文具區接進開發分支；shanlan、shanlan_act、xs_lm、lm_instancing ALL PASS；CC 拍、BB 判｜【11-10 01:36 LAWWW2-B 交班】文具區 WIP（分區＋原創分類牌＋「文具選物」木牌），還沒交件。 ｜ 【11-10 00:5x LAWWW-B】併進 GIFT-HOLIDAY-1110（使用者 X277：各店都有東西買、節日生日送禮）；學姊文具是其中一店一人。 ｜ 【11-10 00:5x LAWWW-B】使用者 X276（人物設定「學姊很喜歡文具」使用者定）。現況：山嵐有「文具」互動點（AA_613 旁白），學姊 2/3 計畫本在公館文具店（sis_grad3d 2-7）。分工：AA 寫文具品項（名稱、價錢、一句說明）、學姊收到的反應（依關係階段）、哪些特殊日子能送（生日等）、文具區的劇情（例：在文具區遇到學姊）；LAWWW2 看山嵐文具區夠不夠（貨架、品項擺設）；LAWWW 接買文具（山嵐文具互動點→選單、扣錢、放進背包）、特殊日子送（和送飲料同一套流程）；BB 測。",
    "xai": {
     "spec": "使用者 11-10 00:5x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50676,7 +50676,7 @@
    "id": "SERVICE2-LEGAL-1110",
    "title": "服務學習（二）改成法律服務一學期（原本大二上椰影大道、映月湖校園環境）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50688,7 +50688,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:36 LAWWW2-B】接待桌模型交班後才讀到，0 進度（順序最後）。AA_342 svc 兩句拿掉（AA 4470f4908）待 LAWWW 改 src/twfill3d.js。 ｜ 【11-10 01:3x LAWWW-B】使用者 X279：服務學習只有兩學期——（一）圖書館（大一上法律學院圖書館櫃台，照舊）、（二）法律服務一學期。courses.js service_2（Y2S1 週三下午二，CAMPUS_SVC）改成法律服務：AA 寫地點（法律系館B 的法律服務中心之類）、每次的一句（serviceLines，照 service_1 的寫法）、和 D118 法律服務社（純劇情）的區別；學期照舊大二上，使用者沒說要改；LAWWW 改課程資料、上課地點；BB 測。",
+   "next": "【LAWWW 11-10 09:2x】BB_255：PASS（FIXED）；實作 a883f36de（courses.js service_2 改法律服務中心，AA_735）。 ｜ 【11-10 01:36 LAWWW2-B】接待桌模型交班後才讀到，0 進度（順序最後）。AA_342 svc 兩句拿掉（AA 4470f4908）待 LAWWW 改 src/twfill3d.js。 ｜ 【11-10 01:3x LAWWW-B】使用者 X279：服務學習只有兩學期——（一）圖書館（大一上法律學院圖書館櫃台，照舊）、（二）法律服務一學期。courses.js service_2（Y2S1 週三下午二，CAMPUS_SVC）改成法律服務：AA 寫地點（法律系館B 的法律服務中心之類）、每次的一句（serviceLines，照 service_1 的寫法）、和 D118 法律服務社（純劇情）的區別；學期照舊大二上，使用者沒說要改；LAWWW 改課程資料、上課地點；BB 測。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50698,7 +50698,7 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "sha": "a883f36de",
    "test": null
   },
   {
@@ -50937,7 +50937,7 @@
    "id": "YIZHAN-FLOAT-CUPS-1110",
    "title": "一盞：外帶杯飄在半空中（榻榻米房間）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -50949,7 +50949,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 08:5x】LAWWW2 57a9dd322：一盞房間群組 g0 往 +z 搬 2.3 m，seatact3d 桌上小物世界座標卻掛在 g0 底下——rebuild 抵銷父群組 matrixWorld；seatact_offset_group_unit 改前 FAIL→ALL PASS；CC 拍、BB 判｜【11-10 01:36 LAWWW2-B】交班後才讀到，0 進度；下一班 LAWWW2 照順序：路緣 → 遠景招牌 → 一盞浮杯、法服攤位 → 文具區 → 接待桌。 ｜ 【11-10 01:3x LAWWW-B】使用者 X289。11/8 週六 18:28 一盞，左側榻榻米房間：兩個外帶紙杯浮在半空（靠近跪坐的客人、沒有桌子的地方）。LAWWW2 查是 yizhan.glb 的擺設、還是路人（crowd3d）的道具位置；修好附 Node 測試，BB 截圖判。",
+   "next": "【LAWWW 11-10 09:2x】BB_255：X289 一盞杯子 PASS（FIXED，81a2e719d seatact3d 群組位移抵銷）。 ｜ 【LAWWW 11-10 08:5x】LAWWW2 57a9dd322：一盞房間群組 g0 往 +z 搬 2.3 m，seatact3d 桌上小物世界座標卻掛在 g0 底下——rebuild 抵銷父群組 matrixWorld；seatact_offset_group_unit 改前 FAIL→ALL PASS；CC 拍、BB 判｜【11-10 01:36 LAWWW2-B】交班後才讀到，0 進度；下一班 LAWWW2 照順序：路緣 → 遠景招牌 → 一盞浮杯、法服攤位 → 文具區 → 接待桌。 ｜ 【11-10 01:3x LAWWW-B】使用者 X289。11/8 週六 18:28 一盞，左側榻榻米房間：兩個外帶紙杯浮在半空（靠近跪坐的客人、沒有桌子的地方）。LAWWW2 查是 yizhan.glb 的擺設、還是路人（crowd3d）的道具位置；修好附 Node 測試，BB 截圖判。",
    "xai": {
     "spec": "使用者 11-10 02:0x 對 LAWWW-B",
     "branch": "claude/funny-albattani-iawshm",
@@ -51458,7 +51458,7 @@
    "id": "LIB-B1-COURT-ART-1110",
    "title": "總圖 B1 下沉中庭第二階段：Blender 正式模型——現在是程序化 BLOCKOUT，使用者「中庭的部分，我現在看不出來」；北側樓梯往下到露天中庭、中庭牆、台階、欄杆、植栽、B1 玻璃門要一眼看得出是往地下的中庭（X298、X307）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -51470,7 +51470,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 08:3x】LAWWW2 5b2af0caf 交件（lib_b1_court.glb 8.6k 三角形；清水模擋土牆、花崗石、扶手、腳燈、玻璃帷幕＋雨遮、招牌、種花槽常春藤、樹槽、石凳、壁燈）已接進開發分支；lib_b1_court_art、lib_b1_court、library_b1、nav_buildings ALL PASS；CC 拍白天晚上各兩張給 BB 判 ART｜【LAWWW 11-10 接班】使用者對 LAWWW：「總圖b1樓梯 是往地下走到一個中庭 中庭的部分，我現在看不出來 你請lawww2做」。位置照 zones3d.js Z3.B1C（x 92～104、z −41～−31、深 4.2；樓梯 z −41～−39、24 階；門 (98,−31)），導航不動；參考 docs/handoff/user_shots/1110_library_b1_plan_ref.webp（照氣氛、不照抄，D136）；D141 最多 3 版先進遊戲",
+   "next": "【LAWWW 11-10 09:2x】BB_255：功能 PASS；鏡頭在南側時畫面下半整片白霧＝GAME_BUG P2，BB 已轉 LAWWW2 修；修好 CC 重拍、BB 再判 ART（D141 第 2 版）。 ｜ 【LAWWW 11-10 08:3x】LAWWW2 5b2af0caf 交件（lib_b1_court.glb 8.6k 三角形；清水模擋土牆、花崗石、扶手、腳燈、玻璃帷幕＋雨遮、招牌、種花槽常春藤、樹槽、石凳、壁燈）已接進開發分支；lib_b1_court_art、lib_b1_court、library_b1、nav_buildings ALL PASS；CC 拍白天晚上各兩張給 BB 判 ART｜【LAWWW 11-10 接班】使用者對 LAWWW：「總圖b1樓梯 是往地下走到一個中庭 中庭的部分，我現在看不出來 你請lawww2做」。位置照 zones3d.js Z3.B1C（x 92～104、z −41～−31、深 4.2；樓梯 z −41～−39、24 階；門 (98,−31)），導航不動；參考 docs/handoff/user_shots/1110_library_b1_plan_ref.webp（照氣氛、不照抄，D136）；D141 最多 3 版先進遊戲",
    "xai": {
     "spec": "USER_WANTS X298、X307；LIB-B1-OUTSIDE-1110 第一階段（modest-rubin e73888074 壁燈）；參考圖 1110_library_b1_plan_ref.webp",
     "branch": "claude/second-ai-env-art",
