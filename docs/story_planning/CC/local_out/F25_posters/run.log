@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_poster_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\F25_posters\out
+CC 南洋海報 72 張：PARTS A；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  28.8s] 片單：36 段、72 部
+PASS [A] 片單一共 72 部  72
+PASS [A] 每一部都在 MOVIES.POSTERS（有海報網址）  []
+PASS [A] 每一張 fetch 200（沒有 404）  []
+PASS [A] 每一張圖解得開（Image onload）  []
+  [  35.0s] [A] 圖的尺寸：[[1024, 1536]]
+PASS [A] 每一部 MOVIES.film(id) 有片名  []
+PASS [A] 片名縮到最小 28px 也放得下（寬 ≤ 460）  []
+  [  35.0s] [A] 片名字級：[48, 56, 64]
+  [  43.6s] [A] 遊戲的 drawPoster 畫出來的 72 張（圖＋片名）：poster_all72.jpg
+  [  43.6s] 海報相關的 4xx 回應：[]；console：[]
+PASS 沒有海報 404／載入失敗  {"resp": [], "console": []}
+PASS 沒有 JS 例外  []
+ALL PASS
