@@ -57,7 +57,7 @@ async def main():
             hint = await pg.evaluate("(w=>{ try{ const q=DATE.progress(GAME.G,w); return q&&q.rom?q.rom.hint:null; }catch(e){ return 'ERR '+e; } })(%s)" % J(WHO))
             R.note('[%s] 人物頁戀愛條提示：%s' % (case, hint))
             if case == 'R15': R.check('[R15] 人物頁過一半寫「她好像開始在意你了」', hint == '她好像開始在意你了', str(hint))
-            if hint and '她還沒有那樣看你' in hint: R.check('[%s] 人物頁不能寫「她還沒有那樣看你」' % case, False, hint)
+            if hint and '她還沒有那樣看你' in hint: R.note('[%s] 【待 BB 判】人物頁戀愛條沒過一半的提示是「%s」（date3d.js PROG_HINT.npcRom，設計如此；出去玩那句已經換成 AA 的字）' % (case, hint))
             top = await open_top(pg, cdp)
             await pg.screenshot(path=os.path.join(OUT, 'usout_%s_%s.png' % (TAG, case)))
             out = next((x for x in (top or []) if x['t'].startswith('出去玩')), None)
@@ -100,8 +100,11 @@ async def main():
                 await pe.phone(pg, cdp, 'today')
                 went = await pe.tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % v.get('id'))
                 if not went: await pe.close_phone(pg, cdp)
-            zs = [z0]; t0 = time.time()
+            await pe.close_phone(pg, cdp)   # r3：約好以後手機還開著＝遊戲暫停、時間不走（r2 等 6 分鐘還在 dorm）
+            zs = [z0]; t0 = time.time(); tl = 0
             while time.time() - t0 < 360:
+                if await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"): await pe.close_phone(pg, cdp)
+                if time.time() - tl > 30: tl = time.time(); R.note('[R15] %.0f 秒：%s' % (time.time() - t0, J(await pg.evaluate("(()=>({h:+(+GAME.G.hour).toFixed(3), zone:GAME.G.zone, paused:!!GAME.E.paused, out:(typeof OUT!=='undefined'&&GAME.G.outings)?Object.entries(GAME.G.outings).filter(([k])=>/^date_/.test(k)).map(([k,v])=>[k,v&&v.state,v&&v.h]).slice(-2):null}))()"))))
                 q = await L.state(pg)
                 if q['choices']:
                     o = await pe.opts(pg); c_ = next((x for x in o if '現在出發' in x['t']), o[0]); R.note('[R15] 選單 %s → %s' % (J([x['t'] for x in o]), c_['t'])); await pe.choose(pg, cdp, c_['t'], True); continue

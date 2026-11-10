@@ -328,23 +328,24 @@ WILLOW_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_plann
 # 1 releasegate：X304 出去玩（冷淡期新舊對照）、X290 一鍵前往
 W24_outing | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=w24
 W24_outing_old | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 15 | TAG=w24old;CASES=COOL
+W24_outing_r3 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 20 | TAG=w24r3;CASES=R15
 W24_invgo | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
-W24_invgo_real | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_invgo_real_probe.py | index.html | 20 | 
-# 2 發布前回歸
-W24_deploy | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
-W24_p0 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
-W24_zone | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
-W24_mini | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
-W24_reach | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
-W24_classreal | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
-W24_main12 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
-W24_touch | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
-W24_guide | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
-W24_ggnav | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
-W24_capgap | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=w24
-W24_v7 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
-W24_live | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
-W24_live_pos | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+W24_invgo_real | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_invgo_real_probe.py | index.html | 20 | RERUN=r3
+# 2 發布前回歸——BB 17:37（X314 海報到齊才發）：先 HOLD，等最後一個候選再一起跑（已經在跑的跑完就好）
+#HOLD W24_deploy | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
+#HOLD W24_p0 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+#HOLD W24_zone | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+#HOLD W24_mini | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+#HOLD W24_reach | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+#HOLD W24_classreal | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
+#HOLD W24_main12 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+#HOLD W24_touch | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
+#HOLD W24_guide | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+#HOLD W24_ggnav | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+#HOLD W24_capgap | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=w24
+#HOLD W24_v7 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
+#HOLD W24_live | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+#HOLD W24_live_pos | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
 # 3 新功能各玩一次（探針寫好就補上）
 W24_movie | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py | index.html | 30 | MODE=meet;WHO=heroine_01;MOVIE=1
 W24_newfeat | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_newfeat_probe.py | index.html | 40 | CASES=YEJIAN,MOKU,CLUB

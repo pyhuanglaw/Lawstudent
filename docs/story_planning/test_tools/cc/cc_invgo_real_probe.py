@@ -42,8 +42,8 @@ async def main():
         await L.load_state(pg, state(None), quiet_phone=True); await pg.wait_for_timeout(3000); await pe.settle(pg, cdp, [], 30)
         R.setup('【前置／捷徑】day46 存檔 08:00、清邀約、%s 朋友（fam≥50 trust≥35 comf≥30）、錢 3000、去過 %s' % (WHO, J(CAND)))
         await pg.evaluate(HOOK)
-        pl = await pg.evaluate("""(()=>{ const G=GAME.G; const ps=(typeof INVITE_DATA!=='undefined'&&INVITE_DATA.places)||[];   /* r2：邀約地點的營業時間在 INVITE_DATA.places[].hrs（PLACES 查不到，r1 會一間都找不到） */
-            return {day:G.day, list:ps.filter(p=>Array.isArray(p.hrs)).map(p=>({id:p.id, name:p.name, zone:p.zone, open:p.hrs[0], close:p.hrs[1]}))}; })()""")
+        pl = await pg.evaluate("""(()=>{ const G=GAME.G; const ps=(typeof INVITE_DATA!=='undefined'&&INVITE_DATA.places)||[];   /* r2：邀約地點的營業時間在 INVITE_DATA.places[].hours（r3：欄位名是 hours，r2 寫成 hrs＝list 空；PLACES 查不到，r1 會一間都找不到） */
+            return {day:G.day, list:ps.filter(p=>Array.isArray(p.hours)).map(p=>({id:p.id, name:p.name, zone:p.zone, open:p.hours[0], close:p.hours[1]}))}; })()""")
         R.note('候選店（那一天的開門時間）：%s' % J(pl))
         tgt = next((q for q in pl['list'] if q['name'] and q['open'] == 10), None) or next((q for q in pl['list'] if q['name'] and q['open'] and q['open'] >= 10), None)
         if not R.check('找到一間 10:00 才開、約得到的店', bool(tgt), J(pl)): await b.close(); return
