@@ -927,6 +927,16 @@
    "replaces": "",
    "wants": "X331",
    "note": "今天的 Blender 都在雲端容器（CPU、沒有顯示卡）跑，慢的是算預覽圖（整條街一張 10～13 分鐘）。規則 ROLE_LAWWW2 1.0：超過幾分鐘的 Blender 工作排到使用者的電腦（cc_local 佇列 kind blender）。之後的預覽圖、烘焙照這個排。"
+  },
+  {
+   "id": "UA-LAWWW2-1110-11",
+   "at": "2026-11-10T23:xx",
+   "quote": "（六張圖）六家的內部參考圖",
+   "kind": "原話",
+   "status": "進行中",
+   "replaces": "",
+   "wants": "X320",
+   "note": "六張使用者生成的室內參考圖：安泰藥局、榮恩典文具社、汀州鮮果（公館）、印得好、泰米村食、洗樂洗衣坊（汀州路）。存 docs/art-rebuild/second_ai/ref/gg_shops6_1110/interior/，README 每張的重點。照 RULES_2D_TO_3D 做成走得進去的室內；配置對 AA_743，圖和 AA_743 不一樣的以圖為準、回報 AA。安泰圖上的綠十字和規格（不用十字）衝突，照規格換成藥罐圖示。"
   }
  ]
 }
