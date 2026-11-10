@@ -1754,3 +1754,12 @@
 [22:27:34] [res] cpu=14% mem=50% (15.8/31.4 GB) chrome_testing=5  START WINVIEW_tea195
 [22:28:06] [res] cpu=20% mem=47% (14.7/31.4 GB) chrome_testing=9  END NANYANG_v4
 [22:28:06] 正在跑：NANYANG_v4（已跑 10 分／上限 150 分）、GIFTHOL2_new（已跑 2 分／上限 60 分）、WINVIEW_tea195（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       393d3dea1..a758a70df  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:28:14] ==== END   NANYANG_v4  exit=0  652s   ====
+[22:28:17] memory 48% before starting X199_entry_new (2 running)
+[22:28:17] ==== START X199_entry_new  (probe @ 99294fead8c3cd1350625007c8e8a72e0cbf1e47) ====
+[22:28:20] [res] cpu=19% mem=49% (15.2/31.4 GB) chrome_testing=4  START X199_entry_new
+[22:28:20] worktree add 99294fead8c3cd1350625007c8e8a72e0cbf1e47: invalid reference - fetching main and the commit itself
+[22:29:28] [res] cpu=16% mem=41% (13.3/31.4 GB) chrome_testing=4  END GIFTHOL2_new
