@@ -46724,7 +46724,7 @@
    "title": "坐著的替身遠處版（_lod1）頭頂一塊方的：脖子以上照 LOD0 不減（400→800 面）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "sha": "1eb7182b7",
    "first": {
@@ -46747,7 +46747,8 @@
     "acceptance": "遠處版頭頂沒有方塊；CC 同一個鏡頭重拍",
     "ack": "ACTIONED"
    },
-   "next": "【LAWWW 11-10 10:3x】BB（BB_255）：不能標：只有 Blender 階段 PASS，接進 1eb7182b7 後遊戲內同鏡頭還沒重拍；BB 排 CC 重拍。 ｜ 【LAWWW-C 11-04 18:4x】LAWWW2 30c0ae20 換檔進 1eb7182b7；BB Blender 階段 PASS（BB_255 ae24b083a）；下一步 CC 用 ⑧ 同一個鏡頭重拍"
+   "next": "【LAWWW 11-10 12:5x】角色美術 D100a：LAWWW 判 ART_APPROVED。 ｜ 【LAWWW 11-10 10:3x】BB（BB_255）：不能標：只有 Blender 階段 PASS，接進 1eb7182b7 後遊戲內同鏡頭還沒重拍；BB 排 CC 重拍。 ｜ 【LAWWW-C 11-04 18:4x】LAWWW2 30c0ae20 換檔進 1eb7182b7；BB Blender 階段 PASS（BB_255 ae24b083a）；下一步 CC 用 ⑧ 同一個鏡頭重拍",
+   "evidence": "BB_255 功能 PASS（CC SEATFIG_new／old_near，PC＋GPU）；LAWWW 11-10 12:5x 看 201 教室近景前、後、側同鏡頭並排：坐著的路人頭髮條紋變少、較成塊，沒有穿模、沒有變黑或破面，角色美術 ART_APPROVED（D100a）"
   },
   {
    "id": "TE-HEART-EXEMPT-1104",
