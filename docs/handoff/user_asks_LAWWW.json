@@ -3852,6 +3852,16 @@
    "wants": "X290",
    "task": "INV-GO-JUMP-1110",
    "src": "使用者對 LAWWW-B"
+  },
+  {
+   "id": "UA-LAWWW-1110-34",
+   "at": "2026-11-10T01:4xZ",
+   "quote": "已經買的禮物要出現物品欄位可以查看??",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X291",
+   "task": "GIFT-HOLIDAY-1110",
+   "src": "使用者對 LAWWW-B"
   }
  ]
 }
