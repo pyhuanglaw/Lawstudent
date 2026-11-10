@@ -60,6 +60,12 @@ def build():
     M = {
         # 面磚（實際 2 m 一張，一塊約 22×8 cm）：先降低彩度（原圖橘、褐、深色混在一起）再校正成土黃色
         'wall': L.pbr('gt_wall', 'exterior_wall_cladding_02', tile=2.0, target=WALL, sat=0.35, normal=0.8, maps=('diff', 'nor'), rough_value=0.88),
+        # NTU-REF-1110 ③-2（LAWWW2 帳號 A 11-10；X223／D136）：使用者 11-04 14:03 的照片（docs/story_planning/ref_images/buildings/common_teaching_1104/README.md）＋校園地圖「共同三松：共同教室的紅磚與拱窗」——
+        #   舊館是紅磚、上層一排高的拱窗；圍著中庭的翼樓是米色（淺黃）粉刷。原本整棟土黃十三溝面磚（依文字的設計）。
+        #   這裡：東半部（三、四樓那一段＝舊館）的牆、豎貼帶改成紅磚（red_brick，和行政大樓、望月台同一張）；西翼（兩層）改成米色粉刷（painted_plaster_wall）。
+        #   做法在最後：照面的位置（世界 x ≥ 2−XJ＝東半部）換材質；不照抄：拱窗的形狀、開間照舊（原本就是拱窗＋洗石子收邊）
+        'brick': L.pbr('gt_brick', 'red_brick', tile=1.6, target='#9a4f38', sat=0.85, normal=0.45, maps=('diff', 'nor'), rough_value=0.86),
+        'wingp': L.pbr('gt_wing_plaster', 'painted_plaster_wall', tile=2.5, target='#d8c799', sat=0.4, maps=('diff', 'nor'), normal=0.4, res=512, rough_value=0.9),
         # 洗石子：granular_concrete（細碎石子露在水泥面上）校正成淺灰米色；1.5 m 一張
         'wash': L.pbr('gt_wash', 'granular_concrete', tile=1.5, target=WASH, normal=0.7, maps=('diff', 'nor'), res=512, rough_value=0.86),
         'trimw': None,   # v9.7 合併材質：窗框、窗台直接用牆面洗石子的材質（原本是同一張顏色貼圖的另一個材質 ck_trim_win）
@@ -705,6 +711,13 @@ def build():
     L.uv_text(sp.finish(root, uv=True, props={'text': '側門　請由正門出入', 'bg': '#d8d0c0', 'color': '#3b2a1e', 'serif': 1, 'fs': 0.6}))
     # v9.7 合併材質（LAWWW 2026-10-14 04:52Z：校門往椰林大道的鏡頭 draw call 是改之前的 1.14 倍；這棟 17 個材質）：純色、頂點色的零件併成一個頂點色材質
     # （名稱 wz_vc_ 開頭：遊戲端整個網格投影、陰影一次 draw call）。留下：面磚、洗石子（含窗框）、屋瓦、石材勒腳、玻璃、燈罩、匾額
+    # NTU-REF-1110 ③-2：牆（gt_wall）、豎貼帶（gt_band，同一個材質）照位置分成紅磚（東半部舊館）、米色粉刷（西翼）
+    XS = 2.0 - XJ - 0.05   # 世界 x ≥ XS＝東半部（本地 x＜XJ；世界 x＝2−本地 x）；兩段交界那面牆（x＝XJ）算舊館
+    for ob_ in [o for o in root.children_recursive if o.type == 'MESH']:
+        if not ob_.material_slots or ob_.material_slots[0].material is None or ob_.material_slots[0].material.name != 'gt_wall': continue
+        me = ob_.data; me.materials.append(M['brick']); me.materials.append(M['wingp']); ib, iw = len(me.materials) - 2, len(me.materials) - 1
+        mw = ob_.matrix_world
+        for poly in me.polygons: poly.material_index = ib if (mw @ poly.center).x >= XS else iw
     VCM = L.vc_material('wz_vc_gt', rough=0.6)
     L.vc_consolidate(root, {n: VCM for n in ('gt_plaster', 'gt_celadon', 'gt_misc', 'gt_palm', 'ck_frame', 'ck_ceiling', 'gt_terrace', 'gt_wood', 'gt_palm_bark')})
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
