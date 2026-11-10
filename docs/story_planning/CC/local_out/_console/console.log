@@ -1779,3 +1779,11 @@
 [22:29:50] ==== START X199_guide  (game @ 99294fead8c3cd1350625007c8e8a72e0cbf1e47) ====
 [22:29:53] [res] cpu=6% mem=43% (13.1/31.4 GB) chrome_testing=4  START X199_guide
 [22:32:07] [res] cpu=12% mem=47% (15.0/31.4 GB) chrome_testing=9  END X199_entry_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6145f629f..dda312d66  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:32:13] ==== END   X199_entry_new  exit=0  230s   ====
+[22:32:16] memory 47% before starting X199_guide_old (2 running)
+[22:32:16] ==== START X199_guide_old  (game @ e9af1306192fe33a31db4c4b44a38f42d779913d) ====
+[22:32:19] [res] cpu=28% mem=48% (15.1/31.4 GB) chrome_testing=9  START X199_guide_old
+[22:33:02] [res] cpu=18% mem=46% (14.7/31.4 GB) chrome_testing=9  END X199_entry_old
