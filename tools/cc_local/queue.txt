@@ -6,6 +6,9 @@
 #        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
 #        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
+# ===== BB 20:08：X323 公館騎樓五塊招牌（LAWWW2 b67955799，gongguan_shops.glb 換招牌圖集）新 8efee4fbf／舊 6ef185726 同機位，14、20 時各正面＋斜 30°，回雲端並排 =====
+GG_SIGNS_new | 8efee4fbf9b05526f2ed05db136817b0037f108b | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=new
+GG_SIGNS_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=old
 # ===== BB 19:52：deploy 改跑發布樹 951824630（6ef185726＋版本字樣，只動 index.html），預期 v9.10.24 =====
 F25_deploy_rel | 9518246301e9b9efa224f45231d9b3b69b3fb1a3 | game | tests/deploy_check.py | index.html | 15 | XARGS={url} v9.10.24;CC_HEADLESS=0
 # ===== P0 BB 19:31：v9.10.24 候選改 6ef185726（fe5 之後：何俊朗 3D、海報片名描邊、規則文件）；fe5 跑過的照算，只加這幾支，排最前面 =====
