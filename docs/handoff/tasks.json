@@ -35816,7 +35816,7 @@
    "title": "各系路人的外觀（AA_495 第 5 節）：土木的測量腳架（兩人一組）、化學醫學折在手臂上的實驗衣、圖資的工讀證和書車、系隊外套或系服背後印系名（化學、電機、土木）、農藝的小推車、物理化學共撐一把傘；另外霖澤館 2F（201）、萬才館教室門口的等候點（法律系必修門口的對話）",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "priority": "P3",
    "source": "AA_495 第 5 節；CROWD-DEPTS-1028 子代理回報（沒做的）",
    "first": {
@@ -35829,14 +35829,16 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 02:3x UTC】LAWWW2 修完溫州街公園、做完女主角圈子的 3D 人物以後；外觀先用道具（CHAR.setProp），不換底模",
+   "next": "【LAWWW 11-10 12:2x】延後（LAWWW2 問、LAWWW 定）。 ｜ 【LAWWW-C 2026-10-28 02:3x UTC】LAWWW2 修完溫州街公園、做完女主角圈子的 3D 人物以後；外觀先用道具（CHAR.setProp），不換底模",
    "xai": {
     "spec": "AA_495 第 5 節",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "校園上看得出幾個系（腳架、實驗衣、系服）；201 門口有等候的人",
     "receiver": "LAWWW",
     "ack": "未派"
-   }
+   },
+   "pausedReason": "LAWWW 11-10 12:2x：P3、AA_495 第 5 節寫「不做也可以」；要動 crowd3d（生人時先算系）、props3d（3～4 個道具 GLB），約 2 小時；系服屬人物外觀 D99 凍結；D99 三個優先項目優先",
+   "resumeWhen": "v9.10 發布後，三個優先項目沒有更急的美術工作時"
   },
   {
    "id": "PHONE-AUTO-ENTER-1028",
