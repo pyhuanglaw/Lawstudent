@@ -387,3 +387,13 @@
 [17:12:50] [res] cpu=9% mem=41% (13.0/31.4 GB) chrome_testing=5  END WAKE_a_new2
 [17:12:55] memory 41% before starting X257_new (2 running)
 [17:12:55] ==== START X257_new  (probe @ 1c767edf819136d164df68e5cefca5605993b7fe) ====
+[17:12:58] [res] cpu=9% mem=41% (13.1/31.4 GB) chrome_testing=5  START X257_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ff613b901..c37facc2e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:13:00] ==== END   WAKE_a_new2  exit=1  337s   ====
+[17:13:05] 正在跑：WAKE_a_old2（已跑 3 分／上限 40 分）、X257_new（已跑 0 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:13:34] memory 39% before starting X296_new (2 running)
+[17:13:34] ==== START X296_new  (probe @ 7a019726dfddc3f90dc0cc60189db19084871503) ====
+[17:13:37] [res] cpu=18% mem=39% (12.3/31.4 GB) chrome_testing=4  START X296_new
+[17:13:41] [res] cpu=6% mem=41% (12.5/31.4 GB) chrome_testing=4  END WAKE_a_old2
