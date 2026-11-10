@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_noask_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NOASK_faf1\out
+CC-B 不問座位／不問吃哪家：worktree ?；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+  找到的日子：一天兩堂（有座位的教室）null；空檔 ≥60 分 0 天
+===== seat_phone_fresh =====
+FAIL seat_phone_fresh：有一天兩堂有座位的課
+===== seat_phone_old =====
+FAIL seat_phone_old：有一天兩堂有座位的課
+===== seat_wake_fresh =====
+FAIL seat_wake_fresh：有一天兩堂有座位的課
+===== seat_wake_old =====
+FAIL seat_wake_old：有一天兩堂有座位的課
+===== seat_after_fresh =====
+FAIL seat_after_fresh：有一天兩堂有座位的課
+===== seat_after_old =====
+FAIL seat_after_old：有一天兩堂有座位的課
+===== seat_onetap_fresh =====
+FAIL seat_onetap_fresh：有一天兩堂有座位的課
+===== seat_onetap_old =====
+FAIL seat_onetap_old：有一天兩堂有座位的課
+===== lunch_rot =====
+FAIL lunch_rot：找得到空檔 ≥60 分的日子（0 天）
+===== lunch_poor =====
+FAIL lunch_poor：找得到空檔 ≥60 分的日子（0 天）
+===== lunch_sk03 =====
+PASS lunch_sk03：遊戲載入
+  [前置／捷徑] lunch_sk03：最小存檔 大一下第 13 週週五（day 248）12:18 在 classroom，旗標照 tests/aa350_r_unit.js 的 base（{"P4D_ANSWER": "retake", "ECON_HALLWAY_DAY": 171, "MET_XUN": true, "MET_PINYU": true, "SK03_FIRST": true, "SK03_N": 0}），沒去經原下
+  lunch_sk03：叫之前 {"econ": {"key": "248:econ_principles_2:am", "done": false}, "sk03": "ev_sk03_lunch"}
+  [前置／捷徑] lunch_sk03：CLS.lunchBreak(GAME)（下課選單「先去吃飯」那一條的同一個函式；不指定吃哪家）
