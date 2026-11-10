@@ -1,7 +1,7 @@
 // 女主角自己的故事線（STUDY-DATE-PROGRESS-1107，USER_WANTS X263；台詞 AA_712 026a2dd34；規則 BB_305 第 9 節）——不需要瀏覽器（D131）。
 // 使用者 11-07 05:1x 對 BB-B：「我要真的玩起來有戀愛遊戲的感覺不要很像在跟機器人說話」「他有他的故事……這些都是要聊天的」
 // 檢查（BB_305 第 9 節 Node 能測的）：
-//   0 匯入一致（import_arcs.py --check）；七位各 8 拍、每拍至少 2 個選項、至少一個 tell
+//   0 匯入一致（import_arcs.py --check）；七位各 8 拍、每拍至少 2 個選項（tell 不是每拍都有，AA_736）
 //   1 同一天先念書、再吃飯：只有第一次演故事線
 //   3 階段不夠：不演、不跳拍；升階以後下一次演同一拍
 //   4 選了講自己的事（tell）：記 YT_TOLD；別的人那一拍同一件事＝toldAlt
@@ -26,7 +26,7 @@ const B=(id,n)=>HEROINE_ARCS.people[id].beats[n-1];
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_arcs.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     check('0. src/data/heroine_arcs.js 和 AA_712@026a2dd34 一致（import_arcs.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200));
     const P=ok1?HEROINE_ARCS.people:{}; const ids=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
-    check('0. 七位各 8 拍、每拍有 lines／ask、至少 2 個選項、至少一個講自己的事（tell）',ids.every(id=>P[id]&&P[id].beats.length===8&&P[id].beats.every(b=>b.lines.length&&b.ask.length&&b.opts.length>=2&&b.opts.some(o=>o.tell))),J(ids.map(id=>P[id]&&P[id].beats.filter(b=>!b.opts.some(o=>o.tell)).map(b=>b.n)))); }
+    check('0. 七位各 8 拍、每拍有 lines／ask、至少 2 個選項（講自己的事 tell 不是每拍都有：AA_736 256bcdc42 經濟系、重考少提，拿掉一部分）',ids.every(id=>P[id]&&P[id].beats.length===8&&P[id].beats.every(b=>b.lines.length&&b.ask.length&&b.opts.length>=2)),J(ids.map(id=>P[id]&&P[id].beats.filter(b=>!b.opts.some(o=>o.tell)).map(b=>b.n)))); }
   if(!ok2){ H.done(); return; }
   const AN='heroine_01', who={name:'沈以安',charId:AN};
   /* 1 一天一拍 */
@@ -38,7 +38,7 @@ const B=(id,n)=>HEROINE_ARCS.people[id].beats[n-1];
     check('3. 第 3 拍要階段 ≥'+B(AN,3).need+'、現在不夠：不演、不跳拍',a===null&&ARCS.rec(G,AN).k===3,J({a,k:ARCS.rec(G,AN).k}));
     stageOf[AN]=B(AN,3).need; const b=ARCS.pick(G,AN,{kind:'cafe'}); check('3. 升階以後：演第 3 拍（沒有跳過）',b&&b.n===3); }
   /* 4 講自己的事、toldAlt */
-  { const G=fresh('2025-10-15',14,'cafe'); stageOf[AN]=1; H.said=[]; const a=ARCS.pick(G,AN,{kind:'cafe'}); const k=a.opts.findIndex(o=>o.tell); H.picks=[k];
+  { const G=fresh('2025-10-15',14,'cafe'); const TB=HEROINE_ARCS.people[AN].beats.findIndex(b=>b.opts.some(o=>o.tell))+1; ARCS.rec(G,AN).k=TB; stageOf[AN]=Math.max(1,B(AN,TB).need||1); H.said=[]; const a=ARCS.pick(G,AN,{kind:'cafe'}); const k=a.opts.findIndex(o=>o.tell); H.picks=[k];   /* 第一個有 tell 的那一拍（AA_736 以後以安第 1～3 拍沒有 tell）*/
     const r0=Object.assign({},SOCIAL.rel(AN)); await ARCS.run(GM,who,AN,a); const o=a.opts[k], r1=SOCIAL.rel(AN);
     check('4. 選了講自己的事（'+o.tell+'）：記 YT_TOLD、記答案 mem、她的回話照播、好感照稿',ARCS.told(G,o.tell,AN)&&ARCS.rec(G,AN).ans[o.ansId]&&(!o.reply.length||said().includes(o.reply[0]))&&Object.keys(o.rel).filter(x=>x!=='npcRom').every(x=>((r1[x]||0)-(r0[x]||0))===o.rel[x]),J({told:G.flags.YT_TOLD,ans:ARCS.rec(G,AN).ans,said:said()}));
     check('4. 她的話依序：lines → ask → 回話',said().indexOf(a.lines[0])<said().indexOf(a.ask[0])&&(!o.reply.length||said().indexOf(a.ask[0])<said().indexOf(o.reply[0])),J(said()));

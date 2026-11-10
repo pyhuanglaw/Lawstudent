@@ -50897,7 +50897,7 @@
    "id": "DLG-NO-ECON-REPEAT-1110",
    "title": "玩家選項、台詞不要一直提經濟系、重考；經濟系那年有可昕，不寫「一個人」",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50909,7 +50909,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 02:1x LAWWW-B】使用者 X287，截圖 docs/handoff/user_shots/1110_an_econ_alone.webp（以安 arcs：「會。念經濟系那一個多月，我一個人吃遍公館。」）。AA 掃 heroine_arcs、ladder、activity_scenes、invites 等玩家選項與祐廷的話：提到經濟系、重考的減少（同一場最多一個、整體大幅少）；和「經濟系那年和可昕交往」矛盾的改掉。改完給 commit，LAWWW 重新匯入。",
+   "next": "【LAWWW 11-10 17:3x】AA 256bcdc42（AA_736）匯入：heroine_arcs、arc_invites、activity_scenes 白名單換 256bcdc42、重新匯入；含語彤第 2 場不指定店；heroine_arcs_unit／kx_movie_day 期待照新稿改；相關 12 支全過。不進 v9.10.24，下一版。 ｜ 【11-10 02:1x LAWWW-B】使用者 X287，截圖 docs/handoff/user_shots/1110_an_econ_alone.webp（以安 arcs：「會。念經濟系那一個多月，我一個人吃遍公館。」）。AA 掃 heroine_arcs、ladder、activity_scenes、invites 等玩家選項與祐廷的話：提到經濟系、重考的減少（同一場最多一個、整體大幅少）；和「經濟系那年和可昕交往」矛盾的改掉。改完給 commit，LAWWW 重新匯入。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50919,7 +50919,7 @@
     "owner": "AA"
    },
    "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "sha": "256bcdc42",
    "test": null
   },
   {

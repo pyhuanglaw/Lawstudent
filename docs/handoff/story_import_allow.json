@@ -4879,9 +4879,9 @@
   },
   {
    "path": "docs/story_planning/AA_712_heroine_arcs.json",
-   "sha": "026a2dd34",
+   "sha": "256bcdc42",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 06:00「AA_712 修三處我妹多一個空白」）",
+   "approvedBy": "AA 定稿（D109）256bcdc42：AA_736 經濟系、重考少提（每位最多一處、同一場最多一個，37 處；和可昕交往矛盾的拿掉；X287）＋8a246c40f 語彤第 2 場不指定店；AA 11-10 17:07 交 LAWWW",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "七位各 8 拍（BB_305 欄位）；tools/story/import_arcs.py → src/data/heroine_arcs.js；src/arcs3d.js 播放",
@@ -4889,6 +4889,10 @@
     {
      "sha": "7a24f8ce1",
      "approvedBy": "（11-07 06:00 以前；026a2dd34 取代：學姊那幾拍「我妹 」多一個空白）"
+    },
+    {
+     "sha": "026a2dd34",
+     "approvedBy": "AA-B D109（11-07 06:00「AA_712 修三處我妹多一個空白」）"
     }
    ]
   },
@@ -4903,12 +4907,18 @@
   },
   {
    "path": "docs/story_planning/AA_708_activity_scenes.json",
-   "sha": "e0e92919e",
+   "sha": "256bcdc42",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 05:30「AA_708 改好了，可以接（取消不整合）」：只留活動的樣子、心事在 AA_712）；11-07 16:15 e0e92919e 加 day（可昕講末班車的四句，18:00 以前開始換句，KX-MOVIE-BYE-1107）",
+   "approvedBy": "AA 定稿（D109）256bcdc42：AA_736 經濟系、重考少提（每位最多一處、同一場最多一個，37 處；和可昕交往矛盾的拿掉；X287）＋8a246c40f 語彤第 2 場不指定店；AA 11-10 17:07 交 LAWWW",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
-   "note": "吃飯、咖啡各 4 場、電影、書店各 3 場＋輪換；tools/story/import_activity_scenes.py → src/data/activity_scenes.js"
+   "note": "吃飯、咖啡各 4 場、電影、書店各 3 場＋輪換；tools/story/import_activity_scenes.py → src/data/activity_scenes.js",
+   "history": [
+    {
+     "sha": "e0e92919e",
+     "approvedBy": "AA-B D109（11-07 05:30「AA_708 改好了，可以接（取消不整合）」：只留活動的樣子、心事在 AA_712）；11-07 16:15 e0e92919e 加 day（可昕講末班車的四句，18:00 以前開始換句，KX-MOVIE-BYE-1107）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_713_gym_equip.json",
@@ -4963,12 +4973,18 @@
   },
   {
    "path": "docs/story_planning/AA_716_arc_invites.json",
-   "sha": "026a2dd34",
+   "sha": "256bcdc42",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 06:00「AA_716 故事線的下次帶你去變成真的約會」）",
+   "approvedBy": "AA 定稿（D109）256bcdc42：AA_736 經濟系、重考少提（每位最多一處、同一場最多一個，37 處；和可昕交往矛盾的拿掉；X287）＋8a246c40f 語彤第 2 場不指定店；AA 11-10 17:07 交 LAWWW",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
-   "note": "7 個 invite（offer、plan、scene、by、set、noPlan）；tools/story/import_arc_invites.py → src/data/arc_invites.js"
+   "note": "7 個 invite（offer、plan、scene、by、set、noPlan）；tools/story/import_arc_invites.py → src/data/arc_invites.js",
+   "history": [
+    {
+     "sha": "026a2dd34",
+     "approvedBy": "AA-B D109（11-07 06:00「AA_716 故事線的下次帶你去變成真的約會」）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_719_decide_rules.json",
