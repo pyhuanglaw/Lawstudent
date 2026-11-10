@@ -1,0 +1,615 @@
+diff --git a/index.html b/index.html
+index a6f372fa9..004bec06c 100644
+--- a/index.html
++++ b/index.html
+@@ -273,6 +273,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/xinsheng3d.js?v=9.10.24"></script>
+ <script src="src/data/tingzhou_layout.js?v=9.10.24"></script>
+ <script src="src/tingzhou3d.js?v=9.10.24"></script>
++<script src="src/data/flower_notes_layout.js?v=9.10.24"></script>
++<script src="src/flower_notes3d.js?v=9.10.24"></script>
+ <script src="src/data/tongxian_layout.js?v=9.10.24"></script>
+ <script src="src/tongxian3d.js?v=9.10.24"></script>
+ <script src="src/data/nanyang_layout.js?v=9.10.24"></script>
+diff --git a/src/data/flower_notes_layout.js b/src/data/flower_notes_layout.js
+new file mode 100644
+index 000000000..416627ee6
+--- /dev/null
++++ b/src/data/flower_notes_layout.js
+@@ -0,0 +1,62 @@
++/* ===== 花序 Flower Notes 室內（公館店面街 G11；FLOWER-NOTES-ART-1110，USER_WANTS X325；LAWWW2 帳號 A 2026-11-10）=====
++   使用者規格 docs/handoff/user_specs/FLOWER_NOTES_1110.md 第五、六節；參考圖 flower_notes_ref/interior_1f.png（一樓，從入口往內看）、interior_2f.png（二樓教室，只參考室內）。
++   這份給遊戲（src/flower_notes3d.js）和 Blender（tools/blender/env_second/flower_notes_interior.py）共用，「const FLOWER_NOTES_LAYOUT=」後面必須是純 JSON。
++   座標：房間中心在原點，x 往東（從騎樓看過去左→右）、z 往南、y 往上（公尺）；店面（臨羅斯福路）在 +z。
++   空間：10 × 14 m。前半（z 0.5～7）兩層樓挑高（一樓參考圖：中央展示台上面的長吊燈、看得到二樓玻璃欄杆）；後半（z −7～0.5）上面是二樓花藝教室（樓板 3.9 m）。
++   樓梯：沿東牆一跑直上（寬 1.4 m，24 階，往北爬；參考圖：右後方的玻璃扶手樓梯），二樓樓板在樓梯上方開口；最上面到二樓東北角的平台。
++   一樓（參考圖從左到右）：左牆前段「永生花藝」（層架、玻璃罩、禮盒、石材展示座）、左牆後段「鮮花花束」（階梯式花台）、中央橢圓展示台（木格柵＋石材檯面，在挑高區）、
++     後牆冷藏花櫃、東牆「包裝服務／收銀結帳」長櫃檯（後面的包裝紙捲層架）、櫃檯北邊是樓梯口。
++   二樓：朝街那一面（南）是玻璃欄杆，隔著挑高看正面二樓整面玻璃和白紗簾（使用者：窗外用遊戲裡公館的實際街景）；後牆前示範長桌（木＋石材檯面、高腳凳）、後牆「花序 Flower Notes」字和花枝、
++     黑板（花藝教室／基礎花束／花型設計／季節花藝）、花器層架；西牆玻璃櫃；三張四人學員桌（布面木椅）。不做課程玩法（規格第六節）。
++   blocks：[x 中心, z 中心, 寬(x), 深(z)]；yaw：人面向 (sin yaw, cos yaw)。 */
++const FLOWER_NOTES_LAYOUT=
++{
++  "version": 1,
++  "id": "flower_notes", "zone": "flower_notes", "name": "花序 Flower Notes",
++  "W": 10.0, "D": 14.0, "wallT": 0.2, "cell": 0.25,
++  "floors": [{"y": 0.0, "name": "1F 花藝賣場"}, {"y": 3.9, "name": "2F 花藝教室"}],
++  "roofY": 7.6, "slabT": 0.3,
++  "upper": {"x0": -5.0, "x1": 5.0, "z0": -7.0, "z1": 0.5, "railZ": 0.5, "note": "二樓樓板；南緣 z 0.5 是玻璃欄杆（往挑高區看）"},
++  "well": {"x0": 3.4, "x1": 5.0, "z0": -5.32, "z1": 0.5, "note": "樓梯上方的樓板開口；西邊 x 3.4 是玻璃欄杆"},
++  "stair": {"x0": 3.5, "x1": 4.9, "zBottom": 1.4, "zTop": -5.32, "risers": 24, "rise": 0.1625, "tread": 0.28, "railX": 3.4, "note": "往北（−z）爬；最下面一階的邊緣在 z 1.4（和地面同高），最上面在 z −5.32（和二樓同高）"},
++  "landing": {"x0": 3.4, "x1": 4.9, "z0": -6.8, "z1": -5.32, "note": "二樓東北角的樓梯平台"},
++  "front": {"door": {"x0": -0.9, "x1": 0.9, "h": 2.9}, "windows1": [[-4.3, -1.4], [1.4, 4.3]], "sill1": 0.25, "head1": 3.1, "window2": [-4.3, 4.3], "sill2": 4.3, "head2": 7.2,
++            "note": "照外觀參考圖：一樓中間香檳金框雙開玻璃門、兩側大櫥窗；二樓整排落地玻璃、兩端白紗簾"},
++  "spawn": {"x": 0.0, "z": 6.1, "yaw": 3.1416, "lv": 0},
++  "exit": {"x": 0.0, "z": 6.6, "r": 1.3, "label": "離開花序", "to": "gongguan"},
++  "counter": {"x0": 3.05, "x1": 3.7, "z0": 2.6, "z1": 6.2, "h": 1.0, "clerk": {"x": 4.22, "z": 4.4, "yaw": -1.5708}, "buyAt": {"x": 2.45, "z": 4.4, "r": 1.3}, "wrapAt": {"x": 2.45, "z": 3.1},
++              "note": "東牆的包裝＋收銀長櫃檯（淺木直紋正面、石材檯面、香檳金踢腳）；店員站在櫃檯後面；買花互動點 LAWWW 接到 buyAt（kind gg_flower）"},
++  "display": {"x": -0.4, "z": 3.5, "w": 3.2, "d": 1.5, "h": 0.9, "note": "中央橢圓展示台（木格柵側面、石材檯面、香檳金底邊）：當季花束、訂製花束、中間一大瓶櫻花枝；上面兩層樓高的長吊燈"},
++  "items0": [
++    {"kind": "preserved_shelf", "x0": -5.0, "x1": -4.45, "z0": 1.2, "z1": 6.3, "h": 3.0, "sign": "永生花藝", "sub": "Preserved Flowers", "note": "左牆前段：香檳金細框層架＋下面木櫃；玻璃罩永生玫瑰、禮盒、擴香"},
++    {"kind": "plinth", "x": -3.9, "z": 5.6, "w": 0.5, "h": 1.0, "top": "dome"}, {"kind": "plinth", "x": -3.9, "z": 6.3, "w": 0.5, "h": 0.7, "top": "giftbox"},
++    {"kind": "bouquet_stand", "x0": -5.0, "x1": -4.1, "z0": -5.6, "z1": 0.4, "h": 0.95, "sign": "鮮花花束", "sub": "Fresh Bouquets", "note": "左牆後段：兩階花台（石材檯面、木櫃），一瓶一瓶花束：繡球、玫瑰、百合、向日葵"},
++    {"kind": "cold_case", "x0": -2.6, "x1": 2.8, "z0": -7.0, "z1": -6.2, "h": 2.5, "doors": 5, "note": "後牆冷藏花櫃（香檳金框玻璃門、裡面一層層花桶）"},
++    {"kind": "wrap_shelf", "x0": 4.72, "x1": 4.9, "z0": 2.7, "z1": 6.1, "h": 2.6, "sign": "包裝服務", "sign2": "收銀結帳", "note": "櫃檯後面東牆：包裝紙捲、緞帶、禮盒；牆上「花序 Flower Notes」字"},
++    {"kind": "plant_big", "x": -4.4, "z": 6.6}, {"kind": "plant_big", "x": 2.6, "z": 6.6},
++    {"kind": "stair_sign", "x": 3.35, "z": 1.6, "text": "二樓 花藝課程", "sub": "Floral Classroom (2F)"}
++  ],
++  "items1": [
++    {"kind": "demo_table", "x": -0.9, "z": -5.5, "w": 3.6, "d": 0.9, "h": 0.92, "note": "示範長桌（木頭腳、石材檯面）；桌上一大瓶花、花材、剪刀"},
++    {"kind": "stool", "x": -0.9, "z": -4.7},
++    {"kind": "wall_logo", "x": 0.3, "z": -6.88, "y": 6.2, "text": "花序", "sub": "Flower Notes"},
++    {"kind": "blackboard", "x": 2.0, "z": -6.5, "w": 1.3, "h": 1.0, "lines": ["花藝教室", "基礎花束", "花型設計", "季節花藝"]},
++    {"kind": "vase_shelf", "x0": -3.9, "x1": -2.7, "z0": -6.9, "z1": -6.5, "h": 2.2},
++    {"kind": "glass_cabinet", "x0": -5.0, "x1": -4.5, "z0": -5.4, "z1": -1.4, "h": 2.3, "note": "西牆玻璃櫃（花器、白瓷）"},
++    {"kind": "plant_big", "x": -4.4, "z": -6.3}, {"kind": "plant_big", "x": -4.4, "z": -0.3}
++  ],
++  "tables1": [
++    {"id": 1, "x": -2.5, "z": -3.0, "w": 1.7, "d": 0.9}, {"id": 2, "x": 0.9, "z": -3.0, "w": 1.7, "d": 0.9}, {"id": 3, "x": -0.8, "z": -0.9, "w": 1.7, "d": 0.9}
++  ],
++  "seats1": [
++    {"id": "t1a", "table": 1, "x": -2.95, "z": -3.75, "yaw": 0.0}, {"id": "t1b", "table": 1, "x": -2.05, "z": -3.75, "yaw": 0.0}, {"id": "t1c", "table": 1, "x": -2.95, "z": -2.25, "yaw": 3.1416}, {"id": "t1d", "table": 1, "x": -2.05, "z": -2.25, "yaw": 3.1416},
++    {"id": "t2a", "table": 2, "x": 0.45, "z": -3.75, "yaw": 0.0}, {"id": "t2b", "table": 2, "x": 1.35, "z": -3.75, "yaw": 0.0}, {"id": "t2c", "table": 2, "x": 0.45, "z": -2.25, "yaw": 3.1416}, {"id": "t2d", "table": 2, "x": 1.35, "z": -2.25, "yaw": 3.1416},
++    {"id": "t3a", "table": 3, "x": -1.25, "z": -1.65, "yaw": 0.0}, {"id": "t3b", "table": 3, "x": -0.35, "z": -1.65, "yaw": 0.0}, {"id": "t3c", "table": 3, "x": -1.25, "z": -0.15, "yaw": 3.1416}, {"id": "t3d", "table": 3, "x": -0.35, "z": -0.15, "yaw": 3.1416}
++  ],
++  "looks": [
++    {"lv": 0, "x": -4.0, "z": 3.6, "r": 1.2, "label": "看永生花", "id": "preserved"}, {"lv": 0, "x": -3.5, "z": -2.6, "r": 1.3, "label": "看鮮花花束", "id": "bouquet"},
++    {"lv": 0, "x": 0.1, "z": -5.5, "r": 1.3, "label": "看冷藏花櫃", "id": "cold"}, {"lv": 0, "x": -0.4, "z": 5.0, "r": 1.2, "label": "看中央展示台", "id": "display"},
++    {"lv": 1, "x": 2.0, "z": -5.6, "r": 1.1, "label": "看黑板", "id": "blackboard"}, {"lv": 1, "x": -0.9, "z": -4.5, "r": 1.2, "label": "看示範桌", "id": "demo"}
++  ],
++  "note": "looks 的句子、商品、店員台詞由 AA 寫（AA 在寫）；沒接之前遊戲不放這些互動點的旁白，只有買花（LAWWW）。"
++};
+diff --git a/src/flower_notes3d.js b/src/flower_notes3d.js
+new file mode 100644
+index 000000000..489be7e91
+--- /dev/null
++++ b/src/flower_notes3d.js
+@@ -0,0 +1,93 @@
++/* ===== 花序 Flower Notes（公館店面街 G11 的雙層精品花藝店；FLOWER-NOTES-ART-1110，USER_WANTS X325；LAWWW2 帳號 A 2026-11-10）=====
++   使用者規格 docs/handoff/user_specs/FLOWER_NOTES_1110.md（一樓花藝賣場、二樓花藝教室；舊的花攤「晨露花舖」整個拿掉）；參考圖 flower_notes_ref/。
++   配置：src/data/flower_notes_layout.js（Blender 正式模型 tools/blender/env_second/flower_notes_interior.py 讀同一份，兩邊的位置一定一致）。
++   區域 flower_notes：兩層 NavGrid（1F y=0、2F y=3.9；同尺寸、同原點，D36）。前半挑高、後半上面是二樓；樓梯沿東牆一跑往北爬，兩層共用；
++     最上面一排在第 0 層擋起來（走到那裡之前要換到第 1 層）。二樓不做課程玩法（規格第六節），只有走上去、坐下、看。
++   進出：公館店面街 G11 門口「進入花序」→ 一樓門內；一樓門口「離開花序」→ 公館 G11 門前的人行道。公館那一邊的互動點由 S.hookGongguan 加（包住 gongguan 的 build，不改 zones3d.js）。
++   買花：收銀櫃檯前的互動點 kind＝gg_flower（LAWWW 接 GIFTH；沒接之前是「看」一句）。商品、店員台詞、各區的「看」是 AA 的稿，這裡不寫句子。
++   畫面：程序化備用模型（正式模型載入前、載入失敗時；D38 分類 ③）；正式模型（ASSETS 'bldg.flower_notes_interior'，這支自己登記）載入後由 B3.attachFormal 換掉。 */
++'use strict';
++const FN3=(function(){
++  const S={};
++  const LAY=()=>(typeof FLOWER_NOTES_LAYOUT!=='undefined'?FLOWER_NOTES_LAYOUT:null);
++  const M=(c,o)=>P3.M(c,Object.assign({rough:0.85},o||{}));
++  S.GG={cx:46.6,doorZ:21,outZ:18};   /* 公館 G11：店面中心 x（zones3d.js 的店面街：x 從 −68 排過去，G11 是 41.6～51.6）、門口互動點 z（FZ＋2）、出來站的地方 z；hookGongguan 會照實際的樓房位置更新 cx */
++  if(typeof ASSETS!=='undefined'&&ASSETS.manifest&&!ASSETS.manifest['bldg.flower_notes_interior']) ASSETS.manifest['bldg.flower_notes_interior']={url:'assets/models/env/second_ai/flower_notes_interior.glb',type:'building',lazy:true,
++    source:'本作 Blender 腳本 tools/blender/env_second/flower_notes_interior.py（花序 Flower Notes：一樓花藝賣場、樓梯、二樓花藝教室；照使用者 11-10 的參考圖；貼圖 Poly Haven CC0）',license:'本作；貼圖 CC0'};
++
++  // ---- 樓梯的高度（往 −z 爬）：連續斜面給碰撞與找路，畫面上一階一階 ----
++  S.stairSurfs=function(L){ const T=L.stair, Y1=L.floors[1].y, t=T.tread;
++    const run={x0:T.x0,x1:T.x1,z0:T.zTop+t/2,z1:T.zBottom,axis:'z',ya:Y1,yb:0,tread:t,rise:T.rise,low:'z1'};
++    const top={x0:T.x0,x1:T.x1,z0:T.zTop,z1:T.zTop+t/2,y:Y1};
++    return {run,top,all:[run,top]}; };
++
++  // ---- 導航：兩層 ----
++  S.buildNav=function(L){ const W=L.W, D=L.D, Y1=L.floors[1].y, T=L.stair, U=L.upper, LD=L.landing, WL=L.well, c=L.cell;
++    const mk=()=>new E3.NavGrid(W+2,D+2,c,-W/2-1,-D/2-1); const nav0=mk(), nav1=mk().setFloor(Y1), ss=S.stairSurfs(L);
++    nav0.blockOutside(-W/2+0.35,-D/2+0.35,W/2-0.35,D/2-0.35);
++    for(const s of ss.all) nav0.addSurf(Object.assign({},s));
++    nav0.blockRect(T.railX-0.05,(T.zTop-1.5+T.zBottom-0.3)/2,0.3,(T.zBottom-0.3)-(T.zTop-1.5),0);   // 樓梯西側（欄杆、樓梯底下封起來）：只有最下面從南邊上去
++    nav0.blockRect((T.x0+T.x1)/2,(-D/2+T.zTop)/2,T.x1-T.x0+0.2,T.zTop+D/2,0);                        // 樓梯頂端後面（平台底下，一樓是儲藏間）
++    nav0.blockRect((T.x0+T.x1)/2,T.zTop+0.2,T.x1-T.x0,0.4,0);                                        // 最上面那一排在第 0 層擋住
++    // 二樓：先整層擋起來，再開出教室、樓梯平台、樓梯
++    nav1.fillBlocked(); nav1.freeRect(U.x0+0.35,U.z0+0.35,WL.x0-0.25,U.railZ-0.3);                   // 教室（東邊到樓梯開口的欄杆、南邊到玻璃欄杆）
++    nav1.freeRect(LD.x0-0.3,LD.z0+0.15,LD.x1-0.25,LD.z1);                                            // 樓梯平台（連到教室）
++    nav1.freeRect(T.x0,T.zTop,T.x1,T.zBottom); for(const s of ss.all) nav1.addSurf(Object.assign({},s));
++    nav1.blockRect(T.railX-0.05,(LD.z1+0.1+U.railZ)/2,0.3,U.railZ-(LD.z1+0.1),0);                    // 樓梯開口西邊的欄杆（平台那一段留開口）
++    const blk=(nav,b)=>nav.blockRect(b[0],b[1],b[2],b[3],0,0.05);
++    for(const b of S.blocks(L,0)) blk(nav0,b); for(const b of S.blocks(L,1)) blk(nav1,b);
++    nav0._cm=null; nav1._cm=null; return {nav0,nav1,ss}; };
++  // 家具的阻擋（配置 → [x 中心, z 中心, 寬, 深]）
++  S.blocks=function(L,lv){ const out=[], rect=o=>[(o.x0+o.x1)/2,(o.z0+o.z1)/2,o.x1-o.x0,o.z1-o.z0];
++    if(lv===0){ out.push(rect(L.counter)); const d=L.display; out.push([d.x,d.z,d.w,d.d]);
++      for(const it of L.items0){ if(it.x0!==undefined) out.push(rect(it)); else if(it.kind==='plinth') out.push([it.x,it.z,it.w,it.w]); else if(it.kind==='plant_big') out.push([it.x,it.z,0.6,0.6]); } }
++    else { for(const it of L.items1){ if(it.x0!==undefined) out.push(rect(it)); else if(it.kind==='demo_table') out.push([it.x,it.z,it.w,it.d]); else if(it.kind==='stool') out.push([it.x,it.z,0.4,0.4]); else if(it.kind==='blackboard') out.push([it.x,it.z,it.w,0.5]); else if(it.kind==='plant_big') out.push([it.x,it.z,0.6,0.6]); }
++      for(const t of L.tables1) out.push([t.x,t.z,t.w,t.d]); }
++    return out; };
++
++  // ---- 程序化備用模型（方塊；正式模型載入後藏起來）----
++  function buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, U=L.upper, WL=L.well, ST=L.stair, MAT=B3.MAT;
++    const b0=new TK.Bin(), b1=new TK.Bin(); const stone=M('#e9e3d8',{rough:0.5}), wood=M('#cdb28c',{rough:0.6}), cream=M('#f1ece2');
++    { const f=new THREE.Mesh(new THREE.PlaneGeometry(W,D),stone); f.rotation.x=-Math.PI/2; f.receiveShadow=true; f.userData.walkLv=0; fb0.add(f); walkMeshes.push(f); }
++    for(const q of B3.slabPieces({x0:U.x0,x1:U.x1,z0:U.z0,z1:U.z1},[WL],{lv:1,y:Y1,t:L.slabT})){ if(slabs) slabs.push(q); b1.add(cream,TK.boxG(q.x1-q.x0,L.slabT,q.z1-q.z0,1.2),(q.x0+q.x1)/2,Y1-L.slabT/2,(q.z0+q.z1)/2);
++      const f=new THREE.Mesh(new THREE.PlaneGeometry(q.x1-q.x0,q.z1-q.z0),wood); f.rotation.x=-Math.PI/2; f.position.set((q.x0+q.x1)/2,Y1+0.004,(q.z0+q.z1)/2); f.receiveShadow=true; f.userData.walkLv=1; fb1.add(f); walkMeshes.push(f); }
++    for(let k=0;k<ST.risers;k++){ const top=(k+1)*ST.rise, za=ST.zBottom-(k+1)*ST.tread; b0.add(stone,TK.boxG(ST.x1-ST.x0,top,ST.tread,2.4),(ST.x0+ST.x1)/2,top/2,za+ST.tread/2); }
++    const wall=(x,z,w,h,y,ry,dir,grp)=>{ const ms=new THREE.Mesh(TK.boxG(w,h,T,2.4),cream.clone()); ms.material.transparent=true; ms.position.set(x,y+h/2,z); ms.rotation.y=ry; ms.userData.dir=dir; ms.userData.noMerge=true; grp.add(ms); walls.push(ms); };
++    for(const [grp,y,h] of [[fb0,0,Y1],[fb1,Y1,RY-Y1]]){ wall(0,-D/2,W,h,y,0,new THREE.Vector3(0,0,1),grp); wall(-W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(1,0,0),grp); wall(W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(-1,0,0),grp); wall(0,D/2,W,h,y,0,new THREE.Vector3(0,0,-1),grp); }
++    for(const b of S.blocks(L,0)) b0.add(wood,TK.boxG(b[2],0.95,b[3],1.2),b[0],0.475,b[1]); for(const b of S.blocks(L,1)) b1.add(wood,TK.boxG(b[2],0.8,b[3],1.2),b[0],Y1+0.4,b[1]);
++    { const c=new THREE.Mesh(new THREE.PlaneGeometry(W,D),MAT.ceil()); c.rotation.x=Math.PI/2; c.position.y=RY; fb1.add(c); }
++    b0.build(fb0); b1.build(fb1); }
++
++  S.build=function(E){ const L=LAY(), W=L.W, D=L.D, Y1=L.floors[1].y, T=L.stair, U=L.upper, WL=L.well;
++    const g=new THREE.Group(); g.name='flower_notes_zone'; const lv0=new THREE.Group(), lv1=new THREE.Group(); lv0.name='L0'; lv1.name='L1'; lv0.userData.dyn=true; lv1.userData.dyn=true; g.add(lv0); g.add(lv1);
++    const {nav0,nav1,ss}=S.buildNav(L);
++    const walls=[], walkMeshes=[], slabs=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
++    buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs);
++    // 樓梯可以點的面（點地面移動；正式模型載入後也用）：點在樓梯上＝走完這一跑
++    for(const s of ss.all){ const w=s.x1-s.x0, d=s.z1-s.z0, ya=s.y!==undefined?s.y:s.ya, yb=s.y!==undefined?s.y:s.yb; const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.hypot(d,yb-ya)),new THREE.MeshBasicMaterial({visible:false}));
++      m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(yb-ya,d); m.userData.walkLv=1; m.userData.dyn=true; lv0.add(m); walkMeshes.push(m);
++      if(s===ss.run) m.userData.stairEnds=[{x:(T.x0+T.x1)/2,z:T.zBottom+0.6,lv:0},{x:(T.x0+T.x1)/2-1.2,z:(L.landing.z0+L.landing.z1)/2,lv:1}]; }
++    const light=new THREE.PointLight(0xfff1dc,12,26,2); light.position.set(-0.4,5.6,3.4); g.add(light);
++    const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.spawn),bounds:{w:W,d:D},camMaxY:3.3,
++      fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
++      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); g.traverse(o=>{ if(o.userData&&o.userData.outside) B3.setOutView(o,h,weather,night); }); },
++      onLamps(on){ light.intensity=on?17:12; } };
++    // 互動點（每一個都標樓層）
++    const IT=E.interactables, EX=L.exit, C=L.counter;
++    IT.push({x:EX.x,z:EX.z,radius:EX.r,lv:0,label:EX.label,exit:{to:EX.to,spawn:{x:S.GG.cx,z:S.GG.outZ,yaw:Math.PI}}});
++    IT.push({x:C.buyAt.x,z:C.buyAt.z,radius:C.buyAt.r,lv:0,label:'買花',kind:'gg_flower',fnCounter:true,look:'花序 Flower Notes 的包裝收銀櫃檯。'});   /* LAWWW 接買花（GIFTH.shopOpt(G,'gg_flower')）；沒接之前是「看」 */
++    for(const q of L.seats1) IT.push({x:q.x,z:q.z,radius:0.7,lv:1,label:'坐下',fnSeat:q.id,seat:{x:q.x,z:q.z,yaw:q.yaw,lv:1,table:'fn_t'+q.table}});
++    zone.fnLooks=L.looks;   /* 各區的「看」（永生花、鮮花花束、冷藏花櫃、展示台、黑板、示範桌）：位置在配置，句子等 AA 的稿，LAWWW 接 */
++    zone.fnClerk=Object.assign({},C.clerk);
++    // 正式模型
++    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.flower_notes_interior']){ ASSETS.loadOne('bldg.flower_notes_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); }).catch(e=>console.warn('花序室內正式模型載入失敗，用程序化備用模型',e)); }
++    return zone; };
++
++  /* 公館那一邊的門口：G11 店面前（騎樓裡）多一個「進入花序」的互動點；出來站的位置照實際的樓房位置更新。包住 gongguan 的 build（不改 zones3d.js） */
++  S.hookGongguan=function(){ if(typeof Z3==='undefined'||!Z3.ZONES||!Z3.ZONES.gongguan||Z3.ZONES.gongguan._fn) return false; const zd=Z3.ZONES.gongguan, b0=zd.build;
++    zd.build=function(E){ const z=b0.call(this,E); const L=LAY(); if(L&&Z3.ZONES.flower_notes){ const b=(z.buildings||[]).find(q=>q.userData&&q.userData.ggShop==='G11'); if(b) S.GG.cx=+b.position.x.toFixed(2);
++        E.interactables.push({x:S.GG.cx,z:S.GG.doorZ,radius:2.2,prio:1,label:'進入花序',exit:{to:'flower_notes',spawn:Object.assign({},L.spawn)},fnDoor:true}); } return z; };
++    zd._fn=true; return true; };
++  if(typeof Z3!=='undefined'&&Z3.ZONES&&LAY()){ Z3.ZONES.flower_notes={id:'flower_notes',name:'花序 Flower Notes',indoor:true,camDist:4.4,build(E){ return S.build(E); }}; S.hookGongguan(); }
++  return S;
++})();
+diff --git a/tests/flower_notes_unit.js b/tests/flower_notes_unit.js
+new file mode 100644
+index 000000000..966927138
+--- /dev/null
++++ b/tests/flower_notes_unit.js
+@@ -0,0 +1,57 @@
++// 花序 Flower Notes（公館 G11 的雙層花藝店；FLOWER-NOTES-ART-1110，X325；LAWWW2 帳號 A 2026-11-10）的導航（不需要瀏覽器）：
++// 在 Node 裡建出遊戲真正的公館（gongguan）與花序（flower_notes），用引擎真正的找路＋移動碰撞（E.simWalk：走路、跑步＋低幀率）檢查：
++//   公館：G11 門口有「進入花序」、站得住；從花序出來的位置站得住、離門口互動點的處理
++//   花序：兩層導航；入口 → 樓梯（往北）→ 二樓教室（第 1 層、高 3.9）；二樓 → 一樓；樓梯頂端在第 0 層站不住；
++//         每一個座位走得到；每一個互動點、每一個「看」的位置站得住、走得到；家具站不進去；店員的位置在櫃檯後面
++// 這是模擬（證明路走得通、高度對），不是真實玩家流程（D131）。用法：node tests/flower_notes_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const need=['src/data/flower_notes_layout.js','src/flower_notes3d.js'].filter(f=>!fs.existsSync(path.join(ROOT,f)));
++if(need.length){ check('0. 花序的檔案在',false,need.join(' ')); console.log('FAILED: '+fails); process.exit(1); }
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/flower_notes_layout.js','src/flower_notes3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|FN3|LINZE_LAYOUT|CLASSROOM_LAYOUT|FLOWER_NOTES_LAYOUT|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.nav._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
++const sim=(a,b,dt,speed)=>E.simWalk(a[0],a[1],b[0],b[1],{lv0:a[2]|0,lv1:b[2]|0,dt:dt||1/30,speed});
++const walk=(a,b)=>{ for(const [dt,sp] of [[1/30,1.8],[0.1,4.8]]){ const r=sim(a,b,dt,sp); if(!r.ok) return Object.assign({dt:+dt.toFixed(3),speed:sp},r); } return {ok:true}; };
++const fmt=r=>JSON.stringify(r).slice(0,200);
++const stand=(x,z,lv,r)=>E.canStand(x,z,r==null?0.32:r,lv|0);
++function standNear(it){ const R=Math.min(it.radius||it.r||1,1.2), lv=it.lv|0; if(stand(it.x,it.z,lv)) return [it.x,it.z,lv]; for(let r=0.15;r<=R-0.1;r+=0.15) for(let a=0;a<16;a++){ const x=it.x+Math.cos(a/16*Math.PI*2)*r, z=it.z+Math.sin(a/16*Math.PI*2)*r; if(stand(x,z,lv)) return [x,z,lv]; } return null; }
++function approach(seat){ const yaw=seat.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw), lv=seat.lv|0; for(const [dx,dz] of [[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]]){ const x=seat.x+dx, z=seat.z+dz; if(stand(x,z,lv,0.3)) return [x,z,lv]; } return null; }
++const L=FLOWER_NOTES_LAYOUT, Y1=L.floors[1].y, T=L.stair;
++check('0. Z3.ZONES.flower_notes 有登記；index.html 載入配置和區域',!!Z3.ZONES.flower_notes&&/src\/data\/flower_notes_layout\.js/.test(fs.readFileSync(path.join(ROOT,'index.html'),'utf8'))&&/src\/flower_notes3d\.js/.test(fs.readFileSync(path.join(ROOT,'index.html'),'utf8')));
++check('0. 樓梯的數字對得起來：階數 × 階高＝樓高、階數 × 踏面＝水平長度',Math.abs(T.risers*T.rise-Y1)<1e-6&&Math.abs(T.risers*T.tread-(T.zBottom-T.zTop))<1e-6,`${T.risers}×${T.rise}＝${(T.risers*T.rise).toFixed(3)}；${(T.risers*T.tread).toFixed(2)}／${(T.zBottom-T.zTop).toFixed(2)}`);
++
++// ---------- 公館：G11 門口 ----------
++{ const z=loadZone('gongguan'); const door=E.interactables.find(i=>i.exit&&i.exit.to==='flower_notes');
++  check('1. 公館 G11 門口有「進入花序」（exit → flower_notes），進去站在一樓門內',!!door&&door.exit.spawn.x===L.spawn.x&&door.exit.spawn.z===L.spawn.z,door?`(${door.x},${door.z}) ${door.label}`:'沒有');
++  const b=(z.buildings||[]).find(q=>q.userData&&q.userData.ggShop==='G11');
++  check('1. 門口在 G11 那一棟的正前面（騎樓裡）',!!door&&!!b&&Math.abs(door.x-b.position.x)<0.05&&door.z>19&&door.z<22.2,b?`樓 x ${b.position.x}`:'找不到 G11');
++  if(door){ const p=standNear(door); check('1. 門口站得住',!!p,JSON.stringify(p));
++    const o=[FN3.GG.cx,FN3.GG.outZ,0]; check('1. 從花序出來站的地方站得住（G11 門前的人行道）、走得回門口',stand(o[0],o[1],0)&&!!p&&walk(o,p).ok,JSON.stringify(o)); } }
++
++// ---------- 花序 ----------
++{ const z=loadZone('flower_notes'); const N0=z.levels[0], N1=z.levels[1], SP=[L.spawn.x,L.spawn.z,0];
++  check('2. 兩層導航格（第 1 層地板 3.9）、同尺寸同原點',z.levels.length===2&&N1.y0===Y1&&N0.cols===N1.cols&&N0.rows===N1.rows&&N0.ox===N1.ox&&N0.oz===N1.oz);
++  const ex=E.interactables.find(i=>i.exit&&i.exit.to==='gongguan');
++  check('2. 入口出生點站得住；「離開花序」在門口、回到公館 G11 門前',stand(SP[0],SP[1],0)&&!!ex&&!!standNear(ex)&&ex.exit.spawn.x===FN3.GG.cx&&ex.exit.spawn.z===FN3.GG.outZ,ex?`距離 ${Math.hypot(SP[0]-ex.x,SP[1]-ex.z).toFixed(2)}`:'');
++  const up=[-1.0,-4.0,1], sx=(T.x0+T.x1)/2;
++  { const r=walk(SP,up); check('3. 一樓入口 → 樓梯 → 二樓教室（走路、跑步＋低幀率）',r.ok,fmt(r)); const r2=walk(up,SP); check('3. 二樓教室 → 一樓入口',r2.ok,fmt(r2)); }
++  { const r=sim(SP,up,1/30,1.8); const ys=(r.path||r.pts||[]); check('3. 走到二樓以後在第 1 層、高度＝3.9',r.ok&&(r.lv===1||r.lv===undefined)&&(r.y===undefined||Math.abs(r.y-Y1)<0.05),fmt({lv:r.lv,y:r.y})); }
++  check('3. 樓梯頂端在第 0 層站不住（一樓不能直接走進去）；樓梯中段在一樓高度不是 0',!stand(sx,T.zTop+0.2,0)&&N0.heightAt&&Math.abs(N0.heightAt(sx,(T.zTop+T.zBottom)/2)-Y1/2)<0.25,N0.heightAt?String(N0.heightAt(sx,(T.zTop+T.zBottom)/2)):'沒有 heightAt');
++  check('3. 樓梯西側的欄杆擋住（不能從旁邊走上樓梯）；二樓的樓梯開口不能從教室直接走下去',!stand(T.railX-0.05,-2,0)&&!stand(T.railX-0.05,-2,1));
++  check('3. 二樓南緣的玻璃欄杆：欄杆外（挑高區）在第 1 層站不住',!stand(0,L.upper.railZ+0.6,1)&&!stand(-3,3,1)&&stand(0,L.upper.railZ-0.8,1));
++  { const bad=[]; for(const q of L.seats1){ const a=approach({x:q.x,z:q.z,yaw:q.yaw,lv:1}); if(!a||!walk(up,a).ok) bad.push(q.id); } check('4. 二樓十二個座位都有「坐下」、走得到',E.interactables.filter(i=>i.fnSeat).length===12&&!bad.length,bad.join(' ')); }
++  { const bad=[]; for(const it of E.interactables){ const p=standNear(it); if(!p||!walk(it.lv?up:SP,p).ok) bad.push(it.label+'@'+it.x+','+it.z); } check('4. 每一個互動點旁邊站得住、走得到',!bad.length,bad.join(' ')||E.interactables.length+' 個'); }
++  { const bad=[]; for(const q of L.looks){ const p=standNear(q); if(!p||!walk(q.lv?up:SP,p).ok) bad.push(q.id); } check('4. 配置裡每一個「看」的位置站得住、走得到（句子等 AA）',!bad.length&&z.fnLooks===L.looks,bad.join(' ')); }
++  { const buy=E.interactables.find(i=>i.kind==='gg_flower'), C=L.counter; check('5. 買花的互動點在收銀櫃檯前（kind gg_flower，LAWWW 接）；店員站在櫃檯後面、站得住',!!buy&&buy.x<C.x0&&z.fnClerk.x>C.x1&&stand(z.fnClerk.x,z.fnClerk.z,0),buy?`(${buy.x},${buy.z})`:''); }
++  { const inside=[]; for(const lv of [0,1]) for(const b of FN3.blocks(L,lv)) if(stand(b[0],b[1],lv,0.2)) inside.push(lv+':'+b.join('/')); check('5. 家具裡面站不住（展示台、櫃檯、花台、冷藏櫃、桌子…）',!inside.length,inside.slice(0,4).join(' ')); }
++  { const d=L.display; check('5. 中央展示台四周繞得過去（入口 → 展示台後面 → 冷藏花櫃）',walk(SP,[d.x,d.z-d.d/2-0.8,0]).ok&&walk(SP,[0.1,-5.4,0]).ok&&walk(SP,[-3.4,-2.6,0]).ok); }
++  check('6. 樓板資料給鏡頭（zone.slabs）扣掉樓梯開口；點樓梯＝走完這一跑（stairEnds）',(z.slabs||[]).length>=2&&z.walkMeshes.some(m=>m.userData.stairEnds),String((z.slabs||[]).length)); }
++console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tools/blender/env_second/flower_notes_interior.py b/tools/blender/env_second/flower_notes_interior.py
+new file mode 100644
+index 000000000..41e9ac168
+--- /dev/null
++++ b/tools/blender/env_second/flower_notes_interior.py
+@@ -0,0 +1,366 @@
++"""花序 Flower Notes 室內（公館 G11；FLOWER-NOTES-ART-1110，X325；LAWWW2 帳號 A 2026-11-10）→ assets/models/env/second_ai/flower_notes_interior.glb（＋.json）
++使用者規格 docs/handoff/user_specs/FLOWER_NOTES_1110.md 第五、六節；參考圖 flower_notes_ref/interior_1f.png（一樓，從入口往內看）、interior_2f.png（二樓教室，只參考室內）。
++配置 src/data/flower_notes_layout.js（遊戲 src/flower_notes3d.js 讀同一份）。座標＝遊戲座標（x 往東、y 往上、z 往南；店面在 +z）。
++接法（和社科院圖書館東側館、萬才館一樣）：L0_root（一樓）、L1_root（二樓）；外牆 WALL_L<層>_<N|S|E|W>（extras dir＝朝室內，遊戲淡出）。
++材質：洞石色牆、淺色石材地板（一樓）、淺色木地板（二樓，D112）、淺橡木直紋（展示台、櫃檯）、香檳金（細框、踢腳、扶手）、玻璃；花、花器、禮盒是頂點色。
++字（區牌、招牌、黑板）畫在一張貼圖集 textures/gen/fn_signs_atlas.jpg（規格：招牌「花序 Flower Notes」、區牌「永生花藝」「鮮花花束」「包裝服務」「收銀結帳」可以用）。
++  /opt/blenv/bin/python tools/blender/env_second/flower_notes_interior.py [-- --out <glb>] [--nosingle]"""
++import json, math, os, sys, random
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++import lib2 as L   # noqa: E402
++from lib2 import B, Mesh, CMesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
++from lane118_shops import rot, rbox, ccyl, clathe   # noqa: E402
++from PIL import Image, ImageDraw, ImageFont   # noqa: E402
++
++ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
++def arg(name, default=None): return ARGS[ARGS.index(name) + 1] if name in ARGS else default
++OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/flower_notes_interior.glb'))
++GEN = os.path.join(HERE, 'textures', 'gen'); FONT = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
++src = open(os.path.join(L.ROOT, 'src/data/flower_notes_layout.js'), encoding='utf-8').read()
++J = json.loads(src[src.index('{', src.index('const FLOWER_NOTES_LAYOUT=')):src.rindex('}') + 1])
++W, D, T, Y1, RY, ST = J['W'], J['D'], J['wallT'], J['floors'][1]['y'], J['roofY'], J['slabT']
++U, WL, SR, LD, FR, CT, DP = J['upper'], J['well'], J['stair'], J['landing'], J['front'], J['counter'], J['display']
++PI = math.pi; H0 = Y1 - ST   # 一樓（二樓樓板底下）的天花板高度
++GOLD, GOLD_D, STONE, STONE_D, OAK, OAK_D, CREAM = '#c9a86a', '#a88a52', '#ece6da', '#d9d1c2', '#cdb38c', '#b89a70', '#f3eee4'
++PINK, ROSE, LILAC, WHITE, PEACH, YEL, LEAF, LEAF_D = '#f0b8c4', '#e58aa0', '#b9a3d8', '#f6f1e8', '#f4cdb0', '#f0d264', '#5c8a4a', '#3f6a3a'
++
++
++# ---------- 字的貼圖集 ----------
++def make_signs():
++    Wp = Hp = 1024; im = Image.new('RGB', (Wp, Hp), STONE); d = ImageDraw.Draw(im); uv = {}
++    def F(px): return ImageFont.truetype(FONT, px)
++    def put(k, x, y, w, h): uv[k] = (x / Wp, 1 - (y + h) / Hp, (x + w) / Wp, 1 - y / Hp)
++    def branch(cx, cy, s, col):   # 花枝圖示：一根彎的枝、五片葉、三朵小花
++        pts = [(cx - s * 0.5 + i * s / 10, cy + s * 0.5 - i * s / 10 - math.sin(i / 10 * PI) * s * 0.12) for i in range(11)]; d.line(pts, fill=col, width=max(2, int(s * 0.04)))
++        for i in (2, 4, 6, 8):
++            px, py = pts[i]; sg = 1 if i % 4 else -1; d.ellipse([px + sg * s * 0.04 - s * 0.07, py - s * 0.16, px + sg * s * 0.04 + s * 0.07, py - s * 0.02], outline=col, width=max(2, int(s * 0.03)))
++        for i in (5, 8, 10):
++            px, py = pts[i]
++            for a in range(5): d.ellipse([px + math.cos(a * 1.257) * s * 0.07 - s * 0.045, py - s * 0.2 + math.sin(a * 1.257) * s * 0.07 - s * 0.045, px + math.cos(a * 1.257) * s * 0.07 + s * 0.045, py - s * 0.2 + math.sin(a * 1.257) * s * 0.07 + s * 0.045], outline=col, width=max(1, int(s * 0.025)))
++    def plaque(k, x, y, w, h, zh, en, bg=STONE, fg='#8a6e3a', icon=False, zpx=None):
++        d.rectangle([x, y, x + w, y + h], fill=bg); zpx = zpx or int(h * 0.42)
++        if icon: branch(x + w / 2, y + h * 0.2, h * 0.26, fg)
++        f = F(zpx); b = d.textbbox((0, 0), zh, font=f); d.text((x + w / 2 - (b[0] + b[2]) / 2, y + h * (0.5 if icon else 0.36) - (b[1] + b[3]) / 2), zh, font=f, fill=fg)
++        if en: f2 = F(int(zpx * 0.4)); b = d.textbbox((0, 0), en, font=f2); d.text((x + w / 2 - (b[0] + b[2]) / 2, y + h * (0.78 if icon else 0.76) - (b[1] + b[3]) / 2), en, font=f2, fill=fg)
++        put(k, x, y, w, h)
++    plaque('preserved', 0, 0, 508, 200, '永生花藝', 'Preserved Flowers'); plaque('bouquets', 512, 0, 508, 200, '鮮花花束', 'Fresh Bouquets')
++    plaque('wrap', 0, 204, 508, 120, '包裝服務｜Wrapping', '', zpx=44); plaque('checkout', 512, 204, 508, 120, '收銀結帳｜Checkout', '', zpx=44)
++    plaque('logo', 0, 328, 400, 440, '花 序', 'Flower Notes', icon=True, zpx=110); plaque('stairsign', 404, 328, 400, 180, '二樓 花藝課程', 'Floral Classroom (2F)', zpx=52)
++    plaque('logo_w', 404, 512, 616, 256, '花 序', 'Flower Notes', zpx=120)
++    x, y, w, h = 0, 772, 420, 250; d.rectangle([x, y, x + w, y + h], fill='#2f3a36'); f = F(48); d.text((x + 24, y + 14), J['items1'][3]['lines'][0], font=f, fill='#f1efe6')
++    for i, t in enumerate(J['items1'][3]['lines'][1:]): d.text((x + 34, y + 84 + i * 52), '・' + t, font=F(34), fill='#e6e2d6')
++    branch(x + w - 70, y + 150, 90, '#e6e2d6'); put('board', x, y, w, h)
++    os.makedirs(GEN, exist_ok=True); im.save(os.path.join(GEN, 'fn_signs_atlas.jpg'), quality=92); return uv
++
++
++SUV = make_signs()
++B.reset(texres=512)
++root = B.group('flower_notes_interior', props={'kind': 'flower_notes_interior'})
++R0 = B.group('L0_root', root); R1 = B.group('L1_root', root)
++_sg = bpy.data.materials.new('fn_signs'); _sg.use_nodes = True; _nt = _sg.node_tree; _bs = _nt.nodes['Principled BSDF']; _bs.inputs['Roughness'].default_value = 0.6
++_tx = _nt.nodes.new('ShaderNodeTexImage'); _tx.image = bpy.data.images.load(os.path.join(GEN, 'fn_signs_atlas.jpg')); _nt.links.new(_tx.outputs['Color'], _bs.inputs['Base Color'])
++M = {
++    'floor': L.pbr('fn_floor', 'granite_tile', tile=1.6, target='#e6e0d6', normal=0.2, maps=('diff', 'nor'), rough_value=0.32),       # 淺色石材地板（D112）
++    'wood_floor': L.pbr('fn_wood_floor', 'laminate_floor_02', tile=1.8, target='#d9c3a0', normal=0.25, maps=('diff', 'nor'), rough_value=0.5),   # 二樓淺色木地板
++    'wall': L.pbr('fn_travertine', 'white_plaster_02', tile=2.4, target='#ece5d8', normal=0.2, maps=('diff', 'nor'), rough_value=0.7),  # 米白洞石色的牆
++    'ceil': L.flat('fn_ceiling', '#f4f0e8', rough=0.95),
++    'oak': L.pbr('fn_oak', 'walnut_veneer', tile=0.9, target=OAK, maps=('diff',), res=256, rough_value=0.5),
++    'glass': L.flat('fn_glass', '#e6eeee', rough=0.05, alpha=0.14),
++    'light': L.flat('fn_lightpanel', '#fff6e6', rough=0.5, emit=B.srgb('#fff0d8')),
++    'signs': _sg,
++    'vc': L.vc_material('fn_vc', rough=0.65),
++    'vcm': L.vc_material('fn_vcm', rough=0.3),
++}
++M['vcm'].node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value = min(0.4, B.MAX_METAL)
++
++
++class Lv:
++    def __init__(self, k, parent): self.k, self.parent, self.m = k, parent, {}; self.sq = []
++    def get(self, key, cm=False):
++        if key not in self.m: self.m[key] = CMesh(f'L{self.k}_{key}', M[key]) if cm else Mesh(f'L{self.k}_{key}', M[key])
++        return self.m[key]
++    vc = property(lambda s: s.get('vc', cm=True)); vm = property(lambda s: s.get('vcm', cm=True))
++    def sign(self, key, pts): self.sq.append((key, [g2b(*p) for p in pts]))   # 左下、右下、右上、左上
++    def finish(self):
++        for key, mm in self.m.items(): mm.finish(self.parent, uv=key not in ('vc', 'vcm', 'light', 'glass'))
++        if self.sq:
++            m = Mesh(f'L{self.k}_signs', M['signs']); lay = m.bm.loops.layers.uv.new('UVMap')
++            for key, pts in self.sq:
++                u0, v0, u1, v1 = SUV[key]; f = m.bm.faces.new([m.bm.verts.new(p) for p in pts])
++                for lp, t in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[lay].uv = t
++            m.finish(self.parent, uv=False, merge=False)
++
++
++C0, C1 = Lv(0, R0), Lv(1, R1)
++WALLS = {}
++def wallmesh(lv, side, dirv):
++    wid = f'L{lv}_{side}'
++    if wid not in WALLS: WALLS[wid] = (Mesh(f'WALL_{wid}', M['wall']), R1 if lv == 1 else R0, dirv)
++    return WALLS[wid][0]
++
++
++# ---------- 花 ----------
++RR = random.Random(11)
++def blob(c, x, y, z, r, col, k=1.0): f0 = set(c.vc.bm.faces); c.vc.sphere((x, y, z), r, seg=6, rings=4); c.vc.paint([q for q in c.vc.bm.faces if q not in f0], col, k)
++def cluster(c, x, y, z, r, cols, n=9, leaf=True):
++    """一團花（幾顆小球＋葉子）"""
++    for i in range(n):
++        a = RR.uniform(0, 2 * PI); rd = RR.uniform(0, r * 0.75); blob(c, x + math.cos(a) * rd, y + RR.uniform(-0.25, 0.45) * r, z + math.sin(a) * rd, r * RR.uniform(0.3, 0.42), RR.choice(cols), RR.uniform(0.92, 1.05))
++    if leaf:
++        for i in range(max(3, n // 2)): a = RR.uniform(0, 2 * PI); blob(c, x + math.cos(a) * r * 0.85, y - r * 0.3, z + math.sin(a) * r * 0.85, r * 0.28, RR.choice((LEAF, LEAF_D)))
++def vase(c, x, y, z, h, cols, r=0.16, glass=True):
++    """花瓶＋一束花"""
++    if glass: c.get('glass').cyl((x, y, z), (x, y + h, z), r * 0.45, seg=10, r2=r * 0.55)
++    else: clathe(c.vc, [(0.0, 0.0), (r * 0.4, 0.0), (r * 0.55, h * 0.5), (r * 0.35, h), (0.0, h)], x, y, z, WHITE, seg=10)
++    for i in range(4): a = i * PI / 2; ccyl(c.vc, (x, y + 0.02, z), (x + math.cos(a) * r * 0.5, y + h + r * 0.4, z + math.sin(a) * r * 0.5), 0.006, LEAF_D, seg=4)
++    cluster(c, x, y + h + r * 0.9, z, r * 1.5, cols)
++def bouquet(c, x, y, z, s, cols, wrap=PEACH):
++    """包好的花束（立著）：包裝紙圓錐、緞帶、上面一團花"""
++    f0 = set(c.vc.bm.faces); c.vc.cyl((x, y, z), (x, y + s * 0.62, z), s * 0.06, seg=8, r2=s * 0.3); c.vc.paint([q for q in c.vc.bm.faces if q not in f0], wrap)
++    ccyl(c.vc, (x, y + s * 0.2, z), (x, y + s * 0.25, z), s * 0.12, ROSE, seg=8); cluster(c, x, y + s * 0.74, z, s * 0.3, cols, n=8)
++def dome(c, x, y, z, h=0.42, cols=(ROSE, PINK)):
++    """玻璃罩永生玫瑰：香檳金底座、一小團花、玻璃罩"""
++    ccyl(c.vm, (x, y, z), (x, y + 0.04, z), 0.15, GOLD, seg=14); cluster(c, x, y + 0.2, z, 0.1, cols, n=5)
++    g = c.get('glass'); g.cyl((x, y + 0.04, z), (x, y + h * 0.7, z), 0.14, seg=12, caps=False); g.sphere((x, y + h * 0.7, z), 0.14, seg=12, rings=6, sy=0.9)
++def giftbox(c, x, y, z, s=0.22, col=PINK):
++    c.vc.crbox(x - s / 2, x + s / 2, y, y + s * 0.6, z - s / 2, z + s / 2, col, r=0.01); c.vc.cbox(x - 0.012, x + 0.012, y, y + s * 0.61, z - s / 2 - 0.002, z + s / 2 + 0.002, WHITE); c.vc.cbox(x - s / 2 - 0.002, x + s / 2 + 0.002, y, y + s * 0.61, z - 0.012, z + 0.012, WHITE)
++def tree(c, x, z, h=1.9, y=0.0):
++    """大盆栽（橄欖樹那一種）：白色圓盆、細樹幹、一團團葉子"""
++    clathe(c.vc, [(0.0, 0.0), (0.2, 0.0), (0.26, 0.5), (0.24, 0.52), (0.0, 0.52)], x, y, z, CREAM, seg=14)
++    ccyl(c.vc, (x, y + 0.5, z), (x + 0.04, y + h * 0.7, z), 0.022, '#7a6a52', seg=6)
++    for i in range(14): a = RR.uniform(0, 2 * PI); rd = RR.uniform(0.05, 0.42); blob(c, x + math.cos(a) * rd, y + RR.uniform(h * 0.6, h), z + math.sin(a) * rd, RR.uniform(0.12, 0.2), RR.choice((LEAF, LEAF_D, '#7a9a5a')))
++def blossom(c, x, y, z, h=1.5):
++    """一大瓶櫻花枝（中央展示台、參考圖的視覺焦點）"""
++    c.get('glass').cyl((x, y, z), (x, y + 0.5, z), 0.13, seg=12, r2=0.17)
++    for i in range(9):
++        a = i * 2 * PI / 9 + RR.uniform(-0.2, 0.2); sp = RR.uniform(0.35, 0.8); top = (x + math.cos(a) * sp, y + h * RR.uniform(0.75, 1.0), z + math.sin(a) * sp * 0.7)
++        ccyl(c.vc, (x, y + 0.1, z), top, 0.012, '#6a5038', seg=5)
++        for k in range(9): t = RR.uniform(0.45, 1.0); blob(c, x + (top[0] - x) * t + RR.uniform(-0.07, 0.07), y + 0.1 + (top[1] - y - 0.1) * t + RR.uniform(-0.05, 0.05), z + (top[2] - z) * t + RR.uniform(-0.07, 0.07), RR.uniform(0.035, 0.06), RR.choice((PINK, '#f7d3da', WHITE)))
++MIX = [(PINK, ROSE, WHITE), (LILAC, '#8f86c8', WHITE), (WHITE, PEACH, '#f2e6c0'), (YEL, '#e9a23a', WHITE), (ROSE, '#d9577a', PINK), ('#8fb6e0', LILAC, WHITE)]
++
++
++# ---------- 殼：地板、樓板、天花板、牆 ----------
++C0.get('floor').box(-W / 2, W / 2, -0.1, 0.0, -D / 2, D / 2)
++def rect_minus(r, h):
++    x0, x1, z0, z1 = r; out = []
++    if h[2] > z0: out.append((x0, x1, z0, h[2]))
++    if h[3] < z1: out.append((x0, x1, h[3], z1))
++    if h[0] > x0: out.append((x0, h[0], max(z0, h[2]), min(z1, h[3])))
++    if h[1] < x1: out.append((h[1], x1, max(z0, h[2]), min(z1, h[3])))
++    return out
++for (a, b, c_, d_) in rect_minus((U['x0'], U['x1'], U['z0'], U['z1']), (WL['x0'], WL['x1'], WL['z0'], WL['z1'])):
++    C1.get('wood_floor').box(a, b, Y1 - 0.03, Y1, c_, d_); C0.get('ceil').box(a, b, Y1 - ST, Y1 - 0.03, c_, d_)
++C0.vm.cbox(U['x0'], WL['x0'], Y1 - ST - 0.01, Y1 + 0.02, U['z1'], U['z1'] + 0.03, GOLD)            # 樓板邊緣的香檳金收邊
++C1.get('ceil').box(-W / 2, W / 2, RY, RY + 0.1, -D / 2, D / 2)
++# 牆：北、東、西（兩層各一塊）；南＝店面（一樓門＋兩個櫥窗，二樓整排玻璃）
++for lv, (ya, yb) in enumerate(((0.0, Y1), (Y1, RY))):
++    wallmesh(lv, 'N', [0, 0, 1]).box(-W / 2, W / 2, ya, yb, -D / 2 - T, -D / 2)
++    wallmesh(lv, 'W', [1, 0, 0]).box(-W / 2 - T, -W / 2, ya, yb, -D / 2, D / 2)
++    wallmesh(lv, 'E', [-1, 0, 0]).box(W / 2, W / 2 + T, ya, yb, -D / 2, D / 2)
++ws = wallmesh(0, 'S', [0, 0, -1]); DR = FR['door']; zS = D / 2; h1 = FR['head1']
++xs = [-W / 2] + [v for w_ in FR['windows1'][:1] for v in w_] + [DR['x0'], DR['x1']] + [v for w_ in FR['windows1'][1:] for v in w_] + [W / 2]
++for a, b in ((xs[0], xs[1]), (xs[2], xs[3]), (xs[4], xs[5]), (xs[6], xs[7])): ws.box(a, b, 0.0, Y1, zS, zS + T)          # 洞石牆墩
++for (a, b) in FR['windows1']: ws.box(a, b, 0.0, FR['sill1'], zS, zS + T); ws.box(a, b, h1, Y1, zS, zS + T)
++ws.box(DR['x0'], DR['x1'], DR['h'], Y1, zS, zS + T)
++ws2 = wallmesh(1, 'S', [0, 0, -1]); w2 = FR['window2']
++ws2.box(-W / 2, w2[0], Y1, RY, zS, zS + T); ws2.box(w2[1], W / 2, Y1, RY, zS, zS + T); ws2.box(w2[0], w2[1], Y1, FR['sill2'], zS, zS + T); ws2.box(w2[0], w2[1], FR['head2'], RY, zS, zS + T)
++# 店面的玻璃和香檳金細框（掛在各層的群組，不跟牆一起淡出）
++def glazing(c, a, b, ya, yb, n, door=False):
++    c.get('glass').quad([(a, ya, zS + 0.05), (b, ya, zS + 0.05), (b, yb, zS + 0.05), (a, yb, zS + 0.05)])
++    for i in range(n + 1): x = a + i * (b - a) / n; c.vm.cbox(x - 0.02, x + 0.02, ya, yb, zS + 0.02, zS + 0.09, GOLD)
++    for y in (ya, yb): c.vm.cbox(a, b, y - 0.02, y + 0.02, zS + 0.02, zS + 0.09, GOLD)
++    if door:
++        for x in (a + 0.12, (a + b) / 2 - 0.06, (a + b) / 2 + 0.06, b - 0.12)[1:3]: ccyl(c.vm, (x, 0.9, zS - 0.02), (x, 1.5, zS - 0.02), 0.014, GOLD, seg=6)
++for (a, b) in FR['windows1']: glazing(C0, a, b, FR['sill1'], h1, 2)
++glazing(C0, DR['x0'], DR['x1'], 0.0, DR['h'], 2, door=True)
++glazing(C1, w2[0], w2[1], FR['sill2'], FR['head2'], 6)
++for (a, b) in ((w2[0], w2[0] + 0.9), (w2[1] - 0.9, w2[1])):   # 二樓窗兩端的白紗簾
++    for i in range(6): x = a + (i + 0.5) * (b - a) / 6; C1.vc.cbox(x - 0.07, x + 0.07, FR['sill2'], FR['head2'], zS - 0.12 + (i % 2) * 0.04, zS - 0.1 + (i % 2) * 0.04, '#f7f4ee')
++# 櫥窗展示（一樓兩個櫥窗裡面：矮台＋花）
++for (a, b) in FR['windows1']:
++    C0.vc.crbox(a + 0.15, b - 0.15, 0.0, 0.3, zS - 0.75, zS - 0.1, STONE, r=0.015)
++    for i in range(4): x = a + 0.5 + i * (b - a - 1.0) / 3; (vase(C0, x, 0.3, zS - 0.42, 0.42, MIX[(i + int(a)) % 6]) if i % 2 == 0 else bouquet(C0, x, 0.3, zS - 0.42, 0.62, MIX[(i * 2 + 1) % 6]))
++
++
++# ---------- 樓梯：一階一階（淺色石材）、底下封起來、玻璃欄板＋香檳金扶手 ----------
++st = C0.get('floor'); n, r_, t_ = SR['risers'], SR['rise'], SR['tread']
++for k in range(n):
++    top = (k + 1) * r_; za = SR['zBottom'] - (k + 1) * t_; st.box(SR['x0'], SR['x1'], max(0.0, top - 0.6) if k > 3 else 0.0, top, za, za + t_)
++    C0.vm.cbox(SR['x0'], SR['x1'], top - 0.012, top + 0.002, za + t_ - 0.02, za + t_ + 0.004, GOLD)                    # 每一階前緣的香檳金防滑條
++C0.vc.cbox(SR['x0'], SR['x1'], 0.0, Y1 - ST, SR['zTop'] - 1.5, SR['zTop'] + 2.4, STONE)                                 # 樓梯底下（高的那一段）封成儲藏間
++C0.vc.cbox(SR['railX'] - 0.06, SR['railX'], 0.0, 0.12, SR['zTop'], SR['zBottom'] - 0.3, STONE_D)
++def rail(c, pts, x=None, z=None):
++    """玻璃欄板＋上面的香檳金扶手；pts＝[(沿線座標, y)…]，x 固定（沿 z）或 z 固定（沿 x）"""
++    for (a0, y0), (a1, y1) in zip(pts, pts[1:]):
++        P = (lambda a, y: (x, y, a)) if x is not None else (lambda a, y: (a, y, z))
++        c.get('glass').quad([P(a0, y0 + 0.06), P(a1, y1 + 0.06), P(a1, y1 + 1.0), P(a0, y0 + 1.0)])
++        ccyl(c.vm, P(a0, y0 + 1.03), P(a1, y1 + 1.03), 0.022, GOLD, seg=8)
++        for a, y in ((a0, y0), (a1, y1)): ccyl(c.vm, P(a, y), P(a, y + 1.03), 0.015, GOLD, seg=6)
++rail(C0, [(SR['zBottom'] - 0.3, 0.3 / t_ * r_), (WL['z1'], (SR['zBottom'] - WL['z1']) / t_ * r_)], x=SR['railX'])       # 一樓看得到的那一段（挑高區）
++rail(C1, [(LD['z1'] + 0.1, Y1), (WL['z1'], Y1)], x=WL['x0'])                                                           # 二樓：樓梯開口西邊
++rail(C1, [(U['x0'], Y1), (WL['x0'], Y1)], z=U['railZ'])                                                                # 二樓南緣（往挑高區看）
++rail(C1, [(WL['x0'], Y1), (WL['x1'], Y1)], z=WL['z1'])                                                                 # 樓梯開口南邊
++C0.sign('stairsign', [(SR['railX'] - 0.9, 2.2, SR['zTop'] + 2.42), (SR['railX'] - 0.9 + 1.5, 2.2, SR['zTop'] + 2.42), (SR['railX'] - 0.9 + 1.5, 2.88, SR['zTop'] + 2.42), (SR['railX'] - 0.9, 2.88, SR['zTop'] + 2.42)]) if False else None
++C0.vc.cbox(3.0, SR['railX'] - 0.06, 1.75, 2.45, SR['zBottom'] + 0.02, SR['zBottom'] + 0.05, STONE)                     # 樓梯口的指示牌（掛在櫃檯北端上方的橫板）
++C0.sign('stairsign', [(3.36, 1.78, SR['zBottom'] + 0.055), (1.86 + 0.0, 1.78, SR['zBottom'] + 0.055), (1.86, 2.42, SR['zBottom'] + 0.055), (3.36, 2.42, SR['zBottom'] + 0.055)][::1])
++
++
++# ---------- 一樓 ----------
++# 中央橢圓展示台：木格柵側面、石材檯面、香檳金底邊；上面花束、禮盒、中間一大瓶櫻花枝
++def oval(c, key, x, z, w, d, y0, y1, seg=28):
++    m = c.get(key); bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=seg, radius1=0.5, radius2=0.5, depth=1.0)
++    m.add_bm(bm, Matrix.Translation(g2b(x, (y0 + y1) / 2, z)) @ Matrix.Diagonal((w, d, y1 - y0, 1.0))); bm.free()
++oval(C0, 'oak', DP['x'], DP['z'], DP['w'], DP['d'], 0.1, DP['h'] - 0.06)
++f0 = set(C0.vm.bm.faces); bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=28, radius1=0.5, radius2=0.5, depth=1.0); C0.vm.add_bm(bm, Matrix.Translation(g2b(DP['x'], 0.05, DP['z'])) @ Matrix.Diagonal((DP['w'] + 0.02, DP['d'] + 0.02, 0.1, 1.0))); bm.free(); C0.vm.paint([q for q in C0.vm.bm.faces if q not in f0], GOLD)
++f0 = set(C0.vc.bm.faces); bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=28, radius1=0.5, radius2=0.5, depth=1.0); C0.vc.add_bm(bm, Matrix.Translation(g2b(DP['x'], DP['h'] - 0.03, DP['z'])) @ Matrix.Diagonal((DP['w'] + 0.08, DP['d'] + 0.08, 0.06, 1.0))); bm.free(); C0.vc.paint([q for q in C0.vc.bm.faces if q not in f0], STONE)
++for i in range(46):   # 木格柵：一圈細直條
++    a = i * 2 * PI / 46; C0.vc.cbox(DP['x'] + math.cos(a) * DP['w'] / 2 - 0.012, DP['x'] + math.cos(a) * DP['w'] / 2 + 0.012, 0.12, DP['h'] - 0.07, DP['z'] + math.sin(a) * DP['d'] / 2 - 0.012, DP['z'] + math.sin(a) * DP['d'] / 2 + 0.012, OAK_D)
++blossom(C0, DP['x'], DP['h'], DP['z'] - 0.1, h=1.7)
++for i, (dx, dz) in enumerate(((-1.1, 0.25), (-0.55, 0.42), (0.0, 0.48), (0.55, 0.42), (1.1, 0.25), (-0.9, -0.35), (0.9, -0.35))):
++    (bouquet(C0, DP['x'] + dx, DP['h'], DP['z'] + dz, 0.6, MIX[i % 6], wrap=(PEACH, '#e9e0f2', WHITE)[i % 3]) if i % 2 == 0 else vase(C0, DP['x'] + dx, DP['h'], DP['z'] + dz, 0.3, MIX[(i + 2) % 6]))
++giftbox(C0, DP['x'] - 1.35, DP['h'], DP['z'] - 0.1, 0.3, WHITE); dome(C0, DP['x'] + 1.38, DP['h'], DP['z'])
++C0.vc.cbox(DP['x'] - 2.2, DP['x'] + 2.2, 0.0, 0.008, DP['z'] - 1.35, DP['z'] + 1.35, '#bfb9ae')                        # 展示台底下的淺灰地毯
++# 展示台上面的長吊燈（兩層樓高的挑高區）
++C0.vm.cbox(DP['x'] - 1.5, DP['x'] + 1.5, 4.6, 4.72, DP['z'] - 0.09, DP['z'] + 0.09, GOLD); C0.get('light').box(DP['x'] - 1.46, DP['x'] + 1.46, 4.585, 4.6, DP['z'] - 0.07, DP['z'] + 0.07)
++for dx in (-1.2, 1.2): ccyl(C1.vm, (DP['x'] + dx, 4.72, DP['z']), (DP['x'] + dx, RY, DP['z']), 0.008, GOLD, seg=5)
++# 物件
++for it in J['items0']:
++    k = it['kind']
++    if k == 'preserved_shelf':
++        x0, x1, z0, z1, h = it['x0'], it['x1'], it['z0'], it['z1'], it['h']
++        C0.get('oak').box(x0, x1, 0.0, 0.9, z0, z1); C0.vc.cbox(x0, x1 + 0.03, 0.9, 0.94, z0 - 0.02, z1 + 0.02, STONE)   # 下面的木櫃＋石材檯面
++        nb = 4
++        for i in range(nb + 1): z = z0 + i * (z1 - z0) / nb; C0.vm.cbox(x1 - 0.03, x1, 0.94, h, z - 0.015, z + 0.015, GOLD); C0.vm.cbox(x0, x1, 0.94, h, z - 0.008, z + 0.008, GOLD)
++        for y in (1.55, 2.15, 2.72):
++            C0.vc.cbox(x0, x1, y - 0.02, y, z0, z1, CREAM); C0.get('light').box(x0 + 0.02, x0 + 0.05, y - 0.05, y - 0.02, z0 + 0.05, z1 - 0.05)
++        for j, y in enumerate((0.94, 1.55, 2.15)):
++            for i in range(nb):
++                zc = z0 + (i + 0.5) * (z1 - z0) / nb; kd = (i + j) % 3
++                if kd == 0: dome(C0, (x0 + x1) / 2, y, zc, cols=MIX[(i + j) % 6][:2])
++                elif kd == 1: giftbox(C0, (x0 + x1) / 2, y, zc - 0.15, 0.24, (PINK, CREAM, PEACH)[i % 3]); giftbox(C0, (x0 + x1) / 2, y, zc + 0.18, 0.18, (WHITE, PINK)[j % 2])
++                else: vase(C0, (x0 + x1) / 2, y, zc, 0.18, MIX[(i * 2 + j) % 6], r=0.1, glass=False)
++        C0.vc.cbox(x1, x1 + 0.03, 2.95, 3.6, z0 + 0.4, z0 + 2.2, STONE)
++        C0.sign('preserved', [(x1 + 0.035, 2.98, z0 + 0.45), (x1 + 0.035, 2.98, z0 + 2.15), (x1 + 0.035, 3.57, z0 + 2.15), (x1 + 0.035, 3.57, z0 + 0.45)])
++    elif k == 'plinth':
++        x, z, w_, h = it['x'], it['z'], it['w'], it['h']; C0.vc.crbox(x - w_ / 2, x + w_ / 2, 0.02, h, z - w_ / 2, z + w_ / 2, STONE, r=0.012); C0.vm.cbox(x - w_ / 2 - 0.005, x + w_ / 2 + 0.005, 0.0, 0.03, z - w_ / 2 - 0.005, z + w_ / 2 + 0.005, GOLD)
++        dome(C0, x, h, z, h=0.5) if it['top'] == 'dome' else (giftbox(C0, x, h, z, 0.3, PINK), giftbox(C0, x + 0.02, h + 0.18, z, 0.2, WHITE))
++    elif k == 'bouquet_stand':
++        x0, x1, z0, z1, h = it['x0'], it['x1'], it['z0'], it['z1'], it['h']; xm = (x0 + x1) / 2
++        C0.get('oak').box(x0, x1, 0.0, h - 0.04, z0, z1); C0.vc.cbox(x0, x1 + 0.03, h - 0.04, h, z0 - 0.02, z1 + 0.02, STONE)
++        C0.vc.cbox(x0, xm, h, h + 0.35, z0 + 0.1, z1 - 0.1, STONE); C0.vm.cbox(x0, x1 + 0.03, 0.0, 0.04, z0 - 0.02, z1 + 0.02, GOLD)   # 靠牆高一階
++        nq = 9
++        for i in range(nq):
++            zc = z0 + 0.4 + i * (z1 - z0 - 0.8) / (nq - 1)
++            vase(C0, x0 + 0.22, h + 0.35, zc, 0.42, MIX[i % 6], r=0.17); (bouquet(C0, xm + 0.22, h, zc + 0.1, 0.55, MIX[(i + 3) % 6], wrap=(PEACH, WHITE, '#e9e0f2')[i % 3]) if i % 2 else vase(C0, xm + 0.22, h, zc + 0.1, 0.3, MIX[(i + 1) % 6], r=0.14))
++        C0.vc.cbox(x0, x0 + 0.03, 2.2, 2.85, z1 - 2.3, z1 - 0.5, STONE)
++        C0.sign('bouquets', [(x0 + 0.035, 2.23, z1 - 2.25), (x0 + 0.035, 2.23, z1 - 0.55), (x0 + 0.035, 2.82, z1 - 0.55), (x0 + 0.035, 2.82, z1 - 2.25)])
++    elif k == 'cold_case':
++        x0, x1, z0, z1, h, nd = it['x0'], it['x1'], it['z0'], it['z1'], it['h'], it['doors']
++        C0.vc.cbox(x0, x1, 0.0, 0.18, z0, z1, STONE_D); C0.vc.cbox(x0, x1, h - 0.14, h, z0, z1, STONE); C0.vc.cbox(x0, x1, 0.18, h - 0.14, z0, z0 + 0.04, '#f4f6f6')
++        C0.get('light').box(x0 + 0.05, x1 - 0.05, h - 0.17, h - 0.14, z1 - 0.2, z1 - 0.1)
++        for i in range(nd + 1): x = x0 + i * (x1 - x0) / nd; C0.vm.cbox(x - 0.025, x + 0.025, 0.18, h - 0.14, z1 - 0.05, z1, GOLD)
++        C0.get('glass').quad([(x0, 0.18, z1 - 0.02), (x1, 0.18, z1 - 0.02), (x1, h - 0.14, z1 - 0.02), (x0, h - 0.14, z1 - 0.02)])
++        for j, y in enumerate((0.2, 0.98, 1.72)):
++            C0.vc.cbox(x0 + 0.03, x1 - 0.03, y - 0.02, y, z0 + 0.04, z1 - 0.08, '#e8ecec')
++            for i in range(nd * 2): xc = x0 + (i + 0.5) * (x1 - x0) / (nd * 2); ccyl(C0.vm, (xc, y, z0 + 0.4), (xc, y + 0.26, z0 + 0.4), 0.1, '#b9bdc1', seg=8); cluster(C0, xc, y + 0.42, z0 + 0.4, 0.17, MIX[(i + j * 2) % 6], n=6)
++    elif k == 'wrap_shelf':
++        x0, x1, z0, z1, h = it['x0'], it['x1'], it['z0'], it['z1'], it['h']
++        for i in range(4): z = z0 + i * (z1 - z0) / 3; C0.vm.cbox(x0, x1, 0.9, h, z - 0.012, z + 0.012, GOLD)
++        for y in (1.25, 1.7, 2.15): C0.vc.cbox(x0, x1, y - 0.02, y, z0, z1, CREAM)
++        for j, y in enumerate((1.25, 1.7)):
++            for i in range(7): zc = z0 + 0.25 + i * (z1 - z0 - 0.5) / 6; ccyl(C0.vc, (x0 + 0.02, y + 0.07 + (i % 2) * 0.0, zc), (x1 - 0.02, y + 0.07, zc), 0.06, (PEACH, CREAM, PINK, '#e9e0f2', WHITE, '#d9c9a8')[(i + j) % 6], seg=8)   # 包裝紙捲
++        for i in range(5): giftbox(C0, (x0 + x1) / 2, 2.15, z0 + 0.3 + i * (z1 - z0 - 0.6) / 4, 0.2, (CREAM, PINK, WHITE)[i % 3])
++        C0.sign('wrap', [(x0 - 0.005, 0.95, z1 - 0.1), (x0 - 0.005, 0.95, z1 - 1.5), (x0 - 0.005, 1.22, z1 - 1.5), (x0 - 0.005, 1.22, z1 - 0.1)]) if False else None
++    elif k == 'plant_big': tree(C0, it['x'], it['z'])
++# 東牆：櫃檯後面上方的「花序 Flower Notes」和兩塊區牌（參考圖右邊的牆）
++xe = W / 2 - 0.005
++C0.sign('logo', [(xe, 2.75, 5.9), (xe, 2.75, 4.5), (xe, 4.3, 4.5), (xe, 4.3, 5.9)]) if False else None
++C1.sign('logo', [(xe, 4.4, 5.6), (xe, 4.4, 4.2), (xe, 5.95, 4.2), (xe, 5.95, 5.6)])                                     # 在挑高區的東牆上（掛在二樓的群組：高度在二樓）
++C0.sign('wrap', [(xe, 2.75, 5.75), (xe, 2.75, 4.05), (xe, 3.15, 4.05), (xe, 3.15, 5.75)]); C0.sign('checkout', [(xe, 3.22, 5.75), (xe, 3.22, 4.05), (xe, 3.62, 4.05), (xe, 3.62, 5.75)])
++# 包裝＋收銀長櫃檯：淺木直紋正面、石材檯面、香檳金踢腳；檯面上收銀螢幕、包裝紙、緞帶、小花瓶
++cx0, cx1, cz0, cz1, ch = CT['x0'], CT['x1'], CT['z0'], CT['z1'], CT['h']
++C0.get('oak').box(cx0, cx1, 0.06, ch - 0.05, cz0, cz1); C0.vc.crbox(cx0 - 0.04, cx1 + 0.02, ch - 0.05, ch, cz0 - 0.04, cz1 + 0.04, STONE, r=0.012); C0.vm.cbox(cx0 - 0.01, cx1, 0.0, 0.06, cz0 - 0.01, cz1 + 0.01, GOLD)
++C0.get('light').box(cx0 - 0.012, cx0 - 0.004, 0.07, 0.1, cz0 + 0.1, cz1 - 0.1)
++for i in range(26): z = cz0 + 0.06 + i * (cz1 - cz0 - 0.12) / 25; C0.vc.cbox(cx0 - 0.012, cx0, 0.1, ch - 0.06, z - 0.012, z + 0.012, OAK_D)
++zr = CT['clerk']['z']; C0.vc.cbox(cx1 - 0.3, cx1 - 0.26, ch + 0.12, ch + 0.42, zr - 0.22, zr + 0.22, '#2b2d30'); ccyl(C0.vc, (cx1 - 0.28, ch, zr), (cx1 - 0.28, ch + 0.14, zr), 0.03, '#2b2d30', seg=6)   # 收銀螢幕
++vase(C0, (cx0 + cx1) / 2, ch, cz1 - 0.5, 0.26, MIX[0]); giftbox(C0, (cx0 + cx1) / 2, ch, cz0 + 0.5, 0.26, CREAM)
++for i in range(3): ccyl(C0.vc, (cx0 + 0.12, ch + 0.05, cz0 + 1.0 + i * 0.13), (cx1 - 0.1, ch + 0.05, cz0 + 1.0 + i * 0.13), 0.05, (PEACH, WHITE, PINK)[i], seg=8)
++# 一樓天花板的崁燈（二樓樓板底下）
++for x in (-3.5, -1.2, 1.2):
++    for z in (-5.5, -3.5, -1.5, -0.2): C0.get('light').cyl((x, H0 - 0.012, z), (x, H0 - 0.002, z), 0.09, seg=10)
++
++
++# ---------- 二樓花藝教室 ----------
++for it in J['items1']:
++    k = it['kind']
++    if k == 'demo_table':
++        x, z, w_, d_, h = it['x'], it['z'], it['w'], it['d'], it['h']
++        C1.vc.crbox(x - w_ / 2, x + w_ / 2, Y1 + h - 0.06, Y1 + h, z - d_ / 2, z + d_ / 2, STONE, r=0.012)
++        for sx in (-1, 1): C1.get('oak').box(x + sx * (w_ / 2 - 0.25) - 0.2, x + sx * (w_ / 2 - 0.25) + 0.2, Y1, Y1 + h - 0.06, z - d_ / 2 + 0.06, z + d_ / 2 - 0.06)
++        C1.get('oak').box(x - w_ / 2 + 0.45, x + w_ / 2 - 0.45, Y1 + 0.15, Y1 + h - 0.06, z - d_ / 2 + 0.06, z - d_ / 2 + 0.1)
++        vase(C1, x - 0.3, Y1 + h, z, 0.36, MIX[0], r=0.26); vase(C1, x + 1.2, Y1 + h, z + 0.05, 0.26, MIX[1], r=0.16)
++        for i in range(5): ccyl(C1.vc, (x - 1.5 + i * 0.07, Y1 + h + 0.012, z - 0.2), (x - 1.2 + i * 0.07, Y1 + h + 0.012, z + 0.25), 0.008, LEAF, seg=4)   # 桌上的花材
++        for i in range(4): clathe(C1.vc, [(0.0, 0.0), (0.05, 0.0), (0.06, 0.12), (0.04, 0.16), (0.0, 0.16)], x + 0.4 + i * 0.16, Y1 + h, z - 0.22, (WHITE, CREAM)[i % 2], seg=10)
++    elif k == 'stool':
++        x, z = it['x'], it['z']; ccyl(C1.vc, (x, Y1 + 0.66, z), (x, Y1 + 0.7, z), 0.18, OAK, seg=14)
++        for a in range(4): ang = a * PI / 2 + PI / 4; ccyl(C1.vc, (x + math.cos(ang) * 0.1, Y1 + 0.66, z + math.sin(ang) * 0.1), (x + math.cos(ang) * 0.17, Y1, z + math.sin(ang) * 0.17), 0.016, OAK_D, seg=6)
++    elif k == 'wall_logo':
++        zz = -D / 2 + 0.006; C1.sign('logo_w', [(it['x'] - 1.15, it['y'] - 0.5, zz), (it['x'] + 1.15, it['y'] - 0.5, zz), (it['x'] + 1.15, it['y'] + 0.46, zz), (it['x'] - 1.15, it['y'] + 0.46, zz)])
++    elif k == 'blackboard':
++        x, z, w_, h = it['x'], it['z'], it['w'], it['h']; y0 = Y1 + 1.05
++        for sx in (-1, 1): ccyl(C1.vc, (x + sx * w_ * 0.42, Y1, z + 0.18), (x + sx * w_ * 0.3, y0 + h + 0.2, z - 0.05), 0.02, OAK_D, seg=6)
++        ccyl(C1.vc, (x, Y1, z - 0.32), (x, y0 + h + 0.1, z - 0.06), 0.02, OAK_D, seg=6)
++        C1.vc.cbox(x - w_ / 2 - 0.03, x + w_ / 2 + 0.03, y0 - 0.03, y0 + h + 0.03, z - 0.03, z, OAK); C1.sign('board', [(x - w_ / 2, y0, z + 0.004), (x + w_ / 2, y0, z + 0.004), (x + w_ / 2, y0 + h, z + 0.004), (x - w_ / 2, y0 + h, z + 0.004)])
++    elif k == 'vase_shelf':
++        x0, x1, z0, z1, h = it['x0'], it['x1'], it['z0'], it['z1'], it['h']
++        C1.get('oak').box(x0, x1, Y1, Y1 + 0.85, z0, z1)
++        for xx in (x0, x1 - 0.03): C1.get('oak').box(xx, xx + 0.03, Y1 + 0.85, Y1 + h, z0, z1)
++        for y in (0.85, 1.3, 1.75, 2.2): C1.get('oak').box(x0, x1, Y1 + y - 0.03, Y1 + y, z0, z1)
++        for j, y in enumerate((0.85, 1.3, 1.75)):
++            for i in range(4): clathe(C1.vc, [(0.0, 0.0), (0.05, 0.0), (0.075, 0.12), (0.04, 0.22), (0.05, 0.25), (0.0, 0.25)], x0 + 0.18 + i * (x1 - x0 - 0.36) / 3, Y1 + y, (z0 + z1) / 2, (WHITE, CREAM, '#d9c9a8', PEACH)[(i + j) % 4], seg=10)
++        cluster(C1, (x0 + x1) / 2, Y1 + h + 0.25, (z0 + z1) / 2, 0.3, (WHITE, LEAF, LEAF_D), n=10)
++    elif k == 'glass_cabinet':
++        x0, x1, z0, z1, h = it['x0'], it['x1'], it['z0'], it['z1'], it['h']
++        C1.get('oak').box(x0, x1, Y1, Y1 + 0.8, z0, z1); C1.vc.cbox(x0, x0 + 0.03, Y1 + 0.8, Y1 + h, z0, z1, CREAM); C1.vc.cbox(x0, x1, Y1 + h - 0.04, Y1 + h, z0, z1, OAK)
++        for i in range(5): z = z0 + i * (z1 - z0) / 4; C1.vc.cbox(x1 - 0.03, x1, Y1 + 0.8, Y1 + h, z - 0.015, z + 0.015, OAK)
++        C1.get('glass').quad([(x1 - 0.01, Y1 + 0.8, z1), (x1 - 0.01, Y1 + 0.8, z0), (x1 - 0.01, Y1 + h, z0), (x1 - 0.01, Y1 + h, z1)])
++        for j, y in enumerate((0.8, 1.3, 1.8)):
++            C1.vc.cbox(x0, x1 - 0.03, Y1 + y - 0.02, Y1 + y, z0, z1, CREAM)
++            for i in range(8): clathe(C1.vc, [(0.0, 0.0), (0.04, 0.0), (0.065, 0.1), (0.035, 0.2), (0.0, 0.2)], (x0 + x1) / 2, Y1 + y, z0 + 0.25 + i * (z1 - z0 - 0.5) / 7, (WHITE, CREAM, '#e6ddd0')[(i + j) % 3], seg=8)
++    elif k == 'plant_big': tree(C1, it['x'], it['z'], y=Y1)
++# 學員桌（淺木）＋布面木椅；桌上一瓶花、剪刀筒、桌墊
++def fchair(c, x, z, yaw, y):
++    Tr = rot(x, z, yaw); sh = y + 0.46
++    rbox(c.vc, Tr, -0.22, 0.22, sh - 0.07, sh, -0.21, 0.21, '#e9e2d6', r=0.02, seg=1)                                    # 布面坐墊
++    for lx in (-0.19, 0.19):
++        for lz in (-0.18, 0.18): (px, pz) = Tr(lx, lz); ccyl(c.vc, (px, y, pz), (px, sh - 0.07, pz), 0.018, OAK, seg=6)
++    for lx in (-0.19, 0.19): (px, pz) = Tr(lx, -0.2); ccyl(c.vc, (px, sh, pz), (px, y + 0.84, pz), 0.018, OAK, seg=6)
++    rbox(c.vc, Tr, -0.2, 0.2, y + 0.6, y + 0.84, -0.225, -0.185, '#e9e2d6', r=0.015, seg=1)
++for t in J['tables1']:
++    x, z, w_, d_ = t['x'], t['z'], t['w'], t['d']
++    C1.get('oak').box(x - w_ / 2, x + w_ / 2, Y1 + 0.7, Y1 + 0.74, z - d_ / 2, z + d_ / 2)
++    for sx in (-1, 1):
++        for sz in (-1, 1): C1.get('oak').box(x + sx * (w_ / 2 - 0.08) - 0.03, x + sx * (w_ / 2 - 0.08) + 0.03, Y1, Y1 + 0.7, z + sz * (d_ / 2 - 0.08) - 0.03, z + sz * (d_ / 2 - 0.08) + 0.03)
++    vase(C1, x - 0.25, Y1 + 0.74, z, 0.22, MIX[t['id'] % 6], r=0.15); ccyl(C1.vc, (x + 0.3, Y1 + 0.74, z + 0.1), (x + 0.3, Y1 + 0.88, z + 0.1), 0.055, '#c9a878', seg=10)
++    C1.vc.cbox(x - 0.2, x + 0.5, Y1 + 0.74, Y1 + 0.746, z - 0.3, z - 0.05, '#d9d2c0')
++for q in J['seats1']: fchair(C1, q['x'], q['z'], q['yaw'], Y1)
++# 二樓天花板：長條吊燈兩支、軌道燈
++for (x, z) in ((-0.9, -5.0), (-0.8, -2.0)):
++    C1.vc.cbox(x - 1.3, x + 1.3, RY - 0.75, RY - 0.66, z - 0.1, z + 0.1, OAK); C1.get('light').box(x - 1.26, x + 1.26, RY - 0.765, RY - 0.75, z - 0.08, z + 0.08)
++    for dx in (-1.0, 1.0): ccyl(C1.vm, (x + dx, RY - 0.66, z), (x + dx, RY, z), 0.007, '#8a8f98', seg=5)
++C1.vm.cbox(-4.0, 3.0, RY - 0.06, RY - 0.03, -4.02, -3.98, '#f4f1ea')
++for i in range(8): x = -3.7 + i * 0.9; ccyl(C1.vm, (x, RY - 0.06, -4.0), (x, RY - 0.2, -4.05), 0.04, '#f4f1ea', seg=8); C1.get('light').cyl((x, RY - 0.212, -4.054), (x, RY - 0.2, -4.05), 0.034, seg=8)
++
++
++# ---------- 完成 ----------
++for wid, (m, par, d) in WALLS.items(): m.finish(par, props={'dir': d})
++C0.finish(); C1.finish()
++L.merge_by_material(root, keep=lambda ob: 'WALL_' in ob.name, key=lambda ob: 'L0' if ob.parent == R0 else 'L1')
++if '--nosingle' not in ARGS: L.single_side(root, keep=r'glass', nodup=r'(ceil|lightpanel)')
++tris = {}
++for ob in bpy.data.objects:
++    if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris[ob.name] = len(ob.data.loop_triangles)
++info = L.export(OUT, gpu_instances=False)
++L.write_json(OUT[:-4] + '.json', dict(info if isinstance(info, dict) else {}, tris_total=sum(tris.values()), walls=sorted(WALLS), note='FLOWER-NOTES-ART-1110 花序室內：L0_root 一樓花藝賣場、L1_root 二樓花藝教室'))
++print(json.dumps({'FLOWER_NOTES': 'OK', 'tris': sum(tris.values()), 'walls': len(WALLS)}, ensure_ascii=False))
