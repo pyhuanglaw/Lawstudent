@@ -8,6 +8,7 @@
     PERF_VIEWS（JSON {名字:[eye,look]}，給了就取代內建的鏡頭；VIEWS 沒給時全部量）、PERF_GLB（要等的正式模型節點名，預設 gongguan_shops_glb；溫州街 wenzhou_street_glb，src/zones3d.js:1143）。
     溫州街範例：PERF_ZONE=wenzhou；PERF_POS={"x":10,"z":0,"yaw":1.5708}；PERF_GLB=wenzhou_street_glb；
       PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]}
+CLEAN=1＝正式模型那一輪，每個鏡頭另外截 perf_<鏡頭>_clean.png（藏 HUD、藏路人，比外觀用）。
 DESKTOP=1＝桌機視窗 1366×768（非手機模擬）；沒設＝照舊手機模擬 844×390。
 用法：LW_TESTS=<wt>/tests [VIEWS=street_west,arcade] [PERF_ZONE=… PERF_POS=… PERF_VIEWS=… PERF_GLB=…] python3 cc_gg_perf_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -52,6 +53,9 @@ VISLIST = """(()=>{ const E=GAME.E, cam=E.camera; cam.updateMatrixWorld(); const
   E.scene.traverse(o=>{ if(!(o.isMesh||o.isSprite||o.isPoints||o.isLine)) return; if(!shown(o)) return; let inF=true; try{ if(o.geometry){ if(!o.geometry.boundingSphere) o.geometry.computeBoundingSphere(); const bs=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld); inF=fr.intersectsSphere(bs); } }catch(e){}
     if(!inF&&o.frustumCulled!==false) return; const ms=Array.isArray(o.material)?o.material:[o.material]; out.push({n:o.name||'(無名)', p:(o.parent&&o.parent.name)||'', m:ms.map(m=>m&&m.name||'?').join('+'), inst:o.isInstancedMesh?o.count:0, fc:o.frustumCulled!==false}); });
   return out; })()"""
+CLEANON = """(()=>{ const E=GAME.E; window.__ccHid=E.npcs.map(n=>[n.obj,n.obj.parent]).filter(a=>a[1]); window.__ccHid.forEach(a=>a[1].remove(a[0]));
+  const st=document.createElement('style'); st.id='ccClean'; st.textContent='body *{visibility:hidden!important} #c{visibility:visible!important}'; document.head.appendChild(st); })()"""
+CLEANOFF = "(()=>{ (window.__ccHid||[]).forEach(a=>a[1].add(a[0])); window.__ccHid=null; const st=document.getElementById('ccClean'); if(st) st.remove(); })()"
 INFO_JS = "(()=>({hour:+GAME.G.hour.toFixed(3), npcs:(GAME.E.npcs||[]).length, npcsVisible:(GAME.E.npcs||[]).filter(n=>n.obj&&n.obj.parent).length}))()"
 GLBREADY = "(()=>{ const z=GAME.E.zone; if(!z||!z.group) return false; const g=z.group.children.find(o=>o.name==='%s'); if(!g) return false; let m=0; g.traverse(o=>{ if(o.isMesh) m++; }); return m>0; })()" % GLB
 
@@ -96,6 +100,9 @@ async def one(p, formal):
             f['visCount'] = len(vl)
             print('  %s %s：畫面裡的 mesh %d 個（清單寫進 vis_*.json）' % (tag, v, len(vl)), flush=True)
         await pg.screenshot(path=os.path.join(OUT, 'perf_%s_%s.png' % (v, 'formal' if formal else 'nobldg')))
+        if formal and os.environ.get('CLEAN') == '1':   # BB 12:41：新舊外觀並排（貼圖合併後三棟不能糊、錯位、偏色）＝藏 HUD、藏路人、同一個鏡頭再截一張
+            await pg.evaluate(CLEANON); await pg.wait_for_timeout(700)
+            await pg.screenshot(path=os.path.join(OUT, 'perf_%s_clean.png' % v)); await pg.evaluate(CLEANOFF)
         res['views'][v] = dict(d, **f)
         print('  %s %s：draw call %s、三角形 %s（藏路人）；FPS 平均 %s、最低 %s、1%%low %s（%s 格；路人在：call %s／tris %s）；遊戲時間 %s、路人 %s（在場景 %s）' % (tag, v, d['calls'], d['tris'], f['avg'], f['min'], f['low1'], f['frames'], f['calls_live'], f['tris_live'], f.get('hour'), f.get('npcs'), f.get('npcsVisible')), flush=True)
     await pg.evaluate("GAME.E.endCinematic&&GAME.E.endCinematic()")
