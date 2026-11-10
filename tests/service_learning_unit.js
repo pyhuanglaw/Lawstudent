@@ -52,7 +52,7 @@ check('次數還沒滿：第 15、16 週有補做',has(w15.day)&&has(w16.day));
   /* 自學、手機課表 */
   G.day=want[0].day; G.hour=19; chose.length=0; await CLS.studyPick(GM); const opts=chose[0]||[];
   check('自學的科目不列服務學習',opts.length>0&&!opts.some(t=>/服務學習/.test(t)),opts.join('、'));
-  const wh=CLS.weekHTML(G);
+  const wh=CLS.weekHTML(G).replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');   /* 2026-11-10 ATTEND-TIDY-1110：出席改成一門課一行，比對前先拿掉標籤 */
   check('手機「課表」：週三下午一寫服務學習（一）、第 4–7、10–14 週；出席寫「9／9 次」',/服務學習（一）/.test(wh)&&/第 4–7、10–14 週/.test(wh)&&/服務學習（一） 9／9 次/.test(wh));
   /* 櫃台 */
   G.courses={}; G.day=want[1].day; G.hour=13.25; chose.length=0; caps.length=0; answer=0;

@@ -50872,7 +50872,7 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "sha": "be7ae2215",
    "test": null
   },
   {
@@ -50995,7 +50995,7 @@
    "id": "ATTEND-TIDY-1110",
    "title": "出席紀錄改成一門課一行、好讀",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -51007,7 +51007,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:5x LAWWW-B】使用者 X292「太亂了」。改成表格：課名／出席次數（點名課寫點過幾次名）／缺課。",
+   "next": "【11-10 02:5x LAWWW-B】classes3d.js S.weekHTML：出席＝<b>出席</b>＋每門一行 phrow attRow（課名／「點過 n 次名（缺 m 次）」「n／N 次」「去過 n 次」）。tests/attend_tidy_unit.js 修改前 FAIL；honor_unit、service_learning_unit 比對前拿掉標籤；碰到 CLS 的 506 支 ALL PASS。等瀏覽器看畫面。｜【11-10 01:5x LAWWW-B】使用者 X292「太亂了」。改成表格：課名／出席次數（點名課寫點過幾次名）／缺課。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",

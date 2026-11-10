@@ -1068,7 +1068,10 @@ const CLS=(function(){
     if(!termId) return '<div class="item">沒有課表。</div>'; const cs=S.termCourses(G,termId); const todayWd=CALENDAR.dateOf(G.day).wd; const R=S.rec(G);
     let h='<div class="item"><b>'+S.termName(termId)+'</b>'+(t?'・第 '+t.week+' 週':'（還沒開學）')+'</div><div class="tt"><div class="tth"></div>'; for(let d=1;d<=5;d++) h+='<div class="tth'+(d===todayWd&&t?' on':'')+'">'+WD[d]+'</div>';
     for(const bk of ['am','pm1','pm2']){ h+='<div class="ttb">'+B(bk).label+'<br><span class="muted">'+hhmm(B(bk).t0)+'</span></div>'; for(let d=1;d<=5;d++){ const c=cs.find(q=>q.slots.some(s=>s.wd===d&&s.block===bk)); h+='<div class="ttc'+(d===todayWd&&t?' on':'')+'">'+(c?esc(c.name)+'<br><span class="muted">'+esc(S.roomName(c))+(c.weeks?'・'+esc(S.weeksText(c)):'')+'</span>':'')+'</div>'; } }
-    h+='</div><div class="item muted">出席：'+cs.map(c=>{ const n=R.attend[c.id]||0; if(S.attCourse(c)){ const st=S.rollStat(G,c,termId,G.day); return esc(c.name)+' 點過 '+st.past+' 次名'+(st.missed?'（缺 '+st.missed+' 次）':''); }   /* ATTEND-ROLLCALL-1102：看出席的課只顯示已經點過的（還沒到的點名日看不到）*/ return esc(c.name)+' '+n+(c.weeks?'／'+c.weeks.length:'')+' 次'; }).join('、')+'</div>';   /* D43：看出席的課隨時看得到還差幾堂 */
+    h+='</div><div class="item"><b>出席</b>'+cs.map(c=>{ const n=R.attend[c.id]||0; let t;
+      if(S.attCourse(c)){ const st=S.rollStat(G,c,termId,G.day); t='點過 '+st.past+' 次名'+(st.missed?'（缺 '+st.missed+' 次）':''); }   /* ATTEND-ROLLCALL-1102：看出席的課只顯示已經點過的（還沒到的點名日看不到）*/
+      else t=c.weeks?n+'／'+c.weeks.length+' 次':'去過 '+n+' 次';   /* D43：有週數的（服務學習）隨時看得到還差幾堂 */
+      return '<div class="phrow attRow" style="margin-top:4px"><span>'+esc(c.name)+'</span><span class="muted" style="flex:none">'+esc(t)+'</span></div>'; }).join('')+'</div>';   /* 一門課一行（ATTEND-TIDY-1110，使用者 11-10 X292「太亂了」：原本一長串用頓號接起來）*/
     const ex=S.examList(G,termId); if(ex.length) h+='<div class="item"><b>考試</b><span class="muted">（這段時間不能約人、約會）</span>'+ex.map(e=>{ const dt=CALENDAR.dateOf(e.day), past=e.day<G.day; return '<div class="'+(past?'muted':'')+'" style="margin-top:4px">'+(e.kind==='mid'?'期中':'期末')+'　'+esc(e.c.name)+'　'+dt.m+'/'+dt.d+'（'+'日一二三四五六日'[dt.wd]+'）'+hhmm(e.t0)+'–'+hhmm(e.t1)+'　'+esc(S.roomName(e.c))+(e.makeup?'（補考那一堂）':'')+(past?'　考過了':'')+'</div>'; }).join('')+'</div>';   /* D14-T3：考試時段標在課表 */
     return h; };
 

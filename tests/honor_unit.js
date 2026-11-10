@@ -55,8 +55,8 @@ await sec(4,()=>{ const d=termDay('Y1S1',5,1); at(d,10); const R=CLS.rec(H.G); c
   check('4. 大一上看出席的課：國文、英文、體育、通識這類（法律課、服務學習不算）',att.length>=3&&att.every(c=>!CLS.isExamCourse(c)&&c.kind!=='service'),att.map(c=>c.name).join('、'));
   const c1=att[0], c2=att[1]; R.attend[c1.id]=2; R.attend[c2.id]=3; const g=CLS.reportFor(H.G,'Y1S1');
   check('4. 成績單：兩堂「不及格（下學期重修）」、三堂「及格」',g[c1.id]==='不及格（下學期重修）'&&g[c2.id]==='及格',J([g[c1.id],g[c2.id]]));
-  const h=CLS.weekHTML(H.G);
-  check('4. 課表（ATTEND-ROLLCALL-1102）：看出席的課寫「點過 n 次名（缺 m 次）」，只算已經點過的',new RegExp(c1.name.replace(/[()（）]/g,'.')+' 點過 \\d 次名').test(h)&&!/三堂及格/.test(h),h.slice(h.indexOf('出席：'),h.indexOf('出席：')+200));
+  const h=CLS.weekHTML(H.G).replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');   /* 2026-11-10 ATTEND-TIDY-1110：出席改成一門課一行（課名、次數分開兩格），比對前先拿掉標籤 */
+  check('4. 課表（ATTEND-ROLLCALL-1102）：看出席的課寫「點過 n 次名（缺 m 次）」，只算已經點過的',new RegExp(c1.name.replace(/[()（）]/g,'.')+' 點過 \\d 次名').test(h)&&!/三堂及格/.test(h),h.slice(h.indexOf('出席'),h.indexOf('出席')+200));
   check('4. 服務學習照舊只記次數',!sv||h.includes(sv.name+' '+(R.attend[sv.id]||0)+'／')); });
 
 await sec(5,()=>{ const d=termDay('Y1S1',12,1); at(d,7.5); const R=CLS.rec(H.G), att=CLS.termCourses(H.G,'Y1S1').filter(CLS.attCourse); for(const c of att) R.attend[c.id]=3; R.attend[att[0].id]=1; R.attend[att[1].id]=2;
