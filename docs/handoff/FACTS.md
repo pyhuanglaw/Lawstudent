@@ -60,3 +60,5 @@
 - Blender 腳本 `tools/blender/env_second/`：`wz_street.py -- --set <區>`（**一定要有 `--`，沒有會蓋掉溫州街的 GLB**）、`wz_shopkit.py`、`tz_stalls.py`、`tz_shops_interior.py --shop <店>`、`flower_notes_interior.py`；貼圖 Poly Haven CC0 在 `textures/<pid>/`、自己產的 `textures/gen/`。重建公館店面街的三步在 `docs/art-rebuild/second_ai/HANDOFF.md` 最上面。
 - 雲端容器算預覽圖很慢（沒有顯示卡：整條街一張 10～13 分鐘）；建模、匯出不慢。正式預覽排使用者電腦（ROLE_LAWWW2 1.0）。
 - 公館 G08 騎樓的紅凳子 `sk_stool_r_G08` 是子晴的劇情座位，重建店面街不能拿掉（`zq_arcade_seat_unit`）；雜物變了要重算 `src/zones3d.js` 的 GG_PROP_BLOCKS（`street_props_nav_unit`）。
+
+- （11-10 23:4x）禮貌生財「上師」的人物圖使用者給過了：開發分支 `docs/handoff/user_specs/limao_ref/shangshi_character.png`；店面外觀圖在 LAWWW2 分支 `ref/night_market_1110/concept/shop_limao_shengcai_exterior.webp`；夜市十攤圖同資料夾。不要再跟她要。
