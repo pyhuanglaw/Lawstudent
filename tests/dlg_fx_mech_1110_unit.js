@@ -5,6 +5,7 @@
 //   2. 校外約會（src/date3d.js）：選項 {t, reply|re, fx}——fx 照算、re（字串／陣列／括號＝旁白）當她的回答；沒有 fx 的選項＝只有原本的加法
 //   3. 校外約會：互動點的 opts＝{first, again, dating}——第二次以後到同一個互動點出 again（好幾組＝輪流）、交往中出 dating；抵達、收尾也可以有；
 //      沒有 opts＝第二次以後沒有選項（原本的樣子）；輪到第幾組記在存檔（dateMemory…optN），舊存檔沒有＝第一組
+//   4. 閒聊階梯（src/story3d.js ladPlay／ladNext）：層的 fx、選項的 fx／re；那個人那個學期的 dating 陣列＝交往中那一階（進度另外記、不占 steps）
 // 修改前（35e560bbd）：第 1 節沒有 SOCIAL.applyFx；第 2 節 fx 不算、re 不說；第 3 節第二次以後沒有選項——FAIL。用法：node tests/dlg_fx_mech_1110_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H; const J=JSON.stringify;
@@ -66,5 +67,30 @@ module.exports={H,sec,clone,reset,idx,sum,J,get CH(){ return CH; },set WANT(v){ 
       LN.hotspots[pid].opts={again:[[{t:''},{nope:1}],'x',null],dating:7}; H.G=start(); await go([pn(pid),c0.t]); next(); let e=null; try{ await go([pn(pid)]); }catch(x){ e=String(x); }
       check('3. 壞掉的 opts（沒有字的選項、不是物件）：當作沒有、不丟例外、不出空的選項',e===null&&CH.every(c=>c.every(t=>typeof t==='string'&&t.trim())),J([e,CH]));
     } finally { DATE_LINES.loc[loc].lines[who]=JSON.parse(keep); WANT=[]; } });
+
+  await sec(4,async()=>{ const id='heroine_01', T='Y1S2', L=LADDER.byTerm[T][id], keep=J(L), who={name:'以安',charId:id}, K=id+'@'+T;
+    const start=(w)=>{ const G=H.fresh('2026-03-01',10,'campus'); G.day=STORY.termDay(T,w||3,2); G.weekday=2; H.rel(id,45,30,0); return G; };
+    const talk=async(want)=>{ reset(); WANT=want||[]; return STORY.ladderTalk(GM,who,id); };
+    try{
+      /* 沒有新欄位：交往中也照 steps（原本的樣子） */
+      let G=start(); H.date(id); await talk(); const s0=L.steps[0];
+      check('4. 資料沒有 dating：交往中也是照 steps 的第一層（和原本一樣）',idx(STORY.ladLines(s0,G,id)[0])>=0&&G.social.ladder[K]===1&&G.social.ladder[K+'#dating']==null,J([H.said.map(x=>x.t),G.social.ladder]));
+      /* 層和選項的 fx、re */
+      L.steps[0]=Object.assign({},s0,{fx:{love:1},choices:[{t:'（假）甲',re:'（假）回甲。',fx:{love:2}},{t:'（假）乙',re:['（她看了你一眼。）','（假）回乙。'],fx:{fr:-1}}]});
+      G=start(); await talk(['（假）甲']); const a={rom:sum(id,'npcRom'),re:idx('（假）回甲。')>=0,who:(H.said[idx('（假）回甲。')]||{}).who};
+      G=start(); await talk(['（假）乙']); const b={rom:sum(id,'npcRom'),neg:ADJ.some(([w,d])=>w===id&&J(d)===J({fam:-1,trust:-1,comf:-1})),n:H.said[idx('（她看了你一眼。）')],re:idx('（假）回乙。')};
+      check('4. 層的 fx＋選項的 fx：選甲＝她的戀愛 +1+2；選乙＝+1、熟悉信任自在各 -1；re 當她的回答（括號＝旁白）',a.rom===3&&a.re&&a.who==='以安'&&b.rom===1&&b.neg&&!!b.n&&b.n.who===null&&b.re>=0,J({a,b}));
+      /* dating 那一階 */
+      L.dating=[{id:'A2-D1',lines:['（假）交往層一。'],choices:[{t:'（假）丙',re:'（假）回丙。',fx:{love:3}}],fx:{fr:1}},{id:'A2-D2',week:[10,18],lines:['（假）交往層二。']}];
+      G=start(); await talk(); const nd={d:idx('（假）交往層一。')>=0,lad:clone(G.social.ladder)};
+      G=start(); H.date(id); await talk(['（假）丙']); const d1={d:idx('（假）交往層一。')>=0,re:idx('（假）回丙。')>=0,rom:sum(id,'npcRom'),fam:sum(id,'fam'),lad:clone(G.social.ladder)};
+      const same=await talk(); const d1b={again:idx('（假）交往層一。')>=0||idx('（假）交往層二。')>=0};
+      G.day+=1; G.weekday=3; await talk(['（假）甲']); const d2={step:idx('（假）回甲。')>=0,d:idx('（假）交往層二。')>=0,lad:clone(G.social.ladder)};
+      G.day=STORY.termDay(T,10,2); G.weekday=2; await talk(); const d3={d:idx('（假）交往層二。')>=0,lad:clone(G.social.ladder)};
+      check('4. dating 那一階：沒交往＝不出、照 steps；交往中＝先聊交往層（層 fx fr 1、選項 love 3）、進度另外記、不占 steps',!nd.d&&nd.lad[K]===1&&d1.d&&d1.re&&d1.rom===3&&d1.fam>=1&&d1.lad[K+'#dating']===1&&(d1.lad[K]|0)===0,J({nd,d1}));
+      check('4. 一天一層照舊；交往層的下一層條件還沒到（第 10 週才有）＝照 steps；條件到了才聊交往層',!d1b.again&&d2.step&&!d2.d&&d2.lad[K]===1&&d2.lad[K+'#dating']===1&&d3.d&&d3.lad[K+'#dating']===2,J({d1b,d2,d3}));
+      const old=clone(G); delete old.social.ladder[K+'#dating']; H.G=old; SOCIAL.bind(old); EVENTS.bind(GM); old.day+=1; old.weekday=3; await talk(['（假）丙']);
+      check('4. 舊存檔（沒有交往層的進度）：從交往層第一層開始；存檔 JSON 來回不壞',idx('（假）交往層一。')>=0&&JSON.parse(J(old)).social.ladder[K+'#dating']===1,J(old.social.ladder));
+    } finally { LADDER.byTerm[T][id]=JSON.parse(keep); WANT=[]; } });
   if(require.main===module) H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

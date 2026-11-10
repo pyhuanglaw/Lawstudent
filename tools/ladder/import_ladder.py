@@ -65,7 +65,7 @@ soc = open(os.path.join(ROOT, 'src', 'social3d.js'), encoding='utf8').read()
 has = lambda t: bool(re.search(r'\b' + t + r":'", soc)) or t in lab
 def mems(cs):
     for v in cs.values():
-        for st in v['steps']:
+        for st in list(v['steps']) + list(v.get('dating') or []):   # dating＝交往中那一階（DLG-FX-MECH-1110；格式同 steps，另外可以有 fx）
             if st.get('mem'): yield st['mem']
             for ch in st.get('choices') or []:
                 if ch.get('mem'): yield ch['mem']
