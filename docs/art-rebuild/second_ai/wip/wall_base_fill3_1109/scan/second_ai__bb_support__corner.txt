@@ -1,0 +1,14 @@
+second_ai/bb_support/corner：1024×1024，被蓋住、會露出來的 55787 格，其中只因新規則 (c) 的 35758 格（1018 秒）
+  改前 corner_lm_day.webp：平均 52.3，旁邊 94.0（0.56 倍）FAIL；新規則那些平均 60.7
+  改前 corner_lm_night.webp：平均 51.9，旁邊 96.5（0.54 倍）FAIL；新規則那些平均 60.4
+  新規則：WALL_back_cr_wood 底下 3480 格
+  新規則：WALL_front_cr_wood 底下 2212 格
+  新規則：WALL_front_front_wall 底下 78 格
+  新規則：WALL_left_cr_wood 底下 9249 格
+  新規則：WALL_right_cr_vc 底下 1433 格
+  新規則：WALL_right_cr_vc_metal 底下 11652 格
+  新規則：WALL_right_cr_wood 底下 7654 格
+  改後 corner_lm_day.webp：平均 89.6，旁邊 94.1（0.95 倍）PASS；新規則那些平均 103.4
+  改後 corner_lm_night.webp：平均 92.6，旁邊 96.5（0.96 倍）PASS；新規則那些平均 107.0
+  補了 55787 格（34 圈；中位數 0 格；留邊 13163 格）
+  共 1026 秒

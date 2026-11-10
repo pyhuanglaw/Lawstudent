@@ -1,0 +1,80 @@
+[
+ {
+  "label": "轉角唱片：左牆唱片櫃底下的地板",
+  "zone": "corner_records",
+  "wall": "WALL_left_cr_wood",
+  "surf": "cr_floor_floor",
+  "target": [
+   -3.65,
+   0,
+   -0.25
+  ],
+  "surfFound": 1,
+  "wallFound": 1,
+  "targetInSurf": true,
+  "pitch": 0.38,
+  "dist": 3.8,
+  "tried": 5544,
+  "cnt": {
+   "free": 231,
+   "wallHidden": 1678,
+   "angle": 500,
+   "ray": 499,
+   "blk": "cr_alpha@4.58/7.01"
+  },
+  "best": {
+   "sc": 17.925088764688127,
+   "x": -3.15,
+   "z": 2.25,
+   "y": 0,
+   "yaw": 345,
+   "ang": 10.3,
+   "camDist": 3.8,
+   "cam": [
+    -4.06,
+    3.06,
+    5.66
+   ],
+   "hit": "cr_floor_floor"
+  }
+ },
+ {
+  "label": "轉角唱片：左牆唱片櫃底下的地板（北段）",
+  "zone": "corner_records",
+  "wall": "WALL_left_cr_wood",
+  "surf": "cr_floor_floor",
+  "target": [
+   -3.65,
+   0,
+   2.5
+  ],
+  "surfFound": 1,
+  "wallFound": 1,
+  "targetInSurf": true,
+  "pitch": 0.38,
+  "dist": 3.8,
+  "tried": 4272,
+  "cnt": {
+   "free": 178,
+   "wallHidden": 1257,
+   "angle": 434,
+   "ray": 419,
+   "blk": "cr_alpha@3.01/6.00"
+  },
+  "best": {
+   "sc": 18.501222461497363,
+   "x": -3.15,
+   "z": 2.25,
+   "y": 0,
+   "yaw": 195,
+   "ang": 16.8,
+   "camDist": 3.8,
+   "cam": [
+    -4.06,
+    3.06,
+    -1.16
+   ],
+   "hit": "cr_floor_floor"
+  }
+ }
+]
