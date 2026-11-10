@@ -7261,7 +7261,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "4f695028e",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW 11-10 13:07／13:11：已在本機接進開發分支，測試 ALL PASS）",
    "task": "NTU-REF-1110 ③-1 男一舍清水模＋樓梯塔圓窗（X223）",
    "files": [
     "docs/art-rebuild/second_ai/wip/ntu_ref_male1_1110/（README、ntu_ref_male1_1110.patch、ntu_ref_male1_unit.js、regression.log、male1_before_after.jpg）"
@@ -7275,7 +7275,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "812dd23d8",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW 11-10 13:07／13:11：已在本機接進開發分支，測試 ALL PASS）",
    "task": "NTU-REF-1110 ③-2 共同教學館紅磚舊館＋米色翼樓（X223）",
    "files": [
     "docs/art-rebuild/second_ai/wip/ntu_ref_gongtong_1110/（README、ntu_ref_gongtong_1110.patch、ntu_ref_gongtong_unit.js、regression.log、gongtong_before_after.jpg）"
@@ -7284,6 +7284,20 @@
    "noDirectIntegrate": false,
    "note": "依使用者 11-04 照片：東半部舊館紅磚、西翼米色粉刷（照面的位置換材質）。新測試開發 FAILED 2 → ALL PASS；回歸 82 支過。",
    "next": "③-3 映月湖（模型好了）、③-4 研三舍"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "NTU-REF-1110 ③-3 映月湖：綠色琉璃瓦、紅欄杆、三棵垂柳（X223）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/ntu_ref_lake_1110/（README、ntu_ref_lake_1110.patch、ntu_ref_lake_unit.js、regression.log、lake_before_after.jpg）"
+   ],
+   "state": "MODEL_READY，待整合；BB 判（第 1 版）",
+   "noDirectIntegrate": false,
+   "note": "官網照片：綠琉璃瓦、紅木欄杆、垂柳（樹幹在水裡，導航不動）；zones3d.js attachLakeGLB 多一行（葉片不投影、alphaTest、雙面、透空）。新測試開發 FAILED 3 → ALL PASS；回歸 36 支過。",
+   "next": "③-4 研三舍（拿掉多的那棟）"
   }
  ]
 }
