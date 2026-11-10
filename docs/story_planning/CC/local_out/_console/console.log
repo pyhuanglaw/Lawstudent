@@ -1867,3 +1867,10 @@
 [22:54:45] ==== START XSGATE_new  (probe @ b296c6b562550f166bd8f7d78e0046cf4435e174) ====
 [22:54:48] [res] cpu=10% mem=50% (15.8/31.4 GB) chrome_testing=9  START XSGATE_new
 [22:56:33] [res] cpu=16% mem=52% (16.7/31.4 GB) chrome_testing=9  END XSGATE_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8ca646cfc..0a7058ef7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:56:43] ==== END   XSGATE_new  exit=0  108s   ====
+[22:56:52] [res] cpu=6% mem=42% (13.4/31.4 GB) chrome_testing=5  END X199_zone
+[22:56:52] memory 42% before starting XSGATE_old (2 running)
+[22:56:52] ==== START XSGATE_old  (probe @ e9af1306192fe33a31db4c4b44a38f42d779913d) ====
