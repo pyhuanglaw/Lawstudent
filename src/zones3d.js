@@ -800,7 +800,11 @@ const Z3 = (function(){
     nav.blockRect(S.x,S.z,S.w,S.d,0); for(const sx of [-1,1]){ nav.blockRect(S.x+sx*(S.w/2-1.3),S.z+S.d/2+0.45,1.0,0.9,0); nav.blockCircle(S.x+sx*(S.w/2+0.6),S.z+S.d/2-0.6,0.5); }   /* 台階、喇叭（舞台 ry=0：正面朝 +z）*/
     g.add(fb);
     return zone=>{ if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.club_fair_expo']) return; ASSETS.loadOne('bldg.club_fair_expo').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
-      const m=c.scene.clone(true); m.position.set(0,0,0); m.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; } }); g.add(m); fb.visible=false; }).catch(e=>console.warn('社團博覽會正式模型載入失敗，用簡單的帳篷',e)); }; }
+      const m=c.scene.clone(true); m.position.set(0,0,0); m.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; fairSeeThru(o); } }); g.add(m); fb.visible=false; }).catch(e=>console.warn('社團博覽會正式模型載入失敗，用簡單的帳篷',e)); }; }
+  /* 社博帳篷擋跟隨鏡頭（FAIR-TENT-CAM-1102，BB_218 最後兩節；LAWWW2 帳號 A 11-10）：正式模型（club_fair.glb、club_fair_expo.glb）每一攤是一個合併的網格、一個材質，
+     帳篷頂、桌子、立牌分不開——整攤接樹幹透視（engine3d.js：擋在鏡頭和玩家之間的部分在玩家周圍網點透空、離鏡頭 1.7 m 內透空；其他時候照常畫）。
+     攤位之間走、站在攤位後面時鏡頭在帳篷頂上或另一攤後面，原本整個人被帳篷蓋住。測試：node tests/fair_tent_cam_unit.js */
+  function fairSeeThru(o){ for(const m of [].concat(o.material)){ if(!m||m.userData.seeThrough) continue; m.userData.seeThrough=true; if(E3.patchSeeThrough) E3.patchSeeThrough(m); } }
   function clubFair(E,g,nav){ const fb=new THREE.Group(); fb.name='fair_fallback'; fb.userData.dyn=true;   /* 不參加整區靜態合併（帳篷共用 P3.M 材質，沒有這行會被合併搬走，正式模型載入後 fb.visible=false 藏不到，兩套帳篷疊在一起）*/ const roof=P3.M('#e8e4da',{rough:0.9}), pole=P3.M('#9aa0a6',{rough:0.5}), table=P3.M('#3f6b8a',{rough:0.8});
     for(const [,x] of FAIR){ const t=new THREE.Group(); const r=new THREE.Mesh(new THREE.ConeGeometry(2.15,0.85,4,1),roof); r.rotation.y=Math.PI/4; r.position.y=2.47; t.add(r);
       for(const [px,pz] of [[-1.48,-1.48],[1.48,-1.48],[-1.48,1.48],[1.48,1.48]]){ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,2.05,6),pole); p.position.set(px,1.025,pz); t.add(p); }
@@ -808,7 +812,7 @@ const Z3 = (function(){
       nav.blockRect(x,FAIR_Z,3,3,0); }
     g.add(fb);
     return zone=>{ if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.club_fair']) return; ASSETS.loadOne('bldg.club_fair').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene; let n=0;
-      for(const [name,x] of FAIR){ const src=root.getObjectByName(name); if(!src) continue; const m=src.clone(true); m.position.set(x,0,FAIR_Z); m.rotation.set(0,Math.PI,0); m.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; } }); g.add(m); n++; }
+      for(const [name,x] of FAIR){ const src=root.getObjectByName(name); if(!src) continue; const m=src.clone(true); m.position.set(x,0,FAIR_Z); m.rotation.set(0,Math.PI,0); m.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; fairSeeThru(o); } }); g.add(m); n++; }
       if(n===FAIR.length) fb.visible=false; else console.warn('社團博覽會的帳篷只找到 '+n+' 頂，留著簡單的帳篷'); }).catch(e=>console.warn('社團博覽會正式模型載入失敗，用簡單的帳篷',e)); }; }
   /* ---- 系籃球場（LAWWW2 9428f9f：bball_court.glb；位置 A 醉月湖東側 (-4,-113)、rotation.y=0，LAWWW 2026-10-14 採用，美術待使用者驗收）----
      場地可以走（鋪面 2 cm）；只擋籃架柱子（0.32×0.32，(-4,-120.85)）和兩張長椅（2.0×0.36，長邊沿 z，(4.05,-115.2)／(4.05,-110.2)）。

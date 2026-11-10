@@ -39824,7 +39824,7 @@
    "title": "社博帳篷頂擋跟隨鏡頭：帳篷改 seeThrough（WIP 沒交件）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -39838,14 +39838,15 @@
    },
    "source": "LAWWW2 11-02 04:39（交接檔有、總表沒有）",
    "authorized": "D108",
-   "next": "【LAWWW（帳號 A）04:4x 登記】1～4.5h；玩家會遇到的鏡頭問題，排在 us_market／jp_room 之後",
+   "next": "【LAWWW 11-10 10:3x】LAWWW2 4a61b27e9：社博兩個正式模型（club_fair、club_fair_expo）材質接樹幹透視（fairSeeThru）；fair_tent_cam（大一 421／大二 1,861 次穿過帳篷，被擋住→0）＋社博 4 支、seethru 2 支 ALL PASS；CC 在 2025-11-15、2026-09-12 走攤位中間、站攤位後面。 ｜ 【LAWWW（帳號 A）04:4x 登記】1～4.5h；玩家會遇到的鏡頭問題，排在 us_market／jp_room 之後",
    "xai": {
     "spec": "LAWWW2 HANDOFF.md",
     "branch": "claude/second-ai-env-art",
     "acceptance": "遊戲內截圖＋相關 Node 測試；交 LAWWW 合併、BB 看畫面",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "4a61b27e9"
   },
   {
    "id": "BADMINTON-CLIP-V4-1102",
