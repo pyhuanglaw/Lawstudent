@@ -6,3 +6,6 @@ Y2S1 6440410550 2026-11-10 22:36:32 +0000
 Y2S2 1bd257e219 2026-11-10 22:44:14 +0000
 Y3S1 adc3a82f41 2026-11-10 23:26:05 +0000
 Y3S2_Y4S1 1c9d38a06e 2026-11-10 23:03:13 +0000
+
+（23:5x 補）AA_749_termend_kx_v2.json 換成企劃線最新（gh api，claude/story-planning＝8bf2d1c698262988acfc13123186b6e88d87b454；檔案和 1cf434dee 一樣＝開發分支 57181feb2 匯入的那一版，選項多了 set：KX_KHH／KX_Y5_CALL）。
+gf、heart 兩份照 SOURCE_SHA.txt（3259b5f78）不動；朋友版六個檔和 8bf2d1c69 一樣（Y3S1 的 thenIf 已經在 57181feb2 匯入）。

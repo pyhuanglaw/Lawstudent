@@ -21,7 +21,7 @@ PARTS（逗號分開；TZQ、TZP 是下面幾個的總稱）：
            再從汀州路巷子口讀一次清單，九筆的分鐘數照距離公式核對，按最遠的那一間看扣的時間
   TZQ_NEW  A3 新存檔（GAME.defaults：visited 只有宿舍）：汀州路那一區的九筆照 BB「顯示還沒去過、不能直接傳送」核對（程式 known0.tingzhou=1，會在 note 寫出來）
   TZQ_OLD  A4 公館那一區的清單、公館圖釘沒有泰米村食、洗樂洗衣坊、印得好；舊存檔站在 G09～G11 門口（z 21）與人行道（z 18）讀得進來、站得住（讀檔 unstick 挪 ≤1 m）、2 秒不被帶走、
-           （BB 23:27）印出 ① 挪完站得住 ② 搖桿推 1 秒移動 >0.3 m ③ 讀檔那一段 console 警告全文（只能有 unstick 那一則：engine3d.js:206 'spawn was inside a blocked cell'）、點地面走得動
+           （BB 23:27）印出 ① 挪完站得住 ② 搖桿推 1 秒移動 >0.3 m ③ 讀檔那一段 console 警告全文（只能有 unstick 那一則：engine3d.js:344「unstick → [x, z]」，或 :206 'spawn was inside a blocked cell'）、點地面走得動
   TZQ_A    （BB 23:21／23:27，LAWWW 定案 (a)；新版 470e238cf、舊版 3a216dfb2 會 FAIL）A3 新流程：① 新存檔（visited 只有 dorm）汀州路那一區「汀州路」有前往、八間不能前往
            （不列出或「還沒去過」都算）② 【前置】讀檔到公館 G10 巷子口前 (37.1,17.5) → go_to 到「往汀州路（巷子）」按 → 進汀州路 → go_to「往公館」按 → 回公館
            ③ 清單八間都有前往 ④ 八間各一次（每次讀檔回公館、visited 照②走出來的）：落在店門口、站得住、面向、按鈕；有室內的三間照實記 ⑤ 舊存檔（visited 有 tingzhou）八間直接在
@@ -357,7 +357,7 @@ async def part_tzq_old(pg, cdp, errs):
             R.note('%s ② 搖桿推 1 秒：每次移動 %s m' % (tag, pushes))
             R.check('%s ② 搖桿推 1 秒移動 >0.3 m' % tag, max(pushes) > 0.3, J(pushes))
             warns = [c for c in CONS[c0:] if c[1] in ('warning', 'warn')]
-            uns = [c for c in warns if 'spawn was inside a blocked cell' in c[2] or 'spawn relocated' in c[2]]
+            uns = [c for c in warns if c[2].startswith('unstick →') or 'spawn was inside a blocked cell' in c[2] or 'spawn relocated' in c[2]]   # engine3d.js:344 E.unstick 印「unstick → [x, z]」（讀檔走這一條）；:206 換區域出生點的兩種
             R.note('%s ③ 讀檔到推搖桿這一段的 console 警告 %d 則：%s' % (tag, len(warns), J([c[2] for c in warns])))
             R.check('%s ③ console 只有 unstick 那一則警告（有挪＝剛好一則 unstick、沒挪＝0 則；沒有別的警告）' % tag, len(warns) == len(uns) and len(uns) == (1 if sh > 0.1 else 0), J([c[2] for c in warns]))
             ok = await L.go_to(pg, cdp, R, x, 14.0, 0.8, '%s 點地面走到人行道 (%.1f,14)' % (tag, x), max_s=60)

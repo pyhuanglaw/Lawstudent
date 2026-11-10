@@ -162,7 +162,7 @@ def vis(opts, C):
     return [o for o in opts if not o.get('if') or C.get(o['if'])]
 
 
-COND_KEYS = ['Q6', 'noQ6', 'summer', 'SNOWQ', 'YOUPAY', 'noYOUPAY', 'C10', 'US', 'noUS', 'sisGrad', 'sisPreGrad', 'YT_MET_JOB', 'ZR_LAST', 'noZR_LAST', 'noJP', 'US4P']
+COND_KEYS = ['Q6', 'noQ6', 'summer', 'SNOWQ', 'YOUPAY', 'noYOUPAY', 'C10', 'US', 'noUS', 'sisGrad', 'sisPreGrad', 'YT_MET_JOB', 'ZR_LAST', 'noZR_LAST', 'noJP', 'US4P', 'SIS_FU']
 FR_IF = (('沒有 ZR_LAST_SHIFT', 'noZR_LAST'), ('ZR_LAST_SHIFT', 'ZR_LAST'), ('不是美國路線', 'noUS'))   # 匯入工具 fr_if（稿上用文字寫的條件）
 
 
@@ -185,7 +185,7 @@ def friend_expect(who, term, C):
     e = ((DR.get('friend') or {}).get(term) or {}).get(who)
     if not e: return None, ['稿沒有 FRIEND.%s.%s（照舊：話題池）' % (term, who)]
     e = alt_q6(e, C.get('Q6')); notes = []
-    extra = sorted(set(e) - {'say', 'sayUS', 'opts', 'then', 'note'})
+    extra = sorted(set(e) - {'say', 'sayUS', 'opts', 'then', 'thenIf', 'note'})
     if extra: notes.append('稿有匯入工具不認得的欄位 %s（匯入以後才加的？遊戲不會演）' % J(extra))
     oextra = sorted(set(k for o in e.get('opts') or [] for k in o) - {'t', 're', 'fx', 'if', 'time'})
     if oextra: notes.append('稿的選項有匯入工具不認得的欄位 %s' % J(oextra))
@@ -198,7 +198,12 @@ def friend_expect(who, term, C):
         if 'if' in o: m['if'] = fr_if(o['if'])
         opts.append(m)
     if term == 'Y3S1' and who == 'yu' and re.match(r'第三個選項：日本路線（[^）]*）不出', note) and len(opts) == 3: opts[2]['if'] = 'noJP'
-    seg = {'id': 'friend.%s' % term, 'why': why, 'say': lns(say), 'opts': vis(opts, C), 'all': [o['t'] for o in opts], 'then': lns(e.get('then')), 'shuffle': True,
+    then = lns(e.get('then')); ti = e.get('thenIf')
+    if isinstance(ti, dict):   # 學姊大三上：then 之後照條件多說的（if 寫「SIS_FU（…）」）
+        c = 'SIS_FU' if str(ti.get('if', '')).startswith('SIS_FU') else '不認得:' + str(ti.get('if'))
+        notes.append('thenIf %s＝%s → %s' % (c, C.get(c), J(lns(ti.get('lines')))))
+        if C.get(c): then = then + lns(ti.get('lines'))
+    seg = {'id': 'friend.%s' % term, 'why': why, 'say': lns(say), 'opts': vis(opts, C), 'all': [o['t'] for o in opts], 'then': then, 'shuffle': True,
            'hookNoSay': '鉤子不念 say' in note, 'nAll': len(opts)}
     return [seg], notes
 
@@ -236,10 +241,16 @@ def kx_expect(term, C):
     say, why = e.get('say'), 'say'
     if 'sayC10' in e and C.get('C10'): say, why = e['sayC10'], 'sayC10'
     elif 'sayUS' in e and C.get('US'): say, why = e['sayUS'], 'sayUS'
-    opts = [mkopt(o) for o in e.get('opts') or []]
+    KX_KEY = {'Y2S1': 'Y2W', 'Y2S2': 'Y2S', 'Y3S1': 'Y3W', 'Y3S2': 'Y3S', 'Y4S1': 'Y4W'}   # 匯入工具 kx_opts：稿上的 set → khh／y5
+    opts = []
+    for o in e.get('opts') or []:
+        m = mkopt(o); st = o.get('set')
+        if isinstance(st, dict) and 'KX_KHH' in st and term in KX_KEY: m['khh'] = [KX_KEY[term], 'yes' if st['KX_KHH'] else 'no']
+        if isinstance(st, dict) and st.get('KX_Y5_CALL'): m['y5'] = 'sat'
+        opts.append(m)
     allt = [o['t'] for o in opts]
     if 'optsUS' in e:
-        ou = [mkopt(o) for o in e['optsUS']]; allt += [o['t'] for o in ou]
+        ou = [mkopt(o) for o in e['optsUS']]; allt += [o['t'] for o in ou]   # 美國路線那一組沒有 set（不記）
         opts = ou if C.get('US') else opts
     return [{'id': 'kx.%s' % term, 'why': why, 'say': lns(say), 'opts': opts, 'all': allt, 'then': lns(e.get('then')), 'shuffle': True}], term
 
@@ -362,7 +373,7 @@ SETUP_JS = r"""(a=>{ const G=GAME.G, F=G.flags||(G.flags={}), out={};
       for(const k of ['knowsRel','OPEN_OK']){ const M=F[k]; if(!M||typeof M!=='object') continue; if(M[id]!=null){ delete M[id]; c.push(k+'.'+id); }
         for(const x of Object.keys(M)){ const v=M[x]; if(Array.isArray(v)){ const i=v.indexOf(id); if(i>=0){ v.splice(i,1); c.push(k+'.'+x+'['+id+']'); } } else if(v&&typeof v==='object'&&v[id]!=null){ delete v[id]; c.push(k+'.'+x+'.'+id); } } } }
     out.cleaned=c; }   /* 告白那一晚：乾淨存檔（存檔本來和可昕交往；BB 23:27 b）*/
-  if(a.rel){ const r=SOCIAL.rel(a.who); out.relBefore={fam:r.fam,trust:r.trust,comf:r.comf,npcRom:r.npcRom}; for(const k in a.rel) r[k]=Math.max(+r[k]||0,a.rel[k]); try{ if(SOCIAL.has&&!SOCIAL.has(a.who,'FIRST_MET')&&SOCIAL.remember) SOCIAL.remember(a.who,'FIRST_MET',''); }catch(e){} }
+  if(a.rel){ const r=SOCIAL.rel(a.who); out.relBefore={fam:r.fam,trust:r.trust,comf:r.comf,npcRom:r.npcRom}; for(const k in a.rel) r[k]=a.relExact?a.rel[k]:Math.max(+r[k]||0,a.rel[k]); try{ if(SOCIAL.has&&!SOCIAL.has(a.who,'FIRST_MET')&&SOCIAL.remember) SOCIAL.remember(a.who,'FIRST_MET',''); }catch(e){} }
   if(a.dating){ let ok=false; try{ ok=typeof ROM!=='undefined'&&ROM.start?!!ROM.start(G,a.who):false; }catch(e){ out.romErr=String(e); } if(!F['dating_'+a.who]){ F['dating_'+a.who]=true; out.flagOnly=true; } out.romStart=ok; }
   const w=TERMEND.windowOf(a.term); out.w=w; if(!w) return out;
   const R=TERMEND.rec(G,a.term); for(const k of ['plan','picked','heartPick','done','heartDone','result','hook']) delete R[k];
@@ -393,13 +404,13 @@ INFO_JS = r"""(a=>{ const G=GAME.G, Lx=TERMEND_LINES, has=typeof TERMEND_OPTS!==
       const strOnly=x=>flat(x);   /* 字串、旁白、{text}；{cg} 不算 */
       she=spec.she?strOnly(again&&spec.she2?spec.she2:spec.she):null; think=spec.think==null?null:res(spec.think); answer=(spec.answer||Lx.ANSWER||[]).map(res);
       let y=again&&spec.yes2?spec.yes2:(spec.yes||(D&&D.yes?(typeof D.yes==='function'?D.yes(G,null,a.cpick|0):D.yes):[])); try{ if(typeof CF723!=='undefined'&&CF723.swapYes) y=CF723.swapYes(G,a.who,y); }catch(e){} yes=strOnly(y); } }catch(e){ she=['ERR '+e]; }
-  return {hasFriend, frHas, hookSay, hookOk, she, think, answer, yes, has, c, gameTbt, tl, pool, hook, say3, kxAsk, notYet:Lx.NOT_YET_OPT||null, reply:Lx.REPLY||[], name:G.name||'祐廷', cap, capConfess:typeof SOCIAL!=='undefined'?(SOCIAL.FX_CAP_CONFESS||null):null,
+  return {hasFriend, frHas, hookSay, hookOk, she, think, answer, yes, khh0:JSON.parse(JSON.stringify((G.flags||{}).KX_KHH||{})), y50:(G.flags||{}).KX_Y5_CALL==null?null:G.flags.KX_Y5_CALL, stage:SOCIAL.stage?SOCIAL.stage(a.who):null, has, c, gameTbt, tl, pool, hook, say3, kxAsk, notYet:Lx.NOT_YET_OPT||null, reply:Lx.REPLY||[], name:G.name||'祐廷', cap, capConfess:typeof SOCIAL!=='undefined'?(SOCIAL.FX_CAP_CONFESS||null):null,
     romOk:typeof SOCIAL!=='undefined'&&SOCIAL.romOk?!!SOCIAL.romOk(a.who):null, ytMetJob:!!(G.flags||{}).YT_MET_JOB, route:(G.flags||{}).EXCHANGE_ROUTE||null, dkey:CALENDAR.dateOf(G.day).key,
     dating:!!(G.flags||{})['dating_'+a.who], shuffle:typeof TERMEND.shuffled==='function', rel:(()=>{ const r=SOCIAL.rel(a.who)||{}; return {fam:r.fam,trust:r.trust,comf:r.comf,npcRom:r.npcRom}; })() }; })"""
 POST_JS = r"""(a=>{ const G=GAME.G, R=TERMEND.rec(G,a.term), F=G.flags||{}; const r=SOCIAL.rel(a.who)||{};
   return {result:R.result||null, hook:R.hook||null, done:R.done||null, heartDone:R.heartDone||null, kx:R.kx||null, ytDinnerYes:F.YT_DINNER_YES==null?null:F.YT_DINNER_YES, dating:!!F['dating_'+a.who],
     confessed:(F.confessed||{})[a.who]==null?null:F.confessed[a.who], think:((TERMEND.rec(G).think)||{})[a.who]==null?null:TERMEND.rec(G).think[a.who], rel:{fam:r.fam,trust:r.trust,comf:r.comf,npcRom:r.npcRom},
-    fxCap:((F.FX_CAP||{})[a.who])||null, khh:F.KX_KHH||null }; })"""
+    fxCap:((F.FX_CAP||{})[a.who])||null, khh:F.KX_KHH||null, y5:F.KX_Y5_CALL==null?null:F.KX_Y5_CALL }; })"""
 FETCH_JS = r"""(async ps=>{ const out={}; for(const p of ps){ try{ const r=await fetch(p,{cache:'no-store'}); out[p]=r.ok?await r.text():null; }catch(e){ out[p]=null; } } return out; })"""
 
 
@@ -697,11 +708,29 @@ def analyze(t, case, run, segs, info, check=True):
         r['fx'] = [[e.get('fx'), e.get('ret')] for e in fxe]
         ok_fx = (not o.get('fx') and not fxe) or (len(fxe) == 1 and fxe[0].get('fx') == o['fx'])
         ck('%s [%s] 效果＝稿 fx %s（SOCIAL.applyFx 收到的）' % (t, s['id'], J(o.get('fx'))), ok_fx, J(r['fx']))
-        if s.get('hookNoSay'):   # 柏翰大三下：鉤子不念 say，選項之後直接出「我也想去聽一堂。」
+        hmode = case.get('hookMode') or ({'*': 'nosay'} if s.get('hookNoSay') else None)
+        if hmode and s is segs[0]:   # 鉤子：nosay＝不念 say、直接出選項（柏翰大三下、以安女朋友版大二下、子晴 Q6 通用格另外兩個）；skip＝整個不出（子晴「（現在玩。）」）
+            m_ = hmode.get(chosen, hmode.get('*'))
             hs = info.get('hookSay') or []; ok_ = info.get('hookOk')
-            hm = next((j for j in range(i + 2, len(dl)) if dl[j].get('k') == 'choose' and ok_ in (dl[j].get('v') or [])), None)
-            said_hs = [x for x in hs if x in says(dl, i + 2, hm if hm is not None else len(dl))]
-            ck('%s [%s] 鉤子不念 say（%s 沒有出現）、直接出「%s」' % (t, s['id'], J(hs), ok_), bool(ok_) and hm is not None and not said_hs, '鉤子選單在 %s；念了 %s' % (hm, J(said_hs)))
+            if ck('%s [%s] 前置：這一頓有鉤子（hookFor）' % (t, s['id']), bool(ok_), J([hs, ok_])):
+                hm = next((j for j in range(i + 2, len(dl)) if dl[j].get('k') == 'choose' and ok_ in (dl[j].get('v') or [])), None)
+                said_hs = [x for x in hs if x in says(dl, i + 2, hm if hm is not None else len(dl))]
+                r['hook'] = {'mode': m_, 'menu_at': hm, 'said': said_hs}
+                if m_ == 'skip':
+                    ck('%s [%s] 選「%s」＝鉤子整個不出（沒有「%s」、沒有 %s）' % (t, s['id'], chosen, ok_, J(hs)), hm is None and not said_hs, '鉤子選單在 %s；念了 %s' % (hm, J(said_hs)))
+                elif m_ == 'nosay':
+                    ck('%s [%s] 選「%s」＝鉤子不念 say（%s 沒有出現）、直接出「%s」' % (t, s['id'], chosen, J(hs), ok_), hm is not None and not said_hs, '鉤子選單在 %s；念了 %s' % (hm, J(said_hs)))
+        if s.get('id', '').startswith('kx.') and (o.get('khh') or o.get('y5') or info.get('route') == 'US'):   # BB 23:44：可昕每個選項記「去／沒空」
+            post = run.get('post') or {}; kh = post.get('khh') or {}
+            r['flags'] = {'KX_KHH': kh, 'KX_Y5_CALL': post.get('y5')}
+            R.note('%s [%s] 選「%s」以後：KX_KHH＝%s、KX_Y5_CALL＝%s（稿 set → %s）' % (t, s['id'], chosen, J(kh), J(post.get('y5')), J(o.get('khh') or o.get('y5') or '沒有 set')))
+            if o.get('khh'):
+                ck('%s [%s] 選「%s」＝KX_KHH.%s＝%s（%s）' % (t, s['id'], chosen, o['khh'][0], o['khh'][1], '去' if o['khh'][1] == 'yes' else '沒空'), kh.get(o['khh'][0]) == o['khh'][1], J(kh))
+            if o.get('y5'):
+                ck('%s [%s] 選「%s」＝KX_Y5_CALL＝sat' % (t, s['id'], chosen), post.get('y5') == 'sat', J(post.get('y5')))
+            if not o.get('khh') and not o.get('y5'):
+                k0 = (info.get('khh0') or {})
+                ck('%s [%s] 美國路線那一組沒有 set：KX_KHH 沒有變' % (t, s['id']), kh == k0, '之前 %s；之後 %s' % (J(k0), J(kh)))
         cur = i + 1
     res.pop('_segs', None)
     return res
@@ -730,12 +759,12 @@ async def case_run(pg, cdp, errs, cid):
     if pre: R.note('%s 讀檔以後先有的劇情（pe.settle 點完）：%s' % (t, J(pre[-6:])))
     rel = {'npcRom': 80, 'fam': 65, 'trust': 50, 'comf': 45} if kind == 'heart' else ({'npcRom': 60, 'fam': 65, 'trust': 50, 'comf': 45} if kind in ('gf', 'kexin') else {'fam': 45, 'trust': 30})
     a = {'who': who, 'term': term, 'kind': kind, 'flags': case.get('flags') or {}, 'unflags': case.get('unflags') or [], 'evDone': case.get('evDone') or [], 'evUndo': case.get('evUndo') or [],
-         'rel': rel, 'dating': kind in ('gf', 'kexin'), 'clean': ['kexin'] if kind == 'heart' else []}
+         'rel': case.get('rel') or rel, 'relExact': bool(case.get('rel')), 'dating': kind in ('gf', 'kexin'), 'clean': ['kexin'] if kind == 'heart' else []}
     su = await pg.evaluate(SETUP_JS, a); res['setup'] = su
     if kind == 'heart': R.setup('%s【捷徑】乾淨存檔：拿掉和可昕交往（存檔本來 dating_kexin＝%s）：%s' % (t, su.get('kexinDating'), J(su.get('cleaned'))))
     elif su.get('kexinDating'): R.note('%s 存檔同時和可昕交往（dating_kexin；存檔不動）' % t)
-    R.setup('%s【捷徑】%s；關係至少 %s；%s；這學期的邀約重算（刪 plan、picked）→ %s → %s' % (
-        t, '交往中（ROM.start：%s）' % su.get('romStart') if a['dating'] else '不設交往', J(rel), '事件做過 %s、拿掉 %s' % (J(a['evDone']), J(a['evUndo'])),
+    R.setup('%s【捷徑】%s；關係%s %s；%s；這學期的邀約重算（刪 plan、picked）→ %s → %s' % (
+        t, '交往中（ROM.start：%s）' % su.get('romStart') if a['dating'] else '不設交往', '設成' if case.get('rel') else '至少', J(a['rel']), '事件做過 %s、拿掉 %s' % (J(a['evDone']), J(a['evUndo'])),
         J(su.get('plan')), ('TERMEND.planKexin' if kind == 'kexin' else 'F.%s＋TERMEND.pickCheck（＝手機回「好。」）' % ('TE_GF' if kind == 'gf' else 'TE_PICK'))))
     q = su.get('q')
     if not R.check('%s 排好了這一頓（OUT 有一筆 planned）' % t, bool(q), J(su)): return
