@@ -62,8 +62,9 @@ const THU=dayOf('2025-09-25');
     await CLS.goClass(gm,it); const m=gm.menus[0]||[];
     check('4. 等到出門時間（'+CLS.hhmm(pl.depart)+'）再出門，13:10 左右到教室',Math.abs(gm.G.hour-(it.t0-1/6))<0.02,CLS.hhmm(gm.G.hour));
     check('4. 進的是 classroom（201）',gm.enters[0]==='classroom',JSON.stringify(gm.enters));
-    check('4. 坐哪裡：坐中間的位子（第一次）／坐在沈以安旁邊／自己找位子',m.length===3&&m[0].startsWith('坐中間的位子')&&/^坐在.+旁邊/.test(m[1])&&m[2].startsWith('自己找位子'),JSON.stringify(m));
-    check('4. 選了以後：坐下（seatMenu autoClass）＝自動上課',gm.seatCalls.length===1&&gm.seatCalls[0].so&&gm.seatCalls[0].so.autoClass===true);
+    /* SEAT-NO-ASK-1110（使用者 11-10）：不再問坐哪裡，直接坐第一個（第一次＝中間的位子；坐過＝老位子）*/
+    { const ch0=CLS.seatChoices(gm,it); check('4. 不問坐哪裡（沒有選單）、直接坐中間的位子（第一次）',!m.length&&gm.seatCalls.length===1&&gm.seatCalls[0].seat&&ch0.length>0,JSON.stringify(m)); }
+    check('4. 坐下（seatMenu autoClass）＝自動上課',gm.seatCalls.length===1&&gm.seatCalls[0].so&&gm.seatCalls[0].so.autoClass===true);
     CLS.rememberSeat(gm.G,it,gm.seatCalls[0].seat); const ch=CLS.seatChoices(gm,it); check('4. 坐過一次以後第一個選項是「老位子」',ch[0]&&ch[0].t==='老位子'&&ch[0].it.seat===gm.seatCalls[0].seat,ch.map(q=>q.t).join(','));
     check('4. 一鍵上課本身不寫出席（紀錄由 CLS.attend 寫）',!Object.keys((gm.G.courses.done)||{}).length&&!Object.keys((gm.G.courses.attend)||{}).length); }
   // ---------- 5. 下課選單 ----------
