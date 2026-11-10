@@ -1,5 +1,5 @@
 // 期末飯給玩家選項（TERMEND-OPTS-1110；使用者 X324／X325「期末飯要有選項」）——不需要瀏覽器（D131）。
-// 稿：企劃線 AA_749_termend_gf_v2.json（女朋友版）、AA_748_termend_heart_v2.json（心意邀約的飯桌選項、祐廷說出來的選項）@da2f67faa、AA_749_termend_kx_v2.json（可昕）@898820f8b；
+// 稿：企劃線 AA_749_termend_gf_v2.json（女朋友版）、AA_748_termend_heart_v2.json（心意邀約的飯桌選項、祐廷說出來的選項）@da2f67faa、AA_749_termend_kx_v2.json（可昕）@1cf434dee（選項的 set）；
 //     tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS），播放 src/termend3d.js。
 //   1. 匯入：--check 通過；只有白名單 people 列的人（女朋友版：以安、語彤、學姊、芷若、子晴；心意：以安、語彤、學姊、子晴；可昕六頓）；沛珊、芷若的心意邀約不在
 //   2. 女朋友版五位每一頓都有選項、字照稿；祐廷不自動回「嗯。」；不接朋友的話題池
@@ -7,7 +7,8 @@
 //   4. 顯示順序洗過：同一天（讀檔以後）一樣、效果跟著選項走；+2 不再幾乎都排第一個
 //   5. 子晴通用那一格 Q6／noQ6 兩組各三個；學姊大四上 snow 分支（SNOWQ）、XM3 兩句照舊；學姊大二上她請的那一句；語彤 sayByKind、YT_DINNER_YES
 //   6. 心意的邀約：飯桌句之後的選項（學姊大四上換句的那一頓沒有）；說出來的三句（子晴兩組、語彤沒有 YT_MET_JOB 照原本）、yesLead 接在 yes 前面
-//   7. 可昕：say＋選項＋then；有選項稿的學期不再接 KX_ASK 的二選一（AA 11-10），KX_KHH.Y2W 由選項記；美國路線那一組
+//   7. 可昕：say＋選項＋then；有選項稿的學期不再接 KX_ASK 的二選一（AA 11-10），KX_KHH／KX_Y5_CALL 照選項的 set 記；美國路線那一組
+//   9. 鉤子（AA 11-10 回 LAWWW）：以安女朋友版大二下（京都）不念鉤子的 say、直接出選項；子晴女朋友版大一下 Q6 通用格——選「（現在玩。）」鉤子整個不出、另外兩個不念 say 直接出選項、沒有 Q6 照常念
 //   8. 沒匯入的人照現在的字：沛珊女朋友版（一句＋話題池）、芷若心意邀約（沒有飯桌選項、通用三句）；沒有 TERMEND_OPTS（舊資料）＝全部照原本；舊存檔（沒有 G.termend）照演
 // 修改前（b99dfd4dd）：沒有 TERMEND_OPTS、女朋友版沒有選項——第 1～7 節 FAIL。用法：node tests/termend_opts_1110_unit.js
 const H=require('./pg_harness.js');
@@ -132,7 +133,13 @@ const GFP=['heroine_01','heroine_03','heroine_05','heroine_02','heroine_04'], HP
     const a=await kx('Y2S1',['「我去。妳排哪幾天？」','「好。哪幾天？」']);
     /* 2026-11-10 改期望（AA 11-10 經 LAWWW）：有選項稿的學期 KX_ASK 的二選一不再接在後面；KX_KHH.Y2W 由選項「我去。妳排哪幾天？」記 */
     check('7. 可昕大二上：開頭兩句 → 三個選項 → 她的回答（+2）；不再接 KX_ASK 的二選一；選「我去。妳排哪幾天？」＝記 KX_KHH.Y2W yes',has('我家附近那個夜市你還沒去過。我已經跟我媽說了。')&&CH.length===1&&CH[0].length===3&&has('你住旅館喔，我家沒有多的房間。有也不給你住。')&&a.dl===2&&a.G.flags.KX_KHH&&a.G.flags.KX_KHH.Y2W==='yes'&&!has('我們期末考完，你寒假來高雄。')&&!has('你自己挑。我那幾天都在。'),J({ch:CH,dl:a.dl,khh:a.G.flags.KX_KHH}));
-    const a2=await kx('Y2S1',['「寒假我可能要打工。」']); check('7. 選別的＝不記 KX_KHH.Y2W；六頓都只有一組選項',!(a2.G.flags.KX_KHH&&a2.G.flags.KX_KHH.Y2W)&&CH.length===1,J({ch:CH,khh:a2.G.flags.KX_KHH||null}));
+    const a2=await kx('Y2S1',['「寒假我可能要打工。」']); /* 2026-11-10 三改期望（AA 回 LAWWW，企劃線 1cf434dee）：每個選項照稿的 set 記——false＝原本的「沒空」（KX_KHH.Y2W no，寒假第 5 天夜市照片那條）*/
+    check('7. 選「寒假我可能要打工。」（set KX_KHH false）＝記 KX_KHH.Y2W no；只有一組選項',!!a2.G.flags.KX_KHH&&a2.G.flags.KX_KHH.Y2W==='no'&&CH.length===1,J({ch:CH,khh:a2.G.flags.KX_KHH||null}));
+    const a3=await kx('Y2S1',['「妳跟妳媽說什麼？」']); check('7. 選「妳跟妳媽說什麼？」（set KX_KHH true）＝記 KX_KHH.Y2W yes',!!a3.G.flags.KX_KHH&&a3.G.flags.KX_KHH.Y2W==='yes',J(a3.G.flags.KX_KHH||null));
+    const s1=await kx('Y3S2',['「那晚上講電話。」']), s2=await kx('Y3S2',['（把她的手機拿過來，在某個週六打上自己的名字。）']), s3=await kx('Y3S2',['「幾天？」'],G=>{ G.flags.EXCHANGE_ROUTE='US'; }), usK=Lx.COND.US(H.G);
+    check('7. 大三下：臺灣路線「那晚上講電話。」＝Y3S no、打上名字＝Y3S yes；美國路線那一組不記',s1.G.flags.KX_KHH.Y3S==='no'&&s2.G.flags.KX_KHH.Y3S==='yes'&&(!usK||!s3.G.flags.KX_KHH),J([s1.G.flags.KX_KHH,s2.G.flags.KX_KHH,s3.G.flags.KX_KHH||null,usK]));
+    const y5=[]; for(const t of TOx.KX.Y5S1.opts.map(o=>o.t)){ const r=await kx('Y5S1',[t]); y5.push(r.G.flags.KX_Y5_CALL); } check('7. 大五上三個選項都記 KX_Y5_CALL（sat＝原本「週末一定打。」的值）、不記 KX_KHH',y5.length===3&&y5.every(v=>v==='sat')&&!H.G.flags.KX_KHH,J(y5));
+    check('7. 資料：臺灣路線每個選項都有 khh 或 y5、美國路線那一組沒有；沒有稿上的 set 原樣留著',Object.keys(TOx.KX).every(t=>TOx.KX[t].opts.every(o=>o.set===undefined&&(o.if==='US'?(!o.khh&&!o.y5):(t==='Y5S1'?o.y5==='sat'&&!o.khh:Array.isArray(o.khh)&&['yes','no'].includes(o.khh[1]))))));
     const one=[]; for(const t of ['Y2S2','Y3S1','Y3S2','Y4S1','Y5S1']){ await kx(t,[]); if(CH.length!==1||CH[0].length!==3) one.push([t,CH]); } check('7. 大二下～大五上：各一組三個選項、後面沒有二選一',one.length===0,J(one));
     await kx('Y3S1',['「所以能不能？」']); check('7. 大三上：選項之後接 then「寒假你來高雄。我們都沒去過的地方，我來排。」',idx('寒假你來高雄。我們都沒去過的地方，我來排。')>idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')&&idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')>=0,J(said().slice(0,9)));
     await kx('Y3S2',[]); const tw={say:has('暑假你在臺北，我在高雄。'),g:CH[0].includes('「那晚上講電話。」')&&CH[0].length===3};
@@ -157,5 +164,24 @@ const GFP=['heroine_01','heroine_03','heroine_05','heroine_02','heroine_04'], HP
     const G=H.fresh(DAY.Y2S2,18.5); delete G.termend; H.rel('heroine_05',65,50,45); G.flags.dating_heroine_05=true; H.said=[]; CH=[]; WANT=[]; let err=null; try{ await TERMEND.dinner(GM,{te:{term:'Y2S2',who:'heroine_05',kind:'gf'}}); }catch(e){ err=String(e); }
     const back=JSON.parse(J(G)); check('8. 舊存檔（沒有 G.termend）照演、存檔可以序列化；存檔沒有新欄位（只有原本的 done）',!err&&(!ok0||CH.length>=1)&&J(Object.keys(back.termend.Y2S2))===J(['done']),err||J(Object.keys(back.termend.Y2S2)));
     check('8. 讀檔時放開（LOADLOCKS termend3d:_heart）',typeof LOADLOCKS==='object'&&typeof LOADLOCKS['termend3d:_heart']==='function'&&(TERMEND._heart='x',LOADLOCKS['termend3d:_heart'](),TERMEND._heart===null)); });
+  await sec(9,async()=>{ if(!ok0){ check('9. 鉤子',false,'沒有 TERMEND_OPTS'); return; }
+    const hkG=t=>CH.find(c=>c.length===2&&c[0]===t&&c[1]===Lx.HOOK_NO);
+    /* ④ 以安女朋友版大二下（京都）：飯桌已經講了京都那三個禮拜，鉤子「八月去京都上語言課。」不念、直接出選項 */
+    await dinner('heroine_01','Y2S2','gf'); const on=true;
+    check('9. 以安女朋友版大二下：鉤子「八月去京都上語言課。」不念、直接出選項「我也想報。」',on&&has('京都那三個禮拜，我每天晚上會傳訊息。')&&!has('八月去京都上語言課。')&&!!hkG('「我也想報。」')&&CH.length===2,J({on,ch:CH,said:said()}));
+    await dinner('heroine_01','Y3S1','gf'); check('9. 以安女朋友版其他學期照常念（大三上「三月二十五號出發。」）',!TERMEND.hookFor(H.G,'Y3S1','heroine_01')||has('三月二十五號出發。'),J(said()));
+    /* ③ 子晴女朋友版大一下（Q6 通用格）：鉤子「要不要玩？」（玩過測試版 PLAYTESTED 才有）*/
+    const pt=G=>{ G.events.done.ev_ziqing_secret_game=G.day-30; (G.social.mem.heroine_04||(G.social.mem.heroine_04=[])).push({tag:'PLAYTESTED',day:G.day-20}); };
+    const pt0=G=>{ (G.social.mem.heroine_04||(G.social.mem.heroine_04=[])).push({tag:'PLAYTESTED',day:G.day-20}); };
+    const E=TOx.GF.heroine_04.table, q=E.opts.filter(o=>o.if==='Q6');
+    check('9. 資料：子晴通用格 Q6 三個選項——「（現在玩。）」hook skip、另外兩個 nosay；沒有 Q6 的三個沒有 hook；hookTerm 大一下',E.hookTerm==='Y1S2'&&J(q.map(o=>[o.t,o.hook]))===J([['（現在玩。）','skip'],['「改了哪裡？」','nosay'],['「吃完再玩。」','nosay']])&&E.opts.filter(o=>o.if==='noQ6').every(o=>o.hook===undefined),J(q.map(o=>[o.t,o.hook])));
+    const a=await dinner('heroine_04','Y1S2','gf',['（現在玩。）'],null,pt), hookOn=!!TERMEND.hookFor(a.G,'Y1S2','heroine_04');
+    check('9. 子晴大一下選「（現在玩。）」：鉤子整個不出（不念「要不要玩？」、沒有鉤子的選項、沒記 hook）',hookOn&&has('你上次卡住的那個地方，我把平台加寬了。')&&!has('要不要玩？')&&CH.length===1&&!hkG('「好。」')&&!(a.G.termend.Y1S2&&a.G.termend.Y1S2.hook),J({hookOn,ch:CH,said:said()}));
+    for(const t of ['「改了哪裡？」','「吃完再玩。」']){ const b=await dinner('heroine_04','Y1S2','gf',[t],null,pt);
+      check('9. 子晴大一下選'+t+'：鉤子不念「要不要玩？」、直接出選項「好。」',!has('要不要玩？')&&CH.length===2&&!!hkG('「好。」')&&!!(b.G.termend.Y1S2&&b.G.termend.Y1S2.hook&&b.G.termend.Y1S2.hook.ok===true),J({ch:CH,said:said(),hk:b.G.termend.Y1S2&&b.G.termend.Y1S2.hook})); }
+    const c=await dinner('heroine_04','Y1S2','gf',[],null,pt0), noq=!Lx.COND.Q6(c.G);
+    check('9. 子晴大一下沒有 Q6（另外三個選項）：鉤子照常念「要不要玩？」再出選項',noq&&has('這學期熬了很多夜。')&&has('要不要玩？')&&!!hkG('「好。」'),J({noq,ch:CH,said:said()}));
+    const k=globalThis.TERMEND_OPTS; globalThis.TERMEND_OPTS=Object.assign({},k,{GF:Object.assign({},k.GF,{heroine_04:Object.assign({},k.GF.heroine_04,{table:Object.assign({},E,{hookTerm:'Y9S9'})})})});
+    try{ await dinner('heroine_04','Y1S2','gf',['（現在玩。）'],null,pt); check('9. hookTerm 不是這個學期＝選項的 hook 不算（鉤子照常）',has('要不要玩？')&&!!hkG('「好。」'),J(said())); } finally{ globalThis.TERMEND_OPTS=k; } });
   H.done();
 })();

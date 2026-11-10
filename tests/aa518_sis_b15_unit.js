@@ -364,7 +364,10 @@ await sec(4,async()=>{
     fresh('2028-01-14',18.5,'friend'); H.said=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{te:{term:'Y3S1',who:ID,kind:'friend'}});
     /* 2026-11-10 改期望（TERMEND-OPTS-1110 朋友版，AA_749_termend_friend_v2_Y3S1 @5ffd725b8）：朋友版這一頓改讀新稿（開頭照舊「面試的事，今天不講。」→ 選項），不抽話題池——
        「……收到信那天，我打給你。」這一頓不再說（3/15 她照樣打來，sis_y2y3_3d.js 2-7 本來就不看有沒有吃這頓）；話題池那三句留在 termend_lines.js（上面 4-8 那一項照查）、沒有新稿的舊資料照說 */
-    check('4. 4-11 朋友版期末飯（新稿）：「面試的事，今天不講。」→「論文第二章，卡住的那一段過了。」→ 三個選項；不再抽話題池的第三句',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。'])&&!said().includes('……收到信那天，我打給你。')&&H.opts.length>=1&&H.opts[0].length===3,J({s:said(),o:H.opts}));
+    /* 2026-11-10 再改期望（AA 回 LAWWW，AA_749_termend_friend_v2_Y3S1 @1cf434dee）：稿加了 thenIf｛SIS_FU｝——朋友以上，選項演完以後照原本的條件補上「……收到信那天，我打給你。」；有點熟沒有 */
+    check('4. 4-11 朋友版期末飯（新稿）：「面試的事，今天不講。」→「論文第二章，卡住的那一段過了。」→ 三個選項 →（朋友以上）「……收到信那天，我打給你。」一次',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。'])&&said().filter(t=>t==='……收到信那天，我打給你。').length===1&&H.opts.length>=1&&H.opts[0].length===3,J({s:said(),o:H.opts}));
+    fresh('2028-01-14',18.5,'fam'); H.said=[]; H.opts=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{te:{term:'Y3S1',who:ID,kind:'friend'}});
+    check('4. 4-11 朋友版期末飯（新稿）有點熟：三個選項、沒有「……收到信那天，我打給你。」',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。'])&&!said().includes('……收到信那天，我打給你。')&&H.opts.length>=1&&H.opts[0].length===3,J({s:said(),o:H.opts}));
     { const keepTO=globalThis.TERMEND_OPTS; if(keepTO) globalThis.TERMEND_OPTS=Object.assign({},keepTO,{FRIEND:undefined});
       try{ fresh('2028-01-14',18.5,'friend'); H.said=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{te:{term:'Y3S1',who:ID,kind:'friend'}});
         check('4. 4-11 沒有朋友版新稿（舊資料）：話題三句照舊說到「……收到信那天，我打給你。」',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。']),J(said())); } finally{ globalThis.TERMEND_OPTS=keepTO; } } }
