@@ -1,0 +1,26 @@
+{
+  "rerun": "",
+  "id": "BGN_new",
+  "sha": "dea6f2f45515e8c56b4e2e242124ae2e344af466",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_bgn_after_home_probe.py",
+  "env": "CASES=bgn,day,eve",
+  "machine": "MSI",
+  "start": "2026-11-10T09:36:52",
+  "end": "2026-11-10T09:37:28",
+  "seconds": 37,
+  "exit": 1,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 9,
+    "mem": 47,
+    "used_gb": 15.0,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true
+}
