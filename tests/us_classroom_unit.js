@@ -42,7 +42,7 @@ check('2. 門口（最上面）站得住、高 1.8 m；SPAWN 和區域的出生�
   const r=both([sp.x,sp.z],[ts.x,ts.z]); check('2. 從門口走兩側走道下到講台',r.ok&&Math.abs(r.y)<0.05,fmt(r));
   const w=z.teacherWalk; check('2. 教授來回走的兩端站得住、走得通（AA_740：講桌和白板之間來回）',w.length>=2&&w.every(p=>E.canStand(p.x,p.z,0.32,0))&&both([w[0].x,w[0].z],[w[1].x,w[1].z]).ok);
   const P=z.present; const rp=both([sp.x,sp.z],[P.player.x,P.player.z]), rq=both([sp.x,sp.z],[P.partner.x,P.partner.z]);
-  check('2. 報告的站位：玩家、德國同學各站講桌一邊（講桌兩側、地面、面向同學）、走得到',rp.ok&&rq.ok&&Math.abs(P.player.z-C.lectern.z)<0.5&&Math.abs(P.partner.z-C.lectern.z)<0.5&&P.player.x<C.lectern.x-C.lectern.w/2&&P.partner.x>C.lectern.x+C.lectern.w/2&&Math.abs(P.player.yaw)<1e-6&&Math.abs(P.partner.yaw)<1e-6,fmt(rp)+' '+fmt(rq));
+  check('2. 報告的站位：玩家站講桌台下看的右邊（+x，AA 11-10 15:20 企劃線 1f0e891f1）、德國同學另一邊（地面、面向同學）、走得到',rp.ok&&rq.ok&&Math.abs(P.player.z-C.lectern.z)<0.5&&Math.abs(P.partner.z-C.lectern.z)<0.5&&P.player.x>C.lectern.x+C.lectern.w/2&&P.partner.x<C.lectern.x-C.lectern.w/2&&Math.abs(P.player.yaw)<1e-6&&Math.abs(P.partner.yaw)<1e-6,fmt(rp)+' '+fmt(rq));
   const ex=z.examProf; check('2. 期末考監考的教授位置站得住',!!ex&&E.canStand(ex.x,ex.z,0.32,0)); }
 // ---------- 3. 出口 ----------
 { const out=IT.filter(i=>i.exit); const o=out[0]; const L=US_CAMPUS_LAYOUT.spawn_class_out;
