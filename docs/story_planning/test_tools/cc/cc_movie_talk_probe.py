@@ -89,7 +89,18 @@ async def book(pg, cdp, tag, who, slot=0):
 async def go_watch(pg, cdp, tag, who, iv, pickK=0, want=None):
     """手機「今天」前往 → 一路玩；散場後（回到大廳）出現的選單選第 pickK 個，其他選單選第一個。回傳 {trace, choices}"""
     await pe.phone(pg, cdp, 'today')
-    if not R.check('%s「今天」有「前往」' % tag, await pe.tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % iv['id']), ''): return None
+    ok = await pe.tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % iv['id'])
+    if not ok and await pg.evaluate("GAME.G.zone") == 'xs_nanyang':   # r3：人已經在南洋（上一場看完）＝手機照設計不給「前往」（INV.canGo／hereNote）→ 先走出戲院再按
+        await pe.close_phone(pg, cdp)
+        ex = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to!=='xs_nanyang_hall'); return i?{x:i.x,z:i.z,label:i.label}:null; })()")
+        if ex:
+            await L.go_to(pg, cdp, R, ex['x'], ex['z'], 0.6, '%s 先走出戲院（%s）' % (tag, ex['label']), max_s=90); await L.tap(pg, cdp, '#interact')
+            for _ in range(30):
+                if await pg.evaluate("GAME.G.zone") != 'xs_nanyang': break
+                await pg.wait_for_timeout(500)
+            await pg.wait_for_timeout(2500); await pe.phone(pg, cdp, 'today')
+            ok = await pe.tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % iv['id'])
+    if not R.check('%s「今天」有「前往」' % tag, ok, ''): return None
     t0 = time.time(); zones = []; hall = False; chs = []
     while time.time() - t0 < 480:
         q = await L.state(pg); z = await pg.evaluate("GAME.G.zone")
@@ -98,7 +109,7 @@ async def go_watch(pg, cdp, tag, who, iv, pickK=0, want=None):
         if q['choices']:
             o = await pe.opts(pg); ot = [x['t'] for x in o]; after = (bool(want) and ot[:len(want)] == want) or (not want and hall)   # 散場三選項：照 MOVIE_PLOTS 的選項字認（不靠區域）
             k = min(pickK, len(o) - 1) if after else 0
-            chs.append({'after': after, 'opts': [x['t'] for x in o], 'pick': k, 'rel_before': await pg.evaluate("(%s)(%s)" % (REL, J(who)))})
+            chs.append({'after': after, 'opts': [x['t'] for x in o], 'pick': k, 'n': await pg.evaluate("(window.__MT||[]).length"), 'rel_before': await pg.evaluate("(%s)(%s)" % (REL, J(who)))})
             await pe.choose(pg, cdp, o[k]['t'], True); continue
         st = await pg.evaluate("((id)=>{ const v=(GAME.G.invites||[]).find(x=>String(x.id)===String(id)); return v&&v.state; })(%s)" % J(iv['id']))
         if q['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
@@ -153,7 +164,9 @@ async def case_talk(pg, cdp, K, chain):
         exp = {}
         if fr: exp.update(fam=fr, trust=fr, comf=fr)
         if lv: exp['npcRom'] = lv
-        R.check('%s fx 照 AA_745（%s）' % (tag, J(exp)), (not exp and not hit) or any(a['d'] == exp for a in hit), J(hit))
+        n0 = aft[0].get('n') or 0; hit2 = [a for a in hit if a['n'] >= n0]   # r3：只看散場選項之後的（之前的是看到一半那一場、見面的加法）
+        if exp: R.check('%s fx 照 AA_745（%s）：選了以後有一筆一樣的 SOCIAL.adjust' % (tag, J(exp)), any(a['d'] == exp for a in hit2), J(hit2))
+        else: R.note('%s 這個選項 AA_745 沒有 fx（選了以後的 adjust：%s，是見面本身的加法）' % (tag, J(hit2)))
     R.check('%s walkFallbacks 0' % tag, (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
     if not chain: return
     # 看過以後的海報牆
