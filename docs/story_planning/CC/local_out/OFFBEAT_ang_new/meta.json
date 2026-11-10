@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "OFFBEAT_ang_new",
+  "sha": "e9af1306192fe33a31db4c4b44a38f42d779913d",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py",
+  "env": "TAG=new;VIEWS=offbeat_pz:wz_offbeat:1.1:1.5:14:0:3:1.1:1.6:10:70+offbeat_pz21:wz_offbeat:1.1:1.5:21:0:3:1.1:1.6:10:70",
+  "machine": "MSI",
+  "start": "2026-11-10T22:01:56",
+  "end": "2026-11-10T22:03:40",
+  "seconds": 104,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 28,
+    "mem": 56,
+    "used_gb": 17.6,
+    "chrome_testing": 13
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

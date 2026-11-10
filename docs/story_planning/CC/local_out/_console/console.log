@@ -1642,3 +1642,12 @@
 [22:00:40] ==== START CAMPUSNAV_48aa  (game @ 48aa47a5b71453a04c983e3185201640d2f9449c) ====
 [22:00:43] [res] cpu=3% mem=48% (15.3/31.4 GB) chrome_testing=9  START CAMPUSNAV_48aa
 [22:01:46] [res] cpu=7% mem=50% (15.9/31.4 GB) chrome_testing=9  END XSBRICK_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ee3513833..d2646e852  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:01:53] ==== END   XSBRICK_old  exit=0  159s   ====
+[22:01:56] memory 51% before starting OFFBEAT_ang_new (2 running)
+[22:01:56] ==== START OFFBEAT_ang_new  (probe @ e9af1306192fe33a31db4c4b44a38f42d779913d) ====
+[22:01:59] [res] cpu=0% mem=51% (16.2/31.4 GB) chrome_testing=9  START OFFBEAT_ang_new
+[22:03:06] 正在跑：GIFTHOL2_new（已跑 50 分／上限 60 分）、CAMPUSNAV_48aa（已跑 2 分／上限 20 分）、OFFBEAT_ang_new（已跑 1 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:03:40] [res] cpu=9% mem=51% (16.0/31.4 GB) chrome_testing=9  END OFFBEAT_ang_new
