@@ -505,3 +505,10 @@
 [00:44:55] ==== START SHIFT_r6_F_new  (probe @ 01bab1823003df827be3d76bc7d2c13ef034dacb) ====
 [00:44:58] [res] cpu=13% mem=50% (15.7/31.4 GB) chrome_testing=9  START SHIFT_r6_F_new
 [00:45:32] [res] cpu=9% mem=48% (15.2/31.4 GB) chrome_testing=8  END USCLS_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       64fd11d1b..7e2325380  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:45:43] ==== END   USCLS_r2  exit=0  307s   ====
+[00:45:52] [res] cpu=3% mem=42% (13.2/31.4 GB) chrome_testing=4  END WZCAT_r2_old
+[00:45:52] memory 42% before starting SHIFT_r6_F_old (2 running)
+[00:45:52] ==== START SHIFT_r6_F_old  (probe @ 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed) ====
