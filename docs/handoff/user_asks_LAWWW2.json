@@ -903,9 +903,9 @@
    "at": "2026-11-10T21:1x",
    "quote": "（六張圖）六家店外觀參考圖",
    "kind": "原話",
-   "status": "進行中",
+   "status": "已完成",
    "replaces": "LAWWW2 21:0x 自己畫的洗樂／印得好／泰米招牌（tz_signs_tex.py）改用圖上的",
-   "note": "六張使用者生成的外觀參考圖：印得好、泰米村食、洗樂洗衣坊（汀州路）、安泰藥局、汀州鮮果、榮恩典文具社（公館）。存 docs/art-rebuild/second_ai/ref/gg_shops6_1110/concept/。照 RULES_2D_TO_3D：招牌從圖拉正裁、店內景深卡、門口的東西做模型。汀州路三間進 TINGZHOU-AREA-1110 第 2 版；公館三間＝GG-SHOPS3-ART-1110。",
+   "note": "六張使用者生成的外觀參考圖：印得好、泰米村食、洗樂洗衣坊（汀州路）、安泰藥局、汀州鮮果、榮恩典文具社（公館）。存 docs/art-rebuild/second_ai/ref/gg_shops6_1110/concept/。照 RULES_2D_TO_3D：招牌從圖拉正裁、店內景深卡、門口的東西做模型。汀州路三間進 TINGZHOU-AREA-1110 第 2 版；公館三間＝GG-SHOPS3-ART-1110。 ／六間外觀都交了：汀州路三間 BB 判 ART_APPROVED（第 3 版）；公館三間在 flower_notes_v1b_gg_shops3.patch（8dd2084a2），等整合。",
    "wants": "X320"
   },
   {
@@ -933,10 +933,10 @@
    "at": "2026-11-10T23:xx",
    "quote": "（六張圖）六家的內部參考圖",
    "kind": "原話",
-   "status": "進行中",
+   "status": "已完成",
    "replaces": "",
    "wants": "X320",
-   "note": "六張使用者生成的室內參考圖：安泰藥局、榮恩典文具社、汀州鮮果（公館）、印得好、泰米村食、洗樂洗衣坊（汀州路）。存 docs/art-rebuild/second_ai/ref/gg_shops6_1110/interior/，README 每張的重點。照 RULES_2D_TO_3D 做成走得進去的室內；配置對 AA_743，圖和 AA_743 不一樣的以圖為準、回報 AA。安泰圖上的綠十字和規格（不用十字）衝突，照規格換成藥罐圖示。"
+   "note": "六張使用者生成的室內參考圖：安泰藥局、榮恩典文具社、汀州鮮果（公館）、印得好、泰米村食、洗樂洗衣坊（汀州路）。存 docs/art-rebuild/second_ai/ref/gg_shops6_1110/interior/，README 每張的重點。照 RULES_2D_TO_3D 做成走得進去的室內；配置對 AA_743，圖和 AA_743 不一樣的以圖為準、回報 AA。安泰圖上的綠十字和規格（不用十字）衝突，照規格換成藥罐圖示。 ／11-10 23:xx：六間室內第 1 版都交了（wip/gg_shops6_int_1110/ 三個 patch：51a7dfb8d 泰米＋洗樂、3042b26e9 印得好、34a5e0656 安泰＋汀州鮮果＋榮恩典）；等 LAWWW 整合、CC 拍、BB 判，照判定出第 2 版。"
   }
  ]
 }

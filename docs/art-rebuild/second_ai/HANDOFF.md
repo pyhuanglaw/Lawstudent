@@ -1,7 +1,15 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-10 22:5x UTC）
+## 交接（最新｜帳號 A｜2026-11-10 23:5x UTC）
+- **六間店室內第 1 版都交了**（使用者 23:xx「六家的內部參考圖」，`ref/gg_shops6_1110/interior/`）：`wip/gg_shops6_int_1110/`（README 每一間的內容、給 LAWWW 的 kind、先將就的）。三個 patch 依序套：`tz_shops_int_v1_taimi_xile.patch`（51a7dfb8d）→ `tz_shops_int_v1b_yindehao.patch`（3042b26e9）→ `tz_shops_int_v1c_gg3.patch`（34a5e0656）。共用：`src/data/tz_shops_layout.js`、`src/tz_shops3d.js`（公館三間的入口用 hookOut 包住 gongguan build）、`tools/blender/env_second/tz_shops_interior.py --shop <taimi|xile|yindehao|antai|xianguo|rongendian> [--ref <室內參考圖資料夾>]`、`tests/tz_shops_unit.js`。等 LAWWW 整合、CC 拍、BB 判 → 照判定出第 2 版（最多 3 版）。
+  - 已知要改的：商品是彩色小方塊沒有圖案；汀州鮮果籃子裡的水果不夠滿、6.2 萬三角形；布簾布棚是平的；沒有光照貼圖、窗外沒有景；AA_743 只對了泰米（差異表在 README），其他五間還沒逐項對。
+- **汀州路三間外觀：BB 判 ART_APPROVED**（第 3 版）。街景只剩機車等重拍（525dc11eb 已交；機車模型本來就有十四種外形，若拍到同一款＝正式模型沒載入，看 `zone.tzScooterGLB`）。BB 另記：洗樂正前方那根路燈擋到招牌，下次動汀州路區域時挪 1～2 m；印得好招牌晚上偏暗。
+- **X332 禮貌生財**（算命攤改成巷 A 裡的小店）：規劃補在 `proposals/night_market_1110.md` 6c（131d88662），**只規劃**；等使用者回三題（位置、招牌書法字、要不要給參考圖）和實作授權。
+- **D148**：東西放哪已經給 LAWWW 寫進 `docs/handoff/FACTS.md`（dev）；每批結束、交班、接班跑 `check_handoff.py loose`。
+- 使用者電腦的 Blender 佇列：`LW2_FN_VIEW`、`LW2_TZ_PREV` 已排（CC：BLENDER_PING 通過），還沒跑完。
+
+## 交接（上一則｜帳號 A｜2026-11-10 22:5x UTC）
 - **Blender 慢的工作排到使用者的電腦**（X331，ROLE_LAWWW2 1.0，接班必讀）：超過幾分鐘的算圖、烘焙不要在雲端算。佇列列傳給 CC。**現在排著兩項**（22:4x 傳給 CC，還沒回）：`LW2_FN_VIEW`（花序室內六張，`tools/blender/env_second/flower_notes_view.py`）、`LW2_TZ_PREV`（汀州路十張，`tingzhou_preview.py`）；腳本在這個分支 285963bc6、模型用 dev 2a7edffd5。這兩支沒在 Windows 跑過，失敗的話看 CC 給的 run.log。結果在 `claude/cc-local` 的 `docs/story_planning/CC/local_out/<ID>/`。
 - **汀州路機車**（使用者：「長得幾乎一樣莫名其妙」）：`wip/tingzhou_1110/tingzhou_v3b_parking.patch`（525dc11eb）已交，一群一群停、有空位、有腳踏車。BB 收回了街景的 ART_APPROVED，等 CC 重拍。如果重拍還是同一款：看 `E3.zone.tzScooterGLB`（undefined＝正式機車模型沒載入）。
 - **夜市**：使用者回了四題（配置照方案、背景攤只寫賣的東西、公館那一側也擺幾攤、各攤時間不一樣），已補進 `proposals/night_market_1110.md` 6b（公館三攤的提案、逐攤時間表）。**仍然沒有授權實作**，她會再給十張攤位參考圖。
