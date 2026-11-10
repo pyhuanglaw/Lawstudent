@@ -1,0 +1,27 @@
+系統找不到指定的路徑。
+[gpu_wrap 4.3s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\gpu_wrap.py", line 166, in <module>
+    runpy.run_path(script, run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 292, in run_path
+  File "<frozen runpy>", line 97, in _run_module_code
+  File "<frozen runpy>", line 87, in _run_code
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_invgo_real_probe.py", line 97, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\base_events.py", line 724, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_invgo_real_probe.py", line 45, in main
+    pl = await pg.evaluate("""(c=>{ const G=GAME.G, wd=(CALENDAR.dateOf(G.day).wd)%7; const out=[]; for(const id of c){ let P=null; try{ P=INV.place(id); }catch(e){} const rule=PLACES[(P&&P.zone)||id]; const w=rule&&rule.rules&&rule.rules.week?rule.rules.week[wd]:null;
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        const open=Array.isArray(w)?(Array.isArray(w[0])?w[0][0]:w[0]):null; out.push({id, name:P&&P.name, zone:P&&P.zone, open}); } return {wd, day:G.day, list:out}; })(%s)""" % J(CAND))
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+ValueError: stray % at position 52 or unexpected format character ';' at position 54

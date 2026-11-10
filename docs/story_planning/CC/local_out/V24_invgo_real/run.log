@@ -1,0 +1,5 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_invgo_real_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V24_invgo_real\out
+CC X290 一鍵前往（真實玩家）：worktree ?；WHO heroine_01；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】day46 存檔 08:00、清邀約、heroine_01 朋友（fam≥50 trust≥35 comf≥30）、錢 3000、去過 ["wz_books", "wz_tea", "bikeshop", "afar", "aoki", "xs_shanlan"]
