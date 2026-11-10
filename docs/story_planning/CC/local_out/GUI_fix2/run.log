@@ -1,55 +1,55 @@
-[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gift_ui_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GUI_fix2\out
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gift_ui_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GUI_fix2\out
 CC GIFT-HOLIDAY 畫面＋山嵐學姊：worktree ?；TAG fix2；CASES ['shanlan']；ORIENT ['portrait', 'landscape']；shanlan 只跑 landscape；Playwright 手機模擬 ≠ iPhone 實機
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
 PASS [landscape] 遊戲載入
-  [  26.1s] [landscape｜shanlan] 學姊站位＝[5.8, 6.5]（遊戲 GIFTH.SL_SCHED.at＝[5.8, 6.5]）
-  [  26.1s] [landscape｜shanlan] 2025-12～2026-07 的週六（CALENDAR.termOf 週次；slDay＝程式的 GIFTH.slDay 對照）：[["2025-12-06", "Y1S1", 14, false], ["2025-12-13", "Y1S1", 15, false], ["2025-12-20", "Y1S1", 16, false], ["2025-12-27", null, null, false], ["2026-01-03", null, null, false], ["2026-01-10", null, null, false], ["2026-01-17", null, null, false], ["2026-01-24", null, null, false], ["2026-01-31", null, null, false], ["2026-02-07", null, null, false], ["2026-02-14", null, null, false], ["2026-02-21", null, null, false], ["2026-02-28", "Y1S2", 1, true], ["2026-03-07", "Y1S2", 2, false], ["2026-03-14", "Y1S2", 3, true], ["2026-03-21", "Y1S2", 4, false], ["2026-03-28", "Y1S2", 5, true], ["2026-04-04", "Y1S2", 6, false], ["2026-04-11", "Y1S2", 7, true], ["2026-04-18", "Y1S2", 8, false], ["2026-04-25", "Y1S2", 9, true], ["2026-05-02", "Y1S2", 10, false], ["2026-05-09", "Y1S2", 11, true], ["2026-05-16", "Y1S2", 12, false], ["2026-05-23", "Y1S2", 13, true], ["2026-05-30", "Y1S2", 14, false], ["2026-06-06", "Y1S2", 15, true], ["2026-06-13", "Y1S2", 16, false], ["2026-06-20", null, null, false], ["2026-06-27", null, null, false], ["2026-07-04", null, null, false], ["2026-07-11", null, null, false], ["2026-07-18", null, null, false], ["2026-07-25", null, null, false]]
-  [  26.1s] [landscape｜shanlan] 挑的日期：符合＝{"d": 165, "key": "2026-02-28", "y": 2026, "m": 2, "term": "Y1S2", "week": 1, "slDay": true}；雙數週＝{"d": 172, "key": "2026-03-07", "y": 2026, "m": 3, "term": "Y1S2", "week": 2, "slDay": false}；2026-01＝{"d": 109, "key": "2026-01-03", "y": 2026, "m": 1, "term": null, "week": null, "slDay": false}（2026-01 沒有單數週的週六，用這一天：週次不是單數也照樣測「不在」）
-  [  26.1s] [landscape｜shanlan] 符合 2026-02-28：程式 GIFTH.slDay＝True（探針自己算＝True）
-  [  26.1s] [landscape｜shanlan] 雙數週 2026-03-07：程式 GIFTH.slDay＝False（探針自己算＝False）
-  [  26.1s] [landscape｜shanlan] 2026-01 2026-01-03：程式 GIFTH.slDay＝False（探針自己算＝False）
+  [  27.2s] [landscape｜shanlan] 學姊站位＝[5.8, 6.5]（遊戲 GIFTH.SL_SCHED.at＝[5.8, 6.5]）
+  [  27.2s] [landscape｜shanlan] 2025-12～2026-07 的週六（CALENDAR.termOf 週次；slDay＝程式的 GIFTH.slDay 對照）：[["2025-12-06", "Y1S1", 14, false], ["2025-12-13", "Y1S1", 15, false], ["2025-12-20", "Y1S1", 16, false], ["2025-12-27", null, null, false], ["2026-01-03", null, null, false], ["2026-01-10", null, null, false], ["2026-01-17", null, null, false], ["2026-01-24", null, null, false], ["2026-01-31", null, null, false], ["2026-02-07", null, null, false], ["2026-02-14", null, null, false], ["2026-02-21", null, null, false], ["2026-02-28", "Y1S2", 1, true], ["2026-03-07", "Y1S2", 2, false], ["2026-03-14", "Y1S2", 3, true], ["2026-03-21", "Y1S2", 4, false], ["2026-03-28", "Y1S2", 5, true], ["2026-04-04", "Y1S2", 6, false], ["2026-04-11", "Y1S2", 7, true], ["2026-04-18", "Y1S2", 8, false], ["2026-04-25", "Y1S2", 9, true], ["2026-05-02", "Y1S2", 10, false], ["2026-05-09", "Y1S2", 11, true], ["2026-05-16", "Y1S2", 12, false], ["2026-05-23", "Y1S2", 13, true], ["2026-05-30", "Y1S2", 14, false], ["2026-06-06", "Y1S2", 15, true], ["2026-06-13", "Y1S2", 16, false], ["2026-06-20", null, null, false], ["2026-06-27", null, null, false], ["2026-07-04", null, null, false], ["2026-07-11", null, null, false], ["2026-07-18", null, null, false], ["2026-07-25", null, null, false]]
+  [  27.2s] [landscape｜shanlan] 挑的日期：符合＝{"d": 165, "key": "2026-02-28", "y": 2026, "m": 2, "term": "Y1S2", "week": 1, "slDay": true}；雙數週＝{"d": 172, "key": "2026-03-07", "y": 2026, "m": 3, "term": "Y1S2", "week": 2, "slDay": false}；2026-01＝{"d": 109, "key": "2026-01-03", "y": 2026, "m": 1, "term": null, "week": null, "slDay": false}（2026-01 沒有單數週的週六，用這一天：週次不是單數也照樣測「不在」）
+  [  27.2s] [landscape｜shanlan] 符合 2026-02-28：程式 GIFTH.slDay＝True（探針自己算＝True）
+  [  27.2s] [landscape｜shanlan] 雙數週 2026-03-07：程式 GIFTH.slDay＝False（探針自己算＝False）
+  [  27.2s] [landscape｜shanlan] 2026-01 2026-01-03：程式 GIFTH.slDay＝False（探針自己算＝False）
 PASS [landscape｜shanlan] 找得到符合條件的週六（2026-02 起、學期中、週次單數）
-  [  26.1s] [landscape｜shanlan] sl_sis_1 照 play() 拆的台詞＝{"lines": [["", "（試寫台前，學姊把一排筆一支一支試過去。）"], ["her", "學弟。"], ["her", "……這支不錯。寫起來不會斷水。"], ["her", "你也來買筆？"]], "choice": ["來買螢光筆。", "隨便看看。"]}
+  [  27.2s] [landscape｜shanlan] sl_sis_1 照 play() 拆的台詞＝{"lines": [["", "（試寫台前，學姊把一排筆一支一支試過去。）"], ["her", "學弟。"], ["her", "……這支不錯。寫起來不會斷水。"], ["her", "你也來買筆？"]], "choice": ["來買螢光筆。", "隨便看看。"]}
   [前置／捷徑] [landscape｜shanlan]［單數週週六 14:30（時間不對）］ GAME.applySave：xs_shanlan 2026-02-28（day 165）14.50 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
 PASS [landscape｜shanlan]［單數週週六 14:30（時間不對）］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 14.54, "day": 165, "money": 22000, "menu": false, "phone": false}
-  [  46.1s] [landscape｜shanlan]［單數週週六 14:30（時間不對）］ 14.54 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
+  [  47.2s] [landscape｜shanlan]［單數週週六 14:30（時間不對）］ 14.54 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
 PASS [landscape｜shanlan]［單數週週六 14:30（時間不對）］ 學姊不在文具區 (5.8, 6.5)（0.3 m 內沒有她）  {"here": false, "ids": []}
   [前置／捷徑] [landscape｜shanlan]［雙數週週六 15:20］ GAME.applySave：xs_shanlan 2026-03-07（day 172）15.33 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
 PASS [landscape｜shanlan]［雙數週週六 15:20］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 15.38, "day": 172, "money": 22000, "menu": false, "phone": false}
-  [  54.9s] [landscape｜shanlan]［雙數週週六 15:20］ 15.38 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
+  [  56.0s] [landscape｜shanlan]［雙數週週六 15:20］ 15.38 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
 PASS [landscape｜shanlan]［雙數週週六 15:20］ 學姊不在文具區 (5.8, 6.5)（0.3 m 內沒有她）  {"here": false, "ids": []}
-  [  58.1s] 到達「[landscape｜shanlan]［雙數週週六 15:20］ 走到「看文具」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-  [  67.3s] [landscape｜shanlan]［雙數週週六 15:20］ 走到旁邊等 8 秒沒有自己開始：診斷 {"slNear": false, "slOn": false, "slPick": "sl_sis_1", "nTicks": 63, "gifthIdx": 1, "busy": false, "dlg": false, "paused": false}
-  [  67.8s] [landscape｜shanlan]［雙數週週六 15:20］ 走到旁邊：玩家 (4.31, 6.64) 15.41 時；學姊 {"here": false, "ids": []}
+  [  59.2s] 到達「[landscape｜shanlan]［雙數週週六 15:20］ 走到「看文具」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  68.4s] [landscape｜shanlan]［雙數週週六 15:20］ 走到旁邊等 8 秒沒有自己開始：診斷 {"slNear": false, "slOn": false, "slPick": "sl_sis_1", "nTicks": 63, "gifthIdx": 1, "busy": false, "dlg": false, "paused": false}
+  [  68.8s] [landscape｜shanlan]［雙數週週六 15:20］ 走到旁邊：玩家 (4.32, 6.63) 15.41 時；學姊 {"here": false, "ids": []}
 PASS [landscape｜shanlan]［雙數週週六 15:20］ 走到旁邊：沒有學姊的台詞  []
-PASS [landscape｜shanlan]［雙數週週六 15:20］ 互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.31, "z": 6.64, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 15.41, "day": 172, "money": 22000, "menu": false, "phone": false}
-  [  72.8s] [landscape｜shanlan]［雙數週週六 15:20］ 按「看文具」 對話紀錄：[["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"], ["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "就這樣"]]
-  [  72.8s] [landscape｜shanlan]［雙數週週六 15:20］ 按「看文具」：shlLook＝"（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"；她的台詞 0 句
+PASS [landscape｜shanlan]［雙數週週六 15:20］ 互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 15.41, "day": 172, "money": 22000, "menu": false, "phone": false}
+  [  73.8s] [landscape｜shanlan]［雙數週週六 15:20］ 按「看文具」 對話紀錄：[["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"], ["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "就這樣"]]
+  [  73.8s] [landscape｜shanlan]［雙數週週六 15:20］ 按「看文具」：shlLook＝"（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"；她的台詞 0 句
 PASS [landscape｜shanlan]［雙數週週六 15:20］ 按「看文具」：沒有學姊的台詞（第一句是 shlLook）  [["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"], ["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "就這樣"]]
   [前置／捷徑] [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ GAME.applySave：xs_shanlan 2026-01-03（day 109）15.33 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
 PASS [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 15.38, "day": 109, "money": 22000, "menu": false, "phone": false}
-  [  80.8s] [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ 15.38 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
+  [  81.7s] [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ 15.38 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
 PASS [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ 學姊不在文具區 (5.8, 6.5)（0.3 m 內沒有她）  {"here": false, "ids": []}
   [前置／捷徑] [landscape｜shanlan]［單數週週六 15:20（符合）］ GAME.applySave：xs_shanlan 2026-02-28（day 165）15.33 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
 PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 15.38, "day": 165, "money": 22000, "menu": false, "phone": false}
-  [  90.1s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 15.38 時，學姊：{"here": true, "x": 5.8, "z": 6.5, "lv": 0, "d": 0, "hidden": false, "pose": "idle", "ids": ["heroine_05"]}；她的名字（SOCIAL.displayName）＝溫書瑀
+  [  90.9s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 15.38 時，學姊：{"here": true, "x": 5.8, "z": 6.5, "lv": 0, "d": 0, "hidden": false, "pose": "idle", "ids": ["heroine_05"]}；她的名字（SOCIAL.displayName）＝溫書瑀
 PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 學姊在文具區 (5.8, 6.5) 0.3 m 內  {"here": true, "x": 5.8, "z": 6.5, "lv": 0, "d": 0, "hidden": false, "pose": "idle", "ids": ["heroine_05"]}
-  [  90.1s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 學姊身體和家具包圍盒重疊：{"at": [5.8, 6.5], "hits": [{"name": "shl_print", "vol": 0.3875, "box": [[-6.83, 0.02, -8.83], [6.95, 3.35, 8.84]]}, {"name": "shl_vc", "vol": 0.3875, "box": [[-6.87, 0, -8.87], [6.99, 2.74, 8.96]]}, {"name": "shl_vcg", "vol": 0.3875, "box": [[-6.88, 0, -8.88], [6.91, 2.76, 8.83]]}, {"name": "shl_stat_label", "vol": 0.195, "box": [[4.61, 0.82, 4.8], [6.97, 2.44, 7.95]]}]}
+  [  91.0s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 學姊身體和家具包圍盒重疊：{"at": [5.8, 6.5], "hits": [{"name": "shl_print", "vol": 0.3875, "box": [[-6.83, 0.02, -8.83], [6.95, 3.35, 8.84]]}, {"name": "shl_vc", "vol": 0.3875, "box": [[-6.87, 0, -8.87], [6.99, 2.74, 8.96]]}, {"name": "shl_vcg", "vol": 0.3875, "box": [[-6.88, 0, -8.88], [6.91, 2.76, 8.83]]}, {"name": "shl_stat_label", "vol": 0.195, "box": [[4.61, 0.82, 4.8], [6.97, 2.44, 7.95]]}]}
   INFO [landscape｜shanlan]［單數週週六 15:20（符合）］ 學姊身體盒子和這些家具的包圍盒重疊（包圍盒會偏大，看截圖）：[["shl_print", 0.3875], ["shl_vc", 0.3875], ["shl_vcg", 0.3875], ["shl_stat_label", 0.195]]
-  [  97.1s] 「[landscape｜shanlan]［單數週週六 15:20（符合）］ 走到「看文具」」途中停下（離目標 2.30 m）：（試寫台前，學姊把一排筆一支一支試過去。）
-  [  99.6s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 開演：剛出現台詞時 {"d": 3.53, "player": [2.39, 7.41], "her": [5.8, 6.5], "playerFaceOff": 0, "herFaceOff": 165}；1.5 秒後（截圖那一刻）{"d": 3.53, "player": [2.39, 7.41], "her": [5.8, 6.5], "playerFaceOff": 0, "herFaceOff": 165}
-PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 開演時玩家和學姊距離 ≥0.6 m（剛出現 3.53 m、1.5 秒後 3.53 m）  [{"d": 3.53, "player": [2.39, 7.41], "her": [5.8, 6.5], "playerFaceOff": 0, "herFaceOff": 165}, {"d": 3.53, "player": [2.39, 7.41], "her": [5.8, 6.5], "playerFaceOff": 0, "herFaceOff": 165}]
-  [ 107.3s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 走近自己演的 對話紀錄：[["say", "", "（試寫台前，學姊把一排筆一支一支試過去。）"], ["say", "溫書瑀", "學弟。"], ["say", "溫書瑀", "……這支不錯。寫起來不會斷水。"], ["say", "溫書瑀", "你也來買筆？"], ["choose", ["來買螢光筆。", "隨便看看。"], "來買螢光筆。"], ["say", "祐廷", "來買螢光筆。"], ["say", "溫書瑀", "綠色的在第二層。那一種比較不會透。"]]
-  [ 118.6s] 到達「[landscape｜shanlan]［單數週週六 15:20（符合）］ 走到「看文具」（演完）」附近（0.20 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
-  [ 119.3s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 走到旁邊：玩家 (4.34, 6.62) 15.51 時；學姊 {"here": true, "x": 5.8, "z": 6.5, "lv": 0, "d": 0, "hidden": false, "pose": "idle", "ids": ["heroine_05"]}
-PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 真的走到「看文具」旁邊（walkFallbacks 沒加）  {"zone": "xs_shanlan", "x": 4.34, "z": 6.62, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "綠色的在第二層。那一種比較不會透。", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 15.51, "day": 165, "money": 22000, "menu": false, "phone": false}
+  [  97.8s] 「[landscape｜shanlan]［單數週週六 15:20（符合）］ 走到「看文具」」途中停下（離目標 1.96 m）：（試寫台前，學姊把一排筆一支一支試過去。）
+  [ 100.4s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 開演：剛出現台詞時 {"d": 3.18, "player": [2.75, 7.39], "her": [5.8, 6.5], "playerFaceOff": 0, "herFaceOff": 164}；1.5 秒後（截圖那一刻）{"d": 3.18, "player": [2.75, 7.39], "her": [5.8, 6.5], "playerFaceOff": 0, "herFaceOff": 164}
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 開演時玩家和學姊距離 ≥0.6 m（剛出現 3.18 m、1.5 秒後 3.18 m）  [{"d": 3.18, "player": [2.75, 7.39], "her": [5.8, 6.5], "playerFaceOff": 0, "herFaceOff": 164}, {"d": 3.18, "player": [2.75, 7.39], "her": [5.8, 6.5], "playerFaceOff": 0, "herFaceOff": 164}]
+  [ 108.1s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 走近自己演的 對話紀錄：[["say", "", "（試寫台前，學姊把一排筆一支一支試過去。）"], ["say", "溫書瑀", "學弟。"], ["say", "溫書瑀", "……這支不錯。寫起來不會斷水。"], ["say", "溫書瑀", "你也來買筆？"], ["choose", ["來買螢光筆。", "隨便看看。"], "來買螢光筆。"], ["say", "祐廷", "來買螢光筆。"], ["say", "溫書瑀", "綠色的在第二層。那一種比較不會透。"]]
+  [ 116.6s] 到達「[landscape｜shanlan]［單數週週六 15:20（符合）］ 走到「看文具」（演完）」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [ 117.5s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 走到旁邊：玩家 (4.32, 6.63) 15.49 時；學姊 {"here": true, "x": 5.8, "z": 6.5, "lv": 0, "d": 0, "hidden": false, "pose": "idle", "ids": ["heroine_05"]}
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 真的走到「看文具」旁邊（walkFallbacks 沒加）  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "綠色的在第二層。那一種比較不會透。", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 15.49, "day": 165, "money": 22000, "menu": false, "phone": false}
 PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 走到旁邊（2.5 m 內）她的那一場自己開始（sl_sis_1，第 1～2 階第一次）：台詞都出現、名字是「溫書瑀」  {"miss": []}
 PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ sl_sis_1 有兩個選項（來買螢光筆。／隨便看看。）  [["choose", ["來買螢光筆。", "隨便看看。"], "來買螢光筆。"]]
-PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.34, "z": 6.62, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "綠色的在第二層。那一種比較不會透。", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 15.51, "day": 165, "money": 22000, "menu": false, "phone": false}
-  [ 124.6s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 按「看文具」 對話紀錄：[["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"], ["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "就這樣"]]
-  [ 124.6s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 按「看文具」：shlLook＝"（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"；她的台詞 0 句
-  [ 128.4s] 到達「[landscape｜shanlan]［單數週週六 15:20（符合）］ 走到學姊旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-FAIL [landscape｜shanlan]［單數週週六 15:20（符合）］ 送禮還找得到她：走到她旁邊（{"x": 5, "z": 6.5, "r": 0.8, "dStat": 0.5}）按鈕是「和溫書瑀說話」  {"interact": "看文具", "x": 4.78, "z": 6.53, "her": {"here": true, "x": 5.8, "z": 6.5, "lv": 0, "d": 0, "hidden": false, "pose": "idle", "ids": ["heroine_05"]}}
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "綠色的在第二層。那一種比較不會透。", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 15.49, "day": 165, "money": 22000, "menu": false, "phone": false}
+  [ 122.7s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 按「看文具」 對話紀錄：[["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"], ["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "就這樣"]]
+  [ 122.7s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 按「看文具」：shlLook＝"（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"；她的台詞 0 句
+  [ 129.1s] 到達「[landscape｜shanlan]［單數週週六 15:20（符合）］ 走到學姊旁邊」附近（0.21 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 送禮還找得到她：走到她旁邊（{"x": 6.12, "z": 6.82, "r": 0.45, "dStat": 1.65}）按鈕是「和溫書瑀說話」  {"interact": "和溫書瑀說話", "x": 6.11, "z": 6.61, "her": {"here": true, "x": 5.8, "z": 6.5, "lv": 0, "d": 0, "hidden": false, "pose": "idle", "ids": ["heroine_05"]}}
 PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 演過以後按「看文具」：同一天不再演（沒有她的台詞）、第一句是 shlLook、有「買禮物…」  [["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"], ["choose", ["買禮物…\n節日、生日的時候送她（包包 0/10）", "就這樣"], "就這樣"]]
 PASS [landscape] 沒有 JS 例外  []
-FAILED 1: [landscape｜shanlan]［單數週週六 15:20（符合）］ 送禮還找得到她：走到她旁邊（{"x": 5, "z": 6.5, "r": 0.8, "dStat": 0.5}）按鈕是「和溫書瑀說話」
+ALL PASS

@@ -1726,3 +1726,14 @@
 [22:17:14] [res] cpu=9% mem=41% (13.0/31.4 GB) chrome_testing=5  END WINVIEW_haopai2
 [22:17:14] memory 41% before starting NANYANG_v4 (2 running)
 [22:17:14] ==== START NANYANG_v4  (probe @ 74da28ca942cbe1e00f033903b3778a9ccaacca1) ====
+[22:17:17] [res] cpu=24% mem=41% (13.1/31.4 GB) chrome_testing=5  START NANYANG_v4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5fe73b13d..aa81774e8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:17:20] ==== END   WINVIEW_haopai2  exit=0  123s   ====
+[22:18:06] 正在跑：WINVIEW_own2（已跑 2 分／上限 60 分）、NANYANG_v4（已跑 0 分／上限 150 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:22:55] memory 51% before starting GUI_fix2 (2 running)
+[22:22:55] ==== START GUI_fix2  (probe @ 8d8b475dc3a6b3546853a98fc24b60edb7829989) ====
+[22:22:58] [res] cpu=2% mem=51% (16.0/31.4 GB) chrome_testing=10  START GUI_fix2
+[22:23:06] 正在跑：WINVIEW_own2（已跑 7 分／上限 60 分）、NANYANG_v4（已跑 5 分／上限 150 分）、GUI_fix2（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:25:43] [res] cpu=21% mem=49% (15.6/31.4 GB) chrome_testing=10  END GUI_fix2
