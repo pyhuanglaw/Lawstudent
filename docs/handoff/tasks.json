@@ -50578,7 +50578,7 @@
    "id": "MOVIE-REAL-1110",
    "title": "約看電影：真的進 1 廳看（不是在買票區椅子上看完）＋各學期上映的電影（AA 寫片名、BB 跟使用者要海報）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50590,7 +50590,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 17:2x】已整合（9581b9f1a）：約南洋＝大廳會合→進 1 廳第 5 排並排坐→場燈關、「（燈暗下來，《片名》開始了。）」→散場回大廳道別；片單 AA_730 48c0428ab 兩個月一段 2024-09～2030-08；大廳海報＋「看今日放映」、1 廳銀幕海報；movie_real_1110_unit ALL PASS。PARTIAL：只有大一那一年 10 張海報（其他 31 段 BB 跟使用者要）；大廳海報位置 LAWWW2 對；阿凱柏翰出遊、芷若早場還是 2D 門口。不進 v9.10.24，下一版。 ｜ 【11-10 交班】BB-B 海報第一批 10 張交件（claude/elegant-brown-fcos7n e4eea1c780 docs/story_planning/bg_approved/posters/m2509a～m2605b.webp，圖上沒字、上方四分之一留白）；片單 AA_730 8a246c40f。下一班 LAWWW 接：進 1 廳坐下關燈、片名、海報牆、銀幕。 ｜ 【11-10 01:1x LAWWW-B】使用者 X274。現況：約看電影（activity_scenes.js movie）在見面的南洋大廳演完（截圖是大廳海報牆前）；1 廳已經有 aa614 的坐下看電影（場燈關掉）。分工：① LAWWW：見面以後一起走進 1 廳坐下、場燈關、再演 seat／mid，散場出來演 bye；② AA：大一～大四每段期間（幾月～幾月）上映哪幾部電影（原創片名，D77，不用真實電影），約的時候、海報牆、台詞照這份；③ BB：照 D97 跟使用者要海報（AA 片單出來後）；④ LAWWW 接海報到大廳海報牆、1 廳銀幕前。",
+   "next": "BB 11-10 18:15 PC 真實流程 PASS（05a715ead）；海報照 X314 補",
    "xai": {
     "spec": "使用者 11-10 01:1x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -52635,6 +52635,25 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "MOVIE-REMIND-LATE-1110",
+   "title": "約會提醒：人已經到約好的地方（例：南洋戲院大廳→1 廳）或對話在演，不再跳「提醒：…約在…」（BB 11-10 18:15 P3）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "約會",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "BB 下一輪看電影流程順便看"
   }
  ]
 }
