@@ -122,6 +122,14 @@ GGDC_tree3g_new | d8b669175bcf363974b401e1eed3d6709f2b0949 | probe | docs/story_
 GGDC_tree3g_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_canopy_shot_probe.py | index.html | 20 | TAG=g_old;ZONE=gongguan;X=-49;Z=13;R=20;EXCL=palm|bark;DISTS=3,7
 GGDC_tree3c_new | d8b669175bcf363974b401e1eed3d6709f2b0949 | probe | docs/story_planning/test_tools/cc/cc_canopy_shot_probe.py | index.html | 20 | TAG=c_new;EXCL=palm|bark;DISTS=3,7
 GGDC_tree3c_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_canopy_shot_probe.py | index.html | 20 | TAG=c_old;EXCL=palm|bark;DISTS=3,7
+# GGDC tree4（CC 11:5x）：tree3 的 EXCL=palm|bark 被佇列的「|」切掉（DISTS 也丟了）＝TEST_BUG，抓到盆栽、樹幹、柱子；改 EXCL=palm+bark、LEAF=1 只認葉子／樹冠
+GGDC_tree4g_new | d8b669175bcf363974b401e1eed3d6709f2b0949 | probe | docs/story_planning/test_tools/cc/cc_canopy_shot_probe.py | index.html | 20 | TAG=4g_new;ZONE=gongguan;X=-49;Z=13;R=25;EXCL=palm+bark;LEAF=1;DISTS=3,7
+GGDC_tree4g_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_canopy_shot_probe.py | index.html | 20 | TAG=4g_old;ZONE=gongguan;X=-49;Z=13;R=25;EXCL=palm+bark;LEAF=1;DISTS=3,7
+GGDC_tree4c_new | d8b669175bcf363974b401e1eed3d6709f2b0949 | probe | docs/story_planning/test_tools/cc/cc_canopy_shot_probe.py | index.html | 20 | TAG=4c_new;EXCL=palm+bark;LEAF=1;DISTS=3,7
+GGDC_tree4c_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_canopy_shot_probe.py | index.html | 20 | TAG=4c_old;EXCL=palm+bark;LEAF=1;DISTS=3,7
+# X295E fair r3（CC 11:4x）：X295E_new 園遊會互動鍵是「騎腳踏車」——存檔騎著車、到了攤位旁車停在那裡？；探針先選選項（舊版點台詞框 190 次）；keep＝照存檔騎車過去、off＝起點先下車；開發分支 head
+X295E_fair_keep | bb8a32765065cc64530791f42aee631e06133b12 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep;CASES=fair;BIKE=keep
+X295E_fair_off | bb8a32765065cc64530791f42aee631e06133b12 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_off;CASES=fair;BIKE=off
 # WINVIEW cvs 重拍（LAWWW 10:12／10:15，日和便利店，4d7f556a6）：PC 沒有 PIL→只拍原始 far／nb／nw PNG＋景深 json（cc_views_raw_probe），雲端再去背、存 webp 推 docs/story_planning/CC/views_out/
 VIEWRAW_cvs | 4d7f556a61e028ab5409fcf0103e7448b3038b51 | probe | docs/story_planning/test_tools/cc/cc_views_raw_probe.py | index.html | 30 | NAMES=cvs;RERUN=gw
 # PUTONG101-WINDOW-1102（BB 10:59：和窗景／日和一起）：teach_views 要 PIL→PC 只拍原始 PNG（cc_teach_views_raw_probe），雲端轉 webp；改前 35b88d5ff（3c6c91bdd^）；博思一樓從校園看
