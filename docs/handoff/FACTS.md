@@ -52,3 +52,11 @@
 - Blender 工作：一律 CPU、獨佔跑；ENV 寫 `SCRIPT_FROM=lawww2`、`XARGS=--out {out}`；說明 `tools/cc_local/README.md` 第 151～155 行。
 - 探針：CC 的在 `docs/story_planning/test_tools/cc/`，BB 的在 `docs/story_planning/test_tools/`；排之前跑 `tools/cc_local/probe_lint.py`。
 - 存檔樣本：`test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json`（使用者 day46）、`fixtures/heavy_save_m5.json`、開發分支 `tests/fixtures/user_save_day54_1110.json`。使用者原始存檔不 commit。
+
+### LAWWW2（`claude/second-ai-env-art`）
+- **交件都是 patch，不是直接改開發分支**：`docs/art-rebuild/second_ai/wip/<任務>/`（README＋.patch＋預覽＋regression log）；登記 `docs/handoff/outbox_LAWWW2.json`。11-10 的：`tingzhou_1110/`、`flower_notes_1110/`、`gg_shops6_int_1110/`（六間室內三個 patch，依序套 v1 → v1b → v1c）、`sign_rectify_1110/`。
+- 規劃文件 `docs/art-rebuild/second_ai/proposals/`：`night_market_1110.md`（夜市十一攤；6c 節＝禮貌生財的位置和室內；都還沒授權實作）、`life_details_seasonal_1110.md`（季節布置 20 項，使用者說全做，還沒動手）、`tingzhou_area_1110.md`。
+- 使用者給 LAWWW2 的參考圖：`docs/art-rebuild/second_ai/ref/tingzhou_1110/concept/`（汀州路七張）、`ref/gg_shops6_1110/{concept,interior}/`（公館六間外觀、室內）。第三方地圖、街景照片不進 repo。
+- Blender 腳本 `tools/blender/env_second/`：`wz_street.py -- --set <區>`（**一定要有 `--`，沒有會蓋掉溫州街的 GLB**）、`wz_shopkit.py`、`tz_stalls.py`、`tz_shops_interior.py --shop <店>`、`flower_notes_interior.py`；貼圖 Poly Haven CC0 在 `textures/<pid>/`、自己產的 `textures/gen/`。重建公館店面街的三步在 `docs/art-rebuild/second_ai/HANDOFF.md` 最上面。
+- 雲端容器算預覽圖很慢（沒有顯示卡：整條街一張 10～13 分鐘）；建模、匯出不慢。正式預覽排使用者電腦（ROLE_LAWWW2 1.0）。
+- 公館 G08 騎樓的紅凳子 `sk_stool_r_G08` 是子晴的劇情座位，重建店面街不能拿掉（`zq_arcade_seat_unit`）；雜物變了要重算 `src/zones3d.js` 的 GG_PROP_BLOCKS（`street_props_nav_unit`）。
