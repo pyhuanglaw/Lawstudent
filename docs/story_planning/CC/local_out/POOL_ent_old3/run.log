@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_pool_swim_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\POOL_ent_old3\out
+CC POOL_SWIM：CASES ENTRY,POSE,TURN,FPS,QUAL,CLOSED；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  28.8s] 挑的日子：{"key4": "2025-11-01"}
+  [前置／捷徑] 【前置／設定】畫質選單 #setQuality＝medium（結果 E.q.level＝medium）
+  [前置／捷徑] 【前置／捷徑】讀檔到 1F 綜合體育館（gym）入口出生點 (0,17.6)、2025-11-01 14:00
+PASS 1F 有「下樓到 B1」
+  [  65.7s] 到達「走到「下樓到 B1（健身中心・游泳池）」」附近（0.22 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，19 秒
+  [  73.4s] [ENTRY] 按下去 → 黑幕結束（isEntering false）5.19 秒；→ 畫面亮（截圖亮度 ≥12）5.19 秒；→ 第一個泳客 None 秒；（出現的那一刻：[]）
+  [  73.4s] [ENTRY] 時間軸（前 40 筆）：[{"t": 0.09, "zone": "gym", "ent": true, "lum": null, "n": 0}, {"t": 0.35, "zone": "gym", "ent": true, "lum": null, "n": 0}, {"t": 1.43, "zone": "gym_b1", "ent": true, "lum": null, "n": 0}, {"t": 1.71, "zone": "gym_b1", "ent": true, "lum": null, "n": 0}, {"t": 4.39, "zone": "gym_b1", "ent": true, "lum": null, "n": 0}, {"t": 4.66, "zone": "gym_b1", "ent": true, "lum": null, "n": 0}, {"t": 4.92, "zone": "gym_b1", "ent": true, "lum": null, "n": 0}, {"t": 5.19, "zone": "gym_b1", "ent": false, "lum": 99.1, "n": 0}, {"t": 5.83, "zone": "gym_b1", "ent": false, "lum": null, "n": 0}, {"t": 6.09, "zone": "gym_b1", "ent": false, "lum": null, "n": 0}, {"t": 6.36, "zone": "gym_b1", "ent": false, "lum": null, "n": 0}, {"t": 6.65, "zone": "gym_b1", "ent": false, "lum": null, "n": 0}, {"t": 6.93, "zone": "gym_b1", "ent": false, "lum": null, "n": 0}, {"t": 7.21, "zone": "gym_b1", "ent": false, "lum": null, "n": 0}]
+PASS [ENTRY] 進得去 B1、畫面亮起來（5.19 秒）  [{"t": 6.65, "zone": "gym_b1", "ent": false, "lum": null, "n": 0}, {"t": 6.93, "zone": "gym_b1", "ent": false, "lum": null, "n": 0}, {"t": 7.21, "zone": "gym_b1", "ent": false, "lum": null, "n": 0}]
+PASS [ENTRY] 泳客出現的時候：黑幕裡、池邊轉身、或不在畫面裡（不能在畫面中間突然冒出來）  []
+PASS 沒有 JS 例外  []
+ALL PASS
