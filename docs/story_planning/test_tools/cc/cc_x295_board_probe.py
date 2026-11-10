@@ -22,7 +22,7 @@ TAG = os.environ.get('TAG') or 'x'
 DATE = os.environ.get('DATE') or '2025-09-08'; HOUR = float(os.environ.get('HOUR') or 12)
 ORIENTS = [o.strip() for o in (os.environ.get('ORIENT') or 'portrait,landscape').split(',') if o.strip()]
 BOARDS = [b.strip() for b in (os.environ.get('BOARDS') or 'gongtong,putong,boya').split(',') if b.strip()]
-MAXP = int(os.environ.get('MAXP') or 20)
+MAXP = int(os.environ.get('MAXP') or 20); TYPE_S = int(os.environ.get('TYPE_S') or 60)   # 等字打完最多幾秒（SwiftShader 一頁 70 字要 20 秒以上）
 R = L.Run('x295_board_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 
@@ -85,7 +85,7 @@ def gen_boards():
     return out
 
 
-async def wait_typed(pg, max_s=20):
+async def wait_typed(pg, max_s=60):
     t0 = time.time()
     while time.time() - t0 < max_s:
         u = await pg.evaluate(UI)
@@ -150,11 +150,17 @@ async def one_board(pg, cdp, orient, zone, key, label0, zfilter):
         R.note('%s 5.5 秒後字幕%s' % (tag, '還在' if u['caption'] else '自己消失了（玩家不用按任何東西，但也沒辦法停下來看完）'))
         return
     # 改後：一頁一頁
-    seen = []; first_text = None; closed = False
+    seen = []; missed = []; closed = False
     for i in range(MAXP):
-        u, stuck = await wait_typed(pg)
+        u, stuck = await wait_typed(pg, TYPE_S)
         if not u['dlg']: closed = True; break
-        if stuck: R.note('%s 第 %d 頁 20 秒字還沒打完：手指點一下讓它整頁出來' % (tag, i + 1)); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); u = await pg.evaluate(UI)
+        if stuck:
+            # 字打太慢（SwiftShader 低幀率）：手指點一下＝這一頁整頁出來（不是翻頁）。剛好打完的那一瞬間點到會翻到下一頁——用全文認頁，翻過頭照實記
+            full0 = u['full']; R.note('%s 第 %d 頁 %d 秒字還沒打完：手指點一下讓它整頁出來' % (tag, i + 1, TYPE_S)); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700)
+            u, _ = await wait_typed(pg, TYPE_S)
+            if not u['dlg']: closed = True; break
+            if u['full'] != full0:
+                R.note('%s 第 %d 頁（「%s」）剛好打完時點到、翻到下一頁了：這一頁沒量到版面、沒截圖（探針問題）' % (tag, i + 1, full0[:30])); seen.append(full0); missed.append(full0[:20])
         await pg.wait_for_timeout(300)
         m = await pg.evaluate(MEASURE, {'box': '#dlg', 'text': '#dlgText'})
         await pg.screenshot(path=os.path.join(OUT, 'x295_%s_%s_%s_p%02d.png' % (TAG, orient, key, i + 1)))
@@ -164,7 +170,7 @@ async def one_board(pg, cdp, orient, zone, key, label0, zfilter):
         judge(ptag, m, '#dlg')
         R.check('%s 點下一頁的範圍（整個對話框）≥44×44（%sx%s）' % (ptag, m['tapW'], m['tapH']), m['tapW'] >= 44 and m['tapH'] >= 44)
         if m['closers']: R.note('%s 畫面上的關閉／略過類按鈕：%s' % (ptag, J(m['closers'])))
-        seen.append(u['text'])
+        seen.append(u['full'] if u['text'] == u['full'] else u['text'])
         await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(900)
     else:
         R.check('%s %d 頁內翻完' % (tag, MAXP), False, '還在對話')
@@ -174,6 +180,7 @@ async def one_board(pg, cdp, orient, zone, key, label0, zfilter):
         if not u['dlg']: closed = True; break
         await pg.wait_for_timeout(400)
     R.note('%s 翻了 %d 頁：%s' % (tag, len(seen), J([t[:40] for t in seen])))
+    R.check('%s［探針］每一頁都量到、截到圖' % tag, not missed, J(missed))
     if exp is not None:
         want = len(exp) + 1   # 第一頁是 look（公告欄：…），後面是 boardPages
         R.check('%s 每一頁都翻到：look＋boardPages %d 頁＝%d 頁，逐字一樣' % (tag, len(exp), want), seen[1:] == exp and len(seen) == want, J({'seen': len(seen), 'want': want, 'diff': [i for i, (a, b) in enumerate(zip(seen[1:], exp)) if a != b]}))
