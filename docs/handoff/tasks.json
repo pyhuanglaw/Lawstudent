@@ -52356,7 +52356,7 @@
    "id": "WZ-SHOPS-REF-AUDIT-1110",
    "title": "溫州街所有店面照公館模式：逐間對帳有沒有參考圖、遊戲裡是不是新版；沒參考圖的開任務、BB 給提示詞、使用者生圖（X318）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52369,7 +52369,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW 11-10 18:3x】使用者：「溫州街的所有店面也都要找這個模式」。LAWWW2 先回清單（不用動手）：溫州街每一間（含第一批五間 X212、wz_shops 其他、小公園旁、2:30 AM…）是哪一間、參考圖有沒有、遊戲裡是不是新版；沒參考圖的各開 WZ-SHOP-<id>-1110 給 LAWWW 進總表，BB 照 D97 新開頭給外觀＋室內提示詞。",
+   "next": "結案：溫州街除日和 A5 都已照使用者參考圖做好；日和使用者 19:0x 選「維持現在」",
    "xai": {
     "spec": "X318",
     "branch": "claude/second-ai-env-art",
