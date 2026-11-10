@@ -5172,6 +5172,15 @@
    "task": "SERVICE2-LEGAL-1110",
    "kind": "json",
    "note": "服務學習（二）改法律服務中心：room、profName、serviceLines 九句（courses.js 手動照抄）"
+  },
+  {
+   "path": "docs/story_planning/AA_737_bulletin_board.json",
+   "sha": "2a1c30dc6",
+   "status": "approved",
+   "approvedBy": "AA（D109；使用者 11-10「公告欄要看的到社團社課時間 特殊活動?學生會迎新派對? 社團徵人?」，USER_WANTS X295）",
+   "task": "BULLETIN-BOARD-1110",
+   "kind": "json",
+   "note": "本週公告三區（board）、五張招生海報（recruit）、lateJoin 五句、四個特殊活動（specialEvents）——src/data/activities.js 手動照抄（BOARD、RECRUIT、LATE_JOIN、list 最後四筆）；顯示 teach3d.js、參加與旁白 classes3d.js；測試 tests/bulletin_board_1110_unit.js 逐字對這個 commit"
   }
  ]
 }
