@@ -1,9 +1,9 @@
-/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_732_gift_holiday_1.json@1edb14888、docs/story_planning/AA_733_gift_holiday_2.json@1edb14888、docs/story_planning/AA_734_gift_holiday_3.json@246ef6735）。不要手改，改企劃 AA_732／AA_733／AA_734 再重新匯入。
+/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_732_gift_holiday_1.json@30c4cbd45、docs/story_planning/AA_733_gift_holiday_2.json@1edb14888、docs/story_planning/AA_734_gift_holiday_3.json@246ef6735）。不要手改，改企劃 AA_732／AA_733／AA_734 再重新匯入。
    節日、生日送禮（GIFT-HOLIDAY-1110；播放 src/gifthol3d.js）：shops／items＝店家禮物、react＝八位收到的反應、give＝她們送祐廷的、stationery＝山嵐文具區學姊四場 */
 'use strict';
 const GIFT_HOLIDAY={
  "src": [
-  "docs/story_planning/AA_732_gift_holiday_1.json@1edb14888",
+  "docs/story_planning/AA_732_gift_holiday_1.json@30c4cbd45",
   "docs/story_planning/AA_733_gift_holiday_2.json@1edb14888",
   "docs/story_planning/AA_734_gift_holiday_3.json@246ef6735"
  ],

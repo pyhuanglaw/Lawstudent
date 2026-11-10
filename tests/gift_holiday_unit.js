@@ -3,7 +3,7 @@
 //   0. gift_holiday.js 和白名單上的三份一致（import_gift_holiday.py --check）；14 家店（山嵐分書架、文具區）57 樣＋special 2 樣；八位反應、八位她送的
 //   1. 買：各店「買禮物…」（afar「選物…」）；扣錢、放進包包、記哪裡買；錢不夠灰掉、選了不扣；包包 10 樣滿＝灰掉；暖暖包只有冬天
 //   2. 平常日沒有「送她禮物…」、節日有（聖誕兩天、2/14、七夕、她的生日）；陌生人、朋友、芯慈線關著不列
-//   3. 送：不扣時段；open＋item（band 那一格或 *）／love／ok／no；好感 love／ok／no（她的戀愛第 3 階以上才算）；記 GIFT_LOVE／GIFT_GIVEN；包包少一樣
+//   3. 送：不扣時段；open＋item（band 那一格或 *）／love／ok／no；好感 love／ok／no（她的戀愛認識以上就算）；記 GIFT_LOVE／GIFT_GIVEN；包包少一樣
 //   4. 一人一節一份；同一樣同一個人一輩子一次（隔年不再列）；以安 2028 情人節的鋼筆（AN_VDAY_GIFT pen）算送過
 //   5. 同一節最多兩個人：第三個人灰掉、按下去演 third（輪流）；生日不限
 //   6. band：第 1～2 階 A、3～4 B、5～6 C、交往中 D
@@ -46,7 +46,7 @@ const flat=L=>L.join('');
   /* ======================= 0 資料 ======================= */
   await sec(0,async()=>{ let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/gift/import_gift_holiday.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     check('0. 載入 fest3d、gift_holiday.js、gifthol3d.js',okF&&okG&&typeof GIFTH!=='undefined',err.slice(0,300));
-    check('0. gift_holiday.js 和白名單上的 AA_732／733（1edb14888）、AA_734（246ef6735）一致（import_gift_holiday.py --check）',ok&&J(GIFT_HOLIDAY.src)===J(['docs/story_planning/AA_732_gift_holiday_1.json@1edb14888','docs/story_planning/AA_733_gift_holiday_2.json@1edb14888','docs/story_planning/AA_734_gift_holiday_3.json@246ef6735']),out.trim().slice(0,200));
+    check('0. gift_holiday.js 和白名單上的 AA_732（30c4cbd45）、AA_733（1edb14888）、AA_734（246ef6735）一致（import_gift_holiday.py --check）',ok&&J(GIFT_HOLIDAY.src)===J(['docs/story_planning/AA_732_gift_holiday_1.json@30c4cbd45','docs/story_planning/AA_733_gift_holiday_2.json@1edb14888','docs/story_planning/AA_734_gift_holiday_3.json@246ef6735']),out.trim().slice(0,200));
     const X=GIFT_HOLIDAY, n=Object.keys(X.items).filter(g=>X.items[g].shop!=='special').length;
     check('0. 14 家店（山嵐書架、文具區分開＝14 個 key）57 樣＋special 2 樣',Object.keys(X.shops).length===14&&n===57&&X.items.g_test_report.shop==='special'&&X.items.g_no_edit.shop==='special',Object.keys(X.shops).length+' 店 '+n+' 樣');
     check('0. 八位都有反應（open 四個節 × A～D、love／ok／no）、八位都有她送的（聖誕 B～D2、2/14 C～D2、七夕 C／D）',GIFTH.PEOPLE.every(p=>X.react[p]&&['xmas','vday','qixi','bday'].every(k=>['A','B','C','D'].every(b=>X.react[p].open[k][b].length))&&X.give[p]&&X.give[p].xmas.B&&X.give[p].vday.C&&X.give[p].qixi.D));
@@ -116,7 +116,7 @@ const flat=L=>L.join('');
     check('3. 生日 open[bday][B]；濾掛咖啡（love）item 那一格',flat(r.L).indexOf(T(G,R.open.bday.B[0]))>=0&&flat(r.L).indexOf(T(G,R.item.g_drip['*'][0]))>=0&&J(dRel(SIS,r2))===J({trust:3,npcRom:2}));
     const G2=setup('2025-12-24',15,{lv:{[ZQ]:2}}); buy('g_capo'); buy('g_picks'); const r3=rel(ZQ); r=await run(()=>opt(ZQ).run(GM,who(ZQ)),['一組吉他彈片']);
     const RZ=GIFT_HOLIDAY.react[ZQ];
-    check('3. 子晴第 2 階（A）收到 love（彈片）：信任 +3、她的戀愛不加（第 3 階以上才算）',J(dRel(ZQ,r3))===J({trust:3})&&flat(r.L).indexOf(T(G2,RZ.open.xmas.A[0]))>=0,J(dRel(ZQ,r3)));
+    check('3. 子晴第 2 階（A）收到 love（彈片）：信任 +3、她的戀愛 +2（認識以上就算，AA_732 30c4cbd45）',J(dRel(ZQ,r3))===J({trust:3,npcRom:2})&&flat(r.L).indexOf(T(G2,RZ.open.xmas.A[0]))>=0,J(dRel(ZQ,r3)));
     at('2026-02-14',15); const r4=rel(ZQ); r=await run(()=>opt(ZQ).run(GM,who(ZQ)),['一個移調夾']);
     check('3. ok（移調夾，沒寫 love／no）：ok[A]、信任 +2',flat(r.L).indexOf(T(G2,RZ.ok.A[0]))>=0&&J(dRel(ZQ,r4))===J({trust:2}),J(r.L)); });
 

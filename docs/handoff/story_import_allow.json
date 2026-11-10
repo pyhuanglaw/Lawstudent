@@ -5190,16 +5190,20 @@
   },
   {
    "path": "docs/story_planning/AA_732_gift_holiday_1.json",
-   "sha": "1edb14888",
+   "sha": "30c4cbd45",
    "status": "approved",
    "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
    "task": "GIFT-HOLIDAY-1110",
    "kind": "json",
-   "note": "節日送禮第一批：規則、14 家店 57 樣（含 special 兩樣）、third、學姊反應——tools/gift/import_gift_holiday.py → src/data/gift_holiday.js；1edb14888 改過 fc9ff6d3d（g_cvs_choco 的 no 加可昕）",
+   "note": "節日送禮第一批：規則、14 家店 57 樣（含 special 兩樣）、third、學姊反應——tools/gift/import_gift_holiday.py → src/data/gift_holiday.js；1edb14888 改過 fc9ff6d3d（g_cvs_choco 的 no 加可昕）；30c4cbd45 rules 第 12 條：love 加她的戀愛 +2 從認識就算（X281／ROM-PRIVATE-DATE-1110 優先，AA 11-10 09:48 回 LAWWW）",
    "history": [
     {
      "sha": "fc9ff6d3d",
      "note": "第一版（g_cvs_choco 的 no 還沒有可昕）"
+    },
+    {
+     "sha": "1edb14888",
+     "note": "被 30c4cbd45 取代（rules 第 12 條）"
     }
    ]
   },

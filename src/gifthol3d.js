@@ -13,7 +13,7 @@
    - 可昕：那一天有她的專屬場次、場次裡有禮物＝這套不出現（S.kxSkip）。
    - 買：各店的點餐或互動多「買禮物…」（afar＝「選物…」）→ 那家店的東西、價錢、說明；錢不夠灰掉；包包最多 10 樣；不會過期。
    - 反應：band A＝第 1～2 階、B＝3～4、C＝5～6、D＝交往中（DATE.stageNum）。先 open[節][band]（約會裡送的不演）→ item[id][band 或 *]，沒有就照 love／ok／no[band]。
-   - 好感（AA_416 1-7 送禮那兩列）：love＝她的戀愛 +2（第 3 階以上才算）、信任 +3；ok＝信任 +2；no＝信任 +1。節日不受每天上限。
+   - 好感（AA_416 1-7 送禮那兩列）：love＝她的戀愛 +2（認識以上就算，30c4cbd45）、信任 +3；ok＝信任 +2；no＝信任 +1。節日不受每天上限。
    - 記憶：love 的那一樣 GIFT_LOVE_<人物>（人物頁「她喜歡○○」）；送過的都記 GIFT_GIVEN_<人物>。special 兩樣不用買、只有那一位的選單會列。
    她送祐廷（AA_734）：gate（聖誕第 4 階以上 B／C／D／D2；2/14、七夕第 6 階或交往中 C／D／D2）、how（當面那天給；交往中沒見到＝7 天內第一次見到給、多一句 late；
      交往中她在國外／老家＝宿舍信箱包裹、卡片；existing＝那一年那個節照專屬場次）；收到的東西進宿舍房間的櫃子（STORY.ROOM_EXTRA）、人物頁「她送的」、選單「物品」。
@@ -143,7 +143,7 @@ const GIFTH=(function(){
     if(pid==='heroine_02'&&gid==='g_old_poster'&&G.flags) G.flags.ZR_POSTER=true;   /* AA_416 1-8 的老電影海報（AA_524 Z8，src/aa524_3d.js）：送到的一樣記 */
     if(GM.autosave) GM.autosave(); return cat; };
   S.adjust=function(G,pid,cat){ if(typeof SOCIAL==='undefined'||!SOCIAL.adjust) return; const d=Object.assign({},S.REL[cat]||{});
-    if(d.npcRom&&!(stageNum(pid)>=3||dating(G,pid))) delete d.npcRom;   /* 她的戀愛第 3 階以上才算（AA_732 rules）*/
+    /* 她的戀愛：認識以上就算（AA_732 rules 第 12 條 30c4cbd45，照 X281／ROM-PRIVATE-DATE-1110；原本第 3 階以上才算）。第 0 階本來就不能送 */
     SOCIAL.adjust(pid,d); };
 
   /* ---------------- 節日約會（AA_416 1-8，fest3d.js FEST.gift）---------------- */
