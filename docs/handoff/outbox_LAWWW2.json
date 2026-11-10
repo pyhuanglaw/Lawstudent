@@ -6839,6 +6839,26 @@
    "noDirectIntegrate": false,
    "note": "curb() 在路口不斷開，7 段約 56 m 路緣橫過別條步道；改成步道都鋪好以後才放、跳過別條步道（只改 src/zones3d.js），路緣合成一個網格（10→1 draw call），導航不變。新測試 campus_curb_gap_unit 開發分支 FAILED 2 → ALL PASS；在 bb8a32765 apply --check 通過、回歸 38 支 ALL PASS。LAWWW2-B 做、帳號 A 交件。",
    "next": "LAWWW 整合；CC 用使用者存檔 user_save_day51b_1110 拍 (29.9,−54.4) 18:2x；BB 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "4bd8615ed",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "AVENUE-FAR-SIGNS-1110（X285：椰影大道遠景都是補習班）",
+   "files": [
+    "assets/models/env/second_ai/campus_gongguan_bd.{glb,json}",
+    "assets/models/env/second_ai/gongguan_far.{glb,json}",
+    "tests/avenue_far_signs_unit.js",
+    "tools/blender/env_second/gg_textures.py",
+    "tools/blender/env_second/gg_backdrop.py",
+    "tools/blender/env_second/textures/gen/gg_bd_signs.png",
+    "docs/art-rebuild/second_ai/wip/avenue_far_signs_1110/"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "兩張補習班大看板換穗豐銀行、老灶熱炒，燈箱補習→咖啡；_bb() 照 0,3,6,1,4,7,2,5 輪流（照舊呼叫 randrange，樓的長相不變）；三角形、網格不變，只換招牌貼圖。avenue_far_signs_unit 開發版 FAILED 4 → ALL PASS。對照圖是 Blender 渲染。",
+   "next": "LAWWW 整合（只換檔）；CC 照使用者截圖位置（椰影大道往校門、晚上 18:4x）拍；BB 判"
   }
  ]
 }
