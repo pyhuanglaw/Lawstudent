@@ -1,0 +1,299 @@
+{
+ "boxes": {
+  "campus_bell_glb": {
+   "meshes": 7,
+   "vis": true,
+   "min": [
+    -40.4,
+    0,
+    13.3
+   ],
+   "max": [
+    -35.6,
+    5.4,
+    18.9
+   ]
+  },
+  "campus_admin_glb": {
+   "meshes": 5,
+   "vis": true,
+   "min": [
+    -61.8,
+    0,
+    21.1
+   ],
+   "max": [
+    -14.2,
+    12.5,
+    41.8
+   ]
+  },
+  "campus_arts_glb": {
+   "meshes": 5,
+   "vis": true,
+   "min": [
+    -58.8,
+    0,
+    -43.8
+   ],
+   "max": [
+    -17.2,
+    14.7,
+    -21.1
+   ]
+  },
+  "campus_hist_glb": {
+   "meshes": 5,
+   "vis": true,
+   "min": [
+    -89.8,
+    0,
+    -37.8
+   ],
+   "max": [
+    -64.2,
+    14.7,
+    -17.5
+   ]
+  },
+  "campus_male1_glb": {
+   "meshes": 7,
+   "vis": true,
+   "min": [
+    1.8,
+    0,
+    58.4
+   ],
+   "max": [
+    38.2,
+    22.3,
+    76.2
+   ]
+  },
+  "campus_gongtong_glb": {
+   "meshes": 11,
+   "vis": true,
+   "min": [
+    -15,
+    0,
+    17
+   ],
+   "max": [
+    16.4,
+    17.7,
+    40.5
+   ]
+  },
+  "campus_lake_glb": {
+   "meshes": 14,
+   "vis": true,
+   "min": [
+    -52.5,
+    -0.8,
+    -123.4
+   ],
+   "max": [
+    -17.7,
+    6.9,
+    -98.6
+   ]
+  }
+ },
+ "shots": [
+  {
+   "what": "bell",
+   "view": "bell_avenue",
+   "from": [
+    -38,
+    1.7,
+    4
+   ],
+   "at": [
+    -38,
+    3.0,
+    16.5
+   ],
+   "file": "x223_new_bell_avenue.png"
+  },
+  {
+   "what": "bell",
+   "view": "bell_close",
+   "from": [
+    -35.6,
+    1.6,
+    12.4
+   ],
+   "at": [
+    -38,
+    2.8,
+    16.5
+   ],
+   "file": "x223_new_bell_close.png"
+  },
+  {
+   "what": "admin",
+   "view": "admin_front",
+   "from": [
+    -30,
+    1.7,
+    14
+   ],
+   "at": [
+    -38,
+    6,
+    28
+   ],
+   "file": "x223_new_admin_front.png"
+  },
+  {
+   "what": "arts",
+   "view": "arts_front",
+   "from": [
+    -30,
+    1.7,
+    -12
+   ],
+   "at": [
+    -38,
+    6,
+    -28
+   ],
+   "file": "x223_new_arts_front.png"
+  },
+  {
+   "what": "hist",
+   "view": "hist_front",
+   "from": [
+    -69,
+    1.7,
+    -8
+   ],
+   "at": [
+    -77,
+    6,
+    -24
+   ],
+   "file": "x223_new_hist_front.png"
+  },
+  {
+   "what": "hist",
+   "view": "hist_porch",
+   "from": [
+    -74.5,
+    1.7,
+    -14.2
+   ],
+   "at": [
+    -77,
+    4.6,
+    -19.4
+   ],
+   "file": "x223_new_hist_porch.png"
+  },
+  {
+   "what": "male1",
+   "view": "m1_front",
+   "from": [
+    14,
+    1.7,
+    50
+   ],
+   "at": [
+    20,
+    6,
+    64
+   ],
+   "file": "x223_new_m1_front.png"
+  },
+  {
+   "what": "r3site",
+   "view": "r3_from_north",
+   "from": [
+    63,
+    1.7,
+    -93
+   ],
+   "at": [
+    63,
+    3,
+    -108
+   ],
+   "file": "x223_new_r3_from_north.png"
+  },
+  {
+   "what": "r3site",
+   "view": "r3_from_east",
+   "from": [
+    78,
+    1.7,
+    -108
+   ],
+   "at": [
+    63,
+    3,
+    -108
+   ],
+   "file": "x223_new_r3_from_east.png"
+  },
+  {
+   "what": "gongtong",
+   "view": "gongtong_front",
+   "from": [
+    15.38,
+    1.7,
+    3.11
+   ],
+   "at": [
+    0.7,
+    5.31,
+    28.75
+   ],
+   "file": "x223_new_gongtong_front.png"
+  },
+  {
+   "what": "gongtong",
+   "view": "gongtong_wide",
+   "from": [
+    21.26,
+    14.774999999999999,
+    -7.15
+   ],
+   "at": [
+    0.7,
+    5.31,
+    28.75
+   ],
+   "file": "x223_new_gongtong_wide.png"
+  },
+  {
+   "what": "lake",
+   "view": "lake_front",
+   "from": [
+    -19.15,
+    1.7,
+    -83.14
+   ],
+   "at": [
+    -35.1,
+    2.0,
+    -111.0
+   ],
+   "file": "x223_new_lake_front.png"
+  },
+  {
+   "what": "lake",
+   "view": "lake_wide",
+   "from": [
+    -12.77,
+    16.049999999999997,
+    -72.0
+   ],
+   "at": [
+    -35.1,
+    2.0,
+    -111.0
+   ],
+   "file": "x223_new_lake_wide.png"
+  }
+ ]
+}

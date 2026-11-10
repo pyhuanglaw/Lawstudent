@@ -1544,3 +1544,13 @@
 [21:31:51] ==== START GIFTHOL_new  (probe @ 509b54c2d9d7a2f1ab6f227124abeb4d30747db6) ====
 [21:31:54] [res] cpu=13% mem=47% (15.0/31.4 GB) chrome_testing=9  START GIFTHOL_new
 [21:32:50] [res] cpu=16% mem=47% (15.5/31.4 GB) chrome_testing=9  END XSPLANT_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       66b3aa11d..d4c8df458  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:32:57] ==== END   XSPLANT_old  exit=0  124s   ====
+[21:33:00] memory 47% before starting X223SHOT_new (2 running)
+[21:33:00] ==== START X223SHOT_new  (probe @ 48aa47a5b71453a04c983e3185201640d2f9449c) ====
+[21:33:03] [res] cpu=9% mem=47% (15.0/31.4 GB) chrome_testing=9  START X223SHOT_new
+[21:33:03] worktree add 48aa47a5b71453a04c983e3185201640d2f9449c: invalid reference - fetching main and the commit itself
+[21:33:06] 正在跑：GIFTHOL2_new（已跑 20 分／上限 60 分）、GIFTHOL_new（已跑 1 分／上限 75 分）、X223SHOT_new（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:34:42] [res] cpu=15% mem=49% (15.7/31.4 GB) chrome_testing=10  END X223SHOT_new
