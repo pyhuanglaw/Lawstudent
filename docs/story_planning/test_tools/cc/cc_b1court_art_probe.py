@@ -17,10 +17,13 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 ST = "(()=>{ const P=GAME.E.player.obj.position, ib=document.getElementById('interact'); return {zone:GAME.G.zone, x:+P.x.toFixed(2), y:+P.y.toFixed(2), z:+P.z.toFixed(2), lv:GAME.E.player.lv|0, fb:GAME.walkFallbacks|0, interact:ib&&ib.offsetParent!==null?(ib.textContent||'').trim():''}; })()"
 FLOOR = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, rc=new THREE.Raycaster(new THREE.Vector3(P.x+0.6,P.y+1.5,P.z+0.6), new THREE.Vector3(0,-1,0)); rc.far=3;
   const isP=o=>{ for(let q=o;q;q=q.parent) if(q===E.player.obj) return true; return false; }; const vis=o=>{ for(let q=o;q;q=q.parent) if(!q.visible) return false; return true; };
-  const ms=[]; E.scene.traverse(o=>{ if(o.isMesh&&!o.isSkinnedMesh&&vis(o)&&!isP(o)) ms.push(o); }); const h=rc.intersectObjects(ms,false)[0]; if(!h) return null;
+  const ms=[]; E.scene.traverse(o=>{ if(o.isMesh&&!o.isSkinnedMesh&&vis(o)&&!isP(o)) ms.push(o); }); const all=rc.intersectObjects(ms,false); const info=all.slice(0,5).map(x=>{ const mm=[].concat(x.object.material)[(x.face&&x.face.materialIndex)||0]; return {mesh:x.object.name||'(無名)',parent:x.object.parent&&x.object.parent.name||'',mat:mm&&mm.name||'',type:mm&&mm.type,map:!!(mm&&mm.map),colorWrite:mm?mm.colorWrite:null,opacity:mm?mm.opacity:null,y:+x.point.y.toFixed(3)}; });
+  /* 11-10 r1：第一個打到的是沒有貼圖、白色、沒名字的網格（看不見的地板／碰撞面）→ 跳過沒有 map 又 colorWrite false 或 opacity<0.05 的；再優先取有 map 的 */
+  const ok=all.filter(x=>{ const mm=[].concat(x.object.material)[(x.face&&x.face.materialIndex)||0]; return mm&&mm.colorWrite!==false&&!(mm.transparent&&mm.opacity<0.05)&&mm.visible!==false; });
+  const h=ok.find(x=>{ const mm=[].concat(x.object.material)[(x.face&&x.face.materialIndex)||0]; return mm&&mm.map; })||ok[0]; if(!h) return {hits:info};
   const m=[].concat(h.object.material)[(h.face&&h.face.materialIndex)||0]; let avg=null; const img=m&&m.map&&m.map.image;
   if(img&&img.width){ try{ const c=document.createElement('canvas'); c.width=32; c.height=32; const x=c.getContext('2d'); x.drawImage(img,0,0,32,32); const d=x.getImageData(0,0,32,32).data; let r=0,g=0,b=0; for(let i=0;i<d.length;i+=4){ r+=d[i]; g+=d[i+1]; b+=d[i+2]; } const n=d.length/4; avg=[r/n|0,g/n|0,b/n|0]; }catch(e){ avg='err'; } }
-  return {mesh:h.object.name||'(無名)', parent:h.object.parent&&h.object.parent.name||'', mat:m&&m.name||'', color:m&&m.color?'#'+m.color.getHexString():null, mapAvg:avg, y:+h.point.y.toFixed(2)}; })()"""
+  return {hits:info, mesh:h.object.name||'(無名)', parent:h.object.parent&&h.object.parent.name||'', mat:m&&m.name||'', color:m&&m.color?'#'+m.color.getHexString():null, mapAvg:avg, y:+h.point.y.toFixed(2)}; })()"""
 HUD = "(on=>{ const ids=['hud','minimap','joy','interact','btnPhone','menuBtn','topbar','goalbar']; for(const i of ids){ const e=document.getElementById(i); if(e) e.style.visibility=on?'':'hidden'; } })"
 
 
@@ -42,7 +45,7 @@ async def main():
                 run.check('%s %s：站的高度 %s' % (tag, name, want), abs(s['y'] - want) < 0.05, J(s))
                 if name == 'floor_close':
                     f = await pg.evaluate(FLOOR); run.note('%s 地面（腳邊射線）：%s' % (tag, J(f)))
-                    if f and f['mapAvg'] and f['mapAvg'] != 'err':
+                    if f and f.get('mapAvg') and f['mapAvg'] != 'err':
                         r_, g_, b_ = f['mapAvg']; lum = 0.299 * r_ + 0.587 * g_ + 0.114 * b_; woodish = r_ > b_ + 25 and r_ > g_ and lum < 110
                         run.check('%s 地面不是深色木頭（D112；貼圖平均色 %s、亮度 %.0f；名字有 wood／木 也算）' % (tag, f['mapAvg'], lum), not woodish and not any(k in (f['mat'] + f['mesh']).lower() for k in ('wood', '木')), J(f))
                 await pg.evaluate(HUD + '(false)'); await pg.wait_for_timeout(300)
@@ -67,6 +70,7 @@ async def main():
             if s['zone'] == 'library_b1':
                 ex = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>i.to==='campus'||/中庭|出去|校園|上樓|離開/.test(i.label||'')).map(i=>({label:i.label,to:i.to||null,x:+i.x.toFixed(2),z:+i.z.toFixed(2),lv:i.lv|0})))()")
                 run.note('B1 往外的出口：%s' % J(ex))
+                ex.sort(key=lambda q: 0 if q['label'].startswith('走出去') else 1)   # 11-10 r1：先挑到「中庭」（不是出口）＝TEST_BUG；出口是「走出去（總圖北側的中庭）」
                 if run.check('B1 找得到往中庭的出口', bool(ex), ''):
                     e = ex[0]; ok = await L.go_to(pg, cdp, run, e['x'], e['z'], 0.6, '走到 B1 出口「%s」' % e['label'], max_s=240, lv=e['lv'])
                     await pg.wait_for_timeout(1200); s = await pg.evaluate(ST); run.note('出口前：%s' % J(s))
