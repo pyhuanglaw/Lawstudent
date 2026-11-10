@@ -20,13 +20,16 @@ check 的七項（使用者 2026-10-16 指示）＋兩項補充：
   8 首次出現時間欄位齊全（D81）
   9 閱讀版 docs/HANDOFF_GAP_MATRIX.md 提到的 ID 在 tasks.json 都有（區間如 V5-F1～F27 會展開）
  D84（2026-10-16，平行開發的派工）再加兩項：
- 10 跨 AI 任務（負責人 LAWWW2／AA／BB、未結）有 xai：接收者、分支、規格來源、交付標準、ACK 狀態
+ 10 跨 AI 任務（負責人 LAWWW2／AA／BB／CC、未結）有 xai：接收者、分支、規格來源、交付標準、ACK 狀態
  11 meta.pipeline 設的職位（LAWWW2）：可以做的任務不少於 minReady（派工不足）；它的交付沒有停在 SENT／DELIVERED（沒 ACK）
+ ASK-USER-LIST-1104（2026-11-04）再加一項：
+ 12 等使用者的任務：狀態待開工／暫停／等待、恢復條件或下一步寫「使用者說繼續、回來問、選擇題、等使用者給圖…」的，要有 waitUser {ask, how}（不是在等就寫 notWaitUser 原因）；
+    這一班（duty.json 的 LAWWW since 以後）每一項都要在 waitUser.log 記一筆 {at, by, result: 問了／沒問, why}——沒記＝異常，不得宣稱交接完整（askuser 子指令列清單）
 
 增量掃描的順序：先 check → 把列出的 commit 登記進 deliveries 或放進 ignored → 再 check 到 OK → 最後才把 scannedThrough 移到各分支現在的 commit。
 先移 scannedThrough 再 check，什麼都掃不到（2026-10-16 犯過一次）。
 
-結束碼：0＝十一項都檢查了、沒有異常；1＝有異常、或有一項沒辦法檢查（不虛報正常）；
+結束碼：0＝十二項都檢查了、沒有異常；1＝有異常、或有一項沒辦法檢查（不虛報正常）；
         2＝找不到上次快照或快照壞掉 → REMEDIAL_FULL_AUDIT（要補做一次全面盤點，見總入口第 4 節）。
 """
 import argparse, hashlib, json, os, re, subprocess, sys
@@ -42,12 +45,12 @@ SNAPDIR = 'docs/handoff/snapshots'
 MATRIX = 'docs/HANDOFF_GAP_MATRIX.md'
 CLOSED = ('已驗收', '取消／被取代')
 WAITING = ('等待其他AI／素材', '暫停')
-OWNERS = ('LAWWW', 'LAWWW2', 'AA', 'BB', 'USER')
+OWNERS = ('LAWWW', 'LAWWW2', 'AA', 'BB', 'CC', 'USER')   # CC：BB 的測試執行助手（D119／HV-22，使用者 2026-11-02 03:5x）
 ID_RE = re.compile(r'^[A-Z][A-Z0-9]*-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$')
 TERM_RE = re.compile(r'^(Y[0-4]S[12]|META)$')
-MD_ID = re.compile(r'(?<![A-Za-z0-9_])((?:BUG|TEST|ART|WIP|V[0-6]|DATE|D14|SYS|SCN|DONE|X)-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)(?:[～~]([A-Za-z]*)(\d+))?')
+MD_ID = re.compile(r'(?<![A-Za-z0-9_-])((?:BUG|TEST|ART|WIP|V[0-6]|DATE|D14|SYS|SCN|DONE|X)-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)(?:[～~]([A-Za-z]*)(\d+))?')
 SNAP_KEYS = ('version', 'taken', 'role', 'account', 'open', 'status')
-XAI_OWNERS = ('LAWWW2', 'AA', 'BB')
+XAI_OWNERS = ('LAWWW2', 'AA', 'BB', 'CC')
 XAI_KEYS = ('receiver', 'branch', 'spec', 'acceptance', 'ack')
 XAI_ACK = ['未派', 'SENT', 'DELIVERED', 'ACK', 'ACTIONED', '自領']
 
@@ -120,6 +123,45 @@ def git_lines(root, *args):
     if r.returncode:
         return None
     return r.stdout.decode('utf-8', 'replace').splitlines()
+
+
+WAIT_ST = ('待開工', '暫停', '等待其他AI／素材')
+WAIT_PAT = re.compile(r'(使用者|user)[^｜。；]{0,12}(說|回來|決定|選|給|同意|確認|看過|問|批准|回覆|點頭)|問使用者|等使用者|選擇題問|使用者.{0,4}(以後|之後)再')
+
+
+def wait_user_items(tasks):
+    """第 12 項：回傳（有 waitUser 的任務、看起來在等使用者但還沒分類的 (任務, 片段)）。只看待開工／暫停／等待；進行中的照常推進，不算卡在使用者。"""
+    marked, unk = [], []
+    for t in tasks:
+        if t.get('status') not in WAIT_ST:
+            continue
+        if t.get('waitUser'):
+            marked.append(t)
+            continue
+        if t.get('notWaitUser') or t.get('waitUserDone'):   # waitUserDone＝使用者已經回答了（log 搬過去留紀錄）；之後又要等使用者就重新寫 waitUser
+            continue
+        seg = ' '.join([t.get('resumeWhen') or '', t.get('pausedReason') or '', (t.get('next') or '').split('｜')[0]])
+        m = WAIT_PAT.search(seg)
+        if m:
+            unk.append((t, seg[max(0, m.start() - 20):m.end() + 20].strip()))
+    return marked, unk
+
+
+def duty_since(src):
+    """這一班從什麼時候開始：duty.json 的 LAWWW since（值班 LAWWW 接班登記的時間）。"""
+    try:
+        d = json.loads(src.read(duty_state.DUTY))
+    except Exception:
+        return None
+    return ((d.get('roles') or {}).get('LAWWW') or {}).get('since')
+
+
+def wait_user_this_shift(t, since):
+    """這一班的紀錄（at 不早於 since）；since 不明＝全部都算。"""
+    wu = t.get('waitUser') if isinstance(t.get('waitUser'), dict) else {}
+    log = [e for e in (wu.get('log') or []) if isinstance(e, dict)]
+    st = duty_state._ts(since) if since else None
+    return [e for e in log if not st or (duty_state._ts(e.get('at')) and duty_state._ts(e.get('at')) >= st)]
 
 
 def check(args):
@@ -273,7 +315,15 @@ def check(args):
                     except Exception:
                         pass
             path_ok = lambda br, sha: bool(INC.any_owner(INC.commit_files(args.root, sha), _role_of.get(br, 'LAWWW'), _ob))
+            try:   # 現在職位的分支有水位線＝incr 逐筆核對（水位線以後每個 commit 都要結構化分類，D94；只改文件的由交班全部待辦涵蓋，D135）
+                _wm = json.loads(src.read(INC.WM)).get('roles') or {}
+            except (FileNotFoundError, ValueError):
+                _wm = {}
             for br, base in (dv.get('scannedThrough') or {}).items():
+                _r = _role_of.get(br)
+                if _r and (_wm.get(_r) or {}).get('sha'):   # 2026-11-04：關鍵字掃描和 incr 重複報同一批 commit（帳號 C 快轉 1827 個 commit 後 24 項誤報）
+                    info.append(f'{br}：{_r} 有水位線，交付登記交給 incr 逐筆核對（D94、D135；不用關鍵字重複報）')
+                    continue
                 lines = git_lines(args.root, 'log', '--no-merges', '--format=%h %s', f'{base}..{br}')
                 if lines is None:
                     skipped.append(f'6（{br} 從 {base} 以後）：git 找不到這個分支或 commit（先 git fetch）')
@@ -284,7 +334,7 @@ def check(args):
                     A(6, f'{br}：{l[:110]}——符合交付關鍵字但沒登記（登記進 deliveries 或放進 ignored）')
                 info.append(f'{br}：{base} 以後 {len(lines)} 個 commit，符合關鍵字未登記 {len(hits)} 個')
 
-    # 10 跨 AI 任務的欄位（D84 第 3 條）：負責人是 LAWWW2／AA／BB 的未結任務要有 xai＝{receiver, branch, spec, acceptance, ack}
+    # 10 跨 AI 任務的欄位（D84 第 3 條）：負責人是 LAWWW2／AA／BB／CC 的未結任務要有 xai＝{receiver, branch, spec, acceptance, ack}
     acks = (data.get('meta') or {}).get('xaiAck') or XAI_ACK
     for t in tasks:
         if t.get('status') in CLOSED or t.get('owner') not in XAI_OWNERS:
@@ -313,6 +363,21 @@ def check(args):
             for x in dv.get('deliveries') or []:
                 if str(x.get('from', '')).split('-')[0] == role and x.get('msg') in ('SENT', 'DELIVERED'):
                     A(11, f'{x.get("id")}（{role}，{x.get("sha")}）：交付停在 {x.get("msg")}，還沒 ACK——讀完回 ACK、寫怎麼排（D84 第 6 條）')
+
+    # 12 等使用者的任務（ASK-USER-LIST-1104，AA-C 11-04 13:18；使用者 13:2x 問「做到一半的東西，為什麼之後的帳號沒有收到還沒做完的訊息」：
+    #    VAC-GAP-ROUTES 暫停的恢復條件是「使用者說繼續」，帳號 A 記了醒來要問、沒問就交班，check_orphans 看起來「暫停、有恢復條件」＝正常）
+    since = duty_since(src)
+    marked, unk = wait_user_items(tasks)
+    for t, snip in unk:
+        A(12, f'{t.get("id")}（{t.get("owner")}，{t.get("status")}）看起來在等使用者（「{snip}」），但沒寫 waitUser——在等就寫 waitUser {{ask: 要問什麼, how: 選擇題／請使用者生圖／iPhone 實測…}}；不是就寫 notWaitUser（原因）')
+    for t in marked:
+        wu = t['waitUser'] if isinstance(t['waitUser'], dict) else {}
+        cur = wait_user_this_shift(t, since)
+        if not cur:
+            A(12, f'{t.get("id")}（{t.get("owner")}）等使用者：{wu.get("ask") or "（waitUser 沒寫要問什麼）"}——這一班（LAWWW {since or "接班時間不明"} 起）還沒問、也沒寫為什麼不問：waitUser.log 加一筆 {{at, by, result: 問了／沒問, why}}')
+        elif any(e.get('result') not in ('問了', '沒問') or (e.get('result') == '沒問' and not e.get('why')) for e in cur):
+            A(12, f'{t.get("id")}：waitUser.log 這一班的紀錄格式不對（result 只能是 問了／沒問；沒問要寫 why）')
+    info.append(f'12：等使用者的任務 {len(marked)} 項、還沒分類 {len(unk)} 項（清單：python3 tools/handoff/check_handoff.py askuser；接班確認逐項寫問了／沒問、交班的「下一班第一步」要列）')
 
     # 9 閱讀版的 ID
     try:
@@ -364,13 +429,13 @@ def check(args):
     if out or skipped:
         print(f'結果：異常 {len(out)} 項、沒檢查 {len(skipped)} 項（工具不會自動改任務；請逐項處理後再跑一次）')
         return 1
-    print('結果：OK（十一項都檢查了，沒有異常）')
+    print('結果：OK（十二項都檢查了，沒有異常）')
     return 0
 
 
 def snapshot(args):
     ref = getattr(args, 'ref', None)
-    if not ref and not os.path.exists(os.path.join(args.root, TASKS)):   # LAWWW2／AA／BB 的分支沒有總表：自動從 RULE_SOURCE 讀（BB-C 10-18：原本要從 LAWWW 分支借檔案、用完刪掉）
+    if not ref and not os.path.exists(os.path.join(args.root, TASKS)):   # LAWWW2／AA／BB／CC 的分支沒有總表：自動從 RULE_SOURCE 讀（BB-C 10-18：原本要從 LAWWW 分支借檔案、用完刪掉）
         code, b = duty_state.find(args, quiet=True)
         if code or not b:
             print('找不到 RULE_SOURCE（先 git fetch --all；或加 --ref origin/<規則來源分支>）')
@@ -438,9 +503,10 @@ ROLE_FILES = {   # duty.json 的 progressFile 寫錯或不存在時的備用（A
     'LAWWW2': ['docs/art-rebuild/second_ai/HANDOFF.md'],
     'AA': ['docs/story_planning/AA_交接紀錄.md'],
     'BB': ['docs/story_planning/BB_00_協作規範與交接紀錄.md', 'docs/story_planning/BB_00_交接紀錄.md'],
+    'CC': ['docs/story_planning/CC/CC_00_交接紀錄.md'],   # CC 在 claude/cc-testing；BB 定期併進企劃線（D119）
 }
 ANY_ID = re.compile(r'(?<![A-Za-z0-9_./-])([A-Z][A-Z0-9]*(?:-[A-Za-z0-9]+)+)(?:[～~]([A-Za-z]*)(\d+))?')
-NOT_ID = re.compile(r'^(LAWWW2?|AA|BB)-[ABC]$|^UTF-|^ISO-')
+NOT_ID = re.compile(r'^(LAWWW2?|AA|BB|CC)-[ABCD]$|^UTF-|^ISO-')   # 工作階段名稱（CC-B、LAWWW-D…）不是任務 ID
 OFF_MARK = re.compile(r'【表外】|（無 ?ID）|\(無 ?ID\)')
 OFF_PARENT = re.compile(r'總表(上)?(沒有|沒列|未列)|表外')
 
@@ -489,7 +555,7 @@ def section_ids(line):
 
 # HV-18（使用者 2026-10-18 13:5x：「規則交接規則都寫這麼清楚了，為什麼他們還會有需要你補的任務？」→ 選「三個都做」）：
 # 每個職位一個固定格式的使用者要求檔（docs/handoff/user_asks_<職位>.json），一則要求一筆；這裡逐筆對到 USER_WANTS 的列或 tasks.json 的任務。
-ASK_ROLES = ['LAWWW', 'LAWWW2', 'AA', 'BB']
+ASK_ROLES = ['LAWWW', 'LAWWW2', 'AA', 'BB', 'CC']   # CC（D119）：user_asks_CC.json 在 CC 自己的分支 claude/cc-testing
 ASK_FILE = 'docs/handoff/user_asks_{}.json'
 ASK_KINDS = ['原話', '選擇題答案', '轉述', 'AI解讀']   # AI解讀＝AI 自己擴大或推論的，不是使用者的話：要 confirmed:true（問過使用者）才算數
 ASK_STATUS = ['還沒做', '進行中', '做好了沒進遊戲', '在開發分支', '在遊戲裡', '暫停', '已取消', '規則（永久）', '已完成']
@@ -555,7 +621,7 @@ def ask_check(role, data, rows, have):
 
 
 def asks(args):
-    """HV-18：讀四個職位的使用者要求檔（職位分支上的優先；職位還沒建、就用 RULE_SOURCE 上的種子），逐筆對到 USER_WANTS／tasks.json。只讀不寫。"""
+    """HV-18：讀各職位（ASK_ROLES）的使用者要求檔（職位分支上的優先；職位還沒建、就用 RULE_SOURCE 上的種子），逐筆對到 USER_WANTS／tasks.json。只讀不寫。"""
     src = Src(args.root, args.ref)
     data = json.loads(src.read(TASKS))
     have = {canon(i) for t in data['tasks'] for i in [t['id']] + (t.get('aliases') or [])}
@@ -602,7 +668,7 @@ def roles(args):
     offlist = meta.get('offList') or []   # [{role, match, task}]：表外那一行含 match 就算已經補成 task
     duty = json.loads(src.read(duty_state.DUTY))
     bad, report = [], []
-    for role in args.role or ['LAWWW2', 'AA', 'BB']:
+    for role in args.role or ['LAWWW2', 'AA', 'BB', 'CC']:
         r = (duty.get('roles') or {}).get(role) or {}
         pf = re.sub(r'（.*?）$', '', r.get('progressFile') or '')
         branches = [b for b in [r.get('branch'), (duty.get('roles') or {}).get('AA', {}).get('branch')] if b]
@@ -684,14 +750,14 @@ def roles(args):
 
 
 def incr_run(root, ref=None, remote=True, src=None):
-    """增量核對（使用者 2026-10-17 P0）：四職位水位線以後的新 commit 逐一要有結構化分類；outbox 與 WIP 索引的欄位；WIP 不能比上一份快照少。
+    """增量核對（使用者 2026-10-17 P0）：各職位水位線以後的新 commit 逐一要有結構化分類；outbox 與 WIP 索引的欄位；WIP 不能比上一份快照少。
     回傳 (結果 dict, 異常列表, 資訊列表)。只讀。"""
     src = src or Src(root, ref)
     probs, info = [], []
     try:
         wm = json.loads(src.read(INC.WM))
     except FileNotFoundError:
-        return None, [f'{INC.WM} 不存在：還沒建立四職位水位線'], info
+        return None, [f'{INC.WM} 不存在：還沒建立各職位水位線'], info
     tasks = json.loads(src.read(TASKS))
     dv = json.loads(src.read(DELIV))
     duty = json.loads(src.read(duty_state.DUTY))
@@ -725,7 +791,7 @@ def incr_run(root, ref=None, remote=True, src=None):
         probs += r['problems']
         for s_, subj in r['unclassified']:
             probs.append(f'{role}：{r["branch"]} 的 {s_}「{subj}」沒有分類（登記進 outbox／deliveries，或 ignored 加 kind）')
-        info.append(f'{role}：{r["branch"]} 水位線 {str((wm["roles"].get(role) or {}).get("sha", ""))[:8]} 以後 {r["new"]} 個 commit，扣掉別的職位已核對的要看 {r["scanned"]} 個（已分類 {r["classified"]}、未分類 {len(r["unclassified"])}）')
+        info.append(f'{role}：{r["branch"]} 水位線 {str((wm["roles"].get(role) or {}).get("sha", ""))[:8]} 以後 {r["new"]} 個 commit，扣掉別的職位已核對的要看 {r["scanned"]} 個（已分類 {r["classified"]}（其中沒改到遊戲、由交班全部待辦涵蓋 {r.get("docsOnly", 0)}，D135）、未分類 {len(r["unclassified"])}）')
     if wip is not None:
         probs += INC.wip_problems(wip, tasks, root)
         snaps = sorted(f for f in src.listdir(SNAPDIR) if f.endswith('.json'))
@@ -787,6 +853,29 @@ def incr(args):
     return 0
 
 
+def askuser(args):
+    """ASK-USER-LIST-1104：列出等使用者的任務（接班確認、交班「下一班第一步」用）；有沒分類或這一班沒處理的＝結束碼 1。"""
+    src = Src(args.root, args.ref)
+    tasks = json.loads(src.read(TASKS)).get('tasks') or []
+    since = duty_since(src)
+    marked, unk = wait_user_items(tasks)
+    bad = len(unk)
+    print(f'等使用者的任務 {len(marked)} 項（這一班：LAWWW {since or "接班時間不明"} 起）——接班確認逐項寫「問了／沒問、原因」；交班寫進「下一班第一步」：')
+    for t in sorted(marked, key=lambda x: (str(x.get('priority') or 'P9'), x.get('id'))):
+        wu = t['waitUser'] if isinstance(t['waitUser'], dict) else {}
+        cur = wait_user_this_shift(t, since)
+        log = [e for e in (wu.get('log') or []) if isinstance(e, dict)]
+        last = log[-1] if log else None
+        mark = '這一班已處理' if cur else '這一班還沒處理'
+        bad += 0 if cur else 1
+        print(f'- [{mark}] {t.get("id")}（{t.get("owner")}，{t.get("priority") or "-"}，{t.get("status")}）：{wu.get("ask") or "（沒寫要問什麼）"}｜怎麼問：{wu.get("how") or "-"}'
+              + (f'｜上次：{last.get("at")} {last.get("by") or ""} {last.get("result")}{"（" + last.get("why") + "）" if last.get("why") else ""}' if last else '｜還沒問過'))
+    for t, snip in unk:
+        print(f'- [還沒分類] {t.get("id")}（{t.get("owner")}，{t.get("status")}）：「{snip}」——寫 waitUser 或 notWaitUser')
+    print('結果：OK' if not bad else f'結果：{bad} 項要處理')
+    return 1 if bad else 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', default=ROOT)
@@ -797,8 +886,8 @@ def main(argv=None):
     c.add_argument('--ref', help='從這個 git ref 讀任務表（例：origin/claude/modest-rubin-2lyp7g）')
     c.add_argument('--no-git', action='store_true')
     s = sub.add_parser('snapshot')
-    s.add_argument('--role', required=True, choices=['LAWWW', 'LAWWW2', 'AA', 'BB'])
-    s.add_argument('--account', required=True, choices=list(duty_state.ACCOUNTS))   # 帳號 A／B／C／D（D92；職位永遠四個）
+    s.add_argument('--role', required=True, choices=list(duty_state.ROLES))
+    s.add_argument('--account', required=True, choices=list(duty_state.ACCOUNTS))   # 帳號 A／B／C／D（D92；職位五個，D119 加 CC）
     s.add_argument('--kind', default='handoff', choices=['handoff', 'checkpoint'])
     s.add_argument('--ref', help='從這個 git ref 讀總表；不給而且這條分支沒有 tasks.json＝自動找 RULE_SOURCE')
     q = sub.add_parser('queue')
@@ -806,18 +895,20 @@ def main(argv=None):
     q.add_argument('--ref')
     q.add_argument('-n', type=int, default=15)
     r = sub.add_parser('roles')
-    r.add_argument('--role', action='append', choices=['LAWWW2', 'AA', 'BB'])
+    r.add_argument('--role', action='append', choices=[x for x in duty_state.ROLES if x != 'LAWWW'])
     r.add_argument('--ref')
-    k = sub.add_parser('asks', help='HV-18：四個職位的使用者要求檔逐筆對到 USER_WANTS／tasks.json')
+    k = sub.add_parser('asks', help='HV-18：五個職位（LAWWW、LAWWW2、AA、BB、CC）的使用者要求檔逐筆對到 USER_WANTS／tasks.json')
     k.add_argument('--role', action='append', choices=ASK_ROLES)
     k.add_argument('--ref')
-    i = sub.add_parser('incr', help='增量核對：四職位水位線以後的新 commit、outbox、WIP 索引')
+    u = sub.add_parser('askuser', help='ASK-USER-LIST-1104：等使用者的任務清單（接班確認逐項寫問了／沒問、交班寫進下一班第一步）')
+    u.add_argument('--ref')
+    i = sub.add_parser('incr', help='增量核對：各職位水位線以後的新 commit、outbox、WIP 索引')
     i.add_argument('--ref')
     i.add_argument('--advance', action='append', choices=INC.ROLES + ['all'], help='全部分類、沒有異常、已 push 才前進水位線')
     i.add_argument('--by', help='誰核對的（例：LAWWW-C）')
     duty_state.add_parser(sub)
     a = ap.parse_args(argv)
-    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'asks': asks, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
+    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'asks': asks, 'askuser': askuser, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
 
 
 if __name__ == '__main__':

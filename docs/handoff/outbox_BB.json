@@ -1214,6 +1214,49 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "ACK"
+  },
+  {
+   "task": "BB-A-1102-1104-MISC",
+   "branch": "claude/story-planning",
+   "sha": "256ecbe4",
+   "files": [
+    "docs/story_planning/BB_132_校外約會CG生成單.md",
+    "README.md",
+    "CLAUDE.md",
+    "qa/library_ref_使用者1102/",
+    "qa/bg107/",
+    "qa/bg109/",
+    "docs/story_planning/incoming/bg109_使用者1102/",
+    "docs/story_planning/test_tools/bg3d_probe.py",
+    "docs/story_planning/BB_252_v9.10.18驗收.md",
+    "docs/story_planning/bb_runs/v18r/"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "無（BB 帳號 A 11-02～11-04 的背景提示詞第 107～110b 組、企劃分支 README／CLAUDE.md 換虛構校名、v9.10.18 驗收紀錄；BB-C 11-04 照 AA-C 12:47 incr 歸類補登）",
+   "noDirectIntegrate": false,
+   "receiver": "AA",
+   "ack": "ACK"
+  },
+  {
+   "task": "RELEASE-V91023",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "759406f47",
+   "files": [
+    "docs/story_planning/BB_255_v9.10.20驗收.md",
+    "docs/story_planning/test_tools/pt1108j_quote5_probe.py",
+    "docs/story_planning/test_tools/pt1108k_minimap_door_probe.py",
+    "docs/story_planning/test_tools/pt1108l_quote6_probe.py",
+    "docs/story_planning/test_tools/pt1108m_quote7_probe.py",
+    "docs/story_planning/test_tools/pt1108n_gift_romance_only_probe.py"
+   ],
+   "state": "已交付",
+   "remaining": "UX-TITLE-LANDSCAPE-1108（TITLE-SIZE2）、movreg 咖啡廳第三次對照、GIFT 第四輪、學姊法圖站位、PERF-AB 改後重量——見 BB_00 11-08 交班 B 全部待辦",
+   "next": "下一班 BB 照 BB_00 11-08 交班 B 第 3～8 項判 CC 結果",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "BB-B 11-07～11-08：v9.10.22、v9.10.23 GO＋線上驗收；TEXT-QUOTE-UNIFY 一～八批、GIFT-ROMANCE-ONLY、小地圖門口、touch 87f1 結案；光照 ART_APPROVED；PERF-1108 基準"
   }
  ],
  "items": [

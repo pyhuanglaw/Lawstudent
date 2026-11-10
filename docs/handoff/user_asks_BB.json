@@ -282,6 +282,220 @@
    "status": "規則（永久）",
    "task": "ART-REVIEW-RULE-1104",
    "note": "BB 驗收美術（MODEL_READY 代驗、ART_APPROVED）加兩項：G 逐區符合參考圖；H 不准同物件原樣複製排列，道具要有大小／顏色／角度變化；不合格退件"
+  },
+  {
+   "id": "UA-BB-1104-IMG2-3D",
+   "at": "2026-11-04T14:2xZ",
+   "quote": "你沒辦法從github開源找要怎麼把我給你的二d圖片轉換成3 d的時候好看嗎還有很多你需要用的美術內容",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "IMG2-3D-RESEARCH-1104",
+   "note": "BB-C 研究開源 image-to-3D（單張圖→模型、照片→PBR 材質、深度→2.5D 遠景）和開源美術素材庫；在雲端實際試跑能跑的、做對照圖，交 LAWWW2-C（美術總監，D111）決定要不要用。總表的列等 LAWWW-C 開｜15:1x 試驗完成，報告 BB_259，交 LAWWW2-C"
+  },
+  {
+   "id": "UA-BB-1104-IMG2-3D-OK",
+   "at": "2026-11-04T14:2xZ",
+   "quote": "允許雲端下載試跑（建議）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "task": "IMG2-3D-RESEARCH-1104",
+   "note": "BB-C 問：TripoSR／TRELLIS／Hunyuan3D 等開源 2D→3D 要不要在雲端下載試跑（第一次被系統以外部程式碼擋下）；只在暫存資料夾、不碰遊戲檔、成果交 LAWWW2-C 決定｜15:1x 試驗完成，報告 BB_259，交 LAWWW2-C"
+  },
+  {
+   "id": "UA-BB-1104-TEST-METHODS",
+   "at": "2026-11-04T14:2xZ",
+   "quote": "你沒辦法從github開源找一些更有效的測試遊戲方法嗎",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "TEST-METHODS-1104",
+   "note": "BB-C 整理成 BB_257"
+  },
+  {
+   "id": "UA-BB-1104-TEST-METHODS-DELEG",
+   "at": "2026-11-04T14:2xZ",
+   "quote": "自己參考github開源自己決定",
+   "kind": "選擇題答案",
+   "status": "規則（永久）",
+   "task": "TEST-METHODS-1104",
+   "note": "BB-C 問要先做哪幾項測試方法（①Node 快轉一學期 ②WebKit ③GitHub Actions ④⑤亂點＋覆蓋率），使用者授權 BB 自己參考開源決定"
+  },
+  {
+   "id": "UA-BB-1104-IMG2-3D-RULE",
+   "at": "2026-11-04T14:3xZ",
+   "quote": "你如果測試成功要把你的方法 加入美術規則",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "IMG2-3D-RESEARCH-1104",
+   "note": "試跑成功（LAWWW2-C 看過對照圖、同意採用）就把做法寫成美術規則：LAWWW2-C 寫進 docs/art-rebuild/ART_DIRECTION.md 第 12 節的 SOP，LAWWW-C 寫進 CLAUDE.md 的 MANDATORY 3D 規則第 2 點工具表；BB 驗收加一項對照。沒成功就照實回報、不寫規則｜15:1x 試驗完成（BB_259）：R1 同角度疊圖驗收、R2 TripoSR 中遠景雜物試成功；LAWWW2-C 同意寫進 ART_DIRECTION 第 12 節；已請 LAWWW-C 在 CLAUDE.md MANDATORY 第 2 點補兩行；頭髮改法未在遊戲內驗證、不寫｜15:2x LAWWW-C e9c091c10：D138 寫進 CLAUDE.md MANDATORY 第 2 點（R1 驗收鏡頭結構、R2 中遠景有機小雜物），腳本搬進 tools/art/；campus 模式版本（7cebf3622）請 LAWWW-C 更新"
+  },
+  {
+   "id": "UA-BB-1104-TRELLIS2-HOW",
+   "at": "2026-11-04T14:2xZ",
+   "quote": "TRELLIS.2 怎麼安裝",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "IMG2-3D-RESEARCH-1104",
+   "note": "BB-C 照官方 README（github.com/microsoft/TRELLIS.2）回：只支援 Linux＋NVIDIA 24 GB 以上（A100／H100 驗過）＋CUDA 12.4；使用者電腦 Windows＋AMD RX 6600M 8 GB 裝不了；可以用官方線上 demo（huggingface.co/spaces/microsoft/TRELLIS.2）在瀏覽器生成、下載 GLB，交 LAWWW2-C 整理"
+  },
+  {
+   "id": "UA-BB-1104-V91020-ETA",
+   "at": "2026-11-04T15:3xZ",
+   "quote": "什麼時候可以發布v9.10.20 你繼續做別的事情我要睡覺了很久都不會看",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "RELEASE-V91020-1104",
+   "note": "BB-C 回：PC 跑完 V20R＋social_smoke＋SITAMB 約 2.5～3.5 小時，全過的話台灣時間約 02:30～03:00 可以給 GO，發布由 LAWWW-C 決定（D85）；提醒使用者電腦不要睡眠。使用者睡覺期間照 D87／D110 繼續做，不等使用者"
+  },
+  {
+   "id": "UA-BB-1105-GHA-BROWSER",
+   "at": "2026-11-05T03:4xZ",
+   "quote": "Node不是用GitHub免費就好嗎（BB 回 Node 全套已經在 GitHub 跑，接著問瀏覽器測試要不要也丟 GitHub；選擇題選「要，電腦不能用時丟 GitHub（建議）」）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "task": "GHA-BROWSER-1105",
+   "note": "選項全文：電腦卡住或關機時，功能測試和線上網址檢查改丟 GitHub 免費機器；效能、畫面顏色照舊等使用者電腦；電腦正常時照舊排電腦。修改 D131（瀏覽器測試一律排使用者電腦）——LAWWW-C 寫規則、開 USER_WANTS 列。CC-C 建 workflow（claude/cc-testing），結果推回 git（雲端讀不到 artifact）。T1 隨機遊玩 30 個種子也改丟 GitHub（BB 自己決定，UA-BB-1104-TEST-METHODS-DELEG）",
+   "wants": "X230"
+  },
+  {
+   "id": "UA-BB-1105-NO-IMG-NOW",
+   "at": "2026-11-05T04:0xZ",
+   "quote": "我現在沒有耀生徒（＝我現在沒有要生圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "BG-CRAM-1018",
+   "note": "BB-C 04:0x 給了 7 張提示詞（cram_class、teishoku_dusk、BB_132 第 113 組五張）後使用者回。暫停：誰決定＝使用者；為什麼＝使用者現在不生圖；負責人＝BB-C；恢復條件＝使用者說要生圖或傳圖；下次檢查日＝11-12 或下一次發布前。這段期間不再催，遊戲照用深色底／3D 畫面。；同一則也涵蓋 teishoku_dusk、X196 五張（AA619-GUITAR-1104）；11-05 09:2x 使用者「提示詞在哪 先給我不用給圖就能生成的」→ 恢復，先給 4 張不用附圖的（cram_class、teishoku_dusk、yilan_minsu_roof、yms_grassland）"
+  },
+  {
+   "id": "UA-BB-1105-BALANCE-CC",
+   "at": "2026-11-05T06:2xZ",
+   "quote": "你手上沒有別的工作了嗎我我記得有說如果c c手上太多工作你要接一點過來就是你要自己安排你們2個手上的工作量不要有誰很忙另一個人都沒有事情這要寫進規則",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X235",
+   "note": "BB-C 規則：BB 每批判完看 CC 佇列，CC 排了 5 項以上待跑、BB 手上沒有待判的，BB 自己接不用電腦的那部分（Node 模擬查原因、讀 log、寫探針、雲端單元測試），CC 只留要電腦瀏覽器跑的；反過來 CC 剩 2 項以下照 D121 找 BB 要。LAWWW-C 寫進永久規則、開 USER_WANTS 列。",
+   "task": "ROLE-CC-1102"
+  },
+  {
+   "id": "UA-BB-1105-MX-ZHE-NOEXPR",
+   "at": "2026-11-05T09:5xZ",
+   "quote": "明軒、阿哲不用特別做",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "PORTRAIT-HIRES-1103",
+   "wants": "X192",
+   "note": "BB 剛給的表情 20 張裡，明軒 3 張、阿哲 3 張不用生；剩沛珊 9、芯慈 5。兩人的高解析單人圖已到（mingxuan_full、zhe_full），舊表情檔怎麼處理交 LAWWW-C（D100a）。"
+  },
+  {
+   "id": "UA-BB-1105-EXPR-LATER",
+   "at": "2026-11-05T10:0xZ",
+   "quote": "之後再弄先做別的",
+   "kind": "原話",
+   "status": "暫停",
+   "task": "PORTRAIT-HIRES-1103",
+   "wants": "X260",
+   "note": "沛珊 8、芯慈 4 張表情重生先暫停。誰決定＝使用者；為什麼＝使用者要先做別的；負責人＝BB-C；恢復條件＝使用者說要生或傳圖來；下次檢查日＝11-12 或下一次發布前。暫停期間沛珊、芯慈照舊用舊立繪，不只換 neutral（LAWWW-C：只換 neutral 會說話時一下清楚一下糊）。"
+  },
+  {
+   "id": "UA-BB-1107-STORY-REVIEW",
+   "at": "2026-11-07T05:1xZ",
+   "quote": "我要給你一個任務喔，AA 他現在在寫劇情就是我跟他說跟每個女主角讀書每次讀書每次吃飯都一樣好無聊喔，他好像在寫劇情吧你要決定哪些劇情要跟我要C G但我現在不會給你，你只要先整理好然後有個很重要的是你要檢查他寫出來的東西給他意見哪些會覺得很無聊哪些不對勁我要真的玩起來有戀愛遊戲的感覺不要很像在跟機器人說話／就是我希望可以透過約會每次出去玩更認識這個人，而不是就是我要能感覺到他是一個人／他有他的故事，他有他的煩惱還有他的生活他有他的目標夢想還有他會對自己有一些懷疑他對某些事不確定這些都是要聊天的／可能有些人他想要健身然後就可以約健身房的劇情啊，有些人他想要健身有可能是他想要變得健康然後穿衣服更好看或者純粹就是健身很快樂那有人想要去旅遊，因為聽說哪裡很漂亮有些人覺得不知道以後要幹嘛就是我看不到那一個世界觀遊戲裡面有一個世界",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "wants": "X263",
+   "note": "BB-B 審 AA_706～711、給 AA 意見（BB_304）；CG 候選先整理在 BB_304 第 5 節、之後併進 BB_132，現在不跟使用者要圖（使用者原話「我現在不會給你」）。範圍比 X263 多：七件事（故事、煩惱、生活、目標夢想、懷疑自己、不確定、想一起做的事和動機）、健身／旅遊這類有動機的活動、看得到遊戲裡的世界；已請 LAWWW-B 補進 X263 備註。"
+  },
+  {
+   "id": "UA-BB-1107-CHOICE-CHANGE",
+   "at": "2026-11-07T06:2xZ",
+   "quote": "我想要的是我的選項會改變故事",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "wants": "X263",
+   "note": "對 BB-B 說的。故事線（AA_712、arcs3d.js）現在只會記答案、之後引用一句，故事不會分岔。BB_305 第 10 節寫分岔規格，轉 AA-B、LAWWW-B。"
+  },
+  {
+   "id": "UA-BB-1107-CHOICE-CHANGE-Q",
+   "at": "2026-11-07T06:2xZ",
+   "quote": "選項影響（多選）：她做的決定不一樣、會打開或錯過事件、影響感情和結局",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "wants": "X263",
+   "note": "BB-B 用 AskUserQuestion 問「改變到哪幾種」，使用者選這三項；「她之後的故事不一樣（只是內容不同）」沒有選。"
+  },
+  {
+   "id": "UA-BB-1107-CAREFUL-HINT",
+   "at": "2026-11-07T06:3xZ",
+   "quote": "如果真的影響能不能交往的選項 應該要有 小心選擇的提示",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "wants": "X263",
+   "note": "BB_305 第 10-5 節；轉 LAWWW-B、AA-B。"
+  },
+  {
+   "id": "UA-BB-1107-CAREFUL-HINT-Q",
+   "at": "2026-11-07T06:3xZ",
+   "quote": "提示樣式：上方一行字＋選完確認",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "wants": "X263",
+   "note": "BB-B AskUserQuestion 四選一（只一行字／小圖示／只確認／一行字＋確認），使用者選一行字＋確認。"
+  },
+  {
+   "id": "UA-BB-1107-HER-OWN-MIND",
+   "at": "2026-11-07T06:4xZ",
+   "quote": "也不能我建議他做什麼他就都聽我的啊，有人要反而不想",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "wants": "X263",
+   "note": "BB_305 10-6：決定拍的結果不是玩家選什麼她就做什麼；看她自己的傾向、個性（被推反而不想／需要支持才敢／要一起想）、信任。轉 AA-B、LAWWW-B。"
+  },
+  {
+   "id": "UA-BB-1109-01",
+   "at": "2026-11-09T16:0x",
+   "quote": "現在交班 你上次交班後沒有人接班 我會通知其他AI上線",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "RELEASE-V91023",
+   "src": "BB-B（帳號 B，session_01J1g2TPcPzWrihXSY2WvseV）對話",
+   "note": "BB-B 11-08 20:47 已交班；字面和「沒有人接班」對不起來，用選擇題問"
+  },
+  {
+   "id": "UA-BB-1109-02",
+   "at": "2026-11-09T16:1x",
+   "quote": "重新接班，帳號 B 繼續",
+   "kind": "選擇題答案",
+   "status": "已完成",
+   "task": "RELEASE-V91023",
+   "src": "BB-B 對話（AskUserQuestion「你這句『現在交班』是要我怎麼做？」）",
+   "note": "BB-B duty register 16:10Z（duty_BB on，sinceSha 03d6ed8f）；接著判 CC-B 交班留下的 UX-TITLE-LANDSCAPE-1108、movreg 咖啡廳、GIFT 第四輪、學姊法圖站位"
+  },
+  {
+   "id": "UA-BB-1110-01",
+   "at": "2026-11-10T01:1x",
+   "quote": "…請AA寫是什麼電影 BB跟我要電影海報",
+   "kind": "轉述",
+   "status": "進行中",
+   "wants": "X274",
+   "task": "MOVIE-REAL-1110",
+   "src": "使用者對 LAWWW-B 說，LAWWW-B 11-10 00:47Z 轉給 BB-B",
+   "note": "順序：AA-B 先寫片單（大一到大四各段期間上映的原創電影＋類型＋一句簡介），BB 照 D97 寫海報的生成提示詞，純海報一次 10 組、原創片名、不像真實電影或品牌，再跟使用者要圖；LAWWW-B 接進大廳海報牆和 1 廳銀幕；01:1x AA_730 片單到（8a246c40f），第一批 10 張提示詞 BB_132 第 119 組（2fa4a2dac4）已給使用者，片名由遊戲寫上去；01:18 使用者傳來第一批 10 張，BB 檢查全部通過，放在 bg_approved/posters，已交 LAWWW-B；經濟系 12 張待要"
+  },
+  {
+   "id": "UA-BB-1110-02",
+   "at": "2026-11-10T01:1x",
+   "quote": "桌遊日桌遊完回到前往之前的系館 ?都晚上這麼晚了 而且行動次數用完不是應該回去睡覺嗎（附存檔 day52、截圖：11/7 週五 23:36 普通教學館出口）；我傳錯了 要傳給LAWWW 你幫我船",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X288",
+   "task": "BGN-AFTER-HOME-1110",
+   "src": "使用者直接對 BB-B 說（原本要給 LAWWW），BB-B 01:1x 轉 LAWWW-B",
+   "note": "存檔＋截圖放 BB 分支 docs/story_planning/BB_saves/user_save_day52_1110_bgn.*；LAWWW-B 開 USER_WANTS 列和任務以後回填 wants；LAWWW-B 01:20 開好 USER_WANTS X288、任務 BGN-AFTER-HOME-1110（P0），也記在 LAWWW 那邊的 UA-LAWWW-1110-31。改法：晚上的活動、約會演完，過了 22:00 或晚上時段用完，就回宿舍接睡覺；白天照舊回原地"
   }
  ]
 }

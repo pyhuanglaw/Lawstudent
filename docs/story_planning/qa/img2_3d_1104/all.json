@@ -1,0 +1,3088 @@
+[
+ {
+  "file": "vroid_heroine_01.vrm",
+  "extensionsUsed": [
+   "KHR_materials_unlit",
+   "VRM"
+  ],
+  "hairMaterials": [
+   {
+    "index": 12,
+    "name": "F00_000_Hair_00_HAIR_01",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.814,
+      0.818,
+      1,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0.515,
+      0.339,
+      0.415,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 19,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 19,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   },
+   {
+    "index": 13,
+    "name": "F00_000_Hair_00_HAIR_02",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 23,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 23,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   }
+  ],
+  "hairPrimitives": [
+   {
+    "mesh": "Hair001.baked",
+    "prim": 0,
+    "material": "F00_000_Hair_00_HAIR_01",
+    "tris": 8972,
+    "verts": 7339,
+    "strands": 80,
+    "trisPerStrand_median": 68.0,
+    "trisPerStrand_min": 52,
+    "trisPerStrand_max": 456,
+    "repeatedStrands": 43,
+    "repeated3plus": 7,
+    "weldedVertsWithCopies": 1796,
+    "hardEdgeVerts(>10deg)": 1795,
+    "meanVertexVsFaceNormalDeg": 13.612340405862358,
+    "strandThickness/width_median": 0.5760718353626082,
+    "strandLength/width_median": 3.3945397395161137,
+    "uvRange": [
+     [
+      0.0,
+      1.5920965671539307
+     ],
+     [
+      0.005702614784240723,
+      1.0
+     ]
+    ],
+    "bbox_m": [
+     0.21739371865987778,
+     0.400252103805542,
+     0.2529201805591583
+    ]
+   },
+   {
+    "mesh": "Hair001.baked",
+    "prim": 1,
+    "material": "F00_000_Hair_00_HAIR_01",
+    "tris": 1544,
+    "verts": 1214,
+    "strands": 8,
+    "trisPerStrand_median": 188.0,
+    "trisPerStrand_min": 112,
+    "trisPerStrand_max": 276,
+    "repeatedStrands": 0,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 275,
+    "hardEdgeVerts(>10deg)": 274,
+    "meanVertexVsFaceNormalDeg": 32.06483037191572,
+    "strandThickness/width_median": 0.42559620912973095,
+    "strandLength/width_median": 6.947099475805038,
+    "uvRange": [
+     [
+      0.0,
+      1.5988893508911133
+     ],
+     [
+      0.012022197246551514,
+      1.0
+     ]
+    ],
+    "bbox_m": [
+     0.13511322066187859,
+     0.5212337970733643,
+     0.13449634611606598
+    ]
+   }
+  ],
+  "hairTotal": {
+   "tris": 10516,
+   "verts": 8553
+  },
+  "springBoneGroups": [
+   {
+    "comment": "Bust",
+    "stiff": 0.75,
+    "drag": 0.05,
+    "gravity": 0,
+    "hitR": 0.02,
+    "bones": 2
+   },
+   {
+    "comment": "Skirt",
+    "stiff": 0.5,
+    "drag": 0.05,
+    "gravity": 0,
+    "hitR": 0.02,
+    "bones": 6
+   },
+   {
+    "comment": "Sleeve",
+    "stiff": 0.5,
+    "drag": 0.05,
+    "gravity": 0,
+    "hitR": 0.02,
+    "bones": 4
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.006421119,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 1,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.004865758,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.0263042971,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.0113083273,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.0106583759,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.006,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 1,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.005,
+    "bones": 1
+   },
+   {
+    "comment": "ponytail",
+    "stiff": 0.35,
+    "drag": 0.42,
+    "gravity": 0.9,
+    "hitR": 0.035,
+    "bones": 1
+   }
+  ]
+ },
+ {
+  "file": "vroid_heroine_02.vrm",
+  "extensionsUsed": [
+   "KHR_materials_unlit",
+   "VRM"
+  ],
+  "hairMaterials": [
+   {
+    "index": 12,
+    "name": "F00_000_HairBack_00_HAIR",
+    "alphaMode": "BLEND",
+    "alphaCutoff": null,
+    "doubleSided": false,
+    "shader": "VRM/MToon",
+    "renderQueue": 3000,
+    "keywords": {
+     "_ALPHABLEND_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0.165,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 1,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 1,
+     "_BumpScale": 1,
+     "_CullMode": 2,
+     "_BlendMode": 2
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.7,
+      0.68,
+      0.7,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 19,
+      "size": [
+       512,
+       512
+      ],
+      "mode": "RGBA"
+     },
+     "_ShadeTexture": {
+      "tex": 19,
+      "size": [
+       512,
+       512
+      ],
+      "mode": "RGBA"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   },
+   {
+    "index": 13,
+    "name": "F00_000_Hair_00_HAIR_01",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.7,
+      0.68,
+      0.7,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 22,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 22,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   },
+   {
+    "index": 14,
+    "name": "F00_000_Hair_00_HAIR_02",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.7,
+      0.68,
+      0.7,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 25,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 25,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   },
+   {
+    "index": 15,
+    "name": "F00_000_Hair_00_HAIR_03",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.7,
+      0.68,
+      0.7,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 26,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 26,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   }
+  ],
+  "hairPrimitives": [
+   {
+    "mesh": "Body.baked",
+    "prim": 1,
+    "material": "F00_000_HairBack_00_HAIR",
+    "tris": 394,
+    "verts": 225,
+    "strands": 1,
+    "trisPerStrand_median": 394.0,
+    "trisPerStrand_min": 394,
+    "trisPerStrand_max": 394,
+    "repeatedStrands": 0,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 0,
+    "hardEdgeVerts(>10deg)": 0,
+    "meanVertexVsFaceNormalDeg": 4.820952843620986,
+    "strandThickness/width_median": 0.8111548376761011,
+    "strandLength/width_median": 1.1636398860879615,
+    "uvRange": [
+     [
+      0.0006949310190975666,
+      0.999305009841919
+     ],
+     [
+      0.06291723251342773,
+      0.9273679852485657
+     ]
+    ],
+    "bbox_m": [
+     0.19748617708683014,
+     0.25113964080810547,
+     0.21423307806253433
+    ]
+   },
+   {
+    "mesh": "Hair001.baked",
+    "prim": 0,
+    "material": "F00_000_Hair_00_HAIR_01",
+    "tris": 10168,
+    "verts": 7956,
+    "strands": 28,
+    "trisPerStrand_median": 264.0,
+    "trisPerStrand_min": 172,
+    "trisPerStrand_max": 824,
+    "repeatedStrands": 0,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 2671,
+    "hardEdgeVerts(>10deg)": 2671,
+    "meanVertexVsFaceNormalDeg": 17.320965655746374,
+    "strandThickness/width_median": 0.3896332765065902,
+    "strandLength/width_median": 4.27175984183928,
+    "uvRange": [
+     [
+      0.0,
+      0.4392845630645752
+     ],
+     [
+      0.011320233345031738,
+      1.0
+     ]
+    ],
+    "bbox_m": [
+     0.26679231226444244,
+     0.32827460765838623,
+     0.2906298413872719
+    ]
+   },
+   {
+    "mesh": "Hair001.baked",
+    "prim": 1,
+    "material": "F00_000_Hair_00_HAIR_02",
+    "tris": 1368,
+    "verts": 1136,
+    "strands": 10,
+    "trisPerStrand_median": 136.0,
+    "trisPerStrand_min": 124,
+    "trisPerStrand_max": 156,
+    "repeatedStrands": 0,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 376,
+    "hardEdgeVerts(>10deg)": 376,
+    "meanVertexVsFaceNormalDeg": 16.686711490944628,
+    "strandThickness/width_median": 0.5191756797300542,
+    "strandLength/width_median": 3.8426127494343927,
+    "uvRange": [
+     [
+      0.0,
+      0.20000000298023224
+     ],
+     [
+      0.010000050067901611,
+      1.0
+     ]
+    ],
+    "bbox_m": [
+     0.20680149644613266,
+     0.179801344871521,
+     0.1248099934309721
+    ]
+   }
+  ],
+  "hairTotal": {
+   "tris": 11930,
+   "verts": 9317
+  },
+  "springBoneGroups": [
+   {
+    "comment": "Bust",
+    "stiff": 0.75,
+    "drag": 0.42,
+    "gravity": 0.6,
+    "hitR": 0.02,
+    "bones": 2
+   },
+   {
+    "comment": "Sleeve",
+    "stiff": 0.5,
+    "drag": 0.42,
+    "gravity": 0.6,
+    "hitR": 0.02,
+    "bones": 4
+   },
+   {
+    "comment": "Skirt",
+    "stiff": 0.5,
+    "drag": 0.42,
+    "gravity": 0.6,
+    "hitR": 0.02,
+    "bones": 6
+   },
+   {
+    "comment": "",
+    "stiff": 0.502564132,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.02803419,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.75,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.0136925066,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.75,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.0495726466,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.0228271782,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.02739381,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.5025641,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.03,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.499145329,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.03,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.5982906,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.007863248,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.5982906,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.01,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.5982906,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.01,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.6017094,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.01,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4957265,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.0102564106,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.009572649,
+    "bones": 1
+   }
+  ]
+ },
+ {
+  "file": "vroid_heroine_03.vrm",
+  "extensionsUsed": [
+   "KHR_materials_unlit",
+   "VRM"
+  ],
+  "hairMaterials": [
+   {
+    "index": 14,
+    "name": "F00_000_HairBack_00_HAIR",
+    "alphaMode": "BLEND",
+    "alphaCutoff": null,
+    "doubleSided": false,
+    "shader": "VRM/MToon",
+    "renderQueue": 3000,
+    "keywords": {
+     "_ALPHABLEND_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0.165,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 1,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 1,
+     "_BumpScale": 1,
+     "_CullMode": 2,
+     "_BlendMode": 2
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.7,
+      0.68,
+      0.7,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 22,
+      "size": [
+       512,
+       512
+      ],
+      "mode": "RGBA"
+     },
+     "_ShadeTexture": {
+      "tex": 22,
+      "size": [
+       512,
+       512
+      ],
+      "mode": "RGBA"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   },
+   {
+    "index": 15,
+    "name": "F00_000_Hair_00_HAIR_01",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.7,
+      0.68,
+      0.7,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 25,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 25,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   },
+   {
+    "index": 16,
+    "name": "F00_000_Hair_00_HAIR_02",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.7,
+      0.68,
+      0.7,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 28,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 28,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   }
+  ],
+  "hairPrimitives": [
+   {
+    "mesh": "Body.baked",
+    "prim": 1,
+    "material": "F00_000_HairBack_00_HAIR",
+    "tris": 394,
+    "verts": 225,
+    "strands": 1,
+    "trisPerStrand_median": 394.0,
+    "trisPerStrand_min": 394,
+    "trisPerStrand_max": 394,
+    "repeatedStrands": 0,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 0,
+    "hardEdgeVerts(>10deg)": 0,
+    "meanVertexVsFaceNormalDeg": 4.8584880697741575,
+    "strandThickness/width_median": 0.80666193597175,
+    "strandLength/width_median": 1.136106823922573,
+    "uvRange": [
+     [
+      0.0006949310190975666,
+      0.999305009841919
+     ],
+     [
+      0.06291723251342773,
+      0.9273679852485657
+     ]
+    ],
+    "bbox_m": [
+     0.1952478140592575,
+     0.24281203746795654,
+     0.21181999146938324
+    ]
+   },
+   {
+    "mesh": "Hair001.baked",
+    "prim": 0,
+    "material": "F00_000_Hair_00_HAIR_01",
+    "tris": 21848,
+    "verts": 16936,
+    "strands": 45,
+    "trisPerStrand_median": 460.0,
+    "trisPerStrand_min": 236,
+    "trisPerStrand_max": 2176,
+    "repeatedStrands": 20,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 5691,
+    "hardEdgeVerts(>10deg)": 5691,
+    "meanVertexVsFaceNormalDeg": 13.713109670294145,
+    "strandThickness/width_median": 0.41560755044223496,
+    "strandLength/width_median": 4.442326654910485,
+    "uvRange": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      0.010000050067901611,
+      1.0
+     ]
+    ],
+    "bbox_m": [
+     0.2299826741218567,
+     0.33077502250671387,
+     0.24334147572517395
+    ]
+   }
+  ],
+  "hairTotal": {
+   "tris": 22242,
+   "verts": 17161
+  },
+  "springBoneGroups": [
+   {
+    "comment": "Bust",
+    "stiff": 0.75,
+    "drag": 0.42,
+    "gravity": 0.6,
+    "hitR": 0.02,
+    "bones": 2
+   },
+   {
+    "comment": "Skirt",
+    "stiff": 0.5,
+    "drag": 0.42,
+    "gravity": 0.6,
+    "hitR": 0.02,
+    "bones": 6
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.012,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.012,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.0240705311,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.012,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.012,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.012,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.012,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.012,
+    "bones": 1
+   }
+  ]
+ },
+ {
+  "file": "vroid_heroine_04.vrm",
+  "extensionsUsed": [
+   "KHR_materials_unlit",
+   "VRM"
+  ],
+  "hairMaterials": [
+   {
+    "index": 12,
+    "name": "F00_000_HairBack_00_HAIR",
+    "alphaMode": "BLEND",
+    "alphaCutoff": null,
+    "doubleSided": false,
+    "shader": "VRM/MToon",
+    "renderQueue": 3000,
+    "keywords": {
+     "_ALPHABLEND_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0.165,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 1,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 1,
+     "_BumpScale": 1,
+     "_CullMode": 2,
+     "_BlendMode": 2
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.66,
+      0.6,
+      0.57,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 19,
+      "size": [
+       512,
+       512
+      ],
+      "mode": "RGBA"
+     },
+     "_ShadeTexture": {
+      "tex": 19,
+      "size": [
+       512,
+       512
+      ],
+      "mode": "RGBA"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   },
+   {
+    "index": 13,
+    "name": "F00_000_Hair_00_HAIR_01",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.66,
+      0.6,
+      0.57,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 22,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 22,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   },
+   {
+    "index": 14,
+    "name": "F00_000_Hair_00_HAIR_02",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.66,
+      0.6,
+      0.57,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 25,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 25,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   },
+   {
+    "index": 15,
+    "name": "F00_000_Hair_00_HAIR_03",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.66,
+      0.6,
+      0.57,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 26,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 26,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   }
+  ],
+  "hairPrimitives": [
+   {
+    "mesh": "Body.baked",
+    "prim": 1,
+    "material": "F00_000_HairBack_00_HAIR",
+    "tris": 394,
+    "verts": 225,
+    "strands": 1,
+    "trisPerStrand_median": 394.0,
+    "trisPerStrand_min": 394,
+    "trisPerStrand_max": 394,
+    "repeatedStrands": 0,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 0,
+    "hardEdgeVerts(>10deg)": 0,
+    "meanVertexVsFaceNormalDeg": 4.867699858297462,
+    "strandThickness/width_median": 0.8067221788971255,
+    "strandLength/width_median": 1.1366206063932982,
+    "uvRange": [
+     [
+      0.0006949310190975666,
+      0.999305009841919
+     ],
+     [
+      0.06291723251342773,
+      0.9273679852485657
+     ]
+    ],
+    "bbox_m": [
+     0.19657865166664124,
+     0.24465274810791016,
+     0.2132638543844223
+    ]
+   },
+   {
+    "mesh": "Hair001.baked",
+    "prim": 0,
+    "material": "F00_000_Hair_00_HAIR_01",
+    "tris": 8536,
+    "verts": 6908,
+    "strands": 19,
+    "trisPerStrand_median": 204.0,
+    "trisPerStrand_min": 116,
+    "trisPerStrand_max": 3124,
+    "repeatedStrands": 0,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 2268,
+    "hardEdgeVerts(>10deg)": 2268,
+    "meanVertexVsFaceNormalDeg": 16.120841533617643,
+    "strandThickness/width_median": 0.356800459574601,
+    "strandLength/width_median": 3.2540096428713516,
+    "uvRange": [
+     [
+      0.0,
+      0.20000000298023224
+     ],
+     [
+      0.010000050067901611,
+      1.0
+     ]
+    ],
+    "bbox_m": [
+     0.26608552038669586,
+     0.27714478969573975,
+     0.28102079033851624
+    ]
+   },
+   {
+    "mesh": "Hair001.baked",
+    "prim": 1,
+    "material": "F00_000_Hair_00_HAIR_02",
+    "tris": 2588,
+    "verts": 2106,
+    "strands": 12,
+    "trisPerStrand_median": 168.0,
+    "trisPerStrand_min": 148,
+    "trisPerStrand_max": 548,
+    "repeatedStrands": 0,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 694,
+    "hardEdgeVerts(>10deg)": 694,
+    "meanVertexVsFaceNormalDeg": 14.592147460331327,
+    "strandThickness/width_median": 0.38229377440218737,
+    "strandLength/width_median": 3.5625757440057546,
+    "uvRange": [
+     [
+      0.0,
+      0.20000000298023224
+     ],
+     [
+      0.010000050067901611,
+      1.0
+     ]
+    ],
+    "bbox_m": [
+     0.1458677900955081,
+     0.26010656356811523,
+     0.184129998087883
+    ]
+   }
+  ],
+  "hairTotal": {
+   "tris": 11518,
+   "verts": 9239
+  },
+  "springBoneGroups": [
+   {
+    "comment": "Bust",
+    "stiff": 0.6,
+    "drag": 0.42,
+    "gravity": 0.7,
+    "hitR": 0.02,
+    "bones": 2
+   },
+   {
+    "comment": "Sleeve",
+    "stiff": 0.5,
+    "drag": 0.42,
+    "gravity": 0.7,
+    "hitR": 0.02,
+    "bones": 4
+   },
+   {
+    "comment": "Skirt",
+    "stiff": 0.5,
+    "drag": 0.42,
+    "gravity": 0.7,
+    "hitR": 0.02,
+    "bones": 6
+   },
+   {
+    "comment": "",
+    "stiff": 0.518066466,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.0189400464,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.5157978,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.0215554833,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.518066466,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.03833933,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.5157978,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.048984617,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.482051253,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.04,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.01845865,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.0242933258,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.0239906013,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.0191555619,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.0165685341,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.01982906,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.01982906,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.0201710239,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.0201710239,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.7,
+    "hitR": 0.0201710239,
+    "bones": 1
+   }
+  ]
+ },
+ {
+  "file": "vroid_heroine_05.vrm",
+  "extensionsUsed": [
+   "KHR_materials_unlit",
+   "VRM"
+  ],
+  "hairMaterials": [
+   {
+    "index": 14,
+    "name": "F00_000_HairBack_00_HAIR",
+    "alphaMode": "BLEND",
+    "alphaCutoff": null,
+    "doubleSided": false,
+    "shader": "VRM/MToon",
+    "renderQueue": 3000,
+    "keywords": {
+     "_ALPHABLEND_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0.165,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 1,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 1,
+     "_BumpScale": 1,
+     "_CullMode": 2,
+     "_BlendMode": 2
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.66,
+      0.6,
+      0.57,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 22,
+      "size": [
+       512,
+       512
+      ],
+      "mode": "RGBA"
+     },
+     "_ShadeTexture": {
+      "tex": 22,
+      "size": [
+       512,
+       512
+      ],
+      "mode": "RGBA"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   },
+   {
+    "index": 15,
+    "name": "F00_000_Hair_00_HAIR_01",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.66,
+      0.6,
+      0.57,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 25,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 25,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   },
+   {
+    "index": 16,
+    "name": "F00_000_Hair_00_HAIR_02",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.66,
+      0.6,
+      0.57,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 28,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 28,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   }
+  ],
+  "hairPrimitives": [
+   {
+    "mesh": "Body.baked",
+    "prim": 2,
+    "material": "F00_000_HairBack_00_HAIR",
+    "tris": 394,
+    "verts": 225,
+    "strands": 1,
+    "trisPerStrand_median": 394.0,
+    "trisPerStrand_min": 394,
+    "trisPerStrand_max": 394,
+    "repeatedStrands": 0,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 0,
+    "hardEdgeVerts(>10deg)": 0,
+    "meanVertexVsFaceNormalDeg": 4.864536028777268,
+    "strandThickness/width_median": 0.806702304435971,
+    "strandLength/width_median": 1.1364513686597362,
+    "uvRange": [
+     [
+      0.0006949310190975666,
+      0.999305009841919
+     ],
+     [
+      0.06291723251342773,
+      0.9273679852485657
+     ]
+    ],
+    "bbox_m": [
+     0.19613316655158997,
+     0.24403703212738037,
+     0.21278051286935806
+    ]
+   },
+   {
+    "mesh": "Hair001.baked",
+    "prim": 0,
+    "material": "F00_000_Hair_00_HAIR_01",
+    "tris": 15679,
+    "verts": 12243,
+    "strands": 46,
+    "trisPerStrand_median": 360.0,
+    "trisPerStrand_min": 108,
+    "trisPerStrand_max": 612,
+    "repeatedStrands": 2,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 4061,
+    "hardEdgeVerts(>10deg)": 4061,
+    "meanVertexVsFaceNormalDeg": 21.045217669711505,
+    "strandThickness/width_median": 0.5119623080085696,
+    "strandLength/width_median": 4.9537103133481235,
+    "uvRange": [
+     [
+      0.0,
+      1.2273808717727661
+     ],
+     [
+      0.008215665817260742,
+      1.0
+     ]
+    ],
+    "bbox_m": [
+     0.23346737027168274,
+     0.5701375007629395,
+     0.26593025028705597
+    ]
+   }
+  ],
+  "hairTotal": {
+   "tris": 16073,
+   "verts": 12468
+  },
+  "springBoneGroups": [
+   {
+    "comment": "Bust",
+    "stiff": 0.75,
+    "drag": 0.42,
+    "gravity": 0.6,
+    "hitR": 0.02,
+    "bones": 2
+   },
+   {
+    "comment": "Skirt",
+    "stiff": 0.5,
+    "drag": 0.42,
+    "gravity": 0.6,
+    "hitR": 0.02,
+    "bones": 6
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.55,
+    "gravity": 0.6,
+    "hitR": 0.024,
+    "bones": 1
+   },
+   {
+    "comment": "ponytail",
+    "stiff": 0.35,
+    "drag": 0.55,
+    "gravity": 0.9,
+    "hitR": 0.035,
+    "bones": 1
+   }
+  ]
+ },
+ {
+  "file": "vroid_yuting.vrm",
+  "extensionsUsed": [
+   "KHR_materials_unlit",
+   "VRM"
+  ],
+  "hairMaterials": [
+   {
+    "index": 13,
+    "name": "F00_000_Hair_00_HAIR",
+    "alphaMode": "MASK",
+    "alphaCutoff": null,
+    "doubleSided": true,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.3,
+     "_ReceiveShadowRate": 1,
+     "_ShadingGradeRate": 1,
+     "_LightColorAttenuation": 0,
+     "_IndirectLightIntensity": 0.1,
+     "_RimLightingMix": 0.0,
+     "_OutlineWidth": 0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 1,
+     "_OutlineScaledMaxDistance": 2.71,
+     "_BumpScale": 1,
+     "_CullMode": 0,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "_ShadeColor": [
+      0.816,
+      0.816,
+      1,
+      1
+     ],
+     "_RimColor": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "_OutlineColor": [
+      0.514,
+      0.337,
+      0.416,
+      1
+     ],
+     "_EmissionColor": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 20,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_ShadeTexture": {
+      "tex": 20,
+      "size": [
+       256,
+       512
+      ],
+      "mode": "RGB"
+     },
+     "_SphereAdd": {
+      "tex": 2,
+      "size": [
+       8,
+       8
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   }
+  ],
+  "hairPrimitives": [
+   {
+    "mesh": "Hair001.baked",
+    "prim": 0,
+    "material": "F00_000_Hair_00_HAIR",
+    "tris": 9144,
+    "verts": 7725,
+    "strands": 113,
+    "trisPerStrand_median": 84.0,
+    "trisPerStrand_min": 16,
+    "trisPerStrand_max": 148,
+    "repeatedStrands": 40,
+    "repeated3plus": 0,
+    "weldedVertsWithCopies": 2153,
+    "hardEdgeVerts(>10deg)": 2153,
+    "meanVertexVsFaceNormalDeg": 13.567275053163499,
+    "strandThickness/width_median": 0.566432955789504,
+    "strandLength/width_median": 3.9241797833326335,
+    "uvRange": [
+     [
+      0.0,
+      1.5800373554229736
+     ],
+     [
+      0.00802159309387207,
+      1.0
+     ]
+    ],
+    "bbox_m": [
+     0.27992865443229675,
+     0.2723487615585327,
+     0.31016986072063446
+    ]
+   }
+  ],
+  "hairTotal": {
+   "tris": 9144,
+   "verts": 7725
+  },
+  "springBoneGroups": [
+   {
+    "comment": "HoodString",
+    "stiff": 0.26,
+    "drag": 0,
+    "gravity": 0.25,
+    "hitR": 0.02,
+    "bones": 2
+   },
+   {
+    "comment": "Hood",
+    "stiff": 0.75,
+    "drag": 0.05,
+    "gravity": 0,
+    "hitR": 0.02,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.0120065063,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.00823769,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.01,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.797697365,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.0298350528,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.8,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.0251545683,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.4,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.01,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.8,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.01,
+    "bones": 1
+   },
+   {
+    "comment": "",
+    "stiff": 0.8,
+    "drag": 0.4,
+    "gravity": 0,
+    "hitR": 0.01,
+    "bones": 1
+   }
+  ]
+ },
+ {
+  "file": "bl_heroine_05.vrm",
+  "extensionsUsed": [
+   "KHR_materials_unlit",
+   "VRM"
+  ],
+  "hairMaterials": [
+   {
+    "index": 15,
+    "name": "P05_HairCard_HAIR",
+    "alphaMode": "MASK",
+    "alphaCutoff": 0.5,
+    "doubleSided": false,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "MTOON_DEBUG_LITSHADERATE": false,
+     "MTOON_DEBUG_NORMAL": false,
+     "_ALPHABLEND_ON": false,
+     "_ALPHAPREMULTIPLY_ON": false,
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.30000001192092896,
+     "_ReceiveShadowRate": 1.0,
+     "_ShadingGradeRate": 1.0,
+     "_LightColorAttenuation": 0.0,
+     "_IndirectLightIntensity": 0.10000002384185791,
+     "_RimLightingMix": 0.0,
+     "_RimFresnelPower": 1.0,
+     "_RimLift": 0.0,
+     "_OutlineWidth": 0.0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 0,
+     "_OutlineScaledMaxDistance": 1.0,
+     "_BumpScale": 1.0,
+     "_CullMode": 2,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_ShadeColor": [
+      0.904,
+      0.85,
+      0.85,
+      1
+     ],
+     "_RimColor": [
+      0.0,
+      0.0,
+      0.0,
+      1
+     ],
+     "_OutlineColor": [
+      0.0,
+      0.0,
+      0.0,
+      1
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 17,
+      "size": [
+       1024,
+       1024
+      ],
+      "mode": "RGBA"
+     },
+     "_ShadeTexture": {
+      "tex": 17,
+      "size": [
+       1024,
+       1024
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   }
+  ],
+  "hairPrimitives": [
+   {
+    "mesh": "Hair_P05",
+    "prim": 0,
+    "material": "P05_HairCard_HAIR",
+    "tris": 11816,
+    "verts": 9209,
+    "strands": 131,
+    "trisPerStrand_median": 56.0,
+    "trisPerStrand_min": 40,
+    "trisPerStrand_max": 1920,
+    "repeatedStrands": 26,
+    "repeated3plus": 6,
+    "weldedVertsWithCopies": 944,
+    "hardEdgeVerts(>10deg)": 546,
+    "meanVertexVsFaceNormalDeg": 12.111490977971181,
+    "strandThickness/width_median": 0.5827786755325941,
+    "strandLength/width_median": 4.25828601207428,
+    "uvRange": [
+     [
+      0.00390625,
+      0.99609375
+     ],
+     [
+      0.00390625,
+      0.99609375
+     ]
+    ],
+    "bbox_m": [
+     0.20512032508850098,
+     0.49651145935058594,
+     0.25788304954767227
+    ]
+   }
+  ],
+  "hairTotal": {
+   "tris": 11816,
+   "verts": 9209
+  },
+  "springBoneGroups": [
+   {
+    "comment": "Bust",
+    "stiff": 0.75,
+    "drag": 0.05000000074505806,
+    "gravity": 0.0,
+    "hitR": 0.019999999552965164,
+    "bones": 2
+   },
+   {
+    "comment": "Hair_Ponytail",
+    "stiff": 0.75,
+    "drag": 0.5,
+    "gravity": 0.550000011920929,
+    "hitR": 0.029999999329447746,
+    "bones": 1
+   },
+   {
+    "comment": "Hair_SideLocks",
+    "stiff": 1.0,
+    "drag": 0.550000011920929,
+    "gravity": 0.3499999940395355,
+    "hitR": 0.012000000104308128,
+    "bones": 2
+   }
+  ]
+ },
+ {
+  "file": "bl_heroine_01.vrm",
+  "extensionsUsed": [
+   "KHR_materials_unlit",
+   "VRM"
+  ],
+  "hairMaterials": [
+   {
+    "index": 12,
+    "name": "H01_HairCard_HAIR",
+    "alphaMode": "MASK",
+    "alphaCutoff": 0.5,
+    "doubleSided": false,
+    "shader": "VRM/MToon",
+    "renderQueue": 2450,
+    "keywords": {
+     "MTOON_DEBUG_LITSHADERATE": false,
+     "MTOON_DEBUG_NORMAL": false,
+     "_ALPHABLEND_ON": false,
+     "_ALPHAPREMULTIPLY_ON": false,
+     "_ALPHATEST_ON": true
+    },
+    "float": {
+     "_Cutoff": 0.5,
+     "_ShadeToony": 0,
+     "_ShadeShift": -0.30000001192092896,
+     "_ReceiveShadowRate": 1.0,
+     "_ShadingGradeRate": 1.0,
+     "_LightColorAttenuation": 0.0,
+     "_IndirectLightIntensity": 0.10000002384185791,
+     "_RimLightingMix": 0.0,
+     "_RimFresnelPower": 1.0,
+     "_RimLift": 0.0,
+     "_OutlineWidth": 0.0,
+     "_OutlineWidthMode": 0,
+     "_OutlineColorMode": 0,
+     "_OutlineLightingMix": 0,
+     "_OutlineScaledMaxDistance": 1.0,
+     "_BumpScale": 1.0,
+     "_CullMode": 2,
+     "_BlendMode": 1
+    },
+    "vector": {
+     "_Color": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "_ShadeColor": [
+      0.904,
+      0.85,
+      0.85,
+      1
+     ],
+     "_RimColor": [
+      0.0,
+      0.0,
+      0.0,
+      1
+     ],
+     "_OutlineColor": [
+      0.515,
+      0.339,
+      0.415,
+      1
+     ],
+     "_EmissionColor": [
+      0.0,
+      0.0,
+      0.0,
+      1
+     ]
+    },
+    "textures": {
+     "_MainTex": {
+      "tex": 17,
+      "size": [
+       1024,
+       1024
+      ],
+      "mode": "RGBA"
+     },
+     "_ShadeTexture": {
+      "tex": 17,
+      "size": [
+       1024,
+       1024
+      ],
+      "mode": "RGBA"
+     },
+     "_SphereAdd": {
+      "tex": 18,
+      "size": [
+       128,
+       128
+      ],
+      "mode": "RGBA"
+     }
+    },
+    "mtoon1": false
+   }
+  ],
+  "hairPrimitives": [
+   {
+    "mesh": "Hair_H01",
+    "prim": 0,
+    "material": "H01_HairCard_HAIR",
+    "tris": 12536,
+    "verts": 9662,
+    "strands": 137,
+    "trisPerStrand_median": 56.0,
+    "trisPerStrand_min": 40,
+    "trisPerStrand_max": 1920,
+    "repeatedStrands": 42,
+    "repeated3plus": 6,
+    "weldedVertsWithCopies": 1075,
+    "hardEdgeVerts(>10deg)": 792,
+    "meanVertexVsFaceNormalDeg": 11.695607444760963,
+    "strandThickness/width_median": 0.5406563161841981,
+    "strandLength/width_median": 3.846904540340876,
+    "uvRange": [
+     [
+      0.00390625,
+      0.99609375
+     ],
+     [
+      0.00390625,
+      0.99609375
+     ]
+    ],
+    "bbox_m": [
+     0.2058158591389656,
+     0.5370103120803833,
+     0.33953696489334106
+    ]
+   }
+  ],
+  "hairTotal": {
+   "tris": 12536,
+   "verts": 9662
+  },
+  "springBoneGroups": [
+   {
+    "comment": "Bust",
+    "stiff": 0.75,
+    "drag": 0.05000000074505806,
+    "gravity": 0.0,
+    "hitR": 0.019999999552965164,
+    "bones": 2
+   },
+   {
+    "comment": "Hair_Ponytail",
+    "stiff": 0.8500000238418579,
+    "drag": 0.5,
+    "gravity": 0.44999998807907104,
+    "hitR": 0.03999999910593033,
+    "bones": 1
+   },
+   {
+    "comment": "Hair_SideLocks",
+    "stiff": 1.0,
+    "drag": 0.550000011920929,
+    "gravity": 0.3499999940395355,
+    "hitR": 0.012000000104308128,
+    "bones": 2
+   }
+  ]
+ }
+]
