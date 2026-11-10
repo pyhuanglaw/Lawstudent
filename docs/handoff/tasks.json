@@ -51745,6 +51745,32 @@
     "ack": "ACTIONED"
    },
    "sha": "dd079901c"
+  },
+  {
+   "id": "SNS-VIEW-COVER-1110",
+   "title": "SUNNY SIDE、日常失速窗外是卡通畫：room() 程序化窗擋在正式模型的照片卡前面（BB X254 P3）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "進溫州街 SUNNY SIDE／日常失速",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 12:2x】LAWWW2 a15058787：attachRoomGLB 搬完窗後，照片卡正後方的程序化窗拿掉（視差窗 pview 不拿）；view_card_cover（開發 FAIL 2→ALL PASS）＋溫州街店 5 支 ALL PASS；小路的 pview 擋照片卡：LAWWW 決定照舊（兩張都是照片、pview 有視差）。CC 拍、BB 判。",
+   "xai": {
+    "spec": "BB X254 窗景清單（11-10）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "兩間店窗外看到照片不是卡通畫；BB 判",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "sha": "a15058787"
   }
  ]
 }

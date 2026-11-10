@@ -1953,6 +1953,14 @@ const Z3 = (function(){
       if(see){ o.material.depthWrite=false; glassy.push(o); } else nw.push(o); } });
     /* 窗外的景（白天／夜景貼圖、隨時段變色，room() 的 applyTime 照舊換）：從備用模型的窗框組裡拿出來，放到正式模型的玻璃外面 0.3 m（放大一點：斜著看窗洞也看不到外面的空白）；牆淡出時一起藏（不然鏡頭在牆外時會擋住房間）*/
     const wp=[]; if(z.wins) for(const w of z.wins){ const part=w.parent; const ent=z.winParts&&z.winParts.find(p=>p.obj===part); const d=ent?ent.dir:new THREE.Vector3(1,0,0); w.position.addScaledVector(d,-0.42); w.scale.set(1.35,1.4,1); if(w.material.uniforms&&w.material.uniforms.sxy) w.material.uniforms.sxy.value.set(1.35,1.4); part.remove(w); g0.add(w); wp.push({obj:w,at:ent?ent.at:w.position.clone(),dir:d}); }
+    /* 正式模型自己有窗景照片卡（WALL_*_VIEW*：SUNNY SIDE、小路…）的那一面：備用模型的窗（程序化的卡通樹和樓）搬到玻璃外 0.3 m 會擋在照片卡前面——
+       SNS-VIEW-COVER-1110（LAWWW2 帳號 A 11-10；BB X254「SUNNY SIDE 窗外的樹和樓是平面卡通畫風」：遊戲裡看到的是這一片，不是模型裡那張溫州街照片）。
+       只拿程序化的窗（視差窗 pview 是照片，照舊：小路的視差窗擋在 komichi 照片卡前面，要不要換由 LAWWW／BB 決定）；照片卡在這扇窗的正後方（往外＝−dir：winParts 的 dir 朝房間裡；窗的中心落在卡的左右、上下範圍內）就拿掉這扇窗；其他面照舊。 */
+    { const cards=[]; root.traverse(o=>{ if(o.isMesh&&/WALL_.*VIEW/.test(o.name||'')) cards.push(new THREE.Box3().setFromObject(o)); });
+      if(cards.length) for(let i=wp.length-1;i>=0;i--){ const e=wp[i], w=e.obj; if(!w.material||!(z.wins||[]).includes(w)||w.userData.pview) continue; w.updateWorldMatrix(true,false); const p=w.getWorldPosition(new THREE.Vector3()), d=e.dir.clone().negate(), lat=new THREE.Vector3(-d.z,0,d.x);
+        const hit=cards.some(b=>{ const c=b.getCenter(new THREE.Vector3()); if(c.clone().sub(p).dot(d)<=0) return false; const lo=Math.min(b.min.dot(lat),b.max.dot(lat), new THREE.Vector3(b.min.x,0,b.max.z).dot(lat), new THREE.Vector3(b.max.x,0,b.min.z).dot(lat)), hi=Math.max(b.min.dot(lat),b.max.dot(lat), new THREE.Vector3(b.min.x,0,b.max.z).dot(lat), new THREE.Vector3(b.max.x,0,b.min.z).dot(lat)), pl=p.dot(lat);
+          return pl>=lo-0.05&&pl<=hi+0.05&&p.y>=b.min.y&&p.y<=b.max.y; });
+        if(hit){ g0.remove(w); w.geometry.dispose(); z.wins.splice(z.wins.indexOf(w),1); wp.splice(i,1); } } }
     for(const o of glassy) wp.push({obj:o,at:o.userData.center,dir:o.userData.dir,partition:!!o.userData.partition});
     fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); if(LMS&&LMS.dark) roomDarkMap(z,root,LMS);   /* 好幾顆 GLB 放在同一個 Group 給這裡（大口一樓、二樓）：Group 本身沒有 extras.lightmap，各顆的放在 root.userData.lightmaps＝[[那一顆的 scene, 它的 extras.lightmap], …]，各自接（XS-LM-1108，LAWWW2-B）*/ if(LMA){ let n=0; for(const [r,s] of LMA){ if(!r||!s) continue; n+=roomLightmap(z,r,s); if(s.dark) roomDarkMap(z,r,s); } z.lightmapped=n; } ceilHide(z,root); seatFold(z,root); }
   /* 貼著天花板的東西（GLB 的 CEIL_* 網格、extras.ceilHide；CORNER-CEIL-1107，LAWWW2-B 11-07；BB-B 16:04 判轉角唱片：天花板切掉時，樑、吸頂冷氣、店名飾板從上面擋住畫面）：
