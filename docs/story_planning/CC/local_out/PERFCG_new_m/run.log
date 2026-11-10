@@ -1,27 +1,27 @@
 [gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_perf_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PERFCG_new_m\out
-CC campus效能原始數字；RUN=new_m；SHA=74da28ca942cbe1e00f033903b3778a9ccaacca1；ZONE=campus；GLB=campus_admin_glb；VIEWS=av_west,gate_avenue,admin_front,arts_front,hist_front；Playwright（PC 有 GPU、有視窗），不是手機實機
+CC campus效能原始數字；RUN=new_m；SHA=8d8b475dc3a6b3546853a98fc24b60edb7829989；ZONE=campus；GLB=campus_admin_glb；VIEWS=av_west,gate_avenue,admin_front,arts_front,hist_front；Playwright（PC 有 GPU、有視窗），不是手機實機
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
-PASS 一般網址：遊戲載入  21.1 秒
+PASS 一般網址：遊戲載入  21.2 秒
   [前置／捷徑] 讀檔到campus 14.0 時 {"x": -20, "z": 0.5, "yaw": 1.5708}，條件事件關閉
-PASS 一般網址：正式模型 campus_admin_glb 有載入  {"讀檔到區域建好_s": 9.66, "讀檔到正式模型出現_s": 9.69}
-  一般網址：讀檔→區域 9.66 秒；讀檔→正式模型 9.69 秒；GLB 下載 []
-  一般網址：記憶體／貼圖 {"textures": 197, "geometries": 287, "texCount": 416, "texPixels": 106379931, "texMP": 106.38, "biggest": {"w": 1024, "h": 1024, "name": "map"}}
-  一般網址 av_west：draw call 212、三角形 455954（藏路人）；FPS 平均 28.69、最低 9.99、1%low 10（230 格；路人在：call 300／tris 543718）；遊戲時間 14.103、路人 26（在場景 26）
-  一般網址 gate_avenue：draw call 399、三角形 656691（藏路人）；FPS 平均 29.63、最低 5、1%low 8（238 格；路人在：call 490／tris 810148）；遊戲時間 14.18、路人 26（在場景 26）
-  一般網址 admin_front：draw call 152、三角形 405668（藏路人）；FPS 平均 48.4、最低 20.04、1%low 26.63（388 格；路人在：call 181／tris 477682）；遊戲時間 14.256、路人 26（在場景 26）
-  一般網址 arts_front：draw call 360、三角形 501899（藏路人）；FPS 平均 40.33、最低 19.96、1%low 19.97（324 格；路人在：call 370／tris 518203）；遊戲時間 14.332、路人 26（在場景 26）
-  一般網址 hist_front：draw call 311、三角形 461148（藏路人）；FPS 平均 44.94、最低 14.99、1%low 19.98（361 格；路人在：call 306／tris 449320）；遊戲時間 14.407、路人 26（在場景 26）
+PASS 一般網址：正式模型 campus_admin_glb 有載入  {"讀檔到區域建好_s": 8.38, "讀檔到正式模型出現_s": 8.41}
+  一般網址：讀檔→區域 8.38 秒；讀檔→正式模型 8.41 秒；GLB 下載 []
+  一般網址：記憶體／貼圖 {"textures": 165, "geometries": 271, "texCount": 403, "texPixels": 106371227, "texMP": 106.37, "biggest": {"w": 1024, "h": 1024, "name": "map"}}
+  一般網址 av_west：draw call 206、三角形 450870（藏路人）；FPS 平均 31.12、最低 6.67、1%low 8.57（250 格；路人在：call 283／tris 526909）；遊戲時間 14.095、路人 26（在場景 26）
+  一般網址 gate_avenue：draw call 393、三角形 651607（藏路人）；FPS 平均 30.75、最低 7.5、1%low 7.5（247 格；路人在：call 449／tris 782779）；遊戲時間 14.17、路人 26（在場景 26）
+  一般網址 admin_front：draw call 145、三角形 400540（藏路人）；FPS 平均 46.65、最低 15.02、1%low 20.01（374 格；路人在：call 174／tris 472554）；遊戲時間 14.246、路人 26（在場景 26）
+  一般網址 arts_front：draw call 368、三角形 518395（藏路人）；FPS 平均 39.92、最低 14.99、1%low 17.99（320 格；路人在：call 368／tris 518395）；遊戲時間 14.322、路人 26（在場景 26）
+  一般網址 hist_front：draw call 303、三角形 447700（藏路人）；FPS 平均 41.67、最低 8.57、1%low 14.99（334 格；路人在：call 303／tris 447700）；遊戲時間 14.397、路人 26（在場景 26）
 PASS 一般網址：沒有 JS 例外  []
-PASS ?nobldg：遊戲載入  17.6 秒
+PASS ?nobldg：遊戲載入  17.7 秒
   [前置／捷徑] 讀檔到campus 14.0 時 {"x": -20, "z": 0.5, "yaw": 1.5708}，條件事件關閉
-  ?nobldg：讀檔→區域 10.81 秒；讀檔→正式模型 None 秒；GLB 下載 []
-  ?nobldg：記憶體／貼圖 {"textures": 145, "geometries": 232, "texCount": 229, "texPixels": 56504475, "texMP": 56.5, "biggest": {"w": 1024, "h": 1024, "name": "map"}}
-  ?nobldg av_west：draw call 210、三角形 795592（藏路人）；FPS 平均 23.9、最低 1.94、1%low 2（192 格；路人在：call 306／tris 924584）；遊戲時間 14.074、路人 26（在場景 25）
-  ?nobldg gate_avenue：draw call 396、三角形 963567（藏路人）；FPS 平均 33.36、最低 2.07、1%low 3.46（268 格；路人在：call 369／tris 1019383）；遊戲時間 14.138、路人 26（在場景 25）
-  ?nobldg admin_front：draw call 160、三角形 775304（藏路人）；FPS 平均 45.97、最低 8.57、1%low 9.23（370 格；路人在：call 186／tris 841738）；遊戲時間 14.206、路人 26（在場景 25）
-  ?nobldg arts_front：draw call 257、三角形 794110（藏路人）；FPS 平均 49.27、最低 9.99、1%low 10（395 格；路人在：call 263／tris 803742）；遊戲時間 14.274、路人 26（在場景 25）
-  ?nobldg hist_front：draw call 218、三角形 797770（藏路人）；FPS 平均 49.27、最低 8.57、1%low 8.89（395 格；路人在：call 215／tris 786302）；遊戲時間 14.343、路人 26（在場景 25）
+  ?nobldg：讀檔→區域 9.61 秒；讀檔→正式模型 None 秒；GLB 下載 []
+  ?nobldg：記憶體／貼圖 {"textures": 108, "geometries": 218, "texCount": 242, "texPixels": 56832411, "texMP": 56.83, "biggest": {"w": 1024, "h": 1024, "name": "map"}}
+  ?nobldg av_west：draw call 211、三角形 789278（藏路人）；FPS 平均 25.2、最低 1.94、1%low 2.11（202 格；路人在：call 307／tris 918270）；遊戲時間 14.068、路人 26（在場景 26）
+  ?nobldg gate_avenue：draw call 398、三角形 957933（藏路人）；FPS 平均 33.36、最低 2.31、1%low 3.75（268 格；路人在：call 368／tris 1007548）；遊戲時間 14.133、路人 26（在場景 26）
+  ?nobldg admin_front：draw call 160、三角形 767942（藏路人）；FPS 平均 43.29、最低 7.5、1%low 7.51（347 格；路人在：call 186／tris 834376）；遊戲時間 14.201、路人 26（在場景 26）
+  ?nobldg arts_front：draw call 258、三角形 787796（藏路人）；FPS 平均 50.4、最低 10、1%low 10（404 格；路人在：call 264／tris 797428）；遊戲時間 14.269、路人 26（在場景 26）
+  ?nobldg hist_front：draw call 220、三角形 791480（藏路人）；FPS 平均 46.78、最低 8.58、1%low 10.44（375 格；路人在：call 216／tris 779988）；遊戲時間 14.337、路人 26（在場景 26）
 PASS ?nobldg：沒有 JS 例外  []
-表：{"av_west": {"calls": 212, "nobldg_calls": 210, "limit_1.3x": 273.0, "margin": 61.0, "ratio": 1.0095, "tris": 455954, "tris_limit": 420000, "tris_margin": -35954, "fps_avg": 28.69, "fps_min": 9.99, "fps_low1": 10, "nobldg_fps_avg": 23.9, "nobldg_fps_min": 1.94}, "gate_avenue": {"calls": 399, "nobldg_calls": 396, "limit_1.3x": 514.8, "margin": 115.8, "ratio": 1.0076, "tris": 656691, "tris_limit": 420000, "tris_margin": -236691, "fps_avg": 29.63, "fps_min": 5, "fps_low1": 8, "nobldg_fps_avg": 33.36, "nobldg_fps_min": 2.07}, "admin_front": {"calls": 152, "nobldg_calls": 160, "limit_1.3x": 208.0, "margin": 56.0, "ratio": 0.95, "tris": 405668, "tris_limit": 420000, "tris_margin": 14332, "fps_avg": 48.4, "fps_min": 20.04, "fps_low1": 26.63, "nobldg_fps_avg": 45.97, "nobldg_fps_min": 8.57}, "arts_front": {"calls": 360, "nobldg_calls": 257, "limit_1.3x": 334.1, "margin": -25.9, "ratio": 1.4008, "tris": 501899, "tris_limit": 420000, "tris_margin": -81899, "fps_avg": 40.33, "fps_min": 19.96, "fps_low1": 19.97, "nobldg_fps_avg": 49.27, "nobldg_fps_min": 9.99}, "hist_front": {"calls": 311, "nobldg_calls": 218, "limit_1.3x": 283.4, "margin": -27.6, "ratio": 1.4266, "tris": 461148, "tris_limit": 420000, "tris_margin": -41148, "fps_avg": 44.94, "fps_min": 14.99, "fps_low1": 19.98, "nobldg_fps_avg": 49.27, "nobldg_fps_min": 8.57}, "_mem": {"formal": {"textures": 197, "geometries": 287, "texCount": 416, "texPixels": 106379931, "texMP": 106.38, "biggest": {"w": 1024, "h": 1024, "name": "map"}}, "nobldg": {"textures": 145, "geometries": 232, "texCount": 229, "texPixels": 56504475, "texMP": 56.5, "biggest": {"w": 1024, "h": 1024, "name": "map"}}, "glb_kb_total": 0, "glb_files": [], "glb_s": 9.69}}
-GLB 載入：讀檔→正式模型 9.69 秒；檔案 []
+表：{"av_west": {"calls": 206, "nobldg_calls": 211, "limit_1.3x": 274.3, "margin": 68.3, "ratio": 0.9763, "tris": 450870, "tris_limit": 420000, "tris_margin": -30870, "fps_avg": 31.12, "fps_min": 6.67, "fps_low1": 8.57, "nobldg_fps_avg": 25.2, "nobldg_fps_min": 1.94}, "gate_avenue": {"calls": 393, "nobldg_calls": 398, "limit_1.3x": 517.4, "margin": 124.4, "ratio": 0.9874, "tris": 651607, "tris_limit": 420000, "tris_margin": -231607, "fps_avg": 30.75, "fps_min": 7.5, "fps_low1": 7.5, "nobldg_fps_avg": 33.36, "nobldg_fps_min": 2.31}, "admin_front": {"calls": 145, "nobldg_calls": 160, "limit_1.3x": 208.0, "margin": 63.0, "ratio": 0.9062, "tris": 400540, "tris_limit": 420000, "tris_margin": 19460, "fps_avg": 46.65, "fps_min": 15.02, "fps_low1": 20.01, "nobldg_fps_avg": 43.29, "nobldg_fps_min": 7.5}, "arts_front": {"calls": 368, "nobldg_calls": 258, "limit_1.3x": 335.4, "margin": -32.6, "ratio": 1.4264, "tris": 518395, "tris_limit": 420000, "tris_margin": -98395, "fps_avg": 39.92, "fps_min": 14.99, "fps_low1": 17.99, "nobldg_fps_avg": 50.4, "nobldg_fps_min": 10}, "hist_front": {"calls": 303, "nobldg_calls": 220, "limit_1.3x": 286.0, "margin": -17.0, "ratio": 1.3773, "tris": 447700, "tris_limit": 420000, "tris_margin": -27700, "fps_avg": 41.67, "fps_min": 8.57, "fps_low1": 14.99, "nobldg_fps_avg": 46.78, "nobldg_fps_min": 8.58}, "_mem": {"formal": {"textures": 165, "geometries": 271, "texCount": 403, "texPixels": 106371227, "texMP": 106.37, "biggest": {"w": 1024, "h": 1024, "name": "map"}}, "nobldg": {"textures": 108, "geometries": 218, "texCount": 242, "texPixels": 56832411, "texMP": 56.83, "biggest": {"w": 1024, "h": 1024, "name": "map"}}, "glb_kb_total": 0, "glb_files": [], "glb_s": 8.41}}
+GLB 載入：讀檔→正式模型 8.41 秒；檔案 []
 ALL PASS

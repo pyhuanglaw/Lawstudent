@@ -1687,3 +1687,12 @@
 [22:06:46] solo item PERFCG_new_m waits: no new items start until the 2 running item(s) finish
 [22:06:49] solo item PERFCG_new_m waits: no new items start until the 1 running item(s) finish
 [22:07:10] [res] cpu=4% mem=36% (11.5/31.4 GB) chrome_testing=0  END X223SHOT_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3f83c653e..a8a01e89c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:07:23] ==== END   X223SHOT_old  exit=0  87s   ====
+[22:07:26] memory 37% before starting PERFCG_new_m (0 running)
+[22:07:26] ==== START PERFCG_new_m  (probe @ 8d8b475dc3a6b3546853a98fc24b60edb7829989) ====
+[22:07:28] [res] cpu=9% mem=37% (11.7/31.4 GB) chrome_testing=0  START PERFCG_new_m
+[22:08:06] 正在跑：PERFCG_new_m（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:11:00] [res] cpu=10% mem=35% (11.0/31.4 GB) chrome_testing=0  END PERFCG_new_m
