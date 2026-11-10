@@ -7,6 +7,7 @@
   C 同一天（B 之後）出店再進店 →（要）不演
   D 玩家自己在一盞上班（存檔原本的 jobs.tea 週六班、現在在班的時段）→（要）不演
   E 點頭之交（認識、熟悉 10）→ 演也只能是 acq、不能招待：點第一樣照扣
+  F 芷若（BB 15:06）：兩點半 Café 吧檯在班（作息 act barista，週二 20:00）、朋友＋T3 輪到 →（要）演 2～3 句、有「熱可可」；點第一樣不扣錢
 【前置／捷徑】（標在每個 case）：存檔 tests/fixtures/user_save_day54_1110.json 改日子／時間／地點；語彤的熟悉／信任（SOCIAL rel）、FIRST_MET 記憶、
   G.flags.SHIFTT（nf 2、friend.treat 輪到第 3 組）、jobs.tea 的班表（A、B、C、E 拿掉玩家的週六班，D 保留）。舊版沒有 SHIFTT：同一份存檔，期待 B 不演、錢照扣＝FAIL。
 quiet_phone（手機不自己打開），條件事件照開。Playwright 手機模擬 ≠ iPhone。
@@ -18,16 +19,16 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))));
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 TAG = os.environ.get('TAG') or 'x'
-CASES = (os.environ.get('CASES') or 'A,B,C,D,E').split(',')
+CASES = (os.environ.get('CASES') or 'A,B,C,D,E,F').split(',')
 R = L.Run('shift_treat_' + TAG, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 YT, ZONE = 'heroine_03', 'wz_teahouse'
 FIX = 'tests/fixtures/user_save_day54_1110.json'
 FIND = r"""(a=>{ const C=CHARACTERS[a.pid]; for(let d=a.from; d<a.from+60; d++){ const c=CALENDAR.dateOf(d); const wd=c.wd===7?0:c.wd; if(CALENDAR.holiday&&CALENDAR.holiday(d)) continue;
   const g=Object.assign({},GAME.G,{day:d,weekday:wd,hour:a.h,zone:a.zone}); let e=null; try{ e=STORY.schedEnt(C,g); }catch(err){}
-  if(e&&e.zone===a.zone&&(!a.label||e.label===a.label)) return {d, wd, key:c.key}; } return null; })"""
+  if(e&&e.zone===a.zone&&(!a.label||e.label===a.label)&&(!a.act||e.act===a.act)) return {d, wd, key:c.key}; } return null; })"""
 ITS = "(()=>(GAME.E.interactables||[]).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,lv:i.lv|0,hidden:!!i.hidden,to:i.exit?i.exit.to:null,shop:i.wzShop||i.shop||null,kind:i.kind||null})))()"
-ST = "(()=>({zone:GAME.G.zone, money:GAME.G.money, day:GAME.G.day, hour:+(+GAME.G.hour).toFixed(2), fb:GAME.walkFallbacks|0, sh:(GAME.G.flags||{}).SHIFTT||null, fam:(SOCIAL.rel('heroine_03')||{}).fam, lvl:SOCIAL.friendLevel?SOCIAL.friendLevel('heroine_03'):null, on:typeof SHIFTT!=='undefined'}))()"
+ST = "(()=>({zone:GAME.G.zone, money:GAME.G.money, day:GAME.G.day, hour:+(+GAME.G.hour).toFixed(2), fb:GAME.walkFallbacks|0, sh:(GAME.G.flags||{}).SHIFTT||null, fam:(SOCIAL.rel('heroine_03')||{}).fam, lvl:SOCIAL.friendLevel?SOCIAL.friendLevel('heroine_03'):null, famZ:(SOCIAL.rel('heroine_02')||{}).fam, on:typeof SHIFTT!=='undefined'}))()"
 
 
 def load_fixture():
@@ -37,22 +38,22 @@ def load_fixture():
     return json.loads(r.stdout.decode('utf-8')) if r.returncode == 0 else None
 
 
-def mk(S, d, hour, case):
+def mk(S, d, hour, case, pid=YT):
     s = copy.deepcopy(S); s = s.get('G', s); s.pop('_stuck', None); s.pop('_busy', None)
     s.update(day=d['d'], weekday=d['wd'], hour=hour, zone='wenzhou', pos=None, money=5000)
     s['invites'] = [v for v in s.get('invites', []) if v.get('state') not in ('going', 'accepted')]
-    so = s.setdefault('social', {}); rel = so.setdefault('rel', {}).setdefault(YT, {}); mem = so.setdefault('mem', {})
-    so.setdefault('relUpDay', {})[YT] = d['d'] - 5
+    so = s.setdefault('social', {}); rel = so.setdefault('rel', {}).setdefault(pid, {}); mem = so.setdefault('mem', {})
+    so.setdefault('relUpDay', {})[pid] = d['d'] - 5
     f = s.setdefault('flags', {}); f.pop('SHIFTT', None)
     jobs = s.get('jobs') or {}
     if case != 'D' and 'tea' in jobs: jobs['tea']['day'] = []   # 玩家這週六沒有一盞的班
     if case == 'A':
-        mem[YT] = [m for m in mem.get(YT, []) if m.get('tag') != 'FIRST_MET']; rel.update(fam=0, trust=0, comf=0)
+        mem[pid] = [m for m in mem.get(pid, []) if m.get('tag') != 'FIRST_MET']; rel.update(fam=0, trust=0, comf=0)
     elif case == 'E':
         rel.update(fam=10, trust=0, comf=0)
     else:   # B、C、D：朋友、T3 輪到（nf 2→這次第 3 次、tn 0、沒招待過；friend.treat idx 2）
         rel.update(fam=45, trust=30, comf=20)
-        f['SHIFTT'] = {'p': {YT: {'day': d['d'] - 10, 'n': 5, 'nf': 2, 'tn': 0, 'idx': {'friend.treat': 2, 'friend.happy': 0}}}, 'free': None}
+        f['SHIFTT'] = {'p': {pid: {'day': d['d'] - 10, 'n': 5, 'nf': 2, 'tn': 0, 'idx': {'friend.treat': 2, 'friend.happy': 0}}}, 'free': None}
     return s
 
 
@@ -68,9 +69,9 @@ async def drain(pg, cdp, t_s=10):
     return 'timeout'
 
 
-async def enter_shop(pg, cdp, tag):
-    ex = [e for e in await pg.evaluate(ITS) if e['to'] == ZONE]
-    if not R.check('%s 溫州街有進一盞的入口' % tag, bool(ex), J(await pg.evaluate(ITS))[:400]): return False
+async def enter_shop(pg, cdp, tag, zone=ZONE):
+    ex = [e for e in await pg.evaluate(ITS) if e['to'] == zone]
+    if not R.check('%s 溫州街有進 %s 的入口' % (tag, zone), bool(ex), J(await pg.evaluate(ITS))[:400]): return False
     e = ex[0]
     ok = await L.go_to(pg, cdp, R, e['x'], e['z'], min(0.9, e['r'] * 0.8), '%s 走到「%s」' % (tag, e['label']), max_s=300, lv=e['lv'])
     await pg.wait_for_timeout(700); s = await L.state(pg)
@@ -78,14 +79,14 @@ async def enter_shop(pg, cdp, tag):
     await L.tap(pg, cdp, '#interact')
     for _ in range(40):
         await pg.wait_for_timeout(500)
-        if (await pg.evaluate(ST))['zone'] == ZONE: return True
+        if (await pg.evaluate(ST))['zone'] == zone: return True
     return False
 
 
 async def buy_one(pg, cdp, tag):
     """店裡的點單：走到點單互動 → 按 → 選第一個買得起的（有「元」）→ 後面的選單選「不用／就這樣／外帶」或最後一個 → 點完對話。回傳 (錢的差, 選了什麼)"""
     its = await pg.evaluate(ITS); R.note('%s 店裡的互動點：%s' % (tag, J(its)))
-    cand = [i for i in its if not i['to'] and not i['hidden'] and any(k in (i['label'] or '') for k in ('點', '飲料', '茶', '菜單', '買'))]
+    cand = [i for i in its if not i['to'] and not i['hidden'] and any(k in (i['label'] or '') for k in ('點', '飲料', '茶', '菜單', '買')) and not any(k in (i['label'] or '') for k in ('坐', '看'))]
     if not R.check('%s 找到點單的互動' % tag, bool(cand), ''): return None, None
     c = cand[0]; m0 = (await pg.evaluate(ST))['money']
     await L.go_to(pg, cdp, R, c['x'], c['z'], min(0.9, c['r'] * 0.8), '%s 走到「%s」' % (tag, c['label']), max_s=120, lv=c['lv'])
@@ -117,11 +118,31 @@ async def main():
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
         await pg.evaluate("localStorage.clear()")
+        await L.load_state(pg, copy.deepcopy(S), quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(5000)   # 作息看存檔裡的旗標（標題畫面的空白 G 查不到語彤的班：雲端冒煙 r1）
         f = await pg.evaluate(FIND, {'pid': YT, 'from': S['day'] + 1, 'h': 14.0, 'zone': ZONE, 'label': '一盞茶屋（打工）'})
         if not R.check('找得到語彤在一盞打工的日子（週六 14:00）', bool(f), ''): await b.close(); return
         R.note('日子：%s' % J(f))
+        fz = await pg.evaluate(FIND, {'pid': 'heroine_02', 'from': S['day'] + 1, 'h': 20.0, 'zone': 'cafe', 'label': None, 'act': 'barista'}); R.note('芷若在吧檯的日子：%s' % J(fz))
         for case in CASES:
             tag = '[%s]' % case
+            if case == 'F':
+                if not R.check('找得到芷若在 Café 吧檯上班的日子（20:00）', bool(fz), ''): continue
+                s = mk(S, fz, 20.0, 'B', pid='heroine_02')
+                await L.load_state(pg, s, quiet_events=False, quiet_phone=True); await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp); await drain(pg, cdp, 4)
+                R.setup('【前置／捷徑】day54 存檔 → %s 20:00 溫州街；芷若熟悉 45 信任 30（朋友）＋SHIFTT nf 2、friend.treat idx 2（T3 輪到）' % fz['key'])
+                await P.say_hook(pg); n0 = await pg.evaluate("window.__SAY.length")
+                if not await enter_shop(pg, cdp, tag, 'cafe'): R.check('F 進了 Café', False, J(await pg.evaluate(ST))); continue
+                await pg.wait_for_timeout(8000); await drain(pg, cdp, 5)
+                said = await P.said(pg, n0); st1 = await pg.evaluate(ST)
+                await pg.screenshot(path=os.path.join(OUT, 'shift_%s_F.png' % TAG))
+                rec = ((st1['sh'] or {}).get('p') or {}).get('heroine_02') or {}
+                R.note('[F] 進店以後 GAME.say：%s；狀態 %s' % (J(said), J(st1)))
+                R.check('F 芷若朋友：進店兩秒後演 2～4 句、有「熱可可」', rec.get('day') == st1['day'] and 2 <= len(said) <= 4 and any('熱可可' in x[1] for x in said), J({'said': said, 'rec': rec}))
+                R.check('F T3：記下今天在 Café 點的下一樣免費', ((st1['sh'] or {}).get('free') or {}).get('zone') == 'cafe', J(st1['sh']))
+                d1, p1 = await buy_one(pg, cdp, '[F 第一樣]'); R.note('[F 第一樣] 錢 %s、選了 %s' % (d1, J(p1)))
+                R.check('F T3：在 Café 點第一樣不扣錢', d1 == 0 and bool(p1), J({'delta': d1, 'picked': p1}))
+                R.check('[F] walkFallbacks 0', st1['fb'] == 0, J(st1))
+                continue
             if case == 'C':   # 接著 B：同一天出店再進來（不重讀）
                 ex = [e for e in await pg.evaluate(ITS) if e['to'] == 'wenzhou']
                 if ex:
