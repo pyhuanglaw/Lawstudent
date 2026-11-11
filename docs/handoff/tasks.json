@@ -53114,7 +53114,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "AA 掃企劃線；LAWWW 掃開發分支 characters.js、docs（CHARACTER_*、art-rebuild 的人物描述）；遊戲台詞照 AA 清單",
+   "next": "【11-11 10:5x LAWWW】6458d1dc2（AA 11-10 22:11 第一批）把源稿整列刪了：AA_367 沛珊三列（import_pg_dates 停：101 句→98）＝AA 選 A 加回、寫 AA_759 新句（4adf447e5）。同一筆另外 16 份白名單源稿也有刪列（白名單都還在那筆以前，遊戲照舊；下次換 SHA 會吃到）：AA_211 -1、250 -1、262 -1、278 -1、359 -1、372 -1、415 -1、416 -3、503 -5、504 -3、507 -2、508 -2、509 -3、511 -2、525 -5、667 -9——已給 AA 清單（照 AA_367 的做法：遊戲已經換成新句的就加回寫新句，真要拿掉的告訴 LAWWW 改格數檢查）。｜AA 掃企劃線；LAWWW 掃開發分支 characters.js、docs（CHARACTER_*、art-rebuild 的人物描述）；遊戲台詞照 AA 清單",
    "xai": {
     "spec": "X330、UA-AA-1110-12",
     "branch": "claude/story-planning",
