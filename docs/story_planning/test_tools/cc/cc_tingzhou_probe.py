@@ -23,7 +23,7 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 DAY = '2025-11-01'
 SHOPS8 = ['泰米村食', '洗樂洗衣坊', '印得好', '越好吃小館', '客居雲南', '東南大聯商行', '汀州聯通', '溫特寶邸']
 ME = "(()=>{ const P=GAME.E.player, p=P.obj.position, N=GAME.E.nav; return {zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), x:+p.x.toFixed(2), z:+p.z.toFixed(2), free:N?N.free(p.x,p.z):null, ent:!!(GAME.isEntering&&GAME.isEntering()), busy:!!P.busy, fb:GAME.walkFallbacks|0}; })()"
-ITS = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,to:i.exit?i.exit.to:null,look:i.look||null,tz:i.tzShop||null,tzd:i.tzsDoor||null,gate:!!i.tzGate,seat:!!i.seat})))()"
+ITS = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,to:i.exit?i.exit.to:null,look:i.look||null,tz:i.tzShop||null,tzd:i.tzsDoor||(i.tzLimaoDoor?'limao':null),gate:!!i.tzGate,seat:!!i.seat})))()"
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||50, c.width/c.height, 0.1, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const z=E.zone, P=E.player&&E.player.obj; if(z&&z.fadeWalls){ try{ z.fadeWalls(cam,P?P.position:cam.position); if(E.hideFaded) E.hideFaded(); }catch(e){} }
   const hid=[]; if(P){ hid.push([P,P.visible]); P.visible=false; }
@@ -417,6 +417,123 @@ async def part_zqseat(pg, cdp):
     R.check('[ZQSEAT] ZQDATES 裡有一天子晴在公館', False, '四天都沒看到她（前置不成立，不是判定）')
 
 
+LMN = r"""(()=>{ const z=GAME.E.zone||{}, lm=z.tzLimao; if(!lm) return null; const N={}; for(const k of Object.keys(lm.nodes||{})){ const o=lm.nodes[k]; N[k]=o?!!o.visible:null; }
+  const all={}; GAME.E.scene.traverse(o=>{ if(/^LIMAO_/.test(o.name||'')&&!(o.name in all)) all[o.name]=!!o.visible; });
+  return {open:!!lm.open, masterAway:!!lm.masterAway, h:+(+GAME.G.hour).toFixed(3), money:GAME.G.money, door:lm.door?{label:lm.door.label,exit:!!lm.door.exit,look:lm.door.look||null}:null, nodes:N, sceneLimao:all}; })()"""
+
+
+async def part_limao(pg, cdp):
+    """X332 禮貌生財第 1 版（BB 00:07；11161c101，舊 bd3f67410＝還沒有這間店）。這版只能走進去、看；上師、對話、書房解鎖還沒有。
+    ①巷 A 靠公館那一端 18:00（收著）、20:00（開著）、23:45（收了）：店面正面、招牌近拍、×2（fov 減半）、算命桌；LIMAO_* 節點哪些看得到（開收只動桌子、不罩整間店）；
+      互動鍵、按下去的字、錢不動。②室內（20:00）：走進去、命理館四個角度、書房的門（拍門、互動鍵的字、按了的字）、試著走進書房（走不進去、停在隔牆前）、走出來回到巷子。
+    ③舊存檔站在現在是店面的位置讀檔：挪多少、站得住、推得動。④巷 A 搖桿走一趟（20:00）。"""
+    L0 = await pg.evaluate("(()=>typeof TINGZHOU_LAYOUT!=='undefined'&&TINGZHOU_LAYOUT.limao?TINGZHOU_LAYOUT.limao:null)()")
+    R.note('[LIMAO] 配置 TINGZHOU_LAYOUT.limao：%s' % J(L0))
+    LMX = L0 or {'x0': 25.5, 'x1': 31.0, 'z': 2.5, 'dep': 3.0, 'door': {'x': 27.4, 'z': 4.75}, 'table': {'x': 29.35, 'z': 3.85}, 'from': 19, 'to': 23.5}
+    cx = (LMX['x0'] + LMX['x1']) / 2; fz = LMX['z'] + LMX['dep']; T = LMX['table']
+    for h, want in ((18.0, False), (20.0, True), (23.75, False)):
+        hh = '%02d%02d' % (int(h), int(round((h % 1) * 60))); tag = '[LIMAO %s]' % hh
+        await at(pg, cdp, 'tingzhou', h, cx - 1.0, -0.8, '（巷 A，禮貌生財前面）'); await pg.wait_for_timeout(2500)
+        st = await pg.evaluate(LMN); R.note('%s 狀態：%s' % (tag, J(st)))
+        if L0: R.check('%s 店在（zone.tzLimao）、開著＝%s（19:00～23:30）' % (tag, want), bool(st) and st['open'] == want, J(st and {k: st[k] for k in ('open', 'h')}))
+        V = [('店面正面', (cx, 1.7, -2.0), (cx, 2.4, fz), 55), ('招牌近拍', (cx, 2.4, -0.3), (cx, 3.3, LMX['z'] + 0.2), 32), ('招牌放大', (cx, 2.4, -0.3), (cx, 3.3, LMX['z'] + 0.2), 16),
+             ('算命桌', (T['x'] - 0.3, 1.6, -0.6), (T['x'], 0.8, T['z']), 45), ('斜看', (cx - 6.0, 1.7, -1.6), (cx, 2.2, fz - 1.0), 55)]
+        await pg.evaluate("window.__TZ=[]")
+        for lab, frm, to, fov in V:
+            save(await pg.evaluate(SNAP, {'from': list(frm), 'at': list(to), 'fov': fov, 'tw': 560, 'label': '禮貌生財 %s %s' % (hh, lab), 'full': True}), 'lm_%s_%s.jpg' % (hh, lab))
+        its = await pg.evaluate(ITS); d = next((i for i in its if i.get('tzd') == 'limao'), None)
+        R.note('%s 店門的互動點：%s' % (tag, J(d)))
+        if not L0: continue
+        if not R.check('%s 巷子裡有禮貌生財的互動點' % tag, bool(d), ''): continue
+        m0 = await pg.evaluate("GAME.G.money")
+        ok = await L.go_to(pg, cdp, R, d['x'], d['z'], 0.7, '%s 走到店門' % tag, max_s=60); await pg.wait_for_timeout(700)
+        s = await L.state(pg); R.note('%s 店門口互動鍵：「%s」' % (tag, s['interact']))
+        R.check('%s 互動鍵是「%s禮貌生財」' % (tag, '進' if want else '看'), s['interact'].startswith(('進' if want else '看') + '禮貌生財'), s['interact'])
+        if want:
+            await pg.screenshot(path=os.path.join(OUT, 'lm_%s_door_game.jpg' % hh), type='jpeg', quality=80); continue   # 開著：按下去會進店，室內在第 ② 段
+        await L.tap(pg, cdp, '#interact'); lines = []
+        for _ in range(20):
+            q = await L.state(pg)
+            if q['dlg']:
+                t = (await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")).strip()
+                if t and (not lines or lines[-1] != t): lines.append(t)
+                await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+            if lines: break
+            await pg.wait_for_timeout(300)
+        z1 = await pg.evaluate("GAME.G.zone")
+        R.note('%s 按「%s」→ %s；還在 %s' % (tag, s['interact'], J(lines), z1))
+        R.check('%s 收著：按了不會進店、錢沒動' % tag, z1 == 'tingzhou' and (await pg.evaluate("GAME.G.money")) == m0, J({'zone': z1}))
+    if not L0: R.note('[LIMAO] 這一版沒有禮貌生財（舊版對照）：上面是同機位的照片'); return
+    # ② 室內（20:00）
+    await at(pg, cdp, 'tingzhou', 20.0, LMX['door']['x'], LMX['door']['z'] - 1.4, '（禮貌生財門口外面，開著）'); await pg.wait_for_timeout(2000)
+    m0 = await pg.evaluate("GAME.G.money")
+    d = next((i for i in await pg.evaluate(ITS) if i.get('tzd') == 'limao'), None)
+    t0 = time.time(); await tap_it(pg, cdp, d, '[LIMAO 進店]')
+    for _ in range(80):
+        me = await pg.evaluate(ME)
+        if me['zone'] == 'tz_limao' and not me['ent']: break
+        await pg.wait_for_timeout(250)
+    R.check('[LIMAO 室內] 走進去（%.1f 秒）：區域 tz_limao、站得住' % (time.time() - t0), me['zone'] == 'tz_limao' and me['free'] is not False, J(me))
+    if me['zone'] != 'tz_limao': return
+    await pg.wait_for_timeout(2500)
+    fm = await pg.evaluate("(()=>{ const z=GAME.E.zone||{}; return {formal:!!z.formal, glb:!!GAME.E.scene.getObjectByName('tz_limao_glb'), studyOpen:!!z.studyOpen}; })()"); R.note('[LIMAO 室內] 正式模型：%s' % J(fm))
+    for lab, frm, to, fov in [('門口往裡', (0.9, 1.6, 4.4), (0.0, 1.3, -1.2), 62), ('裡面往門口', (-0.4, 1.7, -0.6), (0.6, 1.2, 4.8), 62), ('西牆書櫃', (1.2, 1.6, 3.6), (-2.3, 1.4, 0.5), 55),
+                              ('東牆玻璃櫃', (-1.2, 1.6, 3.6), (2.3, 1.3, 1.0), 55), ('書房的門', (0.9, 1.6, 2.4), (1.0, 1.2, -1.2), 45), ('書房的門 放大', (0.9, 1.5, 1.0), (1.0, 1.2, -1.2), 30)]:
+        save(await pg.evaluate(SNAP, {'from': list(frm), 'at': list(to), 'fov': fov, 'tw': 560, 'label': '禮貌生財 室內 %s' % lab, 'full': True}), 'lm_int_%s.jpg' % lab)
+    ok = await L.go_to(pg, cdp, R, 1.0, -0.25, 0.6, '[LIMAO 書房] 走到書房的門前', max_s=60); await pg.wait_for_timeout(700)
+    s = await L.state(pg); await pg.screenshot(path=os.path.join(OUT, 'lm_int_study_door_game.jpg'), type='jpeg', quality=80)
+    R.check('[LIMAO 書房] 門前互動鍵有字（照實記）', bool(s['interact']), s['interact']); R.note('[LIMAO 書房] 門前互動鍵：「%s」' % s['interact'])
+    await L.tap(pg, cdp, '#interact'); lines = []
+    for _ in range(20):
+        q = await L.state(pg)
+        if q['dlg']:
+            t = (await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")).strip()
+            if t and (not lines or lines[-1] != t): lines.append(t)
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+        if lines: break
+        await pg.wait_for_timeout(300)
+    R.note('[LIMAO 書房] 按了：%s' % J(lines))
+    await L.tap_ground(pg, cdp, 0.3, -2.6); await pg.wait_for_timeout(5000)
+    me = await pg.evaluate(ME)
+    R.check('[LIMAO 書房] 點書房裡面的地板走不進去（停在隔牆前 z > −1.2）', me['z'] > -1.25, J(me))
+    await L.joystick(pg, cdp, 0, -45, 1500); me = await pg.evaluate(ME)
+    R.check('[LIMAO 書房] 搖桿往書房推也進不去（z > −1.2）', me['z'] > -1.25, J(me))
+    R.check('[LIMAO 室內] 錢沒動', (await pg.evaluate("GAME.G.money")) == m0, '')
+    R.note('[LIMAO 室內] 8 秒幀率 %s fps' % await pg.evaluate("new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<8000) requestAnimationFrame(f); else res(+(n/((performance.now()-t0)/1000)).toFixed(1)); }; requestAnimationFrame(f); })"))
+    ex = next((i for i in await pg.evaluate(ITS) if i.get('to') == 'tingzhou'), None)
+    if R.check('[LIMAO 室內] 有「離開禮貌生財」', bool(ex), ''):
+        await tap_it(pg, cdp, ex, '[LIMAO 出店]')
+        for _ in range(80):
+            me = await pg.evaluate(ME)
+            if me['zone'] == 'tingzhou' and not me['ent']: break
+            await pg.wait_for_timeout(250)
+        R.check('[LIMAO 室內] 走出來回到巷子、站得住', me['zone'] == 'tingzhou' and me['free'] is not False, J(me))
+        p0 = (me['x'], me['z']); await L.joystick(pg, cdp, 0, -45, 1200); me2 = await pg.evaluate(ME)
+        R.check('[LIMAO 室內] 出來推得動', math.hypot(me2['x'] - p0[0], me2['z'] - p0[1]) > 0.3, J(me2))
+    # ③ 舊存檔站在現在是店面的位置
+    for x, z in ((cx, LMX['z'] + 1.0), (LMX['door']['x'], LMX['door']['z']), (cx, fz + 0.5)):
+        await at(pg, cdp, 'tingzhou', 20.0, x, z, '（舊存檔的 pos：改版前這裡不是店面）')
+        me = await pg.evaluate(ME); mv = math.hypot(me['x'] - x, me['z'] - z)
+        p0 = (me['x'], me['z']); await L.joystick(pg, cdp, 0, 45, 1000); me2 = await pg.evaluate(ME)
+        R.check('[LIMAO 舊存檔 (%.1f,%.1f)] 讀得進來、站得住（挪 %.2f m）、推得動' % (x, z, mv), me['zone'] in ('tingzhou', 'tz_limao') and me['free'] is not False and math.hypot(me2['x'] - p0[0], me2['z'] - p0[1]) > 0.3, J([me, me2]))
+    # ④ 巷 A 搖桿走一趟
+    await at(pg, cdp, 'tingzhou', 20.0, 6.5, 0.0, '（巷 A 西端）')
+    t0 = time.time(); stuck = 0; last = (time.time(), None)
+    for tx in (27.0, 6.5):
+        while time.time() - t0 < 120:
+            s = await L.state(pg); dd = tx - s['x']
+            if abs(dd) < 0.8: break
+            if last[1] is None or abs(s['x'] - last[1]) > 0.3: last = (time.time(), s['x'])
+            elif time.time() - last[0] > 3: stuck += 1; await L.joystick(pg, cdp, 30, 0, 600); last = (time.time(), None); continue
+            yaw = await pg.evaluate("GAME.E.cam.yaw"); fx_, fz_ = -math.sin(yaw), -math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw)
+            vx, vz = (1 if dd > 0 else -1), (0 - s['z']) * 0.3; m = math.hypot(vx, vz) or 1; vx, vz = vx / m, vz / m
+            sx, sy = vx * rx + vz * rz, -(vx * fx_ + vz * fz_); mm = math.hypot(sx, sy) or 1
+            await L.joystick(pg, cdp, sx / mm * 45, sy / mm * 45, 700)
+    s = await L.state(pg)
+    R.check('[LIMAO 巷A] 搖桿來回走一趟（%.0f 秒、卡住 %d 次）' % (time.time() - t0, stuck), abs(s['x'] - 6.5) < 1.0 and stuck == 0, J({k: s[k] for k in ('x', 'z')}))
+    R.check('[LIMAO] walkFallbacks 0', (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
+
+
 async def part_ggext(pg, cdp):
     """GG3 第 4 項外觀（新舊同機位）：公館 GGS（預設 G04,G08,G13＝安泰、汀州鮮果、榮恩典）每一棟：站 (棟 x, 18)、往店門 (棟 x, 21) 看——正面、招牌近拍、斜看左右、騎樓裡看門。HOURS 每個時間一組。"""
     names = {'G04': 'antai', 'G08': 'xianguo', 'G13': 'rongendian', 'G11': 'g11', 'G09': 'g09', 'G10': 'g10'}
@@ -552,7 +669,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('SCOOT3', part_scoot3), ('SCOOT4', part_scoot4), ('INT', part_int), ('ZQSEAT', part_zqseat), ('GGWALK', part_ggwalk), ('GGEXT', part_ggext)):
+        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('SCOOT3', part_scoot3), ('SCOOT4', part_scoot4), ('INT', part_int), ('ZQSEAT', part_zqseat), ('GGWALK', part_ggwalk), ('GGEXT', part_ggext), ('LIMAO', part_limao)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
