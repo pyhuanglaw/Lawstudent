@@ -53519,7 +53519,7 @@
    "id": "TAP-RAY-SEAT-1111",
    "title": "點椅面判椅子重做：用畫面上實際打到的物體（射線第一個打到的面在椅子上、高度在椅面到椅背之間）才導去椅子；0d7922555 的「射線高度 0.3～0.75 m 離椅中心 0.32 m 內」會把走道點擦過的椅子算進去（BB TSR 擋發布，0d1eaadc7 已在遊戲裡關掉）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53531,8 +53531,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "sha": null,
-   "next": "【11-11 10:5x LAWWW 派給 LAWWW2（場景互動＝D108 場景程式），發版後交 patch】｜【11-11 10:3x】發版後做：game3d.js tapToSeat 的 useRay 分支改成用 E.ray 打椅子 mesh（或椅子包圍盒且比地板近）；測試 tests/tap_seat_ray_1111_unit.js 加 BB 的四個走道點（總圖 (−8.5,5)、(−11,6.5)，宿舍 (11.5,3)，Café (1.5,−0.5)）必須 null；做完 engine3d 再傳 useRay。",
+   "sha": "cef36c9c7",
+   "next": "【11-11 11:3x LAWWW2 交付，發版後整合】claude/second-ai-env-art cef36c9c7：docs/art-rebuild/second_ai/wip/tap_ray_seat_1111/tap_ray_seat_v1.patch（4 檔，dev d75a274b2 上 --3way 乾淨）。E.rayFirstHit（區域群組第一個打到的；淡出牆、透明玻璃、不畫的、noTapHit 不算）；tapToSeat 先用椅子盒子篩、穿過才打模型，打到的點在椅子範圍＝那一張，射線判在前；沒有 useRay。新測試 tap_seat_ray_real_1111_unit：BB 四個走道點（總圖 25／12、宿舍 20、Café 28 個鏡頭）全 null；五湖四海 #9 八方向 215 個都導去 #9；118 巷每張椅子 6720 次，射線先打到的 4726 次都導去那張。Playwright 總圖二樓驗過。沒做：人不擋。全部 1288 支 1287 過＋bookstore 老警告。整合後 CC 照 BB 那 13 張點。｜【11-11 10:5x LAWWW 派給 LAWWW2（場景互動＝D108 場景程式），發版後交 patch】｜【11-11 10:3x】發版後做：game3d.js tapToSeat 的 useRay 分支改成用 E.ray 打椅子 mesh（或椅子包圍盒且比地板近）；測試 tests/tap_seat_ray_1111_unit.js 加 BB 的四個走道點（總圖 (−8.5,5)、(−11,6.5)，宿舍 (11.5,3)，Café (1.5,−0.5)）必須 null；做完 engine3d 再傳 useRay。",
    "xai": []
   },
   {
@@ -53566,7 +53566,7 @@
    "id": "CAFE-BAR-CAM-1111",
    "title": "Café（兩點半）吧檯高腳椅坐下後鏡頭整片是牆（線上 779 就有）：坐吧檯看不到自己和吧台——座位鏡頭往後拉或改俯角",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53579,7 +53579,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-11 11:2x BB 回報（STAIR_X 時順便）、LAWWW 派 LAWWW2（場景鏡頭 D108），發版後】搖桿坐「坐吧檯」：中央 [84.8, 0.2]，鏡頭 (−1.3,3.46,0.6) 整片牆。改法照其他店吧檯座位的鏡頭；做完交 patch＋同機位截圖，CC 拍、BB 判。",
+   "next": "【11-11 11:3x LAWWW2】原因：天花板水泥大梁 a23_vc（梁底約 3.2 m），高腳椅俯角 0.38 鏡頭 3.48 m 在梁旁 0.44 m。照 SUNNY／小路 WZ-SEAT-CAMS 做法讓梁等網點透空（attachCafe230）；新測試吧檯 256 個鏡頭擋 90→0、全店其他座位 37→0；跑全部測試＋同機位截圖中。｜【11-11 11:2x BB 回報（STAIR_X 時順便）、LAWWW 派 LAWWW2（場景鏡頭 D108），發版後】搖桿坐「坐吧檯」：中央 [84.8, 0.2]，鏡頭 (−1.3,3.46,0.6) 整片牆。改法照其他店吧檯座位的鏡頭；做完交 patch＋同機位截圖，CC 拍、BB 判。",
    "xai": []
   }
  ]
