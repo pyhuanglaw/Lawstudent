@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "V25_L118_lunch",
+  "sha": "0d1eaadc7e746d4e6c6b00619f584e805266fbb6",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_l118d_e_probe.py",
+  "env": "PARTS=MAIN;SHA=0d1eaadc7e746d4e6c6b00619f584e805266fbb6",
+  "machine": "MSI",
+  "start": "2026-11-11T21:45:40",
+  "end": "2026-11-11T21:48:53",
+  "seconds": 194,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "26",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 74,
+    "mem": 62,
+    "used_gb": 19.7,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
