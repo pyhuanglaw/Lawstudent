@@ -452,8 +452,8 @@ def downlight(c, x, z, r=0.06):
 def chair_slat(c, x, z, yaw, col='#4b2e1c', cush=None, slats=4, back=0.9):
     """木頭直條靠背椅：椅面板（＋坐墊）、四支方腳（後腳往上接椅背）、上下橫木、直條。座面頂 0.47（SIT_TOP）"""
     T = rot(x, z, yaw); v = c.vc; top = SIT_TOP - (0.03 if cush else 0.0)
-    rbox(v, T, -0.21, 0.21, top - 0.035, top, -0.2, 0.2, col, r=0.008, seg=1)
-    if cush: rbox(v, T, -0.19, 0.19, top, SIT_TOP, -0.18, 0.18, cush)
+    rbox(v, T, -0.21, 0.21, top - 0.035, top, -0.158, 0.2, col, r=0.008, seg=1)   # 椅面停在後腳前面（原本和後腳的背面共面：會閃）
+    if cush: rbox(v, T, -0.19, 0.19, top, SIT_TOP, -0.15, 0.18, cush)
     for lx in (-0.185, 0.185):
         rbox(v, T, lx - 0.018, lx + 0.018, 0.0, top - 0.035, 0.145, 0.181, col)
         rbox(v, T, lx - 0.018, lx + 0.018, 0.0, back, -0.2, -0.164, col)
@@ -562,7 +562,7 @@ def a_board(c, x, z, yaw, key, w=0.56, h=0.95, col='#5a3a22', spread=0.24):
     """A 字立牌（兩片斜板；正面貼印刷品）：正面朝 yaw"""
     T = rot(x, z, yaw); v = c.vc; fx, fz = math.sin(yaw), math.cos(yaw)
     for sg in (1, -1):
-        bl, br_, tl, tr_ = T(w / 2, sg * spread), T(-w / 2, sg * spread), T(w / 2, sg * 0.02), T(-w / 2, sg * 0.02)        # 從正面看：左下、右下、左上、右上
+        bl, br_, tl, tr_ = T(-w / 2, sg * spread), T(w / 2, sg * spread), T(-w / 2, sg * 0.02), T(w / 2, sg * 0.02)        # 從正面看：左下、右下、左上、右上（LS.rot 的 lx＝從正面看的人的右手邊；第 1 版寫反了，字是鏡像的）
         pts = [(bl[0], 0.02, bl[1]), (br_[0], 0.02, br_[1]), (tr_[0], h, tr_[1]), (tl[0], h, tl[1])]
         v.poly(pts, col)
         if sg > 0:
@@ -717,7 +717,7 @@ def build_omu():
     for zz in (-2.55, -0.9, 0.75, 2.4): beam(c, X0, X1, zz - 0.07, zz + 0.07)
     for xx in (-1.7, 0.0, 1.7): beam(c, xx - 0.07, xx + 0.07, Z0, Z1, d=0.15)
     beam(c, X0, X0 + 0.1, Z0, Z1, d=0.2); beam(c, X1 - 0.1, X1, Z0, Z1, d=0.2); beam(c, X0, X1, Z1 - 0.1, Z1, d=0.2)
-    lamps = [(-2.75, -1.0), (-2.75, 1.0), (-0.3, 1.0), (-0.3, -1.6), (2.6, -1.4), (2.6, 0.6), (2.6, 2.6)]
+    lamps = [(-2.75, -1.0), (-2.75, 1.0), (-0.3, 1.0), (-1.6, -1.5), (2.6, -1.4), (2.6, 0.6), (2.6, 2.6)]
     for (x_, z_) in lamps: pendant2(c, x_, z_, 2.52, '#3a2a1e', r=0.24)
     for (x_, z_) in ((-0.85, -1.7), (0.85, -1.7), (-0.85, 1.6), (0.85, 3.2), (-2.2, 3.1), (-1.4, -3.2), (0.6, -3.3), (1.9, -3.3)): downlight(c, x_, z_)
     cassette_ac(c, 0.85, -0.1)

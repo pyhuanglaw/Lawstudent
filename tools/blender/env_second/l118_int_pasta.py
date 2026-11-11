@@ -82,7 +82,7 @@ def chair(c, x, z, yaw): K.chair_slat(c, x, z, yaw, col='#d3a970', cush='#e9dcc4
 def bar_chair(c, x, z, yaw, col='#d3a970'):
     """高背木頭吧台椅：座面 0.76 m（坐下抬高 BAR_LIFT）、四支腳、腳踏橫桿、直條靠背"""
     T = rot(x, z, yaw); v = c.vc; top = 0.76
-    rbox(v, T, -0.19, 0.19, top - 0.035, top, -0.18, 0.18, col, r=0.008, seg=1)
+    rbox(v, T, -0.19, 0.19, top - 0.035, top, -0.14, 0.18, col, r=0.008, seg=1)   # 椅面停在後腳前面（不和後腳共面）
     for lx in (-0.165, 0.165):
         rbox(v, T, lx - 0.018, lx + 0.018, 0.0, top - 0.035, 0.125, 0.161, col); rbox(v, T, lx - 0.018, lx + 0.018, 0.0, 1.16, -0.18, -0.144, col)
     rbox(v, T, -0.147, 0.147, 1.08, 1.156, -0.176, -0.15, col); rbox(v, T, -0.147, 0.147, top + 0.07, top + 0.1, -0.174, -0.152, col)
@@ -213,8 +213,8 @@ def build():
     K.cassette_ac(c, 1.0, 0.9)
     lay = K.end(c, 'L118-SHOPS-REDO-1111（使用者 2026-11-11 規格＋參考圖 int_pasta.webp、int2_pasta.webp）；店名、菜單 AA_280；室內 tools/blender/env_second/l118_int_pasta.py（LAWWW 子代理代 LAWWW2）')
     if '--preview' in K.ARGS:
-        pts = [(x_, 2.45, z_, 55) for (x_, z_) in lamps] + [(-0.4, 2.0, Z0 + 1.0, 70), (1.8, 2.6, Z0 + 0.9, 30), (-2.2, 2.8, 2.6, 50), (1.6, 2.8, 3.0, 50)]
-        K.preview(sid, [['door', [dx + 0.3, 1.5, Z1 - 0.3], [0.6, 1.2, Z0 + 1.6], 17], ['back', [0.3, 1.75, -1.5], [-0.6, 1.0, Z1], 15]], pts, samples=28)
+        pts = [(x_, 2.45, z_, 22) for (x_, z_) in lamps] + [(-0.4, 2.0, Z0 + 1.0, 40), (-2.2, 2.8, 2.6, 20), (1.6, 2.8, 3.0, 20)]   # 這間的牆、地板、桌椅都是淺色：燈比另外兩間弱、曝光降一格半（第一次算的圖整張過曝）
+        K.preview(sid, [['door', [dx + 0.3, 1.5, Z1 - 0.3], [0.6, 1.2, Z0 + 1.6], 17], ['back', [0.3, 1.75, -1.5], [-0.6, 1.0, Z1], 15]], pts, samples=28, exposure=-1.5)
     return lay
 
 
