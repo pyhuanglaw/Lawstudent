@@ -1,0 +1,46 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8803/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A_KITCHEN\out
+CC L118A：PARTS KITCHEN；SHA bc407bfc518c8d6a4260d1a1fa395cb93fc9058b；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.3s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== KITCHEN
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [  45.7s] 【捷徑機位】l118a_kitchen_dian_1300_開放式廚房_cam.jpg：eye [-0.45, 1.65, -0.3] look [-0.45, 1.15, -3.6] 焦距 26（垂直 42.55°）；亮度 全畫面 [116.8, 51.2]、中央 [112.9, 50.8]
+PASS [黑畫面] l118a_kitchen_dian_1300_開放式廚房_cam.jpg 不是黑畫面／一片單色（全畫面平均 116.8、變化 51.2）  {"all": [116.8, 51.2], "mid": [112.9, 50.8]}
+  [  48.1s] 【捷徑機位】l118a_kitchen_dian_1300_每桌鐵板牛排_cam.jpg：eye [-0.9, 1.45, 0.4] look [-1.95, 0.75, 0.4] 焦距 32（垂直 35.12°）；亮度 全畫面 [143.5, 57.7]、中央 [126.8, 54.7]
+PASS [黑畫面] l118a_kitchen_dian_1300_每桌鐵板牛排_cam.jpg 不是黑畫面／一片單色（全畫面平均 143.5、變化 57.7）  {"all": [143.5, 57.7], "mid": [126.8, 54.7]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_self 店裡的進門位置 (-2.20,3.00) 2025-10-08 1300 
+PASS [self] 店內正式模型載入（1.5 秒）
+  [  59.1s] 【捷徑機位】l118a_kitchen_self_1300_開放式廚房_cam.jpg：eye [0.8, 1.65, -0.9] look [0.8, 1.15, -4.1] 焦距 26（垂直 42.55°）；亮度 全畫面 [158.9, 41.3]、中央 [150, 45]
+PASS [黑畫面] l118a_kitchen_self_1300_開放式廚房_cam.jpg 不是黑畫面／一片單色（全畫面平均 158.9、變化 41.3）  {"all": [158.9, 41.3], "mid": [150, 45]}
+  [  61.4s] 【捷徑機位】l118a_kitchen_self_1300_配菜櫃炸物和保溫燈_cam.jpg：eye [-0.3, 1.75, 0.9] look [-2.6, 1.25, -1.3] 焦距 28（垂直 39.76°）；亮度 全畫面 [182, 35.6]、中央 [180.1, 30.9]
+PASS [黑畫面] l118a_kitchen_self_1300_配菜櫃炸物和保溫燈_cam.jpg 不是黑畫面／一片單色（全畫面平均 182、變化 35.6）  {"all": [182, 35.6], "mid": [180.1, 30.9]}
+  [  63.7s] 【捷徑機位】l118a_kitchen_self_1300_吊牌_cam.jpg：eye [0.85, 1.65, -0.4] look [0.85, 2.55, -2.9] 焦距 36（垂直 31.42°）；亮度 全畫面 [192.4, 50.2]、中央 [181, 48.9]
+PASS [黑畫面] l118a_kitchen_self_1300_吊牌_cam.jpg 不是黑畫面／一片單色（全畫面平均 192.4、變化 50.2）  {"all": [192.4, 50.2], "mid": [181, 48.9]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_korea 店裡的進門位置 (2.20,2.75) 2025-10-08 1300 
+PASS [korea] 店內正式模型載入（1.5 秒）
+  [  74.4s] 【捷徑機位】l118a_kitchen_korea_1300_開放式廚房_cam.jpg：eye [0.65, 1.65, -0.6] look [0.65, 1.15, -3.9] 焦距 26（垂直 42.55°）；亮度 全畫面 [147.6, 49.7]、中央 [137.4, 49.5]
+PASS [黑畫面] l118a_kitchen_korea_1300_開放式廚房_cam.jpg 不是黑畫面／一片單色（全畫面平均 147.6、變化 49.7）  {"all": [147.6, 49.7], "mid": [137.4, 49.5]}
+  [  76.7s] 【捷徑機位】l118a_kitchen_korea_1300_木頭製麵檯麵團削麵刀_cam.jpg：eye [-0.2, 1.6, 2.3] look [-1.1, 0.95, 3.75] 焦距 30（垂直 37.3°）；亮度 全畫面 [128.2, 40]、中央 [132.1, 45.6]
+PASS [黑畫面] l118a_kitchen_korea_1300_木頭製麵檯麵團削麵刀_cam.jpg 不是黑畫面／一片單色（全畫面平均 128.2、變化 40）  {"all": [128.2, 40], "mid": [132.1, 45.6]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_tea 店裡的進門位置 (-0.50,2.50) 2025-10-08 1300 
+PASS [tea] 店內正式模型載入（1.5 秒）
+  [  87.8s] 【捷徑機位】l118a_kitchen_tea_1300_出菜口和廚房_cam.jpg：eye [-0.2, 1.6, -0.6] look [-0.3, 1.2, -3.8] 焦距 30（垂直 37.3°）；亮度 全畫面 [116.1, 69]、中央 [106.2, 61.4]
+PASS [黑畫面] l118a_kitchen_tea_1300_出菜口和廚房_cam.jpg 不是黑畫面／一片單色（全畫面平均 116.1、變化 69）  {"all": [116.1, 69], "mid": [106.2, 61.4]}
+  [  90.1s] 【捷徑機位】l118a_kitchen_tea_1300_每桌小菜_cam.jpg：eye [-0.6, 1.45, 2.1] look [0.7, 0.76, 2.1] 焦距 32（垂直 35.12°）；亮度 全畫面 [67.3, 65.6]、中央 [82.1, 59.7]
+PASS [黑畫面] l118a_kitchen_tea_1300_每桌小菜_cam.jpg 不是黑畫面／一片單色（全畫面平均 67.3、變化 65.6）  {"all": [67.3, 65.6], "mid": [82.1, 59.7]}
+PASS [KITCHEN tea] 搖桿走到店中間（1.4 秒）  []
+  [  99.9s] [KITCHEN tea] 兩指捏合：鏡頭 {"dist": 3.6, "distTarget": 3.6, "pitch": 0.38, "yaw": 3.045} → {"dist": 6, "distTarget": 6, "pitch": 0.38, "yaw": 3.045}
+PASS [KITCHEN tea] 兩指捏合把鏡頭拉到最遠（distTarget 6，室內上限）  {"dist": 6, "distTarget": 6, "pitch": 0.38, "yaw": 3.045}
+  [ 100.1s] [KITCHEN tea] 鏡頭最遠 【遊戲鏡頭】l118a_kitchen_tea_1300_beams_far_game.jpg：{"onScreen": true, "ndc": [0, -0.15], "player": [-0.45, 0.08], "cam": [0.09, 3.88, -5.47], "yaw": 3.045, "mid": {"m": 163.7, "sd": 73.5, "black": 0.021, "white": 0.001, "rgb": [185, 158, 137]}, "top": {"m": 188.1, "sd": 42.9, "black": 0, "white": 0.001, "rgb": [189, 188, 189]}, "near": {"m": 167.3, "sd": 61.4, "black": 0, "white": 0, "rgb": [181, 164, 148]}}
+PASS [KITCHEN tea] 鏡頭最遠 【遊戲鏡頭】l118a_kitchen_tea_1300_beams_far_game.jpg：畫面上方 20% 不像天空、沒有大面積黑（天花板沒有破洞）  {"m": 188.1, "sd": 42.9, "black": 0, "white": 0.001, "rgb": [189, 188, 189]}
+PASS [KITCHEN tea] 鏡頭最遠 【遊戲鏡頭】l118a_kitchen_tea_1300_beams_far_game.jpg：畫面中央 60% 不是一片單色（標準差 73.5 ≥20）  {"m": 163.7, "sd": 73.5, "black": 0.021, "white": 0.001, "rgb": [185, 158, 137]}
+PASS [KITCHEN tea] 鏡頭最遠 【遊戲鏡頭】l118a_kitchen_tea_1300_beams_far_game.jpg：看得到人（玩家附近 100×160 px 標準差 61.4 ≥15）  {"onScreen": true, "ndc": [0, -0.15], "near": {"m": 167.3, "sd": 61.4, "black": 0, "white": 0, "rgb": [181, 164, 148]}}
+  [ 104.9s] [KITCHEN tea] 往下拖到最大俯角：{"dist": 6, "distTarget": 6, "pitch": 1.05, "yaw": 3.045}
+  [ 105.1s] [KITCHEN tea] 鏡頭最遠＋最大俯角 【遊戲鏡頭】l118a_kitchen_tea_1300_beams_far_top_game.jpg：{"onScreen": true, "ndc": [0, -0.08], "player": [-0.45, 0.08], "cam": [-0.16, 6.85, -2.89], "yaw": 3.045, "mid": {"m": 179.6, "sd": 61.7, "black": 0.008, "white": 0.001, "rgb": [198, 175, 152]}, "top": {"m": 166.1, "sd": 46.4, "black": 0, "white": 0, "rgb": [178, 163, 149]}, "near": {"m": 183.1, "sd": 58.9, "black": 0, "white": 0, "rgb": [201, 179, 158]}}
+PASS [KITCHEN tea] 鏡頭最遠＋最大俯角 【遊戲鏡頭】l118a_kitchen_tea_1300_beams_far_top_game.jpg：畫面上方 20% 不像天空、沒有大面積黑（天花板沒有破洞）  {"m": 166.1, "sd": 46.4, "black": 0, "white": 0, "rgb": [178, 163, 149]}
+PASS [KITCHEN tea] 鏡頭最遠＋最大俯角 【遊戲鏡頭】l118a_kitchen_tea_1300_beams_far_top_game.jpg：畫面中央 60% 不是一片單色（標準差 61.7 ≥20）  {"m": 179.6, "sd": 61.7, "black": 0.008, "white": 0.001, "rgb": [198, 175, 152]}
+PASS [KITCHEN tea] 鏡頭最遠＋最大俯角 【遊戲鏡頭】l118a_kitchen_tea_1300_beams_far_top_game.jpg：看得到人（玩家附近 100×160 px 標準差 58.9 ≥15）  {"onScreen": true, "ndc": [0, -0.08], "near": {"m": 183.1, "sd": 58.9, "black": 0, "white": 0, "rgb": [201, 179, 158]}}
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
