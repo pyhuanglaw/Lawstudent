@@ -5558,13 +5558,17 @@
   },
   {
    "path": "docs/story_planning/AA_772_l118_shops_redo_fix.json",
-   "sha": "ef7280917",
+   "sha": "d78266901",
    "status": "approved",
    "approvedBy": "AA 2026-11-11 定稿（D109）；使用者 11-11 規格 docs/handoff/user_specs/L118_SHOPS_REDO_1111.md（故事照餐飲類型搬、慢讀咖啡整套搬到木曜日）",
    "task": "L118-SHOPS-REDO-1111",
    "kind": "json",
-   "note": "ef7280917：118 巷九間店改版的修正稿（fix 117 列＋搬法表、店員、熟客三段、慢讀→木曜日、邀約地點、eat_lines、food_fav）；tools/story/l118_fix772.py 照稿換、產生 src/data/l118_redo772.js。子代理代登（2026-11-11），給值班 LAWWW 核。",
+   "note": "d78266901（AA 11-11 補稿：fix 第 118、119 列＝木曜日芯慈、乃文的當面招呼；regular_greets 補 usual2 六間）；前一版 ef7280917：118 巷九間店改版的修正稿（fix 117 列＋搬法表、店員、熟客三段、慢讀→木曜日、邀約地點、eat_lines、food_fav）；tools/story/l118_fix772.py 照稿換、產生 src/data/l118_redo772.js。子代理代登（2026-11-11），給值班 LAWWW 核。",
    "history": [
+    {
+     "sha": "ef7280917",
+     "note": "被 d78266901 取代（多兩列 fix、regular_greets 的 usual2）"
+    },
     {
      "sha": "d4ce20719",
      "note": "被 ef7280917 取代（AA 照 BB 的審稿改了四列的 new：學姊 first、沛珊 acc A、沛珊 rule 兩句）。已經照這一版套進檔裡的那幾句，l118_fix772.py 會讀這一版的 new 當成可以接受的 old 再換成新的"

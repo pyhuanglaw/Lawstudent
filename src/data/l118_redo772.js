@@ -1,7 +1,7 @@
 /* 118 巷九間店改版（L118-SHOPS-REDO-1111）照 AA_772 搬的故事資料：店員的稱呼、熟客三段招呼、邀約地點的店名、順手的事的店名對照、她們喜歡吃的、以安窗邊的位子（木曜日）。
-   自動產生，不要手改：python3 tools/story/l118_fix772.py --apply（來源：docs/story_planning/AA_772_l118_shops_redo_fix.json@ef7280917，劇情匯入白名單）。字串照抄 AA_772。*/
+   自動產生，不要手改：python3 tools/story/l118_fix772.py --apply（來源：docs/story_planning/AA_772_l118_shops_redo_fix.json@d78266901，劇情匯入白名單）。字串照抄 AA_772。*/
 const L118_REDO={
- "src": "docs/story_planning/AA_772_l118_shops_redo_fix.json@ef7280917",
+ "src": "docs/story_planning/AA_772_l118_shops_redo_fix.json@d78266901",
  "staff": {
   "dian": "老闆娘",
   "self": "老闆",
@@ -24,7 +24,8 @@ const L118_REDO={
     ]
    ],
    "usual": "一樣鐵板牛排？",
-   "item": "鐵板牛排"
+   "item": "鐵板牛排",
+   "usual2": "跟上次一樣？"
   },
   "self": {
    "known": [
@@ -34,7 +35,8 @@ const L118_REDO={
     ]
    ],
    "usual": "一樣炸雞腿飯？",
-   "item": "炸雞腿飯"
+   "item": "炸雞腿飯",
+   "usual2": "一樣那個便當？"
   },
   "tea": {
    "known": [
@@ -44,7 +46,8 @@ const L118_REDO={
     ]
    ],
    "usual": "一樣拌飯？",
-   "item": "石鍋拌飯"
+   "item": "石鍋拌飯",
+   "usual2": "一樣的？"
   },
   "home": {
    "known": [
@@ -68,7 +71,8 @@ const L118_REDO={
    ],
    "usual": "一樣三菜一肉？",
    "item": "自助餐（三菜一肉）",
-   "exam": "考試喔？多夾一點，我秤的時候手輕一點。"
+   "exam": "考試喔？多夾一點，我秤的時候手輕一點。",
+   "usual2": "一樣那幾樣？"
   },
   "pasta": {
    "known": [
@@ -78,7 +82,8 @@ const L118_REDO={
     ]
    ],
    "usual": "一樣奶油雞肉？",
-   "item": "奶油雞肉麵"
+   "item": "奶油雞肉麵",
+   "usual2": "一樣的麵？"
   },
   "korea": {
    "known": [
@@ -106,7 +111,8 @@ const L118_REDO={
     ]
    ],
    "usual": "一樣瑪格麗特？",
-   "item": "瑪格麗特"
+   "item": "瑪格麗特",
+   "usual2": "跟上次一樣的口味？"
   },
   "drink_a": {
    "known": [

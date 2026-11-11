@@ -24,7 +24,12 @@
 const fs=require('fs'), path=require('path'), cp=require('child_process'), vm=require('vm');
 const ROOT=path.resolve(__dirname,'..'), BASE='838db8710';
 const CHANGED=['src/sis_grad3d.js','src/offbeat_sys3d.js','src/mokuyobi_sys3d.js','src/gg2shops3d.js','src/story3d.js','src/termend3d.js','src/cracktalk3d.js','src/r2y4a3d.js','src/y2b3d.js','src/pool_more3d.js'];
-const SAME=['src/data/termend_lines.js','src/lane118.js'];
+/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：
+   - src/lane118.js 整個檔照 AA_772 改寫了（H1～H9 搬店、熟客改讀資料、輪替、遷移），不能再和 838db8710 整檔比（舊期望：SAME 有 'src/lane118.js'、整檔一字不差）；
+     改成直接驗這一項原本要守的事：這個檔沒有「有名字、又整句包在「」裡」的台詞（下面 11b）。
+   - src/data/termend_lines.js：只多了 AA_772 的幾列（第 108、109 列＋note 帶的地點名）——比之前先把基準照白名單上的 AA_772 換過（tests/l118_redo772_expect.js，不手抄）。*/
+const R772=require('./l118_redo772_expect.js');
+const SAME=['src/data/termend_lines.js'];
 const gitShow=f=>cp.execFileSync('git',['-C',ROOT,'show',BASE+':'+f],{encoding:'utf8',maxBuffer:1<<28});
 const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
 /* 外面整句一對「」（「A」「B」這種好幾段的不算）——和 src/invites3d.js 的 S.unq 同一把尺 */
@@ -47,7 +52,7 @@ const LATER=[['src/sis_grad3d.js','這週的時間用完了。下週再問我。
   ['src/data/termend_lines.js',"      tableByTerm:{Y3S1:['台南我還沒找到喜歡的早餐店。','……我家的比較好吃。不是我偏心。'],Y3S2:['你每次下來，都搭最後一班高鐵。','……下次早一點來，我帶你去運河邊。'],Y4S1:['下學期去國小實習，要穿得像老師。','……你幫我挑。我挑的都太像學生。'],Y5S1:['台南的冬天不太冷。','……你下來的時候，不用帶外套。']},\n","      /* PEISHAN-VOICE-1110：飯桌的話（通用一頓＋大三上、大三下、大四上、大五上，都有選項）在 TERMEND_OPTS.GF.classmate_peishan（AA_751@33a1769f8），這裡原本的 tableByTerm 拿掉了。\n         table 那一句留著：只剩沒有 TERMEND_OPTS 的舊資料會用到。大四下 6/8 台南那一頓（r2y4b3d.js psDinner）2026-11-11 起演 TERMEND_OPTS.GF.classmate_peishan.tableByTerm.Y4S2（AA_751@768b9a131），稿沒載到才讀這一格 */\n"],
   ['src/data/termend_lines.js',"  return {KX_ASK,","  const GF_MORE={heroine_05:{Y4S1:SIS_XM3}}, COND={Q6,SNOWQ,YOUPAY,C10,US:US3,SIS_FU};   /* TERMEND-OPTS-1110：termend_opts.js 的 if 用的條件 */\n  return {GF_MORE,COND,KX_ASK,"]];   /* 2026-11-10 再加：COND 多 SIS_FU（朋友版學姊大三上 thenIf，企劃線 1cf434dee；字沒有改）*/
 const LATER_TXT={'這週的時間用完了。下週再問我。':'這週沒有時間了。下週好不好？'}, lt=t=>LATER_TXT[t]||t;
-const later=(f,s)=>LATER.filter(x=>x[0]===f).reduce((a,x)=>a.split(x[1]).join(x[2]),s);
+const later=(f,s)=>{ let t=LATER.filter(x=>x[0]===f).reduce((a,x)=>a.split(x[1]).join(x[2]),s); if(f==='src/data/termend_lines.js') t=R772.fixFile(f,t).split("'巷口家常菜'").join("'"+R772.name('巷口家常菜')+"'"); return t; };
 /* 2026-11-11（SHE-FIRST-1110／PEISHAN-VOICE-1110；使用者 11-10 芷若告白「寫在杯子上」、X327 沛珊重寫）：termend_lines.js 的 HEART 裡芷若、沛珊那兩段台詞整段搬到 src/data/termend_opts.js（TERMEND_OPTS.HEART，
    匯入工具照企劃稿 AA_748／AA_751@33a1769f8，逐字比對在 tests/te_shefirst_1110_unit.js）——這一項比「其他地方一字不差」，所以兩邊都先把那兩段拿掉再比：[檔, BASE 那一段的開頭, 現在那一段的開頭, 兩邊共同的結尾（不含）] */
 const MOVED=[['src/data/termend_lines.js',"    heroine_02:{ src:'AA_254 第 4 節'","    /* SHE-FIRST-1110（使用者 2026-11-10 選「寫在杯子上」","    heroine_04:{ src:'AA_254 第 5 節'"],
@@ -124,6 +129,8 @@ const J=JSON.stringify, sample=L=>L.slice(0,6).join('／')+(L.length>6?'…（�
 const wrappedLits=s=>{ const t=noComments(s), out=[]; let m; LIT.lastIndex=0; while((m=LIT.exec(t))){ if(wrapped(m[1])) out.push({t:m[1],pre:t.slice(Math.max(0,m.index-40),m.index)}); } return out; };
 
 /* 11. termend_lines.js、lane118.js：不改；整句「」的都是選項字 */
+{ const l118=fs.readFileSync(path.join(ROOT,'src/lane118.js'),'utf8'), named=l118.match(/\[\s*(?:'[^']*'|[A-Z]{2}|null)\s*,\s*'「[^'\n]*」'\s*\]/g)||[];
+  check('11b. src/lane118.js 沒有「有名字、又整句包在「」裡」的台詞（選項字照慣例留「」）',named.length===0,JSON.stringify(named.slice(0,5))); }
 { for(const f of SAME) check('11. '+f+' 和 '+BASE+' 一字不差（這個檔沒有有名字又整句「」的台詞；之後劇情另外改的字照 LATER；搬到 TERMEND_OPTS.HEART 的那兩段照 MOVED 不比）',cutMoved(f,cur(f),2)===cutMoved(f,later(f,gitShow(f)),1));
   /* TERMEND_LINES 載進來逐格走：選項的格子（t、ok、answer、OPTS、ANSWER、NOT_YET_OPT；函式裡寫在 t:／ok: 後面的字）＝GM.choose 的選項字；其他字串＝說的話、旁白、系統字 */
   const c=vm.createContext({console}); vm.runInContext(cur('src/data/termend_lines.js').replace(/^const TERMEND_LINES\s*=/m,'globalThis.TERMEND_LINES='),c); const TL=c.TERMEND_LINES;
