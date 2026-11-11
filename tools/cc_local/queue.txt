@@ -716,6 +716,10 @@ FN_func_a_new_r3 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story
 FN_int_a_r3 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_fn_int_probe.py | index.html | 15 | PARTS=OLD,DOOR,LOOP,SHOT1;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8
 FN_int_b_r3 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_fn_int_probe.py | index.html | 15 | PARTS=UP,SHOT2,SEAT,FPS,DOWN;SEATS=t3c,t2a;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8
 FN_shots_b_new_r3 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_fn_shots_probe.py | index.html | 8 | PARTS=STAIRS;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8
+# BB 01:51（LAWWW Node 模擬沒重現）：TRAPDIAG r3＝SHA、點地板 5 次（目標、path 長度、P.target）、搖桿直推 10 秒；65212b697、f5e1ef4e8、舊 dbbe05fa5 各一次（排最前）
+ART2_xg_r3_a | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 8 | PARTS=INT;SHOPS=xianguo;HOURS=14;TRAPDIAG=1;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
+ART2_xg_r3_f | f5e1ef4e8fe2e1d6e71897d891ed600967a146a2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 8 | PARTS=INT;SHOPS=xianguo;HOURS=14;TRAPDIAG=1;SHA=f5e1ef4e8fe2e1d6e71897d891ed600967a146a2
+ART2_xg_r3_old | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 8 | PARTS=INT;SHOPS=xianguo;HOURS=14;TRAPDIAG=1;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8
 # BB 01:47：禮貌生財進門鏡頭一片米色 → 進門 0.5 秒、2 秒、轉 90° 各一張＋鏡頭位置（e7ddae33f，跑兩次看是不是每次都這樣）
 LM_cam_a | e7ddae33fee86ab1567ab9f7b4764686cc9c321c | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 6 | PARTS=INT;SHOPS=limao;HOURS=20;CAMDIAG=1;SHA=e7ddae33fee86ab1567ab9f7b4764686cc9c321c
 LM_cam_b | e7ddae33fee86ab1567ab9f7b4764686cc9c321c | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 6 | PARTS=INT;SHOPS=limao;HOURS=21;CAMDIAG=1;SHA=e7ddae33fee86ab1567ab9f7b4764686cc9c321c
