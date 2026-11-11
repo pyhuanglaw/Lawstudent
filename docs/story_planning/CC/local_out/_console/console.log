@@ -1,12 +1,3 @@
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       b0355c8b1..d6e992f77  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[13:05:20] ==== END   GOCLASS_userview_old  exit=0  588s   ====
-[13:05:25] memory 50% before starting PACK7_ss_front (2 running)
-[13:05:25] ==== START PACK7_ss_front  (probe @ b942470ff1f83b0fb577f32d6be582ac106988d5) ====
-[13:05:28] [res] cpu=17% mem=44% (15.9/31.4 GB) chrome_testing=5  START PACK7_ss_front
-[13:05:28] worktree add b942470ff1f83b0fb577f32d6be582ac106988d5: invalid reference - fetching main and the commit itself
-[13:06:15] [res] cpu=9% mem=40% (12.6/31.4 GB) chrome_testing=4  END GOCLASS_userview_new
 [13:06:20] [res] cpu=10% mem=41% (12.9/31.4 GB) chrome_testing=4  END CLASS12_const_a
     To https://github.com/pyhuanglaw/Lawstudent.git
        d6e992f77..746b4e022  claude/cc-local -> claude/cc-local
@@ -1998,3 +1989,12 @@
 [21:20:37] ==== START V25_live_pos  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
 [21:20:40] [res] cpu=11% mem=49% (15.5/31.4 GB) chrome_testing=10  START V25_live_pos
 [21:22:57] [res] cpu=9% mem=51% (15.8/31.4 GB) chrome_testing=10  END V25_live
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b8a247135..6a30f746f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:23:04] ==== END   V25_live  exit=1  377s   ====
+[21:23:07] memory 50% before starting V25_linze (2 running)
+[21:23:07] ==== START V25_linze  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[21:23:10] [res] cpu=5% mem=50% (16.0/31.4 GB) chrome_testing=10  START V25_linze
+[21:24:05] 正在跑：REL_soc_ctl_r2（已跑 9 分／上限 30 分）、V25_live_pos（已跑 3 分／上限 30 分）、V25_linze（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:27:51] [res] cpu=16% mem=44% (16.1/31.4 GB) chrome_testing=5  END V25_live_pos
