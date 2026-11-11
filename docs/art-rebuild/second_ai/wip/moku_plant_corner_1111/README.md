@@ -1,8 +1,8 @@
 # 木曜日二樓：衣帽架／植物縫的小孤島＋植物東南角斜推不動（MOKU-PLANT-CORNER-1111；LAWWW 11-11 14:37 派給 LAWWW2，P0）
 
-狀態：**WORK_IN_PROGRESS**（全部 Node 測試在跑）。v9.10.25 發完 LAWWW 整合、給 BB 跑。
+狀態：**READY_FOR_REVIEW**（2026-11-11 15:5x UTC）。v9.10.25 發完 LAWWW 整合、給 BB 跑。LAWWW 14:53：①②兩個都要。
 
-- patch：`moku_plant_corner_v1.patch`（3 個檔：`src/mokuyobi3d.js`、`src/engine3d.js`、新 `tests/mokuyobi_plant_corner_1111_unit.js`；基底開發分支 `566ff8b5bf`）。
+- patch：`moku_plant_corner_v1.patch`（3 個檔：`src/mokuyobi3d.js`、`src/engine3d.js`、新 `tests/mokuyobi_plant_corner_1111_unit.js`；基底開發分支 `566ff8b5bf`；在最新開發分支 `d90c8a4fe6` 上 `git apply --3way` 乾淨，先套 `wip/stack4_1111/stack4_on_56ecee2fb.patch` 再套這個也乾淨（兩包都動 engine3d.js，不同段落））。
 
 ## 原因（Node 掃出來的，引擎真的 NavGrid.clear＋stepEntity）
 
@@ -30,7 +30,7 @@
 ### CC 問的「pathTo 有路、stepEntity 卻走不出去」
 找路（`NavGrid.path`）先只走「人站得住」的格子（clearMask，D35）；起點在小孤島上時四周沒有人站得住的路，就退回舊的「格子是空的就算通」，那條路 [−2.45,3.25]→[−2.35,3.15]→… 剛好穿過比人窄的縫（格子空、人的半徑 0.32 過不去），照著走就頂住。小孤島沒了，起點一定在大區，找路不會退回舊的那種。全遊戲的小孤島照舊由 `tools/dev_scratch/nav_islands.py`（或第 1 項的 Node 掃法）抓。
 
-修改前（開發分支 566ff8b5b）：0～4 FAIL（6、7 是後來照 CC 的診斷加的）；只套導航那一半：3、4 FAIL。相關的 `mokuyobi_stair_top_1111`、`stair_levels_audit_1111`、`mokuyobi`、`moku_exam_seats_1110`、`mokuyobi_aa618`、`nav_buildings`、`tap_seat_reach`、`tapsteal` 全過。全部 Node 測試：在跑。
+修改前（開發分支 566ff8b5b）：0～4 FAIL（6、7 是後來照 CC 的診斷加的）；只套導航那一半：3、4 FAIL。相關的 `mokuyobi_stair_top_1111`、`stair_levels_audit_1111`、`mokuyobi`、`moku_exam_seats_1110`、`mokuyobi_aa618`、`nav_buildings`、`tap_seat_reach`、`tapsteal` 全過。**全部 Node 測試 1288 支**（`regression_full.log`）：1287 支 ALL PASS；`bookstore_exit_unit` 老警告（結束碼 0）。
 
 ## 沒做的
 

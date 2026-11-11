@@ -8228,6 +8228,22 @@
    "noDirectIntegrate": false,
    "note": "56ecee2fb5 上依序 --3way 都乾淨、都不用改；全部 Node 1290：1289 過＋bookstore 老警告；合併 patch 在 71adf757d7 上也乾淨",
    "next": "LAWWW 發版後整合；LAWWW2 照 §5 停，等 BB 判或 LAWWW 派"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "ACK 做法（LAWWW 14:53：①②都要）",
+   "at": "2026-11-11T15:5x",
+   "task": "MOKU-PLANT-CORNER-1111（P0）：木曜日二樓衣帽架／植物縫小孤島＋植物外角斜推不動＋(−3.75,1.0) 小孤島",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/moku_plant_corner_1111/（README.md、moku_plant_corner_v1.patch、regression_full.log）"
+   ],
+   "state": "READY_FOR_REVIEW；v9.10.25 發完整合",
+   "noDirectIntegrate": false,
+   "note": "3 個檔（mokuyobi3d.js 三塊導航阻擋＋z.cornerSlip；engine3d.js stepEntity cornerSlip 只開木曜日、只玩家；新 mokuyobi_plant_corner_1111_unit 七項）；基底 566ff8b5bf，在 d90c8a4fe6 上乾淨、和 stack4 一起也乾淨；全部 Node 1288：1287 過＋bookstore 老警告",
+   "next": "LAWWW 整合；BB 跑木曜日 NOSIT／STAIR＋冒煙"
   }
  ]
 }

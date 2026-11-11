@@ -66,10 +66,10 @@ index 209afc242f..9ff339bb12 100644
      { const len=Math.hypot(st.z1-st.z0,st.ya-st.yb), m=new THREE.Mesh(new THREE.PlaneGeometry(st.x1-st.x0,len),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}));
 diff --git a/tests/mokuyobi_plant_corner_1111_unit.js b/tests/mokuyobi_plant_corner_1111_unit.js
 new file mode 100644
-index 0000000000..d313e440a1
+index 0000000000..2c8df2ac40
 --- /dev/null
 +++ b/tests/mokuyobi_plant_corner_1111_unit.js
-@@ -0,0 +1,63 @@
+@@ -0,0 +1,79 @@
 +/* MOKU-PLANT-CORNER-1111（LAWWW 11-11 14:37 派給 LAWWW2，P0；BB V25_STAIR_run10、線上 779 就有）：木曜日二樓
 +   ① 小孤島：衣帽架 (−2.7,2.75)、落地植物 (−2.15,3.75)、樓梯間東邊隔間牆、隔間牆前的書櫃圍出兩條比人窄的縫，導航格是空的，只有接角那一格 (−2.54,3.33) 剛好站得住，
 +     進去以後往哪推都出不來（40 秒）；779 也卡在縫口 (−2.49,3.04)。
@@ -81,6 +81,8 @@ index 0000000000..d313e440a1
 +     3 三個點（縫口那兩點換成拉出來的位置、(−1.82,4.00)）往樓梯方向推、往回推：3 秒內離開 0.5 m 以上（走／跑 × 30／10 fps），每一步都站在站得住的地方
 +     4 (−1.82,4.00) 往樓梯方向一直推：走得到樓梯口（店門 x −3.0 那一帶）
 +     5 牆角（內角）往角裡推：停住、不會被 cornerSlip 推著跑
++     6 CC 14:37 的走法（(−1.97,1.05) 直線推往樓梯底，10 fps 跑步停在小孤島）：停下來的地方站得住、往回／左／右都推得出來
++     7 找路的路線用 stepEntity 實際走（E.simWalk）：從那些位置走到樓梯底
 +   修改前（開發分支 566ff8b5b）：1、2、3 FAIL。這是模擬，不是真實玩家流程（D131）。用法：node tests/mokuyobi_plant_corner_1111_unit.js */
 +const fs=require('fs'), vm=require('vm'), path=require('path');
 +const ROOT=path.resolve(__dirname,'..');
@@ -131,5 +133,19 @@ index 0000000000..d313e440a1
 +  const out=[]; let bad=0; for(const [sp,dt,mt] of MODES){ const a=run(sp,dt,true), b=run(sp,dt,false); out.push(mt+':('+a.x.toFixed(2)+','+a.z.toFixed(2)+') 最後 1 秒 '+a.mv.toFixed(3)+' m'); if(!(Math.hypot(a.x-b.x,a.z-b.z)<0.02&&a.mv<0.02&&a.lv===1)) bad++; }
 +  z.cornerSlip=true;
 +  check('5. 牆角（樓梯頂平台西北角）往角裡推：和沒有 cornerSlip 時停在同一點、最後 1 秒不動（只繞外角，不會被推著跑）',!bad,out.join('｜')); }
++// 6 CC 14:37 的走法（V25_STAIR_run10：二樓 (−1.97,1.05) 搖桿直線推往樓梯底 (−3.35,5.60)；修改前 10 fps 跑步停在小孤島 (−2.54,3.333)）：
++//   推 8 秒，停下來的地方站得住；從那裡往回、往左、往右推，3 秒內離開 0.5 m 以上
++const CCEND=[];
++{ const out=[]; let bad=0; const A=[-1.97,1.05], B=[-3.35,5.60], dl=Math.hypot(B[0]-A[0],B[1]-A[1]), dir=[(B[0]-A[0])/dl,(B[1]-A[1])/dl];   /* 搖桿方向（單位向量） */
++  for(const [sp,dt,mt] of MODES){ const ent={obj:{position:new THREE.Vector3(A[0],0,A[1]),rotation:{y:0}},radius:R,lv:1}; E.player=ent; for(let i=0;i<Math.ceil(8/dt);i++) E.stepEntity(ent,dir[0],dir[1],sp,dt); const o=ent.obj.position, e=[+o.x.toFixed(3),+o.z.toFixed(3)], lv=ent.lv|0; CCEND.push([e,lv]);
++    const st=E.levels[lv].clear(e[0],e[1],R); let esc=0; const d=Math.hypot(dir[0],dir[1]), ux=dir[0]/d, uz=dir[1]/d;
++    for(const v of [[-ux,-uz],[uz,-ux],[-uz,ux]]){ const r=push(e[0],e[1],lv,v,{sp,dt,secs:3,until:q=>Math.hypot(q.obj.position.x-e[0],q.obj.position.z-e[1])>0.5}); if(r.ok&&!r.bad) esc++; }
++    out.push(mt+':停在('+e+') 第'+lv+'層、往回／左／右離開 '+esc+'/3'); if(!st||esc<3) bad++; }
++  check('6. CC 的走法（(−1.97,1.05) 直線推往樓梯底 8 秒）：停下來的地方站得住、往回／左／右都 3 秒內離開（走／跑 × 30／10 fps）',!bad,out.join('｜')); }
++// 7 找路（E.pathTo）的路線用引擎的 stepEntity 實際走（E.simWalk）：從 6 停下來的地方、縫口兩點被拉出來的位置，走到樓梯底 (−3.35,5.60) 第 0 層
++//   （修改前從小孤島 pathTo 有路、照著走卻出不去：小孤島四周沒有「人站得住」的路，找路退回只看格子是空的那種路，路線穿過比人窄的縫——小孤島沒了就不會發生）
++{ const out=[]; let bad=0; const starts=CCEND.map(([e,lv])=>[e,lv]).concat([[[-1.85,2.65],1],[[-2.15,2.55],1]]);
++  for(const [e,lv] of starts) for(const dt of [1/30,0.1]){ const r=E.simWalk(e[0],e[1],-3.35,5.6,{lv0:lv,lv1:0,dt}); if(!r||!r.ok){ bad++; out.push('('+e+')'+(dt>0.05?'10':'30')+'fps:'+JSON.stringify(r).slice(0,120)); } }
++  check('7. 找路的路線實際走得到：6 停下來的地方、(−1.85,2.65)、(−2.15,2.55) → 樓梯底 (−3.35,5.60) 第 0 層（E.simWalk，30／10 fps）',!bad,out.slice(0,4).join('｜')); }
 +console.warn=cwarn; console.error=cerr;
 +console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
