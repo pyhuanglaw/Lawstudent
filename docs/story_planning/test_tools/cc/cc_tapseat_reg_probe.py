@@ -177,7 +177,14 @@ async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None, floor=False)
     """椅面／地板那一點投影到螢幕，要是遊戲畫面才點；不行就轉鏡頭、再不行就先點地走近。回傳 (pt, 怎麼瞄到的)
     want＝(椅子 x, z)：點椅面時，那個像素射線第一個打到的要是這張椅子（遊戲 tapToSeat 帶 hit 算出來的 rseat＝這張）；被柱子、桌子擋住就換點、轉鏡頭、走近（CC_02 乙 4）"""
     bad0 = lambda q: not q or q.get('off') or not q.get('canvas')
-    hits = lambda q: (not q.get('rseat')) if floor else (not want or bool(q.get('rseat') and abs(q['rseat'][0] - want[0]) < 0.06 and abs(q['rseat'][1] - want[1]) < 0.06))
+    # 看不看得到用和遊戲無關的幾何判斷（LAWWW2 19:15：用 rseat＝拿遊戲的判斷決定要不要考遊戲，tapToSeat 壞了會全部變「擋住、不判」）：
+    #   椅面：射線第一個打到的點離椅子中心水平 ≤0.45 m（椅背在中心後面 0.2～0.45）、離椅面高度 ≤0.6 m＝看得到；
+    #   走道：射線在地板以前沒打到東西（first 是 null）、或打到的點離地板落點 ≤0.2 m＝看得到。rseat 只印 log 對照，PASS／FAIL 照舊看實際走到哪、按鈕是什麼
+    def hits(q):
+        f = (q.get('first') or {}).get('p'); hp = q.get('hit')
+        if floor: return (not f) or bool(hp and math.hypot(f[0] - hp[0], f[2] - hp[1]) <= 0.2)
+        if not want: return True
+        return bool(f and math.hypot(f[0] - want[0], f[2] - want[1]) <= 0.45 and abs(f[1] - y) <= 0.6)
     # floor＝點走道：那個像素射線第一個打到的不能是椅子（階梯教室點後排走道，前排椅子在前面：照規則就是點到椅子，不算「走道被導去椅子」）
     bad = lambda q: bad0(q) or not hits(q)
 
@@ -421,6 +428,9 @@ def print_summary():
     for key, sm in SUMMARY.items():
         seats = sm['seats']; fl = sm['floor']
         print('【%s】%s' % (key, ZONES[key]['name']), flush=True)
+        nj = [a for a, r in seats if r in ('blocked', 'notap', 'hud')] + [J(r.get('at')) for r in fl if r['r'] not in ('PASS', 'FAIL')]
+        tot = len(seats) + len(fl)
+        R.check('[%s] 不判（被擋住、點不到、HUD 蓋住）的不超過一半：%d／%d（LAWWW2 19:15：全部不判不能當成過）' % (key, len(nj), tot), tot == 0 or len(nj) * 2 <= tot, J(nj))
         print('  椅面 %d 張：ok %d｜%s' % (len(seats), sum(1 for _, r in seats if r == 'ok'), '；'.join('%s＝%s' % (a, r) for a, r in seats)), flush=True)
         print('  走道 %d 下：PASS %d、FAIL %d、其他 %d｜%s' % (len(fl), sum(1 for r in fl if r['r'] == 'PASS'), sum(1 for r in fl if r['r'] == 'FAIL'), sum(1 for r in fl if r['r'] not in ('PASS', 'FAIL')),
                                                          '；'.join('%s→%s（%s）' % (J(r.get('at')), r['r'], r.get('d')) for r in fl)), flush=True)
