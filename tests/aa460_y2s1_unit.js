@@ -126,7 +126,7 @@ await sec(4,()=>{
   check('4-2. 以安 herLines 照節日換整組（情人節原句；白色情人節「這一天，我先排了」（AA_594 第 10 列）、七夕「農曆的日子」、聖誕「穿暖一點」）',K4.every(k=>J(FEST.herLines(AN,k,false))===J(AN_BY[k])),J(K4.map(k=>FEST.herLines(AN,k,false))));
   check('4-2. 以安生日那一列當作沒有（第 9 節）：沒有「'+AN_BY.bday.join('」「')+'」，照原本（第一句換節日名）',J(FEST.herLines(AN,'bday',false))===J(old(AL,'bday'))&&!AN_BY.bday.some(t=>FEST.herLines(AN,'bday',false).includes(t)),J(FEST.herLines(AN,'bday',false)));
   check('4-3. 沛珊在臺北（不是 home）那張當作沒有（第 9 節）：照原本（第一句換節日名、第二句「'+PL[1]+'」），沒有 4-3 的第二句',K5.every(k=>J(FEST.herLines(PS,k,false))===J(old(PL,k)))&&!K5.some(k=>k!=='vday'&&FEST.herLines(PS,k,false).some(t=>PS_BY[k].includes(t))),J(K5.map(k=>FEST.herLines(PS,k,false))));
-  const OLD3='明天你要下來嗎？……不用勉強。', hm=c=>K5.map(k=>FEST.herLines(PS,k,true,c));
+  const OLD3='明天你要不要下來？我去車站接你。'   /* 2026-11-11 改期望（X327 沛珊重寫，AA_755 fest.ask.homeLines；原本「明天你要下來嗎？……不用勉強。」）*/, hm=c=>K5.map(k=>FEST.herLines(PS,k,true,c));
   check('4-3. 沛珊回家（home）照舊：台中情人節、七夕 homeBy，三月十四、聖誕在台南 homeBy，其他＝homeLines「'+OLD3+'」（AA_457 3-1，不看 by）',J(hm('台南'))===J([[OLD3],[FEST_DATA.PEOPLE[PS].ask.homeBy.white['台南'][0]],[OLD3],[OLD3],[FEST_DATA.PEOPLE[PS].ask.homeBy.xmas['台南'][0]]])&&J(hm('台中'))===J([[FEST_DATA.PEOPLE[PS].ask.homeBy.vday['台中'][0]],[OLD3],[FEST_DATA.PEOPLE[PS].ask.homeBy.qixi['台中'][0]],[OLD3],[OLD3]]),J([hm('台南'),hm('台中')]));
   /* 手機：交往中、前一天 21:00 */
   const flow=(id,k,y)=>{ const d=FEST.dayOf(id,k,y); dating(id,keyOf(d-1)); FEST.phone(H.G); PHONE.tick(H.G); const m=PHONE.byAsk(H.G,'fest_ask_'+id+'_'+k+'_'+y); return {t:dm(id),o:m?m.ask.opts.map(o=>o.t):null}; };
