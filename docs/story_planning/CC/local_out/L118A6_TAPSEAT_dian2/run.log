@@ -1,0 +1,57 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_TAPSEAT_dian2\out
+CC L118A：PARTS TAPSEAT_dian_7.8.9.10.11.12；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.0s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== TAPSEAT_dian_7.8.9.10.11.12
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 （點椅子 #7，點在 0.45 m 高）
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [  51.6s] [TAPSEAT dian #7（-2.1, 1.06）點椅子 0.45 m 高] 點椅面 螢幕 (152.8, 199.9)：落在地板 [-2.69, 0.16]、tapRedirect 改走到 None
+  [  56.0s] [TAPSEAT dian #7（-2.1, 1.06）點椅子 0.45 m 高] 走到 (-1.742, 1.306)（4.1 秒；tapPref [-2.1, 1.06]）：互動鍵「坐下」、指到的座位 [-2.1, 1.06]
+  [  56.0s] [TAPSEAT dian #7（-2.1, 1.06）點椅子 0.45 m 高] 點椅子走過去，互動鍵是「坐下」而且就是這一張：{"interact": "坐下", "near": {"label": "坐下", "seat": [-2.1, 1.06], "exit": null}}
+PASS [TAPSEAT dian #7（-2.1, 1.06）點椅子 0.45 m 高] 按下去坐到這一張（座位差 ≤0.15 m）  {"sat": [-2.1, 1.06], "want": [-2.1, 1.06]}
+PASS [TAPSEAT dian #7（-2.1, 1.06）點椅子 0.45 m 高] walkFallbacks 沒增加
+  [  57.1s] [TAPSEAT dian #7（-2.1, 1.06）點椅子 0.45 m 高] 【遊戲鏡頭】l118a_tapseat_dian_1300_sit7_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.36], "player": [-2.1, 1.06], "cam": [-2.07, 3.21, 4.98], "yaw": 6.283, "mid": {"m": 154.4, "sd": 68.4, "black": 0.016, "white": 0, "rgb": [174, 149, 131]}, "top": {"m": 159.6, "sd": 54.1, "black": 0.005, "white": 0, "rgb": [175, 156, 136]}, "near": {"m": 130.6, "sd": 77.6, "black": 0.079, "white": 0, "rgb": [142, 128, 115]}}
+PASS [TAPSEAT dian #7（-2.1, 1.06）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "ok"}）  {"0.45": "ok"}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 （點椅子 #8，點在 0.45 m 高）
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [  63.2s] [TAPSEAT dian #8（-1.6, 1.06）點椅子 0.45 m 高] 有人坐著 ["extra"]：跳過
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 （點椅子 #9，點在 0.45 m 高）
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [  69.4s] [TAPSEAT dian #9（1.6, -2.06）點椅子 0.45 m 高] 點椅面 螢幕 (427.1, 127.9)：落在地板 [1.62, -3.46]、tapRedirect 改走到 None
+  [  74.6s] [TAPSEAT dian #9（1.6, -2.06）點椅子 0.45 m 高] 走到 (0.942, -1.896)（5.0 秒；tapPref [1.6, -2.06]）：互動鍵「坐下」、指到的座位 [1.6, -2.06]
+  [  74.6s] [TAPSEAT dian #9（1.6, -2.06）點椅子 0.45 m 高] 點椅子走過去，互動鍵是「坐下」而且就是這一張：{"interact": "坐下", "near": {"label": "坐下", "seat": [1.6, -2.06], "exit": null}}
+PASS [TAPSEAT dian #9（1.6, -2.06）點椅子 0.45 m 高] 按下去坐到這一張（座位差 ≤0.15 m）  {"sat": [1.6, -2.06], "want": [1.6, -2.06]}
+PASS [TAPSEAT dian #9（1.6, -2.06）點椅子 0.45 m 高] walkFallbacks 沒增加
+  [  75.4s] [TAPSEAT dian #9（1.6, -2.06）點椅子 0.45 m 高] 【遊戲鏡頭】l118a_tapseat_dian_1300_sit9_game.jpg：{"onScreen": true, "ndc": [0, -0.35], "player": [1.6, -2.06], "cam": [1.55, 3.21, 1.85], "yaw": 6.283, "mid": {"m": 132, "sd": 62.7, "black": 0.009, "white": 0, "rgb": [158, 124, 106]}, "top": {"m": 184.6, "sd": 52.4, "black": 0, "white": 0, "rgb": [196, 183, 164]}, "near": {"m": 129.9, "sd": 61.3, "black": 0.009, "white": 0, "rgb": [148, 125, 109]}}
+PASS [TAPSEAT dian #9（1.6, -2.06）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "ok"}）  {"0.45": "ok"}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 （點椅子 #10，點在 0.45 m 高）
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [  81.5s] [TAPSEAT dian #10（2.1, -2.06）點椅子 0.45 m 高] 點椅面 螢幕 (452.8, 127.9)：落在地板 [2.2, -3.46]、tapRedirect 改走到 None
+  [ 127.8s] [TAPSEAT dian #10（2.1, -2.06）點椅子 0.45 m 高] 走到 (1.183, -1.805)（46.2 秒；tapPref [2.1, -2.06]）：互動鍵「坐下」、指到的座位 [2.1, -2.06]
+  [ 127.8s] [TAPSEAT dian #10（2.1, -2.06）點椅子 0.45 m 高] 點椅子走過去，互動鍵是「坐下」而且就是這一張：{"interact": "坐下", "near": {"label": "坐下", "seat": [2.1, -2.06], "exit": null}}
+PASS [TAPSEAT dian #10（2.1, -2.06）點椅子 0.45 m 高] 按下去坐到這一張（座位差 ≤0.15 m）  {"sat": [2.1, -2.06], "want": [2.1, -2.06]}
+FAIL [TAPSEAT dian #10（2.1, -2.06）點椅子 0.45 m 高] walkFallbacks 沒增加
+  [ 132.5s] [TAPSEAT dian #10（2.1, -2.06）點椅子 0.45 m 高] 【遊戲鏡頭】l118a_tapseat_dian_1300_sit10_game.jpg：{"onScreen": true, "ndc": [0.03, -0.34], "player": [2.1, -2.06], "cam": [1.74, 3.21, 1.94], "yaw": 6.283, "mid": {"m": 141.6, "sd": 63.9, "black": 0.006, "white": 0, "rgb": [167, 134, 114]}, "top": {"m": 188.8, "sd": 52.7, "black": 0, "white": 0, "rgb": [200, 187, 168]}, "near": {"m": 130.1, "sd": 60.7, "black": 0.013, "white": 0, "rgb": [147, 125, 110]}}
+PASS [TAPSEAT dian #10（2.1, -2.06）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "ok"}）  {"0.45": "ok"}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 （點椅子 #11，點在 0.45 m 高）
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [ 138.8s] [TAPSEAT dian #11（1.6, -0.74）點椅子 0.45 m 高] 點椅面 螢幕 (427.9, 152)：落在地板 [1.62, -1.93]、tapRedirect 改走到 None
+  [ 142.9s] [TAPSEAT dian #11（1.6, -0.74）點椅子 0.45 m 高] 走到 (1.031, -0.557)（4.0 秒；tapPref [1.6, -0.74]）：互動鍵「坐下」、指到的座位 [1.6, -0.74]
+  [ 142.9s] [TAPSEAT dian #11（1.6, -0.74）點椅子 0.45 m 高] 點椅子走過去，互動鍵是「坐下」而且就是這一張：{"interact": "坐下", "near": {"label": "坐下", "seat": [1.6, -0.74], "exit": null}}
+PASS [TAPSEAT dian #11（1.6, -0.74）點椅子 0.45 m 高] 按下去坐到這一張（座位差 ≤0.15 m）  {"sat": [1.6, -0.74], "want": [1.6, -0.74]}
+PASS [TAPSEAT dian #11（1.6, -0.74）點椅子 0.45 m 高] walkFallbacks 沒增加
+  [ 143.8s] [TAPSEAT dian #11（1.6, -0.74）點椅子 0.45 m 高] 【遊戲鏡頭】l118a_tapseat_dian_1300_sit11_game.jpg：{"onScreen": true, "ndc": [0, -0.36], "player": [1.6, -0.74], "cam": [1.56, 3.21, 3.17], "yaw": 6.283, "mid": {"m": 142.7, "sd": 71.3, "black": 0.006, "white": 0, "rgb": [169, 135, 115]}, "top": {"m": 184.2, "sd": 51.4, "black": 0.003, "white": 0, "rgb": [196, 182, 163]}, "near": {"m": 123.7, "sd": 75.1, "black": 0.002, "white": 0, "rgb": [147, 117, 99]}}
+PASS [TAPSEAT dian #11（1.6, -0.74）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "ok"}）  {"0.45": "ok"}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 （點椅子 #12，點在 0.45 m 高）
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [ 149.9s] [TAPSEAT dian #12（2.1, -0.74）點椅子 0.45 m 高] 點椅面 螢幕 (457.5, 152)：落在地板 [2.2, -1.93]、tapRedirect 改走到 [1.95, -1.98]
+  [ 196.3s] [TAPSEAT dian #12（2.1, -0.74）點椅子 0.45 m 高] 走到 (1.182, -1.813)（46.3 秒；tapPref [2.1, -2.06]）：互動鍵「坐下」、指到的座位 [2.1, -2.06]
+  [ 196.3s] [TAPSEAT dian #12（2.1, -0.74）點椅子 0.45 m 高] 點椅子走過去，互動鍵不是「坐下」而且就是這一張：{"interact": "坐下", "near": {"label": "坐下", "seat": [2.1, -2.06], "exit": null}}
+  [ 196.6s] [TAPSEAT dian #12（2.1, -0.74）點椅子 0.45 m 高] 【遊戲鏡頭】l118a_tapseat_dian_1300_nobtn12_game.jpg：{"onScreen": true, "ndc": [0, -0.2], "player": [1.18, -1.81], "cam": [1.18, 3.21, 2.09], "yaw": 6.283, "mid": {"m": 137.5, "sd": 63.9, "black": 0.013, "white": 0, "rgb": [162, 130, 113]}, "top": {"m": 181.1, "sd": 52, "black": 0, "white": 0, "rgb": [192, 179, 161]}, "near": {"m": 147.5, "sd": 70, "black": 0.021, "white": 0, "rgb": [157, 145, 134]}}
+FAIL [TAPSEAT dian #12（2.1, -0.74）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "nobtn"}）  {"0.45": "nobtn"}
+  [ 196.6s] [TAPSEAT dian] 結果 {"7": {"0.45": "ok"}, "8": {"0.45": "occupied"}, "9": {"0.45": "ok"}, "10": {"0.45": "ok"}, "11": {"0.45": "ok"}, "12": {"0.45": "nobtn"}}
+PASS 沒有 JS 例外（pageerror）  []
+FAILED 2: [TAPSEAT dian #10（2.1, -2.06）點椅子 0.45 m 高] walkFallbacks 沒增加；[TAPSEAT dian #12（2.1, -0.74）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "nobtn"}）
