@@ -52554,7 +52554,7 @@
    "id": "GG-SHOPS3-STORY-1110",
    "title": "公館六間店的店家設定、商品與價格、店員台詞、進門／看貨架／點餐句（照使用者規格；泰米村食的菜單七道；榮恩典店名由來只當可選背景、不傳教）；劇情裡的「日日定食」改掉（sis_grad3d 上榜聚餐、story3d 2794/2795 家族聚餐、story3d 1665 公館便宜吃表）",
    "owner": "AA",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52567,7 +52567,7 @@
     "confirmed": true
    },
    "sha": "7fd1a70f2",
-   "next": "【11-11 20:0x LAWWW 正式交 BB＋CC】開發分支 287c009cb（程式＝fe347b5e8），GHA node-unit-auto run 43088888267 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 19:3x LAWWW 修 BB 19:25 RENAME 2 FAIL】CC 雲端 b77a：六間店、打烊、泰米約、SO PASS；RENAME 119 PASS／2 FAIL＝舊存檔手機訊息（Kevin 群組「公館的日日定食」）和明軒清單筆記還是舊店名（BB 判 D141 畫面上有舊店名＝這版要修）。GG3.migrate 加：G.msgs、還沒送到的 G.phone.q（每一則的字含回覆選項）、G.notes 的 title／body 換；明軒清單筆記 mx_fm1 整份換成現在的 STORY.MX_FM1（那一列的菜和價錢也跟著換）；只做一次 flags.GG3_REN。tests/gg3_rename_msgs_1111_unit.js 修改前 6 項 FAIL；店、存檔相關 57 支過。BB 另給 AA：安泰、洗樂、泰米中午錢不夠只有「錢不夠」toast、要不要補一句由 AA 定（不擋）｜【11-11 18:2x LAWWW 正式交 BB＋CC】開發分支 b77af3a4fe6d348ae58337a1ce708442ef9ef458，GHA node-unit-auto run 43073570765 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 16:4x LAWWW】AA_742＋AA_813@8f6650289 由 tools/shops/import_gg3_shops.py 產生 src/data/gg3_shops_lines.js，逐句對稿 293 句；AA 七格（打烊、收音機／布告欄不接、廚房、柔軟精、合照說明、系統字、整串換字）都照做｜【11-11 12:0x AA_813（75f5de658）】kind 不改；LAWWW2 五項只加資料都要；要改模型的劇情都不需要（D99 凍結）；騎樓東西照放店裡；新加八句「看」給模型已經有的點；AA_742 接線照 AA_813 第 1 節對應表。AA 這邊沒有待辦，剩 LAWWW 發版後接名稱商品台詞。｜【11-11 11:3x AA 提醒、LAWWW 改狀態】AA 11-10 已交 AA_742（設定與台詞）、AA_743（室內配置）7fd1a70f2（outbox 有）。下一步：LAWWW2 照 AA_743 建室內、LAWWW 接名稱商品台詞；店寬確定後 AA 對一次配置。｜照 afar／Daybreak（AA_652）、洋洋（AA_724）的格式交一份稿＋六間的 layout（家具、站位、互動點）；價錢照現有經濟",
+   "next": "【11-11 20:1x BB 判 PASS、GG-SHOPS3 結案（BB → LAWWW 20:13，紀錄 BB_343）】CC 雲端 b77af3a4f 六間店、打烊、泰米約、SO PASS；N1_GG3_rename（ab282014a）PASS：舊存檔讀回後 G、手機訊息（含 phone.q、回覆選項）、筆記都沒有「日日定食」，mx_fm1＝現行｜【11-11 20:0x LAWWW 正式交 BB＋CC】開發分支 287c009cb（程式＝fe347b5e8），GHA node-unit-auto run 43088888267 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 19:3x LAWWW 修 BB 19:25 RENAME 2 FAIL】CC 雲端 b77a：六間店、打烊、泰米約、SO PASS；RENAME 119 PASS／2 FAIL＝舊存檔手機訊息（Kevin 群組「公館的日日定食」）和明軒清單筆記還是舊店名（BB 判 D141 畫面上有舊店名＝這版要修）。GG3.migrate 加：G.msgs、還沒送到的 G.phone.q（每一則的字含回覆選項）、G.notes 的 title／body 換；明軒清單筆記 mx_fm1 整份換成現在的 STORY.MX_FM1（那一列的菜和價錢也跟著換）；只做一次 flags.GG3_REN。tests/gg3_rename_msgs_1111_unit.js 修改前 6 項 FAIL；店、存檔相關 57 支過。BB 另給 AA：安泰、洗樂、泰米中午錢不夠只有「錢不夠」toast、要不要補一句由 AA 定（不擋）｜【11-11 18:2x LAWWW 正式交 BB＋CC】開發分支 b77af3a4fe6d348ae58337a1ce708442ef9ef458，GHA node-unit-auto run 43073570765 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 16:4x LAWWW】AA_742＋AA_813@8f6650289 由 tools/shops/import_gg3_shops.py 產生 src/data/gg3_shops_lines.js，逐句對稿 293 句；AA 七格（打烊、收音機／布告欄不接、廚房、柔軟精、合照說明、系統字、整串換字）都照做｜【11-11 12:0x AA_813（75f5de658）】kind 不改；LAWWW2 五項只加資料都要；要改模型的劇情都不需要（D99 凍結）；騎樓東西照放店裡；新加八句「看」給模型已經有的點；AA_742 接線照 AA_813 第 1 節對應表。AA 這邊沒有待辦，剩 LAWWW 發版後接名稱商品台詞。｜【11-11 11:3x AA 提醒、LAWWW 改狀態】AA 11-10 已交 AA_742（設定與台詞）、AA_743（室內配置）7fd1a70f2（outbox 有）。下一步：LAWWW2 照 AA_743 建室內、LAWWW 接名稱商品台詞；店寬確定後 AA 對一次配置。｜照 afar／Daybreak（AA_652）、洋洋（AA_724）的格式交一份稿＋六間的 layout（家具、站位、互動點）；價錢照現有經濟",
    "xai": {
     "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
     "branch": "claude/story-planning",
@@ -52606,7 +52606,7 @@
    "id": "GG-SHOPS3-SYS-1110",
    "title": "公館六間店：店名資料（zones3d 店面、快速前往、places、eat3d）、進得去（SHOP_IN、出入口）、買東西／洗衣／影印／吃飯的互動，沿用現有時間與金錢；內部 id、座標、存檔不改",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52619,7 +52619,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-11 18:2x LAWWW 正式交 BB＋CC】開發分支 b77af3a4fe6d348ae58337a1ce708442ef9ef458，GHA node-unit-auto run 43073570765 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 16:4x LAWWW 整合】子代理 worktree 合進開發分支（5c5d21e85）＋照 AA 回七格（AA_742@8f6650289）重匯 666a1546e；推 7d9d79425：src/gg3shops3d.js（進門、點餐扣錢、看、坐下、打烊 AA_700 統一句、泰米午休、洗樂洗衣、印得好、泰米約去吃）、places.js 營業時間／颱風、日日定食→泰米村食三處＋讀檔遷移；tests/gg_shops3_story_1111_unit.js＋相關 88 支 Node 過。BB：六間走進去、點餐、看、坐、打烊、約去泰米｜【11-11 15:5x LAWWW】六間店的店內互動與台詞（AA_742＋AA_813@75f5de658：進門、點餐扣錢、看、坐下、打烊、泰米約去吃、日日定食三處換字＋舊存檔字串）派子代理在 worktree 做（新檔 src/gg3shops3d.js＋資料檔＋tests/gg_shops3_story_1111_unit.js）；回來當回合合併、跑測試，不過夜｜【11-11 15:4x LAWWW 整合】LAWWW2 資料補五項 24a2bc245（stack4 ④）合進 c170218dd；gg_shops3_points_1111 Node 過。店員台詞／點餐（AA_742／813）還沒接，下一步｜先改店名（不用等美術）；室內和台詞到了照 gg2shops3d.js 接",
+   "next": "【11-11 20:1x BB 判 PASS、GG-SHOPS3 結案（BB → LAWWW 20:13，紀錄 BB_343）】b77af3a4f 六間店、打烊、泰米約、SO PASS；ab282014a RENAME PASS｜【11-11 18:2x LAWWW 正式交 BB＋CC】開發分支 b77af3a4fe6d348ae58337a1ce708442ef9ef458，GHA node-unit-auto run 43073570765 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 16:4x LAWWW 整合】子代理 worktree 合進開發分支（5c5d21e85）＋照 AA 回七格（AA_742@8f6650289）重匯 666a1546e；推 7d9d79425：src/gg3shops3d.js（進門、點餐扣錢、看、坐下、打烊 AA_700 統一句、泰米午休、洗樂洗衣、印得好、泰米約去吃）、places.js 營業時間／颱風、日日定食→泰米村食三處＋讀檔遷移；tests/gg_shops3_story_1111_unit.js＋相關 88 支 Node 過。BB：六間走進去、點餐、看、坐、打烊、約去泰米｜【11-11 15:5x LAWWW】六間店的店內互動與台詞（AA_742＋AA_813@75f5de658：進門、點餐扣錢、看、坐下、打烊、泰米約去吃、日日定食三處換字＋舊存檔字串）派子代理在 worktree 做（新檔 src/gg3shops3d.js＋資料檔＋tests/gg_shops3_story_1111_unit.js）；回來當回合合併、跑測試，不過夜｜【11-11 15:4x LAWWW 整合】LAWWW2 資料補五項 24a2bc245（stack4 ④）合進 c170218dd；gg_shops3_points_1111 Node 過。店員台詞／點餐（AA_742／813）還沒接，下一步｜先改店名（不用等美術）；室內和台詞到了照 gg2shops3d.js 接",
    "xai": {
     "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -52632,7 +52632,7 @@
    "id": "GG-SHOPS3-TEST-1110",
    "title": "公館六間店：名稱、招牌、室內、商品、台詞一致性檢查＋走進去、互動、回歸測試（CC 跑）",
    "owner": "BB",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52645,7 +52645,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "等 SYS 第一批（改名）就先測店名；整套等室內",
+   "next": "【11-11 20:1x BB 結案】六間店、打烊、泰米約、SO（b77af3a4f）、RENAME（ab282014a）全部 PASS（BB → LAWWW 20:13，紀錄 BB_343）｜等 SYS 第一批（改名）就先測店名；整套等室內",
    "xai": {
     "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
     "branch": "claude/story-planning",
@@ -53624,7 +53624,7 @@
     "confirmed": true
    },
    "sha": "c170218dd",
-   "next": "【11-11 18:2x LAWWW 正式交 BB＋CC】開發分支 b77af3a4fe6d348ae58337a1ce708442ef9ef458，GHA node-unit-auto run 43073570765 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 15:4x LAWWW 整合】LAWWW2 947322b33 moku_plant_corner_v1.patch 合進 c170218dd（buildNav 補三塊阻擋＋只開木曜日的 cornerSlip）；mokuyobi_plant_corner_1111 七項 Node 過。BB：NOSIT／STAIR＋木曜日二樓小縫走不進去、往樓梯斜走不頂住｜【11-11 14:3x BB V25_STAIR_run10 抓到孤島；LAWWW 決定 v9.10.25 照發（線上本來就有、這版沒變壞），發版後第一個修＝P0；派 LAWWW2 現在先做 patch】補縫或縮那兩個擋格（衣帽架、植物），跑 nav_islands.py 確認木曜日兩層沒有小孤島；加測試：(−2.54, 3.33)、(−2.49, 3.04)、(−1.82, 4.00) 往樓梯推 3 秒內離開；這版又把念書搬到木曜日、人會變多。｜【11-11 14:2x BB／CC 抓到、LAWWW Node 重現，發版後】約念書起身後走約 5 m 停在盆栽角，探針朝路線前方推 22 秒不動（f312c／0d1e 共 8 趟卡 2 趟）。Node：(−1.82,4.00) 16 個方向各推 1 秒，225°（走 30 fps）、202°（跑 10 fps）不動，其他 14 個方向都動＝不是困住、是轉角斜推頂住。改法二選一：mokuyobi_layout 盆栽擋格 0.5→0.4（LAWWW2，D108 場景）或 engine3d.js stepEntity 全部失敗時試 ±30°／±60° 轉向（引擎，影響全遊戲，要全量測試）。做完加測試：那一點往樓梯方向推 3 秒內離開。",
+   "next": "【11-11 20:1x BB】N1_MOKU_PLANT_7 30fps 兩格＝TEST_BUG（探針退回樓梯上的點，stair:true＝點樓梯就上樓是規則），7b 用 ab282014a 重跑；10fps 兩格 PASS｜【11-11 18:2x LAWWW 正式交 BB＋CC】開發分支 b77af3a4fe6d348ae58337a1ce708442ef9ef458，GHA node-unit-auto run 43073570765 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 15:4x LAWWW 整合】LAWWW2 947322b33 moku_plant_corner_v1.patch 合進 c170218dd（buildNav 補三塊阻擋＋只開木曜日的 cornerSlip）；mokuyobi_plant_corner_1111 七項 Node 過。BB：NOSIT／STAIR＋木曜日二樓小縫走不進去、往樓梯斜走不頂住｜【11-11 14:3x BB V25_STAIR_run10 抓到孤島；LAWWW 決定 v9.10.25 照發（線上本來就有、這版沒變壞），發版後第一個修＝P0；派 LAWWW2 現在先做 patch】補縫或縮那兩個擋格（衣帽架、植物），跑 nav_islands.py 確認木曜日兩層沒有小孤島；加測試：(−2.54, 3.33)、(−2.49, 3.04)、(−1.82, 4.00) 往樓梯推 3 秒內離開；這版又把念書搬到木曜日、人會變多。｜【11-11 14:2x BB／CC 抓到、LAWWW Node 重現，發版後】約念書起身後走約 5 m 停在盆栽角，探針朝路線前方推 22 秒不動（f312c／0d1e 共 8 趟卡 2 趟）。Node：(−1.82,4.00) 16 個方向各推 1 秒，225°（走 30 fps）、202°（跑 10 fps）不動，其他 14 個方向都動＝不是困住、是轉角斜推頂住。改法二選一：mokuyobi_layout 盆栽擋格 0.5→0.4（LAWWW2，D108 場景）或 engine3d.js stepEntity 全部失敗時試 ±30°／±60° 轉向（引擎，影響全遊戲，要全量測試）。做完加測試：那一點往樓梯方向推 3 秒內離開。",
    "xai": []
   },
   {
@@ -53675,7 +53675,7 @@
    "id": "LEADOUT-WALL-1111",
    "title": "一起念書散場往門口走（invites3d.js S.leadOut：區域 spawn 左右各 0.55 m 兩個目標點）在木曜日一樓窄樓梯口目標點落在牆裡——走不到、靠 walkTo 4 秒保險直接放過去（BB 11-11 GO 的「這版沒做完」第 5 項）。查各個有 sitAt.lead／leadOut 的區域，目標點改成站得住、找得到路的點（或調 zone.spawn），不改劇情",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53688,11 +53688,85 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【11-11 18:3x LAWWW 整合】LAWWW2 2d50b62e05 leadout_spots_v1.patch（invites3d.js S.leadOutSpots：照舊兩點站得住、找得到路就照舊，不行才在出生點附近找；木曜日、一盞、同弦、大步、好拍、法圖六區改點，總圖不變）套進開發分支；tests/leadout_spots_1111_unit.js（修改前 0、1、2、4 FAIL）＋邀約／約念書相關 52 支過。BB：總圖約念書散場走到門口（現在真的會走 leadOut 的只有總圖）｜【11-11 17:5x LAWWW 派】D108 場景程式（導航）：invites3d.js S.leadOut 的目標點可以改（只改選點，不改流程與台詞）；加 Node 測試：各區域 leadOut 兩個點都站得住、從座位找得到路、walkFallbacks 0。修改前 FAIL。",
+   "next": "【11-11 20:1x BB 判 PASS 結案（BB → LAWWW 20:13）】新版 LIB／MOKU 照路線長度走到；舊版 15e7b31f8 MOKU 三趟站不住＝D34 成立（沒靠 4 秒保險）｜【11-11 18:3x LAWWW 整合】LAWWW2 2d50b62e05 leadout_spots_v1.patch（invites3d.js S.leadOutSpots：照舊兩點站得住、找得到路就照舊，不行才在出生點附近找；木曜日、一盞、同弦、大步、好拍、法圖六區改點，總圖不變）套進開發分支；tests/leadout_spots_1111_unit.js（修改前 0、1、2、4 FAIL）＋邀約／約念書相關 52 支過。BB：總圖約念書散場走到門口（現在真的會走 leadOut 的只有總圖）｜【11-11 17:5x LAWWW 派】D108 場景程式（導航）：invites3d.js S.leadOut 的目標點可以改（只改選點，不改流程與台詞）；加 Node 測試：各區域 leadOut 兩個點都站得住、從座位找得到路、walkFallbacks 0。修改前 FAIL。",
    "xai": {
     "from": "LAWWW",
     "to": "LAWWW2",
     "ack": ""
+   }
+  },
+  {
+   "id": "LAWWW2-ADDRESS-AND-ASK-1111",
+   "title": "稱呼使用者用「你」不用「妳」、要使用者決定的用選擇題問；可以開工（夜市、禮貌生財照做）（使用者 11-11 00:26 對 LAWWW2）",
+   "owner": "LAWWW2",
+   "status": "已驗收",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "工作規則（不是玩家看得到的）",
+    "mainline": false,
+    "blocks": "",
+    "prereq": "",
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "【11-11 20:2x LAWWW 補登總表（asks 對帳：LAWWW2 UA-LAWWW2-1111-05 的 task 找不到）】規則已寫進 CLAUDE.md §10 1a（D150）、選擇題照 §3 第 7 點；夜市、禮貌生財那幾件照各自的任務。這張只記這一則要求，規則落實＝已驗收",
+   "xai": {
+    "from": "使用者",
+    "to": "LAWWW2",
+    "ack": "LAWWW2"
+   }
+  },
+  {
+   "id": "GG-G10-LANE-MOUTH-1111",
+   "title": "公館 G10 改成真的巷口（一樓打開成通道，「往汀州路（巷子）」看得到巷子通進去；G09 照舊鐵捲門；G10 之後不能再放店）（使用者 11-11 01:1x 選擇題「改成真的巷口」）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次走公館往汀州路",
+    "mainline": false,
+    "blocks": "",
+    "prereq": "",
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "731cca95b",
+   "next": "【11-11 20:2x LAWWW 補登總表（asks 對帳：LAWWW2 UA-LAWWW2-1111-06 的 task 找不到）】LAWWW 11-11 01:43 整合 dev 731cca95b，已在 v9.10.25（main dc3d33941）；通道另一頭的畫面等 CC 拍、BB 判",
+   "xai": {
+    "from": "使用者",
+    "to": "LAWWW2",
+    "receiver": "BB",
+    "ack": "LAWWW"
+   }
+  },
+  {
+   "id": "CHAR-BB-REVIEW-1111",
+   "title": "LAWWW2 做過的 3D 人物（禮貌上師、何俊朗、泳池游泳的人）都請 BB 看一輪；有意見的才修、每個最多再修一次，場景優先（使用者 11-11 04:4x 對 LAWWW2）",
+   "owner": "LAWWW2",
+   "status": "已驗收",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "工作做法（不是玩家看得到的）",
+    "mainline": false,
+    "blocks": "",
+    "prereq": "",
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "3ae708d32",
+   "next": "【11-11 20:2x LAWWW 補登總表（asks 對帳：LAWWW2 UA-LAWWW2-1111-08 的 task 找不到）】BB 04:39 三組都不用修（只改算命桌燈、籤筒擋臉＝第七包 40be52941）；上師第 4 版 3ae708d32，LAWWW 06:22 看 CC 遊戲截圖標角色 ART_APPROVED（D100a）。結案",
+   "xai": {
+    "from": "使用者",
+    "to": "LAWWW2",
+    "receiver": "BB",
+    "ack": "BB"
    }
   }
  ]
