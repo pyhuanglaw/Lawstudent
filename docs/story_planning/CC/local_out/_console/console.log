@@ -1,11 +1,3 @@
-[07:19:02] skip TZ4_scoot (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[07:19:03] skip TZ4_scoot_v2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[07:19:03] skip TZ4_scoot3 (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[07:19:03] skip TZ4_scoot3_v2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[07:19:03] skip TZ4_scoot3_top (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[07:19:03] skip TZ4_scoot4 (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[07:19:03] skip TZ4_scoot4_v2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[07:19:03] skip TZ4_int_day (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
 [07:19:03] skip TZ4_shots_a (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
 [07:19:03] skip TZ4_shots_b (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
 [07:19:03] skip TZ4_shots_v2a (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
@@ -1998,3 +1990,11 @@
 [13:09:04] ==== START CLASS12_crim_b  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
 [13:09:07] [res] cpu=1% mem=49% (15.6/31.4 GB) chrome_testing=10  START CLASS12_crim_b
 [13:11:15] [res] cpu=0% mem=49% (15.6/31.4 GB) chrome_testing=10  END CLASS12_const_b
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       63de4eb2b..c2e7b58e3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:11:22] ==== END   CLASS12_const_b  exit=1  280s   ====
+[13:11:31] memory 49% before starting CLASS12_civ_a (2 running)
+[13:11:31] ==== START CLASS12_civ_a  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
+[13:11:34] [res] cpu=0% mem=49% (15.7/31.4 GB) chrome_testing=10  START CLASS12_civ_a
+[13:12:21] [res] cpu=7% mem=48% (14.8/31.4 GB) chrome_testing=9  END CLASS12_crim_a
