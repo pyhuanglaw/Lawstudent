@@ -1,12 +1,3 @@
-[07:19:03] skip FLW_new_mrt_1400 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[07:19:03] skip FLW_new_arc_2000 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[07:19:03] skip FLW_new_2050 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[07:19:03] skip FLW_new_2110 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[07:19:03] skip FLW_new_0850 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[07:19:03] skip FLW_old_1400 (already done on 28df8a85c788c354fc606a87e64cb5f4f12c5ff9)
-[07:19:03] skip FLWS_new (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[07:19:03] skip WINVIEW_A (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[07:19:03] skip WINVIEW_B (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
 [07:19:03] skip WINVIEW_lin (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
 [07:19:03] skip WINVIEW_yk (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
 [07:19:03] skip GGDC_tree3g_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
@@ -1998,3 +1989,12 @@
 [13:36:41] [res] cpu=3% mem=43% (13.5/31.4 GB) chrome_testing=5  END LM_cam3_new
 [13:36:41] memory 43% before starting ANTAI_cam_new (2 running)
 [13:36:41] ==== START ANTAI_cam_new  (probe @ 696cf6036f3ca9fbc7022c21ab37324b0e46e305) ====
+[13:36:44] [res] cpu=15% mem=43% (13.5/31.4 GB) chrome_testing=5  START ANTAI_cam_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       461ce6764..c3bd85709  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:36:47] ==== END   LM_cam3_new  exit=0  157s   ====
+[13:37:12] memory 41% before starting ANTAI_cam_old (2 running)
+[13:37:12] ==== START ANTAI_cam_old  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
+[13:37:15] [res] cpu=17% mem=41% (13.1/31.4 GB) chrome_testing=4  START ANTAI_cam_old
+[13:37:21] [res] cpu=5% mem=44% (13.3/31.4 GB) chrome_testing=4  END LM_cam3_old
