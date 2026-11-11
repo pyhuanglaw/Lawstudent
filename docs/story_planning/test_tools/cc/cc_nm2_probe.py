@@ -1,4 +1,4 @@
-"""CC（帳號 A）11-11：NM2 夜市第二批「能看能買」（BB 23:52；新 bd3f67410（含 ecd4fdd61 夜市互動）、舊 b810b809b 只有模型＝預期 FAIL）。Playwright（PC GPU）≠ iPhone。
+"""CC（帳號 A）11-11：NM2 夜市第二批「能看能買」（BB 23:52；新 11161c101（BB 00:07；含 ecd4fdd61 夜市互動，夜市檔和 bd3f67410 一樣）、舊 b810b809b 只有模型＝預期 FAIL）。Playwright（PC GPU）≠ iPhone。
 判定 BB 下；探針只照實 R.check／R.note。對稿的稿＝DRAFT_DIR/AA_752_night_market.json（預設＝探針資料夾/fixtures/nm2；企劃線 b76a518af，見 SOURCE.txt）——
 店名、look、closed、greet、品名、價錢、buy、hours、seasonNote 全部從稿讀，不寫死；攤位、位置、模型開收從遊戲讀（TINGZHOU_LAYOUT.stalls、zone.tzStalls／ggStalls）。
 配置 kind → 稿的攤號（KIND）照遊戲 src/night_market3d.js 的 S.KIND（店名另外對）。
@@ -8,8 +8,10 @@ PARTS（預設全部）：
   OPEN    十攤（預設；STALLS=id,… 篩）20:00 營業中：①第一次按：鍵上的字、look 逐句、老闆一句在 greet 清單、選單逐項（品名＋價錢）＋「算了」；買第一樣（連點兩下）：扣錢＝價錢、只扣一次、
           時間過 5 分鐘、buy 逐句 ②同一天再按：不念 look；01／07／08 買最後一樣，其他按「算了」（不扣） ③01／07／08 再按一次「算了」 ④【捷徑】錢設成最便宜的 −1 元：品項全灰、點最便宜的不扣不演。
   CLOSED  十攤收攤後（稿的收攤時間 +30 分鐘）各按一次：只有 closed 一句、沒有選單、畫面上（對話框、選單、字幕、提示）沒有「元」。
-  EDGE    稿的開收時間表（稿 hours、遊戲 NIGHT_MARKET open、配置 kinds 同步後）；每攤開的 −1／+1 分鐘、收的 −1／+1 分鐘：按之前拍照＋讀模型（open／closed visible），
-          按下去有沒有選單；模型＝稿、能買＝稿、模型＝能買。胡椒餅「賣完提早收」照實記。
+  EDGE    稿的開收時間表（稿 hours、遊戲 NIGHT_MARKET open、配置 kinds 同步後）；每攤開、收各一次（BB 00:07）：讀檔到邊界前 2.5 分鐘、之後不動讓時間自己走，
+          讀進來馬上按一次（翻轉前）＋拍；每 0.3 秒記 G.hour／isOpen／open visible／TZ3.stallOpen(G.hour)；翻轉的那一刻拍、再按一次（翻轉後）。
+          翻轉在邊界 ±1 分鐘內、每筆模型＝isOpen、按的那一刻模型＝isOpen＝出來的東西＝稿。胡椒餅「賣完提早收」照實記。
+  （所有按鍵都記「按的那一刻」＝第一句或選單出來時的 G.hour、每一攤 isOpen／open visible（記錄層），判開收一律用這個，不用排的時間）
   BG      背景三攤：套圈圈週四（2025-11-06）、週五（11-07）20:00 各按一次；襪子、手機殼 營業中＋收攤後各一次：只能看、沒有選單、不扣錢。
   SEASON  阿婆甜湯：7 月（2026-07-15）13:59／14:01；12 月（2025-12-10）16:59／17:01；4 月（2026-04-15）14:01／17:01。開著的那一次連按 4 次收集 greet。
   GG      公館人行道三攤（鮮奶、紅豆餅、手機殼）：營業中按＋買一樣（手機殼只能看）、收攤後按。
@@ -103,8 +105,9 @@ def is_narr(t):
 
 # ---------------------------------------------------------------- 頁面
 HOOK = r"""(()=>{ if(window.__nmHook) return 'again'; window.__nmHook=1; window.__nm=[]; const g=()=>GAME.G||{};
-  const o=GAME.say; GAME.say=function(who,text){ try{ __nm.push({k:'say', who:who?String(who.name||who):'', t:String(text), h:+g().hour, m:g().money}); }catch(e){} return o.apply(this,arguments); };
-  const c=GAME.choose; GAME.choose=function(options){ try{ __nm.push({k:'choose', opts:(options||[]).map(x=>({t:String(x.t), dim:!!x.dim})), h:+g().hour, m:g().money}); }catch(e){} return c.apply(this,arguments); };
+  const os=()=>{ try{ const z=GAME.E.zone||{}; return (z.tzStalls||[]).concat(z.ggStalls||[]).map(q=>[q.id, q.isOpen?1:0, q.open&&q.open.visible?1:0]); }catch(e){ return null; } };   /* 那一刻每一攤的 isOpen、open 模型 visible */
+  const o=GAME.say; GAME.say=function(who,text){ try{ __nm.push({k:'say', who:who?String(who.name||who):'', t:String(text), h:+g().hour, m:g().money, os:os()}); }catch(e){} return o.apply(this,arguments); };
+  const c=GAME.choose; GAME.choose=function(options){ try{ __nm.push({k:'choose', opts:(options||[]).map(x=>({t:String(x.t), dim:!!x.dim})), h:+g().hour, m:g().money, os:os()}); }catch(e){} return c.apply(this,arguments); };
   const t=GAME.toast; if(t) GAME.toast=function(s){ try{ __nm.push({k:'toast', t:String(s), h:+g().hour, m:g().money}); }catch(e){} return t.apply(this,arguments); };
   return 'ok'; })()"""
 SCR = r"""(()=>{ const D=GAME.D, P=GAME.E&&GAME.E.player, ch=document.getElementById('choices'), dn=document.getElementById('dlgName');
@@ -231,6 +234,8 @@ async def press(pg, cdp, tag, pick=None, double=False, max_s=45):
             if idle >= (4 if started else 8): break
         await pg.wait_for_timeout(300)
     s1 = await pg.evaluate(SCR); res['m1'] = s1['money']; res['h1'] = s1['hour']; res['log'] = await log_since(pg, n0)
+    e0 = next((e for e in res['log'] if e['k'] in ('say', 'choose')), None)   # 第一句／選單＝按下去那一刻（對話中遊戲不走時間）
+    res['hp'] = e0['h'] if e0 else None; res['osp'] = {x[0]: (bool(x[1]), bool(x[2])) for x in ((e0 or {}).get('os') or [])}
     for e in res['log']:
         seen(e.get('t'))
         for o in e.get('opts') or []: seen(o['t'])
@@ -260,6 +265,18 @@ def has_yuan(r):
 
 
 # ---------------------------------------------------------------- 檢查
+def press_sync(tag, r, sid, E):
+    """按的那一刻（第一句的 G.hour）那一攤的 isOpen、open 模型 visible，和出來的東西（有選單／look＝開；closed 那一句＝收）一致；也和稿的時間一致"""
+    st = r.get('osp', {}).get(sid); hp = r.get('hp'); lines = [t for _, t in r['lines']]
+    got = 'open' if (r['menus'] or (lines and lines[0] == (E['look'] or [None])[0])) else ('closed' if lines == [E['closed']] else '?')
+    R.note('%s 按的那一刻 G.hour %s（%s）：isOpen %s、open 模型 visible %s → 出來的是 %s' % (tag, None if hp is None else round(hp, 4), hhmm(hp) if hp is not None else '?', st and st[0], st and st[1], got))
+    if st is None or hp is None: R.check('%s 記到按的那一刻（G.hour、isOpen）' % tag, False, J({'hp': hp, 'osp': r.get('osp')})); return
+    R.check('%s 按的那一刻：模型（open visible %s）＝isOpen（%s）＝出來的東西（%s）' % (tag, st[1], st[0], got), st[0] == st[1] and got == ('open' if st[0] else 'closed'), '')
+    if E.get('hours'):
+        hm = hp % 24; want = (E['hours'][0] <= hm < E['hours'][1]) or (E['hours'][0] <= hm + 24 < E['hours'][1])
+        R.check('%s 按的那一刻 %s 照稿 %s～%s 應該%s' % (tag, hhmm(hp), hhmm(E['hours'][0]), hhmm(E['hours'][1]), '開' if want else '收'), st[0] == want, '')
+
+
 def check_greet(tag, line, E):
     if not line: R.check('%s 老闆那一句（look 之後、選單之前）' % tag, False, '沒有'); return
     R.check('%s 老闆一句「%s」在這一攤的 greet 清單（%d 句）' % (tag, line[1], len(E['greet'])), line[1] in E['greet'], J(E['greet']))
@@ -301,6 +318,7 @@ async def stall_full(pg, cdp, q, day_key, h, part, two=None, poor=True):
     items = E['items']; A = items[0]; B = items[-1]
     # ① 第一次
     r1 = await press(pg, cdp, tag + '①', pick=lambda m: 0, double=True)
+    press_sync(tag + '①', r1, q['id'], E)
     pre = r1['pre']; nl = len(E['look'])
     R.check('%s① 當天第一次按：先念 look %d 句，逐句對稿（旁白沒有名字）' % (tag, nl), [t for _, t in pre[:nl]] == E['look'] and all(w == '' for w, _ in pre[:nl]), '畫面 %s；稿 %s' % (J(pre[:nl]), J(E['look'])))
     check_greet(tag + '①', pre[nl] if len(pre) > nl else None, E)
@@ -368,6 +386,7 @@ async def part_closed(pg, cdp):
             g = await stall_now(pg, q['id'])
             if not R.check('%s 互動鍵寫「%s」' % (tag, E['label']), btn == E['label'], '畫面「%s」' % btn): continue
             r = await press(pg, cdp, tag)
+            press_sync(tag, r, q['id'], E)
             yu, txt = has_yuan(r)
             R.check('%s 只有 closed 一句（逐句對稿、旁白）' % tag, [t for _, t in r['lines']] == [E['closed']] and all(w == '' for w, _ in r['lines']), '畫面 %s；稿 %s' % (J(r['lines']), J(E['closed'])))
             R.check('%s 沒有品項選單' % tag, not r['menus'], J(r['menus']))
@@ -389,6 +408,49 @@ async def hours_table(pg, Ly, m):
     R.note('[EDGE] 十攤開收時間（nm2_hours_table.md）：\n' + '\n'.join(rows))
 
 
+EDGE_JS = r"""(id=>{ const z=GAME.E.zone||{}, q=(z.tzStalls||[]).concat(z.ggStalls||[]).find(s=>s.id===id); if(!q) return null;
+  const tz=typeof TZ3!=='undefined'&&TZ3.stallOpen?TZ3.stallOpen(((+GAME.G.hour%24)+24)%24,q):null;
+  return {gh:+GAME.G.hour, isOpen:!!q.isOpen, openVis:q.open?!!q.open.visible:null, closedVis:q.closed?!!q.closed.visible:null, tz:tz, off:!!(z.tzStallOff&&z.tzStallOff[id])}; })"""
+
+
+async def edge_shot(pg, q, fn):
+    fx, fz = math.sin(q['yaw']), math.cos(q['yaw'])
+    save_img(await pg.evaluate(SNAP, {'from': [q['x'] + fx * 4.5, 1.6, q['z'] + fz * 4.5], 'at': [q['x'], 1.2, q['z']], 'fov': 50}), fn + '.jpg')
+    b = await pg.screenshot(type='jpeg', quality=78); open(os.path.join(OUT, fn + '_game.jpg'), 'wb').write(b)
+
+
+async def edge_one(pg, cdp, q, E, day, b, lab):
+    """BB 00:07（NM1 r2 的坑）：讀檔到邊界前 2.5 分鐘，之後不動、讓時間自己走過邊界；每 0.3 秒記 G.hour／isOpen／open visible／TZ3.stallOpen(G.hour)；
+    翻轉前按一次（讀進來馬上按）、翻轉後按一次；各拍一張。判定一律用那一刻的 G.hour，不用排的時間"""
+    tag = '[EDGE %s %s %s %s]' % (q['id'], E['name'], lab, hhmm(b)); want_after = lab == '開'
+    btn = await go_stall(pg, cdp, q, day, b - 2.5 / 60.0, why='（%s 邊界前 2.5 分鐘，之後讓時間自己走）' % lab, wait=1200)
+    if btn != E['label']: R.check('%s 互動鍵寫「%s」' % (tag, E['label']), False, '畫面「%s」' % btn); return '鍵?'
+    g = await pg.evaluate(EDGE_JS, q['id']); fn = 'nm2edge_%s_%s_%s' % (q['id'], '開' if want_after else '收', hhmm(b).replace(':', '').replace('（隔天）', 'p1'))
+    await edge_shot(pg, q, fn + '_before')
+    r0 = await press(pg, cdp, tag + ' 翻轉前'); press_sync(tag + ' 翻轉前', r0, q['id'], E)
+    R.check('%s 翻轉前那一次真的在邊界前（按的那一刻 %s）' % (tag, hhmm(r0['hp']) if r0.get('hp') is not None else '?'), r0.get('hp') is not None and (r0['hp'] % 24 if b < 24 else r0['hp']) < b, J({'hp': r0.get('hp'), 'before': g}))
+    log, prev, flip, t0 = [], None, None, time.time()
+    while time.time() - t0 < 90:
+        g = await pg.evaluate(EDGE_JS, q['id'])
+        if not g: break
+        log.append((round(g['gh'], 4), g['isOpen'], g['openVis'], g['tz']))
+        if prev is not None and g['isOpen'] != prev['isOpen'] and flip is None:
+            flip = (prev, g); await edge_shot(pg, q, fn + '_after'); break
+        prev = g
+        gadj = g['gh'] + (24 if b >= 24 and g['gh'] < 20 else 0)
+        if gadj > b + 2 / 60.0: break
+        await pg.wait_for_timeout(300)
+    R.note('%s 紀錄（G.hour, isOpen, open visible, TZ3.stallOpen）%d 筆：%s' % (tag, len(log), J(log[:4] + ['…'] + log[-6:] if len(log) > 10 else log)))
+    nosync = [x for x in log if x[1] != x[2] or (x[3] is not None and x[3] != x[1])]
+    R.check('%s 每一筆 open 模型 visible＝isOpen＝TZ3.stallOpen(G.hour)' % tag, not nosync, J(nosync[:4]))
+    if not R.check('%s 時間走過邊界時翻轉（%s）' % (tag, lab), bool(flip) and flip[1]['isOpen'] == want_after, J(log[-3:])): return '沒翻'
+    hb = flip[1]['gh'] + (24 if b >= 24 and flip[1]['gh'] < 20 else 0)
+    R.check('%s 翻轉在邊界 ±1 分鐘內（翻轉前 %s、翻轉後 %s；邊界 %s）' % (tag, hhmm(flip[0]['gh']), hhmm(flip[1]['gh']), hhmm(b)), abs(hb - b) <= 1 / 60.0 + 0.002, J(flip))
+    r1 = await press(pg, cdp, tag + ' 翻轉後'); press_sync(tag + ' 翻轉後', r1, q['id'], E)
+    got = lambda r: '買得到' if r['menus'] else ('closed' if [t for _, t in r['lines']] == [E['closed']] else J([t for _, t in r['lines']])[:40])
+    return '前 %s %s｜翻 %s→%s｜後 %s %s' % (hhmm(r0['hp']) if r0.get('hp') is not None else '?', got(r0), hhmm(flip[0]['gh']), hhmm(flip[1]['gh']), hhmm(r1['hp']) if r1.get('hp') is not None else '?', got(r1))
+
+
 async def part_edge(pg, cdp):
     day = DAYS['EDGE']; m = month_of(day)
     await load(pg, cdp, 'tingzhou', day, 20.0, None, None, why='（讀配置、時間表）'); await pg.wait_for_timeout(1500); Ly = await lay(pg)
@@ -400,36 +462,18 @@ async def part_edge(pg, cdp):
     if ONLY: A = [q for q in A if q['id'] in ONLY]
     SUM = []
     for q in A:
-        E = exp_of(q['kind'], m); fx, fz = math.sin(q['yaw']), math.cos(q['yaw']); row = [q['id'], E['name']]
-        for b, dm in ((E['hours'][0], -1), (E['hours'][0], 1), (E['hours'][1], -1), (E['hours'][1], 1)):
-            h = b + dm / 60.0; tag = '[EDGE %s %s %s（%s %+d 分）]' % (q['id'], E['name'], hhmm(h), '開' if b == E['hours'][0] else '收', dm)
-            try:
-                btn = await go_stall(pg, cdp, q, day, h, wait=1500)
-                g = await stall_now(pg, q['id']); hp = (await pg.evaluate(SCR))['hour']
-                save_img(await pg.evaluate(SNAP, {'from': [q['x'] + fx * 4.5, 1.6, q['z'] + fz * 4.5], 'at': [q['x'], 1.2, q['z']], 'fov': 50}), 'nm2edge_%s_%s.jpg' % (q['id'], hhmm(h).replace(':', '').replace('（隔天）', 'p1')))
-                b2 = await pg.screenshot(type='jpeg', quality=78); open(os.path.join(OUT, 'nm2edge_%s_%s_game.jpg' % (q['id'], hhmm(h).replace(':', '').replace('（隔天）', 'p1'))), 'wb').write(b2)
-                if btn != E['label']: R.check('%s 互動鍵寫「%s」' % (tag, E['label']), False, '畫面「%s」' % btn); row.append('鍵?'); continue
-                r = await press(pg, cdp, tag)
-                hh = r['h0'] if r['h0'] is not None else hp; hm = hh % 24
-                want = (E['hours'][0] <= hm < E['hours'][1]) or (E['hours'][0] <= hm + 24 < E['hours'][1])
-                model = bool(g and g['openVis']); buy = bool(r['menus']) and any(p is not None for n, p, d in menu_items(r['menus'][0]))
-                g2 = await stall_now(pg, q['id'])
-                R.note('%s 按之前模型 %s（open visible %s）；按的時候 %s；按下去 %s' % (tag, '開' if model else '收', g and g['openVis'], hhmm(hh), '有選單 ' + J([b['t'] for b in r['menus'][0]]) if r['menus'] else J([t for _, t in r['lines']])))
-                R.check('%s 模型＝稿（按的時候 %s 稿%s）' % (tag, hhmm(hh), '開' if want else '收'), model == want, J(g))
-                R.check('%s 買得到＝稿' % tag, buy == want, '')
-                R.check('%s 模型和買不買得到同步（按之前模型%s、%s；按完模型 %s）' % (tag, '開' if model else '收', '買得到' if buy else '買不到', g2 and g2['openVis']), model == buy and bool(g2) and g2['openVis'] == buy, '')
-                if not want: R.check('%s 收攤＝只有 closed 一句' % tag, [t for _, t in r['lines']] == [E['closed']], J(r['lines']))
-                row.append('%s:%s/%s' % (hhmm(hh), '開' if model else '收', '買' if buy else '不'))
-            except Exception as e: R.check('%s 沒有中斷' % tag, False, repr(e)[:300]); row.append('ERR')
-        SUM.append(row)
-    for r in SUM: R.note('[EDGE 摘要] ' + '｜'.join(r))
+        E = exp_of(q['kind'], m)
+        for b, lab in ((E['hours'][0], '開'), (E['hours'][1], '收')):
+            try: SUM.append('%s %s %s %s：%s' % (q['id'], E['name'], lab, hhmm(b), await edge_one(pg, cdp, q, E, day, b, lab)))
+            except Exception as e: R.check('[EDGE %s %s] 沒有中斷' % (q['id'], lab), False, repr(e)[:300]); SUM.append('%s %s ERR' % (q['id'], lab))
+    for r in SUM: R.note('[EDGE 摘要] ' + r)
 
 
 async def look_only(pg, cdp, q, day_key, h, tag, want_open):
     E = exp_of(q['kind'], month_of(day_key))
     btn = await go_stall(pg, cdp, q, day_key, h, wait=5000); g = await stall_now(pg, q['id'])
     if not R.check('%s 互動鍵寫「%s」' % (tag, E['label']), btn == E['label'], '畫面「%s」' % btn): return None
-    r = await press(pg, cdp, tag); yu, txt = has_yuan(r)
+    r = await press(pg, cdp, tag); yu, txt = has_yuan(r); press_sync(tag, r, q['id'], E)
     want = E['look'] if want_open else [E['closed']]
     R.check('%s %s：只有那一句（逐句對稿）' % (tag, '營業中＝look' if want_open else '收攤＝closed'), [t for _, t in r['lines']] == want, '畫面 %s；稿 %s' % (J(r['lines']), J(want)))
     R.check('%s 沒有買的清單、畫面上沒有「元」、錢沒變' % tag, not r['menus'] and not yu and r['m1'] == r['m0'], J({'menus': r['menus'], 'txt': txt if yu else '', 'm': [r['m0'], r['m1']]}))
@@ -473,6 +517,7 @@ async def part_season(pg, cdp):
             for k in range(4):
                 r = await press(pg, cdp, '%s %s 第 %d 次' % (tg, hhmm(open_h), k + 1))
                 if k == 0:
+                    press_sync('%s 第 1 次' % tg, r, q['id'], E)
                     nl = len(E['look'])
                     R.check('%s %s 開著、第一次按：look %d 句逐句對稿（%s）' % (tg, hhmm(r['h0'] or open_h), nl, {'summer': '多 lookSummer', 'winter': '多 lookWinter'}.get(E['season'], '只有一般的')), [t for _, t in r['pre'][:nl]] == E['look'], '畫面 %s；稿 %s' % (J(r['pre'][:nl]), J(E['look'])))
                     R.check('%s 有品項選單（買得到）' % tg, bool(r['menus']), J(r['lines']))
@@ -491,7 +536,7 @@ async def look_only_closed(pg, cdp, q, dk, h, tag):
     E = exp_of(q['kind'], month_of(dk))
     btn = await go_stall(pg, cdp, q, dk, h, wait=1500); g = await stall_now(pg, q['id'])
     if not R.check('%s 互動鍵寫「%s」' % (tag, E['label']), btn == E['label'], btn): return
-    r = await press(pg, cdp, tag)
+    r = await press(pg, cdp, tag); press_sync(tag, r, q['id'], E)
     R.check('%s 還沒開（按的時候 %s）：只有 closed 一句、沒有選單；模型收著' % (tag, hhmm(r['h0'] or h)), [t for _, t in r['lines']] == [E['closed']] and not r['menus'] and bool(g) and g['openVis'] is False, J({'lines': r['lines'], 'menus': r['menus'], 'model': g}))
 
 
