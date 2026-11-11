@@ -7961,6 +7961,21 @@
    "noDirectIntegrate": false,
    "note": "底 dev e4656573d（在 451cb83ab 上 --3way 乾淨）；只改季節布置自己的 8 個檔；全部 Node 測試 1260 支沒有失敗；剩 11 項要落地或換掉現有的東西，會動導航，下一批",
    "next": "LAWWW 整合、CC 照 README 列的日期拍、BB 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "ART-PACK7-1111 第七包：算命桌桌燈籤筒挪開（BB 看完人物後唯一要動的）、節日的燈在遊戲裡變白光、公館 G01 燈籠埋進招牌、新生南路配件車三款各指定一台",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/pack7_1111/（README.md、pack7_v1.patch、regression_full.log、blender_sightline.jpg）"
+   ],
+   "state": "READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "noDirectIntegrate": false,
+   "note": "底 dev d926d54bd（在 2d90b034c 上 --3way 乾淨）；9 個檔；全部 Node 測試 1266 支：adv_skip_typing_unit 失敗是基底的（只讀 game3d.js，這一包沒動）",
+   "next": "LAWWW 整合、CC 拍、BB 判"
   }
  ]
 }

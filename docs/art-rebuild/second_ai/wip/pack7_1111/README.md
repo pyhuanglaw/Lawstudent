@@ -1,8 +1,9 @@
 # 美術第七包（LAWWW2 帳號 A，2026-11-11）：算命桌的視線＋節日的燈變白光＋新生南路配件車
 
-狀態：**WORK_IN_PROGRESS：相關測試過了，全部 Node 測試在跑**（結果補在這一行）。預覽是 Blender，不是遊戲截圖（D131）。
+狀態：**READY_FOR_REVIEW**（2026-11-11 05:1x UTC）。預覽是 Blender，不是遊戲截圖（D131）。
+全部 Node 測試 1266 支（`regression_full.log`）：1264 支通過；`bookstore_exit_unit` 最後一行是 Node 讀不到網址的警告（結束碼 0）；**`adv_skip_typing_unit` 失敗，不是這一包造成的**——它只讀 `src/game3d.js`（這一包沒有動），錯誤是 `ReferenceError: skipOn is not defined`，是基底 `d926d54bd` 當時的狀態；請 LAWWW 在自己的樹上確認。
 
-- patch：`pack7_v1.patch`（9 個檔，基底 dev `d926d54bd`）。
+- patch：`pack7_v1.patch`（9 個檔，基底 dev `d926d54bd`；在 `2d90b034c` 上試過 `git apply --3way`，乾淨）。
 - 依據：BB 11-11 04:39（人物看完的結論：模型都不修，只動算命桌）、BB 11-11 04:42（季節布置 CC 雲端自檢先看到的三點）。
 
 ## 一、算命桌：桌燈、籤筒挪到兩側
