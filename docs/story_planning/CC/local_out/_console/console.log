@@ -1,14 +1,3 @@
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:11:58] ==== END   FN_shots_b_old  exit=0  360s   ====
-[09:12:01] memory 45% before starting FN_mig_a (2 running)
-[09:12:01] ==== START FN_mig_a  (game @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
-[09:12:04] [res] cpu=9% mem=45% (14.3/31.4 GB) chrome_testing=10  START FN_mig_a
-[09:14:02] 正在跑：FN_int_a（已跑 5 分／上限 15 分）、FN_int_b（已跑 3 分／上限 15 分）、FN_mig_a（已跑 2 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
-[09:15:34] [res] cpu=1% mem=45% (14.3/31.4 GB) chrome_testing=10  END FN_int_b
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       06ac9b8ab..df109141f  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:15:41] ==== END   FN_int_b  exit=0  301s   ====
 [09:15:44] memory 45% before starting FN_mig_b (2 running)
 [09:15:44] ==== START FN_mig_b  (game @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
 [09:15:47] [res] cpu=2% mem=45% (14.3/31.4 GB) chrome_testing=10  START FN_mig_b
@@ -1998,3 +1987,14 @@
 [16:13:57] [res] cpu=28% mem=48% (15.2/31.4 GB) chrome_testing=10  START STAIR_old_walk10
 [16:14:04] 正在跑：STAIR_old_walk（已跑 3 分／上限 20 分）、STAIR_old_run（已跑 2 分／上限 20 分）、STAIR_old_walk10（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:18:12] [res] cpu=17% mem=48% (15.3/31.4 GB) chrome_testing=9  END STAIR_old_walk
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c0aca7001..7dea77037  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:18:17] ==== END   STAIR_old_walk  exit=1  454s   ====
+[16:18:27] memory 46% before starting STAIR_old_run10 (2 running)
+[16:18:27] ==== START STAIR_old_run10  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[16:18:30] [res] cpu=48% mem=46% (14.6/31.4 GB) chrome_testing=9  START STAIR_old_run10
+[16:19:04] 正在跑：STAIR_old_run（已跑 7 分／上限 20 分）、STAIR_old_walk10（已跑 5 分／上限 20 分）、STAIR_old_run10（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:24:04] 正在跑：STAIR_old_run（已跑 12 分／上限 20 分）、STAIR_old_walk10（已跑 10 分／上限 20 分）、STAIR_old_run10（已跑 5 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:29:04] 正在跑：STAIR_old_run（已跑 17 分／上限 20 分）、STAIR_old_walk10（已跑 15 分／上限 20 分）、STAIR_old_run10（已跑 10 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:32:14] [res] cpu=44% mem=48% (15.3/31.4 GB) chrome_testing=9  END STAIR_old_run
