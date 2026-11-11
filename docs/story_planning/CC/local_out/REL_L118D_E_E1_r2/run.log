@@ -1,0 +1,45 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_e_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\REL_L118D_E_E1_r2\out
+CC L118D_E（118 巷課後午餐邀約）：SHA=f312c68cc worktree=?；PARTS=E1；REL=FRI；橫向；Playwright 手機模擬 ≠ iPhone
+== E1
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS E1：遊戲載入
+  [前置／捷徑] E1：最小存檔 2025-09-21（第 5 天）20.00 dorm（條件事件開著，只關「要回覆的訊息自動打開手機」）
+  [前置／捷徑] E1：好友值 FRI（熟悉 50、信任 35、自在 20）：{"heroine_01": "FRIEND", "classmate_bohan": "FRIEND", "classmate_peishan": "FRIEND", "classmate_mingxuan": "FRIEND", "classmate_xinci": "FRIEND", "classmate_youchen": "FRIEND", "zhe": "FRIEND", "yu": "FRIEND"}
+PASS E1：找得到上午不在法律系館的課（{"d": 14, "key": "2025-09-30", "wd": 2, "term": "Y1S1", "week": 5, "ik": "14:chinese_y1:am", "c": "大一國文（上）", "cid": "chinese_y1", "t0": 9.167, "t1": 12.167, "zone": "boya", "via": null, "law": false, "lawAm": false}）
+  [前置／捷徑] E1_2025-09-30：同一份進度讀到 2025-09-30（第 14 天）8.92、在那一堂的教室區域 boya（條件事件開著，只關「要回覆的訊息自動打開手機」）
+  [  54.7s] E1_2025-09-30：那一堂下課會不會演課後劇情（CLS.afterClassFirst，暫時把時間設成下課算完就還原）：{"ev": null}
+  [  57.1s] E1_2025-09-30：真的點手機「今天」大一國文（上） 那一列的「直接去上課」
+  [  79.1s] E1_2025-09-30：上課到下課選單（沒有邀約）花了 21 秒（按了「略過 »」1 次）
+  [  80.4s] E1_2025-09-30：下課選單 ["直接去下一堂：通識：電影與敘事", "先自由活動", "下一堂不去"] → 先自由活動
+  [  82.9s] E1_2025-09-30 [第14天 8.962 boya] CLS.goClass(14:chinese_y1:am)
+  [  82.9s] E1_2025-09-30 [第14天 8.962 boya] CLS.attend(14:chinese_y1:am)
+  [  82.9s] E1_2025-09-30 [第14天 8.962 boya] 說 （旁白）：（你在座位上等。教室慢慢坐滿了。）
+  [  82.9s] E1_2025-09-30 [第14天 9.167 boya] 說 資工系的學生：我坐後面喔，我要寫作業。
+  [  82.9s] E1_2025-09-30 [第14天 9.167 boya] 說 經濟系的學生：你上禮拜也這樣說。
+  [  82.9s] E1_2025-09-30 [第14天 9.167 boya] 說 資工系的學生：上禮拜的也還沒寫完。
+  [  82.9s] E1_2025-09-30 [第14天 9.167 boya] 字幕：大一國文（上）：現代散文　本週：現代散文
+  [  82.9s] E1_2025-09-30 [第14天 9.167 boya] 說 老師：這門課我會點名，不會事先講。
+  [  82.9s] E1_2025-09-30 [第14天 9.167 boya] 說 老師：……可是我希望你們不是因為點名才來。
+  [  82.9s] E1_2025-09-30 [第14天 9.167 boya] 說 （旁白）：國文老師：古人寫信，也是在處理人和人之間的事。
+  [  82.9s] E1_2025-09-30 [第14天 12.167 boya] 字幕：下課了。
+  [  82.9s] E1_2025-09-30 [第14天 12.167 boya] 說 土木系的學生：你們下一堂在哪？
+  [  82.9s] E1_2025-09-30 [第14天 12.167 boya] 說 醫學系的學生：醫學院那邊，要趕公車。
+  [  82.9s] E1_2025-09-30 [第14天 12.167 boya] 說 土木系的學生：那不就是另一個校區？
+  [  82.9s] E1_2025-09-30 [第14天 12.167 boya] 說 醫學系的學生：對，所以我先走了。
+  [  82.9s] E1_2025-09-30 [第14天 12.167 boya] CLS.slotFill(am)
+  [  82.9s] E1_2025-09-30 [第14天 12.167 boya] CLS.attend 結束（回 True）
+  [  82.9s] E1_2025-09-30 [第14天 12.167 boya] CLS.goClass 結束（回 True）
+  [  82.9s] E1_2025-09-30 [第14天 12.186 boya] CLS.afterMenu(14:chinese_y1:am)
+  [  82.9s] E1_2025-09-30 [第14天 12.186 boya] lunch.after {"key": "14:chinese_y1:am", "ev": false, "inv0": null}
+  [  82.9s] E1_2025-09-30 [第14天 12.186 boya] lunch.afterEnd {"key": "14:chinese_y1:am", "ret": false}
+  [  83.0s] E1_2025-09-30 [第14天 12.186 boya] 選單 [["直接去下一堂：通識：電影與敘事", "", "13:20，普通教學館 101。走路 8 分鐘，13:10 到教室"], ["先自由活動", "", "手機的「今天」隨時可以直接去"], "下一堂不去"]
+  [  83.0s] E1_2025-09-30 [第14天 12.186 boya]   → 選了 #1 先自由活動
+  [  83.0s] E1_2025-09-30 [第14天 12.186 boya] CLS.afterMenu 結束（回 True）
+PASS E1 ①：大一國文（上）（boya）上完了  "after"
+PASS E1 ①：沒有邀約（沒有接受／婉拒選單、afterClass 回 false）  {"heads": ["直接去下一堂：通識：電影與敘事", "先自由活動", "下一堂不去"], "full": ["直接去下一堂：通識：電影與敘事13:20，普通教學館 101。走路 8 分鐘，13:10 到教室", "先自由活動手機的「今天」隨時可以直接去", "下一堂不去"], "dims": [false, false, false]}
+PASS E1 ①：inv.day 沒有記成今天（不是法律系館的課＝不判）  {}
+  [  83.0s] E1：【函式】法律系館的下午第一堂（2025-09-25 民法總則 13.333～15.167 classroom）LUNCH118.lawAm＝False（下午的課不判）
+PASS E1 ①：【函式】法律系館的下午課 lawAm＝false  {"d": 9, "key": "2025-09-25", "wd": 4, "term": "Y1S1", "week": 4, "ik": "9:civ_general:pm1", "c": "民法總則", "cid": "civ_general", "t0": 13.333, "t1": 15.167, "zone": "classroom", "via": null, "law": true, "lawAm": false}
+PASS E1：沒有 JS 例外（pageerror）  []
+  [  83.4s] E1 花了 1.4 分鐘
+ALL PASS
