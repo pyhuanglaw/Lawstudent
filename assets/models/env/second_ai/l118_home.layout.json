@@ -2,8 +2,8 @@
  "version": 1,
  "zone": "l118_home",
  "shop": "home",
- "name": "五湖四海",
- "type": "水餃店",
+ "name": "巷口家常菜",
+ "type": "家常菜",
  "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格：店名、菜單；參考圖 l118_ref/int_home.webp）；室內 tools/blender/env_second/l118_int_home.py",
  "bounds": {
   "x0": -3.8,
@@ -352,6 +352,7 @@
    "why": "utensil_rack"
   }
  ],
+ "name_note": "name／type 是配置原本的店名（街上招牌換字用的對照，見 l118_int_home.py finish2）；現在的店名是「五湖四海」（水餃店），遊戲讀 src/data/lane118_shops.js",
  "ceiling": {
   "single_sided": true,
   "node": "l118_home_ceiling",
