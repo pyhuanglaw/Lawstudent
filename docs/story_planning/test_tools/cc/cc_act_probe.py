@@ -542,6 +542,10 @@ async def invite(pg, cdp, tag, cfg, pick, screen):
     return iv, how
 
 
+SITPATH = os.environ.get('SITPATH') == '1'   # CC 15:1x（BB 15:07）：一到就走去按「坐下等開演」，不等 5 秒自動開始
+PATH_SEEN = []
+
+
 IDLE_JS = r"""(w=>{ const E=GAME.E, P=E.player, D=GAME.D||{}, f2=v=>v==null?null:+(+v).toFixed(2); const n=(GAME.npc&&GAME.npc[w])||(E.npcs||[]).find(q=>q.charId===w);
   return {me:{x:f2(P.obj.position.x), z:f2(P.obj.position.z), busy:!!P.busy, pose:P.pose||null, seat:!!P.seat, frozen:!!P.frozen}, cam:E.cam&&E.cam.mode, depth:D.busyDepth|0, by:(D.busyWho||[]).slice(-3), dlg:!!D.active,
     ev:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, adv:typeof ADV!=='undefined'&&!!ADV.active, paused:!!E.paused, fade:!!(document.getElementById('fade')&&document.getElementById('fade').classList.contains('on')),
@@ -608,14 +612,14 @@ async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
             if len(screen) > n0 and 'line' not in shots and any(w in s2['full'] for w in cfg.get('shot_on', [])):
                 shots.add('line'); await R.shot(pg, 'act_%s_line' % tag)
             continue
-        if v and v['st'] == 'accepted' and not s['busy'] and (v['ph'] == 'wait' or v['zone'] == s['zone']) and walked < 6 and time.time() - zt[1] > 5:   # 進那個區域 5 秒還沒開始（她坐著等、帶路）才走過去
+        if v and v['st'] == 'accepted' and not s['busy'] and (v['ph'] == 'wait' or v['zone'] == s['zone']) and walked < 6 and time.time() - zt[1] > (0 if SITPATH else 5):   # 進那個區域 5 秒還沒開始（她坐著等、帶路）才走過去；SITPATH＝一到就去按「坐下等開演」（BB 15:07：測坐下路徑）
             n = await pg.evaluate(NPC_JS, who)
             if n:
                 walked += 1
                 await L.go_to(pg, cdp, R, n['x'], n['z'], 1.6, '走到她旁邊', lv=n['lv'], max_s=90)
                 s3 = await st(pg)
                 if s3['interact'] and (s3['interact'].startswith('坐') or '說話' in s3['interact']) and not s3['dlg']:
-                    log('    [按互動鍵] %s' % s3['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+                    log('    [按互動鍵] %s' % s3['interact']); PATH_SEEN.append(s3['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
                 continue
         if time.time() - idle_t > 30:   # CC 15:0x（ACT_SMOKE_ZR3_r2 f8b6：坐下等開演以後 6 分鐘沒有任何紀錄就逾時）：沒進展每 30 秒記一次狀態，前兩次截圖
             idle_t = time.time(); idle_n += 1
@@ -624,6 +628,9 @@ async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
             if idle_n <= 2: await R.shot(pg, 'act_%s_idle%d' % (tag, idle_n))
         await pg.wait_for_timeout(500)
     v = await pg.evaluate(IV_JS, iv['id'])
+    sat = [x for x in PATH_SEEN if x.startswith('坐下')]
+    R.note('[%s] 走的路：%s（按過的互動鍵 %s）' % (tag, '坐下路徑（玩家先按「%s」）' % sat[0] if sat else '自動開始（沒有按坐下）', J(PATH_SEEN)))
+    if SITPATH: R.check('[%s] 前置：這一趟走的是「先到、按坐下等開演」路徑（SITPATH）' % tag, bool(sat), J(PATH_SEEN))
     return bool(v and v['st'] == 'done')
 
 
