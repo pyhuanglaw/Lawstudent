@@ -21490,10 +21490,10 @@ index 48f7c977e..d0f964fc5 100644
    check('14. 燈泡：夜裡自發光最高 ≤ 2（原本 3.0 是純白的球）、半徑縮小（nm_stalls.py 的 bulb）',top<=2&&/r = min\(r, 0\.05\) \* 0\.68/.test(py),'最高 '+top); }
  console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 diff --git a/tests/tz_shops_unit.js b/tests/tz_shops_unit.js
-index 37998c42f..f19d9fba9 100644
+index 37998c42f..b1d6e2469 100644
 --- a/tests/tz_shops_unit.js
 +++ b/tests/tz_shops_unit.js
-@@ -80,4 +80,18 @@ if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,
+@@ -80,4 +80,29 @@ if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,
      check('禮貌生財 10. 隔牆的鏡頭（BB 11-11 01:47：玩家站在掛畫前、鏡頭退到隔牆後面的書房，整個畫面是隔牆背面）：鏡頭和玩家在隔牆兩邊 → 隔牆整組藏（partCut）、同一邊不藏；模型有 PART_wall、PART_vc（隔牆、門框、掛畫）；遊戲照 partCut 藏 PART_* 和關著的門',
        a1===true&&a2===false&&a3===true&&a4===false&&c1===true&&c2===false&&names.includes('PART_wall')&&names.includes('PART_vc')&&/indexOf\('PART_'\)===0\) o\.visible=!z\.partCut/.test(src)&&/indexOf\('STUDY_DOOR'\)===0\) o\.visible=!z\.studyOpen&&!z\.partCut/.test(src),[a1,a2,a3,a4,c1,c2].join(',')+' '+names.filter(n=>/^PART/.test(n)).join(' ')); }
    check('禮貌生財 7. 配置的旗標名是 LAWWW 實際用的 LM_STUDY；書房有「學生來信」的點（study_letters，東牆矮櫃前）',SD.flag==='LM_STUDY'&&SD.points.some(p=>p.id==='study_letters'&&p.kind==='tz_limao_study_letters')); }
@@ -21511,6 +21511,17 @@ index 37998c42f..f19d9fba9 100644
 +    info.push(id+' '+P.length+'點 y='+P[0][1].toFixed(2)); if(!(okY&&okN&&single&&P.length<=6)) bad.push(id+':'+JSON.stringify({okY,okN,single,n:P.length})); }
 +  check('天花板 12. 七間室內的天花板都是 CEIL_ceil、只有朝下的那一面（頂點法線朝下、高度＝配置的 h、材質單面），沒有舊的六面板 S_ceil——鏡頭高過天花板時看不到天花板的上表面',Object.keys(ALL).length>=7&&!bad.length,bad.join(' ')||info.join('、'));
 +  check('天花板 12. 遊戲端：attachRoomGLB 會把 CEIL_* 在鏡頭高過天花板時藏起來（ceilHide）；有吸頂燈的那幾間，燈具也在 CEIL_* 裡（至少四間有 CEIL_vc 或 CEIL_light）',/function ceilHide\(z,root\)/.test(zsrc)&&/\/\^CEIL_\//.test(zsrc)&&/ceilHide\(z,root\); seatFold/.test(zsrc)&&Object.keys(ALL).filter(id=>{ try{ const d=fs.readFileSync(path.join(ROOT,ALL[id].glb)), jl=d.readUInt32LE(12); return (JSON.parse(d.slice(20,20+jl).toString('utf8')).nodes||[]).some(n=>/^CEIL_(vc|light)$/.test(n.name)); }catch(e){ return false; } }).length>=4); }
++/* 天花板 13.（功能）把一片朝下的天花板 CEIL_ceil（高度＝配置的 h）和一盞吸頂燈 CEIL_light 交給遊戲真正的 Z3.attachRoomGLB，再用區域的 update 餵鏡頭高度：
++   鏡頭在天花板下面看得到、高過天花板整組藏起來、降回來又看得到。跟隨鏡頭全距離、俯角 0.36（CC 量到禮貌生財 y 3.21 的那個角度）時的高度也算出來——高過天花板的那幾間就是會出事的 */
++{ const rows=[], bad=[];
++  for(const id of Object.keys(ALL)){ const Lc=ALL[id], z=loadZone(Lc.zone), g0=z.group, dist=(Z3.ZONES[Lc.zone].camDist||3.8), cam=new THREE.Vector3(); E.followCam(new THREE.Vector3(-1.0,1.5,-0.6),0,0.36,dist,0,cam);
++    const root=new THREE.Group(), ceil=new THREE.Mesh(new THREE.PlaneGeometry(Lc.w,Lc.d),new THREE.MeshStandardMaterial({name:'tzs_ceiling'})); ceil.name='CEIL_ceil'; ceil.rotation.x=Math.PI/2; ceil.position.y=Lc.h; root.add(ceil);
++    const lamp=new THREE.Mesh(new THREE.BoxGeometry(1.2,0.03,0.1),new THREE.MeshStandardMaterial({name:'tzs_lightpanel'})); lamp.name='CEIL_light'; lamp.position.y=Lc.h-0.05; root.add(lamp);
++    Z3.attachRoomGLB(z,g0,g0.getObjectByName('fallback')||new THREE.Group(),root);
++    const at=y=>{ z.update(0.016,{camera:{position:new THREE.Vector3(cam.x,y,cam.z)}}); return ceil.visible&&lamp.visible; };
++    const below=at(Lc.h-0.5), above=at(Math.max(cam.y,Lc.h+0.2)), again=at(Lc.h-0.5);
++    rows.push(id+' h'+Lc.h+' 鏡頭'+cam.y.toFixed(2)+(cam.y>Lc.h?'（高過）':'')); if(!(below===true&&above===false&&again===true&&Math.abs(z.ceilTop-(Lc.h-0.02))<0.011)) bad.push(id+JSON.stringify([below,above,again,z.ceilTop])); }
++  check('天花板 13. 七間：鏡頭在天花板下面看得到天花板和吸頂燈；高過天花板整組藏（Z3.attachRoomGLB 的 ceilHide，門檻＝天花板高度 −2 cm）；降回來又看得到',rows.length>=7&&!bad.length,bad.join(' ')||rows.join('、')); }
  console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 diff --git a/tools/blender/env_second/nm_stalls.py b/tools/blender/env_second/nm_stalls.py
 index c25020841..56202a38f 100644
