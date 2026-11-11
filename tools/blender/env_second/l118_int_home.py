@@ -118,8 +118,11 @@ def notrap(lay, cell=0.4, step=0.2, R=0.32):
     return ([f'站得到卻走不回出口 {len(bad)} 點：{bad[:6]}'] if bad else []), dict(step=step, r=R, free_cells=free_n, reach_cells=len(seen))
 
 
-def finish2(c, src, smooth_keys=('trim', 'kitchen', 'kmetal', 'ksteel', 'lamps', 'lampshade')):
-    """收尾（照 lane118_shops.finish 抄過來改的：LAWWW2-C 2026-10-20）：多了 ①圓的東西平滑著色（頂點共用，GLB 比較小）②layout 的 src ③notrap（站得到的地方都走得回出口）"""
+def finish2(c, src, old_name=None, old_type=None, smooth_keys=('trim', 'kitchen', 'kmetal', 'ksteel', 'lamps', 'lampshade')):
+    """收尾（照 lane118_shops.finish 抄過來改的：LAWWW2-C 2026-10-20）：多了 ①圓的東西平滑著色（頂點共用，GLB 比較小）②layout 的 src ③notrap（站得到的地方都走得回出口）
+    ④layout 的 name／type 照舊寫原本那間店的（old_name、old_type）：遊戲的店名、類型已經改成讀店家資料（src/data/lane118_shops.js），
+      而 zones3d.js 畫 118 巷招牌的字時用「室內配置記的店名＝街景模型板面上的舊字」對出是哪一間再換成新店名（tests/l118_shops_redo_1111_unit.js 3-7）——
+      街景模型換成新招牌以前，這裡改成新店名的話那一間街上的招牌會變回舊店名。按鈕的字（點餐（○○）、離開○○）寫新店名。"""
     D = {'N': [0, 0, 1], 'W': [1, 0, 0], 'E': [-1, 0, 0], 'S': [0, 0, -1]}
     for k, ms in c.WG.items():
         for key, m in ms.items():
@@ -138,9 +141,10 @@ def finish2(c, src, smooth_keys=('trim', 'kitchen', 'kmetal', 'ksteel', 'lamps',
     sh = next(q for q in LS.LAY['shops'] if q['id'] == c.sid); Wst = sh['side'] == 'W'; fx = LS.LAY['facade']['west'] if Wst else LS.LAY['facade']['east']; cz = (sh['z0'] + sh['z1']) / 2
     street = dict(side=sh['side'], door=dict(x=round(fx + (0.9 if Wst else -0.9), 3), z=cz, note='118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）'),
                   spawn_out=dict(x=round(fx + (1.3 if Wst else -1.3), 3), z=round(cz + 1.7, 3), yaw=0.0, note='出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）'))
-    lay = dict(version=1, zone=f'l118_{c.sid}', shop=c.sid, name=c.T['name'], type=c.T['sub'], src=src,
+    lay = dict(version=1, zone=f'l118_{c.sid}', shop=c.sid, name=old_name or c.T['name'], type=old_type or c.T['sub'], src=src,
                bounds=dict(x0=c.X0, x1=c.X1, z0=c.Z0, z1=c.Z1), h=H, cam_dist=c.S.get('cam', 4.2), door=c.door, spawn=c.spawn, exits=c.exits, street=street,
                counter=c.counter, clerk=c.clerk, order=c.order, seats=c.seats, interact=c.inter, blocks=c.blocks,
+               **({'name_note': f'name／type 是配置原本的店名（街上招牌換字用的對照，見 l118_int_home.py finish2）；現在的店名是「{c.T["name"]}」（{c.T["sub"]}），遊戲讀 src/data/lane118_shops.js'} if old_name else {}),
                ceiling=dict(single_sided=True, node=f'l118_{c.sid}_ceiling', note='天花板只有朝下的單面（材質 cull）：鏡頭高過天花板時看得穿，不需要 ceilHide；吊著的燈在 2.5 m 以上'))
     prob = LS.navcheck(c, lay); p2, info = notrap(lay); prob = prob + p2
     lay['navcheck'] = dict(cell=0.4, inset=0.25, problems=prob, notrap=info)
@@ -254,6 +258,20 @@ def atlas():
     im.save(os.path.join(GEN, 'l118_int_home_print.png'))
 
 
+def tile_tex():
+    """牆面的米白方磚（20 cm；程式畫的：每塊磚深淺差一點、灰縫、往下流的淡水漬）→ textures/gen/l118_int_home_tile.png，一張＝1 m × 1 m
+    （Poly Haven 的 rounded_square_tiled_wall 是 2 cm 的馬賽克，放大成 20 cm 一塊會糊）"""
+    rr = random.Random(55); S = 512; n = 5; p = S / n; im = Image.new('RGB', (S, S), (206, 197, 174)); d = ImageDraw.Draw(im)
+    for i in range(n):
+        for j in range(n):
+            k = rr.uniform(0.965, 1.02); col = (int(236 * k), int(227 * k), int(205 * k)); d.rounded_rectangle([i * p + 2, j * p + 2, (i + 1) * p - 3, (j + 1) * p - 3], radius=3, fill=col)
+            d.line([(i * p + 4, j * p + 4), ((i + 1) * p - 6, j * p + 4)], fill=tuple(min(255, v + 8) for v in col), width=2)
+    st = Image.new('RGBA', (S, S), (0, 0, 0, 0)); ds = ImageDraw.Draw(st)
+    for _ in range(7): x = rr.randrange(S); ds.rectangle([x, 0, x + rr.randint(6, 22), S], fill=(150, 136, 104, rr.randint(8, 20)))
+    st = st.filter(ImageFilter.GaussianBlur(6)); im.paste(st, (0, 0), st)
+    im.save(os.path.join(GEN, 'l118_int_home_tile.png'))
+
+
 def uvdisc(mesh, x, y, z, r, rect, nx=-1, seg=20):
     """貼在東／西牆上的圓形印刷品（鐘面）：nx＝面朝的方向（−1 朝西＝東牆上）"""
     bm = mesh.bm; uvl = bm.loops.layers.uv.verify(); u0, v0, u1, v1 = rect; vs = []; uvs = []
@@ -263,9 +281,10 @@ def uvdisc(mesh, x, y, z, r, rect, nx=-1, seg=20):
     for lp, uv in zip(f.loops, uvs): lp[uvl].uv = uv
 
 
-def lathe_x(m, prof, x, y, z, col, seg=20, nx=-1):
-    """車出來的旋轉體，軸朝 −x（東牆上的東西往店裡凸）或 +x"""
-    f0 = set(m.bm.faces); bm = L.lathe(prof, seg=seg); m.add_bm(bm, Matrix.Translation(g2b(x, y, z)) @ Matrix.Rotation(-PI / 2 if nx < 0 else PI / 2, 4, 'Y')); bm.free(); m.paint([q for q in m.bm.faces if q not in f0], col)
+def lathe_x(m, prof, x, y, z, col, seg=20, nx=-1, pz=False):
+    """車出來的旋轉體，軸朝 −x（東牆上的東西往店裡凸）或 +x；pz＝軸朝 +z（後牆上的東西往店裡凸）"""
+    R = Matrix.Rotation(PI / 2, 4, 'X') if pz else Matrix.Rotation(-PI / 2 if nx < 0 else PI / 2, 4, 'Y')
+    f0 = set(m.bm.faces); bm = L.lathe(prof, seg=seg); m.add_bm(bm, Matrix.Translation(g2b(x, y, z)) @ R); bm.free(); m.paint([q for q in m.bm.faces if q not in f0], col)
 
 
 def condiments(c, x, z, y=0.74):
@@ -278,10 +297,16 @@ def condiments(c, x, z, y=0.74):
     c.vm.crbox(x - 0.07, x + 0.07, y, y + 0.085, z + 0.1, z + 0.22, '#c4c8cb', r=0.008, seg=1); v.cbox(x - 0.03, x + 0.03, y + 0.085, y + 0.11, z + 0.15, z + 0.17, '#fbfaf6')
 
 
+def dumpling(m, x, y, z, a, col='#f1e9d6'):
+    """一顆水餃：胖胖的半月形（橢球壓扁一邊）＋上面一道捏起來的邊"""
+    cell_(m, (x, y + 0.017, z), 0.037, 0.019, 0.023, col, seg=10, rings=4, rotz=a)
+    cell_(m, (x, y + 0.027, z), 0.035, 0.012, 0.0045, '#e9dfc9', seg=6, rings=3, rotz=a)
+
+
 def dumplings(m, x0, x1, z0, z1, y, nx, nz, rng):
     for i in range(nx):
         for j in range(nz):
-            cell_(m, (x0 + (i + 0.5) * (x1 - x0) / nx, y + 0.013, z0 + (j + 0.5) * (z1 - z0) / nz), 0.03, 0.014, 0.017, '#efe7d4', rotz=rng.uniform(-0.25, 0.25))
+            dumpling(m, x0 + (i + 0.5) * (x1 - x0) / nx, y, z0 + (j + 0.5) * (z1 - z0) / nz, rng.uniform(-0.3, 0.3))
 
 
 def bowls(m, x, y, z, n=5, col='#eef0f2', rim='#3f5f9c'):
@@ -297,7 +322,7 @@ def banquette(c, z0, z1):
     n = max(1, round((z1 - z0) / 0.2)); dz = (z1 - z0) / n
     for k in range(n): v.crbox(X0 + 0.005, X0 + 0.1, 0.47, 1.0, z0 + k * dz + 0.003, z0 + (k + 1) * dz - 0.003, lea, k=0.97 + 0.05 * ((k * 5) % 3) / 2, r=0.03, seg=2)
     c.wood.rbox(X0, X0 + 0.11, 1.0, 1.035, z0, z1, r=0.008, seg=1)
-    for zz in (z0 - 0.04, z1): c.wood.rbox(X0, X0 + 0.52, 0.0, 1.035, zz, zz + 0.04, r=0.008, seg=1)
+    for zz in (z0 - 0.04, z1): c.wood.rbox(X0, X0 + 0.52, 0.0, 0.64, zz, zz + 0.04, r=0.012, seg=2); c.wood.rbox(X0, X0 + 0.12, 0.64, 1.035, zz, zz + 0.04, r=0.008, seg=1)   # 兩端的木側板（扶手高）
 
 
 def hood(c, x0, x1, z0, z1, y0=1.95, y1=2.5):
@@ -310,6 +335,31 @@ def hood(c, x0, x1, z0, z1, y0=1.95, y1=2.5):
     for (xa, xb, za, zb) in ((x0, x1, z1 - 0.02, z1), (x0, x0 + 0.02, z0, z1), (x1 - 0.02, x1, z0, z1)): ks.box(xa, xb, y0 - 0.14, y0, za, zb)
     kt.poly([(x0 + 0.02, y0 - 0.02, z0), (x1 - 0.02, y0 - 0.02, z0), (x1 - 0.02, y0 - 0.02, z1 - 0.02), (x0 + 0.02, y0 - 0.02, z1 - 0.02)], '#5a5f63')
     xm = (x0 + x1) / 2; ks.box(xm - 0.3, xm + 0.3, y1, H, z0 + 0.02, z0 + 0.55)
+
+
+def lattice_window(c, z0, z1, y0, y1):
+    """西牆上的深木框格子窗（兩扇、每扇 2×3 格；霧面壓花玻璃：下面兩排霧白、最上面一排淡綠白）——int2 參考圖、文字規格「木框窗戶」"""
+    X0 = c.X0; m = c.wg('W', 'trim', c.M['vc'], cm=True); wd = '#4a3122'; zm = (z0 + z1) / 2
+    m.crbox(X0, X0 + 0.07, y0 - 0.07, y0, z0 - 0.09, z1 + 0.09, wd, r=0.01, seg=1); m.crbox(X0, X0 + 0.055, y1, y1 + 0.07, z0 - 0.07, z1 + 0.07, wd, r=0.01, seg=1)
+    for zz in (z0 - 0.07, z1): m.crbox(X0, X0 + 0.055, y0, y1, zz, zz + 0.07, wd, r=0.01, seg=1)
+    m.crbox(X0, X0 + 0.05, y0, y1, zm - 0.035, zm + 0.035, wd, r=0.008, seg=1)
+    for (a, b) in ((z0, zm - 0.035), (zm + 0.035, z1)):
+        for k in range(3):
+            ya, yb = y0 + k * (y1 - y0) / 3, y0 + (k + 1) * (y1 - y0) / 3
+            for j in range(2):
+                za, zb = a + j * (b - a) / 2, a + (j + 1) * (b - a) / 2
+                m.poly([(X0 + 0.02, ya, zb), (X0 + 0.02, ya, za), (X0 + 0.02, yb, za), (X0 + 0.02, yb, zb)], '#dfe9e2' if k == 2 else ('#e9ece6' if (k + j) % 2 else '#e3e7e1'))
+            if k: m.crbox(X0, X0 + 0.04, ya - 0.014, ya + 0.014, a, b, wd, r=0.004, seg=1)
+        m.crbox(X0, X0 + 0.04, y0, y1, (a + b) / 2 - 0.014, (a + b) / 2 + 0.014, wd, r=0.004, seg=1)
+    for zz in (zm - 0.12, zm + 0.12): m.crbox(X0 + 0.05, X0 + 0.065, y0 + 0.5, y0 + 0.62, zz - 0.012, zz + 0.012, '#b08d57', r=0.004, seg=1)   # 把手
+
+
+def ceiling_fan(c, x, z):
+    """吊扇（int2 參考圖）：吊桿、馬達殼、四片扇葉；最低 2.72 m（鏡頭在人物後上方，吊著的東西要在 2.5 m 以上）"""
+    ccyl(c.vm, (x, 2.86, z), (x, H, z), 0.014, '#cfc7b4', seg=6); clathe(c.vc, [(0.0, 0.0), (0.06, 0.0), (0.11, 0.03), (0.12, 0.07), (0.09, 0.11), (0.03, 0.13), (0.0, 0.13)], x, 2.74, z, '#d8cfba', seg=14)
+    clathe(c.vc, [(0.0, 0.0), (0.05, 0.0), (0.035, 0.03), (0.0, 0.03)], x, H - 0.03, z, '#d8cfba', seg=10)
+    for k in range(4):
+        T = LS.rot(x, z, k * PI / 2); LS.rbox(c.vc, T, -0.065, 0.065, 2.775, 2.787, 0.16, 0.66, '#e4dcc8', r=0.004, seg=1); LS.rbox(c.vm, T, -0.02, 0.02, 2.77, 2.785, 0.1, 0.2, '#b9b19e')
 
 
 def build_home(c):
@@ -331,9 +381,9 @@ def build_home(c):
     for k in range(6): bowls(kt, 0.05 + (k % 3) * 0.2, 0.86, Z0 + 0.2 + (k // 3) * 0.2, n=4 + (k % 2))                                 # 備料檯上的碗
     hood(c, -3.1, -0.6, Z0, -2.5)
     ks.cyl((-2.9, 1.62, Z0 + 0.05), (-0.8, 1.62, Z0 + 0.05), 0.009, seg=6)                                                            # 掛漏勺、湯杓的桿子
-    for k, xx in enumerate((-2.6, -2.2, -1.75, -1.3)):
-        ccyl(km, (xx, 1.62, Z0 + 0.06), (xx, 1.2 + 0.05 * (k % 2), Z0 + 0.06), 0.006, STEEL, seg=5)
-        clathe(km, [(0.0, 0.0), (0.04, 0.008), (0.055, 0.035), (0.05, 0.038), (0.0, 0.01)] if k % 2 else [(0.0, 0.0), (0.07, 0.01), (0.1, 0.04), (0.095, 0.045), (0.0, 0.012)], xx, 1.16 + 0.05 * (k % 2), Z0 + 0.08, STEEL, seg=10)
+    for k, xx in enumerate((-2.62, -2.34, -2.06, -1.78, -1.5)):                                                                     # 一排撈網（木柄、不鏽鋼網勺；int2 參考圖）
+        ccyl(kt, (xx, 1.6, Z0 + 0.06), (xx, 1.3, Z0 + 0.06), 0.011, '#b98a4e', seg=6); ccyl(km, (xx, 1.3, Z0 + 0.06), (xx, 1.2, Z0 + 0.06), 0.005, STEEL, seg=4)
+        lathe_x(km, [(0.0, 0.035), (0.06, 0.028), (0.098, 0.006), (0.104, 0.0), (0.104, 0.008), (0.062, 0.036), (0.0, 0.044)], xx, 1.1, Z0 + 0.03, '#c2c7ca', seg=12, pz=True)
     # 後牆的層架（兩層：碗、籃子裡的青菜）
     for yy in (1.25, 1.68):
         ks.box(-0.45, 1.25, yy - 0.02, yy, Z0 + 0.01, Z0 + 0.32)
@@ -342,7 +392,8 @@ def build_home(c):
     for k, (xx, col, veg) in enumerate(((-0.2, '#c8c4b8', '#6aa046'), (0.25, '#c8c4b8', '#8fbf5a'), (0.72, '#c0392b', '#6aa046'))):
         clathe(kt, [(0.0, 0.0), (0.12, 0.0), (0.16, 0.1), (0.165, 0.11), (0.15, 0.11), (0.11, 0.015), (0.0, 0.015)], xx, 1.68, Z0 + 0.17, col, seg=12)
         for j in range(5): cell_(kt, (xx + 0.07 * math.cos(j * 1.3), 1.79 + 0.02 * (j % 2), Z0 + 0.17 + 0.07 * math.sin(j * 1.3)), 0.07, 0.035, 0.05, veg, rotz=j * 0.7)
-    bowls(kt, 1.08, 1.68, Z0 + 0.17, n=6)
+    for k in range(3): clathe(kt, [(0.0, 0.0), (0.15, 0.0), (0.155, 0.006), (0.155, 0.07), (0.15, 0.076), (0.0, 0.076)], 1.05, 1.68 + k * 0.078, Z0 + 0.17, '#c9a56a' if k % 2 else '#bf9a5e', seg=16)   # 竹蒸籠三層＋蓋子（int2 參考圖）
+    clathe(kt, [(0.0, 0.0), (0.155, 0.0), (0.15, 0.02), (0.09, 0.05), (0.0, 0.06)], 1.05, 1.68 + 3 * 0.078, Z0 + 0.17, '#b08a4e', seg=16)
     # 冰箱（不鏽鋼雙門立式）
     km.crbox(1.36, 2.16, 0.06, 1.98, Z0 + 0.02, Z0 + 0.72, '#b7bcc0', r=0.012, seg=1); km.cbox(1.38, 2.14, 0.0, 0.06, Z0 + 0.06, Z0 + 0.68, '#3a3d40')
     km.cbox(1.36, 2.16, 1.0, 1.012, Z0 + 0.72, Z0 + 0.726, '#6c7176'); km.cbox(1.755, 1.765, 0.08, 1.96, Z0 + 0.72, Z0 + 0.726, '#6c7176')
@@ -369,7 +420,7 @@ def build_home(c):
     R_, Hh = 0.42, 0.46
     clathe(km, [(0.0, 0.0), (R_ - 0.015, 0.0), (R_, 0.02), (R_, Hh), (R_ + 0.022, Hh + 0.01), (R_ + 0.022, Hh + 0.028), (R_ - 0.018, Hh + 0.028), (R_ - 0.018, 0.03), (0.0, 0.03)], px, 0.55, pz, '#c6cbce', seg=28)
     ccyl(kt, (px, 0.55 + Hh - 0.06, pz), (px, 0.55 + Hh - 0.055, pz), R_ - 0.02, '#dfe2da', seg=24)                                    # 水面
-    for k in range(10): a = k * 0.63 + 0.2; rd = 0.1 + 0.24 * ((k * 37) % 10) / 10; cell_(kt, (px + rd * math.cos(a), 0.55 + Hh - 0.05, pz + rd * math.sin(a)), 0.034, 0.016, 0.02, '#f4eedd', rotz=a)
+    for k in range(10): a = k * 0.63 + 0.2; rd = 0.1 + 0.24 * ((k * 37) % 10) / 10; dumpling(kt, px + rd * math.cos(a), 0.55 + Hh - 0.072, pz + rd * math.sin(a), a, '#f4eedd')
     for s in (-1, 1): km.crbox(px + s * (R_ + 0.03) - 0.025, px + s * (R_ + 0.03) + 0.025, 0.55 + Hh - 0.1, 0.55 + Hh - 0.07, pz - 0.07, pz + 0.07, '#9aa0a4', r=0.008, seg=1)
     st = c.wg('N', 'ksteam', L.flat('l118_home_steam', '#ffffff', rough=1.0, alpha=0.16))
     for k, (dx_, dy_, dz_, r_) in enumerate(((0.0, 0.2, 0.0, 0.26), (0.1, 0.52, -0.06, 0.3), (-0.12, 0.82, 0.04, 0.27), (0.06, 1.1, -0.02, 0.22), (-0.04, 1.34, 0.03, 0.16))):
@@ -380,7 +431,7 @@ def build_home(c):
     bx, bz = -2.72, -2.72
     for k in range(3): a = k * 2 * PI / 3 + 0.5; ccyl(km, (bx + 0.1 * math.cos(a), 0.78, bz + 0.1 * math.sin(a)), (bx + 0.26 * math.cos(a), 0.0, bz + 0.26 * math.sin(a)), 0.012, STEEL_D, seg=6)
     clathe(km, [(0.0, 0.0), (0.16, 0.012), (0.27, 0.07), (0.31, 0.13), (0.318, 0.14), (0.3, 0.14), (0.25, 0.085), (0.15, 0.03), (0.0, 0.02)], bx, 0.77, bz, '#c0c5c8', seg=20)
-    for k in range(13): a = k * 2.4; rd = 0.05 + 0.15 * ((k * 53) % 10) / 10; cell_(kt, (bx + rd * math.cos(a), 0.83 + 0.02 * (k % 3), bz + rd * math.sin(a)), 0.032, 0.016, 0.019, '#efe7d4', rotz=a)
+    for k in range(13): a = k * 2.4; rd = 0.05 + 0.15 * ((k * 53) % 10) / 10; dumpling(kt, bx + rd * math.cos(a), 0.81 + 0.02 * (k % 3), bz + rd * math.sin(a), a)
     # 不鏽鋼工作檯（面向客人；包好的水餃一盤盤、餡料盆、擀麵棍、餃子皮、收銀機）＝櫃台
     wx0, wx1, wz0, wz1 = -0.8, 2.1, -2.88, -2.3
     ks.rbox(wx0 - 0.02, wx1 + 0.02, 0.82, 0.86, wz0 - 0.02, wz1 + 0.03, r=0.006, seg=1); km.cbox(wx0, wx1, 0.1, 0.82, wz0, wz1, '#a9aeb2')
@@ -389,9 +440,10 @@ def build_home(c):
         km.crbox(a + 0.012, b - 0.012, 0.14, 0.78, wz1, wz1 + 0.014, '#bcc1c5', r=0.004, seg=1); km.crbox(b - 0.1, b - 0.07, 0.4, 0.56, wz1 + 0.014, wz1 + 0.03, '#8e9499', r=0.004, seg=1)
     for xx in (wx0 + 0.06, (wx0 + wx1) / 2, wx1 - 0.06): ccyl(km, (xx, 0.0, wz1 - 0.06), (xx, 0.1, wz1 - 0.06), 0.025, STEEL_D, seg=6)
     for (ta, tb) in ((-0.7, -0.08), (-0.02, 0.6)):
-        km.crbox(ta, tb, 0.86, 0.878, wz0 + 0.08, wz1 - 0.06, '#c9ced2', r=0.004, seg=1); dumplings(kt, ta + 0.03, tb - 0.03, wz0 + 0.1, wz1 - 0.08, 0.878, 7, 4, rng)
+        km.crbox(ta, tb, 0.86, 0.878, wz0 + 0.08, wz1 - 0.06, '#c9ced2', r=0.004, seg=1); dumplings(kt, ta + 0.03, tb - 0.03, wz0 + 0.1, wz1 - 0.08, 0.878, 6, 3, rng)
     clathe(km, [(0.0, 0.0), (0.13, 0.0), (0.2, 0.1), (0.21, 0.11), (0.195, 0.11), (0.125, 0.012), (0.0, 0.012)], 0.92, 0.86, -2.62, '#c6cbce', seg=18)
-    csph(kt, (0.92, 0.93, -2.62), 0.17, '#cfa58f', seg=12, rings=5, sy=0.45)
+    csph(kt, (0.92, 0.935, -2.62), 0.17, '#c9a78c', seg=12, rings=5, sy=0.5)
+    for k in range(9): a = k * 2.1; cell_(kt, (0.92 + 0.1 * math.cos(a) * (0.4 + (k % 3) * 0.3), 1.0 + 0.004 * (k % 2), -2.62 + 0.1 * math.sin(a) * (0.4 + (k % 3) * 0.3)), 0.016, 0.006, 0.01, '#6aa046', rotz=a)   # 餡料裡的韭菜、高麗菜
     ccyl(c.vc, (1.14, 0.885, -2.42), (1.46, 0.885, -2.38), 0.022, '#c8a46a', seg=8)                                                    # 擀麵棍
     for k in range(2): ccyl(kt, (1.25 + k * 0.13, 0.86, -2.7), (1.25 + k * 0.13, 0.9 - k * 0.012, -2.7), 0.05, '#f3ecd9', seg=12)     # 餃子皮
     LS.register(c, 1.82, 0.86, -2.6, face='+z')
@@ -448,19 +500,18 @@ def build_home(c):
     # ---------- 牆上 ----------
     pr(c, 'W', -1.0, 0.5, 1.28, 2.43, 'BOARD'); frame(c, 'W', -1.0, 0.5, 1.28, 2.43, '#8c2a22')            # 手寫價目板（紅框）
     pr(c, 'W', -1.98, -1.46, 1.3, 2.3, 'PLAQUE', inset=0.03); c.wg('W', 'trim', M['vc'], cm=True).crbox(X0, X0 + 0.028, 1.28, 2.32, -2.0, -1.44, '#6b4423', r=0.006, seg=1)   # 木牌「手工水餃 現包現煮」
-    pr(c, 'W', 0.78, 1.3, 1.5, 1.92, 'PHOTO1'); frame(c, 'W', 0.78, 1.3, 1.5, 1.92, '#3d2a1e', t=0.03)
-    pr(c, 'W', 1.75, 2.3, 1.62, 1.91, 'PHOTO2'); frame(c, 'W', 1.75, 2.3, 1.62, 1.91, '#3d2a1e', t=0.03)
+    pr(c, 'W', 0.74, 1.26, 1.42, 1.84, 'PHOTO1'); frame(c, 'W', 0.74, 1.26, 1.42, 1.84, '#3d2a1e', t=0.03)   # 老照片（窗和價目板中間、壁扇下面）
+    pr(c, 'E', -2.1, -1.55, 1.5, 1.79, 'PHOTO2'); frame(c, 'E', -2.1, -1.55, 1.5, 1.79, '#3d2a1e', t=0.03)
+    lattice_window(c, 1.5, 2.95, 1.08, 2.46)                                                             # 深木框格子窗（霧面玻璃；這面牆隔壁是鄰居，不做窗外的景）
     pr(c, 'W', -1.38, -1.1, 1.36, 1.8, 'CAL')
     pr(c, 'W', 3.2, 3.6, 1.2, 2.16, 'DOORSIGN', inset=0.03); c.wg('W', 'trim', M['vc'], cm=True).crbox(X0, X0 + 0.028, 1.18, 2.18, 3.18, 3.62, '#2e2018', r=0.006, seg=1)   # 門邊的直木牌
-    LS.wall_shelf(c, 'W', -1.9, -0.2, 2.58, depth=0.24, items='jars')                                    # 高處的層板：罐子、一盆垂下來的黃金葛
+    LS.wall_shelf(c, 'W', -1.9, -1.4, 2.58, depth=0.24, items='jars'); LS.wall_shelf(c, 'W', -1.4, -1.04, 2.58, depth=0.24, items='none'); LS.wall_shelf(c, 'W', -1.04, -0.2, 2.58, depth=0.24, items='jars')                                    # 高處的層板：罐子、一盆垂下來的黃金葛
     wt = c.wg('W', 'trim', M['vc'], cm=True)
-    clathe(wt, [(0.0, 0.0), (0.07, 0.0), (0.095, 0.13), (0.1, 0.14), (0.0, 0.14)], X0 + 0.13, 2.58, -0.02, '#e8e4dc', seg=12)
+    clathe(wt, [(0.0, 0.0), (0.07, 0.0), (0.095, 0.13), (0.1, 0.14), (0.0, 0.14)], X0 + 0.13, 2.58, -1.22, '#e8e4dc', seg=12)   # 黃金葛放在價目板和木牌中間的上面（垂下來不擋字）
     for k in range(22):
-        a = rng.uniform(0, 2 * PI); dn = rng.uniform(0.0, 0.62); rd = rng.uniform(0.04, 0.16)
-        cell_(wt, (X0 + 0.14 + abs(rd * math.cos(a)) * 0.8, 2.74 - dn, -0.02 + rd * math.sin(a) * 1.4), 0.055, 0.012, 0.04, rng.choice(['#3f7a3a', '#4f8f44', '#356a33']), rotz=a)
-    f0 = set(c.vc.bm.faces); LS.wall_fan(c, X0, 2.62, 2.75, '+x'); c.vc.paint([q for q in c.vc.bm.faces if q not in f0], '#86a898')    # 綠色的舊壁扇（零件照 lane118_shops.wall_fan，改漆綠色）
-    for k in range(3): ccyl(wt, (X0 + 0.01, 1.3, 2.5 + k * 0.14), (X0 + 0.07, 1.31, 2.5 + k * 0.14), 0.008, '#6b4423', seg=5)          # 掛抹布的木釘
-    for k in range(2): wt.crbox(X0 + 0.03, X0 + 0.05, 0.86, 1.29, 2.46 + k * 0.16, 2.6 + k * 0.16, '#e9e2d0' if k == 0 else '#d9d2c0', r=0.008, seg=1)
+        a = rng.uniform(0, 2 * PI); dn = rng.uniform(0.0, 0.5); rd = rng.uniform(0.04, 0.16)
+        cell_(wt, (X0 + 0.14 + abs(rd * math.cos(a)) * 0.8, 2.74 - dn, -1.22 + rd * math.sin(a)), 0.055, 0.012, 0.04, rng.choice(['#3f7a3a', '#4f8f44', '#356a33']), rotz=a)
+    f0 = set(c.vc.bm.faces); LS.wall_fan(c, X0, 2.6, 1.0, '+x'); nf = [q for q in c.vc.bm.faces if q not in f0]; c.vc.paint(nf[:-24], '#86a898')    # 綠色的舊壁扇（零件照 lane118_shops.wall_fan：機身改漆綠色；最後 24 個面是三片扇葉，照舊）
     pr(c, 'E', -0.4, 0.22, 1.4, 2.23, 'PAINT'); frame(c, 'E', -0.4, 0.22, 1.4, 2.23, '#3d2a1e')            # 山水畫
     pr(c, 'E', 2.45, 2.87, 1.22, 2.27, 'SCROLL', inset=0.02)                                             # 「五湖四海」掛軸
     et = c.wg('E', 'trim', M['vc'], cm=True)
@@ -478,11 +529,12 @@ def build_home(c):
     pts = []
     for (lx, lz) in ((-1.7, -1.2), (1.7, -1.2), (-1.7, 0.95), (1.7, 0.95), (-1.7, 3.1), (1.7, 3.1), (0.6, -3.2)): pts += [(lx, lz - 0.09, 'x'), (lx, lz + 0.09, 'x')]
     LS.tubes(c, pts, L_=1.2)
+    ceiling_fan(c, -0.7, 0.95)
     c.spawn['note'] = '從門進來、面向店裡（正前方是走道，直走到煮水餃的大鍋）'
 
 
 PREVIEW = ([['door', [-2.2, 1.55, 4.0], [-0.6, 1.05, -2.0], 17], ['back', [0.9, 1.6, -3.5], [-1.2, 0.95, 3.0], 17]],
-           [(-1.7, 2.9, -1.2, 260), (1.7, 2.9, -1.2, 260), (-1.7, 2.9, 0.95, 260), (1.7, 2.9, 0.95, 260), (-1.7, 2.9, 3.1, 260), (1.7, 2.9, 3.1, 260), (0.6, 2.9, -3.2, 220)])
+           [(-1.7, 2.9, -1.2, 42), (1.7, 2.9, -1.2, 42), (-1.7, 2.9, 0.95, 42), (1.7, 2.9, 0.95, 42), (-1.7, 2.9, 3.1, 42), (1.7, 2.9, 3.1, 42), (0.6, 2.9, -3.2, 36)])
 
 
 def main():
@@ -490,15 +542,16 @@ def main():
     if '--preview-only' in LS.ARGS: return preview(SID, os.path.join(L.ROOT, pv), *PREVIEW)      # 只重算預覽圖（不重新產生模型）
     os.makedirs(GEN, exist_ok=True)
     # lane118_shops 的兩個表改寫成新店（W、D、door_x 維持原值）；它的印刷品貼圖（Shop() 會讀）照新店名重畫——這間實際用的是自己的貼圖集（atlas()）
-    LS.SPEC[SID] = dict(W=7.6, D=8.5, floor=('granite_tile', '#a7a6a1', 1.0), wall='#efe7d4', wain=('rounded_square_tiled_wall', '#e7ddc6', 1.0), wainH=2.72, wood=('walnut_veneer', '#6e452c'), door_x=-2.6, trim='#cfc5ad', ceil='#eeebe2')
+    LS.SPEC[SID] = dict(W=7.6, D=8.5, floor=('granite_tile', '#a09f9a', 1.0), wall='#efe7d4', wain=('rounded_square_tiled_wall', '#e7ddc6', 1.0), wainH=2.72, wood=('walnut_veneer', '#6e452c'), door_x=-2.6, trim='#cfc5ad', ceil='#eeebe2')
     TX.SHOPS[SID] = dict(name=NAME, sub=SUB, menu=MENU, hours=HOURS, bg='#f1e7d0', fg='#3a2a1e', ac='#a8261e', p1=('手工水餃', ['現包現煮']), p2='水餃專賣')
     TX.shop_atlas(SID, TX.SHOPS[SID])
     if not os.path.exists(os.path.join(GEN, 'l118_screens.png')): TX.screens()
-    atlas(); ensure_view(SID)
+    atlas(); tile_tex(); ensure_view(SID)
     c = LS.Shop(SID); c.extra = {}; c.REG = REG
     c.M['iprint'] = LS.img_mat('l118_home_iprint', 'l118_int_home_print.png', rough=0.6)
+    c.M['wain'] = LS.img_mat('l118_home_walltile', 'l118_int_home_tile.png', rough=0.34)   # 牆面的方磚換成自己畫的 20 cm 米白磚（SPEC 的 wain 那張馬賽克不用）
     build_home(c)
-    prob = finish2(c, src='L118-SHOPS-REDO-1111（使用者 2026-11-11 規格：店名、菜單；參考圖 l118_ref/int_home.webp）；室內 tools/blender/env_second/l118_int_home.py')
+    prob = finish2(c, src='L118-SHOPS-REDO-1111（使用者 2026-11-11 規格：店名、菜單；參考圖 l118_ref/int_home.webp）；室內 tools/blender/env_second/l118_int_home.py', old_name='巷口家常菜', old_type='家常菜')
     print('L118_INT_HOME', 'OK' if not prob else prob)
     if pv: preview(SID, os.path.join(L.ROOT, pv), *PREVIEW)
 
