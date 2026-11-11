@@ -7733,6 +7733,15 @@
    "task": "GG-SHOPS3-STORY-1110",
    "kind": "md",
    "note": "以這份為準：AA_742 的 kind 對照 LAWWW2 的配置、第 2 節新加／改寫的「看」、要改模型的句子不接、騎樓 sale／rack 不接、汀州鮮果老闆娘那一句換老闆說、印得好老闆那一句換店員說、榮恩典女兒週末不接（tools/shops/import_gg3_shops.py）"
+  },
+  {
+   "path": "docs/story_planning/AA_814_三個優先項目劇情斷點對帳.md",
+   "sha": "91c6aaf9f",
+   "status": "approved",
+   "approvedBy": "AA 定稿（D109）；AA 11-11 16:14 交（AA-PRIO-GAP-1111，LAWWW 16:01 派）",
+   "task": "AA-PRIO-GAP-1111",
+   "kind": "text",
+   "note": "手抄進 src/data/events.js（1-1 j8a、1-2 E27b）、src/econff3d.js（1-3 KEEP）、src/data/vac_activities.js＋src/vac3d.js（2-1、2-2、2-3 撞期系統字）、src/data/r2y4a_events.js（3-2、3-3、3-5）、src/r2y4a3d.js（3-1、3-2 鬧鐘、3-4）、src/us_life3d.js（3-6）；tests/aa814_prio_gap_1111_unit.js 逐句對稿"
   }
  ]
 }

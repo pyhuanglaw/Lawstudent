@@ -76,6 +76,12 @@ if(process.env.QUOTE_B7_PROBE) (async()=>{
   const mode=process.env.QUOTE_B7_PROBE;
   if(mode==='old'){ const OLD={}; for(const f of CHANGED) OLD[path.join(ROOT,f)]=gitShow(BASE,f); const real=fs.readFileSync;
     fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(OLD[k]!=null) return OLD[k]; } return real.apply(fs,arguments); }; }
+  /* 2026-11-11 之後故意改的劇情（不是第七批的範圍，各自有逐句對稿的測試）：這幾個檔用改之前那一版（9d45ef8b3，這支測試在那裡全過）比——
+     AA_814（企劃線 91c6aaf9f，tests/aa814_prio_gap_1111_unit.js）：events.js 1/8 j8a 補一句、2/14 E27b 加五格；r2y4a_events.js 美國交換三處；
+     AA_742 第 ③ 節（tests/gg_shops3_story_1111_unit.js）：sis_grad3d.js 場景名「公館・日日定食」→「汀州路・泰米村食」 */
+  const LATER_PIN='9d45ef8b3', LATER_FILES=['src/data/events.js','src/data/r2y4a_events.js','src/sis_grad3d.js'];
+  { const PL={}; for(const f of LATER_FILES) if(mode==='new'||!CHANGED.includes(f)) PL[path.join(ROOT,f)]=gitShow(LATER_PIN,f); const real=fs.readFileSync;   /* 兩邊都釘（old＝BASE 的 CHANGED 照舊從 BASE 讀，其他檔原本讀現在的）*/
+    fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(PL[k]!=null) return PL[k]; } return real.apply(fs,arguments); }; }
   if(mode==='new'&&pinC8){ const PN={}; for(const f of PIN_FILES) PN[path.join(ROOT,f)]=gitShow(pinC8,f); const real=fs.readFileSync;
     fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(PN[k]!=null) return PN[k]; } return real.apply(fs,arguments); }; }
   const out={errs:[]};

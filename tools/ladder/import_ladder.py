@@ -678,8 +678,8 @@ if A781:
         S781 = A781[P781]
         ok, why = G.allowed(P781, S781, ALLOW)
         if not ok: sys.exit('拒絕匯入：' + why)
-        raw = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S781}:{P781}'], text=True)
-        d0, d = json.loads(raw), json.loads(G.read_fix(raw))
+        raw = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S781}:{P781}'], text=True); fx = G.read_fix(raw)   # 讀稿照 read_fix（同一行，tests/alison_unit.js 第 4 項掃得到）
+        d0, d = json.loads(raw), json.loads(fx)
         tag = f'{os.path.basename(P781)[:-5]}@{S781}'
         if {k: v for k, v in d0.items() if k != '_meta'} != {k: v for k, v in d.items() if k != '_meta'}: sys.exit(f'{tag}：讀稿換名（read_fix）以後字變了——稿要寫遊戲現在的字，請 AA 改稿')
         if set(d) - {'who', 'term', '_meta', 'steps', 'rows'}: sys.exit(f'{tag}：不認得的欄位 {sorted(set(d) - {"who", "term", "_meta", "steps", "rows"})}')
