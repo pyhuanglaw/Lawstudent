@@ -27,6 +27,11 @@ PARTS（逗號分隔；預設全部；括號是 PC 預估分鐘）：
   DATE   （約 4）交往中（dating_heroine_01）週五手機「朋友」→ 以安「約」→ 吃飯…→ 去義大麵屋吃午餐：時間清單、「其他日子…」裡的週一（義大麵屋週一公休）不能約成；週二照常。
          判定＝週一沒有可選的時間（列出來但灰掉也記下來，BB 看「不列」的字面）；選了灰掉的會說原因、不排進邀約。
   DRINK  （約 4）手機約以安「散步…」→ 喝不喝咖啡（drink_a，外帶店）今天 14:00：答應 →【前置】13:47 讀到 118 巷 → 她站的地方＝店門口（meetAt：店面外 1.6 m、店面中間；不是巷口落點）；果茶社（drink_b）同樣記 meetAt。
+  SEATMIX_A／SEATMIX_B（各約 8；不在預設裡，BB 07:04；SEATMIX＝兩個都跑）入座分桌：【前置】REL 好友值、2025-10-15（週三）12:12 在 201、刑總記成上過；
+         【捷徑】LUNCH118.plan 換成固定的發起人／同行／店，再叫 LUNCH118.afterClass（下課選單的掛勾）；之後照遊戲自己的流程：邀約那一句 → 觸控點「好，走。」→ GM.enter l118_<店> → seatParty。
+         A＝五湖四海 4 人、迪倫窯烤披薩 4 人（兩張雙人桌併成四人）、清州刀削麵 3 人、清州 2 人；B＝辛亥韓食 4 人、118牛排（bc407bfc5 配置只有雙人桌＋單人位）2 人、118牛排 3 人、五湖四海 3 人
+         （SEATMIX_A／SEATMIX_B 環境變數可以換，格式 店:人數,店:人數）。每一場記每個人（含玩家）的桌子編號（配置的 table／group；沒有就座位間距 <1.2 m 聚類，log 寫用哪一種）、座位座標、離玩家距離，
+         另存 l118e_SEATMIX_<A|B>_seated_game_<n>_<店><人數>.png；同一張桌才 PASS，分桌 FAIL 並寫幾人分幾桌、誰沒位子。MAIN、TABLE 進店也記同樣的東西（l118e_<PART>_seated_game.png）。
   STORYBURST（約 6；不在預設裡，BB 06:13）一般劇情對話的連點：網址加 ?tapguard；找會邀的日子照真實流程上課 → 同學開口邀約那一句一出來，在對話框中央用觸控連點 BURSTN 下（預設 20）、
          每 BURSTMS ms（預設 150）一路點到選項出現。判：選項沒有被點掉（期間沒有 pick、選單還在）；每一下記 pointerdown 點到的元素、按鈕字、距選單出現幾 ms。之後照字選「接受」走完。
 別名：E3,E4,E5,E6,E9→MAIN；E7→DECL；E8→SKIP。
@@ -61,6 +66,7 @@ LAND = (ENV('ORIENT') or 'land') != 'port'
 D0, D1 = int(ENV('D0') or 6), int(ENV('D1') or 92)
 WHO = ENV('WHO') or 'heroine_01'
 R = L.Run('l118d_e', OUT)
+CUR = {'part': 'X', 'n': 0}
 J = lambda o: json.dumps(o, ensure_ascii=False, default=str)
 SHOTN = [0]
 LV = {'ACQ': [10, 0, 0], 'FAM': [30, 10, 10], 'FRI': [50, 35, 20], 'CLO': [70, 55, 50]}
@@ -154,12 +160,36 @@ SEATS = r"""(([shop,party])=>{ const E=GAME.E, G=GAME.G, Ly=typeof L118_SHOP_LAY
   const Pp=E.player, me={seat:sp(Pp.seat),pos:pos(Pp),pose:Pp.pose||null}, ppl={};
   for(const id of party){ const n=(GAME.npc&&GAME.npc[id])||(E.npcs||[]).find(m=>m.charId===id); ppl[id]=n?{seat:sp(n.seat),pos:pos(n),pose:n.pose||null,hidden:!!n.hidden,inZone:(E.npcs||[]).includes(n),dMe:pos(n)&&pos(Pp)?+Math.hypot(pos(n).x-pos(Pp).x,pos(n).z-pos(Pp).z).toFixed(2):null}:null; }
   return {zone:G.zone,adv:typeof ADV!=='undefined'&&!!ADV.active,seats:(E.zone&&E.zone.seats||[]).length,layoutSeats:Ly&&Ly.seats?Ly.seats.length:null,me,ppl}; })"""
+SEATS2 = r"""(([shop,party])=>{ const E=GAME.E, G=GAME.G, Ly=typeof L118_SHOP_LAYOUTS!=='undefined'?L118_SHOP_LAYOUTS[shop]:null;
+  const lay=s=>{ if(!s||!Ly||!Array.isArray(Ly.seats)) return null; return Ly.seats.find(x=>Math.abs(x.x-s.x)<0.05&&Math.abs(x.z-s.z)<0.05)||null; };
+  const key=q=>q?(Array.isArray(q.table)?'table '+q.table.join(','):(q.table!=null?'table '+q.table:(q.group!=null?'group '+q.group:null))):null;
+  const pos=o=>o&&o.obj?{x:+o.obj.position.x.toFixed(2),z:+o.obj.position.z.toFixed(2)}:null;
+  const ents=[['player',E.player]].concat(party.map(id=>[id,(GAME.npc&&GAME.npc[id])||(E.npcs||[]).find(m=>m.charId===id)||null]));
+  const P0=pos(E.player);
+  const rows=ents.map(([id,n])=>{ const s=n&&n.seat, q=lay(s), p=pos(n); return {id,name:id==='player'?(G.name||'玩家'):((typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):id),present:!!n,seated:!!s,seat:s?{x:+s.x.toFixed(2),z:+s.z.toFixed(2)}:null,pos:p,key:key(q),lift:!!(q&&q.lift),pose:n?n.pose||null:null,hidden:!!(n&&n.hidden),dMe:p&&P0?+Math.hypot(p.x-P0.x,p.z-P0.z).toFixed(2):null}; });
+  let method='配置的 table／group 欄位（L118_SHOP_LAYOUTS）';
+  if(rows.some(r=>r.seated&&!r.key)){ method='座位間距 <1.2 m 聚類（配置沒有 table／group）'; const S=rows.filter(r=>r.seated), lab=S.map((_,i)=>i), f=i=>lab[i]===i?i:(lab[i]=f(lab[i]));
+    for(let i=0;i<S.length;i++) for(let j=i+1;j<S.length;j++) if(Math.hypot(S[i].seat.x-S[j].seat.x,S[i].seat.z-S[j].seat.z)<1.2) lab[f(i)]=f(j); S.forEach((r,i)=>{ r.key='cluster '+f(i); }); }
+  const tables=[...new Set(rows.filter(r=>r.seated).map(r=>r.key))], tid=Object.fromEntries(tables.map((k,i)=>[k,i+1])); rows.forEach(r=>{ r.tableNo=r.seated?tid[r.key]:null; });
+  const lt=Ly&&Ly.seats?Ly.seats.reduce((a,q)=>{ const k=key(q)||'?'; a[k]=(a[k]||0)+1; return a; },{}):null;
+  return {zone:G.zone,adv:typeof ADV!=='undefined'&&!!ADV.active,method,nTables:tables.length,tables,rows,allSeated:rows.every(r=>r.seated),layoutSeats:Ly&&Ly.seats?Ly.seats.length:null,layoutTables:lt}; })"""
 UI = r"""(()=>{ const D=GAME.D||{}, E=GAME.E, Pp=E.player, ch=document.getElementById('choices'), fd=document.getElementById('fade'), dl=document.getElementById('dlg'), sk=document.getElementById('dlgSkip');
   const btns=(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')]:[];
   return {dlg:!!D.active, txt:(dl&&!dl.classList.contains('hide'))?((document.getElementById('dlgText')||{}).textContent||'').trim():'', name:(dl&&!dl.classList.contains('hide'))?((document.getElementById('dlgName')||{}).textContent||'').trim():'',
     heads:btns.map(b=>((b.firstChild&&b.firstChild.nodeType===3)?b.firstChild.textContent:(b.textContent||'')).trim()), full:btns.map(b=>(b.textContent||'').trim()), dims:btns.map(b=>b.classList.contains('dim')||!!b.disabled),
     skipBtn:!!sk&&sk.style.display!=='none'&&!!sk.offsetParent, busy:!!Pp.busy, fade:!!(fd&&fd.classList.contains('on')), phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()), paused:!!E.paused,
     adv:typeof ADV!=='undefined'&&!!ADV.active, zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(3), day:GAME.G.day, money:GAME.G.money}; })()"""
+
+
+async def seat_report(pg, shop, party, tag, gamefile):
+    """進店坐下後：每個人（含玩家）的桌子編號（同一張桌一組）、座位座標、離玩家幾 m；另存一張遊戲鏡頭 gamefile"""
+    r = await pg.evaluate(SEATS2, [shop, party or []])
+    R.note('%s：入座（%s）分組方式＝%s；%d 人分 %d 桌（%s）；店的桌子 %s' % (tag, r['zone'], r['method'], len(r['rows']), r['nTables'], J(r['tables']), J(r['layoutTables'])))
+    for x in r['rows']:
+        R.note('%s：  %s（%s）%s 桌號 %s（%s）座位 %s 位置 %s 離玩家 %s m 姿勢 %s%s' % (tag, x['name'], x['id'], '坐下' if x['seated'] else ('沒有位子' if x['present'] else '不在店裡'), x['tableNo'], x['key'], J(x['seat']), J(x['pos']), x['dMe'], x['pose'], '（高腳椅）' if x['lift'] else ''))
+    try: await pg.screenshot(path=os.path.join(OUT, gamefile)); r['shot'] = gamefile
+    except Exception as e: R.note('截圖失敗 %s：%r' % (gamefile, e))
+    return r
 
 
 async def hook(pg):
@@ -316,9 +346,10 @@ async def lunch_day(pg, cdp, tag, snap, cand, action, ids, after_pick='先自由
             if s['phone'] and not s['heads']: await L.phone_away(pg, cdp, tries=1); await L.close_panels(pg, cdp); continue
             if s['zone'].startswith('l118_') and not seat_done and not s['fade'] and (s['dlg'] or s['heads']):
                 seat_done = True; await pg.wait_for_timeout(800)
-                Pl = next((e['P'] for e in await logs(pg, n0) if e['k'] == 'lunch.plan' and e['P'] and not e['P'].get('no')), None)
-                rec['seats'] = await pg.evaluate(SEATS, [s['zone'][5:], (Pl or {}).get('party') or []]); rec['seat_shot'] = await shot(pg, '%s_in_shop' % tag)
-                R.note('%s：進店（%s）座位：%s' % (tag, s['zone'], J(rec['seats'])))
+                lgp = await logs(pg, n0)
+                Pl = next((e['P'] for e in lgp if e['k'] == 'lunch.planForced'), None) or next((e['P'] for e in lgp if e['k'] == 'lunch.plan' and e['P'] and not e['P'].get('no')), None)
+                CUR['n'] += 1; gf = 'l118e_%s_seated_game%s.png' % (CUR['part'], '' if CUR['n'] == 1 else '_%d' % CUR['n'])
+                rec['seats'] = await seat_report(pg, s['zone'][5:], (Pl or {}).get('party') or [], tag, gf); rec['seat_shot'] = await shot(pg, '%s_in_shop' % tag)
             if s['heads']:
                 idle = None; await pg.wait_for_timeout(600); s = await ui(pg)
                 if not s['heads']: continue
@@ -448,10 +479,9 @@ async def part_main(p):
         # ④
         R.check('MAIN ④：含玩家 %d 人（≤4）' % (len(Pl.get('party') or []) + 1), 1 <= len(Pl.get('party') or []) <= 3, J(Pl.get('party')))
         se = rec.get('seats') or {}
-        R.note('MAIN ④：店裡看到的人 %s' % J(se.get('ppl')))
-        tb = lambda q: ((q or {}).get('t') or {}).get('table') if q else None
-        mt = tb((se.get('me') or {}).get('seat')); ot = {i: tb(((se.get('ppl') or {}).get(i) or {}).get('seat')) for i in Pl.get('party') or []}
-        R.check('MAIN：進店坐同一桌（玩家桌 %s；同行 %s）' % (mt, J(ot)), bool(mt) and all(v == mt for v in ot.values()), J(se))
+        R.note('MAIN ④：店裡的人 %s' % J([(x['id'], x['tableNo'], x['dMe']) for x in se.get('rows') or []]))
+        R.check('MAIN：進店坐同一桌（%d 人分 %s 桌；%s）' % (len(se.get('rows') or []), se.get('nTables'), se.get('method')), bool(se.get('allSeated')) and se.get('nTables') == 1,
+                J([(x['id'], x['tableNo'], x['key'], x['seat'], x['dMe']) for x in se.get('rows') or []]))
         # ⑤
         mm = menu_money(rec); shopmenu = await pg.evaluate("s=>{ const x=L118.shop(s); return x?x.menu:null; }", Pl.get('shop'))
         mp = next((m[1] for m in (shopmenu or []) if m[0] == Pl.get('item')), None)
@@ -589,15 +619,13 @@ async def part_table(p):
         st3 = next((e.get('v') for e in rec['log'] if e['k'] == 'lunch.stage3d'), None); sn = next((e.get('n') for e in rec['log'] if e['k'] == 'lunch.seated'), None)
         adv = any(e['k'] == 'cap' and e['text'] == Pl.get('shopName') for e in rec['log']) or bool(se.get('adv'))
         R.note('TABLE：含玩家 %d 人；stage3d=%s（false＝深色底 2D）；seatParty 坐下的同行 %s 人；進店時座位 %s' % (len(party) + 1, st3, sn, J(se)))
-        ppl = se.get('ppl') or {}; seated = [i for i in party if (ppl.get(i) or {}).get('seat')]
-        tabs = set()
-        for sp_ in [(se.get('me') or {}).get('seat')] + [ppl[i]['seat'] for i in seated]:
-            if sp_: tabs.add(((sp_.get('t') or {}).get('table')) or ('座位 %s,%s' % (sp_['x'], sp_['z'])))
+        rows_ = se.get('rows') or []; seated = [x['id'] for x in rows_ if x['seated'] and x['id'] != 'player']; tabs = set(se.get('tables') or [])
         kind = '2D（深色底）' if (st3 is False or adv) else ('全部坐下：同一桌' if len(seated) == len(party) and len(tabs) == 1 else ('全部坐下：併桌（%d 張）' % len(tabs) if len(seated) == len(party) else '3D 但有 %d 位同行沒位子' % (len(party) - len(seated))))
         R.note('TABLE：結果＝%s（桌號 %s）' % (kind, J(sorted(tabs))))
         R.check('TABLE：辛亥韓食是 3D 室內（l118_tea 在、沒有退回 2D）', zt and not kind.startswith('2D'), kind)
-        R.check('TABLE：玩家自己坐下了', bool((se.get('me') or {}).get('seat')), J(se.get('me')))
-        R.check('TABLE：%d 人同桌（室內 %s 個位子；每一位同行都有位子、全部同一張桌；實際：%s）' % (len(party) + 1, len((lay or {}).get('seats') or []), kind), len(seated) == len(party) and len(tabs) == 1, J({'seated': seated, 'party': party, 'tabs': sorted(tabs), 'ppl': ppl}))
+        R.check('TABLE：玩家自己坐下了', any(x['id'] == 'player' and x['seated'] for x in rows_), J(rows_[:1]))
+        R.check('TABLE：%d 人同桌（室內 %s 個位子；每一位同行都有位子、全部同一張桌；實際：%s；%s）' % (len(party) + 1, len((lay or {}).get('seats') or []), kind, se.get('method')), len(seated) == len(party) and len(tabs) == 1 and bool(se.get('allSeated')),
+                J([(x['id'], x['tableNo'], x['key'], x['seat'], x['dMe']) for x in rows_]))
         mm = menu_money(rec)
         R.check('TABLE：錢只扣玩家那一份 %s 元（%s）' % (Pl.get('price'), J(mm)), mm == [-Pl.get('price')] if Pl.get('price') else False)
         no_errs('TABLE', errs)
@@ -884,7 +912,78 @@ async def part_storyburst(p):
         await b.close()
 
 
-FN = {'STORYBURST': part_storyburst, 'MAIN': part_main, 'SKIP': part_skip, 'DECL': part_decl, 'TABLE': part_table, 'E1': part_e1, 'E2': part_e2, 'E10': part_e10, 'DATE': part_date, 'DRINK': part_drink}
+FORCE = r"""(([shop,party])=>{ const Lm=LUNCH118, W=window.__LE;
+  Lm.plan=function(GM,it){ const G=GM.G, h=(((+G.hour||0)%24)+24)%24, s=L118.shop(shop), m=Lm.meal(G,shop), D=L118_LUNCH_DATA, IL=((D.invite[party[0]]||{}).lines)||[];
+    const grp=Lm.pickGroup(G,party,shop)||(Lm.groupsFor([party[0]],shop)[0])||null;
+    const Pf={day:G.day,key:it.key,el:party.slice(),top:3,p:1,who:party[0],mates:party.slice(1),party:party.slice(),shop,shopName:s.name,item:m.item,price:m.price,poor:!m.ok,grp,sp:null,
+      inviteLine:IL[0]||null,arrive:(D.arrive||{})[shop]||null,leave:(D.leave||[])[0]||null,h0:h,hA:h+1/6,lim:24,hEnd:h+1/6+0.5};
+    if(W) W.push({k:'lunch.planForced',P:W.sumP(Pf)}); return Pf; };
+  return {shop,name:L118.shop(shop)&&L118.shop(shop).name,party,open:L118.isOpen(shop,Object.assign({},GAME.G,{hour:GAME.G.hour+1/6}))}; })"""
+SEATMIX_SETS = {'A': [('home', 4), ('noodle2', 4), ('korea', 3), ('korea', 2)], 'B': [('tea', 4), ('dian', 2), ('dian', 3), ('home', 3)]}
+SEATMIX_PPL = ['zhe', 'yu', 'classmate_mingxuan', 'heroine_01', 'classmate_bohan', 'classmate_peishan']
+
+
+async def part_seatmix(p, which):
+    """SEATMIX（BB 07:04）：幾間店 × 人數，照遊戲自己的流程（接受邀約 → GM.enter → seatParty）入座，判同一張桌"""
+    spec = ENV('SEATMIX_' + which) or ','.join('%s:%d' % (x[0], x[1]) for x in SEATMIX_SETS[which])
+    combos = [(a.split(':')[0], int(a.split(':')[1])) for a in spec.split(',') if ':' in a]
+    b, pg, cdp, errs = await boot(p, 'SEATMIX_' + which)
+    try:
+        if not await need_lunch(pg, 'SEATMIX_' + which): return
+        D = await pg.evaluate(DATA); ids = D['who']
+        snap, d = await base_snap(pg, cdp, 'SEATMIX_' + which, '2025-10-15', 12.0, 'classroom', REL, ids, quiet=True)
+        it = await pg.evaluate("(()=>{ const it=CLS.dayItems(GAME.G).find(q=>LUNCH118.lawAm(GAME.G,q)); return it?{key:it.key,c:it.c.name,t1:it.t1}:null; })()")
+        if not R.check('SEATMIX_%s：%s（週三）有法律系館上午課（%s）' % (which, d['key'], J(it)), bool(it)): return
+        for k, (shop, n) in enumerate(combos):
+            tag = 'SEATMIX_%s_%d_%s%d' % (which, k + 1, shop, n); party = SEATMIX_PPL[:n - 1]
+            st = copy.deepcopy(snap); st = st.get('G', st); st.update(hour=round(it['t1'] + 0.02, 3), zone='classroom', pos=None)
+            st.setdefault('courses', {}).setdefault('done', {})[it['key']] = 1
+            if isinstance(st.get('l118'), dict): st['l118'].pop('inv', None)
+            await load(pg, cdp, st, '%s：同一份進度 %s %.2f 在 201、那一堂記成上過（%s）、清掉今天的午餐紀錄' % (tag, d['key'], st['hour'], it['key']), quiet=True)
+            fr = await pg.evaluate(FORCE, [shop, party])
+            R.setup('%s：【捷徑】LUNCH118.plan 換成固定的：%s 約去 %s（%s），同行 %s（含玩家 %d 人）；營業中＝%s' % (tag, party[0], fr['name'], shop, J(party[1:]), n, fr['open']))
+            n0 = await logn(pg); m0 = await pg.evaluate("GAME.G.money")
+            R.setup('%s：【捷徑】叫 LUNCH118.afterClass(GAME, %s)＝下課選單一開頭的那個掛勾（不重上一堂課）' % (tag, it['key']))
+            await pg.evaluate("(k=>{ void LUNCH118.afterClass(GAME,k,{}); })(%s)" % J(it['key']))
+            acc = D['opts'].get('accept'); t0 = time.time(); tapped = False; seat = None; idle = None
+            while time.time() - t0 < 300:
+                s = await ui(pg)
+                if s['zone'].startswith('l118_') and seat is None and not s['fade'] and (s['dlg'] or s['heads']):
+                    await pg.wait_for_timeout(800); CUR['n'] += 1
+                    seat = await seat_report(pg, s['zone'][5:], party, tag, 'l118e_SEATMIX_%s_seated_game_%d_%s%d.png' % (which, k + 1, shop, n)); continue
+                if s['heads']:
+                    idle = None; await pg.wait_for_timeout(600); s = await ui(pg)
+                    if acc in s['heads'] and not tapped:
+                        R.note('%s：邀約選單 %s → 點「%s」' % (tag, J(s['heads']), acc)); await tap_head(pg, cdp, acc); tapped = True; await pg.wait_for_timeout(900); continue
+                    R.note('%s：選單 %s → 第一項' % (tag, J(s['heads']))); await P.tap_choice(pg, cdp, 0); await pg.wait_for_timeout(900); continue
+                if s['dlg']: idle = None; await pg.wait_for_timeout(500); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250); continue
+                if s['busy'] or s['fade']: idle = None; await pg.wait_for_timeout(300); continue
+                idle = idle or time.time()
+                if any(e['k'] == 'lunch.afterEnd' for e in await logs(pg, n0)) and time.time() - idle > 3: break
+                await pg.wait_for_timeout(300)
+            lg = await logs(pg, n0); print_log(tag, lg)
+            m1 = await pg.evaluate("GAME.G.money"); mm = [e['v'] for e in lg if e['k'] == 'money']
+            Pf = next((e['P'] for e in lg if e['k'] == 'lunch.planForced'), {}) or {}
+            sn = next((e.get('n') for e in lg if e['k'] == 'lunch.seated'), None); st3 = next((e.get('v') for e in lg if e['k'] == 'lunch.stage3d'), None)
+            R.check('%s：接受邀約、走進 %s（GM.enter l118_%s，3D）' % (tag, fr['name'], shop), tapped and st3 is True and any(e['k'] == 'enter' and e.get('to') == 'l118_' + shop for e in lg), J({'tapped': tapped, 'stage3d': st3}))
+            if seat:
+                rows_ = seat['rows']; lost = [x['id'] for x in rows_ if not x['seated']]
+                res = '%d 人同一桌' % n if seat['allSeated'] and seat['nTables'] == 1 else ('%d 人分 %d 桌%s' % (n, seat['nTables'], ('、%d 人沒位子 %s' % (len(lost), J(lost))) if lost else ''))
+                R.check('%s：%s（%d 人）同一張桌（實際：%s；seatParty 坐下的同行 %s；%s）' % (tag, fr['name'], n, res, sn, seat['method']), seat['allSeated'] and seat['nTables'] == 1,
+                        J([(x['id'], x['tableNo'], x['key'], x['seat'], x['dMe']) for x in rows_]))
+            else:
+                R.check('%s：進店以後量到座位' % tag, False, '沒有進到 l118_ 區域')
+            R.check('%s：錢只扣玩家那一份 %s 元（%s；%d → %d）' % (tag, Pf.get('price'), J(mm), m0, m1), bool(Pf.get('price')) and mm == [-Pf['price']] and m1 == m0 - Pf['price'], J(mm))
+        no_errs('SEATMIX_' + which, errs)
+    finally:
+        await b.close()
+
+
+async def part_seatmix_a(p): await part_seatmix(p, 'A')
+async def part_seatmix_b(p): await part_seatmix(p, 'B')
+
+
+FN = {'SEATMIX_A': part_seatmix_a, 'SEATMIX_B': part_seatmix_b, 'SEATMIX': None, 'STORYBURST': part_storyburst, 'MAIN': part_main, 'SKIP': part_skip, 'DECL': part_decl, 'TABLE': part_table, 'E1': part_e1, 'E2': part_e2, 'E10': part_e10, 'DATE': part_date, 'DRINK': part_drink}
 
 
 async def main():
@@ -892,8 +991,10 @@ async def main():
     print('CC L118D_E（118 巷課後午餐邀約）：SHA=%s worktree=%s；PARTS=%s；REL=%s；%s；Playwright 手機模擬 ≠ iPhone' % (SHA or '?', real or '?', ','.join(PARTS), REL, '橫向' if LAND else '直向'), flush=True)
     async with async_playwright() as p:
         for part in PARTS:
+            if part == 'SEATMIX':
+                PARTS.extend([x for x in ('SEATMIX_A', 'SEATMIX_B') if x not in PARTS]); continue
             if part not in FN: R.note('不認得的 PART：%s' % part); continue
-            print('== %s' % part, flush=True); t0 = time.time()
+            print('== %s' % part, flush=True); t0 = time.time(); CUR['part'] = part; CUR['n'] = 0
             try: await FN[part](p)
             except Exception as e:
                 import traceback; traceback.print_exc(); R.check('%s：沒有例外' % part, False, repr(e)[:300])
