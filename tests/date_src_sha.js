@@ -84,4 +84,13 @@ module.exports={
     {loc:'D28',n:11,path:'lines/closing/dating/0/lines/0/text',old:'下次換你帶我去一個我沒去過的地方。',new:'你有沒有一個地方，是我沒去過的？我想聽你講。'},
     {loc:'D29',n:10,path:'lines/closing/normal/1/lines/0/text',old:'下次換我排行程，我會排得很鬆。',new:'這次的行程是我排過最鬆的。我有進步。'},
     {loc:'D31',n:11,path:'lines/closing/dating/0/lines/0/text',old:'（她打了一則訊息，打了又刪，最後收起手機）沒事。等一下當面講。',new:'（她打了一則訊息，打了又刪，最後收起手機）沒事。我只是想說，今天很好。'}],
+  /* 2026-11-11 AA_780_an_date_followup.json@248c8e390：不分地點的短句（DATE_LINES.lines）裡以安以外的三列——四個人「30 天內第二次當天取消」那一句改成當下的反應（前一次她只回了「好。怎麼了？」，沒有人等過）。
+     path＝稿上的 path；p＝遊戲檔 leaves 的路徑；old＝那個人自己那一輪（was）匯進來的字。各人的逐字對稿測試（zq／zr／yt）那一格改認 new；「和重匯以前比」的測試用下面的 un780 還原再比 */
+  FLAKED_780:[
+    {who:'heroine_04',path:'lines.heroine_04.flaked[0]',p:'/lines/heroine_04/flaked/0',old:'那天我設了鬧鐘，還真的起來了，結果你沒來。這種事一次就好。',new:'又取消。我鬧鐘都設好了。這種事不要有第三次。',was:'AA_775'},
+    {who:'heroine_03',path:'lines.heroine_03.flaked[0][0]',p:'/lines/heroine_03/flaked/0/0',old:'那天我等了一下。',new:'嗯。第二次了。',was:'AA_767'},
+    {who:'heroine_02',path:'lines.heroine_02.flaked[0][1]',p:'/lines/heroine_02/flaked/0/1',old:'我那天把一杯熱可可等到涼掉。下次，你請我一杯熱的。',new:'今天我連要穿哪一件都想好了。沒關係，衣服不會跑。',was:'AA_773'}],
 };
+/* 「和重匯以前比」用：回傳一份複本，把 AA_780 換的那三格（FLAKED_780）還原成各人自己那一輪的字。x＝整份 DATE_LINES（或 strip 過、少了幾個人的）；只有那一格現在剛好是 AA_780 的 new 才還原（不是＝不動，照舊會紅）；
+   重匯以前的那一份（那一格還是 old）丟進來不會變 */
+module.exports.un780=x=>{ const y=JSON.parse(JSON.stringify(x)); for(const r of module.exports.FLAKED_780){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
