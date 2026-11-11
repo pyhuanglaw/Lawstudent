@@ -1,32 +1,36 @@
-"""CC（帳號 A）11-11：SEASON（LIFE-DETAILS-SEASONAL-1110 季節布置第一批：公館、溫州街的聖誕與過年）——BB 03:48 派工；新版＝開發分支 b394363fe，舊版對照 696cf6036。
-Playwright（PC GPU）≠ iPhone；畫面判定歸 BB。
+"""CC（帳號 A）11-11：SEASON（LIFE-DETAILS-SEASONAL-1110 季節布置第一＋第二批：公館、溫州街）——BB 03:48、04:17 派工；新版＝開發分支 eafbd06b0（第二批 cc894577f，含第一批），
+舊版對照 696cf6036（沒有季節布置）。Playwright（PC GPU）≠ iPhone；畫面判定歸 BB。
 
-對照的程式（b394363fe）：
-  日期表 src/data/season_deco.js（SEASON_DECO）：
-    XMAS 聖誕（門上的花圈、玻璃上緣的小燈串、雪花貼紙）md 12-01～12-25（含頭尾）；只有咖啡、早午餐店（溫州街 SUNNY SIDE、日常失速；公館 afar、Daybreak），每區 2 間。
-    CNY 過年（春聯、橫批、倒貼的福、紅燈籠）lunar cny，from −14、to +15（春節往前 14 天～往後 15 天）；每一扇店門、住家門（公館 11 扇、溫州街 13 扇）。
-    CALENDAR.LUNAR[2026].cny＝2026-02-17（src/data/calendar.js 30 行）→ 除夕 02-16、除夕前三天 02-13、初三 02-19；CNY 顯示 02-03～03-04；XMAS 顯示 2025-12-01～12-25。
-  切換 src/season_deco3d.js（SD3）：包住 Z3.ZONES.wenzhou／gongguan 的 build；進區域時 SD3.active(區域, G.day) 決定代號，沒有任何一組＝不載入模型；
-    有＝載入 bldg.season_<區域>（assets/models/env/second_ai/season_<區域>.glb）、clone 成 'season_<區域>_glb' 掛進 zone.group，SEASON_<代號>_on 照代號顯示（zone.seasonCodes、zone.seasonRoot）。
-    不擋導航、沒有互動點、不投影。
-  模型節點：SEASON_CNY_on（網格 SEASON_CNY_at 貼圖、SEASON_CNY_gl 發光〔只有公館〕、SEASON_CNY_vc 頂點色〔只有公館〕）；
-            SEASON_XMAS_on（SEASON_XMAS_flat、SEASON_XMAS_gl 發光、SEASON_XMAS_vc）。材質 season_atlas、season_vc、season_glow（emissive 1,1,1 × strength 1.2＝晚上會亮的那些）。
-    每一扇門的位置在 season_<區域>.doors.json（id、kind、w0／w1 門的兩端、n 朝外、top 門頂、glass 櫥窗兩端）：公館 G00～G14 在 z 22、溫州街 A*（z 5.9）、B*（z −5.9）、C2、W0、W2。
-    合成的網格是整條街一個，所以近拍照 doors.json 的門，把每扇門附近 3 m 內看得到的 season 頂點算成那扇門的布置（「看到什麼拍什麼」：沒有布置的門不拍）。
+對照的程式（eafbd06b0）：
+  日期表 src/data/season_deco.js（SEASON_DECO）：rules 有 md（月日，含頭尾）、mds（好幾段）、lunar（CALENDAR.LUNAR 的 cny／dragon＋from／to）、term（'final'＝期末考週＋before 天）、unlessFlag。
+    CNY 過年 春節−14～+15（2026-02-17 → 02-03～03-04）；XMAS 12-01～12-25；DRAGON 端午 −7～0（2026-06-19 → 06-12～06-19）；VDAY 02-07～02-14；HALLOWEEN 10-24～10-31（只有公館）；
+    CVSWINTER 12-01～02-28、CVSSUMMER 06-01～09-15（日和便利店海報）；DRINKSUMMER 06-01～09-15、DRINKWINTER 12-01～02-28（青木茶室布條，只有公館）；
+    LAUNDRY 04-01～04-30、10-01～10-31（常在洗衣，只有溫州街）；EXAM 期末考週（CALENDAR.termOf(day).exam＝'final'）和前 7 天，阿德影印原本的店面 A1（只有溫州街），
+    unlessFlag {WZ_COPY_SHOP:'moved'}＝阿德搬走以後不貼。
+  阿德搬走：劇情旗標 G.flags.WZ_COPY_SHOP＝'moved'（src/data/wz_events.js 71 行的選項；沒走 1-2 的玩家 src/wzlines3d.js 226 行：Y2S2 第 1 週〔2027-02-22〕自動設 moved）。
+    這支用存檔旗標直接設（【前置／捷徑】）：阿德還在＝Y1S2 期末考週（不設旗標）、搬走以後＝Y2S2 期末考週＋WZ_COPY_SHOP 'moved'。
+  切換 src/season_deco3d.js（SD3）：進區域時 SD3.active(區域, G.day)；沒有任何一組＝不載入模型；有＝'season_<區域>_glb' 掛進 zone.group，SEASON_<代號>_on 照代號顯示。
+    只貼門面：不擋導航、沒有互動點、不投影。模型網格 SEASON_<代號>_at（貼圖 season_atlas）、_flat／_vc（頂點色 season_vc）、_gl（發光 season_glow：公館 CNY 紅燈籠、兩區 XMAS 燈串）。
+    season_glow 在 glTF 裡是 emissive (1,1,1)×1.2、沒有發光貼圖（Blender 裡發光顏色接頂點色，tools/blender/env_second/season_deco.py 68～69 行，glTF 帶不出去）→ 遊戲裡發光網格是白的。
+    溫州小公園的杜鵑、楓香節點也叫 SEASON_AZALEA_*（zones3d.js wzParkSeason）：這支只算 season_<區域>_glb 底下的。
+  每一扇門：season_<區域>.doors.json（id、kind、w0／w1、n 朝外、top、glass）；合成網格是整條街一個，近拍照門分（布置頂點離哪一扇的門面線段 1.5 m 內就算哪一扇）。
 
+日期（DATES 用代號，也可以直接寫 YYYY-MM-DD）：
+  dragon3＝端午前三天（照 CALENDAR.LUNAR[2026].dragon 算，算不到用 2026-06-16）、0210、1028、0715、0115、0415、
+  exam_stay＝阿德還在的期末考週（CALENDAR.termDays('Y1S2') 最後一週的週三；算不到 2026-06-10）、exam_moved＝搬走以後（Y2S2 最後一週週三＋旗標 moved；算不到 2027-06-09）、
+  1210、cny-3＝除夕前三天 2026-02-13、cny+3＝初三 2026-02-19、0315、1105（最後兩天什麼布置都不該有）。月日代號的年份：9～12 月＝2025、1～8 月＝2026。
 PARTS：
-  SHOTS  DATES 每個日期 × ZONES 每條街 × HOURS（預設 14,20）：【前置】讀檔到那一天那個時間 → 等季節模型 → log 場景裡 season_*／SEASON_* 物件名稱、數量、看得到的那幾個、外框；
-         和 SD3.active 的預期比對（平常日 2025-11-05 不能有任何布置）→ 全景三張、每扇有布置的門近拍、晚上發光那一叢再近一張（中央全白 >15% 標★）→ 拼一張。
-         第一個時間另外做穿模（外框交集近似：每扇門的布置外框 vs 招牌、柱子、機車、其他網格的頂點）。
-         過曝：18 點以後，有發光網格（season_glow）的門：另外畫一張遮罩（發光網格白、其他黑但照樣擋），在正常截圖的同樣像素上算全白（>245）和紅色的比例；全白 >15% 標★。
-  EDGE   照日期表算邊界（每一段：開始前一天、開始當天、最後一天、結束隔天）× ZONES：數物件、拍一張全景（14:00）。舊版沒有 SEASON_DECO 就用新版的日期（EDGE_DATES 可蓋過）。
-  WALK   FUNC_DATES 每個日期 × ZONES：搖桿沿街走一趟（照 E.pathTo 中途點，F.joy_to）；walkFallbacks 0。
-  DOORS  FUNC_DATES × ZONES：每一間「進…」的店門（ITS 找 label 開頭是「進」、有 exit 的）搖桿走過去、按鈕是它、按了進得去、從店裡出口出得來、出來推得動（DOORS_MAX 間）。
-  NAV    ZONES：平常日（NORMAL_DATE）和 FUNC_DATES 每一天各掃一次 canStand（半徑 0.3、每個導航格中心），記不一樣的格子。
-  FPS    ZONES × FPS_DATES（預設平常日＋FUNC_DATES）× FPS_HOURS（預設 20）：兩個點各 FPSS 秒（舊版同位置對照）。
-環境變數：SHA、PARTS、ZONES（預設 gongguan,wenzhou）、DATES（預設 2025-12-10,2026-02-13,2026-02-19,2025-11-05）、HOURS（預設 14,20）、FUNC_DATES（預設 2026-02-13＝除夕前三天：有過年布置、店照常開；初三國定假日很多店不開，DOORS 會跳過不開的店）、
-  NORMAL_DATE（預設 2025-11-05）、EDGE_DATES（逗號分隔，蓋過自動算的）、EDGE_LIST_ONLY（1＝只列邊界日）、DOORS_MAX（預設 99）、FPSS（預設 8）、FPS_HOURS（預設 20）、Q（畫質，預設 medium）、LW_TESTS。
-用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=SHOTS [DATES=…] [ZONES=gongguan] python cc_season_probe.py <url> <out>"""
+  SHOTS  DATES × ZONES × HOURS（預設 14,20）：【前置】讀檔 → 等季節模型 → log season_<區域>_glb 底下的物件名稱、數量、看得到的組、外框；和 SD3.active 比（0315、1105 不能有任何布置）
+         → 全景三張、每扇有布置的門近拍、晚上發光那一叢再一張 → 拼一張。第一個時間做遮擋／穿模：每扇門布置的外框 vs 招牌（店名招牌、營業時間牌、小牌子的貼圖集）、柱子、機車、其他網格的頂點。
+         過曝：18 點以後有發光網格的門，畫一張遮罩（發光網格白、其他黑但照樣擋），在截圖同樣像素算全白（>245）和紅色比例；全白 >15% 標★。
+  EDGE   照日期表算每一種布置的第一段（從 2025-09-01 起）：開始前一天沒有、開始當天有、最後一天有、結束隔天沒有 × 有這一種的街：數物件、拍一張全景。EDGE_CODES 只跑那幾種。
+  NAV    基準 0315：ZONES 每條街掃一次 canStand（半徑 0.3、每個導航格中心），DATES 每一天再掃，和基準要**完全一樣**（有差就 FAIL，列格子）。
+  WALK   FUNC_DATES × ZONES：搖桿沿街走一趟（照 E.pathTo 中途點）；walkFallbacks 0。
+  DOORS  FUNC_DATES × ZONES：每一間「進…」的店門：【前置】讀檔到門前街上 → 搖桿走過去、按鈕是它、按了進得去（第一次沒反應記提示、再按一次）、出口出得來、推得動；那天不開的店跳過。
+  FPS    ZONES × FPS_DATES（預設 0315＋FUNC_DATES）× FPS_HOURS（預設 20）：兩個點各 FPSS 秒（舊版同位置對照）。
+環境變數：SHA、PARTS、ZONES（預設 gongguan,wenzhou）、DATES（預設全部 13 個代號）、HOURS（14,20）、FUNC_DATES（預設 cny-3）、EDGE_CODES、EDGE_LIST_ONLY（1＝只列邊界日）、
+  DOORS_MAX（99）、FPSS（8）、FPS_HOURS（20）、FPS_DATES、Q（medium）、LW_TESTS。
+用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=SHOTS,NAV DATES=0715 python cc_season_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, base64, math
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import playlib as L
@@ -37,18 +41,47 @@ URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 EV = lambda k, d: os.environ.get(k) or d
 PARTS = EV('PARTS', 'SHOTS,EDGE,WALK,DOORS,NAV,FPS').split(',')
 ZONES = [z for z in EV('ZONES', 'gongguan,wenzhou').split(',') if z]
-NORMAL = EV('NORMAL_DATE', '2025-11-05')
-DATES = [d for d in EV('DATES', '2025-12-10,2026-02-13,2026-02-19,' + NORMAL).split(',') if d]
+ALL_TAGS = 'dragon3,0210,1028,0715,0115,0415,exam_stay,exam_moved,1210,cny-3,cny+3,0315,1105'
+DATES = [d for d in EV('DATES', ALL_TAGS).split(',') if d]
 HOURS = [float(x) for x in EV('HOURS', '14,20').split(',')]
-FUNC_DATES = [d for d in EV('FUNC_DATES', '2026-02-13').split(',') if d]   # 除夕前三天：有過年布置、店照常開（初三是國定假日，很多店關）
+FUNC_DATES = [d for d in EV('FUNC_DATES', 'cny-3').split(',') if d]   # 除夕前三天：有過年布置、店照常開（初三是國定假日，很多店關）
+NORMAL = '0315'
 SHA = EV('SHA', '')[:9]
 R = L.Run('season', OUT); F.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ZN = {'gongguan': '公館', 'wenzhou': '溫州街'}
-DAYNAME = {'2025-12-10': '聖誕期間', '2026-02-13': '除夕前三天', '2026-02-16': '除夕', '2026-02-17': '春節', '2026-02-19': '初三', NORMAL: '平常日（不該有布置）'}
-# 舊版沒有日期表時的邊界日（照 b394363fe 的 season_deco.js＋calendar.js 算好的）
+# 代號 → (預設日期, 旗標, 說明, 這一天不該有任何布置)；dragon3、exam_* 讀檔前照遊戲的 CALENDAR 重算（resolve_dates）
+TAGS = {'dragon3': ('2026-06-16', None, '端午前三天', False), '0210': ('2026-02-10', None, '情人節前', False), '1028': ('2025-10-28', None, '萬聖節前', False),
+        '0715': ('2026-07-15', None, '夏季', False), '0115': ('2026-01-15', None, '冬季', False), '0415': ('2026-04-15', None, '4/15（洗衣店換季）', False),
+        'exam_stay': ('2026-06-10', None, '期末考週（阿德還在）', False), 'exam_moved': ('2027-06-09', {'WZ_COPY_SHOP': 'moved'}, '期末考週（阿德搬走以後）', False),
+        '1210': ('2025-12-10', None, '聖誕', False), 'cny-3': ('2026-02-13', None, '除夕前三天', False), 'cny+3': ('2026-02-19', None, '初三', False),
+        '0315': ('2026-03-15', None, '3/15（不該有布置）', True), '1105': ('2025-11-05', None, '11/5（不該有布置）', True)}
+RESOLVE_JS = r"""(()=>{ const out={}; try{ const L=CALENDAR.LUNAR&&CALENDAR.LUNAR[2026]; if(L&&L.dragon){ const t=new Date(L.dragon+'T00:00:00Z'); t.setUTCDate(t.getUTCDate()-3); out.dragon3=t.toISOString().slice(0,10); out.dragonDay=L.dragon; } }catch(e){}
+  const wed=id=>{ try{ const r=CALENDAR.termDays(id); if(!r) return null; for(let d=r.to-6;d<=r.to;d++){ const x=CALENDAR.dateOf(d), t=CALENDAR.termOf(d); if(x.wd===3&&t&&t.exam==='final') return x.key; } return CALENDAR.dateOf(r.to-4).key; }catch(e){ return null; } };
+  out.exam_stay=wed('Y1S2'); out.exam_moved=wed('Y2S2'); return out; })()"""
+# 舊版沒有日期表時的邊界日（照 eafbd06b0 的 season_deco.js＋calendar.js 算的 XMAS、CNY 兩種；舊版應該全部沒有）
 EDGE_FALLBACK = [('XMAS', '開始前一天', '2025-11-30', False), ('XMAS', '開始當天', '2025-12-01', True), ('XMAS', '最後一天', '2025-12-25', True), ('XMAS', '結束隔天', '2025-12-26', False),
                  ('CNY', '開始前一天', '2026-02-02', False), ('CNY', '開始當天', '2026-02-03', True), ('CNY', '最後一天', '2026-03-04', True), ('CNY', '結束隔天', '2026-03-05', False)]
+DSPEC = {}   # 代號 → {'tag','day','flags','label','none'}（main 讀進遊戲以後填）
+
+
+def spec(tag):
+    if tag in DSPEC: return DSPEC[tag]
+    if tag in TAGS:
+        d, fl, lab, none = TAGS[tag]; return {'tag': tag, 'day': d, 'flags': fl, 'label': lab, 'none': none}
+    return {'tag': tag, 'day': tag, 'flags': None, 'label': tag, 'none': False}
+
+
+async def resolve_dates(pg):
+    try: r = await pg.evaluate(RESOLVE_JS)
+    except Exception as e: r = {'err': repr(e)[:120]}
+    for t in TAGS:
+        sp = spec(t)
+        if r.get(t): sp = dict(sp, day=r[t])
+        DSPEC[t] = sp
+    R.note('[日期] 照遊戲的 CALENDAR 算：%s（端午 %s）；用的日期：%s' % (J({k: r.get(k) for k in ('dragon3', 'exam_stay', 'exam_moved')}), r.get('dragonDay'), J({t: [DSPEC[t]['day'], DSPEC[t]['label']] + ([DSPEC[t]['flags']] if DSPEC[t]['flags'] else []) for t in TAGS})))
+
+
 STREETS = {
     'gongguan': {'pano': [('西段往東（店面那一側）', (-64.0, 2.2, 13.0), (-42.0, 2.0, 21.0), 24), ('中段往東', (-14.0, 2.2, 13.0), (8.0, 2.0, 21.0), 24), ('東段往西', (76.0, 2.2, 13.0), (52.0, 2.0, 21.0), 24)],
                  'walk': [(-58.0, 14.0), (-25.0, 14.0), (5.0, 14.0), (35.0, 14.0), (65.0, 14.0)], 'axisZ': 14.0},
@@ -85,7 +118,7 @@ DOORS_JS = r"""(async zid=>{ const E=GAME.E; let doors=[]; try{ const r=await fe
 # 穿模（外框交集近似）：每扇門布置的外框（往外 1 cm）裡面有沒有別的網格的頂點；有＝那些頂點的外框和布置外框的交集（長寬高、體積），照材質名稱分類
 CLIP_JS = r"""(a=>{ const E=GAME.E, root=E.zone&&E.zone.seasonRoot; const vis=o=>{ for(let q=o;q;q=q.parent) if(q.visible===false) return false; return true; };
   const B=a.doors.filter(d=>d.box).map(d=>({id:d.id, b:new THREE.Box3(new THREE.Vector3(...d.box[0]),new THREE.Vector3(...d.box[1])).expandByScalar(0.01)})); if(!B.length) return {doors:0, hits:[]};
-  const U=new THREE.Box3(); B.forEach(q=>U.union(q.b)); const out=[], v=new THREE.Vector3(), cat=s=>/pillar|column|柱/i.test(s)?'柱子':(/sign|SIGN|band|plate|PLATE|board|panel|neon|lightbox/i.test(s)?'招牌':(/scooter/i.test(s)?'機車':(/wall|plaster|tile|glass|win|door|frame|ground|road|floor|curb|walk/i.test(s)?'牆面玻璃地面（貼在門面上本來就會碰到）':'其他')));
+  const U=new THREE.Box3(); B.forEach(q=>U.union(q.b)); const out=[], v=new THREE.Vector3(), cat=s=>/pillar|column|柱/i.test(s)?'柱子':(/sign|SIGN|band|plate|PLATE|board|panel|neon|lightbox|hours|small_atlas|fronts|GLOW_/i.test(s)?'招牌':(/scooter/i.test(s)?'機車':(/wall|plaster|tile|glass|win|door|frame|ground|road|floor|curb|walk/i.test(s)?'牆面玻璃地面（貼在門面上本來就會碰到）':'其他')));
   let meshesChecked=0; E.scene.traverse(o=>{ if(!o.isMesh||o.isSkinnedMesh||!vis(o)||!o.geometry||!o.geometry.attributes.position) return; for(let q=o;q;q=q.parent) if(q===root) return; if(/^SEASON_|^season_/.test(o.name||'')) return;
     o.updateMatrixWorld(true); if(!o.geometry.boundingBox) o.geometry.computeBoundingBox(); const wb=o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld); if(o.isInstancedMesh){ return; } if(!wb.intersectsBox(U)) return; meshesChecked++;
     const pa=o.geometry.attributes.position, mn=((Array.isArray(o.material)?o.material[0]:o.material)||{}).name||'', inB=B.map(()=>null), cnt=B.map(()=>0);
@@ -135,9 +168,21 @@ def hh_of(h):
     return '%02d%02d' % (int(h), int(round((h % 1) * 60)))
 
 
-async def at(pg, cdp, zone, day, h, x=None, z=None, why=''):
-    s = await D.load_zone(pg, cdp, zone, day, h, x, z, wait=7000)
-    R.setup('【前置／捷徑】讀檔到 %s %s（%s）%.2f 時%s %s' % (zone, day, DAYNAME.get(day, ''), h, '' if x is None else ' (%.1f,%.1f)' % (x, z), why))
+LOADF_JS = r"""(async a=>{ let d=null; try{ d=(typeof STORY!=='undefined'&&STORY.dayOfKey)?STORY.dayOfKey(a.key):null; }catch(e){} if(d==null) for(let i=0;i<4000;i++){ try{ if(CALENDAR.dateOf(i).key===a.key){ d=i; break; } }catch(e){ break; } }
+  const s=GAME.defaults('祐廷'); Object.assign(s,{zone:a.zone,hour:a.h,day:d,weather:'clear'}); if(a.pos) s.pos=a.pos; s.flags=Object.assign({},s.flags||{},a.flags||{});
+  document.getElementById('titleScreen').classList.add('hide'); const rot=document.getElementById('rotate'); if(rot) rot.classList.remove('want');
+  EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}; await GAME.applySave(s); return d; })"""
+
+
+async def at(pg, cdp, zone, sp, h, x=None, z=None, why=''):
+    """sp＝日期代號的 spec（dict）或 'YYYY-MM-DD'。有旗標（exam_moved）時用 LOADF_JS（和 L.load_state quiet_events 一樣，旗標併進預設值）"""
+    if isinstance(sp, str): sp = spec(sp)
+    if sp.get('flags'):
+        await pg.evaluate(LOADF_JS, {'key': sp['day'], 'zone': zone, 'h': h, 'pos': None if x is None else {'x': x, 'z': z, 'yaw': 0.0, 'lv': 0}, 'flags': sp['flags']})
+        await pg.wait_for_timeout(7000); await L.close_panels(pg, cdp); s = await D.st(pg)
+    else:
+        s = await D.load_zone(pg, cdp, zone, sp['day'], h, x, z, wait=7000)
+    R.setup('【前置／捷徑】讀檔到 %s %s（%s）%.2f 時%s%s %s' % (zone, sp['day'], sp['label'], h, '' if x is None else ' (%.1f,%.1f)' % (x, z), ('、存檔旗標 %s' % J(sp['flags'])) if sp.get('flags') else '', why))
     return s
 
 
@@ -152,7 +197,8 @@ async def wait_season(pg, max_s=25):
     return round(time.time() - t0, 1)
 
 
-async def season_report(pg, tag, day):
+async def season_report(pg, tag, sp):
+    day = sp['day']
     q = await pg.evaluate(SEASON_LIST)
     names = sorted(q['count'].items())
     R.note('%s 日期 %s（遊戲 %s）；SD3 %s、SEASON_DECO %s；SD3 預期代號 %s；zone.seasonCodes %s；季節模型掛上 %s' % (tag, day, q['key'], q['sd3'], q['deco'], J(q['expect']), J(q['seasonCodes']), q['root']))
@@ -164,9 +210,17 @@ async def season_report(pg, tag, day):
         R.note('%s 這一版沒有 SD3（舊版沒有季節布置是預期）' % tag)
         R.check('%s 沒有任何看得到的季節布置（舊版）' % tag, not q['visibleMeshes'], J(q['visibleMeshes']))
     else:
-        R.check('%s 看得到的季節組＝SD3 預期 %s（平常日＝一個都沒有）' % (tag, J(q['expect'])), sorted(q['visibleOn']) == sorted(q['expect'] or []) and (bool(q['root']) == bool(q['expect'])), J({'visible': q['visibleOn'], 'root': q['root']}))
-        if day == NORMAL: R.check('%s 平常日 %s：沒有季節模型、沒有任何 SEASON 網格' % (tag, NORMAL), not q['root'] and not q['visibleMeshes'], J(q['visibleMeshes']))
+        R.check('%s 看得到的季節組＝SD3 預期 %s' % (tag, J(q['expect'])), sorted(q['visibleOn']) == sorted(q['expect'] or []) and (bool(q['root']) == bool(q['expect'])), J({'visible': q['visibleOn'], 'root': q['root']}))
+        F_ = await pg.evaluate("(()=>({WZ_COPY_SHOP:(GAME.G.flags||{}).WZ_COPY_SHOP||null}))()")
+        if sp['tag'].startswith('exam'): R.note('%s 存檔旗標 WZ_COPY_SHOP＝%s；EXAM 看得到 %s（阿德還在＝要有、搬走以後＝不能有；EXAM 只在溫州街）' % (tag, F_['WZ_COPY_SHOP'], 'EXAM' in q['visibleOn']))
+        if sp['tag'] == 'exam_moved': R.check('%s 阿德搬走以後的期末考週：沒有 EXAM 告示' % tag, 'EXAM' not in q['visibleOn'], J(q['visibleOn']))
+        if sp['tag'] == 'exam_stay' and GAME_ZONE(tag) == 'wenzhou': R.check('%s 阿德還在的期末考週：溫州街有 EXAM 告示' % tag, 'EXAM' in q['visibleOn'], J(q['visibleOn']))
+        if sp['none']: R.check('%s %s 什麼布置都不該有：沒有季節模型、沒有任何 SEASON 網格' % (tag, sp['day']), not q['root'] and not q['visibleMeshes'], J(q['visibleMeshes']))
     return q
+
+
+def GAME_ZONE(tag):
+    return 'wenzhou' if '溫州街' in tag else ('gongguan' if '公館' in tag else '')
 
 
 class Shooter:
@@ -206,7 +260,9 @@ class Shooter:
 
 async def clip_report(pg, tag, dj):
     c = await pg.evaluate(CLIP_JS, {'doors': dj['doors']})
-    hits = c['hits']; real = [h for h in hits if h['cat'] in ('招牌', '柱子', '機車', '其他')]
+    hits = c['hits']; real = [h for h in hits if h['cat'] in ('招牌', '柱子', '機車', '其他')]   # 招牌＝材質或網格名有 sign、plate、hours、band、small_atlas（店名招牌、營業時間牌、小牌子都在這幾種貼圖集）、fronts、GLOW_
+    sg = [h for h in real if h['cat'] == '招牌']
+    R.check('%s 布置的外框沒有蓋到招牌／營業時間牌（外框交集近似；貼圖集裡也有別的東西，交集了看圖判）' % tag, not sg, J([[h['door'], h['mesh'], h['mat'], h['dims']] for h in sg[:12]]))
     R.note('%s 穿模（外框交集近似）：有布置的門 %d 扇、檢查了 %d 個網格；交集 %d 筆（招牌／柱子／機車／其他 %d 筆）' % (tag, c['doors'], c.get('meshesChecked', 0), len(hits), len(real)))
     for h in real[:40]: R.note('%s 　門 %s × %s「%s」（材質 %s）：%d 個頂點在布置外框裡、交集 %s m、體積 %s m³' % (tag, h['door'], h['cat'], h['mesh'], h['mat'], h['n'], J(h['dims']), h['vol']))
     wall = {}
@@ -218,48 +274,51 @@ async def clip_report(pg, tag, dj):
 
 
 async def part_shots(pg, cdp):
-    for day in DATES:
+    for tg in DATES:
+        sp = spec(tg); day = sp['day']
         for zone in ZONES:
             S_ = STREETS.get(zone)
             if not S_: R.note('[SHOTS] 不認得 %s' % zone); continue
             for hi, h in enumerate(HOURS):
                 hh = hh_of(h); tag = '[SHOTS %s %s %s]' % (ZN[zone], day, hh)
-                px, pz = S_['walk'][2]; await at(pg, cdp, zone, day, h, px, pz, '（%s 拍季節布置）' % ZN[zone])
+                px, pz = S_['walk'][2]; await at(pg, cdp, zone, sp, h, px, pz, '（%s 拍季節布置）' % ZN[zone])
                 w = await wait_season(pg); await pg.wait_for_timeout(2500)
                 R.note('%s 等季節模型 %s 秒' % (tag, w))
-                await season_report(pg, tag, day)
+                await season_report(pg, tag, sp)
                 dj = await pg.evaluate(DOORS_JS, zone)
                 deco = [d for d in dj['doors'] if d['box']]
                 R.note('%s doors.json %d 扇；有布置的 %d 扇：%s%s' % (tag, dj['n'], len(deco), J([[d['id'], d['kind'], d['meshes'], d['box']] for d in deco]), ('；離每扇門 1.5 m 以上、沒算進任何一扇的頂點 %s' % J(dj['orphan'])) if dj.get('orphan') else ''))
                 if hi == 0 and deco: await clip_report(pg, tag, dj)
-                async with Shooter(pg, '%s %s（%s）%s' % (ZN[zone], day, DAYNAME.get(day, ''), hh)) as sh:
+                async with Shooter(pg, '%s %s（%s）%s' % (ZN[zone], day, sp['label'], hh)) as sh:
                     for k, (lab, eye, look, lens) in enumerate(S_['pano']):
                         await sh.shot('season_%s_%s_%s_pano%d.jpg' % (zone, day, hh, k + 1), '全景 %s' % lab, eye, look, lens)
                     for d in deco:
                         b = d['box']; cx, cz = (b[0][0] + b[1][0]) / 2, (b[0][2] + b[1][2]) / 2; cy = (b[0][1] + b[1][1]) / 2; nx, nz = d['n']
                         span = max(b[1][0] - b[0][0], b[1][2] - b[0][2], b[1][1] - b[0][1]); dist = max(2.6, min(6.0, span * 1.3 + 1.2))
-                        await sh.shot('season_%s_%s_%s_%s.jpg' % (zone, day, hh, d['id']), '門 %s（%s）布置近拍：%s' % (d['id'], d['kind'], '、'.join(d['meshes'])), (cx + nx * dist, 1.7, cz + nz * dist), (cx, cy, cz), 30, d['glow'] if h >= 18 else None)
+                        await sh.shot('season_%s_%s_%s_%s.jpg' % (zone, day, hh, d['id']), '門 %s（%s）布置近拍：%s' % (d['id'], d['kind'], '、'.join(sorted({m.split('_')[1] for m in d['meshes']}))), (cx + nx * dist, 1.7, cz + nz * dist), (cx, cy, cz), 30, d['glow'] if h >= 18 else None)
                         if d['glow'] and h >= 18:
                             g = d['glow']; gx, gy, gz = (g[0][0] + g[1][0]) / 2, (g[0][1] + g[1][1]) / 2, (g[0][2] + g[1][2]) / 2
                             await sh.shot('season_%s_%s_%s_%s_glow.jpg' % (zone, day, hh, d['id']), '門 %s 晚上發光那一叢（season_glow）再近一張：看有沒有變成白球' % d['id'], (gx + nx * 2.4, 1.6, gz + nz * 2.4), (gx, gy, gz), 30, d['glow'])   # 站在騎樓裡抬頭看（1.8 m、高 2.4 m 的機位會卡進雨遮）
-                    await sh.montage('season_%s_%s_%s_all.jpg' % (zone, day, hh), '%s %s（%s）%s（%s）：全景三張、每扇有布置的門近拍' % (ZN[zone], day, DAYNAME.get(day, ''), hh, SHA))
+                    await sh.montage('season_%s_%s_%s_all.jpg' % (zone, day, hh), '%s %s（%s）%s（%s）：全景三張、每扇有布置的門近拍' % (ZN[zone], day, sp['label'], hh, SHA))
 
 
 async def part_edge(pg, cdp):
-    ev = os.environ.get('EDGE_DATES')
-    edges = [('自訂', '自訂', d, None) for d in ev.split(',') if d] if ev else (await pg.evaluate(EDGES_JS, ZONES))
-    if not edges: edges = EDGE_FALLBACK; R.note('[EDGE] 這一版沒有日期表（舊版）：照新版 b394363fe 的邊界日拍（舊版應該全部沒有）')
+    edges = await pg.evaluate(EDGES_JS, ZONES)
+    if not edges: edges = EDGE_FALLBACK; R.note('[EDGE] 這一版沒有日期表（舊版）：照新版 eafbd06b0 的邊界日拍（舊版應該全部沒有）')
     else: edges = [tuple(e) for e in edges]
+    only = [c for c in EV('EDGE_CODES', '').split(',') if c]
+    if only: edges = [e for e in edges if e[0] in only]
+    zc = await pg.evaluate("(()=>typeof SEASON_DECO!=='undefined'?Object.fromEntries(Object.entries(SEASON_DECO.zones).map(([k,v])=>[k,v.codes])):null)()") or {}
     R.note('[EDGE] 邊界日：%s' % J(edges))
     if EV('EDGE_LIST_ONLY', '') == '1': R.note('[EDGE] EDGE_LIST_ONLY=1：只列邊界日，不讀檔、不拍'); return
     for code, lab, day, want in edges:
         for zone in ZONES:
             S_ = STREETS.get(zone)
-            if not S_: continue
+            if not S_ or (zc and code not in (zc.get(zone) or [])): continue   # 這條街沒有這一種布置
             tag = '[EDGE %s %s %s %s]' % (code, lab, day, ZN[zone])
-            px, pz = S_['walk'][2]; await at(pg, cdp, zone, day, 14.0, px, pz, '（%s %s）' % (code, lab))
+            px, pz = S_['walk'][2]; await at(pg, cdp, zone, {'tag': 'edge', 'day': day, 'flags': None, 'label': '%s %s' % (code, lab), 'none': False}, 14.0, px, pz, '（邊界日）')
             await wait_season(pg); await pg.wait_for_timeout(1500)
-            q = await season_report(pg, tag, day)
+            q = await season_report(pg, tag, {'tag': 'edge', 'day': day, 'flags': None, 'label': '%s %s' % (code, lab), 'none': False})
             if want is not None and q['sd3']:
                 R.check('%s %s 那一組%s' % (tag, code, '看得到' if want else '看不到'), (code in q['visibleOn']) == want, J(q['visibleOn']))
             async with Shooter(pg, '%s %s %s %s' % (ZN[zone], code, lab, day)) as sh:
@@ -268,12 +327,13 @@ async def part_edge(pg, cdp):
 
 
 async def part_walk(pg, cdp):
-    for day in FUNC_DATES:
+    for tg in FUNC_DATES:
+        sp_ = spec(tg); day = sp_['day']
         for zone in ZONES:
             S_ = STREETS.get(zone)
             if not S_: continue
             tag = '[WALK %s %s]' % (ZN[zone], day); pts = S_['walk']
-            await at(pg, cdp, zone, day, 14.0, pts[0][0], pts[0][1], '（沿街走的起點）'); await wait_season(pg); await F.ready(pg, cdp, 20)
+            await at(pg, cdp, zone, sp_, 14.0, pts[0][0], pts[0][1], '（沿街走的起點）'); await wait_season(pg); await F.ready(pg, cdp, 20)
             fb0 = (await pg.evaluate(ME))['fb']; bad = []
             for (tx, tz) in pts[1:]:
                 sp = await pg.evaluate(SNAPFREE, [tx, tz, 3.0])
@@ -307,12 +367,13 @@ async def enter(pg, cdp, tag, d):
 
 async def part_doors(pg, cdp):
     mx = int(EV('DOORS_MAX', '99'))
-    for day in FUNC_DATES:
+    for tg in FUNC_DATES:
+        sp_ = spec(tg); day = sp_['day']
         for zone in ZONES:
             S_ = STREETS.get(zone)
             if not S_: continue
             tagz = '[DOORS %s %s]' % (ZN[zone], day); px, pz = S_['walk'][2]
-            await at(pg, cdp, zone, day, 14.0, px, pz, '（店門進出：先列店門）'); await wait_season(pg); await F.ready(pg, cdp, 20)
+            await at(pg, cdp, zone, sp_, 14.0, px, pz, '（店門進出：先列店門）'); await wait_season(pg); await F.ready(pg, cdp, 20)
             fbs = 0; me = await pg.evaluate(ME)
             doors = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden&&i.exit&&/^進/.test(i.label||'')).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1,lv:i.lv|0,label:i.label,to:i.exit.to})))()")
             R.note('%s 「進…」的店門 %d 間：%s' % (tagz, len(doors), J(doors)))
@@ -324,7 +385,7 @@ async def part_doors(pg, cdp):
                 ax = S_['axisZ']; sx_, sz_ = d['x'], (ax if abs(d['z'] - ax) <= 8 else d['z'] + math.copysign(5.0, ax - d['z']))   # 店門往街上那一側 5 m 左右（街的中線 z）
                 sp = await pg.evaluate(SNAPFREE, [sx_, sz_, 3.0]) or [sx_, sz_, 0]
                 # 每一間從那一間門前的街上開始（不然雲端低幀率要走 60 m 以上）；之後全程搖桿
-                await at(pg, cdp, zone, day, 14.0, sp[0], sp[1], '（店門「%s」前面的街上）' % d['label']); await wait_season(pg); await F.ready(pg, cdp, 20)
+                await at(pg, cdp, zone, sp_, 14.0, sp[0], sp[1], '（店門「%s」前面的街上）' % d['label']); await wait_season(pg); await F.ready(pg, cdp, 20)
                 fb0 = (await pg.evaluate(ME))['fb']
                 s = await enter(pg, cdp, tag, d)
                 if not s:
@@ -346,15 +407,18 @@ async def part_nav(pg, cdp):
         S_ = STREETS.get(zone)
         if not S_: continue
         px, pz = S_['walk'][2]
-        await at(pg, cdp, zone, NORMAL, 14.0, px, pz, '（平常日：導航格基準）'); await wait_season(pg)
+        await at(pg, cdp, zone, NORMAL, 14.0, px, pz, '（3/15：導航格基準）'); await wait_season(pg)
         b = await pg.evaluate(NAVSCAN_JS, {'zone': zone, 'base': True})
-        R.note('[NAV %s %s] 基準：%s' % (ZN[zone], NORMAL, J(b)))
-        for day in FUNC_DATES:
-            await at(pg, cdp, zone, day, 14.0, px, pz, '（布置那一天）'); await wait_season(pg); await pg.wait_for_timeout(1500)
+        R.note('[NAV %s %s] 基準：%s' % (ZN[zone], spec(NORMAL)['day'], J(b)))
+        for tg in [t for t in DATES if t != NORMAL]:
+            sp_ = spec(tg); day = sp_['day']
+            await at(pg, cdp, zone, sp_, 14.0, px, pz, '（%s）' % sp_['label']); await wait_season(pg); await pg.wait_for_timeout(1500)
+            vis = (await pg.evaluate(SEASON_LIST))['visibleOn']
             r = await pg.evaluate(NAVSCAN_JS, {'zone': zone, 'base': False})
             d = (r or {}).get('diff') or {}
-            R.note('[NAV %s %s] canStand 站得住 %s／%s 格；和平常日比：少了 %s 格、多了 %s 格；少的 %s；多的 %s' % (ZN[zone], day, r and r['stand'], r and r['total'], d.get('lost'), d.get('gained'), J(d.get('lostPts')), J(d.get('gainedPts'))))
-            R.check('[NAV %s %s] 導航格和平常日一樣（布置不擋路）' % (ZN[zone], day), bool(r and r['sameSize'] and d.get('lost') == 0 and d.get('gained') == 0), J({k: d.get(k) for k in ('lost', 'gained')}))
+            R.note('[NAV %s %s] 看得到的布置 %s' % (ZN[zone], day, J(vis)))
+            R.note('[NAV %s %s] canStand 站得住 %s／%s 格；和 3/15 比：少了 %s 格、多了 %s 格；少的 %s；多的 %s' % (ZN[zone], day, r and r['stand'], r and r['total'], d.get('lost'), d.get('gained'), J(d.get('lostPts')), J(d.get('gainedPts'))))
+            R.check('[NAV %s %s] 導航格和 3/15 完全一樣（布置只貼門面、不動導航）' % (ZN[zone], day), bool(r and r['sameSize'] and d.get('lost') == 0 and d.get('gained') == 0), J({k: d.get(k) for k in ('lost', 'gained')}))
 
 
 async def part_fps(pg, cdp):
@@ -364,10 +428,11 @@ async def part_fps(pg, cdp):
     for zone in ZONES:
         S_ = STREETS.get(zone)
         if not S_: continue
-        for day in dates:
+        for tg in dates:
+            sp_ = spec(tg); day = sp_['day']
             for h in [float(x) for x in EV('FPS_HOURS', '20').split(',')]:
                 for k in (1, 3):
-                    x, z = S_['walk'][k]; await at(pg, cdp, zone, day, h, x, z, '（FPS 第 %d 點）' % k); await wait_season(pg); await pg.wait_for_timeout(3000)
+                    x, z = S_['walk'][k]; await at(pg, cdp, zone, sp_, h, x, z, '（FPS 第 %d 點）' % k); await wait_season(pg); await pg.wait_for_timeout(3000)
                     me = await pg.evaluate(ME); r = await pg.evaluate(FPS_JS, secs * 1000); vis = (await pg.evaluate(SEASON_LIST))['visibleOn']
                     R.note('[FPS %s %s %s 點%d] 畫質 %s、站 %s %d 秒：%s fps、draw call %s、三角形 %s；看得到的季節組 %s（PC GPU，不是 iPhone；舊版同位置對照）' % (ZN[zone], day, hh_of(h), k, q, J([me['x'], me['z']]), secs, r['fps'], r['calls'], r['tris'], J(vis)))
 
@@ -378,6 +443,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
+        await resolve_dates(pg)
         for part, fn in (('SHOTS', part_shots), ('EDGE', part_edge), ('WALK', part_walk), ('DOORS', part_doors), ('NAV', part_nav), ('FPS', part_fps)):
             if part not in PARTS: continue
             t0 = time.time()

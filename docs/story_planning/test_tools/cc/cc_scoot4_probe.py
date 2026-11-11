@@ -104,7 +104,7 @@ SC_JS = r"""(async a=>{ const E=GAME.E, z=E.zone||{}; let out=null; E.scene.trav
   const kitNamed=[]; E.scene.traverse(o=>{ if(/_kit_scooters$/.test(o.name||'')) kitNamed.push(o.name+':'+o.children.filter(q=>q.isGroup).length); });
   if(!out) return {glb:false, kitNamed, tzScList:!!z.tzScList};
   /* 套件機車那一組：有名字的（wz_／gg_／l118_kit_scooters）優先；汀州路那一組沒有名字＝和正式模型同一層、藏起來、子群組數＝zone.tzScList 的台數 */
-  const par=out.parent, nG=c=>c.children.filter(q=>q.isGroup).length, SLn=(z.tzScList||[]).length;
+  const par=out.parent, nG=c=>c.children.filter(q=>q.isGroup).length, SLn=(z.tzScList||z.xsScList||[]).length;   /* 新生南路（1c2b6d4a3 起）：zone.xsScList、套件組 xs_kit_scooters */
   const scG=par.children.find(c=>c!==out&&c.isGroup&&/_kit_scooters$/.test(c.name||''))||par.children.find(c=>c!==out&&c.isGroup&&c.visible===false&&SLn&&nG(c)===SLn);
   let root=null; try{ const cc=await ASSETS.loadOne('bldg.wz_scooter'); root=cc&&cc.scene; }catch(e){} if(!root||!scG) return {glb:true, name:out.name, err:!root?'沒有 scooter.glb':'找不到套件機車那一組', kitNamed};
   root.updateMatrixWorld(true); const V=[]; root.traverse(o=>{ const m=/^scooter_(S\w+)$/.exec(o.name||''); if(!m||/_lod1$/.test(o.name)||!o.userData||!(o.userData.weight>0)) return; let pal=[]; try{ pal=JSON.parse(o.userData.palette||'[]'); }catch(e){}
@@ -113,11 +113,14 @@ SC_JS = r"""(async a=>{ const E=GAME.E, z=E.zone||{}; let out=null; E.scene.trav
   const W=V.reduce((s,b)=>s+b.w,0), hash=(x,zz,k)=>{ const t=Math.sin(x*12.9898+zz*78.233+k*37.719)*43758.5453; return t-Math.floor(t); }, fix=new THREE.Matrix4().makeRotationY(-Math.PI/2);
   const fam=hex=>{ if(!hex) return null; if(typeof TZ3!=='undefined'&&TZ3.colorFam) return TZ3.colorFam(hex); const c=new THREE.Color(hex), h={}; c.getHSL(h,THREE.SRGBColorSpace); const H=h.h*360,S=h.s,Lm=h.l;
     if(Lm<0.22||(S>0.2&&H>=200&&H<=250&&Lm<0.33)) return 'dark'; if(S<0.14) return Lm>0.8?'white':'grey'; if(S<0.42&&H>=20&&H<=60&&Lm>0.6) return 'beige'; if(H<15||H>=340) return 'red'; if(H<65) return 'yellow'; if(H<170) return 'green'; return 'blue'; };
-  const SL=z.tzScList||null, kids=scG.children.filter(q=>q.isGroup), items=[];
+  const SL=z.tzScList||z.xsScList||null, kids=scG.children.filter(q=>q.isGroup), items=[];
   kids.forEach((o,ix)=>{ o.updateMatrixWorld(true); const p=new THREE.Vector3().setFromMatrixPosition(o.matrixWorld); let r=hash(p.x,p.z,1)*W, v=V[V.length-1]; for(const c of V){ if((r-=c.w)<=0){ v=c; break; } }
     let col=v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:null, src='hash'; if(SL&&SL[ix]&&SL[ix].code){ const f=V.find(c=>c.code===SL[ix].code); if(f) v=f; col=SL[ix].col||col; src='zone'; }
     const e=o.matrixWorld.elements, fl=Math.hypot(e[8],e[10])||1, it={i:ix,x:+p.x.toFixed(2),y:+p.y.toFixed(3),z:+p.z.toFixed(2),fx:+(e[8]/fl).toFixed(3),fz:+(e[10]/fl).toFixed(3),code:v.code,col,fam:fam(col),src};
-    if(a.acc.includes(v.code)){ const M4=new THREE.Matrix4().multiplyMatrices(o.matrixWorld,fix), b=v.box, cs=[]; for(const dx of [b.min.x,b.max.x]) for(const dy of [b.min.y,b.max.y]) for(const dz of [b.min.z,b.max.z]){ const q=new THREE.Vector3(dx,dy,dz).applyMatrix4(M4); cs.push([+q.x.toFixed(3),+q.y.toFixed(3),+q.z.toFixed(3)]); } it.corners=cs; }
+    if(SL&&SL[ix]&&SL[ix].grp) it.grp=SL[ix].grp;
+    { const M4=new THREE.Matrix4().multiplyMatrices(o.matrixWorld,fix), b=v.box, c0=b.getCenter(new THREE.Vector3()).applyMatrix4(M4), ex=M4.elements, ax=[ex[0],ex[2]], az=[ex[8],ex[10]], la=Math.hypot(...ax)||1, lz=Math.hypot(...az)||1;
+      it.obb={cx:+c0.x.toFixed(3), cz:+c0.z.toFixed(3), ax:[+(ax[0]/la).toFixed(4),+(ax[1]/la).toFixed(4)], az:[+(az[0]/lz).toFixed(4),+(az[1]/lz).toFixed(4)], hl:+((b.max.x-b.min.x)/2).toFixed(3), hw:+((b.max.z-b.min.z)/2).toFixed(3)};   /* 地面上的外框（車長方向 ax、車寬方向 az、半長、半寬）*/
+      if(a.acc.includes(v.code)||a.allCorners){ const cs=[]; for(const dx of [b.min.x,b.max.x]) for(const dy of [b.min.y,b.max.y]) for(const dz of [b.min.z,b.max.z]){ const q=new THREE.Vector3(dx,dy,dz).applyMatrix4(M4); cs.push([+q.x.toFixed(3),+q.y.toFixed(3),+q.z.toFixed(3)]); } it.corners=cs; } }
     items.push(it); });
   /* 排：相距 1.3 m 以內的連在一起；排內照最長的方向排順序 */
   const par2=items.map((_,i)=>i), fd=i=>par2[i]===i?i:(par2[i]=fd(par2[i])); for(let i=0;i<items.length;i++) for(let j=i+1;j<items.length;j++) if(Math.hypot(items[i].x-items[j].x,items[i].z-items[j].z)<1.3) par2[fd(i)]=fd(j);
@@ -402,13 +405,156 @@ async def part_txdoor(pg, cdp):
     me = await pg.evaluate(ME); R.check('[TXDOOR] walkFallbacks 0', me['fb'] - fb0 == 0, J(me))
 
 
+# ---------------------------------------------------------------- XSCOOT（BB 04:16：新生南路路邊機車，1c2b6d4a3＝LAWWW2 第六包 348b343a2）
+XS_LAY_JS = r"""(()=>{ const L=typeof XINSHENG_LAYOUT!=='undefined'?XINSHENG_LAYOUT:null; if(!L) return null; const its=(GAME.E.interactables||[]).filter(i=>!i.hidden);
+  const shops=L.shops.filter(s=>s.door).map(s=>{ const it=its.filter(i=>i.x<-12&&Math.abs(i.z-s.door.z)<1.6).sort((p,q)=>Math.abs(p.z-s.door.z)-Math.abs(q.z-s.door.z))[0]||null;
+    return {id:s.id, name:s.name, doorZ:s.door.z, doorW:s.door.w||2, it:it?{x:+it.x.toFixed(2),z:+it.z.toFixed(2),r:it.radius||1.2,label:it.label,to:it.exit?it.exit.to:null,lv:it.lv|0}:null}; });
+  return {shops, crossings:L.crossings, wl:L.wenzhouLane, ww:L.walkWest, we:L.walkEast, road:L.road, arcade:L.arcade, sc:L.scooters||null, sg:L.sideGate, spawn:GAME.E.zone&&GAME.E.zone.spawn?{x:GAME.E.zone.spawn.x,z:GAME.E.zone.spawn.z}:null,
+    xsScooters:GAME.E.zone?GAME.E.zone.xsScooters:null, spotsFn:typeof XS3!=='undefined'&&!!XS3.scooterSpots}; })()"""
+NAVDUMP_JS = r"""(()=>{ const E=GAME.E, N=E.nav; if(!N||!E.canStand) return null; let s=''; for(let r=0;r<N.rows;r++) for(let c=0;c<N.cols;c++){ const [x,z]=N.toWorld(c,r); s+=E.canStand(x,z,0.3,0)?'1':'0'; }
+  return {cols:N.cols, rows:N.rows, cell:N.cell, ox:N.ox, oz:N.oz, bits:s, stand:(s.match(/1/g)||[]).length}; })()"""
+XS_PANO = [('北段兩群往南（店面那一側）', (-6.0, 2.2, -44.0), (-12.5, 0.8, -24.0), 24), ('中段那一群往北', (-6.0, 2.2, -8.0), (-12.5, 0.8, -20.0), 24), ('南段那一群往南', (-6.0, 2.2, 28.0), (-12.5, 0.8, 42.0), 24)]
+
+
+def hh_of(h):
+    return '%02d%02d' % (int(h), int(round((h % 1) * 60)))
+
+
+def obb_poly(o, pad=0.0):
+    hl, hw = o['hl'] + pad, o['hw'] + pad; ax, az = o['ax'], o['az']
+    return [(o['cx'] + sa * hl * ax[0] + sb * hw * az[0], o['cz'] + sa * hl * ax[1] + sb * hw * az[1]) for sa, sb in ((1, 1), (1, -1), (-1, -1), (-1, 1))]
+
+
+def obb_dist(o, x, z):
+    """點到地面外框的距離（在框裡＝0）"""
+    dx, dz = x - o['cx'], z - o['cz']; u = dx * o['ax'][0] + dz * o['ax'][1]; v = dx * o['az'][0] + dz * o['az'][1]
+    return math.hypot(max(0.0, abs(u) - o['hl']), max(0.0, abs(v) - o['hw']))
+
+
+def poly_rect_hit(poly, x0, z0, x1, z1):
+    """凸四邊形和軸向矩形有沒有交集（分離軸）；有就回傳兩者外框交集的大約範圍（x、z 長度）"""
+    rect = [(x0, z0), (x1, z0), (x1, z1), (x0, z1)]; axes = [(1, 0), (0, 1)]
+    for i in range(4):
+        ex, ez = poly[(i + 1) % 4][0] - poly[i][0], poly[(i + 1) % 4][1] - poly[i][1]; axes.append((-ez, ex))
+    for a in axes:
+        p1 = [p[0] * a[0] + p[1] * a[1] for p in poly]; p2 = [p[0] * a[0] + p[1] * a[1] for p in rect]
+        if max(p1) < min(p2) or max(p2) < min(p1): return None
+    xs, zs = [p[0] for p in poly], [p[1] for p in poly]
+    return [round(min(max(xs), x1) - max(min(xs), x0), 2), round(min(max(zs), z1) - max(min(zs), z0), 2)]
+
+
+def nav_diff(a, b):
+    if not a or not b or a['cols'] != b['cols'] or a['rows'] != b['rows']: return None
+    out = []
+    for i, (p, q) in enumerate(zip(a['bits'], b['bits'])):
+        if p != q:
+            c, r = i % a['cols'], i // a['cols']; out.append((round(a['ox'] + (c + 0.5) * a['cell'], 2), round(a['oz'] + (r + 0.5) * a['cell'], 2), 'lost' if q == '0' else 'gained'))
+    return out
+
+
+async def part_xscoot(pg, cdp):
+    tag = '[XSCOOT]'
+    await at(pg, cdp, 'xinsheng', HOURS[0], None, None, '（新生南路，出生在區域的出生點＝側門）')
+    g, secs = await wait_scooters(pg, 'xinsheng'); await pg.wait_for_timeout(3000)
+    lay = await pg.evaluate(XS_LAY_JS)
+    if not R.check('%s 有 XINSHENG_LAYOUT' % tag, bool(lay), ''): return
+    R.note('%s 正式機車模型 %s（等 %s 秒）；zone.xsScooters %s；XS3.scooterSpots %s；配置 scooters %s' % (tag, g, secs, lay['xsScooters'], lay['spotsFn'], J(lay['sc'])))
+    R.note('%s 店門互動點：%s' % (tag, J([[q['id'], q['name'], q['it']] for q in lay['shops']])))
+    R.note('%s 斑馬線 %s；溫州街巷口 %s；店面那一側人行道 %s；出生點（側門）%s' % (tag, J(lay['crossings']), J({k: lay['wl'][k] for k in ('x0', 'x1', 'z0', 'z1')}), J(lay['ww']), J(lay['spawn'])))
+    items = []
+    if g:
+        st = await pg.evaluate(SC_JS, {'acc': list(ACC), 'allCorners': True})
+        if st.get('err'): R.check('%s 機車統計' % tag, False, J(st)); return
+        items = st.pop('items'); rows = st.pop('rows')
+        open(os.path.join(OUT, 'xscoot_items.json'), 'w', encoding='utf-8').write(J({'summary': st, 'rows': rows, 'items': items}))
+        grps = {}
+        for q in items: grps.setdefault(q.get('grp') or ('排%d' % q['row']), []).append(q)
+        R.note('%s 共 %d 台、%d 群（款式來源 %s）；各款 %s；各群 %s' % (tag, st['n'], len(grps), J(st['srcCount']), J(st['byCode']), J({k: [q['code'] for q in v] for k, v in grps.items()})))
+        for c, nm in ACC.items(): R.note('%s %s（%s）在這條街 %d 台：%s' % (tag, c, nm, len(st['accPos'].get(c) or []), J(st['accPos'].get(c) or [])))
+        R.note('%s 同一排相鄰：款式＋顏色完全一樣 %d 對、同款 %d 對、同色系 %d 對' % (tag, st['adjIdentical'], st['adjSameCode'], st['adjSameFam']))
+        # 交集：店門互動點的圓、斑馬線（路面那一塊＋人行道上走到斑馬線的那一段）、溫州街巷口
+        hits = []; WW, RD, WL = lay['ww'], lay['road'], lay['wl']
+        for q in items:
+            o = q['obb']; poly = obb_poly(o)
+            for sh in lay['shops']:
+                it = sh['it']
+                if it:
+                    dd = obb_dist(o, it['x'], it['z'])
+                    if dd <= it['r']: hits.append(['店門互動點', sh['name'], [q['x'], q['z'], q['code']], '外框離互動點中心 %.2f m（半徑 %.2f）' % (dd, it['r'])])
+            for c in lay['crossings']:
+                h1 = poly_rect_hit(poly, RD['x0'], c['z'] - c['w'] / 2, RD['x1'], c['z'] + c['w'] / 2)
+                if h1: hits.append(['斑馬線（路面）', c.get('id'), [q['x'], q['z'], q['code']], '交集約 %s m' % h1])
+                h2 = poly_rect_hit(poly, WW['x0'], c['z'] - c['w'] / 2, WW['x1'], c['z'] + c['w'] / 2)
+                if h2: hits.append(['斑馬線前的人行道（x %.1f～%.1f）' % (WW['x0'], WW['x1']), c.get('id'), [q['x'], q['z'], q['code']], '交集約 %s m' % h2])
+            h3 = poly_rect_hit(poly, WL['x0'], WL['z0'], WW['x1'], WL['z1'])
+            if h3: hits.append(['溫州街巷口（巷子到人行道邊 x %.1f～%.1f）' % (WL['x0'], WW['x1']), '', [q['x'], q['z'], q['code']], '交集約 %s m' % h3])
+        for h in hits: R.note('%s 交集：%s %s × 機車 %s：%s' % (tag, h[0], h[1], J(h[2]), h[3]))
+        R.check('%s 機車外框不碰店門互動點的圓、斑馬線、溫州街巷口' % tag, not hits, J(hits[:10]))
+        async with Shooter(pg, '新生南路機車 %s' % hh_of(HOURS[0])) as sh:
+            for k, (lab, eye, look, lens) in enumerate(XS_PANO):
+                await sh.shot('xscoot_pano%d.jpg' % (k + 1), '全景 %s' % lab, eye, look, lens)
+            for gk, v in sorted(grps.items(), key=lambda kv: min(q['z'] for q in kv[1])):
+                cx = sum(q['x'] for q in v) / len(v); cz = sum(q['z'] for q in v) / len(v)
+                await sh.shot('xscoot_%s.jpg' % gk, '群 %s（%d 台：%s）' % (gk, len(v), ' '.join(q['code'] for q in v)), (cx + 3.4, 1.8, cz - 1.8), (cx, 0.6, cz), 28)
+            await sh.montage('xscoot_all.jpg', '新生南路路邊機車（%s）：全景三張、每一群近拍' % SHA, cols=4)
+    else:
+        R.note('%s 這一版新生南路沒有路邊機車（舊版 0eb2a0049 是 0 台，預期）' % tag)
+    # 導航格：存這一版的格子（舊版那一行產生，新版那一行 OLDNAV 指過去比）；同一版拿掉機車再掃一次當基準（【捷徑】XS3.scooterSpots 換成空的）
+    cur = await pg.evaluate(NAVDUMP_JS)
+    fn = os.path.join(OUT, 'xs_nav_%s.json' % (SHA or 'unknown')); open(fn, 'w', encoding='utf-8').write(J(cur)); R.note('%s 這一版的 canStand 格子存在 %s（%d×%d、站得住 %d 格）' % (tag, fn, cur['cols'], cur['rows'], cur['stand']))
+    bases = []
+    if g and lay['spotsFn']:
+        await pg.evaluate("(()=>{ window.__ccSpots=XS3.scooterSpots; XS3.scooterSpots=()=>[]; })()")
+        try:
+            await at(pg, cdp, 'xinsheng', HOURS[0], None, None, '【捷徑】XS3.scooterSpots 暫時換成空的（同一版、沒有機車的基準）'); await pg.wait_for_timeout(1500)
+            bases.append(('同一版拿掉機車', await pg.evaluate(NAVDUMP_JS)))
+        finally:
+            await pg.evaluate("(()=>{ if(window.__ccSpots) XS3.scooterSpots=window.__ccSpots; })()")
+    on = os.environ.get('OLDNAV')
+    if on and os.path.exists(on): bases.append(('舊版檔案 ' + os.path.basename(on), json.load(open(on, encoding='utf-8'))))
+    elif on: R.note('%s OLDNAV=%s 找不到檔案（舊版那一行要先跑）' % (tag, on))
+    for nm, b in bases:
+        df = nav_diff(b, cur)
+        if df is None: R.check('%s 導航格和「%s」同尺寸' % (tag, nm), False, J({k: b.get(k) for k in ('cols', 'rows')})); continue
+        far = [d for d in df if not any(obb_dist(q['obb'], d[0], d[1]) <= 0.35 for q in items)]
+        R.note('%s 和「%s」比：不一樣的格子 %d 個（少了 %d、多了 %d）；不在機車外框＋0.35 m 以內的 %d 個：%s' % (tag, nm, len(df), sum(1 for d in df if d[2] == 'lost'), sum(1 for d in df if d[2] == 'gained'), len(far), J(far[:40])))
+        R.check('%s 和「%s」比，不一樣的格子都在機車外框＋0.35 m 以內' % (tag, nm), not far, J(far[:20]))
+    if bases and bases[0][0] == '同一版拿掉機車':
+        await at(pg, cdp, 'xinsheng', HOURS[0], None, None, '（換回有機車的新生南路）'); await wait_scooters(pg, 'xinsheng'); await pg.wait_for_timeout(1500)
+    # 從側門出發，搖桿走到每一間店門口（最近的先走）；互動鍵要是「進…」、按得到（進去再從店裡出口出來，接著走下一間）
+    await F.ready(pg, cdp, 20); me0 = await pg.evaluate(ME); todo = [q for q in lay['shops'] if q['it']]; fbs = 0; fb0 = me0['fb']
+    R.note('%s 店門巡一趟：從 %s 出發（側門出生點 %s）' % (tag, J([me0['x'], me0['z']]), J(lay['spawn'])))
+    while todo:
+        me = await pg.evaluate(ME); sh = min(todo, key=lambda q: math.hypot(q['it']['x'] - me['x'], q['it']['z'] - me['z'])); todo.remove(sh); it = sh['it']
+        t = '%s 店門 %s' % (tag, sh['name'])
+        r = await F.joy_to(pg, cdp, t, it['x'], it['z'], near=min(0.9, it['r'] * 0.5), max_s=150)
+        s_ = await F.wait_btn(pg, it['label'], 5)
+        R.check('%s 搖桿走到（%s 秒、推 %d 次、沒有跳），互動鍵是「%s」' % (t, r['t'], r['pushes'], it['label']), r['ok'] and not r['jumps'] and s_['interact'].startswith(it['label']), J({'end': [s_['x'], s_['z']], 'btn': s_['interact'], 'why': r.get('why'), 'jumps': r['jumps']}))
+        if it['to']:
+            R.check('%s 互動鍵是「進…」' % t, it['label'].startswith('進'), it['label'])
+            if s_['interact'].startswith(it['label']):
+                await L.tap(pg, cdp, '#interact'); z_ = await D.wait_zone(pg, cdp, it['to'], max_s=25)
+                ok = z_['zone'] == it['to']; R.check('%s 按得到：進到 %s' % (t, it['to']), ok, J({k: z_[k] for k in ('zone', 'x', 'z', 'interact')}))
+                if ok:
+                    await pg.wait_for_timeout(1500)
+                    ex = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>!q.hidden&&q.exit&&q.exit.to==='xinsheng'); return i?{x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1,lv:i.lv|0,label:i.label,to:'xinsheng'}:null; })()")
+                    if ex: await F.enter_door(pg, cdp, t + ' 出店', ex)
+                    me = await pg.evaluate(ME)
+                    if me['zone'] != 'xinsheng':
+                        R.note('%s 出不來，讀檔回新生南路店門前繼續' % t); await at(pg, cdp, 'xinsheng', HOURS[0], it['x'] + 1.7, it['z'], '（出不來，回店門外）')
+        else:
+            R.note('%s 這間沒有室內（互動鍵「%s」，看櫥窗）' % (t, it['label']))
+        me = await pg.evaluate(ME); fbs += max(0, me['fb'] - fb0); fb0 = me['fb']
+    R.check('%s 巡店門一趟 walkFallbacks 0' % tag, fbs == 0, J(me))
+
+
 async def main():
     print('CC SCOOTER4／TX_sign：受測 %s；PARTS %s；ZONES %s；HOURS %s；Playwright ≠ iPhone' % (SHA, ','.join(PARTS), ','.join(ZONES), HOURS), flush=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('STREET', part_street), ('FPS', part_fps), ('WALK', part_walk), ('TXSIGN', part_txsign), ('TXDOOR', part_txdoor)):
+        for part, fn in (('STREET', part_street), ('FPS', part_fps), ('WALK', part_walk), ('TXSIGN', part_txsign), ('TXDOOR', part_txdoor), ('XSCOOT', part_xscoot)):
             if part not in PARTS: continue
             t0 = time.time()
             try: await fn(pg, cdp)
