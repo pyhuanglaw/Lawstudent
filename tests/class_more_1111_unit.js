@@ -27,5 +27,7 @@ const setDay=(d,h)=>{ const G=H.G; G.day=d; G.hour=h; const w=CALENDAR.dateOf(d)
   sy.more=old; if(old===undefined) delete sy.more;
   const imp=fs.readFileSync(path.join(H.ROOT,'tools/syllabus/import_syllabus.py'),'utf8');
   check('5. 匯入工具 KEEP 收 more',/KEEP = \([^)]*'more'\)/.test(imp));
+  { const long=[]; for(const id in SYLLABUS.courses) for(const w of SYLLABUS.courses[id]) for(const m of (w.more||[])) if(typeof m!=='string'||[...m].length>40) long.push(id+' W'+w.w+' '+[...String(m)].length);
+    check('6. more 每一句是字串、≤40 字（和教授台詞同一條 BB 規則）',!long.length,long.slice(0,6).join('；')); }
   H.done();
 })();
