@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "ACT_ZR3_SITFIRST_old",
+  "sha": "7266e7a29351d4d186cae82d82042271a95a67d4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_act_probe.py",
+  "env": "PARTS=ZR3_SMOKE;SITFIRST=1;SHA=7266e7a29351d4d186cae82d82042271a95a67d4",
+  "machine": "MSI",
+  "start": "2026-11-11T23:36:22",
+  "end": "2026-11-11T23:39:57",
+  "seconds": 215,
+  "exit": 1,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "26",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 12,
+    "mem": 54,
+    "used_gb": 17.0,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
