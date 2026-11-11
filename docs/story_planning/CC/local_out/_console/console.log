@@ -1526,3 +1526,11 @@
 [10:24:17] [res] cpu=16% mem=45% (14.0/31.4 GB) chrome_testing=9  START LM2_HOURS_new
 [10:24:17] worktree add f581316311d7b4d1e5800348213b550219c087b1: invalid reference - fetching main and the commit itself
 [10:27:06] [res] cpu=1% mem=49% (15.5/31.4 GB) chrome_testing=10  END LM2_O2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e50474b01..9516fb663  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:27:11] ==== END   LM2_O2  exit=0  204s   ====
+[10:27:14] memory 43% before starting LM2_HOURS_old (2 running)
+[10:27:14] ==== START LM2_HOURS_old  (probe @ e7ddae33fee86ab1567ab9f7b4764686cc9c321c) ====
+[10:27:17] [res] cpu=9% mem=43% (13.6/31.4 GB) chrome_testing=5  START LM2_HOURS_old
+[10:27:23] [res] cpu=6% mem=42% (12.7/31.4 GB) chrome_testing=5  END LM2_HOURS_new
