@@ -5,6 +5,7 @@
 //   3. 事件實際跑：四題各選三個選項，她的問句、選項、回覆照稿；開頭兩句、結尾旁白、熟悉 +1 照舊
 //   4. gift_lines.js：沛珊最愛的米漿「米漿！」＋新的第二句；import_gifts.py --check 一樣；整份資料和 BASE 比只差這一格
 //   5. D4CQ、沛珊送禮的句子裡沒有早餐店、蛋餅
+//   6. AA 回覆 LAWWW 的三件小事（字是 AA 給的）：大四下早上的招呼換字、新年快樂回問兩個選項的回覆換字、y2b3d.js 的舊副本 S.PS_TAINAN 刪掉
 // 稿、BASE 讀 git show；讀不到（淺層複本）＝不比稿，只驗結構。用法：node tests/peishan_leftover2_1111_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -69,5 +70,19 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 
   await sec(5,async()=>{
     check('5. D4CQ、沛珊送禮的句子裡沒有早餐店、蛋餅、煎',!/早餐店|蛋餅|煎/.test(J(D4CQ))&&!/早餐店|蛋餅|煎台/.test(J(GIFT_LINES.people[PS])),J(D4CQ).match(/.{0,10}(早餐店|蛋餅|煎).{0,10}/g)); });
+  await sec(6,async()=>{ const OLDG='早。我八點的課，七點就到了。', NEWG='早。八點的課我還是修了，不要問我為什麼。';
+    const w=LADDER.byTerm.Y4S2[PS].greet.when, hit=w.filter(x=>x.t===NEWG);
+    check('6a. 沛珊大四下早上的招呼：「'+NEWG+'」剛好一則、06～08 點（只換字）；舊句整份階梯都不在了；大四上那一則照舊是「早。我八點的課，今天居然趕上了。」',hit.length===1&&J(hit[0].time)===J([6,8])&&!J(LADDER).includes(OLDG)&&LADDER.byTerm.Y4S1[PS].greet.when.filter(x=>x.t==='早。我八點的課，今天居然趕上了。').length===1,J(w.map(x=>x.t)));
+    const gc=read('src/data/greet_classday.js'), GC=JSON.parse(gc.slice(gc.indexOf('const GREET_CLASSDAY=')+21,gc.lastIndexOf(';'))), L=GC.classDay[PS]||[];
+    check('6a. 「只在上課日說」跟著新句子走：大四上、大四下兩句都在 greet_classday.js 的 classDay，舊句不在；匯入工具 --check 一樣',L.includes(NEWG)&&L.includes('早。我八點的課，今天居然趕上了。')&&!L.includes(OLDG)&&(()=>{ try{ return /OK\s*$/.test(cp.execFileSync('python3',['tools/story/import_greet_classday.py','--check'],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']})); }catch(e){ return false; } })(),J(L));
+    const ob=show(BASE,'src/data/ladder.js'); if(ob){ const a=ob.split(OLDG).length-1, b=read('src/data/ladder.js').split(NEWG).length-1; check('6a. ladder.js 和 BASE 比：舊句原本剛好一處（大四下），現在新句剛好一處；除了這一句和來源說明以外一字不差',a===1&&b===1&&((x,y)=>x===y)(...[ob.split(OLDG).join(NEWG),read('src/data/ladder.js')].map(t=>t.slice(t.indexOf('const LADDER=')).replace(/"source": "[^"]*"/,'')))); }
+    const m2=read('src/data/msg2_pool.js'), R=new Function(m2.replace(/^'use strict';/m,'')+';return MSG2_POOL;')().people[PS].replies, ny=R.filter(e=>e.topic==='newyear'&&e.ask);
+    check('6b. 沛珊新年快樂（交往中）的回問「今年你想做什麼？」：選「把書念完。」→「好無聊的答案。我記下來了，年底驗收。」；選「還沒想好。」→「那我過幾天再問一次。你躲不掉。」（選項的字、回問那一句、那一則的字不動）',ny.length===1&&ny[0].tier==='L'&&ny[0].ask.q==='今年你想做什麼？'&&J(ny[0].ask.opts)===J([{t:'把書念完。',r:['好無聊的答案。我記下來了，年底驗收。']},{t:'還沒想好。',r:['那我過幾天再問一次。你躲不掉。']}])&&J(ny[0].msgs)===J(['新年快樂。新的一年第一件事：你今年想做什麼？我要聽認真的。'])&&!!ny[0].aaReply,J(ny.map(e=>e.ask)));
+    const camp=read('src/data/camp_y1.js'), mr=read('src/data/msg_replies.js');
+    check('6b. 別的檔的「好。我記下來了。」沒動到：宿營關主學姊三處（camp_y1.js）、msg_replies.js 一處',camp.split("{speaker:'關主學姊',text:'好。我記下來了。'}").length-1===3&&mr.split('"好。我記下來了。"').length-1===1);
+    const ob2=show(BASE,'src/data/msg2_pool.js'); if(ob2){ const a=m2.split('\n'), b=ob2.split('\n'), d=a.filter((l,i)=>l!==b[i]);
+      check('6b. msg2_pool.js 和 BASE 比：一樣多行，只有沛珊新年快樂那一行不同；msg_replies.js、camp_y1.js 和 BASE 一樣',a.length===b.length&&d.length===1&&/"topic": ?"newyear"/.test(d[0])&&d[0].includes('年底驗收')&&show(BASE,'src/data/msg_replies.js')===mr&&show(BASE,'src/data/camp_y1.js')===camp,String(d.length)); }
+    const y2=read('src/y2b3d.js').replace(/\/\*[\s\S]*?\*\//g,'');
+    check('6c. src/y2b3d.js 的舊副本 S.PS_TAINAN 刪掉了（程式裡沒有 PS_TAINAN、沒有舊句「這邊的紅茶很甜喔」）；現行的台南資料在 hometown_lines.js（tests/bg107_unit.js 第 3 項）',!/PS_TAINAN\b(?!_)/.test(y2)&&!y2.includes('這邊的紅茶很甜喔')&&read('src/data/hometown_lines.js').includes("first:{scene:'台南・她的學校',bg:'tn_school'")); });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
