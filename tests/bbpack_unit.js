@@ -48,7 +48,9 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
   await sec('0',async()=>{
   /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：B13 不打擾的旁白、D5 她下樓那一句換字（原本「…畫了一個小小的荷包蛋。」「你來了！……不用謝，我順便印的。」）——這兩句對 AA_763（tests/peishan_misc3_1111_unit.js），不在 BB_105 */
   const PS763=new Set(['沛珊把耳機戴上，在筆記本的邊角畫了一隻很胖的貓。','你來了！不用謝，我順便印的。']);
-  { const bad=[], seen=new Set(); const T=t=>{ if(typeof t!=='string'||seen.has(t)) return; seen.add(t); if(COMPOSED.has(t)||PS763.has(t)) return; if(ALLDOC.indexOf(t)>=0||ALLDOC.indexOf(norm(t))>=0) return; if(require('./aa600_doc.js').has(t)) return;   /* AA_600 B29（企劃線 031414cad）前任那一句旁白在 AA_600 的稿裡 */ bad.push(t); };
+  /* 2026-11-11（X327 沛珊重寫，AA_766_peishan_leftover2.json@6325e4b98）：D4c「沛珊的問題」四題 25 句換字（她自己就是法律系；第 3 題原本問早餐＝作廢的早餐店設定）——這幾句對 AA_766 的 rows（tests/peishan_leftover2_1111_unit.js），不在 BB_137 */
+  const PS766=new Set((()=>{ try{ return JSON.parse(git('6325e4b98','AA_766_peishan_leftover2.json')).rows.filter(r=>r.file==='src/data/bbpack_events.js').map(r=>r.new); }catch(e){ return []; } })());
+  { const bad=[], seen=new Set(); const T=t=>{ if(typeof t!=='string'||seen.has(t)) return; seen.add(t); if(COMPOSED.has(t)||PS763.has(t)||PS766.has(t)) return; if(ALLDOC.indexOf(t)>=0||ALLDOC.indexOf(norm(t))>=0) return; if(require('./aa600_doc.js').has(t)) return;   /* AA_600 B29（企劃線 031414cad）前任那一句旁白在 AA_600 的稿裡 */ bad.push(t); };
     for(const e of BBPACK_EVENTS.filter(e=>!/^ev_kai_keyboard|^ev_b6b_|^ev_b12_/.test(e.id))) for(const l of (e.dialogue||[])){   /* BB_154 阿凱鍵盤（第二輪）照 BB_154 對字：tests/bbpack_r2_unit.js；B6b、B12 照 AA_430 對字：tests/aa430_b6b_b12_unit.js */ if(l.text!==undefined) T(l.text); if(l.scene!==undefined) T(l.scene); for(const c of (l.choice||[])) T(c.text); }
     check('0. 每一句台詞、旁白、選項都在稿裡（稿上的動作、說明改成旁白的照字比；補的 '+COMPOSED.size+' 句列在 COMPOSED）',bad.length===0,bad.slice(0,8).join('｜'));
     const used=[...COMPOSED].filter(t=>seen.has(t)); check('0. COMPOSED 每一句都真的用到（沒有多列）',used.length===COMPOSED.size,[...COMPOSED].filter(t=>!seen.has(t)).join('｜')); }

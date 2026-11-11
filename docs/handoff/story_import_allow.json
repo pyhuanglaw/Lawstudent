@@ -6179,6 +6179,15 @@
    "note": "X327 沛珊零散檔案第三批 23 列 old→new（tools/story/ps763.py，只認這一版）：①src/data/ladder.js 階梯重寫沒包到的九句（大三上～大四下招呼 when 七句、bikeSeat 的 onFirst／offFirst；只換字、出現條件不動）——tools/ladder/import_ladder.py 疊；②src/data/msg2_pool.js 兩句——tools/msg/to_js2.py 疊；③手寫檔直接換：feed_y4s1.js、date3d.js（T7A_YES、HOME_NO）、bbpack_events.js 兩句、grades3d.js 四句、story3d.js、aa614_3d.js、rel_lines.js 各一句。逐字對稿 tests/peishan_misc3_1111_unit.js"
   },
   {
+   "path": "docs/story_planning/AA_766_peishan_leftover2.json",
+   "sha": "6325e4b98",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X327 沛珊重寫）；BB 看過、說可以匯；LAWWW 2026-11-11 指定匯這一版",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊還剩的兩筆早餐店／蛋餅 26 列 old→new（tools/story/ps766.py，只認這一版）：①src/data/bbpack_events.js 25 列——D4c「沛珊的問題」（ev_d4c_question 女舍門口四題）的 D4CQ 陣列，手寫檔直接換（python3 tools/story/ps766.py --apply；只換字，題數、選項數、流程不變）；②src/data/gift_lines.js 1 列（沛珊最愛的米漿第二句）——tools/story/import_gifts.py 組好資料以後疊（ps766.apply_gift）。逐字對稿 tests/peishan_leftover2_1111_unit.js"
+  },
+  {
    "path": "docs/story_planning/BB_326_學姊約會樣板D01到D03_第二意見.md",
    "sha": "8abb761bd",
    "status": "approved",

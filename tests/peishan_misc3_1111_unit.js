@@ -64,8 +64,10 @@ const LAD=[['Y4S1','期末。寒假我要回家裡的早餐店煎蛋。','期末
       const cur=read(f.file), L=lit(cur), n=t=>L.filter(x=>x===t).length, bad=f.rows.filter(r=>n(r.new)!==(r.count||1)||n(r.old)!==0);
       check('4. '+f.file+'：'+f.rows.length+' 列的 new 各剛好 '+'count 處、old 不在了；檔裡寫了來源',bad.length===0&&cur.includes('AA_763_peishan_misc3.json@'+S763),J(bad.map(r=>[r.old,n(r.old),n(r.new)])));
       if(['src/date3d.js','src/aa614_3d.js'].includes(f.file)) continue;   /* 這兩個檔同一輪另外有改（約會四處、招呼條件那一段）：和 BASE 的整檔比對在 peishan_dates_1111、下面第 5 節 */
-      const ob=show(BASE,f.file); if(!ob) continue; const O=lit(ob), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(f.rows.map(r=>r.old+'→'+r.new));
-      check('4. '+f.file+'：字串和 BASE 逐個比一樣多，不一樣的剛好是稿上這 '+f.rows.length+' 列',O.length===L.length&&d.length===f.rows.length&&d.every(([x,y])=>set.has(x+'→'+y)),J(d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,3))); }
+      /* 2026-11-11（X327 沛珊重寫，AA_766_peishan_leftover2.json@6325e4b98）：bbpack_events.js 後來又照 AA_766 換了 D4c 四題 25 句（tests/peishan_leftover2_1111_unit.js 逐字對稿）——那 25 句也算稿上的列 */
+      let r766=[]; if(f.file==='src/data/bbpack_events.js'){ const t=show('6325e4b98','docs/story_planning/AA_766_peishan_leftover2.json'); if(!t) continue; r766=JSON.parse(t).rows.filter(r=>r.file===f.file); }
+      const ob=show(BASE,f.file); if(!ob) continue; const O=lit(ob), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(f.rows.concat(r766).map(r=>r.old+'→'+r.new));
+      check('4. '+f.file+'：字串和 BASE 逐個比一樣多，不一樣的剛好是稿上這 '+f.rows.length+' 列'+(r766.length?'＋AA_766 的 '+r766.length+' 列':''),O.length===L.length&&d.length===f.rows.length+r766.length&&d.every(([x,y])=>set.has(x+'→'+y)),J(d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,3))); }
     check('4. date3d.js：T7A_YES、HOME_NO 沛珊那兩句照稿（別人的不動）',DATE.T7A_YES[PS]==='你要來台中喔？好啊！我去車站接你，這次我會準時！'&&DATE.HOME_NO[PS]==='「那幾天我回台中啦！換一天好不好？」'&&DATE.T7A_YES.heroine_01==='臺中？……好。我去車站接你。'&&DATE.HOME_NO.heroine_02==='「那個禮拜我回台中了。換一天好不好？」',J([DATE.T7A_YES&&DATE.T7A_YES[PS],DATE.HOME_NO&&DATE.HOME_NO[PS]])); });
 
   await sec(5,async()=>{ const md=show(S326,F326);
