@@ -1,12 +1,3 @@
-[11:05:48] [res] cpu=35% mem=46% (14.5/31.4 GB) chrome_testing=8  START NM_zone_new
-[11:07:40] [res] cpu=3% mem=54% (17.1/31.4 GB) chrome_testing=9  END NM_oldfps_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       5eccca3e8..644a8ca32  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[11:07:45] ==== END   NM_oldfps_old  exit=0  193s   ====
-[11:07:49] memory 46% before starting NM_reach_new (2 running)
-[11:07:49] ==== START NM_reach_new  (game @ bd3f67410415267cde659e007e7d09b6f8fd05f3) ====
-[11:07:52] [res] cpu=12% mem=46% (14.5/31.4 GB) chrome_testing=4  START NM_reach_new
 [11:07:57] [res] cpu=0% mem=47% (14.5/31.4 GB) chrome_testing=4  END NM_ggnav_new
     To https://github.com/pyhuanglaw/Lawstudent.git
        644a8ca32..ad04c0819  claude/cc-local -> claude/cc-local
@@ -1998,3 +1989,12 @@
 [19:19:14] ==== START REGA2DD_dorm  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
 [19:19:17] [res] cpu=12% mem=48% (15.1/31.4 GB) chrome_testing=10  START REGA2DD_dorm
 [19:21:12] [res] cpu=7% mem=49% (15.5/31.4 GB) chrome_testing=10  END REGA2DD_linze
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4e5912316..5e88191f8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:21:21] ==== END   REGA2DD_linze  exit=0  285s   ====
+[19:21:25] memory 49% before starting REGA2DD_library (2 running)
+[19:21:25] ==== START REGA2DD_library  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[19:21:28] [res] cpu=8% mem=47% (15.6/31.4 GB) chrome_testing=10  START REGA2DD_library
+[19:24:04] 正在跑：STAIR_7d_run10（已跑 15 分／上限 40 分）、REGA2DD_dorm（已跑 4 分／上限 30 分）、REGA2DD_library（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:24:13] [res] cpu=18% mem=48% (15.2/31.4 GB) chrome_testing=10  END REGA2DD_dorm
