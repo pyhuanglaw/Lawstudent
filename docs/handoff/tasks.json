@@ -52912,7 +52912,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "使用者 21:1x「你可以自己決定嗎」＝位置、開工交 LAWWW 定：位置 G11（原泰米村食）；AA 先寫商品文案、店員台詞、畢業／母親節規劃；LAWWW 做商品資料與遷移（店代號 gg_flower、g_bouquet、g_sunflower 不改）；LAWWW2 的外觀、室內模型等使用者兩張正式參考圖；使用者 21:3x 已給兩張參考圖（docs/handoff/user_specs/flower_notes_ref/），LAWWW2 可以開始做模型（FLOWER-NOTES-ART-1110）；【發布前】含花序的版本發布前先問使用者（規格書十五之 9；她的「你可以自己決定嗎」講的是位置和開工，不含發布）；BB 驗收計畫 BB_312（企劃線 b74636eafb），交 SHA 時告訴 BB：原 G11 之前進不去（type none）、舊兩樣價錢不改（g_bouquet 450、g_sunflower 120）｜11-11 01:5x BB：買花送花、舊存檔、進出門、樓梯椅子 PASS；美術第 1 版外觀室內都沒過（招牌糊、牆灰、花像圓球、二樓沒窗，LAWWW2 做第 2 版）；一樓繞圈 r3 待判。**LAWWW 定：帶著第 1 版美術進下一版**（D141；舊花攤已拿掉），發布說明寫「美術第 1 版」",
+   "next": "使用者 21:1x「你可以自己決定嗎」＝位置、開工交 LAWWW 定：位置 G11（原泰米村食）；AA 先寫商品文案、店員台詞、畢業／母親節規劃；LAWWW 做商品資料與遷移（店代號 gg_flower、g_bouquet、g_sunflower 不改）；LAWWW2 的外觀、室內模型等使用者兩張正式參考圖；使用者 21:3x 已給兩張參考圖（docs/handoff/user_specs/flower_notes_ref/），LAWWW2 可以開始做模型（FLOWER-NOTES-ART-1110）；【發布前】含花序的版本發布前先問使用者（規格書十五之 9；她的「你可以自己決定嗎」講的是位置和開工，不含發布）；BB 驗收計畫 BB_312（企劃線 b74636eafb），交 SHA 時告訴 BB：原 G11 之前進不去（type none）、舊兩樣價錢不改（g_bouquet 450、g_sunflower 120）｜11-11 01:5x BB：買花送花、舊存檔、進出門、樓梯椅子 PASS；美術第 1 版外觀室內都沒過（招牌糊、牆灰、花像圓球、二樓沒窗，LAWWW2 做第 2 版）；一樓繞圈 r3 待判。**LAWWW 定：帶著第 1 版美術進下一版**（D141；舊花攤已拿掉），發布說明寫「美術第 1 版」｜11-11 02:1x BB：一樓繞圈 r3 全過，花序功能面結案（美術第 2 版 LAWWW2 排在後面）",
    "xai": {
     "spec": "X325，docs/handoff/user_specs/FLOWER_NOTES_1110.md",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -53215,7 +53215,7 @@
    "id": "BUG-XIANGUO-TRAP-1111",
    "title": "汀州鮮果室內：CC 回報走到右後角走不回門口、出不了店（待確認）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -53228,7 +53228,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "BB 11-11 判 GAME_BUG（CC r2 在使用者電腦重現，SHA 65212b697）。LAWWW 更正：Node 也重現（先前「沒重現」是抽樣漏掉）。**修在 8e33a0df8**：tz_shops_layout.js 汀州鮮果補兩塊阻擋（兩處 0.7～0.8 m 的窄縫）、印得好補一塊（電腦桌旁的角落）；新測試 tests/tz_shops_notrap_1111_unit.js（七間每個站得到的點都走得回「離開」，修前 5＋2 點出不來）。等 CC 用 8e33a0df8 重跑：PASS＝汀州鮮果室內照常進候選；FAIL＝關 G08 的門。LAWWW2：模型在擋起來的地方補箱子；以後室內交件跑這支測試",
+   "next": "BB 11-11 02:1x 判 FIXED（8e33a0df8；使用者電腦，點地板、純搖桿各一輪全過，舊版兩個 SHA 照舊出不來；BB_255，企劃線 b2631ec10）。汀州鮮果室內第 2 版 ART_APPROVED、可以進候選、不用關門；印得好和其他五間「最遠點 → 出店」PASS。剩 LAWWW2 在補阻擋的地方放箱子（下一包）",
    "xai": {
     "spec": "BB 11-11 01:47 判定（BB_255，企劃線 8da731f7c）",
     "branch": "claude/second-ai-env-art",
@@ -53242,7 +53242,7 @@
    "title": "禮貌生財進門後遊戲鏡頭一片米色（鏡頭卡在隔板或牆裡）",
    "owner": "LAWWW2",
    "status": "進行中",
-   "priority": "P1",
+   "priority": "P0",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -53254,7 +53254,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "BB 11-11：cc-local ART2_lmint_new/out/tz4int_limao_2000_game.jpg。LAWWW2 修進門鏡頭／出生點朝向／隔牆的鏡頭碰撞；排在花序第 2 版之前",
+   "next": "BB 11-11 02:1x 判 GAME_BUG、每次進門都會（e7ddae33f）：玩家 (0.9,3.3)、鏡頭 (0.9,3.21,7.2)，房間 4.6×10、前牆 z 5，鏡頭在牆外 2.2 m；室內鏡頭距離 4.2 m 比房間大、沒被牆拉回來、牆沒淡出。**修好以前 BB 不放行**：候選要嘛等這個修，要嘛禮貌生財的門先關（街上算命桌照常）。LAWWW2 在修（四面牆加 E.colliders，或這個 zone 鏡頭距離 ≤2.0＋牆淡出），併在下一包；修完 CC 重跑 LM_cam",
    "xai": {
     "spec": "BB 11-11 01:47 判定（BB_255，企劃線 8da731f7c）",
     "branch": "claude/second-ai-env-art",
