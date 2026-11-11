@@ -212,7 +212,8 @@ CAMCHK = r"""(id=>{ const E=GAME.E, cam=E.camera, P=E.player.obj; const z=E.zone
   const all=new THREE.Raycaster(o,dir,0.05,L-0.2).intersectObjects(E.scene.children,true).filter(h=>h.object.visible&&h.object.isMesh&&!h.object.isSkinnedMesh&&!(function(x){ while(x){ if(x===P) return true; x=x.parent; } return false; })(h.object)).slice(0,3).map(h=>[h.object.name||h.object.type,+h.distance.toFixed(2)]);
   const r=E.renderer, cv=r.domElement; r.render(E.scene,cam); const k=document.createElement('canvas'); k.width=120; k.height=68; const g=k.getContext('2d'); g.drawImage(cv,cv.width*0.2,cv.height*0.2,cv.width*0.6,cv.height*0.6,0,0,120,68);
   const dd=g.getImageData(0,0,120,68).data; let bk=0,wh=0,nn=0; for(let i=0;i<dd.length;i+=4){ const Lm=0.299*dd[i]+0.587*dd[i+1]+0.114*dd[i+2]; if(Lm<12) bk++; if(Lm>245) wh++; nn++; }
-  return {onScreen, ndc:[+ndc.x.toFixed(2),+ndc.y.toFixed(2)], anyBlock:all, midBlack:+(bk/nn).toFixed(3), midWhite:+(wh/nn).toFixed(3), cam:[+o.x.toFixed(2),+o.y.toFixed(2),+o.z.toFixed(2)], camInStallBox:camIn, blockHits:hits.length, firstHit:hits[0]?(hits[0].object.name||hits[0].object.type):null, playerVisible:P.visible, bulbs:bulbs.slice(0,8), isOpen:!!q.isOpen}; })"""
+  const pp=P.position; const camInfo={player:[+pp.x.toFixed(2),+pp.z.toFixed(2)], ry:+P.rotation.y.toFixed(3), camYaw:E.cam&&E.cam.yaw!=null?+E.cam.yaw.toFixed(3):null, dist:E.cam&&E.cam.dist!=null?+(+E.cam.dist).toFixed(2):null, distTarget:E.cam&&E.cam.distTarget!=null?+(+E.cam.distTarget).toFixed(2):null, pitch:E.cam&&E.cam.pitch!=null?+E.cam.pitch.toFixed(3):null};
+  return {camInfo, onScreen, ndc:[+ndc.x.toFixed(2),+ndc.y.toFixed(2)], anyBlock:all, midBlack:+(bk/nn).toFixed(3), midWhite:+(wh/nn).toFixed(3), cam:[+o.x.toFixed(2),+o.y.toFixed(2),+o.z.toFixed(2)], camInStallBox:camIn, blockHits:hits.length, firstHit:hits[0]?(hits[0].object.name||hits[0].object.type):null, playerVisible:P.visible, bulbs:bulbs.slice(0,8), isOpen:!!q.isOpen}; })"""
 
 
 async def part_nmcam(pg, cdp):
@@ -222,6 +223,7 @@ async def part_nmcam(pg, cdp):
     A = all_stalls(Ly); want = [x for x in (os.environ.get('STALLS') or 'st_ball,st_eggcake').split(',') if x]
     rest = [q for q in A if q['id'] not in want]; import random; rnd = random.Random(int(os.environ.get('NMSEED') or '1111'))
     pick = [q for q in A if q['id'] in want] + rnd.sample(rest, min(int(os.environ.get('RANDN') or '2'), len(rest)))
+    pick.sort(key=lambda q: [x for x in want].index(q['id']) if q['id'] in want else 99)
     R.note('[NMCAM] 這次拍：%s' % J([(q['id'], q['name'], q['zone']) for q in pick]))
     for q in pick:
         fx, fz = math.sin(q['yaw']), math.cos(q['yaw']); h = min(q['from'] + 2.0, (q['from'] + q['to']) / 2)
@@ -233,6 +235,7 @@ async def part_nmcam(pg, cdp):
             c = await pg.evaluate(CAMCHK, q['id'])
             b2 = await pg.screenshot(type='jpeg', quality=82); open(os.path.join(OUT, 'nmcam_%s_%s_%.1fm.jpg' % (q['id'], hhmm(h), dist)), 'wb').write(b2)
             if not R.check('%s %.1f m 遊戲裡有這一攤、營業中' % (tag, dist), bool(c) and c['isOpen'], J(c)): break
+            R.note('%s %.1f m 玩家／鏡頭（BB 03:45）：%s；鏡頭→玩家射線第一個打到 %s' % (tag, dist, J(c['camInfo']), J(c['anyBlock'][:1]) if c['anyBlock'] else '（沒有）'))
             R.note('%s %.1f m 鏡頭 %s；射線碰到攤子 %d 次（%s）；鏡頭在攤子外框裡 %s；玩家頭在畫面裡 %s；鏡頭→頭之間任何東西（前 3 個）%s' % (tag, dist, c['cam'], c['blockHits'], c['firstHit'], c['camInStallBox'], c['onScreen'], J(c['anyBlock'])))
             if c['midBlack'] > 0.15 or c['midWhite'] > 0.15: R.note('%s %.1f m ★畫面中央大面積全黑 %.0f%%／全白 %.0f%%（BB 03:14：手機殼攤那種全黑板子）' % (tag, dist, c['midBlack'] * 100, c['midWhite'] * 100))
             R.check('%s %.1f m 玩家頭在畫面裡、鏡頭→頭之間沒有任何東西擋（攤子以外的牆、柱子也算）' % (tag, dist), c['onScreen'] and not c['anyBlock'], J({k: c[k] for k in ('onScreen', 'ndc', 'anyBlock', 'cam')}))

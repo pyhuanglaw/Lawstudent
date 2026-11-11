@@ -277,6 +277,29 @@ async def part_down(pg, cdp, tag='[DOWN]'):
     return r['ok']
 
 
+FPSCAP_JS = r"""(cap=>{ const W=window; if(!W.__rafOrig) W.__rafOrig=W.requestAnimationFrame.bind(W); const orig=W.__rafOrig;
+  if(!cap){ W.requestAnimationFrame=orig; W.__fpsCap=0; return 0; } const gap=1000/cap; W.__fpsCap=cap; let last=0;
+  W.requestAnimationFrame=cb=>orig(function tick(t){ if(t-last>=gap-1){ last=t; cb(t); } else orig(tick); }); return cap; })"""
+FPS2_JS = "new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<2000) requestAnimationFrame(f); else res(+(n/((performance.now()-t0)/1000)).toFixed(1)); }; requestAnimationFrame(f); })"
+
+
+async def part_stairs10(pg, cdp):
+    """BB 03:45 ③：限制 10 fps（把 requestAnimationFrame 包起來，每 100 ms 才給遊戲一格；【前置／捷徑】只改幀率、不動遊戲狀態），搖桿上下樓各三次（LAWWW2 修了樓梯口低幀率卡住）"""
+    cap = int(os.environ.get('FPSCAP') or '10'); n = int(os.environ.get('STAIRN') or '3')
+    if not await ensure_in(pg, cdp, '[STAIRS10]'): return
+    await pg.evaluate(FPSCAP_JS, cap); R.setup('【前置／捷徑】限制幀率 %d fps（包 requestAnimationFrame）' % cap)
+    R.note('[STAIRS10] 限制以後量 2 秒：%s fps' % await pg.evaluate(FPS2_JS))
+    try:
+        for i in range(n):
+            ok = await part_up(pg, cdp, '[STAIRS10 第 %d 次上樓 %dfps]' % (i + 1, cap))
+            if not ok: break
+            ok = await part_down(pg, cdp, '[STAIRS10 第 %d 次下樓 %dfps]' % (i + 1, cap))
+            if not ok: break
+    finally:
+        await pg.evaluate(FPSCAP_JS, 0)
+    R.check('[STAIRS10] walkFallbacks 0', (await D.st(pg))['fb'] == 0, '')
+
+
 async def part_shot2(pg, cdp):
     tag = '[SHOT2]'
     if not await ensure_lv(pg, cdp, tag, 1): return
@@ -311,7 +334,7 @@ async def main():
         lay = await pg.evaluate(LAY_JS)
         if not R.check('這一版有花序室內（FLOWER_NOTES_LAYOUT、FN3）', bool(lay), ''): await b.close(); return
         CTX['lay'] = lay
-        steps = [('OLD', part_old), ('DOOR', part_door), ('DOOR2', lambda pg_, cdp_: part_door(pg_, cdp_, '[DOOR 第 2 次（門口樹、花箱不擋）]')), ('LOOP', part_loop), ('SHOT1', part_shot1), ('UP', part_up), ('SHOT2', part_shot2), ('SEAT', part_seat)]
+        steps = [('OLD', part_old), ('DOOR', part_door), ('DOOR2', lambda pg_, cdp_: part_door(pg_, cdp_, '[DOOR 第 2 次（門口樹、花箱不擋）]')), ('LOOP', part_loop), ('SHOT1', part_shot1), ('UP', part_up), ('SHOT2', part_shot2), ('SEAT', part_seat), ('STAIRS10', part_stairs10)]
         for part, fn in steps:
             if part not in PARTS: continue
             try: await fn(pg, cdp)

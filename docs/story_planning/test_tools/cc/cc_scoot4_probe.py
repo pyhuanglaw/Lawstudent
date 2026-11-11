@@ -15,7 +15,8 @@ Playwright（PC GPU）≠ iPhone；畫面判定歸 BB。
     注意：溫州街、公館是照「位置雜湊 × 全部款式的 weight 總和」挑款；新版多了三款（weight 0.04＋0.05＋0.04），所以新舊版同一個位置的款式本來就會不一樣（不是錯）。
   同弦樂器：XINSHENG_LAYOUT.shops id 'tongxian'（z −12.4～−6.0、door.z −7.2）；店門互動點＝(facade.x＋0.9, door.z)＝(−15.6, −7.2) r 1.4、label「進同弦樂器（吉他行）」、
     exit.to 'xs_tongxian'（src/xinsheng3d.js 163～166 行）；出來站在 (−13.9, −7.2)（src/tongxian3d.js streetOut 20～21 行）。招牌在二樓：wz_street.py 284～287 行
-    signs tongxian_sign 本地 x −2.9～0.3、y 4.9～5.8（_G 4.2＋0.7～1.6）；換算新生南路 z＝−9.2＋本地 x → z −12.1～−8.9，二樓立面 x −13.0。
+    signs tongxian_sign 本地 x −2.9～0.3、y 4.9～5.8（_G 4.2＋0.7～1.6）；立面換算新生南路 z＝−9.2－本地 x → z −9.5～−6.3（CC 雲端自檢用射線格子對過：招牌材質
+    wz_xs_fronts_matte 在 z −9.2～−6.0 那幾格；吉他櫥窗 tongxian_up 在 z −12.2～−9.6），二樓立面 x −13.0。
 
 PARTS：
   STREET 每條街（ZONES，預設 tingzhou,wenzhou,gongguan,xinsheng）：【前置】讀檔到街上 → 等機車正式模型掛上 → 統計（每台款式、顏色、位置；三款配件車各幾台、在哪；
@@ -24,7 +25,7 @@ PARTS：
   FPS    每條街兩個點各 FPSS 秒（預設 8）requestAnimationFrame（畫質 Q，預設 medium）；記 draw call、三角形；舊版同位置也量。
   WALK   每條街搖桿沿街走一趟（照 E.pathTo 中途點推搖桿，F.joy_to）；每段記秒數、有沒有跳；walkFallbacks 0。
   TXSIGN 新生南路同弦樂器招牌：正面、斜看左右、近拍、騎樓前玩家高度一張（HOURS 每個時間一組）；每個機位朝招牌那一塊打射線格子，記第一個打到的材質（招牌＝xs_fronts*），
-         看招牌前面有沒有東西擋（鐵窗、冷氣）；新舊同機位。
+         看招牌前面有沒有東西擋（鐵窗 wz_vc_metal、冷氣、行道樹葉 tree_leaf）；新舊同機位。
   TXDOOR 【前置】讀檔到新生南路騎樓 → 搖桿走到「進同弦樂器」按 → xs_tongxian 站得住、推得動 → 走到「下樓」按 → 回新生南路、站在門口外面、推得動（TXN 次，預設 2）；
          再跑這條街的區域進出：溫州街巷口來回、側門到校園來回（XSZONES=0 不跑）；walkFallbacks 0。
 環境變數：SHA（受測 SHA，寫進標題）、PARTS、ZONES、HOURS（預設 14）、FPSS（預設 8）、Q（畫質，預設 medium）、DAY（預設 2025-11-01）、TXN、XSZONES、LW_TESTS（受測版本的 tests/）。
@@ -56,9 +57,9 @@ STREETS = {
     'xinsheng': {'pano': [('北段往南（店面那一側）', (-4.0, 2.2, -45.0), (-12.0, 1.5, -25.0), 24), ('中段（同弦一帶）往南', (-4.0, 2.2, -15.0), (-12.0, 1.5, 5.0), 24), ('南段往北', (-4.0, 2.2, 40.0), (-12.0, 1.5, 20.0), 24)],
                  'axis': ('x', -10.0), 'walk': [(-10.0, -55.0), (-10.0, -25.0), (-10.0, 5.0), (-10.0, 35.0), (-10.0, 55.0)]},
 }
-TX = {'sign': {'z0': -12.1, 'z1': -8.9, 'y0': 4.9, 'y1': 5.8, 'x': -13.0}, 'door': (-15.6, -7.2), 'out': (-13.9, -7.2),
-      'cams': [('正面', (-3.0, 1.7, -10.5), (-13.0, 5.2, -10.5), 28), ('斜看左（從北邊）', (-5.0, 1.7, -22.0), (-13.0, 5.2, -10.5), 30), ('斜看右（從南邊）', (-5.0, 1.7, 1.0), (-13.0, 5.2, -10.5), 30),
-               ('近拍', (-9.0, 3.2, -10.5), (-13.0, 5.35, -10.5), 35), ('騎樓前玩家高度', (-8.0, 1.6, -15.0), (-13.0, 5.2, -10.5), 24)]}
+TX = {'sign': {'z0': -9.5, 'z1': -6.3, 'y0': 4.9, 'y1': 5.8, 'x': -13.0}, 'door': (-15.6, -7.2), 'out': (-13.9, -7.2),
+      'cams': [('正面', (-3.0, 1.7, -7.9), (-13.0, 5.2, -7.9), 28), ('斜看左（從北邊）', (-5.0, 1.7, -19.5), (-13.0, 5.2, -7.9), 30), ('斜看右（從南邊）', (-5.0, 1.7, 3.5), (-13.0, 5.2, -7.9), 30),
+               ('近拍', (-9.0, 3.2, -7.9), (-13.0, 5.35, -7.9), 35), ('騎樓前玩家高度', (-8.0, 1.6, -12.5), (-13.0, 5.2, -7.9), 24)]}
 
 ME = "(()=>{ const E=GAME.E, P=E.player, p=P.obj.position, N=E.nav; return {zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), x:+p.x.toFixed(2), z:+p.z.toFixed(2), free:N?!!N.free(p.x,p.z):null, stand:E.canStand?!!E.canStand(p.x,p.z,0.3,P.lv|0):null, fb:GAME.walkFallbacks|0}; })()"
 SNAPFREE = r"""(([x,z,r])=>{ const E=GAME.E; const ok=(a,b)=>E.canStand?E.canStand(a,b,0.33,0):(E.nav&&E.nav.free(a,b)); if(ok(x,z)) return [x,z,0]; let best=null;
@@ -68,10 +69,13 @@ ACC_JS = r"""(async()=>{ let root=null; try{ const c=await ASSETS.loadOne('bldg.
   root.updateMatrixWorld(true);
   const ACC={S1A_W:{name:'擋風鏡',cols:[[0.423,0.485,0.539]]}, S1B_G:{name:'腳踏板上的袋子',cols:[[0.694,0.098,0.068],[0.485,0.287,0.112]]}, S7_R:{name:'蓋座墊的雨衣',cols:[[0.768,0.558,0.042],[0.114,0.275,0.479]]}};
   const SEAT=[0.0123,0.0116,0.0116], near=(c,t,tol)=>Math.abs(c[0]-t[0])<tol&&Math.abs(c[1]-t[1])<tol&&Math.abs(c[2]-t[2])<tol, r3=v=>[+v.x.toFixed(3),+v.y.toFixed(3),+v.z.toFixed(3)];
-  const codes=[]; root.traverse(o=>{ const m=/^scooter_(S\w+)$/.exec(o.name||''); if(m&&!/_lod1$/.test(o.name)) codes.push(m[1]); });
+  const codes=[]; root.traverse(o=>{ const m=/^scooter_(S\w+)$/.exec(o.name||''); if(m&&!/_lod1$/.test(o.name)&&o.userData&&o.userData.weight>0) codes.push(m[1]); });   /* 只算有 weight 的款式節點（GLTFLoader 把多材質網格拆成 _1、_2 子網格，名字也是 scooter_…）*/
+  const WHITE=[0.815,0.799,0.761];   /* 袋子本體（白色塑膠袋）用 helmet_w，和車身別的零件同色：照紅條紋＋牛皮紙袋的外框放大 6 cm，框裡的白色頂點算袋子 */
   const collect=(node,code)=>{ const inv=new THREE.Matrix4().copy(node.matrixWorld).invert(), M=new THREE.Matrix4(), v=new THREE.Vector3(); const out={accV:[],bodyV:[],seatV:[],accTri:[],bodyTri:[]};
+    let wbox=null; if(code==='S1B_G'){ const pts=[]; node.traverse(o=>{ if(!o.isMesh) return; M.multiplyMatrices(inv,o.matrixWorld); const pa=o.geometry.attributes.position, ca=o.geometry.attributes.color; if(!ca) return;
+      for(let k=0;k<pa.count;k++){ const c=[ca.getX(k),ca.getY(k),ca.getZ(k)]; if(ACC[code].cols.some(t=>near(c,t,0.006))) pts.push(v.fromBufferAttribute(pa,k).applyMatrix4(M).clone()); } }); if(pts.length) wbox=new THREE.Box3().setFromPoints(pts).expandByScalar(0.06); }
     node.traverse(o=>{ if(!o.isMesh) return; M.multiplyMatrices(inv,o.matrixWorld); const g=o.geometry, pa=g.attributes.position, ca=g.attributes.color, P=[], isA=new Uint8Array(pa.count);
-      for(let k=0;k<pa.count;k++){ v.fromBufferAttribute(pa,k).applyMatrix4(M); P.push(v.clone()); const c=ca?[ca.getX(k),ca.getY(k),ca.getZ(k)]:null; const a=!!(c&&ACC[code].cols.some(t=>near(c,t,0.006)));
+      for(let k=0;k<pa.count;k++){ v.fromBufferAttribute(pa,k).applyMatrix4(M); P.push(v.clone()); const c=ca?[ca.getX(k),ca.getY(k),ca.getZ(k)]:null; const a=!!(c&&(ACC[code].cols.some(t=>near(c,t,0.006))||(wbox&&near(c,WHITE,0.006)&&wbox.containsPoint(P[k]))));
         isA[k]=a?1:0; (a?out.accV:out.bodyV).push(P[k]); if(c&&near(c,SEAT,0.0012)) out.seatV.push(P[k]); }
       const n=g.index?g.index.count:pa.count, ix=i=>g.index?g.index.getX(i):i;
       for(let i=0;i+2<n;i+=3){ const a=ix(i),b=ix(i+1),c=ix(i+2), t=[P[a],P[b],P[c]]; (isA[a]||isA[b]||isA[c]?out.accTri:out.bodyTri).push(t); } });
@@ -84,7 +88,7 @@ ACC_JS = r"""(async()=>{ let root=null; try{ const c=await ASSETS.loadOne('bldg.
     const rc=new THREE.Raycaster(), down=new THREE.Vector3(0,-1,0);
     const aB=new THREE.Box3().setFromPoints(C.accV), bB=new THREE.Box3().setFromPoints(C.bodyV), sB=C.seatV.length?new THREE.Box3().setFromPoints(C.seatV):null;
     const gapOf=p=>{ rc.set(new THREE.Vector3(p.x,p.y+0.002,p.z),down); rc.far=5; const h=rc.intersectObject(bm,false).filter(q=>q.distance>0.0005); return Math.max(0,Math.min(h.length?h[0].distance-0.002:9,p.y)); };
-    const stat=a=>{ if(!a.length) return null; const s=a.slice().sort((x,y)=>x-y); return {n:s.length,min:+s[0].toFixed(3),med:+s[Math.floor(s.length/2)].toFixed(3),max:+s[s.length-1].toFixed(3)}; };
+    const stat=a=>{ if(!a.length) return null; const s=a.slice().sort((x,y)=>x-y); return {n:s.length,min:+s[0].toFixed(3),med:+s[Math.floor(s.length/2)].toFixed(3),max:+s[s.length-1].toFixed(3),le2cm:+(s.filter(x=>x<=0.02).length/s.length).toFixed(2)}; };
     const low=C.accV.filter(p=>p.y<aB.min.y+0.03), step=Math.max(1,Math.floor(low.length/60)), lowGaps=[]; for(let i=0;i<low.length;i+=step) lowGaps.push(gapOf(low[i]));
     let topToSeat=null; if(code==='S7_R'){ const mid=C.accV.filter(p=>Math.abs(p.z)<0.03); const g=mid.map(gapOf); topToSeat=stat(g); }
     const dirs=[new THREE.Vector3(0,1,0),new THREE.Vector3(1,0,0),new THREE.Vector3(0,0,1)]; let inside=0, tested=0; const st2=Math.max(1,Math.floor(C.accV.length/150));
@@ -147,7 +151,7 @@ RAYGRID_JS = r"""(a=>{ const E=GAME.E, rc=new THREE.Raycaster(), eye=new THREE.V
       const h=rc.intersectObject(E.scene,true).find(q=>q.object.isMesh&&vis(q.object)&&!(q.object.material&&!Array.isArray(q.object.material)&&q.object.material.visible===false));
       let nm=h?((Array.isArray(h.object.material)?h.object.material[h.face?h.face.materialIndex:0]:h.object.material)||{}).name||'(無名材質)':'(沒打到)'; if(h&&h.distance<L-1.2) nm+='＠前方'+(L-h.distance).toFixed(1)+'m';
       const base=nm.replace(/＠.*/,''); mats[nm]=(mats[nm]||0)+1; if(!(base in key)) key[base]=String.fromCharCode(65+Object.keys(key).length); line+=key[base];
-      if(inSign(y,zz)){ signN++; signHit[nm]=(signHit[nm]||0)+1; if(/^xs_fronts/.test(nm)) sign++; } } rows.push(y.toFixed(1)+' '+line); }
+      if(inSign(y,zz)){ signN++; signHit[nm]=(signHit[nm]||0)+1; if(/xs_fronts/.test(nm)) sign++; } } rows.push(y.toFixed(1)+' '+line); }
   return {key, rows, mats, signFrac:signN?+(sign/signN).toFixed(3):null, signN, signHit}; })"""
 FPS_JS = "(ms=>new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<ms) requestAnimationFrame(f); else { const i=GAME.E.renderer.info.render; res({fps:+(n/((performance.now()-t0)/1000)).toFixed(1), calls:i.calls, tris:i.triangles}); } }; requestAnimationFrame(f); }))"
 
@@ -180,7 +184,7 @@ class Shooter:
         b = await self.pg.screenshot(path=os.path.join(OUT, fn), type='jpeg', quality=85)
         if box: await self.pg.evaluate(BOX_JS, None)
         lm = await self.pg.evaluate(LUMA_JS, b64(b)); self.imgs.append(b64(b)); self.files.append(fn)
-        star = '　★大面積全黑' if lm['black'] > 0.15 else ('　★大面積全白' if lm['white'] > 0.15 else '')
+        star = '　★大面積全黑（黑色車殼、座墊、輪胎也會算進去，看圖）' if lm['black'] > 0.15 else ('　★大面積全白' if lm['white'] > 0.15 else '')
         R.note('[截圖] %s %s：鏡頭 eye %s → look %s（lens %s、vfov %s）%s；中央 60%% 亮度 %s、全黑 %.1f%%、全白 %.1f%%%s' % (fn, label, J(c['eye']), J(c['look']), c['lens'], c['vfov'], ('；紅框 %s' % J(br)) if box else '', lm['mean'], lm['black'] * 100, lm['white'] * 100, star))
         return lm
 
@@ -228,11 +232,11 @@ async def part_model(pg):
         if not a.get('accVerts'): R.check('[MODEL] %s 找得到配件的頂點（照頂點色）' % code, False, J(a)); continue
         lg = a.get('lowGap') or {}
         if code in ('S1A_W', 'S1B_G'):
-            R.check('[MODEL] %s %s 沒有浮空：配件最低那圈往下到車身／地面的距離中位數 %s m（≤0.03）' % (code, nm, lg.get('med')), lg.get('med') is not None and lg['med'] <= 0.03, J(lg))
+            R.check('[MODEL] %s %s 沒有浮空：配件最低那圈（最低 3 cm 內的頂點）往下到車身／地面的距離中位數 %s m（≤0.03；le2cm＝≤2 cm 的比例）' % (code, nm, lg.get('med')), lg.get('med') is not None and lg['med'] <= 0.03, J(lg))
         else:
             ts = a.get('topToSeat') or {}
             R.check('[MODEL] %s %s 蓋在座墊上：中線往下到座墊 %s m（0～0.08）；兩側垂下的下緣是懸空的（設計如此，不判）' % (code, nm, ts.get('med')), ts.get('med') is not None and 0 <= ts['med'] <= 0.08, J(ts))
-        R.check('[MODEL] %s %s 配件頂點在車身裡面的比例 %s（<0.25；三方向射線奇偶，近似）' % (code, nm, a.get('insideFrac')), a.get('insideFrac') is not None and a['insideFrac'] < 0.25, '')
+        R.check('[MODEL] %s %s 配件頂點在車身裡面的比例 %s（<0.25；三方向射線奇偶，近似：車身零件不是封閉的殼會誤判，看近拍）' % (code, nm, a.get('insideFrac')), a.get('insideFrac') is not None and a['insideFrac'] < 0.25, '')
         R.note('[MODEL] %s 遠處簡化版（_lod1，16 m 外換）配件頂點 %s 個（0＝遠處看不到配件）' % (code, a.get('lod1AccVerts')))
 
 
@@ -289,8 +293,9 @@ async def part_street(pg, cdp):
                         sgn = 1 if (q['fx'] * (tx - q['x']) + q['fz'] * (tz - q['z'])) >= 0 else -1; dx, dz = q['fx'] * sgn, q['fz'] * sgn; sx, sz = -dz, dx
                         box = {'corners': q['corners'], 'label': '%s %s' % (c, nm)}
                         R.note('%s %s 近拍那一台：(%.2f,%.2f) 排 %s、顏色 %s、從%s拍' % (tag, c, q['x'], q['z'], q.get('row'), q['col'], '車頭那一側' if sgn > 0 else '車尾那一側'))
-                        await sh.shot('scoot4_%s_%s_%s_a.jpg' % (zone, hh, c), '%s %s 近拍（高）' % (c, nm), (q['x'] + dx * 2.0 + sx * 0.6, 1.9, q['z'] + dz * 2.0 + sz * 0.6), (q['x'], 0.55, q['z']), 30, box)
-                        await sh.shot('scoot4_%s_%s_%s_b.jpg' % (zone, hh, c), '%s %s 近拍（低、斜）' % (c, nm), (q['x'] + dx * 2.4 - sx * 1.4, 1.15, q['z'] + dz * 2.4 - sz * 1.4), (q['x'], 0.6, q['z']), 30, box)
+                        hd, hy, ly = (1.9, 2.7, 0.35) if c == 'S1B_G' else (3.0, 2.0, 0.55)   # 袋子在前擋板後面的踏板上：從車頭那一側高處往下看才看得到
+                        await sh.shot('scoot4_%s_%s_%s_a.jpg' % (zone, hh, c), '%s %s 近拍（高）' % (c, nm), (q['x'] + dx * hd + sx * 0.7, hy, q['z'] + dz * hd + sz * 0.7), (q['x'], ly, q['z']), 26, box)
+                        await sh.shot('scoot4_%s_%s_%s_b.jpg' % (zone, hh, c), '%s %s 近拍（低、斜）' % (c, nm), (q['x'] + dx * 3.2 - sx * 1.6, 1.2, q['z'] + dz * 3.2 - sz * 1.6), (q['x'], 0.6, q['z']), 26, box)
                 await sh.montage('scoot4_%s_%s_all.jpg' % (zone, hh), '%s %s（%s）：全景三張、最近一排兩張、配件車近拍' % (ZN[zone], hh, SHA))
 
 
@@ -341,10 +346,10 @@ async def part_txsign(pg, cdp):
         async with Shooter(pg, '同弦樂器招牌 %s' % hh) as sh:
             for k, (lab, eye, look, lens) in enumerate(TX['cams']):
                 await sh.shot('tx_sign_%s_%d.jpg' % (hh, k + 1), lab, eye, look, lens)
-                rg = await pg.evaluate(RAYGRID_JS, {'eye': list(eye), 'x': s['x'] + 0.05, 'y0': 4.4, 'y1': 6.4, 'dy': 0.2, 'z0': -13.2, 'z1': -5.6, 'dz': 0.4, 's': s})
-                R.note('%s %s 射線格子（從鏡頭打到立面 x %.2f；第一個打到的材質；招牌範圍內打到 xs_fronts* 的比例 %s／%s 格）：代號 %s' % (tag, lab, s['x'] + 0.05, rg['signFrac'], rg['signN'], J(rg['key'])))
+                rg = await pg.evaluate(RAYGRID_JS, {'eye': list(eye), 'x': s['x'] + 0.05, 'y0': 4.4, 'y1': 6.4, 'dy': 0.2, 'z0': -13.2, 'z1': -4.0, 'dz': 0.4, 's': s})   # z −13.2～−4.0：招牌、旁邊的吉他櫥窗、兩側都進格子
+                R.note('%s %s 射線格子（從鏡頭打到立面 x %.2f；第一個打到的材質；招牌範圍內打到 *xs_fronts*（招牌貼圖）的比例 %s（招牌範圍共 %s 格）：代號 %s' % (tag, lab, s['x'] + 0.05, rg['signFrac'], rg['signN'], J(rg['key'])))
                 R.note('%s %s 招牌範圍內各材質：%s；整塊：%s' % (tag, lab, J(rg['signHit']), J(rg['mats'])))
-                for line in rg['rows']: R.note('%s %s 　y %s（z −13.2 → −5.6，每格 0.4 m）' % (tag, lab, line))
+                for line in rg['rows']: R.note('%s %s 　y %s（z −13.2 → −4.0，每格 0.4 m；左邊＝北）' % (tag, lab, line))
             await sh.montage('tx_sign_%s_all.jpg' % hh, '同弦樂器招牌 %s（%s）：正面、斜看左右、近拍、騎樓前' % (hh, SHA), cols=3)
 
 
