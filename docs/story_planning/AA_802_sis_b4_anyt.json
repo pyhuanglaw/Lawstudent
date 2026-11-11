@@ -1,0 +1,165 @@
+{
+ "_meta": {
+  "doc": "AA_802 X324 G 區：學姊 sis_b4、以安語彤 an_yt_hol 的句首「……」",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324 G 區）",
+  "format": "{file, line, old, new}；同一行有幾句的，每句一列（照 old 各換一次）。",
+  "notes": [
+   "sis_b4（197 句、句首 25）：學姊聲音規格（AA_566）「……」一段最多一次；讀書計畫、聖誕、情人節三場每場四到十個，每場留一兩個說心裡話的（「……可是如果重來，我會留幾格空的。」「……明年的今天，我們剛回來一天。」「……我喜歡看什麼都還沒長出來的時候。」「……情人節快樂。」）。",
+   "an_yt_hol（222／22）：約時間、說地點的拿掉，承認的留。",
+   "同一輪量過不用改（刪節號都在五句一個以下）：jp_blank_lines、jp_events、jpprep_events、us_life_events、us_blank_lines、sis_jp_events、sis_qixi_events、sis_y2y3_events、zrzq_events（芷若子晴那條線的心裡話）、sis_b8～b16_events（sis_b10 的「新年快樂」是每年跨年那一句，分年份，留）。"
+  ]
+ },
+ "rows": [
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 45,
+   "old": "……其實一點都不早。真的想準備的人，有的大一就開始了。",
+   "new": "其實一點都不早。真的想準備的人，有的大一就開始了。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 56,
+   "old": "……現在想想，晚半年會怎樣？",
+   "new": "現在想想，晚半年會怎樣？"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 68,
+   "old": "……選了，就不要一直回頭看。",
+   "new": "選了，就不要一直回頭看。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 71,
+   "old": "……一樣，不要回頭看。",
+   "new": "一樣，不要回頭看。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 109,
+   "old": "……今天聖誕節，算特別的。",
+   "new": "今天聖誕節，算特別的。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 112,
+   "old": "……你怎麼知道我的用完了。",
+   "new": "你怎麼知道我的用完了。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 116,
+   "old": "……你怎麼知道我的用完了。",
+   "new": "你怎麼知道我的用完了。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 119,
+   "old": "……我說回去再看。",
+   "new": "我說回去再看。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 128,
+   "old": "……樹要怎麼顧。",
+   "new": "樹要怎麼顧。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 130,
+   "old": "……好。五分鐘。",
+   "new": "好。五分鐘。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 144,
+   "old": "……這樣才走得完。",
+   "new": "這樣才走得完。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 146,
+   "old": "……超過一分鐘了。",
+   "new": "超過一分鐘了。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 172,
+   "old": "……今天不要查。",
+   "new": "今天不要查。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 176,
+   "old": "……情人節吃湯圓。",
+   "new": "情人節吃湯圓。"
+  },
+  {
+   "file": "src/data/sis_b4_events.js",
+   "line": 179,
+   "old": "……下次還坐這一班。",
+   "new": "下次還坐這一班。"
+  },
+  {
+   "file": "src/data/an_yt_hol_events.js",
+   "line": 30,
+   "old": "……蘇姨會一直看你。",
+   "new": "蘇姨會一直看你。"
+  },
+  {
+   "file": "src/data/an_yt_hol_events.js",
+   "line": 33,
+   "old": "……要不要一起走一段。",
+   "new": "要不要一起走一段。"
+  },
+  {
+   "file": "src/data/an_yt_hol_events.js",
+   "line": 33,
+   "old": "……家裡就好。今天外面人多，我會累。",
+   "new": "家裡就好。今天外面人多，我會累。"
+  },
+  {
+   "file": "src/data/an_yt_hol_events.js",
+   "line": 33,
+   "old": "……走走就好。今天外面人多，我會累。",
+   "new": "走走就好。今天外面人多，我會累。"
+  },
+  {
+   "file": "src/data/an_yt_hol_events.js",
+   "line": 42,
+   "old": "……你要不要一起",
+   "new": "你要不要一起"
+  },
+  {
+   "file": "src/data/an_yt_hol_events.js",
+   "line": 146,
+   "old": "……阿姨叫我們去別的地方。",
+   "new": "阿姨叫我們去別的地方。"
+  },
+  {
+   "file": "src/data/an_yt_hol_events.js",
+   "line": 205,
+   "old": "……下次你要來。",
+   "new": "下次你要來。"
+  },
+  {
+   "file": "src/data/an_yt_hol_events.js",
+   "line": 210,
+   "old": "……不行。謝了她會問更多。",
+   "new": "不行。謝了她會問更多。"
+  },
+  {
+   "file": "src/data/an_yt_hol_events.js",
+   "line": 222,
+   "old": "……我來。",
+   "new": "我來。"
+  },
+  {
+   "file": "src/data/an_yt_hol_events.js",
+   "line": 227,
+   "old": "……來啊。",
+   "new": "來啊。"
+  }
+ ]
+}
