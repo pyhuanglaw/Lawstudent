@@ -47,6 +47,7 @@ ARRIVE_NEAR = 0.6      # 第 7 項「到了」：go_to 判到達的距離（cc_s
 GAP_PTS = [(-2.54, 3.33), (-2.49, 3.04)]   # BB 清單第 2 項（Node 測試 GAP）
 PLANT_SE = (-1.82, 4.00)   # BB 清單第 3、4 項：植物東南角
 ISLAND_C = (-3.75, 1.0)    # BB 清單第 8 項：西牆書櫃和 table 3 之間的小孤島（src/mokuyobi3d.js 的 C）
+ISLAND_C2 = (-3.55, 1.05)  # CC 17:0x：f312c 上 (-3.75,1.0) 本來就站不進去（MOKU_PLANT_old 8 PASS＝分不出新舊）；Node 在 f312c 掃到的小孤島中心是 (-3.55,1.05) 3 格——加這一點才有 D34
 ITEM7_EXTRA = [(-1.85, 2.65), (-2.15, 2.55)]
 STAIR_TOP_FALLBACK = (-3.75, 2.04)   # src/data/mokuyobi_layout.js stairTop；執行時改讀 MOKUYOBI_LAYOUT.stairTop
 JOY_WALK, JOY_RUN = 28, 50   # game3d.js setupJoystick：R＝44 px，m＝min(1,d/44)；m>0.15 才動、m>0.92 就跑
@@ -395,7 +396,7 @@ async def main():
             await R.shot(pg, 'overview')
         except Exception as e:
             R.check('開場讀檔沒有例外', False, repr(e)[:300])
-        for no, fn in (('2', lambda: item_pull(pg, cdp, '2', GAP_PTS)), ('8', lambda: item_pull(pg, cdp, '8', [ISLAND_C])), ('3', lambda: item3(pg, cdp)),
+        for no, fn in (('2', lambda: item_pull(pg, cdp, '2', GAP_PTS)), ('8', lambda: item_pull(pg, cdp, '8', [ISLAND_C, ISLAND_C2])), ('3', lambda: item3(pg, cdp)),
                        ('4', lambda: item4(pg, cdp)), ('5', lambda: item5(pg, cdp)), ('6', lambda: item6(pg, cdp)), ('7', lambda: item7(pg, cdp))):
             if no not in PARTS: continue
             print('== 第 %s 項' % no, flush=True); t0 = time.time()
