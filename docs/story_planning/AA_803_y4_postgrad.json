@@ -1,0 +1,159 @@
+{
+ "_meta": {
+  "doc": "AA_803 X324 G 區：大四 r2y4a、畢業後 postgrad_lines 的句首「……」",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324 G 區）",
+  "format": "{file, line, old, new}；兩個檔都是手寫的（不是產生的）。",
+  "notes": [
+   "r2y4a（610／81，句首 52）：拿掉排路線、回地點、鬧著講的；留美國那半年學姊的心裡話（「……我不想因為信了一個解釋，再跟你在一起。」）、可昕「……還有。親一下。」、交換回來那幾句。",
+   "postgrad_lines（598／88，句首 36）：畢業、放榜、求婚前後的停頓多半是真的，只拿掉 5 句順口的。",
+   "同一輪量過不用改：r2y4b_events（543／68）、r3_events（194／24）、pg_dates（產生的，句首 0）、feed_pg、feed_y3s1、feed_y3s2、feed_y4s1、feed_y4s2（刪節號都很少）。"
+  ]
+ },
+ "rows": [
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 57,
+   "old": "……有事打給我。同一個社區，走路五分鐘。",
+   "new": "有事打給我。同一個社區，走路五分鐘。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 97,
+   "old": "……隨你。",
+   "new": "隨你。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 117,
+   "old": "……今天不照表。",
+   "new": "今天不照表。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 211,
+   "old": "……謝謝。盤子剛好不夠。",
+   "new": "謝謝。盤子剛好不夠。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 249,
+   "old": "……好。走到第二根橋塔。",
+   "new": "好。走到第二根橋塔。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 250,
+   "old": "……另一頭在那裡。",
+   "new": "另一頭在那裡。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 256,
+   "old": "……你可以去逛。我在這裡。",
+   "new": "你可以去逛。我在這裡。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 433,
+   "old": "……最貴的是一百一。我查過了。",
+   "new": "最貴的是一百一。我查過了。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 458,
+   "old": "……好。這次換你的上了。那今天宵夜誰請？",
+   "new": "好。這次換你的上了。那今天宵夜誰請？"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 461,
+   "old": "……好啦。",
+   "new": "好啦。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 464,
+   "old": "……好。二月還有一次。",
+   "new": "好。二月還有一次。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 509,
+   "old": "……你整頁都畫了。那等於沒畫。",
+   "new": "你整頁都畫了。那等於沒畫。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 537,
+   "old": "……走吧，山下那家還開著。",
+   "new": "走吧，山下那家還開著。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 551,
+   "old": "……冷死了。",
+   "new": "冷死了。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 555,
+   "old": "……你的圍巾很醜。",
+   "new": "你的圍巾很醜。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 577,
+   "old": "……你很無聊。",
+   "new": "你很無聊。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 589,
+   "old": "……我阿嬤在叫我。你也去陪你媽。",
+   "new": "我阿嬤在叫我。你也去陪你媽。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 601,
+   "old": "……高雄今天二十五度。",
+   "new": "高雄今天二十五度。"
+  },
+  {
+   "file": "src/data/r2y4a_events.js",
+   "line": 661,
+   "old": "……考完，門口。",
+   "new": "考完，門口。"
+  },
+  {
+   "file": "src/data/postgrad_lines.js",
+   "line": 105,
+   "old": "……我說過不用。",
+   "new": "我說過不用。"
+  },
+  {
+   "file": "src/data/postgrad_lines.js",
+   "line": 296,
+   "old": "……那張表是你做的吧。很好認。",
+   "new": "那張表是你做的吧。很好認。"
+  },
+  {
+   "file": "src/data/postgrad_lines.js",
+   "line": 301,
+   "old": "……換一張啦，我做了新的。",
+   "new": "換一張啦，我做了新的。"
+  },
+  {
+   "file": "src/data/postgrad_lines.js",
+   "line": 302,
+   "old": "……喔對，你現在是律師。",
+   "new": "喔對，你現在是律師。"
+  },
+  {
+   "file": "src/data/postgrad_lines.js",
+   "line": 306,
+   "old": "……你都沒傳。（笑）",
+   "new": "你都沒傳。（笑）"
+  }
+ ]
+}
