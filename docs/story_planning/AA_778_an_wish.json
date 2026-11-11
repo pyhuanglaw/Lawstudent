@@ -1,0 +1,95 @@
+{
+ "_meta": {
+  "by": "AA（帳號 A）",
+  "date": "2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "who": "heroine_01",
+  "event": "wish_heroine_01「規則之外的人」（D07 景美人權園區）",
+  "why": "這個事件 AA_594 改過 16 列，內容、分年級的分支（大一／大二／大三上／大四的收尾、讀書會開以前的版本）都和現行設定一致，不動。只做一件：刪節號 19 處留 3 處（玩家主動約時的「……景美？」、法庭「……我不知道。所以我們來看。」、小路第 5 階以上的「……我知道。」）；另外一句「比我想的好」換掉。「行政法的報告」在這個事件裡有年級條件（closing.after[1]＝大二），不是寫死，照留。法庭「我從來不去我媽的法庭。旁聽席會有人認得我。」是這個事件的核心，照留（她主動約是大二上事件 9 以後）。",
+  "for_LAWWW": "path 是 date_wish.js（開發分支 2e1644aa3）events.heroine_01 底下的位置；hotspots 的 key 是「D07.court」這種帶點的字串；old 是那個檔裡的原字。「……嗯。」「……好。」「……謝謝。」在整個檔出現很多次，一定要照 path 換。產生器 tools/date/import_wish.py 的來源請一起換或加一層（同 AA_774、AA_776）。旁白、選項的字、note 都沒動。herInvite.accept「好。13:30 出發。週一休館，所以是週六。」是照引擎的出發時間寫的，沒動。"
+ },
+ "rows": [
+  {
+   "path": "mention.choices[1].reply[0].text",
+   "old": "……你這個答案，比我想的好。",
+   "new": "你這個答案很好。我要記下來。",
+   "note": "「比我想的」整份以安的稿壓到 4 次，這裡換掉"
+  },
+  {
+   "path": "mention.after[3].text",
+   "old": "一個人去的話，我會一直寫筆記。……所以還沒去。",
+   "new": "一個人去的話，我會一直寫筆記。所以還沒去。"
+  },
+  {
+   "path": "herInvite.decline[0].text",
+   "old": "好。……那下次換你約。",
+   "new": "好。那下次換你約。"
+  },
+  {
+   "path": "playerInvite.known[2].text",
+   "old": "好。……我以為你沒在聽。",
+   "new": "好。我以為你沒在聽。"
+  },
+  {
+   "path": "playerInvite.unknown[0].text",
+   "old": "景美？……我一直想去。你怎麼知道？",
+   "new": "景美？我一直想去。你怎麼知道？"
+  },
+  {
+   "path": "arrive.extraIf[0].lines[0].text",
+   "old": "……而且你會反駁我。",
+   "new": "而且你會反駁我。"
+  },
+  {
+   "path": "hotspots.D07.court.choices[1].reply[1].text",
+   "old": "……規則寫了，就一定對嗎？回去我們吵這一題。",
+   "new": "規則寫了，就一定對嗎？回去我們吵這一題。"
+  },
+  {
+   "path": "hotspots.D07.court.choices[2].reply[0].text",
+   "old": "……謝謝。這裡安靜一點比較好。",
+   "new": "謝謝。這裡安靜一點比較好。"
+  },
+  {
+   "path": "hotspots.D07.cell.choices[0].reply[0].text",
+   "old": "……嗯。",
+   "new": "嗯。"
+  },
+  {
+   "path": "hotspots.D07.cell.choices[2].reply[0].text",
+   "old": "好。……你說得對，我需要一下。",
+   "new": "好。你說得對，我需要一下。"
+  },
+  {
+   "path": "hotspots.D07.wall.choices[0].reply[0].text",
+   "old": "……謝謝。",
+   "new": "謝謝。"
+  },
+  {
+   "path": "hotspots.D07.wall.choices[2].reply[0].text",
+   "old": "……好。",
+   "new": "好。"
+  },
+  {
+   "path": "hotspots.D07.path.choices[2].reply[0].text",
+   "old": "……嗯。好多了。",
+   "new": "嗯。好多了。"
+  },
+  {
+   "path": "closing.choices[0].reply[1].text",
+   "old": "……今天寫這樣就夠了。",
+   "new": "今天寫這樣就夠了。"
+  },
+  {
+   "path": "closing.choices[1].reply[0].text",
+   "old": "嗯。……下次再給你看。",
+   "new": "嗯。下次再給你看。",
+   "note": "這個約定有後續（選項的 note：告白「理由欄」會回聲，AA_121 CG-11），照留，只拿掉刪節號"
+  },
+  {
+   "path": "closing.choices[2].reply[0].text",
+   "old": "……嗯。",
+   "new": "嗯。"
+  }
+ ]
+}

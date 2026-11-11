@@ -1,0 +1,75 @@
+{
+ "_meta": {
+  "by": "AA（帳號 A）",
+  "date": "2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "who": "heroine_01",
+  "why": "以安約會不分地點的短句。accept 兩句、acceptDating、move[0]、move3（第三次了。可以。你最近很忙嗎？）、cancel 兩句不用改。她沒有 depart、enough、leaveEarly、noPair 的專屬句（來源檔裡沒有，照引擎的通用句）。",
+  "for_LAWWW": "old 對開發分支 2e1644aa3 的檔。date_lines.js 是匯入工具產生的，換在它的來源或加一層（同 AA_773、AA_775）。以安沒有 PICK_FLAG／REMEMBER_IF（grep 過 0 筆）。"
+ },
+ "rows": [
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_01.move[1]",
+   "old": "可以。那天下午我空得出來。",
+   "new": "可以。那天我空得出來。",
+   "note": "不綁時段"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_01.transport[0]",
+   "old": "好，開車也可以。高鐵上本來想看書的，那就到了再看。",
+   "new": "好，開車也可以。本來想在路上看書的，那就到了再看。",
+   "note": "只在她偏好的交通被改成開車時播"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_01.flaked[0][0]",
+   "old": "第二次了。",
+   "new": "那天我等了四十分鐘。我有帶書，所以還好。",
+   "note": "原句寫死次數"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_01.flaked[0][1]",
+   "old": "下次不能來，先跟我說。",
+   "new": "下次請提早說。謝謝。",
+   "note": "原句和語彤改過的 flaked（「下次不能來，先跟我說。」）一字不差；以安不高興的時候會突然很客氣，用她自己的收法"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.MORNING.heroine_01",
+   "old": "早餐我查過了。……走路五分鐘。",
+   "new": "早餐我查過了，走路五分鐘。",
+   "note": "拿掉刪節號"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.MORNING_OWN.heroine_01",
+   "old": "我媽多做了一份早餐。……叫我帶給你。",
+   "new": "早。我買了以前上學路上那家的飯糰，兩個，一個是你的。",
+   "note": "D26 臺中、她晚上回家的隔天早上。原句等於媽媽知道他、還做早餐給他——這是主線的事（BB_340：不見媽媽、不寫媽媽在不在家）"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.HOME_NO.heroine_01",
+   "old": "「那幾天我在台中。……換一天。」",
+   "new": "「那幾天我在台中。換一天。」",
+   "note": "拿掉刪節號"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.T7A_YES.heroine_01",
+   "old": "臺中？……好。我去車站接你。",
+   "new": "臺中？好。我去車站接你。",
+   "note": "拿掉刪節號"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "D26 臺中兩天一夜、對象是以安時晚上那一句旁白（比照可昕高雄、子晴那一條的接法）",
+   "old": "（目前以安有沒有這一句請你確認；有就換、沒有就加）",
+   "new": "（晚上她回家。你住在車站附近的旅館。）",
+   "note": "BB 11-11 定的過夜條件（BB_340）：D26 是她的家鄉，晚上她回家、祐廷住旅館；不見媽媽、不寫媽媽在不在家。隔天早上的 S.MORNING_OWN 照上面那一列。"
+  }
+ ]
+}
