@@ -1,0 +1,2414 @@
+{
+ "trees": [
+  {
+   "label": "開發分支（本任務的 worktree）",
+   "root": "這個 repo 的工作樹",
+   "git": {
+    "commit": "b4a095576db8b12fae40cded3d1610e90df2467e",
+    "branch": "worktree-agent-a968ff346dabdb797",
+    "dirty": false
+   },
+   "version": {
+    "version": "9.10.24",
+    "date": "2026-11-10",
+    "queryVersions": {
+     "9.10.24": 423
+    }
+   },
+   "filesMode": "git",
+   "runtimeTablesRead": true,
+   "measuredAt": "2026-11-11 06:13 UTC",
+   "source": {
+    "files": 8143,
+    "bytes": 1445732030,
+    "byTop": {
+     "assets/": {
+      "files": 1632,
+      "bytes": 987965857
+     },
+     "docs/": {
+      "files": 3125,
+      "bytes": 241633602
+     },
+     "tools/": {
+      "files": 1247,
+      "bytes": 108307919
+     },
+     "wip_backup/": {
+      "files": 229,
+      "bytes": 63722003
+     },
+     "tests/": {
+      "files": 1440,
+      "bytes": 22018497
+     },
+     "src/": {
+      "files": 426,
+      "bytes": 18654266
+     },
+     "lib/": {
+      "files": 4,
+      "bytes": 2606817
+     },
+     ".claude/": {
+      "files": 30,
+      "bytes": 514496
+     },
+     "LICENSES.md": {
+      "files": 1,
+      "bytes": 171849
+     },
+     "index.html": {
+      "files": 1,
+      "bytes": 59351
+     },
+     "CLAUDE.md": {
+      "files": 1,
+      "bytes": 47653
+     },
+     "README.md": {
+      "files": 1,
+      "bytes": 16834
+     },
+     "test_charlook.html": {
+      "files": 1,
+      "bytes": 4733
+     },
+     ".github/": {
+      "files": 1,
+      "bytes": 4165
+     },
+     "build.py": {
+      "files": 1,
+      "bytes": 2879
+     },
+     ".gitignore": {
+      "files": 1,
+      "bytes": 995
+     },
+     ".env.example": {
+      "files": 1,
+      "bytes": 114
+     },
+     ".nojekyll": {
+      "files": 1,
+      "bytes": 0
+     }
+    }
+   },
+   "gitDir": {
+    "path": "/home/user/Lawstudent/.git",
+    "bytes": 8387351463,
+    "files": 10347,
+    "shallow": false,
+    "note": "這台機器上的 .git（所有分支、所有 worktree 共用，不是某一個版本的大小；不是淺層複本）；每台機器抓的分支不一樣，數字會不同"
+   },
+   "packages": {
+    "web": {
+     "files": 2048,
+     "bytes": 865029660,
+     "excludedFiles": 6095,
+     "excludedBytes": 580702370,
+     "byRule": {
+      "R1-ENTRY": {
+       "files": 1,
+       "bytes": 59351,
+       "include": true
+      },
+      "R2-INDEX-REF": {
+       "files": 423,
+       "bytes": 21152613,
+       "include": true
+      },
+      "R3-STATIC": {
+       "files": 726,
+       "bytes": 721893232,
+       "include": true
+      },
+      "R4-GLBREF": {
+       "files": 147,
+       "bytes": 9993420,
+       "include": true
+      },
+      "R4-RUNTIME": {
+       "files": 210,
+       "bytes": 56297790,
+       "include": true
+      },
+      "R5-DYNAMIC": {
+       "files": 304,
+       "bytes": 36807876,
+       "include": true
+      },
+      "R7-KEEP-UNSURE": {
+       "files": 235,
+       "bytes": 18653529,
+       "include": true
+      },
+      "R8-LICENSE": {
+       "files": 1,
+       "bytes": 171849,
+       "include": true
+      },
+      "R9-PAGES": {
+       "files": 1,
+       "bytes": 0,
+       "include": true
+      },
+      "X1-AI": {
+       "files": 30,
+       "bytes": 514496,
+       "include": false
+      },
+      "X1-BACKUP": {
+       "files": 229,
+       "bytes": 63722003,
+       "include": false
+      },
+      "X1-CI": {
+       "files": 1,
+       "bytes": 4165,
+       "include": false
+      },
+      "X1-DOCS": {
+       "files": 3125,
+       "bytes": 241633602,
+       "include": false
+      },
+      "X1-TESTS": {
+       "files": 1440,
+       "bytes": 22018497,
+       "include": false
+      },
+      "X1-TOOLS": {
+       "files": 1247,
+       "bytes": 108307919,
+       "include": false
+      },
+      "X2-DEVFILE": {
+       "files": 6,
+       "bytes": 73208,
+       "include": false
+      },
+      "X3-BLEND": {
+       "files": 10,
+       "bytes": 144320010,
+       "include": false
+      },
+      "X5-UNLOADED": {
+       "files": 7,
+       "bytes": 108470,
+       "include": false
+      }
+     },
+     "missing": 0,
+     "unsureFiles": 235,
+     "unsureBytes": 18653529
+    },
+    "win-stage": {
+     "files": 2047,
+     "bytes": 865029660,
+     "excludedFiles": 6096,
+     "excludedBytes": 580702370,
+     "byRule": {
+      "R1-ENTRY": {
+       "files": 1,
+       "bytes": 59351,
+       "include": true
+      },
+      "R2-INDEX-REF": {
+       "files": 423,
+       "bytes": 21152613,
+       "include": true
+      },
+      "R3-STATIC": {
+       "files": 726,
+       "bytes": 721893232,
+       "include": true
+      },
+      "R4-GLBREF": {
+       "files": 147,
+       "bytes": 9993420,
+       "include": true
+      },
+      "R4-RUNTIME": {
+       "files": 210,
+       "bytes": 56297790,
+       "include": true
+      },
+      "R5-DYNAMIC": {
+       "files": 304,
+       "bytes": 36807876,
+       "include": true
+      },
+      "R7-KEEP-UNSURE": {
+       "files": 235,
+       "bytes": 18653529,
+       "include": true
+      },
+      "R8-LICENSE": {
+       "files": 1,
+       "bytes": 171849,
+       "include": true
+      },
+      "R9-PAGES": {
+       "files": 1,
+       "bytes": 0,
+       "include": false
+      },
+      "X1-AI": {
+       "files": 30,
+       "bytes": 514496,
+       "include": false
+      },
+      "X1-BACKUP": {
+       "files": 229,
+       "bytes": 63722003,
+       "include": false
+      },
+      "X1-CI": {
+       "files": 1,
+       "bytes": 4165,
+       "include": false
+      },
+      "X1-DOCS": {
+       "files": 3125,
+       "bytes": 241633602,
+       "include": false
+      },
+      "X1-TESTS": {
+       "files": 1440,
+       "bytes": 22018497,
+       "include": false
+      },
+      "X1-TOOLS": {
+       "files": 1247,
+       "bytes": 108307919,
+       "include": false
+      },
+      "X2-DEVFILE": {
+       "files": 6,
+       "bytes": 73208,
+       "include": false
+      },
+      "X3-BLEND": {
+       "files": 10,
+       "bytes": 144320010,
+       "include": false
+      },
+      "X5-UNLOADED": {
+       "files": 7,
+       "bytes": 108470,
+       "include": false
+      }
+     },
+     "missing": 0,
+     "unsureFiles": 235,
+     "unsureBytes": 18653529
+    }
+   },
+   "zip": {
+    "bytes": 443508297,
+    "method": "zip（Deflate，壓縮等級 6；Python zipfile，逐檔壓、只數位元組不存檔）",
+    "files": 2047,
+    "note": "只壓遊戲內容（win-stage 的檔），不含封裝器；不是 Steam 實際下載大小（Steam 用自己的分塊壓縮，未量）"
+   },
+   "categoriesAll": [
+    {
+     "category": "3D 場景（GLB、窗外景、匯出側寫）",
+     "files": 796,
+     "bytes": 438141925
+    },
+    {
+     "category": "3D 人物（VRM、配件、動作、遠距離版本）",
+     "files": 171,
+     "bytes": 251540429
+    },
+    {
+     "category": "文件（docs）",
+     "files": 3125,
+     "bytes": 241633602
+    },
+    {
+     "category": "Blender 工作原檔（assets/blender）",
+     "files": 10,
+     "bytes": 144320010
+    },
+    {
+     "category": "開發工具（tools）",
+     "files": 1247,
+     "bytes": 108307919
+    },
+    {
+     "category": "2D 背景",
+     "files": 337,
+     "bytes": 96778668
+    },
+    {
+     "category": "備份（wip_backup）",
+     "files": 229,
+     "bytes": 63722003
+    },
+    {
+     "category": "測試（tests）",
+     "files": 1440,
+     "bytes": 22018497
+    },
+    {
+     "category": "事件 CG",
+     "files": 91,
+     "bytes": 19569432
+    },
+    {
+     "category": "電影海報",
+     "files": 72,
+     "bytes": 18756388
+    },
+    {
+     "category": "早期的範例人物模型（assets/models/*.glb）",
+     "files": 4,
+     "bytes": 10206272
+    },
+    {
+     "category": "遊戲程式（src）",
+     "files": 228,
+     "bytes": 9804870
+    },
+    {
+     "category": "遊戲資料（src/data）",
+     "files": 198,
+     "bytes": 8849396
+    },
+    {
+     "category": "立繪",
+     "files": 146,
+     "bytes": 8224459
+    },
+    {
+     "category": "函式庫（lib：three.js、three-vrm、lz-string）",
+     "files": 4,
+     "bytes": 2606817
+    },
+    {
+     "category": "GitHub／AI 設定（.github、.claude）",
+     "files": 31,
+     "bytes": 518661
+    },
+    {
+     "category": "貼圖（地面、牆面）",
+     "files": 5,
+     "bytes": 428274
+    },
+    {
+     "category": "其他頂層檔",
+     "files": 8,
+     "bytes": 245057
+    },
+    {
+     "category": "入口（index.html）",
+     "files": 1,
+     "bytes": 59351
+    }
+   ],
+   "categoriesPackage": [
+    {
+     "category": "3D 場景（GLB、窗外景、匯出側寫）",
+     "files": 796,
+     "bytes": 438141925
+    },
+    {
+     "category": "3D 人物（VRM、配件、動作、遠距離版本）",
+     "files": 171,
+     "bytes": 251540429
+    },
+    {
+     "category": "2D 背景",
+     "files": 337,
+     "bytes": 96778668
+    },
+    {
+     "category": "事件 CG",
+     "files": 91,
+     "bytes": 19569432
+    },
+    {
+     "category": "電影海報",
+     "files": 72,
+     "bytes": 18756388
+    },
+    {
+     "category": "早期的範例人物模型（assets/models/*.glb）",
+     "files": 4,
+     "bytes": 10206272
+    },
+    {
+     "category": "遊戲程式（src）",
+     "files": 227,
+     "bytes": 9783559
+    },
+    {
+     "category": "遊戲資料（src/data）",
+     "files": 192,
+     "bytes": 8762237
+    },
+    {
+     "category": "立繪",
+     "files": 146,
+     "bytes": 8224459
+    },
+    {
+     "category": "函式庫（lib：three.js、three-vrm、lz-string）",
+     "files": 4,
+     "bytes": 2606817
+    },
+    {
+     "category": "貼圖（地面、牆面）",
+     "files": 5,
+     "bytes": 428274
+    },
+    {
+     "category": "其他頂層檔",
+     "files": 2,
+     "bytes": 171849
+    },
+    {
+     "category": "入口（index.html）",
+     "files": 1,
+     "bytes": 59351
+    }
+   ],
+   "extPackage": [
+    {
+     "ext": "glb",
+     "files": 287,
+     "bytes": 446256796
+    },
+    {
+     "ext": "vrm",
+     "files": 81,
+     "bytes": 233963936
+    },
+    {
+     "ext": "webp",
+     "files": 1025,
+     "bytes": 162472494
+    },
+    {
+     "ext": "js",
+     "files": 423,
+     "bytes": 21152613
+    },
+    {
+     "ext": "json",
+     "files": 228,
+     "bytes": 643212
+    },
+    {
+     "ext": "png",
+     "files": 1,
+     "bytes": 309409
+    },
+    {
+     "ext": "md",
+     "files": 1,
+     "bytes": 171849
+    },
+    {
+     "ext": "html",
+     "files": 1,
+     "bytes": 59351
+    },
+    {
+     "ext": "nojekyll",
+     "files": 1,
+     "bytes": 0
+    }
+   ],
+   "assetDirsPackage": [
+    {
+     "dir": "assets/models/env/second_ai/",
+     "files": 404,
+     "bytes": 304586612
+    },
+    {
+     "dir": "assets/models/char/second_ai/",
+     "files": 109,
+     "bytes": 168949117
+    },
+    {
+     "dir": "assets/bg/",
+     "files": 337,
+     "bytes": 96778668
+    },
+    {
+     "dir": "assets/models/char/",
+     "files": 22,
+     "bytes": 71149988
+    },
+    {
+     "dir": "assets/models/env/second_ai/bb_support/",
+     "files": 69,
+     "bytes": 55495324
+    },
+    {
+     "dir": "assets/models/env/second_ai/aa_support/",
+     "files": 75,
+     "bytes": 40455070
+    },
+    {
+     "dir": "assets/models/env/",
+     "files": 50,
+     "bytes": 30171765
+    },
+    {
+     "dir": "assets/posters/",
+     "files": 72,
+     "bytes": 18756388
+    },
+    {
+     "dir": "assets/models/char/second_ai/lod/",
+     "files": 40,
+     "bytes": 11441324
+    },
+    {
+     "dir": "assets/models/",
+     "files": 4,
+     "bytes": 10206272
+    },
+    {
+     "dir": "assets/models/env/views/",
+     "files": 198,
+     "bytes": 7433154
+    },
+    {
+     "dir": "assets/cg/heroine_01/",
+     "files": 19,
+     "bytes": 4399374
+    },
+    {
+     "dir": "assets/cg/heroine_05/",
+     "files": 15,
+     "bytes": 2732894
+    },
+    {
+     "dir": "assets/cg/kexin/",
+     "files": 9,
+     "bytes": 2228144
+    },
+    {
+     "dir": "assets/cg/heroine_04/",
+     "files": 11,
+     "bytes": 2161070
+    },
+    {
+     "dir": "assets/cg/epilogue/",
+     "files": 10,
+     "bytes": 1879626
+    },
+    {
+     "dir": "assets/cg/heroine_03/",
+     "files": 7,
+     "bytes": 1509834
+    },
+    {
+     "dir": "assets/cg/classmate_peishan/",
+     "files": 7,
+     "bytes": 1379216
+    },
+    {
+     "dir": "assets/cg/heroine_02/",
+     "files": 6,
+     "bytes": 1204758
+    },
+    {
+     "dir": "assets/portraits/kexin/campus/",
+     "files": 11,
+     "bytes": 1043310
+    },
+    {
+     "dir": "assets/portraits/heroine_02/campus/",
+     "files": 11,
+     "bytes": 913959
+    },
+    {
+     "dir": "assets/cg/zhe/",
+     "files": 3,
+     "bytes": 780036
+    },
+    {
+     "dir": "assets/cg/class/",
+     "files": 2,
+     "bytes": 599368
+    },
+    {
+     "dir": "assets/portraits/heroine_03/campus/",
+     "files": 10,
+     "bytes": 525776
+    },
+    {
+     "dir": "assets/portraits/heroine_04/campus/",
+     "files": 10,
+     "bytes": 478494
+    }
+   ],
+   "largestPackage": [
+    {
+     "path": "assets/models/env/second_ai/us_campus.glb",
+     "bytes": 11808696,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/library_hall_v2.glb",
+     "bytes": 11001376,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/wenzhou_street.glb",
+     "bytes": 10413648,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/gongguan_shops.glb",
+     "bytes": 9522332,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/us_community.glb",
+     "bytes": 8667240,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/us_market_street.glb",
+     "bytes": 8231436,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/tingzhou_street.glb",
+     "bytes": 8049936,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/us_market.glb",
+     "bytes": 7733164,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/char/vrm_player.vrm",
+     "bytes": 7436020,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/soclib_interior.glb",
+     "bytes": 7077724,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/library_interior.glb",
+     "bytes": 6930572,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/flower_notes_interior.glb",
+     "bytes": 6899972,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/aa_support/shanlan.glb",
+     "bytes": 6431696,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/airport_dep.glb",
+     "bytes": 6040908,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/wz_teahouse_yard.glb",
+     "bytes": 6034436,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/lane118_street.glb",
+     "bytes": 5622476,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/bb_support/cvs_interior.glb",
+     "bytes": 5553208,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/library_3f_v2.glb",
+     "bytes": 5543148,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/gym_arena.glb",
+     "bytes": 5293144,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/char/vrm_sample.vrm",
+     "bytes": 5028376,
+     "rule": "R3-STATIC"
+    }
+   ],
+   "largestExcluded": [
+    {
+     "path": "assets/blender/yuting_work_v1.blend",
+     "bytes": 17899869,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_01_work_v1.blend",
+     "bytes": 16948742,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_01_work_v2.blend",
+     "bytes": 16936201,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_03_work_v1.blend",
+     "bytes": 14662835,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_02_work_v1.blend",
+     "bytes": 14633735,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_05_work_v1.blend",
+     "bytes": 14552862,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_02_work_v2.blend",
+     "bytes": 14188907,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_04_work_v1.blend",
+     "bytes": 11812705,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_03_work_v2.blend",
+     "bytes": 11367153,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_04_work_v2.blend",
+     "bytes": 11317001,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "wip_backup/next1102_1102.bundle",
+     "bytes": 10126855,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "wip_backup/postrel_1030.bundle",
+     "bytes": 8544699,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "wip_backup/invite_1030.bundle",
+     "bytes": 5955926,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "wip_backup/aa531_1030.bundle",
+     "bytes": 5871744,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "wip_backup/feat-art-1031.bundle",
+     "bytes": 4647823,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "wip_backup/wip_subagents_1020_2035.bundle",
+     "bytes": 4394469,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "docs/handoff/user_specs/flower_notes_ref/exterior.png",
+     "bytes": 4116374,
+     "rule": "X1-DOCS"
+    },
+    {
+     "path": "docs/handoff/user_specs/flower_notes_ref/interior_1f.png",
+     "bytes": 3929842,
+     "rule": "X1-DOCS"
+    },
+    {
+     "path": "docs/handoff/tasks.json",
+     "bytes": 3436940,
+     "rule": "X1-DOCS"
+    },
+    {
+     "path": "docs/handoff/user_specs/limao_ref/shangshi_character.png",
+     "bytes": 3129725,
+     "rule": "X1-DOCS"
+    }
+   ],
+   "duplicateFiles": {
+    "groups": 4,
+    "redundantBytes": 2266734,
+    "top": [
+     {
+      "bytes": 1838884,
+      "files": [
+       "assets/models/char/rpm_sample.glb",
+       "assets/models/readyplayer.me.glb"
+      ]
+     },
+     {
+      "bytes": 69488,
+      "files": [
+       "assets/portraits/zhe/campus/laugh.webp",
+       "assets/portraits/zhe/campus/neutral.webp",
+       "assets/portraits/zhe/campus/smile.webp",
+       "assets/portraits/zhe/campus/surprised.webp"
+      ]
+     },
+     {
+      "bytes": 61236,
+      "files": [
+       "assets/portraits/classmate_mingxuan/campus/embarrassed.webp",
+       "assets/portraits/classmate_mingxuan/campus/laugh.webp",
+       "assets/portraits/classmate_mingxuan/campus/neutral.webp",
+       "assets/portraits/classmate_mingxuan/campus/smile.webp"
+      ]
+     },
+     {
+      "bytes": 35678,
+      "files": [
+       "assets/models/env/second_ai/bb_support/nanyang_hall_lm_day.webp",
+       "assets/models/env/second_ai/bb_support/nanyang_hall_lm_night.webp"
+      ]
+     }
+    ]
+   },
+   "embeddedTextures": {
+    "modelFiles": 368,
+    "modelBytes": 680220732,
+    "imageBytes": 121826557,
+    "jsonBytes": 15934520,
+    "otherBytes": 542459655,
+    "images": 3726,
+    "distinctImages": 2049,
+    "redundantBytes": 35421618,
+    "redundantWithinSameFile": 54150,
+    "top": [
+     {
+      "md5": "e664d1982b",
+      "bytes": 366464,
+      "mime": "image/webp",
+      "copies": 7,
+      "nFiles": 7,
+      "files": [
+       "assets/models/env/second_ai/aa_support/afar.glb",
+       "assets/models/env/second_ai/aa_support/aoki.glb",
+       "assets/models/env/second_ai/aa_support/daily_offbeat.glb",
+       "assets/models/env/second_ai/aa_support/daybreak.glb"
+      ]
+     },
+     {
+      "md5": "dc73c33b66",
+      "bytes": 76194,
+      "mime": "image/webp",
+      "copies": 16,
+      "nFiles": 16,
+      "files": [
+       "assets/models/env/lawlib_interior.glb",
+       "assets/models/env/second_ai/bb_support/nanyang_hall.glb",
+       "assets/models/env/second_ai/boya_interior.glb",
+       "assets/models/env/second_ai/gongtong_interior.glb"
+      ]
+     },
+     {
+      "md5": "bed5d77525",
+      "bytes": 355792,
+      "mime": "image/webp",
+      "copies": 4,
+      "nFiles": 4,
+      "files": [
+       "assets/models/env/dorm_hall.glb",
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/linze_interior.glb",
+       "assets/models/env/wancai_interior.glb"
+      ]
+     },
+     {
+      "md5": "dbaeca8a5f",
+      "bytes": 353956,
+      "mime": "image/webp",
+      "copies": 4,
+      "nFiles": 4,
+      "files": [
+       "assets/models/env/dorm_hall.glb",
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/linze_interior.glb",
+       "assets/models/env/wancai_interior.glb"
+      ]
+     },
+     {
+      "md5": "d09b93ce8f",
+      "bytes": 27321,
+      "mime": "image/png",
+      "copies": 36,
+      "nFiles": 36,
+      "files": [
+       "assets/models/char/bl_yuting.vrm",
+       "assets/models/char/second_ai/bl_classmate_bohan.vrm",
+       "assets/models/char/second_ai/bl_econ_jiahao.vrm",
+       "assets/models/char/second_ai/bl_econ_tangrui.vrm"
+      ]
+     },
+     {
+      "md5": "43ba489d24",
+      "bytes": 118482,
+      "mime": "image/webp",
+      "copies": 9,
+      "nFiles": 9,
+      "files": [
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/second_ai/airport_arr.glb",
+       "assets/models/env/second_ai/airport_dep.glb",
+       "assets/models/env/second_ai/lane118_ground.glb"
+      ]
+     },
+     {
+      "md5": "7b732126d8",
+      "bytes": 174712,
+      "mime": "image/webp",
+      "copies": 5,
+      "nFiles": 5,
+      "files": [
+       "assets/models/env/dorm_hall.glb",
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/linze_exterior.glb",
+       "assets/models/env/linze_interior.glb"
+      ]
+     },
+     {
+      "md5": "d04a4f9023",
+      "bytes": 206150,
+      "mime": "image/webp",
+      "copies": 4,
+      "nFiles": 4,
+      "files": [
+       "assets/models/env/second_ai/street_trees.glb",
+       "assets/models/env/second_ai/wz_park.glb",
+       "assets/models/env/second_ai/wz_teahouse_interior.glb",
+       "assets/models/env/second_ai/wz_teahouse_yard.glb"
+      ]
+     },
+     {
+      "md5": "4710a080e3",
+      "bytes": 98514,
+      "mime": "image/webp",
+      "copies": 7,
+      "nFiles": 7,
+      "files": [
+       "assets/models/env/classroom_201.glb",
+       "assets/models/env/lawlib_interior.glb",
+       "assets/models/env/second_ai/boya_interior.glb",
+       "assets/models/env/second_ai/gongtong_interior.glb"
+      ]
+     },
+     {
+      "md5": "f494e4972d",
+      "bytes": 58036,
+      "mime": "image/webp",
+      "copies": 10,
+      "nFiles": 10,
+      "files": [
+       "assets/models/env/second_ai/bb_support/bike.glb",
+       "assets/models/env/second_ai/bb_support/corner.glb",
+       "assets/models/env/second_ai/campus_gongtong.glb",
+       "assets/models/env/second_ai/campus_gymext.glb"
+      ]
+     },
+     {
+      "md5": "a810f9a1af",
+      "bytes": 171960,
+      "mime": "image/webp",
+      "copies": 4,
+      "nFiles": 4,
+      "files": [
+       "assets/models/env/second_ai/wz_park.glb",
+       "assets/models/env/second_ai/wz_teahouse_interior.glb",
+       "assets/models/env/second_ai/wz_teahouse_yard.glb",
+       "assets/models/env/second_ai/xs_planters.glb"
+      ]
+     },
+     {
+      "md5": "16aeabbc07",
+      "bytes": 502699,
+      "mime": "image/png",
+      "copies": 2,
+      "nFiles": 2,
+      "files": [
+       "assets/models/char/bl_heroine_03.vrm",
+       "assets/models/char/vroid_heroine_05.vrm"
+      ]
+     },
+     {
+      "md5": "e41510dc35",
+      "bytes": 454180,
+      "mime": "image/webp",
+      "copies": 2,
+      "nFiles": 2,
+      "files": [
+       "assets/models/env/second_ai/offbeat_storefront.glb",
+       "assets/models/env/second_ai/wenzhou_street.glb"
+      ]
+     },
+     {
+      "md5": "02a49a20fb",
+      "bytes": 402781,
+      "mime": "image/jpeg",
+      "copies": 2,
+      "nFiles": 2,
+      "files": [
+       "assets/models/char/rpm_sample.glb",
+       "assets/models/readyplayer.me.glb"
+      ]
+     },
+     {
+      "md5": "d6bb73a5cd",
+      "bytes": 63978,
+      "mime": "image/webp",
+      "copies": 7,
+      "nFiles": 7,
+      "files": [
+       "assets/models/env/second_ai/airport_arr.glb",
+       "assets/models/env/second_ai/airport_dep.glb",
+       "assets/models/env/second_ai/us_asian_market.glb",
+       "assets/models/env/second_ai/us_community.glb"
+      ]
+     },
+     {
+      "md5": "5d793f2440",
+      "bytes": 94770,
+      "mime": "image/webp",
+      "copies": 5,
+      "nFiles": 5,
+      "files": [
+       "assets/models/env/dorm_hall.glb",
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/linze_exterior.glb",
+       "assets/models/env/wancai_exterior.glb"
+      ]
+     },
+     {
+      "md5": "d720570d5b",
+      "bytes": 367810,
+      "mime": "image/webp",
+      "copies": 2,
+      "nFiles": 2,
+      "files": [
+       "assets/models/env/linze_exterior.glb",
+       "assets/models/env/wancai_exterior.glb"
+      ]
+     },
+     {
+      "md5": "93c58352ae",
+      "bytes": 32972,
+      "mime": "image/jpeg",
+      "copies": 12,
+      "nFiles": 12,
+      "files": [
+       "assets/models/char/second_ai/bl_npc_nm1.vrm",
+       "assets/models/char/second_ai/bl_npc_nm11.vrm",
+       "assets/models/char/second_ai/bl_npc_nm13.vrm",
+       "assets/models/char/second_ai/bl_npc_nm15.vrm"
+      ]
+     },
+     {
+      "md5": "843f9605f2",
+      "bytes": 7669,
+      "mime": "image/png",
+      "copies": 48,
+      "nFiles": 48,
+      "files": [
+       "assets/models/char/bl_heroine_02.vrm",
+       "assets/models/char/bl_heroine_03.vrm",
+       "assets/models/char/bl_heroine_04.vrm",
+       "assets/models/char/bl_heroine_05.vrm"
+      ]
+     },
+     {
+      "md5": "72e9fd2a62",
+      "bytes": 37162,
+      "mime": "image/webp",
+      "copies": 10,
+      "nFiles": 10,
+      "files": [
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/second_ai/cafe_interior.glb",
+       "assets/models/env/second_ai/gongguan_shops.glb",
+       "assets/models/env/second_ai/lane118_street.glb"
+      ]
+     }
+    ]
+   },
+   "optimizations": {
+    "unsureBytes": 18653529,
+    "unsureFiles": 235,
+    "unsureTop": [
+     [
+      "assets/models/char/vroid_zhe.vrm",
+      3863252
+     ],
+     [
+      "assets/models/char/vroid_heroine_02.vrm",
+      3631384
+     ],
+     [
+      "assets/models/Michelle.glb",
+      3276888
+     ],
+     [
+      "assets/models/Xbot.glb",
+      2930032
+     ],
+     [
+      "assets/models/Soldier.glb",
+      2160468
+     ],
+     [
+      "assets/models/readyplayer.me.glb",
+      1838884
+     ],
+     [
+      "assets/portraits/heroine_02/campus/neutral.png",
+      309409
+     ],
+     [
+      "assets/models/char/second_ai/ual_sit_tasks.json",
+      40316
+     ]
+    ],
+    "sidecarJsonBytes": 643212,
+    "sidecarJsonFiles": 228,
+    "nonWebpImages": [
+     [
+      "assets/portraits/heroine_02/campus/neutral.png",
+      309409
+     ]
+    ]
+   }
+  },
+  {
+   "label": "main（線上 v9.10.24）",
+   "root": "git:origin/main（779ddd650）",
+   "git": {
+    "commit": "779ddd65081bf770e9850d948b54ecc21dc4d120",
+    "branch": "origin/main",
+    "dirty": false
+   },
+   "version": {
+    "version": "9.10.24",
+    "date": "2026-11-10",
+    "queryVersions": {
+     "9.10.24": 405
+    }
+   },
+   "filesMode": "git-ref",
+   "runtimeTablesRead": true,
+   "measuredAt": "2026-11-11 06:13 UTC",
+   "source": {
+    "files": 7957,
+    "bytes": 1381177987,
+    "byTop": {
+     "assets/": {
+      "files": 1604,
+      "bytes": 955252819
+     },
+     "docs/": {
+      "files": 3086,
+      "bytes": 218166407
+     },
+     "tools/": {
+      "files": 1189,
+      "bytes": 101700994
+     },
+     "wip_backup/": {
+      "files": 229,
+      "bytes": 63722003
+     },
+     "tests/": {
+      "files": 1397,
+      "bytes": 21022778
+     },
+     "src/": {
+      "files": 408,
+      "bytes": 17896153
+     },
+     "lib/": {
+      "files": 4,
+      "bytes": 2606817
+     },
+     ".claude/": {
+      "files": 30,
+      "bytes": 514496
+     },
+     "LICENSES.md": {
+      "files": 1,
+      "bytes": 168604
+     },
+     "index.html": {
+      "files": 1,
+      "bytes": 58325
+     },
+     "CLAUDE.md": {
+      "files": 1,
+      "bytes": 44070
+     },
+     "README.md": {
+      "files": 1,
+      "bytes": 11756
+     },
+     "test_charlook.html": {
+      "files": 1,
+      "bytes": 4733
+     },
+     ".github/": {
+      "files": 1,
+      "bytes": 4165
+     },
+     "build.py": {
+      "files": 1,
+      "bytes": 2879
+     },
+     ".gitignore": {
+      "files": 1,
+      "bytes": 874
+     },
+     ".env.example": {
+      "files": 1,
+      "bytes": 114
+     },
+     ".nojekyll": {
+      "files": 1,
+      "bytes": 0
+     }
+    }
+   },
+   "gitDir": {
+    "path": "/home/user/Lawstudent/.git",
+    "bytes": 8387351463,
+    "files": 10347,
+    "shallow": false,
+    "note": "這台機器上的 .git（所有分支、所有 worktree 共用，不是某一個版本的大小；不是淺層複本）；每台機器抓的分支不一樣，數字會不同"
+   },
+   "packages": {
+    "web": {
+     "files": 2002,
+     "bytes": 831554238,
+     "excludedFiles": 5955,
+     "excludedBytes": 549623749,
+     "byRule": {
+      "R1-ENTRY": {
+       "files": 1,
+       "bytes": 58325,
+       "include": true
+      },
+      "R2-INDEX-REF": {
+       "files": 405,
+       "bytes": 20394500,
+       "include": true
+      },
+      "R3-STATIC": {
+       "files": 713,
+       "bytes": 689201912,
+       "include": true
+      },
+      "R4-GLBREF": {
+       "files": 147,
+       "bytes": 9993420,
+       "include": true
+      },
+      "R4-RUNTIME": {
+       "files": 210,
+       "bytes": 56297790,
+       "include": true
+      },
+      "R5-DYNAMIC": {
+       "files": 304,
+       "bytes": 36807876,
+       "include": true
+      },
+      "R7-KEEP-UNSURE": {
+       "files": 220,
+       "bytes": 18631811,
+       "include": true
+      },
+      "R8-LICENSE": {
+       "files": 1,
+       "bytes": 168604,
+       "include": true
+      },
+      "R9-PAGES": {
+       "files": 1,
+       "bytes": 0,
+       "include": true
+      },
+      "X1-AI": {
+       "files": 30,
+       "bytes": 514496,
+       "include": false
+      },
+      "X1-BACKUP": {
+       "files": 229,
+       "bytes": 63722003,
+       "include": false
+      },
+      "X1-CI": {
+       "files": 1,
+       "bytes": 4165,
+       "include": false
+      },
+      "X1-DOCS": {
+       "files": 3086,
+       "bytes": 218166407,
+       "include": false
+      },
+      "X1-TESTS": {
+       "files": 1397,
+       "bytes": 21022778,
+       "include": false
+      },
+      "X1-TOOLS": {
+       "files": 1189,
+       "bytes": 101700994,
+       "include": false
+      },
+      "X2-DEVFILE": {
+       "files": 6,
+       "bytes": 64426,
+       "include": false
+      },
+      "X3-BLEND": {
+       "files": 10,
+       "bytes": 144320010,
+       "include": false
+      },
+      "X5-UNLOADED": {
+       "files": 7,
+       "bytes": 108470,
+       "include": false
+      }
+     },
+     "missing": 0,
+     "unsureFiles": 220,
+     "unsureBytes": 18631811
+    },
+    "win-stage": {
+     "files": 2001,
+     "bytes": 831554238,
+     "excludedFiles": 5956,
+     "excludedBytes": 549623749,
+     "byRule": {
+      "R1-ENTRY": {
+       "files": 1,
+       "bytes": 58325,
+       "include": true
+      },
+      "R2-INDEX-REF": {
+       "files": 405,
+       "bytes": 20394500,
+       "include": true
+      },
+      "R3-STATIC": {
+       "files": 713,
+       "bytes": 689201912,
+       "include": true
+      },
+      "R4-GLBREF": {
+       "files": 147,
+       "bytes": 9993420,
+       "include": true
+      },
+      "R4-RUNTIME": {
+       "files": 210,
+       "bytes": 56297790,
+       "include": true
+      },
+      "R5-DYNAMIC": {
+       "files": 304,
+       "bytes": 36807876,
+       "include": true
+      },
+      "R7-KEEP-UNSURE": {
+       "files": 220,
+       "bytes": 18631811,
+       "include": true
+      },
+      "R8-LICENSE": {
+       "files": 1,
+       "bytes": 168604,
+       "include": true
+      },
+      "R9-PAGES": {
+       "files": 1,
+       "bytes": 0,
+       "include": false
+      },
+      "X1-AI": {
+       "files": 30,
+       "bytes": 514496,
+       "include": false
+      },
+      "X1-BACKUP": {
+       "files": 229,
+       "bytes": 63722003,
+       "include": false
+      },
+      "X1-CI": {
+       "files": 1,
+       "bytes": 4165,
+       "include": false
+      },
+      "X1-DOCS": {
+       "files": 3086,
+       "bytes": 218166407,
+       "include": false
+      },
+      "X1-TESTS": {
+       "files": 1397,
+       "bytes": 21022778,
+       "include": false
+      },
+      "X1-TOOLS": {
+       "files": 1189,
+       "bytes": 101700994,
+       "include": false
+      },
+      "X2-DEVFILE": {
+       "files": 6,
+       "bytes": 64426,
+       "include": false
+      },
+      "X3-BLEND": {
+       "files": 10,
+       "bytes": 144320010,
+       "include": false
+      },
+      "X5-UNLOADED": {
+       "files": 7,
+       "bytes": 108470,
+       "include": false
+      }
+     },
+     "missing": 0,
+     "unsureFiles": 220,
+     "unsureBytes": 18631811
+    }
+   },
+   "zip": {
+    "bytes": 433128881,
+    "method": "zip（Deflate，壓縮等級 6；Python zipfile，逐檔壓、只數位元組不存檔）",
+    "files": 2001,
+    "note": "只壓遊戲內容（win-stage 的檔），不含封裝器；不是 Steam 實際下載大小（Steam 用自己的分塊壓縮，未量）"
+   },
+   "categoriesAll": [
+    {
+     "category": "3D 場景（GLB、窗外景、匯出側寫）",
+     "files": 771,
+     "bytes": 408530466
+    },
+    {
+     "category": "3D 人物（VRM、配件、動作、遠距離版本）",
+     "files": 168,
+     "bytes": 248438850
+    },
+    {
+     "category": "文件（docs）",
+     "files": 3086,
+     "bytes": 218166407
+    },
+    {
+     "category": "Blender 工作原檔（assets/blender）",
+     "files": 10,
+     "bytes": 144320010
+    },
+    {
+     "category": "開發工具（tools）",
+     "files": 1189,
+     "bytes": 101700994
+    },
+    {
+     "category": "2D 背景",
+     "files": 337,
+     "bytes": 96778668
+    },
+    {
+     "category": "備份（wip_backup）",
+     "files": 229,
+     "bytes": 63722003
+    },
+    {
+     "category": "測試（tests）",
+     "files": 1397,
+     "bytes": 21022778
+    },
+    {
+     "category": "事件 CG",
+     "files": 91,
+     "bytes": 19569432
+    },
+    {
+     "category": "電影海報",
+     "files": 72,
+     "bytes": 18756388
+    },
+    {
+     "category": "早期的範例人物模型（assets/models/*.glb）",
+     "files": 4,
+     "bytes": 10206272
+    },
+    {
+     "category": "遊戲程式（src）",
+     "files": 221,
+     "bytes": 9562916
+    },
+    {
+     "category": "遊戲資料（src/data）",
+     "files": 187,
+     "bytes": 8333237
+    },
+    {
+     "category": "立繪",
+     "files": 146,
+     "bytes": 8224459
+    },
+    {
+     "category": "函式庫（lib：three.js、three-vrm、lz-string）",
+     "files": 4,
+     "bytes": 2606817
+    },
+    {
+     "category": "GitHub／AI 設定（.github、.claude）",
+     "files": 31,
+     "bytes": 518661
+    },
+    {
+     "category": "貼圖（地面、牆面）",
+     "files": 5,
+     "bytes": 428274
+    },
+    {
+     "category": "其他頂層檔",
+     "files": 8,
+     "bytes": 233030
+    },
+    {
+     "category": "入口（index.html）",
+     "files": 1,
+     "bytes": 58325
+    }
+   ],
+   "categoriesPackage": [
+    {
+     "category": "3D 場景（GLB、窗外景、匯出側寫）",
+     "files": 771,
+     "bytes": 408530466
+    },
+    {
+     "category": "3D 人物（VRM、配件、動作、遠距離版本）",
+     "files": 168,
+     "bytes": 248438850
+    },
+    {
+     "category": "2D 背景",
+     "files": 337,
+     "bytes": 96778668
+    },
+    {
+     "category": "事件 CG",
+     "files": 91,
+     "bytes": 19569432
+    },
+    {
+     "category": "電影海報",
+     "files": 72,
+     "bytes": 18756388
+    },
+    {
+     "category": "早期的範例人物模型（assets/models/*.glb）",
+     "files": 4,
+     "bytes": 10206272
+    },
+    {
+     "category": "遊戲程式（src）",
+     "files": 220,
+     "bytes": 9541605
+    },
+    {
+     "category": "遊戲資料（src/data）",
+     "files": 181,
+     "bytes": 8246078
+    },
+    {
+     "category": "立繪",
+     "files": 146,
+     "bytes": 8224459
+    },
+    {
+     "category": "函式庫（lib：three.js、three-vrm、lz-string）",
+     "files": 4,
+     "bytes": 2606817
+    },
+    {
+     "category": "貼圖（地面、牆面）",
+     "files": 5,
+     "bytes": 428274
+    },
+    {
+     "category": "其他頂層檔",
+     "files": 2,
+     "bytes": 168604
+    },
+    {
+     "category": "入口（index.html）",
+     "files": 1,
+     "bytes": 58325
+    }
+   ],
+   "extPackage": [
+    {
+     "ext": "glb",
+     "files": 275,
+     "bytes": 416634356
+    },
+    {
+     "ext": "vrm",
+     "files": 80,
+     "bytes": 230895056
+    },
+    {
+     "ext": "webp",
+     "files": 1025,
+     "bytes": 162472494
+    },
+    {
+     "ext": "js",
+     "files": 405,
+     "bytes": 20394500
+    },
+    {
+     "ext": "json",
+     "files": 213,
+     "bytes": 621494
+    },
+    {
+     "ext": "png",
+     "files": 1,
+     "bytes": 309409
+    },
+    {
+     "ext": "md",
+     "files": 1,
+     "bytes": 168604
+    },
+    {
+     "ext": "html",
+     "files": 1,
+     "bytes": 58325
+    },
+    {
+     "ext": "nojekyll",
+     "files": 1,
+     "bytes": 0
+    }
+   ],
+   "assetDirsPackage": [
+    {
+     "dir": "assets/models/env/second_ai/",
+     "files": 379,
+     "bytes": 274975153
+    },
+    {
+     "dir": "assets/models/char/second_ai/",
+     "files": 106,
+     "bytes": 165847538
+    },
+    {
+     "dir": "assets/bg/",
+     "files": 337,
+     "bytes": 96778668
+    },
+    {
+     "dir": "assets/models/char/",
+     "files": 22,
+     "bytes": 71149988
+    },
+    {
+     "dir": "assets/models/env/second_ai/bb_support/",
+     "files": 69,
+     "bytes": 55495324
+    },
+    {
+     "dir": "assets/models/env/second_ai/aa_support/",
+     "files": 75,
+     "bytes": 40455070
+    },
+    {
+     "dir": "assets/models/env/",
+     "files": 50,
+     "bytes": 30171765
+    },
+    {
+     "dir": "assets/posters/",
+     "files": 72,
+     "bytes": 18756388
+    },
+    {
+     "dir": "assets/models/char/second_ai/lod/",
+     "files": 40,
+     "bytes": 11441324
+    },
+    {
+     "dir": "assets/models/",
+     "files": 4,
+     "bytes": 10206272
+    },
+    {
+     "dir": "assets/models/env/views/",
+     "files": 198,
+     "bytes": 7433154
+    },
+    {
+     "dir": "assets/cg/heroine_01/",
+     "files": 19,
+     "bytes": 4399374
+    },
+    {
+     "dir": "assets/cg/heroine_05/",
+     "files": 15,
+     "bytes": 2732894
+    },
+    {
+     "dir": "assets/cg/kexin/",
+     "files": 9,
+     "bytes": 2228144
+    },
+    {
+     "dir": "assets/cg/heroine_04/",
+     "files": 11,
+     "bytes": 2161070
+    },
+    {
+     "dir": "assets/cg/epilogue/",
+     "files": 10,
+     "bytes": 1879626
+    },
+    {
+     "dir": "assets/cg/heroine_03/",
+     "files": 7,
+     "bytes": 1509834
+    },
+    {
+     "dir": "assets/cg/classmate_peishan/",
+     "files": 7,
+     "bytes": 1379216
+    },
+    {
+     "dir": "assets/cg/heroine_02/",
+     "files": 6,
+     "bytes": 1204758
+    },
+    {
+     "dir": "assets/portraits/kexin/campus/",
+     "files": 11,
+     "bytes": 1043310
+    },
+    {
+     "dir": "assets/portraits/heroine_02/campus/",
+     "files": 11,
+     "bytes": 913959
+    },
+    {
+     "dir": "assets/cg/zhe/",
+     "files": 3,
+     "bytes": 780036
+    },
+    {
+     "dir": "assets/cg/class/",
+     "files": 2,
+     "bytes": 599368
+    },
+    {
+     "dir": "assets/portraits/heroine_03/campus/",
+     "files": 10,
+     "bytes": 525776
+    },
+    {
+     "dir": "assets/portraits/heroine_04/campus/",
+     "files": 10,
+     "bytes": 478494
+    }
+   ],
+   "largestPackage": [
+    {
+     "path": "assets/models/env/second_ai/us_campus.glb",
+     "bytes": 11808696,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/library_hall_v2.glb",
+     "bytes": 11001376,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/wenzhou_street.glb",
+     "bytes": 10279468,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/gongguan_shops.glb",
+     "bytes": 9889432,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/us_community.glb",
+     "bytes": 8667240,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/us_market_street.glb",
+     "bytes": 8231436,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/us_market.glb",
+     "bytes": 7733164,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/char/vrm_player.vrm",
+     "bytes": 7436020,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/soclib_interior.glb",
+     "bytes": 7077724,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/library_interior.glb",
+     "bytes": 6930572,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/aa_support/shanlan.glb",
+     "bytes": 6431696,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/airport_dep.glb",
+     "bytes": 6040908,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/wz_teahouse_yard.glb",
+     "bytes": 6034436,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/lane118_street.glb",
+     "bytes": 5622476,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/bb_support/cvs_interior.glb",
+     "bytes": 5553208,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/library_3f_v2.glb",
+     "bytes": 5543148,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/gym_arena.glb",
+     "bytes": 5293144,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/char/vrm_sample.vrm",
+     "bytes": 5028376,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/bb_support/nanyang_hall.glb",
+     "bytes": 4733812,
+     "rule": "R3-STATIC"
+    },
+    {
+     "path": "assets/models/env/second_ai/xinsheng_far.glb",
+     "bytes": 4673260,
+     "rule": "R3-STATIC"
+    }
+   ],
+   "largestExcluded": [
+    {
+     "path": "assets/blender/yuting_work_v1.blend",
+     "bytes": 17899869,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_01_work_v1.blend",
+     "bytes": 16948742,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_01_work_v2.blend",
+     "bytes": 16936201,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_03_work_v1.blend",
+     "bytes": 14662835,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_02_work_v1.blend",
+     "bytes": 14633735,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_05_work_v1.blend",
+     "bytes": 14552862,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_02_work_v2.blend",
+     "bytes": 14188907,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_04_work_v1.blend",
+     "bytes": 11812705,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_03_work_v2.blend",
+     "bytes": 11367153,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "assets/blender/heroine_04_work_v2.blend",
+     "bytes": 11317001,
+     "rule": "X3-BLEND"
+    },
+    {
+     "path": "wip_backup/next1102_1102.bundle",
+     "bytes": 10126855,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "wip_backup/postrel_1030.bundle",
+     "bytes": 8544699,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "wip_backup/invite_1030.bundle",
+     "bytes": 5955926,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "wip_backup/aa531_1030.bundle",
+     "bytes": 5871744,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "wip_backup/feat-art-1031.bundle",
+     "bytes": 4647823,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "wip_backup/wip_subagents_1020_2035.bundle",
+     "bytes": 4394469,
+     "rule": "X1-BACKUP"
+    },
+    {
+     "path": "docs/handoff/tasks.json",
+     "bytes": 3398656,
+     "rule": "X1-DOCS"
+    },
+    {
+     "path": "tools/blender/env_second/textures/gen/tongxian_props.png",
+     "bytes": 2244428,
+     "rule": "X1-TOOLS"
+    },
+    {
+     "path": "tools/blender/env_second/bb_support/textures/gen/dabu_print.png",
+     "bytes": 1818895,
+     "rule": "X1-TOOLS"
+    },
+    {
+     "path": "wip_backup/dorm-hall.bundle",
+     "bytes": 1763543,
+     "rule": "X1-BACKUP"
+    }
+   ],
+   "duplicateFiles": {
+    "groups": 4,
+    "redundantBytes": 2266734,
+    "top": [
+     {
+      "bytes": 1838884,
+      "files": [
+       "assets/models/char/rpm_sample.glb",
+       "assets/models/readyplayer.me.glb"
+      ]
+     },
+     {
+      "bytes": 69488,
+      "files": [
+       "assets/portraits/zhe/campus/laugh.webp",
+       "assets/portraits/zhe/campus/neutral.webp",
+       "assets/portraits/zhe/campus/smile.webp",
+       "assets/portraits/zhe/campus/surprised.webp"
+      ]
+     },
+     {
+      "bytes": 61236,
+      "files": [
+       "assets/portraits/classmate_mingxuan/campus/embarrassed.webp",
+       "assets/portraits/classmate_mingxuan/campus/laugh.webp",
+       "assets/portraits/classmate_mingxuan/campus/neutral.webp",
+       "assets/portraits/classmate_mingxuan/campus/smile.webp"
+      ]
+     },
+     {
+      "bytes": 35678,
+      "files": [
+       "assets/models/env/second_ai/bb_support/nanyang_hall_lm_day.webp",
+       "assets/models/env/second_ai/bb_support/nanyang_hall_lm_night.webp"
+      ]
+     }
+    ]
+   },
+   "embeddedTextures": {
+    "modelFiles": 355,
+    "modelBytes": 647529412,
+    "imageBytes": 117350996,
+    "jsonBytes": 15488416,
+    "otherBytes": 514690000,
+    "images": 3649,
+    "distinctImages": 2008,
+    "redundantBytes": 34918358,
+    "redundantWithinSameFile": 53993,
+    "top": [
+     {
+      "md5": "e664d1982b",
+      "bytes": 366464,
+      "mime": "image/webp",
+      "copies": 7,
+      "nFiles": 7,
+      "files": [
+       "assets/models/env/second_ai/aa_support/afar.glb",
+       "assets/models/env/second_ai/aa_support/aoki.glb",
+       "assets/models/env/second_ai/aa_support/daily_offbeat.glb",
+       "assets/models/env/second_ai/aa_support/daybreak.glb"
+      ]
+     },
+     {
+      "md5": "dc73c33b66",
+      "bytes": 76194,
+      "mime": "image/webp",
+      "copies": 16,
+      "nFiles": 16,
+      "files": [
+       "assets/models/env/lawlib_interior.glb",
+       "assets/models/env/second_ai/bb_support/nanyang_hall.glb",
+       "assets/models/env/second_ai/boya_interior.glb",
+       "assets/models/env/second_ai/gongtong_interior.glb"
+      ]
+     },
+     {
+      "md5": "bed5d77525",
+      "bytes": 355792,
+      "mime": "image/webp",
+      "copies": 4,
+      "nFiles": 4,
+      "files": [
+       "assets/models/env/dorm_hall.glb",
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/linze_interior.glb",
+       "assets/models/env/wancai_interior.glb"
+      ]
+     },
+     {
+      "md5": "dbaeca8a5f",
+      "bytes": 353956,
+      "mime": "image/webp",
+      "copies": 4,
+      "nFiles": 4,
+      "files": [
+       "assets/models/env/dorm_hall.glb",
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/linze_interior.glb",
+       "assets/models/env/wancai_interior.glb"
+      ]
+     },
+     {
+      "md5": "43ba489d24",
+      "bytes": 118482,
+      "mime": "image/webp",
+      "copies": 9,
+      "nFiles": 9,
+      "files": [
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/second_ai/airport_arr.glb",
+       "assets/models/env/second_ai/airport_dep.glb",
+       "assets/models/env/second_ai/lane118_ground.glb"
+      ]
+     },
+     {
+      "md5": "d09b93ce8f",
+      "bytes": 27321,
+      "mime": "image/png",
+      "copies": 35,
+      "nFiles": 35,
+      "files": [
+       "assets/models/char/bl_yuting.vrm",
+       "assets/models/char/second_ai/bl_classmate_bohan.vrm",
+       "assets/models/char/second_ai/bl_econ_jiahao.vrm",
+       "assets/models/char/second_ai/bl_econ_tangrui.vrm"
+      ]
+     },
+     {
+      "md5": "7b732126d8",
+      "bytes": 174712,
+      "mime": "image/webp",
+      "copies": 5,
+      "nFiles": 5,
+      "files": [
+       "assets/models/env/dorm_hall.glb",
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/linze_exterior.glb",
+       "assets/models/env/linze_interior.glb"
+      ]
+     },
+     {
+      "md5": "d04a4f9023",
+      "bytes": 206150,
+      "mime": "image/webp",
+      "copies": 4,
+      "nFiles": 4,
+      "files": [
+       "assets/models/env/second_ai/street_trees.glb",
+       "assets/models/env/second_ai/wz_park.glb",
+       "assets/models/env/second_ai/wz_teahouse_interior.glb",
+       "assets/models/env/second_ai/wz_teahouse_yard.glb"
+      ]
+     },
+     {
+      "md5": "4710a080e3",
+      "bytes": 98514,
+      "mime": "image/webp",
+      "copies": 7,
+      "nFiles": 7,
+      "files": [
+       "assets/models/env/classroom_201.glb",
+       "assets/models/env/lawlib_interior.glb",
+       "assets/models/env/second_ai/boya_interior.glb",
+       "assets/models/env/second_ai/gongtong_interior.glb"
+      ]
+     },
+     {
+      "md5": "f494e4972d",
+      "bytes": 58036,
+      "mime": "image/webp",
+      "copies": 10,
+      "nFiles": 10,
+      "files": [
+       "assets/models/env/second_ai/bb_support/bike.glb",
+       "assets/models/env/second_ai/bb_support/corner.glb",
+       "assets/models/env/second_ai/campus_gongtong.glb",
+       "assets/models/env/second_ai/campus_gymext.glb"
+      ]
+     },
+     {
+      "md5": "a810f9a1af",
+      "bytes": 171960,
+      "mime": "image/webp",
+      "copies": 4,
+      "nFiles": 4,
+      "files": [
+       "assets/models/env/second_ai/wz_park.glb",
+       "assets/models/env/second_ai/wz_teahouse_interior.glb",
+       "assets/models/env/second_ai/wz_teahouse_yard.glb",
+       "assets/models/env/second_ai/xs_planters.glb"
+      ]
+     },
+     {
+      "md5": "16aeabbc07",
+      "bytes": 502699,
+      "mime": "image/png",
+      "copies": 2,
+      "nFiles": 2,
+      "files": [
+       "assets/models/char/bl_heroine_03.vrm",
+       "assets/models/char/vroid_heroine_05.vrm"
+      ]
+     },
+     {
+      "md5": "e41510dc35",
+      "bytes": 454180,
+      "mime": "image/webp",
+      "copies": 2,
+      "nFiles": 2,
+      "files": [
+       "assets/models/env/second_ai/offbeat_storefront.glb",
+       "assets/models/env/second_ai/wenzhou_street.glb"
+      ]
+     },
+     {
+      "md5": "02a49a20fb",
+      "bytes": 402781,
+      "mime": "image/jpeg",
+      "copies": 2,
+      "nFiles": 2,
+      "files": [
+       "assets/models/char/rpm_sample.glb",
+       "assets/models/readyplayer.me.glb"
+      ]
+     },
+     {
+      "md5": "d6bb73a5cd",
+      "bytes": 63978,
+      "mime": "image/webp",
+      "copies": 7,
+      "nFiles": 7,
+      "files": [
+       "assets/models/env/second_ai/airport_arr.glb",
+       "assets/models/env/second_ai/airport_dep.glb",
+       "assets/models/env/second_ai/us_asian_market.glb",
+       "assets/models/env/second_ai/us_community.glb"
+      ]
+     },
+     {
+      "md5": "5d793f2440",
+      "bytes": 94770,
+      "mime": "image/webp",
+      "copies": 5,
+      "nFiles": 5,
+      "files": [
+       "assets/models/env/dorm_hall.glb",
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/linze_exterior.glb",
+       "assets/models/env/wancai_exterior.glb"
+      ]
+     },
+     {
+      "md5": "d720570d5b",
+      "bytes": 367810,
+      "mime": "image/webp",
+      "copies": 2,
+      "nFiles": 2,
+      "files": [
+       "assets/models/env/linze_exterior.glb",
+       "assets/models/env/wancai_exterior.glb"
+      ]
+     },
+     {
+      "md5": "93c58352ae",
+      "bytes": 32972,
+      "mime": "image/jpeg",
+      "copies": 12,
+      "nFiles": 12,
+      "files": [
+       "assets/models/char/second_ai/bl_npc_nm1.vrm",
+       "assets/models/char/second_ai/bl_npc_nm11.vrm",
+       "assets/models/char/second_ai/bl_npc_nm13.vrm",
+       "assets/models/char/second_ai/bl_npc_nm15.vrm"
+      ]
+     },
+     {
+      "md5": "843f9605f2",
+      "bytes": 7669,
+      "mime": "image/png",
+      "copies": 47,
+      "nFiles": 47,
+      "files": [
+       "assets/models/char/bl_heroine_02.vrm",
+       "assets/models/char/bl_heroine_03.vrm",
+       "assets/models/char/bl_heroine_04.vrm",
+       "assets/models/char/bl_heroine_05.vrm"
+      ]
+     },
+     {
+      "md5": "72e9fd2a62",
+      "bytes": 37162,
+      "mime": "image/webp",
+      "copies": 10,
+      "nFiles": 10,
+      "files": [
+       "assets/models/env/library_interior.glb",
+       "assets/models/env/second_ai/cafe_interior.glb",
+       "assets/models/env/second_ai/gg_flower_stall.glb",
+       "assets/models/env/second_ai/gongguan_shops.glb"
+      ]
+     }
+    ]
+   },
+   "optimizations": {
+    "unsureBytes": 18631811,
+    "unsureFiles": 220,
+    "unsureTop": [
+     [
+      "assets/models/char/vroid_zhe.vrm",
+      3863252
+     ],
+     [
+      "assets/models/char/vroid_heroine_02.vrm",
+      3631384
+     ],
+     [
+      "assets/models/Michelle.glb",
+      3276888
+     ],
+     [
+      "assets/models/Xbot.glb",
+      2930032
+     ],
+     [
+      "assets/models/Soldier.glb",
+      2160468
+     ],
+     [
+      "assets/models/readyplayer.me.glb",
+      1838884
+     ],
+     [
+      "assets/portraits/heroine_02/campus/neutral.png",
+      309409
+     ],
+     [
+      "assets/models/char/second_ai/ual_sit_tasks.json",
+      40316
+     ]
+    ],
+    "sidecarJsonBytes": 621494,
+    "sidecarJsonFiles": 213,
+    "nonWebpImages": [
+     [
+      "assets/portraits/heroine_02/campus/neutral.png",
+      309409
+     ]
+    ]
+   }
+  }
+ ]
+}

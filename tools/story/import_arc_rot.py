@@ -111,7 +111,9 @@ def main():
     if not ok:
         raise SystemExit(why)
     data = build(json.loads(git('show', f'{sha}:{PATH}')), sha)
-    js = ('/* 自動產生：tools/story/import_arc_rot.py（' + data['src'] + '）。不要手改，改企劃 AA_717 再重新匯入。\n'
+    import ps755   # 2026-11-11（X327 沛珊重寫）：AA_755_peishan_feed_misc.json 的 other 逐則 old→new 疊在 classmate_peishan 上（tools/story/ps755.py；白名單沒有那份稿＝不換）
+    n755 = ps755.apply(data, 'arc_rot.js', ROOT, allow)
+    js = ('/* 自動產生：tools/story/import_arc_rot.py（' + data['src'] + (f'；沛珊 {n755} 處照 {ps755.tag(ROOT, allow)}' if n755 else '') + '）。不要手改，改企劃 AA_717 再重新匯入。\n'
           '   輪換句跟著日期和故事走、她的生活（BB_305 第 5、6 節；播放 src/arcs3d.js ARCS.rotPick）*/\n'
           "'use strict';\nconst ARC_ROT=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
     p = os.path.join(ROOT, OUT)

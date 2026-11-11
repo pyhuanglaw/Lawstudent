@@ -36,6 +36,7 @@ M['metalvc'].node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value
 # 零件顏色（寫進頂點色）：(顏色, 金屬)
 COL = {'legs': ('#4b4e52', 0), 'cloth': ('#9aa0a6', 0), 'seat_brown': ('#5a3a28', 0), 'cvt': ('#46494e', 1), 'dark': ('#2a2b2d', 0), 'black': ('#17181a', 0), 'seat': ('#1d1c1c', 0), 'tire': ('#191919', 0), 'lamp': ('#d3dbe2', 0), 'lamp_warm': ('#f2e6c8', 0),
        'tail': ('#a1231b', 0), 'amber': ('#d98a1e', 0), 'plate': ('#f1f1ec', 0), 'smoke': ('#3b4148', 0), 'box': ('#2e3033', 0), 'box_grey': ('#8e9196', 0),
+       'rain_y': ('#e3c53a', 0), 'rain_b': ('#5f8fb8', 0), 'bag_r': ('#d9584a', 0), 'bag_k': ('#b9925e', 0), 'screen_c': ('#aeb9c2', 0),
        'deliv': ('#31373d', 0), 'helmet_w': ('#e9e7e2', 0), 'helmet_b': ('#2a3a55', 0), 'helmet_r': ('#9b2c2c', 0), 'visor': ('#252a30', 0),
        'metal': ('#7d8186', 1), 'chrome': ('#b9bec3', 1), 'alloy': ('#5d6166', 1), 'gold': ('#a8873e', 1)}
 
@@ -338,6 +339,10 @@ ARCH = {
     'S1B_D': dict(name='國民通勤＋外送箱', base='S1B', extras=['delivery', 'phone'], weight=0.07, palette=['#f1f1ee', '#a9adb2', '#6f7378', '#334a6b', '#141517']),
     'S5_H': dict(name='電動＋掛安全帽', base='S5', extras=['grab', 'helmet'], weight=0.05),
     'S1A_C': dict(name='國民通勤＋機車罩', base='S1A', extras=['cover'], weight=0.03, palette=['#8e949a', '#2d3a52', '#6d7176']),
+    # SCOOTER-ACC-1111（BB_255 機車第三版記著「擋風鏡、腳踏板的袋子、雨衣要加模型」；LAWWW2 帳號 A 11-11）
+    'S1A_W': dict(name='國民通勤＋擋風鏡', base='S1A', extras=['rear_box', 'grab', 'windshield'], weight=0.04),
+    'S1B_G': dict(name='國民通勤＋腳踏板的袋子', base='S1B', extras=['grab', 'floor_bag'], weight=0.05),
+    'S7_R': dict(name='50cc 舊款＋蓋座墊的雨衣', base='S7', extras=['grab', 'raincoat'], weight=0.04),
 }
 for k, A in list(ARCH.items()):          # base：沿用另一型的車身、只改列出的欄位
     if 'base' in A:
@@ -482,6 +487,26 @@ def build(code):
     if 'helmet' in ex:    # 掛在左後照鏡下的半罩安全帽
         hx, hy, hz = xcv - 0.03, cy_c - 0.08, 0.27; part('helmet_b').ell((hx, hy, hz), 0.12, 0.09, 0.105, seg=10, rings=5)
         part('visor').box(hx + 0.07, hx + 0.1, hy - 0.02, hy + 0.04, hz - 0.08, hz + 0.08)
+    if 'windshield' in ex:   # 加裝的擋風鏡（透明壓克力板、上緣圓角、兩根支架鎖在後照鏡座）：比龍頭罩寬、高到騎士胸口
+        sc = part('screen_c'); x0, y0 = cov[2][0] + 0.03, cy_c + 0.01; prof = [(0.0, 0.2), (0.14, 0.215), (0.3, 0.2), (0.4, 0.15), (0.44, 0.07)]   # (高度, 半寬)
+        for (h0, w0), (h1, w1) in zip(prof, prof[1:]):
+            xa, xb_ = x0 - h0 * 0.3, x0 - h1 * 0.3
+            for q in ([(xa, y0 + h0, -w0), (xa, y0 + h0, w0), (xb_, y0 + h1, w1), (xb_, y0 + h1, -w1)], [(xa, y0 + h0, w0), (xa, y0 + h0, -w0), (xb_, y0 + h1, -w1), (xb_, y0 + h1, w1)]): sc.quad(q)
+        for s_ in (-1, 1): part('black').cyl((xcv - 0.005, cy_c + 0.04, s_ * 0.2), (x0 - 0.05, y0 + 0.17, s_ * 0.19), 0.007, seg=4)
+        part('black').box(x0 - 0.012, x0 + 0.004, y0 - 0.005, y0 + 0.02, -0.2, 0.2)
+    if 'floor_bag' in ex:    # 腳踏板上的袋子：一個紅白條紋的塑膠袋（鼓鼓的、上面兩個提把）靠著一個牛皮紙袋
+        xb0 = (x0f + x1f) / 2 + 0.02; bg = part('helmet_w'); bg.ell((xb0 - 0.05, fl + 0.12, 0.03), 0.1, 0.125, 0.12, seg=8, rings=5)
+        for k_ in range(3): part('bag_r').box(xb0 - 0.152, xb0 + 0.052, fl + 0.05 + k_ * 0.06, fl + 0.075 + k_ * 0.06, -0.085, 0.145)
+        for s_ in (-1, 1): bg.cyl((xb0 - 0.05, fl + 0.22, 0.03 + s_ * 0.04), (xb0 - 0.05 + s_ * 0.01, fl + 0.31, 0.03 + s_ * 0.015), 0.012, seg=4)
+        pk = part('bag_k'); pk.box(xb0 + 0.06, xb0 + 0.16, fl, fl + 0.26, -0.13, 0.05); pk.cyl((xb0 + 0.11, fl + 0.26, -0.1), (xb0 + 0.11, fl + 0.32, -0.04), 0.006, seg=3); pk.cyl((xb0 + 0.11, fl + 0.32, -0.04), (xb0 + 0.11, fl + 0.26, 0.02), 0.006, seg=3)
+    if 'raincoat' in ex:     # 蓋在座墊上的雨衣（黃色、兩側垂下來、下緣一高一低；後面一角是藍色的內裡翻出來）
+        rc = part('rain_y'); rows = interp(seat, 1); rings = []
+        for i, (x, yb, yt, hw) in enumerate(rows):
+            dr = 0.19 + 0.05 * ((i * 3) % 4) / 3; top = yt + 0.034
+            rings.append([(x, yb + 0.04 - dr, -(hw * 1.12 + 0.045)), (x, top - 0.035, -(hw * 1.06 + 0.012)), (x, top, -hw * 0.6), (x, top + 0.006, 0.0), (x, top, hw * 0.6), (x, top - 0.035, hw * 1.06 + 0.012), (x, yb + 0.04 - dr * 0.75, hw * 1.12 + 0.045)])
+        for r0, r1 in zip(rings, rings[1:]):
+            for k_ in range(6): rc.quad([r0[k_], r0[k_ + 1], r1[k_ + 1], r1[k_]]); rc.quad([r0[k_ + 1], r0[k_], r1[k_], r1[k_ + 1]])
+        xl, _, ytl, hwl = rows[-1]; part('rain_b').quad([(xl - 0.005, ytl + 0.03, -hwl * 0.5), (xl - 0.005, ytl + 0.03, hwl * 0.7), (xl - 0.06, ytl - 0.1, hwl * 0.5), (xl - 0.05, ytl - 0.07, -hwl * 0.3)])
     if 'phone' in ex:     # 手機架
         part('black').rbox(cov[1][0] - 0.01, cov[1][0] + 0.01, cy_c + 0.08, cy_c + 0.2, -0.04, 0.04, r=0.005, seg=1)
     out = wl + list(P.values())
@@ -555,7 +580,7 @@ def make_lod(ob, target=600):
 meta = {}
 codes = ONLY or list(ARCH)
 if '--preview' in ARGS:
-    PICK = {'S1A': 5, 'S1B': 4, 'S2': 2, 'S5': 3, 'S4': 1, 'S7': 1, 'S3': 0, 'S6': 1, 'S9': 0, 'S1B_D': 0, 'S5_H': 4, 'S1A_C': 1}
+    PICK = {'S1A': 5, 'S1B': 4, 'S2': 2, 'S5': 3, 'S4': 1, 'S7': 1, 'S3': 0, 'S6': 1, 'S9': 0, 'S1B_D': 0, 'S5_H': 4, 'S1A_C': 1, 'S1A_W': 4, 'S1B_G': 3, 'S7_R': 4}
     for c in codes: PREVIEW_COL[f'scooter_{c}'] = ARCH[c]['palette'][PICK.get(c, 0)]
 for i, code in enumerate(codes):
     parts = build(code); ob = finish_all(parts, f'scooter_{code}', i * 1.2)

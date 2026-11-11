@@ -159,6 +159,67 @@ def build(src, sha):
     return {'src': f'{PATH}@{sha}', 'people': people}
 
 
+# 2026-11-11（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫第三份之一）：AA_755_peishan_arc.json 的 classmate_peishan **整段取代** AA_712 匯出來的同名物件。
+# 稿是照 heroine_arcs.js 輸出的格式寫的（ansId、cite），不是 AA_712 的輸入格式，所以不走 build()，在這裡疊。**只認 PS755_SHA 那一版。**
+# AA 說只換 theme、每一拍的 topic、lines、ask、opts[].reply、cite 的字；祐廷的選項 t、ansId、rel、tell、toldAlt、need、invite、set、from／until／late、cite 的 key 都原樣——
+# 這裡逐欄和 AA_712 匯出來的比，「應該原樣」的有一欄不一樣就停下來（不猜）。
+PS755_PATH = 'docs/story_planning/AA_755_peishan_arc.json'
+PS755_SHA = '6b5507f8a'
+PS755_TEXT = ('topic', 'lines', 'ask', 'cite')      # 一拍裡可以換字的欄位
+PS755_KEEP = ('n', 'need', 'invite', 'set', 'from', 'until', 'late', 'after', 'where', 'quietOk', 'keyNote', 'alt')
+PS755_OPT_KEEP = ('t', 'rel', 'ansId', 'tell', 'toldAlt', 'decide', 'stance', 'key', 'opens', 'closes')
+
+
+def overlay_peishan(data, allow):
+    hits = [e for e in allow.get('files', []) if e.get('path') == PS755_PATH and e.get('status') == 'approved']
+    if not hits:
+        return
+    sha = hits[-1]['sha']
+    ok, why = IG.allowed(PS755_PATH, sha, allow)
+    if not ok:
+        raise SystemExit(why)
+    if not (sha.startswith(PS755_SHA) or PS755_SHA.startswith(sha)):
+        raise SystemExit(f'{PS755_PATH}@{sha}：沛珊的稿只認 {PS755_SHA}（要換版本先改這支工具的 PS755_SHA）')
+    src = json.loads(IG.read_fix(git('show', f'{sha}:{PS755_PATH}')))
+    new, old = src.get('classmate_peishan'), data['people'].get('classmate_peishan')
+    if not isinstance(new, dict) or set(new) != {'theme', 'beats'} or not old or len(new['beats']) != 8 or len(old['beats']) != 8:
+        raise SystemExit(f'{PS755_PATH}：classmate_peishan 要是 {{theme, beats×8}}')
+    bad = []
+    for i, (a, o) in enumerate(zip(new['beats'], old['beats'])):
+        w = f'classmate_peishan[{i + 1}]'
+        extra = set(a) | set(o)
+        for k in extra - {'opts'}:
+            if k in PS755_TEXT:
+                continue
+            if k not in PS755_KEEP:
+                bad.append(f'{w}.{k}：工具不認得的欄位')
+            elif a.get(k) != o.get(k):
+                bad.append(f'{w}.{k}：應該原樣，稿 {a.get(k)!r} ≠ 現在 {o.get(k)!r}')
+        for k in ('lines', 'ask'):
+            lines(a.get(k), f'{w}.{k}')
+        if set((a.get('cite') or {})) != set((o.get('cite') or {})):
+            bad.append(f'{w}.cite：key 要和現在的一樣（稿 {sorted(a.get("cite") or {})}、現在 {sorted(o.get("cite") or {})}）')
+        for k, v in (a.get('cite') or {}).items():
+            lines(v, f'{w}.cite.{k}')
+        if len(a.get('opts') or []) != len(o['opts']):
+            bad.append(f'{w}.opts：數量 {len(a.get("opts") or [])} ≠ {len(o["opts"])}')
+            continue
+        for j, (x, y) in enumerate(zip(a['opts'], o['opts'])):
+            for k in set(x) | set(y):
+                if k == 'reply':
+                    lines(x.get(k), f'{w}.opts[{j}].reply', need=False)
+                elif k not in PS755_OPT_KEEP:
+                    bad.append(f'{w}.opts[{j}].{k}：工具不認得的欄位')
+                elif x.get(k) != y.get(k):
+                    bad.append(f'{w}.opts[{j}].{k}：應該原樣，稿 {x.get(k)!r} ≠ 現在 {y.get(k)!r}')
+    if bad:
+        raise SystemExit('AA_755 沛珊故事線：「應該原樣」的欄位和現在的不一樣（先問 AA）：\n  ' + '\n  '.join(bad))
+    data['people']['classmate_peishan'] = {'theme': new['theme'], 'beats': new['beats']}
+    data['overlay'] = f'{PS755_PATH}@{sha}'
+    if '--check' not in sys.argv:
+        print('沛珊整段照', data['overlay'], '（應該原樣的欄位逐欄比過，沒有變）')
+
+
 def main():
     ref = sys.argv[sys.argv.index('--ref') + 1] if '--ref' in sys.argv else None
     allow = IG.load(ROOT)
@@ -170,7 +231,8 @@ def main():
     if not ok:
         raise SystemExit(why)
     data = build(json.loads(git('show', f'{sha}:{PATH}')), sha)
-    js = ('/* 自動產生：tools/story/import_arcs.py（' + data['src'] + '）。不要手改，改企劃 AA_712 再重新匯入。\n'
+    overlay_peishan(data, allow)
+    js = ('/* 自動產生：tools/story/import_arcs.py（' + data['src'] + (('；沛珊整段照 ' + data['overlay']) if data.get('overlay') else '') + '）。不要手改，改企劃 AA_712 再重新匯入。\n'
           '   女主角自己的故事線（8 拍；規則 BB_305；播放 src/arcs3d.js）*/\n'
           "'use strict';\nconst HEROINE_ARCS=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
     p = os.path.join(ROOT, OUT)

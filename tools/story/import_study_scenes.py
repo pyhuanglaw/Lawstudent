@@ -17,6 +17,7 @@ OUT = 'src/data/study_scenes.js'
 ALT_COND = {
     "媽媽發現她打工以後（AA_624 事件 10'，大一下第 9 週）": 'ytMomKnows',
     '學姊已上法研所（2026-08 起）': 'sisGrad',
+    '期末飯已經看過手帳那一頁（CG-11）': 'anShopPage',   # AA_707 1b8e247ec：記憶 AN_SHOP_PAGE（src/studyn3d.js S.ALT）
 }
 REPLY_KEEP = {
     ('heroine_03', '5'): ('兩個選項的字照用；選「我不會說。」的那一支改成：「她已經知道了。……可是謝謝你這樣說。」',
@@ -47,12 +48,28 @@ def opts(v, where):
     out = []
     for i, o in enumerate(v):
         w = f'{where}.opts[{i}]'
-        if not o.get('t') or not isinstance(o.get('rel'), dict):
-            raise SystemExit(f'{w}：要有 t 和 rel')
-        bad = [k for k in o['rel'] if k not in ('fam', 'trust', 'comf', 'npcRom', 'rom')]
+        # DLG-FX-MECH-1110：選項 {t, rel?, fx?, reply|re}——rel（原本的格式）和 fx（{fr, love}，整數、可以是 0 或負的）至少要有一個；re＝reply 的另一個寫法（一句或陣列），可以不寫
+        if not o.get('t') or not (isinstance(o.get('rel'), dict) or isinstance(o.get('fx'), dict)):
+            raise SystemExit(f'{w}：要有 t，以及 rel 或 fx')
+        bad = [k for k in o if k not in ('t', 'rel', 'fx', 'reply', 're')]
+        if bad:
+            raise SystemExit(f'{w}：不認得的欄位 {bad}')
+        bad = [k for k in (o.get('rel') or {}) if k not in ('fam', 'trust', 'comf', 'npcRom', 'rom')]
         if bad:
             raise SystemExit(f'{w}：rel 不認得的欄位 {bad}')
-        out.append({'t': IG.read_fix(o['t']), 'rel': {k: int(x) for k, x in o['rel'].items()}, 'reply': lines(o.get('reply'), w + '.reply')})
+        e = {'t': IG.read_fix(o['t']), 'rel': {k: int(x) for k, x in (o.get('rel') or {}).items()}}
+        if 'fx' in o:
+            fx = o['fx']
+            if not isinstance(fx, dict) or any(k not in ('fr', 'love') or not isinstance(n, int) or isinstance(n, bool) for k, n in fx.items()):
+                raise SystemExit(f'{w}.fx：只能是 fr／love（整數）')
+            e['fx'] = dict(fx)
+        if 'reply' in o and 're' in o:
+            raise SystemExit(f'{w}：reply 和 re 只寫一個')
+        rp = o.get('reply') if 'reply' in o else ([o['re']] if isinstance(o.get('re'), str) else o.get('re'))
+        e['reply'] = lines(rp, w + '.reply') if rp is not None else []
+        if 'reply' not in o and 're' not in o and 'fx' not in o:
+            raise SystemExit(f'{w}.reply：要是非空字串的陣列')
+        out.append(e)
     return out
 
 
@@ -73,6 +90,9 @@ def build(src, sha):
                         raise SystemExit(f'{w}：輪換至少要有 seat 或 mid')
                     if r.get('if'):
                         e['if'] = r['if']
+                    ro = (r.get('choice') or {}).get('opts') if r.get('choice') else r.get('opts')   # DLG-FX-MECH-1110：輪換那幾則也可以有選項
+                    if ro:
+                        e['opts'] = opts(ro, w)
                     P['rot'].append(e)
                 continue
             if not k.isdigit() or not 1 <= int(k) <= 6:

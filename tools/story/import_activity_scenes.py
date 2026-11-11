@@ -12,7 +12,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PATH = 'docs/story_planning/AA_708_activity_scenes.json'
 OUT = 'src/data/activity_scenes.js'
 KINDS = ('eat', 'cafe', 'movie', 'bookstore')
-ALT_COND = dict(ST.ALT_COND, **{'學姊已上法研所（2026-08 起）': 'sisGrad', '不在 2:30 AM': 'notCafe'})
+ALT_COND = dict(ST.ALT_COND, **{'學姊已上法研所（2026-08 起）': 'sisGrad', '不在 2:30 AM': 'notCafe', '交往中，或她的告白條件已到': 'datingOrReady'})   # datingOrReady：AA_708 d30416e6b（BB_342），src/studyn3d.js S.ALT
 LISTS = ST.LISTS
 
 
@@ -29,6 +29,9 @@ def person(hid, v, kind):
                     raise SystemExit(f'{w}[{i}]：輪換至少要有 seat 或 mid')
                 if r.get('if'):
                     e['if'] = r['if']
+                ro = (r.get('choice') or {}).get('opts') if r.get('choice') else r.get('opts')   # DLG-FX-MECH-1110：輪換那幾則也可以有選項（choice.opts 或 opts）
+                if ro:
+                    e['opts'] = ST.opts(ro, f'{w}[{i}].opts')
                 P['rot'].append(e)
             continue
         if not k.isdigit():
@@ -91,9 +94,13 @@ def main():
     if not ok:
         raise SystemExit(why)
     data = build(json.loads(ST.git('show', f'{sha}:{PATH}')), sha)
-    js = ('/* 自動產生：tools/story/import_activity_scenes.py（' + data['src'] + '）。不要手改，改企劃 AA_708 再重新匯入。\n'
+    import ps755   # 2026-11-11（X327 沛珊重寫）：AA_755_peishan_feed_misc.json 的 other 逐則 old→new 疊在 classmate_peishan 上（tools/story/ps755.py；白名單沒有那份稿＝不換）
+    n755 = ps755.apply(data, 'activity_scenes.js', ROOT, allow)
+    js = ('/* 自動產生：tools/story/import_activity_scenes.py（' + data['src'] + (f'；沛珊 {n755} 處照 {ps755.tag(ROOT, allow)}' if n755 else '') + '）。不要手改，改企劃 AA_708 再重新匯入。\n'
           '   一起活動第 1～N 次（吃飯、咖啡、電影、書店；播放 src/studyn3d.js STUDYN.act）*/\n'
           "'use strict';\nconst ACTIVITY_SCENES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
+    import l118_fix772   # 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 給這個檔的幾列 old→new 疊在組好的文字上（tools/story/l118_fix772.py；白名單沒有那份稿＝不疊）
+    js = l118_fix772.layer_js(OUT, js, ROOT, allow)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''
