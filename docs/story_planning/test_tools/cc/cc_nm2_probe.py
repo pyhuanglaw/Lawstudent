@@ -522,7 +522,8 @@ async def part_season(pg, cdp):
     if not Ly: R.check('[SEASON] 有配置', False); return
     q = next((x for x in stalls_of(Ly, 'buy') if KIND[x['kind']] == 's10'), None)
     if not R.check('[SEASON] 配置有阿婆甜湯（s10）', bool(q)): return
-    for dk, closed_h, open_h in ((DAYS['JUL'], 13 + 59 / 60, 14 + 1 / 60), (DAYS['DEC'], 16 + 59 / 60, 17 + 1 / 60), (DAYS['APR'], 14 + 1 / 60, 17 + 1 / 60)):
+    # r2（CC 01:2x）：「還沒開」那一次改在邊界前 5 分鐘按——PC 上讀檔到按下去時間走了約 1 分鐘，13:59 按到的是 14:00（已開），look 被那一次念掉、後面「第一次按念 look」連帶 FAIL（TEST_BUG）
+    for dk, closed_h, open_h in ((DAYS['JUL'], 13 + 55 / 60, 14 + 1 / 60), (DAYS['DEC'], 16 + 55 / 60, 17 + 1 / 60), (DAYS['APR'], 14 + 1 / 60, 17 + 1 / 60)):
         m = month_of(dk); E = exp_of(q['kind'], m); tg = '[SEASON %d 月 %s]' % (m, dk)
         R.note('%s 稿：季節 %s；開 %s～%s；look %d 句；greet 清單 %s' % (tg, E['season'] or '一般', hhmm(E['hours'][0]), hhmm(E['hours'][1]), len(E['look']), J(E['greet'])))
         try:
