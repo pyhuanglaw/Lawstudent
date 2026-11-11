@@ -39557,11 +39557,11 @@
    "id": "VAC-GAP-ROUTES",
    "title": "日本／美國路線的寒暑假、出發前、回國後空白缺口表＋第一批稿（AA）",
    "area": "STORY",
-   "owner": "AA",
-   "status": "等待其他AI／素材",
+   "owner": "BB",
+   "status": "已整合待測試",
    "priority": "P2",
    "nextCheck": "2026-11-08",
-   "next": "【11-08 02:1x LAWWW-B 照 AA-B 02:18（企劃線 da5ff447a）】AA 11-08 用 4c94585ca 複查完：AA_660（第一批）＋AA_667（第二批：同時交往的另一位、可昕日本 8/5）都已在遊戲裡；只和芷若／子晴／語彤／沛珊交往的不會走日本／美國（routeFor 只看學姊、以安），不是缺口；臺灣零星空白照 AA_660 第 1 節不補。AA 這邊只剩國外那幾個月到遊戲裡逐週重讀（掃描算不到 us_life3d／jp3d 的 3D 日子），排在 BB 測完 AA_660／667 之後。 ｜ 【LAWWW-C 11-04 14:08】AA-C 13:49 交第一批 AA_660（企劃線 d88f39e3f；outbox 8f6bf1527）：日本／美國路線出發前、回國後在臺灣的空白（缺口表六項＋稿；條件看 routeAbroadRoute）→ 實作 AA660-VAC-GAP-1104（LAWWW，v9.10.20 以後）；AA 下一批：交往中的告別、重逢、國外逐週重讀｜【LAWWW-C 11-04 13:1x】使用者 13:0x 選擇題對 AA-C「恢復，現在就補」（UA-AA-1104-15）：恢復；AA-C 背景掃描 vsweep_routes.js（JP／US，head ebd44c2e3），出來寫缺口表和第一批稿，照 outbox 交 LAWWW｜【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；掃描輸出 vsw_JP.json、vsw_US.json 只在 AA scratchpad、沒有遠端備份，恢復時用存檔的工具重跑",
+   "next": "【11-11 11:5x AA 稿已交、等 BB／CC 抽測】AA 國外那幾個月重讀完（AA_806 第 5 節，企劃線 075aa21f2）：美國＝AA_807／808（LAWWW 已套進發版後那批 3fd990503）；日本 jp_events／jp_blank_lines／sis_jp_events／jp3d／jp_blank3d／jpprep3d 沒有要改。下一步 BB／CC 抽測國外那幾個月（發版後）。｜【11-08 02:1x LAWWW-B 照 AA-B 02:18（企劃線 da5ff447a）】AA 11-08 用 4c94585ca 複查完：AA_660（第一批）＋AA_667（第二批：同時交往的另一位、可昕日本 8/5）都已在遊戲裡；只和芷若／子晴／語彤／沛珊交往的不會走日本／美國（routeFor 只看學姊、以安），不是缺口；臺灣零星空白照 AA_660 第 1 節不補。AA 這邊只剩國外那幾個月到遊戲裡逐週重讀（掃描算不到 us_life3d／jp3d 的 3D 日子），排在 BB 測完 AA_660／667 之後。 ｜ 【LAWWW-C 11-04 14:08】AA-C 13:49 交第一批 AA_660（企劃線 d88f39e3f；outbox 8f6bf1527）：日本／美國路線出發前、回國後在臺灣的空白（缺口表六項＋稿；條件看 routeAbroadRoute）→ 實作 AA660-VAC-GAP-1104（LAWWW，v9.10.20 以後）；AA 下一批：交往中的告別、重逢、國外逐週重讀｜【LAWWW-C 11-04 13:1x】使用者 13:0x 選擇題對 AA-C「恢復，現在就補」（UA-AA-1104-15）：恢復；AA-C 背景掃描 vsweep_routes.js（JP／US，head ebd44c2e3），出來寫缺口表和第一批稿，照 outbox 交 LAWWW｜【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；掃描輸出 vsw_JP.json、vsw_US.json 只在 AA scratchpad、沒有遠端備份，恢復時用存檔的工具重跑",
    "first": {
     "term": "Y3S1",
     "week": 0,
@@ -39786,7 +39786,7 @@
    },
    "source": "使用者 2026-11-02 03:4x 直接對 AA（企劃線 73402665 AA_570 第 0 節）；D118",
    "authorized": "使用者直接指派；D109 劇情 AA 定",
-   "next": "AA_638 已接（總複習字、①-4、④-7、④-8）",
+   "next": "【11-11 11:5x AA】大一下課堂內容準備 AA_809（92c456c79）：三科逐週要補什麼、9 處期末考點課堂上沒講到；11-13 開始寫正式稿，寫完一科交 BB 法律審。｜AA_638 已接（總複習字、①-4、④-7、④-8）",
    "xai": {
     "spec": "AA_570 第 0 節、D118",
     "branch": "claude/story-planning",
