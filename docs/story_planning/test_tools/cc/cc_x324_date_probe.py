@@ -239,6 +239,10 @@ ST = r"""(()=>{ const D=GAME.D||{}, ch=document.getElementById('choices'), tx=do
     phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()), adv:!!(typeof ADV!=='undefined'&&ADV.active), zone:GAME.G.zone, day:GAME.G.day, hour:+(+GAME.G.hour).toFixed(3), money:GAME.G.money|0,
     trip:T?{id:T.trip,status:T.status,locs:T.locs,depart:T.depart,kind:T.kind,spots:T.spots||[]}:null, busy:!!(GAME.E&&GAME.E.player&&GAME.E.player.busy)}; })()"""
 
+DLG_TOP_JS = r"""(()=>{ const d=document.getElementById('dlg'), ch=document.getElementById('choices'); if(!d) return {ok:false,why:'沒有 #dlg'};
+  const nb=(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).length:0; if(nb) return {ok:false,why:'選單在畫面上',nb:nb};
+  const r=d.getBoundingClientRect(); const e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2); return {ok:!!e&&(e===d||d.contains(e)), top:e?(e.id||String(e.className).slice(0,40)||e.tagName):null}; })()"""
+
 IDLE_JS = r"""(()=>{ const D=GAME.D||{}, E=GAME.E||{}, P=E.player||{}; const f2=v=>v==null?null:+(+v).toFixed(2);
   const ch=document.getElementById('choices'); const B=(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>(b.textContent||'').trim().slice(0,30)):[];
   const T=(GAME.G.trips||[]).slice(-1)[0]||null;
@@ -314,6 +318,9 @@ async def tap_dlg(pg, cdp, s, screen):
     if s['dlg'] and s['full'] and (not screen or screen[-1][:2] != [s['name'], s['full']]):
         screen.append([s['name'], s['full'], s['hour'], s['money']])
         await scan(pg)
+    chk = await pg.evaluate(DLG_TOP_JS)   # 乙 4：點對話框之前確認最上面是對話框、沒有選單（選單一出來，點對話框中間會點到選項：SPLIT r1 出發前的「到時間再說」疑似這樣被點掉）
+    if not chk.get('ok'):
+        log('    ！不點對話框：%s' % J(chk)); await pg.wait_for_timeout(300); return s
     await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450)
     return s
 
@@ -488,6 +495,8 @@ async def depart(pg, cdp, dep, screen, tag, max_s=1800):
             if t is None: skipped[-1]['wait'] = True; log('  沒有不超過出發前 1 小時的跳過鍵：等遊戲時間自己走（%.2f → %.2f）' % (s['hour'], tgt))
             continue
         await pg.wait_for_timeout(1000)
+    tail = await pg.evaluate("(window.__ZE||[]).slice(-8).map(e=>[e.k,e.t||e.opts||e.label,e.pick==null?null:e.pick])")
+    log('    ！[%s] 等出發逾時：最後的 HOOK 事件 %s' % (tag, J(tail)))
     return None, skipped
 
 
