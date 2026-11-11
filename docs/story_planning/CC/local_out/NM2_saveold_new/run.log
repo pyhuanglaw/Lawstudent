@@ -1,0 +1,34 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm2_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM2_saveold_new\out
+CC NM2 夜市能看能買：PARTS SAVE,OLD；STALLS 全部；SHA e8918a013；稿 fixtures\nm2；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.7s] 記錄層：ok（包 GAME.say／choose／toast 只記錄，照原樣呼叫）
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-14 20:00 錢 3000 元 （讀配置）
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-14 20:00 (18.50,0.25) 錢 3000 元 （st_ball 一個地球 客人那一面 1.9 m）
+PASS [SAVE st_ball 一個地球] 互動鍵寫「看一個地球」  看一個地球
+PASS [SAVE st_ball 一個地球] 第一次按念 look  [["", "（深藍色的小推車，招牌是一顆地球，旁邊有幾顆黃色的球繞著它轉。仔細看，那幾顆是地瓜球。）"], ["", "（大油鍋裡，一勺地瓜球浮上來，越壓越大。）"], ["老闆", "雙色是黃的加紫的，味道一樣，拍照比較好看。"]]
+PASS [SAVE st_ball 一個地球] 買「經典地瓜球」扣 50  [3000, 2950]
+  [  67.1s] [SAVE st_ball 一個地球] ☰ → 存檔 → 欄位 1「存檔」（觸控）→ {"day": 59, "key": "2025-11-14", "h": 20.146, "money": 2950, "zone": "tingzhou", "pos": {"x": 18.5, "z": 0.25, "yaw": 0, "lv": 0, "y": 0}, "keys": 52}
+PASS [SAVE st_ball 一個地球] 欄位 1 的錢＝買完的錢 2950  {"day": 59, "key": "2025-11-14", "h": 20.146, "money": 2950, "zone": "tingzhou", "pos": {"x": 18.5, "z": 0.25, "yaw": 0, "lv": 0, "y": 0}, "keys": 52}
+  [前置／捷徑] [SAVE st_ball 一個地球] 【捷徑】讀檔前把錢改成 1234（看讀進來的是存檔的錢）
+  [  75.3s] [SAVE st_ball 一個地球]① ☰ → 存檔 → 欄位 1「讀取」（觸控；欄位 1 11 月 14 日 20:08 · 汀州路 · 祐廷 2026/11/11 上午8:55:57 存檔 讀取 刪除）
+PASS [SAVE st_ball 一個地球]① 遊戲中讀欄位 1：錢＝2950  {"money": 2950, "zone": "tingzhou", "h": 20.17511133333339}
+  [  78.6s] [SAVE st_ball 一個地球]① 讀檔後再按：不念 look（BB 00:45：讀檔後再念一次只記不判）
+PASS [SAVE st_ball 一個地球]② 重新整理後遊戲載入
+  [前置／捷徑] [SAVE st_ball 一個地球]② 重新整理後關掉條件事件、手機自動打開（同 load_state quiet_events；只測夜市）
+  [ 101.8s] [SAVE st_ball 一個地球]② 標題「讀取／匯入存檔」→ 欄位 1「讀取」（觸控；欄位 1 11 月 14 日 20:08 · 汀州路 · 祐廷 2026/11/11 上午8:55:57 存檔 讀取 刪除）
+PASS [SAVE st_ball 一個地球]② 重新整理 → 標題讀欄位 1：錢＝2950、同一天、汀州路  {"money": 2950, "zone": "tingzhou", "h": 20.162108666666704, "key": "2025-11-14"}
+  [ 106.8s] [SAVE st_ball 一個地球]② 重新整理再讀、同一天再按：又念 look（BB 00:45：只記不判；「今天看過」只在記憶體）
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 20:00 錢 3000 元 （讀配置）
+PASS [OLD] 公館有鮮奶攤
+  [前置／捷徑] [OLD] 舊存檔 fixtures\user_saves_1107\fatiao3d_save_day46.json（v=2、存的時間 2026-11-06 00:47 UTC、day 46、原本 dorm 07:33、錢 94900）；【捷徑】只改 zone→gongguan、hour→20:00、pos→鮮奶攤前 1.9 m；寫進欄位 1、清自動存檔；重新整理 → 標題讀
+PASS [OLD] 重新整理後遊戲載入
+  [前置／捷徑] [OLD] 重新整理後關掉條件事件、手機自動打開（同 load_state quiet_events；只測夜市）
+  [ 146.8s] [OLD] 標題「讀取／匯入存檔」→ 欄位 1「讀取」（觸控；欄位 1 11 月 1 日 20:00 · 公館 · 祐廷 2026/11/6 上午8:47:11 存檔 讀取 刪除）
+PASS [OLD] 讀進來：公館、錢＝存檔的 94900  {"money": 94900, "zone": "gongguan", "h": 20.018441333333364, "key": "2025-11-01", "v": 2}
+PASS [OLD] 互動鍵寫「看沈三盃黑糖鮮奶」  看沈三盃黑糖鮮奶
+PASS [OLD] 買得到「黑糖珍珠鮮奶」扣 65  {"m0": 94900, "m1": 94835, "picked": [[0, "黑糖珍珠鮮奶　65 元"]]}
+PASS [OLD] 讀舊存檔、買東西：沒有 JS 例外  []
+PASS 畫面上沒有出現「整條巷子都聞得到」「書忘在這裡」「粉筆畫的框」（整個過程收到 24 段字）  {"整條巷子都聞得到": [], "書忘在這裡": [], "粉筆畫的框": []}
+PASS 沒有 JS 例外  []
+ALL PASS
