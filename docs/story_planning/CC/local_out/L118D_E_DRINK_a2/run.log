@@ -1,0 +1,32 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_e_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_E_DRINK_a2\out
+CC L118D_E（118 巷課後午餐邀約）：SHA=a2dd74af1 worktree=?；PARTS=DRINK；REL=FRI；橫向；Playwright 手機模擬 ≠ iPhone
+== DRINK
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS DRINK：遊戲載入
+  [  25.8s] DRINK：兩間外帶店的邀約地點 {"drink_a": {"place": {"zone": "lane118", "name": "喝不喝咖啡", "verb": "去喝不喝咖啡買飲料、走一走", "kind": "walk", "minStage": "FRIEND", "times": [14, 16, 19.5], "meetAt": [3.6, -4.5, -1.5707963267948966]}, "layout": {"side": "E", "z0": -7, "z1": -2}, "facade": {"west": -5.2, "east": 5.2}, "shop": "喝不喝咖啡"}, "drink_b": {"place": {"zone": "lane118", "name": "果茶社", "verb": "去果茶社買飲料、走一走", "kind": "walk", "minStage": "FRIEND", "times": [14, 16, 19.5], "meetAt": [-3.6, -7.5, 1.5707963267948966]}, "layout": {"side": "W", "z0": -9, "z1": -6}, "facade": {"west": -5.2, "east": 5.2}, "shop": "果茶社"}}
+PASS DRINK：drink_a（喝不喝咖啡）有邀約地點 l118_drink_a
+PASS DRINK：drink_a 見面點＝店門口（區域 lane118、meetAt [3.6, -4.5, -1.5707963267948966] ≈ 店面外 1.6 m、店面中間 [3.6, -4.5]）
+PASS DRINK：drink_b（果茶社）有邀約地點 l118_drink_b
+PASS DRINK：drink_b 見面點＝店門口（區域 lane118、meetAt [-3.6, -7.5, 1.5707963267948966] ≈ 店面外 1.6 m、店面中間 [-3.6, -7.5]）
+  [前置／捷徑] DRINK：最小存檔 2025-10-31（第 45 天）11.00 dorm（條件事件關著）
+  [前置／捷徑] DRINK：好友值 FRI（熟悉 50、信任 35、自在 20）：{"heroine_01": "FRIEND"}
+  [前置／捷徑] DRINK：heroine_01 朋友級距、有聯絡方式，2025-10-31（週五）11:00 宿舍（條件事件關著）
+  [  50.3s] DRINK：約她去哪 ["念書…2:30 AM、總圖、法律學院圖書館、afar café、社科院圖書館", "吃飯…公館燒臘、SUNNY SIDE、Daybreak、洋洋鹹酥雞", "喝咖啡、喝茶…2:30 AM、一盞、afar café", "去頁間書屋逛逛", "散步…溫州街、映月湖、喝不喝咖啡、果茶社", "運動…新體育館羽球場、椰影大道", "出去玩…你們現在是朋友。再多相處一陣子。", "算了"]
+  [  51.0s] DRINK：散步那一層 ["去溫州街散步", "去映月湖走走", "去喝不喝咖啡買飲料、走一走", "去果茶社買飲料、走一走", "返回"]
+  [  51.7s] DRINK：時間 [{"t": "今天 14:00", "full": "今天 14:00", "dim": false}, {"t": "今天 16:00", "full": "今天 16:00", "dim": false}, {"t": "今天 19:30", "full": "今天 19:30", "dim": false}, {"t": "明天 14:00", "full": "明天 14:00", "dim": false}, {"t": "明天 16:00", "full": "明天 16:00", "dim": false}, {"t": "明天 19:30", "full": "明天 19:30", "dim": false}, {"t": "其他日子…", "full": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "full": "算了", "dim": false}]
+  [  57.0s] DRINK [第45天 11.069 dorm] 選單 [["念書…", "", "2:30 AM、總圖、法律學院圖書館、afar café、社科院圖書館"], ["吃飯…", "", "公館燒臘、SUNNY SIDE、Daybreak、洋洋鹹酥雞"], ["喝咖啡、喝茶…", "", "2:30 AM、一盞、afar café"], "去頁間書屋逛逛", ["散步…", "", "溫州街、映月湖、喝不喝咖啡、果茶社"], ["運動…", "", "新體育館羽球場、椰影大道"], ["出去玩…", "灰", "你們現在是朋友。再多相處一陣子。"], "算了"]
+  [  57.0s] DRINK [第45天 11.069 dorm]   → 選了 #4 散步…
+  [  57.0s] DRINK [第45天 11.069 dorm] 選單 ["去溫州街散步", "去映月湖走走", "去喝不喝咖啡買飲料、走一走", "去果茶社買飲料、走一走", "返回"]
+  [  57.0s] DRINK [第45天 11.069 dorm]   → 選了 #2 去喝不喝咖啡買飲料、走一走
+  [  57.0s] DRINK [第45天 11.069 dorm] 選單 ["今天 14:00", "今天 16:00", "今天 19:30", "明天 14:00", "明天 16:00", "明天 19:30", ["其他日子…", "", "之後 7 天內選一天"], "算了"]
+  [  57.0s] DRINK [第45天 11.069 dorm]   → 選了 #0 今天 14:00
+  [  57.0s] DRINK [第45天 11.069 dorm] 說 沈以安（手機）：喝不喝咖啡？好。走一走也好。
+  [  57.0s] DRINK [第45天 11.069 dorm] 說 （旁白）：約好 今天 14:00，喝不喝咖啡。
+PASS DRINK：約成了（{"id": "iv1", "day": 45, "h": 14, "zone": "lane118"}）
+  [前置／捷徑] DRINK：同一份進度 13.78 讀到 118 巷（lane118 的落點；不是走過去）（條件事件關著）
+  [  87.0s] DRINK：heroine_01 在 {"x": 3.6, "z": -4.5, "lv": 0, "beh": "idle", "pose": "idle", "hidden": false, "leaving": false, "name": "沈以安", "label": "和沈以安說話", "talk": true, "dMe": 35.68}；見面點 [3.6, -4.5, -1.5707963267948966]；巷子落點 [0, 31]；最近距離 0.0
+PASS DRINK：她在喝不喝咖啡店門口等（離 meetAt ≤1.5 m）  {"x": 3.6, "z": -4.5, "lv": 0, "beh": "idle", "pose": "idle", "hidden": false, "leaving": false, "name": "沈以安", "label": "和沈以安說話", "talk": true, "dMe": 35.68}
+  [  87.0s] DRINK：見面點離巷子落點 35.7 m（不是在落點等）
+PASS DRINK：沒有 JS 例外（pageerror）  []
+  [  87.4s] DRINK 花了 1.4 分鐘
+ALL PASS
