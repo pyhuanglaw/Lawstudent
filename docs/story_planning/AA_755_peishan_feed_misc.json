@@ -9,7 +9,8 @@
    "動態牆：每一則的 id、who、t（時間）、st（要多熟才看得到）都不動，只換 pic（照片描述）、say（貼文）、cm（留言與她的回覆）、dm（私訊與她的回覆）。照片是文字描述，不用另外生圖；如果哪一則有對應的圖檔，請 LAWWW 告訴 BB。",
    "date_lines.js（校外約會台詞）裡她提到早餐店的三十幾處不在這份，整批重寫時一起換。",
    "動態牆有六則我順手把貼文時間從清晨改成比較合理的時間（new.t）；如果時間不能動（排序、測試、解鎖條件會受影響），就留原本的 t，只換 pic／say／cm／dm——內容都沒有寫死是幾點。",
-   "BB_324 的修正已改（2026-11-11）：ps4f 的私訊不重複階梯 P6-L3；七夕 B 換掉（不讓她變笨）；ps1b 不講星期；「早上起不來」和階梯的早安招呼對齊；新增 fest（節日整段，含 2/14）。"
+   "BB_324 的修正已改（2026-11-11）：ps4f 的私訊不重複階梯 P6-L3；七夕 B 換掉（不讓她變笨）；ps1b 不講星期；「早上起不來」和階梯的早安招呼對齊；新增 fest（節日整段，含 2/14）。",
+   "2026-11-11 X324 E 區補：gift_holiday 沛珊 31 列（other 最後面）。刪節號照故事線的規則拿掉；舊的「愛問問題」（筆用來想問題、問題本、喜鵲的答案）和「太貴了捨不得吃」換掉；生日 C「好久沒有這樣了」和家裡每年做壽桃對不上，換掉。bday B、bday D、七夕 B、existing[1] 上面已經有列，不重複。"
   ]
  },
  "feed": [
@@ -305,6 +306,305 @@
    "old": "AA_416 2/14（交往中、台中）：畫了愛心的蛋餅＝那一年的 2/14 禮物",
    "new": "AA_416 2/14（交往中、台中）：她用紅筆在便條紙上畫的笑臉（她改作業畫的那一個），背面寫「今天你來台中，這張給你」＝那一年的 2/14 禮物",
    "note": "那一天如果有事件演「蛋餅上畫愛心」（AA_416 的 2/14 台中那一場，CG-118），請 LAWWW 把那一場貼給我，我整場重寫；CG-117、CG-118 兩張的需求我已經從 AA_597 刪掉。"
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan open.xmas.C（源稿 AA_733）",
+   "old": [
+    "……欸，你特地拿來給我？"
+   ],
+   "new": [
+    "欸，你特地拿來給我？我什麼都沒準備欸，我現在去買還來得及嗎？"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan open.vday.A（源稿 AA_733）",
+   "old": [
+    "情人節……？欸，這個可以收嗎？"
+   ],
+   "new": [
+    "情人節送我？欸，這個收下去是不是要負責。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan open.vday.C（源稿 AA_733）",
+   "old": [
+    "（她接過去，抱在胸前。）……我可以當作是那個意思嗎？"
+   ],
+   "new": [
+    "（她接過去，抱在胸前。）我可以當作是那個意思嗎？不可以的話不要講，我要當作是。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan open.qixi.C（源稿 AA_733）",
+   "old": [
+    "……今天是七夕。我剛剛一直在看手機。"
+   ],
+   "new": [
+    "今天是七夕喔。我剛剛一直在看手機，假裝在看別的。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan open.qixi.D（源稿 AA_733）",
+   "old": [
+    "七夕快樂。……我好開心你今天在。"
+   ],
+   "new": [
+    "七夕快樂！我好開心你今天在。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan open.bday.A（源稿 AA_733）",
+   "old": [
+    "你怎麼知道？……我只在讀書會說過一次。"
+   ],
+   "new": [
+    "你怎麼知道？我只在讀書會說過一次欸，你記性都用在這種地方喔。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan open.bday.C（源稿 AA_733）",
+   "old": [
+    "生日收到禮物……我好久沒有這樣了。"
+   ],
+   "new": [
+    "生日收到禮物！我爸以外的人送的，這個要記下來。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan item.g_philo_book.*（源稿 AA_733）",
+   "old": [
+    "我在旁聽的那門課，老師推薦過這本。……你記得。"
+   ],
+   "new": [
+    "這本我在哲學系那門課聽老師提過，一直沒買。你是不是偷看我筆記。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan item.g_gel_pen.*（源稿 AA_733）",
+   "old": [
+    "我的問題都是用筆想的。……這支我會寫很多問題。"
+   ],
+   "new": [
+    "這支好寫。我改課輔班作業都用紅筆，這支換來畫笑臉。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan item.g_stickers.*（源稿 AA_733）",
+   "old": [
+    "這個我要拿去課輔班。……第一張留給我。"
+   ],
+   "new": [
+    "這個我要拿去課輔班，他們會搶到打起來。第一張我先留著。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan item.g_anime_ost.*（源稿 AA_733）",
+   "old": [
+    "啊！！這張我一直沒買！",
+    "……你怎麼知道是這部。"
+   ],
+   "new": [
+    "啊！！這張我一直沒買！",
+    "你是不是偷看我手機桌布。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan item.g_sunflower.*（源稿 AA_733）",
+   "old": [
+    "向日葵！……我要插在書桌上。"
+   ],
+   "new": [
+    "向日葵！我要插在書桌上，讓它每天看我讀書，壓力給它。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan item.g_fancy_choco.*（源稿 AA_733）",
+   "old": [
+    "……這個太貴了。我會捨不得吃。"
+   ],
+   "new": [
+    "這牌子我家過年收了好幾盒，我媽都拿去送人……啊，我不是那個意思。我會吃的。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan love.A（源稿 AA_733）",
+   "old": [
+    "謝謝！！……你人好好喔。"
+   ],
+   "new": [
+    "謝謝！！你人好好喔，我要開始對你好一點了。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan love.C（源稿 AA_733）",
+   "old": [
+    "（她笑得很開心，笑完眼睛有點紅。）……謝謝你。真的。"
+   ],
+   "new": [
+    "（她笑得很開心，笑完眼睛有點紅。）謝謝你。真的。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan ok.C（源稿 AA_733）",
+   "old": [
+    "謝謝。……你有吃飯嗎？"
+   ],
+   "new": [
+    "謝謝。你挑的時候有沒有猶豫很久？有的話我比較開心。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan no.A（源稿 AA_733）",
+   "old": [
+    "謝謝～……我會好好收著。"
+   ],
+   "new": [
+    "謝謝～我會好好收著，收在你找不到的地方。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan no.B（源稿 AA_733）",
+   "old": [
+    "謝謝！……這個我不太會用，可是謝謝！"
+   ],
+   "new": [
+    "謝謝！這個我不太會用，可是我可以拿去考課輔班的小孩這是什麼。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan no.C（源稿 AA_733）",
+   "old": [
+    "你是不是很煩惱要送什麼？",
+    "……不用煩惱啦，你來就好了。"
+   ],
+   "new": [
+    "你是不是很煩惱要送什麼？",
+    "下次直接問我，我會給你一份清單，很長的那種。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan no.D（源稿 AA_733）",
+   "old": [
+    "這個……老實說我不太需要。",
+    "可是是你送的，我會用用看。"
+   ],
+   "new": [
+    "這個喔，老實說我不太需要。",
+    "可是是你送的，我會用用看。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 xmas.B.lines（源稿 AA_734）",
+   "old": [
+    "每個人都有喔！……你的那張寫比較多。"
+   ],
+   "new": [
+    "每個人都有喔！你的那張寫比較多，因為你比較難寫。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 xmas.D2.item（源稿 AA_734）",
+   "old": "一本問題本",
+   "new": "一本她畫的漫畫"
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 xmas.D2.scene（源稿 AA_734）",
+   "old": "（每一頁上面都寫著一個問題。）",
+   "new": "（畫的是你們兩個，你的臉每一頁都不太一樣。）"
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 xmas.D2.lines（源稿 AA_734）",
+   "old": [
+    "這學期我想問你的問題。……你一題一題回答我。"
+   ],
+   "new": [
+    "我畫了一學期。你的臉我一直畫不好，所以每一頁長得都不一樣，不是我的問題。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 vday.C.lines（源稿 AA_734）",
+   "old": [
+    "第一次做，形狀很怪。……可是很好吃喔！"
+   ],
+   "new": [
+    "第一次做，形狀很怪。我媽說像課輔班小孩捏的黏土，我覺得她太客氣了。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 qixi.C.item（源稿 AA_734）",
+   "old": "一張摺起來的紙條",
+   "new": "一張摺成紙鶴的紙條"
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 qixi.C.scene（源稿 AA_734）",
+   "old": "（紙條摺成一隻小鳥。）",
+   "new": "（紙條摺成一隻紙鶴，有一邊的翅膀比較大。）"
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 qixi.C.lines（源稿 AA_734）",
+   "old": [
+    "七夕的故事為什麼是喜鵲？……我寫了我的答案。"
+   ],
+   "new": [
+    "課輔班的小孩教我摺的。裡面有寫字，你回家再看，不然我會想鑽到地下。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 qixi.D.item（源稿 AA_734）",
+   "old": "喜鵲的答案",
+   "new": "一張拍立得"
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 qixi.D.scene（源稿 AA_734）",
+   "old": "（她把一個信封放在你手上，封口貼了一張星星貼紙。）",
+   "new": "（照片裡是你，在看別的地方。）"
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 qixi.D.lines（源稿 AA_734）",
+   "old": [
+    "去年你問的。……答案寫在裡面。不可以現在看喔。"
+   ],
+   "new": [
+    "你都沒發現我拍了這張。我留了很久，今天才敢拿出來。"
+   ]
+  },
+  {
+   "file": "gift_holiday.js",
+   "at": "classmate_peishan 她送的 existing[2]（源稿 AA_734）",
+   "old": "AA_416 七夕（交往中）：「我查到了。……不告訴你。」那一年不送喜鵲的答案，明年才送",
+   "new": null,
+   "note": "拿掉（喜鵲的答案是舊設定；fest 的七夕已經改掉）。七夕交往中改用上面 qixi.D 的拍立得。"
   }
  ],
  "fest": {
