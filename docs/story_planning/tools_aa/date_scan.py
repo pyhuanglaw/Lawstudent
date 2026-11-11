@@ -53,6 +53,18 @@ for k,v in D.items():
             for i,t in meta: print('      比喻',i,t)
         if len(cmd)>1:
             for i,t in cmd: print('      命令',i,t)
+    if who=='heroine_01':
+        chk=[(i,t) for i,key,t in hers if re.search('我查過|查過了|我查了|查好',t)]
+        mins=[(i,t) for i,key,t in hers if '分鐘' in t]
+        plan=[(i,t) for i,key,t in hers if re.search('行程|排好|排了|沒排|順序',t)]
+        law=[(i,t) for i,key,t in hers if re.search('考試|期中|期末|法條|判決|法官|法律|讀書|念書|唸書',t)]
+        ok=[(i,t) for i,key,t in hers if re.match(r'(（[^）]*）)?好。',t)]
+        cmd=[(i,t) for i,key,t in hers if '不准' in t]
+        over=len(chk)>1 or len(mins)>2 or len(plan)>2 or len(law)>2 or len(ok)>3 or len(cmd)>1
+        print(f'    我查過 {len(chk)}、分鐘 {len(mins)}、行程順序 {len(plan)}、考試法律 {len(law)}、「好。」開頭 {len(ok)}、不准 {len(cmd)}'+(' ←' if over else ''))
+        for nm,lst,lim in (('查',chk,1),('分',mins,2),('排',plan,2),('法',law,2),('好',ok,3),('令',cmd,1)):
+            if len(lst)>lim:
+                for i,t in lst: print('      '+nm,i,t)
     if who=='kexin':
         cmd=[(i,t) for i,key,t in hers if re.search('不准|你不要|(^|[。，！？）])不要|別想',t)]
         yl=[(i,t) for i,key,t in v if '予樂' in t]; sc=[(i,t) for i,key,t in v if '行程表' in t]
