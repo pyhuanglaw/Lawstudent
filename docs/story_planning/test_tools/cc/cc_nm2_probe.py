@@ -648,7 +648,7 @@ async def part_save(pg, cdp, errs):
         btn = (await L.state(pg))['interact']
         if btn != E['label']: btn = await go_stall(pg, cdp, q, day, g['h'], money=g['money'], why='（讀檔後鍵不是這一攤：重站；錢照讀進來的）')
         r = await press(pg, cdp, tag + '① 再按')
-        R.check('%s① 讀檔後再按：不重念 look' % tag, not [t for _, t in r['pre'] if t in E['look']], J(r['pre']))
+        R.note('%s① 讀檔後再按：%s念 look（BB 00:45：讀檔後再念一次只記不判）' % (tag, '又' if [t for _, t in r['pre'] if t in E['look']] else '不'))
     # ② 重新整理 → 標題讀
     await reload_page(pg, tag + '②')
     if await title_load(pg, cdp, tag + '②', 1):
@@ -659,7 +659,7 @@ async def part_save(pg, cdp, errs):
             pt = await pg.evaluate(NMPT, q['id'])
             if pt: await L.go_to(pg, cdp, R, pt['x'], pt['z'], 0.35, '%s② 走回攤前' % tag, max_s=45)
         r = await press(pg, cdp, tag + '② 再按')
-        R.check('%s② 重新整理再讀、同一天再按：不重念 look（BB 的要求；程式註解寫「今天看過哪一攤只記在記憶體、不進存檔」）' % tag, not [t for _, t in r['pre'] if t in E['look']], J(r['pre']))
+        R.note('%s② 重新整理再讀、同一天再按：%s念 look（BB 00:45：只記不判；「今天看過」只在記憶體）' % (tag, '又' if [t for _, t in r['pre'] if t in E['look']] else '不'))
 
 
 async def part_old(pg, cdp, errs):
