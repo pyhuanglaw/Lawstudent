@@ -6,7 +6,8 @@
      和 zones3d.js 擺建築的位置相同；搬建築時這裡一起改。入口不用寫在這裡：大地圖和入口標記直接讀區域的出口互動點。 */
 const PLACES={
   names:{ gongtong:'共同教學館', boya:'博思教學館', putong:'普通教學館', campus:'首都帝大校園', gongguan:'公館', tingzhou:'汀州路', wenzhou:'溫州街', lane118:'118 巷', cafe:'2:30 AM', cvs:'日和便利店', noodle:'公館燒臘', bikeshop:'慢輪單車', aoki:'青木茶室', afar:'afar café', daybreak:'Daybreak', yangyang:'洋洋鹹酥雞', corner_records:'轉角唱片', bookstore:'頁間書屋', wz_brunch:'SUNNY SIDE', wz_print:'阿德影印輸出', xs_tongxian:'同弦樂器', xs_nanyang:'南洋戲院', xs_nanyang_hall:'南洋戲院 1 廳', xs_shanlan:'山嵐書店', xs_dakou:'大口漢堡', xs_dabu:'大步球鞋', xs_haopai:'好拍運動', xs_xsports:'新生運動廣場', wz_teahouse:'一盞', wz_lin:'林家乾麵', wz_teishoku:'小路', wz_tea:'帝大紅茶', wz_books:'溫州書屋', wz_ice:'夏日冰菓室', wz_mokuyobi:'木曜日', wz_offbeat:'日常失速', xinsheng:'新生南路', gym:'綜合體育館', gym_b1:'綜合體育館 B1',
-    linze:'法律系館A', linze_3f:'法律系館A 3F 討論區', linze_4f:'法律系館A 4F 自習討論區', classroom:'法律系館A 201 教室', wancai:'法律系館B', library_hall:'總圖書館', library:'總圖 3F 閱覽區', library_b1:'總圖 B1 自習室・討論室', library_carrels:'總圖 2F 研究小間', library_stacks:'總圖 5F 書庫', lawlib:'法律學院圖書館', soclib:'社科院圖書館', dorm:'宿舍房間', dorm_hall:'男生宿舍' },
+    linze:'法律系館A', linze_3f:'法律系館A 3F 討論區', linze_4f:'法律系館A 4F 自習討論區', classroom:'法律系館A 201 教室', wancai:'法律系館B', library_hall:'總圖書館', library:'總圖 3F 閱覽區', library_b1:'總圖 B1 自習室・討論室', library_carrels:'總圖 2F 研究小間', library_stacks:'總圖 5F 書庫', lawlib:'法律學院圖書館', soclib:'社科院圖書館', dorm:'宿舍房間', dorm_hall:'男生宿舍',
+    gg_antai:'安泰藥局', gg_xianguo:'汀州鮮果', gg_rongendian:'榮恩典文具社', tz_taimi:'泰米村食', tz_xile:'洗樂洗衣坊', tz_yindehao:'印得好' },   /* 公館三間＋汀州路三間的室內（GG-SHOPS3-SYS-1110；關門的說明用這個名字）*/
   // open／close：小時（close 超過 24＝隔天凌晨）；text：畫面上寫的時間
   hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{open:8,close:22,text:'08:00–22:00'}, library:{open:8,close:22,text:'08:00–22:00'}, library_carrels:{open:8,close:22,text:'08:00–22:00'}, library_stacks:{open:8,close:22,text:'08:00–22:00'}, lawlib:{ rules:{ term:{wd:[8+10/60,21.75],we:[9+10/60,17]}, break:{wd:[9+10/60,17],we:null}, holiday:null },
       text:'學期間 週一至五 08:10–21:45、週六日 09:10–17:00；寒暑假 週一至五 09:10–17:00（週末不開）；國定、校定假日不開' },
@@ -55,7 +56,15 @@ const PLACES={
     xs_dabu:{shop:true,rules:{week:[[11,22],[11,22],[11,22],[11,22],[11,22],[11,22],[11,22]]},text:'每天 11:00–22:00'},
     xs_haopai:{shop:true,rules:{week:[null,[12,21],[12,21],[12,21],[12,21],[12,21],[12,21]]},text:'週一～週六 12:00–21:00；週日公休'},
     xs_xsports:{shop:true,rules:{week:[[11,22],[11,22],[11,22],[11,22],[11,22],[11,22],[11,22]]},text:'每天 11:00–22:00'},   /* 新生運動廣場（兩層；AA_620 第 1 節；區域 xs_xsports＝src/xsports3d.js，XS-SPORTS-V1-1105）*/
-    us_asian_market:{shop:true,rules:{week:[null,[10,21],[10,21],[10,21],[10,21],[10,21],[10,21]]},text:'週一～週六 10:00–21:00；週日公休'} },
+    us_asian_market:{shop:true,rules:{week:[null,[10,21],[10,21],[10,21],[10,21],[10,21],[10,21]]},text:'週一～週六 10:00–21:00；週日公休'},
+    /* 公館三間＋汀州路三間的室內（GG-SHOPS3-SYS-1110；AA_742 開頭的表，企劃線 75f5de658；區域＝src/tz_shops3d.js，台詞與打烊＝src/gg3shops3d.js）；颱風天都關（typhoonShops，洗樂照 AA_742「一律關比較穩」）。
+       印得好：期末考週和前一週延到 24:00（finalsClose；溫州街阿德影印的 examClose 是期中、期末都延，這間只有期末）；洗樂 24 小時（只寫說明，和便利商店一樣）*/
+    gg_antai:{shop:true,rules:{week:[[10,18],[9,22],[9,22],[9,22],[9,22],[9,22],[9,22]]},text:'週一～六 09:00–22:00、週日 10:00–18:00'},
+    gg_xianguo:{shop:true,rules:{week:[[10,22],[10,22],[10,22],[10,22],[10,22],[10,22],[10,22]]},text:'每天 10:00–22:00'},
+    gg_rongendian:{shop:true,rules:{week:[null,[9.5,21.5],[9.5,21.5],[9.5,21.5],[9.5,21.5],[9.5,21.5],[9.5,21.5]]},text:'週一～六 09:30–21:30；週日公休'},
+    tz_taimi:{shop:true,rules:{week:[[[11,14],[17,21]],null,[[11,14],[17,21]],[[11,14],[17,21]],[[11,14],[17,21]],[[11,14],[17,21]],[[11,14],[17,21]]]},text:'11:00–14:00、17:00–21:00；週一公休'},
+    tz_xile:{text:'24 小時'},
+    tz_yindehao:{shop:true,rules:{week:[null,[9,22],[9,22],[9,22],[9,22],[9,22],[10,18]],finalsClose:24},text:'週一～五 09:00–22:00、週六 10:00–18:00；週日公休（期末考週和前一週開到 24:00）'} },
   /* 法律學院圖書館（D53，使用者 2026-10-13 查證台大法律圖書館官網）：依日曆（src/data/calendar.js）分學期間／寒暑假／國定假日、平日／週末。
      rules 的時間：[開, 關]（小時）；null＝不開。其他地點照舊是每天同一個時間（open／close） */
   /* 有 rules 的地點：這一天的開放時間 [開, 關]、或 null（不開）。day 沒給就用現在的遊戲日（GAME.G.day）。
@@ -75,11 +84,15 @@ const PLACES={
     const w=typeof CALENDAR==='undefined'?(o.rules.week[1]||o.rules.week[3]):o.rules.week[CALENDAR.dateOf(day).wd%7]; if(!w) return null;
     const ws=(typeof w[0]==='number'?[w]:w).map(x=>x.slice());
     if(o.rules.examClose&&typeof CALENDAR!=='undefined'){ const t=CALENDAR.termOf(day); if(t&&t.exam) ws[ws.length-1]=[ws[ws.length-1][0],o.rules.examClose]; }   /* 影印店考試週開到 24:00 */
+    if(o.rules.finalsClose&&typeof CALENDAR!=='undefined'&&PLACES.finalsNear(day)) ws[ws.length-1]=[ws[ws.length-1][0],o.rules.finalsClose];   /* 印得好：期末考週和前一週開到 24:00（AA_742）*/
     return ws; },
   /* 這一天在不在開店的月份（rules.months；沒寫＝整年）：夏日冰菓室 5～9 月 */
   inSeason(zone,day){ const o=PLACES.hours[zone], M=o&&o.rules&&o.rules.months; if(!M) return true; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G&&GAME.G.day)||1; if(typeof CALENDAR==='undefined') return true; return M.includes(CALENDAR.dateOf(day).m); },
   /* 颱風假店家不開（AA_160 3-4 D，AA-B 2026-10-16：颱風假不能搭捷運、店家不開、不能打工、不能回家）；便利商店照開 */
-  typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_books','wz_mokuyobi','wz_offbeat','afar','daybreak','aoki','xs_tongxian','yangyang','corner_records'],
+  /* 期末考週或期末考的前一週（同一個學期；印得好的 finalsClose、src/gg3shops3d.js 的「裝訂期末報告」）*/
+  finalsNear(day){ if(typeof CALENDAR==='undefined'||!CALENDAR.termOf) return false; const t=CALENDAR.termOf(day); if(!t) return false; if(t.exam==='final') return true; const n=CALENDAR.termOf(day+7); return !!n&&n.id===t.id&&n.exam==='final'; },
+  typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_books','wz_mokuyobi','wz_offbeat','afar','daybreak','aoki','xs_tongxian','yangyang','corner_records',
+    'gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_xile','tz_yindehao'],   /* 公館三間＋汀州路三間（GG-SHOPS3-SYS-1110；洗樂 24 小時也照 AA_742「一律關比較穩」）*/
   typhoonClosed(zone,day){ if(!PLACES.typhoonShops.includes(zone)) return false; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G)?GAME.G.day:null; return day!=null&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(day); },
   isOpen(zone,h,day){ if(PLACES.typhoonClosed(zone,day)) return false; const o=PLACES.hours[zone]; if(!o) return true; if(h<0||h>=24) h=((h%24)+24)%24; if(o.rules){ const inW=(ws,x)=>!!ws&&ws.some(w=>x>=w[0]-1e-6&&x<w[1]-1e-6); const ws=PLACES.windowsOf(zone,day); if(inW(ws,h)) return true;
       /* 過午夜的那一段（late：[18,26]＝開到 02:00，小路 AA_655）：遊戲過了午夜還是同一天（G.hour 25，或呼叫的人先 %24 成 1）＝照這一天晚上那一段算（和 cafe 的 close>24 同一個想法）*/

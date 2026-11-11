@@ -1680,7 +1680,7 @@ const STORY = (function(){
   /* 明軒的「公館一百元以內」清單（BB_70 5-6 F-M1；店名照遊戲裡的店，D77）*/
   S.MX_FM1={head:'公館一百元以內（明軒版）。按 CP 值排。不接受申訴。',title:'公館一百元以內（明軒版）',
     rows:[['林家乾麵（溫州街）','小碗乾麵＋貢丸湯','100','飽足感除以價錢，第一名。沒有之一。'],['公館燒臘','叉燒飯','90','湯免費，這點加分。阿姨有時候多切一片叉燒，這個不能算進排名。'],   /* AA_519 1-5：原本「乾麵＋餛飩湯 85」（菜單乾麵 60、餛飩湯 70）*/
-          ['日日定食','今日定食（只有午餐）','95','剛好卡在一百以內。晚餐一百二，不算。'],['洋洋鹹酥雞','自己夾','80 以內','技巧：豆干多夾，肉少夾。'],
+          ['泰米村食（汀州路）','午間打拋豬肉飯（只有午餐）','95','剛好卡在一百以內。晚上一百一，不算。'],['洋洋鹹酥雞','自己夾','80 以內','技巧：豆干多夾，肉少夾。'],   /* AA_742 第 ③ 節（企劃線 75f5de658）：原本的日日定食改成泰米村食（標題「公館一百元以內」照舊：汀州路算公館商圈）*/
           ['Daybreak','厚蛋三明治','160','九點以前去不用排隊。週末不要去。'],['豆花・甜湯（溫州街）','豆花','40','這是甜點，不是正餐。可是讀到十一點，它就是正餐。'],
           ['日和便利店','飯糰＋豆漿','55','最後一名。可是它二十四小時開。最後一名是留給半夜的。']],
     tail:'價錢是十月的。漲價我會改。……大概。'};
@@ -2807,10 +2807,10 @@ const STORY = (function(){
           L[L.length-1]=Object.assign(L[L.length-1],{ask:{id:'sis_m3',until:d*24+22,opts}}); PHONE.at(G,d,20,L,'sis_m3'); }
         if(PHONE.sent(G,'sis_m3')&&!F.SIS_M3_REPLY&&G.day*24+G.hour>=d*24+22&&!PHONE.sent(G,'sis_m3_last')){ F.SIS_M3_REPLY='none'; PHONE.at(G,d,22,[W(LAST)],'sis_m3_last'); } } }
     /* 上榜的家族聚餐（BB_97 2-7b；大二下第 5 週週五 3/26 19:00）：M3 那晚 21:00 Kevin 在家族群組揪（「去。」才排出遊，照大一家聚的做法）；
-       有 FAMILY_DINNER 記憶＝永康街那家咖哩，沒有＝公館。沒去（沒答應或沒到）＝21:30 群組合照＋Kevin 一句 */
+       有 FAMILY_DINNER 記憶＝永康街那家咖哩，沒有＝汀州路的泰米村食（AA_742 第 ③ 節，企劃線 75f5de658：原本公館的日日定食；路程暫定 15 分鐘）。沒去（沒答應或沒到）＝21:30 群組合照＋Kevin 一句 */
     { const d=S.dayOfKey('2027-03-26'), m3=S.dayOfKey('2027-03-19'); if(S.SIS_Y2_EXAM&&d!=null&&m3!=null&&PHONE.inGroup(G,'family_law')&&G.day>=m3&&G.day<=d+1){ const K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), curry=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER');
-        if(!PHONE.sent(G,'sis_m3_dinner_inv')&&(G.day>m3||G.hour>=21)) PHONE.at(G,m3,21,[Object.assign(K(curry?'學姊上榜聚餐！下週五七點，永康街那家咖哩。全家族。':'學姊上榜聚餐！下週五七點，公館的日日定食。全家族。'),{ask:{id:'sis_m3_dinner',until:d*24+18,opts:[{t:'去。',set:{SIS_M3_DINNER_GO:true}},{t:'這次不行。',set:{SIS_M3_DINNER_GO:false}}]}})],'sis_m3_dinner_inv');
-        if(F.SIS_M3_DINNER_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'sis_m3_dinner')) OUT.plan(G,{id:'sis_m3_dinner',ev:'ev_sis_results_dinner',day:d,h:19,late:0.25,place:curry?'永康街的咖哩店':'公館的日日定食',title:'學姊上榜聚餐',travel:curry?'約 20 分鐘':'走過去約 10 分鐘',travelH:curry?1/3:1/6});
+        if(!PHONE.sent(G,'sis_m3_dinner_inv')&&(G.day>m3||G.hour>=21)) PHONE.at(G,m3,21,[Object.assign(K(curry?'學姊上榜聚餐！下週五七點，永康街那家咖哩。全家族。':'學姊上榜聚餐！下週五七點，汀州路的泰米村食。全家族。'),{ask:{id:'sis_m3_dinner',until:d*24+18,opts:[{t:'去。',set:{SIS_M3_DINNER_GO:true}},{t:'這次不行。',set:{SIS_M3_DINNER_GO:false}}]}})],'sis_m3_dinner_inv');
+        if(F.SIS_M3_DINNER_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'sis_m3_dinner')) OUT.plan(G,{id:'sis_m3_dinner',ev:'ev_sis_results_dinner',day:d,h:19,late:0.25,place:curry?'永康街的咖哩店':'汀州路的泰米村食',title:'學姊上榜聚餐',travel:curry?'約 20 分鐘':'走過去約 15 分鐘',travelH:curry?1/3:0.25});
         if(!(G.events&&G.events.done&&G.events.done.ev_sis_results_dinner)&&(G.day>d||G.hour>=21.5)&&!PHONE.sent(G,'sis_m3_dinner_photo'))
           PHONE.at(G,d,21.5,[K('📷（合照。學姊坐中間，難得笑得很開。）'),K('沒來的人錯過學姊請客。千載難逢。')],'sis_m3_dinner_photo'); } }
     /* 學姊 W8 沒演到的玩家的兩則（讀書會群組她請假、家族群組 Kevin「學姊請假了？？」）都刪：法服沒有讀書會（BB_191 §7-3）；Kevin 那句單獨留著會讓人以為學姊還在法服（AA-C 2af03a63）*/

@@ -430,6 +430,7 @@ const GAME = (function(){
     if(typeof YTJOB!=='undefined'&&YTJOB.migrate){ try{ YTJOB.migrate(s); }catch(e){ console.warn('YTJOB.migrate',e); } }   /* AA_610：已經認識語彤的舊存檔＝記 YT_MET_JOB（照舊）；沒認識的要去一盞茶屋打工才認識（src/ytjob3d.js）*/
     if(typeof STORY!=='undefined'&&STORY.fafuMigrate&&s.flags&&typeof s.flags==='object'){ try{ STORY.fafuMigrate(s); }catch(e){ console.warn('STORY.fafuMigrate',e); } }   /* D118-B5a（D118_PLAN 第 8 節第 6 點）：只看過法服公告的 lawclub 改 LAWCLUB_NOTICE；還在排的值班出發選單 cancelled；FAFU_STORY_SEEN 補 0；FAFU_TRK／FAFU_OFF／FAFU_ROT 留著 */
     if(typeof SUP497!=='undefined'&&SUP497.migrate){ try{ SUP497.migrate(s); }catch(e){ console.warn('SUP497.migrate',e); } }   /* AA_497 5-2、第 8 節第 5 點：家族的學妹統一叫佳穎（舊存檔存下的「家族的學妹」「學妹」「宜蓁」帳號名稱換字；姊姊宜蓁不動；同 Alison 改名的做法）*/   /* AA_498 第 1 節改名（撞到主要人物的六位）：舊存檔存下的舊名換新名；第一批五位說過秘密的記成「沒選」（2-10）*/
+    if(typeof GG3!=='undefined'&&GG3.migrate){ try{ GG3.migrate(s); }catch(e){ console.warn('GG3.migrate',e); } }   /* AA_742 第 ③ 節（GG-SHOPS3-STORY-1110）：日日定食改成泰米村食——已經排好的行程地點、標題「公館・日日定食」「公館的日日定食」換成汀州路的泰米村食（src/gg3shops3d.js）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   /* BUG-SAVE-QUOTA-1102（CC M5、BB 10:07）：寫入失敗要分得出是「空間不足」（QuotaExceededError）還是瀏覽器不能存；GM.saveErr＝最後一次失敗的原因（成功＝null）*/
