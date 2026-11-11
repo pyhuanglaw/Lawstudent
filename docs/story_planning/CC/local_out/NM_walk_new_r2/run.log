@@ -1,0 +1,26 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_walk_new_r2\out
+CC NM1 夜市：PARTS WALK；SHA 11161c101；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 (26.00,0.00) （巷 A 東端）
+  [  48.5s] [WALK 巷A 2000] 中途點（照 E.pathTo）4 個：[[16.5, 0], [6.5, 0], [16.5, 0], [26, 0]]
+PASS [WALK 巷A 2000] 照找路的中途點都走到（4 個）
+PASS [WALK 巷A 2000] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [WALK 巷A 2000] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 0100+1 (26.00,0.00) （巷 A 東端）
+  [  66.4s] [WALK 巷A 0100+1] 中途點（照 E.pathTo）4 個：[[16.5, 0], [6.5, 0], [16.5, 0], [26, 0]]
+PASS [WALK 巷A 0100+1] 照找路的中途點都走到（4 個）
+PASS [WALK 巷A 0100+1] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [WALK 巷A 0100+1] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2000 (8.00,20.00) （公館騎樓西邊）
+  [  89.8s] [WALK 公館騎樓 2000] 中途點（照 E.pathTo）4 個：[[23.8, 20.8], [28.2, 20.2], [34, 20], [58, 20]]
+PASS [WALK 公館騎樓 2000] 照找路的中途點都走到（4 個）
+PASS [WALK 公館騎樓 2000] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [WALK 公館騎樓 2000] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2000 (8.00,13.50) （公館人行道西邊）
+  [ 111.5s] [WALK 公館人行道 2000] 中途點（照 E.pathTo）3 個：[[24.2, 15.2], [34, 13.5], [58, 13.5]]
+PASS [WALK 公館人行道 2000] 照找路的中途點都走到（3 個）
+PASS [WALK 公館人行道 2000] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [WALK 公館人行道 2000] walkFallbacks 0
+PASS 沒有 JS 例外  []
+ALL PASS
