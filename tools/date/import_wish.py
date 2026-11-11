@@ -9,7 +9,8 @@
      子晴（「欸不是」＋「這不是問句」類每學期合計 2、約會台詞不用「存檔」「這是規則」：AA_188 2-6、AA_313 6-1）、
      學姊（不數東西、沒有「重點是」、朋友以上叫名字；美國學期是大四上 2028-08～12）、可昕（不說「假設」、不比輸贏：AA_373 6-1；AA_188 拿掉「這是告知」）。
      AA 改了原稿重新匯入：衝突的句子不在了，hold 自己消失。
-用法：python3 tools/date/import_wish.py [--check 企劃線ref]"""
+  3. AA_757（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫）：沛珊 D06 心願事件照稿的 wish_rows 69 列 old→new 疊（換完要等於稿的 wish_event；只換字，條件、旗標、時間、花費不動）。白名單沒有 AA_757＝不疊。
+用法：python3 tools/date/import_wish.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_wish.js）]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -192,6 +193,48 @@ if A594:
         FIX592.add(new); FIX592.add('（' + new + '）')
     SRC525 += f'＋{os.path.basename(P594)[:6]}@{S594}（以安 D07 心願 16 列）'
 
+# ---- 1f. AA_757（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；白名單上的 commit、只認那一版）：沛珊 D06 美術館的心願事件改成「不用接話的一天」。
+#      稿的 wish_rows＝69 處 old→new（路徑＝wish_classmate_peishan.… 那一格），wish_event＝整個新物件。源稿 wish_bb.json 沒改（企劃線），照表疊：
+#      每一列路徑那一格現在的字要剛好是 old（已經是 new＝源稿自己改好了，跳過），換成 new；換完整個物件要和 wish_event 一模一樣（兩邊互相對）。
+#      只換字（text、t、title、wish、note、costNote）：id、loc、條件（if）、旗標、記憶、相簿、時間、花費、選項數都不動——路徑不是這幾種欄位、對不上＝停下來，不猜 ----
+A757 = G.approved_files(ALLOW, SP + 'AA_757_')
+FIX757 = set()
+PS = 'classmate_peishan'
+if A757:
+    P757, S757 = next(iter(A757.items()))
+    ok, why = G.allowed(P757, S757, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d757 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S757}:{P757}'], text=True)))
+    rows757 = d757.get('wish_rows') or []
+    if len(rows757) != 69:
+        sys.exit(f'AA_757@{S757} 的 wish_rows 應該是 69 列，讀到 {len(rows757)} 列')
+    n757 = 0
+    for r in rows757:
+        if not r['path'].startswith('wish_' + PS + '.'):
+            sys.exit('AA_757 wish_rows：路徑不是沛珊的心願事件：' + r['path'])
+        toks = re.findall(r'\[\d+\]|[^.\[\]]+', r['path'][len('wish_' + PS + '.'):])
+        cur, par, key, i = EV[PS], None, None, 0
+        while i < len(toks):
+            t = toks[i]; k = int(t[1:-1]) if t.startswith('[') else t
+            if isinstance(cur, dict) and k not in cur and i + 1 < len(toks) and not toks[i + 1].startswith('[') and f'{k}.{toks[i + 1]}' in cur:
+                k = f'{k}.{toks[i + 1]}'; i += 1   # hotspots 的 key 本身有點（D06.gallery）
+            try:
+                par, key, cur = cur, k, cur[k]
+            except (KeyError, IndexError, TypeError):
+                sys.exit(f'AA_757 wish_rows：路徑 {r["path"]} 找不到（在 {t}）')
+            i += 1
+        if key not in ('text', 't', 'title', 'wish', 'note', 'costNote') or not isinstance(cur, str):
+            sys.exit(f'AA_757 wish_rows：{r["path"]} 不是字的欄位（只換 text、t、title、wish、note、costNote）')
+        if cur == r['new']:
+            FIX757.add(r['new']); continue
+        if cur != r['old']:
+            sys.exit(f'AA_757 wish_rows：{r["path"]} 現在是「{cur}」，不是原句「{r["old"]}」')
+        par[key] = r['new']; FIX757.add(r['new']); n757 += 1
+    if json.dumps(EV[PS], ensure_ascii=False, sort_keys=True) != json.dumps(d757.get('wish_event'), ensure_ascii=False, sort_keys=True):
+        sys.exit('AA_757：69 列換完以後和稿的 wish_event 不一樣（稿的兩份對不起來，或源稿 wish_bb.json 沛珊那一段變了）')
+    SRC525 += f'＋{os.path.basename(P757)[:6]}@{S757}（沛珊 D06 心願 69 列，換了 {n757} 列）'
+
 # ---- 2. 逐句對原稿（台詞、旁白、選項的字；說明欄不算）----
 SKIP = ('wish', 'rule', 'note', 'where', 'context', 'source', 'title', 'hotspotsTitle', 'scene', 'repeat', 'costNote', 'likeNote', 'album', 'code', 'name', 'memory', 'record')
 def all_text(o, path=''):
@@ -229,6 +272,9 @@ for k, e in EV.items():
         parts = [p for p in re.split(r'[（）「」]', t) if p] if who in ('narr', 'opt') else [t]
         if t0 in FIX592: continue   # AA_592 第 53 列換上去的句子（上面 1d 已對過 AA_592 的表）
         if t0 in FIX593 and k == 'heroine_05': continue   # AA_593 第 82 列（上面 1d2 已對過 AA_593 的表）
+        if t0 in FIX757 and k == PS:   # AA_757 換上去的句子（上面 1f 已對過 AA_757 的 wish_rows、wish_event）；「你來過一次」那兩句照舊列在 freeVisited
+            if free and path.startswith(free): extra.append(f'{path}：{t0}')
+            continue
         if all(found(MDN[e['src']], p) for p in parts): continue
         (extra if path.startswith(free) and free else miss).append(f'{path}：{t0}')
 
@@ -252,7 +298,8 @@ out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p][
 js = ('/* 校外約會的心願事件（DATE-C4、DATE-C5；AA_127 第 1、2 節、BB_128 第 3 節；date_system/wish/）。產生器：tools/date/import_wish.py（不要手改）。'
       '來源：' + out['source'] + '。hold＝和現行人物設定衝突、先不播的人（衝突的句子在 hold[id].lines，給 AA 改）。接線：src/wish3d.js */\n'
       "'use strict';\nconst DATE_WISH=" + json.dumps(out, ensure_ascii=False) + ';\n')
-open(os.path.join(ROOT, 'src', 'data', 'date_wish.js'), 'w', encoding='utf-8').write(js)
+DST = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else os.path.join(ROOT, 'src', 'data', 'date_wish.js')   # --out：另存比對用（tests/peishan_dates_1111_unit.js）
+open(DST, 'w', encoding='utf-8').write(js)
 print('寫入 src/data/date_wish.js：', len(EV), '位；原稿對不到', len(miss), '句（另有「你來過一次」', len(extra), '句：AA_271、BB_213 加的）；hold', ', '.join(f'{k}（{len(v["lines"])} 句）' for k, v in hold.items()) or '無')
 for x in miss:
     print('  對不到：', x)

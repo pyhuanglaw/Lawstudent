@@ -5862,6 +5862,15 @@
    "task": "LIMAO-SHOP-1110",
    "kind": "json",
    "note": "X332 禮貌生財上師：初次見面、四類聊天池、教授偶遇、身分揭曉、書房四個看的點：tools/story/import_limao.py → src/data/limao.js（LIMAO）。台詞一字照稿（orig:true＝使用者原句）；演出 src/limao3d.js。"
+  },
+  {
+   "path": "docs/story_planning/AA_757_peishan_wish_hometown.json",
+   "sha": "052644c58",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X327 沛珊重寫第 2 批）；LAWWW 2026-11-11 指定匯這一版（企劃線到 60f84df8b 這個檔沒有再改）",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊美術館心願事件「不用接話的一天」＋去她的縣市（台中、台南）＋台南美術館：①wish_rows 69 列 old→new 由 tools/date/import_wish.py 疊在 wish_bb.json 的 classmate_peishan 上（換完要等於稿的 wish_event；物件、旗標 PS_UNTITLED、條件、時間、花費不動）→ src/data/date_wish.js；②hometown_rows 31 列、tainan_museum 整段的字直接換進手寫的 src/data/hometown_lines.js（sendFlag 那一句、PS_SEND、台南 extra、視訊其他開頭和結尾不動）。逐字對稿 tests/peishan_dates_1111_unit.js"
   }
  ]
 }
