@@ -1,11 +1,3 @@
-       d562d67c8..20aa852ee  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[07:25:45] ==== END   TZQ_go  exit=0  392s   ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       20aa852ee..92317e5ee  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[07:25:53] ==== END   TZP_cnt  exit=0  399s   ====
-[07:25:57] memory 41% before starting TZP_fps (2 running)
 [07:25:57] ==== START TZP_fps  (probe @ 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4) ====
 [07:26:00] [res] cpu=1% mem=41% (12.9/31.4 GB) chrome_testing=4  START TZP_fps
 [07:26:01] memory 41% before starting WZQ_new (2 running)
@@ -1998,3 +1990,11 @@
 [14:25:21] ==== START CLASS12_skip5b_old150x20  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
 [14:25:24] [res] cpu=15% mem=48% (15.0/31.4 GB) chrome_testing=10  START CLASS12_skip5b_old150x20
 [14:27:25] [res] cpu=2% mem=49% (15.5/31.4 GB) chrome_testing=10  END CLASS12_skip5b_np1000
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c0400389b..c399e5e6d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:27:34] ==== END   CLASS12_skip5b_np1000  exit=0  312s   ====
+[14:27:43] memory 47% before starting CLASS12_skip5b_500x5 (2 running)
+[14:27:43] ==== START CLASS12_skip5b_500x5  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
+[14:27:46] [res] cpu=6% mem=48% (15.0/31.4 GB) chrome_testing=10  START CLASS12_skip5b_500x5
+[14:28:23] [res] cpu=3% mem=47% (14.7/31.4 GB) chrome_testing=9  END CLASS12_skip5b_np400
