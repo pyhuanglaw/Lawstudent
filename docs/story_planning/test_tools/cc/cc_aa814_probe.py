@@ -725,20 +725,34 @@ async def part_h23(pg, cdp):
     ok2, body = await open_thread(pg, cdp, 'sys'); P.phone_texts.append(['sys', body])
     R.check('[H23a] 畫面：手機「訊息」→「通知」那一段看得到「%s」' % exp_a, ok2 and exp_a in body, J({'tapped': ok2, 'body': body[-300:]}))
     await close_phone(pg, cdp)
-    # b. VA10（7/20 21:00）
-    await jump(pg, P, '2027-07-20', 20.83, 'T02 回完，跳到麵店團揪香港那一天的前 10 分鐘')
-    P.path.append('b 自然觸發：7/20 21:00 麵店團群組揪香港（VA10），點進去回「我也去。」')
-    P.phone_want = ['g:noodle_team']; P.cur_th = None; P.opened = {}
-    P.phone_ask = lambda th, o: (next((i for i, x in enumerate(o) if x == '我也去。'), None) if th == 'g:noodle_team' else None)
-    w, s, ok = await drive(pg, cdp, P, lambda w, s: any(x[0] == 'g:noodle_team' for x in P.answered) and not s['phone'], 420, {'tags': ['va10_ask'], 'fl': ['VA10']}, 'b. 7/20 21:00 VA10')
+    # b. VA10：BB 18:10 定案——規格只要求「送出前」多一行「會撞到：…」；VA10 沒有「答應的當下」那句（只有活動卡 VAC_PICK 有），不檢查。
+    #    改查：群組邀約（g:noodle_team，7/20 21:00）和阿哲催問（p:zhe，8/1 20:00，vac_activities.js VA10.nudge）兩則送出時都有那一行。
+    #    群組先不回，等阿哲催；從 a 之前的狀態重新讀（a 答應的 T02 是 8/1～8/4，跳到 8/1 會碰上出發）。
+    await ps_load(pg, P, '2027-07-20', 20.83, vac=vac, flags={'VAC_C09': True, 'VAC_C09_INT': True, 'VAC_C12': True},
+                  meet=['npc_fangyt', 'zhe', 'yu', 'classmate_bohan'], groups=[['noodle_team', '麵店團']],
+                  why='b 重新讀：C09、C12 yes、T02 沒報（a 答應的 T02 8/1～8/4 會和阿哲 8/1 催問撞，不帶）')
+    P.path.append('b1 自然觸發：7/20 21:00 麵店團群組揪香港（VA10）——先不回')
+    P.phone_want = ['g:noodle_team']; P.cur_th = None; P.opened = {}; P.answered = []
+    P.phone_ask = lambda th, o: None
+    w, s, ok = await drive(pg, cdp, P, lambda w, s: any(m['tag'] == 'va10_ask' for m in (w or {}).get('msgs', [])) and not s['phone'], 420, {'tags': ['va10_ask', 'va10_nudge'], 'fl': ['VA10']}, 'b1. 7/20 21:00 VA10 群組（不回）')
     va = [m for m in (w or {}).get('msgs', []) if m['tag'] == 'va10_ask']
-    R.check('[H23b] 7/20 21:00 麵店團揪香港（有「我也去。」）', bool(va) and any(m.get('ask') for m in va), J(va[-2:]))
-    cl = await sys_clash(pg)
-    R.check('[H23b] 群組訊息後面多一行系統字「%s」' % exp_b, any(m['text'] == exp_b for m in cl), J([m['text'] for m in cl]))
-    R.check('[H23b] 不擋：回「我也去。」以後 VA10＝yes', bool(w) and w['flags'].get('VA10') == 'yes', J(w and w['flags']))
+    R.check('[H23b] 7/20 21:00 麵店團群組揪香港（有回覆選項）', bool(va) and any(m.get('ask') for m in va), J(va[-2:]))
+    cl1 = await sys_clash(pg); n1 = sum(1 for m in cl1 if m['text'] == exp_b)
+    R.check('[H23b] 群組邀約送出時多一行系統字「%s」' % exp_b, n1 >= 1, J([m['text'] for m in cl1]))
     ok2, body = await open_thread(pg, cdp, 'sys'); P.phone_texts.append(['sys', body])
     R.check('[H23b] 畫面：「通知」那一段看得到「%s」' % exp_b, ok2 and exp_b in body, body[-200:])
     await close_phone(pg, cdp)
+    await jump(pg, P, '2027-08-01', 19.83, '群組沒回，跳到阿哲催問那一天的前 10 分鐘（VA10.nudge 8/1 20:00）')
+    P.path.append('b2 自然觸發：8/1 20:00 阿哲私訊催「香港 你到底要不要」——回「我也去。」')
+    P.phone_want = ['p:zhe']; P.cur_th = None; P.opened = {}
+    P.phone_ask = lambda th, o: (next((i for i, x in enumerate(o) if x == '我也去。'), None) if th == 'p:zhe' else None)
+    w, s, ok = await drive(pg, cdp, P, lambda w, s: any(x[0] == 'p:zhe' for x in P.answered) and not s['phone'], 420, {'tags': ['va10_ask', 'va10_nudge'], 'fl': ['VA10']}, 'b2. 8/1 20:00 阿哲催問')
+    vn = [m for m in (w or {}).get('msgs', []) if m['tag'] == 'va10_nudge']
+    R.check('[H23b] 8/1 20:00 阿哲私訊催問（有回覆選項）', bool(vn) and any(m.get('ask') for m in vn), J(vn[-2:]))
+    cl2 = await sys_clash(pg); n2 = sum(1 for m in cl2 if m['text'] == exp_b)
+    R.check('[H23b] 阿哲催問送出時也多一行系統字「%s」（共 %d 行，群組那時 %d 行）' % (exp_b, n2, n1), n2 >= n1 + 1, J([m['text'] for m in cl2]))
+    R.note('[H23b] 答應的當下那句：VA10 照設計沒有（BB 18:10：只有活動卡 VAC_PICK 有），不檢查')
+    R.check('[H23b] 不擋：回「我也去。」以後 VA10＝yes', bool(w) and w['flags'].get('VA10') == 'yes', J(w and w['flags']))
     # c. T13 選出發日
     P.path.append('c 自然觸發：手機「活動」→「安排出國旅遊」：看出發日選項下面的小字，挑一個有撞的、自己去')
     VI = await pg.evaluate(VACI_JS, ['C09@Y2', 'C12@Y2', 'T02@Y2'])

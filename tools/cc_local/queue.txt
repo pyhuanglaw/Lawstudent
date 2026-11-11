@@ -1613,5 +1613,5 @@ TE_N01 | 201803df0a593a75e084f5a11718cedb3c512bd3 | probe | docs/story_planning/
 #HOLD新SHA後 JOY_779_1 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.24;LOCAL=1;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 #HOLD新SHA後 JOY_779_2 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.24;LOCAL=1;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 # BB 16:38（LAWWW2 烘焙比對，P3、不進遊戲；排在發布前測試與正式工作之後，只排得下一行就跑第一行）
-BK2_cpu_s | lawww2 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 30 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 64
-BK2_cpu_full | lawww2 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 1024 --samples 512
+#HOLD（BB 18:12：LAWWW2 17:48 定案、不用再跑；要測給固定 SHA） BK2_cpu_s | lawww2 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 30 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 64
+#HOLD（BB 18:12：LAWWW2 17:48 定案、不用再跑；要測給固定 SHA） BK2_cpu_full | lawww2 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 1024 --samples 512
