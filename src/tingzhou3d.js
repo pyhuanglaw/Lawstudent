@@ -15,12 +15,15 @@ const TZ3=(function(){
   /* 騎樓柱子：每一棟一根，在那一棟的一端、立面往裡 0.3 m（wz_street.py 的 pillars=[w/2]：本地 +x 那一端——西側的樓本地 +x＝北（z0），東側＝南（z1））；巷口兩邊的不重複 */
   S.pillars=function(L){ const F=L.facade, out=[]; for(const q of L.shops){ if(q.arcade===false) continue;   /* 沒有騎樓的五間（使用者「混合」）：門前沒有柱子 */ const w=q.side==='W'; out.push({x:(w?F.west-0.3:F.east+0.3),z:(w?q.z0:q.z1),id:q.id}); } return out; };
   /* 路邊機車第 3 版（BB_255，11-10 23:07／23:10）：哪一台是哪一款、什麼顏色，照擺放規則挑（模型不重做；Z3.attachWzScooters 照 code、pcol 用）
-     車款＝scooter.glb 的十二款；S1A、S1B、S2 三款車尾一樣（CC 並排拍過）→ 算同一種車尾 'A'，全街合計四成以下、同一群裡不連三台；帶機車罩、外送箱、掛安全帽的是自己的輪廓。
+     車款＝scooter.glb 的十二款；S1A、S1B、S2 三款車尾一樣（CC 並排拍過）→ 算同一種車尾 'A'，全街合計四成以下、同一群裡不連三台；帶機車罩、外送箱、掛安全帽、擋風鏡、腳踏板的袋子、蓋座墊的雨衣的是自己的輪廓。
      顏色照色系（白／米／銀灰／黑與深藍／紅／藍／綠／黃橘）：同一群相鄰兩台不同色系；黑與深藍全街不超過四分之一。款式的配色表和 scooter.glb 節點的 palette 一樣（測試對）。 */
   S.SC={ S1A:{w:0.12,tail:'A',pal:['#e9e9e6','#e9e9e6','#b8bcc0','#b8bcc0','#d9cdb6','#8c9095','#1d1f22','#22344f','#8f1f24']}, S1B:{w:0.12,tail:'A',pal:['#f1f1ee','#f1f1ee','#f1f1ee','#a9adb2','#a9adb2','#c9c1b3','#6f7378','#141517','#334a6b','#5d6a5a']},
     S2:{w:0.12,tail:'A',pal:['#e8e8e6','#e8e8e6','#9ea3a8','#3b3f44','#1b1c1e','#20427a','#7a1c22','#2f5a3c']}, S1A_C:{w:0.03,tail:'C',pal:['#8e949a','#2d3a52','#6d7176']}, S1B_D:{w:0.06,tail:'D',pal:['#f1f1ee','#a9adb2','#6f7378','#334a6b','#141517']},
     S3:{w:0.09,tail:'3',pal:['#e9e9e7','#6b6f73','#4a4e54','#141517','#1f2e48']}, S4:{w:0.11,tail:'4',pal:['#efe6cf','#efe6cf','#a9d3c4','#a9c4dc','#d8c8a8','#e6b8a8','#7b2a32','#1c1d1f']}, S5:{w:0.10,tail:'5',pal:['#eef0f0','#eef0f0','#c9cdd0','#9fc4d2','#7fb8ab','#e3a79c','#55595e','#1e2023']},
-    S5_H:{w:0.06,tail:'H',pal:['#eef0f0','#eef0f0','#c9cdd0','#9fc4d2','#7fb8ab','#e3a79c','#55595e','#1e2023']}, S6:{w:0.04,tail:'6',pal:['#e8e8e6','#b5a27a','#4f5a3c','#e3c22b','#1b1c1e']}, S7:{w:0.09,tail:'7',pal:['#c7c2b6','#dcd6c8','#dcd6c8','#9a9aa0','#5d6f86','#7d2a2a','#3e4a3c']}, S9:{w:0.06,tail:'9',pal:['#8f2626','#1f2f4f','#1c1d1f','#2f4a36','#d9d2c2']} };
+    S5_H:{w:0.06,tail:'H',pal:['#eef0f0','#eef0f0','#c9cdd0','#9fc4d2','#7fb8ab','#e3a79c','#55595e','#1e2023']}, S6:{w:0.04,tail:'6',pal:['#e8e8e6','#b5a27a','#4f5a3c','#e3c22b','#1b1c1e']}, S7:{w:0.09,tail:'7',pal:['#c7c2b6','#dcd6c8','#dcd6c8','#9a9aa0','#5d6f86','#7d2a2a','#3e4a3c']}, S9:{w:0.06,tail:'9',pal:['#8f2626','#1f2f4f','#1c1d1f','#2f4a36','#d9d2c2']},
+    /* SCOOTER-ACC-1111（BB_255 機車第三版記著「擋風鏡、腳踏板的袋子、雨衣要加模型」）：三款配件車，各自一種輪廓 */
+    S1A_W:{w:0.03,tail:'W',pal:['#e9e9e6','#e9e9e6','#b8bcc0','#b8bcc0','#d9cdb6','#8c9095','#1d1f22','#22344f','#8f1f24']}, S1B_G:{w:0.03,tail:'G',pal:['#f1f1ee','#f1f1ee','#f1f1ee','#a9adb2','#a9adb2','#c9c1b3','#6f7378','#141517','#334a6b','#5d6a5a']},
+    S7_R:{w:0.03,tail:'R',pal:['#c7c2b6','#dcd6c8','#dcd6c8','#9a9aa0','#5d6f86','#7d2a2a','#3e4a3c']} };
   S.colorFam=function(hex){ const r=parseInt(hex.slice(1,3),16)/255, g=parseInt(hex.slice(3,5),16)/255, b=parseInt(hex.slice(5,7),16)/255, mx=Math.max(r,g,b), mn=Math.min(r,g,b), d=mx-mn, sat=mx?d/mx:0; let h=0;
     if(d>1e-6){ h=mx===r?((g-b)/d)%6:(mx===g?(b-r)/d+2:(r-g)/d+4); h*=60; if(h<0) h+=360; }
     if(mx<0.3) return 'dark'; if(sat<0.12) return mx>0.86?'white':'grey'; if(h>=195&&h<270&&mx<0.5) return 'dark';   /* 深藍算黑那一系 */

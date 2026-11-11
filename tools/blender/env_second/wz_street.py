@@ -902,7 +902,7 @@ def apartment(spec):
             kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < (spec.get('p_grille', 0.15) * 0.4 if (far and not spec.get('far')) else spec.get('p_grille', 0.15 if far else 0.7)) else 'plain')   # p_*：每棟可調（公館商店街；預設和溫州街一樣）
             wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(not far and kind_ != 'grille' and rng.random() < 0.5), ac=(not far and rng.random() < spec.get('p_ac', 0.65)), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
     for u in spec.get('xs_up', []):   # 新生南路：照參考圖的整排窗（蓋掉那一層這一段原本的窗）
-        wins = [w for w in wins if not (w['f'] == u['f'] and w['x'] + ww / 2 > u['x0'] - 0.3 and w['x'] - ww / 2 < u['x1'] + 0.3)]
+        wins = [w for w in wins if not (w['kind'] != 'xs' and w['f'] == u['f'] and w['x'] + ww / 2 > u['x0'] - 0.3 and w['x'] - ww / 2 < u['x1'] + 0.3)]   # 只蓋掉原本的窗；同一層前面排好的 xs 窗不動（XS-TONGXIAN-SIGN-1111：同弦第二段「不開窗」把第一段的吉他櫥窗也刪掉了）
         wins.append(dict(f=u['f'], x=(u['x0'] + u['x1']) / 2, w=u['x1'] - u['x0'], y0=u['y0'], y1=u['y1'], kind='xs', tex=u['tex'], frame=u.get('frame'), solid=u.get('solid'), blank=u.get('blank'), tiles=u.get('tiles'), pane=u.get('pane', 1.4), hood=False, ac=False, lit=True, acs=1))
     if spec.get('xs', {}).get('panel'):   # 日常失速：二樓窗下就是招牌，那一層不掛冷氣、雨遮（原本冷氣蓋住「OFFBEAT」）
         for w in wins:
@@ -931,6 +931,7 @@ def apartment(spec):
         for k in range(0, len(xs), 2): xf.box(wl, xs[k], xs[k + 1], y0, y1, -0.25, 0)
         for w in ws:   # 窗下的牆停在窗台裡面（低 1 cm）：原本牆頂和窗台頂同一個平面，一直閃（BUG-WZFLICKER）
             wv = w.get('w', ww); xf.box(wl, w['x'] - wv / 2, w['x'] + wv / 2, y0, w['y0'] - 0.01, -0.25, 0); xf.box(wl, w['x'] - wv / 2, w['x'] + wv / 2, w['y1'], y1, -0.25, 0)
+            if w.get('blank'): xf.box(wl, w['x'] - wv / 2, w['x'] + wv / 2, w['y0'] - 0.01, w['y1'], -0.25, 0)   # 這一段不開窗：用同一種外牆補滿（原本在 xs_window 補一塊平塗的顏色，和周圍的牆不一樣、看得出一塊方形）
     xf.box(wall_hi, -W / 2, W / 2, totalH, totalH + 0.9, -0.2, 0)                                # 女兒牆
     band = acc(M['band']); band_hi = acc_hi(M['band']) if HI else band
     def tall(m, x0, x1, z0, z1):   # 側牆、後牆：從二樓一直到女兒牆頂；七樓以上那一段放進不投影的物件
