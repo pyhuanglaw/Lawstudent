@@ -1,5 +1,6 @@
 """CC（帳號 A）11-11：L118A——118 巷 3D 第 1 版（LAWWW2 L118-SHOPS-REDO-1111，X338；BB_335 D、F 節）。Playwright 手機模擬（PC GPU）≠ iPhone。
-受測：開發分支 64add9fcf（第二批：飲料店立面照參考圖、118牛排自助台上方海報、辛亥韓食茶水桶、水上便當吊牌）；舊版對照 779ddd650（舊店名、舊模型）。
+受測：開發分支 27bbb3b89（含 64add9fcf 第二批：飲料店立面照參考圖、118牛排自助台上方海報、辛亥韓食茶水桶、水上便當吊牌；27bbb3b89：奈良咖哩、迪倫窯烤披薩、義大麵屋三間室內照參考圖重做）；
+  七間新室內＝dian、self、korea、tea、omu、noodle2、pasta；home、cafe2 還是舊模型。舊版對照 779ddd650（舊店名、舊模型）。
 對照的程式：src/data/lane118_layout.js（店 id、side、z0／z1；立面 x ±5.2、人行道 ±3.4～±5.2）、src/data/l118_shop_layouts.js（室內 bounds、door、spawn、exits、street.door／spawn_out、seats）、
   src/l118_shops3d.js（店內區域 l118_<id>、座位按鈕「坐下」、出口「離開○○」、門外窗景 W3.VIEW_LAYERS／l118_window_view）、src/zones3d.js buildLane118（店門口互動點 x＝立面±0.9、z＝店中間；「進○○」）、
   src/lane118.js（L118.isOpen：營業時間）。
@@ -9,17 +10,21 @@
 走路一律搖桿（CDP 觸控按 #joy；方向照 E.pathTo 的下一段，像玩家知道往哪走）；按鈕一律觸控點 #interact、#dlg、選項。讀檔只當前置條件，印【前置／捷徑】。
 PARTS（逗號分隔；店相關的可以加 _<店 id>，座位可以再加 _<起>-<迄>（從 1 起、含迄））：
   EXT14 EXT20   十一間（九間＋兩間飲料店）正面＋招牌近拍【捷徑機位】（ONLY_SHOPS 可限定）
-  INTFRONT      四間新室內（SHOPS 可改）：門口往裡、最裡面往門口【捷徑機位】、進門那一刻【遊戲鏡頭】、三張近照（118牛排自助台上方海報、辛亥韓食茶水桶、水上便當吊牌）（別名 INT_FRONT）
+  INTFRONT      七間新室內（SHOPS 可改）：門口往裡、最裡面往門口【捷徑機位】、進門那一刻【遊戲鏡頭】、近照（118牛排自助台上方海報、辛亥韓食茶水桶、水上便當吊牌、奈良咖哩地板）（別名 INT_FRONT）
   DRINK         兩間飲料店：互動點、搖桿沿人行道和路邊來回走（擋不擋路）、站窗口按鈕、買一杯；118 巷導航格存檔（拼圖時和舊版比）
   LANEWALK      14:00、20:00 各一輪（HOURS 可改）：從巷底（後門）搖桿走到巷口、再走回來；每趟 4 張【遊戲鏡頭】；巷子中間 6 秒幀率
   CORNERS       四角＋最裡面各一張【遊戲鏡頭】（CAMDIAG2 判準）；辛亥韓食最裡面鏡頭轉一圈（8 張，SPIN=1 其他店也轉）；最後走回出口、出店
-  SEATS         每張椅子：搖桿走到 seatApproach → 按「坐下」→ player.seat、位置／高度 → 穿模（骨頭連線射線打桌椅）→ 截圖 → 起身 → 搖桿四方向推得動 ≥0.3 m
+  SEATS         每張椅子：搖桿走到 seatApproach → 按「坐下」→ player.seat、位置／高度 → 穿模（骨頭連線射線打桌椅）→ 截圖 → 起身 → 搖桿四方向推得動 ≥0.3 m；
+                高腳椅（seat.lift）另記骨盆（hips 骨頭）高度－椅面高度（0.47＋lift）、腳骨頭高度、小腿／腳線段有沒有打到吧台
   WALLWALK      沿牆（離房間邊 0.45 m 的長方形，每 1 m 一點，貼到人站得住的格子）搖桿走一圈，記卡住的點
   DOORS         街上「進○○」→ 店裡出生點 → 「離開○○」→ 街上站的位置；室內門 x 換算成街上 z（W 側 z＝店中心 z－門x、E 側 z＝店中心 z＋門x），標記圖【捷徑機位】
   VIEWS         九間店裡往門外看【捷徑機位】（13:00、19:15）＋窗景平面用的照片（沒重拍＝現況）
   VIEWSNEW      先用 cc_shop_views_gg.py（＝tools/shots/shop_views_layers.py 的 PC 版）重拍九間門外景，有 webp（PC 有 numpy／PIL）就放進受測 worktree 再拍窗外；
                 VIEWS_DIR＝cc-testing 上已經去背好的資料夾（雲端 VIEWS_REMATTE 後）就不重拍、直接用那一份。拍完把 worktree 的原檔放回去
-  OTHER5        其餘五間（home、cafe2、pasta、omu、noodle2）舊模型：門口往裡一張＋進門【遊戲鏡頭】一張，只拍不判
+  OTHER         還是舊模型的店（OLD_SHOPS，預設 home、cafe2）：門口往裡一張＋進門【遊戲鏡頭】一張，只拍不判（別名 OTHER5）
+  SPECIAL3      奈良咖哩、迪倫、義大麵屋另外的：店裡「看東西」的互動每個按一次記逐字（和配置 note 比）；迪倫店員座標和面向、搖桿走到爐口前一張【遊戲鏡頭】；
+                窯爐的火 13:00／20:00 近拍【捷徑機位】＋火焰網格附近像素色值（有沒有變成白光）；奈良咖哩地板近拍＋地板像素色值（D112 不要深色木）；
+                義大麵屋 TRACE_SQ12_photo：【前置／捷徑】G.side.SQ12 設成前一天做完 → 模型節點看不看得到、位置 → 搖桿走過去記互動鍵文字
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=... python3 cc_l118a_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, math, shutil, subprocess, glob
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -33,7 +38,7 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 WT = os.path.abspath(os.path.join(os.environ.get('LW_TESTS') or 'tests', '..'))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
 DAY = os.environ.get('DAY') or '2025-10-08'
-NEW4 = ['dian', 'self', 'korea', 'tea']; OLD5 = ['home', 'cafe2', 'pasta', 'omu', 'noodle2']; ALL9 = NEW4[:2] + ['tea', 'home', 'cafe2', 'pasta', 'korea', 'omu', 'noodle2']
+NEW7 = ['dian', 'self', 'korea', 'tea', 'omu', 'noodle2', 'pasta']; OLD2 = [x for x in (os.environ.get('OLD_SHOPS') or 'home,cafe2').split(',') if x]; ALL9 = ['dian', 'self', 'tea', 'home', 'cafe2', 'pasta', 'korea', 'omu', 'noodle2']
 H_INT = float(os.environ.get('H_INT') or 13.0)
 VP = {'width': 844, 'height': 390}
 hhmm = lambda h: '%02d%02d' % (int(h), int(round((h % 1) * 60)))
@@ -41,7 +46,8 @@ hhmm = lambda h: '%02d%02d' % (int(h), int(round((h % 1) * 60)))
 #   辛亥韓食 茶水桶 (−1.08, 1.0～1.37, −2.8)、一疊杯子 (−0.32, 1.0, −2.7)；水上便當 取餐檯上方吊牌 x 0.15～1.25、y 2.32～2.66、z −2.9，字朝 +z）
 CLOSE = {'dian': [('自助台上方海報', (-0.7, 1.65, 1.9), (-2.8, 1.8, 2.1), 30)],
          'tea': [('茶水桶', (0.2, 1.55, -1.1), (-0.75, 1.12, -2.75), 32)],
-         'self': [('吊牌', (0.7, 1.65, -0.4), (0.7, 2.45, -2.9), 36)]}
+         'self': [('吊牌', (0.7, 1.65, -0.4), (0.7, 2.45, -2.9), 36)],
+         'omu': [('地板', (0.0, 1.35, 1.6), (0.0, 0.0, 0.2), 30)]}
 
 ME = "(()=>{ const P=GAME.E.player, p=P.obj.position; return {zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), x:+p.x.toFixed(2), z:+p.z.toFixed(2), stand:GAME.E.canStand?!!GAME.E.canStand(p.x,p.z,0.3,P.lv|0):null, ent:!!(GAME.isEntering&&GAME.isEntering()), busy:!!P.busy, seat:!!P.seat, fb:GAME.walkFallbacks|0, money:GAME.G.money}; })()"
 ITS = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label||'',x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,to:i.exit?i.exit.to:null,shop:i.shop118||null,seat:!!i.seat,look:i.look||null})))()"
@@ -82,7 +88,8 @@ CLIP = r"""(()=>{ const E=GAME.E, P=E.player.obj; P.updateMatrixWorld(true); con
     for(const [p,q] of [[A,B],[B,A]]){ const dir=q.clone().sub(p).normalize(); rc.set(p.clone().addScaledVector(dir,0.03),dir); rc.far=L-0.06; const h=rc.intersectObjects(T,false)[0];
       if(h){ hits.push({seg:a+'-'+b, mesh:h.object.name||'', mat:([].concat(h.object.material)[0]||{}).name||'', at:[+h.point.x.toFixed(2),+h.point.y.toFixed(2),+h.point.z.toFixed(2)]}); break; } } }
   const ys=Object.values(bones).map(v=>v.y);
-  return {bones:Object.keys(bones).sort(), segs, targets:T.length, hits:hits.slice(0,8), nhits:hits.length, yRange:ys.length?[+Math.min(...ys).toFixed(2),+Math.max(...ys).toFixed(2)]:null}; })()"""
+  const y=k=>bones[k]?+bones[k].y.toFixed(3):null;
+  return {bones:Object.keys(bones).sort(), segs, targets:T.length, hits:hits.slice(0,8), nhits:hits.length, legHits:hits.filter(h=>/^(ul|ll)/.test(h.seg)).length, hipsY:y('hips'), footY:[y('footL'),y('footR')], kneeY:[y('llL'),y('llR')], yRange:ys.length?[+Math.min(...ys).toFixed(2),+Math.max(...ys).toFixed(2)]:null}; })()"""
 MARKS_ADD = r"""(ms=>{ const E=GAME.E, g=new THREE.Group(); g.name='cc_marks'; for(const m of ms){ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.06,3.2,8),new THREE.MeshBasicMaterial({color:m.col})); p.position.set(m.x,1.6,m.z); g.add(p);
   const s=new THREE.Mesh(new THREE.SphereGeometry(0.18,10,8),new THREE.MeshBasicMaterial({color:m.col})); s.position.set(m.x,3.3,m.z); g.add(s); } E.scene.add(g); return ms.length; })"""
 MARKS_DEL = "(()=>{ const g=GAME.E.scene.getObjectByName('cc_marks'); if(g) GAME.E.scene.remove(g); return !!g; })()"
@@ -385,6 +392,12 @@ async def sit_one(pg, cdp, sid, k, s, res):
         clip = await pg.evaluate(CLIP)
         R.note('%s 穿模檢查：骨頭 %s、線段 %d、店裡網格 %d、骨頭高度 %s；打到 %s' % (t, J(clip['bones']), clip['segs'], clip['targets'], clip['yRange'], J(clip['hits'])))
         R.check('%s 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 %d 段）' % (t, clip['segs']), clip['segs'] >= 6 and clip['nhits'] == 0, J(clip['hits']))
+        if s.get('lift'):
+            top = round(0.47 + s['lift'], 3); dh = None if clip['hipsY'] is None else round(clip['hipsY'] - top, 3)
+            R.note('%s 高腳椅：椅面高度 %.3f（0.47＋lift %.3f）；骨盆（hips 骨頭）%s（高出椅面 %s）；膝蓋 %s；腳 %s；小腿／大腿線段打到網格 %d 段' % (t, top, s['lift'], clip['hipsY'], dh, clip['kneeY'], clip['footY'], clip['legHits']))
+            R.check('%s 高腳椅坐姿：骨盆在椅面上方 0.02～0.30 m（屁股在椅面上，CC 粗判）、腳沒有穿進吧台（腿的線段沒打到網格）' % t, dh is not None and 0.02 <= dh <= 0.30 and clip['legHits'] == 0, J({'hipsY': clip['hipsY'], 'top': top, 'dh': dh, 'legHits': clip['legHits']}))
+            await cam_shot(pg, fn('seat', sid, H_INT, 'stool%d_side' % (k + 1), True), (p['x'] + 1.6, 1.0, p['z'] + 0.3), (p['x'], 0.8, p['z']), 30, judge=False)
+            await pg.evaluate("(()=>{ GAME.E.player.obj.visible=true; })()")
         await game_shot(pg, fn('seat', sid, H_INT, 'sit%d' % (k + 1), False), t, judge=False)
     said = []; t1 = time.time()
     while time.time() - t1 < 25:
@@ -487,7 +500,7 @@ VIEWINFO = r"""(s=>{ const E=GAME.E, key='l118_'+s, m=E.scene.getObjectByName('l
 
 
 async def part_views(pg, cdp, label):
-    shops = shop_filter(None, ALL9 if label == 'asis' else NEW4)
+    shops = shop_filter(None, ALL9 if label == 'asis' else NEW7)
     for h in [float(x) for x in (os.environ.get('VIEW_HOURS') or '13,19.25').split(',')]:
         for sid in shops:
             tag = '[VIEWS %s %s %s]' % (label, sid, hhmm(h))
@@ -545,9 +558,91 @@ def views_restore(done):
     if done: print('  VIEWSNEW：受測 worktree 的 %d 個窗景檔放回原樣' % len(done), flush=True)
 
 
-# ------------------------------------------------------------------ 其餘五間
-async def part_other5(pg, cdp):
-    for sid in OLD5:
+# ------------------------------------------------------------------ 新三間另外的（BB 06:23）
+PIX = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; let box=null; E.scene.traverse(o=>{ if(!o.isMesh) return; for(let q=o;q;q=q.parent) if(!q.visible) return; const m=[].concat(o.material)[0]; if(m&&new RegExp(a.re,'i').test(m.name||'')){ const b=new THREE.Box3().setFromObject(o); box=box?box.union(b):b; } });
+  r.render(E.scene,E.camera); const pt=a.pt?new THREE.Vector3(...a.pt):(box?box.getCenter(new THREE.Vector3()):null); if(!pt) return {found:false};
+  const v=pt.clone().project(E.camera); const W=c.width,H=c.height, sx=(v.x+1)/2*W, sy=(1-v.y)/2*H; const k=document.createElement('canvas'); k.width=24; k.height=24; const g=k.getContext('2d');
+  g.drawImage(c,Math.max(0,sx-a.px/2),Math.max(0,sy-a.px/2),a.px,a.px,0,0,24,24); const d=g.getImageData(0,0,24,24).data; let R=0,G=0,B=0,n=0,wh=0,mx=0;
+  for(let i=0;i<d.length;i+=4){ R+=d[i]; G+=d[i+1]; B+=d[i+2]; n++; if(d[i]>240&&d[i+1]>240&&d[i+2]>240) wh++; mx=Math.max(mx,d[i]+d[i+1]+d[i+2]); }
+  return {found:!!box||!!a.pt, box:box?[box.min.toArray().map(x=>+x.toFixed(2)),box.max.toArray().map(x=>+x.toFixed(2))]:null, screen:[Math.round(sx),Math.round(sy)], onScreen:v.z<1&&Math.abs(v.x)<=1&&Math.abs(v.y)<=1, rgb:[Math.round(R/n),Math.round(G/n),Math.round(B/n)], white:+(wh/n).toFixed(3)}; })"""
+
+
+async def looks(pg, cdp, sid, tag):
+    its = [i for i in await pg.evaluate(ITS) if i['look']]
+    R.note('%s 看東西的互動 %d 個：%s' % (tag, len(its), J(its)))
+    for it in its:
+        tg = await D.standable_near(pg, it['x'], it['z'], it['r'] * 0.6, 0)
+        if not tg: R.check('%s「%s」範圍裡有站得住的地方' % (tag, it['label']), False, J(it)); continue
+        await joy_walk(pg, cdp, tg['x'], tg['z'], 0.3, 40, '%s 搖桿走到「%s」' % (tag, it['label']))
+        if not await tap_interact(pg, cdp, it['label'], tag): continue
+        got = []; t0 = time.time()
+        while time.time() - t0 < 20:
+            q = await D.st(pg)
+            if q['dlg']:
+                tx = await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''"); await pg.wait_for_timeout(1200)
+                tx = await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")
+                if not got or got[-1] != tx: got.append(tx)
+                await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
+            if got and not q['busy']: break
+            await pg.wait_for_timeout(400)
+        R.note('%s 按「%s」逐字：%s；配置的字：%s' % (tag, it['label'], J(got), J(it['look'])))
+        R.check('%s 按「%s」出現的字＝配置的字' % (tag, it['label']), any(it['look'].strip() in g or g.strip() in it['look'] for g in got if g.strip()), J({'got': got, 'want': it['look']}))
+
+
+async def part_special3(pg, cdp):
+    for sid in shop_filter(None, ['omu', 'noodle2', 'pasta']):
+        tag = '[SPECIAL3 %s]' % sid
+        await at_shop(pg, cdp, sid, H_INT)
+        await looks(pg, cdp, sid, tag)
+        if sid == 'omu':
+            await cam_shot(pg, fn('int', sid, H_INT, 'close_地板', True), (0.0, 1.35, 1.6), (0.0, 0.0, 0.2), 30)
+            await pg.set_viewport_size({'width': 1280, 'height': 720}); await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()"); await pg.evaluate(D.CAM, {'eye': [0.0, 1.35, 1.6], 'look': [0.0, 0.0, 0.2], 'lens': 30})
+            px = await pg.evaluate(PIX, {'re': '^$', 'pt': [0.0, 0.0, 0.25], 'px': 120})
+            await pg.evaluate(D.UNCAM); await pg.evaluate("(()=>{ GAME.E.player.obj.visible=true; })()"); await pg.set_viewport_size(VP)
+            lum = 0.299 * px['rgb'][0] + 0.587 * px['rgb'][1] + 0.114 * px['rgb'][2]
+            R.note('%s 地板中間（0,0,0.25）附近 120 px 平均色 %s、亮度 %.0f（D112：不要深色木；BB 判）' % (tag, px['rgb'], lum))
+        if sid == 'noodle2':
+            ck = await pg.evaluate("(()=>(GAME.E.npcs||[]).filter(n=>n&&n.clerk).map(n=>({id:n.id||n.cid||null, x:+n.obj.position.x.toFixed(2), z:+n.obj.position.z.toFixed(2), yaw:+n.obj.rotation.y.toFixed(2)})))()")
+            want = await pg.evaluate("L118_SHOP_LAYOUTS.noodle2.clerk")
+            R.note('%s 店員：%s；配置 clerk %s（yaw 0＝面向 +z＝店門那一邊）' % (tag, J(ck), J(want)))
+            R.check('%s 店員站在配置的位置（0.2 m 內）' % tag, len(ck) >= 1 and math.hypot(ck[0]['x'] - want['x'], ck[0]['z'] - want['z']) <= 0.2, J(ck))
+            ov = next((i for i in await pg.evaluate(ITS) if i['label'].startswith('窯')), None)
+            if ov:
+                tg = await D.standable_near(pg, ov['x'], ov['z'], ov['r'] * 0.6, 0)
+                ok, t, st = await joy_walk(pg, cdp, tg['x'], tg['z'], 0.3, 40, '%s 搖桿走到爐口前' % tag)
+                R.check('%s 搖桿走到爐口前（%s 秒）' % (tag, t), ok, J(st))
+                await L.turn_camera_to(pg, cdp, 0.9, -3.6); await pg.wait_for_timeout(1200)
+                await game_shot(pg, fn('special', sid, H_INT, 'oven_front', False), tag)
+            for h in (H_INT, 20.0):
+                if h != H_INT: await at_shop(pg, cdp, sid, h, '（晚上看窯爐的火）')
+                eye, look = (0.9, 1.5, -0.9), (0.9, 0.9, -3.6)
+                await cam_shot(pg, fn('special', sid, h, 'oven_fire', True), eye, look, 32)
+                await pg.set_viewport_size({'width': 1280, 'height': 720}); await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()"); await pg.evaluate(D.CAM, {'eye': list(eye), 'look': list(look), 'lens': 32})
+                px = await pg.evaluate(PIX, {'re': 'noodle2_fire|fire|ember', 'pt': None, 'px': 40})
+                await pg.evaluate(D.UNCAM); await pg.evaluate("(()=>{ GAME.E.player.obj.visible=true; })()"); await pg.set_viewport_size(VP)
+                R.note('%s %s 火焰網格（材質名 fire／ember）附近 40 px：%s' % (tag, hhmm(h), J(px)))
+                R.check('%s %s 窯爐的火：找得到火焰網格、在畫面上、不是白光（近白像素 <30%%、平均色偏橘：R>B＋40）' % (tag, hhmm(h)), px.get('found') and px.get('onScreen') and px['white'] < 0.3 and px['rgb'][0] > px['rgb'][2] + 40, J(px))
+        if sid == 'pasta':
+            d = await pg.evaluate("GAME.G.day")
+            await pg.evaluate("(d=>{ const G=GAME.G; if(!G.side||typeof G.side!=='object') G.side={}; G.side.SQ12={state:'done', doneDay:d-1}; G.stage='law'; })", d)
+            R.setup('【前置／捷徑】G.side.SQ12＝{state:done, doneDay:%d}（前一天做完）、G.stage law（痕跡每一格問 SIDEQ.traceOn，不用重進）' % (d - 1))
+            await pg.wait_for_timeout(1000)
+            tr = await pg.evaluate("(()=>{ let o=null; GAME.E.scene.traverse(q=>{ if(!o&&/TRACE_SQ12/.test(q.name||'')) o=q; }); if(!o) return null; const p=new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3()); return {name:o.name, visible:o.visible, on:typeof SIDEQ!=='undefined'&&SIDEQ.traceOn?SIDEQ.traceOn(GAME.G,'SQ12'):null, at:[+p.x.toFixed(2),+p.y.toFixed(2),+p.z.toFixed(2)]}; })()")
+            R.note('%s TRACE_SQ12：%s' % (tag, J(tr)))
+            if not R.check('%s 模型裡有 TRACE_SQ12_* 節點、SQ12 做完的隔天看得到' % tag, bool(tr) and tr['visible'], J(tr)): continue
+            tg = await D.standable_near(pg, tr['at'][0], tr['at'][2], 1.4, 0)
+            ok, t, st = await joy_walk(pg, cdp, tg['x'], tg['z'], 0.3, 40, '%s 搖桿走到照片前' % tag) if tg else (False, 0, [])
+            s_ = await D.settle(pg); its = await pg.evaluate(ITS)
+            near = sorted([i for i in its if math.hypot(i['x'] - tr['at'][0], i['z'] - tr['at'][2]) < 1.6], key=lambda i: math.hypot(i['x'] - tr['at'][0], i['z'] - tr['at'][2]))
+            R.note('%s 走到照片前 %s：互動鍵「%s」；照片 1.6 m 內的互動點 %s' % (tag, J([s_['x'], s_['z']]), s_['interact'], J(near)))
+            R.check('%s 走到照片前看得到互動鍵（記文字）' % tag, ok and bool(s_['interact']), J({'interact': s_['interact']}))
+            await game_shot(pg, fn('special', sid, H_INT, 'sq12_photo', False), tag, judge=False)
+            await cam_shot(pg, fn('special', sid, H_INT, 'sq12_photo', True), (tr['at'][0], tr['at'][1] + 0.1, tr['at'][2] + 1.3), tuple(tr['at']), 36, judge=False)
+
+
+# ------------------------------------------------------------------ 還是舊模型的店
+async def part_other(pg, cdp):
+    for sid in OLD2:
         tag = '[OTHER5 %s]' % sid
         await at_shop(pg, cdp, sid, H_INT); await pg.wait_for_timeout(1500)
         await game_shot(pg, fn('int', sid, H_INT, 'door', False), tag, judge=False)
@@ -583,17 +678,17 @@ async def main():
                 try:
                     if base == 'EXT14': await part_ext(pg, cdp, 14.0)
                     elif base == 'EXT20': await part_ext(pg, cdp, 20.0)
-                    elif base == 'INTFRONT': await part_intfront(pg, cdp, shop_filter(shop, NEW4), [float(x) for x in (os.environ.get('HOURS_INT') or str(H_INT)).split(',')])
+                    elif base == 'INTFRONT': await part_intfront(pg, cdp, shop_filter(shop, NEW7), [float(x) for x in (os.environ.get('HOURS_INT') or str(H_INT)).split(',')])
                     elif base == 'DRINK': await part_drink(pg, cdp)
                     elif base == 'LANEWALK': await part_lanewalk(pg, cdp)
                     elif base == 'CORNERS':
-                        for sid in shop_filter(shop, NEW4): await part_corners(pg, cdp, sid)
+                        for sid in shop_filter(shop, NEW7): await part_corners(pg, cdp, sid)
                     elif base == 'SEATS':
-                        for sid in shop_filter(shop, NEW4): await part_seats(pg, cdp, sid, rng)
+                        for sid in shop_filter(shop, NEW7): await part_seats(pg, cdp, sid, rng)
                     elif base == 'WALLWALK':
-                        for sid in shop_filter(shop, NEW4): await part_wallwalk(pg, cdp, sid)
+                        for sid in shop_filter(shop, NEW7): await part_wallwalk(pg, cdp, sid)
                     elif base == 'DOORS':
-                        for sid in shop_filter(shop, NEW4): await part_doors(pg, cdp, sid)
+                        for sid in shop_filter(shop, NEW7): await part_doors(pg, cdp, sid)
                     elif base == 'VIEWS': await part_views(pg, cdp, 'asis')
                     elif base == 'VIEWSNEW':
                         if not vsrc: R.note('[VIEWSNEW] 沒有新拍的 webp，窗外沒有換（見上面的訊息）；只留 views_new/ 的原始檔'); continue
@@ -602,7 +697,8 @@ async def main():
                             n = await pg.evaluate("(d=>{ let n=0; for(const k in d){ const v=d[k]; if(W3.VIEW_LAYERS){ W3.VIEW_LAYERS[k]={far:v.far, near:v.near||W3.VIEW_LAYERS[k]&&W3.VIEW_LAYERS[k].near}; n++; } } return n; })", dd)
                             R.setup('【捷徑】W3.VIEW_LAYERS 換成重拍量到的景深（%d 間）：%s' % (n, J(dd)))
                         await part_views(pg, cdp, 'reshot')
-                    elif base == 'OTHER5': await part_other5(pg, cdp)
+                    elif base in ('OTHER', 'OTHER5'): await part_other(pg, cdp)
+                    elif base == 'SPECIAL3': await part_special3(pg, cdp)
                     else: R.check('[%s] 認得這個 PART' % part, False, '')
                 except Exception as e:
                     R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])

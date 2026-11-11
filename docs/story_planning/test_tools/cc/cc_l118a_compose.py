@@ -67,7 +67,7 @@ for sid in ('dian', 'self', 'korea', 'tea', 'home', 'cafe2', 'pasta', 'omu', 'no
                  tile(close, '新 近照 %s' % (os.path.basename(close).split('_close_')[1].rsplit('_', 1)[0] if close else ''))]]
         grid(rows, 'l118a_int_%s_%s.jpg' % (sid, hh), 'L118A %s 室內 %s：參考圖 int_／int2_｜新｜舊（同機位）' % (NAME[sid], hh)); n += 1
 # 遊戲鏡頭總覽
-for kind in ('corner', 'seat', 'wall', 'walk', 'door', 'view', 'drink'):
+for kind in ('corner', 'seat', 'wall', 'walk', 'door', 'view', 'drink', 'special'):
     ps = sorted({p for d in NEWD for p in glob.glob(os.path.join(d, '**', 'l118a_%s_*.jpg' % kind), recursive=True)})
     groups = {}
     for p in ps: groups.setdefault(os.path.basename(p).split('_')[2], []).append(p)
