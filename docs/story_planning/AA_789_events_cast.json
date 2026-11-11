@@ -1,0 +1,114 @@
+{
+ "_meta": {
+  "doc": "AA_789 主線、日常事件（events.js）配角的台詞覆蓋列（X324 E 區）",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "同 AA_786，files 一人一格。",
+  "rule": "阿哲 170／22、Alison 95／17、柏翰 82／15、芯慈 82／20、明軒 70／20、阿凱 57／13、唐睿 56／19（句／刪節號）。配角的「……」幾乎都是笑點的節拍（「你的筆記？……字好醜」「許柏翰。……考古題沒有這一題」「下次我請。……一顆滷蛋」「……她說我比較矮」），密度也在四、五句一個，都留；只拿掉旁白後面和句首重複停頓的 8 句。明軒的「我請」是他省錢的笑點，事件不扣錢，留。",
+  "counts": {
+   "列": 8
+  }
+ },
+ "files": [
+  {
+   "who": "zhe",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[281].dialogue[2].text",
+     "event": "ev_zhe_court_y2",
+     "expr": "smile",
+     "old": "（投進）……沒事啦。",
+     "new": "（投進）沒事啦。",
+     "note": "句首、旁白後的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[281].dialogue[11].text",
+     "event": "ev_zhe_court_y2",
+     "expr": "smile",
+     "old": "……好。我請。",
+     "new": "好。我請。",
+     "note": "句首、旁白後的「……」是習慣，拿掉"
+    }
+   ]
+  },
+  {
+   "who": "yu",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[300].dialogue[10].text",
+     "event": "ev_yu_together_call",
+     "expr": null,
+     "old": "謝謝！！……阿哲在旁邊，他叫你明天來燒臘店。",
+     "new": "謝謝！！阿哲在旁邊，他叫你明天來燒臘店。",
+     "note": "句首、旁白後的「……」是習慣，拿掉"
+    }
+   ]
+  },
+  {
+   "who": "classmate_bohan",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[104].dialogue[1].text",
+     "event": "ev_typhoon_noodles_y1",
+     "expr": "neutral",
+     "old": "（在讀張教授寄來的講義）……第二十頁了。",
+     "new": "（在讀張教授寄來的講義）第二十頁了。",
+     "note": "句首、旁白後的「……」是習慣，拿掉"
+    }
+   ]
+  },
+  {
+   "who": "kai",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[31].dialogue[4].text",
+     "event": "ev_kai_late_screen",
+     "expr": "neutral",
+     "old": "（頭沒回）……喔。",
+     "new": "（頭沒回）喔。",
+     "note": "句首、旁白後的「……」是習慣，拿掉"
+    }
+   ]
+  },
+  {
+   "who": "classmate_xinci",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[23].dialogue[4].text",
+     "event": "ev_xinci_notes",
+     "expr": "smile",
+     "old": "謝謝。……我會重新排版再還你，你不要介意。",
+     "new": "謝謝。我會重新排版再還你，你不要介意。",
+     "note": "句首、旁白後的「……」是習慣，拿掉"
+    }
+   ]
+  },
+  {
+   "who": "唐睿",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[195].dialogue[2].text",
+     "event": "ev_y0_t3",
+     "expr": null,
+     "old": "（遞給品妤一個盒子）……情人節。這個給妳。",
+     "new": "（遞給品妤一個盒子）情人節。這個給妳。",
+     "note": "句首、旁白後的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[208].dialogue[3].text",
+     "event": "ev_y0_xiaofu",
+     "expr": null,
+     "old": "（坐下來，筷子還沒拆）……欸，問你一件事。",
+     "new": "（坐下來，筷子還沒拆）欸，問你一件事。",
+     "note": "句首、旁白後的「……」是習慣，拿掉"
+    }
+   ]
+  }
+ ]
+}
