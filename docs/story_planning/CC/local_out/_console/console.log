@@ -1,11 +1,3 @@
-[07:19:03] skip GLASSDIAG_v2b (already done on be84c86807aa45324daed407996770feb6dbba13)
-[07:19:03] skip X295E_fair_keep_fix (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[07:19:03] skip GLASSDIAG_v2d (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[07:19:03] skip TEACHVIEW_pn_v2d (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[07:19:03] skip BOYA1F_v2d (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[07:19:03] skip GUI_fix2 (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[07:19:03] skip XSDOOR_new (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[07:19:03] skip XSDOOR_old (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
 [07:19:03] skip XSPLANT_new (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
 [07:19:03] skip XSPLANT_old (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
 [07:19:03] skip GIFTHOL2_new (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
@@ -1998,3 +1990,11 @@
 [13:40:26] ==== START NM_cam3_old  (probe @ 696cf6036f3ca9fbc7022c21ab37324b0e46e305) ====
 [13:40:29] [res] cpu=17% mem=48% (15.1/31.4 GB) chrome_testing=9  START NM_cam3_old
 [13:42:07] [res] cpu=3% mem=49% (15.6/31.4 GB) chrome_testing=10  END NM_cam3_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       cb36f15b5..a5803ed03  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:42:13] ==== END   NM_cam3_new  exit=0  149s   ====
+[13:42:17] memory 49% before starting NM_lane_new (2 running)
+[13:42:17] ==== START NM_lane_new  (probe @ 1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511) ====
+[13:42:20] [res] cpu=5% mem=50% (15.7/31.4 GB) chrome_testing=10  START NM_lane_new
+[13:43:08] [res] cpu=18% mem=49% (15.1/31.4 GB) chrome_testing=9  END NM_cam3_old
