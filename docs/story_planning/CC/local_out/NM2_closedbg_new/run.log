@@ -1,0 +1,172 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm2_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM2_closedbg_new\out
+CC NM2 夜市能看能買：PARTS CLOSED,BG；STALLS 全部；SHA e8918a013；稿 fixtures\nm2；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.8s] 記錄層：ok（包 GAME.say／choose／toast 只記錄，照原樣呼叫）
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 20:00 錢 3000 元 （讀配置）
+  [前置／捷徑] 讀檔到 gongguan 2025-11-05 00:30（隔天） (29.00,13.10) 錢 3000 元 （st_milk 沈三盃黑糖鮮奶 客人那一面 1.9 m）
+PASS [CLOSED st_milk 沈三盃黑糖鮮奶 00:30（隔天）] 互動鍵寫「看沈三盃黑糖鮮奶」  畫面「看沈三盃黑糖鮮奶」
+  [  62.9s] [CLOSED st_milk 沈三盃黑糖鮮奶 00:30（隔天）] 按之前 00:33（隔天） 模型 open visible False；按的那一刻 G.hour 24.5493（00:33（隔天））isOpen False → 出來的是 closed
+PASS [CLOSED st_milk 沈三盃黑糖鮮奶 00:30（隔天）] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [CLOSED st_milk 沈三盃黑糖鮮奶 00:30（隔天）] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [CLOSED st_milk 沈三盃黑糖鮮奶 00:30（隔天）] 按的那一刻 00:33（隔天） 照稿 17:00～00:00（隔天） 應該收
+PASS [CLOSED st_milk 沈三盃黑糖鮮奶 00:30（隔天）] 只有 closed 一句（逐句對稿、旁白）  畫面 [["", "（深褐色的帆布蓋住了櫃檯。銅鍋洗好倒扣著，還聞得到一點焦糖味。）"]]；稿 "（深褐色的帆布蓋住了櫃檯。銅鍋洗好倒扣著，還聞得到一點焦糖味。）"
+PASS [CLOSED st_milk 沈三盃黑糖鮮奶 00:30（隔天）] 沒有品項選單  []
+PASS [CLOSED st_milk 沈三盃黑糖鮮奶 00:30（隔天）] 畫面上（對話框、選單、字幕、提示）沒有「元」  （深褐色的帆布蓋住了櫃檯。銅鍋洗好倒扣著，還聞得到一點焦糖味。） 手機｜法律系（全班）｜同學：憲法作業發回來了 有人知道第三題到底在問什麼嗎 手機｜法律系（全班）｜沈以安：公法讀書會。週四晚上八點，B館研討室。想來的就來，不用…
+PASS [CLOSED st_milk 沈三盃黑糖鮮奶 00:30（隔天）] 錢沒變  [3000, 3000]
+  [  62.9s] [CLOSED 摘要] st_milk 沈三盃黑糖鮮奶｜模型 [false, false, true]｜鍵「看沈三盃黑糖鮮奶」｜["（深褐色的帆布蓋住了櫃檯。銅鍋洗好倒扣著，還聞得到一點焦糖味。）"]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 23:30 (-6.10,-11.50) 錢 3000 元 （st_pepper 皇家高端胡椒餅 客人那一面 1.9 m）
+PASS [CLOSED st_pepper 皇家高端胡椒餅 23:30] 互動鍵寫「看皇家高端胡椒餅」  畫面「看皇家高端胡椒餅」
+  [  73.1s] [CLOSED st_pepper 皇家高端胡椒餅 23:30] 按之前 23:33 模型 open visible False；按的那一刻 G.hour 23.5457（23:33）isOpen False → 出來的是 closed
+PASS [CLOSED st_pepper 皇家高端胡椒餅 23:30] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [CLOSED st_pepper 皇家高端胡椒餅 23:30] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [CLOSED st_pepper 皇家高端胡椒餅 23:30] 按的那一刻 23:33 照稿 17:00～23:00 應該收
+PASS [CLOSED st_pepper 皇家高端胡椒餅 23:30] 只有 closed 一句（逐句對稿、旁白）  畫面 [["", "（深紅色的帆布包住了工作台。皇冠的燈關了，還是看得出是皇冠。）"]]；稿 "（深紅色的帆布包住了工作台。皇冠的燈關了，還是看得出是皇冠。）"
+PASS [CLOSED st_pepper 皇家高端胡椒餅 23:30] 沒有品項選單  []
+PASS [CLOSED st_pepper 皇家高端胡椒餅 23:30] 畫面上（對話框、選單、字幕、提示）沒有「元」  （深紅色的帆布包住了工作台。皇冠的燈關了，還是看得出是皇冠。） 手機｜法律系（全班）｜同學：憲法作業發回來了 有人知道第三題到底在問什麼嗎 手機｜法律系（全班）｜沈以安：公法讀書會。週四晚上八點，B館研討室。想來的就來，不用…
+PASS [CLOSED st_pepper 皇家高端胡椒餅 23:30] 錢沒變  [3000, 3000]
+  [  73.1s] [CLOSED 摘要] st_pepper 皇家高端胡椒餅｜模型 [false, false, true]｜鍵「看皇家高端胡椒餅」｜["（深紅色的帆布包住了工作台。皇冠的燈關了，還是看得出是皇冠。）"]
+  [前置／捷徑] 讀檔到 gongguan 2025-11-05 22:30 (53.60,13.10) 錢 3000 元 （st_wheelcake 二十元紅豆餅 客人那一面 1.9 m）
+PASS [CLOSED st_wheelcake 二十元紅豆餅 22:30] 互動鍵寫「看二十元紅豆餅」  畫面「看二十元紅豆餅」
+  [  85.2s] [CLOSED st_wheelcake 二十元紅豆餅 22:30] 按之前 22:33 模型 open visible False；按的那一刻 G.hour 22.5453（22:33）isOpen False → 出來的是 closed
+PASS [CLOSED st_wheelcake 二十元紅豆餅 22:30] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [CLOSED st_wheelcake 二十元紅豆餅 22:30] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [CLOSED st_wheelcake 二十元紅豆餅 22:30] 按的那一刻 22:33 照稿 15:00～22:00 應該收
+PASS [CLOSED st_wheelcake 二十元紅豆餅 22:30] 只有 closed 一句（逐句對稿、旁白）  畫面 [["", "（藍灰色的帆布蓋著，只露出四個輪子。）"]]；稿 "（藍灰色的帆布蓋著，只露出四個輪子。）"
+PASS [CLOSED st_wheelcake 二十元紅豆餅 22:30] 沒有品項選單  []
+PASS [CLOSED st_wheelcake 二十元紅豆餅 22:30] 畫面上（對話框、選單、字幕、提示）沒有「元」  （藍灰色的帆布蓋著，只露出四個輪子。） 手機｜法律系（全班）｜同學：憲法作業發回來了 有人知道第三題到底在問什麼嗎 手機｜法律系（全班）｜沈以安：公法讀書會。週四晚上八點，B館研討室。想來的就來，不用…
+PASS [CLOSED st_wheelcake 二十元紅豆餅 22:30] 錢沒變  [3000, 3000]
+  [  85.2s] [CLOSED 摘要] st_wheelcake 二十元紅豆餅｜模型 [false, false, true]｜鍵「看二十元紅豆餅」｜["（藍灰色的帆布蓋著，只露出四個輪子。）"]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 00:30（隔天） (18.50,0.25) 錢 3000 元 （st_ball 一個地球 客人那一面 1.9 m）
+PASS [CLOSED st_ball 一個地球 00:30（隔天）] 互動鍵寫「看一個地球」  畫面「看一個地球」
+  [  95.0s] [CLOSED st_ball 一個地球 00:30（隔天）] 按之前 00:33（隔天） 模型 open visible False；按的那一刻 G.hour 24.5438（00:33（隔天））isOpen False → 出來的是 closed
+PASS [CLOSED st_ball 一個地球 00:30（隔天）] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [CLOSED st_ball 一個地球 00:30（隔天）] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [CLOSED st_ball 一個地球 00:30（隔天）] 按的那一刻 00:33（隔天） 照稿 17:00～00:00（隔天） 應該收
+PASS [CLOSED st_ball 一個地球 00:30（隔天）] 只有 closed 一句（逐句對稿、旁白）  畫面 [["", "（深藍色的帆布包著車子。招牌上的地球沒有亮。）"]]；稿 "（深藍色的帆布包著車子。招牌上的地球沒有亮。）"
+PASS [CLOSED st_ball 一個地球 00:30（隔天）] 沒有品項選單  []
+PASS [CLOSED st_ball 一個地球 00:30（隔天）] 畫面上（對話框、選單、字幕、提示）沒有「元」  （深藍色的帆布包著車子。招牌上的地球沒有亮。） 手機｜法律系（全班）｜同學：憲法作業發回來了 有人知道第三題到底在問什麼嗎 手機｜法律系（全班）｜沈以安：公法讀書會。週四晚上八點，B館研討室。想來的就來，不用…
+PASS [CLOSED st_ball 一個地球 00:30（隔天）] 錢沒變  [3000, 3000]
+  [  95.0s] [CLOSED 摘要] st_ball 一個地球｜模型 [false, false, true]｜鍵「看一個地球」｜["（深藍色的帆布包著車子。招牌上的地球沒有亮。）"]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 23:30 (14.50,-0.25) 錢 3000 元 （st_scallion 當蔥蔥油餅 客人那一面 1.9 m）
+PASS [CLOSED st_scallion 當蔥蔥油餅 23:30] 互動鍵寫「看當蔥蔥油餅」  畫面「看當蔥蔥油餅」
+  [ 105.4s] [CLOSED st_scallion 當蔥蔥油餅 23:30] 按之前 23:33 模型 open visible False；按的那一刻 G.hour 23.5442（23:33）isOpen False → 出來的是 closed
+PASS [CLOSED st_scallion 當蔥蔥油餅 23:30] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [CLOSED st_scallion 當蔥蔥油餅 23:30] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [CLOSED st_scallion 當蔥蔥油餅 23:30] 按的那一刻 23:33 照稿 16:00～23:00 應該收
+PASS [CLOSED st_scallion 當蔥蔥油餅 23:30] 只有 closed 一句（逐句對稿、旁白）  畫面 [["", "（煎台蓋起來了，灰綠色的帆布蓋著攤車。布條上那根蔥還在看著你。）"]]；稿 "（煎台蓋起來了，灰綠色的帆布蓋著攤車。布條上那根蔥還在看著你。）"
+PASS [CLOSED st_scallion 當蔥蔥油餅 23:30] 沒有品項選單  []
+PASS [CLOSED st_scallion 當蔥蔥油餅 23:30] 畫面上（對話框、選單、字幕、提示）沒有「元」  （煎台蓋起來了，灰綠色的帆布蓋著攤車。布條上那根蔥還在看著你。） 手機｜法律系（全班）｜同學：憲法作業發回來了 有人知道第三題到底在問什麼嗎 手機｜法律系（全班）｜沈以安：公法讀書會。週四晚上八點，B館研討室。想來的就來，不用…
+PASS [CLOSED st_scallion 當蔥蔥油餅 23:30] 錢沒變  [3000, 3000]
+  [ 105.4s] [CLOSED 摘要] st_scallion 當蔥蔥油餅｜模型 [false, false, true]｜鍵「看當蔥蔥油餅」｜["（煎台蓋起來了，灰綠色的帆布蓋著攤車。布條上那根蔥還在看著你。）"]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 00:30（隔天） (-6.10,-21.50) 錢 3000 元 （st_stinky 紹興炸豆腐 客人那一面 1.9 m）
+PASS [CLOSED st_stinky 紹興炸豆腐 00:30（隔天）] 互動鍵寫「看紹興炸豆腐」  畫面「看紹興炸豆腐」
+  [ 115.6s] [CLOSED st_stinky 紹興炸豆腐 00:30（隔天）] 按之前 00:33（隔天） 模型 open visible False；按的那一刻 G.hour 24.5459（00:33（隔天））isOpen False → 出來的是 closed
+PASS [CLOSED st_stinky 紹興炸豆腐 00:30（隔天）] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [CLOSED st_stinky 紹興炸豆腐 00:30（隔天）] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [CLOSED st_stinky 紹興炸豆腐 00:30（隔天）] 按的那一刻 00:33（隔天） 照稿 17:30～00:00（隔天） 應該收
+PASS [CLOSED st_stinky 紹興炸豆腐 00:30（隔天）] 只有 closed 一句（逐句對稿、旁白）  畫面 [["", "（酒紅色的帆布蓋住工作台。兩個酒甕還在原地，味道淡了很多。）"]]；稿 "（酒紅色的帆布蓋住工作台。兩個酒甕還在原地，味道淡了很多。）"
+PASS [CLOSED st_stinky 紹興炸豆腐 00:30（隔天）] 沒有品項選單  []
+PASS [CLOSED st_stinky 紹興炸豆腐 00:30（隔天）] 畫面上（對話框、選單、字幕、提示）沒有「元」  （酒紅色的帆布蓋住工作台。兩個酒甕還在原地，味道淡了很多。） 手機｜法律系（全班）｜同學：憲法作業發回來了 有人知道第三題到底在問什麼嗎 手機｜法律系（全班）｜沈以安：公法讀書會。週四晚上八點，B館研討室。想來的就來，不用…
+PASS [CLOSED st_stinky 紹興炸豆腐 00:30（隔天）] 錢沒變  [3000, 3000]
+  [ 115.6s] [CLOSED 摘要] st_stinky 紹興炸豆腐｜模型 [false, false, true]｜鍵「看紹興炸豆腐」｜["（酒紅色的帆布蓋住工作台。兩個酒甕還在原地，味道淡了很多。）"]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 00:30（隔天） (-6.10,-16.50) 錢 3000 元 （st_corn 玉皇大帝 客人那一面 1.9 m）
+PASS [CLOSED st_corn 玉皇大帝 00:30（隔天）] 互動鍵寫「看玉皇大帝」  畫面「看玉皇大帝」
+  [ 125.6s] [CLOSED st_corn 玉皇大帝 00:30（隔天）] 按之前 00:33（隔天） 模型 open visible False；按的那一刻 G.hour 24.5444（00:33（隔天））isOpen False → 出來的是 closed
+PASS [CLOSED st_corn 玉皇大帝 00:30（隔天）] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [CLOSED st_corn 玉皇大帝 00:30（隔天）] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [CLOSED st_corn 玉皇大帝 00:30（隔天）] 按的那一刻 00:33（隔天） 照稿 18:00～00:00（隔天） 應該收
+PASS [CLOSED st_corn 玉皇大帝 00:30（隔天）] 只有 closed 一句（逐句對稿、旁白）  畫面 [["", "（黑色的帆布綁在攤車上。招牌上那根玉米還戴著墨鏡。）"]]；稿 "（黑色的帆布綁在攤車上。招牌上那根玉米還戴著墨鏡。）"
+PASS [CLOSED st_corn 玉皇大帝 00:30（隔天）] 沒有品項選單  []
+PASS [CLOSED st_corn 玉皇大帝 00:30（隔天）] 畫面上（對話框、選單、字幕、提示）沒有「元」  （黑色的帆布綁在攤車上。招牌上那根玉米還戴著墨鏡。） 手機｜法律系（全班）｜同學：憲法作業發回來了 有人知道第三題到底在問什麼嗎 手機｜法律系（全班）｜沈以安：公法讀書會。週四晚上八點，B館研討室。想來的就來，不用…
+PASS [CLOSED st_corn 玉皇大帝 00:30（隔天）] 錢沒變  [3000, 3000]
+  [ 125.6s] [CLOSED 摘要] st_corn 玉皇大帝｜模型 [false, false, true]｜鍵「看玉皇大帝」｜["（黑色的帆布綁在攤車上。招牌上那根玉米還戴著墨鏡。）"]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 22:00 (10.50,0.25) 錢 3000 元 （st_eggcake 陳家古早味雞蛋糕 客人那一面 1.9 m）
+PASS [CLOSED st_eggcake 陳家古早味雞蛋糕 22:00] 互動鍵寫「看陳家古早味雞蛋糕」  畫面「看陳家古早味雞蛋糕」
+  [ 136.9s] [CLOSED st_eggcake 陳家古早味雞蛋糕 22:00] 按之前 22:03 模型 open visible False；按的那一刻 G.hour 22.0458（22:03）isOpen False → 出來的是 closed
+PASS [CLOSED st_eggcake 陳家古早味雞蛋糕 22:00] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [CLOSED st_eggcake 陳家古早味雞蛋糕 22:00] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [CLOSED st_eggcake 陳家古早味雞蛋糕 22:00] 按的那一刻 22:03 照稿 15:00～21:30 應該收
+PASS [CLOSED st_eggcake 陳家古早味雞蛋糕 22:00] 只有 closed 一句（逐句對稿、旁白）  畫面 [["", "（灰棕色的帆布蓋著。車身上「陳家」兩個字的紅漆掉了一角。）"]]；稿 "（灰棕色的帆布蓋著。車身上「陳家」兩個字的紅漆掉了一角。）"
+PASS [CLOSED st_eggcake 陳家古早味雞蛋糕 22:00] 沒有品項選單  []
+PASS [CLOSED st_eggcake 陳家古早味雞蛋糕 22:00] 畫面上（對話框、選單、字幕、提示）沒有「元」  （灰棕色的帆布蓋著。車身上「陳家」兩個字的紅漆掉了一角。） 手機｜法律系（全班）｜同學：憲法作業發回來了 有人知道第三題到底在問什麼嗎 手機｜法律系（全班）｜沈以安：公法讀書會。週四晚上八點，B館研討室。想來的就來，不用…
+PASS [CLOSED st_eggcake 陳家古早味雞蛋糕 22:00] 錢沒變  [3000, 3000]
+  [ 136.9s] [CLOSED 摘要] st_eggcake 陳家古早味雞蛋糕｜模型 [false, false, true]｜鍵「看陳家古早味雞蛋糕」｜["（灰棕色的帆布蓋著。車身上「陳家」兩個字的紅漆掉了一角。）"]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 23:30 (6.10,29.60) 錢 3000 元 （st_cane 節節高甘蔗汁 客人那一面 1.9 m）
+PASS [CLOSED st_cane 節節高甘蔗汁 23:30] 互動鍵寫「看節節高甘蔗汁」  畫面「看節節高甘蔗汁」
+  [ 146.9s] [CLOSED st_cane 節節高甘蔗汁 23:30] 按之前 23:33 模型 open visible False；按的那一刻 G.hour 23.5447（23:33）isOpen False → 出來的是 closed
+PASS [CLOSED st_cane 節節高甘蔗汁 23:30] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [CLOSED st_cane 節節高甘蔗汁 23:30] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [CLOSED st_cane 節節高甘蔗汁 23:30] 按的那一刻 23:33 照稿 16:00～23:00 應該收
+PASS [CLOSED st_cane 節節高甘蔗汁 23:30] 只有 closed 一句（逐句對稿、旁白）  畫面 [["", "（淺綠色的帆布包著車子。地上還有幾片甘蔗皮。）"]]；稿 "（淺綠色的帆布包著車子。地上還有幾片甘蔗皮。）"
+PASS [CLOSED st_cane 節節高甘蔗汁 23:30] 沒有品項選單  []
+PASS [CLOSED st_cane 節節高甘蔗汁 23:30] 畫面上（對話框、選單、字幕、提示）沒有「元」  （淺綠色的帆布包著車子。地上還有幾片甘蔗皮。） 手機｜法律系（全班）｜同學：憲法作業發回來了 有人知道第三題到底在問什麼嗎 手機｜法律系（全班）｜沈以安：公法讀書會。週四晚上八點，B館研討室。想來的就來，不用…
+PASS [CLOSED st_cane 節節高甘蔗汁 23:30] 錢沒變  [3000, 3000]
+  [ 146.9s] [CLOSED 摘要] st_cane 節節高甘蔗汁｜模型 [false, false, true]｜鍵「看節節高甘蔗汁」｜["（淺綠色的帆布包著車子。地上還有幾片甘蔗皮。）"]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 23:30 (6.10,35.00) 錢 3000 元 （st_jelly 公館阿婆甜湯 客人那一面 1.9 m）
+PASS [CLOSED st_jelly 公館阿婆甜湯 23:30] 互動鍵寫「看公館阿婆甜湯」  畫面「看公館阿婆甜湯」
+  [ 157.0s] [CLOSED st_jelly 公館阿婆甜湯 23:30] 按之前 23:33 模型 open visible False；按的那一刻 G.hour 23.5444（23:33）isOpen False → 出來的是 closed
+PASS [CLOSED st_jelly 公館阿婆甜湯 23:30] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [CLOSED st_jelly 公館阿婆甜湯 23:30] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [CLOSED st_jelly 公館阿婆甜湯 23:30] 按的那一刻 23:33 照稿 17:00～23:00 應該收
+PASS [CLOSED st_jelly 公館阿婆甜湯 23:30] 只有 closed 一句（逐句對稿、旁白）  畫面 [["", "（桌子和凳子疊在一起，玻璃櫃蓋著紅灰色的帆布。）"]]；稿 "（桌子和凳子疊在一起，玻璃櫃蓋著紅灰色的帆布。）"
+PASS [CLOSED st_jelly 公館阿婆甜湯 23:30] 沒有品項選單  []
+PASS [CLOSED st_jelly 公館阿婆甜湯 23:30] 畫面上（對話框、選單、字幕、提示）沒有「元」  （桌子和凳子疊在一起，玻璃櫃蓋著紅灰色的帆布。） 手機｜法律系（全班）｜同學：憲法作業發回來了 有人知道第三題到底在問什麼嗎 手機｜法律系（全班）｜沈以安：公法讀書會。週四晚上八點，B館研討室。想來的就來，不用…
+PASS [CLOSED st_jelly 公館阿婆甜湯 23:30] 錢沒變  [3000, 3000]
+  [ 157.0s] [CLOSED 摘要] st_jelly 公館阿婆甜湯｜模型 [false, false, true]｜鍵「看公館阿婆甜湯」｜["（桌子和凳子疊在一起，玻璃櫃蓋著紅灰色的帆布。）"]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-07 20:00 錢 3000 元 （讀配置）
+PASS [BG] 配置有 ring，kinds.buy＝false  {"name": "套圈圈", "size": "BG", "w": 2.2, "d": 1.6, "block": {"w": 2.9, "d": 2.2, "back": 0.2}, "from": 18, "to": 22.5, "buy": false, "days": [5, 6, 0]}
+PASS [BG] 配置有 phonecase，kinds.buy＝false  {"name": "手機殼", "size": "BG", "w": 1.6, "d": 0.7, "block": {"w": 2.2, "d": 1.5, "back": 0.25}, "from": 16, "to": 22.5, "buy": false}
+PASS [BG] 配置有 socks，kinds.buy＝false  {"name": "襪子", "size": "BG", "w": 1.6, "d": 0.7, "block": {"w": 2.2, "d": 1.5, "back": 0.25}, "from": 16, "to": 22, "buy": false}
+  [ 166.5s] [BG] 背景三攤配置時間：{"ring": [18, 22.5, [5, 6, 0]], "phonecase": [16, 22.5, null], "socks": [16, 22, null]}
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-06 20:00 (5.90,-27.50) 錢 3000 元 （st_ring 套圈圈 客人那一面 1.9 m）
+PASS [BG 套圈圈 週四 2025-11-06 20:00] 互動鍵寫「看套圈圈」  畫面「看套圈圈」
+  [ 177.1s] [BG 套圈圈 週四 2025-11-06 20:00] 按之前 20:03 模型 open visible False；按的那一刻 G.hour 20.0456（20:03）isOpen False → 出來的是 closed
+PASS [BG 套圈圈 週四 2025-11-06 20:00] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [BG 套圈圈 週四 2025-11-06 20:00] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [BG 套圈圈 週四 2025-11-06 20:00] 收攤＝closed：只有那一句（逐句對稿）  畫面 [["", "（瓶子收進箱子了。棚子上蓋著帆布。）"]]；稿 ["（瓶子收進箱子了。棚子上蓋著帆布。）"]
+PASS [BG 套圈圈 週四 2025-11-06 20:00] 沒有買的清單、畫面上沒有「元」、錢沒變  {"menus": [], "txt": "", "m": [3000, 3000]}
+PASS [BG 套圈圈 週四 2025-11-06 20:00] 模型 open visible＝False  {"id": "st_ring", "kind": "ring", "x": 4, "z": -27.5, "yaw": 1.5708, "isOpen": false, "openVis": false, "closedVis": true, "off": true, "allClosed": false}
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-07 20:00 (5.90,-27.50) 錢 3000 元 （st_ring 套圈圈 客人那一面 1.9 m）
+PASS [BG 套圈圈 週五 2025-11-07 20:00] 互動鍵寫「看套圈圈」  畫面「看套圈圈」
+  [ 188.1s] [BG 套圈圈 週五 2025-11-07 20:00] 按之前 20:03 模型 open visible True；按的那一刻 G.hour 20.0457（20:03）isOpen True → 出來的是 open
+PASS [BG 套圈圈 週五 2025-11-07 20:00] 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [BG 套圈圈 週五 2025-11-07 20:00] 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [BG 套圈圈 週五 2025-11-07 20:00] 營業中＝look：只有那一句（逐句對稿）  畫面 [["", "（紅黃條紋的棚子。地上排著一整片玻璃瓶，有人丟了十個圈，一個都沒中。）"]]；稿 ["（紅黃條紋的棚子。地上排著一整片玻璃瓶，有人丟了十個圈，一個都沒中。）"]
+PASS [BG 套圈圈 週五 2025-11-07 20:00] 沒有買的清單、畫面上沒有「元」、錢沒變  {"menus": [], "txt": "", "m": [3000, 3000]}
+PASS [BG 套圈圈 週五 2025-11-07 20:00] 模型 open visible＝True  {"id": "st_ring", "kind": "ring", "x": 4, "z": -27.5, "yaw": 1.5708, "isOpen": true, "openVis": true, "closedVis": false, "off": false, "allClosed": false}
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-07 20:00 (6.10,-15.50) 錢 3000 元 （st_socks 襪子 客人那一面 1.9 m）
+PASS [BG socks 20:00] 互動鍵寫「看襪子」  畫面「看襪子」
+  [ 198.8s] [BG socks 20:00] 按之前 20:03 模型 open visible True；按的那一刻 G.hour 20.0448（20:03）isOpen True → 出來的是 open
+PASS [BG socks 20:00] 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [BG socks 20:00] 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [BG socks 20:00] 營業中＝look：只有那一句（逐句對稿）  畫面 [["", "（折疊桌上的襪子一包十雙。紙板上寫的字被雨淋過，看不清楚價錢。）"]]；稿 ["（折疊桌上的襪子一包十雙。紙板上寫的字被雨淋過，看不清楚價錢。）"]
+PASS [BG socks 20:00] 沒有買的清單、畫面上沒有「元」、錢沒變  {"menus": [], "txt": "", "m": [3000, 3000]}
+PASS [BG socks 20:00] 模型 open visible＝True  {"id": "st_socks", "kind": "socks", "x": 4.2, "z": -15.5, "yaw": 1.5708, "isOpen": true, "openVis": true, "closedVis": false, "off": false, "allClosed": false}
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-07 22:30 (6.10,-15.50) 錢 3000 元 （st_socks 襪子 客人那一面 1.9 m）
+PASS [BG socks 22:30] 互動鍵寫「看襪子」  畫面「看襪子」
+  [ 209.4s] [BG socks 22:30] 按之前 22:33 模型 open visible False；按的那一刻 G.hour 22.5447（22:33）isOpen False → 出來的是 closed
+PASS [BG socks 22:30] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [BG socks 22:30] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [BG socks 22:30] 收攤＝closed：只有那一句（逐句對稿）  畫面 [["", "（掛架收起來了，整攤蓋著帆布，邊角用磚頭壓著。）"]]；稿 ["（掛架收起來了，整攤蓋著帆布，邊角用磚頭壓著。）"]
+PASS [BG socks 22:30] 沒有買的清單、畫面上沒有「元」、錢沒變  {"menus": [], "txt": "", "m": [3000, 3000]}
+PASS [BG socks 22:30] 模型 open visible＝False  {"id": "st_socks", "kind": "socks", "x": 4.2, "z": -15.5, "yaw": 1.5708, "isOpen": false, "openVis": false, "closedVis": true, "off": false, "allClosed": false}
+  [前置／捷徑] 讀檔到 gongguan 2025-11-07 20:00 (15.00,13.10) 錢 3000 元 （st_phonecase 手機殼・配件 客人那一面 1.9 m）
+PASS [BG phonecase 20:00] 互動鍵寫「看手機殼・配件」  畫面「看手機殼・配件」
+  [ 221.4s] [BG phonecase 20:00] 按之前 20:03 模型 open visible True；按的那一刻 G.hour 20.0457（20:03）isOpen True → 出來的是 open
+PASS [BG phonecase 20:00] 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [BG phonecase 20:00] 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [BG phonecase 20:00] 營業中＝look：只有那一句（逐句對稿）  畫面 [["", "（整面牆的手機殼，白色的燈照得很亮。你的型號在最下面那一排。）"]]；稿 ["（整面牆的手機殼，白色的燈照得很亮。你的型號在最下面那一排。）"]
+PASS [BG phonecase 20:00] 沒有買的清單、畫面上沒有「元」、錢沒變  {"menus": [], "txt": "", "m": [3000, 3000]}
+PASS [BG phonecase 20:00] 模型 open visible＝True  {"id": "st_phonecase", "kind": "phonecase", "x": 15, "z": 11.2, "yaw": 0, "isOpen": true, "openVis": true, "closedVis": false, "off": false, "allClosed": false}
+  [前置／捷徑] 讀檔到 gongguan 2025-11-07 23:00 (15.00,13.10) 錢 3000 元 （st_phonecase 手機殼・配件 客人那一面 1.9 m）
+PASS [BG phonecase 23:00] 互動鍵寫「看手機殼・配件」  畫面「看手機殼・配件」
+  [ 233.0s] [BG phonecase 23:00] 按之前 23:03 模型 open visible False；按的那一刻 G.hour 23.0457（23:03）isOpen False → 出來的是 closed
+PASS [BG phonecase 23:00] 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [BG phonecase 23:00] 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [BG phonecase 23:00] 收攤＝closed：只有那一句（逐句對稿）  畫面 [["", "（掛板折起來了，用鐵鍊鎖著。）"]]；稿 ["（掛板折起來了，用鐵鍊鎖著。）"]
+PASS [BG phonecase 23:00] 沒有買的清單、畫面上沒有「元」、錢沒變  {"menus": [], "txt": "", "m": [3000, 3000]}
+PASS [BG phonecase 23:00] 模型 open visible＝False  {"id": "st_phonecase", "kind": "phonecase", "x": 15, "z": 11.2, "yaw": 0, "isOpen": false, "openVis": false, "closedVis": true, "off": false, "allClosed": false}
+PASS 畫面上沒有出現「整條巷子都聞得到」「書忘在這裡」「粉筆畫的框」（整個過程收到 19 段字）  {"整條巷子都聞得到": [], "書忘在這裡": [], "粉筆畫的框": []}
+PASS 沒有 JS 例外  []
+ALL PASS
