@@ -55,6 +55,8 @@ L118A6_SEAT_dian1 | a2dd74af190a174e383642ef8d2043b1d2947370 | probe | docs/stor
 L118A6_SEAT_dian2 | a2dd74af190a174e383642ef8d2043b1d2947370 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SEATS_dian_10-17;SHA=a2dd74af190a174e383642ef8d2043b1d2947370
 L118A6_SEAT_tea1 | a2dd74af190a174e383642ef8d2043b1d2947370 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SEATS_tea_1-6;SHA=a2dd74af190a174e383642ef8d2043b1d2947370
 L118A6_SEAT_tea2 | a2dd74af190a174e383642ef8d2043b1d2947370 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SEATS_tea_7-12;SHA=a2dd74af190a174e383642ef8d2043b1d2947370
+L118A6_DRINK_r2 | a2dd74af190a174e383642ef8d2043b1d2947370 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=DRINK;RERUN=r2;SHA=a2dd74af190a174e383642ef8d2043b1d2947370
+L118A6_DRINK_r3 | a2dd74af190a174e383642ef8d2043b1d2947370 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=DRINK;RERUN=r3;SHA=a2dd74af190a174e383642ef8d2043b1d2947370
 L118A6_SEAT_home | a2dd74af190a174e383642ef8d2043b1d2947370 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=SEATS_home_1-8;SHA=a2dd74af190a174e383642ef8d2043b1d2947370
 L118A6_SEAT_pasta1 | a2dd74af190a174e383642ef8d2043b1d2947370 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=SEATS_pasta_1-7;SHA=a2dd74af190a174e383642ef8d2043b1d2947370
 L118A6_SEAT_pasta2 | a2dd74af190a174e383642ef8d2043b1d2947370 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=SEATS_pasta_8-14;SHA=a2dd74af190a174e383642ef8d2043b1d2947370
