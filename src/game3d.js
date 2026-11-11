@@ -310,8 +310,13 @@ const GAME = (function(){
   GM.seatApproach=seatApproach;
   /* 點地面點在椅子上（那一點站不住、離座位 0.45 m 內、同一層）：改成走到那張椅子坐下前站的位置，到了就看得到「坐下」按鈕（engine3d.js 的 E.tapRedirect）。
      點的地方站得住就照舊走過去（只改「點到椅子、找路改去別的地方」的情況）*/
-  function tapToSeat(x,z,lv){ if(!E||!E.canStand||E.canStand(x,z,0.3,lv|0)) return null; let best=null, bd=0.45; for(const it of (E.interactables||[])){ const st=it.seat; if(!st||it.hidden||((st.lv|0)!==(lv|0))) continue; const d=Math.hypot(st.x-x,st.z-z); if(d<bd){ bd=d; best=st; } }
-    if(!best) return null; const ap=seatApproach(best); return ap?[ap[0],ap[1],best.lv!=null?best.lv|0:lv]:null; }
+  function tapToSeat(x,z,lv,o){ if(!E||!E.canStand) return null; let best=null, bd=0.45; const seats=(E.interactables||[]).filter(it=>it.seat&&!it.hidden&&((it.seat.lv|0)===(lv|0))).map(it=>it.seat);
+    if(!E.canStand(x,z,0.3,lv|0)) for(const st of seats){ const d=Math.hypot(st.x-x,st.z-z); if(d<bd){ bd=d; best=st; } }
+    /* 照椅子的高度判（BB 11-11 CC TAPSEAT：五湖四海 #9 點椅面，射線打到地板的那一點在椅子後面 1.3 m；點椅子中段落點離椅子 0.54 m；只有點椅腳落地那一點坐得到。
+       俯角淺的店（手機玩家會點椅面）等於點不到）：地板那一點沒對到椅子時，沿著同一條射線看離地 0.3～0.75 m 那一段（椅面、椅背的高度）有沒有穿過哪張椅子（離椅子中心 0.32 m 內；0.3～0.75 m，不看椅背頂以上，免得點地板時越過椅背也算），
+       有就是點到那張椅子。只在射線往下（從上面看下來）時判；地板那一點已經對到椅子照舊 */
+    if(!best&&o&&o.ray&&seats.length){ const R=o.ray, oy=R.origin.y, dy=R.direction.y, fy=typeof o.fy==='number'?o.fy:0; if(dy<-1e-3){ let bd2=0.32; for(const h of [0.75,0.6,0.45,0.3]){ const t=(fy+h-oy)/dy; if(!(t>0)) continue; const px=R.origin.x+R.direction.x*t, pz=R.origin.z+R.direction.z*t; for(const st of seats){ const d=Math.hypot(st.x-px,st.z-pz); if(d<bd2){ bd2=d; best=st; } } } } }
+    if(!best) return null; const ap=seatApproach(best); return ap?[ap[0],ap[1],best.lv!=null?best.lv|0:lv,{x:best.x,z:best.z}]:null; }
   GM.tapToSeat=tapToSeat;
   // 搭電梯（v9.4 多樓層，D36）：按按鈕 →（電梯不在這一層就先開過來）→ 門開 → 走進車廂 → 選樓層（整修中的樓層按不亮）→ 門關 → 車廂帶著人上下（看得到整個過程）→ 門開 → 走出來 → 門關
   async function elevatorRide(it){ const el=E.zone&&E.zone.elev; if(!el) return; const P=E.player, here=P.lv|0, base=el.base||1; let arrived=null; sceneBegin(); try{

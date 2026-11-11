@@ -259,8 +259,8 @@ const E3 = (function(){
         /* 室內的樓梯（任務 #42）：點在一跑樓梯上＝走完這一跑（點的地方比腳高就走到上面那一端、比較低就走到下面那一端）。
            原本只走到點的那一點：從一樓看不到二樓的地板，只點得到前面幾階，上一層樓要點十幾次（萬才館 14 次、霖澤館 16 次）*/
         const se=hit.obj&&hit.obj.userData.stairEnds; if(se){ const e2=se[hit.y>=P.obj.position.y-0.05?1:0]; tx=e2.x; tz=e2.z; tlv=e2.lv; }
-        if(!se&&E.tapRedirect){ const r=E.tapRedirect(tx,tz,tlv==null?(P.lv|0):tlv); if(r){ tx=r[0]; tz=r[1]; if(r[2]!=null) tlv=r[2]; } }   /* 點在椅子上＝走到那張椅子坐下前站的位置（game3d.js；2026-10-14 v9.6 回歸：點椅子那一格不能站，找路改去最近能站的地方，人走到 2 m 外別張椅子旁邊）*/
-        E.moveTo(P,tx,tz,null,tlv); P.tapPref={x:hit.x,z:hit.z,lv:tlv==null?(P.lv|0):tlv,zone:E.zone&&E.zone.id};   /* 點的那個位置：走到以後，範圍重疊的互動以離點的位置最近的為準（nearestInteractable；BB-C 10-28 main_day12：點床走過去，停在床底下紙箱那一側，按鈕是紙箱不是睡覺）*/ P.run=Math.hypot(tx-P.obj.position.x,tz-P.obj.position.z)>16||input.runToggle; if(E.onTapGround) E.onTapGround(Object.assign({},hit,{x:tx,z:tz,lv:tlv})); } } }
+        let pref=null; if(!se&&E.tapRedirect){ const r=E.tapRedirect(tx,tz,tlv==null?(P.lv|0):tlv,{ray:E.ray.ray,fy:hit.y}); if(r){ tx=r[0]; tz=r[1]; if(r[2]!=null) tlv=r[2]; if(r[3]) pref=r[3]; } }   /* r[3]＝點到的那張椅子（照椅子的高度判的，見 game3d.js tapToSeat）：tapPref 用椅子的位置，不用射線落在地板的那一點（BB 11-11：俯角淺時點椅面，地板落點在椅子後面 1.3 m，按鈕變「點餐」）*/   /* 點在椅子上＝走到那張椅子坐下前站的位置（game3d.js；2026-10-14 v9.6 回歸：點椅子那一格不能站，找路改去最近能站的地方，人走到 2 m 外別張椅子旁邊）*/
+        E.moveTo(P,tx,tz,null,tlv); P.tapPref={x:pref?pref.x:hit.x,z:pref?pref.z:hit.z,lv:tlv==null?(P.lv|0):tlv,zone:E.zone&&E.zone.id};   /* 點的那個位置：走到以後，範圍重疊的互動以離點的位置最近的為準（nearestInteractable；BB-C 10-28 main_day12：點床走過去，停在床底下紙箱那一側，按鈕是紙箱不是睡覺）*/ P.run=Math.hypot(tx-P.obj.position.x,tz-P.obj.position.z)>16||input.runToggle; if(E.onTapGround) E.onTapGround(Object.assign({},hit,{x:tx,z:tz,lv:tlv})); } } }
     // 直接操控
     let mv=tmpV.set(0,0,0); if(!P.busy&&E.cam.mode==='follow'){ if(input.keys['w']||input.keys['arrowup']) mv.z-=1; if(input.keys['s']||input.keys['arrowdown']) mv.z+=1; if(input.keys['a']||input.keys['arrowleft']) mv.x-=1; if(input.keys['d']||input.keys['arrowright']) mv.x+=1; if(input.joy.active){ mv.x+=input.joy.x; mv.z+=input.joy.y; } }
     const spdWalk=E.SPD.walk, spdRun=E.SPD.run; let moving=false;
