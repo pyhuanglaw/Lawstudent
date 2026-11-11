@@ -1141,3 +1141,12 @@
 [03:24:59] [res] cpu=93% mem=44% (14.0/31.4 GB) chrome_testing=10  START N1_TSR_CAFEBAR_r2
 [03:26:16] 正在跑：N1_TSR_LIB_r3（已跑 3 分／上限 12 分）、N1_TSR_CLASS_r2（已跑 3 分／上限 15 分）、N1_TSR_CAFEBAR_r2（已跑 1 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [03:27:38] [res] cpu=90% mem=43% (13.8/31.4 GB) chrome_testing=10  END N1_TSR_CAFEBAR_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ac438961f..4333de5ac  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:27:45] ==== END   N1_TSR_CAFEBAR_r2  exit=1  162s   ====
+[03:27:56] memory 38% before starting N1_GG3_shops (2 running)
+[03:27:56] ==== START N1_GG3_shops  (probe @ 01679bc0a7580dabd373d2fbfda8542c21e0fc20) ====
+[03:27:58] [res] cpu=79% mem=38% (12.0/31.4 GB) chrome_testing=5  START N1_GG3_shops
+[03:28:01] worktree add 01679bc0a7580dabd373d2fbfda8542c21e0fc20: invalid reference - fetching main and the commit itself
+[03:28:04] [res] cpu=58% mem=38% (12.1/31.4 GB) chrome_testing=5  END N1_TSR_LIB_r3
