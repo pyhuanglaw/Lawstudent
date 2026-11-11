@@ -1,0 +1,433 @@
+{
+ "tag": "guard_A7",
+ "mode": "A",
+ "tapDetail": [
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 163.4
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 331.6
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 499.3
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 699.9
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 867
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 1032.7
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 1199.4
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 1399.7
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 1565.2
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 1747.6
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 1932.6
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 2100
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 2298
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 2498.3
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 2698
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 2882
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 3063.8
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 3248.6
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 3433
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 3615.3
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 3798.8
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 3965.1
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 4130.3
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 4313.6
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 4481.6
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 4663.8
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 4847.7
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 5017.3
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 5215.6
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 5398.7
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 5580.6
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 5765
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 5965
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 6148.5
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 6332
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 6497.2
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 6665.6
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 6846.7
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 7031.1
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 7231.8
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 7415.4
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 7582
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 7746.9
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 7931
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 8132.2
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 8315.4
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 8482.2
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 8682.3
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 8863.2
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 9032.1
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 9230.4
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 9396.7
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 9580.4
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 9748.1
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 9949.4
+  },
+  {
+   "at": false,
+   "menu": "起床選單",
+   "hit": "（沒有落在任何一項）",
+   "sinceMenu": 10148.9
+  }
+ ],
+ "taps": 58,
+ "secs": 10.5,
+ "outcome": "其他（卡在選單）",
+ "plan_skip": false,
+ "went": false,
+ "nap": false,
+ "zone": "dorm",
+ "h": 8.208,
+ "diff": {},
+ "chain": [],
+ "today": "11/12 週三・大一上 第 11 週現在 08:12今天的時間　上午 ○　下午 ○　晚上 ○每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；約好的見面也算一件（約好的照樣能去）；吃飯、聊天不算。09:10–12:10 刑法總則（一）法律系館A 201・吳老師・還沒開始直接去上課13:20–15:10 服務學習（一）法律學院圖書館 櫃台・館員・還沒開始直接去上課法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00跳過時間沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。等到下一堂課前（09:00）等到中午（12:00）等到下午（14:00）等到傍晚（17:30）等到晚上（20:00）翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。",
+ "shot": "gc_010_guard_A7_end.png",
+ "menus": [
+  {
+   "opts": [
+    "直接去上課：刑法總則（一）",
+    "翹這堂課",
+    "先起床再說"
+   ],
+   "sinceSay": 244,
+   "sinceDown": 34.7,
+   "rects": [
+    {
+     "t": "直接去上課：刑法總則（一）",
+     "r": [
+      430,
+      55,
+      400,
+      63
+     ]
+    },
+    {
+     "t": "翹這堂課",
+     "r": [
+      430,
+      125,
+      400,
+      63
+     ]
+    },
+    {
+     "t": "先起床再說",
+     "r": [
+      430,
+      196,
+      400,
+      63
+     ]
+    }
+   ],
+   "cover": {
+    "coverWho": null,
+    "busyDepth": 1,
+    "busyWho": [
+     "S.wakeMenu (http://127.0.0.1:8800/src/classes3d.js?v=9.10.24:1197:44)"
+    ],
+    "dlgActive": false,
+    "dlgShown": true,
+    "dlgStatic": true,
+    "dlgSide": false,
+    "dlgRect": [
+     42,
+     281,
+     760,
+     95
+    ],
+    "dlgText": "早安。今天的課：09:10　刑法總則（一）　法律系館A 201　／　13:20　服務學習（一）　法律學院圖書館 櫃台",
+    "chHidden": false,
+    "chLayers": 3,
+    "chTexts": [
+     "直接去上課：刑法總則（一）09:10，法律系館A 201。走路 18 分鐘，09",
+     "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。",
+     "先起床再說手機的「今天」隨時可以直接去"
+    ],
+    "phone": false,
+    "adv": false
+   }
+  }
+ ]
+}

@@ -1961,3 +1961,13 @@
 [11:44:03] 正在跑：GOCLASS_guard_new（已跑 1 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:49:03] 正在跑：GOCLASS_guard_new（已跑 6 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:53:02] [res] cpu=5% mem=37% (11.6/31.4 GB) chrome_testing=0  END GOCLASS_guard_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8ef08bb49..e66f73b8c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:53:10] ==== END   GOCLASS_guard_new  exit=0  654s   ====
+[11:53:13] memory 37% before starting GOCLASS_guard_old (0 running)
+[11:53:13] ==== START GOCLASS_guard_old  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[11:53:16] [res] cpu=5% mem=37% (11.8/31.4 GB) chrome_testing=0  START GOCLASS_guard_old
+[11:54:03] 正在跑：GOCLASS_guard_old（已跑 0 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
+[11:59:03] 正在跑：GOCLASS_guard_old（已跑 5 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
+[12:02:36] [res] cpu=6% mem=36% (11.5/31.4 GB) chrome_testing=0  END GOCLASS_guard_old

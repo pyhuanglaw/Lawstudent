@@ -1,0 +1,499 @@
+{
+ "tag": "guard_D4",
+ "mode": "D",
+ "tapDetail": [
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "起床選單",
+   "hit": "翹這堂課",
+   "sinceMenu": 133.4
+  },
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "翹課確認",
+   "hit": "翹",
+   "sinceMenu": 135.2
+  },
+  {
+   "at": true,
+   "menu": "小睡選單",
+   "hit": "再睡一下（睡到 10:30）",
+   "sinceMenu": 162.3
+  },
+  {
+   "at": true,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：fade）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：fade）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：fade）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：fade）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：c）",
+   "sinceMenu": null
+  },
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "起床選單",
+   "hit": "翹這堂課",
+   "sinceMenu": 135.2
+  },
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "翹課確認",
+   "hit": "翹",
+   "sinceMenu": 148.5
+  }
+ ],
+ "taps": 20,
+ "secs": 12.6,
+ "outcome": "翹",
+ "plan_skip": true,
+ "went": false,
+ "nap": [
+  {
+   "first": "再睡一下（睡到 10:30）",
+   "picked": "再睡一下（睡到 10:30）",
+   "i": 0,
+   "dt": 195.7,
+   "downDt": 162.3,
+   "h": 8.208,
+   "z": "dorm"
+  }
+ ],
+ "zone": "dorm",
+ "h": 10.561,
+ "diff": {
+  "note": {
+   "plan_skip_57:crim_gen1:am": [
+    null,
+    1
+   ],
+   "plan_skip_57:service_1:pm1": [
+    null,
+    1
+   ]
+  }
+ },
+ "chain": [
+  {
+   "first": "直接去上課：刑法總則（一）",
+   "picked": "翹這堂課",
+   "i": 1,
+   "dt": 169.2,
+   "downDt": 133.4,
+   "h": 8.208,
+   "z": "dorm"
+  },
+  {
+   "first": "翹",
+   "picked": "翹",
+   "i": 0,
+   "dt": 169.9,
+   "downDt": 135.2,
+   "h": 8.208,
+   "z": "dorm"
+  },
+  {
+   "first": "再睡一下（睡到 10:30）",
+   "picked": "再睡一下（睡到 10:30）",
+   "i": 0,
+   "dt": 195.7,
+   "downDt": 162.3,
+   "h": 8.208,
+   "z": "dorm"
+  },
+  {
+   "first": "直接去上課：服務學習（一）",
+   "picked": "翹這堂課",
+   "i": 1,
+   "dt": 168.9,
+   "downDt": 135.2,
+   "h": 10.52,
+   "z": "dorm"
+  },
+  {
+   "first": "翹",
+   "picked": "翹",
+   "i": 0,
+   "dt": 184.9,
+   "downDt": 148.5,
+   "h": 10.52,
+   "z": "dorm"
+  }
+ ],
+ "today": "11/12 週三・大一上 第 11 週現在 10:34今天的時間　上午 ○　下午 ○　晚上 ○每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；約好的見面也算一件（約好的照樣能去）；吃飯、聊天不算。09:10–12:10 刑法總則（一）法律系館A 201・吳老師・已經開始超過 15 分鐘（進去會記缺席）去聽後半堂（記缺席）13:20–15:10 服務學習（一）法律學院圖書館 櫃台・館員・翹課反悔：直接去上課法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00跳過時間沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。等到中午（12:00）等到下午（14:00）等到傍晚（17:30）等到晚上（20:00）翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。",
+ "shot": "gc_007_guard_D4_end.png",
+ "menus": [
+  {
+   "opts": [
+    "直接去上課：刑法總則（一）",
+    "翹這堂課",
+    "先起床再說"
+   ],
+   "sinceSay": 265,
+   "sinceDown": 49.7,
+   "rects": [
+    {
+     "t": "直接去上課：刑法總則（一）",
+     "r": [
+      430,
+      55,
+      400,
+      63
+     ]
+    },
+    {
+     "t": "翹這堂課",
+     "r": [
+      430,
+      125,
+      400,
+      63
+     ]
+    },
+    {
+     "t": "先起床再說",
+     "r": [
+      430,
+      196,
+      400,
+      63
+     ]
+    }
+   ],
+   "cover": {
+    "coverWho": null,
+    "busyDepth": 1,
+    "busyWho": [
+     "S.wakeMenu (http://127.0.0.1:8800/src/classes3d.js?v=9.10.24:1197:44)"
+    ],
+    "dlgActive": false,
+    "dlgShown": true,
+    "dlgStatic": true,
+    "dlgSide": false,
+    "dlgRect": [
+     42,
+     281,
+     760,
+     95
+    ],
+    "dlgText": "早安。今天的課：09:10　刑法總則（一）　法律系館A 201　／　13:20　服務學習（一）　法律學院圖書館 櫃台",
+    "chHidden": false,
+    "chLayers": 3,
+    "chTexts": [
+     "直接去上課：刑法總則（一）09:10，法律系館A 201。走路 18 分鐘，09",
+     "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。",
+     "先起床再說手機的「今天」隨時可以直接去"
+    ],
+    "phone": false,
+    "adv": false
+   }
+  },
+  {
+   "opts": [
+    "翹",
+    "還是去"
+   ],
+   "sinceSay": 798,
+   "sinceDown": 33.6,
+   "rects": [
+    {
+     "t": "翹",
+     "r": [
+      430,
+      174,
+      400,
+      46
+     ]
+    },
+    {
+     "t": "還是去",
+     "r": [
+      430,
+      228,
+      400,
+      46
+     ]
+    }
+   ],
+   "cover": {
+    "coverWho": null,
+    "busyDepth": 1,
+    "busyWho": [
+     "S.skipClass (http://127.0.0.1:8800/src/classes3d.js?v=9.10.24:1207:197)"
+    ],
+    "dlgActive": false,
+    "dlgShown": true,
+    "dlgStatic": true,
+    "dlgSide": false,
+    "dlgRect": [
+     42,
+     296,
+     760,
+     80
+    ],
+    "dlgText": "翹掉刑法總則（一）？記「沒去」，不扣分。",
+    "chHidden": false,
+    "chLayers": 2,
+    "chTexts": [
+     "翹",
+     "還是去"
+    ],
+    "phone": false,
+    "adv": false
+   }
+  },
+  {
+   "opts": [
+    "再睡一下（睡到 10:30）",
+    "起床"
+   ],
+   "sinceSay": 969,
+   "sinceDown": 35.6,
+   "rects": [
+    {
+     "t": "再睡一下（睡到 10:30）",
+     "r": [
+      430,
+      174,
+      400,
+      46
+     ]
+    },
+    {
+     "t": "起床",
+     "r": [
+      430,
+      228,
+      400,
+      46
+     ]
+    }
+   ],
+   "cover": {
+    "coverWho": null,
+    "busyDepth": 1,
+    "busyWho": [
+     "S.wakeMenu (http://127.0.0.1:8800/src/classes3d.js?v=9.10.24:1203:38)"
+    ],
+    "dlgActive": false,
+    "dlgShown": true,
+    "dlgStatic": true,
+    "dlgSide": false,
+    "dlgRect": [
+     42,
+     296,
+     760,
+     80
+    ],
+    "dlgText": "翹掉刑法總則（一）？記「沒去」，不扣分。",
+    "chHidden": false,
+    "chLayers": 2,
+    "chTexts": [
+     "再睡一下（睡到 10:30）",
+     "起床"
+    ],
+    "phone": false,
+    "adv": false
+   }
+  },
+  {
+   "opts": [
+    "直接去上課：服務學習（一）",
+    "翹這堂課",
+    "先起床再說"
+   ],
+   "sinceSay": 5714,
+   "sinceDown": 32.4,
+   "rects": [
+    {
+     "t": "直接去上課：服務學習（一）",
+     "r": [
+      430,
+      70,
+      400,
+      63
+     ]
+    },
+    {
+     "t": "翹這堂課",
+     "r": [
+      430,
+      140,
+      400,
+      63
+     ]
+    },
+    {
+     "t": "先起床再說",
+     "r": [
+      430,
+      211,
+      400,
+      63
+     ]
+    }
+   ],
+   "cover": {
+    "coverWho": null,
+    "busyDepth": 1,
+    "busyWho": [
+     "S.wakeMenu (http://127.0.0.1:8800/src/classes3d.js?v=9.10.24:1197:44)"
+    ],
+    "dlgActive": false,
+    "dlgShown": true,
+    "dlgStatic": true,
+    "dlgSide": false,
+    "dlgRect": [
+     42,
+     296,
+     760,
+     80
+    ],
+    "dlgText": "早安。今天的課：13:20　服務學習（一）　法律學院圖書館 櫃台",
+    "chHidden": false,
+    "chLayers": 3,
+    "chTexts": [
+     "直接去上課：服務學習（一）13:20，法律學院圖書館 櫃台。走路 15 分鐘，1",
+     "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。",
+     "先起床再說手機的「今天」隨時可以直接去"
+    ],
+    "phone": false,
+    "adv": false
+   }
+  },
+  {
+   "opts": [
+    "翹",
+    "還是去"
+   ],
+   "sinceSay": 6248,
+   "sinceDown": 35,
+   "rects": [
+    {
+     "t": "翹",
+     "r": [
+      430,
+      174,
+      400,
+      46
+     ]
+    },
+    {
+     "t": "還是去",
+     "r": [
+      430,
+      228,
+      400,
+      46
+     ]
+    }
+   ],
+   "cover": {
+    "coverWho": null,
+    "busyDepth": 1,
+    "busyWho": [
+     "S.skipClass (http://127.0.0.1:8800/src/classes3d.js?v=9.10.24:1207:197)"
+    ],
+    "dlgActive": false,
+    "dlgShown": true,
+    "dlgStatic": true,
+    "dlgSide": false,
+    "dlgRect": [
+     42,
+     296,
+     760,
+     80
+    ],
+    "dlgText": "翹掉服務學習（一）？記「沒去」，不扣分。",
+    "chHidden": false,
+    "chLayers": 2,
+    "chTexts": [
+     "翹",
+     "還是去"
+    ],
+    "phone": false,
+    "adv": false
+   }
+  }
+ ]
+}
