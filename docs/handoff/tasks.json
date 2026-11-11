@@ -52617,7 +52617,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-11 15:4x LAWWW 整合】LAWWW2 資料補五項 24a2bc245（stack4 ④）合進 c170218dd；gg_shops3_points_1111 Node 過。店員台詞／點餐（AA_742／813）還沒接，下一步｜先改店名（不用等美術）；室內和台詞到了照 gg2shops3d.js 接",
+   "next": "【11-11 15:5x LAWWW】六間店的店內互動與台詞（AA_742＋AA_813@75f5de658：進門、點餐扣錢、看、坐下、打烊、泰米約去吃、日日定食三處換字＋舊存檔字串）派子代理在 worktree 做（新檔 src/gg3shops3d.js＋資料檔＋tests/gg_shops3_story_1111_unit.js）；回來當回合合併、跑測試，不過夜｜【11-11 15:4x LAWWW 整合】LAWWW2 資料補五項 24a2bc245（stack4 ④）合進 c170218dd；gg_shops3_points_1111 Node 過。店員台詞／點餐（AA_742／813）還沒接，下一步｜先改店名（不用等美術）；室內和台詞到了照 gg2shops3d.js 接",
    "xai": {
     "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
     "branch": "claude/confident-ritchie-8rwh7t",
