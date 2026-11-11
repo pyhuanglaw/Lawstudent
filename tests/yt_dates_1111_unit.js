@@ -127,7 +127,7 @@ const D14C=p=>/^lines\/closing\//.test(p);
         check('6. 「嗯。」在別人的格子裡的次數和重匯以前一樣（'+cnt(NOW)+' 處；沒有整檔取代）',cnt(NOW)===cnt(WAS)&&cnt(NOW)>50,J([cnt(NOW),cnt(WAS)])); }
       /* 2026-11-11（X324 可昕約會台詞重寫，AA f9c1a2b80）：date3d.js 後來又照可昕的新稿改了三處（S.MORNING.kexin、ARRIVE_VAR 可昕 D32 的 from、過夜晚上那一句的 S.NIGHT_HOME 多兩個字串 'D29'、'kexin'）——原本「逐個比、只差七列」改成比字串的增減：
          少掉的＝稿上七列的 old＋可昕那兩句舊字；多出來的＝七列的 new＋可昕那兩句新字＋'D29'、'kexin'（逐字在 tests/kx_dates_1111_unit.js）*/
-      const ob=show(BASE,'src/date3d.js'); if(ob){ const O=lit(ob), L=lit(code), cntOf=A=>A.reduce((m,t)=>(m[t]=(m[t]||0)+1,m),{}), co=cntOf(O), cl=cntOf(L), gone=[], came=[];
+      const ob=show(BASE,'src/date3d.js'); if(ob){ const O=lit(ob), L=lit(show('e61d19547','src/date3d.js')||code) /* 2026-11-11：「重匯以後」固定比 e61d19547 的 date3d.js（原本比現在的檔，之後每加一個字串就紅；同 zq／zr 那兩支）*/, cntOf=A=>A.reduce((m,t)=>(m[t]=(m[t]||0)+1,m),{}), co=cntOf(O), cl=cntOf(L), gone=[], came=[];
         for(const t of new Set(O.concat(L))){ const n=(cl[t]||0)-(co[t]||0); for(let i=0;i<Math.abs(n);i++) (n<0?gone:came).push(t); }
         const q=t=>"'"+t+"'", KXO=['行程表我昨天晚上重寫了。……你看一下第二天。','清境。山路我查了，要開三個多小時。','清境。從日月潭上來，一個半小時。我查過了。'], KXN=['第二天的我昨天重排了。你先看，有意見現在講。','清境。要開三個多小時，我負責讓你不要睡著。','D29','kexin','清境。從日月潭上來一個半小時，我本來要睡，結果一路在看路。'];
         /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：date3d.js 又照 AA_773_zr_date_common.json 換了芷若兩格（S.MORNING_OWN、S.T7A_YES；逐字在 tests/zr_dates_1111_unit.js 第 6 節）——少掉、多出來各多兩句 */
