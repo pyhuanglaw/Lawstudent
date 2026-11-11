@@ -149,7 +149,8 @@ async def joy_to(pg, cdp, tag, tx, tz, near=0.6, lv=None, max_s=90, straight=Fal
         fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = -fz, fx
         da = max(math.hypot(ax - s['x'], az - s['z']), 0.01); ux, uz = (ax - s['x']) / da, (az - s['z']) / da
         sx, sy = ux * rx + uz * rz, -(ux * fx + uz * fz); m = math.hypot(sx, sy) or 1
-        await L.joystick(pg, cdp, sx / m * 45, sy / m * 45, push_ms); pushes += 1
+        pm = push_ms if d > 2.5 else max(150, int(push_ms * d / 2.5))   # r2（CC 01:2x）：離目標 2.5 m 內推短一點——PC 上每推 0.6 秒走 1 m 多，會在目標兩邊來回晃（FN OLDSPOT、STAIRS 第一輪 TEST_BUG）
+        await L.joystick(pg, cdp, sx / m * 45, sy / m * 45, pm); pushes += 1
     s = await D.st(pg)
     return {'ok': False, 't': round(time.time() - t0, 1), 'pushes': pushes, 'jumps': jumps, 'end': s, 'log': log, 'why': '%d 秒沒走到' % max_s}
 
