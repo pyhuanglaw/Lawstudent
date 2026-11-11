@@ -1,16 +1,3 @@
-[12:44:03] 正在跑：GOCLASS_repro_new（已跑 8 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
-[12:46:09] [res] cpu=6% mem=37% (11.6/31.4 GB) chrome_testing=0  END GOCLASS_repro_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       6a8d56d6f..c603ab725  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[12:46:16] ==== END   GOCLASS_repro_new  exit=0  621s   ====
-[12:46:19] memory 37% before starting GOCLASS_repro_old (0 running)
-[12:46:19] ==== START GOCLASS_repro_old  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
-[12:46:22] [res] cpu=6% mem=37% (11.8/31.4 GB) chrome_testing=0  START GOCLASS_repro_old
-[12:49:03] 正在跑：GOCLASS_repro_old（已跑 2 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
-[12:54:03] 正在跑：GOCLASS_repro_old（已跑 7 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
-[12:55:09] [res] cpu=5% mem=35% (11.1/31.4 GB) chrome_testing=0  END GOCLASS_repro_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
        c603ab725..3c5c7c983  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [12:55:16] ==== END   GOCLASS_repro_old  exit=0  530s   ====
@@ -1998,3 +1985,16 @@
 [20:48:42] [res] cpu=17% mem=52% (16.4/31.4 GB) chrome_testing=10  START REL_soc_new
 [20:49:05] 正在跑：V25_v7（已跑 7 分／上限 30 分）、REL_soc_ctl（已跑 3 分／上限 30 分）、REL_soc_new（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:49:29] [res] cpu=9% mem=49% (15.5/31.4 GB) chrome_testing=9  END V25_v7
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       dba3bea6b..c9906a1ac  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:49:35] ==== END   V25_v7  exit=0  478s   ====
+[20:49:38] memory 51% before starting REL_soc_new_r2 (2 running)
+[20:49:38] ==== START REL_soc_new_r2  (probe @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
+[20:49:41] [res] cpu=9% mem=51% (16.1/31.4 GB) chrome_testing=9  START REL_soc_new_r2
+[20:54:05] 正在跑：REL_soc_ctl（已跑 8 分／上限 30 分）、REL_soc_new（已跑 5 分／上限 30 分）、REL_soc_new_r2（已跑 4 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:59:05] 正在跑：REL_soc_ctl（已跑 13 分／上限 30 分）、REL_soc_new（已跑 10 分／上限 30 分）、REL_soc_new_r2（已跑 9 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:04:05] 正在跑：REL_soc_ctl（已跑 18 分／上限 30 分）、REL_soc_new（已跑 15 分／上限 30 分）、REL_soc_new_r2（已跑 14 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:09:05] 正在跑：REL_soc_ctl（已跑 23 分／上限 30 分）、REL_soc_new（已跑 20 分／上限 30 分）、REL_soc_new_r2（已跑 19 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:14:05] 正在跑：REL_soc_ctl（已跑 28 分／上限 30 分）、REL_soc_new（已跑 25 分／上限 30 分）、REL_soc_new_r2（已跑 24 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:14:25] [res] cpu=9% mem=51% (16.2/31.4 GB) chrome_testing=10  END REL_soc_new
