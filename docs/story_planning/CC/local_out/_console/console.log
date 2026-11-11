@@ -981,3 +981,23 @@
 [02:09:05] ==== START BK2_cpu_s  (blender @ 65d7fa68c) ====
 [02:09:07] [res] cpu=4% mem=34% (10.7/31.4 GB) chrome_testing=0  START BK2_cpu_s
 [02:10:22] [res] cpu=9% mem=34% (10.7/31.4 GB) chrome_testing=0  END BK2_cpu_s
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ac9a35a95..2d29f3564  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[02:10:28] ==== END   BK2_cpu_s  exit=0  77s   ====
+[02:10:38] memory 34% before starting AA814_old (0 running)
+[02:10:38] blender item BK2_cpu_full waits until the 1 running item(s) finish; other items go first
+[02:10:38] ==== START AA814_old  (probe @ 9d45ef8b36d5df00cdbca70661a4ca13e9fce813) ====
+[02:10:41] [res] cpu=11% mem=34% (10.9/31.4 GB) chrome_testing=0  START AA814_old
+[02:11:16] 正在跑：AA814_old（已跑 0 分／上限 110 分）——還沒測完，請不要關 (tests still running - please do not close)
+[02:16:16] 正在跑：AA814_old（已跑 5 分／上限 110 分）——還沒測完，請不要關 (tests still running - please do not close)
+[02:21:16] 正在跑：AA814_old（已跑 10 分／上限 110 分）——還沒測完，請不要關 (tests still running - please do not close)
+[02:26:03] memory 40% before starting N1_MOKU_PLANT (1 running)
+[02:26:03] memory 40% before starting N1_MOKU_NOSIT (2 running)
+[02:26:03] ==== START N1_MOKU_PLANT  (probe @ b77af3a4fe6d348ae58337a1ce708442ef9ef458) ====
+[02:26:03] ==== START N1_MOKU_NOSIT  (probe @ b77af3a4fe6d348ae58337a1ce708442ef9ef458) ====
+[02:26:06] [res] cpu=40% mem=40% (12.8/31.4 GB) chrome_testing=5  START N1_MOKU_PLANT
+[02:26:06] [res] cpu=40% mem=40% (12.8/31.4 GB) chrome_testing=5  START N1_MOKU_NOSIT
+[02:26:06] worktree add b77af3a4fe6d348ae58337a1ce708442ef9ef458: invalid reference - fetching main and the commit itself
+[02:26:16] 正在跑：AA814_old（已跑 15 分／上限 110 分）、N1_MOKU_PLANT（已跑 0 分／上限 90 分）、N1_MOKU_NOSIT（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[02:29:09] [res] cpu=71% mem=47% (14.9/31.4 GB) chrome_testing=10  END N1_MOKU_NOSIT

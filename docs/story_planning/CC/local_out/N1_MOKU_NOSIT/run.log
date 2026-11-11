@@ -1,0 +1,74 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\N1_MOKU_NOSIT\docs\story_planning\test_tools\cc\cc_l118d_h_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N1_MOKU_NOSIT\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.9s] 受測 SHA b77af3a4fe6d348ae58337a1ce708442ef9ef458、版本 v9.10.25；PARTS NOSIT
+== NOSIT
+    [區域] wenzhou（10.01）
+    [toast] 手機｜沛珊：欸，我跟你說一件事，你不用回喔。
+  [前置／捷徑] 【前置】NOSIT（地點 slowread「去木曜日念書」） 週六 10:00、下雨：day46 存檔 → 2025-11-08（週六）10.00、wenzhou (7.40, -1.40) lv0、天氣 rain、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
+  [  52.7s] CALENDAR：{"key": "2025-11-08", "wd": 6, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+PASS [日子] 2025-11-08 不是假日／颱風假、不是考試週（Y1S1 第 10 週）  {"key": "2025-11-08", "wd": 6, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+  [  52.8s] 讀進來：{"zone": "wenzhou", "day": 53, "hour": 10.02, "weather": "rain", "stage": "law"}
+  [  52.8s] NOSIT（地點 slowread「去木曜日念書」） 誰今天哪個時間會答應（INV.decide＋INV.personal，照玩家會按的選項先查）：[{"who": "kexin", "h": 15.5, "res": "accept", "why": null, "lines": ["木曜日？那我星期四以外去，算不算違規。", "好，我過去。四十分鐘。"], "dating": true}, {"who": "kexin", "h": 19, "res": "accept", "why": null, "lines": ["木曜日？那我星期四以外去，算不算違規。", "好，我過去。四十分鐘。"], "dating": true}, {"who": "kexin", "h": 14, "res": "accept", "why": null, "lines": ["木曜日？那我星期四以外去，算不算違規。", "好，我過去。四十分鐘。"], "dating": true}, {"who": "heroine_01", "h": 15.5, "res": "accept", "why": null, "lines": ["木曜日？那間我常去。窗邊那桌什麼時候會空，我知道。"], "dating": false}, {"who": "heroine_01", "h": 19, "res": "accept", "why": null, "lines": ["木曜日？那間我常去。窗邊那桌什麼時候會空，我知道。"], "dating": false}, {"who": "heroine_01", "h": 14, "res": "accept", "why": null, "lines": ["木曜日？那間我常去。窗邊那桌什麼時候會空，我知道。"], "dating": false}, {"who": "heroine_03", "h": 15.5, "res": "resched", "why": "work", "lines": ["我們兩個都在上班啊。"], "dating": false}, {"who": "heroine_03", "h": 19, "res": "accept", "why": null, "lines": ["木曜日……那裡很安靜，可以坐一下午。", "好。"], "dating": false}, {"who": "heroine_03", "h": 14, "res": "resched", "why": "work", "lines": ["我們兩個都在上班啊。"], "dating": false}]
+PASS NOSIT（地點 slowread「去木曜日念書」） 候選 ["kexin", "heroine_01", "heroine_03"] 裡有人今天 14:00／15:30／19:00 會答應  [{"who": "kexin", "h": 15.5, "res": "accept", "why": null, "lines": ["木曜日？那我星期四以外去，算不算違規。", "好，我過去。四十分鐘。"], "dating": true}, {"who": "kexin", "h": 19, "res": "accept", "why": null, "lines": ["木曜日？那我星期四以外去，算不算違規。", "好，我過去。四十分鐘。"], "dating": true}, {"who": "kexin", "h": 14, "res": "accept", "why": null, "lines": ["木曜日？那我星期四以外去，算不算違規。", "好，我過去。四十分鐘。"], "dating": true}, {"who": "heroine_01", "h": 15.5, "res": "accept", "why": null, "lines": ["木曜日？那間我常去。窗邊那桌什麼時候會空，我知道。"], "dating": false}, {"who": "heroine_01", "h": 19, "res": "accept", "why": null, "lines": ["木曜日？那間我常去。窗邊那桌什麼時候會空，我知道。"], "dating": false}, {"who": "heroine_01", "h": 14, "res": "accept", "why": null, "lines": ["木曜日？那間我常去。窗邊那桌什麼時候會空，我知道。"], "dating": false}, {"who": "heroine_03", "h": 15.5, "res": "resched", "why": "work", "lines": ["我們兩個都在上班啊。"], "dating": false}, {"who": "heroine_03", "h": 19, "res": "accept", "why": null, "lines": ["木曜日……那裡很安靜，可以坐一下午。", "好。"], "dating": false}, {"who": "heroine_03", "h": 14, "res": "resched", "why": "work", "lines": ["我們兩個都在上班啊。"], "dating": false}]
+    [選項] 念書…〔2:30 AM、總圖、木曜日、法律學院圖書館、afar café、社科院圖書館〕｜吃飯…〔公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、辛亥韓食、五湖四海、義大麵屋、泰米村食〕｜喝咖啡、喝茶…〔2:30 AM、一盞、木曜日、日常失速、afar café〕｜看電影、逛書店…〔南洋戲院、頁間書屋、山嵐書店〕｜散步…〔溫州街、映月湖、喝不喝咖啡、果茶社〕｜運動…〔新體育館羽球場、椰影大道、游泳池〕｜出去玩…〔選地點、日期、時間〕｜算了
+PASS 手機「朋友」→ kexin「約」→ 出現選單  ["念書…", "吃飯…", "喝咖啡、喝茶…", "看電影、逛書店…", "散步…", "運動…", "出去玩…", "算了"]
+    [按] 念書…
+    [選項] 去 2:30 AM 念書｜去總圖一起念書｜去木曜日念書｜去法圖一起念書｜去 afar café 念書｜去社科圖一起念書｜返回
+    [按] 去木曜日念書
+    [選項] 今天 14:00｜今天 15:30｜今天 19:00｜明天 14:00｜明天 15:30｜明天 19:00｜其他日子…〔之後 7 天內選一天〕｜算了
+    [按] 今天 15:30
+    [說] 杜可昕（手機）：木曜日？那我星期四以外去，算不算違規。
+    [說] 杜可昕（手機）：好，我過去。四十分鐘。
+    [說] （旁白）：約好 今天 15:30，木曜日。
+PASS NOSIT（地點 slowread「去木曜日念書」） 約成了：kexin 15:30（slowread）  {"iv": {"id": "iv54", "h": 15.5, "zone": "wz_mokuyobi", "state": "accepted"}, "said": ["木曜日？那我星期四以外去，算不算違規。", "好，我過去。四十分鐘。", "約好 今天 15:30，木曜日。"]}
+  [前置／捷徑] NOSIT（地點 slowread「去木曜日念書」）【捷徑】時間撥到約好的前 10 分鐘（15.33）
+    [按] 手機「今天」現在過去
+    [選項] 直接過去：和杜可昕約在木曜日（15:30）〔照快速前往的路程時間〕｜自己走過去
+    [toast] 手機｜小安：我媽昨天看到我寫的「想去的店」。
+    [toast] 提醒：15:30 和杜可昕約在木曜日。
+    [toast] 現在不能移動
+  [  73.9s] NOSIT（地點 slowread「去木曜日念書」） 按了「現在過去」手機還開著：收起來
+    [按] 直接過去：和杜可昕約在木曜日（15:30）（赴約中）
+    [區域] wz_mokuyobi（15.42）
+    [toast] 走了 5 分鐘到木曜日
+    [說] 杜可昕：（小聲）你們的總圖好大。
+  [  83.8s] NOSIT（地點 slowread「去木曜日念書」） 走到 kexin 旁邊 搖桿 → (2.30, 4.75) lv1：到了、5.0 秒、推 1 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 2.3, "z": 3.65, "lv": 1, "interact": ""}
+    [說] （旁白）：（她說完，又抬頭看了一下天花板。）
+    [說] （旁白）：（她點了焙茶拿鐵，喝一口，看了一下價錢。）
+    [說] 杜可昕：（小聲）一百五。
+    [說] 杜可昕：（小聲）好喝。可是我要坐滿三個小時才划算。
+    [說] 杜可昕：（小聲）你昨天十一點以後就沒回我。
+    [說] 杜可昕：（小聲）我不是要你一直回。我是要你說一聲你要睡了。
+    [說] 杜可昕：（小聲）……很難嗎？
+    [說] 杜可昕：（小聲）你昨天在幹嘛？
+    [選項] 在幫我媽對帳。她報稅季很忙。｜我睡著了。對不起。｜我在讀書，手機收起來了。
+    [按] 在幫我媽對帳。她報稅季很忙。（赴約中）
+    [說] 祐廷：（小聲）在幫我媽對帳。她報稅季很忙。
+    [說] 杜可昕：（小聲）你媽又在對帳？
+    [說] 杜可昕：（小聲）好，這次算了。下次先跟我說一聲。
+    [說] （旁白）：（她說算了，可是飲料喝得很用力。）
+    [說] （旁白）：（她把髮夾拔下來，夾在講義上。）
+    [字幕] 木曜日・杜可昕・（1.5 小時）
+    [說] 杜可昕：（小聲）我回木柵了。今天謝謝你。
+    [字幕] 杜可昕朝你揮了揮手。
+    [toast] 杜可昕好像更信任你了一點。
+PASS NOSIT（地點 slowread「去木曜日念書」） 赴約演完（邀約 done、在木曜日、坐下過）  {"v": {"st": "done", "zone": "wz_mokuyobi", "h": 16.93}, "sat": true}
+  [ 101.8s] [截圖] nosit_meet.png
+  [ 101.8s] NOSIT（地點 slowread「去木曜日念書」） 見面這一段逐字：[["杜可昕", "（小聲）你們的總圖好大。"], ["", "（她說完，又抬頭看了一下天花板。）"], ["", "（她點了焙茶拿鐵，喝一口，看了一下價錢。）"], ["杜可昕", "（小聲）一百五。"], ["杜可昕", "（小聲）好喝。可是我要坐滿三個小時才划算。"], ["杜可昕", "（小聲）你昨天十一點以後就沒回我。"], ["杜可昕", "（小聲）我不是要你一直回。我是要你說一聲你要睡了。"], ["杜可昕", "（小聲）……很難嗎？"], ["杜可昕", "（小聲）你昨天在幹嘛？"], ["祐廷", "（小聲）在幫我媽對帳。她報稅季很忙。"], ["杜可昕", "（小聲）你媽又在對帳？"], ["杜可昕", "（小聲）好，這次算了。下次先跟我說一聲。"], ["", "（她說算了，可是飲料喝得很用力。）"], ["", "（她把髮夾拔下來，夾在講義上。）"], ["杜可昕", "（小聲）我回木柵了。今天謝謝你。"]]
+PASS NOSIT（地點 slowread「去木曜日念書」） 不演「坐坐」的進門旁白（「…坐在窗邊那桌／靠書櫃那桌，已經點好了。」都沒有）  []
+PASS NOSIT（地點 slowread「去木曜日念書」） 不演「坐坐」見面那一句（MOKS.DATE／FRIEND：["（小聲）台北的咖啡廳都好小。……可是這間我喜歡。", "（小聲）我們學校附近沒有這種店。只有早餐店。", null]）  []
+PASS NOSIT（地點 slowread「去木曜日念書」） 也沒有「在木曜日坐坐。」那句一般旁白  ["（小聲）你們的總圖好大。", "（她說完，又抬頭看了一下天花板。）", "（她點了焙茶拿鐵，喝一口，看了一下價錢。）", "（小聲）一百五。", "（小聲）好喝。可是我要坐滿三個小時才划算。", "（小聲）你昨天十一點以後就沒回我。", "（小聲）我不是要你一直回。我是要你說一聲你要睡了。", "（小聲）……很難嗎？", "（小聲）你昨天在幹嘛？", "（小聲）在幫我媽對帳。她報稅季很忙。", "（小聲）你媽又在對帳？", "（小聲）好，這次算了。下次先跟我說一聲。", "（她說算了，可是飲料喝得很用力。）", "（她把髮夾拔下來，夾在講義上。）", "（小聲）我回木柵了。今天謝謝你。"]
+    [字幕] （下午的時間用完了）你在木曜日待到 18:00。
+  [ 106.3s] NOSIT（地點 slowread「去木曜日念書」） 離開前 MOKS.rainDue＝null（參考）
+  [ 106.3s] NOSIT（地點 slowread「去木曜日念書」） 起身後、下樓前：位置 {"x": 3.05, "z": 3.65, "y": 3.2, "lv": 1}；玩家 {"busy": false, "pose": "idle", "idlePose": "idle", "seat": false, "seatAt": null, "frozen": false, "path": 0, "target": null, "speed": 0, "yaw": 0, "r": 0.32, "blocked": null, "depth": 0, "by": [], "dlg": false, "stale": false, "cam": "follow", "cine": null, "lv": 1, "ev": null, "adv": false, "joy": {"x": 0, "y": 0, "active": false}, "interact": "坐下", "hudHidden": false}；2.5 m 內 NPC [{"id": "kexin", "name": "杜可昕", "x": 1.55, "z": 4.75, "y": 3.2, "lv": 1, "r": 0.32, "beh": "idle", "pose": "idle", "walking": false, "path": 0, "speed": 0, "seat": false, "seatTarget": false, "frozen": false, "extra": false, "leaving": false, "until": null, "goal": null, "seatAt": null, "dPath": [], "dMe": 1.86}]；找路 [[0, 0.9, 1]]
+  [ 106.7s] [截圖] nosit_standup.png
+  [ 111.8s] NOSIT（地點 slowread「去木曜日念書」） 下樓到樓梯口 搖桿 → (-3.75, 6.75) lv0：到了、5.0 秒、推 6 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": -3.814, "z": 6.384, "lv": 0, "interact": "離開木曜日"}
+PASS NOSIT（地點 slowread「去木曜日念書」） 互動鍵是「離開木曜日…」  {"zone": "wz_mokuyobi", "x": -3.814, "z": 6.384, "lv": 0, "interact": "離開木曜日"}
+    [按互動鍵] 離開木曜日
+    [區域] wenzhou（18.06）
+PASS NOSIT（地點 slowread「去木曜日念書」） 下雨、交往中按「離開木曜日」：不演雨天那一段  []
+PASS NOSIT（地點 slowread「去木曜日念書」） 走出去到溫州街  "wenzhou"
+PASS [NOSIT] 沒有 JS 例外（pageerror）  []
+  [ 118.3s] [NOSIT] 用了 90 秒
+ALL PASS
