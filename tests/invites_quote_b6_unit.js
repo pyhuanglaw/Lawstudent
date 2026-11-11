@@ -37,7 +37,7 @@ const A731=[["好。九點，不要遲到。", "好。不要遲到。"], ["早�
   ["她翻蛋的時候手腕都不動耶。我媽也是。", "你看她翻蛋，手腕都不動欸。"], ["我到現在還學不會。", "我在家試過一次，蛋飛到抽油煙機上，我媽到現在還會講。"], ["早餐店的女兒，去吃別人的早午餐。……好，我去研究。", "早午餐！好啊，那種不用太早起的我最可以。"], ["好。我想看他們的蛋怎麼翻。", "好啊。我想坐吧台，可以看他們做。"], ["好啊！早上我很習慣，在家的時候四點半就要起來幫忙開店。", "好啊！可是你要打給我，我鬧鐘要響三次才起得來。"]];
 A731.push(...require('./peishan_rewrite_1111.js').PAIRS);   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS）：事件、零散檔案裡她的句子換了字，和 BASE 比的時候照新稿算 */
 const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&s(b)===n||(a.includes(o)&&a.split(o).join(n)===b))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
-const CHANGED=['src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/libquiet3d.js','src/y2r2_3d.js','src/data/bbpack_events.js','src/data/zrzq_events.js','src/data/encounters.js','src/legal3d.js'];
+const CHANGED=['src/data/invites.js','src/invites3d.js','src/libquiet3d.js','src/y2r2_3d.js','src/data/bbpack_events.js','src/data/zrzq_events.js','src/data/encounters.js','src/legal3d.js'];
 const gitShow=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
 const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
 /* 同第五批的尺 */
@@ -56,7 +56,7 @@ const blankComments=s=>s.replace(/\/\*[\s\S]*?\*\//g,m=>m.replace(/[^\n]/g,''));
 const LIT=/'((?:[^'\\\n]|\\.)*)'/g, LIT2=/'((?:[^'\\\n]|\\.)*)'|"((?:[^"\\\n]|\\.)*)"/g;
 /* 這一批的九句：[檔, 舊的字（BASE）, 現在的字, 說的人] */
 const NINE=[
-  ['src/data/l118_redo772.js','src/data/invites.js','（走出法圖）「館員人好好。我以為法圖的人都很兇。」','（走出法圖）館員人好好。我以為法圖的人都很兇。','沛珊'],
+  ['src/data/invites.js','（走出法圖）「館員人好好。我以為法圖的人都很兇。」','（走出法圖）館員人好好。我以為法圖的人都很兇。','沛珊'],
   ['src/y2r2_3d.js','（跑過記分台）「你翻慢一點，我緊張。」','（跑過記分台）你翻慢一點，我緊張。','明軒'],
   ['src/data/bbpack_events.js','（便利貼）「四年了。」','（便利貼）四年了。','Alison'],
   ['src/data/zrzq_events.js','（打字，念出來）「在吃宵夜。第二份。」','（打字，念出來）在吃宵夜。第二份。','子晴'],
@@ -248,7 +248,7 @@ const findC6=()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format
   check('29. 改到的 src 檔就是這 '+CHANGED.length+' 個',J(files)===J(CHANGED.slice().sort()),J(files));
   const split=l=>{ const code=[], lit=[]; let last=0, m; LIT.lastIndex=0; while((m=LIT.exec(l))){ code.push(l.slice(last,m.index)); lit.push(m[1]); last=m.index+m[0].length; } code.push(l.slice(last).replace(/\s+$/,'')); return {code,lit}; };
   const nonBlank=s=>blankComments(s).split('\n').filter(l=>l.trim());
-  const WANT={'src/data/l118_redo772.js','src/data/invites.js':[1,1],'src/y2r2_3d.js':[1,1],'src/data/bbpack_events.js':[1,1],'src/data/zrzq_events.js':[1,1],'src/data/encounters.js':[1,1],'src/legal3d.js':[1,4]};
+  const WANT={'src/data/invites.js':[1,1],'src/y2r2_3d.js':[1,1],'src/data/bbpack_events.js':[1,1],'src/data/zrzq_events.js':[1,1],'src/data/encounters.js':[1,1],'src/legal3d.js':[1,4]};
   const per={}, bad=[], got=[];
   for(const f of Object.keys(WANT)){ const A=nonBlank(A_(f)), B=nonBlank(B_(f)); if(A.length!==B.length){ bad.push(f+'：註解以外的行數不同 '+A.length+' → '+B.length); continue; }
     let nl=0, nt=0; A.forEach((a,i)=>{ const b=B[i]; if(a===b) return; nl++; const x=split(a), y=split(b);
