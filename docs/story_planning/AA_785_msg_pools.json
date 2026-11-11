@@ -172,6 +172,22 @@
      "old": "明天考試。……有點緊張。",
      "new": "明天考試。有點緊張。",
      "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.replies[10].ask.q",
+     "topic": "ok",
+     "tier": "L",
+     "old": "你可以來店裡坐一下嗎。",
+     "new": "你可以來我家樓下坐一下嗎。",
+     "note": "回問和訊息本文（「來我家樓下」）一致（LAWWW 08:5x）"
+    },
+    {
+     "at": "people.heroine_03.replies[10].ask.opts[0].r[0]",
+     "topic": "ok",
+     "tier": "L",
+     "old": "嗯。",
+     "new": "嗯。不用真的來，你這樣說就好。",
+     "note": "遊戲沒有去她家樓下的事件，回話不約地點（LAWWW 08:5x 判）"
     }
    ]
   },
