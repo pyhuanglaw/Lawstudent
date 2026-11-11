@@ -766,3 +766,11 @@
 [08:14:19] ==== START TZ5_int_old  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
 [08:14:22] [res] cpu=10% mem=47% (14.6/31.4 GB) chrome_testing=9  START TZ5_int_old
 [08:14:55] [res] cpu=17% mem=44% (13.8/31.4 GB) chrome_testing=9  END SC3_v1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       79ee5e429..d3bb59029  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:15:02] ==== END   SC3_v1  exit=0  155s   ====
+[08:15:05] memory 45% before starting NM_tbl_edge_r2 (2 running)
+[08:15:05] ==== START NM_tbl_edge_r2  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
+[08:15:08] [res] cpu=9% mem=46% (14.4/31.4 GB) chrome_testing=9  START NM_tbl_edge_r2
+[08:16:58] [res] cpu=1% mem=46% (14.7/31.4 GB) chrome_testing=9  END TZ5_int_new
