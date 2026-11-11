@@ -743,10 +743,24 @@ const INV=(function(){
   /* 收書 → 起身、一起走到入口 → 道別（大廳一樓照平常說話；三樓閱覽區在樓梯間門口，照小聲講）*/
   S.libEnd=async function(GM,iv,n,who,first,SN){ const L=LS(); if(iv.closing||!SN||!SN.pack) await S.playLines(GM,who,iv.closing?L.close:L.pack); if(SN&&SN.pack) await STUDYN.play(GM,who,SN.pack); delete iv.closing;   /* 閉館廣播照舊先播；第 N 場的收書句接在後面 */
     await S.leadOut(GM,iv,n); if(SN&&SN.bye) await STUDYN.play(GM,who,SN.bye); else await GM.say(who,first&&first.bye||pick(L.bye)); };
+  /* 走到入口的兩個點（LEADOUT-WALL-1111，BB v9.10.25「這版沒做完」第 5 項：木曜日的出生點在一樓窄樓梯上，左右各 0.55 m 兩個點都在牆裡，走不到、靠 walkTo 的 4 秒保險放過去）：
+     照舊是出生點左右各 0.55 m（你在左、她在右）——兩個點都站得住、從兩個人起身的地方（from：[{x,z,lv}…]）找得到路，就照舊（大多數的區域不變）；
+     不行才在出生點附近找：左右 0.55／0.45／0.35／0 m × 沿出生點的方向前後（先往入口那一邊）每 0.2 m 到 2 m，近的先；兩個點相距至少 0.7 m（並排，或窄的地方前後站）。
+     都找不到＝null（照舊那兩個點，walkTo 的保險還在）。tests/leadout_spots_1111_unit.js */
+  S.leadOutSpots=function(E,from){ const sp=E&&E.zone&&E.zone.spawn; if(!sp||!E.canStand) return null; const lv=sp.lv|0, y=sp.yaw||0, px=Math.cos(y), pz=-Math.sin(y), fx=Math.sin(y), fz=Math.cos(y), R=0.32;
+    const at=(s,f)=>({s,f,x:sp.x+px*s+fx*f,z:sp.z+pz*s+fz*f});   /* 不四捨五入：照舊的兩個點要和原本一模一樣 */
+    const reach=p=>(from||[]).every(q=>{ if(!q||!E.pathTo) return true; const r=E.pathTo(q.x,q.z,q.lv|0,p.x,p.z,lv); return !!(r&&r.length); });
+    const ok=p=>E.canStand(p.x,p.z,R,lv)&&reach(p);
+    const a=at(-0.55,0), b=at(0.55,0); if(ok(a)&&ok(b)) return [a,b];
+    const F=[0]; for(let k=1;k<=10;k++) F.push(-k*0.2,k*0.2); const SS=[-0.55,0.55,-0.45,0.45,-0.35,0.35,0], C=[];
+    for(const f of F) for(const s of SS){ const p=at(s,f); if(!E.canStand(p.x,p.z,R,lv)) continue; const q=C.find(c=>Math.hypot(c.x-p.x,c.z-p.z)>=0.7); if(!reach(p)) continue;
+      if(q) return q.s<p.s||(q.s===p.s&&q.f>=p.f)?[q,p]:[p,q]; C.push(p); }
+    return null; };
   S.leadOut=async function(GM,iv,n){ const E=GM.E, P=E.player, sp=E.zone&&E.zone.spawn; if(P.seat&&GM.standUp) GM.standUp(P); if(n){ if(n.seat&&GM.standUp) GM.standUp(n); n.frozen=false; n.beh='idle'; n.seatTarget=null; n.path=null; }
     if(!sp||!GM.walkTo) return; const adv=typeof ADV!=='undefined'&&ADV.active; if(adv&&ADV.end) ADV.end(); if(E.endCinematic) E.endCinematic();
-    const lv=sp.lv|0, y=sp.yaw||0, dx=Math.cos(y)*0.55, dz=-Math.sin(y)*0.55;
-    try{ await Promise.all([GM.walkTo(P,sp.x-dx,sp.z-dz,{lv}),n&&n.obj?GM.walkTo(n,sp.x+dx,sp.z+dz,{lv}):null]); }
+    const lv=sp.lv|0, y=sp.yaw||0, dx=Math.cos(y)*0.55, dz=-Math.sin(y)*0.55, pos=e=>e&&e.obj?{x:e.obj.position.x,z:e.obj.position.z,lv:e.lv|0}:null;
+    const pr=S.leadOutSpots(E,[pos(P),n&&n.obj?pos(n):null]), A=pr?pr[0]:{x:sp.x-dx,z:sp.z-dz}, B=pr?pr[1]:{x:sp.x+dx,z:sp.z+dz};
+    try{ await Promise.all([GM.walkTo(P,A.x,A.z,{lv}),n&&n.obj?GM.walkTo(n,B.x,B.z,{lv}):null]); }
     finally { if(adv&&ADV.begin) ADV.begin({background:'blur',right:iv.who}); }
     if(GM.face&&n&&n.obj){ GM.face(n,P.obj.position.x,P.obj.position.z); GM.face(P,n.obj.position.x,n.obj.position.z); } };
   /* 其他約會兩個人一起坐下的開場句（AA_649 第 4 節）：店自己有見面內容的（scene、ownMeal）不加 */

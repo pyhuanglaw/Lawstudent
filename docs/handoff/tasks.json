@@ -53673,7 +53673,7 @@
    "id": "LEADOUT-WALL-1111",
    "title": "一起念書散場往門口走（invites3d.js S.leadOut：區域 spawn 左右各 0.55 m 兩個目標點）在木曜日一樓窄樓梯口目標點落在牆裡——走不到、靠 walkTo 4 秒保險直接放過去（BB 11-11 GO 的「這版沒做完」第 5 項）。查各個有 sitAt.lead／leadOut 的區域，目標點改成站得住、找得到路的點（或調 zone.spawn），不改劇情",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53686,7 +53686,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【11-11 17:5x LAWWW 派】D108 場景程式（導航）：invites3d.js S.leadOut 的目標點可以改（只改選點，不改流程與台詞）；加 Node 測試：各區域 leadOut 兩個點都站得住、從座位找得到路、walkFallbacks 0。修改前 FAIL。",
+   "next": "【11-11 18:3x LAWWW 整合】LAWWW2 2d50b62e05 leadout_spots_v1.patch（invites3d.js S.leadOutSpots：照舊兩點站得住、找得到路就照舊，不行才在出生點附近找；木曜日、一盞、同弦、大步、好拍、法圖六區改點，總圖不變）套進開發分支；tests/leadout_spots_1111_unit.js（修改前 0、1、2、4 FAIL）＋邀約／約念書相關 52 支過。BB：總圖約念書散場走到門口（現在真的會走 leadOut 的只有總圖）｜【11-11 17:5x LAWWW 派】D108 場景程式（導航）：invites3d.js S.leadOut 的目標點可以改（只改選點，不改流程與台詞）；加 Node 測試：各區域 leadOut 兩個點都站得住、從座位找得到路、walkFallbacks 0。修改前 FAIL。",
    "xai": {
     "from": "LAWWW",
     "to": "LAWWW2",
