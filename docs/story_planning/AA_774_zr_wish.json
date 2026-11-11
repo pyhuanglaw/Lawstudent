@@ -1,0 +1,148 @@
+{
+ "_meta": {
+  "by": "AA（帳號 A）",
+  "date": "2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "who": "heroine_02",
+  "event": "wish_heroine_02「這次留兩張票」（D05 光典）",
+  "why": "這個事件和現行設定一致（她一個人看電影、票根本、想做跟電影有關的事、去英國看別人的電影院），內容不動。只做三件：①刪節號 30 處留 3 處（院子「……今天放不了。旁邊有人。」、片單牆「……再說。」、收尾「下次的票……再說。」）；②「嗯。」開頭兩處拿掉（closing.timeline 那句「嗯。」是設計，不動）；③對祐廷下命令或嫌他的三句改掉（不要笑→你可以笑；你的，給我→可以給我嗎；你會睡著→你會睡著，沒關係）、「你會是第一個」的句型改掉。",
+  "for_LAWWW": "path 是 date_wish.js（開發分支 2e1644aa3）events.heroine_02 底下的位置。「……好。」「嗯。」這種在整個檔出現很多次，一定要照 path 換。herInvite.accept[0] 有「兩點半」（和店名 2:30 AM 的玩笑）：她主動約的出發時間如果不是 14:30，請告訴我，我給一句不講時間的版本（備用：「好。光典門口見。票我先買我的。」）。"
+ },
+ "rows": [
+  {
+   "path": "mention.lines[3].text",
+   "old": "……國中到現在，每一頁都只有一張。",
+   "new": "國中到現在，每一頁都只有一張。"
+  },
+  {
+   "path": "mention.choices[0].reply[0].text",
+   "old": "嗯。我很早就是這種人。……不要可憐我，我很快樂。",
+   "new": "對。我很早就是這種人。不用可憐我，我很快樂。"
+  },
+  {
+   "path": "mention.choices[1].reply[0].text",
+   "old": "規矩。……其實就是習慣。習慣比規矩難改。",
+   "new": "規矩。其實就是習慣，習慣比規矩難改。"
+  },
+  {
+   "path": "mention.choices[2].reply[0].text",
+   "old": "……好，我今天話太多。店要關了，法律系的。",
+   "new": "好，我今天話太多。店要關了，法律系的。"
+  },
+  {
+   "path": "herInvite.lines[2].text",
+   "old": "你的，你自己買。……這樣才算約好。",
+   "new": "你的，你自己買。這樣才算約好。"
+  },
+  {
+   "path": "herInvite.accept[0].text",
+   "old": "好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。",
+   "new": "好。兩點半，光典門口。兩點半是巧合，跟店名沒關係。"
+  },
+  {
+   "path": "herInvite.decline[0].text",
+   "old": "好。影展到月底。……沒關係，真的。",
+   "new": "好。影展到月底。沒關係，真的。"
+  },
+  {
+   "path": "playerInvite.known[0].text",
+   "old": "光典？……你記得影展。",
+   "new": "光典？你記得影展。"
+  },
+  {
+   "path": "playerInvite.unknown[1].text",
+   "old": "……好。",
+   "new": "好。"
+  },
+  {
+   "path": "arrive.lines[1].text",
+   "old": "……這句我想很久了。不要笑。",
+   "new": "這句我想很久了。你可以笑。"
+  },
+  {
+   "path": "hotspots.D05.cafe.lines[1].text",
+   "old": "……可是很好喝。這句不能在店裡說。",
+   "new": "可是很好喝。這句不能在店裡說。"
+  },
+  {
+   "path": "hotspots.D05.cafe.choices[0].reply[0].text",
+   "old": "……我知道。好，我收下。",
+   "new": "我知道。好，我收下。"
+  },
+  {
+   "path": "hotspots.D05.garden.choices[1].reply[0].text",
+   "old": "想。很想。……講出來好像就要負責。",
+   "new": "想。很想。講出來好像就要負責。"
+  },
+  {
+   "path": "hotspots.D05.garden.choices[1].replyIf[0].reply[0].text",
+   "old": "我在申請交換。……去看別人的電影院。",
+   "new": "我在申請交換。去看別人的電影院。"
+  },
+  {
+   "path": "hotspots.D05.garden.choices[1].replyIf[1].reply[0].text",
+   "old": "英國的電影院，散場都很安靜。……我想把那種安靜帶回來。",
+   "new": "英國的電影院，散場都很安靜。我想把那種安靜帶回來。"
+  },
+  {
+   "path": "hotspots.D05.shop.lines[1].text",
+   "old": "……這裡也沒有。很好，我可以繼續找。",
+   "new": "這裡也沒有。很好，我可以繼續找。"
+  },
+  {
+   "path": "hotspots.D05.shop.choices[0].reply[0].text",
+   "old": "好。你會是第一個。……第二個。第一個是我自己。",
+   "new": "好。找到了，我第二個告訴你。第一個是我自己。"
+  },
+  {
+   "path": "hotspots.D05.shop.choices[1].reply[0].text",
+   "old": "……你挑的？",
+   "new": "你挑的？"
+  },
+  {
+   "path": "hotspots.D05.board.lines[1].text",
+   "old": "……我圈了，不代表要去。只是想。",
+   "new": "我圈了，不代表要去。只是想。"
+  },
+  {
+   "path": "hotspots.D05.board.choices[1].reply[0].text",
+   "old": "這部。黑白的，兩個小時，沒有人說話。……你會睡著。",
+   "new": "這部。黑白的，兩個小時，沒有人說話。你會睡著，沒關係。"
+  },
+  {
+   "path": "hotspots.D05.board.choices[2].reply[0].text",
+   "old": "嗯。以前是。",
+   "new": "以前是。"
+  },
+  {
+   "path": "closing.lines[1].text",
+   "old": "票根。……你的，給我。",
+   "new": "票根。你的，可以給我嗎？"
+  },
+  {
+   "path": "closing.choices[0].reply[0].text",
+   "old": "……先不要說以後。這一頁先。",
+   "new": "先不說以後。這一頁先。"
+  },
+  {
+   "path": "closing.choices[1].reply[0].text",
+   "old": "……好。",
+   "new": "好。"
+  },
+  {
+   "path": "closing.choices[2].reply[0].text",
+   "old": "……好了。這一頁我不會讓人看。你除外。",
+   "new": "好了。這一頁我不會讓人看，你除外。"
+  },
+  {
+   "path": "closing.after[0].lines[0].text",
+   "old": "……練好了。這是兩個人看的第一頁。",
+   "new": "練好了。這是兩個人看的第一頁。"
+  },
+  {
+   "path": "closing.ending[1].lines[0].text",
+   "old": "……今天很好。這句話我很少說。",
+   "new": "今天很好。這句話我很少說。"
+  }
+ ]
+}

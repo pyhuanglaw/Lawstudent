@@ -1,0 +1,96 @@
+{
+ "_meta": {
+  "by": "AA（帳號 A）",
+  "date": "2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "who": "heroine_02",
+  "why": "芷若約會不分地點的短句。accept 兩句、move[0]、move3、cancel 兩句、flaked 第一句、depart[2]、noPair、S.MORNING（我六點就醒了…）、S.HOME_NO 不用改。",
+  "for_LAWWW": "count_in_file＝old 在開發分支 2e1644aa3 那個檔裡出現幾次；請照 path 換她那一格。date_lines.js 是匯入工具產生的，換在它的來源或加一層（同 AA_767、AA_769）。"
+ },
+ "rows": [
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_02.acceptDating[0]",
+   "old": "好。那天的班我換掉了。",
+   "new": "好。那天我空下來了，整天。",
+   "count_in_file": 1,
+   "note": "「把班換掉」在她的稿裡出現太多次"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_02.move[1]",
+   "old": "嗯，那天也可以。",
+   "new": "那天也可以，我看過班表了。",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_02.transport[0]",
+   "old": "好啊。本來想在車上看書，沒關係。",
+   "new": "好啊，坐你的車。本來想在路上看書，改成跟你講話。",
+   "count_in_file": 1,
+   "note": "只在兩天一夜、她偏好的交通被改成開車時播，所以「坐你的車」成立"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_02.flaked[0][1]",
+   "old": "我不會說什麼。我會記得。",
+   "new": "我那天把一杯熱可可等到涼掉。下次，你請我一杯熱的。",
+   "count_in_file": 1,
+   "note": "原句像在記帳。BB 11-11：第一版和語彤的 flaked 同一個形狀，換成她自己的收法（拿自己開玩笑、不讓場面僵）"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_02.depart[0]",
+   "old": "我到了。我早到了，不要說。",
+   "new": "我到了。早到了，先在附近晃一下。",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_02.depart[1]",
+   "old": "捷運上。這班很空，我在看書。",
+   "new": "在路上了。我帶了一本書，大概不會翻開。",
+   "count_in_file": 1,
+   "note": "不綁交通"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_02.enough[0]",
+   "old": "今天夠了。不是不好玩。",
+   "new": "今天夠了。很好玩，是我的腳先投降。",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_02.enough[1]",
+   "old": "天黑了。散場的感覺。",
+   "new": "差不多了。現在很像散場，燈要亮了的那種。",
+   "count_in_file": 1,
+   "note": "不綁時段"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_02.leaveEarly[0]",
+   "old": "就這樣？好吧，法律系的，就這樣。",
+   "new": "就這樣？好吧。我以為還有下半場。",
+   "count_in_file": 1,
+   "note": "校外不叫他「法律系的」（BB_330）"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.MORNING_OWN.heroine_02",
+   "old": "我出門的時候，我媽問我跟誰。……我說回來再講。",
+   "new": "我出門的時候，我媽叫我問你吃不吃蛋餅。她已經在煎了。",
+   "count_in_file": 1,
+   "note": "D26 臺中、晚上她回家的隔天早上。「家人問跟誰」語彤用過；她對媽媽不藏（BB_330 第 4 節）"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.T7A_YES.heroine_02",
+   "old": "你要來臺中？……好。我帶你走。",
+   "new": "你要來臺中？好，我帶你走。",
+   "count_in_file": 1
+  }
+ ]
+}
