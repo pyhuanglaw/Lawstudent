@@ -49,11 +49,11 @@ SHA = (ENV('SHA') or '')[:9]
 REF = ENV('REF') == '1' or SHA.startswith('1d4db297')
 PARTS = [p.strip().upper() for p in (ENV('PARTS') or 'CLASS,OLDSAVE').split(',') if p.strip()]   # 另有 SKIP（不在預設裡）
 ALIAS = {'憲法': 'const_1', 'const': 'const_1', '刑總': 'crim_gen1', 'crim': 'crim_gen1', '民總': 'civ_general', 'civ': 'civ_general'}
-FULLSET = {'const_1': [2, 6, 7, 15], 'crim_gen1': [4, 7, 10, 13], 'civ_general': [4, 6, 12, 15]}
-REFSET = {'const_1': [6], 'crim_gen1': [10], 'civ_general': [6]}
+FULLSET = {'const_1': [2, 7, 15], 'crim_gen1': [4, 7, 10, 13], 'civ_general': [4, 6, 12, 15]}
+REFSET = {'const_1': [15], 'crim_gen1': [10], 'civ_general': [6]}
 PROFNM = {'const_1': '張教授', 'crim_gen1': '吳教授', 'civ_general': '周教授'}
 SKIPRUN = ENV('SKIPRUN') or 'crim_gen1:10'
-SKIPSET = [('const_1', 6), ('crim_gen1', 13), ('civ_general', 15)]   # PART SKIP 每科一週（BB 04:27）
+SKIPSET = [('const_1', 15), ('crim_gen1', 13), ('civ_general', 15)]   # PART SKIP 每科一週（BB 04:27）
 VIEWS = ENV('VIEWS') or 'both'   # both＝第一次看到「略過 »」時直向、橫向各量一次截一張（同一行切 viewport）；one＝只量目前的方向
 NOSKIP = ENV('NOSKIP') != '0'
 SKIPGUARD = ENV('SKIPGUARD') != '0'   # 1＝每一堂先不略過跑一次當對照秒數
@@ -451,8 +451,12 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
         sb = await pg.evaluate(SKIPBTN)
         if not att and sb.get('vis'): info['before'].append(s['dtext'])
         if done and sb.get('vis') and not info['after']: info['after'].append(s['dtext']); await shot(pg, '%s_skip_after_class' % tag)
-        if att and not started and s['dlg'] and not s['typing'] and sb.get('vis'):
+        if att and not started and sb.get('vis'):   # r2（CC 05:4x）：PC 上 s['dlg']／typing 的取樣時機對不上，原條件一次都沒成立＝連點那段沒跑；改成坐下以後鍵一出現就開始（等打字最多 1.5 秒）
+            for _ in range(6):
+                if not (await GC.ms(pg)).get('typing'): break
+                await pg.wait_for_timeout(250)
             started = True; tsit = time.time()
+            R.note('%s：坐下以後「略過 »」出現，開始量位置、連點' % tag)
             if VIEWS == 'both' and use_skip:
                 vp = pg.viewport_size
                 for w_, h_, lab in ((844, 390, '橫向'), (390, 844, '直向')):
