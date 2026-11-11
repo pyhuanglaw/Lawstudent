@@ -296,18 +296,23 @@ async def part_int(pg, cdp):
             R.note('%s 進店：%s 秒後在 %s（%s）' % (tag, ent, me['zone'], J(me)))
             if not R.check('%s 走進去：區域 %s、站得住' % (tag, L_['zone']), me['zone'] == L_['zone'] and me['free'] is not False, J(me)): continue
             if os.environ.get('CAMDIAG2') == '1':   # BB 02:33 ①：進門 0.5、2 秒；掛畫前站 2 秒；搖桿繞房間（前半）四點；每張記玩家、鏡頭、鏡頭在不在房間裡、畫面亮度平均與變化（變化低＝一片米色）
+                # r3（BB 03:14）：拿掉「鏡頭在房間裡」（室內本來就是鏡頭在牆外、牆淡出的剖面視角）；單色＝畫面中央 60%（四邊各去 20%，扣掉 HUD）亮度標準差 <20；
+                # 看得到人＝玩家模型螢幕投影附近 100×160 px（CSS 像素）的標準差 ≥15；中央大面積全黑（<12）／全白（>245）超過 15% 標★（BB 03:14）
                 CJ2 = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement, cam=E.camera, P=E.player.obj.position; r.render(E.scene,cam);
-                  const k=document.createElement('canvas'); k.width=64; k.height=36; const g=k.getContext('2d'); g.drawImage(c,c.width*0.18,c.height*0.22,c.width*0.64,c.height*0.6,0,0,64,36); const d=g.getImageData(0,0,64,36).data;   /* r2（CC 03:2x）：只量畫面中央（左右各去 18%、上 22%、下 18%：UI、搖桿、按鈕不算）；r1 整張量，米色畫面被 UI 拉到標準差 16～17、門檻 12 沒抓到 */ let s=0,s2=0,n=0;
-                  for(let i=0;i<d.length;i+=4){ const L=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; s+=L; s2+=L*L; n++; } const m=s/n, sd=Math.sqrt(Math.max(0,s2/n-m*m));
-                  const inRoom=Math.abs(cam.position.x)<=a.w/2&&cam.position.z>=-a.d/2&&cam.position.z<=a.d/2;
+                  const st=(sx,sy,sw,sh,ow,oh)=>{ const k=document.createElement('canvas'); k.width=ow; k.height=oh; const g=k.getContext('2d'); g.drawImage(c,sx,sy,sw,sh,0,0,ow,oh); const d=g.getImageData(0,0,ow,oh).data; let s=0,s2=0,n=0,bk=0,wh=0;
+                    for(let i=0;i<d.length;i+=4){ const L=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; s+=L; s2+=L*L; n++; if(L<12) bk++; if(L>245) wh++; } const m=s/n; return {m:+m.toFixed(1), sd:+Math.sqrt(Math.max(0,s2/n-m*m)).toFixed(1), black:+(bk/n).toFixed(3), white:+(wh/n).toFixed(3)}; };
+                  const W=c.width, H=c.height, sc=W/(c.clientWidth||W); const mid=st(W*0.2,H*0.2,W*0.6,H*0.6,120,68);
                   const PO=E.player.obj; const hp=new THREE.Box3().setFromObject(PO).getCenter(new THREE.Vector3()); const ndc=hp.clone().project(cam); const onScreen=PO.visible&&Math.abs(ndc.x)<=1&&Math.abs(ndc.y)<=1&&ndc.z<1;
-                  return {onScreen, ndc:[+ndc.x.toFixed(2),+ndc.y.toFixed(2)], player:[+P.x.toFixed(2),+P.z.toFixed(2)], cam:[+cam.position.x.toFixed(2),+cam.position.y.toFixed(2),+cam.position.z.toFixed(2)], yaw:+E.cam.yaw.toFixed(3), dist:E.cam.dist!=null?+(+E.cam.dist).toFixed(2):null, inRoom, lumMean:+m.toFixed(1), lumSD:+sd.toFixed(1)}; })"""
+                  const px=(ndc.x+1)/2*W, py=(1-ndc.y)/2*H, bw=100*sc, bh=160*sc; const pl=onScreen?st(Math.max(0,px-bw/2),Math.max(0,py-bh/2),Math.min(bw,W),Math.min(bh,H),50,80):null;
+                  return {onScreen, ndc:[+ndc.x.toFixed(2),+ndc.y.toFixed(2)], player:[+P.x.toFixed(2),+P.z.toFixed(2)], cam:[+cam.position.x.toFixed(2),+cam.position.y.toFixed(2),+cam.position.z.toFixed(2)], yaw:+E.cam.yaw.toFixed(3), dist:E.cam.dist!=null?+(+E.cam.dist).toFixed(2):null, mid, near:pl}; })"""
                 async def cshot(lab):
                     cj = await pg.evaluate(CJ2, {'w': L_['w'], 'd': L_['d']})
                     await pg.screenshot(path=os.path.join(OUT, 'cam2_%s_%s_%s.jpg' % (sid, hh, lab)), type='jpeg', quality=80)
-                    flat = cj['lumSD'] < 12
-                    R.note('%s 鏡頭 %s：%s%s' % (tag, lab, J(cj), '  ★畫面變化很低（一片單色？）' if flat else ''))
-                    R.check('%s 鏡頭 %s：鏡頭在房間裡、畫面不是一片單色（亮度標準差 ≥12）、玩家在畫面裡' % (tag, lab), cj['inRoom'] and not flat and cj['onScreen'], J(cj))
+                    flat = cj['mid']['sd'] < 20; seen = bool(cj['near']) and cj['near']['sd'] >= 15
+                    star = cj['mid']['black'] > 0.15 or cj['mid']['white'] > 0.15
+                    R.note('%s 鏡頭 %s：%s%s%s' % (tag, lab, J(cj), '  ★中央一片單色' if flat else '', '  ★中央大面積全黑／全白' if star else ''))
+                    R.check('%s 鏡頭 %s：畫面中央 60%% 不是一片單色（標準差 %.1f ≥20）' % (tag, lab, cj['mid']['sd']), not flat, J(cj['mid']))
+                    R.check('%s 鏡頭 %s：看得到人（玩家投影附近 100×160 px 標準差 %s ≥15）' % (tag, lab, cj['near'] and cj['near']['sd']), seen, J({'onScreen': cj['onScreen'], 'ndc': cj['ndc'], 'near': cj['near']}))
                 await pg.wait_for_timeout(500); await cshot('進門0.5秒'); await pg.wait_for_timeout(1500); await cshot('進門2秒')
                 sc = next((i for i in await pg.evaluate(ITS) if '掛畫' in (i['label'] or '')), None)
                 if sc:
