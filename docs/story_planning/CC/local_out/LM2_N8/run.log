@@ -1,0 +1,54 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_lm2_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LM2_N8\out
+CC LM2 禮貌生財上師對話：PARTS SAVE；SHA e7ddae33f；稿 fixtures\lm2；Windows＋GPU（PC）／SwiftShader（雲端）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.1s] hook：installed；LM 在＝True
+  [  26.1s] [名字] 對照：祐廷＝祐廷、上師＝上師（稿：他的名字不出現）、吳教授＝SOCIAL.displayName(prof_wu)「吳教授」（CHARACTERS.prof_wu.name「吳教授」）、旁白＝不顯示名字
+  [  67.7s] [SAVE ①] 線上版 https://pyhuanglaw.github.io/Lawstudent/：標題「版本 v9.10.24（2026-11-10）」；做出來的存檔 {"v": 2, "day": 46, "hour": 19.373, "zone": "gongguan", "pos": {"x": 37.1, "z": 17.5, "yaw": 0, "lv": 0, "y": 0}}；線上頁的 JS 例外 []
+PASS [SAVE ①] 線上版標題是 v9.10.24（做的是那一版的存檔）  "版本 v9.10.24（2026-11-10）"
+  [前置／捷徑] 【前置】SAVE ①：讀 v9.10.24 線上版 GAME.snapshot()（公館往汀州路巷口 19:20；存檔 v=2）（條件事件開著、只關手機自動打開）
+  [  97.2s] [SAVE ①] 狀態：{"day": 46, "date": "2025-11-01", "hour": 19.416, "stage": "law", "term": "Y1S1", "weather": "clear", "partners": ["kexin"], "girls": ["heroine_01:CLOSE_FRIEND", "kexin:RELATIONSHIP"], "lm": {}, "finalsNext": false, "failedLast": false, "flunked": false, "brokeRecent": false, "lmLoaded": true, "typhoon": false}
+PASS [SAVE ①] 公館有往汀州路的入口
+  [ 100.2s] 到達「[SAVE ① 公館→汀州路] 往汀州路（巷子）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 109.2s] [SAVE ① 公館→汀州路] 按「往汀州路（巷子）」→ {"zone": "tingzhou", "h": 19.462, "x": 27, "z": 0, "lv": 0, "stand": true, "busy": false, "fb": 0}
+PASS [SAVE ①] 走進汀州路  {"zone": "tingzhou", "h": 19.462, "x": 27, "z": 0, "lv": 0, "stand": true, "busy": false, "fb": 0}
+  [ 121.4s] 到達「[SAVE ①] 算命桌」附近（0.13 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+  [ 122.1s] [SAVE ①] 走到算命桌前 (28.18,3.25) 19:33：按鈕「算命桌」
+  [ 131.9s] [SAVE ① 舊存檔第一次] 按「算命桌」（19:33）→ 12 句、選單 []、認出＝first；時間 19:33 → 19:49；第一句到最後一句 6.7 秒（探針點的速度）、整段 8.9 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 131.9s] [SAVE ① 舊存檔第一次] 前後差異：LM_ [["flags.LM_MET", "（沒有）", 46]]；其他 沒有
+PASS [SAVE ① 舊存檔第一次] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [ 131.9s] [SAVE ① first] #1 OK 稿［narr］「（巷子裡，一棟老公寓的騎樓下面擺著一張鋪紅布的桌子。招牌寫「禮貌生財」。桌子後面的老先生在喝茶。）」｜遊戲［］「（巷子裡，一棟老公寓的騎樓下面擺著一張鋪紅布的桌子。招牌寫「禮貌生財」。桌子後面的老先生在喝茶。）」（ADV on blur narr）
+  [ 131.9s] [SAVE ① first] #2 OK 稿［yt］「老師，算一次多少錢？」｜遊戲［祐廷］「老師，算一次多少錢？」（ADV on blur）
+  [ 131.9s] [SAVE ① first] #3 OK 稿［ms］「不用錢。」｜遊戲［上師］「不用錢。」（ADV on blur）
+  [ 131.9s] [SAVE ① first] #4 OK 稿［yt］「真的假的？」｜遊戲［祐廷］「真的假的？」（ADV on blur）
+  [ 131.9s] [SAVE ① first] #5 OK 稿［ms］「看你這個樣子，也不像有錢。」｜遊戲［上師］「看你這個樣子，也不像有錢。」（ADV on blur）
+  [ 131.9s] [SAVE ① first] #6 OK 稿［yt］「……」｜遊戲［祐廷］「……」（ADV on blur）
+  [ 131.9s] [SAVE ① first] #7 OK 稿［ms］「坐啦，算什麼？」｜遊戲［上師］「坐啦，算什麼？」（ADV on blur）
+  [ 131.9s] [SAVE ① first] #8 OK 稿［yt］「考試。」｜遊戲［祐廷］「考試。」（ADV on blur）
+  [ 131.9s] [SAVE ① first] #9 OK 稿［ms］「你書讀了沒？」｜遊戲［上師］「你書讀了沒？」（ADV on blur）
+  [ 131.9s] [SAVE ① first] #10 OK 稿［yt］「還沒。」｜遊戲［祐廷］「還沒。」（ADV on blur）
+  [ 131.9s] [SAVE ① first] #11 OK 稿［ms］「那你不用算了，這個我不用排命盤也知道。」｜遊戲［上師］「那你不用算了，這個我不用排命盤也知道。」（ADV on blur）
+  [ 131.9s] [SAVE ① first] #12 OK 稿［ms］「茶自己倒。下次書讀了再來，我比較好發揮。」｜遊戲［上師］「茶自己倒。下次書讀了再來，我比較好發揮。」（ADV on blur）
+PASS [SAVE ①] 舊存檔走進去＝初次見面（v9.10.24 線上版 GAME.snapshot()）  "first"
+PASS [SAVE ①] 這一段沒有 JS 例外  []
+  [ 131.9s] [SAVE ②] 剛演完，自動存檔（fatiao3d_auto）：{"day": 46, "hour": 19.453, "zone": "tingzhou", "lm": {}, "savedAt": 1794363391218}
+  [ 131.9s] [SAVE ②] （limao3d.js S.spend 在段落裡叫 GM.autosave，game3d.js autosave 段落深度 >0 不存——剛演完可能還沒存，照實記）
+PASS [SAVE ② 進店] 巷子裡有禮貌生財的門
+  [ 134.6s] 到達「[SAVE ② 進店] 店門」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 135.3s] [SAVE ② 進店] 店門口按鈕「進禮貌生財」
+PASS [SAVE ② 進店] 進到店裡（tz_limao）、站得住  {"zone": "tz_limao", "h": 19.861, "x": 0.9, "z": 3.3, "lv": 0, "stand": true, "busy": false, "fb": 0}
+  [ 146.5s] 到達「[SAVE ② 出店] 離開禮貌生財」附近（0.33 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [ 152.6s] [SAVE ② 出店] 按「離開禮貌生財」→ {"zone": "tingzhou", "h": 19.926, "x": 27.4, "z": 3.3, "lv": 0, "stand": true, "busy": false, "fb": 0}
+  [ 152.6s] [SAVE ②] 進店再出來以後的自動存檔：{"day": 46, "hour": 19.918, "zone": "tingzhou", "lm": {"LM_MET": 46}, "savedAt": 1794363434659}
+PASS [SAVE ②] 自動存檔裡有 LM_MET  {"day": 46, "hour": 19.918, "zone": "tingzhou", "lm": {"LM_MET": 46}, "savedAt": 1794363434659}
+  [ 178.7s] [SAVE ② 繼續] 狀態：{"day": 46, "date": "2025-11-01", "hour": 19.962, "stage": "law", "term": "Y1S1", "weather": "clear", "partners": ["kexin"], "girls": ["heroine_01:CLOSE_FRIEND", "kexin:RELATIONSHIP"], "lm": {"LM_MET": 46}, "finalsNext": false, "failedLast": false, "flunked": false, "brokeRecent": false, "lmLoaded": true, "typhoon": false}
+PASS [SAVE ②] 重新整理、按「繼續」：LM_MET 還在  {"LM_MET": 46}
+  [ 181.4s] 到達「[SAVE ② 繼續] 算命桌」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 182.1s] [SAVE ② 繼續] 走到算命桌前 (28.18,3.25) 19:59：按鈕「算命桌」
+  [ 185.1s] [SAVE ② 繼續以後] 按「算命桌」（19:59）→ 0 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝None；時間 19:59 → 20:00；第一句到最後一句 0.0 秒（探針點的速度）、整段 2.1 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 185.1s] [SAVE ② 繼續以後] 前後差異：LM_ []；其他 沒有
+PASS [SAVE ② 繼續以後] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+PASS [SAVE ②] 繼續以後按算命桌＝選單（不是又初次見面）  null
+  [ 185.1s] [SAVE] 花了 159 秒
+PASS 沒有 JS 例外  []
+ALL PASS
