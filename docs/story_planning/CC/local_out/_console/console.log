@@ -1,13 +1,3 @@
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       994b3108a..cfd607359  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[13:32:33] ==== END   CLASS12_skip_2d9_500x5  exit=1  229s   ====
-[13:32:37] memory 48% before starting CLASS12_skip_73_500x5 (2 running)
-[13:32:37] ==== START CLASS12_skip_73_500x5  (probe @ 73faa493f90fc6c90ccc867950bd012cb3d1d72e) ====
-[13:32:40] [res] cpu=4% mem=48% (15.3/31.4 GB) chrome_testing=10  START CLASS12_skip_73_500x5
-[13:33:55] [res] cpu=5% mem=48% (15.2/31.4 GB) chrome_testing=10  END CLASS12_skip_73_150x5
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       cfd607359..4f3de036a  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [13:34:01] ==== END   CLASS12_skip_73_150x5  exit=1  233s   ====
 [13:34:03] 正在跑：CLASS12_skip_73_150x20（已跑 3 分／上限 12 分）、CLASS12_skip_73_500x5（已跑 1 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1988,13 @@
 [21:58:51] [res] cpu=10% mem=34% (10.7/31.4 GB) chrome_testing=4  END V25_L118_C4
 [21:58:58] memory 35% before starting V25_exam (2 running)
 [21:58:58] ==== START V25_exam  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[21:59:01] [res] cpu=12% mem=35% (11.1/31.4 GB) chrome_testing=4  START V25_exam
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       111e36f9c..d39a3ac25  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:59:03] ==== END   V25_L118_C4  exit=0  316s   ====
+[21:59:05] 正在跑：V25_L118_C5（已跑 1 分／上限 20 分）、V25_exam（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:59:38] memory 42% before starting REL_moku_nosit_r2 (2 running)
+[21:59:38] ==== START REL_moku_nosit_r2  (probe @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
+[21:59:41] [res] cpu=8% mem=43% (13.5/31.4 GB) chrome_testing=9  START REL_moku_nosit_r2
+[22:02:25] [res] cpu=0% mem=43% (13.7/31.4 GB) chrome_testing=10  END REL_moku_nosit_r2
