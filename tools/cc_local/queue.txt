@@ -35,11 +35,17 @@ N1_GOCLASS_userview | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/st
 N1_CLASS_TERMS | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_class_terms_probe.py | index.html | 70 | PARTS=Y1S2,Y2S1,Y3S1,Y4S1,Y4S2,JA2;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_AA814 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 110 | SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 AA814_old | 9d45ef8b36d5df00cdbca70661a4ca13e9fce813 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 110 | SHA=9d45ef8b36d5df00cdbca70661a4ca13e9fce813
+# BB 18:24 ⑥ X324（以安／芷若 D01 逐句＋選項影響關係）、AA_812 誰付錢（ME／SHE／SPLIT／BROKE）；BB 18:54 之後新排的一律 01679bc0a
+N1_X324 | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_x324_date_probe.py | index.html | 80 | PARTS=AN,ZR;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
+N1_PAYS | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_date_pays_probe.py | index.html | 100 | PARTS=ME,SHE,SPLIT,BROKE;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
 N1_SEASON_gg | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 15 | PARTS=WALK,DOORS,FPS;FUNC_DATES=cny-3;ZONES=gongguan;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_SEASON_wz | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 15 | PARTS=WALK,DOORS,FPS;FUNC_DATES=cny-3;ZONES=wenzhou;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_POOL_swim | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_pool_probe.py | index.html | 10 | PARTS=OPEN,FPS,CLOSED;Q=high;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 # BB 18:24 ⑨ AA_811：學姊合歡山北峰（朋友版／交往版各一、反例 noflag／early／late／rain）、子晴語音十則（第九則可以回）
 N1_AA811 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_aa811_probe.py | index.html | 100 | PARTS=HEHUAN_NEG,VOICE,HEHUAN_A,HEHUAN_B;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
+# BB 18:54 放行 LEADOUT-WALL-1111（LAWWW：01679bc0a GHA 全綠 run 43077716700）：散場一起走到門口 LIB、MOKU；修改前 15e7b31f8 對照（預期 MOKU FAIL）
+N1_LEADOUT | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_leadout_probe.py | index.html | 60 | PARTS=LIB,MOKU;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
+LEADOUT_old | 15e7b31f83b1559d4ebfec7b322aaf956698990d | probe | docs/story_planning/test_tools/cc/cc_leadout_probe.py | index.html | 60 | PARTS=LIB,MOKU;SHA=15e7b31f83b1559d4ebfec7b322aaf956698990d
 # BB 16:00 木曜日盆栽角 PC 實走（tests/mokuyobi_plant_corner_1111_unit.js 2～7＋8 (−3.75,1.0)；真的搖桿、走／跑×30／10 fps）：新 SHA 全套（HOLD 等正式 SHA）、f312c 對照（D34：2、3、4、8 預期 FAIL）先跑
 # BB 16:03＋16:38：課堂六堂（Y1S2 const_2 w3、Y2S1 crim_spec w10、Y3S1 civpro_1 w7、Y4S1 enforcement w12、Y4S2 legal_research w12、JA2 japanese_2 w3）；雲端 c170 五堂 PASS、Y4S2 FAIL（門口上課 2D，有名字同學的 replies 被 inScene 濾掉）
 # LAWWW 17:21：門口上課反應句＝規則漏了、修法在本機（等 GHA 推了給 SHA）；修改前（7d9d79425）先跑 Y4S2 w12、JA2 w3 當對照（BB 17:12 判準：STORY.present 的同學要播＝預期 FAIL）
