@@ -1329,3 +1329,11 @@
 [04:18:26] ==== START JOY_live1  (probe @ dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c) ====
 [04:18:29] [res] cpu=7% mem=43% (13.6/31.4 GB) chrome_testing=9  START JOY_live1
 [04:19:35] [res] cpu=15% mem=44% (14.1/31.4 GB) chrome_testing=10  END N1_PAYS_pure
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0301cedd5..1702cd3b7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:19:41] ==== END   N1_PAYS_pure  exit=0  328s   ====
+[04:19:44] memory 45% before starting JOY_live2 (2 running)
+[04:19:44] ==== START JOY_live2  (probe @ dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c) ====
+[04:19:47] [res] cpu=5% mem=45% (14.2/31.4 GB) chrome_testing=10  START JOY_live2
+[04:20:18] [res] cpu=10% mem=43% (13.5/31.4 GB) chrome_testing=9  END N1_MOKU_PLANT_7b
