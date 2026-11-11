@@ -1,0 +1,139 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_shots_a\out
+CC NM1 夜市：PARTS SHOTS；SHA bd3f67410；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 （讀配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1815 (10.50,0.25) （陳家古早味雞蛋糕 前面 1.9 m）
+PASS [SHOTS st_eggcake 陳家古早味雞蛋糕 營業中 1815] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_eggcake 陳家古早味雞蛋糕 營業中 1815] isOpen＝True（open 模型 visible True、closed visible False）  {"id": "st_eggcake", "kind": "eggcake", "name": "陳家古早味雞蛋糕", "x": 10.5, "z": -1.65, "yaw": 0, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [10.66, 1.02, -1.808], "s": [2.74, 2.04, 1.59], "top": 2.04}, "cb": {"c": [10.852, 0.675, -1.684], "s": [2.35, 1.34, 0.98], "top": 1.35}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [  63.8s] [SHOTS st_eggcake 陳家古早味雞蛋糕 營業中 1815] 外框中心 open [10.66, 1.02, -1.808]、closed [10.852, 0.675, -1.684]，水平差 0.229 m（open 大小 [2.74, 2.04, 1.59]、closed 大小 [2.35, 1.34, 0.98]）
+FAIL [SHOTS st_eggcake 陳家古早味雞蛋糕 營業中 1815] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）  0.229 m
+  [  63.8s] [SHOTS st_eggcake 陳家古早味雞蛋糕 營業中 1815] 外框中心離配置位置 (10.50,-1.65)：open 0.22 m
+  [  63.8s] [SHOTS st_eggcake 陳家古早味雞蛋糕 營業中 1815] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [  69.3s] [SHOTS st_eggcake 陳家古早味雞蛋糕 營業中 1815] 互動：鍵「看陳家古早味雞蛋糕」→ ["（", "（一台三輪車改的攤子，奶黃色的帆布棚洗到發白。燈箱上畫著一隻雞和一顆蛋。）", "（鑄鐵的模子掀開，一排小豬形狀的", "（鑄鐵的模子掀開，一排小豬形狀的雞蛋糕。旁邊一個木盒，寫著「找零」。價目表最下面：「一份 5 個」。）", "原味的最多人買。"]；選項 [["雞蛋糕・原味　30 元", "雞蛋糕・奶香　35 元", "雞蛋糕・紅豆　40 元", "雞蛋糕・花生　40 元", "雞蛋糕・起司　45 元", "算了"]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1400 (10.50,0.25) （陳家古早味雞蛋糕 前面 1.9 m）
+PASS [SHOTS st_eggcake 陳家古早味雞蛋糕 開之前 1400] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_eggcake 陳家古早味雞蛋糕 開之前 1400] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_eggcake", "kind": "eggcake", "name": "陳家古早味雞蛋糕", "x": 10.5, "z": -1.65, "yaw": 0, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [10.66, 1.02, -1.808], "s": [2.74, 2.04, 1.59], "top": 2.04}, "cb": {"c": [10.852, 0.675, -1.684], "s": [2.35, 1.34, 0.98], "top": 1.35}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [  81.6s] [SHOTS st_eggcake 陳家古早味雞蛋糕 開之前 1400] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [  83.6s] [SHOTS st_eggcake 陳家古早味雞蛋糕 開之前 1400] 互動：鍵「看陳家古早味雞蛋糕」→ ["（", "（灰棕色的帆布蓋著。車身上「陳家」兩個字的紅漆掉了一角。）"]；選項 []
+PASS [SHOTS st_eggcake 陳家古早味雞蛋糕 開之前 1400] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2200 (10.50,0.25) （陳家古早味雞蛋糕 前面 1.9 m）
+PASS [SHOTS st_eggcake 陳家古早味雞蛋糕 收攤後 2200] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_eggcake 陳家古早味雞蛋糕 收攤後 2200] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_eggcake", "kind": "eggcake", "name": "陳家古早味雞蛋糕", "x": 10.5, "z": -1.65, "yaw": 0, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [10.66, 1.02, -1.808], "s": [2.74, 2.04, 1.59], "top": 2.04}, "cb": {"c": [10.852, 0.675, -1.684], "s": [2.35, 1.34, 0.98], "top": 1.35}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [  96.4s] [SHOTS st_eggcake 陳家古早味雞蛋糕 收攤後 2200] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_eggcake 陳家古早味雞蛋糕 收攤後 2200] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [  98.8s] [SHOTS st_eggcake 陳家古早味雞蛋糕 收攤後 2200] 互動：鍵「看陳家古早味雞蛋糕」→ ["（", "（灰棕色的帆布蓋著。車身上「陳家」兩個字的紅漆掉了一角。）"]；選項 []
+PASS [SHOTS st_eggcake 陳家古早味雞蛋糕 收攤後 2200] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_eggcake] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1930 (14.50,-0.25) （當蔥蔥油餅 前面 1.9 m）
+PASS [SHOTS st_scallion 當蔥蔥油餅 營業中 1930] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_scallion 當蔥蔥油餅 營業中 1930] isOpen＝True（open 模型 visible True、closed visible False）  {"id": "st_scallion", "kind": "scallion", "name": "當蔥蔥油餅", "x": 14.5, "z": 1.65, "yaw": 3.1416, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [14.55, 1.15, 1.745], "s": [2.94, 2.3, 1.81], "top": 2.3}, "cb": {"c": [14.635, 1.115, 1.65], "s": [2.45, 2.23, 1.1], "top": 2.23}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 111.9s] [SHOTS st_scallion 當蔥蔥油餅 營業中 1930] 外框中心 open [14.55, 1.15, 1.745]、closed [14.635, 1.115, 1.65]，水平差 0.127 m（open 大小 [2.94, 2.3, 1.81]、closed 大小 [2.45, 2.23, 1.1]）
+FAIL [SHOTS st_scallion 當蔥蔥油餅 營業中 1930] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）  0.127 m
+  [ 111.9s] [SHOTS st_scallion 當蔥蔥油餅 營業中 1930] 外框中心離配置位置 (14.50,1.65)：open 0.11 m
+  [ 111.9s] [SHOTS st_scallion 當蔥蔥油餅 營業中 1930] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 116.8s] [SHOTS st_scallion 當蔥蔥油餅 營業中 1930] 互動：鍵「看當蔥蔥油餅」→ ["（", "（綠白條紋的棚子。布條上畫了一根戴眼鏡的蔥，手上拿著鍋鏟，表情很認真。）", "（大煎台上兩張餅，老闆撒了一把蔥", "（大煎台上兩張餅，老闆撒了一把蔥花，滋的一聲。黑板最下面寫：「可加辣／蒜醬！」）", "雙蛋的比較飽，學生都點這個。"]；選項 [["原味蔥油餅　45 元", "加蛋蔥油餅　55 元", "起司蔥油餅　65 元", "雙蛋蔥油餅　65 元", "算了"]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1500 (14.50,-0.25) （當蔥蔥油餅 前面 1.9 m）
+PASS [SHOTS st_scallion 當蔥蔥油餅 開之前 1500] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_scallion 當蔥蔥油餅 開之前 1500] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_scallion", "kind": "scallion", "name": "當蔥蔥油餅", "x": 14.5, "z": 1.65, "yaw": 3.1416, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [14.55, 1.15, 1.745], "s": [2.94, 2.3, 1.81], "top": 2.3}, "cb": {"c": [14.635, 1.115, 1.65], "s": [2.45, 2.23, 1.1], "top": 2.23}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 129.1s] [SHOTS st_scallion 當蔥蔥油餅 開之前 1500] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [ 131.1s] [SHOTS st_scallion 當蔥蔥油餅 開之前 1500] 互動：鍵「看當蔥蔥油餅」→ ["（", "（煎台蓋起來了，灰綠色的帆布蓋著攤車。布條上那根蔥還在看著你。）"]；選項 []
+PASS [SHOTS st_scallion 當蔥蔥油餅 開之前 1500] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2330 (14.50,-0.25) （當蔥蔥油餅 前面 1.9 m）
+PASS [SHOTS st_scallion 當蔥蔥油餅 收攤後 2330] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_scallion 當蔥蔥油餅 收攤後 2330] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_scallion", "kind": "scallion", "name": "當蔥蔥油餅", "x": 14.5, "z": 1.65, "yaw": 3.1416, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [14.55, 1.15, 1.745], "s": [2.94, 2.3, 1.81], "top": 2.3}, "cb": {"c": [14.635, 1.115, 1.65], "s": [2.45, 2.23, 1.1], "top": 2.23}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 143.7s] [SHOTS st_scallion 當蔥蔥油餅 收攤後 2330] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_scallion 當蔥蔥油餅 收攤後 2330] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 145.7s] [SHOTS st_scallion 當蔥蔥油餅 收攤後 2330] 互動：鍵「看當蔥蔥油餅」→ ["（", "（煎台蓋起來了，灰綠色的帆布蓋著攤車。布條上那根蔥還在看著你。）"]；選項 []
+PASS [SHOTS st_scallion 當蔥蔥油餅 收攤後 2330] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_scallion] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2030 (18.50,0.25) （一個地球 前面 1.9 m）
+PASS [SHOTS st_ball 一個地球 營業中 2030] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_ball 一個地球 營業中 2030] isOpen＝True（open 模型 visible True、closed visible False）  {"id": "st_ball", "kind": "ball", "name": "一個地球", "x": 18.5, "z": -1.65, "yaw": 0, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [18.493, 1.259, -1.77], "s": [2.25, 2.52, 1.56], "top": 2.52}, "cb": {"c": [18.5, 0.892, -1.65], "s": [1.68, 1.78, 0.9], "top": 1.78}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 158.5s] [SHOTS st_ball 一個地球 營業中 2030] 外框中心 open [18.493, 1.259, -1.77]、closed [18.5, 0.892, -1.65]，水平差 0.120 m（open 大小 [2.25, 2.52, 1.56]、closed 大小 [1.68, 1.78, 0.9]）
+FAIL [SHOTS st_ball 一個地球 營業中 2030] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）  0.120 m
+  [ 158.5s] [SHOTS st_ball 一個地球 營業中 2030] 外框中心離配置位置 (18.50,-1.65)：open 0.12 m
+  [ 158.5s] [SHOTS st_ball 一個地球 營業中 2030] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 163.8s] [SHOTS st_ball 一個地球 營業中 2030] 互動：鍵「看一個地球」→ ["（", "（深藍色的小推車，招牌是一顆地球，旁邊有幾顆黃色的球繞著它轉。仔細看，那幾顆是地瓜球。）", "（大油鍋裡，一勺地瓜球浮上來，越", "（大油鍋裡，一勺地瓜球浮上來，越壓越大。）", "雙色是黃的加紫的，味道一樣，拍照", "雙色是黃的加紫的，味道一樣，拍照比較好看。"]；選項 [["經典地瓜球　50 元", "雙色地瓜球　55 元", "起司地瓜球　60 元", "算了"]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1600 (18.50,0.25) （一個地球 前面 1.9 m）
+PASS [SHOTS st_ball 一個地球 開之前 1600] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_ball 一個地球 開之前 1600] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_ball", "kind": "ball", "name": "一個地球", "x": 18.5, "z": -1.65, "yaw": 0, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [18.493, 1.259, -1.77], "s": [2.25, 2.52, 1.56], "top": 2.52}, "cb": {"c": [18.5, 0.892, -1.65], "s": [1.68, 1.78, 0.9], "top": 1.78}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 176.1s] [SHOTS st_ball 一個地球 開之前 1600] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [ 178.1s] [SHOTS st_ball 一個地球 開之前 1600] 互動：鍵「看一個地球」→ ["（", "（深藍色的帆布包著車子。招牌上的地球沒有亮。）"]；選項 []
+PASS [SHOTS st_ball 一個地球 開之前 1600] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 0030+1 (18.50,0.25) （一個地球 前面 1.9 m）
+PASS [SHOTS st_ball 一個地球 收攤後 0030+1] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_ball 一個地球 收攤後 0030+1] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_ball", "kind": "ball", "name": "一個地球", "x": 18.5, "z": -1.65, "yaw": 0, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [18.493, 1.259, -1.77], "s": [2.25, 2.52, 1.56], "top": 2.52}, "cb": {"c": [18.5, 0.892, -1.65], "s": [1.68, 1.78, 0.9], "top": 1.78}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 190.3s] [SHOTS st_ball 一個地球 收攤後 0030+1] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_ball 一個地球 收攤後 0030+1] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 192.2s] [SHOTS st_ball 一個地球 收攤後 0030+1] 互動：鍵「看一個地球」→ ["（深藍色的帆布包著車子。招牌上的地球沒有亮。）"]；選項 []
+PASS [SHOTS st_ball 一個地球 收攤後 0030+1] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_ball] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 (-6.10,-11.50) （皇家高端胡椒餅 前面 1.9 m）
+PASS [SHOTS st_pepper 皇家高端胡椒餅 營業中 2000] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_pepper 皇家高端胡椒餅 營業中 2000] isOpen＝True（open 模型 visible True、closed visible False）  {"id": "st_pepper", "kind": "pepper", "name": "皇家高端胡椒餅", "x": -4.2, "z": -11.5, "yaw": -1.5708, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [-4.025, 1.536, -11.475], "s": [1.65, 3.07, 3.17], "top": 3.07}, "cb": {"c": [-4.274, 1.392, -11.5], "s": [1.25, 2.78, 2.5], "top": 2.78}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 205.1s] [SHOTS st_pepper 皇家高端胡椒餅 營業中 2000] 外框中心 open [-4.025, 1.536, -11.475]、closed [-4.274, 1.392, -11.5]，水平差 0.250 m（open 大小 [1.65, 3.07, 3.17]、closed 大小 [1.25, 2.78, 2.5]）
+FAIL [SHOTS st_pepper 皇家高端胡椒餅 營業中 2000] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）  0.250 m
+  [ 205.1s] [SHOTS st_pepper 皇家高端胡椒餅 營業中 2000] 外框中心離配置位置 (-4.20,-11.50)：open 0.18 m
+  [ 205.1s] [SHOTS st_pepper 皇家高端胡椒餅 營業中 2000] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 210.6s] [SHOTS st_pepper 皇家高端胡椒餅 營業中 2000] 互動：鍵「看皇家高端胡椒餅」→ ["（", "（紅絲絨、金色的柱子、頂上一個大皇冠。招牌寫「皇家高端胡椒餅」。）", "（皇冠下面是一個很普通的圓筒炭爐", "（皇冠下面是一個很普通的圓筒炭爐，老闆正把麵團貼進爐壁。）", "（保溫櫃上的牌子：「一顆 60", "小心裡面的汁，燙到皇家不負責。"]；選項 [["胡椒餅　60 元", "算了"]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1600 (-6.10,-11.50) （皇家高端胡椒餅 前面 1.9 m）
+PASS [SHOTS st_pepper 皇家高端胡椒餅 開之前 1600] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_pepper 皇家高端胡椒餅 開之前 1600] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_pepper", "kind": "pepper", "name": "皇家高端胡椒餅", "x": -4.2, "z": -11.5, "yaw": -1.5708, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [-4.025, 1.536, -11.475], "s": [1.65, 3.07, 3.17], "top": 3.07}, "cb": {"c": [-4.274, 1.392, -11.5], "s": [1.25, 2.78, 2.5], "top": 2.78}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 223.0s] [SHOTS st_pepper 皇家高端胡椒餅 開之前 1600] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [ 225.2s] [SHOTS st_pepper 皇家高端胡椒餅 開之前 1600] 互動：鍵「看皇家高端胡椒餅」→ ["（", "（深紅色的帆布包住了工作台。皇冠的燈關了，還是看得出是皇冠。）"]；選項 []
+PASS [SHOTS st_pepper 皇家高端胡椒餅 開之前 1600] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2330 (-6.10,-11.50) （皇家高端胡椒餅 前面 1.9 m）
+PASS [SHOTS st_pepper 皇家高端胡椒餅 收攤後 2330] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_pepper 皇家高端胡椒餅 收攤後 2330] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_pepper", "kind": "pepper", "name": "皇家高端胡椒餅", "x": -4.2, "z": -11.5, "yaw": -1.5708, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [-4.025, 1.536, -11.475], "s": [1.65, 3.07, 3.17], "top": 3.07}, "cb": {"c": [-4.274, 1.392, -11.5], "s": [1.25, 2.78, 2.5], "top": 2.78}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 237.6s] [SHOTS st_pepper 皇家高端胡椒餅 收攤後 2330] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_pepper 皇家高端胡椒餅 收攤後 2330] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 239.7s] [SHOTS st_pepper 皇家高端胡椒餅 收攤後 2330] 互動：鍵「看皇家高端胡椒餅」→ ["（", "（深紅色的帆布包住了工作台。皇冠的燈關了，還是看得出是皇冠。）"]；選項 []
+PASS [SHOTS st_pepper 皇家高端胡椒餅 收攤後 2330] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_pepper] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2100 (-6.10,-16.50) （玉皇大帝 前面 1.9 m）
+PASS [SHOTS st_corn 玉皇大帝 營業中 2100] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_corn 玉皇大帝 營業中 2100] isOpen＝True（open 模型 visible True、closed visible False）  {"id": "st_corn", "kind": "corn", "name": "玉皇大帝", "x": -4.2, "z": -16.5, "yaw": -1.5708, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [-3.965, 1.442, -16.532], "s": [1.53, 2.88, 3.24], "top": 2.88}, "cb": {"c": [-4.2, 1.452, -16.5], "s": [1.1, 2.9, 2.58], "top": 2.9}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 252.6s] [SHOTS st_corn 玉皇大帝 營業中 2100] 外框中心 open [-3.965, 1.442, -16.532]、closed [-4.2, 1.452, -16.5]，水平差 0.237 m（open 大小 [1.53, 2.88, 3.24]、closed 大小 [1.1, 2.9, 2.58]）
+FAIL [SHOTS st_corn 玉皇大帝 營業中 2100] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）  0.237 m
+  [ 252.6s] [SHOTS st_corn 玉皇大帝 營業中 2100] 外框中心離配置位置 (-4.20,-16.50)：open 0.24 m
+  [ 252.6s] [SHOTS st_corn 玉皇大帝 營業中 2100] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 257.7s] [SHOTS st_corn 玉皇大帝 營業中 2100] 互動：鍵「看玉皇大帝」→ ["（", "（黑底金字的大招牌：「玉皇大帝　炭烤玉米」。招牌上的玉米戴著皇冠和墨鏡。）", "（炭火是紅的。老闆一手轉玉米，一", "（炭火是紅的。老闆一手轉玉米，一手刷醬，刷了一層又一層。攤子前面寫：「一口玉米　封神上癮！」）", "第一次來吃經典的。"]；選項 [["炭烤玉米・經典原味　70 元", "炭烤玉米・蒜香厚醬　70 元", "炭烤玉米・沙茶霸味　70 元", "炭烤玉米・椒麻嗆辣　70 元", "炭烤玉米・起司香濃　70 元", "炭烤玉米・檸檬椒鹽　70 元", "算了"]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1700 (-6.10,-16.50) （玉皇大帝 前面 1.9 m）
+PASS [SHOTS st_corn 玉皇大帝 開之前 1700] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+FAIL [SHOTS st_corn 玉皇大帝 開之前 1700] isOpen＝False（open 模型 visible True、closed visible False）  {"id": "st_corn", "kind": "corn", "name": "玉皇大帝", "x": -4.2, "z": -16.5, "yaw": -1.5708, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [-3.965, 1.442, -16.532], "s": [1.53, 2.88, 3.24], "top": 2.88}, "cb": {"c": [-4.2, 1.452, -16.5], "s": [1.1, 2.9, 2.58], "top": 2.9}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 270.3s] [SHOTS st_corn 玉皇大帝 開之前 1700] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 272.7s] [SHOTS st_corn 玉皇大帝 開之前 1700] 互動：鍵「看玉皇大帝」→ ["（", "（黑色的帆布綁在攤車上。招牌上那根玉米還戴著墨鏡。）"]；選項 []
+PASS [SHOTS st_corn 玉皇大帝 開之前 1700] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 0030+1 (-6.10,-16.50) （玉皇大帝 前面 1.9 m）
+PASS [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_corn 玉皇大帝 收攤後 0030+1] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_corn", "kind": "corn", "name": "玉皇大帝", "x": -4.2, "z": -16.5, "yaw": -1.5708, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [-3.965, 1.442, -16.532], "s": [1.53, 2.88, 3.24], "top": 2.88}, "cb": {"c": [-4.2, 1.452, -16.5], "s": [1.1, 2.9, 2.58], "top": 2.9}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 284.8s] [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 286.9s] [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 互動：鍵「看玉皇大帝」→ ["（", "（黑色的帆布綁在攤車上。招牌上那根玉米還戴著墨鏡。）"]；選項 []
+PASS [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_corn] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2045 (-6.10,-21.50) （紹興炸豆腐 前面 1.9 m）
+PASS [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_stinky 紹興炸豆腐 營業中 2045] isOpen＝True（open 模型 visible True、closed visible False）  {"id": "st_stinky", "kind": "stinky", "name": "紹興炸豆腐", "x": -4.2, "z": -21.5, "yaw": -1.5708, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [-4.155, 1.373, -21.54], "s": [1.91, 2.75, 2.9], "top": 2.75}, "cb": {"c": [-4.405, 1.375, -21.755], "s": [1.51, 2.75, 2.69], "top": 2.75}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 299.6s] [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 外框中心 open [-4.155, 1.373, -21.54]、closed [-4.405, 1.375, -21.755]，水平差 0.330 m（open 大小 [1.91, 2.75, 2.9]、closed 大小 [1.51, 2.75, 2.69]）
+FAIL [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）  0.330 m
+  [ 299.6s] [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 外框中心離配置位置 (-4.20,-21.50)：open 0.06 m
+  [ 299.6s] [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 304.8s] [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 互動：鍵「看紹興炸豆腐」→ ["（酒", "（酒紅色的招牌，金色的字，旁邊掛一個寫著「紹興」的紅燈籠。攤子前面擺了兩個酒甕。）", "（還沒走近就聞到了。瀝油架上一排", "（還沒走近就聞到了。瀝油架上一排炸得金黃的豆腐。黑板寫：「炸豆腐 70　加泡菜 10」。）", "泡菜是自己醃的。"]；選項 [["炸豆腐　70 元", "炸豆腐加泡菜　80 元", "算了"]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1630 (-6.10,-21.50) （紹興炸豆腐 前面 1.9 m）
+PASS [SHOTS st_stinky 紹興炸豆腐 開之前 1630] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+FAIL [SHOTS st_stinky 紹興炸豆腐 開之前 1630] isOpen＝False（open 模型 visible True、closed visible False）  {"id": "st_stinky", "kind": "stinky", "name": "紹興炸豆腐", "x": -4.2, "z": -21.5, "yaw": -1.5708, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [-4.155, 1.373, -21.54], "s": [1.91, 2.75, 2.9], "top": 2.75}, "cb": {"c": [-4.405, 1.375, -21.755], "s": [1.51, 2.75, 2.69], "top": 2.75}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 317.1s] [SHOTS st_stinky 紹興炸豆腐 開之前 1630] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 319.4s] [SHOTS st_stinky 紹興炸豆腐 開之前 1630] 互動：鍵「看紹興炸豆腐」→ ["（", "（酒紅色的帆布蓋住工作台。兩個酒甕還在原地，味道淡了很多。）"]；選項 []
+PASS [SHOTS st_stinky 紹興炸豆腐 開之前 1630] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 0030+1 (-6.10,-21.50) （紹興炸豆腐 前面 1.9 m）
+PASS [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_stinky", "kind": "stinky", "name": "紹興炸豆腐", "x": -4.2, "z": -21.5, "yaw": -1.5708, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [-4.155, 1.373, -21.54], "s": [1.91, 2.75, 2.9], "top": 2.75}, "cb": {"c": [-4.405, 1.375, -21.755], "s": [1.51, 2.75, 2.69], "top": 2.75}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 331.8s] [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 333.8s] [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 互動：鍵「看紹興炸豆腐」→ ["（", "（酒紅色的帆布蓋住工作台。兩個酒甕還在原地，味道淡了很多。）"]；選項 []
+PASS [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_stinky] walkFallbacks 0
+PASS 沒有 JS 例外  []
+FAILED 8: [SHOTS st_eggcake 陳家古早味雞蛋糕 營業中 1815] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）；[SHOTS st_scallion 當蔥蔥油餅 營業中 1930] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）；[SHOTS st_ball 一個地球 營業中 2030] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）；[SHOTS st_pepper 皇家高端胡椒餅 營業中 2000] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）；[SHOTS st_corn 玉皇大帝 營業中 2100] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）；[SHOTS st_corn 玉皇大帝 開之前 1700] isOpen＝False（open 模型 visible True、closed visible False）；[SHOTS st_stinky 紹興炸豆腐 營業中 2045] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）；[SHOTS st_stinky 紹興炸豆腐 開之前 1630] isOpen＝False（open 模型 visible True、closed visible False）
