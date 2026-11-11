@@ -1,0 +1,61 @@
+{
+ "_meta": {
+  "doc": "AA_763 沛珊零散檔案第三批（先放 ladder.js 裡階梯重寫沒包到的：打招呼的 when 句、坐腳踏車後座；其他零散檔掃完再加進同一份）",
+  "task": "PEISHAN-VOICE-1110（X327）",
+  "by": "AA 2026-11-11",
+  "why": "LAWWW 7d365bfb4 匯入以後我用程式掃 ladder.js 她那幾段，還剩兩句早餐店（大四上期末的招呼、坐後座下車那句）和幾句舊口氣（「八點的課，七點就到了」和她早上起不來相反；沒必要的刪節號）。",
+  "question_for_BB_LAWWW": "招呼的條件我沒動，但請看一下：大一下 when「（她帶著一排小孩過馬路…）等一下！我在上班！」的條件是溫州街、週二四 16:30～18:00，大二上是週二三四 16:30～18:00 和 18:00～21:00「我剛從課輔班回來」——AA_614 以後課輔班是每週三 18:00～21:00（characters.js 的作息）。這幾個時段如果和現行作息對不上，她不會在那裡，句子就不會出；要不要照作息改條件，請 BB 定、LAWWW 改。"
+ },
+ "files": [
+  {
+   "file": "src/data/ladder.js（來源是白名單的階梯稿；這幾句不在 AA_753 重寫的範圍裡，請直接在匯入層換或告訴我要改哪個源檔）",
+   "rows": [
+    {
+     "where": "byTerm.Y4S1.classmate_peishan.greet.when（第 15～16 週）",
+     "old": "期末。寒假我要回家裡的早餐店煎蛋。",
+     "new": "期末了。寒假我要回台中，我爸已經排好要我去店裡站櫃檯。"
+    },
+    {
+     "where": "byTerm.Y4S1.classmate_peishan.greet.when（06～08 點）",
+     "old": "早。我八點的課，七點就到了。",
+     "new": "早。我八點的課，今天居然趕上了。"
+    },
+    {
+     "where": "byTerm.Y4S1.classmate_peishan.greet.when（週五 19～23 點）",
+     "old": "嗨！……我剛從課輔班回來。",
+     "new": "嗨！我剛從課輔班回來。"
+    },
+    {
+     "where": "byTerm.Y4S2.classmate_peishan.greet.when（週五 19～23 點）",
+     "old": "嗨！……我剛從課輔班回來。手上還有粉筆灰。",
+     "new": "嗨！我剛從課輔班回來，手上還有粉筆灰。"
+    },
+    {
+     "where": "byTerm.Y4S2.classmate_peishan.greet.when（第 7 週）",
+     "old": "我的公開課快到了。……晚上都在對著鏡子講。",
+     "new": "我的公開課快到了，我晚上都在對著鏡子講，鏡子都聽膩了。"
+    },
+    {
+     "where": "byTerm.Y3S2.classmate_peishan.greet.when（06～08 點）",
+     "old": "早。……老師要比學生早到，我在練習。",
+     "new": "早。老師要比學生早到，我在練習，目前成功率一半。"
+    },
+    {
+     "where": "byTerm.Y3S1.classmate_peishan.greet.when（第 8～9 週）",
+     "old": "期中。我們系要考試。……我現在知道出題的人在想什麼了。",
+     "new": "期中。我們系要考試，我現在知道出題的人在想什麼了。"
+    },
+    {
+     "where": "bikeSeat.classmate_peishan.onFirst",
+     "old": "腳踏車後座要抓哪裡？……機車的我知道。",
+     "new": "腳踏車後座要抓哪裡？我只坐過汽車的後座。"
+    },
+    {
+     "where": "bikeSeat.classmate_peishan.offFirst",
+     "old": "好好玩。我小時候都坐我爸的機車後座送蛋餅。",
+     "new": "好好玩！比我想的穩，你有偷偷騎很慢對不對。"
+    }
+   ]
+  }
+ ]
+}
