@@ -333,6 +333,13 @@ async def point_one(pg, cdp, key, Z, kind, k, xz, desc, lv):
     res = {'r': 'done', 'at': [x, z], 'stop': [b['x'], b['z']], 'd': round(d, 2), 'seat': m['seat'], 'redirect': pt['redirect'], 'rseat': pt['rseat'], 'tp': m['tp'], 'interact': b['interact'], 'near': ni, 'dlg': b['dlg'], 'fb': b['fb'] - fb0}
     R.note('%s 結果：停在 (%s, %s)（%s 秒；離點的地方 %.2f m、離地板落點 %s m）；坐下 %s；tapPref %s；互動鍵「%s」；最近的互動 %s；對話 %s；walkFallbacks +%d' % (
         t, b['x'], b['z'], secs, d, None if dh is None else round(dh, 2), J(m['seat']), J(m['tp']), b['interact'], J(ni), b['dlg'], b['fb'] - fb0))
+    # CC 11-11 19:0x（N1_TSR_DORM 走道 5）：點到 HUD 旁邊、打開了手機＝這一下沒點到遊戲畫面，記「HUD 蓋住」不判（CC_02 乙 4）
+    pho = await pg.evaluate("(()=>{ const p=document.getElementById('phone'); return !!p&&!p.classList.contains('hide')&&p.offsetParent!==null; })()")
+    if pho:
+        R.note('%s 點下去打開了手機（點到 HUD 旁邊，沒點到遊戲畫面）：不判，收起手機' % t); await shot(pg, '%s_%s%d_hud' % (key, kind, k))
+        try: await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(400)
+        except Exception as e: R.note('%s 收手機失敗 %r' % (t, e))
+        res['r'] = 'HUD 蓋住'; return res
     if kind == 'floor':
         ok = not m['seat'] and pt['redirect'] is None and d <= FLOOR_NEAR
         if not R.check('%s 點走道 (%s, %s)：沒有坐下、沒有被導去椅子、停在點的地方 %.2f m 內（≤%s）' % (t, x, z, d, FLOOR_NEAR), ok, J({k_: res[k_] for k_ in ('stop', 'd', 'seat', 'redirect', 'rseat', 'tp', 'interact')})):
