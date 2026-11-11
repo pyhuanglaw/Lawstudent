@@ -17,11 +17,19 @@
               ②泰米 14:00 午休：13:45 → 走進去 →【捷徑】13:58 → 老闆娘「我們要午休了，五點再開喔。」（不是打烊那句）→ 門外 → 再按店門＝休息的木牌那一句（rest）＋toast（CLOSE_WHICH=close,noon 可只跑一個）
   TAIMI_INVITE  手機「朋友」→ 她的「約」→ 吃飯 →「去泰米村食吃飯」→ 今天 HH:MM → 她答應（稿上 invite.acc 她那一句）→ 手機「今天」按「前往」→ 到泰米村食 → 兩個人坐下、見面演完
               （預設＝吃飯第 1 場那一段，坐下那幾句要出現；泰米村食自己的開場句 seatOpen 這時不演＝遊戲照第 N 場，只記）；進店不說進門句（今天約在這裡）；演完走「離開泰米村食」回汀州路。
+  RENAME      （BB 加）日日定食改成泰米村食（AA_742 第 ③ 節；644eeb7d71、8bdaf14a3d）：
+              ①【靜態】頁面載入的每一支 src/*.js（去掉註解）只有 gg3shops3d.js 的遷移表 S.RENAME 還寫著「日日定食」；原本三處（sis_grad3d.js 大一上榜聚餐：場景標題、Kevin 群組訊息、行程地點；
+                story3d.js 明軒「公館一百元以內」清單；story3d.js 大二上榜聚餐：Kevin 訊息、行程地點）現在都是泰米村食的字；
+              ② 頁面資料：STORY.MX_FM1 清單、約人的地點（INVITE_DATA.places）、店名（PLACES.names、Z3.ZONES）、公館／汀州路的互動鍵字、畫面上的字都沒有「日日定食」；
+                【捷徑】GAME.addNote 加明軒那份清單、打開筆記本：看到「泰米村食（汀州路）」；
+              ③ 舊存檔：【前置／捷徑】在遊戲裡做一份「舊版本會存成的樣子」（G.outings 兩筆今天的上榜聚餐「公館・日日定食」「公館的日日定食」＋一筆做過的；
+                RENAME_FULL＝1（預設）再加 7d9d 以前就收到的 Kevin 群組訊息、明軒清單的筆記本那一則，都是舊字）→ GAME.snapshot → GAME.applySave 讀回來（＝讀舊存檔，會跑 migrate）
+                → G.outings 的地點、標題換成泰米村食（AA_742 ③ 的範圍）、手機「今天」顯示泰米村食、整個 G 和畫面（手機今天／訊息／筆記本）沒有「日日定食」（BB 的標準；不在遷移範圍的欄位會列出來）
   TAIMI_INVITE_SO  同上，但【前置／捷徑】把她今天的吃飯場次記成算過（ACTN.eat.last＝今天）→ 坐下以後要演泰米村食的開場句（seatOpen 兩則之一）
 走路：一律搖桿（CDP 觸控按 #joy；照 E.pathTo 前方 1.2 m 推），每推一下之前看狀態：互動鍵是要的字＝到了；出現對話／選單／手機＝停下來交回主迴圈處理（乙 5、13）。
 選單：照字選（GAME.choose 的掛勾看得到選項字）；掛勾抓不到的遊戲內部選單（坐下選單）照按鈕字選，並記一行「遊戲內部選單」；沒進展每 30 秒記一次狀態＋截圖（乙 4）。
-環境變數：PARTS（預設六間＋CLOSE＋TAIMI_INVITE）、SHA、DAY（預設 2025-10-08 週三；避開 10-06 中秋、10-10 國慶、10-13 颱風）、SHORT（預設 1）、LOOKS（預設 1）、SIT（預設 1）、H_<短 id>（各店時間）、
-  CLOSE_WHICH（close,noon）、TAIMI_WHO（逗號分隔，依序試）、ANTAI_ITEM、FRUIT_ITEM、RONG_ITEM。
+環境變數：PARTS（預設六間＋CLOSE＋TAIMI_INVITE＋RENAME）、SHA、DAY（預設 2025-10-08 週三；避開 10-06 中秋、10-10 國慶、10-13 颱風）、SHORT（預設 1）、LOOKS（預設 1）、SIT（預設 1）、H_<短 id>（各店時間）、
+  CLOSE_WHICH（close,noon）、RENAME_FULL（1）、TAIMI_WHO（逗號分隔，依序試）、ANTAI_ITEM、FRUIT_ITEM、RONG_ITEM。
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=antai,taimi,CLOSE python3 cc_gg3shops_probe.py <url> <out>（URL 不加 ?turbo）
       python3 cc_gg3shops_probe.py --node-check　＝把這支裡每一段 JS 常數抽出來跑 node --check（不開瀏覽器）"""
 import os, sys, json, asyncio, time, math, re, subprocess, tempfile
@@ -155,8 +163,39 @@ NPC_JS = r"""(w=>{ const n=(GAME.npc&&GAME.npc[w])||(GAME.E.npcs||[]).find(q=>q.
 ACTN_JS = r"""(w=>{ const F=GAME.G.flags||{}; const r=((F.ACTN||{}).eat||{})[w]; return r?JSON.parse(JSON.stringify(r)):null; })"""
 TODAY_TXT_JS = r"""(()=>((document.getElementById('phoneBody')||{}).innerText||'').trim())()"""
 
+# RENAME（日日定食 → 泰米村食）
+OLD = '日日定食'
+SRC_SCAN_JS = r"""(async()=>{ const out=[], srcs=[...document.scripts].map(x=>x.src).filter(u=>/\/src\//.test(u));
+  for(const u of srcs){ let t=''; try{ t=await (await fetch(u)).text(); }catch(e){ out.push({f:u,err:String(e)}); continue; }
+    if(t.indexOf('日日定食')<0) continue; const code=t.replace(/\/\*[\s\S]*?\*\//g,m=>m.replace(/[^\n]/g,' ')); const L=code.split('\n');
+    L.forEach((ln,i)=>{ const c=ln.replace(/(^|[^:'"\\])\/\/.*$/,'$1'); if(c.indexOf('日日定食')>=0) out.push({f:u.split('?')[0].replace(/^.*\/src\//,'src/'),line:i+1,code:c.trim().slice(0,220)}); }); }
+  return {n:srcs.length,hits:out}; })()"""
+SRC_HAS_JS = r"""(async q=>{ const u=[...document.scripts].map(x=>x.src).find(x=>x.split('?')[0].endsWith(q.f)); if(!u) return {err:'沒有載入 '+q.f};
+  const t=await (await fetch(u)).text(); const code=t.replace(/\/\*[\s\S]*?\*\//g,''); return {has:q.needles.map(n=>code.indexOf(n)>=0)}; })"""
+RENAME_DATA_JS = r"""(()=>{ const old='日日定食', P=(typeof INVITE_DATA!=='undefined'&&INVITE_DATA.places)||[]; const tz=P.find(p=>p&&p.id==='tz_taimi');
+  const M=typeof STORY!=='undefined'?STORY.MX_FM1:null; const zn=typeof Z3!=='undefined'&&Z3.ZONES?Object.values(Z3.ZONES).map(z=>z&&z.name).filter(Boolean):[];
+  const pn=typeof PLACES!=='undefined'&&PLACES.names?Object.values(PLACES.names):[];
+  return {mx:M?{body:M.body,rows:M.rows.map(r=>r[0])}:null, tz:tz?{name:tz.name,verb:tz.verb}:null, placesOld:P.filter(p=>p&&JSON.stringify([p.name,p.verb,p.verbStudy||'']).indexOf(old)>=0).map(p=>p.id),
+    zonesOld:zn.filter(n=>n.indexOf(old)>=0), namesOld:pn.filter(n=>String(n).indexOf(old)>=0), gg3:typeof GG3!=='undefined'?{rename:GG3.RENAME,eatShop:GG3.EAT_SHOP}:null}; })()"""
+LABELS_OLD_JS = r"""(()=>{ const old='日日定食'; const its=(GAME.E.interactables||[]).map(i=>[typeof i.label==='function'?String(i.label()):String(i.label||''),String(i.look||'')]);
+  return {n:its.length, old:its.filter(x=>(x[0]+x[1]).indexOf(old)>=0), taimi:its.filter(x=>(x[0]+x[1]).indexOf('泰米村食')>=0).map(x=>x[0]), body:(document.body.innerText||'').indexOf(old)>=0}; })()"""
+OLD_BODY_JS = r"""(()=>{ const M=STORY.MX_FM1; const rows=M.rows.map(r=>r[0].indexOf('泰米村食')===0?['日日定食','今日定食（只有午餐）','95','剛好卡在一百以內。晚餐一百二，不算。']:r);
+  return '按 CP 值排。不接受申訴。<br>'+rows.map((r,i)=>(i+1)+'. '+r[0]+'｜'+r[1]+'　'+r[2]+'<br>　'+r[3]).join('<br>')+'<br>'+M.tail; })()"""
+BUILD_OLD_JS = r"""(q=>{ const G=GAME.G, d=G.day; const R=OUT.rec(G); R.length=0;
+  R.push({id:'sisg_rank_dinner',ev:'ev_sis_results_dinner_y1',day:d,h:19,late:0.25,place:'公館・日日定食',title:'學姊上榜聚餐（公館・日日定食）',travel:'走過去約 15 分鐘',travelH:0.25,alarm:true,state:'planned'});
+  R.push({id:'sis_m3_dinner',ev:'ev_sis_results_dinner',day:d,h:20,late:0.25,place:'公館的日日定食',title:'學姊上榜聚餐',travel:'走過去約 10 分鐘',travelH:1/6,state:'planned'});
+  R.push({id:'cc_old_lunch',ev:null,day:d-3,h:12,late:0.25,place:'日日定食',title:'午餐（日日定食）',state:'done'});
+  if(q.full){ PHONE.postAt(G,{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊上榜聚餐！這週五七點，公館的日日定食。這次我們請學姊',tag:'cc_old_kevin'},d-1,21);
+    if(GAME.addNote) GAME.addNote('mx_fm1',STORY.MX_FM1.title,q.body); }
+  const snap=JSON.parse(JSON.stringify(GAME.snapshot())); window.__ccOld=snap; const t=JSON.stringify(snap); return {n:t.split('日日定食').length-1, outs:snap.outings.length}; })"""
+APPLY_OLD_JS = r"""(async()=>{ await GAME.applySave(JSON.parse(JSON.stringify(window.__ccOld))); return true; })()"""
+G_OLD_JS = r"""(()=>{ const old='日日定食', hits=[]; const walk=(o,p)=>{ if(hits.length>40) return; if(typeof o==='string'){ if(o.indexOf(old)>=0) hits.push([p,o.slice(0,90)]); return; } if(!o||typeof o!=='object') return; for(const k of Object.keys(o)) walk(o[k],p+'.'+k); };
+  walk(GAME.G,'G'); const outs=(GAME.G.outings||[]).map(q=>({id:q.id,place:q.place,title:q.title,state:q.state})); return {hits,outs}; })()"""
+PANEL_TXT_JS = r"""(id=>((document.getElementById(id)||{}).innerText||'').trim())"""
+
 ALL_JS = [HOOK_JS, EV_JS, ST_JS, DATA_JS, LAYOUT_OUT_JS, ITS_JS, CAL_JS, OPEN_JS, EXPECT_JS, RONG_AFTER_JS, TAIMI_FILTER_JS, AHEAD_JS, PATHDIAG_JS, HIT_JS, OCC_JS, IDLE_JS,
-          SET_HOUR_JS, SET_MONEY_JS, SETUP_INV_JS, TIMES_JS, IV_JS, IV_FIND_JS, NPC_JS, ACTN_JS, TODAY_TXT_JS]   # node --check 用
+          SET_HOUR_JS, SET_MONEY_JS, SETUP_INV_JS, TIMES_JS, IV_JS, IV_FIND_JS, NPC_JS, ACTN_JS, TODAY_TXT_JS,
+          SRC_SCAN_JS, SRC_HAS_JS, RENAME_DATA_JS, LABELS_OLD_JS, OLD_BODY_JS, BUILD_OLD_JS, APPLY_OLD_JS, G_OLD_JS, PANEL_TXT_JS]   # node --check 用
 
 
 def node_check():
@@ -180,7 +219,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 R = L.Run('gg3shops', OUT); D.setup(R, OUT)
 SHA = os.environ.get('SHA') or '?'
-_P = [p.strip() for p in (os.environ.get('PARTS') or ','.join(SHOP_IDS + ['CLOSE', 'TAIMI_INVITE'])).split(',') if p.strip()]
+_P = [p.strip() for p in (os.environ.get('PARTS') or ','.join(SHOP_IDS + ['CLOSE', 'TAIMI_INVITE', 'RENAME'])).split(',') if p.strip()]
 PARTS = [SID_OF.get(p, p) if p in SID_OF else (p.lower() if p.lower() in SHOP_IDS else p.upper()) for p in _P]
 DATA = {}; CAL = {}
 LOGF = open(os.path.join(OUT, 'gg3shops_lines.txt'), 'a', encoding='utf-8')
@@ -1020,6 +1059,80 @@ async def part_taimi_invite(pg, cdp, so=False):
         await leave_shop(pg, cdp, 'taimi', tag)
 
 
+# ---------------------------------------------------------------- 日日定食 → 泰米村食
+RENAME_PLACES = [   # AA_742 第 ③ 節原本寫「日日定食」的三處（c170218dd 對照 644eeb7d71）：檔案、現在該有的字
+    ('src/sis_grad3d.js', '大一上榜聚餐（場景標題、Kevin 群組訊息、行程地點與標題）', ["scene:'汀州路・泰米村食'", '這週五七點，汀州路的泰米村食', "place:'汀州路・泰米村食'", "title:'學姊上榜聚餐（汀州路・泰米村食）'"]),
+    ('src/story3d.js', '明軒「公館一百元以內」清單', ["'泰米村食（汀州路）','午間打拋豬肉飯（只有午餐）','95'"]),
+    ('src/story3d.js', '大二上榜聚餐（Kevin 訊息、行程地點）', ['下週五七點，汀州路的泰米村食', "'汀州路的泰米村食'"]),
+]
+RENAME_ALLOWED = ('src/gg3shops3d.js',)   # 舊存檔遷移表 S.RENAME（要認得舊字才換得掉）
+
+
+async def phone_text(pg, cdp, tab):
+    await phone(pg, cdp, tab); await pg.wait_for_timeout(800)
+    t = await pg.evaluate(PANEL_TXT_JS, 'phoneBody'); await close_phone(pg, cdp); return t
+
+
+async def notes_text(pg, cdp):
+    await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(900)
+    await L.tap(pg, cdp, '#menu .tabs button[data-tab="notes"]'); await pg.wait_for_timeout(900)
+    t = await pg.evaluate(PANEL_TXT_JS, 'notesList'); await D.shot(pg, 'gg3_rename_notes', judge_black=False)
+    await L.close_panels(pg, cdp); await pg.wait_for_timeout(500); return t
+
+
+async def part_rename(pg, cdp):
+    tag = '[RENAME]'
+    sc = await pg.evaluate(SRC_SCAN_JS)
+    bad = [h for h in sc['hits'] if h.get('f') not in RENAME_ALLOWED]
+    R.note('%s 【靜態】頁面載入的 %d 支 src/*.js 去掉註解以後還寫著「日日定食」的：%s' % (tag, sc['n'], J(sc['hits'])))
+    R.check('%s 【靜態】程式（去掉註解）只有舊存檔遷移表（%s）還寫著「日日定食」' % (tag, '、'.join(RENAME_ALLOWED)), not bad and sc['n'] > 0, J(bad[:5]))
+    for f, what, needles in RENAME_PLACES:
+        r = await pg.evaluate(SRC_HAS_JS, {'f': f, 'needles': needles})
+        R.check('%s 【靜態】%s %s 現在是泰米村食：%s' % (tag, f, what, J(needles)), bool(r.get('has')) and all(r['has']), J(r))
+    d = await pg.evaluate(RENAME_DATA_JS)
+    R.note('%s 頁面資料：%s' % (tag, J({k: d.get(k) for k in ('tz', 'placesOld', 'zonesOld', 'namesOld', 'gg3')})))
+    mx = d.get('mx') or {}
+    R.check('%s 明軒清單（STORY.MX_FM1）第 3 家是「泰米村食（汀州路）」、內文沒有日日定食' % tag, '泰米村食（汀州路）' in (mx.get('rows') or []) and OLD not in (mx.get('body') or OLD), J(mx.get('rows')))
+    R.check('%s 約人的地點：泰米村食（%s）在清單裡、沒有任何地點寫日日定食' % (tag, J(d.get('tz'))), bool(d.get('tz')) and d['tz']['name'] == '泰米村食' and not d['placesOld'], J(d.get('placesOld')))
+    R.check('%s 店名（PLACES.names、Z3.ZONES 的名字）沒有日日定食' % tag, not d['zonesOld'] and not d['namesOld'], J([d['zonesOld'], d['namesOld']]))
+    for zone, x, z in (('gongguan', 37.1, 17.5), ('tingzhou', 0.0, 0.0)):
+        await load(pg, cdp, zone, 12.0, x, z, why='（RENAME：看街上的互動鍵、店名）')
+        lb = await pg.evaluate(LABELS_OLD_JS)
+        R.check('%s %s 的 %d 個互動點（字、look）和畫面上的字沒有日日定食（有泰米村食的：%s）' % (tag, zone, lb['n'], J(lb['taimi'])), not lb['old'] and not lb['body'], J(lb['old']))
+    # 筆記本：明軒清單（【捷徑】直接加筆記，看筆記本畫面上的字）
+    await load(pg, cdp, 'dorm', 15.0, why='（RENAME：筆記本、舊存檔）')
+    await pg.evaluate("(()=>{ if(GAME.addNote) GAME.addNote('mx_fm1',STORY.MX_FM1.title,STORY.MX_FM1.body); return true; })()")
+    R.setup('%s【捷徑】GAME.addNote 加明軒「公館一百元以內」那一則（正常是明軒傳訊息以後才加；這裡只看筆記本畫面上的字）' % tag)
+    nt = await notes_text(pg, cdp)
+    R.check('%s 筆記本畫面：明軒清單有「泰米村食（汀州路）」、沒有日日定食' % tag, '泰米村食（汀州路）' in nt and OLD not in nt, nt[:300])
+    # 舊存檔
+    full = os.environ.get('RENAME_FULL', '1') != '0'
+    for variant in (['outings', 'full'] if full else ['outings']):
+        vt = '%s 舊存檔（%s）' % (tag, '行程＋舊訊息＋舊筆記' if variant == 'full' else '只有行程')
+        await load(pg, cdp, 'dorm', 15.0, why='（RENAME：做一份舊存檔的底）')
+        body = await pg.evaluate(OLD_BODY_JS)
+        b0 = await pg.evaluate(BUILD_OLD_JS, {'full': variant == 'full', 'body': body})
+        R.setup('%s【前置／捷徑】在遊戲裡寫成舊版本會存的樣子：G.outings 三筆（今天 19:00「公館・日日定食」、20:00「公館的日日定食」、三天前做過的「日日定食」）%s → GAME.snapshot（裡面「日日定食」%d 處）' %
+                (vt, '＋7d9d 以前收到的 Kevin 群組訊息（PHONE.postAt，舊字）＋明軒清單筆記（舊字）' if variant == 'full' else '', b0['n']))
+        if not R.check('%s 前置：做出來的舊存檔裡真的有「日日定食」' % vt, b0['n'] >= 3, J(b0)): continue
+        await pg.evaluate(APPLY_OLD_JS); await pg.wait_for_timeout(4000); await close_phone(pg, cdp); await L.close_panels(pg, cdp); await mark(pg)
+        R.setup('%s【前置／捷徑】GAME.applySave 讀回這份舊存檔（跟從選單讀檔一樣會跑 validate＋migrate）' % vt)
+        g = await pg.evaluate(G_OLD_JS)
+        outs = {q['id']: q for q in g['outs']}
+        want = {'sisg_rank_dinner': ('汀州路・泰米村食', '學姊上榜聚餐（汀州路・泰米村食）'), 'sis_m3_dinner': ('汀州路的泰米村食', '學姊上榜聚餐'), 'cc_old_lunch': ('泰米村食', '午餐（泰米村食）')}
+        R.check('%s 讀檔以後 G.outings 的地點、標題都換成泰米村食（AA_742 ③：公館・→汀州路・、公館的→汀州路的、其餘→泰米村食）' % vt,
+                all(outs.get(k) and (outs[k]['place'], outs[k]['title']) == v for k, v in want.items()), J(g['outs']))
+        pt = await phone_text(pg, cdp, 'today')
+        R.check('%s 手機「今天」：今天的行程寫泰米村食、沒有日日定食' % vt, '泰米村食' in pt and OLD not in pt, pt[:400])
+        R.note('%s 讀檔以後 G 裡還有「日日定食」的欄位：%s' % (vt, J(g['hits'])))
+        R.check('%s 讀檔以後整個 G 沒有「日日定食」（BB 的標準；GG3.migrate 只換 G.outings 的 place／title）' % vt, not g['hits'], J(g['hits'][:6]))
+        if variant == 'full':
+            mt = await phone_text(pg, cdp, 'msg')
+            nt = await notes_text(pg, cdp)
+            R.check('%s 畫面：手機「訊息」列表、筆記本沒有日日定食' % vt, OLD not in mt and OLD not in nt, J({'msg': mt[:200], 'notes': nt[:300]}))
+        await D.shot(pg, 'gg3_rename_%s' % variant, judge_black=False)
+
+
 # ---------------------------------------------------------------- 主程式
 async def static_checks(pg):
     d = await pg.evaluate(DATA_JS); DATA.update(d)
@@ -1063,6 +1176,7 @@ async def main():
                 elif part == 'CLOSE': await part_close(pg, cdp)
                 elif part == 'TAIMI_INVITE': await part_taimi_invite(pg, cdp, False)
                 elif part == 'TAIMI_INVITE_SO': await part_taimi_invite(pg, cdp, True)
+                elif part == 'RENAME': await part_rename(pg, cdp)
                 else: R.check('[%s] 認得這個 PART' % part, False, '')
             except Exception:
                 import traceback
