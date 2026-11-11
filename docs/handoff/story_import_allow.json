@@ -6073,6 +6073,15 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "X324 學姊校外約會不分地點的短句（11 種 15 句只改四句：move 第二句、transport、enough 第二句、depart 第三句；句數、條件不變）：tools/date/import_date_lines.py 照稿的 rows old→new 疊在 BB_128 3-6、3-7 拆出來的 DATE_LINES.lines.heroine_05 上 → src/data/date_lines.js。逐字對稿 tests/sis_dates_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_771_l118_lunch.json",
+   "sha": "dd4a310f1",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿第一版（D100b 稿就是定稿；使用者 X339）；LAWWW 2026-11-11 指定匯企劃線 dd4a310f1 這一版（檔案內容和 5d642bbbd 相同）",
+   "task": "L118-LUNCH-INVITE-1111",
+   "kind": "json",
+   "note": "X339 118 巷課後午餐邀約的台詞、選項、旁白（發起／同行 8 人、lunch 31 組、special 15 組、到店 8 句、吃完 2 句、快速略過一行、錢不夠三句）：tools/story/import_l118_lunch.py 一字照稿 → src/data/l118_lunch.js（L118_LUNCH_DATA）；special 的 when 是工具從 cond 文字拆的。AA 往後加 id 重跑同一支工具（換 sha）。測試 tests/l118_lunch_unit.js"
   }
  ]
 }
