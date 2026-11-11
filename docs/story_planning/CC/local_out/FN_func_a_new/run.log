@@ -1,0 +1,46 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fn_func_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FN_func_a_new\out
+CC FN_func（FLOWER-NOTES-1110）：PARTS LIST,OLDSPOT,DOOR；SHA dbbe05fa5；SEED 57666；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】[LIST] 公館街上：day46 存檔 → gongguan (-40.0, 8.0) 第 46 天 10.00、錢 5000、包包清空、關條件事件
+  [  44.7s] [LIST] G11（ggShop G11）：{"x0": 41.32, "x1": 51.63, "zf": 18.07, "cx": 46.48, "src": "ggShop G11"}
+  [  44.7s] [LIST] 公館 kind gg_flower 的互動點 0 個：[]
+  [  44.7s] [LIST] 公館所有店門（exit）：[["進入公館燒臘", -63, 21, "noodle"], ["進入青木茶室", -54.05, 21, "aoki"], ["進入頁間書屋", -36.4, 21, "bookstore"], ["進入便利商店", -29.4, 21, "cvs"], ["進入 洋洋鹹酥雞", -10.6, 21, "yangyang"], ["進入 afar café", 7.93, 21, "afar"], ["進入 轉角唱片", 53.97, 21, "corner_records"], ["進入 Daybreak", 70.94, 21, "daybreak"], ["進入慢輪單車", -0.3, 21, "bikeshop"], ["回到校園", -5.27, -47.5, "campus"], ["回到校園", 5.27, -47.5, "campus"], ["往汀州路（巷子）", 37.1, 21, "tingzhou"], ["進入花序", 46.6, 21, "flower_notes"], ["進入安泰藥局", -18.6, 21, "gg_antai"], ["進入汀州鮮果", 19.6, 21, "gg_xianguo"], ["進入榮恩典文具社", 64.1, 21, "gg_rongendian"]]
+  [  44.7s] [LIST] G11 的門：{"label": "進入花序", "x": 46.6, "z": 21, "lv": 0, "r": 2.2, "to": "flower_notes", "toName": "花序 Flower Notes", "hidden": false, "kind": null}
+PASS [LIST] 搖桿走到「進入花序」，按鈕是它（19.6 秒、沒有跳）  {"end": [46.969, 20.97], "btn": "進入花序", "jumps": [], "why": null}
+PASS [LIST] 按「進入花序」到了 flower_notes、站得住  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 10.18}
+  [  68.2s] [LIST] 店裡（flower_notes）kind gg_flower 的互動點 1 個：[{"zone": "flower_notes", "label": "買花", "x": 2.45, "z": 4.4, "lv": 0, "r": 1.3, "hidden": false, "exit": null, "look": "花序 Flower Notes 的包裝收銀櫃檯。"}]
+  [  72.6s] [LIST] 遊戲載入的 src 裡寫到 gg_flower 的行（10 行）：[["src/zones3d.js?v=9.10.24", 1070, "阻擋、互動點、模型載入一起拿掉；買花的互動點 kind gg_flower 搬到花序一樓的收銀櫃檯前。 */"], ["src/data/flower_notes_layout.js?v=9.10.24", 28, "\"note\": \"東牆的包裝＋收銀長櫃檯（淺木直紋正面、石材檯面、香檳金踢腳）；店員站在櫃檯後面；買花互動點 LAWWW 接到 buyAt（kind gg_flower）\"},"], ["src/flower_notes3d.js?v=9.10.24", 7, "買花：收銀櫃檯前的互動點 kind＝gg_flower（LAWWW 接 GIFTH；沒接之前是「看」一句）。商品、店員台詞、各區的「看」是 AA 的稿，這裡不寫句子。"], ["src/flower_notes3d.js?v=9.10.24", 80, "IT.push({x:C.buyAt.x,z:C.buyAt.z,radius:C.buyAt.r,lv:0,label:'買花',kind:'gg_flower',fnCounter:true,look:'花序 Flower Notes 的包裝收銀櫃檯。'});   /* LAWWW 接買花（GIFTH.shopOp"], ["src/data/gift_holiday.js?v=9.10.24", 137, "\"gg_flower\": {"], ["src/data/gift_holiday.js?v=9.10.24", 685, "\"shop\": \"gg_flower\""], ["src/data/gift_holiday.js?v=9.10.24", 695, "\"shop\": \"gg_flower\""], ["src/gifthol3d.js?v=9.10.24", 93, "S.SHOP_RENAME={gg_flower:'花序 Flower Notes'};   /* 使用者 2026-11-10（X325）：站口花攤升級成 G11 的「花序 Flower Notes」，店名是她給的；包包、送禮選單顯示新店名（舊存檔買過的花一樣）*/"], ["src/gifthol3d.js?v=9.10.24", 123, "/* 公館站口花攤「晨露花舖」（GG-FLOWER-STALL-1110，LAWWW2 9356eeb39；AA_732 gg_flower）：09:00～21:00 開著，按「看看花攤」就是買花清單；沒開照舊是看（zones3d 的 look）*/"], ["src/gifthol3d.js?v=9.10.24", 349, "if(STORY.interact){ const oi=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G; if(it&&it.shlLook&&G&&G.zone===S.SL_ZONE&&(it.label==='看文具'"]]
+  [  72.6s] [LIST] 其中「…push({…kind:gg_flower…})」的（互動點）：[["src/flower_notes3d.js?v=9.10.24", 80, "IT.push({x:C.buyAt.x,z:C.buyAt.z,radius:C.buyAt.r,lv:0,label:'買花',kind:'gg_flower',fnCounter:true,look:'花序 Flower Notes 的包裝收銀櫃檯。'});   /* LAWWW 接買花（GIFTH.shopOp"]]
+PASS [LIST] 公館（含花序店裡）只剩 1 個 kind gg_flower 的互動點（1 個）  [{"zone": "flower_notes", "label": "買花", "x": 2.45, "z": 4.4, "lv": 0, "r": 1.3, "hidden": false, "exit": null, "look": "花序 Flower Notes 的包裝收銀櫃檯。"}]
+PASS [LIST] 舊花攤位置 (−47, 11.6) 4 m 內沒有 gg_flower 互動點  []
+  [前置／捷徑] 【前置／捷徑】[OLDSPOT] 舊花攤北邊人行道：day46 存檔 → gongguan (-47.0, 8.6) 第 46 天 14.00、錢 5000、包包清空、關條件事件
+PASS [OLDSPOT] 舊花攤範圍 x -48.45～-45.55 z 10.700～12.750 每 0.5 m 站得住（E.canStand r0.3；30 點，站不住 0 點）  []
+  [  83.0s] [OLDSPOT] 舊花攤範圍裡看得到的物件 1 個：[{"name": "gongguan_mrt_glb_glows", "mat": "wz_glow_batch", "parent": "", "min": [-46.4, -3.6, 8.8], "max": [-33.2, 5.2, 13.3]}]
+PASS [OLDSPOT] 沒有攤子模型（場景物件 gg_flower_stall*、材質 ggf_* 都沒有）  {"stallObj": false, "ggf": 0}
+  [  86.0s] [OLDSPOT] 4 m 內的人：前 []；3 秒後 []
+PASS [OLDSPOT] 4 m 內沒有站著不動的人（老闆）  []
+PASS [黑畫面] fn_oldspot_south 不是黑畫面（平均亮度 139.6、變化 53.9）  [139.6, 53.9]
+  [  88.0s] [截圖] fn_oldspot_south：鏡頭 {"eye": [-47, 2.2, 18.2], "look": [-47, 0.9, 11.725], "lens": 24, "vfov": 45.75}、亮度 [139.6, 53.9]
+PASS [黑畫面] fn_oldspot_north 不是黑畫面（平均亮度 113、變化 64.2）  [113, 64.2]
+  [  90.9s] [截圖] fn_oldspot_north：鏡頭 {"eye": [-45.5, 2.2, 5.2], "look": [-47, 0.9, 11.725], "lens": 24, "vfov": 45.75}、亮度 [113, 64.2]
+  [ 152.1s] [OLDSPOT] 北→南：{"ok": false, "t": 60.3, "pushes": 68, "jumps": [], "end": {"zone": "gongguan", "x": -47.446, "z": 17.177, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.49}, "why": "60 秒沒走到"}
+FAIL [OLDSPOT] 搖桿直線北→南 (−47, 8.6)→(−47, 14.8) 走得過去（60.3 秒、推 68 次）  {"why": "60 秒沒走到", "end": [-47.446, 17.177], "jumps": []}
+  [前置／捷徑] 【前置／捷徑】[OLDSPOT] 舊花攤西邊：day46 存檔 → gongguan (-50.2, 11.7) 第 46 天 14.00、錢 5000、包包清空、關條件事件
+  [ 222.7s] [OLDSPOT] 西→東：{"ok": false, "t": 60.3, "pushes": 68, "jumps": [], "end": {"zone": "gongguan", "x": -43.959, "z": 11.792, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.45}, "why": "60 秒沒走到"}
+FAIL [OLDSPOT] 搖桿直線西→東 (−50.2, 11.7)→(−44.6, 11.7) 走得過去（60.3 秒、推 68 次）  {"why": "60 秒沒走到", "end": [-43.959, 11.792], "jumps": []}
+PASS [OLDSPOT] walkFallbacks 沒有增加
+  [前置／捷徑] 【前置／捷徑】[DOOR] 公館街上：day46 存檔 → gongguan (-40.0, 8.0) 第 46 天 14.00、錢 5000、包包清空、關條件事件
+PASS [DOOR] gg_flower 在 G11 那一間店（G11 有門，或 gg_flower 在 G11 立面後面）——改之前 FAIL＝預期（攤子在捷運口）  {"g11": {"x0": 41.32, "x1": 51.63, "zf": 18.07, "cx": 46.48, "src": "ggShop G11"}, "door": {"label": "進入花序", "x": 46.6, "z": 21, "lv": 0, "r": 2.2, "to": "flower_notes", "toName": "花序 Flower Notes", "hidden": false, "kind": null}, "gg_flower": []}
+  [前置／捷徑] [DOOR]【前置】觸控點地板走到 G11 前面的街上 (46.5, 12.1)（不算在測的那一段）
+  [ 297.4s] 到達「[DOOR] G11 前面的街上」附近（0.24 m）：點地面 22 次、轉鏡頭 0 次、搖桿 0 次，66 秒
+  [ 299.9s] [DOOR] 搖桿走到門口：{"ok": true, "t": 1.8, "pushes": 2, "jumps": [], "end": {"zone": "gongguan", "x": 46.586, "z": 20.671, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進入花序", "stand": true, "fb": 0, "hour": 14.5}}
+PASS [DOOR] 搖桿從街上走到門口，按鈕是「進入花序」（1.8 秒、推 2 次、沒有跳）  {"end": [46.586, 20.671], "btn": "進入花序", "jumps": [], "why": null}
+PASS [DOOR] 按門進到 flower_notes（站得住）  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 14.52}
+PASS [DOOR] 店裡有回公館的出口  [{"label": "離開花序", "x": 0, "z": 6.6, "lv": 0, "r": 1.3, "to": "gongguan", "toName": "公館", "hidden": false, "kind": null}]
+PASS [DOOR] 搖桿從店裡走到出口，按鈕是「離開花序」（0.0 秒、沒有跳）  {"end": [0, 6.1], "btn": "離開花序", "jumps": [], "why": null}
+PASS [DOOR] 出來回到公館、離門口 3.00 m（≤3）、站得住  {"zone": "gongguan", "x": 46.6, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.54}
+FAIL [DOOR] 出來以後搖桿往街上推得動 0.93 m（≥1，不卡牆）  {"end": [46.6, 17.07], "jumps": []}
+PASS [DOOR] walkFallbacks 沒有增加
+PASS 沒有 JS 例外  []
+FAILED 3: [OLDSPOT] 搖桿直線北→南 (−47, 8.6)→(−47, 14.8) 走得過去（60.3 秒、推 68 次）；[OLDSPOT] 搖桿直線西→東 (−50.2, 11.7)→(−44.6, 11.7) 走得過去（60.3 秒、推 68 次）；[DOOR] 出來以後搖桿往街上推得動 0.93 m（≥1，不卡牆）

@@ -949,3 +949,11 @@
 [08:44:57] ==== START NM_shots_r3  (probe @ e8918a0135d6e003d5d0486795e6a15917923d17) ====
 [08:45:00] [res] cpu=7% mem=41% (13.0/31.4 GB) chrome_testing=5  START NM_shots_r3
 [08:45:04] [res] cpu=23% mem=43% (13.0/31.4 GB) chrome_testing=5  END FN_func_c_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       34b13b447..d222fae81  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:45:31] ==== END   FN_func_c_new  exit=0  160s   ====
+[08:45:41] memory 44% before starting NM2_open1_new (2 running)
+[08:45:41] ==== START NM2_open1_new  (probe @ e8918a0135d6e003d5d0486795e6a15917923d17) ====
+[08:45:44] [res] cpu=5% mem=44% (14.0/31.4 GB) chrome_testing=9  START NM2_open1_new
+[08:46:58] [res] cpu=1% mem=47% (15.0/31.4 GB) chrome_testing=9  END FN_func_a_new
