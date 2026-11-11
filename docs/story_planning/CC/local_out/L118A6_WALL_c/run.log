@@ -1,0 +1,21 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_WALL_c\out
+CC L118A：PARTS WALLWALK_omu,WALLWALK_noodle2；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.8s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== WALLWALK_omu
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_omu 店裡的進門位置 (-2.20,2.50) 2025-10-08 1300 
+PASS [omu] 店內正式模型載入（1.5 秒）
+  [  45.1s] [WALLWALK omu] 牆邊長方形 26 點；貼不到站得住格子（家具、櫃台貼牆）15 點：[[2.85, 3.55], [2.85, 2.54], [2.85, 1.52], [2.85, 0.51], [2.85, -0.51], [2.85, -1.52], [2.85, -2.54], [2.85, -3.55], [1.9, -3.55], [0.95, -3.55], [0, -3.55], [-0.95, -3.55], [-2.85, -1.52], [-2.85, -0.51], [-2.85, 0.51]]
+PASS [WALLWALK omu] 沿牆一圈每一點都用搖桿走到（11 點）  []
+PASS [WALLWALK omu] 沿牆一圈沒有卡住（4 秒不前進）  []
+PASS [WALLWALK omu] walkFallbacks 沒增加
+== WALLWALK_noodle2
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_noodle2 店裡的進門位置 (1.60,2.75) 2025-10-08 1300 
+PASS [noodle2] 店內正式模型載入（1.5 秒）
+  [  65.1s] [WALLWALK noodle2] 牆邊長方形 28 點；貼不到站得住格子（家具、櫃台貼牆）19 點：[[2.85, 0.95], [2.85, 0], [2.85, -0.95], [2.85, -1.9], [2.85, -2.85], [2.85, -3.8], [1.9, -3.8], [0.95, -3.8], [0, -3.8], [-0.95, -3.8], [-1.9, -3.8], [-2.85, -3.8], [-2.85, -2.85], [-2.85, 0.95], [-2.85, 1.9], [-2.85, 2.85], [-2.85, 3.8], [-1.9, 3.8], [-0.95, 3.8]]
+PASS [WALLWALK noodle2] 沿牆一圈每一點都用搖桿走到（9 點）  []
+PASS [WALLWALK noodle2] 沿牆一圈沒有卡住（4 秒不前進）  []
+PASS [WALLWALK noodle2] walkFallbacks 沒增加
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
