@@ -237,7 +237,7 @@ const DECL=['這學期我在準備研究所，晚上大多在圖書館。……�
     const a=await play({SIS_RESULT_TOLD:true,SIS_NEW_PLANNER:true}), b=await play({SIS_NEW_PLANNER:true}), c=await play({});
     check('2-9. 聚餐台詞；有 SIS_RESULT_TOLD：「那天你傳的時候，我還在睡。」；沒有、但有 SIS_NEW_PLANNER：「這幾天，我每天都睡到七點。」',JSON.stringify(a)===JSON.stringify(head.concat(['（她小聲對你說。）','那天你傳的時候，我還在睡。']))&&JSON.stringify(b)===JSON.stringify(head.concat(['這幾天，我每天都睡到七點。']))&&JSON.stringify(c)===JSON.stringify(head),JSON.stringify([a,b,c]));
     { fresh(d,20.5,'dorm',{}); FAM(); joinFam(); span(Tm(d,20.9),Tm(d,21.1)); span(Tm(d27,21.4),Tm(d27,21.6)); const p=fam().filter(x=>x.tag==='sisg_rank_dinner_photo');
-      check('2-9. 沒去的：3/27 21:30 Kevin 貼合照（AA_339 第 2 題「📷（定食店的長桌，學姊坐中間，面前是全桌最貴的那一份）」）「沒來的人錯過請學姊吃飯。千載難逢」',p.length===2&&p[0].from==='kevin'&&p[0].text==='📷（定食店的長桌，學姊坐中間，面前是全桌最貴的那一份）'&&p[1].text==='沒來的人錯過請學姊吃飯。千載難逢'&&Math.abs(p[0].h-21.5)<0.05,JSON.stringify(p.map(x=>x.text))); }
+      check('2-9. 沒去的：3/27 21:30 Kevin 貼合照（AA_339 第 2 題；2026-11-11 AA 改「📷（泰米村食併起來的兩張四人桌，學姊坐中間，面前是全桌最貴的那一份）」）「沒來的人錯過請學姊吃飯。千載難逢」',p.length===2&&p[0].from==='kevin'&&p[0].text==='📷（泰米村食併起來的兩張四人桌，學姊坐中間，面前是全桌最貴的那一份）'&&p[1].text==='沒來的人錯過請學姊吃飯。千載難逢'&&Math.abs(p[0].h-21.5)<0.05,JSON.stringify(p.map(x=>x.text))); }
   });
   /* ---------- 2-10 舊教科書 ---------- */
   await sec('2-10',async()=>{

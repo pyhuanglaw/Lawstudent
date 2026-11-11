@@ -52,7 +52,7 @@ const H=require('./pg_harness.js'); const {check,GM,E}=H;
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=H.ROOT, rd=p=>fs.readFileSync(path.join(ROOT,p),'utf8'), J=JSON.stringify;
 console.warn=()=>{};
-const SHA='75f5de658', P742='docs/story_planning/AA_742_公館六間店_設定與台詞.md', P813='docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md';
+const SHA='8f6650289',   /* 2026-11-11 16:18 AA 回七格（打烊照 AA_700 統一、泰米午休、廚房、柔軟精）；舊 75f5de658 */ P742='docs/story_planning/AA_742_公館六間店_設定與台詞.md', P813='docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md';
 const loadErr=[];
 for(const f of ['src/data/tz_shops_layout.js','src/data/eat_lines.js','src/eat3d.js','src/data/gg3_shops_lines.js','src/gg3shops3d.js']){
   if(!fs.existsSync(path.join(ROOT,f))){ loadErr.push(f+'（沒有這個檔）'); continue; }
@@ -91,7 +91,7 @@ await sec(1,()=>{ let d742=null, d813=null; try{ d742=cp.execFileSync('git',['sh
   check('1 AA_813 第 2 節八句接在對的點（畫架、看筆、看筆記本、挑水果、切好的水果盒、烘衣機、自助影印、廚房）',[['gg_rongendian','gg_rong_easel'],['gg_rongendian','gg_rong_pens'],['gg_rongendian','gg_rong_notes'],['gg_xianguo','gg_fruit_pick'],['gg_xianguo','gg_fruit_box'],['tz_xile','tz_xile_dry'],['tz_yindehao','tz_yin_copy'],['tz_taimi','tz_taimi_kitchen']].every(([z,k])=>L[z].look[k]&&d813.indexOf(L[z].look[k][0])>=0));
   let ck=null; try{ ck=cp.spawnSync('python3',['tools/shops/import_gg3_shops.py','--check'],{cwd:ROOT,encoding:'utf8'}); }catch(e){}
   if(!ck||ck.error) console.log('SKIP 1 沒有 python3（匯入工具 --check）'); else check('1 匯入工具 --check：資料檔＝稿匯出來的（走 import_guard 白名單）',ck.status===0,(ck.stdout+ck.stderr).trim().slice(0,200));
-  const allow=JSON.parse(rd('docs/handoff/story_import_allow.json')).files; check('1 劇情匯入白名單有 AA_742、AA_813（75f5de658、approved）',[P742,P813].every(p=>allow.some(e=>e.path===p&&e.sha===SHA&&e.status==='approved'&&e.approvedBy))); });
+  const allow=JSON.parse(rd('docs/handoff/story_import_allow.json')).files; check('1 劇情匯入白名單有 AA_742、AA_813（'+SHA+'、approved）',[P742,P813].every(p=>allow.some(e=>e.path===p&&e.sha===SHA&&e.status==='approved'&&e.approvedBy))); });
 
 // ---- 2 營業時間 ----
 await sec(2,()=>{ const o=(k,key,h)=>PLACES.isOpen(k,h,DK(key));
@@ -127,7 +127,9 @@ await sec(4,async()=>{ const hrs={gg_antai:12,gg_xianguo:12,gg_rongendian:12,tz_
 // ---- 5 打烊 ----
 await sec(5,async()=>{ for(const [k,key,c,to] of [['gg_antai','2025-10-06',22.1,'gongguan'],['gg_xianguo','2025-10-06',22.1,'gongguan'],['gg_rongendian','2025-10-06',21.6,'gongguan'],['tz_taimi','2025-10-07',21.1,'tingzhou'],['tz_taimi','2025-10-07',14.1,'tingzhou'],['tz_yindehao','2025-10-06',22.1,'tingzhou'],['tz_yindehao','2025-12-10',24.05,'tingzhou']]){
     fresh(key,c,k); GM.enterN++; E.player.seat={x:0,z:0}; const r=await GG3.closeOut(GM);
-    check(`5 ${k} 打烊那一刻（${c}）：${L[k].who}「${L[k].close}」一句（AA_742；不另外出旁白）、站起來、走到${to}`,r==='close'&&J(said())===J([[L[k].who,L[k].close]])&&H.entered[0]===to&&!E.player.seat,J([r,said(),H.entered])); }
+    const want=(k==='tz_taimi'&&c<15&&L[k].closeNoon)?L[k].closeNoon:L[k].close;   /* 泰米 14:00＝午休那一句（AA_742 8f6650289）*/
+    check(`5 ${k} 打烊那一刻（${c}）：${L[k].who}「${want}」一句（AA_742／AA_700；不另外出旁白）、站起來、走到${to}`,r==='close'&&J(said())===J([[L[k].who,want]])&&H.entered[0]===to&&!E.player.seat,J([r,said(),H.entered])); }
+  check('5 打烊統一 AA_700「我們今天要打烊了。」（五間；洗樂 24 小時沒有）、泰米午休「我們要午休了，五點再開喔。」',['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_yindehao'].every(k=>L[k].close==='我們今天要打烊了。')&&L.tz_taimi.closeNoon==='我們要午休了，五點再開喔。',J(['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_yindehao'].map(k=>L[k].close)));
   { fresh('2025-10-07',23.5,'tz_taimi'); GM.enterN++; const r=await GG3.closeOut(GM); check('5 讀檔回到打烊以後（新的一趟、過了那一刻）：不說、走出去、寫開放時間',r==='out'&&!H.said.length&&H.entered[0]==='tingzhou'&&toasts.length===1,J([r,said(),toasts])); }
   { const G=fresh('2025-10-07',20,'tz_taimi'); GM.enterN++; GG3.tick(GM); await sleep(5); G.hour=22.5; const r=await GG3.closeOut(GM); check('5 開著的時候進來、待到過了打烊很久（場景忙）：照樣說那一句',r==='close'&&H.has(L.tz_taimi.close),J(said())); }
   { const G=fresh('2025-10-06',3,'tz_xile'); GM.enterN++; check('5 洗樂 24 小時：半夜不請你出去',GG3.isOpen('tz_xile',G));
@@ -196,7 +198,7 @@ await sec(9,async()=>{ const X=L.tz_xile;
     check('9 從洗衣機按「先去別的地方」：場景結束以後才走出去（換區域不在對話裡）',H.entered[0]==='tingzhou'&&at===0&&depth===0,J([H.entered,at,depth])); }
   { const G=fresh('2025-10-01',15,'tz_xile'); H.picks=['零錢兌換機']; await GG3.change(GM); check('9 兌幣機：換零錢那一句、錢不變',G.money===5000&&H.has(X.change.narr));
     H.said=[]; H.picks=['洗衣精']; await GG3.change(GM); check('9 洗衣精 10 元：那一句旁白',G.money===4990&&H.has(X.soap.narr));
-    H.said=[]; H.picks=['柔軟精']; await GG3.change(GM); check('9 柔軟精 10 元：稿上的旁白寫的是洗衣精＝不說、寫「買了柔軟精」',G.money===4980&&!H.said.length&&toasts.includes('買了柔軟精')); } });
+    H.said=[]; H.picks=['柔軟精']; await GG3.change(GM); check('9 柔軟精 10 元：柔軟精那一句旁白（AA_742 8f6650289：「（你買了一包柔軟精，丟進洗衣機的小格子裡。）」）',G.money===4980&&J(said())===J([[null,'（你買了一包柔軟精，丟進洗衣機的小格子裡。）']]),J(said())); } });
 
 // ---- 10 印得好 ----
 await sec(10,async()=>{ const X=L.tz_yindehao;

@@ -162,7 +162,7 @@ const GG3=(function(){
     const k=await GM.choose([{t:X.change.name}].concat(its.map(q=>({t:q.n,hint:q.p+' 元',dim:(G.money|0)<q.p})),[{t:S.SYS.no}]));
     if(k===0){ await GM.say(null,X.change.narr); return 'change'; }   /* 換零錢：錢不變 */
     if(!(k>=1&&k<=its.length)) return null; const q=its[k-1]; if((G.money|0)<q.p){ if(GM.toast) GM.toast(S.SYS.short); return 'short'; }
-    GM.money(-q.p,'洗樂洗衣坊'); if(X.soap.narr.includes(q.n)) await GM.say(null,X.soap.narr); else if(GM.toast) GM.toast(S.SYS.bought+q.n,2200);   /* 旁白寫的是洗衣精：柔軟精不說 */
+    GM.money(-q.p,'洗樂洗衣坊'); { const nr=X.soap.narrBy?X.soap.narrBy[q.n]:(X.soap.narr.includes(q.n)?X.soap.narr:null); if(nr) await GM.say(null,nr); else if(GM.toast) GM.toast(S.SYS.bought+q.n,2200); }   /* 一樣東西一句旁白（AA_742 8f6650289：洗衣精、柔軟精各一句）；舊格式只有洗衣精那一句 */
     if(GM.autosave) GM.autosave(); return q.n; };
 
   /* ---------- 印得好 ---------- */
@@ -231,7 +231,7 @@ const GG3=(function(){
   S.outOf=function(GM,k){ const L=LAY(k), to=L&&L.outZone, IT=(GM&&GM.E&&GM.E.interactables)||[]; const it=IT.find(q=>q&&q.exit&&q.exit.to&&q.exit.to===to)||IT.find(q=>q&&q.exit&&q.exit.to&&q.exit.to!==k);
     if(it) return {to:it.exit.to,spawn:it.exit.spawn?Object.assign({},it.exit.spawn):undefined}; return {to:to||(k.indexOf('gg_')===0?'gongguan':'tingzhou'),spawn:L&&L.out?Object.assign({},L.out):undefined}; };
   S.closeOut=async function(GM){ const G=GM.G, k=G.zone, T=D()[k], P=GM.E&&GM.E.player, gen=S.gen(GM,k)&&!!T.close, h=G.hour, d=G.day;
-    GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(gen) await GM.say(W(T.who),T.close); } finally { GM.sceneEnd(); }
+    GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(gen) await GM.say(W(T.who),(T.closeNoon&&(h%24)>=13.9&&(h%24)<15)?T.closeNoon:T.close); } finally { GM.sceneEnd(); }   /* 泰米 14:00 是午休（AA_742 8f6650289：「我們要午休了，五點再開喔。」），21:00 才是打烊（AA_700 統一句）*/
     const o=S.outOf(GM,k); await GM.enter(o.to,o.spawn);
     if(!gen&&typeof PLACES!=='undefined'&&PLACES.closedText&&GM.toast) GM.toast(PLACES.closedText(k,h,d),5000);
     return gen?'close':'out'; };

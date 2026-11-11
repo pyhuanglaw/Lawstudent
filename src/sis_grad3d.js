@@ -225,7 +225,7 @@ const SISG=(function(){
       PHONE.at(G,d,21,[Object.assign(K('學姊上榜聚餐！這週五七點，汀州路的泰米村食。這次我們請學姊'),{ask:{id:'sisg_rank_dinner_q',until:T(d27,18.5),opts:[{t:'去。',set:{SISG_DINNER_GO:true}}]}})].concat(sent(G,'fam_dinner_inv')?[K('上禮拜罰她，這禮拜請她。')]:[]),'sisg_rank_dinner');   /* AA_459 2-3：收過咖哩那一則（story3d.js fam_dinner_inv，3/20 罰學姊）的，Kevin 多一句 */
     if(F.SISG_DINNER_GO===true){ F.SISG_DINNER_GO='planned'; if(typeof OUT!=='undefined'&&now<T(d27,19.25)) OUT.plan(G,{id:'sisg_rank_dinner',ev:'ev_sis_results_dinner_y1',day:d27,h:19,late:0.25,place:'汀州路・泰米村食',title:'學姊上榜聚餐（汀州路・泰米村食）',travel:'走過去約 20 分鐘',travelH:1/3,alarm:true}); }
     if(inFam(G)&&sent(G,'sisg_rank_dinner')&&now>=T(d27,21.5)&&now<T(d27+2,0)&&!evDone(G,'ev_sis_results_dinner_y1')&&!sent(G,'sisg_rank_dinner_photo'))   /* 沒去的玩家：21:30 Kevin 貼合照 */
-      PHONE.at(G,d27,21.5,[K('📷（定食店的長桌，學姊坐中間，面前是全桌最貴的那一份）'),K('沒來的人錯過請學姊吃飯。千載難逢')],'sisg_rank_dinner_photo'); };   /* 合照的說明：AA_339 第 2 題 */
+      PHONE.at(G,d27,21.5,[K('📷（泰米村食併起來的兩張四人桌，學姊坐中間，面前是全桌最貴的那一份）'),K('沒來的人錯過請學姊吃飯。千載難逢')],'sisg_rank_dinner_photo'); };   /* 合照的說明：AA_339 第 2 題；2026-11-11 AA 回 LAWWW 七格 e（泰米只有兩人桌、四人桌，沒有長桌）*/
   /* 2-12：6/6（六）早上她的私訊（有點熟以上）→ 11:00 霖澤館（出遊）。11:00 以後才起床的不補 */
   S.gradRule=function(G,now){ const d=D('grad'); if(d==null||now<T(d,8)||now>=T(d,11)||sent(G,'sisg_grad_msg')||!atLeast(ID,'FAMILIAR')) return;
     PHONE.at(G,d,8,[P5('今天十一點，A館。不用帶花。')],'sisg_grad_msg');   /* AA_459 第 5 節：學姊的私訊用句號收尾 */

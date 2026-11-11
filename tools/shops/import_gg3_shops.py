@@ -24,7 +24,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import import_guard as IG
 
-SHA = '75f5de658'
+SHA = '8f6650289'   # 2026-11-11 16:18 AA 回七格（打烊統一 AA_700、泰米午休、廚房、柔軟精）；舊 75f5de658
 P742 = 'docs/story_planning/AA_742_公館六間店_設定與台詞.md'
 P813 = 'docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md'
 OUT = 'src/data/gg3_shops_lines.js'
@@ -80,16 +80,24 @@ def sec(secs, prefix, where):
     return hits[0]
 
 
+# 稿裡句子後面的編輯註記（8f6650289 起：「（AA_700；11-11 改）」「（11-11 改：開放式廚房，AA_813）」）：不是台詞，拿掉。只拿行尾、而且裡面寫「改」＋日期或「AA_」的那一對括號
+NOTE = re.compile(r'\s*（(?:AA_\d+；)?\d{1,2}-\d{1,2} 改(?:[：:][^（）]*)?）$')
+
+
+def unnote(t):
+    return NOTE.sub('', t)
+
+
 def bullets(lines):
     """[(第一層的字, [第二層的字…])]"""
     out = []
     for ln in lines:
         if ln.startswith('- '):
-            out.append([ln[2:].strip(), []])
+            out.append([unnote(ln[2:].strip()), []])
         elif ln.startswith('  - '):
             if not out:
                 die('第二層的項目前面沒有第一層：' + ln)
-            out[-1][1].append(ln[4:].strip())
+            out[-1][1].append(unnote(ln[4:].strip()))
     return out
 
 
@@ -362,7 +370,7 @@ def xile(S):
         elif k == 'soap':
             name = fix(b[:b.index('（`')], W)
             rest = after_colon(b, W)
-            m = re.match(r"^(.+?)（買了只有旁白：(（.+）)）$", rest)
+            m = re.match(r"^(.+?)（買了只有旁白：(.+)）$", rest)
             if not m:
                 die(W + ' 洗衣精：認不得')
             items = []
@@ -371,7 +379,20 @@ def xile(S):
                 if not mm:
                     die(f'{W} 洗衣精：「{x}」要寫幾元')
                 items.append({'n': fix(mm.group(1), W), 'p': int(mm.group(2))})
-            soap = {'name': name, 'items': items, 'narr': fix(m.group(2), W)}
+            nb = {}
+            if '＝（' in m.group(2):   # 8f6650289（AA 11-11 16:18 d）：「洗衣精＝（…）；柔軟精＝（…）」一樣東西一句
+                for part in m.group(2).split('；'):
+                    mm = re.match(r'^(.+?)＝(（.+）)$', part.strip())
+                    if not mm:
+                        die(f'{W} 洗衣精：「{part}」要寫「東西＝（旁白）」')
+                    nb[fix(mm.group(1), W)] = fix(mm.group(2), W)
+                if set(nb) != {it['n'] for it in items}:
+                    die(f'{W} 洗衣精：旁白對不上東西 {sorted(nb)} / {[it["n"] for it in items]}')
+                soap = {'name': name, 'items': items, 'narr': nb[items[0]['n']], 'narrBy': nb}
+            else:
+                if not re.match(r'^（.+）$', m.group(2)):
+                    die(W + ' 洗衣精：旁白要用括號')
+                soap = {'name': name, 'items': items, 'narr': fix(m.group(2), W)}
         else:
             die(f'{W} 使用：不認得的 kind {k}')
     if not (wash and change and soap):
@@ -531,7 +552,7 @@ def taimi(S):
         if k not in SK:
             die(f'{W} 坐下：不認得「{k}」')
         seat[SK[k]] = narr(after_colon(b, W), W + ' 坐下')[1]
-    close, sign = closing(S, W, {'打烊（14:00、21:00）': 'close', '14:00～17:00 到門口': 'rest', '21:00 以後到門口': 'sign', '週一到門口': 'off'}, title='打烊、休息、關門')
+    close, sign = closing(S, W, {'午休（14:00）': 'closeNoon', '打烊（21:00）': 'close', '14:00～17:00 到門口': 'rest', '21:00 以後到門口': 'sign', '週一到門口': 'off'}, title='打烊、休息、關門')   # 8f6650289：14:00 午休另一句（原本「打烊（14:00、21:00）」同一句）
     acc, acc0 = {}, None
     for r in want(8, table(sec(S, '約去吃', W)), W + ' 約去吃'):
         if r[0] not in PEOPLE:
@@ -551,7 +572,7 @@ def taimi(S):
     windows = [[g[0] + g[1] / 60, g[2] + g[3] / 60], [g[4] + g[5] / 60, g[6] + g[7] / 60]]
     seatOpen = [narr(b[0], W + ' 開場句')[1] for b in want(2, bullets(sec(S, '和她坐下以後的開場句', W)), W + ' 開場句')]
     return {'name': '泰米村食', 'who': '老闆娘', 'menu': menu, 'spicy': spicy, 'short': short, 'door': door, 'ask': ask, 'after': after, 'eat': eat, 'look': look,
-            'seat': seat, 'close': close['close'], 'rest': sign['rest'], 'sign': sign['sign'], 'off': sign['off'],
+            'seat': seat, 'close': close['close'], 'closeNoon': close['closeNoon'], 'rest': sign['rest'], 'sign': sign['sign'], 'off': sign['off'],
             'invite': {'acc0': acc0, 'acc': acc, 'windows': windows, 'seatOpen': seatOpen}}
 
 
