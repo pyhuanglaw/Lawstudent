@@ -66,6 +66,8 @@ SHOP_RULES = {
         {'noLunch': ['tea'], 'onlyFor': {'cafe2': ['heroine_01']}},                      # AA_771 v1、v2（舊九間店）
     '店：九間餐廳都可以當午餐；兩間外帶飲料店（drink_a 手搖飲、drink_b 鮮果茶）不當午餐，只在 L-yu-3、S-meet-ziqing 被提到。選到的店那天沒開就照權重換下一間。':
         {'noLunch': ['drink_a', 'drink_b'], 'onlyFor': {}},                              # AA_771 v3（九間店重新設計，X338）
+    '店：九間餐廳都可以當午餐；兩間外帶飲料店（drink_a 喝不喝咖啡、drink_b 果茶社）不當午餐，只在 L-yu-3、S-meet-ziqing 被提到。選到的店那天沒開就照權重換下一間。':
+        {'noLunch': ['drink_a', 'drink_b'], 'onlyFor': {}},                              # AA_771 最終版（企劃線 1669b3ae0：兩間飲料店的店名使用者定了）
 }
 RULES_KNOWN = [
     '週一阿哲手機揪午餐（AA_280 第 4 節）照舊：那天答應了就不再當面邀；沒答應或他沒揪，照常判定。',
@@ -78,6 +80,8 @@ RULES_KNOWN = [
     '午餐邀約只在中午十二點前後下課的上午課之後觸發（BB_331 C4；柏翰的鐘點句都假設十二點多）。',
     'declineReply 每人三句，輪著用（連續婉拒不會一直看到同一句）。',
 ]
+# AA_771 最終版（1669b3ae0）多的一條：遊戲已經這樣做（src/l118_lunch3d.js：資料的 options.skip 有字、看過一次才出現，放在答應和婉拒中間）。有沒有這一條都認得
+RULES_OPTIONAL = ['options.skip（LAWWW 11-11）：看過一次的普通午餐才出現，放在答應和婉拒中間；選了就不演對話，只出 skipLine。']
 # 「十二點前後下課」的時間窗（鐘點）：那一堂的下課時間落在這裡面才判定。稿的最上層寫了 window＝照稿；沒寫＝用這個（LAWWW 2026-11-11：11:30～12:30）
 WINDOW = {'from': 11.5, 'to': 12.5}
 CHANGED, WARN = [], []
@@ -424,7 +428,7 @@ def build(d):
 
 
 def rules_ok(rules):
-    return isinstance(rules, list) and len(rules) >= 1 and rules[0] in SHOP_RULES and rules[1:] == RULES_KNOWN
+    return isinstance(rules, list) and len(rules) >= 1 and rules[0] in SHOP_RULES and rules[1:] in (RULES_KNOWN, RULES_KNOWN + RULES_OPTIONAL)
 
 
 def old_ids(p):
