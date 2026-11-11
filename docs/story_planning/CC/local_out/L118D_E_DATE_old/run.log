@@ -1,0 +1,39 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_e_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_E_DATE_old\out
+CC L118D_E（118 巷課後午餐邀約）：SHA=f247bc77f worktree=?；PARTS=DATE；REL=FRI；橫向；Playwright 手機模擬 ≠ iPhone
+== DATE
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS DATE：遊戲載入
+  [  26.5s] DATE：義大麵屋的邀約地點 {"days": [1, 2, 4, 5], "hours": [11.5, 14], "times": [12.166666666666666], "off": null, "windows": null, "name": "義大麵屋", "verb": "去義大麵屋吃午餐"}；店家資料 {"name": "義大麵屋", "hours": {"open": [[11.5, 14], [17, 21]], "closed": [1], "text": "11:30～14:00、17:00～21:00；週一休"}}
+PASS DATE：店家資料義大麵屋週一公休（closed 有 1）  [1]
+FAIL DATE：【資料】邀約地點 pasta118 的 days 不含週一（[1, 2, 4, 5]）
+  [前置／捷徑] DATE：最小存檔 2025-10-31（第 45 天）10.00 dorm（條件事件關著）
+  [前置／捷徑] DATE：好友值 FRI（熟悉 50、信任 35、自在 20）：{"heroine_01": "RELATIONSHIP"}
+  [前置／捷徑] DATE：交往中（dating_heroine_01）、有聯絡方式，同一天（2025-10-31 週五）10:00 宿舍（條件事件關著）
+PASS DATE：手機「朋友」有 heroine_01 的「約」
+  [  49.7s] DATE：約她去哪 ["念書…2:30 AM、總圖、法律學院圖書館、afar café、社科院圖書館", "吃飯…公館燒臘、SUNNY SIDE、Daybreak、洋洋鹹酥雞、義大麵屋", "喝咖啡、喝茶…2:30 AM、一盞、afar café", "去頁間書屋逛逛", "散步…溫州街、映月湖、喝不喝咖啡、果茶社", "運動…新體育館羽球場、椰影大道", "出去玩…選地點、日期、時間", "算了"]
+  [  50.4s] DATE：吃飯那一層 ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去義大麵屋吃午餐", "返回"]
+  [  51.3s] DATE：時間清單 [{"t": "今天 12:10", "full": "今天 12:10", "dim": false}, {"t": "明天 12:10", "full": "明天 12:10義大麵屋那個時間沒開", "dim": true}, {"t": "其他日子…", "full": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "full": "算了", "dim": false}]
+PASS DATE：「明天」（週六）義大麵屋不能約（約午餐只有平日）  {"t": "明天 12:10", "full": "明天 12:10義大麵屋那個時間沒開", "dim": true}
+  [  52.2s] DATE：其他日子 [{"t": "11/2（週日）", "full": "11/2（週日）", "dim": false}, {"t": "11/3（週一）", "full": "11/3（週一）", "dim": false}, {"t": "11/4（週二）", "full": "11/4（週二）", "dim": false}, {"t": "11/5（週三）", "full": "11/5（週三）", "dim": false}, {"t": "11/6（週四）", "full": "11/6（週四）", "dim": false}, {"t": "11/7（週五）", "full": "11/7（週五）", "dim": false}, {"t": "返回", "full": "返回", "dim": false}]
+  [  52.2s] DATE：週一在日子清單裡＝列出來了（BB 原文「不列」：列出來＝記下來給 BB 看）
+  [  53.1s] DATE：11/3（週一） 的時間 [{"t": "12:10", "full": "12:10", "dim": false}, {"t": "換一天", "full": "換一天", "dim": false}]
+FAIL DATE：週一（11/3（週一））沒有可選的時間（全部灰掉）  [{"t": "12:10", "full": "12:10", "dim": false}]
+  [  58.1s] DATE：點灰掉的 12:10 以後說：["好。幾點？我去找你。", "約好 11/3 12:10，義大麵屋。"]
+  [  88.4s] DATE：沒有「換一天」：[]
+  [ 118.7s] DATE [第45天 10.067 dorm] 選單 [["念書…", "", "2:30 AM、總圖、法律學院圖書館、afar café、社科院圖書館"], ["吃飯…", "", "公館燒臘、SUNNY SIDE、Daybreak、洋洋鹹酥雞、義大麵屋"], ["喝咖啡、喝茶…", "", "2:30 AM、一盞、afar café"], "去頁間書屋逛逛", ["散步…", "", "溫州街、映月湖、喝不喝咖啡、果茶社"], ["運動…", "", "新體育館羽球場、椰影大道"], ["出去玩…", "", "選地點、日期、時間"], "算了"]
+  [ 118.7s] DATE [第45天 10.067 dorm]   → 選了 #1 吃飯…
+  [ 118.7s] DATE [第45天 10.067 dorm] 選單 ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去義大麵屋吃午餐", "返回"]
+  [ 118.7s] DATE [第45天 10.067 dorm]   → 選了 #4 去義大麵屋吃午餐
+  [ 118.7s] DATE [第45天 10.067 dorm] 選單 ["今天 12:10", ["明天 12:10", "灰", "義大麵屋那個時間沒開"], ["其他日子…", "", "之後 7 天內選一天"], "算了"]
+  [ 118.7s] DATE [第45天 10.067 dorm]   → 選了 #2 其他日子…
+  [ 118.7s] DATE [第45天 10.067 dorm] 選單 ["11/2（週日）", "11/3（週一）", "11/4（週二）", "11/5（週三）", "11/6（週四）", "11/7（週五）", "返回"]
+  [ 118.7s] DATE [第45天 10.067 dorm]   → 選了 #1 11/3（週一）
+  [ 118.7s] DATE [第45天 10.067 dorm] 選單 ["12:10", "換一天"]
+  [ 118.7s] DATE [第45天 10.067 dorm]   → 選了 #0 12:10
+  [ 118.7s] DATE [第45天 10.067 dorm] 說 沈以安（手機）：好。幾點？我去找你。
+  [ 118.7s] DATE [第45天 10.067 dorm] 說 （旁白）：約好 11/3 12:10，義大麵屋。
+  [ 118.7s] DATE：G.invites 裡的義大麵屋 [{"day": 48, "h": 12.167, "state": "accepted", "wd": 1, "key": "2025-11-03"}]
+FAIL DATE：沒有排進週一的義大麵屋  [{"day": 48, "h": 12.167, "state": "accepted", "wd": 1, "key": "2025-11-03"}]
+PASS DATE：沒有 JS 例外（pageerror）  []
+  [ 119.8s] DATE 花了 2.0 分鐘
+FAILED: DATE：【資料】邀約地點 pasta118 的 days 不含週一（[1, 2, 4, 5]）, DATE：週一（11/3（週一））沒有可選的時間（全部灰掉）, DATE：沒有排進週一的義大麵屋
