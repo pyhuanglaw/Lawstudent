@@ -5880,6 +5880,15 @@
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
    "note": "X327 沛珊校外約會不分地點的短句（十一種 17 句；每一種句數不變）：tools/date/import_date_lines.py 照稿的 rows old→new 疊在 BB_128 3-6、3-7 拆出來的 DATE_LINES.lines.classmate_peishan 上（換完要等於稿的 new）→ src/data/date_lines.js。逐字對稿 tests/peishan_dates_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_759_peishan_misc2.json",
+   "sha": "987845b7c",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X327 沛珊重寫）；LAWWW 2026-11-11 指定匯 987845b7c（這個檔最後一次改是 ebeaab68d，企劃線到 8abb761bd 沒有再改）",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊零散檔案第二批 24 列 old→new：①src/data/pg_dates.js 她每月一格 17 句裡的 12 句——tools/story/import_pg_dates.py 疊在 AA_367 第 6 節上；②手寫檔直接換：src/aa667_3d.js（出發前電話 jps／ups 9 句）、src/psresults3d.js（放榜那天 3 句；選項 b 不動）。條件、旗標、選項的字不動。逐字對稿 tests/peishan_dates_1111_unit.js"
   }
  ]
 }
