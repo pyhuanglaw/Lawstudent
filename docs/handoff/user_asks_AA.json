@@ -2141,6 +2141,16 @@
    "wants": "X342",
    "src": "使用者直接對 AA（帳號 A），同時用 /model 把 AA 換成 claude-opus-5-5",
    "checked": "AA 已是 Opus 5.5；AA 查 get_session 時 LAWWW、BB、LAWWW2 在 Fable 已停，告訴使用者在那三個對話 /model；08:0x LAWWW 回報 LAWWW、LAWWW2、CC、BB 都已是 claude-opus-5-5；LAWWW 開 X342"
+  },
+  {
+   "id": "UA-AA-1111-05",
+   "at": "2026-11-11 13:4x UTC",
+   "quote": "但我說要撥上課不是要上課很長 但如果已經做了也沒關係／我只是原本就以為會撥 是bug沒撥（選擇題答案：繼續補到大四）",
+   "kind": "轉述",
+   "status": "進行中",
+   "task": "STUDY-EXAM-STORY-1102",
+   "src": "使用者對 LAWWW（UA-LAWWW-1111-22），LAWWW 13:39 轉 AA",
+   "checked": "X337 原意是 bug（已修 v9.10.25），課堂補長是延伸解讀；使用者選繼續補到大四。AA：照現做法補到大四下，每科過 BB 法律審，給 LAWWW 全部審過的 SHA；其他劇情工作往後排"
   }
  ]
 }
