@@ -30,7 +30,7 @@
 | ART-09 | 6 張新立繪 jiahao、pinyu、tangrui、weilun、xun、y | Y0S1 第 None 週 | Y0S1 第 1 週 | E02（經濟系四人、家豪）；yule 是 K1b（大一上第 6～8 週） |
 | ART-10 | 翠嶺十舍 nccu_dorm（宿舍樓下長椅） | Y1S1 第 7 週 | Y1S1 第 6 週 | **改**：K1b 第 6～8 週，最早第 6 週（`BB_95` 9-2） |
 | ART-11 | 木柵大學・校園裡的路 nccu_campus | Y1S1 第 7 週 | Y1S1 第 6 週 | 同 ART-10 |
-| ART-12 | 台北的家 2D：home_living、home_balcony | Y1S1 第 1 週 | Y0S1 第 — 週 | **改**：最早是 v0 E21 除夕的電話（2025-01-28，經濟系寒假）；法律系開局的玩家是大一上第一個週末 |
+| ART-12 | 家 2D：home_living、home_balcony | Y1S1 第 1 週 | Y0S1 第 — 週 | **改**：最早是 v0 E21 除夕的電話（2025-01-28，經濟系寒假）；法律系開局的玩家是大一上第一個週末 |
 | ART-14 | 約會底圖（32 處只有 9 處）、以安／語彤約會人物圖 | Y1S1 第 None 週 | Y1S1 第 1 週 | 法律系第一個週末（可昕交往中） |
 | ART-15 | v3～v6 CG（CG_REGISTRY 只有大一的 5 張） | Y2S1 第 None 週 | Y1S1 第 7 週 | **改**：大一還有沒進 CG_REGISTRY 的：BCG-18 颱風夜（大一上第 7 週）、BCG-27 K1（第 3 週）、BCG-28 12/3（第 14 週）；大一下 BCG-04、BCG-11、BCG-21、BCG-29、BCG-45（4/24）。請先對 registry 再定；v3 最早是 BCG-16（大二上 P3） |
 | V0-A1 | Y0 日曆 | Y0S1 第 None 週 | Y0S1 第 1 週 | 經濟系開局第一天（2024-09-02） |
