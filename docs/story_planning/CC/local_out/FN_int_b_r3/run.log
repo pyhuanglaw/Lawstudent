@@ -1,0 +1,44 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fn_int_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FN_int_b_r3\out
+CC FN_int（花序室內）：PARTS UP,SHOT2,SEAT,FPS,DOWN；SHA dbbe05fa5；全尺寸 1672x941；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 這一版有花序室內（FLOWER_NOTES_LAYOUT、FN3）
+  [前置／捷徑] 【前置／捷徑】讀檔公館 2025-11-01 14.00（晴，關條件事件）站在 G11 前面的人行道（[UP] 的前置）
+PASS [UP]【前置】 公館 G11 門口有「進入花序」（exit → flower_notes）  [{"label": "進入公館燒臘", "x": -63, "z": 21, "lv": 0, "r": 2.2, "to": "noodle", "toName": "公館燒臘", "hidden": false, "kind": null}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "lv": 0, "r": 2.2, "to": "aoki", "toName": "青木茶室", "hidden": false, "kind": null}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "lv": 0, "r": 2.2, "to": "bookstore", "toName": "頁間書屋", "hidden": false, "kind": null}, {"label": "進入便利商店", "x": -29.4, "z": 21, "lv": 0, "r": 2.2, "to": "cvs", "toName": "日和便利店", "hidden": false, "kind": null}, {"label": "進入 洋洋鹹酥雞", "x": -10.6, "z": 21, "lv": 0, "r": 2.2, "to": "yangyang", "toName": "洋洋鹹酥雞", "hidden": false, "kind": null}, {"label": "進入 afar café", "x": 7.93, "z": 21, "lv": 0, "r": 2.2, "to": "afar", "toName": "afar café", "hidden": false, "kind": null}, {"label": "進入 轉角唱片", "x": 53.97, "z": 21, "lv": 0, "r": 2.2, "to": "corner_records", "toName": "轉角唱片", "hidden": false, "kind": null}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "lv": 0, "r": 2.2, "to": "daybreak", "toName": "Daybreak", "hidden": false, "kind": null}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "lv": 0, "r": 2.2, "to": "bikeshop", "toName": "慢輪單車", "hidden": false, "kind": null}, {"label": "回到校園", "x": -5.27, "z": -47.5, "lv": 0, "r": 2.5, "to": "campus", "toName": "首都帝大校園", "hidden": false, "kind": null}, {"label": "回到校園", "x": 5.27, "z": -47.5, "lv": 0, "r": 2.5, "to": "campus", "toName": "首都帝大校園", "hidden": false, "kind": null}, {"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "lv": 0, "r": 1.6, "to": "tingzhou", "toName": "汀州路", "hidden": false, "kind": null}, {"label": "進入花序", "x": 46.6, "z": 21, "lv": 0, "r": 2.2, "to": "flower_notes", "toName": "花序 Flower Notes", "hidden": false, "kind": null}, {"label": "進入安泰藥局", "x": -18.6, "z": 21, "lv": 0, "r": 2.2, "to": "gg_antai", "toName": "安泰藥局", "hidden": false, "kind": null}, {"label": "進入汀州鮮果", "x": 19.6, "z": 21, "lv": 0, "r": 2.2, "to": "gg_xianguo", "toName": "汀州鮮果", "hidden": false, "kind": null}, {"label": "進入榮恩典文具社", "x": 64.1, "z": 21, "lv": 0, "r": 2.2, "to": "gg_rongendian", "toName": "榮恩典文具社", "hidden": false, "kind": null}]
+PASS [UP]【前置】 搖桿走到「進入花序」，按鈕是它（2.4 秒、推 3 次、沒有跳）  {"end": [46.595, 20.699], "btn": "進入花序", "jumps": [], "why": null}
+PASS [UP]【前置】 按「進入花序」進到 flower_notes、站得住  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 14.08}
+PASS [UP] 搖桿走上樓梯到二樓平台（lv 1、y 3.9、3.3 秒、沒有跳）  {"end": {"zone": "flower_notes", "x": 4.156, "z": -5.935, "y": 3.9, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.1}, "why": null, "jumps": [], "stairY": [0.26, 0.87, 1.51, 2.55, 3.3, 3.7, 3.87, 3.9]}
+PASS [UP] 二樓走到教室中間 (-0.8, -2.0)（2.6 秒、沒有跳、沒有穿過桌子）  {"end": {"zone": "flower_notes", "x": -1.141, "z": -1.951, "y": 3.9, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 14.12}, "why": null, "pen": []}
+PASS [黑畫面] fni_2f 不是黑畫面（平均亮度 149.4、變化 46）  [149.4, 46]
+  [  62.3s] [截圖] fni_2f（二樓教室（對照 interior_2f.png））：鏡頭 {"eye": [0.4, 5.5, 0.3], "look": [0.3, 5.3, -6.9], "lens": 20, "vfov": 53.73}、亮度 [149.4, 46]
+PASS [黑畫面] fni_2f_close_a 不是黑畫面（平均亮度 149.6、變化 51）  [149.6, 51]
+  [  65.6s] [截圖] fni_2f_close_a（二樓近拍：示範桌的花）：鏡頭 {"eye": [-0.9, 5.5, -3.9], "look": [-0.9, 4.9, -5.5], "lens": 45, "vfov": 25.37}、亮度 [149.6, 51]
+PASS [黑畫面] fni_2f_close_b 不是黑畫面（平均亮度 118.9、變化 21.2）  [118.9, 21.2]
+  [  69.5s] [截圖] fni_2f_close_b（二樓近拍：花器層架）：鏡頭 {"eye": [-3.3, 5.5, -4.4], "look": [-3.3, 5.1, -6.7], "lens": 45, "vfov": 25.37}、亮度 [118.9, 21.2]
+  [  69.5s] [SEAT] 坐這幾張：[{"id": "t2a", "table": 2, "x": 0.45, "z": -3.75, "yaw": 0}, {"id": "t3c", "table": 3, "x": -1.25, "z": -0.15, "yaw": 3.1416}]
+  [  69.6s] [SEAT] 座位 2 張：[{"label": "坐下", "x": 0.45, "z": -3.75, "lv": 1, "sx": 0.45, "sz": -3.75, "sy": null, "slv": 1, "row": null, "ap": [-0.1, -3.75], "lift": 0}, {"label": "坐下", "x": -1.25, "z": -0.15, "lv": 1, "sx": -1.25, "sz": -0.15, "sy": null, "slv": 1, "row": null, "ap": [-1.8, -0.15], "lift": 0}]
+  [  72.2s] 到達「[SEAT] #1（0.45, -3.75 二樓）（走到椅子附近）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [SEAT] #1（0.45, -3.75 二樓） 點椅子（螢幕 [366, 282]）走過去停在 (-0.257, -3.56)（seatApproach [-0.1, -3.75]）：最近的「坐下」是這一張  {"at": [-0.257, -3.56], "nearest": {"label": "坐下", "seat": [0.45, -3.75], "exit": null}}
+PASS [SEAT] #1（0.45, -3.75 二樓） 走到旁邊，互動按鈕是「坐下」  {"x": -0.257, "z": -3.56, "lv": 1, "interact": "坐下", "stand": true}
+PASS [SEAT] #1（0.45, -3.75 二樓） 坐下了（player.seat）  {"x": 0.45, "z": -3.75, "y": 3.9, "lv": 1, "sx": 0.45, "sz": -3.75, "sy": null}
+PASS [SEAT] #1（0.45, -3.75 二樓） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 3.900＝座位那一層＋lift 3.900（±0.06）  {"x": 0.45, "z": -3.75, "y": 3.9, "lv": 1, "sx": 0.45, "sz": -3.75, "sy": null}
+PASS [黑畫面] fni_seat_seat_1 不是黑畫面（平均亮度 144.3、變化 47.8）  [144.3, 47.8]
+  [  77.7s] [SEAT] #1（0.45, -3.75 二樓） 起身點了：["起身"]
+PASS [SEAT] #1（0.45, -3.75 二樓） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 0.81, "x": -0.71, "z": -4.448, "lv": 1, "stand": true, "fb": 0}
+  [  82.7s] 到達「[SEAT] #2（-1.25, -0.15 二樓）（走到椅子附近）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [SEAT] #2（-1.25, -0.15 二樓） 點椅子（螢幕 [389, 271]）走過去停在 (-1.483, -0.166)（seatApproach [-1.8, -0.15]）：最近的「坐下」是這一張  {"at": [-1.483, -0.166], "nearest": {"label": "坐下", "seat": [-1.25, -0.15], "exit": null}}
+PASS [SEAT] #2（-1.25, -0.15 二樓） 走到旁邊，互動按鈕是「坐下」  {"x": -1.483, "z": -0.166, "lv": 1, "interact": "坐下", "stand": true}
+PASS [SEAT] #2（-1.25, -0.15 二樓） 坐下了（player.seat）  {"x": -1.25, "z": -0.15, "y": 3.9, "lv": 1, "sx": -1.25, "sz": -0.15, "sy": null}
+PASS [SEAT] #2（-1.25, -0.15 二樓） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 3.900＝座位那一層＋lift 3.900（±0.06）  {"x": -1.25, "z": -0.15, "y": 3.9, "lv": 1, "sx": -1.25, "sz": -0.15, "sy": null}
+PASS [黑畫面] fni_seat_seat_2 不是黑畫面（平均亮度 146.7、變化 49.9）  [146.7, 49.9]
+  [  88.4s] [SEAT] #2（-1.25, -0.15 二樓） 起身點了：["起身"]
+PASS [SEAT] #2（-1.25, -0.15 二樓） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 6.0, "x": -4.392, "z": -5.653, "lv": 1, "stand": true, "fb": 0}
+PASS [SEAT] 2 張都坐得下、起得來（[[1, "ok", 0.45, -3.75], [2, "ok", -1.25, -0.15]]）  [[1, "ok", 0.45, -3.75], [2, "ok", -1.25, -0.15]]
+  [ 101.3s] [FPS] 二樓（-4.392, -5.653 lv 1）8 秒：{"frames": 481, "ms": 8014, "fps": 60.02}（雲端 SwiftShader 不當結論）
+PASS [FPS] 二樓 量得到幀率  {"frames": 481, "ms": 8014, "fps": 60.02}
+PASS [DOWN] 搖桿走下樓梯到一樓樓梯口（lv 0、y 0.024、4.7 秒、沒有跳）  {"end": {"zone": "flower_notes", "x": 4.371, "z": 2.177, "y": 0.024, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.37}, "why": null, "jumps": []}
+PASS [DOWN] 走回進門的位置（2.9 秒）  {"end": {"zone": "flower_notes", "x": -0.027, "z": 5.633, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 14.39}, "why": null}
+  [ 120.0s] [FPS] 一樓（-0.027, 5.633 lv 0）8 秒：{"frames": 481, "ms": 8014, "fps": 60.02}（雲端 SwiftShader 不當結論）
+PASS [FPS] 一樓 量得到幀率  {"frames": 481, "ms": 8014, "fps": 60.02}
+PASS 沒有 JS 例外  []
+ALL PASS
