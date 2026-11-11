@@ -1,0 +1,10 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_e_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_E_E1_a2\out
+CC L118D_E（118 巷課後午餐邀約）：SHA=a2dd74af1 worktree=?；PARTS=E1；REL=FRI；橫向；Playwright 手機模擬 ≠ iPhone
+== E1
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS E1：遊戲載入
+  [前置／捷徑] E1：最小存檔 2025-09-21（第 5 天）20.00 dorm（條件事件開著，只關「要回覆的訊息自動打開手機」）
+  [前置／捷徑] E1：好友值 FRI（熟悉 50、信任 35、自在 20）：{"heroine_01": "FRIEND", "classmate_bohan": "FRIEND", "classmate_peishan": "FRIEND", "classmate_mingxuan": "FRIEND", "classmate_xinci": "FRIEND", "classmate_youchen": "FRIEND", "zhe": "FRIEND", "yu": "FRIEND"}
+FAIL E1：找得到上午不在法律系館的課（null）
+  [  36.4s] E1 花了 0.6 分鐘
+FAILED: E1：找得到上午不在法律系館的課（null）
