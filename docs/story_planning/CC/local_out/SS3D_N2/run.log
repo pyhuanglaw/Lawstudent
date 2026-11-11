@@ -1,0 +1,90 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_ss3d_g10_ps2_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SS3D_N2\out
+CC 上師 3D／G10 巷口／沛珊第二批：PARTS SS_MAIN；SHA f5e1ef4e8；Windows＋GPU（PC）／SwiftShader（雲端）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS [SS_MAIN] 遊戲載入（新的瀏覽器）
+  [  25.1s] 用的日子（大一上第 6 週、不是颱風假）：{"day": 20, "id": "Y1S1", "week": 6, "date": "2025-10-06"}
+  [  25.1s] [SS_MAIN] 配置 limao：{"table": {"x": 29.35, "z": 3.85, "w": 1.15, "d": 0.75, "yaw": 3.1416, "seatMaster": {"x": 29.35, "z": 4.6, "yaw": 3.1416}, "seatGuest": {"x": 29.35, "z": 3.05, "yaw": 0}, "at": {"x": 28.3, "z": 3.3, "r": 1}}, "from": 19, "to": 23.5}
+  [前置／捷徑] 【前置／捷徑】②a 讀檔計時：直接讀檔到汀州路算命桌前（面向上師）：讀檔到 tingzhou 第 20 天 20:00 (28.30,3.30)（條件事件關著）
+  [  41.6s] [SS_MAIN 讀檔] 上師 NPC 狀態變化（秒, 狀態）：[[11.45, {"zone": "tingzhou", "ent": false, "h": 20.015, "has": true, "driver": "vrm", "ukey": "char.npc_m1", "degr": true, "vis": true, "kidsVis": 0, "model": false, "shown": false, "fail": false, "loading": false, "assetHas": true, "canTalk": true}], [16.47, {"zone": "tingzhou", "ent": false, "h": 20.026, "has": true, "driver": "vrm", "ukey": "char.limao_shangshi", "degr": false, "vis": true, "kidsVis": 2, "model": true, "shown": true, "fail": false, "loading": false, "assetHas": true, "canTalk": true}]]
+  [  42.1s] [遊戲截圖] ss_load_model_in.jpg
+PASS [SS_MAIN 讀檔] 正式模型出現（從叫讀檔算 16.47 秒）  [16.47, {"zone": "tingzhou", "ent": false, "h": 20.026, "has": true, "driver": "vrm", "ukey": "char.limao_shangshi", "degr": false, "vis": true, "kidsVis": 2, "model": true, "shown": true, "fail": false, "loading": false, "assetHas": true, "canTalk": true}]
+  [  44.6s] [SS_MAIN 20:00] 狀態：{"lm": true, "api": true, "has": true, "zone": "tingzhou", "ent": false, "h": 20.045, "canTalk": true, "term": {"y": 1, "s": 1, "id": "Y1S1"}, "open": true, "off": false, "away": false, "key": "char.limao_shangshi", "fail": false, "loading": false, "assetHas": true, "inNpcs": true, "vis": true, "hidden": false, "driver": "vrm", "ukey": "char.limao_shangshi", "want": "char.limao_shangshi", "degr": false, "kidsVis": 2, "kids": 2, "x": 29.35, "y": 0, "z": 4.6, "ry": 3.142, "pose": "sit", "seat": {"x": 29.35, "z": 4.6, "yaw": 3.1416}, "model": true, "shown": true}
+  [  45.6s] [遊戲截圖] ss_2000_game.jpg
+  [  45.7s] [照片] 上師 20:00 正面近拍（客人座位的眼睛高度） → ss_2000_front.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  45.8s] [照片] 上師 20:00 正面特寫（臉、帽子、眼鏡） → ss_2000_face.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  45.8s] [照片] 上師 20:00 左側面（x 小那一邊＝面向巷子時他的左手邊） → ss_2000_left.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  45.9s] [照片] 上師 20:00 右側面（x 大那一邊） → ss_2000_right.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  46.0s] [照片] 上師 20:00 客人站的地方斜看（玩家位置） → ss_2000_player_view.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  46.0s] [照片] 上師 20:00 巷子裡看整張桌子 → ss_2000_lane.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  50.6s] [SS_MAIN 坐姿] {"pos": [29.35, 0, 4.6], "ry": 3.142, "driver": "vrm", "key": "char.limao_shangshi", "bones": {"hips": [29.351, 0.553, 4.589], "spine": [29.351, 0.677, 4.588], "chest": [29.351, 0.746, 4.593], "neck": [29.353, 0.941, 4.548], "head": [29.354, 1.016, 4.523], "leftEye": [29.335, 1.061, 4.491], "rightEye": [29.37, 1.061, 4.489], "leftUpperLeg": [29.276, 0.515, 4.592], "rightUpperLeg": [29.425, 0.515, 4.592], "leftLowerLeg": [29.302, 0.48, 4.131], "rightLowerLeg": [29.399, 0.48, 4.131], "leftFoot": [29.318, 0.083, 4.082], "rightFoot": [29.383, 0.083, 4.082], "leftToes": [29.316, 0.009, 3.965], "rightToes": [29.385, 0.009, 3.965], "leftUpperArm": [29.225, 0.888, 4.536], "rightUpperArm": [29.481, 0.895, 4.571]}, "body": [{"at": "hips", "xz": [29.351, 4.589], "bodyBottom": {"y": 0.469, "mesh": "Body"}, "below": [{"y": 0.47, "name": "LIMAO_TABLE_open_vc<LIMAO_TABLE_open>"}, {"y": 0.43, "name": "LIMAO_TABLE_open_vc<LIMAO_TABLE_open>"}, {"y": 0.05, "name": "wz_in_tiles_tingzhou<wenzhou_street>"}]}, {"at": "thighL", "xz": [29.289, 4.362], "bodyBottom": {"y": 0.428, "mesh": "Clothes_SHANGSHI_1"}, "below": [{"y": 0.05, "name": "wz_in_tiles_tingzhou<wenzhou_street>"}, {"y": -0.02, "name": "<tingzhou_zone>"}]}, {"at": "thighR", "xz": [29.412, 4.362], "bodyBottom": {"y": 0.429, "mesh": "Clothes_SHANGSHI_1"}, "below": [{"y": 0.05, "name": "wz_in_tiles_tingzhou<wenzhou_street>"}, {"y": -0.02, "name": "<tingzhou_zone>"}]}], "seatC": [{"y": 0.47, "name": "LIMAO_TABLE_open_vc<LIMAO_TABLE_open>"}, {"y": 0.43, "name": "LIMAO_TABLE_open_vc<LIMAO_TABLE_open>"}, {"y": 0.05, "name": "wz_in_tiles_tingzhou<wenzhou_street>"}], "feet": [{"side": "left", "foot": [29.318, 0.083, 4.082], "sole": {"y": -0.022, "mesh": "Clothes_SHANGSHI_4"}, "floor": [{"y": 0.05, "name": "wz_in_tiles_tingzhou<wenzhou_street>"}, {"y": -0.02, "name": "<tingzhou_zone>"}]}, {"side": "right", "foot": [29.383, 0.083, 4.082], "sole": {"y": -0.022, "mesh": "Clothes_SHANGSHI_4"}, "floor": [{"y": 0.05, "name": "wz_in_tiles_tingzhou<wenzhou_street>"}, {"y": -0.02, "name": "<tingzhou_zone>"}]}], "faceYaw": 3.007, "wantYaw": 3.142, "dRy": 0, "dFace": -7.7, "headY": 1.016, "meshes": 40}
+PASS [SS_MAIN 坐姿] 量得到上師的人物（LM.masterNpc）
+  [  50.6s] [SS_MAIN 坐姿] 座位中心 (seatMaster) 往下打到的第一個 0.25～0.9 m 的面：0.47
+  [  50.6s] [SS_MAIN 坐姿] 每一點（臀＝hips 骨正下方、大腿＝大腿骨中點）：身體最低點、正下方第一個面、差（負＝陷進去、正＝浮起來）：[["hips", 0.469, 0.47, "LIMAO_TABLE_open_vc<LIMAO_TABLE_open>", -0.001], ["thighL", 0.428, 0.05, "wz_in_tiles_tingzhou<wenzhou_street>", 0.378], ["thighR", 0.429, 0.05, "wz_in_tiles_tingzhou<wenzhou_street>", 0.379]]
+  [  50.6s] [SS_MAIN 坐姿] 臀部底 − 椅面＝-0.001 m（大腿那兩點正下方如果是地面＝大腿超出椅子前緣，只記）
+  [  50.6s] [SS_MAIN 坐姿] left 腳：腳底 -0.022、下面的地面 0.05 → 差 -0.072 m
+  [  50.6s] [SS_MAIN 坐姿] right 腳：腳底 -0.022、下面的地面 0.05 → 差 -0.072 m
+  [  50.6s] [SS_MAIN 面向] rotation.y 3.142、肩線算的面向 3.007；朝客人座位 [29.35, 3.05] 該是 3.142 → 差 rotation 0°、肩線 -7.7°
+PASS [SS_MAIN 位置] 人在上師的座位（離 seatMaster ≤ 0.15 m）  [29.35, 0, 4.6]
+PASS [SS_MAIN 面向] 面向客人座位（肩線算的差 ≤ 20°）  -7.7°
+PASS [SS_MAIN 坐姿] 坐在椅子上：臀部底和正下方椅面差 ±5 cm 內（臀部正下方要是椅面）  gap -0.001
+  [前置／捷徑] 【前置／捷徑】②c 18:00：汀州路算命桌前：讀檔到 tingzhou 第 20 天 18:00 (28.30,3.30)（條件事件關著）
+  [  62.3s] [SS_MAIN 18:00] 遊戲鏡頭：上師的頭投影 [414, 169]、在畫面裡 True、離中線 3.4°
+  [  62.4s] [遊戲截圖] ss_hour_1800.jpg
+  [  62.5s] [照片] 上師 18:00（G.hour 18:04）正面 第 1 張（照遊戲當下的 visible） → ss_hour_1800_snap1.jpg（上師 visible：主迴圈留下的 False、照相時 False）
+  [  62.8s] [照片] 上師 18:00（G.hour 18:04）正面 第 2 張（照遊戲當下的 visible） → ss_hour_1800_snap2.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  63.1s] [照片] 上師 18:00（G.hour 18:04）正面 第 3 張（照遊戲當下的 visible） → ss_hour_1800_snap3.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  63.4s] [SS_MAIN 18:00] G.hour 18:04：LM.canTalk False、zone.tzLimao.open False；3 秒 171 幀：obj.visible 136 幀、看得到 136 幀、閃 68 次；狀態 {"has": true, "driver": "vrm", "degr": false, "vis": true, "hidden": false}
+FAIL [SS_MAIN 18:00] 收著（G.hour 18:04）：遊戲鏡頭對著他的位子（頭的投影在畫面裡）、沒有一幀看得到上師  {"frames": 171, "visFrames": 136, "shownFrames": 136, "modelFrames": 171, "flips": 68, "h": 18.066, "onScreen": true}
+  [前置／捷徑] 【前置／捷徑】②c 18:56→19:00：汀州路算命桌前：讀檔到 tingzhou 第 20 天 18:56 (28.30,3.30)（條件事件關著）
+  [  78.8s] [SS_MAIN 18:56→19:00] 站著等遊戲時間走到 19:01（8 秒）
+  [  83.1s] [SS_MAIN 18:56→19:00] 遊戲鏡頭：上師的頭投影 [414, 169]、在畫面裡 True、離中線 3.4°
+  [  83.2s] [遊戲截圖] ss_hour_1856_1900.jpg
+  [  83.3s] [照片] 上師 18:56→19:00（G.hour 19:03）正面 第 1 張（照遊戲當下的 visible） → ss_hour_1856_1900_snap1.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  83.7s] [照片] 上師 18:56→19:00（G.hour 19:03）正面 第 2 張（照遊戲當下的 visible） → ss_hour_1856_1900_snap2.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  84.0s] [照片] 上師 18:56→19:00（G.hour 19:03）正面 第 3 張（照遊戲當下的 visible） → ss_hour_1856_1900_snap3.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  84.2s] [SS_MAIN 18:56→19:00] G.hour 19:03：LM.canTalk True、zone.tzLimao.open True；3 秒 169 幀：obj.visible 169 幀、看得到 169 幀、閃 0 次；狀態 {"has": true, "driver": "vrm", "degr": false, "vis": true, "hidden": false}
+PASS [SS_MAIN 18:56→19:00] 店開著（G.hour 19:03）：每一幀都看得到上師  {"frames": 169, "visFrames": 169, "shownFrames": 169, "modelFrames": 169, "flips": 0, "h": 19.051}
+  [前置／捷徑] 【前置／捷徑】②c 20:00：汀州路算命桌前：讀檔到 tingzhou 第 20 天 20:00 (28.30,3.30)（條件事件關著）
+  [  95.5s] [SS_MAIN 20:00] 遊戲鏡頭：上師的頭投影 [414, 169]、在畫面裡 True、離中線 3.4°
+  [  95.6s] [遊戲截圖] ss_hour_2000.jpg
+  [  95.7s] [照片] 上師 20:00（G.hour 20:04）正面 第 1 張（照遊戲當下的 visible） → ss_hour_2000_snap1.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  96.0s] [照片] 上師 20:00（G.hour 20:04）正面 第 2 張（照遊戲當下的 visible） → ss_hour_2000_snap2.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  96.4s] [照片] 上師 20:00（G.hour 20:04）正面 第 3 張（照遊戲當下的 visible） → ss_hour_2000_snap3.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [  96.6s] [SS_MAIN 20:00] G.hour 20:04：LM.canTalk True、zone.tzLimao.open True；3 秒 175 幀：obj.visible 175 幀、看得到 175 幀、閃 0 次；狀態 {"has": true, "driver": "vrm", "degr": false, "vis": true, "hidden": false}
+PASS [SS_MAIN 20:00] 店開著（G.hour 20:04）：每一幀都看得到上師  {"frames": 175, "visFrames": 175, "shownFrames": 175, "modelFrames": 175, "flips": 0, "h": 20.065}
+  [前置／捷徑] 【前置／捷徑】②c 23:25→23:30：汀州路算命桌前：讀檔到 tingzhou 第 20 天 23:25 (28.30,3.30)（條件事件關著）
+  [ 113.2s] [SS_MAIN 23:25→23:30] 站著等遊戲時間走到 23:31（10 秒）
+  [ 117.4s] [SS_MAIN 23:25→23:30] 遊戲鏡頭：上師的頭投影 [416, 169]、在畫面裡 True、離中線 3.3°
+  [ 117.5s] [遊戲截圖] ss_hour_2325_2330.jpg
+  [ 117.6s] [照片] 上師 23:25→23:30（G.hour 23:33）正面 第 1 張（照遊戲當下的 visible） → ss_hour_2325_2330_snap1.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [ 117.9s] [照片] 上師 23:25→23:30（G.hour 23:33）正面 第 2 張（照遊戲當下的 visible） → ss_hour_2325_2330_snap2.jpg（上師 visible：主迴圈留下的 False、照相時 False）
+  [ 118.2s] [照片] 上師 23:25→23:30（G.hour 23:33）正面 第 3 張（照遊戲當下的 visible） → ss_hour_2325_2330_snap3.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [ 118.5s] [SS_MAIN 23:25→23:30] G.hour 23:33：LM.canTalk False、zone.tzLimao.open False；3 秒 173 幀：obj.visible 138 幀、看得到 138 幀、閃 70 次；狀態 {"has": true, "driver": "vrm", "degr": false, "vis": true, "hidden": false}
+FAIL [SS_MAIN 23:25→23:30] 收著（G.hour 23:33）：遊戲鏡頭對著他的位子（頭的投影在畫面裡）、沒有一幀看得到上師  {"frames": 173, "visFrames": 138, "shownFrames": 138, "modelFrames": 173, "flips": 70, "h": 23.551, "onScreen": true}
+  [前置／捷徑] 【前置／捷徑】②c 23:40：汀州路算命桌前：讀檔到 tingzhou 第 20 天 23:40 (28.30,3.30)（條件事件關著）
+  [ 129.6s] [SS_MAIN 23:40] 遊戲鏡頭：上師的頭投影 [413, 169]、在畫面裡 True、離中線 3.4°
+  [ 129.7s] [遊戲截圖] ss_hour_2340.jpg
+  [ 129.7s] [照片] 上師 23:40（G.hour 23:44）正面 第 1 張（照遊戲當下的 visible） → ss_hour_2340_snap1.jpg（上師 visible：主迴圈留下的 False、照相時 False）
+  [ 130.1s] [照片] 上師 23:40（G.hour 23:44）正面 第 2 張（照遊戲當下的 visible） → ss_hour_2340_snap2.jpg（上師 visible：主迴圈留下的 True、照相時 True）
+  [ 130.4s] [照片] 上師 23:40（G.hour 23:44）正面 第 3 張（照遊戲當下的 visible） → ss_hour_2340_snap3.jpg（上師 visible：主迴圈留下的 False、照相時 False）
+  [ 130.6s] [SS_MAIN 23:40] G.hour 23:44：LM.canTalk False、zone.tzLimao.open False；3 秒 177 幀：obj.visible 142 幀、看得到 142 幀、閃 70 次；狀態 {"has": true, "driver": "vrm", "degr": false, "vis": true, "hidden": false}
+FAIL [SS_MAIN 23:40] 收著（G.hour 23:44）：遊戲鏡頭對著他的位子（頭的投影在畫面裡）、沒有一幀看得到上師  {"frames": 177, "visFrames": 142, "shownFrames": 142, "modelFrames": 177, "flips": 70, "h": 23.735, "onScreen": true}
+  [前置／捷徑] 【前置／捷徑】②d 對話：19:36 巷 A 禮貌生財前面、沒有 LM_*：讀檔到 tingzhou 第 20 天 19:36 (27.00,-0.50)（條件事件關著）
+  [ 144.5s] 到達「[SS_MAIN 對話] 算命桌」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [SS_MAIN 對話] 算命桌前按鈕是「算命桌」（19:41）  {"x": 28.176, "z": 3.25, "interact": "算命桌"}
+  [ 146.3s] [遊戲截圖] ss_talk_line01.jpg
+  [ 148.6s] [遊戲截圖] ss_talk_ms1.jpg
+  [ 148.6s] [SS_MAIN 對話] 上師第 1 句「不用錢。」（畫面名字「上師」、帶 obj＝True）：頭的投影 [345, 185]（畫面 844x390、在畫面裡 True、離鏡頭中線 9.6°、距離 7.05 m）、對話框 [42, 272, 760, 104]、頭在框裡 False、那一點最上面 c、ADV {"active": true, "mode": "on blur"}（畫布 filter none、#adv backdrop-filter none：模糊背景的 ADV 會把 3D 畫面糊掉，看截圖）；截圖 ss_talk_ms1.jpg
+PASS [SS_MAIN 對話] 上師第 1 句：說話的人帶他的 3D 人物（obj）  {"who": "上師", "cid": null, "obj": true, "text": "不用錢。", "t": 146431, "gh": 19.681}
+PASS [SS_MAIN 對話] 上師第 1 句：頭在畫面裡、沒有被對話框蓋住（投影 [345, 185]、框 [42, 272, 760, 104]）  {"px": [345, 185], "dlg": [42, 272, 760, 104], "topEl": "c", "onScreen": true}
+  [ 150.9s] [遊戲截圖] ss_talk_ms2.jpg
+  [ 150.9s] [SS_MAIN 對話] 上師第 2 句「看你這個樣子，也不像有錢。」（畫面名字「上師」、帶 obj＝True）：頭的投影 [345, 186]（畫面 844x390、在畫面裡 True、離鏡頭中線 9.6°、距離 7.04 m）、對話框 [42, 272, 760, 104]、頭在框裡 False、那一點最上面 c、ADV {"active": true, "mode": "on blur"}（畫布 filter none、#adv backdrop-filter none：模糊背景的 ADV 會把 3D 畫面糊掉，看截圖）；截圖 ss_talk_ms2.jpg
+PASS [SS_MAIN 對話] 上師第 2 句：說話的人帶他的 3D 人物（obj）  {"who": "上師", "cid": null, "obj": true, "text": "看你這個樣子，也不像有錢。", "t": 148710, "gh": 19.681}
+PASS [SS_MAIN 對話] 上師第 2 句：頭在畫面裡、沒有被對話框蓋住（投影 [345, 186]、框 [42, 272, 760, 104]）  {"px": [345, 186], "dlg": [42, 272, 760, 104], "topEl": "c", "onScreen": true}
+  [ 159.7s] [SS_MAIN 對話] 全部 12 句：[[null, false, "（巷子裡，一棟老公寓的騎樓下面擺著一張鋪紅布的桌子。招牌寫「禮貌生財」。桌子後面的老先生在喝茶。）"], ["祐廷", false, "老師，算一次多少錢？"], ["上師", true, "不用錢。"], ["祐廷", false, "真的假的？"], ["上師", true, "看你這個樣子，也不像有錢。"], ["祐廷", false, "……"], ["上師", true, "坐啦，算什麼？"], ["祐廷", false, "考試。"], ["上師", true, "你書讀了沒？"], ["祐廷", false, "還沒。"], ["上師", true, "那你不用算了，這個我不用排命盤也知道。"], ["上師", true, "茶自己倒。下次書讀了再來，我比較好發揮。"]]
+PASS [SS_MAIN 對話] 有上師的句子
+  [ 159.7s] [SS_MAIN] console error／warning 57 則：[["warning", "星期和日期對不上，照行事曆改： 4 → 3"], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."]]
+  [ 159.7s] [SS_MAIN] 和上師（LM／limao／shangshi）有關的 console：沒有
+PASS [SS_MAIN] 沒有 JS 例外（pageerror）  []
+  [ 159.7s] [SS_MAIN] 花了 159 秒
+FAILED 3: [SS_MAIN 18:00] 收著（G.hour 18:04）：遊戲鏡頭對著他的位子（頭的投影在畫面裡）、沒有一幀看得到上師；[SS_MAIN 23:25→23:30] 收著（G.hour 23:33）：遊戲鏡頭對著他的位子（頭的投影在畫面裡）、沒有一幀看得到上師；[SS_MAIN 23:40] 收著（G.hour 23:44）：遊戲鏡頭對著他的位子（頭的投影在畫面裡）、沒有一幀看得到上師
