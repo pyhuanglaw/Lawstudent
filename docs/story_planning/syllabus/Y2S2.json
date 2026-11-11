@@ -1662,11 +1662,11 @@
       "約因：雙方都要給出一點東西，可以是承諾、行為，或不做某件事。",
       "只有一方單純答應送你東西，沒有約因，原則上不能強制執行。",
       "約因不用等值，一顆胡椒粒也可以；可是已經做過的事，不能當約因。",
-      "台灣不要求約因：意思表示一致，契約就成立。贈與在台灣也是契約。",
+      "台灣不要求約因：原則上意思表示一致，契約就成立。贈與也是契約。",
       "offer 是要約，acceptance 是承諾。",
       "兩邊合起來，叫 mutual consent，合意。"
      ],
-     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Contract law 用語、consideration（對價）；對應題庫 LENG25_02（A contract）、LENG25_11（A breach）、LENG25_16（A remedy）。原本有 ask、obs。 使用者 11-11 13:4x 對 AA：「英美法應該著重說明 約因 是什麼 還有衡平原則 還有英美法與大陸法系差別」（UA-AA-1111-07）。約因：benefit／detriment、bargained-for exchange；adequacy 不審查（peppercorn）；past consideration 不算；用契據（deed）訂的承諾不需要約因（BB_115 L287）；民法 §153 I、§406。 使用者 11-11 13:4x：「也要介紹常出現的單字 plaintiff、appeal、mutual consent」（UA-AA-1111-08）。"
+     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Contract law 用語、consideration（對價）；對應題庫 LENG25_02（A contract）、LENG25_11（A breach）、LENG25_16（A remedy）。原本有 ask、obs。 使用者 11-11 13:4x 對 AA：「英美法應該著重說明 約因 是什麼 還有衡平原則 還有英美法與大陸法系差別」（UA-AA-1111-07）。約因：benefit／detriment、bargained-for exchange；adequacy 不審查（peppercorn）；past consideration 不算；用契據（deed）訂的承諾不需要約因（BB_115 L287）；民法 §153 I、§406。 使用者 11-11 13:4x：「也要介紹常出現的單字 plaintiff、appeal、mutual consent」（UA-AA-1111-08）。 「原則上」：要物契約例外（BB_356 末段）。"
     },
     {
      "w": 5,
@@ -1764,7 +1764,7 @@
       "普通法只給錢；衡平補上別的救濟",
       "禁制令、特定履行"
      ],
-     "line": "普通法法院只判賠錢。不夠的時候，人們去找衡平。",
+     "line": "普通法法院主要判賠錢。不夠的時候，人們去找衡平。",
      "react": [
       {
        "who": "zhe",
