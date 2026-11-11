@@ -5976,6 +5976,16 @@
    "note": "X324 D 區邀約台詞覆蓋列（invites.js：七個女主角＋阿哲、Alison、柏翰、芯慈、阿凱、明軒、方奕廷＋(共用) libStudy；刪節號、「下次」、芷若窗邊三連）。overlay:true：tools/invite/apply_overlay.py 改 src/data/invites.js 原始碼那一個字串（at 當驗證、舊句一個不剩、選項字不換）；AA_783 已經給過的 13 列不重複。逐列 tests/invite_overlay_1111_unit.js"
   },
   {
+   "path": "docs/story_planning/AA_785_msg_pools.json",
+   "sha": "c2493201c",
+   "status": "approved",
+   "overlay": true,
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（108ed3ebb 29 列、c2493201c 加語彤還好嗎回問兩列；D100b 稿就是定稿；使用者 X324 D 區）；LAWWW 11-11 指定讀 c2493201c；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 D 區玩家主動傳訊息的回覆覆蓋列（msg_pool、msg2_pool）。overlay:true：tools/msg/to_js.py、to_js2.py 寫檔最後一步（AA_630 那一層以後）照 at（people.<id>.replies[i] 底下任何一格：msgs[j]、ask.q、ask.opts[k].r[m]）只換那一格，topic、tier 要對得上；換過的那一則多一格 aa785＝稿的來源。逐列 tests/msg_overlay_1111_unit.js"
+  },
+  {
    "path": "docs/story_planning/AA_711_flirt.json",
    "sha": "09e3a8d03",
    "status": "approved",

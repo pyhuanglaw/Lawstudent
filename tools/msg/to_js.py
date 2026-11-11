@@ -45,3 +45,5 @@ _R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file
 import aa630 as _aa630, import_guard as _ig
 _t0 = open(DST, encoding='utf-8').read(); _t1 = _aa630.patch_text(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/msg_pool.js', _t0)   # 改寫到 DST（MSG_JS_OUT 也一樣）；表對的是遊戲檔名
 if _t1 != _t0: open(DST, 'w', encoding='utf-8').write(_t1)
+# 2026-11-11（X324 D 區）：覆蓋層（白名單 overlay:true 的稿裡 file 是 msg_pool 的列：AA_785…；tools/msg/msg_overlay.py）——最後一步（AA_630、PS755／PS763 以後），只換 at 那一格；換過的那一則多一格 ov
+_sys.path.insert(0, HERE); import msg_overlay as _MOV; _MOV.apply_file(DST, 'msg_pool', _R0)

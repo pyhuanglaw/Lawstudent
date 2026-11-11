@@ -88,7 +88,8 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
     check('6b. 別的檔的「好。我記下來了。」沒動到：宿營關主學姊三處（camp_y1.js）、msg_replies.js 一處',camp.split("{speaker:'關主學姊',text:'好。我記下來了。'}").length-1===3&&mr.split('"好。我記下來了。"').length-1===1);
     /* 2026-11-11（X324 D 區，AA_709 企劃線 c4772dc7e）：msg_replies.js 後來照 AA_709 重匯，八個人的回話（say）換字——和 BASE 比改成「拿掉 say 和來源以後一樣」（text、選項的字、rel 沒動）。舊期望：整檔和 BASE 一樣 */
     const MR=s=>{ const o=new Function(s.replace(/^'use strict';/m,'')+';return MSG_REPLIES;')(); delete o.src; for(const k in o.people) for(const e of o.people[k]) for(const q of e.opts||[]) delete q.say; return J(o); };
-    const ob2=show(BASE,'src/data/msg2_pool.js'), obm=show(BASE,'src/data/msg_replies.js'); if(ob2){ const a=m2.split('\n'), b=ob2.split('\n'), d=a.filter((l,i)=>l!==b[i]);
+    /* 2026-11-11（X324 D 區，AA_785_msg_pools.json）：msg2_pool.js 照覆蓋層換了幾格（換過的那一則多一格 "ov"）——和 BASE 比的時候那幾行不算（逐格在 tests/msg_overlay_1111_unit.js）。舊期望：只有沛珊新年快樂那一行不同 */
+    const ob2=show(BASE,'src/data/msg2_pool.js'), obm=show(BASE,'src/data/msg_replies.js'); if(ob2){ const a=m2.split('\n'), b=ob2.split('\n'), d=a.filter((l,i)=>l!==b[i]&&!/"ov": \[/.test(l));
       check('6b. msg2_pool.js 和 BASE 比：一樣多行，只有沛珊新年快樂那一行不同；camp_y1.js 和 BASE 一樣；msg_replies.js 和 BASE 比只有回話（say，AA_709 X324 D 區）不同',a.length===b.length&&d.length===1&&/"topic": ?"newyear"/.test(d[0])&&d[0].includes('年底驗收')&&!!obm&&MR(obm)===MR(mr)&&show(BASE,'src/data/camp_y1.js')===camp,String(d.length)); }
     const y2=read('src/y2b3d.js').replace(/\/\*[\s\S]*?\*\//g,'');
     check('6c. src/y2b3d.js 的舊副本 S.PS_TAINAN 刪掉了（程式裡沒有 PS_TAINAN、沒有舊句「這邊的紅茶很甜喔」）；現行的台南資料在 hometown_lines.js（tests/bg107_unit.js 第 3 項）',!/PS_TAINAN\b(?!_)/.test(y2)&&!y2.includes('這邊的紅茶很甜喔')&&read('src/data/hometown_lines.js').includes("first:{scene:'台南・她的學校',bg:'tn_school'")); });

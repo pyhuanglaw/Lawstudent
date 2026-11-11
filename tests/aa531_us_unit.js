@@ -99,7 +99,9 @@ await sec(0,()=>{
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===DOCF);
   check('0. 劇情匯入白名單有 AA_531（sha '+SHA+'、approved、AA-B 定稿（D109）、任務 AA531-US-FIX-1030）',A.length===1&&A[0].sha===SHA&&A[0].status==='approved'&&A[0].approvedBy==='AA-B 定稿（D109）'&&A[0].task==='AA531-US-FIX-1030',J(A.map(e=>({sha:e.sha,status:e.status,by:e.approvedBy,task:e.task}))));
   const ANREV=require('./an_rev_doc.js');   /* 以安改稿第四批 AA_589 第 47 列（視訊的旁白「桌上攤著手帳」→「書」）：遊戲→稿 在改成欄也算、稿→遊戲 照改成欄找（逐列核對在 tests/aa589_an_b4_unit.js）*/
-  const G0=gameNew(), notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&!ANREV.has(t));
+  /* 2026-11-11（X324 D 區，AA_785_msg_pools.json）：msg_pool、msg2_pool 照覆蓋層拿掉刪節號、換句——遊戲裡的新字、它的舊字在稿上也算（tests/overlay_expect.js 的 inDoc）；舊期望：字本身在稿上 */
+  const OE=require('./overlay_expect.js'), inDocM=t=>['msg_pool','msg2_pool'].some(f=>OE.inDoc(f,null,t,u=>DOC.indexOf(u)>=0));
+  const G0=gameNew(), notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&!ANREV.has(t)&&!inDocM(t));
   check('0. 遊戲 → 稿：這一批的新句（'+new Set(G0).size+' 句：四位的私訊、五場視訊、勞動節、上課十二句、兩場期末、子晴國外版選項、語彤國外版、大峽谷、七句旁白、挽回中招呼、8-3 四句國外版）都在稿裡（一字不差）',new Set(G0).size>=90&&!notIn.length,J({n:new Set(G0).size,notIn}));
   const GS=gameSet(), lost=t=>{ const r=SUP[t]||SUP[unq(t)]; if(!r&&ANREV.MAP.has(t)&&GS.has(ANREV.rev(t))) return false; return r?!GS.has(r):(!GS.has(t)&&!GS.has(unq(t))); };   /* 8-1 換掉的舊句：找新句 */
   const miss2=DOC2.map(L=>L.filter(lost));
@@ -300,7 +302,10 @@ await sec('8-2',()=>{
   check('8-2. 店裡的時間（MSG.atShop）：以安＝否、語彤也＝否（AA_610／AA_624）',(fresh('2028-10-17',18,'dorm',TW()),MSG.atShop(H.G,AN)===false&&MSG.atShop(H.G,YT)===false)); });
 await sec('8-3',()=>{
   const row=w=>T83.find(r=>r.who.indexOf(w)>=0)||{};
-  const AB=row('以安'), PB=row('沛珊'), YB=row('生日'), YO=T83.find(r=>r!==YB&&r.who.indexOf('語彤')>=0)||{};
+  const AB0=row('以安'), PB0=row('沛珊'), YB0=row('生日'), YO0=T83.find(r=>r!==YB0&&r.who.indexOf('語彤')>=0)||{};
+  /* 2026-11-11（X324 D 區，AA_785）：稿上的字照覆蓋層換成遊戲現在的字再比（以安分享貓臺灣版「下次一起去看。」、沛珊分享吃的臺灣版「我家的早餐」舊設定、語彤生日拿掉刪節號）——舊期望＝稿上的字 */
+  const OE8=require('./overlay_expect.js'), FWr=(f,id,r)=>Object.assign({},r,{tw:r.tw&&OE8.fwd(f,id,r.tw),ab:r.ab&&OE8.fwd(f,id,r.ab)});
+  const AB=FWr('msg_pool',AN,AB0), PB=FWr('msg_pool',PS,PB0), YB=FWr('msg2_pool',YT,YB0), YO=FWr('msg2_pool',YT,YO0);
   const picks=(id,topic,sub,n)=>{ const s=new Set(); for(let i=0;i<(n||4);i++){ const e=MSG.pick(H.G,id,topic,sub); if(e) s.add(e.msgs.join('／')); } return [...s]; };
   const share=(flags,zone,d)=>{ fresh(d,15,zone,flags); date(AN,'2028-01-01'); date(PS,'2028-01-01'); return [picks(AN,'share','cat'),picks(PS,'share','food')]; };
   const tw=share(TW(),'dorm','2028-10-17'), us=share(US(),'us_apartment','2028-10-17'), jp=share(JP(),'jp_dorm','2028-05-17');
@@ -331,7 +336,7 @@ await sec('8-5',async()=>{
   const bd=[]; for(const k of [0,1]){ fresh('2028-07-09',15,'jp_dorm',JP()); date(YT,'2028-01-01'); const r=MSG.send(H.G,YT,'bday'); const m=r&&r.ok?recv():null; const a=m?PHONE.answer(H.G,m.ask.id,k):null;
     bd.push({ok:!!(r&&r.ok),last:m&&m.text,opts:m&&m.ask.opts.map(o=>o.t),out:a?a.out.map(x=>x.text):null,plan:OUT.rec(H.G).length}); }
   check('8-5. 日本路線 7/9 傳「生日快樂」：回「謝謝。……你那邊幾點？」帶兩個選項；選「比妳那邊快一個小時。」她回「……那你比我先過完今天。」、選「生日快樂。回去請妳吃麵。」她回「阿姨不會收錢的。……你還是要請。」；不排電話',
-    bd.every(x=>x.ok&&x.last==='謝謝。……你那邊幾點？'&&J(x.opts)===J(O85.slice(0,2))&&x.plan===0)&&J(bd[0].out)===J([O85[0],Q85[0]])&&J(bd[1].out)===J([O85[1],Q85[1]]),J(bd));
+    bd.every(x=>x.ok&&x.last===require('./overlay_expect.js').fwd('msg2_pool',YT,'謝謝。……你那邊幾點？')&&J(x.opts)===J(O85.slice(0,2))&&x.plan===0)&&J(bd[0].out)===J([O85[0],Q85[0]])&&J(bd[1].out)===J([O85[1],Q85[1]]),J(bd));
   /* 還好嗎（[前置] 直接給 conds2 一件事：阿姨扭到手）：美國當地 10/17 20:00（臺灣 10/18 08:00）傳 */
   const c0=MSG.conds2, res={}, relOf=()=>{ const x=(H.G.social&&H.G.social.rel||{})[YT]||{}; return J(['trust','aff','resp','comf','rom'].map(k=>x[k]|0)); };   /* 好感那幾項（熟悉度 fam、見過 seen 不算：傳訊息、講電話本來就會加）*/
   try{ MSG.conds2=(G,id,tp)=>tp==='ok'&&id===YT?[{key:'aunt_hand',day:G.day}]:c0.apply(MSG,arguments);
