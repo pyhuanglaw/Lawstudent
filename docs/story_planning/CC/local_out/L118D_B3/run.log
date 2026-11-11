@@ -1,0 +1,318 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_ab_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_B3\out
+受測 SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b；PARTS=B；SHOPS=korea,omu,noodle2；URL=http://127.0.0.1:8802/index.html
+Playwright 手機模擬（橫向 844×390）≠ iPhone 實機
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  29.6s] 畫面上的版本字樣：版本 v9.10.24（2026-11-10）
+  [  29.6s] 候選日期：[{"k": "2025-09-24", "d": 8, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 4}, {"k": "2025-10-01", "d": 15, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 5}, {"k": "2025-10-15", "d": 29, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 7}, {"k": "2025-10-22", "d": 36, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 8}, {"k": "2025-10-29", "d": 43, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 9}, {"k": "2025-11-05", "d": 50, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 10}]
+PASS 日期 2025-09-24：學期中（Y1S1 第 4 週）、不是假日、不是颱風假  {"k": "2025-09-24", "d": 8, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 4}
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (0.00, 31.00)，12.17 點、錢 5000、QUIET=True（查營業時間（巷口））
+  [  47.9s] 營業（L118.isOpen，2025-09-24 12.17）：[{"id": "dian", "open": true, "note": null}, {"id": "self", "open": true, "note": null}, {"id": "tea", "open": true, "note": null}, {"id": "home", "open": true, "note": null}, {"id": "cafe2", "open": true, "note": null}, {"id": "pasta", "open": true, "note": null}, {"id": "korea", "open": true, "note": null}, {"id": "omu", "open": true, "note": null}, {"id": "noodle2", "open": true, "note": null}, {"id": "drink_a", "open": true, "note": null}, {"id": "drink_b", "open": true, "note": null}]
+PASS korea 這個時間有開（沒有公休紙）  {"id": "korea", "open": true, "note": null}
+PASS omu 這個時間有開（沒有公休紙）  {"id": "omu", "open": true, "note": null}
+PASS noodle2 這個時間有開（沒有公休紙）  {"id": "noodle2", "open": true, "note": null}
+  逐字｜start｜lane118｜clockZ｜118 巷
+  逐字｜start｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+
+===== korea 清州刀削麵（PARTS=B）=====
+PASS korea 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, 19.50)，12.17 點、錢 5000、QUIET=True（清州刀削麵 店門口附近的人行道）
+PASS korea 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": 19.5, "ry": 3.04, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 6.184, "fallbacks": 0, "y": 0, "lv": 0, "frame": 243, "paused": false}
+PASS korea 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": 15.5, "r": 1.4, "label": "進清州刀削麵（刀削麵館）", "hidden": false, "enter": true}, {"x": 4.3, "z": 15.5, "r": 1.4, "label": "清州刀削麵（刀削麵館）", "hidden": true, "enter": false}]
+  [  56.9s] 搖桿走到「清州刀削麵 店門口」（0.18 m，推 2 次，3 秒）
+  逐字｜korea_door｜lane118｜caption｜阿哲朝你揮了揮手。
+  逐字｜korea_door｜lane118｜interactLabel｜和阿哲說話
+  逐字｜korea_door｜lane118｜interactLabel｜進清州刀削麵（刀削麵館）
+PASS A korea 店門口互動鍵（畫面）「進清州刀削麵（刀削麵館）」  畫面：「進清州刀削麵（刀削麵館）」；搖桿；範圍內 ["進清州刀削麵（刀削麵館）"]
+  逐字｜korea_inside｜l118_korea｜clockZ｜清州刀削麵（118 巷）
+  逐字｜korea_inside｜l118_korea｜interactLabel｜聽一句
+PASS korea 進到店裡（l118_korea）、站得住  {"zone": "l118_korea", "x": 2.2, "z": 2.75, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "聽一句", "hour": 12.24, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 459, "paused": false}
+PASS A korea 左上角地點（畫面 #clockZ）是「清州刀削麵（118 巷）」  畫面：「清州刀削麵（118 巷）」
+PASS korea 店裡有點餐、出口的互動點  {"order": {"x": -0.2, "z": -2.2, "r": 0.8}, "exit": {"x": 2.2, "z": 3.8, "r": 0.7}}
+  [  86.0s] 「清州刀削麵 櫃台」搖桿推不到（推 8 次、最近 3.42 m），改點地面（L.go_to，也是觸控）
+  [  90.2s] 到達「清州刀削麵 櫃台」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS A korea 櫃台前面互動鍵（畫面）「點餐（清州刀削麵）」  畫面：「點餐（清州刀削麵）」；點地面
+  逐字｜korea_menu｜l118_korea｜interactLabel｜坐下
+  逐字｜korea_menu｜l118_korea｜interactLabel｜點餐（清州刀削麵）
+  逐字｜korea_menu｜l118_korea｜dlgText｜老闆｜大碗小碗？
+  逐字｜korea_menu｜l118_korea｜choices｜牛肉刀削麵 190 元 ｜ 番茄刀削麵 150 元 ｜ 木須炒刀削麵 170 元 ｜ 炸醬刀削麵 140 元 ｜ 不用了
+  逐字｜korea_menu｜l118_korea｜clockZ｜清州刀削麵（118 巷）
+PASS B korea 點餐有選單  {"menu": [{"i": 0, "t": "牛肉刀削麵 190 元", "dim": false, "name": "牛肉刀削麵", "price": 190}, {"i": 1, "t": "番茄刀削麵 150 元", "dim": false, "name": "番茄刀削麵", "price": 150}, {"i": 2, "t": "木須炒刀削麵 170 元", "dim": false, "name": "木須炒刀削麵", "price": 170}, {"i": 3, "t": "炸醬刀削麵 140 元", "dim": false, "name": "炸醬刀削麵", "price": 140}, {"i": 4, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [  95.9s] korea 選單（畫面）：["牛肉刀削麵 190 元", "番茄刀削麵 150 元", "木須炒刀削麵 170 元", "炸醬刀削麵 140 元", "不用了"]
+PASS B korea 清州刀削麵 選單＝規格表（品名、價錢、項數）  預期 [["牛肉刀削麵", 190], ["番茄刀削麵", 150], ["木須炒刀削麵", 170], ["炸醬刀削麵", 140]]；實際 [["牛肉刀削麵", 190], ["番茄刀削麵", 150], ["木須炒刀削麵", 170], ["炸醬刀削麵", 140]]
+  [前置／捷徑] 遊戲時間 12.38 → 設回 12.17（下一樣（牛肉刀削麵）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜korea_牛肉刀削麵｜l118_korea｜dlgText｜老闆｜大碗小碗？
+  逐字｜korea_牛肉刀削麵｜l118_korea｜toast｜💸 190 元
+  逐字｜korea_牛肉刀削麵｜l118_korea｜dlgText｜（你點了牛肉刀削麵。）
+  逐字｜korea_牛肉刀削麵｜l118_korea｜dlgText｜（店名是清州，老闆講的是臺語。你沒有問為什麼。）
+  逐字｜korea_牛肉刀削麵｜l118_korea｜dlgText｜（門口的師傅還在削麵，一片一片飛進鍋裡。）
+  逐字｜korea_牛肉刀削麵｜l118_korea｜toast｜📓 吃過的：118 巷・清州刀削麵　牛肉刀削麵
+  逐字｜korea_牛肉刀削麵｜l118_korea｜clockZ｜清州刀削麵（118 巷）
+  逐字｜korea_牛肉刀削麵｜l118_korea｜interactLabel｜點餐（清州刀削麵）
+  逐字｜korea_牛肉刀削麵｜l118_korea｜toast｜30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS B korea 「牛肉刀削麵」標價 190＝扣的錢（點完那一句時）  點前 {"g": 5000, "hud": "$5000"} → 你點了 {"g": 4810, "hud": "$4810"} → 演完 {"g": 4810, "hud": "$4810"}
+PASS B korea 「牛肉刀削麵」整段演完只扣自己的 190（玩家只付自己的餐費）  扣 190；其他選項 []
+PASS B korea 「牛肉刀削麵」右上角錢數跟著變（#money＝$4810）  $4810
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（番茄刀削麵）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜korea_番茄刀削麵｜l118_korea｜dlgText｜老闆｜大碗小碗？
+  逐字｜korea_番茄刀削麵｜l118_korea｜choices｜牛肉刀削麵 190 元 ｜ 番茄刀削麵 150 元 ｜ 木須炒刀削麵 170 元 ｜ 炸醬刀削麵 140 元 ｜ 不用了
+  逐字｜korea_番茄刀削麵｜l118_korea｜toast｜💸 150 元
+  逐字｜korea_番茄刀削麵｜l118_korea｜dlgText｜（你點了番茄刀削麵。）
+  逐字｜korea_番茄刀削麵｜l118_korea｜clockZ｜清州刀削麵（118 巷）
+  逐字｜korea_番茄刀削麵｜l118_korea｜dlgText｜（門口的師傅還在削麵，一片一片飛進鍋裡。）
+  逐字｜korea_番茄刀削麵｜l118_korea｜interactLabel｜點餐（清州刀削麵）
+  逐字｜korea_番茄刀削麵｜l118_korea｜toast｜📓 吃過的：118 巷・清州刀削麵　番茄刀削麵
+PASS B korea 「番茄刀削麵」標價 150＝扣的錢（點完那一句時）  點前 {"g": 4810, "hud": "$4810"} → 你點了 {"g": 4660, "hud": "$4660"} → 演完 {"g": 4660, "hud": "$4660"}
+PASS B korea 「番茄刀削麵」整段演完只扣自己的 150（玩家只付自己的餐費）  扣 150；其他選項 []
+PASS B korea 「番茄刀削麵」右上角錢數跟著變（#money＝$4660）  $4660
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（木須炒刀削麵）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜korea_木須炒刀削麵｜l118_korea｜dlgText｜老闆｜大碗小碗？
+  逐字｜korea_木須炒刀削麵｜l118_korea｜choices｜牛肉刀削麵 190 元 ｜ 番茄刀削麵 150 元 ｜ 木須炒刀削麵 170 元 ｜ 炸醬刀削麵 140 元 ｜ 不用了
+  逐字｜korea_木須炒刀削麵｜l118_korea｜clockZ｜清州刀削麵（118 巷）
+  逐字｜korea_木須炒刀削麵｜l118_korea｜toast｜💸 170 元
+  逐字｜korea_木須炒刀削麵｜l118_korea｜dlgText｜（你點了木須炒刀削麵。）
+  逐字｜korea_木須炒刀削麵｜l118_korea｜dlgText｜（門口的師傅還在削麵，一片一片飛進鍋裡。）
+  逐字｜korea_木須炒刀削麵｜l118_korea｜interactLabel｜點餐（清州刀削麵）
+  逐字｜korea_木須炒刀削麵｜l118_korea｜toast｜📓 吃過的：118 巷・清州刀削麵　木須炒刀削麵
+  逐字｜korea_木須炒刀削麵｜l118_korea｜clockZ｜清州刀削麵（118 巷）
+PASS B korea 「木須炒刀削麵」標價 170＝扣的錢（點完那一句時）  點前 {"g": 4660, "hud": "$4660"} → 你點了 {"g": 4490, "hud": "$4490"} → 演完 {"g": 4490, "hud": "$4490"}
+PASS B korea 「木須炒刀削麵」整段演完只扣自己的 170（玩家只付自己的餐費）  扣 170；其他選項 []
+PASS B korea 「木須炒刀削麵」右上角錢數跟著變（#money＝$4490）  $4490
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（炸醬刀削麵）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜korea_炸醬刀削麵｜l118_korea｜dlgText｜老闆｜大碗小碗？
+  逐字｜korea_炸醬刀削麵｜l118_korea｜choices｜牛肉刀削麵 190 元 ｜ 番茄刀削麵 150 元 ｜ 木須炒刀削麵 170 元 ｜ 炸醬刀削麵 140 元 ｜ 不用了
+  逐字｜korea_炸醬刀削麵｜l118_korea｜toast｜💸 140 元
+  逐字｜korea_炸醬刀削麵｜l118_korea｜dlgText｜（你點了炸醬刀削麵。）
+  逐字｜korea_炸醬刀削麵｜l118_korea｜dlgText｜（門口的師傅還在削麵，一片一片飛進鍋裡。）
+  逐字｜korea_炸醬刀削麵｜l118_korea｜clockZ｜清州刀削麵（118 巷）
+  逐字｜korea_炸醬刀削麵｜l118_korea｜interactLabel｜點餐（清州刀削麵）
+  逐字｜korea_炸醬刀削麵｜l118_korea｜toast｜📓 吃過的：118 巷・清州刀削麵　炸醬刀削麵
+PASS B korea 「炸醬刀削麵」標價 140＝扣的錢（點完那一句時）  點前 {"g": 4490, "hud": "$4490"} → 你點了 {"g": 4350, "hud": "$4350"} → 演完 {"g": 4350, "hud": "$4350"}
+PASS B korea 「炸醬刀削麵」整段演完只扣自己的 140（玩家只付自己的餐費）  扣 140；其他選項 []
+PASS B korea 「炸醬刀削麵」右上角錢數跟著變（#money＝$4350）  $4350
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（錢不夠那一次；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [前置／捷徑] 把錢設成 139（比最便宜的 140 少 1 元；直接改 GAME.G.money，右上角 #money 不會跟著重畫——捷徑造成的，不是遊戲問題）
+  逐字｜korea_錢不夠｜l118_korea｜dlgText｜老闆｜大碗小碗？
+  逐字｜korea_錢不夠｜l118_korea｜choices｜牛肉刀削麵 190 元 ｜ 番茄刀削麵 150 元 ｜ 木須炒刀削麵 170 元 ｜ 炸醬刀削麵 140 元 ｜ 不用了
+  逐字｜korea_錢不夠｜l118_korea｜toast｜錢不夠
+  逐字｜korea_錢不夠｜l118_korea｜clockZ｜清州刀削麵（118 巷）
+PASS B korea 錢不夠（$139）：選單每一樣都是灰的（.dim）  [{"i": 0, "t": "牛肉刀削麵 190 元", "dim": true, "name": "牛肉刀削麵", "price": 190}, {"i": 1, "t": "番茄刀削麵 150 元", "dim": true, "name": "番茄刀削麵", "price": 150}, {"i": 2, "t": "木須炒刀削麵 170 元", "dim": true, "name": "木須炒刀削麵", "price": 170}, {"i": 3, "t": "炸醬刀削麵 140 元", "dim": true, "name": "炸醬刀削麵", "price": 140}, {"i": 4, "t": "不用了", "dim": false, "name": null, "price": null}]
+PASS B korea 錢不夠：點「炸醬刀削麵」出「錢不夠」、錢不變（139）、不會變負  演完 {"g": 139, "hud": "$139"}；toast ["錢不夠"]
+  [前置／捷徑] 錢設回 5000
+  [前置／捷徑] 遊戲時間 12.20 → 設回 12.17（出店前；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [ 142.0s] 搖桿走到「清州刀削麵 出口」（0.07 m，推 5 次，8 秒）
+PASS A korea 出口互動鍵（畫面）「離開清州刀削麵」  畫面：「離開清州刀削麵」；搖桿
+PASS korea 出來回到 118 巷、站得住、互動鍵不是「進清州刀削麵」  {"zone": "lane118", "x": 3.9, "z": 17.2, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "大碗小碗？", "choices": 0, "interact": "騎腳踏車", "hour": 12.25, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 3223, "paused": false, "it": "騎腳踏車", "clockZ": "118 巷"}
+  逐字｜korea_end｜l118_korea｜interactLabel｜聽一句
+  逐字｜korea_end｜l118_korea｜interactLabel｜離開清州刀削麵
+  逐字｜korea_end｜lane118｜clockZ｜118 巷
+  逐字｜korea_end｜lane118｜caption｜阿哲朝你揮了揮手。
+  逐字｜korea_end｜lane118｜interactLabel｜騎腳踏車
+  逐字｜korea_end｜lane118｜toast｜這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。
+  逐字｜korea_end｜lane118｜toast｜（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）
+  [ 147.9s] korea 這一間花了 100 秒
+
+===== omu 奈良咖哩（PARTS=B）=====
+PASS omu 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, 5.50)，12.17 點、錢 5000、QUIET=True（奈良咖哩 店門口附近的人行道）
+PASS omu 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": 5.5, "ry": 3.04, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "大碗小碗？", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 6.184, "fallbacks": 0, "y": 0, "lv": 0, "frame": 3404, "paused": false}
+  逐字｜omu_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+  逐字｜omu_load｜lane118｜clockZ｜118 巷
+PASS omu 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": 1.5, "r": 1.4, "label": "進奈良咖哩（日式咖哩飯）", "hidden": false, "enter": true}, {"x": 4.3, "z": 1.5, "r": 1.4, "label": "奈良咖哩（日式咖哩飯）", "hidden": true, "enter": false}]
+  [ 156.5s] 搖桿走到「奈良咖哩 店門口」（0.24 m，推 2 次，3 秒）
+  逐字｜omu_door｜lane118｜interactLabel｜和沛珊說話
+  逐字｜omu_door｜lane118｜interactLabel｜進奈良咖哩（日式咖哩飯）
+PASS A omu 店門口互動鍵（畫面）「進奈良咖哩（日式咖哩飯）」  畫面：「進奈良咖哩（日式咖哩飯）」；搖桿；範圍內 ["進奈良咖哩（日式咖哩飯）"]
+  逐字｜omu_inside｜l118_omu｜clockZ｜奈良咖哩（118 巷）
+  逐字｜omu_inside｜l118_omu｜interactLabel｜聽一句
+PASS omu 進到店裡（l118_omu）、站得住  {"zone": "l118_omu", "x": -2.2, "z": 2.5, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "大碗小碗？", "choices": 0, "interact": "聽一句", "hour": 12.24, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 3664, "paused": false}
+PASS A omu 左上角地點（畫面 #clockZ）是「奈良咖哩（118 巷）」  畫面：「奈良咖哩（118 巷）」
+PASS omu 店裡有點餐、出口的互動點  {"order": {"x": -0.9, "z": -1.9, "r": 0.8}, "exit": {"x": -2.2, "z": 3.55, "r": 0.7}}
+  [ 169.3s] 搖桿走到「奈良咖哩 櫃台」（0.15 m，推 3 次，4 秒）
+PASS A omu 櫃台前面互動鍵（畫面）「點餐（奈良咖哩）」  畫面：「點餐（奈良咖哩）」；搖桿
+  逐字｜omu_menu｜l118_omu｜interactLabel｜坐下
+  逐字｜omu_menu｜l118_omu｜interactLabel｜聽一句
+  逐字｜omu_menu｜l118_omu｜interactLabel｜牆上的咖哩飯照片
+  逐字｜omu_menu｜l118_omu｜interactLabel｜和沛珊說話
+  逐字｜omu_menu｜l118_omu｜clockZ｜奈良咖哩（118 巷）
+  逐字｜omu_menu｜l118_omu｜interactLabel｜點餐（奈良咖哩）
+  逐字｜omu_menu｜l118_omu｜dlgText｜店員｜辣度要不辣、小辣還是中辣？
+  逐字｜omu_menu｜l118_omu｜choices｜豬排咖哩 190 元 ｜ 雞肉咖哩 180 元 ｜ 牛肉咖哩 210 元 ｜ 可樂餅咖哩 170 元 ｜ 不用了
+PASS B omu 點餐有選單  {"menu": [{"i": 0, "t": "豬排咖哩 190 元", "dim": false, "name": "豬排咖哩", "price": 190}, {"i": 1, "t": "雞肉咖哩 180 元", "dim": false, "name": "雞肉咖哩", "price": 180}, {"i": 2, "t": "牛肉咖哩 210 元", "dim": false, "name": "牛肉咖哩", "price": 210}, {"i": 3, "t": "可樂餅咖哩 170 元", "dim": false, "name": "可樂餅咖哩", "price": 170}, {"i": 4, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [ 175.0s] omu 選單（畫面）：["豬排咖哩 190 元", "雞肉咖哩 180 元", "牛肉咖哩 210 元", "可樂餅咖哩 170 元", "不用了"]
+PASS B omu 奈良咖哩 選單＝規格表（品名、價錢、項數）  預期 [["豬排咖哩", 190], ["雞肉咖哩", 180], ["牛肉咖哩", 210], ["可樂餅咖哩", 170]]；實際 [["豬排咖哩", 190], ["雞肉咖哩", 180], ["牛肉咖哩", 210], ["可樂餅咖哩", 170]]
+  [前置／捷徑] 遊戲時間 12.29 → 設回 12.17（下一樣（豬排咖哩）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜omu_豬排咖哩｜l118_omu｜dlgText｜店員｜辣度要不辣、小辣還是中辣？
+  逐字｜omu_豬排咖哩｜l118_omu｜toast｜💸 190 元
+  逐字｜omu_豬排咖哩｜l118_omu｜dlgText｜（你點了豬排咖哩。）
+  逐字｜omu_豬排咖哩｜l118_omu｜clockZ｜奈良咖哩（118 巷）
+  逐字｜omu_豬排咖哩｜l118_omu｜dlgText｜（招牌是黃色的。一推門，衣服上就有咖哩的味道了。）
+  逐字｜omu_豬排咖哩｜l118_omu｜dlgText｜（醬汁沾到一點袖子。）
+  逐字｜omu_豬排咖哩｜l118_omu｜toast｜📓 吃過的：118 巷・奈良咖哩　豬排咖哩
+  逐字｜omu_豬排咖哩｜l118_omu｜interactLabel｜點餐（奈良咖哩）
+  逐字｜omu_豬排咖哩｜l118_omu｜toast｜30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+  逐字｜omu_豬排咖哩｜l118_omu｜clockZ｜奈良咖哩（118 巷）
+PASS B omu 「豬排咖哩」標價 190＝扣的錢（點完那一句時）  點前 {"g": 5000, "hud": "$5000"} → 你點了 {"g": 4810, "hud": "$4810"} → 演完 {"g": 4810, "hud": "$4810"}
+PASS B omu 「豬排咖哩」整段演完只扣自己的 190（玩家只付自己的餐費）  扣 190；其他選項 []
+PASS B omu 「豬排咖哩」右上角錢數跟著變（#money＝$4810）  $4810
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（雞肉咖哩）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜omu_雞肉咖哩｜l118_omu｜dlgText｜店員｜辣度要不辣、小辣還是中辣？
+  逐字｜omu_雞肉咖哩｜l118_omu｜choices｜豬排咖哩 190 元 ｜ 雞肉咖哩 180 元 ｜ 牛肉咖哩 210 元 ｜ 可樂餅咖哩 170 元 ｜ 不用了
+  逐字｜omu_雞肉咖哩｜l118_omu｜toast｜💸 180 元
+  逐字｜omu_雞肉咖哩｜l118_omu｜dlgText｜（你點了雞肉咖哩。）
+  逐字｜omu_雞肉咖哩｜l118_omu｜dlgText｜（醬汁沾到一點袖子。）
+  逐字｜omu_雞肉咖哩｜l118_omu｜clockZ｜奈良咖哩（118 巷）
+  逐字｜omu_雞肉咖哩｜l118_omu｜interactLabel｜點餐（奈良咖哩）
+  逐字｜omu_雞肉咖哩｜l118_omu｜toast｜📓 吃過的：118 巷・奈良咖哩　雞肉咖哩
+PASS B omu 「雞肉咖哩」標價 180＝扣的錢（點完那一句時）  點前 {"g": 4810, "hud": "$4810"} → 你點了 {"g": 4630, "hud": "$4630"} → 演完 {"g": 4630, "hud": "$4630"}
+PASS B omu 「雞肉咖哩」整段演完只扣自己的 180（玩家只付自己的餐費）  扣 180；其他選項 []
+PASS B omu 「雞肉咖哩」右上角錢數跟著變（#money＝$4630）  $4630
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（牛肉咖哩）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜omu_牛肉咖哩｜l118_omu｜dlgText｜店員｜辣度要不辣、小辣還是中辣？
+  逐字｜omu_牛肉咖哩｜l118_omu｜choices｜豬排咖哩 190 元 ｜ 雞肉咖哩 180 元 ｜ 牛肉咖哩 210 元 ｜ 可樂餅咖哩 170 元 ｜ 不用了
+  逐字｜omu_牛肉咖哩｜l118_omu｜toast｜💸 210 元
+  逐字｜omu_牛肉咖哩｜l118_omu｜dlgText｜（你點了牛肉咖哩。）
+  逐字｜omu_牛肉咖哩｜l118_omu｜clockZ｜奈良咖哩（118 巷）
+  逐字｜omu_牛肉咖哩｜l118_omu｜dlgText｜（醬汁沾到一點袖子。）
+  逐字｜omu_牛肉咖哩｜l118_omu｜interactLabel｜點餐（奈良咖哩）
+  逐字｜omu_牛肉咖哩｜l118_omu｜toast｜📓 吃過的：118 巷・奈良咖哩　牛肉咖哩
+PASS B omu 「牛肉咖哩」標價 210＝扣的錢（點完那一句時）  點前 {"g": 4630, "hud": "$4630"} → 你點了 {"g": 4420, "hud": "$4420"} → 演完 {"g": 4420, "hud": "$4420"}
+PASS B omu 「牛肉咖哩」整段演完只扣自己的 210（玩家只付自己的餐費）  扣 210；其他選項 []
+PASS B omu 「牛肉咖哩」右上角錢數跟著變（#money＝$4420）  $4420
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（可樂餅咖哩）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜omu_可樂餅咖哩｜l118_omu｜dlgText｜店員｜辣度要不辣、小辣還是中辣？
+  逐字｜omu_可樂餅咖哩｜l118_omu｜choices｜豬排咖哩 190 元 ｜ 雞肉咖哩 180 元 ｜ 牛肉咖哩 210 元 ｜ 可樂餅咖哩 170 元 ｜ 不用了
+  逐字｜omu_可樂餅咖哩｜l118_omu｜clockZ｜奈良咖哩（118 巷）
+  逐字｜omu_可樂餅咖哩｜l118_omu｜toast｜💸 170 元
+  逐字｜omu_可樂餅咖哩｜l118_omu｜dlgText｜（你點了可樂餅咖哩。）
+  逐字｜omu_可樂餅咖哩｜l118_omu｜dlgText｜（醬汁沾到一點袖子。）
+  逐字｜omu_可樂餅咖哩｜l118_omu｜interactLabel｜點餐（奈良咖哩）
+  逐字｜omu_可樂餅咖哩｜l118_omu｜toast｜📓 吃過的：118 巷・奈良咖哩　可樂餅咖哩
+  逐字｜omu_可樂餅咖哩｜l118_omu｜clockZ｜奈良咖哩（118 巷）
+PASS B omu 「可樂餅咖哩」標價 170＝扣的錢（點完那一句時）  點前 {"g": 4420, "hud": "$4420"} → 你點了 {"g": 4250, "hud": "$4250"} → 演完 {"g": 4250, "hud": "$4250"}
+PASS B omu 「可樂餅咖哩」整段演完只扣自己的 170（玩家只付自己的餐費）  扣 170；其他選項 []
+PASS B omu 「可樂餅咖哩」右上角錢數跟著變（#money＝$4250）  $4250
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（錢不夠那一次；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [前置／捷徑] 把錢設成 169（比最便宜的 170 少 1 元；直接改 GAME.G.money，右上角 #money 不會跟著重畫——捷徑造成的，不是遊戲問題）
+  逐字｜omu_錢不夠｜l118_omu｜dlgText｜店員｜辣度要不辣、小辣還是中辣？
+  逐字｜omu_錢不夠｜l118_omu｜choices｜豬排咖哩 190 元 ｜ 雞肉咖哩 180 元 ｜ 牛肉咖哩 210 元 ｜ 可樂餅咖哩 170 元 ｜ 不用了
+  逐字｜omu_錢不夠｜l118_omu｜toast｜錢不夠
+  逐字｜omu_錢不夠｜l118_omu｜interactLabel｜點餐（奈良咖哩）
+PASS B omu 錢不夠（$169）：選單每一樣都是灰的（.dim）  [{"i": 0, "t": "豬排咖哩 190 元", "dim": true, "name": "豬排咖哩", "price": 190}, {"i": 1, "t": "雞肉咖哩 180 元", "dim": true, "name": "雞肉咖哩", "price": 180}, {"i": 2, "t": "牛肉咖哩 210 元", "dim": true, "name": "牛肉咖哩", "price": 210}, {"i": 3, "t": "可樂餅咖哩 170 元", "dim": true, "name": "可樂餅咖哩", "price": 170}, {"i": 4, "t": "不用了", "dim": false, "name": null, "price": null}]
+PASS B omu 錢不夠：點「可樂餅咖哩」出「錢不夠」、錢不變（169）、不會變負  演完 {"g": 169, "hud": "$169"}；toast ["錢不夠"]
+  [前置／捷徑] 錢設回 5000
+  [前置／捷徑] 遊戲時間 12.20 → 設回 12.17（出店前；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [ 217.2s] 搖桿走到「奈良咖哩 出口」（0.29 m，推 3 次，4 秒）
+PASS A omu 出口互動鍵（畫面）「離開奈良咖哩」  畫面：「離開奈良咖哩」；搖桿
+PASS omu 出來回到 118 巷、站得住、互動鍵不是「進奈良咖哩」  {"zone": "lane118", "x": 3.9, "z": 3.2, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "辣度要不辣、小辣還是中辣？", "choices": 0, "interact": "和沛珊說話", "hour": 12.22, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 5836, "paused": false, "it": "和沛珊說話", "clockZ": "118 巷"}
+  逐字｜omu_end｜l118_omu｜interactLabel｜和沛珊說話
+  逐字｜omu_end｜l118_omu｜clockZ｜奈良咖哩（118 巷）
+  逐字｜omu_end｜l118_omu｜interactLabel｜牆上的咖哩飯照片
+  逐字｜omu_end｜l118_omu｜interactLabel｜離開奈良咖哩
+  逐字｜omu_end｜lane118｜clockZ｜118 巷
+  逐字｜omu_end｜lane118｜interactLabel｜和沛珊說話
+  逐字｜omu_end｜lane118｜toast｜這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。
+  逐字｜omu_end｜lane118｜toast｜（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）
+  [ 222.6s] omu 這一間花了 75 秒
+
+===== noodle2 迪倫窯烤披薩（PARTS=B）=====
+PASS noodle2 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, -14.50)，12.17 點、錢 5000、QUIET=True（迪倫窯烤披薩 店門口附近的人行道）
+PASS noodle2 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": -14.5, "ry": 0.1, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "辣度要不辣、小辣還是中辣？", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 3.241, "fallbacks": 0, "y": 0, "lv": 0, "frame": 6022, "paused": false}
+  逐字｜noodle2_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+PASS noodle2 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": -10.5, "r": 1.4, "label": "進迪倫窯烤披薩（個人窯烤披薩）", "hidden": false, "enter": true}, {"x": 4.3, "z": -10.5, "r": 1.4, "label": "迪倫窯烤披薩（個人窯烤披薩）", "hidden": true, "enter": false}]
+  [ 231.4s] 搖桿走到「迪倫窯烤披薩 店門口」（0.12 m，推 2 次，3 秒）
+  逐字｜noodle2_door｜lane118｜interactLabel｜進迪倫窯烤披薩（個人窯烤披薩）
+  逐字｜noodle2_door｜lane118｜clockZ｜118 巷
+PASS A noodle2 店門口互動鍵（畫面）「進迪倫窯烤披薩（個人窯烤披薩）」  畫面：「進迪倫窯烤披薩（個人窯烤披薩）」；搖桿；範圍內 ["進迪倫窯烤披薩（個人窯烤披薩）"]
+  逐字｜noodle2_inside｜l118_noodle2｜clockZ｜迪倫窯烤披薩（118 巷）
+PASS noodle2 進到店裡（l118_noodle2）、站得住  {"zone": "l118_noodle2", "x": 1.6, "z": 2.75, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "辣度要不辣、小辣還是中辣？", "choices": 0, "interact": "", "hour": 12.24, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 6318, "paused": false}
+PASS A noodle2 左上角地點（畫面 #clockZ）是「迪倫窯烤披薩（118 巷）」  畫面：「迪倫窯烤披薩（118 巷）」
+PASS noodle2 店裡有點餐、出口的互動點  {"order": {"x": -1.5, "z": -1.7, "r": 0.8}, "exit": {"x": 1.6, "z": 3.8, "r": 0.7}}
+  [ 243.8s] 搖桿走到「迪倫窯烤披薩 櫃台」（0.09 m，推 3 次，4 秒）
+PASS A noodle2 櫃台前面互動鍵（畫面）「點餐（迪倫窯烤披薩）」  畫面：「點餐（迪倫窯烤披薩）」；搖桿
+  逐字｜noodle2_menu｜l118_noodle2｜interactLabel｜點餐（迪倫窯烤披薩）
+  逐字｜noodle2_menu｜l118_noodle2｜dlgText｜店員｜現烤的，要等八分鐘喔。
+  逐字｜noodle2_menu｜l118_noodle2｜choices｜瑪格麗特 180 元 ｜ 夏威夷 200 元 ｜ 燻雞蘑菇 210 元 ｜ 四種起司 230 元 ｜ 不用了
+PASS B noodle2 點餐有選單  {"menu": [{"i": 0, "t": "瑪格麗特 180 元", "dim": false, "name": "瑪格麗特", "price": 180}, {"i": 1, "t": "夏威夷 200 元", "dim": false, "name": "夏威夷", "price": 200}, {"i": 2, "t": "燻雞蘑菇 210 元", "dim": false, "name": "燻雞蘑菇", "price": 210}, {"i": 3, "t": "四種起司 230 元", "dim": false, "name": "四種起司", "price": 230}, {"i": 4, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [ 248.8s] noodle2 選單（畫面）：["瑪格麗特 180 元", "夏威夷 200 元", "燻雞蘑菇 210 元", "四種起司 230 元", "不用了"]
+PASS B noodle2 迪倫窯烤披薩 選單＝規格表（品名、價錢、項數）  預期 [["瑪格麗特", 180], ["夏威夷", 200], ["燻雞蘑菇", 210], ["四種起司", 230]]；實際 [["瑪格麗特", 180], ["夏威夷", 200], ["燻雞蘑菇", 210], ["四種起司", 230]]
+  [前置／捷徑] 遊戲時間 12.29 → 設回 12.17（下一樣（瑪格麗特）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜noodle2_瑪格麗特｜l118_noodle2｜dlgText｜店員｜現烤的，要等八分鐘喔。
+  逐字｜noodle2_瑪格麗特｜l118_noodle2｜toast｜💸 180 元
+  逐字｜noodle2_瑪格麗特｜l118_noodle2｜dlgText｜（你點了瑪格麗特。）
+  逐字｜noodle2_瑪格麗特｜l118_noodle2｜clockZ｜迪倫窯烤披薩（118 巷）
+  逐字｜noodle2_瑪格麗特｜l118_noodle2｜dlgText｜（窯爐就在門口。你看著自己那一個被送進去，邊緣一下子就鼓起來。）
+  逐字｜noodle2_瑪格麗特｜l118_noodle2｜toast｜📓 吃過的：118 巷・迪倫窯烤披薩　瑪格麗特
+  逐字｜noodle2_瑪格麗特｜l118_noodle2｜dlgText｜（餅皮的邊有一點焦，你連邊都吃完了。）
+  逐字｜noodle2_瑪格麗特｜l118_noodle2｜interactLabel｜點餐（迪倫窯烤披薩）
+  逐字｜noodle2_瑪格麗特｜l118_noodle2｜toast｜30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+  逐字｜noodle2_瑪格麗特｜l118_noodle2｜clockZ｜迪倫窯烤披薩（118 巷）
+PASS B noodle2 「瑪格麗特」標價 180＝扣的錢（點完那一句時）  點前 {"g": 5000, "hud": "$5000"} → 你點了 {"g": 4820, "hud": "$4820"} → 演完 {"g": 4820, "hud": "$4820"}
+PASS B noodle2 「瑪格麗特」整段演完只扣自己的 180（玩家只付自己的餐費）  扣 180；其他選項 []
+PASS B noodle2 「瑪格麗特」右上角錢數跟著變（#money＝$4820）  $4820
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（夏威夷）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜noodle2_夏威夷｜l118_noodle2｜dlgText｜店員｜現烤的，要等八分鐘喔。
+  逐字｜noodle2_夏威夷｜l118_noodle2｜choices｜瑪格麗特 180 元 ｜ 夏威夷 200 元 ｜ 燻雞蘑菇 210 元 ｜ 四種起司 230 元 ｜ 不用了
+  逐字｜noodle2_夏威夷｜l118_noodle2｜toast｜💸 200 元
+  逐字｜noodle2_夏威夷｜l118_noodle2｜dlgText｜（你點了夏威夷。）
+  逐字｜noodle2_夏威夷｜l118_noodle2｜dlgText｜（餅皮的邊有一點焦，你連邊都吃完了。）
+  逐字｜noodle2_夏威夷｜l118_noodle2｜clockZ｜迪倫窯烤披薩（118 巷）
+  逐字｜noodle2_夏威夷｜l118_noodle2｜interactLabel｜點餐（迪倫窯烤披薩）
+  逐字｜noodle2_夏威夷｜l118_noodle2｜toast｜📓 吃過的：118 巷・迪倫窯烤披薩　夏威夷
+PASS B noodle2 「夏威夷」標價 200＝扣的錢（點完那一句時）  點前 {"g": 4820, "hud": "$4820"} → 你點了 {"g": 4620, "hud": "$4620"} → 演完 {"g": 4620, "hud": "$4620"}
+PASS B noodle2 「夏威夷」整段演完只扣自己的 200（玩家只付自己的餐費）  扣 200；其他選項 []
+PASS B noodle2 「夏威夷」右上角錢數跟著變（#money＝$4620）  $4620
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（燻雞蘑菇）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜noodle2_燻雞蘑菇｜l118_noodle2｜dlgText｜店員｜現烤的，要等八分鐘喔。
+  逐字｜noodle2_燻雞蘑菇｜l118_noodle2｜choices｜瑪格麗特 180 元 ｜ 夏威夷 200 元 ｜ 燻雞蘑菇 210 元 ｜ 四種起司 230 元 ｜ 不用了
+  逐字｜noodle2_燻雞蘑菇｜l118_noodle2｜toast｜💸 210 元
+  逐字｜noodle2_燻雞蘑菇｜l118_noodle2｜dlgText｜（你點了燻雞蘑菇。）
+  逐字｜noodle2_燻雞蘑菇｜l118_noodle2｜clockZ｜迪倫窯烤披薩（118 巷）
+  逐字｜noodle2_燻雞蘑菇｜l118_noodle2｜dlgText｜（餅皮的邊有一點焦，你連邊都吃完了。）
+  逐字｜noodle2_燻雞蘑菇｜l118_noodle2｜interactLabel｜點餐（迪倫窯烤披薩）
+  逐字｜noodle2_燻雞蘑菇｜l118_noodle2｜toast｜📓 吃過的：118 巷・迪倫窯烤披薩　燻雞蘑菇
+PASS B noodle2 「燻雞蘑菇」標價 210＝扣的錢（點完那一句時）  點前 {"g": 4620, "hud": "$4620"} → 你點了 {"g": 4410, "hud": "$4410"} → 演完 {"g": 4410, "hud": "$4410"}
+PASS B noodle2 「燻雞蘑菇」整段演完只扣自己的 210（玩家只付自己的餐費）  扣 210；其他選項 []
+PASS B noodle2 「燻雞蘑菇」右上角錢數跟著變（#money＝$4410）  $4410
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（四種起司）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜noodle2_四種起司｜l118_noodle2｜dlgText｜店員｜現烤的，要等八分鐘喔。
+  逐字｜noodle2_四種起司｜l118_noodle2｜choices｜瑪格麗特 180 元 ｜ 夏威夷 200 元 ｜ 燻雞蘑菇 210 元 ｜ 四種起司 230 元 ｜ 不用了
+  逐字｜noodle2_四種起司｜l118_noodle2｜clockZ｜迪倫窯烤披薩（118 巷）
+  逐字｜noodle2_四種起司｜l118_noodle2｜toast｜💸 230 元
+  逐字｜noodle2_四種起司｜l118_noodle2｜dlgText｜（你點了四種起司。）
+  逐字｜noodle2_四種起司｜l118_noodle2｜dlgText｜（餅皮的邊有一點焦，你連邊都吃完了。）
+  逐字｜noodle2_四種起司｜l118_noodle2｜interactLabel｜點餐（迪倫窯烤披薩）
+  逐字｜noodle2_四種起司｜l118_noodle2｜toast｜📓 吃過的：118 巷・迪倫窯烤披薩　四種起司
+  逐字｜noodle2_四種起司｜l118_noodle2｜clockZ｜迪倫窯烤披薩（118 巷）
+PASS B noodle2 「四種起司」標價 230＝扣的錢（點完那一句時）  點前 {"g": 4410, "hud": "$4410"} → 你點了 {"g": 4180, "hud": "$4180"} → 演完 {"g": 4180, "hud": "$4180"}
+PASS B noodle2 「四種起司」整段演完只扣自己的 230（玩家只付自己的餐費）  扣 230；其他選項 []
+PASS B noodle2 「四種起司」右上角錢數跟著變（#money＝$4180）  $4180
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（錢不夠那一次；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [前置／捷徑] 把錢設成 179（比最便宜的 180 少 1 元；直接改 GAME.G.money，右上角 #money 不會跟著重畫——捷徑造成的，不是遊戲問題）
+  逐字｜noodle2_錢不夠｜l118_noodle2｜dlgText｜店員｜現烤的，要等八分鐘喔。
+  逐字｜noodle2_錢不夠｜l118_noodle2｜choices｜瑪格麗特 180 元 ｜ 夏威夷 200 元 ｜ 燻雞蘑菇 210 元 ｜ 四種起司 230 元 ｜ 不用了
+  逐字｜noodle2_錢不夠｜l118_noodle2｜toast｜錢不夠
+  逐字｜noodle2_錢不夠｜l118_noodle2｜interactLabel｜點餐（迪倫窯烤披薩）
+PASS B noodle2 錢不夠（$179）：選單每一樣都是灰的（.dim）  [{"i": 0, "t": "瑪格麗特 180 元", "dim": true, "name": "瑪格麗特", "price": 180}, {"i": 1, "t": "夏威夷 200 元", "dim": true, "name": "夏威夷", "price": 200}, {"i": 2, "t": "燻雞蘑菇 210 元", "dim": true, "name": "燻雞蘑菇", "price": 210}, {"i": 3, "t": "四種起司 230 元", "dim": true, "name": "四種起司", "price": 230}, {"i": 4, "t": "不用了", "dim": false, "name": null, "price": null}]
+PASS B noodle2 錢不夠：點「瑪格麗特」出「錢不夠」、錢不變（179）、不會變負  演完 {"g": 179, "hud": "$179"}；toast ["錢不夠"]
+  [前置／捷徑] 錢設回 5000
+  [前置／捷徑] 遊戲時間 12.20 → 設回 12.17（出店前；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [ 288.6s] 搖桿走到「迪倫窯烤披薩 出口」（0.23 m，推 3 次，4 秒）
+PASS A noodle2 出口互動鍵（畫面）「離開迪倫窯烤披薩」  畫面：「離開迪倫窯烤披薩」；搖桿
+PASS noodle2 出來回到 118 巷、站得住、互動鍵不是「進迪倫窯烤披薩」  {"zone": "lane118", "x": 3.9, "z": -8.8, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "現烤的，要等八分鐘喔。", "choices": 0, "interact": "", "hour": 12.22, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 9376, "paused": false, "it": "", "clockZ": "118 巷"}
+  逐字｜noodle2_end｜l118_noodle2｜interactLabel｜離開迪倫窯烤披薩
+  逐字｜noodle2_end｜l118_noodle2｜clockZ｜迪倫窯烤披薩（118 巷）
+  逐字｜noodle2_end｜lane118｜clockZ｜118 巷
+  逐字｜noodle2_end｜lane118｜toast｜這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。
+  逐字｜noodle2_end｜lane118｜toast｜（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）
+  [ 293.7s] noodle2 這一間花了 71 秒
+
+===== 畫面上抽到的字：彙總（A）=====
+  新店名（出現在哪些畫面元素）：{"118牛排": [], "水上便當": [], "辛亥韓食": [], "五湖四海": [], "大學食堂": [], "義大麵屋": [], "清州刀削麵": ["clockZ", "interactLabel", "toast"], "奈良咖哩": ["clockZ", "interactLabel", "toast"], "迪倫窯烤披薩": ["clockZ", "interactLabel", "toast"], "喝不喝咖啡": [], "果茶社": []}
+  菜名（出現在哪些畫面元素）：{"可樂餅咖哩": ["choices", "dlgText", "toast"], "四種起司": ["choices", "dlgText", "toast"], "夏威夷": ["choices", "dlgText", "toast"], "奶油雞肉麵": [], "排骨飯": [], "木須炒刀削麵": ["choices", "dlgText", "toast"], "泡菜鍋": [], "海鮮豆腐鍋": [], "滷雞腿飯": [], "炸醬刀削麵": ["choices", "dlgText", "toast"], "炸雞腿飯": [], "燻雞蘑菇": ["choices", "dlgText", "toast"], "牛肉刀削麵": ["choices", "dlgText", "toast"], "牛肉咖哩": ["choices", "dlgText", "toast"], "玉米濃湯": [], "瑪格麗特": ["choices", "dlgText", "toast"], "番茄刀削麵": ["choices", "dlgText", "toast"], "番茄肉醬麵": [], "石鍋拌飯": [], "蒜香蛤蜊麵": [], "豬排": ["choices", "dlgText", "toast"], "豬排咖哩": ["choices", "dlgText", "toast"], "酸辣湯": [], "鐵板牛排": [], "鐵板牛肉": [], "鐵板豬肉": [], "雙拼": [], "雞排": [], "雞排飯": [], "雞肉咖哩": ["choices", "dlgText", "toast"], "雪花牛排": [], "青醬培根麵": [], "韭菜水餃10顆": [], "高麗菜水餃10顆": []}
+PASS A 畫面上抽到的字（169 段）裡舊店名、舊菜名命中數＝0  命中 0 筆
+PASS 沒有 JS 例外（pageerror）  0 個
+PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0
+總結：0 項 FAIL
+ALL PASS
