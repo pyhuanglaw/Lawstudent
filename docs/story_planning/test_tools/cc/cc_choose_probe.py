@@ -130,6 +130,15 @@ async def snap(pg):
     return await pg.evaluate(SNAP)
 
 
+async def fresh(pg, tag):
+    """每一輪重開頁面再讀檔：上一輪連點觸發的快轉、自動走去上課這些非同步劇情，只重讀存檔停不下來（自檢 r1 的快轉在 r2 讀檔以後還在跑，把人帶到 dorm_hall）"""
+    await pg.reload()
+    ok = await L.wait_loaded(pg)
+    await pg.evaluate("localStorage.clear()"); await GC.hook(pg)
+    if not ok: R.note('%s：重開頁面沒載入' % tag)
+    return ok
+
+
 async def menu_now(pg):
     """畫面上的選單（文字、框）；沒有＝[]"""
     return await pg.evaluate(GC.RECTS)
@@ -260,7 +269,7 @@ class BedFF(Part):
         T = await GC.target_day(pg); d = T['day']; self.st = GC.mkstate(d, 15.0, 'dorm'); self.desc = '%s 15:00 宿舍房間' % d['key']; return True
 
     async def after_load(self, pg, cdp, tag):
-        self.ir = await place_at(pg, cdp, 'bed', lambda t: True, tag); return bool(self.ir)
+        self.ir = await place_at(pg, cdp, 'bed', lambda t: t.startswith('睡'), tag); return bool(self.ir)
 
 
 class Bike(Part):
@@ -445,14 +454,17 @@ def bursts(downs):
 
 def analyse(lg, part, t_start):
     downs = [e for e in lg if e['k'] == 'down']; picks = [e for e in lg if e['k'] == 'pick']; menus = [e for e in lg if e['k'] == 'choose']
+    pre = [d for d in downs if d['t'] < t_start - 1]; downs = [d for d in downs if d['t'] >= t_start - 1]
     bs = bursts(downs); bid = {}
     for i, b in enumerate(bs):
         for d in b: bid[id(d)] = (i, b[0]['t'])
     taps = [{'n': k + 1, 'ms': round(d['t'] - t_start), 'burst': bid[id(d)][0] + 1, 'menu': (d.get('menu') or [None])[0], 'menuAll': d.get('menu'), 'hit': d.get('btn') or ('（沒有落在任何一項）' if d.get('menu') else '（畫面上沒有選單：%s）' % d.get('tgt')),
              'sinceMenu': d.get('sinceMenu')} for k, d in enumerate(downs)]
+    gaps = sorted(downs[i + 1]['t'] - downs[i]['t'] for i in range(len(downs) - 1))
+    pace = round(gaps[len(gaps) // 2]) if gaps else None
     res = []
     for p in picks:
-        ref = p.get('ref'); dn = [d for d in downs if d['t'] <= p['t'] + 1]; d = dn[-1] if dn else None
+        ref = p.get('ref'); dn = [d for d in pre + downs if d['t'] <= p['t'] + 1]; d = dn[-1] if dn else None
         bi, bst = bid.get(id(d), (None, None)) if d else (None, None)
         down_dt = (d['t'] - ref) if (d and ref is not None) else None
         menu = next((m for m in menus if m.get('t0') == ref or m.get('t') == ref), None); mopts = (menu or {}).get('opts') or []
@@ -460,8 +472,9 @@ def analyse(lg, part, t_start):
         vburst = bst is not None and ref is not None and bst <= ref and down_dt is not None and down_dt < 4000
         expired = bst is not None and ref is not None and bst <= ref and down_dt is not None and down_dt >= 4000
         res.append({'picked': p.get('txt'), 'menu': mopts, 'downDt': None if down_dt is None else round(down_dt), 'burst': None if bi is None else bi + 1, 'burstBeforeMenu': bool(bst is not None and ref is not None and bst <= ref),
-                    'v350': v350, 'vburst': vburst, 'expired': expired, 'irr': part.is_irr(mopts, p.get('txt')), 'ours': d is not None})
-    return taps, res, [len(b) for b in bs], [m.get('opts') for m in menus]
+                    'v350': v350, 'vburst': vburst, 'expired': expired, 'irr': part.is_irr(mopts, p.get('txt')), 'ours': d is not None and d in downs})
+    pre_s = [{'ms': round(d['t'] - t_start), 'menu': (d.get('menu') or [None])[0], 'hit': d.get('btn') or d.get('tgt')} for d in pre]
+    return taps, res, [len(b) for b in bs], [m.get('opts') for m in menus], pace, pre_s
 
 
 async def mash(pg, cdp, pt, rate, n, first_at=None, mid=None):
@@ -478,7 +491,9 @@ async def one_run(pg, cdp, part, lay, spec, ori, idx, newv):
     tag = '%s_%s_r%d_%dms_%dx_%s' % (part.name, ori, idx, rate, n, start)
     pt = point_of(lay, pkey); ia = point_of(lay, 'interact')
     if not pt: R.note('%s：點的位置 %s 量不到，跳過' % (tag, pkey)); return None
+    if not await fresh(pg, tag): return None
     if not await part.load(pg, cdp, tag): R.note('%s：前置失敗，跳過' % tag); return None
+    await pg.evaluate("(()=>{ if(window.__GC) window.__GC.cur=null; })()")
     before = await snap(pg); n0 = await GC.logn(pg)
     t_start = None; mid = None; first = None
     if start == 'menu':
@@ -498,14 +513,16 @@ async def one_run(pg, cdp, part, lay, spec, ori, idx, newv):
     await mash(pg, cdp, pt, rate, n, first_at=first, mid=mid)
     await pg.wait_for_timeout(SETTLE)
     after = await snap(pg); lg = await GC.logs(pg, n0); ms_ = await GC.ms(pg)
-    taps, picks, bl, mseq = analyse(lg, part, t_start)
+    taps, picks, bl, mseq, pace, pre_s = analyse(lg, part, t_start)
     diff = ddiff(before, after)
     shot = await R.shot(pg, tag + '_end')
-    res = {'tag': tag, 'spec': {'rate': rate, 'n': n, 'start': start, 'point': pkey, 'xy': pt, 'firstAt': first}, 'taps': taps, 'picks': picks, 'bursts': bl, 'menus': mseq, 'diff': diff,
+    res = {'tag': tag, 'spec': {'rate': rate, 'n': n, 'start': start, 'point': pkey, 'xy': pt, 'firstAt': first}, 'pace': pace, 'preTaps': pre_s, 'taps': taps, 'picks': picks, 'bursts': bl, 'menus': mseq, 'diff': diff,
            'end': ms_, 'shot': os.path.basename(shot)}
     json.dump(res, open(os.path.join(OUT, 'choose_%s.json' % tag), 'w'), ensure_ascii=False, indent=1)
     R.note('%s：點 %s（%s），%d 下每 %d ms，開始方式 %s；串 %s' % (tag, [round(x) for x in pt], pkey, n, rate, start, bl))
-    R.note('%s：每一下 %s' % (tag, J([[t['n'], t['ms'], t['burst'], t['menu'], t['hit'], t['sinceMenu']] for t in taps])))
+    if pre_s: R.note('%s：開始連點以前（叫出選單用）的觸控 %s' % (tag, J(pre_s)))
+    if pace is not None and pace > rate * 1.5: R.note('%s：節奏沒達到（兩下間隔中位數 %d ms，要 %d ms）——瀏覽器太慢（雲端 SwiftShader），這一輪的「串」不準，以 PC 為準' % (tag, pace, rate))
+    R.note('%s：每一下［第幾下, 離開始 ms, 第幾串, 當下的選單（第一項）, 落在, 離選單出現 ms］%s' % (tag, J([[t['n'], t['ms'], t['burst'], t['menu'], t['hit'], t['sinceMenu']] for t in taps])))
     R.note('%s：被選到的 %s' % (tag, J([[p['picked'], (p['menu'] or [None])[0], p['downDt'], p['burst'], p['burstBeforeMenu'], ('★' if p['irr'] else '')] for p in picks])))
     R.note('%s：不可逆的變化 %s' % (tag, J(diff) if diff else '沒有'))
     R.note('%s：停下來時 %s' % (tag, J(ms_)))
