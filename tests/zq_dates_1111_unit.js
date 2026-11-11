@@ -28,7 +28,11 @@ const DW=t=>JSON.parse(t.slice(t.indexOf('const DATE_WISH=')+16,t.lastIndexOf(';
 const LOCS=Array.from({length:33},(_,k)=>'D'+String(k+1).padStart(2,'0'));
 const leaves=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>leaves(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) leaves(x[k],p+'/'+k,o); else o[p]=x; return o; };
 const of=(D,k,who)=>{ const o={}; for(const part of ['lines','likes','dislikeLine']) if(D[part]&&D[part][who]!=null) leaves(D[part][who],part,o); return o; };
-const NOW=DL(read('src/data/date_lines.js'));
+/* 2026-11-11（AA_812@f1fab0ec6）：懸著的「下次我請」七格（date_src_sha.js 的 CELLS_812：學姊、子晴 D06.cafe remember，沛珊 D15.store、D21.street，可昕 D15 收尾，子晴 D06 第一次選項的回覆，語彤 D10.boat remember）
+   是匯入工具最後一步疊上去的（改稿紀錄 date_rewrite/ 和稿的 path_rows；源稿 Dxx.json 沒有重新 apply）——這支的逐字對稿、和重匯以前比，NOW 先用 un812 把那七格還原成舊字再比
+   （只有那一格現在剛好是新字才還原，不是＝照舊會紅）；那七格現在＝新字下面另外驗（逐格、她請客在 tests/date_she_pays_812_1111_unit.js）。舊期望：直接拿 NOW 比 */
+const NOW812=DL(read('src/data/date_lines.js')), NOW=C.un812(NOW812);
+check('0. AA_812 那七格（CELLS_812）現在是新字（還原成舊字以後才拿 NOW 和源稿、重匯以前比）',C.CELLS_812.length===7&&C.CELLS_812.every(r=>C.cell812(NOW812,r)===r.new&&C.cell812(NOW,r)===r.old),JSON.stringify(C.CELLS_812.map(r=>C.cell812(NOW812,r))));
 const SRC={}, OLDSRC={}, REC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'), r=show(SHA,SP+'date_rewrite/zq_'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLDSRC[k]=JSON.parse(u); if(r) REC[k]=JSON.parse(r); }
 const haveSrc=Object.keys(SRC).length===33&&Object.keys(OLDSRC).length===33&&Object.keys(REC).length===33;
 const ob=show(BASE,'src/data/date_lines.js'), WAS=ob?DL(ob):null;
@@ -105,8 +109,10 @@ const getp=(o,pth)=>pth.match(/\[\d+\]|[^.\[\]]+/g).reduce((x,t)=>x==null?x:x[t[
     for(const r of DATE.PICK_FLAG){ const h=((((NOW.loc[r.loc]||{}).lines||{})[r.who]||{}).hotspots||{})[r.pid], c=h&&h.first&&h.first.choice||[]; if(!c.some(x=>x.t===r.t)) bad.push('PICK_FLAG '+r.loc+' '+r.who+' '+r.t); }
     for(const r of DATE.REMEMBER_IF){ const h=((((NOW.loc[r.loc]||{}).lines||{})[r.who]||{}).hotspots||{})[r.pid]; if(!(h&&h.remember&&h.remember.lines&&h.remember.lines.length)) bad.push('REMEMBER_IF '+r.loc+' '+r.who+' '+r.pid); }
     check('4. ARRIVE_VAR（沛珊 D28、可昕 D32）、PICK_FLAG、REMEMBER_IF（子晴 D06／D15、沛珊 D05）重匯以後都還對得上資料',bad.length===0,J(bad));
-    const H6=NOW.loc.D06.lines[ZQ].hotspots['D06.cafe'], H15=NOW.loc.D15.lines[ZQ].hotspots['D15.store'];
-    check('4. D06 咖啡：選項「我請妳。」還在第二個、回覆「好。下次我請你吃滷味。」沒動；有旗標的人再訪聽到稿的「我說過要請你吃滷味，等一下去，我知道一間。」（兌現）',H6.first.choice[1].t==='「我請妳。」'&&H6.first.choice[1].reply[0].text==='好。下次我請你吃滷味。'&&J(H6.remember.lines.map(x=>x.text))===J(['我說過要請你吃滷味，等一下去，我知道一間。']),J(H6.remember));
+    const H6=NOW812.loc.D06.lines[ZQ].hotspots['D06.cafe'], H15=NOW.loc.D15.lines[ZQ].hotspots['D15.store'];   /* H6 看遊戲現在的字（NOW812，不還原）*/
+    /* 2026-11-11（AA_812@f1fab0ec6）：回覆拿掉滷味（path_rows）、再訪句改成當場請（改稿紀錄 zq_D06 第 45 格；那一次她請客 S.SHE_PAYS）；旗標、REMEMBER_IF 照舊。
+       舊期望：回覆「好。下次我請你吃滷味。」、有旗標的人再訪聽到「我說過要請你吃滷味，等一下去，我知道一間。」 */
+    check('4. D06 咖啡：選項「我請妳。」還在第二個、回覆「好。下次我請。」（AA_812 拿掉滷味）；有旗標的人再訪聽到「這家我來過兩次了。這次我請，你不要算。」（AA_812：當場請）',H6.first.choice[1].t==='「我請妳。」'&&H6.first.choice[1].reply[0].text==='好。下次我請。'&&J(H6.remember.lines.map(x=>x.text))===J(['這家我來過兩次了。這次我請，你不要算。']),J(H6.remember));
     check('4. D15 便利商店：選項「布丁不行。」還在第二個、回覆「欸，好啦。布丁下次。」沒動；有旗標的人再訪聽到「說好的布丁，這次我要拿了。」「山上的布丁比較好吃，這是我的理論。」（兌現）',H15.first.choice[1].t==='「布丁不行。」'&&H15.first.choice[1].reply[0].text==='欸，好啦。布丁下次。'&&J(H15.remember.lines.map(x=>x.text))===J(['說好的布丁，這次我要拿了。','山上的布丁比較好吃，這是我的理論。']),J(H15.remember));
     const ro=(loc,pid,R,flag)=>DATE.rememberOf({flags:flag?{[flag]:3}:{}},{who:ZQ,locs:[loc]},pid,R).lines.map(x=>x.text);
     check('4. rememberOf 實際算：D06 有旗標＝稿的那一句、沒旗標＝「這家的位子我記得，靠牆那桌插座最近。」；D15 有旗標＝稿的兩句、沒旗標＝「布丁還在同一格，我要拿了。」（AA_775；沒旗標的人聽不到「說過要請／說好的」）',J(ro('D06','D06.cafe',H6.remember,'ZQ_D06_TREAT'))===J(H6.remember.lines.map(x=>x.text))&&J(ro('D06','D06.cafe',H6.remember,null))===J(['這家的位子我記得，靠牆那桌插座最近。'])&&J(ro('D15','D15.store',H15.remember,'ZQ_D15_NEXT'))===J(H15.remember.lines.map(x=>x.text))&&J(ro('D15','D15.store',H15.remember,null))===J(['布丁還在同一格，我要拿了。']),J([ro('D06','D06.cafe',H6.remember,null),ro('D15','D15.store',H15.remember,null)]));

@@ -47,9 +47,12 @@ const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請
 (async()=>{
   await sec(1,async()=>{ const SPY=DATE.SHE_PAYS;
     /* 2026-11-11（AA_782）：S.SHE_PAYS 另外合進學姊、沛珊、可昕十格（src/data/she_pays.js，第 8、9 節）。舊期望：S.SHE_PAYS 的人只有以安 */
-    check('1. S.SHE_PAYS 以安三個互動點、每個一句（AA_780 的 _meta.she_pays，date3d.js 手寫）；別的人只有 AA_782 合進來的那幾個（第 8 節）',J(Object.keys(SPY))===J([AN].concat(Object.keys(SHE_PAYS_DATA.pays)))&&J(Object.keys(SPY[AN]))===J(Object.keys(SAY))&&Object.keys(SAY).every(k=>J(SPY[AN][k])===J([SAY[k]])),J(Object.keys(SPY)));
+    /* 2026-11-11（AA_812@f1fab0ec6）：she_pays.js 也合進 AA_812 的 SHE_PAYS_add——以安多兩個互動點（D29.sculpture、D31.egg，在手寫三格後面）、語彤、子晴也有（tests/date_she_pays_812_1111_unit.js）。
+       舊期望：S.SHE_PAYS 的人＝[以安].concat(she_pays.js 的人)、以安只有手寫三格 */
+    check('1. S.SHE_PAYS 以安：手寫三個互動點、每個一句（AA_780 的 _meta.she_pays，date3d.js 手寫）在最前面，後面只多 she_pays.js 的以安格（AA_812）；別的人只有 she_pays.js 合進來的那幾個（第 8 節）',J(Object.keys(SPY))===J([AN].concat(Object.keys(SHE_PAYS_DATA.pays).filter(k=>k!==AN)))&&J(Object.keys(SPY[AN]))===J(Object.keys(SAY).concat(Object.keys(SHE_PAYS_DATA.pays[AN]||{})))&&Object.keys(SAY).every(k=>J(SPY[AN][k])===J([SAY[k]])),J(Object.keys(SPY)));
     const all=leaves(NOW,'',{}), want={'D06.cafe':'/remember/lines/0/text','D13.drink':'/normal/2/lines/0/text','D18.teahouse':'/normal/2/lines/0/text'}, bad=[];
-    for(const pid in SPY[AN]) for(const s of SPY[AN][pid]){ const loc=pid.slice(0,3), h=((((NOW.loc[loc]||{}).lines||{})[AN]||{}).hotspots||{})[pid], L=leaves(h,'',{}), at=Object.keys(L).filter(p=>L[p]===s);
+    for(const pid in SAY) for(const s of SPY[AN][pid]){   /* 2026-11-11（AA_812@f1fab0ec6）：只看手寫三格（以安 AA_812 那兩格的位置在 tests/date_she_pays_812_1111_unit.js）。舊期望：SPY[AN] 每一格（那時只有這三格）*/
+      const loc=pid.slice(0,3), h=((((NOW.loc[loc]||{}).lines||{})[AN]||{}).hotspots||{})[pid], L=leaves(h,'',{}), at=Object.keys(L).filter(p=>L[p]===s);
       const tot=Object.keys(all).filter(p=>all[p]===s);
       if(at.length!==1) bad.push(pid+' 在她那個互動點底下 '+at.length+' 處');
       else { if(at[0]!==want[pid]) bad.push(pid+' 位置 '+at[0]); if(!/\/text$/.test(at[0])||getAt(h,at[0].replace(/\/text$/,'/who'))!==AN) bad.push(pid+' 不是她說的台詞'); }
@@ -120,11 +123,14 @@ const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請
       try{ const day=G.day+1, b=DATE.book(G,{who:AN,locs:['D26'],transport:'hsr',day,depart:9,kind:'overnight',by:'player'}); if(!b.ok) return {b,ch:[]};
         const q=OUT.get(G,'date_'+b.trip); G.day=day; G.weekday=(G.weekday+1)%7; G.hour=9; CH.length=0; GM._reset(); H.said=[]; H.picks=['出發','審計新村'];
         await OUT.prompt(GM,q); return {b,t:DATE.trip(G,b.trip),ch:CH.slice(),said:H.said.map(s=>s.t)}; } finally { delete DATE.SHE_PAYS[AN]['D26.village']; } };
-    const a=await run(false), b=await run(true);
-    check('5. 兩天一夜（S.dayRound）同一個機制：審計新村（cost '+village.cost+'）平常扣 100；測試裡把「現在變成小店。」加進 S.SHE_PAYS＝那一次不扣；住宿 2500、車資照扣；測完 S.SHE_PAYS 還原成三格',a.b.ok&&b.b.ok&&a.t.kind==='overnight'&&village.cost===100&&J(paid(a,'審計新村'))===J([100])&&J(paid(b,'審計新村'))==='[]'&&b.said.includes('現在變成小店。')&&J(paid(b,'住宿'))===J([2500])&&J(paid(a,'交通'))===J(paid(b,'交通'))&&!('shePaid' in b.t)&&J(Object.keys(DATE.SHE_PAYS[AN]))===J(Object.keys(SAY)),J([a.b&&a.b.why,a.ch,b.ch])); });
+    const K0=J(Object.keys(DATE.SHE_PAYS[AN])), a=await run(false), b=await run(true);
+    /* 2026-11-11（AA_812@f1fab0ec6）：以安的請客格多了 D29.sculpture、D31.egg（she_pays.js），「還原」改成和測試前一樣（K0）。舊期望：測完 S.SHE_PAYS[以安]＝手寫三格 */
+    check('5. 兩天一夜（S.dayRound）同一個機制：審計新村（cost '+village.cost+'）平常扣 100；測試裡把「現在變成小店。」加進 S.SHE_PAYS＝那一次不扣；住宿 2500、車資照扣；測完 S.SHE_PAYS 還原成測試前那幾格（手寫三格＋AA_812 兩格）',a.b.ok&&b.b.ok&&a.t.kind==='overnight'&&village.cost===100&&J(paid(a,'審計新村'))===J([100])&&J(paid(b,'審計新村'))==='[]'&&b.said.includes('現在變成小店。')&&J(paid(b,'住宿'))===J([2500])&&J(paid(a,'交通'))===J(paid(b,'交通'))&&!('shePaid' in b.t)&&J(Object.keys(DATE.SHE_PAYS[AN]))===K0&&JSON.parse(K0).length===Object.keys(SAY).length+Object.keys(SHE_PAYS_DATA.pays[AN]||{}).length,J([a.b&&a.b.why,a.ch,b.ch])); });
 
   await sec(6,async()=>{ const code=read('src/date3d.js').replace(/\/\*[\s\S]*?\*\//g,''), n=s=>code.split(s).length-1;
-    check('6. 程式：S.scene、S.dayRound 兩條路都在 S.spotLine 演完的當下 S.takeShePaid 看一次（free?0:S.pointCost）；S.spotLine 一開始清一次（另一處是 S.takeShePaid 自己）；只有 S.playSet 演到她那一句才記；快速約會那一段沒有 free',n('free=S.takeShePaid(t,p.id)')===2&&n('free?0:S.pointCost(p,t)')===2&&n('S.spotLine=async function(GM,t,pid,visits){ delete t.shePaid;')===1&&n('delete t.shePaid;')===2&&n('if(S.shePays(id,pid,ln.text)) t.shePaid=pid;')===1&&/for\(const p of qk\)\{[^}]*\{ const c=S\.pointCost\(p,t\); if\(c&&GM\.money\)/.test(code));
+    /* 2026-11-11（AA_812@f1fab0ec6 SPLIT）：平分（S.SPLIT）的 S.splitMark 說到平分那一句時清掉 shePaid（最後說的那一句算）＝delete t.shePaid; 多一處；扣錢那一句包在 S.halfOf(…) 裡（tests/date_she_pays_812_1111_unit.js）。
+       舊期望：delete t.shePaid; 兩處（S.spotLine 一開始、S.takeShePaid 自己）*/
+    check('6. 程式：S.scene、S.dayRound 兩條路都在 S.spotLine 演完的當下 S.takeShePaid 看一次（free?0:S.pointCost）；S.spotLine 一開始清一次（另一處是 S.takeShePaid 自己，第三處是 S.splitMark：她最後說的是平分）；只有 S.playSet 演到她那一句才記；快速約會那一段沒有 free',n('free=S.takeShePaid(t,p.id)')===2&&n('free?0:S.pointCost(p,t)')===2&&n('S.spotLine=async function(GM,t,pid,visits){ delete t.shePaid;')===1&&n('delete t.shePaid;')===3&&n('else if(S.sheSplits(id,pid,text)){ t.sheSplit=pid; delete t.shePaid; }')===1&&n('if(S.shePays(id,pid,ln.text)) t.shePaid=pid;')===1&&/for\(const p of qk\)\{[^}]*\{ const c=S\.pointCost\(p,t\); if\(c&&GM\.money\)/.test(code));
     check('6. 選單上的價錢（S.pointCost）不看她請不請：茶樓 250、咖啡廳 160、飲料攤 60',DATE.pointCost(PT('D18.teahouse'),{transport:'mrt+coach'})===250&&DATE.pointCost(PT('D06.cafe'),{transport:'mrt'})===160&&DATE.pointCost(PT('D13.drink'),{transport:'mrt'})===60); });
 
   await sec(7,async()=>{ /* 「她請」那三套有沒有祐廷選「我請」的選項：沒有——三套都沒有 choice、她這三個互動點沒有 opts（DLG-FX-MECH-1110 接在後面的選項）＝同一次不會同時發生 */
@@ -138,6 +144,9 @@ const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請
 
   /* ===== AA_782（企劃線；學姊七格、沛珊兩格、可昕一格）：資料 ===== */
   const E782=JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(x=>x.path===SP+'AA_782_she_pays.json'), SHA782=E782.length===1?E782[0].sha:null, A782=SHA782&&JSON.parse(show(SHA782,SP+'AA_782_she_pays.json')||'null'), CELLS=SHE_PAYS_DATA.cells;
+  /* 2026-11-11（AA_812@f1fab0ec6）：AA_782 十列裡學姊 D06.cafe.remember、沛珊 D21.street.normal#2 的字被 AA_812 換掉（改稿紀錄 sis_D06／peishan_D21），匯入工具放進 superseded、不在 cells；
+     她付全部的句子現在是 AA_812 的新句（tests/date_she_pays_812_1111_unit.js）。SUP＝那兩列 */
+  const E812=JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(x=>x.path===SP+'AA_812_date_pays_promises.json'), SHA812=E812.length===1?E812[0].sha:null, SUP=SHE_PAYS_DATA.superseded||[];
   const PART=k=>{ const m=/^(D\d\d\.\w+)\.(\w+)(?:#(\d+))?$/.exec(k); return {pid:m[1],kind:m[2],k:m[3]==null?null:+m[3]}; };
   /* 格號＝date_rewrite.py list 的順序（同 tests/an_dates_1111_unit.js 的 slots()）*/
   const slots=(d,who)=>{ const out=[], L=d.lines[who], K4=['first','normal','remember','dating'];
@@ -146,13 +155,19 @@ const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請
     for(const hs in (L.hotspots||{})){ const X=L.hotspots[hs]; for(const kind of K4) if(kind in X) block(X[kind]); for(const k in X) if(!K4.includes(k)) block(X[k]); }
     const dl=(d.dislikeLine||{})[who]||{}; for(const hs in dl) out.push(dl[hs]); return out; };
   await sec(8,async()=>{
-    check('8. 白名單 AA_782_she_pays.json 一筆、approved、有 approvedBy、task DLG-FULL-REVIEW-1110；she_pays.js 的來源寫著同一版',E782.length===1&&E782[0].status==='approved'&&!!E782[0].approvedBy&&E782[0].task==='DLG-FULL-REVIEW-1110'&&SHE_PAYS_DATA.src===SP+'AA_782_she_pays.json@'+SHA782,J(E782.map(x=>[x.sha,x.status])));
+    check('8. 白名單 AA_782_she_pays.json 一筆、approved、有 approvedBy、task DLG-FULL-REVIEW-1110；she_pays.js 的來源寫著同一版',E782.length===1&&E782[0].status==='approved'&&!!E782[0].approvedBy&&E782[0].task==='DLG-FULL-REVIEW-1110'&&SHE_PAYS_DATA.src===SP+'AA_782_she_pays.json@'+SHA782+'＋'+SP+'AA_812_date_pays_promises.json@'+SHA812,J(E782.map(x=>[x.sha,x.status])));   /* 2026-11-11（AA_812@f1fab0ec6）：來源多 AA_812。舊期望：src＝AA_782 那一版 */
     const r=cp.spawnSync('python3',[path.join(H.ROOT,'tools/date/import_she_pays.py'),'--check'],{encoding:'utf8',timeout:120000});
     check('8. src/data/she_pays.js 和重匯一致（tools/date/import_she_pays.py --check；匯入工具逐列對 date_lines.js、格號、剛好一處）',r.status===0,(r.stdout||r.stderr||'').slice(-200));
-    if(A782) check('8. 稿 AA_782@'+SHA782+' 十列＝she_pays.js 的 cells（who、loc、格號、key、字，一列一格、同樣的順序）',A782.she_pays.length===10&&J(A782.she_pays.map(x=>[x.who,x.loc,x.n,x.key,x.text]))===J(CELLS.map(x=>[x.who,x.loc,x.n,x.key,x.text])),J(A782.she_pays.map(x=>x.key)));
+    /* 2026-11-11（AA_812@f1fab0ec6）：十列＝cells 八列＋superseded 兩列（各自照稿的順序）。舊期望：十列＝cells */
+    if(A782){ const isSup=x=>SUP.some(y=>y.who===x.who&&y.key===x.key), row=x=>[x.who,x.loc,x.n,x.key,x.text];
+      check('8. 稿 AA_782@'+SHA782+' 十列＝she_pays.js 的 cells（八列）＋superseded（兩列：被 AA_812 換了字）（who、loc、格號、key、字，一列一格、同樣的順序）',A782.she_pays.length===10&&J(A782.she_pays.filter(x=>!isSup(x)).map(row))===J(CELLS.map(row))&&J(A782.she_pays.filter(isSup).map(row))===J(SUP.map(row)),J(A782.she_pays.map(x=>x.key))); }
     else console.log('（這份 checkout 讀不到企劃線的 AA_782：不比稿，只驗 she_pays.js 和 date_lines.js）');
-    check('8. 十格：學姊七格（D06.cafe.remember、D10.snack.remember、D20.street.normal#0、D22.fish.first、D22.fish.remember、D23.cook.first、D30.stall.remember）、沛珊兩格（D21.street.normal#2、D31.egg.normal#2）、可昕一格（D30.stall.remember）',
-      J(CELLS.map(x=>x.who+' '+x.key))===J(['D06.cafe.remember','D10.snack.remember','D20.street.normal#0','D22.fish.first','D22.fish.remember','D23.cook.first','D30.stall.remember'].map(k=>SIS+' '+k).concat([PS+' D21.street.normal#2',PS+' D31.egg.normal#2',KX+' D30.stall.remember'])),J(CELLS.map(x=>x.who+' '+x.key)));
+    /* 2026-11-11（AA_812@f1fab0ec6）：學姊 D06.cafe.remember、沛珊 D21.street.normal#2 移到 superseded（字換成 AA_812 的新句：「這次我請。你坐著就好。」「你要吃什麼？這攤我請。」）。
+       舊期望：cells＝十格（學姊七格、沛珊兩格、可昕一格）*/
+    check('8. 十格：留在 cells 八格——學姊六格（D10.snack.remember、D20.street.normal#0、D22.fish.first、D22.fish.remember、D23.cook.first、D30.stall.remember）、沛珊一格（D31.egg.normal#2）、可昕一格（D30.stall.remember）；被 AA_812 取代兩格（學姊 D06.cafe.remember、沛珊 D21.street.normal#2，舊字已經不在遊戲裡）',
+      J(CELLS.map(x=>x.who+' '+x.key))===J(['D10.snack.remember','D20.street.normal#0','D22.fish.first','D22.fish.remember','D23.cook.first','D30.stall.remember'].map(k=>SIS+' '+k).concat([PS+' D31.egg.normal#2',KX+' D30.stall.remember']))
+      &&J(SUP.map(x=>[x.who,x.key,x.text,x.now]))===J([[SIS,'D06.cafe.remember','上次你請的。這次我請。',['這次我請。你坐著就好。']],[PS,'D21.street.normal#2','你要吃什麼？我請你，上次是你請的。',['你要吃什麼？這攤我請。']]])
+      &&SUP.every(x=>!JSON.stringify(NOW).includes(JSON.stringify(x.text))),J([CELLS.map(x=>x.who+' '+x.key),SUP]));
     const bad=[];
     for(const c of CELLS){ const {pid,kind,k}=PART(c.key), h=((((NOW.loc[c.loc]||{}).lines||{})[c.who]||{}).hotspots||{})[pid], L=leaves(h,'',{}), at=Object.keys(L).filter(p=>L[p]===c.text), want='/'+kind+(k==null?'':'/'+k)+'/lines/';
       if(pid.slice(0,3)!==c.loc) bad.push(c.key+' 地點');
@@ -161,14 +176,17 @@ const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請
       if(slots(NOW.loc[c.loc],c.who)[c.n-1]!==c.text) bad.push(c.who+' '+c.loc+'#'+c.n+' 格號那一格是「'+slots(NOW.loc[c.loc],c.who)[c.n-1]+'」'); }
     check('8. 每一格：字在 date_lines.js 她那個互動點底下剛好一處、就在 key 那一套她說的台詞（不是選項、回話）、格號（date_rewrite.py list）那一格就是這一句',bad.length===0,J(bad));
     const SPY=DATE.SHE_PAYS, n=Object.values(SPY).reduce((a,o)=>a+Object.values(o).reduce((b,v)=>b+v.length,0),0);
-    check('8. S.SHE_PAYS＝以安三句＋這十句（學姊 D22.fish 兩句：first、remember 同一個互動點）；每一格 S.shePays 認得',n===13&&CELLS.every(c=>DATE.shePays(c.who,PART(c.key).pid,c.text))&&J(SPY[SIS]['D22.fish'])===J(['（活魚料理）這家我請。你不要搶。','今天這家，還是我請。']),J(SPY));
+    /* 2026-11-11（AA_812@f1fab0ec6）：S.SHE_PAYS＝以安手寫三句＋AA_782 留下的八句＋AA_812 新的十一句（AA_812 十八句裡七句和 AA_782 重複）＝22 句；被取代的兩句認不得。舊期望：以安三句＋十句＝13 */
+    check('8. S.SHE_PAYS＝以安三句＋AA_782 八句＋AA_812 十一句（學姊 D22.fish 兩句：first、remember 同一個互動點）；每一格 S.shePays 認得；被 AA_812 取代的兩句不認得',n===22&&CELLS.every(c=>DATE.shePays(c.who,PART(c.key).pid,c.text))&&SUP.every(c=>!DATE.shePays(c.who,c.pid,c.text))&&J(SPY[SIS]['D22.fish'])===J(['（活魚料理）這家我請。你不要搶。','今天這家，還是我請。']),J(SPY));
     check('8. S.shePays 只認那個人＋那個互動點＋整句：學姊 D30 那一句可昕說不算、可昕 D30 那一句學姊說不算；學姊 D06 那一句搬到 D10 不算；多一個字不算',
       !DATE.shePays(KX,'D30.stall','這攤還在。今天兩杯都我付。')&&!DATE.shePays(SIS,'D30.stall','烤玉米這攤還在。這次我付。')&&!DATE.shePays(SIS,'D10.snack','上次你請的。這次我請。')&&!DATE.shePays(SIS,'D10.snack','這次我請。。')&&!DATE.shePays(PS,'D21.street',null)&&!DATE.shePays(SIS,null,'這次我請。'));
     const zq=((NOW.loc.D06.lines[ZQ].hotspots['D06.cafe']||{}).remember||{}).lines||[];
-    check('8. 沒列的照扣：子晴 D06.cafe remember（「我說過要請你吃滷味，等一下去」那一套，要請的是別的地方，AA_782 _meta.not_listed）、語彤、芷若沒有請客格',!SPY[ZQ]&&!SPY[YT]&&!SPY[ZR]&&zq.some(x=>/滷味/.test(x.text||'')),J(zq.map(x=>x.text)));
+    /* 2026-11-11（AA_812@f1fab0ec6）：子晴 D06.cafe remember 改成「這家我來過兩次了。這次我請，你不要算。」（改稿紀錄 zq_D06 第 45 格）＝她請客；語彤也有三格（D10.boat、D12.pier、D15.store）。
+       舊期望：子晴 remember 是「我說過要請你吃滷味，等一下去」那一句、不是請客格；子晴、語彤、芷若都沒有請客格 */
+    check('8. 沒列的照扣：芷若沒有請客格；子晴只有 AA_812 的 D06.cafe remember 那一句（滷味拿掉了）、語彤只有 AA_812 的三格',!SPY[ZR]&&J(SPY[ZQ])===J({'D06.cafe':['這家我來過兩次了。這次我請，你不要算。']})&&J(Object.keys(SPY[YT]||{}))===J(['D10.boat','D12.pier','D15.store'])&&!zq.some(x=>/滷味/.test(x.text||''))&&zq.some(x=>x.text==='這家我來過兩次了。這次我請，你不要算。'),J(zq.map(x=>x.text)));
     /* 她說要請的那一套有沒有祐廷「我請」的選項：學姊 D22.fish、D23.cook 的 first 有選項（「那我請飲料。」「下次我請。」「我們平分。」），都不是請客選項（S.isTreat）＝不另外扣她那一份；其他八套沒有選項。互動點都沒有 opts */
     const ch=CELLS.map(c=>{ const {pid,kind,k}=PART(c.key), h=NOW.loc[c.loc].lines[c.who].hotspots[pid], s=k==null?h[kind]:h[kind][k]; return {key:c.who+' '+c.key,ch:(s.choice||[]).map(x=>x.t),opts:'opts' in h}; });
-    check('8. 那十套裡祐廷的選項：只有學姊 D22.fish.first（「那我請飲料。」「我們平分。」）、D23.cook.first（「下次我請。」「我們平分。」）有，都不是請客選項（S.isTreat）；十個互動點都沒有 opts',
+    check('8. 那八套（AA_782 留在 cells 的；2026-11-11 AA_812 以前是十套，被取代的兩套也沒有選項）裡祐廷的選項：只有學姊 D22.fish.first（「那我請飲料。」「我們平分。」）、D23.cook.first（「下次我請。」「我們平分。」）有，都不是請客選項（S.isTreat）；十個互動點都沒有 opts',
       J(ch.filter(x=>x.ch.length).map(x=>[x.key,x.ch]))===J([[SIS+' D22.fish.first',['「那我請飲料。」','「我們平分。」']],[SIS+' D23.cook.first',['「下次我請。」','「我們平分。」']]])&&ch.every(x=>x.ch.every(t=>!DATE.isTreat(t))&&!x.opts),J(ch)); });
 
   /* ===== AA_782：十格逐格演（DATE.book → OUT.prompt 整趟）：演到那一句那一次那個互動點不扣；同一個互動點別套照扣 =====
@@ -183,8 +201,10 @@ const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請
     await OUT.prompt(GM,q); return {b,t:DATE.trip(G,b.trip),ch:CH.slice(),said:H.said.filter(s=>s.who===nameOf(who)).map(s=>s.t)}; };
   await sec(9,async()=>{
     for(const c of CELLS){ const {pid,kind,k}=PART(c.key), P=PT(pid), ov=(DATE.loc(c.loc).kinds||[]).includes('overnight')&&!(DATE.loc(c.loc).kinds||[]).includes('half'), hi=kind==='normal'&&k===2||ov, w='9. '+nameOf(c.who)+' '+c.key+'（'+P.name+' cost '+P.cost+'）';
-      const run=async(fk,fkk)=>{ setup(ov?(c.who===PS?'2026-03-20':'2026-03-27'):'2026-03-28',c.who,hi?{rom:60}:{}); force(   /* 沛珊隔週回台中：3/28 那個週末她不在臺北（兩天一夜改 3/21 出發）*/H.G,c.who,c.loc,pid,fk,fkk); return ov?ovGo(c.who,c.loc,P.name):go(c.who,c.loc,['自己選',P.name,'差不多了'],{depart:c.who===ZQ?15:10}); };
-      const a=await run(kind,k);
+      const run=async(fk,fkk,pk)=>{ setup(ov?(c.who===PS?'2026-03-20':'2026-03-27'):'2026-03-28',c.who,hi?{rom:60}:{}); force(   /* 沛珊隔週回台中：3/28 那個週末她不在臺北（兩天一夜改 3/21 出發）*/H.G,c.who,c.loc,pid,fk,fkk); return ov?ovGo(c.who,c.loc,P.name):go(c.who,c.loc,['自己選',P.name].concat(pk||[],['差不多了']),{depart:c.who===ZQ?15:10}); };
+      /* 2026-11-11（AA_812@f1fab0ec6 SPLIT）：學姊 D22.fish 第一次選「那我請飲料。」她回「好。飯我請，飲料你請。」＝平分（最後說的那一句算，扣一半；tests/date_she_pays_812_1111_unit.js）——
+         這裡選另一個「我們平分。」（她回「好。你堅持的話。」，不在 SPLIT）測「這家我請」那一句不扣。舊期望：選單一律選第一個（那時「那我請飲料。」也不扣）*/
+      const a=await run(kind,k,c.who===SIS&&c.key==='D22.fish.first'?['我們平分']:[]);
       check(w+'：演到「'+c.text+'」那一次——'+P.name+'不扣'+(ov?'（兩天一夜 S.dayRound）':'')+'；行程物件上沒有留下 shePaid',!!a.b.ok&&a.said.filter(x=>x===c.text).length===1&&J(paid(a,P.name))==='[]'&&!('shePaid' in (a.t||{})),J([a.b.why,a.ch,a.said.slice(0,4)]));
       /* 別套：first、remember 的格＝輪 normal 第一套；normal#k 的格＝輪 normal 第一套（k＝0 的輪第二套）*/
       const ok2=kind==='normal'&&k===0?1:0, b=await run('normal',ok2), other=(NOW.loc[c.loc].lines[c.who].hotspots[pid].normal[ok2].lines||[]).filter(x=>x.who===c.who).map(x=>x.text);

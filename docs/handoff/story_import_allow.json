@@ -7530,6 +7530,60 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "X324 以安大四下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S2）。逐列對稿 tests/ladder_aa781_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_812_date_pays_promises.json",
+   "sha": "f1fab0ec6",
+   "status": "approved",
+   "approvedBy": "AA 11-11 12:2x AA_812（DLG-FULL-REVIEW-1110 小項）；LAWWW 11-11 派匯入；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 約會「她請客／平分／懸著的承諾」（AA_812，企劃線 f1fab0ec6）：①SHE_PAYS_add（那個互動點她付全部）、SPLIT（她付一部分＝那個互動點祐廷那一份扣一半，AA 和 LAWWW 定）——tools/date/import_she_pays.py → src/data/she_pays.js（SHE_PAYS_DATA.pays、.split），src/date3d.js 載入時合進 S.SHE_PAYS、S.SPLIT；AA_782 同一個人同一個互動點、字已經被 AA_812 換掉的格＝被取代（superseded）；②path_rows 兩列（子晴 D06.cafe 第一次選項的回覆、語彤 D10.boat remember）——tools/date/import_date_lines.py 寫檔前最後一步照 path 換（AA_812 那一輪，排在 AA_780 後面）；③改稿紀錄 date_rewrite/ 五份（下面五筆）同一步。「不列」那一節（closing／arrive 說的請客）不做。逐格 tests/date_she_pays_812_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/date_rewrite/peishan_D15.json",
+   "sha": "f1fab0ec6",
+   "status": "approved",
+   "approvedBy": "AA 11-11 12:2x AA_812（DLG-FULL-REVIEW-1110 小項）；f1fab0ec6（AA 11-11 AA_812 懸著的承諾）；LAWWW 11-11 派匯入；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "改稿紀錄（AA_812 懸著的承諾，沛珊 D15.store remember（第 43 格））：AA 只改了這份紀錄、源稿 date_system/lines/Dxx.json 沒有重新 apply（白名單 33 筆還是 248c8e390，和 f1fab0ec6 的 Dxx.json 一樣）——tools/date/import_date_lines.py 拿這份紀錄在源稿那一版（248c8e390）和這一版逐格比，不一樣的格照格號（date_rewrite.py list 的順序）換在遊戲那一格（寫檔前最後一步；那一格要是舊字，已經是新字＝跳過，都不是＝停下來）。git diff 248c8e390 f1fab0ec6 這份檔只有 AA_812 這一格"
+  },
+  {
+   "path": "docs/story_planning/date_rewrite/peishan_D21.json",
+   "sha": "f1fab0ec6",
+   "status": "approved",
+   "approvedBy": "AA 11-11 12:2x AA_812（DLG-FULL-REVIEW-1110 小項）；f1fab0ec6（AA 11-11 AA_812 懸著的承諾）；LAWWW 11-11 派匯入；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "改稿紀錄（AA_812 懸著的承諾，沛珊 D21.street normal 第三套（第 20 格））：AA 只改了這份紀錄、源稿 date_system/lines/Dxx.json 沒有重新 apply（白名單 33 筆還是 248c8e390，和 f1fab0ec6 的 Dxx.json 一樣）——tools/date/import_date_lines.py 拿這份紀錄在源稿那一版（248c8e390）和這一版逐格比，不一樣的格照格號（date_rewrite.py list 的順序）換在遊戲那一格（寫檔前最後一步；那一格要是舊字，已經是新字＝跳過，都不是＝停下來）。git diff 248c8e390 f1fab0ec6 這份檔只有 AA_812 這一格"
+  },
+  {
+   "path": "docs/story_planning/date_rewrite/sis_D06.json",
+   "sha": "f1fab0ec6",
+   "status": "approved",
+   "approvedBy": "AA 11-11 12:2x AA_812（DLG-FULL-REVIEW-1110 小項）；f1fab0ec6（AA 11-11 AA_812 懸著的承諾）；LAWWW 11-11 派匯入；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "改稿紀錄（AA_812 懸著的承諾，學姊 D06.cafe remember（第 45 格））：AA 只改了這份紀錄、源稿 date_system/lines/Dxx.json 沒有重新 apply（白名單 33 筆還是 248c8e390，和 f1fab0ec6 的 Dxx.json 一樣）——tools/date/import_date_lines.py 拿這份紀錄在源稿那一版（248c8e390）和這一版逐格比，不一樣的格照格號（date_rewrite.py list 的順序）換在遊戲那一格（寫檔前最後一步；那一格要是舊字，已經是新字＝跳過，都不是＝停下來）。git diff 248c8e390 f1fab0ec6 這份檔只有 AA_812 這一格"
+  },
+  {
+   "path": "docs/story_planning/date_rewrite/zq_D06.json",
+   "sha": "f1fab0ec6",
+   "status": "approved",
+   "approvedBy": "AA 11-11 12:2x AA_812（DLG-FULL-REVIEW-1110 小項）；f1fab0ec6（AA 11-11 AA_812 懸著的承諾）；LAWWW 11-11 派匯入；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "改稿紀錄（AA_812 懸著的承諾，子晴 D06.cafe remember（第 45 格））：AA 只改了這份紀錄、源稿 date_system/lines/Dxx.json 沒有重新 apply（白名單 33 筆還是 248c8e390，和 f1fab0ec6 的 Dxx.json 一樣）——tools/date/import_date_lines.py 拿這份紀錄在源稿那一版（248c8e390）和這一版逐格比，不一樣的格照格號（date_rewrite.py list 的順序）換在遊戲那一格（寫檔前最後一步；那一格要是舊字，已經是新字＝跳過，都不是＝停下來）。git diff 248c8e390 f1fab0ec6 這份檔只有 AA_812 這一格"
+  },
+  {
+   "path": "docs/story_planning/date_rewrite/kx_D15.json",
+   "sha": "f1fab0ec6",
+   "status": "approved",
+   "approvedBy": "AA 11-11 12:2x AA_812（DLG-FULL-REVIEW-1110 小項）；f1fab0ec6（AA 11-11 AA_812 懸著的承諾）；LAWWW 11-11 派匯入；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "改稿紀錄（AA_812 懸著的承諾，可昕 D15 收尾（第 10 格））：AA 只改了這份紀錄、源稿 date_system/lines/Dxx.json 沒有重新 apply（白名單 33 筆還是 248c8e390，和 f1fab0ec6 的 Dxx.json 一樣）——tools/date/import_date_lines.py 拿這份紀錄在源稿那一版（248c8e390）和這一版逐格比，不一樣的格照格號（date_rewrite.py list 的順序）換在遊戲那一格（寫檔前最後一步；那一格要是舊字，已經是新字＝跳過，都不是＝停下來）。git diff 248c8e390 f1fab0ec6 這份檔只有 AA_812 這一格"
   }
  ]
 }

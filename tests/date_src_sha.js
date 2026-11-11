@@ -91,6 +91,19 @@ module.exports={
     {who:'heroine_04',path:'lines.heroine_04.flaked[0]',p:'/lines/heroine_04/flaked/0',old:'那天我設了鬧鐘，還真的起來了，結果你沒來。這種事一次就好。',new:'又取消。我鬧鐘都設好了。這種事不要有第三次。',was:'AA_775'},
     {who:'heroine_03',path:'lines.heroine_03.flaked[0][0]',p:'/lines/heroine_03/flaked/0/0',old:'那天我等了一下。',new:'嗯。第二次了。',was:'AA_767'},
     {who:'heroine_02',path:'lines.heroine_02.flaked[0][1]',p:'/lines/heroine_02/flaked/0/1',old:'我那天把一杯熱可可等到涼掉。下次，你請我一杯熱的。',new:'今天我連要穿哪一件都想好了。沒關係，衣服不會跑。',was:'AA_773'}],
+  /* 2026-11-11 AA_812_date_pays_promises.json@f1fab0ec6（懸著的「下次我請」七格）：改稿紀錄 date_rewrite/ 五份（rec；AA 只改了紀錄、源稿 Dxx.json 沒有重新 apply，白名單 33 筆還是 248c8e390）
+     ＋稿的 path_rows 兩列（沒有 rec）——tools/date/import_date_lines.py 寫檔前最後一步（apply812）疊上去。n＝date_rewrite.py list 的格號；path＝Dxx.json 裡她底下的位置（同 ALSO 的寫法）；
+     p＝遊戲檔 leaves 的路徑；old＝源稿 248c8e390（＝重匯以前）的字。各支「和源稿一字不差」「和重匯以前比」的測試用下面的 un812 還原再比（只有那一格現在剛好是 new 才還原），
+     那七格現在＝new 各支另外驗（cell812）；逐格、她請客／平分在 tests/date_she_pays_812_1111_unit.js */
+  AA812_SHA:'f1fab0ec6',
+  CELLS_812:[
+    {who:'heroine_05',loc:'D06',n:45,rec:'sis_D06',path:'lines/hotspots/D06.cafe/remember/lines/0/text',p:'/loc/D06/lines/heroine_05/hotspots/D06.cafe/remember/lines/0/text',old:'上次你請的。這次我請。',new:'這次我請。你坐著就好。'},
+    {who:'heroine_04',loc:'D06',n:45,rec:'zq_D06',path:'lines/hotspots/D06.cafe/remember/lines/0/text',p:'/loc/D06/lines/heroine_04/hotspots/D06.cafe/remember/lines/0/text',old:'我說過要請你吃滷味，等一下去，我知道一間。',new:'這家我來過兩次了。這次我請，你不要算。'},
+    {who:'classmate_peishan',loc:'D15',n:43,rec:'peishan_D15',path:'lines/hotspots/D15.store/remember/lines/0/text',p:'/loc/D15/lines/classmate_peishan/hotspots/D15.store/remember/lines/0/text',old:'上次說宵夜算我的，我記得喔，今天兌現。',new:'今天宵夜算我的。上次就想請了。'},
+    {who:'classmate_peishan',loc:'D21',n:20,rec:'peishan_D21',path:'lines/hotspots/D21.street/normal/2/lines/0/text',p:'/loc/D21/lines/classmate_peishan/hotspots/D21.street/normal/2/lines/0/text',old:'你要吃什麼？我請你，上次是你請的。',new:'你要吃什麼？這攤我請。'},
+    {who:'kexin',loc:'D15',n:10,rec:'kx_D15',path:'lines/closing/normal/1/lines/0/text',p:'/loc/D15/lines/kexin/closing/normal/1/lines/0/text',old:'宵夜下次我請。我已經挑好了。',new:'宵夜我請。我已經挑好了，在山下。'},
+    {who:'heroine_04',loc:'D06',n:41,path:'lines/hotspots/D06.cafe/first/choice/1/reply/0/text',p:'/loc/D06/lines/heroine_04/hotspots/D06.cafe/first/choice/1/reply/0/text',old:'好。下次我請你吃滷味。',new:'好。下次我請。'},
+    {who:'heroine_03',loc:'D10',n:32,path:'lines/hotspots/D10.boat/remember/lines/0/text',p:'/loc/D10/lines/heroine_03/hotspots/D10.boat/remember/lines/0/text',old:'上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。',new:'上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。這次船票我請。'}],
 };
 /* 「和重匯以前比」用：回傳一份複本，把 AA_780 換的那三格（FLAKED_780）還原成各人自己那一輪的字。x＝整份 DATE_LINES（或 strip 過、少了幾個人的）；只有那一格現在剛好是 AA_780 的 new 才還原（不是＝不動，照舊會紅）；
    重匯以前的那一份（那一格還是 old）丟進來不會變 */
@@ -99,3 +112,6 @@ module.exports.un780=x=>{ const y=JSON.parse(JSON.stringify(x)); for(const r of 
 module.exports.cell780=(x,r)=>{ let o=x; for(const t of r.p.split('/').slice(1)) o=o==null?o:o[t]; return o; };
 /* 各人自己那一輪的逐字對稿：稿上那一列（path、new）如果是 AA_780 之後又換掉的那一格（FLAKED_780 的 path 一樣、old＝那一列的 new），現在認 AA_780 的 new；別的列照舊認那一列的 new */
 module.exports.want780=r=>{ const x=module.exports.FLAKED_780.find(y=>y.path===r.path&&y.old===r.new); return x?x.new:r.new; };
+/* AA_812 那七格（CELLS_812）：回傳一份複本，把現在剛好是 new 的格還原成 old（源稿 248c8e390、重匯以前的字）。x＝整份 DATE_LINES（r.p 照 leaves 的路徑走）；不是 new＝不動（照舊會紅）*/
+module.exports.un812=x=>{ const y=JSON.parse(JSON.stringify(x)); for(const r of module.exports.CELLS_812){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
+module.exports.cell812=(x,r)=>{ let o=x; for(const t of r.p.split('/').slice(1)) o=o==null?o:o[t]; return o; };
