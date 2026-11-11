@@ -1,7 +1,14 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-11 00:3x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 01:0x UTC）
+- **第二包已整合 dev**（949a24cc6）：夜市時間照稿、X335 公館 G09／G10 鐵捲門、公館招牌櫥窗貼圖、七間室內牆面、安泰貨架、汀州鮮果。BB：機車第 3 版 FIXED、汀州路街景 ART_APPROVED 恢復；洗樂、印得好室內第 2 版 ART_APPROVED。
+- **上師 3D 人物**：第 1 版模型檔在 dev，但 LAWWW 驗角色不過（六點）；**第 2 版已交、等 LAWWW 驗**：`wip/limao_shangshi_1111/limao_shangshi_v2.patch`（f0f58fca4；README 最上面有六點對照和還差的）。不過的話做第 3 版（D141 最後一版）。腳本 `tools/blender/char_second/limao_shangshi.py`（在 dev；第 2 版的改動在 patch 裡）；VRoid 樣本要 `bash tools/blender/setup_env.sh` 抓。
+- **等使用者決定（要用選擇題問，D150 之外使用者 11-11 00:26 的要求）**：公館 G10 要不要改成真的巷口（「往汀州路」的按鈕現在在鐵捲門前）。
+- **接下來**：上師第 3 版（如果被退）→ 花序第 2 版（球形的花換成真的花、冷藏櫃等細節）→ 機車配件模型 → 其餘舊佇列。
+- 工作樹（scratch）：`wt_bb`＝dev f8ff49f43＋第二包（已交，可以刪）；`wt_ch`＝dev a724370bc＋上師第 2 版。
+
+## 交接（上一則｜帳號 A｜2026-11-11 00:3x UTC）
 - **使用者 11-11 00:26（UA-LAWWW2-1111-05）**：稱呼使用者用「你」，不是「妳」；要他決定的事用選擇題問；可以開工。
 - **已整合 dev**：花序 B 件＋公館三間（3a216dfb2）、夜市十攤＋背景三攤（b810b809b；LAWWW 接了能買 night_market3d.js）、禮貌生財＋BB_255 三項（11161c101；LAWWW 接了上師對話 limao3d.js，並把我的 tingzhou3d.js 改成營業時間照時鐘 TZ3.clockHour）。
 - **已交、等 LAWWW 整合／驗**：上師 3D 人物第 1 版 `wip/limao_shangshi_1111/`（6acdb2d7f；角色美術 LAWWW 驗；NPC 沒放）。
