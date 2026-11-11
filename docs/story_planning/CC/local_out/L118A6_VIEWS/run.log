@@ -1,0 +1,116 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_VIEWS\out
+CC L118A：PARTS VIEWS；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  28.0s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== VIEWS
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [  51.9s] [VIEWS asis dian 1300] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.43}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_dian_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_dian_near_day.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis dian 1300] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.43}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_dian_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_dian_near_day.webp", "photo": 1, "near": 1}
+  [  54.7s] 【捷徑機位】l118a_view_dian_1300_asis_cam.jpg：eye [0.6000000000000001, 1.5, 1.6] look [0.6000000000000001, 1.45, 7.0] 焦距 24（垂直 45.75°）；亮度 全畫面 [103.1, 34.6]、中央 [104.3, 34.1]
+PASS [黑畫面] l118a_view_dian_1300_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 103.1、變化 34.6）  {"all": [103.1, 34.6], "mid": [104.3, 34.1]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_self 店裡的進門位置 (-2.20,3.00) 2025-10-08 1300 
+PASS [self] 店內正式模型載入（1.5 秒）
+  [  66.5s] [VIEWS asis self 1300] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.44}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_self_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_self_near_day.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis self 1300] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.44}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_self_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_self_near_day.webp", "photo": 1, "near": 1}
+  [  69.1s] 【捷徑機位】l118a_view_self_1300_asis_cam.jpg：eye [-0.8800000000000001, 1.5, 2.1] look [-0.8800000000000001, 1.45, 7.5] 焦距 24（垂直 45.75°）；亮度 全畫面 [106.5, 37.4]、中央 [111.4, 42.4]
+PASS [黑畫面] l118a_view_self_1300_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 106.5、變化 37.4）  {"all": [106.5, 37.4], "mid": [111.4, 42.4]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_tea 店裡的進門位置 (-0.50,2.50) 2025-10-08 1300 
+PASS [tea] 店內正式模型載入（1.5 秒）
+  [  80.9s] [VIEWS asis tea 1300] 門外窗景平面：{"hasPane": true, "layers": {"far": 8.13, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_tea_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_tea_near_day.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis tea 1300] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8.13, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_tea_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_tea_near_day.webp", "photo": 1, "near": 1}
+  [  83.3s] 【捷徑機位】l118a_view_tea_1300_asis_cam.jpg：eye [-0.2, 1.5, 1.6] look [-0.2, 1.45, 7.0] 焦距 24（垂直 45.75°）；亮度 全畫面 [126.4, 65]、中央 [127.2, 56.5]
+PASS [黑畫面] l118a_view_tea_1300_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 126.4、變化 65）  {"all": [126.4, 65], "mid": [127.2, 56.5]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_home 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 
+PASS [home] 店內正式模型載入（1.5 秒）
+  [  96.1s] [VIEWS asis home 1300] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_home_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_home_near_day.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis home 1300] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_home_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_home_near_day.webp", "photo": 1, "near": 1}
+  [  98.6s] 【捷徑機位】l118a_view_home_1300_asis_cam.jpg：eye [-1.04, 1.5, 1.85] look [-1.04, 1.45, 7.25] 焦距 24（垂直 45.75°）；亮度 全畫面 [100.4, 41]、中央 [102.4, 41.2]
+PASS [黑畫面] l118a_view_home_1300_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 100.4、變化 41）  {"all": [100.4, 41], "mid": [102.4, 41.2]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_cafe2 店裡的進門位置 (2.20,3.00) 2025-10-08 1300 
+PASS [cafe2] 店內正式模型載入（1.5 秒）
+  [ 110.4s] [VIEWS asis cafe2 1300] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.46}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_cafe2_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_cafe2_near_day.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis cafe2 1300] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.46}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_cafe2_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_cafe2_near_day.webp", "photo": 1, "near": 1}
+  [ 113.2s] 【捷徑機位】l118a_view_cafe2_1300_asis_cam.jpg：eye [0.8800000000000001, 1.5, 2.1] look [0.8800000000000001, 1.45, 7.5] 焦距 24（垂直 45.75°）；亮度 全畫面 [98.1, 37.4]、中央 [93.6, 40.3]
+PASS [黑畫面] l118a_view_cafe2_1300_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 98.1、變化 37.4）  {"all": [98.1, 37.4], "mid": [93.6, 40.3]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_pasta 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 
+PASS [pasta] 店內正式模型載入（1.5 秒）
+  [ 126.4s] [VIEWS asis pasta 1300] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_pasta_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_pasta_near_day.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis pasta 1300] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_pasta_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_pasta_near_day.webp", "photo": 1, "near": 1}
+  [ 129.4s] 【捷徑機位】l118a_view_pasta_1300_asis_cam.jpg：eye [-1.04, 1.5, 1.85] look [-1.04, 1.45, 7.25] 焦距 24（垂直 45.75°）；亮度 全畫面 [134.9, 53.8]、中央 [150.4, 61.1]
+PASS [黑畫面] l118a_view_pasta_1300_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 134.9、變化 53.8）  {"all": [134.9, 53.8], "mid": [150.4, 61.1]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_korea 店裡的進門位置 (2.20,2.75) 2025-10-08 1300 
+PASS [korea] 店內正式模型載入（1.5 秒）
+  [ 140.9s] [VIEWS asis korea 1300] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_korea_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_korea_near_day.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis korea 1300] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_korea_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_korea_near_day.webp", "photo": 1, "near": 1}
+  [ 143.7s] 【捷徑機位】l118a_view_korea_1300_asis_cam.jpg：eye [0.8800000000000001, 1.5, 1.85] look [0.8800000000000001, 1.45, 7.25] 焦距 24（垂直 45.75°）；亮度 全畫面 [115.7, 43.3]、中央 [125, 45.7]
+PASS [黑畫面] l118a_view_korea_1300_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 115.7、變化 43.3）  {"all": [115.7, 43.3], "mid": [125, 45.7]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_omu 店裡的進門位置 (-2.20,2.50) 2025-10-08 1300 
+PASS [omu] 店內正式模型載入（1.5 秒）
+  [ 155.8s] [VIEWS asis omu 1300] 門外窗景平面：{"hasPane": true, "layers": {"far": 8.13, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_omu_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_omu_near_day.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis omu 1300] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8.13, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_omu_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_omu_near_day.webp", "photo": 1, "near": 1}
+  [ 158.6s] 【捷徑機位】l118a_view_omu_1300_asis_cam.jpg：eye [-0.8800000000000001, 1.5, 1.6] look [-0.8800000000000001, 1.45, 7.0] 焦距 24（垂直 45.75°）；亮度 全畫面 [126, 57.5]、中央 [139.2, 63.3]
+PASS [黑畫面] l118a_view_omu_1300_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 126、變化 57.5）  {"all": [126, 57.5], "mid": [139.2, 63.3]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_noodle2 店裡的進門位置 (1.60,2.75) 2025-10-08 1300 
+PASS [noodle2] 店內正式模型載入（1.5 秒）
+  [ 171.4s] [VIEWS asis noodle2 1300] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_noodle2_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_noodle2_near_day.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis noodle2 1300] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_noodle2_day.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_noodle2_near_day.webp", "photo": 1, "near": 1}
+  [ 174.1s] 【捷徑機位】l118a_view_noodle2_1300_asis_cam.jpg：eye [0.6400000000000001, 1.5, 1.85] look [0.6400000000000001, 1.45, 7.25] 焦距 24（垂直 45.75°）；亮度 全畫面 [102.8, 56.1]、中央 [118.3, 57.3]
+PASS [黑畫面] l118a_view_noodle2_1300_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 102.8、變化 56.1）  {"all": [102.8, 56.1], "mid": [118.3, 57.3]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1915 
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [ 183.4s] [VIEWS asis dian 1915] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.43}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_dian_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_dian_near_night.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis dian 1915] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.43}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_dian_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_dian_near_night.webp", "photo": 1, "near": 1}
+  [ 185.8s] 【捷徑機位】l118a_view_dian_1915_asis_cam.jpg：eye [0.6000000000000001, 1.5, 1.6] look [0.6000000000000001, 1.45, 7.0] 焦距 24（垂直 45.75°）；亮度 全畫面 [91.2, 48.7]、中央 [88.4, 38.1]
+PASS [黑畫面] l118a_view_dian_1915_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 91.2、變化 48.7）  {"all": [91.2, 48.7], "mid": [88.4, 38.1]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_self 店裡的進門位置 (-2.20,3.00) 2025-10-08 1915 
+PASS [self] 店內正式模型載入（1.5 秒）
+  [ 195.0s] [VIEWS asis self 1915] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.44}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_self_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_self_near_night.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis self 1915] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.44}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_self_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_self_near_night.webp", "photo": 1, "near": 1}
+  [ 197.4s] 【捷徑機位】l118a_view_self_1915_asis_cam.jpg：eye [-0.8800000000000001, 1.5, 2.1] look [-0.8800000000000001, 1.45, 7.5] 焦距 24（垂直 45.75°）；亮度 全畫面 [87.9, 43.8]、中央 [98.9, 54.1]
+PASS [黑畫面] l118a_view_self_1915_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 87.9、變化 43.8）  {"all": [87.9, 43.8], "mid": [98.9, 54.1]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_tea 店裡的進門位置 (-0.50,2.50) 2025-10-08 1915 
+PASS [tea] 店內正式模型載入（1.5 秒）
+  [ 206.9s] [VIEWS asis tea 1915] 門外窗景平面：{"hasPane": true, "layers": {"far": 8.13, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_tea_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_tea_near_night.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis tea 1915] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8.13, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_tea_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_tea_near_night.webp", "photo": 1, "near": 1}
+  [ 209.2s] 【捷徑機位】l118a_view_tea_1915_asis_cam.jpg：eye [-0.2, 1.5, 1.6] look [-0.2, 1.45, 7.0] 焦距 24（垂直 45.75°）；亮度 全畫面 [96.5, 59.6]、中央 [102, 58.4]
+PASS [黑畫面] l118a_view_tea_1915_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 96.5、變化 59.6）  {"all": [96.5, 59.6], "mid": [102, 58.4]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_home 店裡的進門位置 (-2.60,2.75) 2025-10-08 1915 
+PASS [home] 店內正式模型載入（1.5 秒）
+  [ 218.4s] [VIEWS asis home 1915] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_home_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_home_near_night.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis home 1915] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_home_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_home_near_night.webp", "photo": 1, "near": 1}
+  [ 220.8s] 【捷徑機位】l118a_view_home_1915_asis_cam.jpg：eye [-1.04, 1.5, 1.85] look [-1.04, 1.45, 7.25] 焦距 24（垂直 45.75°）；亮度 全畫面 [86.2, 45.1]、中央 [94.7, 49.7]
+PASS [黑畫面] l118a_view_home_1915_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 86.2、變化 45.1）  {"all": [86.2, 45.1], "mid": [94.7, 49.7]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_cafe2 店裡的進門位置 (2.20,3.00) 2025-10-08 1915 
+PASS [cafe2] 店內正式模型載入（1.5 秒）
+  [ 229.8s] [VIEWS asis cafe2 1915] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.46}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_cafe2_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_cafe2_near_night.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis cafe2 1915] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.46}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_cafe2_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_cafe2_near_night.webp", "photo": 1, "near": 1}
+  [ 232.1s] 【捷徑機位】l118a_view_cafe2_1915_asis_cam.jpg：eye [0.8800000000000001, 1.5, 2.1] look [0.8800000000000001, 1.45, 7.5] 焦距 24（垂直 45.75°）；亮度 全畫面 [85.7, 42.7]、中央 [86.6, 46.2]
+PASS [黑畫面] l118a_view_cafe2_1915_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 85.7、變化 42.7）  {"all": [85.7, 42.7], "mid": [86.6, 46.2]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_pasta 店裡的進門位置 (-2.60,2.75) 2025-10-08 1915 
+PASS [pasta] 店內正式模型載入（1.5 秒）
+  [ 242.3s] [VIEWS asis pasta 1915] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_pasta_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_pasta_near_night.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis pasta 1915] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_pasta_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_pasta_near_night.webp", "photo": 1, "near": 1}
+  [ 244.8s] 【捷徑機位】l118a_view_pasta_1915_asis_cam.jpg：eye [-1.04, 1.5, 1.85] look [-1.04, 1.45, 7.25] 焦距 24（垂直 45.75°）；亮度 全畫面 [108.9, 59.9]、中央 [126.7, 67.2]
+PASS [黑畫面] l118a_view_pasta_1915_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 108.9、變化 59.9）  {"all": [108.9, 59.9], "mid": [126.7, 67.2]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_korea 店裡的進門位置 (2.20,2.75) 2025-10-08 1915 
+PASS [korea] 店內正式模型載入（1.5 秒）
+  [ 254.2s] [VIEWS asis korea 1915] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_korea_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_korea_near_night.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis korea 1915] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.45}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_korea_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_korea_near_night.webp", "photo": 1, "near": 1}
+  [ 256.6s] 【捷徑機位】l118a_view_korea_1915_asis_cam.jpg：eye [0.8800000000000001, 1.5, 1.85] look [0.8800000000000001, 1.45, 7.25] 焦距 24（垂直 45.75°）；亮度 全畫面 [87.3, 46.5]、中央 [95.2, 51.4]
+PASS [黑畫面] l118a_view_korea_1915_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 87.3、變化 46.5）  {"all": [87.3, 46.5], "mid": [95.2, 51.4]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_omu 店裡的進門位置 (-2.20,2.50) 2025-10-08 1915 
+PASS [omu] 店內正式模型載入（1.5 秒）
+  [ 266.5s] [VIEWS asis omu 1915] 門外窗景平面：{"hasPane": true, "layers": {"far": 8.13, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_omu_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_omu_near_night.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis omu 1915] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8.13, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_omu_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_omu_near_night.webp", "photo": 1, "near": 1}
+  [ 269.0s] 【捷徑機位】l118a_view_omu_1915_asis_cam.jpg：eye [-0.8800000000000001, 1.5, 1.6] look [-0.8800000000000001, 1.45, 7.0] 焦距 24（垂直 45.75°）；亮度 全畫面 [88.2, 54.5]、中央 [99.2, 63.2]
+PASS [黑畫面] l118a_view_omu_1915_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 88.2、變化 54.5）  {"all": [88.2, 54.5], "mid": [99.2, 63.2]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_noodle2 店裡的進門位置 (1.60,2.75) 2025-10-08 1915 
+PASS [noodle2] 店內正式模型載入（1.5 秒）
+  [ 278.2s] [VIEWS asis noodle2 1915] 門外窗景平面：{"hasPane": true, "layers": {"far": 8, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_noodle2_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_noodle2_near_night.webp", "photo": 1, "near": 1}
+PASS [VIEWS asis noodle2 1915] 門外有窗景平面（l118_window_view）、照片載入  {"hasPane": true, "layers": {"far": 8, "near": 5.42}, "map": "http://127.0.0.1:8800/assets/models/env/views/l118_noodle2_night.webp", "nmap": "http://127.0.0.1:8800/assets/models/env/views/l118_noodle2_near_night.webp", "photo": 1, "near": 1}
+  [ 280.5s] 【捷徑機位】l118a_view_noodle2_1915_asis_cam.jpg：eye [0.6400000000000001, 1.5, 1.85] look [0.6400000000000001, 1.45, 7.25] 焦距 24（垂直 45.75°）；亮度 全畫面 [77.3, 50.9]、中央 [92, 57]
+PASS [黑畫面] l118a_view_noodle2_1915_asis_cam.jpg 不是黑畫面／一片單色（全畫面平均 77.3、變化 50.9）  {"all": [77.3, 50.9], "mid": [92, 57]}
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
