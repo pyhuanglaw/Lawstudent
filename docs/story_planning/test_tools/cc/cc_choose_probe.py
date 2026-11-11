@@ -25,6 +25,12 @@ PARTS（逗號分隔；預設全部）：
            點的位置：互動鍵（連按 2、3、20 下；150、500 ms）；另外 500 ms 從選單出現起點在「（辭職）」的位置（＠L1:（辭職））。
   BEDFF    床（story3d.js bedScene）→「快轉」→ 學期快轉〔到下一個有事的時候／過一週／不用了〕。前置：第 57 天 15:00 宿舍、站到床邊。點的位置：L1「快轉」中心。
            interact＝第一下按互動鍵、之後點「快轉」的位置。
+           0792dac30 起（BUG-BEDFF-DOUBLETAP-1111）：選「過一週／到下一個有事的時候」以後先一句說明（SEMFF.confirmText：「快轉：…，最多到…，中間有事會先停。」
+           ＋「沒有劇情的課會自動去上。」或「現在正在上的○○會記成沒去。」），再〔算了／快轉〕。量位置多一層（說明全文、確認每一項的框、和「過一週」重不重疊）；
+           連點三種節奏（150×20、150×40、500×8）跑完都檢查：天數沒變、CLS note 沒有多出 skip_*／plan_skip_*——遊戲有 SEMFF.confirmText＝R.check，沒有（73faa493f）＝R.note。
+  BEDFFC   （BB 05:06）一步一步照字選：床 →「快轉」→「過一週」（或「到下一個有事的時候」）→ 確認的「快轉」；前置第 57 天 BEDFFC_H（預設 9.5＝第一堂正在上）宿舍房間，每一個都從同一份存檔讀起。
+           判定（有 SEMFF.confirmText＝R.check，沒有＝R.note）：說明裡「現在正在上的○○會記成沒去」的課都被記成沒去（note 多出 skip_／plan_skip_），說明沒寫的課沒有被記成沒去。
+           cancel：〔算了〕以後記區域、位置、互動鍵的字，再按一次互動鍵出不出選單。BEDFFC_CASES（預設 week,next,cancel）。
   BIKE     慢輪單車：展示車「看這台車」→ 老闆介紹 →〔買這台 N 元／再看看〕→ 顏色（選了就扣款）。前置：第 57 天 14:00 在 bikeshop、站到第一台展示車旁邊、錢 30000。點的位置：L1「買這台」中心。
   DATE     約會出發時間到（date3d.js prompt）〔出發／改時間／今天不去了〕→「改時間」→〔晚一個小時／改到明天同一個時間／算了，今天不去了／選別的日期和時間〕。
            【捷徑】DATE.book（沈以安、D01、10:00 出發，找得到的第一天）→ 讀檔到出發時間後 0.02 時（宿舍）→ 等遊戲自己跳（40 秒沒跳才 void DATE.prompt）。點的位置：L1「改時間」中心。
@@ -37,10 +43,11 @@ PARTS（逗號分隔；預設全部）：
   （classes3d.js:1308 開學第二天、closed2_3d.js:42 國際處交志願表這一版沒做——條件太長；GYM 是第 10 個的備案。）
 RUNS：每一輪寫「節奏ms:下數:開始方式[@點]」，用 / 隔開（佇列的 ENV 用分號分欄，不能用分號）；開始方式 menu（L1 出現才開始）、dlg（L1 前面那一句出現就開始）、interact（第一下按互動鍵）、pre（先點 2 下再叫出選單，AUTOPOP）。
   不給＝照 PART 的預設（DEFRUNS）。150 ms 預設 20 下（N150）、另一輪 40 下（NLONG，超過 4 秒看保險到期）；500 ms 預設 8 下（N500）。
-環境變數：LW_TESTS SHA PARTS ORIENTS（量位置的方向，預設 P,L）MASHO（連點的方向，預設 P）RUNS N150 N500 NLONG EVQUIET SETTLE（連點完等幾 ms 再比對，預設 2500）
+環境變數：LW_TESTS SHA PARTS ORIENTS（量位置的方向，預設 P,L）MASHO（連點的方向，預設 P；BEDFFC 也照這個）RUNS N150 N500 NLONG EVQUIET SETTLE（連點完等幾 ms 再比對，預設 2500）
+  BEDFFC_CASES BEDFFC_H
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=BEDFF python3 cc_choose_probe.py <url> <out>
 雲端 SwiftShader 只做自檢；Windows＋GPU（PC runner）≠ iPhone。不用 ?turbo、不瞬移玩家去做事（站到互動點旁邊＝【前置】）。"""
-import os, sys, json, asyncio, time
+import os, sys, json, asyncio, time, re
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE); sys.path.insert(0, os.path.dirname(HERE))
 import playlib as L
 import bbplay as P
@@ -51,7 +58,9 @@ URL, OUT = sys.argv[1], sys.argv[2]
 os.makedirs(OUT, exist_ok=True)
 ENV = os.environ.get
 SHA = ENV('SHA') or ''
-ALLP = ['WAKE', 'AFTER', 'JOB', 'BEDFF', 'BIKE', 'DATE', 'CONFESS', 'DECIDE', 'AUTOPOP', 'GYM']
+ALLP = ['WAKE', 'AFTER', 'JOB', 'BEDFF', 'BIKE', 'DATE', 'CONFESS', 'DECIDE', 'AUTOPOP', 'GYM', 'BEDFFC']
+BEDFFC_CASES = [c.strip() for c in (ENV('BEDFFC_CASES') or 'week,next,cancel').split(',') if c.strip()]
+BEDFFC_H = float(ENV('BEDFFC_H') or 9.5)
 PARTS = [p.strip().upper() for p in (ENV('PARTS') or ','.join(ALLP)).split(',') if p.strip()]
 ORIENTS = [o.strip().upper() for o in (ENV('ORIENTS') or 'P,L').split(',') if o.strip()]
 MASHO = [o.strip().upper() for o in (ENV('MASHO') or 'P').split(',') if o.strip()]
@@ -121,6 +130,12 @@ def ddiff(a, b, path='', out=None, lim=80):
     return out
 
 
+def new_skips(before, after):
+    """CLS note 多出來的 skip_<key>／plan_skip_<key>（skipn_ 這種次數不算）"""
+    a = ((before.get('cls') or {}).get('note') or {}); b = ((after.get('cls') or {}).get('note') or {})
+    return sorted(k for k in b if k not in a and re.match(r'^(plan_)?skip_\d+:', k))
+
+
 def startswith_any(t, ps):
     return any((t or '').startswith(p) for p in ps)
 
@@ -144,8 +159,8 @@ async def menu_now(pg):
     return await pg.evaluate(GC.RECTS)
 
 
-async def adv_until(pg, cdp, sig, tag, max_s=60, other='last'):
-    """正常速度：對話出現 500 ms 後點對話框；選單 sig(文字串列) 成立就回傳那個選單；別的選單照 other 選（記下來）"""
+async def adv_until(pg, cdp, sig, tag, max_s=60, other='last', stop_other=False):
+    """正常速度：對話出現 500 ms 後點對話框；選單 sig(文字串列) 成立就回傳那個選單；別的選單照 other 選（記下來）；stop_other＝出現別的選單就不選、回傳 None"""
     t0 = time.time()
     while time.time() - t0 < max_s:
         s = await GC.ms(pg)
@@ -153,6 +168,7 @@ async def adv_until(pg, cdp, sig, tag, max_s=60, other='last'):
             await pg.wait_for_timeout(450); m = await menu_now(pg); txt = [b['t'] for b in m]
             if not txt: continue
             if sig(txt): return m
+            if stop_other: R.note('%s：出現的是別的選單 %s（不選，停）' % (tag, J(txt))); return None
             R.note('%s：途中別的選單 %s → 選最後一個' % (tag, J(txt))); await P.tap_choice(pg, cdp, len(txt) - 1); await pg.wait_for_timeout(900); continue
         if s['dlg']:
             await pg.wait_for_timeout(500); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250); continue
@@ -262,8 +278,15 @@ class Job(Part):
 
 class BedFF(Part):
     name = 'BEDFF'; trig = 'interact'; L1 = staticmethod(lambda t: any(x.startswith('快轉') for x in t))
-    chain = [('快轉', lambda t: any(x.startswith(('過一週', '到下一個', '過三天')) for x in t))]; point = 'L1:快轉'
+    chain = [('快轉', lambda t: any(x.startswith(('過一週', '到下一個', '過三天')) for x in t)),
+             ('過一週', lambda t: '算了' in t and '快轉' in t, True)]   # 0792dac30 起：說明一句＋〔算了／快轉〕（73faa493f 沒有）
+    point = 'L1:快轉'
     irr = ('過一週', '過三天', '到下一個', '睡', '小睡', '趴著睡', '再睡')
+
+    def is_irr(self, menu, txt):
+        if menu and '算了' in menu: return txt == '快轉'   # 確認選單的「快轉」＝真的跳
+        if txt == '快轉': return False                      # 床的選單的「快轉」只是叫出快轉選單
+        return startswith_any(txt, self.irr)
 
     async def prep(self, pg, cdp):
         T = await GC.target_day(pg); d = T['day']; self.st = GC.mkstate(d, 15.0, 'dorm'); self.desc = '%s 15:00 宿舍房間' % d['key']; return True
@@ -373,7 +396,102 @@ class Gym(Part):
         self.ir = await place_at(pg, cdp, 'gym', lambda t: t.startswith('去健身房'), tag); return bool(self.ir)
 
 
-CLASSES = {'WAKE': Wake, 'AFTER': After, 'JOB': Job, 'BEDFF': BedFF, 'BIKE': Bike, 'DATE': Date, 'CONFESS': Confess, 'DECIDE': Decide, 'AUTOPOP': Autopop, 'GYM': Gym}
+class BedFFC(BedFF):
+    name = 'BEDFFC'
+
+    async def prep(self, pg, cdp):
+        T = await GC.target_day(pg); d = T['day']; self.T = T
+        self.st = GC.mkstate(d, BEDFFC_H, 'dorm'); self.desc = '%s（第 %d 天）%.2f 時宿舍房間（第一堂 %s %.2f–%.2f）' % (d['key'], d['d'], BEDFFC_H, T['crim']['name'], T['crim']['t0'], T['crim']['t1'])
+        return True
+
+
+KEYNAMES = r"""(keys=>keys.map(k=>{ const m=k.replace(/^(plan_)?skip_/,'').split(':'); let c=null; try{ c=CLS.byId?CLS.byId(m[1]):null; }catch(e){} return {key:k,day:+m[0],id:m[1],name:c?c.name:null}; }))"""
+
+
+async def ff_wait(pg, cdp, tag, max_s=240, idle_s=6.0):
+    """快轉跑完：途中的對話照正常速度點、選單選最後一個（多半是「先停在這裡」）並記下來；人空下來 idle_s 秒＝跑完"""
+    t0 = time.time(); idle = None; seen = []
+    while time.time() - t0 < max_s:
+        s = await GC.ms(pg)
+        if s['ch']:
+            idle = None; await pg.wait_for_timeout(600); m = await menu_now(pg); txt = [b['t'] for b in m]
+            if txt: seen.append(txt); R.note('%s：快轉途中的選單 %s → 選最後一個' % (tag, J(txt))); await P.tap_choice(pg, cdp, len(txt) - 1); await pg.wait_for_timeout(900)
+            continue
+        if s['dlg']: idle = None; await pg.wait_for_timeout(500); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250); continue
+        if s['phone']: await L.phone_away(pg, cdp, tries=1); continue
+        if s['busy'] or s['fade'] or s['path']: idle = None; await pg.wait_for_timeout(300); continue
+        idle = idle or time.time()
+        if time.time() - idle >= idle_s: return seen
+        await pg.wait_for_timeout(300)
+    R.note('%s：快轉 %d 秒還沒跑完（%s）' % (tag, max_s, J(await GC.ms(pg)))); return seen
+
+
+async def bedffc_case(pg, cdp, part, case, newc):
+    target, confirm = {'week': ('過一週', '快轉'), 'next': ('到下一個', '快轉'), 'cancel': ('過一週', '算了')}[case]
+    tag = 'BEDFFC_%s' % case
+    if not await fresh(pg, tag): return
+    if not await part.load(pg, cdp, tag): R.note('【到不了】%s：前置失敗' % tag); UNREACHED.append(tag); return
+    before = await snap(pg); n0 = await GC.logn(pg)
+    m1 = await bring_l1(pg, cdp, part, tag)
+    if not m1: R.note('【到不了】%s：床的選單沒有「快轉」' % tag); UNREACHED.append(tag); return
+    await pg.wait_for_timeout(500); R.note('%s：床的選單 %s → 照字選「快轉」' % (tag, J([b['t'] for b in m1])))
+    await pick_text(pg, cdp, '快轉')
+    m2 = await adv_until(pg, cdp, lambda t: any(x.startswith(target) for x in t), tag, max_s=30)
+    if not m2: R.note('【到不了】%s：快轉選單沒有「%s」' % (tag, target)); UNREACHED.append(tag); return
+    await pg.wait_for_timeout(500); got2 = await pick_text(pg, cdp, target); R.note('%s：快轉選單 %s → 照字選「%s」' % (tag, J([b['t'] for b in m2]), got2))
+    m3 = await adv_until(pg, cdp, lambda t: '算了' in t and '快轉' in t, tag, max_s=25, stop_other=True)
+    says = [e.get('text') for e in await GC.logs(pg, n0) if e.get('k') == 'say']
+    ctext = next((x for x in says if str(x or '').startswith('快轉：')), None)
+    R.note('%s：說明（全文）%s；確認選單 %s' % (tag, J(ctext), J([[b['t'], b['r']] for b in m3]) if m3 else '沒有出現'))
+    if m3:
+        await pg.wait_for_timeout(600); got3 = await pick_text(pg, cdp, confirm); R.note('%s：照字選確認的「%s」' % (tag, got3))
+    elif newc: R.check('%s：選「%s」以後有確認〔算了／快轉〕' % (tag, got2), False, J(says))
+    if confirm == '算了':
+        await pg.wait_for_timeout(2000); st = await L.state(pg); ir = await pg.evaluate(IRECT); after = await snap(pg)
+        R.note('%s：選「算了」以後：區域 %s、位置 (%s, %s) 第 %s 層、G.hour %s、對話 %s、選單 %s、互動鍵 %s' % (tag, st['zone'], st['x'], st['z'], st['lv'], st['hour'], st['dlg'], st['choices'], J(ir)))
+        dd = ddiff(before, after); R.note('%s：選「算了」以後的變化 %s' % (tag, J(dd) if dd else '沒有'))
+        if ir:
+            await L.tap(pg, cdp, '#interact'); m = None
+            for _ in range(30):
+                await pg.wait_for_timeout(500)
+                if (await GC.ms(pg))['ch']: await pg.wait_for_timeout(400); m = await menu_now(pg); break
+            R.note('%s：再按一次互動鍵「%s」→ %s' % (tag, ir['t'], J([b['t'] for b in m]) if m else '沒有出選單'))
+        else: R.note('%s：選「算了」以後沒有互動鍵（床按不到）' % tag)
+        await R.shot(pg, tag + '_after_cancel'); return
+    seen = await ff_wait(pg, cdp, tag)
+    after = await snap(pg); sk = new_skips(before, after)
+    names = await pg.evaluate(KEYNAMES, sk) if sk else []
+    m = re.search(r'現在正在上的(.+?)會記成沒去', ctext or '')
+    said = [x for x in (m.group(1).split('、') if m else []) if x]
+    got_names = [x['name'] or x['id'] for x in names]
+    R.note('%s：快轉完 第 %s→%s 天 %s 時 %s；途中選單 %s；note 多出的 %s；說明寫的「會記成沒去」%s' % (tag, before['day'], after['day'], after['hour'], after['zone'], J(seen), J(names), J(said)))
+    await R.shot(pg, tag + '_after')
+    for msg, ok, info in (('%s：說明裡寫的課都被記成沒去' % tag, all(x in got_names for x in said), J([said, got_names])),
+                          ('%s：說明沒寫的課沒有被記成沒去' % tag, all(x in said for x in got_names), J([said, got_names]))):
+        if newc: R.check(msg, ok, info)
+        else: R.note('（D34 舊版對照，只記；這一版沒有說明）%s → %s %s' % (msg, '是' if ok else '否', info))
+
+
+async def run_bedffc(p):
+    part = BedFFC()
+    for ori in MASHO:
+        b, ctx, pg, cdp, errs = await L.launch(p, landscape=(ori == 'L'))
+        try:
+            await pg.goto(guard_url(URL))
+            if not await L.wait_loaded(pg): R.note('BEDFFC：遊戲沒載入'); return
+            await pg.evaluate("localStorage.clear()"); await GC.hook(pg)
+            newc = await pg.evaluate("typeof SEMFF!=='undefined'&&typeof SEMFF.confirmText==='function'")
+            R.note('BEDFFC_%s：這一版%s快轉確認（SEMFF.confirmText）' % (ori, '有' if newc else '沒有'))
+            await part.prep(pg, cdp)
+            for c in BEDFFC_CASES:
+                try: await bedffc_case(pg, cdp, part, c, newc)
+                except Exception as e: R.note('BEDFFC %s 例外：%r' % (c, e))
+            R.note('BEDFFC_%s：JS 例外 %s' % (ori, J(errs[:5]) if errs else '沒有'))
+        finally:
+            await b.close()
+
+
+CLASSES = {'WAKE': Wake, 'AFTER': After, 'JOB': Job, 'BEDFF': BedFF, 'BIKE': Bike, 'DATE': Date, 'CONFESS': Confess, 'DECIDE': Decide, 'AUTOPOP': Autopop, 'GYM': Gym, 'BEDFFC': BedFFC}
 
 
 async def bring_l1(pg, cdp, part, tag):
@@ -411,15 +529,21 @@ async def measure(pg, cdp, part, ori):
     if ir0: ov += ov_list('互動鍵「%s」' % ir0['t'], ir0['r'], m1, 'L1')
     if cv1 and cv1.get('dlgShown') and cv1.get('dlgRect'): ov += ov_list('留著的對話框', cv1['dlgRect'], m1, 'L1')
     prev = m1; lvl = 1
-    for want, sig in part.chain:
+    for step in part.chain:
+        want, sig = step[0], step[1]; opt = len(step) > 2 and step[2]
         src = next((b for b in prev if b['t'].startswith(want)), None)
+        nsay = await GC.logn(pg)
         got = await pick_text(pg, cdp, want)
         if not got: R.note('%s：L%d 找不到「%s」' % (tag, lvl, want)); break
-        m2 = await adv_until(pg, cdp, sig, tag)
-        if not m2: break
+        m2 = await adv_until(pg, cdp, sig, tag, max_s=25 if opt else 60, stop_other=bool(opt))
+        if not m2:
+            if opt: R.note('%s：選「%s」以後沒有下一層（這一版沒有這一步——舊版對照時是預期）' % (tag, got))
+            break
+        says = [e.get('text') for e in await GC.logs(pg, nsay) if e.get('k') == 'say']
         await pg.wait_for_timeout(500); m2 = await menu_now(pg); cv2 = await pg.evaluate(GC.COVER); lvl += 1
         await R.shot(pg, '%s_L%d' % (tag, lvl))
-        lay['levels'].append({'from': got, 'fromRect': src['r'] if src else None, 'menu': m2, 'pick3': pick3(m2), 'cover': cv2})
+        if says: R.note('%s：選「%s」到下一層之間的對話（全文）%s' % (tag, got, J(says)))
+        lay['levels'].append({'from': got, 'fromRect': src['r'] if src else None, 'menu': m2, 'pick3': pick3(m2), 'cover': cv2, 'says': says})
         if src: ov += ov_list('L%d 被點的「%s」' % (lvl - 1, src['t']), src['r'], m2, 'L%d' % lvl)
         if ir0: ov += ov_list('互動鍵「%s」' % ir0['t'], ir0['r'], m2, 'L%d' % lvl)
         if cv2 and cv2.get('dlgShown') and cv2.get('dlgRect'): ov += ov_list('留著的對話框', cv2['dlgRect'], m2, 'L%d' % lvl)
@@ -537,6 +661,16 @@ async def one_run(pg, cdp, part, lay, spec, ori, idx, newv):
     if rate > 200:
         irr = [p for p in picks if p['irr']]
         R.note('%s：500 ms 節奏一路點下去，點掉的不可逆項 %s' % (tag, ('★ ' + J([[p['picked'], p['downDt']] for p in irr])) if irr else '沒有'))
+    if part.name == 'BEDFF':
+        cf = [e.get('text') for e in lg if e.get('k') == 'say' and str(e.get('text') or '').startswith('快轉：')]
+        R.note('%s：確認前的說明（全文）%s' % (tag, J(cf) if cf else '沒有出現'))
+        if (rate, n) in ((150, 20), (150, 40), (500, 8)):
+            hasc = await pg.evaluate("typeof SEMFF!=='undefined'&&typeof SEMFF.confirmText==='function'")
+            sk = new_skips(before, after)
+            for msg, ok, info in (('%s：連點以後天數沒變（%s → %s）' % (tag, before.get('day'), after.get('day')), before.get('day') == after.get('day'), ''),
+                                  ('%s：連點以後 CLS note 沒有多出 skip_*' % tag, not sk, J(sk))):
+                if hasc: R.check(msg, ok, info)
+                else: R.note('（D34 舊版對照，只記；這一版沒有快轉確認）%s → %s %s' % (msg, '是' if ok else '否', info))
     if part.name == 'WAKE':
         ck = part.T['crim']['key']; ps = 'plan_skip_' + ck in ((after.get('cls') or {}).get('note') or {})
         msg = '%s：起床鏈連點以後沒有翹課（CLS note 沒有 plan_skip_%s）' % (tag, ck)
@@ -559,6 +693,7 @@ def parse_runs(part):
 
 
 async def run_part(p, name):
+    if name == 'BEDFFC': return await run_bedffc(p)
     part = CLASSES[name]()
     lays = {}
     for ori in sorted(set(ORIENTS) | set(MASHO), key=lambda o: o != 'P'):
