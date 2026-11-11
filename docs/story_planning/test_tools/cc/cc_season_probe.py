@@ -50,9 +50,9 @@ EDGE_FALLBACK = [('XMAS', '開始前一天', '2025-11-30', False), ('XMAS', '開
                  ('CNY', '開始前一天', '2026-02-02', False), ('CNY', '開始當天', '2026-02-03', True), ('CNY', '最後一天', '2026-03-04', True), ('CNY', '結束隔天', '2026-03-05', False)]
 STREETS = {
     'gongguan': {'pano': [('西段往東（店面那一側）', (-64.0, 2.2, 13.0), (-42.0, 2.0, 21.0), 24), ('中段往東', (-14.0, 2.2, 13.0), (8.0, 2.0, 21.0), 24), ('東段往西', (76.0, 2.2, 13.0), (52.0, 2.0, 21.0), 24)],
-                 'walk': [(-58.0, 14.0), (-25.0, 14.0), (5.0, 14.0), (35.0, 14.0), (65.0, 14.0)]},
+                 'walk': [(-58.0, 14.0), (-25.0, 14.0), (5.0, 14.0), (35.0, 14.0), (65.0, 14.0)], 'axisZ': 14.0},
     'wenzhou': {'pano': [('西段往東', (-36.0, 2.0, 0.0), (-15.0, 1.8, 0.0), 24), ('中段往東', (-2.0, 2.0, 0.0), (20.0, 1.8, 0.0), 24), ('東段往西', (52.0, 2.0, 0.0), (30.0, 1.8, 0.0), 24)],
-                'walk': [(-34.0, 0.0), (-10.0, 0.0), (15.0, 0.0), (40.0, 0.0), (52.0, 0.0)]},
+                'walk': [(-34.0, 0.0), (-10.0, 0.0), (15.0, 0.0), (40.0, 0.0), (52.0, 0.0)], 'axisZ': 0.0},
 }
 
 ME = "(()=>{ const E=GAME.E, P=E.player, p=P.obj.position, N=E.nav; return {zone:GAME.G.zone, day:GAME.G.day, h:+(+GAME.G.hour).toFixed(2), x:+p.x.toFixed(2), z:+p.z.toFixed(2), free:N?!!N.free(p.x,p.z):null, stand:E.canStand?!!E.canStand(p.x,p.z,0.3,P.lv|0):null, fb:GAME.walkFallbacks|0}; })()"
@@ -60,12 +60,14 @@ SNAPFREE = r"""(([x,z,r])=>{ const E=GAME.E; const ok=(a,b)=>E.canStand?E.canSta
   for(let rr=0.25;rr<=r+1e-6;rr+=0.25){ for(let k=0;k<24;k++){ const a=k/24*Math.PI*2, px=x+Math.cos(a)*rr, pz=z+Math.sin(a)*rr; if(ok(px,pz)){ best=[+px.toFixed(2),+pz.toFixed(2),+rr.toFixed(2)]; break; } } if(best) break; } return best; })"""
 # 場景裡的季節物件：名字、種類、看不看得到（往上每一層都 visible）、頂點數、世界外框；SD3 的預期代號
 SEASON_LIST = r"""(()=>{ const E=GAME.E, z=E.zone||{}, zid=GAME.G.zone, day=GAME.G.day; const vis=o=>{ for(let q=o;q;q=q.parent) if(q.visible===false) return false; return true; };
+  /* 只有季節模型（season_<區域>_glb）底下的才算布置；溫州小公園的杜鵑、楓香節點也叫 SEASON_AZALEA_*（zones3d.js wzParkSeason），另外記、不算 */
+  const roots=[]; E.scene.traverse(o=>{ if(/^season_\w+_glb$/.test(o.name||'')) roots.push(o); }); const under=o=>{ for(let q=o;q;q=q.parent) if(roots.includes(q)) return true; return false; };
   const L=[]; E.scene.traverse(o=>{ if(!/^(season_|SEASON_)/.test(o.name||'')) return; let b=null; if(o.isMesh){ o.updateMatrixWorld(true); const bb=new THREE.Box3().setFromObject(o); if(!bb.isEmpty()) b=[[+bb.min.x.toFixed(2),+bb.min.y.toFixed(2),+bb.min.z.toFixed(2)],[+bb.max.x.toFixed(2),+bb.max.y.toFixed(2),+bb.max.z.toFixed(2)]]; }
-    const m=o.isMesh?(Array.isArray(o.material)?o.material[0]:o.material):null; L.push({name:o.name, type:o.isMesh?'mesh':(o.isGroup?'group':o.type), visible:vis(o), verts:o.isMesh&&o.geometry.attributes.position?o.geometry.attributes.position.count:0, mat:m?m.name:null,
+    const m=o.isMesh?(Array.isArray(o.material)?o.material[0]:o.material):null; L.push({name:o.name, deco:under(o), type:o.isMesh?'mesh':(o.isGroup?'group':o.type), visible:vis(o), verts:o.isMesh&&o.geometry.attributes.position?o.geometry.attributes.position.count:0, mat:m?m.name:null,
       emissive:m&&m.emissive?+(m.emissive.r+m.emissive.g+m.emissive.b).toFixed(2):null, emI:m&&m.emissiveIntensity!=null?+(+m.emissiveIntensity).toFixed(2):null, box:b}); });
-  const cnt={}; L.forEach(q=>{ cnt[q.name]=(cnt[q.name]||0)+1; });
+  const cnt={}, other={}; L.forEach(q=>{ if(q.deco) cnt[q.name]=(cnt[q.name]||0)+1; else other[q.name]=(other[q.name]||0)+1; });
   return {sd3:typeof SD3!=='undefined', deco:typeof SEASON_DECO!=='undefined', expect:(typeof SD3!=='undefined'&&SD3.active)?SD3.active(zid,day):null, key:(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf)?CALENDAR.dateOf(day).key:null,
-    seasonCodes:z.seasonCodes||null, root:!!z.seasonRoot, list:L, count:cnt, visibleOn:L.filter(q=>/^SEASON_[A-Z0-9]+_on$/.test(q.name)&&q.visible).map(q=>q.name.replace(/^SEASON_|_on$/g,'')), visibleMeshes:L.filter(q=>q.type==='mesh'&&q.visible).map(q=>q.name)}; })()"""
+    seasonCodes:z.seasonCodes||null, root:!!z.seasonRoot, roots:roots.map(o=>o.name), list:L.filter(q=>q.deco), other, count:cnt, visibleOn:L.filter(q=>q.deco&&/^SEASON_[A-Z0-9]+_on$/.test(q.name)&&q.visible).map(q=>q.name.replace(/^SEASON_|_on$/g,'')), visibleMeshes:L.filter(q=>q.deco&&q.type==='mesh'&&q.visible).map(q=>q.name)}; })()"""
 # 每扇門的布置：doors.json 的門 → 附近 3 m 內看得到的 season 頂點（世界座標）→ 外框、哪幾個網格、發光那一叢的中心
 DOORS_JS = r"""(async zid=>{ const E=GAME.E; let doors=[]; try{ const r=await fetch('assets/models/env/second_ai/season_'+zid+'.doors.json'); if(r.ok) doors=await r.json(); }catch(e){}
   const vis=o=>{ for(let q=o;q;q=q.parent) if(q.visible===false) return false; return true; };
@@ -73,7 +75,8 @@ DOORS_JS = r"""(async zid=>{ const E=GAME.E; let doors=[]; try{ const r=await fe
   const D=doors.map(d=>{ const c=[(d.w0[0]+d.w1[0])/2,(d.w0[1]+d.w1[1])/2], tl=Math.hypot(d.w1[0]-d.w0[0],d.w1[1]-d.w0[1])||1, t=[(d.w1[0]-d.w0[0])/tl,(d.w1[1]-d.w0[1])/tl]; const P=[d.w0,d.w1].concat(d.glass||[]), pr=P.map(q=>(q[0]-c[0])*t[0]+(q[1]-c[1])*t[1]);
     return {id:d.id, kind:d.kind, c, t, s0:Math.min(...pr), s1:Math.max(...pr), n:d.n, top:d.top, meshes:{}, box:null, glow:null}; });
   const segD=(d,x,z)=>{ const u=Math.max(d.s0,Math.min(d.s1,(x-d.c[0])*d.t[0]+(z-d.c[1])*d.t[1])); return Math.hypot(x-(d.c[0]+d.t[0]*u),z-(d.c[1]+d.t[1]*u)); };
-  const v=new THREE.Vector3(); E.scene.traverse(o=>{ if(!o.isMesh||!/^SEASON_/.test(o.name||'')||!vis(o)) return; o.updateMatrixWorld(true); const pa=o.geometry.attributes.position, mat=(Array.isArray(o.material)?o.material[0]:o.material)||{}, glow=/glow/.test(mat.name||'');
+  const roots=[]; E.scene.traverse(o=>{ if(/^season_\w+_glb$/.test(o.name||'')) roots.push(o); }); const under=o=>{ for(let q=o;q;q=q.parent) if(roots.includes(q)) return true; return false; };
+  const v=new THREE.Vector3(); E.scene.traverse(o=>{ if(!o.isMesh||!under(o)||!vis(o)) return; o.updateMatrixWorld(true); const pa=o.geometry.attributes.position, mat=(Array.isArray(o.material)?o.material[0]:o.material)||{}, glow=/glow/.test(mat.name||'');
     for(let k=0;k<pa.count;k++){ v.fromBufferAttribute(pa,k).applyMatrix4(o.matrixWorld); let best=null, bd=1.5; for(const d of D){ const dd=segD(d,v.x,v.z); if(dd<bd){ bd=dd; best=d; } } if(!best){ (D.orphan=D.orphan||{})[o.name]=(D.orphan[o.name]||0)+1; continue; }
       best.meshes[o.name]=(best.meshes[o.name]||0)+1; (best.box=best.box||new THREE.Box3()).expandByPoint(v); if(glow){ (best.glow=best.glow||new THREE.Box3()).expandByPoint(v); } } });
   const r3=b=>b?[[+b.min.x.toFixed(2),+b.min.y.toFixed(2),+b.min.z.toFixed(2)],[+b.max.x.toFixed(2),+b.max.y.toFixed(2),+b.max.z.toFixed(2)]]:null;
@@ -139,7 +142,8 @@ async def season_report(pg, tag, day):
     q = await pg.evaluate(SEASON_LIST)
     names = sorted(q['count'].items())
     R.note('%s 日期 %s（遊戲 %s）；SD3 %s、SEASON_DECO %s；SD3 預期代號 %s；zone.seasonCodes %s；季節模型掛上 %s' % (tag, day, q['key'], q['sd3'], q['deco'], J(q['expect']), J(q['seasonCodes']), q['root']))
-    R.note('%s 場景裡 season_*／SEASON_* 物件 %d 個：%s；看得到的組 %s；看得到的網格 %s' % (tag, len(q['list']), J(names), J(q['visibleOn']), J(q['visibleMeshes'])))
+    R.note('%s 季節模型 %s 底下的物件 %d 個：%s；看得到的組 %s；看得到的網格 %s' % (tag, J(q['roots']), len(q['list']), J(names), J(q['visibleOn']), J(q['visibleMeshes'])))
+    if q['other']: R.note('%s （季節模型以外、名字也是 season_／SEASON_ 開頭的：%s——溫州小公園的杜鵑楓香，不算布置）' % (tag, J(q['other'])))
     for it in q['list']:
         if it['type'] == 'mesh': R.note('%s 　%s：看得到 %s、頂點 %d、材質 %s（emissive %s × %s）、外框 %s' % (tag, it['name'], it['visible'], it['verts'], it['mat'], it['emissive'], it['emI'], J(it['box'])))
     if not q['sd3']:
@@ -219,7 +223,7 @@ async def part_shots(pg, cdp):
                         await sh.shot('season_%s_%s_%s_%s.jpg' % (zone, day, hh, d['id']), '門 %s（%s）布置近拍：%s' % (d['id'], d['kind'], '、'.join(d['meshes'])), (cx + nx * dist, 1.7, cz + nz * dist), (cx, cy, cz), 30)
                         if d['glow'] and h >= 18:
                             g = d['glow']; gx, gy, gz = (g[0][0] + g[1][0]) / 2, (g[0][1] + g[1][1]) / 2, (g[0][2] + g[1][2]) / 2
-                            await sh.shot('season_%s_%s_%s_%s_glow.jpg' % (zone, day, hh, d['id']), '門 %s 晚上發光那一叢（season_glow）再近一張：看有沒有變成白球' % d['id'], (gx + nx * 1.8, gy - 0.3, gz + nz * 1.8), (gx, gy, gz), 40)
+                            await sh.shot('season_%s_%s_%s_%s_glow.jpg' % (zone, day, hh, d['id']), '門 %s 晚上發光那一叢（season_glow）再近一張：看有沒有變成白球' % d['id'], (gx + nx * 2.4, 1.6, gz + nz * 2.4), (gx, gy, gz), 45)   # 站在騎樓裡抬頭看（1.8 m、高 2.4 m 的機位會卡進雨遮）
                     await sh.montage('season_%s_%s_%s_all.jpg' % (zone, day, hh), '%s %s（%s）%s（%s）：全景三張、每扇有布置的門近拍' % (ZN[zone], day, DAYNAME.get(day, ''), hh, SHA))
 
 
@@ -271,12 +275,17 @@ async def part_doors(pg, cdp):
             S_ = STREETS.get(zone)
             if not S_: continue
             tagz = '[DOORS %s %s]' % (ZN[zone], day); px, pz = S_['walk'][2]
-            await at(pg, cdp, zone, day, 14.0, px, pz, '（店門進出）'); await wait_season(pg); await F.ready(pg, cdp, 20)
-            fb0 = (await pg.evaluate(ME))['fb']
+            await at(pg, cdp, zone, day, 14.0, px, pz, '（店門進出：先列店門）'); await wait_season(pg); await F.ready(pg, cdp, 20)
+            fbs = 0; me = await pg.evaluate(ME)
             doors = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden&&i.exit&&/^進/.test(i.label||'')).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1,lv:i.lv|0,label:i.label,to:i.exit.to})))()")
             R.note('%s 「進…」的店門 %d 間：%s' % (tagz, len(doors), J(doors)))
             for i, d in enumerate(doors[:mx]):
                 tag = '%s #%d %s' % (tagz, i + 1, d['label'])
+                ax = S_['axisZ']; sx_, sz_ = d['x'], (ax if abs(d['z'] - ax) <= 8 else d['z'] + math.copysign(5.0, ax - d['z']))   # 店門往街上那一側 5 m 左右（街的中線 z）
+                sp = await pg.evaluate(SNAPFREE, [sx_, sz_, 3.0]) or [sx_, sz_, 0]
+                # 每一間從那一間門前的街上開始（不然雲端低幀率要走 60 m 以上）；之後全程搖桿
+                await at(pg, cdp, zone, day, 14.0, sp[0], sp[1], '（店門「%s」前面的街上）' % d['label']); await wait_season(pg); await F.ready(pg, cdp, 20)
+                fb0 = (await pg.evaluate(ME))['fb']
                 s = await F.enter_door(pg, cdp, tag, d)
                 if s:
                     await pg.wait_for_timeout(1200)
@@ -284,10 +293,9 @@ async def part_doors(pg, cdp):
                     if R.check('%s 店裡有出口回%s' % (tag, ZN[zone]), bool(ex), ''):
                         s2 = await F.enter_door(pg, cdp, tag + ' 出店', ex)
                         if s2:
-                            mv = await D.pushable(pg, cdp); R.check('%s 出店站在 %s、推得動（%.2f m）' % (tag, J([s2['x'], s2['z']]), mv), mv >= 0.3 and s2['stand'], J(s2))
-                            continue
-                await at(pg, cdp, zone, day, 14.0, px, pz, '（上一間沒進出成功，回街上）'); await wait_season(pg); await F.ready(pg, cdp, 20)
-            me = await pg.evaluate(ME); R.check('%s walkFallbacks 0' % tagz, me['fb'] - fb0 == 0, J(me))
+                            mv = await D.pushable(pg, cdp); R.check('%s 出店站在 %s、推得動（%.2f m）' % (tag, J([s2['x'], s2['z']]), mv), mv >= 0.3 and s2['stand'], J(s2))   # 讀檔會把 walkFallbacks 歸零：每一間各自算
+                me = await pg.evaluate(ME); fbs += me['fb'] - fb0
+            R.check('%s walkFallbacks 0（每一間累計）' % tagz, fbs == 0, J(me))
 
 
 async def part_nav(pg, cdp):
