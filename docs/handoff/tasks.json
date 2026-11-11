@@ -53288,6 +53288,32 @@
     "receiver": "LAWWW2",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BUG-GOCLASS-SKIPPED-1111",
+   "title": "使用者 day57：早上選「去上課」→ 直接跳到法圖、沒有進教室、手機說沒去上課（USER_WANTS X337，下一版必須）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "夜市旁巷子",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "存檔（使用者上傳，只在 LAWWW 工作階段 /root/.claude/uploads/…/020560dc-fatiao3d_save_day57_2.json，不 commit）：day 57 週三 15:29 在 lawlib；courses.note 有 plan_skip_57:crim_gen1:am＋skip_57:crim_gen1:am（第一堂刑法總則記成「翹課」）、done 只有 57:service_1:pm1（下午服務學習，地點法圖櫃台、門口上課不進教室）；slots am 用掉 1。plan_skip 只有起床選單「翹這堂課→翹」或在家起床會寫——所以遊戲記到的是：翹第一堂 →（再睡一下）→ 第二次起床選單第一項變成「直接去上課：服務學習」→ 時間跳到 13:00、落在法圖。使用者說她選的是去上課。待查：①選單有沒有防連點（game3d.js choose 的按鈕 onclick 沒有延遲——對話點太快，選項一出現就被同一下點到）②在瀏覽器照存檔前一晚重現 ③服務學習「上課」只有 2D 跳時間，看起來像沒上課。修法方向：選單出現後 0.3～0.4 秒內不收點；起床選單的第二次（翹掉第一堂以後）字要寫清楚是下一堂；翹課要更明顯的確認",
+   "xai": {
+    "spec": "使用者 11-11 02:5x 對 LAWWW（UA-LAWWW-1111-03）",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB 在瀏覽器：起床選單連點不會誤選翹課；選去上課→進教室坐下→課播完→手機記出席",
+    "receiver": "BB",
+    "ack": "SENT"
+   }
   }
  ]
 }

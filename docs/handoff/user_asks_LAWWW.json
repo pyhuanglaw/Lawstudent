@@ -4613,6 +4613,15 @@
    "status": "在開發分支",
    "wants": "X335",
    "task": "GG-G09-G10-SHUTTER-1111"
+  },
+  {
+   "id": "UA-LAWWW-1111-03",
+   "at": "2026-11-11T02:5xZ",
+   "quote": "（附存檔 fatiao3d_save_day57_2.json）我早上選去上課 結果直接跳到法律服務圖書館 打開手機還說我沒去上課 上課至少也要播完吧? 連到教室都沒有 原本只有改不用選位置 現在連上課都沒有",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X337",
+   "task": "BUG-GOCLASS-SKIPPED-1111"
   }
  ]
 }
