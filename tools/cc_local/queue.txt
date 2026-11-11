@@ -10,6 +10,8 @@
 # ★P0 BB 06:09 上師第 4 版臉（64add9fcf；和參考圖＋上一版 b942470ff PACK7_ss_face 並排）
 # ===== P0 BB 07:41（X341「118巷店面做好就可以先推出新版」，BB_343）：118 巷排最前面 =====
 # 第 1 段 L118A 功能（SEAT 五湖四海、大學食堂、118牛排先）
+# ★P0 BB 07:46 LIVE_main：線上 https://pyhuanglaw.github.io/Lawstudent/（main 12555291d＝README 合進來；遊戲檔＝779ddd650）——版本字樣、非 200、新遊戲→存→重整讀回；部署沒好隔 5 分鐘重試
+LIVE_main | 12555291d805e80a5165a2f86382641c46c0bdea | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.24;SHA=12555291d805e80a5165a2f86382641c46c0bdea
 L118A_SEAT_home1 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SEATS_home_1-7;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
 L118A_SEAT_home2 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SEATS_home_8-14;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
 L118A_SEAT_home3 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SEATS_home_15-20;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
