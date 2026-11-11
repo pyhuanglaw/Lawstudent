@@ -130,7 +130,7 @@ const LM=(function(){
     const F=F_(G); S.begin(GM);
     try{
       if(S.firstDue(G)){ F.LM_MET=G.day; await S.play(GM,d.first.lines); S.spend(GM); return 'first'; }
-      if(S.profDue(G)){ F.LM_PROF=true; await S.play(GM,d.prof.lines); S.spend(GM); return 'prof'; }
+      if(S.profDue(G)&&!S.seriousDue(G)){ F.LM_PROF=true;   /* BB 2026-11-11 定：剛分手、剛落榜那一組還沒演的時候，吳教授撞見留到下一次（認真那一組有時效，撞見晚一次沒有損失）*/ await S.play(GM,d.prof.lines); S.spend(GM); return 'prof'; }
       const M=S.menu(G), i=await GM.choose(M.map(m=>({t:m.t}))), m=i==null?null:M[i]; if(!m||m.leave) return 'leave';
       if(m.ask){ await S.play(GM,d.reveal.talk.lines,1); for(const f of d.reveal.talk.set) F[f]=true; S.spend(GM); return 'talk'; }
       const sg=S.seriousDue(G); if(sg){ (F.LM_SER||(F.LM_SER={}))[sg.id]=G.day; await S.play(GM,sg.lines); S.spend(GM); return sg.id; }

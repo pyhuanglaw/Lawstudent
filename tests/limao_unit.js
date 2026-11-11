@@ -154,6 +154,10 @@ const G0=newG({hour:20,day:100}); GM.G=G0; W.term='Y1S1'; W.week=5;
 /* 9 教授偶遇 */
 { W.term='Y1S1'; const a=LM.profDue(G0); W.term='Y1S2'; const b=LM.profDue(G0); G0.day=101; const c=LM.profDue(G0);
   check('9. 大一上不演；大一下、認識的那一天不演；隔天以後才演',!a&&!b&&c);
+  /* 2026-11-11（BB 定）：撞見吳教授和「認真那一組」（剛分手、剛落榜）同時成立＝認真那一組先演，撞見留到下一次去 */
+  { const sv=GM.G, g=newG({day:101,hour:20}); g.flags.LM_MET=50; g.flags.romance={kexin:{status:'ex',history:[{ev:'start',day:1},{ev:'end',day:90}]}}; GM.G=g;
+    const both=!!LM.profDue(g)&&!!LM.seriousDue(g); reset(); PICK=byT('聊聊天'); const r1=await LM.table(GM,zT), noProf=!g.flags.LM_PROF, menu1=MENUS.length; g.hour=20; reset(); const r2=await LM.table(GM,zT); GM.G=sv;
+    check('9. 剛分手、又該撞見吳教授：這一次先出選單、演 lv4（不記 LM_PROF）；下一次去才演撞見',both&&r1==='lv4'&&noProf&&menu1===1&&r2==='prof'&&g.flags.LM_PROF===true,[both,r1,noProf,r2].join()); }
   G0.hour=21; reset(); const r=await LM.table(GM,zT), wu=LOG.filter(x=>x[2]==='prof_wu');
   check('9. 走到桌前＝prof 整段 '+D.prof.lines.length+' 句照稿；吳教授的名字照人物資料（prof_wu）；不出選單；記 LM_PROF、15 分鐘',r==='prof'&&sameLines(LOG,D.prof.lines)&&sameWho(LOG,D.prof.lines)&&wu.length===4&&wu.every(x=>x[0]==='吳教授')&&!MENUS.length&&G0.flags.LM_PROF===true&&Math.abs(G0.hour-21.25)<1e-9,r);
   G0.hour=21; reset(); PICK=byT('離開'); const r2=await LM.table(GM,zT); check('9. 只演一次：下一次是選單',r2==='leave'&&MENUS.length===1&&!LOG.length,r2);
