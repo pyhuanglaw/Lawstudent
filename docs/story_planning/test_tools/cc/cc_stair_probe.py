@@ -1,0 +1,153 @@
+"""CC（帳號 A）11-11：STAIR——木曜日（wz_mokuyobi）一樓樓梯 ⇄ 二樓店裡，樓梯頂卡在第 0 層（BB 07:46 判遊戲問題、擋發布；BB_343 A5）。
+PC 重現三次：L118D_H_B REG_YT、H_C REG_XC、H_B_r2 REG_YT 都停在 (−3.35, 2.876) lv0 y≈2.8——人已在樓梯頂，第 0 層前面全擋、第 1 層站得住，沒換層；往下退 1 m 再走就上得去。
+做法（Playwright 手機模擬（PC GPU）≠ iPhone）：
+  【前置／捷徑】讀 day46 存檔（fixtures/user_saves_1107）直接放到木曜日一樓樓梯底 (x, 5.4) lv0（STAIR_DAY，預設 2025-11-05 週三 15:00；木曜日週二休）。
+  三條線 X_LIST（預設 −4.3,−3.75,−3.35）：每條線 TRIPS 趟（預設 10），每趟：
+    上：搖桿直線推向同一條線的樓梯頂平台 (x, TOP_Z) lv1（straight＝不繞路，看「這一條線走不走得上去」），再照找路走進店裡 (0, 0.9) lv1；
+    下：搖桿走回同一條線的平台 (x, TOP_Z) lv1，再直線推回樓梯底 (x, 5.6) lv0。
+    每一段記：成功（換到該層、到點）、秒數、推幾次、停下的座標／y／lv；20 秒沒前進 0.3 m＝卡住 → 截圖＋診斷（同 cc_l118d_h_probe 的 STUCK_JS：2.5 m 內 NPC、往北幾格第 0／1 層站不站得住與高度、找路、E.unstick 次數）
+    → 脫困：往下退 1 m 再走一次（記上不上得去）；還是不行就【捷徑】放回樓梯底，下一趟。
+  RUN＝1：觸控按「跑」（#btnRun 切成跑步）；FPSCAP＝10：包 requestAnimationFrame 限 10 fps（【前置／捷徑】只改幀率）。
+判定：每一段 PASS／FAIL；結尾印每條線「上 n/TRIPS、下 n/TRIPS、卡住的座標」總表。舊版（線上 779ddd650）也照跑，分辨本來就有還是這一版才有。
+用法：LW_TESTS=<wt>/tests SHA=<sha> RUN=0|1 FPSCAP=0|10 python3 cc_stair_probe.py <url> <out>"""
+import os, sys, json, time, math, asyncio, datetime
+sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
+import importlib.util
+_spec = importlib.util.spec_from_file_location('pe', os.path.join(HERE, 'pt1107e_arcs_probe.py')); pe = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(pe)
+L = pe.L
+import cc_d141_lib as D
+import cc_fn_lib as F
+from playwright.async_api import async_playwright
+
+URL, OUT = sys.argv[1], sys.argv[2]
+os.makedirs(OUT, exist_ok=True)
+SHA = os.environ.get('SHA') or ''
+RUN = os.environ.get('RUN') == '1'
+FPSCAP = int(os.environ.get('FPSCAP') or '0')
+TRIPS = int(os.environ.get('TRIPS') or '10')
+X_LIST = [float(x) for x in (os.environ.get('X_LIST') or '-4.3,-3.75,-3.35').split(',') if x.strip()]
+TOP_Z = float(os.environ.get('TOP_Z') or '1.9')
+BOT_Z = float(os.environ.get('BOT_Z') or '5.4')
+SHOP = (0.0, 0.9)
+STAIR_DAY = os.environ.get('STAIR_DAY') or '2025-11-05'
+STAIR_H = float(os.environ.get('STAIR_H') or '15.0')
+R = L.Run('stair', OUT); F.setup(R, OUT)
+J = F.J
+DAY1 = datetime.date(2025, 9, 17)
+TAG = '%s%s' % ('跑' if RUN else '走', ('、%d fps' % FPSCAP) if FPSCAP else '')
+
+UNSTICK_JS = r"""(()=>{ const E=GAME.E; if(!E||E.__ccUnw||!E.unstick) return; const f=E.unstick; E.unstick=function(){ const r=f.apply(this,arguments); if(r) window.__ccUnstick=(window.__ccUnstick|0)+1; return r; }; E.__ccUnw=1; })()"""
+FPSCAP_JS = r"""(cap=>{ const W=window; if(!W.__rafOrig) W.__rafOrig=W.requestAnimationFrame.bind(W); const orig=W.__rafOrig;
+  if(!cap){ W.requestAnimationFrame=orig; W.__fpsCap=0; return 0; } const gap=1000/cap; W.__fpsCap=cap; let last=0;
+  W.requestAnimationFrame=cb=>orig(function tick(t){ if(t-last>=gap-1){ last=t; cb(t); } else orig(tick); }); return cap; })"""
+FPS_JS = "new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<2000) requestAnimationFrame(f); else res(+(n/((performance.now()-t0)/1000)).toFixed(1)); }; requestAnimationFrame(f); })"
+STUCK_JS = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, lv=P.lv|0; const f2=v=>v==null?null:+(+v).toFixed(2);
+  const near=(E.npcs||[]).filter(n=>n&&n.obj&&Math.hypot(n.obj.position.x-o.x,n.obj.position.z-o.z)<2.5).map(n=>{ const q=n.obj.position; return {id:n.charId||n.id||'', name:n.name||'', x:f2(q.x), z:f2(q.z), y:f2(q.y), lv:n.lv|0, r:n.radius, beh:n.beh||null,
+    walking:!!(n.path&&n.path.length), extra:!!n.isExtra, leaving:!!n.leaving}; });
+  const Ls=E.levels||[]; const cells=[]; for(let dz=-0.7; dz<=0.31; dz+=0.1){ const z=o.z+dz; cells.push({z:f2(z), s0:E.canStand(o.x,z,0.3,0), s1:Ls.length>1?E.canStand(o.x,z,0.3,1):null, h0:Ls[0]&&Ls[0].heightAt?f2(Ls[0].heightAt(o.x,z)):null, h1:Ls[1]&&Ls[1].heightAt?f2(Ls[1].heightAt(o.x,z)):null}); }
+  let path=null; try{ const p=E.pathTo(o.x,o.z,lv,0,0.9,1); path=p?p.slice(0,8).map(q=>Array.isArray(q)?q.map(f2):[f2(q.x),f2(q.z),q.lv]):null; }catch(e){ path=String(e); }
+  return {pos:{x:f2(o.x),z:f2(o.z),y:f2(o.y),lv}, near, cells, path, unstick:window.__ccUnstick|0, fb:GAME.walkFallbacks||0, run:!!P.runHold}; })()"""
+
+
+def day_of(key):
+    return (datetime.date.fromisoformat(key) - DAY1).days + 1
+
+
+def base(x, z, lv=0):
+    s = json.load(open(F.SAVE, encoding='utf-8')); s = dict(s.get('G', s))
+    d = datetime.date.fromisoformat(STAIR_DAY)
+    s['day'] = day_of(STAIR_DAY); s['weekday'] = d.isoweekday() % 7; s['hour'] = STAIR_H; s['zone'] = 'wz_mokuyobi'
+    s['pos'] = {'x': x, 'z': z, 'yaw': 0.0, 'lv': lv}; s['weather'] = 'clear'; s['invites'] = []
+    return s
+
+
+async def load_at(pg, cdp, x, why):
+    s = base(x, BOT_Z, 0)
+    try: await L.load_state(pg, s, quiet_events=True, quiet_phone=True)
+    except TypeError: await L.load_state(pg, s, quiet_events=True)
+    await pg.wait_for_timeout(4000); await L.close_panels(pg, cdp); await pg.evaluate(UNSTICK_JS); await F.ready(pg, cdp, 30)
+    if FPSCAP: await pg.evaluate(FPSCAP_JS, FPSCAP)
+    if RUN:
+        on = await pg.evaluate("(()=>!!GAME.E.player.runHold)()")
+        if not on: await L.tap(pg, cdp, '#btnRun'); await pg.wait_for_timeout(400)
+    st = await D.st(pg); c = await pg.evaluate("(d=>{ const x=CALENDAR.dateOf(d); return {key:x.key, wd:x.wd%7, hol:CALENDAR.holiday(d), typh:CALENDAR.typhoon(d)}; })", s['day'])
+    run = await pg.evaluate("(()=>!!GAME.E.player.runHold)()")
+    R.setup('%s：day46 存檔 → %s %05.2f 木曜日一樓樓梯底 (%.2f, %.2f) lv0%s%s（站在 (%.2f, %.2f) lv%d、跑步 %s）' % (why, c['key'], STAIR_H, x, BOT_Z, '、【捷徑】限 %d fps' % FPSCAP if FPSCAP else '', '、觸控按「跑」' if RUN else '', st['x'], st['z'], st['lv'], run))
+    return st
+
+
+async def stuck_diag(pg, tag):
+    d = await pg.evaluate(STUCK_JS)
+    nm = 'stair_stuck_%s' % ''.join(ch for ch in tag if ch.isalnum() and ord(ch) < 128)[:24].lower()
+    try: await D.shot(pg, nm)
+    except Exception: pass
+    R.note('%s 【卡住診斷】位置 %s；2.5 m 內 NPC %s；往北幾格（s0／s1＝第 0／1 層站不站得住、h0／h1＝高度）%s；找路 %s；E.unstick 成功 %s 次；walkFallbacks %s；跑步 %s；截圖 %s' % (tag, J(d['pos']), J(d['near']), J(d['cells']), J(d['path']), d['unstick'], d['fb'], d['run'], nm))
+    return d
+
+
+async def seg(pg, cdp, tag, tx, tz, lv, straight):
+    r = await F.joy_to(pg, cdp, tag, tx, tz, near=0.5, lv=lv, max_s=45, straight=straight)
+    e = r['end']
+    R.note('%s → (%.2f, %.2f) lv%d：%s、%s 秒、推 %d 次、停在 (%.2f, %.2f) y=%s lv%d、跳 %s' % (tag, tx, tz, lv, '到了' if r['ok'] else '沒到：' + str(r.get('why')), r['t'], r['pushes'], e['x'], e['z'], e.get('y'), e['lv'], J(r['jumps'])))
+    return r
+
+
+async def trip(pg, cdp, x, k, stats):
+    t = '[%s x=%.2f 第 %d 趟]' % (TAG, x, k)
+    # 上：同一條線直線推上樓梯頂平台，再照路走進店裡
+    r1 = await seg(pg, cdp, t + ' 上樓梯（直線）', x, TOP_Z, 1, True)
+    ok_up = r1['ok']
+    if not ok_up:
+        d = await stuck_diag(pg, t + ' 上')
+        s0 = await D.st(pg)
+        await seg(pg, cdp, t + ' 【脫困】往下退 1 m', s0['x'], s0['z'] + 1.0, 0, True)
+        r1b = await seg(pg, cdp, t + ' 【脫困】再上一次', x, TOP_Z, 1, True)
+        stats['up_stuck'].append({'trip': k, 'pos': d['pos'], 'retry_ok': r1b['ok']})
+        if not r1b['ok']:
+            R.check('%s 上樓梯：卡住、退 1 m 再走也上不去' % t, False, J(d['pos'])); return False
+    R.check('%s 上樓梯直線推得上去、換到第 1 層' % t, ok_up, J({'end': [r1['end']['x'], r1['end']['z'], r1['end'].get('y'), r1['end']['lv']], 't': r1['t']}))
+    if ok_up: stats['up_ok'] += 1
+    r2 = await seg(pg, cdp, t + ' 進店', SHOP[0], SHOP[1], 1, False)
+    R.check('%s 從平台走進二樓店裡' % t, r2['ok'], J({'end': [r2['end']['x'], r2['end']['z'], r2['end']['lv']]}))
+    # 下：回到同一條線的平台，直線推下樓梯
+    await seg(pg, cdp, t + ' 回平台', x, TOP_Z, 1, False)
+    r3 = await seg(pg, cdp, t + ' 下樓梯（直線）', x, BOT_Z + 0.2, 0, True)
+    if not r3['ok']:
+        d = await stuck_diag(pg, t + ' 下')
+        stats['down_stuck'].append({'trip': k, 'pos': d['pos']})
+    else: stats['down_ok'] += 1
+    R.check('%s 下樓梯直線推得下去、換回第 0 層' % t, r3['ok'], J({'end': [r3['end']['x'], r3['end']['z'], r3['end'].get('y'), r3['end']['lv']], 't': r3['t']}))
+    return r3['ok']
+
+
+async def main():
+    async with async_playwright() as p:
+        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        await pg.goto(URL)
+        R.check('遊戲載入', await L.wait_loaded(pg))
+        ver = await pg.evaluate("(document.body.innerText.match(/版本 v[0-9.]+/)||[''])[0]")
+        R.note('CC STAIR：受測 SHA %s、%s；%s；三條線 %s、每條 %d 趟；平台 z %.2f、樓梯底 z %.2f；Playwright（PC GPU）≠ iPhone' % (SHA or '（沒給）', ver, TAG, J(X_LIST), TRIPS, TOP_Z, BOT_Z))
+        table = []
+        for x in X_LIST:
+            print('== x %.2f' % x, flush=True)
+            stats = {'x': x, 'up_ok': 0, 'down_ok': 0, 'up_stuck': [], 'down_stuck': []}
+            n0 = len(errs); t0 = time.time()
+            try:
+                await load_at(pg, cdp, x, '【前置／捷徑】x=%.2f' % x)
+                if FPSCAP: R.note('[%s x=%.2f] 實際幀率 %s fps' % (TAG, x, await pg.evaluate(FPS_JS)))
+                for k in range(1, TRIPS + 1):
+                    ok = await trip(pg, cdp, x, k, stats)
+                    if not ok:
+                        await load_at(pg, cdp, x, '【前置／捷徑】x=%.2f 第 %d 趟沒回到樓梯底，放回去' % (x, k))
+            except Exception as e:
+                R.check('[%s x=%.2f] 探針沒有例外' % (TAG, x), False, repr(e)[:300])
+            R.check('[%s x=%.2f] 沒有 JS 例外' % (TAG, x), len(errs) == n0, J(errs[n0:n0 + 3]))
+            R.note('[%s x=%.2f] 用了 %.0f 秒' % (TAG, x, time.time() - t0))
+            table.append(stats)
+        R.note('【總表 %s】%s' % (TAG, J([{'x': s['x'], '上': '%d/%d' % (s['up_ok'], TRIPS), '下': '%d/%d' % (s['down_ok'], TRIPS), '上卡住': s['up_stuck'], '下卡住': s['down_stuck']} for s in table])))
+        await b.close()
+    return R.finish()
+
+
+if __name__ == '__main__':
+    sys.exit(asyncio.run(main()))
