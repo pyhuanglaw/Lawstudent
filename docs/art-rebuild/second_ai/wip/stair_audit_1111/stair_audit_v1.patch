@@ -1,0 +1,121 @@
+diff --git a/src/engine3d.js b/src/engine3d.js
+index e3cc876230..df326c154e 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -282,7 +282,10 @@ const E3 = (function(){
+   };
+   function stepEntity(ent,dx,dz,sp,dt){ const o=ent.obj; const nx=o.position.x+dx*sp*dt, nz=o.position.z+dz*sp*dt; const r=ent.radius||0.3; const cs=(x,z)=>standL(x,z,r,ent.lv|0); // 圓形碰撞（對導航格；多樓層：對人物所在那一層，高度要接得上）
+     ent.blockedAt=null; if(navOf(ent.lv|0)){ const mx=Math.abs(dx*sp*dt)>1e-4, mz=Math.abs(dz*sp*dt)>1e-4; // 滑動只在那個方向真的有位移時才算（沿著床邊直走時 dx=0，舊版會「滑動成功」但原地不動）
+-      if(cs(nx,nz)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(E.levels&&switchLevel(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(mx&&cs(nx,o.position.z)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&cs(o.position.x,nz)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mz&&switchLevel(ent,o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mx&&switchLevel(ent,nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else { ent.blockedAt={x:nx,z:nz,slide:'none'};   /* BUG-MOKUYOBI-STAIR-STUCK-1111（BB 11-11 PC 三次重現：木曜日樓梯頂 (−3.35, 2.876) lv0，搖桿斜著往店裡推 20 秒不動）：斜著推時完整的一步撞到旁邊的牆、換層只試完整那一步——沿牆滑的那一步（只有 z 或只有 x）在這一層站不住、在另一層站得住也要換層（原本只在同一層滑），不然靠著扶手那一側走到樓梯頂就卡住 */
++      /* 半步（STAIR-LEVEL-AUDIT-1111，LAWWW2 11-11）：低幀率跑步一步 0.6 m 以上，整步跨過頭（例：大口二樓樓梯頂右側直接接牆，整步落在牆裡、兩層都站不住）就整個停住、差半步上不去——
++         整步、換層、沿牆滑都不行時，試走一半（這一層站得住，或換到另一層站得住）。只在一步超過 0.2 m 時試（高幀率照舊）*/
++      const half=()=>{ if(Math.hypot(dx*sp*dt,dz*sp*dt)<=0.2) return false; const hx=o.position.x+dx*sp*dt/2, hz=o.position.z+dz*sp*dt/2; if(cs(hx,hz)||(E.levels&&switchLevel(ent,hx,hz,r))){ o.position.x=hx; o.position.z=hz; ent.blockedAt={x:nx,z:nz,slide:'half'}; return true; } return false; };
++      if(cs(nx,nz)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(E.levels&&switchLevel(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(mx&&cs(nx,o.position.z)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&cs(o.position.x,nz)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mz&&switchLevel(ent,o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mx&&switchLevel(ent,nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(half()) { /* 走了半步 */ } else { ent.blockedAt={x:nx,z:nz,slide:'none'};   /* BUG-MOKUYOBI-STAIR-STUCK-1111（BB 11-11 PC 三次重現：木曜日樓梯頂 (−3.35, 2.876) lv0，搖桿斜著往店裡推 20 秒不動）：斜著推時完整的一步撞到旁邊的牆、換層只試完整那一步——沿牆滑的那一步（只有 z 或只有 x）在這一層站不住、在另一層站得住也要換層（原本只在同一層滑），不然靠著扶手那一側走到樓梯頂就卡住 */
+         // 擦到家具或格子的角：前進方向再往左或右偏一點（最多 0.48 m，導航格是 0.5 m）就過得去時，往空的那一側讓開（正面撞平的牆時偏移也過不去，不會亂滑）
+         const px=-dz, pz=dx; let side=0; for(const e of [0.08,0.16,0.24,0.32,0.4,0.48]){ if(cs(nx+px*e,nz+pz*e)){ side=1; break; } if(cs(nx-px*e,nz-pz*e)){ side=-1; break; } }
+         if(side){ const lat=Math.min(0.18,sp*dt*0.8), lx=o.position.x+px*side*lat, lz=o.position.z+pz*side*lat; if(cs(lx,lz)){ o.position.x=lx; o.position.z=lz; ent.blockedAt.slide='corner'; } }
+diff --git a/src/flower_notes3d.js b/src/flower_notes3d.js
+index 5100d191fd..c9c6de5feb 100644
+--- a/src/flower_notes3d.js
++++ b/src/flower_notes3d.js
+@@ -33,6 +33,7 @@ const FN3=(function(){
+     nav1.fillBlocked(); nav1.freeRect(U.x0+0.35,U.z0+0.35,WL.x0-0.25,U.railZ-0.3);                   // 教室（東邊到樓梯開口的欄杆、南邊到玻璃欄杆）
+     nav1.freeRect(LD.x0-0.3,LD.z0+0.15,LD.x1-0.25,LD.z1);                                            // 樓梯平台（連到教室）
+     nav1.freeRect(T.x0,T.zTop,T.x1,T.zBottom); for(const s of ss.all) nav1.addSurf(Object.assign({},s));
++    { const mid=(T.zTop+T.zBottom)/2; nav1.blockRect((T.x0+T.x1)/2,(mid+T.zBottom+0.5)/2,T.x1-T.x0+0.2,T.zBottom+0.5-mid,0); }   /* STAIR-LEVEL-AUDIT-1111（LAWWW2 11-11，木曜日 2c962ad66 同一類）：樓梯下半段在第 1 層擋起來——原本第 1 層一路開到樓梯底，下樓的人過了一半還留在第 1 層（tests/stair_levels_audit_1111_unit.js 的「過了一半以後還有幾步在上面那一層」），走到底才靠高度差換回第 0 層；BB 在木曜日 PC 上同一種樓梯 30 趟卡 3 次。改成走到一半一定換回第 0 層（兩層在樓梯上高度一樣，換層不跳）*/
+     nav1.blockRect(T.railX-0.05,(LD.z1+0.1+U.railZ)/2,0.3,U.railZ-(LD.z1+0.1),0);                    // 樓梯開口西邊的欄杆（平台那一段留開口）
+     nav1.blockRect(T.railX-0.275,LD.z1+0.32,0.2,0.5,0);   /* FN-STAIRTOP-POCKET-1111（LAWWW2 11-11；LAWWW 要的「每個站得到的點都走得回離開」掃出來）：欄杆只有一格厚（0.25 m），人的半徑 0.32——
+       樓梯最上面兩三階和二樓地板一樣高的那一小段（z −5.3～−4.8），站在樓梯西緣 x 3.5 時左邊的取樣點跨過欄杆落在教室地板上，被當成站得住；
+diff --git a/src/library_hall_v2.js b/src/library_hall_v2.js
+index 4d52f91021..890b27ecf8 100644
+--- a/src/library_hall_v2.js
++++ b/src/library_hall_v2.js
+@@ -38,6 +38,7 @@ const LBV2=(function(){
+     // 二樓：先整層擋起來，再開出南側連廊、北側連廊、兩翼、台階中間那一跑
+     nav1.fillBlocked(); for(const a of [U.band,U.north].concat(U.wings)) nav1.freeRect(a.x0,a.z0,a.x1,a.z1);
+     nav1.freeRect(K.x0,BS.z0,K.x1,BS.z1); for(const s of ss.all) nav1.addSurf(Object.assign({},s));
++    { const mid=(BS.z0+BS.z1)/2; nav1.blockRect((K.x0+K.x1)/2,(mid+BS.z1+0.5)/2,K.x1-K.x0+0.2,BS.z1+0.5-mid,0); }   /* STAIR-LEVEL-AUDIT-1111（LAWWW2 11-11，木曜日 2c962ad66 同一類）：台階中間那一跑的下半段在第 1 層擋起來——原本第 1 層一路開到台階底，下樓的人過了一半還留在第 1 層，走到底才靠高度差換回第 0 層。改成走到一半一定換回第 0 層 */
+     for(const r of L.rails){ const [x0,z0,x1,z1]=r, horiz=Math.abs(z1-z0)<1e-6; nav1.blockRect((x0+x1)/2,(z0+z1)/2,horiz?Math.abs(x1-x0)+0.04:0.3,horiz?0.3:Math.abs(z1-z0)+0.04,0); }
+     nav1.freeRect(K.x0,U.north.z1-0.25,K.x1,U.north.z1+0.25);                                                     // 台階上來接北側連廊（欄杆在那裡開口）
+     for(const [x,z] of [[-5.2,U.band.z1],[5.2,U.band.z1],[-5.2,GT.z],[5.2,GT.z],[-5.2,U.north.z1],[5.2,U.north.z1]]) nav1.blockCircle(x,z,(x>0&&z===U.north.z1)?0.2:0.38);   // 柱子一直到屋頂：二樓也擋（中庭四角＋北側連廊邊上）。二樓那一段細（r 0.26，一樓連柱座 0.36）：擋 0.38 就好——0.62 會把東側走道（x 3.7～5.2，1.5 m 寬）在柱子那裡擠到 0.7 m，走不過去；東北那一根在多媒體中心的牆線上（x 5.2），只擋它自己那一格
+diff --git a/tests/stair_levels_audit_1111_unit.js b/tests/stair_levels_audit_1111_unit.js
+new file mode 100644
+index 0000000000..8b3b184cca
+--- /dev/null
++++ b/tests/stair_levels_audit_1111_unit.js
+@@ -0,0 +1,75 @@
++/* STAIR-LEVEL-AUDIT-1111（LAWWW 11-11 09:41 派給 LAWWW2）：全遊戲多樓層區域的樓梯掃描——不需要瀏覽器。
++   起因：木曜日的樓梯今天兩個方向都卡過（BB 11-11 PC）：①上樓沿牆滑那一步沒試換層（engine3d.js stepEntity，LAWWW 5f259dd02，所有區域共用）
++         ②上層的導航格一路延伸到樓梯下半段，人下樓一直留在上層、走到樓梯底換不回來、門口的出口按不到（mokuyobi3d.js buildNav，LAWWW 2c962ad66）。
++   這支：在 Node 建出遊戲真正的每一個區域（index.html 到 teach3d.js 為止的區域檔），挑出有 z.levels（兩層導航）的，
++   找出每座「兩層共用」的樓梯段（兩層的 surf 都有、有坡度 axis 的那一段），然後：
++     (a) 列出：上層在樓梯下半段站得住的、下層在樓梯上半段站得住的（資訊，不算失敗：雙跑樓梯的上一跑本來就兩層共用；木曜日那一種單跑樓梯才要擋）
++     (b) 用引擎真正的 E.stepEntity 照搖桿一步一步推（和 tests/mokuyobi_stair_top_1111_unit.js 同一個做法）：
++         每座樓梯 左、中、右 × 上樓、下樓 × 走、跑 × 30、10 fps——
++         上樓：從樓梯底端上一點、在底下那一層，往上推：要走到樓梯頂再過去一點、而且在「頂端那一層」（那一點站得住、高度對的那一層）；
++         下樓：從樓梯頂端下一點、在上面那一層，往下推：要走到樓梯底再過去一點、而且在「底下那一層」；
++         整個過程每一步都站在那一層站得住的地方（換層沒有穿牆）。
++     (c) 單跑樓梯（下端在地面 y≈0）下樓：過了樓梯的一半以後還在上面那一層的步數（木曜日 ② 的徵狀；BB 的走法＝直線推到底，木曜日第 4 項）——算失敗。
++   校園（萬才館的弧形大樓梯）用的是 fn 曲面、不是 axis 坡道，不在這裡（tests/flow_wancai_stairs.py、tests/nav_buildings_unit.js 管）。
++   修改前（木曜日 2c962ad66 以前的 mokuyobi3d.js）：wz_mokuyobi 的 (b) 下樓、(c) FAIL。這是模擬，不是真實玩家流程（D131）。
++   用法：node tests/stair_levels_audit_1111_unit.js [區域 id] */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){}, querySelector:()=>null, querySelectorAll:()=>[], body:{appendChild(){},classList:{add(){},remove(){}}} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); const cwarn=console.warn, cerr=console.error; console.warn=()=>{}; console.error=()=>{};
++const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); const all=[...html.matchAll(/src="([^"?]+)/g)].map(m=>m[1]);
++const files=[]; for(const f of all){ if(/three-vrm|character3d|props3d/.test(f)) continue; files.push(f); if(/teach3d\.js$/.test(f)) break; }
++const loadErr=[]; for(const f of files){ if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,'globalThis.$1='); try{ vm.runInThisContext(src,{filename:f}); }catch(e){ loadErr.push(f+'：'+e.message.slice(0,60)); } }
++if(typeof ASSETS!=='undefined') ASSETS.loadOne=()=>new Promise(()=>{});
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++check('0. 載入區域檔沒有錯、引擎有 E.stepEntity',!loadErr.length&&typeof E.stepEntity==='function',loadErr.join('；'));
++const R=0.32, ONLY=process.argv[2]||null;
++const MODES=[[E.SPD.walk,1/30,'走30'],[E.SPD.walk,0.1,'走10'],[E.SPD.run,1/30,'跑30'],[E.SPD.run,0.1,'跑10']];
++const key=s=>[s.x0,s.x1,s.z0,s.z1,s.axis,s.ya,s.yb].map(v=>v==null?'':(+v).toFixed(3)).join(',');
++function build(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.exits=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; return z; }
++let nZones=0, nStairs=0, nRuns=0;
++const info=[];
++for(const id of Object.keys(Z3.ZONES)){ if(ONLY&&id!==ONLY) continue; let z; try{ z=build(id); }catch(e){ continue; } if(!z||!Array.isArray(z.levels)||z.levels.length<2) continue; nZones++;
++  const LV=z.levels, kb=new Set((LV[1].surf||[]).map(key)), stairs=(LV[0].surf||[]).filter(s=>s.axis&&kb.has(key(s)));
++  for(const s of stairs){ nStairs++; const ax=s.axis, lo=ax==='z'?[s.z0,s.z1]:[s.x0,s.x1], cr=ax==='z'?[s.x0,s.x1]:[s.z0,s.z1];
++    const uLow=s.ya<=s.yb?lo[0]:lo[1], uHigh=s.ya<=s.yb?lo[1]:lo[0], yLow=Math.min(s.ya,s.yb), yHigh=Math.max(s.ya,s.yb), du=Math.sign(uHigh-uLow), L=Math.abs(uHigh-uLow);
++    const P=(u,v)=>ax==='z'?[v,u]:[u,v], U=p=>ax==='z'?p[1]:p[0];
++    /* 左中右：樓梯中間那一條橫線上，兩層任一層站得住的最左、中間、最右（樓梯的 surf 範圍常常包含扶手、牆的那一格）*/
++    const um=(uLow+uHigh)/2, okV=[]; for(let v=cr[0];v<=cr[1]+1e-6;v+=0.02){ const p=ax==='z'?[v,um]:[um,v]; if(z.levels.some(n=>n.clear(p[0],p[1],R))) okV.push(v); }
++    const vs=okV.length?[...new Set([okV[0]+0.02,okV[Math.floor(okV.length/2)],okV[okV.length-1]-0.02].map(v=>+v.toFixed(3)))]:[(cr[0]+cr[1])/2];
++    const name=id+' 樓梯 '+ax+(ax==='z'?' x '+cr[0].toFixed(2)+'～'+cr[1].toFixed(2):' z '+cr[0].toFixed(2)+'～'+cr[1].toFixed(2))+'（y '+yLow+'→'+yHigh+'）';
++    const okAt=(lv,p,y)=>LV[lv].clear(p[0],p[1],R)&&Math.abs(LV[lv].heightAt(p[0],p[1])-y)<0.35;
++    // (a)
++    const a1=[], a0=[]; for(const v of vs) for(let t=0.05;t<0.96;t+=0.1){ const p=P(uLow+du*L*t,v); if(t<0.5&&LV[1].clear(p[0],p[1],R)) a1.push(t.toFixed(2)); if(t>0.5&&LV[0].clear(p[0],p[1],R)) a0.push(t.toFixed(2)); }
++    info.push(name+'：上層在下半段站得住 '+[...new Set(a1)].length+' 處、下層在上半段站得住 '+[...new Set(a0)].length+' 處');
++    // 兩端「站得住、高度對」的那幾層
++    /* 每一條（v）兩端「站得住、高度對」的那幾層：樓梯外面 0.5～0.2 m 找得到就要走到那裡；找不到（樓梯頂、底直接接牆）就只要走到樓梯端 0.15 m 內 */
++    /* 從樓梯端外面 0.5 m 往裡面找（每 0.05 m）：第一個「某一層站得住、高度對」的點＝那一端要走到的地方、acc＝那幾層。
++       樓梯端直接接牆的（木曜日：樓梯底就是外牆，出口在旁邊的門）就停在樓梯上最靠端的那一點 */
++    const yAt=u=>{ const t=Math.max(0,Math.min(1,(u-uLow)/(uHigh-uLow))); return yLow+(yHigh-yLow)*t; };
++    const beyond=(u,y,sg,v)=>{ for(let d=0.5;d>=-1.0;d-=0.05){ const uu=u+sg*d, yy=d>0?y:yAt(uu), acc=[0,1].filter(lv=>okAt(lv,P(uu,v),yy)); if(acc.length) return {acc,d,u:uu}; } return {acc:[],d:0,u}; };
++    const single=yLow<0.05;
++    const bad=[], soft=[];
++    for(const v of vs){ const accLow=beyond(uLow,yLow,-du,v), accHigh=beyond(uHigh,yHigh,du,v);
++     const sUp=accLow.d>0?uLow+du*0.25:accLow.u+du*0.15, sDn=accHigh.d>0?uHigh-du*0.25:accHigh.u-du*0.15;
++     for(const [dir,startU,startLv,endU,acc,sg] of [['上樓',sUp,null,accHigh.u,accHigh.acc,du],['下樓',sDn,null,accLow.u,accLow.acc,-du]]) for(const [sp,dt,mt] of MODES){ nRuns++;
++      const p0=P(startU,v), lvs=[0,1].filter(lv=>LV[lv].clear(p0[0],p0[1],R)); if(!lvs.length){ bad.push(dir+' v'+v.toFixed(2)+mt+'：起點兩層都站不住'); continue; }
++      const lv0=dir==='上樓'?(lvs.includes(accLow.acc[0])?accLow.acc[0]:lvs[0]):(lvs.includes(accHigh.acc[accHigh.acc.length-1])?accHigh.acc[accHigh.acc.length-1]:lvs[lvs.length-1]);
++      const ent={obj:{position:new THREE.Vector3(p0[0],0,p0[1]),rotation:{y:0}},radius:R,lv:lv0}; const dv=ax==='z'?[0,sg]:[sg,0];
++      let ok=false, unclear=0, upperLowHalf=0; const N=Math.ceil((L/sp*3+6)/dt);
++      for(let i=0;i<N;i++){ E.stepEntity(ent,dv[0],dv[1],sp,dt); const o=ent.obj.position, u=ax==='z'?o.z:o.x;
++        if(!LV[ent.lv|0].clear(o.x,o.z,R-0.02)) unclear++;
++        if(dir==='下樓'&&single&&(u-uLow)*du<L*0.5-0.05&&(u-uLow)*du>0&&(ent.lv|0)===1) upperLowHalf++;
++        if((u-endU)*sg>=-(0.02+sp*dt/2)&&acc.includes(ent.lv|0)){ ok=true; break; } }   /* 端點直接接牆時，低幀率跑步最後一步會差不到半步（走不進牆裡）：容許半步 */
++      const o=ent.obj.position, rec=dir+' v'+v.toFixed(2)+' '+mt+'：停在 ('+o.x.toFixed(2)+','+o.z.toFixed(2)+') lv'+(ent.lv|0)+'（要到 '+(ax)+' '+endU.toFixed(2)+'、lv '+acc.join('/')+'）';
++      if(!ok) bad.push(rec); else if(unclear) bad.push(rec.replace('停在','到了，但')+' 有 '+unclear+' 步站在站不住的地方');
++      if(upperLowHalf) bad.push(dir+' v'+v.toFixed(2)+' '+mt+'：過了一半以後還有 '+upperLowHalf+' 步在上面那一層'); } }
++    check(name+'：左中右 × 上下樓 × 走跑 × 30／10 fps 都走得到、換到對的那一層、沒有站在站不住的地方'+(single?'、下樓過了一半就在下面那一層':''),!bad.length,bad.slice(0,5).join('｜')+(bad.length>5?'｜…共 '+bad.length+' 件':'')); } }
++check('1. 掃到的多樓層區域 ≥ 14 個、共用的樓梯段 ≥ 14 座（'+nZones+' 個區域、'+nStairs+' 座、'+nRuns+' 趟）',ONLY?true:(nZones>=14&&nStairs>=14));
++for(const t of info) console.log('（資訊）'+t);
++console.warn=cwarn; console.error=cerr;
++console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
