@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\MOKU_PLANT_old_8\docs\story_planning\test_tools\cc\cc_moku_plant_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MOKU_PLANT_old_8\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  24.1s] CC MOKU-PLANT：受測 SHA f312c68cc961c70c7d548fe40c2ae42483d517ba、版本 v9.10.25；項目 8；Playwright 手機模擬（雲端 SwiftShader／PC GPU）≠ iPhone；「秒」都是遊戲時間
+  [前置／捷徑] 【前置／捷徑】開場：讀檔進木曜日二樓（拿區域資料、總覽截圖）：day46 存檔 → 2025-11-05 15.00 木曜日 (-1.82, 4.00) 第 1 層、yaw 0.00、關條件事件／手機自動打開（站在 (-1.820, 4.000) 第 1 層；E.lastSpawn {"zone": "wz_mokuyobi", "x": -1.82, "z": 4, "lv": 1, "fixed": [-1.82, 4]}；收尾 []）
+  [  42.4s] 木曜日：stairTop [-3.75, 2.04]（MOKUYOBI_LAYOUT）、cornerSlip False、層數 2、速度 {"walk": 1.8, "run": 6.2, "bike": 8.5}
+PASS 木曜日有兩層導航（第 0 層一樓、第 1 層二樓）  {"stairTop": [-3.75, 2.04], "cornerSlip": false, "levels": 2, "spd": {"walk": 1.8, "run": 6.2, "bike": 8.5}}
+== 第 8 項
+  [前置／捷徑] 【前置／捷徑】[8 (-3.75,1.00)] 第 8 項：像舊存檔一樣把人放在 (-3.75, 1.00) 第 1 層：day46 存檔 → 2025-11-05 15.00 木曜日 (-3.75, 1.00) 第 1 層、yaw 0.00、關條件事件／手機自動打開（站在 (-3.650, 1.050) 第 1 層；E.lastSpawn {"zone": "wz_mokuyobi", "x": -3.75, "z": 1, "lv": 1, "fixed": [-3.65, 1.05]}；收尾 []）
+  [  50.2s] [8 (-3.75,1.00)] 讀檔後：區域 wz_mokuyobi、站在 (-3.65, 1.05) y 3.2 第 1 層、離原點 0.11 m；E.lastSpawn {"zone": "wz_mokuyobi", "x": -3.75, "z": 1, "lv": 1, "fixed": [-3.65, 1.05]}；原點第 1 層 canStand False、clear(0.32) False
+PASS 8. (-3.75, 1.00) 第 1 層站不進去（E.canStand 半徑 0.3 是 false）  {"canStand": false, "clear": false, "zone": "wz_mokuyobi"}
+PASS 8. 存檔放在 (-3.75, 1.00) 第 1 層：讀進來被拉到站得住的地方（E.canStand(x,z,0.3,1) true、不是原來那一點）→ (-3.65, 1.05) 第 1 層  {"stand1": true, "standLv": true, "lv": 1, "離原點": 0.112}
+PASS 8. 拉出來的位置走得到樓梯底（E.pathTo 有路，不是另一個小孤島；LAWWW Node 第 2 項「拉出來的位置在大區」）  {"pathTo 點數": 48}
+  [前置／捷徑] 【前置／捷徑】[8 (-3.55,1.05)] 第 8 項：像舊存檔一樣把人放在 (-3.55, 1.05) 第 1 層：day46 存檔 → 2025-11-05 15.00 木曜日 (-3.55, 1.05) 第 1 層、yaw 0.00、關條件事件／手機自動打開（站在 (-3.550, 1.050) 第 1 層；E.lastSpawn {"zone": "wz_mokuyobi", "x": -3.55, "z": 1.05, "lv": 1, "fixed": [-3.55, 1.05]}；收尾 []）
+  [  56.6s] [8 (-3.55,1.05)] 讀檔後：區域 wz_mokuyobi、站在 (-3.55, 1.05) y 3.2 第 1 層、離原點 0.00 m；E.lastSpawn {"zone": "wz_mokuyobi", "x": -3.55, "z": 1.05, "lv": 1, "fixed": [-3.55, 1.05]}；原點第 1 層 canStand True、clear(0.32) True
+FAIL 8. (-3.55, 1.05) 第 1 層站不進去（E.canStand 半徑 0.3 是 false）  {"canStand": true, "clear": true, "zone": "wz_mokuyobi"}
+FAIL 8. 存檔放在 (-3.55, 1.05) 第 1 層：讀進來被拉到站得住的地方（E.canStand(x,z,0.3,1) true、不是原來那一點）→ (-3.55, 1.05) 第 1 層  {"stand1": true, "standLv": true, "lv": 1, "離原點": 0.0}
+PASS 8. 拉出來的位置走得到樓梯底（E.pathTo 有路，不是另一個小孤島；LAWWW Node 第 2 項「拉出來的位置在大區」）  {"pathTo 點數": 47}
+  [  57.0s] [8 (-3.55,1.05)] 【診斷】位置 {"x": -3.55, "z": 1.05, "y": 3.2, "lv": 1}、站得住 True、blockedAt null、busy False、對話 False、選項 []、鏡頭 follow（ctl False、paused False）、跑步鍵 False；附近 2 m NPC [{"id": "", "x": -3, "z": 0.05, "lv": 1}]
+  [  57.0s] [8 (-3.55,1.05)] 【診斷】附近 5×5 格（每格 0.15 m；「0」「1」＝第 0／1 層站得住、「-」站不住；中間＝人）["z0.75:-- -- -- -- --", "z0.9:-- -- -- -- --", "z1.05:-- -1 -1 -- --", "z1.2:-- -1 -1 -- --", "z1.35:-- -1 -1 -1 -1"]
+  [  57.0s] [8 (-3.55,1.05)] 【診斷】從停下的地方 E.pathTo → 樓梯底 (-3.35, 5.60) 第 0 層 {"n": 47, "pts": [[-3.45, 1.15, 1], [-3.35, 1.15, 1], [-3.25, 1.15, 1], [-3.15, 1.15, 1], [-3.05, 1.15, 1], [-2.95, 1.15, 1]]}；→ 樓梯頂 (-3.75, 2.04) 第 1 層 {"n": 15, "pts": [[-3.45, 1.15, 1], [-3.35, 1.15, 1], [-3.25, 1.15, 1], [-3.15, 1.15, 1], [-3.05, 1.15, 1], [-2.95, 1.15, 1]]}；截圖 item8_pull
+  [  57.0s] 第 8 項用了 14 秒
+PASS 沒有 JS 例外  []
+FAILED: 8. (-3.55, 1.05) 第 1 層站不進去（E.canStand 半徑 0.3 是 false）, 8. 存檔放在 (-3.55, 1.05) 第 1 層：讀進來被拉到站得住的地方（E.canStand(x,z,0.3,1) true、不是原來那一點）→ (-3.55, 1.05) 第 1 層
