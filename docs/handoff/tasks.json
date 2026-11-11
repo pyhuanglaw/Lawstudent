@@ -52745,7 +52745,7 @@
    "id": "POOL-SWIM-LOOK-1110",
    "title": "泳池泳客的樣子（LAWWW 角色驗收 PARTIAL）：①水太透明、沒有水面，近看像趴在水上——水面加一層淺藍半透明＋反光，身體在水面下要被水蓋到（頭、肩、手臂划水露出）②腿的膚色偏灰白、和手臂不一樣",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -52758,7 +52758,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "遠景（pool_far）可以；近景要改。功能 BB PASS（2c37122b6），不擋發布",
+   "next": "【11-11 08:2x LAWWW2 交付 READY_FOR_REVIEW】claude/second-ai-env-art d58fa7ea3：docs/art-rebuild/second_ai/wip/pool_swim_look_1111/pool_swim_look_v1.patch（8 檔：gym3d.js poolWater 換 b1_water 材質不重匯 GLB、character3d.js C.GYM.swim y −0.14＋tilt 0.10 只影響 swim_free／swim_breast、兩張貼圖、LICENSES）；在 dev 0d7922555 試套乾淨；Node 1280／1281 過。**LAWWW 照約定：v9.10.25 候選版定了以後再整合**；整合後 CC 照 pool_swim_free／pool_swim_breast 原機位重拍、BB 加一行看別的區域人物站姿沒變。｜遠景（pool_far）可以；近景要改。功能 BB PASS（2c37122b6），不擋發布",
    "xai": {
     "spec": "BB 18:47 轉 CC 截圖 cc-testing docs/story_planning/CC/shots/pool_swim_free.jpg、pool_swim_breast.jpg、pool_far.jpg",
     "branch": "claude/second-ai-env-art",
