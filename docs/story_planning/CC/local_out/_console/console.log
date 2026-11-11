@@ -1,14 +1,3 @@
-[15:19:04] 正在跑：CLASS12_crim_c（已跑 6 分／上限 14 分）、CLASS12_skip5b_np350_r4（已跑 4 分／上限 12 分）、CLASS12_skip5b_np450_r4（已跑 1 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
-[15:19:39] [res] cpu=9% mem=42% (13.3/31.4 GB) chrome_testing=5  END CLASS12_skip5b_np350_r4
-[15:19:45] [res] cpu=10% mem=42% (13.4/31.4 GB) chrome_testing=5  END CLASS12_crim_c
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       042771b30..c3c29ffc4  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:19:49] ==== END   CLASS12_skip5b_np350_r4  exit=0  277s   ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       c3c29ffc4..37b8453d2  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:19:57] ==== END   CLASS12_crim_c  exit=1  418s   ====
 [15:20:00] memory 43% before starting L118D_H_B_r2 (2 running)
 [15:20:00] ==== START L118D_H_B_r2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
 [15:20:03] [res] cpu=4% mem=44% (13.8/31.4 GB) chrome_testing=5  START L118D_H_B_r2
@@ -1998,3 +1987,14 @@
        27fcc4a95..c91710865  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [00:01:04] ==== END   ACT_ZR3_SITFIRST_rel_r3  exit=1  253s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c91710865..af1ac1bb7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:01:10] ==== END   STAIR_old_run_r2  exit=1  1378s   ====
+[00:01:20] memory 37% before starting L118A_DOOR_b (2 running)
+[00:01:20] ==== START L118A_DOOR_b  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[00:01:23] [res] cpu=4% mem=37% (11.7/31.4 GB) chrome_testing=5  START L118A_DOOR_b
+[00:01:25] memory 37% before starting L118A_DOOR_c (2 running)
+[00:01:25] ==== START L118A_DOOR_c  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[00:01:28] [res] cpu=1% mem=39% (11.8/31.4 GB) chrome_testing=5  START L118A_DOOR_c
+[00:02:49] [res] cpu=1% mem=43% (13.5/31.4 GB) chrome_testing=9  END ACT_ZR3_SITFIRST_old_r3
