@@ -1,8 +1,3 @@
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:14:16] ==== END   SC3_v2  exit=0  155s   ====
-[08:14:19] memory 46% before starting TZ5_int_old (2 running)
-[08:14:19] ==== START TZ5_int_old  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
-[08:14:22] [res] cpu=10% mem=47% (14.6/31.4 GB) chrome_testing=9  START TZ5_int_old
 [08:14:55] [res] cpu=17% mem=44% (13.8/31.4 GB) chrome_testing=9  END SC3_v1
     To https://github.com/pyhuanglaw/Lawstudent.git
        79ee5e429..d3bb59029  claude/cc-local -> claude/cc-local
@@ -1998,3 +1993,8 @@
 [15:17:41] [res] cpu=7% mem=51% (16.0/31.4 GB) chrome_testing=10  START CLASS12_skip5b_np450_r4
 [15:19:04] 正在跑：CLASS12_crim_c（已跑 6 分／上限 14 分）、CLASS12_skip5b_np350_r4（已跑 4 分／上限 12 分）、CLASS12_skip5b_np450_r4（已跑 1 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:19:39] [res] cpu=9% mem=42% (13.3/31.4 GB) chrome_testing=5  END CLASS12_skip5b_np350_r4
+[15:19:45] [res] cpu=10% mem=42% (13.4/31.4 GB) chrome_testing=5  END CLASS12_crim_c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       042771b30..c3c29ffc4  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:19:49] ==== END   CLASS12_skip5b_np350_r4  exit=0  277s   ====
