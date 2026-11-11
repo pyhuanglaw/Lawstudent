@@ -15,6 +15,14 @@ BB_335 驗收清單 C 節（＋H 節的「畫面上不出現 undefined、舊店�
      5a 約「明天 15:30」（木曜日 13:00～20:30 開始、週二休以內＝預期改去木曜日 wz_mokuyobi、狀態不變）→ 新版【捷徑】撥到約好的前 10 分鐘 → 手機「今天」按前往 → 到木曜日見面；
      5b 約「明天 12:10」（木曜日還沒開＝預期取消 cancelled）→ 新版用手機再約一次木曜日（念書 → 木曜日）。
      UI 約不成（她改時間、婉拒）＝【捷徑】改那一筆的時間或直接寫一筆（會寫在 log）。
+     5b 另外記：取消的時候玩家看得到什麼（讀檔時的 toast、對話、手機「訊息」「今天」頁逐字、G.msgs 裡那一筆的訊息）、有沒有說要去哪裡約；
+     再做「沒去過木曜日」的版本：【捷徑】刪掉 G.visited.wz_mokuyobi → 手機約 → 念書…選單截圖、列出選項全文、看得到看不到木曜日。
+  6  人卡住（P0 類；BB 06:55）：舊版把人存在辛亥韓食門外那一格 (−2.896, 11.657)（照 11-11 雲端第一次重現：day46 → lane118 (0,16)、B 12:00、觸控點地面走到 (−3.0,11.5)；
+     走到的位置差 0.15 m 以上＝【捷徑】放到那一格再存，log 寫確切座標）。新版讀進來以後：搖桿八方向（每 45°）各推 1 秒、整組 5 輪，每一下記位移
+     （第 1 輪第 1 下是真的從讀進來的位置推；其他每一下之前【捷徑】把人放回那一格）；再在那一格周圍 0.5 m 的 3×3 格（【捷徑】放到每一格）各推八方向一次。
+     每一格記 E.canStand（r 0.2／0.25／0.3／0.33／0.4）、導航格 5×5 阻擋、freeScore、附近 NPC（座標、半徑）、互動點、E.unstick 被叫幾次（包一層計數）、
+     walkFallbacks、busy／seat／面板；推不動截圖。最後一行總結：哪幾格推不動、哪些方向。
+  2b、3b 另外：被送到店門口以後在那個位置推八方向各 1 秒（記位移），推不動截圖、印狀態。
 新版讀進來以後（每一個都）：沒有 JS 例外；同一天；區域照上面的預期；站的格子可走（E.canStand r0.3）；搖桿推得動 ≥0.3 m；
   G.l118 的 n、d、last、w 照規格搬（BB_335：麵舖→清州刀削麵 noodle2→korea、韓食→辛亥韓食 korea→tea、自助餐→大學食堂 self→cafe2、茶飲→喝不喝咖啡 tea→drink_a、
   慢讀 cafe2→併進 G.mokuyobi.n；dian、home、omu、pasta 不動；w：阿哲 noodle2→korea、korea→tea、self→home，柏翰 self→cafe2；ZHE_118_RANK noodle2→korea、korea→tea）——
@@ -42,7 +50,7 @@ else:
     MODE = (os.environ.get('MODE') or 'make').lower(); OUT = sys.argv[2]
     URL_OLD = sys.argv[1] if MODE == 'make' else None; URL_NEW = sys.argv[1] if MODE == 'load' else None
 os.makedirs(OUT, exist_ok=True)
-CASES = [c.strip() for c in (os.environ.get('CASES') or '1,2,3,4,5').split(',') if c.strip()]
+CASES = [c.strip() for c in (os.environ.get('CASES') or '1,2,3,4,5,6').split(',') if c.strip()]
 R = L.Run('l118d_c_' + MODE, OUT); F.setup(R, OUT)
 J = F.J
 DAY_A = os.environ.get('DAY_A') or '2025-11-05'
@@ -50,7 +58,8 @@ DAY_B = os.environ.get('DAY_B') or '2025-11-06'
 INV_WHO = os.environ.get('INV_WHO') or 'heroine_01'
 SAVEDIR = os.path.join(OUT, 'saves')
 SRC_DIR = None
-SUBS = {'1': ['1a', '1b'], '2': ['2a', '2b'], '3': ['3a', '3b'], '4': ['4'], '5': ['5a', '5b']}
+SUBS = {'1': ['1a', '1b'], '2': ['2a', '2b'], '3': ['3a', '3b'], '4': ['4'], '5': ['5a', '5b'], '6': ['6']}
+LAST_CONT_LOG = []
 
 # ---------------------------------------------------------------- 規格（BB_335 C 節／使用者規格第一節）：探針自己的表，不讀遊戲的 L118.MV772
 OLD_NAMES = ['滇香小館', '好家自助餐', '一一八茶飲', '巷口家常菜', '慢讀咖啡', 'Pasta 118', '韓食小廚', '蛋包飯研究所', '六張犁麵舖']
@@ -70,7 +79,26 @@ PLAN = {
     '2b': {'day': DAY_B, 'h': 15.5, 'shop': 'tea', 'expect': 'lane118', 'why': '在舊一一八茶飲室內（新店辛亥韓食這時候午休）'},
     '3a': {'day': DAY_B, 'h': 12.0, 'shop': 'cafe2', 'expect': 'l118_cafe2', 'why': '在舊慢讀咖啡室內（新店大學食堂這時候有開）'},
     '3b': {'day': DAY_B, 'h': 15.0, 'shop': 'cafe2', 'expect': 'lane118', 'why': '在舊慢讀咖啡室內（新店大學食堂這時候沒開）'},
+    '6': {'day': DAY_B, 'h': 12.0, 'zone': 'lane118', 'start': (0.0, 16.0), 'goto': (-3.0, 11.5), 'expect': 'lane118', 'why': '辛亥韓食門外那一格（11-11 雲端推不動的位置）'},
 }
+CELL6 = (-2.896, 11.657)   # 11-11 雲端第一次（c19d8b76）推 0.00 m 的位置（l118d_c1.log）
+DIRS8 = [(a, int(round(60 * math.sin(math.radians(a)))), int(round(-60 * math.cos(math.radians(a))))) for a in range(0, 360, 45)]   # 搖桿畫面方向：0＝往上（前）、90＝往右
+DIRN = {0: '上', 45: '右上', 90: '右', 135: '右下', 180: '下', 225: '左下', 270: '左', 315: '左上'}
+# 讀檔以前就掛上（每次重新整理都會跑）：E.unstick 被叫幾次（包一層計數）、#toast 出現過的字（讀檔當下的 toast 也收得到）
+INIT_JS = r"""(()=>{ window.__unstickN=0; window.__unstickLog=[]; window.__ccToasts=[];
+  const t=setInterval(()=>{ try{ const E=(typeof GAME!=='undefined'&&GAME)?GAME.E:null; if(E&&E.unstick&&!E.__ccUw){ const f=E.unstick; E.unstick=function(ent){ const o=ent&&ent.obj&&ent.obj.position, a=o?[+o.x.toFixed(2),+o.z.toFixed(2)]:null; const r=f.apply(this,arguments); window.__unstickN++; window.__unstickLog.push({who:ent===E.player?'player':String((ent&&(ent.charId||ent.id))||'?'),at:a,moved:!!r}); return r; }; E.__ccUw=1; clearInterval(t); } }catch(e){} },20);
+  const hook=()=>{ const el=document.getElementById('toast'); if(!el){ setTimeout(hook,50); return; } new MutationObserver(()=>{ const x=(el.innerText||el.textContent||'').trim(); const L=window.__ccToasts; if(x&&L[L.length-1]!==x) L.push(x); }).observe(el,{childList:true,subtree:true,characterData:true,attributes:true}); };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',hook); else hook(); })()"""
+CELLDIAG_JS = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, lv=P.lv|0, n=E.navOf?E.navOf(lv):E.nav; const cell=n&&n.toCell?n.toCell(o.x,o.z):null; const blk=[];
+  if(n&&cell){ for(let dz=-2;dz<=2;dz++) for(let dx=-2;dx<=2;dx++) if(n.blocked(cell[0]+dx,cell[1]+dz)) blk.push([dx,dz]); }
+  const cs={}; for(const r of [0.2,0.25,0.3,0.33,0.4]) cs[r]=E.canStand?!!E.canStand(o.x,o.z,r,lv):null;
+  const npcs=(E.npcs||[]).filter(q=>q&&q.obj&&Math.hypot(q.obj.position.x-o.x,q.obj.position.z-o.z)<2.5).map(q=>({id:String(q.charId||q.id||q.name||''),x:+q.obj.position.x.toFixed(2),z:+q.obj.position.z.toFixed(2),r:q.radius||null,d:+Math.hypot(q.obj.position.x-o.x,q.obj.position.z-o.z).toFixed(2),beh:q.beh||null,frozen:!!q.frozen,seat:!!q.seat,vis:q.obj.visible!==false}));
+  const its=(E.interactables||[]).filter(i=>!i.hidden&&Math.hypot(i.x-o.x,i.z-o.z)<2.5).map(i=>({label:String(i.label||'').slice(0,24),x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||null}));
+  const ov=['phone','menu','bigmap','dlg','choices','titleScreen'].filter(id=>{ const e=document.getElementById(id); return e&&!e.classList.contains('hide')&&getComputedStyle(e).display!=='none'; });
+  return {x:+o.x.toFixed(3),z:+o.z.toFixed(3),lv,cell,cellBlocked:n&&cell?n.blocked(cell[0],cell[1]):null,blk5x5:blk,canStand:cs,freeScore:E.freeScore?E.freeScore(o.x,o.z,0.3,lv):null,
+    npcs,its,colliders:(E.colliders||[]).length,radius:P.radius||null,busy:!!P.busy,seat:!!P.seat,path:P.path?P.path.length:0,paused:!!E.paused,ov,fb:GAME.walkFallbacks||0,unstick:window.__unstickN||0,unstickLog:(window.__unstickLog||[]).slice(-5),frame:E.frame|0}; })()"""
+PLACE_JS = "(([x,z])=>{ const E=GAME.E, P=E.player; P.path=null; P.obj.position.set(x,P.obj.position.y,z); if(E.settleY) E.settleY(P); return [+P.obj.position.x.toFixed(3),+P.obj.position.z.toFixed(3)]; })"
+
 # case 4【捷徑】寫入的其他店紀錄（[店, 次數, 上次那天＝今天＋幾天, 上次點的]）、一起吃的次數；茶飲、慢讀是真的點出來的，不寫
 SC4_REC = [['noodle2', 3, -3, '牛肉麵'], ['korea', 2, -5, '石鍋拌飯'], ['self', 4, -2, '自助餐（三菜一肉）'], ['dian', 1, -7, '椒麻雞飯'], ['pasta', 2, -6, '青醬培根麵']]
 SC4_W = {'zhe@noodle2': {'n': 2, 'd0': 20, 'd': 40}, 'zhe@korea': {'n': 1, 'd0': 27, 'd': 27}, 'zhe@self': {'n': 1, 'd0': 34, 'd': 34}, 'zhe@home': {'n': 1, 'd0': 30, 'd': 30},
@@ -299,6 +327,18 @@ async def make_case(pg, cdp, c, idx, errs):
             s = await D.st(pg)
             R.note('%s 停在 (%s, %s)；按鈕「%s」；附近的互動：%s' % (tag, s['x'], s['z'], s['interact'], J(await pg.evaluate(NEAR_IT_JS))))
             idx[k] = await save_now(pg, k, P['why'], {'btn': s['interact']})
+    elif c == '6':
+        k = '6'; P = PLAN[k]; tag = '[MAKE 6]'
+        await base_load(pg, cdp, '%s %s' % (tag, P['why']), 'lane118', P['start'][0], P['start'][1], P['day'], P['h'])
+        await F.tap_near(pg, cdp, '%s 走到 (%.1f, %.1f)（照 11-11 第一次）' % (tag, P['goto'][0], P['goto'][1]), P['goto'][0], P['goto'][1], 0.35, max_s=150)
+        s = await D.st(pg); d = math.hypot(s['x'] - CELL6[0], s['z'] - CELL6[1])
+        R.note('%s 觸控走到的確切座標 (%s, %s)，離那一格 (%.3f, %.3f) %.2f m' % (tag, s['x'], s['z'], CELL6[0], CELL6[1], d))
+        if d > 0.15:
+            got = await place(pg, CELL6)
+            R.setup('%s【捷徑】走到的位置差 %.2f m（>0.15）：把人放到那一格 %s 再存' % (tag, d, J(got)))
+        s = await D.st(pg)
+        R.note('%s 存檔時的確切座標 (%s, %s) lv %s；canStand %s；附近：%s' % (tag, s['x'], s['z'], s['lv'], s['stand'], J(await pg.evaluate(CELLDIAG_JS))))
+        idx[k] = await save_now(pg, k, P['why'], {'btn': s['interact']})
     elif c in ('2', '3'):
         for k in SUBS[c]:
             P = PLAN[k]; tag = '[MAKE %s]' % k; sid = P['shop']; dx, dz = OLD_SHOP[sid]['door']
@@ -398,6 +438,110 @@ async def fix_invite(pg, tag, iv, want):
     return v[-1] if v else None
 
 
+# ---------------------------------------------------------------- 推八方向（case 6、2b、3b）
+async def place(pg, pt):
+    r = await pg.evaluate("(%s)(%s)" % (PLACE_JS, J(list(pt)))); await pg.wait_for_timeout(350); return r
+
+
+async def push8(pg, cdp, tag, reset=None, first_real=False, ms=1000, shot=None):
+    """搖桿八方向各推 ms 毫秒、記位移。reset＝每一下之前【捷徑】把人放回那一點（first_real＝第一下不放，真的從現在的位置推）。
+    回傳 [{a, dir, mv, from, to}]；有一下 <0.05 m＝截圖（shot 名）、印 CELLDIAG"""
+    out = []
+    for i, (a, dx, dy) in enumerate(DIRS8):
+        if reset and not (first_real and i == 0): await place(pg, reset)
+        s0 = await L.state(pg)
+        await L.joystick(pg, cdp, dx, dy, ms); await pg.wait_for_timeout(300)
+        s1 = await L.state(pg)
+        mv = round(math.hypot(s1['x'] - s0['x'], s1['z'] - s0['z']), 2)
+        out.append({'a': a, 'dir': DIRN[a], 'mv': mv, 'from': [s0['x'], s0['z']], 'to': [s1['x'], s1['z']], 'zone': s1['zone']})
+    R.note('%s 八方向各推 %.1f 秒的位移：%s' % (tag, ms / 1000.0, '、'.join('%s %.2f' % (x['dir'], x['mv']) for x in out)))
+    stuck = [x for x in out if x['mv'] < 0.05]
+    if stuck:
+        if reset: await place(pg, reset)
+        dg = await pg.evaluate(CELLDIAG_JS)
+        R.note('%s 推不動（<0.05 m）的方向 %s；那時候的狀態：%s' % (tag, J([x['dir'] for x in stuck]), J(dg)))
+        if shot: await D.shot(pg, shot, judge_black=False)
+    return out
+
+
+async def case6(pg, cdp, tag, s):
+    p0 = (s['x'], s['z'])
+    dg0 = await pg.evaluate(CELLDIAG_JS)
+    R.note('%s 讀進來的那一格：%s' % (tag, J(dg0)))
+    bad = []
+    for r in range(5):
+        res = await push8(pg, cdp, '%s 第 %d 輪（%s）' % (tag, r + 1, '第 1 下真的從讀進來的位置推，其他每一下之前【捷徑】放回 (%.3f, %.3f)' % (p0[0], p0[1]) if r == 0 else '每一下之前【捷徑】放回那一格'),
+                          reset=p0, first_real=(r == 0), shot='l118d_6_round%d_stuck' % (r + 1))
+        best = max(x['mv'] for x in res)
+        R.check('%s 第 %d 輪：讀進來的那一格 (%.3f, %.3f) 八方向至少一個推得動 ≥0.3 m（最多 %.2f）' % (tag, r + 1, p0[0], p0[1], best), best >= 0.3, J([[x['dir'], x['mv']] for x in res]))
+        st = [x['dir'] for x in res if x['mv'] < 0.05]
+        if st: bad.append(['讀進來的那一格 第 %d 輪' % (r + 1), p0, st])
+    R.setup('%s【捷徑】接下來把人放到那一格周圍 0.5 m 的 3×3 格，每一格推八方向（每一下之前放回那一格）' % tag)
+    for dz in (-0.5, 0.0, 0.5):
+        for dx in (-0.5, 0.0, 0.5):
+            c = (round(p0[0] + dx, 3), round(p0[1] + dz, 3)); got = await place(pg, c)
+            dg = await pg.evaluate(CELLDIAG_JS)
+            R.note('%s 格 (%+.1f, %+.1f)＝(%.3f, %.3f)：%s' % (tag, dx, dz, c[0], c[1], J(dg)))
+            res = await push8(pg, cdp, '%s 格 (%+.1f, %+.1f)' % (tag, dx, dz), reset=c, shot='l118d_6_cell_%+.1f_%+.1f_stuck' % (dx, dz))
+            best = max(x['mv'] for x in res); st = [x['dir'] for x in res if x['mv'] < 0.05]
+            if st: bad.append(['格 (%+.1f, %+.1f)' % (dx, dz), c, st])
+            if dg['canStand'].get('0.3'):
+                R.check('%s 格 (%+.1f, %+.1f) 站得住（canStand r0.3），八方向至少一個推得動 ≥0.3 m（最多 %.2f）' % (tag, dx, dz, best), best >= 0.3, J({'放到': got, 'mv': [[x['dir'], x['mv']] for x in res]}))
+            else:
+                R.note('%s 格 (%+.1f, %+.1f) 本來就站不住（canStand r0.3＝false；玩家走不到這一格，不算卡住）：最多推 %.2f m' % (tag, dx, dz, best))
+    await place(pg, p0)
+    dg1 = await pg.evaluate(CELLDIAG_JS)
+    R.note('%s 結束：E.unstick 一共被叫 %s 次（%s）、walkFallbacks %s' % (tag, dg1['unstick'], J(dg1['unstickLog']), dg1['fb']))
+    print('  [總結 6] 推不動（<0.05 m）的：%s' % (J(bad) if bad else '沒有（每一格每一輪都至少有一個方向推得動、而且沒有一個方向 <0.05 m）'), flush=True)
+
+
+async def cancel_seen(pg, cdp, tag, new, inv):
+    """5b：邀約被取消，玩家看得到什麼（觀察，不判對錯）"""
+    ids = [i for i, x in inv.items() if x['exp']['state'] == 'cancelled']
+    toasts = await pg.evaluate("(window.__ccToasts||[]).slice()")
+    R.note('%s 【觀察】讀檔以後出現過的 toast：%s' % (tag, J(toasts)))
+    R.note('%s 【觀察】讀檔以後點過的對話／選項：%s' % (tag, J(LAST_CONT_LOG[-12:])))
+    ms = [m for m in (new.get('msgs') or []) if isinstance(m, dict) and (m.get('iv') in ids or '木曜日' in str(m.get('text', '')) or '慢讀' in str(m.get('text', '')))]
+    R.note('%s 【觀察】G.msgs 裡和這一筆（%s）有關的訊息：%s' % (tag, J(ids), J(ms[-6:])))
+    pages = {}
+    for tab in ('msg', 'today'):
+        pages[tab] = (await pe.phone(pg, cdp, tab)).strip()
+        R.note('%s 【觀察】手機「%s」頁全文：%s' % (tag, {'msg': '訊息', 'today': '今天'}[tab], pages[tab][:600].replace('\n', '／')))
+    await D.shot(pg, 'l118d_5b_cancel_phone', judge_black=False)
+    await pe.close_phone(pg, cdp); await F.ready(pg, cdp, 10)
+    alltxt = ' '.join(toasts + [str(x) for x in LAST_CONT_LOG] + [str(m.get('text', '')) for m in ms] + list(pages.values()))
+    told = '取消' in alltxt or '作罷' in alltxt
+    R.note('%s 【觀察】玩家有沒有被告知取消：%s；有沒有說要去哪裡約（木曜日）：%s' % (tag, '有' if told else '沒有看到', '有' if '木曜日' in alltxt else '沒有看到'))
+
+
+async def no_moku_menu(pg, cdp, tag, who):
+    """5b：【捷徑】刪掉 G.visited.wz_mokuyobi（沒去過木曜日）→ 手機約 → 念書…選單：截圖、列出選項全文"""
+    v = await pg.evaluate("(()=>{ const V=GAME.G.visited||{}; const b=!!V.wz_mokuyobi; delete V.wz_mokuyobi; return b; })()")
+    R.setup('%s【捷徑】刪掉 G.visited.wz_mokuyobi（原本 %s）＝沒去過木曜日的版本' % (tag, v))
+    await pe.phone(pg, cdp, 'friends')
+    if not await pe.tap_sel(pg, cdp, '#phoneBody [data-inv="%s"]' % who):
+        R.check('%s 手機「朋友」有 %s 的「約」' % (tag, who), False, ''); await pe.close_phone(pg, cdp); return
+    await pg.wait_for_timeout(1500)
+    for _ in range(12):
+        q = await L.state(pg)
+        if q['choices']: break
+        if q['dlg']: await L.tap(pg, cdp, '#dlg')
+        await pg.wait_for_timeout(600)
+    top = [x['t'] for x in await pe.opts(pg)]
+    R.note('%s 約的第一層選項全文：%s' % (tag, J(top)))
+    sub = None
+    if await pe.choose(pg, cdp, '念書'):
+        await pg.wait_for_timeout(800); sub = [x['t'] for x in await pe.opts(pg)]
+        await D.shot(pg, 'l118d_5b_nomoku_study_menu', judge_black=False)
+        R.note('%s 「念書」那一層的選項全文：%s' % (tag, J(sub)))
+    else: R.note('%s 第一層沒有「念書」' % tag)
+    seen = any('木曜日' in t for t in (sub or [])) or any('木曜日' in t for t in top)
+    R.note('%s 【觀察】沒去過木曜日：約的選單%s木曜日' % (tag, '看得到' if seen else '看不到'))
+    bad = [t for t in top + (sub or []) if any(n in t for n in OLD_NAMES) or 'undefined' in t]
+    R.check('%s 約的選單沒有舊店名、undefined' % tag, not bad, J(bad))
+    await F.finish_dialog(pg, cdp); await pe.close_phone(pg, cdp); await F.ready(pg, cdp, 10)
+
+
 # ---------------------------------------------------------------- LOAD（改之後）
 async def cont(pg, cdp, url, save):
     """重新整理 → 自動存檔放這一份 → 標題「繼續」（觸控）。照 cc_fn_migrate_probe.cont"""
@@ -412,6 +556,7 @@ async def cont(pg, cdp, url, save):
         if await pg.evaluate("!!(GAME.G&&GAME.E&&GAME.E.player&&document.getElementById('titleScreen').classList.contains('hide'))"): break
     await pg.wait_for_timeout(5000); await L.close_panels(pg, cdp)
     log = []; await pe.settle(pg, cdp, log, 20)
+    LAST_CONT_LOG[:] = log
     if log: R.note('讀進來以後先點完的對話／選項：%s' % J(log[-10:]))
     q, did = await F.ready(pg, cdp)
     R.note('讀進來以後等畫面可以玩：%s；做了 %s' % (J(q), J(did)))
@@ -535,7 +680,18 @@ async def load_one(pg, cdp, url, k, ent, save, menus, errs):
     if k in ('2a', '3a'):
         sid = P['shop']; it = await pg.evaluate("(%s)(%s)" % (ORDERIT_JS, J(sid)))
         R.check('%s 店裡點餐的按鈕是新店名（%s）' % (tag, it and it['label']), bool(it) and NEW_NAME[sid] in it['label'], J(it))
+    dgl = await pg.evaluate(CELLDIAG_JS)
+    R.note('%s 讀進來的那一格：E.unstick 被叫 %s 次 %s、walkFallbacks %s、canStand %s' % (tag, dgl['unstick'], J(dgl['unstickLog']), dgl['fb'], J(dgl['canStand'])))
+    if k == '6':
+        await case6(pg, cdp, tag, s)
+        ne = errs_since(errs, n0)
+        R.check('%s 沒有 JS 例外' % tag, not ne, J(ne[:3])); return
     await F.ready(pg, cdp, 15)
+    if k in ('2b', '3b'):
+        s2 = await D.st(pg)
+        res = await push8(pg, cdp, '%s 被送到店門口 (%s, %s) 以後' % (tag, s2['x'], s2['z']), shot='l118d_%s_door_stuck' % k)
+        best = max(x['mv'] for x in res)
+        R.check('%s 店門口八方向至少一個推得動 ≥0.3 m（最多 %.2f）' % (tag, best), best >= 0.3, J([[x['dir'], x['mv']] for x in res]))
     mv = await D.pushable(pg, cdp)
     if mv < 0.3:   # 分清楚是卡牆還是遊戲沒在收搖桿（暫停、劇情、面板）：印狀態、再等一下推一次
         q = await L.state(pg); ov = await pg.evaluate(OVERLAY_JS)
@@ -555,12 +711,14 @@ async def load_one(pg, cdp, url, k, ent, save, menus, errs):
     if k == '5b':
         e = next((x for x in inv.values() if x['exp']['state'] == 'cancelled'), None)
         if R.check('%s 有被取消的那一筆' % tag, bool(e), J(list(inv.values()))):
+            await cancel_seen(pg, cdp, tag, new, inv)
             vis = (new.get('visited') or {}).get('wz_mokuyobi')
             R.note('%s 這份存檔去過木曜日（G.visited.wz_mokuyobi＝%s；新版約念書的木曜日要自己去過一次才列）' % (tag, vis))
             iv = await invite_slowread(pg, cdp, tag + ' 再約', INV_WHO, '木曜日', ['今天 15:30', '明天 15:30', '今天 19:00', '明天 19:00'])
             dom2 = await pg.evaluate(DOM_JS); check_names(tag, dom2, '再約以後的畫面')
             R.check('%s 取消以後可以再約木曜日（新的一筆 place slowread、zone wz_mokuyobi、state accepted／offered／changed）' % tag,
                     bool(iv) and iv['zone'] == 'wz_mokuyobi' and iv['state'] in ('accepted', 'offered', 'changed'), J(iv))
+            await no_moku_menu(pg, cdp, tag + ' 沒去過木曜日', INV_WHO)
     ne = errs_since(errs, n0)
     R.check('%s 沒有 JS 例外' % tag, not ne, J(ne[:3]))
 
@@ -604,6 +762,7 @@ async def main():
                 idx = json.load(open(os.path.join(SRC_DIR, 'index.json'), encoding='utf-8'))
             else:
                 SRC_DIR = SAVEDIR; await pg.close(); pg = await ctx.new_page(); cdp = await ctx.new_cdp_session(pg); errs.clear(); pg.on('pageerror', lambda e: errs.append(str(e)))
+            await pg.add_init_script(INIT_JS)   # E.unstick 計數、toast 紀錄（每次重新整理都會掛）
             await pg.goto(URL_NEW)
             if not R.check('改之後的版本載入', await L.wait_loaded(pg), ''): await b.close(); return
             menus = await pg.evaluate(NEWSHOPS_JS) or {}
