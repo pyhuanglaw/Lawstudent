@@ -558,6 +558,7 @@ def _door_glass(spec, xf, sf, iw, ih, gz, fr, top):
         xf.box(f_, -iw / 2, iw / 2, ih + 0.1, ih + 0.18, gz - 0.06, gz + 0.06); xf.box(f_, -iw / 2, iw / 2, 0.08, 0.16, gz - 0.06, gz + 0.06)
         xf.quad(acc(M['glass']), [(-iw / 2, 0.16, gz + 0.01), (iw / 2, 0.16, gz + 0.01), (iw / 2, ih + 0.1, gz + 0.01), (-iw / 2, ih + 0.1, gz + 0.01)])
     dw = sf.get('door_w', 1.8); dx = sf.get('door_x', 0.0)
+    _sdw = sf.get('door_w', 2.4 if door == 'auto' else 1.8); season_door(spec, xf, dx - _sdw / 2, dx + _sdw / 2, ih + 0.1, gz, 'open' if door == 'open' else 'shop', glass=(-iw / 2, iw / 2))   # 季節布置用（只記錄）
     if door == 'alu':
         a = acc(SK['alu2'])
         for x in (-iw / 2, dx - dw / 2, dx, dx + dw / 2, iw / 2) + tuple(sf.get('mullions', ())): xf.box(a, x - 0.04, x + 0.04, 0.085, ih + 0.175, gz - 0.05, gz + 0.05)   # 直框的兩端藏在上下橫框裡（BUG-WZFLICKER-2：原本頂面、底面和橫框同一個平面）；mullions＝窗中間多的直框（阿德）
@@ -790,6 +791,7 @@ def housefront_v2(spec, xf, W, rng, rec):
     sf = spec['sf']; z = -rec; dx = sf.get('door_x', -W * 0.2); dw = sf.get('door_w', 1.3); dh = 2.25; th = 0.42      # 門洞寬、門高、氣窗高
     dc = acc(door_mat(spec.get('door', '#9c2f2a'))); st = acc(SK['steel']); dk = acc(M['ac_dark']); stone = acc(SK['f_granite'])
     x0, x1 = dx - dw / 2, dx + dw / 2; top = dh + th
+    season_door(spec, xf, x0, x1, top, z, 'house')   # 季節布置用（只記錄）
     # 門框（石材，凸出牆面 6 cm）＋兩階台階
     # 一樓的牆是實心的：門、門框都貼在牆面前面（門框凸出 14 cm，門片退在門框裡 7 cm）
     for (a0, a1) in ((x0 - 0.2, x0), (x1, x1 + 0.2)): xf.box(stone, a0, a1, 0.0, top + 0.2, z, z + 0.14)
@@ -1052,6 +1054,7 @@ def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
     dr = c.get('door')
     if dr:   # 門：門框、上面一道橫框、直把手
         d0, d1, dh = dr
+        season_door(spec, xf, d0, d1, dh, z, 'gg')   # 季節布置用（只記錄）
         for xx in (d0, d1): xf.box(fr, xx - 0.04, xx + 0.04, 0.0, gy1, z - 0.04, z + 0.06)
         xf.box(fr, d0, d1, dh - 0.03, dh + 0.03, z - 0.04, z + 0.06)
         xf.box(acc(M['metal']), d1 - 0.16, d1 - 0.13, 0.9, 1.5, z + 0.06, z + 0.1)
@@ -1200,6 +1203,12 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
     opens = [(cd[1], cd[2], cd[3], cd[4]) for cd in c.get('cards', [])]
     dr = c.get('door')
     if dr: opens.append((dr['x0'], dr['x1'], 0.0, dr['y1']))
+    _gl = (min(o[0] for o in opens), max(o[1] for o in opens)) if opens else None   # 季節布置用（只記錄）：門、整面開著的店
+    if dr: season_door(spec, xf, dr['x0'], dr['x1'], dr['y1'], gz, 'open' if dr.get('style') == 'open' else 'gg', glass=_gl)
+    else:
+        for cd in c.get('cards', []):
+            if str(cd[0]).endswith('_door'): season_door(spec, xf, cd[1], cd[2], cd[4], gz, 'gg', glass=_gl)
+            elif cd[0] in c.get('open', ()) and cd[2] - cd[1] > 3.0: season_door(spec, xf, cd[1], cd[2], cd[4], gz, 'open', glass=_gl)
     # 牆：店面那一面（窗、門以外的地方），一格一格補
     xs_ = sorted({X0, X1} | {v for o in opens for v in (o[0], o[1]) if X0 < v < X1})
     for a_, b_ in zip(xs_, xs_[1:]):

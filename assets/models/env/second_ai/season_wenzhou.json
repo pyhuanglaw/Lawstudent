@@ -1,0 +1,23 @@
+{
+ "objects": 4,
+ "unique_meshes": 4,
+ "tris": 3048,
+ "tris_drawn": 3048,
+ "materials": 3,
+ "out": "assets/models/env/second_ai/season_wenzhou.glb",
+ "bytes": 243284,
+ "texres": 1024,
+ "set": "wenzhou",
+ "doors": 13,
+ "groups": {
+  "CNY": {
+   "doors": 13,
+   "tris": 108
+  },
+  "XMAS": {
+   "doors": 2,
+   "tris": 2902
+  }
+ },
+ "note": "LIFE-DETAILS-SEASONAL-1110 第一批：SEASON_CNY_on 過年（春聯、橫批、福、燈籠）、SEASON_XMAS_on 聖誕（花圈、燈串、雪花貼紙）；日期表 src/data/season_deco.js"
+}

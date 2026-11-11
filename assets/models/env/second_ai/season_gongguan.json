@@ -1,0 +1,23 @@
+{
+ "objects": 6,
+ "unique_meshes": 6,
+ "tris": 4384,
+ "tris_drawn": 4384,
+ "materials": 3,
+ "out": "assets/models/env/second_ai/season_gongguan.glb",
+ "bytes": 306384,
+ "texres": 1024,
+ "set": "gongguan",
+ "doors": 11,
+ "groups": {
+  "CNY": {
+   "doors": 11,
+   "tris": 604
+  },
+  "XMAS": {
+   "doors": 2,
+   "tris": 3712
+  }
+ },
+ "note": "LIFE-DETAILS-SEASONAL-1110 第一批：SEASON_CNY_on 過年（春聯、橫批、福、燈籠）、SEASON_XMAS_on 聖誕（花圈、燈串、雪花貼紙）；日期表 src/data/season_deco.js"
+}

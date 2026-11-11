@@ -603,6 +603,14 @@ def awning_mat(color):
     return _mats[nm]
 
 
+SEASON_DOORS = []   # LIFE-DETAILS-SEASONAL-1110：各店門、住家門的位置（世界座標），給 season_deco.py 畫春聯、聖誕布置。只記錄——不影響街景模型
+def season_door(spec, xf, x0, x1, top, z, kind, glass=None):
+    """記一扇門：x0～x1＝門洞（建築自己的 x）、top＝門頂的高度、z＝門面的平面、kind＝shop／house／gg／open、glass＝整面玻璃的左右（掛燈串用）"""
+    w0, w1, wn = xf.p(x0, 0, z), xf.p(x1, 0, z), xf.p(x0, 0, z + 1.0)
+    SEASON_DOORS.append(dict(id=spec.get('id'), kind=kind, w0=[w0[0], w0[2]], w1=[w1[0], w1[2]], n=[round(wn[0] - w0[0], 4), round(wn[2] - w0[2], 4)], top=round(top, 3),
+                             glass=([list(xf.p(glass[0], 0, z))[::2], list(xf.p(glass[1], 0, z))[::2]] if glass else None)))
+
+
 class Xf:
     """建築自己的座標（TK.apartment：正面朝 +z、原點在正面中央地面）→ 溫州街世界座標（只轉 π/2 的倍數）"""
     def __init__(self, px, pz, ry): self.px, self.pz, self.c, self.s, self.ry = px, pz, round(math.cos(ry)), round(math.sin(ry)), ry
@@ -1418,6 +1426,8 @@ if SET in ('wenzhou', 'lane118', 'xinsheng_far', 'tingzhou'):   # PERF-SINGLESID
     # 同一頁量（路人拿掉）：溫州街 +11%、118 巷 +15%／+3%；公館量不出差別，不改
     for _m in {s.material for o in root.children_recursive if o.type == 'MESH' for s in o.material_slots if s.material}:
         if re.match(r'(wz_in_goods|wz_in_price_u|wz_in_board_u|wz_in_shop|wz_wall_|wz_in_tiles_|wz_room_lit|wz_pillar_|wz_ground_wall)', _m.name): _m.use_backface_culling = True   # wz_in_price_u、wz_in_board_u（PERF-WZ-SHADERS 11-07）：和 wz_in_goods 同一個 shader；價目牌、黑板朝街（和店內外殼同方向）
+if '--season' in ARGS:   # 只輸出季節布置（season_<區域>.glb）：街景照常建一次（為了拿到每扇門的位置），不存街景模型
+    import season_deco; season_deco.export(SET, SEASON_DOORS, os.path.join(L.ROOT, 'assets/models/env/second_ai/season_%s.glb' % SET)); sys.exit(0)
 info = L.export(OUT, gpu_instances=True)
 if SET == 'wenzhou' and not os.environ.get('WZ_NOSLIM'):   # PERF-COLD-RT（LAWWW2-B 11-07；CC-B：第一次進溫州街慢在下載這個檔）：法線 8 位元、頂點色 0～255，位置、UV、節點不動；
     import glb_slim; info['slim'] = glb_slim.slim(OUT, OUT); info['bytes'] = os.path.getsize(OUT)   # 招牌、門牌、景深卡（遊戲會改幾何）不碰；見 glb_slim.py
