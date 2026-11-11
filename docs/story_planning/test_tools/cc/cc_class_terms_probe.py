@@ -69,9 +69,15 @@ FINDLESSON = r"""(([term,cid,w,yr])=>{ const G0=GAME.G, fl=Object.assign({},G0.f
 SYLJS = r"""(([cid,w])=>{ if(typeof SYLLABUS==='undefined') return {err:'沒有 SYLLABUS'}; const W=(SYLLABUS.courses||{})[cid]||null; const q=W?W.find(x=>x.w===w):null;
   return {sy:q?JSON.parse(JSON.stringify(q)):null, weeks:W?W.map(x=>x.w):null, courses:Object.keys(SYLLABUS.courses||{}).length, reviewed:Array.isArray(SYLLABUS.reviewed)?SYLLABUS.reviewed.includes(cid+'|'+w):null, source:SYLLABUS.source||null}; })"""
 BANKQ = r"""(id=>{ if(typeof EXAM_BANK==='undefined') return null; const q=EXAM_BANK.questions.find(x=>x.id===id); return q?JSON.parse(JSON.stringify({id:q.id,q:q.q,options:q.options||null,answer:q.answer,type:q.type,course:q.course,term:q.term,status:q.status})):null; })"""
-PRESENCE = r"""(([whos,day])=>whos.map(id=>{ let pres=null, npc=null, knows=null; try{ pres=typeof STORY!=='undefined'&&STORY.present?!!STORY.present(id,{day}):null; }catch(e){ pres='ERR '+e; }
+PRESENCE = r"""(([whos,day,key])=>{ let it=null; try{ it=(CLS.dayItems(GAME.G)||[]).find(q=>q.key===key)||null; }catch(e){}
+  const R=(it&&it.room)||{}; const door=!!R.door;   /* 門口上課（2D）：classes3d.js doorIt；BB 17:22：判準照作息 */
+  return {item:key, room:{zone:R.zone||null, room:R.room==null?null:R.room, door:R.door||null}, door, list:whos.map(id=>{ let pres=null, npc=null, knows=null, se=null, sIn=null;
+  try{ pres=typeof STORY!=='undefined'&&STORY.present?!!STORY.present(id,{day}):null; }catch(e){ pres='ERR '+e; }
   try{ npc=typeof EVENTS!=='undefined'&&EVENTS.npcOf?!!EVENTS.npcOf(id):null; }catch(e){ npc='ERR '+e; } try{ knows=typeof STORY!=='undefined'&&STORY.knows?!!STORY.knows(id):null; }catch(e){}
-  return {who:id, name:(typeof CHARACTERS!=='undefined'&&CHARACTERS[id])?CHARACTERS[id].name:null, present:pres, inRoom:npc, knows}; }))"""
+  try{ const e=STORY.schedEnt?STORY.schedEnt(CHARACTERS[id],GAME.G):null; se=e?{act:e.act||null, cls:e.cls==null?null:e.cls, zone:e.zone||null, room:e.room==null?null:e.room, label:e.label||null}:null;
+    sIn=!!(e&&e.act==='class'&&(e.cls!=null?e.cls===key:(!!R.zone&&e.zone===R.zone&&(R.room==null||e.room==null||String(e.room)===String(R.room))))); }catch(e){ se={err:String(e)}; sIn=null; }   /* 和 classes3d.js schedIn 同一個判法 */
+  return {who:id, name:(typeof CHARACTERS!=='undefined'&&CHARACTERS[id])?CHARACTERS[id].name:null, present:pres, inRoom:npc, knows, sched:se, schedIn:sIn}; })}; })"""
+door_cls = [False]   # 這一堂是不是門口上課（2D）：坐下那一刻量（PRESENCE 的 door）
 HEADS = "[...document.querySelectorAll('#choices button')].map(b=>((b.firstChild&&b.firstChild.nodeType===3)?b.firstChild.textContent:(b.textContent||'')).trim())"
 CURMENU = "(()=>window.__GC&&window.__GC.cur?window.__GC.cur.opts:null)()"
 BTNAT = r"""(k=>{ const bs=[...document.querySelectorAll('#choices button')]; const b=bs[k]; if(!b) return null; b.scrollIntoView({block:'nearest'}); const r=b.getBoundingClientRect(); const cx=r.left+r.width/2, cy=r.top+r.height/2;
@@ -370,7 +376,7 @@ async def go_lesson(pg, cdp, L_, tag, yr):
 
 async def class_loop(pg, cdp, L_, tag, ctx, whos):
     """上課：對話照正常速度點、選單照字選；每句打完字截一張、量字有沒有被切掉。停在 done 有這一堂、人空下來 3 秒"""
-    n1 = await GC.logn(pg); t0 = time.time(); free = None; menus = []; chk = []; seen = 0; pres = None; key = L_['item']
+    n1 = await GC.logn(pg); t0 = time.time(); free = None; menus = []; chk = []; seen = 0; pres = None; key = L_['item']; door_cls[0] = False
     sig0 = None; prog = time.time(); dg = time.time(); screens = []
     while time.time() - t0 < MAXS:
         s = await GC.ms(pg); sig = (s['nd'], s['dlg'], s['ch'], s['dtext'], s['busy'], s['fade'], s['zone'], await walkpos(pg, s))
@@ -379,7 +385,9 @@ async def class_loop(pg, cdp, L_, tag, ctx, whos):
         lg = await GC.logs(pg, n1)
         i0 = next((i for i, e in enumerate(lg) if e['k'] == 'cls' and e['fn'] in ('attend', 'seatPick')), None)
         if i0 is not None:
-            if pres is None: pres = await pg.evaluate(PRESENCE, [whos, L_['d']]); R.note('%s：坐下那時，稿裡說話的同學在不在（reactOK 的條件）%s' % (tag, J(pres)))
+            if pres is None:
+                pq = await pg.evaluate(PRESENCE, [whos, L_['d'], key]); pres = pq.get('list') or []; door_cls[0] = bool(pq.get('door'))
+                R.note('%s：坐下那時，稿裡說話的同學（reactOK 的條件；%s：%s）%s' % (tag, '門口上課（2D）＝看作息 schedEnt' if door_cls[0] else '3D 教室＝看 inScene', J(pq.get('room')), J(pres)))
             ls = [e for e in lg[i0:] if e['k'] in ('say', 'cap')]
             if len(ls) > seen and ((s['dlg'] and not s['typing']) or ls[-1]['k'] == 'cap' or s['ch']):
                 seen = len(ls); fn = await shot(pg, '%s_line%02d' % (tag, len(ls)))
@@ -419,13 +427,14 @@ def compare(tag, sy, cl, menus, bank, pres):
     R.note('%s：稿 line／more 對到的句子位置 %s' % (tag, J(res)))
     pw = {p['who']: p for p in (pres or [])}
     # CC 17:1x（BB 17:12 判準）：STORY.present 為 true 的同學（或 who＝class）要播；不在學校的不播。門口上課（2D）也一樣（LAWWW 修：away＝true、只看 STORY.present）
-    here = lambda w: w == 'class' or (pw.get(w) or {}).get('present') is True
+    # BB 17:22：STORY.present 是前提；門口上課（2D）看作息 schedIn（坐下那一刻 schedEnt act＝class 且 cls＝這一堂 key，或教室對得上）、3D 教室看 inRoom（EVENTS.npcOf）
+    here = lambda w: w == 'class' or ((pw.get(w) or {}).get('present') is True and ((pw.get(w) or {}).get('schedIn') is True if door_cls[0] else (pw.get(w) or {}).get('inRoom') is True))
     _who = [r.get('who') for r in sy.get('react') or []] + [q.get('who') for q in (sy.get('obs') or {}).get('replies') or []]
     if [w for w in _who if w and w != 'class'] and not pres: miss.append(('同學在不在', J(_who), '坐下那時沒量到 STORY.present（pres 空的）＝不能判誰該播，不算 PASS'))
     rs_all = sy.get('react') or []; rs = [r for r in rs_all if here(r.get('who'))]; rs_no = [r for r in rs_all if not here(r.get('who'))]
     for r in rs_no:
-        if norm(r.get('text')) and any(norm(r.get('text')) in n for n in N): miss.append(('react 不在學校的人', '%s：%s' % (r.get('who'), r.get('text')), '不在學校（STORY.present 不是 true）卻播了；%s' % J(pw.get(r.get('who')))))
-    if rs_no: R.note('%s：react 裡不在學校、不該播的 %s' % (tag, J([(r.get('who'), pw.get(r.get('who'))) for r in rs_no])))
+        if norm(r.get('text')) and any(norm(r.get('text')) in n for n in N): miss.append(('react 不在這一堂的人', '%s：%s' % (r.get('who'), r.get('text')), '不在這一堂（present／作息 schedIn／3D inRoom 不成立）卻播了；%s' % J(pw.get(r.get('who')))))
+    if rs_no: R.note('%s：react 裡不在這一堂、不該播的 %s' % (tag, J([(r.get('who'), pw.get(r.get('who'))) for r in rs_no])))
     if rs:
         hit = None
         for i in range(pos, len(says)):
@@ -434,7 +443,7 @@ def compare(tag, sy, cl, menus, bank, pres):
         R.note('%s：同學 react 播了 %s（稿裡在學校的 %s）' % (tag, J(hit[2]) if hit else '沒有', J([(r.get('who'), r.get('text')) for r in rs])))
         if not hit: miss.append(('react', J([r.get('text') for r in rs]), '沒有播（或不在 more 之後）；遊戲規則 reactOK 的條件：%s' % J([pw.get(r.get('who')) for r in rs])))
         else: pos = hit[0] + 1
-    elif rs_all: R.note('%s：稿裡的 react 都是不在學校的人，不該播' % tag)
+    elif rs_all: R.note('%s：稿裡的 react 都是不在這一堂的人，不該播' % tag)
     else: R.note('%s：稿裡這一週沒有 react' % tag)
     if sy.get('call'):
         c = sy['call']; ic = next((i for i in range(len(says)) if says[i]['text'].endswith('點到你。')), None)
@@ -465,7 +474,7 @@ def compare(tag, sy, cl, menus, bank, pres):
         for k, q in enumerate(ob.get('replies') or []):
             g = find_sub(N, q.get('text'), p2)
             if not here(q.get('who')):   # BB 17:12：不在學校的不播
-                if g is not None: miss.append(('obs reply%d 不在學校的人' % (k + 1), '%s：%s' % (q.get('who'), q.get('text')), '不在學校卻播了；%s' % J(pw.get(q.get('who')))))
+                if g is not None: miss.append(('obs reply%d 不在這一堂的人' % (k + 1), '%s：%s' % (q.get('who'), q.get('text')), '不在這一堂卻播了；%s' % J(pw.get(q.get('who')))))
                 continue
             if g is None: miss.append(('obs reply%d' % (k + 1), '%s：%s' % (q.get('who'), q.get('text')), '沒有播；遊戲規則 reactOK 的條件：%s' % J(pw.get(q.get('who')))))
             else: p2 = g + 1
