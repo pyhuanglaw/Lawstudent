@@ -72,6 +72,10 @@ L118A3_CORN_a | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_pl
 L118A3_CORN_b | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=CORNERS_korea,CORNERS_tea;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 L118A3_WALL_a | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=WALLWALK_dian,WALLWALK_self;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 L118A3_WALL_b | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=WALLWALK_korea,WALLWALK_tea;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
+# BB 08:15：坐到隔壁那幾張也點椅子（三個高度）；義大麵屋高腳椅 #2 #3 從吧台內側＋側面拍腿（人看得到、選單收起）
+L118A3_TAPSEAT_omu | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=TAPSEAT_omu_16.18.20;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
+L118A3_TAPSEAT_np | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=TAPSEAT_noodle2_7,TAPSEAT_pasta_10;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
+L118A3_STOOL_pasta | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 12 | PARTS=SEATS_pasta_2-3;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 # BB 08:07：A1 辛亥韓食第 3 版重跑（找站點最多 60 秒、超時重新讀檔；小菜櫃站得到嗎、出口「離開辛亥韓食」）
 L118D_A1_tea3 | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118d_ab_probe.py | index.html | 15 | PARTS=A;LOOKS=1;PHONE=0;SHOPS=tea;LOOK_S=60;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 #SKIP舊室內（BB 08:02 改用 6a76a9e58） L118A_CORN_a | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=CORNERS_dian,CORNERS_self;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
@@ -1337,3 +1341,33 @@ TE_N01 | 201803df0a593a75e084f5a11718cedb3c512bd3 | probe | docs/story_planning/
 #HOLD發布後 ACT_ST6A | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 11 | PARTS=ST_AN6_NOPAGE,ST_AN6_PAGE;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
 #HOLD發布後 ACT_ST6B | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 11 | PARTS=ST_ZR6,ST_YT6;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
 #HOLD發布後 ACT_ST6C | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 11 | PARTS=ST_PS6,ST_KX6;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
+
+# ===== RELPACK 發布包測試（子代理 11-11 08:1x；雲端自檢 12/15 part PASS；SHA 554d1488 可換成候選 SHA）=====
+#HOLD發布後 RELPACK_PACK | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=PACK;SMOKE_ZONES=5;SMOKE_BUDGET=420
+#HOLD發布後 RELPACK_Z3D_1 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_1
+#HOLD發布後 RELPACK_Z3D_2 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_2
+#HOLD發布後 RELPACK_Z3D_3 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_3
+#HOLD發布後 RELPACK_Z3D_4 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_4
+#HOLD發布後 RELPACK_Z3D_5 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_5
+#HOLD發布後 RELPACK_Z3D_6 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_6
+#HOLD發布後 RELPACK_Z3D_7 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_7
+#HOLD發布後 RELPACK_Z3D_8 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_8
+#HOLD發布後 RELPACK_Z3D_ROOT_1 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_ROOT_1
+#HOLD發布後 RELPACK_Z3D_ROOT_2 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_ROOT_2
+#HOLD發布後 RELPACK_Z3D_ROOT_3 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_ROOT_3
+#HOLD發布後 RELPACK_Z3D_ROOT_4 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_ROOT_4
+#HOLD發布後 RELPACK_Z3D_ROOT_5 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_ROOT_5
+#HOLD發布後 RELPACK_Z3D_ROOT_6 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_ROOT_6
+#HOLD發布後 RELPACK_Z3D_ROOT_7 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_ROOT_7
+#HOLD發布後 RELPACK_Z3D_ROOT_8 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=Z3D_ROOT_8
+#HOLD發布後 RELPACK_P2D_PORTRAIT | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=P2D_PORTRAIT
+#HOLD發布後 RELPACK_P2D_BG | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=P2D_BG
+#HOLD發布後 RELPACK_P2D_CGPOSTER | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=P2D_CG,P2D_POSTER
+#HOLD發布後 RELPACK_MAPS | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 25 | PARTS=MAPS;SOLO=1
+#HOLD發布後 RELPACK_MAIN12 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 45 | PARTS=MAIN12;SOLO=1
+#HOLD發布後 RELPACK_SAVE | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=SAVE
+#HOLD發布後 RELPACK_OLDSAVE | 554d1488b99ae3a990ff8cda5232f027ce124f14 | game | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 25 | PARTS=OLDSAVE;SCRIPT_FROM=cc;SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;XARGS={url} {out} {url2}
+#HOLD發布後 RELPACK_V7 | 554d1488b99ae3a990ff8cda5232f027ce124f14 | game | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 40 | PARTS=V7;SCRIPT_FROM=cc;SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url} {out} {url2}
+#HOLD發布後 RELPACK_MISS | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 15 | PARTS=MISS
+#HOLD發布後 RELPACK_PAGES | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 15 | PARTS=PAGES
+#HOLD發布後 RELPACK_SIZE | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=SIZE;SIZE_ZIP=1
