@@ -1,0 +1,80 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\L118D_H_D\docs\story_planning\test_tools\cc\cc_l118d_h_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_H_D\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  23.6s] 受測 SHA bc407bfc518c8d6a4260d1a1fa395cb93fc9058b、版本 v9.10.24；PARTS H3,ORIG
+== H3
+    [區域] wenzhou（10.03）
+  [前置／捷徑] 【前置】H3（以安窗邊的位子） 先讀一份（只為了在頁面裡查 CALENDAR＋作息）：day46 存檔 → 2025-11-03（週一）10.00、wenzhou (7.40, -1.40) lv0、天氣 clear、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
+  [  50.1s] CALENDAR：{"key": "2025-11-03", "wd": 1, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+PASS [日子] 2025-11-03 不是假日／颱風假、不是考試週（Y1S1 第 10 週）  {"key": "2025-11-03", "wd": 1, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+  [  50.1s] 讀進來：{"zone": "wenzhou", "day": 48, "hour": 10.04, "weather": "clear", "stage": "law"}
+  [  50.1s] H3（以安窗邊的位子） Y1S2 學期 週六 14.60 的候選日（CALENDAR：非假日／颱風／考試週，第 2～15 週）與她的作息：{"list": [{"day": 172, "key": "2026-03-07", "week": 2, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 179, "key": "2026-03-14", "week": 3, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 186, "key": "2026-03-21", "week": 4, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 193, "key": "2026-03-28", "week": 5, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 207, "key": "2026-04-11", "week": 7, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 228, "key": "2026-05-02", "week": 10, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 235, "key": "2026-05-09", "week": 11, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 242, "key": "2026-05-16", "week": 12, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 249, "key": "2026-05-23", "week": 13, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 256, "key": "2026-05-30", "week": 14, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 263, "key": "2026-06-06", "week": 15, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}]}
+PASS H3（以安窗邊的位子） 找得到一天她那時候照作息在木曜日（slowread 那一筆）  {"list": [{"day": 172, "key": "2026-03-07", "week": 2, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 179, "key": "2026-03-14", "week": 3, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 186, "key": "2026-03-21", "week": 4, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 193, "key": "2026-03-28", "week": 5, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 207, "key": "2026-04-11", "week": 7, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 228, "key": "2026-05-02", "week": 10, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 235, "key": "2026-05-09", "week": 11, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 242, "key": "2026-05-16", "week": 12, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 249, "key": "2026-05-23", "week": 13, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 256, "key": "2026-05-30", "week": 14, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}, {"day": 263, "key": "2026-06-06", "week": 15, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "err": null}}]}
+    [toast] 手機｜沛珊：欸，我跟你說一件事，你不用回喔。
+    [toast] 手機｜可昕：報告交了。
+  [前置／捷徑] 【前置】H3（以安窗邊的位子） 2026-03-07（Y1S2 第 2 週）14.35 溫州街木曜日門口外：day46 存檔 → 2026-03-07（週六）14.35、wenzhou (7.40, -1.40) lv0、天氣 clear、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
+  [  59.8s] CALENDAR：{"key": "2026-03-07", "wd": 6, "hol": null, "typh": false, "term": "Y1S2", "week": 2, "exam": null}
+PASS [日子] 2026-03-07 不是假日／颱風假、不是考試週（Y1S2 第 2 週）  {"key": "2026-03-07", "wd": 6, "hol": null, "typh": false, "term": "Y1S2", "week": 2, "exam": null}
+  [  59.8s] 讀進來：{"zone": "wenzhou", "day": 172, "hour": 14.4, "weather": "clear", "stage": "law"}
+    [toast] 手機｜可昕：我們選一天。叫它「我們的日子」。
+  [  61.1s] H3（以安窗邊的位子） 溫州街→B4 門口 搖桿 → (7.40, -4.55)：到了、1.2 秒、推 1 次、跳 []、停在 {"zone": "wenzhou", "x": 7.503, "z": -4.68, "lv": 0, "interact": "上二樓（木曜日）"}
+PASS H3（以安窗邊的位子） 互動鍵是「上二樓…」  {"zone": "wenzhou", "x": 7.503, "z": -4.68, "lv": 0, "interact": "上二樓（木曜日）"}
+    [按互動鍵] 上二樓（木曜日）
+    [區域] wz_mokuyobi（14.41）
+    [toast] 手機｜賴宥辰：（錄音 0:30）
+PASS H3（以安窗邊的位子） 到了木曜日（wz_mokuyobi，一樓樓梯）  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.41}
+  [  70.4s] H3（以安窗邊的位子） 爬樓梯進二樓店裡 搖桿 → (0.00, 0.90) lv1：到了、4.8 秒、推 2 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": -0.139, "z": 1.498, "lv": 1, "interact": ""}
+PASS H3（以安窗邊的位子） 搖桿走進二樓店裡（lv1、x>−2.85、站得住、沒有跳）  {"x": -0.139, "z": 1.498, "lv": 1, "stand": true, "fb": 0}
+PASS H3（以安窗邊的位子） 14.46 木曜日裡有 heroine_01（E.npcs）、在二樓、坐著（作息那一筆是 slowread）  {"x": -0.45, "y": 3.2, "z": 5, "lv": 1, "seat": true, "pose": "read", "name": "沈以安", "vis": false, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日念書", "slowread": true, "from": 14, "to": 17}}
+  [  75.8s] [截圖] reg_an_game.png
+PASS [黑畫面] reg_an_her 不是黑畫面（平均亮度 95.1、變化 52.5）  [95.1, 52.5]
+  [  78.1s] [截圖] reg_an_her：鏡頭 {"eye": [1.25, 5, 6.5], "look": [-0.45, 4.1000000000000005, 5], "lens": 24, "vfov": 45.75}、亮度 [95.1, 52.5]
+  [  78.9s] [截圖] reg_an_her.png（鏡頭對著她，只給人看）
+  [  78.9s] H3（以安窗邊的位子） 條件（存檔本來的 REPORT_PARTNER；不判，給人看）：{"rp": true, "once": null, "due": true, "term": {"id": "Y1S2", "week": 2, "exam": null}, "wd": 6, "h": 14.47}
+PASS H3（以安窗邊的位子） 前置：有 REPORT_PARTNER、還沒演過（once.H3 沒有）、大一下以後、週六下午  {"rp": true, "once": null, "due": true, "term": {"id": "Y1S2", "week": 2, "exam": null}, "wd": 6, "h": 14.47}
+  [  81.5s] H3（以安窗邊的位子） 第一次說話 走到 heroine_01 旁邊 搖桿 → (-0.45, 5.00) lv1：到了、2.3 秒、推 3 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": -0.046, "z": 3.989, "lv": 1, "interact": "坐下"}
+FAIL H3（以安窗邊的位子） 第一次說話 走到她旁邊，互動鍵是「和…說話」  {"x": -0.046, "z": 3.989, "lv": 1, "interact": "坐下"}
+PASS [H3] 沒有 JS 例外（pageerror）  []
+  [  86.8s] [H3] 用了 63 秒
+== ORIG
+  [  86.8s] ORIG 木曜日原本的事件（src/mokuyobi_sys3d.js）：1-1 第一次進門（S.L.first）、1-2 點東西（S.order，坐下或吧檯）、1-3 讀完旁白（S.narr）、1-4 老位子／21:40 溫水／閒聊、1-5 考試週進門那一句＋柏翰／明軒／芯慈、22:00 打烊、1-6 兩個人來（S.meetScene，地點 mokuyobi）、1-7 雨天（S.rainScene）、看看書櫃／看唱片機／看海報（S.look）。這段演 1-1、1-2、看書櫃；1-6、1-7 在 NOSIT_REF
+    [區域] wenzhou（14.5）
+    [toast] 手機｜沛珊：欸，我跟你說一件事，你不用回喔。
+    [toast] 手機｜小安：我媽昨天看到我寫的「想去的店」。
+  [前置／捷徑] 【前置】ORIG 週六 14:30、清掉 G.mokuyobi.first／n／seats（當作第一次來）：day46 存檔 → 2025-11-08（週六）14.50、wenzhou (7.40, -1.40) lv0、天氣 clear、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
+  [  95.9s] CALENDAR：{"key": "2025-11-08", "wd": 6, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+PASS [日子] 2025-11-08 不是假日／颱風假、不是考試週（Y1S1 第 10 週）  {"key": "2025-11-08", "wd": 6, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+  [  96.0s] 讀進來：{"zone": "wenzhou", "day": 53, "hour": 14.55, "weather": "clear", "stage": "law"}
+  [  97.1s] ORIG 溫州街→B4 門口 搖桿 → (7.40, -4.55)：到了、1.1 秒、推 1 次、跳 []、停在 {"zone": "wenzhou", "x": 7.594, "z": -4.675, "lv": 0, "interact": "上二樓（木曜日）"}
+PASS ORIG 互動鍵是「上二樓…」  {"zone": "wenzhou", "x": 7.594, "z": -4.675, "lv": 0, "interact": "上二樓（木曜日）"}
+    [按互動鍵] 上二樓（木曜日）
+    [字幕] 林芷若朝你揮了揮手。
+    [區域] wz_mokuyobi（14.56）
+PASS ORIG 到了木曜日（wz_mokuyobi，一樓樓梯）  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.56}
+    [說] （旁白）：（窄樓梯走上二樓。門上的鈴響了一下。）
+    [說] （旁白）：（店裡很安靜。六七個人各坐一桌，大部分在看書、寫筆記。黑膠唱片機在放鋼琴。）
+    [說] 老闆：（小聲）一位？窗邊那桌剛好空。
+    [說] 老闆：（小聲）我們沒有插座，要充電的話樓下便利商店有。
+  [ 108.2s] ORIG 爬樓梯進二樓店裡 搖桿 → (0.00, 0.90) lv1：到了、7.1 秒、推 3 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": -0.059, "z": 0.925, "lv": 1, "interact": ""}
+PASS ORIG 搖桿走進二樓店裡（lv1、x>−2.85、站得住、沒有跳）  {"x": -0.059, "z": 0.925, "lv": 1, "stand": true, "fb": 0}
+PASS ORIG 1-1 第一次進門四句照順序（旁白兩句、老闆兩句）  {"到第幾句": 4, "said": [["", "（窄樓梯走上二樓。門上的鈴響了一下。）"], ["", "（店裡很安靜。六七個人各坐一桌，大部分在看書、寫筆記。黑膠唱片機在放鋼琴。）"], ["老闆", "（小聲）一位？窗邊那桌剛好空。"], ["老闆", "（小聲）我們沒有插座，要充電的話樓下便利商店有。"]]}
+PASS ORIG 1-1 記 G.mokuyobi.first＝今天  53
+  [ 112.4s] ORIG 走到吧檯 搖桿 → (-3.30, -4.95) lv1：到了、1.8 秒、推 2 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": -3.753, "z": -4.956, "lv": 1, "interact": "點東西"}
+PASS ORIG 互動鍵是「點東西…」  {"zone": "wz_mokuyobi", "x": -3.753, "z": -4.956, "lv": 1, "interact": "點東西"}
+    [按互動鍵] 點東西
+    [選項] 焙茶拿鐵　150 元｜焦糖布丁　120 元｜巴斯克乳酪蛋糕　140 元｜什麼都不點
+PASS ORIG 1-2 吧檯「點東西」三樣＋什麼都不點（逐字）  [{"t": "焙茶拿鐵　150 元", "hint": "", "dim": false}, {"t": "焦糖布丁　120 元", "hint": "", "dim": false}, {"t": "巴斯克乳酪蛋糕　140 元", "hint": "", "dim": false}, {"t": "什麼都不點", "hint": "", "dim": false}]
+  [ 113.7s] [截圖] orig_order.png
+    [按] 焙茶拿鐵　150 元（焙茶拿鐵）
+    [說] （旁白）：（焙茶拿鐵上面有一層很細的奶泡。）
+    [toast] 💸 150 元
+    [toast] 📓 吃過的：溫州街・木曜日　焙茶拿鐵
+PASS ORIG 1-2 點焙茶拿鐵：「（焙茶拿鐵上面有一層很細的奶泡。）」  ["（焙茶拿鐵上面有一層很細的奶泡。）"]
+  [ 120.6s] ORIG 走到書櫃 搖桿 → (-3.60, -0.50) lv1：到了、2.3 秒、推 3 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": -3.44, "z": -0.551, "lv": 1, "interact": "看看書櫃"}
+PASS ORIG 互動鍵是「看看書櫃…」  {"zone": "wz_mokuyobi", "x": -3.44, "z": -0.551, "lv": 1, "interact": "看看書櫃"}
+    [按互動鍵] 看看書櫃
+    [說] （旁白）：（最下面一層貼著一張紙：「可以拿下來看，看完請放回原位。」）
+FAIL ORIG 看看書櫃：AA_645 的三句之一  []
+PASS [ORIG] 沒有 JS 例外（pageerror）  []
+  [ 125.2s] [ORIG] 用了 38 秒
+FAILED: H3（以安窗邊的位子） 第一次說話 走到她旁邊，互動鍵是「和…說話」, ORIG 看看書櫃：AA_645 的三句之一
