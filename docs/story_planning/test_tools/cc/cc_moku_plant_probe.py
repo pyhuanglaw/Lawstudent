@@ -101,9 +101,9 @@ LAYOUT_JS = r"""(()=>{ const L=(typeof MOKUYOBI_LAYOUT!=='undefined')?MOKUYOBI_L
 
 STAIR_TOP = list(STAIR_TOP_FALLBACK)
 # BB 19:46：第 7 項的「樓梯底」改成第一階前面的地板（離樓梯 ≥0.3 m）——點在樓梯上＝走完這一跑（規則），不算走錯
-BOT_FLOOR_JS = r"""(a=>{ const E=GAME.E; const H=(x,z)=>E.heightAt(x,z,0); const flat=(x,z)=>Math.abs(H(x,z)-a.base)<0.03;
-  let best=null; for(let dx=-1.5;dx<=1.5001;dx+=0.05) for(let dz=-1.5;dz<=1.5001;dz+=0.05){ const x=a.bot[0]+dx, z=a.bot[1]+dz, d=Math.hypot(dx,dz); if(best&&d>=best.d) continue;
-    if(!E.canStand(x,z,0.3,0)||!flat(x,z)) continue; let ok=true; for(let k=0;k<16&&ok;k++){ const t=k*Math.PI/8; if(!flat(x+0.3*Math.cos(t),z+0.3*Math.sin(t))) ok=false; } if(!ok) continue;
+BOT_FLOOR_JS = r"""(a=>{ const E=GAME.E; const H=(x,z)=>E.heightAt(x,z,0); const flat=(x,z)=>Math.abs(H(x,z)-a.base)<0.05; const notStair=(x,z)=>H(x,z)<a.base+0.05;   /* 7b：周圍 0.3 m 只要求「不是比地板高的樓梯」（牆邊 heightAt 不一定等於地板）*/
+  let best=null; for(let dx=-2.0;dx<=2.0001;dx+=0.05) for(let dz=-2.0;dz<=2.0001;dz+=0.05){ const x=a.bot[0]+dx, z=a.bot[1]+dz, d=Math.hypot(dx,dz); if(best&&d>=best.d) continue;
+    if(!E.canStand(x,z,0.3,0)||!flat(x,z)) continue; let ok=true; for(let k=0;k<16&&ok;k++){ const t=k*Math.PI/8; if(!notStair(x+0.3*Math.cos(t),z+0.3*Math.sin(t))) ok=false; } if(!ok) continue;
     best={x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2),h:+H(x,z).toFixed(3)}; }
   return {best, base:a.base, hBot:+H(a.bot[0],a.bot[1]).toFixed(3)}; })"""
 # 點地時遊戲 E.screenToFloor 打到什麼（E.update 呼叫的那幾次＝真的點擊）：命中點、在不在樓梯（userData.stairEnds）

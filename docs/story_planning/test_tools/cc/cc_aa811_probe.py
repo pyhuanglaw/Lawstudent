@@ -90,10 +90,10 @@ EV_JS = r"""(i=>(window.__AE||[]).slice(i))"""
 ST_JS = r"""(()=>{ const G=GAME.G, E=GAME.E, P=E&&E.player, D=GAME.D||{}, $=id=>document.getElementById(id);
   const vis=e=>!!e&&!e.classList.contains('hide')&&getComputedStyle(e).display!=='none';
   const ft=b=>String((b.firstChild&&b.firstChild.nodeType===3?b.firstChild.nodeValue:b.textContent)||'').trim();
-  const ch=$('choices'); const B=vis(ch)?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null):[];
+  const ch=$('choices'); const B=vis(ch)?[...ch.querySelectorAll('button')].filter(b=>(b.getClientRects().length>0&&getComputedStyle(b).visibility!=='hidden')):[];
   const A=window.__AE||[]; let last=null; for(let i=A.length-1;i>=0;i--) if(A[i].k==='ch'){ last=A[i]; break; }
   const ph=$('phone'), pb=$('phoneBody'), po=vis(ph);
-  const asks=po&&pb?[...pb.querySelectorAll('[data-ask]')].filter(b=>b.offsetParent!==null).map(b=>({v:b.dataset.ask,t:ft(b),dis:!!b.disabled})):[];
+  const asks=po&&pb?[...pb.querySelectorAll('[data-ask]')].filter(b=>(b.getClientRects().length>0&&getComputedStyle(b).visibility!=='hidden')).map(b=>({v:b.dataset.ask,t:ft(b),dis:!!b.disabled})):[];
   const ths=po&&pb?[...pb.querySelectorAll('.chatList [data-th]')].map(b=>({th:b.dataset.th,t:(b.innerText||'').replace(/\s+/g,' ').trim().slice(0,80)})):[];
   const tb=document.querySelector('#phoneTabs button.on'); const it=$('interact'), tx=$('dlgText'), nm=$('dlgName');
   return {dlg:!!D.active, typing:!!D.typing, full:String(D.full||''), shown:(tx&&tx.textContent)||'', name:(nm&&nm.style.display!=='none'&&nm.textContent)||'',
@@ -418,7 +418,11 @@ async def finish(pg, cdp, P):
     s = await st(pg)
     # BB 20:02（N1_AA811 HEHUAN_A「推得動」FAIL＝TEST_BUG）：畢業後篇在家的選單（home3d.js S.loop）在畫面上＝遊戲在等你選，不推搖桿；
     # 記選項、照字選第一個能選的，看時間（key／hour）或畫面（選單換了、對話、手機）有沒有往前走（真實 60 秒上限，雲端 1 fps 約 5 秒遊戲時間）
-    btn = await pg.evaluate("(()=>[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent!==null&&!b.disabled).map(b=>{ const r=b.getBoundingClientRect(); return {t:(b.textContent||'').trim(), x:r.left+r.width/2, y:r.top+r.height/2}; }))()")
+    BTN = "(()=>[...document.querySelectorAll('#choices button')].filter(b=>(b.getClientRects().length>0&&getComputedStyle(b).visibility!=='hidden')&&!b.disabled).map(b=>{ const r=b.getBoundingClientRect(); return {t:(b.textContent||'').trim(), x:r.left+r.width/2, y:r.top+r.height/2}; }))()"
+    btn = await pg.evaluate(BTN)
+    for _ in range(24):   # N1_AA811_A（ab28）：演完那一刻還沒進 home、選單晚幾秒才出（S.loop）——推搖桿之前先等最多 12 秒，看選單或 home 有沒有出來
+        if btn or s['home'] or s['dlg']: break
+        await pg.wait_for_timeout(500); s = await st(pg); btn = await pg.evaluate(BTN)
     if btn:
         k0 = (s['key'], s['hour']); m0 = [x['t'] for x in btn]
         R.note('[%s] 演完以後畫面上是選單（在家 %s）：%s → 照字選第一個「%s」，不推搖桿' % (P.tag, s.get('home'), J(m0), m0[0]))
@@ -427,7 +431,7 @@ async def finish(pg, cdp, P):
         while time.time() - t0 < 60:
             await pg.wait_for_timeout(500)
             s2 = await st(pg)
-            m2 = await pg.evaluate("(()=>[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent!==null).map(b=>(b.textContent||'').trim()))()")
+            m2 = await pg.evaluate("(()=>[...document.querySelectorAll('#choices button')].filter(b=>(b.getClientRects().length>0&&getComputedStyle(b).visibility!=='hidden')).map(b=>(b.textContent||'').trim()))()")
             if (s2['key'], s2['hour']) != k0 or m2 != m0 or s2['dlg'] or s2['phone']:
                 moved = J({'key': s2.get('key'), 'hour': s2.get('hour'), 'menu': m2[:6], 'dlg': s2.get('dlg'), 'phone': s2.get('phone')}); break
         R.check('[%s] 演完以後沒有卡住（選單選了「%s」以後時間或畫面往前走）' % (P.tag, m0[0]), moved is not None, moved or J(await pg.evaluate(IDLE_JS)))
