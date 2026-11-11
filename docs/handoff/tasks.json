@@ -53491,7 +53491,7 @@
    "id": "L118-PASTA-BAR-POSTERS-1111",
    "title": "義大麵屋吧台凳離前板太近（膝蓋進前板 5 cm，遊戲端先用 L118_IT_FIX sit 往外 0.12 m 擋著）＋奈良咖哩、義大麵屋店內往外看窗上海報背面是米白方塊",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53503,14 +53503,14 @@
     "parallel": true,
     "confirmed": true
    },
-   "sha": null,
-   "next": "【11-11 09:4x LAWWW 派，發版後】l118_int_pasta.py 凳子外挪或前板內縮（做完 LAWWW 拿掉 L118_IT_FIX 的 sit）；海報背面給貼圖或從裡面看不到。",
+   "sha": "988dfcbe2",
+   "next": "【11-11 10:5x LAWWW2 交付，發版後整合】claude/second-ai-env-art 988dfcbe2（outbox f30abd2e2）：docs/art-rebuild/second_ai/wip/l118_p2_1111/l118_p2_v1.patch（9 檔；dev 2b0929e27 上 git apply --3way 乾淨）。吧台凳外移 0.12＋前板內退 0.15（膝蓋離前板 1→16 cm），L118_IT_FIX.pasta 吧台五格 sit 拿掉；奈良咖哩／義大麵屋窗上海報背面＝紙背＋透光反向淡圖＋膠帶，義大麵屋第一張移到 x 1.41～2.19。相關 15 支過、全部 1286 支 1285 過＋bookstore 老警告。沒在瀏覽器坐過。｜【11-11 09:4x LAWWW 派，發版後】l118_int_pasta.py 凳子外挪或前板內縮（做完 LAWWW 拿掉 L118_IT_FIX 的 sit）；海報背面給貼圖或從裡面看不到。",
    "xai": []
   },
   {
    "id": "TAP-RAY-SEAT-1111",
    "title": "點椅面判椅子重做：用畫面上實際打到的物體（射線第一個打到的面在椅子上、高度在椅面到椅背之間）才導去椅子；0d7922555 的「射線高度 0.3～0.75 m 離椅中心 0.32 m 內」會把走道點擦過的椅子算進去（BB TSR 擋發布，0d1eaadc7 已在遊戲裡關掉）",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "priority": "P2",
    "first": {
@@ -53524,7 +53524,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-11 10:3x】發版後做：game3d.js tapToSeat 的 useRay 分支改成用 E.ray 打椅子 mesh（或椅子包圍盒且比地板近）；測試 tests/tap_seat_ray_1111_unit.js 加 BB 的四個走道點（總圖 (−8.5,5)、(−11,6.5)，宿舍 (11.5,3)，Café (1.5,−0.5)）必須 null；做完 engine3d 再傳 useRay。",
+   "next": "【11-11 10:5x LAWWW 派給 LAWWW2（場景互動＝D108 場景程式），發版後交 patch】｜【11-11 10:3x】發版後做：game3d.js tapToSeat 的 useRay 分支改成用 E.ray 打椅子 mesh（或椅子包圍盒且比地板近）；測試 tests/tap_seat_ray_1111_unit.js 加 BB 的四個走道點（總圖 (−8.5,5)、(−11,6.5)，宿舍 (11.5,3)，Café (1.5,−0.5)）必須 null；做完 engine3d 再傳 useRay。",
    "xai": []
   }
  ]
