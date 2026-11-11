@@ -79,6 +79,9 @@ _RK = 1672 / 1280; _REFIM = {}
 def has_ref(sid): return os.path.exists(os.path.join(REF, f'ext_{sid}.webp'))
 def ref_crop(sid, box):
     if sid not in _REFIM: _REFIM[sid] = Image.open(os.path.join(REF, f'ext_{sid}.webp')).convert('RGB')
+    if len(box) == 8:   # 斜的招牌（參考圖有透視）：四個角（左上、右上、右下、左下）拉正（SIGN-RECTIFY-1110 的做法）
+        q = [v * _RK for v in box]; w = round((q[2] - q[0] + q[4] - q[6]) / 2); h = round((q[7] - q[1] + q[5] - q[3]) / 2)
+        return _REFIM[sid].transform((w, h), Image.QUAD, (q[0], q[1], q[6], q[7], q[4], q[5], q[2], q[3]), Image.BICUBIC)
     return _REFIM[sid].crop(tuple(round(v * _RK) for v in box))
 def ref_flat(im, colors, width):
     up = im.resize((im.width * 3, im.height * 3), Image.BICUBIC).filter(ImageFilter.GaussianBlur(1.0)); pal = Image.new('P', (1, 1)); flat = []
@@ -99,6 +102,8 @@ REF_SIGNS = {
     'korea': ((286, 86, 1090, 208), 6.5, ['#f6f0e4', '#b41e1c'], True),
     'omu': ((254, 92, 1051, 222), 6.5, ['#f2c018', '#4a2a14'], True),
     'noodle2': ((322, 124, 1116, 242), 6.5, None, False),
+    'drink_a': ((345, 121, 1031, 128, 1031, 227, 345, 209), 4.4, ['#1b3274', '#ffffff'], True),   # 喝不喝咖啡：深藍底白字的黑框燈箱（ext_drink_a）
+    'drink_b': ((343, 105, 960, 238), 2.6, None, True),                       # 果茶社：米白招牌、金黃立體字（ext_drink_b；店面只有 3 m 寬：裁字的那一段）
 }
 # 玻璃、牆上的海報：鍵 → (店, 框, 寬 m)
 REF_POSTERS = {
@@ -108,6 +113,7 @@ REF_POSTERS = {
     'pasta_p1': ('pasta', (390, 300, 503, 446), 0.72), 'pasta_p2': ('pasta', (542, 300, 655, 446), 0.72),
     'omu_p1': ('omu', (332, 320, 454, 454), 0.75), 'omu_p2': ('omu', (557, 322, 672, 452), 0.75),
     'noodle2_board': ('noodle2', (726, 312, 808, 468), 0.6), 'cafe2_today': ('cafe2', (1046, 336, 1186, 546), 0.9),
+    'drink_a_posters': ('drink_a', (416, 306, 546, 478), 0.85), 'drink_b_banner': ('drink_b', (500, 254, 830, 341), 1.35),   # 喝不喝咖啡門右玻璃上的四張飲料照片；果茶社窗口上方三杯水果茶的橫幅
 }
 
 
