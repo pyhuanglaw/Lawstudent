@@ -7937,7 +7937,7 @@
    "sha": "（這個 commit）",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED＋已整合（LAWWW 11-11 04:16／04:17）",
    "task": "ART-PACK6-1111 第六包：TZ-ALLEY-CAMCOL-1111 汀州路巷 A 深處兩側的鏡頭碰撞盒（一個地球那張整面牆）＋XS-SCOOTERS-1111 新生南路路邊機車（我漏接的）",
    "files": [
     "docs/art-rebuild/second_ai/wip/pack6_1111/（README.md、pack6_v1.patch、regression_full.log）"
@@ -7952,7 +7952,7 @@
    "sha": "（這個 commit）",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED＋已整合（LAWWW 11-11 04:16／04:17）",
    "task": "LIFE-DETAILS-SEASONAL-1110 第二批：端午、情人節、萬聖節、便利店季節海報、飲料店季節布條、洗衣店換季告示、期末考週影印店（20 項做到 9 項）",
    "files": [
     "docs/art-rebuild/second_ai/wip/season_batch2_1111/（README.md、season_batch2_v1.patch、regression_full.log、blender_batch2.jpg、season_atlas_preview.jpg）"
