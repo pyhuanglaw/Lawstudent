@@ -1,12 +1,3 @@
-[11:25:54] ==== END   NM_cam_old  exit=0  276s   ====
-[11:26:04] solo item GOCLASS_guard_new waits: no new items start until the 2 running item(s) finish
-[11:29:03] 正在跑：GOCLASS_fullsvc_new（已跑 4 分／上限 10 分）、GOCLASS_fullsvc_old（已跑 4 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
-[11:30:41] [res] cpu=1% mem=41% (13.1/31.4 GB) chrome_testing=5  END GOCLASS_fullsvc_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       6304562da..112a8e2fd  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[11:30:48] ==== END   GOCLASS_fullsvc_new  exit=0  351s   ====
-[11:30:57] memory 36% before starting GOCLASS_fullsvc_new (1 running)
 [11:30:57] solo item GOCLASS_guard_new waits: no new items start until the 2 running item(s) finish
 [11:30:57] ==== START GOCLASS_fullsvc_new  (probe @ 1d4db297a4b980e82619dbc41f70e41f108f0596) ====
 [11:31:00] [res] cpu=26% mem=36% (11.4/31.4 GB) chrome_testing=0  START GOCLASS_fullsvc_new
@@ -1998,3 +1989,12 @@
 [20:10:24] ==== START V25_classreal  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
 [20:10:27] [res] cpu=4% mem=49% (15.4/31.4 GB) chrome_testing=10  START V25_classreal
 [20:12:44] [res] cpu=9% mem=51% (16.2/31.4 GB) chrome_testing=10  END V25_classreal
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ef054c663..7cce2af3b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:12:50] ==== END   V25_classreal  exit=0  140s   ====
+[20:12:53] memory 52% before starting V25_mini (2 running)
+[20:12:53] ==== START V25_mini  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[20:12:56] [res] cpu=1% mem=51% (16.3/31.4 GB) chrome_testing=10  START V25_mini
+[20:14:04] 正在跑：V25_social（已跑 36 分／上限 60 分）、STAIR_old_run10_r2（已跑 25 分／上限 40 分）、V25_mini（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:14:25] [res] cpu=0% mem=49% (15.5/31.4 GB) chrome_testing=10  END V25_mini
