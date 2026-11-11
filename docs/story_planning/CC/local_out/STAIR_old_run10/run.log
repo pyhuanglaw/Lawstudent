@@ -1,0 +1,6 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\STAIR_old_run10\docs\story_planning\test_tools\cc\cc_stair_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STAIR_old_run10\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  28.5s] CC STAIR：受測 SHA 779ddd65081bf770e9850d948b54ecc21dc4d120、版本 v9.10.24；跑、10 fps；三條線 [-4.3, -3.75, -3.35]、每條 10 趟；平台 z 1.90、樓梯底 z 5.40；Playwright（PC GPU）≠ iPhone
+== x -4.30
+  [前置／捷徑] 【前置／捷徑】x=-4.30：day46 存檔 → 2025-11-05 15.00 木曜日一樓樓梯底 (-4.30, 5.40) lv0、【捷徑】限 10 fps、觸控按「跑」（站在 (-4.15, 5.35) lv0、跑步 True）
