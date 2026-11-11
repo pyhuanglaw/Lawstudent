@@ -496,7 +496,7 @@ def pick_text(t):
 
 
 async def ps_lad(pg, cdp):
-    for term in ('Y1S2', 'Y2S1', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'):
+    for term in (os.environ.get('PS_TERMS') or 'Y1S2,Y2S1,Y3S1,Y3S2,Y4S1,Y4S2').split(','):   # PS_TERMS：只跑其中幾個學期（雲端自檢用）
         e, o = EXP.get('lad_' + term) or {}, OLDX.get('lad_' + term) or {}
         await ps_base(pg, cdp, '閒聊階梯 %s（STORY.ladPlay 演第一層、第八層）' % term)
         sid = await pg.evaluate("(t=>{ const P=LADDER.byTerm[t]&&LADDER.byTerm[t].classmate_peishan; return P?[P.steps[0].id,P.steps[7].id,P.steps.length,!!P.steps[7].linesIf]:null; })('%s')" % term)
@@ -575,9 +575,7 @@ async def ps_open(pg, cdp):
     e, o = EXP.get('open') or {}, OLDX.get('open') or {}
     await ps_base(pg, cdp, '4/14 公開課（EVENTS.run ev_peishan_open_class）', '2029-04-14', 9.0)
     s, h = await run_play(pg, cdp, 'open', "const ev=STORY_EVENTS.find(e=>e.id==='ev_peishan_open_class'); if(!ev) throw new Error('沒有 ev_peishan_open_class'); await EVENTS.run(ev);", {'first': e.get('first'), 'last': e.get('last')})
-    judge('open', 'first', e.get('first'), o.get('first'), s, h); judge('open', 'last', e.get('last'), o.get('last'), s, h)
-    for nm in ('first', 'last'):
-        if nm in h: shutil.copyfile(os.path.join(OUT, h[nm]), os.path.join(OUT, 'ps2_open_%s.jpg' % nm))
+    judge('open', 'first', e.get('first'), o.get('first'), s, h); judge('open', 'last', e.get('last'), o.get('last'), s, h)   # 截圖 ps2_open_first／last.jpg（run_play 的 tag 就是 open）
 
 
 async def ps_tn(pg, cdp):
