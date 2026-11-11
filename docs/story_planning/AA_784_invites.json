@@ -1,0 +1,534 @@
+{
+ "_meta": {
+  "doc": "AA_784 邀約（invites.js）七個女主角的台詞覆蓋列（X324 D 區）",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "同 AA_783：files[{who, file:'invites', rows[{at, old, new, note}]}]，at＝INVITE_DATA 底下的 JS 路徑；old＝遊戲現在的字（開發分支 08:3x）。AA_783 已經給過的 invites 列（和 invite_replies 同句）不重複。玩家選項的字（ch[i].t）不動。",
+  "what": "刪節號每人只留笑點、被說中的幾個（數字見 counts）。換句：以安「下次講給我聽」→「你講給我聽」；芷若 acc 四個咖啡店有三個都是「我想坐窗邊／坐窗邊好不好」，日常失速、Daybreak 兩句換成那間店自己的；子晴「下次我會進步」→「我會進步的」；可昕「下次在木柵大學打」→「換你來木柵大學打」。店名（日常失速、afar、Daybreak、木曜日）是現行的溫州街店，沒動。配角（zhe、yu、柏翰、芯慈、kai、明軒、方奕廷）下一份。",
+  "counts": {
+   "heroine_01": {
+    "刪節號前": 16,
+    "後": 3,
+    "列": 14
+   },
+   "heroine_02": {
+    "刪節號前": 14,
+    "後": 4,
+    "列": 10
+   },
+   "heroine_03": {
+    "刪節號前": 21,
+    "後": 7,
+    "列": 14
+   },
+   "heroine_04": {
+    "刪節號前": 26,
+    "後": 7,
+    "列": 19
+   },
+   "heroine_05": {
+    "刪節號前": 12,
+    "後": 4,
+    "列": 8
+   },
+   "classmate_peishan": {
+    "刪節號前": 4,
+    "後": 2,
+    "列": 2
+   },
+   "kexin": {
+    "刪節號前": 10,
+    "後": 3,
+    "列": 7
+   }
+  }
+ },
+ "files": [
+  {
+   "who": "heroine_01",
+   "file": "invites",
+   "rows": [
+    {
+     "at": "people.heroine_01.walk.any[2].l[0]",
+     "old": "你上課說道歉不能用命令的。那名譽要怎麼回復？下次講給我聽。",
+     "new": "你上課說道歉不能用命令的。那名譽要怎麼回復？你講給我聽。",
+     "note": "換句（見 _meta）"
+    },
+    {
+     "at": "people.heroine_01.walk.any[6].l[0]",
+     "old": "家教的學生今天沒寫作業，說家裡在忙一件事。……我沒問。應該要問嗎？",
+     "new": "家教的學生今天沒寫作業，說家裡在忙一件事。我沒問。應該要問嗎？",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.walk.any[8].l[0]",
+     "old": "第二張，同一個位置。……你站歪了，往左一步。",
+     "new": "第二張，同一個位置。你站歪了，往左一步。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.walk.any[11].l[0]",
+     "old": "志願表交出去了。讀書計畫那頁你要看嗎？……算了，不要看。我現在看都想改。",
+     "new": "志願表交出去了。讀書計畫那頁你要看嗎？算了，不要看。我現在看都想改。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.walk.any[13].l[0]",
+     "old": "校慶園遊會的規則有十二條。第九條寫『不得喧嘩』。……園遊會耶。",
+     "new": "校慶園遊會的規則有十二條。第九條寫『不得喧嘩』。園遊會耶。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.walk.any[20].l[0]",
+     "old": "明天我媽會來。她說要穿得很普通。……她每天都穿得很普通。",
+     "new": "明天我媽會來。她說要穿得很普通。她每天都穿得很普通。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.acc.run_avenue[0]",
+     "old": "六點半？……好。我設兩個鬧鐘。",
+     "new": "六點半？好。我設兩個鬧鐘。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.acc.yangyang[0]",
+     "old": "……宵夜？好。我只吃一點。",
+     "new": "宵夜？好。我只吃一點。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.acc.corner_records[0]",
+     "old": "好。……我不太懂音樂，你不要笑。",
+     "new": "好。我不太懂音樂，你不要笑。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.acc.aoki[0]",
+     "old": "好。可以讀書嗎？……可以就好。",
+     "new": "好。可以讀書嗎？可以就好。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.first.slowread[0]",
+     "old": "木曜日？……那間我常去。窗邊那桌什麼時候會空，我知道。",
+     "new": "木曜日？那間我常去。窗邊那桌什麼時候會空，我知道。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.first.lawlib[0]",
+     "old": "法圖？……那裡冷氣比總圖冷。我帶外套。",
+     "new": "法圖？那裡冷氣比總圖冷。我帶外套。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.first.lake[0]",
+     "old": "映月湖？……好。我還沒有晚上去過。",
+     "new": "映月湖？好。我還沒有晚上去過。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_01.firstAt.slowread[1]",
+     "old": "（小聲）……我每次都點一樣的。所以他不問了。",
+     "new": "（小聲）我每次都點一樣的。所以他不問了。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "heroine_02",
+   "file": "invites",
+   "rows": [
+    {
+     "at": "people.heroine_02.firstAt.slowread[1]",
+     "old": "（小聲）……奶泡打得比我細。",
+     "new": "（小聲）奶泡打得比我細。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_02.acc.run_avenue[0]",
+     "old": "早上？……我昨天上到兩點。",
+     "new": "早上？我昨天上到兩點。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_02.acc.run_avenue[1]",
+     "old": "……好啦。我去。",
+     "new": "好啦。我去。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_02.acc.lake[0]",
+     "old": "好啊。……你要不要我帶相機？",
+     "new": "好啊。你要不要我帶相機？",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_02.acc.mokuyobi[0]",
+     "old": "好。……我想坐窗邊。",
+     "new": "好。我想坐窗邊。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_02.acc.offbeat[0]",
+     "old": "好。……坐窗邊好不好？",
+     "new": "好。那家的貓會跳上桌，你不要嚇到。",
+     "note": "換句（見 _meta）"
+    },
+    {
+     "at": "people.heroine_02.acc.afar[0]",
+     "old": "afar？好。……窗邊那一排的燈很好看。",
+     "new": "afar？好。窗邊那一排的燈很好看。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_02.acc.daybreak[0]",
+     "old": "好……我想坐窗邊。",
+     "new": "好。他們的手沖我只喝過一次，想再喝一次。",
+     "note": "換句（見 _meta）"
+    },
+    {
+     "at": "people.heroine_02.first.slowread[0]",
+     "old": "木曜日？離我們店才兩條巷子……好啊，我一直想進去偷看。",
+     "new": "木曜日？離我們店才兩條巷子，好啊，我一直想進去偷看。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_02.first.lawlib[0]",
+     "old": "法圖？我可以進去喔？……那我要去看你們的書有多厚。",
+     "new": "法圖？我可以進去喔？那我要去看你們的書有多厚。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "heroine_03",
+   "file": "invites",
+   "rows": [
+    {
+     "at": "people.heroine_03.walk.any[1].l[0]",
+     "old": "那個騎樓下的阿伯，每天五點來，坐到六點。……我不知道他在等誰。",
+     "new": "那個騎樓下的阿伯，每天五點來，坐到六點。我不知道他在等誰。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.walk.any[5].l[0]",
+     "old": "買賣不破租賃。……我抄在菜單背面了。",
+     "new": "買賣不破租賃。我抄在菜單背面了。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.walk.any[7].l[0]",
+     "old": "那天秀琴姨講到一半就停了。……我在旁邊，把她沒講完的記下來了。",
+     "new": "那天秀琴姨講到一半就停了。我在旁邊，把她沒講完的記下來了。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.walk.any[9].l[0]",
+     "old": "我去社會系問了助教的事。他們說大三可以。……我想試試看。",
+     "new": "我去社會系問了助教的事。他們說大三可以。我想試試看。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.walk.any[10].l[0]",
+     "old": "學生寫的『田野』，有一半是在網路上找的。我寫了很長的評語。……太長了，我刪掉一半。",
+     "new": "學生寫的『田野』，有一半是在網路上找的。我寫了很長的評語。太長了，我刪掉一半。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.walk.any[11].l[0]",
+     "old": "中秋，茶屋休息一天。蘇姨說她也要去烤肉。……她開店以來第一次休息。",
+     "new": "中秋，茶屋休息一天。蘇姨說她也要去烤肉。她開店以來第一次休息。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.walk.any[13].l[0]",
+     "old": "週四晚上沒有課。我不知道要做什麼。……所以我去訪問了另一家店。",
+     "new": "週四晚上沒有課。我不知道要做什麼。所以我去訪問了另一家店。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.walk.any[18].l[0]",
+     "old": "週末在茶屋，週四在田野。……其他時間是我自己的。",
+     "new": "週末在茶屋，週四在田野。其他時間是我自己的。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.acc.run_avenue[0]",
+     "old": "早上九點有課。……七點半以前可以。",
+     "new": "早上九點有課。七點半以前可以。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.acc.lake[0]",
+     "old": "好。……我跟店裡說一聲。",
+     "new": "好。我跟店裡說一聲。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.acc.yangyang[0]",
+     "old": "鹹酥雞？……好。我沒有在店裡吃過。",
+     "new": "鹹酥雞？好。我沒有在店裡吃過。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.acc.corner_records[0]",
+     "old": "好。……我喜歡那間的味道。舊紙的味道。",
+     "new": "好。我喜歡那間的味道。舊紙的味道。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.acc.aoki[0]",
+     "old": "青木？好。……我想看看別人家的茶怎麼泡。",
+     "new": "青木？好。我想看看別人家的茶怎麼泡。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.firstAt.lake[1]",
+     "old": "牠們不怕人。……大家都會餵。",
+     "new": "牠們不怕人。大家都會餵。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "heroine_04",
+   "file": "invites",
+   "rows": [
+    {
+     "at": "people.heroine_04.walk.wenzhou[0].l[1]",
+     "old": "……欸，我要把它做進去。",
+     "new": "欸，我要把它做進去。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.walk.any[1].ch[0].r[1]",
+     "old": "……你換過？",
+     "new": "你換過？",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.walk.any[1].ch[0].r[6]",
+     "old": "……好。知道了。",
+     "new": "好。知道了。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.firstAt.gym_badminton[1]",
+     "old": "這樣握比較帥。……不是嗎？",
+     "new": "這樣握比較帥。不是嗎？",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.firstAt.run_avenue[1]",
+     "old": "我起來了。……這件事你要記得。",
+     "new": "我起來了。這件事你要記得。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.firstAt.lawlib[1]",
+     "old": "這是你們的資料庫喔。……實體的。",
+     "new": "這是你們的資料庫喔。實體的。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.acc.gym_badminton.A[0]",
+     "old": "羽球？……我很爛喔。先說好。",
+     "new": "羽球？我很爛喔。先說好。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.acc.run_avenue.R[0]",
+     "old": "早上我在睡。……好啦，一次。",
+     "new": "早上我在睡。好啦，一次。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.acc.mokuyobi[0]",
+     "old": "那裡不能大聲說話吧。……好啦。",
+     "new": "那裡不能大聲說話吧。好啦。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.acc.daybreak[0]",
+     "old": "Daybreak？……好。我會起來。",
+     "new": "Daybreak？好。我會起來。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.sport.gym_badminton.during[0][0]",
+     "old": "那球出界了。……好啦，是我沒接到。",
+     "new": "那球出界了。好啦，是我沒接到。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.sport.gym_badminton.during[2][0]",
+     "old": "你不要一直幫我撿球。……謝謝。",
+     "new": "你不要一直幫我撿球。謝謝。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.sport.gym_badminton.end[0]",
+     "old": "下次我會進步。……我不想輸給一顆球。",
+     "new": "我會進步的。我不想輸給一顆球。",
+     "note": "換句（見 _meta）"
+    },
+    {
+     "at": "people.heroine_04.sport.run_avenue.during[0][0]",
+     "old": "你跑太快了。……等我。",
+     "new": "你跑太快了。等我。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.sport.run_avenue.during[2][0]",
+     "old": "早上的椰影大道沒有人。……原來長這樣。",
+     "new": "早上的椰影大道沒有人。原來長這樣。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.first.slowread[0]",
+     "old": "木曜日？……有插座嗎？",
+     "new": "木曜日？有插座嗎？",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.first.slowread[2]",
+     "old": "……好。我充飽再去。",
+     "new": "好。我充飽再去。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.first.lawlib[2]",
+     "old": "好。……有插座嗎？",
+     "new": "好。有插座嗎？",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.first.lake[0]",
+     "old": "映月湖？晚上去？……會不會有蚊子。",
+     "new": "映月湖？晚上去？會不會有蚊子。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "heroine_05",
+   "file": "invites",
+   "rows": [
+    {
+     "at": "people.heroine_05.walk.noodle[1]",
+     "old": "……我們不能收，他就放在桌上走掉。",
+     "new": "我們不能收，他就放在桌上走掉。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_05.walk.slowread[1].l[1]",
+     "old": "……念不下去的時候。",
+     "new": "念不下去的時候。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_05.firstAt.brunch[0]",
+     "old": "三分四十秒。老闆娘說的。……她每一顆都這樣計時？",
+     "new": "三分四十秒。老闆娘說的。她每一顆都這樣計時？",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_05.firstAt.teahouse[0]",
+     "old": "這裡不能讀書。……我很少去不能讀書的地方。",
+     "new": "這裡不能讀書。我很少去不能讀書的地方。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_05.firstAt.lake[1]",
+     "old": "……這裡比我記得的安靜。",
+     "new": "這裡比我記得的安靜。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_05.acc.gym_badminton[0]",
+     "old": "羽球。好。……我只會發球。",
+     "new": "羽球？好，我只會發球。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_05.acc.corner_records[0]",
+     "old": "好。……讀累了，聽一點音樂也好。",
+     "new": "好。讀累了，聽一點音樂也好。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_05.first.lake[0]",
+     "old": "映月湖。……好。我很久沒有不念書地走路了。",
+     "new": "映月湖。好。我很久沒有不念書地走路了。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "classmate_peishan",
+   "file": "invites",
+   "rows": [
+    {
+     "at": "people.classmate_peishan.walk.any[0].ch[2].r[0]",
+     "old": "……也是。有的人是不想守，有的人是沒辦法守。",
+     "new": "也是。有的人是不想守，有的人是沒辦法守。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.classmate_peishan.firstAt.teahouse[1]",
+     "old": "……那我小聲問，第一泡為什麼要倒掉？",
+     "new": "那我小聲問，第一泡為什麼要倒掉？",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "kexin",
+   "file": "invites",
+   "rows": [
+    {
+     "at": "people.kexin.acc.teahouse_ceremony[0]",
+     "old": "茶席。……我要穿裙子嗎？",
+     "new": "茶席。我要穿裙子嗎？",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.kexin.sport.gym_badminton.during[2][0]",
+     "old": "你們的球場比較亮。……這不是藉口。",
+     "new": "你們的球場比較亮。這不是藉口。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.kexin.sport.gym_badminton.end[0]",
+     "old": "下次在木柵大學打。……你要上山。",
+     "new": "換你來木柵大學打。你要上山。",
+     "note": "換句（見 _meta）"
+    },
+    {
+     "at": "people.kexin.firstAt.brunch[0]",
+     "old": "蛋可以選熟度欸。……我要半熟。",
+     "new": "蛋可以選熟度欸。我要半熟。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.kexin.firstAt.slowread[2]",
+     "old": "（小聲）……好喝。可是我要坐滿三個小時才划算。",
+     "new": "（小聲）好喝。可是我要坐滿三個小時才划算。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.kexin.first.slowread[1]",
+     "old": "……好，我過去。四十分鐘。",
+     "new": "好，我過去。四十分鐘。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.kexin.first.lake[0]",
+     "old": "映月湖？你們學校的湖？……好，我去看看有多大。",
+     "new": "映月湖？你們學校的湖？好，我去看看有多大。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  }
+ ]
+}
