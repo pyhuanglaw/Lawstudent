@@ -213,7 +213,7 @@ const CLS=(function(){
   /* 門口上課（2D，S.attend 的 o.door；進不去的房間：萬才館研討室 A、共同教學館 102…）：教室沒有 3D 同學，inScene 一律 false＝有名字的同學的反應句、obs 回話全部被濾掉（CC 11-11 17:11：法律專題研究 w12 阿哲、芯慈、柏翰三句沒播）。
      改看作息：那個時間的作息是這一堂（STORY.schedEnt：法律系同屆必修＝STORY.classmateClass 帶 cls＝這一堂的 key；日文班照 daily_schedule 的教室）＝在教室，和 3D 教室生出同學用同一套（使用者 2026-10-15「以安不在教室卻回答老師」的規則照舊）。
      體育課在館內 3D 上（inGym）照舊看 inScene */
-  let doorIt=null;
+  let doorIt=null; (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['classes3d:doorIt']=()=>{ doorIt=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：門口上課上到一半讀檔，舊的那一堂不留著 */
   const schedIn=(id,it)=>{ if(typeof STORY==='undefined'||!STORY.schedEnt||typeof GAME==='undefined'||!GAME.G||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return true; let e=null; try{ e=STORY.schedEnt(CHARACTERS[id],GAME.G); }catch(err){ console.warn('CLS.schedIn',err); return false; }
     if(!e||e.act!=='class') return false; if(e.cls!=null) return e.cls===it.key; const R=it.room||{}; return !!R.zone&&e.zone===R.zone&&(R.room==null||e.room==null||String(e.room)===String(R.room)); };
   const reactOK=(r,day,away)=>r&&r.text&&(r.who==='class'||(r.who!=='heroine_06'&&r.who!=='heroine_05'&&typeof CHARACTERS!=='undefined'&&!!CHARACTERS[r.who]&&(day==null||typeof STORY==='undefined'||!STORY.present||STORY.present(r.who,{day}))&&(away||(doorIt?schedIn(r.who,doorIt):inScene(r.who)))));   /* 那學期不在學校的人（presence）沒有反應句；溫書瑀高兩屆，不在祐廷的任何一堂課（AA_110 5-7）*/   /* away：翹課的群組轉述（skipNotes）是群組訊息，說的人不用在玩家身邊（2026-10-19：原本也要 inScene，中午在校園收不到轉述）*/

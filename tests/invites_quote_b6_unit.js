@@ -210,6 +210,8 @@ const O=runProbe('old'), N=runProbe('new');
     'src/data/retake_home.js':['nameless',['（媽媽把你推出廚房。）「你去讀你的書。」']],
     /* 2026-11-10 改期望：AA_745 電影散場的選項字（祐廷的選項，動作＋說的話；選項照留那一類）三個 */
     'src/data/movie_plots.js':['choice',['（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」','（小聲）「也幫我印一張。」','（小聲）「妳真的去了喔。」']],
+    /* 2026-11-11（AA_811@fb1256280，DLG-FULL-REVIEW-1110）：子晴語音第九則的回覆選項（祐廷的選項，動作＋說的話；選項照留那一類）；舊期望：沒有這一格 */
+    'src/data/aa811_lines.js':['choice',['（回語音）「恭喜。開門那個聲音我聽到了。」']],
     /* 2026-11-10 改期望（TERMEND-OPTS-1110）：AA_748／AA_749 期末飯的選項字（祐廷的選項，動作＋說的話；選項照留那一類）三個 */
     'src/data/termend_opts.js':['choice',['（兩手捧著杯子。）「謝謝。」','（從頭看到尾。）「沒有傘。」','（把自己的手機遞過去。）「我的也是。」',
       /* 2026-11-10 改期望：朋友版七學期（AA_749 @5ffd725b8）多兩個選項字，同一類 */
@@ -221,7 +223,7 @@ const O=runProbe('old'), N=runProbe('new');
   const s1=scan(LIT), want1=flat(KEEP);
   check('27. 單引號的字串（第五批第 21 項那一套掃描）：剩下 '+s1.length+' 個＝照留的 '+want1.length+' 個（路人沒名字 4、分科系拆開播 5、選項 7），一個不多一個不少',J(s1)===J(want1),sample(s1.filter(x=>!want1.includes(x)).concat(want1.filter(x=>!s1.includes(x)).map(x=>'少了 '+x))));
   const s2=scan(LIT2), want2=flat(Object.assign({},KEEP,KEEP2));
-  check('27. 單、雙引號一起掃：剩下 '+s2.length+' 個＝照留的 '+want2.length+' 個（再加：選項 2＋午餐邀約選項 1＋一起活動選項 13＋電影選項 3＋期末飯選項 6、稿的紀錄 5、沒名字 4）',J(s2)===J(want2),sample(s2.filter(x=>!want2.includes(x)).concat(want2.filter(x=>!s2.includes(x)).map(x=>'少了 '+x))));
+  check('27. 單、雙引號一起掃：剩下 '+s2.length+' 個＝照留的 '+want2.length+' 個（再加：選項 2＋午餐邀約選項 1＋一起活動選項 13＋電影選項 3＋子晴語音選項 1＋期末飯選項 6、稿的紀錄 5、沒名字 4）',J(s2)===J(want2),sample(s2.filter(x=>!want2.includes(x)).concat(want2.filter(x=>!s2.includes(x)).map(x=>'少了 '+x))));
   /* 照留的理由：選項＝choice 的 text；沒名字＝播的程式看開頭的（給 null；拆開播＝deptSteps；紀錄＝不播的欄位 */
   const opt=st.opt||[];
   check('27. 選項（events.js 三個、r2y4a_events.js 三個、y2r2_3d.js 一個）都是事件 choice 的 text（GM.choose，不是誰說的）',KEEP['src/data/events.js'][1].concat(KEEP['src/data/r2y4a_events.js'][1],KEEP['src/y2r2_3d.js'][1]).every(t=>opt.some(s=>s.text===t&&s.choice)&&!opt.some(s=>s.text===t&&!s.choice)),J(opt.map(s=>[s.ev,s.choice,s.text])));
