@@ -1,13 +1,3 @@
-[10:39:02] ==== END   SS3D_N2  exit=0  199s   ====
-[10:39:03] 正在跑：G10_N1（已跑 3 分／上限 15 分）、PS2_N1（已跑 2 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
-[10:39:05] memory 49% before starting PS2_N2 (2 running)
-[10:39:05] ==== START PS2_N2  (probe @ f5e1ef4e8fe2e1d6e71897d891ed600967a146a2) ====
-[10:39:08] [res] cpu=12% mem=49% (15.5/31.4 GB) chrome_testing=10  START PS2_N2
-[10:39:40] [res] cpu=15% mem=45% (14.1/31.4 GB) chrome_testing=9  END G10_N1
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       408c73e81..2bb26bca8  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[10:39:46] ==== END   G10_N1  exit=0  236s   ====
 [10:39:55] memory 47% before starting SS3D_O1 (2 running)
 [10:39:55] ==== START SS3D_O1  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
 [10:39:58] [res] cpu=2% mem=47% (15.1/31.4 GB) chrome_testing=6  START SS3D_O1
@@ -1998,3 +1988,13 @@
 [18:06:55] [res] cpu=13% mem=42% (13.4/31.4 GB) chrome_testing=4  END L118A7_OCC_retest
 [18:06:56] memory 41% before starting STAIR_a2_walk10 (2 running)
 [18:06:56] ==== START STAIR_a2_walk10  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[18:06:59] [res] cpu=30% mem=42% (13.0/31.4 GB) chrome_testing=4  START STAIR_a2_walk10
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b8c511d75..aa31273bd  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:07:03] ==== END   L118A7_OCC_retest  exit=0  816s   ====
+[18:07:31] memory 46% before starting STAIR_a2_run10 (2 running)
+[18:07:31] ==== START STAIR_a2_run10  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[18:07:34] [res] cpu=63% mem=46% (14.5/31.4 GB) chrome_testing=9  START STAIR_a2_run10
+[18:09:04] 正在跑：STAIR_a2_run（已跑 2 分／上限 40 分）、STAIR_a2_walk10（已跑 2 分／上限 40 分）、STAIR_a2_run10（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:10:53] [res] cpu=31% mem=47% (14.9/31.4 GB) chrome_testing=10  END STAIR_a2_walk10
