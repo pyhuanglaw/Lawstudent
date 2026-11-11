@@ -9,6 +9,7 @@ sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests')
 import playlib as L
 from playwright.async_api import async_playwright
 URL = os.environ.get('LIVE_URL') or 'https://pyhuanglaw.github.io/Lawstudent/index.html'
+if os.environ.get('LOCAL') == '1' and len(sys.argv) > 1 and sys.argv[1].startswith('http'): URL = sys.argv[1]   # CC 15:5x（BB 15:48）：本機對照（f312c／779 的 worktree），用 runner 給的網址
 OUT = sys.argv[2] if len(sys.argv) > 2 else '.'; os.makedirs(OUT, exist_ok=True)
 EXP = os.environ.get('EXPECT') or 'v9.10.24'
 RETRY_MIN = float(os.environ.get('RETRY_MIN') or '5'); RETRIES = int(os.environ.get('RETRIES') or '2')
@@ -79,11 +80,18 @@ async def one(p, attempt):
             await pg.wait_for_timeout(1000)
         await pg.wait_for_timeout(2000)
         hasC = await pg.evaluate("(()=>{ const b=document.getElementById('btnContinue'); return !!b&&getComputedStyle(b).display!=='none'; })()")
-        if hasC: await L.tap(pg, cdp, '#btnContinue')
-        for _ in range(120):
+        BTN_JS = "(()=>{ const b=document.getElementById('btnContinue'); if(!b) return null; const r=b.getBoundingClientRect(), c=getComputedStyle(b); const e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2); return {dis:!!b.disabled, pe:c.pointerEvents, op:c.opacity, top:e?(e.id||String(e.className).slice(0,40)||e.tagName):null, onBtn:!!(e&&(e===b||b.contains(e))), titleIdle:!!(typeof GAME!=='undefined'&&GAME.titleIdle), running:!!(typeof GAME!=='undefined'&&GAME.running), fade:!!(document.getElementById('fade')&&document.getElementById('fade').classList.contains('on'))}; })()"
+        taps = []
+        if hasC: taps.append(['按', round(time.time() - t0, 1), await pg.evaluate(BTN_JS)]); await L.tap(pg, cdp, '#btnContinue')
+        for k in range(120):
             s3 = await pg.evaluate(ST)
             if not s3['title'] and s3['zone']: break
+            if hasC and k in (30, 60):   # CC 15:5x（LIVE25_main_r2：按「繼續」60 秒還在標題）：15 秒還在標題＝記按鈕狀態、截圖、再按一次（分「按太早」和「按了沒反應」）
+                b = await pg.evaluate(BTN_JS); await pg.screenshot(path=os.path.join(OUT, 'live_cont_stuck_a%d_%d.png' % (attempt, k)))
+                R.note('③ 按「繼續」%d 秒還在標題：按鈕 %s → 再按一次' % (k // 2, J(b))); taps.append(['再按', round(time.time() - t0, 1), b]); await L.tap(pg, cdp, '#btnContinue')
             await pg.wait_for_timeout(500)
+        R.note('③ 按「繼續」的紀錄：%s' % J(taps))
+        if len(taps) > 1: R.check('③ 第一次按「繼續」就讀進遊戲（不用按第二次）', False, J(taps))
         await pg.wait_for_timeout(2500); s3 = await pg.evaluate(ST); await pg.screenshot(path=os.path.join(OUT, 'live_reload_a%d.png' % attempt))
         R.check('③ 重新整理 → 標題「繼續」讀回來（同一天、同一區）', hasC and s3['day'] == s2['day'] and s3['zone'] == s2['zone'], J({'continue': hasC, 'before': s2, 'after': s3}))
         R.note('② 一共 %d 個回應；非 200（含 304 以外、requestfailed）%d 筆：%s' % (nreq[0], len(bad), J(bad[:40])))

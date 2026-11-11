@@ -16,6 +16,12 @@ LIVE25_main | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_plan
 # CC 15:4x：LIVE25_deploy 1 個 503（ggshops_sys3d.js，部署完 1 分鐘內）、LIVE25_main ③ 搖桿只動 0.1 m（緊接著開場對話開始）——各重跑一次分偶發／真的
 LIVE25_deploy_r2 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | game | tests/deploy_check.py | index.html | 15 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html 9.10.25;CC_HEADLESS=0
 LIVE25_main_r2 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.25;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+# CC 15:5x：LIVE25_main_r2「重新整理→繼續」按了 60 秒還在標題（r1 PASS）——帶按鈕診斷再跑兩次
+LIVE25_main_r3 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.25;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+LIVE25_main_r4 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.25;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+# BB 15:48：「新遊戲→開場對話中存檔→重新整理→繼續」本機對照 f312c（發布樹）×1、779（上一版）×1——只有新版讀不回＝回歸
+CONT_rel | f312c68cc961c70c7d548fe40c2ae42483d517ba | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.25;LOCAL=1;SHA=f312c68cc961c70c7d548fe40c2ae42483d517ba
+CONT_live | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.24;LOCAL=1;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 # ★P0 BB 07:46 LIVE_main：線上 https://pyhuanglaw.github.io/Lawstudent/（main 12555291d＝README 合進來；遊戲檔＝779ddd650）——版本字樣、非 200、新遊戲→存→重整讀回；部署沒好隔 5 分鐘重試
 LIVE_main | 12555291d805e80a5165a2f86382641c46c0bdea | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.24;SHA=12555291d805e80a5165a2f86382641c46c0bdea
 L118A_SEAT_home1 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SEATS_home_1-7;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
