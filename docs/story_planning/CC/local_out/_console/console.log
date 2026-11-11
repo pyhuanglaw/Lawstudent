@@ -1,13 +1,4 @@
     To https://github.com/pyhuanglaw/Lawstudent.git
-       69eecdadf..c786bd88d  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:32:45] ==== END   L118D_E_TABLE_r2  exit=0  160s   ====
-[15:32:48] memory 47% before starting L118D_H_F_r3 (2 running)
-[15:32:48] ==== START L118D_H_F_r3  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
-[15:32:51] [res] cpu=12% mem=47% (15.0/31.4 GB) chrome_testing=9  START L118D_H_F_r3
-[15:34:04] 正在跑：L118D_H_D_r2（已跑 3 分／上限 15 分）、L118D_H_E_r2（已跑 2 分／上限 20 分）、L118D_H_F_r3（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
-[15:34:50] [res] cpu=3% mem=48% (15.2/31.4 GB) chrome_testing=10  END L118D_H_E_r2
-    To https://github.com/pyhuanglaw/Lawstudent.git
        c786bd88d..6f093438f  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [15:34:56] ==== END   L118D_H_E_r2  exit=0  168s   ====
@@ -1998,3 +1989,12 @@
 [00:11:00] [res] cpu=6% mem=37% (11.7/31.4 GB) chrome_testing=4  END L118A6_CORN_d
 [00:11:00] memory 37% before starting L118A_DRINK_old (2 running)
 [00:11:00] ==== START L118A_DRINK_old  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[00:11:03] [res] cpu=12% mem=37% (11.7/31.4 GB) chrome_testing=4  START L118A_DRINK_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       cc380fed5..fc663b6be  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:11:06] ==== END   L118A6_CORN_d  exit=0  216s   ====
+[00:11:32] memory 41% before starting L118D_B2 (2 running)
+[00:11:32] ==== START L118D_B2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
+[00:11:35] [res] cpu=31% mem=42% (13.0/31.4 GB) chrome_testing=8  START L118D_B2
+[00:12:25] [res] cpu=12% mem=44% (13.7/31.4 GB) chrome_testing=8  END L118A_DRINK_old

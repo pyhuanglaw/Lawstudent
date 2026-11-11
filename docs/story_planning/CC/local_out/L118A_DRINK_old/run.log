@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A_DRINK_old\out
+CC L118A：PARTS DRINK；SHA 779ddd65081bf770e9850d948b54ecc21dc4d120；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.6s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== DRINK
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1300 (0.0,0.0) （導航格存檔）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+  [  44.5s] [DRINK] 118 巷導航格 56×200 存成 l118a_nav_lane118.json（拼圖時和舊版比）
+  [  44.6s] [DRINK] 這一版沒有 drink_a（舊版正常），跳過
+  [  44.6s] [DRINK] 這一版沒有 drink_b（舊版正常），跳過
+PASS [DRINK] walkFallbacks 0
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
