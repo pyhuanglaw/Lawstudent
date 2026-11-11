@@ -501,6 +501,12 @@ const DATE=(function(){
      {sunset}＝那天淡水的日落時間（算出來的）；{lastDrink}＝上次點的飲料：TASTE 的說法 AA 還沒給（S.TASTE_WORD），有這個欄位的那一套先跳過。
      心願事件（wishEvent）是另外的整場（AA_127、BB_128 第 3 節）：src/wish3d.js（S.scene 開頭轉過去）；hold 的人（台詞和現行設定衝突，DATE_WISH.hold）照舊走這裡的普通抵達句。 */
   S.TASTE_WORD={};
+  /* 稿（BB_128 示範規格 D13）裡寫成旁白或寫在選項後面的開發註記，遊戲不演（AA 2026-11-11 企劃線 82dc74ca7 那一則：「請加進 NOTE_NARR（不顯示）。同一類的請一起擋」）。
+     做在顯示這一層、不改資料：date_lines.js 和源稿逐格相同（約會台詞的測試都靠這個比）。匯入工具的 NOTE_NARR（who 改成 note）照舊處理原本那兩句。
+     DEV_NOTE＝整句不演；DEV_STRIP＝拿掉句子裡的代號；optText＝選項後面的條件說明拿掉。測試 tests/date_devnote_1111_unit.js */
+  S.DEV_NOTE=new Set(['爸爸的事只說到這裡，留給 Q12','你說了']);   /* 子晴 D13 欄杆第 6 階以上那一段第 3 句；以安 D13 飲料選項 2 回覆中間（玩家說了理由的舞台指示）*/
+  S.DEV_STRIP={'請路人拍背影，C2':'請路人拍背影'};   /* 芷若 D13 合照：C2 是 CG 代號 */
+  S.optText=t=>String(t==null?'':t).replace(/（第 ?\d+ ?階以上[^）]*）$/,'');   /* 子晴 D13 拍照選項 3「「一起拍？」（第 6 階以上）」*/
   S.mem=function(G,id,loc){ S.rec(G); const M=G.dateMemory[id]||(G.dateMemory[id]={}); const m=M[loc]||(M[loc]={picks:[],last:[],taste:null,photos:0,recent:[]}); if(!Array.isArray(m.picks)) m.picks=[]; if(!Array.isArray(m.last)) m.last=[]; if(!Array.isArray(m.recent)) m.recent=[]; return m; };   /* picks＝和她在這裡點過的互動點、last＝上一次點的 */
   S.tierOf=function(G,id){ const st=S.stageNum(id); return st>=6?'high':((S.log(G,id).count|0)>=2?'mid':'low'); };
   S.sunset=function(day){ const dt=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(day):null; if(!dt) return '傍晚';   /* NOAA 簡化公式：淡水 25.17°N、121.44°E、UTC+8 */
@@ -522,10 +528,10 @@ const DATE=(function(){
   S.xiuqin=(G,id,s)=>id==='heroine_03'&&!(G&&G.flags&&G.flags.YT_FAMILY_HEARD)&&typeof s==='string'?s.replace(/秀琴姨/g,'煮飯的阿姨'):s;
   S.playSet=async function(GM,id,set,t){ if(!set) return false; const G=GM.G, m=S.mem(G,id,t.locs[0]), me={name:nameOf(id),charId:id};
     const fill=x=>S.xiuqin(G,id,String(x).replace(/\{sunset\}/g,S.sunset(t.day)).replace(/\{lastDrink\}/g,S.TASTE_WORD[m.taste]||''));
-    const run=async L=>{ for(const ln of (L||[])){ if(!ln||ln.who==='note'){ const mm=ln&&/記 `?TASTE`?＝`?([^`]+)`?/.exec(ln.text||''); if(mm) m.taste=mm[1]==='玩家點的'?'player':mm[1]; continue; }
-        const tx=fill(ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id) await GM.say(me,tx); else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
+    const run=async L=>{ for(const ln of (L||[])){ if(ln&&S.DEV_NOTE.has(ln.text)) continue;   /* 稿上寫成旁白的開發註記：不演（下面 S.DEV_NOTE）*/ if(!ln||ln.who==='note'){ const mm=ln&&/記 `?TASTE`?＝`?([^`]+)`?/.exec(ln.text||''); if(mm) m.taste=mm[1]==='玩家點的'?'player':mm[1]; continue; }
+        const tx=fill(S.DEV_STRIP[ln.text]||ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id) await GM.say(me,tx); else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
     await run(set.lines); const CH=Array.isArray(set.choice)?set.choice.filter(c=>c&&typeof c.t==='string'&&c.t.trim()):[];
-    if(CH.length){ const k=await GM.choose(CH.map(c=>({t:S.xiuqin(G,id,c.t)}))), c=CH[k]||CH[0]; await run(S.replyOf(id,c)); S.optFx(G,id,c,t); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
+    if(CH.length){ const k=await GM.choose(CH.map(c=>({t:S.xiuqin(G,id,S.optText(c.t))}))), c=CH[k]||CH[0]; await run(S.replyOf(id,c)); S.optFx(G,id,c,t); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
   /* ===== 選項的效果、每次去都有選項（DLG-FX-MECH-1110；使用者 X324；AA_746 第 2 節第 1、2 點）=====
      1. 選項 {t, reply|re, fx}：reply＝原本的格式（[{who,text}]）；re＝她回的話（一句字串或幾句的陣列；整句括號＝旁白）；fx＝{fr:n, love:n}（SOCIAL.applyFx；沒寫＝照舊沒有效果）。
         抵達、互動點、收尾的每一套（first／normal／remember／dating／afterBreakup…）只要有 choice 都會出、都算 fx。

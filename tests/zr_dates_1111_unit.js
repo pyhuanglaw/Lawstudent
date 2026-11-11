@@ -124,7 +124,7 @@ const know=id=>{ H.CLOSE(id); H.G.contacts[id]=1; };
         check('6. lines.heroine_02 和重匯以前比：格子一樣多、只有這九格不同（照 path；old 就是原本那一格的字）',J(Object.keys(a))===J(Object.keys(b))&&J(d)===J(['/acceptDating/0','/depart/0','/depart/1','/enough/0','/enough/1','/flaked/0/1','/leaveEarly/0','/move/1','/transport/0'])&&r1.every(r=>get(WAS,r.path)===r.old),J(d));
         const strip=D=>{ const x=JSON.parse(J(D.lines)); delete x[ZR]; delete x[ZQ]; return J(x); };   /* 2026-11-11（X324 子晴約會台詞重寫，AA 02078efc0）：子晴的短句照 AA_775 換了五格，拿掉再比 */
         check('6. 別人不分地點的短句和重匯以前一樣',strip(NOW)===strip(WAS)); }
-      const ob3=show(BASE,'src/date3d.js'); if(ob3){ const lit=t=>t.replace(/\/\*[\s\S]*?\*\//g,'').match(/'(?:[^'\\\n]|\\.)*'/g)||[], O=lit(ob3), L=lit(read('src/date3d.js')), cnt=A=>A.reduce((m,t)=>(m[t]=(m[t]||0)+1,m),{}), co=cnt(O), cl=cnt(L), gone=[], came=[];
+      const ob3=show(BASE,'src/date3d.js'); if(ob3){ const lit=t=>t.replace(/\/\*[\s\S]*?\*\//g,'').match(/'(?:[^'\\\n]|\\.)*'/g)||[], O=lit(ob3), L=lit(show('e61d19547','src/date3d.js')||read('src/date3d.js')) /* 2026-11-11：「重匯以後」固定比 e61d19547（子晴 AA_775 進來的那個 commit）的 date3d.js；原本比現在的檔，之後每加一個字串（S.DEV_NOTE、以安 AA_777…）就紅 */, cnt=A=>A.reduce((m,t)=>(m[t]=(m[t]||0)+1,m),{}), co=cnt(O), cl=cnt(L), gone=[], came=[];
         for(const t of new Set(O.concat(L))){ const n=(cl[t]||0)-(co[t]||0); for(let i=0;i<Math.abs(n);i++) (n<0?gone:came).push(t); }
         const q=t=>"'"+t+"'";
         /* 2026-11-11（X324 子晴約會台詞重寫，AA 02078efc0）：date3d.js 又照 AA_775_zq_date_common.json 換了子晴四列（S.MORNING、REMEMBER_IF 兩句備用句、S.NIGHT_HOME 多 'D26'、'heroine_04'；逐字在 tests/zq_dates_1111_unit.js）——少掉多三句、多出來多五個字串。舊期望：只差芷若那兩列 */
