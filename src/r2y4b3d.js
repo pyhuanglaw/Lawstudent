@@ -158,7 +158,7 @@ const R2Y4B=(function(){
   const psOpenPhone=G=>{ const d12=DK('2029-04-12'), d14=DK('2029-04-14'), F=G.flags; if(d12==null||G.day<d12||G.day>d14+1) return; const Pp=t=>P_('classmate_peishan',t);
     if(G.day<=d14&&at(G,'2029-04-12',21)&&(G.day<d14||hh(G)<12)&&S.psOpenOk(G)){
       const L=[Pp('週六下午我上公開課，書店那天請假了。家長會來。……你也可以來，坐最後面。'),Pp('在台南喔。很遠，不來也沒關係。')];
-      L[1].ask={id:'y4_ps_open',until:T(d14,12),opts:[{t:'我去。',set:{PS_OPEN_GO:true}},{t:'那天不行。',set:{PS_OPEN_GO:false},say:[{from:'classmate_peishan',text:'好～那我拍照給你看。'}]}]};
+      L[1].ask={id:'y4_ps_open',until:T(d14,12),opts:[{t:'我去。',set:{PS_OPEN_GO:true}},{t:'那天不行。',set:{PS_OPEN_GO:false},say:[{from:'classmate_peishan',text:'好！那我拍照給你看，拍你沒來的那個位子。'}]}]};
       PHONE.at(G,d12,atH(G,d12,21),L,'y4_ps_open'); }
     if(F.PS_OPEN_GO===true&&!outGet(G,'y4_ps_open')&&(G.day<d14||hh(G)<14.5)) plan(G,{id:'y4_ps_open',ev:'ev_peishan_open_class',day:d14,h:14,late:1,place:'台南・課輔班',title:'沛珊的公開課（台南）',travel:'高鐵（去台南）約兩小時',travelH:2,back:'回到臺北。'});
     if(PHONE.sent(G,'y4_ps_open')&&F.PS_OPEN_CLASS!=='went'&&at(G,'2029-04-14',21)&&!PHONE.sent(G,'y4_ps_open_missed')){ const q=outGet(G,'y4_ps_open'); if(q&&q.state==='planned') return;
