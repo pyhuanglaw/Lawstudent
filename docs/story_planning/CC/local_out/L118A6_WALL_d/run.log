@@ -1,0 +1,28 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_WALL_d\out
+CC L118A：PARTS WALLWALK_pasta,WALLWALK_home,WALLWALK_cafe2；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  28.3s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== WALLWALK_pasta
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_pasta 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 
+PASS [pasta] 店內正式模型載入（1.5 秒）
+  [  47.1s] [WALLWALK pasta] 牆邊長方形 30 點；貼不到站得住格子（家具、櫃台貼牆）16 點：[[3.35, 1.9], [3.35, 0.95], [3.35, 0], [3.35, -0.95], [3.35, -1.9], [3.35, -2.85], [3.35, -3.8], [2.39, -3.8], [1.44, -3.8], [0.48, -3.8], [-0.48, -3.8], [-1.44, -3.8], [-2.39, -3.8], [-3.35, -3.8], [-3.35, -2.85], [-3.35, 0]]
+PASS [WALLWALK pasta] 沿牆一圈每一點都用搖桿走到（14 點）  []
+PASS [WALLWALK pasta] 沿牆一圈沒有卡住（4 秒不前進）  []
+PASS [WALLWALK pasta] walkFallbacks 沒增加
+== WALLWALK_home
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_home 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 
+PASS [home] 店內正式模型載入（1.5 秒）
+  [  73.9s] [WALLWALK home] 牆邊長方形 30 點；貼不到站得住格子（家具、櫃台貼牆）14 點：[[3.35, -2.85], [3.35, -3.8], [2.39, -3.8], [1.44, -3.8], [0.48, -3.8], [-0.48, -3.8], [-1.44, -3.8], [-2.39, -3.8], [-3.35, -3.8], [-3.35, -2.85], [-3.35, -1.9], [-3.35, -0.95], [-3.35, 0], [-3.35, 0.95]]
+PASS [WALLWALK home] 沿牆一圈每一點都用搖桿走到（16 點）  []
+PASS [WALLWALK home] 沿牆一圈沒有卡住（4 秒不前進）  []
+PASS [WALLWALK home] walkFallbacks 沒增加
+== WALLWALK_cafe2
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_cafe2 店裡的進門位置 (2.20,3.00) 2025-10-08 1300 
+PASS [cafe2] 店內正式模型載入（1.5 秒）
+  [  98.7s] [WALLWALK cafe2] 牆邊長方形 28 點；貼不到站得住格子（家具、櫃台貼牆）14 點：[[2.85, -4.05], [1.9, -4.05], [0.95, -4.05], [-0.95, -4.05], [-1.9, -4.05], [-2.85, -4.05], [-2.85, -3.04], [-2.85, -2.02], [-2.85, -1.01], [-2.85, 0], [-2.85, 1.01], [-2.85, 2.02], [-2.85, 3.04], [-2.85, 4.05]]
+PASS [WALLWALK cafe2] 沿牆一圈每一點都用搖桿走到（14 點）  []
+PASS [WALLWALK cafe2] 沿牆一圈沒有卡住（4 秒不前進）  []
+PASS [WALLWALK cafe2] walkFallbacks 沒增加
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
