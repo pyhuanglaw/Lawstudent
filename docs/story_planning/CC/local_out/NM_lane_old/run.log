@@ -1,0 +1,95 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_lane_old\out
+CC NM1 夜市：PARTS LANEWALK；SHA 696cf6036；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 (6.50,0.00) （巷 A 西端，汀州路口）
+  [  47.4s] [LANEWALK 走到 x 6.5] 中途點（照 E.pathTo）1 個：[[6.5, 0]]
+PASS [LANEWALK 走到 x 6.5] 照找路的中途點都走到（1 個）
+PASS [LANEWALK 走到 x 6.5] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [LANEWALK 走到 x 6.5] walkFallbacks 0
+  [  48.7s] [LANEWALK x 6.5 第 1 個角度 yaw 3.14] {"player": [6.5, 0], "ry": 0, "cam": [6.5, 2.01, -2.16], "yaw": 3.14, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 30.8, "hit": []}
+  [  51.4s] [LANEWALK x 6.5 第 2 個角度 yaw 2.43] {"player": [6.5, 0], "ry": 0, "cam": [8.42, 2.22, -2.24], "yaw": 2.43, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 31.2, "hit": []}
+  [  53.8s] [LANEWALK x 6.5 第 3 個角度 yaw 1.72] {"player": [6.5, 0], "ry": 0, "cam": [11.9, 2.87, -0.83], "yaw": 1.72, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 36.6, "hit": []}
+  [  56.1s] [LANEWALK x 6.5 第 4 個角度 yaw 1.02] {"player": [6.5, 0], "ry": 0, "cam": [10.24, 2.6, 2.32], "yaw": 1.02, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 31, "hit": []}
+  [  58.4s] [LANEWALK x 6.5 第 5 個角度 yaw 0.31] {"player": [6.5, 0], "ry": 0, "cam": [7.19, 2.04, 2.18], "yaw": 0.31, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 24.7, "hit": []}
+  [  60.7s] [LANEWALK x 6.5 第 6 個角度 yaw -0.4] {"player": [6.5, 0], "ry": 0, "cam": [5.57, 2.07, 2.19], "yaw": -0.4, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 25.3, "hit": []}
+  [  63.0s] [LANEWALK x 6.5 第 7 個角度 yaw -1.11] {"player": [6.5, 0], "ry": 0, "cam": [1.6, 2.87, 2.43], "yaw": -1.11, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 27.4, "hit": []}
+  [  65.4s] [LANEWALK x 6.5 第 8 個角度 yaw -1.82] {"player": [6.5, 0], "ry": 0, "cam": [1.2, 2.87, -1.35], "yaw": -1.82, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 21.8, "hit": []}
+  [  65.4s] [LANEWALK 走到 x 9.5] 中途點（照 E.pathTo）1 個：[[9.5, 0]]
+PASS [LANEWALK 走到 x 9.5] 照找路的中途點都走到（1 個）
+PASS [LANEWALK 走到 x 9.5] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [LANEWALK 走到 x 9.5] walkFallbacks 0
+  [  67.5s] [LANEWALK x 9.5 第 1 個角度 yaw -1.82] {"player": [9.29, -0.0], "ry": 1.57, "cam": [3.99, 2.87, -1.35], "yaw": -1.82, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 24.5, "hit": []}
+  [  69.9s] [LANEWALK x 9.5 第 2 個角度 yaw -2.53] {"player": [9.29, -0.0], "ry": 1.57, "cam": [7.73, 2.16, -2.22], "yaw": -2.53, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 30.9, "hit": []}
+  [  72.4s] [LANEWALK x 9.5 第 3 個角度 yaw -3.24] {"player": [9.29, -0.0], "ry": 1.57, "cam": [9.5, 2.02, -2.16], "yaw": -3.24, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 29.2, "hit": []}
+  [  74.9s] [LANEWALK x 9.5 第 4 個角度 yaw -3.95] {"player": [9.29, -0.0], "ry": 1.57, "cam": [11.64, 2.3, -2.27], "yaw": -3.95, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 27, "hit": [["STALL_eggcake_open_aw", 1.29], ["STALL_eggcake_open_aw", 1.89]]}
+  [  77.7s] [LANEWALK x 9.5 第 5 個角度 yaw -4.65] {"player": [9.29, -0.0], "ry": 1.57, "cam": [14.75, 2.87, -0.32], "yaw": -4.65, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 29.2, "hit": []}
+  [  80.3s] [LANEWALK x 9.5 第 6 個角度 yaw -5.36] {"player": [9.29, -0.0], "ry": 1.57, "cam": [12.3, 2.44, 2.29], "yaw": -5.36, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 26, "hit": []}
+  [  82.7s] [LANEWALK x 9.5 第 7 個角度 yaw -6.07] {"player": [9.29, -0.0], "ry": 1.57, "cam": [9.75, 2.03, 2.17], "yaw": -6.07, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 27.1, "hit": []}
+  [  85.1s] [LANEWALK x 9.5 第 8 個角度 yaw -6.78] {"player": [9.29, -0.0], "ry": 1.57, "cam": [8.09, 2.1, 2.2], "yaw": -6.78, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 33.1, "hit": []}
+  [  85.1s] [LANEWALK 走到 x 12.5] 中途點（照 E.pathTo）1 個：[[12.5, 0]]
+PASS [LANEWALK 走到 x 12.5] 照找路的中途點都走到（1 個）
+PASS [LANEWALK 走到 x 12.5] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [LANEWALK 走到 x 12.5] walkFallbacks 0
+  [  88.1s] [LANEWALK x 12.5 第 1 個角度 yaw -6.78] {"player": [11.77, 0], "ry": -1.56, "cam": [10.58, 2.1, 2.2], "yaw": -6.78, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 28.5, "hit": []}
+  [  90.5s] [LANEWALK x 12.5 第 2 個角度 yaw -7.49] {"player": [11.77, 0], "ry": -1.56, "cam": [6.66, 2.87, 1.95], "yaw": -7.49, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 22.6, "hit": []}
+  [  93.2s] [LANEWALK x 12.5 第 3 個角度 yaw -8.2] {"player": [11.77, 0], "ry": -1.56, "cam": [6.63, 2.87, -1.85], "yaw": -8.2, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 33.6, "hit": []}
+  [  95.5s] [LANEWALK x 12.5 第 4 個角度 yaw -8.91] {"player": [11.77, 0], "ry": -1.56, "cam": [10.51, 2.11, -2.21], "yaw": -8.91, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 42.4, "hit": [["STALL_eggcake_open_aw", 0.34], ["STALL_eggcake_open_vc", 1.24]]}
+  [  97.9s] [LANEWALK x 12.5 第 5 個角度 yaw -9.62] {"player": [11.77, 0], "ry": -1.56, "cam": [12.19, 2.02, -2.17], "yaw": -9.62, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 29.2, "hit": []}
+  [ 100.8s] [LANEWALK x 12.5 第 6 個角度 yaw -10.32] {"player": [11.77, 0], "ry": -1.56, "cam": [14.65, 2.41, -2.29], "yaw": -10.32, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 28.4, "hit": []}
+  [ 103.8s] [LANEWALK x 12.5 第 7 個角度 yaw -11.03] {"player": [11.77, 0], "ry": -1.56, "cam": [17.23, 2.87, 0.21], "yaw": -11.03, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 27.7, "hit": []}
+  [ 106.2s] [LANEWALK x 12.5 第 8 個角度 yaw -11.74] {"player": [11.77, 0], "ry": -1.56, "cam": [14.22, 2.32, 2.27], "yaw": -11.74, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 34.3, "hit": []}
+  [ 106.3s] [LANEWALK 走到 x 15.5] 中途點（照 E.pathTo）1 個：[[15.5, 0]]
+PASS [LANEWALK 走到 x 15.5] 照找路的中途點都走到（1 個）
+PASS [LANEWALK 走到 x 15.5] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [LANEWALK 走到 x 15.5] walkFallbacks 0
+  [ 123.7s] [LANEWALK x 15.5 第 1 個角度 yaw -11.74] {"player": [16.21, -0.0], "ry": 1.56, "cam": [18.66, 2.32, 2.27], "yaw": -11.74, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 24.7, "hit": []}
+  [ 126.2s] [LANEWALK x 15.5 第 2 個角度 yaw -12.45] {"player": [16.21, -0.0], "ry": 1.56, "cam": [16.46, 2.02, 2.16], "yaw": -12.45, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 25.9, "hit": []}
+  [ 128.7s] [LANEWALK x 15.5 第 3 個角度 yaw -13.16] {"player": [16.21, -0.0], "ry": 1.56, "cam": [14.72, 2.15, 2.22], "yaw": -13.16, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 28.1, "hit": [["STALL_scallion_closed_vc", 0.19], ["STALL_scallion_closed_vc", 0.23]]}
+  [ 131.2s] [LANEWALK x 15.5 第 4 個角度 yaw -13.87] {"player": [16.21, -0.0], "ry": 1.56, "cam": [10.94, 2.87, 1.45], "yaw": -13.87, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 35.6, "hit": []}
+  [ 134.2s] [LANEWALK x 15.5 第 5 個角度 yaw -14.58] {"player": [16.21, -0.0], "ry": 1.56, "cam": [11.27, 2.87, -2.33], "yaw": -14.58, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 22.1, "hit": [["Clothes_H01_1", 5.34], ["Clothes_H01_1", 5.36]]}
+  [ 136.6s] [LANEWALK x 15.5 第 6 個角度 yaw -15.29] {"player": [16.21, -0.0], "ry": 1.56, "cam": [15.23, 2.07, -2.19], "yaw": -15.29, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 30.1, "hit": []}
+  [ 139.0s] [LANEWALK x 15.5 第 7 個角度 yaw -15.99] {"player": [16.21, -0.0], "ry": 1.56, "cam": [16.85, 2.04, -2.18], "yaw": -15.99, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 28.7, "hit": []}
+  [ 141.4s] [LANEWALK x 15.5 第 8 個角度 yaw -16.7] {"player": [16.21, -0.0], "ry": 1.56, "cam": [20.8, 2.87, -2.97], "yaw": -16.7, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 43.7, "hit": [["STALL_ball_open_aw", 3.42], ["STALL_ball_open_aw", 3.79]]}  ★鏡頭在巷子外
+  [ 141.4s] [LANEWALK 走到 x 18.5] 中途點（照 E.pathTo）1 個：[[18.5, 0]]
+PASS [LANEWALK 走到 x 18.5] 照找路的中途點都走到（1 個）
+PASS [LANEWALK 走到 x 18.5] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [LANEWALK 走到 x 18.5] walkFallbacks 0
+  [ 143.7s] [LANEWALK x 18.5 第 1 個角度 yaw -16.7] {"player": [18.9, -0.0], "ry": 1.57, "cam": [23.48, 2.87, -2.97], "yaw": -16.7, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 28.4, "hit": []}  ★鏡頭在巷子外
+  [ 146.2s] [LANEWALK x 18.5 第 2 個角度 yaw -17.41] {"player": [18.9, -0.0], "ry": 1.57, "cam": [24.32, 2.87, 0.73], "yaw": -17.41, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 21.4, "hit": []}
+  [ 148.4s] [LANEWALK x 18.5 第 3 個角度 yaw -18.12] {"player": [18.9, -0.0], "ry": 1.57, "cam": [22.54, 2.87, 4.08], "yaw": -18.12, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 27.5, "hit": []}  ★鏡頭在巷子外
+  [ 150.7s] [LANEWALK x 18.5 第 4 個角度 yaw -18.83] {"player": [18.9, -0.0], "ry": 1.57, "cam": [18.94, 2.01, 2.16], "yaw": -18.83, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 40.1, "hit": []}
+  [ 153.1s] [LANEWALK x 18.5 第 5 個角度 yaw -19.54] {"player": [18.9, -0.0], "ry": 1.57, "cam": [17.06, 2.2, 2.24], "yaw": -19.54, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 27.3, "hit": []}
+  [ 155.4s] [LANEWALK x 18.5 第 6 個角度 yaw -20.25] {"player": [18.9, -0.0], "ry": 1.57, "cam": [13.52, 2.87, 0.94], "yaw": -20.25, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 27.3, "hit": []}
+  [ 158.0s] [LANEWALK x 18.5 第 7 個角度 yaw -20.96] {"player": [18.9, -0.0], "ry": 1.57, "cam": [14.98, 2.64, -2.33], "yaw": -20.96, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 26.7, "hit": []}
+  [ 160.3s] [LANEWALK x 18.5 第 8 個角度 yaw -21.66] {"player": [18.9, -0.0], "ry": 1.57, "cam": [18.16, 2.05, -2.18], "yaw": -21.66, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 29, "hit": []}
+  [ 160.3s] [LANEWALK 走到 x 21.5] 中途點（照 E.pathTo）1 個：[[21.5, 0]]
+PASS [LANEWALK 走到 x 21.5] 照找路的中途點都走到（1 個）
+PASS [LANEWALK 走到 x 21.5] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [LANEWALK 走到 x 21.5] walkFallbacks 0
+  [ 162.2s] [LANEWALK x 21.5 第 1 個角度 yaw -21.66] {"player": [21.48, -0.0], "ry": 1.57, "cam": [19.72, 2.87, -5.18], "yaw": -21.66, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 19, "hit": []}  ★鏡頭在巷子外
+  [ 164.5s] [LANEWALK x 21.5 第 2 個角度 yaw -22.37] {"player": [21.48, -0.0], "ry": 1.57, "cam": [23.52, 2.87, -5.07], "yaw": -22.37, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 9.8, "hit": [["cafe_vc_wz_metal", 2.63], ["cafe_vc_wz_metal", 2.69]]}  ★看不到人  ★鏡頭在巷子外
+  [ 166.8s] [LANEWALK x 21.5 第 3 個角度 yaw -23.08] {"player": [21.48, -0.0], "ry": 1.57, "cam": [26.33, 2.87, -2.52], "yaw": -23.08, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 27, "hit": []}  ★鏡頭在巷子外
+  [ 169.2s] [LANEWALK x 21.5 第 4 個角度 yaw -23.79] {"player": [21.48, -0.0], "ry": 1.57, "cam": [26.8, 2.87, 1.24], "yaw": -23.79, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 24.5, "hit": []}
+  [ 171.5s] [LANEWALK x 21.5 第 5 個角度 yaw -24.5] {"player": [21.48, -0.0], "ry": 1.57, "cam": [24.72, 2.87, 4.41], "yaw": -24.5, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 25, "hit": []}  ★鏡頭在巷子外
+  [ 173.9s] [LANEWALK x 21.5 第 6 個角度 yaw -25.21] {"player": [21.48, -0.0], "ry": 1.57, "cam": [21.07, 2.87, 5.45], "yaw": -25.21, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 23.4, "hit": []}  ★鏡頭在巷子外
+  [ 176.1s] [LANEWALK x 21.5 第 7 個角度 yaw -25.92] {"player": [21.48, -0.0], "ry": 1.57, "cam": [19.23, 2.28, 2.26], "yaw": -25.92, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 26.6, "hit": []}
+  [ 178.3s] [LANEWALK x 21.5 第 8 個角度 yaw -26.63] {"player": [21.48, -0.0], "ry": 1.57, "cam": [16.03, 2.87, 0.42], "yaw": -26.63, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 20.5, "hit": []}
+  [ 178.3s] [LANEWALK 走到 x 24.5] 中途點（照 E.pathTo）1 個：[[24.5, 0]]
+PASS [LANEWALK 走到 x 24.5] 照找路的中途點都走到（1 個）
+PASS [LANEWALK 走到 x 24.5] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [LANEWALK 走到 x 24.5] walkFallbacks 0
+  [ 181.2s] [LANEWALK x 24.5 第 1 個角度 yaw -26.63] {"player": [23.96, -0.0], "ry": 4.7, "cam": [18.52, 2.87, 0.42], "yaw": -26.63, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 19.4, "hit": []}
+  [ 183.5s] [LANEWALK x 24.5 第 2 個角度 yaw -27.33] {"player": [23.96, -0.0], "ry": 4.7, "cam": [19.55, 2.87, -3.22], "yaw": -27.33, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 22, "hit": []}  ★鏡頭在巷子外
+  [ 185.8s] [LANEWALK x 24.5 第 3 個角度 yaw -28.04] {"player": [23.96, -0.0], "ry": 4.7, "cam": [22.71, 2.87, -5.32], "yaw": -28.04, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 39.7, "hit": []}  ★鏡頭在巷子外
+  [ 188.0s] [LANEWALK x 24.5 第 4 個角度 yaw -28.75] {"player": [23.96, -0.0], "ry": 4.7, "cam": [26.47, 2.87, -4.85], "yaw": -28.75, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 19, "hit": []}  ★鏡頭在巷子外
+  [ 190.4s] [LANEWALK x 24.5 第 5 個角度 yaw -29.46] {"player": [23.96, -0.0], "ry": 4.7, "cam": [29.03, 2.87, -2.05], "yaw": -29.46, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 20.8, "hit": []}
+  [ 192.8s] [LANEWALK x 24.5 第 6 個角度 yaw -30.17] {"player": [23.96, -0.0], "ry": 4.7, "cam": [29.14, 2.87, 1.74], "yaw": -30.17, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 24.8, "hit": []}
+  [ 195.1s] [LANEWALK x 24.5 第 7 個角度 yaw -30.88] {"player": [23.96, -0.0], "ry": 4.7, "cam": [26.76, 2.87, 4.69], "yaw": -30.88, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 16.3, "hit": [["wz_pillar_mosaic", 1.95]]}  ★鏡頭在巷子外
+  [ 197.4s] [LANEWALK x 24.5 第 8 個角度 yaw -31.59] {"player": [23.96, -0.0], "ry": 4.7, "cam": [23.03, 2.87, 5.39], "yaw": -31.59, "dist": 5.6, "distTarget": 5.6, "onScreen": true, "nearSD": 20.8, "hit": []}  ★鏡頭在巷子外
+FAIL [LANEWALK] 每個點每個角度都看得到人（玩家附近標準差 ≥15）  [[21.5, 2, [["cafe_vc_wz_metal", 2.63]]]]
+PASS [LANEWALK] 鏡頭沒有被拉到貼臉（cam.dist ≥1.2）  []
+  [ 197.4s] [LANEWALK] 鏡頭在巷子外（|z|>2.5，照實記；巷子兩側有騎樓時可能是正常的）：[[15.5, 8, [20.8, 2.87, -2.97]], [18.5, 1, [23.48, 2.87, -2.97]], [18.5, 3, [22.54, 2.87, 4.08]], [21.5, 1, [19.72, 2.87, -5.18]], [21.5, 2, [23.52, 2.87, -5.07]], [21.5, 3, [26.33, 2.87, -2.52]], [21.5, 5, [24.72, 2.87, 4.41]], [21.5, 6, [21.07, 2.87, 5.45]], [24.5, 2, [19.55, 2.87, -3.22]], [24.5, 3, [22.71, 2.87, -5.32]], [24.5, 4, [26.47, 2.87, -4.85]], [24.5, 7, [26.76, 2.87, 4.69]], [24.5, 8, [23.03, 2.87, 5.39]]]
+PASS [LANEWALK] walkFallbacks 0
+PASS 沒有 JS 例外  []
+FAILED 1: [LANEWALK] 每個點每個角度都看得到人（玩家附近標準差 ≥15）
