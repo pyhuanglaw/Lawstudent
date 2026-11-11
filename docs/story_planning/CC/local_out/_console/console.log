@@ -1,12 +1,3 @@
-[07:19:03] skip NOASK_faf1 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[07:19:03] skip WZDAY_rp_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[07:19:03] skip WZDAY_rp_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[07:19:03] skip WZDAY_ct_moku_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[07:19:03] skip WZDAY_ct_moku_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[07:19:03] skip WZDAY_ct_tea_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[07:19:03] skip WZDAY_ct_tea_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[07:19:03] skip USAPT204b_old (already done on 07ce887a13d3aa3b743567b857dfd7b22e44a5b8)
-[07:19:03] skip USAPT204b_new (already done on c8af31018a9ce570422ad748aa277af842f8db37)
 [07:19:03] skip WINVIEW_own2 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
 [07:19:03] skip WINVIEW_haopai2 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
 [07:19:03] skip WINVIEW_tea21 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
@@ -1998,3 +1989,12 @@
 [13:57:28] ==== START FN2_stairs10_new  (probe @ 696cf6036f3ca9fbc7022c21ab37324b0e46e305) ====
 [13:57:31] [res] cpu=2% mem=48% (15.2/31.4 GB) chrome_testing=10  START FN2_stairs10_new
 [13:58:54] [res] cpu=5% mem=48% (15.2/31.4 GB) chrome_testing=10  END NM_lane_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7660ecf60..640e0301b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:58:59] ==== END   NM_lane_old  exit=0  255s   ====
+[13:59:02] memory 48% before starting FN2_stairs10_old (2 running)
+[13:59:02] ==== START FN2_stairs10_old  (probe @ 811aa4c0f1b44b8ed62df03c88a85f3f2f8167da) ====
+[13:59:04] 正在跑：CLASS12_skip2_500x5（已跑 4 分／上限 12 分）、FN2_stairs10_new（已跑 1 分／上限 15 分）、FN2_stairs10_old（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:59:05] [res] cpu=11% mem=42% (15.3/31.4 GB) chrome_testing=5  START FN2_stairs10_old
+[13:59:35] [res] cpu=0% mem=47% (14.9/31.4 GB) chrome_testing=9  END CLASS12_skip2_500x5
