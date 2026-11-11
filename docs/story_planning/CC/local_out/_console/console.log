@@ -1,12 +1,3 @@
-[11:21:47] [res] cpu=15% mem=46% (14.3/31.4 GB) chrome_testing=9  END NM_reach_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       3f009b0a5..6eadbb706  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[11:21:52] ==== END   NM_reach_old  exit=0  632s   ====
-[11:21:55] memory 47% before starting LM2_N6_r3 (2 running)
-[11:21:55] ==== START LM2_N6_r3  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
-[11:21:58] [res] cpu=3% mem=47% (14.9/31.4 GB) chrome_testing=9  START LM2_N6_r3
-[11:24:03] 正在跑：NM_cam_new_r2（已跑 4 分／上限 15 分）、NM_cam_old（已跑 2 分／上限 15 分）、LM2_N6_r3（已跑 2 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:24:27] [res] cpu=9% mem=43% (13.7/31.4 GB) chrome_testing=5  END NM_cam_new_r2
 [11:24:33] [res] cpu=22% mem=43% (13.7/31.4 GB) chrome_testing=5  END LM2_N6_r3
     To https://github.com/pyhuanglaw/Lawstudent.git
@@ -1998,3 +1989,12 @@
 [19:42:21] [res] cpu=2% mem=53% (16.8/31.4 GB) chrome_testing=9  START V25_deploy
 [19:44:04] 正在跑：V25_social（已跑 6 分／上限 60 分）、V25_reach（已跑 6 分／上限 40 分）、V25_deploy（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:48:05] [res] cpu=10% mem=57% (18.0/31.4 GB) chrome_testing=9  END V25_reach
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c1c8deb99..0717139a3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:48:17] ==== END   V25_reach  exit=0  629s   ====
+[19:48:21] memory 56% before starting STAIR_old_run10_r2 (2 running)
+[19:48:21] ==== START STAIR_old_run10_r2  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[19:48:24] [res] cpu=16% mem=56% (17.6/31.4 GB) chrome_testing=9  START STAIR_old_run10_r2
+[19:49:04] [res] cpu=33% mem=50% (15.8/31.4 GB) chrome_testing=9  END V25_deploy
+[19:49:04] 正在跑：V25_social（已跑 11 分／上限 60 分）、V25_deploy（已跑 6 分／上限 15 分）、STAIR_old_run10_r2（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
