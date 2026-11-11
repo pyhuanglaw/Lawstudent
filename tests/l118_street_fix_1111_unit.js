@@ -63,10 +63,10 @@ const IDS=['dian','self','tea','home','cafe2','pasta','korea','omu','noodle2'];
   check('1b. 街景腳本：九間店的淺店內走新室內那一套（l118_peek_interior），不走舊店型（紅紙菜單那一排）',/if SET == 'lane118' and spec\.get\('lane118'\) in l118_peek\(\): return l118_peek_interior/.test(kit)); }
 
 /* ---- 2. 門外的照片 ---- */
-{ const dir=path.join(ROOT,'assets/models/env/views'), miss=[]; for(const id of IDS) for(const s of ['day','night','near_day','near_night']){ const f=path.join(dir,'l118_'+id+'_'+s+'.webp'); if(!fs.existsSync(f)||fs.statSync(f).size<2000) miss.push(id+'_'+s); }
+{ const dir=path.join(ROOT,'assets/models/env/views'), miss=[]; for(const id of IDS) for(const s of ['day','night','near_day','near_night']){ const f=path.join(dir,'l118_'+id+'_'+s+'.webp'); if(!fs.existsSync(f)||fs.statSync(f).size<(/near/.test(s)?150:20000)) miss.push(id+'_'+s); }   /* 近景幾乎全透明的店（對面 5.5 m 內沒東西）檔案只有幾百 bytes */
   check('2a. 九間店門外的照片各四張都在',miss.length===0,miss.join());
   const J=JSON.parse(fs.readFileSync(path.join(ROOT,'tools/shots/shop_views_layers.json'),'utf8')), bad=[];
-  for(const id of IDS){ const v=W3.VIEW_LAYERS&&W3.VIEW_LAYERS['l118_'+id], d=J['l118_'+id+'_day']; if(!v||!d||Math.abs(v.far-d.far)>0.011||Math.abs(v.near-d.near)>0.011) bad.push([id,v,d&&[d.far,d.near]]); }
+  for(const id of IDS){ const v=W3.VIEW_LAYERS&&W3.VIEW_LAYERS['l118_'+id], d=J['l118_'+id+'_day']; if(!v||!d||Math.abs(v.far-d.far)>0.011||(d.near!=null&&Math.abs(v.near-d.near)>0.011)||!(v.near>4&&v.near<5.6)) bad.push([id,v,d&&[d.far,d.near]]); }   /* 近景什麼都沒拍到的店（五湖四海：對面 5.5 m 以內沒有東西）量不到近景景深，表上留原本的值 */
   check('2b. 景深表（src/l118_shops3d.js）和這次拍的量測（tools/shots/shop_views_layers.json）一樣',bad.length===0,JSON.stringify(bad)); }
 
 console.log(fails?('\nFAIL '+fails+' 項'):'\n全部 PASS'); process.exit(fails?1:0);
