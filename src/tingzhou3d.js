@@ -78,6 +78,10 @@ const TZ3=(function(){
       const lo=new THREE.Mesh(new THREE.BoxGeometry(F.depth-AD,L.groundH,w),M('#bfb6a8')); lo.position.set(fx+sx*(AD+(F.depth-AD)/2),L.groundH/2,cz); lo.userData.tzfb=true; lo.userData.dyn=true; g.add(lo); fb.push(lo);
       addCollider(fx+sx*(AD+(F.depth-AD)/2),cz,F.depth-AD,w,h); if(q.arcade!==false) addCollider(fx+sx*F.depth/2,cz,F.depth,w,h-L.groundH); }
     addCollider(F.east+A.len+2+7,0,14,A.z1-A.z0+8,22);
+    /* 巷 A 比臨街樓房深的那一段（x F.east+F.depth～巷底）兩側也是樓房（正式模型的 TA_*、禮貌生財那一棟）：補鏡頭碰撞盒——
+       TZ-ALLEY-CAMCOL-1111（BB／CC 11-11：「一個地球」(18.5, −1.65) 前面，鏡頭 (19.08, 2.87, −5.55) 從臨街樓房碰撞盒的東緣（x 19）外面繞進北邊那一棟裡，整個畫面是一面牆）。
+       原本只有臨街那一排（x 5～19）和巷底一塊；導航有擋、鏡頭沒擋。往臨街那一排裡面疊 0.5 m，不留縫 */
+    { const x0=F.east+F.depth-0.5, x1=F.east+A.len+2, cx=(x0+x1)/2, w=x1-x0; addCollider(cx,A.z0-5,w,10,16); addCollider(cx,A.z1+5,w,10,16); }
     // 互動點：回公館、各店門口
     const TG=L.toGongguan; E.interactables.push({x:TG.x,z:TG.z,radius:TG.r+0.6,label:TG.label,exit:{to:'gongguan',spawn:Object.assign({},TG.spawn)}});
     for(const q of L.shops){ const sx=q.side==='W'?-1:1, zn='tz_'+q.id, hasRoom=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[zn];
