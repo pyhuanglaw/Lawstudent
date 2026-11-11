@@ -105,8 +105,11 @@ ALLSEATS = r"""((lv)=>{ const E=GAME.E; return [].concat((E.zone&&E.zone.seats||
 # 走道地板點：站得住（半徑 0.3）、0.8 m 內沒有椅子；pref 給了就找離它最近（r 內）的；沒給就在起點周圍 10 m 內分散挑 n 個（離起點 ≥2 m、投影在遊戲畫面上）
 FLOOR_PICK = r"""((a)=>{ const E=GAME.E, P=E.player.obj.position; const seats=[].concat((E.zone&&E.zone.seats||[]).filter(s=>(s.lv|0)===a.lv),(E.interactables||[]).filter(i=>i.seat&&((i.seat.lv|0)===a.lv)).map(i=>i.seat));
   const ok=(x,z)=>E.canStand(x,z,0.3,a.lv)&&!seats.some(s=>Math.hypot(s.x-x,s.z-z)<0.8);
-  if(a.pref){ let best=null; for(let dx=-a.r;dx<=a.r+1e-6;dx+=0.1) for(let dz=-a.r;dz<=a.r+1e-6;dz+=0.1){ const x=a.pref[0]+dx, z=a.pref[1]+dz; if(!ok(x,z)) continue; const d=Math.hypot(dx,dz); if(!best||d<best.d) best={x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2)}; } return best; }
-  const cand=[]; for(let x=Math.round(P.x)-10;x<=Math.round(P.x)+10;x+=0.5) for(let z=Math.round(P.z)-10;z<=Math.round(P.z)+10;z+=0.5){ if(Math.hypot(x-P.x,z-P.z)<2||!ok(x,z)) continue;
+  /* 看得到（N1_TSR_CLASS_r2：階梯教室挑的走道點全在桌子後面、五點都 notap）：投影到畫面、地板落點就在這一點附近、射線在地板以前沒打到東西 */
+  const seen=(x,z)=>{ const y=E.heightAt(x,z,a.lv); const v=new THREE.Vector3(x,y,z).project(E.camera); if(v.z>1||Math.abs(v.x)>0.85||Math.abs(v.y)>0.85) return false; const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight;
+    const h=E.screenToFloor?E.screenToFloor(sx,sy):null; if(!h||Math.hypot(h.x-x,h.z-z)>0.3) return false; if(!E.rayFirstHit) return true; const R0=E.ray.ray, tF=Math.hypot(h.x-R0.origin.x,h.y-R0.origin.y,h.z-R0.origin.z); return !E.rayFirstHit(R0,tF-0.03); };
+  if(a.pref){ let best=null; for(let dx=-a.r;dx<=a.r+1e-6;dx+=0.1) for(let dz=-a.r;dz<=a.r+1e-6;dz+=0.1){ const x=a.pref[0]+dx, z=a.pref[1]+dz; if(!ok(x,z)) continue; const d=Math.hypot(dx,dz); if(best&&d>=best.d) continue; if(a.vis&&!seen(x,z)) continue; best={x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2)}; } return best; }
+  const cand=[]; for(let x=Math.round(P.x)-10;x<=Math.round(P.x)+10;x+=0.5) for(let z=Math.round(P.z)-10;z<=Math.round(P.z)+10;z+=0.5){ if(Math.hypot(x-P.x,z-P.z)<2||!ok(x,z)||!seen(x,z)) continue;
     const v=new THREE.Vector3(x,E.heightAt(x,z,a.lv),z).project(E.camera); if(v.z>1||Math.abs(v.x)>0.85||Math.abs(v.y)>0.85) continue; const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight; const el=document.elementFromPoint(sx,sy); if(!el||el.id!=='c') continue; if(['hud','hudR','minimap','ctlR','joy','interact','toast','choices','btnGo','btnQuick','clockBox','nextClass','titleBar'].some(id=>{ const e=document.getElementById(id); if(!e||e.offsetParent===null) return false; const r=e.getBoundingClientRect(); return sx>=r.left-4&&sx<=r.right+4&&sy>=r.top-4&&sy<=r.bottom+4; })) continue; cand.push([x,z]); }
   const out=[]; const have=a.have||[]; while(out.length<a.n&&cand.length){ let bi=-1,bd=-1; for(let i=0;i<cand.length;i++){ const c=cand[i]; let m=1e9; for(const q of have.concat(out)) m=Math.min(m,Math.hypot(q[0]-c[0],q[1]-c[1])); if(!have.length&&!out.length) m=Math.hypot(c[0]-P.x,c[1]-P.z); if(m>bd){ bd=m; bi=i; } } out.push(cand.splice(bi,1)[0]); }
   return out; })"""
@@ -120,6 +123,8 @@ TABLE_TOP = r"""((a)=>{ const E=GAME.E, V=THREE.Vector3; const vis=o=>{ for(let 
     rc.set(new V(x,a.fy+1.5,z),new V(0,-1,0)); rc.near=0; rc.far=1.45; const hs=rc.intersectObjects(T,false); const h=hs.find(q=>q.point.y<=a.fy+1.0); if(!h||h.point.y<a.fy+0.35) continue;
     best={x:+x.toFixed(2),z:+z.toFixed(2),y:+h.point.y.toFixed(3),d:+d.toFixed(2),mesh:h.object.name||'',mat:([].concat(h.object.material)[0]||{}).name||''}; }
   return best; })"""
+# 宿舍長桌椅子三次都是點椅面那一下手機打開（「今天」頁＝btnPhone／nextClass）：記每一下 pointerdown／click 實際落在哪個元素、什麼時候打開手機
+CLICK_REC = r"""(()=>{ window.__ccClicks=[]; if(!window.__ccClickHook){ window.__ccClickHook=1; for(const ty of ['pointerdown','pointerup','click','touchstart','touchend']) document.addEventListener(ty,e=>{ try{ const t=e.target, p=e.changedTouches&&e.changedTouches[0]||e; const r=t&&t.getBoundingClientRect?t.getBoundingClientRect():null; (window.__ccClicks=window.__ccClicks||[]).push({ty, id:t&&(t.id||(t.className&&String(t.className).slice(0,30))||t.tagName), x:Math.round(p.clientX), y:Math.round(p.clientY), r:r?[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)]:null, ph:!!(document.getElementById('phone')&&!document.getElementById('phone').classList.contains('hide')), t:Math.round(performance.now())}); }catch(_){} }, true); } return true; })()"""
 PHONE_OPEN = r"""(()=>{ const p=document.getElementById('phone'); return !!p&&!p.classList.contains('hide')&&p.offsetParent!==null; })()"""
 OFFS = [(0.0, 0.0), (0.15, 0.0), (-0.15, 0.0), (0.0, 0.1), (0.0, -0.1)]
 # 椅面：椅子中心被柱子、桌子擋住時，點椅子露出來的那一邊（BB 19:08／LAWWW2：總圖椅子 2 中心那個像素被白柱子擋住，左半邊點得到）
@@ -285,13 +290,14 @@ async def seat_one(pg, cdp, key, Z, k, pick):
         except Exception as e: R.note('%s 收手機失敗 %r' % (t, e))
         pt2 = await pg.evaluate(TAP_PT, [s['sx'] + (pt.get('off_xz') or [0, 0])[0], y, s['sz'] + (pt.get('off_xz') or [0, 0])[1]])
         if pt2 and not pt2.get('off'): pt2['off_xz'] = pt.get('off_xz'); pt = pt2
+    await pg.evaluate(CLICK_REC)
     fb0 = (await D.st(pg))['fb']
     R.note('%s 點椅面（%s）螢幕 (%s, %s)、離鏡頭 %s m、視線俯角 %s°：地板落點 %s、射線先打到 %s、tapRedirect 導去 %s（椅子 %s）' % (t, how, pt['sx'], pt['sy'], pt['dist'], pt['pitch'], J(pt['hit']), J(pt.get('first')), J(pt['redirect']), J(pt['rseat'])))
     await L.touch_tap(cdp, pt['sx'], pt['sy'])
     b, m, secs = await wait_settle(pg); ni = await pg.evaluate(D.NEAR_IT)
     pho = await pg.evaluate("(()=>{ const p=document.getElementById('phone'); return !!p&&!p.classList.contains('hide')&&p.offsetParent!==null; })()")
     if pho:   # CC 11-11 19:0x（N1_TSR_DORM 椅子 1）：點椅面後手機開著＝這一下沒點到遊戲畫面，記「HUD 蓋住」不判（CC_02 乙 4）
-        R.note('%s 點椅面後手機開著（這一下沒點到遊戲畫面）：不判，收起手機；tapPref %s' % (t, J(m['tp']))); await shot(pg, '%s_seat%d_hud' % (key, k))
+        R.note('%s 點椅面後手機開著（這一下沒點到遊戲畫面）：不判，收起手機；tapPref %s；這一下的 pointer／click 落在：%s' % (t, J(m['tp']), J(await pg.evaluate("(window.__ccClicks||[]).slice(-8)")))); await shot(pg, '%s_seat%d_hud' % (key, k))
         try: await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(400)
         except Exception as e: R.note('%s 收手機失敗 %r' % (t, e))
         return 'hud'
@@ -404,7 +410,7 @@ async def part(pg, cdp, key):
         await at_start(pg, cdp, key, Z, '挑走道地板點（只讀資料、不點）')
         pts = []
         for xz, desc in Z['floors']:
-            q = await pg.evaluate(FLOOR_PICK, {'pref': list(xz), 'r': 0.6, 'lv': lv})
+            q = await pg.evaluate(FLOOR_PICK, {'pref': list(xz), 'r': 0.6, 'lv': lv, 'vis': True})
             if q: pts.append(((q['x'], q['z']), '%s（首選 (%s, %s)，移 %s m 到合格的點）' % (desc, xz[0], xz[1], q['d'])))
             else: R.note('[%s] 走道首選 (%s, %s) %s：0.6 m 內沒有「站得住、0.8 m 內沒有椅子」的點，換自動挑' % (key, xz[0], xz[1], desc))
             if len(pts) >= N_FLOOR: break
