@@ -6345,6 +6345,132 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "USER_WANTS X320；使用者 11-10 18:5x 規格 docs/handoff/user_specs/GG_SHOPS3_1110.md"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/story-planning",
+   "sha": "02078efc0",
+   "files": [
+    "docs/story_planning/date_rewrite/zq_D01.json",
+    "docs/story_planning/AA_775_zq_date_common.json",
+    "docs/story_planning/AA_776_zq_wish.json"
+   ],
+   "state": "已整合",
+   "remaining": "BB／CC 實機抽測",
+   "next": "—",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "note": "校外約會台詞 子晴 33 個地點（date_rewrite/zq_D01～D33）＋短句＋心願事件；開發分支 db5bbdf4c；BB_339"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/story-planning",
+   "sha": "bd1ce5be0",
+   "files": [
+    "docs/story_planning/date_rewrite/an_D01.json",
+    "docs/story_planning/AA_777_an_date_common.json",
+    "docs/story_planning/AA_778_an_wish.json"
+   ],
+   "state": "已整合",
+   "remaining": "BB／CC 實機抽測",
+   "next": "—",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "note": "校外約會台詞 以安 33 個地點（date_rewrite/an_D01～D33）＋AA_777／AA_778（1f88da7cc）；開發分支 fea448637；BB_340"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/story-planning",
+   "sha": "248c8e390",
+   "files": [
+    "docs/story_planning/AA_780_an_date_followup.json",
+    "docs/story_planning/date_rewrite/an_D05.json"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 匯入中：以安 14 格、短句九列（四人 flaked）、「她請不扣玩家」機制三格",
+   "next": "LAWWW 回報對不到的格",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "note": "LAWWW 匯入以安後的回報（沒人記的承諾、綁第一次選項的再訪句、EXTRA_LINES 四句）"
+  },
+  {
+   "task": "L118-LUNCH-INVITE-1111",
+   "branch": "claude/story-planning",
+   "sha": "01099c5bb",
+   "files": [
+    "docs/story_planning/AA_771_l118_lunch.json"
+   ],
+   "state": "已整合",
+   "remaining": "BB／CC 測",
+   "next": "—",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "note": "AA_771 v4（51 組，新增 20 組單人邀約）；開發分支 9050fd7fc；USER_WANTS X339"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "sha": "d501078a3",
+   "files": [
+    "docs/story_planning/syllabus/Y1S1.json"
+   ],
+   "state": "已整合",
+   "remaining": "大一下三科（syllabus/Y1S2.json）11-13 起",
+   "next": "AA 寫 Y1S2",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "note": "刑總因果歷程從第 13 週搬到第 7 週；BB 法律審 PASS（BB_333 追加段，fea8c4008）；LAWWW 已重匯"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/story-planning",
+   "sha": "d30416e6b",
+   "files": [
+    "docs/story_planning/AA_708_activity_scenes.json"
+   ],
+   "state": "已整合",
+   "remaining": "BB／CC 實際約一次確認電影、書店會跳選項",
+   "next": "—",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "note": "X324 A 區一起活動：98 場都有兩個選項、沛珊整塊重寫（PEISHAN-VOICE-1110）、BB_342 四點；新 alt 條件 datingOrReady；開發分支 710d49638"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/story-planning",
+   "sha": "1b8e247ec",
+   "files": [
+    "docs/story_planning/AA_707_study_scenes.json"
+   ],
+   "state": "已整合",
+   "remaining": "BB／CC 實機抽測",
+   "next": "—",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "note": "X324 B 區一起念書：42 場都有兩個選項、沛珊換語氣、BB 兩件（以安第 6 場手帳、不寫哪一天幾點）；新 alt 條件 anShopPage；開發分支 7266e7a29"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/story-planning",
+   "sha": "a29a8aba0",
+   "files": [
+    "docs/story_planning/date_rewrite/zr_D01.json",
+    "docs/story_planning/AA_779_X324_剩餘範圍與順序.md"
+   ],
+   "state": "已整合",
+   "remaining": "BB／CC 實機抽測",
+   "next": "—",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "note": "補登：校外約會台詞前五人（沛珊、學姊、語彤、可昕、芷若；date_rewrite/{peishan,sis,yt,kx,zr}_D01～D33＋各人的短句、心願事件檔）11-11 都已匯進開發分支（芷若 07d500210）；各批的 SHA 和檔名在 AA_779 第 1 節的表"
   }
  ],
  "items": [
