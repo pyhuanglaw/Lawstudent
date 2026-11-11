@@ -100,6 +100,14 @@ PULL_JS = r"""(a=>{ const E=GAME.E, P=E.player, o=P.obj.position, lv=P.lv|0, f3=
 LAYOUT_JS = r"""(()=>{ const L=(typeof MOKUYOBI_LAYOUT!=='undefined')?MOKUYOBI_LAYOUT:null; const z=GAME.E.zone; return {stairTop:L&&L.stairTop?[L.stairTop.x,L.stairTop.z]:null, cornerSlip:!!(z&&z.cornerSlip), levels:GAME.E.levels?GAME.E.levels.length:0, spd:GAME.E.SPD||null}; })()"""
 
 STAIR_TOP = list(STAIR_TOP_FALLBACK)
+# BB 19:46：第 7 項的「樓梯底」改成第一階前面的地板（離樓梯 ≥0.3 m）——點在樓梯上＝走完這一跑（規則），不算走錯
+BOT_FLOOR_JS = r"""(a=>{ const E=GAME.E; const H=(x,z)=>E.heightAt(x,z,0); const flat=(x,z)=>Math.abs(H(x,z)-a.base)<0.03;
+  let best=null; for(let dx=-1.5;dx<=1.5001;dx+=0.05) for(let dz=-1.5;dz<=1.5001;dz+=0.05){ const x=a.bot[0]+dx, z=a.bot[1]+dz, d=Math.hypot(dx,dz); if(best&&d>=best.d) continue;
+    if(!E.canStand(x,z,0.3,0)||!flat(x,z)) continue; let ok=true; for(let k=0;k<16&&ok;k++){ const t=k*Math.PI/8; if(!flat(x+0.3*Math.cos(t),z+0.3*Math.sin(t))) ok=false; } if(!ok) continue;
+    best={x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2),h:+H(x,z).toFixed(3)}; }
+  return {best, base:a.base, hBot:+H(a.bot[0],a.bot[1]).toFixed(3)}; })"""
+# 點地時遊戲 E.screenToFloor 打到什麼（E.update 呼叫的那幾次＝真的點擊）：命中點、在不在樓梯（userData.stairEnds）
+TAPREC_JS = r"""(()=>{ const E=GAME.E; window.__ccTapHits=[]; if(!E.__ccTapHook){ E.__ccTapHook=1; const s0=E.screenToFloor; E.screenToFloor=function(x,y){ const h=s0.apply(this,arguments); try{ const st=String(new Error().stack||''); if(st.indexOf('update')>=0) window.__ccTapHits.push({sx:Math.round(x),sy:Math.round(y),hit:h?[+h.x.toFixed(2),+(+h.y).toFixed(2),+h.z.toFixed(2),h.lv|0]:null,stair:!!(h&&h.obj&&h.obj.userData&&h.obj.userData.stairEnds),pl:[+E.player.obj.position.x.toFixed(2),+E.player.obj.position.z.toFixed(2),E.player.lv|0]}); }catch(_){ } return h; }; } return true; })()"""
 SHOT_DONE = set()
 PULLED = {}     # 第 2／8 項：讀檔放在 (x,z) 第 1 層 → 拉到哪裡 (x,z,lv)
 CC_ENDS = []    # 第 6 項：停下來的地方 (x,z,lv,模式)
@@ -362,6 +370,7 @@ async def item7(pg, cdp):
         if k in seen: continue
         seen.add(k); starts.append(('第 6 項（%s）停下的地方 (%.2f,%.2f)' % (mn, x, z), x, z, lv))
     for (x, z) in ITEM7_EXTRA: starts.append(('(%.2f,%.2f)' % (x, z), x, z, 1))
+    if not CC_ENDS: starts.append(('一樓 (-4.17,6.67)（b77a 第 6 項走 30 停下、30 fps 點樓梯底被帶上二樓的那一點）', -4.17, 6.67, 0))   # BB 19:46：記那一下命中點在不在樓梯上
     for nm, x, z, lv in starts:
         for cap in ITEM7_FPS:
             tag = '[7 %s %d fps]' % (nm, cap)
@@ -375,7 +384,16 @@ async def item7(pg, cdp):
                 ok1, why1 = await walk_segments(pg, cdp, tag + '（先到樓梯頂）', STAIR_TOP[0], STAIR_TOP[1], 1, 150)
                 s1 = await D.st(pg)
                 R.note('%s 走的路：先點地走到樓梯頂 %s（第 1 層）＝%s（%s，停在 %s）→ 再點樓梯底' % (tag, J(STAIR_TOP), '到了' if ok1 else '沒到', why1, J([s1.get('x'), s1.get('z'), s1.get('lv')])))
-            ok, why = await walk_segments(pg, cdp, tag, STAIR_BOT[0], STAIR_BOT[1], 0, 300 if lv == 1 else 420)
+            await pg.evaluate(TAPREC_JS)
+            bf = await pg.evaluate(BOT_FLOOR_JS, {'bot': list(STAIR_BOT), 'base': await pg.evaluate("GAME.E.heightAt(%f,%f,0)" % (x, z)) if lv == 0 else 0.0})
+            tgt = (bf['best']['x'], bf['best']['z']) if bf.get('best') else STAIR_BOT
+            R.note('%s 目標：第一階前面的地板 %s（離 BB 的樓梯底 %s m；地板高 %s、樓梯底那一點高 %s）' % (tag, J(tgt), (bf.get('best') or {}).get('d'), bf.get('base'), bf.get('hBot')))
+            ok, why = await walk_segments(pg, cdp, tag, tgt[0], tgt[1], 0, 300 if lv == 1 else 420)
+            th = await pg.evaluate("(window.__ccTapHits||[]).slice(-12)")
+            R.note('%s 這一趟遊戲收到的點擊（命中點、在不在樓梯上）：%s' % (tag, J(th)))
+            s9 = await D.st(pg)
+            if lv == 0 and s9.get('lv') == 1:
+                R.check('7. %s 被帶上二樓時，點的命中點在樓梯上（規則：點在樓梯上＝走完這一跑；命中在地板還被帶上樓＝遊戲問題）' % nm, any(q['stair'] for q in th), J(th[-6:]))
             s = await D.st(pg)
             info = J({'終點': [s.get('x'), s.get('z'), s.get('y'), s.get('lv')], '秒': round(time.time() - t0, 1), 'walkFallbacks': s.get('fb'), '原因': why})
             if not R.check('7. %s 點地走（go_to）到樓梯底 (%.2f, %.2f)（%d fps）：%.1f m 內、在第 0 層' % (nm, STAIR_BOT[0], STAIR_BOT[1], cap, ARRIVE_NEAR), ok, info):
