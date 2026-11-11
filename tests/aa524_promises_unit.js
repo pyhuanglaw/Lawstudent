@@ -228,14 +228,16 @@ await sec('A7',async()=>{
 });
 await sec('A8',async()=>{
   fresh('2026-11-14',16); H.FAMILIAR(AN); H.said=[]; H.picks=[]; await DATE.closeLine(GM,trip(AN,'D09'),0);
-  check('A8. 貓空第一次的收尾：「夜景很好看。……另一個原因，我不說。」（AA_694 拿掉「。」後的「……」）',has(E694.strip(NEW.A8[0])),J(said()));
+  /* 2026-11-11（X324 以安約會台詞重寫，AA bd1ce5be0）：D09 貓空第一次的收尾新稿重寫成「茶很好喝，另一個原因，我不說。」（拿掉綁夜景的字；AA_524 A8 要的「不留『下次再說』」照舊成立）——舊期望 AA_524 的「夜景很好看。……另一個原因，我不說。」；逐字對稿在 tests/an_dates_1111_unit.js */
+  check('A8. 貓空第一次的收尾：「茶很好喝，另一個原因，我不說。」（不說「下次再說」；AA_524 的原句「夜景很好看。……另一個原因，我不說。」新稿換掉了）',has('茶很好喝，另一個原因，我不說。')&&!said().some(x=>/下次再說/.test(x))&&!has(E694.strip(NEW.A8[0])),J(said()));
 });
 await sec('A9',async()=>{
   fresh('2026-11-14',16); H.FAMILIAR(AN); await spot(AN,'D14','D14.sunset',0,['下次在台中看']);
   check('A9. 漁人碼頭夕陽「下次在台中看。」→「台中的夕陽在海邊。很遠，要開車。」（AA_524 的「……」照 AA_594 拿掉）',has(require('./an_rev_doc.js').rev(NEW.A9[0])),J(said()));
   fresh('2026-11-14',10); H.FAMILIAR(AN); await spot(AN,'D16','D16.lighthouse',0,['下次去最南邊']); const a=has(E694.strip(require('./an_rev_doc.js').rev(NEW.A9[1])));
   await spot(AN,'D16','D16.lighthouse',1,[]);
-  check('A9. 富貴角燈塔「下次去最南邊。」→「……最南邊。好遠。」；下一次 remember「你上次說要去最南邊。……我查過了，坐車要六個小時。」',a&&has(E694.strip(require('./an_rev_doc.js').rev(NEW.A9[2]))),J(said()));
+  /* 2026-11-11（X324 以安約會台詞重寫，AA bd1ce5be0）：D16 燈塔的 remember 新稿重寫成「最北邊來過了。我在手帳的地圖上畫了一個點。」（不再接「最南邊」那個沒有後續的話題；選項回覆「最南邊。好遠。」源稿寫回了、沒變）——舊期望 AA_524 的「你上次說要去最南邊。……我查過了，坐車要六個小時。」 */
+  check('A9. 富貴角燈塔「下次去最南邊。」→「……最南邊。好遠。」；下一次 remember「最北邊來過了。我在手帳的地圖上畫了一個點。」（不提最南邊、不留約定）',a&&has('最北邊來過了。我在手帳的地圖上畫了一個點。')&&!has(E694.strip(require('./an_rev_doc.js').rev(NEW.A9[2])))&&!said().slice(-3).some(x=>/最南邊|還在手帳上/.test(x)),J(said()));
 });
 await sec('A10',async()=>{
   const SUNS=()=>R2Y3B.abSundays(), t1Of=wk=>byTag('y3_ab_w'+wk).filter(m=>m.from===AN).map(m=>m.text);

@@ -95,7 +95,17 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
       check('0. 子晴早上那一句、D28／D31／D32 到達句（X324 重寫）：新句在企劃線的 AA_775（S.MORNING.heroine_04 那一列）和 D28／D31／D32.json 裡'+(rq?'':'（這份 checkout 讀不到，略過）'),!rq||Object.values(ZQN).every(t=>rq.includes(t)),J(Object.values(ZQN).filter(t=>!rq.includes(t))));
       SP.morning.heroine_04=ZQN.morning;
       for(const f of SP.fix52) if(f.who==='heroine_04'&&f.loc==='D28'&&/六點半起床/.test(f.neu)) f.neu=ZQN.a28; else if(f.who==='heroine_04'&&f.loc==='D31') f.neu=ZQN.a31;
-      if(SP.var53.zq) SP.var53.zq.neu=ZQN.a32; } }
+      if(SP.var53.zq) SP.var53.zq.neu=ZQN.a32;
+      /* 2026-11-11（X324 以安約會台詞重寫，AA bd1ce5be0／AA_777@1f88da7cc）：以安早上那一句、住自己家那一句照 AA_777_an_date_common.json 的 S.MORNING、S.MORNING_OWN.heroine_01 兩列
+         （原本 AA_359「早餐我查過了。……走路五分鐘。」「我媽多做了一份早餐。……叫我帶給你。」——媽媽做早餐給他是主線的事，BB_340）；
+         5-2 的 D26、D31 以安那兩句、5-3 的 D32 以安離開句，新稿那三格重寫了（AA_359、AA_594 的字不再疊；5-2 的 D28「這裡的巷子，地圖上只畫了一半。我們走走看。」源稿寫回了，照舊）——
+         舊期望＝AA_359 的「改成」再照 AA_594：D26「（她看了一下手錶）幾點的車？我送你到車站。」、D31「湖上還有霧。能見度比我算的低。」、D32「山上起太早了。下山以後，我想先睡一覺。」。SHA 讀 tests/date_src_sha.js */
+      const ANN={morning:'早餐我查過了，走路五分鐘。',own:'早。我買了以前上學路上那家的飯糰，兩個，一個是你的。',a26:'（她看了一下手錶）我送你到車站。這段路我熟。',a31:'水很靜，靜到我不太敢大聲講話。',c32:'下山以後我想喝熱的。什麼都好。'};
+      let ra=''; try{ ra=cp.execSync('git show '+CS.AN_COMMON_SHA+':docs/story_planning/AA_777_an_date_common.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']})+'\n'+['D26','D31','D32'].map(k=>cp.execSync('git show '+CS.ALLOW_SHA+':docs/story_planning/date_system/lines/'+k+'.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']})).join('\n'); }catch(e){}
+      check('0. 以安早上那一句、住自己家那一句、D26／D31 第二天能說的句子、D32 離開句（X324 重寫）：新句在企劃線的 AA_777（S.MORNING、S.MORNING_OWN.heroine_01 兩列）和 D26／D31／D32.json 裡'+(ra?'':'（這份 checkout 讀不到，略過）'),!ra||Object.values(ANN).every(t=>ra.includes(t)),J(Object.values(ANN).filter(t=>!ra.includes(t))));
+      SP.morning.heroine_01=ANN.morning; SP.own.heroine_01=ANN.own;
+      for(const f of SP.fix52) if(f.who==='heroine_01'&&f.loc==='D26') f.neu=ANN.a26; else if(f.who==='heroine_01'&&f.loc==='D31') f.neu=ANN.a31;
+      for(const f of SP.fix53) if(f.who==='heroine_01'&&f.loc==='D32') f.neu=ANN.c32; } }
   check('0. 讀得到稿 AA_359@'+SPEC_SHA+'：晚上四種、早上旁白、七位一句、住自己家／租的地方三句',!!spec&&Object.keys(SP.night).length===4&&!!SP.narr&&Object.keys(SP.morning).length===7&&Object.keys(SP.own).length===3,J(SP));
   check('0. 晚上那一句（第 2 節）四種逐字：兩間房／民宿／她回家／她回租的地方',!!D().NIGHT&&['single','dating','home','rent'].every(k=>D().NIGHT[k]===SP.night[k]),J([D().NIGHT,SP.night]));
   check('0. 第二天早上的旁白一律「'+SP.narr+'」',!!SP.narr&&D().MORNING_NARR===SP.narr,D().MORNING_NARR);
@@ -196,7 +206,7 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
   await sec('7',async()=>{
     const d=STORY.dayOfKey('2026-07-25'); fresh(d-2,20,{}); setRel('heroine_01',S6);
     const c=DATE.check(G,{who:'heroine_01',locs:['D26'],day:d,depart:9,kind:'overnight',transport:'hsr'}), c28=DATE.check(G,{who:'heroine_01',locs:['D28'],day:d,depart:9,kind:'overnight',transport:'hsr'});
-    check('7. 以安 7/25～7/26 在台中：約臺中（D26）可以；約臺南不行、照 S6 那一句',c.ok&&!c28.ok&&c28.why==='「那幾天我在台中。……換一天。」',J([c.why,c28.why]));
+    check('7. 以安 7/25～7/26 在台中：約臺中（D26）可以；約臺南不行、照 S6 那一句',c.ok&&!c28.ok&&c28.why==='「那幾天我在台中。換一天。」',J([c.why,c28.why]));   /* 2026-11-11（X324 以安約會台詞重寫，AA_777@1f88da7cc）：S6 那一句拿掉刪節號（舊期望「那幾天我在台中。……換一天。」）*/
     const r=await trip({who:'heroine_01',locs:['D26'],day:d,transport:'hsr'},['草悟道','國立臺灣美術館','審計新村','市民廣場']);
     check('7. 出發那天她人在台中照樣出發（不看今天在不在臺北）；晚上「'+SP.night.home+'」',r.r==='go'&&r.L.includes(SP.night.home)&&r.t.night==='home',r.L.join(' | '));
     check('7. 早上：以安「'+SP.own.heroine_01+'」',r.L[r.L.indexOf(SP.narr)+1]===SP.own.heroine_01,r.L.join(' | '));
