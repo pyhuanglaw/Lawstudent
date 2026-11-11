@@ -1,0 +1,26 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_live_main_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\JOY_live1_r2\out
+  [   0.1s] ④ PC 上 origin/main＝dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c（沒有 fetch，只是 runner 抓過的那一個）
+== attempt 1（20:55:01 UTC）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+  [  24.1s] [20:55:24 UTC] index HTTP 200；標題版本字樣「版本 v9.10.25（2026-11-11）」；?v= 值 ["9.10.25"]
+PASS ① 標題版本字樣含 v9.10.25  版本 v9.10.25（2026-11-11）
+PASS ① ?v= 都是同一個版號、而且就是 v9.10.25  ["9.10.25"]
+   ▶ 「臺北。我家就在這附近。」
+   ▶ 「你偷襲。」
+   ▶ 「好啊。」
+   ▶ 「嗯。」
+   ▶ 「還好，昨天主要在玩遊戲。」
+   ▶ 「好，開學見。」
+  [ 119.9s] [20:57:00 UTC] 新遊戲走到可以動：{"title": false, "zone": "dorm", "day": -18, "hour": 16.09, "x": 0, "z": 2.4, "dlg": false, "busy": false, "ch": false, "phone": false}（92 秒）
+  [ 119.9s] ③ 宿舍出生點 (0, 2.4) 四個方向空地多遠（m，canStand r0.3）：{"up": 3, "right": 0, "down": 0.25, "left": 0.25} → 推的順序 ['up', 'down', 'left', 'right']
+  [ 126.6s] ③ 每推一次：[{"dir": "up", "free": 3, "moved": 1.03, "counted": true, "before": {"busy": false, "dlg": false, "depth": 0, "by": null, "blocked": null}, "after": {"busy": true, "dlg": true, "depth": 1, "by": "kaiMoveIn (https://pyhuanglaw.github.io/Lawstudent/src/story3d.js?v=9.10.25:1535:115)", "blocked": null}}, {"dir": "down", "free": 0.25, "moved": 0.0, "counted": false, "before": {"busy": true, "dlg": true, "depth": 1, "by": "kaiMoveIn (https://pyhuanglaw.github.io/Lawstudent/src/story3d.js?v=9.10.25:1535:115)", "blocked": null}, "after": {"busy": true, "dlg": true, "depth": 1, "by": "kaiMoveIn (https://pyhuanglaw.github.io/Lawstudent/src/story3d.js?v=9.10.25:1535:115)", "blocked": null}}, {"dir": "left", "free": 0.25, "moved": 0.0, "counted": false, "before": {"busy": true, "dlg": true, "depth": 1, "by": "kaiMoveIn (https://pyhuanglaw.github.io/Lawstudent/src/story3d.js?v=9.10.25:1535:115)", "blocked": null}, "after": {"busy": true, "dlg": true, "depth": 1, "by": "kaiMoveIn (https://pyhuanglaw.github.io/Lawstudent/src/story3d.js?v=9.10.25:1535:115)", "blocked": null}}, {"dir": "right", "free": 0, "moved": 0.0, "counted": false, "before": {"busy": true, "dlg": true, "depth": 1, "by": "kaiMoveIn (https://pyhuanglaw.github.io/Lawstudent/src/story3d.js?v=9.10.25:1535:115)", "blocked": null}, "after": {"busy": true, "dlg": true, "depth": 1, "by": "kaiMoveIn (https://pyhuanglaw.github.io/Lawstudent/src/story3d.js?v=9.10.25:1535:115)", "blocked": null}}]
+PASS ③ 新遊戲走到可以動（dorm）、搖桿推得動 ≥0.3 m  {"s": {"title": false, "zone": "dorm", "day": -18, "hour": 16.09, "x": 0, "z": 2.4, "dlg": false, "busy": false, "ch": false, "phone": false}, "moved": 1.03}
+  [ 126.6s] ③ 存一格（GAME.quickSave，右上 💾 同一個函式）：{"ok": true, "slot": true}；存的時候 {"title": false, "zone": "dorm", "day": -18, "hour": 16.1, "x": 0, "z": 1.37, "dlg": true, "busy": true, "ch": false, "phone": false}
+  [ 140.8s] ③ 按「繼續」到進遊戲：4.2 秒（180 秒內沒進＝沒有）；console error／warning ["warning: 星期和日期對不上，照行事曆改： 4 → 3"]
+  [ 140.8s] ③ 按「繼續」的紀錄：[["按", 0, {"btn": {"dis": false, "pe": "auto", "op": "1"}, "top": "loading", "onBtn": false, "title": "panel", "loading": true, "loadMsg": "準備世界…", "toast": "", "charsAll": false, "bytes": 93354995, "titleIdle": false, "running": false, "fade": false, "auto": true}]]
+PASS ③ 第一次按「繼續」就讀進遊戲（180 秒內、不用按第二次）  [["按", 0, {"btn": {"dis": false, "pe": "auto", "op": "1"}, "top": "loading", "onBtn": false, "title": "panel", "loading": true, "loadMsg": "準備世界…", "toast": "", "charsAll": false, "bytes": 93354995, "titleIdle": false, "running": false, "fade": false, "auto": true}]]
+PASS ③ 重新整理 → 標題「繼續」讀回來（同一天、同一區）  {"continue": true, "before": {"title": false, "zone": "dorm", "day": -18, "hour": 16.1, "x": 0, "z": 1.37, "dlg": true, "busy": true, "ch": false, "phone": false}, "after": {"title": false, "zone": "dorm", "day": -18, "hour": 16.11, "x": 0, "z": 1.37, "dlg": true, "busy": true, "ch": false, "phone": false}}
+  [ 143.5s] ② 一共 2798 個回應；非 200（含 304 以外、requestfailed）0 筆：[]
+PASS ② network 非 200＝0  []
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
