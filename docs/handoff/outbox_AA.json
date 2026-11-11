@@ -6487,6 +6487,25 @@
    "receiver": "LAWWW",
    "ack": "ACK",
    "note": "X324 C 區閒聊階梯：AA_781_<人>_ladder_<學期>.json 共 39 份（大一上 bc4f3f367、大一下 15241f32e、大二上 4c710f37a、大二下 d898cded5、大三上 1e48c1f20、大三下 8e027fc7f、大四 cb4ade4f2）；進度表 AA_779 第 4 節"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/story-planning",
+   "sha": "c2493201c",
+   "files": [
+    "docs/story_planning/AA_709_msg_replies.json",
+    "docs/story_planning/AA_783_invite_replies.json",
+    "docs/story_planning/AA_784_invites.json",
+    "docs/story_planning/AA_785_msg_pools.json",
+    "docs/story_planning/AA_782_she_pays.json"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 子代理匯入，v9.10.25 發版後合併；BB／CC 實機抽測",
+   "next": "LAWWW 回報對不到的格",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "note": "X324 D 區（邀約、手機訊息）＋她請客的格（AA_782）；AA_709 最後 c4772dc7e、AA_784 18ffdd1ea、AA_785 c2493201c"
   }
  ],
  "items": [
