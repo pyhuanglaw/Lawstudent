@@ -1,0 +1,12 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_act_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ACT_smoke_anmovie\out
+# ACT 2026-11-11 22:36:02 SHA=f8b6d1e82f43194080cb860d11148d9fd27de078 TAG=new PARTS=AN_MOVIE_A PICK3=0 PS_PICK=0
+  稿：AA_708 d30416e6b:docs/story_planning/AA_708_activity_scenes.json（讀不到）、AA_707 1b8e247ec:docs/story_planning/AA_707_study_scenes.json（讀不到）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  版本字樣：版本 v9.10.24
+== AN_MOVIE_A
+  每一天的片都有她的 with.mid 或片單不合：改成允許 with.mid（之後把那部片記成她看過【前置】）
+  試過 [["2025-10-18", "地點（略過的）", [["xs_nanyang", "show"]]], ["2025-10-25", "假日／颱風／考試週／沒有學期"], ["2025-11-01", "假日／颱風／考試週／沒有學期"], ["2025-11-08", "地點（略過的）", [["xs_nanyang", "show"]]], ["2025-11-15", "假日／颱風／考試週／沒有學期"], ["2025-11-22", "地點（略過的）", [["xs_nanyang", "show"]]], ["2025-11-29", "地點（略過的）", [["xs_nanyang", "show"]]], ["2025-10-04", "地點（略過的）", [["xs_nanyang", "show"]]], ["2025-10-19", "地點（略過的）", [["xs_nanyang", "show"]]], ["2025-10-26", "假日／颱風／考試週／沒有學期"], ["2025-11-02", "假日／颱風／考試週／沒有學期"], ["2025-11-09", "地點（略過的）", [["xs_nanyang", "show"]]]]
+FAIL [AN_MOVIE_A] 找得到能約的日子、地點、她會答應的時間
+  [AN_MOVIE_A] 用了 81 秒
+FAILED: [AN_MOVIE_A] 找得到能約的日子、地點、她會答應的時間
