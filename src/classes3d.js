@@ -255,7 +255,7 @@ const CLS=(function(){
   S.sylReviewed=(c,w)=>!!(typeof SYLLABUS!=='undefined'&&Array.isArray(SYLLABUS.reviewed)&&SYLLABUS.reviewed.includes(c.id+'|'+w));
   S.content=function(it){ attachSyllabus(); const c=it.c, t=S.topic(c,it.week)||c.name; const sy=c.syllabus&&S.sylReviewed(c,it.week)&&c.syllabus.find(q=>q.w===it.week);
     if(c.second&&c.second.length&&S.slotOrder(it).i>=1&&!S.earlierSlotsOff(it)){ const L=c.second; return {board:[c.name+'：'+t,'（這週的第二堂）',''],line:L[S.rot(it,L.length)],react:'',second:true}; }
-    if(sy) return {board:sy.board||[c.name+'：'+t,'',''],line:sy.line,react:pickReact(sy.react,it),tpl:sy.tpl,obs:sy.obs,call:sy.call,recall:sy.recall};
+    if(sy) return {board:sy.board||[c.name+'：'+t,'',''],line:sy.line,react:pickReact(sy.react,it),tpl:sy.tpl,obs:sy.obs,call:sy.call,recall:sy.recall,more:sy.more};
     if(c.pool&&c.pool.lines&&c.pool.lines.length){ const L=c.pool.lines; return {board:[c.name+'：'+t,'本週：'+t,''],line:L[S.rot(it,L.length)],react:pickReact(c.pool.react,it),prof:c.pool.prof_label}; }
     const f=(c.prof&&STYLE[c.prof])||GENERAL; const [line,react]=f(t); const ti=(TEACH.indexOf(it.week)); const nt=ti>=0&&ti<TEACH.length-1?S.topic(c,TEACH[ti+1]):'';
     return {board:[c.name+'：'+t,'本週：'+t,nt&&nt!==t?'下週：'+nt:'第 16 週期末考'],line,react}; };
@@ -357,6 +357,7 @@ const CLS=(function(){
         if(S.attCourse(c)){ const rk=it.term+':'+c.id; R.attRule=R.attRule&&typeof R.attRule==='object'?R.attRule:{}; if(!R.attRule[rk]){ R.attRule[rk]=G.day; for(const [w,t] of S.attRuleLines(G,c)) await GM.say(w?{name:w}:null,t); } if(!lateAbs&&S.rollWeeks(G,c,it.term).includes(it.week)){ R.rollSaid=R.rollSaid&&typeof R.rollSaid==='object'?R.rollSaid:{}; const rk2=it.term+':'+c.id+':'+it.week; if(!R.rollSaid[rk2]){ R.rollSaid[rk2]=1; await GM.say(null,'（老師今天點名。）'); } } }   /* ATTEND-ROLLCALL-1102（AA_574 方案 B）：點名日那堂坐在教室才知道；遲到超過 15 分鐘＝缺，不說 */   /* AA_418 第 1 節：這一學期第一次出席（遲到記缺席的那一堂不算）*/
         for(const [w,t] of (S.SPECIAL_PRE[c.id+'|'+it.week]||[])) await GM.say(w==='prof'?(prof||null):w,(w==='prof'&&!prof?(ct.prof||S.profName(c))+'：':'')+t);   /* 特別週：黑板第一行講完以後、原本那一句之前（AA-103-SP）*/
         if(peN) await GM.say(null,peN); else if(prof){ for(const [k,t] of S.profParts(''+ct.line)) await GM.say(k==='narr'?null:prof,t); } else await GM.say(null,(ct.prof||S.profName(c))+'：'+ct.line);   /* 體育課：每週一句旁白取代台詞池那一句（AA_644）*/   /* 教授在場（對話框有名字）：外面整句的「」拿掉（STYLE 的開場；TEXT-QUOTE-UNIFY-1108 第八批）；不在場＝「周老師：「…」」照舊 */
+        if(!peN) for(const m of (Array.isArray(ct.more)?ct.more:[])){ if(!m) continue; if(prof){ for(const [k,t] of S.profParts(''+m)) await GM.say(k==='narr'?null:prof,t); } else await GM.say(null,(ct.prof||S.profName(c))+'：'+m); }   /* more＝教授在 line 之後接著講的句子，照順序各一個對話框（AA 2026-11-11：課堂內容補寫 STUDY-EXAM-STORY-1102；沒有 more 的週照舊）*/
         if(c.id==='econ_principles_y0'&&!e03&&it.week===1&&!/邊際效用遞減/.test(ct.line+(ct.react||''))) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+S.ECON_W1_MU);   /* AA_200 7-2：魏老師第一堂順口講（可昕下午迎新用）；之後企劃的 syllabus 有這句就不重複 */
         for(const r of (ct.recall||[])) if(!r.after||r.after==='line'){ const t=S.recallText(G,r,it); if(t) await GM.say(null,t); }   /* 週層級的回想（v2 C15：憲法二第 12 週，聽過 B4 演講的玩家多一句旁白）；條件不到不說 */
         for(const f of S.IN_CLASS){ try{ await f(GM,it,prof,ct); }catch(e){ console.warn('CLS.IN_CLASS',e); } }

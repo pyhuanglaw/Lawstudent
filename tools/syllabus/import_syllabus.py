@@ -26,7 +26,7 @@ sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], 
 OVR = dict(a.split('=', 1) for a in sys.argv[2:] if '=' in a)   # 個別檔案改用別的 ref（例：Y0S1.json=9ebf6663）
 show = lambda p: GUARD.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{OVR.get(os.path.basename(p), REF)}:{p}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 out = {'source': (LABEL or REF.replace('origin/', '')) + ' ' + sha + ''.join(f'＋{k}@{v}' for k, v in OVR.items()), 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}, 'reviewed': [], 'y0': []}   # y0：經濟系那一年的課與台詞池（遊戲裡還沒有）
-KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_slot_lines', 'ask', 'recall')   # recall＝週層級的回想（例：大一下憲法二第 12 週回想 B4 演講；v2 C15，AA-B 2026-10-16：要匯入）   # ask＝課堂提問 {qid}（AA_130 第 3 節第 3 點；題目從 EXAM_BANK 讀）
+KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_slot_lines', 'ask', 'recall', 'more')   # recall＝週層級的回想（例：大一下憲法二第 12 週回想 B4 演講；v2 C15，AA-B 2026-10-16：要匯入）   # ask＝課堂提問 {qid}（AA_130 第 3 節第 3 點；題目從 EXAM_BANK 讀）
 owner = {}
 # 2026-10-14 課程調整（使用者 16:15，企劃分支 AA_130）：刪掉的 7 門課——就算舊的 JSON 還有，也不匯入
 DROPPED = ('law_society', 'law_society_2', 'juris', 'intl_public', 'legal_history', 'fair_trade', 'conflict_laws')
