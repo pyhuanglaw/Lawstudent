@@ -7,6 +7,7 @@
      BB_106 @3954f9b62（白名單 71b3e6c3，SK08～SK10、SK14、第 389 行兩版相同）；BB_110 @3a26e94af；AA_383 第 7 節 @bc8a1f5d4；AA_289 第 5-4 節 @3a26e94af（沛珊的四件改依附以安的公法讀書會／還筆記）。
    時間、條件、手機訊息在 src/bbpack3d.js（BBPACK）；這裡只放事件。日文班三個人（采蓁、立衡、宇恆）在 characters.js（jp_caizhen、jp_liheng、jp_yuheng）；台詞用稱呼說話（和日本路線的 ev_liheng_japan 一樣）。
    測試：node tests/bbpack_unit.js */
+/* 2026-11-11（使用者 X327 沛珊重寫）：讀書會旁白、女舍門口沛珊的兩句照 AA_763_peishan_misc3.json@62460ea75 換（2 列，只換字）。逐字對稿：tests/peishan_misc3_1111_unit.js */
 'use strict';
 const BBPACK_EVENTS=(function(){
   const B=()=>typeof BBPACK!=='undefined'?BBPACK:null;
@@ -348,7 +349,7 @@ const BBPACK_EVENTS=(function(){
       IF(FI('B13_LINE','edu'),say(PS,'我在讀一本教育學的書。……法律的等一下再讀。')),
       {rel:{[PS]:{fam:1}}},{goto:'end'},
       {label:'no'},{call:G=>{ G.flags.B13_QUIET=((G.flags.B13_QUIET_N|0)%2)+1; G.flags.B13_QUIET_N=(G.flags.B13_QUIET_N|0)+1; }},
-      IF(FI('B13_QUIET',1),nar('沛珊把耳機戴上，在筆記本的邊角畫了一個小小的荷包蛋。')),
+      IF(FI('B13_QUIET',1),nar('沛珊把耳機戴上，在筆記本的邊角畫了一隻很胖的貓。')),
       IF(FI('B13_QUIET',2),nar('沛珊抬頭看了你一眼，點點頭，又低頭寫字。')),
       {label:'end'} ],
     after:G=>{ if(G.flags.B13_LINE) G.flags.B13_LAST=G.flags.B13_LINE; delete G.flags.B13_LINE; delete G.flags.B13_QUIET; } });
@@ -382,7 +383,7 @@ const BBPACK_EVENTS=(function(){
       IF(D5N(1),say('便利貼','{name}的。第三題的圖我多印了一頁。')),
       IF(D5N(2),say('便利貼','第二題我也不會。明天一起問。')),
       IF(D5N(3),say('便利貼','今天的比較厚，對不起。')),
-      UN({flags:['D5_MET']},nar('（沛珊剛好下樓倒垃圾。）')),UN({flags:['D5_MET']},say(PS,'你來了！……不用謝，我順便印的。')),
+      UN({flags:['D5_MET']},nar('（沛珊剛好下樓倒垃圾。）')),UN({flags:['D5_MET']},say(PS,'你來了！不用謝，我順便印的。')),
       {set:{D5_MET:true}},{rel:{[PS]:{fam:1}}} ],
     after:G=>{ G.flags.D5_N=(G.flags.D5_N|0)+1; G.flags.D5_GO=null; delete G.flags.D5_NOTE; } });
   /* D6 沛珊和柏翰（AA_289 5-4）：大一下第 10 週起（期中公開以後）的週四 18:30，公法讀書會前的晚餐——柏翰在女舍門口等她（第 11 週讀書會停一次，沒有晚餐集合）。

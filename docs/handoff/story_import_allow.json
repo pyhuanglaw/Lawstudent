@@ -5904,6 +5904,25 @@
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
    "note": "X327 沛珊閒聊階梯五套 linesIf：P2-L3（SAW_HER_TEACH）、P3-L3／L4／L6／L8（演過 ev_peishan_decision）各一套 lines（兩句）＋choices（{t, re, fx}），條件照舊——tools/ladder/import_ladder.py 的 PS753_LINESIF_FILE 疊在那一層的 linesIf 上（取代先前留著的舊兩句、舊選項）→ src/data/ladder.js。P2-L3.mainLineFix 只是說明：那一句在 AA_753_peishan_ladder_Y1S2_Y2S1.json@b59a8f9de 已經改好"
+  },
+  {
+   "path": "docs/story_planning/AA_763_peishan_misc3.json",
+   "sha": "62460ea75",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X327 沛珊重寫）；LAWWW 2026-11-11 指定匯這一版（企劃線到 8abb761bd 沒有再改）",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊零散檔案第三批 23 列 old→new（tools/story/ps763.py，只認這一版）：①src/data/ladder.js 階梯重寫沒包到的九句（大三上～大四下招呼 when 七句、bikeSeat 的 onFirst／offFirst；只換字、出現條件不動）——tools/ladder/import_ladder.py 疊；②src/data/msg2_pool.js 兩句——tools/msg/to_js2.py 疊；③手寫檔直接換：feed_y4s1.js、date3d.js（T7A_YES、HOME_NO）、bbpack_events.js 兩句、grades3d.js 四句、story3d.js、aa614_3d.js、rel_lines.js 各一句。逐字對稿 tests/peishan_misc3_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/BB_326_學姊約會樣板D01到D03_第二意見.md",
+   "sha": "8abb761bd",
+   "status": "approved",
+   "approvedBy": "BB（帳號 A）2026-11-11 定（第 4 節「沛珊招呼時段」：條件歸 BB，D100／§1）；LAWWW 2026-11-11 同意並指定照做",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "text",
+   "scope": "只用第 4 節（沛珊課輔班兩句招呼的出現條件）；第 1～3 節是學姊約會樣板的意見，不匯入",
+   "note": "沛珊招呼時段照現行作息（課輔班每週三 18:00～21:00，AA_614）：「…等一下！我在上班！」（大一下、大二上）＝溫州街、週三 18:00～21:00；「我剛從課輔班回來。…」（大二上）＝週三 21:00～22:30、不限地點；舊的週二四／週二三四兩組拿掉——tools/ladder/import_ladder.py 的 PS326 改 when 的 weekday／time（字不動）→ src/data/ladder.js；src/aa614_3d.js 載入時搬到 20:50～21:10 的那一段拿掉"
   }
  ]
 }

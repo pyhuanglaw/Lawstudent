@@ -23,7 +23,11 @@ RENAMED = {('classmate_peishan', '今天課好多，我到現在都還沒吃東�
            ('classmate_peishan', '今天上班級經營。點名要記得每個人的臉。'): '今天上班級經營，老師說點名要記得每個人的臉，我先拿你練習。',
            ('classmate_peishan', '我剛下課。下午還要去國小。'): '我剛下課，下午還要去國小，可以講十分鐘。',
            ('classmate_peishan', '今天上教育概論。老師叫我們寫一份小教案。'): '今天上教育概論，老師叫我們寫一份小教案，我還沒想到要寫什麼。',
-           ('classmate_peishan', '今天上教育心理學，老師點我回答了兩次。'): '今天上教育心理學，老師點我回答了兩次，我第二次是亂講的。'}
+           ('classmate_peishan', '今天上教育心理學，老師點我回答了兩次。'): '今天上教育心理學，老師點我回答了兩次，我第二次是亂講的。',
+           # 2026-11-11（X327，AA_763_peishan_misc3.json@62460ea75：階梯重寫沒包到的招呼 when）：大三下 06～08 點那一句、大四上 06～08 點那一句換了字。
+           # 大四上的舊句「早。我八點的課，七點就到了。」大四下還有一則同字的（AA_763 沒列，照舊）——舊句、新句兩句都在 ladder.js 的時候兩句都列（下面的 both）
+           ('classmate_peishan', '早。……老師要比學生早到，我在練習。'): '早。老師要比學生早到，我在練習，目前成功率一半。',
+           ('classmate_peishan', '早。我八點的課，七點就到了。'): '早。我八點的課，今天居然趕上了。'}
 
 
 def git(*a):
@@ -65,11 +69,13 @@ def main():
     for tag in TAGS:
         for e in src.get(tag, []):
             who, t = e['who'], e['t']
+            both = t in have.get(who, set()) and RENAMED.get((who, t)) in have.get(who, set())   # 舊句（別的學期還在用）和換了字的新句都在：兩句都只在上課日說
             if t not in have.get(who, set()) and RENAMED.get((who, t)) in have.get(who, set()):
                 t = RENAMED[(who, t)]
             if t not in have.get(who, set()):
                 bad.append(f'{tag} {who}：「{t}」在 ladder.js 對不到')
             out[tag].setdefault(who, []).append(t)
+            if both: out[tag][who].append(RENAMED[(who, t)])
     add = {}
     for e in src.get('add', []):
         if e.get('kind') not in KINDS:

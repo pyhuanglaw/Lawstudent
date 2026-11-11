@@ -12,6 +12,11 @@ for _p in d['people'].values():
     for _e in _p['replies']:
         _sub = {k: _e[k] for k in ('msgs', 'ask') if k in _e}
         if _sub: _e.update(json.loads(_G.read_fix(json.dumps(_sub, ensure_ascii=False))))
+# 2026-11-11（X327 沛珊重寫）：AA_763_peishan_misc3.json 的 msg2_pool.js 兩列（生日快樂、新年快樂那兩句）old→new 疊在 classmate_peishan 的 msgs 上（tools/story/ps763.py；白名單沒有那份稿＝不換）。
+# src、cellText 這些對稿用的欄位照舊寫 AA_257；換過的那兩則多一格 ps763＝新稿的來源（tests/msg_chat_unit.js H 項：這兩則改比新稿）
+import ps763 as _ps763
+_R763 = os.path.normpath(os.path.join(HERE, '..', '..'))
+if _ps763.load(_R763): _ps763.apply_msgs(d['people']['classmate_peishan'], _R763)
 src = d['source']
 L = ['/* 玩家主動傳訊息的第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂）回覆池：AA 六位＝AA_202 第 7 節，BB 九位＝AA_257（AA 定稿）＋BB_178 第 10 節的條件（企劃線 ' + '、'.join(k + '@' + v for k, v in src.items()) + '）。',
      '   產生器 tools/msg/build_msg2.py → tools/msg/to_js2.py（每一句照抄原文；tests/msg_chat_unit.js 第 H 項逐字比對 git 上的原文）。不要手改句子。',
