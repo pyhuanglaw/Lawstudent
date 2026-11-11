@@ -1,13 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:13:25] ==== END   SC3_new  exit=0  160s   ====
-[08:13:35] memory 47% before starting TZ5_int_new (2 running)
-[08:13:35] ==== START TZ5_int_new  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
-[08:13:38] [res] cpu=2% mem=47% (14.9/31.4 GB) chrome_testing=10  START TZ5_int_new
-[08:14:02] 正在跑：SC3_v2（已跑 2 分／上限 8 分）、SC3_v1（已跑 1 分／上限 8 分）、TZ5_int_new（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
-[08:14:10] [res] cpu=1% mem=45% (14.1/31.4 GB) chrome_testing=9  END SC3_v2
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       3f8a9ee64..79ee5e429  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [08:14:16] ==== END   SC3_v2  exit=0  155s   ====
 [08:14:19] memory 46% before starting TZ5_int_old (2 running)
 [08:14:19] ==== START TZ5_int_old  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
@@ -1998,3 +1989,12 @@
 [15:15:03] ==== START CLASS12_skip5b_np350_r4  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
 [15:15:06] [res] cpu=7% mem=49% (15.7/31.4 GB) chrome_testing=9  START CLASS12_skip5b_np350_r4
 [15:17:22] [res] cpu=19% mem=50% (15.9/31.4 GB) chrome_testing=10  END L118A_SPECIAL_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       aec4e5dd6..042771b30  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:17:29] ==== END   L118A_SPECIAL_r2  exit=0  195s   ====
+[15:17:38] memory 51% before starting CLASS12_skip5b_np450_r4 (2 running)
+[15:17:38] ==== START CLASS12_skip5b_np450_r4  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
+[15:17:41] [res] cpu=7% mem=51% (16.0/31.4 GB) chrome_testing=10  START CLASS12_skip5b_np450_r4
+[15:19:04] 正在跑：CLASS12_crim_c（已跑 6 分／上限 14 分）、CLASS12_skip5b_np350_r4（已跑 4 分／上限 12 分）、CLASS12_skip5b_np450_r4（已跑 1 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:19:39] [res] cpu=9% mem=42% (13.3/31.4 GB) chrome_testing=5  END CLASS12_skip5b_np350_r4
