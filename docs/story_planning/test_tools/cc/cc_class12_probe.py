@@ -538,7 +538,7 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
             free = None; inmenu = bool(att) and not done
             await pg.wait_for_timeout(0 if (NORMALPICK and inmenu) else 600); hs = await heads(pg)
             if not hs: continue
-            if att and not done:
+            if att and not done and not NORMALPICK:   # NORMALPICK：先點、不先截圖量位置（截圖在 SwiftShader 要好幾秒，會把「停 0.4 秒」拖成十幾秒）
                 g = await pg.evaluate(SKIPGEO); sb3 = await pg.evaluate(SKIPBTN)
                 ovc = {c['t']: inter(g['skip'], c['r']) for c in g['choices']} if (g['skip'] and sb3.get('vis')) else {}
                 fn = await shot(pg, '%s_menu_skipgeo' % tag)
@@ -561,7 +561,9 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
             elif bank and (hs[0].startswith('（') or hs == ['對', '錯']):
                 ans = str(bank['answer']); k = next((i for i, h in enumerate(hs) if h.startswith('（' + ans + '）') or h == ans), 0); why = 'ask（答對）'
             else: k = 0; why = '其他（第一項）'
-            if att and not done: info['stopAt'].append({'why': why, 'opts': hs}); await shot(pg, '%s_skip_stop%d' % (tag, len(info['stopAt'])))
+            if att and not done:
+                info['stopAt'].append({'why': why, 'opts': hs})
+                if not (NORMALPICK and not info.get('np')): await shot(pg, '%s_skip_stop%d' % (tag, len(info['stopAt'])))
             info['menus'].append([why, hs[k]]); R.note('%s：停在選單［%s］%s → %s' % (tag, why, J(hs), hs[k]))
             if NORMALPICK and inmenu and not info.get('np'):   # BB 06:08 第 2 點：按略過 → 選單出現 → 停 NORMALPICK ms → 照字點；記選不選得到、第幾下成立
                 info['np'] = True; nlg = await GC.logn(pg)
@@ -599,7 +601,8 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
                 R.note('%s：選完以後下一句停住、不自己翻＝%s（「%s」）；「略過 »」又出現＝%s' % (tag, same, b2['dtext'], sb2.get('vis')))
                 if sb2.get('vis'): await L.touch_tap(cdp, sb2['c'][0], sb2['c'][1]); info['presses'] += 1
             continue
-        if s['dlg'] and done and not out_done and SKIPRECT:   # BB 06:08 第 5 點：下課以後（不在略過範圍，一般選單 350 ms）在略過鍵的位置連點 150 ms ×BURSTN
+        capd = any(e['k'] == 'cap' and '下課' in (e.get('text') or '') for e in lg)
+        if (s['dlg'] or capd) and (done or capd) and not out_done and SKIPRECT:   # 「下課了」那一句一出來就開始（done 是下課選單出來才記，等它就來不及）   # BB 06:08 第 5 點：下課以後（不在略過範圍，一般選單 350 ms）在略過鍵的位置連點 150 ms ×BURSTN
             out_done = True; lab = '直向' if (pg.viewport_size or {}).get('width', 844) < 600 else '橫向'; sk = (SKIPRECT.get(lab) or {}).get('skip')
             if sk:
                 c = [sk[0] + sk[2] / 2, sk[1] + sk[3] / 2]; BN = int(os.environ.get('BURSTN') or '20'); BMS = int(os.environ.get('BURSTMS') or '150')
