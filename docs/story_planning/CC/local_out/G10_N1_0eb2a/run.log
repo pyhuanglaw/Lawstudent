@@ -1,0 +1,69 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_ss3d_g10_ps2_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\G10_N1_0eb2a\out
+CC 上師 3D／G10 巷口／沛珊第二批：PARTS G10；SHA 0eb2a0049；Windows＋GPU（PC）／SwiftShader（雲端）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS [G10] 遊戲載入（新的瀏覽器）
+  [  28.4s] 用的日子（大一上第 6 週、不是颱風假）：{"day": 20, "id": "Y1S1", "week": 6, "date": "2025-10-06"}
+  [前置／捷徑] 【前置／捷徑】①a G10 正面：讀檔到 gongguan 第 20 天 12:00 (37.10,16.50)（條件事件關著）
+  [  49.8s] [G10 1200] 棟號 x：{"G08": 19.6, "G09": 28.1, "G10": 37.1, "G11": 46.6}；正式店面模型 gongguan_shops_glb＝True
+  [  49.8s] [照片] G10 正面 12:00 → g10_front_1200.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [  49.9s] [照片] G10 正面近（騎樓前）12:00 → g10_front_near_1200.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [  49.9s] [照片] G10 巷口往裡看（相機在騎樓裡）12:00 → g10_mouth_in_snap_1200.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [  50.1s] [遊戲截圖] g10_front_game_1200.jpg
+  [  50.2s] [照片] G09 正面 12:00（應該還是鐵捲門） → g09_front_1200.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [  50.3s] [照片] G09＋G10＋G11 一起 12:00 → g0910_wide_1200.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [前置／捷徑] 【前置／捷徑】①a G10 正面：讀檔到 gongguan 第 20 天 20:00 (37.10,16.50)（條件事件關著）
+  [  60.4s] [G10 2000] 棟號 x：{"G08": 19.6, "G09": 28.1, "G10": 37.1, "G11": 46.6}；正式店面模型 gongguan_shops_glb＝True
+  [  60.4s] [照片] G10 正面 20:00 → g10_front_2000.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [  60.5s] [照片] G10 正面近（騎樓前）20:00 → g10_front_near_2000.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [  60.5s] [照片] G10 巷口往裡看（相機在騎樓裡）20:00 → g10_mouth_in_snap_2000.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [  60.7s] [遊戲截圖] g10_front_game_2000.jpg
+  [前置／捷徑] 【前置／捷徑】①b 公館 G10 前人行道 12:00：讀檔到 gongguan 第 20 天 12:00 (37.10,16.50)（條件事件關著）
+  [  69.6s] [G10] 「往汀州路」互動點：{"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "gate": true, "lm": false}
+  [  69.6s] [G10 通道] x 37.1、z 18～37 每 0.5 m 站不站得住：[[18, true], [18.5, true], [19, true], [19.5, true], [20, true], [20.5, true], [21, true], [21.5, false], [22, false], [22.5, false], [23, false], [23.5, false], [24, false], [24.5, false], [25, false], [25.5, false], [26, false], [26.5, false], [27, false], [27.5, false], [28, false], [28.5, false], [29, false], [29.5, false], [30, false], [30.5, false], [31, false], [31.5, false], [32, false], [32.5, false], [33, false], [33.5, false], [34, false], [34.5, false], [35, false], [35.5, false], [36, false], [36.5, false], [37, false]]
+  [  72.5s] 到達「[G10] 走到巷口」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  74.1s] [遊戲截圖] g10_mouth_in_game.jpg
+  [  74.1s] [G10] 巷口 (37.10,20.16) 按鈕「往汀州路（巷子）」
+PASS [G10 ①c] 巷口看得到「往汀州路（巷子）」按鈕  往汀州路（巷子）
+  [  95.6s] [G10 ①b] 搖桿直直往通道裡推（目標 z 36）：停在 (37.09,21.18)（20 秒沒有前進 0.3 m（卡住）；推 25 下）
+  [  95.6s] [G10 ①b] 從停下的位置 E.pathTo 到 (37.1,34)：找不到路
+  [前置／捷徑] 【捷徑】G10 L.turn_camera_to 把遊戲鏡頭轉向 (37.1,45.0) 拍 g10_deep_look_in_捷徑轉鏡頭.jpg（鏡頭位置是捷徑擺的，不是玩家正常會看到的鏡頭）
+  [  96.5s] [遊戲截圖] g10_deep_look_in_捷徑轉鏡頭.jpg
+  [前置／捷徑] 【捷徑】G10 L.turn_camera_to 把遊戲鏡頭轉向 (37.1,8.0) 拍 g10_deep_look_back_捷徑轉鏡頭.jpg（鏡頭位置是捷徑擺的，不是玩家正常會看到的鏡頭）
+  [ 102.1s] [遊戲截圖] g10_deep_look_back_捷徑轉鏡頭.jpg
+  [ 102.1s] [照片] G10 【捷徑】相機放在玩家停下的地方往裡看 → g10_snap_stop_in.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [ 102.2s] [照片] G10 【捷徑】相機放在通道中間 z 27 往裡看 → g10_snap_mid_in.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [ 102.2s] [照片] G10 【捷徑】相機放在通道最裡面 z 34 往裡看（另一頭） → g10_snap_end_in.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [ 102.3s] [照片] G10 【捷徑】相機放在通道最裡面 z 34 往回看（公館） → g10_snap_end_back.jpg（上師 visible：主迴圈留下的 None、照相時 None）
+  [ 102.3s] 到達「[G10 ①c] 走到「往汀州路（巷子）」」附近（0.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [ 103.1s] [G10 ①c] 走到 (37.09,21.18)：按鈕「往汀州路（巷子）」
+  [ 110.8s] [G10 ①c] 按「往汀州路（巷子）」→ 5.99 秒進汀州路；出生 {"zone": "tingzhou", "h": 12.282, "x": 27, "z": 0, "ry": -1.571, "lv": 0, "stand": true, "ent": false, "busy": false, "fb": 0}；1.5 秒後 {"zone": "tingzhou", "h": 12.292, "x": 27, "z": 0, "ry": -1.571, "lv": 0, "stand": true, "ent": false, "busy": false, "fb": 0}
+PASS [G10 ①c] 按了真的到汀州路、站得住  {"zone": "tingzhou", "h": 12.292, "x": 27, "z": 0, "ry": -1.571, "lv": 0, "stand": true, "ent": false, "busy": false, "fb": 0}
+  [ 111.0s] [遊戲截圖] g10_tz_arrive.jpg
+  [ 111.0s] [G10 ①c] 汀州路「往公館」：{"label": "往公館（羅斯福路）", "x": 28.6, "z": 0, "r": 2, "to": "gongguan", "gate": false, "lm": false}
+PASS [G10 ①c] 汀州路有「往公館」
+  [ 122.3s] 到達「[G10 ①c 回] 走到「往公館（羅斯福路）」」附近（0.43 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [ 123.0s] [G10 ①c 回] 走到 (28.17,-0.00)：按鈕「往公館（羅斯福路）」
+  [ 129.5s] [G10 ①c] 回公館：4.87 秒；落在 {"zone": "gongguan", "h": 12.386, "x": 37.1, "z": 18, "ry": 3.142, "lv": 0, "stand": true, "ent": false, "busy": false, "fb": 0}；1.5 秒後 {"zone": "gongguan", "h": 12.395, "x": 37.1, "z": 18, "ry": 3.142, "lv": 0, "stand": true, "ent": false, "busy": false, "fb": 0}（配置 toGongguan.spawn (37.1,18) yaw π）
+PASS [G10 ①c] 回到公館、站得住、在 G10 巷口前人行道（離 (37.1,18) ≤ 1.5 m）  {"zone": "gongguan", "h": 12.395, "x": 37.1, "z": 18, "ry": 3.142, "lv": 0, "stand": true, "ent": false, "busy": false, "fb": 0}
+  [ 129.7s] [遊戲截圖] g10_back_gongguan.jpg
+  [前置／捷徑] 【前置／捷徑】①d 公館 G10 前人行道 12:00：讀檔到 gongguan 第 20 天 12:00 (37.10,17.50)（條件事件關著）
+  [ 138.9s] [G10 ①d] 原本中間柱子的位置 (37.10,19.3)：導航格 free True、站得住 True；西邊分界柱 (32.60,19.3) 站得住 False
+PASS [G10 ①d] 原本中間柱子的位置站得住（柱子拿掉了）  {"free": true, "stand": true, "standW": false}
+  [ 142.6s] 到達「[G10 ①d] 走到柱子那一排西端」附近（0.05 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [ 145.9s] [G10 ①d 沿柱子那一排 z 19.3 往東] 到了：3.3 秒、推 5 下、跳 []、停在 (40.39,19.32)
+  [ 149.3s] [G10 ①d 往西] 到了：3.4 秒、推 5 下、跳 []、停在 (33.48,19.32)
+  [ 152.9s] [G10 ①d 第二趟往東] 到了：3.6 秒、推 5 下、跳 []、停在 (40.52,19.32)
+  [ 156.4s] [G10 ①d 往西] 到了：3.5 秒、推 5 下、跳 []、停在 (33.55,19.32)
+  [ 161.7s] 到達「[G10 ①d] 走到 G10 中心的人行道」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [ 162.6s] [G10 ①d x＝G10 中心穿過騎樓往裡（經過原本柱子的位置）] 到了：0.8 秒、推 1 下、跳 []、停在 (37.13,21.18)
+  [ 163.5s] [G10 ①d 往外] 到了：0.9 秒、推 1 下、跳 []、停在 (37.09,16.84)
+  [ 164.3s] [G10 ①d 第二趟往裡] 到了：0.9 秒、推 1 下、跳 []、停在 (37.10,21.18)
+  [ 165.2s] [G10 ①d 往外] 到了：0.9 秒、推 1 下、跳 []、停在 (37.10,16.84)
+  [ 165.4s] [遊戲截圖] g10_pillar_walk_end.jpg
+PASS [G10 ①d] 搖桿來回兩趟（沿柱子那一排、穿過騎樓）每一段都走得到、沒有被傳送（8 段）  []
+PASS [G10 ①d] walkFallbacks 沒有增加（0 → 0）
+  [ 165.4s] [G10] console error／warning 47 則：[["warning", "星期和日期對不上，照行事曆改： 4 → 3"], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."]]
+  [ 165.4s] [G10] 和上師（LM／limao／shangshi）有關的 console：沒有
+PASS [G10] 沒有 JS 例外（pageerror）  []
+  [ 165.4s] [G10] 花了 165 秒
+ALL PASS
