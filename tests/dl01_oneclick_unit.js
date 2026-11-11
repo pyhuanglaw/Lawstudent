@@ -47,6 +47,10 @@ const THU=dayOf('2025-09-25');
     check('2. 翹課不改任何旗標（G.flags 前後一樣）',JSON.stringify(gm.G.flags)===f0);
     const html=CLS.todayHTML(gm.G); check('2. 手機「今天」：大一英文寫「翹課」、按鈕「反悔：直接去上課」',/大一英文[\s\S]*?翹課[\s\S]*?反悔：直接去上課/.test(html));
     gm.G.hour=10; const w=CLS.goList(gm.G).filter(q=>!CLS.planSkip(gm.G,q)); check('2. 翹掉以後，下一次起床選單從民法總則開始',w[0]&&w[0].c.id==='civ_general'); }
+  /* 2026-11-11（BUG-GOCLASS-SKIPPED-1111，使用者 day57）：翹掉第一堂、小睡到 10:30 以後的第二次起床選單——要明講哪一堂已經翹了、第一項是下一堂而且時間會跳 */
+  { const gm=mkGM('dorm',THU,7.5,[1,1,1,2]); await CLS.wakeMenu(gm); const n0=gm.menus.length, s0=gm.said.length; gm.G.hour=10.5; await CLS.wakeMenu(gm); const m=gm.menus[n0]||[]; gm.said.splice(0,s0);
+    check('2. 第二次起床選單：先說「已經翹掉：09:10 大一英文…（手機的「今天」可以反悔）」',gm.said.some(t=>/^已經翹掉：09:10 大一英文.*手機的「今天」可以反悔/.test(t)),gm.said.join(' / '));
+    check('2. 第二次起床選單第一項寫的是下一堂（民法總則 13:20）而且寫明「時間會直接跳到 … 出門」',/^直接去上課：民法總則/.test(m[0]||'')&&/13:20/.test(m[0]||'')&&/時間會直接跳到 \d\d:\d\d 出門/.test(m[0]||''),JSON.stringify(m)); }
   { const gm=mkGM('dorm',THU,7.5,[1,1,0]); await CLS.wakeMenu(gm); check('2. 選「再睡一下」：睡到 10:30、排了下一次起床選單',Math.abs(gm.G.hour-10.5)<0.01&&!!CLS.pending().wake,JSON.stringify({h:gm.G.hour,p:CLS.pending()})); CLS.clearPending(); }
   { const gm=mkGM('dorm',THU,7.5,[1,0]); await CLS.wakeMenu(gm); const it=CLS.dayItems(gm.G).find(q=>q.c.id==='english_y1');
     check('2. 翹課確認：「還是去」在第一個（連點落在第一個位置＝去上課）',JSON.stringify((gm.menus[1]||[]).map(t=>t.replace(/〔.*$/,'')))===JSON.stringify(['還是去','翹']),JSON.stringify(gm.menus[1]));

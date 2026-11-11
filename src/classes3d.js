@@ -1196,8 +1196,10 @@ const CLS=(function(){
   S.wakeMenu=async function(GM){ const G=GM.G; if(S.wakeMenuOn(GM)&&typeof STORY!=='undefined'&&STORY.retakeOn&&STORY.retakeOn(G)&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))) return !!(await STORY.retakeWake(GM));   /* 經濟系重考期的起床選單（AA_154 A39）*/ if(!S.wakeMenuOn(GM)||S.canGo(GM)) return false; const list=S.goList(G).filter(it=>!S.planSkip(G,it)); if(!list.length) return false; const it=list[0], exam=!!it.exam;   /* 期中、期末都一樣不給翹（AA_294 ①；原本只有期末）*/
     const pl=S.goPlan(GM,it); let k=-1; GM.sceneBegin(); try{
       await GM.say(null,'早安。今天的課：'+list.slice(0,3).map(q=>hhmm(q.t0)+'　'+q.c.name+'　'+(q.room.name||'')).join('　／　')); const more=S.todayMore(G); if(more.length) await GM.say(null,'今天還有：'+more.join('、'));
+      /* 2026-11-11（BUG-GOCLASS-SKIPPED-1111，使用者 day57；BB）：前面已經翹掉的課要明講——小睡醒來的第二次起床選單，第一項已經是下一堂（原本什麼都沒說，使用者以為按的是早上那一堂）。系統提示，不是台詞 */
+      { const sk=S.dayItems(G).filter(q=>S.planSkip(G,q)&&!S.rec(G).done[q.key]); if(sk.length) await GM.say(null,'已經翹掉：'+sk.map(q=>hhmm(q.t0)+' '+q.c.name).join('、')+'。（手機的「今天」可以反悔）'); }
       const opts=exam?[{t:'直接去考場：'+it.c.name,hint:S.planHint(GM,it,pl)},{t:'先起床',hint:'考試前 10 分鐘會自動帶你進考場'}]
-                     :[{t:'直接去上課：'+(it.exam==='mid'?'期中練習：':'')+it.c.name,hint:hhmm(it.t0)+'，'+(it.room.name||'')+'。'+S.planHint(GM,it,pl)},{t:'翹這堂課',hint:'記沒去，不扣分。這堂課裡的事你會錯過。'},{t:'先起床再說',hint:'手機的「今天」隨時可以直接去'}];
+                     :[{t:'直接去上課：'+(it.exam==='mid'?'期中練習：':'')+it.c.name,hint:hhmm(it.t0)+'，'+(it.room.name||'')+'。'+S.planHint(GM,it,pl)+(pl&&pl.depart-hr(G)>0.5?'。時間會直接跳到 '+hhmm(pl.depart)+' 出門':'')},   /* 離出門還有半小時以上：寫明時間會跳（第二次起床選單按下去直接從 10:30 跳到 13:00，使用者 day57）*/{t:'翹這堂課',hint:'記沒去，不扣分。這堂課裡的事你會錯過。'},{t:'先起床再說',hint:'手機的「今天」隨時可以直接去'}];
       k=await GM.choose(opts); } finally { GM.sceneEnd(); }
     if(k===0) await S.goClass(GM,it); else if(!exam&&k===1&&await S.skipClass(GM,it)){ const nx=S.goList(G).find(q=>!S.planSkip(G,q)), to=Math.min(10.5,nx?nx.t0-1/3:10.5);
       if(to>hr(G)+0.25){ let j=1; GM.sceneBegin(); try{ j=await GM.choose([{t:'再睡一下（睡到 '+hhmm(to)+'）'},{t:'起床'}]); } finally { GM.sceneEnd(); } if(j===0) await S.skipTo(GM,to,{nap:true}); } }   /* 小睡醒來 skipTo 會再排一次起床選單 */
