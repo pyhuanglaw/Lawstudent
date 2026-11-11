@@ -1,0 +1,22 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fn_func_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FN_func_a_new_r3\out
+CC FN_func（FLOWER-NOTES-1110）：PARTS OLDSPOT；SHA dbbe05fa5；SEED 61585；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】[OLDSPOT] 舊花攤北邊人行道：day46 存檔 → gongguan (-47.0, 8.6) 第 46 天 14.00、錢 5000、包包清空、關條件事件
+PASS [OLDSPOT] 舊花攤範圍 x -48.45～-45.55 z 10.700～12.750 每 0.5 m 站得住（E.canStand r0.3；30 點，站不住 0 點）  []
+  [  47.4s] [OLDSPOT] 舊花攤範圍裡看得到的物件 1 個：[{"name": "gongguan_mrt_glb_glows", "mat": "wz_glow_batch", "parent": "", "min": [-46.4, -3.6, 8.8], "max": [-33.2, 5.2, 13.3]}]
+PASS [OLDSPOT] 沒有攤子模型（場景物件 gg_flower_stall*、材質 ggf_* 都沒有）  {"stallObj": false, "ggf": 0}
+  [  50.5s] [OLDSPOT] 4 m 內的人：前 []；3 秒後 []
+PASS [OLDSPOT] 4 m 內沒有站著不動的人（老闆）  []
+PASS [黑畫面] fn_oldspot_south 不是黑畫面（平均亮度 139.7、變化 53.9）  [139.7, 53.9]
+  [  52.6s] [截圖] fn_oldspot_south：鏡頭 {"eye": [-47, 2.2, 18.2], "look": [-47, 0.9, 11.725], "lens": 24, "vfov": 45.75}、亮度 [139.7, 53.9]
+PASS [黑畫面] fn_oldspot_north 不是黑畫面（平均亮度 113.2、變化 64.2）  [113.2, 64.2]
+  [  55.5s] [截圖] fn_oldspot_north：鏡頭 {"eye": [-45.5, 2.2, 5.2], "look": [-47, 0.9, 11.725], "lens": 24, "vfov": 45.75}、亮度 [113.2, 64.2]
+  [  58.7s] [OLDSPOT] 北→南：{"ok": true, "t": 2.3, "pushes": 3, "jumps": [], "end": {"zone": "gongguan", "x": -47, "z": 14.676, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.1}, "crossed": true}
+PASS [OLDSPOT] 搖桿直線北→南 (−47, 8.6)→(−47, 14.8) 走得過去（2.3 秒、推 3 次）  {"why": null, "end": [-47, 14.676], "jumps": []}
+  [前置／捷徑] 【前置／捷徑】[OLDSPOT] 舊花攤西邊：day46 存檔 → gongguan (-50.2, 11.7) 第 46 天 14.00、錢 5000、包包清空、關條件事件
+  [  71.3s] [OLDSPOT] 西→東：{"ok": true, "t": 1.5, "pushes": 2, "jumps": [], "end": {"zone": "gongguan", "x": -44.874, "z": 11.7, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.05}, "crossed": true}
+PASS [OLDSPOT] 搖桿直線西→東 (−50.2, 11.7)→(−44.6, 11.7) 走得過去（1.5 秒、推 2 次）  {"why": null, "end": [-44.874, 11.7], "jumps": []}
+PASS [OLDSPOT] walkFallbacks 沒有增加
+PASS 沒有 JS 例外  []
+ALL PASS
