@@ -1,0 +1,188 @@
+{
+ "_meta": {
+  "by": "AA（帳號 A）",
+  "date": "2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "who": "heroine_03",
+  "event": "wish_heroine_03「這次只有兩個人」（D13）",
+  "why": "這個事件已經是現行設定（AA_626），內容不動。只做三件：①刪節號 33 處留 4 處（她開口約你「……週六，你有空嗎。」、飲料攤「我點……跟你一樣的。」、收尾「……不用趕回去。」「……原來是這樣。」）；②「嗯。」開頭 9 處拿掉；③長椅那句的「我們」沒有對象、河那句的「公館」改掉。",
+  "for_LAWWW": "path 是 date_wish.js 的 events.heroine_03 底下的位置（來源 date_system/wish/wish_aa.json 加後面幾層）。「……嗯。」「嗯。」「……好。」「……淡水？」「……下次。」在整個檔出現很多次（別的人物也有），一定要照 path 換，不要整檔取代。closing.lines[5]「……不用趕回去。」是 timeline replace 的 key，沒有動。"
+ },
+ "rows": [
+  {
+   "path": "mention.lines[1]",
+   "old": "……我家在淡水。",
+   "new": "我家在淡水。"
+  },
+  {
+   "path": "mention.lines[4]",
+   "old": "同學都住別的地方。……沒有人會特地跑去淡水看夕陽。",
+   "new": "同學都住別的地方，沒有人會特地跑去淡水看夕陽。"
+  },
+  {
+   "path": "mention.choices[0].reply[0]",
+   "old": "……嗯。",
+   "new": "好。看到最後。"
+  },
+  {
+   "path": "mention.choices[1].reply[0]",
+   "old": "……還好。每天都一樣。",
+   "new": "還好。每天幾點做什麼都排好了，不用想。"
+  },
+  {
+   "path": "herInvite.accept[0]",
+   "old": "嗯。{出發時間}。",
+   "new": "那就{出發時間}。"
+  },
+  {
+   "path": "herInvite.decline[0]",
+   "old": "嗯。",
+   "new": "好。"
+  },
+  {
+   "path": "herInvite.decline[1]",
+   "old": "……那我再找時間。",
+   "new": "那我再找時間。"
+  },
+  {
+   "path": "playerInvite.known[0]",
+   "old": "……淡水？",
+   "new": "淡水？"
+  },
+  {
+   "path": "playerInvite.known[3]",
+   "old": "……好。",
+   "new": "好。",
+   "note": "前一句旁白「她停了很久。」已經是停頓"
+  },
+  {
+   "path": "playerInvite.unknown[0]",
+   "old": "……淡水？",
+   "new": "淡水？"
+  },
+  {
+   "path": "playerInvite.unknown[1]",
+   "old": "……好。",
+   "new": "好。我帶路。"
+  },
+  {
+   "path": "playerInvite.extraIf[0].lines[0]",
+   "old": "我跟蘇姨換班。……她說好。",
+   "new": "我跟蘇姨換班。她說好。"
+  },
+  {
+   "path": "arrive.lines[0]",
+   "old": "……跟小時候一樣。",
+   "new": "跟小時候一樣。"
+  },
+  {
+   "path": "arrive.lines[1]",
+   "old": "我媽的診所在那邊。……我們不要往那裡走。",
+   "new": "我媽的診所在那邊。我們不要往那裡走。"
+  },
+  {
+   "path": "arrive.extraIf[0].lines[0]",
+   "old": "……你一個人來過。",
+   "new": "你一個人來過。"
+  },
+  {
+   "path": "hotspots[\"D13.drink\"].lines[2]",
+   "old": "……太甜了。",
+   "new": "太甜了。"
+  },
+  {
+   "path": "hotspots[\"D13.rail\"].lines[1]",
+   "old": "這條河，跟公館那條，是同一條嗎。",
+   "new": "這條河，跟學校旁邊那條，是同一條嗎。",
+   "note": "公館不是她的說法（AA_630 D-009 同一個理由）"
+  },
+  {
+   "path": "hotspots[\"D13.rail\"].choices[0].reply[0]",
+   "old": "……所以它一直在走。從學校旁邊，走回我家。",
+   "new": "所以它一直在走。從學校旁邊，走回我家。"
+  },
+  {
+   "path": "hotspots[\"D13.rail\"].choices[0].extraIf[0].lines[0]",
+   "old": "……我以前很想走遠一點。現在反而想走回來看看。",
+   "new": "我以前很想走遠一點。現在反而想走回來看看。"
+  },
+  {
+   "path": "hotspots[\"D13.rail\"].choices[1].reply[0]",
+   "old": "嗯。我也不確定。……回去查。",
+   "new": "我也不確定。回去查。"
+  },
+  {
+   "path": "hotspots[\"D13.rail\"].choices[2].reply[1]",
+   "old": "……嗯。",
+   "new": "好了。可以走了。",
+   "note": "前一句旁白「很久以後。」"
+  },
+  {
+   "path": "hotspots[\"D13.photo\"].lines[0]",
+   "old": "……不要拍我。",
+   "new": "不要拍我。"
+  },
+  {
+   "path": "hotspots[\"D13.photo\"].choices[0].reply[1]",
+   "old": "……嗯。這張可以傳給秀琴姨。",
+   "new": "這張可以傳給秀琴姨。"
+  },
+  {
+   "path": "hotspots[\"D13.photo\"].choices[1].reply[0]",
+   "old": "……一張。",
+   "new": "一張。"
+  },
+  {
+   "path": "hotspots[\"D13.photo\"].choices[1].replyIf[0].reply[0]",
+   "old": "……下次。",
+   "new": "下次。"
+  },
+  {
+   "path": "hotspots[\"D13.bench\"].lines[0]",
+   "old": "這張椅子，好像就是那時候我們坐的。",
+   "new": "這張椅子，我國中放假回來坐過。",
+   "note": "原句的「我們」沒有對象：她的心願就是從來沒有人陪她在這裡坐"
+  },
+  {
+   "path": "hotspots[\"D13.bench\"].lines[1]",
+   "old": "……可能不是。椅子應該換過了。",
+   "new": "可能不是同一張。椅子應該換過了。"
+  },
+  {
+   "path": "closing.timeline[0].replace[\"……不用趕回去。\"][0]",
+   "old": "……今天我跟蘇姨換了班。",
+   "new": "今天我跟蘇姨換了班。",
+   "note": "被換掉的那一句「……不用趕回去。」（closing.lines[5]）不動，replace 的 key 也不動"
+  },
+  {
+   "path": "closing.choices[0].reply[0]",
+   "old": "……嗯。",
+   "new": "好。"
+  },
+  {
+   "path": "closing.choices[1].reply[0]",
+   "old": "嗯。從小學等到現在。",
+   "new": "從小學等到現在。"
+  },
+  {
+   "path": "closing.choices[2].reply[0]",
+   "old": "……嗯。這樣剛好。",
+   "new": "這樣剛好。"
+  },
+  {
+   "path": "closing.ending[0].lines[0]",
+   "old": "……我們拍一張。",
+   "new": "我們拍一張。"
+  },
+  {
+   "path": "closing.ending[1].lines[1]",
+   "old": "……原來有空是自己留的。",
+   "new": "原來有空是自己留的。"
+  },
+  {
+   "path": "closing.ending[2].lines[0]",
+   "old": "……下次，換我約你。",
+   "new": "下次，換我約你。"
+  }
+ ]
+}

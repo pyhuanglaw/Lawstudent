@@ -1,0 +1,109 @@
+{
+ "_meta": {
+  "by": "AA（帳號 A）",
+  "date": "2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "who": "heroine_03",
+  "why": "語彤約會不分地點的短句。date_lines.js 的 accept（兩句）、acceptDating、move[1]、move3 不用改。",
+  "for_LAWWW": "count_in_file＝old 在開發分支 2825f2e4d 那個檔裡出現幾次；大於 1 的（「嗯。」「嗯。好。」這種）請照 path 換她那一格，不要整檔取代。date_lines.js 是匯入工具產生的，請換在它的來源（BB_128／AA_127 那幾層）或加一層。"
+ },
+ "rows": [
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_03.move[0]",
+   "old": "嗯。好。",
+   "new": "好，改那天。",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_03.transport[0][0]",
+   "old": "好。坐你的車也可以。",
+   "new": "好，坐你的車。",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_03.transport[0][1]",
+   "old": "我只是習慣坐捷運，不是不想坐。",
+   "new": "我平常都坐捷運，在車上要做什麼，我不太知道。",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_03.cancel[0]",
+   "old": "嗯。沒關係。",
+   "new": "沒關係。下次再約。",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_03.flaked[0][0]",
+   "old": "嗯。",
+   "new": "那天我等了一下。",
+   "count_in_file": 262
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_03.flaked[0][1]",
+   "old": "我那天有跟蘇姨請假。",
+   "new": "班也請了。下次不能來，先跟我說。",
+   "note": "她重要的事會直接講（口氣表 1-3）",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.LINES heroine_03.depart[1]",
+   "old": "出門了。秀琴姨叫我帶傘。",
+   "new": "出門了。傘有帶，這次有。",
+   "note": "秀琴姨傍晚才來，出門前遇不到她（BB_328）；她常忘記帶傘是既有設定",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.LINES heroine_03.depart[2]",
+   "old": "車上。人很多。",
+   "new": "快到了。你先找有影子的地方等。",
+   "note": "原句寫死她搭車；開車去接她的約會也會抽到",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.LINES heroine_03.enough[0]",
+   "old": "……差不多了。晚上我要回去，秀琴姨煮了飯。",
+   "new": "差不多了。秀琴姨煮了飯，我想回去吃熱的。",
+   "note": "S.LINE_IF 的條件認「秀琴姨煮了飯」這幾個字，新句照留；拿掉「晚上」（不寫死時段）",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.LINES heroine_03.enough[1]",
+   "old": "走累了。回去吧。",
+   "new": "我走不動了。到這裡就好。",
+   "count_in_file": 2
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.LINES heroine_03.leaveEarly[0]",
+   "old": "……就這樣？好。那我回店裡。",
+   "new": "就這樣？好。那我回去了。",
+   "note": "約會那天她不一定有班，不寫「回店裡」",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.LINES heroine_03.noPair[0]",
+   "old": "我不用。……我幫你拍。",
+   "new": "我不用。我幫你拍，你站過去。",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.MORNING.heroine_03",
+   "old": "……這裡的蛋餅，沒有秀琴姨煎的好吃。",
+   "new": "早。旅館的早餐我看過了，有稀飯。我在樓下。",
+   "note": "秀琴姨是傍晚來煮晚餐的，沒有幫她煎早餐",
+   "count_in_file": 1
+  }
+ ]
+}
