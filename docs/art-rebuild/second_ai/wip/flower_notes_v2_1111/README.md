@@ -1,8 +1,8 @@
 # 花序 Flower Notes 美術第 2 版（LAWWW2 帳號 A，2026-11-11）
 
-狀態：**WORK_IN_PROGRESS：全部 Node 測試在跑，跑完沒有失敗才算交付**（結果補在這一行）。預覽是 Blender，不是遊戲截圖（D131）。D141：這是第 2 版，還剩一版。
+狀態：**READY_FOR_REVIEW**（2026-11-11 02:5x UTC）。全部 Node 測試 1253 支跑完、沒有失敗（`regression_full.log`；`bookstore_exit_unit` 最後一行是 Node 讀不到網址的警告，結束碼 0）。預覽是 Blender，不是遊戲截圖（D131）。D141：這是第 2 版，還剩一版。
 
-- patch：`flower_notes_v2.patch`（13 個檔，基底 dev `099dad440`，已含第三包；`git apply --3way`）。
+- patch：`flower_notes_v2.patch`（13 個檔，基底 dev `099dad440`，已含第三包；到 `f932823b9` 這些檔 dev 沒有動過，直接 `git apply --3way`）。
 - 依據：BB 11-11 01:50 第 1 版判定（企劃線 BB_255「花序 Flower Notes 美術第 1 版」）：外觀三點、室內三點。參考圖 `docs/handoff/user_specs/flower_notes_ref/`（exterior、interior_1f、interior_2f）。
 - 預覽：`blender_ext_v2.jpg`（左：從馬路正對；右：騎樓裡斜看）、`blender_int_v2.jpg`（左：一樓中央展示台近看；右：二樓教室）、`sign_v2.jpg`（招牌貼圖）。室內預覽裡黑色的板子和二樓地板是 Blender 讀不到模型裡的 WebP 貼圖，遊戲裡照舊（這幾塊沒改）。
 
