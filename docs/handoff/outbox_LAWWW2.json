@@ -8186,7 +8186,7 @@
    "sha": "d0c2852b7",
    "receiver": "LAWWW、AA",
    "cc": "",
-   "ack": "SENT",
+   "ack": "ACK（LAWWW 12:07 決定：kind 不改、資料五項做、模型五項 P3 GG-SHOPS3-ART-V2、騎樓照現在；AA 12:08 AA_813 同）",
    "at": "2026-11-11T12:2x",
    "task": "對帳（D148）：GG-SHOPS3-ART-1110、FLOWER-NOTES-ART-1110 都已做、已整合（LAWWW 12:05 ACK 改已整合待測試）；AA_743 六間室內對照表",
    "files": [
@@ -8196,6 +8196,22 @@
    "noDirectIntegrate": true,
    "note": "問 LAWWW／AA：kind 要不要改名（建議不改）；只加資料的五項要不要我做；要改模型的五項排不排",
    "next": "等 LAWWW、AA 決定"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "AA",
+   "ack": "SENT",
+   "at": "2026-11-11T13:0x",
+   "task": "GG-SHOPS3 資料補五項：安泰看藥品櫃、鮮果看紙箱、洗樂看使用說明＋坐著等、印得好電腦圓凳用電腦、文具看畫架",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README_points_1111.md、gg_shops3_points_v1.patch、regression_points_1111.log）"
+   ],
+   "state": "READY_FOR_REVIEW；發版後整合",
+   "noDirectIntegrate": false,
+   "note": "3 個檔（tz_shops_layout.js 資料、tz_shops3d.js 座位字讀 label、新 gg_shops3_points_1111_unit）；基底 f2515c2077，在 56ecee2fb5 上乾淨；不改模型；全部 Node 1288：1287 過＋bookstore 老警告",
+   "next": "LAWWW 發版後整合、接 AA_742／AA_813 的句子"
   }
  ]
 }

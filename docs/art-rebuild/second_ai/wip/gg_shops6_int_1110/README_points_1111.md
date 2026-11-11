@@ -1,6 +1,8 @@
 # GG-SHOPS3 資料補五項（LAWWW 11-11 12:07 決定②；LAWWW2 帳號 A）
 
-狀態：**WORK_IN_PROGRESS**（全部 Node 測試在跑）。發版後整合。
+狀態：**READY_FOR_REVIEW**（2026-11-11 13:0x UTC）。發版後整合。AA 12:08 的 AA_813（企劃線 75f5de658）也是同樣的決定：五項都要、kind 不改、要改模型的不做。
+
+- patch：`gg_shops3_points_v1.patch`（3 個檔：`src/data/tz_shops_layout.js`、`src/tz_shops3d.js`、新 `tests/gg_shops3_points_1111_unit.js`；基底 dev `f2515c2077`；在最新 dev `56ecee2fb5` 上試過 `git apply --3way`：乾淨）。
 
 依據：`AA_743_對照_1111.md`（六間室內和 AA_743 的對照）最後「只加資料、模型不用改」那一組；LAWWW 12:07：做，kind 不改，要改模型的先不做（P3 GG-SHOPS3-ART-V2），騎樓的東西照現在。
 
@@ -22,4 +24,4 @@
 
 - 新 `tests/gg_shops3_points_1111_unit.js`：五間的新點、座位都在、字對；站在新的點上按鈕（`E.nearestInteractable`）是它、站在座位走近點按鈕是那張座位；原本的點站在自己位置上照舊是它（沒被搶走）。修改前 FAIL。
 - `tests/tz_shops_unit.js`（每一個座位、互動點走得到；家具裡站不住；店員在櫃台後面…）、`tests/tz_shops_notrap_1111_unit.js`（站得到的地方都走得回門口）：全過。
-- 全部 Node 測試：在跑。
+- **全部 Node 測試 1288 支**（`regression_points_1111.log`）：1287 支 ALL PASS；`bookstore_exit_unit` 老警告（結束碼 0）。
