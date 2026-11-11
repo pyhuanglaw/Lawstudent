@@ -152,7 +152,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   { const ENV={window:{},location:{search:''},document:{getElementById:()=>null,addEventListener(){}}};
     const sc=evalIn(cur('src/data/characters.js'),['CHARACTERS','UNFAMILIAR_POOL','SOCIAL_GRAPH','PORTRAITS'],ENV); vm.runInContext(cur('src/social3d.js').replace(/^const SOCIAL\s*=/m,'globalThis.SOCIAL='),sc);
     const SO=sc.SOCIAL, G7={rel:{},flags:{},social:null,day:30,weekday:1,hour:15,name:'祐廷',contacts:{},invites:[],msgs:[]}; SO.bind(G7);
-    const NEW=evalIn(cur('src/data/rel_lines.js'),['REL_LINES']).REL_LINES, OLD=evalIn(gitShow('src/data/rel_lines.js'),['REL_LINES']).REL_LINES;
+    const NEW=evalIn(cur('src/data/rel_lines.js'),['REL_LINES']).REL_LINES, OLD=evalIn(require('./line_rows_expect.js').fixFile('src/data/rel_lines.js',gitShow('src/data/rel_lines.js')),['REL_LINES']).REL_LINES;   /* X324 G 區 AA_794（店長→老闆，見面旁白兩句）：BASE 先照逐行改稿換過再比（tests/line_rows_expect.js）*/
     /* 有名字說的格子：SOCIAL.playSteps 播的一串台詞（up 的 l、ch 的 r、bye、Café 的學姊 again／hello／tired／today.ask／opts 的 r／small 的 l、lGrad、ch 的 r）；
        沒名字的：meet（見面旁白；另外比）、cafe.note（便條，story3d.js sisCafe 用旁白說）、contact（手機聯絡人的名字）、選項字（ch／opts 的 t、tDating）*/
     const STEP=/\.(l|r|lGrad|again|ask|tired)\[\d+\]$|\.bye\.\w+\[\d+\]$|\.cafe\.hello\.\w+\[\d+\]$/;
