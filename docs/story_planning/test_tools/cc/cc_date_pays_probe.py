@@ -68,7 +68,11 @@ RUNS = {
     'SHE': dict(who='heroine_04', loc='D06', visits=2, pid='D06.cafe', pick=0, kind='she'),
     'SPLIT': dict(who='heroine_01', loc='D25', visits=0, pid='D25.cafe', pick='我請', kind='split'),   # D22.fish「一人一半。」要開車：出發要先走到望月台停車場（carlot3d.js），改用不開車的 D25
     'BROKE': dict(who='heroine_04', loc='D10', visits=0, pid='D10.snack', pick='慢慢吃', kind='broke'),
+    # BB 19:09／LAWWW：同一趟第二次錢不夠只有旁白（回程車資也一樣）——【捷徑】第一次「錢不夠」旁白之後把錢設成 DROP_TO（小於回程車資），讓回程車資也不夠
+    'BROKE2': dict(who='heroine_04', loc='D10', visits=0, pid='D10.snack', pick='慢慢吃', kind='broke', drop=10),
 }
+NARR = '（你的錢不夠。她先付了。）'   # LAWWW 19:09（AA_812 修正）：第一次旁白＋她一句（七位照 AA 原文），同一趟再不夠只有旁白
+EGG_PID = 'D31.egg'   # LAWWW 19:09 ③：沛珊 D31.egg 不算她請客
 
 
 def is_treat(t):
@@ -215,7 +219,7 @@ def common_lines(who):
 HOOK = r"""(()=>{ if(!window.__XH){ window.__XH=1; window.__ZE=[]; const n=()=>window.__ZE.length;
   const relOf=id=>{ try{ if(!id||typeof SOCIAL==='undefined'||!SOCIAL.rel) return null; const r=SOCIAL.rel(id), f=v=>+(+v||0).toFixed(2); return {fam:f(r.fam),trust:f(r.trust),comf:f(r.comf),npcRom:f(r.npcRom)}; }catch(e){ return null; } };
   window.__relOf=relOf;
-  const s0=GAME.say; GAME.say=function(w,t){ try{ window.__ZE.push({k:'say',i:n(),who:(w&&w.name)||(typeof w==='string'?w:''),cid:(w&&w.charId)||'',t:String(t==null?'':t),h:+(+GAME.G.hour).toFixed(3),d:GAME.G.day,m:GAME.G.money|0}); window.__ccLastSay=String(t==null?'':t).slice(0,60); }catch(e){} return s0.apply(this,arguments); };
+  const s0=GAME.say; GAME.say=function(w,t){ try{ window.__ZE.push({k:'say',i:n(),who:(w&&w.name)||(typeof w==='string'?w:''),cid:(w&&w.charId)||'',t:String(t==null?'':t),h:+(+GAME.G.hour).toFixed(3),d:GAME.G.day,m:GAME.G.money|0}); window.__ccLastSay=String(t==null?'':t).slice(0,60); }catch(e){} const rv=s0.apply(this,arguments); try{ const tx=String(t==null?'':t); if(window.__ccDropTo!=null&&!window.__ccDropped&&tx.indexOf('錢不夠')>=0){ window.__ccDropped=1; const b=GAME.G.money|0; GAME.G.money=window.__ccDropTo; window.__ZE.push({k:'drop',i:n(),before:b,after:GAME.G.money|0}); } }catch(e){} return rv; };
   if(GAME.money){ const m0=GAME.money; GAME.money=function(d,lab){ const b=GAME.G.money|0; const r=m0.apply(this,arguments); try{ window.__ZE.push({k:'money',i:n(),amt:d,label:String(lab==null?'':lab),before:b,after:GAME.G.money|0,h:+(+GAME.G.hour).toFixed(3),d:GAME.G.day}); }catch(e){} return r; }; }
   if(GAME.caption){ const p0=GAME.caption; GAME.caption=function(a,b){ try{ window.__ZE.push({k:'cap',i:n(),t:String(b==null?a:b),h:+(+GAME.G.hour).toFixed(3),d:GAME.G.day}); }catch(e){} return p0.apply(this,arguments); }; }
   const c0=GAME.choose; GAME.choose=function(o){ const rec={k:'ch',i:n(),opts:(o||[]).map(x=>typeof x==='string'?x:((x&&x.t)||'')),dim:(o||[]).map(x=>!!(x&&x.dim)),h:+(+GAME.G.hour).toFixed(3),rel:relOf(window.__XW),m:GAME.G.money|0,pick:null};
@@ -664,6 +668,8 @@ def page_checks(SPEC, pg_p):
     pp, ps = as_sets(pg_p.get('pays')), as_sets(pg_p.get('split'))
     miss = [[w, p, t] for (w, p), v in as_sets(SPEC.get('SHE_PAYS_add')).items() for t in v if t not in pp.get((w, p), set())]
     R.check('頁面 1 合併後的 DATE.SHE_PAYS 有規格 SHE_PAYS_add 的每一句', not miss, J(miss))
+    egg = [[w, p, sorted(v)] for (w, p), v in pp.items() if p == EGG_PID]
+    R.check('頁面 1b 沛珊 %s 不算她請客（DATE.SHE_PAYS 沒有這一格；LAWWW 19:09 ③）' % EGG_PID, not egg, J(egg))
     ss = as_sets(SPEC.get('SPLIT'))
     d1 = [[w, p, sorted(v ^ ps.get((w, p), set()))] for (w, p), v in ss.items() if v != ps.get((w, p), set())] + [[w, p, sorted(v)] for (w, p), v in ps.items() if (w, p) not in ss]
     R.check('頁面 2 DATE.SPLIT＝規格 SPLIT', not d1, J(d1))
@@ -708,6 +714,8 @@ async def run_one(pg, cdp, errs, part, SPEC, pg_p):
     SEEN.clear()
     await pg.evaluate("(w=>{ window.__XW=w; })", who)
     await pg.evaluate(HOOK)
+    await pg.evaluate("(v=>{ window.__ccDropTo=v; window.__ccDropped=0; })", c.get('drop'))
+    if c.get('drop') is not None: R.setup('[%s] 【捷徑】第一次「錢不夠」旁白之後把錢設成 %d（小於回程車資），做出「同一趟第二次不夠」' % (tag, c['drop']))
     ctx = {'loc': loc, 'visits': visits, 'dating': False, 'stage': 5, 'tier': mem['tier'], 'picks': list(picks), 'last': list(last), 'recent': []}   # loc：SPLIT r3 沒帶地點，expect() 拿到空的格子（探針錯，已修）
     screen = []
     how, steps, trip = await book(pg, cdp, who, loc, grp, dep, screen, tag)
@@ -755,6 +763,16 @@ def analyze(tag, c, who, loc, pid, pname, ctx, ev, screen, share, P, SPEC, pg_p,
     chosen = chs[0]['opts'][pk] if chs and pk is not None and pk < len(chs[0]['opts']) else None
     slot, S = expect(who, 'spot', pid, ctx)
     want = set_lines(who, S, pk, ctx)
+    if c['kind'] == 'broke':   # 錢不夠的旁白＋她那一句是遊戲另外加的（不在這一格資料裡）：1a 比對時拿掉，4b／4c 另外判
+        rm = []; k2 = 0
+        while k2 < len(says):
+            t = says[k2]['t']
+            if '錢不夠' in t and '她先付' in t:
+                rm.append(t); says = says[:k2] + says[k2 + 1:]
+                if k2 < len(says) and says[k2].get('cid') == who: rm.append(says[k2]['t']); says = says[:k2] + says[k2 + 1:]
+                continue
+            k2 += 1
+        if rm: log('  [%s] 1a 比對時拿掉錢不夠的旁白＋她那一句：%s' % (tag, J(rm)))
     got = [e['t'] for e in says]
     if not want: log('  ！[%s] 照資料算出來的預期是空的（%s 格）：探針可能讀錯格子，1a 的 FAIL 先當探針問題查' % (tag, slot))
     R.check('[%s] 1a 「%s」畫面上的句子＝資料 %s 格（%s 選「%s」），逐句照順序' % (tag, pname, slot, pid, chosen), got == want, J({'want': want, 'got': got}))
@@ -776,7 +794,9 @@ def analyze(tag, c, who, loc, pid, pname, ctx, ev, screen, share, P, SPEC, pg_p,
         elif t in pg_sl: gstate, gline = 'split', t
     log('  [%s] 她在這個點說的：%s；照規格＝%s（%s）；照頁面 DATE.SHE_PAYS／SPLIT＝%s（%s）' % (tag, J(her), state, line, gstate, gline))
     want_state = {'she': 'pays', 'split': 'split'}.get(c['kind'])
-    if want_state:
+    if want_state == 'split' and chosen and is_treat(chosen):
+        log('  [%s] 選了請客「%s」：照 LAWWW 19:09 這個點不套平分（她說了平分那一句：%s），應扣自己一份全額＋請她' % (tag, chosen, line))
+    elif want_state:
         R.check('[%s] 0 情況做出來了：她說了%s的那一句' % (tag, '請客' if want_state == 'pays' else '平分'), state == want_state, J(her))
         R.check('[%s] 1b 那一句「%s」在 she_pays.js（%s）、頁面合併後的表、規格 AA_812 裡都一字不差' % (tag, line, 'pays' if want_state == 'pays' else 'split'),
                 bool(line) and line in (sp_p if want_state == 'pays' else sp_s) and line in (pg_pl if want_state == 'pays' else pg_sl) and line in (spec_p if want_state == 'pays' else spec_s),
@@ -785,7 +805,10 @@ def analyze(tag, c, who, loc, pid, pname, ctx, ev, screen, share, P, SPEC, pg_p,
         R.check('[%s] 1b 這個點她沒有說 SHE_PAYS／SPLIT 的句子（she_pays.js、頁面、規格都沒有）' % tag, state is None and gstate is None and not ((sp_p | sp_s | spec_p | spec_s) & set(her)), J(her))
         if c['kind'] == 'me':
             R.check('[%s] 0 情況做出來了：選的是請客的選項（S.isTreat）「%s」' % (tag, chosen), bool(chosen) and is_treat(chosen), '')
-    share_due = 0 if state == 'pays' else (half(share) if state == 'split' else share)
+    treat = bool(chosen and is_treat(chosen))
+    # LAWWW 19:09 ②：選「我請」的那個互動點不套平分（他付兩份：自己一份＋「（請她）」）
+    share_due = 0 if state == 'pays' else (half(share) if (state == 'split' and not treat) else share)
+    if c['kind'] == 'broke': share_due = 0   # LAWWW 19:09 ①：錢不夠＝那一筆她付、不扣
     extra_due = (P.get('extra') or 0) if (chosen and is_treat(chosen) and (P.get('extra') or 0) > 0) else 0
     mon = [e for e in seg if e['k'] == 'money']
     share_act = -sum(e['amt'] for e in mon if e['label'] == pname)
@@ -802,10 +825,27 @@ def analyze(tag, c, who, loc, pid, pname, ctx, ev, screen, share, P, SPEC, pg_p,
     if c['kind'] == 'broke':
         m_at = next((e.get('m') for e in ev if e['k'] == 'ch' and e['opts'] and e['opts'][-1] in STOPS and e.get('pick') is not None and e['pick'] < len(e['opts']) and e['opts'][e['pick']] == pname), None)
         R.check('[%s] 0 前置：選「%s」的當下錢 %s < 一份 %d' % (tag, pname, m_at, share), m_at is not None and m_at < share, '')
-        notice = [e['t'] for e in ev if e['k'] in ('toast', 'say', 'cap') and NOTICE_RE.search(e.get('t') or '')] + [t for t in SEEN if NOTICE_RE.search(t)]
-        switched = share_act < share
-        log('  [%s] 錢不夠時遊戲做了什麼：這一份實扣 %d（原價 %d）%s；提示／對話裡有錢不夠的字：%s' % (tag, share_act, share, '＝換人付或少扣' if switched else '＝照扣全額', J(notice) if notice else '沒有'))
-        R.check('[%s] 4 錢不夠一份時換成她付（少扣）或出提示' % tag, switched or bool(notice), J({'share_act': share_act, 'notice': notice}))
+        nar = [k for k, e in enumerate(ev) if e['k'] in ('say', 'cap') and '錢不夠' in (e.get('t') or '') and '她先付' in (e.get('t') or '')]
+        nar_t = [ev[k]['t'] for k in nar]
+        def nxt(k):
+            for e in ev[k + 1:]:
+                if e['k'] in ('say', 'cap'): return e
+            return None
+        after = [nxt(k) for k in nar]
+        log('  [%s] 錢不夠的旁白 %d 次：%s；每一次後面那一句：%s' % (tag, len(nar), J(nar_t), J([[a.get('who'), a.get('cid'), a.get('t')] if a else None for a in after])))
+        R.check('[%s] 4a 錢不夠的那一筆她付、不扣（實扣 %d）' % (tag, share_act), share_act == 0, J([[e['amt'], e['label'], e['before'], e['after']] for e in mon]))
+        R.check('[%s] 4b 第一次不夠：旁白「%s」一字不差' % (tag, NARR), bool(nar) and nar_t[0] == NARR, J(nar_t))
+        R.check('[%s] 4c 第一次旁白後面接她一句（說話的是 %s）' % (tag, who), bool(after) and bool(after[0]) and after[0].get('k') == 'say' and after[0].get('cid') == who, J(after[:1]))
+        drops = [e for e in ev if e['k'] == 'drop']
+        if c.get('drop') is not None:
+            k0 = next((k for k, e in enumerate(ev) if e['k'] == 'drop'), None)
+            fare = [e for e in ev[k0 + 1:] if e['k'] == 'money'] if k0 is not None else []
+            R.check('[%s] 0 前置：第一次旁白後錢設成 %d（【捷徑】）' % (tag, c['drop']), bool(drops), J(drops))
+            R.check('[%s] 4d 第二次不夠（回程車資）：旁白再出現一次（共 %d 次）' % (tag, len(nar)), len(nar) >= 2 and all(t == NARR for t in nar_t), J(nar_t))
+            R.check('[%s] 4e 第二次旁白後面沒有她那一句（只有旁白）' % tag, len(after) >= 2 and not (after[1] and after[1].get('k') == 'say' and after[1].get('cid') == who), J(after[1:2]))
+            R.check('[%s] 4f 回程車資不夠也不扣（之後扣錢 %s）' % (tag, J([[e['amt'], e['label']] for e in fare])), not any(e['amt'] < 0 and e['after'] < 0 for e in fare) and sum(e['amt'] for e in fare) == 0, J([[e['amt'], e['label'], e['before'], e['after']] for e in fare]))
+        else:
+            R.check('[%s] 4d 這一趟只不夠一次：旁白 1 次、她那一句 1 次' % tag, len(nar) == 1, J(nar_t))
     return {'tag': tag, 'state': state, 'chosen': chosen, 'share': share, 'share_due': share_due, 'extra_due': extra_due, 'share_act': share_act, 'extra_act': extra_act, 'min_money': mn}
 
 
@@ -825,7 +865,7 @@ async def main():
         pg_p = await pg.evaluate(PAGE_PAYS_JS)
         page_checks(SPEC, pg_p)
         for part in PARTS:
-            if part not in RUNS: log('  不認得的 PART：%s（ME、SHE、SPLIT、BROKE）' % part); continue
+            if part not in RUNS: log('  不認得的 PART：%s（ME、SHE、SPLIT、BROKE、BROKE2）' % part); continue
             try:
                 r = await run_one(pg, cdp, errs, part, SPEC, pg_p)
                 if r: rows.append(r)
