@@ -95,7 +95,7 @@ function rest(){
   check('5-5 舊句子不在：「司法官上了。」「二試過了。一月面試。」「嗯。……三月還有一個結果。」「……先不要問。」',!inCode("'司法官上了。'").length&&!inCode('二試過了。一月面試。').length&&!inCode('三月還有一個結果').length&&!inCode('美國的。……先不要問。').length); }
 // ---------- 6 CG-23 ----------
 { const s=stripC(B), i=s.indexOf("id:'ev_an_sakura_riverbank'"), r=s.slice(i,s.indexOf('};',i));
-  check('6-1 河堤（第 81、82 列）：CG-23 之後她直接說「櫻花只開一個禮拜。」；說話人「手帳」那一行、「（在手帳寫一行…）」都不在',/cg\('cg_sakura_riverbank_heroine01'\),\s*\{speaker:'heroine_01',text:'櫻花只開一個禮拜。'\},\s*\{speaker:'heroine_01',text:'……所以這週的讀書會，改在這裡。'\}/.test(r)&&!/speaker:'手帳'|在手帳寫一行/.test(r),r.slice(0,300)); }
+  check('6-1 河堤（第 81、82 列）：CG-23 之後她直接說「櫻花只開一個禮拜。」；說話人「手帳」那一行、「（在手帳寫一行…）」都不在',/cg\('cg_sakura_riverbank_heroine01'\),\s*\{speaker:'heroine_01',text:'櫻花只開一個禮拜。'\},\s*\{speaker:'heroine_01',text:'所以這週的讀書會，改在這裡。'\}/.test(r)&&!/speaker:'手帳'|在手帳寫一行/.test(r),r.slice(0,300)); }   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 第 226 列拿掉句首「……」。舊期望：「……所以這週的讀書會，改在這裡。」 */
 { const want=gshow('62395d7da','docs/story_planning/cg_approved/cg_sakura_riverbank_heroine01.webp','buffer'), have=fs.readFileSync(path.join(ROOT,'assets/cg/heroine_01/cg_sakura_riverbank.webp'));
   const md=b=>crypto.createHash('md5').update(b).digest('hex');
   check('6-2 CG-23 換圖：assets/cg/heroine_01/cg_sakura_riverbank.webp＝企劃線 62395d7da 的新圖',want.length>1000&&md(want)===md(have),md(have));

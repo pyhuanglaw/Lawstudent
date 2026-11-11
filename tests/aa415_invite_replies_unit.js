@@ -49,12 +49,13 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. INV.replyPick、INV.replyMark、INV.REPLY_ON、INV.REPLY_COND',typeof INV.replyPick==='function'&&typeof INV.replyMark==='function'&&!!INV.REPLY_ON&&!!INV.REPLY_COND);
   check('0. 節日、外出、開車先關（AA_415 第 8 節：D38 節日系統、外出的邀約接上才用）',INV.REPLY_ON['節日']===false&&INV.REPLY_ON['外出']===false&&INV.REPLY_ON['開車']===false);
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC);
-  check('0. 白名單：AA_415@94ab0865e（11-10 AA_731 答應句不寫時間；c71772fbc、166dc131a 在 history） approved、AA-B 2026-10-23 20:2x 定稿（D109）（＋AA_576 以安、AA_579 學姊改稿第一批、AA_580 以安第二批、AA 10:18 sis4；舊版本在 history）、D14-T9、text',A.length===1&&A[0].sha==='94ab0865e'&&['b10d0567f','e1e361335','759e5c000','166dc131a','c71772fbc'].every(s=>(A[0].history||[]).some(h=>h.sha===s))&&/AA_579/.test(A[0].approvedBy)&&/AA_580/.test(A[0].approvedBy)&&A[0].status==='approved'&&A[0].approvedBy.startsWith('AA-B 2026-10-23 20:2x 定稿（D109）')&&/AA_576/.test(A[0].approvedBy)&&A[0].task==='D14-T9'&&A[0].kind==='text',J(A));
-  check('0. 產生器 tools/invite/build_replies.py；資料檔寫著來源 commit',fs.existsSync(path.join(H.ROOT,'tools/invite/build_replies.py'))&&INVITE_REPLIES.sha==='94ab0865e'&&INVITE_REPLIES.src===SPEC); });
+  /* 2026-11-11（X324 G 區，AA_415@9144dc2fb）：白名單換版（6458d1dc2 誤刪的沛珊第 2 階 brunch 那一列補回、寫現在遊戲裡的新句；遊戲字不變），94ab0865e 進 history。舊期望：sha 94ab0865e、history 五個 */
+  check('0. 白名單：AA_415@9144dc2fb（X324 G 區沛珊 brunch 列補回；94ab0865e、c71772fbc、166dc131a 在 history） approved、AA-B 2026-10-23 20:2x 定稿（D109）（＋AA_576 以安、AA_579 學姊改稿第一批、AA_580 以安第二批、AA 10:18 sis4；舊版本在 history）、D14-T9、text',A.length===1&&A[0].sha==='9144dc2fb'&&['b10d0567f','e1e361335','759e5c000','166dc131a','c71772fbc','94ab0865e'].every(s=>(A[0].history||[]).some(h=>h.sha===s))&&/AA_579/.test(A[0].approvedBy)&&/AA_580/.test(A[0].approvedBy)&&A[0].status==='approved'&&A[0].approvedBy.startsWith('AA-B 2026-10-23 20:2x 定稿（D109）')&&/AA_576/.test(A[0].approvedBy)&&A[0].task==='D14-T9'&&A[0].kind==='text',J(A));
+  check('0. 產生器 tools/invite/build_replies.py；資料檔寫著來源 commit',fs.existsSync(path.join(H.ROOT,'tools/invite/build_replies.py'))&&INVITE_REPLIES.sha==='9144dc2fb'/* 2026-11-11（X324 G 區，AA_415@9144dc2fb）：重匯的來源 commit。舊期望：94ab0865e */&&INVITE_REPLIES.src===SPEC); });
 if(!ok){ H.done(); return; }
 
-await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 94ab0865e:"'+SPEC+'"',{encoding:'utf8'}); }catch(e){ md=''; }
-  check('1. 讀得到企劃線 94ab0865e 的 AA_415',md.length>1000);
+await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 9144dc2fb:"'+SPEC+'"',{encoding:'utf8'}); }catch(e){ md=''; }   /* 2026-11-11（X324 G 區，AA_415@9144dc2fb）：讀白名單現在那一版（和 94ab0865e 只差沛珊 brunch 那一列＝ps5 已經是新句）。舊期望：94ab0865e */
+  check('1. 讀得到企劃線 9144dc2fb 的 AA_415',md.length>1000);
   const cnt={}; let who=null;
   for(const ln of md.split('\n')){ const m=/^## \d+\. .*（(\w+)[，）]/.exec(ln); if(m){ who=m[1]; continue; } if(/^## /.test(ln)){ who=null; continue; }
     if(who&&ln.startsWith('|')&&!/^\|\s*階段\s*\|/.test(ln)&&!/^\|[-\s|:]+\|$/.test(ln)) cnt[who]=(cnt[who]||0)+1; }
@@ -64,7 +65,8 @@ await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 94ab0
   /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊 ps5、ps9（AA_415 的「現有」列，和 invites.js 同一句）跟著 invites.js 換成新稿的句子，不在 AA_415 裡——這兩列改比新句 */
   const PS755={ps5:'「早午餐！好啊，那種不用太早起的我最可以。」',ps9:'「好啊。我想坐吧台，可以看他們做。」'};
   /* X324 D 區：有 ov 的列，被換的那一格改比稿（at＝列 id.lines[i] 的 new），而且稿的 old 要在 say（表上原文）裡；其他格照舊在 say 裡 */
-  const bad=[]; for(const id of IDS) for(const r of ROWS(id)){ if(!md.includes(r.say)&&PS755[r.id]!==r.say) bad.push(r.id+' say'); if(r.ex==='rule'||r.ex==='plan') continue; r.lines.forEach((x,k)=>{ const s=typeof x==='string'?x:x.me, o=r.ov?OE.at('invite_replies',r.id+'.lines['+k+']'):null; if(o?!(o.new===s&&r.say.includes(o.old)):!r.say.includes(s)) bad.push(r.id+' '+s); }); }
+  /* 2026-11-11（X324 G 區，AA_783_invite_replies.json@60c08798a）：覆蓋層也換 say（zr28.say：芷若「店長」→「老闆」）——say 被換過的列，稿的 old 要在表上（md），lines 那一格的 old 要在換之前的 say 裡。舊期望：say 本身在表上、lines 的 old 在 r.say 裡 */
+  const bad=[]; for(const id of IDS) for(const r of ROWS(id)){ const sv=r.ov?OE.at('invite_replies',r.id+'.say'):null, say0=sv&&sv.new===r.say?sv.old:r.say; if(sv&&sv.new!==r.say) bad.push(r.id+' say 沒照覆蓋層'); if(!md.includes(say0)&&PS755[r.id]!==say0) bad.push(r.id+' say'); if(r.ex==='rule'||r.ex==='plan') continue; r.lines.forEach((x,k)=>{ const s=typeof x==='string'?x:x.me, o=r.ov?OE.at('invite_replies',r.id+'.lines['+k+']'):null; if(o?!(o.new===s&&say0.includes(o.old)):!r.say.includes(s)) bad.push(r.id+' '+s); }); }
   check('1. 每一列的原文、台詞都在 AA_415 裡一字不差（覆蓋層換過的格子＝稿的新字，舊字在表上原文裡）',!bad.length,bad.slice(0,6).join('、'));
   const unqS=t=>/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;   /* 稿上她說的話有「」，遊戲檔拿掉外面那一對（AA-B 2026-11-08 01:09，build_replies.py 的 strip_quotes）：照稿拿掉「」再比，旁白照原樣比 */
   const has=(id,s)=>ROWS(id).some(r=>r.lines.some(x=>x===FW(id,unqS(s))));   /* X324 D 區：覆蓋層換過的照稿的新字找（子晴「今天不出門。……我想一個人打電動。」→ 拿掉刪節號）*/

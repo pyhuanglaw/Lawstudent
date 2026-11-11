@@ -57,14 +57,14 @@ const before=(o,a,b)=>o.indexOf(a)>=0&&o.indexOf(b)>=0&&o.indexOf(a)<o.indexOf(b
     const X=PG.rec(G).exam, s29=new Set(X[2029]?X[2029].qs:[]), s30=new Set(X[2030].qs), q31=X[2031].qs;
     check('b. 2031 一試真的作答 20 題（換一組，和 2030 不重複）',q31.length===20&&new Set(q31).size===20&&q31.every(id=>!s30.has(id)&&!s29.has(id))&&Array.isArray(X[2031].ans)&&X[2031].ans.length===20);
     check('b. 放榜訊息：12/12 系統字「律師二試：錄取。」進手機、暫定那一句',(G.msgs||[]).some(m=>m.tag==='pg_r2sys_2031'&&m.text==='律師二試：錄取。')&&H.has(LT.r2pass[2031]));
-    check('b. 尾聲：律師家族（傾向 A＝A_bar「我在法扶。這禮拜開了三個庭。」）、阿凱「……喔對，你現在是律師。」、多一句 2031 拿到證書（暫定字）',PG.path(G)==='A_bar'&&H.has('我在法扶。這禮拜開了三個庭。')&&H.has('……喔對，你現在是律師。')&&H.has(LT.epi.pass[2031])&&!H.has(LT.epi.none)&&!H.has(LT.epi.stop));
+    check('b. 尾聲：律師家族（傾向 A＝A_bar「我在法扶。這禮拜開了三個庭。」）、阿凱「喔對，你現在是律師。」、多一句 2031 拿到證書（暫定字）',PG.path(G)==='A_bar'&&H.has('我在法扶。這禮拜開了三個庭。')&&H.has('喔對，你現在是律師。')&&H.has(LT.epi.pass[2031])&&!H.has(LT.epi.none)&&!H.has(LT.epi.stop));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：postgrad_lines.js 句首「……」拿掉、遊戲照新句。舊期望：「……喔對，你現在是律師。」 */
     check('b. 2030-12-13 阿哲群組：2030 沒過＝不是「我們兩個都上了 宵夜走」',!H.msgs('g:noodle_team').includes('我們兩個都上了 宵夜走')&&H.msgs('g:noodle_team').includes('國考上了'),JSON.stringify(H.msgs('g:noodle_team').slice(-6))); }
   // ---- (c) 2031～2033 都沒過 ＝ 兩邊都沒上 ----
   { const R=await sim('2030-08-02',22,RETAKER,{2030:0,2031:0,2032:11,2033:4}); const {G,order}=R; okRun('c. 2030～2033 都沒過',R);
     check('c. 每一年都有報名、一試、放榜，沒有二試；2033 之後沒有下一年；最後是尾聲',[2031,2032,2033].every(y=>before(order,'reg_'+y,'exam_'+y)&&before(order,'exam_'+y,'r1_'+y)&&!order.includes('e2a_'+y))&&before(order,'r1_2033','epi')&&!order.some(id=>/2034/.test(id)),order.join(' → '));
     check('c. 沒有 BAR_YEAR；每年的分數照實際作答（0、11、4）',G.flags.BAR_YEAR==null&&G.flags.BAR_SCORE_2031===0&&G.flags.BAR_SCORE_2032===11&&G.flags.BAR_SCORE_2033===4&&G.flags.BAR_STAGE_2033==='none');
     check('c. 放榜那一句（暫定字）：2030（fail2030）、2031、2032、2033 各一句；2033 的系統字進手機',H.said.filter(x=>x.t===LT.fail2030).length===1&&[2031,2032,2033].every(y=>H.said.filter(x=>x.t===LT.r1none[y]).length===1)&&(G.msgs||[]).some(m=>m.tag==='pg_r1sys_2033'&&m.text==='律師、司法官一試：未通過。'));
-    check('c. 尾聲：落點照舊（傾向 A、沒有執照＝A_none「我在 NGO 做法律服務。…」）＋「兩邊都沒上」那一句（暫定字）；不是失敗結局、照常回標題',PG.path(G)==='A_none'&&H.has('我在 NGO 做法律服務。不用執照的那一半，我做。')&&H.has(LT.epi.none)&&!H.has(LT.epi.stop)&&!H.has('……喔對，你現在是律師。'));
+    check('c. 尾聲：落點照舊（傾向 A、沒有執照＝A_none「我在 NGO 做法律服務。…」）＋「兩邊都沒上」那一句（暫定字）；不是失敗結局、照常回標題',PG.path(G)==='A_none'&&H.has('我在 NGO 做法律服務。不用執照的那一半，我做。')&&H.has(LT.epi.none)&&!H.has(LT.epi.stop)&&!H.has('喔對，你現在是律師。'));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：postgrad_lines.js 句首「……」拿掉、遊戲照新句。舊期望：「……喔對，你現在是律師。」 */
     check('c. 尾聲的時間 2034-06-03 19:00、在 2033 那一輪以後',G.day===PG.DK('2034-06-03')&&PG.done(G,'r1_2033')); }
   // ---- (d) 中途不報名＝停止 ----
   { const R=await sim('2030-08-02',22,RETAKER,{2030:5,2031:8,reg:{2032:false}}); const {G,order}=R; okRun('d. 2032 選不報名',R);

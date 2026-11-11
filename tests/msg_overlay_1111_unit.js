@@ -28,7 +28,8 @@ const FILES = { msg_pool: 'src/data/msg_pool.js', msg2_pool: 'src/data/msg2_pool
   await sec(1, async () => {
     const A = JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(e => e.path === 'docs/story_planning/AA_785_msg_pools.json');
     check('1. 白名單 AA_785_msg_pools.json 一筆、overlay、approved、有 approvedBy、task DLG-FULL-REVIEW-1110；稿讀得到', A.length === 1 && A[0].overlay === true && A[0].status === 'approved' && !!A[0].approvedBy && A[0].task === 'DLG-FULL-REVIEW-1110' && OE.have, J(A.map(e => [e.sha, e.status])));
-    check('1. 列數：msg_pool ' + R.msg_pool.length + ' 列、msg2_pool ' + R.msg2_pool.length + ' 列（AA_785：29 列＋語彤還好嗎回問兩列＝31）', R.msg_pool.length + R.msg2_pool.length === 31 && R.msg_pool.length === 6, J([R.msg_pool.length, R.msg2_pool.length]));
+    /* 2026-11-11（X324 G 區，AA_785_msg_pools.json@60c08798a）：多四列——沛珊出國版 msg_pool replies[22]（「你回來，換我帶你去吃早餐。我家的。」）、芷若「店長」→「老闆」三列（msg_pool replies[9]、[17]，msg2_pool replies[8]；AA_794 搬過來的）。舊期望：31 列、msg_pool 6 列 */
+    check('1. 列數：msg_pool ' + R.msg_pool.length + ' 列、msg2_pool ' + R.msg2_pool.length + ' 列（AA_785：29 列＋語彤還好嗎回問兩列＋60c08798a 沛珊出國版一列、芷若老闆三列＝35）', R.msg_pool.length + R.msg2_pool.length === 35 && R.msg_pool.length === 9 && R.msg2_pool.length === 26, J([R.msg_pool.length, R.msg2_pool.length]));
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'msgov-')), env = Object.assign({}, process.env, { MSG_POOL_OUT: tmp, MSG_JS_OUT: tmp });
     const run = f => cp.spawnSync('python3', f === 'to_js.py' || f === 'to_js2.py' ? [path.join(H.ROOT, 'tools/msg', f)] : ['-I', path.join(H.ROOT, 'tools/msg', f)], { encoding: 'utf8', env, cwd: H.ROOT, timeout: 300000 });
     const rs = ['build_pool.py', 'to_js.py', 'build_msg2.py', 'to_js2.py'].map(run);
@@ -54,7 +55,7 @@ const FILES = { msg_pool: 'src/data/msg_pool.js', msg2_pool: 'src/data/msg2_pool
       for (const id in A) { if ((A[id] || []).length !== (B[id] || []).length) { d.push(k + ' ' + id + ' 則數不一樣'); continue; }
         A[id].forEach((a, i) => { const b = Object.assign({}, B[id][i]); delete b.ov; const walk = (x, y, p) => { if (J(x) === J(y)) return; if (x && y && typeof x === 'object' && typeof y === 'object' && Array.isArray(x) === Array.isArray(y) && !(Array.isArray(x) && x.length !== y.length)) { for (const kk of new Set(Object.keys(x).concat(Object.keys(y)))) walk(x[kk], y[kk], p + (Array.isArray(x) ? '[' + kk + ']' : '.' + kk)); } else if (!at.has(p)) d.push(k + ' ' + p + '：' + J(x) + ' → ' + J(y)); };
           walk(a, b, 'people.' + id + '.replies[' + i + ']'); if (a.ov) d.push(k + ' ' + id + '[' + i + '] BASE 就有 ov'); }); } }
-    check('3. 和 BASE ' + BASE + ' 逐則比：人、則數一樣；變的只有稿上那 31 格（其他格子、別的則、別的人零差異；短句只換 at 那一格）', d.length === 0, J(d.slice(0, 4)));
+    check('3. 和 BASE ' + BASE + ' 逐則比：人、則數一樣；變的只有稿上那 ' + (R.msg_pool.length + R.msg2_pool.length) + ' 格（其他格子、別的則、別的人零差異；短句只換 at 那一格）', d.length === 0, J(d.slice(0, 4)));
     const nOther = R.msg2_pool.filter(x => x.old === '嗯。').length, all = [].concat(...Object.values(NOW.msg2_pool).map(L => L.flatMap(e => (e.msgs || []).concat(...((e.ask && e.ask.opts) || []).map(o => o.r || []))))).filter(t => t === '嗯。').length;
     console.log('　msg2_pool 還有 ' + all + ' 格「嗯。」（稿上只換 ' + nOther + ' 格：語彤還好嗎回問的回話）');
   });

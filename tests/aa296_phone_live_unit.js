@@ -46,7 +46,9 @@ const said=()=>H.said.map(s=>({who:s.who,t:s.t}));
 const same=(got,exp)=>!!exp&&got.length===exp.length&&exp.every((x,i)=>!!x&&got[i].t===x.t&&((got[i].who==null)===(x.who==null))&&(x.who==null||String(got[i].who||'').includes(x.who)));
 const I1=ITEM('①'), I2=ITEM('②'), I3=ITEM('③'), I4=ITEM('④'), I5=ITEM('⑤');
 const P1=parse(blocks(I1)[0]), P2a=parse(blocks(I2)[0]), P2b=parse(blocks(I2)[1]), P3=parse(blocks(I3)[0]), P4=parse(blocks(I4)[0]), P5=parse(blocks(I5)[0]);
-{ const AN=require('./an_rev_doc.js'); for(const x of P1.intro.concat(P1.after)) if(x&&x.t) x.t=AN.rev(x.t); }   /* ① 是以安 AN18 視訊：AA_589 第 42、45、46 列改過的句子照改成欄比（逐列核對在 tests/aa589_an_b4_unit.js）*/
+{ const AN=require('./an_rev_doc.js'); for(const x of P1.intro.concat(P1.after)) if(x&&x.t) x.t=AN.rev(x.t); }
+/* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：② 回貼紙那一通（r2y3b_events.js EXE_CALL）第 579、582 列拿掉句首「……」——稿（ed0daea9）上的句子照 AA_801 那兩列 old→new 換過再比（tests/line_rows_expect.js；只換 r2y3b_events.js 的列）。舊期望：「……你回貼紙喔。」「……好啦。」 */
+{ const LR=require('./line_rows_expect.js'); for(const x of P2a.intro.concat(P2a.after)) if(x&&x.t) x.t=LR.fwd(x.t,'src/data/r2y3b_events.js'); }   /* ① 是以安 AN18 視訊：AA_589 第 42、45、46 列改過的句子照改成欄比（逐列核對在 tests/aa589_an_b4_unit.js）*/
 const nowDm=s=>q((String(s).split('\n').find(l=>/^- 現在/.test(l))||''));   /* 「現在只有兩則私訊：「…」「…」」那一行 */
 const DM1=nowDm(I1), DM3=nowDm(I3), DM4=nowDm(I4);
 const EXE_OPTS=q((I2.split('\n').find(l=>/直接在場面裡給兩個選項/.test(l))||'').replace(/^[^：]*：/,'')).slice(0,2);

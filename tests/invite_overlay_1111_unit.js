@@ -37,7 +37,8 @@ const RI = OE.rows('invites'), RR = OE.rows('invite_replies');
     const r = cp.spawnSync('python3', [path.join(H.ROOT, 'tools/invite/apply_overlay.py'), '--check'], { encoding: 'utf8', timeout: 300000 });
     check('1. tools/invite/apply_overlay.py --check：invites.js 每一列都已經是新字（結束碼 0）', r.status === 0, (r.stdout || r.stderr || '').slice(-300));
     const n783 = RI.filter(x => /AA_783/.test(x.src)).length, n784 = RI.filter(x => /AA_784/.test(x.src)).length;
-    check('1. 列數：AA_783 invite_replies ' + RR.length + ' 列（63）、invites ' + n783 + ' 列（13）；AA_784 invites ' + n784 + ' 列（117：七個女主角 74、配角七人 34、(共用) libStudy 9）', RR.length === 63 && n783 === 13 && n784 === 117, J([RR.length, n783, n784]));
+    /* 2026-11-11（X324 G 區，AA_783_invite_replies.json@60c08798a）：invite_replies 多一列 zr28.say（芷若「店長」→「老闆」，AA_794 搬過來的；zr28.lines[0] 同一列換新字）。舊期望：invite_replies 63 列 */
+    check('1. 列數：AA_783 invite_replies ' + RR.length + ' 列（64：lines 63＋zr28.say 1）、invites ' + n783 + ' 列（13）；AA_784 invites ' + n784 + ' 列（117：七個女主角 74、配角七人 34、(共用) libStudy 9）', RR.length === 64 && RR.filter(x => /\.say$/.test(x.at)).length === 1 && n783 === 13 && n784 === 117, J([RR.length, n783, n784]));
     console.log('　稿：' + OE.docs.map(d => d.src).join('、'));
   });
 
@@ -71,7 +72,8 @@ const RI = OE.rows('invites'), RR = OE.rows('invite_replies');
 
   await sec(4, async () => {
     const bad = [];
-    for (const x of RR) { const m = /^(\w+)\.lines\[(\d+)\]$/.exec(x.at), e = m && ir1[m[1]]; if (!e) { bad.push(x.at + ' 沒有這一列'); continue; } if (e.who !== x.who) bad.push(x.at + ' 是 ' + e.who + ' 的'); if (txt(e.r.lines[+m[2]]) !== x.new) bad.push(x.at + ' 現在是「' + txt(e.r.lines[+m[2]]) + '」'); if (!(e.r.ov || []).includes(x.src)) bad.push(x.at + ' 沒有 ov'); }
+    /* 2026-11-11（X324 G 區，AA_783@60c08798a）：覆蓋層也可以換 say（<列 id>.say，build_replies.py 支援；zr28.say）——say 那一格＝新字。舊期望：只有 <列 id>.lines[i] */
+    for (const x of RR) { const m = /^(\w+)\.(?:lines\[(\d+)\]|(say))$/.exec(x.at), e = m && ir1[m[1]]; if (!e) { bad.push(x.at + ' 沒有這一列'); continue; } if (e.who !== x.who) bad.push(x.at + ' 是 ' + e.who + ' 的'); const cur = m[3] ? e.r.say : txt(e.r.lines[+m[2]]); if (cur !== x.new) bad.push(x.at + ' 現在是「' + cur + '」'); if (!(e.r.ov || []).includes(x.src)) bad.push(x.at + ' 沒有 ov'); }
     check('4. invite_replies.js：' + RR.length + ' 列，每一列 at 那一格＝新字、那一列有 ov（稿的來源）', bad.length === 0, J(bad.slice(0, 4)));
     const left = [], kept = [];
     for (const x of RR) for (const id in ir1) { const e = ir1[id]; if (!e.r.lines.some(t => txt(t) === x.old)) continue; (e.who === x.who ? left : kept).push(e.who + ' ' + id + '「' + x.old + '」'); }
@@ -82,6 +84,7 @@ const RI = OE.rows('invites'), RR = OE.rows('invite_replies');
     for (const id of new Set(Object.keys(ir0).concat(Object.keys(ir1)))) {
       const a = ir0[id], b = ir1[id]; if (!a || !b) { d.push(id + ' 只有一邊有'); continue; }
       const A0 = Object.assign({}, a.r), B0 = Object.assign({}, b.r); delete B0.ov; const la = A0.lines, lb = B0.lines; delete A0.lines; delete B0.lines;
+      const sv = RR.find(x => x.at === id + '.say'); if (sv) { if (A0.say !== sv.old || B0.say !== sv.new) d.push(id + '.say 不是稿上的 old→new'); delete A0.say; delete B0.say; }   /* 2026-11-11（X324 G 區，AA_783@60c08798a zr28.say）：稿上換 say 的列，say 照 old→new 算，其他欄位照舊零差異。舊期望：say 一律不變 */
       if (J(A0) !== J(B0) || a.who !== b.who) d.push(id + ' 其他欄位變了');
       if (la.length !== lb.length) d.push(id + ' 句數變了'); else la.forEach((t, k) => { if (J(t) !== J(lb[k]) && !at.has(id + '.lines[' + k + ']')) d.push(id + '.lines[' + k + '] 不是稿上的格子'); });
       if (a.r.ov) d.push(id + ' BASE 就有 ov');

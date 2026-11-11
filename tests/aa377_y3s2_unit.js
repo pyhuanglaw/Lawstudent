@@ -145,9 +145,9 @@ const inMD=t=>MD.indexOf(t)>=0;
     fresh('2028-03-24',19,'noodle',{EXCHANGE_ROUTE:'JP'}); ['zhe','heroine_01'].forEach(id=>R(id,'FRI')); date('heroine_01'); L=await play('ev_an_farewell_dinner',[0]);
     check('7. 對照：交往中照舊「……你顧你自己的。」',L.includes('……你顧你自己的。')&&!L.includes('（以安點了一下頭，沒有說話。）'),J(L));
     fresh('2028-02-28',13,'riverside'); ['yu','zhe','heroine_01'].forEach(id=>R(id,'FRI')); ex('heroine_01'); L=await play('ev_y3s2_228',['坐到以安旁邊']);
-    check('7. 228（挽回中）坐到以安旁邊：旁白「（以安看了你一眼，又低頭寫。）」，她不接話、不轉手帳',L.includes('（以安看了你一眼，又低頭寫。）')&&!L.includes('……你也要算嗎？')&&!L.some(t=>/手帳轉過來/.test(t)),J(L));
+    check('7. 228（挽回中）坐到以安旁邊：旁白「（以安看了你一眼，又低頭寫。）」，她不接話、不轉手帳',L.includes('（以安看了你一眼，又低頭寫。）')&&!L.includes('你也要算嗎？')/* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 第 59 列拿掉句首「……」。舊期望：「……你也要算嗎？」 */&&!L.some(t=>/手帳轉過來/.test(t)),J(L));
     fresh('2028-02-28',13,'riverside'); ['yu','zhe','heroine_01'].forEach(id=>R(id,'FRI')); L=await play('ev_y3s2_228',['坐到以安旁邊']);
-    check('7. 對照：沒有分手照舊「……你也要算嗎？」',L.includes('……你也要算嗎？')&&!L.includes('（以安看了你一眼，又低頭寫。）'),J(L)); });
+    check('7. 對照：沒有分手照舊「你也要算嗎？」',L.includes('你也要算嗎？')/* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 第 59 列拿掉句首「……」。舊期望：「……你也要算嗎？」 */&&!L.includes('（以安看了你一眼，又低頭寫。）'),J(L)); });
   /* ---- 8 芷若大三下的班 ---- */
   await sec('8',async()=>{
     check('8. 讀稿：作息、兩句邀約在稿裡',inMD('**週三、四 19:00～22:00**')&&inMD('「這禮拜四我十點下班。……」')&&inMD('「考完了嗎？禮拜四我下班以後，吃個東西？」'));

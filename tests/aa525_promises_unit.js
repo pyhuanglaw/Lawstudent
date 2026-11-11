@@ -308,7 +308,7 @@ await sec('3-7',async()=>{
 await sec('3-8',async()=>{
   check('3-8 K-10. 寒暑假送上車（交往中）「開學我就上去了。台北見。」',HOMETOWN_LINES[KX].send.dating[0]==='開學我就上去了。台北見。');
   const t=JSON.stringify(ev('ev_kexin_trip_summer_y2')||STORY_EVENTS.find(e=>JSON.stringify(e.dialogue||[]).includes('下次找一個我們都沒去過的地方')));
-  check('3-8 K-12. 「……好。下次找一個我們都沒去過的地方。」',JSON.stringify(STORY_EVENTS.map(e=>e.dialogue||[])).includes('……好。下次找一個我們都沒去過的地方。'));
+  check('3-8 K-12. 「好。下次找一個我們都沒去過的地方。」（稿上「……好。下次找一個我們都沒去過的地方。」，X324 G 區 AA_801 拿掉句首「……」）',JSON.stringify(STORY_EVENTS.map(e=>e.dialogue||[])).includes(J(require('./line_rows_expect.js').fwd('……好。下次找一個我們都沒去過的地方。','src/data/r2y3a_events.js'))));   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3a_events.js 第 54 列拿掉句首「……」——遊戲那一句（整格，含 JSON 的引號）＝稿 old→new。舊期望：「……好。下次找一個我們都沒去過的地方。」 */
   const k13=lad('Y1S2',KX,'K2-L8');
   check('3-8 K-13. 閒聊階梯 K2-L8「我去找妳。」→「……真的喔？那我帶你去夜市。」',!!k13&&k13.choices[0].reply==='……真的喔？那我帶你去夜市。');
   const s=stripComments(SRC('src/story3d.js'));

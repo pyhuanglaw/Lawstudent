@@ -120,7 +120,8 @@ await tsec(6,async()=>{ const NEW='說好的，運河一圈。……下學期就
   const NEW759='說好的，運河一圈。下學期就大四了，我開始寫教檢的考古題，寫到懷疑人生。';
   check('6. pg_dates.js（重新匯入）與那一格的事件：2030-06「說好的，運河一圈。……」（X327 重寫後半）、台南',!!row&&row.line===NEW759&&row.line.startsWith('說好的，運河一圈。')&&row.note==='台南'&&!!ln&&ln.text===NEW759,J([row,ln&&ln.text]));
   check('6. 2030-04 視訊那一句照舊（「下次你來，我們走一圈好不好？」）',((PG_DATES.six.classmate_peishan||[]).find(x=>x.ym==='2030-04')||{}).line==='運河那邊晚上很漂亮！下次你來，我們走一圈好不好？');
-  check('6. 匯入來源：AA_367 白名單同一版（1ebcf530 起；AA_688 以後是 8dce2f94c；AA_593 學姊①b 以後是 9aa8ec40c，history 留 1ebcf530、8dce2f94c；沛珊那一格不變）',/AA_367.*@9aa8ec40c/.test(PG_DATES.source.AA_367)&&JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>e.path==='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md'&&e.sha==='9aa8ec40c'&&e.status==='approved'&&(e.history||[]).some(x=>x.sha==='1ebcf530')&&(e.history||[]).some(x=>x.sha==='8dce2f94c'))&&git('9aa8ec40c','docs/story_planning/AA_367_畢業以後的交往節奏_六位.md').includes('| 2030-06 | 「'+NEW+'」（台南） |')); });
+  /* 2026-11-11（X324 G 區，AA_367@4adf447e5）：白名單換版（芷若四句店長→老闆、沛珊 2029-08、2030-01、2030-08 三列補回），9aa8ec40c 進 history；沛珊 2030-06 那一格不變。舊期望：PG_DATES.source 和白名單 9aa8ec40c */
+  check('6. 匯入來源：AA_367 白名單同一版（1ebcf530 起；AA_688 以後是 8dce2f94c；AA_593 學姊①b 以後是 9aa8ec40c；X324 G 區以後是 4adf447e5，history 留 1ebcf530、8dce2f94c、9aa8ec40c；沛珊那一格不變）',/AA_367.*@4adf447e5/.test(PG_DATES.source.AA_367)&&JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>e.path==='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md'&&e.sha==='4adf447e5'&&e.status==='approved'&&(e.history||[]).some(x=>x.sha==='1ebcf530')&&(e.history||[]).some(x=>x.sha==='8dce2f94c')&&(e.history||[]).some(x=>x.sha==='9aa8ec40c'))&&git('4adf447e5','docs/story_planning/AA_367_畢業以後的交往節奏_六位.md').includes('| 2030-06 | 「'+NEW+'」（台南） |')); });
 
 H.done();
 })();
