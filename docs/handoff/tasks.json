@@ -52834,7 +52834,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "AA 掃描報告 audit_1110/ → 改稿分批交 LAWWW 重匯；電影 AA_745",
+   "next": "AA 掃描報告 audit_1110/ → 改稿分批交 LAWWW 重匯；電影 AA_745｜11-11 02:1x AA 知會（還不用匯）：學姊校外約會 D01～D19 已重寫（企劃線 31af6d5d1，date_rewrite/sis_D01～D19.json；交往版寫「林{name}」，都在對話框）＋AA_764_sis_wish.json（心願事件「不排的晚上」，date_wish.js events.heroine_05 整個新物件＋31 列）。等 D20～D33 和 BB 抽看完給一個 SHA 一次匯（做法同沛珊）；AA_595（D15 保溫瓶選項刪）、AA_593（decline 1 句）兩層對新稿不用再套。ytNameT「林{name}」不重複補林已修（8cc9743d8）",
    "xai": {
     "spec": "X324、UA-AA-1110-04",
     "branch": "claude/story-planning",
