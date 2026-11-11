@@ -330,6 +330,7 @@ const CLS=(function(){
     const peN=!exam&&S.peNarr?S.peNarr(G,it):null; if(o.inGym&&!exam){ try{ S.peCast(GM,it); }catch(e){ console.warn('CLS.peCast',e); } }   if(o.inGym){ S.peWear=it.key; if(typeof FIT!=='undefined'&&FIT.gymWearSync) FIT.gymWearSync(GM); }   /* 體育課換上短袖運動服（GYM-FIT-1107 ③；下課 finally 換回）*/   /* 體育課（AA_644）：這週的旁白；有修這堂、在場的朋友站進半圈 */
     const dBg=door&&o.inGym?'freeze':(door&&it.room&&S.DOOR_BG[it.room.door]&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(S.DOOR_BG[it.room.door]):null);   /* inGym：在體育館裡上體育課＝看得到館內（BUG-PE-DOOR-2D-1103）*/   /* 門口上課有自己的背景圖（BB 10:24：研討室 A 上課、考試都是空的模糊背景）*/
     if(!o.inScene) GM.sceneBegin(door?(dBg?{adv:true,background:dBg}:{adv:true}):undefined); else if(dBg&&typeof ADV!=='undefined'&&ADV.active&&ADV.setBg) ADV.setBg(dBg);
+    if(GM.skipScope) GM.skipScope(true);   /* 座位上課的對話可以略過（BB 2026-11-11；2D 門口上課本來就有「略過對話」）；下面 finally 關掉——下課後的人物事件（afterClassEvent）不在範圍裡 */
     try{
       if(door&&exam&&it.room&&S.DOOR_EXAM_LINE[it.room.door]) await GM.say(null,S.DOOR_EXAM_LINE[it.room.door].replace(/\{課名\}/g,c.name));   /* 考試那一堂開頭一句（研討室裡的人；AA 寫，到了填進 S.DOOR_EXAM_LINE）*/
       /* 服務學習（AA_110 第 6-1 節，AA 暫定）：0 學分、只記次數；在櫃台報到，2D 畫面每次一句（不帶人物）——第 n 次報到用第 n 句：第 1、9 句固定在第一次和最後一次，
@@ -375,7 +376,7 @@ const CLS=(function(){
       GM.caption('',exam?'考完了。':'下課了。'+(c.prof?S.profName(c)+'收起講義。':''),2400);
       if(stPost) await CROWD.seatTalkPlay(GM,stPost);   /* 下課後那一段（AA_495 第 3、4 節，原本在教室門口；CROWD-NO-DOOR-1103）*/
       }
-    } finally { if(!o.inScene) GM.sceneEnd(); if(S.peWear===it.key){ S.peWear=null; if(typeof FIT!=='undefined'&&FIT.gymWearSync) FIT.gymWearSync(GM); } }
+    } finally { if(GM.skipScope) GM.skipScope(false); if(!o.inScene) GM.sceneEnd(); if(S.peWear===it.key){ S.peWear=null; if(typeof FIT!=='undefined'&&FIT.gymWearSync) FIT.gymWearSync(GM); } }
     S.slotFillSpan(G,it.t0,Math.max(it.t1,hr(G)));   /* 上過一堂課＝那個時段的一件主要的事（DEC-SLOTS-1018 ③；時段用過了照樣能上）*/
     afterP={day:G.day,key:it.key,t:Date.now()};   /* 下課選單（DL-01 1-4）：課後事件演完、站起來以後才出（S.oneTick）*/
     if(c.kind!=='service') await S.afterClassEvent(GM,it);   /* 下課後、考完的人物事件（A12、A15 G1）；座位上課（inScene）也演（場景深度有計數，事件自己的 sceneBegin／sceneEnd 不會放開座位那一層）*/
@@ -777,7 +778,9 @@ const CLS=(function(){
       if(typeof STUDY!=='undefined'){ try{ for(const u of STUDY.unitsOfQ(q.id)) STUDY.mark(GM.G,u.id,'heard','ask'); STUDY.answer(GM.G,q.id,ok,'ask'); }catch(e){ console.warn('STUDY.answer',e); } } }
     await GM.say(null,'答案是'+(q.type==='tf'||!q.options?q.answer:'（'+q.answer+'）')+'。'+(q.core?'考點：'+q.core+(/[。！？]$/.test(q.core)?'':'。'):'')+(q.explanation||''));
     if(first) await GM.say(prof||null,pre+'期末考，會考這樣的題目。');
+    { const F=GM.G.flags=GM.G.flags||{}; if(!F.ASK_NOTE_HINT){ F.ASK_NOTE_HINT=GM.G.day; if(GM.toast) GM.toast(S.ASK_NOTE_HINT,4200); } }   /* 第一次答完課堂題：提示去哪裡看（BB 2026-11-11：紀錄在 ☰ 筆記本、不在手機，玩家不知道）；一個存檔一次 */
     return true; };
+  S.ASK_NOTE_HINT='題目和答案記在 ☰ 筆記本的「筆記」頁，學習進度在「法律」頁。';
   S.scoreOf=k=>[0,60,70,80,90,100][Math.max(0,Math.min(5,k|0))];   /* 答對 0～5 題＝0、60、70、80、90、100（AA_126 1-2）；0 題＝被當（重修等使用者確認）*/
   const optList=q=>q.type==='tf'||!q.options?['對','錯'].map(t=>({t,v:t})):Object.keys(q.options).map(k=>({t:'（'+k+'）'+q.options[k],v:k}));
   /* 考試那一堂：五題答完才交卷；交卷後，答錯的題目顯示答案、考點、解析（有才顯示）。法條只有大四顯示：大一～大三的 basis／mapBasis 是 AA、BB 對週次時自己標的，
