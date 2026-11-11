@@ -58,10 +58,12 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   let spec651=''; try{ spec651=require('./alison.js').ndl(cp.execSync('git -c core.quotepath=false show d07e6d124:"docs/story_planning/AA_651_回LAWWW_1104_02點_單車店小東西_約念書兩句_機場便利店.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}));}catch(e){}   /* AA_651（11-04）改了以安總圖見面那一句：規格改了，認新稿 */
   /* 2026-11-11（X324 語彤約會台詞重寫，AA 0a2136911）：語彤校外的 depart 第二、三句、enough 兩句、leaveEarly、noPair 照 AA_767_yt_date_common.json 改：也接受 AA_767 的稿 */
   let spec767=''; try{ spec767=cp.execSync('git show 0a2136911:docs/story_planning/AA_767_yt_date_common.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+  /* 2026-11-11（以安約會台詞匯入以後 AA 的後續改稿，AA_780_an_date_followup.json@248c8e390＝tests/date_src_sha.js 的 AN_FOLLOW_SHA）：以安校外的 enough 兩句、leaveEarly、noPair 照 AA_780 改（depart 三句不動）：也接受 AA_780 的稿。舊期望：只認 AA_535b／AA_594／AA_767 的稿 */
+  let spec780=''; try{ spec780=cp.execSync('git show '+require('./date_src_sha.js').AN_FOLLOW_SHA+':docs/story_planning/AA_780_an_date_followup.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
   const R772=require('./l118_redo772_expect.js');
   spec=R772.doc(spec)+'\n'+R772.corpus(); spec576=R772.doc(spec576); spec580=R772.doc(spec580); spec579=R772.doc(spec579); spec584=R772.doc(spec584); spec651=R772.doc(spec651);
-  const inSpec=t=>{ const x=String(t).replace(/^（走出法圖）/,'').replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||(!!spec767&&spec767.includes('"new": "'+x+'"'))||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x))||(!!spec651&&spec651.includes(x)); };
+  const inSpec=t=>{ const x=String(t).replace(/^（走出法圖）/,'').replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||(!!spec767&&spec767.includes('"new": "'+x+'"'))||(!!spec780&&spec780.includes('"new": "'+x+'"'))||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x))||(!!spec651&&spec651.includes(x)); };
   { const bad=[]; const walk=(tag,v)=>{ if(v==null) return; if(typeof v==='function') return walk(tag,v(null,{r:{}})); if(typeof v==='string'){ if(!inSpec(v)) bad.push(tag+':'+v); return; } if(Array.isArray(v)) return v.forEach(x=>walk(tag,x)); if(v.l) return walk(tag,v.l); for(const k in v) walk(tag+'.'+k,v[k]); };
     walk('lawlib',INVITE_DATA.lawlibLines); walk('lake',INVITE_DATA.lakeLines);
     for(const id of ['heroine_01','heroine_03','kexin']) for(const p of ['cafe','library','noodle','wenzhou']) walk('meet.'+id+'.'+p,((REL_LINES[id]||{}).meet||{})[p]);
@@ -79,12 +81,16 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     const dep=[0,1,2,3].map(()=>J(DATE.lineFor(G,'heroine_01','depart',t)));
     check('1-3. 以安 depart 三則輪流',J(dep)===J(DATE.EXTRA_LINES.heroine_01.depart.concat([DATE.EXTRA_LINES.heroine_01.depart[0]]).map(x=>J([x]))),J(dep));
     const en=[0,1].map(()=>DATE.lineFor(G,'heroine_01','enough',t)[0]), enW=[0,1].map(()=>DATE.lineFor(G,'heroine_01','enough',{day:win})[0]);
-    check('1-3. 以安 enough：學期中兩句輪流（「明天早上有課」：AA_594 第 367 列，原本「明天早上有讀書會」——讀書會在週四晚上）；寒暑假只有另一句',en.some(x=>/明天早上有課/.test(x))&&enW.every(x=>!/明天早上有課/.test(x))&&![...en,...enW].some(x=>/讀書會/.test(x)),J([en,enW]));
+    /* 2026-11-11（AA_780_an_date_followup.json@248c8e390）：enough 第一句換成「今天差不多了。再走下去，我會開始看錶。」（AA：不綁「明天早上有課」）、第二句拿掉刪節號——S.LINE_IF.heroine_01.enough 認的字不在了，
+       學期中、寒暑假都是兩句輪流。舊期望：學期中兩句輪流、其中一句有「明天早上有課」（AA_594 第 367 列）；寒暑假只有另一句 */
+    const EN=['今天差不多了。再走下去，我會開始看錶。','排的都走完了。多走的那一段，我很喜歡。'];
+    check('1-3. 以安 enough（AA_780）：學期中、寒暑假都是兩句輪流（「今天差不多了。再走下去，我會開始看錶。」「排的都走完了。多走的那一段，我很喜歡。」）；沒有「明天早上有課」「讀書會」',J(en.slice().sort())===J(EN.slice().sort())&&J(enW.slice().sort())===J(EN.slice().sort())&&![...en,...enW].some(x=>/明天早上有課|讀書會/.test(x)),J([en,enW]));
     const yt=[0,1].map(()=>DATE.lineFor(G,'heroine_03','enough',t)[0]); const off=D('2026-02-16'); const ytOff=[0,1].map(()=>DATE.lineFor(G,'heroine_03','enough',{day:off})[0]);
     const p0=STORY.presence('heroine_03',Object.assign({},G,{day:off})), shopOff=!(p0.here||p0.kind==='taipei');   /* AA_627 A-347、P-25：那一句改「晚上我要回去，秀琴姨煮了飯。」、條件改看她在不在臺北（不看麵店）*/
     /* 2026-11-11（X324 語彤約會台詞重寫，AA_767_yt_date_common.json@0a2136911）：enough 兩句換成「差不多了。秀琴姨煮了飯，我想回去吃熱的。」「我走不動了。到這裡就好。」、noPair 換成「我不用。我幫你拍，你站過去。」；條件照舊 */
     check('1-3. 語彤 enough：她在臺北＝兩句輪流（「差不多了。秀琴姨煮了飯，我想回去吃熱的。」，AA_767）；不在臺北只有「我走不動了。到這裡就好。」',yt.some(x=>x==='差不多了。秀琴姨煮了飯，我想回去吃熱的。')&&yt.some(x=>x==='我走不動了。到這裡就好。')&&(!shopOff||ytOff.every(x=>x==='我走不動了。到這裡就好。')),J([yt,ytOff,shopOff]));
-    check('1-3. leaveEarly、noPair（以安、語彤）',J(DATE.lineFor(G,'heroine_01','leaveEarly',t))===J(['……這樣就回去了？好。排好的，下次再用。'])&&J(DATE.lineFor(G,'heroine_03','noPair',t))===J(['我不用。我幫你拍，你站過去。']));
+    /* 2026-11-11（AA_780@248c8e390）：以安 leaveEarly 換成「這樣就回去了？好。排好的那幾個地方不會跑。」（拿掉刪節號、沒人記的「下次再用」）。舊期望 ['……這樣就回去了？好。排好的，下次再用。'] */
+    check('1-3. leaveEarly、noPair（以安 leaveEarly＝AA_780、noPair＝AA_780「照片？我幫你拍。我拍得比較正。」；語彤 noPair＝AA_767）',J(DATE.lineFor(G,'heroine_01','leaveEarly',t))===J(['這樣就回去了？好。排好的那幾個地方不會跑。'])&&J(DATE.lineFor(G,'heroine_01','noPair',t))===J(['照片？我幫你拍。我拍得比較正。'])&&J(DATE.lineFor(G,'heroine_03','noPair',t))===J(['我不用。我幫你拍，你站過去。']));
     check('1-3. date_lines.js（匯入工具產生）有的格子照舊用它（子晴的 depart）',J(DATE.lineFor(G,'heroine_04','depart',t))===J([DATE_LINES.lines.heroine_04.depart[0]]));
     const src=fs.readFileSync(path.join(ROOT,'src/date3d.js'),'utf8');
     check('1-3. 走完三個點才說 enough（DATE.scene 原本的位置）',/if\(spots\.length===3&&pts\.length>3\) await S\.speak\(GM,t\.who,'enough',t,\{obj:null\}\)/.test(src)); }
