@@ -11,7 +11,9 @@ AA_518（學姊第十五批）第 4 節 4-2、4-15：學姊 S4-L7 一句＋註�
 AA_525（說了沒發生（二））：子晴 Q2-L5、沛珊 P3-L3／P5-L2、可昕 K2-L8／K3-L5／K6-L6 的選項（字、回覆）整句相同才換（_swap，大一下～大三下各學期）；選了哪一個要記的旗標在 src/aa525_3d.js。
 AA_523（學姊第十六批）第 6 節 6-1、6-2：學姊 S7-L3 週次、S7-L8 選項②的回覆用 _fix 疊在大四下的階梯上（byTerm.Y4S2）；6-10：大四上招呼的 base 加一句（_fix_greet_base，byTerm.Y4S1）。
 AA_524（說了沒發生（一））：以安 A2-L5、A4-L6 選項②的回覆、A3-L8 extraIf，芷若 Z3-L4 選項②的回覆、Z5-L5 extraIf 用 _fix 疊上去（旗標 AN_COOK_PROMISE、ZR_LUROU_HALF 在 src/aa524_3d.js 記）。
-用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref] [--out 檔名]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔；--out：寫到那個檔、不改 src/data/ladder.js，tests/ladder_reimport_unit.js 用）"""
+AA_781（閒聊階梯全部重看，X324）：通用覆蓋層（任何人、任何學期），格式寫在檔案後面 AA781 那一段的註解；白名單加一筆就匯。
+用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref] [--out 檔名] [--no-aa781] [--aa781-log 檔名]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔；--out：寫到那個檔、不改 src/data/ladder.js，tests/ladder_reimport_unit.js 用；
+--no-aa781：不疊 AA_781 通用層（tests/ladder_aa781_1111_unit.js 比零差異用）；--aa781-log：AA_781 每一列換到哪裡、每人每學期刪節號前後，寫成 JSON）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -625,7 +627,7 @@ if A326:
 AA781_PREFIX = 'docs/story_planning/AA_781_'
 AA781_CHOICE_KEYED = {'A7-L5', 'Y6-L3', 'Y4-L6', 'A5-L1', 'A5-L8', 'K5-L2', 'Y5-L1', 'Y5-L6', 'Y5-L7', 'Y5-L8'}   # LAWWW 2026-11-11 列的（另外掃 src 補）
 AA781_CODE_OK = {}   # {(舊字, 'src/…js'): '為什麼程式裡那一句不用跟著換'}
-A781 = {p: s for p, s in G.approved_files(ALLOW, AA781_PREFIX).items() if re.match(r'^docs/story_planning/AA_781_[A-Za-z0-9]+_ladder_[A-Za-z0-9_]+\.json$', p)}
+A781 = {} if '--no-aa781' in sys.argv else {p: s for p, s in G.approved_files(ALLOW, AA781_PREFIX).items() if re.match(r'^docs/story_planning/AA_781_[A-Za-z0-9]+_ladder_[A-Za-z0-9_]+\.json$', p)}   # --no-aa781：不疊這一層（測試比「其他人、其他學期零差異」用，配 --out）
 AA781_LOG = []
 if A781:
     _keyed781 = set(AA781_CHOICE_KEYED)
