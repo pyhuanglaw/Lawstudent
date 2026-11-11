@@ -1,0 +1,49 @@
+{
+ "ref": "cloud_ref_3f_full（雲端 1024²/512）",
+ "cmp": "PC BK2_cpu_full（ceaab04cb，cc-local 7185bf5ef1）",
+ "ref_meta": {
+  "device": "CPU",
+  "blender": "5.2.3 LTS",
+  "bake_seconds": 1259.5,
+  "total_seconds": 1265.0,
+  "res": 1024,
+  "samples": 512
+ },
+ "cmp_meta": {
+  "device": "CPU",
+  "blender": "5.2.3 LTS",
+  "bake_seconds": 874.9,
+  "total_seconds": 893.3,
+  "res": 1024,
+  "samples": 512
+ },
+ "images": {
+  "day": {
+   "mean_ref": 0.24906,
+   "mean_cmp": 0.2469,
+   "ratio": 0.9913,
+   "mad_255": 34.484,
+   "p95_255": 108.651,
+   "p99_255": 135.655,
+   "alpha_same": true,
+   "ok": false
+  },
+  "night": {
+   "mean_ref": 0.24904,
+   "mean_cmp": 0.24747,
+   "ratio": 0.9937,
+   "mad_255": 33.79,
+   "p95_255": 108.205,
+   "p99_255": 134.928,
+   "alpha_same": true,
+   "ok": false
+  },
+  "dark": "兩邊都沒有（這個場景不烘）"
+ },
+ "pass": false,
+ "why": [
+  "day：亮度比 0.991、平均差 34.48/255、95% 108.7/255、alpha 同",
+  "night：亮度比 0.994、平均差 33.79/255、95% 108.2/255、alpha 同"
+ ],
+ "speedup": 1.44
+}

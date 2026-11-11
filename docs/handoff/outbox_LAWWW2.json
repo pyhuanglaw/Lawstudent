@@ -8250,7 +8250,7 @@
    "sha": "ceaab04cb",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "BB 17:13：BK2_cpu_s 跑完轉來（cc-local local_out/BK2_cpu_s），BK2_cpu_full 排在佇列最後；LAWWW2 17:2x 比對：初判 FAIL（UV 排法不同、胡桃木小面差 8/255；大平面一樣），等 full",
+   "ack": "BB 17:13：BK2_cpu_s 跑完轉來（cc-local local_out/BK2_cpu_s），BK2_cpu_full 排在佇列最後；LAWWW2 17:2x 比對：初判 FAIL（UV 排法不同、胡桃木小面差 8/255；大平面一樣），等 full；BB 17:46：BK2_cpu_full 兩次（942／928 秒）＋s 第二次轉來；LAWWW2 17:5x 定案：FAIL（PC、雲端各自重跑都完全相同，但兩台 UV 排法不同；大平面中位數 ≤ 1.6/255、胡桃木白天 0／晚上 5.7、night 亮度比 0.959）→ 維持「同一個房間固定一台機器烘」；S2 做完",
    "at": "2026-11-11T16:2x",
    "task": "BAKE-PC-1102-S2：HIP 部分照使用者 11-03 決定（Blender 只用 CPU）不做；改成總圖 3F 的雲端 5.2.3 CPU 對 PC 5.2.3 CPU 對照（BK2，P3 選做）",
    "files": [
@@ -8259,7 +8259,7 @@
     "tools/blender/env_second/lightbake/pc_ref/compare_bakes.py（兩邊都沒有的那張不算不一致）",
     "docs/art-rebuild/second_ai/wip/bake_pc/（README.md BK2 一節、cloud_ref_3f_s/、cloud_ref_3f_full/、bk1_result/bk2_cloud_repeat.json）"
    ],
-   "state": "CHECKPOINT_SAVED（PC 還沒跑）",
+   "state": "DONE（比對結論；不進遊戲）",
    "noDirectIntegrate": true,
    "note": "不進遊戲（只是比對工具和參考圖）；雲端 512²/64 24 秒、重跑逐像素相同；1024²/512 21 分",
    "next": "LAWWW／BB 把 README BK2 一節的兩行佇列（BK2_cpu_s、BK2_cpu_full）排給 CC；結果回來 LAWWW2 跑 compare_bakes.py"

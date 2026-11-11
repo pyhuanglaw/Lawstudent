@@ -1,0 +1,46 @@
+{
+ "ref": "PC BK2_cpu_s（ceaab04cb，cc-local cdc5ca05d8）",
+ "cmp": "PC BK2_cpu_s 第二次（5e5dfd047，cc-local ee04a6ff60）",
+ "ref_meta": {
+  "device": "CPU",
+  "blender": "5.2.3 LTS",
+  "bake_seconds": 21.1,
+  "total_seconds": 32.8,
+  "res": 512,
+  "samples": 64
+ },
+ "cmp_meta": {
+  "device": "CPU",
+  "blender": "5.2.3 LTS",
+  "bake_seconds": 21.0,
+  "total_seconds": 28.4,
+  "res": 512,
+  "samples": 64
+ },
+ "images": {
+  "day": {
+   "mean_ref": 0.25122,
+   "mean_cmp": 0.25122,
+   "ratio": 1.0,
+   "mad_255": 0.0,
+   "p95_255": 0.0,
+   "p99_255": 0.0,
+   "alpha_same": true,
+   "ok": true
+  },
+  "night": {
+   "mean_ref": 0.24381,
+   "mean_cmp": 0.24381,
+   "ratio": 1.0,
+   "mad_255": 0.0,
+   "p95_255": 0.0,
+   "p99_255": 0.0,
+   "alpha_same": true,
+   "ok": true
+  },
+  "dark": "兩邊都沒有（這個場景不烘）"
+ },
+ "pass": true,
+ "why": [],
+ "speedup": 1.0
+}
