@@ -552,7 +552,9 @@ const DATE=(function(){
   const brokeUp=(G,id)=>id==='kexin'&&!(G.flags&&G.flags.dating_kexin);
   /* 到達那一句的另一版（AA_359 5-3，企劃線 fb5156ab）：照情況換掉第一次那一組裡的幾句（同一個位置），其他句不動 */
   S.ARRIVE_VAR=[{loc:'D28',who:'classmate_peishan',when:(G,t)=>((S.whereOn(G,'classmate_peishan',t.day)||{}).own==='rent'),from:['臺南！太陽好大。','我爸媽說，好好玩，店裡不用擔心。'],to:['歡迎來臺南！今天我帶路。','我住這裡，太陽還是曬不習慣。']},   /* 沛珊大三起住臺南（PS_TN）：她帶路；原句留給還沒搬去的時候 */
-    {loc:'D32',who:'kexin',when:(G,t,o)=>!!(o&&o.combo),from:['清境。山路我查了，要開三個多小時。'],to:['清境。從日月潭上來，一個半小時。我查過了。']}];   /* D31＋D32 同一趟：從日月潭上來（B8）；只去清境的照原句 */
+    {loc:'D32',who:'kexin',when:(G,t,o)=>!!(o&&o.combo),from:['清境。要開三個多小時，我負責讓你不要睡著。'],to:['清境。從日月潭上來，一個半小時。我查過了。']}];   /* D31＋D32 同一趟：從日月潭上來（B8）；只去清境的照原句。
+       2026-11-11（使用者 X324 可昕約會台詞重寫，源稿 D32.json@f9c1a2b80）：她第一次到清境的第一句新稿是「清境。要開三個多小時，我負責讓你不要睡著。」（原本「清境。山路我查了，要開三個多小時。」）——from 跟著那一格的新字；
+       同一趟的那一句（to，AA_359 5-3 的字）沒有新稿、照舊，已列給 AA 確認 */
   S.arriveVar=function(G,t,set,o){ const v=S.ARRIVE_VAR.find(x=>x.loc===t.locs[0]&&x.who===t.who&&x.when(G,t,o)); if(!v||!set||!Array.isArray(set.lines)) return set;
     return Object.assign({},set,{lines:set.lines.map(ln=>{ const i=ln&&v.from.indexOf(ln.text); return i>=0?Object.assign({},ln,{text:v.to[i]}):ln; })}); };
   S.arriveLine=async function(GM,t,visits,o){ const G=GM.G, id=t.who, A=(LL(id,t.locs[0])||{}).arrive; if(!A) return false; const dating=!!(G.flags&&G.flags['dating_'+id]);
@@ -643,12 +645,16 @@ const DATE=(function(){
   S.NIGHT={single:'（晚上住在車站附近的旅館。兩間房，隔著一道牆。）',dating:'（晚上住在一間小民宿。窗外很安靜。）',home:'（晚上她回家。你住在車站附近的旅館。）',rent:'（晚上她回租的地方。你住在車站附近的旅館。）'};   /* 還沒交往／交往中／她在自己家（D26 以安、芷若在臺中的家）／她在租的地方（D28 沛珊大三起在台南）*/
   S.MORNING_NARR='（第二天早上。）';
   S.MORNING={heroine_01:'早餐我查過了。……走路五分鐘。',heroine_02:'我六點就醒了。換地方睡，都這樣。',heroine_03:'早。旅館的早餐我看過了，有稀飯。我在樓下。',heroine_04:'昨天我又弄到兩點。……今天你負責叫我。',
-    heroine_05:'（她已經在大廳，頭髮綁好了）早。你慢了七分鐘。',classmate_peishan:'我居然自己醒了，沒有靠鬧鐘。我在大廳等你，快來看奇蹟。',kexin:'行程表我昨天晚上重寫了。……你看一下第二天。'};
+    heroine_05:'（她已經在大廳，頭髮綁好了）早。你慢了七分鐘。',classmate_peishan:'我居然自己醒了，沒有靠鬧鐘。我在大廳等你，快來看奇蹟。',kexin:'第二天的我昨天重排了。你先看，有意見現在講。'};
+  /* 2026-11-11（使用者 X324 可昕約會台詞重寫，AA_769_kx_date_common.json@f9c1a2b80）：S.MORNING 可昕那一句換了（原本「行程表我昨天晚上重寫了。……你看一下第二天。」） */
   /* 2026-11-11（使用者 X324 語彤約會台詞重寫，AA_767_yt_date_common.json@0a2136911）：S.MORNING 語彤那一句換了（原本講蛋餅和秀琴姨——秀琴姨傍晚才來煮晚餐，沒有幫她煎早餐） */
   /* 2026-11-11（使用者 X324 學姊約會台詞重寫，date_rewrite/sis_D26.json@82c946ad7 的 for_LAWWW）：S.MORNING 學姊那一句換了（原本「（保溫瓶已經裝好熱茶）……出發前喝一口。」；保溫瓶整份約會稿只留 D02、D09、D13 三處） */
   S.MORNING_OWN={heroine_01:'我媽多做了一份早餐。……叫我帶給你。',heroine_02:'我出門的時候，我媽問我跟誰。……我說回來再講。',classmate_peishan:'我在樓下。早餐我買好了，買太多，你要負責吃。'};   /* 以安、芷若（D26 臺中）、沛珊（D28 臺南）；沛珊三句（MORNING、MORNING_OWN、MORNING_HOME）2026-11-11 照 X327 重寫換（date_rewrite/peishan_D26／D28.json@2883197b6 的 for_LAWWW：新設定早上起不來、家裡是連鎖餐廳） */
   S.MORNING_HOME={classmate_peishan:'我在樓下。我媽叫我帶水果給你，一大袋，我提得好辛苦。'};   /* 沛珊 D26 臺中、她剛好在台中老家（AA_359 第 3 節、5-1 B2：不借 D28 那句）*/
-  S.nightKind=(G,t,own)=>own==='home'?'home':(own==='rent'?'rent':(G.flags&&G.flags['dating_'+t.who]?'dating':'single'));
+  /* 2026-11-11（AA_769_kx_date_common.json@f9c1a2b80 的 for_LAWWW；BB 提、AA 同意）：過夜晚上那一句補一列——D29 高雄＋可昕＝「（晚上她回家。你住在車站附近的旅館。）」。
+     高雄是她老家，不回家說不通；她學期中 presence 在臺北（一起出發），照 own 算不到 home，所以另外列（比照 D26 以安／芷若在臺中的家、D28 沛珊在台南）。只管晚上那一句旁白；早上那一句照 S.MORNING */
+  S.NIGHT_HOME=[{loc:'D29',who:'kexin'}];
+  S.nightKind=(G,t,own)=>own==='home'||S.NIGHT_HOME.some(x=>x.who===t.who&&x.loc===(t.locs||[])[0])?'home':(own==='rent'?'rent':(G.flags&&G.flags['dating_'+t.who]?'dating':'single'));
   S.morningLine=(id,own)=>(own==='home'&&S.MORNING_HOME[id])||(own&&S.MORNING_OWN[id])||S.MORNING[id]||null;
   /* 有時間的三個互動點（AA_359 5-1 B7：台詞寫死了時間，兩天一夜要限制；一日約會不限）：day＝第幾天、at＝那一天的第幾個點（0 起算）才列；until＝演完至少到幾點（接晚上那一句）。
      第一天只走一個點就「今天先到這裡」＝夕陽、星星那一趟就沒有了，第二天不補 */

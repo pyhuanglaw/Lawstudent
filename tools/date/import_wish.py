@@ -12,6 +12,8 @@
   4. AA_764（DLG-FULL-REVIEW-1110，使用者 X324）：學姊 D15 心願事件照稿的 rows 32 列 old→new 疊（AA_595、AA_593 那兩層照舊先套；換完要等於稿的 wish_event）。白名單沒有 AA_764＝不疊。
   5. AA_768（DLG-FULL-REVIEW-1110，使用者 X324）：語彤 D13 心願事件「這次只有兩個人」照稿的 rows 34 列 old→new 疊（照 path；內容不動、只收字：刪節號、「嗯。」開頭、長椅和河那兩句）。
      closing.lines[5]「……不用趕回去。」是 timeline replace 的 key，不動（換完再檢查一次）。白名單沒有 AA_768＝不疊。
+  6. AA_770（DLG-FULL-REVIEW-1110，使用者 X324）：可昕 D25 心願事件「如果今天沒有行程表」照稿的 rows 23 列 old→new 疊（照 path；內容不動：刪節號 28 處留 5 處、她開口約的那句改用 {出發時間}）。
+     herInvite.accept[1]「不行，火車有時間。{出發時間}，車站見。」的 {出發時間} 由 src/wish3d.js 播的時候代換；帶不到出發時間的退路句（AA 指定）也在 wish3d.js。白名單沒有 AA_770＝不疊。
   3. AA_757（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫）：沛珊 D06 心願事件照稿的 wish_rows 69 列 old→new 疊（換完要等於稿的 wish_event；只換字，條件、旗標、時間、花費不動）。白名單沒有 AA_757＝不疊。
 用法：python3 tools/date/import_wish.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_wish.js）]"""
 import json, os, re, subprocess, sys
@@ -321,6 +323,43 @@ if A768:
         sys.exit(f'AA_768：closing.lines[5]「{KEEP768}」或 timeline replace 的 key 不在了')
     SRC525 += f'＋{os.path.basename(P768)[:6]}@{S768}（語彤 D13 心願 34 列，換了 {n768} 列）'
 
+# ---- 1i. AA_770（DLG-FULL-REVIEW-1110，使用者 X324 可昕約會台詞重寫；白名單上的 commit）：可昕 D25 外澳的心願事件「如果今天沒有行程表」——內容不動，只做兩件：
+#      刪節號 28 處留 5 處；她開口約的那句（herInvite.accept[1]）原本寫死「九點，台北車站」，改成「不行，火車有時間。{出發時間}，車站見。」（{出發時間} 在 src/wish3d.js 播的時候換成那一趟的出發時間）。
+#      做法同 1h：稿只有 rows＝23 列 old→new，path 是 events.kexin 底下的位置；照 path 換，那一格現在的字要剛好是 old（已經是 new＝跳過），兩個都不是＝停下來。只換台詞的字 ----
+A770 = G.approved_files(ALLOW, SP + 'AA_770_')
+FIX770 = set()
+KX = 'kexin'
+if A770:
+    P770, S770 = next(iter(A770.items()))
+    ok, why = G.allowed(P770, S770, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d770 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S770}:{P770}'], text=True)))
+    rows770 = d770.get('rows') or []
+    if len(rows770) != 23:
+        sys.exit(f'AA_770@{S770} 的 rows 應該是 23 列，讀到 {len(rows770)} 列')
+    n770 = 0
+    for r in rows770:
+        toks = [q if q else (a if a else int(b)) for q, a, b in re.findall(r'\["([^"]+)"\]|\.?([^.\[\]"]+)|\[(\d+)\]', r['path'])]
+        cur, par, key = EV[KX], None, None
+        for t in toks:
+            try:
+                par, key, cur = cur, t, cur[t]
+            except (KeyError, IndexError, TypeError):
+                sys.exit(f'AA_770 rows：路徑 {r["path"]} 找不到（在 {t!r}）')
+        if isinstance(cur, dict) and isinstance(cur.get('text'), str) and cur.get('who') in (KX, 'narr'):
+            par, key, cur = cur, 'text', cur['text']
+        if not isinstance(cur, str) or key in ('t', 'note', 'who', 'scene', 'rule'):
+            sys.exit(f'AA_770 rows：{r["path"]} 不是一句台詞（只換台詞的字）')
+        if '{' in r['new'] and r['path'] != 'herInvite.accept[1]':
+            sys.exit(f'AA_770 rows：{r["path"]} 的新句有佔位符（只有 herInvite.accept[1] 的 {{出發時間}} 有接）')
+        if cur == r['new']:
+            FIX770.add(r['new']); continue
+        if cur != r['old']:
+            sys.exit(f'AA_770 rows：{r["path"]} 現在是「{cur}」，不是原句「{r["old"]}」')
+        par[key] = r['new']; FIX770.add(r['new']); n770 += 1
+    SRC525 += f'＋{os.path.basename(P770)[:6]}@{S770}（可昕 D25 心願 23 列，換了 {n770} 列）'
+
 # ---- 2. 逐句對原稿（台詞、旁白、選項的字；說明欄不算）----
 SKIP = ('wish', 'rule', 'note', 'where', 'context', 'source', 'title', 'hotspotsTitle', 'scene', 'repeat', 'costNote', 'likeNote', 'album', 'code', 'name', 'memory', 'record')
 def all_text(o, path=''):
@@ -358,6 +397,9 @@ for k, e in EV.items():
         parts = [p for p in re.split(r'[（）「」]', t) if p] if who in ('narr', 'opt') else [t]
         if t0 in FIX592: continue   # AA_592 第 53 列換上去的句子（上面 1d 已對過 AA_592 的表）
         if t0 in FIX593 and k == 'heroine_05': continue   # AA_593 第 82 列（上面 1d2 已對過 AA_593 的表）
+        if t0 in FIX770 and k == KX:   # AA_770 換上去的句子（上面 1i 已照 path 對過 AA_770 的 rows）
+            if free and path.startswith(free): extra.append(f'{path}：{t0}')
+            continue
         if t0 in FIX768 and k == YT:   # AA_768 換上去的句子（上面 1h 已照 path 對過 AA_768 的 rows）；「你來過一次」的照舊列在 freeVisited
             if free and path.startswith(free): extra.append(f'{path}：{t0}')
             continue
