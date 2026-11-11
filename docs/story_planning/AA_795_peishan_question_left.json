@@ -1,0 +1,49 @@
+{
+ "_meta": {
+  "doc": "AA_795 沛珊「問問題」舊個性在遊戲裡剩下的兩處（CHAR-OLD-PURGE-1110／PEISHAN-VOICE-1110）",
+  "by": "AA（帳號 A）2026-11-11",
+  "format": "{file, line, at, old, new}；照原文換（confess_lines 那一列是整個 yes 陣列）。"
+ },
+ "rows": [
+  {
+   "file": "src/data/confess_lines.js",
+   "line": 80,
+   "at": "CONFESS_LINES.classmate_peishan.yes",
+   "old": [
+    "……你說完了？",
+    "你都不問我答案喔。",
+    {
+     "who": "narr",
+     "text": "（她自己笑了。）"
+    },
+    "好啦。好。以後我會一直問你問題喔。"
+   ],
+   "new": [
+    "……你說完了？",
+    "我剛剛還在想要怎麼先講，被你搶走了。",
+    {
+     "who": "narr",
+     "text": "（她自己笑了。）"
+    },
+    "好啦。好。那從現在開始，我鬧你就是合法的了。"
+   ],
+   "note": "祐廷先說的那一版（她先說的版本在 AA_751，已匯）；「問問題」是舊個性（使用者 11-10 更正，X327）。最後一句和 AA_751 yes 同一個梗，一個人只會走到其中一版"
+  },
+  {
+   "file": "src/r2y4b3d.js",
+   "line": 249,
+   "at": "classmate_peishan.friend",
+   "old": "好。……那我以後還可以問你別的問題嗎？",
+   "new": "好。那我以後還是可以鬧你喔，這個不能取消。",
+   "note": "畢業後七月最後一次心意邀約，祐廷說「我們還是朋友。」"
+  },
+  {
+   "file": "src/r2y4b3d.js",
+   "line": 249,
+   "at": "classmate_peishan.friendK",
+   "old": "……那我以後還可以問你別的問題嗎？",
+   "new": "那我以後還是可以鬧你喔，這個不能取消。",
+   "note": "知情對話後面接的那一句（拿掉開頭的「好。」，照原本 friendK 的規則）"
+  }
+ ]
+}
