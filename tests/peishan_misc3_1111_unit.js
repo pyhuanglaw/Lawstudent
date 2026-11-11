@@ -71,7 +71,7 @@ const LAD=[['Y4S1','期末。寒假我要回家裡的早餐店煎蛋。','期末
       /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：這幾個檔後來又照 AA_772 換了幾句（rel_lines.js 見面旁白一句等）——BASE 先照白名單上的 AA_772 換過再比（tests/l118_redo772_expect.js）。舊期望：直接和 BASE 比 */
       const ob0=show(BASE,f.file); if(!ob0) continue; const ob=require('./l118_redo772_expect.js').fixFile(f.file,ob0), O=lit(ob), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(f.rows.concat(r766).map(r=>r.old+'→'+r.new));
       check('4. '+f.file+'：字串和 BASE 逐個比一樣多，不一樣的剛好是稿上這 '+f.rows.length+' 列'+(r766.length?'＋AA_766 的 '+r766.length+' 列':''),O.length===L.length&&d.length===f.rows.length+r766.length&&d.every(([x,y])=>set.has(x+'→'+y)),J(d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,3))); }
-    check('4. date3d.js：T7A_YES、HOME_NO 沛珊那兩句照稿（別人的不動）',DATE.T7A_YES[PS]==='你要來台中喔？好啊！我去車站接你，這次我會準時！'&&DATE.HOME_NO[PS]==='「那幾天我回台中啦！換一天好不好？」'&&DATE.T7A_YES.heroine_01==='臺中？……好。我去車站接你。'&&DATE.HOME_NO.heroine_02==='「那個禮拜我回台中了。換一天好不好？」',J([DATE.T7A_YES&&DATE.T7A_YES[PS],DATE.HOME_NO&&DATE.HOME_NO[PS]])); });
+    check('4. date3d.js：T7A_YES、HOME_NO 沛珊那兩句照稿（別人的不動）',DATE.T7A_YES[PS]==='你要來台中喔？好啊！我去車站接你，這次我會準時！'&&DATE.HOME_NO[PS]==='「那幾天我回台中啦！換一天好不好？」'&&DATE.T7A_YES.heroine_01==='臺中？好。我去車站接你。' /* 2026-11-11（X324 以安約會台詞重寫，AA_777_an_date_common.json@1f88da7cc）：以安這一句拿掉刪節號，原本「臺中？……好。我去車站接你。」——「別人的不動」說的是沛珊那一輪 */&&DATE.HOME_NO.heroine_02==='「那個禮拜我回台中了。換一天好不好？」',J([DATE.T7A_YES&&DATE.T7A_YES[PS],DATE.HOME_NO&&DATE.HOME_NO[PS]])); });
 
   await sec(5,async()=>{ const md=show(S326,F326);
     if(md) check('5. BB_326 第 4 節原文：溫州街、週三 18:00～21:00、Y1S1～Y2S1；週三 21:00～22:30，不限地點；舊的兩組條件拿掉',md.includes('溫州街、週三 18:00～21:00、Y1S1～Y2S1')&&md.includes('週三 21:00～22:30，不限地點')&&md.includes('舊的週二四 16:30～18:00、週二三四兩組條件拿掉'));

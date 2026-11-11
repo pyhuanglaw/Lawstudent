@@ -47,13 +47,20 @@ check('2. 第 33 列（v6ex_lines.js 前任「理由我懂。不用解釋。」�
   check('3. source 寫明疊了 AA_594；import_wish.py 有 1e 那一段（白名單 AA_594_、16 列、處數對不上就停）',R('src/data/date_wish.js').includes('AA_594@'+SHA+'（以安 D07 心願 16 列）')&&/A594 = G\.approved_files\(ALLOW, SP \+ 'AA_594_'\)/.test(fs.readFileSync(path.join(GITDIR,'tools/date/import_wish.py'),'utf8'))); }
 // ---------- 4 date_lines ----------
 { const s=R('src/data/date_lines.js'); let D=null; try{ D=JSON.parse(s.slice(s.indexOf('const DATE_LINES=')+17,s.lastIndexOf(';'))); }catch(e){}
-  const LR=rows.filter(r=>/^date_lines/.test(r.where)), bad=[];
+  const LR=rows.filter(r=>/^date_lines/.test(r.where)), bad=[]; let locAll=0, locOk=0, rew=0, g777=0;
+  const AN777={'lines.heroine_01.move[1]':'可以。那天我空得出來。','lines.heroine_01.transport[0]':'好，開車也可以。本來想在路上看書的，那就到了再看。','lines.heroine_01.flaked[0][0]':'那天我等了四十分鐘。我有帶書，所以還好。','lines.heroine_01.flaked[0][1]':'下次請提早說。謝謝。'};   /* AA_777_an_date_common.json 的四列（path → new）*/
   const get=p=>{ const toks=p.match(/\['[^']*'\]|\[\d+\]|[^.[\]]+/g); let cur={lines:D.lines,loc:D.loc}; for(let i=0;i<toks.length;i++){ let t=toks[i], k=t.startsWith("['")?t.slice(2,-2):t.startsWith('[')?+t.slice(1,-1):t;
       if(cur&&typeof cur==='object'&&!(k in cur)&&i+1<toks.length&&!toks[i+1].startsWith('[')&&(k+'.'+toks[i+1]) in cur){ k=k+'.'+toks[i+1]; i++; } if(cur==null) return undefined; cur=cur[k]; } return cur; };
   if(D) for(const r of LR){ const pm=r.where.match(/`([^`]+)`/); const v=pm?get(pm[1]):undefined, t=typeof v==='string'?v:(v&&v.text);
     const nw=require('./ellipsis694.js').strip(r.nw);   /* AA_694（DATE-ELLIPSIS-1105）：約會台詞拿掉句首、。！？後、）後的「……」——改成那一格照同一條規則換了再比 */
-    if(!(t===nw||('（'+t+'）'===nw))) bad.push('#'+r.n+' '+(pm&&pm[1])+'＝'+t); }
-  check('4. date_lines.js：第 2-14 節 '+LR.length+' 列，位置欄的路徑那一格＝改成（'+LR.filter(r=>r.old===r.nw).length+' 列 BB_240 補回原句）',!!D&&LR.length===314&&!bad.length,J(bad.slice(0,5)));
+    const isLoc=!!pm&&/^loc\.D\d\d\.(lines|dislikeLine)\.heroine_01\./.test(pm[1]); if(isLoc) locAll++;
+    if(t===nw||('（'+t+'）'===nw)){ if(isLoc) locOk++; continue; }
+    if(pm&&AN777[pm[1]]!=null&&t===AN777[pm[1]]){ g777++; continue; }   /* 不分地點的短句：AA_777 再換的那幾格 */
+    if(isLoc&&typeof t==='string'&&t){ rew++; continue; }   /* 她某個地點的格子：新稿整格重寫了（逐字對新稿在 tests/an_dates_1111_unit.js 第 2 節；匯入工具逐列印出來是哪一句） */
+    bad.push('#'+r.n+' '+(pm&&pm[1])+'＝'+t); }
+  /* 2026-11-11（X324 以安約會台詞重寫，AA bd1ce5be0／AA_777@1f88da7cc）：AA 把遊戲裡的字（＝這張表的「改成」）先寫回源稿再重寫 33 個地點——她各地點的列（要換的 288 列＋BB_240 補回原句的 20 列）裡，新稿沒再動的那一格還是「改成」，
+     重寫的那一格是新稿的字；不分地點的短句照舊疊 AA_594，其中四格 AA_777 再換一次。舊期望：314 列每一格都＝改成。別種對不上（路徑找不到、不是她的格子）照舊算錯 */
+  check('4. date_lines.js：第 2-14 節 '+LR.length+' 列，位置欄的路徑那一格＝改成（'+LR.filter(r=>r.old===r.nw).length+' 列 BB_240 補回原句）；她各地點的 '+locAll+' 列裡 '+locOk+' 列還是改成的字、'+rew+' 列那一格新稿重寫了；不分地點的短句 AA_777 再換 '+g777+' 格',!!D&&LR.length===314&&!bad.length&&locAll>=288&&locOk+rew===locAll&&locOk>=100&&rew>=150&&g777>=1&&g777<=4,J([bad.slice(0,5),locAll,locOk,rew,g777]));
   check('4. source 寫明 AA_594；import_date_lines.py 疊 AA_594（白名單 AA_594_、路徑對不上就停）',!!D&&/AA_594_以安改稿_4b_不分年級系統事件\.md@4162d22e1/.test(D.source)&&/A594 = G\.approved_files\(ALLOW, SP \+ 'AA_594_'\)/.test(fs.readFileSync(path.join(GITDIR,'tools/date/import_date_lines.py'),'utf8')));
   check('4. date_lines.js 以安的台詞裡沒有「理由」「手帳」（表上改的都換了；舊句只剩她以外的人）',!!D&&!/理由|手帳/.test(J(D.lines.heroine_01))); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

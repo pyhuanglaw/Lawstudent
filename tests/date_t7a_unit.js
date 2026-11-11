@@ -47,6 +47,8 @@ const phoneAsk=async(id,pk)=>{ said=[]; opts=[]; picks=pk||[]; let r=null, err=n
   check('0. 讀得到稿 AA_350@'+SPEC_SHA+' 的 T7a：「打開，但只列 D26 臺中」＋以安、芷若答應的那一句',!!spec&&/打開，但只列 D26 臺中/.test(row)&&!!SP.heroine_01&&!!SP.heroine_02,J([row.slice(0,200),SP]));
   /* 2026-11-11（X324 芷若約會台詞重寫，AA_773_zr_date_common.json@e8a33995c）：芷若答應的那一句照 S.T7A_YES.heroine_02 那一列換成「你要來臺中？好，我帶你走。」（稿 AA_350 的 T7a 是「你要來臺中？……好。我帶你走。」，拿掉刪節號）——期望跟著換；逐字對 AA_773 在 tests/zr_dates_1111_unit.js 第 6 節 */
   check('0. 稿 AA_350 的芷若那一句還是 AA_773 那一列的原句（「你要來臺中？……好。我帶你走。」）',SP.heroine_02==='你要來臺中？……好。我帶你走。',String(SP.heroine_02)); SP.heroine_02='你要來臺中？好，我帶你走。';
+  /* 2026-11-11（X324 以安約會台詞重寫，AA_777_an_date_common.json@1f88da7cc）：以安答應的那一句照 S.T7A_YES.heroine_01 那一列拿掉刪節號（稿 AA_350 的 T7a 是「臺中？……好。我去車站接你。」）——期望跟著換；逐字對 AA_777 在 tests/an_dates_1111_unit.js 第 6 節 */
+  check('0. 稿 AA_350 的以安那一句還是 AA_777 那一列的原句（「臺中？……好。我去車站接你。」）',SP.heroine_01==='臺中？……好。我去車站接你。',String(SP.heroine_01)); SP.heroine_01='臺中？好。我去車站接你。';
   check('0. 以安、芷若答應的那一句逐字（DATE.T7A_YES；第三句是沛珊，AA_372 第 7 節 da55ec2b，tests/aa372_s7_unit.js 對稿）',!!DT().T7A_YES&&DT().T7A_YES.heroine_01===SP.heroine_01&&DT().T7A_YES.heroine_02===SP.heroine_02&&Object.keys(DT().T7A_YES).length===3&&!!DT().T7A_YES.classmate_peishan,J([DT().T7A_YES,SP]));
   { const al=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC_PATH);
     check('0. 匯入白名單：AA_350 只有一筆 approved＝'+SPEC_SHA+'（DATE-T7A-HOMETOWN-1021）',al.length===1&&al[0].sha===SPEC_SHA&&al[0].status==='approved'&&al[0].task==='DATE-T7A-HOMETOWN-1021'&&!!al[0].approvedBy,J(al.map(e=>[e.sha,e.status,e.task]))); }
@@ -95,7 +97,7 @@ const phoneAsk=async(id,pk)=>{ said=[]; opts=[]; picks=pk||[]; let r=null, err=n
   { const d15=D('2026-01-15'), d21=D('2026-01-21'); fresh(d15,10,{}); know('heroine_01',S5);
     const c=await phoneAsk('heroine_01',['出去玩…',D26(),0,label(d21),'08:00','就這樣約']); const t=c.r, yes=DT().T7A_YES&&DT().T7A_YES.heroine_01;
     check('5. 防回歸：在臺北的時候（1/15）約她回台中那幾天（1/21）的 D26（AA_350 S6 的例外）：約得成、照舊一般那一句（T7a 只管她人在台中時）',!!t&&t.ok&&t.day===d21&&(!yes||!c.L.includes(yes)),J([t&&t.ok,t&&t.why,c.L])); }
-  { fresh(d0,10,{}); know('heroine_01',S5); const AN='「那幾天我在台中。……換一天。」';
+  { fresh(d0,10,{}); know('heroine_01',S5); const AN='「那幾天我在台中。換一天。」';   /* 2026-11-11（X324 以安約會台詞重寫，AA_777_an_date_common.json@1f88da7cc）：S.HOME_NO.heroine_01 拿掉刪節號，原本「那幾天我在台中。……換一天。」 */
     const c=DATE.check(G,{who:'heroine_01',locs:['D13'],day:sat,depart:10});
     check('5. 防回歸：她在台中的那幾天約別的地方（直接 DATE.check 淡水）照舊 S6 那一句',!c.ok&&c.why===AN,J(c.why)); }
   { fresh(d0,10,{}); know('npc_fangyt',S5); know('heroine_03',S5);

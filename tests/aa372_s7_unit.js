@@ -44,10 +44,12 @@ const phoneAsk=async(id,pk)=>{ said=[]; opts=[]; picks=pk||[]; let r=null, err=n
   let spec=''; try{ spec=cp.execSync('git show '+SPEC_SHA+':"'+SPEC_PATH+'"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   const sec=(spec.split(/^## 7\./m)[1]||'');
   check('0. 讀得到稿（AA_372@'+SPEC_SHA+' 第 7 節）',/週末回台中/.test(sec));
+  /* 2026-11-11（X324 以安約會台詞重寫，AA_777_an_date_common.json@1f88da7cc）：以安那兩句（T7a 答應、S6 婉拒）照 AA_777 拿掉刪節號——稿 AA_372 第 7 節引的還是原句（[0]），遊戲是新句（[1]）；原本直接拿遊戲的字去稿裡找 */
+  const AN777={yes:['臺中？……好。我去車站接你。','臺中？好。我去車站接你。'],no:['「那幾天我在台中。……換一天。」','「那幾天我在台中。換一天。」']};
   const yesPS=DT().T7A_YES&&DT().T7A_YES.classmate_peishan, noPS=DT().HOME_NO&&DT().HOME_NO.classmate_peishan;
   /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：沛珊這兩句換了字（原本 AA_372 第 7 節的「你要來台中喔？好啊！我幫完早餐店就去車站接你！」、「那幾天我回台中啦！……換一天好不好？」）——遊戲裡要是新句、AA_372 稿上找得到的是原句；新句逐字對稿在 tests/peishan_misc3_1111_unit.js */
   const PS763={yes:['你要來台中喔？好啊！我幫完早餐店就去車站接你！','你要來台中喔？好啊！我去車站接你，這次我會準時！'],no:['「那幾天我回台中啦！……換一天好不好？」','「那幾天我回台中啦！換一天好不好？」']};
-  check('0. 沛珊兩句逐字（答應「'+yesPS+'」、婉拒 '+noPS+'；X327 重寫，原句在 AA_372 第 7 節）；以安照 T7a、S6',yesPS===PS763.yes[1]&&sec.includes('「'+PS763.yes[0]+'」')&&noPS===PS763.no[1]&&sec.includes(PS763.no[0])&&sec.includes('「'+DT().T7A_YES.heroine_01+'」')&&sec.includes(DT().HOME_NO.heroine_01),J([yesPS,noPS]));
+  check('0. 沛珊兩句逐字（答應「'+yesPS+'」、婉拒 '+noPS+'；X327 重寫，原句在 AA_372 第 7 節）；以安照 T7a、S6',yesPS===PS763.yes[1]&&sec.includes('「'+PS763.yes[0]+'」')&&noPS===PS763.no[1]&&sec.includes(PS763.no[0])&&sec.includes('「'+AN777.yes[0]+'」')&&DT().T7A_YES.heroine_01===AN777.yes[1]&&sec.includes(AN777.no[0])&&DT().HOME_NO.heroine_01===AN777.no[1],J([yesPS,noPS,DT().T7A_YES.heroine_01,DT().HOME_NO.heroine_01]));
   const P=(id,day)=>STORY.presence(id,{day,flags:{},stage:'law'});
   const anSat=D('2025-09-27'), psSat=D('2025-10-04');
   check('0. 前提：2025-09-27（六）以安、2025-10-04（六）沛珊 presence trip「回台中」',P('heroine_01',anSat).kind==='trip'&&P('heroine_01',anSat).away==='回台中'&&P('classmate_peishan',psSat).kind==='trip'&&wdOf(anSat)===6&&wdOf(psSat)===6);
