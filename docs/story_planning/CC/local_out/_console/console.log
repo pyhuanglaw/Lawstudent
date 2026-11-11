@@ -1,12 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[10:14:05] ==== END   LM2_N6  exit=0  153s   ====
-[10:14:14] memory 47% before starting LM2_N8 (2 running)
-[10:14:14] ==== START LM2_N8  (probe @ e7ddae33fee86ab1567ab9f7b4764686cc9c321c) ====
-[10:14:17] [res] cpu=2% mem=47% (15.0/31.4 GB) chrome_testing=10  START LM2_N8
-[10:14:57] [res] cpu=1% mem=43% (13.7/31.4 GB) chrome_testing=9  END LM2_N5
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       7a9ea9043..5515f6b49  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [10:15:03] ==== END   LM2_N5  exit=0  247s   ====
 [10:15:06] memory 46% before starting LM2_N9 (2 running)
 [10:15:06] ==== START LM2_N9  (probe @ e7ddae33fee86ab1567ab9f7b4764686cc9c321c) ====
@@ -1998,3 +1990,11 @@
 [17:35:04] ==== START TSR_CLASS_new  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
 [17:35:07] [res] cpu=3% mem=49% (15.5/31.4 GB) chrome_testing=9  START TSR_CLASS_new
 [17:35:41] [res] cpu=6% mem=47% (14.9/31.4 GB) chrome_testing=9  END L118A6_TAPSEAT_omu
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3cabc60c0..67e57709f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:35:46] ==== END   L118A6_TAPSEAT_omu  exit=0  142s   ====
+[17:35:49] memory 48% before starting TSR_CLASS_old (2 running)
+[17:35:49] ==== START TSR_CLASS_old  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[17:35:52] [res] cpu=17% mem=48% (15.2/31.4 GB) chrome_testing=9  START TSR_CLASS_old
+[17:36:25] [res] cpu=11% mem=47% (14.7/31.4 GB) chrome_testing=9  END L118A6_TAPSEAT_np
