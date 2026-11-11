@@ -5969,10 +5969,10 @@
   },
   {
    "path": "docs/story_planning/AA_783_invite_replies.json",
-   "sha": "60c08798a",
+   "sha": "5054f6cdc",
    "status": "approved",
    "overlay": true,
-   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X324 D 區）；LAWWW 11-11 派匯入、定覆蓋層格式；子代理代登，待值班 LAWWW 核；60c08798a（AA 11-11 10:40「AA_794 產生的檔那幾列搬進 AA_783／AA_785 覆蓋層」：芷若 zr28 老闆兩列合併）",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X324 D 區）；LAWWW 11-11 派匯入、定覆蓋層格式；子代理代登，待值班 LAWWW 核；60c08798a（AA 11-11 10:40「AA_794 產生的檔那幾列搬進 AA_783／AA_785 覆蓋層」：芷若 zr28 老闆兩列合併）；5054f6cdc（AA 11-11 11:23「zr28 要改」：「他笑了很久」——笑的是老闆）",
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "X324 D 區邀約回覆覆蓋列（七個人：刪節號、第 5 階「只有我們（兩個）？」以安、芷若、子晴、沛珊各換一句，語彤留）。overlay:true＝通用覆蓋層（tools/story/overlay_rows.py）：file invite_replies 的列 → tools/invite/build_replies.py 最後一步照 <列 id>.lines[i] 換（src/data/invite_replies.js）；file invites 的列 → tools/invite/apply_overlay.py 改 src/data/invites.js 原始碼那一個字串（at 當驗證、舊句一個不剩）。逐列 tests/invite_overlay_1111_unit.js",
@@ -5980,6 +5980,10 @@
     {
      "sha": "5106958ea",
      "note": "被 60c08798a 取代（X324 G 區）"
+    },
+    {
+     "sha": "60c08798a",
+     "note": "被 5054f6cdc 取代（zr28 她→他）"
     }
    ]
   },
