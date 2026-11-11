@@ -1,0 +1,118 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_lm2_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LM2_N3\out
+CC LM2 禮貌生財上師對話：PARTS POOL,FLAGS；SHA e7ddae33f；稿 fixtures\lm2；Windows＋GPU（PC）／SwiftShader（雲端）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.2s] hook：installed；LM 在＝True
+  [  26.2s] [DAYS] 用的日子（不是颱風假、隔天也不是）：{"Y1S1": {"day": 20, "id": "Y1S1", "week": 6, "date": "2025-10-06"}, "Y1S2": {"day": 188, "id": "Y1S2", "week": 5, "date": "2026-03-23"}, "Y2S1": {"day": 391, "id": "Y2S1", "week": 6, "date": "2026-10-12"}, "Y4S1": {"day": 1112, "id": "Y4S1", "week": 5, "date": "2028-10-02"}, "Y4S2": {"day": 1287, "id": "Y4S2", "week": 6, "date": "2029-03-26"}}
+  [  26.2s] [名字] 對照：祐廷＝祐廷、上師＝上師（稿：他的名字不出現）、吳教授＝SOCIAL.displayName(prof_wu)「吳教授」（CHARACTERS.prof_wu.name「吳教授」）、旁白＝不顯示名字
+  [前置／捷徑] 【前置／捷徑】POOL B：大一上 19:30、LM_MET 前一天、沒有交往（條件事件關著）
+  [前置／捷徑] POOL B：以安（heroine_01）fam／trust 調到 FRIEND：[50, 30, "FRIEND"]
+  [  46.1s] [POOL B] 狀態：{"day": 20, "date": "2025-10-06", "hour": 19.541, "stage": "law", "term": "Y1S1", "weather": "clear", "partners": [], "girls": ["heroine_01:FRIEND"], "lm": {"LM_MET": 19}, "finalsNext": false, "failedLast": false, "flunked": false, "brokeRecent": false, "lmLoaded": true, "typhoon": false}
+PASS [POOL B] 前置成立（沒交往、有朋友以上的女生）  {"partners": [], "girls": ["heroine_01:FRIEND"]}
+  [  50.0s] 到達「[POOL B] 算命桌」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [  50.7s] [POOL B] 走到算命桌前 (28.18,3.25) 19:34：按鈕「算命桌」
+PASS [POOL B] 有「算命桌」  算命桌
+  [  50.7s] [POOL B] 狀態：{"day": 20, "date": "2025-10-06", "hour": 19.571, "stage": "law", "term": "Y1S1", "weather": "clear", "partners": [], "girls": ["heroine_01:FRIEND"], "lm": {"LM_MET": 19}, "finalsNext": false, "failedLast": false, "flunked": false, "brokeRecent": false, "lmLoaded": true, "typhoon": false}
+  [  50.7s] [POOL B] 問感情：照稿的 when＋現在的狀態，可以出的組 ["lv1", "lv2", "lv5"]
+  [  56.3s] [POOL B] 問感情 第 1 次 按「算命桌」（19:35）→ 4 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv2；時間 19:35 → 19:50；第一句到最後一句 1.9 秒（探針點的速度）、整段 4.7 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  56.3s] [POOL B] 問感情 第 1 次 前後差異：LM_ []；其他 沒有
+PASS [POOL B] 問感情 第 1 次 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  56.3s] [POOL B] 問感情 第 1 次 lv2 #1 OK 稿［yt］「老師，她對我有沒有意思？」｜遊戲［祐廷］「老師，她對我有沒有意思？」（ADV on blur）
+  [  56.3s] [POOL B] 問感情 第 1 次 lv2 #2 OK 稿［ms］「手伸出來。」｜遊戲［上師］「手伸出來。」（ADV on blur）
+  [  56.3s] [POOL B] 問感情 第 1 次 lv2 #3 OK 稿［narr］「（他看了很久。）」｜遊戲［］「（他看了很久。）」（ADV on blur narr）
+  [  56.3s] [POOL B] 問感情 第 1 次 lv2 #4 OK 稿［ms］「手相看不出來。這種事要去問她，問手沒有用。」｜遊戲［上師］「手相看不出來。這種事要去問她，問手沒有用。」（ADV on blur）
+PASS [POOL B] 問感情 第 1 次：lv2 是這一類、照稿、在可以出的組裡 ["lv1", "lv2", "lv5"]  ["老師，她對我有沒有意思？", "手伸出來。", "（他看了很久。）", "手相看不出來。這種事要去問她，問手沒有用。"]
+  [  61.1s] [POOL B] 問感情 第 2 次 按「算命桌」（19:50）→ 3 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv5；時間 19:50 → 20:06；第一句到最後一句 1.8 秒（探針點的速度）、整段 4.0 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  61.1s] [POOL B] 問感情 第 2 次 前後差異：LM_ []；其他 沒有
+PASS [POOL B] 問感情 第 2 次 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  61.1s] [POOL B] 問感情 第 2 次 lv5 #1 OK 稿［yt］「老師，喜歡一個人要不要講？」｜遊戲［祐廷］「老師，喜歡一個人要不要講？」（ADV on blur）
+  [  61.1s] [POOL B] 問感情 第 2 次 lv5 #2 OK 稿［ms］「放在心裡的東西，法律不處罰，也沒有人會知道。」｜遊戲［上師］「放在心裡的東西，法律不處罰，也沒有人會知道。」（ADV on blur）
+  [  61.1s] [POOL B] 問感情 第 2 次 lv5 #3 OK 稿［ms］「兩樣都是。你自己選。」｜遊戲［上師］「兩樣都是。你自己選。」（ADV on blur）
+PASS [POOL B] 問感情 第 2 次：lv5 是這一類、照稿、在可以出的組裡 ["lv1", "lv2", "lv5"]  ["老師，喜歡一個人要不要講？", "放在心裡的東西，法律不處罰，也沒有人會知道。", "兩樣都是。你自己選。"]
+  [  66.5s] [POOL B] 問感情 第 3 次 按「算命桌」（20:06）→ 4 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv1；時間 20:06 → 20:22；第一句到最後一句 1.8 秒（探針點的速度）、整段 4.6 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  66.5s] [POOL B] 問感情 第 3 次 前後差異：LM_ []；其他 沒有
+PASS [POOL B] 問感情 第 3 次 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  66.5s] [POOL B] 問感情 第 3 次 lv1 #1 OK 稿［yt］「老師，我什麼時候會交到女朋友？」｜遊戲［祐廷］「老師，我什麼時候會交到女朋友？」（ADV on blur）
+  [  66.5s] [POOL B] 問感情 第 3 次 lv1 #2 OK 稿［ms］「你都怎麼做？」｜遊戲［上師］「你都怎麼做？」（ADV on blur）
+  [  66.5s] [POOL B] 問感情 第 3 次 lv1 #3 OK 稿［yt］「等。」｜遊戲［祐廷］「等。」（ADV on blur）
+  [  66.5s] [POOL B] 問感情 第 3 次 lv1 #4 OK 稿［ms］「用等的想等到結果，那個叫不能犯。手段自始不可能。換一個手段再來。」｜遊戲［上師］「用等的想等到結果，那個叫不能犯。手段自始不可能。換一個手段再來。」（ADV on blur）
+PASS [POOL B] 問感情 第 3 次：lv1 是這一類、照稿、在可以出的組裡 ["lv1", "lv2", "lv5"]  ["老師，我什麼時候會交到女朋友？", "你都怎麼做？", "等。", "用等的想等到結果，那個叫不能犯。手段自始不可能。換一個手段再來。"]
+  [  71.9s] [POOL B] 問感情 第 4 次 按「算命桌」（20:22）→ 4 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv2；時間 20:22 → 20:38；第一句到最後一句 1.9 秒（探針點的速度）、整段 4.6 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  71.9s] [POOL B] 問感情 第 4 次 前後差異：LM_ []；其他 沒有
+PASS [POOL B] 問感情 第 4 次 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  71.9s] [POOL B] 問感情 第 4 次 lv2 #1 OK 稿［yt］「老師，她對我有沒有意思？」｜遊戲［祐廷］「老師，她對我有沒有意思？」（ADV on blur）
+  [  71.9s] [POOL B] 問感情 第 4 次 lv2 #2 OK 稿［ms］「手伸出來。」｜遊戲［上師］「手伸出來。」（ADV on blur）
+  [  71.9s] [POOL B] 問感情 第 4 次 lv2 #3 OK 稿［narr］「（他看了很久。）」｜遊戲［］「（他看了很久。）」（ADV on blur narr）
+  [  71.9s] [POOL B] 問感情 第 4 次 lv2 #4 OK 稿［ms］「手相看不出來。這種事要去問她，問手沒有用。」｜遊戲［上師］「手相看不出來。這種事要去問她，問手沒有用。」（ADV on blur）
+PASS [POOL B] 問感情 第 4 次：lv2 是這一類、照稿、在可以出的組裡 ["lv1", "lv2", "lv5"]  ["老師，她對我有沒有意思？", "手伸出來。", "（他看了很久。）", "手相看不出來。這種事要去問她，問手沒有用。"]
+PASS [POOL B] 問感情 四次 ["lv2", "lv5", "lv1", "lv2"]：同一類沒有連續抽到同一組  []
+  [  71.9s] [POOL B] 問感情 四次裡出現 3 種（可以出的 3 種）
+  [前置／捷徑] 【前置／捷徑】POOL A：大一上 19:30、LM_MET 前一天、交往中（dating_kexin true＝遊戲預設）（條件事件關著）
+  [  80.9s] [POOL A] 狀態：{"day": 20, "date": "2025-10-06", "hour": 19.551, "stage": "law", "term": "Y1S1", "weather": "clear", "partners": ["kexin"], "girls": [], "lm": {"LM_MET": 19}, "finalsNext": false, "failedLast": false, "flunked": false, "brokeRecent": false, "lmLoaded": true, "typhoon": false}
+PASS [POOL A] 前置成立（交往中）  {"partners": ["kexin"], "girls": []}
+  [  84.6s] 到達「[POOL A] 算命桌」附近（0.14 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [  85.3s] [POOL A] 走到算命桌前 (28.17,3.25) 19:35：按鈕「算命桌」
+PASS [POOL A] 有「算命桌」  算命桌
+  [  85.3s] [POOL A] 狀態：{"day": 20, "date": "2025-10-06", "hour": 19.58, "stage": "law", "term": "Y1S1", "weather": "clear", "partners": ["kexin"], "girls": [], "lm": {"LM_MET": 19}, "finalsNext": false, "failedLast": false, "flunked": false, "brokeRecent": false, "lmLoaded": true, "typhoon": false}
+  [  85.3s] [POOL A] 問感情：照稿的 when＋現在的狀態，可以出的組 ["lv3", "lv5"]
+  [  90.8s] [POOL A] 問感情 第 1 次 按「算命桌」（19:35）→ 4 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv3；時間 19:35 → 19:51；第一句到最後一句 1.8 秒（探針點的速度）、整段 4.6 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  90.8s] [POOL A] 問感情 第 1 次 前後差異：LM_ []；其他 沒有
+PASS [POOL A] 問感情 第 1 次 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  90.8s] [POOL A] 問感情 第 1 次 lv3 #1 OK 稿［yt］「老師，我們會不會走下去？」｜遊戲［祐廷］「老師，我們會不會走下去？」（ADV on blur）
+  [  90.8s] [POOL A] 問感情 第 1 次 lv3 #2 OK 稿［ms］「她知道你來問這個嗎？」｜遊戲［上師］「她知道你來問這個嗎？」（ADV on blur）
+  [  90.8s] [POOL A] 問感情 第 1 次 lv3 #3 OK 稿［yt］「不知道。」｜遊戲［祐廷］「不知道。」（ADV on blur）
+  [  90.8s] [POOL A] 問感情 第 1 次 lv3 #4 OK 稿［ms］「那你回去不要講。講了你今天晚上就有事了，那個我真的算得出來。」｜遊戲［上師］「那你回去不要講。講了你今天晚上就有事了，那個我真的算得出來。」（ADV on blur）
+PASS [POOL A] 問感情 第 1 次：lv3 是這一類、照稿、在可以出的組裡 ["lv3", "lv5"]  ["老師，我們會不會走下去？", "她知道你來問這個嗎？", "不知道。", "那你回去不要講。講了你今天晚上就有事了，那個我真的算得出來。"]
+  [  95.7s] [POOL A] 問感情 第 2 次 按「算命桌」（19:51）→ 3 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv5；時間 19:51 → 20:06；第一句到最後一句 1.9 秒（探針點的速度）、整段 4.1 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  95.7s] [POOL A] 問感情 第 2 次 前後差異：LM_ []；其他 沒有
+PASS [POOL A] 問感情 第 2 次 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  95.7s] [POOL A] 問感情 第 2 次 lv5 #1 OK 稿［yt］「老師，喜歡一個人要不要講？」｜遊戲［祐廷］「老師，喜歡一個人要不要講？」（ADV on blur）
+  [  95.7s] [POOL A] 問感情 第 2 次 lv5 #2 OK 稿［ms］「放在心裡的東西，法律不處罰，也沒有人會知道。」｜遊戲［上師］「放在心裡的東西，法律不處罰，也沒有人會知道。」（ADV on blur）
+  [  95.7s] [POOL A] 問感情 第 2 次 lv5 #3 OK 稿［ms］「兩樣都是。你自己選。」｜遊戲［上師］「兩樣都是。你自己選。」（ADV on blur）
+PASS [POOL A] 問感情 第 2 次：lv5 是這一類、照稿、在可以出的組裡 ["lv3", "lv5"]  ["老師，喜歡一個人要不要講？", "放在心裡的東西，法律不處罰，也沒有人會知道。", "兩樣都是。你自己選。"]
+  [ 101.1s] [POOL A] 問感情 第 3 次 按「算命桌」（20:07）→ 4 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv3；時間 20:07 → 20:22；第一句到最後一句 1.8 秒（探針點的速度）、整段 4.6 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 101.1s] [POOL A] 問感情 第 3 次 前後差異：LM_ []；其他 沒有
+PASS [POOL A] 問感情 第 3 次 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [ 101.1s] [POOL A] 問感情 第 3 次 lv3 #1 OK 稿［yt］「老師，我們會不會走下去？」｜遊戲［祐廷］「老師，我們會不會走下去？」（ADV on blur）
+  [ 101.1s] [POOL A] 問感情 第 3 次 lv3 #2 OK 稿［ms］「她知道你來問這個嗎？」｜遊戲［上師］「她知道你來問這個嗎？」（ADV on blur）
+  [ 101.1s] [POOL A] 問感情 第 3 次 lv3 #3 OK 稿［yt］「不知道。」｜遊戲［祐廷］「不知道。」（ADV on blur）
+  [ 101.1s] [POOL A] 問感情 第 3 次 lv3 #4 OK 稿［ms］「那你回去不要講。講了你今天晚上就有事了，那個我真的算得出來。」｜遊戲［上師］「那你回去不要講。講了你今天晚上就有事了，那個我真的算得出來。」（ADV on blur）
+PASS [POOL A] 問感情 第 3 次：lv3 是這一類、照稿、在可以出的組裡 ["lv3", "lv5"]  ["老師，我們會不會走下去？", "她知道你來問這個嗎？", "不知道。", "那你回去不要講。講了你今天晚上就有事了，那個我真的算得出來。"]
+  [ 106.0s] [POOL A] 問感情 第 4 次 按「算命桌」（20:23）→ 3 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv5；時間 20:23 → 20:38；第一句到最後一句 1.9 秒（探針點的速度）、整段 4.1 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 106.0s] [POOL A] 問感情 第 4 次 前後差異：LM_ []；其他 沒有
+PASS [POOL A] 問感情 第 4 次 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [ 106.0s] [POOL A] 問感情 第 4 次 lv5 #1 OK 稿［yt］「老師，喜歡一個人要不要講？」｜遊戲［祐廷］「老師，喜歡一個人要不要講？」（ADV on blur）
+  [ 106.0s] [POOL A] 問感情 第 4 次 lv5 #2 OK 稿［ms］「放在心裡的東西，法律不處罰，也沒有人會知道。」｜遊戲［上師］「放在心裡的東西，法律不處罰，也沒有人會知道。」（ADV on blur）
+  [ 106.0s] [POOL A] 問感情 第 4 次 lv5 #3 OK 稿［ms］「兩樣都是。你自己選。」｜遊戲［上師］「兩樣都是。你自己選。」（ADV on blur）
+PASS [POOL A] 問感情 第 4 次：lv5 是這一類、照稿、在可以出的組裡 ["lv3", "lv5"]  ["老師，喜歡一個人要不要講？", "放在心裡的東西，法律不處罰，也沒有人會知道。", "兩樣都是。你自己選。"]
+PASS [POOL A] 問感情 四次 ["lv3", "lv5", "lv3", "lv5"]：同一類沒有連續抽到同一組  []
+  [ 106.0s] [POOL A] 問感情 四次裡出現 2 種（可以出的 2 種）
+  [ 106.0s] [POOL] 花了 80 秒
+  [前置／捷徑] 【前置／捷徑】day46 使用者存檔（fatiao3d_save_day46.json）只改 zone／pos／hour：汀州路巷 A 19:30（條件事件關著）
+  [ 115.1s] [FLAGS] 狀態：{"day": 46, "date": "2025-11-01", "hour": 19.551, "stage": "law", "term": "Y1S1", "weather": "clear", "partners": ["kexin"], "girls": ["heroine_01:CLOSE_FRIEND", "kexin:RELATIONSHIP"], "lm": {}, "finalsNext": false, "failedLast": false, "flunked": false, "brokeRecent": false, "lmLoaded": true, "typhoon": false}
+  [ 135.2s] [FLAGS] 雜訊底線（沒有互動、站著等 20 秒）的差異：[]
+  [ 138.9s] 到達「[FLAGS] 算命桌」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [ 139.7s] [FLAGS] 走到算命桌前 (28.18,3.25) 19:43：按鈕「算命桌」
+PASS [FLAGS] 有「算命桌」  算命桌
+  [ 149.4s] [FLAGS 初次見面] 按「算命桌」（19:43）→ 12 句、選單 []、認出＝first；時間 19:43 → 19:59；第一句到最後一句 6.6 秒（探針點的速度）、整段 8.8 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 149.4s] [FLAGS 初次見面] 前後差異：LM_ [["flags.LM_MET", "（沒有）", 46]]；其他 沒有
+PASS [FLAGS 初次見面] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+PASS [FLAGS] day46 存檔第一次＝初次見面  first
+  [ 154.8s] [FLAGS 聊聊天] 按「算命桌」（19:59）→ 4 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝ch5；時間 19:59 → 20:14；第一句到最後一句 1.9 秒（探針點的速度）、整段 4.6 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 154.8s] [FLAGS 聊聊天] 前後差異：LM_ []；其他 沒有
+PASS [FLAGS 聊聊天] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [ 161.3s] [FLAGS 問學業與考試] 按「算命桌」（20:15）→ 6 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝st1；時間 20:15 → 20:30；第一句到最後一句 3.4 秒（探針點的速度）、整段 5.7 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 161.3s] [FLAGS 問學業與考試] 前後差異：LM_ []；其他 沒有
+PASS [FLAGS 問學業與考試] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [ 167.0s] [FLAGS 問感情] 按「算命桌」（20:31）→ 4 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv3；時間 20:31 → 20:46；第一句到最後一句 1.9 秒（探針點的速度）、整段 4.8 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 167.0s] [FLAGS 問感情] 前後差異：LM_ []；其他 沒有
+PASS [FLAGS 問感情] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [ 172.1s] [FLAGS 問人生方向] 按「算命桌」（20:46）→ 4 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lf4；時間 20:46 → 21:02；第一句到最後一句 1.9 秒（探針點的速度）、整段 4.2 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 172.1s] [FLAGS 問人生方向] 前後差異：LM_ []；其他 沒有
+PASS [FLAGS 問人生方向] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [ 172.1s] [FLAGS] 整段多出／改過的 LM_ 旗標：["LM_MET"]
+  [ 172.1s] [FLAGS] 多出的 LM_ 旗標：["LM_MET"]（稿的四個＝LM_MET／LM_PROF／LM_KNOWN／LM_STUDY；多的照實記，BB 01:02：報 LAWWW、不算 FAIL）
+PASS [FLAGS] 多出的旗標都是 LM_ 開頭（BB 01:02）  ["LM_MET"]
+  [ 172.1s] [FLAGS] 花了 66 秒
+PASS 沒有 JS 例外  []
+ALL PASS
