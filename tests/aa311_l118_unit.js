@@ -149,34 +149,46 @@ await sec(1,async()=>{ const RG=L().REG, M=id=>L().shop(id).menu, wdOf=d=>CALEND
   check('1. 舊存檔沒有 G.l118（或壞掉）：點餐不壞、從 0 開始記',ok1&&!err&&H.G.l118.n.self===1,String(err)); });
 
 /* ---- 2 H2 ---- */
-await sec(2,async()=>{ const wed=td('Y2S2',3,3), H2=L().H2;
+/* 2026-11-11（L118-SHOPS-REDO-1111；AA_772 moves：H2 留在 omu，現在是奈良咖哩）：點的東西從菜單讀（舊期望寫死 咖哩蛋包飯、番茄醬蛋包飯）；H2 的句子照 L118.H2（AA_772 第 8、9 列換過）*/
+await sec(2,async()=>{ const wed=td('Y2S2',3,3), H2=L().H2, OM=L().shop('omu').menu;
   const setup=(flags)=>{ fresh(td('Y1S1',3,3),12.5,'l118_omu',flags); met(PS); here(PS); };
-  setup(); await order('omu',['咖哩蛋包飯','（就這樣）']); const ate=!!L().ateWith(H.G,PS,'omu'); gone(PS);
-  await order('omu',['番茄醬蛋包飯','「她最近比較忙。」'],wed,12.5);
+  setup(); await order('omu',[OM[0][0],'（就這樣）']); const ate=!!L().ateWith(H.G,PS,'omu'); gone(PS);
+  await order('omu',[OM[3][0],'「她最近比較忙。」'],wed,12.5);
   check('2. H2 大二下週三 12:30、之前和沛珊在蛋包飯研究所一起吃過：店員「那個每次都點可樂餅咖哩的女生，這學期都沒來耶。」→「她最近比較忙。」→「喔。那你跟她說，靠牆那個位子我幫她留著。」',
-    ate&&seq(['（你點了番茄醬蛋包飯。）',H2.lines[0][1],'喔。那你跟她說，靠牆那個位子我幫她留著。'])&&whoOf(H2.lines[0][1])==='店員'&&J(H.opts[H.opts.length-1])===J(['「她最近比較忙。」','「……我也不知道。」']),J([said(),H.opts]));
-  await order('omu',['番茄醬蛋包飯'],wed,12.6); const s1=!has(H2.lines[0][1]); await order('omu',['番茄醬蛋包飯'],wed+7,12.5); const s2=!has(H2.lines[0][1]);
+    ate&&seq(['（你點了'+OM[3][0]+'。）',H2.lines[0][1],'喔。那你跟她說，靠牆那個位子我幫她留著。'])&&whoOf(H2.lines[0][1])==='店員'&&J(H.opts[H.opts.length-1])===J(['「她最近比較忙。」','「……我也不知道。」']),J([said(),H.opts]));
+  await order('omu',[OM[3][0]],wed,12.6); const s1=!has(H2.lines[0][1]); await order('omu',[OM[3][0]],wed+7,12.5); const s2=!has(H2.lines[0][1]);
   check('2. H2 只一次',s1&&s2);
-  setup(); await order('omu',['咖哩蛋包飯','（就這樣）']); gone(PS); await order('omu',['咖哩蛋包飯','「……我也不知道。」'],wed,12.2);
+  setup(); await order('omu',[OM[0][0],'（就這樣）']); gone(PS); await order('omu',[OM[0][0],'「……我也不知道。」'],wed,12.2);
   check('2. 選「……我也不知道。」→（店員點點頭，沒有再問。）；12:12 點也算',seq([H2.lines[0][1],'（店員點點頭，沒有再問。）'])&&!has('喔。那你跟她說，靠牆那個位子我幫她留著。'),J(said()));
-  const neg=async(d,h,o)=>{ o=o||{}; if(o.noMeal){ fresh(d,h,'l118_omu'); } else { setup(); await order('omu',['咖哩蛋包飯','（就這樣）']); gone(PS); } await order('omu',['咖哩蛋包飯'],d,h); return !has(H2.lines[0][1]); };
+  const neg=async(d,h,o)=>{ o=o||{}; if(o.noMeal){ fresh(d,h,'l118_omu'); } else { setup(); await order('omu',[OM[0][0],'（就這樣）']); gone(PS); } await order('omu',[OM[0][0]],d,h); return !has(H2.lines[0][1]); };
   const r={noMeal:await neg(wed,12.5,{noMeal:true}),thu:await neg(wed+1,12.5),late:await neg(wed,13.05),early:await neg(wed,12.1),y2s1:await neg(td('Y2S1',3,3),12.5),y3:await neg(td('Y3S1',3,3),12.5)};
   check('2. H2 不演：沒和她一起吃過、週四、13:03、12:06、大二上（她還在）、大三',Object.values(r).every(x=>x),J(r));
-  setup(); await order('omu',['咖哩蛋包飯','（就這樣）']); gone(PS); H.date(PS); await order('omu',['咖哩蛋包飯'],wed,12.5);
+  setup(); await order('omu',[OM[0][0],'（就這樣）']); gone(PS); H.date(PS); await order('omu',[OM[0][0]],wed,12.5);
   check('2. 和她交往中照演、選項一樣（第 5 節）',has(H2.lines[0][1])&&J(H.opts[H.opts.length-1])===J(['「她最近比較忙。」','「……我也不知道。」']),J(said()));
-  fresh(wed,12.5,'l118_omu'); H.G.fav={know:{[PS]:td('Y1S1',3,3)},right:{}}; await order('omu',['咖哩蛋包飯']);
+  fresh(wed,12.5,'l118_omu'); H.G.fav={know:{[PS]:td('Y1S1',3,3)},right:{}}; await order('omu',[OM[0][0]]);
   check('2. 舊存檔（沒有一起吃的次數，AA_410 記過她那一句）也算一起吃過',has(H2.lines[0][1]),J(said())); });
 
 /* ---- 3 H3 ---- */
-await sec(3,async()=>{ const wed=td('Y1S1',5,3), H3=L().H3;
-  const setup=(d,h,o)=>{ o=o||{}; fresh(d,h,'l118_cafe2'); met(AN); if(o.partner!==false) SOCIAL.remember(AN,'REPORT_PARTNER','民總'); if(o.here!==false) here(AN); };
-  setup(wed,12.5); await order('cafe2',['美式咖啡']); const nmAN=GM.npc[AN].name;
-  check('3. H3 大一上週三 12:30、以安在慢讀咖啡、民總報告同一組：店長「窗邊那張有插座。她幫你留了。」→（以安把她的包…）→ 以安「你的筆電電池撐不過一節課。」代替「幾位？」→ 點餐 → 她那句「這間週二休息，我查過了。」',
-    J(said().slice(0,3))===J(['店長：'+H3.lines[0][1],H3.lines[1][1],nmAN+'：'+H3.lines[2][1]])&&!has('幾位？……那邊那張可以坐。')&&seq([H3.lines[2][1],'（你點了美式咖啡。）','這間週二休息，我查過了。'])&&!said().some(t=>/理由：/.test(t)),J(said()));
-  await order('cafe2',['美式咖啡'],wed+7,12.5); check('3. H3 只一次（下週三照舊「幾位？」）',H.said[0].t==='幾位？……那邊那張可以坐。'&&!has(H3.lines[0][1]),J(said()));
-  const neg=async(d,h,o)=>{ setup(d,h,o); await order('cafe2',['美式咖啡']); return !has(H3.lines[0][1]); };
-  const r={noPartner:await neg(wed,12.5,{partner:false}),y1s2:await neg(td('Y1S2',5,3),12.5),alone:await neg(wed,12.5,{here:false}),thu:await neg(wed+1,12.5)};
-  check('3. H3 不演：沒有 REPORT_PARTNER、大一下、以安不在、週四',Object.values(r).every(x=>x),J(r)); });
+/* 2026-11-11（L118-SHOPS-REDO-1111；AA_772 slowread_to_mokuyobi.H3）改期望——
+   舊期望：H3 大一上週三 12:30 在慢讀咖啡（l118_cafe2）和以安一起點餐時演（店長「窗邊那張有插座。她幫你留了。」…以安「你的筆電電池撐不過一節課。」代替「幾位？」），只一次；沒有 REPORT_PARTNER、大一下、以安不在、週四不演。
+   新期望：搬到木曜日——大一下起週六 14:00～17:00 她在木曜日念書（常客那一筆）、玩家有 REPORT_PARTNER、只演一次；在木曜日點她的時候演（SLOWREAD.h3，代替那一次的當面招呼），
+           三句照 AA_772 的稿（老闆、旁白、以安；從白名單上的 AA_772 讀）；118 巷（大學食堂）不再演 */
+load('src/slowread3d.js');
+await sec(3,async()=>{ const sat=td('Y1S2',5,6), H3L=R772.d.slowread_to_mokuyobi.H3.lines, SR=globalThis.SLOWREAD||SLOWREAD, HI=SR.REGULARS.find(r=>r.id===AN).hi;
+  const setup=(d,h,o)=>{ o=o||{}; fresh(d,h,o.zone||'wz_mokuyobi'); met(AN); if(o.partner!==false) SOCIAL.remember(AN,'REPORT_PARTNER','民總'); const n=here(AN); H.said=[]; return n; };
+  const talk=async n=>{ H.said=[]; return SR.greet(GM,n,AN); };
+  check('3. 稿：H3 新三句（老闆、旁白、以安）；遊戲的資料 L118_REDO.h3 一字不差',H3L.length===3&&H3L[0][0]==='老闆'&&H3L[1][0]===null&&H3L[2][0]===AN&&J(L118_REDO.h3.lines)===J(H3L),J(L118_REDO.h3));
+  let n=setup(sat,15); const nmAN=n.name; const g1=await talk(n);
+  check('3. H3 大一下週六 15:00、以安在木曜日念書、民總報告同一組：在木曜日點她＝老闆那一句 →（以安把她的包…）→ 以安那一句（代替那一次的當面招呼）；記 G.l118.once.H3',
+    g1===true&&J(said())===J(['老闆：'+H3L[0][1],H3L[1][1],nmAN+'：'+H3L[2][1]])&&!has(HI)&&H.G.l118.once.H3===sat&&!said().some(t=>/理由：/.test(t)),J(said()));
+  at(sat+14,15); n=here(AN); const g2=await talk(n);   /* 隔兩週的週六（隔一週那個週六是連假，她不在）*/
+  check('3. H3 只一次（之後的週六照舊是她的當面招呼）',g2===true&&!has(H3L[0][1])&&J(H.said.map(x=>x.t))===J([HI]),J(said()));
+  const neg=async(d,h,o)=>{ const m=setup(d,h,o); if(o&&o.once){ H.G.l118={once:{H3:1}}; } await talk(m); return !has(H3L[0][1])&&!has(H3L[2][1]); };
+  const r={noPartner:await neg(sat,15,{partner:false}),y1s1:await neg(td('Y1S1',5,6),15),wed:await neg(sat-3,15),late:await neg(sat,18),other:await neg(sat,15,{zone:'cafe'}),oldSave:await neg(sat,15,{once:true})};
+  check('3. H3 不演：沒有 REPORT_PARTNER、大一上（她還沒有這一筆作息）、週三、17:00 以後、不在木曜日、在慢讀演過的舊存檔（once.H3）',Object.values(r).every(x=>x),J(r));
+  /* 118 巷不再演：大一上週三 12:30 在大學食堂、以安在旁邊、有 REPORT_PARTNER——照一般的「幾位？」 */
+  const wed=td('Y1S1',5,3); fresh(wed,12.5,'l118_cafe2'); met(AN); SOCIAL.remember(AN,'REPORT_PARTNER','民總'); here(AN); const o=L().withScene(H.G,'cafe2',[AN],12.5);
+  check('3. 118 巷不再演 H3：在大學食堂（cafe2）和以安一起＝沒有特別的招呼（L118.withScene＝null）、不記 once.H3',o===null&&!(H.G.l118&&H.G.l118.once&&H.G.l118.once.H3!=null)); });
 
 /* ---- 4 H4 ---- */
 await sec(4,async()=>{ const H4=L().H4;
