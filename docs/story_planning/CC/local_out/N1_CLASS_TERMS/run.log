@@ -1,0 +1,369 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_class_terms_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N1_CLASS_TERMS\out
+CC CLASS_TERMS（大一下～大四上各一堂課堂內容）：SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458 worktree HEAD=?；PARTS=Y1S2,Y2S1,Y3S1,Y4S1,Y4S2,JA2；PICK=0；VIA=wake；企劃 ref origin/claude/story-planning；Playwright 手機模擬 ≠ iPhone
+===== Y1S2 =====
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS Y1S2：遊戲載入
+PASS Y1S2：遊戲 COURSES 有這門課（{"id": "const_2", "name": "憲法（下）", "term": "Y1S2", "kind": "required", "room": "L201", "prof": "prof_zhang", "choice": null}）
+----- ct_Y1S2_const_2_w3（Y1S2 const_2 第 3 週；call）-----
+PASS ct_Y1S2_const_2_w3：找到 const_2 第 3 週那一堂（{"d": 174, "wd": 1, "key": "2026-03-09", "item": "174:const_2:am", "t0": 9.166666666666666, "t1": 12.166666666666666, "zone": "classroom", "door": null, "room": "法律系館A 201", "first": "174:const_2:am", "firstName": "憲法（下）", "name": "憲法（下）", "prof": "prof_zhang", "profShort": "張老師", "profChar": "張教授", "second": false, "line": "任命的是總統，負責的對象是立法院。這是一個設計。", "week": 3, "term": "Y1S2"}）
+PASS ct_Y1S2_const_2_w3：遊戲 syllabus.js 有這一週（有的週：[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]；來源 "claude/story-planning 80ed4ea066＋AA_373@e75d1cce（通識第 6 週 4 句）＋AA_377@d037c668（民訴第 14、15 週）＋AA_585@d3a22505b（期中週第 8、9 週 60 週）＋AA_255@52900eb23（行政救濟第 7 週以安、親屬第 1）
+PASS ct_Y1S2_const_2_w3：這一週在 SYLLABUS.reviewed（遊戲才會播稿，不然是一般句子）  true
+PASS ct_Y1S2_const_2_w3：稿裡這一週有 call  ["w", "tpl", "board", "line", "react", "call", "more"]
+  [  27.2s] [稿比對] Y1S2 const_2 第 3 週：企劃 JSON 多的註記欄位（不進遊戲）["review", "ref"]
+  [  27.2s] [稿比對] Y1S2 const_2 第 3 週：內容欄位 ["tpl", "board", "line", "more", "react", "call", "obs", "ask", "recall"] 不一樣的 0 項（企劃 origin/claude/story-planning（115769ad46572dc7c9f297ed954838a1b16f6909））
+  [  27.2s] [稿] ct_Y1S2_const_2_w3：tpl C；黑板 ["行政院", "院長由總統任命（增修條文 §3）", "行政院對立法院負責"]；line＋more 3 句；react 2 句；call ["因為立法院代表人民。", "法律這樣寫，沒有為什麼。", "因為總統不用負責。"]；obs []；ask null
+  [  27.2s] ct_Y1S2_const_2_w3：2026-03-09（第 174 天，週1）憲法（下） 9.166666666666666～12.166666666666666 法律系館A 201（zone classroom）教授 張教授（張老師）；那天第一堂 憲法（下）
+  [前置／捷徑] ct_Y1S2_const_2_w3：最小存檔 2026-03-08（第 173 天）23:00 宿舍房間；旗標 {}（住那一年的房間）（條件事件開著，只關手機自動打開）
+  [前置／捷徑] CLS.clearPending()＝True（清掉上一輪留下的待出選單）
+  [  39.6s] ct_Y1S2_const_2_w3：讀進來 {"zone": "dorm", "plate": null}
+  [  42.4s] 到達「床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  44.9s] ct_Y1S2_const_2_w3_bed：選單 ["睡到明天早上（08:10）", "睡到明天中午", "睡到明天下午", "睡到明天晚上", "快轉", "再撐一下"] → 選「睡到明天早上（08:10）」（照字「睡到明天早上」；截圖 gc_001_ct_Y1S2_const_2_w3_bed_menu.png）
+  [  54.9s] ct_Y1S2_const_2_w3：睡醒 第 174 天（要第 174 天）{"dlg": false, "ch": 0, "busy": false, "path": false, "seat": false, "fade": false, "phone": false, "paused": false, "zone": "dorm", "h": 8.193, "day": 174, "dtext": "", "dlgC": null, "nd": 8, "typing": false}
+PASS ct_Y1S2_const_2_w3：前一晚真的睡覺、第 174 天醒來
+  [  57.4s] ct_Y1S2_const_2_w3：起床選單以前的一句：早
+  [  58.3s] ct_Y1S2_const_2_w3：起床選單以前的一句：早安。今天的課：09:10　憲法（下）　法律系館A 201　／　13:20　通識
+PASS ct_Y1S2_const_2_w3：起床選單出了（["直接去上課：憲法（下）", "翹這堂課", "先起床再說"]）
+  [  60.3s] ct_Y1S2_const_2_w3_wake：選單 ["直接去上課：憲法（下）", "翹這堂課", "先起床再說"] → 選「直接去上課：憲法（下）」（照字「直接去上課」；截圖 gc_003_ct_Y1S2_const_2_w3_wake_menu.png）
+  [  74.5s] ct_Y1S2_const_2_w3：坐下那時，稿裡說話的同學（reactOK 的條件；3D 教室＝看 inRoom：{"zone": "classroom", "room": null, "door": null}）[{"who": "classmate_xinci", "name": "芯慈", "present": true, "inRoom": true, "knows": false, "sched": {"act": "class", "cls": "174:const_2:am", "zone": "classroom", "room": null, "label": null}, "schedIn": true}, {"who": "heroine_01", "name": "沈以安", "present": true, "inRoom": true, "knows": false, "sched": {"act": "class", "cls": "174:const_2:am", "zone": "classroom", "room": null, "label": null}, "schedIn": true}]
+  [ 103.0s] ct_Y1S2_const_2_w3：選單 ["「因為立法院代表人民。」", "「法律這樣寫，沒有為什麼。」", "「因為總統不用負責。」"] → 選「「因為立法院代表人民。」」（call（照稿第 1 項的字）；截圖 gc_005_ct_Y1S2_const_2_w3_menu.png）
+  [ 116.0s] ct_Y1S2_const_2_w3_after：選單 ["直接去下一堂：通識：天文與我們", "先自由活動", "下一堂不去"] → 選「先自由活動」（照字「先自由活動」；截圖 gc_007_ct_Y1S2_const_2_w3_after_menu.png）
+PASS ct_Y1S2_const_2_w3：進了教室（["classroom"]；教室 zone classroom）
+  [ 121.4s] ct_Y1S2_const_2_w3：課堂 10 句（say＋字幕）；坐下到「下課了」34.0 秒；整段 60.2 秒
+  [ 121.4s]     [say 9.014] 名字「」()：（你在座位上等。教室慢慢坐滿了。）
+  [ 121.4s]     [say 9.167] 名字「張教授」(prof_zhang)：任命的是總統，負責的對象是立法院。這是一個設計。
+  [ 121.4s]     [say 9.167] 名字「張教授」(prof_zhang)：行政院長由總統任命，不用經立法院同意。這是增修條文改的。
+  [ 121.4s]     [say 9.167] 名字「張教授」(prof_zhang)：可是行政院要對立法院負責：提出施政報告、接受質詢。
+  [ 121.4s]     [say 9.167] 名字「張教授」(prof_zhang)：那麼，總統任命的院長，為什麼要對立法院負責？
+  [ 121.4s]     [say 9.167] 名字「」()：同學：「憲法本文原本要立法院同意，增修條文拿掉了。」
+  [ 121.4s]     [say 9.167] 名字「」()：張老師點到你。
+  [ 121.4s]     [say 9.167] 名字「張教授」(prof_zhang)：立法院也是人民選的。行政院花的錢、推的法律，都要經過它。
+  [ 121.4s]     [say 9.167] 名字「張教授」(prof_zhang)：任命和負責分開，是為了讓兩邊互相看著。
+  [ 121.4s]     [cap 12.167] 名字「」()：下課了。張老師收起講義。
+  [ 121.4s] ct_Y1S2_const_2_w3：教授說的 6 句，對話框名字 ["張教授"]（人物資料 張教授）；不在場（「○老師：」開頭）0 句
+PASS ct_Y1S2_const_2_w3：對話框的字沒有被切掉、對話框在畫面裡（1 句檢查）  []
+  [ 121.4s] ct_Y1S2_const_2_w3：黑板 setBoard=["行政院", "院長由總統任命（增修條文 §3）", "行政院對立法院負責"]；黑板字幕=null；稿 board=["行政院", "院長由總統任命（增修條文 §3）", "行政院對立法院負責"]
+PASS ct_Y1S2_const_2_w3：黑板三行和稿一樣  {"setBoard": ["行政院", "院長由總統任命（增修條文 §3）", "行政院對立法院負責"], "cap": null}
+  [ 121.4s] ct_Y1S2_const_2_w3：稿 line／more 對到的句子位置 [["line", 1], ["more1", 2], ["more2", 3], ["more3", 4]]
+  [ 121.4s] ct_Y1S2_const_2_w3：同學 react 播了 "同學：「憲法本文原本要立法院同意，增修條文拿掉了。」"（稿裡在學校的 [["heroine_01", "任命的人和負責的對象不一樣。這樣不會亂嗎？"], ["classmate_xinci", "憲法本文原本要立法院同意，增修條文拿掉了。"]]）
+  [ 121.4s] ct_Y1S2_const_2_w3：call「…點到你。」在第 6 句；選單 [[["「因為立法院代表人民。」", "「法律這樣寫，沒有為什麼。」", "「因為總統不用負責。」"], "「因為立法院代表人民。」"]]
+PASS ct_Y1S2_const_2_w3：line → 每一句 more → 同學 react 都播了、順序對、逐字對  []
+PASS ct_Y1S2_const_2_w3：call 的選項出現、選了以後 follow 都播了（[[["「因為立法院代表人民。」", "「法律這樣寫，沒有為什麼。」", "「因為總統不用負責。」"], "「因為立法院代表人民。」"]]）  []
+PASS ct_Y1S2_const_2_w3：畫面上沒有 undefined、{name}、開發者註記（對話、字幕、通知、選項、名字、黑板，16 則）  []
+PASS ct_Y1S2_const_2_w3：下課了（CLS.rec done 有 174:const_2:am、attend +1）  {"done": {"174:const_2:am": [null, 1]}, "attend": {"const_2": [null, 1]}}
+PASS ct_Y1S2_const_2_w3：下課以後能自由走動（推之前 busy=False、seat=False；搖桿 [["前", 0.39, 1, "classroom", false]]；之後 {"x": -0.671, "z": 0.624, "lv": 0, "busy": false, "seat": false, "path": false, "zone": "classroom"}；截圖 gc_008_ct_Y1S2_const_2_w3_free_move.png）
+PASS ct_Y1S2_const_2_w3：沒有 JS 例外  []
+  [ 127.3s] Y1S2 花了 2.1 分鐘
+===== Y2S1 =====
+PASS Y2S1：遊戲載入
+PASS Y2S1：遊戲 COURSES 有這門課（{"id": "crim_spec", "name": "刑法分則", "term": "Y2S1", "kind": "required", "room": "L201", "prof": "prof_wu", "choice": null}）
+----- ct_Y2S1_crim_spec_w10（Y2S1 crim_spec 第 10 週；obs）-----
+PASS ct_Y2S1_crim_spec_w10：找到 crim_spec 第 10 週那一堂（{"d": 420, "wd": 2, "key": "2026-11-10", "item": "420:crim_spec:am", "t0": 9.166666666666666, "t1": 12.166666666666666, "zone": "classroom", "door": null, "room": "法律系館A 201", "first": "420:crim_spec:am", "firstName": "刑法分則", "name": "刑法分則", "prof": "prof_wu", "profShort": "吳老師", "profChar": "吳教授", "second": false, "line": "跟同學借筆電，借了就不還了。這算偷嗎？", "week": 10, "term": "Y2S1"}）
+PASS ct_Y2S1_crim_spec_w10：遊戲 syllabus.js 有這一週（有的週：[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]；來源 "claude/story-planning 80ed4ea066＋AA_373@e75d1cce（通識第 6 週 4 句）＋AA_377@d037c668（民訴第 14、15 週）＋AA_585@d3a22505b（期中週第 8、9 週 60 週）＋AA_255@52900eb23（行政救濟第 7 週以安、親屬第 1）
+PASS ct_Y2S1_crim_spec_w10：這一週在 SYLLABUS.reviewed（遊戲才會播稿，不然是一般句子）  true
+PASS ct_Y2S1_crim_spec_w10：稿裡這一週有 obs  ["w", "tpl", "board", "line", "react", "obs", "more"]
+  [ 153.3s] [稿比對] Y2S1 crim_spec 第 10 週：企劃 JSON 多的註記欄位（不進遊戲）["review", "ref"]
+  [ 153.3s] [稿比對] Y2S1 crim_spec 第 10 週：內容欄位 ["tpl", "board", "line", "more", "react", "call", "obs", "ask", "recall"] 不一樣的 0 項（企劃 origin/claude/story-planning（115769ad46572dc7c9f297ed954838a1b16f6909））
+  [ 153.3s] [稿] ct_Y2S1_crim_spec_w10：tpl B；黑板 ["財產：竊盜（§320）", "意圖為自己或第三人不法之所有", "借了同學的筆電不還，算偷嗎？"]；line＋more 2 句；react 2 句；call null；obs ["一開始是借的，不是偷", "後來不還，可能是侵占", "要看一開始想不想據為己有", "我想先聽別人說。"]；ask null
+  [ 153.3s] ct_Y2S1_crim_spec_w10：這一堂的課堂題 DISC_03：EXAM_BANK {"id": "DISC_03", "q": "甲向同學借筆電，借的時候確實打算歸還；一週後起意據為己有，拒不返還。甲可能成立何罪？", "options": {"A": "竊盜罪", "B": "侵占罪", "C": "詐欺罪", "D": "不成立犯罪"}, "answer": "B", "type": "mc", "course": "crim_spec", "term": "Y2S1", "status": "USER_CONFIRMED"}
+  [ 153.3s] ct_Y2S1_crim_spec_w10：2026-11-10（第 420 天，週2）刑法分則 9.166666666666666～12.166666666666666 法律系館A 201（zone classroom）教授 吳教授（吳老師）；那天第一堂 刑法分則
+  [前置／捷徑] ct_Y2S1_crim_spec_w10：最小存檔 2026-11-09（第 419 天）23:00 宿舍房間；旗標 {"ROOM_Y2": true}（住那一年的房間）（條件事件開著，只關手機自動打開）
+  [前置／捷徑] CLS.clearPending()＝True（清掉上一輪留下的待出選單）
+  [ 166.9s] ct_Y2S1_crim_spec_w10：讀進來 {"zone": "dorm", "plate": null}
+  [ 169.7s] 到達「床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 172.2s] ct_Y2S1_crim_spec_w10_bed：選單 ["睡到明天早上（08:10）", "睡到明天中午", "睡到明天下午", "睡到明天晚上", "快轉", "再撐一下"] → 選「睡到明天早上（08:10）」（照字「睡到明天早上」；截圖 gc_009_ct_Y2S1_crim_spec_w10_bed_menu.png）
+  [ 182.3s] ct_Y2S1_crim_spec_w10：睡醒 第 420 天（要第 420 天）{"dlg": false, "ch": 0, "busy": false, "path": false, "seat": false, "fade": false, "phone": false, "paused": false, "zone": "dorm", "h": 8.193, "day": 420, "dtext": "", "dlgC": null, "nd": 9, "typing": false}
+PASS ct_Y2S1_crim_spec_w10：前一晚真的睡覺、第 420 天醒來
+  [ 184.9s] ct_Y2S1_crim_spec_w10：起床選單以前的一句：早
+  [ 185.8s] ct_Y2S1_crim_spec_w10：起床選單以前的一句：早安。今天的課：09:10　刑法分則　法律系館A 201　／　13:20　民法物
+PASS ct_Y2S1_crim_spec_w10：起床選單出了（["直接去上課：刑法分則", "翹這堂課", "先起床再說"]）
+  [ 187.7s] ct_Y2S1_crim_spec_w10_wake：選單 ["直接去上課：刑法分則", "翹這堂課", "先起床再說"] → 選「直接去上課：刑法分則」（照字「直接去上課」；截圖 gc_011_ct_Y2S1_crim_spec_w10_wake_menu.png）
+  [ 201.3s] ct_Y2S1_crim_spec_w10：坐下那時，稿裡說話的同學（reactOK 的條件；3D 教室＝看 inRoom：{"zone": "classroom", "room": null, "door": null}）[{"who": "classmate_bohan", "name": "柏翰", "present": true, "inRoom": true, "knows": false, "sched": {"act": "class", "cls": "420:crim_spec:am", "zone": "classroom", "room": null, "label": null}, "schedIn": true}, {"who": "classmate_xinci", "name": "芯慈", "present": true, "inRoom": true, "knows": false, "sched": {"act": "class", "cls": "420:crim_spec:am", "zone": "classroom", "room": null, "label": null}, "schedIn": true}, {"who": "yu", "name": "Alison", "present": true, "inRoom": true, "knows": false, "sched": {"act": "class", "cls": "420:crim_spec:am", "zone": "classroom", "room": null, "label": null}, "schedIn": true}, {"who": "zhe", "name": "阿哲", "present": true, "inRoom": true, "knows": true, "sched": {"act": "class", "cls": "420:crim_spec:am", "zone": "classroom", "room": null, "label": null}, "schedIn": true}]
+  [ 228.9s] ct_Y2S1_crim_spec_w10：選單 ["一開始是借的，不是偷", "後來不還，可能是侵占", "要看一開始想不想據為己有", "我想先聽別人說。"] → 選「一開始是借的，不是偷」（obs 討論（照稿第 1 項的字）；截圖 gc_013_ct_Y2S1_crim_spec_w10_menu.png）
+  [ 245.8s] ct_Y2S1_crim_spec_w10：選單 ["（A）竊盜罪", "（B）侵占罪", "（C）詐欺罪", "（D）不成立犯罪"] → 選「（B）侵占罪」（課堂題（照 EXAM_BANK DISC_03 答案 B 的字）；截圖 gc_016_ct_Y2S1_crim_spec_w10_menu.png）
+  [ 259.8s] ct_Y2S1_crim_spec_w10：選單 ["「好，走。」", "「今天不行，下次。」"] → 選「「好，走。」」（不認得的選單，照第一個沒變暗的「「好，走。」」；截圖 gc_020_ct_Y2S1_crim_spec_w10_menu.png）
+  [ 284.3s] ct_Y2S1_crim_spec_w10：選單 ["直接去下一堂：民法物權", "先自由活動", "下一堂不去"] → 選「先自由活動」（照字「先自由活動」；截圖 gc_023_ct_Y2S1_crim_spec_w10_menu.png）
+PASS ct_Y2S1_crim_spec_w10：進了教室（["classroom", "l118_home"]；教室 zone classroom）
+  [ 292.7s] ct_Y2S1_crim_spec_w10：課堂 23 句（say＋字幕）；坐下到「下課了」38.3 秒；整段 104.1 秒
+  [ 292.7s]     [say 9.014] 名字「」()：（你在座位上等。教室慢慢坐滿了。）
+  [ 292.7s]     [say 9.167] 名字「吳教授」(prof_wu)：跟同學借筆電，借了就不還了。這算偷嗎？
+  [ 292.7s]     [say 9.167] 名字「吳教授」(prof_wu)：竊盜：意圖為自己或第三人不法所有，拿走別人持有的東西。
+  [ 292.7s]     [say 9.167] 名字「吳教授」(prof_wu)：借來的東西本來就在你手上，之後起意不還，比較像侵占，不是竊盜。
+  [ 292.7s]     [say 9.167] 名字「」()：阿哲：「便利商店順手拿一包餅乾，就是這一條。」
+  [ 292.7s]     [say 9.167] 名字「」()：吳教授舉起講桌上的筆電：「假設這台借給你。」他看著全班。
+  [ 292.7s]     [say 9.167] 名字「」()：吳教授：「那從哪一刻起，它不再是『借』？」
+  [ 292.7s]     [say 9.167] 名字「」()：同學：「出題的人要的是時間點。借的那一刻，跟決定不還的那一刻。」
+  [ 292.7s]     [say 9.167] 名字「」()：同學：「竊盜要「破壞別人的持有」。筆電是他自己借走的，這個要件……好像就卡住了。」
+  [ 292.7s]     [say 9.167] 名字「」()：阿哲：「我國中借同學的漫畫，借到畢業都沒還。……我現在還來得及還嗎？」
+  [ 292.7s]     [say 9.167] 名字「吳教授」(prof_wu)：拿走別人的東西，心裡想的是什麼，決定了罪名。可是心裡想的，要怎麼證明？
+  [ 292.7s]     [say 9.167] 名字「」()：（下課前，教授在黑板角落寫了一題。）
+  [ 292.7s]     [say 9.167] 名字「」()：甲向同學借筆電，借的時候確實打算歸還；一週後起意據為己有，拒不返還。甲可能成立何罪？
+  [ 292.7s]     [say 9.167] 名字「」()：答案是（B）。考點：刑法分則・竊盜與侵占。
+  [ 292.7s]     [say 9.167] 名字「吳教授」(prof_wu)：期末考，會考這樣的題目。
+  [ 292.7s]     [cap 12.167] 名字「」()：下課了。吳老師收起講義。
+  [ 292.7s]     [say 12.191] 名字「阿哲」(zhe)：吃飯。五湖四海。再多找一個湊一桌。
+  [ 292.7s]     [say 12.358] 名字「」()：（五湖四海。門口那一鍋水滾著，水餃一盤一盤下。）
+  [ 292.7s]     [say 12.358] 名字「阿哲」(zhe)：我剛剛揪了六個，只有你來。
+  [ 292.7s]     [say 12.358] 名字「祐廷」()：其他人呢？
+  [ 292.7s]     [say 12.358] 名字「阿哲」(zhe)：都說下次。沒關係，你一個抵六個。
+  [ 292.7s]     [say 12.858] 名字「」()：（門口那一鍋水一直滾著。老闆娘下水餃不用數，一把就是十顆。）
+  [ 292.7s]     [say 12.858] 名字「」()：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [ 292.7s] ct_Y2S1_crim_spec_w10：教授說的 5 句，對話框名字 ["吳教授"]（人物資料 吳教授）；不在場（「○老師：」開頭）0 句
+PASS ct_Y2S1_crim_spec_w10：對話框的字沒有被切掉、對話框在畫面裡（7 句檢查）  []
+  [ 292.7s] ct_Y2S1_crim_spec_w10：黑板 setBoard=["財產：竊盜（§320）", "意圖為自己或第三人不法之所有", "借了同學的筆電不還，算偷嗎？"]；黑板字幕=null；稿 board=["財產：竊盜（§320）", "意圖為自己或第三人不法之所有", "借了同學的筆電不還，算偷嗎？"]
+PASS ct_Y2S1_crim_spec_w10：黑板三行和稿一樣  {"setBoard": ["財產：竊盜（§320）", "意圖為自己或第三人不法之所有", "借了同學的筆電不還，算偷嗎？"], "cap": null}
+  [ 292.7s] ct_Y2S1_crim_spec_w10：稿 line／more 對到的句子位置 [["line", 1], ["more1", 2], ["more2", 3]]
+  [ 292.7s] ct_Y2S1_crim_spec_w10：同學 react 播了 "阿哲：「便利商店順手拿一包餅乾，就是這一條。」"（稿裡在學校的 [["zhe", "便利商店順手拿一包餅乾，就是這一條。"], ["yu", "所以重點是：東西那時候在誰手上。"]]）
+  [ 292.7s] ct_Y2S1_crim_spec_w10：obs 選單 [["一開始是借的，不是偷", "後來不還，可能是侵占", "要看一開始想不想據為己有", "我想先聽別人說。"], "一開始是借的，不是偷"]
+PASS ct_Y2S1_crim_spec_w10：line → 每一句 more → 同學 react 都播了、順序對、逐字對  []
+PASS ct_Y2S1_crim_spec_w10：obs 的選項出現、選了以後 follow 都播了（[[["一開始是借的，不是偷", "後來不還，可能是侵占", "要看一開始想不想據為己有", "我想先聽別人說。"], "一開始是借的，不是偷"]]）  []
+  [ 292.7s] ct_Y2S1_crim_spec_w10：課堂題 DISC_03 出在第 11 句；選單 [["（A）竊盜罪", "（B）侵占罪", "（C）詐欺罪", "（D）不成立犯罪"], "（B）侵占罪", "課堂題（照 EXAM_BANK DISC_03 答案 B 的字）"]；答案那一句 "答案是（B）。考點：刑法分則・竊盜與侵占。"
+PASS ct_Y2S1_crim_spec_w10：畫面上沒有 undefined、{name}、開發者註記（對話、字幕、通知、選項、名字、黑板，33 則）  []
+  [ 292.7s] ct_Y2S1_crim_spec_w10：不認得或和稿對不上的選單 [[["「好，走。」", "「今天不行，下次。」"], "「好，走。」", "不認得的選單，照第一個沒變暗的「「好，走。」」"]]
+PASS ct_Y2S1_crim_spec_w10：下課了（CLS.rec done 有 420:crim_spec:am、attend +1）  {"note": {"rem_420:property:pm1": [null, 1]}, "done": {"420:crim_spec:am": [null, 1]}, "attend": {"crim_spec": [null, 1]}}
+PASS ct_Y2S1_crim_spec_w10：下課以後能自由走動（推之前 busy=False、seat=False；搖桿 [["前", 1.72, 1, "l118_home", false]]；之後 {"x": -2.121, "z": -1.92, "lv": 0, "busy": false, "seat": false, "path": false, "zone": "l118_home"}；截圖 gc_024_ct_Y2S1_crim_spec_w10_free_move.png）
+PASS ct_Y2S1_crim_spec_w10：沒有 JS 例外  []
+  [ 298.7s] Y2S1 花了 2.9 分鐘
+===== Y3S1 =====
+PASS Y3S1：遊戲載入
+PASS Y3S1：遊戲 COURSES 有這門課（{"id": "civpro_1", "name": "民事訴訟法甲上", "term": "Y3S1", "kind": "required", "room": "L201", "prof": "prof_tsai", "choice": null}）
+----- ct_Y3S1_civpro_1_w7（Y3S1 civpro_1 第 7 週；call）-----
+PASS ct_Y3S1_civpro_1_w7：找到 civpro_1 第 7 週那一堂（{"d": 762, "wd": 1, "key": "2027-10-18", "item": "762:civpro_1:am", "t0": 9.166666666666666, "t1": 12.166666666666666, "zone": "classroom", "door": null, "room": "法律系館A 201", "first": "762:civpro_1:am", "firstName": "民事訴訟法甲上", "name": "民事訴訟法甲上", "prof": "prof_tsai", "profShort": "蔡老師", "profChar": "蔡教授", "second": false, "line": "借錢的時候沒寫借據。現在要告，你手上有什麼？", "week": 7, "term": "Y3S1"}）
+  [ 324.0s] ct_Y3S1_civpro_1_w7：這一週有 2 格（[["2027-10-18", "762:civpro_1:am", false], ["2027-10-21", "765:civpro_1:am", true]]），挑播主要內容的那一格 762:civpro_1:am
+PASS ct_Y3S1_civpro_1_w7：遊戲 syllabus.js 有這一週（有的週：[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]；來源 "claude/story-planning 80ed4ea066＋AA_373@e75d1cce（通識第 6 週 4 句）＋AA_377@d037c668（民訴第 14、15 週）＋AA_585@d3a22505b（期中週第 8、9 週 60 週）＋AA_255@52900eb23（行政救濟第 7 週以安、親屬第 1）
+PASS ct_Y3S1_civpro_1_w7：這一週在 SYLLABUS.reviewed（遊戲才會播稿，不然是一般句子）  true
+PASS ct_Y3S1_civpro_1_w7：稿裡這一週有 call  ["w", "tpl", "board", "line", "react", "call", "more"]
+  [ 324.4s] [稿比對] Y3S1 civpro_1 第 7 週：企劃 JSON 多的註記欄位（不進遊戲）["review", "ref"]
+  [ 324.4s] [稿比對] Y3S1 civpro_1 第 7 週：內容欄位 ["tpl", "board", "line", "more", "react", "call", "obs", "ask", "recall"] 不一樣的 0 項（企劃 origin/claude/story-planning（115769ad46572dc7c9f297ed954838a1b16f6909））
+  [ 324.4s] [稿] ct_Y3S1_civpro_1_w7：tpl C；黑板 ["朋友借錢不還（大一民總、大二債總的下一步）", "沒有借據，怎麼證明？", "對話紀錄、轉帳紀錄、證人"]；line＋more 3 句；react 2 句；call ["夠，錢就是我轉的。", "不一定，還要證明是「借」。", "不夠，一定要借據。"]；obs []；ask null
+  [ 324.4s] ct_Y3S1_civpro_1_w7：2027-10-18（第 762 天，週1）民事訴訟法甲上 9.166666666666666～12.166666666666666 法律系館A 201（zone classroom）教授 蔡教授（蔡老師）；那天第一堂 民事訴訟法甲上
+  [前置／捷徑] ct_Y3S1_civpro_1_w7：最小存檔 2027-10-17（第 761 天）23:00 宿舍房間；旗標 {"ROOM_Y2": true, "ROOM_Y3": true}（住那一年的房間）（條件事件開著，只關手機自動打開）
+  [前置／捷徑] CLS.clearPending()＝True（清掉上一輪留下的待出選單）
+  [ 338.2s] ct_Y3S1_civpro_1_w7：讀進來 {"zone": "dorm", "plate": null}
+  [ 341.0s] 到達「床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 343.5s] ct_Y3S1_civpro_1_w7_bed：選單 ["睡到明天早上（08:10）", "睡到明天中午", "睡到明天下午", "睡到明天晚上", "快轉", "再撐一下"] → 選「睡到明天早上（08:10）」（照字「睡到明天早上」；截圖 gc_025_ct_Y3S1_civpro_1_w7_bed_menu.png）
+  [ 353.7s] ct_Y3S1_civpro_1_w7：睡醒 第 762 天（要第 762 天）{"dlg": false, "ch": 0, "busy": false, "path": false, "seat": false, "fade": false, "phone": false, "paused": false, "zone": "dorm", "h": 8.193, "day": 762, "dtext": "", "dlgC": null, "nd": 8, "typing": false}
+PASS ct_Y3S1_civpro_1_w7：前一晚真的睡覺、第 762 天醒來
+  [ 356.3s] ct_Y3S1_civpro_1_w7：起床選單以前的一句：早安。
+  [ 357.2s] ct_Y3S1_civpro_1_w7：起床選單以前的一句：早安。今天的課：09:10　民事訴訟法甲上　法律系館A 201
+PASS ct_Y3S1_civpro_1_w7：起床選單出了（["直接去上課：民事訴訟法甲上", "翹這堂課", "先起床再說"]）
+  [ 359.2s] ct_Y3S1_civpro_1_w7_wake：選單 ["直接去上課：民事訴訟法甲上", "翹這堂課", "先起床再說"] → 選「直接去上課：民事訴訟法甲上」（照字「直接去上課」；截圖 gc_027_ct_Y3S1_civpro_1_w7_wake_menu.png）
+  [ 372.0s] ct_Y3S1_civpro_1_w7：坐下那時，稿裡說話的同學（reactOK 的條件；3D 教室＝看 inRoom：{"zone": "classroom", "room": null, "door": null}）[{"who": "yu", "name": "Alison", "present": true, "inRoom": true, "knows": false, "sched": {"act": "class", "cls": "762:civpro_1:am", "zone": "classroom", "room": null, "label": null}, "schedIn": true}, {"who": "zhe", "name": "阿哲", "present": true, "inRoom": true, "knows": true, "sched": {"act": "class", "cls": "762:civpro_1:am", "zone": "classroom", "room": null, "label": null}, "schedIn": true}]
+  [ 400.8s] ct_Y3S1_civpro_1_w7：選單 ["「夠，錢就是我轉的。」", "「不一定，還要證明是「借」。」", "「不夠，一定要借據。」"] → 選「「夠，錢就是我轉的。」」（call（照稿第 1 項的字）；截圖 gc_029_ct_Y3S1_civpro_1_w7_menu.png）
+PASS ct_Y3S1_civpro_1_w7：進了教室（["classroom"]；教室 zone classroom）
+  [ 415.3s] ct_Y3S1_civpro_1_w7：課堂 11 句（say＋字幕）；坐下到「下課了」34.5 秒；整段 55.2 秒
+  [ 415.3s]     [say 9.014] 名字「」()：（你在座位上等。教室慢慢坐滿了。）
+  [ 415.3s]     [say 9.167] 名字「蔡教授」(prof_tsai)：借錢的時候沒寫借據。現在要告，你手上有什麼？
+  [ 415.3s]     [say 9.167] 名字「蔡教授」(prof_tsai)：主張對自己有利的事實，要自己舉證。
+  [ 415.3s]     [say 9.167] 名字「蔡教授」(prof_tsai)：主張借錢，要證明借貸的合意，也要證明錢真的交出去了。
+  [ 415.3s]     [say 9.167] 名字「蔡教授」(prof_tsai)：那麼，你只有轉帳紀錄，沒有借據。夠嗎？
+  [ 415.3s]     [say 9.167] 名字「」()：同學：「所以借錢的時候，訊息要打清楚「借」這個字。」
+  [ 415.3s]     [say 9.167] 名字「」()：蔡老師點到你。
+  [ 415.3s]     [say 9.167] 名字「蔡教授」(prof_tsai)：轉帳證明錢交出去了。可是他可能說是贈與、是還你的錢。
+  [ 415.3s]     [say 9.167] 名字「蔡教授」(prof_tsai)：所以還要證明借貸的合意。對話紀錄、證人，都可以幫忙。
+  [ 415.3s]     [cap 12.167] 名字「」()：下課了。蔡老師收起講義。
+  [ 415.3s]     [cap 12.197] 名字「」()：今天的課上完了。
+  [ 415.3s] ct_Y3S1_civpro_1_w7：教授說的 6 句，對話框名字 ["蔡教授"]（人物資料 蔡教授）；不在場（「○老師：」開頭）0 句
+PASS ct_Y3S1_civpro_1_w7：對話框的字沒有被切掉、對話框在畫面裡（1 句檢查）  []
+  [ 415.3s] ct_Y3S1_civpro_1_w7：黑板 setBoard=["朋友借錢不還（大一民總、大二債總的下一步）", "沒有借據，怎麼證明？", "對話紀錄、轉帳紀錄、證人"]；黑板字幕=null；稿 board=["朋友借錢不還（大一民總、大二債總的下一步）", "沒有借據，怎麼證明？", "對話紀錄、轉帳紀錄、證人"]
+PASS ct_Y3S1_civpro_1_w7：黑板三行和稿一樣  {"setBoard": ["朋友借錢不還（大一民總、大二債總的下一步）", "沒有借據，怎麼證明？", "對話紀錄、轉帳紀錄、證人"], "cap": null}
+  [ 415.3s] ct_Y3S1_civpro_1_w7：稿 line／more 對到的句子位置 [["line", 1], ["more1", 2], ["more2", 3], ["more3", 4]]
+  [ 415.3s] ct_Y3S1_civpro_1_w7：同學 react 播了 "同學：「所以借錢的時候，訊息要打清楚「借」這個字。」"（稿裡在學校的 [["zhe", "我有對話紀錄！……可是他只回了一個貼圖。算嗎？"], ["yu", "所以借錢的時候，訊息要打清楚「借」這個字。"]]）
+  [ 415.3s] ct_Y3S1_civpro_1_w7：call「…點到你。」在第 6 句；選單 [[["「夠，錢就是我轉的。」", "「不一定，還要證明是「借」。」", "「不夠，一定要借據。」"], "「夠，錢就是我轉的。」"]]
+PASS ct_Y3S1_civpro_1_w7：line → 每一句 more → 同學 react 都播了、順序對、逐字對  []
+PASS ct_Y3S1_civpro_1_w7：call 的選項出現、選了以後 follow 都播了（[[["「夠，錢就是我轉的。」", "「不一定，還要證明是「借」。」", "「不夠，一定要借據。」"], "「夠，錢就是我轉的。」"]]）  []
+PASS ct_Y3S1_civpro_1_w7：畫面上沒有 undefined、{name}、開發者註記（對話、字幕、通知、選項、名字、黑板，15 則）  []
+PASS ct_Y3S1_civpro_1_w7：下課了（CLS.rec done 有 762:civpro_1:am、attend +1）  {"done": {"762:civpro_1:am": [null, 1]}, "attend": {"civpro_1": [null, 1]}}
+PASS ct_Y3S1_civpro_1_w7：下課以後能自由走動（推之前 busy=False、seat=False；搖桿 [["前", 0.39, 1, "classroom", false]]；之後 {"x": -0.671, "z": 0.624, "lv": 0, "busy": false, "seat": false, "path": false, "zone": "classroom"}；截圖 gc_031_ct_Y3S1_civpro_1_w7_free_move.png）
+PASS ct_Y3S1_civpro_1_w7：沒有 JS 例外  []
+  [ 421.4s] Y3S1 花了 2.0 分鐘
+===== Y4S1 =====
+PASS Y4S1：遊戲載入
+PASS Y4S1：遊戲 COURSES 有這門課（{"id": "enforcement", "name": "強制執行法", "term": "Y4S1", "kind": "required", "room": "WMULTI", "prof": "prof_tsai", "choice": null}）
+----- ct_Y4S1_enforcement_w12（Y4S1 enforcement 第 12 週；call）-----
+PASS ct_Y4S1_enforcement_w12：找到 enforcement 第 12 週那一堂（{"d": 1161, "wd": 1, "key": "2028-11-20", "item": "1161:enforcement:am", "t0": 9.166666666666666, "t1": 12.166666666666666, "zone": "wancai_multi", "door": null, "room": "法律系館B 多功能教室", "first": "1161:enforcement:am", "firstName": "強制執行法", "name": "強制執行法", "prof": "prof_tsai", "profShort": "蔡老師", "profChar": "蔡教授", "second": false, "line": "法院查封的東西，其實是我的。怎麼辦？", "week": 12, "term": "Y4S1"}）
+PASS ct_Y4S1_enforcement_w12：遊戲 syllabus.js 有這一週（有的週：[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]；來源 "claude/story-planning 80ed4ea066＋AA_373@e75d1cce（通識第 6 週 4 句）＋AA_377@d037c668（民訴第 14、15 週）＋AA_585@d3a22505b（期中週第 8、9 週 60 週）＋AA_255@52900eb23（行政救濟第 7 週以安、親屬第 1）
+PASS ct_Y4S1_enforcement_w12：這一週在 SYLLABUS.reviewed（遊戲才會播稿，不然是一般句子）  true
+PASS ct_Y4S1_enforcement_w12：稿裡這一週有 call  ["w", "tpl", "board", "line", "react", "call", "more"]
+  [ 447.2s] [稿比對] Y4S1 enforcement 第 12 週：企劃 JSON 多的註記欄位（不進遊戲）["review", "ref"]
+  [ 447.2s] [稿比對] Y4S1 enforcement 第 12 週：內容欄位 ["tpl", "board", "line", "more", "react", "call", "obs", "ask", "recall"] 不一樣的 0 項（企劃 origin/claude/story-planning（115769ad46572dc7c9f297ed954838a1b16f6909））
+  [ 447.2s] [稿] ct_Y4S1_enforcement_w12：tpl C；黑板 ["第三人異議之訴（§15）", "法院查封的東西", "其實是我的"]；line＋more 3 句；react 1 句；call ["跟法官說一聲就好。", "提第三人異議之訴。", "等拍賣以後再要回來。"]；obs []；ask null
+  [ 447.2s] ct_Y4S1_enforcement_w12：2028-11-20（第 1161 天，週1）強制執行法 9.166666666666666～12.166666666666666 法律系館B 多功能教室（zone wancai_multi）教授 蔡教授（蔡老師）；那天第一堂 強制執行法
+  [前置／捷徑] ct_Y4S1_enforcement_w12：最小存檔 2028-11-19（第 1160 天）23:00 宿舍房間；旗標 {"ROOM_Y2": true, "ROOM_Y3": true, "ROOM_Y4": true}（住那一年的房間）（條件事件開著，只關手機自動打開）
+  [前置／捷徑] CLS.clearPending()＝True（清掉上一輪留下的待出選單）
+  [ 460.8s] ct_Y4S1_enforcement_w12：讀進來 {"zone": "dorm", "plate": null}
+  [ 463.6s] 到達「床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 466.1s] ct_Y4S1_enforcement_w12_bed：選單 ["睡到明天早上（08:10）", "睡到明天中午", "睡到明天下午", "睡到明天晚上", "快轉", "再撐一下"] → 選「睡到明天早上（08:10）」（照字「睡到明天早上」；截圖 gc_032_ct_Y4S1_enforcement_w12_bed_menu.png）
+  [ 476.1s] ct_Y4S1_enforcement_w12：睡醒 第 1161 天（要第 1161 天）{"dlg": false, "ch": 0, "busy": false, "path": false, "seat": false, "fade": false, "phone": false, "paused": false, "zone": "dorm", "h": 8.192, "day": 1161, "dtext": "", "dlgC": null, "nd": 7, "typing": false}
+PASS ct_Y4S1_enforcement_w12：前一晚真的睡覺、第 1161 天醒來
+  [ 478.8s] ct_Y4S1_enforcement_w12：起床選單以前的一句：早安。
+  [ 479.7s] ct_Y4S1_enforcement_w12：起床選單以前的一句：早安。今天的課：09:10　強制執行法　法律系館B 多功能教室
+PASS ct_Y4S1_enforcement_w12：起床選單出了（["直接去上課：強制執行法", "翹這堂課", "先起床再說"]）
+  [ 481.6s] ct_Y4S1_enforcement_w12_wake：選單 ["直接去上課：強制執行法", "翹這堂課", "先起床再說"] → 選「直接去上課：強制執行法」（照字「直接去上課」；截圖 gc_034_ct_Y4S1_enforcement_w12_wake_menu.png）
+  [ 500.7s] ct_Y4S1_enforcement_w12：坐下那時，稿裡說話的同學（reactOK 的條件；3D 教室＝看 inRoom：{"zone": "wancai_multi", "room": "multi", "door": null}）[{"who": "yu", "name": "Alison", "present": true, "inRoom": true, "knows": false, "sched": {"act": "class", "cls": "1161:enforcement:am", "zone": "wancai_multi", "room": "multi", "label": null}, "schedIn": true}]
+  [ 521.3s] ct_Y4S1_enforcement_w12：選單 ["「跟法官說一聲就好。」", "「提第三人異議之訴。」", "「等拍賣以後再要回來。」"] → 選「「跟法官說一聲就好。」」（call（照稿第 1 項的字）；截圖 gc_037_ct_Y4S1_enforcement_w12_menu.png）
+  [ 535.1s] ct_Y4S1_enforcement_w12：選單 ["「好，走。」", "「今天不行，下次。」"] → 選「「好，走。」」（★像 call 但字和稿不一樣（稿 ["跟法官說一聲就好。", "提第三人異議之訴。", "等拍賣以後再要回來。"]）；不認得的選單，照第一個沒變暗的「「好，走。」」；截圖 gc_042_ct_Y4S1_enforcement_w12_menu.png）
+PASS ct_Y4S1_enforcement_w12：進了教室（["wancai_multi", "l118_dian"]；教室 zone wancai_multi）
+  [ 567.0s] ct_Y4S1_enforcement_w12：課堂 22 句（say＋字幕）；坐下到「下課了」27.1 秒；整段 84.5 秒
+  [ 567.0s]     [say 9.012] 名字「」()：（法律系館B一樓的多功能教室。椅子是可以移動的那種，大家坐得比在 201 鬆。）
+  [ 567.0s]     [say 9.012] 名字「」()：（你在座位上等。教室慢慢坐滿了。）
+  [ 567.0s]     [cap 9.167] 名字「黑板」()：第三人異議之訴（§15）　法院查封的東西　其實是我的
+  [ 567.0s]     [say 9.167] 名字「蔡教授」(prof_tsai)：法院查封的東西，其實是我的。怎麼辦？
+  [ 567.0s]     [say 9.167] 名字「蔡教授」(prof_tsai)：第三人對執行標的物有足以排除強制執行的權利，例如所有權，可以提第三人異議之訴。
+  [ 567.0s]     [say 9.167] 名字「蔡教授」(prof_tsai)：要在強制執行程序終結前提起。
+  [ 567.0s]     [say 9.167] 名字「蔡教授」(prof_tsai)：那麼，法院查封了鄰居寄放在你家的鋼琴，鄰居要怎麼辦？
+  [ 567.0s]     [say 9.167] 名字「」()：同學：「東西放錯地方，也會被貼封條。」
+  [ 567.0s]     [say 9.167] 名字「」()：蔡老師點到你。
+  [ 567.0s]     [say 9.167] 名字「蔡教授」(prof_tsai)：提第三人異議之訴，在執行程序終結前。
+  [ 567.0s]     [say 9.167] 名字「蔡教授」(prof_tsai)：拍賣完了再來，就晚了。
+  [ 567.0s]     [cap 12.167] 名字「」()：下課了。蔡老師收起講義。
+  [ 567.0s]     [say 12.193] 名字「阿哲」(zhe)：走走走，118牛排，晚了沒位子。
+  [ 567.0s]     [say 12.360] 名字「」()：（118牛排。鐵板的聲音從門口就聽得到。）
+  [ 567.0s]     [say 12.360] 名字「」()：（門口進來一位系上的老師。全店的法律系學生同時安靜了一秒。）
+  [ 567.0s]     [say 12.360] 名字「」()：（阿哲把筷子放下，坐直了一點。老師點了一碗麵，外帶。）
+  [ 567.0s]     [say 12.360] 名字「阿哲」(zhe)：老闆記得我。剛剛沒講，他就多給一匙。
+  [ 567.0s]     [say 12.360] 名字「祐廷」()：因為你每天來吧。
+  [ 567.0s]     [say 12.360] 名字「阿哲」(zhe)：因為我每次都把盤子收好。這是策略。
+  [ 567.0s]     [say 12.860] 名字「」()：（鐵板端上來還在響。隔壁桌的人教你先拿餐巾紙擋著。）
+  [ 567.0s]     [say 12.860] 名字「」()：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [ 567.0s]     [cap 12.860] 名字「」()：今天的課上完了。
+  [ 567.0s] ct_Y4S1_enforcement_w12：教授說的 6 句，對話框名字 ["蔡教授"]（人物資料 蔡教授）；不在場（「○老師：」開頭）0 句
+PASS ct_Y4S1_enforcement_w12：對話框的字沒有被切掉、對話框在畫面裡（6 句檢查）  []
+  [ 567.0s] ct_Y4S1_enforcement_w12：黑板 setBoard=null；黑板字幕="第三人異議之訴（§15）　法院查封的東西　其實是我的"；稿 board=["第三人異議之訴（§15）", "法院查封的東西", "其實是我的"]
+PASS ct_Y4S1_enforcement_w12：黑板三行和稿一樣  {"setBoard": null, "cap": "第三人異議之訴（§15）　法院查封的東西　其實是我的"}
+  [ 567.0s] ct_Y4S1_enforcement_w12：稿 line／more 對到的句子位置 [["line", 2], ["more1", 3], ["more2", 4], ["more3", 5]]
+  [ 567.0s] ct_Y4S1_enforcement_w12：同學 react 播了 "同學：「東西放錯地方，也會被貼封條。」"（稿裡在學校的 [["yu", "東西放錯地方，也會被貼封條。"]]）
+  [ 567.0s] ct_Y4S1_enforcement_w12：call「…點到你。」在第 7 句；選單 [[["「跟法官說一聲就好。」", "「提第三人異議之訴。」", "「等拍賣以後再要回來。」"], "「跟法官說一聲就好。」"]]
+PASS ct_Y4S1_enforcement_w12：line → 每一句 more → 同學 react 都播了、順序對、逐字對  []
+PASS ct_Y4S1_enforcement_w12：call 的選項出現、選了以後 follow 都播了（[[["「跟法官說一聲就好。」", "「提第三人異議之訴。」", "「等拍賣以後再要回來。」"], "「跟法官說一聲就好。」"]]）  []
+PASS ct_Y4S1_enforcement_w12：畫面上沒有 undefined、{name}、開發者註記（對話、字幕、通知、選項、名字、黑板，27 則）  []
+  [ 567.0s] ct_Y4S1_enforcement_w12：不認得或和稿對不上的選單 [[["「好，走。」", "「今天不行，下次。」"], "「好，走。」", "★像 call 但字和稿不一樣（稿 [\"跟法官說一聲就好。\", \"提第三人異議之訴。\", \"等拍賣以後再要回來。\"]）；不認得的選單，照第一個沒變暗的「「好，走。」」"]]
+PASS ct_Y4S1_enforcement_w12：下課了（CLS.rec done 有 1161:enforcement:am、attend +1）  {"done": {"1161:enforcement:am": [null, 1]}, "attend": {"enforcement": [null, 1]}}
+PASS ct_Y4S1_enforcement_w12：下課以後能自由走動（推之前 busy=False、seat=False；搖桿 [["前", 0.0, 3, "l118_dian", false], ["後", 5.36, 1, "l118_dian", false]]；之後 {"x": -0.934, "z": 3.277, "lv": 0, "busy": false, "seat": false, "path": false, "zone": "l118_dian"}；截圖 gc_045_ct_Y4S1_enforcement_w12_free_move.png）
+PASS ct_Y4S1_enforcement_w12：沒有 JS 例外  []
+  [ 579.1s] Y4S1 花了 2.6 分鐘
+===== Y4S2 =====
+PASS Y4S2：遊戲載入
+PASS Y4S2：遊戲 COURSES 有這門課（{"id": "legal_research", "name": "法律專題研究", "term": "Y4S2", "kind": "required", "room": "WSEM", "prof": "prof_zhou", "choice": null}）
+----- ct_Y4S2_legal_research_w12（Y4S2 legal_research 第 12 週；obs）-----
+PASS ct_Y4S2_legal_research_w12：找到 legal_research 第 12 週那一堂（{"d": 1329, "wd": 1, "key": "2029-05-07", "item": "1329:legal_research:pm1", "t0": 13.333333333333334, "t1": 15.166666666666666, "zone": "wancai", "door": "wancai_seminar", "room": "法律系館B 研討室", "first": "1329:legal_research:pm1", "firstName": "法律專題研究", "name": "法律專題研究", "prof": "prof_zhou", "profShort": "周老師", "profChar": "周教授", "second": false, "line": "你的朋友借錢給人，五百塊，對方不還。他來問你，你第一句說什麼？", "week": 12, "term": "Y4S2"}）
+PASS ct_Y4S2_legal_research_w12：遊戲 syllabus.js 有這一週（有的週：[1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15]；來源 "claude/story-planning 80ed4ea066＋AA_373@e75d1cce（通識第 6 週 4 句）＋AA_377@d037c668（民訴第 14、15 週）＋AA_585@d3a22505b（期中週第 8、9 週 60 週）＋AA_255@52900eb23（行政救濟第 7 週以安、親屬第 1）
+PASS ct_Y4S2_legal_research_w12：這一週在 SYLLABUS.reviewed（遊戲才會播稿，不然是一般句子）  true
+PASS ct_Y4S2_legal_research_w12：稿裡這一週有 obs  ["w", "tpl", "board", "line", "react", "obs", "more"]
+  [ 606.7s] ct_Y4S2_legal_research_w12：obs 有 recall 4 句（要上過那幾堂才播；最小存檔沒上過＝照規則不播，不判）
+  [ 607.0s] [稿比對] Y4S2 legal_research 第 12 週：obs.echo 不一樣：遊戲 null ｜ 企劃 "AA_105「朋友借錢不還」四個學年的回聲：去過的那幾堂逐行顯示，一堂都沒去的不加旁白；AA_117 的理解不影響這一題"
+  [ 607.0s] [稿比對] Y4S2 legal_research 第 12 週：企劃 JSON 多的註記欄位（不進遊戲）["review", "ref"]
+  [ 607.0s] [稿比對] Y4S2 legal_research 第 12 週：內容欄位 ["tpl", "board", "line", "more", "react", "call", "obs", "ask", "recall"] 不一樣的 1 項（企劃 origin/claude/story-planning（115769ad46572dc7c9f297ed954838a1b16f6909））
+  [ 607.0s] [稿] ct_Y4S2_legal_research_w12：tpl B；黑板 ["回顧：朋友借錢不還", "成立、該還、證明、執行", "四個學年，四個答案"]；line＋more 3 句；react 2 句；call null；obs ["先問：你們怎麼說好的？", "先算：什麼時候該還？", "先找：你手上有什麼證據？", "我想先聽別人說。"]；ask null
+  [ 607.0s] ct_Y4S2_legal_research_w12：2029-05-07（第 1329 天，週1）法律專題研究 13.333333333333334～15.166666666666666 法律系館B 研討室（zone wancai）教授 周教授（周老師）；那天第一堂 法律專題研究
+  [前置／捷徑] ct_Y4S2_legal_research_w12：最小存檔 2029-05-06（第 1328 天）23:00 宿舍房間；旗標 {"ROOM_Y2": true, "ROOM_Y3": true, "ROOM_Y4": true}（住那一年的房間）（條件事件開著，只關手機自動打開）
+  [前置／捷徑] CLS.clearPending()＝True（清掉上一輪留下的待出選單）
+  [ 620.2s] ct_Y4S2_legal_research_w12：讀進來 {"zone": "dorm", "plate": null}
+  [ 623.0s] 到達「床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 625.4s] ct_Y4S2_legal_research_w12_bed：選單 ["睡到明天中午（12:20）", "睡到明天下午", "睡到明天晚上", "快轉", "再撐一下"] → 選「睡到明天中午（12:20）」（照字「睡到明天」；截圖 gc_046_ct_Y4S2_legal_research_w12_bed_menu.png）
+  [ 635.5s] ct_Y4S2_legal_research_w12：睡醒 第 1329 天（要第 1329 天）{"dlg": false, "ch": 0, "busy": false, "path": false, "seat": false, "fade": false, "phone": false, "paused": false, "zone": "dorm", "h": 12.36, "day": 1329, "dtext": "", "dlgC": null, "nd": 7, "typing": false}
+PASS ct_Y4S2_legal_research_w12：前一晚真的睡覺、第 1329 天醒來
+  [ 638.4s] ct_Y4S2_legal_research_w12：起床選單以前的一句：早安。今天的
+  [ 639.3s] ct_Y4S2_legal_research_w12：起床選單以前的一句：早安。今天的課：13:20　法律專題研究　法律系館B 研討室
+PASS ct_Y4S2_legal_research_w12：起床選單出了（["直接去上課：法律專題研究", "翹這堂課", "先起床再說"]）
+  [ 641.2s] ct_Y4S2_legal_research_w12_wake：選單 ["直接去上課：法律專題研究", "翹這堂課", "先起床再說"] → 選「直接去上課：法律專題研究」（照字「直接去上課」；截圖 gc_048_ct_Y4S2_legal_research_w12_wake_menu.png）
+  [ 649.3s] ct_Y4S2_legal_research_w12：坐下那時，稿裡說話的同學（reactOK 的條件；教室有 room.door（可能是門口 2D）＝看作息 schedIn 或 inRoom：{"zone": "wancai", "room": null, "door": "wancai_seminar"}）[{"who": "classmate_bohan", "name": "柏翰", "present": true, "inRoom": false, "knows": false, "sched": {"act": "class", "cls": "1329:legal_research:pm1", "zone": "wancai", "room": null, "label": null}, "schedIn": true}, {"who": "classmate_xinci", "name": "芯慈", "present": true, "inRoom": false, "knows": false, "sched": {"act": "class", "cls": "1329:legal_research:pm1", "zone": "wancai", "room": null, "label": null}, "schedIn": true}, {"who": "classmate_youchen", "name": "賴宥辰", "present": true, "inRoom": false, "knows": false, "sched": {"act": "class", "cls": "1329:legal_research:pm1", "zone": "wancai", "room": null, "label": null}, "schedIn": true}, {"who": "heroine_01", "name": "沈以安", "present": true, "inRoom": false, "knows": false, "sched": {"act": "class", "cls": "1329:legal_research:pm1", "zone": "wancai", "room": null, "label": null}, "schedIn": true}, {"who": "zhe", "name": "阿哲", "present": true, "inRoom": false, "knows": true, "sched": {"act": "class", "cls": "1329:legal_research:pm1", "zone": "wancai", "room": null, "label": null}, "schedIn": true}]
+  [ 658.6s] ct_Y4S2_legal_research_w12：選單 ["先問：你們怎麼說好的？", "先算：什麼時候該還？", "先找：你手上有什麼證據？", "我想先聽別人說。"] → 選「先問：你們怎麼說好的？」（obs 討論（照稿第 1 項的字）；截圖 gc_053_ct_Y4S2_legal_research_w12_menu.png）
+PASS ct_Y4S2_legal_research_w12：進了教室（["wancai"]；教室 zone wancai）
+  [ 676.7s] ct_Y4S2_legal_research_w12：課堂 14 句（say＋字幕）；坐下到「下課了」19.7 秒；整段 34.6 秒
+  [ 676.7s]     [cap 13.178] 名字「黑板」()：回顧：朋友借錢不還　成立、該還、證明、執行　四個學年，四個答案
+  [ 676.7s]     [say 13.178] 名字「周教授」(prof_zhou)：你的朋友借錢給人，五百塊，對方不還。他來問你，你第一句說什麼？
+  [ 676.7s]     [say 13.178] 名字「周教授」(prof_zhou)：成立、該還、證明、執行。每一關，都有人卡住。
+  [ 676.7s]     [say 13.178] 名字「周教授」(prof_zhou)：沒約定什麼時候還的，借錢給人的那一方，可以定一個月以上的期限催告。
+  [ 676.7s]     [say 13.178] 名字「周教授」(prof_zhou)：贏了判決，對方名下沒財產，你拿到的可能只是一張債權憑證。
+  [ 676.7s]     [say 13.178] 名字「」()：同學：「我會先請他把對話截圖。」
+  [ 676.7s]     [say 13.178] 名字「」()：周教授：「四年，四個答案。你只能先說一個。」
+  [ 676.7s]     [say 13.178] 名字「」()：周教授：「口頭說的，他現在不認呢？」
+  [ 676.7s]     [say 13.178] 名字「」()：阿哲：「我的第一句是：『你還記得那五百塊嗎？』他說記得，可是還是沒還。」
+  [ 676.7s]     [say 13.178] 名字「」()：同學：「成立、到期、證明、執行，四關我都畫成表了。可是為了五百塊走完四關，划算嗎？」
+  [ 676.7s]     [say 13.178] 名字「」()：同學：「這題看起來是送分題。可是對方是朋友，要不要告是另一個問題吧？」
+  [ 676.7s]     [say 13.178] 名字「周教授」(prof_zhou)：先說哪一句，沒有標準答案。我只記得，大一問這題的時候，你們都先笑了。
+  [ 676.7s]     [cap 15.167] 名字「」()：下課了。周老師收起講義。
+  [ 676.7s]     [cap 15.187] 名字「」()：今天的課上完了。
+  [ 676.7s] ct_Y4S2_legal_research_w12：教授說的 5 句，對話框名字 ["周教授"]（人物資料 周教授）；不在場（「○老師：」開頭）0 句
+PASS ct_Y4S2_legal_research_w12：對話框的字沒有被切掉、對話框在畫面裡（9 句檢查）  []
+  [ 676.7s] ct_Y4S2_legal_research_w12：黑板 setBoard=null；黑板字幕="回顧：朋友借錢不還　成立、該還、證明、執行　四個學年，四個答案"；稿 board=["回顧：朋友借錢不還", "成立、該還、證明、執行", "四個學年，四個答案"]
+PASS ct_Y4S2_legal_research_w12：黑板三行和稿一樣  {"setBoard": null, "cap": "回顧：朋友借錢不還　成立、該還、證明、執行　四個學年，四個答案"}
+  [ 676.7s] ct_Y4S2_legal_research_w12：稿 line／more 對到的句子位置 [["line", 0], ["more1", 1], ["more2", 2], ["more3", 3]]
+  [ 676.7s] ct_Y4S2_legal_research_w12：同學 react 播了 "同學：「我會先請他把對話截圖。」"（稿裡在學校的 [["heroine_01", "五百塊，我會先問他還好嗎。"], ["classmate_youchen", "我會先請他把對話截圖。"]]）
+  [ 676.7s] ct_Y4S2_legal_research_w12：obs 選單 [["先問：你們怎麼說好的？", "先算：什麼時候該還？", "先找：你手上有什麼證據？", "我想先聽別人說。"], "先問：你們怎麼說好的？"]
+PASS ct_Y4S2_legal_research_w12：line → 每一句 more → 同學 react 都播了、順序對、逐字對  []
+PASS ct_Y4S2_legal_research_w12：obs 的選項出現、選了以後 follow 都播了（[[["先問：你們怎麼說好的？", "先算：什麼時候該還？", "先找：你手上有什麼證據？", "我想先聽別人說。"], "先問：你們怎麼說好的？"]]）  []
+PASS ct_Y4S2_legal_research_w12：畫面上沒有 undefined、{name}、開發者註記（對話、字幕、通知、選項、名字、黑板，17 則）  []
+PASS ct_Y4S2_legal_research_w12：下課了（CLS.rec done 有 1329:legal_research:pm1、attend +1）  {"done": {"1329:legal_research:pm1": [null, 1]}, "attend": {"legal_research": [null, 1]}}
+PASS ct_Y4S2_legal_research_w12：下課以後能自由走動（推之前 busy=False、seat=False；搖桿 [["前", 9.27, 1, "wancai", false]]；之後 {"x": 1.157, "z": -3.196, "lv": 0, "busy": false, "seat": false, "path": false, "zone": "wancai"}；截圖 gc_061_ct_Y4S2_legal_research_w12_free_move.png）
+PASS ct_Y4S2_legal_research_w12：沒有 JS 例外  []
+  [ 682.5s] Y4S2 花了 1.7 分鐘
+===== JA2 =====
+PASS JA2：遊戲載入
+PASS JA2：遊戲 COURSES 有這門課（{"id": "japanese_2", "name": "日文（下）", "term": "Y2S2", "kind": "elective", "room": "GONGTONG", "prof": null, "choice": null}）
+  [ 707.7s] JA2：照課名「日文（下）」找到 japanese_2（{"id": "japanese_2", "name": "日文（下）", "term": "Y2S2", "kind": "elective", "room": "GONGTONG", "prof": null, "choice": null}；同名開頭的課 [{"id": "japanese_1", "name": "日文（上）", "term": "Y2S1", "kind": "elective", "room": "GONGTONG", "prof": null, "choice": null}, {"id": "japanese_2", "name": "日文（下）", "term": "Y2S2", "kind": "elective", "room": "GONGTONG", "prof": null, "choice": null}]）
+----- ct_JA2_japanese_2_w3（Y2S2 japanese_2 第 3 週；None）-----
+PASS ct_JA2_japanese_2_w3：找到 japanese_2 第 3 週那一堂（{"d": 538, "wd": 1, "key": "2027-03-08", "item": "538:japanese_2:pm1", "t0": 13.333333333333334, "t1": 15.166666666666666, "zone": "gongtong", "door": "common", "room": "共同教學館 102", "first": "538:oblig_spec:am", "firstName": "民法債編各論", "name": "日文（下）", "prof": null, "profShort": "日文老師", "profChar": null, "second": false, "line": "て形是日文的關節。學會它，句子就能動了。", "week": 3, "term": "Y2S2"}）
+PASS ct_JA2_japanese_2_w3：遊戲 syllabus.js 有這一週（有的週：[1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15]；來源 "claude/story-planning 80ed4ea066＋AA_373@e75d1cce（通識第 6 週 4 句）＋AA_377@d037c668（民訴第 14、15 週）＋AA_585@d3a22505b（期中週第 8、9 週 60 週）＋AA_255@52900eb23（行政救濟第 7 週以安、親屬第 1）
+PASS ct_JA2_japanese_2_w3：這一週在 SYLLABUS.reviewed（遊戲才會播稿，不然是一般句子）  true
+  [ 707.7s] ct_JA2_japanese_2_w3：稿裡這一週沒有 call／obs（tpl A，欄位 ["w", "tpl", "board", "line", "react", "more"]）：只看黑板、line、more、react
+  [ 708.0s] [稿比對] Y2S2 japanese_2 第 3 週：企劃 JSON 多的註記欄位（不進遊戲）["ref"]
+  [ 708.0s] [稿比對] Y2S2 japanese_2 第 3 週：內容欄位 ["tpl", "board", "line", "more", "react", "call", "obs", "ask", "recall"] 不一樣的 0 項（企劃 origin/claude/story-planning（115769ad46572dc7c9f297ed954838a1b16f6909））
+  [ 708.0s] [稿] ct_JA2_japanese_2_w3：tpl A；黑板 ["て形", "動詞的連接", "先……然後……"]；line＋more 3 句；react 2 句；call null；obs []；ask null
+  [ 708.0s] ct_JA2_japanese_2_w3：2027-03-08（第 538 天，週1）日文（下） 13.333333333333334～15.166666666666666 共同教學館 102（zone gongtong）教授 None（日文老師）；那天第一堂 民法債編各論
+  [前置／捷徑] ct_JA2_japanese_2_w3：最小存檔 2027-03-07（第 537 天）23:00 宿舍房間；旗標 {"ROOM_Y2": true}（住那一年的房間）（條件事件開著，只關手機自動打開）
+  [前置／捷徑] CLS.clearPending()＝True（清掉上一輪留下的待出選單）
+  [ 721.7s] ct_JA2_japanese_2_w3：讀進來 {"zone": "dorm", "plate": null}
+  [ 721.8s] ct_JA2_japanese_2_w3：走向床的途中有劇情（第 0 段；"（大二下的第二週。你終於記住了這學期的課表：週二要跑法律系館B。）"），先演完
+  [ 728.5s] 到達「床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 731.1s] ct_JA2_japanese_2_w3_bed：選單 ["睡到明天早上（08:10）", "睡到明天中午", "睡到明天下午", "睡到明天晚上", "快轉", "再撐一下"] → 選「睡到明天早上（08:10）」（照字「睡到明天早上」；截圖 gc_062_ct_JA2_japanese_2_w3_bed_menu.png）
+  [ 741.2s] ct_JA2_japanese_2_w3：睡醒 第 538 天（要第 538 天）{"dlg": false, "ch": 0, "busy": false, "path": false, "seat": false, "fade": false, "phone": false, "paused": false, "zone": "dorm", "h": 8.193, "day": 538, "dtext": "（大二下的第二週。你終於記住了這學期的課表：週二要跑法律系館B。）", "dlgC": null, "nd": 9, "typing": false}
+PASS ct_JA2_japanese_2_w3：前一晚真的睡覺、第 538 天醒來
+  [ 743.6s] ct_JA2_japanese_2_w3：起床選單以前的一句：早
+  [ 744.5s] ct_JA2_japanese_2_w3：起床選單以前的一句：早安。今天的課：09:10　民法債編各論　法律系館A 201　／　13:20　日
+PASS ct_JA2_japanese_2_w3：起床選單出了（["直接去上課：民法債編各論", "翹這堂課", "先起床再說"]）
+  [ 745.7s] ct_JA2_japanese_2_w3：起床選單第一項不是這一堂（["直接去上課：民法債編各論", "翹這堂課", "先起床再說"]）→ 照字「先起床再說」
+  [ 746.5s] ct_JA2_japanese_2_w3_wake：選單 ["直接去上課：民法債編各論", "翹這堂課", "先起床再說"] → 選「先起床再說」（照字「先起床」；截圖 gc_064_ct_JA2_japanese_2_w3_wake_menu.png）
+  [前置／捷徑] ct_JA2_japanese_2_w3：那天第一堂是 民法債編各論（不是這一堂）；早上直接去會翹掉它 → 改讀 2027-03-08（第 538 天）12:40 宿舍房間（上課前 40 分鐘）；旗標 {"ROOM_Y2": true}（條件事件開著，只關手機自動打開）
+  [前置／捷徑] CLS.clearPending()＝True（清掉上一輪留下的待出選單）
+  [ 761.8s] ct_JA2_japanese_2_w3：手機（打開了 True）「今天」：3/8 週一・大二下 第 3 週 ｜ 現在 12:44 ｜ 今天的時間　上午 ○　下午 ○　晚上 ○ ｜ 每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；約好的見面也算一件（約好的照樣能去）；吃飯、聊天不算。 ｜ 09:10–12:10 民法債編各論 ｜ 法律系館A 201・葉老師・沒去 ｜ 13:20–15:10 日文（下） ｜ 共同教學館 102・日文老師・還沒開始 ｜ 直接去上課 ｜ 法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00 ｜ 跳過時間 ｜ 沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。 ｜ 等到下一堂課前（13:10） ｜ 等到下午（14:00） ｜ 等到傍晚（17:30） ｜ 等到晚上（20:00） ｜ 翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。
+  [ 761.8s] ct_JA2_japanese_2_w3：手機「今天」那一列的鍵＝"直接去上課"
+PASS ct_JA2_japanese_2_w3：手機「今天」有「直接去上課」那一列的鍵
+  [ 778.9s] ct_JA2_japanese_2_w3：坐下那時，稿裡說話的同學（reactOK 的條件；教室有 room.door（可能是門口 2D）＝看作息 schedIn 或 inRoom：{"zone": "gongtong", "room": "102", "door": "common"}）[{"who": "jp_liheng", "name": "鄒立衡", "present": true, "inRoom": true, "knows": false, "sched": {"act": "class", "cls": null, "zone": "gongtong", "room": "102", "label": null}, "schedIn": true}, {"who": "jp_yuheng", "name": "汪宇恆", "present": true, "inRoom": true, "knows": false, "sched": {"act": "class", "cls": null, "zone": "gongtong", "room": "102", "label": null}, "schedIn": true}]
+  [ 804.9s] ct_JA2_japanese_2_w3：選單 ["「法律系二年級。……想多會一種語言。」", "「はじめまして。我只會說はじめまして。」", "「よろしく。」"] → 選「「法律系二年級。……想多會一種語言。」」（不認得的選單，照第一個沒變暗的「「法律系二年級。……想多會一種語言。」」；截圖 gc_069_ct_JA2_japanese_2_w3_menu.png）
+PASS ct_JA2_japanese_2_w3：進了教室（["gongtong"]；教室 zone gongtong）
+  [ 816.2s] ct_JA2_japanese_2_w3：課堂 17 句（say＋字幕）；坐下到「下課了」29.6 秒；整段 53.0 秒
+  [ 816.2s]     [say 13.179] 名字「」()：（你在座位上等。教室慢慢坐滿了。）
+  [ 816.2s]     [cap 13.333] 名字「黑板」()：て形　動詞的連接　先……然後……
+  [ 816.2s]     [say 13.333] 名字「老師」()：この授業は、ときどき出席を取ります。
+  [ 816.2s]     [say 13.333] 名字「老師」()：……聽不懂的話：我會突然點名。
+  [ 816.2s]     [say 13.333] 名字「」()：（老師今天點名。）
+  [ 816.2s]     [say 13.333] 名字「」()：日文老師：て形是日文的關節。學會它，句子就能動了。
+  [ 816.2s]     [say 13.333] 名字「」()：日文老師：たべる→たべて；のむ→のんで；かく→かいて。
+  [ 816.2s]     [say 13.333] 名字「」()：日文老師：「いく」是例外：いって，不是いいて。
+  [ 816.2s]     [say 13.333] 名字「」()：日文老師：先吃飯再去學校：ごはんをたべて、がっこうへいきます。
+  [ 816.2s]     [cap 13.333] 名字「」()：はじめまして
+  [ 816.2s]     [say 13.333] 名字「日文老師」(日文老師)：一人ずつ、自己紹介をお願いします。……用中文補充也可以。
+  [ 816.2s]     [say 13.333] 名字「采蓁」(jp_caizhen)：はじめまして！獸醫系三年級！我想看懂日劇不用字幕！
+  [ 816.2s]     [say 13.333] 名字「立衡」(jp_liheng)：……機械系四年級。想去日本念書。よろしくお願いします。
+  [ 816.2s]     [say 13.333] 名字「」()：（輪到祐廷。）
+  [ 816.2s]     [say 13.333] 名字「」()：同學：「例外要背，規則要懂。」
+  [ 816.2s]     [cap 15.167] 名字「」()：下課了。
+  [ 816.2s]     [cap 15.187] 名字「」()：今天的課上完了。
+  [ 816.2s] ct_JA2_japanese_2_w3：教授說的 0 句，對話框名字 []（人物資料 None）；不在場（「○老師：」開頭）4 句
+PASS ct_JA2_japanese_2_w3：對話框的字沒有被切掉、對話框在畫面裡（4 句檢查）  []
+  [ 816.2s] ct_JA2_japanese_2_w3：黑板 setBoard=null；黑板字幕="て形　動詞的連接　先……然後……"；稿 board=["て形", "動詞的連接", "先……然後……"]
+PASS ct_JA2_japanese_2_w3：黑板三行和稿一樣  {"setBoard": null, "cap": "て形　動詞的連接　先……然後……"}
+  [ 816.2s] ct_JA2_japanese_2_w3：稿 line／more 對到的句子位置 [["line", 4], ["more1", 5], ["more2", 6], ["more3", 7]]
+  [ 816.2s] ct_JA2_japanese_2_w3：同學 react 播了 "同學：「例外要背，規則要懂。」"（稿裡在學校的 [["jp_liheng", "いく的て形，我錯了三次。"], ["jp_yuheng", "例外要背，規則要懂。"]]）
+PASS ct_JA2_japanese_2_w3：line → 每一句 more → 同學 react 都播了、順序對、逐字對  []
+PASS ct_JA2_japanese_2_w3：畫面上沒有 undefined、{name}、開發者註記（對話、字幕、通知、選項、名字、黑板，20 則）  []
+  [ 816.2s] ct_JA2_japanese_2_w3：不認得或和稿對不上的選單 [[["「法律系二年級。……想多會一種語言。」", "「はじめまして。我只會說はじめまして。」", "「よろしく。」"], "「法律系二年級。……想多會一種語言。」", "不認得的選單，照第一個沒變暗的「「法律系二年級。……想多會一種語言。」」"]]
+PASS ct_JA2_japanese_2_w3：下課了（CLS.rec done 有 538:japanese_2:pm1、attend +1）  {"done": {"538:japanese_2:pm1": [null, 1]}, "attend": {"japanese_2": [null, 1]}}
+PASS ct_JA2_japanese_2_w3：下課以後能自由走動（推之前 busy=False、seat=False；搖桿 [["前", 2.13, 1, "gongtong", false]]；之後 {"x": -6.943, "z": -6.28, "lv": 0, "busy": false, "seat": false, "path": false, "zone": "gongtong"}；截圖 gc_073_ct_JA2_japanese_2_w3_free_move.png）
+PASS ct_JA2_japanese_2_w3：沒有 JS 例外  []
+  [ 821.7s] JA2 花了 2.3 分鐘
+  [ 821.7s] [統計] {"Y1S2": {"lesson": "const_2 第 3 週 2026-03-09", "lines": 10, "sitToEnd": 34.0, "secs": 60.2, "miss": 0, "bad": 0}, "Y2S1": {"lesson": "crim_spec 第 10 週 2026-11-10", "lines": 23, "sitToEnd": 38.3, "secs": 104.1, "miss": 0, "bad": 0}, "Y3S1": {"lesson": "civpro_1 第 7 週 2027-10-18", "lines": 11, "sitToEnd": 34.5, "secs": 55.2, "miss": 0, "bad": 0}, "Y4S1": {"lesson": "enforcement 第 12 週 2028-11-20", "lines": 22, "sitToEnd": 27.1, "secs": 84.5, "miss": 0, "bad": 0}, "Y4S2": {"lesson": "legal_research 第 12 週 2029-05-07", "lines": 14, "sitToEnd": 19.7, "secs": 34.6, "miss": 0, "bad": 0}, "JA2": {"lesson": "japanese_2 第 3 週 2027-03-08", "lines": 17, "sitToEnd": 29.6, "secs": 53.0, "miss": 0, "bad": 0}}
+===== 遊戲 syllabus.js 和企劃 JSON 的差異（只記，不判 FAIL）=====
+  ["Y4S2 legal_research 第 12 週", "obs.echo", {"syllabus.js": null, "企劃 JSON": "AA_105「朋友借錢不還」四個學年的回聲：去過的那幾堂逐行顯示，一堂都沒去的不加旁白；AA_117 的理解不影響這一題"}]
+ALL PASS
