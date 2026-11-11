@@ -148,6 +148,9 @@ REL_main12 | f312c68cc961c70c7d548fe40c2ae42483d517ba | game | tests/flow_main_d
 REL_live | f312c68cc961c70c7d548fe40c2ae42483d517ba | game | tests/save_compat_v95.py | index.html | 40 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;XARGS={url2} {url};CC_HEADLESS=0
 # BB 20:4x：REL_live 17 FAIL 和 F24_live（v9.10.24 發布時）一模一樣；對照組＝線上 779ddd 自己讀自己的存檔，一樣 17 FAIL＝不是這版造成
 REL_live_ctl | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;XARGS={url2} {url};CC_HEADLESS=0
+# CC 12:4x：V25_social 以安手機約 Daybreak「自己走過去」那一趟在校園就開演、約會記 missed——新版重跑＋線上 779 對照（只跑這一步）
+V25_social_pd_new | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | TAG=v25pd;CASES=heroine_01;STEPS=phone_date;SHA=0d1eaadc7e746d4e6c6b00619f584e805266fbb6
+V25_social_pd_old | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | TAG=v25pdold;CASES=heroine_01;STEPS=phone_date;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 V25_main12 | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 V25_social | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | TAG=v25;SHA=0d1eaadc7e746d4e6c6b00619f584e805266fbb6
 V25_reach | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
