@@ -53164,7 +53164,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "店面＋室內、上師對話（AA_750 @93f731790）、上師 3D 人物第 3 版（LAWWW2 bc1954d4b；LAWWW 看預覽判可以進遊戲）都在開發分支；f5e1ef4e8 起他坐在算命桌後面（S.placeMaster，店開著、他在才出現）。limao_unit 55 項 ALL PASS，瀏覽器沒跑。等 CC 截圖：坐的高度／朝向、模型下載要多久、對話鏡頭；截圖 OK 後 LAWWW 標角色 ART_APPROVED。沒做：店裡的上師（zone.shopClerk）、吳教授的 3D 人物、入口 B「喝茶、上師去接待客人」的演出、快速前往；入口 A 會不會卡到趕上課等 CC 實測"
+   "next": "店面＋室內、上師對話（AA_750 @93f731790）、上師 3D 人物第 3 版（LAWWW2 bc1954d4b；LAWWW 看預覽判可以進遊戲）都在開發分支；f5e1ef4e8 起他坐在算命桌後面（S.placeMaster，店開著、他在才出現）。limao_unit 55 項 ALL PASS，瀏覽器沒跑。等 CC 截圖：坐的高度／朝向、模型下載要多久、對話鏡頭；截圖 OK 後 LAWWW 標角色 ART_APPROVED。沒做：店裡的上師（zone.shopClerk）、吳教授的 3D 人物、入口 B「喝茶、上師去接待客人」的演出、快速前往；入口 A 會不會卡到趕上課等 CC 實測｜11-11 02:3x：場景第 2 版（LAWWW2 3d4107ca1）已整合 44986e635——算命桌、上師座位、門的位置配置改了（上師跟著坐到 (28.9, 5.1)）；互動鍵字跟著開收換 f58131631"
   },
   {
    "id": "HANDOFF-LOOSE-1110",
@@ -53241,7 +53241,7 @@
    "id": "LIMAO-INT-CAM-1111",
    "title": "禮貌生財進門後遊戲鏡頭一片米色（鏡頭卡在隔板或牆裡）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -53254,7 +53254,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "BB 11-11 02:1x 判 GAME_BUG、每次進門都會（e7ddae33f）：玩家 (0.9,3.3)、鏡頭 (0.9,3.21,7.2)，房間 4.6×10、前牆 z 5，鏡頭在牆外 2.2 m；室內鏡頭距離 4.2 m 比房間大、沒被牆拉回來、牆沒淡出。**修好以前 BB 不放行**：候選要嘛等這個修，要嘛禮貌生財的門先關（街上算命桌照常）。LAWWW2 在修（四面牆加 E.colliders，或這個 zone 鏡頭距離 ≤2.0＋牆淡出），併在下一包；修完 CC 重跑 LM_cam",
+   "next": "LAWWW2 3d4107ca1 已整合 44986e635：原因是站在掛畫前時鏡頭退到隔牆後面鎖著的書房裡（不是進門）；隔牆、門框、掛畫改成 PART_* 節點，鏡頭和玩家在隔牆兩邊時淡出。Node 測試過，瀏覽器等 CC 重跑 LM_cam（進門、掛畫前、繞一圈）。**過了才不關禮貌生財的門**（BB 放行條件）",
    "xai": {
     "spec": "BB 11-11 01:47 判定（BB_255，企劃線 8da731f7c）",
     "branch": "claude/second-ai-env-art",
@@ -53267,7 +53267,7 @@
    "id": "GG-XIANGUO-EXT3-1111",
    "title": "汀州鮮果外觀第 3 版（最後一版）：敞開的店面開口前排放真的水果箱（現在是一張平面照片）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53280,7 +53280,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "BB 11-11 判 PARTIAL（第 2 版）。排在鏡頭修正之後",
+   "next": "第 3 版（LAWWW2 3d4107ca1）已整合 44986e635：照片卡退到店面線後 2.3 m、開口前 16 箱真的水果。等 BB 場景美術判定（最後一版）",
    "xai": {
     "spec": "BB 11-11 01:47 判定（BB_255，企劃線 8da731f7c）",
     "branch": "claude/second-ai-env-art",
