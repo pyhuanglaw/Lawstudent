@@ -1,0 +1,72 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_cam_new_r2\out
+CC NM1 夜市：PARTS NMCAM；SHA 811aa4c0f；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 （讀配置）
+  [  49.2s] [NMCAM] 這次拍：[["st_eggcake", "陳家古早味雞蛋糕", "tingzhou"], ["st_ball", "一個地球", "tingzhou"], ["st_stinky", "紹興炸豆腐", "tingzhou"], ["st_phonecase", "手機殼", "gongguan"]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1700 (10.50,4.35) （陳家古早味雞蛋糕 前面 6 m）
+  [  59.8s] [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 走到攤前 1.9 m 中途點（照 E.pathTo）1 個：[[10.5, 0.2]]
+PASS [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 走到攤前 1.9 m 照找路的中途點都走到（1 個）
+PASS [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 走到攤前 1.9 m 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 走到攤前 1.9 m walkFallbacks 0
+PASS [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.9 m 遊戲裡有這一攤、營業中  {"onScreen": true, "ndc": [-0.01, 0.06], "anyBlock": [["STALL_eggcake_open_aw", 0.33], ["STALL_eggcake_open_aw", 1.19]], "midBlack": 0.019, "midWhite": 0.003, "cam": [10.27, 2.1, -2.16], "camInStallBox": false, "blockHits": 2, "firstHit": "STALL_eggcake_open_aw", "playerVisible": true, "bulbs": [[10.5, 1.12, -1.34, "STALL_eggcake_open_at"], [10.5, 1.73, -1.53, "STALL_eggcake_open_gl"]], "isOpen": true}
+  [  63.5s] [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.9 m 鏡頭 [10.27, 2.1, -2.16]；射線碰到攤子 2 次（STALL_eggcake_open_aw）；鏡頭在攤子外框裡 False；玩家頭在畫面裡 True；鏡頭→頭之間任何東西（前 3 個）[["STALL_eggcake_open_aw", 0.33], ["STALL_eggcake_open_aw", 1.19]]
+FAIL [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.9 m 玩家頭在畫面裡、鏡頭→頭之間沒有任何東西擋（攤子以外的牆、柱子也算）  {"onScreen": true, "ndc": [-0.01, 0.06], "anyBlock": [["STALL_eggcake_open_aw", 0.33], ["STALL_eggcake_open_aw", 1.19]], "cam": [10.27, 2.1, -2.16]}
+FAIL [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.9 m 人看得到、棚子不擋（鏡頭→玩家頭不碰攤子、鏡頭不在攤子外框裡）  {"onScreen": true, "ndc": [-0.01, 0.06], "anyBlock": [["STALL_eggcake_open_aw", 0.33], ["STALL_eggcake_open_aw", 1.19]], "midBlack": 0.019, "midWhite": 0.003, "cam": [10.27, 2.1, -2.16], "camInStallBox": false, "blockHits": 2, "firstHit": "STALL_eggcake_open_aw", "playerVisible": true, "bulbs": [[10.5, 1.12, -1.34, "STALL_eggcake_open_at"], [10.5, 1.73, -1.53, "STALL_eggcake_open_gl"]], "isOpen": true}
+  [  63.5s] [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 走到攤前 1.2 m 中途點（照 E.pathTo）1 個：[[10.5, -0.4]]
+PASS [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 走到攤前 1.2 m 照找路的中途點都走到（1 個）
+PASS [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 走到攤前 1.2 m 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 走到攤前 1.2 m walkFallbacks 0
+PASS [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.2 m 遊戲裡有這一攤、營業中  {"onScreen": true, "ndc": [-0.01, 0.09], "anyBlock": [["STALL_eggcake_open_at", 1.03], ["STALL_eggcake_open_vc", 1.04], ["STALL_eggcake_open_vc", 1.14]], "midBlack": 0.044, "midWhite": 0.007, "cam": [11.03, 1.84, -2.16], "camInStallBox": true, "blockHits": 3, "firstHit": "STALL_eggcake_open_at", "playerVisible": true, "bulbs": [[10.5, 1.12, -1.34, "STALL_eggcake_open_at"], [10.5, 1.73, -1.53, "STALL_eggcake_open_gl"]], "isOpen": true}
+  [  66.9s] [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.2 m 鏡頭 [11.03, 1.84, -2.16]；射線碰到攤子 3 次（STALL_eggcake_open_at）；鏡頭在攤子外框裡 True；玩家頭在畫面裡 True；鏡頭→頭之間任何東西（前 3 個）[["STALL_eggcake_open_at", 1.03], ["STALL_eggcake_open_vc", 1.04], ["STALL_eggcake_open_vc", 1.14]]
+FAIL [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.2 m 玩家頭在畫面裡、鏡頭→頭之間沒有任何東西擋（攤子以外的牆、柱子也算）  {"onScreen": true, "ndc": [-0.01, 0.09], "anyBlock": [["STALL_eggcake_open_at", 1.03], ["STALL_eggcake_open_vc", 1.04], ["STALL_eggcake_open_vc", 1.14]], "cam": [11.03, 1.84, -2.16]}
+FAIL [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.2 m 人看得到、棚子不擋（鏡頭→玩家頭不碰攤子、鏡頭不在攤子外框裡）  {"onScreen": true, "ndc": [-0.01, 0.09], "anyBlock": [["STALL_eggcake_open_at", 1.03], ["STALL_eggcake_open_vc", 1.04], ["STALL_eggcake_open_vc", 1.14]], "midBlack": 0.044, "midWhite": 0.007, "cam": [11.03, 1.84, -2.16], "camInStallBox": true, "blockHits": 3, "firstHit": "STALL_eggcake_open_at", "playerVisible": true, "bulbs": [[10.5, 1.12, -1.34, "STALL_eggcake_open_at"], [10.5, 1.73, -1.53, "STALL_eggcake_open_gl"]], "isOpen": true}
+  [  67.3s] [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 發光的零件（燈泡）2 個：[[10.5, 1.12, -1.34, "STALL_eggcake_open_at"], [10.5, 1.73, -1.53, "STALL_eggcake_open_gl"]]
+PASS [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1900 (18.50,4.35) （一個地球 前面 6 m）
+  [  78.3s] [NMCAM st_ball 一個地球 1900] 走到攤前 1.9 m 中途點（照 E.pathTo）1 個：[[18.5, 0.2]]
+PASS [NMCAM st_ball 一個地球 1900] 走到攤前 1.9 m 照找路的中途點都走到（1 個）
+PASS [NMCAM st_ball 一個地球 1900] 走到攤前 1.9 m 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [NMCAM st_ball 一個地球 1900] 走到攤前 1.9 m walkFallbacks 0
+PASS [NMCAM st_ball 一個地球 1900] 1.9 m 遊戲裡有這一攤、營業中  {"onScreen": true, "ndc": [-0.01, 0.07], "anyBlock": [], "midBlack": 0.095, "midWhite": 0.015, "cam": [18.99, 2, -2.16], "camInStallBox": true, "blockHits": 0, "firstHit": null, "playerVisible": true, "bulbs": [[18.67, 1.36, -1.3, "STALL_ball_open_at"], [18.5, 1.81, -1.55, "STALL_ball_open_gl"]], "isOpen": true}
+  [  81.6s] [NMCAM st_ball 一個地球 1900] 1.9 m 鏡頭 [18.99, 2, -2.16]；射線碰到攤子 0 次（None）；鏡頭在攤子外框裡 True；玩家頭在畫面裡 True；鏡頭→頭之間任何東西（前 3 個）[]
+PASS [NMCAM st_ball 一個地球 1900] 1.9 m 玩家頭在畫面裡、鏡頭→頭之間沒有任何東西擋（攤子以外的牆、柱子也算）  {"onScreen": true, "ndc": [-0.01, 0.07], "anyBlock": [], "cam": [18.99, 2, -2.16]}
+FAIL [NMCAM st_ball 一個地球 1900] 1.9 m 人看得到、棚子不擋（鏡頭→玩家頭不碰攤子、鏡頭不在攤子外框裡）  {"onScreen": true, "ndc": [-0.01, 0.07], "anyBlock": [], "midBlack": 0.095, "midWhite": 0.015, "cam": [18.99, 2, -2.16], "camInStallBox": true, "blockHits": 0, "firstHit": null, "playerVisible": true, "bulbs": [[18.67, 1.36, -1.3, "STALL_ball_open_at"], [18.5, 1.81, -1.55, "STALL_ball_open_gl"]], "isOpen": true}
+  [  81.6s] [NMCAM st_ball 一個地球 1900] 走到攤前 1.2 m 中途點（照 E.pathTo）1 個：[[18.5, -0.4]]
+PASS [NMCAM st_ball 一個地球 1900] 走到攤前 1.2 m 照找路的中途點都走到（1 個）
+PASS [NMCAM st_ball 一個地球 1900] 走到攤前 1.2 m 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [NMCAM st_ball 一個地球 1900] 走到攤前 1.2 m walkFallbacks 0
+PASS [NMCAM st_ball 一個地球 1900] 1.2 m 遊戲裡有這一攤、營業中  {"onScreen": true, "ndc": [-0.01, 0.07], "anyBlock": [], "midBlack": 0.101, "midWhite": 0.015, "cam": [18.99, 2, -2.16], "camInStallBox": true, "blockHits": 0, "firstHit": null, "playerVisible": true, "bulbs": [[18.67, 1.36, -1.3, "STALL_ball_open_at"], [18.5, 1.81, -1.55, "STALL_ball_open_gl"]], "isOpen": true}
+  [  84.3s] [NMCAM st_ball 一個地球 1900] 1.2 m 鏡頭 [18.99, 2, -2.16]；射線碰到攤子 0 次（None）；鏡頭在攤子外框裡 True；玩家頭在畫面裡 True；鏡頭→頭之間任何東西（前 3 個）[]
+PASS [NMCAM st_ball 一個地球 1900] 1.2 m 玩家頭在畫面裡、鏡頭→頭之間沒有任何東西擋（攤子以外的牆、柱子也算）  {"onScreen": true, "ndc": [-0.01, 0.07], "anyBlock": [], "cam": [18.99, 2, -2.16]}
+FAIL [NMCAM st_ball 一個地球 1900] 1.2 m 人看得到、棚子不擋（鏡頭→玩家頭不碰攤子、鏡頭不在攤子外框裡）  {"onScreen": true, "ndc": [-0.01, 0.07], "anyBlock": [], "midBlack": 0.101, "midWhite": 0.015, "cam": [18.99, 2, -2.16], "camInStallBox": true, "blockHits": 0, "firstHit": null, "playerVisible": true, "bulbs": [[18.67, 1.36, -1.3, "STALL_ball_open_at"], [18.5, 1.81, -1.55, "STALL_ball_open_gl"]], "isOpen": true}
+  [  84.7s] [NMCAM st_ball 一個地球 1900] 發光的零件（燈泡）2 個：[[18.67, 1.36, -1.3, "STALL_ball_open_at"], [18.5, 1.81, -1.55, "STALL_ball_open_gl"]]
+PASS [NMCAM st_ball 一個地球 1900] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1930 (-10.20,-21.50) （紹興炸豆腐 前面 6 m）
+  [  95.0s] [NMCAM st_stinky 紹興炸豆腐 1930] 走到攤前 1.9 m 中途點（照 E.pathTo）1 個：[[-6.1, -21.5]]
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 走到攤前 1.9 m 照找路的中途點都走到（1 個）
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 走到攤前 1.9 m 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 走到攤前 1.9 m walkFallbacks 0
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 1.9 m 遊戲裡有這一攤、營業中  {"onScreen": true, "ndc": [-0.0, 0.06], "anyBlock": [], "midBlack": 0.145, "midWhite": 0.011, "cam": [-5.84, 2.19, -23.66], "camInStallBox": false, "blockHits": 0, "firstHit": null, "playerVisible": true, "bulbs": [[-4.66, 1.48, -21.71, "STALL_stinky_open_at"], [-4.63, 1.88, -20.88, "STALL_stinky_open_gl"]], "isOpen": true}
+  [ 148.3s] [NMCAM st_stinky 紹興炸豆腐 1930] 1.9 m 鏡頭 [-5.84, 2.19, -23.66]；射線碰到攤子 0 次（None）；鏡頭在攤子外框裡 False；玩家頭在畫面裡 True；鏡頭→頭之間任何東西（前 3 個）[]
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 1.9 m 玩家頭在畫面裡、鏡頭→頭之間沒有任何東西擋（攤子以外的牆、柱子也算）  {"onScreen": true, "ndc": [-0.0, 0.06], "anyBlock": [], "cam": [-5.84, 2.19, -23.66]}
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 1.9 m 人看得到、棚子不擋（鏡頭→玩家頭不碰攤子、鏡頭不在攤子外框裡）  {"onScreen": true, "ndc": [-0.0, 0.06], "anyBlock": [], "midBlack": 0.145, "midWhite": 0.011, "cam": [-5.84, 2.19, -23.66], "camInStallBox": false, "blockHits": 0, "firstHit": null, "playerVisible": true, "bulbs": [[-4.66, 1.48, -21.71, "STALL_stinky_open_at"], [-4.63, 1.88, -20.88, "STALL_stinky_open_gl"]], "isOpen": true}
+  [ 148.3s] [NMCAM st_stinky 紹興炸豆腐 1930] 走到攤前 1.2 m 中途點（照 E.pathTo）1 個：[[-5.4, -21.5]]
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 走到攤前 1.2 m 照找路的中途點都走到（1 個）
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 走到攤前 1.2 m 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 走到攤前 1.2 m walkFallbacks 0
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 1.2 m 遊戲裡有這一攤、營業中  {"onScreen": true, "ndc": [0, 0.05], "anyBlock": [], "midBlack": 0.129, "midWhite": 0.012, "cam": [-5.47, 2.22, -23.66], "camInStallBox": false, "blockHits": 0, "firstHit": null, "playerVisible": true, "bulbs": [[-4.66, 1.48, -21.71, "STALL_stinky_open_at"], [-4.63, 1.88, -20.88, "STALL_stinky_open_gl"]], "isOpen": true}
+  [ 158.7s] [NMCAM st_stinky 紹興炸豆腐 1930] 1.2 m 鏡頭 [-5.47, 2.22, -23.66]；射線碰到攤子 0 次（None）；鏡頭在攤子外框裡 False；玩家頭在畫面裡 True；鏡頭→頭之間任何東西（前 3 個）[]
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 1.2 m 玩家頭在畫面裡、鏡頭→頭之間沒有任何東西擋（攤子以外的牆、柱子也算）  {"onScreen": true, "ndc": [0, 0.05], "anyBlock": [], "cam": [-5.47, 2.22, -23.66]}
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] 1.2 m 人看得到、棚子不擋（鏡頭→玩家頭不碰攤子、鏡頭不在攤子外框裡）  {"onScreen": true, "ndc": [0, 0.05], "anyBlock": [], "midBlack": 0.129, "midWhite": 0.012, "cam": [-5.47, 2.22, -23.66], "camInStallBox": false, "blockHits": 0, "firstHit": null, "playerVisible": true, "bulbs": [[-4.66, 1.48, -21.71, "STALL_stinky_open_at"], [-4.63, 1.88, -20.88, "STALL_stinky_open_gl"]], "isOpen": true}
+  [ 159.1s] [NMCAM st_stinky 紹興炸豆腐 1930] 發光的零件（燈泡）2 個：[[-4.66, 1.48, -21.71, "STALL_stinky_open_at"], [-4.63, 1.88, -20.88, "STALL_stinky_open_gl"]]
+PASS [NMCAM st_stinky 紹興炸豆腐 1930] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 1800 (15.00,17.20) （手機殼 前面 6 m）
+  [ 175.1s] [NMCAM st_phonecase 手機殼 1800] 走到攤前 1.9 m 中途點（照 E.pathTo）1 個：[[15, 13.1]]
+FAIL [NMCAM st_phonecase 手機殼 1800] 走到攤前 1.9 m 搖桿走到中途點 (15.0,13.1)（60 秒）  {"x": 14.67, "z": 14.42, "zone": "gongguan"}
+FAIL [NMCAM st_phonecase 手機殼 1800] 走到攤前 1.9 m 照找路的中途點都走到（1 個）
+PASS [NMCAM st_phonecase 手機殼 1800] 走到攤前 1.9 m 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [NMCAM st_phonecase 手機殼 1800] 走到攤前 1.9 m walkFallbacks 0
+FAIL [NMCAM] 沒有中斷  Error("Page.evaluate: TypeError: Cannot read properties of null (reading 'matrixWorld')\n    at Sprite.raycast (http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.24:22582:43)\n    at intersect (http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.24:56830:25)\n    at intersect (http://127.0.0.1:8802/lib/
+PASS 沒有 JS 例外  []
+FAILED 9: [NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.9 m 玩家頭在畫面裡、鏡頭→頭之間沒有任何東西擋（攤子以外的牆、柱子也算）；[NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.9 m 人看得到、棚子不擋（鏡頭→玩家頭不碰攤子、鏡頭不在攤子外框裡）；[NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.2 m 玩家頭在畫面裡、鏡頭→頭之間沒有任何東西擋（攤子以外的牆、柱子也算）；[NMCAM st_eggcake 陳家古早味雞蛋糕 1700] 1.2 m 人看得到、棚子不擋（鏡頭→玩家頭不碰攤子、鏡頭不在攤子外框裡）；[NMCAM st_ball 一個地球 1900] 1.9 m 人看得到、棚子不擋（鏡頭→玩家頭不碰攤子、鏡頭不在攤子外框裡）；[NMCAM st_ball 一個地球 1900] 1.2 m 人看得到、棚子不擋（鏡頭→玩家頭不碰攤子、鏡頭不在攤子外框裡）；[NMCAM st_phonecase 手機殼 1800] 走到攤前 1.9 m 搖桿走到中途點 (15.0,13.1)（60 秒）；[NMCAM st_phonecase 手機殼 1800] 走到攤前 1.9 m 照找路的中途點都走到（1 個）；[NMCAM] 沒有中斷
