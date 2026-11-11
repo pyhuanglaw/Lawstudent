@@ -28,6 +28,17 @@ STAGES＝friend,dating（預設兩個都跑；REVISIT、WISH 只跑 friend）；
 WHO＝換人（預設 heroine_04；之後以安＝heroine_01）：地點清單（date_lines.js 有這個人格子的地點）、源稿（同一份 Dxx.json 的 lines.<WHO>）、心願地點（date_locations wishOf）、
   不分地點的短句（lines.<WHO>＋頁面的 DATE.EXTRA_LINES）都照這個人；log 開頭印用的是誰。REVISIT_LOC＝REVISIT 用哪個地點（預設 D01；以安 D07 再訪＝PARTS=REVISIT;REVISIT_LOC=D07）。
   兩天一夜的地點清單在 OVERNIGHT（現在只有 D26），其他地點一律半天 15:00 出發。
+（BB 07:33 加，DATE_AN／DATE_ZQ 共用）
+  源稿＝受測樹自己的 tests/date_src_sha.js 的 ALLOW_SHA（7266e7a29／fea448637＝bd1ce5be0：以安重寫＋子晴再改 31 格），不寫死；讀不到只比資料檔。
+  VISIT＝first／again（沒寫＝D06、D10、D13 預設 first（選項、請客、開發註記都在 first 格），其他 again）；STAGES 多一種 friend6＝第 6 階沒交往（D13 預設 friend,friend6,dating）。
+  選項：每一段該出的選項照 date3d.js 擋「（第 N 階以上）」沒到的、去掉尾巴（DATE.optOk／optText），逐字比跳出來的選單；回話逐字（選法 PICKS：D13 飲料選第 2 個、拍照選「一起拍？」，其他照 PICK）。
+    DATE.DEV_NOTE（整句不演）、DEV_STRIP（換字）從頁面讀，預期句子照樣拿掉；firstHigh（第 6 階或交往的第一次）、extra:合照（第 6 階或交往）、{sunset}（DATE.sunset）都算進預期；
+    pickSet 照 recent 算（D13 以安 again 的【前置】recent＝飲料第 1 套，第 6 階才輪到「這杯我請。不要跟我搶。」）。
+  8 畫面上的開發註記：每一步掃 document.body.innerText＋對話、選項、字幕，不能有「留給 Q12、C2、（第 6 階以上）、反引號、AA_113」、整行「你說了」。
+  9 以安 D26 全程沒有「我媽、媽媽、傳訊息、叫我帶」（別的地點有就印【觀察】）；5f／5g 以安 D26 早上逐字「早。我買了以前上學路上那家的飯糰，兩個，一個是你的。」、晚上逐字「（晚上她回家。你住在車站附近的旅館。）」。
+  10 子晴 D13 拍照選項「一起拍？」：第 5 階沒交往＝看不到；第 6 階（friend6）、交往＝看得到（選單逐字印）。
+  錢：GAME.money 每一筆（金額、項目、前、後）、每一句當時的 G.money；說到／選到「我請、蛋糕我來、這杯我請、我付」的格印【觀察】（那一格扣了什麼、第一句和最後一句時祐廷有多少錢）；每一趟讀檔後和走完的錢。
+  REVISIT_LOC 是她的心願地點（以安 D07）：第一趟自動走心願事件（逐句在 date_wish.js 裡、心願完成），第二趟看再訪格。
 【前置／捷徑】（log 都會印）：讀檔（GAME.applySave，quiet_events：關條件事件與手機自動打開）、日期時間、晴天、錢；她的聯絡方式；關係數值（SOCIAL.rel 直接設）；
   交往＝flags.dating_heroine_04（不演告白）；dateLog／dateMemory（去過幾次、點過哪些）；REVISIT 第二次＝把第一次走完的存檔讀回來、只改日期。
   約會本身全部走畫面：手機按鈕、選單用觸控點、對話框用觸控翻頁、等出發用手機「今天」的「跳過時間」（沒有能跳的才等時間自己走）。手機「約」找不到才退回 INV.flow（【捷徑】，會印）。
@@ -59,7 +70,8 @@ os.makedirs(OUT, exist_ok=True)
 SHA = os.environ.get('SHA') or ''
 TAG = os.environ.get('TAG') or 'new'
 PARTS = [p.strip().upper() for p in (os.environ.get('PARTS') or 'D01,D03,D08,D26,REVISIT').split(',') if p.strip()]
-STAGES = [s.strip() for s in (os.environ.get('STAGES') or 'friend,dating').split(',') if s.strip()]
+STAGES_ENV = [s.strip() for s in (os.environ.get('STAGES') or '').split(',') if s.strip()]   # friend＝一般第 5 階、friend6＝一般第 6 階（沒交往）、dating＝交往；沒寫＝照地點的預設（D13＝三種、其他＝friend,dating）
+VISIT_ENV = (os.environ.get('VISIT') or '').strip().lower()   # first＝第一次去（first 格、選項）；again＝第三次以上（再訪格、交往格）；沒寫＝照地點的預設（FIRST_LOCS＝first、其他＝again）
 PICK = int(os.environ.get('PICK') or 0)
 ROOT = os.path.abspath(os.path.join(LWT, '..'))
 REF = os.path.abspath(os.environ.get('REF_TREE') or ROOT)
@@ -80,6 +92,18 @@ GROUPS = {'臺北市：看展・電影': ['D01', 'D02', 'D03', 'D04', 'D05', 'D0
           '一整天（宜蘭、中南部）': ['D24', 'D25', 'D26', 'D27']}
 ORDER = {'D01': ['D01.expo', 'D01.lawn', 'D01.market', 'D01.wall'], 'D03': ['D03.demo', 'D03.arcade', 'D03.gacha', 'D03.window'],
          'D08': ['D08.panda', 'D08.train', 'D08.penguin', 'D08.giraffe'], 'D26': ['D26.museum', 'D26.path', 'D26.plaza', 'D26.village']}   # 子晴：第 2、3 個放有交往格肢體句／她不喜歡的點；SPOTS=4 才走到第 4 個
+ORDER.update({'D06': ['D06.cafe', 'D06.gallery', 'D06.frame', 'D06.lawn'], 'D10': ['D10.snack', 'D10.bridge', 'D10.boat', 'D10.walk'],
+              'D13': ['D13.drink', 'D13.rail', 'D13.photo', 'D13.bench']})   # 以安請客的那幾格（D06 咖啡廳、D10 小吃攤、D13 飲料）、子晴 D13 拍照排在前三個
+LAST_DEF = {'D13': ['D13.rail']}   # again 時「上一次點過」的那一個（＝remember 格）；沒寫＝點的順序第一個。D13 讓飲料走 normal（以安「這杯我請」）
+PRESET_RECENT = {('heroine_01', 'D13'): ['D13.drink.normal#0']}   # 【前置】again 時 dateMemory.recent：以安 D13 飲料 normal 第 6 階＝第 3 套「這杯我請。不要跟我搶。」（第 1 套 any 排前面，記成最近用過）
+FIRST_LOCS = {'D06', 'D10', 'D13'}   # 預設第一次去：選項、請客、開發註記（D13 飲料「你說了」、拍照「一起拍？」（第 6 階以上）、欄杆 firstHigh「留給 Q12」）都在 first 格
+STAGE_DEF = {'D13': ['friend', 'friend6', 'dating']}   # 子晴 D13「一起拍？」：第 5 階沒交往＝看不到、第 6 階或交往中＝看得到
+PICKS = {'D13.drink': 1, 'D13.photo': '一起拍'}   # 互動點選項的選法（其他照 PICK）：數字＝第幾個；字＝選字含它的那一個（沒有就第一個）。D13 飲料選 2＝以安「你說了」那一格；拍照選「一起拍？」（有才選）
+DEV_BAN = ['留給 Q12', 'C2', '（第 6 階以上）', '階以上）', '`', 'AA_113']   # 畫面上不能出現的開發註記（全畫面文字掃；BB 07:33 c）；「你說了」整行比（DEV_BAN_LINE）
+DEV_BAN_LINE = {'你說了', '（你說了）'}
+MOM_BAN = re.compile(r'我媽|媽媽|傳訊息|叫我帶')   # 以安 D26：全程不能出現（BB 07:33 b）；別的地點只記【觀察】
+TREAT = re.compile(r'我請|蛋糕我來|這杯我請|我付|我買給妳')   # 請客的格：記那一格前後祐廷的錢（BB 07:33 e）
+AN_D26_MORNING = '早。我買了以前上學路上那家的飯糰，兩個，一個是你的。'
 OVERNIGHT = {'D26'}   # 這些地點跑兩天一夜（09:00 出發）；其他照半天 15:00（子晴 15:00 以後才約得到）
 # 點的上限：SPOTS 個（預設 3）。點滿 4 個（兩天一夜每天 2 個）時引擎不再出「差不多了」選單，收尾句直接接在最後一個點後面——探針照稿的格數切開，另外印【觀察】
 MAXP = SPOTS
@@ -155,18 +179,55 @@ def shown(ln):
     return tx
 
 
-def set_lines(st, pick=None):
-    """一套 {lines, choice} → 畫面上會出的句子（note 不出）；pick＝選了第幾個選項（回話接在後面）"""
-    out = [(x.get('who'), shown(x)) for x in (st or {}).get('lines') or [] if x and x.get('who') != 'note']
-    ch = [c for c in (st or {}).get('choice') or [] if c and isinstance(c.get('t'), str) and c['t'].strip()]
+PAGE = {'DEV_NOTE': set(), 'DEV_STRIP': {}}   # 頁面上的 DATE.DEV_NOTE／DEV_STRIP（顯示層拿掉的開發註記；舊版沒有＝空的），main 裡讀
+
+
+def opt_need(t):
+    m = re.search(r'（第 ?(\d+) ?階以上[^）]*）$', t or '')
+    return int(m.group(1)) if m else 0
+
+
+def opt_text(t):
+    return re.sub(r'（第 ?\d+ ?階以上[^）]*）$', '', t or '')
+
+
+def resolve_pick(rule, texts):
+    """選項選法 → 第幾個（rule：數字或字）"""
+    if not texts: return None
+    if isinstance(rule, str):
+        return next((i for i, t in enumerate(texts) if rule in t), 0)
+    return min(int(rule), len(texts) - 1)
+
+
+def set_lines(st, pick=None, ctx=None):
+    """一套 {lines, choice} → 畫面上會出的句子（note、DEV_NOTE 不出；DEV_STRIP 換字）；選項照 date3d.js 的 optOk 擋「（第 N 階以上）」、optText 去尾巴；
+    pick＝選法（數字／字；None＝不選）。回傳 [(who, 字)…]；選項清單記在 st['_opts']（給 log）"""
+    def ok(x): return x and x.get('who') != 'note' and x.get('text') not in PAGE['DEV_NOTE']
+    def sh(x): return shown(dict(x, text=PAGE['DEV_STRIP'].get(x.get('text'), x.get('text'))))
+    out = [(x.get('who'), sh(x)) for x in (st or {}).get('lines') or [] if ok(x)]
+    def opt_ok(t):
+        n = opt_need(t) if PAGE.get('optGate') else 0
+        return not n or bool(ctx and (ctx.get('dating') or (ctx.get('stage') or 0) >= n))
+    ch = [c for c in (st or {}).get('choice') or [] if c and isinstance(c.get('t'), str) and c['t'].strip() and opt_ok(c['t'])]
     if ch and pick is not None:
-        c = ch[min(pick, len(ch) - 1)]
+        texts = [opt_text(c['t']) if PAGE.get('optGate') else c['t'] for c in ch]
+        c = ch[resolve_pick(pick, texts)]
         rep = c.get('reply')
         if not isinstance(rep, list):
             rr = c.get('re'); rr = [] if rr is None else (rr if isinstance(rr, list) else [rr])
             rep = [{'who': 'narr', 'text': x} if re.match(r'^（.*）$', x) else {'who': ZQ, 'text': x} for x in rr if isinstance(x, str) and x.strip()]
-        out += [(x.get('who'), shown(x)) for x in rep if x and x.get('who') != 'note']
+        out += [(x.get('who'), sh(x)) for x in rep if ok(x)]
     return out
+
+
+def pick_set(pool, tier, key, recent):
+    """date3d.js S.pickSet：能用的套（{lastDrink} 的套 TASTE_WORD 還沒有＝跳過）→ 照階段 tier → 最近 3 套（m.recent）以外的第一個；都用過＝最久以前用的。回傳 (那一套, key#i)"""
+    allp = [(x, '%s#%d' % (key, i)) for i, x in enumerate(pool or []) if isinstance(x, dict) and isinstance(x.get('lines'), list) and '{lastDrink}' not in json.dumps(x.get('lines'), ensure_ascii=False)]
+    ok = [o for o in allp if not o[0].get('tier') or o[0].get('tier') in ('any', tier)] or allp
+    if not ok: return None, None
+    fresh = [o for o in ok if o[1] not in recent]
+    c = fresh[0] if fresh else sorted(ok, key=lambda o: recent.index(o[1]))[0]
+    return c
 
 
 def first_tier(pool, tier):
@@ -175,24 +236,70 @@ def first_tier(pool, tier):
     return ok[0] if ok else None
 
 
+def exp_opts(loc, seg, pid, ctx):
+    """這一段該出的選項（擋掉「（第 N 階以上）」沒到的、去掉尾巴）；沒有＝[]"""
+    _, S = expect(loc, seg, pid, ctx)
+    ch = [c for c in (S or {}).get('choice') or [] if c and isinstance(c.get('t'), str) and c['t'].strip()]
+    if PAGE.get('optGate'):
+        ch = [c for c in ch if not opt_need(c['t']) or ctx.get('dating') or (ctx.get('stage') or 0) >= opt_need(c['t'])]
+        return [opt_text(c['t']) for c in ch]
+    return [c['t'] for c in ch]
+
+
+def want_of(loc, seg, pid, ctx):
+    """這一段畫面上該出的句子：(格名, [字…])。互動點：那一格（含選項回話，選法 PICKS／PICK）＋第 6 階或交往中的「extra:合照」（noPair 是不分地點的短句，另外算）"""
+    slot, S = expect(loc, seg, pid, ctx)
+    rule = PICKS.get(pid, PICK) if pid else PICK
+    w = [t for _, t in set_lines(S, rule, ctx)]
+    if seg == 'spot' and pid and (ctx.get('dating') or (ctx.get('stage') or 0) >= 6):
+        H = (zl(loc).get('hotspots') or {}).get(pid) or {}
+        xk = next((k for k in H if k.startswith('extra:合照')), None)
+        if xk:
+            x = H[xk]; x = pick_set(x, ctx['tier'], pid + '.extra', ctx.get('recent') or [])[0] if isinstance(x, list) else x
+            w += [t for _, t in set_lines(x, PICK, ctx)]
+    return slot, w
+
+
+def used_key(loc, seg, pid, ctx):
+    """這一段用掉的 pickSet key（judge 之後推進 recent，照 date3d.js：拿掉再放最後、最多 3 個）"""
+    slot, S = expect(loc, seg, pid, ctx)
+    if slot not in ('dating', 'normal'): return None
+    if seg in ('arrive', 'close'):
+        A = zl(loc).get('arrive' if seg == 'arrive' else 'closing') or {}; pool, key = A.get(slot), ('arrive' if seg == 'arrive' else 'close') + '.' + slot
+    else:
+        H = (zl(loc).get('hotspots') or {}).get(pid) or {}; pool, key = H.get(slot), pid + '.' + slot
+    return pick_set(pool, ctx['tier'], key, ctx.get('recent') or [])[1]
+
+
+def push_recent(ctx, k):
+    if not k: return
+    r = [x for x in (ctx.get('recent') or []) if x != k] + [k]
+    ctx['recent'] = r[-3:]
+
+
 def expect(loc, seg, pid, ctx):
-    """照 date3d.js 的選句順序算這一段該出的那一格：回傳 (格名, 那一套)。ctx：visits、dating、tier、picks、last"""
+    """照 date3d.js 的選句順序算這一段該出的那一格：回傳 (格名, 那一套)。ctx：visits、dating、stage、tier、picks、last"""
     Z = zl(loc)
     if seg in ('arrive', 'close'):
         A = Z.get('arrive' if seg == 'arrive' else 'closing') or {}
         if not ctx['visits'] and A.get('first') and not A['first'].get('wishEvent'): return 'first', A['first']
-        if ctx['dating'] and A.get('dating'): return 'dating', first_tier(A['dating'], ctx['tier'])
-        return 'normal', first_tier(A.get('normal'), ctx['tier'])
+        k0 = 'arrive' if seg == 'arrive' else 'close'
+        if ctx['dating'] and A.get('dating'): return 'dating', pick_set(A['dating'], ctx['tier'], k0 + '.dating', ctx.get('recent') or [])[0]
+        return 'normal', pick_set(A.get('normal'), ctx['tier'], k0 + '.normal', ctx.get('recent') or [])[0]
     H = (Z.get('hotspots') or {}).get(pid) or {}
     before = pid in ctx['picks']
-    if not before and H.get('first') and not H['first'].get('wishEvent'): return 'first', H['first']
+    hi = ctx['dating'] or (ctx.get('stage') or 0) >= 6
+    if not before and H.get('first') and not H['first'].get('wishEvent'):
+        if hi and H.get('firstHigh'):
+            fh = H['firstHigh']; return 'firstHigh', (fh[0] if isinstance(fh, list) and fh else fh)
+        return 'first', H['first']
     if (ctx['visits'] == 1 or pid in ctx['last']) and H.get('remember'): return 'remember', H['remember']
-    if ctx['dating'] and H.get('dating'): return 'dating', first_tier(H['dating'], ctx['tier'])
+    if ctx['dating'] and H.get('dating'): return 'dating', pick_set(H['dating'], ctx['tier'], pid + '.dating', ctx.get('recent') or [])[0]
     likes = ((DL['loc'][loc].get('likes') or {}).get(ZQ) or {})
     if likes.get(pid) == 'dislike':
         dl = ((DL['loc'][loc].get('dislikeLine') or {}).get(ZQ) or {}).get(pid)
         if dl: return 'dislike', {'lines': [{'who': ZQ, 'text': dl}]}
-    return 'normal', first_tier(H.get('normal'), ctx['tier'])
+    return 'normal', pick_set(H.get('normal'), ctx['tier'], pid + '.normal', ctx.get('recent') or [])[0]
 
 
 def leaves(x, p, o):
@@ -229,7 +336,8 @@ WISH_IDX = text_index((DW.get('events') or {}).get(ZQ) or {}, '/wish')
 
 # ---------- 頁面上的掛勾（只記不改）----------
 HOOK = r"""(()=>{ if(!window.__ZQH){ window.__ZQH=1; window.__ZE=[]; const n=()=>window.__ZE.length;
-  const s0=GAME.say; GAME.say=function(w,t){ try{ window.__ZE.push({k:'say',i:n(),who:(w&&w.name)||(typeof w==='string'?w:''),cid:(w&&w.charId)||'',t:String(t==null?'':t),h:+(+GAME.G.hour).toFixed(3),d:GAME.G.day}); }catch(e){} return s0.apply(this,arguments); };
+  const s0=GAME.say; GAME.say=function(w,t){ try{ window.__ZE.push({k:'say',i:n(),who:(w&&w.name)||(typeof w==='string'?w:''),cid:(w&&w.charId)||'',t:String(t==null?'':t),h:+(+GAME.G.hour).toFixed(3),d:GAME.G.day,m:GAME.G.money|0}); }catch(e){} return s0.apply(this,arguments); };
+  if(GAME.money){ const m0=GAME.money; GAME.money=function(d,lab){ const b=GAME.G.money|0; const r=m0.apply(this,arguments); try{ window.__ZE.push({k:'money',i:n(),amt:d,label:String(lab==null?'':lab),before:b,after:GAME.G.money|0,h:+(+GAME.G.hour).toFixed(3),d:GAME.G.day}); }catch(e){} return r; }; }
   if(GAME.caption){ const p0=GAME.caption; GAME.caption=function(a,b){ try{ window.__ZE.push({k:'cap',i:n(),t:String(b==null?a:b),h:+(+GAME.G.hour).toFixed(3),d:GAME.G.day}); }catch(e){} return p0.apply(this,arguments); }; }
   const c0=GAME.choose; GAME.choose=function(o){ const rec={k:'ch',i:n(),opts:(o||[]).map(x=>typeof x==='string'?x:((x&&x.t)||'')),dim:(o||[]).map(x=>!!(x&&x.dim)),h:+(+GAME.G.hour).toFixed(3),pick:null};
     try{ window.__ZE.push(rec); }catch(e){} const p=c0.apply(this,arguments); try{ Promise.resolve(p).then(k=>{ rec.pick=k; }); }catch(e){} return p; }; }
@@ -267,6 +375,19 @@ class Menu:
         return time.time() - self.t0 >= 0.55
 
 
+SEEN = set()   # 這一趟畫面上看過的每一行字（document.body.innerText，看得到的才有）：開發註記、媽媽那類字用
+
+
+async def scan(pg):
+    try:
+        t = await pg.evaluate("(document.body&&document.body.innerText)||''")
+        for x in t.split('\n'):
+            x = x.strip()
+            if x: SEEN.add(x)
+    except Exception:
+        pass
+
+
 async def tap_dlg(pg, cdp, s, screen):
     """打字機：同一句長出來不算換句；打完才記、才翻頁（2 秒還沒打完就點一下＝補完）"""
     if s['typing'] and s['shown'] != s['full']:
@@ -277,6 +398,7 @@ async def tap_dlg(pg, cdp, s, screen):
         s = s2
     if s['dlg'] and s['full'] and (not screen or screen[-1][:2] != [s['name'], s['full']]):
         screen.append([s['name'], s['full'], s.get('bg') or '', s['hour']])
+        await scan(pg)
     await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450)
     return s
 
@@ -344,11 +466,11 @@ async def choose_day(pg, loc, cfg, stage, dating):
     return out
 
 
-async def set_memory(pg, loc, count, byloc, picks, last, wish_done):
-    return await pg.evaluate("""(([id,loc,count,byloc,picks,last,wd])=>{ const G=GAME.G; DATE.rec(G); const L=DATE.log(G,id); L.count=count; L.byLoc[loc]=byloc;
+async def set_memory(pg, loc, count, byloc, picks, last, wish_done, recent=None):
+    return await pg.evaluate("""(([id,loc,count,byloc,picks,last,wd,rc])=>{ const G=GAME.G; DATE.rec(G); const L=DATE.log(G,id); L.count=count; L.byLoc[loc]=byloc;
       if(wd){ L.wish=true; L.wishKnown=true; G.flags['WISH_DONE_'+id]=true; }
-      const m=DATE.mem(G,id,loc); m.picks=picks.slice(); m.last=last.slice(); m.recent=[]; m.optN={};
-      return {count:L.count, byLoc:L.byLoc, wish:L.wish, mem:{picks:m.picks,last:m.last}, tier:DATE.tierOf(G,id)}; })""", [ZQ, loc, count, byloc, picks, last, wish_done])
+      const m=DATE.mem(G,id,loc); m.picks=picks.slice(); m.last=last.slice(); m.recent=(rc||[]).slice(); m.optN={};
+      return {count:L.count, byLoc:L.byLoc, wish:L.wish, mem:{picks:m.picks,last:m.last,recent:m.recent}, tier:DATE.tierOf(G,id)}; })""", [ZQ, loc, count, byloc, picks, last, wish_done, recent or []])
 
 
 # ---------- 預約、出發、約會 ----------
@@ -464,11 +586,13 @@ async def play(pg, cdp, cfg, screen, shots_tag, max_s=900, close_first=None, s4n
             elif any('告訴她' in o for o in opts):
                 k = next(i for i, o in enumerate(opts) if '告訴她' not in o); log('  ！出現告白選項 %s → 不說' % J(opts))
             else:
-                k = min(PICK, len(opts) - 1); log('  [選項] %s → %s' % (J(opts), opts[k]))
+                rule = PICKS.get(picked[-1], PICK) if picked else PICK
+                k = resolve_pick(rule, opts); log('  [選項] %s → %s（選法 %s）' % (J(opts), opts[k], rule))
+            await scan(pg)
             await tap_btn(pg, cdp, k); menu.tapped = time.time(); await pg.wait_for_timeout(800); continue
         if s['dlg']:
             n0 = len(screen); s2 = await tap_dlg(pg, cdp, s, screen)
-            if len(screen) > n0 and s4name and close_first and len(picked) >= 4 and s2['full'] == close_first:
+            if len(screen) > n0 and s4name and close_first and len(picked) >= 4 and s2['full'] in close_first:
                 await pg.screenshot(path=os.path.join(OUT, s4name + '.png')); log('  截圖 %s.png（點滿四個以後收尾那一句）' % s4name); s4name = None
             elif len(screen) > n0: await maybe_shot(s2['full'])
             continue
@@ -490,13 +614,15 @@ def segments(ev, locname):
             if t == '（第二天早上。）': flush(); buf = []; cur = ('morning', None); continue
             if t.startswith('（今天去了') or t.startswith('（這兩天去了'): flush(); buf = []; cur = ('settle', None); continue
             buf.append(e)
-        elif e['k'] == 'cap':
-            continue
+        elif e['k'] in ('cap', 'money'):
+            buf.append(e)
         elif e['k'] == 'ch':
             opts = e['opts']; k = e.get('pick')
             if opts and opts[-1] in STOPS and k is not None:
                 flush(); buf = []
                 cur = ('close', None) if k >= len(opts) - 1 else ('spot', opts[k])
+            else:
+                buf.append(e)
     flush()
     return segs
 
@@ -527,32 +653,51 @@ async def analyze(pg, tag, loc, stage, dating, ctx, ev, screen, picked, names, e
     for e in ev:
         if e['k'] == 'say': log('  %s｜第%s天 %05.2f｜%s' % (e['who'] or '（旁白）', e['d'], e['h'], e['t']))
         elif e['k'] == 'cap': log('  ［字幕］第%s天 %05.2f｜%s' % (e['d'], e['h'], e['t']))
+        elif e['k'] == 'money': log('  ［錢］第%s天 %05.2f｜%+d（%s）%d → %d' % (e['d'], e['h'], e['amt'], e['label'], e['before'], e['after']))
         else: log('  ［選單］%s → %s' % (J(e['opts']), e['opts'][e['pick']] if e.get('pick') is not None and e['pick'] < len(e['opts']) else e.get('pick')))
     segs = segments(ev, locname)
     has_close = any(k == 'close' for k, _, _ in segs)
     last_spot = max([i for i, (k, a, _) in enumerate(segs) if k == 'spot' and rev_name.get(a)] or [-1])
     n_her = 0; n_dating = 0; contact = []; nd_contact = []; remember = []; night = None; morning = None; bad_draft = []; bad_data = []; slot_rows = []; joined = None
-    vis = {'visits': ctx['visits'], 'dating': dating, 'tier': ctx['tier'], 'picks': list(ctx['picks']), 'last': list(ctx['last'])}
+    vis = {'visits': ctx['visits'], 'dating': dating, 'stage': stage, 'tier': ctx['tier'], 'picks': list(ctx['picks']), 'last': list(ctx['last']), 'recent': list(ctx.get('recent') or [])}
+    SUN = await pg.evaluate("(d=>DATE.sunset?DATE.sunset(d):'')", ctx.get('day') or 0) or '\u0000'   # {sunset}（淡水日落）在 GM.say 以前就換掉了
+    treat_rows = []; nch = [0]
 
-    def judge(seg, pidv, body, label=None):
+    def judge(seg, pidv, body, label=None, buf=None):
         nonlocal n_her, n_dating
-        slot, S = expect(loc, seg, pidv, vis)
-        wt = [t for _, t in set_lines(S, PICK)]; gt = [e['t'] for e in body]
+        eo = exp_opts(loc, seg, pidv, vis)
+        slot, wt = want_of(loc, seg, pidv, vis); gt = [e['t'] for e in body]
+        uk = used_key(loc, seg, pidv, vis)
+        wt = [t.replace('{sunset}', SUN) for t in wt]
         nm = label or '%s%s' % (seg, (':' + pidv) if pidv else '')
         R.check('[%s] %s＝%s 格（逐句 %d 句）' % (tag, nm, slot, len(wt)), gt == wt, J({'want': wt, 'got': gt}))
+        chs = [e for e in (buf or []) if e['k'] == 'ch' and not (e['opts'] and e['opts'][0] == '自己選')]
+        if eo or chs:
+            nch[0] += 1
+            R.check('[%s] %s 選項有跳出來、字＝稿（擋掉沒到階段的、去掉「（第 N 階以上）」）' % (tag, nm), bool(chs) and chs[0]['opts'] == eo,
+                    J({'want': eo, 'got': chs[0]['opts'] if chs else None, 'picked': (chs[0]['opts'][chs[0]['pick']] if chs and chs[0].get('pick') is not None else None)}))
+        if buf is not None:
+            txt = [e['t'] for e in buf if e['k'] == 'say'] + [e['opts'][e['pick']] for e in chs if e.get('pick') is not None and e['pick'] < len(e['opts'])]
+            if any(TREAT.search(t) for t in txt):
+                says = [e for e in buf if e['k'] == 'say']
+                mon = [[e['amt'], e['label'], e['before'], e['after']] for e in buf if e['k'] == 'money']
+                row = {'seg': nm, 'treat': [t for t in txt if TREAT.search(t)], 'money_events': mon, 'money_first_line': says[0]['m'] if says else None, 'money_last_line': says[-1]['m'] if says else None}
+                treat_rows.append(row)
         slot_rows.append({'seg': nm, 'slot': slot, 'n': len(gt), 'got': gt, 'ok': gt == wt})
         if seg == 'spot' and pidv and pidv not in vis['picks']: vis['picks'].append(pidv)
+        push_recent(vis, uk)
         if slot == 'dating': n_dating += len(gt)
         if slot == 'remember' and gt == wt: remember.append(nm)
         for e in body:
             n_her += 1
             if CONTACT.search(e['t']): (nd_contact if e['t'] in nondating else contact).append([nm, slot, e['t']])
-            if e['t'] not in IDX: bad_data.append([nm, e['t']])
-            elif DIDX is not None and e['t'] not in DIDX: bad_draft.append([nm, e['t']])
+            tk = e['t'].replace(SUN, '{sunset}') if SUN and SUN in e['t'] else e['t']
+            if tk not in IDX: bad_data.append([nm, e['t']])
+            elif DIDX is not None and tk not in DIDX: bad_draft.append([nm, e['t']])
         return wt
 
     for i, (kind, arg, buf) in enumerate(segs):
-        lines = [e for e in buf if not SYS_NARR.search(e['t']) and (mine(e) or (not e['who'] and e['t'].startswith('（')))]
+        lines = [e for e in buf if e['k'] == 'say' and not SYS_NARR.search(e['t']) and (mine(e) or (not e['who'] and e['t'].startswith('（')))]
         if kind in ('pre', 'settle', 'other'): continue
         if kind == 'night':
             night = buf[0]['t'] if buf else None; continue
@@ -565,19 +710,19 @@ async def analyze(pg, tag, loc, stage, dating, ctx, ev, screen, picked, names, e
             body = [e for e in lines if e not in en]
             if en: log('  [%s] spot:%s 後面多一句 enough（不分地點的短句）：%s' % (tag, pid, J([e['t'] for e in en])))
             if i == last_spot and not has_close:   # 點滿：收尾句直接接在最後一個點後面——照稿的格數切開
-                slot, S = expect(loc, 'spot', pid, vis); n = len(set_lines(S, PICK))
-                judge('spot', pid, body[:n])
+                n = len(want_of(loc, 'spot', pid, vis)[1])
+                judge('spot', pid, body[:n], None, buf)
                 rest = body[n:]
                 judge('close', None, rest, 'close（接在最後一個點後面）')
                 joined = {'spot': pid, 'last_spot_line': body[n - 1] if n and len(body) >= n else None, 'close_first': rest[0] if rest else None}
             else:
-                judge('spot', pid, body)
+                judge('spot', pid, body, None, buf)
         else:
-            judge(kind, None, lines, 'close（回程前離開那一句）' if kind == 'close' and ctx.get('overnight') else None)
+            judge(kind, None, lines, 'close（回程前離開那一句）' if kind == 'close' and ctx.get('overnight') else None, buf)
     # 1. 逐字在資料、稿裡
     R.check('[%s] 1a %s的句子、約會旁白都在遊戲資料 date_lines.js（%s 的格子）裡一字不差' % (tag, ZQ, loc), not bad_data, J(bad_data))
     if DIDX is not None: R.check('[%s] 1b 也都在源稿 %s.json（白名單版）裡' % (tag, loc), not bad_draft, J(bad_draft))
-    other = [e['t'] for e in ev if e['k'] == 'say' and mine(e) and e['t'] not in IDX and e['t'] not in COMMON and e['t'] not in (morning or []) and e['t'] not in WISH_IDX]
+    other = [e['t'] for e in ev if e['k'] == 'say' and mine(e) and e['t'].replace(SUN, '{sunset}') not in IDX and e['t'] not in COMMON and e['t'] not in (morning or []) and e['t'] not in WISH_IDX]
     R.check('[%s] 1c 約會以外她說的（答應、出發訊息、差不多了）都在不分地點的短句（lines.%s／DATE.EXTRA_LINES）裡' % (tag, ZQ), not other, J(other))
     # 3. 肢體句、交往格
     vis_pids = [r['seg'].split(':', 1)[1] for r in slot_rows if r['seg'].startswith('spot:')]
@@ -585,7 +730,7 @@ async def analyze(pg, tag, loc, stage, dating, ctx, ev, screen, picked, names, e
     for pid in vis_pids:
         H = (Z.get('hotspots') or {}).get(pid) or {}
         d = first_tier(H.get('dating'), ctx['tier'] if dating else 'high')
-        if d: dcells.append([pid, [t for _, t in set_lines(d, None)]])
+        if d: dcells.append([pid, [t for _, t in set_lines(d, None, vis)]])
     shown_all = {e['t'] for e in ev if e['k'] == 'say'}
     if not dating:
         R.check('[%s] 3a 一般（沒有交往）：沒有牽手／靠肩／拉手這類句子（稿裡非交往格本來就有的另外記）' % tag, not contact, J(contact))
@@ -602,7 +747,7 @@ async def analyze(pg, tag, loc, stage, dating, ctx, ev, screen, picked, names, e
             R.check('[%s] 3d 交往：抵達、收尾是交往格' % tag, bool(arr and arr['slot'] == 'dating' and cl and cl['slot'] == 'dating'), J([arr and arr['slot'], cl and cl['slot']]))
         want_d = [[p, ts] for p, ts in dcells if p not in ctx['last']]   # 上一次點過的那一個是 remember 格（不出交往格）
         miss = [[p, t] for p, ts in want_d for t in ts if t not in shown_all]
-        R.check('[%s] 3f 交往：點到的點（上一次點過的除外）交往格逐字都出現（%d 個點）' % (tag, len(want_d)), not miss, J({'want': want_d, 'miss': miss}))
+        if ctx['visits']: R.check('[%s] 3f 交往：點到的點（上一次點過的除外）交往格逐字都出現（%d 個點）' % (tag, len(want_d)), not miss, J({'want': want_d, 'miss': miss}))
         log('  [%s] 交往的肢體句（只記）：%s' % (tag, J(contact + nd_contact)))
     # 5. 兩天一夜：晚上、早上、回程
     if ctx.get('overnight'):
@@ -611,8 +756,11 @@ async def analyze(pg, tag, loc, stage, dating, ctx, ev, screen, picked, names, e
             R.check('[%s] 5b 子晴 D26 晚上那一句逐字＝「%s」（一般、交往都是）' % (tag, NIGHT_WANT), night == NIGHT_WANT, J(night))
         sm = src_morning(ZQ)
         R.check('[%s] 5c 早上：「（第二天早上。）」之後她那一句＝照 date3d.js 算的（morningLine）：%s' % (tag, exp.get('morning')), (morning or [])[:1] == [exp.get('morning')], J(morning))
-        if exp.get('own') is None and sm is not None:
+        if exp.get('own') is None and exp.get('mown') is None and sm is not None:
             R.check('[%s] 5d 早上那一句＝date3d.js 原始碼 S.MORNING.%s 的字' % (tag, ZQ), (morning or [])[:1] == [sm], J({'src': sm, 'got': morning}))
+        if ZQ == 'heroine_01' and loc == 'D26':
+            R.check('[%s] 5f 以安 D26 隔天早上逐字＝「%s」' % (tag, AN_D26_MORNING), (morning or [])[:1] == [AN_D26_MORNING], J(morning))
+            R.check('[%s] 5g 以安 D26 晚上那一句逐字＝「%s」' % (tag, NIGHT_WANT), night == NIGHT_WANT, J(night))
         caps = [e['t'] for e in ev if e['k'] == 'cap']
         R.check('[%s] 5e 回程字幕＝行程的 back（%s）' % (tag, exp.get('back')), bool(exp.get('back')) and exp.get('back') in caps, J(caps))
     # 點滿四個：收尾直接接上（【觀察】）
@@ -629,11 +777,33 @@ async def analyze(pg, tag, loc, stage, dating, ctx, ev, screen, picked, names, e
         log('      收尾那一句：%s' % (joined['close_first'] and joined['close_first']['t']))
     elif SPOTS >= 4:
         log('  [%s] 【觀察】SPOTS=4 但收尾前出現了選單（點不滿、時間不夠或其他）：點到 %s' % (tag, J(vis_pids)))
+    # 7. 請客的格：那一格前後祐廷的錢（BB 07:33 e；只記，判定歸 BB）
+    for r in treat_rows:
+        log('  [%s] 【觀察】請客的格 %s：說到／選到 %s；這一格扣錢 %s（[金額, 項目, 前, 後]）；那一格第一句時 %s 元、最後一句時 %s 元' % (
+            tag, r['seg'], J(r['treat']), J(r['money_events']) if r['money_events'] else '沒有', r['money_first_line'], r['money_last_line']))
+    allm = [[e['amt'], e['label']] for e in ev if e['k'] == 'money']
+    log('  [%s] 這一趟所有扣錢：%s' % (tag, J(allm)))
+    # 8. 畫面上的開發註記（全畫面文字：document.body.innerText 每一步掃＋對話、選項、字幕）
+    alltxt = set(SEEN) | {x[1] for x in screen} | {e['t'] for e in ev if e['k'] in ('say', 'cap')} | {o for e in ev if e['k'] == 'ch' for o in e['opts']}
+    dev = sorted(t for t in alltxt if t in DEV_BAN_LINE or any(b in t for b in DEV_BAN))
+    R.check('[%s] 8 畫面上沒有開發註記（%s、整行「你說了」；掃了 %d 行）' % (tag, '、'.join(DEV_BAN), len(alltxt)), not dev, J(dev))
+    mom = sorted(t for t in alltxt if MOM_BAN.search(t))
+    if ZQ == 'heroine_01' and loc == 'D26':
+        R.check('[%s] 9 以安 D26 全程沒有「我媽、媽媽、傳訊息、叫我帶」' % tag, not mom, J(mom))
+    elif mom:
+        log('  [%s] 【觀察】畫面上有「我媽／媽媽／傳訊息／叫我帶」（這個地點不判）：%s' % (tag, J(mom)))
+    # 10. 子晴 D13「一起拍？」
+    if ZQ == 'heroine_04' and loc == 'D13':
+        pm = [e['opts'] for e in ev if e['k'] == 'ch' and any('十張' in o for o in e['opts'])]
+        hi = dating or stage >= 6
+        has = any('一起拍' in o for ops in pm for o in ops)
+        R.check('[%s] 10 子晴 D13 拍照選項「一起拍？」%s（第 %d 階、%s交往）' % (tag, '看得到' if hi else '看不到', stage, '' if dating else '沒'), bool(pm) and has == hi, J(pm))
+    if nch[0]: log('  [%s] 選項：%d 段有選項' % (tag, nch[0]))
     # 6. 畫面
     badscr = [x for x in screen if '{name}' in x[1] or 'undefined' in x[1] or '{sunset}' in x[1]]
     R.check('[%s] 6a 畫面上的對話框沒有 {name}、undefined（%d 句）' % (tag, len(screen)), not badscr, J(badscr))
     return {'tag': tag, 'loc': loc, 'stage': ('交往' if dating else '一般（第%d階）' % stage), 'visit': ctx['visits'] + 1, 'n': n_her, 'dating': n_dating,
-            'contact': len(contact), 'remember': len(remember), 'night': night, 'slots': slot_rows}
+            'contact': len(contact), 'remember': len(remember), 'night': night, 'slots': slot_rows, 'last': list(ctx['last'])}
 
 
 async def one_date(pg, cdp, errs, tag, loc, stage, dating, visits, picks, last, wish_done=False, keepG=None, day_override=None):
@@ -654,14 +824,17 @@ async def one_date(pg, cdp, errs, tag, loc, stage, dating, visits, picks, last, 
         tag, dkey, day, h0, J(rb['r']), rb['stage'], ('交往中（flags.dating_%s）' % ZQ) if dating else '沒有交往'))
     if keepG is None:
         count = 2 if visits else 0
-        mem = await set_memory(pg, loc, count, visits, picks, last, wish_done)
-        R.setup('[%s] 約會紀錄：dateLog 次數 %s、這個地點去過 %s 次、心願 %s；dateMemory 點過 %s、上一次 %s（tier %s）' % (tag, mem['count'], visits, mem['wish'], J(picks), J(last), mem['tier']))
+        rc = PRESET_RECENT.get((ZQ, loc)) if visits else None
+        mem = await set_memory(pg, loc, count, visits, picks, last, wish_done, rc)
+        R.setup('[%s] 約會紀錄：dateLog 次數 %s、這個地點去過 %s 次、心願 %s；dateMemory 點過 %s、上一次 %s、最近用過 %s（tier %s）' % (tag, mem['count'], visits, mem['wish'], J(picks), J(last), J(mem['mem'].get('recent')), mem['tier']))
     else:
-        mem = await pg.evaluate("(([id,loc])=>{ const L=DATE.log(GAME.G,id), m=DATE.mem(GAME.G,id,loc); return {count:L.count, byLoc:L.byLoc, mem:{picks:m.picks,last:m.last}, tier:DATE.tierOf(GAME.G,id)}; })", [ZQ, loc])
+        mem = await pg.evaluate("(([id,loc])=>{ const L=DATE.log(GAME.G,id), m=DATE.mem(GAME.G,id,loc); return {count:L.count, byLoc:L.byLoc, mem:{picks:m.picks,last:m.last,recent:m.recent||[]}, tier:DATE.tierOf(GAME.G,id)}; })", [ZQ, loc])
         R.setup('[%s] 沿用第一次走完的紀錄（沒改）：%s' % (tag, J(mem)))
-    ok_stage = (rb['stage'] >= 6) if (dating or cfg['kind'] == 'overnight') else (rb['stage'] == 5)
-    R.check('[%s] 前置：階段對（一般半天＝第 5 階、一般兩天一夜＝第 6 階；交往＝flags）' % tag, ok_stage and rb['dating'] == dating, J(rb))
-    ctx = {'visits': visits, 'tier': mem['tier'], 'picks': list(mem['mem']['picks']), 'last': list(mem['mem']['last']), 'overnight': cfg['kind'] == 'overnight'}
+    ok_stage = (rb['stage'] >= 6) if stage >= 6 else (rb['stage'] == 5)
+    R.check('[%s] 前置：階段對（一般＝第 5 階、friend6／兩天一夜＝第 6 階；交往＝flags）' % tag, ok_stage and rb['dating'] == dating, J(rb))
+    SEEN.clear()
+    m_start = await pg.evaluate("GAME.G.money|0")
+    ctx = {'visits': visits, 'stage': stage, 'day': day, 'recent': list(mem['mem'].get('recent') or []), 'tier': mem['tier'], 'picks': list(mem['mem']['picks']), 'last': list(mem['mem']['last']), 'overnight': cfg['kind'] == 'overnight'}
     await pg.evaluate(HOOK)
     screen = []
     how, steps, trip = await book(pg, cdp, loc, cfg, screen)
@@ -671,20 +844,25 @@ async def one_date(pg, cdp, errs, tag, loc, stage, dating, visits, picks, last, 
         await R.shot(pg, tag + '_book_fail'); return None
     exp = await pg.evaluate("""(([id,tid])=>{ const G=GAME.G, t=DATE.trip(G,tid); if(!t) return {}; const q=OUT.get?OUT.get(G,'date_'+tid):null;
       const own=t.kind==='overnight'?((DATE.overnightWhere(G,id,t.day,t.locs)||{}).own||null):null;
-      return {own, night:t.kind==='overnight'?DATE.NIGHT[DATE.nightKind(G,t,own)]:null, morning:t.kind==='overnight'?DATE.morningLine(id,own):null, back:q&&q.back||null}; })""", [ZQ, trip['trip']])
+      const nk=t.kind==='overnight'?DATE.nightKind(G,t,own):null, mown=DATE.morningOwn?DATE.morningOwn(own,nk):own;   /* fea448637 起：前一晚回自己家（NIGHT_HOME）＝早上照 MORNING_OWN（S.morningOwn）*/
+      return {own, nk, mown:mown||null, night:nk?DATE.NIGHT[nk]:null, morning:nk?DATE.morningLine(id,mown):null, back:q&&q.back||null}; })""", [ZQ, trip['trip']])
     log('  [%s] 出發前照 date3d.js 算的預期（只讀）：%s' % (tag, J(exp)))
     said, skipped = await depart(pg, cdp, cfg, screen)
     R.check('[%s] 出發（%s）' % (tag, said), said is not None, J(skipped))
     if said is None: await R.shot(pg, tag + '_depart_fail'); return None
-    cs = expect(loc, 'close', None, {'visits': visits, 'dating': dating, 'tier': ctx['tier'], 'picks': ctx['picks'], 'last': ctx['last']})[1]
-    cf = (set_lines(cs, PICK) or [[None, None]])[0][1]
-    picked, stopped = await play(pg, cdp, cfg, screen, tag, close_first=cf, s4name=('zq_%s_%s_4th_close' % (loc, 'dating' if dating else 'friend')) if SPOTS >= 4 else None)
+    cf = None   # 點滿四個時收尾那一句：分析時才知道 recent 推進到哪；這裡用「收尾格的池子裡任何一句」認
+    _cz = zl(loc).get('closing') or {}
+    close_set = {shown(x) for k, v in leaves(_cz, '', {}).items() if k.endswith('/text') for x in [{'text': v}]}
+    sl = 'dating' if dating else ('friend6' if stage >= 6 and cfg['kind'] != 'overnight' else 'friend')
+    picked, stopped = await play(pg, cdp, cfg, screen, tag, close_first=close_set or cf, s4name=('zq_%s_%s_4th_close' % (loc, sl)) if SPOTS >= 4 else None)
     s = await st(pg)
     ev = await pg.evaluate("window.__ZE||[]")
     trip = await pg.evaluate("(id=>(GAME.G.trips||[]).find(t=>t.trip===id)||null)", s['trip']['id'] if s['trip'] else '')
     lg = await pg.evaluate("(id=>DATE.log(GAME.G,id))", ZQ)
     R.check('[%s] 約會走完：行程 done、算一次（次數 %s）、點了 %s' % (tag, lg.get('count'), J(picked)), bool(trip and trip.get('status') == 'done' and trip.get('counted')), J({'trip': trip and {k: trip.get(k) for k in ('status', 'counted', 'spots', 'night')}}))
     await R.shot(pg, tag + '_end')
+    m_end = await pg.evaluate("GAME.G.money|0")
+    log('  [%s] 祐廷的錢：讀檔後 %d → 走完 %d（差 %d；含來回車資、門票、互動點）' % (tag, m_start, m_end, m_end - m_start))
     row = await analyze(pg, tag, loc, stage, dating, ctx, ev, screen, picked, cfg['names'], exp)
     R.check('[%s] 6b 沒有 JS 例外' % tag, len(errs) == e0, J(errs[e0:e0 + 5]))
     json.dump({'tag': tag, 'row': row, 'ev': ev, 'screen': screen, 'trip': trip, 'log': lg, 'steps': steps, 'skipped': skipped}, open(os.path.join(OUT, 'zq_%s.json' % tag), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
@@ -703,8 +881,8 @@ async def wish_part(pg, cdp, errs, tag='WISH_friend'):
     if not ch['pick']: R.check('[%s] 找得到能約的日子' % tag, False, J(ch['res'])); return None
     day = ch['pick']['d']
     rb = await base(pg, day, 13.3, False, 5)
-    R.setup('[%s] 讀檔：%s 13:18、第 %s 階、沒去過參創（心願還沒完成）' % (tag, ch['pick']['k'], rb['stage']))
-    await pg.evaluate(HOOK); screen = []
+    R.setup('[%s] 讀檔：%s 13:18、第 %s 階、沒去過 %s（心願還沒完成）' % (tag, ch['pick']['k'], rb['stage'], loc))
+    await pg.evaluate(HOOK); screen = []; SEEN.clear()
     how, steps, trip = await book(pg, cdp, loc, cfg, screen)
     R.check('[%s] 預約（%s）：%s' % (tag, how, J(steps)), bool(trip and trip.get('status') == 'booked'), J(trip))
     if not trip: return None
@@ -717,7 +895,9 @@ async def wish_part(pg, cdp, errs, tag='WISH_friend'):
     log('== %s 逐句' % tag)
     bad = []; n = 0
     for e in ev:
-        if e['k'] != 'say': log('  ［選單］%s → %s' % (J(e['opts']), e.get('pick'))); continue
+        if e['k'] == 'ch': log('  ［選單］%s → %s' % (J(e['opts']), e.get('pick'))); continue
+        if e['k'] == 'cap': log('  ［字幕］%s' % e['t']); continue
+        if e['k'] == 'money': log('  ［錢］%+d（%s）%d → %d' % (e['amt'], e['label'], e['before'], e['after'])); continue
         log('  %s｜第%s天 %05.2f｜%s' % (e['who'] or '（旁白）', e['d'], e['h'], e['t']))
         her = e['cid'] == ZQ or any(e['who'].startswith(x) for x in who_names)
         if her:
@@ -725,13 +905,19 @@ async def wish_part(pg, cdp, errs, tag='WISH_friend'):
             if e['t'] not in WISH_IDX and e['t'] not in IDX and e['t'] not in COMMON: bad.append(e['t'])
     R.check('[%s] 心願事件她說的 %d 句都在 date_wish.js（events.%s）／%s 格子／短句裡' % (tag, n, ZQ, loc), n > 0 and not bad, J(bad))
     R.check('[%s] 心願完成（WISH_DONE_%s）' % (tag, ZQ), await pg.evaluate("(id=>!!GAME.G.flags['WISH_DONE_'+id])", ZQ), '')
+    alltxt = set(SEEN) | {x[1] for x in screen} | {e['t'] for e in ev if e['k'] in ('say', 'cap')} | {o for e in ev if e['k'] == 'ch' for o in e['opts']}
+    dev = sorted(t for t in alltxt if t in DEV_BAN_LINE or any(b in t for b in DEV_BAN))
+    R.check('[%s] 畫面上沒有開發註記（掃了 %d 行）' % (tag, len(alltxt)), not dev, J(dev))
+    mom = sorted(t for t in alltxt if MOM_BAN.search(t))
+    if mom: log('  [%s] 【觀察】畫面上有「我媽／媽媽／傳訊息／叫我帶」：%s' % (tag, J(mom)))
+    log('  [%s] 這一趟所有扣錢：%s' % (tag, J([[e['amt'], e['label']] for e in ev if e['k'] == 'money'])))
     R.check('[%s] 沒有 JS 例外' % tag, len(errs) == e0, J(errs[e0:e0 + 5]))
     json.dump({'ev': ev, 'screen': screen}, open(os.path.join(OUT, 'zq_%s.json' % tag), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     return {'tag': tag, 'loc': loc, 'stage': '一般（第5階）', 'visit': 1, 'n': n, 'dating': 0, 'contact': 0, 'remember': 0, 'night': None, 'slots': []}
 
 
 async def main():
-    log('# DATE_ZQ %s SHA=%s TAG=%s WHO=%s SPOTS=%d PARTS=%s STAGES=%s PICK=%d REVISIT_LOC=%s REF=%s' % (time.strftime('%Y-%m-%d %H:%M:%S'), SHA, TAG, ZQ, SPOTS, PARTS, STAGES, PICK, REVISIT_LOC, REF))
+    log('# DATE_ZQ %s SHA=%s TAG=%s WHO=%s SPOTS=%d PARTS=%s STAGES=%s VISIT=%s PICK=%d PICKS=%s REVISIT_LOC=%s REF=%s' % (time.strftime('%Y-%m-%d %H:%M:%S'), SHA, TAG, ZQ, SPOTS, PARTS, STAGES_ENV or '（照地點預設）', VISIT_ENV or '（照地點預設）', PICK, J(PICKS), REVISIT_LOC, REF))
     log('  這一次測的人：%s（WHO）；心願地點 %s' % (ZQ, WISH_LOC))
     rows = []
     async with async_playwright() as p:
@@ -743,15 +929,25 @@ async def main():
         log('  人物／版本字樣／NIGHT_HOME／MORNING／EXTRA_LINES：%s' % J(head))
         for v in (head.get('extra') or {}).values():   # date3d.js 寫死的不分地點短句（以安、語彤的 depart、enough……）也算「稿裡有的」
             COMMON.update(x for x in (v if isinstance(v, list) else [v]) if isinstance(x, str))
+        pg_dev = await pg.evaluate("(()=>({note:DATE.DEV_NOTE?[...DATE.DEV_NOTE]:[], strip:DATE.DEV_STRIP||{}, gate:typeof DATE.optOk==='function'}))()")
+        PAGE['DEV_NOTE'] = set(pg_dev['note']); PAGE['DEV_STRIP'] = pg_dev['strip']; PAGE['optGate'] = pg_dev['gate']
+        log('  顯示層的開發註記規則（DATE.DEV_NOTE／DEV_STRIP／optOk；舊版沒有＝空）：%s' % J(pg_dev))
         for part in PARTS:
             log('== %s' % part)
             try:
                 if part in LOCS:
                     if not zl(part): log('  %s 在 %s 沒有台詞（date_lines.js 沒有這個人的格子）：跳過' % (ZQ, part)); continue
                     order = LOCS[part]['order']
-                    for sg in STAGES:
-                        dating = sg == 'dating'; stage = 6 if (dating or LOCS[part]['kind'] == 'overnight') else 5
-                        row = await one_date(pg, cdp, errs, '%s_%s%s' % (part, sg, SUF), part, stage, dating, 2, order, order[:1], wish_done=(LOCS[part]['wishOf'] == ZQ))
+                    visit = VISIT_ENV or ('first' if part in FIRST_LOCS else 'again')
+                    if visit == 'first' and LOCS[part]['wishOf'] == ZQ:
+                        log('  %s 是 %s 的心願地點：第一次去＝心願事件（用 PARTS=WISH 或 REVISIT），這裡改成 again' % (part, ZQ)); visit = 'again'
+                    for sg in (STAGES_ENV or STAGE_DEF.get(part) or ['friend', 'dating']):
+                        dating = sg == 'dating'; stage = 6 if (dating or sg == 'friend6' or LOCS[part]['kind'] == 'overnight') else 5
+                        vtag = '' if visit == ('first' if part in FIRST_LOCS else 'again') else '_' + visit
+                        if visit == 'first':
+                            row = await one_date(pg, cdp, errs, '%s_%s%s%s' % (part, sg, vtag, SUF), part, stage, dating, 0, [], [])
+                        else:
+                            row = await one_date(pg, cdp, errs, '%s_%s%s%s' % (part, sg, vtag, SUF), part, stage, dating, 2, order, LAST_DEF.get(part) or order[:1], wish_done=(LOCS[part]['wishOf'] == ZQ))
                         if row: rows.append(row)
                 elif part == 'REVISIT':
                     RL = REVISIT_LOC
@@ -783,9 +979,9 @@ async def main():
                 try: await R.shot(pg, part + '_exception')
                 except Exception: pass
         for r in rows:
-            if r['loc'] in LOCS and r['visit'] == 3 and r['slots'] and not r['tag'].startswith('WISH'):
-                first = next((x for x in r['slots'] if x['seg'].startswith('spot')), None)
-                R.check('[%s] 4 第一個點（上一次點過）是再訪格 remember' % r['tag'], bool(first and first['slot'] == 'remember'), J(first and [first['seg'], first['slot']]))
+            if r['loc'] in LOCS and r['visit'] == 3 and r['slots'] and not r['tag'].startswith('WISH') and r.get('last'):
+                first = next((x for x in r['slots'] if x['seg'] == 'spot:' + r['last'][0]), None)
+                R.check('[%s] 4 上一次點過的那個點（%s）是再訪格 remember' % (r['tag'], r['last'][0]), bool(first and first['slot'] == 'remember'), J(first and [first['seg'], first['slot']]))
         await b.close()
     log('== 表（地點×階段×第幾次×格數）')
     log('  %-14s %-4s %-10s %-4s %-6s %-6s %-6s %-6s %s' % ('tag', '地點', '階段', '次', '她＋旁白', '交往格', '肢體句', '再訪格', '晚上那句'))
