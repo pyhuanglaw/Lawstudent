@@ -1,12 +1,3 @@
-[12:55:24] ==== START CLASS12_const_a  (probe @ 69374803ad5f12cebb71c4f5c259798fed4563be) ====
-[12:55:28] [res] cpu=16% mem=36% (11.3/31.4 GB) chrome_testing=0  START GOCLASS_userview_old
-[12:55:28] [res] cpu=16% mem=36% (11.3/31.4 GB) chrome_testing=0  START GOCLASS_userview_new
-[12:55:28] [res] cpu=16% mem=36% (11.3/31.4 GB) chrome_testing=0  START CLASS12_const_a
-[12:56:13] worktree add 69374803ad5f12cebb71c4f5c259798fed4563be: invalid reference - fetching main and the commit itself
-[12:59:03] 正在跑：GOCLASS_userview_new（已跑 3 分／上限 15 分）、GOCLASS_userview_old（已跑 3 分／上限 15 分）、CLASS12_const_a（已跑 3 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
-[13:01:22] [res] cpu=7% mem=48% (15.1/31.4 GB) chrome_testing=10  END CLASS12_const_a
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       3c5c7c983..b0355c8b1  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [13:01:29] ==== END   CLASS12_const_a  exit=1  357s   ====
 [13:01:32] memory 45% before starting CLASS12_const_a (2 running)
@@ -1998,3 +1989,12 @@
 [21:14:41] ==== START REL_soc_ctl_r2  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
 [21:14:44] [res] cpu=2% mem=52% (16.4/31.4 GB) chrome_testing=10  START REL_soc_ctl_r2
 [21:16:26] [res] cpu=7% mem=49% (15.6/31.4 GB) chrome_testing=9  END REL_soc_ctl
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1f5a02ecc..1c11f1de4  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:16:36] ==== END   REL_soc_ctl  exit=1  1836s  timeout 30 min ====
+[21:16:40] memory 50% before starting V25_live (2 running)
+[21:16:40] ==== START V25_live  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[21:16:43] [res] cpu=1% mem=50% (15.8/31.4 GB) chrome_testing=9  START V25_live
+[21:19:05] 正在跑：REL_soc_new_r2（已跑 29 分／上限 30 分）、REL_soc_ctl_r2（已跑 4 分／上限 30 分）、V25_live（已跑 2 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:20:16] [res] cpu=3% mem=48% (15.1/31.4 GB) chrome_testing=10  END REL_soc_new_r2
