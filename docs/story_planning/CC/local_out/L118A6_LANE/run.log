@@ -1,0 +1,54 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_LANE\out
+CC L118A：PARTS LANEWALK；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.0s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== LANEWALK
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1400 (0.0,31.0) （巷底、後門那一頭）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+  [  48.5s] [LANEWALK 1400] 【遊戲鏡頭】l118a_walk_lane_1400_N1_z22_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, 21.39], "cam": [0, 2.78, 26.47], "yaw": 6.283, "mid": {"m": 104.8, "sd": 47.7, "black": 0.033, "white": 0, "rgb": [106, 105, 100]}, "top": {"m": 110.5, "sd": 51.8, "black": 0.01, "white": 0, "rgb": [120, 110, 88]}, "near": {"m": 124.4, "sd": 52.1, "black": 0.012, "white": 0, "rgb": [127, 124, 120]}}
+PASS [LANEWALK 1400] 往北走到 z 22（2.1 秒）
+  [  52.2s] [LANEWALK 1400] 【遊戲鏡頭】l118a_walk_lane_1400_N2_z8_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, 8.78], "cam": [0, 2.78, 13.86], "yaw": 6.283, "mid": {"m": 95.1, "sd": 47.9, "black": 0.042, "white": 0, "rgb": [98, 95, 89]}, "top": {"m": 102.2, "sd": 48.6, "black": 0.007, "white": 0, "rgb": [110, 102, 83]}, "near": {"m": 112.5, "sd": 45.1, "black": 0.004, "white": 0, "rgb": [114, 112, 108]}}
+PASS [LANEWALK 1400] 往北走到 z 8（2.6 秒）
+  [  56.3s] [LANEWALK 1400] 【遊戲鏡頭】l118a_walk_lane_1400_N3_z-8_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, -7.34], "cam": [0, 2.78, -2.26], "yaw": 6.283, "mid": {"m": 102.9, "sd": 42.5, "black": 0.015, "white": 0, "rgb": [105, 103, 98]}, "top": {"m": 98.5, "sd": 57.8, "black": 0.039, "white": 0, "rgb": [106, 97, 85]}, "near": {"m": 110.5, "sd": 44.6, "black": 0.004, "white": 0, "rgb": [112, 110, 107]}}
+PASS [LANEWALK 1400] 往北走到 z -8（3.1 秒）
+  [  60.5s] [LANEWALK 1400] 【遊戲鏡頭】l118a_walk_lane_1400_N4_z-24_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, -23.25], "cam": [0, 2.78, -18.17], "yaw": 6.283, "mid": {"m": 83.2, "sd": 56, "black": 0.143, "white": 0, "rgb": [85, 83, 80]}, "top": {"m": 98.4, "sd": 47.8, "black": 0.005, "white": 0, "rgb": [99, 99, 94]}, "near": {"m": 110.4, "sd": 45.6, "black": 0.004, "white": 0, "rgb": [112, 110, 107]}}
+PASS [LANEWALK 1400] 往北走到 z -24（3.0 秒）
+PASS [LANEWALK 1400] 走到巷口 z -38（3.5 秒）
+  [  69.9s] [LANEWALK 1400] 巷口 6 秒幀率 57.9 fps（PC GPU，不是 iPhone）
+  [  78.1s] [LANEWALK 1400] 【遊戲鏡頭】l118a_walk_lane_1400_S1_z-24_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, -24.77], "cam": [-0.0, 2.78, -29.85], "yaw": 3.142, "mid": {"m": 76.4, "sd": 49.1, "black": 0.164, "white": 0, "rgb": [77, 77, 74]}, "top": {"m": 91.7, "sd": 40.4, "black": 0.007, "white": 0, "rgb": [99, 92, 71]}, "near": {"m": 92.3, "sd": 44.4, "black": 0.04, "white": 0, "rgb": [91, 92, 96]}}
+PASS [LANEWALK 1400] 往南走到 z -24（3.1 秒）
+  [  82.9s] [LANEWALK 1400] 【遊戲鏡頭】l118a_walk_lane_1400_S2_z-8_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, -8.42], "cam": [-0.0, 2.78, -13.5], "yaw": 3.142, "mid": {"m": 103, "sd": 42.7, "black": 0.022, "white": 0, "rgb": [105, 103, 98]}, "top": {"m": 90, "sd": 46.7, "black": 0.021, "white": 0, "rgb": [96, 90, 75]}, "near": {"m": 100.6, "sd": 46.6, "black": 0.067, "white": 0, "rgb": [101, 101, 99]}}
+PASS [LANEWALK 1400] 往南走到 z -8（3.7 秒）
+  [  87.2s] [LANEWALK 1400] 【遊戲鏡頭】l118a_walk_lane_1400_S3_z8_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, 7.39], "cam": [-0.0, 2.78, 2.31], "yaw": 3.142, "mid": {"m": 92.2, "sd": 42.8, "black": 0.053, "white": 0, "rgb": [92, 93, 90]}, "top": {"m": 102, "sd": 44.8, "black": 0.023, "white": 0, "rgb": [111, 101, 83]}, "near": {"m": 86.2, "sd": 41.2, "black": 0.057, "white": 0, "rgb": [85, 87, 89]}}
+PASS [LANEWALK 1400] 往南走到 z 8（3.2 秒）
+  [  91.3s] [LANEWALK 1400] 【遊戲鏡頭】l118a_walk_lane_1400_S4_z22_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, 22.78], "cam": [-0.0, 2.78, 17.7], "yaw": 3.142, "mid": {"m": 101.1, "sd": 46.2, "black": 0.039, "white": 0, "rgb": [103, 101, 95]}, "top": {"m": 94.6, "sd": 54.5, "black": 0.029, "white": 0, "rgb": [111, 91, 69]}, "near": {"m": 98.6, "sd": 50.5, "black": 0.066, "white": 0, "rgb": [99, 99, 97]}}
+PASS [LANEWALK 1400] 往南走到 z 22（3.0 秒）
+PASS [LANEWALK 1400] 走到巷底 z 31（1.7 秒）
+PASS [LANEWALK 1400] 來回沒有卡住  []
+PASS [LANEWALK 1400] walkFallbacks 沒增加
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 2000 (0.0,31.0) （巷底、後門那一頭）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+  [ 103.4s] [LANEWALK 2000] 【遊戲鏡頭】l118a_walk_lane_2000_N1_z22_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, 21.39], "cam": [0, 2.78, 26.47], "yaw": 6.283, "mid": {"m": 51.2, "sd": 29.6, "black": 0.079, "white": 0, "rgb": [61, 48, 39]}, "top": {"m": 99.3, "sd": 74.3, "black": 0.042, "white": 0.025, "rgb": [113, 97, 76]}, "near": {"m": 37.2, "sd": 15.2, "black": 0.154, "white": 0, "rgb": [45, 35, 31]}}
+PASS [LANEWALK 2000] 往北走到 z 22（1.8 秒）
+  [ 106.9s] [LANEWALK 2000] 【遊戲鏡頭】l118a_walk_lane_2000_N2_z8_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, 8.68], "cam": [0, 2.78, 13.76], "yaw": 6.283, "mid": {"m": 44.9, "sd": 25.1, "black": 0.118, "white": 0, "rgb": [55, 42, 33]}, "top": {"m": 69.1, "sd": 53.9, "black": 0.043, "white": 0.006, "rgb": [82, 67, 46]}, "near": {"m": 35.6, "sd": 15, "black": 0.166, "white": 0, "rgb": [43, 33, 29]}}
+PASS [LANEWALK 2000] 往北走到 z 8（2.4 秒）
+  [ 111.0s] [LANEWALK 2000] 【遊戲鏡頭】l118a_walk_lane_2000_N3_z-8_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, -7.23], "cam": [0, 2.78, -2.15], "yaw": 6.283, "mid": {"m": 53.8, "sd": 30.3, "black": 0.056, "white": 0, "rgb": [65, 51, 40]}, "top": {"m": 80.2, "sd": 74, "black": 0.115, "white": 0.039, "rgb": [91, 77, 66]}, "near": {"m": 37, "sd": 15.5, "black": 0.154, "white": 0, "rgb": [45, 34, 30]}}
+PASS [LANEWALK 2000] 往北走到 z -8（3.0 秒）
+  [ 115.8s] [LANEWALK 2000] 【遊戲鏡頭】l118a_walk_lane_2000_N4_z-24_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, -23.9], "cam": [0, 2.78, -18.82], "yaw": 6.283, "mid": {"m": 38.1, "sd": 27, "black": 0.229, "white": 0, "rgb": [46, 36, 30]}, "top": {"m": 43.5, "sd": 29.9, "black": 0.096, "white": 0.001, "rgb": [49, 42, 39]}, "near": {"m": 36.9, "sd": 18.7, "black": 0.196, "white": 0, "rgb": [43, 34, 33]}}
+PASS [LANEWALK 2000] 往北走到 z -24（3.7 秒）
+PASS [LANEWALK 2000] 走到巷口 z -38（3.0 秒）
+  [ 124.7s] [LANEWALK 2000] 巷口 6 秒幀率 58.1 fps（PC GPU，不是 iPhone）
+  [ 132.1s] [LANEWALK 2000] 【遊戲鏡頭】l118a_walk_lane_2000_S1_z-24_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, -24.75], "cam": [-0.0, 2.78, -29.83], "yaw": 3.142, "mid": {"m": 43.4, "sd": 31.2, "black": 0.227, "white": 0, "rgb": [50, 41, 35]}, "top": {"m": 84.9, "sd": 65.1, "black": 0.032, "white": 0.006, "rgb": [99, 83, 58]}, "near": {"m": 36.7, "sd": 15.1, "black": 0.145, "white": 0, "rgb": [45, 34, 29]}}
+PASS [LANEWALK 2000] 往南走到 z -24（2.5 秒）
+  [ 136.8s] [LANEWALK 2000] 【遊戲鏡頭】l118a_walk_lane_2000_S2_z-8_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, -8.3], "cam": [-0.0, 2.78, -13.37], "yaw": 3.142, "mid": {"m": 54.6, "sd": 30.3, "black": 0.041, "white": 0, "rgb": [66, 52, 39]}, "top": {"m": 85.9, "sd": 69.1, "black": 0.043, "white": 0.048, "rgb": [93, 84, 74]}, "near": {"m": 34.6, "sd": 14.5, "black": 0.145, "white": 0, "rgb": [42, 32, 27]}}  ★看不到人（玩家附近 100×160 px 標準差 <15 或不在畫面上）
+PASS [LANEWALK 2000] 往南走到 z -8（3.5 秒）
+  [ 141.0s] [LANEWALK 2000] 【遊戲鏡頭】l118a_walk_lane_2000_S3_z8_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, 7.62], "cam": [-0.0, 2.78, 2.54], "yaw": 3.142, "mid": {"m": 52.1, "sd": 30.5, "black": 0.086, "white": 0, "rgb": [62, 50, 39]}, "top": {"m": 81.5, "sd": 62.5, "black": 0.057, "white": 0.02, "rgb": [92, 79, 68]}, "near": {"m": 34.9, "sd": 15.3, "black": 0.161, "white": 0, "rgb": [42, 32, 27]}}
+PASS [LANEWALK 2000] 往南走到 z 8（3.1 秒）
+  [ 145.3s] [LANEWALK 2000] 【遊戲鏡頭】l118a_walk_lane_2000_S4_z22_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [0, 21.39], "cam": [-0.0, 2.78, 16.31], "yaw": 3.142, "mid": {"m": 51.5, "sd": 31.7, "black": 0.078, "white": 0, "rgb": [63, 49, 36]}, "top": {"m": 64.2, "sd": 53.8, "black": 0.084, "white": 0.004, "rgb": [83, 58, 46]}, "near": {"m": 35.1, "sd": 15.4, "black": 0.151, "white": 0, "rgb": [43, 33, 27]}}
+PASS [LANEWALK 2000] 往南走到 z 22（3.1 秒）
+PASS [LANEWALK 2000] 走到巷底 z 31（1.9 秒）
+PASS [LANEWALK 2000] 來回沒有卡住  []
+PASS [LANEWALK 2000] walkFallbacks 沒增加
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
