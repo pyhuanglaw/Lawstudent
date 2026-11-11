@@ -53086,7 +53086,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "朋友版七學期（7c56e3cc8）＋AA 回覆落實（合併後 18e9d1ecb：可昕選項記 KX_KHH／KX_Y5_CALL、學姊大三上 thenIf、鉤子以安大二下／子晴大一下）都在開發分支，相關 7 支 ALL PASS，瀏覽器沒跑（BB 排）。待 AA 確認：大三下美國路線不記 → 七月第 3 天「七月你空哪天。」不再發；子晴選「（現在玩。）」→ 6/27 zq_play 不排。芷若告白＋「她先說」模式：背景子代理和沛珊一起做（見 PEISHAN-VOICE-1110）",
+   "next": "朋友版七學期（7c56e3cc8）＋AA 回覆落實（合併後 18e9d1ecb：可昕選項記 KX_KHH／KX_Y5_CALL、學姊大三上 thenIf、鉤子以安大二下／子晴大一下）都在開發分支，相關 7 支 ALL PASS，瀏覽器沒跑（BB 排）。待 AA 確認：大三下美國路線不記 → 七月第 3 天「七月你空哪天。」不再發；子晴選「（現在玩。）」→ 6/27 zq_play 不排。芷若告白＋「她先說」模式：背景子代理和沛珊一起做（見 PEISHAN-VOICE-1110）｜11-11 00:1x AA 請重匯：企劃線 bd1a6fda3（芷若、可昕、Alison、阿哲的 say／re／then 改斷句 113 處，選項字、fx、set、條件沒動；friend_v2 六檔＋gf_v2＋kx_v2 都以 bd1a6fda3 為準；gf_v2 的沛珊舊段已刪）。已交給做沛珊那批的背景子代理一起做（同一批檔）；可昕大三下美國路線「記去」也在那批",
    "xai": {
     "spec": "X324、BB_314",
     "branch": "claude/confident-ritchie-8rwh7t",
