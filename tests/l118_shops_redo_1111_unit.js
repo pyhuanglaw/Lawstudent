@@ -166,6 +166,12 @@ for(const id of NINE){ const [oldName,name,type,menu]=WANT[id], s=shop(id)||{men
     const withR=Object.keys(L118_SHOP_LAYOUTS).filter(id=>(L118_SHOP_LAYOUTS[id].seats||[]).some(q=>q.r!=null));
     check('3-6. src/l118_shops3d.js 座位的互動半徑＝s.r||0.7；現有九間的配置都沒有寫 r（還是 0.7）',/radius:s\.r\|\|0\.7,lv:0,prio:0\.3,seat:st/.test(s3)&&!/radius:0\.7,lv:0,prio:0\.3,seat:st/.test(s3)&&withR.length===0,J(withR));
     check('3-6. 大學食堂（cafe2）的桌位不再是「坐下讀書」（念書搬到木曜日）',/const study=false;/.test(s3)&&!/study=id==='cafe2'/.test(s3)); }
-  // @@PART5@@
+  // 3-7 街上的招牌：模型（lane118_street.glb）板面帶的是匯出當時的店名——遊戲畫字的時候換成店家資料的店名、類型（LAWWW2 的新外觀延後）
+  { const zs=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8'), glb=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/lane118_street.glb'));
+    const n=glb.readUInt32LE(12), gj=JSON.parse(glb.slice(20,20+n).toString('utf8')), faces=gj.nodes.filter(x=>/^SIGN_FACE_/.test(x.name||'')&&x.extras&&typeof x.extras.sign==='string');
+    const byOld={}; for(const id of Object.keys(L118_SHOP_LAYOUTS)) byOld[L118_SHOP_LAYOUTS[id].name]=id;
+    const hit=faces.filter(f=>byOld[f.extras.sign]), same=faces.filter(f=>D.shops.some(s=>s.name===f.extras.sign));
+    check('3-7. 招牌板面上的店名對得到室內配置記的店名（九塊）或已經是新店名：畫字的時候換得到',hit.length+same.length>=9,J(faces.map(f=>f.extras.sign)));
+    check('3-7. src/zones3d.js 畫 118 巷招牌的字用換過的（ud118：sign＝店家資料的店名、sub＝類型；對不到的板面照模型原本的字）',/const ud118=\(tag==='l118'&&[^\n]*LANE118_SHOPS/.test(zs)&&/wzSignTex\(ud118,wM,hM,false\)/.test(zs)&&/wzSignTex\(ud118,wM,hM,true\)/.test(zs)&&!/wzSignTex\(ud,wM,hM,(false|true)\)/.test(zs)); }
   console.log(fails?('\n有 '+fails+' 項失敗'):'\n全部通過'); process.exit(fails?1:0);
 })();

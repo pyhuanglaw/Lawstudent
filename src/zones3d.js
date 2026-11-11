@@ -1616,8 +1616,15 @@ const Z3 = (function(){
     root.traverse(o=>{ if(o.userData&&o.userData.glow) glows.push(o); if(!o.isMesh) return; const ud=o.userData||{}, mt=o.material, nm=mt&&mt.name; const glassy=!!(mt&&mt.transparent); o.castShadow=!glassy&&wzCastsShadow(o); o.receiveShadow=!glassy;
       if(/^PLATE_FACE_/.test(o.name)){ o.geometry.computeBoundingBox(); box.copy(o.geometry.boundingBox).getSize(sz); cafeFacePaint(o,wzPlateTex(ud,Math.max(sz.x,sz.z),sz.y),null); o.castShadow=false; plateFaces.push(o); return; }
       if(/^(V?SIGN|INTERIOR)_FACE_/.test(o.name)){ o.geometry.computeBoundingBox(); box.copy(o.geometry.boundingBox).getSize(sz); const wM=Math.max(sz.x,sz.z), hM=sz.y; o.castShadow=false;
-        if(o.name.indexOf('SIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,false),0.9,0); signFaces.push(o); return; }
-        if(o.name.indexOf('VSIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,true),1.0,0); signFaces.push(o); return; }
+        /* 118 巷（tag 'l118'）招牌上的字照店家資料（L118-SHOPS-REDO-1111，使用者 2026-11-11 九間店換店名）：街景模型 lane118_street.glb 的板面帶的是匯出當時的店名（自訂屬性 sign／sub），
+           LAWWW2 的新外觀延後，這裡先把字換成 src/data/lane118_shops.js 的店名、類型。哪一塊板面是哪一間店：板面上的字等於那間店室內配置（src/data/l118_shop_layouts.js，LAWWW2 匯出）記的店名才換
+           （直式招牌：板面的字是那個店名的開頭幾個字）；底色、色帶照模型原本的。直式：新店名五個字以內整個寫，更長的寫前四個字。模型重新匯出、配置重產以後兩邊一樣，這裡就等於沒換 */
+        const ud118=(tag==='l118'&&typeof ud.sign==='string'&&ud.sign&&typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)&&typeof L118_SHOP_LAYOUTS!=='undefined')?(()=>{ const v=o.name.indexOf('VSIGN_FACE_')===0;
+          for(const id of Object.keys(L118_SHOP_LAYOUTS)){ const old=L118_SHOP_LAYOUTS[id].name, sh=LANE118_SHOPS.shops.find(q=>q.id===id); if(!old||!sh||old===sh.name) continue;
+            if(v?(ud.sign.length>=2&&old.indexOf(ud.sign)===0):ud.sign===old) return Object.assign({},ud,{sign:v?(sh.name.length<=5?sh.name:sh.name.slice(0,4)):sh.name},v||ud.sub==null||ud.sub===''?{}:{sub:sh.type}); }
+          return ud; })():ud;
+        if(o.name.indexOf('SIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud118,wM,hM,false),0.9,0); signFaces.push(o); return; }
+        if(o.name.indexOf('VSIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud118,wM,hM,true),1.0,0); signFaces.push(o); return; }
         const r=Math.max(1,Math.round(wM/hM/2)), t=TK.interiorTex(ud.interior||'cafe').clone(); t.flipY=false; t.wrapS=THREE.RepeatWrapping; t.needsUpdate=true;
         if(!(r>1&&wzSplitQuadU(o,r))) t.repeat.set(r,1);   /* 店內景深卡（LAWWW2-C 2026-10-21）：要合成 atlas，atlas 裡不能重複貼圖 → 重複幾次就把板面切成幾塊，每一塊貼一整張 */
         cafeFacePaint(o,t,null); intFaces.push(o); return; }
