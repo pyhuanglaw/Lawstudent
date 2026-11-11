@@ -27,6 +27,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests')); sys.path.insert(0, HERE)
 import playlib as L
 import cc_d141_lib as D
+import cc_fn_lib as F
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
@@ -199,6 +200,41 @@ def find_seat(seats, xz):
     return next((q for q in seats if abs(q['sx'] - xz[0]) < 0.06 and abs(q['sz'] - xz[1]) < 0.06), None)
 
 
+CENTER_STD = r"""(async b64=>{ const im=new Image(); im.src='data:image/png;base64,'+b64; await im.decode(); const W=im.width, H=im.height, c=document.createElement('canvas'); c.width=W; c.height=H;
+  const x=c.getContext('2d'); x.drawImage(im,0,0); const d=x.getImageData(Math.round(W*0.2),Math.round(H*0.2),Math.round(W*0.6),Math.round(H*0.6)).data; let n=0,s=0,s2=0;
+  for(let i=0;i<d.length;i+=16){ const y=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; s+=y; s2+=y*y; n++; } const m=s/n; return [+m.toFixed(1), +Math.sqrt(Math.max(0,s2/n-m*m)).toFixed(1)]; })"""
+
+
+async def sit_cam(pg, t, name):
+    """BB 08:52：坐下後的遊戲鏡頭——選單收起【捷徑】截圖，量畫面中央 60% 的亮度、標準差（<15＝一片單色，例如鏡頭貼牆）"""
+    import base64
+    await pg.evaluate("(()=>{ const c=document.getElementById('choices'); if(c) c.style.visibility='hidden'; })()")
+    await pg.wait_for_timeout(400); b = await pg.screenshot(type='png')
+    await pg.evaluate("(()=>{ const c=document.getElementById('choices'); if(c) c.style.visibility=''; })()")
+    try: open(jpg(name).replace('.jpg', '.png'), 'wb').write(b)
+    except Exception: pass
+    try: m = await pg.evaluate(CENTER_STD, base64.b64encode(b).decode())
+    except Exception as e: m = None; R.note('%s 量中央標準差失敗 %r' % (t, e))
+    cam = await pg.evaluate("(()=>{ const E=GAME.E, c=E.camera.position, o=E.player.obj.position; return {cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+o.x.toFixed(2),+o.y.toFixed(2),+o.z.toFixed(2)], dist:+c.distanceTo(o).toFixed(2)}; })()")
+    R.note('%s 【坐下後的遊戲鏡頭】%s（【捷徑】選單暫時收起）：畫面中央 60%% 亮度／標準差 %s%s；鏡頭 %s' % (t, os.path.basename(jpg(name).replace('.jpg', '.png')), J(m), '  ★中央一片單色（標準差 <15，疑似鏡頭貼牆、看不到人）' if m and m[1] < 15 else '', J(cam)))
+    return m
+
+
+async def joy_seat(pg, cdp, key, Z, k, s):
+    """BB 08:52：吧檯高腳椅（lift>0）也用搖桿走過去按「坐下」那條路拍一張坐下後的遊戲鏡頭"""
+    t = '[%s 椅子 %d 搖桿]' % (key, k)
+    if not await at_start(pg, cdp, key, Z, '搖桿走到椅子 %d 按「坐下」' % k): return
+    ap = s['ap'] or [s['x'], s['z']]
+    r = await F.joy_to(pg, cdp, t, ap[0], ap[1], near=0.3, lv=s['slv'], max_s=60)
+    b = await D.st(pg); R.note('%s 搖桿走到 seatApproach %s：%s、停在 (%s, %s)、互動鍵「%s」' % (t, J(ap), '到了' if r['ok'] else '沒到', b['x'], b['z'], b['interact']))
+    if not b['interact'].startswith(s['label']): R.note('%s 互動鍵不是「%s」，不拍' % (t, s['label'])); return
+    await L.tap(pg, cdp, '#interact')
+    for _ in range(20):
+        await pg.wait_for_timeout(500)
+        if (await pg.evaluate(PSTATE))['seat']: break
+    await pg.wait_for_timeout(800); await sit_cam(pg, t, '%s_seat%d_joysit' % (key, k))
+
+
 async def seat_one(pg, cdp, key, Z, k, pick):
     nm, first, alts, why = pick
     t = '[%s 椅子 %d %s]' % (key, k, nm)
@@ -243,6 +279,10 @@ async def seat_one(pg, cdp, key, Z, k, pick):
     R.check('%s 按下去坐到這一張（座位差 %s ≤0.15 m）' % (t, None if d is None else round(d, 3)), good, J({'sat': sat, 'want': [s['sx'], s['sz']]}))
     R.check('%s walkFallbacks 沒增加' % t, (await D.st(pg))['fb'] == fb0, '')
     await pg.wait_for_timeout(800); await shot(pg, '%s_seat%d_sit' % (key, k) if good else '%s_seat%d_wrong' % (key, k))
+    if sat: await sit_cam(pg, t, '%s_seat%d_sitcam' % (key, k))
+    if s.get('lift'):
+        try: await joy_seat(pg, cdp, key, Z, k, s)
+        except Exception as e: R.note('%s 搖桿那一條沒跑完 %r' % (t, e))
     return 'ok' if good else 'wrong'
 
 
