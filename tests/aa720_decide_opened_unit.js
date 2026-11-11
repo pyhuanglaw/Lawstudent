@@ -30,7 +30,7 @@ for(const f of ['src/data/heroine_arcs.js','src/data/arc_rot.js','src/data/decid
   'src/ytjob3d.js','src/sis_grad3d.js','src/psresults3d.js','src/data/feed_y1s2.js','src/data/feed_y2s1.js','src/feed3d.js','src/data/aa723.js','src/confess723_3d.js',
   'src/y2r2_3d.js','src/aa555_3d.js','src/zq_testbuild3d.js']) loadG(f);
 const okD=loadG('src/data/aa720.js'), okP=loadG('src/aa720_3d.js');
-const SHA='3e6a7ff71', DOC='docs/story_planning/AA_720_decide_opened_scenes.json';
+const SHA='6ada48974', DOC='docs/story_planning/AA_720_decide_opened_scenes.json';
 const dk=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7, key=d=>CALENDAR.dateOf(d).key;
 const P=()=>typeof AA720P!=='undefined'?AA720P:null, DT=()=>AA720.data, EV=k=>AA720.data.events[k];
 const AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin';

@@ -5881,7 +5881,7 @@
    "path": "docs/story_planning/AA_710_gifts.json",
    "sha": "31c1c4e2c",
    "status": "approved",
-   "approvedBy": "AA D109（11-11 10:30「X324 G 區第三份：送早餐飲料改源稿」：句首「……」18 處、可昕「謝謝。我等一下吃，你不要一直看我。」、沛珊米漿第二句同步 AA_766）",
+   "approvedBy": "AA-B D109（11-07 06:02「AA_710 改了你說的六句」）；31c1c4e2c（AA D109 11-11 10:30「X324 G 區第三份：送早餐飲料改源稿」：句首「……」18 處、可昕「謝謝。我等一下吃，你不要一直看我。」、沛珊米漿第二句同步 AA_766）",
    "task": "GIFT-FLIRT-1107",
    "kind": "json",
    "note": "第二版（BB_304 第 7 節）：七位送飲料、早餐：yes（need 1／4、dating 交往中；pool 兩三組輪流）、no（一天第二次，輪流）、fav（七位都有，AA_410）、opinion（她有意見的那一樣）、ctx（again／exam／night／winterCold／summerHot）；tools/story/import_gifts.py → src/data/gift_lines.js",
@@ -5900,7 +5900,7 @@
     },
     {
      "sha": "be775af69",
-     "approvedBy": "AA-B D109（11-07 06:02「AA_710 改了你說的六句」）；31c1c4e2c 取代（X324 G 區）"
+     "approvedBy": "（11-11 10:30 以前；31c1c4e2c 取代：X324 G 區第三份，句首「……」18 處、可昕「謝謝。我等一下吃，你不要一直看我。」）"
     }
    ]
   },
@@ -6254,9 +6254,9 @@
   },
   {
    "path": "docs/story_planning/AA_720_decide_opened_scenes.json",
-   "sha": "3e6a7ff71",
+   "sha": "6ada48974",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-08 01:39 AA_720 第一批）；3e9cc0385（AA-B 11-08 第二批：endings 尾聲七位照 DECIDE 各最多一句＋confFail）；4f37a68bb（AA-B 11-08 quietMove：SIS1-QUIET-LIB-1108 學姊第 6 拍在總圖安靜區＝走到樓梯間再演）；ee689cfb8（AA-B 11-08 02:4x wiringAnswers：回 LAWWW-B 02:39 十二點＋沒做的三件——ps_result 改 09:58 先傳兩則、原本照演；可昕 waited 之後兩天的短回覆 kx_waited_after；子晴 1/9 demo intern 版 demoJan9＋動態說明）；075eae472（AA-B 11-08 03:2x an1_later＋wiringAnswers2：回 LAWWW-B 03:16——以安 AN-1 later 版 3/19 Alison 群組＋以安私訊三選項；1/9 demo 實習版三處照 ZQ-2；沒交往 Café 當面版加「……獎學金拿到一半。」；選信的 9/28 生日電話照舊打）；3e6a7ff71（AA-B 11-08 03:3x wiringAnswers3：回 LAWWW-B 03:33——選信的 9/28 電話開頭旁白「（台灣晚上十點，手機響了。）」；選信、那時和別人交往中的沒有這通；1/9 demo 第一句保留「資工系館的電腦教室。」再接 AA 那一句）",
+   "approvedBy": "AA-B D109（11-08 01:39 AA_720 第一批）；3e9cc0385（AA-B 11-08 第二批：endings 尾聲七位照 DECIDE 各最多一句＋confFail）；4f37a68bb（AA-B 11-08 quietMove：SIS1-QUIET-LIB-1108 學姊第 6 拍在總圖安靜區＝走到樓梯間再演）；ee689cfb8（AA-B 11-08 02:4x wiringAnswers：回 LAWWW-B 02:39 十二點＋沒做的三件——ps_result 改 09:58 先傳兩則、原本照演；可昕 waited 之後兩天的短回覆 kx_waited_after；子晴 1/9 demo intern 版 demoJan9＋動態說明）；075eae472（AA-B 11-08 03:2x an1_later＋wiringAnswers2：回 LAWWW-B 03:16——以安 AN-1 later 版 3/19 Alison 群組＋以安私訊三選項；1/9 demo 實習版三處照 ZQ-2；沒交往 Café 當面版加「……獎學金拿到一半。」；選信的 9/28 生日電話照舊打）；3e6a7ff71（AA-B 11-08 03:3x wiringAnswers3：回 LAWWW-B 03:33——選信的 9/28 電話開頭旁白「（台灣晚上十點，手機響了。）」；選信、那時和別人交往中的沒有這通；1/9 demo 第一句保留「資工系館的電腦教室。」再接 AA 那一句）；6ada48974（AA D109 11-11 10:39「X324 G 區第六份：aa720 改源稿」：句首「……」拿掉 23 種，只換字串、結構沒動）",
    "task": "AA720-DECIDE-OPENED-1108",
    "kind": "json",
    "note": "決定拍打開的 19 場（events：invite／plan／scene／opts／end／missed）＋zr_letters、zr_call、zq_intern、ps_result、kx_quiet、kx_eat、kx_slot＋endings＋quietMove；tools/story/import_aa720.py → src/data/aa720.js（AA720），播放 src/aa720_3d.js；ee689cfb8 起多 kx_waited_after、wiringAnswers（AA720-WIRING-1108）；075eae472 起多 an1_later、wiringAnswers2（wiringAnswers* 是說明、不進遊戲，要演的句子照 import_aa720.py QUOTES／DEMO3 抽）",
@@ -6280,6 +6280,10 @@
     {
      "sha": "075eae472",
      "note": "被 3e6a7ff71 取代（wiringAnswers3：選信版 9/28 旁白、和別人交往中排除、1/9 demo 保留地點半句）"
+    },
+    {
+     "sha": "3e6a7ff71",
+     "note": "被 6ada48974 取代（X324 G 區第六份：句首「……」拿掉 23 種，只換字串）"
     }
    ]
   },
