@@ -1,0 +1,67 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\FN_mig_b\docs\story_planning\test_tools\cc\cc_fn_migrate_probe.py http://127.0.0.1:8804/index.html http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FN_mig_b\out
+CC FN_migrate（FLOWER-NOTES-1110）：MODE both；CASES 2,4；SHA dbbe05fa5；送 heroine_05 g_bouquet（2025-12-24）；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 改之前的版本載入
+  [  24.2s] [MAKE] 改之前的版本：版本 v9.10.24
+  [前置／捷徑] 【前置／捷徑】[MAKE 2] 公館街上（2025-12-24 聖誕）：day46 存檔 → gongguan (-40.0, 8.0) 2025-12-24 11.00、錢 5000、包包清空
+PASS [MAKE 2] 公館有 gg_flower（舊花攤）  [{"zone": "gongguan", "label": "看看花攤", "x": -47.2, "z": 13.45, "lv": 0, "r": 1.3, "hidden": false, "exit": null, "look": "晨露花舖：捷運站口的小花攤。鋅桶裡插著玫瑰、向日葵、滿天星，老闆在旁邊的工作台用牛皮紙包花束。"}]
+  [  50.8s] 到達「[MAKE 2] 走到「看看花攤」」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [MAKE 2] 走到「看看花攤」，按鈕是它  {"at": [-46.364, 13.088], "btn": "看看花攤"}
+PASS [MAKE 2] 花攤賣 g_bouquet  [{"id": "g_bouquet", "name": "一束花", "price": 450, "shop": "gg_flower", "cat": null, "catKey": null, "season": false}, {"id": "g_sunflower", "name": "一朵向日葵", "price": 120, "shop": "gg_flower", "cat": null, "catKey": null, "season": false}]
+PASS [MAKE 2] 買了「一束花」（錢少 450、包包 0→1）  [{"id": "g_bouquet", "shop": "gg_flower", "day": 99}]
+PASS [MAKE 2] 花攤賣 g_sunflower  [{"id": "g_bouquet", "name": "一束花", "price": 450, "shop": "gg_flower", "cat": null, "catKey": null, "season": false}, {"id": "g_sunflower", "name": "一朵向日葵", "price": 120, "shop": "gg_flower", "cat": null, "catKey": null, "season": false}]
+PASS [MAKE 2] 買了「一朵向日葵」（錢少 120、包包 1→2）  [{"id": "g_bouquet", "shop": "gg_flower", "day": 99}, {"id": "g_sunflower", "shop": "gg_flower", "day": 99}]
+  [  57.4s] [MAKE 2] 存了（quickSave；2025-12-24 包包有舊花攤的一束花、向日葵（人在花攤前面））：{"zone": "gongguan", "day": 99, "hour": 11.11, "x": -46.36, "z": 13.09, "lv": 0, "money": 4430, "ver": "版本 v9.10.24", "bag": [{"id": "g_bouquet", "shop": "gg_flower", "day": 99}, {"id": "g_sunflower", "shop": "gg_flower", "day": 99}], "given": {}, "sent": {}, "fest": {}, "giftMem": []}
+PASS [MAKE 2] 用遊戲的快速存檔存得起來（不是退回 snapshot）  quickSave
+  [  57.4s] [MAKE 4] 她（heroine_05）：[{"id": "heroine_05", "can": true, "hol": {"k": "xmas", "y": 2025}, "where": {"zone": "library", "room": null, "act": "看書", "until": "17:00"}, "st": {"items": ["g_bouquet", "g_sunflower"], "capped": false}}]
+PASS [MAKE 4] heroine_05 現在在遊戲的場景裡（STORY.whereIs）、GIFTH.canGet  [{"id": "heroine_05", "can": true, "hol": {"k": "xmas", "y": 2025}, "where": {"zone": "library", "room": null, "act": "看書", "until": "17:00"}, "st": {"items": ["g_bouquet", "g_sunflower"], "capped": false}}]
+  [前置／捷徑] [MAKE 4]【捷徑】GAME.enter(library)（她 heroine_05 在那裡；不測走過去的路）
+PASS [MAKE 4] 這一區有她（heroine_05）  {"x": -10.55, "z": -7.4, "lv": 0, "label": null, "name": "溫學姊", "frozen": true, "vis": true}
+  [  81.2s] 到達「[MAKE 4] 走到她旁邊（第 1 次）」附近（0.06 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [  96.0s] [MAKE 4] 送花：{"offered": true, "picked": true, "said": ["（她抬頭看到你，點了一下頭。）", "【第 1 次說話沒有選單（{\"talking\": false, \"busyDepth\": 0, \"pbusy\": false, \"ev\": null, \"near\": \"和溫學姊說話\", \"nearNpc\": true, \"hour\": 11.17}），等 2 秒再按一次】", "（小聲）法圖九點四十五關門。我都待到最後", "你把一束花遞給溫書瑀。", "（小聲）聖誕快樂，學弟。", "（小聲）花喔。……我要去找一個瓶子。"], "opts": [["送她禮物…包包裡有 2 樣可以送她", "（說點不一樣的）看你們現在多熟", "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"], ["一束花公館站口花攤", "一朵向日葵公館站口花攤", "算了"]], "label": "和溫學姊說話", "talks": 2, "offer_dim": false}；紀錄 {"given": ["g_bouquet"], "sent": {"heroine_05|xmas|2025": "g_bouquet"}, "fest": {"xmas|2025": ["heroine_05"]}, "bag": ["g_sunflower@gg_flower"], "mem": [{"tag": "GIFT_LOVE_heroine_05", "day": 99, "v": "一束花"}, {"tag": "GIFT_GIVEN_heroine_05", "day": 99, "v": "一束花"}]}
+PASS [MAKE 4] 「送她禮物…」→ g_bouquet 送出去了（given 有它）  {"give": {"offered": true, "picked": true, "said": ["（她抬頭看到你，點了一下頭。）", "【第 1 次說話沒有選單（{\"talking\": false, \"busyDepth\": 0, \"pbusy\": false, \"ev\": null, \"near\": \"和溫學姊說話\", \"nearNpc\": true, \"hour\": 11.17}），等 2 秒再按一次】", "（小聲）法圖九點四十五關門。我都待到最後", "你把一束花遞給溫書瑀。", "（小聲）聖誕快樂，學弟。", "（小聲）花喔。……我要去找一個瓶子。"], "opts": [["送她禮物…包包裡有 2 樣可以送她", "（說點不一樣的）看你們現在多熟", "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"], ["一束花公館站口花攤", "一朵向日葵公館站口花攤", "算了"]], "label": "和溫學姊說話", "talks": 2, "offer_dim": false}, "rec": {"given": ["g_bouquet"], "sent": {"heroine_05|xmas|2025": "g_bouquet"}, "fest": {"xmas|2025": ["heroine_05"]}, "bag": ["g_sunflower@gg_flower"], "mem": [{"tag": "GIFT_LOVE_heroine_05", "day": 99, "v": "一束花"}, {"tag": "GIFT_GIVEN_heroine_05", "day": 99, "v": "一束花"}]}}
+  [  96.3s] [MAKE 4] 存了（quickSave；2025-12-24 送了 heroine_05 一束花（人在她旁邊））：{"zone": "library", "day": 99, "hour": 11.2, "x": -10.49, "z": -7.41, "lv": 0, "money": 4430, "ver": "版本 v9.10.24", "bag": [{"id": "g_sunflower", "shop": "gg_flower", "day": 99}], "given": {"heroine_05": ["g_bouquet"]}, "sent": {"heroine_05|xmas|2025": "g_bouquet"}, "fest": {"xmas|2025": ["heroine_05"]}, "giftMem": ["GIFT_LOVE_heroine_05", "GIFT_GIVEN_heroine_05"]}
+PASS [MAKE 4] 用遊戲的快速存檔存得起來（不是退回 snapshot）  quickSave
+  [  96.3s] [MAKE] 存檔 ["2", "4"] 寫在 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FN_mig_b\out\fn_saves
+PASS [MAKE] 沒有 JS 例外  []
+PASS 改之後的版本載入
+  [ 111.4s] [LOAD 2] 存檔（改之前）：{"zone": "gongguan", "day": 99, "hour": 11.11, "x": -46.36, "z": 13.09, "lv": 0, "money": 4430, "ver": "版本 v9.10.24", "bag": [{"id": "g_bouquet", "shop": "gg_flower", "day": 99}, {"id": "g_sunflower", "shop": "gg_flower", "day": 99}], "given": {}, "sent": {}, "fest": {}, "giftMem": []}
+  [ 137.7s] 讀進來以後等畫面可以玩：{"fade": false, "paused": false, "title": false, "phone": false, "dlg": false, "busy": false}；做了 []
+  [ 137.8s] [LOAD 2] 讀進來（改之後）：{"zone": "gongguan", "day": 99, "hour": 11.13, "x": -46.36, "z": 13.09, "lv": 0, "money": 4430, "ver": "版本 v9.10.24", "bag": [{"id": "g_bouquet", "shop": "gg_flower", "day": 99}, {"id": "g_sunflower", "shop": "gg_flower", "day": 99}], "given": {}, "sent": {}, "fest": {}, "giftMem": []}
+PASS [LOAD 2] 標題「繼續」讀得進來（同一天 99、同一區 gongguan）  {"ok": true, "day": 99, "zone": "gongguan"}
+PASS [LOAD 2] 站的格子可走（canStand r0.3；(-46.36, 13.09) lv 0）  {"zone": "gongguan", "x": -46.36, "z": 13.09, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.13}
+PASS [LOAD 2] 搖桿推得動 3.04 m（≥0.3，人不卡牆）
+PASS [LOAD 2] 包包還有一束花、向日葵，shop＝gg_flower（GIFTH.bag；舊版 [{"id": "g_bouquet", "shop": "gg_flower", "day": 99}, {"id": "g_sunflower", "shop": "gg_flower", "day": 99}]）  {"money": 4430, "bag": [{"id": "g_bouquet", "shop": "gg_flower", "day": 99}, {"id": "g_sunflower", "shop": "gg_flower", "day": 99}], "raw": [{"id": "g_bouquet", "day": 99, "shop": "gg_flower"}, {"id": "g_sunflower", "day": 99, "shop": "gg_flower"}]}
+  [ 145.7s] [LOAD 2] 選單「物品」："包包裡的禮物（2/10）\n節日、她的生日當面見到她，說話的時候可以送。不會過期。\n一束花\n花序 Flower Notes・450 元\n老闆幫你配的，包裝紙是牛皮紙。\n一朵向日葵\n花序 Flower Notes・120 元\n一朵，用玻璃紙包著。\n她送的\n一副手套\n杜可昕・2025 的聖誕節・寄到宿舍\n你騎車都不戴。我買了，你就要戴。"
+PASS [LOAD 2] 選單「物品」看得到一束花、一朵向日葵
+  [ 145.7s] [LOAD 2]（舊花攤時期買的花） GIFTH.shopName(gg_flower)＝"花序 Flower Notes"（要「花序 Flower Notes」）
+PASS [LOAD 2]（舊花攤時期買的花） GIFTH.shopName(gg_flower)＝「花序 Flower Notes」  "花序 Flower Notes"
+  [ 145.7s] [LOAD 2]（舊花攤時期買的花） 包包（選單「物品」）的店名那幾行：["花序 Flower Notes・450 元", "花序 Flower Notes・120 元"]
+PASS [LOAD 2]（舊花攤時期買的花） 包包裡每一樣的店名那一行（「店名・價錢 元」）都寫「花序 Flower Notes」（這幾支探針的包包裡只有花）  ["花序 Flower Notes・450 元", "花序 Flower Notes・120 元"]
+  [ 145.7s] [LOAD 2] 她（heroine_05）：[{"id": "heroine_05", "can": true, "hol": {"k": "xmas", "y": 2025}, "where": {"zone": "library", "room": null, "act": "看書", "until": "17:00"}, "st": {"items": ["g_bouquet", "g_sunflower"], "capped": false}}]
+PASS [LOAD 2] heroine_05 現在在遊戲的場景裡（STORY.whereIs）、GIFTH.canGet  [{"id": "heroine_05", "can": true, "hol": {"k": "xmas", "y": 2025}, "where": {"zone": "library", "room": null, "act": "看書", "until": "17:00"}, "st": {"items": ["g_bouquet", "g_sunflower"], "capped": false}}]
+  [前置／捷徑] [LOAD 2]【捷徑】GAME.enter(library)（她 heroine_05 在那裡；不測走過去的路）
+PASS [LOAD 2] 這一區有她（heroine_05）  {"x": -10.55, "z": -7.4, "lv": 0, "label": null, "name": "溫學姊", "frozen": true, "vis": true}
+  [ 155.8s] 到達「[LOAD 2] 走到她旁邊（第 1 次）」附近（0.06 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [ 170.2s] [LOAD 2] 送花：{"offered": true, "picked": true, "said": ["（她抬頭看到你，點了一下頭。）", "【第 1 次說話沒有選單（{\"talking\": false, \"busyDepth\": 0, \"pbusy\": false, \"ev\": null, \"near\": \"和溫學姊說話\", \"nearNpc\": true, \"hour\": 11.24}），等 2 秒再按一次】", "（小聲）法圖九點四十五關門。我都待到最後", "你把一束花遞給溫書瑀。", "（小聲）聖誕快樂，學弟。", "（小聲）花喔。……我要去找一個瓶子。"], "opts": [["送她禮物…包包裡有 2 樣可以送她", "（說點不一樣的）看你們現在多熟", "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"], ["一束花花序 Flower Notes", "一朵向日葵花序 Flower Notes", "算了"]], "label": "和溫學姊說話", "talks": 2, "offer_dim": false}；紀錄 {"given": ["g_bouquet"], "sent": {"heroine_05|xmas|2025": "g_bouquet"}, "fest": {"xmas|2025": ["heroine_05"]}, "bag": ["g_sunflower@gg_flower"], "mem": [{"tag": "GIFT_LOVE_heroine_05", "day": 99, "v": "一束花"}, {"tag": "GIFT_GIVEN_heroine_05", "day": 99, "v": "一束花"}]}；包包 [{"id": "g_sunflower", "shop": "gg_flower", "day": 99}]
+  [ 170.2s] [LOAD 2]（舊花攤時期買的花） GIFTH.shopName(gg_flower)＝"花序 Flower Notes"（要「花序 Flower Notes」）
+PASS [LOAD 2]（舊花攤時期買的花） GIFTH.shopName(gg_flower)＝「花序 Flower Notes」  "花序 Flower Notes"
+  [ 170.2s] [LOAD 2]（舊花攤時期買的花） 送禮選單（「送她禮物…」之後）：["一束花花序 Flower Notes", "一朵向日葵花序 Flower Notes", "算了"]
+PASS [LOAD 2]（舊花攤時期買的花） 送禮選單上花的店名是「花序 Flower Notes」  ["一束花花序 Flower Notes", "一朵向日葵花序 Flower Notes", "算了"]
+PASS [LOAD 2] 舊花送得出去：「送她禮物…」→ g_bouquet（given 有它、包包少一樣）  {"give": {"offered": true, "picked": true, "said": ["（她抬頭看到你，點了一下頭。）", "【第 1 次說話沒有選單（{\"talking\": false, \"busyDepth\": 0, \"pbusy\": false, \"ev\": null, \"near\": \"和溫學姊說話\", \"nearNpc\": true, \"hour\": 11.24}），等 2 秒再按一次】", "（小聲）法圖九點四十五關門。我都待到最後", "你把一束花遞給溫書瑀。", "（小聲）聖誕快樂，學弟。", "（小聲）花喔。……我要去找一個瓶子。"], "opts": [["送她禮物…包包裡有 2 樣可以送她", "（說點不一樣的）看你們現在多熟", "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"], ["一束花花序 Flower Notes", "一朵向日葵花序 Flower Notes", "算了"]], "label": "和溫學姊說話", "talks": 2, "offer_dim": false}, "rec": {"given": ["g_bouquet"], "sent": {"heroine_05|xmas|2025": "g_bouquet"}, "fest": {"xmas|2025": ["heroine_05"]}, "bag": ["g_sunflower@gg_flower"], "mem": [{"tag": "GIFT_LOVE_heroine_05", "day": 99, "v": "一束花"}, {"tag": "GIFT_GIVEN_heroine_05", "day": 99, "v": "一束花"}]}}
+  [ 170.2s] [LOAD 4] 存檔（改之前）：{"zone": "library", "day": 99, "hour": 11.2, "x": -10.49, "z": -7.41, "lv": 0, "money": 4430, "ver": "版本 v9.10.24", "bag": [{"id": "g_sunflower", "shop": "gg_flower", "day": 99}], "given": {"heroine_05": ["g_bouquet"]}, "sent": {"heroine_05|xmas|2025": "g_bouquet"}, "fest": {"xmas|2025": ["heroine_05"]}, "giftMem": ["GIFT_LOVE_heroine_05", "GIFT_GIVEN_heroine_05"]}
+  [ 195.1s] 讀進來以後等畫面可以玩：{"fade": false, "paused": false, "title": false, "phone": false, "dlg": false, "busy": false}；做了 ["收手機"]
+  [ 195.2s] [LOAD 4] 讀進來（改之後）：{"zone": "library", "day": 99, "hour": 11.23, "x": -10.49, "z": -7.41, "lv": 0, "money": 4430, "ver": "版本 v9.10.24", "bag": [{"id": "g_sunflower", "shop": "gg_flower", "day": 99}], "given": {"heroine_05": ["g_bouquet"]}, "sent": {"heroine_05|xmas|2025": "g_bouquet"}, "fest": {"xmas|2025": ["heroine_05"]}, "giftMem": ["GIFT_LOVE_heroine_05", "GIFT_GIVEN_heroine_05"]}
+PASS [LOAD 4] 標題「繼續」讀得進來（同一天 99、同一區 library）  {"ok": true, "day": 99, "zone": "library"}
+PASS [LOAD 4] 站的格子可走（canStand r0.3；(-10.49, -7.41) lv 0）  {"zone": "library", "x": -10.49, "z": -7.41, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和溫學姊說話", "stand": true, "fb": 0, "hour": 11.23}
+PASS [LOAD 4] 搖桿推得動 8.81 m（≥0.3，人不卡牆）
+  [ 199.0s] [LOAD 4] 送過的紀錄（改之後）：{"given": ["g_bouquet"], "sent": {"heroine_05|xmas|2025": "g_bouquet"}, "fest": {"xmas|2025": ["heroine_05"]}, "bag": ["g_sunflower@gg_flower"], "mem": [{"tag": "GIFT_LOVE_heroine_05", "day": 99, "v": "一束花"}, {"tag": "GIFT_GIVEN_heroine_05", "day": 99, "v": "一束花"}]}
+PASS [LOAD 4] given[heroine_05] 還是 ["g_bouquet"]  ["g_bouquet"]
+PASS [LOAD 4] sent ["heroine_05|xmas|2025"]、fest ["xmas|2025"] 還在  {"sent": {"heroine_05|xmas|2025": "g_bouquet"}, "fest": {"xmas|2025": ["heroine_05"]}}
+PASS [LOAD 4] 記憶 GIFT_GIVEN_／GIFT_LOVE_ 還在（["GIFT_LOVE_heroine_05", "GIFT_GIVEN_heroine_05"]）  [{"tag": "GIFT_LOVE_heroine_05", "day": 99, "v": "一束花"}, {"tag": "GIFT_GIVEN_heroine_05", "day": 99, "v": "一束花"}]
+PASS [LOAD 4] 今天不能再送她（GIFTH.state＝null：一個節日一份）  null
+  [ 207.7s] 到達「[LOAD 4] 走到她旁邊（第 1 次）」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [ 213.9s] [LOAD 4] 再和她說話：{"offered": false, "picked": false, "said": ["（小聲）總圖三樓的判例彙編，去年被人翻到", "（小聲）總圖三樓的判例彙編，去年被人翻到脫頁。……不是我。"], "opts": [["（說點不一樣的）看你們現在多熟", "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"]], "label": "和溫學姊說話", "talks": 1}
+PASS [LOAD 4] 再和她說話不出「送她禮物…」  {"offered": false, "picked": false, "said": ["（小聲）總圖三樓的判例彙編，去年被人翻到", "（小聲）總圖三樓的判例彙編，去年被人翻到脫頁。……不是我。"], "opts": [["（說點不一樣的）看你們現在多熟", "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"]], "label": "和溫學姊說話", "talks": 1}
+PASS [LOAD] 沒有 JS 例外  []
+ALL PASS
