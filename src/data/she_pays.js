@@ -31,17 +31,6 @@ const SHE_PAYS_DATA={
     "蔥餅這次我先買。"
    ]
   },
-  "classmate_peishan": {
-   "D31.egg": [
-    "你要不要再一顆？我請你。"
-   ],
-   "D15.store": [
-    "今天宵夜算我的。上次就想請了。"
-   ],
-   "D21.street": [
-    "你要吃什麼？這攤我請。"
-   ]
-  },
   "kexin": {
    "D30.stall": [
     "烤玉米這攤還在。這次我付。"
@@ -72,6 +61,14 @@ const SHE_PAYS_DATA={
   "heroine_04": {
    "D06.cafe": [
     "這家我來過兩次了。這次我請，你不要算。"
+   ]
+  },
+  "classmate_peishan": {
+   "D15.store": [
+    "今天宵夜算我的。上次就想請了。"
+   ],
+   "D21.street": [
+    "你要吃什麼？這攤我請。"
    ]
   }
  },
@@ -131,15 +128,6 @@ const SHE_PAYS_DATA={
    "at": "/loc/D30/lines/heroine_05/hotspots/D30.stall/remember/lines/0/text"
   },
   {
-   "who": "classmate_peishan",
-   "loc": "D31",
-   "n": 53,
-   "key": "D31.egg.normal#2",
-   "pid": "D31.egg",
-   "text": "你要不要再一顆？我請你。",
-   "at": "/loc/D31/lines/classmate_peishan/hotspots/D31.egg/normal/2/lines/0/text"
-  },
-  {
    "who": "kexin",
    "loc": "D30",
    "n": 54,
@@ -173,6 +161,16 @@ const SHE_PAYS_DATA={
    "now": [
     "你要吃什麼？這攤我請。"
    ]
+  }
+ ],
+ "dropped": [
+  {
+   "who": "classmate_peishan",
+   "loc": "D31",
+   "n": 53,
+   "key": "D31.egg.normal#2",
+   "text": "你要不要再一顆？我請你。",
+   "why": "AA 11-11 18:58 回 LAWWW（BB 18:56 疑點②）：照 AA_812（較新）「只多買一顆蛋的不算」——「你要不要再一顆？我請你。」不是她付整份"
   }
  ],
  "split": {

@@ -604,7 +604,7 @@ const DATE=(function(){
     if(!set) set=S.pickSet(G,id,H.normal,t,pid+'.normal');
     const played=await S.playOpts(GM,id,t,pid,H.opts,{before,dating},await S.playSet(GM,id,set,t,pid));   /* 這一套沒有選項＝接 opts 的那一組（DLG-FX-MECH-1110）*/
     if(played&&played.pick) S.pickFlag(G,t,pid,played.pick); if(set&&set.aa525&&set.aa525.once) G.flags[set.aa525.flag]='paid';   /* AA_525：記第一次選的；蛋餅只拿一次 */
-    { const c=played&&played.pick, p=c&&S.isTreat(c.t)?S.points(t.locs[0]).find(x=>x.id===pid):null; if(p&&(p.extra|0)>0&&GM.money) GM.money(-(p.extra|0),p.name+'（請她）'); }   /* 祐廷說要請客的選項＝另外扣她那一份（AA_128 5-1、5-2 的 extra；淡水飲料攤「我請。」60）*/
+    { const c=played&&played.pick, p=c&&S.isTreat(c.t)?S.points(t.locs[0]).find(x=>x.id===pid):null; if(p) t.treated=pid; if(p&&(p.extra|0)>0) await S.pay(GM,t,p.extra|0,p.name+'（請她）'); }   /* t.treated：選了「我請」＝這一份不套平分（AA 11-11 18:58：「我請」＝他付兩個人的）*/   /* 祐廷說要請客的選項＝另外扣她那一份（AA_128 5-1、5-2 的 extra；淡水飲料攤「我請。」60）*/
     if(!hi&&/\.photo$/.test(pid)&&(id!=='kexin'||brokeUp(G,id))) await S.speak(GM,id,'noPair',t,{obj:null});   /* 合照還不到第 6 階：她說一句、只幫她拍（BB_128 2-4、3-6；可昕只有分開以後才說，交往中一定可以合照）*/
     if(hi){ const xk=Object.keys(H).find(k=>k.indexOf('extra:合照')===0); const x=xk&&H[xk]; if(x) await S.playSet(GM,id,Array.isArray(x)?S.pickSet(G,id,x,t,pid+'.extra'):x,t); }   /* 合照：第 6 階以上或交往中才有的那一句 */
     if(!m.picks.includes(pid)) m.picks.push(pid); return played; };
@@ -617,17 +617,17 @@ const DATE=(function(){
     const visits=(S.log(G,t.who).byLoc[loc]|0); const endH=t.day*24+t.back-S.travel(loc,t.transport).minutes/60; const spots=[], m0=G.money|0;
     const fx=S.fixedOf(loc), fixH=fx?(fx.minutes|0)/60:0;   /* 固定段落（看電影）：回程已經算進去（S.plan），互動點的時間從散場開始算 */
     const pts=S.points(loc), qk=visits>=2?S.quickPick(G,t.who,pts,endH-fixH):null;   /* 快速約會（AA_128 5-4：同一個地點第三次以後）*/
-    await GM.say(null,'（'+L.name+'。）'); if(L.admission&&GM.money) GM.money(-L.admission,L.name+' 門票');
+    await GM.say(null,'（'+L.name+'。）'); if(L.admission) await S.pay(GM,t,L.admission,L.name+' 門票');
     if(qk&&(await GM.choose([{t:'自己選',hint:'照常一個一個選'},{t:'快速約會',hint:'她喜歡的：'+qk.map(p=>p.name).join('、')+'，直接結算'}]))===1){   /* 系統做兩個她喜歡的互動點、跳過介紹（抵達句、反應、收尾），直接結算 */
-      if(fx) await S.fixedSeg(GM,L,fx,true);   /* 電影照樣看完（時間、電影票），旁白跳過 */
-      for(const p of qk){ spots.push(p.id); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.pointCost(p,t); if(c&&GM.money) GM.money(-c,p.name); } const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p); }
+      if(fx) await S.fixedSeg(GM,L,fx,true,t);   /* 電影照樣看完（時間、電影票），旁白跳過 */
+      for(const p of qk){ spots.push(p.id); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.pointCost(p,t); if(c) await S.pay(GM,t,c,p.name); } const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p); }
       return S.settle(GM,t,spots,pts,visits,m0,{quick:true}); }
     await S.arriveLine(GM,t,visits); await S.soloBefore(GM,t,visits);   /* 抵達句（第一次／普通／交往中）→「你來過一次」*/
-    if(fx) await S.fixedSeg(GM,L,fx);   /* 固定段落：抵達以後先演、散場以後才選互動點（AA_128 5-1 第 2 步）*/
+    if(fx) await S.fixedSeg(GM,L,fx,false,t);   /* 固定段落：抵達以後先演、散場以後才選互動點（AA_128 5-1 第 2 步）*/
     for(let n=0;n<4;n++){ const now=G.day*24+G.hour; const left=pts.filter(p=>!spots.includes(p.id));
       const opts=left.map(p=>{ const rw=S.spotOff(G,p.id), c=S.pointCost(p,t); return {t:p.name,hint:(p.min|0)+' 分'+(c?'　'+c+' 元':''),dis:!!rw||now+(p.min|0)/60>endH,why:rw||'時間差不多了'}; }).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);
       const k=await GM.choose(opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); n--; continue; }   /* 灰掉的（時間不夠、下雨停用）按了只提示，不結束 */
-      const p=left[k]; spots.push(p.id); const said=await S.spotLine(GM,t,p.id,visits), half=S.takeSplit(t,p.id), free=S.takeShePaid(t,p.id); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.halfOf(free?0:S.pointCost(p,t),half); if(c&&GM.money) GM.money(-c,p.name); }   /* 互動點的反應（沒有台詞的地點照舊一句旁白）；free＝她說要請的那一次不扣（S.SHE_PAYS）；half＝她說付一部分的那一次扣一半（S.SPLIT）*/
+      const p=left[k]; spots.push(p.id); const said=await S.spotLine(GM,t,p.id,visits), half=S.takeSplit(t,p.id)&&t.treated!==p.id, free=S.takeShePaid(t,p.id); delete t.treated; if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.halfOf(free?0:S.pointCost(p,t),half); if(c) await S.pay(GM,t,c,p.name); }   /* 互動點的反應（沒有台詞的地點照舊一句旁白）；free＝她說要請的那一次不扣（S.SHE_PAYS）；half＝她說付一部分的那一次扣一半（S.SPLIT）*/
       const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p);
       if(spots.length===3&&pts.length>3) await S.speak(GM,t.who,'enough',t,{obj:null});   /* 第三個互動點之後她說一句「差不多了」（BB_128 2-5 第 5 步；不分地點）*/ }
     t.spots=spots; S.mem(G,t.who,loc).last=spots.slice();
@@ -689,7 +689,7 @@ const DATE=(function(){
       const opts=left.map(p=>{ const rw=S.spotOff(G,p.id), c=S.pointCost(p,t); return {t:p.name,hint:(p.min|0)+' 分'+(c?'　'+c+' 元':''),dis:!!rw||now+(p.min|0)/60>o.endH,why:rw||'時間差不多了'}; }).concat([{t:o.stop(day.length)}]);   /* 休館的館（第二天是週一的話，G.day 已經換到第二天）、下雨停用的灰掉 */
       const k=await GM.choose(opts.map(x=>x.dis?{t:x.t,hint:x.why,dim:true}:x)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); continue; }
       const p=left[k]; spots.push(p.id); day.push(p.id); { const pb=S.pointBg(p.id); if(pb){ setBg(pb); if(o.bg) o.bg.k=pb; } }   /* 夕陽那一點換 d28b（B12）*/
-      const said=await S.spotLine(GM,t,p.id,visits), half=S.takeSplit(t,p.id), free=S.takeShePaid(t,p.id); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.halfOf(free?0:S.pointCost(p,t),half); if(c&&GM.money) GM.money(-c,p.name); }   /* free＝她說要請的那一次不扣（S.SHE_PAYS）；half＝她說付一部分的那一次扣一半（S.SPLIT）*/
+      const said=await S.spotLine(GM,t,p.id,visits), half=S.takeSplit(t,p.id)&&t.treated!==p.id, free=S.takeShePaid(t,p.id); delete t.treated; if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.halfOf(free?0:S.pointCost(p,t),half); if(c) await S.pay(GM,t,c,p.name); }   /* free＝她說要請的那一次不扣（S.SHE_PAYS）；half＝她說付一部分的那一次扣一半（S.SPLIT）*/
       { const T=S.TIMED[p.id]; if(T&&T.until!=null&&G.hour<T.until&&GM.advance) GM.advance(T.until-G.hour); }   /* 夕陽演完至少到 18:00、星星 20:00（B7），接晚上那一句 */
       const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p); }
     return day; };
@@ -698,12 +698,12 @@ const DATE=(function(){
   S.sceneOvernight=async function(GM,q,t){ const G=GM.G, id=t.who, me={name:nameOf(id),charId:id}, O=S.OVERNIGHT, d1=t.day;
     const l1=t.locs[0], l2=t.locs[t.locs.length-1], two=l2!==l1, Lg=S.log(G,id), v1=Lg.byLoc[l1]|0, v2=two?(Lg.byLoc[l2]|0):v1, m0=G.money|0, spots=[];
     const P1=S.points(l1), P2=two?S.points(l2):P1, t2=Object.assign({},t,{locs:[l2],day:d1+1});   /* 第二天的台詞照第二天的地點、日期（D31＋D32 的第二天是清境）*/
-    const L1=S.loc(l1); await GM.say(null,'（'+L1.name+'。）'); if(L1.admission&&GM.money) GM.money(-L1.admission,L1.name+' 門票');
+    const L1=S.loc(l1); await GM.say(null,'（'+L1.name+'。）'); if(L1.admission) await S.pay(GM,t,L1.admission,L1.name+' 門票');
     await S.arriveLine(GM,t,v1); await S.soloBefore(GM,t,v1);   /* 第一天：到達那一句 */
     const bg={k:S.bgKey(l1)};   /* 現在的底圖（OUT.go 轉場時用的那一張）*/
     await S.dayRound(GM,t,P1,spots,v1,{endH:d1*24+O.dayEnd,stop:()=>'今天先到這裡',dayNo:1,bg});
     const own=(S.overnightWhere(G,id,d1,t.locs)||{}).own||null; t.night=S.nightKind(G,t,own);
-    await GM.say(null,S.NIGHT[t.night]); if(GM.money) GM.money(-((t.lodging|0)||S.lodging()),'住宿');   /* 第一天晚上：旁白一句，不演；住宿一律 2,500（她回自己家、租的地方也一樣）*/
+    await GM.say(null,S.NIGHT[t.night]); await S.pay(GM,t,(t.lodging|0)||S.lodging(),'住宿');   /* 第一天晚上：旁白一句，不演；住宿一律 2,500（她回自己家、租的地方也一樣）*/
     if(GM.fade) await GM.fade(true);
     if(typeof STORY!=='undefined'&&STORY.travelOvernight) STORY.travelOvernight(GM,d1+1,O.morning); else { G.day=d1+1; G.weekday=(G.weekday+1)%7; G.hour=O.morning; }   /* 換日不演（出遊住外面一晚：不演宿舍的夜晚事件）*/
     if(!two&&bg.k!==S.bgKey(l1)){ bg.k=S.bgKey(l1); setBg(bg.k); }   /* 第二天早上回到 d28a（前一天傍晚是夕陽那一張，B12）*/
@@ -711,7 +711,7 @@ const DATE=(function(){
     await GM.say(null,S.MORNING_NARR); { const ml=S.morningLine(id,S.morningOwn(own,t.night)); if(ml) await GM.say(me,ml); }   /* 第二天 08:30：旁白＋她一句 */
     if(two){ const L2=S.loc(l2), cd=S.COMBO_DRIVE[l1+'+'+l2];   /* D31＋D32：吃完早餐開車上清境（B8：旁白、時間推 1.5 小時；取代「（清境農場。）」那一行），清境的到達那一句 */
       if(cd){ await GM.say(null,cd.narr); if(GM.advance) GM.advance(cd.h); } bg.k=S.bgKey(l2); setBg(bg.k); if(!cd) await GM.say(null,'（'+L2.name+'。）');
-      if(L2.admission&&GM.money) GM.money(-L2.admission,L2.name+' 門票'); await S.arriveLine(GM,t2,v2,{combo:!!cd}); await S.soloBefore(GM,t2,v2); }
+      if(L2.admission) await S.pay(GM,t,L2.admission,L2.name+' 門票'); await S.arriveLine(GM,t2,v2,{combo:!!cd}); await S.soloBefore(GM,t2,v2); }
     const n1=spots.length; await S.dayRound(GM,t2,P2,spots,v2,{endH:(d1+1)*24+(t.leave!=null?t.leave:O.leave),stop:n=>n||n1?'差不多了，回去吧':'就這樣回去',dayNo:2,bg});
     t.spots=spots; for(const l of t.locs) S.mem(G,id,l).last=spots.filter(s=>s.indexOf(l+'.')===0);
     if(!spots.length){ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(id,{fam:1}); t.status='cancelled'; if(!await S.speak(GM,id,'leaveEarly',t,{obj:null})) await GM.say(me,'……就這樣？'); return {counted:false}; }   /* 兩天一個互動點都沒做：照當天來回（不算次數、熟悉 +1）*/
@@ -742,6 +742,15 @@ const DATE=(function(){
   /* 這一趟有沒有吃東西的互動點（AA_223 第 3 節：餐廳、小吃、甜點、飲料都算；只逛、只玩扭蛋不算）：子晴告白的第一句 */
   /* 請客的選項（AA_128 5-2：「這杯我請。」「茶葉蛋我買。」）：我請、我買給妳、我付；「下次我請」「那我請飲料」（互動點的 extra 不是飲料那一份）不算 */
   S.isTreat=t=>{ const x=String(t||'').replace(/[「」]/g,''); return /我請|我買給妳|我付/.test(x)&&!/下次|飲料/.test(x); };
+  /* 錢不夠＝她付（AA 11-11 18:58 回 LAWWW，BB 11-11 18:56 AA_812 BROKE：子晴 D10 錢 55、一份 60，原本照扣成 −5、回程車資再扣到 −55，她也沒說話）：
+     約會裡每一筆扣錢（門票、互動點、請她那一份、住宿、固定段落、回程車資）都走 S.pay——錢夠＝照扣；不夠＝那一筆她付、不扣，錢不會變負的。
+     這一趟第一次她付：旁白「（你的錢不夠。她先付了。）」＋她一句（七位各一句；其他人只有旁白）；同一趟後面再不夠＝只有旁白。台詞照 AA 原文，不改字 */
+  S.BROKE={narr:'（你的錢不夠。她先付了。）',lines:{heroine_01:'我來。你下次記得，我會記。',heroine_02:'（她把錢放上去）……這次我。',heroine_03:'我付啦。你不要這樣看我。',
+    heroine_04:'錢包見底了喔？我來，算你欠我一次。',heroine_05:'我付。不用算。',kexin:'沒錢了齁。我來。下次你請早餐。',classmate_peishan:'你錢包在減肥喔？我來啦。'}};
+  S.pay=async function(GM,t,amount,label){ const G=GM&&GM.G, c=Math.max(0,Math.round(+amount||0)); if(!c||!G) return 0;
+    if((G.money|0)>=c){ if(GM.money) GM.money(-c,label); return c; }
+    const first=!(t&&t.brokeSaid); if(t) t.brokeSaid=true; await GM.say(null,S.BROKE.narr);
+    const L=first&&t&&S.BROKE.lines[t.who]; if(L) await GM.say({name:nameOf(t.who),charId:t.who},L); return 0; };
   /* 她請客＝這個互動點不扣玩家的錢（AA_780_an_date_followup.json@248c8e390 的 _meta.she_pays；AA 選「做機制、字不改」）：她在這個互動點說了下面這一句的那一次，祐廷那一份（S.pointCost）不扣。
      格式：{她:{互動點 id:[那一句的完整字（照 src/data/date_lines.js 那一格逐字抄；不是選項的字）]}}——之後 AA 給別人的清單照同一個格式加。
      以安三格：D06#43（D06.cafe 的 remember）、D13#23（D13.drink 的 normal 第三套，第 6 階以上才輪得到）、D18#41（D18.teahouse 的 normal 第三套，同上）。
@@ -772,7 +781,7 @@ const DATE=(function(){
   /* 互動點的花費：costByMode＝依交通方式（D09 纜車：捷運的車資已經含纜車來回，開車來的才在這裡扣 120；point_specs G33）*/
   S.pointCost=(p,t)=>{ const m=p&&p.costByMode; return m&&t&&m[t.transport]!=null?(m[t.transport]|0):((p&&p.cost)|0); };
   /* 固定段落的那一段（S.fixedOf）：一句旁白（地點資料的 label）、推進時間、扣祐廷自己那張票；quiet＝快速約會不演旁白 */
-  S.fixedSeg=async function(GM,L,fx,quiet){ if(!quiet) await GM.say(null,'（'+fx.label+'。）'); if(GM.advance) GM.advance((fx.minutes|0)/60); if((fx.cost|0)>0&&GM.money) GM.money(-(fx.cost|0),L.name+' '+fx.label); };
+  S.fixedSeg=async function(GM,L,fx,quiet,t){ if(!quiet) await GM.say(null,'（'+fx.label+'。）'); if(GM.advance) GM.advance((fx.minutes|0)/60); if((fx.cost|0)>0) await S.pay(GM,t||null,fx.cost|0,L.name+' '+fx.label); };
   S.EAT=['D04.snack','D05.cafe','D06.cafe','D09.tea','D10.snack','D12.tea','D13.drink','D15.store','D16.rest','D18.snack','D18.teahouse','D20.street','D22.fish','D23.cook','D24.street','D25.cafe','D28.alley','D30.stall','D31.egg','D32.stall'];
   S.ate=t=>!!t&&Array.isArray(t.spots)&&t.spots.some(id=>S.EAT.includes(id));
   const CL=id=>(typeof CONFESS_LINES!=='undefined'&&CONFESS_LINES[id])||null;

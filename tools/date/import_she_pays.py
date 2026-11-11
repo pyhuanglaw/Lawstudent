@@ -28,6 +28,8 @@ LINES = 'src/data/date_lines.js'
 KINDS = ('first', 'firstHigh', 'remember', 'normal', 'dating', 'afterBreakup')
 HAND = {'heroine_01'}   # date3d.js 手寫的（AA_780 _meta.she_pays）
 P812 = 'docs/story_planning/AA_812_date_pays_promises.json'
+# AA 決定拿掉的 AA_782 列（不算她請客）：(她, key) → 誰、為什麼。遊戲裡那一句照樣說，只是那一份照常扣
+DROP = {('classmate_peishan', 'D31.egg.normal#2'): 'AA 11-11 18:58 回 LAWWW（BB 18:56 疑點②）：照 AA_812（較新）「只多買一顆蛋的不算」——「你要不要再一顆？我請你。」不是她付整份'}
 D3 = 'src/date3d.js'
 
 
@@ -87,7 +89,7 @@ def build(src, sha, DL, sup=None):
     """sup：AA_812 SHE_PAYS_add 的 {(她, 互動點): [那幾句]}——同一個人同一個互動點 AA_812 也列了、這一句不在裡面＝被取代（見最上面的說明）"""
     if set(src) - {'_meta', 'she_pays'} or not isinstance(src.get('she_pays'), list) or not src['she_pays']:
         raise SystemExit(f'{PATH}@{sha}：最上層只認 _meta、she_pays（she_pays 要是有東西的陣列）')
-    pays, cells, seen, gone = {}, [], set(), []
+    pays, cells, seen, gone, dropped = {}, [], set(), [], []
     for i, r in enumerate(src['she_pays']):
         w = f'{PATH}@{sha} she_pays[{i}]'
         if not isinstance(r, dict) or set(r) - {'who', 'loc', 'n', 'key', 'text', 'note'}:
@@ -104,6 +106,9 @@ def build(src, sha, DL, sup=None):
         if (who, key) in seen:
             raise SystemExit(f'{w}：{who} {key} 已經有一列（同一套只能一列）')
         seen.add((who, key))
+        if (who, key) in DROP:   # AA 決定不算（見 DROP）
+            dropped.append({'who': who, 'loc': loc, 'n': n, 'key': key, 'text': text, 'why': DROP[(who, key)]})
+            continue
         D = (DL.get('loc') or {}).get(loc) or {}
         H = ((((D.get('lines') or {}).get(who) or {}).get('hotspots')) or {}).get(pid)
         if not isinstance(H, dict):
@@ -133,7 +138,7 @@ def build(src, sha, DL, sup=None):
             raise SystemExit(f'{w}：格號 {n} 在 date_lines.js {loc} {who} 是「{sl[n - 1] if n <= len(sl) else "（沒有這一格）"}」，不是「{text}」')
         pays.setdefault(who, {}).setdefault(pid, []).append(text)
         cells.append({'who': who, 'loc': loc, 'n': n, 'key': key, 'pid': pid, 'text': text, 'at': f'/loc/{loc}/lines/{who}/hotspots/{pid}{at[0]}'})
-    return {'src': f'{PATH}@{sha}', 'pays': pays, 'cells': cells, 'superseded': gone}
+    return {'src': f'{PATH}@{sha}', 'pays': pays, 'cells': cells, 'superseded': gone, 'dropped': dropped}   # dropped＝AA 決定不算的列（見 DROP），句子還在遊戲裡、只是那一份照常扣
 
 
 def hand():

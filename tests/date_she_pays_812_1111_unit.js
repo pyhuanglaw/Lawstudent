@@ -121,7 +121,7 @@ const PATHS=[
     check('3. 每一句：在 date_lines.js 她那個互動點底下剛好一處、是某一套她說的台詞或選項的回話（不是選項的字）、格號那一格就是這一句',bad.length===0,J(bad));
     check('3. S.SHE_PAYS 認得她付全部的十八句、S.SPLIT 認得平分的十一句；同一句不會兩邊都有（S.shePays 和 S.sheSplits 不會同時是 true）',PAYS.every(c=>DATE.shePays(c.who,c.pid,c.text)&&!DATE.sheSplits(c.who,c.pid,c.text))&&SPL.every(c=>DATE.sheSplits(c.who,c.pid,c.text)&&!DATE.shePays(c.who,c.pid,c.text)));
     const nS=o=>Object.values(o).reduce((a,x)=>a+Object.values(x).reduce((b,v)=>b+v.length,0),0);
-    check('3. 重複的不重複：S.SHE_PAYS 一共 22 句（以安手寫 3＋AA_782 留下的 8＋AA_812 新的 11；AA_812 和 AA_782 重複的 7 句標 dup）；S.SPLIT 11 句',nS(DATE.SHE_PAYS)===22&&nS(DATE.SPLIT)===11&&PAYS.filter(c=>c.dup).length===7&&PAYS.filter(c=>c.dup).every(c=>/^AA_782 /.test(c.dup)),J([nS(DATE.SHE_PAYS),nS(DATE.SPLIT)]));
+    check('3. 重複的不重複：S.SHE_PAYS 一共 21 句（以安手寫 3＋AA_782 留下的 7＋AA_812 新的 11；2026-11-11 18:58 AA 拿掉沛珊 D31.egg（照 AA_812「只多買一顆蛋的不算」），舊期望 22／8；AA_812 和 AA_782 重複的 7 句標 dup）；S.SPLIT 11 句',nS(DATE.SHE_PAYS)===21&&nS(DATE.SPLIT)===11&&PAYS.filter(c=>c.dup).length===7&&PAYS.filter(c=>c.dup).every(c=>/^AA_782 /.test(c.dup)),J([nS(DATE.SHE_PAYS),nS(DATE.SPLIT)]));
     /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：學姊 D30.stall「好。各付各的，最清楚。」從 SPLIT 拿掉（祐廷照原價），兩邊都有的剩 D22.fish；D22.fish 的 SPLIT 是第一次兩個選項的回話。舊期望：學姊 D22.fish、D30.stall 兩個 */
     check('3. 同一個人同一個互動點兩邊都有的只有學姊 D22.fish（不同的句子：第一次那一套的第一句「這家我請」和兩個選項的回話）',J(Object.keys(DATE.SPLIT).flatMap(w=>Object.keys(DATE.SPLIT[w]).filter(p=>(DATE.SHE_PAYS[w]||{})[p]).map(p=>w+' '+p)))===J([SIS+' D22.fish']),J(Object.keys(DATE.SPLIT).flatMap(w=>Object.keys(DATE.SPLIT[w]).filter(p=>(DATE.SHE_PAYS[w]||{})[p]).map(p=>w+' '+p))));
     check('3. 學姊的 S.SPLIT 只有 D22.fish 兩句（「好。飯我請，飲料你請。」「好。你堅持的話。」＝第一次兩個選項的回話）；D30.stall 不在 S.SPLIT、「好。各付各的，最清楚。」S.sheSplits 不認（AA_812@'+SHA812+'）',J(DATE.SPLIT[SIS])===J({'D22.fish':['好。飯我請，飲料你請。','好。你堅持的話。']})&&J(HS(SIS,'D22.fish').first.choice.map(c=>c.reply[0].text))===J(['好。飯我請，飲料你請。','好。你堅持的話。'])&&!DATE.sheSplits(SIS,'D30.stall','好。各付各的，最清楚。')&&!DATE.shePays(SIS,'D30.stall','好。各付各的，最清楚。')&&HS(SIS,'D30.stall').first.choice[1].reply[0].text==='好。各付各的，最清楚。',J(DATE.SPLIT[SIS]));
@@ -154,11 +154,12 @@ const PATHS=[
     for(const c of SPL){ const {pid,kind,k,ci}=PART(c.key), P=PT(pid), cost=P.cost|0, w='5. '+nameOf(c.who)+' '+c.key+'（'+P.name+' cost '+cost+(OV(c.loc)?'；兩天一夜':'')+'）';
       if(c.who===KX&&kind==='dating'){ console.log('（'+w+'：S.spotLine 不演可昕的 dating 套（id!==\'kexin\'），這一句「'+c.text+'」演不到——資料有、S.sheSplits 認得（第 3 節）；不演）'); continue; }
       const s=setOf(c.who,pid,kind,k), a=await trip(c.who,pid,kind,k,ci), st=lastSaid(c.who,pid,s,ci), tr=ci!=null&&DATE.isTreat(s.choice[ci].t)&&(P.extra|0)>0;
-      check(w+'：演到「'+c.text+'」那一次——'+P.name+'扣一半 '+Math.round(cost/2)+'（'+cost+' 的一半）'+(tr?'；選的是請客選項「'+s.choice[ci].t+'」＝「（請她）」'+P.extra+' 照舊另外扣':'')+'；行程物件上沒有留下 sheSplit',
-        !!a.b.ok&&a.said.includes(c.text)&&st==='split'&&J(paid(a,P.name))===J([Math.round(cost/2)])&&J(paid(a,P.name+'（請她）'))===(tr?J([P.extra|0]):'[]')&&!('sheSplit' in (a.t||{}))&&!('shePaid' in (a.t||{})),J([a.b.why,a.ch,a.said.slice(0,5)]));
+      /* 2026-11-11 18:58 AA：選「我請」＝他付兩個人的（自己那一份照扣＋「（請她）」那一份），不再套平分；沒選「我請」才扣一半。舊期望：選了「我請」也扣一半 */
+      check(w+'：演到「'+c.text+'」那一次——'+(tr?P.name+'照扣 '+cost+'（選的是請客選項「'+s.choice[ci].t+'」＝不套平分）、「（請她）」'+P.extra+' 另外扣':P.name+'扣一半 '+Math.round(cost/2)+'（'+cost+' 的一半）')+'；行程物件上沒有留下 sheSplit',
+        !!a.b.ok&&a.said.includes(c.text)&&st==='split'&&J(paid(a,P.name))===J([tr?cost:Math.round(cost/2)])&&J(paid(a,P.name+'（請她）'))===(tr?J([P.extra|0]):'[]')&&!('sheSplit' in (a.t||{}))&&!('shePaid' in (a.t||{})),J([a.b.why,a.ch,a.said.slice(0,5)]));
       if(ci!=null){ const cj=ci===0?1:0, b=await trip(c.who,pid,kind,k,cj), sb=lastSaid(c.who,pid,s,cj), trb=DATE.isTreat(s.choice[cj].t)&&(P.extra|0)>0;
         check(w+'：同一套選另一個選項「'+s.choice[cj].t+'」（她回「'+((s.choice[cj].reply||[]).map(x=>x.text).join(''))+'」）——照最後說的那一句算：'+(sb==='pays'?'不扣':sb==='split'?'扣一半':'照扣 '+cost)+(trb?'；請客選項的「（請她）」'+P.extra+' 照舊':''),
-          !!b.b.ok&&!b.said.includes(c.text)&&J(paid(b,P.name))===(want(sb,cost)?J([want(sb,cost)]):'[]')&&J(paid(b,P.name+'（請她）'))===(trb?J([P.extra|0]):'[]'),J([b.b.why,b.ch,b.said.slice(0,5)])); }
+          !!b.b.ok&&!b.said.includes(c.text)&&J(paid(b,P.name))===((trb&&sb==='split'?cost:want(sb,cost))?J([trb&&sb==='split'?cost:want(sb,cost)]):'[]')&&J(paid(b,P.name+'（請她）'))===(trb?J([P.extra|0]):'[]'),J([b.b.why,b.ch,b.said.slice(0,5)])); }
       const j=kind==='normal'&&k===0?1:0, alt=setOf(c.who,pid,'normal',j);
       if(lastSaid(c.who,pid,alt,null)){ check(w+'：別套 normal#'+j+' 自己也有請客／平分的句子，不比',false,J(alt)); continue; }
       const d=await trip(c.who,pid,'normal',j,null), other=(alt.lines||[]).filter(x=>x.who===c.who).map(x=>x.text);
@@ -184,7 +185,7 @@ const PATHS=[
 
   await sec(8,async()=>{ const code=read('src/date3d.js').replace(/\/\*[\s\S]*?\*\//g,''), n=s=>code.split(s).length-1;
     check('8. 程式：S.scene、S.dayRound 兩條路都在 S.spotLine 演完的當下 S.takeSplit、S.takeShePaid 各看一次，S.halfOf(free?0:S.pointCost(p,t),half) 扣；S.spotLine 一開始兩個都清；只有 S.playSet 演到她那一句才記（S.splitMark）；快速約會那一段沒有 half',
-      n('half=S.takeSplit(t,p.id), free=S.takeShePaid(t,p.id)')===2&&n('const c=S.halfOf(free?0:S.pointCost(p,t),half);')===2&&n('delete t.shePaid; delete t.sheSplit;')===1&&n('S.splitMark(t,id,pid,ln.text);')===1&&/for\(const p of qk\)\{[^}]*\{ const c=S\.pointCost\(p,t\); if\(c&&GM\.money\)/.test(code));
+      n('half=S.takeSplit(t,p.id)&&t.treated!==p.id, free=S.takeShePaid(t,p.id); delete t.treated;')===2&&n('const c=S.halfOf(free?0:S.pointCost(p,t),half); if(c) await S.pay(GM,t,c,p.name);')===2&&n('delete t.shePaid; delete t.sheSplit;')===1&&n('S.splitMark(t,id,pid,ln.text);')===1&&/for\(const p of qk\)\{[^}]*\{ const c=S\.pointCost\(p,t\); if\(c\) await S\.pay\(GM,t,c,p\.name\)/.test(code)   /* 2026-11-11：扣錢走 S.pay（錢不夠＝她付，AA 18:58）；選「我請」不套平分（t.treated）*/);
     const t={sheSplit:'D22.fish'}, a=DATE.takeSplit(t,'D22.lawn'), t2={sheSplit:'D22.fish'}, b=DATE.takeSplit(t2,'D22.fish');
     check('8. S.takeSplit：看一次就清掉——不是那個互動點＝false（也清掉），是＝true；沒有這個欄位＝false',a===false&&!('sheSplit' in t)&&b===true&&!('sheSplit' in t2)&&DATE.takeSplit({},'D22.fish')===false&&DATE.takeSplit(null,'D22.fish')===false);
     check('8. S.halfOf：扣一半四捨五入到整數（300→150、130→65、35→18、10→5、0→0），沒平分＝原價',DATE.halfOf(300,true)===150&&DATE.halfOf(130,true)===65&&DATE.halfOf(35,true)===18&&DATE.halfOf(10,true)===5&&DATE.halfOf(0,true)===0&&DATE.halfOf(300,false)===300);
