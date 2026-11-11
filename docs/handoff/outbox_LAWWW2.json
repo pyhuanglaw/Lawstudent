@@ -8100,6 +8100,22 @@
    "noDirectIntegrate": false,
    "note": "基底 dev 33ccd6440c，在 b1437614bd 上 --3way 乾淨；7 個檔；只重產配置、GLB 沒重匯；l118_shops3d.js 兩行（s.i、q.prio）＋表上 dian、tea 兩格拿掉；l118_interact_reach 全過且不靠覆寫表；全部 Node 測試 1286 支：1284 過",
    "next": "LAWWW 整合"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "at": "2026-11-11T10:0x",
+   "task": "LIFE-DETAILS-SEASONAL-1110 第三批 v2＝第三批＋季節攤販 A1～A6（sea_yam、sea_aiyu、sea_mooncake、sea_couplet、sea_bouquet、sea_textbook）：模型、位置（clerk／at）、日期、導航；看、買接夜市那一套（LAWWW 接、AA 寫）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/season_batch3_1111/（README.md、season_batch3_v2.patch、season_stalls_on_v1.patch、regression_full_v2.log、blender_stalls.jpg）"
+   ],
+   "state": "READY_FOR_REVIEW；發版後整合（用 v2，v1 作廢）",
+   "noDirectIntegrate": false,
+   "note": "基底 dev 0d7922555e，在 0982b8062e 上 --3way 乾淨；10 個檔；SD3 多 termWeek、z.seasonStalls；六攤全擺時導航測試全過；全部 Node 測試 1285 支：1283 過＋bookstore 老警告＋singleside 基底",
+   "next": "發版後 LAWWW 整合 v2、接看買；CC 照 README 的日期拍；BB 判"
   }
  ]
 }

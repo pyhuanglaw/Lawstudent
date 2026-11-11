@@ -1,6 +1,6 @@
 # 季節、節日的布置 第三批：四季的水果、花序的季節花、下雨天、元宵、中秋（LIFE-DETAILS-SEASONAL-1110；LAWWW2 帳號 A，2026-11-11）
 
-狀態：**v2 WORK_IN_PROGRESS（全部測試在跑）**——v2＝第三批＋季節攤販 A1～A6（下面「v2 加的」）。v1（09:0x 交的）還沒整合，**整合時用 v2 就好**（`season_batch3_v2.patch`，基底一樣是 dev `0d7922555e`）；只想看 v2 比 v1 多了什麼：`season_stalls_on_v1.patch`（疊在 v1 上）。
+狀態：**v2 READY_FOR_REVIEW**（2026-11-11 10:0x UTC）——v2＝第三批＋季節攤販 A1～A6（下面「v2 加的」）。v1（09:0x 交的）還沒整合，**整合時用 v2 就好**（`season_batch3_v2.patch`，基底一樣是 dev `0d7922555e`）；只想看 v2 比 v1 多了什麼：`season_stalls_on_v1.patch`（疊在 v1 上）。
 v1 的狀態：READY_FOR_REVIEW（2026-11-11 09:0x UTC）。LAWWW 08:10：**v9.10.25 發版以後才整合**。預覽是 Blender，不是遊戲截圖（D131）；**遊戲畫面沒看過**。
 
 - patch：`season_batch3_v1.patch`（10 個檔，基底 dev `0d7922555e`）：`src/data/season_deco.js`、`src/season_deco3d.js`、`tools/blender/env_second/season_deco.py`、兩顆季節模型（`season_wenzhou.glb`、`season_gongguan.glb`＋json）、`tests/season_deco_unit.js`、新的 `tests/season_deco_nav_unit.js`、`LICENSES.md`（季節布置以前沒有登記，這次補一列）。
@@ -70,7 +70,8 @@ v1 的狀態：READY_FOR_REVIEW（2026-11-11 09:0x UTC）。LAWWW 08:10：**v9.1
 
 - `season_deco_nav_unit` 多第 6 項：六攤的客人站的位置站得到、攤販站的位置玩家站不到也不在攤子裡、攤販和客人在攤子兩邊、模型有每一攤。六攤全部擺出來（最壞的情況）時：落地東西的腳印碰不到人（溫州街 9 個、公館 12 個）；阻擋附近 6 m 內站得到的點（溫州街 1,656 個、公館 6,478 個）都走得到 6 m 外；互動點、座位、路人站點照舊。
 - `season_deco_unit` 多 4 項：六攤的日期、時段頭尾；中秋晚上進公館時 `z.seasonStalls` 有中秋禮盒。
-- 全部 Node 測試：在跑。
+- **全部 Node 測試 1285 支**（`regression_full_v2.log`）：1283 支 ALL PASS；`bookstore_exit_unit` 老警告；`singleside_streets_unit` FAILED 2 是基底 `0d7922555e` 當時的狀態（LAWWW 3b7277b89 已經改了期望）。
+- v2 在最新 dev `0982b8062e` 上試過 `git apply --3way`：乾淨。
 
 ### v2 還沒做到的
 
