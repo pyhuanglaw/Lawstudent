@@ -738,6 +738,10 @@ async def part_sq04(pg, cdp):
     e = dict(s.get('eat') or {}); e['n'] = dict(e.get('n') or {}); e['n']['木曜日'] = 4; s['eat'] = e
     sd = dict(s.get('side') or {}); sd.pop('SQ04', None); s['side'] = sd; s['flags'].pop('SIDEQ_DAY', None)
     await load(pg, cdp, '【前置】%s 2027-03-03（大二下）13:30、G.eat 木曜日 4 次、清 G.side.SQ04／SIDEQ_DAY' % tag, s)
+    try:   # BB 06:37：機率設 0 是捷徑——先記原本的機率和條件（判定要寫進去）
+        orig = await pg.evaluate("(()=>{ const q=(SIDEQ.DEFS||SIDEQ.Q||{}).SQ04||null; return {ROLL:SIDEQ.ROLL, MAX:SIDEQ.MAX, roll:String(SIDEQ.roll).slice(0,80), sq04:q?{shop:q.shop,title:q.title,avail:String(q.avail).slice(0,120)}:null, state:((GAME.G.side||{}).SQ04)||null}; })()")
+        R.note('%s 原本的機率和條件（改之前）：%s；程式（sideq3d.js）：點完餐才判、S.ROLL＝0.35、S.MAX＝2（同時進行中的上限）、SQ04 avail＝大二下起（ti(G)>=3）、要那間店第 5 次（S.known）' % (tag, J(orig)))
+    except Exception as e: R.note('%s 讀原本的機率失敗 %r' % (tag, e))
     await pg.evaluate("(()=>{ SIDEQ.roll=()=>0; })()")
     R.setup('%s【捷徑】SIDEQ.roll＝()=>0（原本 Math.random，35%% 才開口）' % tag)
     pre = await pg.evaluate("(()=>({key:SIDEQ.keyOfName('木曜日'), eatKey:SIDEQ.eatKey('慢讀咖啡'), can:SIDEQ.canOffer(GAME.G,'SQ04'), cnt:EAT.count(GAME.G,'木曜日'), term:CALENDAR.termOf(GAME.G.day)}))()")
