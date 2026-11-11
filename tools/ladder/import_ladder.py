@@ -462,8 +462,10 @@ if A753:
 #        那一套的兩句照舊留著，**原本的選項跟著那一套走**（linesIf[].choices；story3d.js ladPlay：那一套成立就用它的選項），不然舊的兩句會接到新的選項上（「我舉手了」接「後來有舉嗎？」「沒有！」）。等 AA 補這五套再換。
 #      - extraIf（P5-L6 日本／美國多說的一句）照舊接在新的兩句後面。
 #      - 招呼：mode full＝稿給 base＋when 整組（when 的條件要和現在的一樣，只少 drop 列的那幾則——第 8、9 週那句，AA_578 沒有期中考）；mode base＝只換 base，when 照舊、只拿掉 drop 列的那幾則（整句相同才拿）。
+#        2026-11-11 AA 補了這五套（AA_753_peishan_ladder_linesIf.json，下面的 PS753_LINESIF_FILE）：那一套的兩句和選項都換成稿上的，條件照舊。
+#        同一個 commit（b59a8f9de）AA_753_peishan_ladder_Y1S2_Y2S1.json 更正一句：P2-L3 主句第一句「一個禮拜兩天。」→「每個禮拜三。」（課輔班是每週三 18:00～21:00，AA_614）——和 c5094495d 只差這一句。
 #      - P8-L2（要排公開課，我舉手了）：稿的 event_open_class.ladder——4/14 那一場（ev_peishan_open_class）演過就跳過這一層（skipIf；原本的 skipAfterWeek 8 照留）。
-PS753_MORE = [('AA_753_peishan_ladder_Y1S2_Y2S1.json', 'c5094495d', {'Y1S2': ('full', ['我在客運上背了一路，才背到第三章。']), 'Y2S1': ('full', ['我背到第三章，還有四章。'])}),
+PS753_MORE = [('AA_753_peishan_ladder_Y1S2_Y2S1.json', 'b59a8f9de', {'Y1S2': ('full', ['我在客運上背了一路，才背到第三章。']), 'Y2S1': ('full', ['我背到第三章，還有四章。'])}),
               ('AA_753_peishan_ladder_Y3.json', '188061108', {'Y3S1': ('base', ['你吃早餐了嗎？……我家開早餐店，習慣問。']), 'Y3S2': ('base', ['期中。我的考卷上，畫了一個笑臉。……我自己畫的。', '你吃早餐了嗎？'])}),
               ('AA_753_peishan_ladder_Y4.json', '465382f83', {'Y4S1': ('base', []), 'Y4S2': ('base', [])})]
 PS753_LINESIF = {'P2-L3', 'P3-L3', 'P3-L4', 'P3-L6', 'P3-L8'}; PS753_EXTRAIF = {'P5-L6'}
@@ -525,6 +527,41 @@ for F753, SHA753, TERMS753 in PS753_MORE:
         bad = [x for x in mems({'classmate_peishan': ps}) if not has(x)]
         if bad: sys.exit(f'AA_753 {term}：記憶沒有中文名稱 {bad}（src/social3d.js 補）')
     out['source'] += f'＋{F753[:-5]}@{S}（沛珊 {"、".join(TERMS753)} 八層＋招呼重寫）'
+#      AA_753 補（2026-11-11，X327）：沛珊五套 linesIf——P2-L3（記得 SAW_HER_TEACH）、P3-L3／L4／L6／L8（演過 ev_peishan_decision）。稿每一層給 term、if、lines（兩句）、choices（{t, re, fx}）：
+#      現在的階梯那一層要剛好一套 linesIf、條件（if）和稿的一模一樣（不一樣就停）；那一套的 lines、choices 換成稿上的（上面留著的舊兩句、舊選項被取代），其他欄位不動。**只認 PS753_LINESIF_FILE 的那一版**。
+PS753_LINESIF_FILE = ('AA_753_peishan_ladder_linesIf.json', 'b59a8f9de')
+PATH753L = 'docs/story_planning/' + PS753_LINESIF_FILE[0]
+A753L = G.approved_files(ALLOW, PATH753L)
+if A753L:
+    S = A753L[PATH753L]
+    ok, why = G.allowed(PATH753L, S, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    if not (S.startswith(PS753_LINESIF_FILE[1]) or PS753_LINESIF_FILE[1].startswith(S)): sys.exit(f'{PATH753L}@{S}：沛珊的稿只認 {PS753_LINESIF_FILE[1]}（要換版本先改這支工具的 PS753_LINESIF_FILE）')
+    d = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S}:{PATH753L}'], text=True)))
+    ids = sorted(k for k in d if not k.startswith('_'))
+    if ids != sorted(PS753_LINESIF): sys.exit(f'AA_753 linesIf@{S}：要剛好是 {sorted(PS753_LINESIF)} 五層（稿是 {ids}）')
+    for w in ids:
+        m = d[w]
+        if set(m) - {'term', 'if', 'lines', 'choices', 'mainLineFix'}: sys.exit(f'AA_753 linesIf {w}：不認得的欄位 {sorted(set(m) - {"term", "if", "lines", "choices", "mainLineFix"})}')
+        ps = (out['byTerm'].get(m.get('term')) or {}).get('classmate_peishan')
+        t = next((x for x in (ps or {}).get('steps', []) if x['id'] == w), None)
+        if not t: sys.exit(f'AA_753 linesIf {w}：現在的階梯 {m.get("term")} 找不到這一層')
+        li = t.get('linesIf') or []
+        if len(li) != 1 or li[0].get('if') != m.get('if'): sys.exit(f'AA_753 linesIf {w}：現在的階梯要剛好一套 linesIf、條件和稿一樣（現在 {[x.get("if") for x in li]}、稿 {m.get("if")}）')
+        if not (isinstance(m.get('lines'), list) and len(m['lines']) == 2 and all(isinstance(l, str) and l.strip() for l in m['lines'])): sys.exit(f'AA_753 linesIf {w}：lines 要是兩句')
+        ch = []
+        for i, c in enumerate(m.get('choices') or []):
+            if set(c) - {'t', 're', 'fx'} or not isinstance(c.get('t'), str) or not isinstance(c.get('re'), list) or not c['re']: sys.exit(f'AA_753 linesIf {w} 選項 {i + 1}：只認得 {{t, re, fx}}')
+            fx = c.get('fx') or {}
+            if set(fx) - {'fr', 'love'} or not all(isinstance(v, int) for v in fx.values()): sys.exit(f'AA_753 linesIf {w} 選項 {i + 1}：fx 只能是 {{fr, love}} 整數')
+            o = {'t': c['t'], 're': [_ps753_re(x, f'{w} linesIf 選項 {i + 1}') for x in c['re']]}
+            if fx: o['fx'] = fx
+            ch.append(o)
+        if len(ch) < 2: sys.exit(f'AA_753 linesIf {w}：選項至少兩個')
+        fixm = m.get('mainLineFix')
+        if fixm and t['lines'][0] != fixm['new']: sys.exit(f'AA_753 linesIf {w}：主句第一句應該已經是更正後的「{fixm["new"]}」（AA_753_peishan_ladder_Y1S2_Y2S1.json@b59a8f9de），現在是「{t["lines"][0]}」')
+        li[0]['lines'] = list(m['lines']); li[0]['choices'] = ch
+    out['source'] += f'＋{PS753_LINESIF_FILE[0][:-5]}@{S}（沛珊 linesIf 五套）'
 if R630: out['source'] += f'＋AA_630@{R630["sha"]}（語彤 {sum(int(re.search(r"(\d+) 列", x).group(1)) for x in LOG630)} 列）'
 with open(OUT, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')

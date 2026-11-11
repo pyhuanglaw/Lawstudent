@@ -5802,12 +5802,18 @@
   },
   {
    "path": "docs/story_planning/AA_753_peishan_ladder_Y1S2_Y2S1.json",
-   "sha": "c5094495d",
+   "sha": "b59a8f9de",
    "status": "approved",
-   "approvedBy": "AA（D109、D149；BB_320 的修正已改）；LAWWW 2026-11-11 指定只認 c5094495d",
+   "approvedBy": "AA（D109、D149；BB_320 的修正已改）；LAWWW 2026-11-11 指定只認 c5094495d；b59a8f9de（AA 2026-11-11：P2-L3 主句第一句更正成「每個禮拜三」——課輔班每週三 18:00～21:00，AA_614；LAWWW 2026-11-11 指定改認這一版）",
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
-   "note": "X327 沛珊大一下 P2-L1～P2-L8、大二上 P3-L1～P3-L8＋招呼：只換 lines、choices（{t, re, fx}）和 greet（兩學期第 8、9 週那一則拿掉），id、if、friendOnly、順序、rel、mem 不動——tools/ladder/import_ladder.py 的 PS753_MORE 疊在 ladder_bb_y1s2／y2s1 的 classmate_peishan 上 → src/data/ladder.js。linesIf 五套（P2-L3、P3-L3／L4／L6／L8）稿沒有寫：舊的兩句和舊選項一起留著（linesIf[].choices），等 AA 補"
+   "note": "X327 沛珊大一下 P2-L1～P2-L8、大二上 P3-L1～P3-L8＋招呼：只換 lines、choices（{t, re, fx}）和 greet（兩學期第 8、9 週那一則拿掉），id、if、friendOnly、順序、rel、mem 不動——tools/ladder/import_ladder.py 的 PS753_MORE 疊在 ladder_bb_y1s2／y2s1 的 classmate_peishan 上 → src/data/ladder.js。linesIf 五套（P2-L3、P3-L3／L4／L6／L8）稿沒有寫：舊的兩句和舊選項一起留著（linesIf[].choices），等 AA 補",
+   "history": [
+    {
+     "sha": "c5094495d",
+     "note": "被 b59a8f9de 取代（AA 2026-11-11 更正 P2-L3 主句第一句：「一個禮拜兩天。」→「每個禮拜三。」；兩版只差這一句）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_753_peishan_ladder_Y3.json",
@@ -5889,6 +5895,15 @@
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
    "note": "X327 沛珊零散檔案第二批 24 列 old→new：①src/data/pg_dates.js 她每月一格 17 句裡的 12 句——tools/story/import_pg_dates.py 疊在 AA_367 第 6 節上；②手寫檔直接換：src/aa667_3d.js（出發前電話 jps／ups 9 句）、src/psresults3d.js（放榜那天 3 句；選項 b 不動）。條件、旗標、選項的字不動。逐字對稿 tests/peishan_dates_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_753_peishan_ladder_linesIf.json",
+   "sha": "b59a8f9de",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 補稿（D100b 稿就是定稿；使用者 X327 沛珊重寫）；LAWWW 2026-11-11 指定匯這一版",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊閒聊階梯五套 linesIf：P2-L3（SAW_HER_TEACH）、P3-L3／L4／L6／L8（演過 ev_peishan_decision）各一套 lines（兩句）＋choices（{t, re, fx}），條件照舊——tools/ladder/import_ladder.py 的 PS753_LINESIF_FILE 疊在那一層的 linesIf 上（取代先前留著的舊兩句、舊選項）→ src/data/ladder.js。P2-L3.mainLineFix 只是說明：那一句在 AA_753_peishan_ladder_Y1S2_Y2S1.json@b59a8f9de 已經改好"
   }
  ]
 }
