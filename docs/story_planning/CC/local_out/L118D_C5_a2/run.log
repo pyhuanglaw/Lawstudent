@@ -1,0 +1,139 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\L118D_C5_a2\docs\story_planning\test_tools\cc\cc_l118d_c_probe.py http://127.0.0.1:8804/index.html http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_C5_a2\out
+CC L118D_C（118 巷九間店改版：舊存檔相容）：MODE both；CASES 5；SHA a2dd74af1；A 2025-11-05、B 2025-11-06；約 heroine_01；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 改之前的版本載入
+  [  27.7s] [MAKE] 改之前的版本：版本 v9.10.24
+  [  27.7s] [日子] 2025-11-05＝第 50 天：{"key": "2025-11-05", "wd": 3, "kind": "term", "hol": null, "typhoon": false, "term": "Y1S1", "week": 10, "exam": null}
+PASS [日子] 2025-11-05 是學期中的上課日（不是假日、颱風天、考試週）  {"key": "2025-11-05", "wd": 3, "kind": "term", "hol": null, "typhoon": false, "term": "Y1S1", "week": 10, "exam": null}
+  [  27.8s] [日子] 2025-11-06＝第 51 天：{"key": "2025-11-06", "wd": 4, "kind": "term", "hol": null, "typhoon": false, "term": "Y1S1", "week": 10, "exam": null}
+PASS [日子] 2025-11-06 是學期中的上課日（不是假日、颱風天、考試週）  {"key": "2025-11-06", "wd": 4, "kind": "term", "hol": null, "typhoon": false, "term": "Y1S1", "week": 10, "exam": null}
+== case 5（改之前：做存檔）
+  [前置／捷徑] [MAKE 5a] 約 heroine_01 去慢讀念書（A 天 09:30）：day46 存檔 → lane118 (0.0, 0.0) 2025-11-05（第 50 天）09.50、錢 5000、邀約只留做完的、關條件事件
+PASS [MAKE 5a] 手機「朋友」有 heroine_01 的「約」
+PASS [MAKE 5a] 有可以選的時間（想要 ["明天 15:30", "今天 15:30"]）  ["選項：念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館｜吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜｜喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café｜看電影、逛書店…南洋戲院、頁間書屋、山嵐書店｜散步…溫州街、映月湖、一一八茶飲｜運動…新體育館羽球場、椰影大道、游泳池｜出去玩…你們現在是朋友。再多相處一陣子。｜算了", "選項：去 2:30 AM 念書｜去總圖一起念書｜去慢讀咖啡念書｜去法圖一起念書｜去木曜日念書｜去 afar café 念書｜去社科圖一起念書｜返回", "時間：今天 12:10｜今天 15:30｜明天 12:10｜明天 15:30｜其他日子…之後 7 天內選一天｜算了"]
+  [  55.3s] [MAKE 5a] 約的過程：["選項：念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館｜吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜｜喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café｜看電影、逛書店…南洋戲院、頁間書屋、山嵐書店｜散步…溫州街、映月湖、一一八茶飲｜運動…新體育館羽球場、椰影大道、游泳池｜出去玩…你們現在是朋友。再多相處一陣子。｜算了", "選項：去 2:30 AM 念書｜去總圖一起念書｜去慢讀咖啡念書｜去法圖一起念書｜去木曜日念書｜去 afar café 念書｜去社科圖一起念書｜返回", "時間：今天 12:10｜今天 15:30｜明天 12:10｜明天 15:30｜其他日子…之後 7 天內選一天｜算了", "好。", "約好 明天 15:30，慢讀咖啡。"]
+  [  57.2s] [MAKE 5a] 手機約完以後的新邀約：[{"id": "iv54", "who": "heroine_01", "place": "slowread", "zone": "l118_cafe2", "day": 51, "h": 15.5, "state": "accepted", "label": "和沈以安約在慢讀咖啡", "by": "player"}]
+PASS [MAKE 5a] 用手機真的約成了（accepted 第 51 天 15.5、keep）  {"id": "iv54", "who": "heroine_01", "place": "slowread", "zone": "l118_cafe2", "day": 51, "h": 15.5, "state": "accepted", "label": "和沈以安約在慢讀咖啡", "by": "player"}
+  [  57.5s] [MAKE 5a] 存了（quickSave；已經約了 heroine_01 慢讀念書 keep（第 51 天 15.5））：{"l118": {"n": {"cafe2": 1}, "d": {"cafe2": 29}, "last": {"cafe2": "今日蛋糕"}, "w": {}, "once": {}}, "mok": {"n": 2, "seats": {"16": 1}, "rain": {}, "chat": {"t": null, "k": 0}, "first": 43, "bh": 43, "last": 16}, "rank": null, "tea": null, "day": 50, "hour": 9.55, "money": 5000, "zone": "lane118", "x": 0, "z": 0, "lv": 0, "iv": {"id": "iv54", "who": "heroine_01", "place": "slowread", "zone": "l118_cafe2", "day": 51, "h": 15.5, "state": "accepted", "label": "和沈以安約在慢讀咖啡", "by": "player"}}
+PASS [MAKE 5a] 用遊戲的快速存檔存得起來（不是退回 snapshot）  quickSave
+  [前置／捷徑] [MAKE 5b] 約 heroine_01 去慢讀念書（A 天 09:30）：day46 存檔 → lane118 (0.0, 0.0) 2025-11-05（第 50 天）09.50、錢 5000、邀約只留做完的、關條件事件
+PASS [MAKE 5b] 手機「朋友」有 heroine_01 的「約」
+PASS [MAKE 5b] 有可以選的時間（想要 ["明天 12:10", "今天 12:10"]）  ["選項：念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館｜吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜｜喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café｜看電影、逛書店…南洋戲院、頁間書屋、山嵐書店｜散步…溫州街、映月湖、一一八茶飲｜運動…新體育館羽球場、椰影大道、游泳池｜出去玩…你們現在是朋友。再多相處一陣子。｜算了", "選項：去 2:30 AM 念書｜去總圖一起念書｜去慢讀咖啡念書｜去法圖一起念書｜去木曜日念書｜去 afar café 念書｜去社科圖一起念書｜返回", "時間：今天 12:10｜今天 15:30｜明天 12:10｜明天 15:30｜其他日子…之後 7 天內選一天｜算了"]
+  [  77.6s] [MAKE 5b] 約的過程：["選項：念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館｜吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜｜喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café｜看電影、逛書店…南洋戲院、頁間書屋、山嵐書店｜散步…溫州街、映月湖、一一八茶飲｜運動…新體育館羽球場、椰影大道、游泳池｜出去玩…你們現在是朋友。再多相處一陣子。｜算了", "選項：去 2:30 AM 念書｜去總圖一起念書｜去慢讀咖啡念書｜去法圖一起念書｜去木曜日念書｜去 afar café 念書｜去社科圖一起念書｜返回", "時間：今天 12:10｜今天 15:30｜明天 12:10｜明天 15:30｜其他日子…之後 7 天內選一天｜算了", "那時候我排了別的。明天三點半可以嗎？", "選項：好，就 明天 15:30｜下次再說", "約好 明天 15:30，慢讀咖啡。"]
+  [  79.4s] [MAKE 5b] 手機約完以後的新邀約：[{"id": "iv54", "who": "heroine_01", "place": "slowread", "zone": "l118_cafe2", "day": 51, "h": 15.5, "state": "accepted", "label": "和沈以安約在慢讀咖啡", "by": "player"}]
+  [前置／捷徑] [MAKE 5b]【捷徑】手機約成的是 keep（accepted 第 51 天 15.5），改成 cancel：h＝12.17、state＝accepted
+  [  79.7s] [MAKE 5b] 存了（quickSave；已經約了 heroine_01 慢讀念書 cancel（第 51 天 12.166666666666666））：{"l118": {"n": {"cafe2": 1}, "d": {"cafe2": 29}, "last": {"cafe2": "今日蛋糕"}, "w": {}, "once": {}}, "mok": {"n": 2, "seats": {"16": 1}, "rain": {}, "chat": {"t": null, "k": 0}, "first": 43, "bh": 43, "last": 16}, "rank": null, "tea": null, "day": 50, "hour": 9.56, "money": 5000, "zone": "lane118", "x": 0, "z": 0, "lv": 0, "iv": {"id": "iv54", "who": "heroine_01", "place": "slowread", "zone": "l118_cafe2", "day": 51, "h": 12.166666666666666, "state": "accepted", "label": "和沈以安約在慢讀咖啡", "by": "player"}}
+PASS [MAKE 5b] 用遊戲的快速存檔存得起來（不是退回 snapshot）  quickSave
+PASS [MAKE 5] 改之前的版本沒有 JS 例外  []
+  [  79.7s] [MAKE] 存檔 ["5a", "5b"] 寫在 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_C5_a2\out\saves
+PASS 改之後的版本載入
+  [  95.9s] [LOAD] 這個版本的 118 巷店家：{"dian": "118牛排", "self": "水上便當", "tea": "辛亥韓食", "home": "五湖四海", "cafe2": "大學食堂", "pasta": "義大麵屋", "korea": "清州刀削麵", "omu": "奈良咖哩", "noodle2": "迪倫窯烤披薩", "drink_a": "喝不喝咖啡", "drink_b": "果茶社"}
+== case 5（改之後：讀進來）
+PASS [LOAD 5] 有改之前做好的存檔（["5a", "5b"]）  ["5a", "5b"]
+  [  95.9s] [LOAD 5a] 存檔（改之前）：{"l118": {"n": {"cafe2": 1}, "d": {"cafe2": 29}, "last": {"cafe2": "今日蛋糕"}, "w": {}, "once": {}}, "mok": {"n": 2, "seats": {"16": 1}, "rain": {}, "chat": {"t": null, "k": 0}, "first": 43, "bh": 43, "last": 16}, "rank": null, "tea": null, "day": 50, "hour": 9.55, "money": 5000, "zone": "lane118", "x": 0, "z": 0, "lv": 0, "iv": {"id": "iv54", "who": "heroine_01", "place": "slowread", "zone": "l118_cafe2", "day": 51, "h": 15.5, "state": "accepted", "label": "和沈以安約在慢讀咖啡", "by": "player"}}
+  [ 122.1s] 讀進來以後等畫面可以玩：{"fade": false, "paused": false, "title": false, "phone": false, "dlg": false, "busy": false}；做了 []
+PASS [LOAD 5a] 讀進來以後再存一次存得起來（quickSave）
+  [ 122.3s] [DIFF 5a] 共 24 條有變（全部寫在 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_C5_a2\out\diff_5a.txt）；重點 11 條：
+    invites[21].label : 和陳語彤約在慢讀咖啡 → 和陳語彤約在木曜日
+    invites[21].zone : l118_cafe2 → wz_mokuyobi
+    invites[27].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+    invites[27].zone : l118_cafe2 → wz_mokuyobi
+    invites[52].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+    invites[52].zone : l118_cafe2 → wz_mokuyobi
+    l118.d.cafe2 : 29 → （沒有）
+    l118.last.cafe2 : 今日蛋糕 → （沒有）
+    l118.mv772 : （沒有） → 2
+    l118.n.cafe2 : 1 → （沒有）
+    mokuyobi.n : 2 → 3
+  [ 122.3s] [DIFF 5a] 其他有變的頂層欄位（新版補的預設、時間走了這類）：["eat", "flags", "hour", "savedAt"]
+  [ 122.4s] [LOAD 5a] 讀進來（改之後）：區域 lane118 (0, 0) lv 0、第 50 天 9.57、按鈕「」
+PASS [LOAD 5a] 標題「繼續」讀得進來、同一天（50）  {"ok": true, "day": 50}
+PASS [LOAD 5a] 區域是 lane118  {"zone": "lane118"}
+PASS [LOAD 5a] 站的格子可走（canStand r0.3；(0, 0) lv 0）  {"zone": "lane118", "x": 0, "z": 0, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 9.57}
+  [ 122.7s] [LOAD 5a] 舊 G.l118＝{"n": {"cafe2": 1}, "d": {"cafe2": 29}, "last": {"cafe2": "今日蛋糕"}, "w": {}, "once": {}}；舊 mokuyobi.n＝2；舊 ZHE_118_RANK＝None
+PASS [LOAD 5a] G.l118.n 照規格搬（期望 {}）  實際 {}
+PASS [LOAD 5a] G.l118.d 照規格搬（期望 {}）  實際 {}
+PASS [LOAD 5a] G.l118.last 照規格搬（期望 {}）  實際 {}
+PASS [LOAD 5a] G.l118.w 照規格搬（期望 {}）  實際 {}
+PASS [LOAD 5a] G.l118.once 照留  {"old": {}, "new": {}}
+PASS [LOAD 5a] 慢讀咖啡的次數併進木曜日 G.mokuyobi.n（期望 3＝舊 2＋慢讀 1）  實際 3
+PASS [LOAD 5a] G.l118.mv772＝2（搬過一次、不會再搬）  2
+PASS [LOAD 5a] ZHE_118_RANK（期望 None）  實際 None
+PASS [LOAD 5a] SIS_TEA_ORDER 保留（舊 None）  新 None
+PASS [LOAD 5a] slowread 邀約 iv22（舊：l118_cafe2 第 32 天 15.5 done）→ 區域 （不看）、狀態 done  {"zone": "wz_mokuyobi", "state": "done", "day": 32, "h": 15.5, "label": "和陳語彤約在木曜日"}
+PASS [LOAD 5a] slowread 邀約 iv28（舊：l118_cafe2 第 37 天 15.5 done）→ 區域 （不看）、狀態 done  {"zone": "wz_mokuyobi", "state": "done", "day": 37, "h": 15.5, "label": "和沈以安約在木曜日"}
+PASS [LOAD 5a] slowread 邀約 iv54（舊：l118_cafe2 第 51 天 15.5 accepted）→ 區域 wz_mokuyobi、狀態 accepted  {"zone": "wz_mokuyobi", "state": "accepted", "day": 51, "h": 15.5, "label": "和沈以安約在木曜日"}
+PASS [LOAD 5a] 邀約 iv54 的標題沒有舊店名（和沈以安約在木曜日）
+PASS [LOAD 5a] 讀進來的畫面：畫面文字、互動按鈕、區域名稱沒有舊店名  {"old": [], "zone": "118 巷", "its": ["118牛排（夜市鐵板牛排）", "水上便當（雞腿、雞排便當）", "辛亥韓食（韓式鍋物、鐵板烤肉）", "五湖四海（水餃店）", "大學食堂（秤重自助餐）", "義大麵屋（平價義大利麵）", "清州刀削麵（刀削麵館）", "奈良咖哩（日式咖哩飯）", "迪倫窯烤披薩（個人窯烤披薩）", "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））", "果茶社（鮮果茶與多多系列（外帶））", "回到首都帝大（後門）"]}
+PASS [LOAD 5a] 讀進來的畫面：畫面文字、互動按鈕沒有 undefined  {"zone": "118 巷", "its": []}
+  [ 122.8s] [LOAD 5a] 附近的互動：[{"label": "奈良咖哩（日式咖哩飯）", "d": 4.55, "r": 1.4, "shop": "omu", "exit": null}, {"label": "五湖四海（水餃店）", "d": 4.74, "r": 1.4, "shop": "home", "exit": null}, {"label": "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））", "d": 6.22, "r": 1.4, "shop": "drink_a", "exit": null}, {"label": "果茶社（鮮果茶與多多系列（外帶））", "d": 8.65, "r": 1.4, "shop": "drink_b", "exit": null}, {"label": "迪倫窯烤披薩（個人窯烤披薩）", "d": 11.35, "r": 1.4, "shop": "noodle2", "exit": null}]
+  [ 122.8s] [LOAD 5a] 讀進來的那一格：E.unstick 被叫 2 次 [{"who": "player", "at": [-40, -5], "moved": false}, {"who": "player", "at": [0, 0], "moved": false}]、walkFallbacks 0、canStand {"0.2": true, "0.25": true, "0.3": true, "0.33": true, "0.4": true}
+PASS [LOAD 5a] 搖桿推得動 10.75 m（≥0.3，人不卡牆）
+PASS [LOAD 5a] 有改去木曜日的那一筆  [{"old": {"id": "iv22", "who": "heroine_03", "place": "slowread", "zone": "l118_cafe2", "day": 32, "h": 15.5, "state": "done", "accepted": true, "by": "player", "now": false, "label": "和陳語彤約在慢讀咖啡", "kxd": 1, "rem": 1, "goAsked": 1, "waitSeat": null, "_wd": 6}, "new": {"id": "iv22", "who": "heroine_03", "place": "slowread", "zone": "wz_mokuyobi", "day": 32, "h": 15.5, "state": "done", "accepted": true, "by": "player", "now": false, "label": "和陳語彤約在木曜日", "kxd": 1, "rem": 1, "goAsked": 1, "waitSeat": null}, "exp": {"zone": null, "state": "done"}}, {"old": {"id": "iv28", "who": "heroine_01", "place": "slowread", "zone": "l118_cafe2", "day": 37, "h": 15.5, "state": "done", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在慢讀咖啡", "kxd": 1, "rem": 1, "goAsked": 1, "waitSeat": null, "opened": 1, "_wd": 4}, "new": {"id": "iv28", "who": "heroine_01", "place": "slowread", "zone": "wz_mokuyobi", "day": 37, "h": 15.5, "state": "done", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在木曜日", "kxd": 1, "rem": 1, "goAsked": 1, "waitSeat": null, "opened": 1}, "exp": {"zone": null, "state": "done"}}, {"old": {"id": "iv54", "who": "heroine_01", "place": "slowread", "zone": "l118_cafe2", "day": 51, "h": 15.5, "state": "accepted", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在慢讀咖啡", "cat": "study", "kxd": 1, "_wd": 4}, "new": {"id": "iv54", "who": "heroine_01", "place": "slowread", "zone": "wz_mokuyobi", "day": 51, "h": 15.5, "state": "accepted", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在木曜日", "cat": "study", "kxd": 1}, "exp": {"zone": "wz_mokuyobi", "state": "accepted"}}]
+  [前置／捷徑] [LOAD 5a]【捷徑】撥到約好的前 10 分鐘（G.day、G.weekday、G.hour 直接改）：{"day": 51, "wd": 4, "hour": 15.33}
+  [ 144.9s] [LOAD 5a] 手機「今天」：今天約好的／15:30　和沈以安約在木曜日／前往／11/6 週四・大一上 第 10 週／現在 15:20／今天的時間　上午 ○　下午 ○　晚上 ○／每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；約好的見面也算一件（約好的照樣能去）；吃飯、聊天不算。／09:10–12:10 大一英文（上）／共同教學館 102・英文老師・沒去／13:20–15:10 民法總則／法律系館A 201・周老師・沒去／法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00／跳過時間／沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會
+PASS [LOAD 5a] 手機「今天」沒有舊店名
+PASS [LOAD 5a] 手機「今天」有那一筆的「前往」
+  [ 446.9s] [LOAD 5a] 見面過程：["選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去", "選項：直接過去：和沈以安約在木曜日（15:30）照快速前往的路程時間｜自己走過去"]
+FAIL [LOAD 5a] 按前往到了木曜日（wz_mokuyobi）  {"zone": "lane118", "x": 0, "z": -10.746, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": false, "choices": ["直接過去：和沈以安約在木曜日（15:30）\n照快速前往的路程時間", "自己走過去"], "interact": "", "stand": true, "fb": 0, "hour": 15.33}
+FAIL [LOAD 5a] 見面演完（邀約 state＝done）  {"st": "accepted", "ph": null, "zone": "wz_mokuyobi"}
+PASS [LOAD 5a] 沒有 JS 例外  []
+  [ 447.0s] [LOAD 5b] 存檔（改之前）：{"l118": {"n": {"cafe2": 1}, "d": {"cafe2": 29}, "last": {"cafe2": "今日蛋糕"}, "w": {}, "once": {}}, "mok": {"n": 2, "seats": {"16": 1}, "rain": {}, "chat": {"t": null, "k": 0}, "first": 43, "bh": 43, "last": 16}, "rank": null, "tea": null, "day": 50, "hour": 9.56, "money": 5000, "zone": "lane118", "x": 0, "z": 0, "lv": 0, "iv": {"id": "iv54", "who": "heroine_01", "place": "slowread", "zone": "l118_cafe2", "day": 51, "h": 12.166666666666666, "state": "accepted", "label": "和沈以安約在慢讀咖啡", "by": "player"}}
+  [ 470.0s] 讀進來以後等畫面可以玩：{"fade": false, "paused": false, "title": false, "phone": false, "dlg": false, "busy": false}；做了 []
+PASS [LOAD 5b] 讀進來以後再存一次存得起來（quickSave）
+  [ 470.3s] [DIFF 5b] 共 906 條有變（全部寫在 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_C5_a2\out\diff_5b.txt）；重點 12 條：
+    invites[21].label : 和陳語彤約在慢讀咖啡 → 和陳語彤約在木曜日
+    invites[21].zone : l118_cafe2 → wz_mokuyobi
+    invites[27].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+    invites[27].zone : l118_cafe2 → wz_mokuyobi
+    invites[52].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+    invites[52].state : accepted → cancelled
+    invites[52].zone : l118_cafe2 → wz_mokuyobi
+    l118.d.cafe2 : 29 → （沒有）
+    l118.last.cafe2 : 今日蛋糕 → （沒有）
+    l118.mv772 : （沒有） → 2
+    l118.n.cafe2 : 1 → （沒有）
+    mokuyobi.n : 2 → 3
+  [ 470.3s] [DIFF 5b] 其他有變的頂層欄位（新版補的預設、時間走了這類）：["courses", "eat", "flags", "goal", "goalDest", "hour", "msgs", "savedAt"]
+  [ 470.3s] [LOAD 5b] 讀進來（改之後）：區域 lane118 (0, 0) lv 0、第 50 天 9.58、按鈕「」
+PASS [LOAD 5b] 標題「繼續」讀得進來、同一天（50）  {"ok": true, "day": 50}
+PASS [LOAD 5b] 區域是 lane118  {"zone": "lane118"}
+PASS [LOAD 5b] 站的格子可走（canStand r0.3；(0, 0) lv 0）  {"zone": "lane118", "x": 0, "z": 0, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 9.58}
+  [ 470.6s] [LOAD 5b] 舊 G.l118＝{"n": {"cafe2": 1}, "d": {"cafe2": 29}, "last": {"cafe2": "今日蛋糕"}, "w": {}, "once": {}}；舊 mokuyobi.n＝2；舊 ZHE_118_RANK＝None
+PASS [LOAD 5b] G.l118.n 照規格搬（期望 {}）  實際 {}
+PASS [LOAD 5b] G.l118.d 照規格搬（期望 {}）  實際 {}
+PASS [LOAD 5b] G.l118.last 照規格搬（期望 {}）  實際 {}
+PASS [LOAD 5b] G.l118.w 照規格搬（期望 {}）  實際 {}
+PASS [LOAD 5b] G.l118.once 照留  {"old": {}, "new": {}}
+PASS [LOAD 5b] 慢讀咖啡的次數併進木曜日 G.mokuyobi.n（期望 3＝舊 2＋慢讀 1）  實際 3
+PASS [LOAD 5b] G.l118.mv772＝2（搬過一次、不會再搬）  2
+PASS [LOAD 5b] ZHE_118_RANK（期望 None）  實際 None
+PASS [LOAD 5b] SIS_TEA_ORDER 保留（舊 None）  新 None
+PASS [LOAD 5b] slowread 邀約 iv22（舊：l118_cafe2 第 32 天 15.5 done）→ 區域 （不看）、狀態 done  {"zone": "wz_mokuyobi", "state": "done", "day": 32, "h": 15.5, "label": "和陳語彤約在木曜日"}
+PASS [LOAD 5b] slowread 邀約 iv28（舊：l118_cafe2 第 37 天 15.5 done）→ 區域 （不看）、狀態 done  {"zone": "wz_mokuyobi", "state": "done", "day": 37, "h": 15.5, "label": "和沈以安約在木曜日"}
+PASS [LOAD 5b] slowread 邀約 iv54（舊：l118_cafe2 第 51 天 12.166666666666666 accepted）→ 區域 wz_mokuyobi、狀態 cancelled  {"zone": "wz_mokuyobi", "state": "cancelled", "day": 51, "h": 12.166666666666666, "label": "和沈以安約在木曜日"}
+PASS [LOAD 5b] 邀約 iv54 的標題沒有舊店名（和沈以安約在木曜日）
+PASS [LOAD 5b] 讀進來的畫面：畫面文字、互動按鈕、區域名稱沒有舊店名  {"old": [], "zone": "118 巷", "its": ["118牛排（夜市鐵板牛排）", "水上便當（雞腿、雞排便當）", "辛亥韓食（韓式鍋物、鐵板烤肉）", "五湖四海（水餃店）", "大學食堂（秤重自助餐）", "義大麵屋（平價義大利麵）", "清州刀削麵（刀削麵館）", "奈良咖哩（日式咖哩飯）", "迪倫窯烤披薩（個人窯烤披薩）", "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））", "果茶社（鮮果茶與多多系列（外帶））", "回到首都帝大（後門）"]}
+PASS [LOAD 5b] 讀進來的畫面：畫面文字、互動按鈕沒有 undefined  {"zone": "118 巷", "its": []}
+  [ 470.7s] [LOAD 5b] 附近的互動：[{"label": "奈良咖哩（日式咖哩飯）", "d": 4.55, "r": 1.4, "shop": "omu", "exit": null}, {"label": "五湖四海（水餃店）", "d": 4.74, "r": 1.4, "shop": "home", "exit": null}, {"label": "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））", "d": 6.22, "r": 1.4, "shop": "drink_a", "exit": null}, {"label": "果茶社（鮮果茶與多多系列（外帶））", "d": 8.65, "r": 1.4, "shop": "drink_b", "exit": null}, {"label": "迪倫窯烤披薩（個人窯烤披薩）", "d": 11.35, "r": 1.4, "shop": "noodle2", "exit": null}]
+  [ 470.7s] [LOAD 5b] 讀進來的那一格：E.unstick 被叫 2 次 [{"who": "player", "at": [-40, -5], "moved": false}, {"who": "player", "at": [0, 0], "moved": false}]、walkFallbacks 0、canStand {"0.2": true, "0.25": true, "0.3": true, "0.33": true, "0.4": true}
+PASS [LOAD 5b] 搖桿推得動 10.75 m（≥0.3，人不卡牆）
+PASS [LOAD 5b] 有被取消的那一筆  [{"old": {"id": "iv22", "who": "heroine_03", "place": "slowread", "zone": "l118_cafe2", "day": 32, "h": 15.5, "state": "done", "accepted": true, "by": "player", "now": false, "label": "和陳語彤約在慢讀咖啡", "kxd": 1, "rem": 1, "goAsked": 1, "waitSeat": null, "_wd": 6}, "new": {"id": "iv22", "who": "heroine_03", "place": "slowread", "zone": "wz_mokuyobi", "day": 32, "h": 15.5, "state": "done", "accepted": true, "by": "player", "now": false, "label": "和陳語彤約在木曜日", "kxd": 1, "rem": 1, "goAsked": 1, "waitSeat": null}, "exp": {"zone": null, "state": "done"}}, {"old": {"id": "iv28", "who": "heroine_01", "place": "slowread", "zone": "l118_cafe2", "day": 37, "h": 15.5, "state": "done", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在慢讀咖啡", "kxd": 1, "rem": 1, "goAsked": 1, "waitSeat": null, "opened": 1, "_wd": 4}, "new": {"id": "iv28", "who": "heroine_01", "place": "slowread", "zone": "wz_mokuyobi", "day": 37, "h": 15.5, "state": "done", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在木曜日", "kxd": 1, "rem": 1, "goAsked": 1, "waitSeat": null, "opened": 1}, "exp": {"zone": null, "state": "done"}}, {"old": {"id": "iv54", "who": "heroine_01", "place": "slowread", "zone": "l118_cafe2", "day": 51, "h": 12.166666666666666, "state": "accepted", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在慢讀咖啡", "cat": "study", "kxd": 1, "_wd": 4}, "new": {"id": "iv54", "who": "heroine_01", "place": "slowread", "zone": "wz_mokuyobi", "day": 51, "h": 12.166666666666666, "state": "cancelled", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在木曜日", "cat": "study", "kxd": 1}, "exp": {"zone": "wz_mokuyobi", "state": "cancelled"}}]
+  [ 473.7s] [LOAD 5b] 【觀察】讀檔以後出現過的 toast：["已讀取", "已快速存檔：11/5 09:34（選單 → 存檔 →「快速存檔」讀取）"]
+  [ 473.7s] [LOAD 5b] 【觀察】讀檔以後點過的對話／選項：[]
+  [ 473.7s] [LOAD 5b] 【觀察】G.msgs 裡和這一筆（["iv54"]）有關的訊息：[{"day": 37, "h": 16.96, "who": "heroine_01", "text": "和沈以安在慢讀咖啡。", "iv": "iv28"}, {"day": 44, "h": 13.23, "who": "heroine_01", "text": "約好了：今天 15:30，木曜日（沈以安）。", "iv": "iv47"}, {"day": 44, "h": 16.52, "who": "heroine_01", "text": "和沈以安在木曜日。", "iv": "iv47"}, {"day": 44, "h": 16.53, "who": "heroine_01", "text": "約好了：今天 16:32，木曜日（沈以安）。", "iv": "iv48"}, {"day": 44, "h": 17.53, "who": "heroine_01", "text": "和沈以安在木曜日。", "iv": "iv48"}, {"day": 50, "h": 9.54, "who": "heroine_01", "text": "約好了：明天 15:30，慢讀咖啡（沈以安）。", "iv": "iv54"}]
+  [ 475.6s] [LOAD 5b] 【觀察】手機「訊息」頁全文：傳訊息給（點名字打開對話）小安林芷若（Café）陳語彤溫書瑀（直屬）沛珊可昕阿哲芯慈阿凱★溫書瑀（直屬）和溫書瑀在2:30 AM。10/23小安約好了：明天 15:30，慢讀咖啡（沈以安）。09:3220沛珊……你覺得我要怎麼回他？昨天9待回覆通通知（群組：電影課小組）筱涵：今天拍了一段走廊。你的部分我們先空著。昨天3群法律系（全班）小安：……可以。11/39芯慈和芯慈在日常失速。10/314可昕不好。10/30群桌遊團阿哲：結果我剛剛在總圖門口看到他的腳踏車10/282陳語彤和陳語彤在新體育館羽球場。10/2810群家人媽媽：好 玩得開心10/23林芷若（Café）他說對10/19群經原分組報告你：好。我上台，妳剪片。10/17賴宥辰加了賴宥辰的聯絡方式。10/16群法律系直屬家族溫學姊：有。三分十二秒。10/11阿哲你：去。10/1有聯絡方式的朋友，在「朋友」按「約」就可以約；當面遇到也可以約。
+  [ 476.4s] [LOAD 5b] 【觀察】手機「今天」頁全文：11/5 週三・大一上 第 10 週現在 09:36今天的時間　上午 ○　下午 ○　晚上 ○每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；約好的見面也算一件（約好的照樣能去）；吃飯、聊天不算。09:10–12:10 刑法總則（一）法律系館A 201・吳老師・已經開始超過 15 分鐘（進去會記缺席）去聽後半堂（記缺席）13:20–15:10 服務學習（一）法律學院圖書館 櫃台・館員・還沒開始直接去上課法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00跳過時間沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。等到中午（12:00）等到下午（14:00）等到傍晚（17:30）等到晚上（20:00）翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。
+  [ 478.3s] [LOAD 5b] 【觀察】玩家有沒有被告知取消：沒有看到；有沒有說要去哪裡約（木曜日）：有
+  [ 478.4s] [LOAD 5b] 這份存檔去過木曜日（G.visited.wz_mokuyobi＝True；新版約念書的木曜日要自己去過一次才列）
+PASS [LOAD 5b] 再約 手機「朋友」有 heroine_01 的「約」
+PASS [LOAD 5b] 再約 有可以選的時間（想要 ["今天 15:30", "明天 15:30", "今天 19:00", "明天 19:00"]）  ["選項：念書…2:30 AM、總圖、木曜日、法律學院圖書館、afar café、社科院圖書館｜吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、辛亥韓食、五湖四海、大學食堂｜喝咖啡、喝茶…2:30 AM、一盞、木曜日、日常失速、afar café｜看電影、逛書店…南洋戲院、頁間書屋、山嵐書店｜散步…溫州街、映月湖、喝不喝咖啡、果茶社｜運動…新體育館羽球場、椰影大道、游泳池｜出去玩…你們現在是朋友。再多相處一陣子。｜算了", "選項：去 2:30 AM 念書｜去總圖一起念書｜去木曜日念書｜去法圖一起念書｜去 afar café 念書｜去社科圖一起念書｜返回", "時間：今天 15:30｜今天 19:00｜明天 15:30｜明天 19:00｜其他日子…之後 7 天內選一天｜算了"]
+  [ 488.7s] [LOAD 5b] 再約 約的過程：["選項：念書…2:30 AM、總圖、木曜日、法律學院圖書館、afar café、社科院圖書館｜吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、辛亥韓食、五湖四海、大學食堂｜喝咖啡、喝茶…2:30 AM、一盞、木曜日、日常失速、afar café｜看電影、逛書店…南洋戲院、頁間書屋、山嵐書店｜散步…溫州街、映月湖、喝不喝咖啡、果茶社｜運動…新體育館羽球場、椰影大道、游泳池｜出去玩…你們現在是朋友。再多相處一陣子。｜算了", "選項：去 2:30 AM 念書｜去總圖一起念書｜去木曜日念書｜去法圖一起念書｜去 afar café 念書｜去社科圖一起念書｜返回", "時間：今天 15:30｜今天 19:00｜明天 15:30｜明天 19:00｜其他日子…之後 7 天內選一天｜算了", "好。", "約好 今天 15:30，木曜日。"]
+  [ 490.5s] [LOAD 5b] 再約 手機約完以後的新邀約：[{"id": "iv55", "who": "heroine_01", "place": "slowread", "zone": "wz_mokuyobi", "day": 50, "h": 15.5, "state": "accepted", "label": "和沈以安約在木曜日", "by": "player"}]
+PASS [LOAD 5b] 再約以後的畫面：畫面文字、互動按鈕、區域名稱沒有舊店名  {"old": [], "zone": "118 巷", "its": ["118牛排（夜市鐵板牛排）", "水上便當（雞腿、雞排便當）", "辛亥韓食（韓式鍋物、鐵板烤肉）", "五湖四海（水餃店）", "大學食堂（秤重自助餐）", "義大麵屋（平價義大利麵）", "清州刀削麵（刀削麵館）", "奈良咖哩（日式咖哩飯）", "迪倫窯烤披薩（個人窯烤披薩）", "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））", "果茶社（鮮果茶與多多系列（外帶））", "回到首都帝大（後門）"]}
+PASS [LOAD 5b] 再約以後的畫面：畫面文字、互動按鈕沒有 undefined  {"zone": "118 巷", "its": []}
+PASS [LOAD 5b] 取消以後可以再約木曜日（新的一筆 place slowread、zone wz_mokuyobi、state accepted／offered／changed）  {"id": "iv55", "who": "heroine_01", "place": "slowread", "zone": "wz_mokuyobi", "day": 50, "h": 15.5, "state": "accepted", "label": "和沈以安約在木曜日", "by": "player"}
+  [前置／捷徑] [LOAD 5b] 沒去過木曜日【捷徑】刪掉 G.visited.wz_mokuyobi（原本 True）＝沒去過木曜日的版本
+FAIL [LOAD 5b] 沒去過木曜日 手機「朋友」有 heroine_01 的「約」
+PASS [LOAD 5b] 沒有 JS 例外  []
+FAILED 3: [LOAD 5a] 按前往到了木曜日（wz_mokuyobi）；[LOAD 5a] 見面演完（邀約 state＝done）；[LOAD 5b] 沒去過木曜日 手機「朋友」有 heroine_01 的「約」

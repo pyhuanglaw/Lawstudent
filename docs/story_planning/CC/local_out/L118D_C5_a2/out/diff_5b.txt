@@ -1,0 +1,921 @@
+# L118D_C case 5b：改之前存的 → 改之後讀進來馬上再存的（遞迴比對，只列有變的路徑；共 906 條）
+## 重點（l118、mokuyobi、相關旗標、pos、zone、slowread 邀約）
+invites[21].label : 和陳語彤約在慢讀咖啡 → 和陳語彤約在木曜日
+invites[21].zone : l118_cafe2 → wz_mokuyobi
+invites[27].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+invites[27].zone : l118_cafe2 → wz_mokuyobi
+invites[52].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+invites[52].state : accepted → cancelled
+invites[52].zone : l118_cafe2 → wz_mokuyobi
+l118.d.cafe2 : 29 → （沒有）
+l118.last.cafe2 : 今日蛋糕 → （沒有）
+l118.mv772 : （沒有） → 2
+l118.n.cafe2 : 1 → （沒有）
+mokuyobi.n : 2 → 3
+## 全部
+courses.note.skip_49:chinese_y1:am : （沒有） → 1
+courses.note.skip_49:ge_film_y1s1:pm1 : （沒有） → 1
+courses.note.skipn_chinese_y1_Y1S1 : 2 → 3
+courses.note.skipn_ge_film_y1s1_Y1S1 : 3 → 4
+eat.last.Pasta 118 : 青醬培根麵 → （沒有）
+eat.last.一一八茶飲 : 無糖綠茶 → （沒有）
+eat.last.慢讀咖啡 : 今日蛋糕 → （沒有）
+eat.n.Pasta 118 : 1 → （沒有）
+eat.n.一一八茶飲 : 1 → （沒有）
+eat.n.喝不喝咖啡 : （沒有） → 1
+eat.n.慢讀咖啡 : 1 → （沒有）
+eat.n.木曜日 : （沒有） → 1
+eat.n.義大麵屋 : （沒有） → 1
+flags._autoAsk[16] : （沒有） → 老師還是改了，最後寫了一行：「為什麼不修？」
+flags._autoAsk[17] : （沒有） → ……你覺得我要怎麼回他？
+flags.clsGoal : 今天沒有課。自由活動：去圖書館、公館，或找人聊天 → 今天的課：09:10 刑法總則（一）、13:20 服務學習（一）。上課、讀書或自由活動都可以
+goal : 今天沒有課。自由活動：去圖書館、公館，或找人聊天 → 今天的課：09:10 刑法總則（一）、13:20 服務學習（一）。上課、讀書或自由活動都可以
+goalDest : null → {"zone": "classroom", "name": "法律系館A 201"}
+hour : 9.556 → 9.583
+invites[21].label : 和陳語彤約在慢讀咖啡 → 和陳語彤約在木曜日
+invites[21].zone : l118_cafe2 → wz_mokuyobi
+invites[27].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+invites[27].zone : l118_cafe2 → wz_mokuyobi
+invites[52].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+invites[52].state : accepted → cancelled
+invites[52].zone : l118_cafe2 → wz_mokuyobi
+l118.d.cafe2 : 29 → （沒有）
+l118.last.cafe2 : 今日蛋糕 → （沒有）
+l118.mv772 : （沒有） → 2
+l118.n.cafe2 : 1 → （沒有）
+mokuyobi.n : 2 → 3
+msgs[0].h : 16.6 → 16.68
+msgs[0].iv : iv12 → iv13
+msgs[0].text : 和郭沛珊在兩點半 Café。 → 和沈以安一起去阿鳳麵店吃飯。
+msgs[0].who : classmate_peishan → heroine_01
+msgs[1].h : 16.68 → 17.16
+msgs[1].text : 和沈以安一起去阿鳳麵店吃飯。 → 和沈以安一起去阿鳳麵店的事，後來作罷了。
+msgs[2].ans : （沒有） → 0
+msgs[2].ask : （沒有） → {"until": 447, "opts": [{"t": "去。", "set": {"BBQ_YES": true}}, {"t": "這次不行。", "set": {"BBQ_NO": true}}], "id": "a4"}
+msgs[2].day : 14 → 15
+msgs[2].from : （沒有） → zhe
+msgs[2].h : 17.16 → 21
+msgs[2].iv : iv13 → null
+msgs[2].tag : （沒有） → bbq_ask
+msgs[2].text : 和沈以安一起去阿鳳麵店的事，後來作罷了。 → 週六中秋烤肉。河濱，下午三點。
+msgs[2].th : （沒有） → p:zhe
+msgs[2].who : heroine_01 → zhe
+msgs[3].ans : 0 → （沒有）
+msgs[3].ask : {"until": 447, "opts": [{"t": "去。", "set": {"BBQ_YES": true}}, {"t": "這次不行。", "set": {"BBQ_NO": true}}], "id": "a4"} → （沒有）
+msgs[3].from : zhe → player
+msgs[3].tag : bbq_ask → （沒有）
+msgs[3].text : 週六中秋烤肉。河濱，下午三點。 → 去。
+msgs[3].who : zhe → null
+msgs[4].day : 15 → 16
+msgs[4].from : player → zhe
+msgs[4].h : 21 → 17.5
+msgs[4].tag : （沒有） → rt_zhe_ndl_16
+msgs[4].text : 去。 → 麵店 我揪了
+msgs[4].th : p:zhe → g:noodle_team
+msgs[5].ask : （沒有） → {"id": "home_ask_16", "until": 406, "k": "moon", "opts": [{"t": "會回去", "say": [{"from": "mom", "name": "媽媽", "text": "好 我多買一盒"}]}, {"t": "這週不回", "say": [{"from": "mom", "name": "媽媽", "text": "好 月餅冰起來"}]}]}
+msgs[5].from : zhe → mom
+msgs[5].h : 17.5 → 20
+msgs[5].name : （沒有） → 媽媽
+msgs[5].tag : rt_zhe_ndl_16 → home_ask_16
+msgs[5].text : 麵店 我揪了 → 中秋回來嗎 月餅買好了
+msgs[5].th : g:noodle_team → g:home
+msgs[6].ask : {"id": "home_ask_16", "until": 406, "k": "moon", "opts": [{"t": "會回去", "say": [{"from": "mom", "name": "媽媽", "text": "好 我多買一盒"}]}, {"t": "這週不回", "say": [{"from": "mom", "name": "媽媽", "text": "好 月餅冰起來"}]}]} → （沒有）
+msgs[6].from : mom → dad
+msgs[6].h : 20 → 22
+msgs[6].name : 媽媽 → 爸爸
+msgs[6].tag : home_ask_16 → home_ask_16_dad
+msgs[6].text : 中秋回來嗎 月餅買好了 → ？
+msgs[7].from : dad → classmate_peishan
+msgs[7].h : 22 → 23.33
+msgs[7].name : 爸爸 → （沒有）
+msgs[7].tag : home_ask_16_dad → dp_ps_f_0_0
+msgs[7].text : ？ → 📷（一頁書，劃了一行線）
+msgs[7].th : g:home → p:classmate_peishan
+msgs[7].who : null → classmate_peishan
+msgs[8].h : 23.33 → 23.35
+msgs[8].tag : dp_ps_f_0_0 → dp_ps_f_0_1
+msgs[8].text : 📷（一頁書，劃了一行線） → 這行讓我想到讀書會那題
+msgs[9].h : 23.35 → 23.37
+msgs[9].tag : dp_ps_f_0_1 → dp_ps_f_0_2
+msgs[9].text : 這行讓我想到讀書會那題 → 你不用回喔
+msgs[10].ans : （沒有） → 0
+msgs[10].ask : （沒有） → {"until": 447, "opts": [{"t": "來我們這邊。", "set": {"KX_BBQ_COME": true}}, {"t": "妳去妳們系的。", "set": {"KX_BBQ_NO": true}}], "id": "a6"}
+msgs[10].day : 16 → 17
+msgs[10].from : classmate_peishan → kexin
+msgs[10].h : 23.37 → 20
+msgs[10].tag : dp_ps_f_0_2 → kx_bbq_ask
+msgs[10].text : 你不用回喔 → 我們系也有烤肉。……你們的比較好玩嗎？
+msgs[10].th : p:classmate_peishan → p:kexin
+msgs[10].who : classmate_peishan → kexin
+msgs[11].ans : 0 → （沒有）
+msgs[11].ask : {"until": 447, "opts": [{"t": "來我們這邊。", "set": {"KX_BBQ_COME": true}}, {"t": "妳去妳們系的。", "set": {"KX_BBQ_NO": true}}], "id": "a6"} → （沒有）
+msgs[11].from : kexin → player
+msgs[11].tag : kx_bbq_ask → （沒有）
+msgs[11].text : 我們系也有烤肉。……你們的比較好玩嗎？ → 來我們這邊。
+msgs[11].who : kexin → null
+msgs[12].day : 17 → 18
+msgs[12].from : player → kevin
+msgs[12].h : 20 → 21.3
+msgs[12].name : （沒有） → Kevin
+msgs[12].tag : （沒有） → dp_kevin_video_2_0
+msgs[12].text : 來我們這邊。 → 📹（Kevin 自己煎荷包蛋，蛋黃破了。「第三次了」）
+msgs[12].th : p:kexin → g:family_law
+msgs[13].from : kevin → heroine_05
+msgs[13].name : Kevin → 溫學姊
+msgs[13].tag : dp_kevin_video_2_0 → dp_kevin_video_2_1
+msgs[13].text : 📹（Kevin 自己煎荷包蛋，蛋黃破了。「第三次了」） → 收到。
+msgs[14].day : 18 → 20
+msgs[14].from : heroine_05 → zhe
+msgs[14].h : 21.3 → 12
+msgs[14].name : 溫學姊 → （沒有）
+msgs[14].tag : dp_kevin_video_2_1 → l118_lunch_20
+msgs[14].text : 收到。 → 欸 我找到了
+msgs[14].th : g:family_law → g:noodle_team
+msgs[15].text : 欸 我找到了 → 後門出去 過辛亥路那條巷子
+msgs[16].text : 後門出去 過辛亥路那條巷子 → 118 巷 整條都是吃的
+msgs[17].ans : （沒有） → 0
+msgs[17].ask : （沒有） → {"id": "l118_lunch_20", "until": 493.5, "opts": [{"t": "走。", "set": {"L118_PICK": "20:noodle2"}, "say": [{"th": "g:noodle_team", "from": "zhe", "text": "後門見"}]}, {"t": "今天不行。", "say": [{"th": "g:noodle_team", "from": "zhe", "text": "好喔 下次"}]}]}
+msgs[17].from : zhe → yu
+msgs[17].text : 118 巷 整條都是吃的 → 我要去！！
+msgs[18].ans : 0 → （沒有）
+msgs[18].ask : {"id": "l118_lunch_20", "until": 493.5, "opts": [{"t": "走。", "set": {"L118_PICK": "20:noodle2"}, "say": [{"th": "g:noodle_team", "from": "zhe", "text": "後門見"}]}, {"t": "今天不行。", "say": [{"th": "g:noodle_team", "from": "zhe", "text": "好喔 下次"}]}]} → （沒有）
+msgs[18].from : yu → player
+msgs[18].tag : l118_lunch_20 → （沒有）
+msgs[18].text : 我要去！！ → 走。
+msgs[19].from : player → zhe
+msgs[19].text : 走。 → 後門見
+msgs[20].from : zhe → mom
+msgs[20].h : 12 → 18
+msgs[20].name : （沒有） → 媽媽
+msgs[20].tag : （沒有） → home_moon_20
+msgs[20].text : 後門見 → 📷（桌上一盒月餅，切開了一個）
+msgs[20].th : g:noodle_team → g:home
+msgs[21].text : 📷（桌上一盒月餅，切開了一個） → 蛋黃的 留給你
+msgs[22].from : mom → dad
+msgs[22].h : 18 → 21
+msgs[22].name : 媽媽 → 爸爸
+msgs[22].tag : home_moon_20 → home_moon_dad_20
+msgs[22].text : 蛋黃的 留給你 → 📷（上海的月亮，前面一棟很高的樓）
+msgs[23].ans : （沒有） → 0
+msgs[23].ask : （沒有） → {"opts": [{"t": "好，我開車過去。", "set": {"KX_YULE": "yes"}}, {"t": "我明天七點有事，晚一點可以嗎？", "set": {"KX_YULE": "late"}, "say": [{"from": "kexin", "text": "那九點？你來吃第二輪。"}]}, {"t": "這週不行，下週換我請。", "set": {"KX_YULE": "no"}, "say": [{"from": "kexin", "text": "好，那下週換你請。"}]}], "id": "a8"}
+msgs[23].day : 20 → 21
+msgs[23].from : dad → kexin
+msgs[23].h : 21 → 15.5
+msgs[23].name : 爸爸 → （沒有）
+msgs[23].tag : home_moon_dad_20 → kx_yule_ask
+msgs[23].text : 📷（上海的月亮，前面一棟很高的樓） → 明天晚上有空嗎？我們系上有人揪宵夜，予樂一直說要看你本人。
+msgs[23].th : g:home → p:kexin
+msgs[23].who : null → kexin
+msgs[24].ans : 0 → （沒有）
+msgs[24].ask : {"opts": [{"t": "好，我開車過去。", "set": {"KX_YULE": "yes"}}, {"t": "我明天七點有事，晚一點可以嗎？", "set": {"KX_YULE": "late"}, "say": [{"from": "kexin", "text": "那九點？你來吃第二輪。"}]}, {"t": "這週不行，下週換我請。", "set": {"KX_YULE": "no"}, "say": [{"from": "kexin", "text": "好，那下週換你請。"}]}], "id": "a8"} → （沒有）
+msgs[24].from : kexin → player
+msgs[24].h : 15.5 → 16
+msgs[24].tag : kx_yule_ask → （沒有）
+msgs[24].text : 明天晚上有空嗎？我們系上有人揪宵夜，予樂一直說要看你本人。 → 好，我開車過去。
+msgs[24].who : kexin → null
+msgs[25].from : player → zhe
+msgs[25].h : 16 → 17.5
+msgs[25].tag : （沒有） → rt_zhe_ndl_21
+msgs[25].text : 好，我開車過去。 → 麵店 我先到
+msgs[25].th : p:kexin → g:noodle_team
+msgs[26].day : 21 → 22
+msgs[26].from : zhe → kexin
+msgs[26].h : 17.5 → 19.5
+msgs[26].tag : rt_zhe_ndl_21 → （沒有）
+msgs[26].text : 麵店 我先到 → 再十分鐘！你先去山下那間，幫我點酸辣湯餃。
+msgs[26].th : g:noodle_team → p:kexin
+msgs[26].who : null → kexin
+msgs[27].day : 22 → 23
+msgs[27].h : 19.5 → 12.5
+msgs[27].tag : （沒有） → kx_yule_pass
+msgs[27].text : 再十分鐘！你先去山下那間，幫我點酸辣湯餃。 → 📷（予樂寫的紙條：「及格。」）
+msgs[28].from : kexin → zhe
+msgs[28].h : 12.5 → 17.5
+msgs[28].tag : kx_yule_pass → rt_zhe_ndl_23
+msgs[28].text : 📷（予樂寫的紙條：「及格。」） → 今天阿姨有滷蛋
+msgs[28].th : p:kexin → g:noodle_team
+msgs[28].who : kexin → null
+msgs[29].ans : （沒有） → 0
+msgs[29].ask : （沒有） → {"id": "home_ask_23", "until": 574, "k": "lj1", "opts": [{"t": "會回去", "say": [{"from": "mom", "name": "媽媽", "text": "好 床單幫你換好"}]}, {"t": "這週不回", "say": [{"from": "mom", "name": "媽媽", "text": "好"}]}]}
+msgs[29].from : zhe → mom
+msgs[29].h : 17.5 → 20
+msgs[29].name : （沒有） → 媽媽
+msgs[29].tag : rt_zhe_ndl_23 → home_ask_23
+msgs[29].text : 今天阿姨有滷蛋 → 放三天 回來住兩晚
+msgs[29].th : g:noodle_team → g:home
+msgs[30].ans : 0 → （沒有）
+msgs[30].ask : {"id": "home_ask_23", "until": 574, "k": "lj1", "opts": [{"t": "會回去", "say": [{"from": "mom", "name": "媽媽", "text": "好 床單幫你換好"}]}, {"t": "這週不回", "say": [{"from": "mom", "name": "媽媽", "text": "好"}]}]} → （沒有）
+msgs[30].from : mom → player
+msgs[30].name : 媽媽 → （沒有）
+msgs[30].tag : home_ask_23 → （沒有）
+msgs[30].text : 放三天 回來住兩晚 → 會回去
+msgs[31].from : player → mom
+msgs[31].name : （沒有） → 媽媽
+msgs[31].text : 會回去 → 好 床單幫你換好
+msgs[32].day : 23 → 24
+msgs[32].from : mom → kexin
+msgs[32].name : 媽媽 → （沒有）
+msgs[32].tag : （沒有） → kx_ntu_ask
+msgs[32].text : 好 床單幫你換好 → 這次換我去首都帝大。我先去找品妤，你四點來社科院門口。
+msgs[32].th : g:home → p:kexin
+msgs[32].who : null → kexin
+msgs[33].h : 20 → 21
+msgs[33].tag : kx_ntu_ask → kx_anniv_ask
+msgs[33].text : 這次換我去首都帝大。我先去找品妤，你四點來社科院門口。 → 下禮拜五是我們的週年。
+msgs[34].ans : （沒有） → 2
+msgs[34].ask : （沒有） → {"until": 762.5, "opts": [{"t": "摩天輪。", "set": {"KX_ANNIV_PLACE": "wheel"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "……回到最高點。好。"}]}, {"t": "政大山下，我們的店。", "set": {"KX_ANNIV_PLACE": "shop"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "老闆會以為今天很普通。我們不要告訴他。"}]}, {"t": "河堤。", "set": {"KX_ANNIV_PLACE": "river"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "好。河堤晚上風大，穿外套。"}]}], "id…
+msgs[34].text : 下禮拜五是我們的週年。 → 地點你選。我準備一樣東西，你也準備一樣。
+msgs[35].ans : 2 → （沒有）
+msgs[35].ask : {"until": 762.5, "opts": [{"t": "摩天輪。", "set": {"KX_ANNIV_PLACE": "wheel"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "……回到最高點。好。"}]}, {"t": "政大山下，我們的店。", "set": {"KX_ANNIV_PLACE": "shop"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "老闆會以為今天很普通。我們不要告訴他。"}]}, {"t": "河堤。", "set": {"KX_ANNIV_PLACE": "river"}, "say": [{"th": "p:kexin", "from": "kexin", "text": "好。河堤晚上風大，穿外套。"}]}], "id… → （沒有）
+msgs[35].from : kexin → player
+msgs[35].tag : kx_anniv_ask → （沒有）
+msgs[35].text : 地點你選。我準備一樣東西，你也準備一樣。 → 河堤。
+msgs[35].who : kexin → null
+msgs[36].from : player → kexin
+msgs[36].text : 河堤。 → 好。河堤晚上風大，穿外套。
+msgs[36].who : null → kexin
+msgs[37].day : 24 → 25
+msgs[37].from : kexin → kevin
+msgs[37].h : 21 → 21.3
+msgs[37].name : （沒有） → Kevin
+msgs[37].tag : （沒有） → dp_kevin_video_3_0
+msgs[37].text : 好。河堤晚上風大，穿外套。 → 📹（高速公路塞車的空拍，配樂很激昂）
+msgs[37].th : p:kexin → g:family_law
+msgs[37].who : kexin → null
+msgs[38].from : kevin → heroine_05
+msgs[38].name : Kevin → 溫學姊
+msgs[38].tag : dp_kevin_video_3_0 → dp_kevin_video_3_1
+msgs[38].text : 📹（高速公路塞車的空拍，配樂很激昂） → 收到。
+msgs[39].from : heroine_05 → kevin
+msgs[39].h : 21.3 → 21.33
+msgs[39].name : 溫學姊 → Kevin
+msgs[39].tag : dp_kevin_video_3_1 → dp_kevin_video_3_2
+msgs[39].text : 收到。 → 學姊妳到底有沒有看
+msgs[40].from : kevin → heroine_05
+msgs[40].h : 21.33 → 21.35
+msgs[40].name : Kevin → 溫學姊
+msgs[40].tag : dp_kevin_video_3_2 → dp_kevin_video_3_3
+msgs[40].text : 學姊妳到底有沒有看 → 有。三分十二秒。
+msgs[41].day : 25 → 26
+msgs[41].from : heroine_05 → （沒有）
+msgs[41].h : 21.35 → 20.5
+msgs[41].name : 溫學姊 → 新聞
+msgs[41].tag : dp_kevin_video_3_3 → ty1_news
+msgs[41].text : 有。三分十二秒。 → 明天停止上班上課。
+msgs[41].th : g:family_law → sys
+msgs[42].from : （沒有） → mom
+msgs[42].h : 20.5 → 21
+msgs[42].name : 新聞 → 媽媽
+msgs[42].tag : ty1_news → home_ty_26
+msgs[42].text : 明天停止上班上課。 → 颱風 窗戶關好 不要出門
+msgs[42].th : sys → g:home
+msgs[43].from : mom → prof_zhang
+msgs[43].name : 媽媽 → 張教授（信）
+msgs[43].tag : home_ty_26 → ty1_mail
+msgs[43].text : 颱風 窗戶關好 不要出門 → 明日停課。附件為明日進度的講義，共四十二頁，請自行閱讀。
+msgs[43].th : g:home → sys
+msgs[44].from : prof_zhang → dad
+msgs[44].name : 張教授（信） → 爸爸
+msgs[44].tag : ty1_mail → home_ty_dad_26
+msgs[44].text : 明日停課。附件為明日進度的講義，共四十二頁，請自行閱讀。 → 📷（颱風路徑圖）
+msgs[44].th : sys → g:home
+msgs[45].from : dad → zhe
+msgs[45].h : 21 → 21.33
+msgs[45].name : 爸爸 → （沒有）
+msgs[45].tag : home_ty_dad_26 → ty1_g1
+msgs[45].text : 📷（颱風路徑圖） → 四十二頁。颱風比較仁慈。
+msgs[45].th : g:home → g:noodle_team
+msgs[46].from : zhe → yu
+msgs[46].h : 21.33 → 21.4
+msgs[46].tag : ty1_g1 → ty1_g2
+msgs[46].text : 四十二頁。颱風比較仁慈。 → 我讀完第一頁了。第一頁是目錄。
+msgs[47].from : yu → classmate_bohan
+msgs[47].h : 21.4 → 21.52
+msgs[47].tag : ty1_g2 → ty1_g3
+msgs[47].text : 我讀完第一頁了。第一頁是目錄。 → 我讀到第十二頁。
+msgs[48].ans : （沒有） → 0
+msgs[48].ask : （沒有） → {"until": 672, "opts": [{"t": "「我讀到第三頁。」", "post": "我讀到第三頁。", "set": {"TY1_REPLY": "page3"}, "say": [{"from": "classmate_bohan", "text": "很好。"}]}, {"t": "「我在吃泡麵。」", "post": "我在吃泡麵。", "set": {"TY1_REPLY": "noodle"}, "say": [{"from": "zhe", "text": "這才是正確的颱風假。"}]}, {"t": "（貼一張颱風的貼圖）", "post": "🌀（颱風的貼圖）", "set": {"TY1_REPLY": "sticker"}, "say": [{"from": "yu", "text": "這張貼圖比講義有用。"}]}], "id": "a11"}
+msgs[48].from : classmate_bohan → zhe
+msgs[48].h : 21.52 → 21.53
+msgs[48].tag : ty1_g3 → ty1_g4
+msgs[48].text : 我讀到第十二頁。 → ……你是颱風嗎？
+msgs[49].ans : 0 → （沒有）
+msgs[49].ask : {"until": 672, "opts": [{"t": "「我讀到第三頁。」", "post": "我讀到第三頁。", "set": {"TY1_REPLY": "page3"}, "say": [{"from": "classmate_bohan", "text": "很好。"}]}, {"t": "「我在吃泡麵。」", "post": "我在吃泡麵。", "set": {"TY1_REPLY": "noodle"}, "say": [{"from": "zhe", "text": "這才是正確的颱風假。"}]}, {"t": "（貼一張颱風的貼圖）", "post": "🌀（颱風的貼圖）", "set": {"TY1_REPLY": "sticker"}, "say": [{"from": "yu", "text": "這張貼圖比講義有用。"}]}], "id": "a11"} → （沒有）
+msgs[49].from : zhe → player
+msgs[49].h : 21.53 → 22
+msgs[49].tag : ty1_g4 → （沒有）
+msgs[49].text : ……你是颱風嗎？ → 我讀到第三頁。
+msgs[50].from : player → classmate_bohan
+msgs[50].text : 我讀到第三頁。 → 很好。
+msgs[51].ask : （沒有） → {"id": "l118_lunch_27", "until": 661.5, "opts": [{"t": "走。", "set": {"L118_PICK": "27:dian"}, "say": [{"th": "g:noodle_team", "from": "zhe", "text": "後門見"}]}, {"t": "今天不行。", "say": [{"th": "g:noodle_team", "from": "zhe", "text": "好喔 下次"}]}]}
+msgs[51].day : 26 → 27
+msgs[51].from : classmate_bohan → zhe
+msgs[51].h : 22 → 12
+msgs[51].tag : （沒有） → l118_lunch_27
+msgs[51].text : 很好。 → 今天換一間 我想吃滇緬
+msgs[52].ask : {"id": "l118_lunch_27", "until": 661.5, "opts": [{"t": "走。", "set": {"L118_PICK": "27:dian"}, "say": [{"th": "g:noodle_team", "from": "zhe", "text": "後門見"}]}, {"t": "今天不行。", "say": [{"th": "g:noodle_team", "from": "zhe", "text": "好喔 下次"}]}]} → （沒有）
+msgs[52].day : 27 → 28
+msgs[52].from : zhe → （沒有）
+msgs[52].h : 12 → 12.03
+msgs[52].iv : null → iv14
+msgs[52].tag : l118_lunch_27 → （沒有）
+msgs[52].text : 今天換一間 我想吃滇緬 → 約好了：今天 15:30，總圖（陳語彤）。
+msgs[52].th : g:noodle_team → （沒有）
+msgs[52].who : null → heroine_03
+msgs[53].h : 12.03 → 12.06
+msgs[53].iv : iv14 → iv15
+msgs[53].text : 約好了：今天 15:30，總圖（陳語彤）。 → 約好了：今天 19:00，總圖（溫書瑀）。
+msgs[53].who : heroine_03 → heroine_05
+msgs[54].h : 12.06 → 16.77
+msgs[54].iv : iv15 → iv14
+msgs[54].text : 約好了：今天 19:00，總圖（溫書瑀）。 → 和陳語彤在總圖。
+msgs[54].who : heroine_05 → heroine_03
+msgs[55].h : 16.77 → 17.28
+msgs[55].iv : iv14 → null
+msgs[55].text : 和陳語彤在總圖。 → 加了吳芯慈的聯絡方式。
+msgs[55].who : heroine_03 → classmate_xinci
+msgs[56].from : （沒有） → zhe
+msgs[56].h : 17.28 → 17.5
+msgs[56].tag : （沒有） → rt_zhe_ndl_28
+msgs[56].text : 加了吳芯慈的聯絡方式。 → 麵店 不用回
+msgs[56].th : （沒有） → g:noodle_team
+msgs[56].who : classmate_xinci → null
+msgs[57].from : zhe → （沒有）
+msgs[57].h : 17.5 → 20.43
+msgs[57].iv : null → iv15
+msgs[57].tag : rt_zhe_ndl_28 → （沒有）
+msgs[57].text : 麵店 不用回 → 和溫書瑀在總圖。
+msgs[57].th : g:noodle_team → （沒有）
+msgs[57].who : null → heroine_05
+msgs[58].from : （沒有） → yu
+msgs[58].h : 20.43 → 21.7
+msgs[58].iv : iv15 → null
+msgs[58].tag : （沒有） → an_rules_grp
+msgs[58].text : 和溫書瑀在總圖。 → 報告！聽說以安為了樓層會議，把整本宿舍規則讀完了，還寫了三頁意見。
+msgs[58].th : （沒有） → g:noodle_team
+msgs[58].who : heroine_05 → null
+msgs[59].h : 21.7 → 21.71
+msgs[59].text : 報告！聽說以安為了樓層會議，把整本宿舍規則讀完了，還寫了三頁意見。 → 大家笑她，她說：「規則是我們要住的，總要有人讀完。」
+msgs[60].from : yu → zhe
+msgs[60].h : 21.71 → 21.72
+msgs[60].text : 大家笑她，她說：「規則是我們要住的，總要有人讀完。」 → ……她說得對耶。
+msgs[61].from : zhe → heroine_01
+msgs[61].h : 21.72 → 22.4
+msgs[61].tag : an_rules_grp → an_rules_an
+msgs[61].text : ……她說得對耶。 → 三頁是因為字很大。
+msgs[62].day : 28 → 29
+msgs[62].from : heroine_01 → （沒有）
+msgs[62].h : 22.4 → 9.08
+msgs[62].iv : null → iv16
+msgs[62].tag : an_rules_an → （沒有）
+msgs[62].text : 三頁是因為字很大。 → 約好了：今天 19:00，新體育館羽球場（沈以安）。
+msgs[62].th : g:noodle_team → （沒有）
+msgs[62].who : null → heroine_01
+msgs[63].h : 9.08 → 17.15
+msgs[63].iv : iv16 → iv17
+msgs[63].text : 約好了：今天 19:00，新體育館羽球場（沈以安）。 → 和沈以安一起去新體育館打羽球。
+msgs[64].h : 17.15 → 18.43
+msgs[64].text : 和沈以安一起去新體育館打羽球。 → 和沈以安在新體育館羽球場。
+msgs[65].h : 18.43 → 19.79
+msgs[65].iv : iv17 → iv16
+msgs[66].from : （沒有） → classmate_xinci
+msgs[66].h : 19.79 → 21.01
+msgs[66].iv : iv16 → null
+msgs[66].tag : （沒有） → xc_notes_fix
+msgs[66].text : 和沈以安在新體育館羽球場。 → 筆記第 7 頁的圖畫反了。我改好了，拍給你。
+msgs[66].th : （沒有） → p:classmate_xinci
+msgs[66].who : heroine_01 → classmate_xinci
+msgs[67].text : 筆記第 7 頁的圖畫反了。我改好了，拍給你。 → （照片）
+msgs[68].day : 29 → 30
+msgs[68].from : classmate_xinci → （沒有）
+msgs[68].h : 21.01 → 15.17
+msgs[68].tag : xc_notes_fix → （沒有）
+msgs[68].text : （照片） → 加了賴宥辰的聯絡方式。
+msgs[68].th : p:classmate_xinci → （沒有）
+msgs[68].who : classmate_xinci → classmate_youchen
+msgs[69].from : （沒有） → player
+msgs[69].h : 15.17 → 15.98
+msgs[69].text : 加了賴宥辰的聯絡方式。 → （照片：路上的貓）
+msgs[69].th : （沒有） → p:classmate_xinci
+msgs[69].who : classmate_youchen → null
+msgs[70].ans : （沒有） → 0
+msgs[70].ask : （沒有） → {"opts": [{"t": "溫州街", "say": [{"from": "classmate_xinci", "text": "我記一下，經過的時候找找看。"}]}, {"t": "學校", "say": [{"from": "classmate_xinci", "text": "我記一下，經過的時候找找看。"}]}], "id": "a13"}
+msgs[70].from : player → classmate_xinci
+msgs[70].h : 15.98 → 16.4
+msgs[70].text : （照片：路上的貓） → 好可愛，在哪裡拍的？
+msgs[70].who : null → classmate_xinci
+msgs[71].ans : 0 → 1
+msgs[71].ask.id : a13 → home_ask_30
+msgs[71].ask.k : （沒有） → dad_snack
+msgs[71].ask.opts[0].say[0].from : classmate_xinci → mom
+msgs[71].ask.opts[0].say[0].name : （沒有） → 媽媽
+msgs[71].ask.opts[0].say[0].text : 我記一下，經過的時候找找看。 → 好 留一盒給你
+msgs[71].ask.opts[0].t : 溫州街 → 會回去
+msgs[71].ask.opts[1].say[0].from : classmate_xinci → mom
+msgs[71].ask.opts[1].say[0].name : （沒有） → 媽媽
+msgs[71].ask.opts[1].say[0].text : 我記一下，經過的時候找找看。 → 好 我先冰起來
+msgs[71].ask.opts[1].t : 學校 → 這週不回
+msgs[71].ask.until : （沒有） → 742
+msgs[71].from : classmate_xinci → mom
+msgs[71].h : 16.4 → 20
+msgs[71].name : （沒有） → 媽媽
+msgs[71].tag : （沒有） → home_ask_30
+msgs[71].text : 好可愛，在哪裡拍的？ → 你爸從上海寄了一箱點心 回來吃
+msgs[71].th : p:classmate_xinci → g:home
+msgs[71].who : classmate_xinci → null
+msgs[72].ans : 1 → （沒有）
+msgs[72].ask : {"id": "home_ask_30", "until": 742, "k": "dad_snack", "opts": [{"t": "會回去", "say": [{"from": "mom", "name": "媽媽", "text": "好 留一盒給你"}]}, {"t": "這週不回", "say": [{"from": "mom", "name": "媽媽", "text": "好 我先冰起來"}]}]} → （沒有）
+msgs[72].from : mom → player
+msgs[72].h : 20 → 21.13
+msgs[72].name : 媽媽 → （沒有）
+msgs[72].tag : home_ask_30 → （沒有）
+msgs[72].text : 你爸從上海寄了一箱點心 回來吃 → 這週不回
+msgs[73].from : player → mom
+msgs[73].name : （沒有） → 媽媽
+msgs[73].text : 這週不回 → 好 我先冰起來
+msgs[74].from : mom → player
+msgs[74].name : 媽媽 → （沒有）
+msgs[74].text : 好 我先冰起來 → 溫州街
+msgs[74].th : g:home → p:classmate_xinci
+msgs[75].from : player → classmate_xinci
+msgs[75].text : 溫州街 → 我記一下，經過的時候找找看。
+msgs[75].who : null → classmate_xinci
+msgs[76].ans : （沒有） → 0
+msgs[76].ask : （沒有） → {"opts": [{"t": "好。我上台，妳剪片。", "set": {"ZR_GRP_REPLY": 1}}, {"t": "收到。報告的稿我先寫。", "set": {"ZR_GRP_REPLY": 2}}, {"t": "（貼一張「OK」的貼圖）", "post": "（貼圖：OK）", "set": {"ZR_GRP_REPLY": 3}}], "id": "a15"}
+msgs[76].day : 30 → 31
+msgs[76].from : classmate_xinci → heroine_02
+msgs[76].h : 21.13 → 12.45
+msgs[76].tag : （沒有） → ge_grp1
+msgs[76].text : 我記一下，經過的時候找找看。 → 我負責剪片。不要叫我上台。
+msgs[76].th : p:classmate_xinci → g:ge_econ
+msgs[76].who : classmate_xinci → null
+msgs[77].ans : 0 → （沒有）
+msgs[77].ask : {"opts": [{"t": "好。我上台，妳剪片。", "set": {"ZR_GRP_REPLY": 1}}, {"t": "收到。報告的稿我先寫。", "set": {"ZR_GRP_REPLY": 2}}, {"t": "（貼一張「OK」的貼圖）", "post": "（貼圖：OK）", "set": {"ZR_GRP_REPLY": 3}}], "id": "a15"} → （沒有）
+msgs[77].from : heroine_02 → player
+msgs[77].tag : ge_grp1 → （沒有）
+msgs[77].text : 我負責剪片。不要叫我上台。 → 好。我上台，妳剪片。
+msgs[78].from : player → （沒有）
+msgs[78].h : 12.45 → 12.51
+msgs[78].iv : null → iv18
+msgs[78].text : 好。我上台，妳剪片。 → 約好了：今天 15:30，兩點半 Café（沈以安）。
+msgs[78].th : g:ge_econ → （沒有）
+msgs[78].who : null → heroine_01
+msgs[79].h : 12.51 → 16.26
+msgs[79].text : 約好了：今天 15:30，兩點半 Café（沈以安）。 → 和沈以安在兩點半 Café。
+msgs[80].h : 16.26 → 16.27
+msgs[80].iv : iv18 → iv19
+msgs[80].text : 和沈以安在兩點半 Café。 → 和沈以安一起去總圖一起念書。
+msgs[81].h : 16.27 → 18.22
+msgs[81].text : 和沈以安一起去總圖一起念書。 → 和沈以安在總圖。
+msgs[82].h : 18.22 → 21.01
+msgs[82].iv : iv19 → iv20
+msgs[82].text : 和沈以安在總圖。 → 約好了：明天 06:30，椰影大道（沈以安）。
+msgs[83].from : （沒有） → heroine_02
+msgs[83].h : 21.01 → 22.12
+msgs[83].iv : iv20 → null
+msgs[83].tag : （沒有） → zr_dm1
+msgs[83].text : 約好了：明天 06:30，椰影大道（沈以安）。 → 我是經原那組的芷若。
+msgs[83].th : （沒有） → p:heroine_02
+msgs[83].who : heroine_01 → heroine_02
+msgs[84].h : 22.12 → 22.13
+msgs[84].text : 我是經原那組的芷若。 → 我在溫州街的兩點半打工，要喝什麼可以先傳。
+msgs[85].h : 22.13 → 22.14
+msgs[85].text : 我在溫州街的兩點半打工，要喝什麼可以先傳。 → 你剛剛在群組回得很快。我以為法律系的人都很慢。
+msgs[86].day : 31 → 32
+msgs[86].from : heroine_02 → （沒有）
+msgs[86].h : 22.14 → 7.71
+msgs[86].iv : null → iv20
+msgs[86].tag : zr_dm1 → （沒有）
+msgs[86].text : 你剛剛在群組回得很快。我以為法律系的人都很慢。 → 和沈以安在椰影大道。
+msgs[86].th : p:heroine_02 → （沒有）
+msgs[86].who : heroine_02 → heroine_01
+msgs[87].h : 7.71 → 8.1
+msgs[87].iv : iv20 → iv21
+msgs[87].text : 和沈以安在椰影大道。 → 約好了：今天 12:10，法律學院圖書館（吳芯慈）。
+msgs[87].who : heroine_01 → classmate_xinci
+msgs[88].h : 8.1 → 13.6
+msgs[88].text : 約好了：今天 12:10，法律學院圖書館（吳芯慈）。 → 和吳芯慈在法律學院圖書館。
+msgs[89].h : 13.6 → 13.71
+msgs[89].iv : iv21 → iv22
+msgs[89].text : 和吳芯慈在法律學院圖書館。 → 約好了：今天 15:30，慢讀咖啡（陳語彤）。
+msgs[89].who : classmate_xinci → heroine_03
+msgs[90].h : 13.71 → 16.77
+msgs[90].text : 約好了：今天 15:30，慢讀咖啡（陳語彤）。 → 和陳語彤在慢讀咖啡。
+msgs[91].from : （沒有） → kexin
+msgs[91].h : 16.77 → 19.14
+msgs[91].iv : iv22 → null
+msgs[91].text : 和陳語彤在慢讀咖啡。 → 外澳？你怎麼會想去那裡？
+msgs[91].th : （沒有） → p:kexin
+msgs[91].who : heroine_03 → kexin
+msgs[92].text : 外澳？你怎麼會想去那裡？ → ……好。我也一直想去。
+msgs[93].day : 32 → 33
+msgs[93].from : kexin → heroine_02
+msgs[93].h : 19.14 → 22.12
+msgs[93].tag : （沒有） → dp_zhiruo_latte_0_0
+msgs[93].text : ……好。我也一直想去。 → 欸今天超好笑
+msgs[93].th : p:kexin → p:heroine_02
+msgs[93].who : kexin → heroine_02
+msgs[94].h : 22.12 → 22.13
+msgs[94].tag : dp_zhiruo_latte_0_0 → dp_zhiruo_latte_0_1
+msgs[94].text : 欸今天超好笑 → 有個客人一進來就說『跟昨天一樣』
+msgs[95].h : 22.13 → 22.15
+msgs[95].tag : dp_zhiruo_latte_0_1 → dp_zhiruo_latte_0_2
+msgs[95].text : 有個客人一進來就說『跟昨天一樣』 → 我根本不知道他昨天是誰
+msgs[96].h : 22.15 → 22.17
+msgs[96].tag : dp_zhiruo_latte_0_2 → dp_zhiruo_latte_0_3
+msgs[96].text : 我根本不知道他昨天是誰 → 我就隨便做了拿鐵
+msgs[97].h : 22.17 → 22.18
+msgs[97].tag : dp_zhiruo_latte_0_3 → dp_zhiruo_latte_0_4
+msgs[97].text : 我就隨便做了拿鐵 → 他說對
+msgs[98].day : 33 → 34
+msgs[98].from : heroine_02 → （沒有）
+msgs[98].h : 22.18 → 9.68
+msgs[98].iv : null → iv23
+msgs[98].tag : dp_zhiruo_latte_0_4 → （沒有）
+msgs[98].text : 他說對 → 約好了：今天 12:30，總圖（吳芯慈）。
+msgs[98].th : p:heroine_02 → （沒有）
+msgs[98].who : heroine_02 → classmate_xinci
+msgs[99].ask : （沒有） → {"id": "l118_lunch_34", "until": 829.675644, "opts": [{"t": "走。", "set": {"L118_PICK": "34:korea"}, "say": [{"th": "g:noodle_team", "from": "zhe", "text": "後門見"}]}, {"t": "今天不行。", "say": [{"th": "g:noodle_team", "from": "zhe", "text": "好喔 下次"}]}]}
+msgs[99].from : （沒有） → zhe
+msgs[99].h : 9.68 → 12.18
+msgs[99].iv : iv23 → null
+msgs[99].tag : （沒有） → l118_lunch_34
+msgs[99].text : 約好了：今天 12:30，總圖（吳芯慈）。 → 中午走不走 Alison 說要韓式
+msgs[99].th : （沒有） → g:noodle_team
+msgs[99].who : classmate_xinci → null
+msgs[100].ask : {"id": "l118_lunch_34", "until": 829.675644, "opts": [{"t": "走。", "set": {"L118_PICK": "34:korea"}, "say": [{"th": "g:noodle_team", "from": "zhe", "text": "後門見"}]}, {"t": "今天不行。", "say": [{"th": "g:noodle_team", "from": "zhe", "text": "好喔 下次"}]}]} → （沒有）
+msgs[100].from : zhe → （沒有）
+msgs[100].h : 12.18 → 13.86
+msgs[100].iv : null → iv23
+msgs[100].tag : l118_lunch_34 → （沒有）
+msgs[100].text : 中午走不走 Alison 說要韓式 → 和吳芯慈在總圖。
+msgs[100].th : g:noodle_team → （沒有）
+msgs[100].who : null → classmate_xinci
+msgs[101].from : （沒有） → heroine_03
+msgs[101].h : 13.86 → 21.33
+msgs[101].iv : iv23 → null
+msgs[101].tag : （沒有） → dp_a118_y1s1_yt_dish_0_0
+msgs[101].text : 和吳芯慈在總圖。 → 📷（一碟小菜）
+msgs[101].th : （沒有） → p:heroine_03
+msgs[101].who : classmate_xinci → heroine_03
+msgs[102].h : 21.33 → 21.5
+msgs[102].tag : dp_a118_y1s1_yt_dish_0_0 → dp_a118_y1s1_yt_dish_0_1
+msgs[102].text : 📷（一碟小菜） → 阿姨說是送的。
+msgs[103].day : 34 → 35
+msgs[103].from : heroine_03 → （沒有）
+msgs[103].h : 21.5 → 18.04
+msgs[103].iv : null → iv24
+msgs[103].tag : dp_a118_y1s1_yt_dish_0_1 → （沒有）
+msgs[103].text : 阿姨說是送的。 → 和沈以安一起去新體育館打羽球。
+msgs[103].th : p:heroine_03 → （沒有）
+msgs[103].who : heroine_03 → heroine_01
+msgs[104].h : 18.04 → 19.32
+msgs[104].text : 和沈以安一起去新體育館打羽球。 → 和沈以安在新體育館羽球場。
+msgs[105].from : （沒有） → zhe
+msgs[105].h : 19.32 → 21
+msgs[105].iv : iv24 → null
+msgs[105].tag : （沒有） → dp_a118_y1s1_zhe_group_0_0
+msgs[105].text : 和沈以安在新體育館羽球場。 → 明天燒臘店
+msgs[105].th : （沒有） → g:noodle_team
+msgs[105].who : heroine_01 → null
+msgs[106].h : 21 → 21.02
+msgs[106].tag : dp_a118_y1s1_zhe_group_0_0 → dp_a118_y1s1_zhe_group_0_1
+msgs[106].text : 明天燒臘店 → 我揪了
+msgs[107].h : 21.02 → 21.03
+msgs[107].tag : dp_a118_y1s1_zhe_group_0_1 → dp_a118_y1s1_zhe_group_0_2
+msgs[107].text : 我揪了 → 不用回
+msgs[108].h : 21.03 → 21.05
+msgs[108].tag : dp_a118_y1s1_zhe_group_0_2 → dp_a118_y1s1_zhe_group_0_3
+msgs[108].text : 不用回 → 回了也沒用
+msgs[109].day : 35 → 36
+msgs[109].from : zhe → （沒有）
+msgs[109].h : 21.05 → 13.67
+msgs[109].iv : null → iv25
+msgs[109].tag : dp_a118_y1s1_zhe_group_0_3 → （沒有）
+msgs[109].text : 回了也沒用 → 約好了：今天 13:40，總圖（溫書瑀）。
+msgs[109].th : g:noodle_team → （沒有）
+msgs[109].who : null → heroine_05
+msgs[110].h : 13.67 → 15.17
+msgs[110].text : 約好了：今天 13:40，總圖（溫書瑀）。 → 和溫書瑀在總圖。
+msgs[111].h : 15.17 → 15.19
+msgs[111].iv : iv25 → iv26
+msgs[111].text : 和溫書瑀在總圖。 → 和溫書瑀一起去 afar café 坐坐。
+msgs[112].h : 15.19 → 17.86
+msgs[112].text : 和溫書瑀一起去 afar café 坐坐。 → 和溫書瑀在afar café。
+msgs[113].from : （沒有） → classmate_xinci
+msgs[113].h : 17.86 → 21.17
+msgs[113].iv : iv26 → null
+msgs[113].tag : （沒有） → dp_a118_y1s1_xc_note_0_0
+msgs[113].text : 和溫書瑀在afar café。 → 筆記第三頁有一張便利貼，是我的問題。不用回答，只是想讓你知道我有問題。
+msgs[113].th : （沒有） → p:classmate_xinci
+msgs[113].who : heroine_05 → classmate_xinci
+msgs[114].day : 36 → 37
+msgs[114].from : classmate_xinci → （沒有）
+msgs[114].h : 21.17 → 8.36
+msgs[114].iv : null → iv27
+msgs[114].tag : dp_a118_y1s1_xc_note_0_0 → （沒有）
+msgs[114].text : 筆記第三頁有一張便利貼，是我的問題。不用回答，只是想讓你知道我有問題。 → 約好了：今天 13:00，日常失速（溫書瑀）。
+msgs[114].th : p:classmate_xinci → （沒有）
+msgs[114].who : classmate_xinci → heroine_05
+msgs[115].h : 8.36 → 14.02
+msgs[115].text : 約好了：今天 13:00，日常失速（溫書瑀）。 → 和溫書瑀在日常失速。
+msgs[116].h : 14.02 → 14.8
+msgs[116].iv : iv27 → iv28
+msgs[116].text : 和溫書瑀在日常失速。 → 約好了：今天 15:30，慢讀咖啡（沈以安）。
+msgs[116].who : heroine_05 → heroine_01
+msgs[117].h : 14.8 → 15.32
+msgs[117].iv : iv28 → null
+msgs[117].text : 約好了：今天 15:30，慢讀咖啡（沈以安）。 → （群組）阿哲：周教授今天點到你的座位。我說你去洗手間。
+msgs[117].who : heroine_01 → null
+msgs[118].h : 15.32 → 16.96
+msgs[118].iv : null → iv28
+msgs[118].text : （群組）阿哲：周教授今天點到你的座位。我說你去洗手間。 → 和沈以安在慢讀咖啡。
+msgs[118].who : null → heroine_01
+msgs[119].h : 16.96 → 17.33
+msgs[119].iv : iv28 → iv29
+msgs[119].text : 和沈以安在慢讀咖啡。 → 約好了：今天 17:20，2:30 AM（沈以安）。
+msgs[120].h : 17.33 → 18.33
+msgs[120].text : 約好了：今天 17:20，2:30 AM（沈以安）。 → 和沈以安在2:30 AM。
+msgs[121].h : 18.33 → 18.34
+msgs[121].iv : iv29 → iv30
+msgs[121].text : 和沈以安在2:30 AM。 → 約好了：今天 18:20，2:30 AM（沈以安）。
+msgs[122].h : 18.34 → 19.34
+msgs[122].text : 約好了：今天 18:20，2:30 AM（沈以安）。 → 和沈以安在2:30 AM。
+msgs[123].h : 19.34 → 19.75
+msgs[123].iv : iv30 → iv31
+msgs[123].text : 和沈以安在2:30 AM。 → 約好了：今天 19:45，2:30 AM（溫書瑀）。
+msgs[123].who : heroine_01 → heroine_05
+msgs[124].ans : （沒有） → 1
+msgs[124].ask : （沒有） → {"id": "home_ask_37", "until": 910, "k": "lj2", "opts": [{"t": "會回去", "say": [{"from": "mom", "name": "媽媽", "text": "好"}]}, {"t": "這週不回", "say": [{"from": "mom", "name": "媽媽", "text": "好 玩得開心"}]}]}
+msgs[124].from : （沒有） → mom
+msgs[124].h : 19.75 → 20
+msgs[124].iv : iv31 → null
+msgs[124].name : （沒有） → 媽媽
+msgs[124].tag : （沒有） → home_ask_37
+msgs[124].text : 約好了：今天 19:45，2:30 AM（溫書瑀）。 → 連假要出去玩嗎 不出去就回來
+msgs[124].th : （沒有） → g:home
+msgs[124].who : heroine_05 → null
+msgs[125].ans : 1 → （沒有）
+msgs[125].ask : {"id": "home_ask_37", "until": 910, "k": "lj2", "opts": [{"t": "會回去", "say": [{"from": "mom", "name": "媽媽", "text": "好"}]}, {"t": "這週不回", "say": [{"from": "mom", "name": "媽媽", "text": "好 玩得開心"}]}]} → （沒有）
+msgs[125].from : mom → （沒有）
+msgs[125].h : 20 → 20.75
+msgs[125].iv : null → iv31
+msgs[125].name : 媽媽 → （沒有）
+msgs[125].tag : home_ask_37 → （沒有）
+msgs[125].text : 連假要出去玩嗎 不出去就回來 → 和溫書瑀在2:30 AM。
+msgs[125].th : g:home → （沒有）
+msgs[125].who : null → heroine_05
+msgs[126].h : 20.75 → 20.77
+msgs[126].iv : iv31 → iv32
+msgs[126].text : 和溫書瑀在2:30 AM。 → 約好了：今天 20:46，2:30 AM（溫書瑀）。
+msgs[127].h : 20.77 → 21.77
+msgs[127].text : 約好了：今天 20:46，2:30 AM（溫書瑀）。 → 和溫書瑀在2:30 AM。
+msgs[128].from : （沒有） → player
+msgs[128].h : 21.77 → 21.78
+msgs[128].iv : iv32 → null
+msgs[128].text : 和溫書瑀在2:30 AM。 → 這週不回
+msgs[128].th : （沒有） → g:home
+msgs[128].who : heroine_05 → null
+msgs[129].from : player → mom
+msgs[129].name : （沒有） → 媽媽
+msgs[129].text : 這週不回 → 好 玩得開心
+msgs[130].day : 37 → 38
+msgs[130].from : mom → classmate_xinci
+msgs[130].h : 21.78 → 0.67
+msgs[130].name : 媽媽 → （沒有）
+msgs[130].tag : （沒有） → dp_a118_y1s1_xc_late_0_0
+msgs[130].text : 好 玩得開心 → 你睡了嗎
+msgs[130].th : g:home → p:classmate_xinci
+msgs[130].who : null → classmate_xinci
+msgs[131].h : 0.67 → 0.68
+msgs[131].tag : dp_a118_y1s1_xc_late_0_0 → dp_a118_y1s1_xc_late_0_1
+msgs[131].text : 你睡了嗎 → 沒睡也不用回
+msgs[132].h : 0.68 → 0.7
+msgs[132].tag : dp_a118_y1s1_xc_late_0_1 → dp_a118_y1s1_xc_late_0_2
+msgs[132].text : 沒睡也不用回 → 我在追的那部劇，這集太扯了
+msgs[133].h : 0.7 → 0.72
+msgs[133].tag : dp_a118_y1s1_xc_late_0_2 → dp_a118_y1s1_xc_late_0_3
+msgs[133].text : 我在追的那部劇，這集太扯了 → 當我沒說
+msgs[134].from : classmate_xinci → （沒有）
+msgs[134].h : 0.72 → 7.64
+msgs[134].iv : null → iv33
+msgs[134].tag : dp_a118_y1s1_xc_late_0_3 → （沒有）
+msgs[134].text : 當我沒說 → 約好了：今天 12:10，afar café（芯慈）。
+msgs[134].th : p:classmate_xinci → （沒有）
+msgs[135].h : 7.64 → 12.94
+msgs[135].text : 約好了：今天 12:10，afar café（芯慈）。 → 和芯慈在afar café。
+msgs[136].h : 12.94 → 14.42
+msgs[136].iv : iv33 → iv34
+msgs[136].text : 和芯慈在afar café。 → 約好了：今天 15:30，afar café（沈以安）。
+msgs[136].who : classmate_xinci → heroine_01
+msgs[137].h : 14.42 → 16.27
+msgs[137].text : 約好了：今天 15:30，afar café（沈以安）。 → 和沈以安在afar café。
+msgs[138].h : 16.27 → 18.9
+msgs[138].iv : iv34 → iv35
+msgs[138].text : 和沈以安在afar café。 → 和沈以安一起去總圖一起念書。
+msgs[139].h : 18.9 → 20.93
+msgs[139].text : 和沈以安一起去總圖一起念書。 → 和沈以安在總圖。
+msgs[140].h : 20.93 → 21.19
+msgs[140].iv : iv35 → iv36
+msgs[140].text : 和沈以安在總圖。 → 約好了：今天 21:11，總圖（陳語彤）。
+msgs[140].who : heroine_01 → heroine_03
+msgs[141].from : （沒有） → heroine_01
+msgs[141].h : 21.19 → 21.67
+msgs[141].iv : iv36 → null
+msgs[141].tag : （沒有） → dp_a118_y1s1_an_notice_0_0
+msgs[141].text : 約好了：今天 21:11，總圖（陳語彤）。 → 📷（宿舍公告欄）
+msgs[141].th : （沒有） → p:heroine_01
+msgs[141].who : heroine_03 → heroine_01
+msgs[142].h : 21.67 → 21.68
+msgs[142].tag : dp_a118_y1s1_an_notice_0_0 → dp_a118_y1s1_an_notice_0_1
+msgs[142].text : 📷（宿舍公告欄） → 這張公告的第三行和第五行矛盾。我寫信問了。
+msgs[143].from : heroine_01 → （沒有）
+msgs[143].h : 21.68 → 22.69
+msgs[143].iv : null → iv36
+msgs[143].tag : dp_a118_y1s1_an_notice_0_1 → （沒有）
+msgs[143].text : 這張公告的第三行和第五行矛盾。我寫信問了。 → 和陳語彤在總圖。
+msgs[143].th : p:heroine_01 → （沒有）
+msgs[143].who : heroine_01 → heroine_03
+msgs[144].day : 38 → 39
+msgs[144].from : （沒有） → kexin
+msgs[144].h : 22.69 → 8.26
+msgs[144].iv : iv36 → null
+msgs[144].text : 和陳語彤在總圖。 → 好。那天我什麼都不排。
+msgs[144].th : （沒有） → p:kexin
+msgs[144].who : heroine_03 → kexin
+msgs[145].h : 8.26 → 12.1
+msgs[146].day : 39 → 41
+msgs[146].from : kexin → （沒有）
+msgs[146].h : 12.1 → 12.32
+msgs[146].text : 好。那天我什麼都不排。 → （群組）Alison：張教授今天又發了二十頁講義，我幫你拿了一份。
+msgs[146].th : p:kexin → （沒有）
+msgs[146].who : kexin → null
+msgs[147].h : 12.32 → 17.85
+msgs[147].iv : null → iv37
+msgs[147].text : （群組）Alison：張教授今天又發了二十頁講義，我幫你拿了一份。 → 約好了：今天 17:51，2:30 AM（沈以安）。
+msgs[147].who : null → heroine_01
+msgs[148].h : 17.85 → 18.85
+msgs[148].text : 約好了：今天 17:51，2:30 AM（沈以安）。 → 和沈以安在2:30 AM。
+msgs[149].h : 18.85 → 19.53
+msgs[149].iv : iv37 → iv38
+msgs[149].text : 和沈以安在2:30 AM。 → 約好了：今天 19:32，總圖（陳語彤）。
+msgs[149].who : heroine_01 → heroine_03
+msgs[150].h : 19.53 → 21.03
+msgs[150].text : 約好了：今天 19:32，總圖（陳語彤）。 → 和陳語彤在總圖。
+msgs[151].h : 21.03 → 21.05
+msgs[151].iv : iv38 → iv39
+msgs[151].text : 和陳語彤在總圖。 → 約好了：今天 21:03，總圖（陳語彤）。
+msgs[152].h : 21.05 → 22.55
+msgs[152].text : 約好了：今天 21:03，總圖（陳語彤）。 → 和陳語彤在總圖。
+msgs[153].day : 41 → 42
+msgs[153].h : 22.55 → 15.51
+msgs[153].iv : iv39 → iv40
+msgs[153].text : 和陳語彤在總圖。 → 約好了：今天 15:31，afar café（陳語彤）。
+msgs[154].h : 15.51 → 16.51
+msgs[154].text : 約好了：今天 15:31，afar café（陳語彤）。 → 和陳語彤在afar café。
+msgs[155].h : 16.51 → 16.52
+msgs[155].iv : iv40 → iv41
+msgs[155].text : 和陳語彤在afar café。 → 和陳語彤一起去新體育館打羽球。
+msgs[156].h : 16.52 → 17.8
+msgs[156].text : 和陳語彤一起去新體育館打羽球。 → 和陳語彤在新體育館羽球場。
+msgs[157].from : （沒有） → zhe
+msgs[157].h : 17.8 → 23.5
+msgs[157].iv : iv41 → null
+msgs[157].tag : （沒有） → mx_b1_hint
+msgs[157].text : 和陳語彤在新體育館羽球場。 → 明軒說他今天很早睡
+msgs[157].th : （沒有） → g:noodle_team
+msgs[157].who : heroine_03 → null
+msgs[158].h : 23.5 → 23.51
+msgs[158].text : 明軒說他今天很早睡 → 結果我剛剛在總圖門口看到他的腳踏車
+msgs[159].day : 42 → 43
+msgs[159].from : zhe → （沒有）
+msgs[159].h : 23.51 → 9.02
+msgs[159].iv : null → iv42
+msgs[159].tag : mx_b1_hint → （沒有）
+msgs[159].text : 結果我剛剛在總圖門口看到他的腳踏車 → 約好了：11/1 12:10，SUNNY SIDE（沛珊）。
+msgs[159].th : g:noodle_team → （沒有）
+msgs[159].who : null → classmate_peishan
+msgs[160].h : 9.02 → 9.05
+msgs[160].iv : iv42 → iv43
+msgs[160].text : 約好了：11/1 12:10，SUNNY SIDE（沛珊）。 → 約好了：今天 15:30，日常失速（沛珊）。
+msgs[161].h : 9.05 → 9.08
+msgs[161].iv : iv43 → iv44
+msgs[161].text : 約好了：今天 15:30，日常失速（沛珊）。 → 約好了：今天 12:10，afar café（沈以安）。
+msgs[161].who : classmate_peishan → heroine_01
+msgs[162].h : 9.08 → 13.44
+msgs[162].text : 約好了：今天 12:10，afar café（沈以安）。 → 和沈以安在afar café。
+msgs[163].h : 13.44 → 13.45
+msgs[163].iv : iv44 → iv45
+msgs[163].text : 和沈以安在afar café。 → 約好了：今天 13:27，afar café（沈以安）。
+msgs[164].h : 13.45 → 14.45
+msgs[164].text : 約好了：今天 13:27，afar café（沈以安）。 → 和沈以安在afar café。
+msgs[165].h : 14.45 → 16.27
+msgs[165].iv : iv45 → iv43
+msgs[165].text : 和沈以安在afar café。 → 和沛珊在日常失速。
+msgs[165].who : heroine_01 → classmate_peishan
+msgs[166].h : 16.27 → 16.28
+msgs[166].iv : iv43 → iv46
+msgs[166].text : 和沛珊在日常失速。 → 和沛珊一起去公館燒臘吃飯。
+msgs[167].h : 16.28 → 17.14
+msgs[167].text : 和沛珊一起去公館燒臘吃飯。 → 和沛珊在公館燒臘。
+msgs[168].from : （沒有） → heroine_01
+msgs[168].h : 17.14 → 21.67
+msgs[168].iv : iv46 → null
+msgs[168].tag : （沒有） → dp_a118_y1s1_an_row_0_0
+msgs[168].text : 和沛珊在公館燒臘。 → 明天民總，我坐第二排。旁邊通常沒人。
+msgs[168].th : （沒有） → p:heroine_01
+msgs[168].who : classmate_peishan → heroine_01
+msgs[169].day : 43 → 44
+msgs[169].fd : （沒有） → kx4
+msgs[169].fk : （沒有） → cm
+msgs[169].from : heroine_01 → player
+msgs[169].h : 21.67 → 10.52
+msgs[169].tag : dp_a118_y1s1_an_row_0_0 → （沒有）
+msgs[169].text : 明天民總，我坐第二排。旁邊通常沒人。 → 腿還好嗎？
+msgs[169].th : p:heroine_01 → p:kexin
+msgs[169].who : heroine_01 → null
+msgs[170].fd : kx4 → （沒有）
+msgs[170].fk : cm → （沒有）
+msgs[170].from : player → kexin
+msgs[170].text : 腿還好嗎？ → 不好。
+msgs[170].who : null → kexin
+msgs[171].from : kexin → （沒有）
+msgs[171].h : 10.52 → 13.23
+msgs[171].iv : null → iv47
+msgs[171].text : 不好。 → 約好了：今天 15:30，木曜日（沈以安）。
+msgs[171].th : p:kexin → （沒有）
+msgs[171].who : kexin → heroine_01
+msgs[172].h : 13.23 → 16.52
+msgs[172].text : 約好了：今天 15:30，木曜日（沈以安）。 → 和沈以安在木曜日。
+msgs[173].h : 16.52 → 16.53
+msgs[173].iv : iv47 → iv48
+msgs[173].text : 和沈以安在木曜日。 → 約好了：今天 16:32，木曜日（沈以安）。
+msgs[174].h : 16.53 → 17.53
+msgs[174].text : 約好了：今天 16:32，木曜日（沈以安）。 → 和沈以安在木曜日。
+msgs[175].h : 17.53 → 17.67
+msgs[175].iv : iv48 → iv49
+msgs[175].text : 和沈以安在木曜日。 → 約好了：今天 17:40，2:30 AM（沈以安）。
+msgs[176].h : 17.67 → 18.67
+msgs[176].text : 約好了：今天 17:40，2:30 AM（沈以安）。 → 和沈以安在2:30 AM。
+msgs[177].h : 18.67 → 18.68
+msgs[177].iv : iv49 → iv50
+msgs[177].text : 和沈以安在2:30 AM。 → 約好了：明天 06:30，椰影大道（沈以安）。
+msgs[178].day : 44 → 45
+msgs[178].h : 18.68 → 7.71
+msgs[178].text : 約好了：明天 06:30，椰影大道（沈以安）。 → 和沈以安在椰影大道。
+msgs[179].h : 7.71 → 7.74
+msgs[179].iv : iv50 → iv51
+msgs[179].text : 和沈以安在椰影大道。 → 約好了：今天 12:30，法律學院圖書館（沈以安）。
+msgs[180].h : 7.74 → 13.85
+msgs[180].text : 約好了：今天 12:30，法律學院圖書館（沈以安）。 → 和沈以安在法律學院圖書館。
+msgs[181].h : 13.85 → 13.87
+msgs[181].iv : iv51 → iv52
+msgs[181].text : 和沈以安在法律學院圖書館。 → 約好了：今天 13:52，法律學院圖書館（沈以安）。
+msgs[182].h : 13.87 → 15.37
+msgs[182].text : 約好了：今天 13:52，法律學院圖書館（沈以安）。 → 和沈以安在法律學院圖書館。
+msgs[183].h : 15.37 → 15.66
+msgs[183].iv : iv52 → iv53
+msgs[183].text : 和沈以安在法律學院圖書館。 → 和芯慈一起去日常失速吃東西。
+msgs[183].who : heroine_01 → classmate_xinci
+msgs[184].h : 15.66 → 17.1
+msgs[184].text : 和芯慈一起去日常失速吃東西。 → 和芯慈在日常失速。
+msgs[185].day : 45 → 48
+msgs[185].h : 17.1 → 20.5
+msgs[185].iv : iv53 → null
+msgs[185].name : （沒有） → 同學
+msgs[185].tag : （沒有） → plg_pushed
+msgs[185].text : 和芯慈在日常失速。 → 憲法作業發回來了 有人知道第三題到底在問什麼嗎
+msgs[185].th : （沒有） → g:law_class
+msgs[185].who : classmate_xinci → null
+msgs[186].h : 20.5 → 20.51
+msgs[186].text : 憲法作業發回來了 有人知道第三題到底在問什麼嗎 → 我到現在還是不知道憲法在幹嘛
+msgs[187].from : （沒有） → zhe
+msgs[187].h : 20.51 → 20.52
+msgs[187].name : 同學 → （沒有）
+msgs[187].text : 我到現在還是不知道憲法在幹嘛 → 問沈以安啊 老師拿她的當範例
+msgs[188].from : zhe → （沒有）
+msgs[188].h : 20.52 → 20.53
+msgs[188].name : （沒有） → 同學
+msgs[188].text : 問沈以安啊 老師拿她的當範例 → 真的假的 以安開課
+msgs[189].from : （沒有） → heroine_01
+msgs[189].h : 20.53 → 20.54
+msgs[189].name : 同學 → （沒有）
+msgs[189].text : 真的假的 以安開課 → ……我不是老師。
+msgs[190].h : 20.54 → 20.55
+msgs[190].text : ……我不是老師。 → 可是可以一起讀。
+msgs[191].h : 20.55 → 21
+msgs[191].tag : plg_pushed → plg_invite
+msgs[191].text : 可是可以一起讀。 → 公法讀書會。週四晚上八點，B館研討室。想來的就來，不用報名。
+msgs[192].from : heroine_01 → yu
+msgs[192].h : 21 → 21.01
+msgs[192].text : 公法讀書會。週四晚上八點，B館研討室。想來的就來，不用報名。 → +1 可以帶宵夜嗎
+msgs[193].from : yu → heroine_01
+msgs[193].h : 21.01 → 21.02
+msgs[193].text : +1 可以帶宵夜嗎 → ……可以。
+msgs[194].day : 48 → 49
+msgs[194].from : heroine_01 → （沒有）
+msgs[194].h : 21.02 → 15.32
+msgs[194].tag : plg_invite → （沒有）
+msgs[194].text : ……可以。 → （群組：電影課小組）筱涵：今天拍了一段走廊。你的部分我們先空著。
+msgs[194].th : g:law_class → （沒有）
+savedAt : 1794406684628 → 1794407075223
