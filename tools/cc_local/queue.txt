@@ -827,6 +827,8 @@ GOCLASS_repro_old | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/stor
 GOCLASS_userview_new | 1d4db297a4b980e82619dbc41f70e41f108f0596 | probe | docs/story_planning/test_tools/cc/cc_goclass_probe.py | index.html | 15 | PARTS=USERVIEW,OTHERS;SHA=1d4db297a4b980e82619dbc41f70e41f108f0596
 GOCLASS_userview_old | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_goclass_probe.py | index.html | 15 | PARTS=USERVIEW,OTHERS;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 # BB 04:01 CLASS12（大一上三科課堂內容補寫：新 57e2e22c2、舊 1d4db297a；cc_class12_probe，子代理；雲端刑總 13 自檢 PASS）
+# BB 05:03 第七包 ① 先跑：算命桌 ss_2000_front（b942470ff＝LAWWW2 62afcfbc4）
+PACK7_ss_front | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=SS_MAIN;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
 # BB 04:27：CLASS12 新版改 69374803a（座位上課加「略過 »」）；刑總 7、13 等 AA 搬句子後的新 SHA 再跑（先拿掉）
 CLASS12_const_a | 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=CLASS;COURSE=const_1;WEEKS=2,6;SHA=2d90b034c88f1d2539fcb9d75eed1e1c4fa49397
 CLASS12_const_b | 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=CLASS;COURSE=const_1;WEEKS=7,15;SHA=2d90b034c88f1d2539fcb9d75eed1e1c4fa49397
@@ -883,29 +885,33 @@ SC4_walk_new | 1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511 | probe | docs/story_pla
 SC4_tx_new | 1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511 | probe | docs/story_planning/test_tools/cc/cc_scoot4_probe.py | index.html | 12 | PARTS=TXSIGN,TXDOOR;SHA=1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511
 SC4_street_old | 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585 | probe | docs/story_planning/test_tools/cc/cc_scoot4_probe.py | index.html | 10 | PARTS=STREET,FPS;SHA=0eb2a0049cc6feff9fcd2f91153eca1a5c30b585
 SC4_tx_old | 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585 | probe | docs/story_planning/test_tools/cc/cc_scoot4_probe.py | index.html | 6 | PARTS=TXSIGN;SHA=0eb2a0049cc6feff9fcd2f91153eca1a5c30b585
+# BB 05:03 第七包 ②～⑤（b942470ff；節日燈修之前＝eafbd06b0 同機位）：過年 G01 燈籠、12 月聖誕燈串、萬聖節南瓜燈（SEASON SHOTS 14、20 點）、新生南路配件車（XSCOOT）
+SEASON_cnym3 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=cny-3;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+PACK7_old_cnym3 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS;DATES=cny-3;ZONES=gongguan;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
+SEASON_1210 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=1210;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+PACK7_old_1210 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS;DATES=1210;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
+SEASON_1028 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=1028;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+PACK7_old_1028 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS;DATES=1028;ZONES=gongguan;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
+SC4_xs_new | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_scoot4_probe.py | index.html | 10 | PARTS=XSCOOT;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
 # BB 03:48／04:17 SEASON 季節布置第一＋第二批（新 eafbd06b0、舊 696cf6036；cc_season_probe，子代理）
-SEASON_dragon3 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=dragon3;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_0210 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=0210;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_1028 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=1028;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_0715 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=0715;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_0115 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=0115;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_0415 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=0415;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_exam_stay | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=exam_stay;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_exam_moved | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=exam_moved;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_1210 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=1210;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_cnym3 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=cny-3;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_cnyp3 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=cny+3;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_0315 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=0315;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_1105 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=1105;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_edge_a | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 10 | PARTS=EDGE;EDGE_CODES=CNY,XMAS,DRAGON,VDAY;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_edge_b | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 10 | PARTS=EDGE;EDGE_CODES=CVSWINTER,CVSSUMMER,LAUNDRY,HALLOWEEN,DRINKSUMMER,DRINKWINTER,EXAM;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_func_gg | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 15 | PARTS=WALK,DOORS,FPS;FUNC_DATES=cny-3;ZONES=gongguan;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
-SEASON_func_wz | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 15 | PARTS=WALK,DOORS,FPS;FUNC_DATES=cny-3;ZONES=wenzhou;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
+SEASON_dragon3 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=dragon3;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_0210 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=0210;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_0715 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=0715;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_0115 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=0115;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_0415 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=0415;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_exam_stay | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=exam_stay;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_exam_moved | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=exam_moved;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_cnyp3 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=cny+3;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_0315 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=0315;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_1105 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=1105;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_edge_a | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 10 | PARTS=EDGE;EDGE_CODES=CNY,XMAS,DRAGON,VDAY;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_edge_b | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 10 | PARTS=EDGE;EDGE_CODES=CVSWINTER,CVSSUMMER,LAUNDRY,HALLOWEEN,DRINKSUMMER,DRINKWINTER,EXAM;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_func_gg | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 15 | PARTS=WALK,DOORS,FPS;FUNC_DATES=cny-3;ZONES=gongguan;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
+SEASON_func_wz | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 15 | PARTS=WALK,DOORS,FPS;FUNC_DATES=cny-3;ZONES=wenzhou;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
 SEASON_old_cny | 696cf6036f3ca9fbc7022c21ab37324b0e46e305 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 10 | PARTS=SHOTS,NAV,FPS;FPS_DATES=cny-3;HOURS=20;DATES=cny-3;SHA=696cf6036f3ca9fbc7022c21ab37324b0e46e305
 SEASON_old_xmas | 696cf6036f3ca9fbc7022c21ab37324b0e46e305 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 10 | PARTS=SHOTS,NAV,FPS;FPS_DATES=1210;HOURS=20;DATES=1210;SHA=696cf6036f3ca9fbc7022c21ab37324b0e46e305
 # BB 04:16 XSCOOT 新生南路路邊機車（新 1c2b6d4a3、舊 0eb2a0049；cc_scoot4_probe XSCOOT；導航格比「同一版拿掉機車」）
 SC4_xs_old | 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585 | probe | docs/story_planning/test_tools/cc/cc_scoot4_probe.py | index.html | 8 | PARTS=XSCOOT;SHA=0eb2a0049cc6feff9fcd2f91153eca1a5c30b585
-SC4_xs_new | 1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511 | probe | docs/story_planning/test_tools/cc/cc_scoot4_probe.py | index.html | 10 | PARTS=XSCOOT;SHA=1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511
 # BB 04:39 POOL_swimmers 體育館泳池泳客（開發分支 d926d54bd；cc_pool_probe）
 POOL_swim | d926d54bda6e7d27af3c49506679ae1a9c90dceb | probe | docs/story_planning/test_tools/cc/cc_pool_probe.py | index.html | 10 | PARTS=OPEN,FPS,CLOSED;Q=high;SHA=d926d54bda6e7d27af3c49506679ae1a9c90dceb
 # BB 04:15／04:33／04:36 CHOOSE 動態（cc_choose_probe，子代理；新 73faa493f／舊 779ddd650，網址自己加 ?tapguard）：十個不可逆選單、150／500 ms、直向橫向
