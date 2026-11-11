@@ -184,7 +184,7 @@ check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html �
   check('33. BASE：STORY_EVENTS 有名字、整句「…」的＝這 23 句（事件、說的人、字一句一句對）',no.length===23&&TW.every(([f,e,t,sp])=>no.filter(s=>s.ev===e&&s.text===t&&s.speaker===sp).length===1),sample(no.map(s=>s.ev+'：'+s.text)));
   check('33. 現在：STORY_EVENTS 有名字、整句「…」的 0 句',nn.length===0,sample(nn.map(s=>s.ev+'：'+s.text)));
   const nl=L=>L.filter(s=>s.kind==='nameless'&&s.wrapped).map(s=>[s.ev,s.p,s.speaker,s.text]), ch=L=>L.filter(s=>s.kind==='choice'&&s.wrapped).map(s=>[s.ev,s.p,s.text]), ph=L=>L.filter(s=>s.kind==='phone'&&s.wrapped).map(s=>[s.ev,s.p,s.text]);
-  /* 2026-11-11（X327 沛珊重寫，AA_766_peishan_leftover2.json@6325e4b98）：D4c「沛珊的問題」的選項換了字（九個帶「」的選項；個數、位置不變）——選項逐個比，那幾個照 tests/peishan_rewrite_1111.js 的 PAIRS 算，其他一模一樣 */
+  /* 2026-11-11（X327 沛珊重寫，AA_766_peishan_leftover2.json@1e647bb05）：D4c「沛珊的問題」的選項換了字（九個帶「」的選項；個數、位置不變）——選項逐個比，那幾個照 tests/peishan_rewrite_1111.js 的 PAIRS 算，其他一模一樣 */
   const chSame=(A,B)=>A.length===B.length&&A.every((a,i)=>a[0]===B[i][0]&&a[1]===B[i][1]&&(a[2]===B[i][2]||require('./peishan_rewrite_1111.js').pair(a[2],B[i][2])));
   check('33. 照留：沒有名字的「嗶——」（ev_l1_elevator，沒有 speaker＝GM.say(null,…)）、選項 '+ch(sn).length+' 個、手機 '+ph(sn).length+' 句——和 BASE 一模一樣（D4c 沛珊的問題那幾個選項照 AA_766 換字）',
     J(nl(sn))===J([['ev_l1_elevator','[7]',null,'「嗶——」']])&&J(nl(so))===J(nl(sn))&&ch(sn).length>1500&&chSame(ch(so),ch(sn))&&J(ph(so))===J(ph(sn)),J([nl(sn),ch(so).length,ch(sn).length,ch(so).filter((a,i)=>J(a)!==J(ch(sn)[i])).length]));
@@ -234,10 +234,14 @@ const findC7=()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format
   const used=LEGAL_REP.map(([o])=>LA.filter(l=>l.includes(o)).length);
   check('35. legal3d.js：註解以外，只有 LEGAL.ask 出題那 3 行不一樣，就是拿掉程式包的那 5 對「」（BASE 套上那 5 個替換＝現在，一字不差；每個替換在 BASE 剛好一處）',
     LA.length===LB.length&&diffAt.length===3&&J(LA.map(rep))===J(LB)&&used.every(n=>n===1),J([LA.length,LB.length,diffAt,used]));
-  const frozen=['src/data/legal_qbank.js','src/data/exam_bank.js','src/data/syllabus.js'];
-  const fd=cp.execFileSync('git',['-C',ROOT,'diff','--name-only',BASE,'--',...frozen],{encoding:'utf8'}).trim();
+  /* 2026-11-11：syllabus.js 重匯（大一上三科課堂內容補寫，AA d3a22505b、BB_332～334）、exam_bank.js 重匯（CRIM45_33 加 askedIn，AA 869834859）——這兩個檔不再要求和 BASE 整檔一樣（舊期望：三個檔都沒改）；
+     改成：legal_qbank.js 整檔不變；exam_bank.js 在 BASE 就有的題，題目、選項、答案一字不差（D12：題庫不可改答案） */
+  const frozen=['src/data/legal_qbank.js'];
+  let fd=cp.execFileSync('git',['-C',ROOT,'diff','--name-only',BASE,'--',...frozen],{encoding:'utf8'}).trim();
+  { const qs=src=>{ const m={}; for(const q of (new Function(src.replace(/^const EXAM_BANK\s*=/m,'return ')))().questions) m[q.id]=J([q.q,q.options,q.answer]); return m; };
+    const a0=qs(gitShow(BASE,'src/data/exam_bank.js')), b0=qs(cur('src/data/exam_bank.js')); const ch=Object.keys(a0).filter(k=>a0[k]!==b0[k]); if(ch.length) fd=(fd?fd+' ':'')+'exam_bank 題目／選項／答案變了：'+ch.slice(0,5).join(','); }
   const md5=s=>crypto.createHash('md5').update(s).digest('hex');
-  check('35. 題庫一字不差：legal_qbank.js（md5 和 '+BASE+' 一樣）、exam_bank.js、syllabus.js 都沒改',!fd&&md5(cur('src/data/legal_qbank.js'))===md5(gitShow(BASE,'src/data/legal_qbank.js')),fd); }
+  check('35. 題庫一字不差：legal_qbank.js（md5 和 '+BASE+' 一樣）；exam_bank.js 原有的題目、選項、答案都沒改（2026-11-11 起；syllabus.js 已重匯不再比）',!fd&&md5(cur('src/data/legal_qbank.js'))===md5(gitShow(BASE,'src/data/legal_qbank.js')),fd); }
 
 /* ---------- 36. 讀書區：加（小聲）的時候先拿掉外面的「」——BASE 的字、現在的字加完一樣 ---------- */
 { const q=N.quiet||{}, lg=q.legal||[], ln=q.lines||[];

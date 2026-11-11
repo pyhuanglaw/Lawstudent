@@ -131,4 +131,14 @@ check('10. 路邊的機車是一小群一小群停、有空位（使用者 11-10
     mats.includes('seethru_tzs_awning')&&nd.includes('STALL_ball_open_aw')&&nd.includes('STALL_eggcake_open_aw')&&r1===true&&r2===false&&r3===false&&patched===1&&mt.userData.seeThrough===true&&all3.every(v=>v===true)&&(src.match(/S\.stallSeeThru\(E,m\.material\)/g)||[]).length===2,mats.join(' ')+' '+[r1,r2,r3,patched].join(','));
   const m=/tzGlowMat\.emissiveIntensity=([0-9.]+)\+([0-9.]+)\*k/.exec(src), top=m?(+m[1])+(+m[2]):99;
   check('14. 燈泡：夜裡自發光最高 ≤ 2（原本 3.0 是純白的球）、半徑縮小（nm_stalls.py 的 bulb）',top<=2&&/r = min\(r, 0\.05\) \* 0\.68/.test(py),'最高 '+top); }
+/* 15. 巷 A 兩側的鏡頭碰撞盒（TZ-ALLEY-CAMCOL-1111；BB／CC 11-11：「一個地球」前面鏡頭 (19.08, 2.87, −5.55) 繞進北邊那一棟裡，整個畫面是一面牆）：
+       巷子裡每一攤前面、和巷子裡每隔 2 m 一個點，往北、往南、斜著退鏡頭 6 m，射線都要先打到碰撞盒（鏡頭被拉回巷子裡，不會進樓房） */
+{ const Ec=mk(), zc=Z3.ZONES.tingzhou.build(Ec); zc.group.updateMatrixWorld(true);   /* 前面幾節建過別的區域（E.colliders 換掉了）：重新建一次汀州路 */
+  const A=L.alleys[0], ray=new THREE.Raycaster(), miss=[]; for(const c of Ec.colliders) c.updateMatrixWorld(true);
+  const pts=[]; for(let x=F.east+3;x<=F.east+A.len-1;x+=2) pts.push([x,0]);   /* 巷口 3 m 內斜著往大街的方向本來就是開的（騎樓），從巷內 3 m 開始算 */ for(const q of (L.stalls.list||[]).filter(q=>q.where==='alleyA')) pts.push([q.x,q.z+Math.cos(q.yaw)*1.2]);
+  for(const [x,zz] of pts) for(const [dx,dz] of [[0,-1],[0,1],[0.11,-0.99],[-0.11,0.99],[0.5,-0.87],[-0.5,0.87]]){ const o=new THREE.Vector3(x,1.5,zz), d=new THREE.Vector3(dx,0.25,dz).normalize(); ray.set(o,d); ray.far=6; const h=ray.intersectObjects(Ec.colliders,false);
+    if(!h.length||h[0].distance>4.2) miss.push([x,zz,dx,dz,h.length?+h[0].distance.toFixed(2):null].join('/')); }
+  { const o=new THREE.Vector3(18.5,1.5,-0.4), c=new THREE.Vector3(19.08,2.87,-5.55), d=c.clone().sub(o); ray.set(o,d.clone().normalize()); ray.far=d.length(); const h=ray.intersectObjects(Ec.colliders,false);
+    check('15. CC 量到的那一格（玩家 (18.5, −0.4)、鏡頭 (19.08, 2.87, −5.55)）：射線先打到樓房的碰撞盒（鏡頭會被拉回巷子裡）',h.length>0&&h[0].distance<3,h.length?h[0].distance.toFixed(2):'沒打到'); }
+  check('15. 巷 A 裡 '+pts.length+' 個點、六個方向：鏡頭往兩側退都會被樓房擋下來（4.2 m 內打到碰撞盒）',pts.length>=11&&!miss.length,miss.slice(0,6).join(' ')); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

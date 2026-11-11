@@ -21,6 +21,8 @@ const files=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).m
 const found=new Map(); for(const f of files){ for(const s of lits(fs.readFileSync(path.join(ROOT,f),'utf8'))) if(RE.test(s)){ const k=s.trim(); if(!found.has(k)) found.set(k,f); } }
 /* ---- 看過、可以留的 ---- */
 const OK={
+  /* 2026-11-11（L118-LUNCH-INVITE-1111，AA_771@138bfaf45 的 L-yu-1，src/data/l118_lunch.js）：Alison 午餐時說自己今天排了幾件事——不是學姊 */
+  '我跟你說，我今天排了四件事，這是第二件。':'Alison（AA_771 午餐對話 L-yu-1）：她在數自己今天的行程，不是學姊在數件數',
   /* 2026-11-11（PEISHAN-VOICE-1110，AA_751@33a1769f8）：沛珊期末告白回家路上的一句——不是學姊 */
   '那換我講一件事。我有喜歡的人。':'沛珊（AA_751 HEART.walkOpts 第三個選項的回話）：「一件事」不是學姊在數件數',
   /* 2026-11-11（PEISHAN-VOICE-1110，AA_753@33a1769f8）：沛珊大一上階梯重寫——P-L2 選項一的回話是新的；原本表上她的兩句「可以問你一件事嗎？」「問你一件事喔。」（P-L1、P-L5 的舊句）已經不在遊戲裡，從表上拿掉 */

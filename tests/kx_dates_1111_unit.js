@@ -80,7 +80,7 @@ const know=id=>{ H.CLOSE(id); H.G.contacts[id]=1; };
     check('3. 可昕的格子和重匯以前比：914 格不同；每個地點的格子（選項數、tier、喜好）一樣多',d3===914&&st.length===0,J([d3,st])); });
 
   await sec(4,async()=>{ const v=DATE.ARRIVE_VAR.find(x=>x.who===KX), F=NOW.loc.D32.lines[KX].arrive.first, T=F.lines.map(x=>x.text);
-    check('4. ARRIVE_VAR 可昕 D32（D31＋D32 同一趟）：from 跟著新稿第一次到達的第一句「清境。要開三個多小時，我負責讓你不要睡著。」，對得上資料；to 照 AA_359 5-3「清境。從日月潭上來，一個半小時。我查過了。」',!!v&&v.loc==='D32'&&J(v.from)===J(['清境。要開三個多小時，我負責讓你不要睡著。'])&&T[0]===v.from[0]&&J(v.to)===J(['清境。從日月潭上來，一個半小時。我查過了。'])&&DATE.ARRIVE_VAR.length===2,J([T,v&&v.from]));
+    check('4. ARRIVE_VAR 可昕 D32（D31＋D32 同一趟）：from 跟著新稿第一次到達的第一句「清境。要開三個多小時，我負責讓你不要睡著。」，對得上資料；to 照 AA 11-11 回 LAWWW 第 4 題的新字「清境。從日月潭上來一個半小時，我本來要睡，結果一路在看路。」（舊：AA_359 5-3「清境。從日月潭上來，一個半小時。我查過了。」）',!!v&&v.loc==='D32'&&J(v.from)===J(['清境。要開三個多小時，我負責讓你不要睡著。'])&&T[0]===v.from[0]&&J(v.to)===J(['清境。從日月潭上來一個半小時，我本來要睡，結果一路在看路。'])&&DATE.ARRIVE_VAR.length===2,J([T,v&&v.from]));
     const t={who:KX,locs:['D32']}, a=DATE.arriveVar({flags:{}},t,F,{combo:true}).lines.map(x=>x.text), b=DATE.arriveVar({flags:{}},t,F,{}).lines.map(x=>x.text);
     check('4. 實際換：同一趟＝第一句換成「從日月潭上來」那一句、第二句照新稿；只去清境＝兩句都照新稿',J(a)===J([v.to[0],T[1]])&&J(b)===J(T)&&T[1]==='這一趟我只排了一件事：看雲。',J([a,b]));
     check('4. PICK_FLAG、REMEMBER_IF、S.LINE_IF 都沒有可昕的項目（沒有拿她的句子當 key）；原本的 PICK_FLAG 3 筆、REMEMBER_IF 3 筆照舊',![].concat(DATE.REMEMBER_IF,DATE.PICK_FLAG).some(x=>x.who===KX)&&!DATE.LINE_IF[KX]&&DATE.PICK_FLAG.length===3&&DATE.REMEMBER_IF.length===3);

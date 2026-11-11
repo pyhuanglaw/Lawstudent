@@ -1,11 +1,11 @@
 {
- "objects": 4,
- "unique_meshes": 4,
- "tris": 3048,
- "tris_drawn": 3048,
+ "objects": 14,
+ "unique_meshes": 14,
+ "tris": 3468,
+ "tris_drawn": 3468,
  "materials": 3,
  "out": "assets/models/env/second_ai/season_wenzhou.glb",
- "bytes": 243284,
+ "bytes": 340064,
  "texres": 1024,
  "set": "wenzhou",
  "doors": 13,
@@ -17,7 +17,43 @@
   "XMAS": {
    "doors": 2,
    "tris": 2902
+  },
+  "DRAGON": {
+   "doors": 3,
+   "tris": 78
+  },
+  "CVSWINTER": {
+   "doors": 1,
+   "tris": 2
+  },
+  "CVSSUMMER": {
+   "doors": 1,
+   "tris": 2
+  },
+  "VDAY": {
+   "doors": 2,
+   "tris": 128
+  },
+  "HALLOWEEN": {
+   "doors": 0,
+   "tris": 0
+  },
+  "DRINKSUMMER": {
+   "doors": 0,
+   "tris": 0
+  },
+  "DRINKWINTER": {
+   "doors": 0,
+   "tris": 0
+  },
+  "LAUNDRY": {
+   "doors": 1,
+   "tris": 10
+  },
+  "EXAM": {
+   "doors": 1,
+   "tris": 20
   }
  },
- "note": "LIFE-DETAILS-SEASONAL-1110 第一批：SEASON_CNY_on 過年（春聯、橫批、福、燈籠）、SEASON_XMAS_on 聖誕（花圈、燈串、雪花貼紙）；日期表 src/data/season_deco.js"
+ "note": "LIFE-DETAILS-SEASONAL-1110 第一、二批：SEASON_<代號>_on（CNY 過年、XMAS 聖誕、DRAGON 端午、VDAY 情人節、HALLOWEEN 萬聖節、CVSWINTER／CVSSUMMER 便利店海報、DRINKSUMMER／DRINKWINTER 飲料店布條、LAUNDRY 洗衣店換季、EXAM 期末考週影印店）；日期表 src/data/season_deco.js"
 }

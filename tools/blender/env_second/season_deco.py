@@ -20,12 +20,20 @@ PAIRS = [('天增歲月人增壽', '春滿乾坤福滿門', '四季平安'), ('�
 # 哪幾間多一對紅燈籠（日式、茶屋那一種門面）／哪幾間有聖誕布置（咖啡、早午餐；麵店、影印、藥局不放——提案 C3）
 LANTERN = {'wenzhou': (), 'gongguan': ('G01',)}   # 小路（B3）門口本來就有白燈籠，不再加
 XMAS = {'wenzhou': ('B7', 'W2'), 'gongguan': ('G07', 'G14')}
+# 第二批（11-11）：都還是貼在門面上的東西——端午、情人節、萬聖節、飲料店的季節布條、便利店的季節海報、洗衣店的換季告示、期末考週的影印店
+DRAGON_HERB = {'wenzhou': ('A4', 'B3'), 'gongguan': ('G01',)}        # 門邊綁一束艾草菖蒲：林家乾麵、小路、青木茶室
+CVS = {'wenzhou': ('A5',), 'gongguan': ('G03',)}                     # 日和便利店：端午粽子、冬天關東煮熱飲、夏天冰品的海報貼在玻璃上
+VDAY = {'wenzhou': ('B7', 'W2'), 'gongguan': ('G07', 'G14', 'G11')}  # 情人節：咖啡店玻璃上的小愛心；花序玻璃上一張玫瑰花束的海報
+HALLOWEEN = {'wenzhou': (), 'gongguan': ('G07', 'G14')}              # 萬聖節：只有 afar、Daybreak（台灣比較少，不每間都放）
+DRINK = {'wenzhou': (), 'gongguan': ('G01',)}                        # 飲料店門邊的季節布條（帝大紅茶的店面生成器沒有門的位置，先只有青木茶室）
+LAUNDRY = {'wenzhou': ('B2',), 'gongguan': ()}                       # 常在洗衣：換季「棉被・大衣送洗」
+EXAM = {'wenzhou': ('A1',), 'gongguan': ()}                          # 阿德影印（原本的店面）：期末考週的手寫告示
 SKIP = ('A2C',)   # 阿德影印搬到轉角以後的店面：要看劇情狀態（WZ_COPY_SHOP）才有，先不貼
 
 
 def make_atlas():
     """春聯四副（上下聯各 7 字，直的）＋橫批四張＋倒貼的「福」＋「春」→ season_atlas.jpg（1024×1024）；回傳 {key: (u0, v0, u1, v1)}"""
-    W = H = 1024; im = Image.new('RGB', (W, H), RED); d = ImageDraw.Draw(im); uv = {}
+    W, H = 2048, 1024; im = Image.new('RGB', (W, H), RED); d = ImageDraw.Draw(im); uv = {}
     def put(key, x, y, w, h): uv[key] = (x / W, 1 - (y + h) / H, (x + w) / W, 1 - y / H)
     fv = ImageFont.truetype(FONT, 84)
     for i, (a, b, _) in enumerate(PAIRS):
@@ -44,6 +52,41 @@ def make_atlas():
         bb = cd.textbbox((0, 0), ch, font=fb); cd.text((60 - (bb[0] + bb[2]) / 2, 60 - (bb[1] + bb[3]) / 2), ch, font=fb, fill=GOLD if ch == '福' else INK)
         if ch == '福': cell = cell.rotate(180)   # 倒貼＝福到
         im.paste(cell, (x, y)); put('fu' if ch == '福' else 'chun', x + 1, y + 1, 118, 118)
+    # ---- 第二批：海報（256×360）、直布條（128×512）、手寫告示（256×180）；字都是本作自己寫的一般用語，沒有品牌 ----
+    def fit(t, w, px):
+        while px > 12 and d.textlength(t, font=ImageFont.truetype(FONT, px)) > w: px -= 2
+        return ImageFont.truetype(FONT, px)
+    def ctext(cx, cy, t, w, px, col):
+        f = fit(t, w, px); bb = d.textbbox((0, 0), t, font=f); d.text((cx - (bb[0] + bb[2]) / 2, cy - (bb[1] + bb[3]) / 2), t, font=f, fill=col)
+    def poster(key, x, y, bg, edge, lines, icon):
+        w_, h_ = 256, 360; d.rectangle([x, y, x + w_ - 1, y + h_ - 1], fill=bg); d.rectangle([x + 6, y + 6, x + w_ - 7, y + h_ - 7], outline=edge, width=4); icon(x + w_ // 2, y + 118)
+        for i, (t, px, col) in enumerate(lines): ctext(x + w_ // 2, y + 232 + i * 62, t, w_ - 36, px, col)
+        put(key, x + 1, y + 1, w_ - 2, h_ - 2)
+    def ic_zong(cx, cy):   # 粽子：綠色三角形、棉繩
+        for dx in (-52, 52): d.polygon([(cx + dx, cy - 58), (cx + dx - 50, cy + 44), (cx + dx + 50, cy + 44)], fill='#4f7a3a'); d.line([(cx + dx - 30, cy + 6), (cx + dx + 30, cy + 6)], fill='#e8dcc0', width=5); d.line([(cx + dx, cy - 58), (cx + dx, cy - 86)], fill='#e8dcc0', width=4)
+    def ic_oden(cx, cy):   # 關東煮：一個碗、三串、熱氣
+        d.pieslice([cx - 80, cy - 40, cx + 80, cy + 90], 0, 180, fill='#f4f1e8'); d.rectangle([cx - 84, cy + 18, cx + 84, cy + 28], fill='#c8201c')
+        for i, dx in enumerate((-40, 0, 40)): d.line([(cx + dx, cy + 20), (cx + dx + 8, cy - 62)], fill='#b98a4a', width=5); d.ellipse([cx + dx - 14, cy - 40 + i * 6, cx + dx + 22, cy - 8 + i * 6], fill=('#e8d9b0', '#d98a4a', '#f4f1e8')[i])
+        for dx in (-50, 0, 50): d.arc([cx + dx - 14, cy - 110, cx + dx + 14, cy - 66], 90, 270, fill='#ffffff', width=4)
+    def ic_ice(cx, cy):    # 冰棒兩支
+        for dx, col in ((-44, '#7fd0e8'), (44, '#f6a0b8')): d.rounded_rectangle([cx + dx - 34, cy - 84, cx + dx + 34, cy + 34], radius=28, fill=col); d.rectangle([cx + dx - 7, cy + 34, cx + dx + 7, cy + 84], fill='#d9b98a')
+    def ic_rose(cx, cy):   # 玫瑰花束：三朵紅花、綠葉、包裝紙
+        d.polygon([(cx - 70, cy - 10), (cx + 70, cy - 10), (cx + 14, cy + 96), (cx - 14, cy + 96)], fill='#f4e6d8')
+        for dx, dy in ((-34, -30), (34, -30), (0, -62)): d.ellipse([cx + dx - 30, cy + dy - 30, cx + dx + 30, cy + dy + 30], fill='#c8201c'); d.arc([cx + dx - 16, cy + dy - 16, cx + dx + 16, cy + dy + 16], 30, 300, fill='#8f1410', width=4)
+        d.polygon([(cx - 70, cy - 6), (cx - 30, cy + 10), (cx - 60, cy + 30)], fill='#3f7a3a'); d.polygon([(cx + 70, cy - 6), (cx + 30, cy + 10), (cx + 60, cy + 30)], fill='#3f7a3a')
+    PX = 1024
+    poster('p_zong', PX, 0, '#f6efd8', '#4f7a3a', [('端午粽子', 54, '#2f5a2a'), ('預購中', 40, '#c8201c')], ic_zong)
+    poster('p_oden', PX + 256, 0, '#c8201c', '#f6d98a', [('關東煮', 60, '#fff6e0'), ('熱飲・熱食', 38, '#f6d98a')], ic_oden)
+    poster('p_ice', PX + 512, 0, '#dff2f8', '#3d8ab0', [('冰品・涼飲', 48, '#1f5a80'), ('清涼一夏', 38, '#e0607a')], ic_ice)
+    poster('p_rose', PX + 768, 0, '#fbe9ec', '#c8201c', [('情人節花束', 46, '#a01814'), ('預訂・代客包裝', 30, '#5a3a3a')], ic_rose)
+    for i, (key, t, bg, col) in enumerate((('b_summer', '冬瓜檸檬・冰', '#2f8ab0', '#ffffff'), ('b_winter', '熱飲・暖暖上市', '#b0522a', '#fff3d8'))):   # 直布條
+        x, y = PX + i * 128, 364; d.rectangle([x, y, x + 127, y + 511], fill=bg); d.rectangle([x + 5, y + 5, x + 122, y + 506], outline=col, width=3); n = len(t); st = 492 // n; fz = ImageFont.truetype(FONT, min(84, st - 6))
+        for k, ch in enumerate(t): bb = d.textbbox((0, 0), ch, font=fz); d.text((x + 64 - (bb[0] + bb[2]) / 2, y + 10 + k * st + st / 2 - (bb[1] + bb[3]) / 2), ch, font=fz, fill=col)
+        put(key, x + 1, y + 1, 126, 510)
+    for i, (key, lines, bg, col) in enumerate((('n_laundry', ['換季囉', '棉被・大衣送洗'], '#fffbe8', '#1f4f9c'), ('n_exam1', ['考古題・講義', '影印 快速取件'], '#fff6c8', '#1d1a16'), ('n_exam2', ['期末加油！', '裝訂・雙面 都可以'], '#ffe6e0', '#c8201c'))):   # 手寫告示
+        x, y = PX + 260 + i * 260, 364; d.rectangle([x, y, x + 255, y + 179], fill=bg); d.rectangle([x + 4, y + 4, x + 251, y + 175], outline=col, width=3)
+        for k, t in enumerate(lines): ctext(x + 128, y + 58 + k * 68, t, 226, 52 if k == 0 else 38, col)
+        put(key, x + 1, y + 1, 254, 178)
     os.makedirs(GEN, exist_ok=True); out = os.path.join(GEN, 'season_atlas.jpg'); im.save(out, quality=90); return out, uv
 
 
@@ -144,6 +187,72 @@ def export(SET, doors, out):
         X['n'] += 1
     groups.append(X)
 
+    # ---------- 第二批 ----------
+    def glass_spot(D, w, k=0):   # 門旁邊的玻璃上找一個放得下 w 寬的位置（沿門的座標；左右輪流；沒有玻璃就貼在門邊的牆上）
+        g0, g1 = D.G(D.wd); left, right = (-0.12) - g0, g1 - (D.wd + 0.12)
+        if (k % 2 == 0 and right >= w + 0.1) or left < w + 0.1: return D.wd + 0.12 + min(0.25, max(0.0, right - w) / 2)
+        return -0.12 - w - min(0.25, max(0.0, left - w) / 2)
+    def sheet(S, key, D, a0, y0, w, h, off=0.03): tq(S, key, [D.P(a0, y0, off), D.P(a0 + w, y0, off), D.P(a0 + w, y0 + h, off), D.P(a0, y0 + h, off)])
+    def only(ids): return [(i, r, Door(r)) for i, r in enumerate(doors) if r['id'] in ids.get(SET, ())]
+    # 端午：艾草菖蒲（一束綠葉、紅繩綁著，掛在門邊）＋便利店的粽子海報
+    Dg = group('DRAGON')
+    for i, r, D in only(DRAGON_HERB):
+        a_, y1 = D.wd + 0.14, min(2.2, D.top - 0.25)   # 門的右邊（左邊留給飲料店的季節布條：端午那一週兩樣會同時出現）
+        for k in range(7):
+            dx = (k - 3) * 0.022; ln = 0.5 + 0.08 * (k % 3); col = ('#4f7a3a', '#6a9a4a', '#3f6a34')[k % 3]
+            flat2(Dg['F'], [D.P(a_ + dx * 0.4, y1, 0.04), D.P(a_ + dx * 2.2 - 0.02, y1 - ln * 0.6, 0.05), D.P(a_ + dx * 3.0, y1 - ln, 0.06), D.P(a_ + dx * 2.2 + 0.02, y1 - ln * 0.6, 0.05)], col)
+        cyl(Dg['V'], D.P(a_ - 0.05, y1 - 0.02, 0.05), D.P(a_ + 0.05, y1 - 0.02, 0.05), 0.012, '#c8201c', seg=5); cyl(Dg['V'], D.P(a_, y1, 0.02), D.P(a_, y1 + 0.1, 0.01), 0.004, '#c8201c', seg=3); Dg['n'] += 1
+    for i, r, D in only(CVS): sheet(Dg, 'p_zong', D, glass_spot(D, 0.5, i), 1.05, 0.5, 0.7); Dg['n'] += 1
+    groups.append(Dg)
+    # 便利店：冬天、夏天的海報（同一個位置，日期不重疊）
+    for code, key in (('CVSWINTER', 'p_oden'), ('CVSSUMMER', 'p_ice')):
+        Gc = group(code)
+        for i, r, D in only(CVS): sheet(Gc, key, D, glass_spot(D, 0.5, i + 1), 1.05, 0.5, 0.7); Gc['n'] += 1
+        groups.append(Gc)
+    # 情人節：咖啡店玻璃上的小愛心（紅、粉紅）；花序一張玫瑰花束的海報
+    Vd = group('VDAY')
+    for i, r, D in only(VDAY):
+        if r['id'] == 'G11': sheet(Vd, 'p_rose', D, -0.12 - 0.5 - 1.05, 1.05, 0.5, 0.7); Vd['n'] += 1; continue   # 花序：貼在左邊櫥窗上、離門 1 m 多（門兩邊緊鄰的位置被門口的樹擋住）
+        g0, g1 = D.G(D.wd)
+        for k in range(8):
+            a = g0 + 0.3 + (k * 0.618 % 1.0) * max(0.2, g1 - g0 - 0.6); y = 1.05 + ((k * 37) % 10) / 10 * 0.9; s_ = 0.055 + 0.02 * (k % 3); col = ('#d8261c', '#f08aa0', '#e85a78')[k % 3]
+            if -0.1 < a < D.wd + 0.1 and 1.3 < y < 2.0: y = 1.1
+            pts = [(0.0, -1.0), (0.95, 0.05), (1.0, 0.5), (0.75, 0.9), (0.35, 0.95), (0.0, 0.6), (-0.35, 0.95), (-0.75, 0.9), (-1.0, 0.5), (-0.95, 0.05)]
+            flat2(Vd['F'], [D.P(a + px * s_, y + py * s_, 0.035) for (px, py) in pts], col)
+        Vd['n'] += 1
+    groups.append(Vd)
+    # 萬聖節：玻璃上的黑色小蝙蝠＋上緣一串橘色的紙南瓜
+    Hw = group('HALLOWEEN')
+    for i, r, D in only(HALLOWEEN):
+        g0, g1 = D.G(D.wd)
+        for k in range(6):
+            a = g0 + 0.35 + (k * 0.618 % 1.0) * max(0.2, g1 - g0 - 0.7); y = 1.2 + ((k * 53) % 10) / 10 * 0.8; s_ = 0.09 + 0.03 * (k % 2)
+            pts = [(0.0, -0.25), (0.25, -0.05), (0.55, -0.3), (1.0, 0.25), (0.6, 0.15), (0.35, 0.35), (0.12, 0.2), (0.1, 0.45), (0.0, 0.3), (-0.1, 0.45), (-0.12, 0.2), (-0.35, 0.35), (-0.6, 0.15), (-1.0, 0.25), (-0.55, -0.3), (-0.25, -0.05)]
+            flat2(Hw['F'], [D.P(a + px * s_, y + py * s_, 0.035) for (px, py) in reversed(pts)], '#1d1a16')
+        n = max(5, int((g1 - g0) / 0.36)); ly = D.top + 0.0
+        for k in range(n):
+            a = g0 + (k + 0.5) * (g1 - g0) / n; cyl(Hw['V'], D.P(a - (g1 - g0) / n / 2, ly + 0.03, 0.05), D.P(a + (g1 - g0) / n / 2, ly + 0.03, 0.05), 0.004, INK, seg=3)
+            ball(Hw['V'], D.P(a, ly - 0.07, 0.05), 0.07, '#e8862a' if k % 2 else '#f09a3a', sy=0.82, seg=8, rings=5); cyl(Hw['V'], D.P(a, ly - 0.02, 0.05), D.P(a, ly + 0.03, 0.05), 0.008, '#4f7a3a', seg=4)
+            for sg in (-1, 1): flat2(Hw['F'], [D.P(a + sg * 0.012, ly - 0.07, 0.122), D.P(a + sg * 0.04, ly - 0.07, 0.118), D.P(a + sg * 0.026, ly - 0.045, 0.12)], '#1d1a16')   # 眼睛
+        Hw['n'] += 1
+    groups.append(Hw)
+    # 飲料店門邊的季節布條（直的布旗，上面一根橫桿）
+    for code, key in (('DRINKSUMMER', 'b_summer'), ('DRINKWINTER', 'b_winter')):
+        Gd = group(code)
+        for i, r, D in only(DRINK):
+            a0, w_, h_ = -0.42, 0.28, 1.12; y0 = min(1.25, D.top - h_ - 0.2); sheet(Gd, key, D, a0, y0, w_, h_, off=0.06); cyl(Gd['V'], D.P(a0 - 0.03, y0 + h_ + 0.01, 0.06), D.P(a0 + w_ + 0.03, y0 + h_ + 0.01, 0.06), 0.012, INK, seg=5); Gd['n'] += 1
+        groups.append(Gd)
+    # 洗衣店的換季告示、期末考週影印店的兩張手寫告示（貼在玻璃上，四角一小段膠帶）
+    for code, ids, keys in (('LAUNDRY', LAUNDRY, ('n_laundry',)), ('EXAM', EXAM, ('n_exam1', 'n_exam2'))):
+        Gn = group(code)
+        for i, r, D in only(ids):
+            for j, key in enumerate(keys):
+                w_, h_ = 0.46, 0.32; a0 = glass_spot(D, w_, i + j); y0 = 1.28 - j * 0.02 if len(keys) == 1 or glass_spot(D, w_, i) != glass_spot(D, w_, i + 1) else 1.5 - j * 0.38
+                sheet(Gn, key, D, a0, y0, w_, h_)
+                for (ca, cy_) in ((a0, y0), (a0 + w_, y0), (a0, y0 + h_), (a0 + w_, y0 + h_)): flat2(Gn['F'], [D.P(ca - 0.03, cy_ - 0.012, 0.034), D.P(ca + 0.03, cy_ - 0.012, 0.034), D.P(ca + 0.03, cy_ + 0.012, 0.034), D.P(ca - 0.03, cy_ + 0.012, 0.034)], '#e8dcb0')
+            Gn['n'] += 1
+        groups.append(Gn)
+
     for S_ in groups:
         code = S_['g'].name.split('_')[1]; tris = 0
         if len(S_['A'].bm.faces): S_['A'].finish(S_['g'], uv=False, merge=False)
@@ -157,6 +266,6 @@ def export(SET, doors, out):
     L.single_side(root, nodup=r'season_atlas')   # 春聯貼在門面上，只從外面看
     info = L.export(out, gpu_instances=False)
     L.write_json(out[:-4] + '.json', dict(info if isinstance(info, dict) else {}, set=SET, doors=len(doors), groups=stat,
-                                          note='LIFE-DETAILS-SEASONAL-1110 第一批：SEASON_CNY_on 過年（春聯、橫批、福、燈籠）、SEASON_XMAS_on 聖誕（花圈、燈串、雪花貼紙）；日期表 src/data/season_deco.js'))
+                                          note='LIFE-DETAILS-SEASONAL-1110 第一、二批：SEASON_<代號>_on（CNY 過年、XMAS 聖誕、DRAGON 端午、VDAY 情人節、HALLOWEEN 萬聖節、CVSWINTER／CVSSUMMER 便利店海報、DRINKSUMMER／DRINKWINTER 飲料店布條、LAUNDRY 洗衣店換季、EXAM 期末考週影印店）；日期表 src/data/season_deco.js'))
     json.dump(doors, open(out[:-4] + '.doors.json', 'w'), ensure_ascii=False, indent=1)
     print(json.dumps({'SEASON': SET, 'doors': len(doors), 'groups': stat}, ensure_ascii=False))

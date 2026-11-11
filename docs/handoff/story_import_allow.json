@@ -6352,12 +6352,18 @@
   },
   {
    "path": "docs/story_planning/AA_766_peishan_leftover2.json",
-   "sha": "6325e4b98",
+   "sha": "1e647bb05",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X327 沛珊重寫）；BB 看過、說可以匯；LAWWW 2026-11-11 指定匯這一版",
+   "approvedBy": "AA 2026-11-11 定稿 1e647bb05（D109；D4c「都有。」的回覆改「你期末考一定也這樣寫。」——法律系沒有期中考）",
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
-   "note": "X327 沛珊還剩的兩筆早餐店／蛋餅 26 列 old→new（tools/story/ps766.py，只認這一版）：①src/data/bbpack_events.js 25 列——D4c「沛珊的問題」（ev_d4c_question 女舍門口四題）的 D4CQ 陣列，手寫檔直接換（python3 tools/story/ps766.py --apply；只換字，題數、選項數、流程不變）；②src/data/gift_lines.js 1 列（沛珊最愛的米漿第二句）——tools/story/import_gifts.py 組好資料以後疊（ps766.apply_gift）。逐字對稿 tests/peishan_leftover2_1111_unit.js"
+   "note": "X327 沛珊還剩的兩筆早餐店／蛋餅 26 列 old→new（tools/story/ps766.py，只認這一版）：①src/data/bbpack_events.js 25 列——D4c「沛珊的問題」（ev_d4c_question 女舍門口四題）的 D4CQ 陣列，手寫檔直接換（python3 tools/story/ps766.py --apply；只換字，題數、選項數、流程不變）；②src/data/gift_lines.js 1 列（沛珊最愛的米漿第二句）——tools/story/import_gifts.py 組好資料以後疊（ps766.apply_gift）。逐字對稿 tests/peishan_leftover2_1111_unit.js",
+   "history": [
+    {
+     "sha": "6325e4b98",
+     "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X327 沛珊重寫）；BB 看過、說可以匯；LAWWW 2026-11-11 指定匯這一版"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/BB_326_學姊約會樣板D01到D03_第二意見.md",
@@ -6422,6 +6428,15 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "X324 可昕 D25 心願事件「如果今天沒有行程表」（內容不動：刪節號 28 處留 5 處；她開口約的那句改用 {出發時間}）：rows 23 列 old→new，path 是 date_wish.js 的 events.kexin 底下的位置——tools/date/import_wish.py 的 1i 照 path 疊在 wish_bb.json 可昕那一段上 → src/data/date_wish.js。herInvite.accept[1]「不行，火車有時間。{出發時間}，車站見。」：src/wish3d.js 播的時候帶那一趟的出發時間；帶不到＝退回「不行，火車有時間。九點，台北車站。」（AA 指定），畫面不印大括號。逐字對稿 tests/kx_dates_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_771_l118_lunch.json",
+   "sha": "138bfaf45",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿第二版（照 BB_331 改；D100b 稿就是定稿；使用者 X339）；LAWWW 2026-11-11 指定匯企劃線 138bfaf45 這一版（第一版 dd4a310f1，id 沒變）",
+   "task": "L118-LUNCH-INVITE-1111",
+   "kind": "json",
+   "note": "X339 118 巷課後午餐邀約的台詞、選項、旁白（發起／同行 8 人、lunch 31 組、special 15 組、到店 8 句、吃完 2 句、快速略過一行、錢不夠三句）：tools/story/import_l118_lunch.py 一字照稿 → src/data/l118_lunch.js（L118_LUNCH_DATA）；special 的 when 是工具從 cond 文字拆的。AA 往後加 id 重跑同一支工具（換 sha）。測試 tests/l118_lunch_unit.js"
   }
  ]
 }

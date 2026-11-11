@@ -126,7 +126,7 @@ const D14C=p=>/^lines\/closing\//.test(p);
          少掉的＝稿上七列的 old＋可昕那兩句舊字；多出來的＝七列的 new＋可昕那兩句新字＋'D29'、'kexin'（逐字在 tests/kx_dates_1111_unit.js）*/
       const ob=show(BASE,'src/date3d.js'); if(ob){ const O=lit(ob), L=lit(code), cntOf=A=>A.reduce((m,t)=>(m[t]=(m[t]||0)+1,m),{}), co=cntOf(O), cl=cntOf(L), gone=[], came=[];
         for(const t of new Set(O.concat(L))){ const n=(cl[t]||0)-(co[t]||0); for(let i=0;i<Math.abs(n);i++) (n<0?gone:came).push(t); }
-        const q=t=>"'"+t+"'", KXO=['行程表我昨天晚上重寫了。……你看一下第二天。','清境。山路我查了，要開三個多小時。'], KXN=['第二天的我昨天重排了。你先看，有意見現在講。','清境。要開三個多小時，我負責讓你不要睡著。','D29','kexin'];
+        const q=t=>"'"+t+"'", KXO=['行程表我昨天晚上重寫了。……你看一下第二天。','清境。山路我查了，要開三個多小時。','清境。從日月潭上來，一個半小時。我查過了。'], KXN=['第二天的我昨天重排了。你先看，有意見現在講。','清境。要開三個多小時，我負責讓你不要睡著。','D29','kexin','清境。從日月潭上來一個半小時，我本來要睡，結果一路在看路。'];   /* 2026-11-11 AA 回 LAWWW 第 4 題：ARRIVE_VAR 可昕 D32 的 to 換新字（各多一句）*/
         check('6. date3d.js 的字串和重匯以前（'+BASE+'）比：少掉的剛好是稿上七列的 old（＋可昕兩句舊字）、多出來的剛好是七列的 new（＋可昕兩句新字和 D29、kexin）；條件、以安的四格、別人早上那一句沒動',J(gone.sort())===J(r2.map(r=>q(r.old)).concat(KXO.map(q)).sort())&&J(came.sort())===J(r2.map(r=>q(r.new)).concat(KXN.map(q)).sort()),J([gone.length,came.length,gone.filter(t=>!r2.some(r=>q(r.old)===t)),came.filter(t=>!r2.some(r=>q(r.new)===t))])); } }
     check('6. S.xiuqin 照留：還沒聽過她家裡的事，enough 第一句顯示成「差不多了。煮飯的阿姨煮了飯，我想回去吃熱的。」',DATE.xiuqin({flags:{}},YT,EX.enough[0])==='差不多了。煮飯的阿姨煮了飯，我想回去吃熱的。'&&/S\.xiuqin=\(G,id,s\)=>id==='heroine_03'&&!\(G&&G\.flags&&G\.flags\.YT_FAMILY_HEARD\)&&typeof s==='string'\?s\.replace\(\/秀琴姨\/g,'煮飯的阿姨'\):s;/.test(code)); });
   await sec(7,async()=>{ const DW=t=>JSON.parse(t.slice(t.indexOf('const DATE_WISH=')+16,t.lastIndexOf(';'))), W=DW(read('src/data/date_wish.js')), ev=W.events[YT];

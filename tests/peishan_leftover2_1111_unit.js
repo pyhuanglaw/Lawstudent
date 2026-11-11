@@ -1,5 +1,5 @@
 // 沛珊還剩的兩筆早餐店／蛋餅（PEISHAN-VOICE-1110；使用者 X327 沛珊重寫；2026-11-11）——不需要瀏覽器（D131）。
-//   稿：AA_766_peishan_leftover2.json@6325e4b98（26 列 old→new；BB 看過）。工具 tools/story/ps766.py（只認這一版）
+//   稿：AA_766_peishan_leftover2.json@1e647bb05（26 列 old→new；BB 看過）。工具 tools/story/ps766.py（只認這一版）
 //   1. 白名單；稿 26 列＝bbpack_events.js 25 列（D4c「沛珊的問題」ev_d4c_question 女舍門口四題的 D4CQ）＋gift_lines.js 1 列（最愛的米漿第二句）
 //   2. bbpack_events.js：D4CQ 四題、每題三個選項（題數、選項數、流程不變）；每一列的 new 在 D4CQ 剛好一處、old 整個檔都不在了；沒換的三個選項照舊；整個檔的字串和 BASE 比只差這 25 句
 //   3. 事件實際跑：四題各選三個選項，她的問句、選項、回覆照稿；開頭兩句、結尾旁白、熟悉 +1 照舊
@@ -12,7 +12,7 @@ const H=require('./pg_harness.js');
 const {check}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path'), vm=require('vm');
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
-const PS='classmate_peishan', AN='heroine_01', SHA='6325e4b98', BASE='7bb6f6311', DOC='docs/story_planning/AA_766_peishan_leftover2.json', BB='src/data/bbpack_events.js', GF='src/data/gift_lines.js';
+const PS='classmate_peishan', AN='heroine_01', SHA='1e647bb05', BASE='7bb6f6311', DOC='docs/story_planning/AA_766_peishan_leftover2.json', BB='src/data/bbpack_events.js', GF='src/data/gift_lines.js';
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<28}); }catch(e){ return null; } };
 const read=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
 const noCom=s=>s.replace(/\/\*[\s\S]*?\*\//g,'');
@@ -24,7 +24,7 @@ const cur=read(BB), seg=cur.slice(cur.indexOf('  const D4CQ=['),cur.indexOf("  E
 const D4CQ=vm.runInNewContext(noCom(seg).replace('const D4CQ=','D4CQ=')+';D4CQ');
 /* 稿的字（寫死一份：讀不到企劃線的時候也照這個比）：[題號, 問句, [[選項, 回覆]×3]] */
 const WANT=[[1,'你也提早到。我們系是不是遲到會被寫進判決書？',[['「會，還會公告。」','那我完了。我的前科可以出一本。'],['「我只是剛好早。」','剛好早二十分鐘。好，我相信你。'],['「妳自己呢？」','我是被以安訓練的。她說六點半，就是六點二十五到。']]],
-  [2,'讀書會到底是去讀書，還是去吃飯順便讀書？',[['「讀書。」','好乖。我跟我媽也是這樣講的。'],['「吃飯。」','誠實。我喜歡跟誠實的人一桌。'],['「都有。」','兩說併陳。你期中考一定也這樣寫。']]],
+  [2,'讀書會到底是去讀書，還是去吃飯順便讀書？',[['「讀書。」','好乖。我跟我媽也是這樣講的。'],['「吃飯。」','誠實。我喜歡跟誠實的人一桌。'],['「都有。」','兩說併陳。你期末考一定也這樣寫。']]],
   [3,'以安說六點半下來。她一定是六點半整，不會早一秒。要不要賭？',[['「賭她準時。」','那沒得賭，我也押這邊。'],['「賭她提早。」','你輸了。她提早會先傳訊息報備。'],['「賭什麼？」','輸的人等一下幫大家倒茶。先說好，我不會輸。']]],
   [4,'公法你讀到哪？不要講頁數，我會有壓力。',[['「讀完了。」','好，等一下你坐我對面，我要抄。'],['「還沒開始。」','太好了，我們是同一國的。'],['「妳呢？」','我讀到目錄。目錄寫得不錯。']]]];
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);

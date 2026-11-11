@@ -88,7 +88,7 @@ const ZONE_ASSETS={
   "wz_print":["bldg.wz_print_interior_v3"],
   "wz_teahouse":["bldg.wz_teahouse_yard","bldg.wz_teahouse_interior_v2","prop.desk_props"],
   "wz_teishoku":["bldg.wz_teishoku_interior_v4"],
-  "xinsheng":["bldg.xinsheng_far","bldg.xinsheng_street","bldg.xs_planters","bldg.campus_gymext","bldg.xs_gate","bldg.campus_moon"],
+  "xinsheng":["bldg.xinsheng_far","bldg.xinsheng_street","bldg.wz_scooter","bldg.xs_planters","bldg.campus_gymext","bldg.xs_gate","bldg.campus_moon"],
   "xs_dabu":["bldg.xs_dabu"],
   "xs_dakou":["bldg.xs_dakou_2f","bldg.xs_dakou_1f"],
   "xs_haopai":["bldg.xs_haopai"],
