@@ -30,7 +30,7 @@ for k,v in D.items():
         for i,t in par: print('    ',i,t)
     for i,t in oldh: print('    舊字？',i,t)
     if who=='heroine_03':
-        ppl=[(i,t) for i,key,t in v if re.search('蘇姨|秀琴姨|我媽|(?<!他)媽媽',t)]
+        ppl=[(i,t) for i,key,t in v if re.search('蘇姨|秀琴姨|我媽|^媽媽|，媽媽說',t)]
         tea=[(i,t) for i,key,t in v if '茶屋' in t]
         num=[(i,t) for i,key,t in hers if re.search('(\\d+|[兩二三四五六七八九十百]+|半)(秒|分鐘|次|個(?!人在)|步|架|小時|遍|百個字)|數了|數到|算過|還要數',strip(t))]
         hm=[(i,t) for i,key,t in hers if strip(t).startswith('嗯')]
