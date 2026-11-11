@@ -6671,6 +6671,37 @@
    "ack": "ACK",
    "noDirectIntegrate": false,
    "next": "發版後 LAWWW 接；LAWWW2 五項資料 patch"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "commit": "ba322d6ae",
+   "files": [
+    "docs/story_planning/syllabus/Y4S1.json",
+    "docs/story_planning/syllabus/Y4S2.json",
+    "docs/story_planning/syllabus/JP.json"
+   ],
+   "status": "已整合",
+   "at": "2026-11-11T16:0x",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 9d45ef8b3／c170218dd 已匯；BB 抽測"
+  },
+  {
+   "task": "AA-PRIO-GAP-1111",
+   "branch": "claude/story-planning",
+   "commit": "91c6aaf9f",
+   "files": [
+    "docs/story_planning/AA_814_三個優先項目劇情斷點對帳.md",
+    "docs/story_planning/00_現行設定總表.md"
+   ],
+   "status": "已交付",
+   "at": "2026-11-11T16:3x",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 照第 4 節總表接（台詞已寫好，程式項 LAWWW 定）"
   }
  ],
  "items": [
