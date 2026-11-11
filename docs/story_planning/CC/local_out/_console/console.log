@@ -1166,3 +1166,12 @@
 [09:27:57] [res] cpu=9% mem=47% (14.9/31.4 GB) chrome_testing=10  START ART2_ggext_new
 [09:27:57] worktree add 65212b697b96a553f1d5340e301d1803c11a3fae: invalid reference - fetching main and the commit itself
 [09:28:51] [res] cpu=8% mem=45% (14.0/31.4 GB) chrome_testing=9  END FN_shots_b_new_r2
+[09:29:02] 正在跑：FN_shots_b_new_r2（已跑 4 分／上限 10 分）、FN_shots_b_old_r2（已跑 2 分／上限 10 分）、ART2_ggext_new（已跑 1 分／上限 8 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f39cdfff8..acd027068  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:29:05] ==== END   FN_shots_b_new_r2  exit=0  286s   ====
+[09:29:08] memory 47% before starting ART2_ggext_old (2 running)
+[09:29:08] ==== START ART2_ggext_old  (probe @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
+[09:29:11] [res] cpu=3% mem=47% (14.8/31.4 GB) chrome_testing=9  START ART2_ggext_old
+[09:29:47] [res] cpu=20% mem=44% (13.8/31.4 GB) chrome_testing=9  END ART2_ggext_new
