@@ -299,17 +299,20 @@ async def part_int(pg, cdp):
                 # r3（BB 03:14）：拿掉「鏡頭在房間裡」（室內本來就是鏡頭在牆外、牆淡出的剖面視角）；單色＝畫面中央 60%（四邊各去 20%，扣掉 HUD）亮度標準差 <20；
                 # 看得到人＝玩家模型螢幕投影附近 100×160 px（CSS 像素）的標準差 ≥15；中央大面積全黑（<12）／全白（>245）超過 15% 標★（BB 03:14）
                 CJ2 = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement, cam=E.camera, P=E.player.obj.position; r.render(E.scene,cam);
-                  const st=(sx,sy,sw,sh,ow,oh)=>{ const k=document.createElement('canvas'); k.width=ow; k.height=oh; const g=k.getContext('2d'); g.drawImage(c,sx,sy,sw,sh,0,0,ow,oh); const d=g.getImageData(0,0,ow,oh).data; let s=0,s2=0,n=0,bk=0,wh=0;
-                    for(let i=0;i<d.length;i+=4){ const L=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; s+=L; s2+=L*L; n++; if(L<12) bk++; if(L>245) wh++; } const m=s/n; return {m:+m.toFixed(1), sd:+Math.sqrt(Math.max(0,s2/n-m*m)).toFixed(1), black:+(bk/n).toFixed(3), white:+(wh/n).toFixed(3)}; };
-                  const W=c.width, H=c.height, sc=W/(c.clientWidth||W); const mid=st(W*0.2,H*0.2,W*0.6,H*0.6,120,68);
+                  const st=(sx,sy,sw,sh,ow,oh)=>{ const k=document.createElement('canvas'); k.width=ow; k.height=oh; const g=k.getContext('2d'); g.drawImage(c,sx,sy,sw,sh,0,0,ow,oh); const d=g.getImageData(0,0,ow,oh).data; let s=0,s2=0,n=0,bk=0,wh=0,R=0,G=0,B=0;
+                    for(let i=0;i<d.length;i+=4){ const L=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; s+=L; s2+=L*L; n++; R+=d[i]; G+=d[i+1]; B+=d[i+2]; if(L<12) bk++; if(L>245) wh++; } const m=s/n; return {m:+m.toFixed(1), sd:+Math.sqrt(Math.max(0,s2/n-m*m)).toFixed(1), black:+(bk/n).toFixed(3), white:+(wh/n).toFixed(3), rgb:[Math.round(R/n),Math.round(G/n),Math.round(B/n)]}; };
+                  const W=c.width, H=c.height, sc=W/(c.clientWidth||W); const mid=st(W*0.2,H*0.2,W*0.6,H*0.6,120,68), top=st(0,0,W,H*0.2,120,20);   /* top：畫面最上面 20%（BB 03:45：藏天花板不能弄出破洞＝上方不該看到天空或黑色） */
                   const PO=E.player.obj; const hp=new THREE.Box3().setFromObject(PO).getCenter(new THREE.Vector3()); const ndc=hp.clone().project(cam); const onScreen=PO.visible&&Math.abs(ndc.x)<=1&&Math.abs(ndc.y)<=1&&ndc.z<1;
                   const px=(ndc.x+1)/2*W, py=(1-ndc.y)/2*H, bw=100*sc, bh=160*sc; const pl=onScreen?st(Math.max(0,px-bw/2),Math.max(0,py-bh/2),Math.min(bw,W),Math.min(bh,H),50,80):null;
-                  return {onScreen, ndc:[+ndc.x.toFixed(2),+ndc.y.toFixed(2)], player:[+P.x.toFixed(2),+P.z.toFixed(2)], cam:[+cam.position.x.toFixed(2),+cam.position.y.toFixed(2),+cam.position.z.toFixed(2)], yaw:+E.cam.yaw.toFixed(3), dist:E.cam.dist!=null?+(+E.cam.dist).toFixed(2):null, mid, near:pl}; })"""
+                  return {onScreen, ndc:[+ndc.x.toFixed(2),+ndc.y.toFixed(2)], player:[+P.x.toFixed(2),+P.z.toFixed(2)], cam:[+cam.position.x.toFixed(2),+cam.position.y.toFixed(2),+cam.position.z.toFixed(2)], yaw:+E.cam.yaw.toFixed(3), dist:E.cam.dist!=null?+(+E.cam.dist).toFixed(2):null, mid, top, near:pl}; })"""
                 async def cshot(lab):
                     cj = await pg.evaluate(CJ2, {'w': L_['w'], 'd': L_['d']})
                     await pg.screenshot(path=os.path.join(OUT, 'cam2_%s_%s_%s.jpg' % (sid, hh, lab)), type='jpeg', quality=80)
                     flat = cj['mid']['sd'] < 20; seen = bool(cj['near']) and cj['near']['sd'] >= 15
                     star = cj['mid']['black'] > 0.15 or cj['mid']['white'] > 0.15
+                    tb = cj['top']; sky = tb['rgb'][2] > tb['rgb'][0] + 25 and tb['rgb'][2] > tb['rgb'][1] + 8 and tb['m'] > 110
+                    if tb['black'] > 0.3 or sky: R.note('%s 鏡頭 %s ★畫面上方 20%%：%s（全黑 %.0f%%、平均色 %s）' % (tag, lab, '像天空' if sky else '大面積黑', tb['black'] * 100, tb['rgb']))
+                    R.check('%s 鏡頭 %s：畫面上方沒有天空或大面積黑色（天花板沒有破洞）' % (tag, lab), not sky and tb['black'] <= 0.3, J(tb))
                     R.note('%s 鏡頭 %s：%s%s%s' % (tag, lab, J(cj), '  ★中央一片單色' if flat else '', '  ★中央大面積全黑／全白' if star else ''))
                     R.check('%s 鏡頭 %s：畫面中央 60%% 不是一片單色（標準差 %.1f ≥20）' % (tag, lab, cj['mid']['sd']), not flat, J(cj['mid']))
                     R.check('%s 鏡頭 %s：看得到人（玩家投影附近 100×160 px 標準差 %s ≥15）' % (tag, lab, cj['near'] and cj['near']['sd']), seen, J({'onScreen': cj['onScreen'], 'ndc': cj['ndc'], 'near': cj['near']}))
@@ -317,7 +320,15 @@ async def part_int(pg, cdp):
                 sc = next((i for i in await pg.evaluate(ITS) if '掛畫' in (i['label'] or '')), None)
                 if sc:
                     ok_, t_ = await joy_path(pg, cdp, sc['x'], sc['z']); R.check('%s 搖桿走到「%s」（%s 秒）' % (tag, sc['label'], t_), ok_, ''); await pg.wait_for_timeout(2000); await cshot('掛畫前站2秒')
-                for k_, (px, pz) in enumerate([(L_['w'] / 2 - 0.9, L_['d'] / 2 - 1.3), (L_['w'] / 2 - 0.9, -0.3), (-L_['w'] / 2 + 0.9, -0.3), (-L_['w'] / 2 + 0.9, L_['d'] / 2 - 1.3)]):
+                sd_ = next((i for i in await pg.evaluate(ITS) if '書房' in (i['label'] or '')), None)
+                if sd_:   # BB 03:45 LM_cam3：書房門前站 2 秒
+                    ok_, t_ = await joy_path(pg, cdp, sd_['x'], sd_['z'] + 0.5); R.check('%s 搖桿走到「%s」前（%s 秒）' % (tag, sd_['label'], t_), ok_, ''); await pg.wait_for_timeout(2000); await cshot('書房門前站2秒')
+                PTS = [(L_['w'] / 2 - 0.9, L_['d'] / 2 - 1.3), (L_['w'] / 2 - 0.9, -0.3), (-L_['w'] / 2 + 0.9, -0.3), (-L_['w'] / 2 + 0.9, L_['d'] / 2 - 1.3)]
+                if os.environ.get('CAMPTS'): PTS = [tuple(float(v) for v in q.split(',')) for q in os.environ['CAMPTS'].replace('/', ';').split(';') if q]   # ANTAI_cam：店後半的點
+                if os.environ.get('CAMFAR') == '1':   # 回歸：最裡面（z 最小）站得住、找得到路的點
+                    fp = await pg.evaluate("(a=>{ const E=GAME.E,P=E.player,o=P.obj.position; for(let z=-a.d/2+0.4; z<a.d/2; z+=0.25){ let best=null; for(let x=-a.w/2+0.4; x<a.w/2; x+=0.25){ if(!E.canStand(x,z,0.3)) continue; const r=E.pathTo?E.pathTo(o.x,o.z,P.lv|0,x,z,P.lv|0):null; if(r&&r.length&&(best==null||Math.abs(x)<Math.abs(best[0]))) best=[+x.toFixed(2),+z.toFixed(2)]; } if(best) return best; } return null; })", {'w': L_['w'], 'd': L_['d']})
+                    R.note('%s 最裡面站得住、走得到的點：%s' % (tag, fp)); PTS = [tuple(fp)] if fp else []
+                for k_, (px, pz) in enumerate(PTS):
                     ok_, t_ = await joy_path(pg, cdp, px, pz); R.check('%s 搖桿繞房間第 %d 點 (%.1f,%.1f)（%s 秒）' % (tag, k_ + 1, px, pz, t_), ok_, ''); await pg.wait_for_timeout(1500); await cshot('繞一圈%d' % (k_ + 1))
             if os.environ.get('CAMDIAG') == '1':   # BB 01:47：禮貌生財進門的遊戲鏡頭一片米色——進門 0.5 秒、2 秒各截一張，再轉 90° 一張（【捷徑】直接設 E.cam.yaw），記鏡頭位置
                 CAMJ = "(()=>{ const E=GAME.E, c=E.camera, P=E.player.obj.position; return {cam:[+c.position.x.toFixed(2),+c.position.y.toFixed(2),+c.position.z.toFixed(2)], yaw:+E.cam.yaw.toFixed(3), pitch:E.cam.pitch!=null?+E.cam.pitch.toFixed(3):null, dist:E.cam.dist!=null?+(+E.cam.dist).toFixed(2):null, distT:E.cam.distTarget!=null?+(+E.cam.distTarget).toFixed(2):null, player:[+P.x.toFixed(2),+P.z.toFixed(2)], room:[%s,%s]}; })()" % (L_['w'], L_['d'])
