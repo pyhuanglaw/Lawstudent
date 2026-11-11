@@ -1150,3 +1150,11 @@
 [03:27:58] [res] cpu=79% mem=38% (12.0/31.4 GB) chrome_testing=5  START N1_GG3_shops
 [03:28:01] worktree add 01679bc0a7580dabd373d2fbfda8542c21e0fc20: invalid reference - fetching main and the commit itself
 [03:28:04] [res] cpu=58% mem=38% (12.1/31.4 GB) chrome_testing=5  END N1_TSR_LIB_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4333de5ac..5bfe390ec  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:28:44] ==== END   N1_TSR_LIB_r3  exit=0  344s   ====
+[03:28:48] memory 41% before starting N1_GG3_more (2 running)
+[03:28:48] ==== START N1_GG3_more  (probe @ 01679bc0a7580dabd373d2fbfda8542c21e0fc20) ====
+[03:28:50] [res] cpu=47% mem=41% (13.2/31.4 GB) chrome_testing=9  START N1_GG3_more
+[03:29:31] [res] cpu=63% mem=43% (13.8/31.4 GB) chrome_testing=9  END N1_TSR_CLASS_r2
