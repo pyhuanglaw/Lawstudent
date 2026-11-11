@@ -509,7 +509,8 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
             info['burst'] = {'at': c, 'downs': downs, 'picks': picks, 'menus': [e.get('opts') for e in blg if e['k'] == 'choose'], 'says': len([e for e in blg if e['k'] == 'say'])}
             info['presses'] += 1
             R.note('%s：在「略過 »」的位置連點 %d 下（每 %d ms，第一下＝按略過）：每一下 %s；這段時間翻過 %d 句、出現的選單 %s' % (tag, BN, BMS, J(downs), info['burst']['says'], J(info['burst']['menus'])))
-            R.check('%s：連點 %d 下（每 %d ms）沒有選到任何選項（使用者踩到的那一種）' % (tag, BN, BMS), not picks, J([[p.get('first'), p.get('txt'), p.get('downDt')] for p in picks]))
+            if BMS < 400: R.check('%s：連點 %d 下（每 %d ms）沒有選到任何選項（使用者踩到的那一種）' % (tag, BN, BMS), not picks, J([[p.get('first'), p.get('txt'), p.get('downDt')] for p in picks]))
+            else: R.note('%s：每 %d ms 點一下（BB 06:02：≥400 ms 判正常點擊、不擋，只記）：選到的 %s' % (tag, BMS, J([[p.get('first'), p.get('txt'), p.get('downDt')] for p in picks])))
             await shot(pg, '%s_after_burst' % tag)
             continue
         if s['ch']:
@@ -596,6 +597,7 @@ async def part_calm(p):
                     moved = bool(sentence_changes(tr))
                     R.note('%s 第 %d 個選單 %s → 照字選第一項「%s」；之後 5 秒不送事件：對話框的字 %s；選之後頁面收到的事件 %s' % (tag, nmenu, J(hs), hs[0] if hs else None, J(tr), J([[round(e[0] - tsel)] + e[1:] for e in evs])))
                     R.check('%s 第 %d 個選單：選完以後 5 秒不按，那一句停住（不自己走）' % (tag, nmenu), not moved, J(tr))
+                    ne = [t for t, x in tr if x]; R.note('%s 第 %d 個選單：follow 那一句從出現到打完字 %s 秒（第一個字 %s ms、最後一次變 %s ms；BB 06:00 要 PC 的數字）' % (tag, nmenu, round(((tr[-1][0] if tr else 0) - (ne[0] if ne else 0)) / 1000, 2) if ne else None, ne[0] if ne else None, next((t for t, x in reversed(tr) if x), None)))
                     continue
                 if s['dlg'] and not s.get('typing'):
                     await pg.wait_for_timeout(1200); await L.tap(pg, cdp, '#dlg'); continue
@@ -643,7 +645,11 @@ async def part_skip(p):
             else: ok = await go_lesson(pg, cdp, L_, tag, 'phone')
             if not ok: continue
             r0 = await pg.evaluate(GC.REC); hint0 = await pg.evaluate("(GAME.G.flags||{}).ASK_NOTE_HINT")
+            qid = ((sy or {}).get('ask') or {}).get('qid'); a0 = await pg.evaluate(ASKREC, qid) if qid else None
             o = await skip_loop(pg, cdp, L_, tag, sy, use_skip=True)
+            if qid:   # BB 06:02：題庫題被連點點掉以後，STUDY 觀念卡、CLS.rec.ask、筆記本有沒有記成答錯（LAWWW 修好以後新舊對照）
+                a1 = await pg.evaluate(ASKREC, qid); qp = [p for p in o['picksInClass'] if str(p.get('first') or '').startswith('（A）')]
+                R.note('%s：題庫題 %s 答題紀錄 前 %s → 後 %s；題目選單被選的（含 downDt＝按下距選單出現幾 ms，負的＝按下早於選單）%s' % (tag, qid, J(a0), J(a1), J(qp)))
             lg = await GC.logs(pg, o['n1']); cl, _ = GC.class_lines(lg); sec, _d = GC.class_timing(lg, cl); r1 = await pg.evaluate(GC.REC)
             row['skip'] = {'lines': len(cl), 'sitToClassEnd': sec, 'sitToFree': o['sitToFree'], 'presses': o['presses']}
             R.note('%s：略過 %d 句、坐下到「下課了」%s 秒、坐下到下課能動 %s 秒、按了略過 %d 次；停下來的選單 %s' % (tag, len(cl), sec, o['sitToFree'], o['presses'], J(o['stopAt'])))

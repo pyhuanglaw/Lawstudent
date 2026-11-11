@@ -205,11 +205,11 @@ async def part_walk(pg, cdp):
 
 CAMCHK = r"""(id=>{ const E=GAME.E, cam=E.camera, P=E.player.obj; const z=E.zone||{}; const q=(z.tzStalls||z.ggStalls||[]).find(s=>s.id===id); if(!q||!q.open) return null;
   P.updateMatrixWorld(true); const head=new THREE.Vector3(); new THREE.Box3().setFromObject(P).getCenter(head); head.y+=0.5;
-  const o=cam.position.clone(), dir=head.clone().sub(o); const L=dir.length(); dir.normalize(); const rc=new THREE.Raycaster(o,dir,0.05,L-0.2);
+  const o=cam.position.clone(), dir=head.clone().sub(o); const L=dir.length(); dir.normalize(); const rc=new THREE.Raycaster(o,dir,0.05,L-0.2); rc.camera=cam;
   const hits=rc.intersectObject(q.open,true).filter(h=>h.object.visible); const b=new THREE.Box3().setFromObject(q.open); const camIn=b.containsPoint(o);
   const bulbs=[]; q.open.traverse(m=>{ if(m.isMesh&&m.visible){ for(const mt of [].concat(m.material||[])){ if(mt&&mt.emissive&&(mt.emissive.r+mt.emissive.g+mt.emissive.b)>0.05){ const c=new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3()); bulbs.push([+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2),m.name||'']); break; } } } });
   const ndc=head.clone().project(cam), onScreen=Math.abs(ndc.x)<=1&&Math.abs(ndc.y)<=1&&ndc.z<1;
-  const all=new THREE.Raycaster(o,dir,0.05,L-0.2).intersectObjects(E.scene.children,true).filter(h=>h.object.visible&&h.object.isMesh&&!h.object.isSkinnedMesh&&!(function(x){ while(x){ if(x===P) return true; x=x.parent; } return false; })(h.object)).slice(0,3).map(h=>[h.object.name||h.object.type,+h.distance.toFixed(2)]);
+  const rc2=new THREE.Raycaster(o,dir,0.05,L-0.2); rc2.camera=cam; const all=rc2.intersectObjects(E.scene.children,true).filter(h=>h.object.visible&&h.object.isMesh&&!h.object.isSkinnedMesh&&!(function(x){ while(x){ if(x===P) return true; x=x.parent; } return false; })(h.object)).slice(0,3).map(h=>[h.object.name||h.object.type,+h.distance.toFixed(2)]);
   const r=E.renderer, cv=r.domElement; r.render(E.scene,cam); const k=document.createElement('canvas'); k.width=120; k.height=68; const g=k.getContext('2d'); g.drawImage(cv,cv.width*0.2,cv.height*0.2,cv.width*0.6,cv.height*0.6,0,0,120,68);
   const dd=g.getImageData(0,0,120,68).data; let bk=0,wh=0,nn=0; for(let i=0;i<dd.length;i+=4){ const Lm=0.299*dd[i]+0.587*dd[i+1]+0.114*dd[i+2]; if(Lm<12) bk++; if(Lm>245) wh++; nn++; }
   const pp=P.position; const camInfo={player:[+pp.x.toFixed(2),+pp.z.toFixed(2)], ry:+P.rotation.y.toFixed(3), camYaw:E.cam&&E.cam.yaw!=null?+E.cam.yaw.toFixed(3):null, dist:E.cam&&E.cam.dist!=null?+(+E.cam.dist).toFixed(2):null, distTarget:E.cam&&E.cam.distTarget!=null?+(+E.cam.distTarget).toFixed(2):null, pitch:E.cam&&E.cam.pitch!=null?+E.cam.pitch.toFixed(3):null};
@@ -252,7 +252,7 @@ async def part_nmcam(pg, cdp):
 LANEJS = r"""(()=>{ const E=GAME.E, cam=E.camera, r=E.renderer, c=r.domElement, P=E.player.obj; r.render(E.scene,cam); P.updateMatrixWorld(true);
   const head=new THREE.Box3().setFromObject(P).getCenter(new THREE.Vector3()); head.y+=0.5; const o=cam.position.clone(), dir=head.clone().sub(o), L=dir.length(); dir.normalize();
   const own=x=>{ while(x){ if(x===P) return true; x=x.parent; } return false; };
-  const hit=new THREE.Raycaster(o,dir,0.05,Math.max(0.06,L-0.2)).intersectObjects(E.scene.children,true).filter(h=>h.object.visible&&h.object.isMesh&&!own(h.object)).slice(0,2).map(h=>[h.object.name||h.object.type,+h.distance.toFixed(2)]);
+  const rc3=new THREE.Raycaster(o,dir,0.05,Math.max(0.06,L-0.2)); rc3.camera=(typeof cam!=="undefined"?cam:GAME.E.camera); const hit=rc3.intersectObjects(E.scene.children,true).filter(h=>h.object.visible&&h.object.isMesh&&!own(h.object)).slice(0,2).map(h=>[h.object.name||h.object.type,+h.distance.toFixed(2)]);
   const ctr=new THREE.Box3().setFromObject(P).getCenter(new THREE.Vector3()), ndc=ctr.clone().project(cam), on=P.visible&&Math.abs(ndc.x)<=1&&Math.abs(ndc.y)<=1&&ndc.z<1;
   let near=null; if(on){ const W=c.width,H=c.height,sc=W/(c.clientWidth||W),px=(ndc.x+1)/2*W,py=(1-ndc.y)/2*H,bw=100*sc,bh=160*sc; const k=document.createElement('canvas'); k.width=50; k.height=80; const g=k.getContext('2d');
     g.drawImage(c,Math.max(0,px-bw/2),Math.max(0,py-bh/2),bw,bh,0,0,50,80); const d=g.getImageData(0,0,50,80).data; let s=0,s2=0,n=0; for(let i=0;i<d.length;i+=4){ const v=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; s+=v; s2+=v*v; n++; } const m=s/n; near=+Math.sqrt(Math.max(0,s2/n-m*m)).toFixed(1); }
