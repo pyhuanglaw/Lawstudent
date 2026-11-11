@@ -1,11 +1,3 @@
-[10:27:49] ==== END   LM2_HOURS_new  exit=0  189s   ====
-[10:27:53] memory 45% before starting TZP_fps2_new (2 running)
-[10:27:53] ==== START TZP_fps2_new  (probe @ 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4) ====
-[10:27:56] [res] cpu=11% mem=45% (14.3/31.4 GB) chrome_testing=9  START TZP_fps2_new
-[10:29:03] 正在跑：LM2_O1（已跑 6 分／上限 10 分）、LM2_HOURS_old（已跑 1 分／上限 10 分）、TZP_fps2_new（已跑 1 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
-[10:31:41] [res] cpu=3% mem=48% (15.2/31.4 GB) chrome_testing=10  END TZP_fps2_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       0ce119d7c..14f80dff6  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [10:31:48] ==== END   TZP_fps2_new  exit=0  228s   ====
 [10:31:55] [res] cpu=6% mem=43% (13.6/31.4 GB) chrome_testing=5  END LM2_HOURS_old
@@ -1998,3 +1990,11 @@
 [17:50:36] ==== START L118A7_TAPSEAT_fix  (probe @ a3b9f0478a5976409f305f97c7fdeac19764e4ca) ====
 [17:50:39] [res] cpu=16% mem=47% (14.7/31.4 GB) chrome_testing=9  START L118A7_TAPSEAT_fix
 [17:51:20] [res] cpu=17% mem=48% (15.3/31.4 GB) chrome_testing=9  END L118A7_SEAT_tea9
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8ee1fe4af..a53e07fe0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:51:25] ==== END   L118A7_SEAT_tea9  exit=0  120s   ====
+[17:51:29] memory 48% before starting L118D_A7_teabanchan (2 running)
+[17:51:29] ==== START L118D_A7_teabanchan  (probe @ a3b9f0478a5976409f305f97c7fdeac19764e4ca) ====
+[17:51:31] [res] cpu=12% mem=48% (15.3/31.4 GB) chrome_testing=9  START L118D_A7_teabanchan
+[17:53:10] [res] cpu=20% mem=49% (15.6/31.4 GB) chrome_testing=10  END L118A7_TAPSEAT_fix
