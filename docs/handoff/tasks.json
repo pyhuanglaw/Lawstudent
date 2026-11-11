@@ -42256,10 +42256,10 @@
    "id": "BAKE-PC-1102-S2",
    "title": "BAKE-PC 第二步：BK1 用 compare_bakes.py 逐像素確認（雲端參考 wip/bake_pc/cloud_ref/）；再排大場景（3F 或展演廳），HIP 連跑兩次、只算第二次的時間；GPU 還是比較慢就改 PC 的 CPU 烘",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
    "note": "BB 11-03 01:12 代轉（LAWWW2 已交班，BB_00「給休班職位的待辦」也有寫）：BK1 亮度一致",
-   "next": "LAWWW2 下一班接班時做",
+   "next": "【11-11 17:4x LAWWW2 完成（58bb06622）】結論：雲端和 PC 烘的不混用，維持「同一個房間固定一台機器烘」（同版 Blender，各自重跑完全相同，但 UV 排法不同：大平面幾乎一樣、晚上胡桃木差 5.7/255）；3F 正式大小 PC 893 秒、雲端 1265 秒；細節 wip/bake_pc/README.md 最後一節。不進遊戲，工具結論即驗收｜LAWWW2 下一班接班時做",
    "xai": {
     "spec": "BB 11-03 01:12 send_message；BB_00「給休班職位的待辦」",
     "branch": "claude/second-ai-env-art",
@@ -53666,6 +53666,30 @@
    "xai": {
     "from": "LAWWW",
     "to": "AA",
+    "ack": ""
+   }
+  },
+  {
+   "id": "LEADOUT-WALL-1111",
+   "title": "一起念書散場往門口走（invites3d.js S.leadOut：區域 spawn 左右各 0.55 m 兩個目標點）在木曜日一樓窄樓梯口目標點落在牆裡——走不到、靠 walkTo 4 秒保險直接放過去（BB 11-11 GO 的「這版沒做完」第 5 項）。查各個有 sitAt.lead／leadOut 的區域，目標點改成站得住、找得到路的點（或調 zone.spawn），不改劇情",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次約念書在木曜日",
+    "mainline": false,
+    "blocks": "",
+    "prereq": "",
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "【11-11 17:5x LAWWW 派】D108 場景程式（導航）：invites3d.js S.leadOut 的目標點可以改（只改選點，不改流程與台詞）；加 Node 測試：各區域 leadOut 兩個點都站得住、從座位找得到路、walkFallbacks 0。修改前 FAIL。",
+   "xai": {
+    "from": "LAWWW",
+    "to": "LAWWW2",
     "ack": ""
    }
   }
