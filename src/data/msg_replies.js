@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@c4772dc7e）。不要手改，改企劃 AA_709 再重新匯入。
+/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@31f1a4aca）。不要手改，改企劃 AA_709 再重新匯入。
    女主角主動傳來的訊息的回覆選項（MSG-REPLY-1107；播放 src/msgreply3d.js）*/
 'use strict';
 const MSG_REPLIES={
- "src": "docs/story_planning/AA_709_msg_replies.json@c4772dc7e",
+ "src": "docs/story_planning/AA_709_msg_replies.json@31f1a4aca",
  "people": {
   "classmate_xinci": [
    {
@@ -3334,7 +3334,7 @@ const MSG_REPLIES={
     ]
    },
    {
-    "text": "媽媽來了。她坐最後一排。……就是我叫你坐的那個位子。",
+    "text": "媽媽來了。不進來，站在門外從小窗看了兩節，以為我沒發現。",
     "opts": [
      {
       "t": "對不起，我沒去成。觀課順利嗎？",
@@ -3342,8 +3342,8 @@ const MSG_REPLIES={
        "trust": 1
       },
       "say": [
-       "很順喔～",
-       "小朋友今天特別乖。可能是因為最後一排有大人。"
+       "很順。",
+       "小朋友今天特別乖。可能是因為門外有大人在看。"
       ]
      },
      {
