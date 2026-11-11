@@ -1,12 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[10:19:53] ==== END   LM2_N9  exit=0  281s   ====
-[10:19:56] memory 47% before starting LM2_N10b (2 running)
-[10:19:56] ==== START LM2_N10b  (probe @ e7ddae33fee86ab1567ab9f7b4764686cc9c321c) ====
-[10:19:59] [res] cpu=9% mem=47% (14.9/31.4 GB) chrome_testing=9  START LM2_N10b
-[10:20:38] [res] cpu=4% mem=45% (14.1/31.4 GB) chrome_testing=9  END LM2_N7
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       d1e539be5..872eff18e  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [10:20:44] ==== END   LM2_N7  exit=0  456s   ====
 [10:20:47] memory 46% before starting LM2_N11 (2 running)
 [10:20:47] ==== START LM2_N11  (probe @ e7ddae33fee86ab1567ab9f7b4764686cc9c321c) ====
@@ -1998,3 +1990,11 @@
 [17:42:18] ==== START TSR_LIB_old  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
 [17:42:21] [res] cpu=6% mem=48% (15.9/31.4 GB) chrome_testing=10  START TSR_LIB_old
 [17:42:53] [res] cpu=11% mem=46% (14.5/31.4 GB) chrome_testing=9  END TSR_CLASS_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6af5ced81..750b061ea  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:42:59] ==== END   TSR_CLASS_new  exit=1  469s   ====
+[17:43:03] memory 47% before starting TSR_DORM_new (2 running)
+[17:43:03] ==== START TSR_DORM_new  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[17:43:06] [res] cpu=3% mem=48% (14.9/31.4 GB) chrome_testing=9  START TSR_DORM_new
+[17:43:38] [res] cpu=9% mem=48% (15.1/31.4 GB) chrome_testing=8  END TSR_CLASS_old
