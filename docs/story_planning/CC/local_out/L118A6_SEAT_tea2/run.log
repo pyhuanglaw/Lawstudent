@@ -1,0 +1,61 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_SEAT_tea2\out
+CC L118A：PARTS SEATS_tea_7-12；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  28.7s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== SEATS_tea_7-12
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_tea 店裡的進門位置 (-0.50,2.50) 2025-10-08 1300 
+PASS [tea] 店內正式模型載入（1.5 秒）
+  [  46.8s] [SEATS tea] 座位共 12 張（這一行測 #7～#12）：[{"label": "坐下", "x": -0.05, "z": 1.42, "lv": 0, "sx": 0.55, "sz": 1.5, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 1.42], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 1.75, "lv": 0, "sx": 1.05, "sz": 1.5, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 1.75], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 2.42, "lv": 0, "sx": 0.55, "sz": 2.7, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 2.42], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 2.08, "lv": 0, "sx": 1.05, "sz": 2.7, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 2.08], "lift": 0}, {"label": "坐下", "x": -0.05, "z": -0.22, "lv": 0, "sx": 0.55, "sz": -0.22, "sy": null, "slv": 0, "row": null, "ap": [-0.05, -0.22], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 0.18, "lv": 0, "sx": 1.05, "sz": -0.22, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 0.18], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 0.98, "lv": 0, "sx": 0.55, "sz": 0.98, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 0.98], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 0.58, "lv": 0, "sx": 1.05, "sz": 0.98, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 0.58], "lift": 0}, {"label": "坐下", "x": -0.05, "z": -1.72, "lv": 0, "sx": 0.55, "sz": -1.94, "sy": null, "slv": 0, "row": null, "ap": [-0.05, -1.72], "lift": 0}, {"label": "坐下", "x": -0.05, "z": -1.39, "lv": 0, "sx": 1.05, "sz": -1.94, "sy": null, "slv": 0, "row": null, "ap": [-0.05, -1.39], "lift": 0}, {"label": "坐下", "x": -0.05, "z": -0.74, "lv": 0, "sx": 0.55, "sz": -0.74, "sy": null, "slv": 0, "row": null, "ap": [-0.05, -0.74], "lift": 0}, {"label": "坐下", "x": -0.05, "z": -1.07, "lv": 0, "sx": 1.05, "sz": -0.74, "sy": null, "slv": 0, "row": null, "ap": [-0.05, -1.07], "lift": 0}]
+PASS [SEATS tea #7（0.55, 0.98）] 走到旁邊，互動按鈕是「坐下」  {"x": -0.072, "z": 1.062, "interact": "坐下", "stand": true}
+PASS [SEATS tea #7（0.55, 0.98）] 坐下了（player.seat）  {"x": 0.55, "z": 0.98, "y": 0, "sx": 0.55, "sz": 0.98}
+  [  51.2s] [SEATS tea #7（0.55, 0.98）] 按的互動鍵「坐下」；實際坐到的座位 (0.55, 0.98)（要坐的是 (0.55, 0.98)）
+PASS [SEATS tea #7（0.55, 0.98）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 0.55, "z": 0.98, "y": 0, "sx": 0.55, "sz": 0.98}
+  [  51.3s] [SEATS tea #7（0.55, 0.98）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 34、骨頭高度 [0.11, 1.15]；打到 []
+PASS [SEATS tea #7（0.55, 0.98）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  51.5s] [SEATS tea #7（0.55, 0.98）] 【遊戲鏡頭】l118a_seat_tea_1300_sit7_game.jpg：{"onScreen": true, "ndc": [0, -0.42], "player": [0.55, 0.98], "cam": [0.55, 2.99, 4.32], "yaw": 6.283, "mid": {"m": 140.4, "sd": 82, "black": 0.045, "white": 0, "rgb": [169, 132, 107]}, "top": {"m": 203.6, "sd": 48.2, "black": 0, "white": 0.001, "rgb": [225, 199, 170]}, "near": {"m": 112, "sd": 82.2, "black": 0.215, "white": 0.003, "rgb": [128, 108, 91]}}
+  [  52.9s] [SEATS tea #7（0.55, 0.98）] 起身：["起身"]
+PASS [SEATS tea #7（0.55, 0.98）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（2.27）、walkFallbacks 沒增加  {"moved": 2.27, "x": -0.2, "z": 3.253, "stand": true}
+PASS [SEATS tea #8（1.05, 0.98）] 走到旁邊，互動按鈕是「坐下」  {"x": -0.054, "z": 0.847, "interact": "坐下", "stand": true}
+PASS [SEATS tea #8（1.05, 0.98）] 坐下了（player.seat）  {"x": 1.05, "z": 0.98, "y": 0, "sx": 1.05, "sz": 0.98}
+  [  63.8s] [SEATS tea #8（1.05, 0.98）] 按的互動鍵「坐下」；實際坐到的座位 (1.05, 0.98)（要坐的是 (1.05, 0.98)）
+PASS [SEATS tea #8（1.05, 0.98）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 1.05, "z": 0.98, "y": 0, "sx": 1.05, "sz": 0.98}
+  [  63.9s] [SEATS tea #8（1.05, 0.98）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 34、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS tea #8（1.05, 0.98）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  64.0s] [SEATS tea #8（1.05, 0.98）] 【遊戲鏡頭】l118a_seat_tea_1300_sit8_game.jpg：{"onScreen": true, "ndc": [0, -0.42], "player": [1.05, 0.98], "cam": [1.05, 2.99, 4.32], "yaw": 6.283, "mid": {"m": 146.6, "sd": 72.8, "black": 0.032, "white": 0, "rgb": [171, 140, 117]}, "top": {"m": 195, "sd": 46.6, "black": 0, "white": 0.001, "rgb": [215, 191, 163]}, "near": {"m": 102.3, "sd": 68.3, "black": 0.09, "white": 0, "rgb": [119, 99, 78]}}
+  [  65.4s] [SEATS tea #8（1.05, 0.98）] 起身：["起身"]
+PASS [SEATS tea #8（1.05, 0.98）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（2.30）、walkFallbacks 沒增加  {"moved": 2.3, "x": -0.541, "z": 3.256, "stand": true}
+  [  70.2s] [SEATS tea #9（0.55, -1.94）] 在 seatApproach 旁最近的按鈕是 {"label": "坐下", "seat": [1.05, -1.94], "exit": null}；改走到這一張按鈕範圍裡、最近就是它的一點 {"x": -0.45, "z": -2.02, "sc": 17.5}
+FAIL [SEATS tea #9（0.55, -1.94）] 走到旁邊，互動按鈕是「坐下」  {"x": -0.487, "z": -2.058, "interact": "點餐（辛亥韓食）", "stand": true}
+  [  74.9s] [SEATS tea #9（0.55, -1.94）] 【遊戲鏡頭】l118a_seat_tea_1300_nobtn9_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.22], "player": [-0.49, -2.06], "cam": [-0.49, 2.99, 1.28], "yaw": 6.283, "mid": {"m": 118.6, "sd": 75.6, "black": 0.002, "white": 0.002, "rgb": [149, 109, 90]}, "top": {"m": 209.3, "sd": 49.6, "black": 0, "white": 0.049, "rgb": [229, 205, 179]}, "near": {"m": 86.8, "sd": 67.5, "black": 0, "white": 0, "rgb": [116, 75, 68]}}
+PASS [SEATS tea #10（1.05, -1.94）] 走到旁邊，互動按鈕是「坐下」  {"x": -0.075, "z": -1.432, "interact": "坐下", "stand": true}
+PASS [SEATS tea #10（1.05, -1.94）] 坐下了（player.seat）  {"x": 1.05, "z": -1.94, "y": 0, "sx": 1.05, "sz": -1.94}
+  [  78.4s] [SEATS tea #10（1.05, -1.94）] 按的互動鍵「坐下」；實際坐到的座位 (1.05, -1.94)（要坐的是 (1.05, -1.94)）
+PASS [SEATS tea #10（1.05, -1.94）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 1.05, "z": -1.94, "y": 0, "sx": 1.05, "sz": -1.94}
+  [  78.5s] [SEATS tea #10（1.05, -1.94）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 39、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS tea #10（1.05, -1.94）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  78.6s] [SEATS tea #10（1.05, -1.94）] 【遊戲鏡頭】l118a_seat_tea_1300_sit10_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.39], "player": [1.05, -1.94], "cam": [1.05, 2.99, 1.4], "yaw": 6.283, "mid": {"m": 170.8, "sd": 80.5, "black": 0.002, "white": 0.001, "rgb": [196, 164, 138]}, "top": {"m": 215.6, "sd": 43, "black": 0, "white": 0, "rgb": [236, 212, 182]}, "near": {"m": 114.3, "sd": 65.5, "black": 0.004, "white": 0, "rgb": [134, 111, 77]}}
+  [  80.0s] [SEATS tea #10（1.05, -1.94）] 起身：["起身"]
+PASS [SEATS tea #10（1.05, -1.94）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（5.20）、walkFallbacks 沒增加  {"moved": 5.2, "x": -0.347, "z": 3.262, "stand": true}
+PASS [SEATS tea #11（0.55, -0.74）] 走到旁邊，互動按鈕是「坐下」  {"x": -0.063, "z": -0.517, "interact": "坐下", "stand": true}
+PASS [SEATS tea #11（0.55, -0.74）] 坐下了（player.seat）  {"x": 0.55, "z": -0.74, "y": 0, "sx": 0.55, "sz": -0.74}
+  [  86.2s] [SEATS tea #11（0.55, -0.74）] 按的互動鍵「坐下」；實際坐到的座位 (0.55, -0.74)（要坐的是 (0.55, -0.74)）
+PASS [SEATS tea #11（0.55, -0.74）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 0.55, "z": -0.74, "y": 0, "sx": 0.55, "sz": -0.74}
+  [  86.3s] [SEATS tea #11（0.55, -0.74）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 39、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS tea #11（0.55, -0.74）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  86.5s] [SEATS tea #11（0.55, -0.74）] 【遊戲鏡頭】l118a_seat_tea_1300_sit11_game.jpg：{"onScreen": true, "ndc": [0, -0.42], "player": [0.55, -0.74], "cam": [0.55, 2.99, 2.6], "yaw": 6.283, "mid": {"m": 148.6, "sd": 80.1, "black": 0.015, "white": 0, "rgb": [181, 139, 112]}, "top": {"m": 209.6, "sd": 53.4, "black": 0.001, "white": 0.015, "rgb": [230, 206, 178]}, "near": {"m": 125.9, "sd": 66.7, "black": 0.048, "white": 0.004, "rgb": [155, 118, 89]}}
+  [  87.9s] [SEATS tea #11（0.55, -0.74）] 起身：["起身"]
+PASS [SEATS tea #11（0.55, -0.74）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（4.00）、walkFallbacks 沒增加  {"moved": 4.0, "x": -0.303, "z": 3.263, "stand": true}
+PASS [SEATS tea #12（1.05, -0.74）] 走到旁邊，互動按鈕是「坐下」  {"x": -0.067, "z": -0.802, "interact": "坐下", "stand": true}
+PASS [SEATS tea #12（1.05, -0.74）] 坐下了（player.seat）  {"x": 1.05, "z": -0.74, "y": 0, "sx": 1.05, "sz": -0.74}
+  [  95.9s] [SEATS tea #12（1.05, -0.74）] 按的互動鍵「坐下」；實際坐到的座位 (1.05, -0.74)（要坐的是 (1.05, -0.74)）
+PASS [SEATS tea #12（1.05, -0.74）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 1.05, "z": -0.74, "y": 0, "sx": 1.05, "sz": -0.74}
+  [  95.9s] [SEATS tea #12（1.05, -0.74）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 39、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS tea #12（1.05, -0.74）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  96.1s] [SEATS tea #12（1.05, -0.74）] 【遊戲鏡頭】l118a_seat_tea_1300_sit12_game.jpg：{"onScreen": true, "ndc": [0, -0.42], "player": [1.05, -0.74], "cam": [1.05, 2.99, 2.6], "yaw": 6.283, "mid": {"m": 189.7, "sd": 62.6, "black": 0.017, "white": 0.001, "rgb": [216, 184, 149]}, "top": {"m": 209.9, "sd": 51.3, "black": 0.007, "white": 0.019, "rgb": [230, 206, 177]}, "near": {"m": 119.9, "sd": 66.9, "black": 0.091, "white": 0, "rgb": [155, 110, 80]}}
+  [  97.6s] [SEATS tea #12（1.05, -0.74）] 起身：["起身"]
+PASS [SEATS tea #12（1.05, -0.74）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（4.00）、walkFallbacks 沒增加  {"moved": 4.0, "x": -0.353, "z": 3.263, "stand": true}
+  [  99.6s] [SEATS tea] 結果：坐得到 5／6（這一行測的）；{"7": "ok", "8": "ok", "9": "nobtn", "10": "ok", "11": "ok", "12": "ok"}
+FAIL [SEATS tea #7～#12] 每張都坐得到（有 NPC 一直坐著的另列）  {"7": "ok", "8": "ok", "9": "nobtn", "10": "ok", "11": "ok", "12": "ok"}
+PASS 沒有 JS 例外（pageerror）  []
+FAILED 2: [SEATS tea #9（0.55, -1.94）] 走到旁邊，互動按鈕是「坐下」；[SEATS tea #7～#12] 每張都坐得到（有 NPC 一直坐著的另列）
