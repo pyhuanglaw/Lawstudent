@@ -1807,3 +1807,11 @@
 [11:05:45] ==== START NM_zone_new  (game @ bd3f67410415267cde659e007e7d09b6f8fd05f3) ====
 [11:05:48] [res] cpu=35% mem=46% (14.5/31.4 GB) chrome_testing=8  START NM_zone_new
 [11:07:40] [res] cpu=3% mem=54% (17.1/31.4 GB) chrome_testing=9  END NM_oldfps_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5eccca3e8..644a8ca32  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:07:45] ==== END   NM_oldfps_old  exit=0  193s   ====
+[11:07:49] memory 46% before starting NM_reach_new (2 running)
+[11:07:49] ==== START NM_reach_new  (game @ bd3f67410415267cde659e007e7d09b6f8fd05f3) ====
+[11:07:52] [res] cpu=12% mem=46% (14.5/31.4 GB) chrome_testing=4  START NM_reach_new
+[11:07:57] [res] cpu=0% mem=47% (14.5/31.4 GB) chrome_testing=4  END NM_ggnav_new
