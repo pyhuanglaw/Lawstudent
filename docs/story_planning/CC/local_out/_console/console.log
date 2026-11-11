@@ -1642,3 +1642,12 @@
 [10:44:02] [res] cpu=37% mem=57% (18.0/31.4 GB) chrome_testing=9  START PS2_O2
 [10:44:03] 正在跑：G10_O1（已跑 2 分／上限 15 分）、PS2_O1（已跑 1 分／上限 15 分）、PS2_O2（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:45:37] [res] cpu=63% mem=59% (18.7/31.4 GB) chrome_testing=10  END G10_O1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5d0c2a6eb..68ae675a8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:45:45] ==== END   G10_O1  exit=0  246s   ====
+[10:45:55] memory 56% before starting LM2_N4_r2 (2 running)
+[10:45:55] ==== START LM2_N4_r2  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
+[10:45:58] [res] cpu=8% mem=56% (17.7/31.4 GB) chrome_testing=10  START LM2_N4_r2
+[10:45:58] worktree add 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585: invalid reference - fetching main and the commit itself
+[10:46:51] [res] cpu=66% mem=47% (14.8/31.4 GB) chrome_testing=9  END PS2_O1
