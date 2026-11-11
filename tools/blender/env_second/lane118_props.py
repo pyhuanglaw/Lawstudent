@@ -198,7 +198,7 @@ for side, z, kind in (('W', -27.5, 'bike'), ('W', -17.6, 'bike8'), ('W', -21.0, 
     else: crates(side_x(side, 0.3), z, 3)
 
 # ---------------- 電線桿、電線 ----------------
-P1 = pole(FE - 1.55, -19.2); P2 = pole(FW + 1.55, 8.9)   # 人行道靠路邊（路燈在東側 x 4.85 的 z −30、−10、10、28）
+P1 = pole(FE - 1.55, -19.2); P2 = pole(FW + 1.55, 8.9)   # 人行道靠路邊（路燈在東側 x 4.85 的 z −30、−14、10、28；−14 原本是 −10，L118-STREET-FIX-1111 移到迪倫和隔壁的壁柱前）
 attach = lambda side, z, y: ((FW + 0.05) if side == 'W' else (FE - 0.05), y, z)
 for z in (-36.0, -29.0, -12.0, -4.5, 3.0, 15.0, 21.5, 30.0):   # 橫過巷子（立面到立面）
     y = 5.4 + rr.uniform(0, 1.6); wire(attach('W', z, y), attach('E', z + rr.uniform(-1.5, 1.5), y + rr.uniform(-0.5, 0.5)), sag=0.35 + rr.uniform(0, 0.25))
@@ -224,19 +224,53 @@ for (za, zb) in BAYS:   # 畫好的機車格：垂直路邊停（車頭朝巷子
             SCOOTERS.append([round(x, 3), round(z, 3), round(ry, 4), f'{side}b{int(za)}'])
         block(sx * (LX1 - 1.05), (za + zb) / 2, 1.9, zb - za + 0.1, SCB)
 RED_N, RED_S = -38.0, 26.0   # 巷底、巷口 8 m 內紅線（lane118_ground_tex.py）
+# L118-STREET-FIX-1111（BB_341 第 4 項，2026-11-11：「喝不喝咖啡門口兩台機車並排擋住整個外帶窗口（14:00、20:00 都在）；果茶社前面也停一台」）：
+#   這一段原本只避開九間店的「店的正中間 ±2.4 m」（進店的互動點）。兩間外帶飲料店是 11-11 才加進配置的，機車的位置沒有重排；店門不在正中間的店（五湖四海、義大麵屋…）門前也可能停到。
+#   現在：先照原本的規則排（亂數的順序不變，沒被擋到的機車位置和原本一樣），再把停在下面這些範圍裡的移到最近的空位（「移到兩側」；附近 9 m 內沒有空位才拿掉）：
+#     ① 外帶店整個店面（窗口、櫃台、展示櫃）；② 每間店的店門＋左右各 0.5 m；③ 店的正中間 ±2.4 m（原本的規則，十一間都算）。範圍是機車「中心」不能在的 z（已經加了半台車長 0.975）
+SC_HALF = 1.95 / 2
+DOOR_X = {'dian': (0.0, 2.7), 'self': (0.0, 1.8), 'tea': (-0.45, 0.95), 'home': (2.2, 1.9), 'cafe2': (1.3, 1.8), 'pasta': (1.9, 1.3), 'korea': (1.7, 1.8), 'omu': (1.2, 1.2), 'noodle2': (2.0, 1.6)}   # 店門在店面的本地 x、門寬（wz_shopkit.py SF_L118 的 door_x、door_w；西側的店本地 +x＝北，東側＝南）
+DOORS9 = {q['id']: (q['side'], (q['z0'] + q['z1']) / 2) for q in LAY['shops'] if not q.get('takeout')}
+
+
+def clear_zones(side):
+    out = []
+    for q in LAY['shops']:
+        if q['side'] != side: continue
+        cz = (q['z0'] + q['z1']) / 2; out.append((cz - 2.4, cz + 2.4))
+        if q.get('takeout'): out.append((q['z0'] - SC_HALF, q['z1'] + SC_HALF))
+        elif q['id'] in DOOR_X:
+            dx, dw = DOOR_X[q['id']]; dz = cz - dx if side == 'W' else cz + dx; out.append((dz - dw / 2 - 0.5 - SC_HALF, dz + dw / 2 + 0.5 + SC_HALF))
+    return out
+
+
+MOVED = []
 for side in ('W', 'E'):   # 中間那一段：靠路邊順著停，兩三台一組；店門口、機車格、紅線不停
-    sx = -1 if side == 'W' else 1; z = RED_N + 0.6; run = []
+    sx = -1 if side == 'W' else 1; z = RED_N + 0.6; run = []; mid = []
     while z < RED_S - 1.0:
-        free = not near_door(side, z, keep=2.4) and not any(a - 1.2 <= z <= b + 1.2 for a, b in BAYS)
+        free = not any(s == side and abs(z - dz) < 2.4 for s, dz in DOORS9.values()) and not any(a - 1.2 <= z <= b + 1.2 for a, b in BAYS)
         if free and rs.random() < 0.82:
             run.append(z)
         elif run:
-            for zz in run: SCOOTERS.append([round(sx * (LX1 - 0.62), 3), round(zz, 3), round((0.0 if rs.random() < 0.5 else PI) + rs.uniform(-0.05, 0.05), 4), f'{side}{int((zz + 40) // 24)}'])
-            block(sx * (LX1 - 0.62), (run[0] + run[-1]) / 2, 0.85, run[-1] - run[0] + 1.95, SCB); run = []
+            for zz in run: mid.append([zz, round((0.0 if rs.random() < 0.5 else PI) + rs.uniform(-0.05, 0.05), 4)])
+            run = []
         z += 1.95
-    if run:
-        for zz in run: SCOOTERS.append([round(sx * (LX1 - 0.62), 3), round(zz, 3), 0.0, f'{side}{int((zz + 40) // 24)}'])
-        block(sx * (LX1 - 0.62), (run[0] + run[-1]) / 2, 0.85, run[-1] - run[0] + 1.95, SCB)
+    for zz in run: mid.append([zz, 0.0])
+    zones = clear_zones(side); EPS = 0.02
+    blocked = lambda z: any(a - EPS < z < b + EPS for a, b in zones)
+    keep = [m for m in mid if not blocked(m[0])]
+    for m in [m for m in mid if blocked(m[0])]:
+        ok = lambda z: (RED_N + 0.6 <= z <= RED_S - 1.0 and not blocked(z) and not any(a - 1.2 <= z <= b + 1.2 for a, b in BAYS) and all(abs(z - k[0]) >= 1.95 for k in keep))
+        cand = [m[0] + d * k * 0.025 for k in range(1, 361) for d in (-1, 1) if ok(m[0] + d * k * 0.025)]
+        if cand: z1 = round(min(cand, key=lambda c: abs(c - m[0])), 3); MOVED.append([side, round(m[0], 3), z1]); keep.append([z1, m[1]])
+        else: MOVED.append([side, round(m[0], 3), None])
+    keep.sort(key=lambda m: m[0]); grp = []
+    for m in keep:
+        SCOOTERS.append([round(sx * (LX1 - 0.62), 3), round(m[0], 3), m[1], f'{side}{int((m[0] + 40) // 24)}'])
+        if grp and m[0] - grp[-1] > 1.96: block(sx * (LX1 - 0.62), (grp[0] + grp[-1]) / 2, 0.85, grp[-1] - grp[0] + 1.95, SCB); grp = []
+        grp.append(m[0])
+    if grp: block(sx * (LX1 - 0.62), (grp[0] + grp[-1]) / 2, 0.85, grp[-1] - grp[0] + 1.95, SCB)
+print('scooters moved', json.dumps(MOVED))
 
 # ---------------- 晚上店門口的光（給遊戲：TK.lightPool） ----------------
 for sid, (side, dz) in DOORS.items(): POOLS.append([round(side_x(side, 1.3), 3), round(dz, 3), 2.6])
