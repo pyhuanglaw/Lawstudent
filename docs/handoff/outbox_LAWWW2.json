@@ -8138,7 +8138,7 @@
    "sha": "988dfcbe2",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACK（LAWWW 10:56：0fe8cb80d 改「已實作待整合」，發版後整合；L118_IT_FIX 五格照 hunk）",
    "at": "2026-11-11T11:0x",
    "task": "P2（LAWWW 09:41，發版後）：義大麵屋吧台凳往外＋前板內縮；奈良咖哩、義大麵屋窗上海報背面",
    "files": [
@@ -8148,6 +8148,22 @@
    "noDirectIntegrate": false,
    "note": "9 個檔，基底 dev 0b2d9c4f08，在 2b0929e277 上 --3way 乾淨；L118_IT_FIX.pasta 吧台五格 sit 拿掉（鍵對不到座位，測試第 0 項會抓）；全部 Node 測試 1286 支：1285 過＋bookstore 老警告",
    "next": "LAWWW 發版後整合；CC 坐吧台 #2 #3、從店裡看窗"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "at": "2026-11-11T12:1x",
+   "task": "TAP-RAY-SEAT-1111：點畫面判椅子重做（射線實際打到椅子、比地板近才導去那張）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tap_ray_seat_1111/（README.md、tap_ray_seat_v1.patch、browser_library_hall.jpg、regression_full.log）"
+   ],
+   "state": "READY_FOR_REVIEW；發版後整合",
+   "noDirectIntegrate": false,
+   "note": "4 個檔（engine3d.js E.rayFirstHit＋傳 hit；game3d.js tapToSeat；tap_seat_ray_1111 改法寫在檔案裡；新 tap_seat_ray_real_1111）；基底 0fe8cb80d4，在 d75a274b2e 上乾淨；BB 四個走道點看得到地板的全部 null（舊做法 81 個帶去椅子）；五湖四海 #9 215 個都坐得到；118 巷 4726 次都導去打到的那一張（舊做法 1822 次挑錯）；全部 Node 測試 1288 支：1287 過＋bookstore 老警告",
+   "next": "LAWWW 發版後整合；CC 在總圖、宿舍、Café 點走道、點椅子，118 巷照 BB 那 13 張點"
   }
  ]
 }

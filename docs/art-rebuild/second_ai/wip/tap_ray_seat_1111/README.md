@@ -1,6 +1,8 @@
 # 點畫面判椅子重做：畫面上那一點實際打到椅子才算（TAP-RAY-SEAT-1111；LAWWW 11-11 10:56 派給 LAWWW2，發版後交 patch）
 
-狀態：**WORK_IN_PROGRESS**（全部 Node 測試在跑）。
+狀態：**READY_FOR_REVIEW**（2026-11-11 12:1x UTC）。發版後整合。
+
+- patch：`tap_ray_seat_v1.patch`（4 個檔，基底 dev `0fe8cb80d4`；在最新 dev `d75a274b2e` 上試過 `git apply --3way`：乾淨）。
 
 依據（LAWWW 10:56）：0d7922555 在 `src/game3d.js` tapToSeat 加了「射線在離地 0.3～0.75 m 那段離椅中心 0.32 m 內＝點到椅子」，BB TSR 判擋發布：俯角淺時點遠處走道，射線擦過前面的椅子 → 總圖 (−8.5,5)→(−7.025,3.8)、(−11,6.5)→(−10.175,5.8)，宿舍 (11.5,3)→沙發 (9,3.35)，Café (1.5,−0.5)→(0.85,1.5)。0d1eaadc7 已在遊戲裡關掉。要的：只有畫面上那一點**實際打到椅子**（而且比地板近）才導去那張椅子；BB 那四個走道點一定 null；五湖四海 #9 點椅面要能坐；118 巷「點了選錯椅子」射線先打到哪張就是哪張。
 
@@ -23,7 +25,7 @@
 4. 地板那一點在椅子上（站不住）、沒有傳射線：照舊導去那張。
 
 - 相關 12 支（`tap_seat_ray_1111`、`tap_seat_ray_real_1111`、`tap_seat_reach`、`tapsteal`、`tap_pref`、`stair_tap`、`gym_arena_tap`、`nanyang_tap`、`teahouse_tap`、`pool_desk_talk_1107`、`l118_interact_reach_1111`、`zone_id`）全過。
-- 全部 Node 測試：在跑。
+- **全部 Node 測試 1288 支**（`regression_full.log`，含兩支新的、改過的）：1287 支 ALL PASS；`bookstore_exit_unit` 老警告（結束碼 0）。跑到一半的時候我在同一個工作目錄改了 `src/zones3d.js` 約一分鐘（下一件 Café 的修改，已經搬到別的目錄），那段時間前後的 46 支在乾淨的目錄重跑一次：全過。
 
 ## 瀏覽器（Playwright＋SwiftShader，[前置／捷徑] 讀檔、直接擺鏡頭、直接設 `E.input.tap`；不是手機）
 
