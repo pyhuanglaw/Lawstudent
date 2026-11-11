@@ -1,5 +1,5 @@
 """CC（帳號 A）11-11：L118A——118 巷 3D 第 1 版（LAWWW2 L118-SHOPS-REDO-1111，X338；BB_335 D、F 節）。Playwright 手機模擬（PC GPU）≠ iPhone。
-受測：開發分支 bcea920be（九間室內第 1 版到齊：含 27bbb3b89、含 64add9fcf 第二批：飲料店立面照參考圖、118牛排自助台上方海報、辛亥韓食茶水桶、水上便當吊牌；27bbb3b89：奈良咖哩、迪倫窯烤披薩、義大麵屋；bcea920be：五湖四海、大學食堂）；
+受測：開發分支 bc407bfc5（＝bcea920be 九間室內第 1 版到齊＋LAWWW2 四間室內第 2 版；含 27bbb3b89、含 64add9fcf 第二批：飲料店立面照參考圖、118牛排自助台上方海報、辛亥韓食茶水桶、水上便當吊牌；27bbb3b89：奈良咖哩、迪倫窯烤披薩、義大麵屋；bcea920be：五湖四海、大學食堂）；
   九間都是新室內（dian、self、korea、tea、omu、noodle2、pasta、home、cafe2），預設九間同一套。舊版對照 779ddd650（舊店名、舊模型）。
 對照的程式：src/data/lane118_layout.js（店 id、side、z0／z1；立面 x ±5.2、人行道 ±3.4～±5.2）、src/data/l118_shop_layouts.js（室內 bounds、door、spawn、exits、street.door／spawn_out、seats）、
   src/l118_shops3d.js（店內區域 l118_<id>、座位按鈕「坐下」、出口「離開○○」、門外窗景 W3.VIEW_LAYERS／l118_window_view）、src/zones3d.js buildLane118（店門口互動點 x＝立面±0.9、z＝店中間；「進○○」）、
@@ -21,6 +21,8 @@ PARTS（逗號分隔；店相關的可以加 _<店 id>，座位可以再加 _<�
   VIEWS         九間店裡往門外看【捷徑機位】（13:00、19:15）＋窗景平面用的照片（沒重拍＝現況）
   VIEWSNEW      先用 cc_shop_views_gg.py（＝tools/shots/shop_views_layers.py 的 PC 版）重拍九間門外景，有 webp（PC 有 numpy／PIL）就放進受測 worktree 再拍窗外；
                 VIEWS_DIR＝cc-testing 上已經去背好的資料夾（雲端 VIEWS_REMATTE 後）就不重拍、直接用那一份。拍完把 worktree 的原檔放回去
+  KITCHEN       四間第 2 版（dian、self、korea、tea）：開放式廚房／出菜口一張、招牌物件近照（每桌鐵板牛排、配菜櫃炸物＋保溫燈＋吊牌、木頭製麵檯＋麵團＋削麵刀、每桌小菜）【捷徑機位】；
+                辛亥韓食天花板深紅橫樑：搖桿走到店中間 → 兩指捏合把遊戲鏡頭拉到最遠（室內 6 m）一張、再往下拖到最大俯角一張【遊戲鏡頭】（橫樑只有朝下和兩側的面，看上方露不露空）
   OTHER         還是舊模型的店（OLD_SHOPS，bcea920be 起預設沒有；舊版對照時可以 OLD_SHOPS=home,cafe2）：門口往裡一張＋進門【遊戲鏡頭】一張，只拍不判（別名 OTHER5）
   SPECIAL       奈良咖哩、迪倫、義大麵屋、五湖四海、大學食堂另外的（別名 SPECIAL3）：店裡「看東西」的互動每個按一次記逐字（和配置 note 比）；店內全部互動鍵文字（大學食堂不能有書架、念書類）；迪倫店員座標和面向、搖桿走到爐口前一張【遊戲鏡頭】；
                 窯爐的火 13:00／20:00 近拍【捷徑機位】＋火焰網格附近像素色值（有沒有變成白光）；奈良咖哩地板近拍＋地板像素色值（D112 不要深色木）；
@@ -46,7 +48,7 @@ hhmm = lambda h: '%02d%02d' % (int(h), int(round((h % 1) * 60)))
 #   辛亥韓食 茶水桶 (−1.08, 1.0～1.37, −2.8)、一疊杯子 (−0.32, 1.0, −2.7)；水上便當 取餐檯上方吊牌 x 0.15～1.25、y 2.32～2.66、z −2.9，字朝 +z）
 CLOSE = {'dian': [('自助台上方海報', (-0.7, 1.65, 1.9), (-2.8, 1.8, 2.1), 30)],
          'tea': [('茶水桶', (0.2, 1.55, -1.1), (-0.75, 1.12, -2.75), 32)],
-         'self': [('吊牌', (0.7, 1.65, -0.4), (0.7, 2.45, -2.9), 36)],
+         'self': [('吊牌', (0.85, 1.65, -0.4), (0.85, 2.55, -2.9), 36)],   # bc407bfc5 第 2 版：黃框價目牌 x −0.05～1.75、y 2.24～2.96、z −2.9
          'omu': [('地板', (0.0, 1.35, 1.6), (0.0, 0.0, 0.2), 30)]}
 
 ME = "(()=>{ const P=GAME.E.player, p=P.obj.position; return {zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), x:+p.x.toFixed(2), z:+p.z.toFixed(2), stand:GAME.E.canStand?!!GAME.E.canStand(p.x,p.z,0.3,P.lv|0):null, ent:!!(GAME.isEntering&&GAME.isEntering()), busy:!!P.busy, seat:!!P.seat, fb:GAME.walkFallbacks|0, money:GAME.G.money}; })()"
@@ -644,6 +646,47 @@ async def part_special3(pg, cdp):
             await cam_shot(pg, fn('special', sid, H_INT, 'sq12_photo', True), (tr['at'][0], tr['at'][1] + 0.1, tr['at'][2] + 1.3), tuple(tr['at']), 36, judge=False)
 
 
+# ------------------------------------------------------------------ 四間第 2 版：廚房、招牌物件、辛亥韓食橫樑（BB 06:34；座標照 bc407bfc5 的 tools/blender/env_second/lane118_shops.py＋l118_shop_layouts.js）
+KITCHEN = {'dian': [('開放式廚房', (-0.45, 1.65, -0.3), (-0.45, 1.15, -3.6), 26), ('每桌鐵板牛排', (-0.9, 1.45, 0.4), (-1.95, 0.75, 0.4), 32)],
+           'self': [('開放式廚房', (0.8, 1.65, -0.9), (0.8, 1.15, -4.1), 26), ('配菜櫃炸物和保溫燈', (-0.3, 1.75, 0.9), (-2.6, 1.25, -1.3), 28), ('吊牌', (0.85, 1.65, -0.4), (0.85, 2.55, -2.9), 36)],
+           'korea': [('開放式廚房', (0.65, 1.65, -0.6), (0.65, 1.15, -3.9), 26), ('木頭製麵檯麵團削麵刀', (-0.2, 1.6, 2.3), (-1.1, 0.95, 3.75), 30)],
+           'tea': [('出菜口和廚房', (-0.2, 1.6, -0.6), (-0.3, 1.2, -3.8), 30), ('每桌小菜', (-0.6, 1.45, 2.1), (0.7, 0.76, 2.1), 32)]}
+
+
+async def pinch(pg, cdp, d0, d1, steps=12):
+    """兩指捏合（CDP 觸控兩點，畫面中間偏上的遊戲畫面）：d0→d1 像素；d1<d0＝拉遠"""
+    cx, cy = await pg.evaluate("[innerWidth/2, innerHeight*0.38]")
+    pts = lambda d: [{'x': cx - d / 2, 'y': cy, 'id': 1}, {'x': cx + d / 2, 'y': cy, 'id': 2}]
+    await cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': pts(d0)})
+    for i in range(1, steps + 1):
+        await cdp.send('Input.dispatchTouchEvent', {'type': 'touchMove', 'touchPoints': pts(d0 + (d1 - d0) * i / steps)}); await pg.wait_for_timeout(60)
+    await cdp.send('Input.dispatchTouchEvent', {'type': 'touchEnd', 'touchPoints': []})
+
+
+async def part_kitchen(pg, cdp, sid):
+    tag = '[KITCHEN %s]' % sid
+    await at_shop(pg, cdp, sid, H_INT)
+    for lab, eye, look, lens in KITCHEN.get(sid, []):
+        await cam_shot(pg, fn('kitchen', sid, H_INT, lab, True), eye, look, lens)
+    if sid != 'tea': return
+    ok, t, st = await joy_walk(pg, cdp, -0.45, 0.4, 0.4, 40, '%s 搖桿走到店中間的走道' % tag)
+    R.check('%s 搖桿走到店中間（%s 秒）' % (tag, t), ok, J(st))
+    CAMJ = "(()=>{ const c=GAME.E.cam; return {dist:c.dist!=null?+(+c.dist).toFixed(2):null, distTarget:c.distTarget!=null?+(+c.distTarget).toFixed(2):null, pitch:+(+c.pitch).toFixed(3), yaw:+(+c.yaw).toFixed(3)}; })()"
+    c0 = await pg.evaluate(CAMJ)
+    for _ in range(3):
+        await pinch(pg, cdp, 300, 40); await pg.wait_for_timeout(900)
+    await pg.wait_for_timeout(1500); c1 = await pg.evaluate(CAMJ)
+    R.note('%s 兩指捏合：鏡頭 %s → %s' % (tag, J(c0), J(c1)))
+    R.check('%s 兩指捏合把鏡頭拉到最遠（distTarget 6，室內上限）' % tag, (c1['distTarget'] or 0) >= 5.9, J(c1))
+    await game_shot(pg, fn('kitchen', sid, H_INT, 'beams_far', False), tag + ' 鏡頭最遠')
+    pt = await pg.evaluate("(()=>{ for(const fy of [0.3,0.35,0.25]){ const x=innerWidth*0.55, y=innerHeight*fy; const a=document.elementFromPoint(x,y), b=document.elementFromPoint(x,y+200); if(a&&a.id==='c'&&b&&b.id==='c') return {x,y}; } return null; })()")
+    if pt:
+        for _ in range(2): await L.drag(pg, cdp, pt['x'], pt['y'], pt['x'], pt['y'] + 200, steps=12); await pg.wait_for_timeout(300)
+    await pg.wait_for_timeout(1500); c2 = await pg.evaluate(CAMJ)
+    R.note('%s 往下拖到最大俯角：%s' % (tag, J(c2)))
+    await game_shot(pg, fn('kitchen', sid, H_INT, 'beams_far_top', False), tag + ' 鏡頭最遠＋最大俯角')
+
+
 # ------------------------------------------------------------------ 還是舊模型的店
 async def part_other(pg, cdp):
     for sid in OLD2:
@@ -703,6 +746,8 @@ async def main():
                         await part_views(pg, cdp, 'reshot')
                     elif base in ('OTHER', 'OTHER5'): await part_other(pg, cdp)
                     elif base in ('SPECIAL', 'SPECIAL3'): await part_special3(pg, cdp)
+                    elif base == 'KITCHEN':
+                        for sid in shop_filter(shop, ['dian', 'self', 'korea', 'tea']): await part_kitchen(pg, cdp, sid)
                     else: R.check('[%s] 認得這個 PART' % part, False, '')
                 except Exception as e:
                     R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
