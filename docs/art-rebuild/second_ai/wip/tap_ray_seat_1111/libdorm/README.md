@@ -2,7 +2,7 @@
 
 狀態：**READY_FOR_REVIEW**。結論：**遊戲本身點得到**。CC 的 FAIL 是探針的三種情形；遊戲這邊只做一個讓探針讀數和遊戲一致的小改。
 
-- patch：`tap_seat_libdorm_v1.patch`（2 個檔：`src/game3d.js`、新 `tests/tap_seat_libdorm_1111_unit.js`；基底開發分支 `3df6cfdf6a`）。
+- patch：`tap_seat_libdorm_v1.patch`（2 個檔：`src/game3d.js`、新 `tests/tap_seat_libdorm_1111_unit.js`；基底開發分支 `3df6cfdf6a`；在最新開發分支 `35c4b140c8` 上 `git apply --3way` 乾淨）。
 
 ## 查到的
 
@@ -53,7 +53,7 @@
 - **修改前（3df6cfdf6a，`before_3df6cfdf6a.log`）**：1 FAIL（帶 `hit` 664／2378／291 全部導對＝遊戲本身沒問題；不帶 `hit` 0 次）、2 FAIL；3 PASS。
 - **修改後**：ALL PASS。
 - `tap_seat_ray_real_1111_unit`、`tap_seat_ray_1111_unit`：ALL PASS。
-- 全部 Node 測試：見下面。
+- **全部 Node 測試 1303 支**（`regression_full.log`，3df6cfdf6a＋這包）：1302 支過；`bookstore_exit_unit` 老警告（結束碼 0）。
 
 ## 沒做的
 

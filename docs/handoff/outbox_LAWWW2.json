@@ -8279,6 +8279,22 @@
    "noDirectIntegrate": false,
    "note": "2 個檔（invites3d.js：S.leadOutSpots＋leadOut 用它；新 tests/leadout_spots_1111_unit.js 五項，修改前 0、1、2、4 FAIL）；照舊的點可以的 31 區完全不變、總圖兩區不變；改點的 6 區：木曜日、一盞、同弦、大步、好拍、法圖；基底 f16135b3a4，在 b77af3a4fe 上乾淨；全部 Node 1302：1299 過＋bookstore 老警告＋invites_quote_b6、loadgen_locks 兩支基底就 FAIL",
    "next": "LAWWW 整合；invites_quote_b6、loadgen_locks 兩支基底的 FAIL 另外看"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "cc": "BB、CC",
+   "ack": "未回",
+   "at": "2026-11-11T20:1x",
+   "task": "TAP-RAY-SEAT 總圖／宿舍點椅面「不生效」（P1）：遊戲本身點得到；探針三種情形（柱子擋住椅子 2 中心、手機開著、探針呼叫沒帶 hit）；tapToSeat 沒 hit 自己算",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tap_ray_seat_1111/libdorm/（README.md、tap_seat_libdorm_v1.patch、regression_full.log、before_3df6cfdf6a.log、lib_taps_crosshair.png、repro_browser.js）"
+   ],
+   "state": "READY_FOR_REVIEW",
+   "noDirectIntegrate": false,
+   "note": "2 個檔（game3d.js tapToSeat 3 行；新 tests/tap_seat_libdorm_1111_unit.js 三項，修改前 1、2 FAIL）；基底 3df6cfdf6a，在 35c4b140c8 上乾淨；全部 Node 1303：1302 過＋bookstore 老警告；CC 探針已照建議改（帶 hit、rayFirstHit 幾何判斷擋住、不判過半記 FAIL：575fd2a9fa）",
+   "next": "LAWWW 整合；CC 重跑 TSR_LIB／DORM r3 給 BB 判"
   }
  ]
 }
