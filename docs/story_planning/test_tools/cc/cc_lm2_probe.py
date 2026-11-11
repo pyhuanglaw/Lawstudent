@@ -213,9 +213,9 @@ def judge_diff(tag, df):
     R.check('%s 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動' % tag, not other, J([d[0] for d in other]))
 
 
-async def drive(pg, cdp, pick=None, max_s=120, on_line=None):
+async def drive(pg, cdp, pick=None, max_s=120, on_line=None, since=None):
     """點對話、選選項直到這一段結束（不是對話、沒選項、不 busy、段落深度 0 連 3 次）。pick(opts)->index（None＝最後一個）。回傳 [(畫面上的選項)]"""
-    t0 = time.time(); idle = 0; menus = []; seen = await pg.evaluate(LOGN)
+    t0 = time.time(); idle = 0; menus = []; seen = since if since is not None else await pg.evaluate(LOGN)
     await pg.wait_for_timeout(400)
     while time.time() - t0 < max_s:
         q = await pg.evaluate(DRV)
@@ -290,7 +290,7 @@ async def table_press(pg, cdp, tag, pick=None, on_line=None, need_label=True):
         return None
     a = await pg.evaluate(SNAPG); n0 = await pg.evaluate(LOGN); h0 = (await pg.evaluate(DRV))['h']; t0 = time.time()
     await L.tap(pg, cdp, '#interact')
-    menus = await drive(pg, cdp, pick=pick, on_line=on_line)
+    menus = await drive(pg, cdp, pick=pick, on_line=on_line, since=n0)
     t1 = time.time(); b = await pg.evaluate(SNAPG); log = await pg.evaluate(LOGS, n0); q = await pg.evaluate(DRV)
     S_ = says(log); ch = [e['opts'] for e in log if e['k'] == 'choose']
     secs = round((S_[-1]['t'] - S_[0]['t']) / 1000.0, 1) if len(S_) > 1 else 0.0
@@ -765,7 +765,7 @@ async def part_ui(pg, cdp):
     boxes = []
     if s['interact'] == '算命桌':
         async def on_line(e):
-            await pg.wait_for_timeout(250); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250)   # 打字中點一下＝整句顯示
+            await full_line(pg, cdp)
             bx = await pg.evaluate(DLGBOX); i = len(boxes) + 1; boxes.append((e, bx))
             await pg.screenshot(path=os.path.join(OUT, 'lm2_ui_land_%02d.jpg' % i), type='jpeg', quality=80)
         await table_press(pg, cdp, '[UI ① 橫向]', pick=by_text('離開'), on_line=on_line)
@@ -776,7 +776,7 @@ async def part_ui(pg, cdp):
     s = await D.settle(pg); boxes = []
     if s['interact'] == '算命桌':
         async def on_line2(e):
-            await pg.wait_for_timeout(250); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250)
+            await full_line(pg, cdp)
             bx = await pg.evaluate(DLGBOX); i = len(boxes) + 1; boxes.append((e, bx))
             await pg.screenshot(path=os.path.join(OUT, 'lm2_ui_port_%02d.jpg' % i), type='jpeg', quality=80)
         r = await table_press(pg, cdp, '[UI ② 直向]', pick=by_text('聊聊天'), on_line=on_line2)
@@ -834,6 +834,16 @@ async def part_ui(pg, cdp):
     await to_table(pg, cdp, '[UI ④]')
     await pg.screenshot(path=os.path.join(OUT, 'lm2_ui_master_game.jpg'), type='jpeg', quality=78)
     R.note('[UI ④] 上師沒有 3D 人物（照實記，不判）：座位 1.5 m 內有 %d 個人物、LM.masterNpc＝%s；照片 lm2_ui_master_*.jpg' % (len(near), mn and mn['masterNpc']))
+
+
+async def full_line(pg, cdp):
+    """打字中點一下＝整句顯示（已經整句就不點，不然會翻到下一句）"""
+    await pg.wait_for_timeout(250)
+    if await pg.evaluate("!!(GAME.D&&GAME.D.active&&GAME.D.typing)"): await L.tap(pg, cdp, '#dlg')
+    for _ in range(10):
+        if not await pg.evaluate("!!(GAME.D&&GAME.D.typing)"): break
+        await pg.wait_for_timeout(200)
+    await pg.wait_for_timeout(200)
 
 
 def ui_judge(tag, boxes):
