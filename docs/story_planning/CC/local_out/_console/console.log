@@ -1,11 +1,3 @@
-[14:19:07] [res] cpu=2% mem=48% (15.1/31.4 GB) chrome_testing=10  START CLASS12_skip5b_150x20
-[14:21:55] [res] cpu=0% mem=48% (15.4/31.4 GB) chrome_testing=10  END CLASS12_skip5b_150x5
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       e619078e8..e915b2bd1  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[14:22:04] ==== END   CLASS12_skip5b_150x5  exit=1  328s   ====
-[14:22:13] memory 49% before starting CLASS12_skip5b_np1000 (2 running)
-[14:22:13] ==== START CLASS12_skip5b_np1000  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
 [14:22:16] [res] cpu=0% mem=49% (15.6/31.4 GB) chrome_testing=10  START CLASS12_skip5b_np1000
 [14:22:52] [res] cpu=4% mem=46% (14.5/31.4 GB) chrome_testing=9  END CLASS12_skip5b_150x10
     To https://github.com/pyhuanglaw/Lawstudent.git
@@ -1998,3 +1990,11 @@
 [22:39:39] ==== START ACT_SMOKE_ZR3_old  (probe @ 7266e7a29351d4d186cae82d82042271a95a67d4) ====
 [22:39:42] [res] cpu=3% mem=40% (12.7/31.4 GB) chrome_testing=9  START ACT_SMOKE_ZR3_old
 [22:40:29] [res] cpu=10% mem=43% (13.3/31.4 GB) chrome_testing=8  END ACT_smoke_st_an1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2e3f319da..e0387e170  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:40:35] ==== END   ACT_smoke_st_an1  exit=0  126s   ====
+[22:40:38] memory 44% before starting ACT_SMOKE_BEAT (2 running)
+[22:40:38] ==== START ACT_SMOKE_BEAT  (probe @ f8b6d1e82f43194080cb860d11148d9fd27de078) ====
+[22:40:41] [res] cpu=6% mem=44% (14.0/31.4 GB) chrome_testing=8  START ACT_SMOKE_BEAT
+[22:41:28] [res] cpu=12% mem=41% (12.7/31.4 GB) chrome_testing=8  END ACT_SMOKE_ZR3
