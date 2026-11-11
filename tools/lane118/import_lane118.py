@@ -2,7 +2,12 @@
 """118 巷的店家、點餐台詞、常客、阿哲週一揪人（AA_280）→ src/data/lane118_shops.js。
 只從劇情匯入白名單上的版本讀（tools/story/import_guard.py；docs/handoff/story_import_allow.json），不讀分支上的最新檔。
 字串照抄 AA_280 表格與引言（只拿掉 markdown 的 **、反引號）；營業時間、星期、學期拆成程式用的欄位。
-用法：python3 tools/lane118/import_lane118.py [--check]（--check：只比對，不寫檔；和現有的 lane118_shops.js 不同就結束碼 1）"""
+用法：python3 tools/lane118/import_lane118.py [--check]（--check：只比對，不寫檔；和現有的 lane118_shops.js 不同就結束碼 1）
+2026-11-11（L118-SHOPS-REDO-1111，AA_280 @6859e114f 的新寫法）：
+- 第 4 節標題下面多了一段「> **定稿（11-11）**：……」的說明：阿哲第一次的那四句只從「第一次」那一條底下的引言拿（原本從第 4 節開頭拿，會把那段說明當成一句話）。
+- 第一次去哪一間寫在選項那一行（「出遊排到 korea（清州刀削麵）」）：匯成 lunch.firstShop（原本程式寫死 noodle2）。
+- 外帶飲料店（店 id 開頭 drink_，使用者 11-11 規格的飲料店 A／B）：那一間多 drink:true（點了＝飲料 5 分鐘，不是一餐 40 分鐘）、takeout:true（不能內用、沒有室內）；其他店沒有這兩欄。
+- 匯完檢查：每一間店、每一列常客、輪流的每一間、第一次那一間都要在第 1 節的表裡，不在就停。"""
 import json, os, re, subprocess, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -96,7 +101,9 @@ def build():
             m = re.match(r'^(.+?)\s*(\d+)$', it.strip())
             if not m: sys.exit('看不懂菜單：' + it)
             menu.append([m.group(1).strip(), int(m.group(2))])
-        shops.append({'id': r[0], 'name': r[1], 'type': r[2], 'hours': hours(r[3]), 'menu': menu})
+        sh = {'id': r[0], 'name': r[1], 'type': r[2], 'hours': hours(r[3]), 'menu': menu}
+        if r[0].startswith('drink_'): sh['drink'] = True; sh['takeout'] = True   # 外帶飲料店（使用者 11-11 規格第三節；AA_280 第 1 節下面「兩間飲料店外帶為主，沒有內用座位；不算午餐」）
+        shops.append(sh)
     greet = {r[0]: {'greet': say(r[1]), 'done': r[2]} for r in rows(t, '店') if len(r) >= 3 and r[0] in {s['id'] for s in shops}}
     for s in shops:
         if s['id'] not in greet: sys.exit('第 2 節缺 ' + s['id'])
@@ -109,17 +116,23 @@ def build():
         e = {'id': rid, 'shop': r[1], 'days': days(r[2]), 'from': hm(tm[0]), 'to': hm(tm[1]), 'line': say(r[5])['text']}
         e.update(term_from(r[4])); regs.append(e)
     s4 = t[t.index('## 4.'):t.index('## 5.')]
-    first = [[NAME2ID.get(a, a), b] for a, b in quotes(s4[:s4.index('- 選項')])]
+    i1 = s4.index('第一次'); first = [[NAME2ID.get(a, a), b] for a, b in quotes(s4[i1:s4.index('- 選項', i1)])]   # 只拿「第一次」那一條底下的引言（第 4 節開頭的「> 定稿……」說明不是台詞）
+    fshop = re.search(r'出遊排到\s*([a-z0-9_]+)', s4)
     opts = re.search(r'選項：「(.+?)」→ 阿哲「(.+?)」.*?／「(.+?)」→ 阿哲「(.+?)」', s4)
-    rot = re.search(r'順序輪：([a-z0-9]+(?:\s*→\s*[a-z0-9]+)+)', s4)
-    weekly = re.findall(r'^\s*- 「(.+?)」(?:（去 ([a-z0-9]+) 那週）)?\s*$', s4, re.M)
+    rot = re.search(r'順序輪：([a-z0-9_]+(?:\s*→\s*[a-z0-9_]+)+)', s4)
+    weekly = re.findall(r'^\s*- 「(.+?)」(?:（去 ([a-z0-9_]+) 那週）)?\s*$', s4, re.M)
     pair = re.search(r'Alison 那句換成「(.+?)」', s4)
-    if not (closed and order and group and first and opts and rot and len(weekly) == 4 and pair): sys.exit('第 2、4 節有欄位找不到')
+    if not (closed and order and group and first and opts and rot and len(weekly) == 4 and pair and fshop): sys.exit('第 2、4 節有欄位找不到')
     rotation = [x.strip() for x in rot.group(1).split('→')]
+    ids = {s['id'] for s in shops}
+    for a, _ in first:
+        if a not in NAME2ID.values(): sys.exit('第 4 節第一次的引言有不認得的說話人：' + a)
+    for x in [e['shop'] for e in regs] + rotation + [fshop.group(1)]:
+        if x not in ids: sys.exit('第 3、4 節提到第 1 節沒有的店：' + x)
     wl = {}
     for line, sid in weekly: wl[sid or rotation[0]] = line
     return sha, {'src': PATH + '@' + sha, 'closedLine': closed.group(1), 'orderLine': order.group(1), 'groupGreet': group.group(1), 'shops': shops, 'regulars': regs,
-                 'lunch': {'first': first, 'yes': opts.group(1), 'yesReply': opts.group(2), 'no': opts.group(3), 'noReply': opts.group(4), 'rotation': rotation, 'weekly': wl, 'pairedYu': pair.group(1)}}
+                 'lunch': {'first': first, 'yes': opts.group(1), 'yesReply': opts.group(2), 'no': opts.group(3), 'noReply': opts.group(4), 'firstShop': fshop.group(1), 'rotation': rotation, 'weekly': wl, 'pairedYu': pair.group(1)}}
 
 
 def main():
