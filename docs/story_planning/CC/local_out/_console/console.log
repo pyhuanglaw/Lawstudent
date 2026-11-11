@@ -1,12 +1,3 @@
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:17:25] ==== END   NM_tbl_edge_r2  exit=0  127s   ====
-[08:17:56] memory 38% before starting SC3_new_r2 (2 running)
-[08:17:56] ==== START SC3_new_r2  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
-[08:17:59] [res] cpu=1% mem=38% (12.1/31.4 GB) chrome_testing=4  START SC3_new_r2
-[08:18:03] [res] cpu=3% mem=39% (12.0/31.4 GB) chrome_testing=4  END TZ5_int_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       ee88ea065..0de1e48e5  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [08:18:30] ==== END   TZ5_int_old  exit=0  224s   ====
 [08:18:39] memory 46% before starting SC3_v2_r2 (2 running)
 [08:18:39] ==== START SC3_v2_r2  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
@@ -1998,3 +1989,12 @@
 [15:22:28] ==== START L118D_E_SEATMIX_A  (probe @ b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa) ====
 [15:22:31] [res] cpu=3% mem=50% (15.7/31.4 GB) chrome_testing=10  START L118D_E_SEATMIX_A
 [15:23:59] [res] cpu=10% mem=51% (16.1/31.4 GB) chrome_testing=10  END L118D_H_B_r2
+[15:24:04] 正在跑：L118D_H_B_r2（已跑 4 分／上限 15 分）、L118D_H_C_r2（已跑 4 分／上限 15 分）、L118D_E_SEATMIX_A（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       160ad61f4..69f3fa28d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:24:06] ==== END   L118D_H_B_r2  exit=1  239s   ====
+[15:24:09] memory 51% before starting L118D_E_SEATMIX_B (2 running)
+[15:24:09] ==== START L118D_E_SEATMIX_B  (probe @ b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa) ====
+[15:24:12] [res] cpu=5% mem=49% (16.3/31.4 GB) chrome_testing=10  START L118D_E_SEATMIX_B
+[15:26:21] [res] cpu=4% mem=50% (15.9/31.4 GB) chrome_testing=10  END L118D_H_C_r2
