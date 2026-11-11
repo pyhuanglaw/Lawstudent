@@ -131,6 +131,12 @@ async def joy_to(pg, cdp, tag, tx, tz, near=0.6, lv=None, max_s=90, straight=Fal
         if prev is not None:
             dd = math.hypot(s['x'] - prev[1], s['z'] - prev[2]); dt = now - prev[0]
             if s['zone'] == prev[3] and dd > max(2.5, 6 * dt): jumps.append({'t': round(now - t0, 1), 'from': prev[1:3], 'to': [s['x'], s['z']], 'd': round(dd, 2)})
+        if straight and prev is not None and s['zone'] == prev[3]:   # r3（CC 01:4x）：直線測「走不走得過去」——兩次取樣之間的線段穿過目標 near 以內也算到（PC 上會衝過頭）
+            ax0, az0, bx0, bz0 = prev[1], prev[2], s['x'], s['z']; vx0, vz0 = bx0 - ax0, bz0 - az0; L2 = vx0 * vx0 + vz0 * vz0
+            u0 = max(0.0, min(1.0, ((tx - ax0) * vx0 + (tz - az0) * vz0) / L2)) if L2 > 1e-9 else 0.0
+            if math.hypot(ax0 + vx0 * u0 - tx, az0 + vz0 * u0 - tz) <= near and (lv is None or s['lv'] == lv):
+                log.append([round(now - t0, 1), s['x'], s['z'], s['lv']])
+                return {'ok': True, 't': round(now - t0, 1), 'pushes': pushes, 'jumps': jumps, 'end': s, 'log': log, 'crossed': True}
         prev = (now, s['x'], s['z'], s['zone']); log.append([round(now - t0, 1), s['x'], s['z'], s['lv']])
         d = math.hypot(tx - s['x'], tz - s['z'])
         if d <= near and (lv is None or s['lv'] == lv):
@@ -149,8 +155,8 @@ async def joy_to(pg, cdp, tag, tx, tz, near=0.6, lv=None, max_s=90, straight=Fal
         fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = -fz, fx
         da = max(math.hypot(ax - s['x'], az - s['z']), 0.01); ux, uz = (ax - s['x']) / da, (az - s['z']) / da
         sx, sy = ux * rx + uz * rz, -(ux * fx + uz * fz); m = math.hypot(sx, sy) or 1
-        pm = push_ms if d > 2.5 else max(150, int(push_ms * d / 2.5))   # r2（CC 01:2x）：離目標 2.5 m 內推短一點——PC 上每推 0.6 秒走 1 m 多，會在目標兩邊來回晃（FN OLDSPOT、STAIRS 第一輪 TEST_BUG）
-        await L.joystick(pg, cdp, sx / m * 45, sy / m * 45, pm); pushes += 1
+        pm = push_ms if d > 2.5 else max(250, int(push_ms * d / 2.5)); mag = 45 if d > 2.5 else max(16, 45 * d / 2.5)   # r3：近目標也推輕一點（走慢）   # r2（CC 01:2x）：離目標 2.5 m 內推短一點——PC 上每推 0.6 秒走 1 m 多，會在目標兩邊來回晃（FN OLDSPOT、STAIRS 第一輪 TEST_BUG）
+        await L.joystick(pg, cdp, sx / m * mag, sy / m * mag, pm); pushes += 1
     s = await D.st(pg)
     return {'ok': False, 't': round(time.time() - t0, 1), 'pushes': pushes, 'jumps': jumps, 'end': s, 'log': log, 'why': '%d 秒沒走到' % max_s}
 
