@@ -4386,13 +4386,18 @@
   },
   {
    "path": "docs/story_planning/syllabus/Y1S1.json",
-   "sha": "1edea905f",
+   "sha": "d3a22505b",
    "status": "approved",
-   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）",
-   "task": "AA588-AA581-TAIL-1102",
+   "approvedBy": "AA 2026-11-11 定稿 d3a22505b（D109）；BB 法律審 BB_332（憲法上）、BB_333（刑總一）、BB_334（民總）通過，適用 d3a22505b（BB 11-11 03:58 UTC 訊息：16 處拆句逐行對過，法律意思沒變）",
+   "task": "STUDY-EXAM-STORY-1102",
    "kind": "data",
-   "note": "AA_588 第 3 節：_src/y1s1.py:46 第 7 週黑板「下週、下下週：前七週整理＋案例作業」（AA_581 第 11 節第 1 點；經濟系會計學那句不動），AA 用 build.py 重產。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "note": "課堂內容補寫大一上三科（const_1、crim_gen1、civ_general；X337「上課至少也要播完」的內容面）：more（教授接著講的句子）、react、tpl B／C、ask（crim_gen1 第 13 週 CRIM45_33）。tools/syllabus/import_syllabus.py claude/story-planning@d3a22505b 重匯。LAWWW 2026-11-11 登記",
    "history": [
+    {
+     "sha": "1edea905f",
+     "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）",
+     "note": "AA_588 第 3 節：_src/y1s1.py:46 第 7 週黑板「下週、下下週：前七週整理＋案例作業」（AA_581 第 11 節第 1 點；經濟系會計學那句不動），AA 用 build.py 重產。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核"
+    },
     {
      "sha": "57b2a7b39",
      "approvedBy": "之前的匯入基準：tools/syllabus/import_syllabus.py claude/magical-albattani-bk7b4n@57b2a7b39（學期檔還沒進白名單的時期；src/data/syllabus.js 的 source）"
@@ -4446,12 +4451,18 @@
   },
   {
    "path": "docs/story_planning/AA_585_midweek.json",
-   "sha": "1bdfd2304",
+   "sha": "d3a22505b",
    "status": "approved",
-   "approvedBy": "AA 2026-11-02 定稿 1bdfd2304（D109）；BB 法律審 BB_231 @995ffc585：60 週全部 PASS（民總照留原題、不用備案）",
+   "approvedBy": "AA 2026-11-11 定稿 d3a22505b（D109）：大一上三科（const_1、crim_gen1、civ_general）第 8、9 週只加 react；BB_332／333／334 通過。其餘 57 門週照 1bdfd2304（BB_231 60 週 PASS）",
    "task": "AA585-MIDWEEK-1102",
    "kind": "data",
-   "note": "法律三十門第 8、9 週（前七週整理＋案例作業；D118 沒有期中考）。tools/syllabus/import_syllabus.py 當補丁來源疊在 BB 的源稿上（BB_231「匯入方式」：BB 源稿不動），reviewed 加 60 筆。995ffc585、1edea905f 的內容和 1bdfd2304 一樣。tests/aa585_midweek_unit.js。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核"
+   "note": "法律三十門第 8、9 週（前七週整理＋案例作業；D118 沒有期中考）。tools/syllabus/import_syllabus.py 當補丁來源疊在 BB 的源稿上（BB_231「匯入方式」：BB 源稿不動），reviewed 加 60 筆。995ffc585、1edea905f 的內容和 1bdfd2304 一樣。tests/aa585_midweek_unit.js。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "1bdfd2304",
+     "approvedBy": "AA 2026-11-02 定稿 1bdfd2304（D109）；BB 法律審 BB_231 @995ffc585：60 週全部 PASS（民總照留原題、不用備案）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_138_回家_家人台詞池.md",

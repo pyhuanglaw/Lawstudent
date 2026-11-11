@@ -83,8 +83,8 @@ await sec(3,()=>{ const C=SYLLABUS.courses, w=(c,n)=>(C[c]||[]).find(x=>x.w===n)
   check('3. 柏翰缺課訊息（行政法、債各）＝「（群組）柏翰：期末考範圍表更新了。」',['admin_law','oblig_spec'].every(c=>(SYLLABUS.skip[c]||[]).includes('（群組）柏翰：期末考範圍表更新了。')),J([SYLLABUS.skip.admin_law,SYLLABUS.skip.oblig_spec]));
   check('3. 經濟系會計學那句不動（經濟系那一年保留期中考，AA_578 第 3 節第 4 條）',(w('acct_y0',7).line||'').includes('期中考就是你們的結帳')&&(w('acct_y0',7).board||[])[2]==='下週、下下週：期中考');
   check('3. AA_389 第 9 點（企劃線 b30766683）勞動法阿哲翹課訊息一起進來',(SYLLABUS.skip.labor_law||[]).includes('（群組）阿哲：老師今天講加班費，舉了超商店員的例子。全班都在算自己以前打工被扣多少。')&&!JSON.stringify(SYLLABUS.skip).includes('聽起來好像我打工的店'));
-  check('3. source＝claude/story-planning 1edea905f',/^claude\/story-planning 1edea905f/.test(SYLLABUS.source),SYLLABUS.source.slice(0,60));
-  const T=['Y1S1','Y2S1','Y2S2','Y3S2'].filter(t=>!allow('docs/story_planning/syllabus/'+t+'.json','1edea905f'));
+  check('3. source＝claude/story-planning d3a22505b（2026-11-11 課堂內容補寫重匯；舊期望 1edea905f）',/^claude\/story-planning d3a22505b/.test(SYLLABUS.source),SYLLABUS.source.slice(0,60));
+  const T=['Y1S1','Y2S1','Y2S2','Y3S2'].filter(t=>!allow('docs/story_planning/syllabus/'+t+'.json',t==='Y1S1'?'d3a22505b':'1edea905f'));   /* Y1S1：2026-11-11 起 d3a22505b（大一上三科課堂內容補寫，BB_332～334）；history 仍記 1edea905f、57b2a7b39 */
   check('3. 白名單：syllabus/Y1S1、Y2S1、Y2S2、Y3S2.json @1edea905f approved（history 記舊基準 57b2a7b39）',T.length===0&&ALLOW.filter(e=>/syllabus\/Y\dS\d\.json$/.test(e.path)).every(e=>(e.history||[]).some(h=>h.sha==='57b2a7b39')),J(T)); });
 
 /* ---------- 4 ---------- */

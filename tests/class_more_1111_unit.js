@@ -15,7 +15,7 @@ const setDay=(d,h)=>{ const G=H.G; G.day=d; G.hour=h; const w=CALENDAR.dateOf(d)
   for(let d=d0; d<d0+7&&!it; d++){ G=fresh(d,8); const c=CLS.dayItems(G,d).find(x=>!x.exam&&x.c.kind!=='service'&&x.c.kind!=='pe'&&CLS.content(x).line&&x.c.syllabus&&x.c.syllabus.find(q=>q.w===x.week&&q.line===CLS.content(x).line)); if(c){ it=c; day=d; } }
   check('0. 找得到大一上一堂有課堂內容的課（'+(it?it.c.id+' 第 '+it.week+' 週':'')+'）',!!it,String(day));
   if(!it){ H.done(); return; }
-  const sy=it.c.syllabus.find(q=>q.w===it.week), old=sy.more;
+  const sy=it.c.syllabus.find(q=>q.w===it.week), old=sy.more; delete sy.more;   /* 這一週本來就有 more 的（11-11 起大一上三科有）先拿掉當對照 */
   const attend=async()=>{ G=fresh(day,it.start||8); const i2=CLS.dayItems(G,day).find(x=>x.key===it.key); H.said=[]; H.opts=[]; H.picks=[0,0,0,0,0,0]; await CLS.attend(GM,i2,{forced:true}); return H.said.map(s=>s.t); };
   const base=await attend();
   check('1. 沒有 more 的週：照舊播得到 line',base.some(t=>t.indexOf(CLS.unq(sy.line))>=0||t.indexOf(sy.line)>=0),J(base.slice(0,6)));
