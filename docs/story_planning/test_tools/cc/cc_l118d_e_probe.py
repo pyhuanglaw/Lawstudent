@@ -151,7 +151,7 @@ FIND = r"""(([d0,d1])=>{ if(typeof LUNCH118==='undefined') return null; const W=
   return out; })"""
 NONLAW = r"""(([d0,d1,blk])=>{ for(let d=d0; d<=d1; d++){ const c=CALENDAR.dateOf(d), wd=c.wd===7?0:c.wd; if(wd<1||wd>5) continue; if(CALENDAR.holiday&&CALENDAR.holiday(d)) continue;
     const G2=JSON.parse(JSON.stringify(GAME.G)); G2.day=d; G2.weekday=wd; let its=[]; try{ its=CLS.dayItems(G2); }catch(e){ continue; }
-    const it=its.find(q=>q.slot&&q.slot.block===blk&&q.room&&q.room.zone&&!q.room.door&&!q.room.offsite&&!q.exam);
+    const it=its.find(q=>q.slot&&q.slot.block===blk&&q.room&&q.room.zone&&(blk==='am'||!q.room.door)&&!q.room.offsite&&!q.exam);   /* CC 14:4x（REL_L118D_E_E1 TEST_BUG）：法律系館以外的上午課（普通、博雅、共同）現在都有 room.door＋自己的 zone，舊條件 !door 全部排掉＝找不到 */
     const law=it&&['linze','wancai'].includes(it.room.via||(it.room.zone==='classroom'?'linze':it.room.zone)), LA=it&&typeof LUNCH118!=='undefined'?LUNCH118.lawAm(G2,it):null;
     if(it&&(blk==='am'?!law:law)){ const T=CALENDAR.termOf(d); return {d,key:c.key,wd,term:T&&T.id,week:T&&T.week,ik:it.key,c:it.c.name,cid:it.c.id,t0:+it.t0.toFixed(3),t1:+it.t1.toFixed(3),zone:it.room.zone,via:it.room.via||null,law,lawAm:LA}; } }
   return null; })"""
@@ -735,13 +735,15 @@ async def part_e2(p):
         R.check('E2：前置後一個都不認識（STORY.knows）', not kn, J(kn))
         rows = await find(pg, 'E2 找法律系館上午課的日子')
         if not R.check('E2：有法律系館上午課的日子', bool(rows)): return
-        c = rows[0]
-        rec = await lunch_day(pg, cdp, 'E2_%s' % c['key'], snap, c, None, ids, quiet=True)
+        for c in rows[:4]:   # CC 14:4x（REL_L118D_E_E2 TEST_BUG）：第 6 天憲法下課有第一次的課後劇情 ev_card_mingxuan，課走不到「上完了」——依序試，挑上得完的那一天
+            rec = await lunch_day(pg, cdp, 'E2_%s' % c['key'], snap, c, None, ids, quiet=True)
+            if rec.get('done'): break
+            R.note('E2：%s（第 %s 天）%s 沒走到上完了（%s），換下一個候選' % (c['key'], c['d'], c['c'], J(rec.get('stage1'))))
         Pl = rec.get('plan') or {}
         R.check('E2 ②：%s 上完了' % c['c'], rec.get('done'))
         R.check('E2 ②：沒有邀約（沒有接受／婉拒選單）', not rec.get('inv_menus') and rec.get('stage1') != 'invite', J(rec.get('after_menu')))
         R.check('E2 ②：LUNCH118.plan＝nobody（同堂沒有認識的人）', Pl.get('no') == 'nobody', J(Pl))
-        I = (rec['s_post'] or {}).get('inv') or {}
+        I = (rec.get('s_post') or {}).get('inv') or {}
         R.check('E2 ②：inv.day＝今天（判過了）、hit＝false', I.get('day') == c['d'] and I.get('hit') is False, J(I))
         kn2 = await pg.evaluate("ids=>ids.filter(id=>STORY.knows(id,GAME.G))", ids)
         R.note('E2：下課以後認識的人 %s（上課途中有沒有劇情讓人認識）' % J(kn2))
