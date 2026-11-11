@@ -143,6 +143,9 @@ const walk = (dir, L) => { for (const f of fs.readdirSync(dir)) { const p = path
 const MID = /期中考|期中前|期中放榜|期中成績|期中.{0,2}考完|考完.{0,2}期中/;
 /* [檔案, 字串開頭（前 30 字）] */
 const ALLOW = [
+  /* L118-LUNCH-INVITE-1111（AA_771@138bfaf45，src/data/l118_lunch.js）：special S-meet-ta 的 cond——給程式看的條件文字（匯入工具拆成 when.weekFrom 9），玩家看不到，不是台詞。
+     那一組的旁白是「助教在改考卷」，法律系沒有期中考（D118）以後前提要不要改，已經回報給 AA */
+  ['src/data/l118_lunch.js', '學期中，第 9 週以後（期中考完）'],
   /* AA_581 保留（AA 標「保」的列）*/
   ['src/data/events.js', '期中考的範圍，你好像不用看。'],   /* 保12（經濟學原理，非法律課）*/
   ['src/data/syllabus.js', '期中考是一篇作文。題目很簡單，寫好很難。'],   /* 保25 */
