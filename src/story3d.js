@@ -689,7 +689,7 @@ const STORY = (function(){
   /* AA_255 第 2 節第 5 點：以安讀書會的招呼避開大二下第 8、9、16 週（when 那兩句資料已經分週次；base 這一句也照做）*/
   S.LADDER_GREET_IF['這週讀書會在B館，有空可以來。']={test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !(T&&T.id==='Y2S2'&&[8,9,16].includes(T.week)); }};
   /* AA_378 #11（企劃線 5cd35678；源檔 6e0d1313）：以安大四上期末那句只在 12/18～12/21；讀書會那句跳過第 8～9 週（期中考週）*/
-  for(const k of ['學弟。……論文寫到第四章了。','{name}。……論文寫到第四章了。']) S.LADDER_GREET_IF[k]={test:G=>{ const d=S.dayOfKey('2029-05-29'); return d==null||G.day<d||(G.day===d&&(G.hour||0)<16); }};   /* AA_510 0-2 第 5 點：學姊 5/29 16:00 口試以後不說「論文寫到第四章了」*/
+  for(const k of ['學弟。……論文寫到第四章了。','{name}。……論文寫到第四章了。','學弟，我論文寫到第四章了。','{name}，我論文寫到第四章了。']) S.LADDER_GREET_IF[k]={test:G=>{ const d=S.dayOfKey('2029-05-29'); return d==null||G.day<d||(G.day===d&&(G.hour||0)<16); }};   /* AA_510 0-2 第 5 點：學姊 5/29 16:00 口試以後不說「論文寫到第四章了」*/   /* 2026-11-11（X324，AA_781_sis_ladder_Y4S2.json@a5e537856 rows greet.when[5]、[6]）：後兩句是拿掉刪節號的新字（ladder.js 是新字），條件一樣；舊字的 key 照留 */
   S.LADDER_GREET_IF['期末考週。書還有一半沒背完。']={test:G=>G.day>=S.dayOfKey('2028-12-18')&&G.day<=S.dayOfKey('2028-12-21')};
   S.LADDER_GREET_IF['讀書會八點開始，我先來擦白板。']={test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !(T&&T.id==='Y4S1'&&[8,9].includes(T.week)); }};
   const ladGreetOk=(G,t)=>{ for(const k in S.LADDER_GREET_IF){ if(!t.startsWith(k)) continue; const R=S.LADDER_GREET_IF[k], so=ladRec(G); so.greetOnce=so.greetOnce||{}; if(R.once&&so.greetOnce[k]) return false; if(R.test&&!R.test(G)) return false; } return true; };
