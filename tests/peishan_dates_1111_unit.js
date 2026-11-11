@@ -11,6 +11,8 @@
 //   9. 台南美術館那一段的字照稿的 tainan_museum（結構、旗標、mem、album、loc、旁白、「框外面呢？」的回話照舊；points_note 三點）
 // AA_758_peishan_date_common.json@bed993604（校外約會不分地點的短句，十一種 17 句）：
 //  10. DATE_LINES.lines.classmate_peishan＝稿的 new（每一種句數不變）；rows 的 old 都不在了；AA_694 第 3 節只跳過她被換掉的句子
+// AA_759_peishan_misc2.json@987845b7c（出發前電話、畢業以後每月一格、放榜那天；24 列）：
+//  11. aa667_3d.js 9 句、psresults3d.js 3 句：每一列的 new 剛好一處、old 不在了，整個檔的字串和 BASE 比只差這幾句；pg_dates.js 沛珊 12 格照稿、其他 5 格和別人不動
 // 稿、BASE 讀 git show；讀不到（淺層複本）＝不比稿，只驗結構。用法：node tests/peishan_dates_1111_unit.js
 const H=require('./pg_harness.js');
 const {check}=H; const J=JSON.stringify;
@@ -151,5 +153,21 @@ const haveSrc=Object.keys(SRC).length===33;
     check('10. rows 17 列：每一列的 new 在 [key][i] 那一格、old 都不在她的短句裡了',A.rows.length===17&&A.rows.every(x=>LP[x.key][x.i]===x.new&&!all.includes(x.old)),J(A.rows.filter(x=>LP[x.key][x.i]!==x.new||all.includes(x.old)).map(x=>x.key+'['+x.i+']')));
     check('10. BB 對過條件改的兩句（bed993604）：acceptDating「好。那天我本來有事，我推掉了。」、depart 第二句「我在車上了，這次真的有提早出門。」',LP.acceptDating[0]==='好。那天我本來有事，我推掉了。'&&LP.depart[1]==='我在車上了，這次真的有提早出門。');
     const ob=show(BASE,'src/data/date_lines.js'); if(ob){ const O=DL(ob).lines; check('10. 別人不分地點的短句（'+(Object.keys(O).length-1)+' 位）和重匯以前一樣',Object.keys(O).filter(k=>k!==PS).every(k=>J(O[k])===J(NOW.lines[k]))&&J(Object.keys(O))===J(Object.keys(NOW.lines))); } });
+  /* ======================= AA_759 ======================= */
+  await sec(11,async()=>{ const P759=SP+'AA_759_peishan_misc2.json', S759='987845b7c', r=show(S759,P759), A=r?JSON.parse(r):null;
+    const e=JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(x=>x.path===P759);
+    check('11. 白名單一筆 AA_759_peishan_misc2.json、sha '+S759+'、approved',e.length===1&&e[0].sha===S759&&e[0].status==='approved');
+    const pg=read('src/data/pg_dates.js'), PGD=JSON.parse(pg.slice(pg.indexOf('const PG_DATES=')+15,pg.lastIndexOf(';'))), cells=PGD.six[PS];
+    check('11. pg_dates.js：沛珊 17 格、來源寫著 AA_759@'+S759+'；沒有早餐店、蛋餅、四點半',cells.length===17&&String(PGD.source.AA_759||'').includes('AA_759_peishan_misc2.json@'+S759)&&!/早餐店|蛋餅|四點半/.test(J(cells)),J(PGD.source.AA_759));
+    check('11. 放榜那天、出發前電話（註解以外）沒有早餐店、蛋餅、煎、四點半、鍋子',!/早餐店|蛋餅|四點半/.test(read('src/psresults3d.js').replace(/\/\*[\s\S]*?\*\//g,''))&&(()=>{ const s=read('src/aa667_3d.js'), a=s.indexOf('    jps:{call:'), b=s.indexOf('    ups:{ask:'), c=s.indexOf('xmasPre:',b); return a>0&&b>a&&c>b&&!/早餐店|蛋餅|四點半|鍋子|開店/.test(s.slice(a,s.indexOf('\n',a))+s.slice(b,c)); })());
+    if(!A){ console.log('（這份 checkout 讀不到 AA_759@'+S759+'：不比稿）'); return; }
+    for(const f of ['src/aa667_3d.js','src/psresults3d.js']){ const rows=A.files[f], L=lit(read(f)), n=t=>L.filter(x=>x===t).length, bad=rows.filter(x=>n(x.new)!==1||n(x.old)!==0);
+      check('11. '+f+'：'+rows.length+' 列的 new 各剛好一處、old 不在了',rows.length===(f==='src/aa667_3d.js'?9:3)&&bad.length===0,J(bad.map(x=>x.where)));
+      const ob=show(BASE,f); if(ob){ const O=lit(ob), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(rows.map(x=>x.old+'→'+x.new));
+        check('11. '+f+'：字串和 BASE 逐個比一樣多，不一樣的剛好是稿上這 '+rows.length+' 列（選項的字、條件、別人的句子沒動）',O.length===L.length&&d.length===rows.length&&d.every(([x,y])=>set.has(x+'→'+y)),J(d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,4))); } }
+    const rows=A.files['src/data/pg_dates.js'], idx=rows.map(x=>+(/\[(\d+)\]$/.exec(x.where)||[])[1]);
+    check('11. pg_dates.js：稿上 12 列（第 0、1、2、4、5、7、9、10、12、13、14、16 格）的句子一字不差',rows.length===12&&J(idx)===J([0,1,2,4,5,7,9,10,12,13,14,16])&&rows.every((x,i)=>cells[idx[i]].line===x.new),J(rows.filter((x,i)=>cells[idx[i]].line!==x.new).map(x=>x.where)));
+    const ob=show(BASE,'src/data/pg_dates.js'); if(ob){ const O=JSON.parse(ob.slice(ob.indexOf('const PG_DATES=')+15,ob.lastIndexOf(';')));
+      check('11. pg_dates.js：沛珊其他 5 格、每一格的月份和註、別人（五位＋可昕）和 BASE 一樣',cells.every((c,i)=>c.ym===O.six[PS][i].ym&&c.note===O.six[PS][i].note&&(idx.includes(i)?O.six[PS][i].line===rows[idx.indexOf(i)].old:c.line===O.six[PS][i].line))&&Object.keys(O.six).filter(k=>k!==PS).every(k=>J(O.six[k])===J(PGD.six[k]))&&J(O.kexin)===J(PGD.kexin)); } });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
