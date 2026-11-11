@@ -2,7 +2,7 @@
 // 做法照 tests/l118_shops_notrap_1111_unit.js：在 Node 建出遊戲真正的店內區域（建好以後照遊戲跑 E.fitSeatRadius），按鈕用引擎真正的 E.nearestInteractable（其他椅子都空著、旁邊沒有人）。
 //   1. 每張椅子：GAME.seatApproach 的候選站位（座位指定的 ap、前 0.5、後 0.6、兩側 0.55、後 0.7、0.75、前 0.8、後 0.9；站得住＝那一層 clear 半徑 0.3、從進門的位置找得到路）裡，
 //      至少一個站位上按鈕是「這張椅子」；而且那個站位往四周 0.1 m 內（站得住的地方）按鈕還是這一張（BB：停在走近點旁邊 0.709 m、差 1 cm 出界）。
-//   2. 點餐、每個看的東西：至少有一個站得住、走得到的位置按鈕是它，而且那個位置四周 0.1 m 內還是它（每 0.05 m 掃）。
+//   2. 點餐、每個看的東西、離開：至少有一個站得住、走得到的位置按鈕是它，而且那個位置四周 0.1 m 內還是它（每 0.05 m 掃）。
 //   3. 任何椅子：只算椅子時是它的站位，不能被點餐、看的東西搶走（五湖四海 #9 後面 0.6 m 那一點按出來是「點餐」）。
 //   4. 遊戲真的帶玩家去的站位（game3d.js seatApproach 原文，從進門的位置算）：推搖桿站在那裡（沒有點地）按鈕是那一張；點椅子走過去（tapPref＝點在椅子上，engine3d.js 點到的椅子多 E.TAP_SEAT_REACH）按鈕也是那一張。
 //   印出九間的統計（幾張椅子、幾個站位、拿掉覆寫表（座位預設半徑回到 0.7）時幾張坐不到）。修改前（沒有覆寫表）FAIL。
@@ -45,28 +45,33 @@ function audit(id){ const L=L118_SHOP_LAYOUTS[id], z=loadZone('l118_'+id), sp=z.
       else if(atSeatsOnly(x,zz)===it&&w&&(w.shop118||w.look)) out.stolen.push(nm(it)+' '+kn+'('+R3(x)+','+R3(zz)+')→'+nm(w)); }
     if(!best){ const ws=CANDS(s).filter(([kn,x,zz])=>stand(x,zz)&&reach(x,zz)).map(([kn,x,zz])=>kn+'→'+nm(at(x,zz))); out.noSeat.push(nm(it)+' ('+s.x+','+s.z+')：'+(ws.join('、')||'沒有站得住的站位')); }
     else if(best.m<MARGIN-1e-9) out.thin.push(nm(it)+' ('+s.x+','+s.z+') 最好的站位 '+best.kn+'('+R3(best.x)+','+R3(best.zz)+') 只有 '+best.m.toFixed(2)+' m');
-    P.obj.position.set(sp.x,0,sp.z); P.lv=0; const ga=seatApproach(s);   /* 遊戲真的帶玩家去的站位（從進門的位置算）*/
-    const w0=at(ga[0],ga[1]), w1=at(ga[0],ga[1],[s.x,s.z]);
-    if(w0!==it) out.gameAp.push(nm(it)+' 站位('+R3(ga[0])+','+R3(ga[1])+')→'+nm(w0));
-    if(w1!==it) out.tapAp.push(nm(it)+' 點椅子走到('+R3(ga[0])+','+R3(ga[1])+')→'+nm(w1)); }
+    /* 遊戲會帶玩家去的站位：seatApproach 照玩家現在的位置挑路最短的，玩家從哪一邊來都可能——照它的三段挑法（按鈕範圍內而且離這張最近 → 範圍內 → 站得住），把那一段的每個站位都算；
+       另外照原文從進門的位置跑一次（原文的結果一定要在裡面）*/
+    const reachR=(it.radius||1.8)-0.05, own=(x,zz)=>{ const d0=Math.hypot(x-it.x,zz-it.z); return !ITS.some(q=>q!==it&&q.seat&&!q.hidden&&Math.hypot(x-q.x,zz-q.z)<d0-1e-6); };
+    const ok0=CANDS(s).filter(([kn,x,zz])=>stand(x,zz)&&reach(x,zz)), m1=ok0.filter(([kn,x,zz])=>Math.hypot(x-it.x,zz-it.z)<=reachR), m2=m1.filter(([kn,x,zz])=>own(x,zz));
+    const elig=(m2.length?m2:m1.length?m1:ok0).slice(); P.obj.position.set(sp.x,0,sp.z); P.lv=0; const ga=seatApproach(s); if(!elig.some(e=>Math.hypot(e[1]-ga[0],e[2]-ga[1])<1e-6)) elig.push(['原文',ga[0],ga[1]]);
+    /* 點椅子（game3d.js tapToSeat：點的地方站不住、離座位 0.45 m 內最近的是這一張）：點在椅子上和往四邊偏 0.15 m */
+    const taps=[[0,0],[0.15,0],[-0.15,0],[0,0.15],[0,-0.15]].map(([a,b])=>[s.x+a,s.z+b]).filter(([x,zz])=>{ if(stand(x,zz)) return false; let bs=null, bd=0.45; for(const q of ITS){ if(!q.seat) continue; const d=Math.hypot(q.seat.x-x,q.seat.z-zz); if(d<bd){ bd=d; bs=q; } } return bs===it; });
+    for(const [kn,x,zz] of elig){ const w0=at(x,zz); if(w0!==it) out.gameAp.push(nm(it)+' 推搖桿站在'+kn+'('+R3(x)+','+R3(zz)+')→'+nm(w0));
+      for(const tp of taps){ const w1=at(x,zz,tp); if(w1!==it){ out.tapAp.push(nm(it)+' 點('+R3(tp[0])+','+R3(tp[1])+')走到'+kn+'('+R3(x)+','+R3(zz)+')→'+nm(w1)); break; } } } }
   /* 點餐、看的東西、出口：每 0.05 m 掃半徑裡站得住、走得到的點 */
   for(const it of ITS.filter(i=>!i.seat)){ const S=new Map(), W=new Set(), key=(i,j)=>i+','+j, st=0.05, n=Math.ceil(it.radius/st);
     for(let i=-n;i<=n;i++) for(let j=-n;j<=n;j++){ const x=it.x+i*st, zz=it.z+j*st; if(Math.hypot(i*st,j*st)>=it.radius) continue; if(!stand(x,zz)) continue; S.set(key(i,j),[x,zz]); if(at(x,zz)===it) W.add(key(i,j)); }
     let robust=null; const c=Math.round(MARGIN/st);
     for(const kk of W){ const [i,j]=kk.split(',').map(Number); let ok=true; for(let a=-c;a<=c&&ok;a++) for(let b=-c;b<=c&&ok;b++){ if(Math.hypot(a,b)>c+1e-9) continue; const q=key(i+a,j+b); if(S.has(q)&&!W.has(q)) ok=false; } if(ok){ const p=S.get(kk); if(reach(p[0],p[1])){ robust=p; break; } } }
     out.items.push(nm(it)+' 贏 '+W.size+'/'+S.size+' 點'+(robust?'（例 ('+R3(robust[0])+','+R3(robust[1])+')）':''));
-    if(!robust&&!it.exit) out.itemBad.push(nm(it)+' ('+R3(it.x)+','+R3(it.z)+') r'+it.radius+'：半徑裡站得住的 '+S.size+' 點、它贏的 '+W.size+' 點，沒有一點四周 '+MARGIN+' m 也是它'); }
+    if(!robust) out.itemBad.push(nm(it)+' ('+R3(it.x)+','+R3(it.z)+') r'+it.radius+'：半徑裡站得住的 '+S.size+' 點、它贏的 '+W.size+' 點，沒有一點四周 '+MARGIN+' m 也是它'); }
   return out; }
 /* 修改前：拿掉覆寫表、座位預設半徑回到 0.7（只為了印統計；跑完放回去）*/
-const FIX=L118S.IT_FIX, saved={}; for(const k of Object.keys(FIX)){ saved[k]=FIX[k]; delete FIX[k]; } const r0=L118S.IT_DEF.seatR; L118S.IT_DEF.seatR=0.7;
+const FIX=L118S.IT_FIX||{}, DEF=L118S.IT_DEF||{}, saved={}; for(const k of Object.keys(FIX)){ saved[k]=FIX[k]; delete FIX[k]; } const r0=DEF.seatR; DEF.seatR=0.7;
 const before={}; for(const id of IDS){ const a=audit(id); before[id]=a; }
-Object.assign(FIX,saved); L118S.IT_DEF.seatR=r0;
+Object.assign(FIX,saved); DEF.seatR=r0;
 const tot={seats:0,cands:0,b:0,a:0};
 for(const id of IDS){ const a=audit(id), b=before[id]; tot.seats+=a.seats; tot.cands+=a.cands; tot.b+=b.noSeat.length+b.gameAp.length; tot.a+=a.noSeat.length;
   console.log('— '+id+' '+a.name+'：'+a.seats+' 張椅子、'+a.cands+' 個站得住的站位；拿掉覆寫表時 '+b.noSeat.length+' 張搖桿坐不到'+(b.noSeat.length?'（'+b.noSeat.map(s=>s.split(' ')[0]).join(' ')+'）':'')+'、'+b.gameAp.length+' 張遊戲帶去的站位按鈕不是它、'+b.stolen.length+' 個站位被點餐／看的東西搶走；'+a.items.join('；'));
   check(id+' '+a.name+'：'+a.seats+' 張椅子每張至少一個站位按鈕是它',a.seats>0&&!a.noSeat.length,a.noSeat.join(' ／ '));
   check(id+' '+a.name+'：那個站位四周 '+MARGIN+' m 按鈕還是它（搖桿停偏一點也坐得到）',!a.thin.length,a.thin.join(' ／ '));
-  check(id+' '+a.name+'：點餐、看的東西各有站得到的位置（四周 '+MARGIN+' m 也是它）',!a.itemBad.length,a.itemBad.join(' ／ '));
+  check(id+' '+a.name+'：點餐、看的東西、離開各有站得到的位置（四周 '+MARGIN+' m 也是它）',!a.itemBad.length,a.itemBad.join(' ／ '));
   check(id+' '+a.name+'：椅子的站位沒有被點餐、看的東西搶走',!a.stolen.length,a.stolen.join(' ／ '));
   check(id+' '+a.name+'：遊戲帶玩家去的站位（seatApproach）推搖桿、點椅子走過去，按鈕都是那一張',!a.gameAp.length&&!a.tapAp.length,a.gameAp.concat(a.tapAp).join(' ／ ')); }
 console.log('九間合計：'+tot.seats+' 張椅子、'+tot.cands+' 個站得住的站位；拿掉覆寫表時 '+tot.b+' 件（搖桿坐不到＋遊戲帶去的站位按鈕不是它），現在搖桿坐不到 '+tot.a+' 張');
