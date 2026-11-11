@@ -1,0 +1,35 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fn_int_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FN_int_a\out
+CC FN_int（花序室內）：PARTS OLD,DOOR,LOOP,SHOT1；SHA dbbe05fa5；全尺寸 1672x941；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 這一版有花序室內（FLOWER_NOTES_LAYOUT、FN3）
+  [  47.3s] [OLD] 舊花攤「晨露花舖」不在了（照實記，這一版預期還在）：公館 gg_flower 互動點 []；場景物件 gg_flower_stall* False、ggf_* 材質的物件 0 個
+PASS [黑畫面] fni_old_stall 不是黑畫面（平均亮度 139.1、變化 53.7）  [139.1, 53.7]
+  [  49.4s] [截圖] fni_old_stall：鏡頭 {"eye": [-47, 2.2, 18.2], "look": [-47, 0.9, 11.725], "lens": 24, "vfov": 45.75}、亮度 [139.1, 53.7]
+  [前置／捷徑] 【前置／捷徑】讀檔公館 2025-11-01 14.00（晴，關條件事件）站在 G11 前面的人行道（進出）
+PASS [DOOR] 公館 G11 門口有「進入花序」（exit → flower_notes）  [{"label": "進入公館燒臘", "x": -63, "z": 21, "lv": 0, "r": 2.2, "to": "noodle", "toName": "公館燒臘", "hidden": false, "kind": null}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "lv": 0, "r": 2.2, "to": "aoki", "toName": "青木茶室", "hidden": false, "kind": null}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "lv": 0, "r": 2.2, "to": "bookstore", "toName": "頁間書屋", "hidden": false, "kind": null}, {"label": "進入便利商店", "x": -29.4, "z": 21, "lv": 0, "r": 2.2, "to": "cvs", "toName": "日和便利店", "hidden": false, "kind": null}, {"label": "進入 洋洋鹹酥雞", "x": -10.6, "z": 21, "lv": 0, "r": 2.2, "to": "yangyang", "toName": "洋洋鹹酥雞", "hidden": false, "kind": null}, {"label": "進入 afar café", "x": 7.93, "z": 21, "lv": 0, "r": 2.2, "to": "afar", "toName": "afar café", "hidden": false, "kind": null}, {"label": "進入 轉角唱片", "x": 53.97, "z": 21, "lv": 0, "r": 2.2, "to": "corner_records", "toName": "轉角唱片", "hidden": false, "kind": null}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "lv": 0, "r": 2.2, "to": "daybreak", "toName": "Daybreak", "hidden": false, "kind": null}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "lv": 0, "r": 2.2, "to": "bikeshop", "toName": "慢輪單車", "hidden": false, "kind": null}, {"label": "回到校園", "x": -5.27, "z": -47.5, "lv": 0, "r": 2.5, "to": "campus", "toName": "首都帝大校園", "hidden": false, "kind": null}, {"label": "回到校園", "x": 5.27, "z": -47.5, "lv": 0, "r": 2.5, "to": "campus", "toName": "首都帝大校園", "hidden": false, "kind": null}, {"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "lv": 0, "r": 1.6, "to": "tingzhou", "toName": "汀州路", "hidden": false, "kind": null}, {"label": "進入花序", "x": 46.6, "z": 21, "lv": 0, "r": 2.2, "to": "flower_notes", "toName": "花序 Flower Notes", "hidden": false, "kind": null}, {"label": "進入安泰藥局", "x": -18.6, "z": 21, "lv": 0, "r": 2.2, "to": "gg_antai", "toName": "安泰藥局", "hidden": false, "kind": null}, {"label": "進入汀州鮮果", "x": 19.6, "z": 21, "lv": 0, "r": 2.2, "to": "gg_xianguo", "toName": "汀州鮮果", "hidden": false, "kind": null}, {"label": "進入榮恩典文具社", "x": 64.1, "z": 21, "lv": 0, "r": 2.2, "to": "gg_rongendian", "toName": "榮恩典文具社", "hidden": false, "kind": null}]
+PASS [DOOR] 搖桿走到「進入花序」，按鈕是它（1.9 秒、推 2 次、沒有跳）  {"end": [46.636, 21.113], "btn": "進入花序", "jumps": [], "why": null}
+PASS [DOOR] 按「進入花序」進到 flower_notes、站得住  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 14.09}
+PASS [DOOR] 店裡有「離開花序」（→ gongguan）  [{"label": "離開花序", "x": 0, "z": 6.6, "lv": 0, "r": 1.3, "to": "gongguan", "toName": "公館", "hidden": false, "kind": null}]
+FAIL [DOOR] 搖桿走到「離開花序」，按鈕是它（90.5 秒、推 115 次、沒有跳）  {"end": [1.698, 6.282], "btn": "", "jumps": [], "why": "90 秒沒走到"}
+PASS [LOOP] 1F 導航格：房間裡被擋住的格子都在家具／樓梯那一條裡（沒有隱形牆；掃 1700 格，可疑 0 格）  []
+PASS [LOOP] 2F 導航格：房間裡被擋住的格子都在家具／樓梯那一條裡（沒有隱形牆；掃 850 格，可疑 0 格）  []
+FAIL [LOOP] 搖桿走到「入口」(0.0, 5.6)（90.8 秒、推 116 次、沒有跳、沒有穿過家具）  {"end": [0.837, 5.933, 0], "why": "90 秒沒走到", "jumps": [], "pen": []}
+FAIL [LOOP] 搖桿走到「中央展示台（南面）」(-0.4, 4.8)（90.6 秒、推 116 次、沒有跳、沒有穿過家具）  {"end": [1.365, 5.45, 0], "why": "90 秒沒走到", "jumps": [], "pen": []}
+FAIL [LOOP] 搖桿走到「左：永生花」(-3.7, 3.6)（90.2 秒、推 115 次、沒有跳、沒有穿過家具）  {"end": [-3.343, 5.208, 0], "why": "90 秒沒走到", "jumps": [], "pen": []}
+FAIL [LOOP] 搖桿走到「左後：鮮花花束」(-3.4, -2.6)（90.1 秒、推 115 次、沒有跳、沒有穿過家具）  {"end": [-3.372, -0.269, 0], "why": "90 秒沒走到", "jumps": [], "pen": []}
+FAIL [LOOP] 搖桿走到「後：冷藏花櫃」(0.1, -5.5)（90.6 秒、推 116 次、沒有跳、沒有穿過家具）  {"end": [1.463, -5.911, 0], "why": "90 秒沒走到", "jumps": [], "pen": []}
+FAIL [LOOP] 搖桿走到「右：收銀」(2.5, 4.4)（90.3 秒、推 115 次、沒有跳、沒有穿過家具）  {"end": [2.579, 5.826, 0], "why": "90 秒沒走到", "jumps": [], "pen": []}
+FAIL [LOOP] 搖桿走到「回入口」(0.0, 5.6)（90.3 秒、推 115 次、沒有跳、沒有穿過家具）  {"end": [-2.56, 5.355, 0], "why": "90 秒沒走到", "jumps": [], "pen": []}
+PASS [LOOP] walkFallbacks 沒有增加
+PASS [黑畫面] fni_1f 不是黑畫面（平均亮度 121.6、變化 48.4）  [121.6, 48.4]
+  [ 844.2s] [截圖] fni_1f（一樓從入口往裡（對照 interior_1f.png））：鏡頭 {"eye": [-0.2, 1.6, 6.75], "look": [-0.2, 1.9, -7], "lens": 20, "vfov": 53.73}、亮度 [121.6, 48.4]
+PASS [黑畫面] fni_stairs 不是黑畫面（平均亮度 136.2、變化 41.1）  [136.2, 41.1]
+  [ 847.7s] [截圖] fni_stairs（樓梯）：鏡頭 {"eye": [1.2, 1.6, 2.6], "look": [4.2, 2.6, -3], "lens": 22, "vfov": 49.45}、亮度 [136.2, 41.1]
+PASS [黑畫面] fni_1f_close_a 不是黑畫面（平均亮度 124.8、變化 29.8）  [124.8, 29.8]
+  [ 851.4s] [截圖] fni_1f_close_a（一樓近拍：永生花層架）：鏡頭 {"eye": [-2.6, 1.5, 3.7], "look": [-4.7, 1.4, 3.7], "lens": 45, "vfov": 25.37}、亮度 [124.8, 29.8]
+PASS [黑畫面] fni_1f_close_b 不是黑畫面（平均亮度 98.6、變化 28.9）  [98.6, 28.9]
+  [ 854.6s] [截圖] fni_1f_close_b（一樓近拍：鮮花花台）：鏡頭 {"eye": [-2.4, 1.5, -2.6], "look": [-4.55, 1, -2.6], "lens": 45, "vfov": 25.37}、亮度 [98.6, 28.9]
+  [ 854.6s] [SHOT1] 這一區的 mesh 44 個（正式模型 True）；同一個幾何用很多次的（前 15）：[]；InstancedMesh：[]
+PASS 沒有 JS 例外  []
+FAILED 8: [DOOR] 搖桿走到「離開花序」，按鈕是它（90.5 秒、推 115 次、沒有跳）；[LOOP] 搖桿走到「入口」(0.0, 5.6)（90.8 秒、推 116 次、沒有跳、沒有穿過家具）；[LOOP] 搖桿走到「中央展示台（南面）」(-0.4, 4.8)（90.6 秒、推 116 次、沒有跳、沒有穿過家具）；[LOOP] 搖桿走到「左：永生花」(-3.7, 3.6)（90.2 秒、推 115 次、沒有跳、沒有穿過家具）；[LOOP] 搖桿走到「左後：鮮花花束」(-3.4, -2.6)（90.1 秒、推 115 次、沒有跳、沒有穿過家具）；[LOOP] 搖桿走到「後：冷藏花櫃」(0.1, -5.5)（90.6 秒、推 116 次、沒有跳、沒有穿過家具）；[LOOP] 搖桿走到「右：收銀」(2.5, 4.4)（90.3 秒、推 115 次、沒有跳、沒有穿過家具）；[LOOP] 搖桿走到「回入口」(0.0, 5.6)（90.3 秒、推 115 次、沒有跳、沒有穿過家具）
