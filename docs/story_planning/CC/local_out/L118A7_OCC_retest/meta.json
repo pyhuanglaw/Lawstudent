@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "L118A7_OCC_retest",
+  "sha": "a3b9f0478a5976409f305f97c7fdeac19764e4ca",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_l118a_probe.py",
+  "env": "PARTS=SEATS_noodle2_1-4,SEATS_omu_12-14,SEATS_pasta_4-6,SEATS_home_1-6,SEATS_dian_2-8,SEATS_dian_14-14,SEATS_tea_2-2,SEATS_cafe2_11-11,TAPSEAT_noodle2_1.2.3.4,TAPSEAT_omu_12.13.14,TAPSEAT_pasta_4.5.6,TAPSEAT_home_1.5.6,TAPSEAT_dian_2.4.5.6.8.14,TAPSEAT_tea_2,TAPSEAT_cafe2_11;FREE_OCC=1;TAP_HEIGHTS=0.45;SHA=a3b9f0478a5976409f305f97c7fdeac19764e4ca",
+  "machine": "MSI",
+  "start": "2026-11-11T17:53:20",
+  "end": "2026-11-11T18:06:55",
+  "seconds": 816,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "26",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 63,
+    "mem": 58,
+    "used_gb": 18.4,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
