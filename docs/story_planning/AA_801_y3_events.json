@@ -1,0 +1,229 @@
+{
+ "_meta": {
+  "doc": "AA_801 X324 G 區：大三事件 r2y3a、r2y3b 的句首「……」",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324 G 區）",
+  "format": "{file, line, old, new}（speaker、expr 只給核對），同 AA_794／AA_799。",
+  "notes": [
+   "r2y3a 444 句／刪節號 85（句首 42）、r2y3b 620／86（55）。拿掉：可昕笑著、鬧著、驚訝的（有表情欄的照 AA_786 規則），其他人排時間、回地點、答應的那種。留：柏翰「……那天你反問我錯哪裡」那一場、以安「……我知道。我等你說，等了三個月。」、芷若機場那杯咖啡、可昕害羞（embarrassed）和難過、累的。"
+  ]
+ },
+ "rows": [
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 43,
+   "speaker": "kexin",
+   "expr": "teasing",
+   "old": "……行程表除外。",
+   "new": "行程表除外。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 54,
+   "speaker": "kexin",
+   "expr": "smile",
+   "old": "……好。下次找一個我們都沒去過的地方。",
+   "new": "好。下次找一個我們都沒去過的地方。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 70,
+   "speaker": "kexin",
+   "expr": "smile",
+   "old": "……我們有車。",
+   "new": "我們有車。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 87,
+   "speaker": "kexin",
+   "expr": "annoyed",
+   "old": "……好。行程表我自己走。",
+   "new": "好。行程表我自己走。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 163,
+   "speaker": "heroine_03",
+   "expr": null,
+   "old": "（倒茶過來）……今天凍頂剩四壺。",
+   "new": "（倒茶過來）今天凍頂剩四壺。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 179,
+   "speaker": "zhe",
+   "expr": null,
+   "old": "……對。過了。（對祐廷）你看，他都知道。",
+   "new": "對。過了。（對祐廷）你看，他都知道。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 196,
+   "speaker": "kexin",
+   "expr": "teasing",
+   "old": "……我們大三了，可以吃好一點。",
+   "new": "我們大三了，可以吃好一點。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 202,
+   "speaker": "kexin",
+   "expr": "laugh",
+   "old": "……好險。",
+   "new": "好險。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 220,
+   "speaker": "kexin",
+   "expr": "surprised",
+   "old": "……那是我想問的。你先問到了。",
+   "new": "那是我想問的。你先問到了。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 268,
+   "speaker": "heroine_04",
+   "expr": null,
+   "old": "……好啦。我也去泡一杯。",
+   "new": "好啦。我也去泡一杯。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 276,
+   "speaker": "heroine_04",
+   "expr": null,
+   "old": "……好，十二點。",
+   "new": "好，十二點。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 295,
+   "speaker": "heroine_05",
+   "expr": null,
+   "old": "……颱風天這樣讀，剛好。",
+   "new": "颱風天這樣讀，剛好。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 316,
+   "speaker": "kexin",
+   "expr": "smile",
+   "old": "……好。那我等你說。",
+   "new": "好。那我等你說。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 465,
+   "speaker": "heroine_01",
+   "expr": null,
+   "old": "……我們分工好了。",
+   "new": "我們分工好了。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 526,
+   "speaker": "kexin",
+   "expr": "smile",
+   "old": "……螢幕開著。你陪我就好。",
+   "new": "螢幕開著。你陪我就好。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 532,
+   "speaker": "kexin",
+   "expr": "smile",
+   "old": "……好。禮物等我考完再換。",
+   "new": "好。禮物等我考完再換。"
+  },
+  {
+   "file": "src/data/r2y3a_events.js",
+   "line": 542,
+   "speaker": "kexin",
+   "expr": "surprised",
+   "old": "……你真的打喔。",
+   "new": "你真的打喔。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 37,
+   "speaker": "heroine_01",
+   "expr": null,
+   "old": "……好。我盡量。",
+   "new": "好。我盡量。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 59,
+   "speaker": "heroine_01",
+   "expr": null,
+   "old": "……你也要算嗎？",
+   "new": "你也要算嗎？"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 226,
+   "speaker": "heroine_01",
+   "expr": null,
+   "old": "……所以這週的讀書會，改在這裡。",
+   "new": "所以這週的讀書會，改在這裡。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 305,
+   "speaker": "heroine_02",
+   "expr": null,
+   "old": "……那你要坐倒數第三排喔。我習慣那裡。",
+   "new": "那你要坐倒數第三排喔。我習慣那裡。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 333,
+   "speaker": "classmate_xinci",
+   "expr": null,
+   "old": "……可以。不要遲到。",
+   "new": "可以。不要遲到。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 375,
+   "speaker": "kexin",
+   "expr": "laugh",
+   "old": "……這句我大二說過了。好，這次換你說一句。",
+   "new": "這句我大二說過了。好，這次換你說一句。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 392,
+   "speaker": "kexin",
+   "expr": "smile",
+   "old": "……嗯。我講完了。早點睡。",
+   "new": "嗯。我講完了。早點睡。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 525,
+   "speaker": "heroine_02",
+   "expr": null,
+   "old": "……好，寫長一點也可以。",
+   "new": "好，寫長一點也可以。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 579,
+   "speaker": "heroine_04",
+   "expr": null,
+   "old": "……你回貼紙喔。",
+   "new": "你回貼紙喔。"
+  },
+  {
+   "file": "src/data/r2y3b_events.js",
+   "line": 582,
+   "speaker": "heroine_04",
+   "expr": null,
+   "old": "……好啦。",
+   "new": "好啦。"
+  }
+ ]
+}
