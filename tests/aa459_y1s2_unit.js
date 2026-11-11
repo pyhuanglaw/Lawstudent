@@ -111,7 +111,7 @@ await sec(2,()=>{
   /* 2-3 學姊上榜聚餐：收過咖哩邀約的，Kevin 多一句 */
   const d=D('2026-03-23'), rank=withInv=>{ fresh(d,20.5,{SIS_W1:true}); H.FAMILIAR('heroine_05'); grp(); if(withInv) H.G.msgs.push({day:dI,h:21,th:FT,from:'kevin',name:'Kevin',text:'下週五六點半，永康街那家咖哩。全家族。',tag:'fam_dinner_inv'}); run(20.9,21.1); return byTag('sisg_rank_dinner'); };
   const g1=rank(true), g0=rank(false);
-  check('2-3. 3/23 21:00 上榜聚餐那則後面 Kevin「'+Q23[0].t+'」（收過 3/13 咖哩那則）；「去。」的選項照舊在第一則',g1.length===2&&g1[0].text==='學姊上榜聚餐！這週五七點，公館的日日定食。這次我們請學姊'&&g1[0].ask&&g1[0].ask.id==='sisg_rank_dinner_q'&&nm(g1[1])===Q23[0].who+'：'+Q23[0].t,J(g1.map(nm)));
+  check('2-3. 3/23 21:00 上榜聚餐那則後面 Kevin「'+Q23[0].t+'」（收過 3/13 咖哩那則）；「去。」的選項照舊在第一則',g1.length===2&&g1[0].text==='學姊上榜聚餐！這週五七點，汀州路的泰米村食。這次我們請學姊'   /* （2026-11-11 改期望：AA_742 第 ③ 節，企劃線 75f5de658，日日定食改成汀州路的泰米村食；GG-SHOPS3-STORY-1110） */&&g1[0].ask&&g1[0].ask.id==='sisg_rank_dinner_q'&&nm(g1[1])===Q23[0].who+'：'+Q23[0].t,J(g1.map(nm)));
   check('2-3. 沒收過咖哩那則（不在家族群組的時候、或沒有那一則）：沒有那一句',g0.length===1&&!g0.some(m=>m.text===Q23[0].t),J(g0.map(nm)));
 });
 
