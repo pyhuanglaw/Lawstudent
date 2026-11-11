@@ -1,1 +1,6 @@
-3259b5f786293dbdf09fdcb3a39d761342e85545
+df16f91e69132a866e264091a5ee5b1f827907e6
+（CC 子代理 2026-11-11 00:5x 更新，BB 00:48）全部用 gh api 從企劃線 claude/story-planning 抓，當時＝df16f91e69132a866e264091a5ee5b1f827907e6。
+- AA_749_termend_gf_v2.json、AA_749_termend_kx_v2.json、AA_749_termend_friend_v2_{Y1S1,Y1S2,Y2S1,Y2S2,Y3S1,Y3S2_Y4S1}.json：內容＝bd1a6fda3（開發分支 65212b697 匯入的那一版；期末飯四人改斷句）。
+- AA_748_termend_heart_v2.json、AA_753_peishan_ladder_Y1S1.json：內容＝33a1769f8（65212b697 匯入的那一版）。
+- AA_751_peishan_termend.json：企劃線最新（750dadee70 2026-11-11 00:44，比匯入的 33a1769f8 新）；匯入的那一版另存 AA_751_peishan_termend@33a1769f8.json。
+- 先前的版本（3259b5f78 的 gf／kx／heart、359fce93e 的朋友版）已經被這一批取代；舊版對照（201803df0）拿這一批比會有差異，那是稿改過、不是遊戲錯。

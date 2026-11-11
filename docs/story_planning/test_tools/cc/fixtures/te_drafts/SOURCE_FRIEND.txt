@@ -1,11 +1,1 @@
-朋友版期末飯稿（AA_749_termend_friend_v2_*.json 六個檔）：gh api repos/pyhuanglaw/Lawstudent/contents/docs/story_planning/<檔>?ref=claude/story-planning，抓的時候 claude/story-planning＝359fce93efd8ad25a5295a6f305578d154e6e439（2026-11-10 23:3x UTC）。
-遊戲 039184ab5 匯入的是 5ffd725b8：Y1S1、Y1S2、Y2S1、Y2S2、Y3S2_Y4S1 和匯入的一樣；Y3S1 之後又改過（adc3a82f41 23:26「可昕各選項的 set、學姊大三上補『收到信那天』」），比對以這裡的檔為準。
-Y1S1 20145308ea 2026-11-10 22:36:42 +0000
-Y1S2 1c9d38a06e 2026-11-10 23:03:13 +0000
-Y2S1 6440410550 2026-11-10 22:36:32 +0000
-Y2S2 1bd257e219 2026-11-10 22:44:14 +0000
-Y3S1 adc3a82f41 2026-11-10 23:26:05 +0000
-Y3S2_Y4S1 1c9d38a06e 2026-11-10 23:03:13 +0000
-
-（23:5x 補）AA_749_termend_kx_v2.json 換成企劃線最新（gh api，claude/story-planning＝8bf2d1c698262988acfc13123186b6e88d87b454；檔案和 1cf434dee 一樣＝開發分支 57181feb2 匯入的那一版，選項多了 set：KX_KHH／KX_Y5_CALL）。
-gf、heart 兩份照 SOURCE_SHA.txt（3259b5f78）不動；朋友版六個檔和 8bf2d1c69 一樣（Y3S1 的 thenIf 已經在 57181feb2 匯入）。
+已併入 SOURCE_SHA.txt（2026-11-11 00:5x）。
