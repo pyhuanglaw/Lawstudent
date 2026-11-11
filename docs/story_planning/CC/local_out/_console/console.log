@@ -1,14 +1,3 @@
-[07:19:03] skip SEATFIG_new_near (already done on 93d3e92691b344385636dc1f50741a871a4406a9)
-[07:19:03] skip SEATFIG_old_near (already done on 5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342)
-[07:19:03] skip L98E_b1court (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[07:19:03] skip L98E_reach (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[07:19:03] skip L98E_invphone (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[07:19:03] skip L98E_libfloors (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[07:19:03] skip L98E_zone (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[07:19:03] skip L98E_p0 (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[07:19:03] skip L98E_main12 (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[07:19:03] skip L492_invgo (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[07:19:03] skip L492_invphone (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
 [07:19:03] skip L492_libfloors (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
 [07:19:03] skip L492_p0 (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
 [07:19:03] skip L492_reach (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
@@ -1998,3 +1987,14 @@
        e2b527368..4ca7f4118  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [13:54:18] ==== END   CLASS12_calm  exit=1  253s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4ca7f4118..b18676a30  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:54:27] ==== END   CLASS12_civ_b_r2  exit=0  461s   ====
+[13:54:36] memory 43% before starting CLASS12_skip2_500x5 (2 running)
+[13:54:36] ==== START CLASS12_skip2_500x5  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
+[13:54:39] [res] cpu=5% mem=43% (13.7/31.4 GB) chrome_testing=5  START CLASS12_skip2_500x5
+[13:54:39] memory 43% before starting NM_lane_old (2 running)
+[13:54:39] ==== START NM_lane_old  (probe @ 696cf6036f3ca9fbc7022c21ab37324b0e46e305) ====
+[13:54:42] [res] cpu=1% mem=45% (13.7/31.4 GB) chrome_testing=5  START NM_lane_old
+[13:57:18] [res] cpu=0% mem=48% (15.1/31.4 GB) chrome_testing=10  END CLASS12_skip2_150x20
