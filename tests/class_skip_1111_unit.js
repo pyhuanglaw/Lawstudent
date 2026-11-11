@@ -26,6 +26,7 @@ const fresh=(d,h)=>{ const G=H.fresh('2026-01-01',h,'campus',{}); setDay(d,h); G
       if(b){ b.listeners.pointerup({stopPropagation(){}}); check('2. 按了：skipOn 變 true、馬上翻一句、按鈕收起來',api.skipOn()===true&&adv===1&&b.style.display==='none');
         GMx.skipScope(false); check('2. 範圍結束：skip 關掉、按鈕不見',api.skipOn()===false&&b.style.display==='none');
         b.listeners.pointerup({stopPropagation(){}}); check('2. 範圍外按（殘留的事件）沒有作用',api.skipOn()===false&&adv===1);
+        GMx.skipScope(true); D.menuOn=true; api.skipBtnSync(); check('2. 選項出來的時候（D.menuOn）：按鈕收起來；選完再出現',b.style.display==='none'&&(D.menuOn=false,api.skipBtnSync(),b.style.display==='block')); check('2. 原始碼：renderChoose 一開始設 D.menuOn＝true、done 設回 false',/shownAt=performance\.now\(\); \$\('dlg'\)\.classList\.remove\('side'\); D\.menuOn=true; skipBtnSync\(\);/.test(SRC)&&/const done=\(i\)=>\{ D\.menuOn=false;/.test(SRC));
         GMx.skipScope(true); ADVx.active=true; api.skipBtnSync(); check('2. 2D 畫面（ADV）開著：不顯示這顆（用 2D 自己的「略過對話」）',b.style.display==='none'); ADVx.skip=true; check('2. ADV.skip 照舊算略過',api.skipOn()===true); } } }
   /* 3：CLS.attend 包著 skipScope */
   { let it=null, G=null, day=0; const d0=STORY.termDayIn('Y1S1',3,1);
