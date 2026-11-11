@@ -30,7 +30,7 @@ const {check,GM,E}=H, ID='heroine_05', TA='npc_ta_chen', J=JSON.stringify;
 global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 /* index.html 的順序載入其餘的檔（同 tests/aa497_supporting_unit.js：pg_harness 已經載過的不再載；畫 3D 的幾支在 Node 載不進來，跳過）*/
 const PG_FILES=new Set(['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js',
-  'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
+  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
   'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/data/exam_bank.js','src/data/legal_qbank.js','src/classes3d.js','src/data/postgrad_lines.js','src/postgrad3d.js']);
 const SKIP=new Set(['src/character3d.js','src/engine3d.js','src/townkit3d.js','src/zones3d.js','src/bike3d.js','src/adv3d.js']);
 const loadErr=[];
@@ -189,7 +189,7 @@ await sec(3,async()=>{ const e3=ev('ev_sis13_walk'), d6=D('2027-12-06'), d7=D('2
   /* 作息：那兩天 17:00 起她在研究室那一層；週二 17:30 以後照 AA_320 L8 去 118 巷自助餐（tests/lane118_sched_unit.js：AA_320 那幾列不被蓋掉）——事件照稿到 18:00（上面 17:2x、下面 17:36 都演）*/
   const sAt=(key,hh,done)=>{ fresh(key,hh,'friend'); if(done) H.G.events.done.ev_sis13_walk=1; const s=STORY.schedEnt(CHARACTERS[ID],H.G); return s&&s.zone; };
   const z6=sAt(d6,17.6), z7a=sAt(d7,17.2), z7b=sAt(d7,17.6), z6d=sAt(d6,17.6,true);
-  check('3. 作息：12/6（一）17:36、12/7（二）17:12 她在研究室（linze_5f）；12/7 17:36 照 AA_320 在 118 巷自助餐（l118_self）；演過以後 12/6 不在研究室',z6==='linze_5f'&&z7a==='linze_5f'&&z7b==='l118_self'&&z6d!=='linze_5f',J([z6,z7a,z7b,z6d]));
+  check('3. 作息：12/6（一）17:36、12/7（二）17:12 她在研究室（linze_5f）；12/7 17:36 照 AA_320 在 118 巷自助餐（2026-11-11 L118-SHOPS-REDO-1111、AA_772 schedule_notes：自助餐搬到大學食堂 l118_cafe2；舊期望 l118_self）；演過以後 12/6 不在研究室',z6==='linze_5f'&&z7a==='linze_5f'&&z7b==='l118_cafe2'&&z6d!=='linze_5f',J([z6,z7a,z7b,z6d]));
   fresh(d7,17.6,'friend',{},{zone:'campus'}); check('3. 12/7（二）17:36（她的作息已經去吃飯）走過霖澤館門口：照稿還是演（窗口 17:00～18:00）',EVENTS.check(e3)); });
 
 /* ---- 4 13-4 公館的蛋糕 ---- */

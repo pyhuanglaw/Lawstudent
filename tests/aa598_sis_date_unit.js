@@ -126,8 +126,14 @@ check('0. 讀得到稿（企劃線 '+SHA+'）',DOC.includes('## 8. AA 審查決�
 
 /* 1 */
 check('1. 表上 92 列＋九份一句（列號 1～92 各一次）',ROWS.length===93&&J(ROWS.filter(r=>typeof r[0]==='number').map(r=>r[0]).sort((a,b)=>a-b))===J(Array.from({length:92},(_,i)=>i+1)));
-const badPos=ROWS.filter(([n,loc,p,o,nw])=>at(loc,p)!==E694.strip(nw));
-check('1. 每一列：同一個地點、同一個位置現在是新句（'+(ROWS.length-badPos.length)+'／'+ROWS.length+'）',!badPos.length,J(badPos.map(r=>[r[0],r[1],r[2],at(r[1],r[2])])));
+/* 2026-11-11（X324 學姊約會台詞重寫，AA 82c946ad7）：學姊 33 個地點的約會台詞重寫（源稿 date_system/lines@82c946ad7）——AA_598 這 93 列裡，新稿重寫了的格（那一格的源稿和上一版 2883197b6 不一樣）＝現在是新稿的字，AA_598 的原句對不到、跳過（55 列）；
+   新稿沒動的格照舊是 AA_598 的「改成」（38 列）。新稿的逐字比對在 tests/sis_dates_1111_unit.js */
+const SRCG=(sha,loc)=>{ try{ return JSON.parse(cp.execFileSync('git',['show',sha+':docs/story_planning/date_system/lines/'+loc+'.json'],{cwd:process.env.AA598_DOCREPO||ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<26})); }catch(e){ return null; } };
+const srcAt=(S,p)=>{ if(!S) return undefined; const [sec,...rest]=p.split('/'); let o=(S[sec]||{}).heroine_05; for(const k of rest){ if(o==null) break; o=o[/^\d+$/.test(k)?+k:k]; } return (o&&typeof o==='object')?o.text:o; };
+const SC={}; const rewritten=(loc,p)=>{ if(!SC[loc]) SC[loc]=[SRCG('82c946ad7',loc),SRCG('2883197b6',loc)]; const [a,b]=SC[loc]; if(!a||!b) return null; const x=srcAt(a,p), y=srcAt(b,p); return x!==y?x:false; };
+const notNew=ROWS.filter(([n,loc,p,o,nw])=>at(loc,p)!==E694.strip(nw)), noSrc=notNew.some(r=>rewritten(r[1],r[2])===null);
+const badPos=noSrc?[]:notNew.filter(([n,loc,p])=>{ const x=rewritten(loc,p); return x===false||at(loc,p)!==x; });
+check('1. 每一列：同一個地點、同一個位置現在是 AA_598 的新句（'+(ROWS.length-notNew.length)+'／'+ROWS.length+'），或那一格 X324 重寫了、是新稿的字（'+notNew.length+' 列'+(noSrc?'；這份 checkout 讀不到源稿，只對列數':'')+'）',!badPos.length&&ROWS.length-notNew.length===38&&notNew.length===55,J(badPos.map(r=>[r[0],r[1],r[2],at(r[1],r[2])])));
 const oldLeft=ROWS.filter(([n,loc,p,o,nw])=>allHers(loc).includes(o)||(E694.strip(o)!==E694.strip(nw)&&allHers(loc).includes(E694.strip(o))));
 check('1. 原句在那個地點學姊的台詞裡一句都不剩',!oldLeft.length,J(oldLeft.map(r=>[r[0],r[1],r[3]])));
 const oldAnywhere=ROWS.filter(([n,loc,p,o,nw])=>src.includes(J(o))||(E694.strip(o)!==E694.strip(nw)&&src.includes(J(E694.strip(o)))));
@@ -158,7 +164,12 @@ check('3. D15 停車場邊的草地平常第 1 套是 AA_436 的新句（稿 7-6
 /* 4 AA_591「整合時的 AA 決定」第 9 點（企劃線 43d27cd80，D12.py、D12.json 已改；白名單 D12.json 換到 43d27cd80 重匯）：她爸爸在遊戲開始前過世、不提 */
 const TEA_OLD='這種茶我爸以前每天喝。我那時候覺得好苦。', TEA_NEW='這種茶我奶奶每天喝。我小時候覺得好苦。';   /* AA_609 第 6 點（使用者 11-03 爸爸改奶奶）：白名單 D12.json 前進到 2b4969352 */
 const d12=allow.files.filter(e=>e.path==='docs/story_planning/date_system/lines/D12.json');
-check('4. 白名單 D12.json＝1b095a239（AA_694 拿掉「……」；approved；舊的 2b4969352（AA_609）、a5b936a69、43d27cd80 留在 history）',d12.length===1&&d12[0].sha==='1b095a239'&&d12[0].status==='approved'&&['2b4969352','a5b936a69','43d27cd80'].every(x=>(d12[0].history||[]).some(h=>h.sha===x))&&String(DL.source).includes('D12.json@1b095a239'),J(d12.map(e=>e.sha)));
+/* 2026-11-11（X327 沛珊重寫）：白名單 D12.json 前進到 2883197b6（AA_756，只動沛珊的格子；1b095a239 留在 history）；同一天（X324 學姊重寫）再前進到 82c946ad7 */
+/* 2026-11-11（X324 語彤約會台詞重寫，AA 0a2136911）：白名單改認 0a2136911（語彤 33 個地點重寫、學姊 34 格修正寫回源稿），82c946ad7 留 history */
+/* 2026-11-11（X324 可昕約會台詞重寫，AA f9c1a2b80）：白名單再改認 f9c1a2b80（只動可昕的格子），0a2136911 留 history */
+/* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：白名單再改認 a29a8aba0（芷若的格子重寫），f9c1a2b80 留 history；現在的版本讀 tests/date_src_sha.js（以後換版只改那一處） */
+const SHA_NOW=require('./date_src_sha.js').ALLOW_SHA;
+check('4. 白名單 D12.json＝'+SHA_NOW+'（tests/date_src_sha.js；approved；舊的 f9c1a2b80（可昕重寫）、0a2136911（語彤重寫）、82c946ad7（學姊重寫）、2883197b6（AA_756）、1b095a239（AA_694）、2b4969352（AA_609）、a5b936a69、43d27cd80 留在 history）',d12.length===1&&d12[0].sha===SHA_NOW&&d12[0].status==='approved'&&['f9c1a2b80','0a2136911','82c946ad7','2883197b6','1b095a239','2b4969352','a5b936a69','43d27cd80'].every(x=>(d12[0].history||[]).some(h=>h.sha===x))&&String(DL.source).includes('D12.json@'+SHA_NOW),J(d12.map(e=>e.sha)));
 check('4. D12 老茶行第一次：學姊說「'+TEA_NEW+'」（同一個位置），「我爸」那句整個檔都不在',at('D12','lines/hotspots/D12.tea/first/lines/1')===TEA_NEW&&!src.includes(TEA_OLD),at('D12','lines/hotspots/D12.tea/first/lines/1'));
 const dad=[]; for(const loc of Object.keys(DL.loc)) for(const s of allHers(loc)) if(/我爸|爸爸/.test(s)) dad.push(loc+' '+s);
 check('4. 學姊的約會地點台詞不提爸爸',!dad.length,J(dad));

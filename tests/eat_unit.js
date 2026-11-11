@@ -17,9 +17,9 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..'), NO_EAT=process.argv.includes('--no-eat');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(HOMETOWN_LINES|HV|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|NEEDED_MSGS|ROM|MSG|MSG_POOL|MSG2_POOL|VAC|VAC_DATA|L118|LANE118_SHOPS|LANE118_LAYOUT|WZS|EAT|EAT_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(HOMETOWN_LINES|HV|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|NEEDED_MSGS|ROM|MSG|MSG_POOL|MSG2_POOL|VAC|VAC_DATA|L118|LANE118_SHOPS|L118_REDO|LANE118_LAYOUT|WZS|EAT|EAT_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js','src/wzshops3d.js','src/data/eat_lines.js'].concat(NO_EAT?[]:['src/eat3d.js']);
+const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/l118_redo772.js','src/lane118.js','src/wzshops3d.js','src/data/eat_lines.js'].concat(NO_EAT?[]:['src/eat3d.js']);
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){},narrate(){}}; global.CHAR={setExpr(){}};
@@ -45,48 +45,55 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
 (async()=>{
   check('0. 有 EAT（src/eat3d.js）、EAT_LINES（AA_329 企劃 759e5c000＋AA_336 第 A 節，企劃 724d7703）', typeof EAT!=='undefined'&&typeof EAT_LINES!=='undefined'&&/AA_329（企劃 759e5c000）/.test(EAT_LINES.source||'')&&/AA_336/.test(EAT_LINES.source||''), EAT_LINES&&EAT_LINES.source);
   // ---------- E1 ----------
+  /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版；AA_772）改期望——測的行為不變，場景的店換成新資料（店 id、店名、品名、價錢都從 LANE118_SHOPS、作息表讀，不寫死）：
+     舊期望：E1／E8 在滇香小館（l118_dian；以安週二中午的作息）、E3 在好家自助餐（l118_self；學姊週二傍晚）、E4 好家自助餐、E6／A1／A2 六張犁麵舖（牛肉麵 150）和蛋包飯研究所。
+     新期望：E1／E8＝以安週二中午作息表上的那一間（AA_772 schedule_notes：義大麵屋 l118_pasta，沒有回收台）、E3＝學姊週二傍晚作息表上的那一間（大學食堂 l118_cafe2，有回收台）、
+     E4＝self（水上便當）、E6／A1／A2＝麵店老闆搬去的 korea（清州刀削麵）和 omu（奈良咖哩；全熟半熟的換句沒有了）。「吃過幾次」的 key＝現在的店名 */
+  const schedShop=(id,wd,h)=>{ const e=(CHARACTERS[id].daily_schedule||[]).find(x=>x&&x.act==='eat'&&/^l118_/.test(x.zone||'')&&(x.days||[]).includes(wd)&&h>=x.from&&h<x.to); return e?e.zone.slice(5):null; };
+  const E1S=schedShop('heroine_01',2,12.4), E3S=schedShop('heroine_05',2,17.6), K6=shop('korea').name, KO=shop('omu').name;
+  check('0. 場景用的店：以安週二中午、學姊週二傍晚在 118 巷吃飯的作息都找得到，店都在資料裡',!!E1S&&!!E3S&&!!shop(E1S)&&!!shop(E3S),JSON.stringify([E1S,E3S]));
   const tue=td('Y1S1',3,2);
-  fresh(tue,12.4,'l118_dian'); R('heroine_01','FAM'); const an=npcAt('heroine_01');
-  { const e=STORY.schedEnt(CHARACTERS.heroine_01,G); check('E1 前置：Y1S1 第 3 週週二 12:24 以安照作息在滇香吃飯（l118_dian、eat）、店開著、不是門口的常客', !!e&&e.zone==='l118_dian'&&e.act==='eat'&&L118.isOpen('dian',G)&&!L118.companions(GM,'dian').includes('heroine_01'), JSON.stringify(e&&{zone:e.zone,act:e.act})); }
+  fresh(tue,12.4,'l118_'+E1S); R('heroine_01','FAM'); const an=npcAt('heroine_01');
+  { const e=STORY.schedEnt(CHARACTERS.heroine_01,G); check('E1 前置：Y1S1 第 3 週週二 12:24 以安照作息在 118 巷吃飯（作息表那一間，act eat）、店開著、不是門口的常客', !!e&&e.zone==='l118_'+E1S&&e.act==='eat'&&L118.isOpen(E1S,G)&&!L118.companions(GM,E1S).includes('heroine_01'), JSON.stringify(e&&{zone:e.zone,act:e.act})); }
   const fam0=SOCIAL.rel('heroine_01').fam; let h0=null; const say0=GM.say; GM.say=async(w,t)=>{ if(t===EL.open) h0=G.hour; return say0(w,t); };
-  const hS=G.hour; picks=[0,'坐過去一起吃']; await L118.order(GM,'dian'); GM.say=say0;
+  const hS=G.hour; picks=[0,'坐過去一起吃']; await L118.order(GM,E1S); GM.say=say0;
   const S1=EL.together.heroine_01||{}, set1=(S1.FAM||[]).map(x=>x[1]);
   check('E1 點完問「坐過去一起吃」（選項兩個：坐過去一起吃、不用了）', opts.length>=2&&JSON.stringify(opts[1])===JSON.stringify(['坐過去一起吃','不用了']), JSON.stringify(opts));
-  check('E1 開場 → 熟的那一組（照順序）→ 在店門口分開（滇香沒有回收台）', has(EL.open)&&set1.length&&set1.every(t=>has(t))&&idx(EL.open)<idx(set1[0])&&idx(set1[set1.length-1])<idx(EL.closeDoor)&&!has(EL.closeRecycle), said.map(s=>s.t).join('｜'));
-  check('E1 一起吃的時候店裡原本的「吃完」旁白不說；第一次的旁白在點餐那句之後、一起吃之前', !has(shop('dian').done)&&idx(LANE118_SHOPS.orderLine.replace('{品名}',shop('dian').menu[0][0]))<idx(EL.first['118 巷・滇香小館'])&&idx(EL.first['118 巷・滇香小館'])<idx(EL.open));
+  check('E1 開場 → 熟的那一組（照順序）→ 在店門口分開（那一間沒有回收台）', has(EL.open)&&set1.length&&set1.every(t=>has(t))&&idx(EL.open)<idx(set1[0])&&idx(set1[set1.length-1])<idx(EL.closeDoor)&&!has(EL.closeRecycle), said.map(s=>s.t).join('｜'));
+  check('E1 一起吃的時候店裡原本的「吃完」旁白不說；第一次的旁白在點餐那句之後、一起吃之前', !has(shop(E1S).done)&&idx(LANE118_SHOPS.orderLine.replace('{品名}',shop(E1S).menu[0][0]))<idx(EL.first['118 巷・'+shop(E1S).name])&&idx(EL.first['118 巷・'+shop(E1S).name])<idx(EL.open));
   check('E1 一起吃那一段時間 +30 分鐘、關係加一點（日常的一起吃飯）', h0!=null&&Math.abs(G.hour-h0-0.5)<1e-6&&SOCIAL.rel('heroine_01').fam>fam0, 'h0='+h0+' h='+G.hour+' fam '+fam0+'→'+SOCIAL.rel('heroine_01').fam);
   check('A3（AA_336）E1 點餐到吃完一共 70 分鐘：店裡原本吃飯的 40 分鐘＋一起吃 30 分鐘', Math.abs(G.hour-hS-70/60)<1e-6, 'hS='+hS+' h='+G.hour);
   // ---------- E2 ----------
-  said=[]; opts=[]; picks=[1]; await L118.order(GM,'dian');
-  check('E2 同一天再點一次：不再問「坐過去一起吃」、照舊說店裡吃完的旁白', !opts.some(o=>o.includes('坐過去一起吃'))&&has(shop('dian').done), JSON.stringify(opts));
+  said=[]; opts=[]; picks=[1]; await L118.order(GM,E1S);
+  check('E2 同一天再點一次：不再問「坐過去一起吃」、照舊說店裡吃完的旁白', !opts.some(o=>o.includes('坐過去一起吃'))&&has(shop(E1S).done), JSON.stringify(opts));
   // ---------- E3 ----------
   const tue2=td('Y2S1',3,2);
-  fresh(tue2,17.6,'l118_self',{dating_heroine_05:true}); R('heroine_05','FRI'); npcAt('heroine_05');
-  { const e=STORY.schedEnt(CHARACTERS.heroine_05,G); check('E3 前置：Y2S1 第 3 週週二 17:36 學姊在好家自助餐吃飯、店開著', !!e&&e.zone==='l118_self'&&e.act==='eat'&&L118.isOpen('self',G), JSON.stringify(e&&{zone:e.zone,act:e.act})); }
-  picks=[0,'坐過去一起吃']; await L118.order(GM,'self'); const D5=(EL.together.heroine_05||{}).dating||[];
+  fresh(tue2,17.6,'l118_'+E3S,{dating_heroine_05:true}); R('heroine_05','FRI'); npcAt('heroine_05');
+  { const e=STORY.schedEnt(CHARACTERS.heroine_05,G); check('E3 前置：Y2S1 第 3 週週二 17:36 學姊照作息在 118 巷的自助餐吃飯（作息表那一間）、店開著', !!e&&e.zone==='l118_'+E3S&&e.act==='eat'&&L118.isOpen(E3S,G), JSON.stringify(e&&{zone:e.zone,act:e.act})); }
+  picks=[0,'坐過去一起吃']; await L118.order(GM,E3S); const D5=(EL.together.heroine_05||{}).dating||[];
   check('E3 和學姊交往中：交往版——祐廷先說第一句（「貝貝。」），接她的兩句；自助餐有回收台＝一起收盤子', D5.length&&D5[0][0]==='me'&&said.some(s=>s.who==='祐廷'&&s.t===D5[0][1])&&D5.every(x=>has(x[1]))&&has(EL.closeRecycle), said.map(s=>(s.who||'')+':'+s.t).join('｜'));
-  fresh(tue2,17.6,'l118_self',{dating_heroine_05:true,dating_kexin:true}); R('heroine_05','FRI'); npcAt('heroine_05'); ROM.learn(G,'heroine_05','kexin','test');
-  picks=[0,'坐過去一起吃']; await L118.order(GM,'self'); const F5=(EL.together.heroine_05||{}).FRI||[];
+  fresh(tue2,17.6,'l118_'+E3S,{dating_heroine_05:true,dating_kexin:true}); R('heroine_05','FRI'); npcAt('heroine_05'); ROM.learn(G,'heroine_05','kexin','test');
+  picks=[0,'坐過去一起吃']; await L118.order(GM,E3S); const F5=(EL.together.heroine_05||{}).FRI||[];
   check('E3 她知道祐廷也和可昕交往：朋友版（不是交往版）', F5.length&&F5.every(x=>has(x[1]))&&!has(D5[0]&&D5[0][1]), said.map(s=>s.t).join('｜'));
   // ---------- E4、E5 ----------
   fresh(td('Y1S1',4,3),12.2,'l118_self');
-  picks=[0]; await L118.order(GM,'self'); const f4=EL.first['118 巷・好家自助餐'], o4=LANE118_SHOPS.orderLine.replace('{品名}',shop('self').menu[0][0]);
-  check('E4 第一次去好家自助餐：點餐那句 → 第一次的旁白 → 店裡吃完的旁白', !!f4&&idx(o4)>=0&&idx(o4)<idx(f4)&&idx(f4)<idx(shop('self').done), said.map(s=>s.t).join('｜'));
-  check('E4 筆記本「吃過的」多一筆（店名、品項、日期）', G.eat&&G.eat.ate.length===1&&G.eat.ate[0].shop==='118 巷・好家自助餐'&&G.eat.ate[0].item===shop('self').menu[0][0]&&G.eat.ate[0].day===G.day&&/吃過的/.test(EAT.notesHTML(G))&&EAT.notesHTML(G).includes('118 巷・好家自助餐'), JSON.stringify(G.eat&&G.eat.ate));
+  picks=[0]; await L118.order(GM,'self'); const f4=EL.first['118 巷・'+shop('self').name], o4=LANE118_SHOPS.orderLine.replace('{品名}',shop('self').menu[0][0]);
+  check('E4 第一次去 118 巷的一間店（self）：點餐那句 → 第一次的旁白 → 店裡吃完的旁白', !!f4&&idx(o4)>=0&&idx(o4)<idx(f4)&&idx(f4)<idx(shop('self').done), said.map(s=>s.t).join('｜'));
+  check('E4 筆記本「吃過的」多一筆（店名、品項、日期）', G.eat&&G.eat.ate.length===1&&G.eat.ate[0].shop==='118 巷・'+shop('self').name&&G.eat.ate[0].item===shop('self').menu[0][0]&&G.eat.ate[0].day===G.day&&/吃過的/.test(EAT.notesHTML(G))&&EAT.notesHTML(G).includes('118 巷・'+shop('self').name), JSON.stringify(G.eat&&G.eat.ate));
   said=[]; picks=[1]; await L118.order(GM,'self');
   check('E5 同一間第二次點別的：沒有第一次的旁白；吃過的記新的品項', !has(f4)&&G.eat.ate.length===2&&G.eat.ate[1].item===shop('self').menu[1][0], said.map(s=>s.t).join('｜'));
   // ---------- E6 ----------
-  fresh(td('Y1S1',4,1),12.2,'l118_noodle2'); G.eat={n:{'六張犁麵舖':4},last:{'六張犁麵舖':'牛肉麵'}}; const m0=G.money, T6=EL.staff['六張犁麵舖']||{};
-  picks=['老樣子']; await L118.order(GM,'noodle2');
-  check('E6 第 5 次：118 巷九間不說 AA_329 第 5 次那一句（AA_480 第 2 節：和 AA_311 熟客合併，第 3 次起店員已經認得你；其他店照舊，E7）', !has(T6.line5)&&idx(shop('noodle2').greet.text)===0, said.map(s=>(s.who||'')+':'+s.t).join('｜'));
-  check('E6 選單多「老樣子」（在品項後面、「不用了」前面）；選了＝回「好。大碗。」、扣上一次那一樣（牛肉麵）的錢', opts[0]&&opts[0][shop('noodle2').menu.length]==='老樣子'&&opts[0][opts[0].length-1]==='不用了'&&has(T6.same)&&G.money===m0-150&&G.eat.n['六張犁麵舖']===5, JSON.stringify(opts[0])+' money '+(m0-G.money));
-  said=[]; opts=[]; picks=[0]; await L118.order(GM,'noodle2');
+  fresh(td('Y1S1',4,1),12.2,'l118_korea'); G.eat={n:{[K6]:4},last:{[K6]:shop('korea').menu[0][0]}}; const m0=G.money, T6=EL.staff[K6]||{};
+  picks=['老樣子']; await L118.order(GM,'korea');
+  check('E6 第 5 次：118 巷九間不說 AA_329 第 5 次那一句（AA_480 第 2 節：和 AA_311 熟客合併，第 3 次起店員已經認得你；其他店照舊，E7）', !has(T6.line5)&&idx(shop('korea').greet.text)===0, said.map(s=>(s.who||'')+':'+s.t).join('｜'));
+  check('E6 選單多「老樣子」（在品項後面、「不用了」前面）；選了＝回「好。大碗。」、扣上一次那一樣的錢', opts[0]&&opts[0][shop('korea').menu.length]==='老樣子'&&opts[0][opts[0].length-1]==='不用了'&&has(T6.same)&&G.money===m0-shop('korea').menu[0][1]&&G.eat.n[K6]===5, JSON.stringify(opts[0])+' money '+(m0-G.money));
+  said=[]; opts=[]; picks=[0]; await L118.order(GM,'korea');
   check('E6 那一句只說一次；之後選單照樣有「老樣子」', !has(T6.line5)&&opts[0].includes('老樣子'));
-  { const TO=EL.staff['蛋包飯研究所']||{};
-    check('A1（AA_336）老樣子用主句、不看上次點什麼：六張犁麵舖、蛋包飯研究所就算上次的品名有「小碗」「全熟」也回主句', !!T6.same&&!!TO.same&&EAT.sameLine(T6,'小碗牛肉麵')===T6.same&&EAT.sameLine(TO,'全熟咖哩蛋包飯')===TO.same);
-    fresh(td('Y1S1',4,2),12.2,'l118_omu'); G.eat={n:{'蛋包飯研究所':5},last:{'蛋包飯研究所':'咖哩蛋包飯'},l5:{'蛋包飯研究所':1}}; picks=['老樣子']; await L118.order(GM,'omu');
-    check('A1 蛋包飯研究所選「老樣子」＝店員回主句（不是全熟那句）；沒有全熟半熟的點餐步驟（只有一個選單：品項＋老樣子＋不用了）', has(TO.same)&&!(TO.alt&&has(TO.alt.t))&&opts.length===1&&opts[0].length===shop('omu').menu.length+2, JSON.stringify(opts)+' '+said.map(s=>s.t).join('｜')); }
-  check('A2（AA_336）沒有回收台的「麵店」＝阿鳳麵店、六張犁麵舖兩間都算', EAT.isDoor('阿鳳麵店')&&EAT.isDoor('六張犁麵舖'));
+  { const TO=EL.staff[KO]||{};
+    check('A1（AA_336）老樣子用主句、不看上次點什麼：118 巷的麵店、原蛋包飯那一間就算上次的品名有「小碗」「全熟」也回主句', !!T6.same&&!!TO.same&&EAT.sameLine(T6,'小碗牛肉麵')===T6.same&&EAT.sameLine(TO,'全熟'+shop('omu').menu[0][0])===TO.same);
+    fresh(td('Y1S1',4,2),12.2,'l118_omu'); G.eat={n:{[KO]:5},last:{[KO]:shop('omu').menu[0][0]},l5:{[KO]:1}}; picks=['老樣子']; await L118.order(GM,'omu');
+    check('A1 原蛋包飯那一間（omu）選「老樣子」＝店員回主句（不是全熟那句）；沒有全熟半熟的點餐步驟（只有一個選單：品項＋老樣子＋不用了）', has(TO.same)&&!(TO.alt&&has(TO.alt.t))&&opts.length===1&&opts[0].length===shop('omu').menu.length+2, JSON.stringify(opts)+' '+said.map(s=>s.t).join('｜')); }
+  check('A2（AA_336）沒有回收台的「麵店」＝阿鳳麵店、118 巷的麵店兩間都算', EAT.isDoor('阿鳳麵店')&&EAT.isDoor(K6));
   // ---------- E7 ----------
   const tueY=td('Y1S2',4,2); fresh(tueY,18,'noodle'); npcAt('heroine_03'); G.eat={n:{'阿鳳麵店':4},last:{'阿鳳麵店':'乾麵'}};
   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝第 5 次那一句不會換她說（staffYutong 走不到），一律是阿姨那句 */
@@ -96,16 +103,16 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
   fresh(tueY,13,'noodle'); G.eat={n:{'阿鳳麵店':4},last:{'阿鳳麵店':'乾麵'}}; picks=[1]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM);
   check('E7 語彤不在：阿姨那一句', has(T7.line5)&&said.some(s=>s.who===T7.who&&s.t===T7.line5));
   // ---------- E8 ----------
-  fresh(tue,12.4,'l118_dian',{EX_kexin:true}); R('kexin','LOW'); const kx=npcAt('kexin'); const eh=EAT.eatingHere; EAT.eatingHere=(gm,id)=>id==='kexin'?true:eh(gm,id);
+  fresh(tue,12.4,'l118_'+E1S,{EX_kexin:true}); R('kexin','LOW'); const kx=npcAt('kexin'); const eh=EAT.eatingHere; EAT.eatingHere=(gm,id)=>id==='kexin'?true:eh(gm,id);
   const r0=JSON.stringify(SOCIAL.rel('kexin')); let h8=null; const s8=GM.say; GM.say=async(w,t)=>{ if(t===EL.open) h8=G.hour; return s8(w,t); };
-  picks=[0,'坐過去一起吃']; await L118.order(GM,'dian'); GM.say=s8; EAT.eatingHere=eh; const X8=(EL.together.kexin||{}).exLow||[];
+  picks=[0,'坐過去一起吃']; await L118.order(GM,E1S); GM.say=s8; EAT.eatingHere=eh; const X8=(EL.together.kexin||{}).exLow||[];
   check('E8 可昕分開、不到朋友：她那一組（她先走）、沒有一起收盤子／在門口分開那句', X8.length&&X8.every(x=>has(x[1]))&&!has(EL.closeDoor)&&!has(EL.closeRecycle), said.map(s=>s.t).join('｜'));
   check('E8 不加關係、時間 +30 分鐘、她要走了（until）', JSON.stringify(SOCIAL.rel('kexin'))===r0&&h8!=null&&Math.abs(G.hour-h8-0.5)<1e-6&&kx.until!=null);
-  fresh(tue,12.4,'l118_dian',{EX_kexin:true}); R('kexin','FRI'); npcAt('kexin'); EAT.eatingHere=(gm,id)=>id==='kexin'; picks=[0,'坐過去一起吃']; await L118.order(GM,'dian'); EAT.eatingHere=eh;
+  fresh(tue,12.4,'l118_'+E1S,{EX_kexin:true}); R('kexin','FRI'); npcAt('kexin'); EAT.eatingHere=(gm,id)=>id==='kexin'; picks=[0,'坐過去一起吃']; await L118.order(GM,E1S); EAT.eatingHere=eh;
   check('E8 分開以後朋友以上：exFriend 那一組＋結尾', ((EL.together.kexin||{}).exFriend||[]).every(x=>has(x[1]))&&has(EL.closeDoor));
-  fresh(tue,12.4,'l118_dian'); R('heroine_01','FAM'); npcAt('heroine_01'); picks=[0,'不用了']; await L118.order(GM,'dian');
-  check('E1 選「不用了」：照舊店裡吃完的旁白；今天不再問', has(shop('dian').done)&&!has(EL.open)&&G.eat.tog.heroine_01===G.day);
-  fresh(tue,12.4,'l118_dian'); npcAt('heroine_01'); picks=[0]; await L118.order(GM,'dian');
+  fresh(tue,12.4,'l118_'+E1S); R('heroine_01','FAM'); npcAt('heroine_01'); picks=[0,'不用了']; await L118.order(GM,E1S);
+  check('E1 選「不用了」：照舊店裡吃完的旁白；今天不再問', has(shop(E1S).done)&&!has(EL.open)&&G.eat.tog.heroine_01===G.day);
+  fresh(tue,12.4,'l118_'+E1S); npcAt('heroine_01'); picks=[0]; await L118.order(GM,E1S);
   check('E1 沒見過以安（FIRST_MET）：不問', !opts.some(o=>o.includes('坐過去一起吃')));
   // ---------- 老樣子的換句（便利商店）----------
   const cvsRun=async last=>{ fresh(td('Y1S1',5,2),15,'cvs'); G.eat={n:{'公館的便利商店':5},last:{'公館的便利商店':last},l5:{'公館的便利商店':1}}; picks=['老樣子']; await STORY.interact({shop:'cvs'},GM); };
@@ -135,7 +142,7 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
   fresh(td('Y1S1',7,2),15,'wenzhou'); G.eat={n:{'阿德影印輸出':4},last:{'阿德影印輸出':'印筆記（黑白，約 30 頁）'}}; picks=['老樣子']; await WZS.interact(GM,{wzShop:'print',kind:'print'}); const TP=EL.staff['阿德影印輸出']||{};
   check('阿德影印第 5 次：「又是考古題？」、老樣子＝上一次印的、不記吃過的', has(TP.line5)&&has(TP.same)&&!(G.eat.ate||[]).length, said.map(s=>s.t).join('｜'));
   fresh(td('Y1S1',4,3),12.2,'l118_self'); delete G.eat; picks=[0]; let err=null; try{ await L118.order(GM,'self'); }catch(e){ err=e; }
-  check('舊存檔沒有 G.eat：照常點餐、建一個新的', !err&&G.eat&&G.eat.n['好家自助餐']===1&&Array.isArray(G.eat.ate), String(err));
+  check('舊存檔沒有 G.eat：照常點餐、建一個新的', !err&&G.eat&&G.eat.n[shop('self').name]===1&&Array.isArray(G.eat.ate), String(err));
   fresh(td('Y1S1',8,3),20.5,'gongguan'); const L1=EL.first['宵夜（公館滷味攤）']; await EAT.outingFirst(GM,{place:'公館滷味攤'}); const n1=said.length; await EAT.outingFirst(GM,{place:'公館滷味攤'});
   check('宵夜滷味攤：第一次去一句旁白、記吃過的；第二次不演', has(L1)&&n1===1&&said.length===1&&G.eat.ate.some(a=>a.shop==='宵夜（公館滷味攤）'));
   { const o=fs.readFileSync(path.join(ROOT,'src/outings3d.js'),'utf8'); check('接線：outings3d.js 演事件之前（beforeOuting 之前）叫 EAT.outingFirst', /EAT\.outingFirst\(GM,q\);[^\n]*if\(typeof ev\.beforeOuting==='function'\)/.test(o)); }

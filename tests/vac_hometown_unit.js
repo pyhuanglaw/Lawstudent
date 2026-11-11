@@ -1,4 +1,5 @@
 // AA_276 第 1 節（AA-C a5d17b91；使用者 23:4x）：寒暑假可昕回高雄、沛珊回台中——放假第一天起到開學前 2 天在老家；偶遇、作息、當面約都不在臺北，手機照常、「在老家」標籤；出國、外縣市旅行照樣約得到；經濟系那年不算。改版前會失敗。用法：node tests/vac_hometown_unit.js
+// 2026-11-11（X327 沛珊重寫，AA_757_peishan_wish_hometown.json@052644c58）：這支裡寫死的沛珊「去她的縣市」（台中、台南、台南美術館）的句子照新稿改期望（hometown_rows 31 列＋tainan_museum；逐字對稿在 tests/peishan_dates_1111_unit.js）。
 // （載入照 LIFE-LINE 第 6 組）
 // 2/15 起在祐廷家的餐桌讀書（kxFreeAt 拿掉、她 10:00 到；R1 開頭「她第一次來你家」；S1、S2 改字）、RP 從 2/15；6/8 衝刺班的私訊＋6/9～7/9 一三五 19～22 點（「這次不去」、第一次三句旁白、
 // 那幾晚可昕的訊息改到 22:10）；E35 在他家樓下（睡著 21:00 醒來）；E36 早上三句旁白（0.1）、晚上「只高 0.1。」「上了就是上了。」。改版前會失敗。用法：node tests/lifeline_g6_unit.js
@@ -8,7 +9,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(HOMETOWN_LINES|HV|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|NEEDED_MSGS|ROM|MSG|MSG_POOL|MSG2_POOL|VAC|VAC_DATA)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/vac_activities.js','src/vac3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/vac_activities.js','src/vac3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -67,7 +68,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('6. 每晚 23:00 以後一則（AA_460 第 2 節起照日子挑：3/1、3/2 是平常的晚上＝短句，兩晚不同句；排法另見 tests/aa460_y2s1_unit.js）',m1.length===1&&m1[0]===ps+':'+STORY.psKeepLine(G.day-1)&&STORY.PS_KEEP_SHORT.includes(STORY.psKeepLine(G.day-1))&&m2.length===2&&m2[1]===ps+':'+STORY.psKeepLine(G.day)&&m2[1]!==m2[0]&&G.flags.PS_KEPT===true,J(m2));
     { const g4=law('2027-03-02',15,{dating_classmate_peishan:true}); g4.flags.romance={[ps]:{status:'dating',sinceDay:D0-30}}; R(ps,30,20,20); G.contacts[ps]=D0-100;
       const tp=MSG.topics(G,ps).map(q=>q.k); const r=MSG.send(G,ps,'chat'); G.hour=22.9; PHONE.tick(G); const before=txt('p:'+ps); G.hour=23.6; PHONE.tick(G); const after=txt('p:'+ps);
-      check('6-1. 消失期交往中：傳「在幹嘛」她 23:00 以後才回「在念地理。」；問課不開（AA_276 6-1）',!tp.includes('course')&&tp.includes('chat')&&r.ok&&!before.some(t=>/在念地理/.test(t))&&after.some(t=>t==='classmate_peishan:在念地理。'),J([tp,before,after])); }
+      check('6-1. 消失期交往中：傳「在幹嘛」她 23:00 以後才回「在念地理。等高線在跟我作對。」；問課不開（AA_276 6-1）',!tp.includes('course')&&tp.includes('chat')&&r.ok&&!before.some(t=>/在念地理/.test(t))&&after.some(t=>t==='classmate_peishan:在念地理。等高線在跟我作對。'),J([tp,before,after])); }
     const g3=law('2027-03-01',15,{dating_classmate_peishan:true}); g3.flags.romance={[ps]:{status:'dating',sinceDay:D0+5}};
     check('6. 消失期開始以後才交往：照原規則聯絡不到',STORY.presence(ps,g3).kind==='unreachable');
     check('6. 放榜那天（8/6）起照舊在臺北的規則（不是 keep）',!STORY.presence(ps,law('2027-08-06',15,{dating_classmate_peishan:true})).keep); }
@@ -92,16 +93,16 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     law('2026-07-10',20); R('classmate_peishan',40,30,30); G.contacts.classmate_peishan=G.day-200; G.flags.dating_classmate_peishan=true;
     picks=['我去台中找妳？',0]; await INV.flow(GM,'classmate_peishan',null,false); const q3=OUT.rec(G).find(x=>x.hv&&x.hv.id==='classmate_peishan');
     said=[]; opts=[]; picks=['常笑']; G.day=q3.day; G.hour=10.5; await HV.play(GM,q3); const o3=opts[opts.length-1]||[];
-    check('7. 沛珊第一次（交往中，2026 暑假＝還沒考上台南）：「{name}！這裡這裡！」換成名字、三個選項（多「妳在這裡比較常笑。」）、送上車「下次來，我帶你去我國中走路上學那條路。」（AA-C 12:2x：她 2027-08-06 才考上台南；「下次換你來台南」是那天以後）',said0().includes((G.name||'祐廷')+'！這裡這裡！')&&o3.length===3&&said0().includes('……你不要突然講這種話啦。')&&said0().includes('下次來，我帶你去我國中走路上學那條路。')&&!said0().includes('下次換你來台南。……我帶你走。'),J([o3,said0()]));
+    check('7. 沛珊第一次（交往中，2026 暑假＝還沒考上台南）：「{name}！這裡這裡！」換成名字、三個選項（多「妳在這裡比較常笑。」）、送上車「下次來，我帶你去我國中走路上學那條路。」（AA-C 12:2x：她 2027-08-06 才考上台南；「下次換你來台南」是那天以後）',said0().includes((G.name||'祐廷')+'！這裡這裡！')&&o3.length===3&&said0().includes('你不要突然講這種話啦。我會不知道怎麼接。')&&said0().includes('下次來，我帶你去我國中走路上學那條路。')&&!said0().includes('下次換你來台南，我帶路。我現在比 Google 還熟。'),J([o3,said0()]));
     { const sd=HOMETOWN_LINES.classmate_peishan.send.dating, g0={day:STORY.dayOfKey('2027-08-05')}, g1={day:STORY.dayOfKey('2027-08-06')};
-      check('7. 沛珊送行句照日子分兩句：2027-08-05「下次來，我帶你去我國中……」、2027-08-06 起「下次換你來台南。……我帶你走。」',typeof sd==='function'&&sd(g0)[0]==='下次來，我帶你去我國中走路上學那條路。'&&sd(g1)[0]==='下次換你來台南。……我帶你走。'); }
+      check('7. 沛珊送行句照日子分兩句：2027-08-05「下次來，我帶你去我國中……」、2027-08-06 起「下次換你來台南，我帶路。我現在比 Google 還熟。」',typeof sd==='function'&&sd(g0)[0]==='下次來，我帶你去我國中走路上學那條路。'&&sd(g1)[0]==='下次換你來台南，我帶路。我現在比 Google 還熟。'); }
     // 7 例外：沛珊重考消失期、交往中（第 4、5-5 節）：下午三個小時、一個月一次
     const D0=DK('2026-12-18'); law('2027-03-03',20,{dating_classmate_peishan:true}); G.flags.romance={classmate_peishan:{status:'dating',sinceDay:D0-30}}; R('classmate_peishan',40,30,30); G.contacts.classmate_peishan=D0-200;
     check('7 例外. 消失期交往中：可以約「我去台中找妳？」',INV.whyNot(G,'classmate_peishan')===''&&HV.offer(G,'classmate_peishan').ok===true,J([INV.whyNot(G,'classmate_peishan'),HV.offer(G,'classmate_peishan')]));
     picks=['我去台中找妳？',0]; await INV.flow(GM,'classmate_peishan',null,false); const q4=OUT.rec(G).find(x=>x.hv&&x.hv.id==='classmate_peishan');
-    check('7 例外. 她答應「好。……一個下午就好，我晚上還要念。」、14:00 到',said0().includes('好。……一個下午就好，我晚上還要念。')&&q4&&q4.h===14&&q4.hv.keep===true,J(q4));
+    check('7 例外. 她答應「好。可是只能一個下午，我晚上還要念。」、14:00 到',said0().includes('好。可是只能一個下午，我晚上還要念。')&&q4&&q4.h===14&&q4.hv.keep===true,J(q4));
     said=[]; G.day=q4.day; G.hour=14; await HV.play(GM,q4); q4.state='done';
-    check('7 例外. 那一天演 5-5（螢光筆、公園兩圈、「回去的路上不要傳訊息給我，我會想回。」），不演 5-3',said0().includes('我只能出來三個小時。')&&said0().includes('回去的路上不要傳訊息給我，我會想回。')&&!said0().some(t=>/這裡這裡/.test(t)),J(said0()));
+    check('7 例外. 那一天演 5-5（螢光筆、公園兩圈、「回去的路上不要傳訊息給我，我會想回。」），不演 5-3',said0().includes('我只能出來三個小時，我跟自己講好的。')&&said0().includes('回去的路上不要傳訊息給我，我會想回。')&&!said0().some(t=>/這裡這裡/.test(t)),J(said0()));
     const o5=HV.offer(G,'classmate_peishan'); check('7 例外. 同一個月不能再約（她說一個月一次）',o5&&o5.ok===false&&/一個月一次/.test(o5.why),J(o5));
     law('2027-03-03',20); R('classmate_peishan',40,30,30); G.contacts.classmate_peishan=D0-200;
     check('7 例外. 沒交往：清單沒有這一項、手機照樣約不到（沒有回覆）',HV.offer(G,'classmate_peishan')===null&&/沒有回覆/.test(INV.whyNot(G,'classmate_peishan'))); }

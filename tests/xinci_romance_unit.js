@@ -21,7 +21,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const {check,GM}=H, J=JSON.stringify;
 global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 const PG_FILES=new Set(['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js',
-  'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
+  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
   'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/data/exam_bank.js','src/data/legal_qbank.js','src/classes3d.js','src/data/postgrad_lines.js','src/postgrad3d.js']);
 const SKIP=new Set(['src/character3d.js','src/engine3d.js','src/townkit3d.js','src/zones3d.js','src/bike3d.js','src/adv3d.js']);
 const loadErr=[];
@@ -33,7 +33,10 @@ const X=()=>typeof XCROM!=='undefined'?XCROM:null;
 const D=k=>STORY.dayOfKey(k);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const T=()=>H.said.map(s=>s.t);
-const doc=(sha,file)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+file+'"',{cwd:process.env.XC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
+/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：巷口家常菜→五湖四海，番茄炒蛋／排骨飯→高麗菜的／韭菜的；AA_772）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字再比（tests/l118_redo772_expect.js）。舊期望：直接和舊稿比 */
+const R772=require('./l118_redo772_expect.js');
+const doc=(sha,file)=>R772.doc(doc0(sha,file));
+const doc0=(sha,file)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+file+'"',{cwd:process.env.XC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
 const DOC537=doc('2f523e21a','AA_537_吳芯慈可攻略_很難_路線企劃.md'), DOC537b=doc('86659bbc1','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md');
 const DOC548=doc('8e0de1663','AA_548_芯慈戀愛線重寫_門檻與半夜訊息.md');   /* AA_548（芯慈新個性以後重寫：門檻、新時刻、半夜訊息八則、others 一句）取代 AA_537 第 1～3 節、AA_537b 第 9 節靠「第二名」的部分 */
 /* 全部門檻都過的存檔（大三下期末 2028-06-10，時段 6/8～6/18）*/
@@ -67,7 +70,7 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('0. confess_lines（AA_537 第 4 節）：say、三句、yes、notYet、unwilling 照稿、others 拿掉（AA_548 第 7 節）；notYetFlag XC_NOT_YET',!!C&&C.notYetFlag==='XC_NOT_YET'&&[].concat(C.say,C.yes,C.notYet,C.unwilling).every(x=>{ const t=typeof x==='string'?x:x.text; return DOC537.includes(t)||DOC548.includes(t); })&&C.others===undefined&&C.yes.length===4&&C.choice.length===3,'');
     const Hx=TERMEND_LINES.HEART[XC];
     const strs=[Hx.invite,Hx.decline,Hx.table,Hx.think,Hx.invite2].concat(Hx.walk,Hx.she,Hx.she2,Hx.yes2);   /* askFirst／noOther／othersTail 拿掉（AA_548 第 7 節：她不問）*/
-    check('0. termend_lines HEART.classmate_xinci（AA_537b 第 7 節；othersTail 照 AA_548 第 4 節）：每一句都在稿裡；巷口家常菜 18:00、羅斯福路・往公館站',!!Hx&&strs.every(t=>DOC537b.includes(t)||DOC537.includes(t)||DOC548.includes(t))&&Hx.placeName==='巷口家常菜'&&Hx.h===18&&Hx.walkPlace==='羅斯福路・往公館站',J(strs.filter(t=>!DOC537b.includes(t)&&!DOC537.includes(t)&&!DOC548.includes(t))));
+    check('0. termend_lines HEART.classmate_xinci（AA_537b 第 7 節；othersTail 照 AA_548 第 4 節）：每一句都在稿裡；五湖四海 18:00、羅斯福路・往公館站',!!Hx&&strs.every(t=>DOC537b.includes(t)||DOC537.includes(t)||DOC548.includes(t))&&Hx.placeName==='五湖四海'&&Hx.h===18&&Hx.walkPlace==='羅斯福路・往公館站',J(strs.filter(t=>!DOC537b.includes(t)&&!DOC537.includes(t)&&!DOC548.includes(t))));
     check('0. NOPE 只留 low（AA_548 第 7 節：knows 拿掉）；舊的「今天的我排好了」作廢＝遊戲裡沒有',!TERMEND_LINES.NOPE.knows[XC]&&TERMEND_LINES.NOPE.low[XC]==='期末考完，我想先一個人待幾天。下學期再約。'&&!TERMEND_LINES.NOPE.partner[XC]&&!fs.readFileSync(path.join(H.ROOT,'src/data/termend_lines.js'),'utf8').includes('今天的我排好了')); });
 
   /* ===== 第 1 節：門檻 ===== */
@@ -115,7 +118,7 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
   /* ===== 第 3b 節：交往中的期末飯（AA_537b 8-1）、學期末飯桌換句（8-0）===== */
   await sec('3b',()=>{ const DOC8=doc('86659bbc1','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md'), g=TERMEND_LINES.GF[XC], Hx=TERMEND_LINES.HEART[XC];
     check('3b. 8-0：心意那一頓的飯桌換「我今天點了一道沒吃過的。……你不要笑。」（舊的「我今天沒帶書出門」不在）',Hx.table==='我今天點了一道沒吃過的。……你不要笑。'&&DOC8.includes('> 芯慈：我今天點了一道沒吃過的。……你不要笑。')&&!fs.readFileSync(path.join(H.ROOT,'src/data/termend_lines.js'),'utf8').includes('我今天沒帶書出門'));
-    check('3b. 8-1 GF：巷口家常菜 18:00、table 兩句連著說、提前一天 21:00；邀約一般版「明天晚上吃飯。……我提前一天約了。」（AA-B 16:31 換）／美國路線大四上版照稿',!!g&&g.placeName==='巷口家常菜'&&g.h===18&&g.inviteDayBefore===21&&J(g.table)===J(['下學期的週三下午，我先空著。','你不用回答。我只是先說。'])&&g.table.every(t=>DOC8.includes('> 芯慈：'+t))&&g.invite({day:D('2028-06-10'),flags:{}})==='明天晚上吃飯。……我提前一天約了。'&&DOC8.includes('> 芯慈：你回來了。明天晚上吃飯。……我提前一天約了。'));
+    check('3b. 8-1 GF：五湖四海 18:00、table 兩句連著說、提前一天 21:00；邀約一般版「明天晚上吃飯。……我提前一天約了。」（AA-B 16:31 換）／美國路線大四上版照稿',!!g&&g.placeName==='五湖四海'&&g.h===18&&g.inviteDayBefore===21&&J(g.table)===J(['下學期的週三下午，我先空著。','你不用回答。我只是先說。'])&&g.table.every(t=>DOC8.includes('> 芯慈：'+t))&&g.invite({day:D('2028-06-10'),flags:{}})==='明天晚上吃飯。……我提前一天約了。'&&DOC8.includes('> 芯慈：你回來了。明天晚上吃飯。……我提前一天約了。'));
     full(G=>{ G.flags['dating_'+XC]=true; }, '2028-06-08'); H.G.hour=0; const w=TERMEND.windowOf('Y3S2'); TERMEND.plan(H.G,w);
     let sentAt=null; for(let d=w.from;d<=w.to&&sentAt==null;d++) for(const h of [12,20.9,21.05,23]){ H.G.day=d; H.G.hour=h; TERMEND.phone(GM); PHONE.tick(H.G); const m=(H.G.msgs||[]).find(x=>x.tag==='te_gf_Y3S2_'+XC); if(m){ sentAt=[d,h,m.text]; break; } }
     const dd=((H.G.termend.Y3S2||{}).gfDay||{})[XC];
@@ -134,13 +137,13 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
 
   /* ===== 第 6 節：第 2 段 3-1、3-2、3-5 後補 ===== */
   await sec(6,async()=>{ const E=STORY_EVENTS.find(e=>e.id==='ev_xc_g2_dad');
-    /* AA_548 3-1：大二上第 3 週，巷口家常菜（l118_home），她那一週平日 18:00～19:30 在那裡吃飯（XCROM.SCHED）*/
+    /* AA_548 3-1：大二上第 3 週，五湖四海（l118_home），她那一週平日 18:00～19:30 在那裡吃飯（XCROM.SCHED）*/
     const nd=STORY.termDay('Y2S1',3,2);
     H.fresh(CALENDAR.dateOf(nd).key,18.2,'l118_home',{introDone:true}); SOCIAL.remember(XC,'FIRST_MET','camp');
     const pre=E&&E.prereq.custom(H.G), wk=E&&E.term[0]==='Y2S1'&&J(E.weeks)===J([3])&&E.location==='l118_home'&&E.npcPresent===XC, sch=STORY.schedEnt(CHARACTERS[XC],H.G);
     H.said=[]; H.picks=['我想聽']; await EVENTS.run(E);
-    check('6. 3-1（AA_548）：大二上第 3 週平日傍晚巷口家常菜（她的作息在那裡）、慈 2 兩個都沒記＝「我昨天又在幫我媽對帳。……」→「我想聽。」＝兩句、記 TALKED_FAMILY（G2 過）',!!E&&pre===true&&wk&&!!sch&&sch.zone==='l118_home'&&J(T())===J(['我昨天又在幫我媽對帳。……算了，你不會想聽。','我爸媽都是律師。事務所的帳，我從國中就在對。','……所以我雙主修財金。是我自己要的。'])&&X().gates(H.G).G2===true&&T().every(t=>DOC548.includes(t)),J([T(),sch&&sch.zone]));
-    check('6. 3-1：記過 TALKED_FAMILY（或 ECON_TOGETHER）的不演、她也不排在巷口家常菜',E.prereq.custom(H.G)===false&&((STORY.schedEnt(CHARACTERS[XC],H.G)||{}).zone!=='l118_home'||!!STORY.schedEnt(CHARACTERS[XC],H.G).weeks===false));
+    check('6. 3-1（AA_548）：大二上第 3 週平日傍晚五湖四海（她的作息在那裡）、慈 2 兩個都沒記＝「我昨天又在幫我媽對帳。……」→「我想聽。」＝兩句、記 TALKED_FAMILY（G2 過）',!!E&&pre===true&&wk&&!!sch&&sch.zone==='l118_home'&&J(T())===J(['我昨天又在幫我媽對帳。……算了，你不會想聽。','我爸媽都是律師。事務所的帳，我從國中就在對。','……所以我雙主修財金。是我自己要的。'])&&X().gates(H.G).G2===true&&T().every(t=>DOC548.includes(t)),J([T(),sch&&sch.zone]));
+    check('6. 3-1：記過 TALKED_FAMILY（或 ECON_TOGETHER）的不演、她也不排在五湖四海',E.prereq.custom(H.G)===false&&((STORY.schedEnt(CHARACTERS[XC],H.G)||{}).zone!=='l118_home'||!!STORY.schedEnt(CHARACTERS[XC],H.G).weeks===false));
     H.fresh(CALENDAR.dateOf(nd).key,18.2,'l118_home',{introDone:true}); H.said=[]; H.picks=['不問']; await EVENTS.run(E); check('6. 3-1：「（不問）」＝不記',J(T())===J(['我昨天又在幫我媽對帳。……算了，你不會想聽。'])&&!X().gates(H.G).G2);
     const d=STORY.termDay('Y2S2',10,4); const msgs=()=>(H.G.msgs||[]).filter(m=>m.tag==='xc_g3_remind').map(m=>m.text);
     H.fresh(CALENDAR.dateOf(d).key,0.5,'dorm',{introDone:true}); H.G.contacts={[XC]:1}; STORY.phoneRules(GM); PHONE.tick(H.G); const before=msgs().length; H.G.hour=0.7; STORY.phoneRules(GM); PHONE.tick(H.G);
@@ -160,9 +163,9 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     H.fresh(CALENDAR.dateOf(wed).key,14,'dorm',{introDone:true,XC5_RECONCILE:true}); H.G.contacts={[XC]:1}; at(wed,14.5); const b=th().length; at(wed,15.05);
     check('7. 慈 5 以後第一個週三（大三上第 14 週）15:00 三則照稿（15:00 以前沒有）',b===0&&J(th())===J(X().G7_MSG)&&X().G7_MSG.every(t=>DOC537.includes('> 芯慈：'+t)),J(th()));
     PHONE.answer(H.G,'xc_g7_1',0); at(wed,15.2); const q=OUT.get(H.G,'xc_g7_1');
-    check('7. 回「有。去哪？」＝她「巷口家常菜。六點。」、排好 18:00 的出遊（ev_xc_sameday）',th().slice(-1)[0]==='巷口家常菜。六點。'&&!!q&&q.ev==='ev_xc_sameday'&&q.h===18&&q.day===wed,J([th().slice(-2),q]));
+    check('7. 回「有。去哪？」＝她「五湖四海。六點。」、排好 18:00 的出遊（ev_xc_sameday）',th().slice(-1)[0]==='五湖四海。六點。'&&!!q&&q.ev==='ev_xc_sameday'&&q.h===18&&q.day===wed,J([th().slice(-2),q]));
     H.said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_xc_sameday'));
-    const W=['妹妹今天也是番茄炒蛋？','……排骨飯。','喔！又換！','（她看你一眼，好像在說：你看，我自己換了。）','今天沒有排讀書。是我自己沒有排。'];
+    const W=['妹妹今天也是高麗菜的？','……韭菜的。','喔！又換！','（她看你一眼，好像在說：你看，我自己換了。）','今天沒有排讀書。是我自己沒有排。'];
     check('7. 那一頓照稿（老闆娘、排骨飯、她看你一眼、今天沒有排讀書）、記 XC_SAMEDAY（G7 過）',J(T())===J(W)&&H.G.flags.XC_SAMEDAY===true&&X().gates(H.G).G7===true&&W.every(t=>DOC537.includes(t)),J(T()));
     H.fresh(CALENDAR.dateOf(wed).key,15.05,'dorm',{introDone:true,XC5_RECONCILE:true}); H.G.contacts={[XC]:1}; at(wed,15.05); PHONE.answer(H.G,'xc_g7_1',1);
     check('7. 回「今天不行。」＝「好。那我還是提前一天。」、不排出遊',th().slice(-1)[0]==='好。那我還是提前一天。'&&!OUT.get(H.G,'xc_g7_1'));
@@ -279,10 +282,10 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     full(G=>{ G.flags['dating_'+XC]=true; G.flags['dating_'+AN]=true; (G.flags.confessed||(G.flags.confessed={}))[XC]=G.day-1; G.contacts[AN]=1; }); H.G.hour=21.2; STORY.phoneRules(GM); PHONE.tick(H.G);
     check('12. 5-3 以安：交往後第一週 21:00 以後一則「芯慈跟我說了。她自己來跟我說的。」「我很高興。是真的。」；以安自己在跟祐廷交往＝不傳（AA_548 第 8 節同意）',J(an)===J(X().AN_KNOWS)&&!(H.G.msgs||[]).some(m=>m.tag==='xc_an_knows'),J(an)); });
 
-  /* ===== 第 12c 節：巷口家常菜期末飯的開場、收尾（AA_537b 8-4，企劃線 18795bc0c；心意那一頓、交往後那一頓共用；深色底＋字幕「巷口家常菜」）===== */
+  /* ===== 第 12c 節：五湖四海期末飯的開場、收尾（AA_537b 8-4，企劃線 18795bc0c；心意那一頓、交往後那一頓共用；深色底＋字幕「五湖四海」）===== */
   await sec('12c',async()=>{ const D84=doc('18795bc0c','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md'), PL=TERMEND_LINES.PLACE.l118_home||{};
-    const OPEN='（傍晚的巷口家常菜。菜擺在玻璃櫃裡，用手指一指，老闆娘就幫你夾。）', CLOSE='（老闆娘開始收玻璃櫃裡的菜。你們走出巷口，路燈剛亮。）';
-    check('12c. 地點表：l118_home 開場、收尾逐字照 8-4、沒有底圖（深色底）、字幕「巷口家常菜」；芯慈心意、交往後兩頓都用它',PL.open===OPEN&&PL.close===CLOSE&&!PL.bg&&PL.caption==='巷口家常菜'&&TERMEND_LINES.HEART[XC].place==='l118_home'&&TERMEND_LINES.GF[XC].place==='l118_home'&&(!D84||(D84.includes(OPEN)&&D84.includes(CLOSE))),J(PL));
+    const OPEN='（傍晚的五湖四海。門口那一鍋水滾著，老闆娘一把一把下水餃。）', CLOSE='（老闆娘把最後一鍋水倒掉。你們走出巷口，路燈剛亮。）';
+    check('12c. 地點表：l118_home 開場、收尾逐字照 8-4、沒有底圖（深色底）、字幕「五湖四海」；芯慈心意、交往後兩頓都用它',PL.open===OPEN&&PL.close===CLOSE&&!PL.bg&&PL.caption==='五湖四海'&&TERMEND_LINES.HEART[XC].place==='l118_home'&&TERMEND_LINES.GF[XC].place==='l118_home'&&(!D84||(D84.includes(OPEN)&&D84.includes(CLOSE))),J(PL));
     for(const kind of ['heart','gf']){ full(kind==='gf'?(G=>{ G.flags['dating_'+XC]=true; }):null); H.said=[]; H.picks=[]; await TERMEND.dinner(GM,{te:{term:'Y3S2',who:XC,kind}});
       const ci=T().indexOf(CLOSE), wi=T().indexOf(TERMEND_LINES.HEART[XC].walk[0]);   /* 心意那一頓：收尾以後接回家的路（walkHome） */
       check('12c. 演出來（'+kind+'）：第一句是開場；收尾在飯桌之後'+(kind==='heart'?'、回家的路之前':'、是最後一句'),T()[0]===OPEN&&ci>1&&(kind==='heart'?wi>ci:ci===T().length-1),J(T())); } });

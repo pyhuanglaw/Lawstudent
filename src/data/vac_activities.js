@@ -16,6 +16,8 @@
    AA_242 第 12 節（56a36a4d）多的欄位：work.diary（沒有關鍵事件的上班日一天一行）、work.diaryLastWeek（固定在最後一週第一個上班日的那一句）、work.lunch（上班日的午餐錢）、
      關鍵事件的 again（第二次參加時，第二次的日誌一句後面照演的）、select.noFail（那一學期有被當的科目＝沒錄取）、select.brief（錄取以後排的行前說明會）、signup.again（去過的人公告多的那個選項）。
    行的寫法同 termend_lines.js：字串＝說話的人；{narr:'（…）'}＝旁白；{who, text}＝別人說；choice＝[{t, say:[行…], set:{旗標}, rel:{id:{…}}}]。 */
+/* 2026-11-11（使用者 X327 沛珊重寫）：沛珊在這個檔的十句照 AA_762_peishan_events_2.json@1fc9a6658 換——法律生活營（隊輔）三句、回國那兩句、出國那一組五句（新設定：她從小跟爸媽出國、全程跟著走；「我沒出過國」那條線拿掉，
+   last 改成「我第一次沒有跟爸媽出國耶」，firstOnly 的邏輯不動）。逐字對稿：tests/peishan_events_1111_unit.js */
 const VAC_DATA=(function(){
   const Y=G=>G&&G.flags||{};
   /* 以安那一年真的有去（AA_369 M4）：C03 日語課只有大一、大二；C11 東京、C12 京都只有大二。年份照那一場的日子（暑假＝2025＋n 年、寒假的一月＝2025＋n 年）*/
@@ -125,18 +127,18 @@ const VAC_DATA=(function(){
         msgs:[{from:'sysclub',name:'系學會',text:'【法律生活營 隊輔招募】7/1～7/5，高中生營隊，五天四夜，在校內。籌備會第 13～15 週週三晚上。有興趣的填表單。'},{from:'classmate_xinci',text:'我報了'},{from:'classmate_xinci',text:'有人要一起嗎'},{from:'classmate_peishan',text:'我也報了'}],
         yes:{t:'我也報。',say:[{from:'classmate_xinci',text:'好，我記下來'}]} },
       prep:{ term:'S2', week:14, wd:3, h:19, place:'法律系館B 研討室', bg:'classroom_small', who:'classmate_xinci',
-        lines:[{narr:'（研討室的白板上貼了一張流程表。五天，每一格一個顏色。）'},{who:'classmate_xinci',text:'綠色是課程，橘色是活動，灰色是吃飯和睡覺。'},{who:'classmate_peishan',text:'紅色呢？'},{who:'classmate_xinci',text:'可能會出事的時間。'},{who:'classmate_peishan',text:'……為什麼有這麼多紅色。'},{who:'classmate_xinci',text:'因為是高中生。'}],
+        lines:[{narr:'（研討室的白板上貼了一張流程表。五天，每一格一個顏色。）'},{who:'classmate_xinci',text:'綠色是課程，橘色是活動，灰色是吃飯和睡覺。'},{who:'classmate_peishan',text:'紅色呢？'},{who:'classmate_xinci',text:'可能會出事的時間。'},{who:'classmate_peishan',text:'為什麼紅色比綠色還多。'},{who:'classmate_xinci',text:'因為是高中生。'}],
         choice:[{t:'「我負責哪一格？」',say:[{who:'classmate_xinci',text:'第二天下午，案例討論。你帶一組。'}]},
                 {t:'「紅色那幾格我可以幫忙。」',say:[{who:'classmate_xinci',text:'好。'},{narr:'（她把你的名字寫進紅色那一格。）'},{who:'classmate_xinci',text:'寫上去了，不能改。'}],rel:{classmate_xinci:{trust:2}}}] },
       trip:{ start:{day:'07-01',h:8.5}, end:{day:'07-05',h:17}, placeName:'營隊（校內）', home:'dorm' },
       keys:[
-        {day:'07-01',h:9,title:'第一天：報到',bg:'camp_school',lines:[{narr:'（報到處排了一整排高中生。有人拖著行李箱，有人只背一個書包。）'},{who:'classmate_peishan',text:'那個女生從進來到現在都沒講話。'},{who:'classmate_peishan',text:'……我去跟她說一下哪裡可以充電。'},{narr:'（她走過去，蹲在那個女生的行李箱旁邊。）'}]},
+        {day:'07-01',h:9,title:'第一天：報到',bg:'camp_school',lines:[{narr:'（報到處排了一整排高中生。有人拖著行李箱，有人只背一個書包。）'},{who:'classmate_peishan',text:'那個女生從進來到現在都沒講話。'},{who:'classmate_peishan',text:'我去跟她講哪裡可以充電，這種時候講這個最有用。'},{narr:'（她走過去，蹲在那個女生的行李箱旁邊。）'}]},
         {day:'07-03',h:20,title:'晚會',bg:'camp_school',lines:[{narr:'（小隊表演完，學員圍在操場邊吃點心。你那一組的一個男生走過來。）'},{who:'npc_camper',name:'學員',text:'學長，法律系很難嗎？'}],
           choice:[{t:'「很難，可是很好玩。」',say:[{who:'npc_camper',name:'學員',text:'好玩在哪？'},{narr:'（你想了一下。）'},{who:'npc_camper',name:'學員',text:'學長你想太久了。'},{narr:'（他笑著跑回去。）'}]},
                   {t:'「我也還在想。」',say:[{who:'npc_camper',name:'學員',text:'……學長你大一喔？'},{who:'player',text:'對。'},{who:'npc_camper',name:'學員',text:'那我比較不怕了。'}]}]},
         {day:'07-05',h:15,title:'最後一天',bg:'camp_school',lines:[{narr:'（學員寫卡片給隊輔。你那一疊最上面那張寫著：「謝謝學長第二天下午沒有放棄我們這組。」）'},{who:'classmate_xinci',text:'（把流程表從白板上撕下來，摺好）紅色的那幾格，最後都沒出事。'},{who:'classmate_xinci',text:'下次可以少塗一點。'},
           {who:'classmate_peishan',text:G=>Y(G).PS_ODD_Q_Y1S2?'欸，問你一件事。':'問你一件事。'},{who:'classmate_peishan',text:'你覺得他們五天以後，會記得什麼？'}],   /* 沛珊「我可以問一個奇怪的問題嗎」大一下的額度用過＝「欸，問你一件事。」（AA_188 2-6）*/
-          choice:[{t:'「記得認識了誰。」',say:[{who:'classmate_peishan',text:'……嗯。我也是這樣覺得。'}],set:{PS_CAMP_REMEMBER:true}},
+          choice:[{t:'「記得認識了誰。」',say:[{who:'classmate_peishan',text:'嗯。我也覺得，課程他們三天就忘了。'}],set:{PS_CAMP_REMEMBER:true}},
                   {t:'「記得案例討論那組吵贏了。」',say:[{who:'classmate_peishan',text:'（笑）那一組真的很想贏。'}]}]} ],
       miss:{day:'07-05',h:21,who:'classmate_xinci',min:'ACQUAINTANCE',msgs:['營隊結束了','📷（操場上一排高中生和隊輔，比著不同的手勢）','少一個人排班。下次來喔']} },
     /* VAC-C03 日語課（以安也在上）：AA_241 第 2 節。7/7～7/23 週二、四 19:00～21:00，公館的語言中心（虛構）；三個關鍵事件，其他堂寫進日誌 */
@@ -461,13 +463,13 @@ const VAC_DATA=(function(){
     backGreet:{heroine_01:'回來了？……曬黑了。',heroine_03:'……回來了喔。',yu:'你回來了！伴手禮咧！',zhe:'欸 回來了喔',classmate_bohan:'回來了。時差調好了嗎。',classmate_xinci:'回來了？我把你不在的那幾天的筆記整理好了。',heroine_02:'回來了？……那邊的咖啡，好喝嗎。',heroine_04:'回來了喔。東西咧。',heroine_05:'回來了？',classmate_peishan:'回來了！好玩嗎？',kai:'回來了。宿舍又變吵了。',classmate_mingxuan:'回來啦。',npc_fangyt:'回來了。……那邊的樹，有拍嗎？'},
     /* 回來重逢（AA_242 8-6 79adc9f2；BB_200 第 4 節）：回國當天 21:00 她約、隔天她平常的地方；不算正式約會；記 REUNION_<卡>。沒到＝隔天她傳一則 */
     /* 寒暑假她在老家（presence home；沛珊消失期交往中也一樣）：回國當天 21:00 只傳私訊，不排臺北的見面（AA_278 第 2 節第 1 點，6bcb154b）*/
-    reunionHome:{kexin:['回來了？……我在高雄。要來的話，先跟我說幾點的車。'],classmate_peishan:['歡迎回來！我在台中，開學前才上去。……好想聽你講那邊的事。'],
+    reunionHome:{kexin:['回來了？……我在高雄。要來的話，先跟我說幾點的車。'],classmate_peishan:['歡迎回來！我在台中，開學前才上去。好想聽你講那邊的事，你要從第一天開始講。'],
       /* AA_369 第 7 節第 2 題（AA 19:5x）：芷若、以安那幾趟各一句（{那一趟的 I.key: 句子}；沒列到的那一趟＝不傳、不約，同 M3）。
          以安 2026 首爾 7/24 回來、她 7/25 回台中：那句寫「我今天回台中」＝她回台中那一天才傳（vac3d.js；第 8 節第 4 題：15:00）*/
       heroine_02:{'C11@Y2':['回來了喔？我在台中。……東京好玩嗎？開學再跟我講。'],'C12@Y2':['回來了喔？我在台中收行李，箱子關不起來。……京都好玩嗎？傳照片給我。']},
       heroine_01:{'C08@Y1':{h:15,lines:['你回來了。我今天回台中，八號回臺北。……到時候再約。']}}},   /* 第 8 節第 4 題：15:00，和沒交往版 va02_3「回台中了。8 號回去。」同一個時間（{h, lines}＝那一則的時間；沒寫＝21:00）*/
     /* 那一天起換的句子（{from, lines}）：沛珊放榜（2027-08-06）以後開學是回台南、不是上臺北（AA_349 K7：「我在台中，開學前才回台南。」後半照原文；大二以前照舊）*/
-    reunionHomeAfter:{classmate_peishan:{from:'2027-08-06',lines:['歡迎回來！我在台中，開學前才回台南。……好想聽你講那邊的事。']}},
+    reunionHomeAfter:{classmate_peishan:{from:'2027-08-06',lines:['歡迎回來！我在台中，開學前才回台南。好想聽你講那邊的事，你要從第一天開始講。']}},
     /* 回國「那一天」她在老家（看回國當天的 presence，不看隔天）：那天晚上兩則，不約見面、不約下次（AA_350 S5：以安交往中，C08、C09、2027 C10、T02）*/
     reunionHomeBack:{heroine_01:['到了嗎？','……好。我在台中，沒辦法去接你。行李先放著，先睡。']},
     reunion:{
@@ -545,7 +547,7 @@ const VAC_DATA=(function(){
       classmate_bohan:['今天的行程延誤了四十分鐘。','……可是你走錯路才找到那家店。很好吃。我寫進明天的行程了。'],classmate_xinci:['每天花多少我都記在手機裡。今天超支一百二十塊。','……是那杯咖啡。值得。']},
     /* 和戀人：被問「要不要一起出國？」（next＝隔天她再傳一則）、最後一晚、婉拒、歐美的「下次」
        arr、mid（AA_533 第 1 節，企劃線 cf0066ed2；不分目的地）：[旁白, 她的一句]——和她去的那一趟，第一天下午「到了」取代目的地第一句、中間那天目的地第二句後面接「中間」；
-       firstOnly：「我第一次出國耶」那句 last 只給第一次和她出國的（沛珊，AA_533 第 1 節）*/
+       firstOnly：「我第一次沒有跟爸媽出國耶」那句 last 只給第一次和她出國的（沛珊，AA_533 第 1 節；2026-11-11 X327 重寫：原本「我第一次出國耶」）*/
     gf:{
       heroine_01:{arr:['（她在飯店大廳把行程表攤開，用螢光筆劃掉「抵達」那一格。）','第一格，完成。'],mid:['（走到一半，她把行程表收進包包。）','今天下午我沒排。……你帶路。'],yes:['哪裡？……給我三天，我排一份行程給你看。'],last:'行程表上的都走完了。……多出來的那一個小時，我沒寫。',no:'出國……我們先在臺北多走幾個地方。好不好？',later:'歐洲……我想去。可是要排十天以上，我們下次。'},
       heroine_03:{arr:['（她一到就先拍了一張照片，傳給秀琴姨。）','她說要看我有沒有吃飯。'],mid:['（她在路邊的小吃攤前面站了很久，看老闆怎麼下麵。）','……他的火比秀琴姨的大。'],yes:['茶屋要找人顧。……我問蘇姨。'],next:['蘇姨說好。她叫我多拍照。'],last:'……秀琴姨傳訊息問我們吃了什麼。我拍給她看了。',no:'出國喔……先不要啦。先去近一點的地方。',later:'那麼遠喔……店裡要找人顧十天。下次啦。'},
@@ -553,7 +555,7 @@ const VAC_DATA=(function(){
       heroine_04:{arr:['（她一到旅館，就把房間裡的每一個插座拍下來。）','充電的地方要先確認。'],mid:['（她在一間電玩店待了一個小時，出來的時候手上多了一個鑰匙圈。）','……很便宜。不要看我。'],yes:['去！機票我來比價。'],last:'這趟花的錢我算好了。……你不要看，看了會心痛。',no:'出國？太快了啦。先去夜市練習。',later:'美國？！……下次啦，我先存一點錢買遊戲。'},
       heroine_05:{arr:['（她在飯店的書桌前坐下，打開筆電，看了一眼，又闔上。）','今天不開。'],mid:['（她走得很快，走到一半停下來，等你跟上。）','（她停下來等你）……走太快了。習慣。'],yes:['……我要先看研究所的時間。'],next:['那幾天可以。'],last:'好久沒有一整天不想研究所的事。',no:'……先在國內。出國的話，我要先排好時間。',later:'十天以上，我要先跟研究所請好。下次。',eve:['我跟我媽說了。','她叫我多帶一件外套。']},
       kexin:{arr:['（她拿出手機看了一下地圖。）','飯店到第一站，走路十二分鐘。我們走。'],mid:['（她在路邊買了兩杯飲料，一杯塞給你，沒有問你要喝什麼。）','你喝甜的。我知道。'],yes:['我算一下。……飛三個多小時的話，第一天下午就能玩。'],last:'我算了一下，我們這五天走了六萬多步。',no:'我排了一下……先在國內，出國我要多排一點時間。',later:'歐洲要排很久。……我先存錢。'},
-      classmate_peishan:{arr:['（過海關的時候，她把護照握得很緊，出來以後才鬆開。）','我過了！我真的過了～'],mid:['（她每走一條街就拍一張照片，傳到家裡的群組。）','我媽說我傳太多了～'],firstOnly:true,yes:['真的嗎？我沒出過國。……你要教我怎麼過海關。'],last:'我第一次出國耶。……好好玩。',no:'先在國內走走吧，我們還沒一起去過很多地方。',later:'好遠喔……下次！我先查一下。'} } };
+      classmate_peishan:{arr:['（過海關的時候，她排錯隊，自己笑著又排回來。）','我以前都跟在我媽後面，原來要自己填這麼多東西～'],mid:['（她每走一條街就拍一張照片，傳到家裡的群組。）','我媽說我傳太多了～'],firstOnly:true,yes:['真的嗎？我都是跟我爸媽出國，全程跟著走的那種。這次我要自己看地圖。'],last:'我第一次沒有跟爸媽出國耶。好好玩，比跟他們好玩。',no:'先在國內走走吧，我們還沒一起去過很多地方。',later:'好遠喔，下次！你先選地方，我負責興奮。'} } };
   function Q6(G){ return !!(G&&G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game); }   /* 子晴的遊戲秘密：看過 Q6 才傳遊戲截圖（AA_242 375b91dd）*/
   /* 以安也在京都的語言課：FAMILIAR 以上（AA_242 5-1；她的假期計畫 AA_244 第 1 節大二暑假）*/
   function AN_IN(G){ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!SOCIAL.has||!SOCIAL.has('heroine_01','FIRST_MET')) return false; const A=SOCIAL.STAGES; return A.indexOf(SOCIAL.stage('heroine_01'))>=A.indexOf('FAMILIAR'); }

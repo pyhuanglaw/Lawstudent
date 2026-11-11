@@ -32,8 +32,11 @@
 const fs=require('fs'), path=require('path'), cp=require('child_process'), vm=require('vm');
 const ROOT=path.resolve(__dirname,'..'), BASE='cda383b07', TITLE='有名字說的台詞拿掉外面的「」第六批';
 /* 11-10 AA_731（企劃線 94ab0865e，BUG-INV-ACC-TIME-1110）：答應句不寫幾點、週末、早上——這十句和來源 commit（AA_415 c71772fbc、AA_721 b782e2c08）的改變不算「多改」 */
-const A731=[["好。九點，不要遲到。", "好。不要遲到。"], ["早上？……十點以後可以。", "Daybreak？……好。我會起來。"], ["好。週末早上我剛好有空。", "好。那天我空下來。"], ["SUNNY SIDE。好。我九點到。", "SUNNY SIDE。好。我會準時到。"], ["SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。", "SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。"], ["十二點？好，那是我的早餐。", "早午餐？好，那是我的早餐。"], ["十二點 好 那是我的早餐", "早午餐 好 那是我的早餐"], ["好。我九點以前要回店裡。", "好。……我跟店裡說一聲。"], ["好。週末的話。", "好啊。我想找一張老唱片。"], ["蛋包飯？好。週末的話。", "蛋包飯？好。我坐捷運過去。"]];
-const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&s(b)===n||(a.includes(o)&&a.split(o).join(n)===b))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
+const A731=[["好。九點，不要遲到。", "好。不要遲到。"], ["早上？……十點以後可以。", "Daybreak？……好。我會起來。"], ["好。週末早上我剛好有空。", "好。那天我空下來。"], ["SUNNY SIDE。好。我九點到。", "SUNNY SIDE。好。我會準時到。"], ["SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。", "SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。"], ["十二點？好，那是我的早餐。", "早午餐？好，那是我的早餐。"], ["十二點 好 那是我的早餐", "早午餐 好 那是我的早餐"], ["好。我九點以前要回店裡。", "好。……我跟店裡說一聲。"], ["好。週末的話。", "好啊。我想找一張老唱片。"], ["蛋包飯？好。週末的話。", "蛋包飯？好。我坐捷運過去。"],
+  /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊 invites.js 四處五句（firstAt.brunch 兩句、acc.brunch.A／R、acc.run_avenue）和 invite_replies.js 同句的 ps5、ps9 換了字——和 BASE 比的時候這五句照新稿算（逐字比對 tests/peishan_feed_misc_1111_unit.js） */
+  ["她翻蛋的時候手腕都不動耶。我媽也是。", "你看她翻蛋，手腕都不動欸。"], ["我到現在還學不會。", "我在家試過一次，蛋飛到抽油煙機上，我媽到現在還會講。"], ["早餐店的女兒，去吃別人的早午餐。……好，我去研究。", "早午餐！好啊，那種不用太早起的我最可以。"], ["好。我想看他們的蛋怎麼翻。", "好啊。我想坐吧台，可以看他們做。"], ["好啊！早上我很習慣，在家的時候四點半就要起來幫忙開店。", "好啊！可是你要打給我，我鬧鐘要響三次才起得來。"]];
+A731.push(...require('./peishan_rewrite_1111.js').PAIRS);   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS）：事件、零散檔案裡她的句子換了字，和 BASE 比的時候照新稿算 */
+const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; if(!A731._772){ A731._772=true; A731.push(...require('./l118_redo772_expect.js').rows); }   /* 2026-11-11：AA_772 的 fix 列（白名單上的版本）照新稿算 */ const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&s(b)===n||(a.includes(o)&&a.split(o).join(n)===b))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
 const CHANGED=['src/data/invites.js','src/invites3d.js','src/libquiet3d.js','src/y2r2_3d.js','src/data/bbpack_events.js','src/data/zrzq_events.js','src/data/encounters.js','src/legal3d.js'];
 const gitShow=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
 const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
@@ -81,7 +84,7 @@ if(process.env.QUOTE_B6_PROBE) (async()=>{
   global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
   global.CHAR=Object.assign(global.CHAR||{},{build:()=>mkObj(),setExpr(){}});
   const PG_FILES=new Set(['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js',
-    'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
+    'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
     'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/data/exam_bank.js','src/data/legal_qbank.js','src/classes3d.js','src/data/postgrad_lines.js','src/postgrad3d.js']);
   const SKIP=new Set(['src/character3d.js','src/engine3d.js','src/townkit3d.js','src/zones3d.js','src/bike3d.js','src/adv3d.js']);
   const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
@@ -193,16 +196,28 @@ const O=runProbe('old'), N=runProbe('new');
     'src/y2r2_3d.js':['choice',['（裝不知道）「恭喜！」']] };
   const KEEP2={
     'src/data/ladder.js':['choice',['（喝掉，說）「我也太兇了。」']],'src/data/date_lines.js':['choice',['「一起拍？」（第 6 階以上）']],
+    /* 2026-11-11（L118-LUNCH-INVITE-1111／L118-SHOPS-REDO-1111；AA_771 最終版 @1669b3ae0）：午餐邀約多一個選項 options.skip「好，走。」（直接到吃完）——選項字（GM.choose 的 t），照既有選項的慣例留「」（同一個檔的 accept、decline 也是帶「」的選項）；舊期望：沒有這一格 */
+    'src/data/l118_lunch.js':['choice',['「好，走。」（直接到吃完）']],
+    /* 2026-11-11（X324 A 區，AA_708@d30416e6b）：一起活動 98 場都補了兩個選項；其中 13 個選項字是「（小聲）「…」」這種動作＋說的話（電影院裡小聲講；祐廷的選項，選項照留那一類，都在 opts 的 t，不是誰說的台詞）；舊期望：沒有這一格 */
+    'src/data/activity_scenes.js':['choice',['「謝謝。」（吃大的）','（小聲）「對，他前面說沒看到。」','（小聲）「先看，散場再講。」','（小聲）「我沒聽到。」','（小聲）「妳在看哪裡？」','（小聲）「像蘇姨。」','（小聲）「什麼是粒子系統？」','（小聲）「看電影。」','（小聲）「好看嗎？」','（小聲）「像妳。」','（小聲）「片尾不算。」','（小聲）「來得及。」','（小聲）「要不要假裝哭一下？」']],
     'src/data/invite_replies.js':['record',['「好。」（她把吧檯又擦了一遍，才回你。）','「嗯。」（她只回一個字，可是三秒就回了。）','「好。我會去。」（她回得很快，然後很久沒有下一則。）']],
     'src/data/library_3f_layout.js':['record',['「看桌上的紙條」（守誠那張桌子；pool_more3d.js 的 POP）','「看期刊架」（語彤的系刊；r2y4a3d.js 的 shelfPlace）']],
     'src/data/shop_enc.js':['nameless',['（她翻了十分鐘，把書遞給你。）「第三章的筆記最好看。」','（她把手機遞過來。）「加一下吧。看到好書跟你說。」','（他把印好的講義對齊，用長尾夾夾好。）「拿去。考好一點。」']],
-    'src/data/retake_home.js':['nameless',['（媽媽把你推出廚房。）「你去讀你的書。」']] };
+    'src/data/retake_home.js':['nameless',['（媽媽把你推出廚房。）「你去讀你的書。」']],
+    /* 2026-11-10 改期望：AA_745 電影散場的選項字（祐廷的選項，動作＋說的話；選項照留那一類）三個 */
+    'src/data/movie_plots.js':['choice',['（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」','（小聲）「也幫我印一張。」','（小聲）「妳真的去了喔。」']],
+    /* 2026-11-10 改期望（TERMEND-OPTS-1110）：AA_748／AA_749 期末飯的選項字（祐廷的選項，動作＋說的話；選項照留那一類）三個 */
+    'src/data/termend_opts.js':['choice',['（兩手捧著杯子。）「謝謝。」','（從頭看到尾。）「沒有傘。」','（把自己的手機遞過去。）「我的也是。」',
+      /* 2026-11-10 改期望：朋友版七學期（AA_749 @5ffd725b8）多兩個選項字，同一類 */
+      '（指了最近的一顆。）「這個一天就可以來回。」','（聽完。）「第二句很好。最後一句太長。」',
+      /* 2026-11-11 改期望（SHE-FIRST-1110，AA_751@33a1769f8）：沛珊告白三個回應的第二個（祐廷的選項，動作＋說的話；選項照留那一類）一個 */
+      '（把她拉回來，牽住她的手。）「妳倒著走會撞到人。」']] };
   const scan=re=>{ const o=[]; (function walk(d){ for(const f of fs.readdirSync(path.join(ROOT,d)).sort()){ const p=d+'/'+f; if(fs.statSync(path.join(ROOT,p)).isDirectory()) walk(p); else if(/\.js$/.test(f)) for(const t of lits(cur(p),re)) if(actQ(t)||sayQ(t)) o.push(p+'：'+t); } })('src'); return o.sort(); };
   const flat=K=>{ const o=[]; for(const f of Object.keys(K)) for(const t of K[f][1]) o.push(f+'：'+t); return o.sort(); };
   const s1=scan(LIT), want1=flat(KEEP);
   check('27. 單引號的字串（第五批第 21 項那一套掃描）：剩下 '+s1.length+' 個＝照留的 '+want1.length+' 個（路人沒名字 4、分科系拆開播 5、選項 7），一個不多一個不少',J(s1)===J(want1),sample(s1.filter(x=>!want1.includes(x)).concat(want1.filter(x=>!s1.includes(x)).map(x=>'少了 '+x))));
   const s2=scan(LIT2), want2=flat(Object.assign({},KEEP,KEEP2));
-  check('27. 單、雙引號一起掃：剩下 '+s2.length+' 個＝照留的 '+want2.length+' 個（再加：選項 2、稿的紀錄 5、沒名字 4）',J(s2)===J(want2),sample(s2.filter(x=>!want2.includes(x)).concat(want2.filter(x=>!s2.includes(x)).map(x=>'少了 '+x))));
+  check('27. 單、雙引號一起掃：剩下 '+s2.length+' 個＝照留的 '+want2.length+' 個（再加：選項 2＋午餐邀約選項 1＋一起活動選項 13＋電影選項 3＋期末飯選項 6、稿的紀錄 5、沒名字 4）',J(s2)===J(want2),sample(s2.filter(x=>!want2.includes(x)).concat(want2.filter(x=>!s2.includes(x)).map(x=>'少了 '+x))));
   /* 照留的理由：選項＝choice 的 text；沒名字＝播的程式看開頭的（給 null；拆開播＝deptSteps；紀錄＝不播的欄位 */
   const opt=st.opt||[];
   check('27. 選項（events.js 三個、r2y4a_events.js 三個、y2r2_3d.js 一個）都是事件 choice 的 text（GM.choose，不是誰說的）',KEEP['src/data/events.js'][1].concat(KEEP['src/data/r2y4a_events.js'][1],KEEP['src/y2r2_3d.js'][1]).every(t=>opt.some(s=>s.text===t&&s.choice)&&!opt.some(s=>s.text===t&&!s.choice)),J(opt.map(s=>[s.ev,s.choice,s.text])));
@@ -218,10 +233,71 @@ const O=runProbe('old'), N=runProbe('new');
   const dp=N.dept||[];
   check('27. 演出來：路人分科系五句（CROWD.deptSteps）＝（動作）沒名字＋說的話有名字、本來就不帶「」；和 BASE 一樣',dp.length===5&&dp.every(([id,raw,s])=>s.length===2&&s[0].who===null&&s[0].t===raw.slice(0,parEnd(raw)+1)&&s[1].who===id+'系的學生'&&s[1].t===unq(raw.slice(parEnd(raw)+1))&&!/^「|」$/.test(s[1].t))&&J(dp)===J(O.dept),J(dp.map(x=>x[2]))); }
 
+/* ---------- 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版；AA_772、AA_721 @白名單）第 28 項 INVITE_DATA、第 30 項：比法改寫 ----------
+   舊期望：INVITE_DATA（和 S.narrLine 的輸入）照陣列位置和 BASE 逐值比，個數一樣、只差那一句。
+   改版以後邀約地點有增有改（多 l118_cafe2、l118_drink_a、l118_drink_b；l118_tea 改吃飯類；慢讀搬到木曜日；mokuyobi 少 verbStudy），位置全部錯開——
+   新期望（不是只比個數，也不是略過）：兩邊的地點改用地點 id 當路徑；BASE 的字先照白名單上的 AA_772 換（fix 列）；剩下不一樣的每一格都要對得到 AA_772／AA_721 明寫的差異：
+     E1 新地點（只有現在有）：剛好是 AA_772 invite_places 裡 BASE 沒有的那幾個 id；店名、動詞逐值＝AA_772；它們的答應句、第一次那一句逐值＝AA_721（INVITE_PLACE_LINES，匯入工具 --check 對稿）
+     E2 118 巷原有地點：店名、動詞＝AA_772 invite_places；營業時間那幾格（windows、off、days）＝店家資料；l118_tea 改吃飯類＝其他欄位和另一間吃飯的店（l118_dian）一樣
+     E3 slowread：zone、name、verb、hours、timesBy、cats、show＝AA_772 slowread_to_mokuyobi.place 寫的值（show 和 mokuyobi 那個地點同一個條件）
+     E4 mokuyobi：verbStudy 拿掉、cats 只剩 sit（AA_772 明寫）
+     E5 118 巷地點的答應句、第一次那一句、不去的那一句（AA_721 整份重寫）＝INVITE_PLACE_LINES 現在的值
+     E6 子晴 first 第三句（AA_772 第 68 列，照路徑）；沛珊改約的時間 10→19（AA_772 rules；函式原始碼）
+   其他任何不一樣＝FAIL，逐格列出來 */
+const R772=require('./l118_redo772_expect.js');
+const PL772=(()=>{ try{ const t=cur('src/data/invite_place_lines.js'); return JSON.parse(t.slice(t.indexOf('{',t.indexOf('const INVITE_PLACE_LINES=')),t.lastIndexOf('}')+1)); }catch(e){ return {places:{}}; } })();
+const SH772=(()=>{ try{ const t=cur('src/data/lane118_shops.js'); return JSON.parse(t.slice(t.indexOf('{',t.indexOf('const LANE118_SHOPS=')),t.lastIndexOf('}')+1)); }catch(e){ return {shops:[]}; } })();
+const rekey772=list=>{ const ids={}; for(const e of list){ const m=/^INVITE_DATA\.places\.(\d+)\.id$/.exec(e[0]); if(m) ids[m[1]]=e[1]; } return list.map(e=>{ const m=/^INVITE_DATA\.places\.(\d+)(.*)$/.exec(e[0]); return m&&ids[m[1]]!=null&&(m[2]===''||/^[.(]/.test(m[2]))?['INVITE_DATA.places['+ids[m[1]]+']'+m[2]].concat(e.slice(1)):e; }); };
+const strip772=v=>typeof v==='string'?v.replace(/\/\*[\s\S]*?\*\//g,'').replace(/[ \t]+/g,' ').trim():v;
+/* 回傳 {bad:[說明], pairs:[[a 的那一筆, b 的那一筆]]（兩邊都有的路徑）, onlyB:[…]}；same(a,b,path)＝呼叫的地方原本的判斷（那一句、aa731…）*/
+function cmp772(A0,B0,same){ const A=rekey772(A0), B=rekey772(B0), mA=new Map(), mB=new Map(), bad=[], pairs=[]; for(const e of A){ if(mA.has(e[0])) bad.push('BASE 路徑重複：'+e[0]); mA.set(e[0],e); } for(const e of B){ if(mB.has(e[0])) bad.push('現在路徑重複：'+e[0]); mB.set(e[0],e); }
+  const ip=R772.d.invite_places, IPN={}; for(const [k,n,v] of ip.meal.concat(ip.walk)) IPN['l118_'+k]={name:n,verb:v,walk:ip.walk.some(x=>x[0]===k),k};
+  const idsA=new Set(A.filter(e=>/^INVITE_DATA\.places\[[^\]]+\]\.id$/.test(e[0])).map(e=>e[1])), idsB=new Set(B.filter(e=>/^INVITE_DATA\.places\[[^\]]+\]\.id$/.test(e[0])).map(e=>e[1]));
+  const NEW=[...idsB].filter(x=>!idsA.has(x)), GONE=[...idsA].filter(x=>!idsB.has(x)), wantNew=Object.keys(IPN).filter(x=>!idsA.has(x));
+  if(JSON.stringify(NEW.slice().sort())!==JSON.stringify(wantNew.slice().sort())) bad.push('E1 新地點要剛好是 AA_772 invite_places 多的那幾個：'+JSON.stringify([NEW,wantNew])); if(GONE.length) bad.push('地點不見了：'+GONE.join('、'));
+  const valB=p=>{ const e=mB.get(p); return e?e[1]:undefined; }, placeOf=p=>{ const m=/^INVITE_DATA\.places\[([^\]]+)\](.*)$/.exec(p); return m?[m[1],m[2]]:null; };
+  const hoursOk=(id,suf,v)=>{ const sh=SH772.shops.find(q=>'l118_'+q.id===id); if(!sh) return false; const c=sh.hours.closed||[]; const exp={}; sh.hours.open.forEach((w,i)=>{ exp['.windows.'+i+'.0']=String(w[0]); exp['.windows.'+i+'.1']=String(w[1]); }); c.forEach((d,i)=>{ exp['.off.'+i]=String(d); }); [0,1,2,3,4,5,6].filter(d=>!c.includes(d)).forEach((d,i)=>{ exp['.days.'+i]=String(d); }); if(exp[suf]===String(v)) return true;
+    /* 這支測試的環境沒有載入店家資料時，invites.js 用它自己的預設時段（11～14、17～20、沒有公休）*/ const fb={'.windows.0.0':'11','.windows.0.1':'14','.windows.1.0':'17','.windows.1.1':'20'}; [0,1,2,3,4,5,6].forEach((d,i)=>{ fb['.days.'+i]=String(d); }); return fb[suf]===String(v); };
+  const sm=R772.d.slowread_to_mokuyobi.place, SR={'.zone':'wz_mokuyobi','.name':'木曜日','.verb':'去木曜日念書','.hours.0':'13','.hours.1':'22','.timesBy.wk.0':'15.5','.timesBy.wk.1':'19','.timesBy.we.0':'14','.timesBy.we.1':'15.5','.timesBy.we.2':'19','.timesBy.we.3':undefined,'.cats.0':'study'};
+  if(!(/wz_mokuyobi/.test(sm)&&/「木曜日」/.test(sm)&&/「去木曜日念書」/.test(sm)&&/\[13,22\]/.test(sm)&&/平日 15:30、19:00/.test(sm)&&/週末 14:00、15:30、19:00/.test(sm)&&/verbStudy 拿掉/.test(sm))) bad.push('E3／E4：AA_772 slowread_to_mokuyobi.place 的字和這支測試認得的不一樣（稿改了，這裡要跟著看）');
+  const plLine=(pid,p)=>{ const m=/^INVITE_DATA\.people\.([^.]+)\.(acc|firstAt)\.(l118_[a-z0-9_]+)(?:\.([A-Z]))?\.(\d+)$/.exec(p)||null; return m; };
+  const explained=(p,a,b)=>{ const q=placeOf(p);
+    if(q){ const [id,suf]=q; if(NEW.includes(id)){ if(suf==='.name') return b===IPN[id].name; if(suf==='.verb') return b===IPN[id].verb; if(/^\.(windows|off|days)\./.test(suf)) return hoursOk(id,suf,b); return true; }   /* 新地點的其他欄位：下面 E1 另外逐值驗 */
+      if(IPN[id]){ if(suf==='.name') return b===IPN[id].name; if(suf==='.verb') return b===IPN[id].verb; if(/^\.(windows|off|days)\./.test(suf)) return b===undefined?true:hoursOk(id,suf,b);
+        if(id==='l118_tea'&&!IPN[id].walk){ const d=valB('INVITE_DATA.places[l118_dian]'+suf); return b===d||(typeof b==='string'&&typeof d==='string'&&b.split('l118_tea').join('l118_dian')===d)||(a!==undefined&&b===undefined&&d===undefined); } }
+      if(id==='slowread'){ if(suf in SR) return b===SR[suf]; if(suf==='.cats.1') return b===undefined; if(suf==='.show') return strip772(b)===strip772(valB('INVITE_DATA.places[mokuyobi].show')); if(/^\.show\(\)#\d+$/.test(suf)) return b===undefined;   /* 原本 show 裡的字（'law'）跟著條件換掉沒有了 */ }
+      if(id==='mokuyobi'){ if(suf==='.verbStudy') return b===undefined; if(suf==='.cats.1') return b===undefined; if(suf==='.cats.0') return b==='sit'; if(suf===''||/^\.\w+$/.test(suf)) return strip772(a)===strip772(b); } }
+    /* E5：118 巷地點的答應句、第一次那一句、不去的那一句＝AA_721 現在的值 */
+    let m=/^INVITE_DATA\.people\.([^.]+)\.(acc|firstAt)\.(l118_[a-z0-9_]+)((?:\.[A-Za-z0-9]+)*)$/.exec(p);
+    if(m){ if(b===undefined) return !!IPN[m[3]]||true; const src=((PL772.places[m[3]]||{})[m[1]]||{})[m[2]]; const flat=[]; (function w(x){ if(typeof x==='string') flat.push(x.replace(/^「|」$/g,'')); else if(x&&typeof x==='object') Object.values(x).forEach(w); })(src); return flat.includes(String(b).replace(/^「|」$/g,'')); }
+    m=/^INVITE_DATA\.places\[(l118_[a-z0-9_]+)\]\.noWho\.([^.]+)$/.exec(p); if(m){ if(b===undefined) return true; return (((PL772.places[m[1]]||{})[m[2]]||{}).no||'').replace(/^「|」$/g,'')===String(b).replace(/^「|」$/g,''); }
+    m=/^INVITE_DATA\.seatOpen\.byPlace\.(l118_[a-z0-9_]+)$/.exec(p); if(m) return a===undefined&&b==='meal'&&!!IPN[m[1]]&&!IPN[m[1]].walk;
+    /* E6 */
+    if(/^INVITE_DATA\.people\.heroine_04\.first\.slowread\.2$/.test(p)||/^INVITE_DATA\.slowreadLines\.heroine_04\.first\.2$/.test(p)) return b===(R772.d.fix.find(r=>/第三句：/.test(r.old))||{}).new;
+    if(typeof a==='string'&&typeof b==='string'){ const na=R772.fix(strip772(a)), nb=strip772(b); if(na===nb) return true;
+      if(/classmate_peishan/.test(p)&&na.split(",10)) alt={day:d,h:10};").join(",19)) alt={day:d,h:19};")===nb) return true; }
+    return false; };
+  for(const [p,ea] of mA){ const eb=mB.get(p); if(!eb){ if(!explained(p,ea[1],undefined)) bad.push('現在沒有了：'+p+'：'+String(ea[1]).slice(0,80)); continue; } if(ea[1]===eb[1]||same(ea,eb,p)){ pairs.push([ea,eb]); continue; } if(explained(p,ea[1],eb[1])){ pairs.push([ea,eb,true]); continue; } bad.push('不一樣：'+p+'：'+String(ea[1]).slice(0,80)+' → '+String(eb[1]).slice(0,80)); }
+  const onlyB=[]; for(const [p,eb] of mB){ if(mA.has(p)) continue; onlyB.push(eb); if(!explained(p,undefined,eb[1])) bad.push('多出來：'+p+'：'+String(eb[1]).slice(0,80)); }
+  /* E1 新地點逐值：id、區域、類別和 AA_772 changes 寫的一樣（吃飯類照另一間吃飯的店；外帶飲料店＝散步類、朋友以上、半小時、14／16／19.5、區域 lane118）*/
+  if(valB('INVITE_DATA.places[l118_dian].stay')!==undefined) for(const id of NEW){ const g=suf=>valB('INVITE_DATA.places['+id+']'+suf),   /* 只有整份資料的傾印有數字欄位（S.narrLine 的輸入只有字串，不在這裡驗）*/ d=suf=>valB('INVITE_DATA.places[l118_dian]'+suf), I=IPN[id]||{};
+    const ok=I.walk?(g('.kind')==='walk'&&g('.minStage')==='FRIEND'&&g('.stay')==='0.5'&&g('.memory')==='WALKED_TOGETHER'&&g('.cats.0')==='walk'&&g('.cats.1')===undefined&&JSON.stringify([g('.times.0'),g('.times.1'),g('.times.2')])===JSON.stringify(['14','16','19.5'])&&g('.zone')==='lane118')
+      :(['.kind','.minStage','.stay','.memory','.sitAct','.seatPose','.cats.0','.cats.1','.times.0','.times.1','.times.2','.times.3'].every(k=>g(k)===d(k))&&g('.zone')===id);
+    if(!ok||g('.id')!==id||g('.name')!==I.name||g('.verb')!==I.verb) bad.push('E1 新地點 '+id+' 的設定和 AA_772 invite_places 寫的不一樣'); }
+  return {bad,pairs,onlyB,NEW}; }
+if(process.env.L118_B6_DEBUG){ const r=cmp772((O.data||{}).inv||[],(N.data||{}).inv||[],(a,b)=>aa731(a[1],b[1])), r2=cmp772(O.inputs||[],N.inputs||[],(a,b)=>aa731(a[1],b[1])); require('fs').writeFileSync(process.env.L118_B6_DEBUG,r.bad.join('\n')+'\n=====\n'+r2.bad.join('\n')); }
+/* 比法本身的檢查（2026-11-11）：故意改一格、拿掉一格、改新地點的店名、改 118 巷地點的動詞——都要被抓到（不是只比個數、不是整塊略過）*/
+{ const A=(O.data||{}).inv||[], B=(N.data||{}).inv||[], same=(a,b)=>aa731(a[1],b[1])||kindOf(a[1],b[1])==='act', base=cmp772(A,B,same).bad.length;
+  const mut=f=>{ const C=B.map(e=>e.slice()); f(C); return cmp772(A,C,same).bad.length; }, at=re=>C=>{ const e=C.find(x=>re.test(x[0])); if(e) e[1]=e[1]+'（改）'; };
+  const ids={}; for(const e of B){ const m=/^INVITE_DATA\.places\.(\d+)\.id$/.exec(e[0]); if(m) ids[e[1]]=m[1]; }
+  const r=[mut(at(new RegExp('^INVITE_DATA\\.places\\.'+ids.cafe+'\\.verb$'))),mut(at(new RegExp('^INVITE_DATA\\.places\\.'+ids.l118_cafe2+'\\.name$'))),mut(at(new RegExp('^INVITE_DATA\\.places\\.'+ids.l118_dian+'\\.verb$'))),
+    mut(at(new RegExp('^INVITE_DATA\\.places\\.'+ids.slowread+'\\.zone$'))),mut(C=>{ const i=C.findIndex(x=>/^INVITE_DATA\.people\.heroine_01\.acc\.cafe/.test(x[0])); if(i>=0) C.splice(i,1); }),mut(at(/^INVITE_DATA\.people\.heroine_03\.first\.slowread\.0$/)),mut(at(/^INVITE_DATA\.people\.heroine_01\.acc\.l118_cafe2/))];
+  check('28b. 比法本身：沒改＝0 個不一樣；故意改別的地點的動詞、新地點的店名、118 巷地點的動詞、slowread 的區域、拿掉一句、改慢讀那一組的一句、改新地點的答應句——每一種都抓得到',base===0&&ids.cafe!=null&&ids.l118_cafe2!=null&&r.every(n=>n>=1),J([base,r])); }
 /* ---------- 28. 資料和 BASE 逐句比 ---------- */
 { for(const [k,nm,want] of [['inv','INVITE_DATA（invites.js 和推進來的）',[NINE[0]]],['enc','ENCOUNTERS（偶遇）',[NINE[4]]],['zrzq','ZRZQ_LINES（子晴芷若）',[NINE[3]]],['ev','STORY_EVENTS（全部載入以後，每一場的 dialogue；子晴那一場是 ZRZQ_EVENTS 推進來的預設版）',[NINE[1],NINE[2],NINE[3]]]]){
     const A=(O.data||{})[k]||[], B=(N.data||{})[k]||[], bad=[], hit=[], hit7=[];
-    if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
+    if(k==='inv'){ const isWant=(a,b)=>kindOf(a,b)==='act'&&want.some(x=>x[1]===a&&x[2]===b); const r=cmp772(A,B,(a,b)=>aa731(a[1],b[1])||isWant(a[1],b[1])); bad.push(...r.bad); for(const [a,b] of r.pairs) if(a[1]!==b[1]&&isWant(a[1],b[1])) hit.push(b[0]); }   /* 2026-11-11：INVITE_DATA 改用地點 id 對、照 AA_772／AA_721 逐格驗（上面 cmp772）*/
+    else if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
     else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(aa731(a[1],b[1])) return; if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]);
       else if(k==='ev'&&wrapped(a[1])&&unq(a[1])===b[1]&&SEVEN.includes(a[1])) hit7.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
     /* 第七批（tests/invites_quote_b7_unit.js）：STORY_EVENTS 有名字、整句「…」的拿掉外面那一對——這裡看得到的是上面 SEVEN 那 6 句，只認這 6 句、只差外面那一對、一句一次；其他資料（inv、enc、zrzq）沒有 */
@@ -256,8 +332,12 @@ const findC6=()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format
 { const IO=O.inputs||[], IN=N.inputs||[], bad=[], lq=[];
   const nlOf=src=>{ const m=/^\s*S\.narrLine=(t=>[^\n]*);\s*$/m.exec(noComments(src)); return m?vm.runInNewContext('('+m[1].replace(/;$/,'')+')'):null; };
   const oldNL=nlOf(gitShow(BASE,'src/invites3d.js')), newNL=nlOf(cur('src/invites3d.js'));
-  if(IO.length!==IN.length) bad.push('輸入個數 '+IO.length+' → '+IN.length);
-  else IO.forEach((a,i)=>{ const b=IN[i]; if(a[0]!==b[0]) bad.push('路徑不同：'+a[0]+' → '+b[0]); else if(a[1]!==b[1]&&!(a[1]===OUTL.old&&b[1]===OUTL.now)&&!aa731(a[1],b[1])) bad.push('字不一樣：'+a[0]+'：'+a[1]+' → '+b[1]); else if(a[2]!==b[2]) bad.push('分法不一樣：'+b[0]+'：'+b[1]); if(a[3]!==b[3]||a[4]!==b[4]) lq.push(b[0]+'：'+b[1]); });
+  /* 2026-11-11：改用地點 id 對、照 AA_772／AA_721 逐格驗（cmp772；舊期望：照位置逐句比、個數一樣）。兩邊都有、字一樣（或只差那一句／AA_731 那幾句）的才比「分法」；
+     AA_772／AA_721 換了字的句子和新地點的句子另外驗：現在的 S.narrLine 對它們的分法＝新的寫法（整句一對（）才是旁白）*/
+  { const r=cmp772(IO,IN,(a,b)=>(a[1]===OUTL.old&&b[1]===OUTL.now)||aa731(a[1],b[1])); bad.push(...r.bad);
+    const whole=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') d++; else if(ch==='）'){ d--; if(d===0) return i===t.length-1; } } return false; };
+    for(const [a,b,ch0] of r.pairs){ const changed=ch0||(a[1]!==b[1]&&typeof a[1]==='string'&&R772.fix(a[1],1)===b[1]);   /* AA_772 換過字的（例：前面加（小聲））*/ if(changed){ if(b[2]!==whole(b[1])) bad.push('分法不對（換過字的句子）：'+b[0]+'：'+b[1]); continue; } if(a[2]!==b[2]) bad.push('分法不一樣：'+b[0]+'：'+b[1]); if(a[3]!==b[3]||a[4]!==b[4]) lq.push(b[0]+'：'+b[1]); }
+    for(const b of r.onlyB) if(b[2]!==whole(b[1])) bad.push('分法不對（新地點的句子）：'+b[0]+'：'+b[1]); }
   const nNarr=IN.filter(x=>x[2]).length, nParen=IN.filter(x=>typeof x[1]==='string'&&x[1][0]==='（').length;
   check('30. S.narrLine 的輸入（INVITE_DATA、INVITE_REPLIES、改時間的回覆、ACC0、學姊婉拒、一起走路：'+IN.length+' 句，（ 開頭 '+nParen+'、旁白 '+nNarr+'）：BASE 的程式拿 BASE 的字、現在的程式拿現在的字，每一句分法一樣；字只差這一句',
     IN.length>1500&&nNarr>100&&bad.length===0&&IN.filter(x=>x[1]===OUTL.now).length===1&&IO.filter(x=>x[1]===OUTL.old).length===1,sample(bad));

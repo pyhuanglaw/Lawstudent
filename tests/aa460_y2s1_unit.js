@@ -126,7 +126,7 @@ await sec(4,()=>{
   check('4-2. 以安 herLines 照節日換整組（情人節原句；白色情人節「這一天，我先排了」（AA_594 第 10 列）、七夕「農曆的日子」、聖誕「穿暖一點」）',K4.every(k=>J(FEST.herLines(AN,k,false))===J(AN_BY[k])),J(K4.map(k=>FEST.herLines(AN,k,false))));
   check('4-2. 以安生日那一列當作沒有（第 9 節）：沒有「'+AN_BY.bday.join('」「')+'」，照原本（第一句換節日名）',J(FEST.herLines(AN,'bday',false))===J(old(AL,'bday'))&&!AN_BY.bday.some(t=>FEST.herLines(AN,'bday',false).includes(t)),J(FEST.herLines(AN,'bday',false)));
   check('4-3. 沛珊在臺北（不是 home）那張當作沒有（第 9 節）：照原本（第一句換節日名、第二句「'+PL[1]+'」），沒有 4-3 的第二句',K5.every(k=>J(FEST.herLines(PS,k,false))===J(old(PL,k)))&&!K5.some(k=>k!=='vday'&&FEST.herLines(PS,k,false).some(t=>PS_BY[k].includes(t))),J(K5.map(k=>FEST.herLines(PS,k,false))));
-  const OLD3='明天你要下來嗎？……不用勉強。', hm=c=>K5.map(k=>FEST.herLines(PS,k,true,c));
+  const OLD3='明天你要不要下來？我去車站接你。'   /* 2026-11-11 改期望（X327 沛珊重寫，AA_755 fest.ask.homeLines；原本「明天你要下來嗎？……不用勉強。」）*/, hm=c=>K5.map(k=>FEST.herLines(PS,k,true,c));
   check('4-3. 沛珊回家（home）照舊：台中情人節、七夕 homeBy，三月十四、聖誕在台南 homeBy，其他＝homeLines「'+OLD3+'」（AA_457 3-1，不看 by）',J(hm('台南'))===J([[OLD3],[FEST_DATA.PEOPLE[PS].ask.homeBy.white['台南'][0]],[OLD3],[OLD3],[FEST_DATA.PEOPLE[PS].ask.homeBy.xmas['台南'][0]]])&&J(hm('台中'))===J([[FEST_DATA.PEOPLE[PS].ask.homeBy.vday['台中'][0]],[OLD3],[FEST_DATA.PEOPLE[PS].ask.homeBy.qixi['台中'][0]],[OLD3],[OLD3]]),J([hm('台南'),hm('台中')]));
   /* 手機：交往中、前一天 21:00 */
   const flow=(id,k,y)=>{ const d=FEST.dayOf(id,k,y); dating(id,keyOf(d-1)); FEST.phone(H.G); PHONE.tick(H.G); const m=PHONE.byAsk(H.G,'fest_ask_'+id+'_'+k+'_'+y); return {t:dm(id),o:m?m.ask.opts.map(o=>o.t):null}; };
@@ -161,6 +161,10 @@ await sec(5,()=>{
 /* ---- 6 芷若光典影展兩句 ---- */
 await sec(6,()=>{
   const I=(DATE_WISH.events[ZR]||{}).herInvite||{}, all=J(DATE_WISH.events[ZR]);
+  /* 2026-11-11（X324 芷若約會台詞重寫，AA_774_zr_wish.json@e8a33995c）：這兩句 AA_460 的「改成」後來又收了字（拿掉刪節號；第二句「兩點半是巧合。跟店名沒關係。」併成一句）——稿上的「改成」先照 AA_774 那兩列換過再比。
+     舊期望（AA_460 第 6 節的字）：「你的，你自己買。……這樣才算約好。」「好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。」；逐字對 AA_774 在 tests/zr_dates_1111_unit.js 第 7 節 */
+  { const Z774={'你的，你自己買。……這樣才算約好。':'你的，你自己買。這樣才算約好。','好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。':'好。兩點半出發，光典門口見。兩點半是巧合，跟店名沒關係。'};
+    check('6. AA_460 第 6 節的兩句「改成」就是 AA_774 那兩列的原句（稿沒有變）',T6.length>=2&&!!Z774[T6[0][2]]&&!!Z774[T6[1][2]],J(T6.map(r=>r[2]))); for(const r of T6) if(Z774[r[2]]) r[2]=Z774[r[2]]; }
   check('6. 邀約第三句「'+T6[0][2]+'」（原本「'+T6[0][1]+'」）',(I.lines||[]).some(x=>x.text===T6[0][2])&&!all.includes(T6[0][1]),J((I.lines||[]).map(x=>x.text)));
   check('6. 回「好」之後「'+T6[1][2]+'」（原本「'+T6[1][1]+'」）',(I.accept||[]).some(x=>x.text===T6[1][2])&&!all.includes(T6[1][1]),J((I.accept||[]).map(x=>x.text)));
   check('6. 兩句已經改進原稿（AA_460 第 9 節，wish_bb.json@cb5caad65；10-27 AA_475 換到 ab9d70fe0；11-08 AA_593 學姊 decline 換到 9aa8ec40c）：DATE_WISH 來源是 9aa8ec40、沒有暫代換字、原稿對不到 0 句',/wish_bb\.json@9aa8ec40/.test(DATE_WISH.source)&&!(DATE_WISH.verify.replaced||[]).length&&(DATE_WISH.verify.miss||[]).length===0,J([DATE_WISH.source,DATE_WISH.verify.replaced]));

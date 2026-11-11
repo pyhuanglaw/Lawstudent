@@ -37,7 +37,10 @@ const keyOf=(id,title)=>(A[id].keys||[]).find(k=>k.title===title);
   for(const id of ['ev_vf_y2w_0116','ev_vf_y3w_0108','ev_vf_y3_0214']){ const ev=STORY_EVENTS.find(e=>e.id===id); for(const s of (ev?ev.dialogue:[])){ if(s.text&&s.text.indexOf('X.')<0&&!Object.values(VACFILL_LINES).some(v=>v&&typeof v==='object'&&Object.values(v).includes(s.text))) L.push(s.text); if(s.choice) for(const c of s.choice) L.push(c.text); } }
   if(HOME.BREAK_SKIP_Y) for(const k in HOME.BREAK_SKIP_Y) L.push(...HOME.BREAK_SKIP_Y[k],...HOME.BREAK_SKIP_DORM_Y[k]);
   for(const d of HOME_LINES.dinner.filter(x=>x.n>=9)){ L.push(d.mom,d.dad,...d.opts.map(o=>o.t)); }
-  const bad=L.filter(t=>!doc.includes(strip(t))&&!require('./libq_out_lines.js').added(t));   /* 「（借完書出來，在法圖門口。）」：AA_595 1-B44（AA 11-02 22:30 定稿，圖書館小聲講）*/
+  /* 2026-11-11（X327 沛珊重寫，AA_757_peishan_wish_hometown.json@052644c58）：沛珊台中「再去」公園、書店多的那兩句重寫了（原本「就是這裡。我第一次自己騎到這裡，回頭看，我爸站在很遠的地方。」「……還太早了。我先看小說。」），新句對 AA_757 的 hometown_rows（tests/peishan_dates_1111_unit.js 逐字對），不在 AA_533 */
+  const PS757=['就是這裡。我第一次自己騎到這棵樹，回頭看，我爸站在好遠的地方跟我揮手，我嚇到直接摔車。','還太早了。我先看小說。',
+    '（過海關的時候，她排錯隊，自己笑著又排回來。）','我以前都跟在我媽後面，原來要自己填這麼多東西～'];   /* 後兩句：AA_762_peishan_events_2.json@1fc9a6658 和她出國「到了」那一組（原本「把護照握得很緊」「我過了！我真的過了～」；tests/peishan_events_1111_unit.js 逐字對） */
+  const bad=L.filter(t=>!doc.includes(strip(t))&&!require('./libq_out_lines.js').added(t)&&!PS757.includes(t));   /* 「（借完書出來，在法圖門口。）」：AA_595 1-B44（AA 11-02 22:30 定稿，圖書館小聲講）*/
   check('0. 新句都在 AA_533 稿裡（一字不差；'+L.length+' 句）',L.length>=110&&!bad.length,J(bad));
   const Al=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.find(e=>e.path===A533);
   check('0. 白名單有 AA_533（cf0066ed2、approved、AA-B 定稿（D109））',!!Al&&Al.sha==='cf0066ed2'&&Al.status==='approved'&&Al.approvedBy==='AA-B 定稿（D109）',J(Al)); }
@@ -51,7 +54,7 @@ const keyOf=(id,title)=>(A[id].keys||[]).find(k=>k.title===title);
   { const ok=[]; for(const id of ['heroine_02','heroine_03','heroine_04','heroine_05','kexin','classmate_peishan']){ const L=await trip(id,'jp','2027-07-12',4), g=TV.gf[id]; ok.push([id,L.length>=7&&L[0]===g.arr[0]&&L.some(t=>t.endsWith('：'+g.mid[1]))&&!L.includes(TV.dest.jp.keys[0])]); }
     check('1. 其他六位：第一天是她的「到了」、中間有她那一句（不再有一個人旅行的第一句）',ok.every(x=>x[1]),J(ok)); }
   { const L1=await trip('classmate_peishan','kr','2026-08-03',3), L2=await trip('classmate_peishan','hk','2027-07-12',3,[{n:1,dest:'kr',from:D('2026-08-03'),to:D('2026-08-06'),with:'classmate_peishan',gf:true,done:true,season:'summer'}]);
-    check('1. 沛珊「我第一次出國耶。……好好玩。」只給第一次和她出國的',L1.some(t=>t.endsWith('我第一次出國耶。……好好玩。'))&&!L2.some(t=>t.includes('我第一次出國耶')),J([L1.slice(-2),L2.slice(-2)])); }
+    check('1. 沛珊「我第一次沒有跟爸媽出國耶。好好玩，比跟他們好玩。」只給第一次和她出國的',L1.some(t=>t.endsWith('我第一次沒有跟爸媽出國耶。好好玩，比跟他們好玩。'))&&!L2.some(t=>t.includes('我第一次出國耶')),J([L1.slice(-2),L2.slice(-2)])); }
   { const G=H.fresh('2027-07-12',7,'dorm'); const V=VAC.rec(G); V.t13=[{n:1,dest:'jp',from:D('2027-07-12'),to:D('2027-07-16'),with:'kai',season:'summer'}]; H.said=[]; await VAC.trip13(GM,'T13#1',null); const L=H.lines();
     check('1. 和朋友去照舊（目的地三句＋最後一晚朋友一句；AA_556 1-2 起中間那天目的地第二句後面多朋友的兩句，tests/aa556_vacgap2_unit.js）',L[0]===TV.dest.jp.keys[0]&&L.length===6&&L[2].endsWith('所以我們今天走了兩萬步。我的腳在抗議。')&&L[5].endsWith('下次換你排行程。'),J(L)); }
 
@@ -79,7 +82,7 @@ const keyOf=(id,title)=>(A[id].keys||[]).find(k=>k.title===title);
 
   /* ================= 3 回她的縣市 ================= */
   { const HT=HOMETOWN_LINES, g=(w,k)=>flat(HT[w].again.find(a=>a.key===k).lines,H.G);
-    check('3. 再去：可昕夜市、愛河，沛珊公園、書店各加旁白＋一句（接在原本那一句後面）',J(g('kexin','night'))===J(['這攤我從小吃到大。……你吃得完再說。','（她點了三樣，每一樣都先吃一口，再推過來。）','這樣你每一樣都吃得到。'])&&g('kexin','river').length===3&&g('kexin','river')[2]==='我國中的時候，在這裡跟朋友說要去臺北念大學。……她們都不信。'&&g('classmate_peishan','park')[2]==='就是這裡。我第一次自己騎到這裡，回頭看，我爸站在很遠的地方。'&&g('classmate_peishan','books')[2]==='……還太早了。我先看小說。'&&J(HT.kexin.again.find(a=>a.key==='river').dating)===J(['……下次住一晚啦。']),''); }
+    check('3. 再去：可昕夜市、愛河，沛珊公園、書店各加旁白＋一句（接在原本那一句後面）',J(g('kexin','night'))===J(['這攤我從小吃到大。……你吃得完再說。','（她點了三樣，每一樣都先吃一口，再推過來。）','這樣你每一樣都吃得到。'])&&g('kexin','river').length===3&&g('kexin','river')[2]==='我國中的時候，在這裡跟朋友說要去臺北念大學。……她們都不信。'&&g('classmate_peishan','park')[2]==='就是這裡。我第一次自己騎到這棵樹，回頭看，我爸站在好遠的地方跟我揮手，我嚇到直接摔車。'&&g('classmate_peishan','books')[2]==='還太早了。我先看小說。'&&J(HT.kexin.again.find(a=>a.key==='river').dating)===J(['……下次住一晚啦。']),''); }
 
   /* ================= 4 小出遊、海邊 ================= */
   const runEv=async(id,picks)=>{ H.said=[]; H.picks=picks||[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id===id)); return H.lines(); };

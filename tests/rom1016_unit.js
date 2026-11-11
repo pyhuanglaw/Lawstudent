@@ -1,4 +1,5 @@
 // PLAN-1016-ROM 剩下的四件（BB_165，企劃線 a54ec2b4a；src/data/rom1016_events.js、src/rom1016_3d.js）——不需要瀏覽器。
+// 2026-11-11（X327 沛珊重寫，AA_762_peishan_events_2.json@1fc9a6658）：這支裡寫死的沛珊的句子照新稿改期望（逐字對稿在 tests/peishan_events_1111_unit.js）。
 //   1 芷若 3-1 你點的那一杯：大三下、Z13 條件到齊＋ZR_GAVE_HER_ORDER、她在吧檯：點餐多「（點一杯熱可可加濃縮）」→ 交往、ZR_HE_ORDERED、Z13 不再觸發；不選＝照平常點
 //   2 沛珊 5-1 被等的感覺：11/17 23:10 私訊 → 11/19 18:40 台南課輔班；沒到＝19:10 兩則、改 11/26；第二次沒到＝21:00 兩則、PS_WAITED；不行＝不演
 //   3 沛珊 5-2 她的紅筆：11/15 23:00 私訊 → 11/17 19:30；美國路線沒有；沒到＝21:00 照片、下一次當面的私下約演短版
@@ -13,7 +14,7 @@ const NAMES=/^(ROM|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENT
 const load=f=>{ const p=path.join(ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NAMES.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); return true; };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 global.CG_REGISTRY={};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js',
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js',
   'src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js','src/hometown3d.js',
   'src/data/r2y3b_events.js','src/r2y3b3d.js']) load(f);
 const okFiles=load('src/data/rom1016_events.js')&&load('src/rom1016_3d.js');
@@ -40,7 +41,7 @@ const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_plann
 const BB165=git('a54ec2b4a','BB_165_AB61_BB五位戀愛線補拍與矛盾.md');
 const AA529=git('881029f98','AA_529_D99經濟系那一年_可昕主動約你擋掉_走啦群組建不起來_長頸鹿鑰匙圈.md');   /* AA_529 第 4 節：K7 第 4 頁換句（「一起重考」改在 2/2 蓮池潭說），那一頁照 AA_529 */
 const norm=t=>String(t).replace(/[\s　]/g,'');
-const inDoc=t=>{ const n=norm(BB165); return [t,t.replace(/^「|」$/g,''),t.replace(/^（|）$/g,''),t.replace(/^📷（|）$/g,'')].some(x=>x&&n.includes(norm(x))); };
+let inDoc=t=>{ const n=norm(BB165); return [t,t.replace(/^「|」$/g,''),t.replace(/^（|）$/g,''),t.replace(/^📷（|）$/g,'')].some(x=>x&&n.includes(norm(x))); };
 const tick=async()=>{ const p=OUT.tick(GM); if(p&&p.then) await p; };
 const R13=()=>{ const F=G.flags; F.CAFE_VISITS=6; F.zhiruoFirstOrder='拿鐵'; F.ZR_GAVE_HER_ORDER=true; for(const m of ['FIRST_MET','ASKED_HER_DRINK','REMEMBERED_HER','WATCHED_FILM','POSTCARDS']) SOCIAL.remember(ZR,m,'');
   const r=SOCIAL.rel(ZR); Object.assign(r,{fam:65,trust:50,comf:45,npcRom:60,rom:35}); const L=DATE.log(G,ZR); L.count=4; L.wish=true; L.wishKnown=true; GM.npc[ZR]={staff:'cafe',obj:{position:{x:0,y:0,z:0}}}; };
@@ -48,6 +49,9 @@ const R13=()=>{ const F=G.flags; F.CAFE_VISITS=6; F.zhiruoFirstOrder='拿鐵'; F
 (async()=>{
   check('0. 兩個檔載得到（src/data/rom1016_events.js、src/rom1016_3d.js）、事件登記進 STORY_EVENTS',okFiles&&typeof ROM1016!=='undefined'&&['ev_zhiruo_his_order','ev_peishan_waited','ev_peishan_red_pen'].every(id=>STORY_EVENTS.some(e=>e.id===id)));
   if(!okFiles||typeof ROM1016==='undefined'){ console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0); }
+  /* 2026-11-11（X327 沛珊重寫，AA_762_peishan_events_2.json@1fc9a6658）：ev_peishan_waited、ev_peishan_red_pen 沛珊的五句重寫了，不在 BB_165——這五句對 AA_762（tests/peishan_events_1111_unit.js 逐字對），只認這五句 */
+  const PS762=['他問我為什麼負負得正。我沒回答，我問他：「你覺得呢？」','他想了三分鐘，答錯了。可是那三分鐘是他自己想的。','好。那你要問難一點的，太簡單的我會忍不住直接講答案。','法律我早就還給老師了。我只是看你哪裡寫得快。','不行。好啦，你改一本。只能畫笑臉，不能打分數。'];
+  { const inDoc0=inDoc; inDoc=t=>PS762.includes(t)||inDoc0(t); }
   { const X=ROM1016_EVENTS, bad=[]; let n=0; const walk=o=>{ if(Array.isArray(o)) return o.forEach(walk); if(!o||typeof o!=='object') return; if(typeof o.text==='string'){ n++; if(!inDoc(o.text)) bad.push(o.text); } if(Array.isArray(o.choice)) o.choice.forEach(c=>{ n++; if(!inDoc(c.text)) bad.push(c.text); }); for(const k of ['dialogue']) if(o[k]) walk(o[k]); };
     walk(X); for(const k in X.MSG) for(const t of X.MSG[k]){ n++; if(!inDoc(t)) bad.push(t); } for(const k in X.PAGES){ if(k==='blank') continue; n++; if(k==='p4'?!norm(AA529).includes(norm(X.PAGES[k])):!inDoc(X.PAGES[k])) bad.push(X.PAGES[k]); } for(const x of X.RED_PEN_SHORT){ n++; if(!inDoc(x.text||x.narr)) bad.push(x.text||x.narr); }
     check('0. 每一句台詞、旁白、選項、私訊、卡片的頁都在 BB_165（企劃線 a54ec2b4a；「（下面空白。）」是頁面的說明，照片寫成「📷（…）」；K7 第 4 頁照 AA_529 第 4 節 881029f98）',!!BB165&&!!AA529&&n>60&&bad.length===0,n+' 句；對不到：'+J(bad)); }
@@ -107,7 +111,7 @@ const R13=()=>{ const F=G.flags; F.CAFE_VISITS=6; F.zhiruoFirstOrder='拿鐵'; F
   check('3. 2028-11-15（三）23:00 私訊兩則',J(txt(PS))===J(['週五七點下課，七點半在我們學校後門那間咖啡店','我帶作業，你帶你的']),J(txt(PS)));
   PHONE.answer(G,'ps_redpen_ask',0); rules();
   { const q=OUT.get(G,'ps_redpen'); at('2028-11-17',17.6); picks=['出發',1]; said=[]; await tick(); const L=lines();
-    check('3. 「好。」→「好！！」；11/17（五）19:30：她改完第十二本……選②「那妳的作業，換我改一本。」→「不行。……好啦，你改一本。只能畫笑臉，不能打分數。」、九點半；記 PS_RED_PEN',!!q&&q.day===D('2028-11-17')&&Math.abs(q.h-19.5)<1e-6&&L.includes('（她改完第十二本作業，抬頭看你的筆記。）')&&L.includes('這裡你寫得特別快。')&&L.includes('不行。……好啦，你改一本。只能畫笑臉，不能打分數。')&&L.includes('（九點半，她陪你走到車站。）')&&G.flags.PS_RED_PEN===true,J(L)); }
+    check('3. 「好。」→「好！！」；11/17（五）19:30：她改完第十二本……選②「那妳的作業，換我改一本。」→「不行。好啦，你改一本。只能畫笑臉，不能打分數。」、九點半；記 PS_RED_PEN',!!q&&q.day===D('2028-11-17')&&Math.abs(q.h-19.5)<1e-6&&L.includes('（她改完第十二本作業，抬頭看你的筆記。）')&&L.includes('這裡你寫得特別快。')&&L.includes('不行。好啦，你改一本。只能畫笑臉，不能打分數。')&&L.includes('（九點半，她陪你走到車站。）')&&G.flags.PS_RED_PEN===true,J(L)); }
   goPen('US'); check('3. 美國路線（那時候在美國）：沒有這一場',txt(PS).length===0&&!G.flags.PS_RED_PEN,J(txt(PS)));
   goPen('TW'); PHONE.answer(G,'ps_redpen_ask',1); rules();
   check('3. 「這週不行。」→「好～那下次」；不排',J(txt(PS).slice(-2))===J(['我:這週不行。','好～那下次'])&&!OUT.get(G,'ps_redpen'),J(txt(PS).slice(-2)));
