@@ -73,7 +73,8 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
 //    椅子 prio 0.3、看的東西 prio −0.3（l118_shops3d.js）；用 engine3d.js 的 nearestInteractable 實際比：
 //    站在那張椅子後面 0.6 m（前面是桌子，GAME.seatApproach 的第二個位置）＝「坐下」；站在湯的前面＝「自取的湯」；兩邊都沒有 prio 的話椅子後面是「自取的湯」
 { const eng=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8'), sh=fs.readFileSync(path.join(ROOT,'src/l118_shops3d.js'),'utf8'); const m=eng.match(/E\.nearestInteractable=function\(\)\{[\s\S]*?return best; \};/);
-  const ps=sh.match(/IT\.push\(\{x:s\.x,z:s\.z,radius:s\.r\|\|0\.7,lv:0,(?:prio:(-?[\d.]+),)?seat:st,/), pl=sh.match(/for\(const q of L\.interact\) IT\.push\(\{x:q\.x,z:q\.z,radius:q\.r,lv:0,(?:prio:(-?[\d.]+),)?label:q\.label/);
+  /* 2026-11-11（L118-IT-REACH-1111）：l118_shops3d.js 多了覆寫表（按鈕位置 ip、覆寫的 r、看的東西覆寫的 prio）——這裡照舊只讀預設的 prio（椅子 0.3、看的東西沒覆寫時 −0.3），用配置的位置比；覆寫表的效果由 tests/l118_interact_reach_1111_unit.js 驗 */
+  const ps=sh.match(/IT\.push\(\{x:ip\[0\],z:ip\[1\],radius:f\.r\|\|s\.r\|\|IT_DEF\.seatR,lv:0,(?:prio:(-?[\d.]+),)?seat:st,/), pl=sh.match(/IT\.push\(\{x:f\.x!=null\?f\.x:q\.x,z:f\.z!=null\?f\.z:q\.z,radius:f\.r\|\|q\.r,lv:0,(?:prio:f\.prio!=null\?f\.prio:(-?[\d.]+),)?label:q\.label/);
   const pS=ps&&ps[1]?+ps[1]:0, pL=pl&&pl[1]?+pl[1]:0, H=LS.home;
   if(m&&H){ const at=(x,z,a,b)=>{ const its=H.seats.map(q=>({x:q.x,z:q.z,radius:q.r||0.7,lv:0,prio:a,seat:{x:q.x,z:q.z,yaw:q.yaw},label:'坐下'})).concat(H.interact.map(q=>({x:q.x,z:q.z,radius:q.r,lv:0,prio:b,label:q.label})));
       const E={levels:null,player:{lv:0,obj:{position:{x,y:0,z}}},interactables:its,npcs:[]}; vm.runInNewContext(m[0],{E,Math}); const r=E.nearestInteractable(); return r&&r.label; };

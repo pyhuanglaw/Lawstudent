@@ -33,6 +33,7 @@ const FN3=(function(){
     nav1.fillBlocked(); nav1.freeRect(U.x0+0.35,U.z0+0.35,WL.x0-0.25,U.railZ-0.3);                   // 教室（東邊到樓梯開口的欄杆、南邊到玻璃欄杆）
     nav1.freeRect(LD.x0-0.3,LD.z0+0.15,LD.x1-0.25,LD.z1);                                            // 樓梯平台（連到教室）
     nav1.freeRect(T.x0,T.zTop,T.x1,T.zBottom); for(const s of ss.all) nav1.addSurf(Object.assign({},s));
+    { const mid=(T.zTop+T.zBottom)/2; nav1.blockRect((T.x0+T.x1)/2,(mid+T.zBottom+0.5)/2,T.x1-T.x0+0.2,T.zBottom+0.5-mid,0); }   /* STAIR-LEVEL-AUDIT-1111（LAWWW2 11-11，木曜日 2c962ad66 同一類）：樓梯下半段在第 1 層擋起來——原本第 1 層一路開到樓梯底，下樓的人過了一半還留在第 1 層（tests/stair_levels_audit_1111_unit.js 的「過了一半以後還有幾步在上面那一層」），走到底才靠高度差換回第 0 層；BB 在木曜日 PC 上同一種樓梯 30 趟卡 3 次。改成走到一半一定換回第 0 層（兩層在樓梯上高度一樣，換層不跳）*/
     nav1.blockRect(T.railX-0.05,(LD.z1+0.1+U.railZ)/2,0.3,U.railZ-(LD.z1+0.1),0);                    // 樓梯開口西邊的欄杆（平台那一段留開口）
     nav1.blockRect(T.railX-0.275,LD.z1+0.32,0.2,0.5,0);   /* FN-STAIRTOP-POCKET-1111（LAWWW2 11-11；LAWWW 要的「每個站得到的點都走得回離開」掃出來）：欄杆只有一格厚（0.25 m），人的半徑 0.32——
       樓梯最上面兩三階和二樓地板一樣高的那一小段（z −5.3～−4.8），站在樓梯西緣 x 3.5 時左邊的取樣點跨過欄杆落在教室地板上，被當成站得住；

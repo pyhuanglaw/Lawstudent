@@ -38,6 +38,7 @@ const LBV2=(function(){
     // 二樓：先整層擋起來，再開出南側連廊、北側連廊、兩翼、台階中間那一跑
     nav1.fillBlocked(); for(const a of [U.band,U.north].concat(U.wings)) nav1.freeRect(a.x0,a.z0,a.x1,a.z1);
     nav1.freeRect(K.x0,BS.z0,K.x1,BS.z1); for(const s of ss.all) nav1.addSurf(Object.assign({},s));
+    { const mid=(BS.z0+BS.z1)/2; nav1.blockRect((K.x0+K.x1)/2,(mid+BS.z1+0.5)/2,K.x1-K.x0+0.2,BS.z1+0.5-mid,0); }   /* STAIR-LEVEL-AUDIT-1111（LAWWW2 11-11，木曜日 2c962ad66 同一類）：台階中間那一跑的下半段在第 1 層擋起來——原本第 1 層一路開到台階底，下樓的人過了一半還留在第 1 層，走到底才靠高度差換回第 0 層。改成走到一半一定換回第 0 層 */
     for(const r of L.rails){ const [x0,z0,x1,z1]=r, horiz=Math.abs(z1-z0)<1e-6; nav1.blockRect((x0+x1)/2,(z0+z1)/2,horiz?Math.abs(x1-x0)+0.04:0.3,horiz?0.3:Math.abs(z1-z0)+0.04,0); }
     nav1.freeRect(K.x0,U.north.z1-0.25,K.x1,U.north.z1+0.25);                                                     // 台階上來接北側連廊（欄杆在那裡開口）
     for(const [x,z] of [[-5.2,U.band.z1],[5.2,U.band.z1],[-5.2,GT.z],[5.2,GT.z],[-5.2,U.north.z1],[5.2,U.north.z1]]) nav1.blockCircle(x,z,(x>0&&z===U.north.z1)?0.2:0.38);   // 柱子一直到屋頂：二樓也擋（中庭四角＋北側連廊邊上）。二樓那一段細（r 0.26，一樓連柱座 0.36）：擋 0.38 就好——0.62 會把東側走道（x 3.7～5.2，1.5 m 寬）在柱子那裡擠到 0.7 m，走不過去；東北那一根在多媒體中心的牆線上（x 5.2），只擋它自己那一格

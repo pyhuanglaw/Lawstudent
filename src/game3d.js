@@ -315,7 +315,7 @@ const GAME = (function(){
     /* 照椅子的高度判（BB 11-11 CC TAPSEAT：五湖四海 #9 點椅面，射線打到地板的那一點在椅子後面 1.3 m；點椅子中段落點離椅子 0.54 m；只有點椅腳落地那一點坐得到。
        俯角淺的店（手機玩家會點椅面）等於點不到）：地板那一點沒對到椅子時，沿著同一條射線看離地 0.3～0.75 m 那一段（椅面、椅背的高度）有沒有穿過哪張椅子（離椅子中心 0.32 m 內；0.3～0.75 m，不看椅背頂以上，免得點地板時越過椅背也算），
        有就是點到那張椅子。只在射線往下（從上面看下來）時判；地板那一點已經對到椅子照舊 */
-    if(!best&&o&&o.ray&&seats.length){ const R=o.ray, oy=R.origin.y, dy=R.direction.y, fy=typeof o.fy==='number'?o.fy:0; if(dy<-1e-3){ let bd2=0.32; for(const h of [0.75,0.6,0.45,0.3]){ const t=(fy+h-oy)/dy; if(!(t>0)) continue; const px=R.origin.x+R.direction.x*t, pz=R.origin.z+R.direction.z*t; for(const st of seats){ const d=Math.hypot(st.x-px,st.z-pz); if(d<bd2){ bd2=d; best=st; } } } } }
+    if(!best&&o&&o.ray&&o.useRay&&seats.length){   /* 2026-11-11 BB TSR（擋發布）：遊戲裡先關掉（engine3d.js 不傳 useRay）——俯角淺時點遠處走道，射線在 0.3～0.75 m 那段會擦過前面的椅子，總圖、宿舍、Café 點地走路被帶去椅子、鍵變坐下（舊版停在 0.2～0.3 m 內）。發版後改成用畫面上實際打到的物體判斷（射線第一個打到的面在椅子上、高度在椅面到椅背之間）再打開；這段邏輯照舊留給測試 */ const R=o.ray, oy=R.origin.y, dy=R.direction.y, fy=typeof o.fy==='number'?o.fy:0; if(dy<-1e-3){ for(const h of [0.75,0.6,0.45,0.3]){ const t=(fy+h-oy)/dy; if(!(t>0)) continue; const px=R.origin.x+R.direction.x*t, pz=R.origin.z+R.direction.z*t; let bd2=0.32; for(const st of seats){ const d=Math.hypot(st.x-px,st.z-pz); if(d<bd2){ bd2=d; best=st; } } if(best) break; } }   /* 由高往低（＝離鏡頭由近到遠）：射線先穿過的那張椅子就是點到的（BB 11-11 PC：118牛排座位密，原本取「四個高度裡離中心最近」，點後排 #15 #16 被導到前排）*/ }
     if(!best) return null; const ap=seatApproach(best); return ap?[ap[0],ap[1],best.lv!=null?best.lv|0:lv,{x:best.x,z:best.z}]:null; }
   GM.tapToSeat=tapToSeat;
   // 搭電梯（v9.4 多樓層，D36）：按按鈕 →（電梯不在這一層就先開過來）→ 門開 → 走進車廂 → 選樓層（整修中的樓層按不亮）→ 門關 → 車廂帶著人上下（看得到整個過程）→ 門開 → 走出來 → 門關

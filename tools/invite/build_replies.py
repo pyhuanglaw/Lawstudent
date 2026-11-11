@@ -329,23 +329,22 @@ for i, who in enumerate(ppl):
         js.append('  ' + json.dumps(r, ensure_ascii=False, separators=(',', ':')) + (',' if j < len(rs) - 1 else ''))
     js.append(' ]' + (',' if i < len(ppl) - 1 else ''))
 js.append('}};')
-open(os.path.join(ROOT, OUT), 'w', encoding='utf-8').write('\n'.join(js) + '\n')
+_TEXT = '\n'.join(js) + '\n'   # 2026-11-11：不再先寫中間版（GHA 4 支同時跑時，別支測試的 git status 會看到還帶「」的中間版＝v1_inv_wording2 第 5 項偶爾紅）；換句、拿掉「」都在記憶體做完，最後一次原子寫入
 tot = {w: (counts[w], len(rows_out[w]), sum(1 for r in rows_out[w] if r.get('off'))) for w in ppl}
 print(f'{OUT}：' + '、'.join(f'{w} {a} 列（{b} 筆，off {c}）' for w, (a, b, c) in tot.items()))
 # AA_630／AA_627 表 B（語彤台詞改寫，YT-REWRITE-1103）：寫完再照白名單上的逐句表換一次（整句相同才換；tools/story/aa630.py）
 import sys as _sys, os as _os
 _R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
 import aa630 as _aa630, import_guard as _ig
-_aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/invite_replies.js', _R0)
+_TEXT = _aa630.patch_text(_aa630.load(_R0, _ig.load(_R0), _ig), OUT, _TEXT)
 
 
-def strip_quotes(path):
+def strip_quotes(path, text):
     """有名字說的台詞拿掉外面那一對「」（AA-B 2026-11-08 00:21／01:09，TEXT-QUOTE-UNIFY-1108）：lines 裡她說的（字串）、祐廷說的（{me}）；
     旁白（（…）開頭、整句不是一對「」）、say（表上原文）、其他欄位照舊。放在最後（AA_630 換句以後）：WHEN／AT、「現有」的比對、AA_630 都照稿上有「」的原句做，結果跟以前一樣，
     只差外面的「」（tests/invites_quote_unit.js 第 6 項逐列比 c79414b00 的舊檔）。src/invites3d.js 播的時候照 S.narrLine 分旁白（拿掉以後沒有一句變成（ 開頭）"""
-    p = os.path.join(ROOT, path)
     out, n = [], 0
-    for ln in open(p, encoding='utf-8').read().split('\n'):
+    for ln in text.split('\n'):
         m = re.match(r'^  (\{.*\})(,?)$', ln)
         if m:
             r = json.loads(m.group(1))
@@ -354,14 +353,11 @@ def strip_quotes(path):
             r['lines'] = new
             ln = '  ' + json.dumps(r, ensure_ascii=False, separators=(',', ':')) + m.group(2)
         out.append(ln)
-    open(p, 'w', encoding='utf-8').write('\n'.join(out))
     print(f'{path}：有名字說的 {n} 句拿掉外面的「」')
+    return '\n'.join(out)
 
 
-strip_quotes(OUT)
-
-
-def overlay_replies(path):
+def overlay_replies(path, text):
     """X324 D 區覆蓋層（白名單 overlay:true 的稿裡 file 是 invite_replies 的列；AA_783…；tools/story/overlay_rows.py）——放在最後
     （AA_627／AA_630、PS755、拿掉「」以後；稿的 old＝遊戲現在的字）：at＝<列 id>.lines[i]，那一列要是 who 的、那一格（她說的字串或 {me}）要剛好等於 old 才換，對不到就停。
     換過的列多一格 ov＝稿的來源（[path@sha]；tests/invites_quote_unit.js 這些列改比稿）；say（表上原文）不動。
@@ -369,9 +365,8 @@ def overlay_replies(path):
     同一句別人也說（例：第 5 階「……只有我們？」語彤照留）＝不在稿上，照留、印出來。"""
     R = OV.rows(ROOT, 'invite_replies', ALLOW)
     if not R and not OV_INV:
-        return
-    p = os.path.join(ROOT, path)
-    L = open(p, encoding='utf-8').read().split('\n')
+        return text
+    L = text.split('\n')
     idx, who = {}, None
     for i, ln in enumerate(L):
         m = re.match(r'^ "(\w+)":\[$', ln)
@@ -415,9 +410,15 @@ def overlay_replies(path):
         die('覆蓋層換完，同一個人還有舊句（invites.js 換了、invite_replies.js 沒換，或同一句兩列只換一列）：\n' + '\n'.join(left))
     for rid, (i, r, w2, comma) in idx.items():
         L[i] = '  ' + json.dumps(r, ensure_ascii=False, separators=(',', ':')) + comma
-    open(p, 'w', encoding='utf-8').write('\n'.join(L))
     if R:
         print(f'{path}：覆蓋層 {len(R)} 格（{"、".join(OV.sources(ROOT, "invite_replies", ALLOW))}）')
+    return '\n'.join(L)
 
 
-overlay_replies(OUT)
+_TEXT = strip_quotes(OUT, _TEXT)
+_TEXT = overlay_replies(OUT, _TEXT)
+_p = os.path.join(ROOT, OUT)
+if not os.path.exists(_p) or open(_p, encoding='utf-8').read() != _TEXT:
+    _tmp = _p + '.tmp%d' % os.getpid()
+    open(_tmp, 'w', encoding='utf-8').write(_TEXT)
+    os.replace(_tmp, _p)

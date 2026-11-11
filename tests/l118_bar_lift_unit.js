@@ -30,6 +30,7 @@ for(const [id,n] of Object.entries(EXPECT)){ const L=L118_SHOP_LAYOUTS[id]; cons
   check('1. '+L.name+'：吧台高腳椅 '+n+' 個座位帶 lift '+LIFT+'（0.76 − '+SIT_TOP+'）', hi.length===n&&hi.every(s=>Math.abs(s.lift-LIFT)<1e-6), hi.length+' 個：'+hi.map(s=>s.lift).join(',')); }
 { const o=Object.keys(L118_SHOP_LAYOUTS).filter(i=>!EXPECT[i]).flatMap(i=>L118_SHOP_LAYOUTS[i].seats.filter(s=>s.lift).map(()=>i)); check('1. 其他店的座位沒有 lift', o.length===0, o.join(' ')); }
 for(const id of Object.keys(EXPECT)){ loadZone('l118_'+id); const L=L118_SHOP_LAYOUTS[id]; const hi=L.seats.filter(s=>s.lift);
-  const zs=hi.map(s=>(E.zone.seats||[]).find(q=>q.x===s.x&&q.z===s.z)), is=hi.map(s=>E.interactables.find(i=>i.seat&&i.seat.x===s.x&&i.seat.z===s.z));
+  /* 2026-11-11（L118-IT-REACH-1111）：義大麵屋吧台高腳椅坐的位置往外挪 0.12 m（l118_shops3d.js 覆寫表的 sit，小腿打到吧台前板），座標對不上配置——改照順序對（區域座位、按鈕都照配置的順序放）*/
+  const ix=L.seats.map((s,i)=>s.lift?i:-1).filter(i=>i>=0), SI=E.interactables.filter(i=>i.seat), zs=ix.map(i=>(E.zone.seats||[])[i]), is=ix.map(i=>SI[i]);
   check('2. '+L.name+'：區域座位、坐下按鈕的 seat 帶 lift', hi.length>0&&zs.every(q=>q&&Math.abs(q.lift-LIFT)<1e-6)&&is.every(i=>i&&Math.abs(i.seat.lift-LIFT)<1e-6), '區域 '+zs.map(q=>q&&q.lift).join(',')+'；按鈕 '+is.map(i=>i&&i.seat.lift).join(',')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
