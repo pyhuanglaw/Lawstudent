@@ -112,9 +112,9 @@ L118D_A2_old | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_pla
 # 第 3 段 冒煙：BEDFFC 新舊（CLASS12_crim_c 已跑；DATE_AN D01、ACT 以安電影、STUDY 以安第 1 場探針好了再補）
 CHS2_N_bedffc_P | 0792dac3045e2e441c89c17b175aebe3d3e083ca | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 10 | PARTS=BEDFFC;MASHO=P;SHA=0792dac3045e2e441c89c17b175aebe3d3e083ca
 CHS2_O_bedffc_P | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 10 | PARTS=BEDFFC;MASHO=P;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
-DATE_AN_D01 | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 12 | PARTS=D01;WHO=heroine_01;VISIT=first;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
-ACT_smoke_anmovie | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=AN_MOVIE_A;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
-ACT_smoke_st_an1 | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=ST_AN1_A;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
+DATE_AN_D01 | f8b6d1e82f43194080cb860d11148d9fd27de078 | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 12 | PARTS=D01;WHO=heroine_01;VISIT=first;SHA=f8b6d1e82f43194080cb860d11148d9fd27de078
+ACT_smoke_anmovie | f8b6d1e82f43194080cb860d11148d9fd27de078 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=AN_MOVIE_A;SHA=f8b6d1e82f43194080cb860d11148d9fd27de078
+ACT_smoke_st_an1 | f8b6d1e82f43194080cb860d11148d9fd27de078 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=ST_AN1_A;SHA=f8b6d1e82f43194080cb860d11148d9fd27de078
 # ===== BB 07:41 BB_343 第二節：v9.10.25 發布前回歸（候選 SHA 到了：把 CAND_SHA_40 換成 40 字 SHA、拿掉 #HOLD正式SHA 就開跑；兩條平行）=====
 # (1) ROLE_LAWWW 6.1 的 1～10（第 7 項 Node 三支、第 9 項 check_orphans／check_lines／題目漏收在雲端跑，不佔 PC）
 #HOLD正式SHA V25_deploy | CAND_SHA_40 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
