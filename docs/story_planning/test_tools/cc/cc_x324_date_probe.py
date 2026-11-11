@@ -38,6 +38,9 @@ import playlib as L
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
+# 網址加 ?tapguard：遊戲在 webdriver 底下預設不擋「選單剛出來那一下的誤觸」（game3d.js tapGuardOn），真的手機會擋。不加的話，點對話框的那一下會在剛出來的選單上補發 click、
+# 替玩家選掉選項（SPLIT r1、r2：出發前的「現在出發／到時間再說」被點掉、探針沒點過任何按鈕）。加了＝和手機一樣（乙 4）；NOGUARD=1 可以關掉
+if os.environ.get('NOGUARD') != '1' and 'tapguard' not in URL: URL = URL + ('&' if '?' in URL else '?') + 'tapguard'
 os.makedirs(OUT, exist_ok=True)
 SHA = os.environ.get('SHA') or ''
 TAG = os.environ.get('TAG') or 'new'
@@ -729,6 +732,7 @@ async def one(pg, cdp, errs, part):
 
 async def main():
     log('# X324 約會台詞 %s SHA=%s TAG=%s PARTS=%s PICK=%d SPOTS=%d ROOT=%s' % (time.strftime('%Y-%m-%d %H:%M:%S'), SHA, TAG, PARTS, PICK, SPOTS, ROOT))
+    R.setup('網址 %s（%s）' % (URL, '加了 ?tapguard：和真的手機一樣擋選單剛出來那一下的誤觸' if 'tapguard' in URL else '沒加 ?tapguard（NOGUARD=1）'))
     src = (DL.get('source') or '')
     log('  date_lines.js source（覆蓋層版本）：%s' % ' ＋ '.join(x for x in src.split('＋') if re.search(r'AA_7|AA_8|D01\.json', x)))
     rows = []
