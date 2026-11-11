@@ -1,12 +1,3 @@
-[07:19:03] skip BOYA1F_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
-[07:19:03] skip BOYA1F_old (already done on 35b88d5ff2613c039115576877e7f8a7525295a3)
-[07:19:03] skip FAIRTENT_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
-[07:19:03] skip FAIRTENT_old (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[07:19:03] skip GYMPROPS_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
-[07:19:03] skip GYMPROPS_old (already done on 63d8f328c479b688ac7b27054c5b76cb0cb32f79)
-[07:19:03] skip GYMPROPS_smith_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
-[07:19:03] skip GSHOP_new (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[07:19:03] skip GSHOP_old (already done on fda54d616e57b40c74ca1b6404dccb6ea927e50c)
 [07:19:03] skip GSHOP_flower_old (already done on 28df8a85c788c354fc606a87e64cb5f4f12c5ff9)
 [07:19:03] skip GUI_new (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
 [07:19:03] skip GUI_old (already done on fda54d616e57b40c74ca1b6404dccb6ea927e50c)
@@ -1998,3 +1989,12 @@
 [13:47:18] ==== START CLASS12_const_c  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
 [13:47:21] [res] cpu=3% mem=48% (15.2/31.4 GB) chrome_testing=9  START CLASS12_const_c
 [13:47:59] [res] cpu=3% mem=46% (14.6/31.4 GB) chrome_testing=9  END CLASS12_skip2_150x5
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       73cddb941..6afba897b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:48:05] ==== END   CLASS12_skip2_150x5  exit=1  275s   ====
+[13:48:15] memory 49% before starting CLASS12_skip2_150x10 (2 running)
+[13:48:15] ==== START CLASS12_skip2_150x10  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
+[13:48:18] [res] cpu=11% mem=50% (15.6/31.4 GB) chrome_testing=9  START CLASS12_skip2_150x10
+[13:49:03] 正在跑：CLASS12_civ_b_r2（已跑 2 分／上限 12 分）、CLASS12_const_c（已跑 1 分／上限 12 分）、CLASS12_skip2_150x10（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:49:42] [res] cpu=5% mem=49% (15.5/31.4 GB) chrome_testing=10  END CLASS12_const_c
