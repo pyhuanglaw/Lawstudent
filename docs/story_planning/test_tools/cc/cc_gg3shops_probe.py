@@ -186,8 +186,10 @@ BUILD_OLD_JS = r"""(q=>{ const G=GAME.G, d=G.day; const R=OUT.rec(G); R.length=0
   R.push({id:'sis_m3_dinner',ev:'ev_sis_results_dinner',day:d,h:20,late:0.25,place:'公館的日日定食',title:'學姊上榜聚餐',travel:'走過去約 10 分鐘',travelH:1/6,state:'planned'});
   R.push({id:'cc_old_lunch',ev:null,day:d-3,h:12,late:0.25,place:'日日定食',title:'午餐（日日定食）',state:'done'});
   if(q.full){ PHONE.postAt(G,{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊上榜聚餐！這週五七點，公館的日日定食。這次我們請學姊',tag:'cc_old_kevin'},d-1,21);
-    if(GAME.addNote) GAME.addNote('mx_fm1',STORY.MX_FM1.title,q.body); }
-  const snap=JSON.parse(JSON.stringify(GAME.snapshot())); window.__ccOld=snap; const t=JSON.stringify(snap); return {n:t.split('日日定食').length-1, outs:snap.outings.length}; })"""
+    if(GAME.addNote) GAME.addNote('mx_fm1',STORY.MX_FM1.title,q.body);
+    /* BB 19:30（35c4b140c 遷移 G.phone.q）：還沒送到的訊息（含回覆選項）也放一則舊字 */
+    if(PHONE.at) PHONE.at(G,d+1,21,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'明天七點，公館的日日定食，別遲到。',ask:{id:'cc_old_ask',opts:[{t:'好，日日定食見。'},{t:'我可能晚一點到日日定食。',post:'我可能晚一點到日日定食。'}]}}],'cc_old_q'); }
+  const snap=JSON.parse(JSON.stringify(GAME.snapshot())); if(snap.flags&&typeof snap.flags==='object') delete snap.flags.GG3_REN; window.__ccOld=snap;   /* 舊版本的存檔沒有 GG3_REN（35c4b140c：有這個旗標＝遷移做過了、不再做）*/ const t=JSON.stringify(snap); return {n:t.split('日日定食').length-1, outs:snap.outings.length}; })"""
 APPLY_OLD_JS = r"""(async()=>{ await GAME.applySave(JSON.parse(JSON.stringify(window.__ccOld))); return true; })()"""
 G_OLD_JS = r"""(()=>{ const old='日日定食', hits=[]; const walk=(o,p)=>{ if(hits.length>40) return; if(typeof o==='string'){ if(o.indexOf(old)>=0) hits.push([p,o.slice(0,90)]); return; } if(!o||typeof o!=='object') return; for(const k of Object.keys(o)) walk(o[k],p+'.'+k); };
   walk(GAME.G,'G'); const outs=(GAME.G.outings||[]).map(q=>({id:q.id,place:q.place,title:q.title,state:q.state})); return {hits,outs}; })()"""
@@ -1130,6 +1132,14 @@ async def part_rename(pg, cdp):
             mt = await phone_text(pg, cdp, 'msg')
             nt = await notes_text(pg, cdp)
             R.check('%s 畫面：手機「訊息」列表、筆記本沒有日日定食' % vt, OLD not in mt and OLD not in nt, J({'msg': mt[:200], 'notes': nt[:300]}))
+            # BB 19:30：明軒清單 mx_fm1 要整份換成現行 STORY.MX_FM1（不是只換店名＝「泰米村食賣今日定食」）
+            mx = await pg.evaluate("(()=>{ const n=(GAME.G.notes||[]).find(x=>x&&x.id==='mx_fm1'); const M=STORY.MX_FM1; return {has:!!n, title:n&&n.title, body:n&&n.body, wt:M.title, wb:M.body}; })()")
+            R.check('%s 明軒清單筆記 mx_fm1 讀檔後＝現行 STORY.MX_FM1（標題、內容一字不差）' % vt, mx['has'] and mx['title'] == mx['wt'] and mx['body'] == mx['wb'], J({'title': mx['title'], 'body': (mx['body'] or '')[:300]}))
+            bad = [ln for ln in (mx['body'] or '').split('<br>') if '泰米村食' in ln and '今日定食' in ln]
+            R.check('%s 明軒清單沒有「泰米村食｜今日定食」這種只換店名的列' % vt, not bad, J(bad))
+            q = await pg.evaluate("(()=>{ const P=GAME.G.phone||{}; return (P.q||[]).filter(x=>x&&x.tag==='cc_old_q').map(x=>JSON.stringify(x.items)); })()")
+            R.note('%s 還沒送到的那一則（G.phone.q cc_old_q）讀檔後：%s' % (vt, J(q)))
+            R.check('%s 還沒送到的訊息（含回覆選項）也換成泰米村食' % vt, bool(q) and all(OLD not in x and '泰米村食' in x for x in q), J(q))
         await D.shot(pg, 'gg3_rename_%s' % variant, judge_black=False)
 
 
