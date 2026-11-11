@@ -45,6 +45,7 @@
 | v9.10.19.1（熱修） | `b0c3032af`（PR [pyhuanglaw/Lawstudent#27](https://github.com/pyhuanglaw/Lawstudent/pull/27)；發布樹 `ae2914d40`＝main `e1603907e`＋EVENTS.cond attended、GM.guardTalk 兩個修正＋版本字樣） | 2026-11-04 | v9.10.19 `e1603907e` |
 | v9.10.20 | `40c0abedb`（PR [pyhuanglaw/Lawstudent#28](https://github.com/pyhuanglaw/Lawstudent/pull/28)；遊戲檔案＝BB GO 的候選 `d3828452a`＋版本字樣，發布樹 `9e6d85711`、RELEASES.md `37cd3253d`） | 2026-11-05 02:28:25 UTC（run 41955182303） | `b0c3032af`（v9.10.19.1） |
 | v9.10.24 | `779ddd650`（PR [pyhuanglaw/Lawstudent#34](https://github.com/pyhuanglaw/Lawstudent/pull/34)；遊戲檔案＝發布樹 `951824630`＝BB GO 的候選 `6ef185726`＋版本字樣） | 2026-11-10 20:11:47 UTC（Pages run 42892403766 success） | `3a34dbaa5`（v9.10.23） |
+| v9.10.25 | `dc3d33941`（PR [pyhuanglaw/Lawstudent#36](https://github.com/pyhuanglaw/Lawstudent/pull/36)；遊戲檔案＝發布樹 `f312c68cc`＝BB GO 的候選 `0d1eaadc7`＋版本字樣） | deploy 進行中（Pages run 43048364768） | `779ddd650`（v9.10.24） |
 | （不是版本）README 與文件更新 | `12555291d`（PR [pyhuanglaw/Lawstudent#35](https://github.com/pyhuanglaw/Lawstudent/pull/35)；使用者 11-11「Readme修改優先」；**遊戲檔案和 `779ddd650` 逐檔相同**（src／assets／lib／index.html／劇情匯入白名單，git diff 為空），線上仍是 v9.10.24；README.md、docs、tools 照開發分支 `c09d768f4`，tests 多兩支） | 2026-11-11 07:46:56 UTC（Pages run 42981692243 success） | `779ddd650`（v9.10.24） |
 
 ---
@@ -58,6 +59,37 @@ C=$(git commit-tree e88bda5^{tree} -p origin/main -m "緊急回復到 v9.6（e88
 git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub Actions 的 pages build and deployment 確認部署
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
+
+## v9.10.25（2026-11-11 15:26 UTC 合併 `dc3d33941`，PR [pyhuanglaw/Lawstudent#36](https://github.com/pyhuanglaw/Lawstudent/pull/36)；遊戲檔案＝發布樹 `f312c68cc`＝BB GO 的候選 `0d1eaadc7`＋版本字樣（`?v=9.10.25`×424、標題「版本 v9.10.25（2026-11-11）」）；Pages run 43048364768 （build 15:28:07 success；deploy 15:28:16 開始，結果待補））
+
+使用者 11-11：「118巷店面做好就可以先推出新版」（X341）、「大一上的審完就先發布」「發布完繼續審大一下到大五」「新版本也要有汀州路和公館新店面」；發布由 LAWWW 決定（D85、D149）。
+
+**玩得到的**：
+- 118 巷九間店改版（X338【下一版必須】）：新的店名、招牌、外觀、室內和熟客招呼，多兩間外帶飲料店；每張椅子按得到「坐下」，點餐和看的東西不搶椅子。
+- 118 巷課後午餐：上午在法學院上完課，同堂認識的同學會約你去 118 巷吃午餐。
+- 汀州路商圈：公館往南一段街和夜市巷（攤子晚上才擺）；泰米村食、洗樂洗衣坊、印得好有室內；另外五間第 1 版外觀。
+- 公館新店：安泰藥局、汀州鮮果、榮恩典文具社、花序 Flower Notes（兩層，二樓花藝教室）有室內。
+- 季節與節日布置：公館、溫州街的店門口跟著日期換。
+- 上課：選「去上課」真的走到教室、把課播完、手機記有上課（X337【下一版必須】，bug 修正）；大一上三門課（憲法上、刑總一、民總）每一堂補了教授接著講的內容與提問（BB_332～334 法律審），坐著上課的對話可以略過。
+- 約會與一起活動：七位校外約會台詞重寫；一起吃飯、喝咖啡、看電影、逛書店、念書，中途都有可以選的話；看完電影聊那部片的情節；學期末的對話多了可以選的話。
+- 「去木曜日念書」（原本慢讀咖啡的念書、常客、邀約搬到溫州街木曜日）。
+- 修正：點走道地板不會被帶去椅子（TSR，0d1eaadc7）；木曜日樓梯上下樓、花序／總圖大廳下樓、大口漢堡低幀率樓梯頂不再卡（STAIR-LEVEL-AUDIT-1111）；GHA 測試工具偶發紅（build_replies 原子寫入）。
+
+**測試**：BB 2026-11-11 15:21 UTC GO（BB_343）：發布樹 f312c68cc deploy_check（?v= 全部 9.10.25）、main12、線上舊存檔（與線上自己讀相同）；V25 回歸 32 行全部判完（social、live_pos、linze、X290×2、X304、X337、118 巷 doors／lunch／C1～C5、exam、date、STAIR、木曜日、v7、p0、touch…）；L118D C／E；冒煙 SEATMIX、STORYBURST、BEDFFC、以安約會、一起念書、一起活動（以安電影、BEAT ALL PASS）、刑總 W7／W13。ZR3（芷若電影「先到、按坐下等開演」）BB 先判擋，LAWWW 查證據：約會在探針走路途中已經自己開演、演完，之後的長椅選單探針看不到＝探針問題，舊版 7266 一樣；BB 重判 TEST_BUG 不擋。releasegate【下一版必須】5 項全部已驗收；題庫漏收檢查＝沒有漏收（只差來源標記）。
+
+**這版沒做完（不擋）**：
+- 木曜日二樓：樓梯口旁衣帽架和盆栽中間有一個小縫，走進去可能出不來、要讀檔（舊問題，線上 v9.10.24 就有）；往樓梯斜走會頂在盆栽角。下一版第一個修（MOKU-PLANT-CORNER-1111，P0，LAWWW2 已交）。
+- 手機按「前往」後手機沒收起來，「直接過去／自己走過去」選單被蓋住，要先收手機才看到（PHONE-GO-PROMPT-1111）。
+- 2029-07～2030-07 南洋戲院大廳兩張海報沒貼上（舊）。
+- 錢不夠時，灰掉的選項看不到原因（舊）。
+- 木曜日一樓窄樓梯口：一起念書散場往門口走的目標點在牆裡（念書不走這條，發版後修）。
+- 118 巷座位：有幾張要從另一邊才坐得到、點椅面點不到（射線判發版後重做 TAP-RAY-SEAT-1111，LAWWW2 已交）、118牛排後排、奈良咖哩照片。
+- Café（兩點半）坐吧檯鏡頭被天花板大梁擋住（線上本來就有；CAFE-BAR-CAM-1111，LAWWW2 已交）。
+- 公館／汀州路新店的店員台詞、菜單、點餐買東西還沒接（AA_742 稿已寫好），汀州路另外五間第 2 版。
+- 大一下以後的課堂補寫（AA 寫好、BB 法律審過的大一下～大四上）在下一版。
+- 未驗：RELPACK、CHOOSE 其餘九個、SEASON、SC4、POOL、FN2、NM_cam3、LM_ceil、約會台詞全量逐格（只抽測）；iPhone 實機全部沒測。
+
+**線上已驗**：待 CC 在使用者電腦跑 LIVE_main＋deploy_check（這個沙盒連不到 *.github.io）。
 
 ## v9.10.24（2026-11-10 20:09 UTC 合併 `779ddd650`，PR [pyhuanglaw/Lawstudent#34](https://github.com/pyhuanglaw/Lawstudent/pull/34)；遊戲檔案＝發布樹 `951824630`＝候選 `6ef185726`＋版本字樣（`?v=9.10.24`×405、標題「版本 v9.10.24（2026-11-10）」）；Pages run 42892403766）
 
