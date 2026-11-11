@@ -119,9 +119,12 @@ const stepOf=(term,who,id)=>((LADDER.byTerm[term]||{})[who]||{steps:[]}).steps.f
     const zzIf=chars=>{ let n=0, bad=0; for(const id of [ZR,ZQ]) for(const s of ((chars[id]||{}).steps||[])) for(const e of [...(s.extraIf||[]),...(s.linesIf||[])]){ const c=e.if||{}; if((c.notFlags||[]).includes('dating_heroine_02')){ n++; if(!(c.notFlags||[]).includes('ZZ_DATING')) bad++; } } return {n,bad}; };
     const y1=zzIf(LADDER.byTerm.Y1S1), y2=zzIf(LADDER.byTerm.Y1S2);
     const notEv=LADDER.byTerm.Y1S1[ZR].steps.filter(s=>(s.extraIf||[]).some(e=>(e.if||{}).notFlags&&(e.if.notFlags||[]).includes('ZZ_DATING')&&(e.if.notEvents||[]).includes('ev_zz_home_together'))).length;
-    return [!!st&&ex(st)===ex(src)&&(st.extraIf||[]).length===2&&y1.n>=6&&!y1.bad&&y2.n>=6&&!y2.bad&&notEv>=2,J({y1,y2,notEv,ex:ex(st).slice(0,120)})]; });
+    /* 2026-11-11（X324，AA_781_zq_ladder_Y1S2.json@15241f32e rows Q2-L3）：extraIf 兩版開頭的刪節號拿掉（遊戲在源稿上再疊）——舊期望 ex(st)===ex(src)，現在源稿照那兩列換過再比 */
+    const AA781={'……芷若這禮拜跟她們系上的人去看了電影。':'芷若這禮拜跟她們系上的人去看了電影。','……我室友這禮拜跟她們系上的人去看了電影。':'我室友這禮拜跟她們系上的人去看了電影。'};
+    const src781=src&&JSON.parse(JSON.stringify(src),(k,v)=>typeof v==='string'&&AA781[v]?AA781[v]:v);
+    return [!!st&&ex(st)===ex(src781)&&(st.extraIf||[]).length===2&&y1.n>=6&&!y1.bad&&y2.n>=6&&!y2.bad&&notEv>=2,J({y1,y2,notEv,ex:ex(st).slice(0,120)})]; });
   const ladAt=(flags,setup)=>{ fresh('2026-03-20',15,'campus',flags||{}); R(ZQ,'FAM'); if(setup) setup(); rules(); const st=stepOf('Y1S2',ZQ,'Q2-L3'); return {st,L:STORY.ladLines(st,G,ZQ)}; };
-  const L5=['……芷若這禮拜跟她們系上的人去看了電影。','幹嘛，我又沒怎樣。'], L5b=['……我室友這禮拜跟她們系上的人去看了電影。','幹嘛，我又沒怎樣。'];
+  const L5=['芷若這禮拜跟她們系上的人去看了電影。','幹嘛，我又沒怎樣。'], L5b=['我室友這禮拜跟她們系上的人去看了電影。','幹嘛，我又沒怎樣。'];   /* 2026-11-11（X324，AA_781 Q2-L3）：第一句拿掉開頭的刪節號——舊期望「……芷若這禮拜…」「……我室友這禮拜…」*/
   const tail=(arr,n)=>J(arr.slice(-n).map(x=>typeof x==='string'?x:x.t));
   await chk('3. 4-1 第 5 句：4-2 演過、還沒在一起、兩個都沒和祐廷交往過＝Q2-L3 自己系上的話後面多這兩句；還不認識芷若＝「我室友」那一版',()=>{
     const a=ladAt({},()=>{ R(ZR,'FAM'); zz({state:'feelings_emerging',since:0}); G.events.done.ev_zz_home_together=1; });

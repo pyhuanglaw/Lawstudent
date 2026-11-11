@@ -118,7 +118,9 @@ const inMD=t=>MD.indexOf(t)>=0;
     const st=LADDER.byTerm.Y3S2.heroine_03.steps.find(s=>s.id==='Y6-L3');
     const play6=(az,dt)=>{ fresh('2028-03-23',17,'noodle'); R('heroine_03','FAM'); R('heroine_01','FRI'); if(dt) date('heroine_01'); if(az) SOCIAL.remember('heroine_01','AN3_AZALEA',''); return {L:STORY.ladLines(st,G,'heroine_03'),C:STORY.ladChoices(st).map(c=>c.t)}; };
     const a=play6(true,false), b=play6(true,true), c=play6(false,true), d=play6(false,false);
-    check('6. 沒和以安交往＋祐廷拍的：只剩一句；選項「為什麼是同一棵？」「（給她看手機裡的另一張）」',J(a.L)===J([ONE])&&J(a.C)===J(['「為什麼是同一棵？」','（給她看手機裡的另一張）']),J(a));
+    /* 2026-11-11（X324，AA_781_yt_ladder_Y3S2.json@8e027fc7f rows Y6-L3）：那一句拿掉刪節號——舊期望 [ONE]（AA_377 稿的字，上面讀稿照舊用 ONE）；選項的字（LADDER_CHOICE_IF）照比 */
+    const ONE781='以安傳在群組那張杜鵑花，是你拍的吧。拍得很好。';
+    check('6. 沒和以安交往＋祐廷拍的：只剩一句（AA_781 拿掉刪節號）；選項「為什麼是同一棵？」「（給她看手機裡的另一張）」',J(a.L)===J([ONE781])&&J(a.C)===J(['「為什麼是同一棵？」','（給她看手機裡的另一張）']),J(a));
     check('6. 交往中＋祐廷拍的：交往中那一套（「你們去拍的那張」）；選項同上',J(b.L)===J(DL)&&J(b.C)===J(['「為什麼是同一棵？」','（給她看手機裡的另一張）']),J(b));
     check('6. 交往中、沒有祐廷拍的：原本那一套（語彤陪以安去），選項照舊',J(c.L)===J(ORG)&&J(c.C)===J(['「為什麼是同一棵？」','「妳也有拍嗎？」']),J(c));
     check('6. 都沒有：照原本',J(d.L)===J(ORG)&&J(d.C)===J(['「為什麼是同一棵？」','「妳也有拍嗎？」']),J(d));
@@ -184,7 +186,8 @@ const inMD=t=>MD.indexOf(t)>=0;
     check('15、16. 讀稿',inMD('「週四我還是五點就出門。……只是現在是去田野。」')&&inMD('「巷子裡有個修鞋的老闆，我又去找他聊了一次。」'));
     const st=id=>LADDER.byTerm.Y3S2.heroine_03.steps.find(s=>s.id===id);
     fresh('2028-03-09',18,'campus',{YT_T1:true}); const a=STORY.ladLines(st('Y6-L1'),G,'heroine_03'); fresh('2028-03-09',18,'campus'); const b=STORY.ladLines(st('Y6-L1'),G,'heroine_03');
-    check('15. Y6-L1：一起做過田野（YT_T1）＝「週四我還是五點就出門。……只是現在是去田野。」；沒有的照原句',J(a)===J(['週四我還是五點就出門。……只是現在是去田野。'])&&b[0]==='週四開始做田野以後，我五點半就出門。',J({a,b}));
+    /* 2026-11-11（X324，AA_781_yt_ladder_Y3S2.json@8e027fc7f rows Y6-L1）：拿掉刪節號——舊期望「週四我還是五點就出門。……只是現在是去田野。」*/
+    check('15. Y6-L1：一起做過田野（YT_T1）＝「週四我還是五點就出門。只是現在是去田野。」（AA_781）；沒有的照原句',J(a)===J(['週四我還是五點就出門。只是現在是去田野。'])&&b[0]==='週四開始做田野以後，我五點半就出門。',J({a,b}));
     fresh('2028-04-06',18,'campus'); const c=STORY.ladLines(st('Y6-L4'),G,'heroine_03'); fresh('2028-04-06',18,'campus',{FIELD_FINDING:true}); const d=STORY.ladLines(st('Y6-L4'),G,'heroine_03');
     check('16. Y6-L4：沒有田野的發現＝「巷子裡有個修鞋的老闆，我又去找他聊了一次。」（第二句照舊）；有的照原句',c[0]==='巷子裡有個修鞋的老闆，我又去找他聊了一次。'&&c[1]==='他記得每一雙送來修的鞋，客人的臉反而記不住。'&&d[0]==='修鞋店那個老闆，我又去找他聊了一次。',J({c,d})); });
   /* ---- 17、18、19 ---- */
