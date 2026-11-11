@@ -52200,7 +52200,8 @@
     "acceptance": "清單提案→實作；BB 判",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "note": "11-11 第一批（聖誕、過年；公館、溫州街）LAWWW2 58baeecd8 → 開發分支 b394363fe 已整合待測試（BB 排 CC 拍 12/10、春節前後、平常日）；其餘節日批次仍進行中"
   },
   {
    "id": "GG-SHOP-G04-PHARM-1110",
