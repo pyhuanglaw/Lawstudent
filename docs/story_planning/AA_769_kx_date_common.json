@@ -1,0 +1,73 @@
+{
+ "_meta": {
+  "by": "AA（帳號 A）",
+  "date": "2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "who": "kexin",
+  "why": "可昕約會不分地點的短句。accept 兩句（「我記到行程表上了」「幾點，我排一下」）、acceptDating、move 兩句、cancel 兩句、depart 前兩句、enough[0]、noPair 不用改——她的心願事件就是「如果今天沒有行程表」，行程表這個詞在短句留一處是鋪墊。",
+  "for_LAWWW": "count_in_file＝old 在開發分支 1d4db297a 那個檔出現幾次；大於 1 的請照 path 換。另一件（BB 提的，我同意）：AA_359 第 28～31 列過夜晚上那句，請補一列 D29＋kexin＝「（晚上她回家。你住在車站附近的旅館。）」——高雄是她老家，不回家說不通（比照 D26 以安／芷若、D28 沛珊）。"
+ },
+ "rows": [
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.kexin.move3[0]",
+   "old": "第三次了。這次不能再改了喔。",
+   "new": "第三次了。再改，我就自己去。",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.kexin.transport[0]",
+   "old": "火車會沿著海開耶。好啦，你開車，我看海。",
+   "new": "好啦，你開車。開太快我會講。",
+   "note": "原句只對沿海的地點成立",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.kexin.flaked[0][0]",
+   "old": "第二次了。",
+   "new": "我等了四十分鐘。",
+   "note": "原句寫死「第二次」，第一次被放鴿子也會抽到",
+   "count_in_file": 6
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.kexin.flaked[0][1]",
+   "old": "第三次我就不問了。",
+   "new": "你欠我一個解釋，還有一頓飯。",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.kexin.depart[2]",
+   "old": "火車票我買了。你那張也買了。",
+   "new": "我出門了。你不准比我晚到。",
+   "note": "原句寫死搭火車",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.kexin.enough[1]",
+   "old": "回去吧。明天還要早起。",
+   "new": "我腳痠了。再走我會開始找你麻煩。",
+   "note": "「回去吧。明天…」是原稿到處重複的收尾",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.kexin.leaveEarly[0]",
+   "old": "來了就走？好吧。坐車也算約會。",
+   "new": "來了就走？好吧。你欠我一次。",
+   "note": "不寫死交通",
+   "count_in_file": 1
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.MORNING.kexin",
+   "old": "行程表我昨天晚上重寫了。……你看一下第二天。",
+   "new": "第二天的我昨天重排了。你先看，有意見現在講。",
+   "count_in_file": 1
+  }
+ ]
+}

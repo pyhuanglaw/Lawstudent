@@ -1,0 +1,129 @@
+{
+ "_meta": {
+  "by": "AA（帳號 A）",
+  "date": "2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "who": "kexin",
+  "event": "wish_kexin「如果今天沒有行程表」（D25 外澳）",
+  "why": "這個事件寫得好，內容不動。只做兩件：①刪節號 28 處留 5 處（「……我想去外澳。只看海。」「……外澳？」「……我還活著。」「……今天是真的沒有。」「……今天的海，跟以前一樣。」）；②她開口約的那句寫死「九點，台北車站」，改成用出發時間。",
+  "for_LAWWW": "path 是 date_wish.js 的 events.kexin 底下的位置；照 path 換。"
+ },
+ "rows": [
+  {
+   "path": "mention.choices[0].reply[0]",
+   "old": "你這什麼意思。……好啦，我也不確定。",
+   "new": "你這什麼意思。好啦，我也不確定。"
+  },
+  {
+   "path": "herInvite.accept[1]",
+   "old": "……不行，火車有時間。九點，台北車站。",
+   "new": "不行，火車有時間。{出發時間}，車站見。",
+   "note": "原句寫死九點；{出發時間} 語彤的心願邀約有在用，這裡如果不會代換，就留「九點」、只拿掉刪節號"
+  },
+  {
+   "path": "playerInvite.known[0]",
+   "old": "外澳？……你記得。",
+   "new": "外澳？你記得。"
+  },
+  {
+   "path": "playerInvite.unknown[1]",
+   "old": "……好。我也一直想去。",
+   "new": "好。我也一直想去。"
+  },
+  {
+   "path": "arrive.lines[0]",
+   "old": "……到了。",
+   "new": "到了。"
+  },
+  {
+   "path": "arrive.extraIf[0].lines[1]",
+   "old": "……那你不要告訴我哪裡好玩。今天我要自己找。",
+   "new": "那你不要告訴我哪裡好玩。今天我要自己找。"
+  },
+  {
+   "path": "hotspots[\"D25.shore\"].lines[2]",
+   "old": "……你不要笑。你也下來。",
+   "new": "你不要笑。你也下來。"
+  },
+  {
+   "path": "hotspots[\"D25.shore\"].choices[0].reply[0]",
+   "old": "……你還記得喔。",
+   "new": "你還記得喔。"
+  },
+  {
+   "path": "hotspots[\"D25.shore\"].choices[1].reply[0]",
+   "old": "……膽小鬼。",
+   "new": "膽小鬼。"
+  },
+  {
+   "path": "hotspots[\"D25.cafe\"].lines[1]",
+   "old": "……我不要查它叫什麼。",
+   "new": "我不要查它叫什麼。"
+  },
+  {
+   "path": "hotspots[\"D25.cafe\"].choices[0].reply[0]",
+   "old": "……你幹嘛講。",
+   "new": "你幹嘛講。"
+  },
+  {
+   "path": "hotspots[\"D25.cafe\"].choices[2].reply[0]",
+   "old": "好。……那回程的便當我買。",
+   "new": "好。那回程的便當我買。"
+  },
+  {
+   "path": "hotspots[\"D25.surf\"].lines[1]",
+   "old": "……然後又游回去等。",
+   "new": "然後又游回去等。"
+  },
+  {
+   "path": "hotspots[\"D25.surf\"].choices[0].reply[0]",
+   "old": "……你很會破壞氣氛。",
+   "new": "你很會破壞氣氛。"
+  },
+  {
+   "path": "hotspots[\"D25.surf\"].choices[1].reply[0]",
+   "old": "想。……下次。今天只看。",
+   "new": "想。下次，今天只看。"
+  },
+  {
+   "path": "hotspots[\"D25.surf\"].choices[2].reply[0]",
+   "old": "……他們看起來都不急。",
+   "new": "他們看起來都不急。"
+  },
+  {
+   "path": "hotspots[\"D25.station\"].choices[0].reply[0]",
+   "old": "好。……不，錯過它。再下一班。",
+   "new": "好。不，錯過它。再下一班。"
+  },
+  {
+   "path": "hotspots[\"D25.station\"].choices[1].reply[0]",
+   "old": "沒有。我喜歡排。……只是今天，想知道不排是什麼感覺。",
+   "new": "沒有，我喜歡排。只是想知道不排是什麼感覺。"
+  },
+  {
+   "path": "hotspots[\"D25.station\"].choices[2].reply[0]",
+   "old": "……風好大。可是我不想進去。",
+   "new": "風好大。可是我不想進去。"
+  },
+  {
+   "path": "closing.choices[0].reply[0]",
+   "old": "……好。可是火車還是要查。",
+   "new": "好。可是火車還是要查。"
+  },
+  {
+   "path": "closing.choices[1].reply[0]",
+   "old": "會。……很不習慣。我很喜歡。",
+   "new": "會，很不習慣。我很喜歡。"
+  },
+  {
+   "path": "closing.after[1].lines[1]",
+   "old": "……今天先存起來。",
+   "new": "今天先存起來。"
+  },
+  {
+   "path": "closing.ending[1].lines[1]",
+   "old": "……這是我今天唯一的計畫。",
+   "new": "這是我今天唯一的計畫。"
+  }
+ ]
+}
