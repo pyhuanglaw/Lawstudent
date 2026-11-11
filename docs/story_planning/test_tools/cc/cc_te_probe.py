@@ -303,9 +303,9 @@ CASE_DEF = {
     'gf_zr_Y2S1': dict(kind='gf', who='heroine_02', term='Y2S1', label='芷若 女朋友版 大二上'),
     'gf_zr_Y5S1': dict(kind='gf', who='heroine_02', term='Y5S1', flags={'EXCHANGE_ROUTE': 'JP'}, label='芷若 女朋友版 大五上（交換延畢：路線 JP）'),
     'gf_zq_Y1S2': dict(kind='gf', who='heroine_04', term='Y1S2', evUndo=['ev_ziqing_secret_game'], label='子晴 女朋友版 通用（大一下，沒玩過 Q6）'),
-    'gf_zq_Y1S2q6': dict(kind='gf', who='heroine_04', term='Y1S2', evDone=['ev_ziqing_secret_game'], hookMode={'（現在玩。）': 'skip', '*': 'nosay'},
+    'gf_zq_Y1S2q6': dict(kind='gf', who='heroine_04', term='Y1S2', evDone=['ev_ziqing_secret_game'], mem=['PLAYTESTED'], hookMode={'（現在玩。）': 'skip', '*': 'nosay'},
                          label='子晴 女朋友版 通用（大一下，玩過 Q6；PICK max＝「（現在玩。）」＝鉤子整個不出）'),
-    'gf_zq_Y1S2q6_ns': dict(kind='gf', who='heroine_04', term='Y1S2', evDone=['ev_ziqing_secret_game'], want='「改了哪裡？」', hookMode={'（現在玩。）': 'skip', '*': 'nosay'},
+    'gf_zq_Y1S2q6_ns': dict(kind='gf', who='heroine_04', term='Y1S2', evDone=['ev_ziqing_secret_game'], mem=['PLAYTESTED'], want='「改了哪裡？」', hookMode={'（現在玩。）': 'skip', '*': 'nosay'},
                             label='子晴 女朋友版 通用（大一下，玩過 Q6；選「改了哪裡？」＝鉤子不念 say、直接出選項；BB 23:44）'),
     'gf_zq_Y3S2': dict(kind='gf', who='heroine_04', term='Y3S2', label='子晴 女朋友版 大三下'),
     'kx_Y2S1': dict(kind='kexin', who='kexin', term='Y2S1', label='可昕 大二上'),
@@ -379,6 +379,7 @@ SETUP_JS = r"""(a=>{ const G=GAME.G, F=G.flags||(G.flags={}), out={};
   for(const k in (a.flags||{})) F[k]=a.flags[k]; for(const k of (a.unflags||[])) delete F[k];
   G.events=G.events||{}; G.events.done=G.events.done||{}; for(const e of (a.evDone||[])) G.events.done[e]=G.day; for(const e of (a.evUndo||[])) delete G.events.done[e];
   out.kexinDating=!!F.dating_kexin;
+  for(const m of (a.mem||[])){ try{ if(SOCIAL.has&&!SOCIAL.has(a.who,m)&&SOCIAL.remember){ SOCIAL.remember(a.who,m,''); (out.mem||(out.mem=[])).push(m); } }catch(e){ out.memErr=String(e); } }
   if(a.clean){ const c=[]; for(const id of a.clean){ if(F['dating_'+id]){ delete F['dating_'+id]; c.push('dating_'+id); } if(F.romance&&F.romance[id]){ c.push('romance.'+id+'='+JSON.stringify(F.romance[id]).slice(0,80)); delete F.romance[id]; }
       for(const k of ['knowsRel','OPEN_OK']){ const M=F[k]; if(!M||typeof M!=='object') continue; if(M[id]!=null){ delete M[id]; c.push(k+'.'+id); }
         for(const x of Object.keys(M)){ const v=M[x]; if(Array.isArray(v)){ const i=v.indexOf(id); if(i>=0){ v.splice(i,1); c.push(k+'.'+x+'['+id+']'); } } else if(v&&typeof v==='object'&&v[id]!=null){ delete v[id]; c.push(k+'.'+x+'.'+id); } } } }
@@ -769,13 +770,13 @@ async def case_run(pg, cdp, errs, cid):
     pre = await load(pg, cdp, st, '【捷徑】' + why)
     if pre: R.note('%s 讀檔以後先有的劇情（pe.settle 點完）：%s' % (t, J(pre[-6:])))
     rel = {'npcRom': 80, 'fam': 65, 'trust': 50, 'comf': 45} if kind == 'heart' else ({'npcRom': 60, 'fam': 65, 'trust': 50, 'comf': 45} if kind in ('gf', 'kexin') else {'fam': 45, 'trust': 30})
-    a = {'who': who, 'term': term, 'kind': kind, 'flags': case.get('flags') or {}, 'unflags': case.get('unflags') or [], 'evDone': case.get('evDone') or [], 'evUndo': case.get('evUndo') or [],
+    a = {'who': who, 'term': term, 'kind': kind, 'flags': case.get('flags') or {}, 'unflags': case.get('unflags') or [], 'evDone': case.get('evDone') or [], 'evUndo': case.get('evUndo') or [], 'mem': case.get('mem') or [],
          'rel': case.get('rel') or rel, 'relExact': bool(case.get('rel')), 'dating': kind in ('gf', 'kexin'), 'clean': ['kexin'] if kind == 'heart' else []}
     su = await pg.evaluate(SETUP_JS, a); res['setup'] = su
     if kind == 'heart': R.setup('%s【捷徑】乾淨存檔：拿掉和可昕交往（存檔本來 dating_kexin＝%s）：%s' % (t, su.get('kexinDating'), J(su.get('cleaned'))))
     elif su.get('kexinDating'): R.note('%s 存檔同時和可昕交往（dating_kexin；存檔不動）' % t)
     R.setup('%s【捷徑】%s；關係%s %s；%s；這學期的邀約重算（刪 plan、picked）→ %s → %s' % (
-        t, '交往中（ROM.start：%s）' % su.get('romStart') if a['dating'] else '不設交往', '設成' if case.get('rel') else '至少', J(a['rel']), '事件做過 %s、拿掉 %s' % (J(a['evDone']), J(a['evUndo'])),
+        t, '交往中（ROM.start：%s）' % su.get('romStart') if a['dating'] else '不設交往', '設成' if case.get('rel') else '至少', J(a['rel']), '事件做過 %s、拿掉 %s、記憶 %s' % (J(a['evDone']), J(a['evUndo']), J(a['mem'])),
         J(su.get('plan')), ('TERMEND.planKexin' if kind == 'kexin' else 'F.%s＋TERMEND.pickCheck（＝手機回「好。」）' % ('TE_GF' if kind == 'gf' else 'TE_PICK'))))
     q = su.get('q')
     if not R.check('%s 排好了這一頓（OUT 有一筆 planned）' % t, bool(q), J(su)): return
