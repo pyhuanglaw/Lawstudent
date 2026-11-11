@@ -2161,6 +2161,26 @@
    "task": "STUDY-EXAM-STORY-1102",
    "src": "使用者對 LAWWW（UA-LAWWW-1111-24），LAWWW 13:40 轉 AA",
    "checked": "範圍改成補到大五（含交換延畢的大五上）；取代 UA-AA-1111-05 的「到大四」。BB 法律審排到 v9.10.25 發布以後，AA 照寫、照送審。"
+  },
+  {
+   "id": "UA-AA-1111-07",
+   "at": "2026-11-11 13:4x UTC",
+   "quote": "既然你要改的話 英美法應該著重說明 約因 是什麼 還有衡平原則　還有英美法與大陸法系差別",
+   "kind": "原話",
+   "status": "已交（等 BB 法律審）",
+   "task": "STUDY-EXAM-STORY-1102",
+   "src": "使用者直接對 AA",
+   "checked": "法學英文 legal_english（Y2S2）：w1 大陸法系與英美法系、w2 判決地位比較、w4 約因（consideration）、w10 改成衡平法（equity：大法官、衡平法院、禁制令、特定履行、乾淨的手、合併法院）、w11 equity 一字多義"
+  },
+  {
+   "id": "UA-AA-1111-08",
+   "at": "2026-11-11 13:4x UTC",
+   "quote": "也要介紹常出現的單字　PLANTIFF ....appeal.. mutual consent",
+   "kind": "原話",
+   "status": "已交（等 BB 法律審）",
+   "task": "STUDY-EXAM-STORY-1102",
+   "src": "使用者直接對 AA",
+   "checked": "法學英文 w2 appellant／appellee、w3 lawsuit、sue、judgment、w4 offer、acceptance、mutual consent、w5 tort、liability、w6 prosecutor、verdict、w7 brief、memo（plaintiff、appeal 原本就在 w2、w3）"
   }
  ]
 }

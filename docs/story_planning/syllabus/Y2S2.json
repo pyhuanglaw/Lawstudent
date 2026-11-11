@@ -1499,9 +1499,9 @@
      "w": 1,
      "tpl": "A",
      "board": [
-      "法學英文／英美法",
-      "英美法：法官造法",
-      "先例的力量"
+      "英美法與大陸法系",
+      "大陸法系：法典為主；英美法：判例為主",
+      "台灣屬於哪一邊？"
      ],
      "line": "在英美法，法官的判決本身，就是法律的一部分。",
      "react": [
@@ -1519,11 +1519,14 @@
      },
      "review": "2026-10-16 BB-B 法律審查第 7 批（BB_115 L285）：判決先例是英美法的重要法源（普通法由法院的判決累積而成），方向正確；現代英美的制定法比重很高，兩者並存，制定法有效時優先於普通法——台詞「判決本身就是法律的一部分」說的是「一部分」，不改；黑板「法官造法」是這門課第一週的標題，第 2 週講先例拘束的範圍",
      "more": [
+      "大陸法系，例如德國、法國、台灣：先有完整的法典，法官從條文出發。",
+      "英美法系，例如英國、美國：很多規則是法官一案一案判出來的。",
+      "台灣是大陸法系，可是也借了英美的東西，例如交互詰問。",
       "先記幾個字：judge 法官、statute 立法院通過的法律。",
       "constitution 是 the highest law，最高的法。",
       "它保障的權利，叫 rights guaranteed by it。"
      ],
-     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。英美法概說；對應題庫 LENG25_04（D judge）、LENG25_10（B highest）、LENG25_14（C statute）、LENG25_18（C guaranteed）。已有 ask。"
+     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。英美法概說；對應題庫 LENG25_04（D judge）、LENG25_10（B highest）、LENG25_14（C statute）、LENG25_18（C guaranteed）。已有 ask。 使用者 11-11 13:4x 對 AA：「英美法應該著重說明 約因 是什麼 還有衡平原則 還有英美法與大陸法系差別」（UA-AA-1111-07）。大陸法系與英美法系的差別（法源、法官角色）。"
     },
     {
      "w": 2,
@@ -1550,9 +1553,11 @@
      "review": "2026-10-16 BB-B 法律審查第 7 批（BB_115 L286）：黑板原本是「以前的判決，拘束以後的判決」，太簡化，改成「上級法院的判決，拘束以後的同類案件」——拘束力主要是上級法院對下級法院（垂直），有拘束力的是判決理由（ratio decidendi），旁論（obiter dicta）沒有；案情不同可以區辨（distinguish），上級法院可以推翻先例（英國最高法院沿用上議院 1966 年的 Practice Statement，可以不照自己以前的判決）；台詞「除非有很好的理由不照」保留（區辨、推翻都是「很好的理由」）",
      "more": [
       "英文叫 stare decisis，遵循先例。",
-      "不服判決，可以 appeal，上訴。上級法院的判決，拘束下級法院。"
+      "不服判決，可以 appeal，上訴。上級法院的判決，拘束下級法院。",
+      "大陸法系的法官主要從法典找答案；以前的判決可以參考，地位不像英美那麼高。",
+      "上訴的人叫 appellant，被上訴的人叫 appellee。"
      ],
-     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。先例拘束原則；對應題庫 LENG25_08（B appeal）。已有 ask。"
+     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。先例拘束原則；對應題庫 LENG25_08（B appeal）。已有 ask。 使用者 11-11 13:4x 對 AA：「英美法應該著重說明 約因 是什麼 還有衡平原則 還有英美法與大陸法系差別」（UA-AA-1111-07）。兩大法系判決地位的比較，只講方向。 使用者 11-11 13:4x：「也要介紹常出現的單字 plaintiff、appeal、mutual consent」（UA-AA-1111-08）。"
     },
     {
      "w": 3,
@@ -1580,15 +1585,17 @@
       "寫答案，用 IRAC：爭點、規則、適用、結論。",
       "民事訴訟裡，告人的是 plaintiff，被告是 defendant。",
       "被告可以請 lawyer 代理。",
-      "plaintiff 要拿出 evidence，support 自己的主張。"
+      "plaintiff 要拿出 evidence，support 自己的主張。",
+      "打官司是 lawsuit；告人，叫 sue。",
+      "法院的判決叫 judgment。"
      ],
-     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Civil procedure 用語；IRAC（Issue, Rule, Application, Conclusion）；對應題庫 LENG25_01（B plaintiff）、LENG25_05（A lawyer）、LENG25_19（B support）。已有 ask。 case brief 與 IRAC 分開（BB_356；line 改正）。"
+     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Civil procedure 用語；IRAC（Issue, Rule, Application, Conclusion）；對應題庫 LENG25_01（B plaintiff）、LENG25_05（A lawyer）、LENG25_19（B support）。已有 ask。 case brief 與 IRAC 分開（BB_356；line 改正）。 使用者 11-11 13:4x：「也要介紹常出現的單字 plaintiff、appeal、mutual consent」（UA-AA-1111-08）。"
     },
     {
      "w": 4,
      "tpl": "B",
      "board": [
-      "契約：對價",
+      "契約：約因（consideration）",
       "英美的契約，要有交換",
       "「下次請你」算不算？"
      ],
@@ -1652,11 +1659,14 @@
      },
      "review": "對價（consideration）的概念；需法律審查；B 類討論（AA_119）：英美法契約的對價；我國契約成立不要求對價，但要有受法律拘束的意思（社交上的約定一般不算）；德國法也不要求對價（明軒那句，只當比較）——只講方向，LEGAL_REVIEW_REQUIRED；原本芯慈那句併進討論的回應；2026-10-14 搬到大二下：明軒那句拿掉「如果我去了德國」（他大四才拿到德國的獎學金），紀錄改 B_Y2S2_legal_english_w4；2026-10-16 BB-B 法律審查第 7 批（BB_115 L287、L408）：英美契約除了對價，也要有建立法律關係的意思（intention to create legal relations；家庭、社交上的約定推定沒有，Balfour v Balfour〔1919〕；商業約定推定有），用契據（deed）訂的承諾不需要對價；原本的收尾「兩種法律問的問題不一樣」會讓人以為台灣只看說好、英美只看交換，改成「兩種法律都會問：是不是認真的。英美法還多問一句：有沒有交換。」；台灣：民法 §153 I 意思表示一致即成立、不要求對價，社交約定欠缺受法律拘束的意思（L288）；德國：也不要求對價（明軒那句，方向正確），但贈與的承諾要經公證，沒有公證的話履行以後補正（BGB §518），社交約定同樣看有沒有受拘束的意思",
      "more": [
-      "contract 是 enforceable 的 agreement。",
-      "意思是：法律上可以強制執行的約定。",
-      "一方沒做到，叫 breach；另一方可以請求 remedy，救濟。"
+      "約因：雙方都要給出一點東西，可以是承諾、行為，或不做某件事。",
+      "只有一方單純答應送你東西，沒有約因，原則上不能強制執行。",
+      "約因不用等值，一顆胡椒粒也可以；可是已經做過的事，不能當約因。",
+      "台灣不要求約因：意思表示一致，契約就成立。贈與在台灣也是契約。",
+      "offer 是要約，acceptance 是承諾。",
+      "兩邊合起來，叫 mutual consent，合意。"
      ],
-     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Contract law 用語、consideration（對價）；對應題庫 LENG25_02（A contract）、LENG25_11（A breach）、LENG25_16（A remedy）。原本有 ask、obs。"
+     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Contract law 用語、consideration（對價）；對應題庫 LENG25_02（A contract）、LENG25_11（A breach）、LENG25_16（A remedy）。原本有 ask、obs。 使用者 11-11 13:4x 對 AA：「英美法應該著重說明 約因 是什麼 還有衡平原則 還有英美法與大陸法系差別」（UA-AA-1111-07）。約因：benefit／detriment、bargained-for exchange；adequacy 不審查（peppercorn）；past consideration 不算；用契據（deed）訂的承諾不需要約因（BB_115 L287）；民法 §153 I、§406。 使用者 11-11 13:4x：「也要介紹常出現的單字 plaintiff、appeal、mutual consent」（UA-AA-1111-08）。"
     },
     {
      "w": 5,
@@ -1683,9 +1693,10 @@
      "review": "2026-10-16 BB-B 法律審查第 7 批（BB_115 L409）：英美過失侵權（negligence）要有注意義務、違反、因果關係、損害；「合理的人」（reasonable person）是判斷有沒有違反注意義務的標準，方向正確；我國侵權行為的過失（民法 §184 I）通說以抽象輕過失為準，也就是欠缺善良管理人之注意，和「合理的人」可以對照，但不是同一個概念；明軒「可是合理的人是誰？」只問不答，保留",
      "more": [
       "沒盡到 reasonable care 讓人受傷，叫 negligence。",
-      "法院可以判被告付 damages，損害賠償，注意是複數。"
+      "法院可以判被告付 damages，損害賠償，注意是複數。",
+      "tort 是侵權行為；要負的責任，叫 liability。"
      ],
-     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Tort law 用語；對應題庫 LENG25_13（B damages）、LENG25_20（A negligence）。已有 ask。"
+     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Tort law 用語；對應題庫 LENG25_13（B damages）、LENG25_20（A negligence）。已有 ask。 使用者 11-11 13:4x：「也要介紹常出現的單字 plaintiff、appeal、mutual consent」（UA-AA-1111-08）。"
     },
     {
      "w": 6,
@@ -1714,9 +1725,10 @@
       "刑事的字很多：crime、evidence、witness 證人。",
       "被告 presumed innocent，推定無罪。",
       "檢方要證明到 beyond reasonable doubt。",
-      "被告可以不 testify。侵害 rights 取得的證據，可以排除。"
+      "被告可以不 testify。侵害 rights 取得的證據，可以排除。",
+      "檢察官是 prosecutor；陪審團的決定叫 verdict。"
      ],
-     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Criminal law / procedure / evidence 用語（教唆、幫助者 liable）；對應題庫 LENG25_03、06（crime）、07（evidence）、09（witness）、12（doubt）、15（innocent）、17（liable）、21（testify）、24（rights）。已有 ask。"
+     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Criminal law / procedure / evidence 用語（教唆、幫助者 liable）；對應題庫 LENG25_03、06（crime）、07（evidence）、09（witness）、12（doubt）、15（innocent）、17（liable）、21（testify）、24（rights）。已有 ask。 使用者 11-11 13:4x：「也要介紹常出現的單字 plaintiff、appeal、mutual consent」（UA-AA-1111-08）。"
     },
     {
      "w": 7,
@@ -1739,40 +1751,47 @@
      ],
      "more": [
       "律師信先寫結論，再寫理由，最後寫你要對方做什麼。",
-      "能用一個字，就不要用三個字。"
+      "能用一個字，就不要用三個字。",
+      "律師寫給法院的書狀叫 brief；寫給客戶的意見叫 memo。"
      ],
-     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Legal writing（plain English）。下週加提問。"
+     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Legal writing（plain English）。下週加提問。 使用者 11-11 13:4x：「也要介紹常出現的單字 plaintiff、appeal、mutual consent」（UA-AA-1111-08）。"
     },
     {
      "w": 10,
      "tpl": "C",
      "board": [
-      "美國的法學院",
-      "案例教學法",
-      "老師一直問問題"
+      "衡平法（equity）",
+      "普通法只給錢；衡平補上別的救濟",
+      "禁制令、特定履行"
      ],
-     "line": "美國的法學院，老師一直問問題，學生一直回答。你們熟悉嗎？",
+     "line": "普通法法院只判賠錢。不夠的時候，人們去找衡平。",
      "react": [
       {
        "who": "zhe",
-       "text": "我被問倒的時候，只會想下課。"
+       "text": "所以英國以前有兩種法院，一種管錢，一種管良心？"
+      },
+      {
+       "who": "heroine_01",
+       "text": "自己的手要乾淨。這句我想記住。"
       }
      ],
      "more": [
-      "案例教學法，英文叫 Socratic method。",
-      "老師不給答案，一直問，問到你自己發現哪裡不對。",
-      "那麼，被老師一直問倒，你覺得是在學東西，還是在丟臉？"
+      "中世紀的英國，普通法很僵硬。有人去求國王的大法官，大法官憑良心判。",
+      "後來有了衡平法院，救濟不只錢：禁制令 injunction、特定履行。",
+      "衡平有自己的格言：來求衡平的人，自己的手要乾淨。",
+      "十九世紀英國把兩種法院合起來，衡平的原則留了下來。",
+      "那麼，鄰居的樹根一直長進你家，判他賠錢，夠嗎？"
      ],
-     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Socratic method、case method。",
+     "ref": "AA 11-11 改（STUDY-EXAM-STORY-1102）。使用者 11-11 13:4x 對 AA：「英美法應該著重說明 約因 是什麼 還有衡平原則 還有英美法與大陸法系差別」（UA-AA-1111-07）。衡平法：Court of Chancery、Lord Chancellor；injunction、specific performance；clean hands；Judicature Acts 1873–1875 合併法院。原本這週的案例教學法（Socratic method）拿掉。",
      "call": {
       "options": [
-       "在學東西。",
-       "在丟臉。",
-       "兩個都有。"
+       "夠，賠錢就好。",
+       "不夠，要叫他停止。",
+       "看樹根長多快。"
       ],
       "follow": [
-       "兩個都有，很正常。被問倒的那一刻，記得最清楚。",
-       "在這裡被問倒，比在法庭上被問倒好。"
+       "賠錢只處理過去。叫他停止，要靠禁制令，這就是衡平的救濟。",
+       "衡平的救濟由法官裁量，不是你要就一定給。"
       ]
      }
     },
@@ -1797,10 +1816,11 @@
      ],
      "review": "小語不在日文班，所以她不提日文課（AA_108 P2-8）；主題和日文課 G6 相通（語言不只是單字），修過日文的玩家可以自己想到；美國交換的回聲在美國篇，不在這裡",
      "more": [
+      "同一個 equity，在公司法是股東權益，在這門課是衡平。",
       "owner 可以 possess、use、dispose of。",
       "政府機關只能在法律 granted 給它的權限內做事。"
      ],
-     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Property / administrative law 用語；對應題庫 LENG25_22（A dispose of）、LENG25_23（B granted）。前週有提問、下週加提問。"
+     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Property / administrative law 用語；對應題庫 LENG25_22（A dispose of）、LENG25_23（B granted）。前週有提問、下週加提問。 equity 一字多義（承第 10 週）。"
     },
     {
      "w": 12,
