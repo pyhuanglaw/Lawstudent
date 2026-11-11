@@ -429,7 +429,12 @@ STUCK_JS = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, lv=P.lv|0; c
   const L=E.levels||[]; const cells=[]; for(let dz=-0.7; dz<=0.31; dz+=0.1){ const z=o.z+dz; cells.push({z:f2(z), s0:E.canStand(o.x,z,0.3,0), s1:L.length>1?E.canStand(o.x,z,0.3,1):null, h0:L[0]&&L[0].heightAt?f2(L[0].heightAt(o.x,z)):null, h1:L[1]&&L[1].heightAt?f2(L[1].heightAt(o.x,z)):null}); }
   const row=[]; for(let dx=-0.5; dx<=0.51; dx+=0.1) row.push({x:f2(o.x+dx), s0:E.canStand(o.x+dx,o.z,0.3,0), s1:L.length>1?E.canStand(o.x+dx,o.z-0.4,0.3,1):null});
   let path=null; try{ const p=E.pathTo(o.x,o.z,lv,0,0.9,1); path=p?p.slice(0,8).map(q=>Array.isArray(q)?q.map(f2):[f2(q.x),f2(q.z),q.lv]):null; }catch(e){ path=String(e); }
-  return {pos:{x:f2(o.x),z:f2(o.z),y:f2(o.y),lv}, near, stair, cells, row, path, unstick:window.__ccUnstick|0, fb:GAME.walkFallbacks||0, hour:f2(GAME.G.hour), npcN:(E.npcs||[]).length}; })()"""
+  const D=GAME.D||{}, b=P.blockedAt, J=E.input&&E.input.joy;   /* CC 14:1x（BB 14:03）：玩家 busy／坐姿／劇情深度、朝向、擋住的點；路線前兩格離每個 NPC 多遠 */
+  const me={busy:!!P.busy, pose:P.pose||null, idlePose:P.idlePose||null, seat:!!P.seat, seatAt:P.seat?[f2(P.seat.x),f2(P.seat.z)]:null, frozen:!!P.frozen, path:P.path?P.path.length:0, target:P.target?[f2(P.target.x),f2(P.target.z)]:null, speed:f2(P.speed), yaw:f2(P.obj.rotation.y), r:P.radius,
+    blocked:b?{x:f2(b.x),z:f2(b.z),slide:b.slide||null}:null, depth:D.busyDepth|0, by:(D.busyWho||[]).slice(-3), dlg:!!D.active, stale:!!D.stale, cam:E.cam&&E.cam.mode, ev:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, adv:typeof ADV!=='undefined'&&!!ADV.active,
+    joy:J?{x:f2(J.x),y:f2(J.y),active:!!J.active}:null, interact:(document.getElementById('interact')||{}).textContent||'', hudHidden:!!(document.getElementById('interact')&&document.getElementById('interact').classList.contains('hide'))};
+  const p12=(path||[]).slice(1,3).filter(q=>Array.isArray(q)); for(const n of near){ n.dPath=p12.map(q=>f2(Math.hypot(n.x-q[0],n.z-q[1]))); n.dMe=f2(Math.hypot(n.x-o.x,n.z-o.z)); }
+  return {pos:{x:f2(o.x),z:f2(o.z),y:f2(o.y),lv}, me, near, stair, cells, row, path, unstick:window.__ccUnstick|0, fb:GAME.walkFallbacks||0, hour:f2(GAME.G.hour), npcN:(E.npcs||[]).length}; })()"""
 
 
 async def stair_stuck(pg, cdp, tag, target):
@@ -437,6 +442,7 @@ async def stair_stuck(pg, cdp, tag, target):
     d = await pg.evaluate(STUCK_JS)
     await shot(pg, 'stuck_' + ''.join(ch for ch in tag if ch.isalnum() and ord(ch) < 128)[:20].lower())
     R.note('%s 【卡住診斷】樓梯間（x −4.6～−2.9、z 1.4～7.1）上的 NPC：%s' % (tag, J(d['stair'])))
+    R.note('%s 【卡住診斷】玩家狀態 %s' % (tag, J(d['me'])))
     R.note('%s 【卡住診斷】位置 %s；2.5 m 內 NPC %s；往北那幾格（s0／s1＝第 0／1 層站不站得住、h0／h1＝高度）%s；同一列 %s；找路 %s；E.unstick 成功 %s 次；walkFallbacks %s；%s 點' % (tag, J(d['pos']), J(d['near']), J(d['cells']), J(d['row']), J(d['path']), d['unstick'], d['fb'], d['hour']))
     R.check('%s ⚠[P0 候選] 爬木曜日樓梯沒有卡住（搖桿推不動、停在第 0 層 (%s, %s)；旁邊 NPC %d 位）' % (tag, d['pos']['x'], d['pos']['z'], len(d['near'])), False, J({'near': d['near'], 'pos': d['pos']}))
     s0 = await D.st(pg)
@@ -767,6 +773,9 @@ async def part_nosit(pg, cdp, ref):
         await pg.evaluate("(()=>{ GAME.G.weather='rain'; })()"); R.setup('%s【捷徑】天氣變成 %s，改回下雨' % (tag, w))
     due = await pg.evaluate("(()=>{ const iv=MOKS.rainDue(GAME.G); return iv?{place:iv.place,who:iv.who}:null; })()")
     R.note('%s 離開前 MOKS.rainDue＝%s（參考）' % (tag, J(due)))
+    d0 = await pg.evaluate(STUCK_JS)   # CC 14:1x（BB 14:03）：起身後、推搖桿前的狀態（每次都記，卡住時可以和卡住當下比）
+    R.note('%s 起身後、下樓前：位置 %s；玩家 %s；2.5 m 內 NPC %s；找路 %s' % (tag, J(d0['pos']), J(d0['me']), J(d0['near']), J(d0['path'])))
+    await shot(pg, '%s_standup' % part.lower())
     rj = await joy(pg, cdp, tag + ' 下樓到樓梯口', MOK_EXIT[0], MOK_EXIT[1], near=0.6, lv=0, max_s=150)
     if not rj['ok']:   # CC 13:5x（BB 13:54 P0）：卡住當下記 2.5 m 內 NPC、那幾格站不站得住、找路、截圖，再試兩條路（V25_L118_moku 停在 (−1.823,4.002) lv1 22 秒沒動）
         await stair_stuck(pg, cdp, tag + ' 下樓', MOK_EXIT)
