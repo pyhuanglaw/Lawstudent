@@ -68,6 +68,7 @@ def dl(lines):
 SEC = {'first': dl(DR['first']['lines']), 'prof': dl(DR['prof']['lines']), 'entryA': dl(DR['reveal']['entryA']['lines']), 'entryB': dl(DR['reveal']['entryB']['lines']), 'talk': dl(DR['reveal']['talk']['lines'])}
 POOLG = {}
 for _k, _gs in DR['pool'].items():
+    if not isinstance(_gs, list): continue   # pool.seriousNote 是說明字串
     for _g in _gs: POOLG[_g['id']] = {'cat': _k, 'when': _g.get('when'), 'serious': bool(_g.get('serious')), 'lines': dl(_g['lines'])}
 LOOKS = {q['at']: q['narr'] for q in DR['study_room']['look']}
 MENU = list(DR['menu'])
