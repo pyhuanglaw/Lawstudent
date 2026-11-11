@@ -52591,7 +52591,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "六間不同年代、裝潢、客群；不用真實 LOGO；店名字只做在模型上一次（不和遊戲 UI 重疊）；layout 照 AA 的稿",
+   "next": "【11-11 12:1x LAWWW 派 LAWWW2 對帳】狀態寫「待開工」，但 README／開發分支看起來已經有這幾間店的室內——請 LAWWW2 先查（D148：grep 開發分支和自己的分支、FACTS.md），做好的改狀態附 SHA／證據，還沒做的照 AA_742／743（7fd1a70f2）、使用者參考圖做。｜六間不同年代、裝潢、客群；不用真實 LOGO；店名字只做在模型上一次（不和遊戲 UI 重疊）；layout 照 AA 的稿",
    "xai": {
     "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
     "branch": "claude/second-ai-env-art",
@@ -52948,7 +52948,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "照 RULES_2D_TO_3D；排在汀州路第 2 版後面",
+   "next": "【11-11 12:1x LAWWW 派 LAWWW2 對帳】狀態寫「待開工」，但 README／開發分支看起來已經有這幾間店的室內——請 LAWWW2 先查（D148：grep 開發分支和自己的分支、FACTS.md），做好的改狀態附 SHA／證據，還沒做的照 AA_742／743（7fd1a70f2）、使用者參考圖做。｜照 RULES_2D_TO_3D；排在汀州路第 2 版後面",
    "xai": {
     "spec": "X325；docs/handoff/user_specs/FLOWER_NOTES_1110.md 第四～六節；參考圖 docs/handoff/user_specs/flower_notes_ref/",
     "branch": "claude/second-ai-env-art",
@@ -53566,7 +53566,7 @@
    "id": "CAFE-BAR-CAM-1111",
    "title": "Café（兩點半）吧檯高腳椅坐下後鏡頭整片是牆（線上 779 就有）：坐吧檯看不到自己和吧台——座位鏡頭往後拉或改俯角",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已實作待整合",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53578,8 +53578,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "sha": null,
-   "next": "【11-11 11:3x LAWWW2】原因：天花板水泥大梁 a23_vc（梁底約 3.2 m），高腳椅俯角 0.38 鏡頭 3.48 m 在梁旁 0.44 m。照 SUNNY／小路 WZ-SEAT-CAMS 做法讓梁等網點透空（attachCafe230）；新測試吧檯 256 個鏡頭擋 90→0、全店其他座位 37→0；跑全部測試＋同機位截圖中。｜【11-11 11:2x BB 回報（STAIR_X 時順便）、LAWWW 派 LAWWW2（場景鏡頭 D108），發版後】搖桿坐「坐吧檯」：中央 [84.8, 0.2]，鏡頭 (−1.3,3.46,0.6) 整片牆。改法照其他店吧檯座位的鏡頭；做完交 patch＋同機位截圖，CC 拍、BB 判。",
+   "sha": "42671da70",
+   "next": "【11-11 12:0x LAWWW2 交付，發版後整合】claude/second-ai-env-art 42671da70：docs/art-rebuild/second_ai/wip/cafe_bar_cam_1111/cafe_bar_cam_v1.patch（2 檔，dev 4bad2a222 上 --3way 乾淨，和 TAP-RAY-SEAT 一起套也乾淨）。原因是天花板水泥大梁（梁底 2.98 m）；①cafe z.slabs 讓 slabClip 把鏡頭拉到梁下 ②CAFE230_SEETHRU 梁、層架、吊燈網點透空。新測試 cafe_bar_cam_1111_unit：吧檯 256 鏡頭擋 90→0、其他 22 張座位 37→0、站著不動；全部 1288 支 1287 過＋bookstore 老警告。手機沒看；吊燈網點透空等 BB 判。｜【11-11 11:3x LAWWW2】原因：天花板水泥大梁 a23_vc（梁底約 3.2 m），高腳椅俯角 0.38 鏡頭 3.48 m 在梁旁 0.44 m。照 SUNNY／小路 WZ-SEAT-CAMS 做法讓梁等網點透空（attachCafe230）；新測試吧檯 256 個鏡頭擋 90→0、全店其他座位 37→0；跑全部測試＋同機位截圖中。｜【11-11 11:2x BB 回報（STAIR_X 時順便）、LAWWW 派 LAWWW2（場景鏡頭 D108），發版後】搖桿坐「坐吧檯」：中央 [84.8, 0.2]，鏡頭 (−1.3,3.46,0.6) 整片牆。改法照其他店吧檯座位的鏡頭；做完交 patch＋同機位截圖，CC 拍、BB 判。",
    "xai": []
   }
  ]
