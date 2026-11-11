@@ -191,36 +191,42 @@ await sec(3,async()=>{ const sat=td('Y1S2',5,6), H3L=R772.d.slowread_to_mokuyobi
   check('3. 118 巷不再演 H3：在大學食堂（cafe2）和以安一起＝沒有特別的招呼（L118.withScene＝null）、不記 once.H3',o===null&&!(H.G.l118&&H.G.l118.once&&H.G.l118.once.H3!=null)); });
 
 /* ---- 4 H4 ---- */
-await sec(4,async()=>{ const H4=L().H4;
-  /* 好家：週一阿哲約的午餐（柏翰那天也在好家，AA_480 第 4 節：阿哲那一場優先，柏翰那一桌不另外演）*/
-  fresh(td('Y1S1',3,1),12.5,'l118_self'); met('zhe'); met('yu'); met(BH); here(BH); lunch('self'); const cs=L().companions(GM,'self'); await order('self',['加滷蛋']); const s0=said(); gone(BH);
-  check('4. 週一阿哲約在好家：一起吃的是阿哲、Alison（柏翰不算這一桌：沒有他那一句、不記他一起吃）',J(cs)===J(['zhe','yu'])&&!s0.some(t=>/十二點四十了/.test(t))&&!L().ateWith(H.G,BH,'self')&&!!L().ateWith(H.G,'zhe','self'),J([cs,s0]));
-  at(td('Y1S1',4,1),12.5); lunch('dian'); await order('dian',['椒麻雞飯']); at(td('Y1S1',5,1),12.5); lunch('korea'); await order('korea',['石鍋拌飯']);
-  at(td('Y1S1',5,3),12.5); H.G.flags.L118_LUNCH=null; here('zhe'); await order('noodle2',['牛肉麵']); const first=!has(H4.lines[0][1]);
-  check('4. 前提：好家、滇香、韓食（週一約好的午餐）、麵舖（週三常客）都和阿哲一起吃過；第四間剛好是麵舖的那一次不演',['self','dian','korea','noodle2'].every(s=>(L().ateWith(H.G,'zhe',s)||{}).n>=1)&&first,J([rec().w,said()]));
-  await order('noodle2',['牛肉麵','「牛排那間。」'],td('Y1S1',7,3),12.5);
-  check('4. H4 之後在麵舖吃完：阿哲那一句之後「欸，118 巷四間都吃過了。」「我的排名：這間第一。……你的呢？」→ 三選一 →「牛排那間。」→「牛排喔……好，下禮拜去那間，我要點雙拼。」；記 ZHE_118_RANK＝dian',
-    seq(['這間我給八十分。上次那間七十。',H4.lines[0][1],H4.lines[1][1],'牛排喔……好，下禮拜去那間，我要點雙拼。'])&&whoOf(H4.lines[0][1])===GM.npc.zhe.name&&J(H.opts[H.opts.length-1])===J(['「這間第一。」','「牛排那間。」','「韓式。」'])&&H.G.flags.ZHE_118_RANK==='dian',J([said(),H.opts]));
-  await order('noodle2',['牛肉麵'],td('Y1S1',7,3)+5,12.5); check('4. H4 只一次',!has(H4.lines[0][1]));
+/* 2026-11-11（L118-SHOPS-REDO-1111；AA_772 moves：H4 搬到清州刀削麵 korea、四間＝阿哲輪流的 korea／dian／tea／home、S.LUNCH_FIX 拿掉）改期望——
+   舊期望：四間＝麵舖 noodle2、滇香 dian、韓食 korea、好家 self（家常菜 home 也算那一間）；H4 在麵舖演；選項「滇緬那間。」；輪流 noodle2→dian→korea→self、第 5 週阿哲傳「自助餐 我需要吃菜」；
+           週一約在好家時柏翰那一桌不另外演（S.LUNCH_ONLY＝['self']）；「這間第一。」記 noodle2、「韓式。」記 korea。
+   新期望：四間和輪流都照資料（LANE118_SHOPS.lunch.rotation）；H4 在輪流的第一間（阿哲的麵店）演；選項和回話照 L118.H4（AA_772 第 10、11 列）；沒有換店那一句；
+           輪流的店裡沒有柏翰那一間（H6 在大學食堂）＝S.LUNCH_ONLY 空的；舊存檔的次數、ZHE_118_RANK 由讀檔的遷移搬（L118.migrate）；「這間第一。」記 korea、「韓式。」記 tea */
+await sec(4,async()=>{ const H4=L().H4, ROT=LANE118_SHOPS.lunch.rotation.slice(), NS=ROT[0], M=id=>L().shop(id).menu, it=id=>M(id)[0][0], WK=LANE118_SHOPS.lunch.weekly;
+  const zheLine=LANE118_SHOPS.regulars.find(r=>r.id==='zhe'&&r.shop===NS).line, O=k=>H4.opts[k];
+  check('4. 四間＝阿哲輪流的四間（資料）；H4 在第一間（他的麵店）演；輪流裡沒有柏翰那一間（H6 的店），S.LUNCH_ONLY 是空的',J(H4.shops)===J(ROT)&&ROT.length===4&&NS==='korea'&&J(L().LUNCH_ONLY)===J([])&&!ROT.includes('cafe2')&&!ROT.some(x=>LANE118_SHOPS.regulars.some(r=>r.id===BH&&r.shop===x)),J([H4.shops,ROT,L().LUNCH_ONLY]));
+  /* 週一阿哲約的午餐：一起吃的是阿哲、Alison */
+  fresh(td('Y1S1',3,1),12.5,'l118_'+ROT[3]); met('zhe'); met('yu'); lunch(ROT[3]); const cs=L().companions(GM,ROT[3]); await order(ROT[3],[it(ROT[3])]); const s0=said();
+  check('4. 週一阿哲約在輪流的店：一起吃的是阿哲、Alison，記他們一起吃',J(cs)===J(['zhe','yu'])&&!!L().ateWith(H.G,'zhe',ROT[3])&&!!L().ateWith(H.G,'yu',ROT[3]),J([cs,s0]));
+  at(td('Y1S1',4,1),12.5); lunch(ROT[1]); await order(ROT[1],[it(ROT[1])]); at(td('Y1S1',5,1),12.5); lunch(ROT[2]); await order(ROT[2],[it(ROT[2])]);
+  at(td('Y1S1',5,3),12.5); H.G.flags.L118_LUNCH=null; here('zhe'); await order(NS,[it(NS)]); const first=!has(H4.lines[0][1]);
+  check('4. 前提：四間（三間週一約好的午餐、麵店週三常客）都和阿哲一起吃過；第四間剛好是麵店的那一次不演',ROT.every(x=>(L().ateWith(H.G,'zhe',x)||{}).n>=1)&&first,J([rec().w,said()]));
+  await order(NS,[it(NS),O(1).t],td('Y1S1',7,3),12.5);
+  check('4. H4 之後在麵店吃完：阿哲那一句之後「欸，118 巷四間都吃過了。」「我的排名：這間第一。……你的呢？」→ 三選一 → 第二個（AA_772：「牛排那間。」）→ 他的回話；記 ZHE_118_RANK＝dian',
+    O(1).t===R772.line('「滇緬那間。」')&&O(1).say[0][1]===R772.line('辣的喔……好，下禮拜去那間。')&&O(1).rank==='dian'&&seq([zheLine,H4.lines[0][1],H4.lines[1][1],O(1).say[0][1]])&&whoOf(H4.lines[0][1])===GM.npc.zhe.name&&J(H.opts[H.opts.length-1])===J(H4.opts.map(o=>o.t))&&H.G.flags.ZHE_118_RANK==='dian',J([said(),H.opts]));
+  await order(NS,[it(NS)],td('Y1S1',7,3)+5,12.5); check('4. H4 只一次',!has(H4.lines[0][1]));
   const T=w=>CALENDAR.termOf(td('Y1S1',w,1)), ls=(t,w)=>L().lunchShop(CALENDAR.termOf(td(t,w,1)),H.G), none={flags:{}};
-  const got=[ls('Y1S1',8),ls('Y1S1',9),ls('Y1S1',10),ls('Y1S1',11),ls('Y1S1',12),ls('Y1S2',2),ls('Y1S2',3)], base=[2,3,4,5,6].map(w=>L().lunchShop(T(w),none));
-  check('4. 輪流（AA_480 第 4 節）：沒選過＝麵舖 → 滇香 → 韓食 → 好家 → 麵舖；選了滇香＝從下一週（第 8 週）起滇香 → 麵舖 → 韓食 → 好家，下學期第 2 週也是滇香（沒選過的第 8 週是韓食）',
-    J(base)===J(['noodle2','dian','korea','self','noodle2'])&&J(got)===J(['dian','noodle2','korea','self','dian','dian','noodle2'])&&L().lunchShop(T(8),none)==='korea',J([base,got]));
+  const got=[ls('Y1S1',8),ls('Y1S1',9),ls('Y1S1',10),ls('Y1S1',11),ls('Y1S1',12),ls('Y1S2',2),ls('Y1S2',3)], base=[2,3,4,5,6].map(w=>L().lunchShop(T(w),none)), R2=['dian'].concat(ROT.filter(x=>x!=='dian'));
+  check('4. 輪流：沒選過＝照資料的順序（第 2 週起）；選了牛排那間＝從下一週（第 8 週）起它排第一，下學期第 2 週也是它（沒選過的第 8 週是輪到的那一間）',
+    J(base)===J([ROT[0],ROT[1],ROT[2],ROT[3],ROT[0]])&&J(got)===J([R2[0],R2[1],R2[2],R2[3],R2[0],R2[0],R2[1]])&&L().lunchShop(T(8),none)===ROT[(8-2)%4],J([base,got]));
   const ph=async(w,rank)=>{ fresh(td('Y1S1',w,1),11.9,'campus'); PHONE.join(H.G,'noodle_team','麵店團'); H.G.flags.L118_FIRST_SENT=true; if(rank){ H.G.flags.ZHE_118_RANK=rank; rec().rankAt={term:'Y1S1',week:w}; } met('zhe');
     for(let h=11.95;h<=12.1;h+=0.05){ H.G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(H.G); } const m=(H.G.msgs||[]).filter(x=>x.th==='g:noodle_team').map(x=>x.text); return [m,(H.G.flags.L118_PICK||'')]; };
-  const [p5]=await ph(5), [p8]=await ph(8,'dian');
-  check('4. 手機：第 5 週（輪到好家）阿哲傳「自助餐 我需要吃菜」；選過滇香的第 8 週傳「今天換一間 我想吃滇緬」',p5.includes('自助餐 我需要吃菜')&&!p5.some(t=>/家常菜/.test(t))&&p8.includes('今天換一間 我想吃滇緬'),J([p5,p8]));
+  const [p5]=await ph(5), [p8]=await ph(8,'dian'), gone14=(R772.d.fix.find(r=>r.file==='src/lane118.js'&&r.new==='（拿掉）')||{}).old;
+  check('4. 手機：第 5 週（輪到第四間）阿哲傳資料裡那一間的那一句、沒有 AA_480 換店的那一句；選過牛排那間的第 8 週傳牛排那一句',p5.includes(WK[ROT[3]])&&!!gone14&&!p5.includes(gone14)&&p8.includes(WK.dian),J([p5,p8]));
   { fresh(td('Y1S1',5,1),11.9,'campus'); PHONE.join(H.G,'noodle_team','麵店團'); H.G.flags.L118_FIRST_SENT=true; met('zhe'); for(let h=11.95;h<=12.1;h+=0.05){ H.G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(H.G); }
     PHONE.answer(H.G,'l118_lunch_'+H.G.day,0); STORY.phoneRules(GM); const q=OUT.get(H.G,'l118_lunch_'+H.G.day);
-    check('4. 回「走。」：12:15 出遊到好家門口（goto 118 巷）、約好的午餐在好家',!!q&&q.goto&&q.goto.zone==='lane118'&&H.G.flags.L118_LUNCH&&H.G.flags.L118_LUNCH.shop==='self'&&/好家自助餐/.test(q.title||''),J([q&&q.title,H.G.flags.L118_LUNCH])); }
-  /* 舊存檔：和阿哲吃過家常菜（週日坐過去一起吃，AA_320 L1）也算那一間 */
-  fresh(td('Y1S1',3,7),12.5,'l118_home'); met('zhe'); met('yu'); here('zhe'); await order('home',['排骨飯','坐過去一起吃']); const hm=!!L().ateWith(H.G,'zhe','home'); gone('zhe');
-  at(td('Y1S1',4,1),12.5); lunch('dian'); await order('dian',['椒麻雞飯']); at(td('Y1S1',5,1),12.5); lunch('korea'); await order('korea',['石鍋拌飯']);
-  at(td('Y1S1',5,3),12.5); H.G.flags.L118_LUNCH=null; here('zhe'); await order('noodle2',['牛肉麵']); await order('noodle2',['牛肉麵'],td('Y1S1',6,3),12.5);
-  check('4. 舊存檔和阿哲吃過家常菜（週日坐過去一起吃）＝算那一間：沒去好家也演 H4',hm&&!L().ateWith(H.G,'zhe','self')&&has(H4.lines[0][1]),J([rec().w,said()]));
-  const other=async(pick)=>{ fresh(td('Y1S1',7,3),12.5,'l118_noodle2'); met('zhe'); here('zhe'); for(const s of ['noodle2','dian','korea','self']) rec().w['zhe@'+s]={n:1,d0:H.G.day-3,d:H.G.day-3}; await order('noodle2',['牛肉麵',pick]); return [said(),H.G.flags.ZHE_118_RANK]; };   /* 【前置／捷徑】四間的次數直接寫進存檔 */
-  const [a,ra]=await other('「這間第一。」'), [b,rb]=await other('「韓式。」');
-  check('4. 「這間第一。」→「英雄所見略同。老闆，他也是大碗。」（noodle2）；「韓式。」→「你被 Alison 洗腦了。」（korea）',a.some(t=>t.endsWith('：英雄所見略同。老闆，他也是大碗。'))&&ra==='noodle2'&&b.some(t=>t.endsWith('：你被 Alison 洗腦了。'))&&rb==='korea',J([a,b])); });
+    check('4. 回「走。」：12:15 出遊到那一間門口（goto 118 巷）、約好的午餐在那一間（標題是現在的店名）',!!q&&q.goto&&q.goto.zone==='lane118'&&H.G.flags.L118_LUNCH&&H.G.flags.L118_LUNCH.shop===ROT[3]&&(q.title||'').includes(L().shop(ROT[3]).name),J([q&&q.title,H.G.flags.L118_LUNCH])); }
+  /* 舊存檔：改版以前和阿哲在舊的四間（麵舖 noodle2、滇香 dian、韓食 korea、好家 self）吃過——讀檔的遷移照故事搬以後，四間都算吃過、在麵店演 H4 */
+  fresh(td('Y1S1',6,3),12.5,'l118_'+NS); met('zhe'); here('zhe'); H.G.l118={n:{},d:{},last:{},once:{},w:{}}; for(const x of ['noodle2','dian','korea','self']) H.G.l118.w['zhe@'+x]={n:1,d0:H.G.day-9,d:H.G.day-9};
+  L().migrate(H.G); const mw=ROT.every(x=>(L().ateWith(H.G,'zhe',x)||{}).n>=1); await order(NS,[it(NS)]);
+  check('4. 舊存檔（和阿哲在舊的四間吃過）讀進來：一起吃的次數照故事搬、四間都算吃過，在麵店演 H4',mw&&!L().ateWith(H.G,'zhe','noodle2')&&!L().ateWith(H.G,'zhe','self')&&has(H4.lines[0][1]),J([rec().w,said()]));
+  const other=async(k)=>{ fresh(td('Y1S1',7,3),12.5,'l118_'+NS); met('zhe'); here('zhe'); for(const x of ROT) rec().w['zhe@'+x]={n:1,d0:H.G.day-3,d:H.G.day-3}; await order(NS,[it(NS),O(k).t]); return [said(),H.G.flags.ZHE_118_RANK]; };   /* 【前置／捷徑】四間的次數直接寫進存檔 */
+  const [a,ra]=await other(0), [b,rb]=await other(2);
+  check('4. 「這間第一。」→ 他的回話、記這一間（korea）；「韓式。」→「你被 Alison 洗腦了。」、記韓食老闆現在那一間（tea）',O(0).t==='「這間第一。」'&&a.some(t=>t.endsWith('：'+O(0).say[0][1]))&&ra===NS&&O(2).t==='「韓式。」'&&O(2).say[0][1]==='你被 Alison 洗腦了。'&&b.some(t=>t.endsWith('：你被 Alison 洗腦了。'))&&rb==='tea',J([a,b])); });
 
 /* ---- 5 H5 ---- */
 await sec(5,async()=>{ const H5=L().H5;
