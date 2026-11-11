@@ -1,13 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[10:52:55] ==== END   LM_scene2_int  exit=0  135s   ====
-[10:52:59] memory 52% before starting SS3D_N2_0eb2a (2 running)
-[10:52:59] ==== START SS3D_N2_0eb2a  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
-[10:53:02] [res] cpu=5% mem=52% (16.4/31.4 GB) chrome_testing=10  START SS3D_N2_0eb2a
-[10:54:01] [res] cpu=6% mem=50% (15.9/31.4 GB) chrome_testing=9  END LM_scene2_new
-[10:54:03] 正在跑：LM_scene2_new（已跑 4 分／上限 15 分）、LM_scene2_old（已跑 2 分／上限 12 分）、SS3D_N2_0eb2a（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       9c1fba9ab..5c246761e  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [10:54:07] ==== END   LM_scene2_new  exit=0  252s   ====
 [10:54:10] memory 51% before starting G10_N1_0eb2a (2 running)
 [10:54:10] ==== START G10_N1_0eb2a  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
@@ -1998,3 +1989,12 @@
 [18:44:12] ==== START STAIRX_new_run  (probe @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
 [18:44:15] [res] cpu=7% mem=48% (15.2/31.4 GB) chrome_testing=10  START STAIRX_new_run
 [18:46:26] [res] cpu=21% mem=50% (15.9/31.4 GB) chrome_testing=10  END L118A9_tap13
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       568989fd3..e9e4faf6e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:46:32] ==== END   L118A9_tap13  exit=0  385s   ====
+[18:46:36] memory 48% before starting STAIRX_new_walk10 (2 running)
+[18:46:36] ==== START STAIRX_new_walk10  (probe @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[18:46:39] [res] cpu=7% mem=48% (15.3/31.4 GB) chrome_testing=10  START STAIRX_new_walk10
+[18:49:04] 正在跑：STAIRX_new_walk（已跑 7 分／上限 40 分）、STAIRX_new_run（已跑 4 分／上限 40 分）、STAIRX_new_walk10（已跑 2 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:51:16] [res] cpu=5% mem=50% (16.0/31.4 GB) chrome_testing=10  END STAIRX_new_walk
