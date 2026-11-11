@@ -6594,6 +6594,22 @@
    "receiver": "LAWWW",
    "ack": "ACK",
    "note": "X324 G 區（A～F 沒包到的 103 個檔）全部做完"
+  },
+  {
+   "task": "PEISHAN-VOICE-1110",
+   "branch": "claude/story-planning",
+   "files": [
+    "docs/story_planning/AA_807_us_term_reread.json",
+    "docs/story_planning/AA_808_peishan_tilde.json"
+   ],
+   "status": "已交付",
+   "at": "2026-11-11T12:1x",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "todo": "",
+   "next": "LAWWW 照 line rows 換（AA_807 4 列、AA_808 61 列）",
+   "note": "VAC-GAP-ROUTES 重讀美國那學期時發現：X327 漏掉的沛珊句尾「～」、中秋「台南家裡」與設定不合"
   }
  ],
  "items": [
