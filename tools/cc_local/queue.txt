@@ -7,6 +7,15 @@
 #        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
 # ===== P1 BB 21:00：BUG-NY-EXIT-1110 看完電影走不出南洋大廳？線上 main 779ddd650＋開發分支最新 9f20f1808，觸控／搖桿各一次（排最前面）=====
+# ★P1 BB 06:08 CLASS12_skip5（a740616de：選項按鈕自己被按下才算、事件時間、略過中跳出的選單 900 ms、略過鍵移到對話框左上；?tapguard；三堂＝憲法 15、刑總 13、民總 15；舊版對照＝skip3）
+CLASS12_skip5_150x5 | a740616de62d7d06fbb06290fd7168173531d6fb | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;BURSTN=5;BURSTMS=150;SKIPHIDE=1;SHA=a740616de62d7d06fbb06290fd7168173531d6fb
+CLASS12_skip5_150x10 | a740616de62d7d06fbb06290fd7168173531d6fb | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;BURSTN=10;BURSTMS=150;SKIPHIDE=1;SHA=a740616de62d7d06fbb06290fd7168173531d6fb
+CLASS12_skip5_150x20 | a740616de62d7d06fbb06290fd7168173531d6fb | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;BURSTN=20;BURSTMS=150;SKIPHIDE=1;SHA=a740616de62d7d06fbb06290fd7168173531d6fb
+CLASS12_skip5_np1000 | a740616de62d7d06fbb06290fd7168173531d6fb | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;NORMALPICK=1000;SHA=a740616de62d7d06fbb06290fd7168173531d6fb
+CLASS12_skip5_np400 | a740616de62d7d06fbb06290fd7168173531d6fb | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;NORMALPICK=400;SHA=a740616de62d7d06fbb06290fd7168173531d6fb
+CLASS12_skip5_old150x20 | a740616de62d7d06fbb06290fd7168173531d6fb | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;BURSTN=20;BURSTMS=150;BURSTAT=old;SHA=a740616de62d7d06fbb06290fd7168173531d6fb
+CLASS12_skip5_500x5 | a740616de62d7d06fbb06290fd7168173531d6fb | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;BURSTN=5;BURSTMS=500;SHA=a740616de62d7d06fbb06290fd7168173531d6fb
+CLASS12_skip5_out150x20 | a740616de62d7d06fbb06290fd7168173531d6fb | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;OUTBURST=1;BURSTN=20;BURSTMS=150;SHA=a740616de62d7d06fbb06290fd7168173531d6fb
 NYX_live_tap | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_ny_exit_probe.py | index.html | 15 | MODE=tap
 NYX_live_joy | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_ny_exit_probe.py | index.html | 15 | MODE=joy
 NYX_dev_tap | 9f20f1808d4e15192c105acafa381b0f323a230c | probe | docs/story_planning/test_tools/cc/cc_ny_exit_probe.py | index.html | 15 | MODE=tap

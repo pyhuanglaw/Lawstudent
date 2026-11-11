@@ -449,6 +449,16 @@ SKIPGEO = r"""(()=>{ const q=id=>{ const e=document.getElementById(id); if(!e) r
     atCenter:hit?(hit.id||String(hit.className||'').slice(0,30)||hit.tagName)+((hit.closest&&hit.closest('#choices button'))?'（選項 '+(hit.closest('#choices button').textContent||'').trim().slice(0,16)+'）':''):null}; })()"""
 
 
+SKIPRECT = {}   # skip5（BB 06:08）：skip_geo 量到的略過鍵框（每個方向），選單出現時拿來算重疊、OUTBURST 在那個位置連點
+BURSTAT = ENV('BURSTAT') or 'live'   # live＝鍵現在的位置（a740616de 起是對話框左上）；old＝原本右下（對話框右緣 −10−38、上緣 −50+22）
+NORMALPICK = int(ENV('NORMALPICK') or '0')   # >0：略過停在課堂選單時，選單出現後等這麼多 ms 照字點（BB 06:08 第 2 點：1000、400），點不到每 300 ms 再點，記第幾下成立
+OUTBURST = ENV('OUTBURST') == '1'   # 1：課堂裡不連點，下課以後（對話框還在、選單還沒出）在略過鍵的位置連點（一般選單 350 ms 那條，BB 06:08 第 5 點）
+RECJS = "(()=>{ const G=GAME.G, R=CLS.rec(G); const st=typeof STUDY!=='undefined'&&STUDY.rec?STUDY.rec(G):null; return {ask:R.ask||null, notes:(G.notes||[]).slice?(G.notes||[]).slice(-5):null, study:st?JSON.stringify(st).slice(0,600):(G.study?JSON.stringify(G.study).slice(0,600):null)}; })()"
+
+
+def area(r): return (r[2] * r[3]) if r else 0
+
+
 def inter(a, b):
     if not a or not b: return None
     x0, y0 = max(a[0], b[0]), max(a[1], b[1]); x1, y1 = min(a[0] + a[2], b[0] + b[2]), min(a[1] + a[3], b[1] + b[3])
@@ -461,6 +471,7 @@ async def skip_geo(pg, tag, label):
     for c in g['choices']: ov['選項「%s」' % c['t']] = inter(sk, c['r'])
     big = bool(sk) and sk[2] >= 44 and sk[3] >= 44
     R.note('%s：「略過 »」%s（viewport %dx%d，截圖 %s）：框 %s、對話框 %s、字 %s、名字 %s；交集 %s；鍵中央 elementFromPoint＝%s' % (tag, label, g['vw'], g['vh'], fn, sk, g['dlg'], g['text'], g['name'], J({k: v for k, v in ov.items() if v}), g['atCenter']))
+    SKIPRECT[label] = {'skip': sk, 'dlg': g['dlg']}
     R.check('%s：「略過 »」%s ≥44×44 px（%s）' % (tag, label, sk), big)
     R.check('%s：「略過 »」%s 沒有壓到對話框的字、名字（%s）' % (tag, label, J({k: ov[k] for k in ('text', 'name')})), not ov['text'] and not ov['name'])
     return g
@@ -472,7 +483,7 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
     n1 = await GC.logn(pg); t0 = time.time(); free = None; info = {'before': [], 'after': [], 'menus': [], 'burst': None, 'presses': 0, 'stopAt': [], 'resume': []}
     key = L_['item']; bank = await pg.evaluate(BANKQ, sy['ask']['qid']) if sy and sy.get('ask') else None
     callopts = [norm(o) for o in ((sy or {}).get('call') or {}).get('options', [])]
-    started = False; burst_done = not use_skip; last_menu_t = None; tsit = None; tend = None
+    started = False; burst_done = (not use_skip) or OUTBURST or bool(NORMALPICK); last_menu_t = None; tsit = None; tend = None; out_done = not OUTBURST
     while time.time() - t0 < max_s:
         s = await GC.ms(pg); lg = await GC.logs(pg, n1)
         att = next((e for e in lg if e['k'] == 'cls' and e['fn'] in ('attend', 'seatPick')), None)
@@ -494,7 +505,11 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
             else: await skip_geo(pg, tag, '直向' if GC.PORTRAIT else '橫向')
             sb = await pg.evaluate(SKIPBTN)
         if use_skip and started and not burst_done and sb.get('vis'):
-            burst_done = True; c = sb['c']; nb = await GC.logn(pg); tb = await pg.evaluate("performance.now()")
+            burst_done = True; c = sb['c']
+            if BURSTAT == 'old':
+                dr = (await pg.evaluate(SKIPGEO))['dlg']; c = [dr[0] + dr[2] - 10 - 38, dr[1] - 50 + 22]
+                R.note('%s：BURSTAT=old——在原本右下的位置連點 %s（鍵現在在 %s）' % (tag, J(c), J(sb['c'])))
+            rec0 = await pg.evaluate(RECJS); nb = await GC.logn(pg); tb = await pg.evaluate("performance.now()")
             BN = int(os.environ.get('BURSTN') or '5'); BMS = int(os.environ.get('BURSTMS') or '150')   # BB 04:56：5 下／20 下、150／500 ms
             for k in range(BN):
                 await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(BMS)
@@ -503,6 +518,10 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
                 rec = await pg.evaluate("(()=>{ const G=GAME.G, R=CLS.rec(G); const st=typeof STUDY!=='undefined'&&STUDY.rec?STUDY.rec(G):null; return {ask:R.ask||null, notes:(G.notes||G.flags&&G.flags.notes||[]).slice?((G.notes||[]).slice(-3)):null, study:st?JSON.stringify(st).slice(0,400):null}; })()")
                 R.note('%s：連點後 CLS.rec.ask／筆記／STUDY：%s' % (tag, J(rec)))
             except Exception as e: R.note('%s：讀 ask／筆記失敗 %r' % (tag, e))
+            try:
+                rec1 = await pg.evaluate(RECJS)
+                R.check('%s：連點前後 CLS.rec.ask／筆記本／STUDY 都沒變（題庫題沒有被點掉）' % tag, rec0 == rec1, J({'前': rec0, '後': rec1}) if rec0 != rec1 else '')
+            except Exception as e: R.note('%s：連點前後紀錄比對失敗 %r' % (tag, e))
             blg = await GC.logs(pg, nb)
             downs = [{'k': i + 1, 'tgt': e.get('tgt'), 'btn': e.get('btn'), 'menu': e.get('menu'), 'sinceMenu': e.get('sinceMenu')} for i, e in enumerate([x for x in blg if x['k'] == 'down'])]
             picks = [e for e in blg if e['k'] == 'pick']
@@ -516,7 +535,8 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
         if s['ch']:
             if use_skip and os.environ.get('SKIPHIDE') == '1':   # BB 04:59（2d90b034c）：選項出來的時候「略過 »」要收起來（display:none）
                 sbm = await pg.evaluate(SKIPBTN); R.check('%s：選單出現時「略過 »」收起來（看不到）' % tag, not sbm.get('vis'), J({k: sbm.get(k) for k in ('vis', 'r', 'disp') if k in sbm}))
-            free = None; await pg.wait_for_timeout(600); hs = await heads(pg)
+            free = None; inmenu = bool(att) and not done
+            await pg.wait_for_timeout(0 if (NORMALPICK and inmenu) else 600); hs = await heads(pg)
             if not hs: continue
             if att and not done:
                 g = await pg.evaluate(SKIPGEO); sb3 = await pg.evaluate(SKIPBTN)
@@ -524,6 +544,17 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
                 fn = await shot(pg, '%s_menu_skipgeo' % tag)
                 R.note('%s：選單出現時「略過 »」看得到＝%s、框 %s、鍵中央 elementFromPoint＝%s、選項 %s（截圖 %s）' % (tag, sb3.get('vis'), g['skip'], g['atCenter'], J(g['choices']), fn))
                 R.check('%s：選單出現時「略過 »」沒有壓到選項（%s）' % (tag, J({k_: v for k_, v in ovc.items() if v})), not any(ovc.values()))
+            if inmenu and SKIPRECT and not NORMALPICK and not info.get('mgeo'):   # BB 06:08 第 3 點：直向、橫向各量略過鍵（坐下時量的）、選單每一項、對話框，記重疊面積（NORMALPICK 那幾行不量，免得拖時間）
+                info['mgeo'] = True; vp0 = pg.viewport_size
+                for w_, h_, lab in ((844, 390, '橫向'), (390, 844, '直向')):
+                    if lab not in SKIPRECT: continue
+                    await pg.set_viewport_size({'width': w_, 'height': h_}); await pg.wait_for_timeout(500)
+                    g = await pg.evaluate(SKIPGEO); sk = SKIPRECT[lab]['skip']; fn = await shot(pg, '%s_menugeo_%s' % (tag, lab))
+                    ov = {c['t']: [inter(sk, c['r']), area(inter(sk, c['r']))] for c in g['choices']}; ovd = inter(sk, g['dlg'])
+                    R.note('%s：選單出現時（%s，截圖 %s）：略過鍵（坐下時的框）%s、對話框 %s、選項 %s；略過鍵和每一項的重疊 %s；和對話框的重疊 %s（%d px²）' % (tag, lab, fn, sk, g['dlg'], J(g['choices']), J(ov), ovd, area(ovd)))
+                    R.check('%s：%s 略過鍵的位置和選單每一項都不重疊' % (tag, lab), not any(v[1] for v in ov.values()), J({k_: v for k_, v in ov.items() if v[1]}))
+                await pg.set_viewport_size(vp0); await pg.wait_for_timeout(500); hs = await heads(pg)
+                if not hs: continue
             nh = [norm(h) for h in hs]
             if any(h.startswith(('先自由活動', '直接去下一堂', '先去吃飯')) for h in hs): k = next(i for i, h in enumerate(hs) if h.startswith('先自由活動')); why = '下課選單'
             elif callopts and nh == callopts: k = 0; why = 'call'
@@ -532,7 +563,22 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
             else: k = 0; why = '其他（第一項）'
             if att and not done: info['stopAt'].append({'why': why, 'opts': hs}); await shot(pg, '%s_skip_stop%d' % (tag, len(info['stopAt'])))
             info['menus'].append([why, hs[k]]); R.note('%s：停在選單［%s］%s → %s' % (tag, why, J(hs), hs[k]))
-            await tap_head(pg, cdp, k)
+            if NORMALPICK and inmenu and not info.get('np'):   # BB 06:08 第 2 點：按略過 → 選單出現 → 停 NORMALPICK ms → 照字點；記選不選得到、第幾下成立
+                info['np'] = True; nlg = await GC.logn(pg)
+                t_menu = await pg.evaluate("(window.__GC&&window.__GC.lastChooseT)||null"); now0 = await pg.evaluate("performance.now()")
+                if t_menu is not None and now0 - t_menu < NORMALPICK: await pg.wait_for_timeout(int(NORMALPICK - (now0 - t_menu)))
+                tries = []; ok_at = None
+                for kk in range(6):
+                    tt = await pg.evaluate("performance.now()"); await tap_head(pg, cdp, k); await pg.wait_for_timeout(350)
+                    pk = [e for e in await GC.logs(pg, nlg) if e['k'] == 'pick']; tries.append(round(tt - t_menu) if t_menu is not None else None)
+                    if pk: ok_at = kk + 1; break
+                    if not (await GC.ms(pg)).get('ch'): break
+                    await pg.wait_for_timeout(300)
+                R.note('%s：正常路徑（選單出現後停 %d ms 照字點「%s」）：每一下距選單出現 %s ms；第 %s 下成立' % (tag, NORMALPICK, hs[k], J(tries), ok_at))
+                if NORMALPICK >= 1000: R.check('%s：選單出現 %d ms 後照字點，第 1 下就選得到' % (tag, NORMALPICK), ok_at == 1, J({'tries': tries, 'ok_at': ok_at}))
+                else: R.note('%s：只記（%d ms＜900 ms）：第 %s 下才成立——玩家「按了沒反應」%s 次' % (tag, NORMALPICK, ok_at, (ok_at - 1) if ok_at else '（一直沒成立）'))
+                if not ok_at and (await GC.ms(pg)).get('ch'): await tap_head(pg, cdp, k)
+            else: await tap_head(pg, cdp, k)
             last_menu_t = time.time(); await pg.wait_for_timeout(300)
             if use_skip and att and not done:
                 # 選完：下一句要停住（不自己翻）；1.5 秒後看還是不是同一句，再按一次略過
@@ -553,6 +599,18 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
                 R.note('%s：選完以後下一句停住、不自己翻＝%s（「%s」）；「略過 »」又出現＝%s' % (tag, same, b2['dtext'], sb2.get('vis')))
                 if sb2.get('vis'): await L.touch_tap(cdp, sb2['c'][0], sb2['c'][1]); info['presses'] += 1
             continue
+        if s['dlg'] and done and not out_done and SKIPRECT:   # BB 06:08 第 5 點：下課以後（不在略過範圍，一般選單 350 ms）在略過鍵的位置連點 150 ms ×BURSTN
+            out_done = True; lab = '直向' if (pg.viewport_size or {}).get('width', 844) < 600 else '橫向'; sk = (SKIPRECT.get(lab) or {}).get('skip')
+            if sk:
+                c = [sk[0] + sk[2] / 2, sk[1] + sk[3] / 2]; BN = int(os.environ.get('BURSTN') or '20'); BMS = int(os.environ.get('BURSTMS') or '150')
+                nb = await GC.logn(pg); R.note('%s：下課以後對話框「%s」還在，在略過鍵的位置 %s 連點 %d 下（每 %d ms）' % (tag, s['dtext'], J(c), BN, BMS))
+                for _k in range(BN):
+                    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(BMS)
+                await pg.wait_for_timeout(600); blg = await GC.logs(pg, nb)
+                picks = [e for e in blg if e['k'] == 'pick']; menus = [e.get('opts') for e in blg if e['k'] == 'choose']
+                R.note('%s：下課以後連點那段：翻過 %d 句、出現的選單 %s、選到的 %s' % (tag, len([e for e in blg if e['k'] in ('say', 'cap')]), J(menus), J([[p.get('txt'), p.get('dt'), p.get('downDt')] for p in picks])))
+                R.check('%s：下課以後（一般選單）連點 %d 下沒有選到任何選項' % (tag, BN), not picks, J([[p.get('txt'), p.get('dt'), p.get('downDt')] for p in picks]))
+                await shot(pg, '%s_outburst' % tag); continue
         if s['dlg']:
             free = None
             if use_skip and att and not done and sb.get('vis') and burst_done:
@@ -565,6 +623,7 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
         if done and time.time() - free >= 3: break
         if not done and time.time() - free >= 25: R.note('%s：空下來 25 秒還沒下課（%s）' % (tag, J(s))); break
         await pg.wait_for_timeout(200)
+    if OUTBURST: R.check('%s：OUTBURST 有跑到（下課以後有對話框可以連點）' % tag, out_done and bool(SKIPRECT), '下課以後沒看到對話框就直接出選單／沒量到略過鍵' if not out_done else '')
     await GC.play(pg, cdp, picks=('先自由活動',), max_s=20, idle_s=4, tag=tag + '_after')
     lg = await GC.logs(pg, n1); att = next((e for e in lg if e['k'] == 'cls' and e['fn'] in ('attend', 'seatPick')), None)
     info['n1'] = n1; info['sitToFree'] = round((tend - att['t']) / 1000, 1) if (tend and att) else None
