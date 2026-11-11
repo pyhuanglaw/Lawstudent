@@ -1271,3 +1271,11 @@
 [04:06:02] [res] cpu=13% mem=45% (14.3/31.4 GB) chrome_testing=10  START N1_TSR_DORM_ab
 [04:06:16] 正在跑：N1_MOKU_PLANT_7（已跑 16 分／上限 45 分）、LEADOUT_old（已跑 5 分／上限 100 分）、N1_TSR_DORM_ab（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [04:07:23] [res] cpu=36% mem=44% (13.9/31.4 GB) chrome_testing=10  END LEADOUT_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       acb5f8936..64ab7265f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:07:30] ==== END   LEADOUT_old  exit=1  398s   ====
+[04:07:41] memory 42% before starting N1_TSR_LIB_ab (2 running)
+[04:07:41] ==== START N1_TSR_LIB_ab  (probe @ ab282014af7e5c878ad171819465665fcc4ae2a5) ====
+[04:07:44] [res] cpu=13% mem=42% (13.2/31.4 GB) chrome_testing=10  START N1_TSR_LIB_ab
+[04:10:01] [res] cpu=31% mem=45% (14.5/31.4 GB) chrome_testing=10  END N1_MOKU_PLANT_7
