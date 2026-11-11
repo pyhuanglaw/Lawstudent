@@ -4558,3 +4558,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 4.8s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
 - 2026-11-11T23:30:29  ACT_ZR3_fix_rel  sha=f312c68cc961c70c7d548fe40c2ae42483d517ba  exit=0  140s    PASS [ZR3_SMOKE] 沒有 JS 例外（pageerror）  [] /   [ZR3_SMOKE] 用了 75 秒 / ALL PASS
       err.log (last 5): [gpu_wrap 4.6s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 102.5s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 102.5s] BROWSER DISCONNECTED
+- 2026-11-11T23:33:03  ACT_ZR3_SITFIRST_rel  sha=f312c68cc961c70c7d548fe40c2ae42483d517ba  exit=1  213s    PASS [ZR3_SMOKE] 沒有 JS 例外（pageerror）  [] /   [ZR3_SMOKE] 用了 148 秒 / FAILED: [ZR3_SMOKE] SITFIRST：她出現以前就坐下了（18.28＜13.75、她還不在）
+      err.log (last 5): [gpu_wrap 4.6s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 174.6s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 174.6s] BROWSER DISCONNECTED
