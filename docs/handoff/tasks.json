@@ -53431,6 +53431,34 @@
    "sha": "5f259dd02",
    "next": "【11-11 08:0x】原因：斜著推時完整一步撞到東邊隔間牆、引擎只拿完整那一步試換層，沿牆滑的那一步沒試換層。修法：src/engine3d.js stepEntity 沿牆滑的那一步也試換層（所有多樓層區域共用）。Node：tests/mokuyobi_stair_top_1111_unit.js（修改前停在同一點）＋多樓層相關 60 支過。等 CC 照 BB 走法重跑（左中右各 10 趟、走跑、30／10 fps）＋抽別的多樓層區域。",
    "xai": []
+  },
+  {
+   "id": "SEASON3-LINES-1111",
+   "title": "季節布置第三批的文字：六個季節攤販 A1 烤地瓜、A2 愛玉、A3 月餅桌、A4 春聯攤、A5 畢業花束、A6 二手教科書（照 AA_752 夜市稿格式：look、greet、items、buy、closed、hours）＋五項落地布置 B1 阿忠鮮果四季、B2 花序 Flower Notes 門口四季花、B6 下雨天傘架、C2 元宵小燈籠串、C5 中秋文旦堆＋騎樓小烤肉架 各一句「看」",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "季節布置（日期決定）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【11-11 08:2x】等 LAWWW2 季節第三批交模型（攤販 key：sea_yam、sea_aiyu、sea_mooncake、sea_couplet、sea_bouquet、sea_textbook；B2 key flower_notes_season）和位置，LAWWW 轉給 AA 再寫；v9.10.25 發版後整合。店名照 D147：使用者沒給名字的攤子不取名。買的流程 LAWWW 接 src/night_market3d.js。",
+   "pausedReason": null,
+   "xai": [
+    {
+     "from": "LAWWW",
+     "to": "AA",
+     "what": "預告（08:1x）",
+     "state": "ACK"
+    }
+   ]
   }
  ]
 }
