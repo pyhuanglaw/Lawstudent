@@ -295,7 +295,7 @@ async def ss_hours(pg, cdp, d, sm, sg, at, face):
         rows.append((tag, vf['h'], st.get('canTalk'), vf))
         R.note('[SS_MAIN %s] G.hour %s：LM.canTalk %s、zone.tzLimao.open %s；3 秒 %d 幀：obj.visible %d 幀、看得到 %d 幀、閃 %d 次；狀態 %s' % (tag, hhmm(vf['h']), st.get('canTalk'), st.get('open'), vf['frames'], vf['visFrames'], vf['shownFrames'], vf['flips'], J({k: st.get(k) for k in ('has', 'driver', 'degr', 'vis', 'hidden')})))
         if want: R.check('[SS_MAIN %s] 店開著（G.hour %s）：每一幀都看得到上師' % (tag, hhmm(vf['h'])), vf['frames'] > 0 and vf['shownFrames'] == vf['frames'], J(vf))
-        else: R.check('[SS_MAIN %s] 收著（G.hour %s）：遊戲鏡頭對著他的位子（頭的投影在畫面裡）、沒有一幀看得到上師' % (tag, hhmm(vf['h'])), vf['frames'] > 0 and vf['shownFrames'] == 0 and bool(pj.get('onScreen')), J(dict(vf, onScreen=pj.get('onScreen'))))
+        else: R.check('[SS_MAIN %s] 收著（G.hour %s）：遊戲鏡頭對著他的位子（頭的投影在畫面裡）、連續 ≥60 幀沒有一幀看得到上師（BB 02:34）' % (tag, hhmm(vf['h'])), vf['frames'] >= 60 and vf['shownFrames'] == 0 and bool(pj.get('onScreen')), J(dict(vf, onScreen=pj.get('onScreen'))))
     open(os.path.join(OUT, 'ss_hours.md'), 'w', encoding='utf-8').write('| 時間 | 量的那一刻 G.hour | LM.canTalk | 幀數 | visible 幀 | 看得到幀 | 閃 |\n|---|---|---|---|---|---|---|\n' + '\n'.join('| %s | %s | %s | %d | %d | %d | %d |' % (r[0], hhmm(r[1]), r[2], r[3]['frames'], r[3]['visFrames'], r[3]['shownFrames'], r[3]['flips']) for r in rows) + '\n')
 
 
