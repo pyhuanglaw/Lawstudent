@@ -894,6 +894,8 @@ SC4_walk_new | 1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511 | probe | docs/story_pla
 SC4_tx_new | 1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511 | probe | docs/story_planning/test_tools/cc/cc_scoot4_probe.py | index.html | 12 | PARTS=TXSIGN,TXDOOR;SHA=1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511
 SC4_street_old | 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585 | probe | docs/story_planning/test_tools/cc/cc_scoot4_probe.py | index.html | 10 | PARTS=STREET,FPS;SHA=0eb2a0049cc6feff9fcd2f91153eca1a5c30b585
 SC4_tx_old | 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585 | probe | docs/story_planning/test_tools/cc/cc_scoot4_probe.py | index.html | 6 | PARTS=TXSIGN;SHA=0eb2a0049cc6feff9fcd2f91153eca1a5c30b585
+# BB 05:47 LM_ceil：玩家做得到的最低鏡頭（雙指推近、往上拖到最平），四間室內看天花板有沒有破洞（696cf6036）
+LM_ceil | 696cf6036f3ca9fbc7022c21ab37324b0e46e305 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 12 | PARTS=CEIL;SHOPS=limao,antai,rongendian,xianguo;SHA=696cf6036f3ca9fbc7022c21ab37324b0e46e305
 # BB 05:03 第七包 ②～⑤（b942470ff；節日燈修之前＝eafbd06b0 同機位）：過年 G01 燈籠、12 月聖誕燈串、萬聖節南瓜燈（SEASON SHOTS 14、20 點）、新生南路配件車（XSCOOT）
 SEASON_cnym3 | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS,NAV;DATES=cny-3;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
 PACK7_old_cnym3 | eafbd06b00313bf9282b53f5b650ae9e9e2d3df7 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 12 | PARTS=SHOTS;DATES=cny-3;ZONES=gongguan;SHA=eafbd06b00313bf9282b53f5b650ae9e9e2d3df7
