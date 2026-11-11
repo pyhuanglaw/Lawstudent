@@ -1938,3 +1938,10 @@
 [11:37:01] [res] cpu=1% mem=36% (11.7/31.4 GB) chrome_testing=0  START GOCLASS_fullcw_old
 [11:37:01] [res] cpu=0% mem=36% (11.7/31.4 GB) chrome_testing=0  START GOCLASS_fullcw_new
 [11:37:07] [res] cpu=0% mem=38% (11.4/31.4 GB) chrome_testing=0  END GOCLASS_fullsvc_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e3c3d597f..3ff764eea  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:37:58] ==== END   GOCLASS_fullsvc_new  exit=0  370s   ====
+[11:38:01] solo item GOCLASS_guard_new waits: no new items start until the 2 running item(s) finish
+[11:39:03] 正在跑：GOCLASS_fullcw_new（已跑 2 分／上限 10 分）、GOCLASS_fullcw_old（已跑 2 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
+[11:41:39] [res] cpu=4% mem=42% (13.4/31.4 GB) chrome_testing=5  END GOCLASS_fullcw_old
