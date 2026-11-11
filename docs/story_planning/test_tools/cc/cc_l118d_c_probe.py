@@ -540,6 +540,7 @@ async def no_moku_menu(pg, cdp, tag, who):
     bad = [t for t in top + (sub or []) if any(n in t for n in OLD_NAMES) or 'undefined' in t]
     R.check('%s 約的選單沒有舊店名、undefined' % tag, not bad, J(bad))
     await F.finish_dialog(pg, cdp); await pe.close_phone(pg, cdp); await F.ready(pg, cdp, 10)
+    if v: await pg.evaluate("(()=>{ (GAME.G.visited=GAME.G.visited||{}).wz_mokuyobi=true; })()"); R.setup('%s【捷徑】G.visited.wz_mokuyobi 放回 True（接著「再約」要列得出木曜日）' % tag)   # CC 14:3x
 
 
 # ---------------------------------------------------------------- LOAD（改之後）
@@ -617,7 +618,7 @@ async def meet_go(pg, cdp, tag, iv):
     R.check('%s 手機「今天」沒有舊店名' % tag, not any(x in body for x in OLD_NAMES), '')
     if not R.check('%s 手機「今天」有那一筆的「前往」' % tag, await pe.tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % iv['id']), ''):
         await pe.close_phone(pg, cdp); return None
-    said = []; reached = False; t0 = time.time(); st = None
+    said = []; reached = False; t0 = time.time(); st = None; covered = False
     while time.time() - t0 < 300:
         q = await L.state(pg)
         if q['zone'] == 'wz_mokuyobi': reached = True
@@ -626,6 +627,12 @@ async def meet_go(pg, cdp, tag, iv):
         if q['dtext'] and (not said or said[-1] != q['dtext']): said.append(q['dtext'])
         st = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).find(x=>String(x.id)===String(id)); return v?{st:v.state, ph:v.lead&&v.lead.ph, zone:v.zone}:null; })(%s)" % J(iv['id']))
         if st and st['st'] in ('done', 'met', 'over', 'cancelled', 'missed') and not q['dlg'] and not q['busy'] and not q['choices']: break
+        if q['choices'] and await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"):   # CC 14:3x（V25_L118_C5 5a：按「前往」後手機沒收、底下跳「直接過去」選單，探針點 300 秒點不到）
+            cov = await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); if(!b) return null; const r=b.getBoundingClientRect(); const e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2); return {top:e?(e.id||e.className||e.tagName):null, onChoice:!!(e&&e.closest&&e.closest('#choices'))}; })()")
+            if not covered:
+                covered = True; await D.shot(pg, 'l118d_%s_menu_under_phone' % tag.replace(' ', '_').replace('[', '').replace(']', ''), judge_black=False)
+                R.note('%s 【觀察】選單出現時手機還開著：選項 %s；選單中間那一點最上面是 %s（onChoice＝點得到選單）；遊戲時間 %s' % (tag, J(q['choices']), J(cov), await pg.evaluate("+(+GAME.G.hour).toFixed(2)")))
+            await pe.close_phone(pg, cdp); continue
         if q['choices']:
             o = await pe.opts(pg); ts = [x['t'] for x in o]; said.append('選項：' + '｜'.join(ts))
             pick = next((x['t'] for x in o if not x['dim'] and not any(w in x['t'] for w in ('算了', '返回', '下次再說', '自己走過去'))), ts[0])
@@ -714,11 +721,11 @@ async def load_one(pg, cdp, url, k, ent, save, menus, errs):
             await cancel_seen(pg, cdp, tag, new, inv)
             vis = (new.get('visited') or {}).get('wz_mokuyobi')
             R.note('%s 這份存檔去過木曜日（G.visited.wz_mokuyobi＝%s；新版約念書的木曜日要自己去過一次才列）' % (tag, vis))
+            await no_moku_menu(pg, cdp, tag + ' 沒去過木曜日', INV_WHO)   # CC 14:3x（V25_L118_C5 TEST_BUG）：放在「再約」前面——再約完和她已經約好了，手機「朋友」照設計不給「約」（INV.whyNot：已經約好了）
             iv = await invite_slowread(pg, cdp, tag + ' 再約', INV_WHO, '木曜日', ['今天 15:30', '明天 15:30', '今天 19:00', '明天 19:00'])
             dom2 = await pg.evaluate(DOM_JS); check_names(tag, dom2, '再約以後的畫面')
             R.check('%s 取消以後可以再約木曜日（新的一筆 place slowread、zone wz_mokuyobi、state accepted／offered／changed）' % tag,
                     bool(iv) and iv['zone'] == 'wz_mokuyobi' and iv['state'] in ('accepted', 'offered', 'changed'), J(iv))
-            await no_moku_menu(pg, cdp, tag + ' 沒去過木曜日', INV_WHO)
     ne = errs_since(errs, n0)
     R.check('%s 沒有 JS 例外' % tag, not ne, J(ne[:3]))
 
