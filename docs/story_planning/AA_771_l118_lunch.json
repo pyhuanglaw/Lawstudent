@@ -27,7 +27,8 @@
   "for_LAWWW": "已照新九間店改版（v3）。提到店或菜的地方：arrive 九句；有 shop 欄的 L-an-2（omu、pasta）、L-mx-1（cafe2）、L-zhe-1（korea、tea）、L-xc-1（home 以外）；L-yu-3（巷口的手搖飲＝喝不喝咖啡）；偶遇 S-meet-sis（self）、S-meet-yt（dian）、S-meet-kai（korea）、S-meet-ziqing（drink_b）。",
   "v2": "照 BB_331 改：L-zhe-2 不提民總；S-meet-senior 限大一上；「下一堂」四處改掉；G-an-ps 重寫；婉拒回覆每人三句；加 n 欄。id 都沒變。",
   "v3": "照使用者 11-11 的九間店新規格（L118-SHOPS-REDO-1111／X338；AA_280 改版）改：prefs、有 shop 欄的組、arrive 九句（九間都算午餐）、四個偶遇的店。id 都沒變。",
-  "v3b": "LAWWW 11-11 三件：補 options.skip；S-meet-ta 的考卷改成案例作業、cond 改第 10 週以後；Alison「我今天排了四件事，這是第二件。」照留（是她在排行程，不是學姊數件數）。特殊對話是加演（meet 在前、talk 在後）、發起人想去的店都沒開就換人、那堂課有課後劇情當天不邀——三個設計都同意。"
+  "v3b": "LAWWW 11-11 三件：補 options.skip；S-meet-ta 的考卷改成案例作業、cond 改第 10 週以後；Alison「我今天排了四件事，這是第二件。」照留（是她在排行程，不是學姊數件數）。特殊對話是加演（meet 在前、talk 在後）、發起人想去的店都沒開就換人、那堂課有課後劇情當天不邀——三個設計都同意。",
+  "v4": "11-11 補組（欠 LAWWW 的）：八位邀約人各自的單人午餐對話從三組補到五～六組，新增 19 組：L-an-4～6、L-bohan-4～6、L-ps-4～5、L-mx-4～5、L-xc-4～6、L-yc-4～6、L-zhe-4～5、L-yu-4～5；都沒有 shop、n 的限制（哪一間店都可以播）。舊的 31 組 id 和內容沒動。芯慈 L-xc-6 用到她「吃飯習慣前一天約」的設定（who.classmate_xinci.note）。 BB 11-11 看過：L-bohan-6 不靠課表（原本「下午那堂停課」）、L-an-5 不講次數（原本「你每次都忘／三次」第一次一起吃就出會錯）、L-bohan-4 不講第幾個禮拜；其他 16 組照原樣。"
  },
  "who": {
   "heroine_01": {
@@ -289,6 +290,66 @@
    ]
   },
   {
+   "id": "L-an-4",
+   "who": [
+    "heroine_01"
+   ],
+   "lines": [
+    [
+     "heroine_01",
+     "你要點的那個會辣。我看過別人吃到流眼淚。"
+    ],
+    [
+     "player",
+     "妳怎麼不早說。"
+    ],
+    [
+     "heroine_01",
+     "你還沒點。我現在說。"
+    ]
+   ]
+  },
+  {
+   "id": "L-an-5",
+   "who": [
+    "heroine_01"
+   ],
+   "lines": [
+    [
+     "heroine_01",
+     "筷子給你。湯匙我也拿了。"
+    ],
+    [
+     "player",
+     "妳怎麼知道我會忘？"
+    ],
+    [
+     "heroine_01",
+     "你剛剛直接坐下來了。"
+    ]
+   ]
+  },
+  {
+   "id": "L-an-6",
+   "who": [
+    "heroine_01"
+   ],
+   "lines": [
+    [
+     "heroine_01",
+     "我今天不太想講話。你講，我聽。"
+    ],
+    [
+     "player",
+     "那我要講什麼？"
+    ],
+    [
+     "heroine_01",
+     "什麼都可以。不要講判決。"
+    ]
+   ]
+  },
+  {
    "id": "L-bohan-1",
    "who": [
     "classmate_bohan"
@@ -345,6 +406,66 @@
     [
      "classmate_bohan",
      "等你五分鐘還可以。"
+    ]
+   ]
+  },
+  {
+   "id": "L-bohan-4",
+   "who": [
+    "classmate_bohan"
+   ],
+   "lines": [
+    [
+     "classmate_bohan",
+     "我每天吃一樣的。不用想。"
+    ],
+    [
+     "player",
+     "不會膩嗎？"
+    ],
+    [
+     "classmate_bohan",
+     "膩了再換。目前還沒膩。"
+    ]
+   ]
+  },
+  {
+   "id": "L-bohan-5",
+   "who": [
+    "classmate_bohan"
+   ],
+   "lines": [
+    [
+     "classmate_bohan",
+     "你要湯嗎？我去盛，順便。"
+    ],
+    [
+     "player",
+     "你不是趕時間？"
+    ],
+    [
+     "classmate_bohan",
+     "盛湯三十秒。我算過。"
+    ]
+   ]
+  },
+  {
+   "id": "L-bohan-6",
+   "who": [
+    "classmate_bohan"
+   ],
+   "lines": [
+    [
+     "classmate_bohan",
+     "今天不趕。"
+    ],
+    [
+     "player",
+     "你生病了？"
+    ],
+    [
+     "classmate_bohan",
+     "該做的昨天做完了。可以多坐十分鐘。"
     ]
    ]
   },
@@ -409,6 +530,46 @@
    ]
   },
   {
+   "id": "L-ps-4",
+   "who": [
+    "classmate_peishan"
+   ],
+   "lines": [
+    [
+     "classmate_peishan",
+     "你猜我今天帶了幾枝筆。"
+    ],
+    [
+     "player",
+     "三枝？"
+    ],
+    [
+     "classmate_peishan",
+     "零。等一下借我，我會還，大概。"
+    ]
+   ]
+  },
+  {
+   "id": "L-ps-5",
+   "who": [
+    "classmate_peishan"
+   ],
+   "lines": [
+    [
+     "classmate_peishan",
+     "我剛剛幫你占位子，跟旁邊的人說你是我保鑣。"
+    ],
+    [
+     "player",
+     "他信了嗎？"
+    ],
+    [
+     "classmate_peishan",
+     "他看了你一眼，跟我說辛苦了。"
+    ]
+   ]
+  },
+  {
    "id": "L-mx-1",
    "who": [
     "classmate_mingxuan"
@@ -468,6 +629,46 @@
     [
      "classmate_mingxuan",
      "我說看人。"
+    ]
+   ]
+  },
+  {
+   "id": "L-mx-4",
+   "who": [
+    "classmate_mingxuan"
+   ],
+   "lines": [
+    [
+     "classmate_mingxuan",
+     "我帶了水壺。飲料錢省下來，一個月可以多吃四餐。"
+    ],
+    [
+     "player",
+     "你算過？"
+    ],
+    [
+     "classmate_mingxuan",
+     "大概。沒有很準。"
+    ]
+   ]
+  },
+  {
+   "id": "L-mx-5",
+   "who": [
+    "classmate_mingxuan"
+   ],
+   "lines": [
+    [
+     "classmate_mingxuan",
+     "昨天打球扭到，走路有點怪。你不要笑。"
+    ],
+    [
+     "player",
+     "要不要去看醫生？"
+    ],
+    [
+     "classmate_mingxuan",
+     "先冰敷。三天沒好再說。"
     ]
    ]
   },
@@ -542,6 +743,66 @@
    ]
   },
   {
+   "id": "L-xc-4",
+   "who": [
+    "classmate_xinci"
+   ],
+   "lines": [
+    [
+     "classmate_xinci",
+     "不好意思，我吃飯比較慢。你吃完可以先走。"
+    ],
+    [
+     "player",
+     "我等妳。"
+    ],
+    [
+     "classmate_xinci",
+     "那我吃快一點。不對，我一緊張會更慢。"
+    ]
+   ]
+  },
+  {
+   "id": "L-xc-5",
+   "who": [
+    "classmate_xinci"
+   ],
+   "lines": [
+    [
+     "classmate_xinci",
+     "我有帶面紙，要嗎？桌上那盒是空的。"
+    ],
+    [
+     "player",
+     "妳怎麼知道？"
+    ],
+    [
+     "classmate_xinci",
+     "我每次坐下來都會先看。"
+    ]
+   ]
+  },
+  {
+   "id": "L-xc-6",
+   "who": [
+    "classmate_xinci"
+   ],
+   "lines": [
+    [
+     "classmate_xinci",
+     "下次如果要一起吃，可以前一天跟我說嗎？我會比較安心。"
+    ],
+    [
+     "player",
+     "今天不是妳臨時問我的嗎？"
+    ],
+    [
+     "classmate_xinci",
+     "對。所以我現在有點慌。"
+    ]
+   ]
+  },
+  {
    "id": "L-yc-1",
    "who": [
     "classmate_youchen"
@@ -594,6 +855,66 @@
     [
      "classmate_youchen",
      "放了四次。第五次我假裝沒聽到。"
+    ]
+   ]
+  },
+  {
+   "id": "L-yc-4",
+   "who": [
+    "classmate_youchen"
+   ],
+   "lines": [
+    [
+     "classmate_youchen",
+     "我昨天四點睡。現在是靠意志力在吃飯。"
+    ],
+    [
+     "player",
+     "那你還來上課？"
+    ],
+    [
+     "classmate_youchen",
+     "要點名。公告我有在看。"
+    ]
+   ]
+  },
+  {
+   "id": "L-yc-5",
+   "who": [
+    "classmate_youchen"
+   ],
+   "lines": [
+    [
+     "classmate_youchen",
+     "你吃飯都配什麼歌？"
+    ],
+    [
+     "player",
+     "我沒有在聽歌。"
+    ],
+    [
+     "classmate_youchen",
+     "難怪。你吃飯沒有拍子。"
+    ]
+   ]
+  },
+  {
+   "id": "L-yc-6",
+   "who": [
+    "classmate_youchen"
+   ],
+   "lines": [
+    [
+     "classmate_youchen",
+     "這間的冷氣聲是降 B。"
+    ],
+    [
+     "player",
+     "你聽得出來？"
+    ],
+    [
+     "classmate_youchen",
+     "聽不出來的話，我晚上那份工作早就沒了。"
     ]
    ]
   },
@@ -662,6 +983,46 @@
    ]
   },
   {
+   "id": "L-zhe-4",
+   "who": [
+    "zhe"
+   ],
+   "lines": [
+    [
+     "zhe",
+     "我剛剛揪了六個，只有你來。"
+    ],
+    [
+     "player",
+     "其他人呢？"
+    ],
+    [
+     "zhe",
+     "都說下次。沒關係，你一個抵六個。"
+    ]
+   ]
+  },
+  {
+   "id": "L-zhe-5",
+   "who": [
+    "zhe"
+   ],
+   "lines": [
+    [
+     "zhe",
+     "老闆記得我。剛剛沒講，他就多給一匙。"
+    ],
+    [
+     "player",
+     "因為你每天來吧。"
+    ],
+    [
+     "zhe",
+     "因為我每次都把盤子收好。這是策略。"
+    ]
+   ]
+  },
+  {
    "id": "L-yu-1",
    "who": [
     "yu"
@@ -718,6 +1079,46 @@
     [
      "yu",
      "買了用跑的。"
+    ]
+   ]
+  },
+  {
+   "id": "L-yu-4",
+   "who": [
+    "yu"
+   ],
+   "lines": [
+    [
+     "yu",
+     "謝謝你跟我吃。我一個人吃會一直滑手機，然後忘記吞。"
+    ],
+    [
+     "player",
+     "忘記吞？"
+    ],
+    [
+     "yu",
+     "就是嘴巴含著飯在看影片。很恐怖。"
+    ]
+   ]
+  },
+  {
+   "id": "L-yu-5",
+   "who": [
+    "yu"
+   ],
+   "lines": [
+    [
+     "yu",
+     "我跟你說一個秘密，我其實不知道這間什麼好吃。"
+    ],
+    [
+     "player",
+     "妳不是常來？"
+    ],
+    [
+     "yu",
+     "我常來，可是都點一樣的。"
     ]
    ]
   },
