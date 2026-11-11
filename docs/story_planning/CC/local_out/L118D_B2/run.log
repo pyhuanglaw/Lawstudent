@@ -1,0 +1,301 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_ab_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_B2\out
+受測 SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b；PARTS=B；SHOPS=home,cafe2,pasta；URL=http://127.0.0.1:8801/index.html
+Playwright 手機模擬（橫向 844×390）≠ iPhone 實機
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.8s] 畫面上的版本字樣：版本 v9.10.24（2026-11-10）
+  [  25.8s] 候選日期：[{"k": "2025-09-24", "d": 8, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 4}, {"k": "2025-10-01", "d": 15, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 5}, {"k": "2025-10-15", "d": 29, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 7}, {"k": "2025-10-22", "d": 36, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 8}, {"k": "2025-10-29", "d": 43, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 9}, {"k": "2025-11-05", "d": 50, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 10}]
+PASS 日期 2025-09-24：學期中（Y1S1 第 4 週）、不是假日、不是颱風假  {"k": "2025-09-24", "d": 8, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 4}
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (0.00, 31.00)，12.17 點、錢 5000、QUIET=True（查營業時間（巷口））
+  [  44.2s] 營業（L118.isOpen，2025-09-24 12.17）：[{"id": "dian", "open": true, "note": null}, {"id": "self", "open": true, "note": null}, {"id": "tea", "open": true, "note": null}, {"id": "home", "open": true, "note": null}, {"id": "cafe2", "open": true, "note": null}, {"id": "pasta", "open": true, "note": null}, {"id": "korea", "open": true, "note": null}, {"id": "omu", "open": true, "note": null}, {"id": "noodle2", "open": true, "note": null}, {"id": "drink_a", "open": true, "note": null}, {"id": "drink_b", "open": true, "note": null}]
+PASS home 這個時間有開（沒有公休紙）  {"id": "home", "open": true, "note": null}
+PASS cafe2 這個時間有開（沒有公休紙）  {"id": "cafe2", "open": true, "note": null}
+PASS pasta 這個時間有開（沒有公休紙）  {"id": "pasta", "open": true, "note": null}
+  逐字｜start｜lane118｜clockZ｜118 巷
+  逐字｜start｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+
+===== home 五湖四海（PARTS=B）=====
+PASS home 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (-3.90, 2.00)，12.17 點、錢 5000、QUIET=True（五湖四海 店門口附近的人行道）
+PASS home 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": -3.9, "z": 2, "ry": -3.04, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 0.1, "fallbacks": 0, "y": 0, "lv": 0, "frame": 312, "paused": false}
+PASS home 巷子裡有這間店的店門口互動點  [{"x": -4.3, "z": -2, "r": 1.4, "label": "進五湖四海（水餃店）", "hidden": false, "enter": true}, {"x": -4.3, "z": -2, "r": 1.4, "label": "五湖四海（水餃店）", "hidden": true, "enter": false}]
+  [  52.9s] 搖桿走到「五湖四海 店門口」（0.12 m，推 2 次，3 秒）
+  逐字｜home_door｜lane118｜interactLabel｜進五湖四海（水餃店）
+PASS A home 店門口互動鍵（畫面）「進五湖四海（水餃店）」  畫面：「進五湖四海（水餃店）」；搖桿；範圍內 ["進五湖四海（水餃店）"]
+  逐字｜home_inside｜l118_home｜clockZ｜五湖四海（118 巷）
+  逐字｜home_inside｜l118_home｜interactLabel｜聽一句
+PASS home 進到店裡（l118_home）、站得住  {"zone": "l118_home", "x": -2.6, "z": 2.75, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "聽一句", "hour": 12.24, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 579, "paused": false}
+PASS A home 左上角地點（畫面 #clockZ）是「五湖四海（118 巷）」  畫面：「五湖四海（118 巷）」
+PASS home 店裡有點餐、出口的互動點  {"order": {"x": 0.65, "z": -1.65, "r": 0.8}, "exit": {"x": -2.6, "z": 3.8, "r": 0.7}}
+  [  73.2s] 搖桿走到「五湖四海 櫃台」（0.23 m，推 3 次，5 秒）
+PASS A home 櫃台前面互動鍵（畫面）「點餐（五湖四海）」  畫面：「點餐（五湖四海）」；搖桿
+  逐字｜home_menu｜l118_home｜interactLabel｜點餐（五湖四海）
+  逐字｜home_menu｜l118_home｜dlgText｜老闆娘｜水餃幾顆？十顆起。
+  逐字｜home_menu｜l118_home｜choices｜高麗菜水餃10顆 80 元 ｜ 韭菜水餃10顆 85 元 ｜ 酸辣湯 45 元 ｜ 玉米濃湯 45 元 ｜ 不用了
+PASS B home 點餐有選單  {"menu": [{"i": 0, "t": "高麗菜水餃10顆 80 元", "dim": false, "name": "高麗菜水餃10顆", "price": 80}, {"i": 1, "t": "韭菜水餃10顆 85 元", "dim": false, "name": "韭菜水餃10顆", "price": 85}, {"i": 2, "t": "酸辣湯 45 元", "dim": false, "name": "酸辣湯", "price": 45}, {"i": 3, "t": "玉米濃湯 45 元", "dim": false, "name": "玉米濃湯", "price": 45}, {"i": 4, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [  79.1s] home 選單（畫面）：["高麗菜水餃10顆 80 元", "韭菜水餃10顆 85 元", "酸辣湯 45 元", "玉米濃湯 45 元", "不用了"]
+PASS B home 五湖四海 選單＝規格表（品名、價錢、項數）  預期 [["高麗菜水餃10顆", 80], ["韭菜水餃10顆", 85], ["酸辣湯", 45], ["玉米濃湯", 45]]；實際 [["高麗菜水餃10顆", 80], ["韭菜水餃10顆", 85], ["酸辣湯", 45], ["玉米濃湯", 45]]
+  [前置／捷徑] 遊戲時間 12.29 → 設回 12.17（下一樣（高麗菜水餃10顆）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜home_高麗菜水餃10顆｜l118_home｜dlgText｜老闆娘｜水餃幾顆？十顆起。
+  逐字｜home_高麗菜水餃10顆｜l118_home｜clockZ｜五湖四海（118 巷）
+  逐字｜home_高麗菜水餃10顆｜l118_home｜toast｜💸 80 元
+  逐字｜home_高麗菜水餃10顆｜l118_home｜dlgText｜（你點了高麗菜水餃10顆。）
+  逐字｜home_高麗菜水餃10顆｜l118_home｜dlgText｜（門口那一鍋水一直滾著。老闆娘下水餃不用數，一把就是十顆。）
+  逐字｜home_高麗菜水餃10顆｜l118_home｜toast｜📓 吃過的：118 巷・五湖四海　高麗菜水餃10顆
+  逐字｜home_高麗菜水餃10顆｜l118_home｜dlgText｜（醬油、醋、辣椒，你調了三次才調對。）
+  逐字｜home_高麗菜水餃10顆｜l118_home｜clockZ｜五湖四海（118 巷）
+  逐字｜home_高麗菜水餃10顆｜l118_home｜interactLabel｜點餐（五湖四海）
+  逐字｜home_高麗菜水餃10顆｜l118_home｜toast｜30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS B home 「高麗菜水餃10顆」標價 80＝扣的錢（點完那一句時）  點前 {"g": 5000, "hud": "$5000"} → 你點了 {"g": 4920, "hud": "$4920"} → 演完 {"g": 4920, "hud": "$4920"}
+PASS B home 「高麗菜水餃10顆」整段演完只扣自己的 80（玩家只付自己的餐費）  扣 80；其他選項 []
+PASS B home 「高麗菜水餃10顆」右上角錢數跟著變（#money＝$4920）  $4920
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（韭菜水餃10顆）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜home_韭菜水餃10顆｜l118_home｜dlgText｜老闆娘｜水餃幾顆？十顆起。
+  逐字｜home_韭菜水餃10顆｜l118_home｜choices｜高麗菜水餃10顆 80 元 ｜ 韭菜水餃10顆 85 元 ｜ 酸辣湯 45 元 ｜ 玉米濃湯 45 元 ｜ 不用了
+  逐字｜home_韭菜水餃10顆｜l118_home｜toast｜💸 85 元
+  逐字｜home_韭菜水餃10顆｜l118_home｜dlgText｜（你點了韭菜水餃10顆。）
+  逐字｜home_韭菜水餃10顆｜l118_home｜clockZ｜五湖四海（118 巷）
+  逐字｜home_韭菜水餃10顆｜l118_home｜dlgText｜（醬油、醋、辣椒，你調了三次才調對。）
+  逐字｜home_韭菜水餃10顆｜l118_home｜interactLabel｜點餐（五湖四海）
+  逐字｜home_韭菜水餃10顆｜l118_home｜toast｜📓 吃過的：118 巷・五湖四海　韭菜水餃10顆
+PASS B home 「韭菜水餃10顆」標價 85＝扣的錢（點完那一句時）  點前 {"g": 4920, "hud": "$4920"} → 你點了 {"g": 4835, "hud": "$4835"} → 演完 {"g": 4835, "hud": "$4835"}
+PASS B home 「韭菜水餃10顆」整段演完只扣自己的 85（玩家只付自己的餐費）  扣 85；其他選項 []
+PASS B home 「韭菜水餃10顆」右上角錢數跟著變（#money＝$4835）  $4835
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（酸辣湯）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜home_酸辣湯｜l118_home｜dlgText｜老闆娘｜水餃幾顆？十顆起。
+  逐字｜home_酸辣湯｜l118_home｜choices｜高麗菜水餃10顆 80 元 ｜ 韭菜水餃10顆 85 元 ｜ 酸辣湯 45 元 ｜ 玉米濃湯 45 元 ｜ 不用了
+  逐字｜home_酸辣湯｜l118_home｜clockZ｜五湖四海（118 巷）
+  逐字｜home_酸辣湯｜l118_home｜toast｜💸 45 元
+  逐字｜home_酸辣湯｜l118_home｜dlgText｜（你點了酸辣湯。）
+  逐字｜home_酸辣湯｜l118_home｜dlgText｜（醬油、醋、辣椒，你調了三次才調對。）
+  逐字｜home_酸辣湯｜l118_home｜interactLabel｜點餐（五湖四海）
+  逐字｜home_酸辣湯｜l118_home｜toast｜📓 吃過的：118 巷・五湖四海　酸辣湯
+  逐字｜home_酸辣湯｜l118_home｜clockZ｜五湖四海（118 巷）
+PASS B home 「酸辣湯」標價 45＝扣的錢（點完那一句時）  點前 {"g": 4835, "hud": "$4835"} → 你點了 {"g": 4790, "hud": "$4790"} → 演完 {"g": 4790, "hud": "$4790"}
+PASS B home 「酸辣湯」整段演完只扣自己的 45（玩家只付自己的餐費）  扣 45；其他選項 []
+PASS B home 「酸辣湯」右上角錢數跟著變（#money＝$4790）  $4790
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（玉米濃湯）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜home_玉米濃湯｜l118_home｜dlgText｜老闆娘｜水餃幾顆？十顆起。
+  逐字｜home_玉米濃湯｜l118_home｜choices｜高麗菜水餃10顆 80 元 ｜ 韭菜水餃10顆 85 元 ｜ 酸辣湯 45 元 ｜ 玉米濃湯 45 元 ｜ 不用了
+  逐字｜home_玉米濃湯｜l118_home｜toast｜💸 45 元
+  逐字｜home_玉米濃湯｜l118_home｜dlgText｜（你點了玉米濃湯。）
+  逐字｜home_玉米濃湯｜l118_home｜dlgText｜（醬油、醋、辣椒，你調了三次才調對。）
+  逐字｜home_玉米濃湯｜l118_home｜clockZ｜五湖四海（118 巷）
+  逐字｜home_玉米濃湯｜l118_home｜interactLabel｜點餐（五湖四海）
+  逐字｜home_玉米濃湯｜l118_home｜toast｜📓 吃過的：118 巷・五湖四海　玉米濃湯
+PASS B home 「玉米濃湯」標價 45＝扣的錢（點完那一句時）  點前 {"g": 4790, "hud": "$4790"} → 你點了 {"g": 4745, "hud": "$4745"} → 演完 {"g": 4745, "hud": "$4745"}
+PASS B home 「玉米濃湯」整段演完只扣自己的 45（玩家只付自己的餐費）  扣 45；其他選項 []
+PASS B home 「玉米濃湯」右上角錢數跟著變（#money＝$4745）  $4745
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（錢不夠那一次；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [前置／捷徑] 把錢設成 44（比最便宜的 45 少 1 元；直接改 GAME.G.money，右上角 #money 不會跟著重畫——捷徑造成的，不是遊戲問題）
+  逐字｜home_錢不夠｜l118_home｜dlgText｜老闆娘｜水餃幾顆？十顆起。
+  逐字｜home_錢不夠｜l118_home｜choices｜高麗菜水餃10顆 80 元 ｜ 韭菜水餃10顆 85 元 ｜ 酸辣湯 45 元 ｜ 玉米濃湯 45 元 ｜ 不用了
+  逐字｜home_錢不夠｜l118_home｜toast｜錢不夠
+  逐字｜home_錢不夠｜l118_home｜clockZ｜五湖四海（118 巷）
+PASS B home 錢不夠（$44）：選單每一樣都是灰的（.dim）  [{"i": 0, "t": "高麗菜水餃10顆 80 元", "dim": true, "name": "高麗菜水餃10顆", "price": 80}, {"i": 1, "t": "韭菜水餃10顆 85 元", "dim": true, "name": "韭菜水餃10顆", "price": 85}, {"i": 2, "t": "酸辣湯 45 元", "dim": true, "name": "酸辣湯", "price": 45}, {"i": 3, "t": "玉米濃湯 45 元", "dim": true, "name": "玉米濃湯", "price": 45}, {"i": 4, "t": "不用了", "dim": false, "name": null, "price": null}]
+PASS B home 錢不夠：點「酸辣湯」出「錢不夠」、錢不變（44）、不會變負  演完 {"g": 44, "hud": "$44"}；toast ["錢不夠"]
+  [前置／捷徑] 錢設回 5000
+  [前置／捷徑] 遊戲時間 12.20 → 設回 12.17（出店前；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [ 122.3s] 搖桿走到「五湖四海 出口」（0.30 m，推 3 次，5 秒）
+PASS A home 出口互動鍵（畫面）「離開五湖四海」  畫面：「離開五湖四海」；搖桿
+PASS home 出來回到 118 巷、站得住、互動鍵不是「進五湖四海」  {"zone": "lane118", "x": -3.9, "z": -0.3, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "水餃幾顆？十顆起。", "choices": 0, "interact": "騎腳踏車", "hour": 12.22, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 2811, "paused": false, "it": "騎腳踏車", "clockZ": "118 巷"}
+  逐字｜home_end｜l118_home｜interactLabel｜坐下
+  逐字｜home_end｜l118_home｜interactLabel｜聽一句
+  逐字｜home_end｜l118_home｜interactLabel｜離開五湖四海
+  逐字｜home_end｜lane118｜clockZ｜118 巷
+  逐字｜home_end｜lane118｜interactLabel｜騎腳踏車
+  逐字｜home_end｜lane118｜toast｜這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。
+  逐字｜home_end｜lane118｜toast｜（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）
+  [ 128.5s] home 這一間花了 84 秒
+
+===== cafe2 大學食堂（PARTS=B）=====
+PASS cafe2 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (-3.90, -16.50)，12.17 點、錢 5000、QUIET=True（大學食堂 店門口附近的人行道）
+PASS cafe2 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": -3.9, "z": -16.5, "ry": -0.1, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "水餃幾顆？十顆起。", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 3.042, "fallbacks": 0, "y": 0, "lv": 0, "frame": 2958, "paused": false}
+  逐字｜cafe2_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+PASS cafe2 巷子裡有這間店的店門口互動點  [{"x": -4.3, "z": -12.5, "r": 1.4, "label": "進大學食堂（秤重自助餐）", "hidden": false, "enter": true}, {"x": -4.3, "z": -12.5, "r": 1.4, "label": "大學食堂（秤重自助餐）", "hidden": true, "enter": false}]
+  [ 137.1s] 搖桿走到「大學食堂 店門口」（0.12 m，推 2 次，3 秒）
+  逐字｜cafe2_door｜lane118｜interactLabel｜和柏翰說話
+  逐字｜cafe2_door｜lane118｜clockZ｜118 巷
+  逐字｜cafe2_door｜lane118｜interactLabel｜進大學食堂（秤重自助餐）
+PASS A cafe2 店門口互動鍵（畫面）「進大學食堂（秤重自助餐）」  畫面：「進大學食堂（秤重自助餐）」；搖桿；範圍內 ["進大學食堂（秤重自助餐）"]
+  逐字｜cafe2_inside｜l118_cafe2｜clockZ｜大學食堂（118 巷）
+  逐字｜cafe2_inside｜l118_cafe2｜interactLabel｜聽一句
+PASS cafe2 進到店裡（l118_cafe2）、站得住  {"zone": "l118_cafe2", "x": 2.2, "z": 3, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "水餃幾顆？十顆起。", "choices": 0, "interact": "聽一句", "hour": 12.24, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 3208, "paused": false}
+PASS A cafe2 左上角地點（畫面 #clockZ）是「大學食堂（118 巷）」  畫面：「大學食堂（118 巷）」
+PASS cafe2 店裡有點餐、出口的互動點  {"order": {"x": 1.95, "z": -2.3, "r": 0.8}, "exit": {"x": 2.2, "z": 4.05, "r": 0.7}}
+  [ 149.3s] 搖桿走到「大學食堂 櫃台」（0.12 m，推 3 次，4 秒）
+PASS A cafe2 櫃台前面互動鍵（畫面）「點餐（大學食堂）」  畫面：「點餐（大學食堂）」；搖桿
+  逐字｜cafe2_menu｜l118_cafe2｜interactLabel｜和柏翰說話
+  逐字｜cafe2_menu｜l118_cafe2｜interactLabel｜點餐（大學食堂）
+  逐字｜cafe2_menu｜l118_cafe2｜dlgText｜阿姨｜自己夾，夾好拿過來秤。
+  逐字｜cafe2_menu｜l118_cafe2｜choices｜自助餐（菜多肉少） 100 元 ｜ 自助餐（三菜一肉） 130 元 ｜ 自助餐（三菜兩肉） 160 元 ｜ 不用了
+  逐字｜cafe2_menu｜l118_cafe2｜clockZ｜大學食堂（118 巷）
+PASS B cafe2 點餐有選單  {"menu": [{"i": 0, "t": "自助餐（菜多肉少） 100 元", "dim": false, "name": "自助餐（菜多肉少）", "price": 100}, {"i": 1, "t": "自助餐（三菜一肉） 130 元", "dim": false, "name": "自助餐（三菜一肉）", "price": 130}, {"i": 2, "t": "自助餐（三菜兩肉） 160 元", "dim": false, "name": "自助餐（三菜兩肉）", "price": 160}, {"i": 3, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [ 154.3s] cafe2 選單（畫面）：["自助餐（菜多肉少） 100 元", "自助餐（三菜一肉） 130 元", "自助餐（三菜兩肉） 160 元", "不用了"]
+PASS B cafe2 大學食堂三個份量 100／130／160  [["自助餐（菜多肉少）", 100], ["自助餐（三菜一肉）", 130], ["自助餐（三菜兩肉）", 160]]
+  [前置／捷徑] 遊戲時間 12.29 → 設回 12.17（下一樣（自助餐（菜多肉少））；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜cafe2_自助餐（菜多肉少）｜l118_cafe2｜dlgText｜阿姨｜自己夾，夾好拿過來秤。
+  逐字｜cafe2_自助餐（菜多肉少）｜l118_cafe2｜toast｜💸 100 元
+  逐字｜cafe2_自助餐（菜多肉少）｜l118_cafe2｜dlgText｜（你點了自助餐（菜多肉少）。）
+  逐字｜cafe2_自助餐（菜多肉少）｜l118_cafe2｜dlgText｜（菜有二十幾樣。你夾到第三樣，才發現盤子已經滿了。）
+  逐字｜cafe2_自助餐（菜多肉少）｜l118_cafe2｜toast｜📓 吃過的：118 巷・大學食堂　自助餐（菜多肉少）
+  逐字｜cafe2_自助餐（菜多肉少）｜l118_cafe2｜clockZ｜大學食堂（118 巷）
+  逐字｜cafe2_自助餐（菜多肉少）｜l118_cafe2｜dlgText｜（你把餐盤放到回收台，順手拿了一張餐巾紙。）
+  逐字｜cafe2_自助餐（菜多肉少）｜l118_cafe2｜interactLabel｜點餐（大學食堂）
+  逐字｜cafe2_自助餐（菜多肉少）｜l118_cafe2｜toast｜30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS B cafe2 「自助餐（菜多肉少）」標價 100＝扣的錢（點完那一句時）  點前 {"g": 5000, "hud": "$5000"} → 你點了 {"g": 4900, "hud": "$4900"} → 演完 {"g": 4900, "hud": "$4900"}
+PASS B cafe2 「自助餐（菜多肉少）」整段演完只扣自己的 100（玩家只付自己的餐費）  扣 100；其他選項 []
+PASS B cafe2 「自助餐（菜多肉少）」右上角錢數跟著變（#money＝$4900）  $4900
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（自助餐（三菜一肉））；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜cafe2_自助餐（三菜一肉）｜l118_cafe2｜dlgText｜阿姨｜自己夾，夾好拿過來秤。
+  逐字｜cafe2_自助餐（三菜一肉）｜l118_cafe2｜choices｜自助餐（菜多肉少） 100 元 ｜ 自助餐（三菜一肉） 130 元 ｜ 自助餐（三菜兩肉） 160 元 ｜ 不用了
+  逐字｜cafe2_自助餐（三菜一肉）｜l118_cafe2｜clockZ｜大學食堂（118 巷）
+  逐字｜cafe2_自助餐（三菜一肉）｜l118_cafe2｜toast｜💸 130 元
+  逐字｜cafe2_自助餐（三菜一肉）｜l118_cafe2｜dlgText｜（你點了自助餐（三菜一肉）。）
+  逐字｜cafe2_自助餐（三菜一肉）｜l118_cafe2｜dlgText｜（你把餐盤放到回收台，順手拿了一張餐巾紙。）
+  逐字｜cafe2_自助餐（三菜一肉）｜l118_cafe2｜interactLabel｜點餐（大學食堂）
+  逐字｜cafe2_自助餐（三菜一肉）｜l118_cafe2｜toast｜📓 吃過的：118 巷・大學食堂　自助餐（三菜一肉）
+  逐字｜cafe2_自助餐（三菜一肉）｜l118_cafe2｜clockZ｜大學食堂（118 巷）
+PASS B cafe2 「自助餐（三菜一肉）」標價 130＝扣的錢（點完那一句時）  點前 {"g": 4900, "hud": "$4900"} → 你點了 {"g": 4770, "hud": "$4770"} → 演完 {"g": 4770, "hud": "$4770"}
+PASS B cafe2 「自助餐（三菜一肉）」整段演完只扣自己的 130（玩家只付自己的餐費）  扣 130；其他選項 []
+PASS B cafe2 「自助餐（三菜一肉）」右上角錢數跟著變（#money＝$4770）  $4770
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（自助餐（三菜兩肉））；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜cafe2_自助餐（三菜兩肉）｜l118_cafe2｜dlgText｜阿姨｜自己夾，夾好拿過來秤。
+  逐字｜cafe2_自助餐（三菜兩肉）｜l118_cafe2｜choices｜自助餐（菜多肉少） 100 元 ｜ 自助餐（三菜一肉） 130 元 ｜ 自助餐（三菜兩肉） 160 元 ｜ 不用了
+  逐字｜cafe2_自助餐（三菜兩肉）｜l118_cafe2｜toast｜💸 160 元
+  逐字｜cafe2_自助餐（三菜兩肉）｜l118_cafe2｜dlgText｜（你點了自助餐（三菜兩肉）。）
+  逐字｜cafe2_自助餐（三菜兩肉）｜l118_cafe2｜dlgText｜（你把餐盤放到回收台，順手拿了一張餐巾紙。）
+  逐字｜cafe2_自助餐（三菜兩肉）｜l118_cafe2｜clockZ｜大學食堂（118 巷）
+  逐字｜cafe2_自助餐（三菜兩肉）｜l118_cafe2｜interactLabel｜點餐（大學食堂）
+  逐字｜cafe2_自助餐（三菜兩肉）｜l118_cafe2｜toast｜📓 吃過的：118 巷・大學食堂　自助餐（三菜兩肉）
+PASS B cafe2 「自助餐（三菜兩肉）」標價 160＝扣的錢（點完那一句時）  點前 {"g": 4770, "hud": "$4770"} → 你點了 {"g": 4610, "hud": "$4610"} → 演完 {"g": 4610, "hud": "$4610"}
+PASS B cafe2 「自助餐（三菜兩肉）」整段演完只扣自己的 160（玩家只付自己的餐費）  扣 160；其他選項 []
+PASS B cafe2 「自助餐（三菜兩肉）」右上角錢數跟著變（#money＝$4610）  $4610
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（錢不夠那一次；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [前置／捷徑] 把錢設成 99（比最便宜的 100 少 1 元；直接改 GAME.G.money，右上角 #money 不會跟著重畫——捷徑造成的，不是遊戲問題）
+  逐字｜cafe2_錢不夠｜l118_cafe2｜dlgText｜阿姨｜自己夾，夾好拿過來秤。
+  逐字｜cafe2_錢不夠｜l118_cafe2｜choices｜自助餐（菜多肉少） 100 元 ｜ 自助餐（三菜一肉） 130 元 ｜ 自助餐（三菜兩肉） 160 元 ｜ 不用了
+  逐字｜cafe2_錢不夠｜l118_cafe2｜toast｜錢不夠
+  逐字｜cafe2_錢不夠｜l118_cafe2｜clockZ｜大學食堂（118 巷）
+PASS B cafe2 錢不夠（$99）：選單每一樣都是灰的（.dim）  [{"i": 0, "t": "自助餐（菜多肉少） 100 元", "dim": true, "name": "自助餐（菜多肉少）", "price": 100}, {"i": 1, "t": "自助餐（三菜一肉） 130 元", "dim": true, "name": "自助餐（三菜一肉）", "price": 130}, {"i": 2, "t": "自助餐（三菜兩肉） 160 元", "dim": true, "name": "自助餐（三菜兩肉）", "price": 160}, {"i": 3, "t": "不用了", "dim": false, "name": null, "price": null}]
+PASS B cafe2 錢不夠：點「自助餐（菜多肉少）」出「錢不夠」、錢不變（99）、不會變負  演完 {"g": 99, "hud": "$99"}；toast ["錢不夠"]
+  [前置／捷徑] 錢設回 5000
+  [前置／捷徑] 遊戲時間 12.20 → 設回 12.17（出店前；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [ 189.5s] 搖桿走到「大學食堂 出口」（0.24 m，推 3 次，5 秒）
+PASS A cafe2 出口互動鍵（畫面）「離開大學食堂」  畫面：「離開大學食堂」；搖桿
+PASS cafe2 出來回到 118 巷、站得住、互動鍵不是「進大學食堂」  {"zone": "lane118", "x": -3.9, "z": -10.8, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "自己夾，夾好拿過來秤。", "choices": 0, "interact": "和柏翰說話", "hour": 12.22, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 5600, "paused": false, "it": "和柏翰說話", "clockZ": "118 巷"}
+  逐字｜cafe2_end｜l118_cafe2｜interactLabel｜和柏翰說話
+  逐字｜cafe2_end｜l118_cafe2｜interactLabel｜聽一句
+  逐字｜cafe2_end｜l118_cafe2｜interactLabel｜離開大學食堂
+  逐字｜cafe2_end｜lane118｜clockZ｜118 巷
+  逐字｜cafe2_end｜lane118｜interactLabel｜和柏翰說話
+  逐字｜cafe2_end｜lane118｜toast｜這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。
+  逐字｜cafe2_end｜lane118｜toast｜（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）
+  [ 194.8s] cafe2 這一間花了 66 秒
+
+===== pasta 義大麵屋（PARTS=B）=====
+PASS pasta 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, 20.00)，12.17 點、錢 5000、QUIET=True（義大麵屋 店門口附近的人行道）
+PASS pasta 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": 20, "ry": 0.1, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "自己夾，夾好拿過來秤。", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 3.241, "fallbacks": 0, "y": 0, "lv": 0, "frame": 5803, "paused": false}
+  逐字｜pasta_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+PASS pasta 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": 24, "r": 1.4, "label": "進義大麵屋（平價義大利麵）", "hidden": false, "enter": true}, {"x": 4.3, "z": 24, "r": 1.4, "label": "義大麵屋（平價義大利麵）", "hidden": true, "enter": false}]
+  [ 211.4s] 「義大麵屋 店門口」搖桿推不到（推 7 次、最近 2.34 m），改點地面（L.go_to，也是觸控）
+  [ 219.2s] 到達「義大麵屋 店門口」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  逐字｜pasta_door｜lane118｜caption｜阿哲朝你揮了揮手。
+  逐字｜pasta_door｜lane118｜clockZ｜118 巷
+  逐字｜pasta_door｜lane118｜interactLabel｜進義大麵屋（平價義大利麵）
+PASS A pasta 店門口互動鍵（畫面）「進義大麵屋（平價義大利麵）」  畫面：「進義大麵屋（平價義大利麵）」；點地面；範圍內 ["進義大麵屋（平價義大利麵）"]
+  逐字｜pasta_inside｜l118_pasta｜clockZ｜義大麵屋（118 巷）
+PASS pasta 進到店裡（l118_pasta）、站得住  {"zone": "l118_pasta", "x": -2.6, "z": 2.75, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "自己夾，夾好拿過來秤。", "choices": 0, "interact": "", "hour": 12.34, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 6866, "paused": false}
+PASS A pasta 左上角地點（畫面 #clockZ）是「義大麵屋（118 巷）」  畫面：「義大麵屋（118 巷）」
+PASS pasta 店裡有點餐、出口的互動點  {"order": {"x": -2.25, "z": -1.7, "r": 0.8}, "exit": {"x": -2.6, "z": 3.8, "r": 0.7}}
+  [ 233.3s] 搖桿走到「義大麵屋 櫃台」（0.22 m，推 4 次，7 秒）
+PASS A pasta 櫃台前面互動鍵（畫面）「點餐（義大麵屋）」  畫面：「點餐（義大麵屋）」；搖桿
+  逐字｜pasta_menu｜l118_pasta｜interactLabel｜坐下
+  逐字｜pasta_menu｜l118_pasta｜interactLabel｜點餐（義大麵屋）
+  逐字｜pasta_menu｜l118_pasta｜dlgText｜老闆｜一位嗎？吧檯可以嗎？
+  逐字｜pasta_menu｜l118_pasta｜choices｜番茄肉醬麵 170 元 ｜ 奶油雞肉麵 190 元 ｜ 青醬培根麵 190 元 ｜ 蒜香蛤蜊麵 210 元 ｜ 不用了
+PASS B pasta 點餐有選單  {"menu": [{"i": 0, "t": "番茄肉醬麵 170 元", "dim": false, "name": "番茄肉醬麵", "price": 170}, {"i": 1, "t": "奶油雞肉麵 190 元", "dim": false, "name": "奶油雞肉麵", "price": 190}, {"i": 2, "t": "青醬培根麵 190 元", "dim": false, "name": "青醬培根麵", "price": 190}, {"i": 3, "t": "蒜香蛤蜊麵 210 元", "dim": false, "name": "蒜香蛤蜊麵", "price": 210}, {"i": 4, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [ 238.9s] pasta 選單（畫面）：["番茄肉醬麵 170 元", "奶油雞肉麵 190 元", "青醬培根麵 190 元", "蒜香蛤蜊麵 210 元", "不用了"]
+PASS B pasta 義大麵屋 選單＝規格表（品名、價錢、項數）  預期 [["番茄肉醬麵", 170], ["奶油雞肉麵", 190], ["青醬培根麵", 190], ["蒜香蛤蜊麵", 210]]；實際 [["番茄肉醬麵", 170], ["奶油雞肉麵", 190], ["青醬培根麵", 190], ["蒜香蛤蜊麵", 210]]
+  [前置／捷徑] 遊戲時間 12.41 → 設回 12.17（下一樣（番茄肉醬麵）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜pasta_番茄肉醬麵｜l118_pasta｜dlgText｜老闆｜一位嗎？吧檯可以嗎？
+  逐字｜pasta_番茄肉醬麵｜l118_pasta｜clockZ｜義大麵屋（118 巷）
+  逐字｜pasta_番茄肉醬麵｜l118_pasta｜toast｜💸 170 元
+  逐字｜pasta_番茄肉醬麵｜l118_pasta｜dlgText｜（你點了番茄肉醬麵。）
+  逐字｜pasta_番茄肉醬麵｜l118_pasta｜dlgText｜（吧檯對著廚房，你看得到鍋子在翻。）
+  逐字｜pasta_番茄肉醬麵｜l118_pasta｜dlgText｜（盤子很大，麵剛好吃得完。）
+  逐字｜pasta_番茄肉醬麵｜l118_pasta｜toast｜📓 吃過的：118 巷・義大麵屋　番茄肉醬麵
+  逐字｜pasta_番茄肉醬麵｜l118_pasta｜clockZ｜義大麵屋（118 巷）
+  逐字｜pasta_番茄肉醬麵｜l118_pasta｜interactLabel｜點餐（義大麵屋）
+  逐字｜pasta_番茄肉醬麵｜l118_pasta｜toast｜30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS B pasta 「番茄肉醬麵」標價 170＝扣的錢（點完那一句時）  點前 {"g": 5000, "hud": "$5000"} → 你點了 {"g": 4830, "hud": "$4830"} → 演完 {"g": 4830, "hud": "$4830"}
+PASS B pasta 「番茄肉醬麵」整段演完只扣自己的 170（玩家只付自己的餐費）  扣 170；其他選項 []
+PASS B pasta 「番茄肉醬麵」右上角錢數跟著變（#money＝$4830）  $4830
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（奶油雞肉麵）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜pasta_奶油雞肉麵｜l118_pasta｜dlgText｜老闆｜一位嗎？吧檯可以嗎？
+  逐字｜pasta_奶油雞肉麵｜l118_pasta｜choices｜番茄肉醬麵 170 元 ｜ 奶油雞肉麵 190 元 ｜ 青醬培根麵 190 元 ｜ 蒜香蛤蜊麵 210 元 ｜ 不用了
+  逐字｜pasta_奶油雞肉麵｜l118_pasta｜toast｜💸 190 元
+  逐字｜pasta_奶油雞肉麵｜l118_pasta｜dlgText｜（你點了奶油雞肉麵。）
+  逐字｜pasta_奶油雞肉麵｜l118_pasta｜clockZ｜義大麵屋（118 巷）
+  逐字｜pasta_奶油雞肉麵｜l118_pasta｜dlgText｜（盤子很大，麵剛好吃得完。）
+  逐字｜pasta_奶油雞肉麵｜l118_pasta｜interactLabel｜點餐（義大麵屋）
+  逐字｜pasta_奶油雞肉麵｜l118_pasta｜toast｜📓 吃過的：118 巷・義大麵屋　奶油雞肉麵
+PASS B pasta 「奶油雞肉麵」標價 190＝扣的錢（點完那一句時）  點前 {"g": 4830, "hud": "$4830"} → 你點了 {"g": 4640, "hud": "$4640"} → 演完 {"g": 4640, "hud": "$4640"}
+PASS B pasta 「奶油雞肉麵」整段演完只扣自己的 190（玩家只付自己的餐費）  扣 190；其他選項 []
+PASS B pasta 「奶油雞肉麵」右上角錢數跟著變（#money＝$4640）  $4640
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（青醬培根麵）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜pasta_青醬培根麵｜l118_pasta｜dlgText｜老闆｜一位嗎？吧檯可以嗎？
+  逐字｜pasta_青醬培根麵｜l118_pasta｜choices｜番茄肉醬麵 170 元 ｜ 奶油雞肉麵 190 元 ｜ 青醬培根麵 190 元 ｜ 蒜香蛤蜊麵 210 元 ｜ 不用了
+  逐字｜pasta_青醬培根麵｜l118_pasta｜clockZ｜義大麵屋（118 巷）
+  逐字｜pasta_青醬培根麵｜l118_pasta｜toast｜💸 190 元
+  逐字｜pasta_青醬培根麵｜l118_pasta｜dlgText｜（你點了青醬培根麵。）
+  逐字｜pasta_青醬培根麵｜l118_pasta｜dlgText｜（盤子很大，麵剛好吃得完。）
+  逐字｜pasta_青醬培根麵｜l118_pasta｜interactLabel｜點餐（義大麵屋）
+  逐字｜pasta_青醬培根麵｜l118_pasta｜toast｜📓 吃過的：118 巷・義大麵屋　青醬培根麵
+  逐字｜pasta_青醬培根麵｜l118_pasta｜clockZ｜義大麵屋（118 巷）
+PASS B pasta 「青醬培根麵」標價 190＝扣的錢（點完那一句時）  點前 {"g": 4640, "hud": "$4640"} → 你點了 {"g": 4450, "hud": "$4450"} → 演完 {"g": 4450, "hud": "$4450"}
+PASS B pasta 「青醬培根麵」整段演完只扣自己的 190（玩家只付自己的餐費）  扣 190；其他選項 []
+PASS B pasta 「青醬培根麵」右上角錢數跟著變（#money＝$4450）  $4450
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（下一樣（蒜香蛤蜊麵）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜pasta_蒜香蛤蜊麵｜l118_pasta｜dlgText｜老闆｜一位嗎？吧檯可以嗎？
+  逐字｜pasta_蒜香蛤蜊麵｜l118_pasta｜choices｜番茄肉醬麵 170 元 ｜ 奶油雞肉麵 190 元 ｜ 青醬培根麵 190 元 ｜ 蒜香蛤蜊麵 210 元 ｜ 不用了
+  逐字｜pasta_蒜香蛤蜊麵｜l118_pasta｜toast｜💸 210 元
+  逐字｜pasta_蒜香蛤蜊麵｜l118_pasta｜dlgText｜（你點了蒜香蛤蜊麵。）
+  逐字｜pasta_蒜香蛤蜊麵｜l118_pasta｜dlgText｜（盤子很大，麵剛好吃得完。）
+  逐字｜pasta_蒜香蛤蜊麵｜l118_pasta｜clockZ｜義大麵屋（118 巷）
+  逐字｜pasta_蒜香蛤蜊麵｜l118_pasta｜interactLabel｜點餐（義大麵屋）
+  逐字｜pasta_蒜香蛤蜊麵｜l118_pasta｜toast｜📓 吃過的：118 巷・義大麵屋　蒜香蛤蜊麵
+PASS B pasta 「蒜香蛤蜊麵」標價 210＝扣的錢（點完那一句時）  點前 {"g": 4450, "hud": "$4450"} → 你點了 {"g": 4240, "hud": "$4240"} → 演完 {"g": 4240, "hud": "$4240"}
+PASS B pasta 「蒜香蛤蜊麵」整段演完只扣自己的 210（玩家只付自己的餐費）  扣 210；其他選項 []
+PASS B pasta 「蒜香蛤蜊麵」右上角錢數跟著變（#money＝$4240）  $4240
+  [前置／捷徑] 遊戲時間 12.86 → 設回 12.17（錢不夠那一次；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [前置／捷徑] 把錢設成 169（比最便宜的 170 少 1 元；直接改 GAME.G.money，右上角 #money 不會跟著重畫——捷徑造成的，不是遊戲問題）
+  逐字｜pasta_錢不夠｜l118_pasta｜dlgText｜老闆｜一位嗎？吧檯可以嗎？
+  逐字｜pasta_錢不夠｜l118_pasta｜choices｜番茄肉醬麵 170 元 ｜ 奶油雞肉麵 190 元 ｜ 青醬培根麵 190 元 ｜ 蒜香蛤蜊麵 210 元 ｜ 不用了
+  逐字｜pasta_錢不夠｜l118_pasta｜toast｜錢不夠
+  逐字｜pasta_錢不夠｜l118_pasta｜clockZ｜義大麵屋（118 巷）
+PASS B pasta 錢不夠（$169）：選單每一樣都是灰的（.dim）  [{"i": 0, "t": "番茄肉醬麵 170 元", "dim": true, "name": "番茄肉醬麵", "price": 170}, {"i": 1, "t": "奶油雞肉麵 190 元", "dim": true, "name": "奶油雞肉麵", "price": 190}, {"i": 2, "t": "青醬培根麵 190 元", "dim": true, "name": "青醬培根麵", "price": 190}, {"i": 3, "t": "蒜香蛤蜊麵 210 元", "dim": true, "name": "蒜香蛤蜊麵", "price": 210}, {"i": 4, "t": "不用了", "dim": false, "name": null, "price": null}]
+PASS B pasta 錢不夠：點「番茄肉醬麵」出「錢不夠」、錢不變（169）、不會變負  演完 {"g": 169, "hud": "$169"}；toast ["錢不夠"]
+  [前置／捷徑] 錢設回 5000
+  [前置／捷徑] 遊戲時間 12.20 → 設回 12.17（出店前；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [ 287.3s] 搖桿走到「義大麵屋 出口」（0.02 m，推 6 次，9 秒）
+PASS A pasta 出口互動鍵（畫面）「離開義大麵屋」  畫面：「離開義大麵屋」；搖桿
+PASS pasta 出來回到 118 巷、站得住、互動鍵不是「進義大麵屋」  {"zone": "lane118", "x": 3.9, "z": 25.7, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "一位嗎？吧檯可以嗎？", "choices": 0, "interact": "", "hour": 12.26, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 9104, "paused": false, "it": "", "clockZ": "118 巷"}
+  逐字｜pasta_end｜l118_pasta｜interactLabel｜坐下
+  逐字｜pasta_end｜l118_pasta｜interactLabel｜聽一句
+  逐字｜pasta_end｜l118_pasta｜interactLabel｜離開義大麵屋
+  逐字｜pasta_end｜lane118｜clockZ｜118 巷
+  逐字｜pasta_end｜lane118｜toast｜這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。
+  逐字｜pasta_end｜lane118｜toast｜（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）
+  [ 292.4s] pasta 這一間花了 98 秒
+
+===== 畫面上抽到的字：彙總（A）=====
+  新店名（出現在哪些畫面元素）：{"118牛排": [], "水上便當": [], "辛亥韓食": [], "五湖四海": ["clockZ", "interactLabel", "toast"], "大學食堂": ["clockZ", "interactLabel", "toast"], "義大麵屋": ["clockZ", "interactLabel", "toast"], "清州刀削麵": [], "奈良咖哩": [], "迪倫窯烤披薩": [], "喝不喝咖啡": [], "果茶社": []}
+  菜名（出現在哪些畫面元素）：{"可樂餅咖哩": [], "四種起司": [], "夏威夷": [], "奶油雞肉麵": ["choices", "dlgText", "toast"], "排骨飯": [], "木須炒刀削麵": [], "泡菜鍋": [], "海鮮豆腐鍋": [], "滷雞腿飯": [], "炸醬刀削麵": [], "炸雞腿飯": [], "燻雞蘑菇": [], "牛肉刀削麵": [], "牛肉咖哩": [], "玉米濃湯": ["choices", "dlgText", "toast"], "瑪格麗特": [], "番茄刀削麵": [], "番茄肉醬麵": ["choices", "dlgText", "toast"], "石鍋拌飯": [], "自助餐（三菜一肉）": ["choices", "dlgText", "toast"], "自助餐（三菜兩肉）": ["choices", "dlgText", "toast"], "自助餐（菜多肉少）": ["choices", "dlgText", "toast"], "蒜香蛤蜊麵": ["choices", "dlgText", "toast"], "豬排": [], "豬排咖哩": [], "酸辣湯": ["choices", "dlgText", "toast"], "鐵板牛排": [], "鐵板牛肉": [], "鐵板豬肉": [], "雙拼": [], "雞排": [], "雞排飯": [], "雞肉咖哩": [], "雪花牛排": [], "青醬培根麵": ["choices", "dlgText", "toast"], "韭菜水餃10顆": ["choices", "dlgText", "toast"], "高麗菜水餃10顆": ["choices", "dlgText", "toast"]}
+PASS A 畫面上抽到的字（156 段）裡舊店名、舊菜名命中數＝0  命中 0 筆
+PASS 沒有 JS 例外（pageerror）  0 個
+PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0
+總結：0 項 FAIL
+ALL PASS
