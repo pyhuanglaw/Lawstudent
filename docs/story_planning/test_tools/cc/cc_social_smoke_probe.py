@@ -608,7 +608,10 @@ class Person:
                 if self.study_on: self.last_seat = await pg.evaluate(SEAT_JS, self.pid)
                 if self.seat_pending and s['depth'] > 0:
                     smp = await pg.evaluate(SEAT_JS, self.pid)
-                    if not self.study_on:
+                    mz = getattr(self, 'meet_zone', None)
+                    if not self.study_on and mz and smp.get('zone') and smp.get('zone') != mz:
+                        pass   # CC 13:2x：約定地點以外的劇情（出發前校園隨機偶遇「迎面走來一個人」）不算開演，等到了約定那一區再取樣
+                    elif not self.study_on:
                         self.seat_sample = smp; self.seat_pending = False
                         if smp.get('others'):   # CC-B 11-07（BB-B 06:47）：同桌有人＝開演那一刻從上面往下拍一張（BUG-AFAR-DATE-OCCUPIED）
                             try:
@@ -1511,7 +1514,7 @@ class Person:
         say0 = await pg.evaluate("(window.__CCS||[]).length"); self.tx = []; self.seat_sample = None; self.seat_pending = True; self.mid_tag = tag
         self.study_on = bool(iv.get('study')); self.guide_on = iv['zone'] if self.study_on else None; self.guide = []; self.last_seat = None; self.mid_reloaded = False
         if variant == 'full': R.setup('%s：X207 ② 二樓（lv1）的座位全部設成有人坐（seat.taken，進總圖大廳就設）' % tag); await pg.evaluate(FULL_HOOK_JS, True)
-        self.study_reset(); self.lead_iv = iv.get('id'); self.first_sample = None; await self.mark()
+        self.study_reset(); self.lead_iv = iv.get('id'); self.first_sample = None; self.meet_zone = iv.get('zone'); await self.mark()
         if variant == 'reload': self.mid_reload = 'lead'
         if variant == 'reload_dlg': self.mid_reload = 'dlg'
         if variant == 'seatmeet': self.lead_mode = 'seat'
@@ -1563,7 +1566,7 @@ class Person:
         await self.shot(tag + '_end')
         if record or self.study_on: await self.date_report(tag, rec0, say0, self.study_on, True, place_zone=iv['zone'], iv_id=iv['id'], variant=variant)
         else: await self.check_free(tag + ' 結束', fb0, err0)
-        self.tx = None; self.seat_pending = False; self.study_on = False; self.guide_on = None; self.mid_reload = False
+        self.tx = None; self.seat_pending = False; self.study_on = False; self.guide_on = None; self.mid_reload = False; self.meet_zone = None
         return menus
 
     async def iv_done(self, ivid):

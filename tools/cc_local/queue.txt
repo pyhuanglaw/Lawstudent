@@ -154,6 +154,8 @@ REL_soc_new | f312c68cc961c70c7d548fe40c2ae42483d517ba | probe | docs/story_plan
 # CC 12:5x：探針修好（選單照文字對、自己走過去先等偶遇演完）再跑一次新舊
 REL_soc_new_r2 | f312c68cc961c70c7d548fe40c2ae42483d517ba | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_01;STEPS=phone_date;TAG=relnew2;SHA=f312c68cc961c70c7d548fe40c2ae42483d517ba
 REL_soc_ctl_r2 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_01;STEPS=phone_date;TAG=relctl2;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+# BB 13:19：真正的「線上存檔→新版」＝V25_live_pos（save_compat_v7、SHA2＝779）排剩下 V25 最前
+V25_live_pos | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;XARGS={url2} {url};CC_HEADLESS=0
 V25_main12 | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 V25_social | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | TAG=v25;SHA=0d1eaadc7e746d4e6c6b00619f584e805266fbb6
 V25_reach | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
@@ -168,8 +170,7 @@ V25_zone | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/zone_transiti
 V25_touch | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
 V25_p0 | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 V25_v7 | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
-V25_live | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;XARGS={url2} {url};CC_HEADLESS=0
-V25_live_pos | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;XARGS={url2} {url};CC_HEADLESS=0
+#SUPERSEDED(REL_live＋REL_live_ctl 已比對，BB 21:2x) V25_live | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;XARGS={url2} {url};CC_HEADLESS=0
 V25_linze | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/flow_linze_floors.py | index.html | 30 | XARGS={url};CC_HEADLESS=0
 V25_X290_invgo | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
 V25_X290_real | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | probe | docs/story_planning/test_tools/cc/cc_invgo_real_probe.py | index.html | 20 | RERUN=v25;SHA=0d1eaadc7e746d4e6c6b00619f584e805266fbb6
