@@ -173,6 +173,13 @@ async def part_shots(pg, cdp):
                 V.append(('%s 招牌近拍' % s3['name'], (sx * (1.6 if s3['arc'] else 3.6), 3.4, s3['zc']), (sx * (5.2 if s3['arc'] else 8.4), 3.9, s3['zc']), 48))
                 V.append(('%s 斜看' % s3['name'], (0.0, 1.65, s3['zc'] + 9.0), (sx * 6.0, 3.0, s3['zc']), 55))
                 V.append(('%s 路中間玩家視角' % s3['name'], (-sx * 1.0, 3.2, s3['zc'] + 6.5), (sx * 6.0, 2.6, s3['zc']), 60))   # BB 21:59：站在街上讀得出來（跟隨鏡頭的高度約 3 m、在玩家後上方）
+        if os.environ.get('SCOOTV') == '1':   # BB 00:07 機車第三版：四個機位＋飲料店（w_tea）前那一群近拍（從路上看西側機車格）
+            tea = await pg.evaluate("(()=>{ const t=TINGZHOU_LAYOUT.shops.find(q=>q.id==='w_tea'); return t?{zc:(t.z0+t.z1)/2,side:t.side}:null; })()")
+            V = [v for v in V if v[0] in ('概念圖機位', '路中間往南', '路中間往北', '水源市場前')]
+            if tea:
+                sx = -1 if tea['side'] == 'W' else 1
+                V.append(('飲料店前機車近拍', (-sx * 0.5, 1.5, tea['zc'] + 4.5), (sx * 4.2, 0.6, tea['zc']), 50))
+                V.append(('飲料店前機車正看', (-sx * 0.8, 1.4, tea['zc']), (sx * 4.2, 0.7, tea['zc']), 60))
         for lab, frm, at_, fov in V:
             u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '%s %s' % (hh, lab), 'full': lab in ('概念圖機位', '巷A出口看泰米村食') or os.environ.get('SHOPS3') == '1' or os.environ.get('FULLALL') == '1'})
             if u: save(u, 'tz_%s_%s.jpg' % (hh.replace(':', ''), 'concept' if lab == '概念圖機位' else 'alleyA'))
@@ -217,8 +224,10 @@ async def part_scoot(pg, cdp):
           const V=[]; if(root){ root.updateMatrixWorld(true); root.traverse(o=>{ const m=/^scooter_(S\w+)$/.exec(o.name); if(!m||/_lod1$/.test(o.name)||!o.userData||!(o.userData.weight>0)) return; let pal=[]; try{ pal=JSON.parse(o.userData.palette||'[]'); }catch(e){} V.push({code:m[1],w:+o.userData.weight,pal}); }); }
           const W=V.reduce((a,b)=>a+b.w,0), hash=(x,z,k)=>{ const t=Math.sin(x*12.9898+z*78.233+k*37.719)*43758.5453; return t-Math.floor(t); };
           let scG=null; E.scene.traverse(o=>{ if(!scG&&o.isGroup&&o.children.length>20&&o.children.every(c=>c.userData&&c.userData.dyn)&&o!==out&&o.parent&&o.parent.getObjectByName&&o.parent.getObjectByName('tz_scooters_glb')) scG=o; });
-          const items=[]; if(scG) for(const o of scG.children){ o.updateMatrixWorld(true); const p=new THREE.Vector3().setFromMatrixPosition(o.matrixWorld); let r=hash(p.x,p.z,1)*W, v=V[V.length-1]; for(const c of V){ if((r-=c.w)<=0){ v=c; break; } }
-            const col=v&&v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:null; items.push({x:+p.x.toFixed(2),z:+p.z.toFixed(2),code:v?v.code:null,col}); }
+          /* 第 3 版（11161c101）：區域自己指定款式、顏色（zone.tzScList，順序和 scG.children 一樣；Z3.attachWzScooters 照 code／pcol 用）→ 有就照它，沒有才照位置雜湊重算 */
+          const SL=z.tzScList||null, items=[]; if(scG) scG.children.forEach((o,ix)=>{ o.updateMatrixWorld(true); const p=new THREE.Vector3().setFromMatrixPosition(o.matrixWorld); let r=hash(p.x,p.z,1)*W, v=V[V.length-1]; for(const c of V){ if((r-=c.w)<=0){ v=c; break; } }
+            let code=v?v.code:null, col=v&&v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:null, src='hash'; if(SL&&SL[ix]&&SL[ix].code){ code=SL[ix].code; col=SL[ix].col||col; src='zone'; }
+            items.push({x:+p.x.toFixed(2),z:+p.z.toFixed(2),code,col,src,gfam:(typeof TZ3!=='undefined'&&TZ3.colorFam&&col)?TZ3.colorFam(col):null}); });
           /* BB 23:07：色系（白／米／銀灰／黑與深藍／紅／藍／綠／黃橘）；相鄰同色系最長連續台數 */
           const fam=hex=>{ if(!hex) return null; const c=new THREE.Color(hex), h={}; c.getHSL(h); const H=h.h*360, S=h.s, Lm=h.l;
             if(Lm<0.22||(S>0.2&&H>=200&&H<=250&&Lm<0.33)) return '黑與深藍'; if(S<0.14) return Lm>0.8?'白':'銀灰'; if(S<0.42&&H>=20&&H<=60&&Lm>0.6) return '米';
@@ -229,11 +238,19 @@ async def part_scoot(pg, cdp):
             let rf=1,maxF=L.length?1:0; for(let i=1;i<L.length;i++){ if(L[i].fam===L[i-1].fam&&L[i].z-L[i-1].z<=1.4) rf++; else rf=1; maxF=Math.max(maxF,rf); }
             const famCount={}; L.forEach(i=>{ famCount[i.fam]=(famCount[i.fam]||0)+1; });
             res[k]={n:L.length,kinds:new Set(L.map(i=>i.code)).size,colors:new Set(L.map(i=>i.col)).size,maxSameCodeColor:maxRun,maxSameCode:maxRunC,maxSameFamily:maxF,families:famCount,gaps}; }
+          /* BB 00:07（機車第三版）：全街合計——台數、黑與深藍比例、S1A＋S1B＋S2 合計比例、相鄰同色系最長（兩側取大）、同車尾（同款）連續最長 */
+          { const A=side.W.concat(side.E), n=A.length; res.all={n, darkPct:n?+(100*A.filter(i=>i.fam==='黑與深藍').length/n).toFixed(1):null, s12Pct:n?+(100*A.filter(i=>/^(S1A|S1B|S2)$/.test(i.code||'')).length/n).toFixed(1):null,
+              maxSameFamily:Math.max(res.W.maxSameFamily,res.E.maxSameFamily), maxSameCode:Math.max(res.W.maxSameCode,res.E.maxSameCode), byCode:A.reduce((o,i)=>(o[i.code]=(o[i.code]||0)+1,o),{}),
+              accessories:{機車罩_S1A_C:A.filter(i=>i.code==='S1A_C').length, 外送箱_S1B_D:A.filter(i=>i.code==='S1B_D').length, 安全帽_S5_H:A.filter(i=>i.code==='S5_H').length},
+              src:A.reduce((o,i)=>(o[i.src]=(o[i.src]||0)+1,o),{}), gameFamDarkPct:n?+(100*A.filter(i=>i.gfam==='dark').length/n).toFixed(1):null,
+              adjSameFamPairs:['W','E'].reduce((t,k)=>{ const Ls=side[k]; let c=0; for(let i=1;i<Ls.length;i++) if(Ls[i].fam===Ls[i-1].fam&&Ls[i].z-Ls[i-1].z<=1.4) c++; return t+c; },0),
+              tailA3:['W','E'].reduce((t,k)=>{ const Ls=side[k], ta=c=>/^(S1A|S1B|S2)$/.test(c||''); let run=0,mx=0; for(let i=0;i<Ls.length;i++){ run=(ta(Ls[i].code)&&(i===0||Ls[i].z-Ls[i-1].z<=1.4))?run+1:(ta(Ls[i].code)?1:0); mx=Math.max(mx,run); } return Math.max(t,mx); },0)}; res.gameStat=z.tzScStat||null; }
           const TEA=(typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT.shops.find(q=>q.id==='w_tea'):null);
           res.drinkShop=TEA?side.W.filter(i=>i.z>TEA.z0-3&&i.z<TEA.z1+3).map(i=>({z:i.z,code:i.code,col:i.col,fam:i.fam})):null;   /* 飲料店（手搖飲 w_tea）前那一群 */
           return {tzScooters:z.tzScooters, tzBikes:z.tzBikes, tzParkGroups:z.tzParkGroups, tzParkGaps:z.tzParkGaps, tzScooterGLB:z.tzScooterGLB===undefined?'undefined':z.tzScooterGLB,
             glbModels:V.map(v=>v.code), scPick:ud.scPick||null, scColors:ud.scColors||null, groups:ud.scPerGroup?Object.keys(ud.scPerGroup).length:null, fallbackFound:!!scG, side:res}; })()""")
         R.note('[SCOOT %.2f] 統計：%s' % (h, J(st)))
+        if st and st.get('side') and st['side'].get('all'): R.note('[SCOOT %.2f] 全街（CC 自己量；款式來源 %s）：%d 台；黑與深藍 %s%%（遊戲自己的色系算法 %s%%）；S1A＋S1B＋S2 %s%%；相鄰同色系 %s 對、最長 %s 台；同款連續最長 %s 台；同車尾 A（S1A／S1B／S2）連續最長 %s 台；配件 %s；各款 %s；遊戲自己記的 tzScStat %s' % (h, J(st['side']['all']['src']), st['side']['all']['n'], st['side']['all']['darkPct'], st['side']['all']['gameFamDarkPct'], st['side']['all']['s12Pct'], st['side']['all']['adjSameFamPairs'], st['side']['all']['maxSameFamily'], st['side']['all']['maxSameCode'], st['side']['all']['tailA3'], J(st['side']['all']['accessories']), J(st['side']['all']['byCode']), J(st['side'].get('gameStat'))))
         open(os.path.join(OUT, 'scoot_stats_%s.json' % str(h).replace('.', '')), 'w', encoding='utf-8').write(J(st))
         R.check('[SCOOT %.2f] 正式機車模型有掛上（tz_scooters_glb 存在、有網格）' % h, bool(res and res['glbGroup'] and res['glbMeshes'] > 0), J(res))
         b = await pg.screenshot(type='jpeg', quality=80); open(os.path.join(OUT, 'scoot_%s.jpg' % str(h).replace('.', '')), 'wb').write(b)
@@ -300,6 +317,17 @@ async def part_int(pg, cdp):
                 u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '%s %s %s' % (L_['name'], hh, lab), 'full': True})
                 save(u, 'tz4int_%s_%s_%s.jpg' % (sid, hh, lab.split('（')[0]))
             b = await pg.screenshot(type='jpeg', quality=82); open(os.path.join(OUT, 'tz4int_%s_%s_game.jpg' % (sid, hh)), 'wb').write(b)
+            if os.environ.get('CLOSE') == '1':   # BB 00:07（11161c101）：洗樂兌幣機、洗衣精販賣機和上面的字；印得好客用電腦桌、裁紙機、膠裝機和字牌；牆面（座標照 tz_shops_layout.js）
+                CL = {'xile': [('兌幣機和洗衣精販賣機', (-1.2, 1.4, 2.28), (-2.85, 1.1, 2.28), 42), ('兌幣機販賣機的字', (-1.5, 1.45, 2.28), (-2.9, 1.3, 2.28), 20),
+                               ('左牆', (1.8, 1.6, 3.6), (-3.0, 1.7, -1.5), 62), ('右牆', (-1.8, 1.6, 3.6), (3.0, 1.7, -1.5), 62), ('後牆', (0.3, 1.6, 2.0), (0.3, 1.7, -4.5), 62)],
+                      'yindehao': [('客用電腦桌', (0.2, 1.55, -2.5), (0.2, 0.85, -4.65), 48), ('電腦桌的字', (0.2, 1.4, -3.3), (0.2, 1.1, -4.7), 24),
+                                   ('裁紙機', (-1.1, 1.4, 1.83), (-2.9, 0.95, 1.83), 36), ('裁紙機的字牌', (-1.5, 1.3, 1.83), (-2.95, 1.05, 1.83), 18),
+                                   ('膠裝機', (-1.1, 1.4, 2.8), (-2.9, 0.95, 2.8), 36), ('膠裝機的字牌', (-1.5, 1.3, 2.8), (-2.95, 1.05, 2.8), 18),
+                                   ('左牆', (1.0, 1.6, 4.0), (-3.2, 1.7, -2.0), 62), ('右牆', (-1.0, 1.6, 4.0), (3.2, 1.7, -2.0), 62), ('後牆', (0.0, 1.6, 2.0), (0.0, 1.7, -5.0), 62)]}
+                for lab, frm, at_, fov in CL.get(sid, []):
+                    u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '%s %s %s' % (L_['name'], hh, lab), 'full': True})
+                    save(u, 'tz5close_%s_%s_%s.jpg' % (sid, hh, lab))
+                R.note('%s 近拍 %d 張（tz5close_%s_%s_*）' % (tag, len(CL.get(sid, [])), sid, hh))
             fps = await pg.evaluate("new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<8000) requestAnimationFrame(f); else res(+(n/((performance.now()-t0)/1000)).toFixed(1)); }; requestAnimationFrame(f); })")
             R.note('%s 店內 8 秒幀率 %s fps（PC GPU，不是 iPhone）' % (tag, fps))
             # 出來
