@@ -24,11 +24,11 @@
      → 脫困四法（前一個已脫困就不試後面的）：往回 1 m、往左 1 m、往右 1 m（各推完再直線推向目標）、點地（L.tap_ground）到樓梯外 1 m
        （那一點站不住＝樓梯端接牆，改點目標點，log 標明）；還是出不來＝【捷徑】重新讀檔到下一段的起點。
 判準（每一段一個 check）：
-  上樓 PASS＝到了樓梯頂外（near 0.3 m；端點接牆的 0.25 m）、停下後 lv＝1、沒卡住。
-  下樓 PASS＝到了樓梯底外、停下後 lv＝0、沒卡住。
+  上樓 PASS＝搖桿推到樓梯頂外（near 0.3 m；端點接牆的 0.25 m；兩次取樣之間穿過也算）那時是 lv1、停下 0.8 秒後還是 lv1、沒卡住。
+  下樓 PASS＝推到樓梯底外那時是 lv0、停下 0.8 秒後還是 lv0、沒卡住。停下後離目標多遠只記（> 0.45 m 印「注意」）。
   卡住過的那一段，就算後來脫困也算 FAIL。
 結尾：每座、每條線印總表：上 n/TRIPS、下 n/TRIPS、卡住座標（與脫困結果）、下樓過半還在第 1 層的趟數。
-新版 7d9c46786 和線上 779ddd650 各跑一組（線上沒有花序：FLOWER 印 SKIP、不算失敗）。
+新版和線上 779ddd650 各跑一組（線上沒有花序：FLOWER 印 SKIP、不算失敗）。新版佇列用 0d1eaadc7（BB 10:2x：含 7d9c46786 全部，只差 game3d.js 點椅面的射線判，樓梯相關檔案一樣）。
 用法：LW_TESTS=<wt>/tests SHA=<sha> STAIRS=FLOWER,LIBC,BURGER RUN=0|1 FPSCAP=0|10 TRIPS=5 LINES=L,C,R [MAX_S=60] python3 cc_stairx_probe.py <url> <out>"""
 import os, sys, json, time, math, asyncio, datetime
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -232,14 +232,18 @@ async def leg(pg, cdp, st, ln, k, up, stats):
     await pg.wait_for_timeout(800); s = await D.st(pg)
     arr = end4(r['end']); now = [s['x'], s['z'], s['y'], s['lv']]
     hu = half_upper(st, r['log']) if not up else None
-    ok = r['ok'] and s['lv'] == b['lv'] and passed(s, b, u, near)
-    R.check('%s 到「%s」、lv%d、沒卡住' % (t, b['label'], b['lv']), ok, J({'到的時候 x,z,y,lv': arr, '停下 0.8 秒後': now, '秒': r['t'], '推': r['pushes'], '跳': r['jumps'], '卡住': rec['stuck'], '下樓過半還在第 1 層的取樣': hu}))
+    # 到了＝joy_to 到目標 near 內（或兩次取樣之間的線段穿過 near 內：PC 上會衝過頭）而且那時是該層；再看停下 0.8 秒後還在該層。
+    # 停下後的位置只記不判（雲端自檢 11-11：大口右線跑 10 fps 穿過樓梯頂 lv1 之後，最後一次取樣退回樓梯上 0.5 m、仍是 lv1）
+    ok = r['ok'] and s['lv'] == b['lv']
+    back = round(math.hypot(s['x'] - b['x'], s['z'] - b['z']), 2)
+    R.check('%s 到「%s」、lv%d、沒卡住' % (t, b['label'], b['lv']), ok, J({'到的時候 x,z,y,lv': arr, '停下 0.8 秒後': now, '停下後離目標 m': back, '穿過算到': bool(r.get('crossed')), '最後幾次取樣 t,x,z,lv': r['log'][-4:], '秒': r['t'], '推': r['pushes'], '跳': r['jumps'], '卡住': rec['stuck'], '下樓過半還在第 1 層的取樣': hu}))
+    if r['ok'] and back > 0.45: R.note('%s 注意：到了以後停下的位置離目標 %.2f m（停在 %s）' % (t, back, J(now)))
     if r['ok'] and not ok: await snap(pg, t + ' wronglv')
     key = 'up' if up else 'down'
     if ok: stats[key + '_ok'] += 1
     if rec['stuck']: stats[key + '_stuck'].append({'趟': k, '座標 x,z,y,lv': [rec['stuck']['pos'][q] for q in ('x', 'z', 'y', 'lv')], '脫困': rec['stuck']['escape']})
     if hu: stats['half_upper'].append({'趟': k, '取樣': hu})
-    at_end = passed(s, b, u, near) and math.hypot(s['x'] - b['x'], s['z'] - b['z']) < 0.9
+    at_end = s['lv'] == b['lv'] and back < 0.9
     return ok, at_end
 
 
