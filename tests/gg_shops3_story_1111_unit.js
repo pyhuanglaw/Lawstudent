@@ -14,8 +14,40 @@
 //   13 約去泰米村食：吃飯那一類、午餐 11:30～13:30、晚餐 17:30～20:00、週一不排；七位答應句＋一般那句；坐下以後的開場句
 //   14 日日定食改成泰米村食（AA_742 第 ③ 節三處）＋舊存檔行程地點遷移
 //   15 index.html 載入、node --check
+//   16 （子程序 A：建出遊戲真正的六個區域，tz_shops3d.js＋GG3）：區域的 build 包上了、座位補成 zone.seats、每一個點都標記接好、店員站的位置（開店才有人、洗樂沒有）
 // 修改前（開發分支 8846c3c34）：沒有 GG3、沒有資料檔、六間沒有營業時間、互動點只有「（店名）」——全部 FAIL。
 // 用法：node tests/gg_shops3_story_1111_unit.js
+if(process.argv[2]==='A') partA(); else partB();
+
+function partA(){
+const fs=require('fs'), vm=require('vm'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
+process.on('unhandledRejection',()=>{}); global.window=global; global.self=global; console.warn=()=>{};
+const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
+global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
+global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
+let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
+  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/calendar.js','src/data/places.js','src/data/tingzhou_layout.js','src/tingzhou3d.js','src/data/tz_shops_layout.js','src/tz_shops3d.js','src/data/gg3_shops_lines.js','src/gg3shops3d.js'];
+for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|TZ3|TZS3|TINGZHOU_LAYOUT|TZ_SHOPS_LAYOUT|LINZE_LAYOUT|CLASSROOM_LAYOUT|PROPS|CHAR|CALENDAR|PLACES|GG3_LINES|GG3)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
+if(typeof ASSETS!=='undefined') ASSETS.loadOne=()=>new Promise(()=>{});
+const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
+const loadZone=id=>{ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.nav=z.nav; return z; };
+check('16 GG3 包上六個區域的 build',GG3.ZONES.every(k=>Z3.ZONES[k]&&Z3.ZONES[k]._gg3));
+for(const k of GG3.ZONES){ const L=TZ_SHOPS_LAYOUT[GG3.LAYID[k]], z=loadZone(k), IT=E.interactables, bad=[];
+  if(!Array.isArray(z.seats)||z.seats.length!==(L.seats||[]).length||!z.seats.every(s=>IT.some(i=>i.seat===s))) bad.push('zone.seats '+(z.seats&&z.seats.length)+'／'+(L.seats||[]).length);
+  for(const p of L.points||[]){ const it=IT.find(i=>i.tzPoint===p.id); if(!it||it.gg3!==k) bad.push(p.id+' 沒標記'); }
+  check(`16 ${L.name}（${k}）：區域建得起來、座位補成 zone.seats（${(L.seats||[]).length}）、${(L.points||[]).length} 個點都接上`,!bad.length,bad.join('；'));
+  /* 店員：開店時放一個人（假的 CHAR、STORY），關門不放；洗樂沒有店員 */
+  const C0=global.CHAR, S0=global.STORY, A0=E.addNPC, got=[]; global.CHAR={build:()=>new THREE.Group()}; global.STORY={extraSpec:i=>({i})}; E.addNPC=o=>{ got.push(o); return o; };
+  try{ const GMo={E,G:{day:DK(k==='tz_taimi'?'2025-10-07':'2025-10-06'),hour:12,flags:{}}}; const n1=GG3.placeClerk(k,GMo); GMo.G.hour=23.5; const n2=k==='tz_xile'?null:GG3.placeClerk(k,GMo);
+    check(`16 ${L.name}：店員站在配置的位置（開店才有，關門沒有）`,k==='tz_xile'?(!n1&&!z.shopClerk):(!!n1&&!n2&&got.length===1&&Math.abs(n1.obj.position.x-L.clerk.x)<1e-6&&Math.abs(n1.obj.position.z-L.clerk.z)<1e-6&&n1.frozen&&n1.clerk),J(got.map(o=>[o.obj.position.x,o.obj.position.z]))); }
+  finally { global.CHAR=C0; global.STORY=S0; E.addNPC=A0; } }
+console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
+function DK(key){ for(let d=-400;d<1500;d++) if(CALENDAR.dateOf(d).key===key) return d; return null; }
+function J(x){ return JSON.stringify(x); }
+}
+
+function partB(){
 const H=require('./pg_harness.js'); const {check,GM,E}=H;
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=H.ROOT, rd=p=>fs.readFileSync(path.join(ROOT,p),'utf8'), J=JSON.stringify;
@@ -228,4 +260,10 @@ await sec(15,()=>{ const html=rd('index.html'), at=f=>html.indexOf('src="'+f+'?v
   check('15 index.html 載入資料檔、GG3（在配置、tz_shops3d、places、invites、story3d、eat3d 後面；資料檔在 GG3 前面；版本號照現有寫法）',at('src/data/gg3_shops_lines.js')>0&&at('src/gg3shops3d.js')>at('src/data/gg3_shops_lines.js')&&['src/tz_shops3d.js','src/data/places.js','src/data/invites.js','src/invites3d.js','src/story3d.js','src/eat3d.js','src/game3d.js'].every(f=>at(f)>0&&at(f)<at('src/gg3shops3d.js'))&&/src="src\/gg3shops3d\.js\?v=\d+\.\d+\.\d+"/.test(html));
   const bad=[]; for(const f of ['src/gg3shops3d.js','src/data/gg3_shops_lines.js','src/data/places.js','src/sis_grad3d.js','src/story3d.js','src/game3d.js']){ const r=cp.spawnSync(process.execPath,['--check',path.join(ROOT,f)],{encoding:'utf8'}); if(r.status!==0) bad.push(f+' '+r.stderr.slice(0,160)); }
   check('15 node --check',!bad.length,J(bad)); });
+
+// ---- 16 子程序 A：遊戲真正的區域 ----
+await sec(16,()=>{ const r=cp.spawnSync(process.execPath,[__filename,'A'],{cwd:ROOT,encoding:'utf8',maxBuffer:1<<26});
+  const out=String(r.stdout||'').split('\n').filter(l=>/^(PASS|FAIL) /.test(l)); for(const l of out) console.log('  A '+l);
+  check('16 子程序 A（建出六個區域）全部通過（'+out.length+' 項）',r.status===0&&out.length>=13&&!out.some(l=>/^FAIL /.test(l)),String(r.stderr||'').split('\n').slice(0,4).join(' / ')); });
 H.done(); })();
+}
