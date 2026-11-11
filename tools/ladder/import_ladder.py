@@ -13,7 +13,7 @@ AA_523（學姊第十六批）第 6 節 6-1、6-2：學姊 S7-L3 週次、S7-L8 
 AA_524（說了沒發生（一））：以安 A2-L5、A4-L6 選項②的回覆、A3-L8 extraIf，芷若 Z3-L4 選項②的回覆、Z5-L5 extraIf 用 _fix 疊上去（旗標 AN_COOK_PROMISE、ZR_LUROU_HALF 在 src/aa524_3d.js 記）。
 AA_781（閒聊階梯全部重看，X324）：通用覆蓋層（任何人、任何學期），格式寫在檔案後面 AA781 那一段的註解；白名單加一筆就匯。
 用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref] [--out 檔名] [--no-aa781] [--aa781-log 檔名]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔；--out：寫到那個檔、不改 src/data/ladder.js，tests/ladder_reimport_unit.js 用；
---no-aa781：不疊 AA_781 通用層（tests/ladder_aa781_1111_unit.js 比零差異用）；--aa781-log：AA_781 每一列換到哪裡、每人每學期刪節號前後，寫成 JSON）"""
+--no-aa816：不疊 AA_816 選項 fx 層；--no-aa781：不疊 AA_781 通用層（tests/ladder_aa781_1111_unit.js 比零差異用）；--aa781-log：AA_781 每一列換到哪裡、每人每學期刪節號前後，寫成 JSON）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -769,6 +769,42 @@ if A781:
     out['source'] += f'＋AA_781 通用層 {len(A781)} 檔（{"、".join(sorted({x["term"] for x in _sum781}))}；steps {sum(x["steps"] for x in _sum781)} 層、rows {sum(x["rows"] for x in _sum781)} 列）'
     if '--aa781-log' in sys.argv:
         with open(sys.argv[sys.argv.index('--aa781-log') + 1], 'w', encoding='utf8') as fo: json.dump(AA781_LOG, fo, ensure_ascii=False, indent=1)
+# ---- AA_816（X324 最後一塊，AA 11-11 20:56 提格式、LAWWW 同意）：閒聊階梯選項「只加 fx」的覆蓋層（不重抄台詞）——最後一層（AA_781 之後）。
+#      docs/story_planning/AA_816_ladder_fx.json＝{"<學期>":{"<人>":{"<層 id>":{"<選項 t 一字不差>":{"fr":0,"love":1}}}}}（"_" 開頭的鍵＝註解）。
+#      學期 Y0S1～Y4S2（Y1S1＝characters）；層 id 找 steps 和 dating；選項字照「遊戲裡現在的字」（疊過 AA_781、_swap、_fix 以後）。已經有 fx 的照稿覆蓋；
+#      對不到（學期、人、層、選項字）＝停、列出哪一格；fx 只收 fr／love 整數。--no-aa816：不疊（測試比「拿掉 fx 一字不差」用）
+P816 = 'docs/story_planning/AA_816_ladder_fx.json'
+S816 = None if '--no-aa816' in sys.argv else G.approved_files(ALLOW, P816).get(P816)
+if S816:
+    _ok, _why = G.allowed(P816, S816, ALLOW)
+    if not _ok: sys.exit('拒絕匯入：' + _why)
+    raw = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S816}:{P816}'], text=True); fx816 = json.loads(G.read_fix(raw))   # 讀稿照 read_fix（同一行）
+    n816, miss816 = 0, []
+    for term, people in fx816.items():
+        if term.startswith('_'): continue
+        chars = y1 if term == 'Y1S1' else out['byTerm'].get(term)
+        if not isinstance(chars, dict): miss816.append(f'{term}（沒有這個學期）'); continue
+        for who, layers in people.items():
+            if who.startswith('_'): continue
+            ch = chars.get(who)
+            if not ch: miss816.append(f'{term}/{who}（這學期沒有這個人）'); continue
+            idx = {}
+            for st in list(ch.get('steps') or []) + list(ch.get('dating') or []):
+                idx.setdefault(st.get('id'), []).append(st)
+            for sid, opts in layers.items():
+                if sid.startswith('_'): continue
+                sts = idx.get(sid) or []
+                if len(sts) != 1: miss816.append(f'{term}/{who}/{sid}（{len(sts)} 層對到）'); continue
+                cs = sts[0].get('choices') or []
+                for t, fx in opts.items():
+                    if t.startswith('_'): continue
+                    if not isinstance(fx, dict) or not fx or any(k not in ('fr', 'love') or not isinstance(v, int) or isinstance(v, bool) for k, v in fx.items()):
+                        sys.exit(f'AA_816 {term}/{who}/{sid}/「{t}」：fx 只能是 fr／love（整數）——讀到 {fx!r}')
+                    hit = [c for c in cs if c.get('t') == t]
+                    if len(hit) != 1: miss816.append(f'{term}/{who}/{sid}/「{t}」（{len(hit)} 個選項對到；這一層的選項：{[c.get("t") for c in cs]}）'); continue
+                    hit[0]['fx'] = dict(fx); n816 += 1
+    if miss816: sys.exit('AA_816：對不到 ' + str(len(miss816)) + ' 格（選項字照 src/data/ladder.js 現在的字）：\n' + '\n'.join(miss816[:40]))
+    out['source'] += f'＋AA_816@{S816}（選項 fx {n816} 個）'
 if R630: out['source'] += f'＋AA_630@{R630["sha"]}（語彤 {sum(int(re.search(r"(\d+) 列", x).group(1)) for x in LOG630)} 列）'
 with open(OUT, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
