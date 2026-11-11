@@ -1,0 +1,55 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LM_scene2_old\out
+CC 汀州路 v1：PARTS LIMAO；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.9s] [LIMAO] 配置 TINGZHOU_LAYOUT.limao：{"id": "limao", "name": "禮貌生財", "zone": "tz_limao", "x0": 25.5, "x1": 31, "z": 2.5, "dep": 3, "from": 19, "to": 23.5, "door": {"x": 27.4, "z": 4.75, "r": 0.9}, "pillars": [[25.8, 2.8], [30.7, 2.8]], "table": {"x": 29.35, "z": 3.85, "w": 1.15, "d": 0.75, "yaw": 3.1416, "seatMaster": {"x": 29.35, "z": 4.6, "yaw": 3.1416}, "seatGuest": {"x": 29.35, "z": 3.05, "yaw": 0}, "at": {"x": 28.3, "z": 3.3, "r": 1}}, "note": "禮貌生財（X332，使用者 11-10 23:1x「開始做，聊天免費」；外觀照使用者 11-11 的圖）：巷 A 後段南側靠公館那一端的老公寓一樓，一樓退 3 m 成騎樓（兩根柱子）。店面（z 5.5）：左邊深色木框格子窗、右邊開著的木門；招牌只寫「禮貌生財」。騎樓下的算命桌在窗前（上師坐靠窗那一側、面向巷子；客人坐靠巷子那一側），門前留 2 m 以上的通道。模型：街道 tingzhou_street.glb 的 TA_LIMAO＋攤位那一顆的 LIMAO_TABLE_open／_closed／LIMAO_SHOPLIGHT。營業 19:00～23:30（提案；AA 定哪幾天不開）。區域：zone.tzLimao＝{open, masterAway}；LAWWW 接：上師 NPC（seatMaster）、桌前的互動（at：免費算命、聊天）、zone.tzLimaoOff＝true 今天不開、zone.tzLimaoAway＝true 店開著上師不在"}
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 14.0 時 (27.2,-0.8) （巷 A，禮貌生財前面）
+  [  51.4s] [LIMAO 1400] 狀態：{"open": false, "masterAway": false, "h": 14.07, "money": 22000, "door": {"label": "看禮貌生財", "exit": false, "look": "禮貌生財。門關著，裡面沒有開燈。"}, "nodes": {"LIMAO_TABLE_open": false, "LIMAO_TABLE_closed": true, "LIMAO_SHOPLIGHT": false}, "sceneLimao": {"LIMAO_TABLE_open": false, "LIMAO_TABLE_open_gl": true, "LIMAO_TABLE_open_vc": true, "LIMAO_TABLE_closed": true, "LIMAO_TABLE_closed_vc": true, "LIMAO_SHOPLIGHT": false, "LIMAO_SHOPLIGHT_gl": true, "LIMAO_SHOPLIGHT_vc": true}}
+PASS [LIMAO 1400] 店在（zone.tzLimao）、開著＝False（19:00～23:30）  {"open": false, "h": 14.07}
+  [  51.8s] [LIMAO 1400] 店門的互動點：{"label": "看禮貌生財", "x": 27.4, "z": 4.75, "r": 0.9, "to": null, "look": "禮貌生財。門關著，裡面沒有開燈。", "tz": null, "tzd": "limao", "gate": false, "seat": false}
+PASS [LIMAO 1400] 巷子裡有禮貌生財的互動點
+  [  56.6s] 到達「[LIMAO 1400] 走到店門」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  57.3s] [LIMAO 1400] 店門口互動鍵：「看禮貌生財」
+PASS [LIMAO 1400] 互動鍵是「看禮貌生財」  看禮貌生財
+  [  59.9s] 到達「[LIMAO 1400] 走到算命桌前」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  60.6s] [LIMAO 1400] 算命桌前互動鍵：「看算命桌」
+  [  61.9s] [LIMAO 1400] 按「看算命桌」→ ["（", "（算命桌蓋著紅灰色的帆布，椅子折起來靠在牆邊。店裡沒有開燈。）"]
+PASS [LIMAO 1400] 收著：算命桌的按鈕是「看算命桌」、按了念一句旁白、錢沒動  ["（", "（算命桌蓋著紅灰色的帆布，椅子折起來靠在牆邊。店裡沒有開燈。）"]
+  [  64.5s] 到達「[LIMAO 1400] 走回店門」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  71.6s] [LIMAO 1400] 按「看禮貌生財」→ []；還在 tingzhou
+PASS [LIMAO 1400] 收著：按了不會進店、錢沒動  {"zone": "tingzhou"}
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 20.0 時 (27.2,-0.8) （巷 A，禮貌生財前面）
+  [  85.7s] [LIMAO 2000] 狀態：{"open": true, "masterAway": false, "h": 20.08, "money": 22000, "door": {"label": "進禮貌生財", "exit": true, "look": null}, "nodes": {"LIMAO_TABLE_open": true, "LIMAO_TABLE_closed": false, "LIMAO_SHOPLIGHT": true}, "sceneLimao": {"LIMAO_TABLE_open": true, "LIMAO_TABLE_open_gl": true, "LIMAO_TABLE_open_vc": true, "LIMAO_TABLE_closed": false, "LIMAO_TABLE_closed_vc": true, "LIMAO_SHOPLIGHT": true, "LIMAO_SHOPLIGHT_gl": true, "LIMAO_SHOPLIGHT_vc": true}}
+PASS [LIMAO 2000] 店在（zone.tzLimao）、開著＝True（19:00～23:30）  {"open": true, "h": 20.08}
+  [  86.1s] [LIMAO 2000] 店門的互動點：{"label": "進禮貌生財", "x": 27.4, "z": 4.75, "r": 0.9, "to": "tz_limao", "look": null, "tz": null, "tzd": "limao", "gate": false, "seat": false}
+PASS [LIMAO 2000] 巷子裡有禮貌生財的互動點
+  [  90.8s] 到達「[LIMAO 2000] 走到店門」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  91.5s] [LIMAO 2000] 店門口互動鍵：「進禮貌生財」
+PASS [LIMAO 2000] 互動鍵是「進禮貌生財」  進禮貌生財
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 20.0 時 (27.4,3.4) （禮貌生財門口外面，開著）
+  [ 107.5s] 到達「[LIMAO 進店] 走到「進禮貌生財」」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [LIMAO 室內] 走進去（6.0 秒）：區域 tz_limao、站得住  {"zone": "tz_limao", "h": 20.11, "x": 0.9, "z": 3.3, "free": true, "ent": false, "busy": false, "fb": 0}
+  [ 113.4s] [LIMAO 室內] 正式模型：{"formal": true, "glb": true, "studyOpen": false}
+  [ 116.2s] 到達「[LIMAO 書房] 走到書房的門前」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [LIMAO 書房] 門前互動鍵有字（照實記）  書房的門
+  [ 117.0s] [LIMAO 書房] 門前互動鍵：「書房的門」
+  [ 123.3s] [LIMAO 書房] 按了：[]
+PASS [LIMAO 書房] 點書房裡面的地板走不進去（停在隔牆前 z > −1.2）  {"zone": "tz_limao", "h": 20.23, "x": 0.08, "z": -0.68, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [LIMAO 書房] 搖桿往書房推也進不去（z > −1.2）  {"zone": "tz_limao", "h": 20.24, "x": 0.1, "z": -0.68, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [LIMAO 室內] 錢沒動
+  [ 138.2s] [LIMAO 室內] 8 秒幀率 60.1 fps
+PASS [LIMAO 室內] 有「離開禮貌生財」
+  [ 149.8s] 到達「[LIMAO 出店] 走到「離開禮貌生財」」附近（0.33 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+PASS [LIMAO 室內] 走出來回到巷子、站得住  {"zone": "tingzhou", "h": 20.38, "x": 27.4, "z": 3.3, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [LIMAO 室內] 出來推得動  {"zone": "tingzhou", "h": 20.4, "x": 27.4, "z": -1.66, "free": true, "ent": false, "busy": false, "fb": 0}
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 20.0 時 (28.2,3.5) （舊存檔的 pos：改版前這裡不是店面）
+PASS [LIMAO 舊存檔 (28.2,3.5)] 讀得進來、站得住（挪 0.56 m）、推得動  [{"zone": "tingzhou", "h": 20.06, "x": 27.75, "z": 3.25, "free": true, "ent": false, "busy": false, "fb": 0}, {"zone": "tingzhou", "h": 20.07, "x": 27.83, "z": -1.67, "free": true, "ent": false, "busy": false, "fb": 0}]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 20.0 時 (27.4,4.8) （舊存檔的 pos：改版前這裡不是店面）
+PASS [LIMAO 舊存檔 (27.4,4.8)] 讀得進來、站得住（挪 0.82 m）、推得動  [{"zone": "tingzhou", "h": 20.06, "x": 26.75, "z": 4.25, "free": true, "ent": false, "busy": false, "fb": 0}, {"zone": "tingzhou", "h": 20.07, "x": 26.85, "z": -1.67, "free": true, "ent": false, "busy": false, "fb": 0}]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 20.0 時 (28.2,6.0) （舊存檔的 pos：改版前這裡不是店面）
+PASS [LIMAO 舊存檔 (28.2,6.0)] 讀得進來、站得住（挪 2.66 m）、推得動  [{"zone": "tingzhou", "h": 20.06, "x": 26.25, "z": 4.25, "free": true, "ent": false, "busy": false, "fb": 0}, {"zone": "tingzhou", "h": 20.07, "x": 26.43, "z": -1.68, "free": true, "ent": false, "busy": false, "fb": 0}]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 20.0 時 (6.5,0.0) （巷 A 西端）
+PASS [LIMAO 巷A] 搖桿來回走一趟（8 秒、卡住 0 次）  {"x": 6.91, "z": 0}
+PASS [LIMAO] walkFallbacks 0
+PASS 沒有 JS 例外  []
+ALL PASS
