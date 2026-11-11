@@ -75,5 +75,12 @@ const src="/* 'assets/in_comment.glb' */ const a='assets/a.glb'; // 'assets/line
 const r2=cp.spawnSync('python3',['-c',py,path.join(ROOT,'tools/release')],{input:src,encoding:'utf8'}); let strs=[]; try{ strs=JSON.parse(r2.stdout); }catch(e){}
 check('25. 字串掃描：註解裡的不算、正規表示式不誤判、樣板字串整段取出',strs.includes('assets/a.glb')&&strs.includes('assets/b.vrm')&&strs.includes('assets/dyn/${id}.webp')&&!strs.some(s=>/in_comment|line_comment/.test(s)),JSON.stringify(strs));
 
+// 立繪表（PORTRAIT_FILES）要和磁碟上的立繪一樣：原本只有 build.py 會順便重掃，正式發行不走 build.py（docs/RELEASE_PACKAGING.md 1.3）
+{ const pm=fs.readFileSync(path.join(ROOT,'src/data/portrait_manifest.js'),'utf8'); const mm=pm.match(/const PORTRAIT_FILES=(\{[\s\S]*?\n\});/); let PF={}; try{ PF=JSON.parse(mm[1]); }catch(e){}
+  const tbl=[]; for(const id of Object.keys(PF)) for(const of of Object.keys(PF[id])) for(const ex of PF[id][of]) tbl.push('assets/portraits/'+id+'/'+of+'/'+ex+'.webp');
+  const disk=files.filter(f=>/^assets\/portraits\/[^/]+\/[^/]+\/[^/]+\.webp$/.test(f)); const a=new Set(tbl), b=new Set(disk);
+  const onlyDisk=disk.filter(f=>!a.has(f)), onlyTbl=tbl.filter(f=>!b.has(f));
+  check('26. 立繪表 PORTRAIT_FILES＝磁碟上的立繪（'+disk.length+' 張；不一樣就跑 python3 tools/gen_portrait_manifest.py）',tbl.length>0&&!onlyDisk.length&&!onlyTbl.length,'只在磁碟：'+sample(onlyDisk)+'；只在表上：'+sample(onlyTbl)); }
+
 console.log('包：'+included.length+' 個檔 '+(R.summary.bytesIncluded/1e6).toFixed(2)+' MB；排除 '+R.summary.filesExcluded+' 個檔 '+(R.summary.bytesExcluded/1e6).toFixed(2)+' MB；無法判定（保留）'+unsure.length+' 個');
 console.log(fails?('FAIL：'+fails+' 項'):'ALL PASS'); process.exit(fails?1:0);

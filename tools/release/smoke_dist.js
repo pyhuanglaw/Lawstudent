@@ -32,11 +32,15 @@ const log=(ok,name,info)=>{ out.steps.push({ok:!!ok,name,info:info||''}); consol
   const info=await pg.evaluate("(()=>{ const v=document.getElementById('verLabel'); const ss=[...document.scripts].map(s=>s.getAttribute('src')).filter(Boolean); return {ver:v?v.textContent:null,title:!document.getElementById('titleScreen').classList.contains('hide'),scripts:ss.length,vers:[...new Set(ss.map(s=>(s.match(/[?&]v=([^&#]+)/)||[])[1]).filter(Boolean))]}; })()");
   out.title=info; log(info.title,'A2 標題畫面顯示'); log(!!info.ver,'A3 標題有版本字樣',String(info.ver));
   const lv=((info.ver||'').match(/v(\d+(?:\.\d+)+)/)||[])[1]; log(lv&&info.vers.length===1&&info.vers[0]===lv,'A4 '+info.scripts+' 支 script 的 ?v= 都和標題同一個版號',JSON.stringify(info.vers));
-  let started=false; try{ await pg.click('#btnNewLaw',{timeout:15000}); for(let i=0;i<120;i++){ if(await pg.evaluate("!!(typeof GAME!=='undefined'&&GAME.G&&GAME.running&&document.getElementById('titleScreen').classList.contains('hide'))").catch(()=>false)){ started=true; break; } await sleep(500); } }catch(e){ out.newGameErr=String(e&&e.message).slice(0,200); }
-  log(started,'B1 按「從法律系開始」→ 新遊戲開始（標題收起、GAME.running）',out.newGameErr||'');
+  /* 按鈕：先照一般的點法；軟體算圖一秒只有幾格，Playwright 等「畫面穩定」可能等不到 → 改成不等穩定的點法 → 再不行直接呼叫按鈕的 click()。用了哪一種寫進結果 */
+  let started=false, how=''; const vis=await pg.evaluate("(()=>{ const b=document.getElementById('btnNewLaw'); if(!b) return null; const r=b.getBoundingClientRect(); const e=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2); return {w:Math.round(r.width),h:Math.round(r.height),top:e?(e.id||e.tagName):null,hit:!!(e&&(e===b||b.contains(e)))}; })()").catch(()=>null);
+  try{ try{ await pg.click('#btnNewLaw',{timeout:8000}); how='一般點擊'; }catch(e1){ try{ await pg.click('#btnNewLaw',{timeout:8000,force:true}); how='點擊（不等畫面穩定）'; }catch(e2){ await pg.evaluate("document.getElementById('btnNewLaw').click()"); how='直接呼叫按鈕的 click()'; } }
+    for(let i=0;i<180;i++){ if(await pg.evaluate("!!(typeof GAME!=='undefined'&&GAME.G&&GAME.running&&document.getElementById('titleScreen').classList.contains('hide'))").catch(()=>false)){ started=true; break; } await sleep(500); } }catch(e){ out.newGameErr=String(e&&e.message).slice(0,200); }
+  out.newGameClick={how,button:vis};
+  log(started,'B1 按「從法律系開始」→ 新遊戲開始（標題收起、GAME.running）',(how?'點法：'+how+'；':'')+'按鈕 '+JSON.stringify(vis)+(out.newGameErr?'；'+out.newGameErr:''));
   await sleep(25000);
   const st=await pg.evaluate("(()=>{ try{ const G=GAME.G,E=GAME.E; return {zone:G&&G.zone,day:G&&G.day,hour:G&&G.hour,npcs:E&&E.npcs?E.npcs.length:null,charFail:(window.CHAR&&CHAR.failures||[]).slice(0,10),assetErr:(window.ASSETS&&ASSETS.errors||[]).slice(0,10),dlg:!!(document.querySelector('#adv.on, #dialog.on, .dlg.on'))}; }catch(e){ return {err:String(e)}; } })()").catch(e=>({err:String(e)}));
-  out.newGame=st; log(st&&!st.err&&!!st.zone,'B2 新遊戲 25 秒後的狀態',JSON.stringify(st));
+  out.newGame=st; log(started&&st&&!st.err&&!!st.zone,'B2 新遊戲 25 秒後的狀態',JSON.stringify(st));
   log(!(st.charFail||[]).length&&!(st.assetErr||[]).length,'B3 新遊戲沒有退回備用模型、沒有資產載入錯誤（CHAR.failures、ASSETS.errors）',JSON.stringify({charFail:st.charFail,assetErr:st.assetErr}));
   await pg.close();
   // C：逐區
@@ -46,7 +50,7 @@ const log=(ok,name,info)=>{ out.steps.push({ok:!!ok,name,info:info||''}); consol
   if(ZMODE==='deploy') zones=DEPLOY_ZONES.filter(z=>zones.includes(z)); else if(/^\d+$/.test(ZMODE)) zones=zones.slice(0,Number(ZMODE)); else zones=DEPLOY_ZONES.filter(z=>zones.includes(z)).concat(zones.filter(z=>!DEPLOY_ZONES.includes(z)));
   for(const z of zones){ if(Date.now()-t0>BUDGET){ out.zones.push({zone:z,skipped:'時間上限'}); continue; }
     const s={zone:z,hour:11.0,day:8,weekday:6,weather:'sunny',pos:null,flags:FLAGS}; const tz=Date.now();
-    const r=await Promise.race([pg2.evaluate("(async(st)=>{ try{ const s=GAME.defaults('祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); return {ok:GAME.G.zone===st.zone}; }catch(e){ return {ok:false,err:String(e).slice(0,200)}; } })",s).catch(e=>({ok:false,err:String(e).slice(0,200)})),sleep(90000).then(()=>({ok:false,err:'90 秒沒進去'}))]);
+    const r=await Promise.race([pg2.evaluate(async st=>{ try{ const s=GAME.defaults('祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); return {ok:GAME.G.zone===st.zone}; }catch(e){ return {ok:false,err:String(e).slice(0,200)}; } },s).catch(e=>({ok:false,err:String(e).slice(0,200)})),sleep(90000).then(()=>({ok:false,err:'90 秒沒進去'}))])||{ok:false,err:'沒有回傳'};
     await sleep(1500);
     const d=await pg2.evaluate("(()=>{ try{ const E=GAME.E; const drv=o=>{ let d=null; o.traverse(c=>{ if(!d&&c.userData&&c.userData.driver) d=c.userData.driver; }); return d||'none'; }; const npc={}; for(const n of E.npcs){ const k=drv(n.obj); npc[k]=(npc[k]||0)+1; } return {player:drv(E.player.obj),npc}; }catch(e){ return {err:String(e).slice(0,100)}; } })()").catch(()=>({}));
     out.zones.push(Object.assign({zone:z,ms:Date.now()-tz},r,d)); console.log((r.ok?'PASS ':'FAIL ')+'C 進入 '+z+'  '+JSON.stringify(Object.assign({},r,d))+'  '+(Date.now()-tz)+' ms'); }
