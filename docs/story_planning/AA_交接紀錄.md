@@ -16,7 +16,7 @@
 - SHIFT-TREAT-1110（X302，已交 `AA_739`，LAWWW 已接，等 BB 測）。
 - BULLETIN-BOARD-1110（X295，已交 `AA_737`，LAWWW 已接，等 BB 測）。
 - DIALOGUE-DEPTH-1031：語彤共創，11-11 用選擇題問使用者。
-- 等使用者回答：沒有（D149：原本說要先給使用者看的，照分工自己決定）。11-10～11-11 已回答的都記在 user_asks_AA.json（UA-AA-1110-01～19）。
+- 等使用者回答：沒有（D149：原本說要先給使用者看的，照分工自己決定）。11-10～11-11 已回答的都記在 docs/handoff/user_asks_AA.json。
 - 等別人：VAC-GAP-ROUTES（國外逐週重讀等 BB 測完 AA_660／AA_667）、開車接送那一項（等 LAWWW2 停車場）、AA530（等 LAWWW）、AA_720 背景（BB）、溫州街四間室內（2:30 AM 等 LAWWW2 重烘、BB 判）。
 
 ### 值班登記與接班紀錄
