@@ -477,6 +477,12 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
         if s['ch']:
             free = None; await pg.wait_for_timeout(600); hs = await heads(pg)
             if not hs: continue
+            if att and not done:
+                g = await pg.evaluate(SKIPGEO); sb3 = await pg.evaluate(SKIPBTN)
+                ovc = {c['t']: inter(g['skip'], c['r']) for c in g['choices']} if (g['skip'] and sb3.get('vis')) else {}
+                fn = await shot(pg, '%s_menu_skipgeo' % tag)
+                R.note('%s：選單出現時「略過 »」看得到＝%s、框 %s、鍵中央 elementFromPoint＝%s、選項 %s（截圖 %s）' % (tag, sb3.get('vis'), g['skip'], g['atCenter'], J(g['choices']), fn))
+                R.check('%s：選單出現時「略過 »」沒有壓到選項（%s）' % (tag, J({k_: v for k_, v in ovc.items() if v})), not any(ovc.values()))
             nh = [norm(h) for h in hs]
             if any(h.startswith(('先自由活動', '直接去下一堂', '先去吃飯')) for h in hs): k = next(i for i, h in enumerate(hs) if h.startswith('先自由活動')); why = '下課選單'
             elif callopts and nh == callopts: k = 0; why = 'call'
