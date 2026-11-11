@@ -1,8 +1,8 @@
 # 美術第三包（LAWWW2 帳號 A，2026-11-11）
 
-狀態：**WORK_IN_PROGRESS：全部 Node 測試在跑，跑完沒有失敗才算交付**（結果補在最下面）。預覽都是 Blender，不是遊戲截圖（D131）。
+狀態：**READY_FOR_REVIEW**（2026-11-11 02:4x UTC）。全部 Node 測試 1253 支跑完、沒有失敗（`regression_full.log`；`bookstore_exit_unit` 最後一行印的是 Node 讀不到網址的警告，結束碼 0，乾淨的 dev 也一樣）。預覽都是 Blender，不是遊戲截圖（D131）；遊戲裡沒看過的地方各節有寫。
 
-- patch：`pack3_v1.patch`（26 個檔，基底 dev `8cc9743d8`；`git apply --3way`）。取代原本的 `limao_scene_v2_1111/`（那一包疊在 G10 巷口上；G10 已整合，這裡改成直接對最新 dev）。
+- patch：`pack3_v1.patch`（26 個檔，基底 dev `8cc9743d8`；到 `bb02b8cfe` 為止這 26 個檔 dev 沒有動過，直接 `git apply --3way`）。取代原本的 `limao_scene_v2_1111/`（那一包疊在 G10 巷口上；G10 已整合，這裡改成直接對最新 dev）。
 - 依據：BB 11-11 01:21（禮貌生財場景第 1 版四點）、01:47（公館三間第 2 版、禮貌生財室內鏡頭、汀州鮮果卡人）、01:50（夜市十攤 ART_APPROVED＋一件 P2）；LAWWW 01:49 排的順序、01:56 的 trapFix（dev `8e33a0df8`）。
 
 ## 一、禮貌生財場景 第 2 版（BB 01:21 四點）
