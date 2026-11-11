@@ -1,0 +1,200 @@
+{
+ "tag": "repro_D32",
+ "mode": "D3",
+ "tapDetail": [
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "起床選單",
+   "hit": "翹這堂課",
+   "sinceMenu": 149.9
+  },
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": false,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：dlgText）",
+   "sinceMenu": null
+  },
+  {
+   "at": true,
+   "menu": "翹課確認",
+   "hit": "還是去",
+   "sinceMenu": 150.3
+  },
+  {
+   "at": true,
+   "menu": "（沒有選單）",
+   "hit": "（畫面上沒有選單：fade）",
+   "sinceMenu": null
+  }
+ ],
+ "taps": 7,
+ "secs": 4.7,
+ "outcome": "去上課",
+ "plan_skip": false,
+ "went": true,
+ "nap": [],
+ "zone": "classroom",
+ "h": 9.005,
+ "diff": {},
+ "chain": [
+  {
+   "first": "直接去上課：刑法總則（一）",
+   "picked": "翹這堂課",
+   "i": 1,
+   "dt": 187,
+   "downDt": 149.9,
+   "h": 8.207,
+   "z": "dorm"
+  },
+  {
+   "first": "還是去",
+   "picked": "還是去",
+   "i": 0,
+   "dt": 185.9,
+   "downDt": 150.3,
+   "h": 8.207,
+   "z": "dorm"
+  }
+ ],
+ "today": "11/12 週三・大一上 第 11 週現在 09:00今天的時間　上午 ○　下午 ○　晚上 ○每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；約好的見面也算一件（約好的照樣能去）；吃飯、聊天不算。09:10–12:10 刑法總則（一）法律系館A 201・吳老師・現在可以進教室直接去上課13:20–15:10 服務學習（一）法律學院圖書館 櫃台・館員・還沒開始直接去上課法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00跳過時間沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。等到中午（12:00）等到下午（14:00）等到傍晚（17:30）等到晚上（20:00）翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。",
+ "shot": "gc_014_repro_D32_end.png",
+ "menus": [
+  {
+   "opts": [
+    "直接去上課：刑法總則（一）",
+    "翹這堂課",
+    "先起床再說"
+   ],
+   "sinceSay": 274,
+   "sinceDown": 34,
+   "rects": [
+    {
+     "t": "直接去上課：刑法總則（一）",
+     "r": [
+      430,
+      55,
+      400,
+      63
+     ]
+    },
+    {
+     "t": "翹這堂課",
+     "r": [
+      430,
+      125,
+      400,
+      63
+     ]
+    },
+    {
+     "t": "先起床再說",
+     "r": [
+      430,
+      196,
+      400,
+      63
+     ]
+    }
+   ],
+   "cover": {
+    "coverWho": null,
+    "busyDepth": 1,
+    "busyWho": [
+     "S.wakeMenu (http://127.0.0.1:8800/src/classes3d.js?v=9.10.24:1197:44)"
+    ],
+    "dlgActive": false,
+    "dlgShown": true,
+    "dlgStatic": true,
+    "dlgSide": false,
+    "dlgRect": [
+     42,
+     281,
+     760,
+     95
+    ],
+    "dlgText": "早安。今天的課：09:10　刑法總則（一）　法律系館A 201　／　13:20　服務學習（一）　法律學院圖書館 櫃台",
+    "chHidden": false,
+    "chLayers": 3,
+    "chTexts": [
+     "直接去上課：刑法總則（一）09:10，法律系館A 201。走路 18 分鐘，09",
+     "翹這堂課記沒去，不扣分。這堂課裡的事你會錯過。",
+     "先起床再說手機的「今天」隨時可以直接去"
+    ],
+    "phone": false,
+    "adv": false
+   }
+  },
+  {
+   "opts": [
+    "還是去",
+    "翹"
+   ],
+   "sinceSay": 840,
+   "sinceDown": 32.8,
+   "rects": [
+    {
+     "t": "還是去",
+     "r": [
+      430,
+      174,
+      400,
+      46
+     ]
+    },
+    {
+     "t": "翹",
+     "r": [
+      430,
+      228,
+      400,
+      46
+     ]
+    }
+   ],
+   "cover": {
+    "coverWho": null,
+    "busyDepth": 1,
+    "busyWho": [
+     "S.skipClass (http://127.0.0.1:8800/src/classes3d.js?v=9.10.24:1209:197)"
+    ],
+    "dlgActive": false,
+    "dlgShown": true,
+    "dlgStatic": true,
+    "dlgSide": false,
+    "dlgRect": [
+     42,
+     296,
+     760,
+     80
+    ],
+    "dlgText": "翹掉刑法總則（一）？記「沒去」，不扣分。",
+    "chHidden": false,
+    "chLayers": 2,
+    "chTexts": [
+     "還是去",
+     "翹"
+    ],
+    "phone": false,
+    "adv": false
+   }
+  }
+ ]
+}
