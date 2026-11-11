@@ -1,11 +1,3 @@
-[11:30:57] solo item GOCLASS_guard_new waits: no new items start until the 2 running item(s) finish
-[11:30:57] ==== START GOCLASS_fullsvc_new  (probe @ 1d4db297a4b980e82619dbc41f70e41f108f0596) ====
-[11:31:00] [res] cpu=26% mem=36% (11.4/31.4 GB) chrome_testing=0  START GOCLASS_fullsvc_new
-[11:31:02] worktree add 1d4db297a4b980e82619dbc41f70e41f108f0596: invalid reference - fetching main and the commit itself
-[11:31:04] [res] cpu=4% mem=36% (11.4/31.4 GB) chrome_testing=0  END GOCLASS_fullsvc_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       112a8e2fd..e3c3d597f  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [11:31:50] ==== END   GOCLASS_fullsvc_old  exit=0  372s   ====
 [11:31:53] solo item GOCLASS_guard_new waits: no new items start until the 1 running item(s) finish
 [11:34:03] 正在跑：GOCLASS_fullsvc_new（已跑 3 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1990,11 @@
 [20:12:56] [res] cpu=1% mem=51% (16.3/31.4 GB) chrome_testing=10  START V25_mini
 [20:14:04] 正在跑：V25_social（已跑 36 分／上限 60 分）、STAIR_old_run10_r2（已跑 25 分／上限 40 分）、V25_mini（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:14:25] [res] cpu=0% mem=49% (15.5/31.4 GB) chrome_testing=10  END V25_mini
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7cce2af3b..8245ff922  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:14:31] ==== END   V25_mini  exit=0  91s   ====
+[20:14:34] memory 49% before starting V25_joy (2 running)
+[20:14:34] ==== START V25_joy  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[20:14:37] [res] cpu=16% mem=49% (15.6/31.4 GB) chrome_testing=10  START V25_joy
+[20:17:50] [res] cpu=3% mem=50% (15.9/31.4 GB) chrome_testing=10  END V25_joy
