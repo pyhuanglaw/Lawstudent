@@ -1,6 +1,7 @@
 """校外約會台詞改完以後整批掃（AA 2026-11-11；BB_325、BB_326 的上限）：
   python3 docs/story_planning/tools_aa/date_scan.py <人物id> D01 D02 … [--old '保溫瓶|論文|研究室']
 每個地點列：爸媽幾次（上限 2）、12 字以內的短格幾格（下限 4）、兩句一格的比例（BB_326：一半上下，太高會變固定節拍）、「今天」幾格、可能是舊設定的字（--old 自己給；不給＝沛珊那一組）。
+芷若另外量（BB_330）：店裡的事（店裡、吧檯、客人、上班、圍裙、奶泡、拉花）每個地點 3 格以內、光／構圖／職業病 1 格以內、「欸」開頭 1 格以內。
 可昕另外量（BB_329）：對祐廷下命令的「不准／不要」每個地點 2 格以內、予樂 1 格以內、行程表一處（成對 2 格）以內。
 語彤另外量（BB_328）：蘇姨＋秀琴姨＋我媽每個地點合計 2 格以內（同一件事的第一次＋再訪算一對）、茶屋 2 格以內、她「數東西」（幾秒、幾次、幾個）2 格以內；超過的列出來。
 最後列跨地點一模一樣的句子、整批的每格句數分布、「上次」開頭、收尾講「明天」幾處（整份稿三處以內）。讀 date_system/lines（含沒動的舊格）。"""
@@ -30,6 +31,16 @@ for k,v in D.items():
     if len(par)>2:
         for i,t in par: print('    ',i,t)
     for i,t in oldh: print('    舊字？',i,t)
+    if who=='heroine_02':
+        shop=[(i,t) for i,key,t in hers if re.search('店裡|吧檯|客人|上班|圍裙|奶泡|拉花|老闆說',t)]
+        lite=[(i,t) for i,key,t in hers if re.search('光|構圖|鏡頭|職業病',t)]
+        ei=[(i,t) for i,key,t in hers if strip(t).startswith('欸')]
+        over=len(shop)>3 or len(lite)>1 or len(ei)>1
+        print(f'    店裡的事 {len(shop)}、光／職業病 {len(lite)}、欸開頭 {len(ei)}'+(' ←' if over else ''))
+        if len(shop)>3:
+            for i,t in shop: print('      店',i,t)
+        if len(lite)>1:
+            for i,t in lite: print('      光',i,t)
     if who=='kexin':
         cmd=[(i,t) for i,key,t in hers if re.search('不准|你不要|(^|[。，！？）])不要|別想',t)]
         yl=[(i,t) for i,key,t in v if '予樂' in t]; sc=[(i,t) for i,key,t in v if '行程表' in t]
