@@ -1,12 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[13:36:47] ==== END   LM_cam3_new  exit=0  157s   ====
-[13:37:12] memory 41% before starting ANTAI_cam_old (2 running)
-[13:37:12] ==== START ANTAI_cam_old  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
-[13:37:15] [res] cpu=17% mem=41% (13.1/31.4 GB) chrome_testing=4  START ANTAI_cam_old
-[13:37:21] [res] cpu=5% mem=44% (13.3/31.4 GB) chrome_testing=4  END LM_cam3_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       c3bd85709..6863aa0cd  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [13:37:47] ==== END   LM_cam3_old  exit=0  151s   ====
 [13:37:51] memory 47% before starting SHOPS5_far_new (2 running)
 [13:37:51] ==== START SHOPS5_far_new  (probe @ 696cf6036f3ca9fbc7022c21ab37324b0e46e305) ====
@@ -1998,3 +1990,11 @@
 [22:04:54] ==== START REL_moku_nosit_r3  (probe @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
 [22:04:57] [res] cpu=0% mem=44% (13.8/31.4 GB) chrome_testing=9  START REL_moku_nosit_r3
 [22:07:11] [res] cpu=40% mem=43% (13.5/31.4 GB) chrome_testing=10  END V25_L118_C5
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6593b56d0..b5dfba49f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:07:17] ==== END   V25_L118_C5  exit=0  566s   ====
+[22:07:27] memory 43% before starting REL_moku_nosit_r4 (2 running)
+[22:07:27] ==== START REL_moku_nosit_r4  (probe @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
+[22:07:30] [res] cpu=5% mem=43% (13.7/31.4 GB) chrome_testing=10  START REL_moku_nosit_r4
+[22:08:03] [res] cpu=39% mem=33% (10.3/31.4 GB) chrome_testing=4  END REL_moku_nosit_r3
