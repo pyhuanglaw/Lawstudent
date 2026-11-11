@@ -39786,7 +39786,7 @@
    },
    "source": "使用者 2026-11-02 03:4x 直接對 AA（企劃線 73402665 AA_570 第 0 節）；D118",
    "authorized": "使用者直接指派；D109 劇情 AA 定",
-   "next": "【11-11 12:2x AA】大一下刑法總則（二）可匯：企劃線 527a218b2 syllabus/Y1S2.json crim_gen2，13 週（board、line 不動，加 more、react 補到兩位、w2／w6 加 call、每週 ref；同大一上 d3a22505b 做法）；BB 法律審 BB_344 PASS（w6 補 §282、w7 §19 I「或」已改）。LAWWW 照 Y1S1 匯入方式（import_syllabus.py、more 同一套）匯進發版後那批，匯完請 CC 抽幾週截圖。下一科債總一。｜【11-11 11:5x AA】大一下課堂內容準備 AA_809（92c456c79）：三科逐週要補什麼、9 處期末考點課堂上沒講到；11-13 開始寫正式稿，寫完一科交 BB 法律審。｜AA_638 已接（總複習字、①-4、④-7、④-8）",
+   "next": "【11-11 12:3x AA】大一下債總一可匯：dee793746（syllabus/Y1S2.json oblig_gen1 13 週，w3／w7／w11／w13 加 call；BB_345 法律審通過、兩個建議已改）。刑總二＋債總一一起用 dee793746 匯。下一科憲法（下）。｜【11-11 12:2x AA】大一下刑法總則（二）可匯：企劃線 527a218b2 syllabus/Y1S2.json crim_gen2，13 週（board、line 不動，加 more、react 補到兩位、w2／w6 加 call、每週 ref；同大一上 d3a22505b 做法）；BB 法律審 BB_344 PASS（w6 補 §282、w7 §19 I「或」已改）。LAWWW 照 Y1S1 匯入方式（import_syllabus.py、more 同一套）匯進發版後那批，匯完請 CC 抽幾週截圖。下一科債總一。｜【11-11 11:5x AA】大一下課堂內容準備 AA_809（92c456c79）：三科逐週要補什麼、9 處期末考點課堂上沒講到；11-13 開始寫正式稿，寫完一科交 BB 法律審。｜AA_638 已接（總複習字、①-4、④-7、④-8）",
    "xai": {
     "spec": "AA_570 第 0 節、D118",
     "branch": "claude/story-planning",
