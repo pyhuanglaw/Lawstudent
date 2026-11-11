@@ -1867,3 +1867,11 @@
 [11:18:38] [res] cpu=6% mem=53% (16.8/31.4 GB) chrome_testing=9  START LM_cam2_old_r2
 [11:19:03] 正在跑：NM_reach_old（已跑 7 分／上限 40 分）、LM_cam2_new_r2（已跑 1 分／上限 10 分）、LM_cam2_old_r2（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:19:42] [res] cpu=6% mem=53% (16.8/31.4 GB) chrome_testing=8  END LM_cam2_new_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8565628f6..a9825af49  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:19:48] ==== END   LM_cam2_new_r2  exit=0  151s   ====
+[11:19:52] memory 53% before starting NM_cam_new_r2 (2 running)
+[11:19:52] ==== START NM_cam_new_r2  (probe @ 811aa4c0f1b44b8ed62df03c88a85f3f2f8167da) ====
+[11:19:55] [res] cpu=1% mem=53% (16.8/31.4 GB) chrome_testing=9  START NM_cam_new_r2
+[11:21:03] [res] cpu=8% mem=53% (16.9/31.4 GB) chrome_testing=8  END LM_cam2_old_r2
