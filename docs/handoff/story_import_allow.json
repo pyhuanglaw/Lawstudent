@@ -6731,6 +6731,15 @@
    "note": "X324 子晴校外約會不分地點的短句 9 列：①src/data/date_lines.js 最上層 lines.heroine_04 五列（transport、cancel 兩句、flaked 第一句、enough 第一句）——tools/date/import_date_lines.py 寫檔前最後一步照 path 疊（apply767 的 AA_775 那一輪）；②src/date3d.js 四列手寫檔直接換：S.MORNING.heroine_04、S.REMEMBER_IF 子晴 D06.cafe／D15.store 沒旗標的備用句兩列、D26 臺中＋子晴過夜晚上那一句（S.NIGHT_HOME 加一列＝她回家）。逐字對稿 tests/zq_dates_1111_unit.js"
   },
   {
+   "path": "docs/story_planning/AA_776_zq_wish.json",
+   "sha": "26e72fd51",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X324）；BB 11-11 看過（稿的 _meta.bb：可以給 LAWWW；26e72fd51＝照 BB 意見加窗邊那一列）；LAWWW 2026-11-11 指定匯 26e72fd51；LAWWW 的匯入子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 子晴 D03 參創心願事件「最後一關換你」（wish_heroine_04）30 列（照 path 換，只換她說的台詞；內容、分支、旁白、選項的字、note 不動）：刪節號 26 處留 3 處、D116 三處、嫌祐廷兩處、寫死身分兩處、窗邊加「上來」。tools/date/import_wish.py 的 1k 那一層疊在 wish_bb.json＋AA_525 1-5 上面 → src/data/date_wish.js。逐字對稿 tests/zq_dates_1111_unit.js、tests/date_wish_unit.js"
+  },
+  {
    "path": "docs/story_planning/AA_771_l118_lunch.json",
    "sha": "1669b3ae0",
    "status": "approved",
