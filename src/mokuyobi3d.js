@@ -29,6 +29,7 @@ const MOK3=(function(){
     nav0.fillBlocked(); nav0.freeRect(st.x0,S.top,st.x1,zf-0.02); nav0.addSurf(Object.assign({},st));          // 一樓：樓梯＋門檻（平台不在這一層：走到最上面一定換到第 1 層）
     nav1.setFloor(Y1);
     nav1.freeRect(st.x0,S.z0+0.06,st.x1,(S.top+st.z1)/2); nav1.addSurf(Object.assign({},st));                // 二樓：平台＋樓梯的上半段（room() 的牆內 0.4 m 擋住了，重新打開）；
+    { const mid=(S.top+st.z1)/2; nav1.blockRect((S.x0+S.x1)/2,(mid+zf)/2,S.x1-S.x0,zf-mid,0); }   /* BUG-MOKUYOBI-STAIR-STUCK-1111 下樓那一側（BB 11-11 PC：線上版 30 趟卡 3 次、停在 z 5.2～6.1 還是第 1 層）：樓梯下半段在第 1 層原本沒擋（家具第 0 筆＝樓梯開口跳過、room() 只擋牆內 0.4 m），第 1 層一路延伸到樓梯底——人下樓一直留在第 1 層。照下面那行註解的本意把下半段在第 1 層擋起來：走到一半一定換回第 0 層 */
                                                                                                             // 下半段只在第 0 層：下樓的人走到一半一定換回第 0 層（和宿舍 B 跑同一個做法），走到門口才是一樓
     const d=S.door, dz0=d.z-d.w/2, dz1=d.z+d.w/2;
     nav1.blockRect(S.x1+0.05,(dz1+zf)/2,0.1,zf-dz1,0);                                                         // 東邊隔間牆（x −3.0～−2.9，門洞以南）

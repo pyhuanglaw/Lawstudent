@@ -35,5 +35,13 @@ const upDone=e=>(e.lv|0)===1&&e.obj.position.z<S.top-0.05;
   check('2. 樓梯上左、中、右 × 往北、東北、西北推 × 走／跑 × 30／10 fps：都上得到第 1 層平台、每一步都站得住（'+xs.length*dirs.length*MODES.length+' 趟）',!bad,out.slice(0,4).join('｜')); }
 { const out=[]; let bad=0; for(const x of [-4.1,-3.75,-3.36]) for(const [sp,dt,mt] of MODES){ const r=push(x,(S.z0+S.top)/2,1,[0,1],{sp,dt,secs:30,until:e=>(e.lv|0)===0&&e.obj.position.z>5.5}); if(!r.ok||r.bad){ bad++; out.push(x+mt+':'+JSON.stringify(r)); } }
   check('3. 二樓平台往南推下樓：換回第 0 層、走到一樓（左中右 × 走跑 × 30／10 fps）',!bad,out.slice(0,4).join('｜')); }
+// 4 下樓那一側（BB 11-11 PC：線上版從平台 (x,1.9) lv1 直線推回樓梯底 (x,5.6)，30 趟卡 3 次、停在 z 5.2～6.1 還是第 1 層）
+{ const mid=(S.top+(L.d/2-0.05))/2, n1=E.levels[1]; const bad=[];
+  for(const x of [S.x0+0.02+R+0.01,(S.x0+S.x1)/2,S.x1-0.02-R-0.01]) for(let zz=mid+0.05; zz<L.d/2; zz+=0.1) if(n1.clear(x,zz,R)) bad.push(x.toFixed(2)+','+zz.toFixed(2));
+  check('4. 樓梯下半段（z > '+mid.toFixed(2)+'）第 1 層站不住（下樓走到一半一定換回第 0 層）',!bad.length,bad.slice(0,5).join(' '));
+  const out=[]; let nb=0; for(const x of [-4.16,-3.76,-3.35]) for(const [sp,dt,mt] of MODES){ const ent={obj:{position:new THREE.Vector3(x,0,1.9),rotation:{y:0}},radius:R,lv:1}; let ok=false, wrong=0;
+    for(let i=0;i<Math.ceil(30/dt);i++){ const o=ent.obj.position, d=Math.hypot(x-o.x,5.6-o.z); if(d<0.05){ ok=(ent.lv|0)===0; break; } E.stepEntity(ent,(x-o.x)/d,(5.6-o.z)/d,Math.min(sp,d/dt),dt); if(ent.obj.position.z>mid+0.05&&(ent.lv|0)!==0) wrong++; }
+    if(!ok||wrong){ nb++; out.push(x+mt+':'+JSON.stringify({lv:ent.lv,z:+ent.obj.position.z.toFixed(2),wrong})); } }
+  check('4. BB 的走法：平台 (x,1.9) lv1 直線推到樓梯底 (x,5.6)：每一趟都走到、在第 0 層，過了一半以後沒有一步還在第 1 層（左中右 × 走跑 × 30／10 fps）',!nb,out.slice(0,4).join('｜')); }
 console.warn=cwarn; console.error=cerr;
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
