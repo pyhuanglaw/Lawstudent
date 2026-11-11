@@ -1624,16 +1624,23 @@ def l118_peek():
 
 
 # 玻璃後面那 2.6 m 的桌椅（本地 x、離玻璃多遠 dz；o＝椅子擺在桌子的哪兩邊：'x' 左右、'z' 前後）。樣子照各店的新室內（l118_peek_tex.py 的圖、BB_341 第二節）：
-#   118牛排 深咖啡木桌椅｜水上便當 靠牆的不鏽鋼吧台＋圓凳｜辛亥韓食 深色卡座｜五湖四海 不鏽鋼桌＋咖啡色圓凳｜大學食堂 白桌＋橘色椅｜義大麵屋、奈良咖哩 木桌椅｜清州刀削麵 木紋桌＋圓凳｜迪倫 黑鐵腳木桌（窯爐、製作檯照舊）
+#   118牛排 深咖啡木桌椅｜水上便當 靠牆的不鏽鋼吧台＋圓凳｜辛亥韓食 深色卡座｜五湖四海 不鏽鋼桌＋咖啡色圓凳｜大學食堂 白桌＋橘色椅｜義大麵屋、奈良咖哩 木桌椅｜清州刀削麵 淺灰桌面黑框桌＋黑椅（第 3 版對過）｜迪倫 黑鐵腳木桌（窯爐、製作檯照舊）
 # 門後面留空（門的位置照 SF_L118 的 door_x、door_w）。warm＝燈光的顏色
+# 室內第 3 版（L118-PEEK-V3-1111，LAWWW 的子代理；LAWWW2 的 118牛排、水上便當、清州刀削麵、辛亥韓食第 3 版）：這四間照新室內的 l118_<id>.layout.json 前 2.6 m 擺
+#   （本地 x＝室內 x × 約 0.97：圖是室內寬 − 0.12 m 貼到店面寬 − 0.69 m）。sets 第 4 格（可省）：sides＝椅子放哪幾邊（−1／+1）、pair＝每邊兩張椅子時左右各偏多少
+#   118牛排：西排第三桌讓給自助台（濃湯桶、紅茶桶、紅色杯架；soup）、東牆一張靠牆的桌子只有西邊一張椅子、東牆門邊的餐具台（cutlery）
+#   水上便當：右前方一張不鏽鋼桌＋兩張圓凳（第 2 版就有，原本漏了）；拉長的吧台和四張圓凳在 2.67 m 以後（圖上）
+#   清州刀削麵：門左邊製麵台後面那一桌（四張椅子，前後各兩張）；右前方的吊扇（fan；室內的吊扇比街上淺店內的天花板高，放在天花板下）
+#   辛亥韓食：卡座照室內往裡面移 0.4 m（後面那張卡座的靠背剛好接到圖上）
 L118_FRONT = {
-    'dian': dict(warm=False, top='#4f3628', leg='#2c2624', seat='#3a2a22', line=('#c8323a', 1.72, 0.05), sets=[(-2.0, 1.35, 'z'), (2.0, 1.35, 'z')], tw=0.7, td=0.7),
-    'self': dict(warm=False, line=('#f2b824', 1.22, 0.06)),   # 新室內前半間是空的（BB_341：右半邊和後牆空，LAWWW2 第 3 版會補）；靠牆的吧台在右邊壁面後面、從街上看不到，不放
-    'tea': dict(warm=True, top='#5a3c2c', leg='#2a2422', booth='#2b2523', wains=('#7a2a26', 1.0), sets=[(0.62, 1.4, 'z')], tw=0.6, td=0.7),
+    'dian': dict(warm=False, top='#4f3628', leg='#2c2624', seat='#3a2a22', line=('#c8323a', 1.72, 0.05), sets=[(2.25, 2.1, 'x', dict(sides=(-1,)))], tw=0.8, td=0.66,
+                 soup=(0.85, 2.35, 0.6), cutlery=(0.42, 1.17, 0.38)),
+    'self': dict(warm=False, line=('#f2b824', 1.22, 0.06), top='#d4d6d8', leg='#2a2a2c', seat='#c4c7ca', stool=True, stool_leg='#9aa0a6', sets=[(1.95, 1.9, 'x')], tw=0.74, td=0.64),
+    'tea': dict(warm=True, top='#5a3c2c', leg='#2a2422', booth='#2b2523', wains=('#7a2a26', 1.0), sets=[(0.72, 1.8, 'z')], tw=0.75, td=0.55),
     'home': dict(warm=True, top='#c4c8cc', leg='#9aa0a6', seat='#a8623c', stool=True, sets=[(-2.6, 1.35, 'x'), (-0.7, 1.35, 'x')], tw=0.75, td=0.7),
     'cafe2': dict(warm=False, top='#d9b98a', leg='#2c2c2e', seat='#5a5d62', buffet=0.92, sets=[(-1.1, 1.35, 'x')], tw=0.75, td=0.7),
     'pasta': dict(warm=True, top='#c9a070', leg='#8a6a48', seat='#b48a5e', sets=[(-2.6, 1.3, 'x'), (-0.8, 1.3, 'x')], tw=0.7, td=0.7),
-    'korea': dict(warm=False, top='#2e2e30', leg='#222224', seat='#2a2a2c', line=('#c8323a', 1.9, 0.05), sets=[(-2.3, 1.35, 'x'), (-0.6, 1.35, 'x')], tw=0.75, td=0.7),
+    'korea': dict(warm=False, top='#cfd0cd', leg='#222224', seat='#2a2a2c', line=('#c8323a', 1.9, 0.05), sets=[(0.39, 1.55, 'z', dict(pair=0.25))], tw=1.0, td=0.74, fan=(1.56, 1.65)),
     'omu': dict(warm=True, top='#5a3a26', leg='#3a2618', seat='#4a3020', wains=('#4a3020', 0.95), sets=[(-2.3, 1.3, 'x'), (-0.7, 1.3, 'x')], tw=0.7, td=0.7),
     'noodle2': dict(warm=True, top='#a87a4e', leg='#222224', seat='#2c2c2e', sets=[(-2.6, 1.1, 'z')], tw=0.65, td=0.65),
 }
@@ -1690,7 +1697,8 @@ def l118_peek_interior(spec, xf, iw, gz, ih, bright=0.8):
         CL.glow(root, 'shopin', *xf.p(lx, yt - 0.3, zb + DI * 0.5), color='rgba(255,226,180,1)' if warm else 'rgba(244,250,255,1)', size=1.7, day=0.0, night=0.85)
     uvq(f'sk_in_peek_{pid}', _L118_PEEK['m'], xf, [(-iw / 2 + 0.047, y0, zb + 0.006), (iw / 2 - 0.047, y0, zb + 0.006), (iw / 2 - 0.047, yt, zb + 0.006), (-iw / 2 + 0.047, yt, zb + 0.006)], tuple(pk['uv']))
     tw, td = F.get('tw', 0.7), F.get('td', 0.7)
-    for (tx, dz, o) in F.get('sets', []):
+    for st_ in F.get('sets', []):
+        tx, dz, o = st_[:3]; so = st_[3] if len(st_) > 3 else {}
         tz = gz - dz
         vb(tx - tw / 2, tx + tw / 2, y0 + 0.71, y0 + 0.75, tz - td / 2, tz + td / 2, F['top'], r=0.012)
         if F.get('booth'):   # 卡座：桌子一支中柱，前後各一張高背的長椅
@@ -1701,10 +1709,12 @@ def l118_peek_interior(spec, xf, iw, gz, ih, bright=0.8):
             continue
         for sx in (-1, 1):
             for sz in (-1, 1): vb(tx + sx * (tw / 2 - 0.05) - 0.02, tx + sx * (tw / 2 - 0.05) + 0.02, y0, y0 + 0.71, tz + sz * (td / 2 - 0.05) - 0.02, tz + sz * (td / 2 - 0.05) + 0.02, F['leg'], r=0)
-        for sg in (-1, 1):
-            cx_, cz_ = (tx + sg * (tw / 2 + 0.22), tz) if o == 'x' else (tx, tz + sg * (td / 2 + 0.22))
-            if F.get('stool'): _pk_stool(cp, xf, cx_, cz_, y0, F['seat'], F['leg'])
-            else: _pk_chair(vb, cx_, cz_, y0, F['seat'], F['leg'], ('+' if sg > 0 else '-') + o)
+        pr = so.get('pair')
+        for sg in so.get('sides', (-1, 1)):
+            for off in ((-pr, pr) if pr else (0.0,)):
+                cx_, cz_ = (tx + sg * (tw / 2 + 0.22), tz + off) if o == 'x' else (tx + off, tz + sg * (td / 2 + 0.22))
+                if F.get('stool'): _pk_stool(cp, xf, cx_, cz_, y0, F['seat'], F.get('stool_leg', F['leg']))
+                else: _pk_chair(vb, cx_, cz_, y0, F['seat'], F['leg'], ('+' if sg > 0 else '-') + o)
         for k_, c_ in enumerate(('#b3242a', '#2c2420')):   # 桌上的醬料瓶
             xf_cyl(cp(c_), xf, (tx - 0.06 + k_ * 0.1, y0 + 0.75, tz - 0.05), (tx - 0.06 + k_ * 0.1, y0 + 0.87, tz - 0.05), 0.022, seg=6)
     if F.get('bar'):   # 靠牆的不鏽鋼吧台＋圓凳（水上便當；新室內右邊那一段接過來）
@@ -1712,6 +1722,31 @@ def l118_peek_interior(spec, xf, iw, gz, ih, bright=0.8):
         vb(min(bx, bx - sx * 0.42), max(bx, bx - sx * 0.42), y0 + 0.72, y0 + 0.76, zb + 0.25, gz - 0.55, col, r=0.008)
         for z_ in (zb + 0.4, gz - 0.7): vb(bx - sx * 0.4 - 0.015, bx - sx * 0.4 + 0.015, y0, y0 + 0.72, z_ - 0.015, z_ + 0.015, F['leg'], r=0)
         for (oz,) in F.get('stools', []): _pk_stool(cp, xf, bx - sx * 0.68, (zb + gz) / 2 + oz * 0.8, y0, F['seat'], F['leg'])
+    wx = iw / 2 - 0.047   # 側牆的內面
+    if F.get('soup'):   # 118牛排第 3 版：西牆的自助台（不鏽鋼台＋門口這邊高的紅褐色濃湯桶、裡面矮的不鏽鋼紅茶桶，各一張黃標籤）＋上面的紅色杯架
+        d0, d1, dp = F['soup']; z0_, z1_ = gz - d1, gz - d0; x0_ = -wx; x1_ = -wx + dp
+        vb(x0_, x1_, y0, y0 + 0.86, z0_, z1_, '#b9bdc0', r=0.01); vb(x0_, x1_ + 0.02, y0 + 0.86, y0 + 0.9, z0_ - 0.02, z1_ + 0.02, '#d2d5d7', r=0.006)
+        vb(x1_ + 0.002, x1_ + 0.006, y0 + 0.12, y0 + 0.8, z0_ + 0.05, z1_ - 0.05, '#a3a7aa', r=0)                       # 台子正面的門板線
+        for (dzc, rr_, hh, col, lid) in ((1.38, 0.19, 0.57, '#8a3a2a', '#3a2a24'), (1.95, 0.23, 0.37, '#b0b4b8', '#5a5d62')):
+            ux, uz = x0_ + dp * 0.55, gz - dzc
+            xf_cyl(cp(col), xf, (ux, y0 + 0.9, uz), (ux, y0 + 0.9 + hh, uz), rr_, seg=14)
+            _lathe(cp(lid), xf, [(0.0, 0.0), (rr_ + 0.01, 0.0), (rr_ * 0.7, 0.05), (0.03, 0.08), (0.03, 0.11), (0.0, 0.11)], ux, y0 + 0.9 + hh, uz, seg=14)
+            vb(ux + rr_ - 0.02, ux + rr_ + 0.005, y0 + 0.9 + hh * 0.45, y0 + 0.9 + hh * 0.8, uz - 0.1, uz + 0.1, '#f2c230', r=0)   # 黃標籤
+            vb(ux + rr_, ux + rr_ + 0.07, y0 + 0.97, y0 + 1.0, uz - 0.015, uz + 0.015, '#2c2c2e', r=0)                       # 水龍頭
+        vb(-wx, -wx + 0.26, y0 + 1.86, y0 + 1.9, z0_ + 0.05, z1_ - 0.1, '#b3242a', r=0)                                  # 紅色杯架
+        for k in range(6): xf_cyl(cp('#f4f1ea'), xf, (-wx + 0.13, y0 + 1.9, z0_ + 0.18 + k * (z1_ - z0_ - 0.4) / 5), (-wx + 0.13, y0 + 1.99, z0_ + 0.18 + k * (z1_ - z0_ - 0.4) / 5), 0.04, seg=7)
+    if F.get('cutlery'):   # 118牛排第 3 版：東牆門邊的餐具台（不鏽鋼矮櫃＋上面的餐具盒、杯子）
+        d0, d1, dp = F['cutlery']; z0_, z1_ = gz - d1, gz - d0
+        vb(wx - dp, wx, y0, y0 + 0.9, z0_, z1_, '#b9bdc0', r=0.01); vb(wx - dp - 0.003, wx - dp, y0 + 0.12, y0 + 0.82, z0_ + 0.04, z1_ - 0.04, '#a3a7aa', r=0)
+        vb(wx - dp + 0.05, wx - 0.05, y0 + 0.9, y0 + 0.98, z0_ + 0.06, (z0_ + z1_) / 2, '#c9a070', r=0.006)
+        for k in range(3): xf_cyl(cp('#f4f1ea'), xf, (wx - dp / 2, y0 + 0.9, (z0_ + z1_) / 2 + 0.1 + k * 0.1), (wx - dp / 2, y0 + 1.02, (z0_ + z1_) / 2 + 0.1 + k * 0.1), 0.035, seg=7)
+    if F.get('fan'):   # 清州刀削麵第 3 版：天花板的吊扇（吊桿、馬達、四片扇葉）
+        fx, fd = F['fan']; fz = gz - fd; fy = yt - 0.38
+        xf_cyl(cp('#e8e8e6'), xf, (fx, fy + 0.08, fz), (fx, yt, fz), 0.02, seg=6)
+        _lathe(cp('#e8e8e6'), xf, [(0.0, 0.0), (0.11, 0.0), (0.12, 0.04), (0.09, 0.09), (0.0, 0.09)], fx, fy, fz, seg=12)
+        for (ax_, az_) in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            if ax_: vb(fx + ax_ * 0.1 if ax_ > 0 else fx - 0.62, fx + 0.62 if ax_ > 0 else fx - 0.1, fy + 0.03, fy + 0.042, fz - 0.065, fz + 0.065, '#efefed', r=0)
+            else: vb(fx - 0.065, fx + 0.065, fy + 0.03, fy + 0.042, fz + 0.1 if az_ > 0 else fz - 0.62, fz + 0.62 if az_ > 0 else fz - 0.1, '#efefed', r=0)
     if sf.get('oven'): _l118_oven(spec, xf, cm, iw, zb, y0, yt)
     _shade_interior(cm, xf, iw, gz, yt, bright, warm)
     cm.finish(root, uv=False)

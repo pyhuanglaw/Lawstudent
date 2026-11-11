@@ -8,10 +8,10 @@
   ],
   "m": 5.479,
   "h": 2.7,
-  "floor": "#c2bab1",
-  "wall": "#d8d0c7",
-  "ceil": "#b4a99d",
-  "cut_px": 43
+  "floor": "#b6afa7",
+  "wall": "#c1aca0",
+  "ceil": "#ada398",
+  "cut_px": 0
  },
  "self": {
   "uv": [
@@ -22,10 +22,10 @@
   ],
   "m": 6.479,
   "h": 2.7,
-  "floor": "#f8f8f5",
-  "wall": "#f7f4e9",
-  "ceil": "#fcf4dc",
-  "cut_px": 316
+  "floor": "#f6f6f1",
+  "wall": "#fdf3de",
+  "ceil": "#e9dfc5",
+  "cut_px": 317
  },
  "tea": {
   "uv": [
@@ -37,9 +37,9 @@
   "m": 2.479,
   "h": 2.7,
   "floor": "#756352",
-  "wall": "#94705b",
-  "ceil": "#a2876a",
-  "cut_px": 3910
+  "wall": "#9d7c64",
+  "ceil": "#9f8568",
+  "cut_px": 3912
  },
  "home": {
   "uv": [
@@ -92,10 +92,10 @@
   ],
   "m": 6.479,
   "h": 2.7,
-  "floor": "#deded8",
-  "wall": "#fffefa",
-  "ceil": "#e7e3d4",
-  "cut_px": 12
+  "floor": "#ddddd6",
+  "wall": "#e1d9d5",
+  "ceil": "#dfdbd1",
+  "cut_px": 849
  },
  "omu": {
   "uv": [
