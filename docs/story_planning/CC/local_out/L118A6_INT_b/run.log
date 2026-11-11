@@ -1,0 +1,52 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_INT_b\out
+CC L118A：PARTS INTFRONT；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.5s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== INTFRONT
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_noodle2 店裡的進門位置 (1.60,2.75) 2025-10-08 1300 
+PASS [noodle2] 店內正式模型載入（1.5 秒）
+  [  47.5s] [INTFRONT noodle2 1300] 【遊戲鏡頭】l118a_int_noodle2_1300_door_game.jpg：{"onScreen": true, "ndc": [0, -0.21], "player": [1.6, 2.75], "cam": [1.6, 3.21, 6.65], "yaw": 6.283, "mid": {"m": 111.7, "sd": 43.4, "black": 0.055, "white": 0, "rgb": [121, 110, 95]}, "top": {"m": 110.7, "sd": 49.3, "black": 0.024, "white": 0, "rgb": [132, 105, 83]}, "near": {"m": 101.3, "sd": 44.3, "black": 0.059, "white": 0, "rgb": [105, 100, 95]}}
+PASS [INTFRONT noodle2 1300] 【遊戲鏡頭】l118a_int_noodle2_1300_door_game.jpg：畫面上方 20% 不像天空、沒有大面積黑（天花板沒有破洞）  {"m": 110.7, "sd": 49.3, "black": 0.024, "white": 0, "rgb": [132, 105, 83]}
+PASS [INTFRONT noodle2 1300] 【遊戲鏡頭】l118a_int_noodle2_1300_door_game.jpg：畫面中央 60% 不是一片單色（標準差 43.4 ≥20）  {"m": 111.7, "sd": 43.4, "black": 0.055, "white": 0, "rgb": [121, 110, 95]}
+PASS [INTFRONT noodle2 1300] 【遊戲鏡頭】l118a_int_noodle2_1300_door_game.jpg：看得到人（玩家附近 100×160 px 標準差 44.3 ≥15）  {"onScreen": true, "ndc": [0, -0.21], "near": {"m": 101.3, "sd": 44.3, "black": 0.059, "white": 0, "rgb": [105, 100, 95]}}
+  [  47.5s] [INTFRONT noodle2 1300] 站得住的範圍：330 點、x [-2.4, 2.6]、z [-2.25, 3.75]；最裡面 [0.1, -2.25]
+  [  50.5s] 【捷徑機位】l118a_int_noodle2_1300_in_cam.jpg：eye [0.96, 1.6, 3.9] look [0.0, 1.25, -3.45] 焦距 22（垂直 49.43°）；亮度 全畫面 [121.6, 67.7]、中央 [100.7, 53]
+PASS [黑畫面] l118a_int_noodle2_1300_in_cam.jpg 不是黑畫面／一片單色（全畫面平均 121.6、變化 67.7）  {"all": [121.6, 67.7], "mid": [100.7, 53]}
+  [  52.8s] 【捷徑機位】l118a_int_noodle2_1300_out_cam.jpg：eye [0.1, 1.6, -2.5] look [1.6, 1.3, 4.25] 焦距 22（垂直 49.43°）；亮度 全畫面 [124.8, 63.3]、中央 [120.3, 52.4]
+PASS [黑畫面] l118a_int_noodle2_1300_out_cam.jpg 不是黑畫面／一片單色（全畫面平均 124.8、變化 63.3）  {"all": [124.8, 63.3], "mid": [120.3, 52.4]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_pasta 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 
+PASS [pasta] 店內正式模型載入（1.5 秒）
+  [  64.3s] [INTFRONT pasta 1300] 【遊戲鏡頭】l118a_int_pasta_1300_door_game.jpg：{"onScreen": true, "ndc": [0, -0.21], "player": [-2.6, 2.75], "cam": [-2.6, 3.21, 6.65], "yaw": 6.283, "mid": {"m": 151.3, "sd": 60.2, "black": 0.01, "white": 0, "rgb": [174, 147, 115]}, "top": {"m": 172.4, "sd": 38.2, "black": 0.001, "white": 0.005, "rgb": [190, 170, 138]}, "near": {"m": 153.1, "sd": 75, "black": 0.066, "white": 0, "rgb": [164, 151, 134]}}
+PASS [INTFRONT pasta 1300] 【遊戲鏡頭】l118a_int_pasta_1300_door_game.jpg：畫面上方 20% 不像天空、沒有大面積黑（天花板沒有破洞）  {"m": 172.4, "sd": 38.2, "black": 0.001, "white": 0.005, "rgb": [190, 170, 138]}
+PASS [INTFRONT pasta 1300] 【遊戲鏡頭】l118a_int_pasta_1300_door_game.jpg：畫面中央 60% 不是一片單色（標準差 60.2 ≥20）  {"m": 151.3, "sd": 60.2, "black": 0.01, "white": 0, "rgb": [174, 147, 115]}
+PASS [INTFRONT pasta 1300] 【遊戲鏡頭】l118a_int_pasta_1300_door_game.jpg：看得到人（玩家附近 100×160 px 標準差 75 ≥15）  {"onScreen": true, "ndc": [0, -0.21], "near": {"m": 153.1, "sd": 75, "black": 0.066, "white": 0, "rgb": [164, 151, 134]}}
+  [  64.4s] [INTFRONT pasta 1300] 站得住的範圍：363 點、x [-2.85, 2.9]、z [-1.75, 3.75]；最裡面 [-0.1, -1.75]
+  [  67.2s] 【捷徑機位】l118a_int_pasta_1300_in_cam.jpg：eye [-1.56, 1.6, 3.9] look [0.0, 1.25, -3.45] 焦距 22（垂直 49.43°）；亮度 全畫面 [174.1, 56.4]、中央 [159.9, 55.1]
+PASS [黑畫面] l118a_int_pasta_1300_in_cam.jpg 不是黑畫面／一片單色（全畫面平均 174.1、變化 56.4）  {"all": [174.1, 56.4], "mid": [159.9, 55.1]}
+  [  69.6s] 【捷徑機位】l118a_int_pasta_1300_out_cam.jpg：eye [-0.1, 1.6, -2.0] look [-2.6, 1.3, 4.25] 焦距 22（垂直 49.43°）；亮度 全畫面 [167, 59.2]、中央 [140.9, 57.9]
+PASS [黑畫面] l118a_int_pasta_1300_out_cam.jpg 不是黑畫面／一片單色（全畫面平均 167、變化 59.2）  {"all": [167, 59.2], "mid": [140.9, 57.9]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_home 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 
+PASS [home] 店內正式模型載入（1.5 秒）
+  [  81.1s] [INTFRONT home 1300] 【遊戲鏡頭】l118a_int_home_1300_door_game.jpg：{"onScreen": true, "ndc": [0, -0.21], "player": [-2.6, 2.75], "cam": [-2.6, 3.21, 6.65], "yaw": 6.283, "mid": {"m": 127.2, "sd": 57.4, "black": 0.024, "white": 0, "rgb": [137, 126, 110]}, "top": {"m": 157.2, "sd": 43.2, "black": 0, "white": 0.011, "rgb": [166, 157, 136]}, "near": {"m": 121.9, "sd": 55.5, "black": 0.066, "white": 0, "rgb": [126, 121, 115]}}
+PASS [INTFRONT home 1300] 【遊戲鏡頭】l118a_int_home_1300_door_game.jpg：畫面上方 20% 不像天空、沒有大面積黑（天花板沒有破洞）  {"m": 157.2, "sd": 43.2, "black": 0, "white": 0.011, "rgb": [166, 157, 136]}
+PASS [INTFRONT home 1300] 【遊戲鏡頭】l118a_int_home_1300_door_game.jpg：畫面中央 60% 不是一片單色（標準差 57.4 ≥20）  {"m": 127.2, "sd": 57.4, "black": 0.024, "white": 0, "rgb": [137, 126, 110]}
+PASS [INTFRONT home 1300] 【遊戲鏡頭】l118a_int_home_1300_door_game.jpg：看得到人（玩家附近 100×160 px 標準差 55.5 ≥15）  {"onScreen": true, "ndc": [0, -0.21], "near": {"m": 121.9, "sd": 55.5, "black": 0.066, "white": 0, "rgb": [126, 121, 115]}}
+  [  81.1s] [INTFRONT home 1300] 站得住的範圍：423 點、x [-2.85, 2.9]、z [-1.75, 3.75]；最裡面 [-0.1, -1.75]
+  [  83.9s] 【捷徑機位】l118a_int_home_1300_in_cam.jpg：eye [-1.56, 1.6, 3.9] look [0.0, 1.25, -3.45] 焦距 22（垂直 49.43°）；亮度 全畫面 [154.3, 63.7]、中央 [142.6, 56.4]
+PASS [黑畫面] l118a_int_home_1300_in_cam.jpg 不是黑畫面／一片單色（全畫面平均 154.3、變化 63.7）  {"all": [154.3, 63.7], "mid": [142.6, 56.4]}
+  [  86.4s] 【捷徑機位】l118a_int_home_1300_out_cam.jpg：eye [-0.1, 1.6, -2.0] look [-2.6, 1.3, 4.25] 焦距 22（垂直 49.43°）；亮度 全畫面 [145.8, 64.8]、中央 [125.4, 55.5]
+PASS [黑畫面] l118a_int_home_1300_out_cam.jpg 不是黑畫面／一片單色（全畫面平均 145.8、變化 64.8）  {"all": [145.8, 64.8], "mid": [125.4, 55.5]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_cafe2 店裡的進門位置 (2.20,3.00) 2025-10-08 1300 
+PASS [cafe2] 店內正式模型載入（1.5 秒）
+  [  96.9s] [INTFRONT cafe2 1300] 【遊戲鏡頭】l118a_int_cafe2_1300_door_game.jpg：{"onScreen": true, "ndc": [0, -0.21], "player": [2.2, 3], "cam": [2.2, 3.21, 6.9], "yaw": 6.283, "mid": {"m": 154.8, "sd": 66.5, "black": 0.035, "white": 0, "rgb": [165, 153, 135]}, "top": {"m": 164.1, "sd": 53.5, "black": 0.005, "white": 0, "rgb": [181, 162, 130]}, "near": {"m": 154.9, "sd": 79.3, "black": 0.084, "white": 0, "rgb": [160, 154, 146]}}
+PASS [INTFRONT cafe2 1300] 【遊戲鏡頭】l118a_int_cafe2_1300_door_game.jpg：畫面上方 20% 不像天空、沒有大面積黑（天花板沒有破洞）  {"m": 164.1, "sd": 53.5, "black": 0.005, "white": 0, "rgb": [181, 162, 130]}
+PASS [INTFRONT cafe2 1300] 【遊戲鏡頭】l118a_int_cafe2_1300_door_game.jpg：畫面中央 60% 不是一片單色（標準差 66.5 ≥20）  {"m": 154.8, "sd": 66.5, "black": 0.035, "white": 0, "rgb": [165, 153, 135]}
+PASS [INTFRONT cafe2 1300] 【遊戲鏡頭】l118a_int_cafe2_1300_door_game.jpg：看得到人（玩家附近 100×160 px 標準差 79.3 ≥15）  {"onScreen": true, "ndc": [0, -0.21], "near": {"m": 154.9, "sd": 79.3, "black": 0.084, "white": 0, "rgb": [160, 154, 146]}}
+  [  97.0s] [INTFRONT cafe2 1300] 站得住的範圍：386 點、x [-1.55, 2.7]、z [-3.25, 3.75]；最裡面 [-0.05, -3.25]
+  [  99.8s] 【捷徑機位】l118a_int_cafe2_1300_in_cam.jpg：eye [1.32, 1.6, 4.15] look [0.0, 1.25, -3.7] 焦距 22（垂直 49.43°）；亮度 全畫面 [172, 70.7]、中央 [155.5, 63.7]
+PASS [黑畫面] l118a_int_cafe2_1300_in_cam.jpg 不是黑畫面／一片單色（全畫面平均 172、變化 70.7）  {"all": [172, 70.7], "mid": [155.5, 63.7]}
+  [ 102.2s] 【捷徑機位】l118a_int_cafe2_1300_out_cam.jpg：eye [-0.05, 1.6, -3.5] look [2.2, 1.3, 4.5] 焦距 22（垂直 49.43°）；亮度 全畫面 [170.4, 71.5]、中央 [145.5, 73.2]
+PASS [黑畫面] l118a_int_cafe2_1300_out_cam.jpg 不是黑畫面／一片單色（全畫面平均 170.4、變化 71.5）  {"all": [170.4, 71.5], "mid": [145.5, 73.2]}
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
