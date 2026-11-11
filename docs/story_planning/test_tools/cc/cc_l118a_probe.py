@@ -104,10 +104,10 @@ def fn(kind, sid, h, view, cam):
     return 'l118a_%s_%s_%s_%s_%s.jpg' % (kind, sid, hhmm(h) if h is not None else 'na', view, 'cam' if cam else 'game')
 
 
-async def cam_shot(pg, name, eye, look, lens=26, marks=None, judge=True):
+async def cam_shot(pg, name, eye, look, lens=26, marks=None, judge=True, show_player=False):
     """【捷徑機位】1280×720、暫停遊戲、藏 HUD 和玩家（D.CAM），存 jpg；之後放回 844×390、恢復遊戲"""
     await pg.set_viewport_size({'width': 1280, 'height': 720}); await pg.wait_for_timeout(700)
-    await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()")
+    await pg.evaluate("(v=>{ GAME.E.player.obj.visible=v; })", bool(show_player))   # 高腳椅側拍要看到人（CC 08:2x：原本一律藏人，stool 側拍拍不到腿）
     if marks: await pg.evaluate(MARKS_ADD, marks)
     await pg.evaluate(D.HUD + '(false)'); c = await pg.evaluate(D.CAM, {'eye': list(eye), 'look': list(look), 'lens': lens}); await pg.wait_for_timeout(600)
     stt = await pg.evaluate(STATS)
@@ -494,7 +494,15 @@ async def sit_one(pg, cdp, sid, k, s, res):
             top = round(0.47 + s['lift'], 3); dh = None if clip['hipsY'] is None else round(clip['hipsY'] - top, 3)
             R.note('%s 高腳椅：椅面高度 %.3f（0.47＋lift %.3f）；骨盆（hips 骨頭）%s（高出椅面 %s）；膝蓋 %s；腳 %s；小腿／大腿線段打到網格 %d 段' % (t, top, s['lift'], clip['hipsY'], dh, clip['kneeY'], clip['footY'], clip['legHits']))
             R.check('%s 高腳椅坐姿：骨盆在椅面上方 0.02～0.30 m（屁股在椅面上，CC 粗判）、腳沒有穿進吧台（腿的線段沒打到網格）' % t, dh is not None and 0.02 <= dh <= 0.30 and clip['legHits'] == 0, J({'hipsY': clip['hipsY'], 'top': top, 'dh': dh, 'legHits': clip['legHits']}))
-            await cam_shot(pg, fn('seat', sid, H_INT, 'stool%d_side' % (k + 1), True), (p['x'] + 1.6, 1.0, p['z'] + 0.3), (p['x'], 0.8, p['z']), 30, judge=False)
+            # BB 08:15：從吧台內側、和坐姿同高拍腿（人要看得到；選單收起來＝D.HUD(false)【捷徑】）；腿從吧台木頭另一側露出來＝穿模。另加貼近的側面（避開前排椅子）
+            yaw = await pg.evaluate("(()=>GAME.E.player.obj.rotation.y)()"); fx, fz = math.sin(yaw), math.cos(yaw)
+            hy = clip['hipsY'] or 0.9
+            await cam_shot(pg, fn('seat', sid, H_INT, 'stool%d_inbar' % (k + 1), True), (p['x'] + fx * 1.5, hy, p['z'] + fz * 1.5), (p['x'], hy - 0.25, p['z']), 24, judge=False, show_player=True)
+            await cam_shot(pg, fn('seat', sid, H_INT, 'stool%d_side' % (k + 1), True), (p['x'] - fz * 0.9 + fx * 0.35, hy - 0.1, p['z'] + fx * 0.9 + fz * 0.35), (p['x'] + fx * 0.3, hy - 0.3, p['z'] + fz * 0.3), 24, judge=False, show_player=True)
+            R.setup('%s 【捷徑機位】高腳椅 inbar／side：玩家面向 (%.2f,%.2f)；inbar＝從玩家前方 1.5 m（吧台內側）回看、和骨盆同高；side＝側面 0.9 m；HUD、選單收起' % (t, fx, fz))
+            await pg.evaluate("(()=>{ const c=document.getElementById('choices'); if(c) c.style.visibility='hidden'; })()")
+            await game_shot(pg, fn('seat', sid, H_INT, 'stool%d_nomenu' % (k + 1), False), t + '【捷徑】選單暫時收起', judge=False)
+            await pg.evaluate("(()=>{ const c=document.getElementById('choices'); if(c) c.style.visibility=''; })()")
             await pg.evaluate("(()=>{ GAME.E.player.obj.visible=true; })()")
         await game_shot(pg, fn('seat', sid, H_INT, 'sit%d' % (k + 1), False), t, judge=False)
     said = []; t1 = time.time()
