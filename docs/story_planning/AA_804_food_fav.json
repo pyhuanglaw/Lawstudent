@@ -1,0 +1,75 @@
+{
+ "_meta": {
+  "doc": "AA_804 X324 G 區最後一批：food_fav_lines「X？……好啦」那一招＋其餘小檔量完",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324 G 區）",
+  "format": "{file, line, old, new}；food_fav_lines 是手寫檔。",
+  "notes": [
+   "food_fav_lines（58 句、刪節號 23）：送她喜歡的吃的、喝的時，「拿鐵？……好啦，我也喝。」「熱的？……好啦。」這種「重複＋……＋好啦」一直出現，拿掉中間的停頓；兩句「好啦，我也喝」撞在一起，熱可可那句換。「……你記得。」「……可樂餅的。嗯。不要笑。」「奶茶。……你是故意的吧。」這種被說中的留。",
+   "量過不用改：aa723（告白第一次失敗以後、沛珊沒交往的線；停頓多半是真的）、zr_last_events（芷若出國前後）、confess_lines（告白；「我喜歡妳」14 次是玩家選項）、movie_plots、date_wish、date_locations、sup497_lines、rel_lines、arc_rot、vacfill_events、l118_lunch、nanyang_movies、eat_lines、night_market、arc_invites、shop_enc、group_events、activities、heard_lines、heroine_asks、limao、dorm203_lines、flirt_lines、examlib_lines、gym_equip_lines、feed_dates、lane118_shops、yule_lines、decide_rules、crowd_depts、study_slots、dorm_y24_lines、shop_npc、l118_redo772、shift_treat、rom1016_events、home_lines、twfill_events、club_fair、greet_classday、v6ex_lines、noodle_table。",
+   "還要再看：aa519_lines（115 句、刪節號 42，多半在句中）、sport_invite_lines（93／34，產生的＝AA_715 源稿）。"
+  ]
+ },
+ "rows": [
+  {
+   "file": "src/data/food_fav_lines.js",
+   "line": 22,
+   "old": "可樂餅的。……好，我吃吃看。",
+   "new": "可樂餅的。好，我吃吃看。"
+  },
+  {
+   "file": "src/data/food_fav_lines.js",
+   "line": 28,
+   "old": "謝謝。……我吃這個也可以。",
+   "new": "謝謝。我吃這個也可以。"
+  },
+  {
+   "file": "src/data/food_fav_lines.js",
+   "line": 33,
+   "old": "熱的？……好啦。我等它涼。",
+   "new": "熱的？好啦，我等它涼。"
+  },
+  {
+   "file": "src/data/food_fav_lines.js",
+   "line": 34,
+   "old": "拿鐵？……好啦，我也喝。",
+   "new": "拿鐵？好啦，我也喝。"
+  },
+  {
+   "file": "src/data/food_fav_lines.js",
+   "line": 34,
+   "old": "熱可可是芷若在喝的。……好啦，我也喝。",
+   "new": "熱可可是芷若在喝的。今天我也喝一次。"
+  },
+  {
+   "file": "src/data/food_fav_lines.js",
+   "line": 34,
+   "old": "紅茶。……可以。",
+   "new": "紅茶。可以。"
+  },
+  {
+   "file": "src/data/food_fav_lines.js",
+   "line": 34,
+   "old": "手沖？你很捨得欸。……謝謝。",
+   "new": "手沖？你很捨得欸。謝謝。"
+  },
+  {
+   "file": "src/data/food_fav_lines.js",
+   "line": 40,
+   "old": "謝謝。……冰塊我等一下倒掉。",
+   "new": "謝謝。冰塊我等一下倒掉。"
+  },
+  {
+   "file": "src/data/food_fav_lines.js",
+   "line": 45,
+   "old": "雞肉的？……好，今天換一次。",
+   "new": "雞肉的？好，今天換一次。"
+  },
+  {
+   "file": "src/data/food_fav_lines.js",
+   "line": 50,
+   "old": "半糖？……你上次明明知道。",
+   "new": "半糖？你上次明明知道。"
+  }
+ ]
+}
