@@ -8170,7 +8170,7 @@
    "sha": "42671da70",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACK（LAWWW 12:02：改「已實作待整合」，發版後和 TAP-RAY、吧台凳一起整合；slabClip＋梁透空都要；吊燈網點交 BB 判）",
    "at": "2026-11-11T12:3x",
    "task": "CAFE-BAR-CAM-1111：兩點半 Café 吧檯坐下鏡頭被天花板大梁擋（梁下面當樓板 slabClip＋網點透空）",
    "files": [
@@ -8180,6 +8180,22 @@
    "noDirectIntegrate": false,
    "note": "2 個檔（zones3d.js：cafe z.slabs 天花板下 2.78～3.4 m＋attachCafe230 CAFE230_SEETHRU；新 tests/cafe_bar_cam_1111_unit.js）；基底 32d35ec2d6，在 4bad2a2223 上乾淨（和 TAP-RAY 一起也乾淨）；吧檯 256 鏡頭擋 90→0、其他座位 37→0、BB 那格鏡頭 (−1.3,3.46,0.6)→(−1.3,2.63,−1.24)；站著預設俯角不變；全部 Node 1288：1287 過＋bookstore 老警告",
    "next": "LAWWW 發版後整合；CC 照 BB 走法坐中間那張吧檯拍、BB 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "d0c2852b7",
+   "receiver": "LAWWW、AA",
+   "cc": "",
+   "ack": "SENT",
+   "at": "2026-11-11T12:2x",
+   "task": "對帳（D148）：GG-SHOPS3-ART-1110、FLOWER-NOTES-ART-1110 都已做、已整合（LAWWW 12:05 ACK 改已整合待測試）；AA_743 六間室內對照表",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/AA_743_對照_1111.md"
+   ],
+   "state": "交付（只對照，沒改模型、配置）",
+   "noDirectIntegrate": true,
+   "note": "問 LAWWW／AA：kind 要不要改名（建議不改）；只加資料的五項要不要我做；要改模型的五項排不排",
+   "next": "等 LAWWW、AA 決定"
   }
  ]
 }
