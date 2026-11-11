@@ -1,0 +1,25 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fn_func_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FN_func_c_new\out
+CC FN_func（FLOWER-NOTES-1110）：PARTS GIFT；SHA dbbe05fa5；SEED 57772；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】[GIFT] 公館街上：day46 存檔 → gongguan (-40.0, 8.0) 2025-12-24 11.00、錢 5000、包包清空
+PASS [GIFT] 搖桿走到「進入花序」，按鈕是它（19.4 秒、沒有跳）  {"end": [46.984, 20.96], "btn": "進入花序", "jumps": [], "why": null}
+PASS [GIFT] 按「進入花序」到了 flower_notes、站得住  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 11.18}
+PASS [GIFT] 這一區（flower_notes）有 gg_flower 互動點
+  [  73.4s] 到達「[GIFT] 走到「買花」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [GIFT] 走到「買花」前面，互動按鈕是它  {"at": [1.644, 4.893], "btn": "買花"}
+PASS [GIFT] 有一束花可以買  [{"id": "g_bouquet", "name": "一束花", "price": 450, "shop": "gg_flower", "cat": null, "catKey": null, "season": false}, {"id": "g_sunflower", "name": "一朵向日葵", "price": 120, "shop": "gg_flower", "cat": null, "catKey": null, "season": false}]
+PASS [GIFT] 買了一束花  {"money": 4550, "bag": [{"id": "g_bouquet", "shop": "gg_flower", "day": 99}], "raw": [{"id": "g_bouquet", "day": 99, "shop": "gg_flower"}]}
+  [  77.2s] [GIFT] 她（heroine_05）：[{"id": "heroine_05", "can": true, "hol": {"k": "xmas", "y": 2025}, "where": {"zone": "library", "room": null, "act": "看書", "until": "17:00"}, "st": {"items": ["g_bouquet"], "capped": false}}]
+PASS [GIFT] heroine_05 現在在遊戲的場景裡（STORY.whereIs）、GIFTH.canGet  [{"id": "heroine_05", "can": true, "hol": {"k": "xmas", "y": 2025}, "where": {"zone": "library", "room": null, "act": "看書", "until": "17:00"}, "st": {"items": ["g_bouquet"], "capped": false}}]
+  [前置／捷徑] [GIFT]【捷徑】GAME.enter(library)（她 heroine_05 在那裡；不測走過去的路）
+PASS [GIFT] 這一區有她（heroine_05）  {"x": -10.55, "z": -7.4, "lv": 0, "label": null, "name": "溫學姊", "frozen": true, "vis": true}
+  [ 101.8s] 到達「[GIFT] 走到她旁邊（第 1 次）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [ 116.7s] [GIFT] 送花：{"offered": true, "picked": true, "said": ["（她抬頭看到你，點了一下頭。）", "【第 1 次說話沒有選單（{\"talking\": false, \"busyDepth\": 0, \"pbusy\": false, \"ev\": null, \"near\": \"和溫學姊說話\", \"nearNpc\": true, \"hour\": 11.28}），等 2 秒再按一次】", "（小聲）法圖九點四十五關門。我都待到最後。", "你把一束花遞給溫書瑀。", "（小聲）聖誕快樂，學弟。", "（小聲）花喔。……我要去找一個瓶子。"], "opts": [["送她禮物…包包裡有 1 樣可以送她", "（說點不一樣的）看你們現在多熟", "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"], ["一束花花序 Flower Notes", "算了"]], "label": "和溫學姊說話", "talks": 2, "offer_dim": false}
+  [ 116.8s] [GIFT] GIFTH.shopName(gg_flower)＝"花序 Flower Notes"（要「花序 Flower Notes」）
+PASS [GIFT] GIFTH.shopName(gg_flower)＝「花序 Flower Notes」  "花序 Flower Notes"
+  [ 116.8s] [GIFT] 送禮選單（「送她禮物…」之後）：["一束花花序 Flower Notes", "算了"]
+PASS [GIFT] 送禮選單上花的店名是「花序 Flower Notes」  ["一束花花序 Flower Notes", "算了"]
+PASS [GIFT] 一束花送出去了（given 有它）  {"given": ["g_bouquet"], "sent": {"heroine_05|xmas|2025": "g_bouquet"}, "fest": {"xmas|2025": ["heroine_05"]}, "bag": [], "mem": [{"tag": "GIFT_LOVE_heroine_05", "day": 99, "v": "一束花"}, {"tag": "GIFT_GIVEN_heroine_05", "day": 99, "v": "一束花"}]}
+PASS 沒有 JS 例外  []
+ALL PASS
