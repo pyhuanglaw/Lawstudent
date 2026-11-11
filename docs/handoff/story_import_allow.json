@@ -5193,6 +5193,21 @@
    ]
   },
   {
+   "path": "docs/story_planning/syllabus/Y1S2.json",
+   "sha": "50e653270",
+   "status": "approved",
+   "approvedBy": "AA 11-11 12:4x「大一下法律三科課堂內容都可匯：e5c4031ff」（STUDY-EXAM-STORY-1102 第二批；D100b 稿就是定稿）；法律審 BB_344 刑總二、BB_345 債總一、BB_346 憲法下 PASS（建議已改進 e5c4031ff）；50e653270（AA 11-11 12:4x「大一下五科最終 SHA」：加通識天文 ge_y1s2、經濟學重修，BB_347 事實 PASS）",
+   "task": "STUDY-EXAM-STORY-1102",
+   "kind": "data",
+   "note": "大一下 crim_gen2、oblig_gen1、const_2 13 週（同大一上 d3a22505b 做法：board、line 不動，加 more、react 補到兩位、新加 call，每週 ref）；tools/syllabus/import_syllabus.py",
+   "history": [
+    {
+     "sha": "e5c4031ff",
+     "note": "被 50e653270 取代（加通識天文、經濟學重修；BB_347 PASS、兩個小建議已改）"
+    }
+   ]
+  },
+  {
    "path": "docs/story_planning/syllabus/Y2S1.json",
    "sha": "1edea905f",
    "status": "approved",
