@@ -148,6 +148,9 @@ REL_main12 | f312c68cc961c70c7d548fe40c2ae42483d517ba | game | tests/flow_main_d
 REL_live | f312c68cc961c70c7d548fe40c2ae42483d517ba | game | tests/save_compat_v95.py | index.html | 40 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;XARGS={url2} {url};CC_HEADLESS=0
 # BB 20:4x：REL_live 17 FAIL 和 F24_live（v9.10.24 發布時）一模一樣；對照組＝線上 779ddd 自己讀自己的存檔，一樣 17 FAIL＝不是這版造成
 REL_live_ctl | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;XARGS={url2} {url};CC_HEADLESS=0
+# BB 20:5x：V25_social 636 PASS／2 FAIL 都在以安 phone_date Daybreak「自己走過去」（開演時她在場、分支 1-1 錯過約定）；線上 779ddd 對照＋發布樹重跑
+REL_soc_ctl | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_01;STEPS=phone_date;TAG=relctl;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+REL_soc_new | f312c68cc961c70c7d548fe40c2ae42483d517ba | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_01;STEPS=phone_date;TAG=relnew;SHA=f312c68cc961c70c7d548fe40c2ae42483d517ba
 V25_main12 | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 V25_social | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | TAG=v25;SHA=0d1eaadc7e746d4e6c6b00619f584e805266fbb6
 V25_reach | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
