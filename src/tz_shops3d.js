@@ -28,7 +28,11 @@ const TZS3=(function(){
     // 鎖著的後間（禮貌生財的書房，X332）：平常導航擋住（隔牆後面整塊）、模型的 STUDY_* 不顯示、STUDY_LID 蓋著、STUDY_DOOR 關著；setStudy(true)＝開門：放行、擋家具、加互動點
     if(L.study){ const SD=L.study, P=L.partition, pts=[]; z.studyOpen=false;
       const doorIt={x:SD.door.x,z:SD.door.z,radius:SD.door.r,label:SD.door.label,kind:SD.door.kind,tzPoint:'study_door',look:'門關著。'}; IT.push(doorIt);   /* 句子 AA 寫；這一句暫定 */
-      z.applyStudyModel=function(){ const root=g0.getObjectByName(L.zone+'_glb'); if(!root) return; root.traverse(o=>{ const n=o.name||''; if(n.indexOf('STUDY_LID')===0||n.indexOf('STUDY_DOOR')===0) o.visible=!z.studyOpen; else if(n.indexOf('STUDY_')===0) o.visible=z.studyOpen; }); };
+      z.applyStudyModel=function(){ const root=g0.getObjectByName(L.zone+'_glb'); if(!root) return; root.traverse(o=>{ const n=o.name||''; if(n.indexOf('STUDY_LID')===0) o.visible=!z.studyOpen; else if(n.indexOf('STUDY_DOOR')===0) o.visible=!z.studyOpen&&!z.partCut; else if(n.indexOf('STUDY_')===0) o.visible=z.studyOpen; else if(n.indexOf('PART_')===0) o.visible=!z.partCut; }); };
+      /* 隔牆的鏡頭（LM-PART-CAM-1111，BB 11-11 01:47；CC 圖 ART2_lmint_new/out/tz4int_limao_2000_game.jpg：玩家站在掛畫前、跟隨鏡頭退到隔牆後面鎖著的書房裡，整個畫面是隔牆背面的米色、看不到人）：
+         隔牆不是外牆（不在淡出清單）。鏡頭和玩家在隔牆兩邊時，隔牆、門框、掛畫（模型的 PART_*）和關著的門（STUDY_DOOR*）整組藏起來；同一邊就照舊。書房鎖著時裡面的東西本來就不顯示，藏隔牆不會露出書房 */
+      z.partCut=false; z.partCutOf=function(cam,pp){ if(!cam) return false; const cs=(cam.z-P.z)>0; return pp?cs!==((pp.z-P.z)>0):(!cs&&!z.studyOpen); };   /* 運鏡（沒有玩家位置）：書房鎖著時鏡頭跑到書房那一邊也藏 */
+      { const f0=z.fadeWalls; z.fadeWalls=function(cam,pp){ if(f0) f0.call(this,cam,pp); const cut=z.partCutOf(cam&&cam.position,pp); if(cut!==z.partCut){ z.partCut=cut; z.applyStudyModel(); } }; }
       z.setStudy=function(on){ on=!!on; if(on===z.studyOpen){ z.applyStudyModel(); return; } z.studyOpen=on;
         if(on){ nav.freeRect(SD.x0+0.3,SD.z0+0.3,SD.x1-0.3,SD.z1-0.2); nav.freeRect(P.door[0]+0.06,SD.z1-0.4,P.door[1]-0.06,SD.z1+0.4); for(const b of SD.blocks) nav.blockRect(b[0],b[1],b[2],b[3],0,0.04);
           for(const p of SD.points){ const it={x:p.x,z:p.z,radius:p.r,label:p.label,kind:p.kind,tzPoint:p.id,look:'（'+L.name+'的書房）'}; IT.push(it); pts.push(it); }

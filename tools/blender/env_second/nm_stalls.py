@@ -18,7 +18,7 @@ OUT = os.path.join(L.ROOT, T.arg('--out', 'assets/models/env/second_ai/tingzhou_
 GEN = os.path.join(HERE, 'textures', 'gen')
 CH = 0.85
 STEEL, STEEL_D, BLACK, WOOD, WALNUT, GOLD = '#c9ccd0', '#8f9498', '#26282a', '#a8845a', '#4a2f1e', '#c9a03a'
-BULB = '#fff0c8'
+BULB = '#ffdf9e'
 
 # 代號 → 店名、尺寸分類、攤體長×深、導航擋的範圍（長、深、往後偏）、開收時間（十攤照 AA_752 的 hours：LAWWW 11-10 23:49 定；背景三攤稿上沒有、照原本的）、收攤帆布顏色（規格 4.3）、能不能買
 KINDS = [
@@ -53,7 +53,13 @@ MENU = {
 
 class S(T.Stall):
     def __init__(self, name, mats, uv):
-        self.asp = {k: v[4] for k, v in uv.items()}; super().__init__(name, mats, {k: v[:4] for k, v in uv.items()}); self.G = CMesh(name + '_gl', mats['glow'])
+        self.asp = {k: v[4] for k, v in uv.items()}; super().__init__(name, mats, {k: v[:4] for k, v in uv.items()}); self.G = CMesh(name + '_gl', mats['glow']); self.W = CMesh(name + '_aw', mats['awn'])
+
+    def over(self, fn):
+        """頭頂上的布（棚子、陽傘）畫到另一個網格（材質 seethru_tzs_awning）：遊戲裡擋住人、或鏡頭鑽到底下時網點透空（BB 11-11 01:50：一個地球、雞蛋糕前面鏡頭鑽到棚子底下，上半個畫面被棚布蓋住）"""
+        v = self.V; self.V = self.W
+        try: fn()
+        finally: self.V = v
 
     def _new(self, fn, col, k=1.0, M=None):   # 新加的面用集合差找（bmesh 會重用釋放掉的位置，新面不一定排在最後）
         M = M or self.V; before = set(M.bm.faces); fn(); M.paint([f for f in M.bm.faces if f not in before], col, k)
@@ -87,6 +93,8 @@ class S(T.Stall):
         g = super().finish(root, props)
         if len(self.G.bm.faces): self.G.finish(g, uv=False)
         else: self.G.bm.free()
+        if len(self.W.bm.faces): self.W.finish(g, uv=False)
+        else: self.W.bm.free()
         return g
 
 
@@ -103,7 +111,9 @@ def posts(s, W, D, H, col, t=0.04, y0=CH, inset=0.03):
     for xx in (-W / 2 + inset, W / 2 - inset - t):
         for zz in (-D / 2 + inset, D / 2 - inset - t): s.box(xx, xx + t, y0, H, zz, zz + t, col)
 
-def awning(s, W, D, H, cols, over=0.3, rise=0.18, val=0.14, side=0.1):
+def awning(s, *a, **k): s.over(lambda: _awning(s, *a, **k))
+
+def _awning(s, W, D, H, cols, over=0.3, rise=0.18, val=0.14, side=0.1):
     """斜的布棚（後高前低）；cols 一色或條紋輪流；前緣垂一條布邊"""
     x0, x1, zb, zf = -W / 2 - side, W / 2 + side, -D / 2 - 0.08, D / 2 + over; n = len(cols) if len(cols) == 1 else max(6, int((x1 - x0) / 0.24)); dx = (x1 - x0) / n
     for i in range(n):
@@ -142,6 +152,7 @@ def board(s, key, x, cy, w, z, col='#2a2a2c', face='+z'):
     return h
 
 def bulb(s, x, y, z, drop=0.16, r=0.05, cap=BLACK, shade=None):
+    r = min(r, 0.05) * 0.68   # BB 11-11 01:50：遊戲鏡頭裡燈泡是兩顆純白的大球 → 縮小（直徑約 7 cm）、顏色暖一點；亮度在 tingzhou3d.js 也降
     s.box(x - 0.004, x + 0.004, y - drop, y, z - 0.004, z + 0.004, BLACK); s.cyl((x, y - drop - 0.04, z), (x, y - drop, z), 0.022, cap, seg=6)
     if shade: s.cyl((x, y - drop - 0.2, z), (x, y - drop - 0.03, z), 0.1, shade, seg=10, r2=0.03)
     s.glow((x, y - drop - 0.04 - r, z), r, sy=1.15)
@@ -449,7 +460,7 @@ def socks(s, W, D):
     for t in range(3):
         y = 1.85 - t * 0.38; s.cyl((-W / 2, y, -D / 2 - 0.105), (W / 2, y, -D / 2 - 0.105), 0.012, STEEL, seg=6)
         for i in range(12): c = cols[(i + t) % len(cols)]; x = -0.72 + i * 0.13; s.box(x, x + 0.08, y - 0.28, y - 0.01, -D / 2 - 0.11, -D / 2 - 0.1, c); s.box(x, x + 0.11, y - 0.31, y - 0.25, -D / 2 - 0.11, -D / 2 - 0.1, c, 0.9)
-    T.parasol(s, '#3d6fb0', '#f4f4f0', x=0.0, z=-0.1, y=2.2, r=1.2)
+    s.over(lambda: T.parasol(s, '#3d6fb0', '#f4f4f0', x=0.0, z=-0.1, y=2.2, r=1.2))
     board(s, 'bg_socks', 0.0, 0.5, 0.7, D / 2 + 0.03, col='#b8231c'); board(s, 'bg_socks_p', 0.45, 0.95, 0.42, 0.1, col='#b8231c')
     bulb(s, 0.3, 2.2, 0.2, drop=0.2); T.stool(s, -0.2, -0.75, '#c9463d')
 
@@ -548,37 +559,57 @@ def tall_plant(s, x, z):
         a = i * 2.4; y = 0.7 + i * 0.055; r = 0.2 + rnd.random() * 0.16; cx, cz = x + math.cos(a) * r * 0.6, z + math.sin(a) * r * 0.6
         s.ell((cx, y, cz), 0.13, 0.025, 0.06, '#3f7a3a' if i % 3 else '#5a9a4a', seg=6, rings=4)
 
+LM_TW, LM_TD = 1.5, 0.9          # 算命桌（第 2 版放大：BB 11-11 01:21「桌子太小、離店門遠，桌燈籤筒茶杯看不出來；圖上桌子是主角」）
+LM_TALL = (-1.25, -0.65)         # 左邊高的盆栽（本地座標；世界座標＝配置 limao.plants）
+LM_POT = (2.95, -0.75)           # 右邊門旁的青花瓷盆
+
+def porcelain_pot(s, x, z):
+    """青花瓷盆（白底藍花）＋一叢寬葉的植物"""
+    prof = [(0.0, 0.15), (0.12, 0.2), (0.22, 0.21), (0.36, 0.17), (0.42, 0.19)]
+    s.cyl((x, 0.0, z), (x, 0.03, z), 0.15, '#3a2416', seg=12)
+    for k, ((y0, r0), (y1, r1)) in enumerate(zip(prof, prof[1:])): s.cyl((x, 0.03 + y0, z), (x, 0.03 + y1, z), r0, '#f2f4f6' if k != 1 else '#2f4f9a', seg=14, r2=r1)
+    for a in range(6): an = a * math.pi / 3; s.ball((x + math.cos(an) * 0.2, 0.2, z + math.sin(an) * 0.2), 0.035, '#2f4f9a', sy=1.2)
+    s.cyl((x, 0.43, z), (x, 0.45, z), 0.17, '#3a2a1e', seg=12)
+    for i in range(9):
+        an = i * 2.4; ln = 0.34 + 0.12 * (i % 3); tip = (x + math.cos(an) * ln * 0.75, 0.55 + ln * 0.9, z + math.sin(an) * ln * 0.75)
+        s.cyl((x, 0.45, z), tip, 0.008, '#3f6a34', seg=4); s.ell((tip[0], tip[1], tip[2]), 0.11, 0.035, 0.07, '#3f7a3a' if i % 2 else '#4f8f44', seg=6, rings=4)
+
+def _lm_table(s, cloth, y0, top):
+    WD = '#3a2416'; hw, hd = LM_TW / 2, LM_TD / 2
+    for xx in (-hw + 0.08, hw - 0.08):
+        for zz in (-hd + 0.08, hd - 0.08): s.box(xx - 0.035, xx + 0.035, 0.0, 0.74, zz - 0.035, zz + 0.035, WD)
+    s.box(-hw, hw, 0.72, 0.76, -hd, hd, WD); drape(s, -hw - 0.025, hw + 0.025, y0, top, -hd - 0.025, hd + 0.025, cloth, flare=0.05, folds=5, rope=cloth != '#6a1422')
+
 def limao_open(s):
-    WD, VEL = '#3a2416', '#6a1422'
-    for xx in (-0.5, 0.5):
-        for zz in (-0.3, 0.3): s.box(xx - 0.03, xx + 0.03, 0.0, 0.74, zz - 0.03, zz + 0.03, WD)
-    s.box(-0.575, 0.575, 0.72, 0.76, -0.375, 0.375, WD)
-    drape(s, -0.6, 0.6, 0.1, 0.775, -0.4, 0.4, VEL, flare=0.05, folds=4, rope=False)                           # 暗紅絨布桌布，垂到接近地面
-    s.cyl((-0.4, 0.775, -0.15), (-0.4, 0.8, -0.15), 0.07, '#b8923a', seg=10); s.cyl((-0.4, 0.8, -0.15), (-0.4, 1.12, -0.15), 0.012, '#b8923a', seg=6)      # 黃銅桌燈
-    s.cyl((-0.4, 1.12, -0.15), (-0.22, 1.22, -0.08), 0.012, '#b8923a', seg=6); s.cyl((-0.25, 1.15, -0.09), (-0.16, 1.25, -0.05), 0.09, '#b8923a', seg=10, r2=0.03); s.glow((-0.235, 1.16, -0.085), 0.04)
-    s.cyl((-0.12, 0.775, -0.2), (-0.12, 0.95, -0.2), 0.05, '#8a5a2a', seg=8)                                      # 木籤筒＋籤
-    for i in range(7): a = i * 0.9; s.cyl((-0.12 + math.cos(a) * 0.025, 0.93, -0.2 + math.sin(a) * 0.025), (-0.12 + math.cos(a) * 0.05, 1.08, -0.2 + math.sin(a) * 0.05), 0.005, '#d9b87a', seg=4)
-    s.cyl((0.2, 0.775, -0.18), (0.2, 0.782, -0.18), 0.06, '#f4f0e4', seg=10); s.cyl((0.2, 0.782, -0.18), (0.2, 0.84, -0.18), 0.03, '#f4f0e4', seg=8, r2=0.04); s.cyl((0.2, 0.83, -0.18), (0.2, 0.838, -0.18), 0.034, '#7a5a2a', seg=8)   # 茶杯
-    s.box(-0.05, 0.2, 0.775, 0.8, -0.02, 0.2, '#e8dcc0'); s.box(-0.05, 0.2, 0.8, 0.803, -0.02, 0.2, '#c9b890')    # 筆記本
-    s.box(-0.36, -0.1, 0.775, 0.785, 0.05, 0.31, '#3a2416'); s.cyl((-0.23, 0.785, 0.18), (-0.23, 0.795, 0.18), 0.11, '#c9a03a', seg=16); s.cyl((-0.23, 0.795, 0.18), (-0.23, 0.8, 0.18), 0.07, '#2a2a2c', seg=12); s.cyl((-0.23, 0.8, 0.18), (-0.23, 0.803, 0.18), 0.025, '#c9302a', seg=8)   # 羅盤
-    s.box(0.24, 0.52, 0.775, 0.785, 0.02, 0.3, '#e8dcc0'); s.poly([(0.27, 0.787, 0.16), (0.38, 0.787, 0.27), (0.49, 0.787, 0.16), (0.38, 0.787, 0.05)], '#3a2416', two=False)   # 命盤
-    s.box(0.4, 0.55, 0.775, 0.9, -0.34, -0.32, WD); s.box(0.41, 0.54, 0.79, 0.89, -0.319, -0.317, '#e8dcc0')       # 小木牌（免費算命的字 AA 定；這裡是空白的牌子）
-    wchair(s, 0.0, -0.75, face=1); wchair(s, 0.0, 0.78, face=-1); tall_plant(s, -0.95, -0.55)
+    WD, VEL, BR = '#3a2416', '#6a1422', '#c9a03a'; Y = 0.775
+    _lm_table(s, VEL, 0.1, Y)                                                                                   # 暗紅絨布桌布，垂到接近地面
+    lx, lz = -0.52, -0.18                                                                                      # 黃銅桌燈（放大：底座、彎的燈桿、喇叭形燈罩、亮的燈泡）
+    s.cyl((lx, Y, lz), (lx, Y + 0.035, lz), 0.1, BR, seg=12); s.cyl((lx, Y + 0.035, lz), (lx, Y + 0.42, lz), 0.016, BR, seg=6)
+    s.cyl((lx, Y + 0.42, lz), (lx + 0.12, Y + 0.56, lz + 0.05), 0.016, BR, seg=6); s.cyl((lx + 0.12, Y + 0.56, lz + 0.05), (lx + 0.26, Y + 0.5, lz + 0.11), 0.016, BR, seg=6)
+    s.cyl((lx + 0.21, Y + 0.54, lz + 0.09), (lx + 0.34, Y + 0.44, lz + 0.14), 0.04, BR, seg=12, r2=0.13); s.glow((lx + 0.31, Y + 0.45, lz + 0.13), 0.06)
+    s.cyl((-0.16, Y, -0.24), (-0.16, Y + 0.24, -0.24), 0.07, '#8a5a2a', seg=10); s.cyl((-0.16, Y + 0.02, -0.24), (-0.16, Y + 0.05, -0.24), 0.073, BR, seg=10)   # 木籤筒＋一把籤
+    for i in range(9): a = i * 0.7; s.cyl((-0.16 + math.cos(a) * 0.03, Y + 0.2, -0.24 + math.sin(a) * 0.03), (-0.16 + math.cos(a) * 0.075, Y + 0.42, -0.24 + math.sin(a) * 0.075), 0.007, '#e0c080', seg=4)
+    cx, cz = 0.3, -0.2                                                                                         # 茶杯和茶托（青花）
+    s.cyl((cx, Y, cz), (cx, Y + 0.012, cz), 0.085, '#f4f0e4', seg=12); s.cyl((cx, Y + 0.012, cz), (cx, Y + 0.085, cz), 0.04, '#f4f0e4', seg=10, r2=0.055); s.cyl((cx, Y + 0.05, cz), (cx, Y + 0.065, cz), 0.052, '#2f4f9a', seg=10); s.cyl((cx, Y + 0.078, cz), (cx, Y + 0.084, cz), 0.047, '#7a5a2a', seg=10)
+    s.box(-0.02, 0.3, Y, Y + 0.035, 0.0, 0.26, '#e8dcc0'); s.box(-0.02, 0.3, Y + 0.035, Y + 0.04, 0.0, 0.26, '#8a6a3a')    # 筆記本
+    s.box(-0.5, -0.14, Y, Y + 0.012, 0.04, 0.4, WD); s.cyl((-0.32, Y + 0.012, 0.22), (-0.32, Y + 0.024, 0.22), 0.15, BR, seg=18); s.cyl((-0.32, Y + 0.024, 0.22), (-0.32, Y + 0.03, 0.22), 0.1, '#2a2a2c', seg=14); s.cyl((-0.32, Y + 0.03, 0.22), (-0.32, Y + 0.036, 0.22), 0.035, '#c9302a', seg=8)   # 羅盤
+    s.box(0.36, 0.7, Y, Y + 0.012, 0.03, 0.38, '#e8dcc0'); s.poly([(0.4, Y + 0.014, 0.205), (0.53, Y + 0.014, 0.34), (0.66, Y + 0.014, 0.205), (0.53, Y + 0.014, 0.07)], WD, two=False)   # 命盤
+    s.box(0.5, 0.7, Y, Y + 0.17, -0.4, -0.375, WD); s.box(0.515, 0.685, Y + 0.02, Y + 0.15, -0.374, -0.371, '#e8dcc0')   # 小木牌（字 AA 定；空白）
+    wchair(s, 0.0, -0.8, face=1); wchair(s, 0.0, 0.85, face=-1); tall_plant(s, *LM_TALL); porcelain_pot(s, *LM_POT)
 
 def limao_closed(s):
     WD = '#3a2416'
-    for xx in (-0.5, 0.5):
-        for zz in (-0.3, 0.3): s.box(xx - 0.03, xx + 0.03, 0.0, 0.74, zz - 0.03, zz + 0.03, WD)
-    s.box(-0.575, 0.575, 0.72, 0.76, -0.375, 0.375, WD); drape(s, -0.6, 0.6, 0.3, 0.8, -0.4, 0.4, '#8a5a56', flare=0.04, folds=3)   # 桌上的東西收掉、蓋紅灰帆布
-    for i, cx in enumerate((-0.25, 0.3)):   # 兩張椅子折起來、斜靠在牆邊（窗下的牆在本地 z −1.65；AA 的旁白：「椅子折起來靠在牆邊」）
-        zb, zt = -1.36 - i * 0.05, -1.6; s.poly([(cx - 0.2, 0.0, zb), (cx + 0.2, 0.0, zb), (cx + 0.2, 0.9, zt), (cx - 0.2, 0.9, zt)], WD); s.poly([(cx - 0.2, 0.02, zb + 0.03), (cx + 0.2, 0.02, zb + 0.03), (cx + 0.2, 0.5, zt + 0.16), (cx - 0.2, 0.5, zt + 0.16)], WD, 1.15)
+    _lm_table(s, '#8a5a56', 0.3, 0.8)                                                                           # 桌上的東西收掉、蓋紅灰帆布
+    for i, cx in enumerate((-0.25, 0.3)):   # 兩張椅子折起來、斜靠在牆邊（窗下的牆在本地 z −1.2；AA 的旁白：「椅子折起來靠在牆邊」）
+        zb, zt = -0.92 - i * 0.05, -1.15; s.poly([(cx - 0.2, 0.0, zb), (cx + 0.2, 0.0, zb), (cx + 0.2, 0.9, zt), (cx - 0.2, 0.9, zt)], WD); s.poly([(cx - 0.2, 0.02, zb + 0.03), (cx + 0.2, 0.02, zb + 0.03), (cx + 0.2, 0.5, zt + 0.16), (cx - 0.2, 0.5, zt + 0.16)], WD, 1.15)
         for dx in (-0.19, 0.19): s.cyl((cx + dx, 0.0, zb + 0.05), (cx + dx, 0.95, zt + 0.02), 0.016, WD, seg=5)
-    tall_plant(s, -0.95, -0.55)
+    tall_plant(s, *LM_TALL); porcelain_pot(s, *LM_POT)
 
 def limao_light(s):
-    """店面的暖燈：騎樓天花板下的紙燈籠（門前）、招牌上的鵝頸燈"""
-    s.box(-1.954, -1.946, 2.75, 3.1, -1.404, -1.396, BLACK); s.glow((-1.95, 2.55, -1.4), 0.2, '#ffe2a8', rx=0.2); s.cyl((-1.95, 2.74, -1.4), (-1.95, 2.77, -1.4), 0.08, '#3a2416', seg=8); s.cyl((-1.95, 2.33, -1.4), (-1.95, 2.36, -1.4), 0.08, '#3a2416', seg=8)
-    s.glow((0.0, 2.6, -0.6), 0.06)
+    """店面的暖燈：門前騎樓天花板下的紙燈籠（門在本地 x +1.6 附近）、桌子上方一盞小吊燈"""
+    for (lx, lz, r) in ((1.6, -0.2, 0.2), (-0.3, 0.1, 0.15)):
+        s.box(lx - 0.004, lx + 0.004, 2.55 + r, 3.4, lz - 0.004, lz + 0.004, BLACK); s.glow((lx, 2.5, lz), r, '#ffe2a8', rx=r)
+        s.cyl((lx, 2.5 + r * 0.9, lz), (lx, 2.5 + r * 0.9 + 0.03, lz), r * 0.4, '#3a2416', seg=8); s.cyl((lx, 2.5 - r * 0.9 - 0.03, lz), (lx, 2.5 - r * 0.9, lz), r * 0.4, '#3a2416', seg=8)
 
 
 def build():
@@ -589,7 +620,7 @@ def build():
     nt.links.new(tx.outputs['Color'], bs.inputs['Emission Color']); bs.inputs['Emission Strength'].default_value = 1.0
     gl = L.vc_material('tzs_glow', rough=0.6); gn = gl.node_tree; vcn = next(n for n in gn.nodes if n.type == 'VERTEX_COLOR'); gb = gn.nodes['Principled BSDF']
     gn.links.new(vcn.outputs['Color'], gb.inputs['Emission Color']); gb.inputs['Emission Strength'].default_value = 1.0
-    mats = {'vc': L.vc_material('tzs_vc', rough=0.55), 'atlas': at, 'glow': gl}
+    mats = {'vc': L.vc_material('tzs_vc', rough=0.55), 'atlas': at, 'glow': gl, 'awn': L.vc_material('seethru_tzs_awning', rough=0.7)}
     kinds = {}
     for i, (k, name, size, W, D, blk, hrs, tarp, buy) in enumerate(KINDS):
         p = {'stall': k, 'name': name, 'size': size, 'buy': 1 if buy else 0}

@@ -1,11 +1,11 @@
 {
- "objects": 461,
- "unique_meshes": 43,
- "tris": 66854,
- "tris_drawn": 90130,
- "materials": 158,
+ "objects": 466,
+ "unique_meshes": 45,
+ "tris": 80858,
+ "tris_drawn": 106900,
+ "materials": 166,
  "out": "assets/models/env/second_ai/gongguan_shops.glb",
- "bytes": 7434260,
+ "bytes": 8379692,
  "texres": 512,
  "buildings": [
   "G00",

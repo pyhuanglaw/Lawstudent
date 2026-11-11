@@ -364,6 +364,20 @@ def p_fruitcrates(kind):
         balls(mel, '#4d7a3a', rough=0.35, seg=12); balls(stripes, '#22401f', rough=0.35, seg=6)
         cut = Mesh('melon_cut', flat('wz_sf_melon_red', '#d8403a', rough=0.5)); cut.box(-0.1, 0.1, 0.5, 0.505, 0.27, 0.29)
         parts.append(cut.finish(None))
+    elif kind in ('orange', 'apple', 'guava', 'tomato'):   # 汀州鮮果外觀第 3 版（BB 11-11 01:47：敞開的店面只有一張平面照片 → 開口前排放真的水果箱）：綠色塑膠籃墊高＋斜放的木箱，上面一堆水果、一張黃色價目卡
+        cols = {'orange': ('#e8962a', '#f0a83a'), 'apple': ('#c0392b', '#a82a22'), 'guava': ('#9fc85a', '#b4d46a'), 'tomato': ('#d8452f', '#e86a3a')}[kind]; r_ = {'orange': 0.076, 'apple': 0.074, 'guava': 0.08, 'tomato': 0.068}[kind]
+        m.cbox(-0.36, 0.36, 0.0, 0.26, -0.25, 0.25, '#2f8a4a', 0.9)
+        for k in range(5): m.cbox(-0.34 + k * 0.16, -0.29 + k * 0.16, 0.05, 0.21, 0.248, 0.252, '#24703a')
+        _crate(m, -0.36, 0.36, 0.26, 0.44, -0.25, 0.25)
+        for ci in range(2):
+            lst = []
+            for a in range(4):
+                for b in range(3):
+                    for l in range(2 if (a in (1, 2) and b == 1) else 1):
+                        if (a + b + l) % 2 != ci: continue
+                        lst.append(((-0.255 + a * 0.17 + rr.uniform(-0.012, 0.012) + l * 0.04, 0.44 + r_ * 0.6 + l * r_ * 1.5, -0.155 + b * 0.155 + rr.uniform(-0.01, 0.01)), r_, r_ * 0.95, r_))
+            balls(lst, cols[ci], seg=6)
+        m.cbox(-0.14, 0.14, 0.47, 0.63, 0.252, 0.262, '#f6e23a'); m.cbox(-0.1, 0.1, 0.56, 0.6, 0.262, 0.266, '#c9302a')
     parts.insert(0, m.finish(None, uv=False))
     return combine(parts, 'sk_fruitcrates_' + kind)
 
@@ -434,7 +448,7 @@ def p_outlet(face='x'):
 
 
 P_STOOL_R, P_STOOL_B = p_stool('#c8392e'), p_stool('#2f6fb0')
-PROTO = {'fruit_pine': p_fruitcrates('pine'), 'fruit_banana': p_fruitcrates('banana'), 'fruit_melon': p_fruitcrates('melon'), 'stool_r': P_STOOL_R, 'stool_b': P_STOOL_B, 'bins': p_bins(), 'boxes': p_boxes(), 'umb': p_umbrella(), 'vend': p_vend(),
+PROTO = {'fruit_pine': p_fruitcrates('pine'), 'fruit_banana': p_fruitcrates('banana'), 'fruit_melon': p_fruitcrates('melon'), 'fruit_orange': p_fruitcrates('orange'), 'fruit_apple': p_fruitcrates('apple'), 'fruit_guava': p_fruitcrates('guava'), 'fruit_tomato': p_fruitcrates('tomato'), 'stool_r': P_STOOL_R, 'stool_b': P_STOOL_B, 'bins': p_bins(), 'boxes': p_boxes(), 'umb': p_umbrella(), 'vend': p_vend(),
          'fridge': p_fridge(), 'bench': p_bench(), 'crates': p_crates(), 'fruitstall': p_fruitstall(), 'noodle': p_noodle(), 'bookcart': p_bookcart(), 'meter': p_meter(), 'outlet': p_outlet('x'), 'outlet_z': p_outlet('z')}
 
 NOTE_Q = []   # (四點世界座標, 圖集格名稱)：最後合成一個網格（一次 draw call）
@@ -1094,7 +1108,7 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
     參考圖就是規格（SCENE_RULES §12）：窗後面看到的店內、門裡面、招牌、黑板立牌、販賣機等等是參考圖裁的（xs_front_tex.py 的 QG → gg_fronts_atlas）；
     牆、窗框、門框、玻璃、屋簷、雨遮、燈、盆栽是 3D。遊戲的店面比參考圖寬，多出來的那一段用同一間店的室內參考圖做另一扇窗。
     c＝spec['xs']（wz_street.py 的 GG_XS）：cards＝窗（貼圖、範圍、景深）；door；eave／canopy／awning；signs；decals；lamps；props"""
-    c = spec['xs']; wl = acc(gg_plaster(c.get('wallc', '#e9dfcc'))); fr = acc(SK['alu2'] if c.get('frame') == 'alu' else frame_mat(c['frame'] if str(c.get('frame', '')).startswith('#') else GG_WOOD)); cream = acc(frame_mat('#e8e2d6'))
+    c = spec['xs']; wl = wall if c.get('wall_same') else acc(gg_plaster(c.get('wallc', '#e9dfcc'))); fr = acc(SK['alu2'] if c.get('frame') == 'alu' else frame_mat(c['frame'] if str(c.get('frame', '')).startswith('#') else GG_WOOD)); cream = acc(frame_mat('#e8e2d6'))   # wall_same＝店面的牆和這一棟的外牆同一種（禮貌生財：米白小方磚）
     X0, X1 = -W / 2 + 0.3, W / 2 - 0.3
     if c.get('lane'):   # 巷口（GG-G10-LANE-MOUTH-1111；使用者 11-11 選擇題選「改成真的巷口」：往汀州路的巷子從 G10 的一樓穿過去）：中間一條通道（兩側牆、樓板底、柏油地面、往裡通到底），
         #   兩邊各一段牆（電表箱、排水管、信箱）；通道口上面一塊巷名牌的底板（字由遊戲的互動點說，不寫字）、裡面兩盞壁燈
@@ -1159,8 +1173,17 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
         for (a_, b_) in ((x0 - fw, x0 + 0.01), (x1 - 0.01, x1 + fw)): xf.box(fr, a_, b_, y0 - fw, y1 + fw, gz - 0.04, gz + 0.05)
         xf.box(fr, x0, x1, y1 - 0.01, y1 + fw, gz - 0.04, gz + 0.05); xf.box(fr, x0, x1, y0 - fw, y0 + 0.01, gz - 0.04, gz + 0.06)
         for mx in mull: xf.box(fr, mx - 0.025, mx + 0.025, y0, y1, gz - 0.03, gz + 0.04)
-        if tr: xf.box(fr, x0, x1, tr - 0.025, tr + 0.025, gz - 0.03, gz + 0.04)
+        for t_ in (tr if isinstance(tr, (list, tuple)) else ([tr] if tr else [])): xf.box(fr, x0, x1, t_ - 0.025, t_ + 0.025, gz - 0.03, gz + 0.04)   # 橫框可以好幾條（禮貌生財的格子窗）
         if c.get('lit', True): CL.glow(root, 'gg_xs_in', *xf.p((x0 + x1) / 2, (y0 + y1) / 2, zc + 0.3), color='rgba(255,236,200,1)', size=min(3.5, x1 - x0), day=0.0, night=0.5)
+    for lf in c.get('leaves', []):   # 往外開的門扇（禮貌生財：深色木框格子玻璃門，垂直店面往騎樓開著）：(門軸 x, 門寬, 高, 往哪一邊偏 ±1)
+        hx, lw_, lh, sd = lf; t = 0.045; z0_, z1_ = gz + 0.02, gz + 0.02 + lw_; xa, xb = (hx, hx + t) if sd > 0 else (hx - t, hx)
+        for (y0_, y1_) in ((0.0, 0.12), (0.86, 0.94), (lh - 0.1, lh)): xf.box(fr, xa, xb, y0_, y1_, z0_, z1_)
+        for zz in (z0_, z1_ - 0.08): xf.box(fr, xa, xb, 0.0, lh, zz, zz + 0.08)
+        xf.box(fr, xa + 0.008, xb - 0.008, 0.12, 0.86, z0_ + 0.08, z1_ - 0.08)                                   # 下半實木板
+        for k in (1, 2): yy = 0.94 + k * (lh - 1.04) / 3; xf.box(fr, xa, xb, yy - 0.018, yy + 0.018, z0_ + 0.08, z1_ - 0.08)
+        zm_ = (z0_ + z1_) / 2; xf.box(fr, xa, xb, 0.94, lh - 0.1, zm_ - 0.018, zm_ + 0.018)
+        xm_ = (xa + xb) / 2; xf.quad(acc(M['glass']), [(xm_, 0.94, z0_ + 0.08), (xm_, 0.94, z1_ - 0.08), (xm_, lh - 0.1, z1_ - 0.08), (xm_, lh - 0.1, z0_ + 0.08)])
+        xf.box(acc(SK['alu2']), xa - 0.02 * sd, xa, 1.0, 1.06, z1_ - 0.16, z1_ - 0.1)                              # 門把
     # 門
     if dr:
         x0, x1, y1, st = dr['x0'], dr['x1'], dr['y1'], dr.get('style', 'wood'); _df = dr.get('frame', c.get('frame')); dfr = acc(SK['alu2'] if _df == 'alu' else frame_mat(_df if str(_df or '').startswith('#') else GG_WOOD))
@@ -1235,6 +1258,10 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
         if k == 'pot':
             _pm = POT_BROAD if it[3] == 'broad' else POT_FERN[0]; _w = _wp(xf, it[1], gz + it[2]); B.instance(_pm, f'ggpot_{spec["id"]}_{len(_inst)}', *_w, root, ry=it[1] * 1.7); _inst.append(1); prop_fp(_pm, 'ggpot', _w[0], _w[2], it[1] * 1.7)
         elif k == 'board': gg_board(xf, it[1], it[2], gz + it[3])
+        elif k == 'fruit':   # 敞開的店面裡的水果箱（汀州鮮果第 3 版）：('fruit', 種類, x, 離店面線的深度（負的＝店面線裡面，不佔騎樓、不用腳印）[, 墊高])——放在開口和照片卡中間
+            _pm = PROTO['fruit_' + it[1]]; _y = it[4] if len(it) > 4 else 0.0
+            if _y > 0: xf.box(acc(frame_mat(GG_WOOD)), it[2] - 0.42, it[2] + 0.42, 0.0, _y, gz + it[3] - 0.3, gz + it[3] + 0.3)   # 後排墊高的木台
+            _w = xf.p(it[2], 0, gz + it[3]); B.instance(_pm, f'ggfruit_{spec["id"]}_{len(_inst)}', _w[0], _y, _w[2], root, ry=xf.ry); _inst.append(1)   # 在店面線裡面（建築的導航阻擋裡）：不寫腳印
         elif k == 'box':
             _, key, x0, x1, h, zo, dp, col = it; zf = gz + zo; xf.box(acc(SK['steel'] if col == 'steel' else frame_mat(GG_WOOD if col == 'wood' else '#e8e2d6')), x0, x1, 0.0, h, zf - dp, zf); _xq(xf, key, x0 + 0.02, x1 - 0.02, 0.03, h - 0.03, zf + 0.004, tiles=1)
             a_, b_ = xf.p(x0, 0, zf - dp), xf.p(x1, 0, zf); PROP_FP.append(dict(tag='gg_' + key, rect=[round(min(a_[0], b_[0]), 3), round(min(a_[2], b_[2]), 3), round(max(a_[0], b_[0]), 3), round(max(a_[2], b_[2]), 3)], h=h))
@@ -2083,7 +2110,7 @@ def arcade_front_v2(spec, xf, W, wall):
         xf.box(wall, -W / 2, W / 2, ih + 0.18, ceil_y, gz - 0.15, gz)                                # 店門上方到騎樓天花板的牆
     for sx in (-1, 1): xf.box(wall, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0.0, ceil_y, gz - (0.9 if XSM else (DI if (sf.get('inner') or kind == 'tea') else 1.3)) - 0.1, gz)   # 店與店之間的壁柱（這一棟的外牆）
     # 騎樓：天花板、這一棟的地磚、柱子（包外牆）、日光燈（晚上亮）
-    xf.box(acc(M['ceilA']), -W / 2, W / 2, ceil_y, GH - 0.12, -dep, 0.0)
+    xf.box(acc(flat('wz_arcade_ceiling_warm', XSM['ceilc'], rough=0.9, emit=B.srgb('#7a6444'))) if (XSM and XSM.get('ceilc')) else acc(M['ceilA']), -W / 2, W / 2, ceil_y, GH - 0.12, -dep, 0.0)   # ceilc＝騎樓天花板被店裡的暖燈照亮（禮貌生財：米白＋一點暖色自發光；預設的天花板在背光面，遊戲裡招牌下面壓成一條黑）
     xf.box(acc(SK[sf['floor']]), -W / 2, W / 2, 0.0, 0.05, -dep, 0.0)
     pm = Mesh(f'pillar_{spec["id"]}', pillar_mat(spec['wall']))   # 柱子：外牆的樣子，但自己一個材質 wz_pillar_<牆>——遊戲照材質名加「樹幹透視」（擋住玩家時網點透空；10-20 gongguan_glb_integration 查到 10-18 包外牆以後沒了）
     for sx in spec.get('pillars', (-W / 2 + 0.3, W / 2 - 0.3)):
@@ -2093,7 +2120,7 @@ def arcade_front_v2(spec, xf, W, wall):
     nl = max(1, round(W / 2.5))
     for k in range(nl):
         tx = -W / 2 + (k + 0.5) * W / nl; xf.box(acc(M['tube']), tx - 0.6, tx + 0.6, ceil_y - 0.03, ceil_y, -dep * 0.55 - 0.05, -dep * 0.55 + 0.05)
-        CL.glow(root, 'arcadelamp', *xf.p(tx, ceil_y - 0.2, -dep * 0.55), color='rgba(244,248,255,1)', size=1.5, day=0.0, night=0.7)
+        CL.glow(root, 'arcadelamp', *xf.p(tx, ceil_y - 0.2, -dep * 0.55), color='rgba(255,214,150,1)' if (XSM and XSM.get('lamp_warm')) else 'rgba(244,248,255,1)', size=2.4 if (XSM and XSM.get('lamp_warm')) else 1.5, day=0.0, night=0.9 if (XSM and XSM.get('lamp_warm')) else 0.7)
     # 招牌（設計稿；和原本的 shopfront 同一套）
     sw = min(W - 0.4, 6.5); sy0, sy1 = GH - 0.67, GH - 0.03
     if XSM and XSM.get('lane'): pass   # 巷口：樑上沒有招牌

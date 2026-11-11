@@ -40,9 +40,9 @@ Q = {'tzlian_sign': ('shop_tingzhou_liantong', [(468, 224), (1344, 221), (1344, 
      'tzxile_sign': ('shop_xile', [(262, 148), (1178, 290), (1178, 392), (262, 308)], 1024, 130),
      'tzxile_int': ('shop_xile', [(200, 325), (1195, 405), (1195, 695), (200, 800)], 1024, 400),
      # 禮貌生財（X332；使用者 11-11 的外觀圖 docs/art-rebuild/second_ai/ref/night_market_1110/concept/shop_limao_shengcai_exterior.webp）：招牌（深紅棕木板、古銅金書法字）、從門看進去的命理館、窗後面的書櫃
-     'limao_sign': ('shop_limao_shengcai_exterior', [(554, 136), (1232, 184), (1226, 323), (557, 292)], 1024, 240),
-     'limao_door': ('shop_limao_shengcai_exterior', [(760, 343), (1028, 343), (1028, 669), (760, 669)], 384, 468),
-     'limao_win': ('shop_limao_shengcai_exterior', [(769, 354), (1023, 354), (1023, 624), (769, 624)], 384, 408)}
+     'limao_sign': ('shop_limao_shengcai_exterior', [(554, 136), (1232, 184), (1226, 323), (557, 292)], 1536, 360),   # 第 2 版（BB：近看字邊偏糊）：1024→1536（原圖上這塊招牌只有約 680 像素寬，再大也不會更清楚）
+     'limao_door': ('shop_limao_shengcai_exterior', [(760, 343), (1028, 343), (1028, 669), (760, 669)], 448, 546),
+     'limao_win': ('shop_limao_shengcai_exterior', [(769, 354), (1023, 354), (1023, 624), (769, 624)], 448, 476)}
 
 
 def coeffs(dst, src):

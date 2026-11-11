@@ -1,11 +1,11 @@
 {
- "objects": 20,
- "unique_meshes": 20,
+ "objects": 21,
+ "unique_meshes": 21,
  "tris": 20648,
  "tris_drawn": 20648,
  "materials": 11,
  "out": "assets/models/env/second_ai/tz_limao_interior.glb",
- "bytes": 1509152,
+ "bytes": 1509948,
  "texres": 512,
  "tris_total": 20648,
  "walls": [

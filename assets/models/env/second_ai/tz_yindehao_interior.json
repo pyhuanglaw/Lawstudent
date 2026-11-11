@@ -1,13 +1,13 @@
 {
  "objects": 14,
  "unique_meshes": 14,
- "tris": 8252,
- "tris_drawn": 8252,
+ "tris": 8676,
+ "tris_drawn": 8676,
  "materials": 12,
  "out": "assets/models/env/second_ai/tz_yindehao_interior.glb",
- "bytes": 571412,
+ "bytes": 594908,
  "texres": 512,
- "tris_total": 8252,
+ "tris_total": 8676,
  "walls": [
   "E",
   "N",

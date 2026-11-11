@@ -1,13 +1,13 @@
 {
  "objects": 13,
  "unique_meshes": 13,
- "tris": 73402,
- "tris_drawn": 73402,
+ "tris": 75626,
+ "tris_drawn": 75626,
  "materials": 11,
  "out": "assets/models/env/second_ai/gg_xianguo_interior.glb",
- "bytes": 2300648,
+ "bytes": 2372384,
  "texres": 512,
- "tris_total": 73402,
+ "tris_total": 75626,
  "walls": [
   "E",
   "N",

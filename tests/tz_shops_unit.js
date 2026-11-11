@@ -54,6 +54,16 @@ for(const id of ids){ const L=ALL[id], N=L.name;
   check('安泰藥局 9. 貨架用藥局的商品（pharma：藥盒、藥瓶、口罩盒），不是書店那種色塊',/def pharma\(/.test(py)&&/gondola\(g, MED, fill=pharma\)/.test(py)&&(py.match(/pharma\(/g)||[]).length>=3);
   if(X){ const z=loadZone(X.zone), ES=X.extraStacks||[], bad=[]; for(const e of ES){ const cx=(e.x0+e.x1)/2, cz=(e.z0+e.z1)/2; if(stand(cx,cz,0,0.2)&&!(e.gaps||[]).some(g=>g[0]<cx&&cx<g[1])) bad.push(cx+','+cz); }
     check('汀州鮮果 9. 補滿：地上三處箱子堆（配置 extraStacks）導航擋住、吊著的香蕉在模型腳本裡；出生點到每個互動點照舊走得到（第 3 項）',ES.length>=3&&!bad.length&&/def bunch\(/.test(py),bad.join(' ')); } }
+/* 第三包（LAWWW2 11-11）：LAWWW 補的 trapFix 阻擋在模型有對應的東西；汀州鮮果外觀第 3 版（開口前排真的水果箱） */
+{ const py=fs.readFileSync(path.join(ROOT,'tools/blender/env_second/tz_shops_interior.py'),'utf8'), st=fs.readFileSync(path.join(ROOT,'tools/blender/env_second/wz_street.py'),'utf8'), kit=fs.readFileSync(path.join(ROOT,'tools/blender/env_second/wz_shopkit.py'),'utf8');
+  const X=ALL.xianguo, Y=ALL.yindehao, inBlk=(L,x,z)=>(L.blocks||[]).some(b=>Math.abs(x-b[0])<=b[2]/2+1e-6&&Math.abs(z-b[1])<=b[3]/2+1e-6);
+  if(X){ const tf=(X.extraStacks||[]).filter(e=>e.trapFix), bad=tf.filter(e=>![[e.x0,e.z0],[e.x1,e.z0],[e.x0,e.z1],[e.x1,e.z1]].every(c=>inBlk(X,c[0]+(c[0]===e.x0?0.01:-0.01),c[1]+(c[1]===e.z0?0.01:-0.01))));
+    check('汀州鮮果 11. LAWWW 的 trapFix 兩塊阻擋在模型各有一疊箱子（extraStacks 帶 trapFix，範圍都在 blocks 裡：看得到的箱子不會比擋的範圍大）',tf.length===2&&!bad.length,JSON.stringify(bad)); }
+  if(Y){ const PS=Y.paperStack; check('印得好 11. trapFix 那一塊在模型有一疊影印紙箱和垃圾桶（配置 paperStack，四個角都在 blocks 裡；模型腳本讀同一個範圍）',!!PS&&[[PS.x0,PS.z0],[PS.x1,PS.z0],[PS.x0,PS.z1],[PS.x1,PS.z1]].every(c=>inBlk(Y,c[0],c[1]))&&/J\.get\('paperStack'\)/.test(py),JSON.stringify(PS)); }
+  const i8=st.indexOf("'G08': dict("), j8=st.indexOf("'G13': dict(",i8), g8=i8>=0&&j8>i8?st.slice(i8,j8):'', nf=(g8.match(/\('fruit', '/g)||[]).length; let fp=[]; try{ fp=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gongguan_shops.props.json'),'utf8')); }catch(e){}
+  const fpl=(Array.isArray(fp)?fp:(fp.props||fp.list||[])).filter(q=>/ggfruit/.test(q.tag||''));
+  check('汀州鮮果外觀 第 3 版（BB 11-11 01:47）：照片卡退到店面線後 2.3 m、一樓牆體跟著退（back）、開口到照片中間至少 12 箱真的水果（橘子、蘋果、芭樂、番茄＋原本的鳳梨、香蕉、西瓜）；水果箱在店面線裡面、不寫腳印（騎樓的導航不變）',
+    /back=2\.35/.test(g8)&&/\('ggfruit_shop', -3\.65, 3\.65, 0\.0, 3\.0, 2\.3\)/.test(g8)&&nf>=12&&/kind in \('orange', 'apple', 'guava', 'tomato'\)/.test(kit)&&fpl.length===0,'箱 '+nf+' 腳印 '+fpl.length); }
 /* 禮貌生財的書房（X332）：平常鎖著、解鎖以後走得進去 */
 if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,L.spawn.z,0], in0=[-0.6,SD.z1-0.8,0];
   const dIt=E.interactables.find(i=>i.kind===SD.door.kind), n0=E.interactables.length;
@@ -64,5 +74,10 @@ if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,
   z.setStudy(false); check('禮貌生財 7. 再鎖起來：又走不進去、書房的互動點拿掉',!stand(in0[0],in0[1],0)&&E.interactables.length===n0&&z.studyOpen===false);
   const glb=path.join(ROOT,L.glb); let names=[]; try{ const d=fs.readFileSync(glb), jl=d.readUInt32LE(12); names=(JSON.parse(d.slice(20,20+jl).toString('utf8')).nodes||[]).map(n=>n.name); }catch(e){}
   check('禮貌生財 7. 模型：書房的東西在 STUDY_* 節點（平常不顯示）、關著的門 STUDY_DOOR_*、蓋子 STUDY_LID_*',names.some(n=>/^STUDY_(vc|wood_d)/.test(n))&&names.some(n=>/^STUDY_DOOR_/.test(n))&&names.some(n=>/^STUDY_LID_/.test(n)),names.filter(n=>/^STUDY/.test(n)).join(' '));
+  { const PZ=L.partition.z, v=(x,y,zz)=>({x,y,z:zz}), front=v(-0.8,0,-0.2), back=v(0.3,0,-3.0), camBack=v(-0.8,2.6,PZ-2.8), camFront=v(-0.8,2.6,3.5), src=fs.readFileSync(path.join(ROOT,'src/tz_shops3d.js'),'utf8');
+    const a1=z.partCutOf&&z.partCutOf(camBack,front), a2=z.partCutOf&&z.partCutOf(camFront,front), a3=z.partCutOf&&z.partCutOf(camFront,back), a4=z.partCutOf&&z.partCutOf(camBack,back);
+    z.fadeWalls({position:camBack},front); const c1=z.partCut; z.fadeWalls({position:camFront},front); const c2=z.partCut;
+    check('禮貌生財 10. 隔牆的鏡頭（BB 11-11 01:47：玩家站在掛畫前、鏡頭退到隔牆後面的書房，整個畫面是隔牆背面）：鏡頭和玩家在隔牆兩邊 → 隔牆整組藏（partCut）、同一邊不藏；模型有 PART_wall、PART_vc（隔牆、門框、掛畫）；遊戲照 partCut 藏 PART_* 和關著的門',
+      a1===true&&a2===false&&a3===true&&a4===false&&c1===true&&c2===false&&names.includes('PART_wall')&&names.includes('PART_vc')&&/indexOf\('PART_'\)===0\) o\.visible=!z\.partCut/.test(src)&&/indexOf\('STUDY_DOOR'\)===0\) o\.visible=!z\.studyOpen&&!z\.partCut/.test(src),[a1,a2,a3,a4,c1,c2].join(',')+' '+names.filter(n=>/^PART/.test(n)).join(' ')); }
   check('禮貌生財 7. 配置的旗標名是 LAWWW 實際用的 LM_STUDY；書房有「學生來信」的點（study_letters，東牆矮櫃前）',SD.flag==='LM_STUDY'&&SD.points.some(p=>p.id==='study_letters'&&p.kind==='tz_limao_study_letters')); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

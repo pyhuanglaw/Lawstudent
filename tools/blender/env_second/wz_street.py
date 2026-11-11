@@ -170,8 +170,11 @@ if SET == 'gongguan':
     GG_XS.update({
         'G04': dict(dep=3.0, wallc='#f1f1ec', frame='alu', street='ggantai_sign', street_fit=8.6, street_lit=True,   # 安泰藥局：白色舊燈箱、深綠字、藥罐圖示；鋁框玻璃自動門、玻璃上一條綠線、店內白光貨架和藥師櫃台
                     cards=[('ggantai_int', -4.15, 4.15, 0.1, 2.8, 0.8, [-2.1, -0.75, 0.75, 2.1])]),
-        'G08': dict(dep=3.0, wallc='#eef0ec', frame='alu', street='ggfruit_sign', street_fit=7.4, street_lit=True, keep=('stool_r', 'outlet'),   # 汀州鮮果：橘黃燈箱、深咖啡色手寫字；整面開著的水果行（綠色塑膠籃、木箱、吊著的香蕉、吊秤、黃燈泡）
-                    cards=[('ggfruit_shop', -3.65, 3.65, 0.0, 3.0, 0.8)], open=('ggfruit_shop',)),
+        'G08': dict(dep=3.0, back=2.35, wallc='#eef0ec', frame='alu', street='ggfruit_sign', street_fit=7.4, street_lit=True, keep=('stool_r', 'outlet'),   # 汀州鮮果：橘黃燈箱、深咖啡色手寫字；整面開著的水果行（綠色塑膠籃、木箱、吊著的香蕉、吊秤、黃燈泡）
+                    cards=[('ggfruit_shop', -3.65, 3.65, 0.0, 3.0, 2.3)], open=('ggfruit_shop',),   # 第 3 版（BB 11-11 01:47，D141 最後一版）：照片卡從店面線後 0.8 m 退到 2.3 m 當背景，開口到照片中間排真的水果箱（前排六箱在地上、第二排六箱墊高 0.34 m、最裡面靠兩邊四箱墊高 0.62 m；中間 2.4 m 留給進門）；一樓牆體跟著往後退（back＝2.35）
+                    props=[('fruit', 'banana', -3.2, -0.38), ('fruit', 'orange', -2.4, -0.38), ('fruit', 'apple', -1.6, -0.38), ('fruit', 'melon', 1.6, -0.38), ('fruit', 'guava', 2.4, -0.38), ('fruit', 'pine', 3.2, -0.38),
+                           ('fruit', 'tomato', -3.2, -1.05, 0.34), ('fruit', 'guava', -2.4, -1.05, 0.34), ('fruit', 'orange', -1.6, -1.05, 0.34), ('fruit', 'orange', 1.6, -1.05, 0.34), ('fruit', 'apple', 2.4, -1.05, 0.34), ('fruit', 'tomato', 3.2, -1.05, 0.34),
+                           ('fruit', 'apple', -3.2, -1.72, 0.62), ('fruit', 'orange', -2.4, -1.72, 0.62), ('fruit', 'guava', 2.4, -1.72, 0.62), ('fruit', 'tomato', 3.2, -1.72, 0.62)]),
         'G13': dict(dep=3.0, wallc='#efe9dc', frame='alu', street='ggrong_sign', street_fit=7.2, street_lit=True,   # 榮恩典文具社：米色招牌、黑字、鉛筆畫筆圖示、四色線；鋁框玻璃、木層架塞滿
                     cards=[('ggrong_int', -4.15, 4.15, 0.1, 2.85, 0.8, [-2.2, -0.6, 0.9, 2.4])]),
         # GG-G09-G10-SHUTTER-1111（X335，使用者 11-11 選「先拉下鐵門」）：洗樂、印得好搬到汀州路以後，公館這兩格是拉下鐵捲門的空店面；之後放什麼店由使用者決定（D147），不放別的
@@ -406,9 +409,11 @@ if SET == 'tingzhou':
                          ),
         # 禮貌生財（X332；使用者 11-11 的外觀圖）：巷 A 後段南側靠公館那一端，一樓退成騎樓（規格：傳統騎樓柱、騎樓下的算命桌）。深色木框格子窗（左）、深色木框的門開著（右）、
         #   深紅棕木招牌古銅金書法字（從圖裁）；算命桌是另外的節點（nm_stalls.py 的 LIMAO_TABLE_*，照時間切換）
-        'limao': dict(dep=3.0, wallc='#d8d0bc', frame='#3a2416', street='limao_sign', street_fit=4.3, fw=0.07,
-                      cards=[('limao_win', -2.15, -0.2, 0.85, 2.6, 0.8, [-1.5, -0.85], 1.75), ('limao_door', 0.3, 1.5, 0.0, 2.6, 0.8)], open=('limao_door',),
-                      props=[('pot', 1.95, 0.4, 'broad'), ('pot', -2.3, 0.35, 'fern')]),
+        'limao': dict(dep=3.0, wall_same=True, frame='#3a2416', street='limao_sign', street_fit=4.3, fw=0.07, ceilc='#e4dcc8', lamp_warm=True,
+                      # 第 2 版（BB 11-11 01:21：店面太暗太素、窗小、門洞窄、招牌下面一條黑）：牆＝這一棟的米白小方磚；格子窗加大（四直三橫）；門洞加寬、一扇格子門往外開著；騎樓天花板米白、暖黃燈；
+                      #   兩盆植物（左高、右青花瓷盆）和算命桌在 nm_stalls.py 的 LIMAO_* 節點（位置在配置 limao）
+                      cards=[('limao_win', -2.35, -0.1, 0.8, 2.7, 0.8, [-1.79, -1.23, -0.66], [1.43, 2.07]), ('limao_door', 0.15, 1.75, 0.0, 2.7, 0.8)], open=('limao_door',),
+                      leaves=[(1.75, 0.8, 2.66, 1)]),
     }
     _WALLC = ['#e6e2d8', '#d9d4c6', '#cfd2cc', '#e2d6c0', '#d4c7b0', '#c9cfc6', '#ddd2c2', '#bfb7aa', '#e9e4da', '#cbbfae']; _WALLT = ['mosaic', 'tile', 'mosaic', 'plaster', 'tile', 'mosaic']
     SPECS = []
@@ -883,7 +888,7 @@ def apartment(spec):
     if gt == 'arcade' and spec.get('sf') and not spec['sf'].get('split'): rec = 3.0 + (DI + 0.12 if (spec['sf'].get('inner') or spec['sf'].get('kind') == 'tea') else 1.3)   # 公館騎樓店面：騎樓 3 m＋店內（茶飲的立體櫃台 DI、其他是景深卡 1.3）
     if gt == 'arcade' and spec.get('sf', {}).get('split'): rec = 3.0 + 2.6 + 0.02   # B5：騎樓 3 m＋後面兩間 2.6 m 深的立體小店；牆體再退 2 cm——原本和小店後牆同一個平面，從騎樓看進去會閃（BUG-WZFLICKER）
     if SET == 'wenzhou' and spec['id'] == 'W2' and 'xs_front' in globals(): spec = dict(spec, xs=OFFBEAT_XS)   # 日常失速（WZ-OFFBEAT-1104）
-    if spec.get('xs'): rec = spec['xs'].get('dep', 3.5) + 0.85   # 新生南路：店面玻璃在騎樓 3.5 m 深的地方（xinsheng_layout arcade），店內景深 0.8 m
+    if spec.get('xs'): rec = spec['xs'].get('dep', 3.5) + spec['xs'].get('back', 0.85)   # 新生南路：店面玻璃在騎樓 3.5 m 深的地方（xinsheng_layout arcade），店內景深 0.8 m
     W = Wd; D = Dd
     # ---- 樓上的窗：每層 n 扇（和套件相同的算法：n＝round(W/3.6)）
     n = max(1, round(W / 3.6)); ww = min(2.2, W / n - 0.9); wh = 1.5
