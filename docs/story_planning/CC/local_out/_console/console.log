@@ -1534,3 +1534,12 @@
 [10:27:14] ==== START LM2_HOURS_old  (probe @ e7ddae33fee86ab1567ab9f7b4764686cc9c321c) ====
 [10:27:17] [res] cpu=9% mem=43% (13.6/31.4 GB) chrome_testing=5  START LM2_HOURS_old
 [10:27:23] [res] cpu=6% mem=42% (12.7/31.4 GB) chrome_testing=5  END LM2_HOURS_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9516fb663..0ce119d7c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:27:49] ==== END   LM2_HOURS_new  exit=0  189s   ====
+[10:27:53] memory 45% before starting TZP_fps2_new (2 running)
+[10:27:53] ==== START TZP_fps2_new  (probe @ 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4) ====
+[10:27:56] [res] cpu=11% mem=45% (14.3/31.4 GB) chrome_testing=9  START TZP_fps2_new
+[10:29:03] 正在跑：LM2_O1（已跑 6 分／上限 10 分）、LM2_HOURS_old（已跑 1 分／上限 10 分）、TZP_fps2_new（已跑 1 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:31:41] [res] cpu=3% mem=48% (15.2/31.4 GB) chrome_testing=10  END TZP_fps2_new

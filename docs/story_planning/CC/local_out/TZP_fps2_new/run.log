@@ -1,0 +1,28 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tzq_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZP_fps2_new\out
+CC TZQ／TZP／WZQ：SHA 3a216dfb2 PARTS TZP_FPS Q low,medium,high；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== TZP_FPS
+  [前置／捷徑] 設定頁畫質改成 low（#setQuality 改值＋change；之後讀檔才照新畫質生路人）→ E.q.level=low
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-01 14.0 時 (0.00,6.00) （low 畫質、路中間 1400）
+  [  63.1s] [B5] low 畫質 1400 路中間 8 秒：58 fps（路人 4、NPC 共 4；SHA 3a216dfb2；Playwright，不是 iPhone；雲端 SwiftShader 不當結論）
+PASS [黑畫面] B5_low_1400 不是黑畫面（平均亮度 122.9、變化 54.1）  [122.9, 54.1]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-01 18.5 時 (0.00,6.00) （low 畫質、路中間 1830）
+  [  87.1s] [B5] low 畫質 1830 路中間 8 秒：57.1 fps（路人 8、NPC 共 8；SHA 3a216dfb2；Playwright，不是 iPhone；雲端 SwiftShader 不當結論）
+PASS [黑畫面] B5_low_1830 不是黑畫面（平均亮度 72.6、變化 42.2）  [72.6, 42.2]
+  [前置／捷徑] 設定頁畫質改成 medium（#setQuality 改值＋change；之後讀檔才照新畫質生路人）→ E.q.level=medium
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-01 14.0 時 (0.00,6.00) （medium 畫質、路中間 1400）
+  [ 119.9s] [B5] medium 畫質 1400 路中間 8 秒：55 fps（路人 6、NPC 共 6；SHA 3a216dfb2；Playwright，不是 iPhone；雲端 SwiftShader 不當結論）
+PASS [黑畫面] B5_medium_1400 不是黑畫面（平均亮度 111.6、變化 51.1）  [111.6, 51.1]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-01 18.5 時 (0.00,6.00) （medium 畫質、路中間 1830）
+  [ 143.3s] [B5] medium 畫質 1830 路中間 8 秒：47 fps（路人 12、NPC 共 12；SHA 3a216dfb2；Playwright，不是 iPhone；雲端 SwiftShader 不當結論）
+PASS [黑畫面] B5_medium_1830 不是黑畫面（平均亮度 72.3、變化 42.2）  [72.3, 42.2]
+  [前置／捷徑] 設定頁畫質改成 high（#setQuality 改值＋change；之後讀檔才照新畫質生路人）→ E.q.level=high
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-01 14.0 時 (0.00,6.00) （high 畫質、路中間 1400）
+  [ 166.3s] [B5] high 畫質 1400 路中間 8 秒：50.3 fps（路人 8、NPC 共 8；SHA 3a216dfb2；Playwright，不是 iPhone；雲端 SwiftShader 不當結論）
+PASS [黑畫面] B5_high_1400 不是黑畫面（平均亮度 111.5、變化 51.2）  [111.5, 51.2]
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-01 18.5 時 (0.00,6.00) （high 畫質、路中間 1830）
+  [ 189.8s] [B5] high 畫質 1830 路中間 8 秒：41.5 fps（路人 16、NPC 共 16；SHA 3a216dfb2；Playwright，不是 iPhone；雲端 SwiftShader 不當結論）
+PASS [黑畫面] B5_high_1830 不是黑畫面（平均亮度 72.5、變化 42.2）  [72.5, 42.2]
+PASS [TZP_FPS] 沒有 JS 例外  []
+ALL PASS
