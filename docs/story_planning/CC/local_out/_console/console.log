@@ -1262,3 +1262,12 @@
 [04:02:29] [res] cpu=16% mem=43% (13.6/31.4 GB) chrome_testing=10  START N1_GG3_rename
 [04:02:29] worktree add ab282014af7e5c878ad171819465665fcc4ae2a5: invalid reference - fetching main and the commit itself
 [04:05:38] [res] cpu=7% mem=44% (13.9/31.4 GB) chrome_testing=10  END N1_GG3_rename
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       fe7b32c7b..acb5f8936  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:05:48] ==== END   N1_GG3_rename  exit=0  192s   ====
+[04:06:00] memory 45% before starting N1_TSR_DORM_ab (2 running)
+[04:06:00] ==== START N1_TSR_DORM_ab  (probe @ ab282014af7e5c878ad171819465665fcc4ae2a5) ====
+[04:06:02] [res] cpu=13% mem=45% (14.3/31.4 GB) chrome_testing=10  START N1_TSR_DORM_ab
+[04:06:16] 正在跑：N1_MOKU_PLANT_7（已跑 16 分／上限 45 分）、LEADOUT_old（已跑 5 分／上限 100 分）、N1_TSR_DORM_ab（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:07:23] [res] cpu=36% mem=44% (13.9/31.4 GB) chrome_testing=10  END LEADOUT_old
