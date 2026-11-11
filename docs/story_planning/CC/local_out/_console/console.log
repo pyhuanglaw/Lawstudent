@@ -1,10 +1,3 @@
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[11:53:10] ==== END   GOCLASS_guard_new  exit=0  654s   ====
-[11:53:13] memory 37% before starting GOCLASS_guard_old (0 running)
-[11:53:13] ==== START GOCLASS_guard_old  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
-[11:53:16] [res] cpu=5% mem=37% (11.8/31.4 GB) chrome_testing=0  START GOCLASS_guard_old
-[11:54:03] 正在跑：GOCLASS_guard_old（已跑 0 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
-[11:59:03] 正在跑：GOCLASS_guard_old（已跑 5 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
 [12:02:36] [res] cpu=6% mem=36% (11.5/31.4 GB) chrome_testing=0  END GOCLASS_guard_old
     To https://github.com/pyhuanglaw/Lawstudent.git
        e66f73b8c..dc5f2175c  claude/cc-local -> claude/cc-local
@@ -1998,3 +1991,10 @@
 [20:26:18] ==== START REL_live  (game @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
 [20:26:21] [res] cpu=2% mem=49% (15.5/31.4 GB) chrome_testing=10  START REL_live
 [20:27:39] [res] cpu=4% mem=50% (15.8/31.4 GB) chrome_testing=10  END REL_main12
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a46520835..79ba04f8d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:27:45] ==== END   REL_main12  exit=0  337s   ====
+[20:27:48] solo item V25_touch waits: no new items start until the 2 running item(s) finish
+[20:29:05] 正在跑：V25_social（已跑 51 分／上限 60 分）、REL_live（已跑 2 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:32:25] [res] cpu=22% mem=49% (15.7/31.4 GB) chrome_testing=5  END REL_live
