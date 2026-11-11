@@ -173,11 +173,12 @@ async def wait_settle(pg, max_s=60):
     return s, await pg.evaluate(PSTATE), round(time.time() - t0, 1)
 
 
-async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None):
+async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None, floor=False):
     """椅面／地板那一點投影到螢幕，要是遊戲畫面才點；不行就轉鏡頭、再不行就先點地走近。回傳 (pt, 怎麼瞄到的)
     want＝(椅子 x, z)：點椅面時，那個像素射線第一個打到的要是這張椅子（遊戲 tapToSeat 帶 hit 算出來的 rseat＝這張）；被柱子、桌子擋住就換點、轉鏡頭、走近（CC_02 乙 4）"""
     bad0 = lambda q: not q or q.get('off') or not q.get('canvas')
-    hits = lambda q: not want or bool(q.get('rseat') and abs(q['rseat'][0] - want[0]) < 0.06 and abs(q['rseat'][1] - want[1]) < 0.06)
+    hits = lambda q: (not q.get('rseat')) if floor else (not want or bool(q.get('rseat') and abs(q['rseat'][0] - want[0]) < 0.06 and abs(q['rseat'][1] - want[1]) < 0.06))
+    # floor＝點走道：那個像素射線第一個打到的不能是椅子（階梯教室點後排走道，前排椅子在前面：照規則就是點到椅子，不算「走道被導去椅子」）
     bad = lambda q: bad0(q) or not hits(q)
 
     async def try_pts(how):
@@ -200,7 +201,7 @@ async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None):
         await L.turn_camera_to(pg, cdp, x, z); pt, how = await try_pts('走近＋轉鏡頭')
     if bad0(pt): return None, how
     if bad(pt):   # 畫面上點得到，但每一個點射線都先打到別的東西（柱子、桌子、別張椅子）
-        R.note('%s 這張椅子每一個點都被擋住：射線先打到 %s、遊戲會導去 %s（椅子 %s）' % (tag, J(pt.get('first')), J(pt.get('redirect')), J(pt.get('rseat'))))
+        R.note('%s %s：射線先打到 %s、遊戲會導去 %s（椅子 %s）' % (tag, '這塊地板每一個點前面都有椅子擋著' if floor else '這張椅子每一個點都被擋住', J(pt.get('first')), J(pt.get('redirect')), J(pt.get('rseat'))))
         return None, 'blocked'
     return pt, how
 
@@ -340,7 +341,7 @@ async def point_one(pg, cdp, key, Z, kind, k, xz, desc, lv):
         if not tt:
             R.note('%s (%s, %s) %s：附近 0.5 m 量不到桌面（地板 %s 上 0.35～1.0 m 沒有面），不點' % (t, x, z, desc, fy)); return {'r': 'notable', 'at': [x, z]}
         x, z, y = tt['x'], tt['z'], tt['y']; what = '桌面（射線量到 y %s，網格「%s」材質「%s」，離原本的點 %s m）' % (y, tt['mesh'], tt['mat'], tt['d'])
-    pt, how = await aim(pg, cdp, x, y, z, t)
+    pt, how = await aim(pg, cdp, x, y, z, t, floor=(kind == 'floor'))
     if not pt:
         R.note('%s (%s, %s) %s：畫面上點不到（%s），不測' % (t, x, z, desc, how)); return {'r': 'notap', 'at': [x, z]}
     fb0 = (await D.st(pg))['fb']
