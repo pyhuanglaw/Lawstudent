@@ -123,7 +123,7 @@ async def game_shot(pg, name, tag, indoor=True, judge=True):
     await pg.screenshot(path=os.path.join(OUT, name), type='jpeg', quality=82)
     flat = cj['mid']['sd'] < 20; seen = bool(cj['near']) and cj['near']['sd'] >= 15
     tb = cj['top']; sky = tb['rgb'][2] > tb['rgb'][0] + 25 and tb['rgb'][2] > tb['rgb'][1] + 8 and tb['m'] > 110
-    R.note('%s 【遊戲鏡頭】%s：%s%s' % (tag, name, J(cj), '  ★中央一片單色' if flat else ''))
+    R.note('%s 【遊戲鏡頭】%s：%s%s%s' % (tag, name, J(cj), '  ★中央一片單色' if flat else '', '' if seen else '  ★看不到人（玩家附近 100×160 px 標準差 <15 或不在畫面上）'))
     if judge:
         if indoor: R.check('%s 【遊戲鏡頭】%s：畫面上方 20%% 不像天空、沒有大面積黑（天花板沒有破洞）' % (tag, name), not sky and tb['black'] <= 0.3, J(tb))
         R.check('%s 【遊戲鏡頭】%s：畫面中央 60%% 不是一片單色（標準差 %.1f ≥20）' % (tag, name, cj['mid']['sd']), not flat, J(cj['mid']))
