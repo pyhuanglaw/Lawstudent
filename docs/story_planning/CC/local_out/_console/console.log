@@ -1,11 +1,3 @@
-[10:35:44] [res] cpu=0% mem=33% (11.3/31.4 GB) chrome_testing=0  END TZP_fps2_old
-[10:35:44] memory 33% before starting G10_N1 (2 running)
-[10:35:44] ==== START G10_N1  (probe @ f5e1ef4e8fe2e1d6e71897d891ed600967a146a2) ====
-[10:35:47] [res] cpu=2% mem=34% (10.5/31.4 GB) chrome_testing=0  START G10_N1
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       bf9df5948..ef5520894  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[10:36:12] ==== END   TZP_fps2_old  exit=0  228s   ====
 [10:36:38] memory 45% before starting PS2_N1 (2 running)
 [10:36:38] ==== START PS2_N1  (probe @ f5e1ef4e8fe2e1d6e71897d891ed600967a146a2) ====
 [10:36:41] [res] cpu=12% mem=46% (14.3/31.4 GB) chrome_testing=8  START PS2_N1
@@ -1998,3 +1990,11 @@
 [18:02:11] [res] cpu=24% mem=49% (15.5/31.4 GB) chrome_testing=10  START STAIR_a2_walk
 [18:04:04] 正在跑：L118A7_OCC_retest（已跑 10 分／上限 45 分）、TSR_CAFE_old（已跑 3 分／上限 12 分）、STAIR_a2_walk（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:05:56] [res] cpu=48% mem=49% (15.4/31.4 GB) chrome_testing=10  END TSR_CAFE_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5a1385285..03ada032a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:06:02] ==== END   TSR_CAFE_old  exit=1  338s   ====
+[18:06:06] memory 49% before starting STAIR_a2_run (2 running)
+[18:06:06] ==== START STAIR_a2_run  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[18:06:09] [res] cpu=12% mem=49% (15.6/31.4 GB) chrome_testing=10  START STAIR_a2_run
+[18:06:43] [res] cpu=21% mem=48% (15.0/31.4 GB) chrome_testing=9  END STAIR_a2_walk
