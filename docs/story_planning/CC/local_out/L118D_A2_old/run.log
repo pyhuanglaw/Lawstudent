@@ -1,0 +1,311 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_ab_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_A2_old\out
+受測 SHA=779ddd65081bf770e9850d948b54ecc21dc4d120；PARTS=A；SHOPS=pasta,korea,omu,noodle2；URL=http://127.0.0.1:8802/index.html
+Playwright 手機模擬（橫向 844×390）≠ iPhone 實機
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.0s] 畫面上的版本字樣：版本 v9.10.24（2026-11-10）
+  [  26.0s] 候選日期：[{"k": "2025-09-24", "d": 8, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 4}, {"k": "2025-10-01", "d": 15, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 5}, {"k": "2025-10-15", "d": 29, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 7}, {"k": "2025-10-22", "d": 36, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 8}, {"k": "2025-10-29", "d": 43, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 9}, {"k": "2025-11-05", "d": 50, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 10}]
+PASS 日期 2025-09-24：學期中（Y1S1 第 4 週）、不是假日、不是颱風假  {"k": "2025-09-24", "d": 8, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 4}
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (0.00, 31.00)，12.17 點、錢 5000、QUIET=True（查營業時間（巷口））
+  [  46.1s] 營業（L118.isOpen，2025-09-24 12.17）：[{"id": "dian", "open": true, "note": null}, {"id": "self", "open": true, "note": null}, {"id": "tea", "open": true, "note": null}, {"id": "home", "open": true, "note": null}, {"id": "cafe2", "open": true, "note": null}, {"id": "pasta", "open": false, "note": null}, {"id": "korea", "open": true, "note": null}, {"id": "omu", "open": true, "note": null}, {"id": "noodle2", "open": true, "note": null}]
+FAIL pasta 這個時間有開（沒有公休紙）  {"id": "pasta", "open": false, "note": null}
+PASS korea 這個時間有開（沒有公休紙）  {"id": "korea", "open": true, "note": null}
+PASS omu 這個時間有開（沒有公休紙）  {"id": "omu", "open": true, "note": null}
+PASS noodle2 這個時間有開（沒有公休紙）  {"id": "noodle2", "open": true, "note": null}
+  逐字｜start｜lane118｜clockZ｜118 巷
+  逐字｜start｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+
+===== pasta 義大麵屋（PARTS=A）=====
+PASS pasta 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, 20.00)，12.17 點、錢 5000、QUIET=True（義大麵屋 店門口附近的人行道）
+PASS pasta 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": 20, "ry": 0.1, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 3.241, "fallbacks": 0, "y": 0, "lv": 0, "frame": 270, "paused": false}
+  [  55.1s] lane118 手機「地點」有 118 的那幾行：["118 巷", "118 巷（1）", "118 巷"]
+PASS A lane118 手機「地點」（快速前往）頁沒有舊店名、舊菜名  237 字
+  逐字｜lane118｜lane118｜phoneBody｜9/24 週三・大一上 第 4 週 現在 12:12 今天的時間 上午 ○ 下午 ○ 晚上 ○ 每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；約好的見面也算一件（約好的照樣能去）；吃飯、聊天不算。 開學待辦（還有 4 項，不做也沒關係） ☐ 買民總、刑總、憲法的教科書（頁間書屋），或在法律學院圖書館看指定參考書 ☐ 總圖新生導覽（9/19、9/23、9/25、9/26 15:30，總圖大廳；去一場就好） ☐ 法律資料怎麼查（9/24、10/1 15:30，法律學院圖書館 討論室 A） ☐ 服務學習報到（9/24 週三 13:20，法律學院圖書館 櫃台） 09:10–12:10 刑法總則（一） 法律系館A 201・吳老師・沒去 13:20–15:10 服務學習（一） 法律學院圖書館 櫃台・館員・還沒開始 直接去上課 法律學院圖書館：今天 08:10–21:45 總圖：08:00–22:00 跳過時間 沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。 等到下一堂課前（13:10） 等到下午（14:00） 等到傍…（全文存檔）
+  逐字｜lane118｜lane118｜phoneBody｜打開整張地圖（也可以點右上角的小地圖） 知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。 首都帝大校園 北 ↑ 118 巷 法律系館A 法律系館B 社科圖 博思・普通 椰影大道 校門 總圖 共同 女一舍 宿舍 體育館 公館 溫州街 新生南路 你在這裡可以前往現在不能去 點地圖上的地方，下面會出現可以前往的地點。 全部地點 首都帝大校園（15） ▸ 公館（10） ▸ 溫州街（5） ▸ 新生南路（8） ▸ 118 巷（1） ▾ 118 巷 你在這裡
+PASS pasta 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": 24, "r": 1.4, "label": "進Pasta 118（義大利麵）", "hidden": true, "enter": true}, {"x": 4.3, "z": 24, "r": 1.4, "label": "Pasta 118（義大利麵）", "hidden": false, "enter": false}]
+  [  67.1s] 「義大麵屋 店門口」搖桿推不到（推 7 次、最近 2.34 m），改點地面（L.go_to，也是觸控）
+  [ 308.2s] 走不到「義大麵屋 店門口」：最後位置 (4.5,22)，目標 (4.3,24)；點地面 16 次、轉鏡頭 0 次、搖桿 105 次
+  [ 308.2s]   這段時間：畫面 13388 格／241 秒、遊戲時間 12.28→13.89、paused=False、開著的面板 []
+  逐字｜pasta_door｜lane118｜toast｜30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+  [前置／捷徑] pasta street：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720
+  [ 314.1s] pasta street 有字的板面（依距離分群）5 群：[{"nm": "wz_signs_atlas", "c": [5.14, 3.22, 24], "s": [0, 0.64, 6.5]}, {"nm": "l118p_print", "c": [3.89, 0.49, 22.3], "s": [0.22, 0.82, 0.52]}, {"nm": "wz_small_atlas_lane118", "c": [5.6, 0.47, 21.91], "s": [0.44, 0.95, 0.03]}, {"nm": "wz_small_atlas_lane118", "c": [5.6, 0.47, 22.48], "s": [0.44, 0.95, 0.03]}, {"nm": "wz_small_atlas_lane118", "c": [5.27, 0.06, 20.15], "s": [0.35, 0.12, 0]}]
+  [ 314.7s] pasta 板面近照 sign_pasta_street_00_wz_signs_atlas.png（鏡頭 [0.14, 3.22, 24] → [5.14, 3.22, 24]，13 幀）
+  [ 315.3s] pasta 板面近照 sign_pasta_street_01_l118p_print.png（鏡頭 [2.59, 0.49, 22.3] → [3.89, 0.49, 22.3]，12 幀）
+  [ 316.0s] pasta 板面近照 sign_pasta_street_02_wz_small_atlas_lane118.png（鏡頭 [5.6, 0.47, 23.43] → [5.6, 0.47, 21.91]，5 幀）
+  [ 316.7s] pasta 板面近照 sign_pasta_street_03_wz_small_atlas_lane118.png（鏡頭 [5.6, 0.47, 24.0] → [5.6, 0.47, 22.48]，11 幀）
+  [ 317.5s] pasta 板面近照 sign_pasta_street_04_wz_small_atlas_lane118.png（鏡頭 [5.27, 0.06, 20.75] → [5.27, 0.06, 20.15]，10 幀）
+  [ 318.2s] pasta 板面近照 sign_pasta_facade.png（鏡頭 [-3.64, 2.3, 24] → [5.2, 2.4, 24]，13 幀）
+  [ 318.7s] pasta 板面近照 sign_pasta_front.png（鏡頭 [2.8, 1.5, 24] → [5.2, 1.3, 24]，14 幀）
+  [ 329.0s] 「義大麵屋 店門口（拍完招牌走回來）」搖桿推不到（推 6 次、最近 2.01 m），改點地面（L.go_to，也是觸控）
+  [ 570.7s] 走不到「義大麵屋 店門口（拍完招牌走回來）」：最後位置 (4.5,22)，目標 (4.3,24)；點地面 15 次、轉鏡頭 0 次、搖桿 107 次
+  [ 570.7s]   這段時間：畫面 13324 格／242 秒、遊戲時間 14.03→15.64、paused=False、開著的面板 []
+FAIL A pasta 店門口互動鍵（畫面）「進義大麵屋（平價義大利麵）」  畫面：「」；點地面；範圍內 []
+FAIL pasta 進得去（營業中，互動鍵是「進…」）
+
+===== korea 清州刀削麵（PARTS=A）=====
+PASS korea 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, 19.50)，12.17 點、錢 5000、QUIET=True（清州刀削麵 店門口附近的人行道）
+PASS korea 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": 19.5, "ry": 3.04, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 6.184, "fallbacks": 0, "y": 0, "lv": 0, "frame": 29050, "paused": false}
+  逐字｜korea_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+  逐字｜korea_load｜lane118｜clockZ｜118 巷
+PASS korea 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": 15.5, "r": 1.4, "label": "進韓食小廚（韓式）", "hidden": false, "enter": true}, {"x": 4.3, "z": 15.5, "r": 1.4, "label": "韓食小廚（韓式）", "hidden": true, "enter": false}]
+  [ 591.9s] 「清州刀削麵 店門口」搖桿推不到（推 7 次、最近 2.34 m），改點地面（L.go_to，也是觸控）
+  [ 594.6s] 到達「清州刀削麵 店門口」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  逐字｜korea_door｜lane118｜interactLabel｜進韓食小廚（韓式）
+  [前置／捷徑] korea street：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720
+  [ 600.4s] korea street 有字的板面（依距離分群）5 群：[{"nm": "wz_signs_atlas", "c": [4.93, 3.22, 15.5], "s": [0, 0.64, 6.5]}, {"nm": "wz_signs_atlas", "c": [4.65, 5.2, 18.5], "s": [0.74, 2.6, 0.15]}, {"nm": "l118p_print", "c": [3.89, 0.49, 17.15], "s": [0.22, 0.82, 0.52]}, {"nm": "wz_small_atlas_lane118", "c": [5.27, 0.06, 11.8], "s": [0.35, 0.12, 0]}, {"nm": "wz_small_atlas_lane118", "c": [5.27, 0.06, 18.45], "s": [0.35, 0.12, 0]}]
+  [ 601.1s] korea 板面近照 sign_korea_street_00_wz_signs_atlas.png（鏡頭 [-0.07, 3.22, 15.5] → [4.93, 3.22, 15.5]，13 幀）
+  [ 601.9s] korea 板面近照 sign_korea_street_01_wz_signs_atlas.png（鏡頭 [4.65, 5.2, 14.37] → [4.65, 5.2, 18.5]，14 幀）
+  [ 602.4s] korea 板面近照 sign_korea_street_02_l118p_print.png（鏡頭 [2.59, 0.49, 17.15] → [3.89, 0.49, 17.15]，13 幀）
+  [ 603.0s] korea 板面近照 sign_korea_street_03_wz_small_atlas_lane118.png（鏡頭 [5.27, 0.06, 12.4] → [5.27, 0.06, 11.8]，8 幀）
+  [ 603.5s] korea 板面近照 sign_korea_street_04_wz_small_atlas_lane118.png（鏡頭 [5.27, 0.06, 17.85] → [5.27, 0.06, 18.45]，14 幀）
+  [ 604.3s] korea 板面近照 sign_korea_facade.png（鏡頭 [-3.64, 2.3, 15.5] → [5.2, 2.4, 15.5]，13 幀）
+  [ 604.8s] korea 板面近照 sign_korea_front.png（鏡頭 [2.8, 1.5, 15.5] → [5.2, 1.3, 15.5]，14 幀）
+  [ 606.8s] 搖桿走到「清州刀削麵 店門口（拍完招牌走回來）」（0.24 m，推 0 次，0 秒）
+FAIL A korea 店門口互動鍵（畫面）「進清州刀削麵（刀削麵館）」  畫面：「進韓食小廚（韓式）」；點地面；範圍內 ["進韓食小廚（韓式）"]
+  逐字｜korea_inside｜l118_korea｜clockZ｜韓食小廚（118 巷）
+  逐字｜korea_inside｜l118_korea｜interactLabel｜聽一句
+PASS korea 進到店裡（l118_korea）、站得住  {"zone": "l118_korea", "x": 2.2, "z": 2.75, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "聽一句", "hour": 12.42, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 30532, "paused": false}
+FAIL A korea 左上角地點（畫面 #clockZ）是「清州刀削麵（118 巷）」  畫面：「韓食小廚（118 巷）」
+  [ 628.1s] korea 手機「地點」有 118 的那幾行：["118 巷", "118 巷（1）", "118 巷"]
+PASS A korea 手機「地點」（快速前往）頁沒有舊店名、舊菜名  243 字
+  逐字｜korea｜l118_korea｜phoneBody｜打開整張地圖（也可以點右上角的小地圖） 知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。 首都帝大校園 北 ↑ 118 巷 法律系館A 法律系館B 社科圖 博思・普通 椰影大道 校門 總圖 共同 女一舍 宿舍 體育館 公館 溫州街 新生南路 你在這裡可以前往現在不能去 點地圖上的地方，下面會出現可以前往的地點。 全部地點 首都帝大校園（15） ▸ 公館（10） ▸ 溫州街（5） ▸ 新生南路（8） ▸ 118 巷（1） ▾ 118 巷 約 15 分鐘 前往
+PASS korea 店裡有點餐、出口的互動點  {"order": {"x": -0.2, "z": -2.2, "r": 0.8}, "exit": {"x": 2.2, "z": 3.8, "r": 0.7}}
+  [ 642.6s] 「清州刀削麵 櫃台」搖桿推不到（推 8 次、最近 3.42 m），改點地面（L.go_to，也是觸控）
+  [ 647.0s] 到達「清州刀削麵 櫃台」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+FAIL A korea 櫃台前面互動鍵（畫面）「點餐（清州刀削麵）」  畫面：「點餐（韓食小廚）」；點地面
+  逐字｜korea_menuA｜l118_korea｜interactLabel｜小菜櫃
+  逐字｜korea_menuA｜l118_korea｜interactLabel｜聽一句
+  逐字｜korea_menuA｜l118_korea｜interactLabel｜點餐（韓食小廚）
+  逐字｜korea_menuA｜l118_korea｜clockZ｜韓食小廚（118 巷）
+  逐字｜korea_menuA｜l118_korea｜dlgText｜老闆｜小菜可以續喔。
+  逐字｜korea_menuA｜l118_korea｜choices｜石鍋拌飯 140 元 ｜ 泡菜豆腐鍋 150 元 ｜ 海苔飯捲 70 元 ｜ 不用了
+PASS A korea 點餐有選單（按「不用了」不買）  {"menu": [{"i": 0, "t": "石鍋拌飯 140 元", "dim": false, "name": "石鍋拌飯", "price": 140}, {"i": 1, "t": "泡菜豆腐鍋 150 元", "dim": false, "name": "泡菜豆腐鍋", "price": 150}, {"i": 2, "t": "海苔飯捲 70 元", "dim": false, "name": "海苔飯捲", "price": 70}, {"i": 3, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [ 652.6s] korea 選單（畫面）：["石鍋拌飯 140 元", "泡菜豆腐鍋 150 元", "海苔飯捲 70 元", "不用了"]
+FAIL B korea 清州刀削麵 選單＝規格表（品名、價錢、項數）  預期 [["牛肉刀削麵", 190], ["番茄刀削麵", 150], ["木須炒刀削麵", 170], ["炸醬刀削麵", 140]]；實際 [["石鍋拌飯", 140], ["泡菜豆腐鍋", 150], ["海苔飯捲", 70]]
+  [ 652.6s] korea 店裡「看的東西」1 個（位置讀資料、字從畫面抽）
+  [ 655.3s] 搖桿走到「清州刀削麵 看的東西「小菜櫃」站點 (2.15,-0.40)」（0.05 m，推 2 次，3 秒）
+  [ 655.3s] korea「小菜櫃」試過的站點（座標、互動鍵）：[[2.13, -0.45, "小菜櫃"]]
+  逐字｜korea_look｜l118_korea｜interactLabel｜聽一句
+  逐字｜korea_look｜l118_korea｜interactLabel｜小菜櫃
+  逐字｜korea_look｜l118_korea｜caption｜（小菜櫃裡有海帶、豆干、滷蛋。豆干只剩兩塊。）
+  逐字｜korea_look｜l118_korea｜clockZ｜韓食小廚（118 巷）
+  看的東西｜korea｜banchan｜小菜櫃｜畫面：（小菜櫃裡有海帶、豆干、滷蛋。豆干只剩兩塊。）｜資料：（小菜櫃裡有海帶、豆干、滷蛋。豆干只剩兩塊。）
+  [前置／捷徑] korea inside：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720
+  [ 658.5s] korea inside 有字的板面（依距離分群）5 群：[{"nm": "WALL_N_print", "c": [-2.1, 2.19, -4.23], "s": [1.8, 0.67, 0]}, {"nm": "WALL_E_print", "c": [3.29, 2.38, 2.2], "s": [0, 0.45, 2.4]}, {"nm": "WALL_E_print", "c": [3.29, 1.81, -0.7], "s": [0, 0.53, 0.6]}, {"nm": "WALL_N_print", "c": [1.5, 2.21, -4.24], "s": [0.5, 0.22, 0]}, {"nm": "WALL_S_print", "c": [1.48, 1.4, 4.22], "s": [0.45, 0.2, 0]}]
+  [ 659.1s] korea 板面近照 sign_korea_inside_00_WALL_N_print.png（鏡頭 [-2.1, 2.19, -2.62] → [-2.1, 2.19, -4.23]，13 幀）
+  [ 659.5s] korea 板面近照 sign_korea_inside_01_WALL_E_print.png（鏡頭 [1.14, 2.38, 2.2] → [3.29, 2.38, 2.2]，12 幀）
+  [ 659.9s] korea 板面近照 sign_korea_inside_02_WALL_E_print.png（鏡頭 [2.44, 1.81, -0.7] → [3.29, 1.81, -0.7]，13 幀）
+  [ 660.4s] korea 板面近照 sign_korea_inside_03_WALL_N_print.png（鏡頭 [1.5, 2.21, -3.64] → [1.5, 2.21, -4.24]，12 幀）
+  [ 660.9s] korea 板面近照 sign_korea_inside_04_WALL_S_print.png（鏡頭 [1.48, 1.4, 3.62] → [1.48, 1.4, 4.22]，13 幀）
+  [ 661.7s] korea 板面近照 sign_korea_wide_in.png（鏡頭 [1.94, 2.1, 3.74] → [-1.32, 1.3, -2.55]，11 幀）
+  [ 662.5s] korea 板面近照 sign_korea_wide_out.png（鏡頭 [-1.87, 2.1, -3.61] → [2.2, 1.3, 4.25]，13 幀）
+  [前置／捷徑] 遊戲時間 12.65 → 設回 12.17（出店前；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [ 668.3s] 搖桿走到「清州刀削麵 出口」（0.24 m，推 2 次，3 秒）
+FAIL A korea 出口互動鍵（畫面）「離開清州刀削麵」  畫面：「離開韓食小廚」；搖桿
+PASS korea 出來回到 118 巷、站得住、互動鍵不是「進清州刀削麵」  {"zone": "lane118", "x": 3.25, "z": 16.75, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "小菜可以續喔。", "choices": 0, "interact": "", "hour": 12.21, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 32347, "paused": false, "it": "", "clockZ": "118 巷"}
+  逐字｜korea_end｜l118_korea｜interactLabel｜聽一句
+  逐字｜korea_end｜l118_korea｜interactLabel｜離開韓食小廚
+  逐字｜korea_end｜lane118｜clockZ｜118 巷
+  逐字｜korea_end｜lane118｜toast｜這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。
+  逐字｜korea_end｜lane118｜toast｜（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）
+  [ 673.6s] korea 這一間花了 99 秒
+
+===== omu 奈良咖哩（PARTS=A）=====
+PASS omu 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, 5.50)，12.17 點、錢 5000、QUIET=True（奈良咖哩 店門口附近的人行道）
+PASS omu 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": 5.5, "ry": 3.04, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "小菜可以續喔。", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 6.184, "fallbacks": 0, "y": 0, "lv": 0, "frame": 32510, "paused": false}
+  逐字｜omu_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+PASS omu 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": 1.5, "r": 1.4, "label": "進蛋包飯研究所（蛋包飯）", "hidden": false, "enter": true}, {"x": 4.3, "z": 1.5, "r": 1.4, "label": "蛋包飯研究所（蛋包飯）", "hidden": true, "enter": false}]
+  [ 682.4s] 搖桿走到「奈良咖哩 店門口」（0.18 m，推 2 次，3 秒）
+  逐字｜omu_door｜lane118｜interactLabel｜和沛珊說話
+  逐字｜omu_door｜lane118｜interactLabel｜進蛋包飯研究所（蛋包飯）
+  逐字｜omu_door｜lane118｜clockZ｜118 巷
+  [前置／捷徑] omu street：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720
+  [ 688.5s] omu street 有字的板面（依距離分群）7 群：[{"nm": "wz_signs_atlas", "c": [5.14, 3.22, 1.5], "s": [0, 0.64, 6.5]}, {"nm": "wz_signs_atlas", "c": [4.65, 5.2, 4.5], "s": [0.74, 2.6, 0.15]}, {"nm": "wz_signs_atlas", "c": [4.65, 5.2, -1.5], "s": [0.74, 2.6, 0.15]}, {"nm": "l118p_print", "c": [3.89, 0.49, -0.1], "s": [0.22, 0.82, 0.52]}, {"nm": "wz_small_atlas_lane118", "c": [5.6, 0.47, 3.62], "s": [0.44, 0.95, 0.03]}, {"nm": "wz_small_atlas_lane118", "c": [5.6, 0.47, 4.18], "s": [0.44, 0.95, 0.03]}, {"nm": "wz_small_atlas_lane118", "c": [5.27, 0.06, 5.3], "s": [0.35, 0.12, 1.7]}]
+  [ 689.1s] omu 板面近照 sign_omu_street_00_wz_signs_atlas.png（鏡頭 [0.14, 3.22, 1.5] → [5.14, 3.22, 1.5]，12 幀）
+  [ 690.2s] omu 板面近照 sign_omu_street_01_wz_signs_atlas.png（鏡頭 [4.65, 5.2, 0.37] → [4.65, 5.2, 4.5]，8 幀）
+  [ 691.0s] omu 板面近照 sign_omu_street_02_wz_signs_atlas.png（鏡頭 [4.65, 5.2, 2.63] → [4.65, 5.2, -1.5]，10 幀）
+  [ 691.8s] omu 板面近照 sign_omu_street_03_l118p_print.png（鏡頭 [2.59, 0.49, -0.1] → [3.89, 0.49, -0.1]，12 幀）
+  [ 692.6s] omu 板面近照 sign_omu_street_04_wz_small_atlas_lane118.png（鏡頭 [5.6, 0.47, 2.1] → [5.6, 0.47, 3.62]，12 幀）
+  [ 693.3s] omu 板面近照 sign_omu_street_05_wz_small_atlas_lane118.png（鏡頭 [5.6, 0.47, 2.67] → [5.6, 0.47, 4.18]，11 幀）
+  [ 694.0s] omu 板面近照 sign_omu_street_06_wz_small_atlas_lane118.png（鏡頭 [3.75, 0.06, 5.3] → [5.27, 0.06, 5.3]，13 幀）
+  [ 694.8s] omu 板面近照 sign_omu_facade.png（鏡頭 [-3.64, 2.3, 1.5] → [5.2, 2.4, 1.5]，11 幀）
+  [ 695.4s] omu 板面近照 sign_omu_front.png（鏡頭 [2.8, 1.5, 1.5] → [5.2, 1.3, 1.5]，11 幀）
+  [ 697.5s] 搖桿走到「奈良咖哩 店門口（拍完招牌走回來）」（0.18 m，推 0 次，0 秒）
+FAIL A omu 店門口互動鍵（畫面）「進奈良咖哩（日式咖哩飯）」  畫面：「進蛋包飯研究所（蛋包飯）」；搖桿；範圍內 ["進蛋包飯研究所（蛋包飯）"]
+  逐字｜omu_inside｜l118_omu｜clockZ｜蛋包飯研究所（118 巷）
+PASS omu 進到店裡（l118_omu）、站得住  {"zone": "l118_omu", "x": -2.2, "z": 2.5, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "小菜可以續喔。", "choices": 0, "interact": "", "hour": 12.37, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 33589, "paused": false}
+FAIL A omu 左上角地點（畫面 #clockZ）是「奈良咖哩（118 巷）」  畫面：「蛋包飯研究所（118 巷）」
+  [ 712.2s] omu 手機「地點」有 118 的那幾行：["118 巷", "118 巷（1）", "118 巷"]
+PASS A omu 手機「地點」（快速前往）頁沒有舊店名、舊菜名  243 字
+  逐字｜omu｜l118_omu｜phoneBody｜打開整張地圖（也可以點右上角的小地圖） 知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。 首都帝大校園 北 ↑ 118 巷 法律系館A 法律系館B 社科圖 博思・普通 椰影大道 校門 總圖 共同 女一舍 宿舍 體育館 公館 溫州街 新生南路 你在這裡可以前往現在不能去 點地圖上的地方，下面會出現可以前往的地點。 全部地點 首都帝大校園（15） ▸ 公館（10） ▸ 溫州街（5） ▸ 新生南路（8） ▸ 118 巷（1） ▾ 118 巷 約 15 分鐘 前往
+PASS omu 店裡有點餐、出口的互動點  {"order": {"x": -2.3, "z": -0.7, "r": 0.8}, "exit": {"x": -2.2, "z": 3.55, "r": 0.7}}
+  [ 717.2s] 搖桿走到「奈良咖哩 櫃台」（0.37 m，推 3 次，4 秒）
+FAIL A omu 櫃台前面互動鍵（畫面）「點餐（奈良咖哩）」  畫面：「坐下」；搖桿
+  [ 724.9s] 搖桿走到「奈良咖哩 櫃台（再走一次）」（0.37 m，推 0 次，0 秒）
+  逐字｜omu_menuA｜l118_omu｜interactLabel｜坐下
+  逐字｜omu_menuA｜l118_omu｜interactLabel｜聽一句
+  逐字｜omu_menuA｜l118_omu｜interactLabel｜和沛珊說話
+  逐字｜omu_menuA｜l118_omu｜interactLabel｜點餐（蛋包飯研究所）
+  逐字｜omu_menuA｜l118_omu｜interactLabel｜坐下
+  逐字｜omu_menuA｜l118_omu｜clockZ｜蛋包飯研究所（118 巷）
+  逐字｜omu_menuA｜l118_omu｜interactLabel｜點餐（蛋包飯研究所）
+  逐字｜omu_menuA｜l118_omu｜dlgText｜店員｜蛋要全熟還是半熟？
+  逐字｜omu_menuA｜l118_omu｜choices｜咖哩蛋包飯 120 元 ｜ 番茄醬蛋包飯 110 元 ｜ 不用了
+PASS A omu 點餐有選單（按「不用了」不買）  {"menu": [{"i": 0, "t": "咖哩蛋包飯 120 元", "dim": false, "name": "咖哩蛋包飯", "price": 120}, {"i": 1, "t": "番茄醬蛋包飯 110 元", "dim": false, "name": "番茄醬蛋包飯", "price": 110}, {"i": 2, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [ 733.1s] omu 選單（畫面）：["咖哩蛋包飯 120 元", "番茄醬蛋包飯 110 元", "不用了"]
+FAIL B omu 奈良咖哩 選單＝規格表（品名、價錢、項數）  預期 [["豬排咖哩", 190], ["雞肉咖哩", 180], ["牛肉咖哩", 210], ["可樂餅咖哩", 170]]；實際 [["咖哩蛋包飯", 120], ["番茄醬蛋包飯", 110]]
+  [ 733.1s] omu 店裡「看的東西」0 個（位置讀資料、字從畫面抽）
+  [前置／捷徑] omu inside：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720
+  [ 734.5s] omu inside 有字的板面（依距離分群）5 群：[{"nm": "WALL_E_print", "c": [3.28, 2.12, 0.1], "s": [0, 0.75, 2]}, {"nm": "WALL_S_print", "c": [0.5, 2.88, 3.98], "s": [3, 0.44, 0]}, {"nm": "WALL_N_print", "c": [1.95, 1.86, -3.98], "s": [0.9, 0.82, 0]}, {"nm": "WALL_W_print", "c": [-3.29, 1.56, 1.85], "s": [0, 0.22, 0.5]}, {"nm": "WALL_S_print", "c": [-1.43, 1.4, 3.97], "s": [0.45, 0.2, 0]}]
+  [ 735.1s] omu 板面近照 sign_omu_inside_00_WALL_E_print.png（鏡頭 [1.5, 2.12, 0.1] → [3.28, 2.12, 0.1]，12 幀）
+  [ 735.6s] omu 板面近照 sign_omu_inside_01_WALL_S_print.png（鏡頭 [0.5, 2.88, 1.3] → [0.5, 2.88, 3.98]，13 幀）
+  [ 736.0s] omu 板面近照 sign_omu_inside_02_WALL_N_print.png（鏡頭 [1.95, 1.86, -2.67] → [1.95, 1.86, -3.98]，13 幀）
+  [ 736.5s] omu 板面近照 sign_omu_inside_03_WALL_W_print.png（鏡頭 [-2.69, 1.56, 1.85] → [-3.29, 1.56, 1.85]，14 幀）
+  [ 737.1s] omu 板面近照 sign_omu_inside_04_WALL_S_print.png（鏡頭 [-1.43, 1.4, 3.37] → [-1.43, 1.4, 3.97]，13 幀）
+  [ 737.9s] omu 板面近照 sign_omu_wide_in.png（鏡頭 [-1.94, 2.1, 3.52] → [1.32, 1.3, -2.4]，8 幀）
+  [ 738.8s] omu 板面近照 sign_omu_wide_out.png（鏡頭 [1.87, 2.1, -3.4] → [-2.2, 1.3, 4]，9 幀）
+  [前置／捷徑] 遊戲時間 12.54 → 設回 12.17（出店前；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [ 753.8s] 「奈良咖哩 出口」搖桿推不到（推 7 次、最近 3.48 m），改點地面（L.go_to，也是觸控）
+  [ 759.1s] 到達「奈良咖哩 出口」附近（0.28 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+FAIL A omu 出口互動鍵（畫面）「離開奈良咖哩」  畫面：「離開蛋包飯研究所」；點地面
+PASS omu 出來回到 118 巷、站得住、互動鍵不是「進奈良咖哩」  {"zone": "lane118", "x": 3.9, "z": 3.2, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "蛋要全熟還是半熟？", "choices": 0, "interact": "和沛珊說話", "hour": 12.31, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 35544, "paused": false, "it": "和沛珊說話", "clockZ": "118 巷"}
+  逐字｜omu_end｜l118_omu｜interactLabel｜和沛珊說話
+  逐字｜omu_end｜l118_omu｜interactLabel｜聽一句
+  逐字｜omu_end｜l118_omu｜clockZ｜蛋包飯研究所（118 巷）
+  逐字｜omu_end｜l118_omu｜interactLabel｜離開蛋包飯研究所
+  逐字｜omu_end｜lane118｜clockZ｜118 巷
+  逐字｜omu_end｜lane118｜interactLabel｜和沛珊說話
+  逐字｜omu_end｜lane118｜toast｜這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。
+  逐字｜omu_end｜lane118｜toast｜（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）
+  [ 764.3s] omu 這一間花了 91 秒
+
+===== noodle2 迪倫窯烤披薩（PARTS=A）=====
+PASS noodle2 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, -6.50)，12.17 點、錢 5000、QUIET=True（迪倫窯烤披薩 店門口附近的人行道）
+PASS noodle2 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": -6.5, "ry": 3.04, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "蛋要全熟還是半熟？", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 6.184, "fallbacks": 0, "y": 0, "lv": 0, "frame": 35722, "paused": false}
+  逐字｜noodle2_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+PASS noodle2 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": -10.5, "r": 1.4, "label": "進六張犁麵舖（麵店）", "hidden": false, "enter": true}, {"x": 4.3, "z": -10.5, "r": 1.4, "label": "六張犁麵舖（麵店）", "hidden": true, "enter": false}]
+  [ 778.5s] 「迪倫窯烤披薩 店門口」搖桿推不到（推 8 次、最近 1.02 m），改點地面（L.go_to，也是觸控）
+  [ 781.3s] 到達「迪倫窯烤披薩 店門口」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  逐字｜noodle2_door｜lane118｜caption｜阿哲朝你揮了揮手。
+  逐字｜noodle2_door｜lane118｜clockZ｜118 巷
+  逐字｜noodle2_door｜lane118｜interactLabel｜和阿哲說話
+  逐字｜noodle2_door｜lane118｜interactLabel｜進六張犁麵舖（麵店）
+  [前置／捷徑] noodle2 street：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720
+  [ 787.3s] noodle2 street 有字的板面（依距離分群）6 群：[{"nm": "wz_signs_atlas", "c": [5.07, 3.22, -10.5], "s": [0, 0.64, 6.5]}, {"nm": "wz_signs_atlas", "c": [4.65, 6.0, -13.5], "s": [0.74, 4.2, 0.15]}, {"nm": "wz_signs_atlas", "c": [4.65, 5.2, -7.5], "s": [0.74, 2.6, 0.15]}, {"nm": "wz_small_atlas_lane118", "c": [5.77, 1.28, -12.95], "s": [0.23, 0.44, 0.22]}, {"nm": "l118p_print", "c": [4.68, 0.56, -7.86], "s": [0, 0.23, 0.3]}, {"nm": "l118p_print", "c": [4.68, 0.56, -7.34], "s": [0, 0.23, 0.3]}]
+  [ 787.9s] noodle2 板面近照 sign_noodle2_street_00_wz_signs_atlas.png（鏡頭 [0.07, 3.22, -10.5] → [5.07, 3.22, -10.5]，11 幀）
+  [ 788.7s] noodle2 板面近照 sign_noodle2_street_01_wz_signs_atlas.png（鏡頭 [4.65, 6.0, -8.5] → [4.65, 6.0, -13.5]，11 幀）
+  [ 789.6s] noodle2 板面近照 sign_noodle2_street_02_wz_signs_atlas.png（鏡頭 [4.65, 5.2, -11.63] → [4.65, 5.2, -7.5]，8 幀）
+  [ 790.2s] noodle2 板面近照 sign_noodle2_street_03_wz_small_atlas_lane118.png（鏡頭 [5.77, 1.28, -12.25] → [5.77, 1.28, -12.95]，14 幀）
+  [ 790.6s] noodle2 板面近照 sign_noodle2_street_04_l118p_print.png（鏡頭 [4.08, 0.56, -7.86] → [4.68, 0.56, -7.86]，13 幀）
+  [ 791.2s] noodle2 板面近照 sign_noodle2_street_05_l118p_print.png（鏡頭 [4.08, 0.56, -7.34] → [4.68, 0.56, -7.34]，14 幀）
+  [ 791.9s] noodle2 板面近照 sign_noodle2_facade.png（鏡頭 [-3.64, 2.3, -10.5] → [5.2, 2.4, -10.5]，13 幀）
+  [ 792.5s] noodle2 板面近照 sign_noodle2_front.png（鏡頭 [2.8, 1.5, -10.5] → [5.2, 1.3, -10.5]，11 幀）
+  [ 794.5s] 搖桿走到「迪倫窯烤披薩 店門口（拍完招牌走回來）」（0.23 m，推 0 次，0 秒）
+FAIL A noodle2 店門口互動鍵（畫面）「進迪倫窯烤披薩（個人窯烤披薩）」  畫面：「進六張犁麵舖（麵店）」；點地面；範圍內 ["進六張犁麵舖（麵店）"]
+  逐字｜noodle2_inside｜l118_noodle2｜clockZ｜六張犁麵舖（118 巷）
+PASS noodle2 進到店裡（l118_noodle2）、站得住  {"zone": "l118_noodle2", "x": 1.6, "z": 2.75, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "蛋要全熟還是半熟？", "choices": 0, "interact": "", "hour": 12.41, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 37159, "paused": false}
+FAIL A noodle2 左上角地點（畫面 #clockZ）是「迪倫窯烤披薩（118 巷）」  畫面：「六張犁麵舖（118 巷）」
+  [ 807.5s] noodle2 手機「地點」有 118 的那幾行：["118 巷", "118 巷（1）", "118 巷"]
+PASS A noodle2 手機「地點」（快速前往）頁沒有舊店名、舊菜名  243 字
+  逐字｜noodle2｜l118_noodle2｜phoneBody｜打開整張地圖（也可以點右上角的小地圖） 知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。 首都帝大校園 北 ↑ 118 巷 法律系館A 法律系館B 社科圖 博思・普通 椰影大道 校門 總圖 共同 女一舍 宿舍 體育館 公館 溫州街 新生南路 你在這裡可以前往現在不能去 點地圖上的地方，下面會出現可以前往的地點。 全部地點 首都帝大校園（15） ▸ 公館（10） ▸ 溫州街（5） ▸ 新生南路（8） ▸ 118 巷（1） ▾ 118 巷 約 15 分鐘 前往
+PASS noodle2 店裡有點餐、出口的互動點  {"order": {"x": -0.75, "z": 2, "r": 0.8}, "exit": {"x": 1.6, "z": 3.8, "r": 0.7}}
+  [ 815.4s] 「迪倫窯烤披薩 櫃台」搖桿推不到（推 7 次、最近 1.07 m），改點地面（L.go_to，也是觸控）
+  [ 818.1s] 到達「迪倫窯烤披薩 櫃台」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+FAIL A noodle2 櫃台前面互動鍵（畫面）「點餐（迪倫窯烤披薩）」  畫面：「點餐（六張犁麵舖）」；點地面
+  逐字｜noodle2_menuA｜l118_noodle2｜interactLabel｜坐下
+  逐字｜noodle2_menuA｜l118_noodle2｜interactLabel｜點餐（六張犁麵舖）
+  逐字｜noodle2_menuA｜l118_noodle2｜dlgText｜老闆｜大碗小碗？
+  逐字｜noodle2_menuA｜l118_noodle2｜choices｜牛肉麵 150 元 ｜ 乾麵＋滷蛋 75 元 ｜ 餛飩湯 50 元 ｜ 不用了
+  逐字｜noodle2_menuA｜l118_noodle2｜clockZ｜六張犁麵舖（118 巷）
+PASS A noodle2 點餐有選單（按「不用了」不買）  {"menu": [{"i": 0, "t": "牛肉麵 150 元", "dim": false, "name": "牛肉麵", "price": 150}, {"i": 1, "t": "乾麵＋滷蛋 75 元", "dim": false, "name": "乾麵＋滷蛋", "price": 75}, {"i": 2, "t": "餛飩湯 50 元", "dim": false, "name": "餛飩湯", "price": 50}, {"i": 3, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [ 823.4s] noodle2 選單（畫面）：["牛肉麵 150 元", "乾麵＋滷蛋 75 元", "餛飩湯 50 元", "不用了"]
+FAIL B noodle2 迪倫窯烤披薩 選單＝規格表（品名、價錢、項數）  預期 [["瑪格麗特", 180], ["夏威夷", 200], ["燻雞蘑菇", 210], ["四種起司", 230]]；實際 [["牛肉麵", 150], ["乾麵＋滷蛋", 75], ["餛飩湯", 50]]
+  [ 823.4s] noodle2 店裡「看的東西」1 個（位置讀資料、字從畫面抽）
+  [ 824.3s] 搖桿走到「迪倫窯烤披薩 看的東西「小菜櫃」站點 (-0.75,2.80)」（0.12 m，推 1 次，1 秒）
+  [ 824.3s] noodle2「小菜櫃」試過的站點（座標、互動鍵）：[[-0.74, 2.92, "小菜櫃"]]
+  逐字｜noodle2_look｜l118_noodle2｜interactLabel｜小菜櫃
+  逐字｜noodle2_look｜l118_noodle2｜caption｜（小菜櫃的玻璃起霧了，看得到裡面的燙青菜。）
+  看的東西｜noodle2｜sides｜小菜櫃｜畫面：（小菜櫃的玻璃起霧了，看得到裡面的燙青菜。）｜資料：（小菜櫃的玻璃起霧了，看得到裡面的燙青菜。）
+  [前置／捷徑] noodle2 inside：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720
+  [ 827.3s] noodle2 inside 有字的板面（依距離分群）5 群：[{"nm": "WALL_W_print", "c": [-3.29, 2.58, 2.5], "s": [0, 0.75, 2]}, {"nm": "WALL_N_print", "c": [2.1, 2.71, -4.24], "s": [2.2, 0.42, 0]}, {"nm": "WALL_W_print", "c": [-3.29, 1.56, -0.7], "s": [0, 0.53, 0.6]}, {"nm": "WALL_E_print", "c": [3.29, 1.56, 1.65], "s": [0, 0.22, 0.5]}, {"nm": "WALL_S_print", "c": [2.38, 1.4, 4.22], "s": [0.45, 0.2, 0]}]
+  [ 827.8s] noodle2 板面近照 sign_noodle2_inside_00_WALL_W_print.png（鏡頭 [-1.5, 2.58, 2.5] → [-3.29, 2.58, 2.5]，13 幀）
+  [ 828.3s] noodle2 板面近照 sign_noodle2_inside_01_WALL_N_print.png（鏡頭 [2.1, 2.71, -2.27] → [2.1, 2.71, -4.24]，12 幀）
+  [ 828.7s] noodle2 板面近照 sign_noodle2_inside_02_WALL_W_print.png（鏡頭 [-2.44, 1.56, -0.7] → [-3.29, 1.56, -0.7]，13 幀）
+  [ 829.1s] noodle2 板面近照 sign_noodle2_inside_03_WALL_E_print.png（鏡頭 [2.69, 1.56, 1.65] → [3.29, 1.56, 1.65]，12 幀）
+  [ 829.6s] noodle2 板面近照 sign_noodle2_inside_04_WALL_S_print.png（鏡頭 [2.38, 1.4, 3.62] → [2.38, 1.4, 4.22]，12 幀）
+  [ 830.4s] noodle2 板面近照 sign_noodle2_wide_in.png（鏡頭 [1.41, 2.1, 3.74] → [-0.96, 1.3, -2.55]，13 幀）
+  [ 831.3s] noodle2 板面近照 sign_noodle2_wide_out.png（鏡頭 [-1.36, 2.1, -3.61] → [1.6, 1.3, 4.25]，13 幀）
+  [前置／捷徑] 遊戲時間 12.57 → 設回 12.17（出店前；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [ 836.4s] 搖桿走到「迪倫窯烤披薩 出口」（0.29 m，推 2 次，2 秒）
+FAIL A noodle2 出口互動鍵（畫面）「離開迪倫窯烤披薩」  畫面：「離開六張犁麵舖」；搖桿
+PASS noodle2 出來回到 118 巷、站得住、互動鍵不是「進迪倫窯烤披薩」  {"zone": "lane118", "x": 3.9, "z": -8.8, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "大碗小碗？", "choices": 0, "interact": "和阿哲說話", "hour": 12.21, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 38850, "paused": false, "it": "和阿哲說話", "clockZ": "118 巷"}
+  逐字｜noodle2_end｜l118_noodle2｜interactLabel｜離開六張犁麵舖
+  逐字｜noodle2_end｜lane118｜clockZ｜118 巷
+  逐字｜noodle2_end｜lane118｜caption｜阿哲朝你揮了揮手。
+  逐字｜noodle2_end｜lane118｜interactLabel｜和阿哲說話
+  逐字｜noodle2_end｜lane118｜toast｜這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。
+  逐字｜noodle2_end｜lane118｜toast｜（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）
+  [ 841.7s] noodle2 這一間花了 77 秒
+
+===== 畫面上抽到的字：彙總（A）=====
+  新店名（出現在哪些畫面元素）：{"118牛排": [], "水上便當": [], "辛亥韓食": [], "五湖四海": [], "大學食堂": [], "義大麵屋": [], "清州刀削麵": [], "奈良咖哩": [], "迪倫窯烤披薩": [], "喝不喝咖啡": [], "果茶社": []}
+  菜名（出現在哪些畫面元素）：{"可樂餅咖哩": [], "四種起司": [], "夏威夷": [], "奶油雞肉麵": [], "排骨飯": [], "木須炒刀削麵": [], "泡菜鍋": [], "海鮮豆腐鍋": [], "滷雞腿飯": [], "炸醬刀削麵": [], "炸雞腿飯": [], "燻雞蘑菇": [], "牛肉刀削麵": [], "牛肉咖哩": [], "玉米濃湯": [], "瑪格麗特": [], "番茄刀削麵": [], "番茄肉醬麵": [], "石鍋拌飯": ["choices"], "蒜香蛤蜊麵": [], "豬排": [], "豬排咖哩": [], "酸辣湯": [], "鐵板牛排": [], "鐵板牛肉": [], "鐵板豬肉": [], "雙拼": [], "雞排": [], "雞排飯": [], "雞肉咖哩": [], "雪花牛排": [], "青醬培根麵": [], "韭菜水餃10顆": [], "高麗菜水餃10顆": []}
+  舊名命中｜korea_door｜lane118｜interactLabel｜「韓食小廚」…進韓食小廚（韓式）…
+  舊名命中｜korea_door｜lane118｜interactLabel｜「韓食小廚」…進韓食小廚（韓式）…
+  舊名命中｜korea_inside｜l118_korea｜clockZ｜「韓食小廚」…韓食小廚（118 巷）…
+  舊名命中｜korea_inside｜l118_korea｜clockZ｜「韓食小廚」…韓食小廚（118 巷）…
+  舊名命中｜korea_menuA｜l118_korea｜interactLabel｜「韓食小廚」…點餐（韓食小廚）…
+  舊名命中｜korea_menuA｜l118_korea｜interactLabel｜「韓食小廚」…點餐（韓食小廚）…
+  舊名命中｜korea_menuA｜l118_korea｜clockZ｜「韓食小廚」…韓食小廚（118 巷）…
+  舊名命中｜korea_menuA｜l118_korea｜clockZ｜「韓食小廚」…韓食小廚（118 巷）…
+  舊名命中｜korea_menuA｜l118_korea｜choices｜「泡菜豆腐鍋」…石鍋拌飯 140 元 ｜ 泡菜豆腐鍋 150 元 ｜ 海苔飯捲 70 元 ｜…
+  舊名命中｜korea_menuA｜l118_korea｜choices｜「海苔飯捲」…0 元 ｜ 泡菜豆腐鍋 150 元 ｜ 海苔飯捲 70 元 ｜ 不用了…
+  舊名命中｜korea_look｜l118_korea｜clockZ｜「韓食小廚」…韓食小廚（118 巷）…
+  舊名命中｜korea_look｜l118_korea｜clockZ｜「韓食小廚」…韓食小廚（118 巷）…
+  舊名命中｜korea_end｜l118_korea｜interactLabel｜「韓食小廚」…離開韓食小廚…
+  舊名命中｜korea_end｜l118_korea｜interactLabel｜「韓食小廚」…離開韓食小廚…
+  舊名命中｜omu_door｜lane118｜interactLabel｜「蛋包飯研究所」…進蛋包飯研究所（蛋包飯）…
+  舊名命中｜omu_door｜lane118｜interactLabel｜「蛋包飯」…進蛋包飯研究所（蛋包飯）…
+  舊名命中｜omu_inside｜l118_omu｜clockZ｜「蛋包飯研究所」…蛋包飯研究所（118 巷）…
+  舊名命中｜omu_inside｜l118_omu｜clockZ｜「蛋包飯」…蛋包飯研究所（118 巷）…
+  舊名命中｜omu_menuA｜l118_omu｜interactLabel｜「蛋包飯研究所」…點餐（蛋包飯研究所）…
+  舊名命中｜omu_menuA｜l118_omu｜interactLabel｜「蛋包飯」…點餐（蛋包飯研究所）…
+  舊名命中｜omu_menuA｜l118_omu｜clockZ｜「蛋包飯研究所」…蛋包飯研究所（118 巷）…
+  舊名命中｜omu_menuA｜l118_omu｜clockZ｜「蛋包飯」…蛋包飯研究所（118 巷）…
+  舊名命中｜omu_menuA｜l118_omu｜interactLabel｜「蛋包飯研究所」…點餐（蛋包飯研究所）…
+  舊名命中｜omu_menuA｜l118_omu｜interactLabel｜「蛋包飯」…點餐（蛋包飯研究所）…
+  舊名命中｜omu_menuA｜l118_omu｜choices｜「蛋包飯」…咖哩蛋包飯 120 元 ｜ 番茄醬蛋包飯 110 …
+  舊名命中｜omu_menuA｜l118_omu｜choices｜「咖哩蛋包飯」…咖哩蛋包飯 120 元 ｜ 番茄醬蛋包飯 110 …
+  舊名命中｜omu_menuA｜l118_omu｜choices｜「番茄醬蛋包飯」…咖哩蛋包飯 120 元 ｜ 番茄醬蛋包飯 110 元 ｜ 不用了…
+  舊名命中｜omu_end｜l118_omu｜clockZ｜「蛋包飯研究所」…蛋包飯研究所（118 巷）…
+  舊名命中｜omu_end｜l118_omu｜clockZ｜「蛋包飯」…蛋包飯研究所（118 巷）…
+  舊名命中｜omu_end｜l118_omu｜interactLabel｜「蛋包飯研究所」…離開蛋包飯研究所…
+  舊名命中｜omu_end｜l118_omu｜interactLabel｜「蛋包飯」…離開蛋包飯研究所…
+  舊名命中｜noodle2_door｜lane118｜interactLabel｜「六張犁麵舖」…進六張犁麵舖（麵店）…
+  舊名命中｜noodle2_door｜lane118｜interactLabel｜「六張犁」…進六張犁麵舖（麵店）…
+  舊名命中｜noodle2_inside｜l118_noodle2｜clockZ｜「六張犁麵舖」…六張犁麵舖（118 巷）…
+  舊名命中｜noodle2_inside｜l118_noodle2｜clockZ｜「六張犁」…六張犁麵舖（118 巷）…
+  舊名命中｜noodle2_menuA｜l118_noodle2｜interactLabel｜「六張犁麵舖」…點餐（六張犁麵舖）…
+  舊名命中｜noodle2_menuA｜l118_noodle2｜interactLabel｜「六張犁」…點餐（六張犁麵舖）…
+  舊名命中｜noodle2_menuA｜l118_noodle2｜choices｜「牛肉麵」…牛肉麵 150 元 ｜ 乾麵＋滷蛋 75 元 …
+  舊名命中｜noodle2_menuA｜l118_noodle2｜choices｜「乾麵＋滷蛋」…牛肉麵 150 元 ｜ 乾麵＋滷蛋 75 元 ｜ 餛飩湯 50 元 ｜ 不…
+  舊名命中｜noodle2_menuA｜l118_noodle2｜choices｜「餛飩湯」…50 元 ｜ 乾麵＋滷蛋 75 元 ｜ 餛飩湯 50 元 ｜ 不用了…
+  舊名命中｜noodle2_menuA｜l118_noodle2｜clockZ｜「六張犁麵舖」…六張犁麵舖（118 巷）…
+  舊名命中｜noodle2_menuA｜l118_noodle2｜clockZ｜「六張犁」…六張犁麵舖（118 巷）…
+  舊名命中｜noodle2_end｜l118_noodle2｜interactLabel｜「六張犁麵舖」…離開六張犁麵舖…
+  舊名命中｜noodle2_end｜l118_noodle2｜interactLabel｜「六張犁」…離開六張犁麵舖…
+FAIL A 畫面上抽到的字（69 段）裡舊店名、舊菜名命中數＝0  命中 44 筆
+
+===== 看的東西：逐字表（2 列，C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_A2_old\out\looks_table.md）=====
+  |---|---|---|---|---|---|
+  | 清州刀削麵（korea） | banchan | 小菜櫃 | （小菜櫃裡有海帶、豆干、滷蛋。豆干只剩兩塊。） | （小菜櫃裡有海帶、豆干、滷蛋。豆干只剩兩塊。） |  |
+  | 迪倫窯烤披薩（noodle2） | sides | 小菜櫃 | （小菜櫃的玻璃起霧了，看得到裡面的燙青菜。） | （小菜櫃的玻璃起霧了，看得到裡面的燙青菜。） |  |
+  [ 841.7s] 看的東西 2 列，其中 0 列標「⚠舊內容？」（關鍵字比對，交 BB 判，不算 FAIL）
+PASS 沒有 JS 例外（pageerror）  0 個
+PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0
+總結：19 項 FAIL：pasta 這個時間有開（沒有公休紙）、A pasta 店門口互動鍵（畫面）「進義大麵屋（平價義大利麵）」、pasta 進得去（營業中，互動鍵是「進…」）、A korea 店門口互動鍵（畫面）「進清州刀削麵（刀削麵館）」、A korea 左上角地點（畫面 #clockZ）是「清州刀削麵（118 巷）」、A korea 櫃台前面互動鍵（畫面）「點餐（清州刀削麵）」、B korea 清州刀削麵 選單＝規格表（品名、價錢、項數）、A korea 出口互動鍵（畫面）「離開清州刀削麵」、A omu 店門口互動鍵（畫面）「進奈良咖哩（日式咖哩飯）」、A omu 左上角地點（畫面 #clockZ）是「奈良咖哩（118 巷）」、A omu 櫃台前面互動鍵（畫面）「點餐（奈良咖哩）」、B omu 奈良咖哩 選單＝規格表（品名、價錢、項數）、A omu 出口互動鍵（畫面）「離開奈良咖哩」、A noodle2 店門口互動鍵（畫面）「進迪倫窯烤披薩（個人窯烤披薩）」、A noodle2 左上角地點（畫面 #clockZ）是「迪倫窯烤披薩（118 巷）」、A noodle2 櫃台前面互動鍵（畫面）「點餐（迪倫窯烤披薩）」、B noodle2 迪倫窯烤披薩 選單＝規格表（品名、價錢、項數）、A noodle2 出口互動鍵（畫面）「離開迪倫窯烤披薩」、A 畫面上抽到的字（69 段）裡舊店名、舊菜名命中數＝0
+FAILED: pasta 這個時間有開（沒有公休紙）, A pasta 店門口互動鍵（畫面）「進義大麵屋（平價義大利麵）」, pasta 進得去（營業中，互動鍵是「進…」）, A korea 店門口互動鍵（畫面）「進清州刀削麵（刀削麵館）」, A korea 左上角地點（畫面 #clockZ）是「清州刀削麵（118 巷）」, A korea 櫃台前面互動鍵（畫面）「點餐（清州刀削麵）」, B korea 清州刀削麵 選單＝規格表（品名、價錢、項數）, A korea 出口互動鍵（畫面）「離開清州刀削麵」, A omu 店門口互動鍵（畫面）「進奈良咖哩（日式咖哩飯）」, A omu 左上角地點（畫面 #clockZ）是「奈良咖哩（118 巷）」, A omu 櫃台前面互動鍵（畫面）「點餐（奈良咖哩）」, B omu 奈良咖哩 選單＝規格表（品名、價錢、項數）, A omu 出口互動鍵（畫面）「離開奈良咖哩」, A noodle2 店門口互動鍵（畫面）「進迪倫窯烤披薩（個人窯烤披薩）」, A noodle2 左上角地點（畫面 #clockZ）是「迪倫窯烤披薩（118 巷）」, A noodle2 櫃台前面互動鍵（畫面）「點餐（迪倫窯烤披薩）」, B noodle2 迪倫窯烤披薩 選單＝規格表（品名、價錢、項數）, A noodle2 出口互動鍵（畫面）「離開迪倫窯烤披薩」, A 畫面上抽到的字（69 段）裡舊店名、舊菜名命中數＝0
