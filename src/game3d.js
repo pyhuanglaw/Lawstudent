@@ -129,14 +129,22 @@ const GAME = (function(){
   function chooseRestore(){ if(chooseCur||!chooseStack.length||chooseStack[chooseStack.length-1].depth<D.busyDepth) return; chooseCur=chooseStack.pop(); renderChoose(chooseCur); }
   GM.chooseReset=()=>{ chooseCur=null; chooseStack.length=0; D.coverWho=null; sayStack.length=0; };   /* 讀檔、新遊戲：還沒選的選單都不要了 */
   const H_SIDE_MIN=600;   /* 橫向（寬 600 以上）才把題目移到左欄 */
-  function renderChoose(c){ const {options,opt,res}=c; $('dlg').classList.remove('side');
+  /* 選單防連點（BUG-GOCLASS-SKIPPED-1111，使用者 2026-11-11 day57：起床選單、翹課確認、再睡一下三個選單被連著點掉，第一堂課記成翹課）：
+     選單出現後 TAP_GUARD 毫秒內「按下去」的那一下不算（對話點太快時，選項一出現就在手指底下）。只看真的按下（pointerdown）的時間——
+     程式直接呼叫 click／onclick（測試、探針）不受影響；自動化瀏覽器（navigator.webdriver）預設不擋，網址加 ?tapguard 才擋（給 CC 驗這個功能用）。 */
+  const TAP_GUARD=350; let lastDownAt=-1e9;
+  if(typeof document!=='undefined'&&document.addEventListener) document.addEventListener('pointerdown',()=>{ lastDownAt=performance.now(); },true);
+  const tapGuardOn=()=>{ try{ const q=(typeof location!=='undefined'&&location.search)||''; if(/[?&]tapguard\b/.test(q)) return true; return !(typeof navigator!=='undefined'&&navigator.webdriver); }catch(e){ return true; } };
+  function tapTooSoon(shownAt){ return tapGuardOn()&&lastDownAt>=shownAt&&lastDownAt-shownAt<TAP_GUARD; }
+  GM.tapTooSoon=tapTooSoon; GM.TAP_GUARD=TAP_GUARD;
+  function renderChoose(c){ const {options,opt,res}=c, shownAt=performance.now(); $('dlg').classList.remove('side');
     { const box=$('choices'); box.innerHTML=''; box.classList.remove('hide'); overFade(box); const dlg=$('dlg'); overFade(dlg); const keep=!(opt&&opt.menu)&&!!D.full&&!D.active&&(performance.now()-(D.endedAt||0))<1500; if(opt&&opt.menu&&!D.active){ dlg.classList.add('hide'); dlg.classList.remove('static'); }   /* 系統選單（家裡、快轉）：不留上一句（BB-C BB_218 第 4 節：媽媽「洗衣籃在後陽台」留在畫面上，橫向時蓋住第四個選項）*/
     if(keep){ dlg.classList.remove('hide'); $('dlgText').textContent=D.full; $('dlgNext').style.visibility='hidden'; dlg.classList.add('static'); box.style.bottom='calc(max(14px,env(safe-area-inset-bottom)) + '+(dlg.offsetHeight+22)+'px)'; box.style.maxHeight='calc(100% - 58px - env(safe-area-inset-top) - '+(dlg.offsetHeight+22)+'px)'; }   /* 上面留 58 px 給「紀錄」按鈕（BB_218：最上面一格壓到「紀錄」）*/
     const more=()=>box.classList.toggle('more',box.scrollTop+box.clientHeight<box.scrollHeight-4); box.onscroll=more;   /* 選單墊高到對話框上面時，最大高度也要扣掉墊高的部分（v9.7 回歸 flow_clubs C：橫向 844×390、社團博覽會 6 個選項，選單上緣在畫面外 76 px，第一個「吉他社」看不到也捲不到）；太長就在選單裡捲動 */
     const done=(i)=>{ box.classList.add('hide'); box.classList.remove('more'); box.onscroll=null; box.innerHTML=''; box.style.bottom=''; box.style.maxHeight=''; if(keep){ dlg.classList.add('hide'); dlg.classList.remove('static','side'); } A3.blip('ok'); if(chooseCur===c) chooseCur=null; res(i); chooseRestore(); sayRestoreSoon(); };
     if(opt&&opt.note){ const h=document.createElement('div'); h.className='chNote'; h.textContent=subst(opt.note); box.appendChild(h); }
     let askEl=null; if(opt&&opt.ask){ askEl=document.createElement('div'); askEl.className='chNote chAsk'; askEl.textContent=subst(opt.ask); if(keep) askEl.style.display='none'; box.appendChild(askEl); }   /* 關鍵選擇：她問的那一句也放在選單上——只在對話框沒有留著的時候（BB-B 11-07：直向對話框還在，選單上再一次＝重複）；下面放不下、把對話框收掉時再打開 */   /* 選單上方一行字（BB_305 10-5「小心選擇」：會影響能不能交往的那一組；src/decide3d.js）*/
-    options.forEach((o,i)=>{ if(o.hidden) return; const b=document.createElement('button'); b.innerHTML=subst(o.t)+(o.hint?'<div class="hint">'+o.hint+'</div>':''); if(o.dim) b.classList.add('dim'); b.onclick=()=>done(i); box.appendChild(b); }); box.scrollTop=0; requestAnimationFrame(()=>{ if(keep&&chooseCur===c&&box.scrollHeight>box.clientHeight+4){ box.style.bottom=''; box.style.maxHeight='';
+    options.forEach((o,i)=>{ if(o.hidden) return; const b=document.createElement('button'); b.innerHTML=subst(o.t)+(o.hint?'<div class="hint">'+o.hint+'</div>':''); if(o.dim) b.classList.add('dim'); b.onclick=()=>{ if(tapTooSoon(shownAt)) return; done(i); }; box.appendChild(b); }); box.scrollTop=0; requestAnimationFrame(()=>{ if(keep&&chooseCur===c&&box.scrollHeight>box.clientHeight+4){ box.style.bottom=''; box.style.maxHeight='';
         const W=innerWidth||0, bw=box.getBoundingClientRect().width||0; if(!document.body.classList.contains('adv-on')&&W>H_SIDE_MIN&&W-bw-42>=260){ dlg.classList.add('side'); }   /* BUG-EXAM-LAND-SEAT-1102（CC K2、BB 10:15）：非 ADV 的橫向（座位上考試）沒有「紀錄」——那一句（題目）不收，移到選單左邊那一欄 */
         else { dlg.classList.add('hide'); dlg.classList.remove('static'); if(askEl) askEl.style.display=''; } } more(); }); } }   /* 留著上一句、選項又放不下（BB-B 10-23 SQ08：橫向、熟客店員先說一句再出六個選項，「不用了」在框外點不到）：收掉那一句，選單用整個高度（那一句在「紀錄」裡）*/   /* 放不下時底部淡出，提示下面還有（BB_218：五個只看得到三個、沒有捲動提示）*/
   GM.choose=choose;
