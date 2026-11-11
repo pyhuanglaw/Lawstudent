@@ -545,7 +545,19 @@ async def invite(pg, cdp, tag, cfg, pick, screen):
 IDLE_JS = r"""(w=>{ const E=GAME.E, P=E.player, D=GAME.D||{}, f2=v=>v==null?null:+(+v).toFixed(2); const n=(GAME.npc&&GAME.npc[w])||(E.npcs||[]).find(q=>q.charId===w);
   return {me:{x:f2(P.obj.position.x), z:f2(P.obj.position.z), busy:!!P.busy, pose:P.pose||null, seat:!!P.seat, frozen:!!P.frozen}, cam:E.cam&&E.cam.mode, depth:D.busyDepth|0, by:(D.busyWho||[]).slice(-3), dlg:!!D.active,
     ev:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, adv:typeof ADV!=='undefined'&&!!ADV.active, paused:!!E.paused, fade:!!(document.getElementById('fade')&&document.getElementById('fade').classList.contains('on')),
-    her:n&&n.obj?{x:f2(n.obj.position.x), z:f2(n.obj.position.z), seat:!!n.seat, pose:n.pose||null, vis:n.obj.visible!==false}:null, dark:window.__dark==null?null:!!window.__dark}; })"""
+    her:n&&n.obj?{x:f2(n.obj.position.x), z:f2(n.obj.position.z), seat:!!n.seat, pose:n.pose||null, vis:n.obj.visible!==false}:null, dark:window.__dark==null?null:!!window.__dark,
+    zone:GAME.G.zone, hour:f2(GAME.G.hour), seatAt:P.seat?[f2(P.seat.x),f2(P.seat.z)]:null,
+    layers:['fade','dlg','choices','adv','letterbox','cine','dark','hallDark'].map(id=>{ const e=document.getElementById(id); if(!e) return null; const c=getComputedStyle(e); return {id, cls:e.className, op:c.opacity, z:c.zIndex, disp:c.display, vis:c.visibility, txt:(e.textContent||'').trim().slice(0,80)}; }).filter(Boolean),
+    top:(()=>{ const e=document.elementFromPoint(innerWidth/2, innerHeight*0.8); return e?(e.id||String(e.className).slice(0,40)||e.tagName):null; })(),
+    say:window.__ccLastSay||null, ivs:(GAME.G.invites||[]).filter(v=>v.who===w&&v.day===GAME.G.day).map(v=>({id:v.id,st:v.state,ph:v.lead&&v.lead.ph,zone:v.zone,waitSeat:v.waitSeat||null,film:v.film||null})),
+    cons:(window.__ccCons||[]).slice(-6)}; })"""
+
+
+HOOK_SAY_JS = r"""(()=>{ if(window.__ccHookSay) return; window.__ccHookSay=1; window.__ccCons=[];
+  for(const k of ['warn','error']){ const o=console[k].bind(console); console[k]=(...a)=>{ try{ window.__ccCons.push(k+': '+a.map(x=>String(x&&x.stack||x)).join(' ').slice(0,200)); }catch(e){} return o(...a); }; }
+  window.addEventListener('error',e=>{ window.__ccCons.push('onerror: '+String(e.message).slice(0,200)); });
+  window.addEventListener('unhandledrejection',e=>{ window.__ccCons.push('reject: '+String(e.reason&&e.reason.stack||e.reason).slice(0,200)); });
+  const GM=GAME; if(GM&&GM.say&&!GM.say.__cc){ const o=GM.say; const f=function(...a){ try{ window.__ccLastSay={t:String(a[1]!=null?a[1]:a[0]).slice(0,80), who:typeof a[0]==='string'?a[0].slice(0,20):null, at:+(+GAME.G.hour).toFixed(2)}; }catch(e){} return o.apply(this,a); }; f.__cc=1; GM.say=f; } })()"""
 
 
 async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
@@ -558,6 +570,7 @@ async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
         R.check('[%s] 手機「今天」有「現在過去」' % tag, False, (await pg.evaluate(TODAY_TXT_JS))[:300]); await close_phone(pg, cdp); return False
     log('    [按] 手機「今天」現在過去')
     await pg.wait_for_timeout(1500)
+    await pg.evaluate(HOOK_SAY_JS)   # CC 15:0x（LAWWW 要的 ④⑤：console 的 warn／error、最後一句 GM.say）
     menu = Menu(); t0 = time.time(); walked = 0; reopen = 0; same = [None, 0]; done_t = None; zt = [None, 0]; idle_t = time.time(); idle_n = 0
     while time.time() - t0 < max_s:
         s = await st(pg)
