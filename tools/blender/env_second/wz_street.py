@@ -247,6 +247,10 @@ if SET in ('lane118', 'nccu_food', 'xinsheng', 'xinsheng_far'):
     elif SET == 'lane118':
         _src = open(os.path.join(L.ROOT, 'src/data/lane118_layout.js'), encoding='utf8').read()
         LJ = _json.loads(_src[_src.index('{', _src.index('const LANE118_LAYOUT=')):_src.rindex('}') + 1])
+        # L118-SHOPS-REDO-1111（X338）：兩間外帶飲料店（LAWWW 11-11 04:15 同意的位置；原本這兩格是拉下鐵捲門的空店面，樓層數照原本的 4 層）。
+        # 配置檔（LAWWW 的 lane118_layout.js）還沒有這兩筆的時候在這裡補上，有了就用配置檔的
+        for _q in ({"id": "drink_a", "side": "E", "z0": -7.0, "z1": -2.0, "floors": 4, "name": "喝不喝咖啡", "type": "手搖飲"}, {"id": "drink_b", "side": "W", "z0": -9.0, "z1": -6.0, "floors": 4, "name": "果茶社", "type": "手搖飲"}):
+            if not any(_s['id'] == _q['id'] for _s in LJ['shops']): LJ['shops'].append(_q)
     else:
         LJ = NCCU_FOOD
     GH, FH = LJ['groundH'], LJ['floorH']

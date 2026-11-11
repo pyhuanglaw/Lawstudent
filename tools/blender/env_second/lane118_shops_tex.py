@@ -33,20 +33,22 @@ def ctext(d, cx, y, t, f, fill):
 
 # 每間店：菜單（AA_280 第 1 節，字串照抄）、營業時間、配色、店裡的告示
 SHOPS = {
-    'dian': dict(name='滇香小館', sub='滇緬料理', menu=[('椒麻雞飯', 110), ('酸辣河粉', 100), ('打拋豬飯', 105)], hours='11:00～14:00、17:00～20:00；週日休',
-                 bg='#2f5d50', fg='#f4ead8', ac='#c9a24a', p1=('今日推薦', ['椒麻雞飯', '辣度可以調', '小辣・中辣・大辣']), p2='白飯可以續'),
-    'self': dict(name='好家自助餐', sub='自助餐', menu=[('三菜一肉', 85), ('兩菜一雞腿', 105), ('加滷蛋', 15)], hours='10:30～13:30、16:30～19:30；週六、週日休',
-                 bg='#c9463d', fg='#ffffff', ac='#f2c230', p1=('請自取', ['餐盤、筷子在左邊', '湯在飯鍋旁邊', '夾好拿到櫃台算']), p2='餐盤請放回收台'),
-    'tea': dict(name='一一八茶飲', sub='手搖飲', menu=[('紅茶拿鐵', 50), ('檸檬綠', 45), ('無糖綠茶', 30)], hours='10:00～21:00；每天',
-                bg='#f4ead8', fg='#2f7d5b', ac='#2f7d5b', p1=('甜度・冰塊', ['全糖 少糖 半糖', '微糖 無糖', '正常冰 少冰 去冰']), p2='自備杯折五元'),
+    # L118-SHOPS-REDO-1111（X338）：店名、品名、價錢照使用者的文字規格；營業時間照 AA_280 第 1 節（11-11 定稿）
+    'dian': dict(name='118牛排', sub='夜市鐵板牛排', menu=[('鐵板牛排', 190), ('雪花牛排', 230), ('雞排', 180), ('豬排', 170), ('雙拼', 280)], hours='11:30～14:00、17:00～21:30；週二休',
+                 bg='#c4201a', fg='#ffd21e', ac='#ffd21e', p1=('招牌', ['鐵板牛排　190', '雞排　180']), ph=['steak', 'steak_chicken'], p2='濃湯・紅茶 自取'),
+    'self': dict(name='水上便當', sub='雞腿、雞排便當', menu=[('炸雞腿飯', 145), ('雞排飯', 135), ('滷雞腿飯', 130), ('排骨飯', 125), ('雙拼', 165)], hours='10:30～14:00、16:30～19:30；週日休',
+                 bg='#f7c41a', fg='#4a2414', ac='#c8201a', p1=('招牌', ['炸雞腿飯　145', '雞排飯　135']), ph=['bento_leg', 'bento_cutlet'], p2='內用・外帶'),
+    # L118-SHOPS-REDO-1111（X338，使用者 11-11）：tea 這一格改成辛亥韓食（韓式鍋物、鐵板烤肉；品名、價錢照使用者的規格）。營業時間照 AA_280 第 1 節
+    'tea': dict(name='辛亥韓食', sub='韓式鍋物・鐵板烤肉', menu=[('泡菜鍋', 190), ('海鮮豆腐鍋', 210), ('鐵板豬肉', 200), ('鐵板牛肉', 230), ('石鍋拌飯', 180)], hours='11:00～14:00、17:00～20:30；每天',
+                bg='#7a1418', fg='#ffffff', ac='#e8c890', p1=('招牌', ['泡菜鍋　190', '石鍋拌飯　180']), ph=['stew', 'bibimbap'], p2='小菜可以續'),
     'home': dict(name='巷口家常菜', sub='家常菜', menu=[('排骨飯', 95), ('雞腿便當', 110), ('番茄炒蛋（單點）', 70)], hours='11:00～14:00、17:00～20:00；週一休',
                  bg='#8c3b2a', fg='#f4ead8', ac='#f2c230', p1=('本店', ['排骨現炸', '便當可外帶', '湯免費自取']), p2='電話訂便當請早'),
     'cafe2': dict(name='慢讀咖啡', sub='咖啡', menu=[('美式咖啡', 70), ('拿鐵', 95), ('今日蛋糕', 90)], hours='09:00～18:00；週二休',
                   bg='#3b2a1e', fg='#f4ead8', ac='#c9a24a', p1=('慢讀', ['書可以自由取閱', '看完請放回書架', '窗邊有插座']), p2='低消一杯飲料'),
     'pasta': dict(name='Pasta 118', sub='義大利麵', menu=[('白醬雞肉麵', 130), ('番茄海鮮麵', 150), ('青醬培根麵', 140)], hours='11:30～14:00、17:00～21:00；週三休',
                   bg='#f4f1ea', fg='#8c3b47', ac='#2f5d50', p1=('TODAY', ['今日濃湯：南瓜', '加麵 +30', '吧檯座位歡迎一位']), p2='麵的軟硬可以說'),
-    'korea': dict(name='韓食小廚', sub='韓式', menu=[('石鍋拌飯', 140), ('泡菜豆腐鍋', 150), ('海苔飯捲', 70)], hours='11:00～14:00、16:30～20:00；週日休',
-                  bg='#ffffff', fg='#c9463d', ac='#1f4e8c', p1=('小菜', ['小菜可以續', '請到小菜櫃自取', '泡菜是自己醃的']), p2='石鍋很燙請小心'),
+    'korea': dict(name='清州刀削麵', sub='刀削麵館', menu=[('牛肉刀削麵', 190), ('番茄刀削麵', 150), ('木須炒刀削麵', 170), ('炸醬刀削麵', 140)], hours='11:00～14:00、17:00～20:00；週日休',
+                  bg='#fbfaf5', fg='#c8201a', ac='#c8201a', menu_paper=True, p1=('招牌', ['牛肉刀削麵　190', '番茄刀削麵　150']), ph=['noodle_beef', 'noodle_tomato'], p2='現削現煮'),
     'omu': dict(name='蛋包飯研究所', sub='蛋包飯', menu=[('咖哩蛋包飯', 120), ('番茄醬蛋包飯', 110)], hours='11:30～14:30、17:00～20:30；週一休',
                 bg='#f2c230', fg='#5c3a21', ac='#e0a030', p1=('今日實驗', ['半熟：蛋汁會流下來', '全熟：比較好帶走', '醬汁可以加量']), p2='研究員招募中（打工）'),
     'noodle2': dict(name='六張犁麵舖', sub='麵店', menu=[('牛肉麵', 150), ('乾麵＋滷蛋', 75), ('餛飩湯', 50)], hours='11:00～14:00、17:00～20:00；週日休',
@@ -76,12 +78,20 @@ def paper(w, h, col='#f6f1e4', seed=1):
 def shop_atlas(sid, S):
     im = Image.new('RGB', (1024, 1024), '#808080'); bg, fg, ac = hexrgb(S['bg']), hexrgb(S['fg']), hexrgb(S['ac'])
     # MENU：上面一條店名，下面品名……價錢（一行一道）
-    x0, y0, x1, y1 = REG['MENU']; m = wood_bg(x1 - x0, y1 - y0, S['bg'] if sum(bg) < 500 else '#3a2a1e', hash(sid) % 999)
+    x0, y0, x1, y1 = REG['MENU']; m = wood_bg(x1 - x0, y1 - y0, S['bg'] if sum(bg) < 500 else '#3a2a1e', sum(ord(ch) for ch in sid) % 999)
     d = ImageDraw.Draw(m); light = S['fg'] if sum(bg) < 500 else '#f4ead8'
+    if S.get('menu_paper'): m = paper(x1 - x0, y1 - y0, '#fbf9f2', seed=5); d = ImageDraw.Draw(m); light = S['fg']   # 白底、店的字色（清州刀削麵：參考圖牆上的白底紅字菜單）
     d.rectangle([10, 10, m.width - 11, m.height - 11], outline=hexrgb(S['ac']), width=6)
     ctext(d, m.width / 2, 22, S['name'] + ' 菜單', F(56), hexrgb(light))
     n = len(S['menu']); fh = 64 if n <= 3 else 52; y = 110
-    for (nm, pr) in S['menu']:
+    if n >= 4:   # 四樣以上：分兩欄（L118-SHOPS-REDO-1111：新店的菜單四、五樣，一欄排不下）
+        fh = 46; rows = (n + 1) // 2; cw = (m.width - 100) // 2
+        for i, (nm, pr) in enumerate(S['menu']):
+            cx0 = 50 + (i // rows) * (cw + 20); yy = 104 + (i % rows) * (fh + 36); t = str(pr); w = d.textlength(t, font=F(fh)); f_ = F(fh if len(nm) <= 6 else int(fh * 6.3 / len(nm)))
+            d.text((cx0, yy + (fh - f_.size) // 2), nm, font=f_, fill=hexrgb(light)); d.text((cx0 + cw - w, yy), t, font=F(fh), fill=hexrgb(S['ac']))
+            x = cx0 + d.textlength(nm, font=f_) + 14
+            while x < cx0 + cw - w - 16: d.ellipse([x, yy + fh * 0.62, x + 5, yy + fh * 0.62 + 5], fill=hexrgb(light)); x += 20
+    for (nm, pr) in (S['menu'] if n < 4 else []):
         d.text((70, y), nm, font=F(fh), fill=hexrgb(light)); t = str(pr); w = d.textlength(t, font=F(fh)); d.text((m.width - 70 - w, y), t, font=F(fh), fill=hexrgb(S['ac']))
         x = 70 + d.textlength(nm, font=F(fh)) + 18
         while x < m.width - 90 - w: d.ellipse([x, y + fh * 0.62, x + 6, y + fh * 0.62 + 6], fill=hexrgb(light)); x += 22
@@ -97,6 +107,11 @@ def shop_atlas(sid, S):
     t, lines = S['p1']; d.rectangle([0, 0, p.width - 1, 96], fill=bg if sum(bg) < 650 else ac)
     ctext(d, p.width / 2, 18, t, F(60), fg if sum(bg) < 650 else (255, 255, 255))
     yy = 140
+    if S.get('ph'):   # 有餐點圖的海報（l118_food_tex.py：程式畫的，不是照片）：兩張圖，各一行品名和價錢
+        import l118_food_tex as _FD
+        for k, (kind, ln) in enumerate(zip(S['ph'], lines)):
+            y0_ = 108 + k * 168; ph = _FD.dish(kind, 300, 124); p.paste(ph, ((p.width - 300) // 2, y0_)); ctext(d, p.width / 2, y0_ + 128, ln, F(30), (60, 50, 40))
+        lines = []
     for ln in lines: ctext(d, p.width / 2, yy, ln, F(40 if len(ln) <= 9 else 32), (60, 50, 40)); yy += 86
     d.rectangle([4, 4, p.width - 5, p.height - 5], outline=(190, 180, 160), width=3)
     im.paste(p, (x0, y0))

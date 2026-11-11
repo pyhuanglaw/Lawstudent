@@ -40,15 +40,17 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
     check('6b. 門外的照片：自己發光（顏色黑、emissiveMap＝照片），20:30 亮度 0.32（店裡的燈照不亮它）', ok&&v.length===1&&m.color.r===0&&m.emissiveMap===tex&&m.emissive.r===1&&Math.abs(m.emissiveIntensity-0.32)<1e-9, ok?JSON.stringify({c:m.color.r,e:m.emissiveIntensity}):'沒有 viewMats／setView');
     if(ok){ S.setView(v,12); check('6b. 中午亮度 1', m.emissiveIntensity===1); } }
   /* 9. AA_355 1-3（AA-C 2026-10-21）：滇香小館牆上的織布點了有字（配置檔的 note 是空的，原本只顯示「牆上的織布」）*/
-  { const S=global.L118S, q=(LS.dian&&LS.dian.interact||[]).find(x=>x.id==='tapestry'), t=S&&S.lookText&&q?S.lookText('dian',q):null;
-    check('9. AA_355 1-3 牆上的織布：「（牆上掛著一塊條紋織布，紅色和深藍色，顏色洗得有點淡了。）」', t==='（牆上掛著一塊條紋織布，紅色和深藍色，顏色洗得有點淡了。）', String(t)); }
+  { /* L118-SHOPS-REDO-1111（使用者 11-11，X338）：dian 從滇香小館改成 118牛排，織布沒有了；四間新室內的「看東西」照 AA_772 look_lines（字寫在配置檔的 note） */
+    const S=global.L118S, it=(sh,k)=>(LS[sh]&&LS[sh].interact||[]).find(x=>x.id===k), lk=(sh,k)=>S&&S.lookText&&it(sh,k)?S.lookText(sh,it(sh,k)):null;
+    const want=[['dian','soup','（濃湯和紅茶自己裝。濃湯那一桶前面，永遠有人在排。）'],['self','sides','（配菜櫃的玻璃起了霧。滷蛋那一格只剩兩顆。）'],['tea','banchan','（小菜自己夾。泡菜那一盒最先見底。）'],['korea','noodle_station','（師傅把麵團架在肩上，刀一片一片削進鍋裡。）']];
+    const bad=want.filter(([sh,k,t])=>lk(sh,k)!==t);
+    check('9. AA_772 look_lines：118牛排的濃湯紅茶桶、水上便當的配菜櫃、辛亥韓食的小菜櫃、清州刀削麵的製麵區點了有字（原本的 9 是滇香小館牆上的織布，店改了）', !bad.length, bad.map(x=>x[0]+'/'+x[1]+'='+lk(x[0],x[1])).join('｜')); }
   /* 9b. AA_355 5-1（AA-C 2026-10-21 2f1aaa22）：還沒有字的物件——自取的湯（第一間＝好家自助餐、第二間＝五湖四海）、書架（慢讀咖啡）、小菜櫃（第一間＝韓食小廚、第二間＝六張犁麵舖）；
      「第一間、第二間」照配置檔的順序。電視照配置檔的 note（AA_280）、餐盤回收台照舊顯示名稱（修改前 FAIL：五個都只顯示名稱）*/
   { const S=global.L118S, it=(sh,k)=>(LS[sh]&&LS[sh].interact||[]).find(x=>x.id===k), lk=(sh,k)=>S&&S.lookText&&it(sh,k)?S.lookText(sh,it(sh,k)):null;
-    const want=[['self','soup','（自取的湯，今天是蘿蔔湯。鍋邊貼著「請自取，不要浪費」。）'],['home','soup','（湯桶上寫著「紫菜蛋花」。湯勺掛在桶邊。）'],['cafe2','books','（書架上大多是舊漫畫，有幾套缺了第一集。）'],
-      ['korea','banchan','（小菜櫃裡有海帶、豆干、滷蛋。豆干只剩兩塊。）'],['noodle2','sides','（小菜櫃的玻璃起霧了，看得到裡面的燙青菜。）']];
+    const want=[['home','soup','（湯桶上寫著「紫菜蛋花」。湯勺掛在桶邊。）'],['cafe2','books','（書架上大多是舊漫畫，有幾套缺了第一集。）'],['noodle2','sides','（小菜櫃的玻璃起霧了，看得到裡面的燙青菜。）']];   // self 的湯、korea 的小菜櫃拿掉（L118-SHOPS-REDO-1111：這兩間的室內換了，見上面的 9）；剩下三間等 LAWWW 那邊重做室內以後照新的改
     const bad=want.filter(([sh,k,t])=>lk(sh,k)!==t);
-    check('9b. AA_355 5-1：118 巷五個物件點了有字（湯兩間、書架、小菜櫃兩間）；電視照舊是 AA_280 那句、餐盤回收台照舊顯示名稱', !bad.length&&lk('home','tv')==='電視在播午間新聞，沒有人在看。'&&lk('self','return')==='餐盤回收台', bad.map(x=>x[0]+'/'+x[1]+'='+lk(x[0],x[1])).join('｜')); } }
+    check('9b. AA_355 5-1：還沒重做的三間的物件點了有字（家常菜的湯、書架、麵舖的小菜櫃）；電視照舊是 AA_280 那句', !bad.length&&lk('home','tv')==='電視在播午間新聞，沒有人在看。', bad.map(x=>x[0]+'/'+x[1]+'='+lk(x[0],x[1])).join('｜')); } }
 // 4
 { const z=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
   check('4. （2026-11-11 L118-SHOPS-REDO-1111：按鈕的類型改讀店家資料 ty，原本 sh.type）店門口：營業時間「進○○」exit 到 l118_<id>（沒開藏起來）；沒開的時候是 L118.order 的按鈕；門口的按鈕比站在門口的常客優先（prio）', /prio:1,label:'進'\+nm\+'（'\+ty\+'）',exit:\{to:'l118_'\+sh\.id,[^}]*\}\},get hidden\(\)\{ return !open118\(\); \}\}\)/.test(z)&&/prio:1,label:nm\+'（'\+ty\+'）',shop118:sh\.id,get hidden\(\)\{ return open118\(\); \}\}\)/.test(z)); }

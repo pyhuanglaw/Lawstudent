@@ -22,7 +22,7 @@ const walk=(a,b)=>E.simWalk(a[0],a[1],b[0],b[1],{lv0:0,lv1:0,dt:0.1,speed:4.1});
 const nearStand=(x,z,R)=>{ for(let rr=0;rr<=R;rr+=0.1) for(let a=0;a<24;a++){ const tx=x+Math.cos(a/24*Math.PI*2)*rr, tz=z+Math.sin(a/24*Math.PI*2)*rr; if(E.canStand(tx,tz,0.32,0)) return [tx,tz]; } return null; };
 for(const [f,n] of [['src/data/lane118_layout.js','LANE118_LAYOUT'],['src/data/l118_shop_layouts.js','L118_SHOP_LAYOUTS'],['src/l118_shops3d.js','L118S']])
   vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='),{filename:f});
-const EXPECT={tea:2,cafe2:4,pasta:6,omu:5};
+const EXPECT={cafe2:4,pasta:6,omu:5};   // tea 拿掉（L118-SHOPS-REDO-1111，使用者 11-11 X338）：這一格從一一八茶飲（兩張高腳椅）改成辛亥韓食（四人卡座，沒有高腳椅）；其他三間的室內 LAWWW 那邊重做以後照新的配置改這個表
 for(const [id,n] of Object.entries(EXPECT)){ const L=L118_SHOP_LAYOUTS[id]; const hi=L.seats.filter(s=>s.lift);
   check('1. '+L.name+'：吧台高腳椅 '+n+' 個座位帶 lift '+LIFT+'（0.76 − '+SIT_TOP+'）', hi.length===n&&hi.every(s=>Math.abs(s.lift-LIFT)<1e-6), hi.length+' 個：'+hi.map(s=>s.lift).join(',')); }
 { const o=Object.keys(L118_SHOP_LAYOUTS).filter(i=>!EXPECT[i]).flatMap(i=>L118_SHOP_LAYOUTS[i].seats.filter(s=>s.lift).map(()=>i)); check('1. 其他店的座位沒有 lift', o.length===0, o.join(' ')); }
