@@ -1,0 +1,33 @@
+{
+ "_meta": {
+  "doc": "AA_791 X324 E 區最後三份（free_trips、hometown_lines、multirel_lines）量完的結果",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "同 AA_787；at＝MULTIREL_LINES 底下路徑（原始碼同一句出現三次，請照 at 定位）。",
+  "notes": [
+   "free_trips 618 句：刪節號 0；「上次」12 句都是旁白講祐廷自己重訪（encLast 那一套），不用改。「捷運到台北車站」8 次是交通旁白，留。",
+   "hometown_lines 206 句：刪節號 8，沛珊「下次待久一點」「下次來，我帶你去我國中走路上學那條路」是送別時的話，不是排定的約；沒有舊設定。不用改。",
+   "multirel_lines 約 1,200 句：刪節號 189（句首 159），集中在發現、對質、修補的場面（REPAIR 39、DISC 35、KNOW 17…），六句一個上下，是真的停下來，留；「上次」都是接前一次對質（狀態鏈本來就有）。只改一處：子晴 SELF 三階同一句。可昕 DISC base／exposed 同一句「……我最氣的是我自己」是兩條互斥的分支，只會聽到一次，留。"
+  ]
+ },
+ "who": "all",
+ "files": [
+  {
+   "file": "multirel_lines",
+   "rows": [
+    {
+     "at": "MULTIREL_LINES.SELF.heroine_04[2][1]",
+     "old": "……靠北，我又在想他。",
+     "new": "……欸不是，怎麼又是他。",
+     "note": "同一句在 SELF.heroine_04 第 1～3 階都一樣，走到第 3 階會聽到三次；第 1 階留原句，後兩階換"
+    },
+    {
+     "at": "MULTIREL_LINES.SELF.heroine_04[3][1]",
+     "old": "……靠北，我又在想他。",
+     "new": "……靠北。都多久了，我還在想他。",
+     "note": "同一句在 SELF.heroine_04 第 1～3 階都一樣，走到第 3 階會聽到三次；第 1 階留原句，後兩階換"
+    }
+   ]
+  }
+ ]
+}
