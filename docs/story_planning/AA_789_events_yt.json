@@ -1,0 +1,87 @@
+{
+ "_meta": {
+  "doc": "AA_789 主線、日常事件（events.js）語彤的台詞覆蓋列（X324 E 區）",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "同 AA_786；old＝開發分支 09:2x 的字。",
+  "rule": "語彤話少，停頓是她說話的樣子：123 句、刪節號 40，只拿掉笑著講、鬧著講、換話題那種（8 句），和跨年視訊一場四句都用「……」開頭裡的一句。第一次見面、被說中（「……你有注意到」）、說家裡的事、阿姨的錄音、讀書讀到很晚那些都留。",
+  "counts": {
+   "句": 123,
+   "刪節號前": 40,
+   "後": 32,
+   "列": 8
+  }
+ },
+ "files": [
+  {
+   "who": "heroine_03",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[1].dialogue[5].text",
+     "event": "ev_library_door_phone",
+     "expr": "smile",
+     "old": "陳語彤。……你是法律系的吧。你們系的人走路都很快。",
+     "new": "陳語彤。你是法律系的吧。你們系的人走路都很快。",
+     "note": "笑著講、鬧著講或句首的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[12].dialogue[3].text",
+     "event": "ev_noodle_yutong",
+     "expr": "smile",
+     "old": "你的傘我帶來了，放在櫃台後面。……那天你到底有沒有淋濕？",
+     "new": "你的傘我帶來了，放在櫃台後面。那天你到底有沒有淋濕？",
+     "note": "笑著講、鬧著講或句首的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[12].dialogue[13].text",
+     "event": "ev_noodle_yutong",
+     "expr": "neutral",
+     "old": "這個我從小就做了。……乾麵？要不要加蛋？",
+     "new": "這個我從小就做了。乾麵？要不要加蛋？",
+     "note": "笑著講、鬧著講或句首的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[316].dialogue[5].text",
+     "event": "ev_yt_nye_call_y3",
+     "expr": null,
+     "old": "……我開視訊。",
+     "new": "我開視訊。",
+     "note": "笑著講、鬧著講或句首的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[318].dialogue[10].text",
+     "event": "ev_term_last_meal_y2s1",
+     "expr": "smile",
+     "old": "考完了。……今天什麼都不想讀。",
+     "new": "考完了。今天什麼都不想讀。",
+     "note": "笑著講、鬧著講或句首的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[356].dialogue[17].text",
+     "event": "ev_yutong_customer",
+     "expr": "smile",
+     "old": "今天的麵不用錢。……阿姨問的話，我就說你洗了碗。",
+     "new": "今天的麵不用錢。阿姨問的話，我就說你洗了碗。",
+     "note": "笑著講、鬧著講或句首的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[361].dialogue[23].text",
+     "event": "ev_yutong_thanks",
+     "expr": null,
+     "old": "……下班才來的。三樓比較安靜。",
+     "new": "下班才來的。三樓比較安靜。",
+     "note": "笑著講、鬧著講或句首的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[394].dialogue[29].text",
+     "event": "ev_r1_jetlag",
+     "expr": null,
+     "old": "……你只會站在旁邊吃東西。",
+     "new": "你只會站在旁邊吃東西。",
+     "note": "笑著講、鬧著講或句首的「……」是習慣，拿掉"
+    }
+   ]
+  }
+ ]
+}

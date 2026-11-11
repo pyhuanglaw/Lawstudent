@@ -1,0 +1,79 @@
+{
+ "_meta": {
+  "doc": "AA_789 主線、日常事件（events.js）子晴的台詞覆蓋列（X324 E 區）",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "同 AA_786；old＝開發分支 09:2x 的字。",
+  "rule": "子晴 110 句、刪節號 43。她的「……」多半是講完一句再補刀的笑點（「睡覺是弱者的行為。……我下午睡了四小時」「……好爽。好爛。兩個都有」「……我會為了你把它做完。不對，為了它」），都留；害羞（embarrassed）、怕輸那幾句也留。只拿掉句首、笑著講的 7 句。「……第四罐。你請。」是祐廷請，不涉及 SHE_PAYS。",
+  "counts": {
+   "句": 110,
+   "刪節號前": 43,
+   "後": 36,
+   "列": 7
+  }
+ },
+ "files": [
+  {
+   "who": "heroine_04",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[19].dialogue[3].text",
+     "event": "ev_ziqing_club",
+     "expr": "smile",
+     "old": "新人？……法律系的？坐那邊，零食自己拿。",
+     "new": "新人？法律系的？坐那邊，零食自己拿。",
+     "note": "句首或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[134].dialogue[8].text",
+     "event": "ev_ziqing_show",
+     "expr": "neutral",
+     "old": "……你坐第三排。我剛剛看到了。不要換位子。",
+     "new": "你坐第三排。我剛剛看到了。不要換位子。",
+     "note": "句首或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[325].dialogue[4].text",
+     "event": "ev_ziqing_lab_letter",
+     "expr": "neutral",
+     "old": "……好，這題我不會。你是法律系的，你幫我判。",
+     "new": "好，這題我不會。你是法律系的，你幫我判。",
+     "note": "句首或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[363].dialogue[16].text",
+     "event": "ev_ziqing_secret_game",
+     "expr": "smile",
+     "old": "……真的？那第二關做好，你再幫我玩。",
+     "new": "真的？那第二關做好，你再幫我玩。",
+     "note": "句首或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[365].dialogue[18].text",
+     "event": "ev_ziqing_contest_day",
+     "expr": "smile",
+     "old": "……你是我男朋友，你當然這樣講。",
+     "new": "你是我男朋友，你當然這樣講。",
+     "note": "句首或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[365].dialogue[30].text",
+     "event": "ev_ziqing_contest_day",
+     "expr": "smile",
+     "old": "……你很奇怪。",
+     "new": "你很奇怪。",
+     "note": "句首或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[365].dialogue[34].text",
+     "event": "ev_ziqing_contest_day",
+     "expr": "smile",
+     "old": "……第四罐。你請。",
+     "new": "第四罐。你請。",
+     "note": "句首或笑著講的「……」是習慣，拿掉"
+    }
+   ]
+  }
+ ]
+}
