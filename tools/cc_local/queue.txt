@@ -908,6 +908,35 @@ SC4_xs_old | 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585 | probe | docs/story_plann
 SC4_xs_new | 1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511 | probe | docs/story_planning/test_tools/cc/cc_scoot4_probe.py | index.html | 10 | PARTS=XSCOOT;SHA=1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511
 # BB 04:39 POOL_swimmers 體育館泳池泳客（開發分支 d926d54bd；cc_pool_probe）
 POOL_swim | d926d54bda6e7d27af3c49506679ae1a9c90dceb | probe | docs/story_planning/test_tools/cc/cc_pool_probe.py | index.html | 10 | PARTS=OPEN,FPS,CLOSED;Q=high;SHA=d926d54bda6e7d27af3c49506679ae1a9c90dceb
+# BB 04:15／04:33／04:36 CHOOSE 動態（cc_choose_probe，子代理；新 73faa493f／舊 779ddd650，網址自己加 ?tapguard）：十個不可逆選單、150／500 ms、直向橫向
+CHS_N_wake_a | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=WAKE;RUNS=150:20:dlg/500:8:dlg/150:40:dlg;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_wake_b | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=WAKE;ORIENTS=P;RUNS=150:20:menu/500:8:menu;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_after | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=AFTER;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_job | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=JOB;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_bedff | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_bike | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BIKE;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_date | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=DATE;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_confess | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=CONFESS;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_decide_auto | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=DECIDE,AUTOPOP;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_gym | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=GYM;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_after_L | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=AFTER;ORIENTS=L;MASHO=L;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_job_L | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=JOB;ORIENTS=L;MASHO=L;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_bedff_L | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;ORIENTS=L;MASHO=L;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_bike_L | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BIKE;ORIENTS=L;MASHO=L;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_N_date_L | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=DATE;ORIENTS=L;MASHO=L;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS_O_wake_a | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=WAKE;RUNS=150:20:dlg/500:8:dlg/150:40:dlg;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_wake_b | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=WAKE;ORIENTS=P;RUNS=150:20:menu/500:8:menu;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_after | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=AFTER;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_job | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=JOB;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_bedff | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_bike | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BIKE;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_date | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=DATE;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_confess | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=CONFESS;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_decide_auto | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=DECIDE,AUTOPOP;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_gym | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=GYM;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_bedff_L | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;ORIENTS=L;MASHO=L;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_bike_L | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BIKE;ORIENTS=L;MASHO=L;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+CHS_O_date_L | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=DATE;ORIENTS=L;MASHO=L;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 # BB 02:40：REG 移到 TE3 前面（0eb2a0049＝含 44986e635、f58131631、上師收攤 n.hidden）
 REG_696cf_deploy | 696cf6036f3ca9fbc7022c21ab37324b0e46e305 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
 REG_696cf_p0 | 696cf6036f3ca9fbc7022c21ab37324b0e46e305 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0

@@ -35,7 +35,7 @@ PARTS（逗號分隔；預設全部）：
            pre＝先在「直接過去」的位置點 2 下（點地＝走路）再加約，繼續點；menu＝選單出現才開始點。
   GYM      體育館 B1「去健身房」→ 第一次辦卡 →〔「單次。」50／「這個月的月票。」200〕（兩項都花錢，沒有取消）。前置：第 57 天 15:00 gym_b1、站到「去健身房」旁邊。點的位置：L1 倒數第 2 項（單次）。
   （classes3d.js:1308 開學第二天、closed2_3d.js:42 國際處交志願表這一版沒做——條件太長；GYM 是第 10 個的備案。）
-RUNS：每一輪寫「節奏ms:下數:開始方式[@點]」，分號隔開；開始方式 menu（L1 出現才開始）、dlg（L1 前面那一句出現就開始）、interact（第一下按互動鍵）、pre（先點 2 下再叫出選單，AUTOPOP）。
+RUNS：每一輪寫「節奏ms:下數:開始方式[@點]」，用 / 隔開（佇列的 ENV 用分號分欄，不能用分號）；開始方式 menu（L1 出現才開始）、dlg（L1 前面那一句出現就開始）、interact（第一下按互動鍵）、pre（先點 2 下再叫出選單，AUTOPOP）。
   不給＝照 PART 的預設（DEFRUNS）。150 ms 預設 20 下（N150）、另一輪 40 下（NLONG，超過 4 秒看保險到期）；500 ms 預設 8 下（N500）。
 環境變數：LW_TESTS SHA PARTS ORIENTS（量位置的方向，預設 P,L）MASHO（連點的方向，預設 P）RUNS N150 N500 NLONG EVQUIET SETTLE（連點完等幾 ms 再比對，預設 2500）
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=BEDFF python3 cc_choose_probe.py <url> <out>
@@ -549,7 +549,7 @@ async def one_run(pg, cdp, part, lay, spec, ori, idx, newv):
 def parse_runs(part):
     s = ENV('RUNS') or (DEFRUNS[part.name] % {'n': N150, 'm': N500, 'l': NLONG})
     out = []
-    for x in s.split(';'):
+    for x in s.replace('/', ';').split(';'):
         x = x.strip()
         if not x: continue
         pk = part.point
