@@ -1,12 +1,3 @@
-[09:39:31] ==== START ART2_g0910_new  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
-[09:39:34] [res] cpu=0% mem=47% (14.8/31.4 GB) chrome_testing=10  START ART2_g0910_new
-[09:40:08] [res] cpu=11% mem=46% (14.6/31.4 GB) chrome_testing=9  END ART2_lmint_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       737419c8a..40dd790c8  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:40:13] ==== END   ART2_lmint_old  exit=0  136s   ====
-[09:40:16] memory 47% before starting ART2_g0910_old (2 running)
-[09:40:16] ==== START ART2_g0910_old  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
 [09:40:20] [res] cpu=1% mem=48% (14.9/31.4 GB) chrome_testing=9  START ART2_g0910_old
 [09:40:55] [res] cpu=20% mem=44% (13.9/31.4 GB) chrome_testing=8  END ART2_walls_old
     To https://github.com/pyhuanglaw/Lawstudent.git
@@ -1998,3 +1989,12 @@
 [17:07:38] [res] cpu=6% mem=41% (13.1/31.4 GB) chrome_testing=5  END L118A6_INT_b
 [17:07:38] memory 41% before starting L118A6_SEAT_dian2 (2 running)
 [17:07:38] ==== START L118A6_SEAT_dian2  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[17:07:41] [res] cpu=17% mem=41% (13.1/31.4 GB) chrome_testing=5  START L118A6_SEAT_dian2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4ab5ac144..9f8e4517e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:07:44] ==== END   L118A6_INT_b  exit=0  146s   ====
+[17:08:10] memory 40% before starting L118A6_SEAT_tea1 (2 running)
+[17:08:10] ==== START L118A6_SEAT_tea1  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[17:08:13] [res] cpu=17% mem=41% (12.7/31.4 GB) chrome_testing=4  START L118A6_SEAT_tea1
+[17:08:18] [res] cpu=10% mem=43% (13.1/31.4 GB) chrome_testing=4  END L118A6_SEAT_dian1
