@@ -818,6 +818,8 @@ const INV=(function(){
   S.catsOf=P=>{ const L=P.cats||S.CAT_OF[P.id]||[P.cat||(/^library/.test(String(P.zone||''))?'study':({meal:'meal',walk:'walk',sport:'sport'}[P.kind]||'sit'))]; const ok=L.filter(c=>c==='when'||S.CATS.some(x=>x.id===c)); return ok.length?ok:['sit']; };
   S.catOf=P=>S.catsOf(P)[0];
   S.OUT_LABEL='出去玩…'; S.WHEN_LABEL='這個時候才有';
+  /* 「這個時候才有」那一類，別的模組加的項目（INV.WHEN_X.push(fn)）：fn(G,id,n)→null 或 {t,hint,dim,why,run(GM,id,n)}；灰掉的選了說 why、留在同一層；選了＝run（例：AA_811 學姊合歡山北峰，src/aa811_3d.js）*/
+  S.WHEN_X=[];
   S.STAY_MENU={stay:true};   /* menuTree 的 pick 回傳它＝說完原因、留在同一層再選 */
   const BACK={back:true};
   /* 分層選單（INV.flow、DATE.menu 共用）：nodes＝[{t, hint, dim, why, items:[…]}（一類）| 一項]。回傳選到的那一項（null＝算了）；
@@ -867,13 +869,15 @@ const INV=(function(){
     if(vd){ const VL=(HOMETOWN_LINES[HV.key(G,id)]||{}).video||{}; sp.push({t:VL.ask||'視訊？',hint:vd.ok?vd.hint:vd.why,dim:!vd.ok,go:'vd'}); }
     if(fsO) sp.push(Object.assign({},fsO,{go:'fest'}));
     for(const Q of PL) if(S.catsOf(Q).includes('when')) sp.push(leafOf(Q));   /* 有日期的地點（一盞的茶席：每月第三個週日）*/
+    for(const f of S.WHEN_X){ let it=null; try{ it=f(G,id,n); }catch(e){ console.warn('INV.WHEN_X',e); } if(it&&it.t&&typeof it.run==='function') sp.push(Object.assign({},it,{go:'wx'})); }   /* 別的模組加的（S.WHEN_X）*/
     nodes.push({t:S.WHEN_LABEL,items:sp});   /* 這個時候才有（AA_535 第 2 節）：過節、茶席、去她的城市、視訊；有才出現，只有一個就直接列 */
     const fixP=fo.place?S.place(fo.place):null;
     const x=fixP?{P:fixP}:await S.menuTree(GM,nodes,async x=>{ if(x.P){ const why=S.placeWhy(G,id,x.P); if(!why) return x; await GM.say(null,why);
         { const ps=S.partnerBlock(G,id,x.P)&&(((D().people||{})[id]||{}).partnerSay||{})[x.P.id]; if(ps) await S.playLines(GM,n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id},ps); }   /* 有伴侶時她自己的一句（學姊的一盞，AA_172 3b）*/
         return S.STAY_MENU; }
-      if(x.go==='fest'&&x.dim){ await GM.say(null,x.hint+'。'); return S.STAY_MENU; } return x; });
-    if(!x) return null; if(x.go==='date') return DATE.menu(GM,id,n); if(x.go==='hv') return HV.ask(GM,id); if(x.go==='vd') return HV.video(GM,id); if(x.go==='fest') return FEST.ask(GM,id,n);
+      if(x.go==='fest'&&x.dim){ await GM.say(null,x.hint+'。'); return S.STAY_MENU; }
+      if(x.go==='wx'&&x.dim){ await GM.say(null,String(x.why||x.hint||'').replace(/([^。！？」）])$/,'$1。')); return S.STAY_MENU; } return x; });
+    if(!x) return null; if(x.go==='wx') return x.run(GM,id,n); if(x.go==='date') return DATE.menu(GM,id,n); if(x.go==='hv') return HV.ask(GM,id); if(x.go==='vd') return HV.video(GM,id); if(x.go==='fest') return FEST.ask(GM,id,n);
     P=x.P; let W=null; const pickCat=x.cat||null;   /* 選的是哪一類（念書：一起念書第 N 次，STUDY-DATE-PROGRESS-1107）*/
     { const ln=P.lateNote?P.lateNote(G):null; if(ln) await GM.say(null,ln); }   /* 今天已經約不到的時段（Daybreak 14:00 以後：AA_652 第 3 節的旁白）：選時間前先說，時間照常列明天的 */
     for(;;){ const T=S.timeOptions(G,together,P,id); if(!T.length&&!(P&&P.whoDays&&P.whoDays[id])){ await GM.say(null,'今天太晚了，改天再約吧。'); return null; } const more=!P.when, to=T.map(q=>({t:q.t,hint:q.hint,dim:q.dim})); if(more) to.push({t:'其他日子…',hint:'之後 7 天內選一天'}); to.push({t:'算了'});
