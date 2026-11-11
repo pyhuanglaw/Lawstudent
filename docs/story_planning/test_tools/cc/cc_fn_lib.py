@@ -130,7 +130,7 @@ async def joy_to(pg, cdp, tag, tx, tz, near=0.6, lv=None, max_s=90, straight=Fal
         s = await D.st(pg); now = time.time()
         if prev is not None:
             dd = math.hypot(s['x'] - prev[1], s['z'] - prev[2]); dt = now - prev[0]
-            if s['zone'] == prev[3] and dd > max(2.5, 6.2 * 1.5 * dt):   # CC 12:1x：跑速 6.2 m/s（E.SPD.run），原本 6×秒 比跑速還低，10 fps 取樣 0.5 秒就誤判（STAIR_7d_run10_fl 逐幀比值最大 1.0） jumps.append({'t': round(now - t0, 1), 'from': prev[1:3], 'to': [s['x'], s['z']], 'd': round(dd, 2)})
+            if s['zone'] == prev[3] and dd > max(2.5, 6.2 * 1.5 * dt):  jumps.append({'t': round(now - t0, 1), 'from': prev[1:3], 'to': [s['x'], s['z']], 'd': round(dd, 2)})   # CC 12:1x：跑速 6.2（E.SPD.run），原本 6×秒 低於跑速，10 fps 取樣 0.5 秒誤判（逐幀比值最大 1.0）
         if straight and prev is not None and s['zone'] == prev[3]:   # r3（CC 01:4x）：直線測「走不走得過去」——兩次取樣之間的線段穿過目標 near 以內也算到（PC 上會衝過頭）
             ax0, az0, bx0, bz0 = prev[1], prev[2], s['x'], s['z']; vx0, vz0 = bx0 - ax0, bz0 - az0; L2 = vx0 * vx0 + vz0 * vz0
             u0 = max(0.0, min(1.0, ((tx - ax0) * vx0 + (tz - az0) * vz0) / L2)) if L2 > 1e-9 else 0.0
