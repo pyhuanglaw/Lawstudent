@@ -175,7 +175,16 @@ def main():
         whys.append(w)
     d = [json.loads(git('show', f'{s}:{p}')) for s, p in zip(shas, (P1, P2, P3))]
     data = build(d[0], d[1], d[2], shas)
-    js = ('/* 自動產生：tools/gift/import_gift_holiday.py（' + '、'.join(data['src']) + '）。不要手改，改企劃 AA_732／AA_733／AA_734 再重新匯入。\n'
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
+    import ps755   # 2026-11-11（X327 沛珊重寫）：AA_755_peishan_feed_misc.json 的 other 逐則 old→new 疊在 classmate_peishan 上（tools/story/ps755.py；白名單沒有那份稿＝不換）
+    n755 = ps755.apply(data, 'gift_holiday.js', ROOT, allow)
+    # 稿的 fest.qixi.note：節日那一場的七夕不再有「為什麼是喜鵲／不告訴你，明年再問我」＝existing 第三則（那一年不送喜鵲的答案，明年才送）一起拿掉
+    d755 = ps755.load(ROOT, allow)
+    if d755:
+        if 'gift_holiday.js existing 第三則' not in str(((d755.get('fest') or {}).get('qixi') or {}).get('note')):
+            raise SystemExit('AA_755 fest.qixi.note 改了（找不到「gift_holiday.js existing 第三則」），先改這支工具')
+        n755 += ps755.remove(data, 'AA_416 七夕（交往中）：「我查到了。……不告訴你。」那一年不送喜鵲的答案，明年才送', ROOT, allow)
+    js = ('/* 自動產生：tools/gift/import_gift_holiday.py（' + '、'.join(data['src']) + (f'；沛珊 {n755} 處照 {ps755.tag(ROOT, allow)}' if n755 else '') + '）。不要手改，改企劃 AA_732／AA_733／AA_734 再重新匯入。\n'
           '   節日、生日送禮（GIFT-HOLIDAY-1110；播放 src/gifthol3d.js）：shops／items＝店家禮物、react＝八位收到的反應、give＝她們送祐廷的、stationery＝山嵐文具區學姊四場 */\n'
           "'use strict';\nconst GIFT_HOLIDAY=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n'
           "if(typeof module!=='undefined') module.exports=GIFT_HOLIDAY;\n")

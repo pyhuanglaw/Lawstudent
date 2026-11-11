@@ -207,8 +207,11 @@ await sec('2-4',async()=>{
   const ph=(FEED_Y1S1.dms||[]).find(x=>x&&x.id==='ps_phil'), o=ph&&ph.ask.opts.find(x=>x.k==='next');
   check('2-4 P-4. 哲學概論的動態「明年修。」→「明年……好！！」',!!o&&J(o.r)===J(['明年……好！！']),J({ph:!!ph,ask:ph&&ph.ask}));
   const p5=lad('Y2S1',PS,'P3-L3'), p6=lad('Y3S1',PS,'P5-L2');
-  check('2-4 P-5. 閒聊階梯 P3-L3 選項②「妳舉手了嗎？」→「……還沒！不要一直問！」',!!p5&&p5.choices[1].t==='「妳舉手了嗎？」'&&p5.choices[1].reply==='……還沒！不要一直問！',p5&&J(p5.choices[1]));
-  check('2-4 P-6. 閒聊階梯 P5-L2「教我。」→「不行。這是家傳的！」',!!p6&&p6.choices[1].reply==='不行。這是家傳的！',p6&&J(p6.choices[1]));
+  /* 2026-11-11 改期望（X327 沛珊重寫，AA_753_peishan_ladder_Y1S2_Y2S1@c5094495d、Y3@188061108）：P3-L3、P5-L2 兩層整層重寫——
+     P3-L3：新的選項②是「後來有舉嗎？」「沒有！…」（沒有「下次」的承諾）；AA_525 改的那一組（「妳舉手了嗎？」「……還沒！不要一直問！」）留在 linesIf 那一套自己的選項裡（聽過「我要重考」的玩家，等 AA 補稿）。
+     P5-L2：「教我。」那個選項和「家傳」的回答整個沒有了（新稿換成老闆問她為什麼想來打工）＝AA_525 要拿掉的「教你一半」這種沒有下文的承諾照樣不在 */
+  check('2-4 P-5. 閒聊階梯 P3-L3：新稿選項②「後來有舉嗎？」（沒有「下次」）；linesIf 那一套的選項②照 AA_525「妳舉手了嗎？」→「……還沒！不要一直問！」',!!p5&&p5.choices[1].t==='「後來有舉嗎？」'&&!J(p5.choices).includes('下次')&&!!p5.linesIf&&p5.linesIf[0].choices[1].t==='「妳舉手了嗎？」'&&p5.linesIf[0].choices[1].reply==='……還沒！不要一直問！',p5&&J([p5.choices[1],p5.linesIf&&p5.linesIf[0].choices]));
+  check('2-4 P-6. 閒聊階梯 P5-L2：整層重寫以後沒有「教我。」、沒有「家傳」「教你一半」「下次」',!!p6&&!/教我|家傳|教你一半|下次/.test(J([p6.lines,p6.choices])),p6&&J(p6.choices));
   fresh('2026-03-12',21,{dating_classmate_peishan:true},'wancai'); H.FRIEND(PS); await runEv('ev_peishan_bohan_w4');
   check('2-4 P-6. 交往中，讀書會後：「今天那一題，你講得很好。……我想多聽你講。」',has('今天那一題，你講得很好。……我想多聽你講。'),J(said()));
   const W=s=>(ENC_WALK.walks||ENC_WALK.walk||[]).find?(ENC_WALK.walks||ENC_WALK.walk||[]).find(x=>x.who===PS&&x.spot===s):null;

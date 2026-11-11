@@ -5633,9 +5633,9 @@
   },
   {
    "path": "docs/story_planning/AA_751_peishan_termend.json",
-   "sha": "33a1769f8",
+   "sha": "768b9a131",
    "status": "approved",
-   "approvedBy": "AA（D109、D149：稿由 AA 定、BB 看過即匯；BB_318 的修正已改）；LAWWW 2026-11-10 指定只認 33a1769f8（使用者 X327 糾正「不是看到食物就要評論」以後的那一版）",
+   "approvedBy": "AA（D109、D149：稿由 AA 定、BB 看過即匯；BB_318 的修正已改）；LAWWW 2026-11-10 指定只認 33a1769f8（使用者 X327 糾正「不是看到食物就要評論」以後的那一版）；768b9a131（AA 2026-11-11，企劃線 750dadee7「補沛珊大四下 6/8 台南那一頓」）：LAWWW 2026-11-11 指定改讀這一版",
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
    "people": {
@@ -5651,7 +5651,13 @@
     "lines": true,
     "fallback": true
    },
-   "note": "X327 沛珊重寫（有趣、聰明、會接梗；家裡是台中的小型連鎖餐廳）——tools/story/import_termend_opts.py → src/data/termend_opts.js。people.heart：「她先說」的告白（TERMEND_OPTS.HEART.classmate_peishan）。**只認這個 sha**（工具的 PS_SHA），更舊的版本不匯；people.gf：女朋友版（TERMEND_OPTS.GF；大三下「那我留到明天。」nextMorning／alt）；people.friend：朋友版五頓（TERMEND_OPTS.FRIEND[學期]）；people.lines：FRIEND.y1s1、手機句（TERMEND_OPTS.LINES，src/data/termend_lines.js 同字）；people.fallback：電影通用回話整組取代 AA_745_fallback.json 的 classmate_peishan（tools/movie/import_movie_plots.py）"
+   "note": "X327 沛珊重寫（有趣、聰明、會接梗；家裡是台中的小型連鎖餐廳）——tools/story/import_termend_opts.py → src/data/termend_opts.js。people.heart：「她先說」的告白（TERMEND_OPTS.HEART.classmate_peishan）。**只認這個 sha**（工具的 PS_SHA），更舊的版本不匯；people.gf：女朋友版（TERMEND_OPTS.GF；大三下「那我留到明天。」nextMorning／alt）；people.friend：朋友版五頓（TERMEND_OPTS.FRIEND[學期]）；people.lines：FRIEND.y1s1、手機句（TERMEND_OPTS.LINES，src/data/termend_lines.js 同字）；people.fallback：電影通用回話整組取代 AA_745_fallback.json 的 classmate_peishan（tools/movie/import_movie_plots.py）；768b9a131：只多 GF.tableByTerm.Y4S2（say 兩句＋三個選項；祐廷延畢的存檔第一句用 note 裡那一句）——6/8 台南那一頓（ev_ps_termend_y4s2，src/r2y4b3d.js R2Y4B.psDinner）接上；其他段和 33a1769f8 一樣（git diff 只有那一段）",
+   "history": [
+    {
+     "sha": "33a1769f8",
+     "approvedBy": "（2026-11-11 換成 768b9a131 以前的版本：還沒有大四下那一頓）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_753_peishan_ladder_Y1S1.json",
@@ -5661,6 +5667,51 @@
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
    "note": "X327 沛珊大一上閒聊階梯 P-L1～P-L8＋招呼：只換 lines、choices（{t, re, fx, mem?}）和 greet，id、if、順序、rel 不動——tools/ladder/import_ladder.py 疊在 ladder_bb.json 的 classmate_peishan 上 → src/data/ladder.js"
+  },
+  {
+   "path": "docs/story_planning/AA_753_peishan_ladder_Y1S2_Y2S1.json",
+   "sha": "c5094495d",
+   "status": "approved",
+   "approvedBy": "AA（D109、D149；BB_320 的修正已改）；LAWWW 2026-11-11 指定只認 c5094495d",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊大一下 P2-L1～P2-L8、大二上 P3-L1～P3-L8＋招呼：只換 lines、choices（{t, re, fx}）和 greet（兩學期第 8、9 週那一則拿掉），id、if、friendOnly、順序、rel、mem 不動——tools/ladder/import_ladder.py 的 PS753_MORE 疊在 ladder_bb_y1s2／y2s1 的 classmate_peishan 上 → src/data/ladder.js。linesIf 五套（P2-L3、P3-L3／L4／L6／L8）稿沒有寫：舊的兩句和舊選項一起留著（linesIf[].choices），等 AA 補"
+  },
+  {
+   "path": "docs/story_planning/AA_753_peishan_ladder_Y3.json",
+   "sha": "188061108",
+   "status": "approved",
+   "approvedBy": "AA（D109、D149；BB_321 的修正已改）；LAWWW 2026-11-11 指定只認 188061108",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊大三上 P5-L1～P5-L8、大三下 P6-L1～P6-L8＋招呼 base：只換 lines、choices（{t, re, fx}）和 greet.base；when 只拿掉稿上說的三則（大三上「你吃早餐了嗎？……我家開早餐店，習慣問。」、大三下「期中。我的考卷上，畫了一個笑臉。……我自己畫的。」「你吃早餐了嗎？」），其他 when、id、if、順序、rel、context、friendOnly、mem、P5-L6 的 extraIf 不動——tools/ladder/import_ladder.py 的 PS753_MORE → src/data/ladder.js。面板字（src/social3d.js）：PS5_BOOK_COVER、PS5_EARLY_RISER、PS6_WALL、PS6_NO_WEIRD"
+  },
+  {
+   "path": "docs/story_planning/AA_753_peishan_ladder_Y4.json",
+   "sha": "465382f83",
+   "status": "approved",
+   "approvedBy": "AA（D109、D149；BB_322 的修正已改）；LAWWW 2026-11-11 指定只認 465382f83",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊大四上 P7-L1～P7-L8、大四下 P8-L1～P8-L8＋招呼 base：只換 lines、choices（{t, re, fx}）和 greet.base，when、id、if、順序、rel、context、friendOnly、mem 不動；P8-L2 加 skipIf ev_peishan_open_class（稿的 event_open_class.ladder）——tools/ladder/import_ladder.py 的 PS753_MORE → src/data/ladder.js。同一個檔的 event_open_class（4/14 公開課媽媽的旁白＋四句）：src/data/r2y4b_events.js 手改、逐句照稿（tests/peishan_ladder_1111_unit.js 對稿）；CG BCG-05 新圖到以前不放。面板字（src/social3d.js）：PS7_MOM_WAITS、PS7_MY_EGGS"
+  },
+  {
+   "path": "docs/story_planning/AA_755_peishan_arc.json",
+   "sha": "6b5507f8a",
+   "status": "approved",
+   "approvedBy": "AA（D109、D149；BB_323 的修正已改）；LAWWW 2026-11-11 指定只認 6b5507f8a",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊故事線八拍：classmate_peishan 整段取代 AA_712 匯出來的同名物件——tools/story/import_arcs.py 的 overlay_peishan → src/data/heroine_arcs.js。只換 theme、topic、lines、ask、opts[].reply、第 5 拍 cite；祐廷的選項 t、ansId、rel、tell、toldAlt、need、invite、set、from／until／late 工具逐欄比過（不一樣就停）"
+  },
+  {
+   "path": "docs/story_planning/AA_755_peishan_feed_misc.json",
+   "sha": "c5094495d",
+   "status": "approved",
+   "approvedBy": "AA（D109、D149；BB_324 的修正已改）；LAWWW 2026-11-11 指定只認 c5094495d",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊重寫第三份之二：動態牆八則（feed_y1s1 ps4／ps5／ps6、feed_y1s2 ps1b／ps6b、feed_y3s1 ps4e、feed_y3s2 ps4f、feed_pg ps2i：id、who、st 不動，換 pic／say／cm／dm 和貼文鐘點 new.t）、other 逐則 old→new（msg_pool 三則、invites 四處＋invite_replies 同句、activity_scenes 第 4 階 mid、arc_rot 兩處、gift_holiday 四處＋existing 第三則拿掉）、fest（fest_events.js 沛珊整段的字）。工具產生的資料檔由各匯入工具呼叫 tools/story/ps755.py 疊上去（整組相同才換、只認這個 sha）；手寫資料檔（feed_*.js、invites.js、fest_events.js）直接改，逐字比對 tests/peishan_feed_misc_1111_unit.js"
   },
   {
    "path": "docs/story_planning/AA_752_night_market.json",

@@ -130,11 +130,12 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i7=sc('src
   /* AA_689 4-2（企劃線 1f2983981，AA-C 定 D109）：語彤 yt1i 改 2029-11-22 22:00、yt4i 改 2029-12-15 21:00（字不動）——這兩列的時間照 AA_689，不照 AA_511 */
   let D689=''; try{ D689=cp.execSync('git -c core.quotepath=false show 1f2983981:"docs/story_planning/AA_689_回LAWWW_AA688留下的舊設定_芷若子晴週五邀約.md"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ D689=''; }
   const AA689={yt1i:['2029-11-22',22],yt4i:['2029-12-15',21]}, o689=id=>{ const o=AA689[id]; return o&&D689.includes(o[0]+' '+String(o[1]).padStart(2,'0')+':00')?o:null; };
-  for(const term of ['Y4S2','PG']){ const S=SET[term], md=doc[term], sha=term==='Y4S2'?SHA510:SHA511;
+  const PSRW=require('./peishan_rewrite_1111.js');   /* 2026-11-11（X327 沛珊重寫）：畢業以後 ps2i 照 AA_755 整則重寫了，不在 AA_511 稿裡——①② 都跳過這一則，逐字比對在 tests/peishan_feed_misc_1111_unit.js */
+  for(const term of ['Y4S2','PG']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!PSRW.feedSkip(term,p.id))}), md=doc[term], sha=term==='Y4S2'?SHA510:SHA511;
     if(!S||!md){ check('0. '+term+' 對稿（'+sha+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!in584(t));
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+sha+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y4S2'?180:140)&&!bad.length,J(bad.slice(0,8)));
-    const rows=rowsOf(md,term), wrong=[], wd=[];
+    const rows=rowsOf(md,term).filter(r=>!PSRW.feedSkip(term,expectRow(term,r).id)), wrong=[], wd=[];
     for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id); if(e.id==='sis3h'&&SIS3H.every(in584)) e.dm=SIS3H; const _u=0, w=whenOf(r.when); if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when);
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null;
       const o9=term==='PG'?o689(e.id):null, tOk=o9?(!!got&&got.day===DK(o9[0])&&Math.abs(got.h-o9[1])<1e-6):!!got&&!!w&&(w.place==='紐約'?tzFmt('America/New_York').format(new Date(utcOf(got)))===tzFmt('UTC').format(new Date(Date.UTC(CALENDAR.dateOf(w.day).y,CALENDAR.dateOf(w.day).m-1,CALENDAR.dateOf(w.day).d,Math.floor(w.h),Math.round((w.h-Math.floor(w.h))*60)))):got.day===w.day&&Math.abs(got.h-w.h)<1e-6);

@@ -196,6 +196,8 @@ def sections(md):
 
 
 DATA = invite_data()
+import ps755 as PS755   # tools/story/ps755.py（AA_755_peishan_feed_misc.json；白名單沒有那份稿＝空表、不換）
+PS755_MAP = PS755.sentence_map(PS755.load(ROOT, ALLOW), 'invites.js')
 
 
 unq = GD.unq   # 外面整句一對「」拿掉（「A」「B」這種好幾段的不動）：有名字的台詞不加「」（AA-B 2026-11-08 00:21），稿上照舊有
@@ -237,6 +239,8 @@ for who, sec, cells in sections(MD):
     if len(cells) != 4:
         die(f'{who}：表格欄數不是 4：{cells}')
     stage, tagcell, say, src = cells
+    if who == PS755.PS and unq(say) in PS755_MAP:   # 2026-11-11（X327 沛珊重寫）：AA_755 other 的 invites.js 那幾句（AA_415 的「現有」列是同一句）→ 新句；invites.js 已經照同一份稿換了，下面「現有」的比對才對得上
+        say = '「' + PS755_MAP[unq(say)] + '」'
     src = src.replace('`', '')
     n = counts[who] = counts.get(who, 0) + 1
     tags, cond, lim = parse_tags(tagcell)

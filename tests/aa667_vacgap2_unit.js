@@ -355,7 +355,8 @@ const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OU
     const yi=inv('2028-07-26',17), ds=inv('2028-07-12',17), tp=inv('2028-03-22',17);
     check('H7 語彤不在臺北（7/26 宜蘭田野、7/12 寒暑假平日回淡水）不傳「……今天秀琴姨煮很多。你要不要來吃。」；學期中照傳',yi===0&&ds===0&&tp===1,J({yi,ds,tp})); }
   { const hb=FEST_DATA.PEOPLE.classmate_peishan.ask.homeBy, src=fs.readFileSync(path.join(H.ROOT,'src/data/fest_events.js'),'utf8');
-    check('沛珊聖誕（台南）：「明天聖誕節。台南的街上也有燈。你要下來嗎？」拿掉「……不用勉強。」（其他節日那幾句不動）',J(hb.xmas.台南)===J(['明天聖誕節。台南的街上也有燈。你要下來嗎？'])&&!src.includes('你要下來嗎？……不用勉強。\']}}}')&&/明天情人節。……你要下來台中嗎？不用勉強。/.test(src)&&doc.includes('「明天聖誕節。台南的街上也有燈。你要下來嗎？」'),J(hb&&hb.xmas)); }
+    /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d） 的 fest.ask）：她約的句子整組換了——聖誕「明天聖誕節，台南的街上也有燈，你要不要下來？」，其他節日那幾句的「……不用勉強。」新稿也都沒有了（原本期望：聖誕拿掉、其他節日留著） */
+    check('沛珊聖誕（台南）：新稿「明天聖誕節，台南的街上也有燈，你要不要下來？」；AA_667 要的「不用『……不用勉強。』收」照舊成立（整段都沒有了）',J(hb.xmas.台南)===J(['明天聖誕節，台南的街上也有燈，你要不要下來？'])&&!/classmate_peishan|\[PS\]/.test('')&&!(src.slice(src.indexOf('    [PS]:{'),src.indexOf('第 9 節 杜可昕')).replace(/\/\*[\s\S]*?\*\//g,'').includes('不用勉強'))&&doc.includes('「明天聖誕節。台南的街上也有燈。你要下來嗎？」'),J(hb&&hb.xmas)); }
   /* ================= 不出現 ================= */
   { const all=()=>(H.G.msgs||[]).filter(m=>/^aa667_/.test(m.tag||'')).length+(H.G.outings||[]).filter(q=>/^aa667_/.test(q.id||'')).length;
     const cases=[['2028-03-21',21.5,Object.assign({},TW0,dt(ZR))],['2028-08-01',23.2,Object.assign({},TW0,dt(AN,ZR,PS))],['2028-08-01',23.2,Object.assign({},US0,dt(SIS))],['2028-03-24',23.2,Object.assign({},JP0,dt(AN))],['2028-08-05',23.5,Object.assign({},JPB(),dt(AN))]];

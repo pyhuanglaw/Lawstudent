@@ -38,7 +38,8 @@ const ANS=Lx.ANSWER;
     check('1. 匯入工具 --check：src/data/termend_opts.js 和白名單的稿一樣',/^OK /.test(out),out.slice(0,200));
     check('1. 讀得到企劃線 '+SHA+' 的兩份稿（讀不到＝這個檔後面的逐字比對都做不了）',!!A751&&!!A748);
     check('1. TERMEND_OPTS.HEART 只有芷若、沛珊，都是「她先說」',ok0&&J(Object.keys(TOx.HEART).sort())===J([PS,ZR].sort())&&Object.values(TOx.HEART).every(h=>h.mode==='sheFirst'),ok0?J(Object.keys(TOx.HEART)):'沒有 TERMEND_OPTS.HEART');
-    check('1. 沛珊的稿來源＝AA_751@'+SHA+'（只認這一版）',ok0&&TOx.src.ps==='docs/story_planning/AA_751_peishan_termend.json@'+SHA,ok0?TOx.src.ps:'');
+    /* 2026-11-11 改期望：AA_751 改讀 768b9a131（AA 補大四下 6/8 台南那一頓；HEART 這一段和 33a1769f8 一樣，下面照舊用 33a1769f8 的稿逐字比）；AA_748 照舊 33a1769f8 */
+    check('1. 沛珊的稿來源＝AA_751@768b9a131（只認這一版）',ok0&&TOx.src.ps==='docs/story_planning/AA_751_peishan_termend.json@768b9a131',ok0?TOx.src.ps:'');
     if(!ok0) return; const p=TOx.HEART[PS], a=A751.HEART, z=TOx.HEART[ZR], b=A748.HEART[ZR];
     check('1. 沛珊：invite、decline、table、walk、she、yes、invite2、she2、yes2、大四上 she／answer 一字照稿',p.invite===a.invite&&p.decline===a.decline&&p.invite2===a.invite2&&['table','walk','she','yes','she2','yes2'].every(k=>J(p[k])===J(a[k]))&&J(p.byTerm.Y4S1.she)===J(a.over_Y4S1.she)&&J(p.byTerm.Y4S1.answer)===J(a.over_Y4S1.answer));
     check('1. 沛珊：tableOpts、walkOpts、guess、confessOpts 的字、效果、result 照稿',J(p.tableOpts)===J(a.tableOpts)&&J(p.walkOpts.map(o=>[o.t,o.re,o.fx||null]))===J(a.walkOpts.opts.map(o=>[o.t,o.re,o.fx||null]))&&J(p.guess.say)===J(a.guess.say)&&J(p.guess.opts.map(o=>[o.t,o.re,o.fx||null,o.sheFrom||null]))===J(a.guess.opts.map(o=>[o.t,o.re,o.fx||null,o.sheFrom||null]))

@@ -1,4 +1,4 @@
-/* 自動產生：tools/story/import_activity_scenes.py（docs/story_planning/AA_708_activity_scenes.json@256bcdc42）。不要手改，改企劃 AA_708 再重新匯入。
+/* 自動產生：tools/story/import_activity_scenes.py（docs/story_planning/AA_708_activity_scenes.json@256bcdc42；沛珊 1 處照 docs/story_planning/AA_755_peishan_feed_misc.json@c5094495d）。不要手改，改企劃 AA_708 再重新匯入。
    一起活動第 1～N 次（吃飯、咖啡、電影、書店；播放 src/studyn3d.js STUDYN.act）*/
 'use strict';
 const ACTIVITY_SCENES={
@@ -671,9 +671,9 @@ const ACTIVITY_SCENES={
         "今天我想吃不一樣的。"
        ],
        "mid": [
-        "（她點了一個從來沒點過的，吃了一口，很認真地想。）",
-        "……我家早餐店的蘿蔔糕比較好吃。",
-        "這個也很好吃啦！只是我家的比較好吃～"
+        "（她點了一個從來沒點過的，吃了一口，眼睛睜大。）",
+        "欸，這個好吃，你吃一口。",
+        "快點，趁熱，我不常分人的。"
        ],
        "bye": [
         "寒假你來台中，我請你吃。"

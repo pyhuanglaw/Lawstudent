@@ -146,8 +146,10 @@ const date=id=>H.date(id);
     answer('y4_ps_open',0); phone(); const q=OUT.get(H.G,'y4_ps_open');
     check('2-Y4-36「我去。」→ 出遊 4/14 14:00 台南（高鐵）', !!q&&q.day===D('2029-04-14')&&q.h===14&&/高鐵/.test(q.travel));
     global.CG_REGISTRY.cg_whiteboard_why_peishan={file:'x.webp',title:'t'}; at('2029-04-14',11.8); await goOut('y4_ps_open',[1]); delete global.CG_REGISTRY.cg_whiteboard_why_peishan;
-    const last='……我們家的榜單還貼著。旁邊多貼了一張。';
-    check('P1 去了：台南車站的旁白、媽媽四句、BCG-05 在媽媽最後一句之後、「你真的來了！！」、送到高鐵站「謝謝你來看我上課！」（AA_447 1-2：和去台南找她的送行分開）；票錢照扣；PS_OPEN_CLASS went', has('（台南車站。你照她傳的地址，搭公車到課輔班。她已經在上課了。）')&&has('（小聲）你是她大學的同學？')&&has('她說她要去當老師。我本來不懂。')&&has('可是她站在前面的樣子，跟她高中講法律的時候不一樣。')&&has(last)&&H.cgs.includes('cg_whiteboard_why_peishan')&&has('你真的來了！！')&&has('……我知道。我一進教室就看到了。')&&has('（下課以後，她把老師的外套脫掉，陪你坐車到高鐵站。）')&&has('謝謝你來看我上課！到臺北傳給我喔。')&&!has('謝謝你跑這麼遠！到臺北傳給我喔。')&&H.G.flags.PS_OPEN_CLASS==='went'&&paid.some(p=>p[0]<0&&p[1]==='交通')&&caps.includes('台南・課輔班'));
+    /* 2026-11-11 改期望（X327 沛珊重寫；AA_753_peishan_ladder_Y4@465382f83 的 event_open_class）：媽媽的三句換了字——原本「她說她要去當老師。我本來不懂。」「可是她站在前面的樣子，跟她高中講法律的時候不一樣。」
+       「……我們家的榜單還貼著。旁邊多貼了一張。」。BCG-05 新圖到以前不登錄（adv3d.js CG_HELD）；這裡照舊先塞一筆假的登錄＝確認登錄放回去以後還是在媽媽最後一句之後出現 */
+    const last='她爸把她的學生證貼在辦公室，貼兩年了。我叫他今天不要來，他會哭。';
+    check('P1 去了：台南車站的旁白、媽媽四句、BCG-05 在媽媽最後一句之後、「你真的來了！！」、送到高鐵站「謝謝你來看我上課！」（AA_447 1-2：和去台南找她的送行分開）；票錢照扣；PS_OPEN_CLASS went', has('（台南車站。你照她傳的地址，搭公車到課輔班。她已經在上課了。）')&&has('（小聲）你是她大學的同學？')&&has('她說她要當老師。我本來不懂，法律系念得好好的。')&&has('可是你看她站在前面的樣子。她以前上台都是笑給別人看的，今天不是。')&&has(last)&&!has('她說她要去當老師。我本來不懂。')&&H.cgs.includes('cg_whiteboard_why_peishan')&&has('你真的來了！！')&&has('……我知道。我一進教室就看到了。')&&has('（下課以後，她把老師的外套脫掉，陪你坐車到高鐵站。）')&&has('謝謝你來看我上課！到臺北傳給我喔。')&&!has('謝謝你跑這麼遠！到臺北傳給我喔。')&&H.G.flags.PS_OPEN_CLASS==='went'&&paid.some(p=>p[0]<0&&p[1]==='交通')&&caps.includes('台南・課輔班'));
     at('2029-04-14',21.2); phone(); check('2-Y4-36 去了的：當晚沒有「媽媽來了」那一則', !th('p:classmate_peishan').some(t=>/媽媽來了/.test(t))); }
   { fresh('2029-04-14',11.8,'dorm'); PSB(); date('classmate_peishan'); OUT.plan(H.G,{id:'y4_ps_open',ev:'ev_peishan_open_class',day:D('2029-04-14'),h:14,place:'台南',title:'t',travelH:2}); await goOut('y4_ps_open',[0]);
     check('2-Y4-36 交往中：送站那一句換「你坐最後一排，我一直看到你。……害我講錯一題。」（AA_447 1-2）；「沒有。」→「你騙人。……好，我當你沒看到。」；CG 沒登錄＝不放', has('你坐最後一排，我一直看到你。……害我講錯一題。')&&!has('下次待久一點。末班車太早了。')&&!has('謝謝你來看我上課！到臺北傳給我喔。')&&has('你騙人。……好，我當你沒看到。')&&!H.cgs.length); }
@@ -541,6 +543,8 @@ const date=id=>H.date(id);
   { fresh('2029-06-08',14,'dorm',GD); H.FRIEND('classmate_peishan'); date('classmate_peishan'); date('kexin'); at('2029-06-08',15); phone(); const gfInv=TERMEND.gf('classmate_peishan','Y4S2').invite;
     check('PS2 同時和沛珊、可昕交往：6/8 是沛珊（女朋友的約會：「期末考完了！今天吃飯，我想吃熱的。」）、6/9 是可昕的典禮，不撞', th('p:classmate_peishan').includes(gfInv)&&(answer('y4_ps_te',0),phone(),OUT.get(H.G,'y4_ps_te').day===D('2029-06-08'))&&POSTGRAD_LINES.KX&&PG.MSGS.some(m=>m.tag&&/kx/.test(m.tag)));
     at('2029-06-08',16.4); await goOut('y4_ps_te');
-    check('PS2 女朋友的約會：飯桌一句（「這學期有幾次我想打給你，後來沒打。怕你在讀書。」），沒有回家路上的告白', has('這學期有幾次我想打給你，後來沒打。怕你在讀書。')&&H.G.flags.PS_TE_Y4S2&&H.G.flags.PS_TE_Y4S2.kind==='gf'&&!caps.includes('台南・往她租的地方')); }
+    /* 2026-11-11 改期望（X327 沛珊重寫；AA_751@768b9a131 GF.tableByTerm.Y4S2）：6/8 台南那一頓有稿了——她的兩句＋三個選項＋回答（逐字比在 tests/peishan_termend_1110_unit.js 第 12 節）；
+       原本是通用的一句「這學期有幾次我想打給你，後來沒打。怕你在讀書。」 */
+    check('PS2 女朋友的約會：飯桌兩句（「你要畢業了欸，我還有兩年。」…）＋選項的回答，不再是通用那一句；沒有回家路上的告白', has('你要畢業了欸，我還有兩年。')&&has('我本來想好今天要講一些很感人的話，結果早上起來全部忘光了。')&&!has('這學期有幾次我想打給你，後來沒打。怕你在讀書。')&&H.G.flags.PS_TE_Y4S2&&H.G.flags.PS_TE_Y4S2.kind==='gf'&&!caps.includes('台南・往她租的地方')); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

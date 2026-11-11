@@ -196,7 +196,7 @@ const TERMEND_LINES=(function(){
     classmate_xinci:{invite:G=>US4(G)?'你回來了。明天晚上吃飯。……我提前一天約了。':'明天晚上吃飯。……我提前一天約了。',inviteDayBefore:21,place:'l118_home',placeName:'巷口家常菜',h:18,table:['下學期的週三下午，我先空著。','你不用回答。我只是先說。']},   /* AA_537b 8-1：交往中，提前一天（期末飯的前一天 21:00）約；一般版 AA-B 16:31 換成「明天晚上吃飯。……」（系統的期末飯在最後一科考完以後）；美國路線大四上 12/23 回來那一版 */
     classmate_peishan:{invite:'期末考完了！今天吃飯，我想吃熱的。',invByTerm:{Y1S1:'期末考完了！今天吃飯，我想吃熱的。',Y1S2:'期末考完了！今天吃飯，吃冰的也可以。夏天了。',Y2S1:'期末考完了！今天吃火鍋好不好？我想吃熱的。',Y2S2:'期末考完了！我們去吃那家你上次說好吃的。',Y3S1:'學期結束了！你下來，我帶你吃台南的。',Y3S2:'期末結束了！你下來吃晚餐，我知道一家很小的店。',Y4S1:'學期結束了！你下來。……我想吃熱的，跟第一次一樣。'},place:'eatery',placeName:'系館附近的簡餐',h:18.5,table:'這學期有幾次我想打給你，後來沒打。怕你在讀書。',
       /* PEISHAN-VOICE-1110：飯桌的話（通用一頓＋大三上、大三下、大四上、大五上，都有選項）在 TERMEND_OPTS.GF.classmate_peishan（AA_751@33a1769f8），這裡原本的 tableByTerm 拿掉了。
-         table 那一句留著：只剩大四下 6/8 台南那一頓（r2y4b3d.js psDinner 直接讀這一格；AA_751 沒有寫大四下）和沒有 TERMEND_OPTS 的舊資料會用到——等 AA 寫大四下那一頓再換 */
+         table 那一句留著：只剩沒有 TERMEND_OPTS 的舊資料會用到。大四下 6/8 台南那一頓（r2y4b3d.js psDinner）2026-11-11 起演 TERMEND_OPTS.GF.classmate_peishan.tableByTerm.Y4S2（AA_751@768b9a131），稿沒載到才讀這一格 */
       over:[{terms:['Y3S1','Y3S2','Y4S1'],...PS_TN,tnVisited:PS_TN_VISITED},{terms:['Y5S1'],...PS_TN,tnVisited:PS_TN_VISITED,invite:'學期結束了吧！你下來，我們吃熱的。'}]} };   /* 大三起她在台南（AA_282 第 5 節第 5 點、AA_250 第 5 節）：女朋友的學期末約會也在台南她學校附近 */
   /* 她不發心意邀約時的手機一句（AA_254 第 9 節）：時段第一天 20:00，只一次；preexam＝學姊筆試前、knows＝她知道你有別人、low＝低潮期；沛珊重考期、她自己有伴侶＝不傳。
      照學期換的寫成 {gen, byTerm:{學期:句子}}（termend3d.js S.nopeText）：芷若大三下 AA_260 (b-1) 第 5、6 項；子晴大三下第 11 項、大四上 AA_262 (b) 第 4 條 */

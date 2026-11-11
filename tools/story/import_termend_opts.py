@@ -44,7 +44,8 @@ HEART_PATH = 'docs/story_planning/AA_748_termend_heart_v2.json'
 KX_PATH = 'docs/story_planning/AA_749_termend_kx_v2.json'
 FRIEND_PATHS = ['docs/story_planning/AA_749_termend_friend_v2_%s.json' % k for k in ('Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2_Y4S1')]
 PS_PATH = 'docs/story_planning/AA_751_peishan_termend.json'   # 沛珊重寫（使用者 X327，PEISHAN-VOICE-1110）
-PS_SHA = '33a1769f8'   # 沛珊的稿**只認這一版**（LAWWW 2026-11-10：更舊的版本是使用者糾正以前的「看到食物就評論」，不匯）；AA 再改稿＝先改這一行和白名單
+PS_SHA = '768b9a131'   # 沛珊的稿**只認這一版**（LAWWW 2026-11-10：更舊的版本是使用者糾正以前的「看到食物就評論」，不匯）；AA 再改稿＝先改這一行和白名單。2026-11-11：33a1769f8 → 768b9a131（AA 補大四下 6/8 台南那一頓 GF.tableByTerm.Y4S2；其他段兩版一樣）
+PS_GF_TERMS = ['Y4S2']   # 沛珊女朋友版多的學期：大四下 6/8 台南那一頓（ev_ps_termend_y4s2，src/r2y4b3d.js 的 R2Y4B.psDinner 演；別人的大四下沒有這種飯，TERMS 不加）
 PS = 'classmate_peishan'
 OUT = 'src/data/termend_opts.js'
 TERMS = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y5S1']
@@ -176,6 +177,11 @@ def gf_entry(who, key, e):
                 q['alt'] = opt(o['alt'], w + '.alt')
     note = e.get('note', '')
     after = []
+    if who == PS and key == 'Y4S2':   # note：祐廷延畢的存檔（大五上還在學）第一句改用 note 裡那一句（DELAYED＝現有的延畢判斷，src/termend3d.js S.optIf）；第二句照 say
+        if '（ev_ps_termend_y4s2' not in note or len(says[-1]['say']) != 2 or says[-1]['say'][0] != '你要畢業了欸，我還有兩年。':
+            die(f'{where}：note／say 改了，先改這支工具')
+        says.insert(len(says) - 1, {'if': 'DELAYED', 'say': [quoted(note, r'第一句「你要畢業了欸」請照現有的延畢判斷改用「([^」]+)」', where)[0], says[-1]['say'][1]]})
+        note = ''
     if who == 'heroine_04' and key == 'table':   # AA 11-10：Q6 通用格（大一下）——選「（現在玩。）」鉤子整個不出；另外兩個不念鉤子的 say、直接出選項
         Q = [o for o in r['opts'] if o.get('if') == 'Q6']
         play = [o for o in Q if o['t'] == '（現在玩。）']
@@ -192,7 +198,7 @@ def gf_entry(who, key, e):
         hit[0]['set'] = m.group(1)
     elif who == 'heroine_05' and key == 'Y2S1':   # note：她請的時候（沒有 YOUPAY）選項後面多一句；玩家請的照現有 lastByTerm
         after.append({'if': 'noYOUPAY', 'say': quoted(note, r'她請的時候多一句「([^」]+)」', where)})
-    elif 'note' in e and not (who == 'heroine_04' and key == 'Y5S1'):   # 子晴大五上的 note 是 D116 的說明，不是台詞
+    elif 'note' in e and not (who == 'heroine_04' and key == 'Y5S1') and not (who == PS and key == 'Y4S2'):   # 子晴大五上的 note 是 D116 的說明，不是台詞
         die(f'{where}：有新的 note，先看要不要接（{note[:40]}）')
     if 'sayMore' in e and not (who == 'heroine_05' and key == 'Y4S1'):
         die(f'{where}：sayMore 只有學姊大四上（XM3、BK470 照舊接在選項後面，寫在 termend3d.js）')
@@ -224,9 +230,10 @@ def build_gf(src, people, ps=None):
         if set(g) - {'table', 'tableByTerm'}:
             die(f'GF.{who}：不認得的欄位 {sorted(set(g) - {"table", "tableByTerm"})}')
         bt = g.get('tableByTerm', {})
-        if set(bt) - set(TERMS):
-            die(f'GF.{who}.tableByTerm：不認得的學期 {sorted(set(bt) - set(TERMS))}')
-        out[who] = {'table': gf_entry(who, 'table', g['table']), 'tableByTerm': {t: gf_entry(who, t, bt[t]) for t in TERMS if t in bt}}
+        TT = TERMS + (PS_GF_TERMS if who == PS else [])
+        if set(bt) - set(TT):
+            die(f'GF.{who}.tableByTerm：不認得的學期 {sorted(set(bt) - set(TT))}')
+        out[who] = {'table': gf_entry(who, 'table', g['table']), 'tableByTerm': {t: gf_entry(who, t, bt[t]) for t in sorted(TT) if t in bt}}
     return out
 
 
