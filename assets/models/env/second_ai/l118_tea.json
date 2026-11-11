@@ -1,13 +1,13 @@
 {
- "objects": 34,
- "unique_meshes": 34,
- "tris": 8960,
- "tris_drawn": 8960,
- "materials": 22,
+ "objects": 35,
+ "unique_meshes": 35,
+ "tris": 11362,
+ "tris_drawn": 11362,
+ "materials": 23,
  "out": "assets/models/env/second_ai/l118_tea.glb",
- "bytes": 883948,
+ "bytes": 1065336,
  "texres": 512,
- "tris_total": 8960,
+ "tris_total": 11362,
  "layout": "l118_tea.layout.json",
  "seats": 12
 }

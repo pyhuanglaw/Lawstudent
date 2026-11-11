@@ -780,7 +780,8 @@ def build_dian(c):
     """118牛排（L118-SHOPS-REDO-1111，X338；參考圖 l118_ref/ext_dian）：使用者的規格「紅黃老式招牌；六張小桌、濃湯與紅茶自取」。
     白磁磚牆、紅木色小桌配紅色圓凳（兩排各三張）、最裡面左邊櫃台＋出菜口和不鏽鋼廚房、右邊「濃湯・紅茶自助區」（湯桶、茶桶、碗和杯子）、日光燈"""
     X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; c.S['kpass'] = True; RED = '#c4201a'
-    shell(c); kitchen(c, -2.0, -0.35, depth=1.8, win=(1.05, 1.6), door=(0.1, 0.82))
+    shell(c); kitchen(c, X0 + 0.2, 1.7, depth=2.2, win=(1.05, 2.55))   # 第 2 版：開放式廚房（室內參考圖：不鏽鋼廚房、大抽油煙罩、鐵板煎台、冰箱一覽無遺）
+    kitchen_rich(c, hood=(-1.7, 1.5), griddle=(-1.3, 0.5), fridge=(X0 + 0.15, X0 + 0.95), plates=1.0)
     c.spawn['z'] = round(Z1 - 1.35, 3)
     cz0, cz1 = Z0 + 1.0, Z0 + 1.55
     counter(c, X0, 0.55, cz0, cz1, h=1.05, top='steel', front=RED, block=False); register(c, -0.2, 1.05, (cz0 + cz1) / 2, face='+z')
@@ -807,14 +808,14 @@ def build_dian(c):
     #   → 櫃台那一條線一路擋到東牆（右邊是飲料冰箱和掀板，客人進不去）：口袋沒有了
     # 同一排相鄰兩桌背對背的椅子要隔 0.4 m 以上（桌距 1.8 m）：遊戲把 0.4 m 內的座位當成同一個位子有人（shop_diners_unit 抓到的：桌距 1.6 m 時隔壁桌有客人，留給玩家的兩人座就算被佔）
     for (tx, tz) in ((-1.85, -1.4), (-1.85, 0.4), (-1.85, 2.2)):
-        table(c, tx, tz, 0.8, 0.72, top='wood'); table_seats(c, tx, tz, 0.8, 0.72, ('-z', '+z'), style='wood', col='#3a2622', ap_side=True); table_set(c, tx + 0.25, tz, 'tw')
+        table(c, tx, tz, 0.8, 0.72, top='wood'); table_seats(c, tx, tz, 0.8, 0.72, ('-z', '+z'), style='wood', col='#3a2622', ap_side=True); table_set(c, tx + 0.25, tz, 'tw'); steak_plate(c, tx - 0.1, tz)
     for (tx, tz) in ((1.85, -1.4), (1.85, 0.4)):   # 東排前兩張和西排一樣是面對面的兩人桌（午餐邀約、常客要面對面的座位：shop_diners_unit 每天留一組）
-        table(c, tx, tz, 0.8, 0.72, top='wood'); table_seats(c, tx, tz, 0.8, 0.72, ('-z', '+z'), style='wood', col='#3a2622', ap_side=True); table_set(c, tx + 0.25, tz, 'tw')
+        table(c, tx, tz, 0.8, 0.72, top='wood'); table_seats(c, tx, tz, 0.8, 0.72, ('-z', '+z'), style='wood', col='#3a2622', ap_side=True); table_set(c, tx + 0.25, tz, 'tw'); steak_plate(c, tx - 0.1, tz)
     table(c, 2.36, 1.9, 0.8, 0.72, top='wood'); table_seats(c, 2.36, 1.9, 0.8, 0.72, ('-x',), style='wood', col='#3a2622'); table_set(c, 2.36, 2.1, 'tw')   # 第六張靠東牆、一個座位（靠門口：兩頭放椅子會貼到進門的位置）
     drink_fridge(c, 1.85, 2.65, Z0, face='+z'); c.block(0.9, X1, Z0, cz1 + 0.02, 'counter_east')
     c.vc.cbox(0.92, X1, 0.0, 0.95, cz1 - 0.04, cz1, '#8a8f93'); c.steel.box(0.9, X1, 0.95, 0.98, cz0 + 0.25, cz1)                                  # 櫃台往東延伸的矮門（關著）
     tubes(c, [(-1.85, -0.4, 'z'), (-1.85, 1.6, 'z'), (1.85, -1.4, 'z'), (1.85, 0.6, 'z'), (-1.0, Z0 + 1.3, 'x'), (0.0, 2.9, 'x')])
-    frame_board(c, 'N', -2.2, -0.15, 1.85, 2.62, '#7a100c'); printed(c, 'N', -2.2, -0.15, 1.85, 2.62, 'MENU', inset=0.014)
+    frame_board(c, 'W', -1.1, 0.95, 1.62, 2.39, '#7a100c'); printed(c, 'W', -1.1, 0.95, 1.62, 2.39, 'MENU', inset=0.014)   # 第 2 版：後牆開成開放式廚房，價目表搬到西牆（店名牌下面）
     printed(c, 'W', -1.25, 1.25, 2.55, 3.0, 'NAME'); c.vc.cbox(X0 + 0.012, X0 + 0.02, 1.55, 1.9, 2.3, 3.4, '#f2c21a'); printed(c, 'W', 2.36, 3.34, 1.6, 1.85, 'P2', inset=0.024)   # 自助台上方的黃牌子
     frame_board(c, 'W', 1.35, 2.15, 1.5, 2.2, '#7a100c'); printed(c, 'W', 1.35, 2.15, 1.5, 2.2, 'P1', inset=0.014)   # 自助台旁的西牆：牛排海報（第二組參考圖 int2_dian）
     for z0_ in (-1.7, 0.0): frame_board(c, 'E', z0_, z0_ + 0.8, 1.6, 2.3, '#3a2a1e'); printed(c, 'E', z0_, z0_ + 0.8, 1.6, 2.3, 'P1', inset=0.014)   # 東牆：餐點的海報（參考圖右牆的三張）
@@ -829,7 +830,9 @@ def build_self(c):
     西邊沿牆一整排不鏽鋼配菜櫃（玻璃罩、保溫燈下的炸雞腿雞排排骨、下面一格一格的配菜），老闆站在櫃子後面；最前面一個大飯鍋（白飯自助）；
     中間後面是取餐檯（成疊的便當盒）；東牆一條不鏽鋼窄吧台配三張圓凳、靠門口一張兩人小桌（少量內用）；最裡面出菜口和廚房；白牆、淺灰地磚、日光燈"""
     X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; c.S['kpass'] = True   # 後牆由 kitchen() 畫（有出菜口）；shell() 不要再畫一層（疊在一起會閃）
-    shell(c); kitchen(c, -0.6, 2.2, depth=1.8, win=(1.05, 1.6))
+    shell(c); kitchen(c, -0.6, 2.2, depth=2.2, win=(1.05, 2.5))   # 第 2 版：開放式廚房（室內參考圖）
+    kitchen_rich(c, hood=(-0.4, 1.5), fridge=(1.55, 2.15), rack=(-1.45, -0.55))
+    tr_ = c.wg('N', 'trim', c.M['vc'], cm=True); tr_.cbox(2.4, 3.05, 1.2, 2.1, Z0 + 0.0, Z0 + 0.012, '#e8b81e'); tr_.cbox(2.36, 3.09, 2.1, 2.14, Z0, Z0 + 0.03, '#6b4a30')   # 右邊的黃色「廚房」門簾（室內參考圖）
     # 配菜櫃：沿 z，客人在東邊（+x）；櫃子後面到西牆是老闆站的地方
     sx0, sx1, sz0, sz1 = -2.3, -1.5, -3.2, 1.0
     steam_table(c, sx0, sx1, sz0, sz1, face='+x', cols=2)
@@ -845,21 +848,108 @@ def build_self(c):
     counter(c, -0.5, 1.9, Z0 + 0.95, Z0 + 1.5, h=0.95, top='steel', front='#c9ccce', why='pickup'); c.block(-1.5, X1, Z0, Z0 + 0.98, 'pickup_back')
     for (bx, n_) in ((0.0, 7), (0.45, 5), (0.9, 6)):
         for k in range(n_): c.vc.crbox(bx - 0.17, bx + 0.17, 0.95 + k * 0.045, 0.99 + k * 0.045, Z0 + 1.05, Z0 + 1.4, '#f6f4ee', r=0.004, seg=1)
-    hz = Z0 + 1.6; c.vc.cbox(0.15, 1.25, 2.32, 2.66, hz - 0.02, hz, '#f2c21a')                                                             # 取餐檯上方吊著的黃牌（兩組室內參考圖都有；字＝P2「內用・外帶」）
-    uvquad(c.prt, [(0.22, 2.36, hz + 0.002), (1.18, 2.36, hz + 0.002), (1.18, 2.62, hz + 0.002), (0.22, 2.62, hz + 0.002)], TX.uv(TX.REG, 'P2'))
-    for hx in (0.3, 1.1): ccyl(c.vm, (hx, 2.66, hz - 0.01), (hx, H, hz - 0.01), 0.006, '#8a8f93', seg=4)
+    c.vc.cbox(1.2, 1.8, 0.4, 0.75, Z0 + 1.5, Z0 + 1.508, '#f2c21a'); uvquad(c.prt, [(1.23, 0.45, Z0 + 1.51), (1.77, 0.45, Z0 + 1.51), (1.77, 0.7, Z0 + 1.51), (1.23, 0.7, Z0 + 1.51)], TX.uv(TX.REG, 'P2'))   # 取餐檯正面的黃牌（內用・外帶）
+    # 配菜櫃上層：保溫燈下的炸雞腿、雞排、排骨（室內參考圖最顯眼的東西）——一層不鏽鋼網架、三堆炸物、黃色品名牌、三盞保溫燈
+    c.steel.box(sx0 + 0.08, sx1 - 0.3, 1.1, 1.115, sz0 + 0.15, sz1 - 0.15)
+    for k, (zc_, col) in enumerate(((-2.5, '#c8842a'), (-1.2, '#d8a03a'), (0.1, '#b06a1e'))):
+        for j in range(7): csph(c.vc, (sx0 + 0.2 + (j % 2) * 0.16, 1.16 + (j // 4) * 0.05, zc_ - 0.3 + (j % 4) * 0.2), 0.085, col if j % 3 else '#e0a848', seg=8, rings=5, sy=0.65)
+        c.vc.cbox(sx1 - 0.3, sx1 - 0.292, 1.115, 1.2, zc_ - 0.14, zc_ + 0.14, '#f2c21a'); ccyl(c.vm, (sx0 + 0.3, 1.5, zc_), (sx0 + 0.3, 1.62, zc_), 0.09, '#b9bec2', seg=12, r2=0.03); c.warm.sphere((sx0 + 0.3, 1.5, zc_), 0.04, seg=8, rings=4)
+    wall_shelf(c, 'W', 1.95, 3.6, 1.55, items='bowls'); wall_art(c, 'E', 1.4, 2.0, 1.5, 2.0, 'photo'); wall_art(c, 'E', 2.2, 2.8, 1.5, 2.0, 'photo')
     # 少量內用：東牆的不鏽鋼窄吧台＋三張圓凳、靠門口一張兩人小桌
     c.steel.box(X1 - 0.38, X1, 0.72, 0.75, -1.6, 1.0); c.vm.cbox(X1 - 0.36, X1 - 0.33, 0.0, 0.72, -1.55, -1.5, '#9aa0a4'); c.vm.cbox(X1 - 0.36, X1 - 0.33, 0.0, 0.72, 0.9, 0.95, '#9aa0a4')
     c.block(X1 - 0.4, X1, -1.63, 1.03, 'ledge')
     for z_ in (-1.1, -0.3, 0.5): chair(c, X1 - 0.7, z_, PI / 2, 'steelstool'); c.seat(X1 - 0.7, z_, PI / 2, (X1 - 0.19, z_), 'eat', ap=(X1 - 1.25, z_))
     table(c, 2.0, 2.6, 0.8, 0.7, top='steel'); table_seats(c, 2.0, 2.6, 0.8, 0.7, ('-x', '+x'), style='steelstool', ap_side=False); table_set(c, 2.0, 2.75, 'tw')
     tubes(c, [(-1.9, -2.2, 'z'), (-1.9, 0.0, 'z'), (0.6, -2.4, 'x'), (0.6, 0.0, 'x'), (0.6, 2.4, 'x'), (2.6, -0.3, 'z')])
-    c.vc.cbox(-0.9, 1.5, 2.3, 2.34, -0.52, -0.48, '#e0a814'); frame_board(c, 'N', 0.0, 1.9, 1.85, 2.56, '#b8860a'); printed(c, 'N', 0.0, 1.9, 1.85, 2.56, 'MENU', inset=0.014)   # 價目表（照文字規格；參考圖是吊在天花板的黃框牌，這裡掛在出菜口上面）
+    hz = Z0 + 1.6; c.vc.cbox(-0.05, 1.75, 2.24, 2.96, hz - 0.025, hz, '#e8b81e')                                                           # 第 2 版：價目表吊在取餐檯上方的黃框牌上（兩組室內參考圖；品名價錢照文字規格）
+    uvquad(c.prt, [(0.0, 2.28, hz + 0.002), (1.7, 2.28, hz + 0.002), (1.7, 2.92, hz + 0.002), (0.0, 2.92, hz + 0.002)], TX.uv(TX.REG, 'MENU'))
+    for hx in (0.15, 1.55): ccyl(c.vm, (hx, 2.96, hz - 0.012), (hx, H, hz - 0.012), 0.006, '#8a8f93', seg=4)
     printed(c, 'W', -1.6, 1.0, 2.2, 2.68, 'NAME')                                                                                         # 西牆配菜櫃上方：店名
     frame_board(c, 'E', 1.6, 2.4, 1.45, 2.15, '#3a2a1e'); printed(c, 'E', 1.6, 2.4, 1.45, 2.15, 'P1', inset=0.014)
     dd = c.door; printed(c, 'S', dd['x'] + 0.6, dd['x'] + 1.05, 1.3, 1.5, 'HOURS', inset=0.03); printed(c, 'N', 1.3, 1.75, 0.96, 1.19, 'P2', inset=-1.49) if False else None
     wall_fan(c, X0, 2.5, 1.9, '+x'); ac_unit(c, X1, 2.55, 2.0, '-x', fade=True); plant(c, X1 - 0.45, Z1 - 0.5, 1.1)
     c.cam = 4.2
+
+
+# ---------- 第 2 版（LAWWW 11-11 05:56：四間比參考圖空——牆面大片空白、廚房只有一條櫃台、招牌物件不明顯）----------
+def kitchen_rich(c, hood=None, griddle=None, fridge=None, rack=None, plates=None, dough=False):
+    """開放式廚房裡的東西（kitchen() 之後呼叫；都算 N 那一組，鏡頭在後面時一起淡出）：
+    hood＝(x0, x1) 大抽油煙罩（下大上小兩段＋排煙管＋罩子下面一排暖燈）；griddle＝(x0, x1) 鐵板煎台（上面幾塊牛排、一把鏟子）；
+    fridge＝(x0, x1) 雙門不鏽鋼冰箱；rack＝(x0, x1) 不鏽鋼層架（鍋子、籃子、紙箱；dough＝一盤盤醒著的麵團）；plates＝x 一疊鐵板盤"""
+    Z0 = c.Z0; zk = c.kz; kt = c.wg('N', 'kitchen', c.M['vc'], cm=True); ks = c.wg('N', 'ksteel', c.M['steel']); kl = c.wg('N', 'klamp', c.M['warm'])
+    if hood:
+        x0, x1 = hood; ks.box(x0, x1, 1.92, 2.14, zk, zk + 1.05); ks.box(x0 + 0.25, x1 - 0.25, 2.14, 2.62, zk, zk + 0.8); kt.cbox(x0, x1, 1.9, 1.92, zk, zk + 1.06, '#8a8f93')
+        mx = (x0 + x1) / 2; ks.box(mx - 0.2, mx + 0.2, 2.62, H, zk + 0.1, zk + 0.5)
+        n = max(2, int((x1 - x0) / 0.8))
+        for k in range(n): lx = x0 + (k + 0.5) * (x1 - x0) / n; kl.box(lx - 0.12, lx + 0.12, 1.895, 1.9, zk + 0.45, zk + 0.75)
+    if griddle:
+        x0, x1 = griddle; kt.cbox(x0, x1, 0.9, 0.95, zk + 0.06, zk + 0.62, '#1c1c1c'); kt.cbox(x0 - 0.02, x1 + 0.02, 0.9, 1.02, zk + 0.02, zk + 0.06, '#8a8f93')
+        n = max(2, int((x1 - x0) / 0.3))
+        for k in range(n): csph(kt, (x0 + 0.16 + k * (x1 - x0 - 0.32) / max(1, n - 1), 0.965, zk + 0.3 + (k % 2) * 0.12), 0.085, ('#5a2c18', '#6a3a1e', '#c88a3a')[k % 3], seg=10, rings=4, sy=0.3)
+        kt.cbox(x1 - 0.12, x1 - 0.04, 0.95, 0.96, zk + 0.2, zk + 0.5, '#c9ced2')
+    if fridge:
+        x0, x1 = fridge; ks.box(x0, x1, 0.0, 1.98, zk + 0.02, zk + 0.72); mx = (x0 + x1) / 2
+        kt.cbox(mx - 0.006, mx + 0.006, 0.12, 1.9, zk + 0.72, zk + 0.726, '#5f6468'); kt.cbox(x0 + 0.03, x1 - 0.03, 1.0, 1.012, zk + 0.72, zk + 0.726, '#5f6468')
+        for hx in (mx - 0.07, mx + 0.05): kt.cbox(hx, hx + 0.02, 1.15, 1.55, zk + 0.72, zk + 0.76, '#3a3d40'); kt.cbox(hx, hx + 0.02, 0.45, 0.85, zk + 0.72, zk + 0.76, '#3a3d40')
+    if rack:
+        x0, x1 = rack
+        for xx in (x0, x1 - 0.03): 
+            for zz in (zk + 0.05, zk + 0.5): kt.cbox(xx, xx + 0.03, 0.0, 1.9, zz, zz + 0.03, '#b9bec2')
+        for j, yy in enumerate((0.35, 0.85, 1.3, 1.75)):
+            ks.box(x0, x1, yy, yy + 0.02, zk + 0.05, zk + 0.53); n = max(2, int((x1 - x0) / 0.36))
+            for k in range(n):
+                cx = x0 + 0.2 + k * (x1 - x0 - 0.4) / max(1, n - 1)
+                if dough: kt.cbox(cx - 0.16, cx + 0.16, yy + 0.02, yy + 0.04, zk + 0.1, zk + 0.48, '#c9ced2'); csph(kt, (cx - 0.07, yy + 0.08, zk + 0.29), 0.075, '#f1e6cc', seg=8, rings=4, sy=0.6); csph(kt, (cx + 0.08, yy + 0.08, zk + 0.29), 0.075, '#f1e6cc', seg=8, rings=4, sy=0.6)
+                elif (j + k) % 3 == 0: clathe(kt, [(0.0, 0.0), (0.13, 0.0), (0.13, 0.2), (0.14, 0.21), (0.0, 0.21)], cx, yy + 0.02, zk + 0.29, '#c4c8cb', seg=14)
+                elif (j + k) % 3 == 1: kt.cbox(cx - 0.15, cx + 0.15, yy + 0.02, yy + 0.2, zk + 0.12, zk + 0.46, ('#2a5fb8', '#c8281c', '#e0b24a')[(j + k) % 3 if False else (j * 2 + k) % 3])
+                else: kt.cbox(cx - 0.14, cx + 0.14, yy + 0.02, yy + 0.24, zk + 0.12, zk + 0.44, '#c8a878')
+    if plates is not None:
+        for k in range(9): ccyl(kt, (plates, 0.9 + k * 0.022, zk + 0.3), (plates, 0.918 + k * 0.022, zk + 0.3), 0.13, '#3a2416' if k % 2 else '#1c1c1c', seg=14)
+
+
+def steak_plate(c, x, z):
+    """桌上的鐵板牛排（118牛排，室內參考圖每桌一份）：木墊板、黑鐵板、牛排、荷包蛋、玉米、一小撮麵"""
+    v = c.vc; v.crbox(x - 0.18, x + 0.18, 0.74, 0.756, z - 0.12, z + 0.12, '#7a4a28', r=0.01, seg=1); csph(v, (x, 0.764, z), 0.15, '#1e1c1c', seg=14, rings=4, sy=0.1)
+    csph(v, (x - 0.035, 0.782, z + 0.01), 0.08, '#5a2c18', seg=10, rings=5, sy=0.32); csph(v, (x + 0.075, 0.776, z - 0.045), 0.04, '#f6f2e6', seg=8, rings=4, sy=0.2); csph(v, (x + 0.075, 0.784, z - 0.045), 0.016, '#f0a81e', seg=6, rings=4, sy=0.6)
+    csph(v, (x + 0.07, 0.778, z + 0.055), 0.032, '#f2cf3a', seg=6, rings=4, sy=0.45); csph(v, (x - 0.02, 0.776, z - 0.085), 0.04, '#e8cf8a', seg=6, rings=4, sy=0.3)
+
+
+def banchan(c, x, z):
+    """桌上的四小碟小菜＋兩個不鏽鋼杯（辛亥韓食，室內參考圖）"""
+    for k, col in enumerate(('#c8281c', '#e8d8a0', '#3f7a2a', '#f4f0e0')):
+        zz = z - 0.2 + k * 0.13; clathe(c.vm, [(0.0, 0.0), (0.04, 0.0), (0.052, 0.024), (0.048, 0.026), (0.0, 0.008)], x, 0.74, zz, '#c9ced2', seg=10); csph(c.vc, (x, 0.762, zz), 0.034, col, seg=8, rings=4, sy=0.35)
+    for dz in (-0.2, 0.2): ccyl(c.vm, (x - 0.22, 0.74, z + dz), (x - 0.22, 0.83, z + dz), 0.033, '#c9ced2', seg=10, r2=0.038)
+
+
+def wall_art(c, side, a0, a1, y0, y1, kind='photo', frame='#3a2a1e'):
+    """牆上的畫（frame_board＋裡面的畫面，頂點色）：photo＝黑白老照片（灰階的街景色塊）、ink＝水墨山水、cloth＝深紅掛布＋梅花（沒有框）"""
+    X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; m = c.wg(side, 'trim', c.M['vc'], cm=True); rr = c.rng
+    if kind != 'cloth': frame_board(c, side, a0, a1, y0, y1, frame)
+    d = 0.016
+    def P(a, y):   # 沿牆 a、高 y → 世界座標（畫面比牆面凸 d）
+        return {'N': (a, y, Z0 + d), 'S': (a, y, Z1 - d), 'W': (X0 + d, y, a), 'E': (X1 - d, y, a)}[side]
+    def quad(a_, b_, ya, yb, col):
+        pts = [P(a_, ya), P(b_, ya), P(b_, yb), P(a_, yb)]
+        if side in ('S', 'W'): pts = pts[::-1]
+        m.poly(pts, col)
+    if kind == 'cloth':
+        quad(a0, a1, y0, y1, '#7a1418'); m.cbox(*((min(P(a0, 0)[0], P(a1, 0)[0]) - 0.0, max(P(a0, 0)[0], P(a1, 0)[0]) + 0.0)), y1, y1 + 0.03, *((min(P(a0, 0)[2], P(a1, 0)[2]) - 0.02, max(P(a0, 0)[2], P(a1, 0)[2]) + 0.02)), '#3a2416') if side in ('W', 'E') else None
+        d = 0.02
+        for _ in range(14): a_ = rr.uniform(a0 + 0.06, a1 - 0.06); y_ = rr.uniform(y0 + 0.1, y1 - 0.08); r_ = rr.uniform(0.02, 0.035); quad(a_ - r_, a_ + r_, y_ - r_, y_ + r_, rr.choice(('#f2c8cf', '#f6dfe2', '#e8a8b4')))
+        return
+    quad(a0, a1, y0, y1, '#e9e2d0' if kind == 'ink' else '#cfcac0'); d = 0.019; w = a1 - a0; h = y1 - y0
+    if kind == 'ink':
+        for k in range(5): a_ = a0 + w * (0.08 + k * 0.18); hh = h * rr.uniform(0.3, 0.75); m.poly(([P(a_, y0 + 0.02), P(a_ + w * 0.22, y0 + 0.02), P(a_ + w * 0.1, y0 + hh)] if side in ('N', 'E') else [P(a_ + w * 0.22, y0 + 0.02), P(a_, y0 + 0.02), P(a_ + w * 0.1, y0 + hh)]), ('#8a8a86', '#a9a9a4', '#6f6f6c')[k % 3])
+    else:
+        for k in range(4): a_ = a0 + w * (0.05 + k * 0.23); quad(a_, a_ + w * 0.2, y0 + 0.02, y0 + h * rr.uniform(0.4, 0.8), ('#8f8b84', '#a8a39a', '#77736c')[k % 3])
+
+
+def beams(c, zs, col='#7a1418', hh=0.14, ww=0.16):
+    """天花板下面的橫樑（辛亥韓食：深紅）：只有朝下和朝兩側的面、單面——鏡頭在天花板上面時看不到"""
+    X0, X1 = c.X0, c.X1; m = c.extra.setdefault('beams', Mesh(f'l118_{c.sid}_beams', L.flat(f'l118_{c.sid}_beam', col, rough=0.8, cull=True)))
+    for z in zs:
+        y0 = H - hh; m.quad([(X0, y0, z - ww / 2), (X1, y0, z - ww / 2), (X1, y0, z + ww / 2), (X0, y0, z + ww / 2)])
+        m.quad([(X0, y0, z + ww / 2), (X1, y0, z + ww / 2), (X1, H, z + ww / 2), (X0, H, z + ww / 2)]); m.quad([(X1, y0, z - ww / 2), (X0, y0, z - ww / 2), (X0, H, z - ww / 2), (X1, H, z - ww / 2)])
 
 
 def booth(c, x0, x1, zc, cush='#262221', woodc='#5a3c2a'):
@@ -890,10 +980,9 @@ def build_tea(c):
     shell(c); kitchen(c, -0.9, 0.9, depth=1.8, win=(1.0, 1.6))
     BX0 = 0.3; ZC = (2.1, 0.38, -1.34)
     for zc in ZC:
-        booth(c, BX0, X1, zc); table_set(c, BX0 + 0.72, zc, 'korea')
+        booth(c, BX0, X1, zc); table_set(c, BX0 + 0.72, zc, 'korea'); banchan(c, BX0 + 0.38, zc)
         c.vm.cbox(X1 - 0.3, X1 - 0.08, 0.74, 0.86, zc - 0.07, zc + 0.07, '#b9bec2'); ccyl(c.vm, (X1 - 0.19, 0.86, zc), (X1 - 0.19, 0.88, zc), 0.05, '#8a8f93', seg=8)   # 靠牆的不鏽鋼餐具盒
         ccyl(c.vc, (BX0 + 0.5, 2.82, zc), (BX0 + 0.5, H, zc), 0.005, '#2a2a2a', seg=4); c.warm.sphere((BX0 + 0.5, 2.66, zc), 0.17, seg=14, rings=8)   # 圓形紙燈籠（室內參考圖；2.5 m 以上）
-    clathe(c.vc, [(0.0, 0.0), (0.085, 0.0), (0.11, 0.07), (0.1, 0.085), (0.0, 0.02)], BX0 + 0.35, 0.74, ZC[1] - 0.05, '#2b2a28', seg=12)   # 中間那一桌：一個剛收的石鍋
     c.block(BX0, X1, -2.55, ZC[0] + 0.87, 'booths')                                                                                    # 三張卡座＋卡座到櫃台之間 0.35 m 的縫：一整塊
     # 最裡面：櫃台（西半：點餐、收銀；東半：小菜櫃），後面是店員和出菜口
     counter(c, X0, 0.25, -3.0, -2.55, h=1.0, top='wood', front=RED, why='counter'); register(c, -0.75, 1.0, -2.78, face='+z')
@@ -911,10 +1000,13 @@ def build_tea(c):
     # 西牆（走道那一面）：菜單、兩張有餐點圖的海報、冷氣、壁扇；東牆卡座上方：店名、層板上的石鍋
     frame_board(c, 'W', 0.1, 2.1, 1.45, 2.2, RED); printed(c, 'W', 0.1, 2.1, 1.45, 2.2, 'MENU', inset=0.014)
     for z0_ in (-2.0, -1.05): frame_board(c, 'W', z0_, z0_ + 0.8, 1.42, 2.12, '#3a2a1e'); printed(c, 'W', z0_, z0_ + 0.8, 1.42, 2.12, 'P1', inset=0.014)
-    printed(c, 'N', -1.2, 1.2, 1.72, 2.17, 'NAME', inset=0.02); wall_shelf(c, 'E', -2.2, -0.2, 1.95, items='stone'); wall_shelf(c, 'E', 0.6, 2.4, 1.95, items='stone')   # 出菜口上方：深紅布簾上的店名（室內參考圖）；東牆卡座上方的木層板放石鍋
+    printed(c, 'N', -1.2, 1.2, 1.72, 2.17, 'NAME', inset=0.02); wall_shelf(c, 'E', -2.2, -0.2, 1.95, items='stone'); wall_shelf(c, 'E', 0.6, 2.4, 1.95, items='jars')   # 出菜口上方：深紅布簾上的店名（室內參考圖）；東牆卡座上方的木層板放石鍋
     dd = c.door; printed(c, 'S', 0.25, 0.75, 1.3, 1.52, 'HOURS', inset=0.03); printed(c, 'E', 2.3, 2.75, 1.5, 1.7, 'P2')
     ac_unit(c, X0, 2.6, -0.5, '+x', fade=True); wall_fan(c, X0, 2.35, 2.6, '+x')
     tubes(c, [(-0.5, 2.3, 'z'), (-0.5, 0.2, 'z'), (-0.5, -1.9, 'z'), (0.0, -3.5, 'x')], L_=1.0)
+    # 第 2 版（室內參考圖）：天花板的深紅橫樑、西牆靠門口的深紅掛布（梅花）、東牆一張老照片、海報上方的壁燈
+    beams(c, (3.0, 1.25, -0.5, -2.25)); wall_art(c, 'W', 3.05, 3.65, 1.25, 2.45, 'cloth'); wall_art(c, 'E', 2.9, 3.5, 1.45, 1.95, 'photo')
+    for z_ in (-1.6, -0.65, 1.1): c.vm.cbox(X0 + 0.0, X0 + 0.06, 2.3, 2.36, z_ - 0.03, z_ + 0.03, '#3a2a1e'); clathe(c.vm, [(0.0, 0.1), (0.05, 0.08), (0.1, 0.0), (0.09, 0.0), (0.04, 0.07), (0.0, 0.09)], X0 + 0.14, 2.24, z_, '#3a2a1e', seg=10); c.warm.sphere((X0 + 0.14, 2.27, z_), 0.03, seg=8, rings=4)
     c.cam = 3.6
 
 
@@ -1027,7 +1119,8 @@ def build_korea(c):
     """清州刀削麵（L118-SHOPS-REDO-1111，X338；參考圖 l118_ref/ext_korea）：使用者的規格「白底紅字老式招牌、門口可見製麵區；不鏽鋼桌、廚房可見削麵及煮麵」。
     靠店面玻璃的左邊是製麵區（不鏽鋼工作台上的麵團、兩口大湯鍋——從街上的玻璃看得到；削麵的師傅站在台子後面）；最裡面櫃台＋出菜口；五張不鏽鋼四人桌配圓凳；白磁磚牆、壁扇、紅字菜單"""
     X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; RED = '#b41e1c'
-    shell(c); kitchen(c, -1.0, 0.8, depth=1.8, win=(1.0, 1.6), door=(-2.6, -1.85))
+    shell(c); kitchen(c, -1.6, 2.9, depth=2.2, win=(1.0, 2.5), door=(-2.6, -1.85))   # 第 2 版：開放式廚房（室內參考圖：大湯鍋、煮麵籃、抽油煙罩、層架上一盤盤醒著的麵團）
+    kitchen_rich(c, hood=(0.3, 2.7), rack=(-1.5, -0.2), dough=True)
     counter(c, X0, 1.1, Z0 + 0.95, Z0 + 1.5, h=1.0, top='steel', front='#eef0ec', why='counter'); c.block(X0, 1.15, Z0, Z0 + 1.0, 'counter_back')
     register(c, 0.7, 1.0, Z0 + 1.22, face='+z')
     for k in range(6): clathe(c.vc, [(0.0, 0.0), (0.06, 0.0), (0.095, 0.075), (0.09, 0.08), (0.0, 0.01)], -2.3 + k * 0.22, 1.0, Z0 + 1.22, '#f4f1ea', seg=12)   # 一排白色麵碗
@@ -1037,8 +1130,10 @@ def build_korea(c):
     # 製麵區：靠店面玻璃的左邊（街上看得到）
     nz0, nz1 = Z1 - 0.85, Z1 - 0.12
     noodle_station(c, -3.0, -1.5, nz0, nz1)
-    c.steel.box(-1.4, -0.75, 0.86, 0.9, nz0, nz1); c.vc.crbox(-1.4, -0.75, 0.0, 0.86, nz0 + 0.03, nz1 - 0.03, '#c9ccce', r=0.006, seg=1)             # 揉麵的工作台
-    for (dx, r_) in ((-1.22, 0.13), (-0.95, 0.11)): csph(c.vc, (dx, 0.96, (nz0 + nz1) / 2), r_, '#f1e6cc', seg=10, rings=6, sy=0.6)                    # 麵團
+    c.wood.rbox(-1.42, -0.73, 0.84, 0.9, nz0 - 0.02, nz1 + 0.0, r=0.008, seg=2); c.vc.crbox(-1.4, -0.75, 0.0, 0.84, nz0 + 0.03, nz1 - 0.03, '#8a6a4a', r=0.006, seg=1)   # 第 2 版：木頭的大工作檯（室內參考圖）
+    csph(c.vc, (-1.12, 1.0, (nz0 + nz1) / 2), 0.2, '#f1e6cc', seg=12, rings=6, sy=0.55); csph(c.vc, (-0.86, 0.95, (nz0 + nz1) / 2 + 0.12), 0.09, '#f1e6cc', seg=10, rings=5, sy=0.6)   # 一大塊麵團＋一小塊
+    c.vm.cbox(-1.3, -1.02, 1.09, 1.1, (nz0 + nz1) / 2 - 0.2, (nz0 + nz1) / 2 - 0.05, '#c9ced2'); c.vc.cbox(-1.36, -1.3, 1.085, 1.105, (nz0 + nz1) / 2 - 0.16, (nz0 + nz1) / 2 - 0.09, '#5a3a22')   # 削麵刀（架在麵團上）
+    c.vc.crbox(-0.96, -0.77, 0.9, 1.2, nz1 - 0.3, nz1 - 0.06, '#e9e2cf', r=0.03, seg=2)   # 麵粉袋（立在工作檯靠玻璃那一端；原本放地上、多擋一塊：旁邊留下一個 10 fps 會卡的點，l118_shops_notrap 抓到的）
     c.vc.crbox(-1.36, -0.82, 0.9, 0.92, nz0 + 0.06, nz0 + 0.3, '#d8c8a8', r=0.004, seg=1)                                                             # 削麵的木板
     c.block(-3.05, -0.7, nz0 - 0.03, Z1, 'noodle_station')
     c.cook = dict(x=-1.1, z=round(nz0 - 0.5, 3), yaw=0.0, note='削麵的師傅（AA_772：不說話）：站在工作台後面、面向店面的玻璃（街上看得到他）')
@@ -1048,8 +1143,9 @@ def build_korea(c):
     tubes(c, [(-1.75, -0.1, 'x'), (0.4, -0.1, 'x'), (0.4, 2.0, 'x'), (-1.9, 2.6, 'x'), (-0.5, Z0 + 1.2, 'x')])
     frame_board(c, 'E', -1.6, 0.4, 1.75, 2.5, RED); printed(c, 'E', -1.6, 0.4, 1.75, 2.5, 'MENU', inset=0.014)                                       # 東牆的紅字菜單（參考圖）
     printed(c, 'W', -1.2, 1.2, 2.5, 2.95, 'NAME')
-    for z0_ in (-2.2, -0.2): frame_board(c, 'W', z0_, z0_ + 0.8, 1.75, 2.45, '#3a2a1e'); printed(c, 'W', z0_, z0_ + 0.8, 1.75, 2.45, 'P1', inset=0.014)
-    dd = c.door; printed(c, 'S', dd['x'] - 0.95, dd['x'] - 0.5, 1.3, 1.5, 'HOURS', inset=0.03); printed(c, 'N', 1.25, 1.75, 2.1, 2.32, 'P2')
+    frame_board(c, 'W', -2.2, -1.4, 1.75, 2.45, '#3a2a1e'); printed(c, 'W', -2.2, -1.4, 1.75, 2.45, 'P1', inset=0.014)
+    wall_art(c, 'W', -0.5, 0.9, 1.55, 2.2, 'ink')                                                                                       # 第 2 版：西牆的水墨山水（室內參考圖）
+    dd = c.door; printed(c, 'S', dd['x'] - 0.95, dd['x'] - 0.5, 1.3, 1.5, 'HOURS', inset=0.03); printed(c, 'E', 0.9, 1.4, 1.5, 1.72, 'P2')
     wall_fan(c, X1, 2.45, 2.2, '-x'); wall_fan(c, X0, 2.45, 1.4, '+x'); ac_unit(c, X0, 2.55, -1.6, '+x', fade=True)
     c.cam = 4.2
 
