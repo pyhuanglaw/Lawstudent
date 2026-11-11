@@ -8164,6 +8164,22 @@
    "noDirectIntegrate": false,
    "note": "4 個檔（engine3d.js E.rayFirstHit＋傳 hit；game3d.js tapToSeat；tap_seat_ray_1111 改法寫在檔案裡；新 tap_seat_ray_real_1111）；基底 0fe8cb80d4，在 d75a274b2e 上乾淨；BB 四個走道點看得到地板的全部 null（舊做法 81 個帶去椅子）；五湖四海 #9 215 個都坐得到；118 巷 4726 次都導去打到的那一張（舊做法 1822 次挑錯）；全部 Node 測試 1288 支：1287 過＋bookstore 老警告",
    "next": "LAWWW 發版後整合；CC 在總圖、宿舍、Café 點走道、點椅子，118 巷照 BB 那 13 張點"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "at": "2026-11-11T12:3x",
+   "task": "CAFE-BAR-CAM-1111：兩點半 Café 吧檯坐下鏡頭被天花板大梁擋（梁下面當樓板 slabClip＋網點透空）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/cafe_bar_cam_1111/（README.md、cafe_bar_cam_v1.patch、cafe_bar_cam_before_after.jpg、cafe_bar_cam_options.jpg、regression_full.log）"
+   ],
+   "state": "READY_FOR_REVIEW；發版後整合",
+   "noDirectIntegrate": false,
+   "note": "2 個檔（zones3d.js：cafe z.slabs 天花板下 2.78～3.4 m＋attachCafe230 CAFE230_SEETHRU；新 tests/cafe_bar_cam_1111_unit.js）；基底 32d35ec2d6，在 4bad2a2223 上乾淨（和 TAP-RAY 一起也乾淨）；吧檯 256 鏡頭擋 90→0、其他座位 37→0、BB 那格鏡頭 (−1.3,3.46,0.6)→(−1.3,2.63,−1.24)；站著預設俯角不變；全部 Node 1288：1287 過＋bookstore 老警告",
+   "next": "LAWWW 發版後整合；CC 照 BB 走法坐中間那張吧檯拍、BB 判"
   }
  ]
 }

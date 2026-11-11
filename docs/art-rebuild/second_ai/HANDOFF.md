@@ -1,7 +1,17 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-11 10:5x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 12:3x UTC）
+
+- 三包都交了、都是「發版後整合」（v9.10.25 候選 0d1eaadc7 不動）：
+  - P2 義大麵屋吧台凳＋窗上海報背面（988dfcbe2）：LAWWW 10:56 ACK。
+  - **TAP-RAY-SEAT-1111 點畫面判椅子**（cef36c9c7，`wip/tap_ray_seat_1111/`）：LAWWW 11:36 ACK。engine3d.js `E.rayFirstHit`＋tapRedirect 傳 hit；game3d.js tapToSeat 射線先打到哪張就是哪張。新測試 `tap_seat_ray_real_1111_unit`（真的區域＋GLB）。缺點已記：人不擋。
+  - **CAFE-BAR-CAM-1111 兩點半 Café 吧檯鏡頭**（這一筆，`wip/cafe_bar_cam_1111/`）：原因是天花板水泥大梁（不是牆）；cafe `z.slabs`（天花板下 2.78～3.4 m，slabClip 讓鏡頭停在梁下面）＋`CAFE230_SEETHRU` 網點透空。等 LAWWW ACK、CC 拍、BB 判。
+- 還在等：LAWWW 給座位最後的值（#47 重跑 `it_fix()`）、CC 的南洋戲院截圖、BB／CC 判 118 巷室內第 3 版、泳池、季節。
+- 這一輪學到的：①點畫面要判「打到什麼」用真的模型射線（three Raycaster 打 E.zone.group），抽象的高度帶會把擦過的東西算進去；Node 裡 GLB 可以去掉貼圖解析（`tests/us_club_lounge_unit.js` 的 parseGLB）；牆照 `z.fadeWalls` 淡出再測。②室內鏡頭被天花板下的梁擋：`z.slabs` 一塊天花板帶（slabClip，多樓層本來就用）比只做網點透空乾淨。③全部測試在跑的時候不要改同一個工作目錄的 src（這次改了 zones3d.js 一分鐘，事後把那段前後 46 支重跑）——下一件開另一個工作目錄。
+- 工作目錄：`$SP/wt_bb`＝dev 0fe8cb80d4＋點椅子（staged，已交）；`$SP/wt_ch`＝dev 32d35ec2d6＋Café 鏡頭（staged，已交）。
+
+## 交接（前一則｜帳號 A｜2026-11-11 10:5x UTC）
 
 - 樓梯掃描：**LAWWW 10:07 ACK，整包（含引擎半步）放進這一版**；請 CC 走花序、總圖大廳、大口漢堡。
 - **P2（發版後整合）已交（READY_FOR_REVIEW；全部 Node 測試 1286 支：1285 過＋bookstore 老警告）**：`wip/l118_p2_1111/`（README、`l118_p2_v1.patch`、`bar_before_after.jpg`、`window_backs_before_after.jpg`）。基底 dev 0b2d9c4f08，在 2b0929e277 上 --3way 乾淨。①義大麵屋吧台：椅子往外 0.12（−1.80）＋前板往裡退 0.15（−2.40，檯面下托架、兩端側板），`L118_IT_FIX.pasta` 那五格 sit 拿掉（不拿 `l118_interact_reach_1111_unit` 第 0 項會紅）；②奈良咖哩、義大麵屋窗上海報背面：`l118_int_omu.py` 新的 `poster_backs()`（紙＋透過來左右相反的圖＋膠帶）、`street_back()`（位置照街上那一張換算；義大麵屋第一張原本放在街上沒有海報的地方）。

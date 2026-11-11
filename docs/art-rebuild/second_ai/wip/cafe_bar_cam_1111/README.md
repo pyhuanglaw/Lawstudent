@@ -1,6 +1,8 @@
 # 兩點半 Café 吧檯坐下鏡頭整片是牆（CAFE-BAR-CAM-1111；LAWWW 11-11 11:23 派給 LAWWW2，發版後，P2）
 
-狀態：**WORK_IN_PROGRESS**（全部 Node 測試在跑）。
+狀態：**READY_FOR_REVIEW**（2026-11-11 12:3x UTC）。發版後整合。
+
+- patch：`cafe_bar_cam_v1.patch`（2 個檔：`src/zones3d.js`、新 `tests/cafe_bar_cam_1111_unit.js`；基底 dev `32d35ec2d6`；在最新 dev `4bad2a2223` 上試過 `git apply --3way`：乾淨；和點椅子那一包（tap_ray_seat_v1.patch）一起套也乾淨）。
 
 依據（LAWWW 11:23，BB 11:2x 回報、線上 779 就有）：搖桿坐「坐吧檯」（中間那張），鏡頭在 (−1.3,3.46,0.6)，看不到自己和吧台。要：座位鏡頭往後拉或改俯角，照其他店吧檯座位的做法；交 patch＋同機位截圖，CC 拍、BB 判。
 
@@ -25,7 +27,7 @@
 3. 全店其他 22 張座位、預設俯角、16 個方向：修改前擋住 37 個，修改後 0。
 4. 站著、預設俯角 0.22：鏡頭照舊（slabClip 沒有動它）。
 
-修改前（開發分支 32d35ec2d）1、2、3 FAIL。相關 18 支（`cafe*`、`wz_seat_cams_1104`、`badclip_*`、`room_ceiling`、`stairs_cam_slab`）全過。全部 Node 測試：在跑。
+修改前（開發分支 32d35ec2d）1、2、3 FAIL。相關 18 支（`cafe*`、`wz_seat_cams_1104`、`badclip_*`、`room_ceiling`、`stairs_cam_slab`）全過。**全部 Node 測試 1288 支**（`regression_full.log`）：1287 支 ALL PASS；`bookstore_exit_unit` 老警告（結束碼 0）。
 
 ## 截圖（遊戲畫面：Playwright＋SwiftShader，[前置／捷徑] 讀檔、直接 `GAME.sitAt` 坐 12 號、直接設 `E.cam` 的 yaw／俯角，鏡頭是遊戲自己的跟隨鏡頭，不是擺的）
 
