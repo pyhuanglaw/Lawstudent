@@ -7,7 +7,9 @@
 const SD3=(function(){ const S={}; const DAYMS=86400000;
   const DATA=()=>typeof SEASON_DECO!=='undefined'?SEASON_DECO:null;
   S.on=function(code,day){ const D=DATA(), R=D&&D.rules&&D.rules[code]; if(!R||day==null||typeof CALENDAR==='undefined'||!CALENDAR.dateOf) return false; const x=CALENDAR.dateOf(day);
-    if(R.md){ const k=(x.m<10?'0':'')+x.m+'-'+(x.d<10?'0':'')+x.d, a=R.md[0], b=R.md[1]; return a<=b?(k>=a&&k<=b):(k>=a||k<=b); }
+    if(R.unlessFlag){ const G=typeof GAME!=='undefined'&&GAME.G, F=(G&&G.flags)||{}; for(const k of Object.keys(R.unlessFlag)) if(F[k]===R.unlessFlag[k]) return false; }   /* 劇情狀態（例：阿德影印搬走了）*/
+    if(R.md||R.mds){ const k=(x.m<10?'0':'')+x.m+'-'+(x.d<10?'0':'')+x.d; return (R.mds||[R.md]).some(r=>{ const a=r[0], b=r[1]; return a<=b?(k>=a&&k<=b):(k>=a||k<=b); }); }
+    if(R.term){ if(!CALENDAR.termOf) return false; const hit=d=>{ const t=CALENDAR.termOf(d); return !!t&&t.exam===R.term; }; if(hit(day)) return true; const bf=R.before|0; return bf>0&&!hit(day)&&hit(day+bf)&&!!CALENDAR.termOf(day); }
     if(R.lunar){ const t=Date.UTC(x.y,x.m-1,x.d); for(const yy of [x.y-1,x.y,x.y+1]){ const Ly=CALENDAR.LUNAR&&CALENDAR.LUNAR[yy], s=Ly&&Ly[R.lunar], m=s&&/^(\d+)-(\d+)-(\d+)$/.exec(s); if(!m) continue;
         const dd=Math.round((t-Date.UTC(+m[1],+m[2]-1,+m[3]))/DAYMS); if(dd>=R.from&&dd<=R.to) return true; } return false; }
     return false; };
