@@ -35659,7 +35659,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "AA 稿已交、等 AA 在遊戲裡重讀（學姊：AA_539 三種玩家×八學期＋美日路線對 AA_470 A～H；女主角生活：postrel-1030 合進開發分支以後讀）",
+   "next": "【11-11 11:2x AA 部分結案（AA_806 626416d2e）】動態牆九學期稿有遊戲沒有＝0（兩版照片、路線限定都算）；圈子由 heroine_circle3d_unit.js 對稿；學姊 AA_539 在 sis_aa539_lines.js（抽查第 3 節九則都在）。AA 沒有要改的。下一步：BB／CC 實玩「看得到她們自己的生活」（動態牆、圈子、她的事），BB 判。｜AA 稿已交、等 AA 在遊戲裡重讀（學姊：AA_539 三種玩家×八學期＋美日路線對 AA_470 A～H；女主角生活：postrel-1030 合進開發分支以後讀）",
    "xai": {
     "spec": "AA_503（c6c93432d）",
     "branch": "claude/magical-albattani-bk7b4n",
