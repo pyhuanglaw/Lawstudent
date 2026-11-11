@@ -1,11 +1,3 @@
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:22:19] ==== END   CLASS12_skip5b_np450_r4  exit=0  274s   ====
-[15:22:28] memory 50% before starting L118D_E_SEATMIX_A (2 running)
-[15:22:28] ==== START L118D_E_SEATMIX_A  (probe @ b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa) ====
-[15:22:31] [res] cpu=3% mem=50% (15.7/31.4 GB) chrome_testing=10  START L118D_E_SEATMIX_A
-[15:23:59] [res] cpu=10% mem=51% (16.1/31.4 GB) chrome_testing=10  END L118D_H_B_r2
-[15:24:04] 正在跑：L118D_H_B_r2（已跑 4 分／上限 15 分）、L118D_H_C_r2（已跑 4 分／上限 15 分）、L118D_E_SEATMIX_A（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
-    To https://github.com/pyhuanglaw/Lawstudent.git
        160ad61f4..69f3fa28d  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [15:24:06] ==== END   L118D_H_B_r2  exit=1  239s   ====
@@ -1998,3 +1990,11 @@
 [00:03:02] [res] cpu=18% mem=44% (13.8/31.4 GB) chrome_testing=10  START L118A6_KITCHEN
 [00:04:05] 正在跑：L118A_DOOR_b（已跑 2 分／上限 15 分）、L118A_DOOR_c（已跑 2 分／上限 15 分）、L118A6_KITCHEN（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:04:13] [res] cpu=5% mem=43% (13.6/31.4 GB) chrome_testing=9  END L118A_DOOR_b
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a45db056d..1bd2775f6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:04:25] ==== END   L118A_DOOR_b  exit=0  173s   ====
+[00:04:36] memory 37% before starting L118A6_CORN_a (2 running)
+[00:04:36] ==== START L118A6_CORN_a  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[00:04:39] [res] cpu=5% mem=37% (11.9/31.4 GB) chrome_testing=4  START L118A6_CORN_a
+[00:04:44] [res] cpu=10% mem=39% (11.9/31.4 GB) chrome_testing=4  END L118A_DOOR_c
