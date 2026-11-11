@@ -749,3 +749,12 @@
 [08:12:20] ==== START SC3_v1  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
 [08:12:23] [res] cpu=4% mem=46% (14.2/31.4 GB) chrome_testing=9  START SC3_v1
 [08:13:19] [res] cpu=4% mem=45% (14.4/31.4 GB) chrome_testing=9  END SC3_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ab45b27c5..3f8a9ee64  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:13:25] ==== END   SC3_new  exit=0  160s   ====
+[08:13:35] memory 47% before starting TZ5_int_new (2 running)
+[08:13:35] ==== START TZ5_int_new  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
+[08:13:38] [res] cpu=2% mem=47% (14.9/31.4 GB) chrome_testing=10  START TZ5_int_new
+[08:14:02] 正在跑：SC3_v2（已跑 2 分／上限 8 分）、SC3_v1（已跑 1 分／上限 8 分）、TZ5_int_new（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:14:10] [res] cpu=1% mem=45% (14.1/31.4 GB) chrome_testing=9  END SC3_v2
