@@ -94,11 +94,11 @@ ZONES = {
 
 TAP_PT = r"""(([x,y,z])=>{ const E=GAME.E; const v=new THREE.Vector3(x,y,z).project(E.camera); if(v.z>1) return {off:true, behind:true}; const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight;
   if(sx<10||sy<10||sx>innerWidth-10||sy>innerHeight-10) return {off:true, sx:+sx.toFixed(1), sy:+sy.toFixed(1)}; const el=document.elementFromPoint(sx,sy); const h=E.screenToFloor?E.screenToFloor(sx,sy):null;
-  let r=null; if(h&&E.tapRedirect&&!(h.obj&&h.obj.userData&&h.obj.userData.stairEnds)) r=E.tapRedirect(h.x,h.z,h.lv==null?(E.player.lv|0):h.lv,{ray:E.ray.ray,fy:h.y});
+  let r=null; if(h&&E.tapRedirect&&!(h.obj&&h.obj.userData&&h.obj.userData.stairEnds)) r=E.tapRedirect(h.x,h.z,h.lv==null?(E.player.lv|0):h.lv,{ray:E.ray.ray,fy:h.y,hit:{x:h.x,y:h.y,z:h.z}});  let fh=null; if(h&&E.rayFirstHit){ const R0=E.ray.ray, tF=Math.hypot(h.x-R0.origin.x,h.y-R0.origin.y,h.z-R0.origin.z); const q=E.rayFirstHit(R0,tF-0.03); if(q){ const o=q.object; let nm=o.name||''; for(let a=o.parent;!nm&&a;a=a.parent) nm=a.name||''; const mm=[].concat(o.material)[0]; fh={obj:nm||o.type, mat:mm&&mm.name||'', p:[+q.point.x.toFixed(2),+q.point.y.toFixed(2),+q.point.z.toFixed(2)]}; } }
   let seat=null; if(r){ if(r[3]) seat=[+r[3].x.toFixed(3),+r[3].z.toFixed(3)]; else if(GAME.seatApproach){ for(const it of E.interactables){ if(!it.seat||it.hidden) continue; const ap=GAME.seatApproach(it.seat); if(ap&&Math.hypot(ap[0]-r[0],ap[1]-r[1])<0.05){ seat=[+it.seat.x.toFixed(3),+it.seat.z.toFixed(3)]; break; } } } }
   const cam=E.camera.position, p=new THREE.Vector3(x,y,z), dir=p.clone().sub(cam), dist=dir.length(); dir.normalize(); const pitch=+(Math.asin(-dir.y)*180/Math.PI).toFixed(1);
   return {sx:+sx.toFixed(1), sy:+sy.toFixed(1), canvas:!!el&&el.id==='c'&&!['hud','hudR','minimap','ctlR','joy','interact','toast','choices','btnGo','btnQuick','clockBox','nextClass','titleBar'].some(id=>{ const e=document.getElementById(id); if(!e||e.offsetParent===null) return false; const r=e.getBoundingClientRect(); return sx>=r.left-4&&sx<=r.right+4&&sy>=r.top-4&&sy<=r.bottom+4; }), el:el?(el.id||el.tagName):null, hit:h?[+h.x.toFixed(2),+h.z.toFixed(2),h.lv|0,+(+h.y).toFixed(2)]:null,
-    redirect:r?[+r[0].toFixed(2),+r[1].toFixed(2)]:null, rseat:seat, dist:+dist.toFixed(2), pitch}; })"""
+    redirect:r?[+r[0].toFixed(2),+r[1].toFixed(2)]:null, rseat:seat, first:fh, dist:+dist.toFixed(2), pitch}; })"""
 PSTATE = r"""(()=>{ const P=GAME.E.player, o=P.obj.position, s=P.seat; return {x:+o.x.toFixed(3), z:+o.z.toFixed(3), lv:P.lv|0, path:!!(P.path&&P.path.length), tp:P.tapPref?[+P.tapPref.x.toFixed(2),+P.tapPref.z.toFixed(2)]:null, seat:s?[+s.x.toFixed(3),+s.z.toFixed(3)]:null}; })()"""
 OCC_JS = r"""(([x,z])=>(GAME.E.npcs||[]).filter(n=>n&&((n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.4)||(n.seatTarget&&Math.hypot(n.seatTarget.x-x,n.seatTarget.z-z)<0.4))).map(n=>String(n.id||n.name||(n.isExtra?'extra':'?'))))"""
 ALLSEATS = r"""((lv)=>{ const E=GAME.E; return [].concat((E.zone&&E.zone.seats||[]).filter(s=>(s.lv|0)===lv),(E.interactables||[]).filter(i=>i.seat&&!i.hidden&&((i.seat.lv|0)===lv)).map(i=>i.seat)).map(s=>[+s.x.toFixed(3),+s.z.toFixed(3)]); })"""
@@ -121,6 +121,8 @@ TABLE_TOP = r"""((a)=>{ const E=GAME.E, V=THREE.Vector3; const vis=o=>{ for(let 
     best={x:+x.toFixed(2),z:+z.toFixed(2),y:+h.point.y.toFixed(3),d:+d.toFixed(2),mesh:h.object.name||'',mat:([].concat(h.object.material)[0]||{}).name||''}; }
   return best; })"""
 OFFS = [(0.0, 0.0), (0.15, 0.0), (-0.15, 0.0), (0.0, 0.1), (0.0, -0.1)]
+# 椅面：椅子中心被柱子、桌子擋住時，點椅子露出來的那一邊（BB 19:08／LAWWW2：總圖椅子 2 中心那個像素被白柱子擋住，左半邊點得到）
+OFFS_SEAT = OFFS + [(0.1, 0.1), (-0.1, 0.1), (0.1, -0.1), (-0.1, -0.1), (0.2, 0.0), (-0.2, 0.0)]
 # 走近用的點：(x,z) 1 m 內站得住、0.8 m 內沒有椅子、離 (x,z) 最近（不走到別張椅子的 seatApproach 上，免得走近時互動鍵先變成別張）
 NEAR_STAND = r"""((a)=>{ const E=GAME.E; const seats=[].concat((E.zone&&E.zone.seats||[]).filter(s=>(s.lv|0)===a.lv),(E.interactables||[]).filter(i=>i.seat&&((i.seat.lv|0)===a.lv)).map(i=>i.seat)); let best=null;
   for(let dx=-1;dx<=1+1e-6;dx+=0.1) for(let dz=-1;dz<=1+1e-6;dz+=0.1){ const x=a.x+dx, z=a.z+dz; if(!E.canStand(x,z,0.3,a.lv)||seats.some(s=>Math.hypot(s.x-x,s.z-z)<0.8)) continue; const d=Math.hypot(dx,dz); if(!best||d<best.d) best={x,z,d}; }
@@ -170,14 +172,17 @@ async def wait_settle(pg, max_s=60):
     return s, await pg.evaluate(PSTATE), round(time.time() - t0, 1)
 
 
-async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0):
-    """椅面／地板那一點投影到螢幕，要是遊戲畫面才點；不行就轉鏡頭、再不行就先點地走近。回傳 (pt, 怎麼瞄到的)"""
-    bad = lambda q: not q or q.get('off') or not q.get('canvas')
+async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None):
+    """椅面／地板那一點投影到螢幕，要是遊戲畫面才點；不行就轉鏡頭、再不行就先點地走近。回傳 (pt, 怎麼瞄到的)
+    want＝(椅子 x, z)：點椅面時，那個像素射線第一個打到的要是這張椅子（遊戲 tapToSeat 帶 hit 算出來的 rseat＝這張）；被柱子、桌子擋住就換點、轉鏡頭、走近（CC_02 乙 4）"""
+    bad0 = lambda q: not q or q.get('off') or not q.get('canvas')
+    hits = lambda q: not want or bool(q.get('rseat') and abs(q['rseat'][0] - want[0]) < 0.06 and abs(q['rseat'][1] - want[1]) < 0.06)
+    bad = lambda q: bad0(q) or not hits(q)
 
     async def try_pts(how):
         """那一點被 HUD（例：教室的「下一堂課」）蓋住時，像玩家點同一張椅子／同一塊地看得到的旁邊一點（左右 0.15 m、前後 0.1 m）"""
         first = None
-        for ox, oz in OFFS:
+        for ox, oz in (OFFS_SEAT if want else OFFS):
             q = await pg.evaluate(TAP_PT, [x + ox, y, z + oz])
             if first is None: first = q
             if not bad(q):
@@ -192,7 +197,10 @@ async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0):
         await L.go_to(pg, cdp, R, near_pt[0], near_pt[1], 0.6, '%s（走近）' % tag, max_s=150, lv=lv); await D.settle(pg)
         if (await D.st(pg))['seat']: R.note('%s 走近時坐下了（不應該）' % tag); return None, '走近時坐下'
         await L.turn_camera_to(pg, cdp, x, z); pt, how = await try_pts('走近＋轉鏡頭')
-    if bad(pt): return None, how
+    if bad0(pt): return None, how
+    if bad(pt):   # 畫面上點得到，但每一個點射線都先打到別的東西（柱子、桌子、別張椅子）
+        R.note('%s 這張椅子每一個點都被擋住：射線先打到 %s、遊戲會導去 %s（椅子 %s）' % (tag, J(pt.get('first')), J(pt.get('redirect')), J(pt.get('rseat'))))
+        return None, 'blocked'
     return pt, how
 
 
@@ -252,11 +260,13 @@ async def seat_one(pg, cdp, key, Z, k, pick):
     R.note('%s 挑 (%s, %s)「%s」：%s%s；seatApproach %s；椅面高 %s（地板 %s＋0.45＋lift %s）' % (t, s['sx'], s['sz'], s['label'], why, '' if (s['sx'], s['sz']) == first else '（首選有人坐或不存在，用候補）', J(s['ap']), y, base, s.get('lift') or 0))
     sx0, sz0 = Z['start'][0], Z['start'][1]; dd = math.hypot(sx0 - s['sx'], sz0 - s['sz'])
     nb = await pg.evaluate(NEAR_STAND, {'x': s['sx'] + (sx0 - s['sx']) * min(1.0, 4.0 / max(dd, 0.01)), 'z': s['sz'] + (sz0 - s['sz']) * min(1.0, 4.0 / max(dd, 0.01)), 'lv': lv})
-    pt, how = await aim(pg, cdp, s['sx'], y, s['sz'], t, near_pt=nb, lv=lv)
+    pt, how = await aim(pg, cdp, s['sx'], y, s['sz'], t, near_pt=nb, lv=lv, want=(s['sx'], s['sz']))
+    if not pt and how == 'blocked':
+        R.note('%s 從起點、轉鏡頭、走近都看不到這張椅子沒被擋住的地方：不判（玩家也點不到被擋住的那一點）' % t); await shot(pg, '%s_seat%d_blocked' % (key, k)); return 'blocked'
     if not pt:
         R.check('%s 畫面上點得到這張椅面（%s）' % (t, how), False, ''); await shot(pg, '%s_seat%d_notap' % (key, k)); return 'notap'
     fb0 = (await D.st(pg))['fb']
-    R.note('%s 點椅面（%s）螢幕 (%s, %s)、離鏡頭 %s m、視線俯角 %s°：地板落點 %s、tapRedirect 導去 %s（椅子 %s）' % (t, how, pt['sx'], pt['sy'], pt['dist'], pt['pitch'], J(pt['hit']), J(pt['redirect']), J(pt['rseat'])))
+    R.note('%s 點椅面（%s）螢幕 (%s, %s)、離鏡頭 %s m、視線俯角 %s°：地板落點 %s、射線先打到 %s、tapRedirect 導去 %s（椅子 %s）' % (t, how, pt['sx'], pt['sy'], pt['dist'], pt['pitch'], J(pt['hit']), J(pt.get('first')), J(pt['redirect']), J(pt['rseat'])))
     await L.touch_tap(cdp, pt['sx'], pt['sy'])
     b, m, secs = await wait_settle(pg); ni = await pg.evaluate(D.NEAR_IT)
     pho = await pg.evaluate("(()=>{ const p=document.getElementById('phone'); return !!p&&!p.classList.contains('hide')&&p.offsetParent!==null; })()")
