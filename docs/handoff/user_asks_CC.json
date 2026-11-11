@@ -161,6 +161,16 @@
    "kind": "原話",
    "status": "已完成",
    "task": "ROLE-CC-1102"
+  },
+  {
+   "id": "UA-CC-1111-01",
+   "at": "2026-11-11T14:48Z",
+   "quote": "你寫錯過的探針 如何排除的方法 都要紀錄成規則 讓以後避免",
+   "kind": "原話",
+   "wants": "X344",
+   "status": "規則（永久）",
+   "task": "ROLE-CC-1102",
+   "note": "寫成 docs/story_planning/CC/CC_02_探針錯誤與防範規則.md（cc-testing 6174a08a2f）：甲 排除流程六步、乙 12 類錯誤（CC_01 實例＋規則）、丙 寫探針檢查清單；CC_00 開頭加必讀；LAWWW 在 ROLE_CC.md 加接班必讀（D151，開發分支 d90c8a4fe）。之後每判一個 TEST_BUG 就補一行"
   }
  ]
 }
