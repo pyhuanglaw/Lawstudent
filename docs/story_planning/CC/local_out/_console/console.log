@@ -1,8 +1,3 @@
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:17:29] ==== END   L118A_SPECIAL_r2  exit=0  195s   ====
-[15:17:38] memory 51% before starting CLASS12_skip5b_np450_r4 (2 running)
-[15:17:38] ==== START CLASS12_skip5b_np450_r4  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
-[15:17:41] [res] cpu=7% mem=51% (16.0/31.4 GB) chrome_testing=10  START CLASS12_skip5b_np450_r4
 [15:19:04] 正在跑：CLASS12_crim_c（已跑 6 分／上限 14 分）、CLASS12_skip5b_np350_r4（已跑 4 分／上限 12 分）、CLASS12_skip5b_np450_r4（已跑 1 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:19:39] [res] cpu=9% mem=42% (13.3/31.4 GB) chrome_testing=5  END CLASS12_skip5b_np350_r4
 [15:19:45] [res] cpu=10% mem=42% (13.4/31.4 GB) chrome_testing=5  END CLASS12_crim_c
@@ -1998,3 +1993,8 @@
 [23:58:38] [res] cpu=2% mem=45% (14.3/31.4 GB) chrome_testing=10  START ACT_ZR3_SITFIRST_old_r3
 [23:59:05] 正在跑：STAIR_old_run_r2（已跑 21 分／上限 40 分）、ACT_ZR3_SITFIRST_rel_r3（已跑 2 分／上限 9 分）、ACT_ZR3_SITFIRST_old_r3（已跑 0 分／上限 9 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:00:55] [res] cpu=9% mem=37% (11.7/31.4 GB) chrome_testing=5  END ACT_ZR3_SITFIRST_rel_r3
+[00:01:00] [res] cpu=6% mem=37% (11.8/31.4 GB) chrome_testing=5  END STAIR_old_run_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       27fcc4a95..c91710865  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:01:04] ==== END   ACT_ZR3_SITFIRST_rel_r3  exit=1  253s   ====
