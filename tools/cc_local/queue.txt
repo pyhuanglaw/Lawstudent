@@ -702,6 +702,18 @@ ART2_lmint_old | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_p
 ART2_g0910_new | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=G0910,GGEXT;GGS=G09,G10;HOURS=14,20.5;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
 ART2_g0910_old | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=G0910,GGEXT;GGS=G09,G10;HOURS=14,20.5;SHA=fd4dd9aef6cb0d31b06d137636a25ab52eceedc4
 ART2_lm18_new | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 12 | PARTS=LIMAO;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
+# BB 00:21 二 LM2 上師對話（子代理 cc_lm2_probe；稿 fixtures/lm2＝企劃線 804f55bb3，比遊戲匯入的 227db1c9e 新一版：鐵盒→木盒、closed 兩句、entryA 標題）：新 e8918a013、舊 11161c101（沒有算命桌，預期 FAIL）
+LM2_N1 | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=FIRST,MENU,HOURS;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+LM2_N2 | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 12 | PARTS=POOL;POOLSET=C;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+LM2_N3 | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 12 | PARTS=POOL,FLAGS;POOLSET=B,A;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+LM2_N4 | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 12 | PARTS=PROF,SERIOUS;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+LM2_N5 | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 12 | PARTS=REVEAL;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+LM2_N6 | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=REVEALA;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+LM2_N7 | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 15 | PARTS=UI;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+LM2_N8 | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 15 | PARTS=SAVE;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+LM2_N9 | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 15 | PARTS=SAVEDAY;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+LM2_O1 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=FIRST,HOURS,UI;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
+LM2_O2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=REVEAL;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
 # CC 23:5x：GG3_int_new 第一輪「四角」挑點是 TEST_BUG（只擴散到門口那一排 z≈3）→ 角落改用 E.canStand(0.3)、印擴散範圍；公館三間重跑，汀州路三間也用新挑點補驗四角（BB 判過舊挑點 TEST_BUG）
 GG3_int_new_14_r2 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;SHOPS=antai,xianguo,rongendian;HOURS=14;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8
 TZ4_int_r4 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;SHOPS=taimi,xile,yindehao;HOURS=14;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8

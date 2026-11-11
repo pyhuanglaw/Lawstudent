@@ -364,8 +364,11 @@ async def look_point(pg, cdp, tag, it):
     for _ in range(6):
         if s['interact']: break
         await pg.wait_for_timeout(400); s = await D.st(pg)
+    await pg.evaluate("(()=>{ window.__lmDom=[]; for(const id of ['caption','toast']){ const t=document.getElementById(id); if(!t||t.__lmObs) continue; t.__lmObs=1; new MutationObserver(()=>{ const x=(t.innerText||'').trim(); if(x&&window.__lmDom) window.__lmDom.push(id+'：'+x); }).observe(t,{childList:true,subtree:true,characterData:true}); } })()")
     n0 = await pg.evaluate(LOGN); await L.tap(pg, cdp, '#interact'); await drive(pg, cdp, max_s=40); await pg.wait_for_timeout(600)
     log = await pg.evaluate(LOGS, n0); S_ = says(log); caps = [e['text'] for e in log if e['k'] == 'cap']
+    for x in await pg.evaluate("window.__lmDom||[]"):   # 不經過 GAME.caption 的字（場景的「看」）：畫面上 #caption／#toast 出現的字
+        if x not in caps: caps.append(x)
     R.note('%s 「%s」走到 %s、按鈕「%s」→ 旁白 %s；字幕 %s' % (tag, it['label'], ok, s['interact'], J([(e['shown'], e['full'] or e['text']) for e in S_]), J(caps)))
     return {'btn': s['interact'], 'lines': S_, 'caps': caps, 'ok': ok}
 
