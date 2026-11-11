@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import import_guard as IG
 
 PATH = 'docs/story_planning/AA_766_peishan_leftover2.json'
-SHA = '6325e4b98'
+SHA = '1e647bb05'
 PS = 'classmate_peishan'
 BBPACK = 'src/data/bbpack_events.js'
 GIFT = 'src/data/gift_lines.js'

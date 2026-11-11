@@ -6323,12 +6323,18 @@
   },
   {
    "path": "docs/story_planning/AA_766_peishan_leftover2.json",
-   "sha": "6325e4b98",
+   "sha": "1e647bb05",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X327 沛珊重寫）；BB 看過、說可以匯；LAWWW 2026-11-11 指定匯這一版",
+   "approvedBy": "AA 2026-11-11 定稿 1e647bb05（D109；D4c「都有。」的回覆改「你期末考一定也這樣寫。」——法律系沒有期中考）",
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
-   "note": "X327 沛珊還剩的兩筆早餐店／蛋餅 26 列 old→new（tools/story/ps766.py，只認這一版）：①src/data/bbpack_events.js 25 列——D4c「沛珊的問題」（ev_d4c_question 女舍門口四題）的 D4CQ 陣列，手寫檔直接換（python3 tools/story/ps766.py --apply；只換字，題數、選項數、流程不變）；②src/data/gift_lines.js 1 列（沛珊最愛的米漿第二句）——tools/story/import_gifts.py 組好資料以後疊（ps766.apply_gift）。逐字對稿 tests/peishan_leftover2_1111_unit.js"
+   "note": "X327 沛珊還剩的兩筆早餐店／蛋餅 26 列 old→new（tools/story/ps766.py，只認這一版）：①src/data/bbpack_events.js 25 列——D4c「沛珊的問題」（ev_d4c_question 女舍門口四題）的 D4CQ 陣列，手寫檔直接換（python3 tools/story/ps766.py --apply；只換字，題數、選項數、流程不變）；②src/data/gift_lines.js 1 列（沛珊最愛的米漿第二句）——tools/story/import_gifts.py 組好資料以後疊（ps766.apply_gift）。逐字對稿 tests/peishan_leftover2_1111_unit.js",
+   "history": [
+    {
+     "sha": "6325e4b98",
+     "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X327 沛珊重寫）；BB 看過、說可以匯；LAWWW 2026-11-11 指定匯這一版"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/BB_326_學姊約會樣板D01到D03_第二意見.md",

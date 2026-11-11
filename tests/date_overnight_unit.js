@@ -79,7 +79,7 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
       const KXN={morning:'第二天的我昨天重排了。你先看，有意見現在講。',a28:'兩天的行程，第一天比較緊，你不要拖。',arr32:'清境。要開三個多小時，我負責讓你不要睡著。'};
       let rk=''; try{ rk=['AA_769_kx_date_common.json','date_system/lines/D28.json','date_system/lines/D32.json'].map(k=>cp.execSync('git show f9c1a2b80:docs/story_planning/'+k,{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']})).join('\n'); }catch(e){}
       check('0. 可昕早上那一句、D28 到達句、D32 第一次到達的第一句（X324 重寫）：新句都在企劃線 f9c1a2b80 的 AA_769、D28.json、D32.json 裡'+(rk?'':'（這份 checkout 讀不到，略過）'),!rk||Object.values(KXN).every(t=>rk.includes(t)),J(Object.values(KXN).filter(t=>!rk.includes(t))));
-      SP.morning.kexin=KXN.morning; SP.var53.kxOld=KXN.arr32;
+      SP.morning.kexin=KXN.morning; SP.var53.kxOld=KXN.arr32; SP.var53.kx='清境。從日月潭上來一個半小時，我本來要睡，結果一路在看路。';   /* 2026-11-11 AA 回 LAWWW 第 4 題（可昕重寫後 D31＋D32 同一趟的新字，企劃線 1e647bb05 那一則訊息）；舊期望＝AA_359 5-3「清境。從日月潭上來，一個半小時。我查過了。」 */
       for(const f of SP.fix52) if(f.who==='kexin'&&f.loc==='D28') f.neu=KXN.a28; } }
   check('0. 讀得到稿 AA_359@'+SPEC_SHA+'：晚上四種、早上旁白、七位一句、住自己家／租的地方三句',!!spec&&Object.keys(SP.night).length===4&&!!SP.narr&&Object.keys(SP.morning).length===7&&Object.keys(SP.own).length===3,J(SP));
   check('0. 晚上那一句（第 2 節）四種逐字：兩間房／民宿／她回家／她回租的地方',!!D().NIGHT&&['single','dating','home','rent'].every(k=>D().NIGHT[k]===SP.night[k]),J([D().NIGHT,SP.night]));

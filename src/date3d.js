@@ -552,7 +552,7 @@ const DATE=(function(){
   const brokeUp=(G,id)=>id==='kexin'&&!(G.flags&&G.flags.dating_kexin);
   /* 到達那一句的另一版（AA_359 5-3，企劃線 fb5156ab）：照情況換掉第一次那一組裡的幾句（同一個位置），其他句不動 */
   S.ARRIVE_VAR=[{loc:'D28',who:'classmate_peishan',when:(G,t)=>((S.whereOn(G,'classmate_peishan',t.day)||{}).own==='rent'),from:['臺南！太陽好大。','我爸媽說，好好玩，店裡不用擔心。'],to:['歡迎來臺南！今天我帶路。','我住這裡，太陽還是曬不習慣。']},   /* 沛珊大三起住臺南（PS_TN）：她帶路；原句留給還沒搬去的時候 */
-    {loc:'D32',who:'kexin',when:(G,t,o)=>!!(o&&o.combo),from:['清境。要開三個多小時，我負責讓你不要睡著。'],to:['清境。從日月潭上來，一個半小時。我查過了。']}];   /* D31＋D32 同一趟：從日月潭上來（B8）；只去清境的照原句。
+    {loc:'D32',who:'kexin',when:(G,t,o)=>!!(o&&o.combo),from:['清境。要開三個多小時，我負責讓你不要睡著。'],to:['清境。從日月潭上來一個半小時，我本來要睡，結果一路在看路。']}];   /* to：AA 2026-11-11 04:09 回 LAWWW 第 4 題（可昕重寫後的新字；祐廷在開車，所以是她沒睡）；舊：「清境。從日月潭上來，一個半小時。我查過了。」 */   /* D31＋D32 同一趟：從日月潭上來（B8）；只去清境的照原句。
        2026-11-11（使用者 X324 可昕約會台詞重寫，源稿 D32.json@f9c1a2b80）：她第一次到清境的第一句新稿是「清境。要開三個多小時，我負責讓你不要睡著。」（原本「清境。山路我查了，要開三個多小時。」）——from 跟著那一格的新字；
        同一趟的那一句（to，AA_359 5-3 的字）沒有新稿、照舊，已列給 AA 確認 */
   S.arriveVar=function(G,t,set,o){ const v=S.ARRIVE_VAR.find(x=>x.loc===t.locs[0]&&x.who===t.who&&x.when(G,t,o)); if(!v||!set||!Array.isArray(set.lines)) return set;
