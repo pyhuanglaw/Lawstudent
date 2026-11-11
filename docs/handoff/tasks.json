@@ -53164,7 +53164,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "AA 稿已交：企劃線 d259dfc6c docs/story_planning/AA_750_limao.json（menu／first／pool 四類／prof／reveal／study_room；全部免費、不加好感；orig:true 的句子不改字）。人物圖 docs/handoff/user_specs/limao_ref/shangshi_character.png。等 LAWWW2 店面＋室內 tz_limao（外觀圖在它分支）；LAWWW：匯入工具＋事件（旗標 LM_MET／LM_KNOWN／LM_PROF／LM_STUDY 要有預設值）、營業時間、書房解鎖"
+   "next": "店面＋算命桌＋室內 tz_limao 第 1 版已整合 11161c101（LAWWW2 57f882bb8；同包：機車第 3 版擺放、洗樂／印得好補的東西），11 支相關測試 ALL PASS，瀏覽器沒跑（BB 排）。背景子代理（worktree，基準 11161c101）在接上師對話：匯入 AA_750_limao.json @d259dfc6c、桌前互動、教授偶遇、身分揭開、書房解鎖；回來當回合合併（D148）。上師 3D 人物 LAWWW2 在做（人物圖 docs/handoff/user_specs/limao_ref/shangshi_character.png）"
   },
   {
    "id": "HANDOFF-LOOSE-1110",
