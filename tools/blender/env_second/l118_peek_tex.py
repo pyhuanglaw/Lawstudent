@@ -17,9 +17,9 @@ A = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(n, d=None): return A[A.index(n) + 1] if n in A else d
 IDS = ['dian', 'self', 'tea', 'home', 'cafe2', 'pasta', 'korea', 'omu', 'noodle2']
 DI, CARD_H, CAMD, EYE, PXM, EDGE = 2.6, 2.7, 4.0, 1.5, 96, 0.06   # DI、CARD_H 和 wz_shopkit.py 一樣（DI；ih＝GH−0.9）；PXM＝每公尺幾個像素
-DIM = 0.6
+DIM = 0.52   # 第一次 0.6：圖比旁邊立體的側牆、地板亮一截（接縫看得出來），白色的店像在發光
 AW, AH = 2048, 1024
-CACHE = arg('--cache') or os.path.join(GEN, '_l118_peek_raw')
+CACHE = arg('--cache') or os.path.join(__import__('tempfile').gettempdir(), 'l118_peek_raw')   # 每間的原圖（不進 repo）
 WARM = {'home', 'pasta', 'omu', 'noodle2', 'tea'}
 
 
@@ -57,20 +57,38 @@ def render(only):
         print(json.dumps({'shop': sid, 'w_m': round(wc, 2), 'px': [sc.render.resolution_x, sc.render.resolution_y]}), flush=True)
 
 
+def _fill_cut(a):
+    """鏡頭的近裁切面切過櫃台、卡座這些實心的東西時，切口看進去是全黑（裡面沒有光）：把全黑的像素用旁邊的顏色一圈一圈往裡填（那個位置前面由 wz_shopkit 的立體櫃台、卡座接上）"""
+    import numpy as np
+    hole = a.max(2) < 4.0
+    if not hole.any(): return a, 0
+    def blur(x, r):
+        pad = [(r, r), (r, r)] + [(0, 0)] * (x.ndim - 2); c = np.pad(x, pad, mode='edge').cumsum(0).cumsum(1); c = np.pad(c, [(1, 0), (1, 0)] + [(0, 0)] * (x.ndim - 2)); k = 2 * r + 1; H, W = x.shape[:2]
+        return (c[k:k + H, k:k + W] - c[:H, k:k + W] - c[k:k + H, :W] + c[:H, :W]) / (k * k)
+    out = a.copy(); ok = (~hole).astype(np.float32)
+    for r in (2, 5, 12, 30, 80):
+        pa = blur(out * ok[..., None], r); aa = blur(ok, r)[..., None]; fill = (ok[..., None] < 0.5) & (aa > 1e-4)
+        out = np.where(fill, pa / np.maximum(aa, 1e-6), out); ok = np.where(fill[..., 0], 1.0, ok).astype(np.float32)
+    return out, int(hole.sum())
+
+
 def pack():
     from PIL import Image
     import numpy as np
     hx = lambda c: '#%02x%02x%02x' % tuple(int(round(v)) for v in c)
-    atlas = Image.new('RGB', (AW, AH), (20, 20, 20)); out = {}; x = y = 0; rowh = round(CARD_H * PXM); PAD = 4
-    for sid in IDS:
-        im = Image.open(os.path.join(CACHE, f'{sid}.png')).convert('RGB'); w, h = im.size
-        if x + w > AW: x = 0; y += rowh + PAD
+    atlas = Image.new('RGB', (AW, AH), (20, 20, 20)); out = {}; rowh = round(CARD_H * PXM); PAD = 4
+    ims = {sid: Image.open(os.path.join(CACHE, f'{sid}.png')).convert('RGB') for sid in IDS}; rows = []   # 一列一列排：寬的先放，放得下的第一列
+    for sid in sorted(IDS, key=lambda k: -ims[k].size[0]):
+        w = ims[sid].size[0]; r = next((r for r in rows if r[0] + w <= AW), None)
+        if r is None: r = [0, len(rows) * (rowh + PAD)]; rows.append(r)
+        x, y = r[0], r[1]; r[0] += w + PAD; h = ims[sid].size[1]
         assert y + h <= AH, '貼圖集放不下'
-        a = np.asarray(im).astype(np.float32)
+        a, nh = _fill_cut(np.asarray(ims[sid]).astype(np.float32))
         out[sid] = dict(uv=[round((x + 0.5) / AW, 5), round(1 - (y + h - 0.5) / AH, 5), round((x + w - 0.5) / AW, 5), round(1 - (y + 0.5) / AH, 5)], m=round(w / PXM, 3), h=CARD_H,
                         floor=hx(a[int(h * 0.94):, int(w * 0.1):int(w * 0.9)].mean((0, 1))), wall=hx(np.concatenate([a[int(h * 0.25):int(h * 0.7), :int(w * 0.03)], a[int(h * 0.25):int(h * 0.7), int(w * 0.97):]], 1).mean((0, 1))),
-                        ceil=hx(a[:int(h * 0.04), int(w * 0.1):int(w * 0.9)].mean((0, 1))))
-        atlas.paste(Image.fromarray(np.clip(a * DIM, 0, 255).astype(np.uint8)), (x, y)); x += w + PAD
+                        ceil=hx(a[:int(h * 0.04), int(w * 0.1):int(w * 0.9)].mean((0, 1))), cut_px=nh)
+        atlas.paste(Image.fromarray(np.clip(a * DIM, 0, 255).astype(np.uint8)), (x, y))
+    out = {sid: out[sid] for sid in IDS}
     atlas.save(os.path.join(GEN, 'l118_peek_atlas.jpg'), quality=86)
     json.dump(out, open(os.path.join(GEN, 'l118_peek_atlas.json'), 'w'), indent=1)
     print('atlas', os.path.getsize(os.path.join(GEN, 'l118_peek_atlas.jpg')), json.dumps(out))

@@ -1597,7 +1597,7 @@ def _copier(vb, x, zc, w, d, h, yb, size):
 def _l118_oven(spec, xf, cm, iw, zb, y0, yt):
     """迪倫窯烤披薩：窗內左邊的磚砌圓頂窯爐（參考圖；使用者的規格「小型窯爐」）——圓頂、磚拱的爐口裡有火、不鏽鋼排煙管、前面的製作檯"""
     vb = lambda *a, **k: xf_vbox(cm, xf, *a, **k)
-    ox = spec['sf']['oven']; oz = zb + 0.85; cq = lambda col: _CP(cm, col)
+    ox = spec['sf']['oven']; oz = zb + 0.85; cq = lambda col: _CP(cm, col); pl = spec['sf'].get('oven_prep', 1)   # oven_prep −1＝製作檯在窯爐左邊
     vb(ox - 0.85, ox + 0.85, y0, y0 + 0.95, zb + 0.05, zb + 1.6, '#8e4a36', r=0.01)
     cq('#cbbba6').sphere(xf.p(ox, y0 + 0.95, oz), 0.78, seg=16, rings=8, sy=0.82)
     for k in range(9): a_ = math.pi * k / 8; cq('#a8523a').sphere(xf.p(ox + math.cos(a_) * 0.36, y0 + 0.97 + math.sin(a_) * 0.34, oz + 0.72), 0.075, seg=6, rings=4)   # 爐口的磚拱
@@ -1605,8 +1605,9 @@ def _l118_oven(spec, xf, cm, iw, zb, y0, yt):
     acc(SK['lamp_red']).sphere(xf.p(ox - 0.08, y0 + 1.03, oz + 0.7), 0.11, seg=8, rings=4); acc(SK['lamp']).sphere(xf.p(ox + 0.1, y0 + 1.02, oz + 0.72), 0.07, seg=8, rings=4)
     CL.glow(root, 'oven', *xf.p(ox, y0 + 1.1, oz + 0.9), color='rgba(255,150,70,1)', size=1.3, day=0.5, night=0.95)
     xf.cyl(acc(SK['steel']), (ox - 0.2, y0 + 1.5, oz - 0.2), (ox - 0.2, yt, oz - 0.2), 0.14, seg=10)
-    vb(ox + 1.0, min(iw / 2 - 0.2, ox + 2.6), y0, y0 + 0.9, zb + 0.9, zb + 1.5, '#b9bdc0', r=0.01)                                              # 製作檯＋麵團、配料盒
-    for k in range(4): cq('#f1e6cc').sphere(xf.p(ox + 1.2 + k * 0.2, y0 + 0.95, zb + 1.2), 0.07, seg=8, rings=4, sy=0.6)
+    px0, px1 = (ox + 1.0, min(iw / 2 - 0.2, ox + 2.6)) if pl > 0 else (ox - 2.2, ox - 1.0)
+    vb(px0, px1, y0, y0 + 0.9, zb + 0.9, zb + 1.5, '#b9bdc0', r=0.01)                                              # 製作檯＋麵團、配料盒
+    for k in range(4): cq('#f1e6cc').sphere(xf.p(px0 + 0.2 + k * 0.2, y0 + 0.95, zb + 1.2), 0.07, seg=8, rings=4, sy=0.6)
 
 
 # ---- 118 巷九間店的淺店內（L118-STREET-FIX-1111，BB_341 第 1 項「玻璃後面是一排紅色方塊……和新室內對不上」；LAWWW 的子代理代 LAWWW2，2026-11-11）----
@@ -1626,15 +1627,15 @@ def l118_peek():
 #   118牛排 深咖啡木桌椅｜水上便當 靠牆的不鏽鋼吧台＋圓凳｜辛亥韓食 深色卡座｜五湖四海 不鏽鋼桌＋咖啡色圓凳｜大學食堂 白桌＋橘色椅｜義大麵屋、奈良咖哩 木桌椅｜清州刀削麵 木紋桌＋圓凳｜迪倫 黑鐵腳木桌（窯爐、製作檯照舊）
 # 門後面留空（門的位置照 SF_L118 的 door_x、door_w）。warm＝燈光的顏色
 L118_FRONT = {
-    'dian': dict(warm=False, top='#4f3628', leg='#2c2624', seat='#3a2a22', sets=[(-2.0, 1.35, 'z'), (2.0, 1.35, 'z')], tw=0.7, td=0.7),
-    'self': dict(warm=False, bar=('R', '#c4c8cc'), seat='#c4c8cc', leg='#9aa0a6', stools=[(-0.55,), (0.25,), (1.05,)]),
+    'dian': dict(warm=False, top='#4f3628', leg='#2c2624', seat='#3a2a22', line=('#c8323a', 1.72, 0.05), sets=[(-2.0, 1.35, 'z'), (2.0, 1.35, 'z')], tw=0.7, td=0.7),
+    'self': dict(warm=False, line=('#f2b824', 1.22, 0.06)),   # 新室內前半間是空的（BB_341：右半邊和後牆空，LAWWW2 第 3 版會補）；靠牆的吧台在右邊壁面後面、從街上看不到，不放
     'tea': dict(warm=True, top='#5a3c2c', leg='#2a2422', booth='#2b2523', wains=('#7a2a26', 1.0), sets=[(0.62, 1.4, 'z')], tw=0.6, td=0.7),
     'home': dict(warm=True, top='#c4c8cc', leg='#9aa0a6', seat='#a8623c', stool=True, sets=[(-2.6, 1.35, 'x'), (-0.7, 1.35, 'x')], tw=0.75, td=0.7),
-    'cafe2': dict(warm=False, top='#f1efe9', leg='#9aa0a6', seat='#e98a2e', sets=[(-2.3, 1.35, 'x'), (-0.6, 1.35, 'x')], tw=0.75, td=0.7),
+    'cafe2': dict(warm=False, top='#d9b98a', leg='#2c2c2e', seat='#5a5d62', buffet=0.92, sets=[(-1.1, 1.35, 'x')], tw=0.75, td=0.7),
     'pasta': dict(warm=True, top='#c9a070', leg='#8a6a48', seat='#b48a5e', sets=[(-2.6, 1.3, 'x'), (-0.8, 1.3, 'x')], tw=0.7, td=0.7),
-    'korea': dict(warm=False, top='#b99a72', leg='#9aa0a6', seat='#b0643a', stool=True, sets=[(-2.3, 1.35, 'x'), (-0.6, 1.35, 'x')], tw=0.75, td=0.7),
-    'omu': dict(warm=True, top='#b98a5a', leg='#6a4a30', seat='#8a6040', sets=[(-2.3, 1.3, 'x'), (-0.7, 1.3, 'x')], tw=0.7, td=0.7),
-    'noodle2': dict(warm=True, top='#a87a4e', leg='#222224', seat='#2c2c2e', sets=[(0.25, 0.85, 'x')], tw=0.65, td=0.65),
+    'korea': dict(warm=False, top='#2e2e30', leg='#222224', seat='#2a2a2c', line=('#c8323a', 1.9, 0.05), sets=[(-2.3, 1.35, 'x'), (-0.6, 1.35, 'x')], tw=0.75, td=0.7),
+    'omu': dict(warm=True, top='#5a3a26', leg='#3a2618', seat='#4a3020', wains=('#4a3020', 0.95), sets=[(-2.3, 1.3, 'x'), (-0.7, 1.3, 'x')], tw=0.7, td=0.7),
+    'noodle2': dict(warm=True, top='#a87a4e', leg='#222224', seat='#2c2c2e', sets=[(-2.6, 1.1, 'z')], tw=0.65, td=0.65),
 }
 
 
@@ -1670,6 +1671,20 @@ def l118_peek_interior(spec, xf, iw, gz, ih, bright=0.8):
     if F.get('wains'):   # 側牆的腰板（辛亥韓食的深紅）
         wc, wh = F['wains']
         for sx in (-1, 1): vb(sx * (iw / 2 - 0.047) - 0.012, sx * (iw / 2 - 0.047) + 0.012, y0, y0 + wh, zb, gzf, wc, r=0)
+    if F.get('line'):    # 側牆上的一條色帶（118牛排、清州刀削麵的紅線，水上便當的黃線；接圖上的那一條）
+        lc, ly, lh = F['line']
+        for sx in (-1, 1): vb(sx * (iw / 2 - 0.047) - 0.008, sx * (iw / 2 - 0.047) + 0.008, y0 + ly, y0 + ly + lh, zb, gzf, lc, r=0)
+    if F.get('buffet'):   # 大學食堂：左邊的自助餐台從圖上一路接到玻璃前面（不鏽鋼保溫台、兩排菜盤、防噴罩）
+        bx0, bx1, bz0, bz1 = -iw / 2 + 0.06, -iw / 2 + F['buffet'], zb, gz - 0.55; n_ = max(3, int((bz1 - bz0 - 0.1) / 0.38))
+        vb(bx0, bx1, y0, y0 + 0.86, bz0, bz1, '#c9ccce', r=0.01)
+        for j in range(n_):
+            zc = bz0 + 0.1 + (j + 0.5) * (bz1 - bz0 - 0.2) / n_
+            for r_ in range(2):
+                xc = bx0 + 0.22 + r_ * 0.38
+                vb(xc - 0.17, xc + 0.17, y0 + 0.86, y0 + 0.88, zc - 0.17, zc + 0.17, '#d9dcde', r=0); vb(xc - 0.15, xc + 0.15, y0 + 0.88, y0 + 0.9, zc - 0.15, zc + 0.15, rr.choice(['#7a9a3a', '#c9822e', '#e8d9a8', '#8a4a2a', '#d4a03a', '#3f6a2f', '#e6c060', '#b05a3a']), r=0)
+        for z_ in (bz0 + 0.03, (bz0 + bz1) / 2, bz1 - 0.03): vb(bx1 - 0.05, bx1 - 0.02, y0 + 0.9, y0 + 1.32, z_ - 0.015, z_ + 0.015, '#c9ccce', r=0)
+        vb(bx0 + 0.3, bx1 - 0.02, y0 + 1.3, y0 + 1.33, bz0, bz1, '#c9ccce', r=0)
+        xf.quad(acc(M['glass']), [(bx1 - 0.035, y0 + 0.98, bz0), (bx1 - 0.035, y0 + 0.98, bz1), (bx1 - 0.035, y0 + 1.3, bz1), (bx1 - 0.035, y0 + 1.3, bz0)])
     for lx in ([-iw / 4, iw / 4] if iw > 5 else [0.0]):
         xf.box(acc(M['tube']), lx - 0.5, lx + 0.5, yt - 0.03, yt, zb + DI * 0.45 - 0.05, zb + DI * 0.45 + 0.05)
         CL.glow(root, 'shopin', *xf.p(lx, yt - 0.3, zb + DI * 0.5), color='rgba(255,226,180,1)' if warm else 'rgba(244,250,255,1)', size=1.7, day=0.0, night=0.85)
@@ -2553,7 +2568,7 @@ SF_L118 = {   # 第 1 版：照使用者 11-11 的參考圖（docs/handoff/user_
     'omu': dict(kind='teishoku', inner=True, door='wood', frame='#5a3220', wall_col='#e9dfc8', awning=None, floor='f_quarry', step=0.06, light='warm', door_x=1.2, door_w=1.2, pier_r=2.2, lamps=[-2.2, 0.0, 2.2],   # 奈良咖哩：黃底咖啡字招牌＋三盞鵝頸燈、米色粉刷牆、深木框、兩張海報、門邊壁燈、木長凳、黑板立牌
                 photos=[('l118_ref_omu_p1', -2.35, 1.25, 0.8), ('l118_ref_omu_p2', -1.05, 1.25, 0.8)], clutter=[('bench', -1.6, 0.45), ('aboard', 2.7, 0.45, 'chalk'), ('pot', -3.0, 0.3, 'broad')]),
     'noodle2': dict(kind='brunch', inner=True, door='alu', frame_col='#1b1b1c', full_glass=True, brick=True, awning=None, floor='f_concrete', light='warm', door_x=2.0, door_w=1.6, lamps=[-2.3, 0.0, 2.3],   # 迪倫窯烤披薩：黑鐵招牌＋三盞鵝頸燈、紅磚牆（窗下也是磚）、黑鐵框窗、窗內的圓頂窯爐、黑板
-                    wains=(-3.2, 1.2, 0.95), oven=-1.9, photos=[('l118_ref_noodle2_board', 0.75, 1.15, 0.5)], clutter=[('pot', 3.05, 0.3, 'broad')]),
+                    wains=(-3.2, 1.2, 0.95), oven=0.15, oven_prep=-1, photos=[('l118_ref_noodle2_board', 0.75, 1.15, 0.5)], clutter=[('pot', 3.05, 0.3, 'broad')]),
     'drink_a': dict(kind='tea', drink='trad', inner=True, door='none', rollbox=False, frame_col='#4a4e54', recess=0.3, awning=None, floor='f_white', light='cool', bright=0.85, clutter=[]),      # 喝不喝咖啡（參考圖 ext_drink_a）：深藍底白字燈箱、深灰鋁框、關著的玻璃門＋飲料海報＋外帶窗口（_drink）
     'drink_b': dict(kind='tea', drink='fruit', inner=True, door='none', rollbox=False, frame_col='#cdb98a', wall_col='#f1ead9', recess=0.3, awning=None, floor='f_white', light='warm', bright=0.9, clutter=[]),   # 果茶社（參考圖 ext_drink_b）：米白招牌金黃立體字、淺金細框、米白粉刷牆、淺木櫃台＋水果展示櫃（_drink）
 }
