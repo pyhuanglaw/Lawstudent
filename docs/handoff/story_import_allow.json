@@ -7047,6 +7047,15 @@
    "note": "X324 以安校外約會台詞匯入（開發分支 fea448637）以後 AA 的後續改稿，不分地點的短句 9 列：①src/data/date_lines.js 五列（lines.heroine_01.flaked[0][0]、[0][1]；lines.heroine_04.flaked[0]（原本 AA_775 那一列）；lines.heroine_03.flaked[0][0]（原本 AA_767）；lines.heroine_02.flaked[0][1]（原本 AA_773）——四個人「30 天內第二次當天取消」那一句改成當下的反應）——tools/date/import_date_lines.py 寫檔前最後一步照 path 疊（apply767 的 AA_780 那一輪，排在 AA_767／769／773／775／777 後面；old＝那幾層疊完以後的字）；②src/date3d.js 四列手寫檔直接換：S.EXTRA_LINES.heroine_01 的 enough 兩句、leaveEarly、noPair（depart 三句不動）。_meta.she_pays（以安 D06.cafe remember、D13.drink normal#2、D18.teahouse normal#2 她說要請的三格＝那個互動點不扣玩家的錢；字不改）＝src/date3d.js 的 S.SHE_PAYS。逐字對稿 tests/an_dates_1111_unit.js、tests/date_she_pays_1111_unit.js"
   },
   {
+   "path": "docs/story_planning/AA_782_she_pays.json",
+   "sha": "f7a23d408",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X324；字都不改）；LAWWW 11-11 派匯入；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 其他人校外約會「她請」的十格（學姊 D06.cafe.remember、D10.snack.remember、D20.street.normal#0、D22.fish.first、D22.fish.remember、D23.cook.first、D30.stall.remember；沛珊 D21.street.normal#2、D31.egg.normal#2；可昕 D30.stall.remember）：tools/date/import_she_pays.py → src/data/she_pays.js（SHE_PAYS_DATA），src/date3d.js 載入時合進 S.SHE_PAYS（以安三格照舊手寫，AA_780 _meta.she_pays）。每一列對 date_lines.js 那一格逐字、格號、她那個互動點底下剛好一處；逐格、扣不扣錢 tests/date_she_pays_1111_unit.js"
+  },
+  {
    "path": "docs/story_planning/AA_771_l118_lunch.json",
    "sha": "bb6c5023b",
    "status": "approved",

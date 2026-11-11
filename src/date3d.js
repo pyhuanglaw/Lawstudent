@@ -748,6 +748,9 @@ const DATE=(function(){
      是那個互動點才不扣（只是那一趟行程物件上的暫時欄位，演完就拿掉，不是存檔的新欄位；S.spotLine 一開始也清一次）。沒有旁白、沒有提示；選單上的「160 元」照舊；快速約會不演台詞＝照扣；
      祐廷選請客的選項另外扣的那一份（S.isTreat／extra）照舊。測試 tests/date_she_pays_1111_unit.js */
   S.SHE_PAYS={heroine_01:{'D06.cafe':['這家的蛋糕我記得，檸檬的那個。這次我請。'],'D13.drink':['這杯我請。不要跟我搶。'],'D18.teahouse':['這壺茶多少錢？好，不貴。我請。']}};
+  /* AA_782（企劃線 f7a23d408；X324）：其他人的請客格——學姊七格、沛珊兩格、可昕一格——不手寫：tools/date/import_she_pays.py 從稿產生 src/data/she_pays.js（SHE_PAYS_DATA.pays，同一個格式），
+     這裡合進來（index.html 在 date3d.js 前面載）；稿的每一列匯入工具已經對過 date_lines.js 那一格逐字、格號、她那個互動點底下剛好一處 */
+  if(typeof SHE_PAYS_DATA!=='undefined'&&SHE_PAYS_DATA&&SHE_PAYS_DATA.pays) for(const id in SHE_PAYS_DATA.pays) for(const pid in SHE_PAYS_DATA.pays[id]){ const o=S.SHE_PAYS[id]||(S.SHE_PAYS[id]={}); o[pid]=(o[pid]||[]).concat(SHE_PAYS_DATA.pays[id][pid].filter(x=>!(o[pid]||[]).includes(x))); }
   S.shePays=(id,pid,text)=>!!pid&&(((S.SHE_PAYS[id]||{})[pid])||[]).includes(text);
   S.takeShePaid=(t,pid)=>{ const y=!!t&&t.shePaid===pid; if(t) delete t.shePaid; return y; };
   /* 雨天停用的互動點（BB_128 2-2：淡水「長椅停用（『椅子是濕的』）」；DATE-C2）：灰掉、寫原因 */
