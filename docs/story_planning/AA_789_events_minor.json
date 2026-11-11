@@ -1,0 +1,109 @@
+{
+ "_meta": {
+  "doc": "AA_789 主線、日常事件（events.js）祐廷與小配角的台詞覆蓋列（X324 E 區，events 最後一份）",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "同 AA_786，files 一人一格。",
+  "rule": "祐廷 203 句／刪節號 50：他話少，句首的「……」多半是被說中、說不出口（「……我跟妳說一件事。說完妳可以下車」「……在一起吧」「……我才剛休學」），留；拿掉 2 句。經濟系那邊：阿勳 45／14、正勳 54／14、韋綸 48／10、姊姊 25／8，多半是笑點或家裡的事（姊姊那一場整段留）；許老師 35／7。刪節號少於 5 個的人沒看。",
+  "aside": "盧正勳在事件裡有兩個 speaker：「阿勳」（ev 62、63、70、72、75、82、86）和 econ_zhengxun（ev 181～269）。名牌、立繪如果是照 speaker 抓，兩邊可能不一樣——請 LAWWW 看一下是不是同一個人該合成一個 id。",
+  "counts": {
+   "列": 8
+  }
+ },
+ "files": [
+  {
+   "who": "player",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[15].dialogue[2].text",
+     "event": "ev_zhiruo_own_drink",
+     "expr": null,
+     "old": "……妳自己都喝什麼？",
+     "new": "妳自己都喝什麼？",
+     "note": "句首或重複的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[278].dialogue[11].text",
+     "event": "ev_yutong_midterm_week",
+     "expr": null,
+     "old": "……可以啊。",
+     "new": "可以啊。",
+     "note": "句首或重複的「……」是習慣，拿掉"
+    }
+   ]
+  },
+  {
+   "who": "阿勳",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[62].dialogue[0].text",
+     "event": "ev_econ_hallway",
+     "expr": null,
+     "old": "……你怎麼又在這裡？",
+     "new": "你怎麼又在這裡？",
+     "note": "句首或重複的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[63].dialogue[12].text",
+     "event": "ev_sk03_lunch",
+     "expr": null,
+     "old": "……你今天沒來上課。坐。",
+     "new": "你今天沒來上課。坐。",
+     "note": "句首或重複的「……」是習慣，拿掉"
+    }
+   ]
+  },
+  {
+   "who": "econ_zhengxun",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[209].dialogue[9].text",
+     "event": "ev_y0_a3",
+     "expr": null,
+     "old": "雞腿便當？……那我不客氣了。",
+     "new": "雞腿便當？那我不客氣了。",
+     "note": "句首或重複的「……」是習慣，拿掉"
+    }
+   ]
+  },
+  {
+   "who": "韋綸",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[204].dialogue[7].text",
+     "event": "ev_y0_e28",
+     "expr": null,
+     "old": "兩個一起？……走啦！我陪你們——",
+     "new": "兩個一起？走啦！我陪你們——",
+     "note": "句首或重複的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[276].dialogue[44].text",
+     "event": "ev_y0_p2b",
+     "expr": null,
+     "old": "……{name}，你不是在看法律的書嗎？",
+     "new": "{name}，你不是在看法律的書嗎？",
+     "note": "句首或重複的「……」是習慣，拿掉"
+    }
+   ]
+  },
+  {
+   "who": "prof_xu",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[22].dialogue[1].text",
+     "event": "ev_prof_xu_office",
+     "expr": "neutral",
+     "old": "許志遠。行政法是我教的。……你坐在哪一排？",
+     "new": "許志遠。行政法是我教的。你坐在哪一排？",
+     "note": "句首或重複的「……」是習慣，拿掉"
+    }
+   ]
+  }
+ ]
+}
