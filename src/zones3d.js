@@ -2824,7 +2824,8 @@ const Z3 = (function(){
       else E.interactables.push({x,z,radius:1.4,label:nm+'（'+ty+'）',shop118:sh.id}); }   /* 沒有室內配置的店（外帶飲料店 drink_a／drink_b）：店門口點餐 */
     E.interactables.push({x:0,z:gz-0.6,radius:2.2,label:(L&&L.backGate.label)||'回到首都帝大（後門）',exit:{to:'campus',spawn:{x:34,z:-125.6,yaw:0}}});   /* 回到霖澤館後面的小廣場（校園那一側的出口在同一個地方）*/
     // 路燈與店家燈光（晚上）
-    const pools=[]; for(const z of [-30,-10,10,28]){ const lp=W3.lampPost(); place(g,lp,fe-0.35,z,-Math.PI/2); nav.blockCircle(fe-0.35,z,0.5); const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(fe-1.1,0.03,z); g.add(pool); pools.push(pool); }
+    /* 第二支原本在 z −10：正好站在迪倫窯烤披薩招牌的「烤」字和店門中間（BB_341 第 3 項，L118-STREET-FIX-1111 2026-11-11）→ 移到迪倫和北邊那一棟之間的壁柱前（z −14.2）。四支都在兩棟之間的壁柱前或小巷口，不在十一間店的店門、招牌正前方（tests/l118_street_fix_1111_unit.js）*/
+    const pools=[]; for(const z of [-30,-14.2,10,28]){ const lp=W3.lampPost(); place(g,lp,fe-0.35,z,-Math.PI/2); nav.blockCircle(fe-0.35,z,0.5); const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(fe-1.1,0.03,z); g.add(pool); pools.push(pool); }
     /* 街道道具（ART-L118-LANE-1020，使用者 10-20「118 巷很寬、很空，像大馬路」；LAWWW2-C tools/blender/env_second/lane118_props.py，配置 src/data/lane118_props.js）：
        店門口的盆栽、保麗龍箱、回收桶、菜單板、靠牆的腳踏車、電線桿、頭上的電線（bldg.lane118_props；沒載入時是灰色方塊，不是看不見的牆）；
        機車：巷口、巷底的機車格垂直停，中間那一段靠路邊順著停（店門口、紅線不停），和公館同一套（bldg.wz_scooter，套件機車是載入前、載入失敗的備用）；

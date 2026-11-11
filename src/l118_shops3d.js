@@ -17,8 +17,9 @@ const L118S=(function(){
   /* 兩層窗景（ART-SHOP-VIEWS-1023 第二批，LAWWW2-B 10-23；使用者「店面外看出去的景也都很假」）：W3.VIEW_LAYERS 有 'l118_<id>' 時，門外那張平面圖（WALL_S_view）換成 W3.windowMat——
      遠景（巷子對面的店）＋去背的近景（巷子裡的機車、電線桿、招牌），兩層各自照景深視差，走動時近的東西移動得比對面的店快；照片在遊戲的 118 巷裡拍（tools/shots/shop_views_layers.py），晚上換夜景照片。
      新的平面照原本那一片的位置和大小；原本那一片還在牆的淡出清單裡（鏡頭退到店外時一起淡出），只是不畫，新的平面跟著它的 visible。照片還沒載好時畫原本那張圖（photo 0） */
-  /* 九間店的景深（tools/shots/shop_views_layers.py 量的中位數：遠景＝巷子對面的店、近景＝巷子裡 5.5 m 以內；寫進 tools/shots/shop_views_layers.json）。放在這裡、不改 world3d.js 的表 */
-  if(typeof W3!=='undefined'&&W3.VIEW_LAYERS) Object.assign(W3.VIEW_LAYERS,{l118_dian:{far:8,near:5.43},l118_self:{far:8,near:5.41},l118_tea:{far:8.13,near:5.42},l118_home:{far:8,near:5.45},l118_cafe2:{far:8,near:5.47},l118_pasta:{far:8,near:5.45},l118_korea:{far:8,near:5.45},l118_omu:{far:8.13,near:5.44},l118_noodle2:{far:8,near:5.48}});
+  /* 九間店的景深（tools/shots/shop_views_layers.py 量的中位數：遠景＝巷子對面的店、近景＝巷子裡 5.5 m 以內；寫進 tools/shots/shop_views_layers.json）。放在這裡、不改 world3d.js 的表。
+     2026-11-11 L118-STREET-FIX-1111（BB_341 第 2 項：店裡往外看還是舊街景、看得到舊店名）：九間的照片在換過店、移過路燈和機車的 118 巷重拍，景深照這次量的（五湖四海的近景這次什麼都沒拍到、量不到，留原本的 5.45）*/
+  if(typeof W3!=='undefined'&&W3.VIEW_LAYERS) Object.assign(W3.VIEW_LAYERS,{l118_dian:{far:8,near:5.43},l118_self:{far:8,near:5.44},l118_tea:{far:8.13,near:5.42},l118_home:{far:8,near:5.45},l118_cafe2:{far:8,near:5.46},l118_pasta:{far:8,near:5.45},l118_korea:{far:8,near:5.45},l118_omu:{far:8.13,near:5.42},l118_noodle2:{far:8,near:5.42}});
   function photoView(g0,root,id){ const key='l118_'+id; if(typeof W3==='undefined'||!W3.VIEW_LAYERS||!W3.VIEW_LAYERS[key]||!W3.windowMat) return null; let src=null; root.traverse(o=>{ if(!src&&o.isMesh&&o.name==='WALL_S_view') src=o; }); if(!src) return null;   /* 只換店門外那一片（兩側的鄰居店面卡 WALL_E_nb_view、WALL_W_nb_view 照舊）*/
     root.updateMatrixWorld(true); g0.updateMatrixWorld(true); const b=new THREE.Box3().setFromObject(src), sz=b.getSize(new THREE.Vector3()), c=g0.worldToLocal(b.getCenter(new THREE.Vector3()));
     const sm=[].concat(src.material)[0], fb=sm&&(sm.emissiveMap||sm.map)||null, m=new THREE.Mesh(new THREE.PlaneGeometry(Math.max(sz.x,sz.z),sz.y),W3.windowMat(W3.VIEW_LAYERS[key].far));

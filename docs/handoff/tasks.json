@@ -52084,7 +52084,7 @@
    "id": "RELEASE-V91024-1110",
    "title": "發布 v9.10.24（11-08 v9.10.23 以後的修正：送禮、公告欄、溫州街新生南路入口、打工專屬劇情、美國教室與會所 3D、字幕、出去玩門檻、校園建築照官網…）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -52097,7 +52097,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW 11-10 17:2x】使用者：「什麼時候可以發下一個版本了」。候選＝GHA 綠的開發分支最新；BB 照 TESTING 第五節發布前清單（CC 在 PC）給 GO；LAWWW 發布（D85）。"
+   "next": "【11-11 07:4x LAWWW 對帳】v9.10.24 已於 11-10 發布（main 779ddd650，線上版標題畫面 v9.10.24）；任務狀態一直沒改。下一版＝RELEASE-V91025-1111。｜【LAWWW 11-10 17:2x】使用者：「什麼時候可以發下一個版本了」。候選＝GHA 綠的開發分支最新；BB 照 TESTING 第五節發布前清單（CC 在 PC）給 GO；LAWWW 發布（D85）。"
   },
   {
    "id": "MOVIE-POSTERS-Y2-1110",
@@ -53322,7 +53322,7 @@
    "title": "118 巷九間店重新設計：新名字、外觀、內部由使用者給（USER_WANTS X338）",
    "owner": "LAWWW",
    "status": "進行中",
-   "priority": "P1",
+   "priority": "P0",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -53389,7 +53389,27 @@
     "confirmed": true
    },
    "sha": "554d1488b",
-   "next": "【11-11 06:5x】子代理做完、已合併開發分支 554d1488b（README.md、docs/RELEASE_PACKAGING.md、tools/release/{pack,deps,size_report,sync_version}.py＋verify_dist.js／smoke_dist.js、docs/release/ 容量報告＋依賴清單＋Steam Windows 封裝比較＋冒煙紀錄、tests/release_pack_unit.js 26 項＋readme_version_unit.js 過）。實測：開發分支整棵樹 1,445.73 MB → web 包 865.03 MB（zip 443.51 MB）；main 779ddd650 整棵樹 1,381.18 MB → 831.55 MB（zip 433.13 MB）。**待 BB 判測試範圍、CC 驗正式包**（規格第六節七項；走法 python3 tools/release/pack.py --target web → node tools/release/verify_dist.js dist/web --serve 8791）。**待使用者決定**：採不採用這套打包規則、Windows 版用不用 Electron／要不要做試做版、Steam 每一步（D13 仍有效）、4 個範例 GLB 要不要從 Windows 包排除。LAWWW 自己決定的：「無法判定」235 個檔先保留、build.py（只複製三層、漏 177 個模型）退役改用 pack.py、Pages 改不改成只部署 dist/web（發布時再定）、字型自帶（離線版才需要）。README 人物表請 AA 過目。**沒合併 main、沒發布、沒刪素材、沒改玩法**。｜【11-11 05:4x 使用者交辦】背景子代理（worktree）做：①稽核 build.py、資產載入路徑、Pages 部署 ②README.md 更新（版本資訊單一來源；已發布／未發布／開發中分清楚）③docs/RELEASE_PACKAGING.md 打包規格 ④tools/release/ 打包腳本＋容量報告（實測，不估）⑤Steam Windows 封裝方案比較（Electron／Tauri／其他）與推薦。回來當回合合併 → 交 BB 判測試範圍、CC 驗（正式包無 404、場景人物室內載得到、立繪 CG 海報、四區進出、新遊戲存讀檔舊存檔、Pages 不壞）。**不合併 main、不發布、不刪原始素材、不改玩法**；做完回報、等使用者決定是否採用。注意 D13（不提交 Steam、不建商店頁、不付款）仍有效：這次只做準備。",
+   "next": "【11-11 07:5x 使用者「Readme修改優先」】README 和它連到的文件、工具已單獨上 main：PR #35 → main 12555291d（遊戲檔和 779ddd650 逐檔相同，線上仍是 v9.10.24；不是新版本）。README「已完成、尚未發布」補了三項。**v9.10.25 發布時要把 README「已完成、尚未發布」裡這版上線的項目搬到「已完成並發布」**（sync_version 只管版本那一行）。BB 的 README 逐條對實測還在 RELPACK 佇列，不符就再修。其餘（打包規則採不採用、Electron 試做）照舊等 BB 驗完問使用者。｜【11-11 06:5x】子代理做完、已合併開發分支 554d1488b（README.md、docs/RELEASE_PACKAGING.md、tools/release/{pack,deps,size_report,sync_version}.py＋verify_dist.js／smoke_dist.js、docs/release/ 容量報告＋依賴清單＋Steam Windows 封裝比較＋冒煙紀錄、tests/release_pack_unit.js 26 項＋readme_version_unit.js 過）。實測：開發分支整棵樹 1,445.73 MB → web 包 865.03 MB（zip 443.51 MB）；main 779ddd650 整棵樹 1,381.18 MB → 831.55 MB（zip 433.13 MB）。**待 BB 判測試範圍、CC 驗正式包**（規格第六節七項；走法 python3 tools/release/pack.py --target web → node tools/release/verify_dist.js dist/web --serve 8791）。**待使用者決定**：採不採用這套打包規則、Windows 版用不用 Electron／要不要做試做版、Steam 每一步（D13 仍有效）、4 個範例 GLB 要不要從 Windows 包排除。LAWWW 自己決定的：「無法判定」235 個檔先保留、build.py（只複製三層、漏 177 個模型）退役改用 pack.py、Pages 改不改成只部署 dist/web（發布時再定）、字型自帶（離線版才需要）。README 人物表請 AA 過目。**沒合併 main、沒發布、沒刪素材、沒改玩法**。｜【11-11 05:4x 使用者交辦】背景子代理（worktree）做：①稽核 build.py、資產載入路徑、Pages 部署 ②README.md 更新（版本資訊單一來源；已發布／未發布／開發中分清楚）③docs/RELEASE_PACKAGING.md 打包規格 ④tools/release/ 打包腳本＋容量報告（實測，不估）⑤Steam Windows 封裝方案比較（Electron／Tauri／其他）與推薦。回來當回合合併 → 交 BB 判測試範圍、CC 驗（正式包無 404、場景人物室內載得到、立繪 CG 海報、四區進出、新遊戲存讀檔舊存檔、Pages 不壞）。**不合併 main、不發布、不刪原始素材、不改玩法**；做完回報、等使用者決定是否採用。注意 D13（不提交 Steam、不建商店頁、不付款）仍有效：這次只做準備。",
+   "xai": []
+  },
+  {
+   "id": "RELEASE-V91025-1111",
+   "title": "發布 v9.10.25：118 巷店面做好就發（使用者 11-11 07:4x「118巷店面做好就可以先推出新版」，USER_WANTS X341；門檻 X338【下一版必須】）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "線上版",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【11-11 07:5x】發布時記得：README「已完成、尚未發布」→ 把這版上線的項目搬到「已完成並發布」（README 已在 main，PR #35）。｜【11-11 07:4x】門檻：L118-SHOPS-REDO-1111 已驗收（BB 在瀏覽器判）。還差：①街景四項（BB_341：VIEW_LAYERS 重拍、玻璃後紅方塊、迪倫路燈、飲料店機車）LAWWW 子代理在修 → 合併 → CC 同機位重拍 ②室內四間第 3 版（LAWWW2，BB_341 第三節 2～6＋辛亥韓食橫樑）→ 整合 ③BB 椅子／四角／沿牆驗完標 ART_APPROVED ④大學食堂、五湖四海點餐點搶「坐下」（等 CC SEATS 九間結果一次改）。到了以後：releasegate → GHA node-unit-auto 綠 → BB 發布前回歸 GO → mk_release_tree → 合併 main → 驗線上 → RELEASES.md。這版一起出的（都在開發分支）：課堂內容補寫＋略過鍵、選單防連點、118 午餐邀約、七位校外約會台詞重寫、一起活動／一起念書選項、公館／汀州路／新生南路店面等；沒驗完的在發布說明列明。D141：室內第 3 版以後不再因外觀意見擋發布（立面白磁磚等記缺點）。",
    "xai": []
   }
  ]
