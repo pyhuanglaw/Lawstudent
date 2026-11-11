@@ -8,7 +8,8 @@ Windows＋GPU（PC runner）≠ iPhone；雲端 SwiftShader 只做探針自檢�
   Y4S2  legal_research（法律專題研究）第 12 週——obs（討論）：朋友借錢給人五百塊不還（研討室 A＝門口上課 2D；recall 四句要「上過那幾堂」才播，最小存檔不會播，只記）
   JA2   日文（下）第 3 週（て形）——課程代號、學期從遊戲 COURSES 照課名「日文（下）」找（找不到就列出所有「日文」的課）；tpl A：只有黑板、line（沒有 react、call、obs）；
         沒有教授人物（「日文老師：」開頭）；共同教學館 102＝門口上課。企劃 JSON 是 JP.json。第一次去日文課的 ev_jp_g1 會先演（照字處理、記下來）
-  下午的課（13:20）：起床選單第一項不是這一堂、手機「今天」早上又沒有鍵時，【前置／捷徑】改讀那天上課前 40 分鐘宿舍房間，再用手機「今天」（log 寫明）。
+  那天前面還有別的課（起床選單第一項不是這一堂）：早上就按這一堂會被問「照樣跳過」＝翹掉前面那堂，所以【前置／捷徑】改讀那天上課前 40 分鐘宿舍房間，再用手機「今天」（log 寫明）；
+  手機按下去還是問「照樣跳過」就照字「先不要」、判前置 FAIL（不替玩家翹課）。手機早上沒有鍵時也改讀上課前 40 分鐘。
 稿：遊戲自己的 src/data/syllabus.js（頁面上的 SYLLABUS，和受測 SHA 一致）；另外和企劃線 origin/claude/story-planning 的 docs/story_planning/syllabus/<學期>.json
   （git show 讀；SPREF 可換 ref、SPDIR=資料夾可改讀本機檔）比對——不一樣只記 R.note（不判 FAIL），最後列總表。企劃 JSON 讀不到就寫明「只比遊戲 syllabus.js」。
 前置（每一堂）：【前置／捷徑】最小存檔（同 cc_goclass_probe.mkstate）那一堂前一晚 23:00 宿舍房間；大二以後加 ROOM_Y2…ROOM_Yn（住那一年的房間，dorm3d.js homeOf）
@@ -329,9 +330,16 @@ async def go_lesson(pg, cdp, L_, tag, yr):
         await shot(pg, tag + '_wakemenu')
         if hs and hs[0].startswith('直接去上課') and L_['name'] in hs[0]:
             m = await pick_menu(pg, cdp, tag + '_wake', prefer=('直接去上課',)); return bool(m and m['pick'].startswith('直接去上課'))
-        R.note('%s：起床選單第一項不是這一堂（%s）→ 照字「先起床再說」，再用手機「今天」' % (tag, J(hs)))
+        R.note('%s：起床選單第一項不是這一堂（%s）→ 照字「先起床再說」' % (tag, J(hs)))
         await pick_menu(pg, cdp, tag + '_wake', prefer=('先起床',))
         await drain(pg, cdp, tag + '_getup', max_s=60, idle_s=2)
+        if L_['first'] != L_['item']:
+            # 這一堂前面還有別的課（例：日文（下）13:20、早上有債各）：早上就按這一堂的「直接去上課」，遊戲會問「照樣跳過／先不要」＝會翹掉前面那堂（JA2 第一輪就這樣翹了債各）。
+            # 不替玩家翹別的課：改【前置／捷徑】讀那天上課前 40 分鐘宿舍房間，再用手機「今天」
+            h = L_['t0'] - 40 / 60; dd = {'d': L_['d'], 'wd': L_['wd'], 'key': L_['key']}; st, fl = mkstate(dd, h, yr)
+            await GC.load(pg, cdp, st, '%s：那天第一堂是 %s（不是這一堂）；早上直接去會翹掉它 → 改讀 %s（第 %d 天）%02d:%02d 宿舍房間（上課前 40 分鐘）；旗標 %s' % (tag, L_['firstName'], L_['key'], L_['d'], int(h), round(h % 1 * 60), J(fl)))
+            await pg.evaluate(ENTERHOOK % json.dumps(BOARDHOOK))
+            await drain(pg, cdp, tag + '_noon', max_s=90, idle_s=3)
     else:
         h = L_['t0'] - 40 / 60; dd = {'d': L_['d'], 'wd': L_['wd'], 'key': L_['key']}
         st, fl = mkstate(dd, h, yr)
@@ -352,7 +360,11 @@ async def go_lesson(pg, cdp, L_, tag, yr):
         lab = await pg.evaluate("s=>{ const b=document.querySelector(s); return b?b.textContent.trim():null; }", sel)
         R.note('%s：上課前 40 分鐘手機「今天」那一列的鍵＝%s' % (tag, J(lab)))
     if not R.check('%s：手機「今天」有「直接去上課」那一列的鍵' % tag, bool(lab)): await GC.close_phone(pg, cdp); return False
-    await L.tap(pg, cdp, sel); await pg.wait_for_timeout(800)
+    await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1200)
+    if (await GC.ms(pg))['ch']:
+        hs = await pg.evaluate(HEADS)
+        if any(h.startswith('照樣跳過') for h in hs):   # 會翹掉別的課：不替玩家翹，照字「先不要」，判前置失敗（乙 1）
+            await pick_menu(pg, cdp, tag + '_phone', prefer=('先不要',)); R.check('%s：按「直接去上課」不會要翹別的課（%s）' % (tag, J(hs)), False); return False
     return True
 
 
