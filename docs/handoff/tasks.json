@@ -53343,6 +53343,32 @@
    "pausedReason": "等使用者給新名字、外觀、內部",
    "resumeWhen": "使用者給規格或圖",
    "recheckOn": "2026-11-13"
+  },
+  {
+   "id": "L118-LUNCH-INVITE-1111",
+   "title": "118 巷課後午餐邀約系統（USER_WANTS X339；規格 docs/handoff/user_specs/L118_LUNCH_1111.md）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "夜市旁巷子",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "規格十二節＋驗收十項。現有的（不取代）：src/lane118.js 店門口點餐、常客、阿哲週一手機揪午餐（G.flags.L118_LUNCH）、G.l118 紀錄；src/data/lane118_shops.js 九間的菜單和營業時間。新系統：上午法學院的課下課後（classes3d.js 下課選單以前）由同堂、認識的 NPC 當面邀；熟悉程度對 SOCIAL 的階段（剛認識 20%／普通同學 40%／熟悉朋友 65%／非常要好 80%）；每天一次判定（照天數決定，存讀檔不重抽）；發起者加權抽、連續拒絕降權重（個別紀錄）；最多四人；店由發起者的偏好＋當時有開；只扣玩家自己的餐費（菜單價）、錢不夠不能去；不用時段、不能擠掉下午的課和約；好友值完成後結算一次（SOCIAL.applyFx，每人每週上限 6）；20% 特殊對話／偶遇；看過以後可以快速略過；阿哲週一已經約了那天不另外邀。台詞、每個人愛去哪間、偶遇＝AA 給（資料檔驅動；AA 還沒交以前系統不開）。LAWWW：背景子代理做系統",
+   "xai": {
+    "spec": "使用者 11-11 03:4x 對 LAWWW（UA-LAWWW-1111-05）",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB：規格第十二節十項特別測試",
+    "receiver": "BB",
+    "ack": "SENT"
+   }
   }
  ]
 }

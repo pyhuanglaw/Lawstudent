@@ -4631,6 +4631,15 @@
    "status": "進行中",
    "wants": "X338",
    "task": "L118-SHOPS-REDO-1111"
+  },
+  {
+   "id": "UA-LAWWW-1111-05",
+   "at": "2026-11-11T03:4xZ",
+   "quote": "（整份「《Lawstudent》118 巷課後午餐社交系統 — 開發任務」，全文 docs/handoff/user_specs/L118_LUNCH_1111.md）請為《Lawstudent》新增「法學院上午課後午餐邀約系統」。……本次工作範圍僅限課後午餐系統。不要擅自修改九間店的名稱、餐飲類型、外觀、內部圖片、地圖位置或相關劇情台詞。九間店的完整改造規格，會在下一階段另外交付。",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X339",
+   "task": "L118-LUNCH-INVITE-1111"
   }
  ]
 }
