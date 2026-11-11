@@ -2,7 +2,7 @@
  "scene": "library_3f_v2",
  "res": 512,
  "samples": 64,
- "total_seconds": 32.8,
+ "total_seconds": 28.4,
  "images": {
   "day": {
    "mean": 0.1186,
@@ -19,5 +19,5 @@
  },
  "device": "CPU",
  "blender": "5.2.3 LTS",
- "bake_seconds": 21.1
+ "bake_seconds": 21.0
 }
