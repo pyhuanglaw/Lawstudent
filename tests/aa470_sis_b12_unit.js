@@ -267,7 +267,7 @@ await sec(9,async()=>{ const wb=STORY_EVENTS.find(e=>e.id==='ev_sis_which_book')
   const close=(TERMEND_LINES&&TERMEND_LINES.PLACE&&TERMEND_LINES.PLACE.eatery_lib&&TERMEND_LINES.PLACE.eatery_lib.closeGf)||null;
   check('9. 大四上女朋友版那一頓（12/24）的最後：「（你把那本書推過去。…）」「（翻到書籤那一頁）……你沒有往後翻。」；選項「我翻了一頁。」「沒有。」→「哪一頁。……算了，不要講。」',
     seq(['時差還沒調好。我現在很想睡。','（你把那本書推過去。這半年，它一直放在你書桌最上面那一格。）','（翻到書籤那一頁）……你沒有往後翻。','哪一頁。……算了，不要講。'])&&H.opts.some(o=>J(o)===J(['「我翻了一頁。」','「沒有。」']))&&(!close||idx(close)>idx('哪一頁。……算了，不要講。')),J({o:H.opts,s:said()}));
-  await dinner({SIS_BOOK:'novel',SIS_BOOK_WITH_YOU:true},'dating',[1]);
+  await dinner({SIS_BOOK:'novel',SIS_BOOK_WITH_YOU:true},'dating',[0,1]);   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版）：這一頓前面多一組選項（先選一個），還書那一段的二選一是第二組 */
   check('9. 「沒有。」→「嗯。」',has('（翻到書籤那一頁）……你沒有往後翻。')&&has('嗯。'),J(said()));
   const none=[]; for(const [n,f] of [['both',{SIS_BOOK:'both',SIS_BOOK_WITH_YOU:false}],['聽的是朋友版',{SIS_BOOK:'law',SIS_BOOK_WITH_YOU:false}],['沒演過 1-2',{}]]){ await dinner(f,'dating'); if(has('（翻到書籤那一頁）……你沒有往後翻。')) none.push(n); }
   check('9. both、聽的是朋友版、沒演過 1-2：沒有那一段',!none.length,J(none));

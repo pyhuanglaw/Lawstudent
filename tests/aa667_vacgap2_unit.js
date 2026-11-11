@@ -54,8 +54,11 @@ const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OU
     check('0. 劇情匯入白名單：AA_667＝0ba033578（第 7 節）、approved、approvedBy「AA-C（D109 定稿）」、任務 AA667-VAC-GAP2-1104',!!e&&e.sha===SHA&&e.status==='approved'&&e.approvedBy==='AA-C（D109 定稿）'&&e.task==='AA667-VAC-GAP2-1104',J(e&&{sha:e.sha,st:e.status})); }
   /* 每一句都在稿裡：走一遍 AA667.L（[說的人, 句子]＝那個人說的、null＝旁白；字串＝那一段的人說的；{t}＝選項）*/
   { const SEC={jzq:ZQ,jyt:YT,jzr:ZR,jps:PS,jsis:SIS,jkx:KX,uan:AN,uzq:ZQ,uyt:YT,uzr:ZR,ups:PS}, all=[], bad=[];
-    const okLine=(w,t)=>w?(doc.includes(NM[w]+'：'+t)||doc.includes(NM[w]+'：「'+t+'」')||doc.includes('」「'+t+'」')||doc.includes('）「'+t+'」')||doc.includes('私訊「'+t+'」')||doc.includes('她傳「'+t+'」')
+    let okLine=(w,t)=>w?(doc.includes(NM[w]+'：'+t)||doc.includes(NM[w]+'：「'+t+'」')||doc.includes('」「'+t+'」')||doc.includes('）「'+t+'」')||doc.includes('私訊「'+t+'」')||doc.includes('她傳「'+t+'」')
       ||doc.includes('→「'+t+'」')||/\d:\d\d「$/.test(doc.split('「'+t+'」')[0].slice(-6)+'「')):doc.includes(t);   /* 第 7 節：換字寫成「舊」→「新」、時間直接接「」（7-1 23:30「袋子寄在便利商店櫃台了 你明天去拿」）*/
+    /* 2026-11-11（X327 沛珊重寫，AA_759_peishan_misc2.json@987845b7c）：沛珊出發前電話（jps、ups）九句照新稿換了，不在 AA_667 裡——這九句對 AA_759（tests/peishan_dates_1111_unit.js 逐字對），這裡只認這九句、說的人要是沛珊（旁白那一句是 null） */
+    const PS759=['好快。那你陪我講一下話，我今天沒人可以鬧。', '我這禮拜都在店裡幫忙，站到腳快斷了。可是想先問你。', '你還沒來過我們家的店。下次，我叫我爸留靠窗那桌。', '六點？那時候我一定還在睡。', '我定鬧鐘。三個。', '（電話那頭有碗盤的聲音。）', '我媽在叫我。你早點睡。', '📷（鬧鐘的截圖：05:30、05:40、05:50。）', '我真的起來了。一路平安～'];
+    { const o0=okLine; okLine=(w,t)=>((w===PS||w==null)&&PS759.includes(t)&&((t[0]==='（')===(w==null)))||o0(w,t); }
     const OPTK=new Set(['go','backGo','backOpts','opts']);   /* 手機上玩家的回法（字串）*/
     const walk=(x,sp,key)=>{ if(x==null) return; if(typeof x==='string'){ if(key==='scene') return; if(OPTK.has(key)){ all.push([null,x]); if(!doc.includes('「'+x+'」')) bad.push('回法 '+x); return; } if(key==='sum') sp=null; all.push([sp,x]); if(!okLine(sp,x)) bad.push((sp?NM[sp]+'：':'')+x); return; }
       if(Array.isArray(x)){ if(x.length===2&&(x[0]===null||(typeof x[0]==='string'&&NM[x[0]]))&&typeof x[1]==='string'){ all.push(x); if(!okLine(x[0],x[1])) bad.push((x[0]?NM[x[0]]+'：':'')+x[1]); return; } for(const y of x) walk(y,sp,key); return; }
@@ -225,12 +228,12 @@ const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OU
       !q0&&!!q&&q.day===D('2028-03-24')&&q.h===23&&q.call&&q.place==='電話'&&!!s&&J(s)===J(callHome.concat([SL(PS,'那你收。我在電話這邊陪你。')],LN(X.mid),LN(X.opts2[0].say),[SL(PS,X.end[1])]))&&H.G.flags.PS_JP_BYE===D('2028-03-24')
       &&!s.includes(SL(PS,'你回宿舍了嗎？行李收好了沒？'))&&doc.includes('住家裡：「你回宿舍了嗎？」→「你回家了嗎？」'),J(s));
     { const mo0=JP.movedOut; JP.movedOut=()=>false; let sd=null; try{ fresh('2028-03-24',20,'dorm',Object.assign({},JP0,dt(AN,PS))); runAt('2028-03-24',21); at('2028-03-24',22.9); sd=await play('aa667_jp_ps_call',[1,1]); } finally{ JP.movedOut=mo0; }
-      check('7-2 住宿舍的照原本「你回宿舍了嗎？行李收好了沒？」（「收好了。」→「好快。……」）',!!sd&&sd[0]===SL(PS,'你回宿舍了嗎？行李收好了沒？')&&sd[1]===SL(PS,'好快。……那你陪我講一下話。'),J(sd&&sd.slice(0,2))); }
+      check('7-2 住宿舍的照原本「你回宿舍了嗎？行李收好了沒？」（「收好了。」→「好快。那你陪我講一下話，我今天沒人可以鬧。」，2026-11-11（X327 沛珊重寫，AA_759_peishan_misc2.json@987845b7c））',!!sd&&sd[0]===SL(PS,'你回宿舍了嗎？行李收好了沒？')&&sd[1]===SL(PS,'好快。那你陪我講一下話，我今天沒人可以鬧。'),J(sd&&sd.slice(0,2))); }
     fresh('2028-03-25',8,'home',Object.assign({},JP0,{X1_JP:D('2028-02-20')},dt(AN,PS),{PS_JP_BYE:D('2028-03-24')})); runAt('2028-03-25',9.8); const d0=byTag('aa667_jp_ps_dep').length; runAt('2028-03-25',9+50/60); const DP=byTag('aa667_jp_ps_dep');
     fresh('2028-03-25',8,'home',Object.assign({},JP0,{X1_JP:D('2028-02-20')},dt(AN,PS))); runAt('2028-03-25',10); const no=byTag('aa667_jp_ps_dep').length;
     check('2-4 3/25 09:50（出發前、臺灣時間）「我起來了！」「一路平安。到了跟我說～」；沒有 PS_JP_BYE（沒接那通）不發',d0===0&&J(tx(DP))===J(X.dep)&&no===0,J(tx(DP)));
     fresh('2028-08-05',21,'home',JPB(dt(AN,PS))); runAt('2028-08-05',23); const M=byTag('aa667_jp_ps_back'); const r=PHONE.answer(H.G,'aa667_jp_ps_back',0);
-    check('2-4 8/5 23:00「回來了嗎？」「我這禮拜每天四點半起來開店。……」→「回來了。」→「好。那我去睡了。」「……我家的蛋餅，你還沒吃過。」',J(tx(M))===J(X.back)&&!!r&&J(tx(r.out))===J([X.backGo].concat(X.backRep)),J({m:tx(M),r:r&&tx(r.out)})); }
+    check('2-4 8/5 23:00「回來了嗎？」「我這禮拜都在店裡幫忙，站到腳快斷了。可是想先問你。」→「回來了。」→「好。那我去睡了。」「你還沒來過我們家的店。下次，我叫我爸留靠窗那桌。」（X327 重寫）',X.back[1]==='我這禮拜都在店裡幫忙，站到腳快斷了。可是想先問你。'&&X.backRep[X.backRep.length-1]==='你還沒來過我們家的店。下次，我叫我爸留靠窗那桌。'&&J(tx(M))===J(X.back)&&!!r&&J(tx(r.out))===J([X.backGo].concat(X.backRep)),J({m:tx(M),r:r&&tx(r.out)})); }
 
   /* ================= 2-5 學姊、2-6 可昕（日本）================= */
   if(L){ fresh('2028-08-02',9,'jp_hub',JPA(dt(AN,SIS))); runAt('2028-08-02',9.9); const n0=byTag('aa667_jp_sis_fly').length; runAt('2028-08-02',10); const M=byTag('aa667_jp_sis_fly');
@@ -309,13 +312,13 @@ const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OU
   if(L){ const X=L.ups;
     const call=async picks=>{ fresh('2028-08-01',20,'home',Object.assign({},US0,dt(SIS,PS))); runAt('2028-08-01',21); const q=OUT.get(H.G,'aa667_us_ps_call'); at('2028-08-01',22.9); return {q,s:await play('aa667_us_ps_call',picks)}; };
     const a=await call([0]), sixL=[SL(PS,X.ask[1])].concat(LN(X.six.say));
-    check('3-5 8/1 23:00 她打來：「你明天幾點出門？」→「六點。」→「那時候我們店剛開門。」「我在煎蛋餅。……我煎一個你的。」；記 PS_US_BYE',!!a.q&&a.q.h===23&&a.q.call&&J(a.s)===J(sixL)&&H.G.flags.PS_US_BYE===D('2028-08-01'),J(a.s));
+    check('3-5 8/1 23:00 她打來：「你明天幾點出門？」→「六點。」→「六點？那時候我一定還在睡。」「我定鬧鐘。三個。」（X327 重寫）；記 PS_US_BYE',J(LN(X.six.say))===J([SL(PS,'六點？那時候我一定還在睡。'),SL(PS,'我定鬧鐘。三個。')])&&!!a.q&&a.q.h===23&&a.q.call&&J(a.s)===J(sixL)&&H.G.flags.PS_US_BYE===D('2028-08-01'),J(a.s));
     const b=await call([1,0]);
-    check('3-5「妳最近好嗎？」→「還好啦。」（電話那頭有鍋子的聲音。）「……我媽在叫我。你早點睡。」→ 之後也接「你明天幾點出門？」那一段（只有「六點。」）',
+    check('3-5「妳最近好嗎？」→「還好啦。」（電話那頭有碗盤的聲音。）「我媽在叫我。你早點睡。」（X327 重寫）→ 之後也接「你明天幾點出門？」那一段（只有「六點。」）',
       J(b.s)===J([SL(PS,X.ask[1])].concat(LN(X.how.say),sixL))&&J(H.opts[1]||[])===J(['「六點。」'])&&H.G.flags.PS_US_BYE===D('2028-08-01'),J(b.s));
     fresh('2028-08-02',5,'home',Object.assign({},US0,dt(SIS,PS),{PS_US_BYE:D('2028-08-01')})); runAt('2028-08-02',6.1); const d0=byTag('aa667_us_ps_dep').length; runAt('2028-08-02',6+10/60); const DP=byTag('aa667_us_ps_dep');
     fresh('2028-12-23',20,'dorm',USB(dt(SIS,PS))); const pre=A().xmasPre(H.G,{id:PS,k:'xmas',y:2028});
-    check('3-5 8/2 06:10「📷（鐵板上一個煎好的蛋餅。）」「這是你的。我吃掉了。一路平安～」；12/23 聖誕邀約前面「你回來了！！」「時差會很累，先睡。」',d0===0&&J(tx(DP))===J(X.dep)&&J(pre)===J(X.xmasPre),J({dp:tx(DP),pre})); }
+    check('3-5 8/2 06:10「📷（鬧鐘的截圖：05:30、05:40、05:50。）」「我真的起來了。一路平安～」（X327 重寫）；12/23 聖誕邀約前面「你回來了！！」「時差會很累，先睡。」',d0===0&&J(tx(DP))===J(X.dep)&&J(X.dep)===J(['📷（鬧鐘的截圖：05:30、05:40、05:50。）','我真的起來了。一路平安～'])&&J(pre)===J(X.xmasPre),J({dp:tx(DP),pre})); }
 
   /* ================= 第 5 節：同一晚兩場撞在一起 ================= */
   if(L){ fresh('2028-07-20',10,'home',Object.assign({},US0,dt(SIS,AN,ZR,PS)));
@@ -355,7 +358,8 @@ const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OU
     const yi=inv('2028-07-26',17), ds=inv('2028-07-12',17), tp=inv('2028-03-22',17);
     check('H7 語彤不在臺北（7/26 宜蘭田野、7/12 寒暑假平日回淡水）不傳「……今天秀琴姨煮很多。你要不要來吃。」；學期中照傳',yi===0&&ds===0&&tp===1,J({yi,ds,tp})); }
   { const hb=FEST_DATA.PEOPLE.classmate_peishan.ask.homeBy, src=fs.readFileSync(path.join(H.ROOT,'src/data/fest_events.js'),'utf8');
-    check('沛珊聖誕（台南）：「明天聖誕節。台南的街上也有燈。你要下來嗎？」拿掉「……不用勉強。」（其他節日那幾句不動）',J(hb.xmas.台南)===J(['明天聖誕節。台南的街上也有燈。你要下來嗎？'])&&!src.includes('你要下來嗎？……不用勉強。\']}}}')&&/明天情人節。……你要下來台中嗎？不用勉強。/.test(src)&&doc.includes('「明天聖誕節。台南的街上也有燈。你要下來嗎？」'),J(hb&&hb.xmas)); }
+    /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d） 的 fest.ask）：她約的句子整組換了——聖誕「明天聖誕節，台南的街上也有燈，你要不要下來？」，其他節日那幾句的「……不用勉強。」新稿也都沒有了（原本期望：聖誕拿掉、其他節日留著） */
+    check('沛珊聖誕（台南）：新稿「明天聖誕節，台南的街上也有燈，你要不要下來？」；AA_667 要的「不用『……不用勉強。』收」照舊成立（整段都沒有了）',J(hb.xmas.台南)===J(['明天聖誕節，台南的街上也有燈，你要不要下來？'])&&!/classmate_peishan|\[PS\]/.test('')&&!(src.slice(src.indexOf('    [PS]:{'),src.indexOf('第 9 節 杜可昕')).replace(/\/\*[\s\S]*?\*\//g,'').includes('不用勉強'))&&doc.includes('「明天聖誕節。台南的街上也有燈。你要下來嗎？」'),J(hb&&hb.xmas)); }
   /* ================= 不出現 ================= */
   { const all=()=>(H.G.msgs||[]).filter(m=>/^aa667_/.test(m.tag||'')).length+(H.G.outings||[]).filter(q=>/^aa667_/.test(q.id||'')).length;
     const cases=[['2028-03-21',21.5,Object.assign({},TW0,dt(ZR))],['2028-08-01',23.2,Object.assign({},TW0,dt(AN,ZR,PS))],['2028-08-01',23.2,Object.assign({},US0,dt(SIS))],['2028-03-24',23.2,Object.assign({},JP0,dt(AN))],['2028-08-05',23.5,Object.assign({},JPB(),dt(AN))]];

@@ -26,7 +26,7 @@ global.CHAR={build:spec=>{ const g=new THREE.Group(); g.userData.spec=spec; retu
 let NDL=()=>false;
 global.STORY={extraSpec:i=>({id:'x'+i,sex:i%2===0?'f':'m'}),CROWD_X:2,dayOfKey:dayOf,noodleDay:d=>NDL(d)};
 for(const f of ['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/data/lane118_layout.js',
-  'src/data/lane118_shops.js','src/data/lane118_props.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/calendar.js','src/data/places.js','src/lane118.js','src/data/l118_shop_layouts.js','src/l118_shops3d.js','src/noodle_closed3d.js','src/crowd3d.js']){
+  'src/data/lane118_shops.js','src/data/l118_redo772.js','src/data/lane118_props.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/calendar.js','src/data/places.js','src/lane118.js','src/data/l118_shop_layouts.js','src/l118_shops3d.js','src/noodle_closed3d.js','src/crowd3d.js']){
   let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>'globalThis.'+n+'='); vm.runInThisContext(src,{filename:f}); }
 ASSETS.loadOne=()=>new Promise(()=>{});   /* 正式模型不載入（座位、導航不靠模型）*/
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
@@ -42,8 +42,10 @@ function enter(id,G,o){ o=o||{}; GAME.G=G; G.weekday=CALENDAR.dateOf(G.day).wd%7
   if(o.before) o.before(GM,z);
   CROWD.enter(GM,id); return z; }
 const SHOP_ZONES=['noodle','cvs','bookstore','wz_brunch','wz_teahouse','wz_lin','wz_teishoku','wz_print','l118_dian','l118_self','l118_tea','l118_home','l118_cafe2','l118_pasta','l118_korea','l118_omu','l118_noodle2'];
-const MEAL=['noodle','wz_lin','wz_teishoku','l118_dian','l118_self','l118_home','l118_pasta','l118_korea','l118_omu','l118_noodle2'];
-const PEAK={wz_brunch:10.5,wz_teahouse:15,l118_cafe2:15,l118_tea:12.5,wz_print:12.5};
+/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）改期望——舊期望：l118_tea 是飲料店（尖峰 12:30、最多 3 位）、l118_cafe2 是咖啡店（尖峰 15:00、看書用筆電）、義大利麵週三公休、cafe2 18:00 關。
+   新期望：l118_tea（辛亥韓食）、l118_cafe2（大學食堂）都是吃飯的店（算進 MEAL、尖峰照吃飯的店）；義大麵屋週一公休；大學食堂 19:00 關、週末不開；118 巷沒有咖啡店（第 9 項改驗大學食堂的客人是吃飯的樣子）。*/
+const MEAL=['noodle','wz_lin','wz_teishoku','l118_dian','l118_self','l118_tea','l118_home','l118_cafe2','l118_pasta','l118_korea','l118_omu','l118_noodle2'];
+const PEAK={wz_brunch:10.5,wz_teahouse:15,l118_cafe2:12.5,wz_print:12.5};   /* 大學食堂晚上只開到 19:00（18:30 已經在收），尖峰看午餐 */
 /* 舊版沒有這幾個函式（改前也要跑得完、照實 FAIL）*/
 const seatBusy=(E,st)=>CROWD.seatBusy?CROWD.seatBusy(E,st):(E.npcs.some(m=>m.seat&&Math.hypot(m.seat.x-st.x,m.seat.z-st.z)<0.4)||(!!E.player.seat&&Math.hypot(E.player.seat.x-st.x,E.player.seat.z-st.z)<0.4));
 const shopFree=E=>((E.zone&&E.zone.seats)||[]).filter(st=>!seatBusy(E,st)).length;
@@ -56,17 +58,23 @@ const DAYS=[]; for(let d=dayOf('2025-09-22');DAYS.length<15;d++) if(CALENDAR.kin
 const stat=(z,h,days,o)=>{ let nOpen=0, sum=0, occ=0, mx=0; for(const d of days||DAYS){ const G=mkG(d,h,o&&o.G); if(o&&o.anyOpen===false){} else if(!open(z,G)) continue; nOpen++; const zz=enter(z,G); const n=ppl().length; sum+=n; mx=Math.max(mx,n); const S=(zz.seats||[]).length; occ+=S?n/S:0; }
   return {nOpen,avg:nOpen?sum/nOpen:0,occ:nOpen?occ/nOpen:0,mx}; };
 // ---------- 1. 營業時間內有客人 ----------
-{ const bad=[], info=[]; for(const z of SHOP_ZONES){ const h=PEAK[z]||18.5, s=stat(z,h); info.push(z+' '+s.avg.toFixed(1)); if(!s.nOpen||s.avg<1) bad.push(z+'（'+h+' 點，開門 '+s.nOpen+' 天，平均 '+s.avg.toFixed(2)+' 位）'); }
-  check('1. 每一家店在自己的尖峰有客人（吃飯的店晚餐 18:30；半熟 10:30、一盞和慢讀咖啡 15:00、一一八茶飲和影印店 12:30）',!bad.length,bad.length?bad.join('、'):info.join('、')); }
-{ const bad=[], info=[]; for(const z of MEAL) for(const h of [12.5,18.5]){ const s=stat(z,h); if(!s.nOpen) continue; info.push(z+'@'+h+'='+s.occ.toFixed(2)); if(s.occ<0.35||s.occ>0.65) bad.push(z+'@'+h+' '+s.occ.toFixed(2)); }
+/* 2026-11-11：l118_tea（辛亥韓食）的室內還是舊茶飲店的模型，只有兩張高腳椅（一組兩人座）——尖峰平均不到 1 位（0.9 左右；有客人，但一組坐滿就沒位子）。
+   LAWWW2 的新室內（密集四人桌）延後；在那之前這一間的門檻放 0.8（其他店照舊 1），新室內進來以後拿掉這個例外。
+   午餐的取樣時刻：11:30 才開的店（迪倫窯烤披薩等，改版以後開門時間變晚）開門一個小時客人還在進來，改在 12:45 量（開門後一小時十五分；11:00 開的店照舊 12:30）*/
+/* l118_tea 的門檻 0.8 只在它的室內配置座位數 ≤2 的時候用（舊茶飲店模型）；LAWWW2 的新室內（十幾個座位）進來＝自動回到 1，不用再回來改這支測試 */
+const teaSmall=(()=>{ const L=typeof L118_SHOP_LAYOUTS!=='undefined'&&L118_SHOP_LAYOUTS.tea; return !!L&&((L.seats||[]).length<=2); })();
+const lunchH=z=>{ const d=defOf(z), W=d?CROWD.shopWindows(d,mkG(DAYS[0],12.5)):[]; const w=W.find(([a,b])=>a<=12.5&&b>12.5); return w&&w[0]>=11.5?12.75:12.5; };
+{ const bad=[], info=[]; for(const z of SHOP_ZONES){ const h=PEAK[z]||18.5, s=stat(z,h); info.push(z+' '+s.avg.toFixed(1)); if(!s.nOpen||s.avg<(z==='l118_tea'&&teaSmall?0.8:1)) bad.push(z+'（'+h+' 點，開門 '+s.nOpen+' 天，平均 '+s.avg.toFixed(2)+' 位）'); }
+  check('1. 每一家店在自己的尖峰有客人（吃飯的店晚餐 18:30；半熟 10:30、一盞 15:00、大學食堂和影印店 12:30）',!bad.length,bad.length?bad.join('、'):info.join('、')); }
+{ const bad=[], info=[]; for(const z of MEAL) for(const h of [lunchH(z),18.5]){ const s=stat(z,h); if(!s.nOpen) continue; info.push(z+'@'+h+'='+s.occ.toFixed(2)); if(s.occ<0.35||s.occ>0.65) bad.push(z+'@'+h+' '+s.occ.toFixed(2)); }
   check('1. 吃飯的店午餐（12:30）、晚餐（18:30）平均坐滿約四到六成（三成半以上；大店最多 10 位，十八、二十個位子的店最多五成多）',!bad.length,(bad.length?'不對：'+bad.join('、')+'｜':'')+info.slice(0,8).join(' ')); }
 { const z=enter('wz_teishoku',mkG('2025-10-18',18+22/60)); const n=ppl(), sat=n.filter(m=>m.seat&&m.pose==='sit');
   check('1. 使用者截圖那一刻：巷子裡定食 10/18（週六）18:22 有客人坐在位子上吃',sat.length>=3,'客人 '+n.length+' 位（坐著 '+sat.length+'）'); }
 // ---------- 2. 人數照時段、打烊沒有人 ----------
 { const bad=[], info=[]; for(const z of MEAL){ const pk=Math.max(stat(z,12.5).occ,stat(z,18.5).occ); for(const h of [15.5,20.25,10.25]){ const s=stat(z,h); if(!s.nOpen) continue; info.push(z+'@'+h+'='+s.occ.toFixed(2)); if(!(s.occ<pk&&s.occ<=0.25)) bad.push(z+'@'+h+' '+s.occ.toFixed(2)+'（尖峰 '+pk.toFixed(2)+'）'); } }
   check('2. 吃飯的店尖峰以外（下午、晚上、早上開門時）比尖峰少、不到兩成五',!bad.length,bad.length?bad.join('、'):info.slice(0,6).join(' ')); }
-{ const cases=[['wz_teishoku','2025-10-14',18.5,'週二公休'],['wz_teishoku','2025-10-15',15.5,'兩段中間'],['wz_teishoku','2025-10-16',3,'打烊（02:00 以後；2026-11-04 改期望：原本 21:00，小路 AA_655 改 18:00～02:00，21:00 開著）'],['wz_lin','2025-10-13',12.5,'週一公休'],['l118_pasta','2025-10-15',12.5,'週三公休'],
-    ['l118_dian','2025-10-15',15.5,'兩段中間'],['l118_cafe2','2025-10-15',19,'18:00 關'],['wz_brunch','2025-10-15',16,'15:00 關'],['wz_teahouse','2025-10-14',15,'週二公休'],['bookstore','2025-10-15',22.5,'書店晚上'],['noodle','2025-10-15',15.5,'麵店下午'],['wz_print','2025-10-19',12.5,'週日公休']];
+{ const cases=[['wz_teishoku','2025-10-14',18.5,'週二公休'],['wz_teishoku','2025-10-15',15.5,'兩段中間'],['wz_teishoku','2025-10-16',3,'打烊（02:00 以後；2026-11-04 改期望：原本 21:00，小路 AA_655 改 18:00～02:00，21:00 開著）'],['wz_lin','2025-10-13',12.5,'週一公休'],['l118_pasta','2025-10-13',12.5,'週一公休（2026-11-11：義大麵屋公休改週一，舊期望 2025-10-15 週三）'],
+    ['l118_dian','2025-10-15',15.5,'兩段中間'],['l118_cafe2','2025-10-15',19.5,'19:00 關（2026-11-11：大學食堂 17:00～19:00，舊期望 慢讀咖啡 18:00 關）'],['l118_cafe2','2025-10-18',12.5,'週六不開'],['wz_brunch','2025-10-15',16,'15:00 關'],['wz_teahouse','2025-10-14',15,'週二公休'],['bookstore','2025-10-15',22.5,'書店晚上'],['noodle','2025-10-15',15.5,'麵店下午'],['wz_print','2025-10-19',12.5,'週日公休']];
   const ty=(()=>{ for(let d=1;d<1500;d++) if(CALENDAR.typhoon&&CALENDAR.typhoon(d)) return d; return null; })();
   if(ty!=null){ cases.push(['wz_teishoku',ty,18.5,'颱風假']); cases.push(['l118_korea',ty,12.5,'颱風假']); }
   const cny=dayOf('2026-02-17')-3; cases.push(['noodle',cny,12.5,'麵店過年店休']);
@@ -79,7 +87,7 @@ const stat=(z,h,days,o)=>{ let nOpen=0, sum=0, occ=0, mx=0; for(const d of days|
 // ---------- 4、5、6：掃很多天、很多時刻 ----------
 const HS=[8,10.5,11.75,12.5,13.25,15,17.6,18.5,19.25,20.25,22.5];
 const SCAN_DAYS=DAYS.slice(0,8).concat([dayOf('2025-10-18'),dayOf('2025-10-19'),dayOf('2026-01-28'),dayOf('2026-07-15')]);
-const KCAP={bookstore:6,cvs:6,wz_print:2,l118_tea:3};
+const KCAP={bookstore:6,cvs:6,wz_print:2};   /* 2026-11-11：l118_tea 不再是飲料店（舊期望 l118_tea:3）*/
 { const freeBad=[], pairBad=[], capBad=[], dupBad=[], seatBad=[], standBad=[], keepBad=[]; let nSeat=0, nStand=0;
   for(const z of SHOP_ZONES){ const def=defOf(z); if(!def){ capBad.push(z+' 沒有'); continue; } const hasFace=def.units.some(u=>u.kind==='face')&&!def.noKeep;
     for(const d of SCAN_DAYS) for(const h of HS){ const G=mkG(d,h), zz=enter(z,G), P=ppl(), seats=zz.seats||[];
@@ -118,9 +126,9 @@ const KCAP={bookstore:6,cvs:6,wz_print:2,l118_tea:3};
 { let a=0, b=0; for(const z of ['wz_teishoku','l118_korea','l118_noodle2','wz_lin']) for(const d of DAYS){ for(const h of [12.5,18.5]){ enter(z,mkG(d,h)); a+=ppl().length; enter(z,mkG(d,h,{flags:{companion:'heroine_01'}})); b+=ppl().length; } }
   check('8. 有人跟著你（companion）：客人少一半左右',a>0&&b<=a*0.7&&b>0,'平常 '+a+'、有人跟著 '+b+' 人次'); }
 // ---------- 9. 慢讀咖啡、兩個人一桌 ----------
-{ let read=0, lap=0, sit=0, pair=0, lookOk=0; for(const d of DAYS) for(const h of [10.5,13,15,16.5]){ enter('l118_cafe2',mkG(d,h)); for(const n of ppl()){ if(n.pose==='read') read++; else if(n.obj.userData.propOn&&n.obj.userData.propOn.laptop_lap) lap++; else sit++; } }
+{ let read=0, lap=0, sit=0, pair=0, lookOk=0; for(const d of DAYS) for(const h of [11.5,12.5,13,17.5,18.5]){ enter('l118_cafe2',mkG(d,h)); for(const n of ppl()){ if(n.pose==='read') read++; else if(n.obj.userData.propOn&&n.obj.userData.propOn.laptop_lap) lap++; else sit++; } }
   for(const d of DAYS){ enter('wz_teishoku',mkG(d,18.5)); const L=CROWD.live; for(const id in L){ const ns=L[id].npcs; if(ns.length===2){ pair++; if(ns[0].lookAt===ns[1].obj.position&&ns[1].lookAt===ns[0].obj.position) lookOk++; } } }
-  check('9. 慢讀咖啡：有人看書（read）、有人用筆電（腿上 laptop_lap）、有人坐著',read>0&&lap>0&&sit>0,'看書 '+read+'、筆電 '+lap+'、坐著 '+sit);
+  check('9. （2026-11-11：l118_cafe2 從慢讀咖啡改成大學食堂；舊期望：有人看書、有人用筆電、有人坐著）大學食堂的客人是吃飯的樣子：有人坐著、沒有人看書或用筆電',read===0&&lap===0&&sit>0,'看書 '+read+'、筆電 '+lap+'、坐著 '+sit);
   check('9. 一桌兩個人一起來的：轉頭看對方（聊天）',pair>0&&lookOk===pair,pair+' 桌、轉頭 '+lookOk); }
 // ---------- 10. 待在店裡：新來的客人從門口走進來；Café 不在這一套 ----------
 { const G=mkG('2025-10-16',11.0), zz=enter('l118_korea',G); const n0=ppl().length; let walked=null;

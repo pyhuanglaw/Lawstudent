@@ -12,7 +12,7 @@ check('1. 羽球短片 keep 記下 beh',/keep\.push\(\{e,[^}]*beh:e\.beh,/.test(
 check('1. place()：對手是 follow／buddy／passenger 的先換成 idle（玩家不動）',/const place=\(e,x,z,yaw\)=>\{[^}]*if\(e!==P1&&\(e\.beh==='follow'\|\|e\.beh==='buddy'\|\|e\.beh==='passenger'\)\) e\.beh='idle';/.test(BAD));
 check('1. 演完（finally）照 keep 還原 beh',/if\(k\.beh!==undefined&&e!==P1\) e\.beh=k\.beh;/.test(BAD));
 check('2. engine：follow／buddy 遇 frozen 不跟著走',/else if\(\(\(n\.beh==='follow'&&E\.player\)\|\|\(n\.beh==='buddy'&&n\.buddy\)\)&&!n\.frozen\)\{ if\(followStep\(n,dt\)\) moving=true; \}/.test(ENG));
-check('3. 118 巷店面：慢讀（cafe2）的桌位 study:true、吧檯高腳椅（lift）不算，標籤「坐下讀書」',/const study=id==='cafe2'&&!s\.lift; IT\.push\(\{[^}]*label:s\.label\|\|\(study\?'坐下讀書':'坐下'\),study\}\)/.test(L118));
+check('3. （2026-11-11 L118-SHOPS-REDO-1111、AA_772：慢讀咖啡搬到木曜日，cafe2 現在是大學食堂；舊期望：cafe2 的桌位 study:true、標籤「坐下讀書」）118 巷店面的桌位都不能讀書（study＝false）',/const study=false;/.test(L118)&&!/const study=id==='cafe2'/.test(L118));
 // 慢讀真的有桌位（不是全部吧檯）
 { let L=null; try{ const vm=require('vm'); const c={}; vm.createContext(c); vm.runInContext(LAY.replace(/^const L118_SHOP_LAYOUTS\s*=/m,'this.L118_SHOP_LAYOUTS='),c); L=c.L118_SHOP_LAYOUTS; }catch(e){}
   const seats=(L&&L.cafe2&&L.cafe2.seats)||[], desk=seats.filter(s=>!s.lift);

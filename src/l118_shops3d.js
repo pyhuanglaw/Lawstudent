@@ -17,8 +17,9 @@ const L118S=(function(){
   /* 兩層窗景（ART-SHOP-VIEWS-1023 第二批，LAWWW2-B 10-23；使用者「店面外看出去的景也都很假」）：W3.VIEW_LAYERS 有 'l118_<id>' 時，門外那張平面圖（WALL_S_view）換成 W3.windowMat——
      遠景（巷子對面的店）＋去背的近景（巷子裡的機車、電線桿、招牌），兩層各自照景深視差，走動時近的東西移動得比對面的店快；照片在遊戲的 118 巷裡拍（tools/shots/shop_views_layers.py），晚上換夜景照片。
      新的平面照原本那一片的位置和大小；原本那一片還在牆的淡出清單裡（鏡頭退到店外時一起淡出），只是不畫，新的平面跟著它的 visible。照片還沒載好時畫原本那張圖（photo 0） */
-  /* 九間店的景深（tools/shots/shop_views_layers.py 量的中位數：遠景＝巷子對面的店、近景＝巷子裡 5.5 m 以內；寫進 tools/shots/shop_views_layers.json）。放在這裡、不改 world3d.js 的表 */
-  if(typeof W3!=='undefined'&&W3.VIEW_LAYERS) Object.assign(W3.VIEW_LAYERS,{l118_dian:{far:8,near:5.43},l118_self:{far:8,near:5.41},l118_tea:{far:8.13,near:5.42},l118_home:{far:8,near:5.45},l118_cafe2:{far:8,near:5.47},l118_pasta:{far:8,near:5.45},l118_korea:{far:8,near:5.45},l118_omu:{far:8.13,near:5.44},l118_noodle2:{far:8,near:5.48}});
+  /* 九間店的景深（tools/shots/shop_views_layers.py 量的中位數：遠景＝巷子對面的店、近景＝巷子裡 5.5 m 以內；寫進 tools/shots/shop_views_layers.json）。放在這裡、不改 world3d.js 的表。
+     2026-11-11 L118-STREET-FIX-1111（BB_341 第 2 項：店裡往外看還是舊街景、看得到舊店名）：九間的照片在換過店、移過路燈和機車的 118 巷重拍，景深照這次量的（五湖四海的近景這次什麼都沒拍到、量不到，留原本的 5.45）*/
+  if(typeof W3!=='undefined'&&W3.VIEW_LAYERS) Object.assign(W3.VIEW_LAYERS,{l118_dian:{far:8,near:5.43},l118_self:{far:8,near:5.44},l118_tea:{far:8.13,near:5.42},l118_home:{far:8,near:5.45},l118_cafe2:{far:8,near:5.46},l118_pasta:{far:8,near:5.45},l118_korea:{far:8,near:5.45},l118_omu:{far:8.13,near:5.42},l118_noodle2:{far:8,near:5.42}});
   function photoView(g0,root,id){ const key='l118_'+id; if(typeof W3==='undefined'||!W3.VIEW_LAYERS||!W3.VIEW_LAYERS[key]||!W3.windowMat) return null; let src=null; root.traverse(o=>{ if(!src&&o.isMesh&&o.name==='WALL_S_view') src=o; }); if(!src) return null;   /* 只換店門外那一片（兩側的鄰居店面卡 WALL_E_nb_view、WALL_W_nb_view 照舊）*/
     root.updateMatrixWorld(true); g0.updateMatrixWorld(true); const b=new THREE.Box3().setFromObject(src), sz=b.getSize(new THREE.Vector3()), c=g0.worldToLocal(b.getCenter(new THREE.Vector3()));
     const sm=[].concat(src.material)[0], fb=sm&&(sm.emissiveMap||sm.map)||null, m=new THREE.Mesh(new THREE.PlaneGeometry(Math.max(sz.x,sz.z),sz.y),W3.windowMat(W3.VIEW_LAYERS[key].far));
@@ -37,8 +38,12 @@ const L118S=(function(){
     cafe2:{ books:'（書架上大多是舊漫畫，有幾套缺了第一集。）' },
     korea:{ banchan:'（小菜櫃裡有海帶、豆干、滷蛋。豆干只剩兩塊。）' }, noodle2:{ sides:'（小菜櫃的玻璃起霧了，看得到裡面的燙青菜。）' } };
   const lookText=(id,q)=>(LOOK[id]&&LOOK[id][q.id])||q.note||q.label;
+  /* 店名照店家資料（src/data/lane118_shops.js；L118-SHOPS-REDO-1111，使用者 2026-11-11 九間店換店名）：室內配置檔（LAWWW2 產生，不手改）裡寫的還是配置當時的店名——
+     區域名稱、「點餐（○○）」「離開○○」這些按鈕上的店名換成資料的；配置重新產生以後兩邊一樣，這裡就什麼都不換 */
+  const shopName=id=>{ const s=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)?LANE118_SHOPS.shops.find(q=>q.id===id):null; return (s&&s.name)||L118_SHOP_LAYOUTS[id].name; };
+  const reName=(id,t)=>{ const a=L118_SHOP_LAYOUTS[id].name, b=shopName(id); return typeof t==='string'&&a&&a!==b?t.split(a).join(b):t; };
   function zoneFor(id){ const L=L118_SHOP_LAYOUTS[id];
-    return { id:'l118_'+id, name:L.name+'（118 巷）', indoor:true, camDist:L.cam_dist||4.2, build(E){ const Bd=L.bounds, H=L.h||3.2;
+    return { id:'l118_'+id, get name(){ return shopName(id)+'（118 巷）'; }, indoor:true, camDist:L.cam_dist||4.2, build(E){ const Bd=L.bounds, H=L.h||3.2;
       const W=Math.max(-Bd.x0,Bd.x1)*2+3, D=Math.max(-Bd.z0,Bd.z1)*2+3;
       const z=Z3.room(E,{w:W,d:D,h:H,windows:false,warm:true,wallColor:'#efe8dc',floorTex:W3.stoneTex('#c8bba6'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
       const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
@@ -51,10 +56,10 @@ const L118S=(function(){
       let glow=[], views=[], pview=null; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
       const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); setView(views,h); setPhotoView(pview,h,weather); };
       const IT=E.interactables; z.seats=[];
-      for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; if(s.lift) st.lift=s.lift;   /* lift：吧檯高腳椅（座面 0.76 m，坐姿抬高 0.29＝座面－CHAR.SIT_TOP 0.47，SIT-HEIGHT-1104；原本 0.31＝照 0.45 算；GAME.sitAt 的 seat.lift，和 Café、定食店的吧台一樣）*/ z.seats.push(st); const study=id==='cafe2'&&!s.lift; IT.push({x:s.x,z:s.z,radius:0.7,lv:0,prio:0.3,seat:st,label:s.label||(study?'坐下讀書':'坐下'),study}); }   /* study：慢讀咖啡（cafe2）的桌位可以自習（使用者 2026-10-30「慢讀咖啡為什麼不能念書」，L118-CAFE2-STUDY-1030；吧檯高腳椅不算）*/   /* prio：站在椅子旁邊要坐下時，「坐下」比旁邊的電視、自取的湯優先（BB-C 10-20 家常菜） */
+      for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; if(s.lift) st.lift=s.lift;   /* lift：吧檯高腳椅（座面 0.76 m，坐姿抬高 0.29＝座面－CHAR.SIT_TOP 0.47，SIT-HEIGHT-1104；原本 0.31＝照 0.45 算；GAME.sitAt 的 seat.lift，和 Café、定食店的吧台一樣）*/ z.seats.push(st); const study=false;   /* AA_772（L118-SHOPS-REDO-1111）：cafe2 現在是大學食堂，桌位不能讀書（原本 L118-CAFE2-STUDY-1030：慢讀咖啡的桌位可以自習；念書搬到木曜日）*/ IT.push({x:s.x,z:s.z,radius:s.r||0.7,lv:0,prio:0.3,seat:st,label:s.label||(study?'坐下讀書':'坐下'),study}); }   /* study：慢讀咖啡（cafe2）的桌位可以自習（使用者 2026-10-30「慢讀咖啡為什麼不能念書」，L118-CAFE2-STUDY-1030；吧檯高腳椅不算）*/   /* prio：站在椅子旁邊要坐下時，「坐下」比旁邊的電視、自取的湯優先（BB-C 10-20 家常菜） */
       for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:q.label,look:lookText(id,q)});   /* 只是看的東西（電視、自取的湯）讓位給坐下、點餐、出口：家常菜的湯就在椅子後面（BB-C 10-20） */
-      if(L.order) IT.push({x:L.order.x,z:L.order.z,radius:L.order.r,lv:0,label:L.order.label,shop118:id});
-      for(const X of L.exits){ const so=L.street.spawn_out; IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:'lane118',spawn:{x:so.x,z:so.z,yaw:so.yaw}}}); }
+      if(L.order) IT.push({x:L.order.x,z:L.order.z,radius:L.order.r,lv:0,label:reName(id,L.order.label),shop118:id});
+      for(const X of L.exits){ const so=L.street.spawn_out; IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:reName(id,X.label),exit:{to:'lane118',spawn:{x:so.x,z:so.z,yaw:so.yaw}}}); }
       z.formal=false; const key='bldg.l118_'+id; if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
         root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
         glow=glowMats(root,/^GLOW_/); views=viewMats(root); pview=photoView(g0,root,id); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('118 巷店面正式模型載入失敗',id,e));

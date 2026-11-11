@@ -138,13 +138,16 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   check('0. 七個學期的 id 都不重複（動態 43＋46＋38＋40＋41＋41＋33、私訊 10＋7＋3＋1＋1＋1＋0；大二上 38＝AA_514 加的 kx4bc）（大一上 sis2 保溫瓶、大一下 ps2b 志工報名表 2026-11-04 拿掉：D127④、AA_661 第 48、51 列）',ids.length===305&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   /* 2026-10-28 AA_518 第 4-4 改的（企劃線 973dd1b74，SIS-B15-1028；對 AA_518 的稿在 tests/aa518_sis_b15_unit.js）：sis4f 留言回「他說要三匙。我沒給。」（對齊陳助教那一句）*/
   const AA518_T=new Set(['他說要三匙。我沒給。']), AA518_ROW={sis4f:e=>{ e.cm=[e.cm[0],'他說要三匙。我沒給。']; }};
-  for(const term of ['Y3S2','Y4S1']){ const S=SET[term], md=doc[term];
+  /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：大四上 ps4g 的留言回覆換字（原本「兩週！然後回早餐店～」）——稿（AA_509）那一列的第二則留言是舊句才換成新句再比；逐字對稿在 tests/peishan_misc3_1111_unit.js */
+  AA518_T.add('兩週！然後回我們家店裡站櫃檯～'); AA518_ROW.ps4g=e=>{ if(e.cm[1]==='兩週！然後回早餐店～') e.cm=[e.cm[0],'兩週！然後回我們家店裡站櫃檯～']; };
+  const PSRW=require('./peishan_rewrite_1111.js');   /* 2026-11-11（X327 沛珊重寫）：大三下 ps4f 照 AA_755 整則重寫了，不在 AA_508 稿裡——①② 都跳過這一則，逐字比對在 tests/peishan_feed_misc_1111_unit.js */
+  for(const term of ['Y3S2','Y4S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!PSRW.feedSkip(term,p.id))}), md=doc[term];
     if(!S||!md){ check('0. '+term+' 對稿（'+(term==='Y3S2'?SHA508:SHA)+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
     const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!AA518_T.has(t));
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+(term==='Y3S2'?SHA508:SHA)+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y3S2'?200:160)&&!bad.length,J(bad.slice(0,8)));
     /* ② 稿 → 遊戲：動態表每一列（表下面才寫的另一版：比一般的那一版）*/
-    const rows=rowsOf(md), wrong=[], wd=[], went={};
+    const rows=rowsOf(md).filter(r=>!PSRW.feedSkip(term,expectRow(term,r).id)), wrong=[], wd=[], went={};
     for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when); if(p&&p.went) went[p.id]=p.went;
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null, nw=p&&NOTE_WENT[p.id];
@@ -356,7 +359,7 @@ await sec('5',async()=>{ if(!HAS2()){ check('5. 稿的測試建議',false,'沒�
   check('5. 學姊美國路線交往中：第 2 則「多一個碗——是你的」、第 3 則「對面多一台筆電——是你的」；美國路線沒交往（AA_516 1-4）、臺灣路線一般那張',s2u.v==='yes'&&s2u.h.includes('多一個碗——是你的')&&s3u.v==='yes'&&s3u.h.includes('對面多一台筆電——是你的')&&s3t.v==='no'&&!s3t.h.includes('是你的')&&s3t.h.includes('標題「第四章」')&&s2r.v==='no'&&s3r.v==='no'&&!s2r.h.includes('是你的')&&!s3r.h.includes('是你的'),J({s2u:s2u.v,s3u:s3u.v,s3t:s3t.v,s2r:s2r.v,s3r:s3r.v}));
   /* 沛珊寒假代課再回早餐店；可昕第 2 則在 10/20 以後 */
   fresh(DK('2029-01-14'),20); who('classmate_peishan','FRIEND'); walk(DK('2029-01-14'),21.1); FEED.respond(H.G,'ps4g','cm'); const ps4=th('classmate_peishan').slice(-2).map(x=>x.text);
-  check('5. 沛珊 1/14（台中）「代課第二週～」：留言「代課？」→「兩週！然後回早餐店～」',J(ps4)===J(['代課？','兩週！然後回早餐店～']),J(ps4));
+  check('5. 沛珊 1/14（台中）「代課第二週～」：留言「代課？」→「兩週！然後回我們家店裡站櫃檯～」',J(ps4)===J(['代課？','兩週！然後回我們家店裡站櫃檯～']),J(ps4));
   check('5. 可昕第 2 則「國考」（11/5）在 10/20（交往中的先聽她說）以後；第 1 則 9/16「第四年。」',twOf('kx2g').day===DK('2028-11-05')&&twOf('kx2g').day>DK('2028-10-20')&&twOf('kx1g').day===DK('2028-09-16')); });
 
 /* ---------- 6 別人說起她（AA_508、AA_509）---------- */

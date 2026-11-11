@@ -31,7 +31,9 @@ for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_
   'src/data/sis_b12_events.js','src/sis_b12_3d.js','src/data/sis_aa539_lines.js','src/sis_aa539_3d.js','src/data/heroine_asks.js','src/heroine_asks3d.js']) L3(f);
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const A539='docs/story_planning/AA_539_學姊重讀_AA470之後_空白與重複.md', SHA='4fe297d9c';   /* 10-30 09:1x 換 4fe297d9c：只多 5-1 的見面前旁白（AA-B 補稿）*/
-const doc=git(SHA,A539), docLines=doc.split('\n');
+/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
+const R772=require('./l118_redo772_expect.js');
+const doc0=R772.doc(git(SHA,A539)), doc=doc0+'\n'+R772.corpus(), docLines=doc0.split('\n');
 const D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h, keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;
 const at=(d,h)=>{ const G=H.G; G.day=typeof d==='number'?d:D(d); G.hour=h; G.weekday=wdOf(G.day); };
 const rules=()=>{ STORY.phoneRules(GM); PHONE.tick(H.G); };
@@ -61,7 +63,9 @@ const NEW_TE='時差還沒調回來。……今天晚上，法圖旁邊那家？
 /* AA_593（學姊改稿①b，企劃線 6cbb0b4ab；使用者 11-02 第 10 節第 2 點）第 50～56、60 列：稿（AA_539）上的句子照 AA_593 的表換成遊戲現在的字（M593）；
    第 50、53 列使用者選兩則都用「明天五點以後，我在總圖三樓。」＝朋友版總圖第 1、4 句同一句：輪流照 pickVar 記的 alt（第幾句）比，不照字找第幾句 */
 const A593=require('./aa593_doc.js'), M593=t=>A593.MAP[t]||t;
-const NO_LAB='明天六點半。跑完一起去吃早餐。……之後我回家念書。', SR_PRE=M593('明天下午三點，慢讀。你帶要問的題目。'), SR_DAT=M593('明天下午三點，慢讀。今天不問題目。');
+/* 2026-11-11（L118-SHOPS-REDO-1111、AA_772：慢讀咖啡搬到木曜日，學姊主動約的那兩句換字）：舊稿的句子先照 AA_593 換、再照白名單上的 AA_772 換＝現在遊戲的字。舊期望：只照 AA_593（「明天下午三點，慢讀。…」）*/
+const M772=t=>R772.line(M593(t));
+const NO_LAB='明天六點半。跑完一起去吃早餐。……之後我回家念書。', SR_PRE=M772('明天下午三點，慢讀。你帶要問的題目。'), SR_DAT=M772('明天下午三點，慢讀。今天不問題目。');
 const JP0529=['（照片：法圖討論室的白板，寫滿了字）','讀書會還在。Kevin 說要讀到考前一個月。'];
 const C720=['學生證停了。今天想借書，機器不讓我借。','……我在總圖三樓。你如果在附近。'], C720_YES='好。三樓靠窗。', C720_CARD='你借我的那三本，第一本讀完了。';   /* 5-1 */
 const LV=v=>[v&&v.line].concat(((v&&v.alt)||[]).map(a=>a.line));
@@ -84,7 +88,7 @@ await sec(0,()=>{
   check('0. 遊戲裡新的句子都在稿裡（一字不差；'+L.length+' 句：改字 3、輪流 11、208 四（3-3 剪報 AA_591 決2 刪過、AA_609 改成她奶奶恢復）、私訊 8＋7/20 的選項回覆 4＋演過 12-1 那一則 1、群組 9）',L.length===40&&!bad.length,J(bad));
   const want={'**朋友版（總圖）**':[LV(entry('library').pre),SR_PRE],'**交往版（總圖）**':[LV(entry('library').dat),SR_DAT],'**交往版（晨跑）**':[LV(entry('run_avenue').dat),null]};
   for(const hd in want){ const dl=docList(hd), [g,sr]=want[hd], exp=sr?dl.concat([sr]):dl;
-    check('0. 第 2 節 '+hd.replace(/\*/g,'')+'：順序和稿一樣（第 1 句是原句）'+(sr?'；第五句＝5-1 的慢讀「'+sr+'」':'；晨跑四句'),dl.length===4&&J(g)===J(exp.map(M593)),J({doc:exp.map(M593),game:g})); }
+    check('0. 第 2 節 '+hd.replace(/\*/g,'')+'：順序和稿一樣（第 1 句是原句）'+(sr?'；第五句＝5-1 的慢讀「'+sr+'」':'；晨跑四句'),dl.length===4&&J(g)===J(exp.map(M772)),J({doc:exp.map(M772),game:g})); }
   const lib=entry('library'), run=entry('run_avenue'), s5=v=>((v&&v.alt)||[])[3]||{};
   check('0. 5-1：慢讀那一句的地點是慢讀、下午三點（15:00）；1-3 的 noCard 拿掉了；1-2 研究室以前的晨跑照舊',s5(lib.pre).place==='slowread'&&J(s5(lib.pre).h)==='[15]'&&s5(lib.dat).place==='slowread'&&J(s5(lib.dat).h)==='[15]'&&!lib.pre.noCard&&!lib.dat.noCard&&!!run.dat&&!!run.dat.noLab&&run.dat.noLab.line===NO_LAB&&doc.includes('> 學姊：'+NO_LAB)&&doc.includes('**1-3 作廢**')&&doc.includes('加進第 2 節的輪流，當第五句'),J({pre:s5(lib.pre),dat:s5(lib.dat)}));
   /* 1-4 的表 */

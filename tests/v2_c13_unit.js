@@ -1,4 +1,5 @@
 // 交接包 v2 C13（AA_115 第 1、2 節；BB_105 4-5）：可玩切片的 B4 博雅演講、B5 小桌子——不需要瀏覽器。
+// 2026-11-11（X327 沛珊重寫，AA_761_peishan_events_1.json@dbfc596a5）：這支裡寫死的沛珊在 events.js 的句子照新稿改期望（逐字對稿在 tests/peishan_events_1111_unit.js）。
 // 修改前沒有活動 B4（第 1 項失敗）。檢查：活動的時間地點；以安、Alison、阿哲第 11 週週四在博雅 101、散場後以安和 Alison 在圓桌（阿哲不在）；週二群組揪人（回不回都一樣）；
 //   演講的台詞與時間往前跳（晚到的不跳）；散場：聽完才問、中途離開與沒去不問、20 分鐘以後不問；「好。」記 B5_GO、「先走」兩句與 LEFT_AFTER_B4；
 //   B5：走到以安旁邊才開始、三種便利貼、不認識 Alison 的版本；中途離開：之後以安一句（兩週內）；沒去：21:30 Alison 在群組轉述；法律審查標記
@@ -9,7 +10,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -116,9 +117,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('10. 女舍長椅：週四 20:40～21:30、在校園、有聯絡方式才演（靠近長椅 3 m 內才觸發）',bench(20.75)&&!bench(20.5)&&!bench(21.6)&&eb.near&&eb.near.x===-93&&Math.abs(eb.near.z-54.26)<0.01&&eb.near.r===3&&(()=>{ fresh(thu,20.75,'campus'); return !EVENTS.check(eb); })());
     const playB=async k=>{ withC(thu,20.75,'campus'); run(20.7,20.75); picks=[k]; await EVENTS.run(eb); return lines(); };
     L=await playB(0);
-    check('10. 「沒關係。」：手機上她的兩句 →「……好。週一前給你。」；手機裡照順序是她的兩句、你「沒關係。」、她的回覆；PS_CANCEL＝ok',JSON.stringify(L)===JSON.stringify(['沛珊（手機）：對不起。課輔班的作業還沒改完，明天要發回去。','沛珊（手機）：今天下不去了。','沛珊（手機）：……好。週一前給你。'])&&JSON.stringify(TH(thP).slice(-4).map(m=>m.from+':'+m.text))===JSON.stringify(['classmate_peishan:對不起。課輔班的作業還沒改完，明天要發回去。','classmate_peishan:今天下不去了。','player:沒關係。','classmate_peishan:……好。週一前給你。'])&&G.flags.PS_CANCEL==='ok'&&!G.flags.PS_TABLE_GOT,JSON.stringify({L,T:TH(thP).map(m=>m.from+':'+m.text)}));
+    check('10. 「沒關係。」：手機上她的兩句 →「好。週一前一定給你。」；手機裡照順序是她的兩句、你「沒關係。」、她的回覆；PS_CANCEL＝ok',JSON.stringify(L)===JSON.stringify(['沛珊（手機）：對不起。課輔班的作業還沒改完，明天要發回去。','沛珊（手機）：今天下不去了。','沛珊（手機）：好。週一前一定給你。'])&&JSON.stringify(TH(thP).slice(-4).map(m=>m.from+':'+m.text))===JSON.stringify(['classmate_peishan:對不起。課輔班的作業還沒改完，明天要發回去。','classmate_peishan:今天下不去了。','player:沒關係。','classmate_peishan:好。週一前一定給你。'])&&G.flags.PS_CANCEL==='ok'&&!G.flags.PS_TABLE_GOT,JSON.stringify({L,T:TH(thP).map(m=>m.from+':'+m.text)}));
     L=await playB(1);
-    check('10. 「那我等妳十分鐘。」：十分鐘後她下來（旁白＋三句）、拿到表；PS_CANCEL＝waited',JSON.stringify(L.slice(2))===JSON.stringify(['十分鐘後她真的下來了，外套沒拉好，手上拿著紅筆。','沛珊：你真的在等。','沛珊：表給你。第二頁我還沒畫完。','沛珊：……我上去了。還有十二本。'])&&G.flags.PS_CANCEL==='waited'&&G.flags.PS_TABLE_GOT===true&&Math.abs(G.hour-(20.75+1/6))<1e-6,JSON.stringify({L,h:G.hour}));
+    check('10. 「那我等妳十分鐘。」：十分鐘後她下來（旁白＋三句）、拿到表；PS_CANCEL＝waited',JSON.stringify(L.slice(2))===JSON.stringify(['十分鐘後她真的下來了，外套沒拉好，手上拿著紅筆。','沛珊：你真的在等。','沛珊：表給你。第二頁我還沒畫完，先不要翻。','沛珊：我上去了，還有十二本在等我。'])&&G.flags.PS_CANCEL==='waited'&&G.flags.PS_TABLE_GOT===true&&Math.abs(G.hour-(20.75+1/6))<1e-6,JSON.stringify({L,h:G.hour}));
     run(G.hour,23.9); G.day=thu+1; G.weekday=wdOf(G.day); run(0,13);
     check('10. 等了十分鐘：隔天 12:00「上次謝謝你等。下次我會早點講。」（AA_209 第 8 節）',TH(thP).some(m=>m.text==='上次謝謝你等。下次我會早點講。'&&m.day===thu+1&&m.h===12),JSON.stringify(TH(thP).slice(-2).map(m=>[m.day,m.h,m.text])));
     L=await playB(2); check('10. 「改天再給我。」：敬禮的貼圖；PS_CANCEL＝later',L[L.length-1]==='沛珊（手機）：（貼圖：敬禮）'&&G.flags.PS_CANCEL==='later'&&TH(thP).slice(-2).map(m=>m.text).join('|')==='改天再給我。|（貼圖：敬禮）',JSON.stringify(L));
@@ -131,6 +132,6 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const mail=(k,day,sent)=>{ withC(day,10,'dorm_hall'); if(k) G.flags.PS_CANCEL=k; if(sent!==false) PHONE.post(G,{th:thP,from:PS,text:'今天下不去了。',tag:'ps_table_cancel'}); return EVENTS.check(em); };
     check('10. 信箱：「沒關係。」、沒去（沒回）＝第 12 週週一起回宿舍；等了、改天＝沒有；第 12 週以前沒有；沒收到改約（沒有聯絡方式）沒有',mail('ok',mon12)&&mail(null,mon12)&&!mail('waited',mon12)&&!mail('later',mon12)&&!mail('ok',mon12-1)&&!mail(null,mon12,false),JSON.stringify([mail('ok',mon12),mail(null,mon12),mail('waited',mon12),mail('later',mon12),mail('ok',mon12-1),mail(null,mon12,false)]));
     check('10. 信箱（AA_294 ②）：改天、第 14 週週四過了還沒出席債總一＝也走信箱版；第 14 週週四當天還沒有',mail('later',thu14+1)&&!mail('later',thu14),JSON.stringify([mail('later',thu14+1),mail('later',thu14)]));
-    { mail('ok',mon12); await EVENTS.run(em); check('10. 信箱：「信箱裡有那張表，附一張便條：「對不起。這份有畫重點。」」',JSON.stringify(lines())==='["信箱裡有那張表，附一張便條：「對不起。這份有畫重點。」"]'&&G.flags.PS_TABLE_GOT===true,JSON.stringify(lines())); } }
+    { mail('ok',mon12); await EVENTS.run(em); check('10. 信箱：「信箱裡有那張表，附一張便條：「對不起啦。這份有畫重點，算我賠罪。」」',JSON.stringify(lines())==='["信箱裡有那張表，附一張便條：「對不起啦。這份有畫重點，算我賠罪。」"]'&&G.flags.PS_TABLE_GOT===true,JSON.stringify(lines())); } }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

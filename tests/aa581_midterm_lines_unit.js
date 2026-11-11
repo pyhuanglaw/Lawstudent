@@ -59,8 +59,9 @@ const ROWS = [
   ['37', 'src/data/noodle_table.js', '期中考範圍我整理成一張表了。', '期末考範圍我整理成一張表了。'],
   ['38', 'src/data/invites.js', '財管的期中跟債總同一天。早上算利息，下午寫遲延利息。……至少主題有連起來。', '財管的期中考完，下午接債總。早上算利息，下午聽遲延利息。……至少主題有連起來。'],
   ['39', 'src/data/eat_lines.js', '你今天的課，老師有講到期中考的範圍嗎？我那時候在恍神。', '你今天的課，老師有講到期末考的範圍嗎？我那時候在恍神。'],
-  ['40', 'src/data/date_lines.js', '還好。期中考從這裡看也很小。', '還好。期末考從這裡看也很小。'],   /* 第 40～42 列、下面允許清單的那一句：AA_694（DATE-ELLIPSIS-1105）拿掉句首、。！？後的「……」以後的字 */
-  ['41', 'src/data/date_lines.js', '不能。我剛剛在想期中考。', '不能。我剛剛在想期末考。'],
+  /* 2026-11-11（X324 以安約會台詞重寫，AA bd1ce5be0）：第 40、41 列是以安 D15 圍欄、D18 茶樓第一次選項①的回覆，新稿重寫成不提考試的句子（原本 AA_581 改成「還好。期末考從這裡看也很小。」「不能。我剛剛在想期末考。」）——「沒有期中考」照舊成立 */
+  ['40', 'src/data/date_lines.js', '還好。期中考從這裡看也很小。', '還好。我煩惱的事從這裡看也很小。'],   /* 第 40～42 列、下面允許清單的那一句：AA_694（DATE-ELLIPSIS-1105）拿掉句首、。！？後的「……」以後的字 */
+  ['41', 'src/data/date_lines.js', '不能。我剛剛在想期中考。', '不能。我剛剛在想回去以後要做的事，列到第四項了。'],
   ['42', 'src/data/date_lines.js', '這部跟你的期中考撞到了。換下一場。', '這部跟你的期末考撞到了。換下一場。'],
   ['43', 'src/linze_upper3d.js', '白板上寫著期中考的範圍，旁邊畫了一張表，三格打勾，兩格還空著。', '白板上寫著期末考的範圍，旁邊畫了一張表，三格打勾，兩格還空著。'],
   ['44', 'src/data/ladder.js', '期中準備得怎樣？', '期中週了，你讀得怎樣？'],
@@ -71,14 +72,15 @@ const ROWS = [
   ['48', 'src/data/ladder.js', '刑總第二題我寫完才發現，題目問的不是那個。', '刑總第二題我交出去才發現，題目問的不是那個。'],
   ['49', 'src/data/ladder.js', '「我也考得不太好。」', '「我也寫得不太好。」'],
   ['50', 'src/data/ladder.js', '考卷發回來你先對。不懂的問我。', '發回來你先對。不懂的問我。'],
-  ['51', 'src/data/ladder.js', '期中的刑總，最後一題我寫了一個不確定的答案。', '期中週刑總那份當堂寫的作業，最後一題我寫了一個不確定的答案。'],
+  /* 2026-11-11 改期望（X327 沛珊重寫，AA_753_peishan_ladder_Y1S2_Y2S1@c5094495d）：P2-L5 整層重寫，這一句換成新稿的「期中那份當堂寫的刑總…」（照樣是當堂寫的作業、不是期中考；原本 AA_581 改成「期中週刑總那份當堂寫的作業，最後一題我寫了一個不確定的答案。」）*/
+  ['51', 'src/data/ladder.js', '期中的刑總，最後一題我寫了一個不確定的答案。', '期中那份當堂寫的刑總，最後一題我寫了一個我不確定的答案。'],
   ['52', 'src/story3d.js', '……我下週也期中，二十六號考第一科。', '……我下週期中，二十六號考第一科。'],
   ['53', 'src/r3_3d.js', '民訴期中，你們那邊考哪一題？', '民訴期中考完了。最後一題沒寫完。'],
   ['54～58', 'src/r3_3d.js', "{t:'最後一題沒寫完。',say:[{from:'kexin',text:'我也是。",
     "opts:[{t:'考哪一題？',say:[{from:'kexin',text:'你們老師上禮拜講的那個。……我們老師一定是約好的。'}]},{t:'不要想了。',say:[{from:'kexin',text:'好。不想。'},{from:'kexin',text:'……還是會想。'}]}]"],
   ['59', 'src/data/r2y3b_events.js', '你那邊期中考了嗎？', '你那邊報告交了嗎？'],
   ['60', 'src/data/r2y3b_events.js', "O:['考了。','下禮拜。']", "O:['交了。','下禮拜。']"],
-  ['61', 'src/data/ladder.js', '期中。我們系也考試。……我現在知道出題的人在想什麼了。', '期中。我們系要考試。……我現在知道出題的人在想什麼了。'],
+  ['61', 'src/data/ladder.js', '期中。我們系也考試。……我現在知道出題的人在想什麼了。', '期中。我們系要考試，我現在知道出題的人在想什麼了。'],   /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：這一句換了斷句（原本 AA_581 改成的「期中。我們系要考試。……我現在知道出題的人在想什麼了。」）；一樣是「要考試」、不是「也考試」 */
   ['62', 'src/data/events.js', '我聽說你們要寫到手斷掉。', '我聽說你們期末要寫到手斷掉。'],
   ['66/67', 'src/data/syllabus.js', '（群組）柏翰：期中考範圍更新了。', '（群組）柏翰：期末考範圍表更新了。'],
   ['68', 'src/story3d.js', '刑訴的筆記我幫你印了。後天才考，不要慌。', '刑訴的筆記我幫你印了。上禮拜的都在裡面，不要慌。'],
@@ -142,6 +144,9 @@ const walk = (dir, L) => { for (const f of fs.readdirSync(dir)) { const p = path
 const MID = /期中考|期中前|期中放榜|期中成績|期中.{0,2}考完|考完.{0,2}期中/;
 /* [檔案, 字串開頭（前 30 字）] */
 const ALLOW = [
+  /* L118-LUNCH-INVITE-1111（AA_771@138bfaf45，src/data/l118_lunch.js）：special S-meet-ta 的 cond——給程式看的條件文字（匯入工具拆成 when.weekFrom 9），玩家看不到，不是台詞。
+     那一組的旁白是「助教在改考卷」，法律系沒有期中考（D118）以後前提要不要改，已經回報給 AA */
+  ['src/data/l118_lunch.js', '學期中，第 10 週以後（第 9 週當堂寫的案例作業收回去改；法律系沒有期中考）'],   /* 2026-11-11（L118-SHOPS-REDO-1111；AA_771 最終版 @1669b3ae0）：同一格 cond 的字改了——條件說明文字、玩家看不到；舊期望（AA_771@138bfaf45）：'學期中，第 9 週以後（期中考完）' */
   /* AA_581 保留（AA 標「保」的列）*/
   ['src/data/events.js', '期中考的範圍，你好像不用看。'],   /* 保12（經濟學原理，非法律課）*/
   ['src/data/syllabus.js', '期中考是一篇作文。題目很簡單，寫好很難。'],   /* 保25 */
@@ -169,8 +174,9 @@ const ALLOW = [
   ['src/data/characters.js', '自由出行第二批的偶遇（AA_162 第 8 節 aca122d2：讀書會期中'],
   ['src/data/crowd_depts.js', 'A：你期中考完了嗎？／B：考完一科，還有三科。／A：那你現在要去'],
   ['src/data/crowd_depts.js', 'A：通識也有期中考？／B：有，選擇題。／A：選擇題我可以。'],
-  ['src/data/date_lines.js', '上次的好運，我拿去考期中考了。有用。'],
+  ['src/data/date_lines.js', '上次的好運我拿去考期中考了，有用。'],   /* 2026-11-11（X324 可昕約會台詞重寫，AA f9c1a2b80）：可昕 D19 這一句新稿只換了標點（原本「上次的好運，我拿去考期中考了。有用。」）——同一句、同一類（可昕在木柵大學的期中考） */
   ['src/data/date_lines.js', '這條路我走過。期中考前一個人走的。'],
+  /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：語彤 D15 圍欄那一句 AA 改成「要交的報告都在那一片裡面。從這裡看，小小的。」（原本「期中考在那一片裡面。從這裡看，小小的。」；她大二起雙主修法律，法律課沒有期中考）——句子不在遊戲裡了，這一筆從允許清單拿掉 */
   ['src/data/dorm_layout.js', '102 寢室。門上貼著一張紙：「期中考週，請小聲，謝謝。」'],
   ['src/data/events.js', 'AA_376 #2（企劃線 69aa3b0c，AA 定）：v7 舊課堂，課表系統已'],
   ['src/data/events.js', '家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。'],
@@ -232,11 +238,14 @@ const ALLOW = [
   ['src/data/study_units.js', '在系上的群組裡造謠，說某位同學「期中考作弊被抓」：這是一件具體、可以查證的事'],
   ['src/data/aa720.js', '書有念。期中考考完了。'],   /* AA_720 ev_yt_tell_mom live（AA-B 11-08 定稿，D109）：語彤（社會系一年級）對媽媽說她自己的期中考＝別人的期中（同上 r2y4b3d 那句）；已列給 AA 確認 */   /* 觀念卡（AA 的誹謗例子，crim_spec_w6／const_1_w11）：法律舉例，不是遊戲的期中考 */
 ];
+const FILM_TEXT = (() => { try { const src = fs.readFileSync(path.join(ROOT, 'src/data/movie_plots.js'), 'utf8'); const M = new Function(src + '; return MOVIE_PLOTS;')(); const o = new Set(); for (const f of Object.values(M.films || {})) { if (f.plot) o.add(f.plot); if (f.scene) o.add(f.scene); } return o; } catch (e) { return new Set(); } })();
 const okKey = new Set(ALLOW.map(([f, p]) => f + '\t' + p.slice(0, 30)));
 const bad = [];
 for (const file of walk(path.join(ROOT, 'src'), [])) {
   const rel = path.relative(ROOT, file).split(path.sep).join('/');
-  for (const s of strings(fs.readFileSync(file, 'utf8'))) if (MID.test(s) && !okKey.has(rel + '\t' + s.slice(0, 30))) bad.push(rel + '：' + s.slice(0, 60));
+  /* 2026-11-10：src/data/movie_plots.js 的 plot、scene 是南洋戲院電影的情節（AA_745，虛構的片子裡的學校），不是遊戲裡的課和考試——那兩個欄位不掃；同一個檔的 talk、re 照掃 */
+  const filmText = rel === 'src/data/movie_plots.js' ? FILM_TEXT : null;
+  for (const s of strings(fs.readFileSync(file, 'utf8'))) if (MID.test(s) && !okKey.has(rel + '\t' + s.slice(0, 30)) && !(filmText && filmText.has(s))) bad.push(rel + '：' + s.slice(0, 60));
 }
 check('(b) src/ 字串常值裡提到期中考的，都在允許清單上（AA_581 保留、別人的期中、D118 第一輪保留）', !bad.length, JSON.stringify([...new Set(bad)].slice(0, 30)) + '（共 ' + bad.length + '）');
 console.log(fails ? 'FAILED ' + fails + '／' + n : 'ALL PASS（' + n + ' 項）'); process.exit(fails ? 1 : 0);
