@@ -1580,3 +1580,9 @@ TE_N01 | 201803df0a593a75e084f5a11718cedb3c512bd3 | probe | docs/story_planning/
 #HOLD發布後 RELPACK_MISS | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 15 | PARTS=MISS
 #HOLD發布後 RELPACK_PAGES | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 15 | PARTS=PAGES
 #HOLD發布後 RELPACK_SIZE | 554d1488b99ae3a990ff8cda5232f027ce124f14 | probe | docs/story_planning/test_tools/cc/cc_relpack_probe.py | index.html | 20 | PARTS=SIZE;SIZE_ZIP=1
+
+# BB 15:59（P2，排在 LAWWW 新 SHA c170218dd 那批後面再放行）：新遊戲搖桿 ③ 改探針（每推記 busy／dlg／blockedAt、對話中不算、先推空地多的方向）線上×2、779 本機×2
+#HOLD新SHA後 JOY_live1 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.25;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+#HOLD新SHA後 JOY_live2 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.25;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+#HOLD新SHA後 JOY_779_1 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.24;LOCAL=1;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
+#HOLD新SHA後 JOY_779_2 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.24;LOCAL=1;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120

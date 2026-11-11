@@ -66,10 +66,24 @@ async def one(p, attempt):
             await pg.wait_for_timeout(500)
         s1 = await pg.evaluate(ST); await pg.screenshot(path=os.path.join(OUT, 'live_newgame_a%d.png' % attempt))
         R.note('[%s] 新遊戲走到可以動：%s（%.0f 秒）' % (now(), J(s1), time.time() - t0))
-        moved = 0.0
-        for dx, dy in ((0, -45), (45, 0), (0, 45), (-45, 0)):
-            a = await pg.evaluate(ST); await L.joystick(pg, cdp, dx, dy, 900); await pg.wait_for_timeout(500); b2 = await pg.evaluate(ST)
-            moved = max(moved, ((b2['x'] - a['x']) ** 2 + (b2['z'] - a['z']) ** 2) ** 0.5)
+        moved = 0.0; pushes = []
+        # CC 16:0x（BB 15:59）：每推一次記前後 busy／dlg、blockedAt；對話中推的不算；先挑空地最多的方向（照鏡頭換成搖桿方向，只讀 canStand，不移動玩家）
+        FREE_JS = "(()=>{ const E=GAME.E,P=E.player,o=P.obj.position,y=E.cam.yaw; const f=[-Math.sin(y),-Math.cos(y)], r=[-f[1],f[0]]; const dirs={up:f,right:r,down:[-f[0],-f[1]],left:[-r[0],-r[1]]}; const out={}; for(const k in dirs){ let d=0; for(let t=0.25;t<=3.01;t+=0.25){ if(!E.canStand(o.x+dirs[k][0]*t,o.z+dirs[k][1]*t,0.3,P.lv|0)) break; d=t; } out[k]=d; } return out; })()"
+        PB_JS = "(()=>{ const P=GAME.E.player,b=P.blockedAt,D=GAME.D||{}; return {busy:!!P.busy, dlg:!!D.active, depth:D.busyDepth|0, by:(D.busyWho||[]).slice(-1)[0]||null, blocked:b?{x:+b.x.toFixed(2),z:+b.z.toFixed(2),slide:b.slide||null}:null}; })()"
+        free = await pg.evaluate(FREE_JS)
+        JOY = {'up': (0, -45), 'right': (45, 0), 'down': (0, 45), 'left': (-45, 0)}
+        order = sorted(JOY, key=lambda k: -free.get(k, 0))
+        R.note('③ 宿舍出生點 (%s, %s) 四個方向空地多遠（m，canStand r0.3）：%s → 推的順序 %s' % (s1['x'], s1['z'], J(free), order))
+        for k in order:
+            a = await pg.evaluate(ST); pa = await pg.evaluate(PB_JS)
+            await L.joystick(pg, cdp, JOY[k][0], JOY[k][1], 900); await pg.wait_for_timeout(500)
+            b2 = await pg.evaluate(ST); pb = await pg.evaluate(PB_JS)
+            d = ((b2['x'] - a['x']) ** 2 + (b2['z'] - a['z']) ** 2) ** 0.5
+            ok = not (pa['busy'] or pa['dlg'] or pb['busy'] or pb['dlg'])
+            pushes.append({'dir': k, 'free': free.get(k), 'moved': round(d, 2), 'counted': ok, 'before': pa, 'after': pb})
+            if ok: moved = max(moved, d)
+        R.note('③ 每推一次：%s' % J(pushes))
+        if not any(p['counted'] for p in pushes): R.note('③ 四次推都在對話中（busy／dlg），沒有一次算數')
         R.check('③ 新遊戲走到可以動（%s）、搖桿推得動 ≥0.3 m' % s1['zone'], not s1['title'] and moved >= 0.3, J({'s': s1, 'moved': round(moved, 2)}))
         sv = await pg.evaluate("(()=>{ try{ GAME.quickSave(); return {ok:true, slot:!!localStorage.getItem('fatiao3d_quick')||!!localStorage.getItem('fatiao3d_auto')}; }catch(e){ return {ok:false, e:String(e)}; } })()")
         s2 = await pg.evaluate(ST)
