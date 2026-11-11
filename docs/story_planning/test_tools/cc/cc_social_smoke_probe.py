@@ -681,6 +681,9 @@ class Person:
         # HUD 實際按一次（打開、關掉）
         for btn, chk, close in (('#btnPhone', "!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())", '#btnPhoneClose'), ('#btnMenu', "!document.getElementById('menu').classList.contains('hide')", '#btnClose'),
                                 ('#minimap', "!document.getElementById('bigmap').classList.contains('hide')", '#bmClose')):
+            sB = await self.st()
+            if sB['evr'] or not is_free(sB):   # CC 13:4x：等時間那 3 秒裡路人招呼（ev_pool_greet）開演＝HUD 照設計鎖住；照玩家點完再按（REL_soc_new_r2「她改期」誤判）
+                R.setup('%s：按 %s 之前有劇情在演（%s），照玩家點完再按' % (tag, btn, sB['evr'] or why_not_free(sB))); await self.drive(lambda ch, menus: 0, tag + ' 按 HUD 前的劇情', max_s=180)
             await L.tap(pg, self.cdp, btn); await pg.wait_for_timeout(1200); opened = await pg.evaluate(chk)
             await L.tap(pg, self.cdp, close); await pg.wait_for_timeout(900); shut = not await pg.evaluate(chk)
             if not shut: await L.close_panels(pg, self.cdp)
