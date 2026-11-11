@@ -53371,6 +53371,26 @@
     "receiver": "BB",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "REL-PACKAGING-1111",
+   "title": "README 與正式發行打包規則整理：README 更新、打包規格、可重現的打包腳本與容量報告、Steam Windows 封裝方案比較（USER_WANTS X340；規格 docs/handoff/user_specs/RELEASE_PACKAGING_1111.md）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": null,
+    "week": null,
+    "earliest": "不在遊戲裡（發行準備）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【11-11 05:4x 使用者交辦】背景子代理（worktree）做：①稽核 build.py、資產載入路徑、Pages 部署 ②README.md 更新（版本資訊單一來源；已發布／未發布／開發中分清楚）③docs/RELEASE_PACKAGING.md 打包規格 ④tools/release/ 打包腳本＋容量報告（實測，不估）⑤Steam Windows 封裝方案比較（Electron／Tauri／其他）與推薦。回來當回合合併 → 交 BB 判測試範圍、CC 驗（正式包無 404、場景人物室內載得到、立繪 CG 海報、四區進出、新遊戲存讀檔舊存檔、Pages 不壞）。**不合併 main、不發布、不刪原始素材、不改玩法**；做完回報、等使用者決定是否採用。注意 D13（不提交 Steam、不建商店頁、不付款）仍有效：這次只做準備。",
+   "xai": []
   }
  ]
 }

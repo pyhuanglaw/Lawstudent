@@ -4712,6 +4712,15 @@
    "status": "在開發分支",
    "wants": "X338",
    "task": "L118-SHOPS-REDO-1111"
+  },
+  {
+   "id": "UA-LAWWW-1111-14",
+   "at": "2026-11-11T05:4xZ",
+   "quote": "（整份「《Lawstudent》README 與正式發行打包規則整理」，全文 docs/handoff/user_specs/RELEASE_PACKAGING_1111.md）請由 LAWWW 負責，依照現有五 AI 分工制度執行。必要時交給 BB／CC 測試。……整理目前《Lawstudent》的 README、打包規則與正式發行資產清單，為未來 Steam Windows 測試版做準備。本次不要求立即發布 Steam 版本，不得擅自合併 main、發布新版本或更動既有遊戲玩法。……不得擅自刪除原始素材、改變遊戲內容、合併 main 或發布版本。完成後依現行交班制度回報，等待使用者決定是否採用與正式發布。",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X340",
+   "task": "REL-PACKAGING-1111"
   }
  ]
 }
