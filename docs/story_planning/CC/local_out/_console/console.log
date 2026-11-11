@@ -1,10 +1,3 @@
-[12:02:36] [res] cpu=6% mem=36% (11.5/31.4 GB) chrome_testing=0  END GOCLASS_guard_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       e66f73b8c..dc5f2175c  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[12:02:43] ==== END   GOCLASS_guard_old  exit=1  563s   ====
-[12:02:52] memory 37% before starting GOCLASS_phone_close2_new (0 running)
-[12:02:52] ==== START GOCLASS_phone_close2_new  (probe @ 1d4db297a4b980e82619dbc41f70e41f108f0596) ====
 [12:02:54] [res] cpu=7% mem=37% (11.8/31.4 GB) chrome_testing=0  START GOCLASS_phone_close2_new
 [12:04:03] 正在跑：GOCLASS_phone_close2_new（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [12:09:03] 正在跑：GOCLASS_phone_close2_new（已跑 6 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1991,10 @@
 [20:27:48] solo item V25_touch waits: no new items start until the 2 running item(s) finish
 [20:29:05] 正在跑：V25_social（已跑 51 分／上限 60 分）、REL_live（已跑 2 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:32:25] [res] cpu=22% mem=49% (15.7/31.4 GB) chrome_testing=5  END REL_live
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       79ba04f8d..5ae791927  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:32:31] ==== END   REL_live  exit=1  367s   ====
+[20:32:34] solo item V25_touch waits: no new items start until the 1 running item(s) finish
+[20:34:05] 正在跑：V25_social（已跑 56 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:38:08] [res] cpu=1% mem=35% (11.2/31.4 GB) chrome_testing=0  END V25_social
