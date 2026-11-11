@@ -5194,9 +5194,9 @@
   },
   {
    "path": "docs/story_planning/syllabus/Y1S2.json",
-   "sha": "1165b5514",
+   "sha": "b1e00c45e",
    "status": "approved",
-   "approvedBy": "AA 11-11 12:4x「大一下法律三科課堂內容都可匯：e5c4031ff」（STUDY-EXAM-STORY-1102 第二批；D100b 稿就是定稿）；法律審 BB_344 刑總二、BB_345 債總一、BB_346 憲法下 PASS（建議已改進 e5c4031ff）；50e653270（AA 11-11 12:4x「大一下五科最終 SHA」：加通識天文 ge_y1s2、經濟學重修，BB_347 事實 PASS）；1165b5514（AA 11-11 13:04「全部審過」：第 1 週 special 拿掉）",
+   "approvedBy": "AA 11-11 12:4x「大一下法律三科課堂內容都可匯：e5c4031ff」（STUDY-EXAM-STORY-1102 第二批；D100b 稿就是定稿）；法律審 BB_344 刑總二、BB_345 債總一、BB_346 憲法下 PASS（建議已改進 e5c4031ff）；50e653270（AA 11-11 12:4x「大一下五科最終 SHA」：加通識天文 ge_y1s2、經濟學重修，BB_347 事實 PASS）；1165b5514（AA 11-11 13:04「全部審過」：第 1 週 special 拿掉）；b1e00c45e（AA 11-11 13:11「全部審過」：Y2S1 通識流行音樂 BB_352）",
    "task": "STUDY-EXAM-STORY-1102",
    "kind": "data",
    "note": "大一下 crim_gen2、oblig_gen1、const_2 13 週（同大一上 d3a22505b 做法：board、line 不動，加 more、react 補到兩位、新加 call，每週 ref）；tools/syllabus/import_syllabus.py",
@@ -5208,14 +5208,18 @@
     {
      "sha": "50e653270",
      "note": "被 1165b5514 取代（三科第 1 週 special 拿掉，AA 12:49 選 A）"
+    },
+    {
+     "sha": "1165b5514",
+     "note": "被 b1e00c45e 取代（加 Y2S1 通識流行音樂 ge_y2s1，BB_352）"
     }
    ]
   },
   {
    "path": "docs/story_planning/syllabus/Y2S1.json",
-   "sha": "1165b5514",
+   "sha": "b1e00c45e",
    "status": "approved",
-   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）；1165b5514（AA 11-11 13:04「Y2S1 法律四科全部審過」：刑分 BB_348、物權 BB_349、債總二 BB_350、行政法 BB_351；STUDY-EXAM-STORY-1102；通識流行音樂原樣）",
+   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）；1165b5514（AA 11-11 13:04「Y2S1 法律四科全部審過」：刑分 BB_348、物權 BB_349、債總二 BB_350、行政法 BB_351；STUDY-EXAM-STORY-1102；通識流行音樂原樣）；b1e00c45e（AA 11-11 13:11「全部審過」：Y2S1 通識流行音樂 BB_352）",
    "task": "AA588-AA581-TAIL-1102",
    "kind": "data",
    "note": "AA_588 第 3 節：_src/y2s1.py:138、:309 第 7 週黑板「下週、下下週：前七週整理＋案例作業」、:95 柏翰缺課訊息「期末考範圍表更新了。」（AA_581 第 66 列），AA 用 build.py 重產。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
@@ -5227,6 +5231,10 @@
     {
      "sha": "1edea905f",
      "note": "被 1165b5514 取代（大二上法律四科課堂內容補寫）"
+    },
+    {
+     "sha": "1165b5514",
+     "note": "被 b1e00c45e 取代（加 Y2S1 通識流行音樂 ge_y2s1，BB_352）"
     }
    ]
   },
