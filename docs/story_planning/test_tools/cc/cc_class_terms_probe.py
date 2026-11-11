@@ -1,10 +1,14 @@
 """CC（帳號 A）11-12：CLASS_TERMS——大一下～大四上各一堂課的課堂內容（BB 指定；cc_class12_probe.py 的大一上版本推廣到後面的學期）。
 Windows＋GPU（PC runner）≠ iPhone；雲端 SwiftShader 只做探針自檢。不用 ?turbo、不瞬移；讀檔只當前置（log 印 [前置／捷徑]）。觸控一律 CDP（playlib.touch_tap）。
-四堂（PARTS 可選，逗號分隔；預設全部）：
+六堂（PARTS 可選，逗號分隔；預設全部）：
   Y1S2  const_2（憲法（下））第 3 週——call：行政院長任命
   Y2S1  crim_spec（刑法分則）第 10 週——obs（討論）：筆電借了不還；討論收尾之後有 DISC_03 課堂題
   Y3S1  civpro_1（民事訴訟法甲上）第 7 週——call：只有轉帳紀錄夠嗎（一週兩格：挑那一週播主要內容的那一格，S.content 不是 second）
   Y4S1  enforcement（強制執行法）第 12 週——call：鋼琴第三人異議（教室 WMULTI 沒有 3D 黑板＝字幕「黑板」）
+  Y4S2  legal_research（法律專題研究）第 12 週——obs（討論）：朋友借錢給人五百塊不還（研討室 A＝門口上課 2D；recall 四句要「上過那幾堂」才播，最小存檔不會播，只記）
+  JA2   日文（下）第 3 週（て形）——課程代號、學期從遊戲 COURSES 照課名「日文（下）」找（找不到就列出所有「日文」的課）；tpl A：只有黑板、line（沒有 react、call、obs）；
+        沒有教授人物（「日文老師：」開頭）；共同教學館 102＝門口上課。企劃 JSON 是 JP.json。第一次去日文課的 ev_jp_g1 會先演（照字處理、記下來）
+  下午的課（13:20）：起床選單第一項不是這一堂、手機「今天」早上又沒有鍵時，【前置／捷徑】改讀那天上課前 40 分鐘宿舍房間，再用手機「今天」（log 寫明）。
 稿：遊戲自己的 src/data/syllabus.js（頁面上的 SYLLABUS，和受測 SHA 一致）；另外和企劃線 origin/claude/story-planning 的 docs/story_planning/syllabus/<學期>.json
   （git show 讀；SPREF 可換 ref、SPDIR=資料夾可改讀本機檔）比對——不一樣只記 R.note（不判 FAIL），最後列總表。企劃 JSON 讀不到就寫明「只比遊戲 syllabus.js」。
 前置（每一堂）：【前置／捷徑】最小存檔（同 cc_goclass_probe.mkstate）那一堂前一晚 23:00 宿舍房間；大二以後加 ROOM_Y2…ROOM_Yn（住那一年的房間，dorm3d.js homeOf）
@@ -28,8 +32,10 @@ URL, OUT = sys.argv[1], sys.argv[2]
 os.makedirs(OUT, exist_ok=True)
 ENV = os.environ.get
 SHA = ENV('SHA') or ''
-LESSONS = {'Y1S2': ('const_2', 3, 'call'), 'Y2S1': ('crim_spec', 10, 'obs'), 'Y3S1': ('civpro_1', 7, 'call'), 'Y4S1': ('enforcement', 12, 'call')}
-PARTS = [p.strip().upper() for p in (ENV('PARTS') or 'Y1S2,Y2S1,Y3S1,Y4S1').split(',') if p.strip()]
+# PART：(課程代號或 None＝照課名找, 第幾週, call／obs／None, 企劃 JSON 檔名（None＝照遊戲的學期）, 照課名找時的課名)
+LESSONS = {'Y1S2': ('const_2', 3, 'call', None, None), 'Y2S1': ('crim_spec', 10, 'obs', None, None), 'Y3S1': ('civpro_1', 7, 'call', None, None), 'Y4S1': ('enforcement', 12, 'call', None, None),
+           'Y4S2': ('legal_research', 12, 'obs', None, None), 'JA2': (None, 3, None, 'JP', '日文（下）')}
+PARTS = [p.strip().upper() for p in (ENV('PARTS') or ','.join(LESSONS)).split(',') if p.strip()]
 PICK = int(ENV('PICK') or 0)
 VIA = ENV('VIA') or 'wake'
 SPREF = ENV('SPREF') or 'origin/claude/story-planning'
@@ -45,6 +51,9 @@ DIFFS = []      # 遊戲 syllabus.js 和企劃 JSON 不一樣的地方（只記�
 SUMMARY = {}
 
 # ---------- 遊戲裡讀的東西（都用 pg.evaluate(JS, 參數)，不經過 Python 的 % 格式化）----------
+COURSEOF = r"""(([cid,nm])=>{ if(typeof COURSES==='undefined') return {err:'沒有 COURSES'}; const all=COURSES.list.map(c=>({id:c.id,name:c.name,term:c.term,kind:c.kind,room:c.room,prof:c.prof||null,choice:c.choice?c.choice.group:null}));
+  const c=cid?all.find(x=>x.id===cid):all.find(x=>x.name===nm); const like=nm?all.filter(x=>x.name.includes(nm.slice(0,2))):[];
+  return {c:c||null, like, syl:c&&typeof SYLLABUS!=='undefined'?!!(SYLLABUS.courses||{})[c.id]:null}; })"""
 FINDLESSON = r"""(([term,cid,w,yr])=>{ const G0=GAME.G, fl=Object.assign({},G0.flags||{}); for(let y=2;y<=yr;y++) fl['ROOM_Y'+y]=true; const G=Object.assign({},G0,{stage:'law',flags:fl});
   const cands=[], seen=[]; let lo=null, hi=null;
   for(let d=-30; d<2400; d++){ let t=null; try{ t=CALENDAR.termOf(d); }catch(e){} if(!t||t.id!==term) continue; if(lo===null) lo=d; hi=d; if(t.week!==w) continue;
@@ -130,6 +139,19 @@ def sp_week(js, cid, w):
     return q, None
 
 
+def ddiff(a, b, path):
+    """兩邊的稿逐欄比（dict 照鍵、list 照位置往下比），回傳 [(路徑, 遊戲, 企劃)]。企劃多的註記欄位（例：obs.echo）也會列出來"""
+    if isinstance(a, dict) and isinstance(b, dict):
+        out = []
+        for k in sorted(set(a) | set(b)): out += ddiff(a.get(k), b.get(k), '%s.%s' % (path, k))
+        return out
+    if isinstance(a, list) and isinstance(b, list) and len(a) == len(b):
+        out = []
+        for i, (x, y) in enumerate(zip(a, b)): out += ddiff(x, y, '%s[%d]' % (path, i))
+        return out
+    return [] if json.dumps(a, ensure_ascii=False, sort_keys=True) == json.dumps(b, ensure_ascii=False, sort_keys=True) else [(path, a, b)]
+
+
 def diff_script(term, cid, w, game, sp, src):
     tag = '%s %s 第 %d 週' % (term, cid, w)
     if sp is None: R.note('[稿比對] %s：讀不到企劃 JSON（%s），只比遊戲 syllabus.js' % (tag, src)); DIFFS.append([tag, '讀不到企劃 JSON', src]); return
@@ -137,8 +159,8 @@ def diff_script(term, cid, w, game, sp, src):
     n = 0
     for k in CONTENT_KEYS:
         a, b = game.get(k), sp.get(k)
-        if json.dumps(a, ensure_ascii=False, sort_keys=True) != json.dumps(b, ensure_ascii=False, sort_keys=True):
-            n += 1; DIFFS.append([tag, k, {'syllabus.js': a, '企劃 JSON': b}]); R.note('[稿比對] %s：%s 不一樣：遊戲 %s ｜ 企劃 %s' % (tag, k, J(a), J(b)))
+        for path, x, y in ddiff(a, b, k):
+            n += 1; DIFFS.append([tag, path, {'syllabus.js': x, '企劃 JSON': y}]); R.note('[稿比對] %s：%s 不一樣：遊戲 %s ｜ 企劃 %s' % (tag, path, J(x), J(y)))
     only = [k for k in sp if k not in game and k not in CONTENT_KEYS and k != 'w']
     if only: R.note('[稿比對] %s：企劃 JSON 多的註記欄位（不進遊戲）%s' % (tag, J(only)))
     only2 = [k for k in game if k not in sp]
@@ -158,6 +180,13 @@ async def btn_tap(pg, cdp, k, tag):
     a = await pg.evaluate(BTNAT, k)
     if a: await L.touch_tap(cdp, a['c'][0], a['c'][1])
     return bool(a and a['hit'])
+
+
+async def walkpos(pg, s):
+    """進展的一部分：busy／走路中（seatMenu 的 walkTo、去教室）人的位置（0.2 m 一格）。雲端走得慢，只看對話會把「還在走」誤記成沒進展"""
+    if not (s['busy'] or s['path']): return None
+    p = await pg.evaluate(PSTATE)
+    return (round(p['x'] / 0.2), round(p['z'] / 0.2), p['zone'])
 
 
 async def diag(pg, tag, why):
@@ -200,7 +229,7 @@ async def drain(pg, cdp, tag, prefer=(), max_s=120, idle_s=3.0, ctx=None, menus=
     """正常速度把插進來的劇情演完：對話出現 500 ms 後點、選單照字選；空下來 idle_s 秒就停。沒進展每 30 秒記一次診斷"""
     t0 = time.time(); idle = None; sig0 = None; prog = time.time(); dg = time.time()
     while time.time() - t0 < max_s:
-        s = await GC.ms(pg); sig = (s['nd'], s['dlg'], s['ch'], s['dtext'], s['busy'], s['fade'], s['zone'])
+        s = await GC.ms(pg); sig = (s['nd'], s['dlg'], s['ch'], s['dtext'], s['busy'], s['fade'], s['zone'], await walkpos(pg, s))
         if sig != sig0: sig0 = sig; prog = time.time()
         elif time.time() - prog >= 30 and time.time() - dg >= 30: dg = time.time(); await diag(pg, tag, '沒進展 %.0f 秒' % (time.time() - prog))
         if s['phone'] and not s['ch']: await L.phone_away(pg, cdp, tries=1); await L.close_panels(pg, cdp); continue
@@ -313,6 +342,15 @@ async def go_lesson(pg, cdp, L_, tag, yr):
     sel = '#phoneBody [data-go="%s"]' % L_['item']
     lab = await pg.evaluate("s=>{ const b=document.querySelector(s); return b?b.textContent.trim():null; }", sel)
     R.note('%s：手機「今天」那一列的鍵＝%s' % (tag, J(lab)))
+    if not lab and VIA == 'wake':
+        await GC.close_phone(pg, cdp)
+        h = L_['t0'] - 40 / 60; dd = {'d': L_['d'], 'wd': L_['wd'], 'key': L_['key']}; st, fl = mkstate(dd, h, yr)
+        await GC.load(pg, cdp, st, '%s：早上手機「今天」沒有這一堂的鍵（下午的課）→ 改讀 %s（第 %d 天）%02d:%02d 宿舍房間（上課前 40 分鐘）；旗標 %s' % (tag, L_['key'], L_['d'], int(h), round(h % 1 * 60), J(fl)))
+        await pg.evaluate(ENTERHOOK % json.dumps(BOARDHOOK))
+        await drain(pg, cdp, tag + '_noon', max_s=90, idle_s=3)
+        await GC.phone_today(pg, cdp, tag + '_noon', week=False)
+        lab = await pg.evaluate("s=>{ const b=document.querySelector(s); return b?b.textContent.trim():null; }", sel)
+        R.note('%s：上課前 40 分鐘手機「今天」那一列的鍵＝%s' % (tag, J(lab)))
     if not R.check('%s：手機「今天」有「直接去上課」那一列的鍵' % tag, bool(lab)): await GC.close_phone(pg, cdp); return False
     await L.tap(pg, cdp, sel); await pg.wait_for_timeout(800)
     return True
@@ -323,7 +361,7 @@ async def class_loop(pg, cdp, L_, tag, ctx, whos):
     n1 = await GC.logn(pg); t0 = time.time(); free = None; menus = []; chk = []; seen = 0; pres = None; key = L_['item']
     sig0 = None; prog = time.time(); dg = time.time(); screens = []
     while time.time() - t0 < MAXS:
-        s = await GC.ms(pg); sig = (s['nd'], s['dlg'], s['ch'], s['dtext'], s['busy'], s['fade'], s['zone'])
+        s = await GC.ms(pg); sig = (s['nd'], s['dlg'], s['ch'], s['dtext'], s['busy'], s['fade'], s['zone'], await walkpos(pg, s))
         if sig != sig0: sig0 = sig; prog = time.time()
         elif time.time() - prog >= 30 and time.time() - dg >= 30: dg = time.time(); await diag(pg, tag, '上課沒進展 %.0f 秒' % (time.time() - prog))
         lg = await GC.logs(pg, n1)
@@ -450,7 +488,14 @@ async def free_move(pg, cdp, tag):
 
 
 async def one_term(pg, cdp, errs, term):
-    cid, w, kind = LESSONS[term]; yr = int(term[1]); tag = 'ct_%s_%s_w%d' % (term, cid, w)
+    part = term; cid0, w, kind, jsname, cname = LESSONS[part]
+    co = await pg.evaluate(COURSEOF, [cid0, cname])
+    if not R.check('%s：遊戲 COURSES 有這門課（%s）' % (part, J((co or {}).get('c'))), bool(co and co.get('c'))):
+        R.note('%s：找不到——課名像「%s」的課有 %s' % (part, cname or cid0, J((co or {}).get('like')))); return
+    cid = co['c']['id']; term = co['c']['term']; yr = int(term[1]) if len(term) > 1 and term[1].isdigit() else 1
+    if cname: R.note('%s：照課名「%s」找到 %s（%s；同名開頭的課 %s）' % (part, cname, cid, J(co['c']), J(co.get('like'))))
+    if part.startswith('Y') and term != part: R.note('★%s：%s 在遊戲裡是 %s 的課，照遊戲的學期找' % (part, cid, term))
+    tag = 'ct_%s_%s_w%d' % (part, cid, w)
     print('----- %s（%s %s 第 %d 週；%s）-----' % (tag, term, cid, w, kind), flush=True)
     e0 = len(errs)
     fl = await pg.evaluate(FINDLESSON, [term, cid, w, yr])
@@ -462,8 +507,10 @@ async def one_term(pg, cdp, errs, term):
     sj = await pg.evaluate(SYLJS, [cid, w]); sy = (sj or {}).get('sy')
     if not R.check('%s：遊戲 syllabus.js 有這一週（有的週：%s；來源 %s）' % (tag, J((sj or {}).get('weeks')), J((sj or {}).get('source'))[:160]), bool(sy)): return
     R.check('%s：這一週在 SYLLABUS.reviewed（遊戲才會播稿，不然是一般句子）' % tag, (sj or {}).get('reviewed') is True, J(sj.get('reviewed')))
-    R.check('%s：稿裡這一週有 %s' % (tag, kind), bool(sy.get(kind)), J(list(sy.keys())))
-    js, src = sp_json(term); spw, why = sp_week(js, cid, w)
+    if kind: R.check('%s：稿裡這一週有 %s' % (tag, kind), bool(sy.get(kind)), J(list(sy.keys())))
+    else: R.note('%s：稿裡這一週沒有 call／obs（tpl %s，欄位 %s）：只看黑板、line、more、react' % (tag, sy.get('tpl'), J(list(sy.keys()))))
+    if (sy.get('obs') or {}).get('recall'): R.note('%s：obs 有 recall %d 句（要上過那幾堂才播；最小存檔沒上過＝照規則不播，不判）' % (tag, len(sy['obs']['recall'])))
+    js, src = sp_json(jsname or term); spw, why = sp_week(js, cid, w)
     diff_script(term, cid, w, sy, spw, src)
     if why: R.note('[稿比對] %s：%s' % (tag, why))
     R.note('[稿] %s：tpl %s；黑板 %s；line＋more %d 句；react %d 句；call %s；obs %s；ask %s' % (tag, sy.get('tpl'), J(sy.get('board')), len(sy.get('more') or []), len(sy.get('react') or []),
@@ -495,7 +542,7 @@ async def one_term(pg, cdp, errs, term):
     miss = compare(tag, sy, cl, out['menus'], bank, out['pres'])
     R.check('%s：line → 每一句 more → 同學 react 都播了、順序對、逐字對' % tag, not [m for m in miss if m[0].startswith(('line', 'more', 'react'))], J([m for m in miss if m[0].startswith(('line', 'more', 'react'))]))
     fk = [m for m in miss if not m[0].startswith(('line', 'more', 'react'))]
-    R.check('%s：%s 的選項出現、選了以後 follow 都播了（%s）' % (tag, kind, J([[m['opts'], m['pick']] for m in out['menus'] if m['why'].startswith(('call', 'obs'))])), not fk, J(fk))
+    if kind or fk: R.check('%s：%s 的選項出現、選了以後 follow 都播了（%s）' % (tag, kind, J([[m['opts'], m['pick']] for m in out['menus'] if m['why'].startswith(('call', 'obs'))])), not fk, J(fk))
     if bank:
         iq = next((i for i, e in enumerate(cl) if e['k'] == 'say' and e['text'].startswith('（下課前，教授在黑板角落寫了一題')), None)
         am = next((m for m in out['menus'] if m['why'].startswith('課堂題')), None)
@@ -509,7 +556,7 @@ async def one_term(pg, cdp, errs, term):
     R.check('%s：下課了（CLS.rec done 有 %s、attend +1）' % (tag, L_['item']), bool(r1['done'].get(L_['item'])) and (r1['attend'].get(cid) or 0) > (r0['attend'].get(cid) or 0), J(GC.rdiff(r0, r1)))
     await free_move(pg, cdp, tag)
     R.check('%s：沒有 JS 例外' % tag, len(errs) == e0, J(errs[e0:e0 + 3]))
-    SUMMARY[term] = {'lesson': '%s 第 %d 週 %s' % (cid, w, L_['key']), 'lines': len(cl), 'sitToEnd': sec, 'secs': out['secs'], 'miss': len(miss), 'bad': len(bad)}
+    SUMMARY[part] = {'lesson': '%s 第 %d 週 %s' % (cid, w, L_['key']), 'lines': len(cl), 'sitToEnd': sec, 'secs': out['secs'], 'miss': len(miss), 'bad': len(bad)}
 
 
 async def part(p, term):
