@@ -136,8 +136,9 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
   // ===== 9. 以安 A5-L2 =====
   await sec('9',async()=>{
     const s=stepOf('heroine_01','Y3S1','A5-L2'), li=s&&(s.linesIf||[]).find(x=>x.if&&x.if.memory), ex=s&&(s.extraIf||[])[0], ch=s&&s.choices[1];
-    check('9. 在場的：「那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。」（照中秋那場）',!!li&&li.lines[1]==='那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。',J(li));
-    check('9. 選項②「柚子好吃嗎？」：引號裡那一句換掉（「很甜。」照舊）',!!ch&&ch.t==='「柚子好吃嗎？」'&&ch.reply==='很甜。那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。',J(ch));
+    /* 2026-11-11（X324，AA_781_an_ladder_Y3S1.json@1e48c1f20 rows A5-L2）：這兩句拿掉刪節號——舊期望「…阿哲剝完就沒人吃。……我帶回去了…」；AA_376 第 9 項的字（照中秋那場）照比 */
+    check('9. 在場的：「那天的柚子，阿哲剝完就沒人吃。我帶回去了，我室友說太酸。」（照中秋那場；AA_781 拿掉刪節號）',!!li&&li.lines[1]==='那天的柚子，阿哲剝完就沒人吃。我帶回去了，我室友說太酸。',J(li));
+    check('9. 選項②「柚子好吃嗎？」：引號裡那一句換掉（「很甜。」照舊）',!!ch&&ch.t==='「柚子好吃嗎？」'&&ch.reply==='很甜。那天的柚子，阿哲剝完就沒人吃。我帶回去了，我室友說太酸。',J(ch));   /* AA_781 拿掉刪節號（舊期望有「……」）*/
     check('9. 交往中：「那天晚上，我看了手機好幾次。」',!!ex&&J(ex.lines)===J(['那天晚上，我看了手機好幾次。']),J(ex));
     /* AA_580 第 7 節第 10 點（企劃線 759e5c000）：送過柚子的（AN_BDAY_POMELO，linesIf 已經說過那一句）選②只回「很甜。」，不說兩次；沒送過的照上面 */
     fresh(STORY.termDay('Y3S1',4,1),15,'campus'); const r0=STORY.ladReply(s,ch,G,'heroine_01'); SOCIAL.remember('heroine_01','AN_BDAY_POMELO'); const r1=STORY.ladReply(s,ch,G,'heroine_01');

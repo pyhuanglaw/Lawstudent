@@ -132,7 +132,8 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     // AA_584 第 11 節第 6 點（使用者 2026-11-02 18:0x：空保溫瓶這條線整個拿掉）：學姊 S2-L6 整層刪，第 8 項那兩句跟著沒了（import_ladder.py 的 AA_373 疊句遇到 S2-L6 不在就跳過）
     check('8. 學姊 S2-L6（AA_373 第 8 項的兩句所在）已經整層刪（AA_584 第 11 節第 6 點）',!S,S&&S.lines[0]);
     const A=(LADDER.byTerm.Y1S2.heroine_01.greet.when||[]).find(x=>J(x.week)===J([10,15]));
-    check('14. 以安第 10～15 週的招呼：「日文課下禮拜小考。……片假名我還是會看錯。」（交換是大三的伏筆）',!!A&&A.t==='日文課下禮拜小考。……片假名我還是會看錯。',A&&A.t);
+    /* 2026-11-11（X324，AA_781_an_ladder_Y1S2.json@15241f32e rows greet.when[3]）：拿掉刪節號——舊期望「日文課下禮拜小考。……片假名我還是會看錯。」，AA_373 第 14 項要的「片假名我還是會看錯」照在 */
+    check('14. 以安第 10～15 週的招呼：「日文課下禮拜小考。片假名我還是會看錯。」（交換是大三的伏筆；AA_781 拿掉刪節號）',!!A&&A.t==='日文課下禮拜小考。片假名我還是會看錯。',A&&A.t);
     const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_373_/.test(e.path));
     check('6／8／9／14／25. 匯入白名單有一筆 AA_373（approved、AA373-Y1S2-FIX-1021；a48fe1b7 → bdab2f42（加第 6 節）→ e75d1cce（6-1 那一列兩欄改整句），舊的記在 history）；ladder.js、syllabus.js 的來源寫著同一個版本',allow.length===1&&['bdab2f42','e75d1cce'].includes(allow[0].sha)&&(allow[0].history||[]).some(h=>h.sha==='a48fe1b7')&&allow[0].status==='approved'&&allow[0].task==='AA373-Y1S2-FIX-1021'&&LADDER.source.includes('AA_373@'+allow[0].sha)&&SYLLABUS.source.includes('AA_373@'+allow[0].sha),J(allow.map(e=>e.sha))); }
   // ===== 第 9 項：通識第 6 週天文館的圓頂 =====
@@ -202,7 +203,8 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('25／BB-4. 選「冷門的」：「犯規。冷門學說是犯規。」「（她把那一題劃掉。）」「……下一題。」（沒有「她判你輸。」「你請。」）',J(h.slice(-3))===J(['犯規。冷門學說是犯規。','（她把那一題劃掉。）','……下一題。'])&&!h.some(bad),J(h));
     check('25／第 6-2 節第 8 題. 視訊互考選「中等的」：沒有「走，山下那攤。」（人不在木柵大學），換成「……下次見面，山下那攤。」',v.includes('……一半。回去我再讀一次。')&&!v.includes('走，山下那攤。')&&v.includes('……下次見面，山下那攤。'),J(v));
     const K2=LADDER.byTerm.Y1S2.kexin.steps.find(s=>s.id==='K2-L1'), r=K2&&K2.choices.find(c=>/我也有記/.test(c.t));
-    check('25. K2-L1 選「我也有記。」：「騙人。……你記幾次？算了，不准說。」（沒有「我會比」）',!!r&&r.reply==='騙人。……你記幾次？算了，不准說。',r&&r.reply);
+    /* 2026-11-11（X324，AA_781_kx_ladder_Y1S2.json@15241f32e rows K2-L1）：拿掉刪節號——舊期望「騙人。……你記幾次？算了，不准說。」；第 25 項要的「沒有『我會比』」照比 */
+    check('25. K2-L1 選「我也有記。」：「騙人。你記幾次？算了，不准說。」（沒有「我會比」；AA_781 拿掉刪節號）',!!r&&r.reply==='騙人。你記幾次？算了，不准說。'&&!/我會比/.test(r.reply),r&&r.reply);
     check('25. 對照：互考照留（4/8 的邀約、4/19 的事件、KX_QUIZ 照記）',!!ev('ev_kexin_reschedule')&&L.includes('期中前，兩校互考。')&&(()=>{ const Q=G.flags.KX_QUIZ; return !!Q&&(Q.win|0)+(Q.lose|0)+(Q.draw|0)===1; })(),J(G.flags.KX_QUIZ)); }
   // ===== 第 6 節（企劃線 bdab2f42；AA 22:0x 答 LAWWW 21:44 的比輸贏清單＋十二題）=====
   { const quiz=async(mode,pick)=>{ fresh(termDay('Y1S2',8,7),14,'gongguan',{dating_kexin:true,KX_QUIZ_MODE:mode}); picks=[pick]; said=[]; await EVENTS.run(ev('ev_kexin_reschedule')); return lines(); };

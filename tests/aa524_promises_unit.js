@@ -179,7 +179,8 @@ await sec('A3',async()=>{
 });
 await sec('A4',async()=>{
   fresh('2026-03-02',12); H.FRIEND(AN); H.date(AN); await ladPlay('Y1S2',AN,'A2-L1',['下次做給我吃']);
-  check('A4. 閒聊階梯 A2-L1 選「下次做給我吃。」＝記 AN_COOK_PROMISE（交往中那一句照舊）',H.G.flags.AN_COOK_PROMISE===true&&mem(AN,'AN2_TOMATO_EGG')&&has('練好了先煮給你吃。'),J(said()));
+  /* 2026-11-11（X324，AA_781_an_ladder_Y1S2.json@15241f32e rows A2-L1）：主句「練好了先煮給你吃。」換成「現在還不能給別人吃。我自己吃都覺得有點鹹。」——舊期望 has('練好了先煮給你吃。')；選「下次做給我吃。」記 AN_COOK_PROMISE 照比 */
+  check('A4. 閒聊階梯 A2-L1 選「下次做給我吃。」＝記 AN_COOK_PROMISE（交往中那一句照舊；主句照 AA_781 換字）',H.G.flags.AN_COOK_PROMISE===true&&mem(AN,'AN2_TOMATO_EGG')&&has('現在還不能給別人吃。我自己吃都覺得有點鹹。')&&!has('練好了先煮給你吃。'),J(said()));
   const L=STORY.ladLines(step('Y2S1',AN,'A3-L8'),H.G,AN);
   check('A4. A3-L8（番茄炒蛋那一版）交往中＋有旗標：lines 後面多兩句',J(L.slice(-2))===J(NEW.A4)&&L.indexOf('我媽說這次換我煮給她吃，可是我只會番茄炒蛋。')>=0,J(L));
   ROM.end(H.G,AN,'test'); const L2=STORY.ladLines(step('Y2S1',AN,'A3-L8'),H.G,AN);
@@ -344,7 +345,8 @@ await sec('Z5',async()=>{
 });
 await sec('Z6',async()=>{
   fresh('2026-06-08',12); H.FAMILIAR(ZR); contact(ZR); await ladPlay('Y1S2',ZR,'Z2-L8',['回來的時候跟我說']);
-  check('Z6. 閒聊階梯 Z2-L8「回來的時候跟我說。」→「好啊，八月底回來，到了跟你說。」、記 ZR_TELL_BACK',has('好啊，八月底回來，到了跟你說。')&&H.G.flags.ZR_TELL_BACK===true,J(said()));
+  /* 2026-11-11（X324，AA_781_zr_ladder_Y1S2.json@15241f32e rows Z2-L8）：回話換成「好啊。回來那天，我應該就在店裡了。」——舊期望「好啊，八月底回來，到了跟你說。」；選這一句記 ZR_TELL_BACK（8/26 私訊「回來了。」）照比 */
+  check('Z6. 閒聊階梯 Z2-L8「回來的時候跟我說。」→「好啊。回來那天，我應該就在店裡了。」（AA_781）、記 ZR_TELL_BACK',has('好啊。回來那天，我應該就在店裡了。')&&H.G.flags.ZR_TELL_BACK===true,J(said()));
   const d=D('2026-08-26'); phAt(d,21); phAt(d,22.1); const n0=byTag('aa524_z6').length; phAt(d,22.12);
   const M=byTag('aa524_z6');
   check('Z6. 2026-08-26（她回臺北那天）22:07 私訊「回來了。」「台中帶來的行李，比我去的時候重。」；22:07 以前沒有',n0===0&&J(M.map(x=>x.text))===J(NEW.Z6)&&M[0].day===d&&Math.abs(M[0].h-(22+7/60))<0.01,J(M.map(x=>[x.text,x.day,x.h])));
@@ -399,10 +401,13 @@ await sec('Z9',async()=>{
 });
 await sec('Z10',async()=>{
   fresh('2027-03-01',12); H.FAMILIAR(ZR); await ladPlay('Y2S2',ZR,'Z4-L1',['一半也想吃']);
-  check('Z10. Z4-L1「一半也想吃。」→ 原本的回覆照舊、記 ZR_LUROU_HALF',has('……一半的滷肉，你也敢吃嗎。好，下次。')&&H.G.flags.ZR_LUROU_HALF===true);
+  /* 2026-11-11（X324，AA_781_zr_ladder_Y2S2.json@d898cded5 rows Z4-L1）：回話換成「一半的滷肉，你也敢吃嗎。好，等我學會另一半。」——舊期望「……一半的滷肉，你也敢吃嗎。好，下次。」；記 ZR_LUROU_HALF 照比 */
+  check('Z10. Z4-L1「一半也想吃。」→ 回話照 AA_781、記 ZR_LUROU_HALF',has('一半的滷肉，你也敢吃嗎。好，等我學會另一半。')&&H.G.flags.ZR_LUROU_HALF===true);
   const L=STORY.ladLines(step('Y3S2',ZR,'Z5-L5'),H.G,ZR);
-  check('Z10. 大三下 Z5-L5 有旗標的多一句「上次說的一半。我媽這次寄了一整罐。……分你。」',L[L.length-1]===NEW.Z10[0],J(L));
-  fresh('2027-03-01',12); H.FAMILIAR(ZR); const L2=STORY.ladLines(step('Y3S2',ZR,'Z5-L5'),H.G,ZR); check('Z10. 沒有旗標：沒有',L2.indexOf(NEW.Z10[0])<0);
+  /* 2026-11-11（X324，AA_781_zr_ladder_Y3S2.json@8e027fc7f rows Z5-L5）：extraIf 那一句換成「滷肉，我媽這次寄了一整罐。分你。」——舊期望 NEW.Z10[0]（AA_524 稿的字，上面第 115 行對稿照舊用）；有旗標才多這一句照比 */
+  const Z10_781='滷肉，我媽這次寄了一整罐。分你。';
+  check('Z10. 大三下 Z5-L5 有旗標的多一句「'+Z10_781+'」（AA_781）',L[L.length-1]===Z10_781,J(L));
+  fresh('2027-03-01',12); H.FAMILIAR(ZR); const L2=STORY.ladLines(step('Y3S2',ZR,'Z5-L5'),H.G,ZR); check('Z10. 沒有旗標：沒有',L2.indexOf(Z10_781)<0&&L2.indexOf(NEW.Z10[0])<0);
   fresh('2026-10-05',12); H.FAMILIAR(ZR); await ladPlay('Y2S1',ZR,'Z3-L4',['下次我帶罐頭']);
   check('Z10. Z3-L4「下次我帶罐頭。」→「不行。牠已經很胖了。」（拿掉「小罐的可以」）',said()[said().length-1]===NEW.Z10[1],J(said()));
 });

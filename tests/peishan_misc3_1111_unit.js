@@ -55,7 +55,7 @@ const LAD=[['Y4S1','期末。寒假我要回家裡的早餐店煎蛋。','期末
   await sec(3,async()=>{ const gc=read('src/data/greet_classday.js'), GC=JSON.parse(gc.slice(gc.indexOf('const GREET_CLASSDAY=')+21,gc.lastIndexOf(';'))), L=GC.classDay[PS]||[];
     const have=new Set(); for(const t of Object.keys(LADDER.byTerm).concat(['__y1'])){ const p=t==='__y1'?LADDER.characters[PS]:LADDER.byTerm[t][PS]; if(!p||!p.greet) continue; (p.greet.base||[]).forEach(x=>have.add(x)); (p.greet.when||[]).forEach(w=>have.add(w.t)); }
     check('3. greet_classday.js（只在上課日說）：沛珊的每一句都對得到 ladder.js 的招呼',L.length>=9&&L.every(t=>have.has(t)),J(L.filter(t=>!have.has(t))));
-    check('3. 換了字的早上的招呼跟著換：「早。老師要比學生早到，我在練習，目前成功率一半。」「早。我八點的課，今天居然趕上了。」（大四上）「早。八點的課我還是修了，不要問我為什麼。」（大四下，2026-11-11 AA 回覆）都只在上課日說；舊句「早。我八點的課，七點就到了。」不在了',L.includes('早。老師要比學生早到，我在練習，目前成功率一半。')&&L.includes('早。我八點的課，今天居然趕上了。')&&L.includes('早。八點的課我還是修了，不要問我為什麼。')&&!L.includes('早。我八點的課，七點就到了。')&&!L.includes('早。……老師要比學生早到，我在練習。')&&/'早。八點的課我還是修了，不要問我為什麼。'\)\}/.test(read('tools/story/import_greet_classday.py')),J(L));
+    check('3. 換了字的早上的招呼跟著換：「早。老師要比學生早到，我在練習，目前成功率一半。」「早。我八點的課，今天居然趕上了。」（大四上）「早。八點的課我還是修了，不要問我為什麼。」（大四下，2026-11-11 AA 回覆）都只在上課日說；舊句「早。我八點的課，七點就到了。」不在了',L.includes('早。老師要比學生早到，我在練習，目前成功率一半。')&&L.includes('早。我八點的課，今天居然趕上了。')&&L.includes('早。八點的課我還是修了，不要問我為什麼。')&&!L.includes('早。我八點的課，七點就到了。')&&!L.includes('早。……老師要比學生早到，我在練習。')&&/'早。八點的課我還是修了，不要問我為什麼。'\)[,}]/.test(read('tools/story/import_greet_classday.py')),J(L));   /* 2026-11-11（X324，AA_781）：RENAMED 後面多了以安一句，這一筆不再是最後一筆——舊期望 /…'\)\}/（緊接著字典結尾），改成 ),／)} 都可以 */
     const keys=Object.keys(STORY.LADDER_GREET_IF||{}); check('3. story3d.js 的 LADDER_GREET_IF（拿句子開頭當 key）沒有用到這九句的舊句',keys.length>0&&LAD.every(([t,o])=>!keys.some(k=>o.startsWith(k))),J(keys.filter(k=>LAD.some(([t,o])=>o.startsWith(k))))); });
 
   await sec(4,async()=>{ const m2=read('src/data/msg2_pool.js'), P2=new Function(m2.replace(/^'use strict';/m,'')+';return MSG2_POOL;')().people[PS].replies, tagged=P2.filter(e=>e.ps763);
@@ -63,7 +63,9 @@ const LAD=[['Y4S1','期末。寒假我要回家裡的早餐店煎蛋。','期末
     const ob2=show(BASE,'src/data/msg2_pool.js'); if(ob2){ const strip=s=>s.split('\n').filter(l=>!/"ps763"/.test(l)).join('\n'), a=m2.split('\n'), b=ob2.split('\n'); check('4. msg2_pool.js 和 BASE 比：一樣多行，只有這兩行不同',a.length===b.length&&a.filter((l,i)=>l!==b[i]).length===2&&a.filter((l,i)=>l!==b[i]).every(l=>/"ps763"/.test(l))); }
     if(!A) return;
     for(const f of A.files.slice(1)){ if(f.file==='src/data/msg2_pool.js'){ const all=P2.reduce((x,e)=>x.concat(e.msgs||[]),[]); check('4. '+f.file+'：兩列的 new 各一格、old 不在了',f.rows.every(r=>all.filter(t=>t===r.new).length===(r.count||1)&&!all.includes(r.old))); continue; }
-      const cur=read(f.file), L=lit(cur), n=t=>L.filter(x=>x===t).length, bad=f.rows.filter(r=>n(r.new)!==(r.count||1)||n(r.old)!==0);
+      /* 2026-11-11（X324，AA_781 閒聊階梯通用層）：story3d.js 的 LADDER_GREET_IF 多了芷若兩句招呼的新字（拿掉刪節號；舊字的 key 照留）——是加上去的兩個字串，不是稿上這幾列，比 BASE 之前先拿掉（各一個）。舊期望：直接比 */
+      const ADD781={'src/story3d.js':['（她在吧檯後面抬頭）嗨。','要打烊了。你可以坐到我擦完這張桌子。','學弟，我論文寫到第四章了。','{name}，我論文寫到第四章了。']};   /* 後兩句：學姊大四下「論文寫到第四章了」拿掉刪節號的新字（AA_781 Y4S2）*/
+      const cur=read(f.file), L=(ADD781[f.file]||[]).reduce((a,t)=>{ const i=a.indexOf(t); return i<0?a:a.slice(0,i).concat(a.slice(i+1)); },lit(cur)), n=t=>L.filter(x=>x===t).length, bad=f.rows.filter(r=>n(r.new)!==(r.count||1)||n(r.old)!==0);
       check('4. '+f.file+'：'+f.rows.length+' 列的 new 各剛好 '+'count 處、old 不在了；檔裡寫了來源',bad.length===0&&cur.includes('AA_763_peishan_misc3.json@'+S763),J(bad.map(r=>[r.old,n(r.old),n(r.new)])));
       if(['src/date3d.js','src/aa614_3d.js'].includes(f.file)) continue;   /* 這兩個檔同一輪另外有改（約會四處、招呼條件那一段）：和 BASE 的整檔比對在 peishan_dates_1111、下面第 5 節 */
       /* 2026-11-11（X327 沛珊重寫，AA_766_peishan_leftover2.json@1e647bb05）：bbpack_events.js 後來又照 AA_766 換了 D4c 四題 25 句（tests/peishan_leftover2_1111_unit.js 逐字對稿）——那 25 句也算稿上的列 */

@@ -109,7 +109,7 @@ await sec(0,()=>{
   check('0. 稿 → 遊戲：第 4 節（學姊兩句、社區的信）、3-2 國外版、3-3 語彤、7-3 挽回中招呼都在遊戲裡',DOC4.length===3&&!DOC4.some(lost)&&DOC32.some(t=>unq(t)==='我這邊中午。開視訊陪妳？')&&!DOC32.map(unq).some(lost)&&DOC33.length===1&&!DOC33.some(lost)&&DOC73.length===1&&!DOC73.some(lost),J({DOC4,DOC32,DOC33,DOC73}));
   const gb=((LADDER.byTerm.Y4S1||{})[SIS]||{greet:{}}).greet.base||[];
   check('0. ladder.js（tools/ladder/import_ladder.py 讀白名單上的 AA_531 疊上去）：學姊大四上招呼 base 有「這邊的飲水機只有冰的。我自己帶。」，放在回來以後那一句後面；來源寫了 AA_531@'+SHA,
-    gb.indexOf('這邊的飲水機只有冰的。我自己帶。')===gb.indexOf(SISB16_LINES.greetBack)+1&&LADDER.source.indexOf('AA_531@'+SHA)>=0&&/AA_531_/.test(fs.readFileSync(path.join(H.ROOT,'tools/ladder/import_ladder.py'),'utf8')),J(gb));
+    gb.indexOf('這邊的飲水機只有冰的。我自己帶。')===gb.indexOf(SISB16_LINES.greetBack781)+1/* 2026-11-11（X324，AA_781 rows greet.base[2]）：ladder.js 裡回來以後那一句拿掉刪節號＝greetBack781——舊期望 indexOf(greetBack) */&&LADDER.source.indexOf('AA_531@'+SHA)>=0&&/AA_531_/.test(fs.readFileSync(path.join(H.ROOT,'tools/ladder/import_ladder.py'),'utf8')),J(gb));
   const BP=fs.readFileSync(path.join(H.ROOT,'tools/msg/build_pool.py'),'utf8'), BM=fs.readFileSync(path.join(H.ROOT,'tools/msg/build_msg2.py'),'utf8');
   check('0. msg_pool.js、msg2_pool.js（tools/msg/build_pool.py、build_msg2.py → to_js*.py）：source 的 AA_531 是 '+SHA+'；語彤的美國版、8-3 四句國外版是產生器寫的',MSG_POOL.source.AA_531===SHA&&MSG2_POOL.source.AA_531===SHA&&/在店裡。阿姨問你美國有沒有麵。/.test(BP)&&T83.length===4&&T83.every(r=>BP.indexOf(r.ab)>=0||BM.indexOf(r.ab)>=0),J({p:MSG_POOL.source.AA_531,p2:MSG2_POOL.source.AA_531})); });
 

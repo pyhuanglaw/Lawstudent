@@ -7060,6 +7060,357 @@
      "note": "被 bb6c5023b 取代（AA 11-11 v4：lunch 31 → 51 組，新增 19 組單人、沒有 shop／n 限制的；舊 id 和內容沒動；BB 看過）"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_781_an_ladder_Y1S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 以安大一上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S1＝characters）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 bc4f3f367 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_yt_ladder_Y1S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 語彤大一上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S1＝characters）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 bc4f3f367 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_kx_ladder_Y1S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 可昕大一上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S1＝characters）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 bc4f3f367 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_zr_ladder_Y1S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 芷若大一上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S1＝characters）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 bc4f3f367 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_sis_ladder_Y1S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 學姊大一上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S1＝characters）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 bc4f3f367 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_zq_ladder_Y1S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 子晴大一上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S1＝characters）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 bc4f3f367 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_zq_ladder_Y1S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 子晴大一下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 15241f32e 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_zr_ladder_Y1S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 芷若大一下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 15241f32e 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_kx_ladder_Y1S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 可昕大一下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 15241f32e 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_sis_ladder_Y1S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 學姊大一下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 15241f32e 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_an_ladder_Y1S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 以安大一下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 15241f32e 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_zq_ladder_Y2S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 子晴大二上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 4c710f37a 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_kx_ladder_Y2S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 可昕大二上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 4c710f37a 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_zr_ladder_Y2S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 芷若大二上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 4c710f37a 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_yt_ladder_Y2S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 語彤大二上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 4c710f37a 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_sis_ladder_Y2S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 學姊大二上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 4c710f37a 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_kx_ladder_Y2S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 可昕大二下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 d898cded5 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_zr_ladder_Y2S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 芷若大二下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 d898cded5 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_zq_ladder_Y2S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 子晴大二下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 d898cded5 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_sis_ladder_Y2S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 學姊大二下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 d898cded5 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_yt_ladder_Y2S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 語彤大二下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 d898cded5 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_an_ladder_Y2S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 以安大二下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 d898cded5 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_zq_ladder_Y3S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 子晴大三上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 1e48c1f20 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_kx_ladder_Y3S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 可昕大三上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 1e48c1f20 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_sis_ladder_Y3S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 學姊大三上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 1e48c1f20 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_an_ladder_Y3S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 以安大三上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S1）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 1e48c1f20 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_kx_ladder_Y3S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 可昕大三下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 8e027fc7f 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_zq_ladder_Y3S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 子晴大三下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 8e027fc7f 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_yt_ladder_Y3S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 語彤大三下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 8e027fc7f 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_zr_ladder_Y3S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 芷若大三下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 8e027fc7f 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_sis_ladder_Y3S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 學姊大三下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 8e027fc7f 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_781_kx_ladder_Y4S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 可昕大四上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S1）。逐列對稿 tests/ladder_aa781_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_781_sis_ladder_Y4S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 學姊大四上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S1）。逐列對稿 tests/ladder_aa781_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_781_yt_ladder_Y4S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 語彤大四上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S1）。逐列對稿 tests/ladder_aa781_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_781_an_ladder_Y4S1.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 以安大四上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S1）。逐列對稿 tests/ladder_aa781_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_781_kx_ladder_Y4S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 可昕大四下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S2）。逐列對稿 tests/ladder_aa781_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_781_sis_ladder_Y4S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 學姊大四下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S2）。逐列對稿 tests/ladder_aa781_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_781_yt_ladder_Y4S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 語彤大四下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S2）。逐列對稿 tests/ladder_aa781_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_781_an_ladder_Y4S2.json",
+   "sha": "a5e537856",
+   "status": "approved",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 以安大四下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y4S2）。逐列對稿 tests/ladder_aa781_1111_unit.js"
   }
  ]
 }

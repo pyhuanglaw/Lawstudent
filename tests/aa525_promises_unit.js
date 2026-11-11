@@ -145,7 +145,8 @@ await sec('1-2',async()=>{
   check('1-2. 約她去 Café 的通用句：看過 Q6、2026-06-27 以前＝「第二關做好了。你先玩，我還沒給別人看。」；6/27 以後照舊「新版本做好了…」；沒看過 Q6 照舊',b==='第二關做好了。你先玩，我還沒給別人看。'&&a==='新版本做好了。你先玩，我還沒給別人看。'&&n==='（她把耳機的一邊遞給你）',J([b,a,n]));
 });
 await sec('1-3',()=>{ const st=lad('Y1S2',ZQ,'Q2-L5');
-  check('1-3. 閒聊階梯 Q2-L5「我想聽妳彈。」→「……成發那天來。我只彈一次。」（tools/ladder/import_ladder.py 疊的，來源寫 AA_525）',!!st&&st.choices[0].t==='「我想聽妳彈。」'&&st.choices[0].reply==='……成發那天來。我只彈一次。'&&LADDER.source.includes('AA_525@'+SHA),st&&J(st.choices[0])); });
+  /* 2026-11-11（X324，AA_781_zq_ladder_Y1S2.json@15241f32e rows Q2-L5）：回話拿掉刪節號——舊期望「……成發那天來。我只彈一次。」（AA_525 稿的字，上面對稿照舊）*/
+  check('1-3. 閒聊階梯 Q2-L5「我想聽妳彈。」→「成發那天來。我只彈一次。」（AA_525 疊的、AA_781 拿掉刪節號；來源寫 AA_525）',!!st&&st.choices[0].t==='「我想聽妳彈。」'&&st.choices[0].reply==='成發那天來。我只彈一次。'&&LADDER.source.includes('AA_525@'+SHA),st&&J(st.choices[0])); });
 await sec('1-4',async()=>{
   const I=VAC.inst('C05','Y1'), run=async(withMsg,q6)=>{ fresh('2026-08-29',22,{dating_heroine_04:true}); H.FRIEND(ZQ); if(q6) H.G.events.done.ev_ziqing_secret_game=true;
     if(withMsg) H.G.msgs.push({th:'p:'+ZQ,from:ZQ,text:'試玩一下 回來給你玩',tag:'vac_tm_'+I.key+'_heroine_04_p'+(D('2026-08-26')),day:D('2026-08-26'),h:0.67});

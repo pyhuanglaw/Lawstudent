@@ -279,7 +279,7 @@ await sec('4',async()=>{ if(!HAS2()){ check('4. 私訊',false,'沒有資料'); r
   const st=((((LADDER.byTerm||{}).Y3S2||{}).heroine_03||{}).steps||[]).find(s=>s.id==='Y6-L8');
   const lad=async(pick)=>{ fresh(DK('2028-05-29'),17); who('heroine_03','FRIEND'); H.said=[]; H.picks=[pick]; await STORY.ladPlay(GM,{name:'語彤',charId:'heroine_03'},'heroine_03',st); return {f:H.G.flags.YT6_WITH,said:H.said.map(s=>s.t),mem:SOCIAL.has('heroine_03','YT6_ASK_AUNT')}; };
   const l1=await lad('我可以陪妳問'), l2=await lad('這次她會說');
-  check('4. 閒聊 Y6-L8 選「我可以陪妳問。」→ YT6_WITH；選「這次她會說。」不記；兩個都照原本說完（她的回覆、這一層的記憶 YT6_ASK_AUNT）',!!st&&l1.f===true&&l1.said.includes('……嗯。你坐旁邊就好。不要說話。蘇姨看到你會想泡茶給你喝。')&&l1.mem&&l2.f===undefined&&l2.said.includes('……不知道。可是這次我會等她說完。')&&l2.mem,J({l1,l2}));
+  check('4. 閒聊 Y6-L8 選「我可以陪妳問。」→ YT6_WITH；選「這次她會說。」不記；兩個都照原本說完（她的回覆、這一層的記憶 YT6_ASK_AUNT）',!!st&&l1.f===true&&l1.said.includes('嗯。你坐旁邊就好。不要說話。蘇姨看到你會想泡茶給你喝。')/* 2026-11-11（X324，AA_781_yt_ladder_Y3S2.json@8e027fc7f rows Y6-L8）：拿掉刪節號——舊期望「……嗯。你坐旁邊就好。…」*/&&l1.mem&&l2.f===undefined&&l2.said.includes('……不知道。可是這次我會等她說完。')&&l2.mem,J({l1,l2}));
   fresh(DK('2028-05-29'),17); who('heroine_03','FRIEND'); const st7=(LADDER.byTerm.Y3S2.heroine_03.steps||[]).find(s=>s.id!=='Y6-L8'&&s.choices&&s.choices.length); H.picks=[0]; const ok7=await STORY.ladPlay(GM,{name:'語彤',charId:'heroine_03'},'heroine_03',st7);
   check('4. 別的層照舊（不經過記號）',ok7===true&&H.G.flags.YT6_WITH===undefined);
   const D821=DK('2028-08-21'), D822=D821+1;
