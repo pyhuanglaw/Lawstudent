@@ -1,12 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:12:41] ==== END   L118D_E_TABLE  exit=0  182s   ====
-[15:12:47] memory 47% before starting CLASS12_crim_c (2 running)
-[15:12:47] ==== START CLASS12_crim_c  (probe @ b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa) ====
-[15:12:50] [res] cpu=15% mem=48% (14.9/31.4 GB) chrome_testing=9  START CLASS12_crim_c
-[15:13:53] [res] cpu=0% mem=47% (15.8/31.4 GB) chrome_testing=9  END L118D_E_MAIN
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       cd2389249..b6761e5d7  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [15:13:59] ==== END   L118D_E_MAIN  exit=0  179s   ====
 [15:14:04] 正在跑：L118D_E_STORYBURST（已跑 2 分／上限 10 分）、CLASS12_crim_c（已跑 1 分／上限 14 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:14:08] memory 47% before starting L118A_SPECIAL_r2 (2 running)
@@ -1998,3 +1990,11 @@
 [23:53:34] [res] cpu=2% mem=43% (13.6/31.4 GB) chrome_testing=10  START CONT_rel
 [23:54:05] 正在跑：STAIR_old_run_r2（已跑 16 分／上限 40 分）、LIVE25_main_r4（已跑 2 分／上限 25 分）、CONT_rel（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:54:57] [res] cpu=6% mem=43% (13.6/31.4 GB) chrome_testing=10  END LIVE25_main_r4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b0632e125..67e932daf  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:55:03] ==== END   LIVE25_main_r4  exit=1  179s   ====
+[23:55:06] memory 43% before starting CONT_live (2 running)
+[23:55:06] ==== START CONT_live  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[23:55:09] [res] cpu=3% mem=43% (13.7/31.4 GB) chrome_testing=10  START CONT_live
+[23:56:32] [res] cpu=4% mem=43% (13.8/31.4 GB) chrome_testing=10  END CONT_rel
