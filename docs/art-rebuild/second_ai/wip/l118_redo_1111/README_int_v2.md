@@ -1,8 +1,9 @@
 # 118 巷室內四間 第 2 版：118牛排、水上便當、清州刀削麵、辛亥韓食（LAWWW2 帳號 A，2026-11-11）
 
-狀態：**WORK_IN_PROGRESS：相關測試都過了，全部 Node 測試在跑**（結果補在這一行）。預覽是 Blender，不是遊戲截圖（D131）。D141：這是室內的第 2 版，還剩一版。
+狀態：**READY_FOR_REVIEW**（2026-11-11 06:4x UTC）。預覽是 Blender，不是遊戲截圖（D131）。D141：這是室內的第 2 版，還剩一版。
+全部 Node 測試 1271 支（`regression_int_v2.log`，在 dev `a740616de`＋第二批＋這一包上跑）：沒有失敗（`bookstore_exit_unit` 最後一行是 Node 讀不到網址的警告，結束碼 0）。另外在最新的 dev `db5bbdf4c`（已含 LAWWW 那邊的三間室內）上套了這一包、跑 118 巷相關的八支：ALL PASS。
 
-- patch：`l118_int_v2.patch`（9 個檔：`lane118_shops.py`＋四間的 GLB、json）。疊在第二批上面（第二批已整合：dev `64add9fcf`）。
+- patch：`l118_int_v2.patch`（9 個檔：`lane118_shops.py`＋四間的 GLB、json）。疊在第二批上面（第二批已整合：dev `64add9fcf`）；在 dev `db5bbdf4c` 上 `git apply --3way` 乾淨。
 - 依據：LAWWW 11-11 05:56 看第 1 版預覽的提醒——「室內四間比參考圖空：牆面大片空白、廚房區只有一條櫃台、招牌物件不明顯」；使用者的兩組室內參考圖（`int_<id>.webp`、`int2_<id>.webp`）。
 - 預覽 `blender_int_v2.jpg`：每間兩個機位（左＝從門口往裡看；右＝從店裡面往門口看招牌物件。右邊白色的一大塊是店面玻璃那一面，預覽把它藏起來了）。由上到下：118牛排、水上便當、清州刀削麵、辛亥韓食。
 - **座位、互動點、阻擋都沒有變**（`src/data/l118_shop_layouts.js` 和第二批一樣，不用重產）。
