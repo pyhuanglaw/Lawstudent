@@ -59,7 +59,7 @@ const NEW=[
   '上次你說的那件事。','……我想好了。好！','上次你說的那件事，我還在想。……我沒有忘喔。',
   '（她帶你走了一條窄窄的巷子，兩邊都是透天厝。）','國中三年我每天在這條路上用跑的，因為都快遲到。','那時候覺得好遠。現在走起來好近。',
   '（她從包包拿出三張卡片。）','課輔班的！她們畫的你。……長得不太像。',
-  '明年……好！！','妳舉手了嗎？','……還沒！不要一直問！','不行。這是家傳的！','今天那一題，你講得很好。……我想多聽你講。',
+  '明年……好！！','妳舉手了嗎？','……還沒！不要一直問！','不行。這是家傳的！','今天那一題你講得很好，我找不到地方吐槽。再多講一點。',
   '今天買的書，第一本是繪本。……給課輔班的。','回程的車上，我要把今天的事寫下來！','看起來好好吃！！我考完要一次吃回來！',
   '（她把一盒蛋餅放到你面前。）','說好的！','……我家的早餐比這個好吃！','謝謝！',
   '（吃完飯，她從包包拿出一個小盒子，推過來。）','聖誕的。說好考完換。','（你也把準備好的那一份拿出來。）','還有，去年說的。今年的第二頁，你排。','河濱，看燈。','……抄我的。好。','山上，看夜景。','好。你開車。','（那一晚的第二頁，是你排的。）',
@@ -95,7 +95,8 @@ await sec(0,()=>{
   const miss6=NEW6.filter(t=>!DOC6.includes(t));
   check('0. AA_526 這兩句一字不差在 AA_526 裡（「……好。我記下來。」「寒假你來高雄。……我們都沒去過的地方，我來排。」）',!miss6.length,J(miss6));
   /* 2026-11-11（X327 沛珊重寫，AA_757_peishan_wish_hometown.json@052644c58）：沛珊「國中走路上學那條路」那兩句、重考期回覆池 share_food 重寫了，新句對 AA_757 的 hometown_rows（tests/peishan_dates_1111_unit.js 逐字對），不在 AA_525 */
-  const PS757=['國中三年我每天在這條路上用跑的，因為都快遲到。','那時候覺得好遠。現在走起來好近。','看起來好好吃！！我考完要一次吃回來！'];
+  const PS757=['國中三年我每天在這條路上用跑的，因為都快遲到。','那時候覺得好遠。現在走起來好近。','看起來好好吃！！我考完要一次吃回來！',
+    '今天那一題你講得很好，我找不到地方吐槽。再多講一點。'];   /* 最後一句：AA_761_peishan_events_1.json@dbfc596a5 的 ev_peishan_bohan_w4（原本 AA_525 的「今天那一題，你講得很好。……我想多聽你講。」；tests/peishan_events_1111_unit.js 逐字對） */
   const miss=NEW.filter(t=>!inDoc(t)&&!PS757.includes(t));
   check('0. 新加的 '+NEW.length+' 句每一句都一字不差在稿裡',!miss.length,J(miss));
   const files=listSrc(), hit=[]; for(const f of files){ const s=stripComments(SRC(f)); for(const t of OLD) if(s.includes(t)) hit.push(f+'：'+t); }
@@ -216,7 +217,7 @@ await sec('2-4',async()=>{
   check('2-4 P-5. 閒聊階梯 P3-L3：新稿選項②「後來有舉嗎？」（沒有「下次」）；linesIf 那一套的選項②「答對了嗎？」→「答錯了！」（X327 補稿；一樣沒有「下次」）',!!p5&&p5.choices[1].t==='「後來有舉嗎？」'&&!J(p5.choices).includes('下次')&&!!p5.linesIf&&p5.linesIf[0].choices[1].t==='「答對了嗎？」'&&p5.linesIf[0].choices[1].re[0]==='答錯了！'&&!J(p5.linesIf).includes('下次'),p5&&J([p5.choices[1],p5.linesIf&&p5.linesIf[0].choices]));
   check('2-4 P-6. 閒聊階梯 P5-L2：整層重寫以後沒有「教我。」、沒有「家傳」「教你一半」「下次」',!!p6&&!/教我|家傳|教你一半|下次/.test(J([p6.lines,p6.choices])),p6&&J(p6.choices));
   fresh('2026-03-12',21,{dating_classmate_peishan:true},'wancai'); H.FRIEND(PS); await runEv('ev_peishan_bohan_w4');
-  check('2-4 P-6. 交往中，讀書會後：「今天那一題，你講得很好。……我想多聽你講。」',has('今天那一題，你講得很好。……我想多聽你講。'),J(said()));
+  check('2-4 P-6. 交往中，讀書會後：「今天那一題你講得很好，我找不到地方吐槽。再多講一點。」',has('今天那一題你講得很好，我找不到地方吐槽。再多講一點。'),J(said()));
   const W=s=>(ENC_WALK.walks||ENC_WALK.walk||[]).find?(ENC_WALK.walks||ENC_WALK.walk||[]).find(x=>x.who===PS&&x.spot===s):null;
   const all=JSON.stringify(ENC_WALK);
   check('2-4 P-6. 偶遇道別（交往中）D12「今天買的書，第一本是繪本。……給課輔班的。」、D20「回程的車上，我要把今天的事寫下來！」',all.includes('"dating":"今天買的書，第一本是繪本。……給課輔班的。"')&&all.includes('"dating":"回程的車上，我要把今天的事寫下來！"'));

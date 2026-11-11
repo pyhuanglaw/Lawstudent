@@ -1,4 +1,5 @@
 // AA_614 同學也在打工：約了會說「我要上班」＋AA_615 南洋戲院剩下的（企劃線 claude/cool-heisenberg-o8kuqx：AA_614 a0b8a3e40、AA_615 ba26f7f7d；
+// 2026-11-11（X327 沛珊重寫，AA_761_peishan_events_1.json@dbfc596a5）：這支裡寫死的沛珊在 events.js 的句子照新稿改期望（逐字對稿在 tests/peishan_events_1111_unit.js）。
 //   任務 AA614-CLASSMATE-JOBS-1103、AA615-ALISON-CINEMA-1103；src/aa614_3d.js）——不需要瀏覽器（D131）。
 //   0 讀稿、模組、index.html 的順序、白名單、每一句都在稿裡（一字不差）、說的人照稿
 //   1 沛珊作息：每週三 18:00～21:00 溫州街（大一上第 3 週起～2026-12-17）；週二、四 16～18 不在溫州街了（AA-B 11-07）
@@ -80,7 +81,7 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
     check('1. ev_peishan_tutoring：週三 20:45～21:15、標題「課輔班的晚上」、大一下第 5～15 週（照舊）、走進溫州街、P2 之後',!!p&&J(p.weekday)===J([3])&&J(p.time)===J([20.75,21.25])&&p.title==='課輔班的晚上'&&J(p.term)===J(['Y1S2'])&&J(p.weeks)===J([5,6,7,8,9,10,11,12,13,14,15])&&p.trigger==='enter'&&p.location==='wenzhou'&&J(p.prereq)===J({events:['ev_peishan_doubt']}),J(p&&[p.weekday,p.time,p.title]));
     check('1. 兩句照 AA-B 11-07 改：開頭旁白、「每個禮拜三。」',t[0]==='她帶著一群國小生從課輔班走出來。門口有幾個家長在等，她手上還拿著一疊作業本。'&&t[1]==='喔，是你。我在這裡當助教。每個禮拜三。',J(t.slice(0,2)));
     check('1. 舊的兩句不在了',!t.includes('她帶著一群國小生從課輔班走出來，手上拿著一疊作業本。')&&!t.includes('喔，是你。我在這裡當志工。一週兩天。')&&!t.some(x=>/一週兩天/.test(x)));
-    check('1. 其他句子照舊',t[2]==='一個小孩拉她的衣角。她蹲下來聽他講完，站起來。'&&t[3]==='……我在這裡的時候，不會看時間。'&&t.includes('有嗎。')&&t.includes('……有。'),J(t.slice(2,4)));
+    check('1. 其他句子照舊',t[2]==='一個小孩拉她的衣角。她蹲下來聽他講完，站起來。'&&t[3]==='我在這裡都不會看時間。上課的時候我五分鐘看一次。'&&t.includes('有嗎。')&&t.includes('……有。'),J(t.slice(2,4)));
     const ok=(d,h)=>{ fresh(d,h,'wenzhou'); H.G.events.done.ev_peishan_doubt=1; return EVENTS.check(p); };
     const r={wed:ok(TD('Y1S2',5,3),21),wed2:ok(TD('Y1S2',15,3),20.8),early:ok(TD('Y1S2',5,3),20.5),late:ok(TD('Y1S2',5,3),21.3),tue:ok(TD('Y1S2',5,2),17),w4:ok(TD('Y1S2',4,3),21)};
     check('1. 週三 21:00、20:48 走進溫州街就演；20:30、21:18、週二 17:00、第 4 週都不演',r.wed&&r.wed2&&!r.early&&!r.late&&!r.tue&&!r.w4,J(r)); }
