@@ -1,0 +1,35 @@
+{
+ "_meta": {
+  "doc": "AA_800 X324 G 區：大二事件 y2b_events 子晴三句",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324 G 區）",
+  "format": "{file, line, old, new}，同 AA_794。",
+  "notes": [
+   "y2b_events 268 句、刪節號 56（句首 41），集中在子晴畢業專題那一場和語彤還傘那一場——兩場都是她們難得說心裡話，分支互斥、一次看到六句左右，大多留。",
+   "同一輪量過不用改：bbpack_events（652／64，NPC 為主；沛珊段已有 AA_766）、fest_events（329／80，節日約會的心意句；沛珊段已有 AA_755）、invite_place_lines（277／47）、feed_y2s1（278／12）、feed_y2s2（302／11）。"
+  ]
+ },
+ "rows": [
+  {
+   "file": "src/data/y2b_events.js",
+   "line": 247,
+   "old": "……上次跟你說的那個遊戲。",
+   "new": "上次跟你說的那個遊戲。",
+   "note": "子晴這一場（ev_ziqing_capstone）大部分「……」是她難得說心裡話，留；這三句是回想、鬧你，拿掉"
+  },
+  {
+   "file": "src/data/y2b_events.js",
+   "line": 273,
+   "old": "……好。可是我比較想知道，她會不會開心。",
+   "new": "好。可是我比較想知道，她會不會開心。",
+   "note": "子晴這一場（ev_ziqing_capstone）大部分「……」是她難得說心裡話，留；這三句是回想、鬧你，拿掉"
+  },
+  {
+   "file": "src/data/y2b_events.js",
+   "line": 282,
+   "old": "……你們法律系講話都這樣嗎？",
+   "new": "你們法律系講話都這樣嗎？",
+   "note": "子晴這一場（ev_ziqing_capstone）大部分「……」是她難得說心裡話，留；這三句是回想、鬧你，拿掉"
+  }
+ ]
+}
