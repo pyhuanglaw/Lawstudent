@@ -14,14 +14,15 @@
          預期：小吃攤祐廷那一份全扣（60）＋請她的 extra（60）＝120
   SHE    子晴 D06 北美館第三次（【前置】dateLog 去過 2 次、上一次點過咖啡廳），點「館內的咖啡廳」→ remember「這家我來過兩次了。這次我請，你不要算。」（AA_812 SHE_PAYS_add）
          預期：咖啡廳那一份不扣（0；原價 160）；門票 30 照扣
-  SPLIT  以安 heroine_01 D22 石門水庫第一次（開車，15:00 出發），點「活魚料理」，選「「我們都吃。」」→ 她回「一人一半。」（AA_812 SPLIT）
-         預期：活魚料理祐廷那一份扣一半＝Math.round(300/2)＝150；沒有 extra（那個選項不是請客）
+  SPLIT  以安 heroine_01 D25 宜蘭外澳第一次（一日遊、火車，09:00 出發），點「海邊的咖啡館」，選「「我請。」」→ 她回「謝謝，那蛋糕我點，一人一半。」（AA_812 SPLIT）
+         預期：咖啡館祐廷那一份扣一半＝Math.round(150/2)＝75，加上選了請客的 extra 150（date3d.js：請她的那一份照舊）＝225
+         （規格裡不開車的 SPLIT 以安只有這一格和 D30（兩天一夜）；D22.fish「一人一半。」不用請客選項、比較乾淨，但開車要先走到望月台停車場按「開車出發」，這支不走路，所以沒選）
   BROKE  同 ME 的地點（子晴 D10 第一次），【前置】錢設成「預約檢查過得了（≥ 車資＋門票）、但小於小吃攤一份」，點小吃攤，選「「慢慢吃。」」（不請客，只看自己那一份）
          看：錢不夠時有沒有換成她付（這一份扣得比原價少）或出提示（#toast／對話裡有「錢」「不夠」）；錢在任何時候都不能變負的
 【前置／捷徑】（log 都印 [前置／捷徑]）：讀檔（GAME.applySave、quiet_events）、日期（2025 學年大一上週六裡第一個 DATE.check 過的）、時間 13:18、晴天、錢（BROKE 以外 40000）；
   她的聯絡方式；關係數值（SOCIAL.rel）＝第 5 階、沒交往；dateLog／dateMemory（第一次＝清空；SHE＝去過 2 次、點過全部、上一次點過咖啡廳）。
-  其餘全部走畫面：手機「朋友」→「約」→ 出去玩… → 類別 → 地點 →（交通）→ 今天 → 15:00 → 就這樣約；手機「今天」跳過時間到出發前 1 小時；「現在出發」／「出發」；
-  互動點選單只點目標那一個（SPOTS 預設 1），之後「差不多了，回去吧」；對話選項照字點（選不到就記下來、選第一個）。沒有走路（全程手機與選單）。
+  其餘全部走畫面：手機「朋友」→「約」→ 出去玩… → 類別 → 地點 →（交通）→ 今天 → 出發時間（半天 15:00、一日遊 09:00）→ 就這樣約；手機「今天」跳過時間到出發前 1 小時；「現在出發」／「出發」；
+  開車的地點沒有選（出發要先走到望月台停車場按「開車出發」，carlot3d.js）；互動點選單只點目標那一個（SPOTS 預設 1），之後「差不多了，回去吧」；對話選項照字點（選不到就記下來、選第一個）。沒有走路（全程手機與選單）。
   等待中每 30 秒記狀態＋截圖；遊戲內部選單照按鈕字選安全的、記一行。
 判定（每趟）：
   0  前置：情況真的做出來（第 5 階、第幾次去、BROKE 選互動點的當下錢 < 那一份）；走的路（預約、出發、選了哪個點、選了哪個選項）記在 log
@@ -65,7 +66,7 @@ NOTICE_RE = re.compile(r'錢不夠|不夠錢|沒錢|錢包|餘額|不夠付')
 RUNS = {
     'ME': dict(who='heroine_04', loc='D10', visits=0, pid='D10.snack', pick='我請客', kind='me'),
     'SHE': dict(who='heroine_04', loc='D06', visits=2, pid='D06.cafe', pick=0, kind='she'),
-    'SPLIT': dict(who='heroine_01', loc='D22', visits=0, pid='D22.fish', pick='我們都吃', kind='split'),
+    'SPLIT': dict(who='heroine_01', loc='D25', visits=0, pid='D25.cafe', pick='我請', kind='split'),   # D22.fish「一人一半。」要開車：出發要先走到望月台停車場（carlot3d.js），改用不開車的 D25
     'BROKE': dict(who='heroine_04', loc='D10', visits=0, pid='D10.snack', pick='慢慢吃', kind='broke'),
 }
 
@@ -676,11 +677,13 @@ async def run_one(pg, cdp, errs, part, SPEC, pg_p):
     pname = P.get('name') or names.get(pid)
     grp = await pg.evaluate("(l=>((DATE.GROUPS||[]).find(g=>g.ids.includes(l))||{}).t||'')", loc)
     kind = await pg.evaluate("(l=>DATE.kindAt(l,15))", loc)
+    dep = 9 if kind == 'day' else 15   # date3d.js S.TIMES：一日遊 8、9 點出發；半天 15:00
+    h0 = dep - 1.7   # 讀檔時間：出發前 1 小時 40 分（預約要早於出發 15 分鐘；跳過時間到出發前 1 小時）
     log('== %s（%s %s，第 %d 次去，點「%s」，選項「%s」；%s）' % (tag, who, loc, visits + 1, pname, c['pick'], c['kind']))
     log('  互動點資料（date_locations.js）：%s' % J(P))
     e0 = len(errs)
     await base(pg, who, 20, 10.0)
-    ch = await choose_day(pg, who, loc, 15, kind)
+    ch = await choose_day(pg, who, loc, dep, kind)
     log('  選日子（DATE.check，只讀；每一天的原因）：%s' % J(ch['res']))
     if not ch['pick']: R.check('[%s] 0 前置：找得到能約的日子' % tag, False, J(ch['res'])); return None
     day, dkey, cost_chk = ch['pick']['d'], ch['pick']['k'], ch['pick'].get('cost') or 0
@@ -691,9 +694,9 @@ async def run_one(pg, cdp, errs, part, SPEC, pg_p):
         if share_py <= cost_chk:
             R.check('[%s] 0 前置：做得出「預約過得了、但小於一份」的錢（預約檢查 %d、一份 %d）' % (tag, cost_chk, share_py), False, ''); return None
         money0 = cost_chk + (share_py - cost_chk) // 2
-    rb = await base(pg, who, day, 13.3, money=money0)
-    R.setup('[%s] 讀檔（applySave、quiet_events）：宿舍、%s（第 %d 天）13:18、晴天、錢 %d%s；聯絡方式 G.contacts.%s；關係 %s → 第 %s 階；沒交往；canAsk %s' % (
-        tag, dkey, day, money0, '（＝預約檢查要的 %d 和「%s」一份 %d 中間：預約過得了、到那個點時不夠一份）' % (cost_chk, pname, share_py) if c['kind'] == 'broke' else '',
+    rb = await base(pg, who, day, h0, money=money0)
+    R.setup('[%s] 讀檔（applySave、quiet_events）：宿舍、%s（第 %d 天）%05.2f 點、晴天、錢 %d%s；聯絡方式 G.contacts.%s；關係 %s → 第 %s 階；沒交往；canAsk %s' % (
+        tag, dkey, day, h0, money0, '（＝預約檢查要的 %d 和「%s」一份 %d 中間：預約過得了、到那個點時不夠一份）' % (cost_chk, pname, share_py) if c['kind'] == 'broke' else '',
         who, J(rb['r']), rb['stage'], J(rb.get('can'))))
     allp = list(names.keys())
     picks, last = (allp, [pid]) if visits else ([], [])
@@ -705,14 +708,14 @@ async def run_one(pg, cdp, errs, part, SPEC, pg_p):
     await pg.evaluate(HOOK)
     ctx = {'visits': visits, 'dating': False, 'stage': 5, 'tier': mem['tier'], 'picks': list(picks), 'last': list(last), 'recent': []}
     screen = []
-    how, steps, trip = await book(pg, cdp, who, loc, grp, 15, screen, tag)
-    R.check('[%s] 預約（%s）：%s；行程 booked、今天 15:00 出發' % (tag, how, J(steps)),
-            bool(trip and trip.get('status') == 'booked' and trip.get('locs') == [loc] and trip.get('day') == day), J(trip))
+    how, steps, trip = await book(pg, cdp, who, loc, grp, dep, screen, tag)
+    R.check('[%s] 預約（%s）：%s；行程 booked、今天 %02d:00 出發' % (tag, how, J(steps), dep),
+            bool(trip and trip.get('status') == 'booked' and trip.get('locs') == [loc] and trip.get('day') == day and abs((trip.get('depart') or 0) - dep) < 1e-6), J(trip))
     if not (trip and trip.get('status') == 'booked'):
         await R.shot(pg, tag + '_book_fail'); return None
     share_pg = await pg.evaluate("(([l,pid,tid])=>{ const t=DATE.trip(GAME.G,tid), p=DATE.points(l).find(x=>x.id===pid); return p&&t?DATE.pointCost(p,t):null; })", [loc, pid, trip['trip']])
     R.check('[%s] 一份的原價：date_locations.js %d（交通 %s）＝頁面 DATE.pointCost %s' % (tag, share_py, trip.get('transport'), share_pg), share_pg == share_py, '')
-    said, skipped = await depart(pg, cdp, 15, screen, tag)
+    said, skipped = await depart(pg, cdp, dep, screen, tag)
     R.check('[%s] 出發（%s）' % (tag, said), said is not None, J(skipped))
     if said is None: await R.shot(pg, tag + '_depart_fail'); return None
     picked, path = await play(pg, cdp, names, [pid], SPOTS, {pid: c['pick']}, screen, tag)

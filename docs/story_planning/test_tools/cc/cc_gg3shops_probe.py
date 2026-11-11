@@ -73,7 +73,7 @@ ST_JS = r"""(()=>{ const D=GAME.D||{}, ch=document.getElementById('choices'), tx
   const E=window.__GE||[]; let last=null; for(let i=E.length-1;i>=0;i--) if(E[i].k==='ch'){ last=E[i]; break; }
   const EE=GAME.E, P=EE&&EE.player, o=P&&P.obj.position;
   return {dlg:!!D.active, typing:!!D.typing, full:String(D.full||''), shown:(tx&&tx.textContent)||'', name:(nm&&nm.style.display!=='none'&&nm.textContent)||'',
-    nb:B.length, btn:B.map(b=>(b.innerText||'').trim()), ch:last&&last.pick==null?{i:last.i,opts:last.opts,dim:last.dim}:null,
+    nb:B.length, btn:B.map(b=>(b.innerText||'').trim().replace(/\s*\n\s*/g,' ')), ch:last&&last.pick==null?{i:last.i,opts:last.opts,dim:last.dim}:null,
     phone:!!(ph&&!ph.classList.contains('hide')), zone:GAME.G.zone, day:GAME.G.day, hour:+(+GAME.G.hour).toFixed(3), money:GAME.G.money,
     busy:!!(P&&P.busy), seat:!!(P&&P.seat), seatT:P&&P.seat?(P.seat.table||null):null, seatXZ:P&&P.seat?[+(+P.seat.x).toFixed(2),+(+P.seat.z).toFixed(2)]:null,
     x:o?+o.x.toFixed(2):null, z:o?+o.z.toFixed(2):null, lv:P?(P.lv|0):0, stand:EE&&EE.canStand&&o?!!EE.canStand(o.x,o.z,0.3,P.lv|0):null,
@@ -957,7 +957,7 @@ async def part_taimi_invite(pg, cdp, so=False):
     if not R.check('%s 手機「今天」有「前往」' % tag, await tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % iv['id']), (await pg.evaluate(TODAY_TXT_JS))[:300]):
         await close_phone(pg, cdp); return
     log('    [按] 手機「今天」前往'); await pg.wait_for_timeout(1500)
-    menu = Menu(); t0 = time.time(); walked = 0; done_t = None; zt = [None, 0]; idle_t = time.time(); idle_n = 0; zones = []; same = [None, 0]; seat_seen = False
+    menu = Menu(); t0 = time.time(); walked = 0; done_t = None; zt = [None, 0]; idle_t = time.time(); idle_n = 0; zones = []; same = [None, 0]; seat_seen = False; path = []
     while time.time() - t0 < 900:
         s = await st(pg)
         if s['seat']: seat_seen = True
@@ -981,14 +981,14 @@ async def part_taimi_invite(pg, cdp, so=False):
             bt = s['btn']; k = next((i for i, t in enumerate(bt) if any(t.startswith(w) for w in ('起身', '算了', '返回'))), len(bt) - 1)
             log('    [選項（遊戲內部選單）] %s → %s' % ('｜'.join(bt), bt[k])); await tap_btn(pg, cdp, k); idle_t = time.time(); await pg.wait_for_timeout(1500); continue
         if s['dlg']: await tap_dlg(pg, cdp, s); idle_t = time.time(); continue
-        if v and v['st'] == 'accepted' and not s['busy'] and v['zone'] == s['zone'] and walked < 6 and time.time() - zt[1] > 6:   # 進那一區 6 秒還沒開始：走到她旁邊（6 秒一段，乙 13）
+        if v and v['st'] == 'accepted' and not s['busy'] and v['zone'] == s['zone'] and walked < 6 and time.time() - zt[1] > 25:   # 進那一區 25 秒還沒開始（雲端 11-11 r2：到的時間剛好是約好的前 15 分鐘，INV.autoStart 要 h≥iv.h−0.25，遊戲時間要再走一點）：走到她旁邊（6 秒一段，乙 13）
             n = await pg.evaluate(NPC_JS, who)
             if n:
-                walked += 1; log('    [走過去] 她在 (%.2f,%.2f)' % (n['x'], n['z']))
+                walked += 1; path.append('走到她旁邊'); log('    [走過去] 她在 (%.2f,%.2f)' % (n['x'], n['z']))
                 r_, s3, _ = await walk(pg, cdp, tag + ' 走到她旁邊', n['x'], n['z'], near=1.6, max_s=6)
                 s3 = await st(pg)
                 if r_ != 'stop' and s3['interact'] and (s3['interact'].startswith('坐') or '說話' in s3['interact']):
-                    log('    [按互動鍵] %s' % s3['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+                    log('    [按互動鍵] %s' % s3['interact']); path.append('按「%s」' % s3['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
                 continue
         if time.time() - idle_t > 30:
             idle_t = time.time(); idle_n += 1; dg = await pg.evaluate(IDLE_JS)
@@ -996,6 +996,7 @@ async def part_taimi_invite(pg, cdp, so=False):
             if idle_n <= 3: await R.shot(pg, 'gg3_inv_idle%d' % idle_n)
         await pg.wait_for_timeout(500)
     v = await pg.evaluate(IV_JS, iv['id']); s = await st(pg); ev = await evs(pg, i1); log_ev(tag + ' 見面', ev)
+    R.note('%s 走的路：%s' % (tag, '到了以後自動開始（沒有走過去、沒有按坐下）' if not path else '到了沒有馬上開始，探針走過去：' + '→'.join(path)))
     meet = [e for e in ev['all'] if e.get('k') == 'say' and e.get('z') == 'tz_taimi']
     R.check('%s 「前往」到了泰米村食、見面演完（邀約 %s；走過的區域 %s）' % (tag, v and v['st'], J(zones)), bool(v) and v['st'] == 'done' and 'tz_taimi' in zones, J(v))
     R.check('%s 見面時兩個人有坐下（玩家 player.seat 出現過）' % tag, seat_seen, '')
