@@ -24,6 +24,8 @@ const AA764=(()=>{ try{ return JSON.parse(git('82c946ad7','AA_764_sis_wish.json'
 const AA768=(()=>{ try{ return JSON.parse(git('0a2136911','AA_768_yt_wish.json')); }catch(e){ return null; } })();
 /* 2026-11-11（X324 可昕約會台詞重寫，AA f9c1a2b80）：可昕 D25 的心願事件照 AA_770_kx_wish.json@f9c1a2b80 收字（import_wish.py 的 1i：rows 23 列照 path 疊在 wish_bb.json 可昕那一段上；內容不動，她開口約的那句改用 {出發時間}）——可昕那一位改對這份稿 */
 const AA770=(()=>{ try{ return JSON.parse(git('f9c1a2b80','AA_770_kx_wish.json')); }catch(e){ return null; } })();
+/* 2026-11-11（X324 芷若約會台詞重寫，AA_774_zr_wish.json@e8a33995c）：芷若 D05 的心願事件照 AA_774_zr_wish.json 收字（import_wish.py 的 1j：rows 27 列照 path 疊在 wish_bb.json 芷若那一段上；內容、選項、條件、時間不動）——芷若那一位改對這份稿。SHA 讀 tests/date_src_sha.js */
+const SHA774=require('./date_src_sha.js').ZR_WISH_SHA, AA774=(()=>{ try{ return JSON.parse(git(SHA774,'AA_774_zr_wish.json')); }catch(e){ return null; } })();
 const ANREV=require('./an_rev_doc.js');   /* 以安改稿①b、④b 改過的句子（逐列核對在 tests/aa592_an_1b_unit.js、aa594_an_4b_unit.js）*/
 const J=JSON.stringify, AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin';
 const norm=t=>String(t).replace(/[\s　]/g,'').replace(/『/g,'「').replace(/』/g,'」');
@@ -60,8 +62,16 @@ const E_=id=>X()&&X().ev(id);
   { const unrep=s=>ANREV.ROWS.filter(r=>/^date_wish\.js/.test(r.where)).reduce((a,r)=>a.split(J(r.nw)).join(J(r.old)).split(J('（'+r.nw+'）')).join(J('（'+r.old+'）')),s.split('"那座橋，我回去要畫一次。"').join('"那座橋，我回去要畫一次。……畫好再給你看。"')),   /* 以安改稿（AA_592 第 53 列、AA_594 第 2-13 節，import_wish.py 疊的）：比對企劃線的 JSON 以前換回原句（逐列核對在 tests/aa592_an_1b、aa594_an_4b）*/   /* REP 三句 cb5caad65 起已經改進企劃線的 JSON，比對的版本（ab9d70fe0）就是新句：不用換回；AA_525 1-5（6081f725f，tools/date/import_wish.py 疊的）子晴結尾換回原句再比 */ strip=e=>{ const x=JSON.parse(unrep(J(e))); delete x.src; if(x.closing&&x.id==='wish_heroine_01') delete x.closing.linesIf; return x; };
     /* AA_595（AA595-LIB-NOD-THERMOS-1102，「AA 處理決定」第 3 節 3-14）：學姊 D15 的選項「妳的保溫瓶今天是滿的。」跟著空保溫瓶那條線拿掉（import_wish.py 刪的）——企劃線的 JSON 也刪掉那一個（剛好一個）再比 */
     const T595='「妳的保溫瓶今天是滿的。」'; let n595=0; const drop595=o=>{ const x=JSON.parse(J(o)); const w=v=>{ if(Array.isArray(v)){ for(let i=v.length-1;i>=0;i--){ if(v[i]&&v[i].t===T595){ v.splice(i,1); n595++; } } v.forEach(w); } else if(v&&typeof v==='object') Object.values(v).forEach(w); }; w(x); return x; };
-    const same=[AN].every(id=>WAA&&J(strip(DW.events[id]))===J(WAA.events[id]))&&[ZR,ZQ].every(id=>WBB&&J(strip(DW.events[id]))===J(WBB.events[id]));
-    check('0. 三位的事件和企劃線的 JSON（wish_aa@9ba14498e、wish_bb@9aa8ec40c）逐欄相同（一字不改；只多以安大一的收尾、AA_525 1-5 子晴結尾一句；沛珊、學姊 2026-11-11 起對 AA_757、AA_764，語彤對 AA_768、可昕對 AA_770，下面四條）',same&&Object.keys(DW.events).length===7,J({n595}));
+    const same=[AN].every(id=>WAA&&J(strip(DW.events[id]))===J(WAA.events[id]))&&[ZQ].every(id=>WBB&&J(strip(DW.events[id]))===J(WBB.events[id]));   /* 2026-11-11（X324 芷若約會台詞重寫，AA_774_zr_wish.json@e8a33995c）：芷若改對 AA_774（下面那一條）；原本這裡是 [ZR,ZQ] 兩位和 wish_bb.json 逐欄相同 */
+    check('0. 兩位（以安、子晴）的事件和企劃線的 JSON（wish_aa@9ba14498e、wish_bb@9aa8ec40c）逐欄相同（一字不改；只多以安大一的收尾、AA_525 1-5 子晴結尾一句；沛珊、學姊 2026-11-11 起對 AA_757、AA_764，語彤對 AA_768、可昕對 AA_770、芷若對 AA_774，下面五條）',same&&Object.keys(DW.events).length===7,J({n595}));
+    /* 2026-11-11（X324 芷若約會台詞重寫，AA_774_zr_wish.json@e8a33995c）：芷若＝wish_bb.json 那一段照 AA_774 的 rows 27 列換字（照 path）；格子一樣多，不一樣的剛好 27 格、都是台詞的 text */
+    if(AA774&&WBB){ const lv5=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>lv5(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) lv5(x[k],p+'/'+k,o); else o[p]=x; return o; };
+      const a=lv5(strip(DW.events[ZR]),'',{}), b=lv5(WBB.events[ZR],'',{}), d=Object.keys(a).filter(k=>a[k]!==b[k]);
+      const key=r=>'/'+r.path.replace(/\["([^"]+)"\]/g,'.$1').replace(/\[(\d+)\]/g,'.$1').split('.').join('/').replace('D05/','D05.');   /* AA_774 的 path 自己帶 .text */
+      check('0. 芷若的事件和 wish_bb.json@9aa8ec40c 比：格子一樣多，不一樣的剛好 27 格、都是台詞的 text＝AA_774_zr_wish.json@'+SHA774+' 的 rows（path 那一格從 old 換成 new；選項的字、條件、時間、地點沒動）',J(Object.keys(a).sort())===J(Object.keys(b).sort())&&d.length===27&&d.every(k=>/\/text$/.test(k))&&AA774.rows.length===27&&AA774.rows.every(r=>b[key(r)]===r.old&&a[key(r)]===r.new)&&DW.source.includes('AA_774@'+SHA774),J([d.length,AA774.rows.filter(r=>!(b[key(r)]===r.old&&a[key(r)]===r.new)).map(r=>r.path)]));
+      const zr=Object.keys(a).filter(k=>/\/text$/.test(k)&&a[k.replace(/text$/,'who')]===ZR).map(k=>a[k]);
+      check('0. 芷若的事件裡她說的句子：刪節號只留三句（「……今天放不了。旁邊有人。」「……再說。」「下次的票……再說。」）；沒有佔位符；她主動約的時間照舊 14.5（「兩點半，光典門口」）',J(zr.filter(t=>/……/.test(t)).sort())===J(['……今天放不了。旁邊有人。','……再說。','下次的票……再說。'].sort())&&!Object.values(a).some(v=>typeof v==='string'&&/[{}]/.test(v))&&DW.events[ZR].herInvite.dateTime===14.5&&DW.events[ZR].herInvite.accept[0].text==='好。兩點半，光典門口。兩點半是巧合，跟店名沒關係。',J(zr.filter(t=>/……/.test(t)))); }
+    else console.log('（讀不到 AA_774@'+SHA774+' 或 wish_bb.json：芷若的事件不比稿）');
     /* 2026-11-11（X324 可昕約會台詞重寫，AA f9c1a2b80）：可昕＝wish_bb.json 那一段照 AA_770 的 rows 23 列換字（照 path）；格子一樣多，不一樣的剛好 23 格、都是台詞的 text */
     if(AA770&&WBB){ const lv4=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>lv4(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) lv4(x[k],p+'/'+k,o); else o[p]=x; return o; };
       const a=lv4(strip(DW.events[KX]),'',{}), b=lv4(WBB.events[KX],'',{}), d=Object.keys(a).filter(k=>a[k]!==b[k]);
@@ -98,7 +108,7 @@ const E_=id=>X()&&X().ev(id);
   { const li=(DW.events[AN].closing.linesIf||[])[0], two=li?sp(AN,li.lines):[];
     check('0. 以安大一的收尾照 AA_127 1-5「大一的版本：前三句換成」：「上憲法講第八條那天，我只覺得它很長。」「今天才知道，那些都是真的發生過的事。」（旁白照用；大二以後照原本三句）',J(two)===J(['上憲法講第八條那天，我只覺得它很長。','今天才知道，那些都是真的發生過的事。'])&&two.every(t=>AA127.includes(t)||ANREV.has(t))&&J(li.if)===J({unless:{termFrom:'Y2S1'}})&&li.lines[0].text===DW.events[AN].closing.lines[0].text&&li.lines[3].text===DW.events[AN].closing.lines[4].text,J(li)); }
   { let n=0, bad=[]; const walk=(o,src)=>{ if(Array.isArray(o)) return o.forEach(x=>walk(x,src)); if(!o||typeof o!=='object') return; if(typeof o.text==='string'&&o.who&&o.who!=='note'){ n++; if(!inMd(o.text,src)&&!REP.some(r=>r[0]===o.text)&&!ANREV.has(o.text)&&!FIX593.includes(o.text)) bad.push(o.text); return; } for(const k in o) if(!['wish','rule','note','record','where','source','title','scene','repeat','costNote','likeNote','code','memory','name','context','hotspotsTitle'].includes(k)) walk(o[k],src); };
-    walk(DW.events[AN],AA127); walk(DW.events[YT],[...AA626.matchAll(/「([^」]+)」改成「([^」]+)」/g)].reduce((d,m)=>d.split(m[1]).join(m[2]),AA127)+'\n'+AA626+(AA768?'\n'+AA768.rows.map(r=>r.new).join('\n'):''));   /* 2026-11-11（X324）：語彤換上去的句子對 AA_768 的 rows */   /* 語彤：AA_626 改過的句子在 AA_626；「X」改成「Y」的那幾句先在 AA_127 換好再比（例：「這張可以傳給阿姨。」→「這張可以傳給秀琴姨。」）*/ for(const id of [ZR,ZQ,SIS,PS,KX]) walk(DW.events[id],id===KX&&AA770?BB128+'\n'+AA770.rows.map(r=>r.new).join('\n'):id===PS&&AA757?BB128+'\n'+AA757.wish_rows.map(r=>r.new).join('\n'):(id===SIS&&AA764?BB128+'\n'+AA764.rows.map(r=>r.new).join('\n'):BB128));   /* 2026-11-11（X324）：學姊換上去的句子對 AA_764 的 rows */   /* 2026-11-11（X327）：沛珊換上去的句子對 AA_757 的 wish_rows */
+    walk(DW.events[AN],AA127); walk(DW.events[YT],[...AA626.matchAll(/「([^」]+)」改成「([^」]+)」/g)].reduce((d,m)=>d.split(m[1]).join(m[2]),AA127)+'\n'+AA626+(AA768?'\n'+AA768.rows.map(r=>r.new).join('\n'):''));   /* 2026-11-11（X324）：語彤換上去的句子對 AA_768 的 rows */   /* 語彤：AA_626 改過的句子在 AA_626；「X」改成「Y」的那幾句先在 AA_127 換好再比（例：「這張可以傳給阿姨。」→「這張可以傳給秀琴姨。」）*/ for(const id of [ZR,ZQ,SIS,PS,KX]) walk(DW.events[id],id===ZR&&AA774?BB128+'\n'+AA774.rows.map(r=>r.new).join('\n'):id===KX&&AA770?   /* 2026-11-11（X324 芷若約會台詞重寫，AA_774_zr_wish.json@e8a33995c）：芷若換上去的句子對 AA_774 的 rows */ BB128+'\n'+AA770.rows.map(r=>r.new).join('\n'):id===PS&&AA757?BB128+'\n'+AA757.wish_rows.map(r=>r.new).join('\n'):(id===SIS&&AA764?BB128+'\n'+AA764.rows.map(r=>r.new).join('\n'):BB128));   /* 2026-11-11（X324）：學姊換上去的句子對 AA_764 的 rows */   /* 2026-11-11（X327）：沛珊換上去的句子對 AA_757 的 wish_rows */
     const free=(DW.verify.freeVisited||[]).map(s=>s.replace(/^[^：]*：/,''));
     check('0. 每一句台詞、旁白都在原稿（AA_127／BB_128；「你來過一次」那幾句除外）',n>400&&bad.filter(t=>!free.includes(t)).length===0,n+' 句；對不到：'+J(bad.filter(t=>!free.includes(t)).slice(0,5))); }
   { const HD=DW.hold||{};
@@ -199,13 +209,15 @@ const E_=id=>X()&&X().ev(id);
     check('3. 2028-09 起（英國念研究所）：不約',msgs(ZR).length===0);
     const I=ev.herInvite;
     setup('2026-10-14',23,{lv:{[ZR]:5}}); phone(); const tag='wish_ask_'+ZR+'_Y2S1';
-    check('3. 她主動約（週三打烊後 23:00）：「光典的影展，週六下午那一場。」「我買好我的票了。」「你的，你自己買。……」',J(msgs(ZR))===J(sp(ZR,I.lines))&&!!PHONE.byAsk(H.G,tag),J(msgs(ZR)));
+    /* 2026-11-11（X324 芷若約會台詞重寫，AA_774_zr_wish.json@e8a33995c）：這一場的句子照新稿（刪節號 30 處留 3 處、「嗯。」開頭兩處拿掉、對祐廷下命令或嫌他的三句改掉），下面幾條的期望跟著換。
+       舊期望：邀約第三句「你的，你自己買。……這樣才算約好。」、答應「好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。」、院子「我在申請交換。……去看別人的電影院。」、書店「……你挑的？」、沒選到的「想。很想。……講出來好像就要負責。」、收尾「票根。……你的，給我。」「……今天很好。這句話我很少說。」 */
+    check('3. 她主動約（週三打烊後 23:00）：「光典的影展，週六下午那一場。」「我買好我的票了。」「你的，你自己買。這樣才算約好。」',I.lines[2].text==='你的，你自己買。這樣才算約好。'&&J(msgs(ZR))===J(sp(ZR,I.lines))&&!!PHONE.byAsk(H.G,tag),J(msgs(ZR)));
     PHONE.answer(H.G,tag,0); phone(); const tr=H.G.trips.find(t=>t.who===ZR);
-    check('3. 答應：「好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。」（AA_460 第 6 節換字）；週六 14:30 光典（by:her）',msgs(ZR).slice(-1)[0]===sp(ZR,I.accept)[0]&&!!tr&&tr.locs[0]==='D05'&&tr.depart===14.5&&tr.day===H.D('2026-10-17'),J(tr));
+    check('3. 答應：「好。兩點半，光典門口。兩點半是巧合，跟店名沒關係。」（AA_460 第 6 節換字、AA_774 收字）；週六 14:30 光典（by:her）',I.accept[0].text==='好。兩點半，光典門口。兩點半是巧合，跟店名沒關係。'&&msgs(ZR).slice(-1)[0]===sp(ZR,I.accept)[0]&&!!tr&&tr.locs[0]==='D05'&&tr.depart===14.5&&tr.day===H.D('2026-10-17'),J(tr));
     setup('2026-10-17',9,{lv:{[ZR]:6}}); SOCIAL.remember(ZR,'WATCHED_FILM',''); const m0=H.G.money; r=await goDate(ZR,'D05',13,['院子',1,'書店',1,'片單',0,'咖啡',1,0]);
     check('3. 那一天：抵達「這裡以前住的是外交官。現在住的是電影。」……第 6 階單身「今天我不坐走道。……」；看電影（固定，不算互動點）兩句旁白',has(r.L,sp(ZR,ev.arrive.lines).concat(sp(ZR,ev.arrive.extraIf[1].lines),allSay(ev.fixed.lines))),J(r.L.slice(0,9)));
-    check('3. 院子選②大二＝「我在申請交換。……去看別人的電影院。」；書店選②買明信片（扣 30）；片單選①第 6 階＝「好。我先買我的。」',has(r.L,['我在申請交換。……去看別人的電影院。','……你挑的？','這張我會貼在店裡的吧檯後面。不告訴任何人。','好。我先買我的。'])&&!r.L.includes('想。很想。……講出來好像就要負責。'),J(r.L));
-    check('3. 收尾：Z5 兩個人看過（WATCHED_FILM）＝第 2 行後面插入「翻頁時你看到《進城的那一週》那一頁……」三行（片名照 SOCIAL.filmRename）；選項；第 6 階單身結尾',(()=>{ const i=r.L.indexOf('票根。……你的，給我。'); return i>0&&r.L[i+1]==='（翻頁時你看到《進城的那一週》那一頁，只有她的那一張。）'&&r.L[i+2]==='《進城的那一週》那張，你還留著嗎？'&&r.L[i+3]==='嗯。'; })()&&has(r.L,['這次留兩張。','……今天很好。這句話我很少說。'])&&!r.L.some(t=>/東京物語/.test(t)),J(r.L.slice(-12)));
+    check('3. 院子選②大二＝「我在申請交換。去看別人的電影院。」；書店選②買明信片（扣 30）；片單選①第 6 階＝「好。我先買我的。」',has(r.L,['我在申請交換。去看別人的電影院。','你挑的？','這張我會貼在店裡的吧檯後面。不告訴任何人。','好。我先買我的。'])&&!r.L.includes('想。很想。講出來好像就要負責。')&&!r.L.includes('想。很想。……講出來好像就要負責。'),J(r.L));
+    check('3. 收尾：Z5 兩個人看過（WATCHED_FILM）＝第 2 行後面插入「翻頁時你看到《進城的那一週》那一頁……」三行（片名照 SOCIAL.filmRename）；選項；第 6 階單身結尾',(()=>{ const i=r.L.indexOf('票根。你的，可以給我嗎？'); return i>0&&r.L[i+1]==='（翻頁時你看到《進城的那一週》那一頁，只有她的那一張。）'&&r.L[i+2]==='《進城的那一週》那張，你還留著嗎？'&&r.L[i+3]==='嗯。'; })()&&has(r.L,['這次留兩張。','今天很好。這句話我很少說。'])&&!r.L.some(t=>/東京物語/.test(t)),J(r.L.slice(-12)));
     check('3. 記：WISH_DONE_heroine_02、ZR_STUB_BOOK；錢：交通、咖啡、明信片、電影票 260（地點資料的 fixed，SYS-03）照扣',H.G.flags.WISH_DONE_heroine_02===true&&SOCIAL.has(ZR,'ZR_STUB_BOOK')&&m0-H.G.money===130+30+50+260,String(m0-H.G.money));
   }
 
