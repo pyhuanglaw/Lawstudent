@@ -267,8 +267,8 @@ for old, new in FIX:
     for o in hit:
         o['text'] = new
     FIXED.append((old, new, len(hit)))
-    if not hit and (old in KX_GONE or new in KX_GONE):   # X324 可昕重寫：AA_373 6-1 這一列是她的句子（上一版她那一格是原句或改成的字），新稿那一格重寫了＝跳過
-        KX_SKIP.append(('AA_373 6-1', '', old, '原句對不到（源稿重寫了）')); KX_GONE.update((old, new))
+    if not hit and (old in KX_GONE or new in KX_GONE):   # X324 可昕重寫：AA_373 6-1 這一列是她的句子（上一版她那一格是原句），新稿那一格重寫了、或直接寫了改成的字＝跳過
+        KX_SKIP.append(('AA_373 6-1', '', old, '已經是改成的字（新稿直接寫了）' if any(o['text'] == new for o in texts(LOC)) else '原句對不到（源稿重寫了）')); KX_GONE.update((old, new))
     elif not hit:
         print('AA_373 6-1：找不到「' + old + '」，沒換')
 # AA_359 5-2：D26～D32 時間不對的句子；5-3（fb5156ab）：離開那一句在第二天白天說，有天色、「下次早上來」的七句（| 地點 | 誰、哪一句 | 現在 | 改成 |）——只在那個地點、那個人的台詞裡換。

@@ -166,7 +166,8 @@ const TEA_OLD='這種茶我爸以前每天喝。我那時候覺得好苦。', TE
 const d12=allow.files.filter(e=>e.path==='docs/story_planning/date_system/lines/D12.json');
 /* 2026-11-11（X327 沛珊重寫）：白名單 D12.json 前進到 2883197b6（AA_756，只動沛珊的格子；1b095a239 留在 history）；同一天（X324 學姊重寫）再前進到 82c946ad7 */
 /* 2026-11-11（X324 語彤約會台詞重寫，AA 0a2136911）：白名單改認 0a2136911（語彤 33 個地點重寫、學姊 34 格修正寫回源稿），82c946ad7 留 history */
-check('4. 白名單 D12.json＝0a2136911（X324 語彤重寫；approved；舊的 82c946ad7（學姊重寫）、2883197b6（AA_756）、1b095a239（AA_694）、2b4969352（AA_609）、a5b936a69、43d27cd80 留在 history）',d12.length===1&&d12[0].sha==='0a2136911'&&d12[0].status==='approved'&&['82c946ad7','2883197b6','1b095a239','2b4969352','a5b936a69','43d27cd80'].every(x=>(d12[0].history||[]).some(h=>h.sha===x))&&String(DL.source).includes('D12.json@0a2136911'),J(d12.map(e=>e.sha)));
+/* 2026-11-11（X324 可昕約會台詞重寫，AA f9c1a2b80）：白名單再改認 f9c1a2b80（只動可昕的格子），0a2136911 留 history */
+check('4. 白名單 D12.json＝f9c1a2b80（X324 可昕重寫；approved；舊的 0a2136911（語彤重寫）、82c946ad7（學姊重寫）、2883197b6（AA_756）、1b095a239（AA_694）、2b4969352（AA_609）、a5b936a69、43d27cd80 留在 history）',d12.length===1&&d12[0].sha==='f9c1a2b80'&&d12[0].status==='approved'&&['0a2136911','82c946ad7','2883197b6','1b095a239','2b4969352','a5b936a69','43d27cd80'].every(x=>(d12[0].history||[]).some(h=>h.sha===x))&&String(DL.source).includes('D12.json@f9c1a2b80'),J(d12.map(e=>e.sha)));
 check('4. D12 老茶行第一次：學姊說「'+TEA_NEW+'」（同一個位置），「我爸」那句整個檔都不在',at('D12','lines/hotspots/D12.tea/first/lines/1')===TEA_NEW&&!src.includes(TEA_OLD),at('D12','lines/hotspots/D12.tea/first/lines/1'));
 const dad=[]; for(const loc of Object.keys(DL.loc)) for(const s of allHers(loc)) if(/我爸|爸爸/.test(s)) dad.push(loc+' '+s);
 check('4. 學姊的約會地點台詞不提爸爸',!dad.length,J(dad));
