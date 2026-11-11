@@ -44,6 +44,9 @@
     還是「原句」＝源稿沒對齊，同上停下來。不分地點的那幾列（lines.heroine_01.…，來源 AA_127）照舊換。AA_694 第 3 節裡她重寫掉的句子（上一版 02078efc0 她那一格有、新稿沒有的，和 AA_594 改成的字）跟著跳過。
     AA_777（白名單上的 commit，企劃線 1f88da7cc）：以安不分地點的短句四列照 path 換（lines.heroine_01.…，和 AA_767、AA_769、AA_773、AA_775 同一步）；另外五列是 src/date3d.js 手寫的
     （S.MORNING、S.MORNING_OWN、S.HOME_NO、S.T7A_YES 她那一格、D26 臺中過夜晚上那一句）。她的心願事件 AA_778 在 tools/date/import_wish.py（1l）。
+    AA_780（白名單上的 commit，企劃線 248c8e390；以安匯入以後 AA 的後續改稿）：不分地點的短句九列裡 date_lines.js 的五列照 path 換——以安 flaked 兩則、子晴 flaked[0]（AA_775 那一列）、
+    語彤 flaked[0][0]（AA_767）、芷若 flaked[0][1]（AA_773）；和 AA_767～AA_777 同一步、排在最後（old＝那幾層疊完以後的字，對不上就停下來）。另外四列是 src/date3d.js 手寫的
+    （S.EXTRA_LINES.heroine_01 的 enough 兩句、leaveEarly、noPair）。同一版源稿 248c8e390 以安另外改 14 格（改稿紀錄 an_Dxx.json 的 _meta.fix_lawww_an_1111），照源稿匯。
     換源稿 SHA 重跑：tools/date/bump_lines_sha.py（白名單 33 筆）→ tests/date_src_sha.js 的 ALLOW_SHA → 這支；這支裡的 *_PREV 是各輪「重寫以前的那一版」，不用跟著換。
 用法：python3 tools/date/import_date_lines.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_lines.js）]"""
 import json, os, re, subprocess, sys
@@ -851,6 +854,28 @@ if A777:
     FILES['fix777'] = P777
 
 
+# AA_780（DLG-FULL-REVIEW-1110，使用者 X324；以安約會台詞匯入以後 AA 的後續改稿，白名單上的 commit）：不分地點的短句——稿的 rows 9 列裡 file 是 src/data/date_lines.js 的五列
+# （四個人的 flaked「30 天內第二次當天取消」那一句改成當下的反應：以安 flaked[0][0]、[0][1]；子晴 flaked[0]＝原本 AA_775 那一列；語彤 flaked[0][0]＝AA_767，[0][1] 不動；芷若 flaked[0][1]＝AA_773；
+# 另外四列是 src/date3d.js 手寫的 S.EXTRA_LINES.heroine_01：enough 兩句、leaveEarly、noPair，直接改在那個檔；depart 三句不動）。
+# 做法同 AA_767～AA_777：照 path 換，寫檔前最後一步、排在那幾層後面（old 是那幾層疊完以後的字；對不上＝停下來）。白名單沒有 AA_780＝不疊
+A780 = G.approved_files(ALLOW, SP + 'AA_780_')
+R780 = []
+if A780:
+    P780, S780 = next(iter(A780.items()))
+    ok, why = G.allowed(P780, S780, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d780 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S780}:{P780}'], text=True)))
+    if len(d780.get('rows') or []) != 9:
+        sys.exit(f'AA_780@{S780} 的 rows 應該是 9 列，讀到 {len(d780.get("rows") or [])} 列')
+    R780 = [r for r in d780['rows'] if r.get('file') == 'src/data/date_lines.js']
+    E780 = [r['path'] for r in d780['rows'] if r.get('file') == 'src/date3d.js']
+    if [r['path'] for r in R780] != [f'lines.{AN}.flaked[0][0]', f'lines.{AN}.flaked[0][1]', f'lines.{ZQ}.flaked[0]', f'lines.{YT}.flaked[0][0]', f'lines.{ZR}.flaked[0][1]'] \
+            or E780 != [f'S.EXTRA_LINES.{AN}.enough[0]', f'S.EXTRA_LINES.{AN}.enough[1]', f'S.EXTRA_LINES.{AN}.leaveEarly[0]', f'S.EXTRA_LINES.{AN}.noPair[0]']:
+        sys.exit(f'AA_780@{S780}：date_lines.js 應該是五列（以安 flaked 兩則、子晴 flaked[0]、語彤 flaked[0][0]、芷若 flaked[0][1]）、date3d.js 四列（S.EXTRA_LINES.heroine_01 的 enough 兩句、leaveEarly、noPair）')
+    FILES['fix780'] = P780
+
+
 def apply767(body, rows=None, tag='AA_767'):
     """寫檔前最後一步：AA_767 六列（或 rows＝AA_769 七列）照 path 換在整份 JSON 上（回傳新的 JSON 字、換了幾列）"""
     o = json.loads(body); n = 0
@@ -949,6 +974,9 @@ with open(dst, 'w', encoding='utf8') as fo:
     if R777:
         body, n777 = apply767(body, R777, 'AA_777')
         print(f'AA_777@{S777}：以安不分地點的短句 4 列（照 path），換了 {n777} 列')
+    if R780:
+        body, n780 = apply767(body, R780, 'AA_780')
+        print(f'AA_780@{S780}：以安、子晴、語彤、芷若「第二次當天取消」那一句 5 列（照 path），換了 {n780} 列')
     fo.write("'use strict';\nconst DATE_LINES=" + body + ';\n')
 print('AA_630：' + '；'.join(LOG630))
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))

@@ -359,10 +359,12 @@ const DATE=(function(){
   /* AA_535b 1-3（INVITE-OPTS-1030 第二份，AA-B 定稿，企劃線 2dbcc5691；一字照稿）：以安、語彤校外約會缺的四格——depart＝出發時間到了她傳的訊息（三則輪流）、enough＝第三個點之後那一句、
      leaveEarly＝一個點都沒去就回去、noPair＝合照還不到第 6 階。date_lines.js 是匯入工具產生的（不手改），這幾格它沒有的才用這裡（S.lineFor）。
      以安「明天早上有課」（AA_594 第 367 列，原本「明天早上有讀書會」）只在學期中（寒暑假換另一句）；語彤「晚上我要幫阿姨」只在她在臺北、麵店那天有開（不然換另一句）——S.LINE_IF 的 enough。
-     2026-11-11（使用者 X324 語彤約會台詞重寫，AA_767_yt_date_common.json@0a2136911）：語彤這六格換字（depart 第二、三句、enough 兩句、leaveEarly、noPair）；enough 第一句保留「秀琴姨煮了飯」這幾個字（S.LINE_IF 認它），條件不動 */
+     2026-11-11（使用者 X324 語彤約會台詞重寫，AA_767_yt_date_common.json@0a2136911）：語彤這六格換字（depart 第二、三句、enough 兩句、leaveEarly、noPair）；enough 第一句保留「秀琴姨煮了飯」這幾個字（S.LINE_IF 認它），條件不動
+     2026-11-11（使用者 X324 以安約會台詞重寫的後續，AA_780_an_date_followup.json@248c8e390）：以安這四格換字（enough 兩句、leaveEarly、noPair；depart 三句不動）——enough 第一句不再說「明天早上有課」
+     （AA：不綁那個條件），S.LINE_IF.heroine_01.enough 認的字不在了＝寒暑假也輪到這一句（條件那一行留著、不會再擋到任何一句）*/
   S.EXTRA_LINES={
-    heroine_01:{depart:['我到了。早到十分鐘。你慢慢來。','出門了。傘帶了。','車上。我在看等一下要去的地方的地圖。'],enough:['……今天差不多了。明天早上有課。','排的都走完了。……多走的那一段，我很喜歡。'],
-      leaveEarly:['……這樣就回去了？好。排好的，下次再用。'],noPair:['照片？……我幫你拍。我拍得比較正。']},
+    heroine_01:{depart:['我到了。早到十分鐘。你慢慢來。','出門了。傘帶了。','車上。我在看等一下要去的地方的地圖。'],enough:['今天差不多了。再走下去，我會開始看錶。','排的都走完了。多走的那一段，我很喜歡。'],
+      leaveEarly:['這樣就回去了？好。排好的那幾個地方不會跑。'],noPair:['照片？我幫你拍。我拍得比較正。']},
     heroine_03:{depart:['我到了。','出門了。傘有帶，這次有。','快到了。你先找地方站，我看得到你。'],enough:['差不多了。秀琴姨煮了飯，我想回去吃熱的。','我走不動了。到這裡就好。'],leaveEarly:['就這樣？好。那我回去了。'],noPair:['我不用。我幫你拍，你站過去。']} };
   const inTerm=day=>typeof CALENDAR!=='undefined'&&!!CALENDAR.termOf&&!!CALENDAR.termOf(day)&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(day));
   const ytShop=(G,day)=>{ const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence('heroine_03',Object.assign({},G,{day})):{here:true}; return (p.here||p.kind==='taipei')&&!noodleOff(day)&&!(typeof PLACES!=='undefined'&&PLACES.isOpen&&!PLACES.isOpen('noodle',18,day)); };
@@ -529,10 +531,10 @@ const DATE=(function(){
     m.recent=m.recent.filter(k=>k!==c.k); m.recent.push(c.k); while(m.recent.length>3) m.recent.shift(); return c.x; };
   /* AA_630 第 2 節：沒聽過她家裡的事（沒有 YT_FAMILY_HEARD）的玩家，語彤約會台詞和選項裡的「秀琴姨」換成「煮飯的阿姨」（程式換字，一條規則）*/
   S.xiuqin=(G,id,s)=>id==='heroine_03'&&!(G&&G.flags&&G.flags.YT_FAMILY_HEARD)&&typeof s==='string'?s.replace(/秀琴姨/g,'煮飯的阿姨'):s;
-  S.playSet=async function(GM,id,set,t){ if(!set) return false; const G=GM.G, m=S.mem(G,id,t.locs[0]), me={name:nameOf(id),charId:id};
+  S.playSet=async function(GM,id,set,t,pid){ if(!set) return false; const G=GM.G, m=S.mem(G,id,t.locs[0]), me={name:nameOf(id),charId:id};   /* pid：正在演哪一個互動點（只有 S.spotLine、S.playOpts 傳；她請客 S.SHE_PAYS 用）*/
     const fill=x=>S.xiuqin(G,id,String(x).replace(/\{sunset\}/g,S.sunset(t.day)).replace(/\{lastDrink\}/g,S.TASTE_WORD[m.taste]||''));
     const run=async L=>{ for(const ln of (L||[])){ if(ln&&S.DEV_NOTE.has(ln.text)) continue;   /* 稿上寫成旁白的開發註記：不演（下面 S.DEV_NOTE）*/ if(!ln||ln.who==='note'){ const mm=ln&&/記 `?TASTE`?＝`?([^`]+)`?/.exec(ln.text||''); if(mm) m.taste=mm[1]==='玩家點的'?'player':mm[1]; continue; }
-        const tx=fill(S.DEV_STRIP[ln.text]||ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id) await GM.say(me,tx); else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
+        const tx=fill(S.DEV_STRIP[ln.text]||ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id){ if(S.shePays(id,pid,ln.text)) t.shePaid=pid;   /* 她說要請（S.SHE_PAYS）：這個互動點等一下不扣錢 */ await GM.say(me,tx); } else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
     await run(set.lines); const CH=Array.isArray(set.choice)?set.choice.filter(c=>c&&typeof c.t==='string'&&c.t.trim()&&S.optOk(G,id,c.t)):[];   /* optOk：字後面寫「（第 N 階以上）」的選項，到了才出現 */
     if(CH.length){ const k=await GM.choose(CH.map(c=>({t:S.xiuqin(G,id,S.optText(c.t))}))), c=CH[k]||CH[0]; await run(S.replyOf(id,c)); S.optFx(G,id,c,t); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
   /* ===== 選項的效果、每次去都有選項（DLG-FX-MECH-1110；使用者 X324；AA_746 第 2 節第 1、2 點）=====
@@ -556,7 +558,7 @@ const DATE=(function(){
     const m=S.mem(G,id,t.locs[0]), N=(m.optN&&typeof m.optN==='object'&&!Array.isArray(m.optN))?m.optN:(m.optN={}), kk=key+':'+k, n=(N[kk]|0)%L.length; N[kk]=(N[kk]|0)+1; return L[n]; };
   S.playOpts=async function(GM,id,t,key,O,o,played){ if(played&&played.pick) return played; const g=S.optGroup(GM.G,id,t,key,O,o); if(!g) return played;
     if(!played&&!(Array.isArray(g.lines)&&g.lines.length)) return played;   /* 前面沒有任何一句、這一組自己也沒有句子＝不憑空出選項 */
-    const r=await S.playSet(GM,id,{lines:Array.isArray(g.lines)?g.lines:[],choice:g.choice},t); return r&&r.pick?r:played; };
+    const r=await S.playSet(GM,id,{lines:Array.isArray(g.lines)?g.lines:[],choice:g.choice},t,key); return r&&r.pick?r:played; };
   const LL=(id,loc)=>((((LN().loc||{})[loc]||{}).lines||{})[id])||null;
   const brokeUp=(G,id)=>id==='kexin'&&!(G.flags&&G.flags.dating_kexin);
   /* 到達那一句的另一版（AA_359 5-3，企劃線 fb5156ab）：照情況換掉第一次那一組裡的幾句（同一個位置），其他句不動 */
@@ -592,14 +594,14 @@ const DATE=(function(){
     if(x.no) return has?R:Object.assign({},R,{lines:x.no});
     return has&&x.add?Object.assign({},R,{lines:(R.lines||[]).concat(x.add),aa525:x}):R; };
   S.pickFlag=function(G,t,pid,c){ if(!G||!G.flags||!c) return; const x=S.PICK_FLAG.find(r=>r.loc===t.locs[0]&&r.who===t.who&&r.pid===pid&&r.t===c.t); if(x&&G.flags[x.flag]==null) G.flags[x.flag]=G.day; };
-  S.spotLine=async function(GM,t,pid,visits){ const G=GM.G, id=t.who, H=((LL(id,t.locs[0])||{}).hotspots||{})[pid]; if(!H) return false; const m=S.mem(G,id,t.locs[0]), dating=!!(G.flags&&G.flags['dating_'+id]), hi=dating||S.stageNum(id)>=6, before=m.picks.includes(pid);
+  S.spotLine=async function(GM,t,pid,visits){ delete t.shePaid;   /* 她請客（S.SHE_PAYS）：每個互動點從頭算 */ const G=GM.G, id=t.who, H=((LL(id,t.locs[0])||{}).hotspots||{})[pid]; if(!H) return false; const m=S.mem(G,id,t.locs[0]), dating=!!(G.flags&&G.flags['dating_'+id]), hi=dating||S.stageNum(id)>=6, before=m.picks.includes(pid);
     let set=null; if(!before&&H.first&&!H.first.wishEvent) set=hi&&H.firstHigh?S.timedSet(G,id,H.firstHigh):H.first;
     if(!set&&(visits===1||m.last.includes(pid))&&H.remember&&setUsable(G,id,H.remember,t)) set=S.rememberOf(G,t,pid,H.remember);   /* 記得上次：第二次，或上一次點過同一個互動點（BB_128 2-6）；AA_525 REMEMBER_IF */
     if(!set&&dating&&id!=='kexin'&&(H.dating||[]).length) set=S.pickSet(G,id,H.dating,t,pid+'.dating');
     if(!set&&brokeUp(G,id)&&(H.afterBreakup||[]).length) set=S.pickSet(G,id,H.afterBreakup,t,pid+'.after');
     if(!set&&S.likeOf(id,pid)==='dislike'){ const dl=((((LN().loc||{})[t.locs[0]]||{}).dislikeLine||{})[id]||{})[pid]; if(dl) set={lines:[{who:id,text:dl}]}; }
     if(!set) set=S.pickSet(G,id,H.normal,t,pid+'.normal');
-    const played=await S.playOpts(GM,id,t,pid,H.opts,{before,dating},await S.playSet(GM,id,set,t));   /* 這一套沒有選項＝接 opts 的那一組（DLG-FX-MECH-1110）*/
+    const played=await S.playOpts(GM,id,t,pid,H.opts,{before,dating},await S.playSet(GM,id,set,t,pid));   /* 這一套沒有選項＝接 opts 的那一組（DLG-FX-MECH-1110）*/
     if(played&&played.pick) S.pickFlag(G,t,pid,played.pick); if(set&&set.aa525&&set.aa525.once) G.flags[set.aa525.flag]='paid';   /* AA_525：記第一次選的；蛋餅只拿一次 */
     { const c=played&&played.pick, p=c&&S.isTreat(c.t)?S.points(t.locs[0]).find(x=>x.id===pid):null; if(p&&(p.extra|0)>0&&GM.money) GM.money(-(p.extra|0),p.name+'（請她）'); }   /* 祐廷說要請客的選項＝另外扣她那一份（AA_128 5-1、5-2 的 extra；淡水飲料攤「我請。」60）*/
     if(!hi&&/\.photo$/.test(pid)&&(id!=='kexin'||brokeUp(G,id))) await S.speak(GM,id,'noPair',t,{obj:null});   /* 合照還不到第 6 階：她說一句、只幫她拍（BB_128 2-4、3-6；可昕只有分開以後才說，交往中一定可以合照）*/
@@ -624,7 +626,7 @@ const DATE=(function(){
     for(let n=0;n<4;n++){ const now=G.day*24+G.hour; const left=pts.filter(p=>!spots.includes(p.id));
       const opts=left.map(p=>{ const rw=S.spotOff(G,p.id), c=S.pointCost(p,t); return {t:p.name,hint:(p.min|0)+' 分'+(c?'　'+c+' 元':''),dis:!!rw||now+(p.min|0)/60>endH,why:rw||'時間差不多了'}; }).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);
       const k=await GM.choose(opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); n--; continue; }   /* 灰掉的（時間不夠、下雨停用）按了只提示，不結束 */
-      const p=left[k]; spots.push(p.id); const said=await S.spotLine(GM,t,p.id,visits); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.pointCost(p,t); if(c&&GM.money) GM.money(-c,p.name); }   /* 互動點的反應（沒有台詞的地點照舊一句旁白）*/
+      const p=left[k]; spots.push(p.id); const said=await S.spotLine(GM,t,p.id,visits), free=S.takeShePaid(t,p.id); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=free?0:S.pointCost(p,t); if(c&&GM.money) GM.money(-c,p.name); }   /* 互動點的反應（沒有台詞的地點照舊一句旁白）；free＝她說要請的那一次不扣（S.SHE_PAYS）*/
       const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p);
       if(spots.length===3&&pts.length>3) await S.speak(GM,t.who,'enough',t,{obj:null});   /* 第三個互動點之後她說一句「差不多了」（BB_128 2-5 第 5 步；不分地點）*/ }
     t.spots=spots; S.mem(G,t.who,loc).last=spots.slice();
@@ -686,7 +688,7 @@ const DATE=(function(){
       const opts=left.map(p=>{ const rw=S.spotOff(G,p.id), c=S.pointCost(p,t); return {t:p.name,hint:(p.min|0)+' 分'+(c?'　'+c+' 元':''),dis:!!rw||now+(p.min|0)/60>o.endH,why:rw||'時間差不多了'}; }).concat([{t:o.stop(day.length)}]);   /* 休館的館（第二天是週一的話，G.day 已經換到第二天）、下雨停用的灰掉 */
       const k=await GM.choose(opts.map(x=>x.dis?{t:x.t,hint:x.why,dim:true}:x)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); continue; }
       const p=left[k]; spots.push(p.id); day.push(p.id); { const pb=S.pointBg(p.id); if(pb){ setBg(pb); if(o.bg) o.bg.k=pb; } }   /* 夕陽那一點換 d28b（B12）*/
-      const said=await S.spotLine(GM,t,p.id,visits); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.pointCost(p,t); if(c&&GM.money) GM.money(-c,p.name); }
+      const said=await S.spotLine(GM,t,p.id,visits), free=S.takeShePaid(t,p.id); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=free?0:S.pointCost(p,t); if(c&&GM.money) GM.money(-c,p.name); }   /* free＝她說要請的那一次不扣（S.SHE_PAYS）*/
       { const T=S.TIMED[p.id]; if(T&&T.until!=null&&G.hour<T.until&&GM.advance) GM.advance(T.until-G.hour); }   /* 夕陽演完至少到 18:00、星星 20:00（B7），接晚上那一句 */
       const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p); }
     return day; };
@@ -739,6 +741,15 @@ const DATE=(function(){
   /* 這一趟有沒有吃東西的互動點（AA_223 第 3 節：餐廳、小吃、甜點、飲料都算；只逛、只玩扭蛋不算）：子晴告白的第一句 */
   /* 請客的選項（AA_128 5-2：「這杯我請。」「茶葉蛋我買。」）：我請、我買給妳、我付；「下次我請」「那我請飲料」（互動點的 extra 不是飲料那一份）不算 */
   S.isTreat=t=>{ const x=String(t||'').replace(/[「」]/g,''); return /我請|我買給妳|我付/.test(x)&&!/下次|飲料/.test(x); };
+  /* 她請客＝這個互動點不扣玩家的錢（AA_780_an_date_followup.json@248c8e390 的 _meta.she_pays；AA 選「做機制、字不改」）：她在這個互動點說了下面這一句的那一次，祐廷那一份（S.pointCost）不扣。
+     格式：{她:{互動點 id:[那一句的完整字（照 src/data/date_lines.js 那一格逐字抄；不是選項的字）]}}——之後 AA 給別人的清單照同一個格式加。
+     以安三格：D06#43（D06.cafe 的 remember）、D13#23（D13.drink 的 normal 第三套，第 6 階以上才輪得到）、D18#41（D18.teahouse 的 normal 第三套，同上）。
+     做法：S.playSet 播到這一句（第 5 個參數 pid＝正在演的互動點；S.spotLine、S.playOpts 才傳）記 t.shePaid＝互動點 id；S.scene、S.dayRound 在 S.spotLine 演完的當下 S.takeShePaid 看一次、清掉，
+     是那個互動點才不扣（只是那一趟行程物件上的暫時欄位，演完就拿掉，不是存檔的新欄位；S.spotLine 一開始也清一次）。沒有旁白、沒有提示；選單上的「160 元」照舊；快速約會不演台詞＝照扣；
+     祐廷選請客的選項另外扣的那一份（S.isTreat／extra）照舊。測試 tests/date_she_pays_1111_unit.js */
+  S.SHE_PAYS={heroine_01:{'D06.cafe':['這家的蛋糕我記得，檸檬的那個。這次我請。'],'D13.drink':['這杯我請。不要跟我搶。'],'D18.teahouse':['這壺茶多少錢？好，不貴。我請。']}};
+  S.shePays=(id,pid,text)=>!!pid&&(((S.SHE_PAYS[id]||{})[pid])||[]).includes(text);
+  S.takeShePaid=(t,pid)=>{ const y=!!t&&t.shePaid===pid; if(t) delete t.shePaid; return y; };
   /* 雨天停用的互動點（BB_128 2-2：淡水「長椅停用（『椅子是濕的』）」；DATE-C2）：灰掉、寫原因 */
   S.RAIN_OFF={'D13.bench':'椅子是濕的'};
   S.rainOff=(G,pid)=>(G&&(G.weather==='rain'||G.weather==='typhoon')&&S.RAIN_OFF[pid])||'';
