@@ -212,6 +212,7 @@ async def press(pg, cdp, tag, pick=None, double=False, max_s=45):
     s0 = await pg.evaluate(SCR); st = await L.state(pg); btn = st['interact']; n0 = await log_len(pg)
     res = {'btn': btn, 'lines': [], 'pre': [], 'post': [], 'menus': [], 'picked': [], 'm0': s0['money'], 'h0': s0['hour'], 'toasts': []}
     if not btn: res.update(m1=s0['money'], h1=s0['hour'], log=[]); return res
+    res['os0'] = {x['id']: (x['isOpen'], x['openVis']) for x in await pg.evaluate(STALLS)}; res['h00'] = (await pg.evaluate(SCR))['hour']   # 按之前玩家看到的模型
     await L.tap(pg, cdp, '#interact'); t0 = time.time(); last = None; idle = 0; after_menu = False; started = False
     while time.time() - t0 < max_s:
         q = await pg.evaluate(SCR)
@@ -266,15 +267,16 @@ def has_yuan(r):
 
 # ---------------------------------------------------------------- 檢查
 def press_sync(tag, r, sid, E):
-    """按的那一刻（第一句的 G.hour）那一攤的 isOpen、open 模型 visible，和出來的東西（有選單／look＝開；closed 那一句＝收）一致；也和稿的時間一致"""
-    st = r.get('osp', {}).get(sid); hp = r.get('hp'); lines = [t for _, t in r['lines']]
+    """按之前玩家看到的模型（open visible）、按的那一刻（第一句的 G.hour；NM3.openNow 先照 G.hour 重切一次）的 isOpen、出來的東西（有選單／look＝開；closed 那一句＝收）三個一致；也和稿的時間一致"""
+    st = r.get('osp', {}).get(sid); b0 = r.get('os0', {}).get(sid); hp = r.get('hp'); lines = [t for _, t in r['lines']]
     got = 'open' if (r['menus'] or (lines and lines[0] == (E['look'] or [None])[0])) else ('closed' if lines == [E['closed']] else '?')
-    R.note('%s 按的那一刻 G.hour %s（%s）：isOpen %s、open 模型 visible %s → 出來的是 %s' % (tag, None if hp is None else round(hp, 4), hhmm(hp) if hp is not None else '?', st and st[0], st and st[1], got))
-    if st is None or hp is None: R.check('%s 記到按的那一刻（G.hour、isOpen）' % tag, False, J({'hp': hp, 'osp': r.get('osp')})); return
-    R.check('%s 按的那一刻：模型（open visible %s）＝isOpen（%s）＝出來的東西（%s）' % (tag, st[1], st[0], got), st[0] == st[1] and got == ('open' if st[0] else 'closed'), '')
+    R.note('%s 按之前 %s 模型 open visible %s；按的那一刻 G.hour %s（%s）isOpen %s → 出來的是 %s' % (tag, hhmm(r['h00']) if r.get('h00') is not None else '?', b0 and b0[1], None if hp is None else round(hp, 4), hhmm(hp) if hp is not None else '?', st and st[0], got))
+    if st is None or hp is None or b0 is None: R.check('%s 記到按之前的模型、按的那一刻（G.hour、isOpen）' % tag, False, J({'hp': hp, 'osp': r.get('osp'), 'os0': r.get('os0')})); return
+    R.check('%s 按之前看到的模型（%s）＝按下去出來的東西（%s）' % (tag, '開' if b0[1] else '收', got), got == ('open' if b0[1] else 'closed'), '')
+    R.check('%s 按的那一刻 isOpen（%s）＝出來的東西（%s）' % (tag, st[0], got), got == ('open' if st[0] else 'closed'), '')
     if E.get('hours'):
         hm = hp % 24; want = (E['hours'][0] <= hm < E['hours'][1]) or (E['hours'][0] <= hm + 24 < E['hours'][1])
-        R.check('%s 按的那一刻 %s 照稿 %s～%s 應該%s' % (tag, hhmm(hp), hhmm(E['hours'][0]), hhmm(E['hours'][1]), '開' if want else '收'), st[0] == want, '')
+        R.check('%s 按的那一刻 %s 照稿 %s～%s 應該%s' % (tag, hhmm(hp), hhmm(E['hours'][0]), hhmm(E['hours'][1]), '開' if want else '收'), st[0] == want and got == ('open' if want else 'closed'), '')
 
 
 def check_greet(tag, line, E):
@@ -408,9 +410,12 @@ async def hours_table(pg, Ly, m):
     R.note('[EDGE] 十攤開收時間（nm2_hours_table.md）：\n' + '\n'.join(rows))
 
 
-EDGE_JS = r"""(id=>{ const z=GAME.E.zone||{}, q=(z.tzStalls||[]).concat(z.ggStalls||[]).find(s=>s.id===id); if(!q) return null;
-  const tz=typeof TZ3!=='undefined'&&TZ3.stallOpen?TZ3.stallOpen(((+GAME.G.hour%24)+24)%24,q):null;
-  return {gh:+GAME.G.hour, isOpen:!!q.isOpen, openVis:q.open?!!q.open.visible:null, closedVis:q.closed?!!q.closed.visible:null, tz:tz, off:!!(z.tzStallOff&&z.tzStallOff[id])}; })"""
+EDGE_JS = r"""(id=>{ const E=GAME.E, z=E.zone||{}, q=(z.tzStalls||[]).concat(z.ggStalls||[]).find(s=>s.id===id); if(!q) return null; const so=(h)=>typeof TZ3!=='undefined'&&TZ3.stallOpen?TZ3.stallOpen(h,q):null;
+  const gh=+GAME.G.hour; return {gh:gh, lh:E.lightH==null?null:+(+E.lightH).toFixed(4), isOpen:!!q.isOpen, openVis:q.open?!!q.open.visible:null, closedVis:q.closed?!!q.closed.visible:null,
+    tz:so(((gh%24)+24)%24), tzL:E.lightH==null?null:so(E.lightH), off:!!(z.tzStallOff&&z.tzStallOff[id])}; })"""
+# 模型如果照「光線用的時刻」E.lightH 切（engine3d.js applyTime 把 lightHour(h) 傳給 zone.applyTimeOutdoor），在邊界附近找鐘點幾點的時候模型會翻：
+FLIP_SCAN = r"""(([id,b,dir])=>{ const E=GAME.E, z=E.zone||{}, q=(z.tzStalls||[]).concat(z.ggStalls||[]).find(s=>s.id===id); if(!q||!E.lightHour||typeof TZ3==='undefined') return null; const ss=E.sunsetNow?E.sunsetNow():null;
+  for(let m=-180;m<=180;m++){ const h=b+m/60, o=TZ3.stallOpen(E.lightHour(((h%24)+24)%24,ss),q); if(o===dir) return {clock:+h.toFixed(4), minutesFromEdge:m, sunset:ss==null?null:+ss.toFixed(3)}; } return {clock:null, sunset:ss}; })"""
 
 
 async def edge_shot(pg, q, fn):
@@ -429,26 +434,39 @@ async def edge_one(pg, cdp, q, E, day, b, lab):
     await edge_shot(pg, q, fn + '_before')
     r0 = await press(pg, cdp, tag + ' 翻轉前'); press_sync(tag + ' 翻轉前', r0, q['id'], E)
     R.check('%s 翻轉前那一次真的在邊界前（按的那一刻 %s）' % (tag, hhmm(r0['hp']) if r0.get('hp') is not None else '?'), r0.get('hp') is not None and (r0['hp'] % 24 if b < 24 else r0['hp']) < b, J({'hp': r0.get('hp'), 'before': g}))
-    log, prev, flip, t0 = [], None, None, time.time()
+    log, prev, flip, t0, first = [], None, None, time.time(), None
     while time.time() - t0 < 90:
         g = await pg.evaluate(EDGE_JS, q['id'])
         if not g: break
-        log.append((round(g['gh'], 4), g['isOpen'], g['openVis'], g['tz']))
+        if first is None: first = g
+        log.append((round(g['gh'], 4), g['lh'], g['isOpen'], g['openVis'], g['tz']))
         if prev is not None and g['isOpen'] != prev['isOpen'] and flip is None:
-            flip = (prev, g); await edge_shot(pg, q, fn + '_after'); break
+            flip = (prev, g); await edge_shot(pg, q, fn + '_after')
         prev = g
         gadj = g['gh'] + (24 if b >= 24 and g['gh'] < 20 else 0)
-        if gadj > b + 2 / 60.0: break
+        if gadj > b + 1.5 / 60.0 and (flip or gadj > b + 2 / 60.0): break
         await pg.wait_for_timeout(300)
-    R.note('%s 紀錄（G.hour, isOpen, open visible, TZ3.stallOpen）%d 筆：%s' % (tag, len(log), J(log[:4] + ['…'] + log[-6:] if len(log) > 10 else log)))
-    nosync = [x for x in log if x[1] != x[2] or (x[3] is not None and x[3] != x[1])]
-    R.check('%s 每一筆 open 模型 visible＝isOpen＝TZ3.stallOpen(G.hour)' % tag, not nosync, J(nosync[:4]))
-    if not R.check('%s 時間走過邊界時翻轉（%s）' % (tag, lab), bool(flip) and flip[1]['isOpen'] == want_after, J(log[-3:])): return '沒翻'
-    hb = flip[1]['gh'] + (24 if b >= 24 and flip[1]['gh'] < 20 else 0)
-    R.check('%s 翻轉在邊界 ±1 分鐘內（翻轉前 %s、翻轉後 %s；邊界 %s）' % (tag, hhmm(flip[0]['gh']), hhmm(flip[1]['gh']), hhmm(b)), abs(hb - b) <= 1 / 60.0 + 0.002, J(flip))
-    r1 = await press(pg, cdp, tag + ' 翻轉後'); press_sync(tag + ' 翻轉後', r1, q['id'], E)
+    R.note('%s 紀錄（G.hour, 光線用的時刻 E.lightH, isOpen, open visible, TZ3.stallOpen(G.hour)）%d 筆：%s' % (tag, len(log), J(log[:4] + ['…'] + log[-6:] if len(log) > 10 else log)))
+    R.check('%s 每一筆 open 模型 visible＝isOpen' % tag, all(x[2] == x[3] for x in log), J([x for x in log if x[2] != x[3]][:4]))
+    lag = 0.5 / 60.0   # 引擎每 5 幀才重算一次時間（engine3d.js E.frame%5）：邊界後半分鐘內還沒翻不算
+    def _off(x):
+        ga = x[0] + (24 if b >= 24 and x[0] < 20 else 0)
+        return x[4] is not None and x[2] != x[4] and not (b <= ga < b + lag)
+    ns = [x for x in log if _off(x)]
+    sc = await pg.evaluate(FLIP_SCAN, [q['id'], b, want_after])
+    R.check('%s 每一筆模型（isOpen）＝照那一刻 G.hour 算的 TZ3.stallOpen（邊界後 %.1f 分鐘內的刷新延遲不算）' % (tag, lag * 60), not ns, J(ns[:4]))
+    if ns or (first and first['isOpen'] == want_after):
+        R.note('%s 【診斷】模型照光線用的時刻 E.lightH 切的話，鐘點 %s 就會%s（離邊界 %s 分鐘；當天日落 %s）——讀進來第一筆 %s' % (tag, sc and sc.get('clock') and hhmm(sc['clock']), lab, sc and sc.get('minutesFromEdge'), sc and sc.get('sunset'), J(first)))
+    if not R.check('%s 時間走過邊界時翻轉（%s）' % (tag, lab), bool(flip) and flip[1]['isOpen'] == want_after, '讀進來（邊界前 2.5 分鐘）第一筆已經是%s' % ('開' if first and first['isOpen'] else '收') if first and first['isOpen'] == want_after else J(log[-3:])):
+        flip = None
+    else:
+        hb = flip[1]['gh'] + (24 if b >= 24 and flip[1]['gh'] < 20 else 0)
+        R.check('%s 翻轉在邊界 ±1 分鐘內（翻轉前 %s、翻轉後 %s；邊界 %s）' % (tag, hhmm(flip[0]['gh']), hhmm(flip[1]['gh']), hhmm(b)), abs(hb - b) <= 1 / 60.0 + 0.002, J(flip))
+    if not flip: await edge_shot(pg, q, fn + '_after')
+    r1 = await press(pg, cdp, tag + ' 翻轉後'); press_sync(tag + ' 翻轉後（邊界後）', r1, q['id'], E)
     got = lambda r: '買得到' if r['menus'] else ('closed' if [t for _, t in r['lines']] == [E['closed']] else J([t for _, t in r['lines']])[:40])
-    return '前 %s %s｜翻 %s→%s｜後 %s %s' % (hhmm(r0['hp']) if r0.get('hp') is not None else '?', got(r0), hhmm(flip[0]['gh']), hhmm(flip[1]['gh']), hhmm(r1['hp']) if r1.get('hp') is not None else '?', got(r1))
+    fl = ('翻 %s→%s' % (hhmm(flip[0]['gh']), hhmm(flip[1]['gh']))) if flip else ('沒在邊界翻（讀進來就是%s）' % ('開' if first and first['isOpen'] else '收'))
+    return '前 %s 模型%s %s｜%s｜後 %s %s' % (hhmm(r0['hp']) if r0.get('hp') is not None else '?', '開' if (r0.get('osp', {}).get(q['id']) or (None,))[0] else '收', got(r0), fl, hhmm(r1['hp']) if r1.get('hp') is not None else '?', got(r1))
 
 
 async def part_edge(pg, cdp):
