@@ -1,12 +1,3 @@
-[07:19:03] skip GG16_old (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
-[07:19:03] skip GG16r4_new (already done on 9c769623a07c9b13b9345771e856b55beceb2e16)
-[07:19:03] skip GG16r4_old (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
-[07:19:03] skip GG16r5_new (already done on 9c769623a07c9b13b9345771e856b55beceb2e16)
-[07:19:03] skip GG16r5_old (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
-[07:19:03] skip GG16r5b_new (already done on 9c769623a07c9b13b9345771e856b55beceb2e16)
-[07:19:03] skip GG16r5b_old (already done on 6ef185726dbf72e5bf55ca794f1928a6d705a77e)
-[07:19:03] skip GG16r5c_new (already done on 35e560bbdef3aabbc1aea11b5f6d1c5d58b7e7f7)
-[07:19:03] skip MT2_info_again_skip (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
 [07:19:03] skip MT2_talk0 (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
 [07:19:03] skip MT2_talk12 (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
 [07:19:03] skip MT2_with (already done on 25c3039ec5f4b9714c09859860f9a36122db8922)
@@ -1998,3 +1989,12 @@
 [13:15:40] ==== START CLASS12_oldsave  (game @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
 [13:15:43] [res] cpu=16% mem=49% (15.4/31.4 GB) chrome_testing=9  START CLASS12_oldsave
 [13:16:38] [res] cpu=3% mem=47% (14.8/31.4 GB) chrome_testing=9  END PACK7_ss_face
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8168e0397..077169d53  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:16:44] ==== END   PACK7_ss_face  exit=0  103s   ====
+[13:16:47] memory 48% before starting CLASS12_ref_old (2 running)
+[13:16:47] ==== START CLASS12_ref_old  (probe @ 1d4db297a4b980e82619dbc41f70e41f108f0596) ====
+[13:16:50] [res] cpu=12% mem=48% (15.2/31.4 GB) chrome_testing=9  START CLASS12_ref_old
+[13:19:03] 正在跑：CLASS12_civ_a（已跑 7 分／上限 12 分）、CLASS12_oldsave（已跑 3 分／上限 10 分）、CLASS12_ref_old（已跑 2 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:19:21] [res] cpu=8% mem=51% (16.0/31.4 GB) chrome_testing=10  END CLASS12_oldsave
