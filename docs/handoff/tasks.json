@@ -52565,7 +52565,7 @@
     "confirmed": true
    },
    "sha": "7fd1a70f2",
-   "next": "【11-11 11:3x AA 提醒、LAWWW 改狀態】AA 11-10 已交 AA_742（設定與台詞）、AA_743（室內配置）7fd1a70f2（outbox 有）。下一步：LAWWW2 照 AA_743 建室內、LAWWW 接名稱商品台詞；店寬確定後 AA 對一次配置。｜照 afar／Daybreak（AA_652）、洋洋（AA_724）的格式交一份稿＋六間的 layout（家具、站位、互動點）；價錢照現有經濟",
+   "next": "【11-11 12:0x AA_813（75f5de658）】kind 不改；LAWWW2 五項只加資料都要；要改模型的劇情都不需要（D99 凍結）；騎樓東西照放店裡；新加八句「看」給模型已經有的點；AA_742 接線照 AA_813 第 1 節對應表。AA 這邊沒有待辦，剩 LAWWW 發版後接名稱商品台詞。｜【11-11 11:3x AA 提醒、LAWWW 改狀態】AA 11-10 已交 AA_742（設定與台詞）、AA_743（室內配置）7fd1a70f2（outbox 有）。下一步：LAWWW2 照 AA_743 建室內、LAWWW 接名稱商品台詞；店寬確定後 AA 對一次配置。｜照 afar／Daybreak（AA_652）、洋洋（AA_724）的格式交一份稿＋六間的 layout（家具、站位、互動點）；價錢照現有經濟",
    "xai": {
     "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
     "branch": "claude/story-planning",
@@ -53602,7 +53602,7 @@
    "pausedReason": "LAWWW 決定（D141）：已經進遊戲的精修排在還沒進遊戲的後面；六間室內 v1 BB 還沒判",
    "resumeWhen": "BB 判完六間室內 v1（ART_APPROVED 或退件理由）",
    "recheckOn": "2026-11-18",
-   "next": "【11-11 12:1x LAWWW 決定】LAWWW2 AA_743 對照表 d0c2852b7 第③類。②只加資料那幾項另做（GG-SHOPS3-ART-1110 下）。",
+   "next": "【11-11 12:0x AA_813】劇情不需要這幾樣（D99 凍結）——等 BB 判 v1 時若也不要求，就改取消。｜【11-11 12:1x LAWWW 決定】LAWWW2 AA_743 對照表 d0c2852b7 第③類。②只加資料那幾項另做（GG-SHOPS3-ART-1110 下）。",
    "xai": []
   }
  ]
