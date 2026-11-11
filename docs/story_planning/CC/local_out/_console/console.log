@@ -1,12 +1,4 @@
     To https://github.com/pyhuanglaw/Lawstudent.git
-       6f4429b06..3b37d6979  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:29:29] ==== END   L118D_E_SEATMIX_B  exit=0  312s   ====
-[15:29:32] memory 49% before starting L118D_E_TABLE_r2 (2 running)
-[15:29:32] ==== START L118D_E_TABLE_r2  (probe @ b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa) ====
-[15:29:35] [res] cpu=0% mem=49% (15.5/31.4 GB) chrome_testing=10  START L118D_E_TABLE_r2
-[15:30:49] [res] cpu=1% mem=49% (15.3/31.4 GB) chrome_testing=9  END L118D_E_MAIN_r2
-    To https://github.com/pyhuanglaw/Lawstudent.git
        3b37d6979..527c0c40b  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [15:30:56] ==== END   L118D_E_MAIN_r2  exit=0  183s   ====
@@ -1998,3 +1990,11 @@
 [00:07:23] ==== START L118A6_CORN_d  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
 [00:07:27] [res] cpu=2% mem=44% (13.8/31.4 GB) chrome_testing=10  START L118A6_CORN_d
 [00:08:09] [res] cpu=6% mem=41% (13.1/31.4 GB) chrome_testing=9  END L118A6_CORN_b
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       76b38dbdb..26de6a5a6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:08:17] ==== END   L118A6_CORN_b  exit=0  174s   ====
+[00:08:20] memory 44% before starting L118A_EXT20_old (2 running)
+[00:08:20] ==== START L118A_EXT20_old  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[00:08:23] [res] cpu=0% mem=44% (13.8/31.4 GB) chrome_testing=9  START L118A_EXT20_old
+[00:08:57] [res] cpu=8% mem=39% (13.2/31.4 GB) chrome_testing=9  END L118A6_CORN_c
