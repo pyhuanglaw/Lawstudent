@@ -646,6 +646,9 @@ NM_shots_b_r2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_pl
 NM_shots_c_r2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 12 | PARTS=SHOTS;STALLS=st_milk,st_wheelcake,st_phonecase;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
 NM_walk_new_r2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 15 | PARTS=WALK;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
 NM_oldfps_new_r2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 8 | PARTS=OLDPOS,FPS;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
+# BB 00:14 NM1 第一輪定的四件：開收模型 position／rotation／scale 一樣＝PASS；OLDPOS 攤位 ≤2.5 m、同一側、只有一則 unstick；套圈圈同步兩條路＋換日（PARTS=RING，週四 2025-11-06）
+NM_ring_new | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 10 | PARTS=RING;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
+NM_ring_old | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 10 | PARTS=RING;SHA=fd4dd9aef6cb0d31b06d137636a25ab52eceedc4
 # BB 00:07 禮貌生財第 1 版（X332；新 11161c101、舊 bd3f67410＝還沒有這間店）：PARTS=LIMAO（店面三個時間＋算命桌、室內、書房門、舊存檔、巷 A）
 LM_new | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=LIMAO;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
 LM_old | bd3f67410415267cde659e007e7d09b6f8fd05f3 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 8 | PARTS=LIMAO;SHA=bd3f67410415267cde659e007e7d09b6f8fd05f3

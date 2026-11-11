@@ -28,7 +28,9 @@ LAY = "(()=>{ const T=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:null;
 STALLS = r"""(()=>{ const z=GAME.E.zone||{}, A=(z.tzStalls||z.ggStalls||[]); const box=o=>{ if(!o) return null; o.updateMatrixWorld(true); const b=new THREE.Box3().setFromObject(o); if(b.isEmpty()) return null; const c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3()); return {c:[+c.x.toFixed(3),+c.y.toFixed(3),+c.z.toFixed(3)], s:[+s.x.toFixed(2),+s.y.toFixed(2),+s.z.toFixed(2)], top:+b.max.y.toFixed(2)}; };
   const lit=o=>{ if(!o) return null; let L=0, em=0; o.traverse(q=>{ if(q.isLight&&q.visible&&q.intensity>0) L++; if(q.isMesh&&q.visible){ for(const m of [].concat(q.material||[])){ if(m&&m.emissive&&(m.emissive.r+m.emissive.g+m.emissive.b)>0.05&&(m.emissiveIntensity==null||m.emissiveIntensity>0)) em++; } } }); return {lights:L, emissive:em}; };
   const gh=+(+GAME.G.hour).toFixed(4), eh=GAME.E.hour!=null?+(+GAME.E.hour).toFixed(4):null, so=(typeof TZ3!=='undefined'&&TZ3.stallOpen)?(q=>TZ3.stallOpen(+GAME.G.hour,q)):(()=>null);
-  return A.map(q=>({id:q.id, kind:q.kind, name:q.name, x:q.x, z:q.z, yaw:q.yaw, isOpen:!!q.isOpen, gh, eh, expect:so(q), openVis:q.open?!!q.open.visible:null, closedVis:q.closed?!!q.closed.visible:null, ob:box(q.open), cb:box(q.closed), litOpen:lit(q.open), litClosed:lit(q.closed)})); })()"""
+  const tr=o=>o?{p:[+o.position.x.toFixed(4),+o.position.y.toFixed(4),+o.position.z.toFixed(4)], r:[+o.rotation.x.toFixed(4),+o.rotation.y.toFixed(4),+o.rotation.z.toFixed(4)], s:[+o.scale.x.toFixed(4),+o.scale.y.toFixed(4),+o.scale.z.toFixed(4)]}:null;
+  const off=(GAME.E.zone||{}).tzStallOff||{};
+  return A.map(q=>({id:q.id, kind:q.kind, name:q.name, x:q.x, z:q.z, yaw:q.yaw, isOpen:!!q.isOpen, gh, eh, expect:so(q), off:!!off[q.id], to:tr(q.open), tc:tr(q.closed), openVis:q.open?!!q.open.visible:null, closedVis:q.closed?!!q.closed.visible:null, ob:box(q.open), cb:box(q.closed), litOpen:lit(q.open), litClosed:lit(q.closed)})); })()"""
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||50, c.width/c.height, 0.1, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const P=E.player&&E.player.obj, hid=[]; if(P){ hid.push([P,P.visible]); P.visible=false; }
   try{ r.render(E.scene,cam); return c.toDataURL('image/jpeg',0.88); } finally { for(const [o,v] of hid) o.visible=v; } })"""
@@ -123,6 +125,7 @@ async def part_shots(pg, cdp):
                 if g['ob'] and g['cb']:
                     d = math.hypot(g['ob']['c'][0] - g['cb']['c'][0], g['ob']['c'][2] - g['cb']['c'][2])
                     R.note('%s 外框中心 open %s、closed %s，水平差 %.3f m（open 大小 %s、closed 大小 %s）' % (tag, g['ob']['c'], g['cb']['c'], d, g['ob']['s'], g['cb']['s']))
+                    R.check('%s 開、收兩個模型的 position／rotation／scale 完全一樣（BB 00:14：攤子不能跳位置）' % tag, g['to'] is not None and g['to'] == g['tc'], J({'open': g['to'], 'closed': g['tc']}))
                     if d > 0.05: R.note('%s ★ 開、收兩個模型外框中心水平差 %.3f m（>5 cm；兩個模型擺的 position 一樣，差的是外形：收攤的外框比較小、偏一邊——照片 nm_%s_收攤後_正面 對照）' % (tag, d, q['id']))
                     R.note('%s 外框中心離配置位置 (%.2f,%.2f)：open %.2f m' % (tag, q['x'], q['z'], math.hypot(g['ob']['c'][0] - q['x'], g['ob']['c'][2] - q['z'])))
                 else: R.check('%s 有 open、closed 兩個模型' % tag, False, J({'ob': g['ob'], 'cb': g['cb']}))
@@ -211,10 +214,13 @@ async def part_oldpos(pg, cdp):
         tag = '[OLDPOS %s (%.1f,%.1f)]' % (lab, x, z); del warns[:]
         await at(pg, cdp, zn, 20.0, x, z, '（舊存檔的 pos：這裡改版前沒有攤子）', wait=7000)
         me = await pg.evaluate(ME); mv = math.hypot(me['x'] - x, me['z'] - z)
-        R.check('%s 讀進來在 %s、站得住（挪 %.2f m%s）' % (tag, zn, mv, '' if mv <= 1.0 else '：>1 m——站的點在攤子的阻擋範圍正中間，攤子半個深度＋人的半徑就超過 1 m，只記、交 BB 判'), me['zone'] == zn and me['stand'] is not False, J(me))
+        side_ok = (8.0 <= me['z'] <= 17.0) if zn == 'gongguan' else (-2.5 <= me['z'] <= 2.5 and 5.0 <= me['x'] <= 29.5)   # 公館人行道 z 8～17；巷 A z ±2.5
+        R.check('%s 挪到攤子外面最近的可站格（挪 %.2f m ≤2.5 m）、還在同一側的%s、站得住（BB 00:14）' % (tag, mv, '人行道' if zn == 'gongguan' else '巷子', ), me['zone'] == zn and mv <= 2.5 and side_ok and me['stand'] is not False, J(me))
         p0 = (me['x'], me['z']); await L.joystick(pg, cdp, 0, 45, 1000); me2 = await pg.evaluate(ME)
         R.check('%s 搖桿推得動（>0.3 m）' % tag, math.hypot(me2['x'] - p0[0], me2['z'] - p0[1]) > 0.3, J(me2))
-        R.note('%s console warning：%s' % (tag, J([w for w in warns if 'spawn' in w or 'relocat' in w or 'stuck' in w.lower()] or warns[:5])))
+        R.note('%s console warning 全文：%s' % (tag, J(warns)))
+        uw = [w for w in warns if 'blocked cell' in w or 'unstick' in w or 'relocat' in w]
+        R.check('%s console 只有那一則 unstick（有挪＝1 則、沒挪＝0 則，沒有別的警告）' % tag, (len(uw) == (1 if mv > 0.05 else 0)) and len(warns) == len(uw), J(warns))
 
 
 async def part_fps(pg, cdp):
@@ -252,13 +258,64 @@ async def part_edge(pg, cdp):
         R.check('%s 翻轉後 open 模型 visible 和 isOpen 同步' % tag, flip[1]['openVis'] == flip[1]['isOpen'] and flip[1]['isOpen'] == (lab == '最早開'), J(flip[1]))
 
 
+RING = r"""(id=>{ const z=GAME.E.zone||{}, q=(z.tzStalls||[]).find(s=>s.id===id); let cal=null; try{ const c=CALENDAR.dateOf(GAME.G.day); cal={key:c.key, dow:(c.dow!=null?c.dow:(c.wd!=null?c.wd:new Date(c.key+'T00:00:00').getDay()))}; }catch(e){}
+  return {zone:GAME.G.zone, day:GAME.G.day, cal, h:+(+GAME.G.hour).toFixed(3), off:z.tzStallOff?Object.keys(z.tzStallOff).filter(k=>z.tzStallOff[k]):null, isOpen:q?!!q.isOpen:null, openVis:q&&q.open?!!q.open.visible:null, closedVis:q&&q.closed?!!q.closed.visible:null}; })"""
+
+
+async def ring_press(pg, cdp, tag, rx, rz, yaw):
+    fx, fz = math.sin(yaw), math.cos(yaw)
+    await L.go_to(pg, cdp, R, rx + fx * 1.9, rz + fz * 1.9, 0.7, '%s 走到套圈圈前面' % tag, max_s=120); await pg.wait_for_timeout(800)
+    st = await pg.evaluate(RING, 'st_ring'); t = await talk(pg, cdp, tag)
+    save(await pg.evaluate(SNAP, {'from': [rx + fx * 4.5, 1.6, rz + fz * 4.5], 'at': [rx, 1.2, rz], 'fov': 50}), 'nmring_%s.jpg' % tag.strip('[]').replace(' ', '_'))
+    R.note('%s 狀態 %s；按下去：鍵「%s」→ %s' % (tag, J(st), t['btn'], J(t['lines'])))
+    closed_txt = any(('收' in x or '帆布' in x or '箱子' in x) for x in t['lines'])
+    R.check('%s 模型和按下去的字一致（模型 %s、字 %s）' % (tag, '開' if st['openVis'] else '收', '收攤那一句' if closed_txt else '營業'), st['openVis'] is not None and (st['openVis'] != closed_txt), J({'st': st, 'lines': t['lines']}))
+    return st
+
+
+async def part_ringsync(pg, cdp):
+    """BB 00:14 ③：套圈圈只開週五六日（night_market3d.js S.sync 設 zone.tzStallOff）。非週五六日的晚上兩條路各一次：
+    ① 從公館搖桿走進汀州路（巷 A）再走到套圈圈；② 直接讀一個存在汀州路裡的檔。都印星期、tzStallOff、isOpen、open／closed 哪個 visible、按下去的字。
+    再在汀州路裡等到換日（週四 23:57 → 週五 00:01+）看 tzStallOff 自己翻不翻。RDAY＝週四的日期（預設 2025-11-06）。"""
+    global DAY
+    d0 = DAY; DAY = os.environ.get('RDAY') or '2025-11-06'
+    try:
+        await at(pg, cdp, 'tingzhou', 20.0, None, None, '（讀配置）'); Ly = await lay(pg)
+        q = next((x for x in (Ly or {}).get('list', []) if x['id'] == 'st_ring'), None)
+        if not R.check('[RING] 配置有 st_ring', bool(q), ''): return
+        # ① 公館 → 汀州路
+        await at(pg, cdp, 'gongguan', 20.0, 37.1, 17.5, '（%s 週四 20:00，公館 G10 巷子口前）' % DAY)
+        gate = next((i for i in await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden&&i.exit&&i.exit.to==='tingzhou').map(i=>({x:i.x,z:i.z,label:i.label})))()")), None)
+        if R.check('[RING ①] 公館有往汀州路的巷口', bool(gate), ''):
+            await L.go_to(pg, cdp, R, gate['x'], gate['z'], 0.8, '[RING ①] 走到巷口', max_s=60); await pg.wait_for_timeout(500); await L.tap(pg, cdp, '#interact')
+            for _ in range(60):
+                if (await pg.evaluate(ME))['zone'] == 'tingzhou': break
+                await pg.wait_for_timeout(300)
+            await pg.wait_for_timeout(2500); s1 = await ring_press(pg, cdp, '[RING ① 走進來]', q['x'], q['z'], q['yaw'])
+        # ② 直接讀汀州路的檔
+        await at(pg, cdp, 'tingzhou', 20.0, q['x'] + math.sin(q['yaw']) * 3, q['z'] + math.cos(q['yaw']) * 3, '（%s 週四 20:00，存檔在汀州路、套圈圈附近）' % DAY)
+        await pg.wait_for_timeout(1500); s2 = await ring_press(pg, cdp, '[RING ② 讀檔]', q['x'], q['z'], q['yaw'])
+        # 換日
+        await at(pg, cdp, 'tingzhou', 23.95, q['x'] + math.sin(q['yaw']) * 3, q['z'] + math.cos(q['yaw']) * 3, '（週四 23:57，等換日）', wait=3000)
+        log, t0 = [], time.time()
+        while time.time() - t0 < 90:
+            st = await pg.evaluate(RING, 'st_ring'); log.append([st['cal'] and st['cal'].get('key'), st['cal'] and st['cal'].get('dow'), st['h'], 'st_ring' in (st['off'] or []), st['isOpen'], st['openVis']])
+            if st['h'] < 20 and st['h'] > 0.06: break
+            if st['h'] >= 24.06: break
+            await pg.wait_for_timeout(1000)
+        R.note('[RING 換日] （日期、星期、G.hour、st_ring 在 tzStallOff、isOpen、open visible）：%s' % J(log[:3] + ['…'] + log[-4:] if len(log) > 8 else log))
+        R.check('[RING 換日] 週四→週五：st_ring 從「今天不擺」變成不在 tzStallOff（時間已過 22:30，模型照舊收著）', bool(log) and log[0][3] is True and log[-1][3] is False and log[-1][5] is False, J([log[0], log[-1]] if log else []))
+    finally:
+        DAY = d0
+
+
 async def main():
     print('CC NM1 夜市：PARTS %s；SHA %s；Playwright ≠ iPhone' % (','.join(PARTS), SHA), flush=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('TABLE', part_table), ('SHOTS', part_shots), ('PANO', part_pano), ('WALK', part_walk), ('OLDPOS', part_oldpos), ('FPS', part_fps), ('EDGE', part_edge)):
+        for part, fn in (('TABLE', part_table), ('SHOTS', part_shots), ('PANO', part_pano), ('WALK', part_walk), ('OLDPOS', part_oldpos), ('FPS', part_fps), ('EDGE', part_edge), ('RING', part_ringsync)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
