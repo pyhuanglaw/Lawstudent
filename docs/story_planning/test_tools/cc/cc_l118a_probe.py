@@ -8,7 +8,7 @@
   室內、門、座位 13:00（九間都開；14:00 九間都已經休息）；VIEWS 13:00＋19:15（窗景換夜景照片 19.2 以後）。
 截圖：【捷徑機位】＝暫停遊戲、獨立擺鏡頭（D.CAM，1280×720，藏 HUD、藏玩家），檔名帶 _cam；【遊戲鏡頭】＝遊戲自己的跟隨鏡頭（844×390 手機橫向截圖），檔名帶 _game。
 走路一律搖桿（CDP 觸控按 #joy；方向照 E.pathTo 的下一段，像玩家知道往哪走）；按鈕一律觸控點 #interact、#dlg、選項。讀檔只當前置條件，印【前置／捷徑】。
-PARTS（逗號分隔；店相關的可以加 _<店 id>，座位可以再加 _<起>-<迄>（從 1 起、含迄））：
+PARTS（TAPSEAT_<店>_<號.號>＝點椅面走過去坐（CC 08:2x）；逗號分隔；店相關的可以加 _<店 id>，座位可以再加 _<起>-<迄>（從 1 起、含迄））：
   EXT14 EXT20   十一間（九間＋兩間飲料店）正面＋招牌近拍【捷徑機位】（ONLY_SHOPS 可限定）
   INTFRONT      九間室內（SHOPS 可改）：門口往裡、最裡面往門口【捷徑機位】、進門那一刻【遊戲鏡頭】、近照（118牛排自助台上方海報、辛亥韓食茶水桶、水上便當吊牌、奈良咖哩地板）（別名 INT_FRONT）
   DRINK         兩間飲料店：互動點、搖桿沿人行道和路邊來回走（擋不擋路）、站窗口按鈕、買一杯；118 巷導航格存檔（拼圖時和舊版比）
@@ -808,6 +808,64 @@ async def part_other(pg, cdp):
         R.note('%s 舊模型現況（%s），只拍不判' % (tag, Ly['name']))
 
 
+# ------------------------------------------------------------------ 點椅子（CC 08:2x）
+# 搖桿走過去被搶的椅子，改用玩家「點椅子」的路：手指點畫面上椅面（椅面高度 0.45＋lift 投影到螢幕）→ 遊戲 screenToFloor→tapRedirect（tapToSeat）走到 seatApproach，
+#   P.tapPref 讓 nearestInteractable 偏向點的那張（engine3d TAP-SEAT-NPC-1105）→ 到了看按鈕 → 按 → 坐到哪一張。每張先重新讀檔回進門位置【前置／捷徑】。
+TAP_PT = r"""(([x,y,z])=>{ const E=GAME.E; const v=new THREE.Vector3(x,y,z).project(E.camera); if(v.z>1) return null; const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight;
+  if(sx<10||sy<10||sx>innerWidth-10||sy>innerHeight-10) return {off:true, sx, sy}; const el=document.elementFromPoint(sx,sy); const h=E.screenToFloor?E.screenToFloor(sx,sy):null;
+  const r=(h&&E.tapRedirect)?E.tapRedirect(h.x,h.z,h.lv==null?(E.player.lv|0):h.lv):null;
+  return {sx:+sx.toFixed(1), sy:+sy.toFixed(1), canvas:!!el&&el.id==='c', el:el?(el.id||el.tagName):null, hit:h?[+h.x.toFixed(2),+h.z.toFixed(2)]:null, redirect:r?[+r[0].toFixed(2),+r[1].toFixed(2)]:null}; })"""
+
+
+async def tap_seat_one(pg, cdp, sid, k, s):
+    t = '[TAPSEAT %s #%d（%s, %s）]' % (sid, k + 1, s['sx'], s['sz'])
+    await at_shop(pg, cdp, sid, H_INT, '（點椅子 #%d）' % (k + 1))
+    occ = await pg.evaluate(OCC_JS, [s['sx'], s['sz']])
+    if occ: R.note('%s 有人坐著 %s：跳過' % (t, J(occ))); return 'occupied'
+    sy = 0.45 + (s.get('lift') or 0) + (s.get('sy') or 0)
+    pt = await pg.evaluate(TAP_PT, [s['sx'], sy, s['sz']])
+    if not pt or pt.get('off') or not pt.get('canvas'):
+        R.note('%s 從進門位置看，椅面在畫面外或被按鈕蓋住（%s）：用手指滑轉鏡頭朝椅子' % (t, J(pt)))
+        await L.turn_camera_to(pg, cdp, s['sx'], s['sz']); pt = await pg.evaluate(TAP_PT, [s['sx'], sy, s['sz']])
+    if not pt or pt.get('off') or not pt.get('canvas'):
+        R.check('%s 畫面上點得到這張椅子' % t, False, J(pt)); return 'notap'
+    fb0 = (await D.st(pg))['fb']
+    R.note('%s 點椅面 螢幕 (%s, %s)：落在地板 %s、tapRedirect 改走到 %s' % (t, pt['sx'], pt['sy'], pt['hit'], pt['redirect']))
+    await L.touch_tap(cdp, pt['sx'], pt['sy'])
+    t0 = time.time(); last = None; still = 0
+    while time.time() - t0 < 40:
+        await pg.wait_for_timeout(500)
+        m = await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position; return {x:+o.x.toFixed(3), z:+o.z.toFixed(3), path:!!(P.path&&P.path.length), tp:P.tapPref?[+P.tapPref.x.toFixed(2),+P.tapPref.z.toFixed(2)]:null}; })()")
+        if last and not m['path'] and math.hypot(m['x'] - last['x'], m['z'] - last['z']) < 0.01: still += 1
+        else: still = 0
+        last = m
+        if still >= 2: break
+    b = await D.settle(pg); ni = await pg.evaluate(D.NEAR_IT)
+    mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
+    R.note('%s 走到 (%s, %s)（%.1f 秒；tapPref %s）：互動鍵「%s」、指到的座位 %s' % (t, b['x'], b['z'], time.time() - t0, J(last and last['tp']), b['interact'], J(ni and ni['seat'])))
+    ok_btn = R.check('%s 點椅子走過去，互動鍵是「%s」而且就是這一張' % (t, s['label']), b['interact'].startswith(s['label']) and mine, J({'interact': b['interact'], 'near': ni}))
+    if not ok_btn:
+        await game_shot(pg, fn('tapseat', sid, H_INT, 'nobtn%d' % (k + 1), False), t, judge=False); return 'nobtn'
+    await L.tap(pg, cdp, '#interact'); sat = None
+    for _ in range(20):
+        await pg.wait_for_timeout(500)
+        sat = await pg.evaluate("(()=>{ const s=GAME.E.player.seat; return s?[+s.x.toFixed(3),+s.z.toFixed(3)]:null; })()")
+        if sat: break
+    d = math.hypot(sat[0] - s['sx'], sat[1] - s['sz']) if sat else None
+    R.check('%s 按下去坐到這一張（座位差 ≤0.15 m）' % t, sat is not None and d <= 0.15, J({'sat': sat, 'want': [s['sx'], s['sz']]}))
+    R.check('%s walkFallbacks 沒增加' % t, (await D.st(pg))['fb'] == fb0, '')
+    await game_shot(pg, fn('tapseat', sid, H_INT, 'sit%d' % (k + 1), False), t, judge=False)
+    return 'ok' if (sat and d <= 0.15) else 'wrong'
+
+
+async def part_tapseat(pg, cdp, sid, idxs):
+    await at_shop(pg, cdp, sid, H_INT)
+    seats = await pg.evaluate(D.SEATS); res = {}
+    for k in idxs:
+        if 1 <= k <= len(seats): res[k] = await tap_seat_one(pg, cdp, sid, k - 1, seats[k - 1])
+    R.note('[TAPSEAT %s] 結果 %s' % (sid, J(res)))
+
+
 def parse(p):
     """EXT14／SEATS_korea_1-7／CORNERS_tea → (base, shop, (a,b))"""
     bits = p.split('_'); base = bits[0].upper()
@@ -840,6 +898,8 @@ async def main():
                     elif base == 'LANEWALK': await part_lanewalk(pg, cdp)
                     elif base == 'CORNERS':
                         for sid in shop_filter(shop, NEW9): await part_corners(pg, cdp, sid)
+                    elif base == 'TAPSEAT':   # TAPSEAT_<店>_<號.號.號>（從 1 起）
+                        await part_tapseat(pg, cdp, shop, [int(x) for x in part.split('_')[2].split('.') if x])
                     elif base == 'SEATS':
                         for sid in shop_filter(shop, NEW9): await part_seats(pg, cdp, sid, rng)
                     elif base == 'WALLWALK':
