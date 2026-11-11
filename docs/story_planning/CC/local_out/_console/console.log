@@ -1,11 +1,3 @@
-[09:29:47] [res] cpu=20% mem=44% (13.8/31.4 GB) chrome_testing=9  END ART2_ggext_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       acd027068..8f186bd6c  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:29:54] ==== END   ART2_ggext_new  exit=0  114s   ====
-[09:29:57] memory 45% before starting ART2_int_gg_new (2 running)
-[09:29:57] ==== START ART2_int_gg_new  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
-[09:30:00] [res] cpu=16% mem=46% (14.3/31.4 GB) chrome_testing=9  START ART2_int_gg_new
 [09:30:35] [res] cpu=17% mem=40% (12.5/31.4 GB) chrome_testing=4  END FN_shots_b_old_r2
 [09:30:40] [res] cpu=17% mem=40% (12.6/31.4 GB) chrome_testing=4  END ART2_ggext_old
     To https://github.com/pyhuanglaw/Lawstudent.git
@@ -1998,3 +1990,11 @@
 [16:59:16] ==== START L118A6_VIEWS  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
 [16:59:19] [res] cpu=0% mem=49% (15.4/31.4 GB) chrome_testing=9  START L118A6_VIEWS
 [16:59:54] [res] cpu=10% mem=45% (15.3/31.4 GB) chrome_testing=8  END STAIR_new_run10
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       49a1c1d2e..2a143eff2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:59:59] ==== END   STAIR_new_run10  exit=1  1240s  timeout 20 min ====
+[17:00:02] memory 46% before starting L118A6_DRINK (2 running)
+[17:00:02] ==== START L118A6_DRINK  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[17:00:05] [res] cpu=9% mem=47% (14.5/31.4 GB) chrome_testing=8  START L118A6_DRINK
+[17:01:09] [res] cpu=4% mem=49% (15.7/31.4 GB) chrome_testing=8  END L118A6_EXT20
