@@ -1,11 +1,3 @@
-[08:22:10] ==== END   SC3_v1_r2  exit=0  145s   ====
-[08:22:14] memory 50% before starting NM_shots_c_r2 (2 running)
-[08:22:14] ==== START NM_shots_c_r2  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
-[08:22:17] [res] cpu=0% mem=50% (15.7/31.4 GB) chrome_testing=9  START NM_shots_c_r2
-[08:23:27] [res] cpu=3% mem=49% (15.5/31.4 GB) chrome_testing=9  END NM_shots_a_r2
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       7bb5489c2..7dd527469  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [08:23:34] ==== END   NM_shots_a_r2  exit=0  367s   ====
 [08:23:37] memory 46% before starting NM_walk_new_r2 (2 running)
 [08:23:37] ==== START NM_walk_new_r2  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
@@ -1998,3 +1990,11 @@
 [15:29:32] ==== START L118D_E_TABLE_r2  (probe @ b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa) ====
 [15:29:35] [res] cpu=0% mem=49% (15.5/31.4 GB) chrome_testing=10  START L118D_E_TABLE_r2
 [15:30:49] [res] cpu=1% mem=49% (15.3/31.4 GB) chrome_testing=9  END L118D_E_MAIN_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3b37d6979..527c0c40b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:30:56] ==== END   L118D_E_MAIN_r2  exit=0  183s   ====
+[15:30:59] memory 49% before starting L118D_H_D_r2 (2 running)
+[15:30:59] ==== START L118D_H_D_r2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
+[15:31:02] [res] cpu=2% mem=49% (15.6/31.4 GB) chrome_testing=10  START L118D_H_D_r2
+[15:31:52] [res] cpu=27% mem=50% (15.7/31.4 GB) chrome_testing=9  END L118D_E_SEATMIX_C

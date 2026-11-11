@@ -1,0 +1,376 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_e_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_E_SEATMIX_C\out
+CC L118D_E（118 巷課後午餐邀約）：SHA=b131eef2d worktree=?；PARTS=SEATMIX_C；REL=FRI；橫向；Playwright 手機模擬 ≠ iPhone
+== SEATMIX_C
+  [   0.7s] SEATMIX_C：店 ["korea", "omu", "noodle2"] × 人數 [2, 3, 4]（SHOPS／SIZES 環境變數可改）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS SEATMIX_C：遊戲載入
+PASS SEATMIX_C：遊戲有午餐邀約系統（LUNCH118＋L118_LUNCH_DATA）
+  [前置／捷徑] SEATMIX_C：最小存檔 2025-10-15（第 29 天）12.00 classroom（條件事件關著）
+  [前置／捷徑] SEATMIX_C：好友值 FRI（熟悉 50、信任 35、自在 20）：{"heroine_01": "FRIEND", "classmate_bohan": "FRIEND", "classmate_peishan": "FRIEND", "classmate_mingxuan": "FRIEND", "classmate_xinci": "FRIEND", "classmate_youchen": "FRIEND", "zhe": "FRIEND", "yu": "FRIEND"}
+PASS SEATMIX_C：2025-10-15（週三）有法律系館上午課（{"key": "29:crim_gen1:am", "c": "刑法總則（一）", "t1": 12.166666666666666}）
+  [前置／捷徑] SEATMIX_C_1_korea2：同一份進度 2025-10-15 12.19 在 201、那一堂記成上過（29:crim_gen1:am）、清掉今天的午餐紀錄（條件事件關著）
+  [前置／捷徑] SEATMIX_C_1_korea2：【捷徑】LUNCH118.plan 換成固定的：zhe 約去 清州刀削麵（korea），同行 []（含玩家 2 人）；營業中＝True
+  [前置／捷徑] SEATMIX_C_1_korea2：【捷徑】叫 LUNCH118.afterClass(GAME, 29:crim_gen1:am)＝下課選單一開頭的那個掛勾（不重上一堂課）
+  [  60.9s] SEATMIX_C_1_korea2：邀約選單 ["「好，走。」", "「今天不行，下次。」"] → 點「「好，走。」」
+  [  73.6s] SEATMIX_C_1_korea2：進門那一刻（黑幕 True）截圖 l118e_SEATMIX_C_enter_1.png；店裡 {"passers": 9, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [  74.3s] SEATMIX_C_1_korea2：黑幕剛淡出 截圖 l118e_SEATMIX_C_fadeout_1.png；店裡 {"passers": 9, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [  75.6s] SEATMIX_C_1_korea2：入座（l118_korea）分組方式＝配置的 table／group 欄位（L118_SHOP_LAYOUTS）；2 人分 1 桌（["table -1.75,-1.2"]）；店的桌子 {"table -1.75,-1.2": 4, "table -1.75,0.75": 4, "table 0.4,-1.2": 4, "table 0.4,0.75": 4, "table 0.4,2.7": 4}
+  [  75.6s] SEATMIX_C_1_korea2：  祐廷（player）坐下 桌號 1（table -1.75,-1.2）座位 {"x": -2, "z": -1.86} 位置 {"x": -2, "z": -1.86} 離玩家 0 m 姿勢 sit
+  [  75.6s] SEATMIX_C_1_korea2：  阿哲（zhe）坐下 桌號 1（table -1.75,-1.2）座位 {"x": -2, "z": -0.54} 位置 {"x": -2, "z": -0.54} 離玩家 1.32 m 姿勢 sit
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.229 classroom] lunch.after {"key": "29:crim_gen1:am", "ev": false, "inv0": null}
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.229 classroom] lunch.planForced {"P": {"who": "zhe", "mates": [], "party": ["zhe"], "shop": "korea", "shopName": "清州刀削麵", "item": "炸醬刀削麵", "price": 140, "poor": false, "grp": "L-zhe-5", "sp": null, "el": ["zhe"], "top": 3, "p": 1, "h0": 12.228776666666576, "hA": 12.395443333333242, "hEnd": 12.895443333333242, "lim": 24}}
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.229 classroom] 說 阿哲：欸，中午 118？清州刀削麵，我揪。
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.229 classroom] 選單 ["「好，走。」", "「今天不行，下次。」"]
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.229 classroom]   → 選了 #0 「好，走。」
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.229 classroom] lunch.show {}
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.395 classroom] enter l118_korea
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.395 l118_korea] lunch.seat0 {"party": ["zhe"], "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.2, "z": -3.75}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -1.86}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -0.54}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.65, "z": -1.86}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.65, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 2.04}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 3.36}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": -2, "z": -1.86}]}
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.395 l118_korea] lunch.seated {"n": 1, "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.2, "z": -3.75}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -1.86}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -0.54}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.65, "z": -1.86}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.65, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 2.04}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 3.36}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": -2, "z": -0.54}]}
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.395 l118_korea] entered l118_korea
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.395 l118_korea] lunch.stage3d {"v": true}
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.395 l118_korea] 說 （旁白）：（清州刀削麵。門口的師傅在削麵，一片一片飛進鍋裡。）
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.395 l118_korea] 說 阿哲：老闆記得我。剛剛沒講，他就多給一匙。
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.395 l118_korea] 說 祐廷：因為你每天來吧。
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.395 l118_korea] 說 阿哲：因為我每次都把盤子收好。這是策略。
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.895 l118_korea] lunch.settle {"skip": false, "sp": null}
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.895 l118_korea] 錢 -140（餐費）
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.895 l118_korea] 提示：📓 吃過的：118 巷・清州刀削麵　炸醬刀削麵
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.895 l118_korea] 說 （旁白）：（店名是清州，老闆講的是臺語。你沒有問為什麼。）
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.895 l118_korea] lunch.settled {"out": {"price": 140, "item": "炸醬刀削麵", "pts": {"zhe": 2}}}
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.895 l118_korea] 說 （旁白）：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.895 l118_korea] lunch.afterEnd {"key": "29:crim_gen1:am", "ret": "done"}
+  [  85.6s] SEATMIX_C_1_korea2 [第29天 12.901 l118_korea] 提示：30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS SEATMIX_C_1_korea2：接受邀約、走進 清州刀削麵（GM.enter l118_korea，3D）  {"tapped": true, "stage3d": true}
+  [  85.6s] SEATMIX_C_1_korea2：seatParty 坐下的同行 1 人
+PASS SEATMIX_C_1_korea2：korea 2 人坐同一桌（最遠 ≤1.5 m）：1 張桌 ["table -1.75,-1.2"]、任兩人最遠 1.32 m、桌子中心間距 []（配置的 table／group 欄位（L118_SHOP_LAYOUTS））  [["player", 1, "table -1.75,-1.2", {"x": -2, "z": -1.86}, 0], ["zhe", 1, "table -1.75,-1.2", {"x": -2, "z": -0.54}, 1.32]]
+  [  85.6s] SEATMIX_C_1_korea2：店裡的路人 入座前 9 → 入座後 9 → 淡出 9 → 對話時 9；有名字的 NPC 入座前 [] → 對話時 []（離開中 []）
+PASS SEATMIX_C_1_korea2：讓位以後店裡不是空的（入座前路人 9、之後 9；原本就 0 人也算過）  {"前": {"passers": 9, "passersLeaving": 0, "named": [], "namedLeaving": []}, "後": {"passers": 9, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_1_korea2：有名字的 NPC 沒有被趕走（入座前 []；不見或離開中 []）  {"前": [], "後": {"passers": 9, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_1_korea2：錢只扣玩家那一份 140 元（[-140]；30000 → 29860）  [-140]
+  [前置／捷徑] SEATMIX_C_2_korea3：同一份進度 2025-10-15 12.19 在 201、那一堂記成上過（29:crim_gen1:am）、清掉今天的午餐紀錄（條件事件關著）
+  [前置／捷徑] SEATMIX_C_2_korea3：【捷徑】LUNCH118.plan 換成固定的：zhe 約去 清州刀削麵（korea），同行 ["yu"]（含玩家 3 人）；營業中＝True
+  [前置／捷徑] SEATMIX_C_2_korea3：【捷徑】叫 LUNCH118.afterClass(GAME, 29:crim_gen1:am)＝下課選單一開頭的那個掛勾（不重上一堂課）
+  [  94.2s] SEATMIX_C_2_korea3：邀約選單 ["「好，走。」", "「今天不行，下次。」"] → 點「「好，走。」」
+  [  97.9s] SEATMIX_C_2_korea3：進門那一刻（黑幕 True）截圖 l118e_SEATMIX_C_enter_2.png；店裡 {"passers": 9, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [  98.5s] SEATMIX_C_2_korea3：黑幕剛淡出 截圖 l118e_SEATMIX_C_fadeout_2.png；店裡 {"passers": 9, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [  99.7s] SEATMIX_C_2_korea3：入座（l118_korea）分組方式＝配置的 table／group 欄位（L118_SHOP_LAYOUTS）；3 人分 1 桌（["table 0.4,-1.2"]）；店的桌子 {"table -1.75,-1.2": 4, "table -1.75,0.75": 4, "table 0.4,-1.2": 4, "table 0.4,0.75": 4, "table 0.4,2.7": 4}
+  [  99.7s] SEATMIX_C_2_korea3：  祐廷（player）坐下 桌號 1（table 0.4,-1.2）座位 {"x": 0.15, "z": -1.86} 位置 {"x": 0.15, "z": -1.86} 離玩家 0 m 姿勢 sit
+  [  99.7s] SEATMIX_C_2_korea3：  阿哲（zhe）坐下 桌號 1（table 0.4,-1.2）座位 {"x": 0.15, "z": -0.54} 位置 {"x": 0.15, "z": -0.54} 離玩家 1.32 m 姿勢 sit
+  [  99.7s] SEATMIX_C_2_korea3：  Alison（yu）坐下 桌號 1（table 0.4,-1.2）座位 {"x": 0.65, "z": -0.54} 位置 {"x": 0.65, "z": -0.54} 離玩家 1.41 m 姿勢 sit
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.228 classroom] lunch.after {"key": "29:crim_gen1:am", "ev": false, "inv0": null}
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.228 classroom] lunch.planForced {"P": {"who": "zhe", "mates": ["yu"], "party": ["zhe", "yu"], "shop": "korea", "shopName": "清州刀削麵", "item": "炸醬刀削麵", "price": 140, "poor": false, "grp": "G-zhe-yu", "sp": null, "el": ["zhe", "yu"], "top": 3, "p": 1, "h0": 12.2282199999999, "hA": 12.394886666666567, "hEnd": 12.894886666666567, "lim": 24}}
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.228 classroom] 說 阿哲：欸，中午 118？清州刀削麵，我揪。
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.228 classroom] 選單 ["「好，走。」", "「今天不行，下次。」"]
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.228 classroom]   → 選了 #0 「好，走。」
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.228 classroom] lunch.show {}
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.395 classroom] enter l118_korea
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.395 l118_korea] lunch.seat0 {"party": ["zhe", "yu"], "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.2, "z": -3.75}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -1.86}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -0.54}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.65, "z": -1.86}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.65, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 2.04}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 3.36}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": -2, "z": -1.86}]}
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.395 l118_korea] lunch.seated {"n": 2, "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.2, "z": -3.75}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -1.86}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -0.54}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.65, "z": -1.86}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.65, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 2.04}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 3.36}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": 0.15, "z": -0.54}, {"id": "yu", "name": "Alison", "named": true, "hidden": false, "leaving": false, "x": 0.65, "z": -0.54}]}
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.395 l118_korea] entered l118_korea
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.395 l118_korea] lunch.stage3d {"v": true}
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.395 l118_korea] 說 （旁白）：（清州刀削麵。門口的師傅在削麵，一片一片飛進鍋裡。）
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.395 l118_korea] 說 阿哲：她又要點一樣的。
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.395 l118_korea] 說 Alison：一樣的才不會踩雷！
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.395 l118_korea] 說 祐廷：妳點什麼？
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.395 l118_korea] 說 Alison：你等一下看就知道，每次都那個。
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.895 l118_korea] lunch.settle {"skip": false, "sp": null}
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.895 l118_korea] 錢 -140（餐費）
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.895 l118_korea] 提示：📓 吃過的：118 巷・清州刀削麵　炸醬刀削麵
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.895 l118_korea] 說 （旁白）：（店名是清州，老闆講的是臺語。你沒有問為什麼。）
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.895 l118_korea] lunch.settled {"out": {"price": 140, "item": "炸醬刀削麵", "pts": {"zhe": 2, "yu": 2}}}
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.895 l118_korea] 說 （旁白）：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.895 l118_korea] lunch.afterEnd {"key": "29:crim_gen1:am", "ret": "done"}
+  [ 110.4s] SEATMIX_C_2_korea3 [第29天 12.898 l118_korea] 提示：30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS SEATMIX_C_2_korea3：接受邀約、走進 清州刀削麵（GM.enter l118_korea，3D）  {"tapped": true, "stage3d": true}
+  [ 110.4s] SEATMIX_C_2_korea3：seatParty 坐下的同行 2 人
+PASS SEATMIX_C_2_korea3：korea 3 人坐同一桌（最遠 ≤1.5 m）：1 張桌 ["table 0.4,-1.2"]、任兩人最遠 1.41 m、桌子中心間距 []（配置的 table／group 欄位（L118_SHOP_LAYOUTS））  [["player", 1, "table 0.4,-1.2", {"x": 0.15, "z": -1.86}, 0], ["zhe", 1, "table 0.4,-1.2", {"x": 0.15, "z": -0.54}, 1.32], ["yu", 1, "table 0.4,-1.2", {"x": 0.65, "z": -0.54}, 1.41]]
+  [ 110.4s] SEATMIX_C_2_korea3：店裡的路人 入座前 9 → 入座後 9 → 淡出 9 → 對話時 9；有名字的 NPC 入座前 [] → 對話時 []（離開中 []）
+PASS SEATMIX_C_2_korea3：讓位以後店裡不是空的（入座前路人 9、之後 9；原本就 0 人也算過）  {"前": {"passers": 9, "passersLeaving": 0, "named": [], "namedLeaving": []}, "後": {"passers": 9, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_2_korea3：有名字的 NPC 沒有被趕走（入座前 []；不見或離開中 []）  {"前": [], "後": {"passers": 9, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_2_korea3：錢只扣玩家那一份 140 元（[-140]；30000 → 29860）  [-140]
+  [前置／捷徑] SEATMIX_C_3_korea4：同一份進度 2025-10-15 12.19 在 201、那一堂記成上過（29:crim_gen1:am）、清掉今天的午餐紀錄（條件事件關著）
+  [前置／捷徑] SEATMIX_C_3_korea4：【捷徑】LUNCH118.plan 換成固定的：zhe 約去 清州刀削麵（korea），同行 ["yu", "classmate_mingxuan"]（含玩家 4 人）；營業中＝True
+  [前置／捷徑] SEATMIX_C_3_korea4：【捷徑】叫 LUNCH118.afterClass(GAME, 29:crim_gen1:am)＝下課選單一開頭的那個掛勾（不重上一堂課）
+  [ 119.1s] SEATMIX_C_3_korea4：邀約選單 ["「好，走。」", "「今天不行，下次。」"] → 點「「好，走。」」
+  [ 122.3s] SEATMIX_C_3_korea4：進門那一刻（黑幕 True）截圖 l118e_SEATMIX_C_enter_3.png；店裡 {"passers": 8, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [ 122.9s] SEATMIX_C_3_korea4：黑幕剛淡出 截圖 l118e_SEATMIX_C_fadeout_3.png；店裡 {"passers": 8, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [ 124.1s] SEATMIX_C_3_korea4：入座（l118_korea）分組方式＝配置的 table／group 欄位（L118_SHOP_LAYOUTS）；4 人分 1 桌（["table 0.4,-1.2"]）；店的桌子 {"table -1.75,-1.2": 4, "table -1.75,0.75": 4, "table 0.4,-1.2": 4, "table 0.4,0.75": 4, "table 0.4,2.7": 4}
+  [ 124.1s] SEATMIX_C_3_korea4：  祐廷（player）坐下 桌號 1（table 0.4,-1.2）座位 {"x": 0.15, "z": -1.86} 位置 {"x": 0.15, "z": -1.86} 離玩家 0 m 姿勢 sit
+  [ 124.1s] SEATMIX_C_3_korea4：  阿哲（zhe）坐下 桌號 1（table 0.4,-1.2）座位 {"x": 0.15, "z": -0.54} 位置 {"x": 0.15, "z": -0.54} 離玩家 1.32 m 姿勢 sit
+  [ 124.1s] SEATMIX_C_3_korea4：  Alison（yu）坐下 桌號 1（table 0.4,-1.2）座位 {"x": 0.65, "z": -0.54} 位置 {"x": 0.65, "z": -0.54} 離玩家 1.41 m 姿勢 sit
+  [ 124.1s] SEATMIX_C_3_korea4：  明軒（classmate_mingxuan）坐下 桌號 1（table 0.4,-1.2）座位 {"x": 0.65, "z": -1.86} 位置 {"x": 0.65, "z": -1.86} 離玩家 0.5 m 姿勢 sit
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.229 classroom] lunch.after {"key": "29:crim_gen1:am", "ev": false, "inv0": null}
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.229 classroom] lunch.planForced {"P": {"who": "zhe", "mates": ["yu", "classmate_mingxuan"], "party": ["zhe", "yu", "classmate_mingxuan"], "shop": "korea", "shopName": "清州刀削麵", "item": "炸醬刀削麵", "price": 140, "poor": false, "grp": "G-zhe-yu-mx", "sp": null, "el": ["zhe", "yu", "classmate_mingxuan"], "top": 3, "p": 1, "h0": 12.228775999999911, "hA": 12.395442666666577, "hEnd": 12.895442666666577, "lim": 24}}
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.229 classroom] 說 阿哲：欸，中午 118？清州刀削麵，我揪。
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.229 classroom] 選單 ["「好，走。」", "「今天不行，下次。」"]
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.229 classroom]   → 選了 #0 「好，走。」
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.229 classroom] lunch.show {}
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.395 classroom] enter l118_korea
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.395 l118_korea] lunch.seat0 {"party": ["zhe", "yu", "classmate_mingxuan"], "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.2, "z": -3.75}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -1.86}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -0.54}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.65, "z": -1.86}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.65, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 2.04}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 3.36}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": -2, "z": -1.86}]}
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.395 l118_korea] lunch.seated {"n": 3, "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.2, "z": -3.75}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -1.86}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": -0.54}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -1.5, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.65, "z": 0.09}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 2.04}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.15, "z": 3.36}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": 0.15, "z": -0.54}, {"id": "yu", "name": "Alison", "named": true, "hidden": false, "leaving": false, "x": 0.65, "z": -0.54}, {"id": "classmate_mingxuan", "name": "明軒", "named": true, "hidden": false, "leaving": false, "x": 0.65, "z": -1.86}]}
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.395 l118_korea] entered l118_korea
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.395 l118_korea] lunch.stage3d {"v": true}
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.395 l118_korea] 說 （旁白）：（清州刀削麵。門口的師傅在削麵，一片一片飛進鍋裡。）
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.395 l118_korea] 說 阿哲：四個人剛好一桌。
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.395 l118_korea] 說 明軒：四個人分小菜最划算。
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.395 l118_korea] 說 Alison：你們兩個可以講一點跟錢無關的嗎？
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.895 l118_korea] lunch.settle {"skip": false, "sp": null}
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.895 l118_korea] 錢 -140（餐費）
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.895 l118_korea] 提示：📓 吃過的：118 巷・清州刀削麵　炸醬刀削麵
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.895 l118_korea] 說 （旁白）：（店名是清州，老闆講的是臺語。你沒有問為什麼。）
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.895 l118_korea] lunch.settled {"out": {"price": 140, "item": "炸醬刀削麵", "pts": {"zhe": 2, "yu": 2, "classmate_mingxuan": 2}}}
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.895 l118_korea] 說 （旁白）：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.895 l118_korea] lunch.afterEnd {"key": "29:crim_gen1:am", "ret": "done"}
+  [ 133.8s] SEATMIX_C_3_korea4 [第29天 12.898 l118_korea] 提示：30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS SEATMIX_C_3_korea4：接受邀約、走進 清州刀削麵（GM.enter l118_korea，3D）  {"tapped": true, "stage3d": true}
+  [ 133.9s] SEATMIX_C_3_korea4：seatParty 坐下的同行 3 人
+PASS SEATMIX_C_3_korea4：korea 4 人坐同一桌（最遠 ≤1.5 m）：1 張桌 ["table 0.4,-1.2"]、任兩人最遠 1.41 m、桌子中心間距 []（配置的 table／group 欄位（L118_SHOP_LAYOUTS））  [["player", 1, "table 0.4,-1.2", {"x": 0.15, "z": -1.86}, 0], ["zhe", 1, "table 0.4,-1.2", {"x": 0.15, "z": -0.54}, 1.32], ["yu", 1, "table 0.4,-1.2", {"x": 0.65, "z": -0.54}, 1.41], ["classmate_mingxuan", 1, "table 0.4,-1.2", {"x": 0.65, "z": -1.86}, 0.5]]
+  [ 133.9s] SEATMIX_C_3_korea4：店裡的路人 入座前 9 → 入座後 8 → 淡出 8 → 對話時 8；有名字的 NPC 入座前 [] → 對話時 []（離開中 []）
+PASS SEATMIX_C_3_korea4：讓位以後店裡不是空的（入座前路人 9、之後 8；原本就 0 人也算過）  {"前": {"passers": 9, "passersLeaving": 0, "named": [], "namedLeaving": []}, "後": {"passers": 8, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_3_korea4：有名字的 NPC 沒有被趕走（入座前 []；不見或離開中 []）  {"前": [], "後": {"passers": 8, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_3_korea4：錢只扣玩家那一份 140 元（[-140]；30000 → 29860）  [-140]
+  [前置／捷徑] SEATMIX_C_4_omu2：同一份進度 2025-10-15 12.19 在 201、那一堂記成上過（29:crim_gen1:am）、清掉今天的午餐紀錄（條件事件關著）
+  [前置／捷徑] SEATMIX_C_4_omu2：【捷徑】LUNCH118.plan 換成固定的：zhe 約去 奈良咖哩（omu），同行 []（含玩家 2 人）；營業中＝True
+  [前置／捷徑] SEATMIX_C_4_omu2：【捷徑】叫 LUNCH118.afterClass(GAME, 29:crim_gen1:am)＝下課選單一開頭的那個掛勾（不重上一堂課）
+  [ 143.0s] SEATMIX_C_4_omu2：邀約選單 ["「好，走。」", "「今天不行，下次。」"] → 點「「好，走。」」
+  [ 148.8s] SEATMIX_C_4_omu2：進門那一刻（黑幕 True）截圖 l118e_SEATMIX_C_enter_4.png；店裡 {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}
+  [ 149.4s] SEATMIX_C_4_omu2：黑幕剛淡出 截圖 l118e_SEATMIX_C_fadeout_4.png；店裡 {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}
+  [ 150.5s] SEATMIX_C_4_omu2：入座（l118_omu）分組方式＝配置的 table／group 欄位（L118_SHOP_LAYOUTS）；2 人分 1 桌（["table -2.91,-1"]）；店的桌子 {"table -2.91,-1": 2, "table -2.91,1": 2, "table -0.3,1": 4, "table 2.61,-1.4": 4, "table 2.61,0.6": 4, "table 2.61,2.6": 4}
+  [ 150.5s] SEATMIX_C_4_omu2：  祐廷（player）坐下 桌號 1（table -2.91,-1）座位 {"x": -2.9, "z": -1.66} 位置 {"x": -2.9, "z": -1.66} 離玩家 0 m 姿勢 sit
+  [ 150.5s] SEATMIX_C_4_omu2：  阿哲（zhe）坐下 桌號 1（table -2.91,-1）座位 {"x": -2.9, "z": -0.34} 位置 {"x": -2.9, "z": -0.34} 離玩家 1.32 m 姿勢 sit
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.228 classroom] lunch.after {"key": "29:crim_gen1:am", "ev": false, "inv0": null}
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.228 classroom] lunch.planForced {"P": {"who": "zhe", "mates": [], "party": ["zhe"], "shop": "omu", "shopName": "奈良咖哩", "item": "可樂餅咖哩", "price": 170, "poor": false, "grp": "L-zhe-5", "sp": null, "el": ["zhe"], "top": 3, "p": 1, "h0": 12.22799733333322, "hA": 12.394663999999887, "hEnd": 12.894663999999887, "lim": 24}}
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.228 classroom] 說 阿哲：欸，中午 118？奈良咖哩，我揪。
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.228 classroom] 選單 ["「好，走。」", "「今天不行，下次。」"]
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.228 classroom]   → 選了 #0 「好，走。」
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.228 classroom] lunch.show {}
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.395 classroom] enter l118_omu
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.395 l118_omu] lunch.seat0 {"party": ["zhe"], "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.4, "z": -3.5}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 0.34}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 1.66}, {"id": "classmate_peishan", "name": "沛珊", "named": true, "hidden": false, "leaving": false, "x": -2.9, "z": 0.34}]}
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.395 l118_omu] lunch.seated {"n": 1, "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.4, "z": -3.5}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 0.34}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 1.66}, {"id": "classmate_peishan", "name": "沛珊", "named": true, "hidden": false, "leaving": false, "x": -2.9, "z": 0.34}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": -2.9, "z": -0.34}]}
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.395 l118_omu] entered l118_omu
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.395 l118_omu] lunch.stage3d {"v": true}
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.395 l118_omu] 說 （旁白）：（奈良咖哩。一進門就是咖哩的味道。）
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.395 l118_omu] 說 阿哲：老闆記得我。剛剛沒講，他就多給一匙。
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.395 l118_omu] 說 祐廷：因為你每天來吧。
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.395 l118_omu] 說 阿哲：因為我每次都把盤子收好。這是策略。
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.895 l118_omu] lunch.settle {"skip": false, "sp": null}
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.895 l118_omu] 錢 -170（餐費）
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.895 l118_omu] 提示：📓 吃過的：118 巷・奈良咖哩　可樂餅咖哩
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.895 l118_omu] 說 （旁白）：（招牌是黃色的。一推門，衣服上就有咖哩的味道了。）
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.895 l118_omu] lunch.settled {"out": {"price": 170, "item": "可樂餅咖哩", "pts": {"zhe": 2}}}
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.895 l118_omu] 說 （旁白）：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.895 l118_omu] lunch.afterEnd {"key": "29:crim_gen1:am", "ret": "done"}
+  [ 159.6s] SEATMIX_C_4_omu2 [第29天 12.898 l118_omu] 提示：30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS SEATMIX_C_4_omu2：接受邀約、走進 奈良咖哩（GM.enter l118_omu，3D）  {"tapped": true, "stage3d": true}
+  [ 159.6s] SEATMIX_C_4_omu2：seatParty 坐下的同行 1 人
+PASS SEATMIX_C_4_omu2：omu 2 人坐同一桌（最遠 ≤1.5 m）：1 張桌 ["table -2.91,-1"]、任兩人最遠 1.32 m、桌子中心間距 []（配置的 table／group 欄位（L118_SHOP_LAYOUTS））  [["player", 1, "table -2.91,-1", {"x": -2.9, "z": -1.66}, 0], ["zhe", 1, "table -2.91,-1", {"x": -2.9, "z": -0.34}, 1.32]]
+  [ 159.6s] SEATMIX_C_4_omu2：店裡的路人 入座前 3 → 入座後 3 → 淡出 3 → 對話時 3；有名字的 NPC 入座前 ["classmate_peishan"] → 對話時 ["classmate_peishan"]（離開中 []）
+PASS SEATMIX_C_4_omu2：讓位以後店裡不是空的（入座前路人 3、之後 3；原本就 0 人也算過）  {"前": {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}, "後": {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}}
+PASS SEATMIX_C_4_omu2：有名字的 NPC 沒有被趕走（入座前 ["classmate_peishan"]；不見或離開中 []）  {"前": ["classmate_peishan"], "後": {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}}
+PASS SEATMIX_C_4_omu2：錢只扣玩家那一份 170 元（[-170]；30000 → 29830）  [-170]
+  [前置／捷徑] SEATMIX_C_5_omu3：同一份進度 2025-10-15 12.19 在 201、那一堂記成上過（29:crim_gen1:am）、清掉今天的午餐紀錄（條件事件關著）
+  [前置／捷徑] SEATMIX_C_5_omu3：【捷徑】LUNCH118.plan 換成固定的：zhe 約去 奈良咖哩（omu），同行 ["yu"]（含玩家 3 人）；營業中＝True
+  [前置／捷徑] SEATMIX_C_5_omu3：【捷徑】叫 LUNCH118.afterClass(GAME, 29:crim_gen1:am)＝下課選單一開頭的那個掛勾（不重上一堂課）
+  [ 168.3s] SEATMIX_C_5_omu3：邀約選單 ["「好，走。」", "「今天不行，下次。」"] → 點「「好，走。」」
+  [ 170.8s] SEATMIX_C_5_omu3：進門那一刻（黑幕 True）截圖 l118e_SEATMIX_C_enter_5.png；店裡 {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}
+  [ 171.4s] SEATMIX_C_5_omu3：黑幕剛淡出 截圖 l118e_SEATMIX_C_fadeout_5.png；店裡 {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}
+  [ 172.6s] SEATMIX_C_5_omu3：入座（l118_omu）分組方式＝配置的 table／group 欄位（L118_SHOP_LAYOUTS）；3 人分 1 桌（["table 2.61,-1.4"]）；店的桌子 {"table -2.91,-1": 2, "table -2.91,1": 2, "table -0.3,1": 4, "table 2.61,-1.4": 4, "table 2.61,0.6": 4, "table 2.61,2.6": 4}
+  [ 172.6s] SEATMIX_C_5_omu3：  祐廷（player）坐下 桌號 1（table 2.61,-1.4）座位 {"x": 2.28, "z": -2.06} 位置 {"x": 2.28, "z": -2.06} 離玩家 0 m 姿勢 sit
+  [ 172.6s] SEATMIX_C_5_omu3：  阿哲（zhe）坐下 桌號 1（table 2.61,-1.4）座位 {"x": 2.92, "z": -2.06} 位置 {"x": 2.92, "z": -2.06} 離玩家 0.64 m 姿勢 sit
+  [ 172.6s] SEATMIX_C_5_omu3：  Alison（yu）坐下 桌號 1（table 2.61,-1.4）座位 {"x": 2.28, "z": -0.74} 位置 {"x": 2.28, "z": -0.74} 離玩家 1.32 m 姿勢 sit
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.229 classroom] lunch.after {"key": "29:crim_gen1:am", "ev": false, "inv0": null}
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.229 classroom] lunch.planForced {"P": {"who": "zhe", "mates": ["yu"], "party": ["zhe", "yu"], "shop": "omu", "shopName": "奈良咖哩", "item": "可樂餅咖哩", "price": 170, "poor": false, "grp": "G-zhe-yu", "sp": null, "el": ["zhe", "yu"], "top": 3, "p": 1, "h0": 12.228553999999882, "hA": 12.395220666666548, "hEnd": 12.895220666666548, "lim": 24}}
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.229 classroom] 說 阿哲：欸，中午 118？奈良咖哩，我揪。
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.229 classroom] 選單 ["「好，走。」", "「今天不行，下次。」"]
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.229 classroom]   → 選了 #0 「好，走。」
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.229 classroom] lunch.show {}
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.395 classroom] enter l118_omu
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.395 l118_omu] lunch.seat0 {"party": ["zhe", "yu"], "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.4, "z": -3.5}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 0.34}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 1.66}, {"id": "classmate_peishan", "name": "沛珊", "named": true, "hidden": false, "leaving": false, "x": -2.9, "z": 0.34}]}
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.395 l118_omu] lunch.seated {"n": 2, "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.4, "z": -3.5}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 0.34}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 1.66}, {"id": "classmate_peishan", "name": "沛珊", "named": true, "hidden": false, "leaving": false, "x": -2.9, "z": 0.34}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": 2.92, "z": -2.06}, {"id": "yu", "name": "Alison", "named": true, "hidden": false, "leaving": false, "x": 2.28, "z": -0.74}]}
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.395 l118_omu] entered l118_omu
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.395 l118_omu] lunch.stage3d {"v": true}
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.395 l118_omu] 說 （旁白）：（奈良咖哩。一進門就是咖哩的味道。）
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.395 l118_omu] 說 阿哲：她又要點一樣的。
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.395 l118_omu] 說 Alison：一樣的才不會踩雷！
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.395 l118_omu] 說 祐廷：妳點什麼？
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.395 l118_omu] 說 Alison：你等一下看就知道，每次都那個。
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.895 l118_omu] lunch.settle {"skip": false, "sp": null}
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.895 l118_omu] 錢 -170（餐費）
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.895 l118_omu] 提示：📓 吃過的：118 巷・奈良咖哩　可樂餅咖哩
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.895 l118_omu] 說 （旁白）：（招牌是黃色的。一推門，衣服上就有咖哩的味道了。）
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.895 l118_omu] lunch.settled {"out": {"price": 170, "item": "可樂餅咖哩", "pts": {"zhe": 2, "yu": 2}}}
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.895 l118_omu] 說 （旁白）：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.895 l118_omu] lunch.afterEnd {"key": "29:crim_gen1:am", "ret": "done"}
+  [ 182.6s] SEATMIX_C_5_omu3 [第29天 12.896 l118_omu] 提示：30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS SEATMIX_C_5_omu3：接受邀約、走進 奈良咖哩（GM.enter l118_omu，3D）  {"tapped": true, "stage3d": true}
+  [ 182.6s] SEATMIX_C_5_omu3：seatParty 坐下的同行 2 人
+PASS SEATMIX_C_5_omu3：omu 3 人坐同一桌（最遠 ≤1.5 m）：1 張桌 ["table 2.61,-1.4"]、任兩人最遠 1.47 m、桌子中心間距 []（配置的 table／group 欄位（L118_SHOP_LAYOUTS））  [["player", 1, "table 2.61,-1.4", {"x": 2.28, "z": -2.06}, 0], ["zhe", 1, "table 2.61,-1.4", {"x": 2.92, "z": -2.06}, 0.64], ["yu", 1, "table 2.61,-1.4", {"x": 2.28, "z": -0.74}, 1.32]]
+  [ 182.6s] SEATMIX_C_5_omu3：店裡的路人 入座前 3 → 入座後 3 → 淡出 3 → 對話時 3；有名字的 NPC 入座前 ["classmate_peishan"] → 對話時 ["classmate_peishan"]（離開中 []）
+PASS SEATMIX_C_5_omu3：讓位以後店裡不是空的（入座前路人 3、之後 3；原本就 0 人也算過）  {"前": {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}, "後": {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}}
+PASS SEATMIX_C_5_omu3：有名字的 NPC 沒有被趕走（入座前 ["classmate_peishan"]；不見或離開中 []）  {"前": ["classmate_peishan"], "後": {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}}
+PASS SEATMIX_C_5_omu3：錢只扣玩家那一份 170 元（[-170]；30000 → 29830）  [-170]
+  [前置／捷徑] SEATMIX_C_6_omu4：同一份進度 2025-10-15 12.19 在 201、那一堂記成上過（29:crim_gen1:am）、清掉今天的午餐紀錄（條件事件關著）
+  [前置／捷徑] SEATMIX_C_6_omu4：【捷徑】LUNCH118.plan 換成固定的：zhe 約去 奈良咖哩（omu），同行 ["yu", "classmate_mingxuan"]（含玩家 4 人）；營業中＝True
+  [前置／捷徑] SEATMIX_C_6_omu4：【捷徑】叫 LUNCH118.afterClass(GAME, 29:crim_gen1:am)＝下課選單一開頭的那個掛勾（不重上一堂課）
+  [ 191.1s] SEATMIX_C_6_omu4：邀約選單 ["「好，走。」", "「今天不行，下次。」"] → 點「「好，走。」」
+  [ 193.3s] SEATMIX_C_6_omu4：進門那一刻（黑幕 True）截圖 l118e_SEATMIX_C_enter_6.png；店裡 {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}
+  [ 194.0s] SEATMIX_C_6_omu4：黑幕剛淡出 截圖 l118e_SEATMIX_C_fadeout_6.png；店裡 {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}
+  [ 195.1s] SEATMIX_C_6_omu4：入座（l118_omu）分組方式＝配置的 table／group 欄位（L118_SHOP_LAYOUTS）；4 人分 1 桌（["table 2.61,-1.4"]）；店的桌子 {"table -2.91,-1": 2, "table -2.91,1": 2, "table -0.3,1": 4, "table 2.61,-1.4": 4, "table 2.61,0.6": 4, "table 2.61,2.6": 4}
+  [ 195.1s] SEATMIX_C_6_omu4：  祐廷（player）坐下 桌號 1（table 2.61,-1.4）座位 {"x": 2.28, "z": -2.06} 位置 {"x": 2.28, "z": -2.06} 離玩家 0 m 姿勢 sit
+  [ 195.1s] SEATMIX_C_6_omu4：  阿哲（zhe）坐下 桌號 1（table 2.61,-1.4）座位 {"x": 2.92, "z": -2.06} 位置 {"x": 2.92, "z": -2.06} 離玩家 0.64 m 姿勢 sit
+  [ 195.1s] SEATMIX_C_6_omu4：  Alison（yu）坐下 桌號 1（table 2.61,-1.4）座位 {"x": 2.28, "z": -0.74} 位置 {"x": 2.28, "z": -0.74} 離玩家 1.32 m 姿勢 sit
+  [ 195.1s] SEATMIX_C_6_omu4：  明軒（classmate_mingxuan）坐下 桌號 1（table 2.61,-1.4）座位 {"x": 2.92, "z": -0.74} 位置 {"x": 2.92, "z": -0.74} 離玩家 1.47 m 姿勢 sit
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.228 classroom] lunch.after {"key": "29:crim_gen1:am", "ev": false, "inv0": null}
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.228 classroom] lunch.planForced {"P": {"who": "zhe", "mates": ["yu", "classmate_mingxuan"], "party": ["zhe", "yu", "classmate_mingxuan"], "shop": "omu", "shopName": "奈良咖哩", "item": "可樂餅咖哩", "price": 170, "poor": false, "grp": "G-zhe-yu-mx", "sp": null, "el": ["zhe", "yu", "classmate_mingxuan"], "top": 3, "p": 1, "h0": 12.227776666666543, "hA": 12.394443333333209, "hEnd": 12.894443333333209, "lim": 24}}
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.228 classroom] 說 阿哲：欸，中午 118？奈良咖哩，我揪。
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.228 classroom] 選單 ["「好，走。」", "「今天不行，下次。」"]
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.228 classroom]   → 選了 #0 「好，走。」
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.228 classroom] lunch.show {}
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.394 classroom] enter l118_omu
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.394 l118_omu] lunch.seat0 {"party": ["zhe", "yu", "classmate_mingxuan"], "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.4, "z": -3.5}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 0.34}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 1.66}, {"id": "classmate_peishan", "name": "沛珊", "named": true, "hidden": false, "leaving": false, "x": -2.9, "z": 0.34}]}
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.394 l118_omu] lunch.seated {"n": 3, "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.4, "z": -3.5}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 0.34}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.6, "z": 1.66}, {"id": "classmate_peishan", "name": "沛珊", "named": true, "hidden": false, "leaving": false, "x": -2.9, "z": 0.34}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": 2.92, "z": -2.06}, {"id": "yu", "name": "Alison", "named": true, "hidden": false, "leaving": false, "x": 2.28, "z": -0.74}, {"id": "classmate_mingxuan", "name": "明軒", "named": true, "hidden": false, "leaving": false, "x": 2.92, "z": -0.74}]}
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.394 l118_omu] entered l118_omu
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.394 l118_omu] lunch.stage3d {"v": true}
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.394 l118_omu] 說 （旁白）：（奈良咖哩。一進門就是咖哩的味道。）
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.394 l118_omu] 說 阿哲：四個人剛好一桌。
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.394 l118_omu] 說 明軒：四個人分小菜最划算。
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.394 l118_omu] 說 Alison：你們兩個可以講一點跟錢無關的嗎？
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.894 l118_omu] lunch.settle {"skip": false, "sp": null}
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.894 l118_omu] 錢 -170（餐費）
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.894 l118_omu] 提示：📓 吃過的：118 巷・奈良咖哩　可樂餅咖哩
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.894 l118_omu] 說 （旁白）：（招牌是黃色的。一推門，衣服上就有咖哩的味道了。）
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.894 l118_omu] lunch.settled {"out": {"price": 170, "item": "可樂餅咖哩", "pts": {"zhe": 2, "yu": 2, "classmate_mingxuan": 2}}}
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.894 l118_omu] 說 （旁白）：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.894 l118_omu] lunch.afterEnd {"key": "29:crim_gen1:am", "ret": "done"}
+  [ 204.8s] SEATMIX_C_6_omu4 [第29天 12.896 l118_omu] 提示：30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS SEATMIX_C_6_omu4：接受邀約、走進 奈良咖哩（GM.enter l118_omu，3D）  {"tapped": true, "stage3d": true}
+  [ 204.8s] SEATMIX_C_6_omu4：seatParty 坐下的同行 3 人
+PASS SEATMIX_C_6_omu4：omu 4 人坐同一桌（最遠 ≤1.5 m）：1 張桌 ["table 2.61,-1.4"]、任兩人最遠 1.47 m、桌子中心間距 []（配置的 table／group 欄位（L118_SHOP_LAYOUTS））  [["player", 1, "table 2.61,-1.4", {"x": 2.28, "z": -2.06}, 0], ["zhe", 1, "table 2.61,-1.4", {"x": 2.92, "z": -2.06}, 0.64], ["yu", 1, "table 2.61,-1.4", {"x": 2.28, "z": -0.74}, 1.32], ["classmate_mingxuan", 1, "table 2.61,-1.4", {"x": 2.92, "z": -0.74}, 1.47]]
+  [ 204.8s] SEATMIX_C_6_omu4：店裡的路人 入座前 3 → 入座後 3 → 淡出 3 → 對話時 3；有名字的 NPC 入座前 ["classmate_peishan"] → 對話時 ["classmate_peishan"]（離開中 []）
+PASS SEATMIX_C_6_omu4：讓位以後店裡不是空的（入座前路人 3、之後 3；原本就 0 人也算過）  {"前": {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}, "後": {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}}
+PASS SEATMIX_C_6_omu4：有名字的 NPC 沒有被趕走（入座前 ["classmate_peishan"]；不見或離開中 []）  {"前": ["classmate_peishan"], "後": {"passers": 3, "passersLeaving": 0, "named": ["classmate_peishan"], "namedLeaving": []}}
+PASS SEATMIX_C_6_omu4：錢只扣玩家那一份 170 元（[-170]；30000 → 29830）  [-170]
+  [前置／捷徑] SEATMIX_C_7_noodle22：同一份進度 2025-10-15 12.19 在 201、那一堂記成上過（29:crim_gen1:am）、清掉今天的午餐紀錄（條件事件關著）
+  [前置／捷徑] SEATMIX_C_7_noodle22：【捷徑】LUNCH118.plan 換成固定的：zhe 約去 迪倫窯烤披薩（noodle2），同行 []（含玩家 2 人）；營業中＝True
+  [前置／捷徑] SEATMIX_C_7_noodle22：【捷徑】叫 LUNCH118.afterClass(GAME, 29:crim_gen1:am)＝下課選單一開頭的那個掛勾（不重上一堂課）
+  [ 213.3s] SEATMIX_C_7_noodle22：邀約選單 ["「好，走。」", "「今天不行，下次。」"] → 點「「好，走。」」
+  [ 219.9s] SEATMIX_C_7_noodle22：進門那一刻（黑幕 True）截圖 l118e_SEATMIX_C_enter_7.png；店裡 {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [ 220.6s] SEATMIX_C_7_noodle22：黑幕剛淡出 截圖 l118e_SEATMIX_C_fadeout_7.png；店裡 {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [ 221.7s] SEATMIX_C_7_noodle22：入座（l118_noodle2）分組方式＝配置的 table／group 欄位（L118_SHOP_LAYOUTS）；2 人分 1 桌（["table -2.91,-0.25"]）；店的桌子 {"table -2.91,-0.25": 2, "table -2.56,1.35": 4, "table -2.91,2.95": 2, "table -0.5,2.95": 2}
+  [ 221.7s] SEATMIX_C_7_noodle22：  祐廷（player）坐下 桌號 1（table -2.91,-0.25）座位 {"x": -2.9, "z": -0.83} 位置 {"x": -2.9, "z": -0.83} 離玩家 0 m 姿勢 sit
+  [ 221.7s] SEATMIX_C_7_noodle22：  阿哲（zhe）坐下 桌號 1（table -2.91,-0.25）座位 {"x": -2.9, "z": 0.33} 位置 {"x": -2.9, "z": 0.33} 離玩家 1.16 m 姿勢 sit
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.227 classroom] lunch.after {"key": "29:crim_gen1:am", "ev": false, "inv0": null}
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.227 classroom] lunch.planForced {"P": {"who": "zhe", "mates": [], "party": ["zhe"], "shop": "noodle2", "shopName": "迪倫窯烤披薩", "item": "瑪格麗特", "price": 180, "poor": false, "grp": "L-zhe-5", "sp": null, "el": ["zhe"], "top": 3, "p": 1, "h0": 12.227443333333213, "hA": 12.394109999999879, "hEnd": 12.894109999999879, "lim": 24}}
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.227 classroom] 說 阿哲：欸，中午 118？迪倫窯烤披薩，我揪。
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.227 classroom] 選單 ["「好，走。」", "「今天不行，下次。」"]
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.227 classroom]   → 選了 #0 「好，走。」
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.227 classroom] lunch.show {}
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.394 classroom] enter l118_noodle2
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.394 l118_noodle2] lunch.seat0 {"party": ["zhe"], "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.45, "z": -3.1}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 0.77}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 1.93}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 3.53}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 3.53}]}
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.394 l118_noodle2] lunch.seated {"n": 1, "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.45, "z": -3.1}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 0.77}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 1.93}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 3.53}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 3.53}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": -2.9, "z": 0.33}]}
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.394 l118_noodle2] entered l118_noodle2
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.394 l118_noodle2] lunch.stage3d {"v": true}
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.394 l118_noodle2] 說 （旁白）：（迪倫窯烤披薩。小小的窯爐前面，你們併了兩張雙人桌。）
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.394 l118_noodle2] 說 阿哲：老闆記得我。剛剛沒講，他就多給一匙。
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.394 l118_noodle2] 說 祐廷：因為你每天來吧。
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.394 l118_noodle2] 說 阿哲：因為我每次都把盤子收好。這是策略。
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.894 l118_noodle2] lunch.settle {"skip": false, "sp": null}
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.894 l118_noodle2] 錢 -180（餐費）
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.894 l118_noodle2] 提示：📓 吃過的：118 巷・迪倫窯烤披薩　瑪格麗特
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.894 l118_noodle2] 說 （旁白）：（窯爐就在門口。你看著自己那一個被送進去，邊緣一下子就鼓起來。）
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.894 l118_noodle2] lunch.settled {"out": {"price": 180, "item": "瑪格麗特", "pts": {"zhe": 2}}}
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.894 l118_noodle2] 說 （旁白）：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.894 l118_noodle2] lunch.afterEnd {"key": "29:crim_gen1:am", "ret": "done"}
+  [ 231.9s] SEATMIX_C_7_noodle22 [第29天 12.898 l118_noodle2] 提示：30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS SEATMIX_C_7_noodle22：接受邀約、走進 迪倫窯烤披薩（GM.enter l118_noodle2，3D）  {"tapped": true, "stage3d": true}
+  [ 231.9s] SEATMIX_C_7_noodle22：seatParty 坐下的同行 1 人
+PASS SEATMIX_C_7_noodle22：noodle2 2 人坐同一桌（最遠 ≤1.5 m）：1 張桌 ["table -2.91,-0.25"]、任兩人最遠 1.16 m、桌子中心間距 []（配置的 table／group 欄位（L118_SHOP_LAYOUTS））  [["player", 1, "table -2.91,-0.25", {"x": -2.9, "z": -0.83}, 0], ["zhe", 1, "table -2.91,-0.25", {"x": -2.9, "z": 0.33}, 1.16]]
+  [ 231.9s] SEATMIX_C_7_noodle22：店裡的路人 入座前 7 → 入座後 7 → 淡出 7 → 對話時 7；有名字的 NPC 入座前 [] → 對話時 []（離開中 []）
+PASS SEATMIX_C_7_noodle22：讓位以後店裡不是空的（入座前路人 7、之後 7；原本就 0 人也算過）  {"前": {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}, "後": {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_7_noodle22：有名字的 NPC 沒有被趕走（入座前 []；不見或離開中 []）  {"前": [], "後": {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_7_noodle22：錢只扣玩家那一份 180 元（[-180]；30000 → 29820）  [-180]
+  [前置／捷徑] SEATMIX_C_8_noodle23：同一份進度 2025-10-15 12.19 在 201、那一堂記成上過（29:crim_gen1:am）、清掉今天的午餐紀錄（條件事件關著）
+  [前置／捷徑] SEATMIX_C_8_noodle23：【捷徑】LUNCH118.plan 換成固定的：zhe 約去 迪倫窯烤披薩（noodle2），同行 ["yu"]（含玩家 3 人）；營業中＝True
+  [前置／捷徑] SEATMIX_C_8_noodle23：【捷徑】叫 LUNCH118.afterClass(GAME, 29:crim_gen1:am)＝下課選單一開頭的那個掛勾（不重上一堂課）
+  [ 240.6s] SEATMIX_C_8_noodle23：邀約選單 ["「好，走。」", "「今天不行，下次。」"] → 點「「好，走。」」
+  [ 243.1s] SEATMIX_C_8_noodle23：進門那一刻（黑幕 True）截圖 l118e_SEATMIX_C_enter_8.png；店裡 {"passers": 5, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [ 243.9s] SEATMIX_C_8_noodle23：黑幕剛淡出 截圖 l118e_SEATMIX_C_fadeout_8.png；店裡 {"passers": 5, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [ 245.0s] SEATMIX_C_8_noodle23：入座（l118_noodle2）分組方式＝配置的 table／group 欄位（L118_SHOP_LAYOUTS）；3 人分 1 桌（["table -2.56,1.35"]）；店的桌子 {"table -2.91,-0.25": 2, "table -2.56,1.35": 4, "table -2.91,2.95": 2, "table -0.5,2.95": 2}
+  [ 245.0s] SEATMIX_C_8_noodle23：  祐廷（player）坐下 桌號 1（table -2.56,1.35）座位 {"x": -2.2, "z": 0.77} 位置 {"x": -2.2, "z": 0.77} 離玩家 0 m 姿勢 sit
+  [ 245.0s] SEATMIX_C_8_noodle23：  阿哲（zhe）坐下 桌號 1（table -2.56,1.35）座位 {"x": -2.2, "z": 1.93} 位置 {"x": -2.2, "z": 1.93} 離玩家 1.16 m 姿勢 sit
+  [ 245.0s] SEATMIX_C_8_noodle23：  Alison（yu）坐下 桌號 1（table -2.56,1.35）座位 {"x": -2.9, "z": 0.77} 位置 {"x": -2.9, "z": 0.77} 離玩家 0.7 m 姿勢 sit
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.228 classroom] lunch.after {"key": "29:crim_gen1:am", "ev": false, "inv0": null}
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.228 classroom] lunch.planForced {"P": {"who": "zhe", "mates": ["yu"], "party": ["zhe", "yu"], "shop": "noodle2", "shopName": "迪倫窯烤披薩", "item": "瑪格麗特", "price": 180, "poor": false, "grp": "G-zhe-yu", "sp": null, "el": ["zhe", "yu"], "top": 3, "p": 1, "h0": 12.227997999999879, "hA": 12.394664666666545, "hEnd": 12.894664666666545, "lim": 24}}
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.228 classroom] 說 阿哲：欸，中午 118？迪倫窯烤披薩，我揪。
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.228 classroom] 選單 ["「好，走。」", "「今天不行，下次。」"]
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.228 classroom]   → 選了 #0 「好，走。」
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.228 classroom] lunch.show {}
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.395 classroom] enter l118_noodle2
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.395 l118_noodle2] lunch.seat0 {"party": ["zhe", "yu"], "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.45, "z": -3.1}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 0.77}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 1.93}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 3.53}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 3.53}]}
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.395 l118_noodle2] lunch.seated {"n": 2, "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.45, "z": -3.1}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 3.53}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 3.53}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": -2.2, "z": 1.93}, {"id": "yu", "name": "Alison", "named": true, "hidden": false, "leaving": false, "x": -2.9, "z": 0.77}]}
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.395 l118_noodle2] entered l118_noodle2
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.395 l118_noodle2] lunch.stage3d {"v": true}
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.395 l118_noodle2] 說 （旁白）：（迪倫窯烤披薩。小小的窯爐前面，你們併了兩張雙人桌。）
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.395 l118_noodle2] 說 阿哲：她又要點一樣的。
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.395 l118_noodle2] 說 Alison：一樣的才不會踩雷！
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.395 l118_noodle2] 說 祐廷：妳點什麼？
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.395 l118_noodle2] 說 Alison：你等一下看就知道，每次都那個。
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.895 l118_noodle2] lunch.settle {"skip": false, "sp": null}
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.895 l118_noodle2] 錢 -180（餐費）
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.895 l118_noodle2] 提示：📓 吃過的：118 巷・迪倫窯烤披薩　瑪格麗特
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.895 l118_noodle2] 說 （旁白）：（窯爐就在門口。你看著自己那一個被送進去，邊緣一下子就鼓起來。）
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.895 l118_noodle2] lunch.settled {"out": {"price": 180, "item": "瑪格麗特", "pts": {"zhe": 2, "yu": 2}}}
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.895 l118_noodle2] 說 （旁白）：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.895 l118_noodle2] lunch.afterEnd {"key": "29:crim_gen1:am", "ret": "done"}
+  [ 256.4s] SEATMIX_C_8_noodle23 [第29天 12.898 l118_noodle2] 提示：30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS SEATMIX_C_8_noodle23：接受邀約、走進 迪倫窯烤披薩（GM.enter l118_noodle2，3D）  {"tapped": true, "stage3d": true}
+  [ 256.4s] SEATMIX_C_8_noodle23：seatParty 坐下的同行 2 人
+PASS SEATMIX_C_8_noodle23：noodle2 3 人坐同一桌（最遠 ≤1.5 m）：1 張桌 ["table -2.56,1.35"]、任兩人最遠 1.35 m、桌子中心間距 []（配置的 table／group 欄位（L118_SHOP_LAYOUTS））  [["player", 1, "table -2.56,1.35", {"x": -2.2, "z": 0.77}, 0], ["zhe", 1, "table -2.56,1.35", {"x": -2.2, "z": 1.93}, 1.16], ["yu", 1, "table -2.56,1.35", {"x": -2.9, "z": 0.77}, 0.7]]
+  [ 256.4s] SEATMIX_C_8_noodle23：店裡的路人 入座前 7 → 入座後 5 → 淡出 5 → 對話時 5；有名字的 NPC 入座前 [] → 對話時 []（離開中 []）
+PASS SEATMIX_C_8_noodle23：讓位以後店裡不是空的（入座前路人 7、之後 5；原本就 0 人也算過）  {"前": {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}, "後": {"passers": 5, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_8_noodle23：有名字的 NPC 沒有被趕走（入座前 []；不見或離開中 []）  {"前": [], "後": {"passers": 5, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_8_noodle23：錢只扣玩家那一份 180 元（[-180]；30000 → 29820）  [-180]
+  [前置／捷徑] SEATMIX_C_9_noodle24：同一份進度 2025-10-15 12.19 在 201、那一堂記成上過（29:crim_gen1:am）、清掉今天的午餐紀錄（條件事件關著）
+  [前置／捷徑] SEATMIX_C_9_noodle24：【捷徑】LUNCH118.plan 換成固定的：zhe 約去 迪倫窯烤披薩（noodle2），同行 ["yu", "classmate_mingxuan"]（含玩家 4 人）；營業中＝True
+  [前置／捷徑] SEATMIX_C_9_noodle24：【捷徑】叫 LUNCH118.afterClass(GAME, 29:crim_gen1:am)＝下課選單一開頭的那個掛勾（不重上一堂課）
+  [ 265.1s] SEATMIX_C_9_noodle24：邀約選單 ["「好，走。」", "「今天不行，下次。」"] → 點「「好，走。」」
+  [ 267.3s] SEATMIX_C_9_noodle24：進門那一刻（黑幕 True）截圖 l118e_SEATMIX_C_enter_9.png；店裡 {"passers": 5, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [ 268.0s] SEATMIX_C_9_noodle24：黑幕剛淡出 截圖 l118e_SEATMIX_C_fadeout_9.png；店裡 {"passers": 5, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [ 269.2s] SEATMIX_C_9_noodle24：入座（l118_noodle2）分組方式＝配置的 table／group 欄位（L118_SHOP_LAYOUTS）；4 人分 1 桌（["table -2.56,1.35"]）；店的桌子 {"table -2.91,-0.25": 2, "table -2.56,1.35": 4, "table -2.91,2.95": 2, "table -0.5,2.95": 2}
+  [ 269.2s] SEATMIX_C_9_noodle24：  祐廷（player）坐下 桌號 1（table -2.56,1.35）座位 {"x": -2.2, "z": 0.77} 位置 {"x": -2.2, "z": 0.77} 離玩家 0 m 姿勢 sit
+  [ 269.2s] SEATMIX_C_9_noodle24：  阿哲（zhe）坐下 桌號 1（table -2.56,1.35）座位 {"x": -2.2, "z": 1.93} 位置 {"x": -2.2, "z": 1.93} 離玩家 1.16 m 姿勢 sit
+  [ 269.2s] SEATMIX_C_9_noodle24：  Alison（yu）坐下 桌號 1（table -2.56,1.35）座位 {"x": -2.9, "z": 0.77} 位置 {"x": -2.9, "z": 0.77} 離玩家 0.7 m 姿勢 sit
+  [ 269.2s] SEATMIX_C_9_noodle24：  明軒（classmate_mingxuan）坐下 桌號 1（table -2.56,1.35）座位 {"x": -2.9, "z": 1.93} 位置 {"x": -2.9, "z": 1.93} 離玩家 1.35 m 姿勢 sit
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.228 classroom] lunch.after {"key": "29:crim_gen1:am", "ev": false, "inv0": null}
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.228 classroom] lunch.planForced {"P": {"who": "zhe", "mates": ["yu", "classmate_mingxuan"], "party": ["zhe", "yu", "classmate_mingxuan"], "shop": "noodle2", "shopName": "迪倫窯烤披薩", "item": "瑪格麗特", "price": 180, "poor": false, "grp": "G-zhe-yu-mx", "sp": null, "el": ["zhe", "yu", "classmate_mingxuan"], "top": 3, "p": 1, "h0": 12.228332666666546, "hA": 12.394999333333212, "hEnd": 12.894999333333212, "lim": 24}}
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.228 classroom] 說 阿哲：欸，中午 118？迪倫窯烤披薩，我揪。
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.228 classroom] 選單 ["「好，走。」", "「今天不行，下次。」"]
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.228 classroom]   → 選了 #0 「好，走。」
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.228 classroom] lunch.show {}
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.395 classroom] enter l118_noodle2
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.395 l118_noodle2] lunch.seat0 {"party": ["zhe", "yu", "classmate_mingxuan"], "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.45, "z": -3.1}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 0.77}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 1.93}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 3.53}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 3.53}]}
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.395 l118_noodle2] lunch.seated {"n": 3, "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.45, "z": -3.1}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -2.9, "z": 3.53}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 2.37}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.5, "z": 3.53}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": -2.2, "z": 1.93}, {"id": "yu", "name": "Alison", "named": true, "hidden": false, "leaving": false, "x": -2.9, "z": 0.77}, {"id": "classmate_mingxuan", "name": "明軒", "named": true, "hidden": false, "leaving": false, "x": -2.9, "z": 1.93}]}
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.395 l118_noodle2] entered l118_noodle2
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.395 l118_noodle2] lunch.stage3d {"v": true}
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.395 l118_noodle2] 說 （旁白）：（迪倫窯烤披薩。小小的窯爐前面，你們併了兩張雙人桌。）
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.395 l118_noodle2] 說 阿哲：四個人剛好一桌。
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.395 l118_noodle2] 說 明軒：四個人分小菜最划算。
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.395 l118_noodle2] 說 Alison：你們兩個可以講一點跟錢無關的嗎？
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.895 l118_noodle2] lunch.settle {"skip": false, "sp": null}
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.895 l118_noodle2] 錢 -180（餐費）
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.895 l118_noodle2] 提示：📓 吃過的：118 巷・迪倫窯烤披薩　瑪格麗特
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.895 l118_noodle2] 說 （旁白）：（窯爐就在門口。你看著自己那一個被送進去，邊緣一下子就鼓起來。）
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.895 l118_noodle2] lunch.settled {"out": {"price": 180, "item": "瑪格麗特", "pts": {"zhe": 2, "yu": 2, "classmate_mingxuan": 2}}}
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.895 l118_noodle2] 說 （旁白）：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.895 l118_noodle2] lunch.afterEnd {"key": "29:crim_gen1:am", "ret": "done"}
+  [ 279.9s] SEATMIX_C_9_noodle24 [第29天 12.896 l118_noodle2] 提示：30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）
+PASS SEATMIX_C_9_noodle24：接受邀約、走進 迪倫窯烤披薩（GM.enter l118_noodle2，3D）  {"tapped": true, "stage3d": true}
+  [ 280.0s] SEATMIX_C_9_noodle24：seatParty 坐下的同行 3 人
+PASS SEATMIX_C_9_noodle24：noodle2 4 人坐同一桌（最遠 ≤1.5 m）：1 張桌 ["table -2.56,1.35"]、任兩人最遠 1.35 m、桌子中心間距 []（配置的 table／group 欄位（L118_SHOP_LAYOUTS））  [["player", 1, "table -2.56,1.35", {"x": -2.2, "z": 0.77}, 0], ["zhe", 1, "table -2.56,1.35", {"x": -2.2, "z": 1.93}, 1.16], ["yu", 1, "table -2.56,1.35", {"x": -2.9, "z": 0.77}, 0.7], ["classmate_mingxuan", 1, "table -2.56,1.35", {"x": -2.9, "z": 1.93}, 1.35]]
+  [ 280.0s] SEATMIX_C_9_noodle24：店裡的路人 入座前 7 → 入座後 5 → 淡出 5 → 對話時 5；有名字的 NPC 入座前 [] → 對話時 []（離開中 []）
+PASS SEATMIX_C_9_noodle24：讓位以後店裡不是空的（入座前路人 7、之後 5；原本就 0 人也算過）  {"前": {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}, "後": {"passers": 5, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_9_noodle24：有名字的 NPC 沒有被趕走（入座前 []；不見或離開中 []）  {"前": [], "後": {"passers": 5, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS SEATMIX_C_9_noodle24：錢只扣玩家那一份 180 元（[-180]；30000 → 29820）  [-180]
+PASS SEATMIX_C：沒有 JS 例外（pageerror）  []
+  [ 280.6s] SEATMIX_C 花了 4.7 分鐘
+ALL PASS
