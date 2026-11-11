@@ -1,12 +1,3 @@
-[14:36:49] ==== START L118A_EXT14  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
-[14:36:52] [res] cpu=0% mem=48% (15.2/31.4 GB) chrome_testing=10  START L118A_EXT14
-[14:36:52] worktree add bc407bfc518c8d6a4260d1a1fa395cb93fc9058b: invalid reference - fetching main and the commit itself
-[14:38:33] [res] cpu=2% mem=49% (15.6/31.4 GB) chrome_testing=9  END CLASS12_skip5b_np400_r2
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       2b7714375..60edc0a62  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[14:38:39] ==== END   CLASS12_skip5b_np400_r2  exit=0  308s   ====
-[14:38:48] memory 49% before starting L118A_INT_a (2 running)
 [14:38:48] ==== START L118A_INT_a  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
 [14:38:51] [res] cpu=2% mem=49% (15.5/31.4 GB) chrome_testing=9  START L118A_INT_a
 [14:39:04] 正在跑：CLASS12_skip3_73_500x5（已跑 4 分／上限 12 分）、L118A_EXT14（已跑 2 分／上限 15 分）、L118A_INT_a（已跑 0 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1989,12 @@
 [22:50:38] ==== START ACT_SMOKE_ZR3_rel  (probe @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
 [22:50:41] [res] cpu=0% mem=41% (13.0/31.4 GB) chrome_testing=10  START ACT_SMOKE_ZR3_rel
 [22:53:42] [res] cpu=12% mem=41% (12.9/31.4 GB) chrome_testing=10  END STAIRDN_B_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       372592682..33cf24c34  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:53:48] ==== END   STAIRDN_B_old  exit=0  556s   ====
+[22:53:59] memory 41% before starting ACT_SMOKE_BEAT_rel (2 running)
+[22:53:59] ==== START ACT_SMOKE_BEAT_rel  (probe @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
+[22:54:02] [res] cpu=7% mem=41% (13.1/31.4 GB) chrome_testing=10  START ACT_SMOKE_BEAT_rel
+[22:54:05] 正在跑：ACT_SMOKE_ZR3_r2（已跑 6 分／上限 9 分）、ACT_SMOKE_ZR3_rel（已跑 3 分／上限 9 分）、ACT_SMOKE_BEAT_rel（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:56:46] [res] cpu=8% mem=41% (13.0/31.4 GB) chrome_testing=5  END ACT_SMOKE_ZR3_r2
