@@ -7,6 +7,7 @@
 - **BAKE-PC-1102-S2**：BK1 11-03 就比完了（PC CPU＝PC GPU）。HIP 那一半**使用者 11-03 已決定 Blender 只用 CPU**，不做。新發現：雲端 Blender 已是 5.2.3（和 PC 同版）→ 改成「雲端 CPU 對 PC CPU」：3F 第二版的 driver `pc_ref/pc_bake_3f_ref.py`＋輸入 GLB＋雲端參考（512²/64：24 秒、重跑逐像素相同；1024²/512：21 分）。佇列兩行在 `wip/bake_pc/README.md` 的 BK2 一節，經 LAWWW／BB 排給 CC（P3 選做）。PC 結果回來以後照該節的判斷跑 `compare_bakes.py`。
 - SHORTCUTS-TODO-1105：11-10 盤點後剩下的都是 P3 外觀或要 CC 瀏覽器拍（D131），這次沒動。
 - **教訓（BB 18:12）**：給 CC 佇列的行**不要寫 SHA `lawww2`**（跟著我分支的 head 走，我每推一次 PC 就重跑一輪：BK2 多跑了 4 輪），一律寫固定 commit SHA。BAKE-PC-1102-S2 已定案（58bb06622a）、BK2 已 HOLD。
+- **US-NAV-TRAPS-1111 已交**（`wip/us_nav_traps_1111/`；LAWWW 19:37 第 2 項）：美國 14 區擋玩巡檢，超市街、會所兩條進得去出不來的小縫補導航阻擋；全部 Node 1307：1301 過＋老警告＋gym_wear 搶 CPU＋四支約會付錢基底就 FAIL。第 1 項 ART-ECON-3D-GAP 對照已給 LAWWW；asks 對帳已改（ef8b21af55）。下一項：第 3 項 SHORTCUTS-TODO 剩下的。
 - **TAP-RAY-SEAT 總圖／宿舍（P1）已交**（`wip/tap_ray_seat_1111/libdorm/`）：遊戲本身點得到；CC 的 FAIL＝柱子擋住椅子 2 中心、手機開著、探針呼叫沒帶 hit。tapToSeat 沒 hit 自己算＋tests/tap_seat_libdorm_1111_unit.js；全部 Node 1303：1302 過＋bookstore 老警告。CC 探針已照建議改（575fd2a9fa）。學到的：雲端瀏覽器照 CC 起點重現（`repro_browser.js`）比 Node 模擬可靠——鏡頭、螢幕座標都對得上；探針判斷不能用被測的函式本身（循環驗證）。
 - **LEADOUT-WALL-1111 已整合**（LAWWW 18:25；待 BB 測試）。LAWWW：手上沒派工先停，BB 這批瀏覽器結果有場景問題會再找。
 - LEADOUT-WALL-1111（LAWWW 17:49 派，P2）：`S.leadOutSpots` 選點＋`tests/leadout_spots_1111_unit.js`，修改前 FAIL、修改後 ALL PASS；**已交**（`wip/leadout_wall_1111/`）：全部 Node 1302：1299 過＋bookstore 老警告＋invites_quote_b6、loadgen_locks（基底 f16135b3a4 就 FAIL）。`$SP/wt_ch`＝f16135b3a4＋這包（staged）；`$SP/wt_bb`＝f16135b3a4 乾淨。

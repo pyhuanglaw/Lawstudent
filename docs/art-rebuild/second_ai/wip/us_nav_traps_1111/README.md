@@ -2,7 +2,7 @@
 
 狀態：**READY_FOR_REVIEW**。找到兩個「走得進去、出不來」的小縫，各補一塊導航阻擋，模型不動。其他都過。
 
-- patch：`us_nav_traps_v1.patch`（3 個檔：`src/us3d.js`、`src/us_clubhouse3d.js`、新 `tests/us_nav_traps_1111_unit.js`；基底開發分支 `fe347b5e8c`）。
+- patch：`us_nav_traps_v1.patch`（3 個檔：`src/us3d.js`、`src/us_clubhouse3d.js`、新 `tests/us_nav_traps_1111_unit.js`；基底開發分支 `fe347b5e8c`；在最新開發分支 `8c5b281ccf` 上 `git apply --3way` 乾淨）。
 
 ## 巡了什麼
 
@@ -52,7 +52,7 @@ r2y4a 的事件（`src/r2y4a3d.js`）都在 `us_outside`、`us_shared`、`us_apa
 
 - 修改前（fe347b5e8c）：3、4 FAIL；修改後 ALL PASS。
 - 美國相關的 45 支 Node 測試全過。
-- 全部 Node 測試：見下面。
+- **全部 Node 測試 1307 支**（`regression_full.log`）：1301 支過；`bookstore_exit_unit` 老警告（結束碼 0）；`gym_wear_unit` 全部一起跑時 FAIL、單獨跑 ALL PASS（CPU 被搶，基底也一樣單獨跑會過）；`date_lines_aa373`、`date_she_pays_812_1111`、`kx_dates_1111`、`yt_dates_1111` 四支 FAIL——**基底 fe347b5e8c 不套這包也一樣 FAIL（FAIL 那幾行逐字相同）**，不是這包造成的（看起來是 AA_812 約會付錢那一段在改）。
 
 ## 沒做的
 
