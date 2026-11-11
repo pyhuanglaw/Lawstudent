@@ -229,7 +229,7 @@ async def part_scoot(pg, cdp):
             let code=v?v.code:null, col=v&&v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:null, src='hash'; if(SL&&SL[ix]&&SL[ix].code){ code=SL[ix].code; col=SL[ix].col||col; src='zone'; }
             items.push({x:+p.x.toFixed(2),z:+p.z.toFixed(2),code,col,src,gfam:(typeof TZ3!=='undefined'&&TZ3.colorFam&&col)?TZ3.colorFam(col):null}); });
           /* BB 23:07：色系（白／米／銀灰／黑與深藍／紅／藍／綠／黃橘）；相鄰同色系最長連續台數 */
-          const fam=hex=>{ if(!hex) return null; const c=new THREE.Color(hex), h={}; c.getHSL(h); const H=h.h*360, S=h.s, Lm=h.l;
+          const fam=hex=>{ if(!hex) return null; const c=new THREE.Color(hex), h={}; c.getHSL(h, THREE.SRGBColorSpace);   /* r4（CC 00:2x）：Color 存的是線性值，不指定 sRGB 會整體偏暗、黑與深藍被高估（SC3 第一輪 45.8% 對遊戲 18.8%）*/ const H=h.h*360, S=h.s, Lm=h.l;
             if(Lm<0.22||(S>0.2&&H>=200&&H<=250&&Lm<0.33)) return '黑與深藍'; if(S<0.14) return Lm>0.8?'白':'銀灰'; if(S<0.42&&H>=20&&H<=60&&Lm>0.6) return '米';
             if(H<15||H>=340) return '紅'; if(H<65) return '黃橘'; if(H<170) return '綠'; return '藍'; };
           items.forEach(i=>{ i.fam=fam(i.col); });
