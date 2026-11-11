@@ -400,6 +400,11 @@ if SET == 'tingzhou':
         'yindehao': dict(dep=3.0, wallc='#e8e6e0', frame='alu', street='tzyin_sign', street_fit=6.1, street_lit=True,   # 印得好：深灰藍招牌；左窗（輸出樣張、色票、窗台的裝訂樣本）、中間玻璃雙開門（影印機、櫃台）、右窗（海報、門外的樣本架）
                          cards=[('tzyin_winl', -2.95, -0.8, 0.12, 2.7, 0.8), ('tzyin_door', -0.7, 0.75, 0.0, 2.7, 0.8, [0.02]), ('tzyin_winr', 0.85, 2.95, 0.12, 2.7, 0.8)],
                          ),
+        # 禮貌生財（X332；使用者 11-11 的外觀圖）：巷 A 後段南側靠公館那一端，一樓退成騎樓（規格：傳統騎樓柱、騎樓下的算命桌）。深色木框格子窗（左）、深色木框的門開著（右）、
+        #   深紅棕木招牌古銅金書法字（從圖裁）；算命桌是另外的節點（nm_stalls.py 的 LIMAO_TABLE_*，照時間切換）
+        'limao': dict(dep=3.0, wallc='#d8d0bc', frame='#3a2416', street='limao_sign', street_fit=4.3, fw=0.07,
+                      cards=[('limao_win', -2.15, -0.2, 0.85, 2.6, 0.8, [-1.5, -0.85], 1.75), ('limao_door', 0.3, 1.5, 0.0, 2.6, 0.8)], open=('limao_door',),
+                      props=[('pot', 1.95, 0.4, 'broad'), ('pot', -2.3, 0.35, 'fern')]),
     }
     _WALLC = ['#e6e2d8', '#d9d4c6', '#cfd2cc', '#e2d6c0', '#d4c7b0', '#c9cfc6', '#ddd2c2', '#bfb7aa', '#e9e4da', '#cbbfae']; _WALLT = ['mosaic', 'tile', 'mosaic', 'plaster', 'tile', 'mosaic']
     SPECS = []
@@ -427,6 +432,7 @@ if SET == 'tingzhou':
                     balcony=_rr.random() < 0.35 and _w > 4, tank=_rr.random() < 0.5, roofAdd=_rr.random() < 0.45 and _w > 4, ground='arcade', pillars=[_w / 2], rollbox=_rr.random() < 0.6,
                     shop=shop, sf=sf, **_P)
         if q['id'] in TZ_ARC: base['xs'] = TZ_ARC[q['id']]; base['rollbox'] = False; sf['notes'] = []; sf['clutter'] = [('bench', -1.0, 0.35)] if q['id'] == 'xile' else []
+        if q['id'] == 'taimi': _tpl = (dict(shop), dict(sf))   # 禮貌生財借這一間的店面設定（騎樓＋參考圖店面）
         if q['id'] in TZ_XS:   # 沒有騎樓（第 2 版）：整棟退 3.2 m 到店面線，一樓是一般店面（不是騎樓），不要柱子、不要組件店面
             _ad = TZ['facade']['arcade']; base.update(pos=(_fx - _ad if _W else _fx + _ad, _cz), d=_DEP - _ad, ground='shop', xs=TZ_XS[q['id']], rollbox=False); base.pop('sf'); base.pop('pillars')
         if _w > 3.5 and _floors >= 4 and _rr.random() < 0.85:
@@ -441,10 +447,15 @@ if SET == 'tingzhou':
         SPECS.append(base)
     # 巷 A 的兩側（樓房深 14 m 以外的那一段）、盡頭（公館店面街的背面）：住家門、鐵捲門、小雜貨
     _A = TZ['alleys'][0]; _ax0 = _FE + _DEP; _ax1 = _FE + _A['len'] + 2.0
-    for _i, (_id, _pos, _ry, _w, _d, _fl, _g) in enumerate([('TA_N', ((_ax0 + _ax1) / 2, _A['z0']), 0.0, _ax1 - _ax0, 10, 5, 'door'), ('TA_S', ((_ax0 + _ax1) / 2, _A['z1']), math.pi, _ax1 - _ax0, 10, 4, 'shutter'),
+    _LM = TZ.get('limao'); _sx1 = _LM['x0'] if _LM else _ax1   # 禮貌生財（X332）：南側那一棟靠公館的一段（配置 limao.x0～x1）另外一棟、一樓騎樓
+    for _i, (_id, _pos, _ry, _w, _d, _fl, _g) in enumerate([('TA_N', ((_ax0 + _ax1) / 2, _A['z0']), 0.0, _ax1 - _ax0, 10, 5, 'door'), ('TA_S', ((_ax0 + _sx1) / 2, _A['z1']), math.pi, _sx1 - _ax0, 10, 4, 'shutter'),
                                                            ('TA_END', (_ax1, 0.0), -math.pi / 2, _A['z1'] - _A['z0'] + 8, 14, 7, 'door')]):
         SPECS.append(dict(id=_id, pos=_pos, ry=_ry, w=_w, d=_d, floors=_fl, wall=_WALLT[_i % len(_WALLT)], color=_WALLC[(_i * 4 + 2) % len(_WALLC)], balcony=_i == 1, tank=True, roofAdd=_i != 1,
                           ground=_g, door=['#5c3a21', '#2f4a3a', '#8a3a2a'][_i], **_P))
+    if _LM:
+        _lw = _LM['x1'] - _LM['x0']; _sh, _sf = _tpl; _sh = dict(_sh, name=_LM['name'], sub='', vertical='', type='cvs'); _sf = dict(_sf, notes=[], clutter=[], light='warm', bright=0.5)
+        SPECS.append(dict(id='TA_LIMAO', pos=((_LM['x0'] + _LM['x1']) / 2, _A['z1']), ry=math.pi, w=_lw, d=10, floors=4, wall='mosaic', color='#d8d0bc', balcony=False, tank=True, roofAdd=False,
+                          ground='arcade', pillars=[-_lw / 2 + 0.3, _lw / 2 - 0.3], rollbox=False, shop=_sh, sf=_sf, xs=TZ_ARC['limao'], p_laundry=0.3, pots_n=2, pot_mix=True, **_P))
 
 # XS-FARVIEW-1105（LAWWW2-B 2026-11-07；使用者 11-05 08:1x「新生南路側門 遠景太假」＝一排方盒、路口外面平的）：--set xinsheng_far → xinsheng_far.glb。
 #   新生南路區域（src/xinsheng3d.js）走得到的是 z −68～68；街的兩頭原本只有平地，遠景是引擎的城市剪影圓筒（半徑 118 m，在校園那一側就落在校園裡面）。

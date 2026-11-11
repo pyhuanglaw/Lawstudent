@@ -13,6 +13,7 @@ const TZS3=(function(){
     if(L.partition){ const P=L.partition, d=P.door||[P.x1,P.x1]; out.push([(P.x0+P.x1)/2,P.z-0.05,P.x1-P.x0,0.3]); out.push([(P.x0+P.x1)/2,(-L.d/2+P.z)/2,P.x1-P.x0,P.z+L.d/2]); }   /* 隔牆後面整塊不能進去 */
     for(const t of L.tables||[]) out.push([t.x,t.z,t.w,t.d]); for(const b of L.blocks||[]) out.push(b); for(const p of (L.decor&&L.decor.plants)||[]) out.push([p[0],p[1],0.5,0.5]);
     return out; };
+  S.studyOpen=function(L){ return false; };   /* LAWWW 接：書房解鎖了沒（存檔旗標 L.study.flag）；預設鎖著 */
   S.build=function(E,L){
     const z=Z3.room(E,{w:L.w,d:L.d,h:L.h,cell:0.2,windows:false,warm:!!L.warm,wallColor:L.wallColor||'#efe6d6',floorTex:W3.stoneTex(L.floor||'#d8d3c8'),spawn:Object.assign({},L.spawn)});
     const g0=z.group, nav=z.nav; z.tzShop=L.id;
@@ -24,8 +25,20 @@ const TZS3=(function(){
     IT.push({x:EX.x,z:EX.z,radius:EX.r,label:EX.label,exit:{to:L.outZone,spawn:Object.assign({},L.out)}});
     for(const q of L.seats||[]){ const s={x:q.x,z:q.z,yaw:q.yaw,table:L.id+'_t'+q.table}; if(q.ap) s.ap=q.ap; const ip=q.ap||q; IT.push({x:ip.x,z:ip.z,radius:q.ap?0.6:0.7,label:'坐下',tzSeat:q.id,seat:s}); }   /* 卡座（bench）：走近點在兩張桌子中間（ap） */
     for(const p of L.points||[]) IT.push({x:p.x,z:p.z,radius:p.r,label:p.label,kind:p.kind,tzPoint:p.id,look:'（'+L.name+'）'});   /* 句子、選單：AA_742，LAWWW 接；沒接之前只有這一句 */
+    // 鎖著的後間（禮貌生財的書房，X332）：平常導航擋住（隔牆後面整塊）、模型的 STUDY_* 不顯示、STUDY_LID 蓋著、STUDY_DOOR 關著；setStudy(true)＝開門：放行、擋家具、加互動點
+    if(L.study){ const SD=L.study, P=L.partition, pts=[]; z.studyOpen=false;
+      const doorIt={x:SD.door.x,z:SD.door.z,radius:SD.door.r,label:SD.door.label,kind:SD.door.kind,tzPoint:'study_door',look:'門關著。'}; IT.push(doorIt);   /* 句子 AA 寫；這一句暫定 */
+      z.applyStudyModel=function(){ const root=g0.getObjectByName(L.zone+'_glb'); if(!root) return; root.traverse(o=>{ const n=o.name||''; if(n.indexOf('STUDY_LID')===0||n.indexOf('STUDY_DOOR')===0) o.visible=!z.studyOpen; else if(n.indexOf('STUDY_')===0) o.visible=z.studyOpen; }); };
+      z.setStudy=function(on){ on=!!on; if(on===z.studyOpen){ z.applyStudyModel(); return; } z.studyOpen=on;
+        if(on){ nav.freeRect(SD.x0+0.3,SD.z0+0.3,SD.x1-0.3,SD.z1-0.2); nav.freeRect(P.door[0]+0.06,SD.z1-0.4,P.door[1]-0.06,SD.z1+0.4); for(const b of SD.blocks) nav.blockRect(b[0],b[1],b[2],b[3],0,0.04);
+          for(const p of SD.points){ const it={x:p.x,z:p.z,radius:p.r,label:p.label,kind:p.kind,tzPoint:p.id,look:'（'+L.name+'的書房）'}; IT.push(it); pts.push(it); }
+          if(SD.seat){ const it={x:SD.seat.x,z:SD.seat.z,radius:0.7,label:'坐下',tzSeat:SD.seat.id,seat:{x:SD.seat.x,z:SD.seat.z,yaw:SD.seat.yaw,table:L.id+'_desk'}}; IT.push(it); pts.push(it); }
+          doorIt.label='書房'; doorIt.look='門開著。'; }
+        else{ nav.blockRect((SD.x0+SD.x1)/2,(SD.z0+SD.z1)/2,SD.x1-SD.x0,SD.z1-SD.z0+0.4,0,0); for(const it of pts.splice(0)){ const i=IT.indexOf(it); if(i>=0) IT.splice(i,1); } doorIt.label=SD.door.label; doorIt.look='門關著。'; }
+        nav._cm=null; z.applyStudyModel(); };
+      if(S.studyOpen(L)) z.setStudy(true); }
     z.shopClerk=L.clerk?Object.assign({},L.clerk):null; z.shopLayout=L;
-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest[L.asset]) ASSETS.loadOne(L.asset).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.name=L.zone+'_glb'; g0.add(root); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true; }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest[L.asset]) ASSETS.loadOne(L.asset).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.name=L.zone+'_glb'; g0.add(root); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true; if(z.applyStudyModel) z.applyStudyModel(); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));
     return z; };
   /* 公館的三間（配置有 gg＝棟號）：店門前（騎樓裡）多一個「進入＋店名」的互動點；出來站的 x 照實際的樓房位置更新。包住 gongguan 的 build（不改 zones3d.js；和花序 flower_notes3d.js 同一個做法） */
   S.hookOut=function(){ const byZone={}; for(const id of Object.keys(ALL())){ const L=ALL()[id]; if(L.gg&&L.door) (byZone[L.outZone]=byZone[L.outZone]||[]).push(L); }

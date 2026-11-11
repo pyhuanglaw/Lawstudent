@@ -14,6 +14,25 @@ const TZ3=(function(){
   S.GLASS_IN=0.35;      // 騎樓走到店面玻璃前 0.35 m
   /* 騎樓柱子：每一棟一根，在那一棟的一端、立面往裡 0.3 m（wz_street.py 的 pillars=[w/2]：本地 +x 那一端——西側的樓本地 +x＝北（z0），東側＝南（z1））；巷口兩邊的不重複 */
   S.pillars=function(L){ const F=L.facade, out=[]; for(const q of L.shops){ if(q.arcade===false) continue;   /* 沒有騎樓的五間（使用者「混合」）：門前沒有柱子 */ const w=q.side==='W'; out.push({x:(w?F.west-0.3:F.east+0.3),z:(w?q.z0:q.z1),id:q.id}); } return out; };
+  /* 路邊機車第 3 版（BB_255，11-10 23:07／23:10）：哪一台是哪一款、什麼顏色，照擺放規則挑（模型不重做；Z3.attachWzScooters 照 code、pcol 用）
+     車款＝scooter.glb 的十二款；S1A、S1B、S2 三款車尾一樣（CC 並排拍過）→ 算同一種車尾 'A'，全街合計四成以下、同一群裡不連三台；帶機車罩、外送箱、掛安全帽的是自己的輪廓。
+     顏色照色系（白／米／銀灰／黑與深藍／紅／藍／綠／黃橘）：同一群相鄰兩台不同色系；黑與深藍全街不超過四分之一。款式的配色表和 scooter.glb 節點的 palette 一樣（測試對）。 */
+  S.SC={ S1A:{w:0.12,tail:'A',pal:['#e9e9e6','#e9e9e6','#b8bcc0','#b8bcc0','#d9cdb6','#8c9095','#1d1f22','#22344f','#8f1f24']}, S1B:{w:0.12,tail:'A',pal:['#f1f1ee','#f1f1ee','#f1f1ee','#a9adb2','#a9adb2','#c9c1b3','#6f7378','#141517','#334a6b','#5d6a5a']},
+    S2:{w:0.12,tail:'A',pal:['#e8e8e6','#e8e8e6','#9ea3a8','#3b3f44','#1b1c1e','#20427a','#7a1c22','#2f5a3c']}, S1A_C:{w:0.03,tail:'C',pal:['#8e949a','#2d3a52','#6d7176']}, S1B_D:{w:0.06,tail:'D',pal:['#f1f1ee','#a9adb2','#6f7378','#334a6b','#141517']},
+    S3:{w:0.09,tail:'3',pal:['#e9e9e7','#6b6f73','#4a4e54','#141517','#1f2e48']}, S4:{w:0.11,tail:'4',pal:['#efe6cf','#efe6cf','#a9d3c4','#a9c4dc','#d8c8a8','#e6b8a8','#7b2a32','#1c1d1f']}, S5:{w:0.10,tail:'5',pal:['#eef0f0','#eef0f0','#c9cdd0','#9fc4d2','#7fb8ab','#e3a79c','#55595e','#1e2023']},
+    S5_H:{w:0.06,tail:'H',pal:['#eef0f0','#eef0f0','#c9cdd0','#9fc4d2','#7fb8ab','#e3a79c','#55595e','#1e2023']}, S6:{w:0.04,tail:'6',pal:['#e8e8e6','#b5a27a','#4f5a3c','#e3c22b','#1b1c1e']}, S7:{w:0.09,tail:'7',pal:['#c7c2b6','#dcd6c8','#dcd6c8','#9a9aa0','#5d6f86','#7d2a2a','#3e4a3c']}, S9:{w:0.06,tail:'9',pal:['#8f2626','#1f2f4f','#1c1d1f','#2f4a36','#d9d2c2']} };
+  S.colorFam=function(hex){ const r=parseInt(hex.slice(1,3),16)/255, g=parseInt(hex.slice(3,5),16)/255, b=parseInt(hex.slice(5,7),16)/255, mx=Math.max(r,g,b), mn=Math.min(r,g,b), d=mx-mn, sat=mx?d/mx:0; let h=0;
+    if(d>1e-6){ h=mx===r?((g-b)/d)%6:(mx===g?(b-r)/d+2:(r-g)/d+4); h*=60; if(h<0) h+=360; }
+    if(mx<0.3) return 'dark'; if(sat<0.12) return mx>0.86?'white':'grey'; if(h>=195&&h<270&&mx<0.5) return 'dark';   /* 深藍算黑那一系 */
+    if(sat<0.3&&mx>0.72&&h>=20&&h<75) return 'beige'; if(h<20||h>=335) return 'red'; if(h<75) return 'yellow'; if(h<195) return 'green'; if(h<270) return 'blue'; return 'red'; };
+  S.pickScooter=function(zz,sx,pv,st){ const hash=(a,b)=>{ const t=Math.sin(a*12.9898+b*78.233)*43758.5453; return t-Math.floor(t); }, codes=Object.keys(S.SC), W=codes.reduce((a,c)=>a+S.SC[c].w,0); let best=null;
+    for(let tr=0;tr<24&&!best;tr++){ let r=hash(zz+tr*3.7,sx+31+tr)*W, code=codes[codes.length-1]; for(const c of codes){ if((r-=S.SC[c].w)<=0){ code=c; break; } } const V=S.SC[code];
+      if(pv&&pv.code===code&&tr<16) continue; if(pv&&pv.pp&&pv.tail===V.tail&&pv.pp.tail===V.tail) continue;                       /* 同一群：相鄰不同款（盡量）；車尾一樣的不連三台 */
+      if(V.tail==='A'&&(st.tailA+1)>0.38*(st.n+1)+1) continue;                                                                    /* 三款同車尾的合計四成以下 */
+      for(let k=0;k<V.pal.length;k++){ const col=V.pal[(Math.floor(hash(zz+tr,sx+41)*V.pal.length)+k)%V.pal.length], cf=S.colorFam(col);
+        if(pv&&pv.cf===cf) continue; if(cf==='dark'&&(st.dark+1)>0.22*(st.n+1)+0.5) continue; best={code,tail:V.tail,col,cf}; break; } }
+    if(!best){ const code=pv&&pv.tail==='4'?'S7':'S4', V=S.SC[code], col=V.pal.find(c=>{ const f=S.colorFam(c); return f!=='dark'&&(!pv||pv.cf!==f); })||V.pal[0]; best={code,tail:V.tail,col,cf:S.colorFam(col)}; }
+    st.n++; if(best.cf==='dark') st.dark++; if(best.tail==='A') st.tailA++; if(pv&&pv.cf===best.cf) st.adjSame++; if(pv&&pv.pp&&pv.tail===best.tail&&pv.pp.tail===best.tail) st.run3++; st.codes[best.code]=(st.codes[best.code]||0)+1; return best; };
   /* 夜市攤幾點擺（NIGHT-MARKET-1110：各攤不一樣，配置 stalls.kinds[kind].from～to；跨午夜的 to 寫 24 以上，凌晨的鐘點加 24 再比）。stallOpen＝這一攤；stallsOpen＝有沒有任何一攤開著 */
   S.stallOpen=function(h,q,L){ const ST=(L||LAY()).stalls; if(!ST) return false; const K=(ST.kinds&&ST.kinds[q.kind||q])||ST, a=K.from!=null?K.from:ST.from, b=K.to!=null?K.to:ST.to; return (h>=a&&h<b)||(h+24>=a&&h+24<b); };
   S.stallsOpen=function(h,L){ const ST=(L||LAY()).stalls; return !!ST&&ST.list.some(q=>S.stallOpen(h,q,L)); };
@@ -62,9 +81,16 @@ const TZ3=(function(){
     // 夜市攤（第 2 版）：位置照配置 stalls；導航照攤車＋後面站人的範圍擋（營業、收攤一樣大：導航不隨時間變）。模型 tingzhou_stalls.glb 的 STALL_<kind>_open／_closed，照時間切換
     const ST=L.stalls, stalls=[]; if(ST) for(const q of ST.list){ const b=S.stallBlock(q,L), c=Math.cos(q.yaw), sn=Math.sin(q.yaw), ax=Math.abs(sn)>0.5;
       nav.blockRect(q.x-sn*b.back,q.z-c*b.back,ax?b.d:b.w,ax?b.w:b.d,0); stalls.push({id:q.id,kind:q.kind,x:q.x,z:q.z,yaw:q.yaw,half:b.w/2,name:(ST.kinds&&ST.kinds[q.kind]||{}).name,isOpen:false,open:null,closed:null}); }
+    // 禮貌生財（X332）：巷 A 後段南側靠公館那一端，一樓退成騎樓——騎樓裡走得進去；兩根柱子、算命桌（連兩張椅子、盆栽）擋住；門前留通道
+    const LM=L.limao; let lm=null; if(LM){ const T=LM.table; open(LM.x0+0.25,A.z1-0.5,LM.x1-0.25,LM.z+LM.dep-0.5); for(const p of LM.pillars) nav.blockRect(p[0],p[1],0.7,0.7,0);
+      nav.blockRect(T.x,T.z,T.w+0.2,T.d+1.5,0); nav.blockRect(T.x+0.95,T.z+0.55,0.5,0.5,0); lm={open:false,masterAway:false,table:T,door:null,nodes:{}}; }
+    S.limaoOpen=function(h,L2){ const q=(L2||LAY()).limao; return !!q&&h>=q.from&&h<q.to; };
     nav._cm=null;
     const zoneTime=(h,E2)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E2&&E2.hemi) E2.hemi.intensity+=0.7*k; for(const p of pools) if(p.material) p.material.opacity=0.55*k; 
       let on=false; const off=zone.tzStallOff||{}; for(const q of stalls){ const o=!zone.tzStallsClosed&&!off[q.id]&&S.stallOpen(h,q,L); q.isOpen=o; on=on||o; if(q.open) q.open.visible=o; if(q.closed) q.closed.visible=!o; }
+      if(lm){ const o=S.limaoOpen(h,L)&&!zone.tzLimaoOff, N=lm.nodes, room=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[LM.zone]; lm.open=o; lm.masterAway=o&&!!zone.tzLimaoAway;
+        if(N.LIMAO_TABLE_open) N.LIMAO_TABLE_open.visible=o; if(N.LIMAO_TABLE_closed) N.LIMAO_TABLE_closed.visible=!o; if(N.LIMAO_SHOPLIGHT) N.LIMAO_SHOPLIGHT.visible=o;
+        if(lm.door){ const d=lm.door; if(o&&room){ d.label='進'+LM.name; d.exit={to:LM.zone}; delete d.look; } else { d.label='看'+LM.name; delete d.exit; d.look=o?LM.name+'。':LM.name+'。門關著，裡面沒有開燈。'; } } }   /* 關著的那一句是暫定的（AA 可以改） */
       if(zone.tzStallMat) zone.tzStallMat.emissiveIntensity=0.25+0.85*k; if(zone.tzGlowMat) zone.tzGlowMat.emissiveIntensity=0.5+2.5*k; zone.tzStallsOn=on; };
     const FG=L.fromGongguan, zone={group:g,nav,spawn:{x:FG.x,z:FG.z,yaw:FG.yaw},lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.tingzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
@@ -75,22 +101,25 @@ const TZ3=(function(){
     { const scG=new THREE.Group(), scList=[], scC=['#c9463d','#2b2b2d','#e8e6e0','#3d6fb0','#8a8f98','#2f6a4a','#d9b23a']; const hash=(a,b)=>{ const t=Math.sin(a*12.9898+b*78.233)*43758.5453; return t-Math.floor(t); };
       const doors=L.shops.filter(q=>q.enter||q.arcade===false||q.concept).map(q=>({s:q.side==='W'?-1:1,z:(q.z0+q.z1)/2}));
       const busy=(x,zz,sx)=>stalls.some(q=>Math.abs(q.x-x)<1.6&&Math.abs(q.z-zz)<q.half+0.9)||(L.crossings||[]).some(c=>Math.abs(zz-c.z)<c.w/2+0.6)||doors.some(d=>d.s===sx&&Math.abs(d.z-zz)<1.1);
-      const PW=R.parkW||1.6; let lastC=-1, bikes=0, groups=0; const gaps={'-1':0,'1':0};
+      const PW=R.parkW||1.6; let pv=null, bikes=0, groups=0; const gaps={'-1':0,'1':0}, scSt={n:0,dark:0,tailA:0,run3:0,adjSame:0,codes:{}};
       for(const sx of [-1,1]){ const x=sx*(R.x1-PW/2); let zz=WK.z0+1.2+hash(sx,1)*2, gi=0;
         while(zz<WK.z1-1.5){ gi++; const hg=hash(gi*3.1+sx*17,2), n=3+Math.floor(hash(gi,sx+5)*4), isBike=hash(gi*1.7,sx+9)<0.2, slant=(hash(gi,sx+11)-0.5)*0.5, pitch=isBike?0.62:0.8+hash(gi,sx+13)*0.14;
           if(hg<0.18){ zz+=4+hash(gi,sx+3)*4; gaps[sx]++; continue; }   /* 這一段整段沒車 */
-          groups++; for(let k=0;k<n&&zz<WK.z1-1.2;k++,zz+=pitch){ if(busy(x,zz,sx)) continue; const jx=(hash(zz,3)-0.5)*0.24, ry=sx*Math.PI/2+slant+(hash(zz,5)-0.5)*0.14+(hash(zz,7)<0.12?Math.PI:0);
+          groups++; for(let k=0;k<n&&zz<WK.z1-1.2;k++,zz+=pitch){ if(busy(x,zz,sx)) continue; const jx=(hash(zz,3)-0.5)*0.32, ry=sx*Math.PI/2+slant+(hash(zz,5)-0.5)*0.22+(hash(zz,7)<0.12?Math.PI:0);   /* 第 3 版：前後錯開 ±16 cm、車頭左右各轉到 6 度 */
             if(isBike){ if(W3.bikeAny){ const b=W3.bikeAny(scC[Math.floor(hash(zz,9)*7)],Math.round(zz*10)+sx*999,null,1.7); b.position.set(x+jx,0,zz); b.rotation.y=ry; g.add(b); bikes++; nav.blockRect(x,zz,PW-0.2,0.55,0); } continue; }
-            let ci=Math.floor(hash(zz,sx+21)*7); if(ci===lastC) ci=(ci+3)%7; lastC=ci; const c=scC[ci], o=TK.scooter(c); o.position.set(x+jx,0,zz); o.rotation.y=ry; o.userData.dyn=true; scG.add(o);
-            scList.push({o,color:c,grp:(sx>0?'E':'W')+Math.floor((zz-WK.z0)/20)}); nav.blockRect(x,zz,PW-0.2,0.8,0); }
+            const pk=S.pickScooter(zz,sx,pv,scSt); pv={code:pk.code,tail:pk.tail,cf:pk.cf,pp:pv}; const c=pk.col, o=TK.scooter(c); o.position.set(x+jx,0,zz); o.rotation.y=ry; o.userData.dyn=true; scG.add(o);
+            scList.push({o,color:c,code:pk.code,pcol:c,grp:(sx>0?'E':'W')+Math.floor((zz-WK.z0)/20)}); nav.blockRect(x,zz,PW-0.2,0.8,0); }
           zz+=1.5+hash(gi,sx+15)*2.6; gaps[sx]++; } }
-      nav._cm=null; g.add(scG); zone.tzScooters=scList.length; zone.tzBikes=bikes; zone.tzParkGroups=groups; zone.tzParkGaps=gaps[-1]+gaps[1];
+      nav._cm=null; g.add(scG); zone.tzScStat=scSt; zone.tzScList=scList.map(q=>({code:q.code,col:q.pcol,grp:q.grp})); zone.tzScooters=scList.length; zone.tzBikes=bikes; zone.tzParkGroups=groups; zone.tzParkGaps=gaps[-1]+gaps[1];
       if(scList.length&&Z3.attachWzScooters&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_scooter']){ if(typeof P3!=='undefined'&&P3.mergeStatic) P3.mergeStatic(scG);
         ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=Z3.attachWzScooters(g,scG,scList,c.scene,'tz_scooters_glb'); zone.tzScooterGLB=n; }).catch(e=>console.warn('汀州路機車模型載入失敗',e)); } }
+    if(lm){ zone.tzLimao=lm; lm.door={x:LM.door.x,z:LM.door.z,radius:LM.door.r,prio:1,label:'看'+LM.name,look:LM.name+'。',tzLimaoDoor:true}; if(typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[LM.zone]){ lm.door.label='進'+LM.name; lm.door.exit={to:LM.zone}; delete lm.door.look; } E.interactables.push(lm.door); }   /* LAWWW 接：桌前的互動（配置 limao.table.at）、上師（seatMaster）、zone.tzLimaoOff／tzLimaoAway */
     zone.tzStalls=stalls;   /* LAWWW 接看／買：每一攤的 id、kind、name、位置、isOpen（現在開著嗎）；zone.tzStallsClosed＝true 全部收攤（颱風、大雨）；zone.tzStallOff[id]＝true 那一攤今天不擺（套圈圈只有週五六日：配置 kinds.ring.days） */
-    if(stalls.length&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_stalls']) ASSETS.loadOne('bldg.tingzhou_stalls').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
+    if((stalls.length||lm)&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_stalls']) ASSETS.loadOne('bldg.tingzhou_stalls').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       for(const q of stalls) for(const st of ['open','closed']){ const src=c.scene.getObjectByName('STALL_'+q.kind+'_'+st); if(!src) continue; const o=src.clone(true); o.position.set(q.x,0,q.z); o.rotation.set(0,q.yaw,0); o.userData.dyn=true;
         o.traverse(m=>{ if(m.isMesh){ m.castShadow=true; if(m.material&&m.material.name==='tzs_atlas') zone.tzStallMat=m.material; if(m.material&&m.material.name==='tzs_glow'){ zone.tzGlowMat=m.material; m.castShadow=false; } } }); o.visible=false; g.add(o); q[st]=o; }
+      if(lm){ const T=lm.table; for(const nm of ['LIMAO_TABLE_open','LIMAO_TABLE_closed','LIMAO_SHOPLIGHT']){ const src=c.scene.getObjectByName(nm); if(!src) continue; const o=src.clone(true); o.position.set(T.x,0,T.z); o.rotation.set(0,T.yaw,0); o.userData.dyn=true;
+          o.traverse(m=>{ if(m.isMesh){ m.castShadow=nm!=='LIMAO_SHOPLIGHT'; if(m.material&&m.material.name==='tzs_glow') zone.tzGlowMat=m.material; } }); o.visible=false; g.add(o); lm.nodes[nm]=o; } }
       if(E.applyTime) try{ E.applyTime(); }catch(e){} else zoneTime(E.hour||12,E); }).catch(e=>console.warn('汀州路攤位模型載入失敗',e));
     return zone; };
   /* 公館那一側的三攤（NIGHT-MARKET-1110；使用者 11-10「公館那一側也擺幾攤」；配置 stalls.gongguan，公館區域的座標）：擋導航、照各攤的時間切換營業／收攤（包住公館的 applyTimeOutdoor）。

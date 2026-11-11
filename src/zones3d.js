@@ -1398,7 +1398,8 @@ const Z3 = (function(){
     const grps=new Map(), pick={}, cols=new Set();
     list.forEach(s=>{ s.o.updateMatrixWorld(true); const p=new THREE.Vector3().setFromMatrixPosition(s.o.matrixWorld); const gk=s.grp||(Math.floor((p.x+100)/20)+(p.z<0?'n':'s'));
       let r=hash(p.x,p.z,1)*W, v=V[V.length-1]; for(const c of V){ if((r-=c.w)<=0){ v=c; break; } }
-      const col=v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:s.color; pick[v.code]=(pick[v.code]||0)+1; cols.add(col);
+      if(s.code){ const f=V.find(c=>c.code===s.code); if(f) v=f; }   /* 汀州路第 3 版（BB_255）：區域自己照擺放規則指定款式（code）和顏色（pcol）；沒指定的照舊照位置挑 */
+      const col=s.pcol||(v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:s.color); pick[v.code]=(pick[v.code]||0)+1; cols.add(col);
       if(!grps.has(gk)) grps.set(gk,[]); grps.get(gk).push({p,v,col,M4:new THREE.Matrix4().multiplyMatrices(s.o.matrixWorld,fix)}); });
     for(const [gk,L] of grps){ const c=new THREE.Vector3(); L.forEach(e=>c.add(e.p)); c.divideScalar(L.length);
       const near=new THREE.Mesh(scMerge(L.map(e=>({node:e.v.node,M4:e.M4,color:e.col})),c),scooterMat()), far=new THREE.Mesh(scMerge(L.map(e=>({node:e.v.lod,M4:e.M4,color:e.col})),c),scooterMat());

@@ -1,11 +1,11 @@
 {
- "objects": 372,
+ "objects": 377,
  "unique_meshes": 146,
- "tris": 81527,
- "tris_drawn": 132399,
- "materials": 156,
+ "tris": 82569,
+ "tris_drawn": 135023,
+ "materials": 157,
  "out": "assets/models/env/second_ai/tingzhou_street.glb",
- "bytes": 7845444,
+ "bytes": 8019168,
  "texres": 512,
  "buildings": [
   "Te_glass",
@@ -39,7 +39,8 @@
   "Tw_brunch",
   "TA_N",
   "TA_S",
-  "TA_END"
+  "TA_END",
+  "TA_LIMAO"
  ],
  "noArcade": {
   "Twente": [

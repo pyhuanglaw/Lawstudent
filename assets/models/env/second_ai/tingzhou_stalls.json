@@ -1,13 +1,13 @@
 {
- "objects": 52,
- "unique_meshes": 52,
- "tris": 40796,
- "tris_drawn": 40796,
+ "objects": 57,
+ "unique_meshes": 57,
+ "tris": 43860,
+ "tris_drawn": 43860,
  "materials": 3,
  "out": "assets/models/env/second_ai/tingzhou_stalls.glb",
- "bytes": 3878160,
+ "bytes": 4131528,
  "texres": 2048,
- "note": "NIGHT-MARKET-1110 夜市十攤＋背景三攤",
+ "note": "NIGHT-MARKET-1110 夜市十攤＋背景三攤；LIMAO-SHOP-1110 禮貌生財的算命桌",
  "kinds": {
   "milk": {
    "name": "沈三盃黑糖鮮奶",

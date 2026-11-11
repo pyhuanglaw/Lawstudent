@@ -10,6 +10,7 @@ from PIL import Image
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 SRC = os.environ.get('TZ_CONCEPT') or os.path.join(ROOT, 'docs/art-rebuild/second_ai/ref/tingzhou_1110/concept'); GEN = os.path.join(HERE, 'textures', 'gen')
 SRC2 = os.environ.get('TZ_CONCEPT2') or os.path.join(ROOT, 'docs/art-rebuild/second_ai/ref/gg_shops6_1110/concept')
+SRC3 = os.environ.get('TZ_CONCEPT3') or os.path.join(ROOT, 'docs/art-rebuild/second_ai/ref/night_market_1110/concept')
 # key：(概念圖, 四角 左上／右上／右下／左下（像素）, 輸出寬, 高)
 Q = {'tzlian_sign': ('shop_tingzhou_liantong', [(468, 224), (1344, 221), (1344, 378), (466, 383)], 1024, 184),
      'tzlian_vsign': ('shop_tingzhou_liantong', [(372, 24), (440, 28), (436, 366), (368, 362)], 112, 520),
@@ -37,7 +38,11 @@ Q = {'tzlian_sign': ('shop_tingzhou_liantong', [(468, 224), (1344, 221), (1344, 
      'tztai_door': ('shop_taimi', [(843, 350), (1045, 362), (1045, 790), (843, 790)], 256, 440),
      'tztai_winr': ('shop_taimi', [(1062, 372), (1420, 395), (1420, 640), (1062, 650)], 448, 300),
      'tzxile_sign': ('shop_xile', [(262, 148), (1178, 290), (1178, 392), (262, 308)], 1024, 130),
-     'tzxile_int': ('shop_xile', [(200, 325), (1195, 405), (1195, 695), (200, 800)], 1024, 400)}
+     'tzxile_int': ('shop_xile', [(200, 325), (1195, 405), (1195, 695), (200, 800)], 1024, 400),
+     # 禮貌生財（X332；使用者 11-11 的外觀圖 docs/art-rebuild/second_ai/ref/night_market_1110/concept/shop_limao_shengcai_exterior.webp）：招牌（深紅棕木板、古銅金書法字）、從門看進去的命理館、窗後面的書櫃
+     'limao_sign': ('shop_limao_shengcai_exterior', [(554, 136), (1232, 184), (1226, 323), (557, 292)], 1024, 240),
+     'limao_door': ('shop_limao_shengcai_exterior', [(760, 343), (1028, 343), (1028, 669), (760, 669)], 384, 468),
+     'limao_win': ('shop_limao_shengcai_exterior', [(769, 354), (1023, 354), (1023, 624), (769, 624)], 384, 408)}
 
 
 def coeffs(dst, src):
@@ -50,7 +55,7 @@ def coeffs(dst, src):
 def main():
     W = 2048; H = 4096; atlas = Image.new('RGB', (W, H), (30, 30, 30)); info = {}; x = y = 0; rowh = 0; P = 4
     for k in sorted(Q, key=lambda k: (-Q[k][3], k)):
-        n, quad, w, h = Q[k]; im = Image.open(os.path.join(SRC if os.path.exists(os.path.join(SRC, n + '.webp')) else SRC2, n + '.webp')).convert('RGB').transform((w, h), Image.PERSPECTIVE, coeffs([(0, 0), (w, 0), (w, h), (0, h)], quad), Image.BICUBIC)
+        n, quad, w, h = Q[k]; im = Image.open(next(os.path.join(d, n + '.webp') for d in (SRC, SRC2, SRC3) if os.path.exists(os.path.join(d, n + '.webp')))).convert('RGB').transform((w, h), Image.PERSPECTIVE, coeffs([(0, 0), (w, 0), (w, h), (0, h)], quad), Image.BICUBIC)
         if x + w > W: x = 0; y += rowh + P; rowh = 0
         atlas.paste(im, (x, y)); info[k] = [x / W, 1 - (y + h) / H, (x + w) / W, 1 - y / H, round(w / h, 4)]
         x += w + P; rowh = max(rowh, h)

@@ -40,4 +40,22 @@ for(const id of ids){ const L=ALL[id], N=L.name;
     if(L.clerk&&!L.clerkOpen){ const c=L.clerk, r=sim(SP,[c.x,c.z,0],1/30,1.8); check(N+' 4. 店員的位置在櫃台後面：客人走不進去（'+c.x+','+c.z+'）',!!z.shopClerk&&!r.ok); }
     check(N+' 5. 互動點的 kind 都有（給 LAWWW 接）；座位的 table 寫了桌號',(L.points||[]).every(p=>E.interactables.some(i=>i.kind===p.kind))&&E.interactables.filter(i=>i.tzSeat).every(i=>/_t\d+$/.test(i.seat.table)));
     check(N+' 6. 正式模型：資產有登記、GLB 檔案在、zone_assets 這一區有它',!!ASSETS.manifest[L.asset]&&fs.existsSync(path.join(ROOT,L.glb))&&new RegExp('"'+L.zone+'":\\[[^\\]]*'+L.asset.replace('.','\\.')).test(fs.readFileSync(path.join(ROOT,'src/data/zone_assets.js'),'utf8')),L.glb); } }
+/* BB_255（11-10）：洗樂——牆面乾淨、兌幣機和洗衣精販賣機各一台有字；印得好——客用電腦工作站、裁紙機、膠裝機看得出來、牆面乾淨 */
+{ const gl=id=>{ try{ const d=fs.readFileSync(path.join(ROOT,ALL[id].glb)), jl=d.readUInt32LE(12); return JSON.parse(d.slice(20,20+jl).toString('utf8')); }catch(e){ return {nodes:[],materials:[],images:[]}; } };
+  for(const id of ['xile','yindehao']){ const J=gl(id), wall=(J.materials||[]).find(m=>m.name==='tzs_wall'), lab=(J.materials||[]).find(m=>/_labels$/.test(m.name));
+    check(ALL[id].name+' 8. 牆面是乾淨的平塗（沒有灰泥貼圖的斑塊）；機器的字牌在模型裡（S_labels）',!!wall&&!(wall.pbrMetallicRoughness||{}).baseColorTexture&&!wall.normalTexture&&(J.nodes||[]).some(n=>n.name==='S_labels')&&!!lab&&!!(lab.pbrMetallicRoughness||{}).baseColorTexture); }
+  const py=fs.readFileSync(path.join(ROOT,'tools/blender/env_second/tz_shops_interior.py'),'utf8');
+  check('洗樂洗衣坊 8. 兌幣機、洗衣精販賣機是兩台、各自有字（兌幣機／洗衣精）',/'coin', '兌幣機'/.test(py)&&/'soap', '洗衣精'/.test(py)&&/label\('coin'/.test(py)&&/label\('soap'/.test(py));
+  const Y=ALL.yindehao; check('印得好 8. 有給客人用的電腦工作站（配置 pc、互動點 tz_yin_pc、擋住）；裁紙機、膠裝機有字牌',!!Y.pc&&Y.points.some(p=>p.kind==='tz_yin_pc')&&Y.blocks.some(b=>Math.abs(b[0]-Y.pc.x)<0.01&&Math.abs(b[1]-Y.pc.z)<0.01)&&/label\('cut'/.test(py)&&/label\('bind'/.test(py)&&/label\('pc'/.test(py)); }
+/* 禮貌生財的書房（X332）：平常鎖著、解鎖以後走得進去 */
+if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,L.spawn.z,0], in0=[-0.6,SD.z1-0.8,0];
+  const dIt=E.interactables.find(i=>i.kind===SD.door.kind), n0=E.interactables.length;
+  check('禮貌生財 7. 書房平常鎖著：裡面站不住、走不進去；門口有「書房的門」互動點（走得到）；書房的互動點還沒有',z.studyOpen===false&&!stand(in0[0],in0[1],0)&&!sim(SP,in0,1/30,1.8).ok&&!!dIt&&!!standNear(dIt)&&walk(SP,standNear(dIt)).ok&&!E.interactables.some(i=>/^tz_limao_study_(books|desk|photo)$/.test(i.kind)));
+  z.setStudy(true); const pts=SD.points.map(p=>E.interactables.find(i=>i.kind===p.kind)), bad=[]; for(const it of pts){ const p=it&&standNear(it), r=p&&walk(SP,p); if(!p||!r.ok) bad.push((it?it.label:'沒有')+JSON.stringify(p)+fmt(r||{})); }
+  const seat=E.interactables.find(i=>i.tzSeat==='desk'), ap=seat&&approach(seat.seat);
+  check('禮貌生財 7. 解鎖（zone.setStudy(true)）：從命理館走得進書房；看書櫃、看書桌、看合照都走得到；書桌的椅子可以坐；書櫃和書桌裡面站不住',z.studyOpen===true&&stand(in0[0],in0[1],0)&&walk(SP,in0).ok&&!bad.length&&!!ap&&walk(SP,ap).ok&&SD.blocks.every(b=>!stand(b[0],b[1],0,0.2)),bad.join(' ')+' 開='+z.studyOpen+' 站='+stand(in0[0],in0[1],0)+' 進='+walk(SP,in0).ok+' 椅='+JSON.stringify(ap)+(ap?walk(SP,ap).ok:'')+' 擋='+SD.blocks.filter(b=>stand(b[0],b[1],0,0.2)).join('|'));
+  z.setStudy(false); check('禮貌生財 7. 再鎖起來：又走不進去、書房的互動點拿掉',!stand(in0[0],in0[1],0)&&E.interactables.length===n0&&z.studyOpen===false);
+  const glb=path.join(ROOT,L.glb); let names=[]; try{ const d=fs.readFileSync(glb), jl=d.readUInt32LE(12); names=(JSON.parse(d.slice(20,20+jl).toString('utf8')).nodes||[]).map(n=>n.name); }catch(e){}
+  check('禮貌生財 7. 模型：書房的東西在 STUDY_* 節點（平常不顯示）、關著的門 STUDY_DOOR_*、蓋子 STUDY_LID_*',names.some(n=>/^STUDY_(vc|wood_d)/.test(n))&&names.some(n=>/^STUDY_DOOR_/.test(n))&&names.some(n=>/^STUDY_LID_/.test(n)),names.filter(n=>/^STUDY/.test(n)).join(' '));
+  check('禮貌生財 7. 預設鎖著（TZS3.studyOpen 回傳 false；LAWWW 接存檔旗標 '+SD.flag+'）',TZS3.studyOpen(L)===false&&typeof SD.flag==='string'); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

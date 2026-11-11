@@ -86,5 +86,9 @@ const TINGZHOU_LAYOUT={
     {"id": "st_socks", "kind": "socks", "x": 4.2, "z": -15.5, "yaw": 1.5708, "where": "road"},
     {"id": "st_ring", "kind": "ring", "x": 4.0, "z": -27.5, "yaw": 1.5708, "where": "road"}
   ]},
+  "limao": {"id": "limao", "name": "禮貌生財", "zone": "tz_limao", "x0": 25.5, "x1": 31.0, "z": 2.5, "dep": 3.0, "from": 19, "to": 23.5,
+   "door": {"x": 27.4, "z": 4.75, "r": 0.9}, "pillars": [[25.8, 2.8], [30.7, 2.8]],
+   "table": {"x": 29.35, "z": 3.85, "w": 1.15, "d": 0.75, "yaw": 3.1416, "seatMaster": {"x": 29.35, "z": 4.6, "yaw": 3.1416}, "seatGuest": {"x": 29.35, "z": 3.05, "yaw": 0.0}, "at": {"x": 28.3, "z": 3.3, "r": 1.0}},
+   "note": "禮貌生財（X332，使用者 11-10 23:1x「開始做，聊天免費」；外觀照使用者 11-11 的圖）：巷 A 後段南側靠公館那一端的老公寓一樓，一樓退 3 m 成騎樓（兩根柱子）。店面（z 5.5）：左邊深色木框格子窗、右邊開著的木門；招牌只寫「禮貌生財」。騎樓下的算命桌在窗前（上師坐靠窗那一側、面向巷子；客人坐靠巷子那一側），門前留 2 m 以上的通道。模型：街道 tingzhou_street.glb 的 TA_LIMAO＋攤位那一顆的 LIMAO_TABLE_open／_closed／LIMAO_SHOPLIGHT。營業 19:00～23:30（提案；AA 定哪幾天不開）。區域：zone.tzLimao＝{open, masterAway}；LAWWW 接：上師 NPC（seatMaster）、桌前的互動（at：免費算命、聊天）、zone.tzLimaoOff＝true 今天不開、zone.tzLimaoAway＝true 店開著上師不在"},
   "hours": {"night": {"from": 17, "to": 24, "note": "夜市人多的時段（路人用）；各攤自己的開收時間在 stalls.kinds"}}
 };

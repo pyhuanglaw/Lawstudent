@@ -1,0 +1,18 @@
+{
+ "objects": 20,
+ "unique_meshes": 20,
+ "tris": 20648,
+ "tris_drawn": 20648,
+ "materials": 11,
+ "out": "assets/models/env/second_ai/tz_limao_interior.glb",
+ "bytes": 1586108,
+ "texres": 512,
+ "tris_total": 20648,
+ "walls": [
+  "E",
+  "N",
+  "S",
+  "W"
+ ],
+ "note": "GG-SHOPS3-ART-1110 禮貌生財 室內"
+}

@@ -532,6 +532,53 @@ def closed(s, k, W, D, tarp):
         s.cyl((0.0, 0.0, -0.1), (0.0, 2.3, -0.1), 0.02, STEEL_D, seg=6); s.cyl((0.0, 1.2, -0.1), (0.0, 2.25, -0.1), 0.09, '#3d6fb0', seg=8, r2=0.03)
 
 
+# ---------- 禮貌生財的算命桌（X332；使用者 11-11 的外觀圖）：原點＝桌子中心的地面，+z＝客人那一側（巷子） ----------
+def wchair(s, x, z, face=1, col='#4a2f1e'):
+    """深色木椅（face＝1 椅背在 −z、人面向 +z；−1 反過來）"""
+    f = face; s.rbox(x - 0.22, x + 0.22, 0.43, 0.47, z - 0.21, z + 0.21, col, r=0.012)
+    for dx in (-0.19, 0.19):
+        s.box(x + dx - 0.02, x + dx + 0.02, 0.0, 0.43, z + f * 0.17 - 0.02, z + f * 0.17 + 0.02, col, 0.9); s.box(x + dx - 0.02, x + dx + 0.02, 0.0, 0.95, z - f * 0.2 - 0.02, z - f * 0.2 + 0.02, col, 0.9)
+    s.box(x - 0.21, x + 0.21, 0.86, 0.95, z - f * 0.2 - 0.015, z - f * 0.2 + 0.015, col); s.box(x - 0.21, x + 0.21, 0.6, 0.64, z - f * 0.2 - 0.012, z - f * 0.2 + 0.012, col)
+    for dx in (-0.1, 0.0, 0.1): s.box(x + dx - 0.015, x + dx + 0.015, 0.64, 0.86, z - f * 0.2 - 0.01, z - f * 0.2 + 0.01, col, 0.95)
+
+def tall_plant(s, x, z):
+    s.cyl((x, 0.0, z), (x, 0.34, z), 0.15, '#4a4038', seg=10, r2=0.19); s.cyl((x, 0.32, z), (x, 0.35, z), 0.17, '#3a2a1e', seg=10); rnd = random.Random(11)
+    s.cyl((x, 0.34, z), (x + 0.03, 1.5, z - 0.02), 0.014, '#5a4a32', seg=5)
+    for i in range(16):
+        a = i * 2.4; y = 0.7 + i * 0.055; r = 0.2 + rnd.random() * 0.16; cx, cz = x + math.cos(a) * r * 0.6, z + math.sin(a) * r * 0.6
+        s.ell((cx, y, cz), 0.13, 0.025, 0.06, '#3f7a3a' if i % 3 else '#5a9a4a', seg=6, rings=4)
+
+def limao_open(s):
+    WD, VEL = '#3a2416', '#6a1422'
+    for xx in (-0.5, 0.5):
+        for zz in (-0.3, 0.3): s.box(xx - 0.03, xx + 0.03, 0.0, 0.74, zz - 0.03, zz + 0.03, WD)
+    s.box(-0.575, 0.575, 0.72, 0.76, -0.375, 0.375, WD)
+    drape(s, -0.6, 0.6, 0.1, 0.775, -0.4, 0.4, VEL, flare=0.05, folds=4, rope=False)                           # 暗紅絨布桌布，垂到接近地面
+    s.cyl((-0.4, 0.775, -0.15), (-0.4, 0.8, -0.15), 0.07, '#b8923a', seg=10); s.cyl((-0.4, 0.8, -0.15), (-0.4, 1.12, -0.15), 0.012, '#b8923a', seg=6)      # 黃銅桌燈
+    s.cyl((-0.4, 1.12, -0.15), (-0.22, 1.22, -0.08), 0.012, '#b8923a', seg=6); s.cyl((-0.25, 1.15, -0.09), (-0.16, 1.25, -0.05), 0.09, '#b8923a', seg=10, r2=0.03); s.glow((-0.235, 1.16, -0.085), 0.04)
+    s.cyl((-0.12, 0.775, -0.2), (-0.12, 0.95, -0.2), 0.05, '#8a5a2a', seg=8)                                      # 木籤筒＋籤
+    for i in range(7): a = i * 0.9; s.cyl((-0.12 + math.cos(a) * 0.025, 0.93, -0.2 + math.sin(a) * 0.025), (-0.12 + math.cos(a) * 0.05, 1.08, -0.2 + math.sin(a) * 0.05), 0.005, '#d9b87a', seg=4)
+    s.cyl((0.2, 0.775, -0.18), (0.2, 0.782, -0.18), 0.06, '#f4f0e4', seg=10); s.cyl((0.2, 0.782, -0.18), (0.2, 0.84, -0.18), 0.03, '#f4f0e4', seg=8, r2=0.04); s.cyl((0.2, 0.83, -0.18), (0.2, 0.838, -0.18), 0.034, '#7a5a2a', seg=8)   # 茶杯
+    s.box(-0.05, 0.2, 0.775, 0.8, -0.02, 0.2, '#e8dcc0'); s.box(-0.05, 0.2, 0.8, 0.803, -0.02, 0.2, '#c9b890')    # 筆記本
+    s.box(-0.36, -0.1, 0.775, 0.785, 0.05, 0.31, '#3a2416'); s.cyl((-0.23, 0.785, 0.18), (-0.23, 0.795, 0.18), 0.11, '#c9a03a', seg=16); s.cyl((-0.23, 0.795, 0.18), (-0.23, 0.8, 0.18), 0.07, '#2a2a2c', seg=12); s.cyl((-0.23, 0.8, 0.18), (-0.23, 0.803, 0.18), 0.025, '#c9302a', seg=8)   # 羅盤
+    s.box(0.24, 0.52, 0.775, 0.785, 0.02, 0.3, '#e8dcc0'); s.poly([(0.27, 0.787, 0.16), (0.38, 0.787, 0.27), (0.49, 0.787, 0.16), (0.38, 0.787, 0.05)], '#3a2416', two=False)   # 命盤
+    s.box(0.4, 0.55, 0.775, 0.9, -0.34, -0.32, WD); s.box(0.41, 0.54, 0.79, 0.89, -0.319, -0.317, '#e8dcc0')       # 小木牌（免費算命的字 AA 定；這裡是空白的牌子）
+    wchair(s, 0.0, -0.75, face=1); wchair(s, 0.0, 0.78, face=-1); tall_plant(s, -0.95, -0.55)
+
+def limao_closed(s):
+    WD = '#3a2416'
+    for xx in (-0.5, 0.5):
+        for zz in (-0.3, 0.3): s.box(xx - 0.03, xx + 0.03, 0.0, 0.74, zz - 0.03, zz + 0.03, WD)
+    s.box(-0.575, 0.575, 0.72, 0.76, -0.375, 0.375, WD); drape(s, -0.6, 0.6, 0.3, 0.8, -0.4, 0.4, '#8a5a56', flare=0.04, folds=3)   # 桌上的東西收掉、蓋紅灰帆布
+    wchair(s, -0.15, -0.95, face=1); s.box(-0.07, 0.37, 0.47, 0.51, -1.16, -0.74, WD); s.box(-0.07, 0.37, 0.51, 0.55, -1.16, -1.12, WD)   # 兩張椅子收到窗下（一張倒扣在另一張上面）
+    tall_plant(s, -0.95, -0.55)
+
+def limao_light(s):
+    """店面的暖燈：騎樓天花板下的紙燈籠（門前）、招牌上的鵝頸燈"""
+    s.box(-1.954, -1.946, 2.75, 3.1, -1.404, -1.396, BLACK); s.glow((-1.95, 2.55, -1.4), 0.2, '#ffe2a8', rx=0.2); s.cyl((-1.95, 2.74, -1.4), (-1.95, 2.77, -1.4), 0.08, '#3a2416', seg=8); s.cyl((-1.95, 2.33, -1.4), (-1.95, 2.36, -1.4), 0.08, '#3a2416', seg=8)
+    s.glow((0.0, 2.6, -0.6), 0.06)
+
+
 def build():
     B.reset(texres=2048); uv = json.load(open(os.path.join(GEN, 'nm_stalls_atlas.json')))
     root = B.group('tingzhou_stalls', props={'kind': 'tingzhou_stalls', 'note': 'NIGHT-MARKET-1110 夜市十攤＋背景三攤：STALL_<代號>_open／_closed；位置、時間在 tingzhou_layout.js 的 stalls'})
@@ -548,8 +595,11 @@ def build():
         sc = S('STALL_%s_closed' % k, mats, uv); closed(sc, k, W, D, tarp); gc = sc.finish(root, dict(p, state='closed'))
         if T.arg('--grid'): go.location = g2b(i * 9.0, 0, 0); gc.location = g2b(i * 9.0, 0, 30)   # 只給預覽：排成格子（正式的都在原點）
         kinds[k] = {'name': name, 'size': size, 'w': W, 'd': D, 'block': {'w': blk[0], 'd': blk[1], 'back': blk[2]}, 'from': hrs[0], 'to': hrs[1], 'buy': buy, 'tarp': tarp, 'menu': MENU.get(k, [])}
+    for j, (nm, fn) in enumerate((('LIMAO_TABLE_open', limao_open), ('LIMAO_TABLE_closed', limao_closed), ('LIMAO_SHOPLIGHT', limao_light))):   # 禮貌生財（X332）的算命桌、店面的燈：同一顆模型裡，位置在配置 limao.table
+        sl = S(nm, mats, uv); fn(sl); gl_ = sl.finish(root, {'limao': nm})
+        if T.arg('--grid'): gl_.location = g2b(13 * 9.0 + j * 4.0, 0, 0)
     info = L.export(OUT, gpu_instances=False)
-    info.update({'note': 'NIGHT-MARKET-1110 夜市十攤＋背景三攤', 'kinds': kinds})
+    info.update({'note': 'NIGHT-MARKET-1110 夜市十攤＋背景三攤；LIMAO-SHOP-1110 禮貌生財的算命桌', 'kinds': kinds})
     L.write_json(OUT[:-4] + '.json', info)
     return info
 
