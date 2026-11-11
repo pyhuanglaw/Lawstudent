@@ -1,5 +1,6 @@
 """CC（帳號 A）11-12：GOCLASS「去上課被記成翹課」（BUG-GOCLASS-SKIPPED-1111，X337，使用者 11-11 P0）。新舊對照用：同一支探針跑
-  新版（開發分支 6f9961fa6 以後：翹課確認「還是去」第一個、「翹」第二個；選單防連點 350 ms，自動化瀏覽器要網址加 ?tapguard 才擋）
+  新版（開發分支 1d4db297a 以後（r2，BB 03:24）：翹課確認「還是去」第一個、「翹」第二個；選單防連點 350 ms，自動化瀏覽器要網址加 ?tapguard 才擋；
+    起床選單在「早安…」之後，前面有翹掉的課多一句「已經翹掉：09:10 刑法總則（一）。（手機的「今天」可以反悔）」；離出門半小時以上，「直接去上課」的說明多寫「時間會直接跳到 hh:mm 出門」）
   舊版（779ddd650＝線上 v9.10.24：確認是「翹」第一個、沒有防連點——這是預期，不算新版的錯）。
 使用者原話：「我早上選去上課 結果直接跳到法律服務圖書館 打開手機還說我沒去上課 上課至少也要播完吧? 連到教室都沒有」
 存檔旁證（BB 02:56）：第 57 天週三 08:17 在手機回可昕；沒有 rem_57:crim_gen1（08:40 以前就寫了 plan_skip）；plan_skip 只有 skipClass 選「翹」會寫；之後 done 只有服務學習，15:29 在法圖。
@@ -16,7 +17,8 @@ PARTS（逗號分隔；預設全部）：
            A＝對話框中央；B＝起床選單第一項的位置；C＝第二項的位置；D＝起床選單第二項「翹這堂課」和翹課確認第一項重疊的地方（雲端自檢量到：橫向 844×390 起床選單三項各 63 px 高、
            確認兩項各 44 px 高，都貼底墊在對話框上面，「翹這堂課」y 125–188 和確認第一項 y 174–218 重疊在 y 174–188——舊版那一格是「翹」、新版是「還是去」）。
            位置先用正常速度叫出一次選單量 #choices 按鈕的框（再照文字選「翹這堂課」量確認選單，最後照文字選「還是去」收尾）。B、C：畫面上只有對話（還沒有選單）時點對話框中央
-           （不點對話就不會出選單；點下去那一刻選單出了沒有是賽跑——這正是要測的）。每種 REPEAT 次（預設 3，四種共 12 次）。連到所有選單關掉、人空下來 FREEWAIT 秒（預設 6：等得到小睡醒來的第二次起床選單），上限 MASH_MAX 秒（60）；
+           （不點對話就不會出選單；點下去那一刻選單出了沒有是賽跑——這正是要測的）。每種 REPEAT 次（預設 2，六種共 12 次）。D3／D4（r2，BB 03:24）＝規則同 D，但 D 點只按 3／4 下就停手；
+           D 系列每一下都記當下是哪一個選單（起床／翹課確認／小睡／其他）、落在哪一項或沒落在任何一項；新版 R.check「沒有落到『再睡一下』」，舊版只記。連到所有選單關掉、人空下來 FREEWAIT 秒（預設 6：等得到小睡醒來的第二次起床選單），上限 MASH_MAX 秒（60）；
            選單在畫面上 STALL 秒（預設 10）都沒被點到（點的位置底下沒有選項）＝記「其他（卡在選單）」、停止。
            每次記：每個選單出現的時間、選了哪一項（文字）、離選單出現幾 ms、那一下按下去離出現幾 ms、COVER（選單出現那一刻 choices 幾層、每層文字、D.coverWho、#dlg 開著沒有）；
            最後的 zone、G.hour、CLS.rec 的 note／done／attend／late／abs 差異、手機「今天」的字（CLS.todayHTML）。統計：翹（plan_skip）／去上課／其他。只 R.note，不判定。
@@ -25,6 +27,9 @@ PARTS（逗號分隔；預設全部）：
            另外正常速度（選單出現 600 ms 後、照文字找按鈕）三項各選一次（各自重睡一次）：直接去上課→出門／翹這堂課→出確認選單（選「還是去」收尾）／先起床再說→沒事、沒有 plan_skip。
   FULL     （GOCLASS_full）睡覺 → 起床選單照文字選「直接去上課：刑法總則（一）」→ 到教室、坐下（有沒有問座位）→ 課堂逐句（第一句、最後一句、幾句、花多久）→ 下課（下課選單照文字選「先自由活動」）
            → 真的點手機 →「今天」「課表」截圖 → 判定：到了教室、播了課、done 有這一堂、note 沒有 plan_skip_／skip_、手機「今天」那一列寫「上過了」。
+           r2：課堂每一句（say／字幕）出現時各截一張；記坐下（seatPick／attend）到「下課了」幾秒、每一句停留幾秒（探針點的速度：對話出現 500 ms 後點、打字中先補完再點一下翻頁，另加截圖時間）。
+  CONTENTWEEK（r2）同一科（刑法總則（一））挑離第 57 天那週最近、syllabus 有提問／討論（ask、call、obs）的一週（CWEEK=週次 可以指定；6f9961fa6 以後是第 12 週 2025-11-19：call＋ask），
+           照 FULL 全程跑一次：逐句、每句截圖、總秒數；課堂裡的選單照第一項選（記選項文字）；和第 57 天（同一次跑的 FULL）比。
   SERVICE  （GOCLASS_service）【前置】第 57 天 12:40 在宿舍房間 → 手機「今天」服務學習那一列按「直接去上課」→ 逐句、每一步截圖、跳了多少時間、落在哪個 zone、按下到能動幾秒。只記錄。
            LAWWW 說應該是「櫃台報到一句旁白 → 淡出、跳到下課 → 字幕『服務學習（一）：第 n 次』」。
   OTHERS   TERMS（預設 Y1S2,Y2S1,Y3S1；也可以寫日期 YYYY-MM-DD）每個學期第 OTHERWEEK 週（預設 5）第一個「上午有課、教室有 zone」的平日：前一晚睡覺 → 照文字選去上課 → 進教室、≥1 句課堂、done。
@@ -36,8 +41,10 @@ PARTS（逗號分隔；預設全部）：
            記：起床選單那一句、選單出現時離上一次觸控幾 ms；選單每一項的框和手機上按過的鍵（回覆鍵、關閉鍵、頁籤）重不重疊；第 2 項「翹這堂課」和哪一顆重疊；有沒有落到「翹這堂課」、再落到「翹」。
   USERVIEW （GOCLASS_userview）照文字「翹這堂課」→「翹」，然後 a）「起床」：手機「今天」的字、截圖；站著不動 USERWAIT 秒（預設 20）記目標列／提醒／字幕；
            【前置／捷徑】同一份進度改成 12:30，等遊戲時間自然走到 13:40（USERTO）記提醒、目標列、有沒有選單；b）「再睡一下」：第二次起床選單第一項是什麼、照文字按下去、落在哪個 zone、G.hour、按下到能動幾秒、手機「今天」。
+           r2 判定（新版 R.check；舊版 779ddd650 用 R.note 記「D34 舊版對照：沒有＝預期」）：第二次選單前有「已經翹掉：…（手機的「今天」可以反悔）」那一句（逐字記）；
+           第一項說明有時間、地點和「時間會直接跳到…」（逐字記說明全文）。舊版的判斷：SHA 前 9 碼是 779ddd650，或遊戲沒有 GAME.tapTooSoon。
            COVER 併在每個選單的紀錄裡。
-環境變數：LW_TESTS SHA PARTS REPEAT MODES TAP_MIN TAP_MAX FREEWAIT MASH_MAX STALL GUARDN PHONEN PHONEMODES PHONE_TAPS FOLLOW TERMS OTHERWEEK USERWAIT USERTO EVQUIET PORTRAIT SEED TARGET（預設 2025-11-12）
+環境變數：LW_TESTS SHA PARTS REPEAT MODES TAP_MIN TAP_MAX FREEWAIT MASH_MAX STALL GUARDN PHONEN PHONEMODES PHONE_TAPS FOLLOW TERMS OTHERWEEK CWEEK USERWAIT USERTO EVQUIET PORTRAIT SEED TARGET（預設 2025-11-12）
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=REPRO,... python3 cc_goclass_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, random, re
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE); sys.path.insert(0, os.path.dirname(HERE))
@@ -47,9 +54,9 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 ENV = os.environ.get
-PARTS = [p.strip().upper() for p in (ENV('PARTS') or 'REPRO,GUARD,FULL,SERVICE,OTHERS,REGRET,PHONE,USERVIEW').split(',') if p.strip()]
+PARTS = [p.strip().upper() for p in (ENV('PARTS') or 'REPRO,GUARD,FULL,CONTENTWEEK,SERVICE,OTHERS,REGRET,PHONE,USERVIEW').split(',') if p.strip()]
 SHA = (ENV('SHA') or '')[:9]
-REPEAT = int(ENV('REPEAT') or 3); MODES = [m for m in (ENV('MODES') or 'A,B,C,D').split(',') if m]
+REPEAT = int(ENV('REPEAT') or 2); MODES = [m for m in (ENV('MODES') or 'A,B,C,D,D3,D4').split(',') if m]
 TAP_MIN, TAP_MAX = int(ENV('TAP_MIN') or 80), int(ENV('TAP_MAX') or 120)
 FREEWAIT = float(ENV('FREEWAIT') or 6); MASH_MAX = float(ENV('MASH_MAX') or 60); STALL = float(ENV('STALL') or 10)
 GUARDN = int(ENV('GUARDN') or 10); PHONEN = int(ENV('PHONEN') or 10); PHONEMODES = [m for m in (ENV('PHONEMODES') or 'close2,reply').split(',') if m]
@@ -104,9 +111,9 @@ HOOK = r"""(()=>{ if(window.__GC&&window.__GC.g===GAME) return {again:true}; con
   const wrap=(o,fn,pre,post)=>{ const f0=o&&o[fn]; if(typeof f0!=='function') return false; o[fn]=function(){ let e=null; try{ e=pre?pre.apply(null,arguments):null; }catch(x){} const r=f0.apply(this,arguments);
       if(post&&r&&typeof r.then==='function') r.then(v=>{ try{ post(e,v); }catch(x){} },()=>{}); else if(post){ try{ post(e,r); }catch(x){} } return r; }; return true; };
   const ok={};
-  ok.choose=wrap(GAME,'choose',(opts,opt)=>{ const t0=now(); W.lastChooseT=t0; const all=(opts||[]).map(o=>o&&o.t); const e=push({k:'choose',all,opts:(opts||[]).filter(o=>o&&!o.hidden).map(o=>o.t),sinceDown:W.lastDown!=null?+(t0-W.lastDown).toFixed(1):null}); e.t0=t0;
+  ok.choose=wrap(GAME,'choose',(opts,opt)=>{ const t0=now(); W.lastChooseT=t0; const all=(opts||[]).map(o=>o&&o.t); const e=push({k:'choose',all,opts:(opts||[]).filter(o=>o&&!o.hidden).map(o=>o.t),hints:(opts||[]).filter(o=>o&&!o.hidden).map(o=>o.hint||''),sinceDown:W.lastDown!=null?+(t0-W.lastDown).toFixed(1):null}); e.t0=t0; W.cur={opts:e.opts,t0};
       setTimeout(()=>{ try{ e.rects=rects(); e.cover=cover(); }catch(x){} },0); requestAnimationFrame(()=>{ try{ e.rects2=rects(); }catch(x){} }); return e; },
-    (e,i)=>{ const t=now(); push({k:'pick',ref:e&&e.t0,i,txt:e&&e.all?e.all[i]:null,first:e&&e.opts?e.opts[0]:null,dt:e?+(t-e.t0).toFixed(1):null,downDt:(e&&W.lastDown!=null)?+(W.lastDown-e.t0).toFixed(1):null}); });
+    (e,i)=>{ const t=now(); if(W.cur&&e&&W.cur.t0===e.t0) W.cur=null; push({k:'pick',ref:e&&e.t0,i,txt:e&&e.all?e.all[i]:null,first:e&&e.opts?e.opts[0]:null,dt:e?+(t-e.t0).toFixed(1):null,downDt:(e&&W.lastDown!=null)?+(W.lastDown-e.t0).toFixed(1):null}); });
   ok.say=wrap(GAME,'say',(who,text)=>push({k:'say',who:who?(who.name||String(who)):null,text:String(text),sinceDown:W.lastDown!=null?+(now()-W.lastDown).toFixed(1):null,cover:/^早安/.test(String(text))?cover():undefined}));
   ok.caption=wrap(GAME,'caption',(who,text)=>push({k:'cap',who:who||'',text:String(text)}));
   ok.toast=wrap(GAME,'toast',(text)=>push({k:'toast',text:String(text)}));
@@ -114,7 +121,7 @@ HOOK = r"""(()=>{ if(window.__GC&&window.__GC.g===GAME) return {again:true}; con
   for(const fn of ['queueWake','wakeMenu','skipClass','goClass','attend','seatPick','skipTo','afterMenu']) ok[fn]=wrap(typeof CLS!=='undefined'?CLS:null,fn,(GM,a)=>push({k:'cls',fn,key:a&&a.key?a.key:null,arg:typeof a==='number'?a:null}),(e,v)=>push({k:'clsEnd',fn,key:e&&e.key,ret:(v===undefined)?null:v}));
   document.addEventListener('pointerdown',ev=>{ const t=now(); W.lastDown=t; const el=ev.target, b=el&&el.closest?el.closest('#choices button'):null; let idx=null;
     if(b){ idx=[...document.querySelectorAll('#choices button')].indexOf(b); }
-    push({k:'down',x:Math.round(ev.clientX),y:Math.round(ev.clientY),tgt:el?(el.id||(el.className&&String(el.className).slice(0,30))||el.tagName):null,btn:b?((b.firstChild&&b.firstChild.nodeType===3)?b.firstChild.textContent:(b.textContent||'')).trim().slice(0,30):null,idx,sinceChoose:W.lastChooseT!=null?+(t-W.lastChooseT).toFixed(1):null}); },true);
+    push({k:'down',x:Math.round(ev.clientX),y:Math.round(ev.clientY),tgt:el?(el.id||(el.className&&String(el.className).slice(0,30))||el.tagName):null,btn:b?((b.firstChild&&b.firstChild.nodeType===3)?b.firstChild.textContent:(b.textContent||'')).trim().slice(0,30):null,idx,menu:W.cur?W.cur.opts.slice(0,4):null,sinceMenu:W.cur?+(t-W.cur.t0).toFixed(1):null,sinceChoose:W.lastChooseT!=null?+(t-W.lastChooseT).toFixed(1):null}); },true);
   W.guard={tapTooSoon:typeof GAME.tapTooSoon==='function',TAP_GUARD:GAME.TAP_GUARD==null?null:GAME.TAP_GUARD,webdriver:!!navigator.webdriver,q:location.search};
   return ok; })()"""
 LOGN = "((window.__GC&&window.__GC.log)||[]).length"
@@ -133,6 +140,11 @@ FINDDAY = r"""(([term,week])=>{ for(let d=-10; d<2200; d++){ let t=null; try{ t=
     const wd=CALENDAR.dateOf(d).wd; if(wd>5) continue; let its=[]; try{ its=CLS.dayItems(GAME.G,d); }catch(e){} const am=its.find(i=>i.t0<10&&!i.exam&&i.room&&i.room.zone&&!i.room.door&&!i.room.offsite);
     if(am){ const c=CALENDAR.dateOf(d); return {d,wd:wd===7?0:wd,key:c.key,term:t.id,week:t.week,first:am.c.name,key0:am.key,zone:am.room.zone}; } } return null; })"""
 GUARDINFO = "(()=>window.__GC?window.__GC.guard:null)()"
+CWFIND = r"""(([cid,w0,force])=>{ if(typeof SYLLABUS==='undefined'||!SYLLABUS.courses) return null; const W=SYLLABUS.courses[cid]||[], c=CLS.byId(cid); const rich=q=>!!(q.obs||q.call||q.ask);
+  let cand=force?W.filter(q=>q.w===force):W.filter(q=>(!CLS.sylReviewed||CLS.sylReviewed(c,q.w))&&rich(q)&&q.w!==w0); cand.sort((a,b)=>Math.abs(a.w-w0)-Math.abs(b.w-w0)||b.w-a.w);
+  for(const q of cand){ for(let d=-10;d<2200;d++){ let t=null; try{ t=CALENDAR.termOf(d); }catch(e){} if(!t||t.week!==q.w) continue; let its=[]; try{ its=CLS.dayItems(GAME.G,d).filter(i=>i.c.id===cid); }catch(e){} if(!its.length) continue;
+      const k=CALENDAR.dateOf(d); return {d,wd:k.wd===7?0:k.wd,key:k.key,week:q.w,term:t.id,keys:Object.keys(q),board:q.board||null,item:its[0].key}; } } return null; })"""
+RESULTS = {}
 
 
 async def hook(pg):
@@ -217,9 +229,9 @@ async def tap_text(pg, cdp, prefixes, exact=False):
     return None
 
 
-async def play(pg, cdp, picks=(), stop=None, max_s=300, idle_s=3.0, tag='', shots=False, wait_ms=600, exact=()):
+async def play(pg, cdp, picks=(), stop=None, max_s=300, idle_s=3.0, tag='', shots=False, wait_ms=600, exact=(), pickfirst=False):
     """正常速度：對話出現 500 ms 後點對話框；選單出現 wait_ms 後照文字選（picks 照順序；exact 的要整個字一樣）；都沒有就選最後一個（多半是「不要」）。
-    回傳 {'menus':[[選項…,選了]], 'stopped':bool}"""
+    pickfirst＝下課選單以外的選單一律照第一項選（CONTENTWEEK：課堂裡的選項）。回傳 {'menus':[[選項…,選了]], 'stopped':bool}"""
     t0 = time.time(); idle = None; menus = []; last_txt = None
     while time.time() - t0 < max_s:
         s = await ms(pg)
@@ -234,6 +246,8 @@ async def play(pg, cdp, picks=(), stop=None, max_s=300, idle_s=3.0, tag='', shot
             for p in exact:
                 got = await tap_text(pg, cdp, [p], exact=True)
                 if got: break
+            after = any(t.startswith(('直接去下一堂', '先自由活動', '先去吃飯')) for t in txt)
+            if not got and pickfirst and not after: await P.tap_choice(pg, cdp, 0); got = txt[0] + '（照第一項選）'
             if not got: got = await tap_text(pg, cdp, list(picks))
             if not got: await P.tap_choice(pg, cdp, len(txt) - 1); got = txt[-1] + '（沒有符合的，選最後一個）'
             menus.append([txt, got]); R.note('%s 選單 %s → %s' % (tag, J(txt), got))
@@ -349,9 +363,12 @@ async def calibrate(pg, cdp, tag):
 async def mash(pg, cdp, mode, pos, tag, keypos=None):
     """連點：mode A＝一直點對話框中央；B／C（或 keypos）＝有選單就點那個位置、只有對話就點對話框中央、都沒有（忙／淡出）也點那個位置。
     停止：沒有對話、沒有選單、人不忙，連續 FREEWAIT 秒；上限 MASH_MAX 秒。回傳點了幾下"""
-    t0 = time.time(); free = None; n = 0; lastnd = None; still = time.time()
-    key = keypos or pos.get(mode)
+    t0 = time.time(); free = None; n = 0; lastnd = None; still = time.time(); nkey = 0
+    key = keypos or pos.get(mode) or pos.get(mode[:1])
+    cap = int(mode[1:]) if len(mode) > 1 and mode[0] == 'D' and mode[1:].isdigit() else None   # D3／D4：同一點（D）只按 3／4 下
     while time.time() - t0 < MASH_MAX:
+        if cap and nkey >= cap:
+            await pg.wait_for_timeout(2500); R.note('%s：D 點按滿 %d 下，停手（畫面 %s）' % (tag, cap, J(await ms(pg)))); break
         s = await ms(pg)
         if s['nd'] != lastnd or not s['ch']: lastnd = s['nd']; still = time.time()
         elif time.time() - still >= STALL:
@@ -363,10 +380,35 @@ async def mash(pg, cdp, mode, pos, tag, keypos=None):
         free = None
         if mode == 'A': xy = s['dlgC'] or pos['A']
         elif s['dlg'] and not s['ch']: xy = s['dlgC'] or pos['A']
-        else: xy = key
+        else: xy = key; nkey += 1
         await L.touch_tap(cdp, xy[0], xy[1]); n += 1
         await pg.wait_for_timeout(random.randint(TAP_MIN, TAP_MAX))
     return n, time.time() - t0
+
+
+def mkind(opts):
+    if not opts: return '（沒有選單）'
+    if any((o or '').startswith('翹這堂課') for o in opts) or any((o or '').startswith('直接去') for o in opts[:1]): return '起床選單'
+    if '翹' in opts and '還是去' in opts: return '翹課確認'
+    if any((o or '').startswith('再睡一下') for o in opts): return '小睡選單'
+    return '其他：' + (opts[0] or '')[:14]
+
+
+def tap_detail(lg, key):
+    """每一下觸控：當下是哪一個選單、落在哪一項（文字），或沒有落在任何一項；at＝是不是按在 key 那一點"""
+    out = []
+    for e in lg:
+        if e['k'] != 'down': continue
+        at = bool(key) and abs(e['x'] - key[0]) <= 3 and abs(e['y'] - key[1]) <= 3
+        out.append({'at': at, 'menu': mkind(e.get('menu')), 'hit': e.get('btn') or ('（沒有落在任何一項）' if e.get('menu') else '（畫面上沒有選單：' + str(e.get('tgt')) + '）'), 'sinceMenu': e.get('sinceMenu')})
+    return out
+
+
+async def is_old(pg):
+    """舊版對照：SHA 是 779ddd650，或遊戲沒有防連點（GAME.tapTooSoon）"""
+    if SHA.startswith('779ddd65'): return True
+    g = await pg.evaluate(GUARDINFO)
+    return not (g or {}).get('tapTooSoon')
 
 
 def chain_of(lg, crim_key):
@@ -398,7 +440,14 @@ async def one_mash_run(pg, cdp, pos, mode, tag, T, keypos=None):
     menus = [e for e in lg if e['k'] == 'choose']
     for m in menus: m['msSinceSay'] = round(m['t'] - say_t)
     sn = await shot(pg, '%s_end' % tag)
-    res = {'tag': tag, 'mode': mode, 'taps': ntap, 'secs': round(dur, 1), 'outcome': oc, 'plan_skip': ps, 'went': went, 'nap': nap, 'zone': r1['zone'], 'h': r1['h'],
+    td = tap_detail(lg, pos.get(mode) or pos.get(mode[:1]) if mode[:1] in 'BCD' else None)
+    if mode[:1] == 'D':
+        dts = [t for t in td if t['at']]
+        R.note('%s：按在 D 點的每一下 %s' % (tag, J([[t['menu'], t['hit'], t['sinceMenu']] for t in dts])))
+        nap = [c for c in chain_of(lg, '') if (c['picked'] or '').startswith('再睡一下')]
+        if await is_old(pg): R.note('%s（D34 舊版對照，只記）：落到「再睡一下」%s' % (tag, J(nap) if nap else '沒有'))
+        else: R.check('%s：新版連點 D 點沒有落到「再睡一下」' % tag, not nap, J(nap))
+    res = {'tag': tag, 'mode': mode, 'tapDetail': td, 'taps': ntap, 'secs': round(dur, 1), 'outcome': oc, 'plan_skip': ps, 'went': went, 'nap': nap, 'zone': r1['zone'], 'h': r1['h'],
            'diff': rdiff(r0, r1), 'chain': ch, 'today': today, 'shot': sn,
            'menus': [{'opts': m.get('opts'), 'sinceSay': m.get('msSinceSay'), 'sinceDown': m.get('sinceDown'), 'rects': m.get('rects'), 'cover': m.get('cover')} for m in menus]}
     R.note('%s：模式 %s 點 %d 下 %.0f 秒 → %s（plan_skip=%s、去上課=%s、再睡一下=%s）落在 %s %.3f 時；選單鏈 %s' % (tag, mode, ntap, dur, oc, ps, went, nap, r1['zone'], r1['h'], J(ch)))
@@ -489,22 +538,29 @@ async def part_guard(p):
         await b.close()
 
 
-async def class_until_done(pg, cdp, key, tag, max_s=600):
-    """上課：對話照正常速度點；下課選單照文字選「先自由活動」；停在 done 有這一堂、人空下來 3 秒"""
-    n1 = await logn(pg); t0 = time.time(); shots = {'enter': False, 'mid': False}
+async def class_until_done(pg, cdp, key, tag, max_s=600, pickfirst=False, lineshots=False):
+    """上課：對話照正常速度點（對話出現 500 ms 後點對話框：打字中那一下先補完，下一輪再點翻頁；約 1.2–1.6 秒一句＋截圖時間）；
+    下課選單照文字選「先自由活動」；停在 done 有這一堂、人空下來。lineshots＝課堂每一句（say／字幕）出現時各截一張"""
+    n1 = await logn(pg); t0 = time.time(); shots = {'enter': False, 'mid': False, 'seen': 0}
     async def stop(s):
         lg = await logs(pg, n1)
         if not shots['enter'] and any(e['k'] == 'entered' for e in lg) and not s['fade']:
             shots['enter'] = True; await shot(pg, '%s_arrive' % tag)
         if not shots['mid'] and s['dlg'] and s['seat']:
             shots['mid'] = True; await shot(pg, '%s_inclass' % tag)
+        if lineshots:
+            i0 = next((i for i, e in enumerate(lg) if e['k'] == 'cls' and e['fn'] in ('attend', 'seatPick')), None)
+            if i0 is not None:
+                ls = [e for e in lg[i0:] if e['k'] in ('say', 'cap')]
+                if len(ls) > shots['seen']:
+                    shots['seen'] = len(ls); await pg.wait_for_timeout(350); await shot(pg, '%s_line%02d' % (tag, len(ls)))
         done = await pg.evaluate("k=>!!CLS.rec(GAME.G).done[k]", key)
         return done and not (s['dlg'] or s['ch'] or s['busy'] or s['fade'])
-    pl = await play(pg, cdp, picks=('先自由活動', '還是進去聽', '老位子', '坐中間'), stop=stop, max_s=max_s, idle_s=8, tag=tag)
+    pl = await play(pg, cdp, picks=('先自由活動', '還是進去聽', '老位子', '坐中間'), stop=stop, max_s=max_s, idle_s=8, tag=tag, pickfirst=pickfirst)
     await play(pg, cdp, picks=('先自由活動',), max_s=40, idle_s=3, tag=tag + '_after')
     lg = await logs(pg, n1)
     seatq = [m for m in pl['menus'] if any('坐' in o for o in m[0])]
-    return lg, seatq, time.time() - t0
+    return lg, seatq, time.time() - t0, pl['menus']
 
 
 def class_lines(lg):
@@ -513,6 +569,18 @@ def class_lines(lg):
     L_ = [e for e in lg[i0:] if e['k'] in ('say', 'cap')]
     dur = (L_[-1]['t'] - L_[0]['t']) / 1000 if L_ else None
     return L_, dur
+
+
+def class_timing(lg, cl):
+    """坐下（attend／seatPick 被叫）到「下課了」那一句的秒數；每一句停留幾秒（這一句出現到下一句出現；最後一句到 attend 結束）"""
+    a = next((e for e in lg if e['k'] == 'cls' and e['fn'] in ('seatPick', 'attend')), None)
+    end = next((e for e in cl if '下課' in e['text']), cl[-1] if cl else None)
+    fin = next((e for e in lg if e['k'] == 'clsEnd' and e['fn'] == 'attend'), None)
+    dw = []
+    for i, e in enumerate(cl):
+        nx = cl[i + 1]['t'] if i + 1 < len(cl) else (fin['t'] if fin else None)
+        dw.append([e['text'][:30], None if nx is None else round((nx - e['t']) / 1000, 1)])
+    return (round((end['t'] - a['t']) / 1000, 1) if a and end else None), dw
 
 
 async def phone_today(pg, cdp, tag, week=True):
@@ -533,46 +601,65 @@ async def close_phone(pg, cdp):
     await L.close_panels(pg, cdp); await pg.wait_for_timeout(500)
 
 
-async def part_full(p):
+async def full_run(p, NM='FULL', tg_='full', cw=False):
     b, ctx, pg, cdp, errs = await L.launch(p, landscape=not PORTRAIT)
     try:
-        await pg.goto(URL); R.check('FULL：遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await hook(pg)
-        T = await target_day(pg); it = T['crim']; ck = it['key']
-        R.note('FULL：%s（第 %d 天）第一堂 %s %s %s' % (T['day']['key'], T['day']['d'], it['name'], it['room'], ck))
-        w = await sleep_wake(pg, cdp, 'full')
-        if not R.check('FULL：前一晚真的睡覺、第 %d 天醒來' % T['day']['d'], bool(w)): return
-        if not R.check('FULL：起床選單出了', await wait_wake_say(pg, cdp, 'full')): return
-        r0 = await pg.evaluate(REC); n1 = await logn(pg); await shot(pg, 'full_wake_say')
+        await pg.goto(URL); R.check(NM + '：遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await hook(pg)
+        T = await target_day(pg); it = T['crim']; ck = it['key']; dd = None
+        if cw:
+            cwd = await pg.evaluate(CWFIND, ['crim_gen1', T['crim']['week'], int(ENV('CWEEK') or 0)])
+            if not R.check('CONTENTWEEK：找到刑法總則（一）有課堂內容（講義／提問：obs、call、ask）的週（%s）' % J(cwd), bool(cwd)): return
+            R.note('CONTENTWEEK：挑 %s（第 %d 天，%s 第 %d 週；離第 57 天那週（第 %d 週）最近）；那一週的資料欄位 %s；黑板 %s' % (cwd['key'], cwd['d'], cwd['term'], cwd['week'], T['crim']['week'], J(cwd['keys']), J(cwd['board'])))
+            dd = {'d': cwd['d'], 'wd': cwd['wd'], 'key': cwd['key']}; its = await pg.evaluate(ITEMS, cwd['d']); it = next(i for i in its if i['key'] == cwd['item']); ck = it['key']
+        R.note('%s：%s（第 %d 天）%s %s %s' % (NM, (dd or T['day'])['key'], (dd or T['day'])['d'], it['name'], it['room'], ck))
+        w = await sleep_wake(pg, cdp, tg_, day=dd)
+        if not R.check(NM + '：前一晚真的睡覺、第 %d 天醒來' % (dd or T['day'])['d'], bool(w)): return
+        if not R.check(NM + '：起床選單出了', await wait_wake_say(pg, cdp, tg_)): return
+        r0 = await pg.evaluate(REC); n1 = await logn(pg); await shot(pg, tg_ + '_wake_say')
         for _ in range(20):
             s = await ms(pg)
             if s['ch']: break
             if s['dlg']: await pg.wait_for_timeout(700); await L.tap(pg, cdp, '#dlg')
             await pg.wait_for_timeout(300)
-        bt = await P.ts(pg); R.note('FULL：起床選單 %s' % J([o['t'] for o in bt['ch']])); await shot(pg, 'full_wake_menu')
+        bt = await P.ts(pg); R.note(NM + '：起床選單 %s' % J([o['t'] for o in bt['ch']])); await shot(pg, tg_ + '_wake_menu')
         await pg.wait_for_timeout(600); got = await tap_text(pg, cdp, ['直接去上課'])
-        R.check('FULL：照文字選「直接去上課：%s」' % it['name'], bool(got) and it['name'] in (got or ''), got)
+        R.check(NM + '：照文字選「直接去上課：%s」' % it['name'], bool(got) and it['name'] in (got or ''), got)
         tg = time.time()
-        lg, seatq, dur = await class_until_done(pg, cdp, ck, 'full')
+        lg, seatq, dur, cmenus = await class_until_done(pg, cdp, ck, tg_, pickfirst=cw, lineshots=True)
         r1 = await pg.evaluate(REC)
         ent = [e['to'] for e in lg if e['k'] == 'enter']
-        R.check('FULL：人到了教室（GAME.enter → %s；那一堂的教室 zone=%s）' % (J(ent), it['zone']), it['zone'] in ent or r1['zone'] == it['zone'], J(ent))
-        R.note('FULL：問座位的選單 %s（SEAT-NO-ASK-1110 以後應該不問）' % (J(seatq) if seatq else '沒有'))
+        R.check(NM + '：人到了教室（GAME.enter → %s；那一堂的教室 zone=%s）' % (J(ent), it['zone']), it['zone'] in ent or r1['zone'] == it['zone'], J(ent))
+        R.note(NM + '：問座位的選單 %s（SEAT-NO-ASK-1110 以後應該不問）' % (J(seatq) if seatq else '沒有'))
         cl, cdur = class_lines(lg)
-        R.note('FULL：課堂 %d 句／字幕（%s 秒）：第一句 %s；最後一句 %s' % (len(cl), cdur and round(cdur, 1), J(cl[0]['text'] if cl else None), J(cl[-1]['text'] if cl else None)))
+        R.note(NM + '：課堂 %d 句／字幕（%s 秒）：第一句 %s；最後一句 %s' % (len(cl), cdur and round(cdur, 1), J(cl[0]['text'] if cl else None), J(cl[-1]['text'] if cl else None)))
         for e in cl: R.note('    [%s %.3f] %s：%s' % (e['k'], e.get('h') or 0, e.get('who') or '', e['text']))
-        R.check('FULL：課堂內容真的播了（≥3 句）', len(cl) >= 3, str(len(cl)))
-        R.check('FULL：done 有 %s' % ck, bool(r1['done'].get(ck)), J(rdiff(r0, r1)))
-        R.check('FULL：note 沒有 plan_skip_／skip_（%s）' % ck, ('plan_skip_' + ck) not in r1['note'] and ('skip_' + ck) not in r1['note'], J(r1['note']))
-        R.note('FULL：從選「直接去上課」到下課空下來 %.0f 秒；CLS.rec 差異 %s' % (time.time() - tg, J(rdiff(r0, r1))))
-        await shot(pg, 'full_after_class')
-        op, t, wk, _ = await phone_today(pg, cdp, 'full')
+        sec, dw = class_timing(lg, cl)
+        R.note(NM + '：坐下（seatPick／attend）到「下課了」%s 秒；每一句停留（秒，探針點的速度：對話出現 500 ms 後點、打字中先補完再點一下翻頁，加每句截圖約 0.5–1 秒）%s' % (sec, J(dw)))
+        cm = [m for m in cmenus if not any(t.startswith(('先自由活動', '直接去下一堂', '先去吃飯')) for t in m[0])]
+        R.note(NM + '：課堂裡的選單（照第一項選）%s' % (J(cm) if cm else '沒有'))
+        RESULTS[NM] = {'lines': len(cl), 'sec': sec, 'menus': cm, 'day': (dd or T['day'])['key']}
+        if cw and 'FULL' in RESULTS: R.note('CONTENTWEEK 和第 57 天比：第 57 天 %s；%s %s' % (J(RESULTS['FULL']), (dd or T['day'])['key'], J(RESULTS[NM])))
+        R.check(NM + '：課堂內容真的播了（≥3 句）', len(cl) >= 3, str(len(cl)))
+        R.check(NM + '：done 有 %s' % ck, bool(r1['done'].get(ck)), J(rdiff(r0, r1)))
+        R.check(NM + '：note 沒有 plan_skip_／skip_（%s）' % ck, ('plan_skip_' + ck) not in r1['note'] and ('skip_' + ck) not in r1['note'], J(r1['note']))
+        R.note(NM + '：從選「直接去上課」到下課空下來 %.0f 秒；CLS.rec 差異 %s' % (time.time() - tg, J(rdiff(r0, r1))))
+        await shot(pg, tg_ + '_after_class')
+        op, t, wk, _ = await phone_today(pg, cdp, tg_)
         row = next((ln for ln in t.split('\n') if it['name'] in ln), '')
         idx = t.find(it['name']); seg = t[idx: idx + 80] if idx >= 0 else ''
-        R.check('FULL：手機「今天」那一列寫「上過了」（%s）' % seg.replace('\n', ' '), '上過了' in seg, row)
+        R.check(NM + '：手機「今天」那一列寫「上過了」（%s）' % seg.replace('\n', ' '), '上過了' in seg, row)
         await close_phone(pg, cdp)
-        R.check('FULL：沒有 JS 例外', not errs, J(errs[:3]))
+        R.check(NM + '：沒有 JS 例外', not errs, J(errs[:3]))
     finally:
         await b.close()
+
+
+async def part_full(p):
+    await full_run(p, 'FULL', 'full')
+
+
+async def part_contentweek(p):
+    await full_run(p, 'CONTENTWEEK', 'cweek', cw=True)
 
 
 async def part_service(p):
@@ -637,7 +724,7 @@ async def part_others(p):
                 await pg.wait_for_timeout(300)
             await pg.wait_for_timeout(600); got = await tap_text(pg, cdp, ['直接去上課'])
             R.note('OTHERS %s：選了 %s' % (term, got))
-            lg, seatq, dur = await class_until_done(pg, cdp, d['key0'], 'others_' + term, max_s=480)
+            lg, seatq, dur, _m = await class_until_done(pg, cdp, d['key0'], 'others_' + term, max_s=480)
             r1 = await pg.evaluate(REC); ent = [e['to'] for e in lg if e['k'] == 'enter']; cl, cdur = class_lines(lg)
             R.check('OTHERS %s：進了教室（%s；教室 zone %s）' % (term, J(ent), d['zone']), d['zone'] in ent or r1['zone'] == d['zone'])
             R.check('OTHERS %s：課堂有播（≥1 句；%d 句，第一句 %s）' % (term, len(cl), J(cl[0]['text'] if cl else None)), len(cl) >= 1)
@@ -685,7 +772,7 @@ async def part_regret(p):
         R.check('REGRET：上課前手機「今天」那一列有「反悔：直接去上課」（%s）' % J(lab), lab == '反悔：直接去上課', t[:300])
         if lab:
             n1 = await logn(pg); await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1000)
-            lg, seatq, dur = await class_until_done(pg, cdp, ck, 'regret')
+            lg, seatq, dur, _m = await class_until_done(pg, cdp, ck, 'regret')
             r2 = await pg.evaluate(REC); ent = [e['to'] for e in lg if e['k'] == 'enter']; cl, cdur = class_lines(lg)
             R.check('REGRET：按「反悔」以後人到教室（%s）' % J(ent), it['zone'] in ent or r2['zone'] == it['zone'])
             for e in cl: R.note('    [%s %.3f] %s：%s' % (e['k'], e.get('h') or 0, e.get('who') or '', e['text']))
@@ -853,6 +940,20 @@ async def part_userview(p):
                 await pg.wait_for_timeout(300)
             bt = await P.ts(pg); txt = [o['t'] for o in bt['ch']]; await shot(pg, 'uv_b2_menu')
             cv = await pg.evaluate(COVER)
+            lgb = await logs(pg, n1); old = await is_old(pg)
+            i2 = max((i for i, e in enumerate(lgb) if e['k'] == 'say' and e['text'].startswith('早安')), default=None)
+            ch2 = next((e for e in lgb[i2:] if e['k'] == 'choose'), None) if i2 is not None else None
+            sk = [e['text'] for e in (lgb[i2:] if i2 is not None else []) if e['k'] == 'say' and e['text'].startswith('已經翹掉')]
+            h0s = (ch2 or {}).get('hints') or ['']
+            R.note('USERVIEW b：第二次起床選單前的句子 %s' % J([e['text'] for e in (lgb[i2:] if i2 is not None else []) if e['k'] == 'say']))
+            R.note('USERVIEW b：第一項說明全文：%s' % J(h0s[0]))
+            okA = bool(sk) and it['name'] in sk[0] and '可以反悔' in sk[0]
+            okB = bool(re.search(r'\d\d:\d\d', h0s[0] or '')) and bool(sv) and (sv['room'] or '').split(' ')[0] in (h0s[0] or '') and '時間會直接跳到' in (h0s[0] or '')
+            if old:
+                R.note('USERVIEW b（D34 舊版對照：沒有＝預期）：「已經翹掉」那一句 %s；第一項說明有「時間會直接跳到」＝%s' % (J(sk) if sk else '沒有', '時間會直接跳到' in (h0s[0] or '')))
+            else:
+                R.check('USERVIEW b：第二次起床選單出來以前有「已經翹掉：…%s…。（手機的「今天」可以反悔）」那一句（%s）' % (it['name'], J(sk)), okA)
+                R.check('USERVIEW b：第一項說明有時間、地點（%s）和「時間會直接跳到…出門」（%s）' % (sv and sv['room'], J(h0s[0])), okB)
             R.note('USERVIEW b：第二次起床選單 %.3f 時 %s；第一項是「直接去上課：%s」＝%s；COVER %s' % (await pg.evaluate("GAME.G.hour"), J(txt), sv and sv['name'], bool(txt) and bool(sv) and txt[0].startswith('直接去上課') and sv['name'] in txt[0], J(cv)))
             if txt:
                 await pg.wait_for_timeout(600); h0 = await pg.evaluate("GAME.G.hour"); tg = time.time(); got = await tap_text(pg, cdp, ['直接去上課'])
@@ -877,7 +978,7 @@ async def part_userview(p):
         await b.close()
 
 
-FN = {'REPRO': part_repro, 'GUARD': part_guard, 'FULL': part_full, 'SERVICE': part_service, 'OTHERS': part_others, 'REGRET': part_regret, 'PHONE': part_phone, 'USERVIEW': part_userview}
+FN = {'CONTENTWEEK': part_contentweek, 'REPRO': part_repro, 'GUARD': part_guard, 'FULL': part_full, 'SERVICE': part_service, 'OTHERS': part_others, 'REGRET': part_regret, 'PHONE': part_phone, 'USERVIEW': part_userview}
 
 
 async def main():
