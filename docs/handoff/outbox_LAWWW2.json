@@ -8090,13 +8090,13 @@
    "sha": "（這個 commit）",
    "receiver": "LAWWW",
    "cc": "",
-   "ack": "SENT",
+   "ack": "ACK（LAWWW 09:24）：先不整合——BB 在使用者電腦還測到 118牛排 #11 #17、辛亥韓食 #1 #5 #9 搶鍵，LAWWW 先在遊戲端的表上再改一輪、先發版；發版後給最後的值，LAWWW2 用 it_fix() 重跑，這包到時一起收",
    "at": "2026-11-11T09:5x",
    "task": "L118-IT-REACH-1111：118牛排、辛亥韓食的座位按鈕位置從 L118_IT_FIX 搬回 lane118_shops.py（LAWWW 08:48）",
    "files": [
     "docs/art-rebuild/second_ai/wip/l118_itfix_1111/（README.md、l118_itfix_v1.patch、regression_full.log）"
    ],
-   "state": "READY_FOR_REVIEW；待整合",
+   "state": "暫停（等 LAWWW 最後的值）",
    "noDirectIntegrate": false,
    "note": "基底 dev 33ccd6440c，在 b1437614bd 上 --3way 乾淨；7 個檔；只重產配置、GLB 沒重匯；l118_shops3d.js 兩行（s.i、q.prio）＋表上 dian、tea 兩格拿掉；l118_interact_reach 全過且不靠覆寫表；全部 Node 測試 1286 支：1284 過",
    "next": "LAWWW 整合"
