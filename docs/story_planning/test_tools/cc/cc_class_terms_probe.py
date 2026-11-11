@@ -418,15 +418,23 @@ def compare(tag, sy, cl, menus, bank, pres):
         else: pos = f[0] + f[1]; res.append([kind, f[0]])
     R.note('%s：稿 line／more 對到的句子位置 %s' % (tag, J(res)))
     pw = {p['who']: p for p in (pres or [])}
-    rs = sy.get('react') or []
+    # CC 17:1x（BB 17:12 判準）：STORY.present 為 true 的同學（或 who＝class）要播；不在學校的不播。門口上課（2D）也一樣（LAWWW 修：away＝true、只看 STORY.present）
+    here = lambda w: w == 'class' or (pw.get(w) or {}).get('present') is True
+    _who = [r.get('who') for r in sy.get('react') or []] + [q.get('who') for q in (sy.get('obs') or {}).get('replies') or []]
+    if [w for w in _who if w and w != 'class'] and not pres: miss.append(('同學在不在', J(_who), '坐下那時沒量到 STORY.present（pres 空的）＝不能判誰該播，不算 PASS'))
+    rs_all = sy.get('react') or []; rs = [r for r in rs_all if here(r.get('who'))]; rs_no = [r for r in rs_all if not here(r.get('who'))]
+    for r in rs_no:
+        if norm(r.get('text')) and any(norm(r.get('text')) in n for n in N): miss.append(('react 不在學校的人', '%s：%s' % (r.get('who'), r.get('text')), '不在學校（STORY.present 不是 true）卻播了；%s' % J(pw.get(r.get('who')))))
+    if rs_no: R.note('%s：react 裡不在學校、不該播的 %s' % (tag, J([(r.get('who'), pw.get(r.get('who'))) for r in rs_no])))
     if rs:
         hit = None
         for i in range(pos, len(says)):
             r = next((r for r in rs if norm(r.get('text')) and norm(r.get('text')) in N[i]), None)
             if r: hit = (i, r, says[i]['text']); break
-        R.note('%s：同學 react 播了 %s（稿 %s）' % (tag, J(hit[2]) if hit else '沒有', J([(r.get('who'), r.get('text')) for r in rs])))
+        R.note('%s：同學 react 播了 %s（稿裡在學校的 %s）' % (tag, J(hit[2]) if hit else '沒有', J([(r.get('who'), r.get('text')) for r in rs])))
         if not hit: miss.append(('react', J([r.get('text') for r in rs]), '沒有播（或不在 more 之後）；遊戲規則 reactOK 的條件：%s' % J([pw.get(r.get('who')) for r in rs])))
         else: pos = hit[0] + 1
+    elif rs_all: R.note('%s：稿裡的 react 都是不在學校的人，不該播' % tag)
     else: R.note('%s：稿裡這一週沒有 react' % tag)
     if sy.get('call'):
         c = sy['call']; ic = next((i for i in range(len(says)) if says[i]['text'].endswith('點到你。')), None)
@@ -456,6 +464,9 @@ def compare(tag, sy, cl, menus, bank, pres):
                 else: p2 = g[0] + g[1]
         for k, q in enumerate(ob.get('replies') or []):
             g = find_sub(N, q.get('text'), p2)
+            if not here(q.get('who')):   # BB 17:12：不在學校的不播
+                if g is not None: miss.append(('obs reply%d 不在學校的人' % (k + 1), '%s：%s' % (q.get('who'), q.get('text')), '不在學校卻播了；%s' % J(pw.get(q.get('who')))))
+                continue
             if g is None: miss.append(('obs reply%d' % (k + 1), '%s：%s' % (q.get('who'), q.get('text')), '沒有播；遊戲規則 reactOK 的條件：%s' % J(pw.get(q.get('who')))))
             else: p2 = g + 1
         if ob.get('close'):
