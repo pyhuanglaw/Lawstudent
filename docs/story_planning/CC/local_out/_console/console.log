@@ -1,11 +1,3 @@
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[13:34:01] ==== END   CLASS12_skip_73_150x5  exit=1  233s   ====
-[13:34:03] 正在跑：CLASS12_skip_73_150x20（已跑 3 分／上限 12 分）、CLASS12_skip_73_500x5（已跑 1 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
-[13:34:04] memory 48% before starting LM_cam3_new (2 running)
-[13:34:04] ==== START LM_cam3_new  (probe @ 696cf6036f3ca9fbc7022c21ab37324b0e46e305) ====
-[13:34:07] [res] cpu=0% mem=48% (15.2/31.4 GB) chrome_testing=10  START LM_cam3_new
-[13:34:39] [res] cpu=10% mem=47% (14.7/31.4 GB) chrome_testing=9  END CLASS12_skip_73_150x20
-    To https://github.com/pyhuanglaw/Lawstudent.git
        4f3de036a..f7d7d8a4f  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [13:34:46] ==== END   CLASS12_skip_73_150x20  exit=1  234s   ====
@@ -1998,3 +1990,11 @@
 [21:59:38] ==== START REL_moku_nosit_r2  (probe @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
 [21:59:41] [res] cpu=8% mem=43% (13.5/31.4 GB) chrome_testing=9  START REL_moku_nosit_r2
 [22:02:25] [res] cpu=0% mem=43% (13.7/31.4 GB) chrome_testing=10  END REL_moku_nosit_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d39a3ac25..06ec5d1ef  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:02:30] ==== END   REL_moku_nosit_r2  exit=0  167s   ====
+[22:02:34] memory 41% before starting V25_date (2 running)
+[22:02:34] ==== START V25_date  (probe @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[22:02:37] [res] cpu=1% mem=41% (13.1/31.4 GB) chrome_testing=10  START V25_date
+[22:03:30] [res] cpu=4% mem=43% (13.7/31.4 GB) chrome_testing=9  END V25_exam
