@@ -1,0 +1,48 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fn_shots_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FN_shots_b_old\out
+CC FN_shots（FLOWER-NOTES-1110）：PARTS INT,STAIRS,FPS；SHA fd4dd9aef；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  49.4s] G11（ggShop G11）：{"x0": 41.32, "x1": 51.63, "zf": 18.07, "cx": 46.48, "src": "ggShop G11"}；相機 {"ext_ref": {"eye": [49.98, 1.6, 3.07], "look": [46.48, 4.0, 18.07], "lens": 24}, "ext_front": {"eye": [46.48, 1.7, 10.57], "look": [46.48, 4.2, 18.57], "lens": 16}, "ext_obl": {"eye": [33.48, 1.7, 6.07], "look": [46.48, 4.5, 18.57], "lens": 22}, "sign": {"eye": [46.48, 2.2, 12.07], "look": [46.48, 4.3, 18.07], "lens": 40}, "view_mrt": {"eye": [-33.0, 1.7, 9.0], "look": [46.48, 4.0, 18.07], "lens": 24}, "view_gate": {"eye": [0.0, 1.7, -40.0], "look": [46.48, 4.0, 18.07], "lens": 24}, "view_arcade": {"eye": [22.48, 1.7, 20.47], "look": [46.48, 2.6, 20.47], "lens": 20}}
+PASS 找得到 G11（ggShop 或 FN_G11）
+  [前置／捷徑] 【前置／捷徑】讀檔公館 2025-11-01 14.00（晴，關條件事件）站在 (46.5, 16.1)：[INT]
+PASS [INT] 搖桿走到「進入花序」，按鈕是它（5.4 秒、沒有跳）  {"end": [47.291, 20.954], "btn": "進入花序", "jumps": [], "why": null}
+PASS [INT] 按「進入花序」到了 flower_notes、站得住  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 14.11}
+  [  71.1s] [INT] 進門的位置：{"x": 0, "z": 6.1, "lv": 0, "ry": 3.142, "levels": 2}；門 {"label": "進入花序", "x": 46.6, "z": 21, "lv": 0, "r": 2.2, "to": "flower_notes", "toName": "花序 Flower Notes", "hidden": false, "kind": null}
+PASS [黑畫面] fns_int_entry 不是黑畫面（平均亮度 139.9、變化 50.3）  [139.9, 50.3]
+  [  73.3s] [截圖] fns_int_entry：鏡頭 {"eye": [0.0002444078393648557, 1.6, 6.699999950220671], "look": [-0.002444078393648557, 1.2, 0.10000049779328624], "lens": 18, "vfov": 58.72}、亮度 [139.9, 50.3]
+  [  74.1s] [INT] 店裡的場景物件名稱（前 200）：["flower_notes_zone", "L0", "fallback0", "L0_ceil", "L0_floor", "L0_glass", "L0_light", "L0_oak", "L0_signs", "L0_vc", "L0_vcm", "WALL_L0_E", "WALL_L0_N", "WALL_L0_S", "WALL_L0_W", "L1", "fallback1", "L1_ceil", "L1_glass", "L1_light", "L1_oak", "L1_signs", "L1_vc", "L1_vcm", "L1_wood_floor", "WALL_L1_E", "WALL_L1_N", "WALL_L1_S", "WALL_L1_W"]
+  [  74.1s] [INT] 「中央展示」＝物件 FLOWER_NOTES_LAYOUT（中心 [-0.4, 1, 3.5]、大小 [3.2, 1, 1.5]）：從入口那一側 2.5 m 拍
+PASS [黑畫面] fns_area_中央展示 不是黑畫面（平均亮度 128.7、變化 52）  [128.7, 52]
+  [  76.2s] [截圖] fns_area_中央展示：鏡頭 {"eye": [-0.02, 1.6, 5.97], "look": [-0.4, 1, 3.5], "lens": 22, "vfov": 49.43}、亮度 [128.7, 52]
+  [  77.0s] [INT] 「鮮花」＝物件 FLOWER_NOTES_LAYOUT（中心 [-4.55, 1, -2.5999999999999996]、大小 [0.9000000000000004, 0.95, 6]）：從入口那一側 3.6 m 拍
+PASS [黑畫面] fns_area_鮮花 不是黑畫面（平均亮度 132.7、變化 45.1）  [132.7, 45.1]
+  [  79.3s] [截圖] fns_area_鮮花：鏡頭 {"eye": [-2.88, 1.6, 0.59], "look": [-4.55, 1, -2.5999999999999996], "lens": 22, "vfov": 49.43}、亮度 [132.7, 45.1]
+  [  80.1s] [INT] 「永生花」＝物件 FLOWER_NOTES_LAYOUT（中心 [-4.725, 1, 3.75]、大小 [0.5499999999999998, 3, 5.1]）：從入口那一側 3.1 m 拍
+PASS [黑畫面] fns_area_永生花 不是黑畫面（平均亮度 129.4、變化 48.8）  [129.4, 48.8]
+  [  82.3s] [截圖] fns_area_永生花：鏡頭 {"eye": [-1.99, 1.6, 5.11], "look": [-4.725, 1, 3.75], "lens": 22, "vfov": 49.43}、亮度 [129.4, 48.8]
+  [  83.1s] [INT] 「收銀」＝物件 FLOWER_NOTES_LAYOUT（中心 [3.375, 1, 4.4]、大小 [0.6500000000000004, 1, 3.6]）：從入口那一側 2.5 m 拍
+PASS [黑畫面] fns_area_收銀 不是黑畫面（平均亮度 144.3、變化 40.8）  [144.3, 40.8]
+  [  85.4s] [截圖] fns_area_收銀：鏡頭 {"eye": [1.14, 1.6, 5.52], "look": [3.375, 1, 4.4], "lens": 22, "vfov": 49.43}、亮度 [144.3, 40.8]
+  [  86.2s] [INT] 「入口」＝物件 FLOWER_NOTES_LAYOUT（中心 [0, 1.4, 7]、大小 [1.8, 2.9, 0.2]）：從入口那一側 2.5 m 拍
+PASS [黑畫面] fns_area_入口 不是黑畫面（平均亮度 163.4、變化 39.6）  [163.4, 39.6]
+  [  88.1s] [截圖] fns_area_入口：鏡頭 {"eye": [0, 1.6, 4.5], "look": [0, 1.4, 7], "lens": 22, "vfov": 49.43}、亮度 [163.4, 39.6]
+  [前置／捷徑] 【前置／捷徑】讀檔公館 2025-11-01 14.00（晴，關條件事件）站在 (46.5, 16.1)：[STAIRS]
+PASS [STAIRS] 搖桿走到「進入花序」，按鈕是它（5.2 秒、沒有跳）  {"end": [47.092, 20.845], "btn": "進入花序", "jumps": [], "why": null}
+PASS [STAIRS] 按「進入花序」到了 flower_notes、站得住  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 14.11}
+  [ 110.4s] [STAIRS] 進門的位置：{"x": 0, "z": 6.1, "lv": 0, "ry": 3.142, "levels": 2}；門 {"label": "進入花序", "x": 46.6, "z": 21, "lv": 0, "r": 2.2, "to": "flower_notes", "toName": "花序 Flower Notes", "hidden": false, "kind": null}
+  [ 110.7s] [STAIRS] 二樓目標（站得住、走得到、最高的地板）：{"x": 0.13, "z": -0.38, "y": 3.9, "sc": 38.352379354868916, "n": 12}
+PASS [STAIRS] 店裡有第二層導航、二樓有走得到的地板
+  [ 117.0s] [STAIRS] 搖桿上樓：{"ok": true, "t": 6.3, "pushes": 8, "jumps": [], "end": {"zone": "flower_notes", "x": 0.058, "z": -0.203, "y": 3.9, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 14.16}}
+PASS [STAIRS] 搖桿走上二樓（lv 1、6.3 秒、沒有跳）  {"end": {"zone": "flower_notes", "x": 0.058, "z": -0.203, "y": 3.9, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 14.16}, "why": null, "jumps": []}
+FAIL [STAIRS] 搖桿走下樓回到進門的位置（lv 0、150.1 秒、沒有跳）  {"end": {"zone": "flower_notes", "x": 2.166, "z": 6.185, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 15.16}, "why": "150 秒沒走到", "jumps": []}
+  [前置／捷徑] 【前置／捷徑】讀檔公館 2025-11-01 14.00（晴，關條件事件）站在 (46.5, 16.1)：G11 門口量幀率
+  [ 290.1s] [FPS] G11 門口（街上，前緣前 2 m）8 秒：{"frames": 358, "ms": 8023, "fps": 44.62}（雲端 SwiftShader 的數字不當結論）
+PASS [FPS] G11 門口量得到幀率  {"frames": 358, "ms": 8023, "fps": 44.62}
+  [前置／捷徑] 【前置／捷徑】讀檔公館 2025-11-01 14.00（晴，關條件事件）站在 (46.5, 16.1)：[FPS]
+PASS [FPS] 搖桿走到「進入花序」，按鈕是它（5.3 秒、沒有跳）  {"end": [47.013, 20.762], "btn": "進入花序", "jumps": [], "why": null}
+PASS [FPS] 按「進入花序」到了 flower_notes、站得住  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 14.11}
+  [ 311.1s] [FPS] 進門的位置：{"x": 0, "z": 6.1, "lv": 0, "ry": 3.142, "levels": 2}；門 {"label": "進入花序", "x": 46.6, "z": 21, "lv": 0, "r": 2.2, "to": "flower_notes", "toName": "花序 Flower Notes", "hidden": false, "kind": null}
+  [ 322.1s] [FPS] 店裡（flower_notes 進門的位置）8 秒：{"frames": 465, "ms": 8016, "fps": 58.01}
+PASS [FPS] 店裡量得到幀率  {"frames": 465, "ms": 8016, "fps": 58.01}
+PASS 沒有 JS 例外  []
+FAILED 1: [STAIRS] 搖桿走下樓回到進門的位置（lv 0、150.1 秒、沒有跳）
