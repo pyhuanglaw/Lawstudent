@@ -80,5 +80,14 @@ for(const id of IDS){ const a=audit(id), b=before[id]; tot.seats+=a.seats; tot.c
   check(id+' '+a.name+'：點餐、看的東西、離開各有站得到的位置（四周 '+MARGIN+' m 也是它）',!a.itemBad.length,a.itemBad.join(' ／ '));
   check(id+' '+a.name+'：椅子的站位沒有被點餐、看的東西搶走',!a.stolen.length,a.stolen.join(' ／ '));
   check(id+' '+a.name+'：遊戲帶玩家去的站位（seatApproach）推搖桿、點椅子走過去，按鈕都是那一張',!a.gameAp.length&&!a.tapAp.length,a.gameAp.concat(a.tapAp).join(' ／ ')); }
+/* 2026-11-11（BB 第二輪 PC，a2dd74af1）：CC 的走法＝搖桿走到椅子的四邊（東西南北各從 0.45 m 往外找第一個站得住的點），停在哪就看按鈕。
+   辛亥韓食 #9 只有西邊站得到、那一點是「看：小菜櫃」（贏 1 cm）——上面「至少一個候選站位是它」沒抓到，因為候選站位用的是 ap、不是 CC 停的那一點。
+   這一項：每張椅子四邊裡站得到的那幾個點，至少一個按鈕是它，而且不能是點餐、看的東西（是隔壁椅子算 P1，BB 判不擋，這裡只列出來）。 */
+{ const bad=[], nb=[]; for(const id of IDS){ const z=loadZone('l118_'+id), P=E.player, ITS=E.interactables.slice(); let k=0; for(const it of ITS) if(it.seat) it._no=++k;
+    const at=(x,zz)=>{ P.obj.position.set(x,0,zz); P.lv=0; P.tapPref=null; return E.nearestInteractable(); };
+    for(const it of ITS.filter(i=>i.seat)){ const s=it.seat, w=[]; for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]) for(let t=0.45;t<=1.0;t+=0.05){ const x=s.x+dx*t, zz=s.z+dz*t; if(E.canStand(x,zz,0.3,0)){ w.push(at(x,zz)); break; } }
+      if(!w.length) continue; if(!w.includes(it)){ if(w.some(q=>q&&!q.seat)) bad.push(id+' #'+it._no+'→'+w.map(q=>!q?'無':q.seat?'#'+q._no:q.label).join('/')); else nb.push(id+' #'+it._no+'→'+w.map(q=>!q?'無':q.seat?'#'+q._no:q.label).join('/')); } } }
+  check('CC 的走法：椅子四邊站得到的點，沒有一張「只出現點餐、看的東西」（辛亥韓食 #9 那一類，擋發布）',!bad.length,bad.join(' ／ '));
+  console.log('（P1、不擋：四邊站得到的點都是隔壁椅子的 '+nb.length+' 張：'+nb.join(' ／ ')+'）'); }
 console.log('九間合計：'+tot.seats+' 張椅子、'+tot.cands+' 個站得住的站位；拿掉覆寫表時 '+tot.b+' 件（搖桿坐不到＋遊戲帶去的站位按鈕不是它），現在搖桿坐不到 '+tot.a+' 張');
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
