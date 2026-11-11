@@ -351,20 +351,23 @@ await sec('Z6',async()=>{
   check('Z6. 選「好好休息。」：不記、沒有私訊',!H.G.flags.ZR_TELL_BACK&&!byTag('aa524_z6').length);
 });
 await sec('Z7',async()=>{
-  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['寄給我']); const a=has(E694.strip(NEW.Z7[0]));
-  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['我買給妳']); const b=has(E694.strip('……好。'+NEW.Z7[1]));
-  check('Z7. 九份明信片：「寄給我？」→「……你又不在台中。……好啦，這張直接給你。」；「我買給妳。」→「……好。我自己寫。你不准看。」（只換「我寫好再給你看。」那一段）',a&&b,J(said()));
+  /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：Z7 這三格（D18 明信片兩個回覆、D10 小吃攤「下次我做給妳。」的回覆）芷若的新稿整格重寫了，AA_524 的改句不再疊（原句對不到＝跳過，tests/zr_dates_1111_unit.js 第 1 節）——期望改成新稿的字。
+     舊期望（AA_524 Z7＋AA_694）：D18「你又不在台中。好啦，這張直接給你。」「好。我自己寫。你不准看。」、D10「你會做什麼？算了，你先學。」。
+     D18 兩句新稿一樣不留「之後寄給你／寫好給你看」的約定；D10 那一句新稿是「真的？我記下來了，我記性很好喔。」（她又記下來了——已列給 LAWWW 轉 AA 看） */
+  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['寄給我']); const a=has('寄給你？你就在我旁邊耶，這張直接給你好了。')&&!has(E694.strip(NEW.Z7[0]));
+  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['我買給妳']); const b=has('好。字我自己寫，寫出來有點肉麻。')&&!has(E694.strip('……好。'+NEW.Z7[1]));
+  check('Z7. 九份明信片（2026-11-11 新稿）：「寄給我？」→「寄給你？你就在我旁邊耶，這張直接給你好了。」；「我買給妳。」→「好。字我自己寫，寫出來有點肉麻。」（都不留之後才兌現的約定；AA_524 的舊句不在了）',a&&b,J(said()));
   fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D10','D10.snack',0,['下次我做給妳']);
-  check('Z7. 碧潭小吃「下次我做給妳。」→「……你會做什麼？……算了，你先學。」（AA_694）',has(E694.strip(NEW.Z7[3])),J(said()));
+  check('Z7. 碧潭小吃「下次我做給妳。」（2026-11-11 新稿）→「真的？我記下來了，我記性很好喔。」（AA_524 的「你會做什麼？算了，你先學。」不在了）',has('真的？我記下來了，我記性很好喔。')&&!has(E694.strip(NEW.Z7[3])),J(said()));
   fresh('2026-11-14',18); H.FAMILIAR(ZR); await spot(ZR,'D04','D04.snack',0,['下次換我請']);
   const fp=DATE.mem(H.G,ZR,'D04').fp||{};
-  check('Z7. 西門小吃「下次換我請。」→「好啊。你說的喔。」照留；記下第一次選的（G.dateMemory…fp）',has('好啊。你說的喔。')&&fp['D04.snack']==='「下次換我請。」',J({L:said(),fp}));
+  check('Z7. 西門小吃「下次換我請。」→「好啊，你說的喔。」照留（2026-11-11 新稿只換標點，原本「好啊。你說的喔。」）；記下第一次選的（G.dateMemory…fp）',has('好啊，你說的喔。')&&fp['D04.snack']==='「下次換我請。」',J({L:said(),fp}));
   await spot(ZR,'D04','D04.snack',1,[]);
-  check('Z7. 下一次 remember 多一句「上次你說要請。老闆，兩份，他付。」（接在原本那句後面）',adj(['上次那家的老闆，今天還記得你不要香菜。',NEW.Z7[2]]),J(said()));
+  check('Z7. 下一次 remember 多一句「上次你說要請。老闆，兩份，他付。」（接在原本那句後面）',adj(['上次那家的老闆，還記得你不要香菜。',NEW.Z7[2]])   /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：remember 那一句新稿拿掉「今天」（原本「上次那家的老闆，今天還記得你不要香菜。」） */,J(said()));
   await spot(ZR,'D04','D04.snack',2,[]);
   check('Z7. 只說一次（第三次又輪到 remember 不再說）',!has(NEW.Z7[2]),J(said()));
   fresh('2026-11-14',18); H.FAMILIAR(ZR); await spot(ZR,'D04','D04.snack',0,['好吃嗎']); await spot(ZR,'D04','D04.snack',1,[]);
-  check('Z7. 第一次選「好吃嗎？」：remember 沒有那一句',has('上次那家的老闆，今天還記得你不要香菜。')&&!has(NEW.Z7[2]),J(said()));
+  check('Z7. 第一次選「好吃嗎？」：remember 沒有那一句',has('上次那家的老闆，還記得你不要香菜。')&&!has(NEW.Z7[2]),J(said()));
 });
 await sec('Z8',async()=>{
   /* 2026-11-10 改期望（GIFT-HOLIDAY-1110，AA_732 rules 第 8 條）：節日約會的「四樣禮物」改成「包包裡的禮物＋（沒有準備）」——舊期望是直接在四樣裡挑「一張老電影的海報」、回 'poster'；

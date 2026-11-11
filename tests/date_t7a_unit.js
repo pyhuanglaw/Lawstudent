@@ -45,6 +45,8 @@ const phoneAsk=async(id,pk)=>{ said=[]; opts=[]; picks=pk||[]; let r=null, err=n
   const row=(spec.split('\n').find(l=>/^\|\s*T7a\s*\|/.test(l))||''), SP={};
   { const m1=/以安「([^」]*)」/.exec(row), m2=/芷若「([^」]*)」/.exec(row); if(m1) SP.heroine_01=m1[1]; if(m2) SP.heroine_02=m2[1]; }
   check('0. 讀得到稿 AA_350@'+SPEC_SHA+' 的 T7a：「打開，但只列 D26 臺中」＋以安、芷若答應的那一句',!!spec&&/打開，但只列 D26 臺中/.test(row)&&!!SP.heroine_01&&!!SP.heroine_02,J([row.slice(0,200),SP]));
+  /* 2026-11-11（X324 芷若約會台詞重寫，AA_773_zr_date_common.json@e8a33995c）：芷若答應的那一句照 S.T7A_YES.heroine_02 那一列換成「你要來臺中？好，我帶你走。」（稿 AA_350 的 T7a 是「你要來臺中？……好。我帶你走。」，拿掉刪節號）——期望跟著換；逐字對 AA_773 在 tests/zr_dates_1111_unit.js 第 6 節 */
+  check('0. 稿 AA_350 的芷若那一句還是 AA_773 那一列的原句（「你要來臺中？……好。我帶你走。」）',SP.heroine_02==='你要來臺中？……好。我帶你走。',String(SP.heroine_02)); SP.heroine_02='你要來臺中？好，我帶你走。';
   check('0. 以安、芷若答應的那一句逐字（DATE.T7A_YES；第三句是沛珊，AA_372 第 7 節 da55ec2b，tests/aa372_s7_unit.js 對稿）',!!DT().T7A_YES&&DT().T7A_YES.heroine_01===SP.heroine_01&&DT().T7A_YES.heroine_02===SP.heroine_02&&Object.keys(DT().T7A_YES).length===3&&!!DT().T7A_YES.classmate_peishan,J([DT().T7A_YES,SP]));
   { const al=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC_PATH);
     check('0. 匯入白名單：AA_350 只有一筆 approved＝'+SPEC_SHA+'（DATE-T7A-HOMETOWN-1021）',al.length===1&&al[0].sha===SPEC_SHA&&al[0].status==='approved'&&al[0].task==='DATE-T7A-HOMETOWN-1021'&&!!al[0].approvedBy,J(al.map(e=>[e.sha,e.status,e.task]))); }

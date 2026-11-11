@@ -80,7 +80,13 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
       let rk=''; try{ rk=['AA_769_kx_date_common.json','date_system/lines/D28.json','date_system/lines/D32.json'].map(k=>cp.execSync('git show f9c1a2b80:docs/story_planning/'+k,{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']})).join('\n'); }catch(e){}
       check('0. 可昕早上那一句、D28 到達句、D32 第一次到達的第一句（X324 重寫）：新句都在企劃線 f9c1a2b80 的 AA_769、D28.json、D32.json 裡'+(rk?'':'（這份 checkout 讀不到，略過）'),!rk||Object.values(KXN).every(t=>rk.includes(t)),J(Object.values(KXN).filter(t=>!rk.includes(t))));
       SP.morning.kexin=KXN.morning; SP.var53.kxOld=KXN.arr32; SP.var53.kx='清境。從日月潭上來一個半小時，我本來要睡，結果一路在看路。';   /* 2026-11-11 AA 回 LAWWW 第 4 題（可昕重寫後 D31＋D32 同一趟的新字，企劃線 1e647bb05 那一則訊息）；舊期望＝AA_359 5-3「清境。從日月潭上來，一個半小時。我查過了。」 */
-      for(const f of SP.fix52) if(f.who==='kexin'&&f.loc==='D28') f.neu=KXN.a28; } }
+      for(const f of SP.fix52) if(f.who==='kexin'&&f.loc==='D28') f.neu=KXN.a28;
+      /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：芷若住自己家（D26 臺中）隔天早上那一句照 AA_773_zr_date_common.json 的 S.MORNING_OWN.heroine_02 那一列（原本 AA_359「我出門的時候，我媽問我跟誰。……我說回來再講。」——她對媽媽不藏，BB_330 第 4 節）；
+         5-3 的 D27 芷若離開句新稿整格重寫了：「要回去了，我衣服上都是檜木的味道。」（AA_359 的改成「要回去了。木屋我拍了好幾張。」不再疊——攝影的句子拿掉；D26、D29 兩句源稿寫回了 AA_359 的字，照舊）。SHA 讀 tests/date_src_sha.js */
+      const CS=require('./date_src_sha.js'), ZRN={own:'我出門的時候，我媽叫我問你吃不吃蛋餅。她已經在煎了。',c27:'要回去了，我衣服上都是檜木的味道。'};
+      let rz=''; try{ rz=cp.execSync('git show '+CS.ZR_COMMON_SHA+':docs/story_planning/AA_773_zr_date_common.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']})+'\n'+cp.execSync('git show '+CS.ALLOW_SHA+':docs/story_planning/date_system/lines/D27.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+      check('0. 芷若住自己家早上那一句、D27 離開句（X324 重寫）：新句在企劃線的 AA_773（S.MORNING_OWN.heroine_02 那一列）和 D27.json 裡'+(rz?'':'（這份 checkout 讀不到，略過）'),!rz||Object.values(ZRN).every(t=>rz.includes(t)),J(Object.values(ZRN).filter(t=>!rz.includes(t))));
+      SP.own.heroine_02=ZRN.own; for(const f of SP.fix53) if(f.who==='heroine_02'&&f.loc==='D27') f.neu=ZRN.c27; } }
   check('0. 讀得到稿 AA_359@'+SPEC_SHA+'：晚上四種、早上旁白、七位一句、住自己家／租的地方三句',!!spec&&Object.keys(SP.night).length===4&&!!SP.narr&&Object.keys(SP.morning).length===7&&Object.keys(SP.own).length===3,J(SP));
   check('0. 晚上那一句（第 2 節）四種逐字：兩間房／民宿／她回家／她回租的地方',!!D().NIGHT&&['single','dating','home','rent'].every(k=>D().NIGHT[k]===SP.night[k]),J([D().NIGHT,SP.night]));
   check('0. 第二天早上的旁白一律「'+SP.narr+'」',!!SP.narr&&D().MORNING_NARR===SP.narr,D().MORNING_NARR);

@@ -31,15 +31,17 @@ const ADV2=global.ADV; ADV2.active=false;
   const day=termDay('Y1S2',5,6);
   OUT.BG.d13_base_sunset=OUT.BG.d13_base_sunset||{label:'淡水',image:'x'};
   const go=async(who,picks0,o)=>{ o=o||{}; const b=DATE.book(G,{who,locs:['D13'],transport:'mrt',day:G.day,depart:15}); const q=OUT.get(G,'date_'+b.trip); G.hour=15; said=[]; opts=[]; picks=['出發'].concat(picks0); await OUT.prompt(GM,q); return {b,t:DATE.trip(G,b.trip),L:lines()}; };
-  check('0. date_lines.js 有 D01～D32 全部地點的台詞（白名單＠57de1709，AA-C 10-21 32 個地點口語審完；D13 2026-10-23 換 345234b3：AA_389 第 1 點交換回來版，再換 e78814663：AA_426 第 6 節「……開玩笑的」改掉，再換 efe575813：AA_436 學姊旁白，再換 a5b936a69：AA_439 子晴到達句拿掉「欸不是，」，再換 1b095a239：AA_694 拿掉沒必要的「……」，再換 9aa8ec40c：AA_593 學姊①b，再換 2883197b6：2026-11-11 X327 沛珊重寫 AA_756，再換 82c946ad7：2026-11-11 X324 學姊重寫，再換 0a2136911：2026-11-11 X324 語彤重寫，再換 f9c1a2b80：2026-11-11 X324 可昕重寫）',Array.from({length:32},(_,k)=>'D'+String(k+1).padStart(2,'0')).every(k=>DATE_LINES.loc&&DATE_LINES.loc[k]&&DATE_LINES.loc[k].lines)&&/D13\.json@(57de1709|345234b3|e78814663|efe575813|a5b936a69|9ba14498e|1b095a239|9aa8ec40c|2883197b6|82c946ad7|0a2136911|f9c1a2b80)/.test(DATE_LINES.source),Object.keys(DATE_LINES.loc||{}).join(','));
+  check('0. date_lines.js 有 D01～D32 全部地點的台詞（白名單＠57de1709，AA-C 10-21 32 個地點口語審完；D13 2026-10-23 換 345234b3：AA_389 第 1 點交換回來版，再換 e78814663：AA_426 第 6 節「……開玩笑的」改掉，再換 efe575813：AA_436 學姊旁白，再換 a5b936a69：AA_439 子晴到達句拿掉「欸不是，」，再換 1b095a239：AA_694 拿掉沒必要的「……」，再換 9aa8ec40c：AA_593 學姊①b，再換 2883197b6：2026-11-11 X327 沛珊重寫 AA_756，再換 82c946ad7：2026-11-11 X324 學姊重寫，再換 0a2136911：2026-11-11 X324 語彤重寫，再換 f9c1a2b80：2026-11-11 X324 可昕重寫，再換 '+require('./date_src_sha.js').ALLOW_SHA+'：2026-11-11 X324 芷若重寫——現在的版本讀 tests/date_src_sha.js）',Array.from({length:32},(_,k)=>'D'+String(k+1).padStart(2,'0')).every(k=>DATE_LINES.loc&&DATE_LINES.loc[k]&&DATE_LINES.loc[k].lines)&&(/D13\.json@(57de1709|345234b3|e78814663|efe575813|a5b936a69|9ba14498e|1b095a239|9aa8ec40c|2883197b6|82c946ad7|0a2136911|f9c1a2b80)/.test(DATE_LINES.source)||DATE_LINES.source.includes('D13.json@'+require('./date_src_sha.js').ALLOW_SHA)),Object.keys(DATE_LINES.loc||{}).join(','));
   check('0. 她喜不喜歡讀地點檔（子晴：飲料攤喜歡、長椅不太喜歡）',DATE.likeOf('heroine_04','D13.drink')==='like'&&DATE.likeOf('heroine_04','D13.bench')==='dislike');
   // 芷若第一次去淡水
   fresh(day,9,'dorm',{}); G.money=5000;
   let r=await go('heroine_02',['飲料攤','「我幫妳點？」','河邊欄杆',0,'長椅',0,'差不多了']);
   check('1. 第一次：抵達句「第一次」那套（「淡水好像很多電影來拍過。」）',r.L.some(x=>/淡水好像很多電影來拍過。/.test(x)),r.L.join(' | '));
   check('1. 飲料攤第一次：那一套＋選擇「我幫妳點？」→「好。不要太甜。」；註記不顯示、記 TASTE＝player',r.L.some(x=>/我點最普通的那個/.test(x))&&r.L.some(x=>/好。不要太甜。/.test(x))&&!r.L.some(x=>/記 `?TASTE/.test(x))&&DATE.mem(G,'heroine_02','D13').taste==='player',r.L.join(' | '));
-  check('1. 第三個互動點之後她說「差不多了」那一句（BB_128 3-6）',r.L.some(x=>/今天夠了|散場的感覺/.test(x)),r.L.join(' | '));
-  check('1. 收尾句「第一次」（「太陽快下去了。」）',r.L.some(x=>/太陽快下去了。/.test(x)),r.L.join(' | '));
+  /* 2026-11-11（X324 芷若約會台詞重寫，AA_773_zr_date_common.json@e8a33995c）：芷若「差不多了」兩句換字——「今天夠了。很好玩，是我的腳先投降。」「差不多了。現在很像散場，燈要亮了的那種。」（原本「今天夠了。不是不好玩。」「天黑了。散場的感覺。」） */
+  check('1. 第三個互動點之後她說「差不多了」那一句（BB_128 3-6）',r.L.some(x=>/今天夠了。很好玩，是我的腳先投降。|差不多了。現在很像散場，燈要亮了的那種。/.test(x)),r.L.join(' | '));
+  /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：芷若 D13 第一次的收尾新稿「我的腳說它走夠了。」「可是我還不想回去。再繞一圈？」（原本「太陽快下去了。」……） */
+  check('1. 收尾句「第一次」（「我的腳說它走夠了。」「可是我還不想回去。再繞一圈？」）',r.L.some(x=>/我的腳說它走夠了。/.test(x))&&r.L.some(x=>/可是我還不想回去。再繞一圈？/.test(x)),r.L.join(' | '));
   check('1. 記得去過哪些互動點、上一次點的（dateMemory，存檔）',JSON.stringify(DATE.mem(G,'heroine_02','D13').picks)==='["D13.drink","D13.rail","D13.bench"]'&&DATE.mem(G,'heroine_02','D13').last.length===3,JSON.stringify(G.dateMemory));
   // 第二次：沒有第一次那套；飲料攤的「記得上次」有 {lastDrink}，TASTE 的說法還沒有＝跳過、用普通
   G.day+=1; G.weekday=wdOf(G.day); r=await go('heroine_02',['飲料攤',0,'拍照位置',0,'差不多了']);
@@ -63,7 +65,8 @@ const ADV2=global.ADV; ADV2.active=false;
   check('5. 普通那一池（照階段能用的有 2 套）：輪流、不連續重複（都用過就挑最久以前的）',got.every((x,i)=>!i||x!==got[i-1]),got.map(x=>x.slice(40,70)).join(' / '));
   // 交往中：用交往中那一池
   fresh(day,9,'dorm',{dating_heroine_02:true}); G.money=5000; DATE.log(G,'heroine_02').byLoc.D13=2; r=await go('heroine_02',['自己選','差不多了']);
-  check('6. 交往中、不是第一次：抵達句用交往中那一池（「今天走慢一點好不好？」）',r.L.some(x=>/今天走慢一點好不好/.test(x)),r.L.join(' | '));
+  /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：芷若 D13 交往中的抵達句新稿「{name}，我們不排行程好不好，走到哪算哪。」（原本「今天走慢一點好不好？」；{name} 由遊戲的對話層換成玩家的名字，這支的假 GM 不換） */
+  check('6. 交往中、不是第一次：抵達句用交往中那一池（「…我們不排行程好不好，走到哪算哪。」）',r.L.some(x=>/我們不排行程好不好，走到哪算哪。/.test(x)),r.L.join(' | '));
   // 7 結算、快速約會、相簿（AA_128 5-1、5-4；DATE-S6）
   fresh(day,9,'dorm',{dating_heroine_04:true}); G.money=5000; G.contacts.heroine_04=1; r=await go('heroine_04',['拍照位置',0,'差不多了']);
   check('7. 結算：去了哪裡、做了什麼、花了多少錢（來回車資 100＝地點資料的來回，BUG-DATE-FARE-DOUBLE-1021）、照片存進相簿',r.L.some(x=>/今天去了淡水金色水岸：拍照位置。花了 100 元（含來回車資）。照片存進相簿。/.test(x)),r.L.slice(-2).join(' | '));
