@@ -1,4 +1,6 @@
-### AA 帳號 A 目前狀態與全部待辦（2026-11-11 09:4x UTC 更新；roles 讀這一節）
+### AA 帳號 A 目前狀態與全部待辦（2026-11-11 10:0x UTC 更新；roles 讀這一節）
+
+- 11-11 09:5x～10:0x：**X324 A～F 區全部結束**（F 區期末飯多人版查完不用寫，剩 Z13 一個程式點交 LAWWW；free_trips、hometown_lines 量過不用改、multirel `AA_791` 2 列）。**SEASON3-LINES-1111 交稿** `AA_793_season3_stalls.json`（e2ea0ea3c：六攤＋五項布置）。**FLOWER-NOTES-1110 交稿** `AA_792_flower_notes.json`（8475a3b85：十樣商品、花藝師、店裡的「看」、gift_holiday 花攤時期四句；AA_747 A5 改名）。都等 v9.10.25 後整合。**接下來**：CHAR-OLD-PURGE-1110（X330）企劃文件掃舊設定 → 芷若講 2:30 AM 的人「老闆／店長」統一 → STUDY-EXAM-STORY-1102 大一下（11-13 起）。
 
 - DLG-FULL-REVIEW-1110 進度補記（11-11 09:4x UTC）：**X324 E 區（主線事件、故事線、偶遇、寒暑假、節日禮物）全部交完**，LAWWW 都 ACK，v9.10.25 發版後匯：故事線 `AA_712`（abb960911，照 BB 09:0x 兩條補回指涉詞與自白前的停頓）、沛珊故事線 `AA_755_peishan_arc`（9685559c8）；節日禮物 `AA_732～734`（b844bac36）、沛珊 32 列在 `AA_755_peishan_feed_misc`；偶遇 `AA_787`、寒暑假 `AA_788`；事件 `AA_789_events_*` 八份（最後 91e5386e8）。另補 `AA_785` 沛珊出國版一列（478a783e5）。回 LAWWW 三件：she_pays 格選「平分」＝扣一半、「下次我請／我請飲料」＝她照請；阿語兩處同字是本意。**接下來**：F 區期末飯多人版 → free_trips、hometown_lines、multirel_lines 量 → SEASON3-LINES-1111（等 LAWWW key）→ FLOWER-NOTES-1110 → STUDY-EXAM-STORY-1102 大一下（11-13 起）→ X330。
 
@@ -31,8 +33,8 @@
 - TERMEND-OPTS-1110（LAWWW 的任務；X324 第 1 批）：`AA_748` 告白與飯桌選項（芷若告白＝寫在杯子上，2cb84d6df）、`AA_749` 女朋友版五位＋可昕（已匯 30dee73c2）、朋友版七學期 `AA_749_termend_friend_v2_*`（Y1S1～Y3S1 已交可匯；Y3S2＋Y4S1 e232327db 等 BB）。AA 還欠：多人版（一桌三人以上）還在用舊話題池；之後台詞和條件寫成欄位不放 note。
 - MOVIE-TALK-1110（LAWWW 的任務；AA 待辦：SIS_HEHUAN 合歡山那一趟的台詞、ZQ_VOICE_MEMO 十則語音、幾個只記著的旗標接到劇情）。
 - DLG-FX-MECH-1110（LAWWW 的任務，機制已在開發分支；AA 待辦：期末飯鉤子 10 處「幾乎相同」的句子改字；可昕 dating 約 200 句重寫後請 LAWWW 打開）。
-- SEASON3-LINES-1111 季節攤販台詞（LAWWW 11-11 08:1x 預告、08:2x 開總表，P3、排在 X324 後面；等 LAWWW 給攤子的 key 和位置再寫）：LAWWW2 季節布置第三批的六個季節攤販（A1 烤地瓜、A2 愛玉、A3 月餅桌、A4 春聯攤、A5 畢業花束、A6 二手教科書）照 `AA_752` 夜市格式各寫 look、greet、items、buy、closed、hours；落地布置 B1 阿忠鮮果四季、B2 花序 Flower Notes 門口四季（LAWWW 08:1x 確認：晨露花舖已拿掉、升級成 G11 花序，用花序的名字和商品；AA_747 A5 的「晨露花舖」一起改，FLOWER-NOTES-1110）、B6 下雨天傘架、C2 元宵小燈籠串、C5 中秋文旦堆＋騎樓小烤肉架 各一句「看」。沒名字的攤子不取名（D147）。
-- FLOWER-NOTES-1110（X325，待開工）：花序 Flower Notes 十樣商品說明、花藝師的句子、喜好對應；`AA_747` A5 的「晨露花舖」一起改。 BB 11-11 提醒：gift_holiday.js 的 g_bouquet 說明、gg_flower 的 note 還是花攤時期的句子，交稿時一起換（450、120 的價錢和代號不動）。
+- SEASON3-LINES-1111 季節攤販台詞（**已交稿 AA_793 e2ea0ea3c**；LAWWW 11-11 08:1x 預告、08:2x 開總表，P3、排在 X324 後面；等 LAWWW 給攤子的 key 和位置再寫）：LAWWW2 季節布置第三批的六個季節攤販（A1 烤地瓜、A2 愛玉、A3 月餅桌、A4 春聯攤、A5 畢業花束、A6 二手教科書）照 `AA_752` 夜市格式各寫 look、greet、items、buy、closed、hours；落地布置 B1 阿忠鮮果四季、B2 花序 Flower Notes 門口四季（LAWWW 08:1x 確認：晨露花舖已拿掉、升級成 G11 花序，用花序的名字和商品；AA_747 A5 的「晨露花舖」一起改，FLOWER-NOTES-1110）、B6 下雨天傘架、C2 元宵小燈籠串、C5 中秋文旦堆＋騎樓小烤肉架 各一句「看」。沒名字的攤子不取名（D147）。
+- FLOWER-NOTES-1110（X325，**已交稿 8475a3b85**）：花序 Flower Notes 十樣商品說明、花藝師的句子、喜好對應；`AA_747` A5 的「晨露花舖」一起改。 BB 11-11 提醒：gift_holiday.js 的 g_bouquet 說明、gg_flower 的 note 還是花攤時期的句子，交稿時一起換（450、120 的價錢和代號不動）。
 - LIFE-DETAILS-SEASONAL-1110（X317，已交 `AA_747`，BB 看過；等 LAWWW2 模型、LAWWW 接）。
 - GG-SHOPS3-STORY-1110（X320，已交 `AA_742`、`AA_743`；等 LAWWW2 室內、LAWWW 接；店寬確定後 AA 對一次配置）。
 - TINGZHOU-AREA-1110（X321／X322）：夜市攤已交（`AA_744` 第 2、3 節）；店名由使用者決定（AA 不取）；五間正式店要做室內時 LAWWW 再派。

@@ -6537,6 +6537,37 @@
    "receiver": "LAWWW",
    "ack": "ACK",
    "note": "X324 E 區：AA_712 abb960911、AA_755 9685559c8／b844bac36、gift 308fdc131＋b844bac36、AA_787 b508188fb、AA_788 064c49d61、AA_786 362f19437、AA_789 八份（最後 91e5386e8）；另 AA_785 補一列 478a783e5"
+  },
+  {
+   "task": "SEASON3-LINES-1111",
+   "branch": "claude/story-planning",
+   "sha": "e2ea0ea3c",
+   "files": [
+    "docs/story_planning/AA_793_season3_stalls.json"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 接 night_market3d.js（v9.10.25 後）",
+   "next": "BB／CC 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "季節攤販六攤＋落地布置五項"
+  },
+  {
+   "task": "FLOWER-NOTES-1110",
+   "branch": "claude/story-planning",
+   "sha": "8475a3b85",
+   "files": [
+    "docs/story_planning/AA_792_flower_notes.json",
+    "docs/story_planning/AA_747_季節攤販與節日布置_看與買.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 接 GIFTH 商品、花序互動點的 look（v9.10.25 後）",
+   "next": "BB／CC 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "花序十樣商品（舊兩樣只換 line）、花藝師、looks、gift_holiday 四列 replace"
   }
  ],
  "items": [
