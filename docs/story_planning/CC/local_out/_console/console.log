@@ -1,13 +1,3 @@
-[07:19:03] skip POOL_SWIM_base (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[07:19:03] skip W24_movie_real (already done on 05a715eaddcb6ad0cc7c838cad3cb5b33fdca205)
-[07:19:03] skip X315_pre_new (already done on 4cea422cb2efb8184c056fd9bc6c1f868c916be6)
-[07:19:03] skip X315_pre_old (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[07:19:03] skip FIX_ggnav (already done on aa691df333d23bc46abb9445c249090d4b57f3d1)
-[07:19:03] skip FIX_day2an (already done on aa691df333d23bc46abb9445c249090d4b57f3d1)
-[07:19:03] skip FIX_capgap_new (already done on aa691df333d23bc46abb9445c249090d4b57f3d1)
-[07:19:03] skip FIX_capgap_old (already done on 8a98ff1e06c06cfb52be41dc3402ba05305945a6)
-[07:19:03] skip FIX_guide (already done on aa691df333d23bc46abb9445c249090d4b57f3d1)
-[07:19:03] skip FIX_noodle_ev (already done on aa691df333d23bc46abb9445c249090d4b57f3d1)
 [07:19:03] skip X199_ANROUTE_fix (already done on aa691df333d23bc46abb9445c249090d4b57f3d1)
 [07:19:03] skip USCLS_A (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
 [07:19:03] skip USCLS_B (already done on 01bab1823003df827be3d76bc7d2c13ef034dacb)
@@ -1998,3 +1988,13 @@
 [14:09:41] ==== START CLASS12_skip3_73_150x20  (probe @ 73faa493f90fc6c90ccc867950bd012cb3d1d72e) ====
 [14:09:44] [res] cpu=2% mem=48% (15.1/31.4 GB) chrome_testing=10  START CLASS12_skip3_73_150x20
 [14:13:04] [res] cpu=3% mem=48% (15.2/31.4 GB) chrome_testing=10  END FN2_stairs10_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d1ba9b75d..c3beb62e5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:13:09] ==== END   FN2_stairs10_new  exit=1  936s  timeout 15 min ====
+[14:13:18] memory 49% before starting CLASS12_skip5_150x5 (2 running)
+[14:13:18] ==== START CLASS12_skip5_150x5  (probe @ a740616de62d7d06fbb06290fd7168173531d6fb) ====
+[14:13:21] [res] cpu=1% mem=49% (15.4/31.4 GB) chrome_testing=10  START CLASS12_skip5_150x5
+[14:13:21] worktree add a740616de62d7d06fbb06290fd7168173531d6fb: invalid reference - fetching main and the commit itself
+[14:14:04] 正在跑：FN2_stairs10_old（已跑 15 分／上限 15 分）、CLASS12_skip3_73_150x20（已跑 4 分／上限 12 分）、CLASS12_skip5_150x5（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:14:05] [res] cpu=2% mem=45% (13.9/31.4 GB) chrome_testing=9  END CLASS12_skip3_73_150x20
