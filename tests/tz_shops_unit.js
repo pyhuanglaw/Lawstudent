@@ -42,11 +42,18 @@ for(const id of ids){ const L=ALL[id], N=L.name;
     check(N+' 6. 正式模型：資產有登記、GLB 檔案在、zone_assets 這一區有它',!!ASSETS.manifest[L.asset]&&fs.existsSync(path.join(ROOT,L.glb))&&new RegExp('"'+L.zone+'":\\[[^\\]]*'+L.asset.replace('.','\\.')).test(fs.readFileSync(path.join(ROOT,'src/data/zone_assets.js'),'utf8')),L.glb); } }
 /* BB_255（11-10）：洗樂——牆面乾淨、兌幣機和洗衣精販賣機各一台有字；印得好——客用電腦工作站、裁紙機、膠裝機看得出來、牆面乾淨 */
 { const gl=id=>{ try{ const d=fs.readFileSync(path.join(ROOT,ALL[id].glb)), jl=d.readUInt32LE(12); return JSON.parse(d.slice(20,20+jl).toString('utf8')); }catch(e){ return {nodes:[],materials:[],images:[]}; } };
-  for(const id of ['xile','yindehao']){ const J=gl(id), wall=(J.materials||[]).find(m=>m.name==='tzs_wall'), lab=(J.materials||[]).find(m=>/_labels$/.test(m.name));
-    check(ALL[id].name+' 8. 牆面是乾淨的平塗（沒有灰泥貼圖的斑塊）；機器的字牌在模型裡（S_labels）',!!wall&&!(wall.pbrMetallicRoughness||{}).baseColorTexture&&!wall.normalTexture&&(J.nodes||[]).some(n=>n.name==='S_labels')&&!!lab&&!!(lab.pbrMetallicRoughness||{}).baseColorTexture); }
+  for(const id of ids){ const J=gl(id), wall=(J.materials||[]).find(m=>m.name==='tzs_wall');   /* BB 11-10 23:51：六間（＋禮貌生財）一起換，不要一間一間改 */
+    check(ALL[id].name+' 8. 牆面是乾淨的平塗（沒有灰泥貼圖的斑塊）',!!wall&&!(wall.pbrMetallicRoughness||{}).baseColorTexture&&!wall.normalTexture); }
+  for(const id of ['xile','yindehao']){ const J=gl(id), lab=(J.materials||[]).find(m=>/_labels$/.test(m.name));
+    check(ALL[id].name+' 8. 機器的字牌在模型裡（S_labels）',(J.nodes||[]).some(n=>n.name==='S_labels')&&!!lab&&!!(lab.pbrMetallicRoughness||{}).baseColorTexture); }
   const py=fs.readFileSync(path.join(ROOT,'tools/blender/env_second/tz_shops_interior.py'),'utf8');
   check('洗樂洗衣坊 8. 兌幣機、洗衣精販賣機是兩台、各自有字（兌幣機／洗衣精）',/'coin', '兌幣機'/.test(py)&&/'soap', '洗衣精'/.test(py)&&/label\('coin'/.test(py)&&/label\('soap'/.test(py));
   const Y=ALL.yindehao; check('印得好 8. 有給客人用的電腦工作站（配置 pc、互動點 tz_yin_pc、擋住）；裁紙機、膠裝機有字牌',!!Y.pc&&Y.points.some(p=>p.kind==='tz_yin_pc')&&Y.blocks.some(b=>Math.abs(b[0]-Y.pc.x)<0.01&&Math.abs(b[1]-Y.pc.z)<0.01)&&/label\('cut'/.test(py)&&/label\('bind'/.test(py)&&/label\('pc'/.test(py)); }
+/* BB 11-10 23:51 公館三間第 1 版判定：安泰藥局貨架像書店 → 藥盒、藥瓶、口罩盒；汀州鮮果太空 → 吊著的香蕉、地上的箱子堆（導航擋住） */
+{ const py=fs.readFileSync(path.join(ROOT,'tools/blender/env_second/tz_shops_interior.py'),'utf8'), X=ALL.xianguo;
+  check('安泰藥局 9. 貨架用藥局的商品（pharma：藥盒、藥瓶、口罩盒），不是書店那種色塊',/def pharma\(/.test(py)&&/gondola\(g, MED, fill=pharma\)/.test(py)&&(py.match(/pharma\(/g)||[]).length>=3);
+  if(X){ const z=loadZone(X.zone), ES=X.extraStacks||[], bad=[]; for(const e of ES){ const cx=(e.x0+e.x1)/2, cz=(e.z0+e.z1)/2; if(stand(cx,cz,0,0.2)&&!(e.gaps||[]).some(g=>g[0]<cx&&cx<g[1])) bad.push(cx+','+cz); }
+    check('汀州鮮果 9. 補滿：地上三處箱子堆（配置 extraStacks）導航擋住、吊著的香蕉在模型腳本裡；出生點到每個互動點照舊走得到（第 3 項）',ES.length>=3&&!bad.length&&/def bunch\(/.test(py),bad.join(' ')); } }
 /* 禮貌生財的書房（X332）：平常鎖著、解鎖以後走得進去 */
 if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,L.spawn.z,0], in0=[-0.6,SD.z1-0.8,0];
   const dIt=E.interactables.find(i=>i.kind===SD.door.kind), n0=E.interactables.length;
@@ -57,5 +64,5 @@ if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,
   z.setStudy(false); check('禮貌生財 7. 再鎖起來：又走不進去、書房的互動點拿掉',!stand(in0[0],in0[1],0)&&E.interactables.length===n0&&z.studyOpen===false);
   const glb=path.join(ROOT,L.glb); let names=[]; try{ const d=fs.readFileSync(glb), jl=d.readUInt32LE(12); names=(JSON.parse(d.slice(20,20+jl).toString('utf8')).nodes||[]).map(n=>n.name); }catch(e){}
   check('禮貌生財 7. 模型：書房的東西在 STUDY_* 節點（平常不顯示）、關著的門 STUDY_DOOR_*、蓋子 STUDY_LID_*',names.some(n=>/^STUDY_(vc|wood_d)/.test(n))&&names.some(n=>/^STUDY_DOOR_/.test(n))&&names.some(n=>/^STUDY_LID_/.test(n)),names.filter(n=>/^STUDY/.test(n)).join(' '));
-  check('禮貌生財 7. 預設鎖著（TZS3.studyOpen 回傳 false；LAWWW 接存檔旗標 '+SD.flag+'）',TZS3.studyOpen(L)===false&&typeof SD.flag==='string'); }
+  check('禮貌生財 7. 配置的旗標名是 LAWWW 實際用的 LM_STUDY；書房有「學生來信」的點（study_letters，東牆矮櫃前）',SD.flag==='LM_STUDY'&&SD.points.some(p=>p.id==='study_letters'&&p.kind==='tz_limao_study_letters')); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

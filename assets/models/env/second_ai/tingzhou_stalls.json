@@ -1,11 +1,11 @@
 {
  "objects": 57,
  "unique_meshes": 57,
- "tris": 43860,
- "tris_drawn": 43860,
+ "tris": 43692,
+ "tris_drawn": 43692,
  "materials": 3,
  "out": "assets/models/env/second_ai/tingzhou_stalls.glb",
- "bytes": 4131528,
+ "bytes": 4117392,
  "texres": 2048,
  "note": "NIGHT-MARKET-1110 夜市十攤＋背景三攤；LIMAO-SHOP-1110 禮貌生財的算命桌",
  "kinds": {
@@ -19,8 +19,8 @@
     "d": 1.7,
     "back": 0.25
    },
-   "from": 14.0,
-   "to": 23.0,
+   "from": 17.0,
+   "to": 24.0,
    "buy": true,
    "tarp": "#4a3526",
    "menu": [
@@ -77,8 +77,8 @@
     "d": 1.5,
     "back": 0.25
    },
-   "from": 15.5,
-   "to": 21.5,
+   "from": 15.0,
+   "to": 22.0,
    "buy": true,
    "tarp": "#6a7f94",
    "menu": [
@@ -106,8 +106,8 @@
     "d": 1.5,
     "back": 0.25
    },
-   "from": 16.5,
-   "to": 23.0,
+   "from": 17.0,
+   "to": 24.0,
    "buy": true,
    "tarp": "#1f2f5a",
    "menu": [
@@ -135,8 +135,8 @@
     "d": 1.7,
     "back": 0.25
    },
-   "from": 16.5,
-   "to": 22.5,
+   "from": 16.0,
+   "to": 23.0,
    "buy": true,
    "tarp": "#6f8a72",
    "menu": [
@@ -169,7 +169,7 @@
     "back": 0.25
    },
    "from": 17.5,
-   "to": 24.5,
+   "to": 24.0,
    "buy": true,
    "tarp": "#5a1a26",
    "menu": [
@@ -193,7 +193,7 @@
     "d": 1.7,
     "back": 0.25
    },
-   "from": 17.5,
+   "from": 18.0,
    "to": 24.0,
    "buy": true,
    "tarp": "#1e1e20",
@@ -214,7 +214,7 @@
     "d": 1.5,
     "back": 0.25
    },
-   "from": 15.5,
+   "from": 15.0,
    "to": 21.5,
    "buy": true,
    "tarp": "#857565",
@@ -251,8 +251,8 @@
     "d": 1.5,
     "back": 0.25
    },
-   "from": 14.0,
-   "to": 22.0,
+   "from": 16.0,
+   "to": 23.0,
    "buy": true,
    "tarp": "#a8c89a",
    "menu": [
@@ -276,8 +276,8 @@
     "d": 2.0,
     "back": 0.2
    },
-   "from": 15.0,
-   "to": 23.5,
+   "from": 17.0,
+   "to": 23.0,
    "buy": true,
    "tarp": "#a8605a",
    "menu": [

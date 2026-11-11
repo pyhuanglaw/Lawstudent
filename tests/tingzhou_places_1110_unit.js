@@ -62,7 +62,7 @@ check('4. 一開始就知道汀州路；tz_ 開頭的區域算汀州路',PLACES.
   check('5. 大地圖的地名：八間店都有、寫在店面那一側、那一間的範圍裡',!bad.length&&LM.length>=8,J(bad)); }
 // 6
 { loadZone('gongguan'); const zs=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8'), m=zs.match(/const shops=\[([\s\S]*?)\];\n/);
-  const ws=[...(m?m[1]:'').matchAll(/\{n:'([^']+)',c:'[^']+'(?:,sc:'[^']+')?,w:(\d+)/g)].map(x=>[x[1],+x[2]]); let x=-68; const cx=ws.map((s,i)=>{ const X0=x, X1=x+s[1]+(i<8&&i!==ws.length-1?1.2:0); x=X1; return (X0+X1)/2; });
+  const ws=[...(m?m[1]:'').matchAll(/\{n:'([^']*)',c:'[^']+'(?:,sc:'[^']+')?,w:(\d+)/g)].map(x=>[x[1],+x[2]]);   /* 2026-11-11：G09、G10 拉下鐵門以後沒有店名（n:''，X335）——店名可以是空的，棟數和寬度照舊 */ let x=-68; const cx=ws.map((s,i)=>{ const X0=x, X1=x+s[1]+(i<8&&i!==ws.length-1?1.2:0); x=X1; return (X0+X1)/2; });
   const pts=[]; for(const i of [9,10,11]) for(const zz of [21,18]) pts.push([+cx[i].toFixed(2),zz]); const bad=pts.filter(p=>!E.canStand(p[0],p[1],0.32,0));
   check('6. 舊存檔：公館店面街 G09～G11 門口（店門前 z 21、人行道 z 18）照舊站得住',ws.length===15&&!bad.length,J(bad.length?bad:pts));
   const it=E.interactables.find(i=>i.exit&&i.exit.to==='tingzhou'), sp=L.toGongguan.spawn;

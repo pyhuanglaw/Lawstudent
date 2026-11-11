@@ -1096,6 +1096,18 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
     c＝spec['xs']（wz_street.py 的 GG_XS）：cards＝窗（貼圖、範圍、景深）；door；eave／canopy／awning；signs；decals；lamps；props"""
     c = spec['xs']; wl = acc(gg_plaster(c.get('wallc', '#e9dfcc'))); fr = acc(SK['alu2'] if c.get('frame') == 'alu' else frame_mat(c['frame'] if str(c.get('frame', '')).startswith('#') else GG_WOOD)); cream = acc(frame_mat('#e8e2d6'))
     X0, X1 = -W / 2 + 0.3, W / 2 - 0.3
+    if c.get('shut'):   # 拉下鐵捲門的空店面（GG-G09-G10-SHUTTER-1111，X335；使用者 11-11「先拉下鐵門」：洗樂、印得好搬到汀州路以後，公館這兩格先空著）：兩扇鐵捲門、中間一根牆柱、上面捲門箱；沒有招牌字、沒有機器、沒有雜物
+        sm = acc(M['shutter']); alu = acc(SK['alu2']); top = ceil_y - 0.42; mid = c.get('pier', 0.0)
+        xf.box(wl, X0, X1, 0.0, ceil_y, gz - 0.3, gz - 0.22)                                                   # 鐵門後面的牆（鐵門的縫看不到店內）
+        xf.box(wl, X0, X1, top, ceil_y, gz - 0.22, gz + 0.02)
+        for (a_, b_) in ((X0, X0 + 0.16), (mid - 0.14, mid + 0.14), (X1 - 0.16, X1)): xf.box(wl, a_, b_, 0.0, top, gz - 0.22, gz + 0.02)
+        for (a_, b_) in ((X0 + 0.16, mid - 0.14), (mid + 0.14, X1 - 0.16)):
+            xf.quad(sm, [(a_, 0.03, gz - 0.06), (b_, 0.03, gz - 0.06), (b_, top, gz - 0.06), (a_, top, gz - 0.06)])
+            xf.box(alu, a_ - 0.02, b_ + 0.02, top - 0.02, top + 0.26, gz - 0.2, gz + 0.06)                     # 捲門箱
+            for xx in (a_, b_ - 0.05): xf.box(alu, xx, xx + 0.05, 0.03, top, gz - 0.1, gz - 0.03)               # 導軌
+            xf.box(alu, a_ + 0.05, b_ - 0.05, 0.03, 0.1, gz - 0.07, gz - 0.035)                                # 底條
+            xf.box(acc(SK['f_granite']), a_, b_, 0.0, 0.03, gz - 0.2, gz + 0.02)
+        return
     opens = [(cd[1], cd[2], cd[3], cd[4]) for cd in c.get('cards', [])]
     dr = c.get('door')
     if dr: opens.append((dr['x0'], dr['x1'], 0.0, dr['y1']))
@@ -2063,7 +2075,9 @@ def arcade_front_v2(spec, xf, W, wall):
         CL.glow(root, 'arcadelamp', *xf.p(tx, ceil_y - 0.2, -dep * 0.55), color='rgba(244,248,255,1)', size=1.5, day=0.0, night=0.7)
     # 招牌（設計稿；和原本的 shopfront 同一套）
     sw = min(W - 0.4, 6.5); sy0, sy1 = GH - 0.67, GH - 0.03
-    if XSM:   # 公館四間新店：騎樓外的招牌也是參考圖裁的字（同一塊招牌，貼在騎樓樑上給馬路看）
+    if XSM and XSM.get('shut'):   # 空店面：招牌拆掉了，樑上只剩一塊沒有字的舊招牌底板（不寫字、晚上不亮）
+        xf.box(acc(SK['alu2']), -sw / 2 - 0.04, sw / 2 + 0.04, sy0 - 0.05, sy1 + 0.03, 0.0, 0.16); xf.box(acc(frame_mat('#d9d6cc')), -sw / 2, sw / 2, sy0, sy1, 0.16, 0.168)
+    elif XSM:   # 公館四間新店：騎樓外的招牌也是參考圖裁的字（同一塊招牌，貼在騎樓樑上給馬路看）
         key = XSM['street']; h_ = sy1 - sy0; w_ = min(sw, h_ * XS_ATLAS.get(key, [0, 0, 1, 1, 4])[4]); cx_ = XSM.get('street_x', 0.0)
         if XSM.get('street_fit'): w_ = min(W - 0.4, XSM['street_fit']); h_ = w_ / XS_ATLAS.get(key, [0, 0, 1, 1, 4])[4]; sy1 = sy0 + h_   # 招牌板照指定的寬度、高度照貼圖比例往上長（汀州路三間：BB 第 2 版——字比參考圖小、街上讀不出來）
         xf.box(acc(SK['alu2']), cx_ - w_ / 2 - 0.04, cx_ + w_ / 2 + 0.04, sy0 - 0.05, sy1 + 0.03, 0.0, 0.2); _xq(xf, key, cx_ - w_ / 2, cx_ + w_ / 2, sy0, sy1, 0.204, tiles=1)
@@ -2077,7 +2091,8 @@ def arcade_front_v2(spec, xf, W, wall):
         xf.box(acc(fr), -sw / 2 - 0.05, sw / 2 + 0.05, sy0 - 0.04, sy1 + 0.04, 0.0, 0.1)
         face(f'SIGN_FACE_{spec["id"]}', M['board'], xf, [(-sw / 2, sy0, 0.105), (sw / 2, sy0, 0.105), (sw / 2, sy1, 0.105), (-sw / 2, sy1, 0.105)],
              {'sign': s['name'], 'sub': s.get('sub', ''), 'bg': s.get('signBg', '#3b2a1e'), 'color': s.get('signColor', '#f4ead8'), 'serif': 1 if s.get('serif') else 0, 'band': s.get('band', '')})
-    if s.get('vatlas') and s['vatlas'] in SIGN_ATLAS: vsign_tex(xf, spec['id'], s['vatlas'], W / 2 - 0.5, GH + 0.3, vw=0.74)
+    if XSM and XSM.get('shut'): pass
+    elif s.get('vatlas') and s['vatlas'] in SIGN_ATLAS: vsign_tex(xf, spec['id'], s['vatlas'], W / 2 - 0.5, GH + 0.3, vw=0.74)
     elif s.get('vertical'):
         vsign(xf, spec['id'], W / 2 - 0.5, GH + 0.3, GH + 2.9, {'vertical': s['vertical'], 'vBg': s.get('vBg', '#ffffff'), 'vColor': s.get('vColor', '#b0332a'), 'vBand': s.get('vBand', '#b0332a'), 'serif': 1 if s.get('serif') else 0})
     for (cn, x, y, w, h) in ([] if XSM else sf.get('notes', [])): note(xf, cn, x, y, w, h, gz + (0.32 if kind == 'tea' else 0.03))

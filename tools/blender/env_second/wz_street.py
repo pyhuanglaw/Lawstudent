@@ -174,6 +174,8 @@ if SET == 'gongguan':
                     cards=[('ggfruit_shop', -3.65, 3.65, 0.0, 3.0, 0.8)], open=('ggfruit_shop',)),
         'G13': dict(dep=3.0, wallc='#efe9dc', frame='alu', street='ggrong_sign', street_fit=7.2, street_lit=True,   # 榮恩典文具社：米色招牌、黑字、鉛筆畫筆圖示、四色線；鋁框玻璃、木層架塞滿
                     cards=[('ggrong_int', -4.15, 4.15, 0.1, 2.85, 0.8, [-2.2, -0.6, 0.9, 2.4])]),
+        # GG-G09-G10-SHUTTER-1111（X335，使用者 11-11 選「先拉下鐵門」）：洗樂、印得好搬到汀州路以後，公館這兩格是拉下鐵捲門的空店面；之後放什麼店由使用者決定（D147），不放別的
+        'G09': dict(dep=3.0, wallc='#d9d6cc', shut=True), 'G10': dict(dep=3.0, wallc='#d4d0c4', shut=True, pier=0.6),
         'G11': dict(dep=3.0, wallc='#ece5d8', frame='#c9a86a', street='ggfn_sign', street_fit=9.4,   # 花序 Flower Notes：米白洞石色、香檳金細框；兩側大櫥窗、中間雙開玻璃門；招牌帶在騎樓外面；二樓整排玻璃（xs_up）
                     cards=[('ggfn_winl', -4.3, -1.4, 0.25, 3.1, 0.8, [-2.85]), ('ggfn_door', -1.0, 1.0, 0.0, 2.95, 0.8, [0.0]), ('ggfn_winr', 1.4, 4.3, 0.25, 3.1, 0.8, [2.85])],
                     props=[('pot', -1.25, 0.45, 'broad'), ('pot', 1.25, 0.45, 'broad')]),

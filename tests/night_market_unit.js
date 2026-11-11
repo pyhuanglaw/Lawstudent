@@ -135,7 +135,7 @@ const isNarr=t=>/^（[^）]*）$/.test(t)||(t[0]==='（'&&t[t.length-1]==='）'&
         if(want&&bg&&!eq(X.log,[[null,bg.look]])) bad.push(kind+' 背景攤 look'); } }
     check('6. 十三攤：開攤那一刻開、開攤前 3 分鐘和收攤那一刻是 closed 一句（不出選單、不扣錢）、清晨和中午都是收攤；模型的營業／收攤節點、isOpen、能不能買三個一致',!bad.length,bad.slice(0,6).join(' | '));
     console.log('     營業時間和配置原本不一樣的（照稿）：'+(diff.join('；')||'沒有'));
-    check('7. 營業時間照稿（AA 的 hoursNote）：十攤配置的 from／to 現在＝稿的 open；背景三攤照配置原本的',!bad.some(b=>/照稿|被改/.test(b))&&diff.length===9,diff.length+' 攤不一樣'); }
+    check('7. 營業時間照稿（AA 的 hoursNote）：十攤配置的 from／to 現在＝稿的 open；背景三攤照配置原本的',!bad.some(b=>/照稿|被改/.test(b))&&diff.length===0,diff.length+' 攤不一樣（LAWWW2 11-11 照 LAWWW 23:49 的要求把配置檔的 from／to 改成稿的 hours：檔案和執行時一致，所以是 0；原本是 9）'); }
 
   /* 8 季節 */
   { const q=stallIn(z,'jelly'), st=NM.stalls.s10, run=async(m,h)=>{ MONTH=m; WD=5; fresh(); const X=game(500,h,2); NM3.rand=()=>0.999; const r=await NM3.interact(X.GM,z,q); NM3.rand=()=>Math.random(); return {X,r}; };

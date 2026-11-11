@@ -130,11 +130,12 @@ QG = [
     ('gongguan_daybreak_ext', 'menu', [(1273, 440), (1360, 440), (1360, 576), (1273, 576)], 128, 192),
     ('gongguan_daybreak_ext', 'board', [(536, 576), (647, 576), (647, 740), (536, 740)], 128, 192),
     # 公館三間＋花序外觀（使用者 2026-11-10 的參考圖；gg_shops6_tex.py 先拉正裁到 textures/src/gg_cards/）：GG-SHOPS3-ART-1110、FLOWER-NOTES-ART-1110
-    ('@textures/src/gg_cards/ggantai_sign.jpg', 'sign', None, 1024, 150), ('@textures/src/gg_cards/ggfruit_sign.jpg', 'sign', None, 1024, 190),   # 一列放兩張一樣高的（圖集高度不能超過 4096）
-    ('@textures/src/gg_cards/ggrong_sign.jpg', 'sign', None, 1024, 190), ('@textures/src/gg_cards/ggfn_sign.jpg', 'sign', None, 1024, 100),
-    ('@textures/src/gg_cards/ggantai_int.jpg', 'int', None, 1024, 344), ('@textures/src/gg_cards/ggfruit_shop.jpg', 'shop', None, 1024, 360),
-    ('@textures/src/gg_cards/ggrong_int.jpg', 'int', None, 1024, 330), ('@textures/src/gg_cards/ggfn_up.jpg', 'up', None, 1024, 220),
-    ('@textures/src/gg_cards/ggfn_winl.jpg', 'winl', None, 448, 380), ('@textures/src/gg_cards/ggfn_door.jpg', 'door', None, 448, 420), ('@textures/src/gg_cards/ggfn_winr.jpg', 'winr', None, 384, 320),
+    # 第 2 版（BB 11-10 23:51：招牌近看是糊的、放大看得到格子；櫥窗糊）：這十一塊放大（招牌 2048 寬、櫥窗 1536 寬），圖集加寬到 2560 排（build 的 AW）——整張再縮一半以後招牌約 970 像素寬（原本約 500）
+    ('@textures/src/gg_cards/ggantai_sign.jpg', 'sign', None, 2048, 300), ('@textures/src/gg_cards/ggfruit_sign.jpg', 'sign', None, 2048, 380),
+    ('@textures/src/gg_cards/ggrong_sign.jpg', 'sign', None, 2048, 380), ('@textures/src/gg_cards/ggfn_sign.jpg', 'sign', None, 2048, 200),
+    ('@textures/src/gg_cards/ggantai_int.jpg', 'int', None, 1536, 516), ('@textures/src/gg_cards/ggfruit_shop.jpg', 'shop', None, 1536, 540),
+    ('@textures/src/gg_cards/ggrong_int.jpg', 'int', None, 1536, 495), ('@textures/src/gg_cards/ggfn_up.jpg', 'up', None, 1536, 330),
+    ('@textures/src/gg_cards/ggfn_winl.jpg', 'winl', None, 672, 570), ('@textures/src/gg_cards/ggfn_door.jpg', 'door', None, 672, 630), ('@textures/src/gg_cards/ggfn_winr.jpg', 'winr', None, 576, 480),
 ]
 
 
@@ -150,7 +151,7 @@ def coeffs(dst, src):
 os.makedirs(OUT, exist_ok=True)
 
 
-def build(QQ, atlas_name, alias=lambda n: n):
+def build(QQ, atlas_name, alias=lambda n: n, AW=2048):
   cache = {}
   for name, part, quad, w, h in QQ:
       if name.startswith('@'):   # 本作的渲染圖（tools/blender/env_second/ 底下的相對路徑），整張縮到 w×h
@@ -171,7 +172,7 @@ def build(QQ, atlas_name, alias=lambda n: n):
   # ---- 拼成一張圖集（整條街一個材質）：一列一列往下排，寬 2048；xs_fronts_atlas.jpg＋.json（uv：u0, v0, u1, v1，v 從下往上）
   import json
   keys = [k for k in cache if k not in {n for n, *_ in QQ}]   # 參考圖原圖不放進圖集
-  items = sorted(keys, key=lambda k: -cache[k].size[1]); AW = 2048; pos = {}; x = y = rowh = 0
+  items = sorted(keys, key=lambda k: -cache[k].size[1]); pos = {}; x = y = rowh = 0
   for k in items:
       w_, h_ = cache[k].size
       if x + w_ > AW: x = 0; y += rowh + 4; rowh = 0
@@ -189,4 +190,4 @@ def build(QQ, atlas_name, alias=lambda n: n):
 _ONLY = os.environ.get('XS_ONLY', '')   # 只重做一張圖集（xs／wz／gg）：另外兩張的參考圖不在手邊時用
 if _ONLY in ('', 'xs'): build(Q, 'xs_fronts_atlas', lambda n: n.replace('_ext', '').replace('xinsheng_sports', 'xsports'))
 if _ONLY in ('', 'wz'): build(QW, 'wz_fronts_atlas', lambda n: os.path.basename(n).split('_')[0] if n.startswith('@') else n.replace('_ref_v2', '').replace('_ext', ''))   # key：offbeat_int、wz_lin_sign、wz230am_board…
-if _ONLY in ('', 'gg'): build(QG, 'gg_fronts_atlas', lambda n: os.path.basename(n).split('_')[0] if n.startswith('@') else n.replace('gongguan_', 'gg').replace('_ext', '').replace('_int', '').replace('yangyang', 'yy').replace('daybreak', 'db'))   # key：ggtea_sign、ggbook_int2…
+if _ONLY in ('', 'gg'): build(QG, 'gg_fronts_atlas', lambda n: os.path.basename(n).split('_')[0] if n.startswith('@') else n.replace('gongguan_', 'gg').replace('_ext', '').replace('_int', '').replace('yangyang', 'yy').replace('daybreak', 'db'), AW=2560)   # key：ggtea_sign、ggbook_int2…
