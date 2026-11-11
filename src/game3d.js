@@ -135,7 +135,7 @@ const GAME = (function(){
   const TAP_GUARD=350; let lastDownAt=-1e9;
   if(typeof document!=='undefined'&&document.addEventListener) document.addEventListener('pointerdown',()=>{ lastDownAt=performance.now(); },true);
   const tapGuardOn=()=>{ try{ const q=(typeof location!=='undefined'&&location.search)||''; if(/[?&]tapguard\b/.test(q)) return true; return !(typeof navigator!=='undefined'&&navigator.webdriver); }catch(e){ return true; } };
-  function tapTooSoon(shownAt){ return tapGuardOn()&&lastDownAt>=shownAt&&lastDownAt-shownAt<TAP_GUARD; }
+  function tapTooSoon(shownAt){ return tapGuardOn()&&lastDownAt>shownAt&&lastDownAt-shownAt<TAP_GUARD; }   /* 嚴格大於：叫出選單的那一下（同一毫秒）不算在內 */
   GM.tapTooSoon=tapTooSoon; GM.TAP_GUARD=TAP_GUARD;
   function renderChoose(c){ const {options,opt,res}=c, shownAt=performance.now(); $('dlg').classList.remove('side');
     { const box=$('choices'); box.innerHTML=''; box.classList.remove('hide'); overFade(box); const dlg=$('dlg'); overFade(dlg); const keep=!(opt&&opt.menu)&&!!D.full&&!D.active&&(performance.now()-(D.endedAt||0))<1500; if(opt&&opt.menu&&!D.active){ dlg.classList.add('hide'); dlg.classList.remove('static'); }   /* 系統選單（家裡、快轉）：不留上一句（BB-C BB_218 第 4 節：媽媽「洗衣籃在後陽台」留在畫面上，橫向時蓋住第四個選項）*/

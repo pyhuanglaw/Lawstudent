@@ -111,7 +111,7 @@ const dropTest=()=>{ for(let i=STORY_EVENTS.length-1;i>=0;i--) if(/^ev_test_dl04
     check('5. 大一上第 4 週週四翹民總：多一行「你會錯過：同學的報告分組…」（ev_an_report_split，以安在場當作會在）',/^你會錯過：/.test(L[1]||'')&&(L[1]||'').includes('同學的報告分組')&&/。$/.test(L[1]||''),L[1]);
     check('5. 只寫一般的說法（沒有人名、沒有事件標題原文「民總的報告」）',!/以安|阿哲|學姊|民總的報告/.test(L[1]||''),L[1]);
     check('5. 預告不改任何狀態（事件紀錄、時間、地點照舊）；翹了照記 plan_skip',JSON.stringify(G.events.done)===done0&&G.hour===h0&&G.zone===z0&&CLS.planSkip(G,it),JSON.stringify(G.events.done));
-    check('5. 選項照舊只有兩個：翹／還是去',JSON.stringify(menus[0])===JSON.stringify(['翹','還是去']),JSON.stringify(menus[0])); }
+    /* 2026-11-11 改期望（BUG-GOCLASS-SKIPPED-1111）：順序換成「還是去」在前——連點落在第一個位置不會變成翹課；字和個數照舊 */ check('5. 選項照舊只有兩個：還是去／翹（「還是去」在第一個）',JSON.stringify(menus[0])===JSON.stringify(['還是去','翹']),JSON.stringify(menus[0])); }
   { fresh(THU,8,'dorm'); G.events.done.ev_an_report_split=1; const it=civ(); const got=CLS.classMissList?CLS.classMissList(G,it):null;
     check('5. 分組演過了：不再列「同學的報告分組」',Array.isArray(got)&&!got.includes('同學的報告分組'),JSON.stringify(got)); }
   /* 沒有事件的課：只有原本那一句 */

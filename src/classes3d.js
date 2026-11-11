@@ -1204,8 +1204,8 @@ const CLS=(function(){
     return true; };
   /* 翹課（1-5）：確認一句；記 plan_skip（手機寫「翹課」、30 分鐘提醒不出）；不加旗標、不改關係；期末考不能翹 */
   S.examName=it=>it&&it.exam==='mid'?'期中考':'期末考';
-  S.skipClass=async function(GM,it){ const G=GM.G; if(it.exam){ GM.toast(S.examName(it)+'不能翹。',3000); return false; }   /* 考試不給翹：期中、期末都一樣（AA_294 ①）*/ let k=1; const miss=S.classMissList(G,it); GM.sceneBegin(); try{ await GM.say(null,'翹掉'+it.c.name+'？記「沒去」，不扣分。'); if(miss.length) await GM.say(null,'你會錯過：'+miss.join('、')+'。'); k=await GM.choose([{t:'翹'},{t:'還是去'}]); } finally { GM.sceneEnd(); }   /* 這一堂課裡的【固】【必】（1-5、R1；DL-04B）*/
-    if(k!==0){ await S.goClass(GM,it); return false; } S.rec(G).note['plan_skip_'+it.key]=1; if(GM.autosave) GM.autosave(); return true; };
+  S.skipClass=async function(GM,it){ const G=GM.G; if(it.exam){ GM.toast(S.examName(it)+'不能翹。',3000); return false; }   /* 考試不給翹：期中、期末都一樣（AA_294 ①）*/ let k=0; const miss=S.classMissList(G,it); GM.sceneBegin(); try{ await GM.say(null,'翹掉'+it.c.name+'？記「沒去」，不扣分。'); if(miss.length) await GM.say(null,'你會錯過：'+miss.join('、')+'。'); k=await GM.choose([{t:'還是去'},{t:'翹'}]); } finally { GM.sceneEnd(); }   /* 2026-11-11（BUG-GOCLASS-SKIPPED-1111，使用者 day57：連點把第一堂記成翹課）：「還是去」放第一個、「翹」第二個——連點落在第一個位置＝去上課，不是翹課（原本「翹」在第一個）*/   /* 這一堂課裡的【固】【必】（1-5、R1；DL-04B）*/
+    if(k!==1){ await S.goClass(GM,it); return false; } S.rec(G).note['plan_skip_'+it.key]=1; if(GM.autosave) GM.autosave(); return true; };
   /* 校外上課（教室 OFF：大四下「法律實習或法律扶助實務」，courses.js rooms.OFF offsite）：沒有 3D 的地點——2D 出門、時間跳到下課、記出席（同服務學習的做法）。
      那一天有旁白的（OFFSITE_LINES：fn(G,it)→一句或 null；例：AA_342 4-2 第 4 週 3/13，twfill3d.js）就說那一句。COURSE-PRACTICE-Y4-1024 */
   S.OFFSITE_LINES=[];
