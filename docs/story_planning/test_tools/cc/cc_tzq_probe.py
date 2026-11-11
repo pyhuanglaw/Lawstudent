@@ -396,6 +396,11 @@ async def part_tzq_a(pg, cdp, errs):
     shop = [r for r in rows if r['name'] in TZ8]
     R.note('[TZQ_A 1] 八間店在清單上的樣子：%s（不列出＝%d 間；列出但「還沒去過」、沒有按鈕＝%d 間）' % (J([(r['name'], r['st']) for r in shop]), 8 - len(shop), len([r for r in shop if not r['place']])))
     R.check('[TZQ_A 1] 新存檔：八間店都不能直接前往（不在清單上，或寫「還沒去過」、沒有前往按鈕）', not [r for r in shop if r['place']], J([(r['name'], r['st'], r['btn']) for r in shop if r['place']]))
+    # BB 00:07：標準＝和同一個存檔裡其他沒去過的店同一種顯示——公館燒臘那一列印在旁邊對照（八間的「還沒去過」字樣、按鈕要和它一樣）
+    await phone_places(pg, cdp); await open_area(pg, cdp, 'gongguan')
+    ref = next((r for r in await pg.evaluate(ROWS) if r['area'] == 'gongguan' and r['name'] == '公館燒臘'), None); await L.close_panels(pg, cdp)
+    R.note('[TZQ_A 1] 對照：同一個新存檔的「公館燒臘」＝%s；八間＝%s' % (J(ref and (ref['name'], ref['st'], ref['btn'])), J([(r['name'], r['st'], r['btn']) for r in shop])))
+    R.check('[TZQ_A 1] 八間店的顯示和公館燒臘（沒去過的店）同一種（都列出、「還沒去過」、沒有前往鍵）', bool(ref) and not ref['place'] and len(shop) == 8 and all(r['st'] == ref['st'] and r['btn'] == ref['btn'] for r in shop), J(ref))
     # 2 照玩家從公館走進汀州路一次、再走回公館
     gate = next((i for i in await pg.evaluate(ITS) if i['gate']), None)
     if not R.check('[TZQ_A 2] 公館有「往汀州路（巷子）」', bool(gate), ''): return
