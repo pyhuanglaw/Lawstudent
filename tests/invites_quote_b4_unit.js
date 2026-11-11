@@ -159,8 +159,8 @@ const isNarr=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; f
     !!lib&&!!lib0&&lib0.length===3&&lib0.every(t=>B5.has(t))&&J(lib)===J(lib0.map(b5))&&!/const smallQ=/.test(sb)&&/S\.greetTexts=\(\)=>\(L\.repairGreet\|\|\[\]\)\.slice\(\);/.test(sb),J([lib0,lib])); }
 
 /* ---------- 16. 資料和 BASE 逐句比 ---------- */
-const B5HIT=[];   /* 第五批改的（B5 那八句）：另外記，不算第四批的 */
-const deepSame=(a,b,bad,p)=>{ if(typeof a==='string'&&typeof b==='string'){ if(a===b) return 0; if(wrapped(a)&&unq(a)===b) return 1; if(isB5(a,b)){ B5HIT.push(p); return 0; } bad.push(p+'：'+a+' → '+b); return 0; }
+const B5HIT=[]; const A799=require('./aa799_expect.js');   /* AA_799（X324 G 區）：pool secret「其實……」12 句換了字——那幾格照稿算對（原本外面有「」的照樣算一句拿掉「」）*/   /* 第五批改的（B5 那八句）：另外記，不算第四批的 */
+const deepSame=(a,b,bad,p)=>{ if(typeof a==='string'&&typeof b==='string'){ if(a===b) return 0; if(wrapped(a)&&unq(a)===b) return 1; if(A799.isAA799(a,b)) return wrapped(a)?1:0; if(isB5(a,b)){ B5HIT.push(p); return 0; } bad.push(p+'：'+a+' → '+b); return 0; }
   if(typeof a==='function'||typeof b==='function'){ if(String(a)!==String(b)) bad.push(p+'：函式不同'); return 0; }
   if(a===null||b===null||typeof a!=='object'||typeof b!=='object'){ if(a!==b) bad.push(p+'：'+J(a)+' → '+J(b)); return 0; }
   const ka=Object.keys(a), kb=Object.keys(b); if(J(ka)!==J(kb)){ bad.push(p+'：欄位不同'); return 0; } let n=0; for(const k of ka) n+=deepSame(a[k],b[k],bad,p+'.'+k); return n; };
@@ -171,7 +171,7 @@ const deepSame=(a,b,bad,p)=>{ if(typeof a==='string'&&typeof b==='string'){ if(a
       m===W&&b2.length===0&&h5.length===W5&&h5.every(p=>/\.greet\.\d+$/.test(p)),sample(b2.concat(h5))); }
   /* 拿掉的都是說的話：BASE 那一句在 talk／greet（說的話）／zjwHand／bhCopier */
   const ok=[], ok5=[], miss=[]; for(const k of PSK){ const LO=(PS.old[k]||{}).LINES||{}, LN=(PS.now[k]||{}).LINES||{}; for(const id of Object.keys(LO)){ const A=LO[id], Bn=LN[id];
-      (function w(a,b,p){ if(typeof a==='string'){ if(a!==b){ if(isB5(a,b)){ if(/^greet\.\d+$/.test(p)) ok5.push(p); else miss.push(id+'.'+p); } else if(/^(talk\.\d+\.(t|old)|greet\.\d+|zjwHand|bhCopier)$/.test(p)) ok.push(p); else miss.push(id+'.'+p); } return; } if(a&&typeof a==='object'&&typeof a!=='function') for(const kk of Object.keys(a)) w(a[kk],b&&b[kk],p?p+'.'+kk:kk); })(A,Bn,''); } }
+      (function w(a,b,p){ if(typeof a==='string'){ if(a!==b&&!A799.isAA799(a,b)){ if(isB5(a,b)){ if(/^greet\.\d+$/.test(p)) ok5.push(p); else miss.push(id+'.'+p); } else if(/^(talk\.\d+\.(t|old)|greet\.\d+|zjwHand|bhCopier)$/.test(p)) ok.push(p); else miss.push(id+'.'+p); } return; } if(a&&typeof a==='object'&&typeof a!=='function') for(const kk of Object.keys(a)) w(a[kk],b&&b[kk],p?p+'.'+kk:kk); })(A,Bn,''); } }
   check('16. pool 改到的 '+ok.length+' 句都在 talk（t、old）、greet、zjwHand、bhCopier（選項、旁白、場景、房間物品沒有一句動）；第五批另外改了 greet 的 '+ok5.length+' 句',ok.length===180&&ok5.length===4&&miss.length===0,sample(miss));
   /* S.greetTexts 照原始碼那幾行算（BASE：smallQ 包「」；第五批以後沒有 smallQ＝稿上的字）*/
   const sg=t=>{ t=noComments(t); const m=/const smallQ=t=>\{[^\n]*\};/.exec(t), g=/S\.greetTexts=\(\)=>([^\n;]*);/.exec(t); const L=vm.runInNewContext('('+/repairGreet:(\[[^\]]*\])/.exec(noComments(cur('src/data/sis_b13_events.js')))[1]+')');

@@ -258,7 +258,8 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('AA_528 第 3 節：晨希的人物頁「背吉他袋的學姊」',CHARACTERS.pool_11.cardBefore==='背吉他袋的學姊'&&inDoc('AA_498','「背吉他袋的學姊」'),CHARACTERS.pool_11.cardBefore); });
 
   await sec('528-3-1',async()=>{ const LQ='pool_16', L=POOL_STORY_B2.LINES[LQ], one='其實……我背法條是配節奏的。……你不要叫我唱，我會害羞。', nt='刑法那幾條比較好押韻。……不要問我押什麼。';
-    check('AA_528 3-1：立群秘密那一場一句說完；閒聊「說過秘密以後」那一格換新句',L.secret.length===1&&L.secret[0].text===one&&L.talk.some(x=>x.when==='secret'&&x.t===nt)&&inDoc('AA_499','詹立群：'+one)&&inDoc('AA_499',nt.replace(/^「|」$/g,'')));
+  /* AA_799（X324 G 區，5f34638b5）：遊戲裡立群那一句「其實……」換成「跟你講一個秘密。…」；AA_499 稿上照舊是舊句（inDoc 照 one 查）*/
+    check('AA_528 3-1：立群秘密那一場一句說完；閒聊「說過秘密以後」那一格換新句',L.secret.length===1&&L.secret[0].text===(((require('./aa799_expect.js').rows||[]).find(r=>r.old===one)||{}).new||one)&&L.talk.some(x=>x.when==='secret'&&x.t===nt)&&inDoc('AA_499','詹立群：'+one)&&inDoc('AA_499',nt.replace(/^「|」$/g,'')));
     fresh(TD('Y1S1',11,5),20,'gongguan'); fam(LQ); H.said=[]; H.picks=[0]; const ok=await POOL.FLOW[LQ][0](GM,{name:'詹立群'}); const s=H.said.map(x=>x.t);
     check('AA_528 3-1：秘密那一場只聽到一次「我背法條是配節奏的」，新的閒聊句不在同一場',ok&&s.filter(t=>/我背法條是配節奏的/.test(t)).length===1&&!s.includes(nt)&&SOCIAL.has(LQ,'SHARED_SECRET'),J(s)); });
 
