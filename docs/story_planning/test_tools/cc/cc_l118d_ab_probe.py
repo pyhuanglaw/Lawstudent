@@ -22,7 +22,12 @@ B 菜單：
   DATE   日期（預設自動挑：學期中的週三、不是假日、不是颱風假，2025-09-24 起；九間店週三都有開——週二 118牛排休、週一義大麵屋和奈良咖哩休、週四披薩休）
   HOUR   預設 12.17（12:10）
   PHONE  1＝A 段抽手機「地點」頁（預設 1）
-  LOOKS  1＝A 段在店裡走到每一個「看的東西」（配置的 interact：湯桶、配菜櫃、窯爐…）按一下，抽旁白的字（預設 1）
+  LOOKS  1＝A 段在店裡走到每一個「看的東西」（配置的 interact：湯桶、配菜櫃、窯爐…）按一下，抽旁白的字（預設 1）；
+         逐字表寫到 <out>/looks_table.md（也印在 log），提到舊店內容的標「⚠舊內容？」（關鍵字比對）
+  SIGNS  1＝A 段拍模型上畫的字（菜單牌、價目表、招牌、海報；DOM 抽不到）：【捷徑機位】獨立擺鏡頭、藏 HUD、1280×720，
+         檔名 <out>/sign_<店>_<物件>.png（預設 1）。物件位置：場景裡名字或材質像「有字的板面」的網格（*_print、SIGN_FACE、VSIGN_FACE、
+         ABOARD／MENU_FACE、menubox、signbox、price、poster、招牌 atlas），三角形依距離分群、每群拍一張；另外每間一定拍
+         巷子：店面正面（sign_<店>_facade）、店面下半部近照（sign_<店>_front）；店內：門口往裡（sign_<店>_wide_in）、最裡面往門口（sign_<店>_wide_out）
   QUIET  1＝讀檔時關條件事件和手機自動打開（預設 1；118 巷點餐不是條件事件，照演）
   PORTRAIT 1＝直向 390×844（預設橫向，和 tests/flow_l118_shops.py 一樣）
   ITEMS_MAX 只點每間的前 N 樣（預設 0＝全部；雲端自檢用，正式跑不要設）
@@ -42,6 +47,7 @@ SHOPS = [s.strip() for s in (os.environ.get('SHOPS') or ','.join(ALL)).split(','
 HOUR = float(os.environ.get('HOUR') or 12.17)
 PHONE = (os.environ.get('PHONE') or '1') == '1'
 LOOKS = (os.environ.get('LOOKS') or '1') == '1'
+SIGNS = (os.environ.get('SIGNS') or '1') == '1'
 QUIET = (os.environ.get('QUIET') or '1') == '1'
 PORTRAIT = (os.environ.get('PORTRAIT') or '0') == '1'
 ITEMS_MAX = int(os.environ.get('ITEMS_MAX') or 0)   # 0＝每一樣都點（正式跑）；雲端自檢可以只點前幾樣
@@ -99,7 +105,31 @@ MONEY_JS = r"""(()=>({g:GAME.G.money, hud:((document.getElementById('money')||{}
 CLOCKZ_JS = r"""(()=>((document.getElementById('clockZ')||{}).textContent||'').trim())()"""
 NEAR_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position; return E.interactables.filter(i=>!i.hidden&&Math.hypot(i.x-P.x,i.z-P.z)<(i.radius||1.8)).map(i=>({label:i.label||'',d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2),r:i.radius||1.8,prio:i.prio||0,x:+i.x.toFixed(2),z:+i.z.toFixed(2)})); })()"""
 DOOR_JS = r"""(id=>{ const its=GAME.E.interactables.filter(i=>i.shop118===id||(i.exit&&i.exit.to==='l118_'+id)); return its.map(i=>({x:i.x,z:i.z,r:i.radius||1.4,label:i.label,hidden:!!i.hidden,enter:!!i.exit})); })"""
-LOOKS_JS = r"""(()=>GAME.E.interactables.filter(i=>i.look&&!i.seat&&!i.exit&&!i.shop118&&!i.hidden&&!i.npc).map(i=>({x:i.x,z:i.z,r:i.radius||0.8})))()"""
+LOOKS_JS = r"""(()=>{ const sid=(GAME.G.zone||'').replace(/^l118_/,''), LY=(typeof L118_SHOP_LAYOUTS!=='undefined'&&L118_SHOP_LAYOUTS[sid])||{interact:[]};
+  return GAME.E.interactables.filter(i=>i.look&&!i.seat&&!i.exit&&!i.shop118&&!i.hidden&&!i.npc).map(i=>{ const q=(LY.interact||[]).find(q=>Math.abs(q.x-i.x)<0.01&&Math.abs(q.z-i.z)<0.01)||{};
+    return {x:i.x,z:i.z,r:i.radius||0.8,label:i.label||'',id:q.id||'',data:typeof i.look==='string'?i.look:''}; }); })()"""
+# 有字的板面：名字或材質（INTERIOR_FACE＝店內景深卡，沒有字，不算）
+SIGN_FIND_JS = r"""(rg=>{ const E=GAME.E, re=/print|SIGN_FACE|VSIGN_FACE|ABOARD|MENU_FACE|menubox|signbox|price|poster|menu|signs_atlas/i;
+  const v=new THREE.Vector3(), tris=[];
+  E.scene.traverse(o=>{ if(!o.isMesh||o.isInstancedMesh||!o.geometry||!o.geometry.attributes.position) return; let x=o, vis=true; while(x){ if(!x.visible){ vis=false; break; } x=x.parent; } if(!vis) return;
+    const mn=[].concat(o.material).map(m=>(m&&m.name)||'').join(','); if(!re.test(o.name+' '+mn)||/INTERIOR_FACE/.test(o.name)) return;
+    o.updateWorldMatrix(true,false); const P=o.geometry.attributes.position, I=o.geometry.index, n=I?I.count:P.count; const nm=(o.name||mn||'mesh').replace(/[^A-Za-z0-9_]+/g,'_');
+    for(let k=0;k+2<n&&k<60000;k+=3){ const b=[1e9,1e9,1e9,-1e9,-1e9,-1e9]; for(let j=0;j<3;j++){ v.fromBufferAttribute(P,I?I.getX(k+j):k+j).applyMatrix4(o.matrixWorld); b[0]=Math.min(b[0],v.x); b[1]=Math.min(b[1],v.y); b[2]=Math.min(b[2],v.z); b[3]=Math.max(b[3],v.x); b[4]=Math.max(b[4],v.y); b[5]=Math.max(b[5],v.z); }
+      const cx=(b[0]+b[3])/2, cz=(b[2]+b[5])/2; if(cx<rg.x0||cx>rg.x1||cz<rg.z0||cz>rg.z1) continue; tris.push({b,nm}); } });
+  const cl=[], g=0.2;   /* 依距離分群：外框（放寬 0.2 m）碰到就併 */
+  for(const t of tris){ let hit=null; for(const c of cl){ const a=c.b, b=t.b; if(a[0]-g<=b[3]&&b[0]<=a[3]+g&&a[1]-g<=b[4]&&b[1]<=a[4]+g&&a[2]-g<=b[5]&&b[2]<=a[5]+g){ hit=c; break; } }
+    if(hit){ for(let j=0;j<3;j++){ hit.b[j]=Math.min(hit.b[j],t.b[j]); hit.b[j+3]=Math.max(hit.b[j+3],t.b[j+3]); } hit.n++; hit.nm[t.nm]=1; } else cl.push({b:t.b.slice(),n:1,nm:{[t.nm]:1}}); }
+  for(let pass=0;pass<3;pass++) for(let i=0;i<cl.length;i++) for(let j=cl.length-1;j>i;j--){ const a=cl[i].b, b=cl[j].b; if(a[0]-g<=b[3]&&b[0]<=a[3]+g&&a[1]-g<=b[4]&&b[1]<=a[4]+g&&a[2]-g<=b[5]&&b[2]<=a[5]+g){ for(let k=0;k<3;k++){ a[k]=Math.min(a[k],b[k]); a[k+3]=Math.max(a[k+3],b[k+3]); } cl[i].n+=cl[j].n; Object.assign(cl[i].nm,cl[j].nm); cl.splice(j,1); } }
+  return cl.map(c=>({nm:Object.keys(c.nm).join('+').slice(0,40), n:c.n, c:[(c.b[0]+c.b[3])/2,(c.b[1]+c.b[4])/2,(c.b[2]+c.b[5])/2], s:[c.b[3]-c.b[0],c.b[4]-c.b[1],c.b[5]-c.b[2]]}))
+    .filter(c=>Math.max(c.s[0],c.s[1],c.s[2])>=0.12).sort((a,b)=>Math.max(b.s[0],b.s[2])*b.s[1]-Math.max(a.s[0],a.s[2])*a.s[1]); })"""
+# 【捷徑機位】：鏡頭擺到 e、看 l；藏人物、藏 HUD（只留 canvas），等幾幀再拍
+SIGN_CAM_JS = r"""(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
+  if(!window.__ccHid){ window.__ccHid=[E.player.obj,...E.npcs.map(n=>n.obj)].filter(o=>o&&o.visible); window.__ccHid.forEach(o=>o.visible=false); }
+  if(!document.getElementById('__ccSignCss')){ const st=document.createElement('style'); st.id='__ccSignCss'; st.textContent='*{visibility:hidden!important} canvas{visibility:visible!important}'; document.head.appendChild(st); }
+  const f0=E.frame; for(let i=0;i<240&&E.frame<f0+5;i++) await new Promise(r=>setTimeout(r,200)); return E.frame-f0; })"""
+SIGN_END_JS = r"""(()=>{ const E=GAME.E; (window.__ccHid||[]).forEach(o=>o.visible=true); window.__ccHid=null; const st=document.getElementById('__ccSignCss'); if(st) st.remove(); E.endCinematic(); return true; })()"""
+OLD_LOOK_KW = ['書架', '漫畫', '念書', '讀書', '桌位', '咖啡店', '咖啡廳', '自習', '書本', '小說']   # 舊店內容（慢讀咖啡的書架、漫畫、念書位…）
+LOOK_ROWS = []     # 「看的東西」逐字表
 INSIDE_JS = r"""(()=>{ const its=GAME.E.interactables; const o=its.find(i=>i.shop118); const x=its.find(i=>i.exit&&i.exit.to==='lane118'); return {order:o?{x:o.x,z:o.z,r:o.radius||0.8}:null, exit:x?{x:x.x,z:x.z,r:x.radius||0.7}:null}; })()"""
 LAYOUT_JS = r"""(()=>{ const L=typeof LANE118_LAYOUT!=='undefined'?LANE118_LAYOUT:null; if(!L) return null; const fw=L.facade.west, fe=L.facade.east;
   return {fw,fe,shops:L.shops.map(s=>({id:s.id,side:s.side,x:s.side==='W'?fw+0.9:fe-0.9,z:(s.z0+s.z1)/2,z0:s.z0,z1:s.z1})), lamps:[-30,-10,10,28].map(z=>[fe-0.35,z])}; })()"""
