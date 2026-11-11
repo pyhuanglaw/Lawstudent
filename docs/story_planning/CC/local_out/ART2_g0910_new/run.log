@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART2_g0910_new\out
+CC 汀州路 v1：PARTS G0910,GGEXT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 14.0 時 (0.0,16.0) （公館外觀照）
+  [  53.3s] [GGEXT 1400] 棟號 x：{"G00": -62.4, "G01": -52.2, "G02": -41, "G03": -28.8, "G04": -18.6, "G05": -9.4, "G06": 0.3, "G07": 10.5, "G08": 19.6, "G09": 28.1, "G10": 37.1, "G11": 46.6, "G12": 55.6, "G13": 64.1, "G14": 73.1, "G15": -81}；正式店面模型 gongguan_shops_glb：True
+  [  53.3s] [GGEXT 1400] G09 店門附近的互動點：[{"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "to": "gg_xianguo", "look": null, "tz": null, "tzd": "xianguo", "gate": false, "seat": false}, {"label": "看沈三盃黑糖鮮奶", "x": 29, "z": 12.35, "r": 1.2, "to": null, "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  53.6s] [GGEXT 1400 G09] 外觀照 5 張（gg3ext_g09_1400_*）
+  [  53.6s] [GGEXT 1400] G10 店門附近的互動點：[{"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "look": null, "tz": null, "tzd": null, "gate": true, "seat": false}, {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "to": "flower_notes", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  54.0s] [GGEXT 1400 G10] 外觀照 5 張（gg3ext_g10_1400_*）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 20.5 時 (0.0,16.0) （公館外觀照）
+  [  70.9s] [GGEXT 2030] 棟號 x：{"G00": -62.4, "G01": -52.2, "G02": -41, "G03": -28.8, "G04": -18.6, "G05": -9.4, "G06": 0.3, "G07": 10.5, "G08": 19.6, "G09": 28.1, "G10": 37.1, "G11": 46.6, "G12": 55.6, "G13": 64.1, "G14": 73.1, "G15": -81}；正式店面模型 gongguan_shops_glb：True
+  [  70.9s] [GGEXT 2030] G09 店門附近的互動點：[{"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "to": "gg_xianguo", "look": null, "tz": null, "tzd": "xianguo", "gate": false, "seat": false}, {"label": "看沈三盃黑糖鮮奶", "x": 29, "z": 12.35, "r": 1.2, "to": null, "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  71.2s] [GGEXT 2030 G09] 外觀照 5 張（gg3ext_g09_2030_*）
+  [  71.3s] [GGEXT 2030] G10 店門附近的互動點：[{"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "look": null, "tz": null, "tzd": null, "gate": true, "seat": false}, {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "to": "flower_notes", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  71.5s] [GGEXT 2030 G10] 外觀照 5 張（gg3ext_g10_2030_*）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 14.0 時 (22.0,20.0) （公館騎樓 G08、G09 之間）
+  [  86.8s] [G0910 G09] 門口 2.5 m 內的互動點：[]
+PASS [G0910 G09] 門口沒有這一格自己的互動點（「往汀州路」那種巷口照實記、不算）  []
+  [  86.8s] [G0910 G10] 門口 2.5 m 內的互動點：[{"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "look": null, "tz": null, "tzd": null, "gate": true, "seat": false}]
+PASS [G0910 G10] 門口沒有這一格自己的互動點（「往汀州路」那種巷口照實記、不算）  [{"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "look": null, "tz": null, "tzd": null, "gate": true, "seat": false}]
+FAIL [G0910] 搖桿沿騎樓（z 20）走過 G09、G10 門口再走回來（91 秒、卡住 0 次）  {"x": 20.97, "z": 20}
+PASS [G0910] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 14.0 時 (28.1,21.0) （舊存檔站在 G09 門口）
+PASS [G0910 舊存檔 G09 (28.1,21)] 讀得進來、站得住（挪 0.00 m）、推得動  [{"zone": "gongguan", "h": 14.06, "x": 28.1, "z": 21, "free": true, "ent": false, "busy": false, "fb": 0}, {"zone": "gongguan", "h": 14.07, "x": 28.93, "z": 15.01, "free": true, "ent": false, "busy": false, "fb": 0}]
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 14.0 時 (37.1,21.0) （舊存檔站在 G10 門口）
+PASS [G0910 舊存檔 G10 (37.1,21)] 讀得進來、站得住（挪 0.00 m）、推得動  [{"zone": "gongguan", "h": 14.06, "x": 37.1, "z": 21, "free": true, "ent": false, "busy": false, "fb": 0}, {"zone": "gongguan", "h": 14.07, "x": 37.84, "z": 14.59, "free": true, "ent": false, "busy": false, "fb": 0}]
+PASS 沒有 JS 例外  []
+FAILED 1: [G0910] 搖桿沿騎樓（z 20）走過 G09、G10 門口再走回來（91 秒、卡住 0 次）
