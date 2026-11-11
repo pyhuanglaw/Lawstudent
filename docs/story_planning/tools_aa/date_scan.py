@@ -15,7 +15,7 @@ for l in out.split('\n'):
     if m: D[loc].append((int(m.group(1)),m.group(2),m.group(3)))
 strip=lambda t: re.sub(r'（[^）]*）','',t).strip()
 nsent=lambda t: len([c for c in re.split(r'[。！？]',strip(t)) if c.strip()])
-allv=collections.defaultdict(list); tot=collections.Counter(); up=0; tom=0
+allv=collections.defaultdict(list); tot=collections.Counter(); heads=collections.Counter(); up=0; tom=0
 for k,v in D.items():
     hers=[(i,key,t) for i,key,t in v if not t.startswith('「') and strip(t)]
     par=[(i,t) for i,key,t in hers if re.search('我爸|我媽|爸媽',t)]
@@ -31,7 +31,10 @@ for k,v in D.items():
     for i,key,t in hers:
         tot[nsent(t)]+=1; up+=strip(t).startswith('上次'); tom+=('closing' in key and '明天' in t)
     for i,key,t in v: allv[t].append((k,i))
+    for i,key,t in hers:
+        if 'closing' in key: heads[strip(t)[:3]]+=1
 for t,w in allv.items():
     if len({x[0] for x in w})>1 and not t.startswith('「') and not t.startswith('（') and len(t)>5: print('重複',t,w)
 n=sum(tot.values())
+print('道別格開頭三個字出現四次以上的（BB_327：同一個開頭留四個上下）：',{k:v for k,v in heads.items() if v>=4})
 print('整批：',n,'格；每格句數',dict(sorted(tot.items())),'；兩句格',f'{round(100*tot[2]/max(1,n))}%','；「上次」開頭',up,'；收尾講明天',tom)
