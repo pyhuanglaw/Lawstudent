@@ -229,11 +229,15 @@ async def part_scoot(pg, cdp):
             let rf=1,maxF=L.length?1:0; for(let i=1;i<L.length;i++){ if(L[i].fam===L[i-1].fam&&L[i].z-L[i-1].z<=1.4) rf++; else rf=1; maxF=Math.max(maxF,rf); }
             const famCount={}; L.forEach(i=>{ famCount[i.fam]=(famCount[i.fam]||0)+1; });
             res[k]={n:L.length,kinds:new Set(L.map(i=>i.code)).size,colors:new Set(L.map(i=>i.col)).size,maxSameCodeColor:maxRun,maxSameCode:maxRunC,maxSameFamily:maxF,families:famCount,gaps}; }
+          /* BB 00:07（機車第三版）：全街合計——台數、黑與深藍比例、S1A＋S1B＋S2 合計比例、相鄰同色系最長（兩側取大）、同車尾（同款）連續最長 */
+          { const A=side.W.concat(side.E), n=A.length; res.all={n, darkPct:n?+(100*A.filter(i=>i.fam==='黑與深藍').length/n).toFixed(1):null, s12Pct:n?+(100*A.filter(i=>/^(S1A|S1B|S2)(_|$)/.test(i.code||'')).length/n).toFixed(1):null,
+              maxSameFamily:Math.max(res.W.maxSameFamily,res.E.maxSameFamily), maxSameCode:Math.max(res.W.maxSameCode,res.E.maxSameCode), byCode:A.reduce((o,i)=>(o[i.code]=(o[i.code]||0)+1,o),{})}; }
           const TEA=(typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT.shops.find(q=>q.id==='w_tea'):null);
           res.drinkShop=TEA?side.W.filter(i=>i.z>TEA.z0-3&&i.z<TEA.z1+3).map(i=>({z:i.z,code:i.code,col:i.col,fam:i.fam})):null;   /* 飲料店（手搖飲 w_tea）前那一群 */
           return {tzScooters:z.tzScooters, tzBikes:z.tzBikes, tzParkGroups:z.tzParkGroups, tzParkGaps:z.tzParkGaps, tzScooterGLB:z.tzScooterGLB===undefined?'undefined':z.tzScooterGLB,
             glbModels:V.map(v=>v.code), scPick:ud.scPick||null, scColors:ud.scColors||null, groups:ud.scPerGroup?Object.keys(ud.scPerGroup).length:null, fallbackFound:!!scG, side:res}; })()""")
         R.note('[SCOOT %.2f] 統計：%s' % (h, J(st)))
+        if st and st.get('side') and st['side'].get('all'): R.note('[SCOOT %.2f] 全街：%d 台；黑與深藍 %s%%；S1A＋S1B＋S2 %s%%；相鄰同色系最長 %s 台；同車尾連續最長 %s 台；各款 %s（照 attachWzScooters 的挑法重算，不是讀模型）' % (h, st['side']['all']['n'], st['side']['all']['darkPct'], st['side']['all']['s12Pct'], st['side']['all']['maxSameFamily'], st['side']['all']['maxSameCode'], J(st['side']['all']['byCode'])))
         open(os.path.join(OUT, 'scoot_stats_%s.json' % str(h).replace('.', '')), 'w', encoding='utf-8').write(J(st))
         R.check('[SCOOT %.2f] 正式機車模型有掛上（tz_scooters_glb 存在、有網格）' % h, bool(res and res['glbGroup'] and res['glbMeshes'] > 0), J(res))
         b = await pg.screenshot(type='jpeg', quality=80); open(os.path.join(OUT, 'scoot_%s.jpg' % str(h).replace('.', '')), 'wb').write(b)
