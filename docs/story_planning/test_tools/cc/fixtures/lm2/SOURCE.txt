@@ -1,3 +1,4 @@
+（BB 01:02 第二則，取代上一則）LAWWW 已重匯：遊戲 93f731790 起和企劃線 804f55bb3 一樣 → AA_750_limao.json＝804f55bb3（逐句對這份）；AA_750_limao_227db1c9e.json 只留作舊版紀錄。
 AA_750_limao.json：BB 01:02 決定逐句對用「遊戲匯入的那一版」＝企劃線 227db1c9e 的 docs/story_planning/AA_750_limao.json（原樣，gh api ?ref=227db1c9e 抓）。
 AA_750_limao_804f55bb3.json：企劃線最新（比遊戲新一版），只拿來列差別：DIFF_227db1c9e_vs_804f55bb3.md（給 LAWWW 重匯）。
 以下是第一版的說明（當時探針用 804f55bb3）：

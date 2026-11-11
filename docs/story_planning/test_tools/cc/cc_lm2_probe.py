@@ -4,7 +4,7 @@ Windows＋GPU（PC runner）≠ iPhone；雲端 SwiftShader 只做探針自檢�
   身分揭曉 S.revealOpen／hintDue／askDue 第 92～94 行、入口 A 事件 S.eventA 第 165 行、入口 B S.studyDoor 第 141 行、書房 S.decorate 第 146 行、說話的人 S.who 第 106 行、ADV 模糊背景 S.begin 第 111 行）、
   src/data/limao.js（AA_750 @227db1c9e 匯入）、src/data/tingzhou_layout.js limao（table.at (28.3,3.3) r1.0、door (27.4,4.75) r0.9、19:00～23:30）、
   src/data/tz_shops_layout.js limao（室內：書房的門 (1.0,−0.65)、study.points、partition z −1.2；離開 (0.9,4.6)）、src/tz_shops3d.js（setStudy、STUDY_* 節點）。
-稿：DRAFT_DIR（預設 fixtures/lm2）/AA_750_limao.json＝企劃線 227db1c9e（遊戲匯入的那一版；BB 01:02：逐句對用這版）。比較新的 804f55bb3 另存 AA_750_limao_804f55bb3.json，差別表 fixtures/lm2/DIFF_227db1c9e_vs_804f55bb3.md（給 LAWWW 重匯）。
+稿：DRAFT_DIR（預設 fixtures/lm2）/AA_750_limao.json＝企劃線 804f55bb3（BB 01:02：遊戲 93f731790 起已重匯、內容一樣；受測 f8ff49f43 以後）。舊的 227db1c9e 另存 AA_750_limao_227db1c9e.json。
 共用：每一次互動前後印 錢／各科成績（G.courses.grades）／每個人的關係（G.rel、G.social.rel）／戀愛（G.flags.romance）／全部旗標的差異；說的每一句由 GAME.say 的包裝記（說話的人、畫面上的名字、字、ADV 模式），
   「探針包了 GAME.say／choose／caption 只為了記錄，不改內容」。時間判斷一律用「按下去那一刻的 G.hour」（PC 上遊戲鐘約 0.45 分／秒，一直在走）。
 【前置／捷徑】（log 都印 [前置／捷徑]）：讀檔到汀州路巷 A 某日某時（L.load_state＝遊戲自己的 applySave；flags 用 GAME.defaults() 的再加減）；跳日、跳回 19:30（保留當時整個 G）；
