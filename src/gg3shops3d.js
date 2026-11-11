@@ -145,7 +145,7 @@ const GG3=(function(){
   /* ---------- 洗樂洗衣坊 ---------- */
   const lastWait={i:-1};
   S.washWait=()=>{ const L=D().tz_xile.wait; let i=Math.min(L.length-1,Math.floor(S.rand()*L.length)); if(L.length>1&&i===lastWait.i) i=(i+1)%L.length; lastWait.i=i; return L[i]; };
-  S.wash=async function(GM){ const G=GM.G, X=D().tz_xile.wash, F=F_(G); if(F.GG3_WASH_DAY===G.day){ if(GM.toast) GM.toast(S.SYS.washed,2600); return 'done'; }   /* 一天最多洗一次 */
+  S.wash=async function(GM,o0){ const G=GM.G, X=D().tz_xile.wash, F=F_(G); if(F.GG3_WASH_DAY===G.day){ if(GM.toast) GM.toast(S.SYS.washed,2600); return 'done'; }   /* 一天最多洗一次 */
     const i=await GM.choose(X.menu.map(m=>({t:m.t,dim:(G.money|0)<m.p})).concat([{t:X.no}])); if(!(i>=0&&i<X.menu.length)) return null; const m=X.menu[i];
     if((G.money|0)<m.p){ if(GM.toast) GM.toast(S.SYS.short); return 'short'; }
     const w=await GM.choose([{t:X.stay,hint:m.min+' 分鐘'},{t:X.go}]); if(w!==0&&w!==1) return null;
@@ -153,7 +153,8 @@ const GG3=(function(){
     if(w===0){ F.GG3_WASH=null; await S.seated(GM,async()=>{ await GM.say(null,S.washWait()); if(GM.fade) await GM.fade(true); GM.advance(m.min/60); if(GM.fade) await GM.fade(false); },i2=>/^c\d+$/.test(i2.tzSeat));   /* 坐在「坐著等」的塑膠椅上等 */
       if(GM.autosave) GM.autosave(); return 'stay'; }
     F.GG3_WASH={day:G.day,ready:+(abs(G)+m.min/60).toFixed(4),done:false}; if(GM.autosave) GM.autosave();
-    const o=S.outOf(GM,'tz_xile'); await GM.enter(o.to,o.spawn); return 'go'; };   /* 先去別的地方＝走出店門 */
+    if(!(o0&&o0.deferOut)) await S.washOut(GM); return 'go'; };   /* 先去別的地方＝走出店門（從互動點按的：場景結束以後才走出去，S.interact）*/
+  S.washOut=async function(GM){ const o=S.outOf(GM,'tz_xile'); await GM.enter(o.to,o.spawn); };
   S.washBackDue=function(G){ const r=G&&G.flags&&G.flags.GG3_WASH; if(!r||typeof r!=='object'||r.done||typeof r.ready!=='number') return false; const t=abs(G); if(t<r.ready-1e-6) return false;
     if(t-r.ready>24){ r.done=true; return false; } return true; };   /* 過了一天才回來＝不說（「還是溫的」對不上）*/
   S.washBack=async function(GM){ const G=GM.G, r=G.flags.GG3_WASH; r.done=true; GM.sceneBegin(); try{ await GM.say(null,pick(D().tz_xile.back)); } finally { GM.sceneEnd(); } if(GM.autosave) GM.autosave(); return 'back'; };
@@ -247,8 +248,10 @@ const GG3=(function(){
   S.ACT={gg_antai_counter:S.antaiTalk,gg_antai_shelf:S.antaiShelf,gg_antai_bp:S.antaiBp,gg_fruit_counter:S.fruitBuy,gg_rong_counter:S.rongBuy,gg_rong_cart:S.rongCart,
     tz_xile_wash:S.wash,tz_xile_change:S.change,tz_yin_counter:S.yinCounter,tz_taimi_order:S.taimiOrder};
   S.handles=(k,kind)=>!!kind&&!!D()&&!!D()[k]&&(!!S.ACT[kind]||!!(D()[k].look&&D()[k].look[kind]));
-  S.interact=async function(GM,it){ const G=GM.G, k=G.zone, kind=it.kind; GM.sceneBegin();
-    try{ if(S.ACT[kind]) return await S.ACT[kind](GM); const t=S.look(k,kind); if(t) await GM.say(null,t); return t; } finally { GM.sceneEnd(); } };
+  S.interact=async function(GM,it){ const G=GM.G, k=G.zone, kind=it.kind; let r=null; GM.sceneBegin();
+    try{ if(kind==='tz_xile_wash') r=await S.wash(GM,{deferOut:true}); else if(S.ACT[kind]) r=await S.ACT[kind](GM); else { r=S.look(k,kind); if(r) await GM.say(null,r); } } finally { GM.sceneEnd(); }
+    if(kind==='tz_xile_wash'&&r==='go') await S.washOut(GM);   /* 換區域在場景外面（和打烊請你出來一樣）*/
+    return r; };
 
   /* ---------- 區域：座位補成 zone.seats、標記接好的互動點 ---------- */
   S.attach=function(E,z,k){ if(!z||!E) return z; const IT=E.interactables||[]; if(!Array.isArray(z.seats)) z.seats=IT.filter(i=>i&&i.tzSeat&&i.seat).map(i=>i.seat);

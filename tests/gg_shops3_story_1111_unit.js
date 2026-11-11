@@ -191,6 +191,9 @@ await sec(9,async()=>{ const X=L.tz_xile;
     G.hour=17; H.said=[]; GM.enterN++; G.flags.GG3_DOOR={tz_xile:G.day}; const ok=GG3.tick(GM); await sleep(5);
     check('9 好了以後回到店裡（tick）：回來的時候一句、只說一次',ok===true&&H.said.length===1&&X.back.includes(H.said[0].t)&&!GG3.washBackDue(G),J(said())); }
   { const G=fresh('2025-10-01',15,'tz_xile'); G.flags.GG3_WASH={day:G.day-2,ready:(G.day-2)*24+16,done:false}; check('9 過了一天才回來：不說（「還是溫的」對不上）',!GG3.washBackDue(G)); }
+  { fresh('2025-10-02',15,'tz_xile'); let depth=0, at=null; const sb=GM.sceneBegin, se=GM.sceneEnd, en=GM.enter; GM.sceneBegin=()=>{ depth++; }; GM.sceneEnd=()=>{ depth--; }; GM.enter=async z=>{ at=depth; H.entered.push(z); H.G.zone=z; };
+    H.picks=['只洗','先去別的地方']; try{ await STORY.interact({tzPoint:'wash',kind:'tz_xile_wash',label:'洗衣機'},GM); } finally { GM.sceneBegin=sb; GM.sceneEnd=se; GM.enter=en; }
+    check('9 從洗衣機按「先去別的地方」：場景結束以後才走出去（換區域不在對話裡）',H.entered[0]==='tingzhou'&&at===0&&depth===0,J([H.entered,at,depth])); }
   { const G=fresh('2025-10-01',15,'tz_xile'); H.picks=['零錢兌換機']; await GG3.change(GM); check('9 兌幣機：換零錢那一句、錢不變',G.money===5000&&H.has(X.change.narr));
     H.said=[]; H.picks=['洗衣精']; await GG3.change(GM); check('9 洗衣精 10 元：那一句旁白',G.money===4990&&H.has(X.soap.narr));
     H.said=[]; H.picks=['柔軟精']; await GG3.change(GM); check('9 柔軟精 10 元：稿上的旁白寫的是洗衣精＝不說、寫「買了柔軟精」',G.money===4980&&!H.said.length&&toasts.includes('買了柔軟精')); } });
