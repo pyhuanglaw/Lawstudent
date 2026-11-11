@@ -416,7 +416,22 @@ async def finish(pg, cdp, P):
     if cons: R.note('[%s] console.error（只記）：%s' % (P.tag, J(cons)))
     await close_phone(pg, cdp)
     s = await st(pg)
-    if s['home']:
+    # BB 20:02（N1_AA811 HEHUAN_A「推得動」FAIL＝TEST_BUG）：畢業後篇在家的選單（home3d.js S.loop）在畫面上＝遊戲在等你選，不推搖桿；
+    # 記選項、照字選第一個能選的，看時間（key／hour）或畫面（選單換了、對話、手機）有沒有往前走（真實 60 秒上限，雲端 1 fps 約 5 秒遊戲時間）
+    btn = await pg.evaluate("(()=>[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent!==null&&!b.disabled).map(b=>{ const r=b.getBoundingClientRect(); return {t:(b.textContent||'').trim(), x:r.left+r.width/2, y:r.top+r.height/2}; }))()")
+    if btn:
+        k0 = (s['key'], s['hour']); m0 = [x['t'] for x in btn]
+        R.note('[%s] 演完以後畫面上是選單（在家 %s）：%s → 照字選第一個「%s」，不推搖桿' % (P.tag, s.get('home'), J(m0), m0[0]))
+        await L.touch_tap(cdp, btn[0]['x'], btn[0]['y'])
+        t0 = time.time(); moved = None
+        while time.time() - t0 < 60:
+            await pg.wait_for_timeout(500)
+            s2 = await st(pg)
+            m2 = await pg.evaluate("(()=>[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent!==null).map(b=>(b.textContent||'').trim()))()")
+            if (s2['key'], s2['hour']) != k0 or m2 != m0 or s2['dlg'] or s2['phone']:
+                moved = J({'key': s2.get('key'), 'hour': s2.get('hour'), 'menu': m2[:6], 'dlg': s2.get('dlg'), 'phone': s2.get('phone')}); break
+        R.check('[%s] 演完以後沒有卡住（選單選了「%s」以後時間或畫面往前走）' % (P.tag, m0[0]), moved is not None, moved or J(await pg.evaluate(IDLE_JS)))
+    elif s['home']:
         k0 = (s['key'], s['hour']); t0 = time.time(); moved = None
         while time.time() - t0 < 60 * MAXS:
             s2 = await st(pg)

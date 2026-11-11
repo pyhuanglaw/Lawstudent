@@ -64,6 +64,8 @@ N1_X324_new | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_plan
 N1_PAYS | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_date_pays_probe.py | index.html | 100 | PARTS=ME,SHE,SPLIT,BROKE,BROKE2;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
 # BB 19:12：SPLIT_PURE（以安 D22 石門水庫活魚料理「我們都吃。」→「一人一半。」，走到望月台停車場按「開車出發」）；雲端 b77a r2 全 PASS
 N1_PAYS_pure | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_date_pays_probe.py | index.html | 40 | PARTS=SPLIT_PURE;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
+# BB 20:02：N1_AA811 HEHUAN_A「推得動」＝TEST_BUG（在家選單在等選）；探針改成照字選、看往前走，ab28 補跑 HEHUAN_A（排在 X324／PAYS／GG3 後面）
+N1_AA811_A | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_aa811_probe.py | index.html | 40 | PARTS=HEHUAN_A;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
 N1_SEASON_gg | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 15 | PARTS=WALK,DOORS,FPS;FUNC_DATES=cny-3;ZONES=gongguan;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_SEASON_wz | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 15 | PARTS=WALK,DOORS,FPS;FUNC_DATES=cny-3;ZONES=wenzhou;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_POOL_swim | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_pool_probe.py | index.html | 10 | PARTS=OPEN,FPS,CLOSED;Q=high;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
