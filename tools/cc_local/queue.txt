@@ -50,6 +50,8 @@ N1_AA814 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_plannin
 AA814_old | 9d45ef8b36d5df00cdbca70661a4ca13e9fce813 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 110 | SHA=9d45ef8b36d5df00cdbca70661a4ca13e9fce813
 # BB 18:24 ⑥ X324（以安／芷若 D01 逐句＋選項影響關係）、AA_812 誰付錢（ME／SHE／SPLIT／BROKE）；BB 18:54 之後新排的一律 01679bc0a
 N1_X324 | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_x324_date_probe.py | index.html | 80 | PARTS=AN,ZR;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
+# BB 19:30：LAWWW 35c4b140c 系列（4e5a9a47c 1,765 個選項 fx）GHA 綠給 SHA 後放；01679 那行＝修改前對照（fx 沒有＝預期 FAIL）
+#HOLD新SHA N1_X324_new | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_x324_date_probe.py | index.html | 80 | PARTS=AN,ZR;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
 # BB 19:09：AA_812 已改（錢不夠她付＋旁白、「我請」不平分、D31.egg 不算）→ N1_PAYS 等 LAWWW 新 SHA（GHA 綠）再換 SHA、拿掉 #HOLD新SHA；判準已改（探針 BROKE2＝第二次不夠只有旁白）
 #HOLD新SHA N1_PAYS | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_date_pays_probe.py | index.html | 100 | PARTS=ME,SHE,SPLIT,BROKE,BROKE2;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
 N1_SEASON_gg | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 15 | PARTS=WALK,DOORS,FPS;FUNC_DATES=cny-3;ZONES=gongguan;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
