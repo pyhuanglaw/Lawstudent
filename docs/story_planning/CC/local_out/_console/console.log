@@ -1,11 +1,3 @@
-[11:09:50] [res] cpu=14% mem=51% (16.2/31.4 GB) chrome_testing=8  START NM_zone_old
-[11:11:06] [res] cpu=0% mem=52% (16.3/31.4 GB) chrome_testing=8  END NM_ggnav_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       d30edd2f8..89b0c0ee9  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[11:11:11] ==== END   NM_ggnav_old  exit=1  160s   ====
-[11:11:15] memory 52% before starting NM_reach_old (2 running)
-[11:11:15] ==== START NM_reach_old  (game @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
 [11:11:18] [res] cpu=8% mem=52% (16.4/31.4 GB) chrome_testing=8  START NM_reach_old
 [11:13:33] [res] cpu=9% mem=52% (16.7/31.4 GB) chrome_testing=8  END NM_zone_old
     To https://github.com/pyhuanglaw/Lawstudent.git
@@ -1998,3 +1990,11 @@
 [19:27:01] ==== START STAIRDN_B_new  (probe @ 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329) ====
 [19:27:04] [res] cpu=7% mem=48% (15.2/31.4 GB) chrome_testing=10  START STAIRDN_B_new
 [19:27:36] [res] cpu=22% mem=50% (15.7/31.4 GB) chrome_testing=9  END STAIR_7d_run10
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       92eed5466..146eb6df9  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:27:42] ==== END   STAIR_7d_run10  exit=1  1119s   ====
+[19:27:45] memory 51% before starting STAIRDN_L_new (2 running)
+[19:27:45] ==== START STAIRDN_L_new  (probe @ 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329) ====
+[19:27:48] [res] cpu=4% mem=51% (16.1/31.4 GB) chrome_testing=9  START STAIRDN_L_new
+[19:28:25] [res] cpu=20% mem=47% (14.8/31.4 GB) chrome_testing=9  END REGA2DD_wancai
