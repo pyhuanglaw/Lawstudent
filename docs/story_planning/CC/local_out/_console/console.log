@@ -1,13 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:02:49] ==== END   L118D_C1  exit=0  241s   ====
-[15:02:52] memory 46% before starting L118A_SPECIAL (2 running)
-[15:02:52] ==== START L118A_SPECIAL  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
-[15:02:55] [res] cpu=14% mem=47% (14.7/31.4 GB) chrome_testing=9  START L118A_SPECIAL
-[15:04:04] 正在跑：L118D_H_F_r2（已跑 6 分／上限 15 分）、L118D_C6（已跑 2 分／上限 15 分）、L118A_SPECIAL（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
-[15:07:17] [res] cpu=12% mem=49% (15.5/31.4 GB) chrome_testing=10  END L118A_SPECIAL
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       8bc8e1396..759f09eab  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [15:07:23] ==== END   L118A_SPECIAL  exit=0  265s   ====
 [15:07:32] memory 47% before starting L118D_E_MAIN (2 running)
 [15:07:32] ==== START L118D_E_MAIN  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
@@ -1998,3 +1989,12 @@
 [23:40:13] ==== START LIVE25_deploy_r2  (game @ dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c) ====
 [23:40:16] [res] cpu=6% mem=42% (14.2/31.4 GB) chrome_testing=10  START LIVE25_deploy_r2
 [23:41:13] [res] cpu=7% mem=44% (14.0/31.4 GB) chrome_testing=9  END L118A_DOOR_a
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c748e4dab..62c5daaa3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:41:21] ==== END   L118A_DOOR_a  exit=0  188s   ====
+[23:41:32] memory 43% before starting LIVE25_main_r2 (2 running)
+[23:41:32] ==== START LIVE25_main_r2  (probe @ dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c) ====
+[23:41:35] [res] cpu=4% mem=43% (13.6/31.4 GB) chrome_testing=9  START LIVE25_main_r2
+[23:44:05] 正在跑：STAIR_old_run_r2（已跑 6 分／上限 40 分）、LIVE25_deploy_r2（已跑 3 分／上限 15 分）、LIVE25_main_r2（已跑 2 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:45:35] [res] cpu=3% mem=48% (15.2/31.4 GB) chrome_testing=9  END LIVE25_main_r2
