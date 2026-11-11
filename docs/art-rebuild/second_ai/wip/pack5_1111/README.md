@@ -1,8 +1,11 @@
 # 美術第五包（LAWWW2 帳號 A，2026-11-11）：室內天花板（P0）＋花序二樓樓梯口＋攤子擋住人
 
-狀態：**WORK_IN_PROGRESS：相關測試過了，全部 Node 測試在跑**（跑完沒有失敗才算交付；結果補在這一行）。預覽是 Blender，不是遊戲截圖（D131）。
+狀態：**READY_FOR_REVIEW**（2026-11-11 03:5x UTC）。預覽是 Blender，不是遊戲截圖（D131）。
+全部 Node 測試 1259 支（`regression_full.log`）：1254 支 ALL PASS；`bookstore_exit_unit` 最後一行是 Node 讀不到網址的警告（結束碼 0）；**四支印 FAILED，都不是這一包造成的**：
+- `date_lines_aa373_unit`、`date_wish_unit`、`peishan_dates_1111_unit`：這個容器沒有企劃線的新 commit（「讀不到原檔」「invalid object name 82c946ad7」）；`git fetch origin claude/story-planning` 以後三支重跑都 ALL PASS。
+- `exam_land_seat_unit`「1. 選完、下一次出選項：side 拿掉」：只讀 `src/game3d.js`、`src/adv3d.js`，這一包沒有碰這兩個檔（和基底 `4eaf0d5e7` 一字不差）——是基底當時的狀態（之後 dev `5f33ffd4c` 又改了這兩個檔）。請 LAWWW 在自己的樹上確認。
 
-- patch：`pack5_v1.patch`（23 個檔，基底 dev `4eaf0d5e7`，已含第三、四包和花序第 2 版）。
+- patch：`pack5_v1.patch`（23 個檔，基底 dev `4eaf0d5e7`，已含第三、四包和花序第 2 版；在 `be6014396` 上試過 `git apply --3way`，乾淨）。
 - 依據：LAWWW 11-11 03:11、03:15；BB 03:15（企劃線 BB_255；CC 的圖 cc-testing `shots/0233_lm_cam2_compare.jpg`、`shots/0233_nm_cam_sheet.jpg`）。
 
 ## 一、禮貌生財室內整片米色：真正的原因是天花板（P0；我上一包判斷錯了）
@@ -32,6 +35,7 @@
 - 手機殼攤的背面（BB：全黑、像沒做完）：網板背面掛一塊藍白條紋的帆布，下面兩個紙箱和一個收納箱（都在攤位的導航阻擋裡）。套圈圈、襪子那兩攤的背面沒有動（BB 沒有提；需要的話下一包）。
 - 測試 `tests/tingzhou_unit.js` 第 14 節跟著改（三個攤位材質都要標、街景的材質不標）。
 - **遊戲畫面我沒看過**，請 CC 重拍 `0233_nm_cam_sheet` 那幾個機位。
+- **一個地球那一張（`st_ball_1900_1.2m`）我不確定這樣就好**：CC 的圖右邊三分之二是一整面水泥牆，看起來是巷子的牆或柱子貼在鏡頭前，不一定是攤子擋的。我用引擎算了巷 A 這兩攤（雞蛋糕 (10.5, −1.65)、一個地球 (18.5, −1.65)）：玩家站在攤前、鏡頭在背後時，鏡頭被巷子南邊的建築碰撞盒拉到離玩家 1.5～2.2 m（z 2.16）——巷子本來就窄。這一次不靠截圖猜：請 CC 給那一張的玩家座標、鏡頭座標和朝向，我再對是哪一面牆。
 
 ## 沒有動的
 

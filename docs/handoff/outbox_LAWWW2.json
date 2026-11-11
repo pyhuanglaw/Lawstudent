@@ -7889,10 +7889,10 @@
   },
   {
    "branch": "claude/second-ai-env-art",
-   "sha": "（這個 commit）",
+   "sha": "535ce76a5",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW 11-11 03:11：已整合）",
    "task": "ART-PACK4-1111 美術第四包：SCOOTER-ACC-1111 機車配件三款（擋風鏡、腳踏板的袋子、蓋座墊的雨衣）＋XS-TONGXIAN-SIGN-1111 同弦樂器招牌（BB P2）",
    "files": [
     "docs/art-rebuild/second_ai/wip/pack4_1111/（README.md、pack4_v1.patch、regression_full.log、blender_scooter_acc.jpg、blender_tongxian_before_after.jpg）"
@@ -7901,6 +7901,21 @@
    "noDirectIntegrate": false,
    "note": "底 dev 099dad440（在 7bb6f6311 上 --3way 乾淨）；全部 Node 測試 1254 支沒有失敗；新增 tests/xs_tongxian_sign_1111_unit.js；遊戲畫面沒看過，請 CC 拍（新生南路同弦二樓、汀州路機車；其他街的機車也會出現新三款）",
    "next": "LAWWW 整合、CC 拍、BB 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "ART-PACK5-1111 第五包：TZS-CEIL-1111 七間室內天花板（禮貌生財鏡頭整片米色的真正原因，P0）＋FN-STAIRTOP-POCKET-1111 花序二樓樓梯口＋NM-STALL-SEETHRU-1111 攤位全部可透視、手機殼攤背面",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/pack5_1111/（README.md、pack5_v1.patch、regression_full.log、blender_phonecase_back_front.jpg）"
+   ],
+   "state": "READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "noDirectIntegrate": false,
+   "note": "底 dev 4eaf0d5e7（在 be6014396 上 --3way 乾淨）；全部 Node 測試 1259 支：四支印 FAILED 都不是這一包造成的（三支缺企劃線 commit、fetch 後過；exam_land_seat_unit 是基底的 game3d.js／adv3d.js）；第三包的隔牆判斷是我錯的，README 第一節寫了；一個地球那張要 CC 給鏡頭座標",
+   "next": "LAWWW 整合、CC 重跑 LM_cam2 和夜市機位、BB 判"
   }
  ]
 }
