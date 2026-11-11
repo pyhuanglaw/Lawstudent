@@ -109,9 +109,9 @@ LOOKS_JS = r"""(()=>{ const sid=(GAME.G.zone||'').replace(/^l118_/,''), LY=(type
   return GAME.E.interactables.filter(i=>i.look&&!i.seat&&!i.exit&&!i.shop118&&!i.hidden&&!i.npc).map(i=>{ const q=(LY.interact||[]).find(q=>Math.abs(q.x-i.x)<0.01&&Math.abs(q.z-i.z)<0.01)||{};
     return {x:i.x,z:i.z,r:i.radius||0.8,label:i.label||'',id:q.id||'',data:typeof i.look==='string'?i.look:''}; }); })()"""
 # 有字的板面：名字或材質（INTERIOR_FACE＝店內景深卡，沒有字，不算）
-SIGN_FIND_JS = r"""(rg=>{ const E=GAME.E, re=/print|SIGN_FACE|VSIGN_FACE|ABOARD|MENU_FACE|menubox|signbox|price|poster|menu|signs_atlas/i;
+SIGN_FIND_JS = r"""(rg=>{ const E=GAME.E, re=/print|SIGN_FACE|VSIGN_FACE|ABOARD|MENU_FACE|menubox|signbox|price|poster|menu|board|signs_atlas|small_atlas/i;
   const v=new THREE.Vector3(), tris=[];
-  E.scene.traverse(o=>{ if(!o.isMesh||o.isInstancedMesh||!o.geometry||!o.geometry.attributes.position) return; let x=o, vis=true; while(x){ if(!x.visible){ vis=false; break; } x=x.parent; } if(!vis) return;
+  E.scene.traverse(o=>{ if(!o.isMesh||o.isInstancedMesh||!o.geometry||!o.geometry.attributes.position) return; let x=o, vis=true; while(x){ if(!x.visible){ vis=false; break; } x=x.parent; } if(!vis&&!rg.all) return;   /* 店內（rg.all）：牆淡出時板面也跟著藏，照樣算 */
     const mn=[].concat(o.material).map(m=>(m&&m.name)||'').join(','); if(!re.test(o.name+' '+mn)||/INTERIOR_FACE/.test(o.name)) return;
     o.updateWorldMatrix(true,false); const P=o.geometry.attributes.position, I=o.geometry.index, n=I?I.count:P.count; const nm=(o.name||mn||'mesh').replace(/[^A-Za-z0-9_]+/g,'_');
     for(let k=0;k+2<n&&k<60000;k+=3){ const b=[1e9,1e9,1e9,-1e9,-1e9,-1e9]; for(let j=0;j<3;j++){ v.fromBufferAttribute(P,I?I.getX(k+j):k+j).applyMatrix4(o.matrixWorld); b[0]=Math.min(b[0],v.x); b[1]=Math.min(b[1],v.y); b[2]=Math.min(b[2],v.z); b[3]=Math.max(b[3],v.x); b[4]=Math.max(b[4],v.y); b[5]=Math.max(b[5],v.z); }
@@ -408,6 +408,10 @@ async def do_shop(pg, cdp, sid, lay, first_shop):
     near = await pg.evaluate(NEAR_JS)
     await R.shot(pg, '%s_door' % sid)
     await flush(pg, tag + '_door')
+    if 'A' in PARTS and SIGNS and lay:
+        await sign_shots_street(pg, sid, lay)
+        ok2, _ = await joy_to(pg, cdp, dx, dz, 0.85, '%s 店門口（拍完招牌走回來）' % name)
+        r = await it_label(pg, ('進' + name) if sid not in DRINK_RANGE else name)
     STAT.setdefault(sid, {})['door'] = {'at': [round(dx, 2), round(dz, 2)], 'label': r['t'], 'near': near, 'how': how}
     if sid in DRINK_RANGE:
         R.check('A %s 店門口互動鍵（畫面）是「%s（…）」' % (tag, name), ok and r['t'].startswith(name + '（'), '畫面：「%s」；%s' % (r['t'], how))
@@ -482,10 +486,16 @@ async def do_shop(pg, cdp, sid, lay, first_shop):
             ok, how = await joy_to(pg, cdp, q['x'], q['z'], max(0.3, q['r'] * 0.5), '%s 看的東西 (%.1f,%.1f)' % (name, q['x'], q['z']), max_s=90)
             r = await it_label(pg, None)
             if not ok or not r['t'] or r['t'].startswith(('坐', '離開', '點餐', '進', '和')):   # 畫面上的鍵不是看的東西（座位、出口、店員）＝不按
-                R.note('%s 走不到看的東西 (%.1f,%.1f) 或沒有互動鍵：%s' % (tag, q['x'], q['z'], J(r))); continue
+                R.note('%s 走不到看的東西 (%.1f,%.1f) 或沒有互動鍵：%s' % (tag, q['x'], q['z'], J(r)))
+                look_row(sid, q, r['t'], '', '（畫面沒抽到：走不到或互動鍵不是它）'); continue
+            mk = await pg.evaluate("(window.__ccTxt||[]).length")
             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1800)
             await talk_idle(pg, cdp, tag + '_look', 30)
+            got = await pg.evaluate("(n=>(window.__ccTxt||[]).slice(n).filter(e=>e.id==='dlgText'||e.id==='caption'||e.id==='toast').map(e=>(e.nm?e.nm+'：':'')+e.t))(%d)" % mk)
+            look_row(sid, q, r['t'], ' ⏎ '.join(x.replace('\n', ' ') for x in got), '' if got else '（按了，畫面上沒抽到字）')
         await flush(pg, tag + '_looks')
+    if 'A' in PARTS and SIGNS:
+        await sign_shots_inside(pg, sid)
     await R_hour(pg, '出店前')
     x = ins['exit']
     ok, how = await joy_to(pg, cdp, x['x'], x['z'], 0.4, '%s 出口' % name)
@@ -503,6 +513,100 @@ async def do_shop(pg, cdp, sid, lay, first_shop):
         R.check('%s 出來回到 118 巷、站得住、互動鍵不是「進%s」' % (tag, name), s['zone'] == 'lane118' and s['stand'] and not r2['t'].startswith('進' + name), J(dict(s, it=r2['t'], clockZ=cz)))
     await flush(pg, tag + '_end')
     R.note('%s 這一間花了 %.0f 秒' % (tag, time.time() - t_shop))
+
+
+def look_row(sid, q, key, screen, why):
+    txt = screen or q.get('data') or ''
+    flag = [k for k in OLD_LOOK_KW if k in txt] + old_hits(txt)
+    row = {'shop': sid, 'name': SPEC[sid][0], 'id': q.get('id') or '?', 'label': q.get('label') or '', 'key': key, 'screen': screen, 'data': q.get('data') or '', 'why': why, 'flag': flag}
+    LOOK_ROWS.append(row)
+    print('  看的東西｜%s｜%s｜%s｜畫面：%s｜資料：%s%s%s' % (sid, row['id'], row['label'], screen or '—', row['data'] or '—', ('｜' + why) if why else '',
+                                                    ('｜⚠舊內容？（%s）' % '、'.join(flag)) if flag else ''), flush=True)
+
+
+def write_looks_table():
+    if not LOOK_ROWS: return
+    md = ['# 118 巷「看的東西」逐字表', '', 'SHA=%s；%s；畫面＝按下互動鍵後畫面上抽到的字（#dlgText／#caption／#toast）；資料＝互動點掛的旁白（對照用）。' % (os.environ.get('SHA', '（沒給）'), DAY.get('k', '')),
+          '「⚠舊內容？」＝關鍵字比對（%s，加舊店名、舊菜名），要人看過才算數。' % '、'.join(OLD_LOOK_KW), '',
+          '| 店 | 物件 id | 互動鍵 | 全文（畫面） | 資料 | 標記 |', '|---|---|---|---|---|---|']
+    esc = lambda t: (t or '').replace('|', '｜').replace('\n', ' ')
+    for r in LOOK_ROWS:
+        md.append('| %s（%s） | %s | %s | %s | %s | %s |' % (r['name'], r['shop'], esc(r['id']), esc(r['key'] or r['label']), esc(r['screen']) or esc(r['why']), esc(r['data']),
+                                                        ('⚠舊內容？（%s）' % '、'.join(r['flag'])) if r['flag'] else ''))
+    open(os.path.join(OUT, 'looks_table.md'), 'w', encoding='utf-8').write('\n'.join(md) + '\n')
+    print('\n===== 看的東西：逐字表（%d 列，%s）=====' % (len(LOOK_ROWS), os.path.join(OUT, 'looks_table.md')), flush=True)
+    for line in md[6:]: print('  ' + line, flush=True)
+    nf = sum(1 for r in LOOK_ROWS if r['flag'])
+    R.note('看的東西 %d 列，其中 %d 列標「⚠舊內容？」（關鍵字比對，交 BB 判，不算 FAIL）' % (len(LOOK_ROWS), nf))
+
+
+SHOPLAY_JS = r"""(sid=>{ const L=typeof L118_SHOP_LAYOUTS!=='undefined'?L118_SHOP_LAYOUTS[sid]:null; return L?{b:L.bounds,h:L.h||3,door:L.door}:null; })"""
+
+
+async def sign_shots(pg, sid, where, region, ref, extra, ymax=None):
+    """【捷徑機位】拍模型上畫的字。region：只看這個範圍裡的板面；ref：板面朝向哪一邊（店內＝房間中心，巷子＝巷子中線）；extra：一定拍的幾張 (名, 鏡頭, 看的點)"""
+    R.setup('%s %s：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720' % (sid, where))
+    vp = pg.viewport_size
+    await pg.set_viewport_size({'width': 1280, 'height': 720}); await pg.wait_for_timeout(1200)
+    n = 0
+    try:
+        fov = await pg.evaluate("GAME.E.camera.fov") or 50
+        th = math.tan(math.radians(fov) / 2); asp = 1280 / 720
+        cl = await pg.evaluate("(%s)(%s)" % (SIGN_FIND_JS, J(region)))
+        R.note('%s %s 有字的板面（依距離分群）%d 群：%s' % (sid, where, len(cl), J([{'nm': c['nm'], 'c': [round(v, 2) for v in c['c']], 's': [round(v, 2) for v in c['s']]} for c in cl[:16]])))
+        shots = []
+        for k, c in enumerate(cl[:14]):
+            cx, cy, cz = c['c']; sx, sy, sz = c['s']
+            if sy < 0.3 * min(max(sx, 0.01), max(sz, 0.01)):   # 平放的（檯面上的菜單）：從斜上方看
+                d = max(0.7, min(4.0, max(sx, sz) / th * 0.75))
+                e = [cx + (ref[0] - cx) * 0.15, cy + d, cz + (ref[2] - cz) * 0.15 + 0.01]
+            else:
+                ax = 0 if sx < sz else 2; w = sz if ax == 0 else sx
+                d = max(0.6, min(5.0, max(w / asp, sy) / (2 * th) * 1.35))
+                sg = 1 if (ref[ax] - c['c'][ax]) >= 0 else -1
+                e = [cx, cy, cz]; e[ax] += sg * d
+                if ymax: e[1] = min(e[1], ymax)
+            nm = re.sub(r'[^A-Za-z0-9_]+', '_', c['nm'])[:28]
+            shots.append(('%s_%02d_%s' % (where, k, nm), e, [cx, cy, cz]))
+        for nm, e, l in shots + extra:
+            fr = await pg.evaluate("(%s)(%s,%s)" % (SIGN_CAM_JS, J([round(v, 3) for v in e]), J([round(v, 3) for v in l])))
+            path = os.path.join(OUT, 'sign_%s_%s.png' % (sid, nm))
+            try: await pg.screenshot(path=path); n += 1
+            except Exception as ex: R.note('截圖失敗 %s：%r' % (path, ex))
+            R.note('%s 板面近照 %s（鏡頭 %s → %s，%d 幀）' % (sid, os.path.basename(path), J([round(v, 2) for v in e]), J([round(v, 2) for v in l]), fr))
+    finally:
+        await pg.evaluate(SIGN_END_JS)
+        await pg.set_viewport_size(vp); await pg.wait_for_timeout(2000)
+    STAT.setdefault(sid, {}).setdefault('signs', 0); STAT[sid]['signs'] += n
+    return n
+
+
+async def sign_shots_street(pg, sid, lay):
+    me = next((x for x in lay['shops'] if x['id'] == sid), None)
+    if not me: return 0
+    fw, fe = lay['fw'], lay['fe']; zc = me['z']
+    za, zb = sorted([me.get('z0', zc - 2.5), me.get('z1', zc + 2.5)])
+    if me['side'] == 'W':
+        rg = {'x0': fw - 2.5, 'x1': fw + 2.4, 'z0': za - 0.3, 'z1': zb + 0.3}; fx, sg = fw, 1
+    else:
+        rg = {'x0': fe - 2.4, 'x1': fe + 2.5, 'z0': za - 0.3, 'z1': zb + 0.3}; fx, sg = fe, -1
+    extra = [('facade', [fx + sg * (fe - fw) * 0.85, 2.3, zc], [fx, 2.4, zc]),   # 從巷子對面看整個店面（招牌）
+             ('front', [fx + sg * 2.4, 1.5, zc], [fx, 1.3, zc])]                  # 店面下半部（門口的菜單、價目牌、海報）
+    return await sign_shots(pg, sid, 'street', rg, [0.0, 1.5, zc], extra)
+
+
+async def sign_shots_inside(pg, sid):
+    ly = await pg.evaluate("(%s)(%s)" % (SHOPLAY_JS, J(sid)))
+    if not ly or not ly.get('b'):
+        R.note('%s 讀不到室內配置（L118_SHOP_LAYOUTS），只拍不了店內板面' % sid); return 0
+    b, h, dr = ly['b'], ly['h'], ly['door'] or {}
+    cx, cz = (b['x0'] + b['x1']) / 2, (b['z0'] + b['z1']) / 2
+    dx, dz = dr.get('x', cx), dr.get('z', b['z1'])
+    yc = min(h - 0.35, 2.1)
+    extra = [('wide_in', [dx + (cx - dx) * 0.12, yc, dz + (cz - dz) * 0.12], [cx - (dx - cx) * 0.6, 1.3, cz - (dz - cz) * 0.6]),   # 門口往裡
+             ('wide_out', [cx - (dx - cx) * 0.85, yc, cz - (dz - cz) * 0.85], [dx, 1.3, dz])]                                       # 最裡面往門口
+    rg = {'x0': b['x0'] - 0.3, 'x1': b['x1'] + 0.3, 'z0': b['z0'] - 0.3, 'z1': b['z1'] + 0.3, 'all': True}
+    return await sign_shots(pg, sid, 'inside', rg, [cx, 1.5, cz], extra, ymax=h - 0.15)
 
 
 def summary():
@@ -559,6 +663,7 @@ async def main():
                 try: await R.shot(pg, '%s_exception' % sid)
                 except Exception: pass
         summary()
+        write_looks_table()
         for e in errs: print('  pageerror｜' + e[:400], flush=True)
         R.check('沒有 JS 例外（pageerror）', not errs, '%d 個' % len(errs))
         fb = await pg.evaluate("GAME.walkFallbacks||0")
