@@ -53189,7 +53189,7 @@
    "id": "GG-G09-G10-SHUTTER-1111",
    "title": "公館 G09、G10 先拉下鐵門（洗樂、印得好已搬到汀州路；USER_WANTS X335）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -53202,7 +53202,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "套件 96f487c6f＋正式模型 949a24cc6（LAWWW2 3e39b5c33）都在開發分支；BB 排 CC 拍 G09／G10 白天晚上。待定：G10 門前「往汀州路（巷子）」站在鐵門前，等使用者決定這兩格放什麼再說",
+   "next": "G09、G10 鐵捲門已整合 949a24cc6。**使用者 11-11 01:1x 選「G10 改成真的巷口」**（UA-LAWWW2-1111-06／UA-LAWWW-1111-02）：LAWWW2 改 gongguan_shops.glb（G10 一樓通道、拿掉中間柱子；zones3d.js 柱子清單加 10 放在它的 patch 裡），導航和「往汀州路（巷子）」按鈕位置（37.1, 21）不動。LAWWW：整合後把套件備用外觀的 G10 從 shut 改成巷口樣（或至少不畫鐵門），gg_shops3_names_unit、aa655、tingzhou_places 跟著改",
    "xai": {
     "spec": "使用者 11-11 00:0x 選擇題（UA-LAWWW-1110-113）",
     "branch": "claude/second-ai-env-art",
