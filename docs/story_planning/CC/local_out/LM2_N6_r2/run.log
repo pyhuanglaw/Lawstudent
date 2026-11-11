@@ -1,0 +1,47 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_lm2_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LM2_N6_r2\out
+CC LM2 禮貌生財上師對話：PARTS REVEALA；SHA 0eb2a0049；稿 fixtures\lm2；Windows＋GPU（PC）／SwiftShader（雲端）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.7s] hook：installed；LM 在＝True
+  [  26.7s] [DAYS] 用的日子（不是颱風假、隔天也不是）：{"Y1S1": {"day": 20, "id": "Y1S1", "week": 6, "date": "2025-10-06"}, "Y1S2": {"day": 188, "id": "Y1S2", "week": 5, "date": "2026-03-23"}, "Y2S1": {"day": 391, "id": "Y2S1", "week": 6, "date": "2026-10-12"}, "Y4S1": {"day": 1112, "id": "Y4S1", "week": 5, "date": "2028-10-02"}, "Y4S2": {"day": 1287, "id": "Y4S2", "week": 6, "date": "2029-03-26"}}
+  [  26.8s] [名字] 對照：祐廷＝祐廷、上師＝上師（稿：他的名字不出現）、吳教授＝SOCIAL.displayName(prof_wu)「吳教授」（CHARACTERS.prof_wu.name「吳教授」）、旁白＝不顯示名字
+  [前置／捷徑] 【前置／捷徑】先讀校園（出生點）找萬才館一樓入口（條件事件開著、只關手機自動打開）
+  [  46.1s] [萬才館] 校園往 wancai 的一樓入口：[{"label": "進入法律系館B", "x": 90.68, "z": -83.65, "r": 1.6, "lv": 0, "to": "wancai"}]
+  [  46.1s] [萬才館] 用的入口與門前站的點：{"door": {"label": "進入法律系館B", "x": 90.68, "z": -83.65, "r": 1.6, "lv": 0, "to": "wancai"}, "spot": {"x": 90.68, "z": -81.15, "r": 2.5, "a": 0}}
+  [前置／捷徑] 【前置／捷徑】REVEALA：大四上 2028-10-02 15:00、LM_MET、LM_PROF（萬才館「進入法律系館B」門前 2.5 m (90.68,-81.15)）（條件事件開著、只關手機自動打開）
+  [  59.9s] [REVEALA] 狀態：{"day": 1112, "date": "2028-10-02", "hour": 15.051, "stage": "law", "term": "Y4S1", "weather": "clear", "partners": [], "girls": [], "lm": {"LM_MET": 812, "LM_PROF": true}, "finalsNext": false, "failedLast": true, "flunked": false, "brokeRecent": false, "lmLoaded": true, "typhoon": false}
+  [  59.9s] [REVEALA] 入口 A 事件：{"title": "走廊上的吳教授", "location": "wancai", "trigger": "enter", "once": true, "prereq": true, "done": false}（稿的標題「走廊上的吳教授」）
+PASS [REVEALA] 有事件 ev_limao_wu_corridor、條件成立  {"title": "走廊上的吳教授", "location": "wancai", "trigger": "enter", "once": true, "prereq": true, "done": false}
+PASS [REVEALA] 萬才館一樓入口  [{"label": "進入法律系館B", "x": 90.68, "z": -83.65, "r": 1.6, "to": "wancai", "look": null, "tzd": null, "tzp": null, "lm": false, "lmAdded": false, "lv": 0}]
+  [  70.8s] 到達「[REVEALA] 進入法律系館B」附近（0.19 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [  71.5s] [REVEALA] 入口按鈕「進入法律系館B」
+  [  83.9s] [REVEALA] 進萬才館以後說的話（全部）：[["祐廷", "老師，上次夜市那位……"], ["吳教授", "同學，那天你什麼都沒看到。"], ["吳教授", "……他是我老師。我的刑法是他教的。這個不考，也不要講。"]]；標題卡 null
+  [  83.9s] [REVEALA] 現在 {"zone": "wancai", "h": 15.152, "x": 0, "z": 5, "lv": 0, "stand": true, "busy": false, "fb": 0}
+  [  83.9s] [REVEALA entryA] #1 OK 稿［yt］「老師，上次夜市那位……」｜遊戲［祐廷］「老師，上次夜市那位……」（ADV on blur compact）
+  [  83.9s] [REVEALA entryA] #2 OK 稿［wu］「同學，那天你什麼都沒看到。」｜遊戲［吳教授］「同學，那天你什麼都沒看到。」（ADV on blur compact）
+  [  83.9s] [REVEALA entryA] #3 OK 稿［wu］「……他是我老師。我的刑法是他教的。這個不考，也不要講。」｜遊戲［吳教授］「……他是我老師。我的刑法是他教的。這個不考，也不要講。」（ADV on blur compact）
+PASS [REVEALA] 走進萬才館＝入口 A 三句逐句照稿（祐廷／吳教授）  差 #[]
+  [  83.9s] [REVEALA] 吳教授的句子：[["吳教授", "prof_wu", true], ["吳教授", "prof_wu", true]]
+  [  83.9s] [REVEALA 入口 A] 通用記帳（見過／說過話，不算關係變動）：[["social.prof_wu.aff", null, 0], ["social.prof_wu.comf", null, 0], ["social.prof_wu.fam", null, 5], ["social.prof_wu.npcRom", null, 0], ["social.prof_wu.resp", null, 0], ["social.prof_wu.rom", null, 0], ["social.prof_wu.seen", null, 1], ["social.prof_wu.talked", null, 1], ["social.prof_wu.trust", null, 0], ["social.prof_xu.aff", null, 0], ["social.prof_xu.comf", null, 0], ["social.prof_xu.fam", null, 0], ["social.prof_xu.npcRom", null, 0], ["social.prof_xu.resp", null, 0], ["social.prof_xu.rom", null, 0], ["social.prof_xu.seen", null, 1], ["social.prof_xu.talked", null, 0], ["social.prof_xu.trust", null, 0]]
+  [  83.9s] [REVEALA 入口 A] 前後差異：LM_ [["flags.LM_HINT", "（沒有）", "A"]]；其他 [["flags.met_prof_wu", "（沒有）", "True"]]
+FAIL [REVEALA 入口 A] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  ["flags.met_prof_wu"]
+PASS [REVEALA] LM_HINT 記上  "A"
+  [前置／捷徑] 【捷徑】REVEALA：回汀州路 20:00：保留整個 G，改成第 1112 天 20:00、tingzhou (27.0,-0.5)（條件事件關著）
+  [ 107.2s] 到達「[REVEALA 汀州路] 算命桌」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 107.9s] [REVEALA 汀州路] 走到算命桌前 (27.57,3.36) 20:04：按鈕「算命桌」
+  [ 115.8s] [REVEALA 揭曉] 按「算命桌」（20:05）→ 7 句、選單 [["老師，你以前是不是教刑法的？", "聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝talk(2-)；時間 20:05 → 20:20；第一句到最後一句 4.1 秒（探針點的速度）、整段 7.1 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 115.8s] [REVEALA 揭曉] 前後差異：LM_ [["flags.LM_KNOWN", "（沒有）", true], ["flags.LM_STUDY", "（沒有）", true]]；其他 沒有
+PASS [REVEALA 揭曉] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+PASS [REVEALA] 入口 A 以後選單六項、最上面＝「老師，你以前是不是教刑法的？」  ["老師，你以前是不是教刑法的？", "聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]
+  [ 115.8s] [REVEALA talk] #1 OK 稿［ms］「不是。」｜遊戲［上師］「不是。」（ADV on blur）
+  [ 115.8s] [REVEALA talk] #2 OK 稿［yt］「可是我們老師說他以前是你學生。」｜遊戲［祐廷］「可是我們老師說他以前是你學生。」（ADV on blur）
+  [ 115.8s] [REVEALA talk] #3 OK 稿［ms］「他刑法有及格嗎？」｜遊戲［上師］「他刑法有及格嗎？」（ADV on blur）
+  [ 115.8s] [REVEALA talk] #4 OK 稿［yt］「……」｜遊戲［祐廷］「……」（ADV on blur）
+  [ 115.8s] [REVEALA talk] #5 OK 稿［ms］「有及格就不要亂認老師，沒及格更不要。」｜遊戲［上師］「有及格就不要亂認老師，沒及格更不要。」（ADV on blur）
+  [ 115.8s] [REVEALA talk] #6 OK 稿［narr］「（他把茶喝完，站起來，把後面那扇木門推開。）」｜遊戲［］「（他把茶喝完，站起來，把後面那扇木門推開。）」（ADV on blur narr）
+  [ 115.8s] [REVEALA talk] #7 OK 稿［ms］「裡面的書可以看，不能借。看不懂不要問我，我是算命的。」｜遊戲［上師］「裡面的書可以看，不能借。看不懂不要問我，我是算命的。」（ADV on blur）
+PASS [REVEALA] talk 從第二句逐句照稿  差 #[]
+  [ 115.8s] [REVEALA] 整段多出／改過的 LM_ 旗標：["LM_HINT", "LM_KNOWN", "LM_STUDY"]
+  [ 115.8s] [REVEALA] 花了 89 秒
+PASS 沒有 JS 例外  []
+FAILED 1: [REVEALA 入口 A] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動
