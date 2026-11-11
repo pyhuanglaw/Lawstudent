@@ -7919,6 +7919,14 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "MOVIE-TALK-1110 欠的兩組：學姊合歡山北峰那一趟（hehuan，ev_sis_hehuan）、子晴之後的十則語音（zq_voice）。tools/story/import_aa811.py 一字不改照抄到 src/data/aa811_lines.js（hehuan 的 dialogue、她答應的那一句；zq_voice 的十則 msgs、reply9）；規則（when／trip／versions）寫在 src/aa811_3d.js；tests/aa811_hehuan_voice_1111_unit.js 逐句對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_816_ladder_fx.json",
+   "sha": "7732e123e",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 21:02 交（D100b 稿就是定稿）：閒聊階梯選項 fx 694 個（六位 fx 為 null 的全部選項；{fr:1} 362、{love:1} 307、{love:2} 22、{fr:-1} 3），格式照 LAWWW 20:59；已經有 fx 的 136 個不動",
+   "task": "DLG-FULL-REVIEW-1110",
+   "note": "X324 最後一塊（使用者 11-10 20:0x 對 AA：「每次約會都要有選擇性的對話選項，依據選項內容增加友情或者愛情」；AA_746 第 2 節）；tools/ladder/import_ladder.py AA_816 層"
   }
  ]
 }
