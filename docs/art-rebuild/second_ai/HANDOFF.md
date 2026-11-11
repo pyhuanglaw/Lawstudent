@@ -1,7 +1,16 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-11 02:4x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 03:2x UTC）
+
+- **已整合進開發分支**（LAWWW ACK）：第三包（3d4107ca1）、花序第 2 版（1dcf099b8）、第四包＝機車配件三款＋同弦樂器招牌（535ce76a5）。BB：禮貌生財街上外觀第 2 版、汀州鮮果外觀第 3 版 ART_APPROVED；補的箱子 PASS。
+- **第三包的禮貌生財室內鏡頭沒有修好——我判斷錯了**（只看截圖就推斷鏡頭在隔牆後面）。真正的原因：鏡頭 y 3.21 在天花板（3.0）上面，看到天花板的上表面。教訓：鏡頭問題先要 CC 的鏡頭座標，不要只看圖。
+- **正在交：第五包**（`wip/pack5_1111/`，README 寫完；patch 底 dev 4eaf0d5e7；工作目錄 `$SP/wt_ch`）＝七間室內天花板改單面朝下＋`CEIL_*`、花序二樓樓梯口的口袋、攤位三個材質都可透視、手機殼攤背面。全部 Node 測試在跑（`$SP/pk5_regress.log`）。跑完沒失敗 → README 改 READY_FOR_REVIEW、outbox 加一筆、send_message LAWWW（副本 BB）。
+- **做完待交：季節布置第一批**（`wip/season_batch1_1111/`：過年、聖誕；`season_<區域>.glb`＋`src/data/season_deco.js`＋`src/season_deco3d.js`；工作目錄 `$SP/wt_bb`）。全部測試也在跑（`$SP/ss_regress.log`）；LAWWW 排在第五包後面。之後還有 18 項（提案 `proposals/life_details_seasonal_1110.md`）。
+- 接下來的佇列：泰米村食的窗、電影海報位置（#11，等 CC 截圖）、泳池水面（#17）、季節布置第二批。
+- 這個容器的注意事項：不要整支 fetch cc-local／cc-testing（一次 3 GB；要看 CC 的圖用 GitHub 工具讀單一檔 `docs/story_planning/CC/local_out/<批>/out/<檔>`）；Python 沒有 playwright；兩個工作目錄的 `tools/blender/env_second/textures/` 有沒進版控的貼圖（重匯模型要用）。
+
+## 交接（上一則｜帳號 A｜2026-11-11 02:4x UTC）
 
 - **已整合進開發分支**：G10 巷口（731cca95b）、上師第 3 版（f5e1ef4e8，LAWWW 判可以進遊戲；D141 不再改版）、**美術第三包**（`wip/pack3_1111/`，我的 3d4107ca1；LAWWW 02:32 ACK）＝禮貌生財場景第 2 版＋室內隔牆鏡頭（PART_*）、汀州鮮果外觀第 3 版（最後一版）、trapFix 的地方放箱子、夜市棚子 seethru_tzs_awning 和燈泡。
 - **做到一半：花序第 2 版**（`wip/flower_notes_v2_1111/`：README、patch 底 dev 099dad440）。改完、相關測試過；**全部 Node 測試在跑**（`$SP/fn_regress.log`）。跑完沒失敗 → README 改 READY_FOR_REVIEW、outbox 加一筆、send_message LAWWW（副本 BB）。

@@ -5303,20 +5303,6 @@ index 000000000..deb9a1282
 +  }
 +};
 +if (typeof window !== 'undefined') window.SEASON_DECO = SEASON_DECO;
-diff --git a/src/flower_notes3d.js b/src/flower_notes3d.js
-index e12f8e010..5100d191f 100644
---- a/src/flower_notes3d.js
-+++ b/src/flower_notes3d.js
-@@ -34,6 +34,9 @@ const FN3=(function(){
-     nav1.freeRect(LD.x0-0.3,LD.z0+0.15,LD.x1-0.25,LD.z1);                                            // 樓梯平台（連到教室）
-     nav1.freeRect(T.x0,T.zTop,T.x1,T.zBottom); for(const s of ss.all) nav1.addSurf(Object.assign({},s));
-     nav1.blockRect(T.railX-0.05,(LD.z1+0.1+U.railZ)/2,0.3,U.railZ-(LD.z1+0.1),0);                    // 樓梯開口西邊的欄杆（平台那一段留開口）
-+    nav1.blockRect(T.railX-0.275,LD.z1+0.32,0.2,0.5,0);   /* FN-STAIRTOP-POCKET-1111（LAWWW2 11-11；LAWWW 要的「每個站得到的點都走得回離開」掃出來）：欄杆只有一格厚（0.25 m），人的半徑 0.32——
-+      樓梯最上面兩三階和二樓地板一樣高的那一小段（z −5.3～−4.8），站在樓梯西緣 x 3.5 時左邊的取樣點跨過欄杆落在教室地板上，被當成站得住；
-+      站進去以後點地板走不出來（往東是樓梯中間、身體卡著欄杆）。欄杆北端靠教室那一側多擋一格，這個口袋就站不進去；教室到樓梯平台的開口（z ≤ −5.32）不變 */
-     const blk=(nav,b)=>nav.blockRect(b[0],b[1],b[2],b[3],0,0.05);
-     for(const b of S.blocks(L,0)) blk(nav0,b); for(const b of S.blocks(L,1)) blk(nav1,b);
-     nav0._cm=null; nav1._cm=null; return {nav0,nav1,ss}; };
 diff --git a/src/season_deco3d.js b/src/season_deco3d.js
 new file mode 100644
 index 000000000..60656d48e
@@ -5351,29 +5337,6 @@ index 000000000..60656d48e
 +    return n; };
 +  S.hook(); return S; })();
 +if(typeof window!=='undefined') window.SD3=SD3;
-diff --git a/tests/flower_notes_unit.js b/tests/flower_notes_unit.js
-index a0c23fcc2..21d9912f1 100644
---- a/tests/flower_notes_unit.js
-+++ b/tests/flower_notes_unit.js
-@@ -78,4 +78,18 @@ check('0. 樓梯的數字對得起來：階數 × 階高＝樓高、階數 × 
-   check('7. 外觀：牆改平塗的米白石材（wall_flat）、招牌重畫（gg_shops6_tex.fn_sign：深色字「花序｜Flower Notes」）、門口兩棵樹＋兩個長花箱（原型 p_fntree／p_fnbox）',
-     /wall_flat=True/.test(g11)&&(g11.match(/\('fn_tree'/g)||[]).length===2&&(g11.match(/\('fn_box'/g)||[]).length===2&&/def fn_sign\(/.test(tex)&&/t1 = '花序'; t2 = 'Flower Notes'/.test(tex)&&/def p_fntree\(/.test(kit)&&/def p_fnbox\(/.test(kit)&&/def gg_flatwall\(/.test(kit));
-   check('7. 樹和花箱的腳印寫進 props.json（各兩個），都貼著店面（凸進騎樓 ≤ 0.6 m：騎樓 3 m 還剩 2.4 m 走路）',tr.length===2&&bx.length===2&&deep.every(d=>d>0&&d<=0.6),deep.map(d=>d.toFixed(2)).join(' ')); }
-+/* 8. 沒有站得進去、走不出來的縫（LAWWW 11-11 02:56：照 tests/tz_shops_notrap_1111_unit.js 的做法，花序一樓、二樓也要有；第 2 版二樓換了矮櫃、一樓多了花）：
-+      每一層從一個站得住的點出發，每 0.25 m 掃出所有走得到的點；每一個點都用引擎真正的找路＋移動碰撞走到「離開」（一樓的店門；二樓的點要先下樓梯），停下來的地方要在互動半徑裡 */
-+{ const z=loadZone('flower_notes'), ex=E.interactables.find(i=>i.exit), STEP=0.25, R=0.32, navs=z.levels||[z.nav], sp=z.spawn, tot=[];
-+  for(const lv of [0,1]){ const nav=navs[lv]||navs[0], X0=nav.ox, Z0=nav.oz, Wn=nav.cols*nav.cell, Dn=nav.rows*nav.cell, key=(i,j)=>i+','+j;
-+    const ok=(i,j)=>{ const x=X0+i*STEP, zz=Z0+j*STEP; return x>X0&&zz>Z0&&x<X0+Wn&&zz<Z0+Dn&&E.canStand(x,zz,R,lv); };
-+    const s0=lv===0?[sp.x,sp.z]:[L.tables1[2].x,L.tables1[2].z+1.6], si=Math.round((s0[0]-X0)/STEP), sj=Math.round((s0[1]-Z0)/STEP); let start=null;
-+    for(let d=0;d<6&&!start;d++) for(let a=-d;a<=d&&!start;a++) for(let b=-d;b<=d&&!start;b++) if(ok(si+a,sj+b)) start=[si+a,sj+b];
-+    if(!start||!ex){ check('8. 花序 '+(lv+1)+'F：出發點站得住、有「離開」',false,JSON.stringify([s0,ex&&ex.label])); continue; }
-+    const seen=new Set([key(...start)]), q=[start]; while(q.length){ const [i,j]=q.pop(); for(const [a,b] of [[1,0],[-1,0],[0,1],[0,-1]]){ const k=key(i+a,j+b); if(!seen.has(k)&&ok(i+a,j+b)){ seen.add(k); q.push([i+a,j+b]); } } }
-+    const pts=[...seen].map(k=>k.split(',').map(Number)).map(([i,j])=>[+(X0+i*STEP).toFixed(2),+(Z0+j*STEP).toFixed(2)]), bad=[];
-+    for(const p of pts) for(const dt of [0.1,0.033]){ const r=E.simWalk(p[0],p[1],ex.x,ex.z,{lv0:lv,lv1:ex.lv|0,dt,speed:1.45}); const end=r&&r.x!=null?[r.x,r.z]:(r&&r.ok?[ex.x,ex.z]:null);
-+      if(!end||Math.hypot(end[0]-ex.x,end[1]-ex.z)>(ex.radius||1)+1e-6){ bad.push([p[0],p[1],dt,end&&end.map(v=>+v.toFixed(2)),r&&r.reason]); break; } }
-+    tot.push(pts.length);
-+    check('8. 花序 '+(lv+1)+'F：站得到的 '+pts.length+' 個點（每 '+STEP+' m）都走得回「'+ex.label+'」的半徑裡（走路、30 fps 和 10 fps'+(lv?'；先下樓梯':'')+'）',pts.length>(lv?150:300)&&!bad.length,bad.length+' 個出不來：'+JSON.stringify(bad.slice(0,6))); } }
- console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 diff --git a/tests/season_deco_unit.js b/tests/season_deco_unit.js
 new file mode 100644
 index 000000000..298cc3755
