@@ -171,7 +171,9 @@ for(const id of NINE){ const [oldName,name,type,menu]=WANT[id], s=shop(id)||{men
     check('3-5. 排在 118 巷店裡吃飯的作息、AA_280 的常客：沒有人排在公休日或關門的時段',bad.length===0,bad.map(b=>b.join('｜')).join('\n  ')); }
   // 3-6 室內座位的互動半徑：配置寫了 r 就用（LAWWW2 之後的卡座會寫 r:1.25），沒寫＝0.7（現有九間都沒寫，行為不變）
   { const s3=fs.readFileSync(path.join(ROOT,'src/l118_shops3d.js'),'utf8'); load('src/data/l118_shop_layouts.js',NAMES);
-    const withR=Object.keys(L118_SHOP_LAYOUTS).filter(id=>(L118_SHOP_LAYOUTS[id].seats||[]).some(q=>q.r!=null));
+    /* 2026-11-11 室內重做的店（配置的 src 是 tools/blender/env_second/l118_int_<id>.py：奈良咖哩、迪倫窯烤披薩、義大麵屋…）靠牆、隔著另一張椅子的座位寫了 r（走近點在走道上，tests/l118_int_pon_1111_unit.js 檢查）；
+       還沒重做的那幾間照舊沒寫 r */
+    const withR=Object.keys(L118_SHOP_LAYOUTS).filter(id=>!/l118_int_/.test(L118_SHOP_LAYOUTS[id].src||'')&&(L118_SHOP_LAYOUTS[id].seats||[]).some(q=>q.r!=null));
     /* 11-11 LAWWW2 第 1 版第一批：辛亥韓食（tea）的四人卡座靠牆的 6 個座位寫了 r:1.25、inner:true（離走道 1 m 多）；其他店還是沒有 r。原本這一項期望「九間都沒有 r」（那時候卡座還沒交） */
     const teaR=(L118_SHOP_LAYOUTS.tea.seats||[]).filter(q=>q.r!=null);
     check('3-6. src/l118_shops3d.js 座位的互動半徑＝s.r||0.7；只有辛亥韓食的卡座靠牆的 6 個座位寫 r 1.25（inner），其他店都沒有寫 r（還是 0.7）',/radius:s\.r\|\|0\.7,lv:0,prio:0\.3,seat:st/.test(s3)&&!/radius:0\.7,lv:0,prio:0\.3,seat:st/.test(s3)&&withR.join()==='tea'&&teaR.length===6&&teaR.every(q=>q.r===1.25&&q.inner===true),J([withR,teaR.length]));

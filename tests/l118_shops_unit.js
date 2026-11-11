@@ -49,6 +49,9 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
      「第一間、第二間」照配置檔的順序。電視照配置檔的 note（AA_280）、餐盤回收台照舊顯示名稱（修改前 FAIL：五個都只顯示名稱）*/
   { const S=global.L118S, it=(sh,k)=>(LS[sh]&&LS[sh].interact||[]).find(x=>x.id===k), lk=(sh,k)=>S&&S.lookText&&it(sh,k)?S.lookText(sh,it(sh,k)):null;
     const want=[['home','soup','（湯桶上寫著「紫菜蛋花」。湯勺掛在桶邊。）'],['cafe2','books','（書架上大多是舊漫畫，有幾套缺了第一集。）'],['noodle2','sides','（小菜櫃的玻璃起霧了，看得到裡面的燙青菜。）']];   // self 的湯、korea 的小菜櫃拿掉（L118-SHOPS-REDO-1111：這兩間的室內換了，見上面的 9）；剩下三間等 LAWWW 那邊重做室內以後照新的改
+    /* 2026-11-11 L118-SHOPS-REDO-1111：迪倫窯烤披薩（noodle2，原六張犁麵舖）室內重做（tools/blender/env_second/l118_int_noodle2.py）——小菜櫃沒有了，「看東西」換成窯爐，句子是 AA_772 look_lines 的（寫在配置的 note）。
+       奈良咖哩、義大麵屋新的「看東西」在 tests/l118_int_pon_1111_unit.js 檢查 */
+    want.splice(want.findIndex(w=>w[0]==='noodle2'),1,['noodle2','oven','（窯裡的火是橘色的。站近一點，臉會熱。）']);
     const bad=want.filter(([sh,k,t])=>lk(sh,k)!==t);
     check('9b. AA_355 5-1：還沒重做的三間的物件點了有字（家常菜的湯、書架、麵舖的小菜櫃）；電視照舊是 AA_280 那句', !bad.length&&lk('home','tv')==='電視在播午間新聞，沒有人在看。', bad.map(x=>x[0]+'/'+x[1]+'='+lk(x[0],x[1])).join('｜')); } }
 // 4
