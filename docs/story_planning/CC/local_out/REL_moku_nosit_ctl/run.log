@@ -1,0 +1,26 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\REL_moku_nosit_ctl\docs\story_planning\test_tools\cc\cc_l118d_h_probe.py http://127.0.0.1:8803/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\REL_moku_nosit_ctl\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.0s] 受測 SHA 779ddd65081bf770e9850d948b54ecc21dc4d120、版本 v9.10.24；PARTS NOSIT
+== NOSIT
+    [區域] wenzhou（10.03）
+    [toast] 手機｜沛珊：欸，我跟你說一件事，你不用回喔。
+  [前置／捷徑] 【前置】NOSIT（地點 slowread「去木曜日念書」） 週六 10:00、下雨：day46 存檔 → 2025-11-08（週六）10.00、wenzhou (7.40, -1.40) lv0、天氣 rain、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
+  [  53.6s] CALENDAR：{"key": "2025-11-08", "wd": 6, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+PASS [日子] 2025-11-08 不是假日／颱風假、不是考試週（Y1S1 第 10 週）  {"key": "2025-11-08", "wd": 6, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+  [  53.6s] 讀進來：{"zone": "wenzhou", "day": 53, "hour": 10.04, "weather": "rain", "stage": "law"}
+  [  53.6s] NOSIT（地點 slowread「去木曜日念書」） 誰今天哪個時間會答應（INV.decide＋INV.personal，照玩家會按的選項先查）：[{"who": "kexin", "h": 15.5, "res": "accept", "why": null, "lines": ["慢讀？名字取得很好。我念書就是很慢。", "……好，我過去。四十分鐘。"], "dating": true}, {"who": "kexin", "h": 19, "res": "resched", "why": "closed", "lines": null, "dating": true}, {"who": "kexin", "h": 14, "res": "accept", "why": null, "lines": ["慢讀？名字取得很好。我念書就是很慢。", "……好，我過去。四十分鐘。"], "dating": true}, {"who": "heroine_01", "h": 15.5, "res": "accept", "why": null, "lines": ["慢讀？……那間我常去。窗邊有插座那張，我知道什麼時候會空。"], "dating": false}, {"who": "heroine_01", "h": 19, "res": "resched", "why": "closed", "lines": null, "dating": false}, {"who": "heroine_01", "h": 14, "res": "accept", "why": null, "lines": ["慢讀？……那間我常去。窗邊有插座那張，我知道什麼時候會空。"], "dating": false}, {"who": "heroine_03", "h": 15.5, "res": "resched", "why": "work", "lines": ["我們兩個都在上班啊。"], "dating": false}, {"who": "heroine_03", "h": 19, "res": "resched", "why": "closed", "lines": null, "dating": false}, {"who": "heroine_03", "h": 14, "res": "resched", "why": "work", "lines": ["我們兩個都在上班啊。"], "dating": false}]
+PASS NOSIT（地點 slowread「去木曜日念書」） 候選 ["kexin", "heroine_01", "heroine_03"] 裡有人今天 14:00／15:30／19:00 會答應  [{"who": "kexin", "h": 15.5, "res": "accept", "why": null, "lines": ["慢讀？名字取得很好。我念書就是很慢。", "……好，我過去。四十分鐘。"], "dating": true}, {"who": "kexin", "h": 19, "res": "resched", "why": "closed", "lines": null, "dating": true}, {"who": "kexin", "h": 14, "res": "accept", "why": null, "lines": ["慢讀？名字取得很好。我念書就是很慢。", "……好，我過去。四十分鐘。"], "dating": true}, {"who": "heroine_01", "h": 15.5, "res": "accept", "why": null, "lines": ["慢讀？……那間我常去。窗邊有插座那張，我知道什麼時候會空。"], "dating": false}, {"who": "heroine_01", "h": 19, "res": "resched", "why": "closed", "lines": null, "dating": false}, {"who": "heroine_01", "h": 14, "res": "accept", "why": null, "lines": ["慢讀？……那間我常去。窗邊有插座那張，我知道什麼時候會空。"], "dating": false}, {"who": "heroine_03", "h": 15.5, "res": "resched", "why": "work", "lines": ["我們兩個都在上班啊。"], "dating": false}, {"who": "heroine_03", "h": 19, "res": "resched", "why": "closed", "lines": null, "dating": false}, {"who": "heroine_03", "h": 14, "res": "resched", "why": "work", "lines": ["我們兩個都在上班啊。"], "dating": false}]
+    [選項] 念書…〔2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館〕｜吃飯…〔公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜、Pasta 118〕｜喝咖啡、喝茶…〔2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café〕｜看電影、逛書店…〔南洋戲院、頁間書屋、山嵐書店〕｜散步…〔溫州街、映月湖、一一八茶飲〕｜運動…〔新體育館羽球場、椰影大道、游泳池〕｜出去玩…〔選地點、日期、時間〕｜算了
+PASS 手機「朋友」→ kexin「約」→ 出現選單  ["念書…", "吃飯…", "喝咖啡、喝茶…", "看電影、逛書店…", "散步…", "運動…", "出去玩…", "算了"]
+    [按] 念書…
+    [選項] 去 2:30 AM 念書｜去總圖一起念書｜去慢讀咖啡念書｜去法圖一起念書｜去木曜日念書｜去 afar café 念書｜去社科圖一起念書｜返回
+    [按] 去木曜日念書
+    [選項] 今天 12:10｜今天 15:30｜今天 17:30｜今天 19:00｜今天 21:00｜明天 12:10｜明天 19:00｜其他日子…〔之後 7 天內選一天〕｜算了
+    [按] 今天 15:30
+    [說] 杜可昕（手機）：好啊。我想吃巴斯克。
+    [說] （旁白）：約好 今天 15:30，木曜日。
+FAIL NOSIT（地點 slowread「去木曜日念書」） 約成了：kexin 15:30（slowread）  {"iv": null, "said": ["好啊。我想吃巴斯克。", "約好 今天 15:30，木曜日。"]}
+PASS [NOSIT] 沒有 JS 例外（pageerror）  []
+  [  67.8s] [NOSIT] 用了 41 秒
+FAILED: NOSIT（地點 slowread「去木曜日念書」） 約成了：kexin 15:30（slowread）
