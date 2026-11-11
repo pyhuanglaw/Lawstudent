@@ -168,7 +168,7 @@ await sec('5',async()=>{
     const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf(';')));
     const was=DL(cp.execFileSync('git',['-C',H.ROOT,'show','e25149ef0:src/data/date_lines.js'],{encoding:'utf8',maxBuffer:64*1024*1024})), now=DL(fs.readFileSync(path.join(H.ROOT,'src/data/date_lines.js'),'utf8'));
     /* 2026-11-11（X327 沛珊重寫，源稿 D14.json@2883197b6）：D14 沛珊的格子整組換了（逐字對稿在 tests/peishan_dates_1111_unit.js）——這裡比其他人的格子，沛珊那一組拿掉再比 */
-    for(const x of [was,now]) for(const k of ['lines','likes','dislikeLine']) if(x.loc.D14[k]) delete x.loc.D14[k].classmate_peishan;
+    for(const x of [was,now]) for(const k of ['lines','likes','dislikeLine']) if(x.loc.D14[k]){ delete x.loc.D14[k].classmate_peishan; delete x.loc.D14[k].heroine_05; }   /* 2026-11-11（X324 學姊約會台詞重寫，AA 82c946ad7）：D14 學姊的格子也重寫了（逐字對稿在 tests/sis_dates_1111_unit.js），一樣拿掉再比 */
     check('5. 正式約會的漁人碼頭照舊（date_locations.js、date3d.js 沒有改；date_lines.js 的 D14 只有 AA_694 拿掉「……」；沛珊的格子 X327 重寫，另外驗）',cp.spawnSync('git',['-C',H.ROOT,'diff','--quiet','e25149ef0','--','src/data/date_locations.js']).status===0&&!/D14|漁人碼頭/.test(cp.spawnSync('git',['-C',H.ROOT,'diff','e25149ef0','--','src/date3d.js']).stdout.toString())   /* date3d.js 之後有別的修改（DRIVE-PICKUP-1105 開車先取車）：只要 diff 沒碰到 D14／漁人碼頭就算照舊 */&&JSON.stringify(require('./ellipsis694.js').deep(was.loc.D14))===JSON.stringify(now.loc.D14)); }
 });
 

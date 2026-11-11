@@ -27,7 +27,7 @@ const L=DL.lines, want=[
   [L.kexin.flaked,[['第二次了。','……第三次我就不問了。']]],[L.kexin.depart,['我到了。你在哪？','你不會遲到吧。……不會。','火車票我買了。你那張也買了。']],[L.kexin.cancel,['好。下次。','好。我去找予樂吃宵夜。']],[L.kexin.enough,['好，我沒電了。手機。……我也是。','回去吧。明天還要早起。']],
   [L.heroine_01.accept,['好。我記到行事曆了。','可以。那天我沒有排別的。']],[L.heroine_01.acceptDating,['好。那天我空下來。']],[L.heroine_03.flaked,[['……嗯。','我那天有跟蘇姨請假。']]],
   [L.heroine_04.cancel,['臨時取消？……好啦，下次你請。','好。我自己去打。']],[L.heroine_04.flaked,['第二次了。我記下來了。']],[L.heroine_04.depart,['我已經到了。你在哪。','我出門了。下午兩點出門，算早。','今天我有睡飽。這很重要。']],[L.heroine_04.enough,['好，我電量剩一格。回家。','腳好痠。我沒有在撒嬌。']],[L.heroine_04.leaveEarly,['才剛到？……好。下次補。']],
-  [L.heroine_05.flaked,[['第二次了。','我不喜歡這樣。']]]   /* AA_593 第 66 列、使用者 11-02 第 10 節第 8 題：放鴿子第二句「我不喜歡這樣。」（企劃線 9aa8ec40c）*/,[L.heroine_05.depart,['我到了。不用跑，慢慢來。','我出門了。','車停哪裡？我在路口。']],[L.heroine_05.enough,['……今天差不多了，我們走吧。','明天八點有課。我不是想走。']],
+  [L.heroine_05.flaked,[['第二次了。','我不喜歡這樣。']]]   /* AA_593 第 66 列、使用者 11-02 第 10 節第 8 題：放鴿子第二句「我不喜歡這樣。」（企劃線 9aa8ec40c）*/,[L.heroine_05.depart,['我到了。不用跑，慢慢來。','我出門了。','我在路口。你從哪邊過來？']],[L.heroine_05.enough,['……今天差不多了，我們走吧。','我腳痠了。這句是實話。']],   /* 2026-11-11（X324 學姊約會台詞重寫，AA 82c946ad7）（AA_765_sis_date_common.json@808a6d846）：depart 第三句原本「車停哪裡？我在路口。」、enough 第二句原本「明天八點有課。我不是想走。」（逐字對稿在 tests/sis_dates_1111_unit.js）*/
   [L.classmate_peishan.accept,['好啊，去！','好，那天我空下來，誰約我都不去。']]];   /* 2026-11-11（X327 沛珊重寫，AA_758_peishan_date_common.json@bed993604）：原本救回的是「好。謝謝你約我。」「好，那天我空下來。」，這兩句照新稿換了（逐字對稿在 tests/peishan_dates_1111_unit.js）*/
 const bad=want.filter(([a,b])=>J(a)!==J(require('./ellipsis694.js').deep(b)));   /* AA_694（DATE-ELLIPSIS-1105）：救回的句子照同一條規則拿掉句首、。！？後、）後的「……」再比 */
 check('3. 救回的句子逐句在（16 處：可昕 4、以安 2、語彤 1、子晴 5、學姊 3、沛珊 1）',!bad.length,J(bad.map(([a,b])=>({have:a,want:b}))).slice(0,600));

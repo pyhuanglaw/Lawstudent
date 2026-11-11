@@ -60,6 +60,14 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
       let rw=''; try{ rw=['date_rewrite/peishan_D26.json','date_rewrite/peishan_D28.json','date_system/lines/D31.json'].map(k=>cp.execSync('git show 2883197b6:docs/story_planning/'+k,{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']})).join('\n'); }catch(e){}
       check('0. 沛珊早上三句、D31 離開句（X327 重寫）：新句都在企劃線 2883197b6 的改稿紀錄（peishan_D26／D28.json 的 for_LAWWW）和 D31.json 裡'+(rw?'':'（這份 checkout 讀不到，略過）'),!rw||Object.values(PSN).every(t=>rw.includes(t)),J(Object.values(PSN).filter(t=>!rw.includes(t))));
       SP.morning.classmate_peishan=PSN.morning; SP.own.classmate_peishan=PSN.own; SP.home.classmate_peishan=PSN.home;
+      /* 2026-11-11（X324 學姊約會台詞重寫，AA 82c946ad7）：學姊早上那一句（date_rewrite/sis_D26.json 的 for_LAWWW；原本「（保溫瓶已經裝好熱茶）……出發前喝一口。」）、5-2 的 D31／D32 到達句、5-3 的 D26／D32 離開句新稿直接寫好了（AA_359 那四列不再套；sis_D26／D31／D32.json 的 for_LAWWW）——
+         原本 AA_359 的「改成」：D31「保溫瓶裝的是熱茶。湖邊風大。」、D32「你開了一個早上的車。今天早點睡。」、D26「下次，我想來這裡什麼都不排。」、D32「山路長。下山吧。……不是想走。」 */
+      const SISN={morning:'（她已經在大廳，頭髮綁好了）早。你慢了七分鐘。',a31:'湖邊風大。我把頭髮綁起來了。',a32:'你開了很久的車。下車先動一動。',c26:'下次來這裡，什麼都不排。',c32:'山路長。趁亮下山。'};
+      let rs=''; try{ rs=['date_rewrite/sis_D26.json','date_rewrite/sis_D31.json','date_rewrite/sis_D32.json'].map(k=>cp.execSync('git show 82c946ad7:docs/story_planning/'+k,{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']})).join('\n'); }catch(e){}
+      check('0. 學姊早上那一句、D31／D32 到達句、D26／D32 離開句（X324 重寫）：新句都在企劃線 82c946ad7 的改稿紀錄 sis_D26／D31／D32.json 裡'+(rs?'':'（這份 checkout 讀不到，略過）'),!rs||Object.values(SISN).every(t=>rs.includes(t)),J(Object.values(SISN).filter(t=>!rs.includes(t))));
+      SP.morning.heroine_05=SISN.morning;
+      for(const f of SP.fix52) if(f.who==='heroine_05'&&f.loc==='D31') f.neu=SISN.a31; else if(f.who==='heroine_05'&&f.loc==='D32') f.neu=SISN.a32;
+      for(const f of SP.fix53) if(f.who==='heroine_05'&&f.loc==='D26') f.neu=SISN.c26; else if(f.who==='heroine_05'&&f.loc==='D32') f.neu=SISN.c32;
       for(const f of SP.fix53) if(f.loc==='D31'&&f.who==='classmate_peishan') f.neu=PSN.d31; } }
   check('0. 讀得到稿 AA_359@'+SPEC_SHA+'：晚上四種、早上旁白、七位一句、住自己家／租的地方三句',!!spec&&Object.keys(SP.night).length===4&&!!SP.narr&&Object.keys(SP.morning).length===7&&Object.keys(SP.own).length===3,J(SP));
   check('0. 晚上那一句（第 2 節）四種逐字：兩間房／民宿／她回家／她回租的地方',!!D().NIGHT&&['single','dating','home','rent'].every(k=>D().NIGHT[k]===SP.night[k]),J([D().NIGHT,SP.night]));
