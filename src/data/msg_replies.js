@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@31f1a4aca）。不要手改，改企劃 AA_709 再重新匯入。
+/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@addac77bb）。不要手改，改企劃 AA_709 再重新匯入。
    女主角主動傳來的訊息的回覆選項（MSG-REPLY-1107；播放 src/msgreply3d.js）*/
 'use strict';
 const MSG_REPLIES={
- "src": "docs/story_planning/AA_709_msg_replies.json@31f1a4aca",
+ "src": "docs/story_planning/AA_709_msg_replies.json@addac77bb",
  "people": {
   "classmate_xinci": [
    {
@@ -81,7 +81,7 @@ const MSG_REPLIES={
     "text": "我不應該在追劇的時候想民總。",
     "opts": [
      {
-      "t": "可是這樣期中就不用讀了。",
+      "t": "可是這樣也算在讀民總了。",
       "rel": {
        "comf": 2
       },
