@@ -3,8 +3,7 @@
    - 10:00 她先傳「你現在在哪？」；兩分鐘後「我現在去搭客運。」「到總圖外面的台階。我中午到。」（祐廷的回覆「在家。」／「在家。怎麼了？」，AA_416 第 11 節第 4 點；選哪個、不回都一樣，她接著傳）→ 12:00 出遊「總圖外面的台階」（從家裡出發約 30 分鐘，比她早到）。
    - 12:00 以前到：她從公館那邊跑過來（BCG-22 就是這一拍）；12:15 還沒到：她傳「我到了。台階這邊，樹蔭下面。」，等到 13:00；12:00 以後才到、或 13:00 帶到場（R4，她的答案要當面說）：
      旁白「（八月的午後。她坐在台階上，看到你，才站起來。）」，其他一樣。
-   - 台詞：「上了。我要去當老師了。」（CG cg_results_day_peishan）→ PS_KEPT「那半年，每天晚上十一點，我都傳一則給你。……現在可以白天講了。」（STORY.PS_KEEP_BACK）→「你幫我想想，我第一堂課要講什麼。」→ 祐廷的三個回答照 BB_97 4-4（「講框外面的人。」只給有 NOT_FOR_ME 的玩家）。
-   - 2026-11-11（使用者 X327 沛珊重寫）：第三句、選項 a、c 的回話照 AA_759_peishan_misc2.json@987845b7c 換（選項 b「講框外面的人」和回話先不動，等 ev_peishan_syllogism 重寫時一起看）。逐字對稿：tests/peishan_dates_1111_unit.js
+   - 台詞：「上了。我要去當老師了。」（CG cg_results_day_peishan）→ PS_KEPT「那半年，每天晚上十一點，我都傳一則給你。……現在可以白天講了。」（STORY.PS_KEEP_BACK）→「……你幫我想想，第一堂課要講什麼。」→ 祐廷的三個回答照 BB_97 4-4（「講框外面的人。」只給有 NOT_FOR_ME 的玩家）。
    - 演完：PS_RECONNECT（資料頁大三、大四「教育系」、畢業那天的卡片讀這個）、PS_RESULTS＝met／brought。
    - 2D 背景：總圖白天的外景還沒有圖，用椰林大道（ntu_avenue，台階在大道的盡頭）；暑假從家裡出發，不換 3D。
    - 沒交往的玩家：這一版不做（AA_282 第 2 節「她不先找人」；8/7 傳過訊息的那通電話在 y2b3d.js）。交往中（和別人）的「我考上了。」、班群「沛珊考上了！」等 AA 定（這一版沒有）。 */
@@ -49,11 +48,11 @@ const PSR=(function(){
       {cg:'cg_results_day_peishan'},
       {speaker:ID,text:'上了。我要去當老師了。'},
       {if:{custom:G=>!!G.flags.PS_KEPT},speaker:ID,text:typeof STORY!=='undefined'&&STORY.PS_KEEP_BACK?STORY.PS_KEEP_BACK:'那半年，每天晚上十一點，我都傳一則給你。……現在可以白天講了。'},
-      {speaker:ID,text:'你幫我想想，我第一堂課要講什麼。'},
+      {speaker:ID,text:'……你幫我想想，第一堂課要講什麼。'},
       {choice:[{text:'「先講妳為什麼想當老師。」',goto:'a'},{text:'「講框外面的人。」',if:{custom:()=>hasNF()},goto:'b'},{text:'「先睡覺。明天再想。」',goto:'c'}]},
-      {label:'a'},{speaker:ID,text:'好。那我第一堂就講這個。講不好的話第二堂再講一次，反正他們跑不掉。'},{goto:'end'},
+      {label:'a'},{speaker:ID,text:'……好。那我第一堂就講這個。講不好的話，第二堂再講一次。'},{goto:'end'},
       {label:'b'},{speaker:ID,text:'……你還記得。好。那第一堂課，我先畫三個框。'},{goto:'end'},
-      {label:'c'},{speaker:ID,text:'好。可是我一定睡不著。我要先打給我爸，他會把這件事貼在辦公室牆上。'},
+      {label:'c'},{speaker:ID,text:'好。……睡不著。我要先去跟早餐店的牆說。'},
       {label:'end'} ],
     after:G=>{ const F=G.flags; F.PS_RESULTS=F.PS_RESULTS_BROUGHT?'brought':'met'; F.PS_RECONNECT=true; delete F.PS_RESULTS_LATE; } };
   S.EV=EV;

@@ -91,20 +91,4 @@ check('8. 每間店門口有互動點（室內還沒做的是「看」）',L.sho
   const ends=sh.length?[[(AR.x0+F.upper)/2,sh[0].z0+0.6,sh[0].z0-3],[(AR.x0+F.upper)/2,sh[sh.length-1].z1-0.6,sh[sh.length-1].z1+3]]:[];
   for(const [x,za,zb] of ends) if(reach([x,za],[x,zb])) bad.push(`騎樓 (${x.toFixed(1)}, ${za.toFixed(1)}) 走得進 (${x.toFixed(1)}, ${zb.toFixed(1)}) 的公寓`);
   check('18. 沒有騎樓的公寓（'+NA.map(([a,bb])=>'z '+a+'～'+bb).join('、')+'）：模型沒有騎樓、牆裡面走不到、人行道站得住、騎樓兩端走不進公寓',NA.length>0&&!bad.length,bad.slice(0,4).join('｜')+(bad.length>4?' …（共 '+bad.length+' 項）':'')); }
-/* 19. 路邊的機車（XS-SCOOTERS-1111，LAWWW2 帳號 A 11-11；BB／CC 03:44：配置有 scooters、程式沒讀，新生南路 0 台） */
-{ const SC=L.scooters, SP=XS3.scooterSpots(L), src=fs.readFileSync(path.join(ROOT,'src/xinsheng3d.js'),'utf8'), WLn=L.wenzhouLane;
-  const inSpan=q=>SC.spans.some(([a,b])=>q.z>=Math.min(a,b)&&q.z<=Math.max(a,b)), door=q=>L.shops.some(s=>s.door&&Math.abs(s.door.z-q.z)<(s.door.w||2)/2+0.7), cross=q=>L.crossings.some(c=>Math.abs(q.z-c.z)<c.w/2+0.8), lane=q=>q.z>WLn.z0-0.6&&q.z<WLn.z1+0.6;
-  check('19. 機車照配置的位置（x '+SC.x+'、三段 z，扣掉三間店門口以後放得下十來台）：至少 10 台、都在配置的範圍裡；店門口、斑馬線、溫州街巷口前沒有',SP.length>=10&&SP.every(q=>Math.abs(q.x-SC.x)<=0.14&&inSpan(q))&&!SP.some(q=>door(q)||cross(q)||lane(q)),SP.length+' 台');
-  { const zs=SP.map(q=>q.z).sort((a,b)=>a-b); let run=0, worst=0, s0=zs[0]; for(let i=1;i<zs.length;i++){ if(zs[i]-zs[i-1]>1.3){ worst=Math.max(worst,zs[i-1]-s0); s0=zs[i]; } } worst=Math.max(worst,zs[zs.length-1]-s0);
-    check('19. 一小群一小群停：沒有連續超過 5 m 的一整排、至少四群；兩次算出來的位置一樣（固定，不是亂數）',worst<=5&&new Set(SP.map(q=>q.g)).size>=4&&JSON.stringify(XS3.scooterSpots(L))===JSON.stringify(SP),'最長 '+worst.toFixed(2)+' m、'+new Set(SP.map(q=>q.g)).size+' 群'); }
-  check('19. 區域建好：機車都放了（zone.xsScooters＝位置數）、每一台的位置站不進去（擋導航）；接正式模型（Z3.attachWzScooters）；沒有 TZ3 時也不出錯（用套件顏色）',z.xsScooters===SP.length&&SP.every(q=>!nav.clear(SC.x,q.z,0.3))&&/Z3\.attachWzScooters\(g,scG,scList,c\.scene,'xs_scooters_glb'\)/.test(src)&&/typeof TZ3!=='undefined'&&TZ3\.pickScooter/.test(src),String(z.xsScooters));
-  { const sp=z.spawn, far=[]; for(const s of L.shops){ if(!s.door) continue; const it=E.interactables.find(i=>Math.abs(i.z-s.door.z)<1.6&&i.x<-12&&!i.exit)||null; if(!it) continue; const r=E.simWalk(sp.x,sp.z,it.x,it.z,{dt:1/30,speed:1.8}); if(!(r&&r.ok)) far.push(s.id+JSON.stringify(r).slice(0,80)); }
-    check('19. 停了機車以後，從側門還是走得到每一間店門口的互動點',!far.length,far.join(' ')); } }
-/* 20. 三款配件車各指定一台（BB 11-11 04:4x：這條街 12 台、每款機率 3%，照位置抽剛好 0 台）：有汀州路的機車表（TZ3）時，第 2、6、10 台是擋風鏡、腳踏板的袋子、雨衣 */
-{ const had=global.TZ3; global.TZ3={SC:{S1A:{},S1A_W:{},S1B_G:{},S7_R:{}},pickScooter:()=>({code:'S1A',col:'#e9e9e6',tail:'A',cf:0})};
-  E.interactables=[]; E.colliders=[]; const z2=Z3.ZONES.xinsheng.build(E), codes=(z2.xsScList||[]).map(q=>q.code);
-  check('20. 配件車三款各一台（S1A_W、S1B_G、S7_R），其餘照機率抽；台數不變',['S1A_W','S1B_G','S7_R'].every(c=>codes.filter(x=>x===c).length===1)&&codes.length===z.xsScooters&&codes.filter(x=>x==='S1A').length===codes.length-3,codes.join(' '));
-  global.TZ3={SC:{S1A:{}},pickScooter:()=>({code:'S1A',col:'#e9e9e6',tail:'A',cf:0})}; E.interactables=[]; E.colliders=[]; const z3=Z3.ZONES.xinsheng.build(E);
-  check('20. 機車表沒有配件款時不指定（不會指到不存在的模型）',(z3.xsScList||[]).every(q=>q.code==='S1A'));
-  if(had===undefined) delete global.TZ3; else global.TZ3=had; }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

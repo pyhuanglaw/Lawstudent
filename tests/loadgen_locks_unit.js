@@ -144,7 +144,7 @@ global.GAME=GM;
 const L3=f=>{ const p=path.join(ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
 const loadErr={};
 for(const f of ['src/data/room_glb_layouts.js','src/rooms_glb3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/exchange3d.js','src/data/y2b_events.js','src/y2b3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js',
-  'src/data/r2y4b_events.js','src/r2y4b3d.js','src/data/r3_events.js','src/r3_3d.js','src/sideq3d.js','src/closed3d.js','src/closed2_3d.js','src/data/eat_lines.js','src/eat3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/l118_redo772.js','src/lane118.js',
+  'src/data/r2y4b_events.js','src/r2y4b3d.js','src/data/r3_events.js','src/r3_3d.js','src/sideq3d.js','src/closed3d.js','src/closed2_3d.js','src/data/eat_lines.js','src/eat3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js',
   'src/data/wz_park_layout.js','src/wzpark3d.js','src/wzshops3d.js','src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js','src/data/pool_story.js','src/pool3d.js']) try{ L3(f); }catch(e){ loadErr[f]=String(e).slice(0,160); }
 const C=()=>typeof CLOSED2!=='undefined'?CLOSED2:null, PO=()=>typeof POOL!=='undefined'?POOL:null;
 const ROOMS=['wancai_semb'], LAY=id=>ROOM_GLB_LAYOUTS[id];

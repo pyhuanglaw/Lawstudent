@@ -83,7 +83,7 @@ await sec(2,async()=>{
     check('2d. 10/14 17:00 跳到 22:00：停在 18:30',r.why==='stop'&&Math.abs(now()-Tm(d,18.5))<1e-6,J({why:r.why,stop:r.stop,at:lbl(now())})); }
   // 2e 要回的訊息：停在那一刻打開手機；關掉以後接著跳到原本選的時間
   fresh('2025-11-02',22); reset(); { const d=D('2025-11-03'); PHONE.at(H.G,d,20,[{th:'p:zhe',from:'zhe',text:'測試：要回的',ask:{id:'t_semff_ask',opts:[{t:'好'}]}}],'t_semff');
-    H.picks=['過一週','快轉']; const r=await X().menu(GM); const c=phoneCalls[0];   /* 2026-11-11：多一步確認〔算了／快轉〕（BUG-BEDFF-DOUBLETAP-1111）*/
+    H.picks=['過一週']; const r=await X().menu(GM); const c=phoneCalls[0];
     check('2e. 11/2 22:00「過一週」：11/3 20:00 停下來打開手機（跳過），看得到那則',!!c&&c.skip&&/^11-03 20:/.test(c.at)&&c.pend.includes('t_semff_ask'),J(phoneCalls));
     check('2e. 關掉以後接著跳（沒有停在 11/3 20:00）',now()>Tm(d,20.5),J({why:r&&r.why,stop:r&&r.stop,at:lbl(now())})); }
   // 2f 新成立的一定要演的事件（trigger auto、location any）：停在成立那一刻；跳之前就成立的不停
@@ -104,13 +104,6 @@ await sec(2,async()=>{
     check('2h. 10/9 08:55（09:10 英文課前 20 分鐘以內，有課前事件）：不跳（why now），時間沒動',r.why==='now'&&now()===t0&&/大一英文/.test(r.stop.why),J({why:r.why,at:lbl(now())})); }
   // 2i 選單：「不用了」什麼都不做
   fresh('2025-10-05',22); reset(); { H.picks=['不用了']; const t0=now(); await X().menu(GM); check('2i. 「不用了」：時間沒動',now()===t0); }
-  /* 2j（BUG-BEDFF-DOUBLETAP-1111，BB／CC 2026-11-11）：選了「過一週」以後先說會跳到哪、再確認；「算了」在前（預設）＝時間沒動；正在上的課會記成沒去要講出來 */
-  fresh('2025-10-05',22); reset(); { H.said=[]; H.opts=[]; H.picks=['過一週','算了']; const t0=now(); const r=await X().menu(GM); const L=H.said.map(q=>q.t), M=H.opts[H.opts.length-1]||[];
-    check('2j. 「過一週」→ 一句說明（快轉：過一週，最多到…，中間有事會先停。）→〔算了／快轉〕，選算了＝時間沒動',r===false&&now()===t0&&L.length===1&&/^快轉：過一週，最多到 .+，中間有事會先停。沒有劇情的課會自動去上。$/.test(L[0])&&J(M.map(q=>q.t||q))===J(['算了','快轉']),J([L,M])); }
-  { const G=H.G; let it=null, d=G.day; for(let k=0;k<7&&!it;k++){ d=G.day+k; it=CLS.dayItems(G,d).find(q=>!q.exam&&q.c.kind!=='service'&&!(CLS.storyClass&&CLS.storyClass(G,q))); }
-    if(it){ fresh(CALENDAR.dateOf(d).key,it.t0+0.3); reset(); const lose=X().loseNow(H.G).map(q=>q.c.name); H.said=[]; H.picks=['過一週','算了']; await X().menu(GM);
-      check('2j. 課已經開始、還沒下課時按快轉：說明裡講明「現在正在上的○○會記成沒去。」',lose.includes(it.c.name)&&H.said.some(q=>q.t.indexOf('現在正在上的'+lose.join('、')+'會記成沒去。')>=0)&&!CLS.rec(H.G).done[it.key],J([lose,H.said.map(q=>q.t)])); }
-    else check('2j. 找得到一堂普通的課',false); }
 });
 
 /* ---- 3 上限 ---- */

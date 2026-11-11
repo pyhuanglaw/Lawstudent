@@ -109,9 +109,6 @@ const MOKS=(function(){
     if(i>=M.length){ await GM.say({name:G.name},S.L.water); await GM.say(BOSS,S.L.waterOk); await S.chat(GM); return 'water'; }
     const [nm,p,line]=M[i]; if((G.money|0)<p){ GM.toast('錢不夠'); return null; }
     GM.money(-p); await GM.say(null,line); const E_=S.eatReg(); if(E_&&E_.ordered){ try{ await E_.ordered(GM,'木曜日',nm); }catch(e){ console.warn('EAT.ordered',e); } }
-    /* 順手的事（src/sideq3d.js）：AA_772 把 SQ04「一台沒人拿的筆電」從慢讀咖啡搬到木曜日（L118-SHOPS-REDO-1111）——在木曜日點完東西也叫 SIDEQ.atShop（key＝那件事原本的店名 key，SIDEQ.keyOfName('木曜日')）；
-       原本只有 118 巷、溫州街那幾間的點餐有接，木曜日沒有接＝搬過來以後那件事永遠不會出現 */
-    if(typeof SIDEQ!=='undefined'&&SIDEQ.atShop&&SIDEQ.keyOfName){ const k=SIDEQ.keyOfName('木曜日'); if(k){ try{ await SIDEQ.atShop(GM,k,{item:nm,price:p}); }catch(e){ console.warn('SIDEQ',e); } } }
     await S.chat(GM); if(GM.autosave) GM.autosave(); return nm; };
   /* 熟了以後的閒聊（1-4）：來過八次以上、這學期還沒說，三句輪流 */
   S.chat=async function(GM){ const G=GM.G, r=S.rec(G), k=S.termKey(G); if(r.n<8||r.chat.t===k) return false; const n=r.chat.k|0; r.chat={t:k,k:n+1}; await GM.say(BOSS,S.L.chat[n%S.L.chat.length]); return true; };

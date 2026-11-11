@@ -34,46 +34,9 @@ await sec(1,()=>{ const A=TERMEND_LINES.KX_ASK, f=x=>typeof x==='function';
   check('1. 大三下：美國路線「十二月就回來。」／「出發前去高雄一次。」；臺灣「暑假我去高雄找妳。」／「視訊也很好。」',us[0].t==='「十二月就回來。」'&&us[1].khh[1]==='yes'&&tw[0].t==='「暑假我去高雄找妳。」'&&tw[1].khh[1]==='video');
   check('1. 大三上兩個都記 Y3W yes；大五上記 KX_Y5_CALL',A.Y3S1.every(o=>o.khh[0]==='Y3W'&&o.khh[1]==='yes')&&A.Y5S1[0].y5==='sat'&&A.Y5S1[1].y5==='cheer');
   const src=fs.readFileSync(path.join(H.ROOT,'src/termend3d.js'),'utf8');
-  check('1. termend3d.js kexinDinner：（沒有選項稿的）table 後面接 KX_ASK 的二選一、記 KX_KHH',/Lx\.KX_ASK&&Lx\.KX_ASK\[te\.term\]/.test(src)&&/KX_KHH\|\|\(G\.flags\.KX_KHH=\{\}\)/.test(src)); });
-await sec('1b',async()=>{ const te={term:'Y2S1'}; fresh('2026-12-30',18); H.said=[]; H.opts=[]; H.picks=[0,1]; await TERMEND.kexinDinner(GM,te);   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版）：開頭照新稿、先有一組三個選項，KX_ASK 的二選一是第二組 */
-  /* 2026-11-10 再改期望（AA 11-10 經 LAWWW：有選項稿的學期 KX_ASK 的二選一不再接在後面；KX_KHH.Y2W 由選項「我去。妳排哪幾天？」記）*/
-  /* 2026-11-11 改期望（AA 改斷句、意思不變；企劃線 bd1a6fda3：芷若、可昕、Alison、阿哲說的字改成一口氣講的寫法，113 處）：開頭併成一句（原本「寒假你來高雄。」「我家附近那個夜市你還沒去過。我已經跟我媽說了。」）*/
-  check('1. 實際演大二上（有選項稿）：開頭照新稿、只有一組三個選項、不再接 KX_ASK 的二選一',has('寒假你來高雄，我家附近那個夜市你還沒去過，我已經跟我媽說了。')&&H.opts.length===1&&H.opts[0].length===3&&!has('……好。那夜市我自己去，拍給你看。')&&!has('你自己挑。我那幾天都在。'),J({s:H.said.map(x=>x.t),o:H.opts}));
-  const k0=TERMEND.SHUFFLE; TERMEND.SHUFFLE=false; try{ fresh('2026-12-30',18); H.said=[]; H.opts=[]; H.picks=[1]; await TERMEND.kexinDinner(GM,te); } finally{ TERMEND.SHUFFLE=k0; }
-  check('1. 選「我去。妳排哪幾天？」＝記 KX_KHH.Y2W yes（原本二選一「好。哪幾天？」記的那個）',H.opts[0][1]==='「我去。妳排哪幾天？」'&&!!H.G.flags.KX_KHH&&H.G.flags.KX_KHH.Y2W==='yes',J({o:H.opts,k:H.G.flags.KX_KHH}));
-  fresh('2026-12-30',18); H.said=[]; H.opts=[]; H.picks=[0]; TERMEND.SHUFFLE=false; try{ await TERMEND.kexinDinner(GM,te); } finally{ TERMEND.SHUFFLE=k0; }
-  /* 2026-11-10 三改期望（AA 回 LAWWW，企劃線 1cf434dee：每個選項照稿的 set 記——true＝原本的「去」yes、false＝原本的「沒空」no；「我去。妳排哪幾天？」的特例拿掉）*/
-  check('1. 選「妳跟妳媽說什麼？」（set KX_KHH true）＝也記 KX_KHH.Y2W yes',H.opts[0][0]==='「妳跟妳媽說什麼？」'&&!!H.G.flags.KX_KHH&&H.G.flags.KX_KHH.Y2W==='yes',J(H.G.flags.KX_KHH||null));
-  fresh('2026-12-30',18); H.said=[]; H.opts=[]; H.picks=[2]; TERMEND.SHUFFLE=false; try{ await TERMEND.kexinDinner(GM,te); } finally{ TERMEND.SHUFFLE=k0; }
-  check('1. 選「寒假我可能要打工。」（set KX_KHH false）＝記 KX_KHH.Y2W no（原本「寒假我可能沒空。」記的那個）',H.opts[0][2]==='「寒假我可能要打工。」'&&!!H.G.flags.KX_KHH&&H.G.flags.KX_KHH.Y2W==='no',J(H.G.flags.KX_KHH||null));
-  { const R=homeRun('2026-12-15','2027-02-20'); H.at(keyOf(R.a+4),21.1); ph(); const t5=th().map(m=>m.text);
-    check('1. 接著演：寒假她在高雄第 5 天 21:00 夜市的照片（「沒空」那一條）、沒有第 3 天那則',t5.includes('（照片：夜市的燈）')&&t5.includes('這是你說沒空的那個夜市。')&&!th().some(m=>m.tag==='kxkhh_d3_Y2W'),J(t5)); }
-  /* 每一頓、每個選項記的值＝照稿的 set（1cf434dee）；美國路線那一組不記；大五上三個都記 KX_Y5_CALL sat */
-  { let kx=null; try{ kx=JSON.parse(cp.execSync('git show 1cf434dee:docs/story_planning/AA_749_termend_kx_v2.json',{cwd:H.ROOT,encoding:'utf8'})).KX; }catch(e){ kx=null; }
-    const KEY={Y2S1:'Y2W',Y2S2:'Y2S',Y3S1:'Y3W',Y3S2:'Y3S',Y4S1:'Y4W'}, bad=[]; let n=0; TERMEND.SHUFFLE=false;
-    try{ for(const term of Object.keys(kx||{})) for(const us of (kx[term].optsUS?[false,true]:[false])){ const src=us?kx[term].optsUS:kx[term].opts;
-        for(let i=0;i<src.length;i++){ const day={Y2S1:'2026-12-30',Y2S2:'2027-06-19',Y3S1:'2028-01-14',Y3S2:'2028-06-17',Y4S1:'2028-12-24',Y5S1:'2029-12-20'}[term];
-          fresh(day,18,us?{EXCHANGE_ROUTE:'US'}:null); if(us&&!TERMEND_LINES.COND.US(H.G)) continue; H.said=[]; H.opts=[]; H.picks=[i]; await TERMEND.kexinDinner(GM,{term}); n++;
-          const F=H.G.flags, s=src[i].set, got=J([F.KX_KHH||null,F.KX_Y5_CALL||null]);
-          /* 2026-11-11 改期望（AA 2026-11-10 23:4x 回 LAWWW）：大三下（Y3S2）美國路線的三個選項都記 KX_KHH.Y3S yes（他八月才出發，七月第 3 天「七月你空哪天。」照舊發）——
-             稿（1cf434dee）的 optsUS 還沒有 set（AA 之後補；匯入工具 KX_US_YES 沒寫＝一律補 yes），所以這一組稿上可以沒有 set、有的話要是 {KX_KHH:true}。原本期望「美國路線一律不記」 */
-          const usYes=us&&term==='Y3S2';
-          const want=usYes?J([{Y3S:'yes'},null]):(us?J([null,null]):(term==='Y5S1'?J([null,'sat']):J([{[KEY[term]]:s.KX_KHH?'yes':'no'},null])));
-          if(H.opts.length!==1||H.opts[0][i]!==src[i].t||(usYes?(s!=null&&J(s)!==J({KX_KHH:true})):(us?s!=null:s==null))||got!==want) bad.push([term,us,src[i].t,got,want]); } } } finally{ TERMEND.SHUFFLE=k0; }
-    check('1. 六頓每個選項（'+n+' 個）記的存檔值＝照稿的 set：KX_KHH true→yes、false→no（key＝那一次寒暑假）；美國路線不記（大三下例外：三個都記 Y3S yes）；大五上三個都 KX_Y5_CALL sat',!!kx&&n>=18&&bad.length===0,J(bad.slice(0,4))); }
-  /* 大三下美國路線（AA 2026-11-10 23:4x）：三個選項任選 → KX_KHH.Y3S yes → 暑假她回高雄第 3 天 21:00「七月你空哪天。」會發 */
-  { const bad=[]; TERMEND.SHUFFLE=false;
-    try{ for(let i=0;i<3;i++){ fresh('2028-06-17',18,{EXCHANGE_ROUTE:'US'}); const usOn=TERMEND_LINES.COND.US(H.G); H.said=[]; H.opts=[]; H.picks=[i]; await TERMEND.kexinDinner(GM,{term:'Y3S2'});
-        const khh=(H.G.flags.KX_KHH||{}).Y3S, R=homeRun('2028-06-18','2028-08-31'); let m3=[];
-        if(R){ H.at(keyOf(R.a+2),21.1); ph(); m3=th().filter(m=>m.tag==='kxkhh_d3_Y3S').map(m=>m.text); }
-        if(!usOn||H.opts.length!==1||H.opts[0].length!==3||khh!=='yes'||!R||R.key!=='Y3S'||J(m3)!==J(['七月你空哪天。'])) bad.push([i,usOn,H.opts[0],khh,R&&R.key,m3]); } } finally{ TERMEND.SHUFFLE=k0; }
-    check('1. 大三下美國路線：三個選項任選一個 → KX_KHH.Y3S 記 yes → 暑假她回高雄第 3 天 21:00「七月你空哪天。」照舊發',bad.length===0,J(bad.slice(0,2))); }
-  { fresh('2029-12-20',18); H.said=[]; H.opts=[]; H.picks=[2]; await TERMEND.kexinDinner(GM,{term:'Y5S1'}); const F=H.G.flags; const real=typeof PGDATE!=='undefined'?PGDATE.kxList:null, day=D('2030-02-16');
-    if(typeof PGDATE==='undefined') globalThis.PGDATE={}; PGDATE.kxList=()=>[{kind:'call',day}];
-    try{ H.at('2030-02-16',22.1); ph(); check('1. 大五上選第三個「妳比我早。」→ 受訓第一個週六 22:00「打給可昕」提醒照舊',F.KX_Y5_CALL==='sat'&&(H.G.msgs||[]).some(x=>x.tag==='kxkhh_y5_call'&&x.text==='打給可昕'),J([F.KX_Y5_CALL,(H.G.msgs||[]).slice(-2)])); } finally{ if(real) PGDATE.kxList=real; else delete PGDATE.kxList; } }
-  const keep=globalThis.TERMEND_OPTS; globalThis.TERMEND_OPTS=null;
-  try{ fresh('2026-12-30',18); H.said=[]; H.opts=[]; H.picks=[1]; await TERMEND.kexinDinner(GM,te);
-    check('1. 沒有選項稿（舊資料）：table 後面照舊接 KX_ASK 的二選一 →「寒假我可能沒空。」→「……好。那夜市我自己去，拍給你看。」；KX_KHH.Y2W no',H.opts.length===1&&H.opts[0].length===2&&has('……好。那夜市我自己去，拍給你看。')&&H.G.flags.KX_KHH.Y2W==='no',J({s:H.said.map(x=>x.t),o:H.opts})); } finally{ globalThis.TERMEND_OPTS=keep; } });
+  check('1. termend3d.js kexinDinner：table 後面接 KX_ASK 的二選一、記 KX_KHH',/Lx\.KX_ASK&&Lx\.KX_ASK\[te\.term\]/.test(src)&&/KX_KHH\|\|\(G\.flags\.KX_KHH=\{\}\)/.test(src)); });
+await sec('1b',async()=>{ const te={term:'Y2S1'}; fresh('2026-12-30',18); H.said=[]; H.opts=[]; H.picks=[1]; await TERMEND.kexinDinner(GM,te);
+  check('1. 實際演大二上：「我家附近那個夜市，你還沒去過。」→ 兩個選項 →「寒假我可能沒空。」→「……好。那夜市我自己去，拍給你看。」；KX_KHH.Y2W no',has('我家附近那個夜市，你還沒去過。')&&H.opts[0]&&H.opts[0].length===2&&has('……好。那夜市我自己去，拍給你看。')&&H.G.flags.KX_KHH.Y2W==='no',J({s:H.said.map(x=>x.t),o:H.opts})); });
 /* ---- 2 ---- */
 await sec(2,async()=>{ fresh('2027-01-01',12,{KX_KHH:{Y2W:'yes'}}); const R=homeRun('2026-12-15','2027-02-20');
   check('2. 可昕大二寒假在高雄（presence home）、這一段算 Y2W',!!R&&R.key==='Y2W',J(R));

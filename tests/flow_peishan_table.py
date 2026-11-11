@@ -68,7 +68,7 @@ async def main():
         s = await play_through(pg, cdp, run, lambda q: not q['dlg'] and not q['choices'] and not q['busy'], pick_text='「那我等妳十分鐘。」', seen=seen)
         f = await pg.evaluate("({c:GAME.G.flags.PS_CANCEL,g:GAME.G.flags.PS_TABLE_GOT})")
         run.check('選「那我等妳十分鐘。」：她下來（四句）、拿到表、時間過了約十分鐘',
-                  any(t.startswith('十分鐘後她真的下來了') for t in seen) and any(t.startswith('我上去了，還有十二本在等我。') for t in seen) and f['c'] == 'waited' and f['g'] is True and 0.12 <= s['hour'] - h0 <= 0.5,
+                  any(t.startswith('十分鐘後她真的下來了') for t in seen) and any(t.startswith('……我上去了。還有十二本。') for t in seen) and f['c'] == 'waited' and f['g'] is True and 0.12 <= s['hour'] - h0 <= 0.5,
                   json.dumps({'f': f, 'h0': h0, 'h': s['hour'], 'seen': seen[-5:]}, ensure_ascii=False))
         th = await pg.evaluate("(GAME.G.msgs||[]).filter(m=>m.th==='p:classmate_peishan').map(m=>(m.from||'')+':'+m.text)")
         run.check('手機裡：她的兩句只出現一次，接著是你的「那我等妳十分鐘。」', th.count('classmate_peishan:今天下不去了。') == 1 and th[-1] == 'player:那我等妳十分鐘。', json.dumps(th, ensure_ascii=False))

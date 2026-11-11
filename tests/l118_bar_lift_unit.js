@@ -22,10 +22,7 @@ const walk=(a,b)=>E.simWalk(a[0],a[1],b[0],b[1],{lv0:0,lv1:0,dt:0.1,speed:4.1});
 const nearStand=(x,z,R)=>{ for(let rr=0;rr<=R;rr+=0.1) for(let a=0;a<24;a++){ const tx=x+Math.cos(a/24*Math.PI*2)*rr, tz=z+Math.sin(a/24*Math.PI*2)*rr; if(E.canStand(tx,tz,0.32,0)) return [tx,tz]; } return null; };
 for(const [f,n] of [['src/data/lane118_layout.js','LANE118_LAYOUT'],['src/data/l118_shop_layouts.js','L118_SHOP_LAYOUTS'],['src/l118_shops3d.js','L118S']])
   vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='),{filename:f});
-/* 2026-11-11 L118-SHOPS-REDO-1111（室內重做，tools/blender/env_second/l118_int_omu.py、l118_int_pasta.py）：奈良咖哩（omu，原蛋包飯）照參考圖沒有吧台了——原本 omu:5 拿掉（它的座位沒有 lift，下面「其他店的座位沒有 lift」會檢查）；
-   義大麵屋（pasta）原本 6 → 9：對著開放料理檯的吧台五張（參考圖 int2）＋右牆靠牆的吧台四張（參考圖 int），都是高背木椅、座面一樣 0.76 m */
-const EXPECT={cafe2:4,pasta:9};   // tea 拿掉（L118-SHOPS-REDO-1111，使用者 11-11 X338）：這一格從一一八茶飲（兩張高腳椅）改成辛亥韓食（四人卡座，沒有高腳椅）；其他三間的室內 LAWWW 那邊重做以後照新的配置改這個表
-delete EXPECT.cafe2;   /* 2026-11-11（L118-SHOPS-REDO-1111，室內重做）：cafe2 從慢讀咖啡換成大學食堂（秤重自助餐）——窗邊的吧檯和 4 張高腳椅拿掉了，新室內 14 個座位都是一般椅子（沒有 lift）；下面「其他店的座位沒有 lift」會一起驗 cafe2。寫成另外一行：別間店的室內也在改這張表，避免同一行衝突 */
+const EXPECT={tea:2,cafe2:4,pasta:6,omu:5};
 for(const [id,n] of Object.entries(EXPECT)){ const L=L118_SHOP_LAYOUTS[id]; const hi=L.seats.filter(s=>s.lift);
   check('1. '+L.name+'：吧台高腳椅 '+n+' 個座位帶 lift '+LIFT+'（0.76 − '+SIT_TOP+'）', hi.length===n&&hi.every(s=>Math.abs(s.lift-LIFT)<1e-6), hi.length+' 個：'+hi.map(s=>s.lift).join(',')); }
 { const o=Object.keys(L118_SHOP_LAYOUTS).filter(i=>!EXPECT[i]).flatMap(i=>L118_SHOP_LAYOUTS[i].seats.filter(s=>s.lift).map(()=>i)); check('1. 其他店的座位沒有 lift', o.length===0, o.join(' ')); }

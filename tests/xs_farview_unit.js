@@ -49,4 +49,4 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
     check('⑥ 遠景加的網格：地面、樹、路燈 ≤ 40、樓房模型 ≤ 40（各自合併）', ext<=40&&far<=40, '地面等 '+ext+'、樓房 '+far); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
-var NAV_OPEN=10513-60;   // 改之前（開發分支 79214e4e1）同一個區域走得到的格數 10513；XS-SCOOTERS-1111（LAWWW2 11-11）店面那一側路邊接上 12 台機車，每台擋 5 格（共 60 格）——遠景那一包照舊不該改到導航，機車的數量和位置 tests/xinsheng_unit.js 第 19 節另外檢查
+var NAV_OPEN=10513;   // 改之前（開發分支 79214e4e1）同一個區域走得到的格數

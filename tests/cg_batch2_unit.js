@@ -18,9 +18,7 @@ const webpSize=f=>{ const b=fs.readFileSync(f); if(b.toString('ascii',0,4)!=='RI
 // ---- 1. CG_REGISTRY ----
 const adv=fs.readFileSync(path.join(ROOT,'src/adv3d.js'),'utf8'); const m=/^const CG_REGISTRY=(\{.*\});$/m.exec(adv);
 check('1. CG_REGISTRY 還是一行',!!m); const REG=m?eval('('+m[1]+')'):{};
-/* 2026-11-11 改期望（X327 沛珊重寫；AA_753_peishan_ladder_Y4@465382f83 的 event_open_class.cg）：BCG-05 cg_whiteboard_why_peishan 圖上是早餐店圍裙，新圖到以前不登錄（src/adv3d.js 的 CG_HELD，圖檔還在）——
-   這一批從 40 張變 39 張（＋CG-10 8 張＝47 個 key）；新圖登錄回去以後把它加回這張表、數字改回 40／48 */
-const BATCH2=['cg_study_group_rules_photo','cg_anniversary_23','cg_cup_words_heroine02','cg_final_stage_heroine04','cg_defense_day_heroine05','cg_snow_steps_heroine05',
+const BATCH2=['cg_study_group_rules_photo','cg_anniversary_23','cg_cup_words_heroine02','cg_whiteboard_why_peishan','cg_final_stage_heroine04','cg_defense_day_heroine05','cg_snow_steps_heroine05',
   'cg_answer_exe_heroine04','cg_last_row_kexin','cg_japan_konbini_heroine01','cg_bus_station_heroine05','cg_chicago_heroine05','cg_japan_notice_heroine01','cg_court_gallery_rise','cg_avenue_lamp_heroine05',
   'cg_flustered_heroine04','cg_results_day_peishan','cg_frozen_lake_heroine05','cg_sunday_hour_peishan','cg_azalea_fourth_heroine01','cg_first_to_ask_heroine01','cg_saved_seat_heroine03',
   'cg_one_umbrella_heroine03','cg_uk_rain_heroine02','cg_valentine_taichung_heroine01','cg_pomelo_moon_heroine03','cg_quiz_kexin','cg_us_kitchen_heroine05','cg_airport_send_heroine05',
@@ -28,7 +26,7 @@ const BATCH2=['cg_study_group_rules_photo','cg_anniversary_23','cg_cup_words_her
   'cg_last_page_peishan','cg_three_things_heroine05','cg_this_time_heroine05','cg_doorbell'];
 const EPI=['kai','heroine01','heroine02','heroine03','heroine04','heroine05','kexin','peishan'].map(k=>'cg_reunion_window_table_'+k);
 const missing=BATCH2.concat(EPI).filter(k=>!REG[k]||!fs.existsSync(path.join(ROOT,REG[k].file))||!REG[k].title);
-check('1. 這一批 47 個 key 都登錄、檔案都在、有標題（39 張＋CG-10 8 張；BCG-05 cg_whiteboard_why_peishan 2026-11-11 起先不登錄：資料在 CG_HELD、圖檔還在）',BATCH2.length===39&&missing.length===0&&!REG.cg_whiteboard_why_peishan&&/^const CG_HELD=\{ cg_whiteboard_why_peishan:\{file:'assets\/cg\/classmate_peishan\/cg_whiteboard_why\.webp'/m.test(adv)&&fs.existsSync(path.join(ROOT,'assets/cg/classmate_peishan/cg_whiteboard_why.webp')),missing.join(' '));
+check('1. 這一批 48 個 key 都登錄、檔案都在、有標題（40 張＋CG-10 8 張）',BATCH2.length===40&&missing.length===0,missing.join(' '));
 const byFile={}; for(const k in REG){ (byFile[REG[k].file]=byFile[REG[k].file]||[]).push(k); } const dup=Object.entries(byFile).filter(([f,ks])=>ks.length>1);
 check('1. 整個 CG_REGISTRY 沒有兩個 key 指同一個檔（'+Object.keys(REG).length+' 個 key）',dup.length===0,JSON.stringify(dup));
 check('1. README 的 cg_no_plan_heroine05（BCG-39）用程式已經寫好的 key cg_this_time_heroine05，不另外登錄',!REG.cg_no_plan_heroine05&&REG.cg_this_time_heroine05&&REG.cg_this_time_heroine05.file==='assets/cg/heroine_05/cg_no_plan.webp');

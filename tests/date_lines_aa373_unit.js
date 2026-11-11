@@ -17,9 +17,7 @@ let md=''; try{ md=cp.execSync('git show '+SHA+':"'+SPEC+'"',{cwd:GIT,encoding:'
 const row=md.split('\n').find(l=>/^\|\s*`date_lines\.js`[^|]*\|/.test(l))||'', cells=row.split('|').map(c=>c.trim()), q=s=>(String(s||'').match(/「[^「」]*」/g)||[]).map(x=>x.slice(1,-1));
 check('1. 讀得到稿 AA_373@'+SHA+' 6-1「date_lines.js」那一列：現在兩句、AA 定兩句',q(cells[2]).length===2&&q(cells[3]).length===2,J([q(cells[2]),q(cells[3])]));
 check('2. 舊句「你走的比我少，你請晚餐。」不見了（所有地點、所有人）',!all.some(x=>x.t==='你走的比我少，你請晚餐。'||/比我少/.test(x.t)),J(all.filter(x=>/比我少/.test(x.t))));
-/* 2026-11-11（X324 可昕約會台詞重寫，AA f9c1a2b80）：D12 第一次的收尾那一格可昕的新稿整格重寫了（「我買了一堆不知道要幹嘛的東西。枸杞，我買枸杞幹嘛。」「晚餐你請。理由我還在想。」）——AA_373 的改成「今天走好多。晚餐你請，我腳好痠。」不再疊（原句對不到＝跳過，tests/kx_dates_1111_unit.js 第 1 節）。
-   這一條改成：那一格照新稿、裡面沒有比輸贏的字（AA_373 6-1 的用意照舊守著） */
-check('2. 可昕 D12 大稻埕第一次的收尾照 X324 的新稿：「我買了一堆不知道要幹嘛的東西。枸杞，我買枸杞幹嘛。」「晚餐你請。理由我還在想。」——沒有「比我少」「你走的比」這種比輸贏的字；稿上 AA_373 的改成還是「今天走好多。晚餐你請，我腳好痠。」',!!c12&&J(c12.lines.map(x=>x.text))===J(['我買了一堆不知道要幹嘛的東西。枸杞，我買枸杞幹嘛。','晚餐你請。理由我還在想。'])&&!c12.lines.some(x=>/比我少|走的比|輸|贏|平手/.test(x.text))&&q(cells[3])[0]==='今天走好多。晚餐你請，我腳好痠。',J(c12));
+check('2. 新句：可昕 D12 大稻埕第一次的收尾＝「今天走了一萬兩千步，手錶說的。」「今天走好多。晚餐你請，我腳好痠。」（第二句照稿）',!!c12&&J(c12.lines.map(x=>x.text))===J(['今天走了一萬兩千步，手錶說的。',q(cells[3])[0]])&&q(cells[3])[0]==='今天走好多。晚餐你請，我腳好痠。',J(c12));
 check('3. 「平手」不見了（date_lines.js 沒有一字不差的「……平手。」；唯一有「平手」的是 D32 大草原可昕那一句）',!all.some(x=>/平手/.test(x.t)),J(all.filter(x=>/平手/.test(x.t))));
 check('3. D32 大草原可昕：整句換成稿上的「有一隻羊一直在看我。……牠應該也餓了。走，吃飯。」（AA_359 5-1 B1；AA_694 拿掉「。」後的「……」）',!!m32&&m32.lines.length===1&&m32.lines[0].text===E694.strip(q(cells[3])[1])&&q(cells[3])[1]==='有一隻羊一直在看我。……牠應該也餓了。走，吃飯。',J(m32));
 { const QS=t=>t.replace(/「([^「」]*)」/g,(x,c)=>'「'+E694.strip(c)+'」');
@@ -39,9 +37,7 @@ check('3. D32 大草原可昕：整句換成稿上的「有一隻羊一直在看
   const FIXP=[]; for(const f of fs.readdirSync(path.join(ROOT,'tools/story')).filter(f=>/_fix\.json$/.test(f))){ try{ FIXP.push(...(JSON.parse(fs.readFileSync(path.join(ROOT,'tools/story',f),'utf8')).pairs||[])); }catch(x){} }
   const okFix={has:d=>{ const m=/^D\d\d：(.*) → (.*)$/.exec(d); return !!m&&FIXP.some(([x,y])=>x.includes('……')&&E694.strip(x)===m[1]&&E694.strip(y)===m[2]); }};   /* AA_694：讀稿時照字換的（tools/story/*_fix.json，例 AA_630「阿姨」→「秀琴姨」）原句帶「……」、源稿已經拿掉，這邊對不到——照同一條規則換過的那一組＝遊戲的字（import_date_lines.py 同一個做法）*/
   const ok594={has:d=>{ const m=/^D\d\d：(.*) → (.*)$/.exec(d); return !!m&&require('./an_rev_doc.js').ROWS.some(r=>/AA_594_/.test(r.doc)&&/^date_lines\.js/.test(r.where)&&E694.strip(r.nw)===m[2]&&(E694.strip(r.old)===m[1]||md359.includes('「'+m[1]+'」'))); }};   /* 以安改稿④b（AA_594 第 2-14 節，同一個工具疊的，tests/aa594_an_4b_unit.js 逐列查）：新句是 AA_594 的改成、舊句是表上的原句（或 AA_359 疊之前的原句）*/
-  /* 2026-11-11（X324 可昕約會台詞重寫，AA f9c1a2b80）：白名單的原檔（f9c1a2b80）可昕那兩格自己寫好了——D12 那一格整格重寫、D32 大草原那一句源稿直接寫了 AA_373 的改成；
-     所以 AA_373 這一層現在一句都不用疊（原本這裡期望剛好差這兩句）。D12、D32 和原檔逐句比，除了 AA_359／AA_525／AA_598／AA_594 那幾句以外一字不差 */
-  check('4. D12、D32 和白名單的原檔（f9c1a2b80）逐句比：AA_373 的兩句源稿自己寫好了、不用再疊，其他句子一字不差（D32 另有 AA_359 5-2、5-3 的幾句、AA_594 以安④b 的句子；D12 另有 AA_525 1-6 子晴一句）',J(diff.filter(d=>!ok359.has(d)&&!ok525.has(d)&&!ok598.has(d)&&!ok594.has(d)&&!okFix.has(d)))===J([]),J(diff.filter(d=>!ok359.has(d)&&!ok525.has(d)&&!ok598.has(d)&&!ok594.has(d)&&!okFix.has(d)))); }
+  check('4. AA_373 只換了這兩句：D12、D32 和白名單的原檔（57de1709）逐句比，其他句子一字不差（D32 另有 AA_359 5-2、5-3 的幾句、AA_598 學姊一句、AA_594 以安④b 的句子；D12 另有 AA_525 1-6 子晴一句）',J(diff.filter(d=>!ok359.has(d)&&!ok525.has(d)&&!ok598.has(d)&&!ok594.has(d)&&!okFix.has(d)))===J(['D12：你走的比我少，你請晚餐。 → 今天走好多。晚餐你請，我腳好痠。','D32：有一隻羊在看我。我在看它。平手。 → 有一隻羊一直在看我。牠應該也餓了。走，吃飯。']),J(diff)); }
 check('5. date_lines.js 的來源寫著 AA_373@'+SHA+'（匯入工具疊上去的，不是手改）',DATE_LINES.source.includes('AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md@'+SHA),DATE_LINES.source.slice(-120));
 { const al=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC&&e.status==='approved');
   check('6. 匯入白名單：AA_373 只有一筆 approved＝'+SHA+'（同一個檔不能有兩個 approved 版本）',al.length===1&&al[0].sha===SHA&&al[0].task==='AA373-Y1S2-FIX-1021',J(al.map(e=>e.sha))); }

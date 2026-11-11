@@ -1,12 +1,11 @@
 // 假期活動第二批：出國的 C08 首爾交流、C09 柬埔寨志工、C10 加州暑期課、C11 東京冬季課、C12 京都語言課（AA_242 18fe1b6a）——不需要瀏覽器。用法：node tests/vac_abroad_unit.js
-// 2026-11-11（X327 沛珊重寫，AA_762_peishan_events_2.json@1fc9a6658）：這支裡寫死的沛珊的句子照新稿改期望（逐字對稿在 tests/peishan_events_1111_unit.js）。
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|VAC|VAC_DATA|DATE|ROM|CONFESS_LINES|TERMEND|TERMEND_LINES|DATE_LOCATIONS|DATE_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -108,11 +107,11 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2026-07-24'),17.9,'dorm',{dating_kexin:true,dating_classmate_peishan:true}); G.stage='law'; meet('kexin'); meet('classmate_peishan'); VAC.rec(G).reg['C08@Y1']='done'; run(17.9,21.2);
     const K=txt('p:kexin'), P=txt('p:classmate_peishan');
     check('11a. 可昕在高雄：「回來了？……我在高雄。要來的話，先跟我說幾點的車。」、沒有臺北的重逢',K.includes('kexin:回來了？……我在高雄。要來的話，先跟我說幾點的車。')&&!OUT.get(G,'vac_C08@Y1_re_kexin'),JSON.stringify(K));
-    check('11a. 沛珊在台中：「歡迎回來！我在台中，開學前才上去。好想聽你講那邊的事，你要從第一天開始講。」、沒有臺北的重逢',P.includes('classmate_peishan:歡迎回來！我在台中，開學前才上去。好想聽你講那邊的事，你要從第一天開始講。')&&!OUT.get(G,'vac_C08@Y1_re_classmate_peishan'),JSON.stringify(P)); }
+    check('11a. 沛珊在台中：「歡迎回來！我在台中，開學前才上去。……好想聽你講那邊的事。」、沒有臺北的重逢',P.includes('classmate_peishan:歡迎回來！我在台中，開學前才上去。……好想聽你講那邊的事。')&&!OUT.get(G,'vac_C08@Y1_re_classmate_peishan'),JSON.stringify(P)); }
   // 11a. AA_349 K7：沛珊放榜以後（大三起）開學是回台南、不是「上去」
   { const I=VAC.inst('T03','Y3'); fresh(I.to,17.9,'dorm',{dating_classmate_peishan:true,PS_BACK_FIRST:1}); G.stage='law'; meet('classmate_peishan'); VAC.rec(G).reg['T03@Y3']='done'; run(17.9,21.2);
     const P=txt('p:classmate_peishan');
-    check('11a. K7 大三暑假（曼谷回來，沛珊在台中）：「歡迎回來！我在台中，開學前才回台南。好想聽你講那邊的事，你要從第一天開始講。」（不是「開學前才上去」）',P.includes('classmate_peishan:歡迎回來！我在台中，開學前才回台南。好想聽你講那邊的事，你要從第一天開始講。')&&!P.some(t=>/開學前才上去/.test(t)),JSON.stringify([CALENDAR.dateOf(I.to),P])); }
+    check('11a. K7 大三暑假（曼谷回來，沛珊在台中）：「歡迎回來！我在台中，開學前才回台南。……好想聽你講那邊的事。」（不是「開學前才上去」）',P.includes('classmate_peishan:歡迎回來！我在台中，開學前才回台南。……好想聽你講那邊的事。')&&!P.some(t=>/開學前才上去/.test(t)),JSON.stringify([CALENDAR.dateOf(I.to),P])); }
   // 11. 重逢（AA_242 8-6 79adc9f2）、子晴第二則、C10 成績、Priya
   { fresh(D('2026-07-24'),17.9,'dorm',{dating_heroine_01:true,dating_heroine_02:true}); G.stage='law'; meet('heroine_01'); meet('heroine_02'); VAC.rec(G).reg['C08@Y1']='done'; run(17.9,21.2);
     const A=txt('p:heroine_01'), Z=txt('p:heroine_02'), q0=OUT.get(G,'vac_C08@Y1_re_heroine_01');

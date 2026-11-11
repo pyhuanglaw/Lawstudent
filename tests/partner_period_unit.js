@@ -12,7 +12,7 @@ global.CHAR={build:()=>({position:{set(){}},rotation:{y:0},userData:{}}),setExpr
 global.EVENTS={cond:()=>false,habit(){},onInteract:()=>false,npcOf:()=>null,onEnter(){},tick(){}};
 const load=(f,names)=>vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(new RegExp('^const ('+names+')\\s*=','mg'),'global.$1='),{filename:f});
 load('src/data/calendar.js','CALENDAR'); load('src/data/places.js','PLACES'); load('src/data/characters.js','CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS'); load('src/social3d.js','SOCIAL');
-for(const f of ['src/data/rel_lines.js','src/data/courses.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/story3d.js']) load(f,'REL_LINES|COURSES|INVITE_DATA|INV|STORY');
+for(const f of ['src/data/rel_lines.js','src/data/courses.js','src/data/invites.js','src/invites3d.js','src/story3d.js']) load(f,'REL_LINES|COURSES|INVITE_DATA|INV|STORY');
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 check('STORY.partnerOn 存在',typeof STORY.partnerOn==='function'); if(typeof STORY.partnerOn!=='function'){ console.log('FAILED: '+fails); process.exit(1); }
 const dayOf=(term,week)=>{ for(let d=1;d<2200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week) return d; } return null; };

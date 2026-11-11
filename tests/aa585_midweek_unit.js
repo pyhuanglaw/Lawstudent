@@ -18,11 +18,11 @@ const IDS=SRC?Object.keys(SRC).filter(k=>!k.startsWith('_')):[];
 const C=SYLLABUS.courses, wk=(c,n)=>(C[c]||[]).find(x=>x.w===n);
 const SEM=['crim_judgment_sem','public_judgment_sem'];
 
-sec(6,()=>{ check('6. 白名單：AA_585_midweek.json@d3a22505b approved（approvedBy 寫 BB_231 法律審；2026-11-11 起 d3a22505b：大一上三科第 8、9 週加 react，BB_332～334 過；舊期望 1bdfd2304）',!!ent&&ent.sha==='d3a22505b'&&/BB_231/.test(ent.approvedBy||''),J(ent&&ent.sha)); });
+sec(6,()=>{ check('6. 白名單：AA_585_midweek.json@1bdfd2304 approved（approvedBy 寫 BB_231 法律審）',!!ent&&ent.sha==='1bdfd2304'&&/BB_231/.test(ent.approvedBy||''),J(ent&&ent.sha)); });
 sec(1,()=>{ check('1. 讀得到 AA_585_midweek.json、三十門',!!SRC&&IDS.length===30,IDS.length+'');
   const bad=IDS.filter(c=>J([wk(c,8),wk(c,9)])!==J(SRC[c]));
   check('1. 三十門的第 8、9 週＝AA_585 一字不差（board 三行、line、react 空）',bad.length===0,J(bad.slice(0,5)));
-  check('1. SYLLABUS.source 寫了 AA_585@d3a22505b（2026-11-11 起；舊期望 1bdfd2304）',/AA_585@d3a22505b/.test(SYLLABUS.source),SYLLABUS.source.slice(-80)); });
+  check('1. SYLLABUS.source 寫了 AA_585@1bdfd2304',/AA_585@1bdfd2304/.test(SYLLABUS.source),SYLLABUS.source.slice(-80)); });
 sec(2,()=>{ const bad=IDS.filter(c=>{ const W=(C[c]||[]).map(x=>x.w); return J(W.filter(w=>w<=15))!==J([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]); });
   check('2. 三十門週次 1～15 連續、照順序',bad.length===0,J(bad.map(c=>[c,(C[c]||[]).map(x=>x.w)]))); });
 sec(3,()=>{ const bad=[]; for(const c of IDS) for(const n of [8,9]){ const w=wk(c,n)||{}; const T=[...(w.board||[]),w.line||'',...(w.react||[]).map(r=>r.text||'')];

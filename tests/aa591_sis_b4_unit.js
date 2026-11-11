@@ -21,7 +21,7 @@ const A591=require('./aa591_doc.js');
 const {check,GM}=H, ID='heroine_05', J=JSON.stringify;
 global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 const PG_FILES=new Set(['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js',
-  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
+  'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
   'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/data/exam_bank.js','src/data/legal_qbank.js','src/classes3d.js','src/data/postgrad_lines.js','src/postgrad3d.js']);
 const SKIP=new Set(['src/character3d.js','src/engine3d.js','src/townkit3d.js','src/zones3d.js','src/bike3d.js','src/adv3d.js']);
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
@@ -159,8 +159,6 @@ await sec(5,()=>{
   check('5. 沒交往：她的 {name}／名字照舊',SOCIAL.ytNameT('{name}。坐。',ID)==='{name}。坐。'&&SOCIAL.ytNameT('祐廷。坐。',ID)==='祐廷。坐。');
   H.date(ID);
   check('5. 交往中：她說的 {name}、已經換成名字的都變「林祐廷」；不重複加姓',SOCIAL.ytNameT('{name}。坐。',ID)==='林祐廷。坐。'&&SOCIAL.ytNameT('祐廷。……沒事。叫一下。',ID)==='林祐廷。……沒事。叫一下。'&&SOCIAL.ytNameT('林祐廷。',ID)==='林祐廷。');
-  /* 2026-11-11（BB；AA 學姊約會新稿寫「林{name}」）：稿已經寫了林的不再補一個（原本直接拿到還沒換名字的字會變「林林祐廷」）*/
-  check('5. 交往中：稿寫「林{name}」＝只有一個林（還沒換名字、已經換名字的都一樣）；同一句裡「林{name}」和單獨的「{name}」各自對',SOCIAL.ytNameT('林{name}，今天走慢一點。',ID)==='林祐廷，今天走慢一點。'&&SOCIAL.ytNameT('林祐廷，今天走慢一點。',ID)==='林祐廷，今天走慢一點。'&&SOCIAL.ytNameT('林{name}。{name}，等一下。',ID)==='林祐廷。林祐廷，等一下。',SOCIAL.ytNameT('林{name}，今天走慢一點。',ID));
   check('5. 交往中：別人說的照舊（以安、旁白）',SOCIAL.ytNameT('祐廷，你來了。','heroine_01')==='祐廷，你來了。'&&SOCIAL.ytNameT('祐廷。',null)==='祐廷。');
   G.name='阿翔'; check('5. 玩家改名字也一樣（林阿翔）',SOCIAL.ytNameT('{name}。','heroine_05')==='林阿翔。'&&SOCIAL.ytNameT('阿翔，等一下。','heroine_05')==='林阿翔，等一下。'); G.name='祐廷';
   if(typeof ROM!=='undefined'&&ROM.end) ROM.end(G,ID); else { G.flags.dating_heroine_05=false; if(G.flags.romance&&G.flags.romance[ID]) G.flags.romance[ID].status='ended'; }

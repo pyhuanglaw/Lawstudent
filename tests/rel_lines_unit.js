@@ -19,7 +19,7 @@ let W8=false; global.EVENTS={cond:c=>!!(c&&c.events&&c.events[0]==='ev_sis_colla
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const hasRL=fs.existsSync(path.join(ROOT,'src/data/rel_lines.js'));
 check('src/data/rel_lines.js 存在',hasRL); if(!hasRL){ console.log('FAILED: '+fails); process.exit(1); }
-load('src/data/rel_lines.js'); load('src/data/l118_redo772.js'); load('src/data/invites.js'); load('src/invites3d.js'); load('src/phone3d.js');
+load('src/data/rel_lines.js'); load('src/data/invites.js'); load('src/invites3d.js'); load('src/phone3d.js');
 check('SOCIAL.playUp／upLine／byeLine／meetLine／contactName 存在',['playUp','upLine','byeLine','meetLine','contactName','friendLevel','playSteps'].every(k=>typeof SOCIAL[k]==='function'));
 // ---------- 1. 資料 ----------
 const AA=['heroine_01','heroine_03','zhe','yu','classmate_bohan','classmate_xinci'], BB=['heroine_05','heroine_02','heroine_04','classmate_peishan','kai','classmate_mingxuan','npc_fangyt'];

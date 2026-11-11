@@ -25,15 +25,13 @@ const FAV=(function(){
   /* 每個人：店（118 巷的店 id／cafe／wz_tea）、對的品項、小選項（第一個是對的；null＝沒有）、選項上的稱呼、一份／一杯。品項＝那間店的菜單（Café 照芷若那一杯的四樣）*/
   S.CAFE_ITEMS=[['拿鐵',120],['美式',120],['熱可可',120],['紅茶',120],['手沖',150]];   /* 手沖：AA_410 第 4 節有子晴那一句（Café 菜單的手沖咖啡 150）*/
   S.CFG={
-    /* 以安、沛珊、語彤、學姊在 118 巷的那四筆（哪一間店、點哪一樣、再選的那一項）：照 AA_772 的 food_fav.CFG（src/data/l118_redo772.js 的 fav；L118-SHOPS-REDO-1111，使用者 2026-11-11 九間店換菜單），下面疊上去 */
-    heroine_01:{short:'以安',unit:'份'},
-    classmate_peishan:{short:'沛珊',unit:'份'},
-    heroine_03:{short:'語彤',unit:'份'},
-    heroine_05:{short:'學姊',unit:'杯'},
+    heroine_01:{shop:'omu',right:'咖哩蛋包飯',opt:['多要一個盤子','不用'],short:'以安',unit:'份'},
+    classmate_peishan:{shop:'omu',right:'番茄醬蛋包飯',opt:null,short:'沛珊',unit:'份'},
+    heroine_03:{shop:'dian',right:'酸辣河粉',opt:['多加辣','不加'],short:'語彤',unit:'份'},
+    heroine_05:{shop:'tea',right:'無糖綠茶',opt:['去冰','正常冰'],short:'學姊',unit:'杯'},
     heroine_04:{shop:'cafe',right:'美式',opt:['冰的','熱的'],short:'子晴',unit:'杯'},
     kexin:{shop:'wz_tea',right:'紅茶',opt:['無糖','半糖'],short:'可昕',label:'帶一杯給可昕',sized:true}   /* AA_658 第 4 節：帝大紅茶的菜單換了（青茶→紅茶、珍珠奶茶→奶茶、冬瓜檸檬→檸檬紅茶；中杯、大杯都算同一樣：sized）*/
   };
-  { const FV=(typeof L118_REDO!=='undefined'&&L118_REDO.fav)||{}; for(const id in FV){ if(S.CFG[id]) Object.assign(S.CFG[id],{shop:FV[id].shop,right:FV[id].right,opt:FV[id].opt||null}); } }
   S.KNOW_TAG={heroine_03:'KNOW_FAV_YT',heroine_04:'KNOW_FAV_ZQ',kexin:'KNOW_FAV_KX'};
   S.rec=function(G){ const R=G.fav&&typeof G.fav==='object'?G.fav:(G.fav={}); for(const k of ['know','right']) if(!R[k]||typeof R[k]!=='object'||Array.isArray(R[k])) R[k]={}; return R; };
   S.lines=id=>(L()&&L()[id])||null;

@@ -175,17 +175,12 @@ const USL=(function(){
     return k; };
   S.castOf=(GM,who)=>((GM.E&&GM.E.npcs)||[]).find(n=>n&&n.usCls&&n.usWho===who)||null;
   /* 特別的課在 3D 演：同一個事件，背景 freeze、scene 只出字幕；HOOK＝演到那一拍時的動作（條件函式永遠 false＝不出字）*/
-  S.PASS_WAIT=7; S.PASS_STEP=100;   /* 期末報告選 b：等教授走到旁邊的上限（秒）、多久看一次（毫秒）*/
   const HOOK=fn=>({if:{custom:()=>{ try{ fn(); }catch(e){ console.warn('USL hook',e); } return false; }}});
   S.ev3d=function(GM,id){ const e=evOf(id); if(!e) return null; const L=(e.dialogue||[]).map(l=>l&&l.scene!==undefined?Object.assign({},l,{bg:false}):l);
     if(id==='ev_usl_lastclass'){ const k=L.findIndex(l=>l&&(l.if||l.unless)); if(k>=0) L.splice(k,0,HOOK(()=>{ const n=S.castOf(GM,'long'); if(n&&n.seat&&GM.standUp){ GM.standUp(n); n.frozen=true; n.usStood=true; } })); }   /* 何俊朗（沒見過＝坐你前面的香港交換生）念句子那一拍站起來 */
     if(id==='ev_usl_comp_final'){ const k=L.findIndex(l=>l&&l.label==='b'); if(k>=0) L.splice(k+1,0,HOOK(()=>{ const E=GM.E, n=S.castOf(GM,'prof'), z=E.zone, P=E.player&&E.player.obj&&E.player.obj.position; if(!n||!z||!z.spawn||!E.moveTo) return;   /* 選 b：下課她從第 1 排走到門口、經過講台（你旁邊）*/
       if(n.seat&&GM.standUp) GM.standUp(n); n.frozen=false; n.usWalk=true; const door=z.spawn, via=P?{x:P.x,z:P.z+0.9}:null; const toDoor=()=>E.moveTo(n,door.x,door.z,()=>{ n.arrived=true; },0);
-      if(!via||!E.moveTo(n,via.x,via.z,toDoor,0)) toDoor(); }),
-      /* US-FINAL-PROF-PASS-1110（BB 11-10 21:38 P3）：「教授經過你旁邊，說了一句：Good choice.」出來時她才從第 1 排起身、演完還離你 3 m。
-         先等她走到你旁邊（1.4 m 內；最多等 S.PASS_WAIT 秒，走不到就照舊往下）再出那一句 */
-      {call:async()=>{ const E=GM.E, n=S.castOf(GM,'prof'), P=E&&E.player&&E.player.obj&&E.player.obj.position; if(!n||!n.obj||!P) return; const t0=Date.now(), near=()=>Math.hypot(n.obj.position.x-P.x,n.obj.position.z-P.z)<=1.4;
-        while(!near()&&!n.arrived&&Date.now()-t0<S.PASS_WAIT*1000) await new Promise(r=>setTimeout(r,S.PASS_STEP)); }}); }
+      if(!via||!E.moveTo(n,via.x,via.z,toDoor,0)) toDoor(); })); }
     return Object.assign({},e,{background:'freeze',dialogue:L}); };
   const MODE={ev_usl_midterm:'present',ev_usl_comp_final:'present',ev_usl_intro_final:'exam'};
   S.modeOf=sp=>MODE[sp]||'class';

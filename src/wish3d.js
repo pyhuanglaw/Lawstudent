@@ -61,10 +61,7 @@ const WISH=(function(){
 
   /* ---------- 台詞 ---------- */
   /* 真實片名（AA_313 6-2）：《東京物語》照 SOCIAL.filmRename，資料存稿上原文，顯示時才換（芷若的影展那一句 AA_426 已經改成不寫導演）*/
-  /* 2026-11-11（使用者 X324 可昕約會台詞重寫，AA_770_kx_wish.json@f9c1a2b80 的 for_LAWWW）：可昕開口約外澳、玩家答應以後她那一句改用 {出發時間}（herInvite.accept[1]，S.askRule 帶 o.depart＝那一趟的出發時間，顯示「09:00」這種格式）。
-     帶不到出發時間的時候不能把大括號印出來：退回 AA 指定的那一句（S.NO_DEPART；原句拿掉開頭的刪節號） */
-  S.NO_DEPART={'不行，火車有時間。{出發時間}，車站見。':'不行，火車有時間。九點，台北車站。'};
-  S.fill=function(t,o){ let s=String(t); if(!(o&&o.depart!=null)&&S.NO_DEPART[s]!=null) s=S.NO_DEPART[s]; if(typeof SOCIAL!=='undefined'&&SOCIAL.filmRename) s=SOCIAL.filmRename(s); if(o&&o.depart!=null) s=s.replace(/\{出發時間\}/g,hm(o.depart)); return s; };
+  S.fill=function(t,o){ let s=String(t); if(typeof SOCIAL!=='undefined'&&SOCIAL.filmRename) s=SOCIAL.filmRename(s); if(o&&o.depart!=null) s=s.replace(/\{出發時間\}/g,hm(o.depart)); return s; };
   S.say=async function(GM,id,lines,who,o){ const G=GM.G;
     for(const ln of (lines||[])){ if(!ln||ln.who==='note') continue; const tx=S.fill(ln.text,o);
       if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）');

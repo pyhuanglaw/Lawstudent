@@ -403,7 +403,7 @@ const VAC=(function(){
     if(q) S.flyStart(GM,q,endT,rec.with?[rec.with]:[]);   /* 時鐘換當地時間（TRAVEL.dest 的 tz；AA_478 第 7 節）*/
     const I={key,with:rec.with,A:{id:'T13',place:{kind:'abroad'},season:rec.season,trip:{sd:rec.from,ed:rec.to,start:{h:8},end:{h:18}}},yk:null}; S.tripMsgs(G,I);
     const mid=Math.floor((rec.from+rec.to)/2), last=rec.to-1, k=x=>typeof x==='function'?x(G):x;
-    const GF=rec.gf?D.gf[rec.with]:null, gfOnce=!!(GF&&GF.firstOnly&&V.t13.some(r=>r!==rec&&r.done&&r.gf&&r.with===rec.with));   /* firstOnly：沛珊「我第一次沒有跟爸媽出國耶」只給第一次和她出國的（AA_533 第 1 節；2026-11-11 X327 重寫：原本「我第一次出國耶」）*/
+    const GF=rec.gf?D.gf[rec.with]:null, gfOnce=!!(GF&&GF.firstOnly&&V.t13.some(r=>r!==rec&&r.done&&r.gf&&r.with===rec.with));   /* firstOnly：沛珊「我第一次出國耶」只給第一次和她出國的（AA_533 第 1 節）*/
     const comp=rec.with?(rec.gf?(gfOnce?null:(rec.with==='heroine_02'&&rec.dest!=='hk'?GF.lastNot:GF.last)):D.friend[rec.with]):null;
     const gfL=x=>x?[{narr:x[0]},{who:rec.with,text:x[1]}]:[];   /* AA_533 第 1 節：和女朋友去的「到了」（取代目的地第一句）、「中間」（接在目的地第二句後面）*/
     const nth=1+V.t13.filter(r=>r!==rec&&r.done&&r.dest===rec.dest).length+(rec.dest==='jp'&&V.reg['C05@Y1']==='done'?1:0), AG=nth>=2&&D.again&&D.again[nth>=3?3:2];   /* 同一個目的地第幾次 */

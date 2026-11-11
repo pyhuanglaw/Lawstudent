@@ -32,7 +32,7 @@ const {check,GM,E}=H, ID='heroine_05', J=JSON.stringify;
 global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 /* index.html 的順序載入其餘的檔（同 tests/aa516_sis_b14_unit.js：pg_harness 已經載過的不再載；畫 3D 的幾支在 Node 載不進來，跳過）*/
 const PG_FILES=new Set(['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js',
-  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
+  'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
   'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/data/exam_bank.js','src/data/legal_qbank.js','src/classes3d.js','src/data/postgrad_lines.js','src/postgrad3d.js']);
 const SKIP=new Set(['src/character3d.js','src/engine3d.js','src/townkit3d.js','src/zones3d.js','src/bike3d.js','src/adv3d.js']);
 const loadErr=[];
@@ -362,15 +362,7 @@ await sec(4,async()=>{
       J(y3fam)===J(['面試的事，今天不講。','論文第二章，卡住的那一段過了。'])&&J(y3fri)===J(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。']),J({y3fam,y3fri}));
     check('4. 4-10 邀約那一句（termend_lines.js 朋友版大三上）：「我在等美國那邊的結果。」換成「明年夏天，我申請了美國的交換。下個月面試。」',TL.FRIEND.heroine_05.genByTerm.Y3S1==='期末考完了嗎？明年夏天，我申請了美國的交換。下個月面試。法圖旁邊那家？',TL.FRIEND.heroine_05.genByTerm.Y3S1);
     fresh('2028-01-14',18.5,'friend'); H.said=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{te:{term:'Y3S1',who:ID,kind:'friend'}});
-    /* 2026-11-10 改期望（TERMEND-OPTS-1110 朋友版，AA_749_termend_friend_v2_Y3S1 @5ffd725b8）：朋友版這一頓改讀新稿（開頭照舊「面試的事，今天不講。」→ 選項），不抽話題池——
-       「……收到信那天，我打給你。」這一頓不再說（3/15 她照樣打來，sis_y2y3_3d.js 2-7 本來就不看有沒有吃這頓）；話題池那三句留在 termend_lines.js（上面 4-8 那一項照查）、沒有新稿的舊資料照說 */
-    /* 2026-11-10 再改期望（AA 回 LAWWW，AA_749_termend_friend_v2_Y3S1 @1cf434dee）：稿加了 thenIf｛SIS_FU｝——朋友以上，選項演完以後照原本的條件補上「……收到信那天，我打給你。」；有點熟沒有 */
-    check('4. 4-11 朋友版期末飯（新稿）：「面試的事，今天不講。」→「論文第二章，卡住的那一段過了。」→ 三個選項 →（朋友以上）「……收到信那天，我打給你。」一次',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。'])&&said().filter(t=>t==='……收到信那天，我打給你。').length===1&&H.opts.length>=1&&H.opts[0].length===3,J({s:said(),o:H.opts}));
-    fresh('2028-01-14',18.5,'fam'); H.said=[]; H.opts=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{te:{term:'Y3S1',who:ID,kind:'friend'}});
-    check('4. 4-11 朋友版期末飯（新稿）有點熟：三個選項、沒有「……收到信那天，我打給你。」',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。'])&&!said().includes('……收到信那天，我打給你。')&&H.opts.length>=1&&H.opts[0].length===3,J({s:said(),o:H.opts}));
-    { const keepTO=globalThis.TERMEND_OPTS; if(keepTO) globalThis.TERMEND_OPTS=Object.assign({},keepTO,{FRIEND:undefined});
-      try{ fresh('2028-01-14',18.5,'friend'); H.said=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{te:{term:'Y3S1',who:ID,kind:'friend'}});
-        check('4. 4-11 沒有朋友版新稿（舊資料）：話題三句照舊說到「……收到信那天，我打給你。」',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。']),J(said())); } finally{ globalThis.TERMEND_OPTS=keepTO; } } }
+    check('4. 4-11 朋友版期末飯（話題三句）：說到「……收到信那天，我打給你。」',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。']),J(said())); }
   /* 第 6 節（0e21cccde，LAWWW-C 12:5x 問、AA 定）★17：大二上期末飯「這一頓我請」和「說好你請」矛盾——只改有 YOUPAY 的 */
   { const TL=TERMEND_LINES, S6=part('## 6. 實作時定的',null), yp={flags:{SIS15_YOUPAY:true}}, np={flags:{}}, rs=(v,G)=>typeof v==='function'?v(G):v, gB=TL.FRIEND[ID].genByTerm, gT=TL.GF[ID].tableByTerm.Y2S1;
     check('6. 讀得到第 6 節（★17、22、其他照現在）',S6.indexOf('### ★17')>=0&&S6.indexOf('### 22')>=0&&S6.indexOf('### 其他子代理的解讀：全部照現在')>=0&&S6.indexOf('> 面試的事，今天不講。')>=0,J({n:S6.length}));

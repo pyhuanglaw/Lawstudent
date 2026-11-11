@@ -40,26 +40,18 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
     check('6b. 門外的照片：自己發光（顏色黑、emissiveMap＝照片），20:30 亮度 0.32（店裡的燈照不亮它）', ok&&v.length===1&&m.color.r===0&&m.emissiveMap===tex&&m.emissive.r===1&&Math.abs(m.emissiveIntensity-0.32)<1e-9, ok?JSON.stringify({c:m.color.r,e:m.emissiveIntensity}):'沒有 viewMats／setView');
     if(ok){ S.setView(v,12); check('6b. 中午亮度 1', m.emissiveIntensity===1); } }
   /* 9. AA_355 1-3（AA-C 2026-10-21）：滇香小館牆上的織布點了有字（配置檔的 note 是空的，原本只顯示「牆上的織布」）*/
-  { /* L118-SHOPS-REDO-1111（使用者 11-11，X338）：dian 從滇香小館改成 118牛排，織布沒有了；四間新室內的「看東西」照 AA_772 look_lines（字寫在配置檔的 note） */
-    const S=global.L118S, it=(sh,k)=>(LS[sh]&&LS[sh].interact||[]).find(x=>x.id===k), lk=(sh,k)=>S&&S.lookText&&it(sh,k)?S.lookText(sh,it(sh,k)):null;
-    const want=[['dian','soup','（濃湯和紅茶自己裝。濃湯那一桶前面，永遠有人在排。）'],['self','sides','（配菜櫃的玻璃起了霧。滷蛋那一格只剩兩顆。）'],['tea','banchan','（小菜自己夾。泡菜那一盒最先見底。）'],['korea','noodle_station','（師傅把麵團架在肩上，刀一片一片削進鍋裡。）']];
-    const bad=want.filter(([sh,k,t])=>lk(sh,k)!==t);
-    check('9. AA_772 look_lines：118牛排的濃湯紅茶桶、水上便當的配菜櫃、辛亥韓食的小菜櫃、清州刀削麵的製麵區點了有字（原本的 9 是滇香小館牆上的織布，店改了）', !bad.length, bad.map(x=>x[0]+'/'+x[1]+'='+lk(x[0],x[1])).join('｜')); }
-  /* 9b. AA_355 5-1（AA-C 2026-10-21 2f1aaa22）：還沒有字的物件——自取的湯（第一間＝好家自助餐、第二間＝五湖四海）、書架（慢讀咖啡）、小菜櫃（第一間＝韓食小廚、第二間＝六張犁麵舖）；
+  { const S=global.L118S, q=(LS.dian&&LS.dian.interact||[]).find(x=>x.id==='tapestry'), t=S&&S.lookText&&q?S.lookText('dian',q):null;
+    check('9. AA_355 1-3 牆上的織布：「（牆上掛著一塊條紋織布，紅色和深藍色，顏色洗得有點淡了。）」', t==='（牆上掛著一塊條紋織布，紅色和深藍色，顏色洗得有點淡了。）', String(t)); }
+  /* 9b. AA_355 5-1（AA-C 2026-10-21 2f1aaa22）：還沒有字的物件——自取的湯（第一間＝好家自助餐、第二間＝巷口家常菜）、書架（慢讀咖啡）、小菜櫃（第一間＝韓食小廚、第二間＝六張犁麵舖）；
      「第一間、第二間」照配置檔的順序。電視照配置檔的 note（AA_280）、餐盤回收台照舊顯示名稱（修改前 FAIL：五個都只顯示名稱）*/
   { const S=global.L118S, it=(sh,k)=>(LS[sh]&&LS[sh].interact||[]).find(x=>x.id===k), lk=(sh,k)=>S&&S.lookText&&it(sh,k)?S.lookText(sh,it(sh,k)):null;
-    /* 2026-11-11（L118-SHOPS-REDO-1111，室內重做）：五湖四海（home）、大學食堂（cafe2）換了新室內——舊的「自取的湯」「電視」（home）、「書架」（cafe2）拿掉，
-       每間只留 AA_772 look_lines 的那一句（home＝煮水餃的大鍋 dumpling_pot、cafe2＝秤重的檯子 scale；字寫在配置檔的 note）。
-       self 的湯、korea 的小菜櫃拿掉（LAWWW2：這兩間的室內換了，見上面的 9）；noodle2 等重做室內以後照新的改 */
-    const want=[['home','dumpling_pot','（老闆娘數都不數，一把下去剛好十顆。）'],['cafe2','scale','（秤旁邊貼著一張紙：「飯也算重量喔」。）'],['noodle2','sides','（小菜櫃的玻璃起霧了，看得到裡面的燙青菜。）']];
-    /* 2026-11-11 L118-SHOPS-REDO-1111：迪倫窯烤披薩（noodle2，原六張犁麵舖）室內重做（tools/blender/env_second/l118_int_noodle2.py）——小菜櫃沒有了，「看東西」換成窯爐，句子是 AA_772 look_lines 的（寫在配置的 note）。
-       奈良咖哩、義大麵屋新的「看東西」在 tests/l118_int_pon_1111_unit.js 檢查 */
-    want.splice(want.findIndex(w=>w[0]==='noodle2'),1,['noodle2','oven','（窯裡的火是橘色的。站近一點，臉會熱。）']);
+    const want=[['self','soup','（自取的湯，今天是蘿蔔湯。鍋邊貼著「請自取，不要浪費」。）'],['home','soup','（湯桶上寫著「紫菜蛋花」。湯勺掛在桶邊。）'],['cafe2','books','（書架上大多是舊漫畫，有幾套缺了第一集。）'],
+      ['korea','banchan','（小菜櫃裡有海帶、豆干、滷蛋。豆干只剩兩塊。）'],['noodle2','sides','（小菜櫃的玻璃起霧了，看得到裡面的燙青菜。）']];
     const bad=want.filter(([sh,k,t])=>lk(sh,k)!==t);
-    check('9b. AA_355 5-1／AA_772 look_lines：五湖四海的大鍋、大學食堂的秤、還沒重做的麵舖的小菜櫃點了有字；home 舊的電視、湯和 cafe2 舊的書架已經拿掉', !bad.length&&!it('home','tv')&&!it('home','soup')&&!it('cafe2','books'), bad.map(x=>x[0]+'/'+x[1]+'='+lk(x[0],x[1])).join('｜')); } }
+    check('9b. AA_355 5-1：118 巷五個物件點了有字（湯兩間、書架、小菜櫃兩間）；電視照舊是 AA_280 那句、餐盤回收台照舊顯示名稱', !bad.length&&lk('home','tv')==='電視在播午間新聞，沒有人在看。'&&lk('self','return')==='餐盤回收台', bad.map(x=>x[0]+'/'+x[1]+'='+lk(x[0],x[1])).join('｜')); } }
 // 4
 { const z=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
-  check('4. （2026-11-11 L118-SHOPS-REDO-1111：按鈕的類型改讀店家資料 ty，原本 sh.type）店門口：營業時間「進○○」exit 到 l118_<id>（沒開藏起來）；沒開的時候是 L118.order 的按鈕；門口的按鈕比站在門口的常客優先（prio）', /prio:1,label:'進'\+nm\+'（'\+ty\+'）',exit:\{to:'l118_'\+sh\.id,[^}]*\}\},get hidden\(\)\{ return !open118\(\); \}\}\)/.test(z)&&/prio:1,label:nm\+'（'\+ty\+'）',shop118:sh\.id,get hidden\(\)\{ return open118\(\); \}\}\)/.test(z)); }
+  check('4. 店門口：營業時間「進○○」exit 到 l118_<id>（沒開藏起來）；沒開的時候是 L118.order 的按鈕；門口的按鈕比站在門口的常客優先（prio）', /prio:1,label:'進'\+nm\+'（'\+sh\.type\+'）',exit:\{to:'l118_'\+sh\.id,[^}]*\}\},get hidden\(\)\{ return !open118\(\); \}\}\)/.test(z)&&/prio:1,label:nm\+'（'\+sh\.type\+'）',shop118:sh\.id,get hidden\(\)\{ return open118\(\); \}\}\)/.test(z)); }
 // 5
 { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
   check('5. 店員在店裡（l118_<id> 照 layout 的 clerk）；有室內配置時巷子裡不站店員', /if\(\/\^l118_\/\.test\(zoneId\)&&typeof L118_SHOP_LAYOUTS!=='undefined'\)\{[^\n]*clerk\(LL\.clerk\.x,LL\.clerk\.z,LL\.clerk\.yaw/.test(s)&&/if\(zoneId==='lane118'&&typeof L118_SHOP_LAYOUTS==='undefined'&&/.test(s)); }
@@ -73,13 +65,11 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
 //    椅子 prio 0.3、看的東西 prio −0.3（l118_shops3d.js）；用 engine3d.js 的 nearestInteractable 實際比：
 //    站在那張椅子後面 0.6 m（前面是桌子，GAME.seatApproach 的第二個位置）＝「坐下」；站在湯的前面＝「自取的湯」；兩邊都沒有 prio 的話椅子後面是「自取的湯」
 { const eng=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8'), sh=fs.readFileSync(path.join(ROOT,'src/l118_shops3d.js'),'utf8'); const m=eng.match(/E\.nearestInteractable=function\(\)\{[\s\S]*?return best; \};/);
-  const ps=sh.match(/IT\.push\(\{x:s\.x,z:s\.z,radius:s\.r\|\|0\.7,lv:0,(?:prio:(-?[\d.]+),)?seat:st,/), pl=sh.match(/for\(const q of L\.interact\) IT\.push\(\{x:q\.x,z:q\.z,radius:q\.r,lv:0,(?:prio:(-?[\d.]+),)?label:q\.label/);
+  const ps=sh.match(/IT\.push\(\{x:s\.x,z:s\.z,radius:0\.7,lv:0,(?:prio:(-?[\d.]+),)?seat:st,/), pl=sh.match(/for\(const q of L\.interact\) IT\.push\(\{x:q\.x,z:q\.z,radius:q\.r,lv:0,(?:prio:(-?[\d.]+),)?label:q\.label/);
   const pS=ps&&ps[1]?+ps[1]:0, pL=pl&&pl[1]?+pl[1]:0, H=LS.home;
-  if(m&&H){ const at=(x,z,a,b)=>{ const its=H.seats.map(q=>({x:q.x,z:q.z,radius:q.r||0.7,lv:0,prio:a,seat:{x:q.x,z:q.z,yaw:q.yaw},label:'坐下'})).concat(H.interact.map(q=>({x:q.x,z:q.z,radius:q.r,lv:0,prio:b,label:q.label})));
+  if(m&&H){ const at=(x,z,a,b)=>{ const its=H.seats.map(q=>({x:q.x,z:q.z,radius:0.7,lv:0,prio:a,seat:{x:q.x,z:q.z,yaw:q.yaw},label:'坐下'})).concat(H.interact.map(q=>({x:q.x,z:q.z,radius:q.r,lv:0,prio:b,label:q.label})));
       const E={levels:null,player:{lv:0,obj:{position:{x,y:0,z}}},interactables:its,npcs:[]}; vm.runInNewContext(m[0],{E,Math}); const r=E.nearestInteractable(); return r&&r.label; };
-    /* 2026-11-11（L118-SHOPS-REDO-1111，五湖四海新室內）：原本用 (-2.6,-2.94) 那張椅子和「自取的湯」比；新室內沒有湯了，改用最靠近煮水餃大鍋的那張圓凳 (-2.3,-1.7)
-       和「煮水餃的大鍋」（看的點 (-1.4,-1.8)）：站在圓凳後面 0.6 m＝「坐下」、站在大鍋前面＝「煮水餃的大鍋」；兩邊都沒有 prio 的話圓凳後面是「煮水餃的大鍋」 */
-    const back=at(-1.7,-1.7,pS,pL), pot=at(-1.4,-1.9,pS,pL), old=at(-1.7,-1.7,0,0);
-    check('8. 五湖四海 (-2.3,-1.7) 的圓凳：站在椅子後面＝「坐下」、站在大鍋前面＝「煮水餃的大鍋」；（兩邊都沒有 prio 的話椅子後面是「煮水餃的大鍋」）', back==='坐下'&&pot==='煮水餃的大鍋'&&old==='煮水餃的大鍋', JSON.stringify({pS,pL,back,pot,old})); }
-  else check('8. 找得到 nearestInteractable、五湖四海的配置', false); }
+    const back=at(-2.6,-3.54,pS,pL), soup=at(-2.7,-3.75,pS,pL), old=at(-2.6,-3.54,0,0);
+    check('8. 巷口家常菜 (-2.6,-2.94) 的椅子：站在椅子後面＝「坐下」、站在湯前面＝「自取的湯」；（兩邊都沒有 prio 的話椅子後面是「自取的湯」）', back==='坐下'&&soup==='自取的湯'&&old==='自取的湯', JSON.stringify({pS,pL,back,soup,old})); }
+  else check('8. 找得到 nearestInteractable、巷口家常菜的配置', false); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

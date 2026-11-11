@@ -436,7 +436,7 @@ const MSG=(function(){
   /* 回問選項（3-1 第 6 點）：cond「接到問課」只在問課開的時候有、goto course＝接她問課的回覆；「在美國時換成」只在她在美國時 */
   S.askOpts=function(G,id,e,nm,ctx){ if(!e.ask||!e.ask.opts) return null; const abroad=S.tok(G,id,'在美國'), course=S.topics(G,id).some(q=>q.k==='course');
     const out=[]; for(const q of e.ask.opts){ if(q.cond&&/在美國時換成/.test(q.cond)&&!abroad) continue; if(q.goto==='course'&&(abroad||!course)) continue;
-      let r=q.r||[]; if(q.goto==='course'){ const c=S.pick(G,id,'course',null,ctx); r=c?c.msgs:[]; } const it={t:q.t,say:r.map(x=>/^（旁白：/.test(x)?{from:null,text:x}:{from:id,name:nm,text:x})}; if(q.call) it.call=Object.assign({who:id},q.call); if(q.fx){ it.fx=q.fx; it.fxWho=id; }   /* 回問選項的 fx（DLG-FX-MECH-1110；PHONE.answer 算）*/ out.push(it); }
+      let r=q.r||[]; if(q.goto==='course'){ const c=S.pick(G,id,'course',null,ctx); r=c?c.msgs:[]; } const it={t:q.t,say:r.map(x=>/^（旁白：/.test(x)?{from:null,text:x}:{from:id,name:nm,text:x})}; if(q.call) it.call=Object.assign({who:id},q.call); out.push(it); }
     return out.length?{opts:out}:null; };
   /* 回問選項帶的電話（AA_531 8-5，企劃線 a28201f61：語彤 MSG2「……不太好。你可以打給我嗎。」的國外版）：回了那個選項＝排一通你打過去的電話（遊戲現有的電話演出：OUT 出遊 place:'電話'、call:true、
      事件 {scene:'電話'}，同 y2r2_3d.js 芷若錄取那晚）。min＝幾分鐘以後打（「等我十分鐘」＝10：她先回「好。我等。」，十分鐘以後才跳「打給她」）；台詞在回覆池那個人的 calls（產生器 tools/msg/build_msg2.py）。

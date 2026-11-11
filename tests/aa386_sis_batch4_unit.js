@@ -162,8 +162,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('3-2. 「今天晚上不行。」→「好。」；21:30「📷（研究室門口的桌上，一棵很小的聖誕樹）」「學妹的。我幫她顧。」',a==='好。'&&J(dms().slice(-2))===J(['📷（研究室門口的桌上，一棵很小的聖誕樹）','學妹的。我幫她顧。'])&&H.G.flags.SIS_XMAS_Y3==='no',J(dms())); }
   /* 3-3（企劃線 d0468be4，AA 14:2x 定案 A＋備援）：學姊交往版大四上那一頓固定 2028-12-24 18:30（兩條路線）；3-2 有來＝那一頓多兩句；
      12/24 晚上已經有別的約（排日子以前或以後才有）＝照現有規則往後讓，當晚 21:00 她私訊三則（3-2 有來才有）*/
-  { const X3=['今天是二十四號。','去年在研究室說的。……剛回來一天。'], B=['時差還沒調好。我現在很想睡。','可是這頓我不想錯過。'], E=['去年在研究室說的。剛回來一天。'];   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版）：第二句照新稿（沒有「……」），後面先接一組選項和她的回答（RE），研究室那兩句照舊接在後面 */
-    const RE=[].concat(...TERMEND_OPTS.GF[ID].tableByTerm.Y4S1.opts.map(o=>o.re.map(x=>typeof x==='string'?x:x.narr)));
+  { const X3=['今天是二十四號。','去年在研究室說的。……剛回來一天。'], B=['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。'], E=['去年在研究室說的。剛回來一天。'];
     for(const x of X3.concat(E,['我做到了。','我們做到了。','……我做到了。','……我們做到了。'])) if(!inDoc(x)) check('3-3. 稿裡有「'+x+'」',false);
     const d24=H.D('2028-12-24');
     const flow=(route,there,busy)=>{ const G=setup('2028-12-23',9,'dorm','CLOSE',{EXCHANGE_ROUTE:route,SIS_XMAS_Y3:there?'there':'missed'}); dateSis();
@@ -174,7 +173,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     const tw=flow('TW',1), us=flow('US',1), nx=flow('TW',0);
     check('3-3. 學姊交往版大四上那一頓排在 2028-12-24（臺灣、美國路線一樣；12:00 她傳邀約）；21:00 沒有備援私訊',[tw,us,nx].every(r=>r.day0===d24&&r.day1===d24&&r.inv&&!r.dm.length),J({tw,us,nx}));
     const din=async(key,flags)=>{ H.fresh(key,18.5,'campus',Object.assign({met_sis:true},flags||{})); H.CLOSE(ID); dateSis(); if(STORY._bindGM) STORY._bindGM(GM); H.said=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{id:'te_gf_Y4S1_'+ID,te:{term:'Y4S1',who:ID,kind:'gf'}}); return said(); };
-    const after=(L0,x)=>{ const L=L0.filter(t=>!RE.includes(t)), i=L.indexOf(B[1]); return i>0&&L[i-1]===B[0]&&L0.some(t=>RE.includes(t))&&J(L.slice(i+1,i+1+x.length))===J(x)&&!L.slice(i+1+x.length).some(t=>/剛回來一天|做到了/.test(t)); };
+    const after=(L,x)=>{ const i=L.indexOf(B[1]); return i>0&&L[i-1]===B[0]&&J(L.slice(i+1,i+1+x.length))===J(x)&&!L.slice(i+1+x.length).some(t=>/剛回來一天|做到了/.test(t)); };
     const dus=await din('2028-12-24',{SIS_XMAS_Y3:'there',EXCHANGE_ROUTE:'US'}), dtw=await din('2028-12-24',{SIS_XMAS_Y3:'there',EXCHANGE_ROUTE:'TW'}), dnx=await din('2028-12-24',{SIS_XMAS_Y3:'missed',EXCHANGE_ROUTE:'US'}), d26=await din('2028-12-26',{SIS_XMAS_Y3:'there',EXCHANGE_ROUTE:'US'});
     check('3-3. 12/24 那一頓、3-2 有來：兩句後面多「去年在研究室說的。剛回來一天。」「……我們做到了。」（美國）／「……我做到了。」（臺灣）',after(dus,[E[0],'……我們做到了。'])&&after(dtw,[E[0],'……我做到了。']),J({dus,dtw}));
     check('3-3. 3-2 沒來、往後讓到別天吃的：照原本兩句，不加',after(dnx,[])&&after(d26,[]),J({dnx,d26}));

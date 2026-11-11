@@ -1,4 +1,4 @@
-/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_732_gift_holiday_1.json@5acf44bbc、docs/story_planning/AA_733_gift_holiday_2.json@1edb14888、docs/story_planning/AA_734_gift_holiday_3.json@246ef6735；沛珊 5 處照 docs/story_planning/AA_755_peishan_feed_misc.json@c5094495d）。不要手改，改企劃 AA_732／AA_733／AA_734 再重新匯入。
+/* 自動產生：tools/gift/import_gift_holiday.py（docs/story_planning/AA_732_gift_holiday_1.json@5acf44bbc、docs/story_planning/AA_733_gift_holiday_2.json@1edb14888、docs/story_planning/AA_734_gift_holiday_3.json@246ef6735）。不要手改，改企劃 AA_732／AA_733／AA_734 再重新匯入。
    節日、生日送禮（GIFT-HOLIDAY-1110；播放 src/gifthol3d.js）：shops／items＝店家禮物、react＝八位收到的反應、give＝她們送祐廷的、stationery＝山嵐文具區學姊四場 */
 'use strict';
 const GIFT_HOLIDAY={
@@ -1537,7 +1537,7 @@ const GIFT_HOLIDAY={
       "七夕耶～你也有過喔？"
      ],
      "B": [
-      "七夕！我媽剛剛傳訊息問我今天有沒有人約，我已讀了。"
+      "七夕！我們家早餐店今天有送豆漿。"
      ],
      "C": [
       "……今天是七夕。我剛剛一直在看手機。"
@@ -1551,13 +1551,13 @@ const GIFT_HOLIDAY={
       "你怎麼知道？……我只在讀書會說過一次。"
      ],
      "B": [
-      "我們家過生日，我爸會叫店裡做一個很大的壽桃。我十歲就跟他講過我不是阿嬤了。"
+      "我們家的生日蛋糕是蛋餅疊起來的，三層。我爸的發明。"
      ],
      "C": [
       "生日收到禮物……我好久沒有這樣了。"
      ],
      "D": [
-      "我爸今年訂了兩個壽桃。他沒問為什麼，可是他知道。"
+      "我爸說今年要做兩份蛋餅蛋糕。……他沒問為什麼，可是他知道。"
      ]
     }
    },
@@ -2389,7 +2389,8 @@ const GIFT_HOLIDAY={
    "late": "這是那天的！我一直帶著，想說遇到你就給你。",
    "existing": [
     "AA_416 聖誕（交往中）：課輔班小孩的卡片＝那一年的聖誕禮物",
-    "AA_416 2/14（交往中、台中）：她用紅筆在便條紙上畫的笑臉（她改作業畫的那一個），背面寫「今天你來台中，這張給你」＝那一年的 2/14 禮物"
+    "AA_416 2/14（交往中、台中）：畫了愛心的蛋餅＝那一年的 2/14 禮物",
+    "AA_416 七夕（交往中）：「我查到了。……不告訴你。」那一年不送喜鵲的答案，明年才送"
    ]
   },
   "kexin": {

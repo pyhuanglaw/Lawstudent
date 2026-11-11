@@ -7,19 +7,19 @@
 const FOOD_FAV_LINES={
  src:'AA_410（企劃線 86016b84；第 4 節 38b3c9dd）',
  note:{
-  heroine_01:'以安：奈良咖哩的雞肉咖哩。她只吃得下半份，多要一個盤子。',
+  heroine_01:'以安：咖哩蛋包飯。她只吃得下半份，多要一個盤子。',
   heroine_02:'芷若：熱可可，加一份濃縮。',
-  heroine_03:'語彤：118牛排的雞排，黑胡椒多加辣。看不出來。',
+  heroine_03:'語彤：滇香的酸辣河粉，多加辣。看不出來。',
   heroine_04:'子晴：美式，冰的。十二月也是。',
   heroine_05:'學姊：無糖綠茶，去冰。從來沒換過。',
-  classmate_peishan:'沛珊：可樂餅咖哩。她每次都點一樣的。',
+  classmate_peishan:'沛珊：番茄醬蛋包飯。她每次都點一樣的。',
   kexin:'可昕：紅茶，無糖。她只喝無糖的。'
  },
  heroine_01:{
   right:[['heroine_01','……你記得。'],['heroine_01','那這一半給你。不准說吃不下。']],
   rightDating:[[null,'（她把一半撥到空盤子上，推過來的時候，順手把湯匙也放好。）']],
   itemOnly:[['heroine_01','（看了一下盤子）……我吃不完。你要幫我吃。']],
-  wrong:{'可樂餅咖哩':[['heroine_01','可樂餅的。……好，我吃吃看。']]}
+  wrong:{'番茄醬蛋包飯':[['heroine_01','番茄醬的。……好，我吃吃看。']]}
  },
  heroine_03:{
   know:[['老闆娘','那個社會系的妹妹，每次都叫我多放辣。'],['老闆娘','看不出來吧。']],
@@ -41,8 +41,8 @@ const FOOD_FAV_LINES={
   wrong:{'*':[['heroine_05','謝謝。我喝。']]}
  },
  classmate_peishan:{
-  right:[['classmate_peishan','你幫我點好了？'],['classmate_peishan','……可樂餅的。嗯。不要笑。']],
-  wrong:{'雞肉咖哩':[['classmate_peishan','雞肉的？……好，今天換一次。'],['classmate_peishan','（吃了兩口）……下次還是可樂餅。']]}
+  right:[['classmate_peishan','你幫我點好了？'],['classmate_peishan','……番茄醬的。嗯。不要笑。']],
+  wrong:{'咖哩蛋包飯':[['classmate_peishan','咖哩的？……好，今天換一次。'],['classmate_peishan','（吃了兩口）……下次還是番茄醬。']]}
  },
  kexin:{
   know:[['kexin','……有糖。'],['kexin','我只喝無糖的。你下次記得。']],

@@ -34,10 +34,10 @@ const ALL15=[HX,JY,LQ,SC,M,TZ,LY,SH,CX,ZY,NW,PY,MR,YX,YS];
 const BH='classmate_bohan', PS='classmate_peishan', YC='classmate_youchen';
 
 /* ---------- 載入（和 index.html 同一個順序；第二～四批的檔案修改前不存在＝記下來，各節 FAIL）---------- */
-const RE=/^(EAT|EAT_LINES|WZS|L118|LANE118_SHOPS|L118_REDO|LANE118_LAYOUT|PARK|WZ_PARK_LAYOUT|SIDEQ|MSG|MSG_POOL|MSG2_POOL|SISY23|SISY23_LINES|SISY23_EVENTS|POOL|POOL_STORY|POOL_STORY_B2|POOL_STORY_B3|POOL_STORY_B4|POOL_MORE|HCIRCLE|HCIRCLE_DATA|PRACTICE|R2Y4A_EVENTS|R2Y4B_EVENTS|R2Y3A_EVENTS|Y2B|Y2B_EVENTS|GROUP|GROUP_EVENTS|Y2R2|R2Y4A|R2Y4B|R2Y3A)$/;
+const RE=/^(EAT|EAT_LINES|WZS|L118|LANE118_SHOPS|LANE118_LAYOUT|PARK|WZ_PARK_LAYOUT|SIDEQ|MSG|MSG_POOL|MSG2_POOL|SISY23|SISY23_LINES|SISY23_EVENTS|POOL|POOL_STORY|POOL_STORY_B2|POOL_STORY_B3|POOL_STORY_B4|POOL_MORE|HCIRCLE|HCIRCLE_DATA|PRACTICE|R2Y4A_EVENTS|R2Y4B_EVENTS|R2Y3A_EVENTS|Y2B|Y2B_EVENTS|GROUP|GROUP_EVENTS|Y2R2|R2Y4A|R2Y4B|R2Y3A)$/;
 const errs=[];
 const load=f=>{ if(!fs.existsSync(path.join(H.ROOT,f))){ errs.push('沒有 '+f); return; } try{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); s=s.replace(/^const (\w+)\s*=/mg,(m,n)=>RE.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(s,{filename:f}); }catch(e){ errs.push(f+'：'+String(e&&e.message||e).slice(0,200)); } };
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/eat_lines.js','src/eat3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/l118_redo772.js','src/lane118.js','src/data/wz_park_layout.js','src/wzpark3d.js','src/wzshops3d.js','src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js','src/sideq3d.js',
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/eat_lines.js','src/eat3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js','src/data/wz_park_layout.js','src/wzpark3d.js','src/wzshops3d.js','src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js','src/sideq3d.js',
   'src/data/y2b_events.js','src/y2b3d.js','src/data/group_events.js','src/group3d.js','src/y2r2_3d.js','src/data/r2y3a_events.js','src/data/r2y4a_events.js','src/data/r2y4b_events.js','src/practice3d.js',
   'src/data/pool_story.js','src/pool3d.js','src/data/pool_story_b2.js','src/data/pool_story_b3.js','src/data/pool_story_b4.js','src/pool_more3d.js','src/data/heroine_circle.js','src/hcircle3d.js']) load(f);
 const P=()=>typeof POOL!=='undefined'?POOL:null, PM=()=>typeof POOL_MORE!=='undefined'&&POOL_MORE.SRC?POOL_MORE:null;

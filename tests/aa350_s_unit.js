@@ -17,7 +17,7 @@ const mkObj=()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z
 global.CHAR={setExpr(){},build:()=>mkObj()};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js',
-  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
+  'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
   'src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js',
   'src/data/dorm_room_layout.js','src/story3d.js','src/classes3d.js','src/data/free_trips.js','src/freetrip3d.js','src/data/encounters.js','src/data/enc_walk.js','src/encounter3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
@@ -106,9 +106,8 @@ const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
 
   /* ===== S6 校外約會撞到以安、芷若回台中的日子 ===== */
   const ask=(id,todayK,dayK,loc,dep,flags)=>{ fresh(D(todayK),9,'dorm',flags); know(id,60); return DATE.check(G,{who:id,locs:[loc],day:D(dayK),depart:dep}); };
-  /* 2026-11-11（X324 以安約會台詞重寫，AA_777_an_date_common.json@1f88da7cc）：S6 以安那一句照 S.HOME_NO.heroine_01 那一列拿掉刪節號——原本「那幾天我在台中。……換一天。」；逐字對 AA_777 在 tests/an_dates_1111_unit.js 第 6 節 */
-  { const AN='「那幾天我在台中。換一天。」', a=ask('heroine_01','2026-07-23','2026-07-28','D13',10,{dating_heroine_01:true}), b=ask('heroine_01','2026-07-23','2026-07-28','D26',8,{dating_heroine_01:true}), c=ask('heroine_01','2026-08-08','2026-08-09','D13',10,{dating_heroine_01:true}), d=ask('heroine_01','2026-07-23','2026-07-24','D13',10,{dating_heroine_01:true});
-    check('S6. 以安：7/23 約 7/28（她在台中）淡水＝擋，「那幾天我在台中。換一天。」',!a.ok&&a.why===AN,JSON.stringify(a.why));
+  { const AN='「那幾天我在台中。……換一天。」', a=ask('heroine_01','2026-07-23','2026-07-28','D13',10,{dating_heroine_01:true}), b=ask('heroine_01','2026-07-23','2026-07-28','D26',8,{dating_heroine_01:true}), c=ask('heroine_01','2026-08-08','2026-08-09','D13',10,{dating_heroine_01:true}), d=ask('heroine_01','2026-07-23','2026-07-24','D13',10,{dating_heroine_01:true});
+    check('S6. 以安：7/23 約 7/28（她在台中）淡水＝擋，「那幾天我在台中。……換一天。」',!a.ok&&a.why===AN,JSON.stringify(a.why));
     check('S6. 以安：約 D26 臺中不擋（她人在臺中）；8/9（回來了）、7/24（還沒走）照常',b.why!==AN&&c.why!==AN&&d.why!==AN,JSON.stringify([b.ok,b.why,c.ok,c.why,d.ok,d.why])); }
   { const ZR='「那個禮拜我回台中了。換一天好不好？」', a=ask('heroine_02','2026-06-29','2026-07-02','D13',10,{dating_heroine_02:true}), b=ask('heroine_02','2026-06-29','2026-07-04','D26',8,{dating_heroine_02:true}), c=ask('heroine_02','2026-06-29','2026-06-30','D13',10,{dating_heroine_02:true});
     check('S6. 芷若：6/29 約 7/2（她回台中了）淡水＝擋，「那個禮拜我回台中了。換一天好不好？」；D26 臺中不擋；6/30 照常',!a.ok&&a.why===ZR&&b.why!==ZR&&c.why!==ZR,JSON.stringify([a.why,b.why,c.why])); }
@@ -116,7 +115,7 @@ const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
     check('S6b. 芷若在台中（7/6 週一、7/8 週三）：去台中找她（D26）不會被她臺北的 Café 班表擋成「她那時候有事」（子代理 10-31 讀碼：INV.busyAt 不看 presence）',!/她那時候|隔天她/.test(e.why||'')&&!/她那時候|隔天她/.test(f.why||''),JSON.stringify([e.ok,e.why,f.ok,f.why])); }
   { fresh(D('2026-07-23'),9,'dorm',{dating_heroine_01:true}); know('heroine_01',60); const t=DATE.book(G,{who:'heroine_01',locs:['D13'],day:D('2026-07-24'),depart:10,by:'player'}); const q=OUT.rec(G).find(x=>x.dateTrip===t.trip);
     const keep=GM.toast; let toasts=[]; GM.toast=m=>toasts.push(m); picks=[1,0]; G.day=D('2026-07-24'); G.weekday=wdOf(G.day); G.hour=10; const r=await DATE.move(GM,q,t); GM.toast=keep;
-    check('S6. 改時間「改到明天同一個時間」撞到她回台中（7/25）：說那一句、不改',toasts.includes('「那幾天我在台中。換一天。」')&&t.day===D('2026-07-24'),JSON.stringify([toasts,K(t.day),r])); }
+    check('S6. 改時間「改到明天同一個時間」撞到她回台中（7/25）：說那一句、不改',toasts.includes('「那幾天我在台中。……換一天。」')&&t.day===D('2026-07-24'),JSON.stringify([toasts,K(t.day),r])); }
 
   /* ===== S7 D29 偶遇阿哲 ===== */
   const encAt=(key,h,spot,ids)=>{ fresh(D(key),h,'gongguan'); for(const id of ids) know(id); return ENC.candidates(G,spot).map(c=>c.row.who); };

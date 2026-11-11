@@ -46,11 +46,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
   check('0. 新檔載得到：BBPACK、BBPACK_EVENTS 都進了 STORY_EVENTS',ok1&&ok2&&!!X()&&BBPACK_EVENTS.length>=30&&BBPACK_EVENTS.every(e=>STORY_EVENTS.includes(e)),err);
   if(!X()){ H.done(); return; }
   await sec('0',async()=>{
-  /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：B13 不打擾的旁白、D5 她下樓那一句換字（原本「…畫了一個小小的荷包蛋。」「你來了！……不用謝，我順便印的。」）——這兩句對 AA_763（tests/peishan_misc3_1111_unit.js），不在 BB_105 */
-  const PS763=new Set(['沛珊把耳機戴上，在筆記本的邊角畫了一隻很胖的貓。','你來了！不用謝，我順便印的。']);
-  /* 2026-11-11（X327 沛珊重寫，AA_766_peishan_leftover2.json@1e647bb05）：D4c「沛珊的問題」四題 25 句換字（她自己就是法律系；第 3 題原本問早餐＝作廢的早餐店設定）——這幾句對 AA_766 的 rows（tests/peishan_leftover2_1111_unit.js），不在 BB_137 */
-  const PS766=new Set((()=>{ try{ return JSON.parse(git('1e647bb05','AA_766_peishan_leftover2.json')).rows.filter(r=>r.file==='src/data/bbpack_events.js').map(r=>r.new); }catch(e){ return []; } })());
-  { const bad=[], seen=new Set(); const T=t=>{ if(typeof t!=='string'||seen.has(t)) return; seen.add(t); if(COMPOSED.has(t)||PS763.has(t)||PS766.has(t)) return; if(ALLDOC.indexOf(t)>=0||ALLDOC.indexOf(norm(t))>=0) return; if(require('./aa600_doc.js').has(t)) return;   /* AA_600 B29（企劃線 031414cad）前任那一句旁白在 AA_600 的稿裡 */ bad.push(t); };
+  { const bad=[], seen=new Set(); const T=t=>{ if(typeof t!=='string'||seen.has(t)) return; seen.add(t); if(COMPOSED.has(t)) return; if(ALLDOC.indexOf(t)>=0||ALLDOC.indexOf(norm(t))>=0) return; if(require('./aa600_doc.js').has(t)) return;   /* AA_600 B29（企劃線 031414cad）前任那一句旁白在 AA_600 的稿裡 */ bad.push(t); };
     for(const e of BBPACK_EVENTS.filter(e=>!/^ev_kai_keyboard|^ev_b6b_|^ev_b12_/.test(e.id))) for(const l of (e.dialogue||[])){   /* BB_154 阿凱鍵盤（第二輪）照 BB_154 對字：tests/bbpack_r2_unit.js；B6b、B12 照 AA_430 對字：tests/aa430_b6b_b12_unit.js */ if(l.text!==undefined) T(l.text); if(l.scene!==undefined) T(l.scene); for(const c of (l.choice||[])) T(c.text); }
     check('0. 每一句台詞、旁白、選項都在稿裡（稿上的動作、說明改成旁白的照字比；補的 '+COMPOSED.size+' 句列在 COMPOSED）',bad.length===0,bad.slice(0,8).join('｜'));
     const used=[...COMPOSED].filter(t=>seen.has(t)); check('0. COMPOSED 每一句都真的用到（沒有多列）',used.length===COMPOSED.size,[...COMPOSED].filter(t=>!seen.has(t)).join('｜')); }
@@ -184,7 +180,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
     EVENTS.zoneChanged(); check('2. B13 一天一次（冷卻）',!chk('ev_b13_peishan'));
     const G2=fresh('Y2S2',3,3,16.5,{zone:'boya',room:'study',know:[PS]}); const roll=X().roll; X().roll=()=>0; check('2. B13 只到大二上（大二下她休學重考，不在學校）',!chk('ev_b13_peishan')&&ev('ev_b13_peishan').term.join()==='Y1S1,Y1S2,Y2S1'); X().roll=roll;
     const L2=await (async()=>{ const G3=fresh('Y1S1',3,3,16.5,{zone:'boya',room:'study',know:[PS]}); H.said=[]; H.picks=['（不打擾）']; await EVENTS.run(ev('ev_b13_peishan')); return said(); })();
-    check('2. B13 不打擾：她的一個動作',['沛珊把耳機戴上，在筆記本的邊角畫了一隻很胖的貓。','沛珊抬頭看了你一眼，點點頭，又低頭寫字。'].includes(L2[0]),J(L2)); }
+    check('2. B13 不打擾：她的一個動作',['沛珊把耳機戴上，在筆記本的邊角畫了一個小小的荷包蛋。','沛珊抬頭看了你一眼，點點頭，又低頭寫字。'].includes(L2[0]),J(L2)); }
   });
 
   /* ======================= 3 女舍 ======================= */
@@ -199,7 +195,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
     const m=(G.msgs||[]).find(q=>q.ask&&q.ask.id==='bb_d5_'+d);
     check('3. D5 公法讀書會前一天（週三）20:00 群組：沛珊（AA_289 5-4、BB_137 3-2）',!!m&&m.text==='講義我先印了，放在女舍一樓的櫃子，誰要拿？'&&J(m.ask.opts.map(o=>o.t))===J(['我去拿。','請別人幫我拿。']));
     PHONE.answer(G,'bb_d5_'+d,0); check('3. D5 我去拿＝當晚走到女舍門口',G.flags.D5_GO===d&&chk('ev_d5_handout'));
-    const L=await run('ev_d5_handout'); check('3. D5：櫃子、第一張便利貼、第一次她剛好下樓那句；熟悉 +1',L[0]==='櫃子上一疊講義，最上面一張便利貼。'&&L[1]==='祐廷的。第三題的圖我多印了一頁。'&&L.includes('你來了！不用謝，我順便印的。')&&G.flags.D5_GO===null,J(L));
+    const L=await run('ev_d5_handout'); check('3. D5：櫃子、第一張便利貼、第一次她剛好下樓那句；熟悉 +1',L[0]==='櫃子上一疊講義，最上面一張便利貼。'&&L[1]==='祐廷的。第三題的圖我多印了一頁。'&&L.includes('你來了！……不用謝，我順便印的。')&&G.flags.D5_GO===null,J(L));
     setDay(TD('Y1S1',11,3),20.05); rules(); check('3. D5 冷卻四週（下一週不再問）',!(G.msgs||[]).some(q=>q.ask&&q.ask.id==='bb_d5_'+G.day));
     setDay(TD('Y1S1',14,3),20.05); rules(); const m2=(G.msgs||[]).find(q=>q.ask&&q.ask.id==='bb_d5_'+G.day); PHONE.answer(G,'bb_d5_'+G.day,1);
     check('3. D5 四週後再問；請別人拿＝沛珊「好，明天直接給你。」',!!m2&&msgs('g:public_law').includes('好，明天直接給你。')); }

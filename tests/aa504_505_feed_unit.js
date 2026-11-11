@@ -107,14 +107,13 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i1=sc('src/data/feed_
   /* 2026-10-30 AA_524 Z3（企劃線 8fd10848d）：芷若 zr3c 多了 yes 版（前一晚回「我去。」去看了早場的玩家：圖、私訊的回答）——對 AA_505 的稿用 no 版（原句）；yes 版在 tests/aa524_promises_unit.js 對 AA_524 的稿 */
   const A524=p=>p.id!=='zr3c'?p:Object.assign({},p,{went:undefined,pic:p.pic&&typeof p.pic==='object'?p.pic.no:p.pic,dm:(p.dm||[]).map(x=>x&&typeof x==='object'&&x.no!=null?x.no:x)});
   const CUT661=['ps2b'];   /* AA_661 第 51 列（AA_614）：沛珊大一上第 3 週起就是課輔班的打工助教，大一下的志工報名表那一則拿掉 */
-  const PSRW=require('./peishan_rewrite_1111.js');   /* 2026-11-11（X327 沛珊重寫）：大一下 ps1b、ps6b 照 AA_755 整則重寫了，不在 AA_504 稿裡——①② 都跳過這兩則，逐字比對在 tests/peishan_feed_misc_1111_unit.js */
-  for(const term of ['Y1S2','Y2S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!ADD514.includes(p.id)&&!PSRW.feedSkip(term,p.id)).map(A524)}), md=doc[term], D=DOC[term];   /* AA_514 加的那一則不在 AA_505 的表裡（tests/aa514_kx_moot3_unit.js 對 AA_514）*/
+  for(const term of ['Y1S2','Y2S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!ADD514.includes(p.id)).map(A524)}), md=doc[term], D=DOC[term];   /* AA_514 加的那一則不在 AA_505 的表裡（tests/aa514_kx_moot3_unit.js 對 AA_514）*/
     if(!S||!md){ check('0. '+term+' 對稿（'+D.sha+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
     const UE=require('./user_line_edits.js'), L=strs(S), bad=L.filter(t=>!md.includes(t)&&!(UE[t]&&md.includes(UE[t])));   /* UE：使用者核准改過的句子（2026-11-10 KX-NO-SWEAR-1110）*/
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+D.sha+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y1S2'?300:230)&&!bad.length,J(bad.slice(0,8)));
     /* ② 稿 → 遊戲：動態表每一列 */
-    const rows=rowsOf(md).filter(r=>!CUT661.includes(expectRow(term,r).id)&&!PSRW.feedSkip(term,expectRow(term,r).id)), wrong=[], wd=[];   /* CUT661：稿上有、遊戲拿掉的（AA_661 第 51 列 ps2b）*/
+    const rows=rowsOf(md).filter(r=>!CUT661.includes(expectRow(term,r).id)), wrong=[], wd=[];   /* CUT661：稿上有、遊戲拿掉的（AA_661 第 51 列 ps2b）*/
     for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when);
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when);
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null;

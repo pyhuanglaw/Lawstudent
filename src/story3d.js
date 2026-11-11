@@ -1,5 +1,4 @@
 /* ===== 劇情與世界內容：人物、日程、路人、事件、法律系內容 ===== */
-/* 2026-11-11（使用者 X327 沛珊重寫）：沛珊加聯絡方式那一句（S.ladPlay）照 AA_763_peishan_misc3.json@62460ea75 換（1 列，只換字）。逐字對稿：tests/peishan_misc3_1111_unit.js */
 'use strict';
 const STORY = (function(){
   const S={};
@@ -271,7 +270,6 @@ const STORY = (function(){
      多一條廣場上的（繞過圓環北側、停車架和行道樹之間）。每個路點 ±1 m 都站得住（人物半徑 0.33）。騎樓只有 2.4 m 深，±1 m 的偏移放不下，沒有加騎樓裡的路線 */
   const walkRoutes={campus:[[[-112,-7],[-60,-7],[-30,-7],[0,-7],[30,-7],[30,-40],[30,-70],[30,-40],[30,-7],[37,-17],[66,-17]],[[66,17],[37,16.2],[20,7],[-20,7],[-70,7],[-110,7],[-70,7],[-20,7]],[[34,-92],[50,-80],[30,-68],[10,-71],[30,-68],[50,-80]],[[-38,9],[-50,14],[-44,19.4],[-32,19.4],[-26,14]],[[92,-62],[80,-62],[60,-62],[36,-62],[60,-62],[80,-62]],[[64,-86,0],[75.2,-76.6,0],[84.7,-87.2,1],[89.7,-84.5,1],[92.1,-82.7,1],[84.7,-87.2,1],[75.2,-76.6,0],[93,-66,0]]],lane118:[[[0,30],[0.8,14],[-0.6,0],[0.6,-16],[0,-36],[0.6,-16],[-0.6,0],[0.8,14]],[[-1.6,-36],[-1.4,-18],[1.4,2],[1.6,20],[0.5,31],[1.6,20],[1.4,2],[-1.4,-18]]],gongguan:[[[-70,-38],[-20,-38],[30,-38],[70,-38],[30,-38],[-20,-38]],[[-70,16],[-22,16],[10,16],[60,16],[10,16],[-22,16]],[[-40,14.5],[0,10],[40,14],[0,10]],[[-72,12],[-60,10],[-48,14.5],[-60,10]],[[-20,12.5],[12,13.6],[22,16],[34,13.6],[52,12],[70,12.5],[52,12],[34,13.6],[22,16],[12,13.6]]],wenzhou:[[[44,-2.4],[20,-2.2],[-6,-2.6],[-30,-2.4],[-6,-2.6],[20,-2.2]],[[-28,2.6],[-4,2.2],[18,2.6],[42,2.4],[18,2.6],[-4,2.2]],[[26,11],[26,4.5],[6,2],[5.8,16],[6,2],[26,4.5]],[[-33.5,10],[-33.5,-1.5],[-12,-1],[-12.2,-14],[-12,-1],[-33.5,-1.5]]]}; if(typeof BLACKFOREST_LAYOUT!=="undefined"&&BLACKFOREST_LAYOUT.version<4){ const r=walkRoutes.campus.findIndex(r=>r[1]&&r[1][0]===75.2&&r[1][1]===-76.6); if(r>=0) walkRoutes.campus[r]=[[64,-86,0],[87,-85,0],[87,-99.2,1],[92.5,-100.6,1],[95.5,-100.9,1],[87,-99.2,1],[87,-85,0],[93,-66,0]]; }   /* LAW-RELAYOUT-1102：上萬才館陽台那條跟著萬才館搬 (+2,+12)；載入舊版黑森林配置（萬才館在舊位置）時換回舊路線 */
   const bikeRoutes={campus:[[[-112,-3],[30,-3],[30,-72],[30,-60],[92,-60],[30,-60],[30,-72],[30,-3]],[[68,17],[37,16.2],[30,3],[-110,3],[30,3],[37,16.2],[68,17]]],gongguan:[[[-70,-12],[70,-12],[70,-2],[-70,-2]]],wenzhou:[[[-29,1.2],[50,1.2],[-29,1.2]],[[50,-1.4],[-29,-1.4],[50,-1.4]]]};   /* CAMPUS-BLACKFOREST-1102：騎車的人走直線不找路——原本 (30,−72)→(92,−60) 斜穿過法學院廣場南邊（黑森林），改成沿 z −60 那條路騎 */
-  if(typeof TINGZHOU_WALK!=='undefined') walkRoutes.tingzhou=TINGZHOU_WALK.routes;   /* 汀州路（TINGZHOU-WALKERS-1110）：路線、人數在 src/data/tingzhou_walk.js（騎樓窄，偏移不能用 ±1 m） */
   function h(G){ return G.hour%24; }
   function isThu(G){ return G.weekday===4; }
   function classTime(G){ return isThu(G)&&h(G)>=13.1&&h(G)<15.2; }
@@ -302,12 +300,6 @@ const STORY = (function(){
       if(F.afternoonDone&&hr>=15.5&&hr<17.5&&F.companion!=='an'&&!F.zheAtNoodle&&!S.awayOnDate('zhe',G)){ GM.spawnNPC('zhe',C.zhe,-60,3,{beh:'wander',waypoints:[[-60,3],[-30,-6],[-90,3],[-20,3]],talk:n=>talkZhe(GM,n)}); tm('zhe',17.5); }   /* 以安、阿哲回老家（absentDates）的日子不出現（HOLIDAY-PRESENCE-1021）*/
       if(F.companion==='an'){ spawnCompanion(GM); } }
     if(zoneId==='lane118'){ const meal=(hr>=11.5&&hr<13.5)||(hr>=17.5&&hr<20); if(hr>=7&&hr<23) extras(meal?5:2,true); }   /* X68（使用者 10-20：118 巷也要遇得到人）：巷子裡的路人，吃飯時間多一點（走巷子中間，walkRoutes.lane118）*/
-    /* 汀州路的路人（TINGZHOU-WALKERS-1110；BB 11-10：街上 0 個路人）：兩側騎樓、巷 A；夜市時段（17～23）多、深夜少；畫質照 qf；颱風假攤位不擺（區域的 tzStallsClosed，tingzhou3d.js 留給 LAWWW 的開關）、街上只剩一個人。
-       不用 extras（±1 m 的偏移放不進 3.2 m 的騎樓）：每一條路線照自己的偏移（TINGZHOU_WALK.jit）。路人不說話、不停在店門口 */
-    /* TW.count(hr,E.q.level,ty,S.CROWD_X) 個人：在 TW.plan 裡算 */
-    if(zoneId==='tingzhou'&&typeof TINGZHOU_WALK!=='undefined'){ const TW=TINGZHOU_WALK, ty=typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&!!CALENDAR.typhoon(G.day); if(E.zone){ E.zone.tzStallsClosed=ty; if(ty&&E.zone.applyTimeOutdoor){ try{ E.zone.applyTimeOutdoor(hr,null); }catch(e){} } }
-      /* 不像同一個人複製一排（使用者 11-10）：TW.plan 排好每個人的方向（正、倒輪流）、出發的路點（分散、互相至少 2 m）、速度；外型照 extraSpec 一個一個不一樣（tests/tingzhou_walkers_1110_unit.js 第 6 項） */
-      const PL=TW.plan(hr,E.q.level,ty,S.CROWD_X,rnd); PL.forEach((p,i)=>{ const n=GM.spawnExtra(extraSpec(xi++),p.pts,{pockets:i%3===0}); n.ri=p.start; n.walkSpeed=p.speed; E.placeAt(n,p.pts[p.start][0],p.pts[p.start][1]); }); }
     if(zoneId==='gongguan'){ extras(hr<22?8:4,true); if(hr>=10&&hr<23) riders(1); if(F.companion==='an') spawnCompanion(GM); }
     if(zoneId==='xinsheng'&&F.companion==='an') spawnCompanion(GM);   /* WZ-ENTRY-XINSHENG-1103（X199）：去溫州街要經新生南路——第二天一起走去 Café 的小安跟著過來（原本經公館，公館、溫州街才有這一行）*/
     if(zoneId==='wenzhou'){ extras(3,true); if(hr>=10&&hr<23) riders(1); if(F.companion==='an') spawnCompanion(GM); if(!S.isEcon(G)&&hr>=19&&hr<21.5&&F.afternoonDone){ GM.spawnNPC('yu',C.yu,23.6,7.94,{seat:{x:23.6,z:7.94,yaw:Math.PI},talk:n=>talkYu(GM,n)}); tm('yu',21.5); } }
@@ -625,15 +617,8 @@ const STORY = (function(){
      3/25「到了再說。」是她出發前對他說的唯一一句（AA_260 第 2 節第 3 點；同 jp3d.js 的 strained）*/
   { const anStrained=G=>{ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return !(F.dating_heroine_01===true||(R&&R.status==='dating'))&&!!R&&['ex','paused','friend_after_catch'].includes(R.status); };
     for(const id of ['A6-L1','A6-L2','A6-L3','A6-L4']){ const f0=S.LADDER_SKIP[id]; S.LADDER_SKIP[id]=G=>anStrained(G)||(!!f0&&f0(G)); } }
-  /* 交往中那一階（DLG-FX-MECH-1110，AA_746 第 2 節第 3 點）：那個人那個學期除了 steps，可以多一個 dating 陣列（一層的格式和 steps 一樣，另外可以寫 fx、選項可以寫 fx／re）。
-     和她交往中、而且 dating 的下一層現在條件到（週次、地點…）＝先聊那一層；不然照 steps。進度另外記（G.social.ladder[key+'#dating']，舊存檔沒有＝從第一層），
-     不占 steps 的位置（steps 的順序、舊存檔的進度都不動）；一樣一人一天一層。沒有 dating＝和原本一樣。 */
-  S.ladDatingKey=K=>K+'#dating';
   S.ladNext=function(G,id,mode){ const D=S.ladData(G,id); if(!D) return null; const L=D.L, K=D.key;
-    const so=ladRec(G); if(so.ladderDay[id]===G.day) return null;
-    if(Array.isArray(L.dating)&&L.dating.length&&G.flags&&!!G.flags['dating_'+id]){ const sd=ladPick(G,id,mode,L,L.dating,S.ladDatingKey(K)); if(sd) return sd; }
-    return ladPick(G,id,mode,L,L.steps||[],K); };
-  const ladPick=function(G,id,mode,L0,STEPS,K){ const L={steps:STEPS,context:L0.context}, so=ladRec(G); let st=L.steps[so.ladder[K]|0];
+    const so=ladRec(G); if(so.ladderDay[id]===G.day) return null; let st=L.steps[so.ladder[K]|0];
     const wkNow=(()=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return T?T.week|0:0; })();
     while(st&&(S.LAD_CUT.has(st.id)||(S.LADDER_SKIP[st.id]&&S.LADDER_SKIP[st.id](G))||(st.skipIf&&ladIf(st.skipIf))||(st.skipAfterWeek!=null&&wkNow>st.skipAfterWeek)||(so.ladSeen&&so.ladSeen[st.id]))){ so.ladder[K]=(so.ladder[K]|0)+1; st=L.steps[so.ladder[K]]; }   /* ladSeen：事件接事件的過場已經演過這一層（AA_293 第 2 節：可昕交往前 T1～T6），3D 搭話時不重播 */   /* skipAfterWeek（ladder README，BB-C 2026-10-17）：過了第 N 週還沒推進的那一層直接算過 */   /* skipIf（AA 2026-10-16）：條件成立＝這一層直接算過（記層數、不播、不算今天推進）——if 用 notMemory 會讓階梯永遠卡住 */
     if(!st) return null;
@@ -680,10 +665,10 @@ const STORY = (function(){
      kind：'linesIf'、'extraIf'（閒聊階梯那一層，ctx＝那一層）、'greet'（招呼的 when，ctx＝招呼的資料）、'reply'（選項的回覆，ctx＝那個選項）、'miss'（沒回訊息那一句，ctx＝那一則；只在有一般版的時候問）*/
   S.DATING_QUIET=[];
   const datingQuiet=(G,x,id,ctx,kind)=>!!G&&S.DATING_QUIET.some(f=>{ try{ return !!f(G,x,id,ctx,kind); }catch(e){ console.warn('STORY.DATING_QUIET',e); return false; } });
-  S.ladReply=function(st,ch,G,id){ const R=(S.LADDER_REPLY_IF[st.id]||{})[ch.t]; if(R) for(const r of R) if(!(G&&datingQuiet(G,r,id,ch,'reply'))&&ladIf(r)) return r.reply; return ch.reply!=null?ch.reply:ch.re; };   /* re＝reply 的另一個寫法（DLG-FX-MECH-1110：全遊戲的選項統一 {t, re, fx}）*/
+  S.ladReply=function(st,ch,G,id){ const R=(S.LADDER_REPLY_IF[st.id]||{})[ch.t]; if(R) for(const r of R) if(!(G&&datingQuiet(G,r,id,ch,'reply'))&&ladIf(r)) return r.reply; return ch.reply; };
   /* 招呼（greet.when）的額外條件（AA_211 附錄 B G1，0ba8d336）：學姊「值班表你看了嗎？」只說一次、只給法服成員（S.fafuMember）*/
   S.LADDER_GREET_IF={'值班表你看了嗎？':{once:true,test:G=>S.fafuMember(G)},'週四我去做田野。':{test:G=>S.ytEv13(G)&&!!(G.flags&&G.flags.RENT_RENEWED)},
-    '我要回台中了，下禮拜見！':{test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!T&&T.week%2===1; }}};   /* 沛珊隔週回台中（AA_372 第 8 項）：週五那句只在單數週說（週末的 presence 在 characters.js）。2026-11-11：那一句重寫成「我要回台中了，下禮拜見！」（AA_753：拿掉「搭客運」），條件照舊跟著新的句子（原本的 key「我要去搭客運回台中了」）*/   /* 語彤大三下招呼③：事件 13、14 演過才說（AA_260 第 4 節第 5 點）*/
+    '我要去搭客運回台中了':{test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!T&&T.week%2===1; }}};   /* 沛珊隔週回台中（AA_372 第 8 項）：週五那句只在單數週說（週末的 presence 在 characters.js）*/   /* 語彤大三下招呼③：事件 13、14 演過才說（AA_260 第 4 節第 5 點）*/
   /* AA_375 第 1 項：芷若 6/4 起不上班——大二下的招呼只用不上班的版本（working 那幾句跟著作息自然不出）；這三句說的是她在吧檯、打烊、店裡盤點，不上班的那段也不說 */
   for(const k of ['（她在吧檯後面抬頭）……嗨。','要打烊了。……你可以坐到我擦完這張桌子。','期末了。我還有一份報告沒寫，店裡也要盤點。']) S.LADDER_GREET_IF[k]={test:G=>!S.zrNoShift(G)};
   /* AA_255 第 2 節第 5 點：以安讀書會的招呼避開大二下第 8、9、16 週（when 那兩句資料已經分週次；base 這一句也照做）*/
@@ -717,7 +702,7 @@ const STORY = (function(){
   /* linesIf／extraIf 的一套：情境 key（week、term、weekday、time、location、weather、weekParity、dayMin、locTime）照 ladCtxOk 檢查，其他（if、unless、或直接寫的條件）交給 EVENTS.cond。
      2026-10-16 AA-B 驗收：原本整套丟給 EVENTS.cond，它不認得 week 就忽略＝永遠成立（以安大一下第 3 週就說「杜鵑花謝了」）*/
   const LAD_CTX=['week','term','weekday','time','location','weather','weekParity','dayMin','locTime'];
-  const ladAlt=(G,x,id,st,kind)=>{ if(!G) return ladIf(x); if(kind&&datingQuiet(G,x,id,st,kind)) return false;   /* 交往中的那一套、旁邊有她的人＝這次說一般版（S.DATING_QUIET）*/ const ctx={}, rest={}; for(const k in x){ if(k==='lines'||k==='choices') continue; if(LAD_CTX.includes(k)) ctx[k]=x[k]; else rest[k]=x[k]; } if(Object.keys(ctx).length&&!ladCtxOk(G,ctx,id)) return false; if(rest.if&&rest.if.events) rest.if=Object.assign({},rest.if,{events:rest.if.events.map(e=>S.LADDER_EVENT_ALIAS[e]||e)}); return Object.keys(rest).length?ladIf(rest):true; };
+  const ladAlt=(G,x,id,st,kind)=>{ if(!G) return ladIf(x); if(kind&&datingQuiet(G,x,id,st,kind)) return false;   /* 交往中的那一套、旁邊有她的人＝這次說一般版（S.DATING_QUIET）*/ const ctx={}, rest={}; for(const k in x){ if(k==='lines') continue; if(LAD_CTX.includes(k)) ctx[k]=x[k]; else rest[k]=x[k]; } if(Object.keys(ctx).length&&!ladCtxOk(G,ctx,id)) return false; if(rest.if&&rest.if.events) rest.if=Object.assign({},rest.if,{events:rest.if.events.map(e=>S.LADDER_EVENT_ALIAS[e]||e)}); return Object.keys(rest).length?ladIf(rest):true; };
   /* 法服的民眾服務（AA_132 F2、AA_140 G03／G47）：單週週六 9～12、第 3 週起、考試週停。day 那一週（還沒過的週六）起第一個值班的週六：{day, thisWeek}；十六週內沒有＝null（例：大一上第 16 週以後＝考試週＋七週寒假，下一次是大一下第 3 週）*/
   /* 日期字串 → 第幾天（'2026-02-14'）；找不到＝null。結果快取 */
   const dayKeyCache={}; S.dayOfKey=function(k){ if(k in dayKeyCache) return dayKeyCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=-420;d<2200;d++){ if(CALENDAR.dateOf(d).key===k){ r=d; break; } }   /* 從 2024 年 8 月起（經濟系大一 Y0 是負的天數，v0）*/ dayKeyCache[k]=r; return r; };
@@ -936,16 +921,13 @@ const STORY = (function(){
   S.ladLines=function(st,g,id){ const G=g||(typeof GAME!=='undefined'&&GAME.G)||null; const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id,st,'linesIf')); const L=(alt?alt.lines:st.lines||[]).slice(); for(const x of (st.extraIf||[])) if(ladAlt(G,x,id,st,'extraIf')) L.push(...(x.lines||[])); return L; };   /* linesIf：第一個成立的那一套取代 lines；extraIf：成立就在後面多說（AA 2026-10-16）*/
   S.ladPlay=async function(GM,who,id,st){ const G=GM.G, so=ladRec(G), D=S.ladData(G,id), K=D?D.key:id; const preMem=[]; { const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id,st,'linesIf')); if(alt&&alt.mem) preMem.push(alt.mem); for(const x of (st.extraIf||[])) if(x.mem&&ladAlt(G,x,id,st,'extraIf')) preMem.push(x.mem); }   /* 播之前先決定（extraIf 的 notMemory 就是自己的記憶）*/
     for(const l of S.ladLines(st,G,id)) await GM.say(who,typeof l==='string'?l:l.t,{expression:typeof l==='object'&&l?l.e:undefined});
-    let ch=null; const _alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id,st,'linesIf')), _st=_alt&&Array.isArray(_alt.choices)?{id:st.id,choices:_alt.choices}:st;   /* linesIf 那一套自己帶選項（choices）＝用它的（2026-11-11，X327：沛珊 P2-L3、P3-L3／L4／L6／L8 重寫以後，舊的那一套兩句照舊配原本的選項（AA 補稿以後換掉）；tools/ladder/import_ladder.py PS753_MORE）*/
-    const CH=S.ladChoices(_st).filter(c=>c&&typeof c.t==='string'&&c.t.trim()); if(CH.length){ const k=await GM.choose(CH.map(c=>({t:c.t}))); ch=CH[k]||CH[0]; const rp=S.ladReply(st,ch,G,id); for(const t of [].concat(rp||[])){ if(typeof t!=='string'||!t.trim()) continue; if(/^（.*）$/.test(t)&&(st.fx||ch.fx||ch.re!=null)) await GM.say(null,t); else await GM.say(who,t); } }   /* reply 可以是好幾句（AA_377 6-3：語彤「……這張她眨眼了。」「你沒傳這張，是對的。」）*/
+    let ch=null; const CH=S.ladChoices(st); if(CH.length){ const k=await GM.choose(CH.map(c=>({t:c.t}))); ch=CH[k]||CH[0]; const rp=S.ladReply(st,ch,G,id); for(const t of [].concat(rp||[])) await GM.say(who,t); }   /* reply 可以是好幾句（AA_377 6-3：語彤「……這張她眨眼了。」「你沒傳這張，是對的。」）*/
     /* 沛珊的聯絡方式（AA_310 第 7 節，AA-C 10-20 14:40）：沒有宿營、也沒去 8/31 迎新的局（9/17 開局的舊存檔）拿不到——第一次聊到她（P-L1）還沒有聯絡方式就加 */
-    if(id==='classmate_peishan'&&st.id==='P-L1'&&typeof INV!=='undefined'&&INV.hasContact&&INV.addContact&&!INV.hasContact(G,'classmate_peishan')){ await GM.say(who,'我加你好不好？上課的筆記可以互傳。我的比較亂，先講。'); INV.addContact(G,'classmate_peishan'); if(SOCIAL.has&&SOCIAL.meet&&!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,G.zone); }
+    if(id==='classmate_peishan'&&st.id==='P-L1'&&typeof INV!=='undefined'&&INV.hasContact&&INV.addContact&&!INV.hasContact(G,'classmate_peishan')){ await GM.say(who,'……我加你好不好？上課的筆記可以互傳。'); INV.addContact(G,'classmate_peishan'); if(SOCIAL.has&&SOCIAL.meet&&!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,G.zone); }
     const rel=Object.assign({},st.rel||{}); if(ch&&ch.rel) for(const k in ch.rel) rel[k]=(rel[k]||0)+ch.rel[k]; if(Object.keys(rel).length&&SOCIAL.adjust) SOCIAL.adjust(id,rel);
-    if(SOCIAL.applyFx){ const cap={cap:'ladder:'+G.day+':'+(st.id||'')}; SOCIAL.applyFx(G,id,st.fx,cap); if(ch) SOCIAL.applyFx(G,id,ch.fx,cap); }   /* 這一次聊天 love 合計最多 +2（FX-LOVE-CAP-1110）*/   /* 這一層、選的那一個的 fx（{fr, love}；DLG-FX-MECH-1110）：原本的 rel 照舊，另外算 */
     for(const m of [st.mem,ch&&ch.mem]) if(m&&SOCIAL.remember) SOCIAL.remember(id,m,st.id);
     for(const m of preMem) if(SOCIAL.remember) SOCIAL.remember(id,m,st.id);   /* linesIf／extraIf 那一套自己的記憶（BB 的芷若、子晴 ZR_ZQ_SETUP_*：只說一次，之後的線讀它）*/
-    { const KK=D&&Array.isArray(D.L.dating)&&D.L.dating.includes(st)?S.ladDatingKey(K):K; so.ladder[KK]=(so.ladder[KK]|0)+1; }   /* 交往中那一階的進度另外記 */
-    so.ladderDay[id]=G.day; if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } return true; };
+    so.ladder[K]=(so.ladder[K]|0)+1; so.ladderDay[id]=G.day; if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } return true; };
   /* 和她說話時：有下一層就播；沒有就短招呼。回傳 true＝處理了（呼叫的人不要再接舊的閒聊）*/
   /* AA_489 第 5 節（企劃線 c4bcf86f6）：以安在麵店的那一句「你點好了嗎？我還在看菜單。」——這一趟已經和她在麵店吃過（約她的那一筆 done、同一天、開始後兩小時內）＝換句（使用者 10-27 回報吃完追上她說話對不上；AN-MEAL-STUCK-1027 子代理）。
      一個人在麵店吃（EAT 只記日子不記時間）不算 */

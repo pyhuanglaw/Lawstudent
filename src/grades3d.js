@@ -11,7 +11,6 @@
    - 讀書地點的次數（芷若「常在 Café 看到他」、子晴「常在圖書館」、阿凱「常在宿舍」）：STORY.onStudy 每次自習記一筆（GR_STUDY；這一版起才記，舊存檔從 0 開始——機會，不是門檻）。
    - 子晴「這學期都在測我的遊戲」那兩則：拿掉（AA-B 11-01 回：沒有機制，不為它加計數）。
    - 沛珊「坐她旁邊＝一起念」：AA-B 11-01 回——週三 19～21 走到她旁邊說話時多一句旁白「（你在她旁邊坐下。她把一半的桌面讓出來，什麼都沒說。）」，記 STUDIED_TOGETHER。 */
-/* 2026-11-11（使用者 X327 沛珊重寫）：書卷獎公告以後她當面問、學期初約讀書的四句照 AA_763_peishan_misc3.json@62460ea75 換（4 列，只換字）。逐字對稿：tests/peishan_misc3_1111_unit.js */
 const GRADES=(function(){
   const S={};
   const LAW_TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
@@ -80,8 +79,8 @@ const GRADES=(function(){
   /* 書卷獎一句（學姊、沛珊、明軒）*/
   S.HONOR_LINE={
     heroine_05:async(GM,who)=>{ await say(GM,who,'系上的公告我看到了。……恭喜。'); await say(GM,who,'這頓你請。'); },
-    classmate_peishan:async(GM,who)=>{ await say(GM,who,'我看到公告了！拿到的時候是什麼感覺？'); const pick=await choose(GM,['很開心。','沒什麼感覺。']);
-      await say(GM,who,pick==='很開心。'?'好。那下次請客的時候，我要坐你旁邊沾光。':'沒什麼感覺？這是我聽過最奇怪的答案。'); },
+    classmate_peishan:async(GM,who)=>{ await say(GM,who,'我看到公告了。……拿到的時候，是什麼感覺？'); const pick=await choose(GM,['很開心。','沒什麼感覺。']);
+      await say(GM,who,pick==='很開心。'?'好。我記下來。':'……這是最奇怪的答案。'); },
     classmate_mingxuan:async(GM,who)=>{ await say(GM,who,'哈哈，恭喜。'); await say(GM,who,'這次滷蛋你請。'); } };
   const faceOk=(G,id,t)=>{ if(id==='heroine_02'&&G.zone!=='cafe') return false;
     if(id==='heroine_05'){ const nx=LAW_TERMS[LAW_TERMS.indexOf(t)+1], r=nx&&typeof CALENDAR!=='undefined'?CALENDAR.termDays(nx):null; if(r&&G.day>=r.from) return false; }   /* AA_590 第 55 列：她問「放假了。有什麼打算？」——下學期開學以後不演（原本到第 3 週） */ if(id==='classmate_peishan'&&!['Y1S1','Y1S2'].includes(t)) return false; return true; };
@@ -122,7 +121,7 @@ const GRADES=(function(){
     /* 第 3 節：沛珊 PS_STUDY → 下學期第 1 週週一 21:00（已經過了＝下一個 21:00）*/
     if(F.PS_STUDY&&!sent(G,'gr_ps_study')){ const i=LAW_TERMS.indexOf(F.PS_STUDY), nx=LAW_TERMS[i+1], r=nx&&typeof CALENDAR!=='undefined'?CALENDAR.termDays(nx):null;
       if(r){ const day=G.hour>=21?G.day:G.day-1;   /* 最近一次的 21:00 */ if(day>=r.from&&day<=r.from+20)
-        PHONE.at(G,day,21,[Object.assign(P('classmate_peishan','這學期週三晚上，總圖二樓。要來嗎？'),{ask:{id:'gr_ps_study_ask',until:(day+7)*24,opts:[{t:'好。',set:{PS_STUDY_ON:nx}}]}})],'gr_ps_study'); } } };
+        PHONE.at(G,day,21,[Object.assign(P('classmate_peishan','這學期，週三晚上總圖二樓。……要來嗎？'),{ask:{id:'gr_ps_study_ask',until:(day+7)*24,opts:[{t:'好。',set:{PS_STUDY_ON:nx}}]}})],'gr_ps_study'); } } };
   /* 沛珊週三 19:00～21:00 在總圖二樓（PS_STUDY_ON 那學期；她不在法律系以後停）*/
   S.sched=function(c,G){ if(!c||c.id!=='classmate_peishan'||!G||!G.flags||!G.flags.PS_STUDY_ON||typeof CALENDAR==='undefined') return null; const T=CALENDAR.termOf(G.day);
     if(!T||T.id!==G.flags.PS_STUDY_ON||G.weekday!==3) return null; const hr=G.hour%24; if(hr<19||hr>=21) return null;

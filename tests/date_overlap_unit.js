@@ -5,10 +5,10 @@
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const {check,GM,E}=H;
-const NAMES=/^(NOODLE_CLOSED|R2Y4B|R2Y4B_EVENTS|Y5|PG_DATES|PGDATE|HOMETOWN_LINES|HV|L118|LANE118_LAYOUT|LANE118_SHOPS|L118_REDO|NEEDED_MSGS)$/;
+const NAMES=/^(NOODLE_CLOSED|R2Y4B|R2Y4B_EVENTS|Y5|PG_DATES|PGDATE|HOMETOWN_LINES|HV|L118|LANE118_LAYOUT|LANE118_SHOPS|NEEDED_MSGS)$/;
 const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NAMES.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.CG_REGISTRY={};
-for(const f of ['src/data/needed_msgs.js','src/data/hometown_lines.js','src/hometown3d.js','src/noodle_closed3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/y5s1_3d.js','src/data/pg_dates.js','src/pgdates3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/l118_redo772.js','src/lane118.js']) if(fs.existsSync(path.join(H.ROOT,f))) load(f);
+for(const f of ['src/data/needed_msgs.js','src/data/hometown_lines.js','src/hometown3d.js','src/noodle_closed3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/y5s1_3d.js','src/data/pg_dates.js','src/pgdates3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js']) if(fs.existsSync(path.join(H.ROOT,f))) load(f);
 const J=x=>JSON.stringify(x), G=()=>H.G, DK=k=>PG.DK(k);
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const S6={fam:60,trust:45,comf:40,npcRom:55,rom:30};

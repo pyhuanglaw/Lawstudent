@@ -28,7 +28,7 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 const ctx=vm.createContext({console,setTimeout,clearTimeout});
 const load=(f,names)=>{ let s=fs.readFileSync(path.join(ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInContext(s,ctx,{filename:f}); };
 const SRC=fs.readFileSync(path.join(ROOT,'src/data/invites.js'),'utf8');
-load('src/data/l118_redo772.js',['L118_REDO']); load('src/data/invites.js',['INVITE_DATA']); load('src/invites3d.js',['INV']); load('src/libquiet3d.js',['LIBQ']);
+load('src/data/invites.js',['INVITE_DATA']); load('src/invites3d.js',['INV']); load('src/libquiet3d.js',['LIBQ']);
 if(fs.existsSync(path.join(ROOT,'src/data/invite_replies.js'))) load('src/data/invite_replies.js',['INVITE_REPLIES']);
 const D=ctx.INVITE_DATA, INV=ctx.INV, LIBQ=ctx.LIBQ;
 /* 外面整句一對「」（「A」「B」這種好幾段的不算）*/
@@ -112,13 +112,8 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   /* ---------- 第二批（AA-B 11-08 01:09）：和 BASE（c79414b00，拿掉「」以前）逐句比 ---------- */
   const BASE='c79414b00';
   /* 11-10 AA_731（企劃線 94ab0865e，BUG-INV-ACC-TIME-1110）：答應句不寫幾點、週末、早上——這十句和來源 commit（AA_415 c71772fbc、AA_721 b782e2c08）的改變不算「多改」 */
-  const A731=[["好。九點，不要遲到。", "好。不要遲到。"], ["早上？……十點以後可以。", "Daybreak？……好。我會起來。"], ["好。週末早上我剛好有空。", "好。那天我空下來。"], ["SUNNY SIDE。好。我九點到。", "SUNNY SIDE。好。我會準時到。"], ["SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。", "SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。"], ["十二點？好，那是我的早餐。", "早午餐？好，那是我的早餐。"], ["十二點 好 那是我的早餐", "早午餐 好 那是我的早餐"], ["好。我九點以前要回店裡。", "好。……我跟店裡說一聲。"], ["好。週末的話。", "好啊。我想找一張老唱片。"], ["蛋包飯？好。週末的話。", "蛋包飯？好。我坐捷運過去。"],
-  /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊 invites.js 四處五句（firstAt.brunch 兩句、acc.brunch.A／R、acc.run_avenue）和 invite_replies.js 同句的 ps5、ps9 換了字——和 BASE 比的時候這五句照新稿算（逐字比對 tests/peishan_feed_misc_1111_unit.js） */
-  ["她翻蛋的時候手腕都不動耶。我媽也是。", "你看她翻蛋，手腕都不動欸。"], ["我到現在還學不會。", "我在家試過一次，蛋飛到抽油煙機上，我媽到現在還會講。"], ["早餐店的女兒，去吃別人的早午餐。……好，我去研究。", "早午餐！好啊，那種不用太早起的我最可以。"], ["好。我想看他們的蛋怎麼翻。", "好啊。我想坐吧台，可以看他們做。"], ["好啊！早上我很習慣，在家的時候四點半就要起來幫忙開店。", "好啊！可是你要打給我，我鬧鐘要響三次才起得來。"]];
-  A731.push(...require('./peishan_rewrite_1111.js').PAIRS);   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS）：rel_lines.js 一起念書的旁白等換了字，和 BASE 比的時候照新稿算 */
-  /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 的 fix 列（慢讀→木曜日的台詞、見面旁白等；白名單上的版本，tests/l118_redo772_expect.js 讀，不手抄）和 BASE 比的時候照新稿算 */
-  A731.push(...require('./l118_redo772_expect.js').rows);
-  const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&s(b)===n||(a.includes(o)&&a.split(o).join(n)===b))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc|94ab0865e|ef7280917)/g,'@AA'); return r(a)===r(b)||(a==='c71772fbc'&&b==='94ab0865e'); };   /* 2026-11-11：AA_721 白名單換 ef7280917（118 巷改版），來源 commit 的字不算多改 */
+  const A731=[["好。九點，不要遲到。", "好。不要遲到。"], ["早上？……十點以後可以。", "Daybreak？……好。我會起來。"], ["好。週末早上我剛好有空。", "好。那天我空下來。"], ["SUNNY SIDE。好。我九點到。", "SUNNY SIDE。好。我會準時到。"], ["SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。", "SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。"], ["十二點？好，那是我的早餐。", "早午餐？好，那是我的早餐。"], ["十二點 好 那是我的早餐", "早午餐 好 那是我的早餐"], ["好。我九點以前要回店裡。", "好。……我跟店裡說一聲。"], ["好。週末的話。", "好啊。我想找一張老唱片。"], ["蛋包飯？好。週末的話。", "蛋包飯？好。我坐捷運過去。"]];
+  const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&s(b)===n||(a.includes(o)&&a.split(o).join(n)===b))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
   const gitShow=f=>cp.execSync('git -C "'+ROOT+'" show '+BASE+':'+f,{encoding:'utf8',maxBuffer:1<<28});
   const evalIn=(src,names,extra)=>{ const c=vm.createContext(Object.assign({console},extra||{})); for(const n of names) src=src.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInContext(src,c); return c; };
   const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
@@ -168,12 +163,12 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     const cells=[]; const walkM=(a,b,p)=>{ if(typeof a==='string'||(a&&typeof a==='object'&&!Array.isArray(a)&&typeof a.t==='string')){ cells.push([p,a,b]); return; } if(Array.isArray(a)){ a.forEach((x,i)=>walkM(x,b&&b[i],p+'['+i+']')); return; } if(a&&typeof a==='object') for(const k of Object.keys(a)) if(k!=='if') walkM(a[k],b&&b[k],p+'.'+k); };
     for(const id of Object.keys(OLD)) if(OLD[id].meet) walkM(OLD[id].meet,NEW[id]&&NEW[id].meet,id+'.meet');
     const mt=typeof SO.meetText==='function'?SO.meetText:null, mBad=[]; let says=0;
-    if(mt) for(const [p,a,b] of cells){ const ta=typeof a==='string'?a:a.t, oldSay=/^「/.test(ta), m=mt(b); if(!m||m.say!==oldSay||(m.t!==(oldSay?unq(ta):ta)&&!aa731(ta,m.t))) mBad.push(p+'：'+ta+' → '+JSON.stringify(m)); if(m&&m.say) says++; }
+    if(mt) for(const [p,a,b] of cells){ const ta=typeof a==='string'?a:a.t, oldSay=/^「/.test(ta), m=mt(b); if(!m||m.say!==oldSay||m.t!==(oldSay?unq(ta):ta)) mBad.push(p+'：'+ta+' → '+JSON.stringify(m)); if(m&&m.say) says++; }
     check('7. 見面那一格（'+cells.length+' 格）：說的人和 '+BASE+' 一樣（原本看開頭的「，現在 {t,say:true}）、字只差外面的「」；她說的只有阿凱燒臘店「認識」那一格',!!mt&&cells.length>=140&&mBad.length===0&&says===1&&!!NEW.kai.meet.noodle.A.say&&NEW.kai.meet.noodle.A.t==='好，我餓了。',mt?sample(mBad):'沒有 SOCIAL.meetText');
     check('7. 舊的寫法（開頭是「的字串）照樣認得是她說的，外面整句的「」拿掉再顯示；旁白字串＝旁白',!!mt&&JSON.stringify(mt('「好，我餓了。」'))===JSON.stringify({t:'好，我餓了。',say:true})&&JSON.stringify(mt('她點了最甜的。'))===JSON.stringify({t:'她點了最甜的。',say:false})&&mt(null)===null);
     /* 演出來：阿凱「認識」約燒臘店（INV.meet） */
     const ec=vm.createContext(Object.assign({console,setTimeout,clearTimeout},ENV)); const run=(f,names)=>{ let s=cur(f); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInContext(s,ec,{filename:f}); };
-    run('src/data/characters.js',['CHARACTERS','UNFAMILIAR_POOL','SOCIAL_GRAPH','PORTRAITS']); run('src/social3d.js',['SOCIAL']); run('src/data/rel_lines.js',['REL_LINES']); run('src/data/l118_redo772.js',['L118_REDO']); run('src/data/invites.js',['INVITE_DATA']); run('src/invites3d.js',['INV']);
+    run('src/data/characters.js',['CHARACTERS','UNFAMILIAR_POOL','SOCIAL_GRAPH','PORTRAITS']); run('src/social3d.js',['SOCIAL']); run('src/data/rel_lines.js',['REL_LINES']); run('src/data/invites.js',['INVITE_DATA']); run('src/invites3d.js',['INV']);
     const G={rel:{},flags:{},social:null,day:30,weekday:1,hour:12,name:'祐廷',contacts:{},invites:[],msgs:[],zone:'noodle'}; ec.SOCIAL.bind(G); const rk=ec.SOCIAL.rel('kai'); rk.fam=10; rk.trust=0; rk.comf=0;
     const iv={id:'k1',who:'kai',place:'noodle',zone:'noodle',day:G.day,h:12,state:'going',by:'player'}; G.invites=[iv]; const said=[];
     const GMk={G,sceneBegin(){},sceneEnd(){},say:async(w,t)=>{ said.push({who:w?w.name:null,t}); },choose:async()=>0,fade:async()=>{},advance(dh){ G.hour+=dh; },caption(){},autosave(){},money(){},toast(){}};
@@ -181,7 +176,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     const hit=said.find(s=>/好，我餓了。/.test(s.t));
     check('7. 阿凱「認識」約燒臘店（INV.meet）：見面那一句是阿凱說的「好，我餓了。」（有名字、外面沒有「」）',!err&&ec.SOCIAL.friendLevel('kai')==='ACQUAINTANCE'&&!!hit&&hit.who===ec.SOCIAL.npcName('kai')&&!!hit.who&&hit.t==='好，我餓了。',err?String(err.stack).slice(0,300):JSON.stringify(said)); }
   /* 8、9. 匯入工具產生的兩個檔：誰說的（S.playLines／S.narrLine）跟改以前一樣 */
-  const genCheck=(no,f,glob,named,unnamedSample,drop)=>{ const NEW=evalIn(cur(f),[glob])[glob], OLD=evalIn(gitShow(f),[glob])[glob]; if(drop){ drop(OLD); drop(NEW); }
+  const genCheck=(no,f,glob,named,unnamedSample)=>{ const NEW=evalIn(cur(f),[glob])[glob], OLD=evalIn(gitShow(f),[glob])[glob];
     const r=cmpTree(OLD,NEW,named), strs=[]; (function w(v,p){ if(typeof v==='string'){ if(named(p)) strs.push([p,v]); return; } if(v&&typeof v==='object') for(const k of Object.keys(v)) w(v[k],p+(Array.isArray(v)?'['+k+']':'.'+k)); })(NEW,'');
     const wr=strs.filter(([p,t])=>wrapped(t)).map(([p,t])=>p+'：'+t);
     check(no+'. '+f+'：有名字說的（'+strs.length+' 句）沒有一句外面還有「」',strs.length>=50&&wr.length===0,sample(wr));
@@ -189,13 +184,8 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     const who=[]; (function w(a,b,p){ if(typeof a==='string'){ if(named(p)&&isNarr(a)!==isNarr(b)) who.push(p+'：'+a+' → '+b); return; } if(a&&typeof a==='object') for(const k of Object.keys(a)) w(a[k],b[k],p+(Array.isArray(a)?'['+k+']':'.'+k)); })(OLD,NEW,'');
     check(no+'. 誰說的（S.narrLine）每一句都和 '+BASE+' 一樣（拿掉「」以後沒有一句變成（ 開頭）',who.length===0,sample(who));
     return NEW; };
-  { const PL=genCheck('8','src/data/invite_place_lines.js','INVITE_PLACE_LINES',p=>/^\.places\.\w+\.\w+\.(acc|firstAt)\[\d+\]$/.test(p),'no：可昕不去的那一句、src',
-     /* 2026-11-11（L118-SHOPS-REDO-1111）：118 巷那幾格（places.l118_*）AA_721 整份重寫了（十個位置、新店的句子，企劃線 ef7280917），和 BASE 比不了——不比這幾格；
-        它們的字由下面 import_place_acc.py --check 對稿，有名字的句子外面沒有「」另外在 8c 驗。舊期望：118 巷七格也逐句和 BASE 比 */
-     o=>{ for(const k of Object.keys(o.places||{})) if(/^l118_/.test(k)) delete o.places[k]; });
-    { const NOW=evalIn(cur('src/data/invite_place_lines.js'),['INVITE_PLACE_LINES']).INVITE_PLACE_LINES, bad=[]; let n=0; for(const k of Object.keys(NOW.places)) if(/^l118_/.test(k)) for(const id of Object.keys(NOW.places[k])) for(const f of ['acc','firstAt']) for(const t of [].concat(NOW.places[k][id][f]||[])){ if(typeof t!=='string') continue; n++; if(wrapped(t)&&!isNarr(t)) bad.push(k+'.'+id+'：'+t); }
-      check('8c. 118 巷十個位置的答應句、第一次那一句（'+n+' 句）：有名字說的外面沒有「」',n>=100&&bad.length===0,sample(bad)); }
-    check('8. no（選單灰掉的說明、GM.say(null,…)，沒名字）照留「」',(()=>{ const NOW=evalIn(cur('src/data/invite_place_lines.js'),['INVITE_PLACE_LINES']).INVITE_PLACE_LINES, no=NOW.places.l118_cafe2.kexin.no;   /* 2026-11-11：可昕不去的那一間從好家自助餐（l118_self）換成大學食堂（l118_cafe2），句子一樣 */ return no==='「平日我在木柵上課。……週末那間又沒開。」'&&INV.placeWhy({},'kexin',{noWho:{kexin:no}})===no; })());
+  { const PL=genCheck('8','src/data/invite_place_lines.js','INVITE_PLACE_LINES',p=>/^\.places\.\w+\.\w+\.(acc|firstAt)\[\d+\]$/.test(p),'no：可昕不去好家自助餐那一句、src');
+    check('8. no（選單灰掉的說明、GM.say(null,…)，沒名字）照留「」',PL.places.l118_self.kexin.no==='「平日我在木柵上課。……週末那間又沒開。」'&&INV.placeWhy({},'kexin',{noWho:{kexin:PL.places.l118_self.kexin.no}})===PL.places.l118_self.kexin.no);
     let rc=0, out=''; try{ out=cp.execSync('python3 "'+path.join(ROOT,'tools/story/import_place_acc.py')+'" --check',{encoding:'utf8'}); }catch(e){ rc=1; out=String(e.stdout||'')+String(e.stderr||e); }
     check('8. 匯入工具 import_place_acc.py --check：遊戲檔和稿（拿掉外面的「」）一致',rc===0&&/^OK/.test(out),out.slice(0,200)); }
   { const SP=genCheck('9','src/data/sport_invite_lines.js','SPORT_INVITE_LINES',p=>/^\.people\.\w+\.(acc\.\w+(\.\w+)?|firstAt\.\w+|sport\.\w+\.(during\[\d+\]|end)|beforeLearn\.\w+\.decline)\[\d+\]$/.test(p),'shared 兩個人一起的旁白');

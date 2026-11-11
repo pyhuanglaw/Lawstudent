@@ -21,7 +21,7 @@ const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.repla
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } length(){ return Math.hypot(this.x,this.y,this.z); } normalize(){ const l=this.length()||1; this.x/=l; this.y/=l; this.z/=l; return this; } }};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js',
-  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
+  'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
   'src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/noodle_closed3d.js',
   'src/data/free_trips.js','src/freetrip3d.js','src/data/encounters.js','src/encounter3d.js','src/data/syllabus.js',
   'src/story3d.js','src/holff3d.js','src/classes3d.js','src/data/y1fill_events.js','src/y1fill3d.js'];
@@ -109,15 +109,10 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('6. 對照：週一、五 16～19 照舊在總圖；第 4 週週二照舊在總圖；第 16 週週二（4/6～6/14 和柏翰那一段）＝總圖大廳二樓自習區（AA_527 2-5，原本三樓閱覽區）',J(B)===J(['library','library','library','library_hall']),J(B));
     const T=evText('ev_peishan_tutoring'); check('6. 溫州街課輔班（P3b）：「喔，是你。我在這裡當助教。每個禮拜三。」（AA-B 11-07，原本「一週兩天。」）',T.includes('喔，是你。我在這裡當助教。每個禮拜三。')&&!T.some(t=>/一週三天|一週兩天/.test(t)),J(T.slice(0,2)));
     const L3=LADDER.byTerm.Y1S2.classmate_peishan.steps.find(s=>s.id==='P2-L3');
-    /* 2026-11-11 改期望（X327 沛珊重寫，AA_753_peishan_ladder_Y1S2_Y2S1@c5094495d）：P2-L3 整層重寫，第一句從「我在溫州街的課輔班當志工。一週兩天。」換成新稿的句子（「兩天」這個次數沒有變，AA_373 第 6 項要的是不說「三天」）；招呼那一則的字也換了 */
-    /* 2026-11-11（X327 沛珊重寫，AA 補稿 b59a8f9de）：P2-L3 第一句更正成「每個禮拜三」（課輔班每週三 18:00～21:00，AA_614；原本新稿抄成「一個禮拜兩天。」） */
-    check('6. 閒聊階梯 P2-L3：「我在溫州街的課輔班帶小朋友，每個禮拜三。」（不說三天、兩天）',!!L3&&L3.lines[0]==='我在溫州街的課輔班帶小朋友，每個禮拜三。'&&!/三天|兩天/.test(JSON.stringify(L3.lines)),L3&&L3.lines[0]);
+    check('6. 閒聊階梯 P2-L3：「我在溫州街的課輔班當志工。一週兩天。」',!!L3&&L3.lines[0]==='我在溫州街的課輔班當志工。一週兩天。',L3&&L3.lines[0]);
     fresh(termDay('Y1S2',6,2),17,'wenzhou',{}); R('classmate_peishan','FAM'); const g=[]; for(let i=0;i<6;i++){ const t=STORY.ladGreet(G,'classmate_peishan'); if(t) g.push(t); }
     /* AA-B 11-07 以後週二 17:00 她不在溫州街（在總圖）：招呼的條件（ladder.js 的 when：週二、四 16:30～18:00）是 AA 的資料，沒有改——已問 AA（AA614 回報）；這裡只確認資料還在、她週二不在溫州街 */
-    /* 2026-11-11（BB_326 第 4 節，企劃線 8abb761bd；BB 定、LAWWW 同意）：這一則招呼的條件照現行作息改成溫州街、週三 18:00～21:00（原本資料還是週二、四 16:30～18:00，這裡期望週二 17:00 抽得到）——週二 17:00 她不在溫州街、也不再說這一句；週三 19:00 她在溫州街、說得到 */
-    check('6. 第 6 週週二 17:00：她不在溫州街（AA-B 11-07 課輔班改週三），招呼「（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！」不出（BB_326 第 4 節：改週三 18:00～21:00）',STORY.schedEnt(ps,G).zone!=='wenzhou'&&!g.includes('（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！'),J([STORY.schedEnt(ps,G).zone,g]));
-    fresh(termDay('Y1S2',6,3),19,'wenzhou',{}); R('classmate_peishan','FAM'); const g3=[]; for(let i=0;i<6;i++){ const t=STORY.ladGreet(G,'classmate_peishan'); if(t) g3.push(t); }
-    check('6. 第 6 週週三 19:00：她在溫州街（課輔班），招呼出得來「（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！」',STORY.schedEnt(ps,G).zone==='wenzhou'&&g3.includes('（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！'),J([STORY.schedEnt(ps,G).zone,g3])); }
+    check('6. 第 6 週週二 17:00：招呼「（她帶著一排小孩過馬路，對你點頭）……等一下！」的資料照舊；她已經不在溫州街（AA-B 11-07 課輔班改週三）',STORY.schedEnt(ps,G).zone!=='wenzhou'&&g.includes('（她帶著一排小孩過馬路，對你點頭）……等一下！'),J([STORY.schedEnt(ps,G).zone,g])); }
   // ===== 第 7 項＋BB-5：語彤大一下期末邀約「禮拜五」=====
   { const inv=(term,kind)=>{ const w=TERMEND.windowOf(term); fresh(w.from,20,'dorm',{}); R('heroine_03','FRI'); TERMEND.rec(G,term).plan={back:w.from,heart:kind==='heart'?['heroine_03']:[],friend:kind==='friend'?['heroine_03']:[],fallback:null,gf:[],nope:{},kx:false};
       G.hour=20.9; TERMEND.phone(GM); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='te_'+term+'_heroine_03'); return m?m.text:null; };

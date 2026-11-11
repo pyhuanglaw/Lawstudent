@@ -41,10 +41,6 @@ const DOC={}, SECT={}; { let who=null; for(const l of doc.split('\n')){ const m=
 let doc523=''; try{ doc523=cp.execFileSync('git',['-C',process.env.AA523_DOCREPO||process.env.PG_DOC_REPO||H.ROOT,'show','0d7b5388b:docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md'],{encoding:'utf8'}); }catch(e){ doc523=''; }
 const R65={}; { const row=doc523.split('\n').find(l=>l.startsWith('| 6-5 |'))||'', c=row.split('|').map(x=>x.trim()), m=/^「([^」]+)」/.exec(c[4]||''), cell=(DOC.heroine_05||[]).find(r=>r.ym==='2029-06');
   R65.ok=!!m&&/2029-06/.test(c[3]||'')&&!!cell&&cell.line.startsWith('論文送進圖書館了。'); R65.old=cell&&cell.line; if(R65.ok){ R65.line=m[1]; cell.line=m[1]; } }
-/* 2026-11-11（X327 沛珊重寫，AA_759_peishan_misc2.json@987845b7c）：沛珊每月一格 17 句裡的 12 句照 AA_759 的 old→new 換（import_pg_dates.py 疊的）——稿（AA_367）那 12 格整句等於 old 才換成 new 再比；讀不到 AA_759＝這 12 格會對不上（FAIL），不放寬 */
-let doc759=null; try{ doc759=JSON.parse(cp.execFileSync('git',['-C',process.env.PG_DOC_REPO||H.ROOT,'show','987845b7c:docs/story_planning/AA_759_peishan_misc2.json'],{encoding:'utf8'})); }catch(e){ doc759=null; }
-const R759={n:0,rows:(doc759&&doc759.files['src/data/pg_dates.js'])||[]}; for(const r of R759.rows){ const i=+(/\[(\d+)\]$/.exec(r.where)||[])[1], cell=(DOC.classmate_peishan||[])[i]; if(cell&&cell.line===r.old){ cell.line=r.new; R759.n++; } }
-check('0. AA_759@987845b7c：沛珊每月一格 12 列的 old 都對得到 AA_367 那一格（換成 new 再逐字比）',R759.rows.length===12&&R759.n===12,R759.rows.length+' 列、對到 '+R759.n);
 const docLine=(id,ym)=>((DOC[id]||[]).find(r=>r.ym===ym)||{}).line;
 /* ---------- 存檔 ---------- */
 const fresh=(key,h,flags,who)=>{ const G=H.fresh(key,h,'dorm',Object.assign({MOVED_OUT:D('2029-06-28'),HOME_AFTER:'home',Y4_PATH:'other',PACKED_Y4:D('2029-06-01'),ROOM_Y2:true,ROOM_Y3:true,ROOM_Y4:true},flags||{}));

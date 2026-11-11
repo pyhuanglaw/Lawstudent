@@ -32,9 +32,7 @@ const NEW=['「好啊，你掃我。」','「我上班的時候不太看手機�
 await sec(0,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 968473469:"'+BB172+'"',{encoding:'utf8'}); }catch(e){}
   check('0. 讀得到企劃線 BB_172（968473469）',md.includes('## 1. 芷若')&&md.includes('## 10. AA-B 互審'));
   const bad=NEW.filter(t=>!md.includes(t)); check('0. 換上去的 '+NEW.length+' 句都在 BB_172 原文裡一字不差',NEW.length===43&&!bad.length,J(bad));
-  /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊 firstAt.brunch 那兩句（BB_172 P3）換成新稿的句子——BB_172 原文照舊有舊句（上一項），遊戲裡查的是新句 */
-  const PS755={'「她翻蛋的時候手腕都不動耶。我媽也是。」':'「你看她翻蛋，手腕都不動欸。」','「我到現在還學不會。」':'「我在家試過一次，蛋飛到抽油煙機上，我媽到現在還會講。」'};
-  const src=fs.readFileSync(path.join(H.ROOT,'src/data/invites.js'),'utf8'); const gone=NEW.map(t=>PS755[t]||t).filter(t=>!src.includes(t.replace(/^「|」$/g,'')));   /* invites.js 有名字的台詞不加外面的「」（AA-B 2026-11-08 00:21）*/
+  const src=fs.readFileSync(path.join(H.ROOT,'src/data/invites.js'),'utf8'); const gone=NEW.filter(t=>!src.includes(t.replace(/^「|」$/g,'')));   /* invites.js 有名字的台詞不加外面的「」（AA-B 2026-11-08 00:21）*/
   check('0. 每一句都在 src/data/invites.js',!gone.length,J(gone)); });
 
 await sec(1,()=>{ check('1. 芷若交換聯絡方式：「好啊，你掃我。」「我上班的時候不太看手機，……」（Z1，10-2 第 12、15 點）',J(EX.heroine_02)===J([{say:'好啊，你掃我。'},{say:'我上班的時候不太看手機，下班才會回，不要以為我不理你。'}]));
@@ -71,7 +69,7 @@ await sec(4,()=>{ const e=P.heroine_05.walk.wenzhou[0]; check('4. 學姊筆試�
   const q=INV.walkEntry('classmate_peishan','PS_LAW_ASK');
   check('4. 沛珊 P2：問句兩句（人已經在目的地，10-1 第 11 點）、三個回答；選項、after 照舊',!!q&&J(q.l)===J(['剛剛路上那排機車，全都停在紅線上。','如果一條規定大家都不守，它還算數嗎？'])&&J(q.ch.map(c=>c.t))===J(['還是法律，只是沒人守。','那它可能該改了。','要看大家為什麼不守。'])
     &&J(q.ch[0].r)===J(['所以寫下來就算數喔？','那寫的人壓力好大。'])&&J(q.ch[1].r)===J(['所以大家不守，算是在投票嗎？'])&&J(q.ch[2].r)===J(['……也是。有的人是不想守，有的人是沒辦法守。'])&&q.after.length===2);
-  check('4. 沛珊第一次到半熟、一盞（P3、P4）',J(P.classmate_peishan.firstAt.brunch)===J(['你看她翻蛋，手腕都不動欸。','我在家試過一次，蛋飛到抽油煙機上，我媽到現在還會講。'])&&J(P.classmate_peishan.firstAt.teahouse)===J(['這裡講話要很小聲對不對？','……那我小聲問，第一泡為什麼要倒掉？'])); });
+  check('4. 沛珊第一次到半熟、一盞（P3、P4）',J(P.classmate_peishan.firstAt.brunch)===J(['她翻蛋的時候手腕都不動耶。我媽也是。','我到現在還學不會。'])&&J(P.classmate_peishan.firstAt.teahouse)===J(['這裡講話要很小聲對不對？','……那我小聲問，第一泡為什麼要倒掉？'])); });
 
 await sec(5,()=>{ const w=P.heroine_05.walk, f=P.heroine_05.firstAt;
   check('5. 學姊 S2、S4～S7 照 10-20 的改稿（較新：AA 直接改字、AA_313 第 6 節），不換回 BB_172',J(w.library[0].l)===J(['B館的電梯很慢，走樓梯比較快。','總圖三樓靠窗的位子，九點以前去才有。','……我大一的時候，這些都沒人告訴我。'])&&w.library[0].if(null,{year:2})&&!w.library[0].if(null,{year:3})   /* AA_416 第 11 節第 2 點（2af5f4899）：「這兩件」算數件數，改「這些」；大三起換 AA_259 (b) 第 3 點那一版（w.library[1]） */

@@ -107,21 +107,19 @@ await sec('1-6',async()=>{
 });
 
 /* ======================= 1-7 期末飯（學姊 Y4S1）======================= */
-await sec('1-7',async()=>{ /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版）：下雪那天的三句換成 AA_749 snow 那一段（五行＋一組選項）；第一組選項和她的回答（RE）在前面，研究室那兩句接在第一組後面 */
-  const SNW=TERMEND_OPTS.GF[S5].tableByTerm.Y4S1, tx=x=>typeof x==='string'?x:x.narr, RE=[].concat(...SNW.opts.concat(SNW.after[0].opts).map(o=>o.re.map(tx))), N2=SNW.after[0].say.map(tx);
-  const B=['時差還沒調好。我現在很想睡。','可是這頓我不想錯過。'], X3=['去年在研究室說的。剛回來一天。','……我們做到了。'];
+await sec('1-7',async()=>{ const B=['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。'], X3=['去年在研究室說的。剛回來一天。','……我們做到了。'];
   const N=['美國下雪那天，我說回去再跟你說。','論文還要改兩章。我不知道碩三畢不畢得了業。','還有，我其實不知道自己為什麼要念研究所。以前有人問，我都說「先不要問我」。'];
   { const A591=require('./aa591_doc.js');   /* 第 2 句 AA_591 第 140 列拿掉「……」：在 AA_591 的表上 */
   for(const t of N) check('1-7. 稿裡有「'+t+'」（或 AA_591 的表上）',inDoc('學姊：'+t)||A591.has(t)); }
   const din=async(key,flags)=>{ H.fresh(key,18.5,'campus',Object.assign({met_sis:true},flags||{})); H.CLOSE(S5); H.G.flags.dating_heroine_05=true; ROM.get(H.G,S5).status='dating'; if(STORY._bindGM) STORY._bindGM(GM); H.said=[]; H.picks=[0,0,0];
     await TERMEND.dinner(GM,{id:'te_gf_Y4S1_'+S5,te:{term:'Y4S1',who:S5,kind:'gf'}}); return said(); };
-  const tail=(L0,x)=>{ const L=L0.filter(t=>!RE.includes(t)), i=L.indexOf(B[1]); return i>0&&L[i-1]===B[0]&&J(L.slice(i+1,i+1+x.length))===J(x)&&!L.slice(i+1+x.length).some(t=>N2.includes(t))&&!L0.some(t=>t===N[0]||t===N[2]); };   /* 舊的第一、三句不再說（第二句新稿一字不差留著）*/
+  const tail=(L,x)=>{ const i=L.indexOf(B[1]); return i>0&&L[i-1]===B[0]&&J(L.slice(i+1,i+1+x.length))===J(x)&&!L.slice(i+1+x.length).some(t=>N.includes(t)); };
   const q=await din('2028-12-24',{EXCHANGE_ROUTE:'US',US_SNOW_QUIET:true,SIS_XMAS_Y3:'missed'}), qx=await din('2028-12-24',{EXCHANGE_ROUTE:'US',US_SNOW_QUIET:true,SIS_XMAS_Y3:'there'}), q26=await din('2028-12-26',{EXCHANGE_ROUTE:'US',US_SNOW_QUIET:true});
-  check('1-7. 美國路線、US_SNOW_QUIET、沒有 SIS_ASKED_TWICE：「……可是這頓我不想錯過。」後面多下雪那一段',N2.length===5&&N2[0]==='下雪那天，我說回來再跟你講。'&&tail(q,N2),J(q));
-  check('1-7. 研究室那兩句也有的（12/24、SIS_XMAS_Y3 there）：三句接在研究室那兩句後面',tail(qx,X3.concat(N2)),J(qx));
-  check('1-7. 期末飯往後讓到 12/26：哪一天吃就哪一天說',tail(q26,N2),J(q26));
+  check('1-7. 美國路線、US_SNOW_QUIET、沒有 SIS_ASKED_TWICE：「……可是這頓我不想錯過。」後面多三句',tail(q,N),J(q));
+  check('1-7. 研究室那兩句也有的（12/24、SIS_XMAS_Y3 there）：三句接在研究室那兩句後面',tail(qx,X3.concat(N)),J(qx));
+  check('1-7. 期末飯往後讓到 12/26：哪一天吃就哪一天說',tail(q26,N),J(q26));
   const a2=await din('2028-12-24',{EXCHANGE_ROUTE:'US',US_SNOW_QUIET:true,SIS_ASKED_TWICE:true}), n0=await din('2028-12-24',{EXCHANGE_ROUTE:'US'}), tw=await din('2028-12-24',{EXCHANGE_ROUTE:'TW',US_SNOW_QUIET:true});
-  check('1-7. 「再問一次」那一支（SIS_ASKED_TWICE）、雪那天沒有「不問了」、臺灣路線：都不加',[a2,n0,tw].every(L=>tail(L,[])&&!L.some(t=>N.includes(t)||N2.includes(t))),J({a2,n0,tw}));
+  check('1-7. 「再問一次」那一支（SIS_ASKED_TWICE）、雪那天沒有「不問了」、臺灣路線：都不加',[a2,n0,tw].every(L=>tail(L,[])&&!L.some(t=>N.includes(t))),J({a2,n0,tw}));
 });
 
 /* ======================= 1-8 交換生群組的寄件人 ======================= */

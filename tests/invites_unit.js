@@ -15,7 +15,7 @@ global.SOCIAL={STAGES:['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIE
   displayName:id=>(CHARACTERS[id]&&(CHARACTERS[id].nickname||CHARACTERS[id].name))||id,remember:(id,tag,note)=>MEM.push([id,tag,note]),memories:id=>MEM.filter(m=>m[0]===id).map(m=>({tag:m[1],note:m[2]})),adjust:(id,d)=>ADJ.push([id,d]),noticed(){},reveal:()=>'ACQUAINTANCE',has:()=>true};
 let GM=null; const ALIAS={heroine_01:'an',heroine_05:'sis',prof_zhou:'prof'}; const HAB=[];
 global.EVENTS={npcOf:id=>GM.npc[id]||GM.npc[ALIAS[id]]||null,onEnter(){},tick(){},habit:k=>HAB.push(k)};
-for(const f of ['src/data/characters.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/story3d.js','src/classes3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js'])
+for(const f of ['src/data/characters.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/story3d.js','src/classes3d.js','src/data/invites.js','src/invites3d.js'])
   vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CHARACTERS|STORY|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|CALENDAR|COURSES|CLS|INVITE_DATA|INV)\s*=/mg,'global.$1='),{filename:f});
 if(typeof CLS!=='undefined'&&CLS) CLS.afterSlot=async()=>false;   /* 這支測約定、見面本身的時間（散步 45 分鐘…）；見面用完時段跳到下一個時段（ACTION-BUDGET-1107）另外在 tests/action_budget_1107_unit.js 測 */
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };

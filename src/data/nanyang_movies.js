@@ -1,9 +1,9 @@
-/* 自動產生：tools/movie/import_nanyang_movies.py（docs/story_planning/AA_730_nanyang_movies.json@7c2de85b6）。不要手改，改企劃 AA_730 再重新匯入。
+/* 自動產生：tools/movie/import_nanyang_movies.py（docs/story_planning/AA_730_nanyang_movies.json@48c0428ab）。不要手改，改企劃 AA_730 再重新匯入。
    南洋戲院片單（MOVIE-REAL-1110）：periods＝每兩個月一段、一段兩部（slot 1 第一部、2 第二部；id＝海報檔名 assets/posters/<id>.webp）；
    sceneFilm＝AA_708 電影第幾場要挑哪一種片；nowBoard＝大廳黑板、dimTitle＝燈暗那一句、solo＝一個人看的三句。選片、播放在 src/movies3d.js */
 'use strict';
 const NANYANG_MOVIES={
- "src": "docs/story_planning/AA_730_nanyang_movies.json@7c2de85b6",
+ "src": "docs/story_planning/AA_730_nanyang_movies.json@48c0428ab",
  "nowBoard": "今日放映　①《{big}》②《{small}》　一張票兩部 150 元",
  "dimTitle": "（燈暗下來，《{title}》開始了。）",
  "solo": [
@@ -824,7 +824,7 @@ const NANYANG_MOVIES={
      "slot": 1,
      "title": "最後一班捷運",
      "genre": "愛情",
-     "line": "末班車上的兩個陌生人，坐過了站，在便利商店等到第一班車。",
+     "line": "末班車上的兩個陌生人，坐過了站。",
      "tags": [
       "romance"
      ],
@@ -998,9 +998,10 @@ const NANYANG_MOVIES={
      "slot": 1,
      "title": "時間的抽屜",
      "genre": "奇幻愛情",
-     "line": "老鐘錶行有一個抽屜，打開就回到昨天，可是只能回去一次。",
+     "line": "舊書店裡有一個抽屜，打開就回到昨天，可是只能回去一次。",
      "tags": [
-      "romance"
+      "romance",
+      "bookstore"
      ],
      "fits": [
       "heroine_02",
@@ -1032,9 +1033,9 @@ const NANYANG_MOVIES={
     {
      "id": "m2811a",
      "slot": 1,
-     "title": "一個人的舉重社",
+     "title": "重力少女",
      "genre": "運動熱血",
-     "line": "學校只有一個人的舉重社，要拿到全國賽的資格。",
+     "line": "學校只有一個人的舉重社，要去參加全國賽。",
      "tags": [
       "sports",
       "action"
@@ -1193,7 +1194,7 @@ const NANYANG_MOVIES={
      "slot": 2,
      "title": "九月的海風",
      "genre": "愛情",
-     "line": "她回海邊的老家賣房子，隔壁修船的是高中同學。",
+     "line": "一個每年九月回到海邊小鎮的人，和一直留在那裡的人。",
      "tags": [
       "romance"
      ],

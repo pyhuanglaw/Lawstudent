@@ -7,7 +7,6 @@
      BB_106 @3954f9b62（白名單 71b3e6c3，SK08～SK10、SK14、第 389 行兩版相同）；BB_110 @3a26e94af；AA_383 第 7 節 @bc8a1f5d4；AA_289 第 5-4 節 @3a26e94af（沛珊的四件改依附以安的公法讀書會／還筆記）。
    時間、條件、手機訊息在 src/bbpack3d.js（BBPACK）；這裡只放事件。日文班三個人（采蓁、立衡、宇恆）在 characters.js（jp_caizhen、jp_liheng、jp_yuheng）；台詞用稱呼說話（和日本路線的 ev_liheng_japan 一樣）。
    測試：node tests/bbpack_unit.js */
-/* 2026-11-11（使用者 X327 沛珊重寫）：讀書會旁白、女舍門口沛珊的兩句照 AA_763_peishan_misc3.json@62460ea75 換（2 列，只換字）。逐字對稿：tests/peishan_misc3_1111_unit.js */
 'use strict';
 const BBPACK_EVENTS=(function(){
   const B=()=>typeof BBPACK!=='undefined'?BBPACK:null;
@@ -349,7 +348,7 @@ const BBPACK_EVENTS=(function(){
       IF(FI('B13_LINE','edu'),say(PS,'我在讀一本教育學的書。……法律的等一下再讀。')),
       {rel:{[PS]:{fam:1}}},{goto:'end'},
       {label:'no'},{call:G=>{ G.flags.B13_QUIET=((G.flags.B13_QUIET_N|0)%2)+1; G.flags.B13_QUIET_N=(G.flags.B13_QUIET_N|0)+1; }},
-      IF(FI('B13_QUIET',1),nar('沛珊把耳機戴上，在筆記本的邊角畫了一隻很胖的貓。')),
+      IF(FI('B13_QUIET',1),nar('沛珊把耳機戴上，在筆記本的邊角畫了一個小小的荷包蛋。')),
       IF(FI('B13_QUIET',2),nar('沛珊抬頭看了你一眼，點點頭，又低頭寫字。')),
       {label:'end'} ],
     after:G=>{ if(G.flags.B13_LINE) G.flags.B13_LAST=G.flags.B13_LINE; delete G.flags.B13_LINE; delete G.flags.B13_QUIET; } });
@@ -360,11 +359,10 @@ const BBPACK_EVENTS=(function(){
   const D4Q=n=>FI('D4C_Q',n);
   const d4q=(n,q,opts)=>[IF(D4Q(n),say(PS,q)),IF(D4Q(n),{choice:opts.map(([t],i)=>({text:t,goto:'d'+n+'_'+(i+1)}))})];
   const d4a=(n,opts)=>opts.flatMap(([,r],i)=>[{label:'d'+n+'_'+(i+1)},say(PS,r),{goto:'end'}]);
-  /* 2026-11-11（使用者 X327 沛珊重寫，AA_766_peishan_leftover2.json@1e647bb05；tools/story/ps766.py）：四題整組換字（她自己就是法律系；第 3 題原本問早餐、講她家的蛋餅＝作廢的早餐店設定）。題數、選項數、流程不變 */
-  const D4CQ=[[1,'你也提早到。我們系是不是遲到會被寫進判決書？',[['「會，還會公告。」','那我完了。我的前科可以出一本。'],['「我只是剛好早。」','剛好早二十分鐘。好，我相信你。'],['「妳自己呢？」','我是被以安訓練的。她說六點半，就是六點二十五到。']]],
-    [2,'讀書會到底是去讀書，還是去吃飯順便讀書？',[['「讀書。」','好乖。我跟我媽也是這樣講的。'],['「吃飯。」','誠實。我喜歡跟誠實的人一桌。'],['「都有。」','兩說併陳。你期末考一定也這樣寫。']]],
-    [3,'以安說六點半下來。她一定是六點半整，不會早一秒。要不要賭？',[['「賭她準時。」','那沒得賭，我也押這邊。'],['「賭她提早。」','你輸了。她提早會先傳訊息報備。'],['「賭什麼？」','輸的人等一下幫大家倒茶。先說好，我不會輸。']]],
-    [4,'公法你讀到哪？不要講頁數，我會有壓力。',[['「讀完了。」','好，等一下你坐我對面，我要抄。'],['「還沒開始。」','太好了，我們是同一國的。'],['「妳呢？」','我讀到目錄。目錄寫得不錯。']]]];
+  const D4CQ=[[1,'法律系的人，是不是都很怕遲到？',[['「怕。遲到要寫理由。」','要寫三段喔。……那我以後提早出門。'],['「不怕。依情形而定。」','那我也要學這句。'],['「妳自己呢？」','我怕。所以都提早二十分鐘，在這裡站著。']]],
+    [2,'讀書會，是去讀書的，還是去見人的？',[['「讀書。」','我也是這樣跟我媽說的。'],['「見人。」','……我也是。一個人讀不下去。'],['「都有。」','你很會回答。法律系的。']]],
+    [3,'你早餐都吃什麼？',[['「蛋餅。」','什麼口味？……不用回答，我在心裡幫你煎了。'],['「不吃。」','……這是我今天聽過最難過的事。'],['「便利商店的飯糰。」','那個也很好。可是我家的蛋餅比較好。']]],
+    [4,'你覺得老師上課，最重要的是什麼？',[['「講得清楚。」','……我也這麼覺得。我會記起來。'],['「不要點名。」','那是學生最重要的。不是老師的。'],['「讓人想聽。」','嗯。這個最難。']]]];
   EV.push({ id:'ev_d4c_question', title:'', participants:[PS], location:'campus', trigger:'auto', near:FDORM, tier:'short', building:'fdorm', cooldown_days:1, term:['Y1S1'], weeks:[10,11,12,13,14,15], weekday:[4], time:[18+20/60,18.5], background:'blur',
     prereq:{memory:[{npc:PS,tag:'FIRST_MET'}],custom:G=>{ const b=B(); return !!b&&b.d4cDue(G); }},
     dialogue:[ {call:G=>{ G.flags.D4C_Q=B().d4cPick(G); }},
@@ -384,7 +382,7 @@ const BBPACK_EVENTS=(function(){
       IF(D5N(1),say('便利貼','{name}的。第三題的圖我多印了一頁。')),
       IF(D5N(2),say('便利貼','第二題我也不會。明天一起問。')),
       IF(D5N(3),say('便利貼','今天的比較厚，對不起。')),
-      UN({flags:['D5_MET']},nar('（沛珊剛好下樓倒垃圾。）')),UN({flags:['D5_MET']},say(PS,'你來了！不用謝，我順便印的。')),
+      UN({flags:['D5_MET']},nar('（沛珊剛好下樓倒垃圾。）')),UN({flags:['D5_MET']},say(PS,'你來了！……不用謝，我順便印的。')),
       {set:{D5_MET:true}},{rel:{[PS]:{fam:1}}} ],
     after:G=>{ G.flags.D5_N=(G.flags.D5_N|0)+1; G.flags.D5_GO=null; delete G.flags.D5_NOTE; } });
   /* D6 沛珊和柏翰（AA_289 5-4）：大一下第 10 週起（期中公開以後）的週四 18:30，公法讀書會前的晚餐——柏翰在女舍門口等她（第 11 週讀書會停一次，沒有晚餐集合）。

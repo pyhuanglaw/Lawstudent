@@ -58,9 +58,7 @@ await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 94ab0
   const WANT={heroine_01:39,   /* 以安 39：AA_580 新1～新3 多三列（原本 36） */ heroine_02:38,heroine_03:32,heroine_04:37,heroine_05:34,classmate_peishan:32,kexin:38};
   for(const id of IDS){ const n=new Set(ROWS(id).map(r=>r.n)).size;
     check('1. '+NM[id]+'：表上 '+WANT[id]+' 列＝資料 '+n+' 列（企劃線算出來 '+cnt[id]+'）',n===WANT[id]&&cnt[id]===WANT[id]); }
-  /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊 ps5、ps9（AA_415 的「現有」列，和 invites.js 同一句）跟著 invites.js 換成新稿的句子，不在 AA_415 裡——這兩列改比新句 */
-  const PS755={ps5:'「早午餐！好啊，那種不用太早起的我最可以。」',ps9:'「好啊。我想坐吧台，可以看他們做。」'};
-  const bad=[]; for(const id of IDS) for(const r of ROWS(id)){ if(!md.includes(r.say)&&PS755[r.id]!==r.say) bad.push(r.id+' say'); if(r.ex==='rule'||r.ex==='plan') continue; for(const x of r.lines){ const s=typeof x==='string'?x:x.me; if(!r.say.includes(s)) bad.push(r.id+' '+s); } }
+  const bad=[]; for(const id of IDS) for(const r of ROWS(id)){ if(!md.includes(r.say)) bad.push(r.id+' say'); if(r.ex==='rule'||r.ex==='plan') continue; for(const x of r.lines){ const s=typeof x==='string'?x:x.me; if(!r.say.includes(s)) bad.push(r.id+' '+s); } }
   check('1. 每一列的原文、台詞都在 AA_415 裡一字不差',!bad.length,bad.slice(0,6).join('、'));
   const unqS=t=>/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;   /* 稿上她說的話有「」，遊戲檔拿掉外面那一對（AA-B 2026-11-08 01:09，build_replies.py 的 strip_quotes）：照稿拿掉「」再比，旁白照原樣比 */
   const has=(id,s)=>ROWS(id).some(r=>r.lines.some(x=>x===unqS(s)));

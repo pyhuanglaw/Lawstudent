@@ -48,7 +48,7 @@ const near=(a,b)=>Math.abs(a-b)<1e-6;
       check('5. 14:24（出發時間 14:25 以內）：不跳，直接出門',ok&&!skips.length&&went.length===1,J({skips,went:went.length})); }
   } finally { CLS.skipTo=realSkip; GM.quickGo=realQG; GM.openAt=realOA; GM.placeMins=realPM; stopAt=null; }
   /* ---- 6 ---- */
-  check('6. quickGo：o.arriveOpen＝到的時候（現在＋路程）開了也可以出發',/if\(!st\.open&&!\(o&&o\.arriveOpen&&openAt\(st\.hz,G\.hour\+st\.mins\/60\)\)\)\{ toast\(/   /* WZ-QUICKTRAVEL-1110：openAt(z → st.hz)＝營業時間照那一家（溫州街騎樓窗口、櫥窗的店；其他地點 hz＝z）*/.test(g));
+  check('6. quickGo：o.arriveOpen＝到的時候（現在＋路程）開了也可以出發',/if\(!st\.open&&!\(o&&o\.arriveOpen&&openAt\(z,G\.hour\+st\.mins\/60\)\)\)\{ toast\(/.test(g));
   check('6. GM.openAt、GM.placeMins 有接出來（INV.goNow 用）',/GM\.openAt=openAt; GM\.placeMins=pl=>placeState\(pl\)\.mins;/.test(g));
   /* ---- 7 ---- */
   { const G=H.fresh('2025-10-23',17+40/60,'campus'); H.FRIEND('heroine_01'); mkIv(G,'wz_teishoku',18); const a=mkHTML();

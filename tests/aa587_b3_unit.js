@@ -32,9 +32,7 @@ const DEL=num.filter(r=>/^（刪/.test(r.nw)), SPLIT=num.filter(r=>/／/.test(r.
 check('2. 刪掉的列＝第 46～49、51～55 列（S4）；一句變多句＝第 41 列',J(DEL.map(r=>+r.n))===J([46,47,48,49,51,52,53,54,55])&&J(SPLIT.map(r=>+r.n))===J([41]),J({d:DEL.map(r=>r.n),s:SPLIT.map(r=>r.n)}));
 { const bad=[]; for(const r of PLAIN){ const f=fileOf(r.where), nw=r.nw.replace(/^「(.*)」$/,'$1'), old=r.old.replace(/^「(.*)」$/,'$1');
     if(!f||!SRC[f].includes(nw)) bad.push('#'+r.n+' 改成不在 '+f+'：'+nw);
-    /* 2026-11-11（X327 沛珊重寫，AA_759_peishan_misc2.json@987845b7c）：沛珊出發前電話的新句「六點？那時候我一定還在睡。」（src/aa667_3d.js）開頭剛好有第 20 列的原句「六點？」這三個字——那是沛珊的句子，不是以安那一句還在；拿掉這一句再找 */
-    const still=inCode(old).filter(f=>!(old==='六點？'&&f==='src/aa667_3d.js'&&!SRC[f].split('六點？那時候我一定還在睡。').join('').includes(old)));
-    if(old!==nw&&!nw.includes(old)&&still.length) bad.push('#'+r.n+' 原句還在 '+still.join('、')+'：'+old); }
+    if(old!==nw&&!nw.includes(old)&&inCode(old).length) bad.push('#'+r.n+' 原句還在 '+inCode(old).join('、')+'：'+old); }
   check('2. 一般列（'+PLAIN.length+' 列）：改成在位置欄的檔裡、原句不在 src（程式碼，不算註解）',!bad.length,J(bad)); }
 { const bad=DEL.filter(r=>inCode(r.old).length).map(r=>'#'+r.n+'：'+r.old);
   check('2. 刪掉的 9 列（「為什麼念法律」那一段）原句都不在 src',!bad.length,J(bad)); }

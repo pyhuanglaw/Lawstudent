@@ -729,11 +729,7 @@ const R2Y4B=(function(){
   S.psDinner=async function(GM,q){ const G=GM.G, id='classmate_peishan', kind=(q&&q.ps61&&q.ps61.kind)||G.flags.PS_TE_KIND; if(typeof TERMEND==='undefined'||typeof TERMEND_LINES==='undefined'||!kind) return false;
     const Lx=TERMEND_LINES, spec=kind==='gf'?TERMEND.gf(id,'Y4S2'):TERMEND.heart(id,'Y4S2'), P=Lx.PLACE.eatery||{}, A=adv(); if(!spec) return false; S.payFare(GM,'tainan');
     if(A&&A.begin) A.begin({background:'dark',right:{charId:id,expression:'neutral'}}); if(GM.caption) GM.caption('','台南・她學校附近的簡餐',2400);   /* 台南的底圖沒有：dark＋字幕（AA_282 第 5 節第 6 點）*/
-    if(P.open) await GM.say(null,P.open); const tbl=typeof spec.table==='function'?spec.table(G):spec.table;
-    /* 2026-11-11（X327 沛珊重寫，AA_751@768b9a131 GF.tableByTerm.Y4S2）：女朋友版這一頓有稿了——她的兩句（祐廷延畢的存檔第一句不一樣）→ 三個選項 → 回答、fx（TERMEND.gfTable，台詞在 data/termend_opts.js）；
-       稿沒載到（沒有 TERMEND_OPTS）＝照原本通用的那一句。心意版（kind 'heart'）照舊 */
-    if(!(kind==='gf'&&TERMEND.gfTable&&await TERMEND.gfTable(GM,id,'Y4S2',spec))&&tbl) await play(GM,id,[tbl]);
-    if(P.close) await GM.say(null,P.close);
+    if(P.open) await GM.say(null,P.open); const tbl=typeof spec.table==='function'?spec.table(G):spec.table; if(tbl) await play(GM,id,[tbl]); if(P.close) await GM.say(null,P.close);
     G.flags.PS_TE_Y4S2={kind,day:G.day};
     if(kind==='heart'){ if(GM.caption) GM.caption('','台南・往她租的地方',2400); const r=await TERMEND.walkHome(GM,id,'Y4S2'); G.flags.PS_TE_Y4S2.result=r; }   /* 讓我想想＝7/14 台中那一次（2-Y4-46）*/
     return true; };

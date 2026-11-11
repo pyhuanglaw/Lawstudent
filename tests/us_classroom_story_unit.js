@@ -193,7 +193,7 @@ await sec('E',async()=>{
   check('E. 期中報告：台詞、三個回答和原本的事件一字不差；演完出席記、回台階下',eq(H.said.map(s=>s.t),evTexts('ev_usl_midterm').filter(t=>!t.includes('｜')))&&eq(H.opts[0].slice(),ev('ev_usl_midterm').dialogue.find(l=>l.choice).choice.map(c=>c.text))&&!!(H.G.events.done.ev_usl_midterm)&&H.G.zone==='us_campus',J(H.said.map(s=>s.t)));
   // 12/7 期末報告，選 b
   fresh('2028-12-07',12.5,'us_apartment',US()); H.said=[]; H.opts=[]; H.picks=['只講']; let pfWalk=null;
-  { const r0=EVENTS.run; let ev3=null; EVENTS.run=async function(e,o){ if(e&&e.id==='ev_usl_comp_final'){ ev3=e; globalThis.__ev3=e; } const r=await r0.apply(this,arguments); if(e&&e.id==='ev_usl_comp_final'){ const pf=E.npcs.find(n=>n.usWho==='prof'||n.usWalk); pfWalk=pf&&{seat:!!pf.seat,walk:!!pf.usWalk,to:pf.moveTo}; } return r; };
+  { const r0=EVENTS.run; let ev3=null; EVENTS.run=async function(e,o){ if(e&&e.id==='ev_usl_comp_final') ev3=e; const r=await r0.apply(this,arguments); if(e&&e.id==='ev_usl_comp_final'){ const pf=E.npcs.find(n=>n.usWho==='prof'||n.usWalk); pfWalk=pf&&{seat:!!pf.seat,walk:!!pf.usWalk,to:pf.moveTo}; } return r; };
     await USL.attend(GM,item('us_comp')); EVENTS.run=r0; }
   check('E. 12/7 期末報告：「Five minutes.」教授說、選 b；台詞一字不差、記 USL_COMP_FINAL＝one',H.said.some(s=>s.who==='教授'&&s.t==='Five minutes.')&&H.G.flags.USL_COMP_FINAL==='one'&&H.said.map(s=>s.t).every(t=>evTexts('ev_usl_comp_final').includes(t)),J(H.said.map(s=>s.t)));
   check('E. 12/7 選 b：「教授經過你旁邊」＝她從第 1 排起身、經過講台（玩家旁邊）走到門口',!!pfWalk&&!pfWalk.seat&&pfWalk.walk&&pfWalk.to&&pfWalk.to.length>=1&&Math.abs(pfWalk.to[0].x-pp.x)<1e-6,J(pfWalk));
@@ -207,9 +207,6 @@ await sec('E',async()=>{
   for(const met of [true,false]){ fresh('2028-12-08',8.5,'us_apartment',US(met?{MET_LONG:true}:{})); H.said=[]; let st=null;
     { const s0=GM.say; GM.say=async(w,t)=>{ if(/念的那一句/.test(String(t))&&!st){ const l=who('long'); st={seat:l&&rcOf(l.seat),stood:!!(l&&l.usStood),before:l&&l.standFrom}; } return s0(w,t); }; await USL.attend(GM,item('us_writing')); GM.say=s0; }
     check(`E. 12/8 最後一堂（${met?'見過':'沒見過'}何俊朗）：念句子那一拍他站起來；台詞一字不差`,!!st&&st.stood&&st.seat===null&&eq(H.said.map(s=>s.t),evTexts('ev_usl_lastclass').filter(t=>met?!/香港/.test(t):!/何俊朗念/.test(t))),J({st,said:H.said.map(s=>s.t)})); }
-  /* US-FINAL-PROF-PASS-1110：選 b 的旁白「教授經過你旁邊…」前面有一步等她走到旁邊（call），上限 S.PASS_WAIT 秒 */
-  { const ev3=globalThis.__ev3, d=ev3&&ev3.dialogue||[], kb=d.findIndex(l=>l&&l.label==='b'), kn=d.findIndex((l,i)=>i>kb&&l&&/教授經過你旁邊/.test(l.text||'')), kc=d.findIndex((l,i)=>i>kb&&l&&typeof l.call==='function');
-    check('E. 期末報告選 b：「教授經過你旁邊」那一句前面先等她走過來（call 在旁白前；上限 '+USL.PASS_WAIT+' 秒）',kb>=0&&kc>kb&&kn>kc&&USL.PASS_WAIT>0&&USL.PASS_WAIT<=10,JSON.stringify({kb,kc,kn})); }
   check('E. 原本的事件資料沒有被改（還是 2D 的 bg:us_classroom、background dark）——3D 是演的時候複製一份',['ev_usl_midterm','ev_usl_comp_final','ev_usl_intro_final','ev_usl_lastclass'].every(id=>ev(id).background==='dark'&&ev(id).dialogue[0].bg==='us_classroom')); });
 
 /* ======================= F 2D 照舊 ======================= */

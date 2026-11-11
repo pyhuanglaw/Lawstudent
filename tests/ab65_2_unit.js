@@ -1,5 +1,4 @@
 // AB65-2-L：大一上 BB 人物事件的逐句改稿（AA_207，AA-B 2026-10-17；附錄、BB_167 SC3／SC4；§6 是 AA-B 2026-10-23 的更正）——不需要瀏覽器。
-// 2026-11-11（X327 沛珊重寫，AA_761_peishan_events_1.json@dbfc596a5）：這支裡寫死的沛珊在 events.js 的句子照新稿改期望（逐字對稿在 tests/peishan_events_1111_unit.js）。
 //   1  AA_207 第 2 節七列（AA 定的版本）：傅鐘選項①、經原分組 #price、讀書會學姊開場（事件退休＝不做）、導遊③、來台大③（後來的改稿已經換掉＝不做）、
 //      家裡的事（§6：結尾「嗯，謝了。」）、經原分組開場兩版
 //   2  第 3 節第 4 點：四個事件只在大一（term）
@@ -95,8 +94,8 @@ await sec(7,()=>{
   const ntu=texts(ev('ev_kexin_visits_ntu'));
   check('7-3. K2 可昕：「我們的舊系館。……裡面的販賣機還是壞的。」',ntu.includes('我們的舊系館。……裡面的販賣機還是壞的。')&&!ntu.some(t=>/都不會進去了吧/.test(t)),J(ntu));
   const pd=ev('ev_peishan_doubt').dialogue, i=pd.findIndex(l=>l.label==='should');
-  check('7-4. 沛珊 doubt #should：只留「應該喔。那是誰決定什麼叫應該？老師嗎？還是考卷？」（「應該。」和旁白「她重複一次。」刪掉）',pd[i+1]&&pd[i+1].text==='應該喔。那是誰決定什麼叫應該？老師嗎？還是考卷？'&&!texts(ev('ev_peishan_doubt')).some(t=>t==='應該。'||t==='她重複一次。'),J(pd.slice(i,i+3)));
-  check('7-4. 沛珊 doubt 開頭：「欸，你為什麼會來念法律？不准說因為考上。」（「我是說」全體禁用）',texts(ev('ev_peishan_doubt')).includes('欸，你為什麼會來念法律？不准說因為考上。')&&!SRC.includes('我是說，除了考上以外'));
+  check('7-4. 沛珊 doubt #should：只留「應該喔。……那是誰決定什麼叫應該？老師嗎？」（「應該。」和旁白「她重複一次。」刪掉）',pd[i+1]&&pd[i+1].text==='應該喔。……那是誰決定什麼叫應該？老師嗎？'&&!texts(ev('ev_peishan_doubt')).some(t=>t==='應該。'||t==='她重複一次。'),J(pd.slice(i,i+3)));
+  check('7-4. 沛珊 doubt 開頭：「欸，你為什麼會來念法律？……除了考上以外。」（「我是說」全體禁用）',texts(ev('ev_peishan_doubt')).includes('欸，你為什麼會來念法律？……除了考上以外。')&&!SRC.includes('我是說，除了考上以外'));
   const Y34=fs.readFileSync(path.join(H.ROOT,'src/y34b3d.js'),'utf8');
   check('7-5. y34b3d.js Kevin：「學弟的車！家聚那台！」（Kevin 不是直屬）',Y34.includes("'學弟的車！家聚那台！'")&&!Y34.includes('直屬學弟的車'));
   check('7-6. Z1 rec 第二句照現在「抱歉，職業病。外文系的，看太多電影。林芷若。」',SRC.includes("'抱歉，職業病。外文系的，看太多電影。林芷若。'")); });

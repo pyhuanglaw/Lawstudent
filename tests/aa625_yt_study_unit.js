@@ -147,12 +147,8 @@ const said=()=>H.said.map(s=>s.t);
 
   /* ================= 4 一般的約念書 ================= */
   { const id='heroine_01'; fresh(TD('Y1S2',6,3),14); H.G.zone='wz_mokuyobi'; H.FRIEND(id); H.said=[]; const S1=STUDY_SCENES.people[id].scenes['1'];
-    const iv=INV.accept(H.G,id,'slowread',H.G.day,14,{by:'player',cat:'study'}); const n=npcOf(id); await INV.meet(GM,iv,n,{}); const got=said();
-    /* 2026-11-11（L118-SHOPS-REDO-1111、AA_772 slowread_to_mokuyobi）：木曜日的念書只剩地點 slowread 這一組（原本的地點 mokuyobi 只留「坐坐」、verbStudy 拿掉）——
-       舊期望：約的是地點 mokuyobi（cat study），先演木曜日進門那一段（MOKS.DATE 的 first）再演一起念書第 1 場。
-       新期望：約的是地點 slowread（在木曜日），演一起念書第 1 場＋slowread 這一組第一次的那一句（老闆、焙茶拿鐵；AA_772 第 50、51 列）；木曜日「坐坐」的進門那一段不在這一組 */
-    const FA=(INVITE_DATA.people[id].firstAt||{}).slowread||[];
-    check('4. 以安在木曜日約念書（地點 slowread）：演一起念書第 1 場（坐下、中途、收書、道別）＋這一組第一次的那一句，讀書照算',FA.length>0&&FA.every(t=>got.includes(t))&&got.includes(S1.seat[0])&&got.includes(S1.mid[0])&&got.includes(S1.bye[0])&&!got.includes(MOKS.DATE[id].first)&&STUDYN.count(H.G,id)===1&&H.G.stats.study===Math.max(1,Math.round(INV.place('slowread').stay)),J([H.G.stats.study,got]));   /* 讀書照小時算：slowread 一個半小時＝記 2（舊期望：mokuyobi 一小時＝記 1）*/
+    const iv=INV.accept(H.G,id,'mokuyobi',H.G.day,14,{by:'player',cat:'study'}); const n=npcOf(id); await INV.meet(GM,iv,n,{}); const got=said();
+    check('4. 以安在木曜日約念書（念書那一類）：先進門那一段，再演一起念書第 1 場（坐下、中途、收書、道別），讀書照算',got.includes(MOKS.DATE[id].first)&&got.indexOf(S1.seat[0])>got.indexOf(MOKS.DATE[id].first)&&got.includes(S1.mid[0])&&got.includes(S1.bye[0])&&STUDYN.count(H.G,id)===1&&H.G.stats.study===1,J(got));
     check('4. 別人的見面不演語彤的句子',!L.during.flat().some(([w,t])=>got.includes(t))&&!got.includes(L.firstExtra)); }
   { const id='heroine_01'; fresh(TD('Y1S2',6,3),14); H.G.zone='wz_mokuyobi'; H.FRIEND(id); H.said=[];
     const iv=INV.accept(H.G,id,'mokuyobi',H.G.day,14,{by:'player'}); const n=npcOf(id); await INV.meet(GM,iv,n,{}); const got=said(), S1=STUDY_SCENES.people[id].scenes['1'];

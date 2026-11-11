@@ -14,7 +14,7 @@ const ROOT=path.resolve(__dirname,'..');
 global.window=global;
 vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/data/characters.js'),'utf8').replace(/^const (CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS)\s*=/mg,'globalThis.$1='),{filename:'characters.js'});
 vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/social3d.js'),'utf8').replace(/^const SOCIAL\s*=/m,'global.SOCIAL='),{filename:'social3d.js'});
-for(const f of ['src/romance3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js']){ if(fs.existsSync(path.join(ROOT,f))) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (\w+)\s*=/mg,'globalThis.$1='),{filename:f}); }
+for(const f of ['src/romance3d.js','src/data/invites.js','src/invites3d.js']){ if(fs.existsSync(path.join(ROOT,f))) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (\w+)\s*=/mg,'globalThis.$1='),{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const G={rel:{},flags:{},social:null,day:20,weekday:1,hour:10,contacts:{},invites:[]}; SOCIAL.bind(G);
 const I=globalThis.INV, W=(INVITE_DATA.why||{});

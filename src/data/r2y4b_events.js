@@ -9,7 +9,6 @@
    58 ev_bar_group_start（2/23）、ev_bar_group_night（麵店）、ev_bar_group_video（視訊）、ev_bar_group_three（6/23）　61 ev_ps_termend_y4s2（6/8 台南；R2Y4B.psDinner）
    AA_346 ev_choice_apart_<id>（2-Y4-54「選一個人」之後其他人各一場分開的談話；R2Y4B.apartScene）
    沒有的字（AA 稿沒寫）不補；CG 只在 CG_REGISTRY 有登錄時放（hasCG 守門）。測試：node tests/r2y4b_events_unit.js */
-/* 2026-11-11（使用者 X327 沛珊重寫）：ev_peishan_open_class 她自己的三句照 AA_762_peishan_events_2.json@1fc9a6658 換（媽媽的句子已在 AA_753 Y4 改）。逐字對稿：tests/peishan_events_1111_unit.js */
 'use strict';
 /* AA_468 第 2 節（AA-B 2026-10-25，企劃線 cd2dc7646；第②級）：律師讀書小組第一輪（k1～k4、y1～y4 各一次）以後換成旁白，每句一次、照順序；週六那幾句只在週六；用完只留收尾那一句。
    台詞照 2-1、2-2 的表一字不改。第幾句在 src/r2y4b3d.js 的 R2Y4B.narrLine。測試：node tests/aa468_evdup2_unit.js
@@ -196,22 +195,20 @@ const R2Y4B_EVENTS=(function(){
     dialogue:[ {scene:'台南車站',bg:'tn_station'},
       {speaker:null,text:'（台南車站。你照她傳的地址，搭公車到課輔班。她已經在上課了。）'},   /* 裁定 #44 */
       {scene:'台南・課輔班',bg:'cram_class'},
-      /* 2026-11-11（X327 沛珊重寫；AA_753_peishan_ladder_Y4@465382f83 的 event_open_class，BB_322）：媽媽出場的旁白和她的四句照稿逐句換（原本「穿著早餐店圍裙外套」「我們家的榜單還貼著」）；
-         沛珊的句子和選項沒動。BCG-05 圖上還是早餐店圍裙：新圖到以前不放（src/adv3d.js 的 CG_HELD；下面那一行 hasCG 守門照留，登錄放回去就會出現）。 */
-      {speaker:null,text:'（教室後門站著一個中年女性，手上提著一袋飲料，沒有進去，從門上的小窗往裡面看。）'},
+      {speaker:null,text:'（教室後門，一個穿著早餐店圍裙外套的中年女性偷偷往裡面看。）'},
       {speaker:'沛珊媽媽',text:'（小聲）你是她大學的同學？'},
-      {speaker:'沛珊媽媽',text:'她說她要當老師。我本來不懂，法律系念得好好的。'},
-      {speaker:'沛珊媽媽',text:'可是你看她站在前面的樣子。她以前上台都是笑給別人看的，今天不是。'},
-      {speaker:'沛珊媽媽',text:'她爸把她的學生證貼在辦公室，貼兩年了。我叫他今天不要來，他會哭。'},
+      {speaker:'沛珊媽媽',text:'她說她要去當老師。我本來不懂。'},
+      {speaker:'沛珊媽媽',text:'可是她站在前面的樣子，跟她高中講法律的時候不一樣。'},
+      {speaker:'沛珊媽媽',text:'……我們家的榜單還貼著。旁邊多貼了一張。'},
       {if:{custom:()=>hasCG('cg_whiteboard_why_peishan')},cg:'cg_whiteboard_why_peishan'},   /* BCG-05「白板上的為什麼」：媽媽最後一句之後 */
       {speaker:'classmate_peishan',text:'你真的來了！！'},
-      {speaker:'classmate_peishan',text:'我剛剛手一直在抖，粉筆斷了兩次。你有看到嗎？'},
+      {speaker:'classmate_peishan',text:'……我剛剛手一直在抖。你有看到嗎？'},
       {choice:[{text:'「沒有。」',goto:'a'},{text:'「妳媽媽坐最後一排。」',goto:'b'}]},
-      {label:'a'},{speaker:'classmate_peishan',text:'你騙人。好，我當你沒看到。'},{goto:'send'},
+      {label:'a'},{speaker:'classmate_peishan',text:'你騙人。……好，我當你沒看到。'},{goto:'send'},
       {label:'b'},{speaker:'classmate_peishan',text:'……我知道。我一進教室就看到了。'},
       {label:'send'},{advance:toH(17)},
       {speaker:null,text:'（下課以後，她把老師的外套脫掉，陪你坐車到高鐵站。）'},   /* AA_282 3-1；AA_447 1-2：和去台南找她的送行分開寫 */
-      {if:{custom:dating('classmate_peishan')},speaker:'classmate_peishan',text:'你坐最後一排，我一直看到你，害我講錯一題。這題算你的。'},
+      {if:{custom:dating('classmate_peishan')},speaker:'classmate_peishan',text:'你坐最後一排，我一直看到你。……害我講錯一題。'},
       {unless:{custom:dating('classmate_peishan')},speaker:'classmate_peishan',text:'謝謝你來看我上課！到臺北傳給我喔。'},
       {set:{PS_OPEN_CLASS:'went'}} ],
     consequences:{memo:'去台南看沛珊的公開課'},

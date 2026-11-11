@@ -11,8 +11,8 @@ require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify, AN='heroine_01', ZQ='heroine_04', SIS='heroine_05', XC='classmate_xinci', BH='classmate_bohan';
-const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(EAT|EAT_LINES|WZS|L118|LANE118_SHOPS|L118_REDO|LANE118_LAYOUT|PARK|WZ_PARK_LAYOUT|SIDEQ|MSG|MSG_POOL|MSG2_POOL|SISY23|SISY23_LINES|SISY23_EVENTS)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
-for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/eat_lines.js','src/eat3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/l118_redo772.js','src/lane118.js','src/data/wz_park_layout.js','src/wzpark3d.js','src/wzshops3d.js','src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js']) load(f);
+const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(EAT|EAT_LINES|WZS|L118|LANE118_SHOPS|LANE118_LAYOUT|PARK|WZ_PARK_LAYOUT|SIDEQ|MSG|MSG_POOL|MSG2_POOL|SISY23|SISY23_LINES|SISY23_EVENTS)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/eat_lines.js','src/eat3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js','src/data/wz_park_layout.js','src/wzpark3d.js','src/wzshops3d.js','src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js']) load(f);
 let ok=true, err=''; try{ load('src/sideq3d.js'); }catch(e){ ok=false; err=String(e); }
 const X=()=>typeof SIDEQ!=='undefined'?SIDEQ:null;
 const D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key;
@@ -22,10 +22,8 @@ const said=()=>H.said.map(x=>(x.who?x.who+'：':'')+x.t), whoOf=t=>(H.said.find(
 let money=[]; GM.money=d=>{ money.push(d); H.G.money+=d; };
 const set=(key,h,zone)=>{ const d=D(key); H.G.day=d; H.G.hour=h; H.G.weekday=CALENDAR.dateOf(d).wd%7; if(zone) H.G.zone=zone; };
 const fresh=(key,h,zone,flags)=>{ const G=H.fresh(key,h,zone||'wenzhou',Object.assign({EXCHANGE_ROUTE:'TW'},flags||{})); G.outings=[]; set(key,h,zone||'wenzhou'); money=[]; if(X()) X().roll=()=>0; return G; };
-/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338；AA_772 sideq_rename）：順手的事的店名 key 照舊，「吃過幾次」記在現在的店名底下（SIDEQ.eatKey）。舊期望：次數記在舊店名 */
-const EK=key=>(X().eatKey?X().eatKey(key):key), Z=id=>require('./l118_redo772_expect.js').shopZone[id];   /* Z：那一件事現在在哪一間（AA_772 shop_zone；SQ13→tea、SQ17→drink_a；舊期望 SQ13 在 korea、SQ17 在 tea）*/
-const know=(key,n)=>{ EAT.rec(H.G).n[EK(key)]=n==null?4:n; };   /* 這一次點完＝第 n+1 次 */
-const shop=async(key,picks,o)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); EAT.rec(H.G).n[EK(key)]=(EAT.rec(H.G).n[EK(key)]|0)+1; return X().atShop(GM,key,o||{item:'x',price:0}); };
+const know=(key,n)=>{ EAT.rec(H.G).n[key]=n==null?4:n; };   /* 這一次點完＝第 n+1 次 */
+const shop=async(key,picks,o)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); EAT.rec(H.G).n[key]=(EAT.rec(H.G).n[key]|0)+1; return X().atShop(GM,key,o||{item:'x',price:0}); };
 const R=id=>X().get(H.G,id);
 const here=id=>{ const n={name:SOCIAL.displayName(id),charId:id,obj:{position:{x:0,y:0,z:0}}}; GM.npc[id]=n; E.npcs.push(n); return n; };
 const outOf=ev=>(H.G.outings||[]).filter(x=>x.ev===ev&&x.state==='planned').pop()||null;
@@ -41,9 +39,7 @@ const lapse=(id)=>{ R(id).by=H.G.day; set(keyOf(H.G.day+1),H.G.hour); X().lapse(
 let d404='', d405='', d408='', d408b='', d663=''; const sh=(c,f)=>cp.execSync('git show '+c+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8'});
 try{ d404=sh('30bf21de8','AA_404_店員的支線_第二批.md'); d405=sh('1fa2b494a','AA_405_店員的支線_第三批.md'); d408=sh('29e41dd8','AA_408_店員支線補字_回LAWWW實作問題.md'); d408b=sh('b0b80a54','AA_408_店員支線補字_回LAWWW實作問題.md'); d663=sh('e89728272','AA_663_檢查表試跑_遊戲裡30句改前改後.md'); }catch(e){}
 const RN647=s=>String(s).replace(/舊路書房/g,'頁間書屋').replace(/清葉茶行/g,'青木茶室').replace(/輪轉單車/g,'慢輪單車').replace(/日日便利/g,'日和便利店');   /* 2026-11-04 改期望：公館四間店改名（AA_647 第 6 節，企劃線 403b7c51c）——稿裡的舊店名照改名清單換成新店名再比 */
-/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
-const R772=require('./l118_redo772_expect.js');
-const doc=R772.doc(RN647(d404+d405+d408+d408b+d663))+'\n'+R772.corpus(),   /* 2026-11-04：AA_663 第 29 列（企劃線 e89728272，D116）SQ19 筆記本最後一頁改字 */ IDS=['SQ10','SQ11','SQ12','SQ13','SQ14','SQ15','SQ17','SQ18','SQ19','SQ20'];
+const doc=RN647(d404+d405+d408+d408b+d663),   /* 2026-11-04：AA_663 第 29 列（企劃線 e89728272，D116）SQ19 筆記本最後一頁改字 */ IDS=['SQ10','SQ11','SQ12','SQ13','SQ14','SQ15','SQ17','SQ18','SQ19','SQ20'];
 /* ---- 0 稿 ---- */
 await sec(0,()=>{ check('0. sideq3d.js 載得到；第二、三批十則都在（SQ16 輪轉單車 2026-10-23 AA_405 第 3 節以後也有：tests/sq_traces_unit.js 第 4 節）',ok&&!!X()&&IDS.every(id=>X().Q[id]&&X().LINES[id])&&!!X().Q.SQ16,err||J(Object.keys((X()||{Q:{}}).Q)));
   const out=[]; const walk=v=>{ if(v==null) return; if(typeof v==='string'){ if(!/^[a-z_0-9]+$/.test(v)) out.push(v); } else if(Array.isArray(v)) v.forEach(walk); else if(typeof v==='object') for(const k in v) walk(v[k]); };
@@ -60,30 +56,30 @@ await sec(0,()=>{ check('0. sideq3d.js 載得到；第二、三批十則都在�
   check('0. 「順手的事」的標題＝稿的小標',!tb.length,J(tb));
   check('0. 新的 2D 背景登記了（11-02 第六批有圖）：中和・華新街 hwaxin_street、動物醫院 vet_clinic',OUT.BG.hwaxin_street&&OUT.BG.hwaxin_street.image==='assets/bg/hwaxin_street.webp'&&OUT.BG.vet_clinic&&OUT.BG.vet_clinic.image==='assets/bg/vet_clinic.webp'&&OUT.bg('hwaxin_street').image==='assets/bg/hwaxin_street.webp'); });
 /* ---- 1 共用規則 ---- */
-await sec(1,async()=>{ fresh('2026-10-05',12,'l118_'+Z('SQ13'));   /* 大二上（週一） */
+await sec(1,async()=>{ fresh('2026-10-05',12,'l118_korea');   /* 大二上（週一） */
   know('韓食小廚',3); let r=await shop('韓食小廚',[0,0]); check('1. 第 4 次（店員還不認得你）：不出',!r&&!R('SQ13')&&!H.said.length);
-  r=await shop('韓食小廚',[0,0]); check('1. 第 5 次：老闆開口 →「要我幫忙嗎？」→ 掛進；手機「今天」有這一則',!!r&&R('SQ13').state==='open'&&H.said[0].who==='老闆'&&/辛亥韓食：第三罐泡菜/.test(X().todayHTML(H.G)),J(said()));
+  r=await shop('韓食小廚',[0,0]); check('1. 第 5 次：老闆開口 →「要我幫忙嗎？」→ 掛進；手機「今天」有這一則',!!r&&R('SQ13').state==='open'&&H.said[0].who==='老闆'&&/韓食小廚：第三罐泡菜/.test(X().todayHTML(H.G)),J(said()));
   X().Q.SQTEST={shop:'韓食小廚',title:'x',avail:()=>true,accept:async()=>{}}; const one=X().canOffer(H.G,'SQTEST'); delete X().Q.SQTEST;
   check('1. 一家店同時只掛一則（第二批的店也一樣）',!one);
   SOCIAL.remember(XC,'FIRST_MET',''); know('巷子裡定食',4); r=await shop('巷子裡定食',[0]); check('1. 一天最多問一次（同一天別家店不出）',!r&&!R('SQ19'));
   set('2026-10-06',12); know('林家乾麵',4); await shop('林家乾麵',[0,0]); set('2026-10-07',12); r=await shop('巷子裡定食',[0]);
   check('1. 同時最多兩則（第一批 SQ01＋第二批 SQ13 已經兩則：定食店 SQ19 不出）',X().openIds(H.G).length===2&&!R('SQ19')&&!r,J(X().openIds(H.G)));
-  fresh('2026-10-05',12,'l118_'+Z('SQ13')); know('韓食小廚',4); await shop('韓食小廚',[1]);
+  fresh('2026-10-05',12,'l118_korea'); know('韓食小廚',4); await shop('韓食小廚',[1]);
   check('1. 「……加油。」：不掛、這學期不再出',R('SQ13').state==='declined'&&(set('2026-11-20',12),!X().canOffer(H.G,'SQ13')));
-  const G=fresh('2026-10-05',12,'l118_'+Z('SQ13')); delete G.side; know('韓食小廚',4); X().roll=()=>0.9;
+  const G=fresh('2026-10-05',12,'l118_korea'); delete G.side; know('韓食小廚',4); X().roll=()=>0.9;
   check('1. 舊存檔（沒有 G.side）：點餐不壞、手機「今天」不壞',(await shop('韓食小廚',[0]),true)&&typeof G.side==='object'&&X().todayHTML(G)===''); });
 /* ---- 2 各則 ---- */
 await sec('2 SQ10',async()=>{ fresh('2027-03-01',12,'l118_dian'); know('滇香小館',4);   /* 大二下起（週一）*/
   H.said=[]; H.opts=[]; H.picks=[0,0]; await L118.order(GM,'dian'); const q=outOf('ev_sq10_hwaxin');
   check('2. SQ10 從 118 巷點餐出現（L118.order）：老闆娘「乳扇沒有了。…」「……我這個月走不開。你週末有空嗎？」→ 掛進；（她多給一張摺好的紙條。）「拿給老闆娘。」；週六 14:00 去中和・華新街（捷運約 40 分）',
-    !!R('SQ10')&&R('SQ10').state==='open'&&seq(['我想吃乳扇。我們家鄉的那種，臺北只有中和那條街買得到。','……我這個月走不開。你週末有空嗎？','（她多給一張摺好的紙條。）','拿給老闆娘。'])&&whoOf('拿給老闆娘。')==='老闆娘'&&!!q&&keyOf(q.day)==='2027-03-06'&&q.h===14&&q.place==='中和・華新街'&&/40 分鐘/.test(q.travel)&&R('SQ10').by===CALENDAR.termDays('Y2S2').to,J([said(),q]));
+    !!R('SQ10')&&R('SQ10').state==='open'&&seq(['乳扇沒有了。我們家鄉的那種，臺北只有中和那條街買得到。','……我這個月走不開。你週末有空嗎？','（她多給一張摺好的紙條。）','拿給老闆娘。'])&&whoOf('拿給老闆娘。')==='老闆娘'&&!!q&&keyOf(q.day)==='2027-03-06'&&q.h===14&&q.place==='中和・華新街'&&/40 分鐘/.test(q.travel)&&R('SQ10').by===CALENDAR.termDays('Y2S2').to,J([said(),q]));
   check('2. SQ10 手機「今天」：下一步、期限這學期內',/週末去中和的華新街（3\/6 週六 14:00/.test(X().todayHTML(H.G))&&/到 6\/13/.test(X().todayHTML(H.G)),X().todayHTML(H.G));
   money=[]; await goOut(q,[]);
   check('2. SQ10 華新街（2D hwaxin_street）：雜貨店的老闆娘看了紙條…「阿梅？……她在臺北開店？」、三十年沒聯絡、「乳扇是她的，這包是我的。叫她打給我。」；來回 60 元；還沒做完（AA_408 6：回來以後交乳扇）',
     seq(['（雜貨店的老闆娘看了紙條，愣了一下。）','阿梅？……她在臺北開店？','（她們是小時候在緬甸同一個村子長大的，三十年沒聯絡。）','（雜貨店的老闆娘多塞了一包東西和一張寫了電話的紙。）','乳扇是她的，這包是我的。叫她打給我。'])&&whoOf('阿梅？……她在臺北開店？')==='雜貨店的老闆娘'&&money.includes(-60)&&R('SQ10').state==='open'&&R('SQ10').step==='give'&&!(H.G.album||[]).some(a=>a.id==='side_SQ10'),J([said(),money,R('SQ10')]));
   set('2027-03-08',12); await shop('滇香小館',[0]);
   check('2. SQ10 回來以後下一次來滇香：（你把那包乳扇和紙條交給老闆娘。…）老闆娘「……她還記得我叫阿梅。」；這時才做完、相簿',seq(['（你把那包乳扇和紙條交給老闆娘。她先看紙條，看了很久。）','……她還記得我叫阿梅。'])&&whoOf('……她還記得我叫阿梅。')==='老闆娘'&&R('SQ10').state==='done'&&R('SQ10').doneDay===D('2027-03-08')&&(H.G.album||[]).some(a=>a.id==='side_SQ10'),J(said()));
-  set('2027-03-09',12); await shop('滇香小館',[0]); const t1=has('（櫃台上多了一小碟炸乳扇，旁邊手寫「老闆娘請的，限量」。）'); set('2027-03-10',12); await shop('滇香小館',[0]); const t2=has('下禮拜我要去中和。……她說要教我做她媽媽的那道。')&&whoOf('下禮拜我要去中和。……她說要教我做她媽媽的那道。')==='老闆娘';
+  set('2027-03-09',12); await shop('滇香小館',[0]); const t1=has('（滇香的菜單多一行手寫「炸乳扇（限量）」。）'); set('2027-03-10',12); await shop('滇香小館',[0]); const t2=has('下禮拜我要去中和。……她說要教我做她媽媽的那道。')&&whoOf('下禮拜我要去中和。……她說要教我做她媽媽的那道。')==='老闆娘';
   set('2027-03-11',12); await shop('滇香小館',[0]);
   check('2. SQ10 痕跡：菜單多一行「炸乳扇（限量）」；之後老闆娘「下禮拜我要去中和。…」（一次）',t1&&t2&&!H.said.length);
   fresh('2027-03-01',12,'l118_dian'); know('滇香小館',4); await shop('滇香小館',[0]); const q1=outOf('ev_sq10_hwaxin'); set('2027-03-06',15.5); miss(q1); const q2=outOf('ev_sq10_hwaxin');
@@ -91,18 +87,18 @@ await sec('2 SQ10',async()=>{ fresh('2027-03-01',12,'l118_dian'); know('滇香�
   set('2027-06-12',15.5); q2.state='planned'; R('SQ10').by=D('2027-06-13'); miss(q2);
   check('2. SQ10 下一個週六超過期限：過期（不扣數值）',R('SQ10').state==='lapsed');
   set('2027-06-14',12); await shop('滇香小館',[0]); const l=said(); set('2027-06-15',12); await shop('滇香小館',[0]);
-  check('2. SQ10 過期一句：老闆娘「乳扇我託客人去中和買了。……那間店的老闆娘，我沒見到。」（一次）；沒有「炸乳扇（限量）」',J(l)===J(['老闆娘：乳扇我託客人去中和買了。……那間店的老闆娘，我沒見到。'])&&!has('（櫃台上多了一小碟炸乳扇，旁邊手寫「老闆娘請的，限量」。）'),J(l)); });
+  check('2. SQ10 過期一句：老闆娘「乳扇我託客人去中和買了。……那間店的老闆娘，我沒見到。」（一次）；沒有「炸乳扇（限量）」',J(l)===J(['老闆娘：乳扇我託客人去中和買了。……那間店的老闆娘，我沒見到。'])&&!has('（滇香的菜單多一行手寫「炸乳扇（限量）」。）'),J(l)); });
 await sec('2 SQ11',async()=>{ fresh('2026-11-25',12,'l118_home'); know('巷口家常菜',4);   /* 大二上、單數月 25 日以後（週三）*/
   H.said=[]; H.opts=[]; H.picks=[0,0]; await L118.order(GM,'home');
   check('2. SQ11 從 118 巷點餐出現：（老闆娘從櫃台下面拿出一個鞋盒。）「客人不要的發票…」「……字太小了…同學，你幫我對。」；下次去對、期限這學期內',
     !!R('SQ11')&&R('SQ11').step==='check'&&seq(['（老闆娘從櫃台下面拿出一個鞋盒。）','客人不要的發票，我都留著。','……字太小了，我看不到。同學，你幫我對。'])&&whoOf('客人不要的發票，我都留著。')==='老闆娘'&&R('SQ11').by===CALENDAR.termDays('Y2S1').to,J(said()));
   await shop('巷口家常菜',[0]); const same=!H.said.length;
   set('2026-11-26',12); const h0=H.G.hour; money=[]; await shop('巷口家常菜',[0],{item:'排骨飯',price:95});
-  check('2. SQ11 下次去：對完一盒（30 分）→（對到一張中了兩百塊。老闆娘看了很久。）「……二十年了，第一次中。」；沒餵過貓＝「兩百塊。今天你的水餃我請。」退這一餐；做完',
-    same&&H.G.hour===h0+0.5&&seq(['（對到一張中了兩百塊。老闆娘看了很久。）','……二十年了，第一次中。','兩百塊。今天你的水餃我請。'])&&J(money)===J([95])&&R('SQ11').state==='done'&&!R('SQ11').cat,J([said(),money]));
+  check('2. SQ11 下次去：對完一盒（30 分）→（對到一張中了兩百塊。老闆娘看了很久。）「……二十年了，第一次中。」；沒餵過貓＝「兩百塊。今天你的排骨我請。」退這一餐；做完',
+    same&&H.G.hour===h0+0.5&&seq(['（對到一張中了兩百塊。老闆娘看了很久。）','……二十年了，第一次中。','兩百塊。今天你的排骨我請。'])&&J(money)===J([95])&&R('SQ11').state==='done'&&!R('SQ11').cat,J([said(),money]));
   set('2026-11-27',12); await shop('巷口家常菜',[0]); check('2. SQ11 痕跡（沒有貓）：（櫃台多一個紙盒…「發票請投這裡」。）、沒有小字',has('（櫃台多一個紙盒，上面手寫「發票請投這裡」。）')&&!has('（下面多一行小字「中了買貓罐頭」。）'));
   fresh('2026-11-25',12,'l118_home'); know('巷口家常菜',4); PARK.rec(H.G).catName='麻糬'; PARK.rec(H.G).feedDay=D('2026-11-01'); await shop('巷口家常菜',[0]); set('2026-11-26',12); money=[]; await shop('巷口家常菜',[0],{item:'排骨飯',price:95});
-  check('2. SQ11 在公園餵過貓：「兩百塊，拿去買罐頭。給公園那隻。」「我每天收攤經過，牠都在那張椅子上。」（不退錢）',seq(['兩百塊，拿去買罐頭。給公園那隻。','我每天收攤經過，牠都在那張椅子上。'])&&!has('兩百塊。今天你的水餃我請。')&&!money.length&&R('SQ11').cat);
+  check('2. SQ11 在公園餵過貓：「兩百塊，拿去買罐頭。給公園那隻。」「我每天收攤經過，牠都在那張椅子上。」（不退錢）',seq(['兩百塊，拿去買罐頭。給公園那隻。','我每天收攤經過，牠都在那張椅子上。'])&&!has('兩百塊。今天你的排骨我請。')&&!money.length&&R('SQ11').cat);
   set('2026-11-27',12); await shop('巷口家常菜',[0]); const b=seq(['（櫃台多一個紙盒，上面手寫「發票請投這裡」。）','（下面多一行小字「中了買貓罐頭」。）']);
   set('2028-12-16',12); await shop('巷口家常菜',[0]); const a0=has('（那行小字劃掉，改成「中了捐給動物之家」。）'); set('2028-12-18',12); await shop('巷口家常菜',[0]); const a1=has('（那行小字劃掉，改成「中了捐給動物之家」。）');
   check('2. SQ11 痕跡（有貓）：紙盒＋「中了買貓罐頭」；2028-12-17 貓被領養以後那行小字換成「中了捐給動物之家」',b&&!a0&&a1);
@@ -129,8 +125,8 @@ await sec('2 SQ12',async()=>{ fresh('2027-09-28',12,'l118_pasta'); know('Pasta 1
   set('2027-10-05',12); await shop('Pasta 118',[0]); const l=said(); set('2027-10-06',12); await shop('Pasta 118',[0]); const nw=!has('（吧檯後面的牆多一張照片（兩個人，後面是窗邊那一桌）。）');
   set('2028-03-07',12); H.said=[]; H.opts=[]; H.picks=[0]; await L118.order(GM,'pasta');
   check('2. SQ12 過期：老闆「那天我一個人顧店。……她說好。」；牆上沒有照片；下學期她照樣在店裡出餐',J(l)===J(['老闆：那天我一個人顧店。……她說好。'])&&nw&&H.said[1]&&H.said[1].t==='窗邊也有位子喔。',J([l,said()])); });
-await sec('2 SQ13',async()=>{ fresh('2026-10-05',12,'l118_'+Z('SQ13')); know('韓食小廚',4);
-  H.said=[]; H.opts=[]; H.picks=[0,0,2]; await L118.order(GM,Z('SQ13'));
+await sec('2 SQ13',async()=>{ fresh('2026-10-05',12,'l118_korea'); know('韓食小廚',4);
+  H.said=[]; H.opts=[]; H.picks=[0,0,2]; await L118.order(GM,'korea');
   check('2. SQ13 從 118 巷點餐出現：老闆「我太太回韓國…」「我照她的方法醃了一罐。……你幫我吃吃看。」；第一次「這罐怎樣？」（比上次好。／比上次差。／一樣。）',
     !!R('SQ13')&&seq(['我太太回韓國照顧她媽媽，要三個月。泡菜都是她醃的。','我照她的方法醃了一罐。……你幫我吃吃看。','這罐怎樣？'])&&J(H.opts[H.opts.length-1])===J(['「比上次好。」','「比上次差。」','「一樣。」'])&&J(R('SQ13').tastes)===J([2])&&R('SQ13').by===CALENDAR.termDays('Y2S1').to,J([said(),H.opts]));
   await shop('韓食小廚',[0]); const same=!H.said.length; set('2026-10-06',12); await shop('韓食小廚',[1]); const t2=has('這罐怎樣？')&&!has('這罐是她從韓國寄來的。');
@@ -140,9 +136,9 @@ await sec('2 SQ13',async()=>{ fresh('2026-10-05',12,'l118_'+Z('SQ13')); know('�
   check('2. SQ13 三個月後：（老闆娘回來了。）（櫃台旁邊多一個人在切菜。）；做完',early&&seq(['（老闆娘回來了。）','（櫃台旁邊多一個人在切菜。）'])&&R('SQ13').state==='done');
   const d0=H.G.day; set(keyOf(d0+1),12); await shop('韓食小廚',[0]); const j=has('（小菜櫃多一個玻璃罐，貼著手寫的標籤「她的」。）'); set(keyOf(d0+2),12); await shop('韓食小廚',[0]); const g=has('小菜可以續喔。……那罐不行。');
   check('2. SQ13 痕跡：「她的」玻璃罐；之後老闆「小菜可以續喔。……那罐不行。」（一次）',j&&g);
-  fresh('2026-10-05',12,'l118_'+Z('SQ13')); know('韓食小廚',4); await shop('韓食小廚',[0,0]); set('2026-10-06',12); await shop('韓食小廚',[0]); set('2026-10-07',12); await shop('韓食小廚',[2]);
+  fresh('2026-10-05',12,'l118_korea'); know('韓食小廚',4); await shop('韓食小廚',[0,0]); set('2026-10-06',12); await shop('韓食小廚',[0]); set('2026-10-07',12); await shop('韓食小廚',[2]);
   check('2. SQ13 第三次選別的：「……我也分不出來。」（他笑了。）「那就好。我醃得還可以。」',seq(['這罐是她從韓國寄來的。','……我也分不出來。','（他笑了。）','那就好。我醃得還可以。'])&&!has('……你分得出來。'));
-  fresh('2026-10-05',12,'l118_'+Z('SQ13')); know('韓食小廚',4); await shop('韓食小廚',[0,0]); set('2026-12-28',12); X().lapse(H.G); await shop('韓食小廚',[0]); const l=said();
+  fresh('2026-10-05',12,'l118_korea'); know('韓食小廚',4); await shop('韓食小廚',[0,0]); set('2026-12-28',12); X().lapse(H.G); await shop('韓食小廚',[0]); const l=said();
   set('2026-12-29',12); await shop('韓食小廚',[0]); const lj=has('（小菜櫃多一個玻璃罐，貼著手寫的標籤「她的」。）'); set('2026-12-30',12); await shop('韓食小廚',[0]);
   check('2. SQ13 過期：老闆「泡菜我自己吃完了。……還是分不出來。」；「她的」玻璃罐照樣有（沒有那一句招呼）',R('SQ13').state==='lapsed'&&J(l)===J(['老闆：泡菜我自己吃完了。……還是分不出來。'])&&lj&&!has('小菜可以續喔。……那罐不行。'),J(l)); });
 await sec('2 SQ14',async()=>{ fresh('2028-03-08',15,'wenzhou'); PARK.rec(H.G).catName='麻糬'; know('溫州街・一盞',4);   /* 大三下（週三）*/
@@ -198,8 +194,8 @@ await sec('2 SQ15',async()=>{ fresh('2026-10-06',15,'bookstore'); H.FRIEND(SIS);
   check('2. SQ15 過期：書店老闆「那箱書，我拿去回收了。」（＝不能賣那一支）',R('SQ15').state==='lapsed'&&J(l)===J(['書店老闆：那箱書，我拿去回收了。'])&&H.G.flags.SQ15_BOOK==='recycled',J(l));
   fresh('2026-10-06',15,'bookstore'); know('舊路書房',5); const nm=X().canOffer(H.G,'SQ15'); H.FRIEND(SIS); set('2026-11-28',15); const late=X().canOffer(H.G,'SQ15'); set('2026-11-27',15); const y=X().canOffer(H.G,'SQ15');
   check('2. SQ15 只在大二上 10/5～11/27、認識學姊',!nm&&!late&&y); });
-await sec('2 SQ17',async()=>{ fresh('2027-03-02',12,'lane118'); know('一一八茶飲',4);   /* 大二下 3 月（週二）*/
-  H.said=[]; H.opts=[]; H.picks=[0,0,0]; await L118.order(GM,Z('SQ17'));
+await sec('2 SQ17',async()=>{ fresh('2027-03-02',12,'l118_tea'); know('一一八茶飲',4);   /* 大二下 3 月（週二）*/
+  H.said=[]; H.opts=[]; H.picks=[0,0,0]; await L118.order(GM,'tea');
   check('2. SQ17 從 118 巷點飲料出現：店員「我在申請交換。下禮拜英文面試。」「你可以問我問題嗎？…」；第一次在前兩題裡選（AA_408 6）；「為什麼想去？」→ 中文、英文各一句；期限：那個月',
     !!R('SQ17')&&seq(['我在申請交換。下禮拜英文面試。','你可以問我問題嗎？我一邊做飲料一邊答。','我想去一個沒有人認識我的地方。……先在那邊點一次飲料，看他們會不會記得我。','I want to see if I can start over somewhere no one knows me.'])&&J(H.opts[H.opts.length-1])===J(['「為什麼想去？」','「去了想學什麼？」'])&&R('SQ17').by===D('2027-03-31'),J([said(),H.opts]));
   await shop('一一八茶飲',[0]); const same=!H.said.length; set('2027-03-03',12); await shop('一一八茶飲',[0]); const o2=H.opts[0]; const n2=J(said())===J(['店員：日文。還有……怎麼一個人吃飯。','店員：Japanese. And how to eat alone.']);
@@ -210,11 +206,11 @@ await sec('2 SQ17',async()=>{ fresh('2027-03-02',12,'lane118'); know('一一八�
   set('2028-02-25',12); await shop('一一八茶飲',[0]); const b=!H.said.length; set('2028-03-02',12); await shop('一一八茶飲',[0]); const t=has('（窗口換了一個新的店員。牆上貼一張京都的照片，旁邊寫「她說：甜度冰塊記得問清楚」。）');
   check('2. SQ17 痕跡：大三下（2028-03 起）窗口換了新的店員、京都的照片（一次）',b&&t);
   H.FRIEND(AN); INV.addContact(H.G,AN); set('2028-04-20',21.2); ph(); const m=msgs('p:'+AN);
-  check('2. SQ17 接以安：2028-04-20 21:00 以安兩句（交流會遇到她、你的人緣比我以為的好）',J(m.slice(-2))===J(['今天在學校的交流會遇到一個臺灣人。她說她以前在 118 巷的飲料店打工。','她說你幫她練過面試。……你的人緣比我以為的好。']),J(m));
-  fresh('2027-03-02',12,'lane118'); know('一一八茶飲',4); await shop('一一八茶飲',[0,0]); set('2027-04-02',12); await shop('一一八茶飲',[0]); const l=said();
+  check('2. SQ17 接以安：2028-04-20 21:00 以安兩句（交流會遇到她、你的人緣比我以為的好）',J(m.slice(-2))===J(['今天在學校的交流會遇到一個臺灣人。她說她以前在一一八茶飲打工。','她說你幫她練過面試。……你的人緣比我以為的好。']),J(m));
+  fresh('2027-03-02',12,'l118_tea'); know('一一八茶飲',4); await shop('一一八茶飲',[0,0]); set('2027-04-02',12); await shop('一一八茶飲',[0]); const l=said();
   set('2028-03-02',12); await shop('一一八茶飲',[0]); const nt=!H.said.length; H.FRIEND(AN); INV.addContact(H.G,AN); set('2028-04-20',21.2); ph();
   check('2. SQ17 過期：店員「面試完了。結果四月才知道。」；之後沒有京都的照片、沒有以安那則',R('SQ17').state==='lapsed'&&J(l)===J(['店員：面試完了。結果四月才知道。'])&&nt&&!msgs('p:'+AN).some(t=>/一一八茶飲/.test(t)),J(l));
-  fresh('2027-05-03',12,'lane118'); know('一一八茶飲',5); check('2. SQ17 只在大二下 3～4 月',!X().canOffer(H.G,'SQ17')&&(set('2027-02-25',12),!X().canOffer(H.G,'SQ17'))); });
+  fresh('2027-05-03',12,'l118_tea'); know('一一八茶飲',5); check('2. SQ17 只在大二下 3～4 月',!X().canOffer(H.G,'SQ17')&&(set('2027-02-25',12),!X().canOffer(H.G,'SQ17'))); });
 await sec('2 SQ18',async()=>{ fresh('2027-03-03',15,'gongguan'); know('清葉茶行',4);   /* 大二下（週三）*/
   H.said=[]; H.opts=[]; H.picks=[0,0]; await STORY.interact({shop:'tea'},GM); const q=outOf('ev_sq18_park');
   check('2. SQ18 清葉茶行買飲料出現（counter 接線，點過幾次照樣記）：茶行老闆娘「週日早上有一張二十杯的訂單…」「我店裡走不開。…」；那個週日 08:30',
@@ -276,13 +272,13 @@ await sec(3,async()=>{ fresh('2026-11-25',12,'l118_home'); know('巷口家常菜
   fresh('2027-03-03',15,'gongguan'); know('清葉茶行',4); await shop('清葉茶行',[0]); H.FAMILIAR(AN); here(AN); const f1=SOCIAL.rel(AN).fam; await goOut(outOf('ev_sq18_park'),[]);
   check('3. 2D 出遊做完（SQ18 清掃日；SQ10 改成回滇香交乳扇才做完，見第 4 節）：3D 這一區的人不算在旁邊',R('SQ18').state==='done'&&SOCIAL.rel(AN).fam===f1); });
 /* ---- 4 AA_408 第 6 節（b0b80a54）---- */
-await sec(4,async()=>{ const s6=R772.doc((d408b.split('\n## 6.')[1]||'').split('\n## ')[0]);   /* 2026-11-11：AA_408 第 6 節照 AA_772 換過再比（SQ17 聯絡人的名字換了）*/
+await sec(4,async()=>{ const s6=(d408b.split('\n## 6.')[1]||'').split('\n## ')[0];
   const L=X().LINES, A=v=>v==null?[]:[].concat(v), t2=x=>Array.isArray(x)?x[1]:x;   /* 舊版沒有這些欄位＝少字（這一項 FAIL，不丟例外）*/
   const mine=[].concat(A(L.SQ17.ans).flat(),A(L.SQ17.en),A(L.SQ17.give),A(L.SQ17.call),A(L.SQ17.contact),A(L.SQ20.self1).map(t2),A(L.SQ20.self2),A(L.SQ19.group).map(t2),A(L.SQ10.handN),A(L.SQ10.hand),A(L.SQ12.inPair),Object.values(L.SQ12.pair||{}),A(L.SQ15.shelf),A(L.SQ18.cup));
   const bad6=mine.filter(t=>typeof t!=='string'||s6.indexOf(t)<0);
   check('4. 第 6 節的每一句（整句）都在 b0b80a54 的 AA_408 第 6 節裡：SQ17 三題中英文＋封膜機＋給號碼、SQ20 兩次、SQ19 三則、SQ10 兩行、SQ12 六句、SQ15、SQ18',s6.length>500&&mine.length===28&&!bad6.length,mine.length+' '+J(bad6));
   /* SQ17 */
-  fresh('2027-03-02',12,'lane118'); know('一一八茶飲',4); await shop('一一八茶飲',[0,1]); const a1=said(), op1=H.opts[1];
+  fresh('2027-03-02',12,'l118_tea'); know('一一八茶飲',4); await shop('一一八茶飲',[0,1]); const a1=said(), op1=H.opts[1];
   set('2027-03-03',12); await shop('一一八茶飲',[0]); const op2=H.opts[0], a2=said();
   set('2027-03-04',12); await shop('一一八茶飲',[0,0]); const op3=H.opts[0], op4=H.opts[1], a3=said();
   check('4. SQ17 前兩次在前兩題裡選、第三次只有「如果沒上呢？」；每一題店員中文、英文各一句；封膜機那一句（AA_408 的字）只在第三題',
@@ -290,15 +286,15 @@ await sec(4,async()=>{ const s6=R772.doc((d408b.split('\n## 6.')[1]||'').split('
     &&J(a1.slice(-2))===J(['店員：日文。還有……怎麼一個人吃飯。','店員：Japanese. And how to eat alone.'])&&J(a2)===J(['店員：我想去一個沒有人認識我的地方。……先在那邊點一次飲料，看他們會不會記得我。','店員：I want to see if I can start over somewhere no one knows me.'])
     &&J(a3.slice(0,3))===J(['店員：如果沒上，我明年再申請。……這題我本來不想準備，因為我怕。','店員：If I don\'t get in, I\'ll apply again next year.','（她說英文的時候，手上的封膜機停了。）'])&&!a1.concat(a2).some(t=>/封膜機/.test(t)),J([op1,op2,op3,a1,a2,a3]));
   const T=X().TEA, th='p:'+T, tl=()=>PHONE.thread(H.G,th).map(m=>m.text);
-  check('4. SQ17 第三題之後多一個選項「上了跟我說。」／「加油。」；選「上了跟我說。」→ 店員「……那你給我電話。」、記聯絡人「喝不喝咖啡的店員」',
-    J(op4)===J(['「上了跟我說。」','「加油。」'])&&a3[a3.length-1]==='店員：……那你給我電話。'&&INV.hasContact(H.G,T)&&PHONE.title(H.G,th)==='喝不喝咖啡的店員'&&tl().includes('加了喝不喝咖啡的店員的聯絡方式。')&&R('SQ17').phone&&R('SQ17').step==='result'
+  check('4. SQ17 第三題之後多一個選項「上了跟我說。」／「加油。」；選「上了跟我說。」→ 店員「……那你給我電話。」、記聯絡人「一一八茶飲的店員」',
+    J(op4)===J(['「上了跟我說。」','「加油。」'])&&a3[a3.length-1]==='店員：……那你給我電話。'&&INV.hasContact(H.G,T)&&PHONE.title(H.G,th)==='一一八茶飲的店員'&&tl().includes('加了一一八茶飲的店員的聯絡方式。')&&R('SQ17').phone&&R('SQ17').step==='result'
     &&!CHARACTERS[T]&&!INV.canInvite(H.G,T)&&typeof INV.whyNot(H.G,T)==='string'&&!(MSG.open(H.G,T)||{}).ok,J([op4,a3,tl(),PHONE.title(H.G,th)]));   /* 只登錄名字：不是人物（不能約、不能主動傳訊息），手機對話串打得開 */
   set('2027-04-25',20.9); ph(); const pre=tl().includes('上了。京都。'); set('2027-04-25',21); ph(); const m=PHONE.thread(H.G,th).find(x=>x.text==='上了。京都。'); ph();
-  check('4. SQ17 給了電話：四月底（4/25 21:00）她私訊「上了。京都。」（手機上是「喝不喝咖啡的店員」）；收到＝做完、相簿',!pre&&!!m&&m.from===T&&m.h===21&&PHONE.who(m)==='喝不喝咖啡的店員'&&R('SQ17').state==='done'&&(H.G.album||[]).some(a=>a.id==='side_SQ17'),J([tl(),R('SQ17')]));
+  check('4. SQ17 給了電話：四月底（4/25 21:00）她私訊「上了。京都。」（手機上是「一一八茶飲的店員」）；收到＝做完、相簿',!pre&&!!m&&m.from===T&&m.h===21&&PHONE.who(m)==='一一八茶飲的店員'&&R('SQ17').state==='done'&&(H.G.album||[]).some(a=>a.id==='side_SQ17'),J([tl(),R('SQ17')]));
   set('2027-04-26',12); await shop('一一八茶飲',[0]); const face=has('上了。京都。');
   set('2028-03-02',12); await shop('一一八茶飲',[0]); const tr=has('（窗口換了一個新的店員。牆上貼一張京都的照片，旁邊寫「她說：甜度冰塊記得問清楚」。）');
   check('4. SQ17 給了電話：之後點飲料不再當面說「上了。京都。」（取代那一步）；痕跡照舊',!face&&tr);
-  fresh('2027-03-02',12,'lane118'); know('一一八茶飲',4); await shop('一一八茶飲',[0,0]); set('2027-03-03',12); await shop('一一八茶飲',[0]); set('2027-03-04',12); await shop('一一八茶飲',[0,1]); const g1=said();
+  fresh('2027-03-02',12,'l118_tea'); know('一一八茶飲',4); await shop('一一八茶飲',[0,0]); set('2027-03-03',12); await shop('一一八茶飲',[0]); set('2027-03-04',12); await shop('一一八茶飲',[0,1]); const g1=said();
   set('2027-04-25',21.1); ph(); set('2027-04-26',12); await shop('一一八茶飲',[0]);
   check('4. SQ17 選「加油。」：不給號碼、沒有聯絡人、沒有私訊；下一次點飲料當面說「上了。京都。」',!g1.includes('店員：……那你給我電話。')&&!INV.hasContact(H.G,T)&&!PHONE.thread(H.G,th).length&&has('上了。京都。')&&R('SQ17').state==='done',J(g1));
   /* SQ20 自己計時 */
@@ -318,7 +314,7 @@ await sec(4,async()=>{ const s6=R772.doc((d408b.split('\n## 6.')[1]||'').split('
   H.FAMILIAR(AN); here(AN); const f0=SOCIAL.rel(AN).fam; set('2027-03-06',18); await shop('滇香小館',[0]); const hd=said();
   check('4. SQ10 出遊回來還沒做完（手機「今天」寫下一步）；下一次來滇香（同一天回來也算）：旁白＋老闆娘「……她還記得我叫阿梅。」→ 做完；在店裡做完＝旁邊認識的女主角熟悉 +1',
     st0==='open'&&/把乳扇和紙條交給老闆娘/.test(td)&&J(hd)===J(['（你把那包乳扇和紙條交給老闆娘。她先看紙條，看了很久。）','老闆娘：……她還記得我叫阿梅。'])&&R('SQ10').state==='done'&&SOCIAL.rel(AN).fam===f0+1,J([st0,td,hd]));
-  set('2027-03-07',12); await shop('滇香小館',[0]); check('4. SQ10 痕跡照 AA_404（做完的隔天起：菜單多一行）',has('（櫃台上多了一小碟炸乳扇，旁邊手寫「老闆娘請的，限量」。）'));
+  set('2027-03-07',12); await shop('滇香小館',[0]); check('4. SQ10 痕跡照 AA_404（做完的隔天起：菜單多一行）',has('（滇香的菜單多一行手寫「炸乳扇（限量）」。）'));
   /* SQ12 帶交往對象 */
   const P5=[[AN,'……我們很明顯嗎？'],['heroine_03','……對不起。我們演得不好。'],[ZQ,'我們很認真在演耶。'],[SIS,'……我就說點兩份太刻意。'],['kexin','我就說不要坐窗邊。']]; const res=[];
   for(const [id,t] of P5){ fresh('2027-09-28',12,'l118_pasta'); know('Pasta 118',4); SOCIAL.remember(id,'FIRST_MET',''); H.date(id); await shop('Pasta 118',[0,1]); const op=H.opts[1], q=outOf('ev_sq12_pasta'); await goOut(q,[]);

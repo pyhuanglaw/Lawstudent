@@ -20,7 +20,7 @@ const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Ma
 global.CHAR={build:spec=>{ const g=new THREE.Group(); g.userData.spec=spec; return g; },release(){},setProp(){ return false; },SIT_TOP:0.45};
 global.STORY={extraSpec:i=>({id:'x'+i,sex:i%2===0?'f':'m'}),CROWD_X:2,dayOfKey:dayOf,noodleDay:()=>false};
 const FILES=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js',
-  'src/data/wz_shops_layout.js','src/data/daily_offbeat_layout.js','src/data/lin_layout.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/l118_redo772.js','src/data/lane118_props.js','src/zones3d.js',
+  'src/data/wz_shops_layout.js','src/data/daily_offbeat_layout.js','src/data/lin_layout.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/lane118_props.js','src/zones3d.js',
   'src/data/xinsheng_layout.js','src/data/tongxian_layout.js','src/tongxian3d.js','src/data/nanyang_layout.js','src/nanyang3d.js','src/data/shanlan_layout.js','src/shanlan3d.js',
   'src/data/dakou_layout.js','src/dakou3d.js','src/data/dabu_layout.js','src/data/haopai_layout.js','src/xsshop3d.js','src/data/xinsheng_sports_layout.js','src/xsports3d.js',
   'src/data/mokuyobi_layout.js','src/mokuyobi3d.js','src/data/dorm_room_layout.js','src/data/calendar.js','src/data/places.js','src/crowd3d.js'];

@@ -396,7 +396,7 @@ const CROWD=(function(){
     return []; };
   /* 有人跟著你、今天約好在這間店（邀約的地點）：客人少一半（劇情、約會的那一桌旁邊不要太擠）*/
   const INV_PLACE={noodle:'noodle',wz_brunch:'brunch',wz_teahouse:'teahouse',wz_mokuyobi:'mokuyobi',wz_offbeat:'offbeat'};
-  S.shopCalm=function(G,zone){ const F=G.flags||{}; if(F.companion) return true; const p=INV_PLACE[zone]; return !!p&&(G.invites||[]).some(iv=>iv&&iv.day===G.day&&iv.accepted&&!iv.done&&(iv.place===p||(zone==='wz_mokuyobi'&&iv.place==='slowread'))); };   /* 木曜日有兩個邀約地點：mokuyobi（坐坐）、slowread（念書；AA_772 從慢讀咖啡搬來）*/
+  S.shopCalm=function(G,zone){ const F=G.flags||{}; if(F.companion) return true; const p=INV_PLACE[zone]; return !!p&&(G.invites||[]).some(iv=>iv&&iv.day===G.day&&iv.accepted&&!iv.done&&iv.place===p); };
   /* 位子分組：面對面的兩張（同一張桌子）、吧台相鄰的兩張；剩下的一個人一組。seats＝[{x,z,yaw,table,bar}] */
   S.pairUnits=function(seats){ const used=new Set(), out=[]; const dyaw=(a,b)=>Math.abs(Math.atan2(Math.sin(a-b),Math.cos(a-b)));
     seats.forEach((s,i)=>{ if(used.has(i)) return; let best=-1, bs=1e9, kind='one';
@@ -441,12 +441,10 @@ const CROWD=(function(){
          自助電腦那四張椅子客人可以坐（LAWWW 07:16 決定：等印東西時坐；原本影印店只有站著的客人）——同時最多 2 位照舊（SHOP_KIND.print.cap）。櫃台後面的辦公椅（打工）、阿芃的凳子（npcOnly）不算 */
       if(WZ.print&&WZ.print.spawn){ const LP=WZ.print, st=(LP.stands&&LP.stands.length?LP.stands:[[-1.55,1.95,Math.PI],[1.15,3.25,Math.PI/2],[0.25,1.95,Math.PI]]);
         add('wz_print','print',[LP.spawn.x,LP.spawn.z],S.pairUnits(seatsOf((LP.seats||[]).filter(s=>!s.npcOnly&&!/打工/.test(s.label||'')))).concat(standUnits(st))); } }
-    /* 118 巷有室內的店（L118_SHOP_LAYOUTS，LAWWW2-C）。哪一種店照店家資料（src/data/lane118_shops.js 的 drink：外帶飲料店＝drink、其他＝吃飯 meal；L118-SHOPS-REDO-1111，使用者 2026-11-11 九間店換類型——
-       原本寫死 tea＝飲料店、cafe2＝咖啡店；現在 tea 是辛亥韓食、cafe2 是大學食堂，都是吃飯的店，118 巷沒有咖啡店了）。飲料店：櫃台前多一個等飲料的；
-       只有兩個位子以下的店（原本的茶飲店那一間：兩張高腳椅）不替玩家留一組空位（noKeep，照座位數算、不照店 id）。沒有載入店家資料（測試）＝都當吃飯的店 */
-    if(LS) for(const id of Object.keys(LS)){ const L=LS[id]; if(!L||!L.spawn) continue; const SD=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)?LANE118_SHOPS.shops.find(q=>q.id===id):null, kind=SD&&SD.drink?'drink':'meal';   /* 和 L118.kindOf 同一個判斷；這裡在載入時就算（lane118.js 比這個檔晚載入），直接讀資料檔 */
-      let units=S.pairUnits(seatsOf(L.seats)); if(kind==='drink'&&L.order) units=units.concat(standUnits([[L.order.x+0.7,L.order.z+0.1,Math.PI]],'wait'));
-      add('l118_'+id,kind,[L.spawn.x,L.spawn.z],units,{noKeep:(L.seats||[]).length<=2}); }
+    /* 118 巷九間（L118_SHOP_LAYOUTS，LAWWW2-C）：一一八茶飲（drink）兩張高腳椅＋櫃台前等飲料的一個；慢讀咖啡（cafe）；其他七間吃飯 */
+    if(LS) for(const id of Object.keys(LS)){ const L=LS[id]; if(!L||!L.spawn) continue; const kind=id==='tea'?'drink':(id==='cafe2'?'cafe':'meal');
+      let units=S.pairUnits(seatsOf(L.seats)); if(id==='tea'&&L.order) units=units.concat(standUnits([[L.order.x+0.7,L.order.z+0.1,Math.PI]],'wait'));
+      add('l118_'+id,kind,[L.spawn.x,L.spawn.z],units,{noKeep:id==='tea'}); }
     /* ===== SHOP-CROWD-NEW-1105：後來才進得去的店（使用者 11-05 06:5x：日常失速「店裡都沒人??」）=====
        門口＝各區域真正的進門位置（zones3d／各店 *3d.js 的 IN）；兩層的店 doorLv 0、每一組有自己的 lv；劇情、玩家按鈕的位子不排（各段註解）。
        兩點半 Café 照舊是 story3d.js 的 S.cafeCustomers（不在這裡）；南洋戲院 1 廳不排（只有每排靠走道那一張能坐，看電影是玩家的事件）。*/
@@ -556,11 +554,6 @@ const CROWD=(function(){
     const dd=id=>{ const sp=S.SPOTS.find(q=>q.id===id); return sp?Math.hypot(sp.c[0]-def.door[0],sp.c[1]-def.door[1]):0; };
     while(S.shopFree(E)<need){ const ids=Object.keys(live).filter(id=>id.indexOf('shop_'+G.zone+'_')===0&&live[id].npcs.some(n=>(n.seat||n.seatTarget)&&E.npcs.includes(n))).sort((a,b)=>dd(a)-dd(b)); if(!ids.length) break;
       const L=live[ids[0]]; for(const n of L.npcs) if(E.npcs.includes(n)) E.removeNPC(n); L.npcs=[]; L.yielded=true; k++; }
-    return k; };
-  /* 指定的位子上的路人客人讓位（整組離開；118 巷午餐邀約要和同行的人坐同一桌，l118_lunch3d.js S.seatParty）。和 shopMakeRoom 一樣只在進門那一刻；回傳離開的組數 */
-  S.shopYield=function(GM,seats){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G||!S.SHOP_ZONES[G.zone]||!entering||G.zone!==zoneNow||!Array.isArray(seats)||!seats.length) return 0; let k=0;
-    const on=n=>[n.seat,n.seatTarget].some(q=>q&&seats.some(st=>q===st||Math.hypot(q.x-st.x,q.z-st.z)<0.35));
-    for(const id of Object.keys(live)){ if(id.indexOf('shop_'+G.zone+'_')!==0) continue; const L=live[id]; if(!L.npcs.some(n=>E.npcs.includes(n)&&on(n))) continue; for(const n of L.npcs) if(E.npcs.includes(n)) E.removeNPC(n); L.npcs=[]; L.yielded=true; k++; }
     return k; };
   S.seatBusy=function(E,st,self){ if(!st) return false; if(st.taken) return true; { const G=G0(); if(G&&S.shopRes[G.zone]&&S.shopReserved(G.zone,st,G)) return true; }   /* 預約的位子（shopSeatTake）*/ const near=q=>!!q&&(q.lv|0)===(st.lv|0)&&Math.hypot(q.x-st.x,q.z-st.z)<0.4; const P=E&&E.player; if(P&&near(P.seat)) return true;
     return !!E&&(E.npcs||[]).some(m=>m&&m!==self&&(near(m.seat)||near(m.seatTarget))); };

@@ -31,8 +31,7 @@ const GIFT=(function(){
      alt（稿可以寫在另一種那一格）。tools/story/import_gifts.py 會讀這一段核對稿裡的品項名（改這裡要重新匯入）*/
   S.ITEMS=[
     {n:'豆漿',cat:'drink',p:25},{n:'米漿',cat:'drink',p:25},{n:'飯糰',cat:'breakfast',p:35},{n:'三明治',cat:'breakfast',p:39},
-    {n:'無糖綠茶',cat:'drink',p:25,temp:'cold',opt:[['正常冰',''],['去冰','（去冰）']]},{n:'青茶',cat:'drink',p:25,temp:'cold',opt:[['微糖',''],['無糖','（無糖）']]},{n:'鮮奶茶',cat:'drink',p:45,temp:'cold'},   /* 原本叫「紅茶拿鐵」（AA_772 第 95 列，L118-SHOPS-REDO-1111：新的飲料店沒有紅茶拿鐵，鮮奶茶就是紅茶加鮮奶；價錢、冷熱不變）*/
-    
+    {n:'無糖綠茶',cat:'drink',p:25,temp:'cold',opt:[['正常冰',''],['去冰','（去冰）']]},{n:'青茶',cat:'drink',p:25,temp:'cold',opt:[['微糖',''],['無糖','（無糖）']]},{n:'紅茶拿鐵',cat:'drink',p:45,temp:'cold'},
     {n:'美式咖啡',cat:'drink',p:45,cafe:100,temp:'hot',opt:[['熱的',''],['冰的','（冰的）',0,'cold']]},{n:'拿鐵',cat:'drink',p:55,cafe:120,temp:'hot'},{n:'熱可可',cat:'drink',p:50,cafe:110,temp:'hot',opt:[['就這樣',''],['加一份濃縮','（加一份濃縮）',20]]}];
   /* 完整品項名（名字＋再選一次加的字）→ 冷熱、種類 */
   S.TEMP={}; S.CAT={}; for(const it of S.ITEMS) for(const o of it.opt||[['','']]){ S.TEMP[it.n+o[1]]=o[3]||it.temp||null; S.CAT[it.n+o[1]]=it.cat; }

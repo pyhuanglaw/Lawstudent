@@ -120,15 +120,9 @@ const SEMFF=(function(){
     if(mo&&GM.toast) GM.toast(mo.text,3800); if(n&&GM.phoneBadge) GM.phoneBadge();
     return {why,stop:why==='stop'?st:null,auto,msgs:n}; };
 
-  /* 現在快轉會記成沒去的課：今天已經開始、還沒下課、沒進去的（考試、服務學習、有劇情的課不算——那些快轉本來就會先停或另外處理） */
-  S.loseNow=function(G){ const t0=now(G), R=CLS.rec(G), out=[]; for(const it of CLS.dayItems(G,G.day)){ if(R.done[it.key]||it.exam||it.c.kind==='service') continue; if(CLS.storyClass&&CLS.storyClass(G,it)) continue; if(T(G.day,it.t0)<=t0+1e-6&&T(G.day,it.t1)>t0+1e-6) out.push(it); } return out; };
-  S.confirmText=(o,lose)=>'快轉：'+o.t+'，最多到 '+dateLabel(o.to)+'，中間有事會先停。'+(lose&&lose.length?'現在正在上的'+lose.map(it=>it.c.name).join('、')+'會記成沒去。':'沒有劇情的課會自動去上。');
   /* 床的選單「快轉」（story3d.js bedScene）*/
   S.menu=async function(GM){ const G=GM.G, O=S.opts(G); if(!O) return false; GM.sceneBegin();
     try{ const o=O[await GM.choose(O.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(!o||o.to==null) return false;
-      /* 確認一次（BUG-BEDFF-DOUBLETAP-1111，BB／CC 2026-11-11：床的互動鍵、「快轉」、「過一週」疊在同一塊，同一點慢慢點兩下就跳走，正在上的課還被記成沒去）：
-         先說會跳到哪、哪一堂會記成沒去（已經開始、還沒下課、沒進去的課——快轉不會幫你補上），再選；選項排在對話框上面（不是貼著下緣的系統選單），「算了」在前。 */
-      { const lose=S.loseNow(G); await GM.say(null,S.confirmText(o,lose)); const c=await GM.choose([{t:'算了'},{t:'快轉'}]); if(c!==1) return false; }
       const d0=G.day; let r=null, auto=0;
       /* D118-B3（BB 07:01 ③）：快轉停在「考前一週」的系統提醒時，選單直接列「考前總複習」（一鍵，不用自己走去書桌）；選了就複習完停下來，不再接著快轉（期末考那天一定停：考試是有劇情的課）*/
       const rv0=new Set(); { const tg=rvTag(G); if(rvSent(G,tg)) rv0.add(tg); } let rvAsked=false;

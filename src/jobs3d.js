@@ -396,7 +396,7 @@ const JOBS=(function(){
     if(j.gone) return true;
     if(S.shiftNow(G,k)) return S.runShift(GM,k);
     if(!fix(j).day.length){ GM.sceneBegin(); try{ await S.apply(GM,k); } finally { GM.sceneEnd(); } return true; }   /* 出國回來選了「回來做。」卻沒選班表 */
-    let c=1; GM.sceneBegin(); try{ c=await GM.choose([{t:'（算了）'},{t:'（辭職）',hint:'班表：'+S.schedText(k,fix(j).day)}]); if(c===1) await S.quit(GM,k); }   /* 2026-11-11（BB CHOOSE_SCAN ②）：「（算了）」放在互動鍵那個高度（倒數第二個）——按互動鍵連點兩下不會變成辭職；原本「（辭職）」在前 */ finally { GM.sceneEnd(); }
+    let c=1; GM.sceneBegin(); try{ c=await GM.choose([{t:'（辭職）',hint:'班表：'+S.schedText(k,fix(j).day)},{t:'（算了）'}]); if(c===0) await S.quit(GM,k); } finally { GM.sceneEnd(); }
     return true; };
 
   // ---------- 每一格（STORY.TICKS）----------

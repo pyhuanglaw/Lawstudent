@@ -38,7 +38,7 @@ await sec(3,()=>{ H.fresh('2029-06-10',12,'campus'); H.FRIEND(SIS);
   check('3. 大三下期末鉤子：沒交往「「那天我去送學姊。」」',rs(ok)==='「那天我去送學姊。」',rs(ok));
   H.date(SIS); check('3. 交往中：「「那天我去送妳。」」',rs(ok)==='「那天我去送妳。」',rs(ok));
   const ff=rd('src/foodfav3d.js');
-  check('3. 一一八茶飲：交往中「也幫她點一杯」（datingName；AA 2026-11-02 10:18 稱呼規則①，原本「也幫書瑀點一杯」）、平常「也幫學姊點一杯」',/'也幫'\+\(\(id==='heroine_05'&&typeof SOCIAL!=='undefined'&&SOCIAL\.datingName&&SOCIAL\.datingName\(id\)\)\?'她':C\.short\)\+'點一'\+C\.unit/.test(ff)&&/heroine_05:\{short:'學姊',unit:'杯'\}/.test(ff)&&/Object\.assign\(S\.CFG\[id\],\{shop:FV\[id\]\.shop,right:FV\[id\]\.right/.test(ff));   /* 2026-11-11 L118-SHOPS-REDO-1111：學姊那一筆的店、品項、選項改讀 AA_772 food_fav.CFG（src/data/l118_redo772.js：drink_a、綠茶、無糖去冰）；舊期望：寫在程式裡 shop:'tea',right:'無糖綠茶',opt:['去冰','正常冰'] */
+  check('3. 一一八茶飲：交往中「也幫她點一杯」（datingName；AA 2026-11-02 10:18 稱呼規則①，原本「也幫書瑀點一杯」）、平常「也幫學姊點一杯」',/'也幫'\+\(\(id==='heroine_05'&&typeof SOCIAL!=='undefined'&&SOCIAL\.datingName&&SOCIAL\.datingName\(id\)\)\?'她':C\.short\)\+'點一'\+C\.unit/.test(ff)&&/heroine_05:\{shop:'tea',right:'無糖綠茶',opt:\['去冰','正常冰'\],short:'學姊'/.test(ff));
   const g=rd('src/game3d.js');
   check('3. 讀書選單：兩處都用 gradOpt（交往中「讀她給的那篇文章」，AA 2026-11-02 10:18 稱呼規則①）；旁白不改',(g.match(/\{t:gradOpt\(\)/g)||[]).length===2&&/const gradOpt=\(\)=>'讀'\+\(\(typeof SOCIAL!=='undefined'&&SOCIAL\.datingName&&SOCIAL\.datingName\('heroine_05'\)\)\?'她':'學姊'\)\+'給的那篇文章'/.test(g)&&!/\{t:'讀學姊給的那篇文章'/.test(g)); });
 

@@ -21,6 +21,6 @@ const rowOf=s=>{ const m=s.match(/<div class="phrow">[\s\S]*?<\/div><(button|spa
     check('3. 一直開著的地方（2:30 AM 15:00）照舊「前往」',/data-invgo="7"/.test(a),rowOf(a)); }
   { const G=H.fresh('2025-10-21',17.5,'campus'); H.FRIEND('heroine_01'); iv(G,'wz_teishoku',18); const a=html();
     check('4. 週二公休約在小路：「現在沒有開」、沒有「前往」',G.weekday===2&&/現在沒有開/.test(a)&&!/data-invgo/.test(a),JSON.stringify({wd:G.weekday,row:rowOf(a)})); }
-  check('5. placeState 的 open 照舊（PLACES.isOpen 現在＋zoneShut(z) 沒給時間）；openAt 同一個判斷',/const shut=zoneShut\(z\); const open=\(typeof PLACES==='undefined'\|\|PLACES\.isOpen\(hz,G\.hour,G\.day\)\)&&!shut;/   /* WZ-QUICKTRAVEL-1110：isOpen(z → hz)＝第 4 格那一家（溫州街騎樓窗口、櫥窗的店；其他地點 hz＝z）*/.test(src)&&/function openAt\(z,hr\)\{ return \(typeof PLACES==='undefined'\|\|PLACES\.isOpen\(z,hr,G\.day\)\)&&!zoneShut\(z,hr\); \}/.test(src));
+  check('5. placeState 的 open 照舊（PLACES.isOpen 現在＋zoneShut(z) 沒給時間）；openAt 同一個判斷',/const shut=zoneShut\(z\); const open=\(typeof PLACES==='undefined'\|\|PLACES\.isOpen\(z,G\.hour,G\.day\)\)&&!shut;/.test(src)&&/function openAt\(z,hr\)\{ return \(typeof PLACES==='undefined'\|\|PLACES\.isOpen\(z,hr,G\.day\)\)&&!zoneShut\(z,hr\); \}/.test(src));
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

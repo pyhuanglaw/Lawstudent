@@ -86,7 +86,7 @@ if(process.env.QUOTE_B7_PROBE) (async()=>{
   global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
   global.CHAR=Object.assign(global.CHAR||{},{build:()=>mkObj(),setExpr(){}});
   const PG_FILES=new Set(['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js',
-    'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
+    'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
     'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/data/exam_bank.js','src/data/legal_qbank.js','src/classes3d.js','src/data/postgrad_lines.js','src/postgrad3d.js']);
   const SKIP=new Set(['src/character3d.js','src/engine3d.js','src/townkit3d.js','src/zones3d.js','src/bike3d.js','src/adv3d.js']);
   const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
@@ -184,10 +184,8 @@ check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html �
   check('33. BASE：STORY_EVENTS 有名字、整句「…」的＝這 23 句（事件、說的人、字一句一句對）',no.length===23&&TW.every(([f,e,t,sp])=>no.filter(s=>s.ev===e&&s.text===t&&s.speaker===sp).length===1),sample(no.map(s=>s.ev+'：'+s.text)));
   check('33. 現在：STORY_EVENTS 有名字、整句「…」的 0 句',nn.length===0,sample(nn.map(s=>s.ev+'：'+s.text)));
   const nl=L=>L.filter(s=>s.kind==='nameless'&&s.wrapped).map(s=>[s.ev,s.p,s.speaker,s.text]), ch=L=>L.filter(s=>s.kind==='choice'&&s.wrapped).map(s=>[s.ev,s.p,s.text]), ph=L=>L.filter(s=>s.kind==='phone'&&s.wrapped).map(s=>[s.ev,s.p,s.text]);
-  /* 2026-11-11（X327 沛珊重寫，AA_766_peishan_leftover2.json@1e647bb05）：D4c「沛珊的問題」的選項換了字（九個帶「」的選項；個數、位置不變）——選項逐個比，那幾個照 tests/peishan_rewrite_1111.js 的 PAIRS 算，其他一模一樣 */
-  const chSame=(A,B)=>A.length===B.length&&A.every((a,i)=>a[0]===B[i][0]&&a[1]===B[i][1]&&(a[2]===B[i][2]||require('./peishan_rewrite_1111.js').pair(a[2],B[i][2])));
-  check('33. 照留：沒有名字的「嗶——」（ev_l1_elevator，沒有 speaker＝GM.say(null,…)）、選項 '+ch(sn).length+' 個、手機 '+ph(sn).length+' 句——和 BASE 一模一樣（D4c 沛珊的問題那幾個選項照 AA_766 換字）',
-    J(nl(sn))===J([['ev_l1_elevator','[7]',null,'「嗶——」']])&&J(nl(so))===J(nl(sn))&&ch(sn).length>1500&&chSame(ch(so),ch(sn))&&J(ph(so))===J(ph(sn)),J([nl(sn),ch(so).length,ch(sn).length,ch(so).filter((a,i)=>J(a)!==J(ch(sn)[i])).length]));
+  check('33. 照留：沒有名字的「嗶——」（ev_l1_elevator，沒有 speaker＝GM.say(null,…)）、選項 '+ch(sn).length+' 個、手機 '+ph(sn).length+' 句——和 BASE 一模一樣',
+    J(nl(sn))===J([['ev_l1_elevator','[7]',null,'「嗶——」']])&&J(nl(so))===J(nl(sn))&&ch(sn).length>1500&&J(ch(so))===J(ch(sn))&&J(ph(so))===J(ph(sn)),J([nl(sn),ch(so).length,ch(sn).length]));
   const bad=[]; for(const [f,e,t,sp] of TW){ const a=so.find(s=>s.ev===e&&s.text===t), b=sn.find(s=>s.ev===e&&s.text===unq(t)); if(!a||!b){ bad.push('找不到 '+e+'：'+t); continue; }
     if(a.p!==b.p||a.speaker!==b.speaker||a.name!==b.name||!b.name||b.kind!=='named'||b.wrapped) bad.push(e+'：'+J([a,b])); }
   console.log('（33. 說的人：'+[...new Set(sn.filter(s=>NEW23.includes(s.text)).map(s=>s.ev+'＝'+s.name))].join('、')+'）');
@@ -211,7 +209,7 @@ check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html �
 /* ---------- 34. 資料和 BASE 逐句比 ---------- */
 { const A=O.data||[], B=N.data||[], bad=[], hit=[];
   if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
-  else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(require('./peishan_rewrite_1111.js').pair(a[1],b[1])) return;   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS） */ if(wrapped(a[1])&&unq(a[1])===b[1]&&OLD23.includes(a[1])) hit.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
+  else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(wrapped(a[1])&&unq(a[1])===b[1]&&OLD23.includes(a[1])) hit.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
   check('34. STORY_EVENTS（全部載入以後，每一場的 dialogue，'+B.length+' 個值）和 '+BASE+' 比：只改了這 23 句（一句一次）、只差外面那一對「」，其他一字不差',A.length>30000&&bad.length===0&&J(hit.slice().sort())===J(OLD23.slice().sort()),sample(bad)+'｜'+hit.length); }
 
 /* ---------- 35. 原始碼逐行比（這一個 commit 本身）---------- */
@@ -234,14 +232,10 @@ const findC7=()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format
   const used=LEGAL_REP.map(([o])=>LA.filter(l=>l.includes(o)).length);
   check('35. legal3d.js：註解以外，只有 LEGAL.ask 出題那 3 行不一樣，就是拿掉程式包的那 5 對「」（BASE 套上那 5 個替換＝現在，一字不差；每個替換在 BASE 剛好一處）',
     LA.length===LB.length&&diffAt.length===3&&J(LA.map(rep))===J(LB)&&used.every(n=>n===1),J([LA.length,LB.length,diffAt,used]));
-  /* 2026-11-11：syllabus.js 重匯（大一上三科課堂內容補寫，AA d3a22505b、BB_332～334）、exam_bank.js 重匯（CRIM45_33 加 askedIn，AA 869834859）——這兩個檔不再要求和 BASE 整檔一樣（舊期望：三個檔都沒改）；
-     改成：legal_qbank.js 整檔不變；exam_bank.js 在 BASE 就有的題，題目、選項、答案一字不差（D12：題庫不可改答案） */
-  const frozen=['src/data/legal_qbank.js'];
-  let fd=cp.execFileSync('git',['-C',ROOT,'diff','--name-only',BASE,'--',...frozen],{encoding:'utf8'}).trim();
-  { const qs=src=>{ const m={}; for(const q of (new Function(src.replace(/^const EXAM_BANK\s*=/m,'return ')))().questions) m[q.id]=J([q.q,q.options,q.answer]); return m; };
-    const a0=qs(gitShow(BASE,'src/data/exam_bank.js')), b0=qs(cur('src/data/exam_bank.js')); const ch=Object.keys(a0).filter(k=>a0[k]!==b0[k]); if(ch.length) fd=(fd?fd+' ':'')+'exam_bank 題目／選項／答案變了：'+ch.slice(0,5).join(','); }
+  const frozen=['src/data/legal_qbank.js','src/data/exam_bank.js','src/data/syllabus.js'];
+  const fd=cp.execFileSync('git',['-C',ROOT,'diff','--name-only',BASE,'--',...frozen],{encoding:'utf8'}).trim();
   const md5=s=>crypto.createHash('md5').update(s).digest('hex');
-  check('35. 題庫一字不差：legal_qbank.js（md5 和 '+BASE+' 一樣）；exam_bank.js 原有的題目、選項、答案都沒改（2026-11-11 起；syllabus.js 已重匯不再比）',!fd&&md5(cur('src/data/legal_qbank.js'))===md5(gitShow(BASE,'src/data/legal_qbank.js')),fd); }
+  check('35. 題庫一字不差：legal_qbank.js（md5 和 '+BASE+' 一樣）、exam_bank.js、syllabus.js 都沒改',!fd&&md5(cur('src/data/legal_qbank.js'))===md5(gitShow(BASE,'src/data/legal_qbank.js')),fd); }
 
 /* ---------- 36. 讀書區：加（小聲）的時候先拿掉外面的「」——BASE 的字、現在的字加完一樣 ---------- */
 { const q=N.quiet||{}, lg=q.legal||[], ln=q.lines||[];

@@ -17,7 +17,6 @@
    存檔：G.flags.AA614_MOVIE（第 3 列說「好。」那一天）、AA614_PSDOOR／AA614_PSDOOR_N（沛珊課輔班門口：最近一次那天、第幾次）、AA614_KAIDOOR（阿凱程式教室門口那天）、
      AA614_TALK（{kai, ps}：閒聊那一句說過的那天）、NY_WATCHED（1 廳看完電影那天）；舊存檔沒有＝沒發生過。
    載入順序：invites.js、invites3d.js、story3d.js、phone3d.js、outings3d.js、jobs3d.js 之後（index.html 放在 aa613_3d.js 後面）。測試：node tests/aa614_jobs_unit.js */
-/* 2026-11-11（使用者 X327 沛珊重寫）：溫州街課輔班窗外看到她那一句照 AA_763_peishan_misc3.json@62460ea75 換（1 列，只換字）。逐字對稿：tests/peishan_misc3_1111_unit.js */
 'use strict';
 const AA614=(function(){
   const S={};
@@ -46,7 +45,7 @@ const AA614=(function(){
     g4:[[YU,'誰要去吃火鍋？'],[MX,'我禮拜二禮拜四都在家教。禮拜三我可以。'],[YU,'那禮拜三！']],
     g5:[[YT,'今天茶屋好多人。……下午你不在，蘇姨問你去哪了。']],
     /* AA_614 第 4 節（路上遇到）*/
-    psDoor:'你怎麼在這？我在這裡當助教，教國小的小朋友。', psDoorAgain:'（課輔班的窗戶裡，沛珊在白板前面講題目。）',
+    psDoor:'你怎麼在這？……我在這裡當助教。教國小的小朋友。', psDoorAgain:'（課輔班的窗戶裡，沛珊在白板前面講題目。）',
     kaiDoor:'（阿凱站在門口，一個一個看家長來接。看到你，他比了一個累的手勢。）',
     /* AA_614 第 5 節（閒聊）*/
     talk:{ kai:'我禮拜六去教小學生寫程式。他們問我會不會做遊戲，我說會。……其實還不會。', ps:'課輔班有一個五年級的，每次都說數學沒用。……我也這樣想過。' },
@@ -153,7 +152,7 @@ const AA614=(function(){
     const NY=typeof NY3!=='undefined'?NY3:null; if(NY&&NY.houseLights) NY.houseLights(false);
     if(GM.fade) await GM.fade(true); if(GM.advance) GM.advance(dur); if(typeof CLS!=='undefined'&&CLS.slotFillSpan) CLS.slotFillSpan(G,h0,h0+dur);   /* 看一場電影＝那段時間的一件主要的事（出遊同一個做法）*/
     if(GM.fade) await GM.fade(false);
-    { const SL=typeof MOVIES!=='undefined'&&MOVIES.soloLines?MOVIES.soloLines(G):null; if(SL&&SL.length&&MOVIES.soloPlay&&typeof MOVIE_PLOTS!=='undefined'&&await MOVIES.soloPlay(GM)){ /* AA_745：solo 三句中間接兩部片的那一幕（scene），兩部都算看過（MOVIE-TALK-1110）*/ } else if(SL&&SL.length){ for(const t of SL) await GM.say(null,t); } else await GM.say(null,S.L.watch[S.pick()]); }   /* 一個人看：AA_730 的 solo 三句（片名照那一段；MOVIE-REAL-1110，AA_730 pick 第 7 條取代 AA_615 的隨機旁白）；片單沒載入照舊 */
+    { const SL=typeof MOVIES!=='undefined'&&MOVIES.soloLines?MOVIES.soloLines(G):null; if(SL&&SL.length){ for(const t of SL) await GM.say(null,t); } else await GM.say(null,S.L.watch[S.pick()]); }   /* 一個人看：AA_730 的 solo 三句（片名照那一段；MOVIE-REAL-1110，AA_730 pick 第 7 條取代 AA_615 的隨機旁白）；片單沒載入照舊 */
     if(typeof SHOPNPC!=='undefined'&&SHOPNPC.popcorn&&SHOPNPC.popcorn(G)&&typeof SHOP_NPC!=='undefined'&&SHOP_NPC.alison&&SHOP_NPC.alison.movieLine) await GM.say(null,SHOP_NPC.alison.movieLine);   /* AA_615 第 4 節：今天拿到爆米花 */
     if(NY&&NY.houseLights) NY.houseLights(true); if(GM.autosave) GM.autosave(); return true; };
   S.onSeat=async function(GM,seat){ const G=GM&&GM.G; if(!seat||seat.kind!=='cinema'||!S.canWatch(G)) return false; return S.watch(GM); };
@@ -170,12 +169,11 @@ const AA614=(function(){
   /* 閒聊階梯（ladder.js 是匯入產生的檔，不手改；這裡在載入時改）：
      大一下、大二上沛珊的招呼「（她帶著一排小孩過馬路，對你點頭）……等一下！」原本綁週二、四 16:30～18:00 溫州街＝課輔班搬到週三晚上以後演不到 → 週三 20:50～21:10（下課送小孩到路口），字不動；
      P2-L3「一週兩天。」→「每個禮拜三。」；「當志工」→「當助教」（AA-B 22:03 說法統一） */
-  S.PS_CROSS='（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！';   /* 2026-11-11（X327 沛珊重寫，AA_753@c5094495d）：這一則的字換了（原本「……等一下！」）。出現條件 2026-11-11 起照 BB_326 第 4 節（週三 18:00～21:00、溫州街），在 ladder.js 的資料裡，這裡不再搬。P2-L3 新稿 AA 已更正成「我在溫州街的課輔班帶小朋友，每個禮拜三。」（AA_753_peishan_ladder_Y1S2_Y2S1.json@b59a8f9de）＝下面 P2L3.from 對不到、不用換 */
+  S.PS_CROSS='（她帶著一排小孩過馬路，對你點頭）……等一下！';
   S.P2L3={from:'我在溫州街的課輔班當志工。一週兩天。',to:'我在溫州街的課輔班當助教。每個禮拜三。'};
   S.fixLadder=function(Ld){ const B=Ld&&Ld.byTerm; if(!B) return 0; let n=0;
     for(const t of Object.keys(B)){ const p=B[t]&&B[t][PS]; if(!p) continue;
-      /* 2026-11-11（BB_326 第 4 節，企劃線 8abb761bd；BB 定、LAWWW 同意）：這一則招呼的出現條件改成溫州街、週三 18:00～21:00（她整段課輔班的時間），寫在 ladder.js 的資料裡（tools/ladder/import_ladder.py 的 PS326）——
-         原本這裡在載入時把它搬到週三 20:50～21:10（下課送小孩到路口），拿掉、不再覆蓋；S.PS_CROSS 留著給測試找那一則 */
+      for(const w of ((p.greet||{}).when||[])) if(w&&w.t===S.PS_CROSS&&(w.location||[]).includes('wenzhou')){ w.weekday=[3]; w.time=[20+50/60,21+10/60]; n++; }
       for(const st of (p.steps||[])){ if(!st) continue; const fix=L=>Array.isArray(L)?L.map(x=>x===S.P2L3.from?(n++,S.P2L3.to):x):L; if(st.id==='P2-L3') st.lines=fix(st.lines); } }
     return n; };
   if(typeof LADDER!=='undefined') S.fixLadder(LADDER);

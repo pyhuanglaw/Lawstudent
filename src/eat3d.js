@@ -17,27 +17,17 @@ const EAT=(function(){
   const S={};
   const L=()=>typeof EAT_LINES!=='undefined'?EAT_LINES:null;
   /* 店：key＝第 ③ 節的店名；first＝第 ② 節的店名（null＝不是吃的）；door＝沒有回收台（吃完在店門口分開）*/
-  S.FIRST_KEY={   /* 118 巷的店不寫在這裡：照店家資料（下面的 l118Shop）*/
+  S.FIRST_KEY={'滇香小館':'118 巷・滇香小館','好家自助餐':'118 巷・好家自助餐','一一八茶飲':'118 巷・一一八茶飲','巷口家常菜':'118 巷・巷口家常菜','慢讀咖啡':'118 巷・慢讀咖啡',
+    'Pasta 118':'118 巷・Pasta 118','韓食小廚':'118 巷・韓食小廚','蛋包飯研究所':'118 巷・蛋包飯研究所','六張犁麵舖':'118 巷・六張犁麵舖',
     '兩點半 Café':'兩點半 Café','阿鳳麵店':'公館燒臘','溫州街・半熟':'溫州街・半熟','溫州街・一盞':'溫州街・一盞','公館的便利商店':'公館的便利商店','宵夜（滷味攤）':'宵夜（公館滷味攤）','阿德影印輸出':null};
   /* 別的檔登記的店（AA_364 的四家：src/wzshops3d.js 的 WZS.eatReg 照 WZS.AA364 登記）：台詞在登記的那個檔，這裡只有程式。
      EAT.addShop(店, {shop:吃過的店名, staff:{who, line5（null＝不說）, same（選老樣子的回答）, alt}, first:第一次的旁白, door:沒有回收台}) */
   S.SHOPS_X={};
   S.addShop=function(key,o){ S.SHOPS_X[key]=o; return o; };
   const xShop=key=>Object.prototype.hasOwnProperty.call(S.SHOPS_X,key)?S.SHOPS_X[key]:null;
-  /* 118 巷的店（L118-SHOPS-REDO-1111，使用者 2026-11-11 九間店換店名＋兩間外帶飲料店）：「吃過的」的店名照店家資料（src/data/lane118_shops.js）＝「118 巷・店名」，不用再一間一間寫進 FIRST_KEY。
-     舊存檔「吃過的」已經記下的那幾筆（G.eat.ate 的 shop＝「118 巷・舊店名」）照舊顯示，不刪玩家的紀錄。
-     次數、上次點的（G.eat.n／last／l5 的 key 是店名）：讀檔時照 AA_772 的對照（src/data/l118_redo772.js 的 sideq.rename：店員跟著故事搬到哪一間）換成現在的店名（S.migrate772）——
-     熟客次數不歸零（順手的事 SIDEQ.known 看它）；「上次點的」是舊菜，清掉；第一次的旁白（first）不搬＝新的店第一次去照樣有那一句 */
-  S.migrate772=function(G){ const M=typeof L118_REDO!=='undefined'&&L118_REDO.sideq&&L118_REDO.sideq.rename; const R=G&&G.eat&&typeof G.eat==='object'?G.eat:null; if(!M||!R) return 0; let n=0;
-    for(const o of Object.keys(M)){ const nw=M[o]; if(o===nw) continue;
-      if(R.n&&typeof R.n==='object'&&R.n[o]!=null){ R.n[nw]=(R.n[nw]|0)+(R.n[o]|0); delete R.n[o]; n++; }
-      if(R.l5&&typeof R.l5==='object'&&R.l5[o]!=null){ if(R.l5[nw]==null) R.l5[nw]=R.l5[o]; delete R.l5[o]; n++; }
-      if(R.last&&typeof R.last==='object'&&R.last[o]!=null){ delete R.last[o]; n++; } }
-    return n; };
-  const l118Shop=key=>{ const D=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)?LANE118_SHOPS.shops:null; return (D&&D.find(s=>s.name===key))||null; };
-  S.shopOf=key=>S.FIRST_KEY[key]||(l118Shop(key)?'118 巷・'+key:null)||(xShop(key)&&xShop(key).shop)||null;   /* 吃過的店名（null＝不是吃的）*/
-  S.NOODLE_TYPE={'阿鳳麵店':true};   /* 118 巷的麵店（清州刀削麵）照 doorShops 的字 */   /* 「麵店」（第 0 節沒有回收台的店）：兩間麵店都算（AA_336 A2 確認）*/
-  S.isDoor=key=>{ const D=(L()&&L().doorShops)||[]; const ty=String((l118Shop(key)||{}).type||'');   /* 118 巷的店：店名或類型裡有 doorShops 的字都算（AA_772：「水餃」在五湖四海的類型「水餃店」裡）*/ return !!S.NOODLE_TYPE[key]||!!((l118Shop(key)||{}).takeout)||D.some(k=>k!=='麵店'&&ty.indexOf(k)>=0)||   /* 118 巷的外帶飲料店（資料的 takeout）：沒有內用、沒有回收台 */ !!(xShop(key)&&xShop(key).door)||D.some(k=>k!=='麵店'&&String(key).indexOf(k)>=0); };
+  S.shopOf=key=>S.FIRST_KEY[key]||(xShop(key)&&xShop(key).shop)||null;   /* 吃過的店名（null＝不是吃的）*/
+  S.NOODLE_TYPE={'六張犁麵舖':true,'阿鳳麵店':true};   /* 「麵店」（第 0 節沒有回收台的店）：兩間麵店都算（AA_336 A2 確認）*/
+  S.isDoor=key=>{ const D=(L()&&L().doorShops)||[]; return !!S.NOODLE_TYPE[key]||!!(xShop(key)&&xShop(key).door)||D.some(k=>k!=='麵店'&&String(key).indexOf(k)>=0); };
   S.isFood=key=>!!S.shopOf(key);
   S.rec=function(G){ const R=G.eat&&typeof G.eat==='object'?G.eat:(G.eat={}); for(const k of ['n','last','l5','first','tog']) if(!R[k]||typeof R[k]!=='object'||Array.isArray(R[k])) R[k]={}; if(!Array.isArray(R.ate)) R.ate=[]; return R; };
   const flags=G=>G.flags||{};

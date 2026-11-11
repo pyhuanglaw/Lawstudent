@@ -9,10 +9,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|DATE|ROM|CONFESS_LINES|TERMEND|TERMEND_LINES|DATE_LOCATIONS|DATE_LINES|VAC|VAC_DATA|INVITE_DATA)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
-/* 2026-11-11（SHE-FIRST-1110／PEISHAN-VOICE-1110）：芷若、沛珊心意邀約的台詞搬到 src/data/termend_opts.js 的 TERMEND_OPTS.HEART（沒載＝這兩位沒有邀約句、不發）——這支測試只載那一份的 HEART、LINES，
-   其他人的期末飯選項（GF／TABLE／CONFESS／KX／FRIEND）照舊不載（這支測的是沒有選項的原本流程；選項在 tests/termend_opts_1110_unit.js、「她先說」在 tests/te_shefirst_1110_unit.js）*/
-{ const fs_=require('fs'), p_=require('path').join(__dirname,'..','src/data/termend_opts.js'); if(fs_.existsSync(p_)){ require('vm').runInThisContext(fs_.readFileSync(p_,'utf8').replace(/^const TERMEND_OPTS\s*=/m,'globalThis.__TO_ALL='),{filename:'src/data/termend_opts.js'}); globalThis.TERMEND_OPTS={HEART:globalThis.__TO_ALL.HEART||{},LINES:globalThis.__TO_ALL.LINES||{}}; } }
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 let cgs=[]; global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(id){ cgs.push(id); }}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -114,8 +111,7 @@ GM.money=function(n){ G.money+=n; };
   fresh(D('2026-06-11'),12,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',70,50,45); SOCIAL.rel('classmate_peishan').npcRom=40; DATE.log(G,'classmate_peishan').count=4; DATE.log(G,'classmate_peishan').wish=true;
   { const w=TERMEND.windowOf('Y1S2'); G.day=w.from; G.weekday=wdOf(G.day); run(0.1,23.5,0.25); check('7b. 沛珊大一下（和柏翰交往中＝C5）：時段第一天不傳、不發心意邀約',!(G.msgs||[]).some(x=>/^te_(nope_)?Y1S2_classmate_peishan/.test(x.tag||'')));
     G.day=w.to; G.weekday=wdOf(G.day); run(19.8,20.2); const m=(G.msgs||[]).find(x=>x.tag==='te_nope_Y1S2_classmate_peishan');
-    /* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_751@33a1769f8）：C5 那一句換成「…下次換你請喔。」（原本「期末考完了！這次我有約了，下次再問你問題喔。」）*/
-    check('7b. 最後一天 20:00 傳 C5 那一句「期末考完了！這次我有約了，下次換你請喔。」',!!m&&m.text==='期末考完了！這次我有約了，下次換你請喔。'&&m.h===20,JSON.stringify(m)); }
+    check('7b. 最後一天 20:00 傳 C5 那一句「期末考完了！這次我有約了，下次再問你問題喔。」',!!m&&m.text==='期末考完了！這次我有約了，下次再問你問題喔。'&&m.h===20,JSON.stringify(m)); }
   fresh(D('2026-06-11'),12,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',70,50,45); SOCIAL.rel('classmate_peishan').npcRom=40; DATE.log(G,'classmate_peishan').count=4; DATE.log(G,'classmate_peishan').wish=true;
   { const w=TERMEND.windowOf('Y1S2'); G.day=w.from; G.weekday=wdOf(G.day); run(0.1,1); TERMEND.rec(G,'Y1S2').picked={who:'classmate_peishan',kind:'friend',day:G.day,by:'player'}; G.day=w.to; G.weekday=wdOf(G.day); run(19.8,20.2);
     check('7b. 這學期玩家已經自己約她吃過期末飯：不傳',!(G.msgs||[]).some(x=>x.tag==='te_nope_Y1S2_classmate_peishan')); }
@@ -255,10 +251,8 @@ GM.money=function(n){ G.money+=n; };
     PHONE.answer(G,'te_Y3S1_classmate_peishan',0); STORY.phoneRules(GM); let q=OUT.get(G,'te_Y3S1');
     check('13. 沛珊大三起：地點＝台南・她學校附近的簡餐（AA_282 第 5 節第 5 點；原本的舊路書房旁邊的簡餐作廢）',!!q&&q.place==='台南・她學校附近的簡餐',JSON.stringify(q&&q.place));
     check('13. 沛珊大三起：回家走回她在台南租的地方；大一還是新生南路',TERMEND.heart('classmate_peishan','Y3S1').walkPlace==='台南・往她租的地方'&&TERMEND.heart('classmate_peishan','Y1S2').walkPlace==='新生南路・往捷運站');
-    w=setup('Y4S1','classmate_peishan',PSK); run(20,21); PHONE.answer(G,'te_Y4S1_classmate_peishan',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); said=[]; opts=[]; picks=[0,0,0]; await TERMEND.dinner(GM,q); let L=lines();
-    /* 2026-11-11 改期望（使用者 X327 沛珊重寫 PEISHAN-VOICE-1110＋「她先說」SHE-FIRST-1110，AA_751@33a1769f8）：大四上她先說的三句換了（原本 BB_119 3-1「我可以問一個奇怪的問題嗎？」「如果我們兩個都不是當年的樣子了，還可以重新認識嗎？」→「從今天開始認識。」），
-       而且不再先出「說出來三句＋（先不說）」——她說完直接兩個選項 */
-    check('13. 沛珊大四上（她先說）：「我現在念教育、住台南…」「你要不要重新認識一下。」→「好。從這頓飯開始。」＝交往；沒有「（先不說）」',L.some(x=>x.endsWith('我現在念教育、住台南，跟你認識的那個不太一樣了。'))&&L.some(x=>x.endsWith('你要不要重新認識一下。'))&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「好。從這頓飯開始。」','「……讓我想一下。」'])&&!opts.some(o=>o.includes('（先不說）'))&&G.flags.dating_classmate_peishan===true,JSON.stringify(opts));
+    w=setup('Y4S1','classmate_peishan',PSK); run(20,21); PHONE.answer(G,'te_Y4S1_classmate_peishan',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); said=[]; opts=[]; picks=[3,0]; await TERMEND.dinner(GM,q); let L=lines();
+    check('13. 沛珊大四上先不說：BB_119 3-1「我可以問一個奇怪的問題嗎？」「如果我們兩個都不是當年的樣子了，還可以重新認識嗎？」→「從今天開始認識。」＝交往',L.some(x=>x.endsWith('我可以問一個奇怪的問題嗎？'))&&L.some(x=>x.endsWith('如果我們兩個都不是當年的樣子了，還可以重新認識嗎？'))&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「從今天開始認識。」','「……讓我想一下。」'])&&G.flags.dating_classmate_peishan===true,JSON.stringify(opts[opts.length-1]));
     w=setup('Y4S1','heroine_04'); run(20,21); let a=(G.msgs||[]).filter(x=>x.th==='p:heroine_04').map(x=>x.text);
     check('13. 子晴大四上（已經畢業）：「欸 你考完了吧 宵夜」「只有我們兩個 不要找阿凱」',JSON.stringify(a)===JSON.stringify(['欸 你考完了吧 宵夜','只有我們兩個 不要找阿凱']),JSON.stringify(a));
     w=setup('Y4S1','heroine_04',{EXCHANGE_ROUTE:'US'}); G.day=w.to-2; run(20,21); a=(G.msgs||[]).filter(x=>x.th==='p:heroine_04').map(x=>x.text);
@@ -302,9 +296,7 @@ GM.money=function(n){ G.money+=n; };
     const c=await gfDin('heroine_04','Y3S1',T('2028-01-13'));
     check('15. 子晴大三上「期末專題，我挑了一個可能做不完的題目。」「……做不完也沒關係吧。」',has(c,['期末專題，我挑了一個可能做不完的題目。','……做不完也沒關係吧。']),JSON.stringify(c));
     const ps=await gfDin('classmate_peishan','Y3S2',T('2028-06-15')), ps0=await gfDin('classmate_peishan','Y1S2',T('2026-06-15'));
-    /* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_751@33a1769f8）：沛珊女朋友版各學期的飯桌句搬到 TERMEND_OPTS.GF（每頓兩句＋選項；tests/peishan_termend_1110_unit.js 逐句比），termend_lines.js 的 tableByTerm 拿掉了——
-       這支測試不載 GF 的選項，所以大三下只剩留著的那一句通用的（原本期望「你每次下來，都搭最後一班高鐵。」「……下次早一點來，我帶你去運河邊。」）*/
-    check('15. 沛珊大三下（台南）：舊的兩句不在 termend_lines.js 了（搬到 TERMEND_OPTS.GF、換了字）；沒載選項稿的時候照留著的那一句通用的；大一下同',!ps.includes('……下次早一點來，我帶你去運河邊。')&&!ps.includes('你每次下來，都搭最後一班高鐵。')&&ps.includes('這學期有幾次我想打給你，後來沒打。怕你在讀書。')&&ps0.includes('這學期有幾次我想打給你，後來沒打。怕你在讀書。'),JSON.stringify(ps));
+    check('15. 沛珊大三下（台南）「你每次下來，都搭最後一班高鐵。」「……下次早一點來，我帶你去運河邊。」；大一下照原本',has(ps,['你每次下來，都搭最後一班高鐵。','……下次早一點來，我帶你去運河邊。'])&&ps0.includes('這學期有幾次我想打給你，後來沒打。怕你在讀書。'),JSON.stringify(ps));
     const GF=TERMEND_LINES.GF, all=[];
     for(const id in GF) for(const t in (GF[id].tableByTerm||{})){ const v=[].concat(GF[id].tableByTerm[t]).map(x=>typeof x==='string'?x:x.narr); const pool=((TERMEND_LINES.POOL[t]||{})[id]||[]).filter(x=>typeof x==='string'); all.push(...v.filter(x=>pool.includes(x)).map(x=>id+' '+t+' '+x)); }
     check('15. 飯桌一句不和同一學期的話題池重複（AA_352 寫法）',!all.length,all.join(' ')); }
