@@ -7811,6 +7811,21 @@
    "noDirectIntegrate": false,
    "note": "底 dev f8ff49f43；13c9e729d 上 apply --3way 乾淨。全部 1245 支 Node 測試沒有失敗。改了 LAWWW 的 night_market_unit 第 7 項（9→0，LAWWW 已同意）。",
    "next": "CC 拍、BB 判；G10 要不要改成真的巷口等使用者"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（下一個 commit）",
+   "receiver": "LAWWW",
+   "cc": "",
+   "ack": "SENT",
+   "task": "LIMAO-SHANGSHI-3D-1111 上師 3D 人物第 2 版（LAWWW 11-11 00:47 驗第 1 版不過的六點）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/limao_shangshi_1111/（README.md 最上面的第 2 版、limao_shangshi_v2.patch、blender_v2_vs_ref.jpg、face_texture_wrinkles_v2.jpg）"
+   ],
+   "state": "待整合；角色美術 LAWWW 驗（D100a）",
+   "noDirectIntegrate": false,
+   "note": "底 dev a724370bc；六點逐項對照表在 README；limao_shangshi_model 等五支 ALL PASS，沒有跑全部（只換資產和一支測試）。",
+   "next": "LAWWW 驗；過了才放到算命桌"
   }
  ]
 }
