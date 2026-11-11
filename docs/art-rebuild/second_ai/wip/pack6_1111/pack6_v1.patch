@@ -87,3 +87,13 @@ index e1dc5893a..fbb181e17 100644
 +  { const sp=z.spawn, far=[]; for(const s of L.shops){ if(!s.door) continue; const it=E.interactables.find(i=>Math.abs(i.z-s.door.z)<1.6&&i.x<-12&&!i.exit)||null; if(!it) continue; const r=E.simWalk(sp.x,sp.z,it.x,it.z,{dt:1/30,speed:1.8}); if(!(r&&r.ok)) far.push(s.id+JSON.stringify(r).slice(0,80)); }
 +    check('19. 停了機車以後，從側門還是走得到每一間店門口的互動點',!far.length,far.join(' ')); } }
  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/xs_farview_unit.js b/tests/xs_farview_unit.js
+index 204148489..e878fce38 100644
+--- a/tests/xs_farview_unit.js
++++ b/tests/xs_farview_unit.js
+@@ -49,4 +49,4 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+     check('⑥ 遠景加的網格：地面、樹、路燈 ≤ 40、樓房模型 ≤ 40（各自合併）', ext<=40&&far<=40, '地面等 '+ext+'、樓房 '+far); }
+   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+ })();
+-var NAV_OPEN=10513;   // 改之前（開發分支 79214e4e1）同一個區域走得到的格數
++var NAV_OPEN=10513-60;   // 改之前（開發分支 79214e4e1）同一個區域走得到的格數 10513；XS-SCOOTERS-1111（LAWWW2 11-11）店面那一側路邊接上 12 台機車，每台擋 5 格（共 60 格）——遠景那一包照舊不該改到導航，機車的數量和位置 tests/xinsheng_unit.js 第 19 節另外檢查

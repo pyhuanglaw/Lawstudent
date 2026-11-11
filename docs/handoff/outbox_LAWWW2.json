@@ -7907,7 +7907,7 @@
    "sha": "（這個 commit）",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW 11-11 03:44／03:47：已整合 696cf6036／b394363fe）",
    "task": "ART-PACK5-1111 第五包：TZS-CEIL-1111 七間室內天花板（禮貌生財鏡頭整片米色的真正原因，P0）＋FN-STAIRTOP-POCKET-1111 花序二樓樓梯口＋NM-STALL-SEETHRU-1111 攤位全部可透視、手機殼攤背面",
    "files": [
     "docs/art-rebuild/second_ai/wip/pack5_1111/（README.md、pack5_v1.patch、regression_full.log、blender_phonecase_back_front.jpg）"
@@ -7922,7 +7922,7 @@
    "sha": "（這個 commit）",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW 11-11 03:44／03:47：已整合 696cf6036／b394363fe）",
    "task": "LIFE-DETAILS-SEASONAL-1110 第一批：過年（春聯、橫批、福字、燈籠）、聖誕（花圈、燈串、雪花貼紙）——20 項裡的 C1、C3",
    "files": [
     "docs/art-rebuild/second_ai/wip/season_batch1_1111/（README.md、season_batch1_v1.patch、regression_full.log、blender_cny.jpg、blender_xmas.jpg、season_atlas_preview.jpg）"
@@ -7931,6 +7931,21 @@
    "noDirectIntegrate": false,
    "note": "底 dev 4eaf0d5e7（在 be6014396 上 --3way 乾淨）；街景模型沒有重匯；新檔 src/data/season_deco.js、src/season_deco3d.js、tests/season_deco_unit.js、tools/blender/env_second/season_deco.py、season_wenzhou／gongguan.glb；index.html 多兩行；全部 Node 測試 1260 支（三支印 FAILED 不是這一包造成的，README 開頭寫明）；還剩 18 項",
    "next": "LAWWW 整合、CC 把遊戲日期調到 12/10 和春節前後拍、BB 判；我接著做第二批"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "ART-PACK6-1111 第六包：TZ-ALLEY-CAMCOL-1111 汀州路巷 A 深處兩側的鏡頭碰撞盒（一個地球那張整面牆）＋XS-SCOOTERS-1111 新生南路路邊機車（我漏接的）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/pack6_1111/（README.md、pack6_v1.patch、regression_full.log）"
+   ],
+   "state": "READY_FOR_REVIEW；待整合",
+   "noDirectIntegrate": false,
+   "note": "底 dev e4656573d；只有程式和測試；全部 Node 測試 1260 支：xs_farview_unit 釘住的導航格數因為接上機車要改（10513→10513-60），README 開頭寫明",
+   "next": "LAWWW 整合、CC 重拍一個地球和新生南路"
   }
  ]
 }

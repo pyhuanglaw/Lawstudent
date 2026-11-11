@@ -1,8 +1,9 @@
 # 第六包（LAWWW2 帳號 A，2026-11-11）：汀州路巷子的鏡頭碰撞盒＋新生南路的路邊機車
 
-狀態：**WORK_IN_PROGRESS：相關測試過了，全部 Node 測試在跑**（結果補在這一行）。只有程式和測試，沒有模型。
+狀態：**READY_FOR_REVIEW**（2026-11-11 04:1x UTC）。只有程式和測試，沒有模型。
+全部 Node 測試 1260 支（`regression_full.log`）：1258 支 ALL PASS；`bookstore_exit_unit` 最後一行是 Node 讀不到網址的警告（結束碼 0）；**`xs_farview_unit` 那一輪失敗了一項**——它把新生南路「走得到的格數」釘在 10513（遠景那一包不該改到導航的防呆），接上 12 台機車以後是 10453（每台擋 5 格）。這是這一包本來就要造成的改變，所以我把那個數字改成 `10513-60` 並寫明原因（機車的數量和位置由 `xinsheng_unit` 第 19 節另外檢查）；改完那一支和 `xinsheng_unit` 重跑 ALL PASS。log 是改之前跑的，所以裡面還看得到那一行 FAILED。
 
-- patch：`pack6_v1.patch`（4 個檔，基底 dev `e4656573d`）：`src/tingzhou3d.js`、`src/xinsheng3d.js`、`tests/tingzhou_unit.js`、`tests/xinsheng_unit.js`。
+- patch：`pack6_v1.patch`（5 個檔，基底 dev `e4656573d`）：`src/tingzhou3d.js`、`src/xinsheng3d.js`、`tests/tingzhou_unit.js`、`tests/xinsheng_unit.js`、`tests/xs_farview_unit.js`。
 - 依據：BB 11-11 03:44、03:45（CC 讀碼和上一輪的 log）。
 
 ## 一、「一個地球」前面整個畫面是一面牆（TZ-ALLEY-CAMCOL-1111）
