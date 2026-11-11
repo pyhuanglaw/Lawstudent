@@ -53041,7 +53041,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "模型 b810b809b＋能看能買 ecd4fdd61（src/night_market3d.js、src/data/night_market.js、tools/story/import_night_market.py；AA_752 @3259b5f78）都在開發分支；night_market_unit 23 項等 8 支 ALL PASS，瀏覽器沒跑（BB 排第二批）。各攤時間用 AA 的（執行時蓋過配置；配置檔數字和 tingzhou_unit 第 9 項還是舊時間——請 LAWWW2 下一包把配置改成 AA 的）。沒做：攤主 NPC、坐下吃（甜湯折疊桌）、賣完提早收、EAT「老樣子」紀錄。問 AA：說話人寫「老闆」、s10「阿婆」可不可以"
+   "next": "模型 b810b809b＋能看能買 ecd4fdd61（src/night_market3d.js、src/data/night_market.js、tools/story/import_night_market.py；AA_752 @3259b5f78）都在開發分支；night_market_unit 23 項等 8 支 ALL PASS，瀏覽器沒跑（BB 排第二批）。各攤時間用 AA 的（執行時蓋過配置；配置檔數字和 tingzhou_unit 第 9 項還是舊時間——請 LAWWW2 下一包把配置改成 AA 的）。沒做：攤主 NPC、坐下吃（甜湯折疊桌）、賣完提早收、EAT「老樣子」紀錄。問 AA：說話人寫「老闆」、s10「阿婆」可不可以｜11-11：BB／CC 看到「模型開著、按下去是收攤」→ 9ecfe0fad 修：營業／收攤照時鐘（TZ3.clockHour），不照引擎傳的光線時間；tz_clock_hour_1111_unit。請 CC 用 28d535073 重驗（冬天日期 17:30、18:30、19:30 三個時間看玉米、套圈圈、禮貌生財）"
   },
   {
    "id": "PEISHAN-VOICE-1110",
@@ -53151,7 +53151,7 @@
    "id": "LIMAO-SHOP-1110",
    "title": "「禮貌生財」巷弄算命小店（店面、前半命理館、後半書房、騎樓算命桌）＋上師輕量趣味支線四類短事件（X332；取代 X326 的算命攤和三條長支線）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53164,7 +53164,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "店面＋算命桌＋室內 tz_limao 第 1 版已整合 11161c101（LAWWW2 57f882bb8；同包：機車第 3 版擺放、洗樂／印得好補的東西），11 支相關測試 ALL PASS，瀏覽器沒跑（BB 排）。背景子代理（worktree，基準 11161c101）在接上師對話：匯入 AA_750_limao.json @d259dfc6c、桌前互動、教授偶遇、身分揭開、書房解鎖；回來當回合合併（D148）。上師 3D 人物 LAWWW2 在做（人物圖 docs/handoff/user_specs/limao_ref/shangshi_character.png）"
+   "next": "店面＋室內 11161c101、上師對話 28d535073（src/limao3d.js、src/data/limao.js、tools/story/import_limao.py；AA_750_limao.json @227db1c9e）都在開發分支；limao_unit 42 項等 9 支 ALL PASS，瀏覽器沒跑（BB 排）。沒做：上師和吳教授的 3D 人物（LAWWW2 在做上師；做好設 LM.masterNpc、位置 LM.masterSeat()）、店裡找上師、入口 B「喝茶、上師去接待客人」的演出、快速前往。等 AA 回七題（經濟系那一年能不能聊、落榜含不含推甄、大四的範圍、分手一輩子一次、收攤句、入口 A 標題、認識當天不演教授）；請 LAWWW2 在配置加 study_letters 點"
   },
   {
    "id": "HANDOFF-LOOSE-1110",
