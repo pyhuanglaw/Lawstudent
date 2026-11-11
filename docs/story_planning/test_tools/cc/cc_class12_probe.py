@@ -19,11 +19,18 @@ PARTS：
           ③ 有 ask 的週：題目真的出來、題目和選項和 EXAM_BANK 那一題一致；第一次答對、第二次（讀檔，同上）答錯；紀錄有變（R.ask、notes、STUDY、G.legal）；真的打開 ☰ 筆記本「法律」頁和手機截圖。
              刑總第 13 週是新掛的 CRIM45_33（討論收尾之後），特別記。
           ④ 對話框上的名字：張教授／吳教授／周教授；教授不在場（每句前面「○老師：」）抽到就截一張。每句 ≤40 字（超過的列出來，只記）；對話框裡的字有沒有被切掉（R.check）。
-          ⑤ 下課後：done／attend 有記、手機「今天」寫「上過了」、沒有 JS 例外。SKIPRUN（預設 crim_gen1:10）那一堂另外跑一次（讀檔＋手機）：畫面上有「略過對話」就按，略過以後出席照記。
+          ⑤ 下課後：done／attend 有記、手機「今天」寫「上過了」、沒有 JS 例外。SKIPRUN（預設 crim_gen1:10）那一堂另外跑一次（讀檔＋手機）：畫面上有「略過 »」（69374803a 起；沒有就找 ADV 的「略過對話」）就按，略過以後出席照記。
   OLDSAVE ⑥ 舊存檔：三個參數（{url2} {url} {out}）時，先開 url2（線上 779ddd650）讀【前置】學期中的最小存檔（OLDLESSON 那一堂的前一晚 23:00 宿舍）、用舊版自己的 GAME.snapshot() 存下來
           （寫到 <out>/class12_oldsave.json），再開新版讀進來 → 真的睡覺 → 去上那一堂 → 播完、done、沒有 JS 例外。只有兩個參數＝用新版的 GAME.snapshot 合成（log 寫明，不算舊存檔）。
 舊版對照（SHA 前 9 碼是 1d4db297a，或 REF=1）：各科只跑一堂（憲法 6、刑總 10、民總 6），只記句數和秒數（D34 對照），不逐字對、不判 more。
-環境變數：LW_TESTS SHA PARTS COURSE WEEKS SKIPRUN OLDLESSON SCRIPT REF EVQUIET（同 GOCLASS）PORTRAIT
+  SKIP    （BB 04:27；69374803a 起座位上課有「略過 »」：#dlgSkip，在 #dlg 裡、右上方 top:-50px、min-width 76、高 44；只在 CLS.attend 那一段（GM.skipScope）出現、正在略過時藏起來；
+          pointerup＝一路翻到下一個選項（GAME.choose 會把 D.skip3d 關掉＝選完要再按一次）；第一次答完課堂題 toast「題目和答案記在 ☰ 筆記本的「筆記」頁，學習進度在「法律」頁。」，旗標 ASK_NOTE_HINT＝一個存檔一次）。
+          每科一週（憲法 6、刑總 13、民總 15；COURSE／WEEKS 可選）：先不略過跑一次（NOSKIP=0 不跑）當對照秒數 → 再跑一次略過：坐下以前、下課以後鍵不能在；坐下後第一句時量鍵的框（VIEWS=both：
+          同一行切 viewport 橫向 844×390、直向 390×844 各量一次、各截一張；≥44 px；和對話框的字、名字、選項的交集；鍵中央 elementFromPoint）；在鍵的位置連點 5 下（每 150 ms，第一下＝按略過），
+          每一下記點到什麼，判定沒有選到任何選項；每次停在選單（call、討論、題目）記下來、選完看下一句會不會自己翻（不能）、再按一次略過；略過到底：done／attend、手機「上過了」、
+          ☰「筆記」「法律」兩頁截圖、通知逐字比對；有題的課略過完用同一份存檔（GAME.snapshot）接著上下一堂有題的課，通知不能再出；下課後的人物事件照記（沒有就寫沒有遇到）。
+          舊版 57e2e22c2 沒有 GAME.skipScope＝D34 對照，只跑不略過的秒數。
+環境變數：LW_TESTS SHA PARTS COURSE WEEKS SKIPRUN OLDLESSON SCRIPT REF EVQUIET（同 GOCLASS）PORTRAIT VIEWS NOSKIP
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=CLASS COURSE=crim_gen1 python3 cc_class12_probe.py <url> <out>
       舊存檔：PARTS=OLDSAVE python3 cc_class12_probe.py <url2（779ddd650）> <url（新版）> <out>"""
 import os, sys, json, asyncio, time, re
@@ -39,12 +46,16 @@ os.makedirs(OUT, exist_ok=True)
 ENV = os.environ.get
 SHA = (ENV('SHA') or '')[:9]
 REF = ENV('REF') == '1' or SHA.startswith('1d4db297')
-PARTS = [p.strip().upper() for p in (ENV('PARTS') or 'CLASS,OLDSAVE').split(',') if p.strip()]
+PARTS = [p.strip().upper() for p in (ENV('PARTS') or 'CLASS,OLDSAVE').split(',') if p.strip()]   # 另有 SKIP（不在預設裡）
 ALIAS = {'憲法': 'const_1', 'const': 'const_1', '刑總': 'crim_gen1', 'crim': 'crim_gen1', '民總': 'civ_general', 'civ': 'civ_general'}
 FULLSET = {'const_1': [2, 6, 7, 15], 'crim_gen1': [4, 7, 10, 13], 'civ_general': [4, 6, 12, 15]}
 REFSET = {'const_1': [6], 'crim_gen1': [10], 'civ_general': [6]}
 PROFNM = {'const_1': '張教授', 'crim_gen1': '吳教授', 'civ_general': '周教授'}
 SKIPRUN = ENV('SKIPRUN') or 'crim_gen1:10'
+SKIPSET = [('const_1', 6), ('crim_gen1', 13), ('civ_general', 15)]   # PART SKIP 每科一週（BB 04:27）
+VIEWS = ENV('VIEWS') or 'both'   # both＝第一次看到「略過 »」時直向、橫向各量一次截一張（同一行切 viewport）；one＝只量目前的方向
+NOSKIP = ENV('NOSKIP') != '0'   # 1＝每一堂先不略過跑一次當對照秒數
+ASKHINT = '題目和答案記在 ☰ 筆記本的「筆記」頁，學習進度在「法律」頁。'
 OLDLESSON = ENV('OLDLESSON') or 'crim_gen1:10'
 SCRIPT = ENV('SCRIPT') or os.path.join(HERE, 'fixtures', 'class12', 'Y1S1_d3a22505b.json')
 R = L.Run('class12', OUT)
@@ -81,8 +92,12 @@ ASKREC = r"""(qid=>{ const G=GAME.G, R=CLS.rec(G); let us=[]; try{ us=STUDY.unit
 HEADS = "[...document.querySelectorAll('#choices button')].map(b=>((b.firstChild&&b.firstChild.nodeType===3)?b.firstChild.textContent:(b.textContent||'')).trim())"
 DLGCHK = r"""(()=>{ const box=document.getElementById('dlg'), t=document.getElementById('dlgText'), n=document.getElementById('dlgName'); if(!box||box.classList.contains('hide')) return null; const rb=box.getBoundingClientRect();
   return {name:n?(n.style.display==='none'?'':(n.textContent||'').trim()):null, text:(t.textContent||''), clipped:t.scrollHeight>t.clientHeight+2||t.scrollWidth>t.clientWidth+2, inView:rb.left>=-1&&rb.top>=-1&&rb.right<=innerWidth+1&&rb.bottom<=innerHeight+1}; })()"""
-SKIPBTN = r"""(()=>{ const top=document.getElementById('advTop'); if(!top) return {has:false}; const b=[...top.querySelectorAll('button')].find(x=>(x.textContent||'').trim()==='略過對話'); if(!b) return {has:false};
-  const r=b.getBoundingClientRect(), vis=r.width>0&&r.height>0&&getComputedStyle(b).visibility!=='hidden'&&getComputedStyle(top).display!=='none'&&!!(typeof ADV!=='undefined'&&ADV.active); return {has:true,vis,c:[r.left+r.width/2,r.top+r.height/2],adv:typeof ADV!=='undefined'&&!!ADV.active}; })()"""
+SKIPBTN = r"""(()=>{ const vis=e=>{ if(!e) return false; const r=e.getBoundingClientRect(), cs=getComputedStyle(e); return r.width>0&&r.height>0&&cs.display!=='none'&&cs.visibility!=='hidden'; };
+  const d=document.getElementById('dlgSkip'), dl=document.getElementById('dlg');
+  if(d){ const r=d.getBoundingClientRect(); return {kind:'3d',has:true,vis:vis(d)&&!!dl&&!dl.classList.contains('hide'),c:[r.left+r.width/2,r.top+r.height/2],r:[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)],text:(d.textContent||'').trim()}; }
+  const top=document.getElementById('advTop'); const b=top?[...top.querySelectorAll('button')].find(x=>(x.textContent||'').trim()==='略過對話'):null;
+  if(b){ const r=b.getBoundingClientRect(); return {kind:'adv',has:true,vis:vis(b)&&!!(typeof ADV!=='undefined'&&ADV.active),c:[r.left+r.width/2,r.top+r.height/2],r:[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)],text:'略過對話'}; }
+  return {has:false,skipScope:typeof GAME.skipScope==='function'}; })()"""
 BOARDHOOK = r"""(()=>{ const z=GAME.E&&GAME.E.zone; if(!z||!z.setBoard||z.setBoard.__gc||!window.__GC) return false; const f=z.setBoard; z.setBoard=function(){ try{ window.__GC.push({k:'board',a:[...arguments].map(x=>String(x))}); }catch(e){} return f.apply(this,arguments); }; z.setBoard.__gc=1; return true; })()"""
 ENTERHOOK = r"""(()=>{ if(window.__C12E===GAME) return 'again'; window.__C12E=GAME; const f0=GAME.enter; GAME.enter=function(){ const r=f0.apply(this,arguments); try{ if(r&&r.then) r.then(()=>{ try{ (0,eval)(%s); }catch(e){} }); }catch(e){} return r; }; return 'ok'; })()"""
 
@@ -173,8 +188,8 @@ async def class_loop(pg, cdp, L_, tag, sy, call_pick=0, ask_right=True, skipdlg=
                 if not shots['absent'] and re.match(r'^[^：]{1,4}老師：', ls[-1]['text']): shots['absent'] = True; await shot(pg, '%s_prof_absent' % tag); R.note('%s：教授不在場的句子（截圖）：%s' % (tag, ls[-1]['text']))
             if skipdlg and not skipinfo['tried'] and s['dlg']:
                 sb = await pg.evaluate(SKIPBTN); skipinfo.update(tried=True, btn=sb)
-                if sb.get('vis'): await L.touch_tap(cdp, sb['c'][0], sb['c'][1]); skipinfo['tapped'] = True; R.note('%s：按「略過對話」%s' % (tag, J(sb)))
-                else: R.note('%s：畫面上沒有「略過對話」可按（%s；座位上課不是 ADV 畫面）' % (tag, J(sb)))
+                if sb.get('vis'): await L.touch_tap(cdp, sb['c'][0], sb['c'][1]); skipinfo['tapped'] = True; R.note('%s：按略過（%s）%s' % (tag, sb.get('text'), J(sb)))
+                else: R.note('%s：畫面上沒有可按的略過鍵（%s）' % (tag, J(sb)))
         done = await pg.evaluate("k=>!!CLS.rec(GAME.G).done[k]", key)
         if s['ch']:
             free = None; await pg.wait_for_timeout(600); hs = await heads(pg)
@@ -396,7 +411,172 @@ async def part_oldsave(p):
         await b.close()
 
 
-FN = {'CLASS': part_class, 'OLDSAVE': part_oldsave}
+SKIPGEO = r"""(()=>{ const q=id=>{ const e=document.getElementById(id); if(!e) return null; const r=e.getBoundingClientRect(); return r.width&&r.height?[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)]:null; };
+  const sk=document.getElementById('dlgSkip'), r=sk?sk.getBoundingClientRect():null, c=r?[r.left+r.width/2,r.top+r.height/2]:null, hit=c?document.elementFromPoint(c[0],c[1]):null;
+  const ch=document.getElementById('choices'); const btns=ch&&!ch.classList.contains('hide')?[...ch.querySelectorAll('button')].map(b=>{ const q=b.getBoundingClientRect(); return {t:((b.firstChild&&b.firstChild.nodeType===3)?b.firstChild.textContent:b.textContent||'').trim().slice(0,20),r:[Math.round(q.left),Math.round(q.top),Math.round(q.width),Math.round(q.height)]}; }):[];
+  return {vw:innerWidth,vh:innerHeight,skip:q('dlgSkip'),dlg:q('dlg'),text:q('dlgText'),name:(()=>{ const n=document.getElementById('dlgName'); return n&&n.style.display!=='none'?q('dlgName'):null; })(),choices:btns,
+    atCenter:hit?(hit.id||String(hit.className||'').slice(0,30)||hit.tagName)+((hit.closest&&hit.closest('#choices button'))?'（選項 '+(hit.closest('#choices button').textContent||'').trim().slice(0,16)+'）':''):null}; })()"""
+
+
+def inter(a, b):
+    if not a or not b: return None
+    x0, y0 = max(a[0], b[0]), max(a[1], b[1]); x1, y1 = min(a[0] + a[2], b[0] + b[2]), min(a[1] + a[3], b[1] + b[3])
+    return [x0, y0, x1 - x0, y1 - y0] if x1 > x0 and y1 > y0 else None
+
+
+async def skip_geo(pg, tag, label):
+    g = await pg.evaluate(SKIPGEO); fn = await shot(pg, '%s_skipbtn_%s' % (tag, label))
+    sk = g['skip']; ov = {k: inter(sk, g[k]) for k in ('text', 'name')}
+    for c in g['choices']: ov['選項「%s」' % c['t']] = inter(sk, c['r'])
+    big = bool(sk) and sk[2] >= 44 and sk[3] >= 44
+    R.note('%s：「略過 »」%s（viewport %dx%d，截圖 %s）：框 %s、對話框 %s、字 %s、名字 %s；交集 %s；鍵中央 elementFromPoint＝%s' % (tag, label, g['vw'], g['vh'], fn, sk, g['dlg'], g['text'], g['name'], J({k: v for k, v in ov.items() if v}), g['atCenter']))
+    R.check('%s：「略過 »」%s ≥44×44 px（%s）' % (tag, label, sk), big)
+    R.check('%s：「略過 »」%s 沒有壓到對話框的字、名字（%s）' % (tag, label, J({k: ov[k] for k in ('text', 'name')})), not ov['text'] and not ov['name'])
+    return g
+
+
+async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
+    """略過的那一次：坐下以前、下課以後「略過 »」不能在；坐下以後第一句時量位置（直向、橫向），在那個位置連點 5 下（每 150 ms，第一下＝按略過）；
+    之後每次停在選單：記停在哪一個選單、選了以後下一句會不會自己翻（要再按一次略過才繼續）、再按一次略過。回傳紀錄"""
+    n1 = await GC.logn(pg); t0 = time.time(); free = None; info = {'before': [], 'after': [], 'menus': [], 'burst': None, 'presses': 0, 'stopAt': [], 'resume': []}
+    key = L_['item']; bank = await pg.evaluate(BANKQ, sy['ask']['qid']) if sy and sy.get('ask') else None
+    callopts = [norm(o) for o in ((sy or {}).get('call') or {}).get('options', [])]
+    started = False; burst_done = not use_skip; last_menu_t = None; tsit = None; tend = None
+    while time.time() - t0 < max_s:
+        s = await GC.ms(pg); lg = await GC.logs(pg, n1)
+        att = next((e for e in lg if e['k'] == 'cls' and e['fn'] in ('attend', 'seatPick')), None)
+        done = await pg.evaluate("k=>!!CLS.rec(GAME.G).done[k]", key)
+        sb = await pg.evaluate(SKIPBTN)
+        if not att and sb.get('vis'): info['before'].append(s['dtext'])
+        if done and sb.get('vis') and not info['after']: info['after'].append(s['dtext']); await shot(pg, '%s_skip_after_class' % tag)
+        if att and not started and s['dlg'] and not s['typing'] and sb.get('vis'):
+            started = True; tsit = time.time()
+            if VIEWS == 'both':
+                vp = pg.viewport_size
+                for w_, h_, lab in ((844, 390, '橫向'), (390, 844, '直向')):
+                    await pg.set_viewport_size({'width': w_, 'height': h_}); await pg.wait_for_timeout(700); await skip_geo(pg, tag, lab)
+                await pg.set_viewport_size(vp); await pg.wait_for_timeout(700)
+            else: await skip_geo(pg, tag, '直向' if GC.PORTRAIT else '橫向')
+            sb = await pg.evaluate(SKIPBTN)
+        if use_skip and started and not burst_done and sb.get('vis'):
+            burst_done = True; c = sb['c']; nb = await GC.logn(pg); tb = await pg.evaluate("performance.now()")
+            for k in range(5):
+                await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(150)
+            await pg.wait_for_timeout(500)
+            blg = await GC.logs(pg, nb)
+            downs = [{'k': i + 1, 'tgt': e.get('tgt'), 'btn': e.get('btn'), 'menu': e.get('menu'), 'sinceMenu': e.get('sinceMenu')} for i, e in enumerate([x for x in blg if x['k'] == 'down'])]
+            picks = [e for e in blg if e['k'] == 'pick']
+            info['burst'] = {'at': c, 'downs': downs, 'picks': picks, 'menus': [e.get('opts') for e in blg if e['k'] == 'choose'], 'says': len([e for e in blg if e['k'] == 'say'])}
+            info['presses'] += 1
+            R.note('%s：在「略過 »」的位置連點 5 下（每 150 ms，第一下＝按略過）：每一下 %s；這段時間翻過 %d 句、出現的選單 %s' % (tag, J(downs), info['burst']['says'], J(info['burst']['menus'])))
+            R.check('%s：連點 5 下沒有選到任何選項（使用者踩到的那一種）' % tag, not picks, J([[p.get('first'), p.get('txt'), p.get('downDt')] for p in picks]))
+            await shot(pg, '%s_after_burst' % tag)
+            continue
+        if s['ch']:
+            free = None; await pg.wait_for_timeout(600); hs = await heads(pg)
+            if not hs: continue
+            nh = [norm(h) for h in hs]
+            if any(h.startswith(('先自由活動', '直接去下一堂', '先去吃飯')) for h in hs): k = next(i for i, h in enumerate(hs) if h.startswith('先自由活動')); why = '下課選單'
+            elif callopts and nh == callopts: k = 0; why = 'call'
+            elif bank and (hs[0].startswith('（') or hs == ['對', '錯']):
+                ans = str(bank['answer']); k = next((i for i, h in enumerate(hs) if h.startswith('（' + ans + '）') or h == ans), 0); why = 'ask（答對）'
+            else: k = 0; why = '其他（第一項）'
+            if att and not done: info['stopAt'].append({'why': why, 'opts': hs}); await shot(pg, '%s_skip_stop%d' % (tag, len(info['stopAt'])))
+            info['menus'].append([why, hs[k]]); R.note('%s：停在選單［%s］%s → %s' % (tag, why, J(hs), hs[k]))
+            await tap_head(pg, cdp, k)
+            last_menu_t = time.time(); await pg.wait_for_timeout(300)
+            if use_skip and att and not done:
+                # 選完：下一句要停住（不自己翻）；1.5 秒後看還是不是同一句，再按一次略過
+                await pg.wait_for_timeout(300); a = await GC.ms(pg); await pg.wait_for_timeout(1500); b2 = await GC.ms(pg); sb2 = await pg.evaluate(SKIPBTN)
+                same = a['dlg'] and b2['dlg'] and a['dtext'] == b2['dtext']
+                info['resume'].append({'stayed': same, 'text': b2['dtext'], 'btnVisible': sb2.get('vis')})
+                R.note('%s：選完以後下一句停住、不自己翻＝%s（「%s」）；「略過 »」又出現＝%s' % (tag, same, b2['dtext'], sb2.get('vis')))
+                if sb2.get('vis'): await L.touch_tap(cdp, sb2['c'][0], sb2['c'][1]); info['presses'] += 1
+            continue
+        if s['dlg']:
+            free = None
+            if use_skip and att and not done and sb.get('vis') and burst_done:
+                await L.touch_tap(cdp, sb['c'][0], sb['c'][1]); info['presses'] += 1; await pg.wait_for_timeout(300); continue
+            await pg.wait_for_timeout(500); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250); continue
+        if s['phone']: await L.phone_away(pg, cdp, tries=1); continue
+        if s['busy'] or s['fade'] or s['paused']: free = None; await pg.wait_for_timeout(200); continue
+        if done and tend is None: tend = time.time()
+        free = free or time.time()
+        if done and time.time() - free >= 3: break
+        if not done and time.time() - free >= 25: R.note('%s：空下來 25 秒還沒下課（%s）' % (tag, J(s))); break
+        await pg.wait_for_timeout(200)
+    await GC.play(pg, cdp, picks=('先自由活動',), max_s=20, idle_s=4, tag=tag + '_after')
+    info['n1'] = n1; info['sitToFree'] = round((tend or time.time()) - (tsit or t0), 1)
+    return info
+
+
+async def part_skip(p):
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=not GC.PORTRAIT)
+    try:
+        await pg.goto(URL); R.check('SKIP：遊戲載入', await L.wait_loaded(pg)); await setup_page(pg)
+        has = await pg.evaluate("typeof GAME.skipScope==='function'")
+        R.note('SKIP：遊戲有沒有座位上課的「略過 »」（GAME.skipScope）＝%s%s' % (has, '' if has else '（D34 舊版對照：57e2e22c2 沒有＝預期，只跑不略過的秒數）'))
+        sel = lessons() if (ENV('COURSE') or ENV('WEEKS')) else SKIPSET
+        carry = None; hinted = False; summ = {}
+        for cid, w in sel:
+            L_ = await pg.evaluate(FINDLESSON, [cid, w])
+            if not R.check('SKIP %s 第 %d 週：找到那一天（%s）' % (cid, w, J(L_ and L_['key'])), bool(L_)): continue
+            sy = SY.get(cid, {}).get(w); tag0 = 'sk_%s_w%d' % (cid, w); row = {}
+            if NOSKIP or not has:
+                print('----- %s 不略過（對照秒數）-----' % tag0, flush=True)
+                if await go_lesson(pg, cdp, L_, tag0 + '_plain', 'phone'):
+                    o = await skip_loop(pg, cdp, L_, tag0 + '_plain', sy, use_skip=False)
+                    lg = await GC.logs(pg, o['n1']); cl, _ = GC.class_lines(lg); sec, _d = GC.class_timing(lg, cl)
+                    row['plain'] = {'lines': len(cl), 'sitToClassEnd': sec, 'sitToFree': o['sitToFree']}
+                    R.note('%s：不略過 %d 句、坐下到「下課了」%s 秒、坐下到下課能動 %s 秒' % (tag0, len(cl), sec, o['sitToFree']))
+                    tl = [e for e in lg if e['k'] == 'toast' and e['text'] == ASKHINT]
+                    if sy and sy.get('ask'): R.note('%s：不略過那一次（新存檔）答題後的通知 %s' % (tag0, J([e['text'] for e in tl]) if tl else '沒有'))
+            if not has: summ[tag0] = row; continue
+            print('----- %s 略過 -----' % tag0, flush=True)
+            e0 = len(errs); tag = tag0 + '_skip'
+            if carry is not None:
+                st = json.loads(json.dumps(carry)); st.update(day=L_['d'], weekday=L_['wd'], hour=L_['t0'] - 40 / 60, zone='dorm', pos=None)
+                await GC.load(pg, cdp, st, '%s：【前置／捷徑】接著用同一份存檔（上一堂有題的課略過完的 GAME.snapshot，已經有 ASK_NOTE_HINT=%s）改成 %s %02d:%02d 宿舍房間' % (
+                    tag, J(carry.get('flags', {}).get('ASK_NOTE_HINT')), L_['key'], int(st['hour']), round(st['hour'] % 1 * 60)))
+                await pg.evaluate(ENTERHOOK % json.dumps(BOARDHOOK))
+                await GC.phone_today(pg, cdp, tag, week=False); await L.tap(pg, cdp, '#phoneBody [data-go="%s"]' % L_['item']); await pg.wait_for_timeout(800); ok = True
+            else: ok = await go_lesson(pg, cdp, L_, tag, 'phone')
+            if not ok: continue
+            r0 = await pg.evaluate(GC.REC); hint0 = await pg.evaluate("(GAME.G.flags||{}).ASK_NOTE_HINT")
+            o = await skip_loop(pg, cdp, L_, tag, sy, use_skip=True)
+            lg = await GC.logs(pg, o['n1']); cl, _ = GC.class_lines(lg); sec, _d = GC.class_timing(lg, cl); r1 = await pg.evaluate(GC.REC)
+            row['skip'] = {'lines': len(cl), 'sitToClassEnd': sec, 'sitToFree': o['sitToFree'], 'presses': o['presses']}
+            R.note('%s：略過 %d 句、坐下到「下課了」%s 秒、坐下到下課能動 %s 秒、按了略過 %d 次；停下來的選單 %s' % (tag, len(cl), sec, o['sitToFree'], o['presses'], J(o['stopAt'])))
+            R.check('%s：坐下以前沒有「略過 »」' % tag, not o['before'], J(o['before']))
+            R.check('%s：下課以後沒有「略過 »」' % tag, not o['after'], J(o['after']))
+            expect = (['call'] if (sy or {}).get('call') else []) + (['討論'] if (sy or {}).get('obs') else []) + (['ask'] if (sy or {}).get('ask') else [])
+            got = [m['why'] for m in o['stopAt']]
+            R.check('%s：略過會停在每一個選項（稿：%s；停了：%s）' % (tag, J(expect), J(got)), all(any(g.startswith(x) or (x == '討論' and g.startswith('其他')) for g in got) for x in expect))
+            R.check('%s：選完以後不會自己繼續翻（要再按一次略過）' % tag, all(x['stayed'] for x in o['resume']), J(o['resume']))
+            R.check('%s：略過到底 done／attend 有記' % tag, bool(r1['done'].get(L_['item'])) and (r1['attend'].get(cid) or 0) > (r0['attend'].get(cid) or 0), J(GC.rdiff(r0, r1)))
+            ic = next((i for i, e in enumerate(cl) if e['k'] == 'cap' and '下課' in e['text']), None)
+            post = [e for e in lg[next((i for i, e in enumerate(lg) if e is cl[ic]), 0):] if e['k'] == 'say'] if ic is not None else []
+            R.note('%s：下課後的人物事件 %s' % (tag, J([e['text'] for e in post]) if post else '沒有遇到'))
+            if sy and sy.get('ask'):
+                tl = [e['text'] for e in lg if e['k'] == 'toast']
+                hit = [t for t in tl if t == ASKHINT]
+                if hint0: R.check('%s：同一份存檔第二次答題，不再出「%s」（ASK_NOTE_HINT=%s；這一段的通知 %s）' % (tag, ASKHINT, hint0, J(tl)), not hit)
+                else: R.check('%s：第一次答完課堂題，上方通知逐字是「%s」（這一段的通知 %s）' % (tag, ASKHINT, J(tl)), bool(hit))
+                await legal_pages(pg, cdp, tag)
+                carry = await pg.evaluate("GAME.snapshot()"); hinted = True
+            op, t, _, _ = await GC.phone_today(pg, cdp, tag, week=False)
+            i = t.find(L_['name']); seg = t[i:i + 90] if i >= 0 else ''
+            R.check('%s：手機「今天」那一列寫「上過了」（%s）' % (tag, seg.replace('\n', ' ')), '上過了' in seg)
+            await GC.close_phone(pg, cdp)
+            R.check('%s：沒有 JS 例外' % tag, len(errs) == e0, J(errs[e0:e0 + 3]))
+            summ[tag0] = row
+        R.note('[SKIP 統計] 不略過／略過（句數、坐下到下課秒數）：%s；第二題不再提示的檢查有做＝%s' % (J(summ), hinted and carry is not None))
+        R.check('SKIP：沒有 JS 例外', not errs, J(errs[:3]))
+    finally:
+        await b.close()
+
+
+FN = {'CLASS': part_class, 'OLDSAVE': part_oldsave, 'SKIP': part_skip}
 
 
 async def main():
