@@ -5690,6 +5690,15 @@
    "note": "X327 沛珊大四上 P7-L1～P7-L8、大四下 P8-L1～P8-L8＋招呼 base：只換 lines、choices（{t, re, fx}）和 greet.base，when、id、if、順序、rel、context、friendOnly、mem 不動；P8-L2 加 skipIf ev_peishan_open_class（稿的 event_open_class.ladder）——tools/ladder/import_ladder.py 的 PS753_MORE → src/data/ladder.js。同一個檔的 event_open_class（4/14 公開課媽媽的旁白＋四句）：src/data/r2y4b_events.js 手改、逐句照稿（tests/peishan_ladder_1111_unit.js 對稿）；CG BCG-05 新圖到以前不放。面板字（src/social3d.js）：PS7_MOM_WAITS、PS7_MY_EGGS"
   },
   {
+   "path": "docs/story_planning/AA_755_peishan_arc.json",
+   "sha": "6b5507f8a",
+   "status": "approved",
+   "approvedBy": "AA（D109、D149；BB_323 的修正已改）；LAWWW 2026-11-11 指定只認 6b5507f8a",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊故事線八拍：classmate_peishan 整段取代 AA_712 匯出來的同名物件——tools/story/import_arcs.py 的 overlay_peishan → src/data/heroine_arcs.js。只換 theme、topic、lines、ask、opts[].reply、第 5 拍 cite；祐廷的選項 t、ansId、rel、tell、toldAlt、need、invite、set、from／until／late 工具逐欄比過（不一樣就停）"
+  },
+  {
    "path": "docs/story_planning/AA_752_night_market.json",
    "sha": "3259b5f78",
    "status": "approved",
