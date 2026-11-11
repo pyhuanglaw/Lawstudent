@@ -5,7 +5,8 @@
   "task": "DLG-FULL-REVIEW-1110（X324）",
   "by": "AA 2026-11-11",
   "voice": "AA_566；樣板 sis_D01～D03（BB_326、BB_327）",
-  "how": "date_rewrite.py apply；null＝那一格不動；文學館看手稿那一段不動"
+  "how": "date_rewrite.py apply；null＝那一格不動；文學館看手稿那一段不動",
+  "overnight": "BB_327 第 4 節（11-11）：過夜地點四個點分兩天走、只有夕陽／星星／雲海綁時段，其他景點的句子不能講天色、早上、晚上——照它掃出來的改。"
  },
  "D28": [
   null,
@@ -31,7 +32,7 @@
   null,
   null,
   null,
-  null,
+  "走了一大段，腳痠了。",
   null,
   null,
   null,

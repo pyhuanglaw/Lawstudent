@@ -35,6 +35,13 @@ for k,v in D.items():
         if 'closing' in key: heads[strip(t)[:3]]+=1
 for t,w in allv.items():
     if len({x[0] for x in w})>1 and not t.startswith('「') and not t.startswith('（') and len(t)>5: print('重複',t,w)
+# 過夜地點（D26～D32）講到時段的句子：四個點分兩天走，只有夕陽／星星／雲海綁時段（AA_359、BB_327 第 4 節）
+TIME=r'天快暗|天黑|天色|晚上|今晚|夕陽|日落|星|早上|中午|下午|傍晚|末班'
+for k,v in D.items():
+    if not ('D26'<=k<='D32'): continue
+    for i,key,t in v:
+        if t.startswith('「') or re.search('sunset|stars|cloud',key): continue
+        if re.search(TIME,t): print('  過夜時段？',k,i,key.split('[')[0],t)
 n=sum(tot.values())
 print('道別格開頭三個字出現四次以上的（BB_327：同一個開頭留四個上下）：',{k:v for k,v in heads.items() if v>=4})
 print('整批：',n,'格；每格句數',dict(sorted(tot.items())),'；兩句格',f'{round(100*tot[2]/max(1,n))}%','；「上次」開頭',up,'；收尾講明天',tom)
