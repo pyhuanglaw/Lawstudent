@@ -52,8 +52,9 @@ const q6=G=>{ G.events.done.ev_ziqing_secret_game=G.day-30; };
       const auto=H.said.some(s=>s.who==='祐廷'&&Lx.REPLY.includes(s.t)), all=flat(say).concat(...E.opts.map(o=>flat(o.re)),flat(E.then)), pool=poolOf(term,who).filter(t=>S0.includes(t)&&!all.includes(t)&&!(((Lx.HOOK[term]||{})[who])&&TERMEND.flat(Lx.HOOK[term][who].say,G).includes(t)));   /* 鉤子自己念的那一句不算 */
       if(!grp||vis.length!==3||!sayOk||!reOk||!thenOk||!order||auto||pool.length||/[{}|]/.test(S0.join(''))) bad.push([term,who,{grp:!!grp,n:vis.length,sayOk,reOk:!!reOk,thenOk,order,auto,pool}]); }
     check('2. 朋友版 '+n+' 頓：開頭照稿 → 三個選項 → 選了以後的回答照稿 → then；祐廷不自動回「嗯。」；不抽話題池；畫面上沒有 {甲|乙}',n===77&&bad.length===0,J(bad.slice(0,4)));
-    const z=FR.Y1S1.zhe; await dinner('zhe','Y1S1','friend',[z.opts[1].t]); const i={s:idx(flat(z.says[0].say)[0]),r:idx(flat(z.opts[1].re)[0]),t:idx('我二號回高雄。二十九號去海邊啦，我回去之前。')};
-    check('2. 阿哲大一上逐字：開頭 → 選第二個 → 它的回答 → then「我二號回高雄。二十九號去海邊啦，我回去之前。」',i.s>=0&&i.r>i.s&&i.t>i.r,J({i,said:said()}));
+    const z=FR.Y1S1.zhe; await dinner('zhe','Y1S1','friend',[z.opts[1].t]); const i={s:idx(flat(z.says[0].say)[0]),r:idx(flat(z.opts[1].re)[0]),t:idx('我二號回高雄，欸二十九號去海邊啦，趁我還沒回去。')};
+    /* 2026-11-11 改期望（AA 改斷句、意思不變；企劃線 bd1a6fda3：芷若、可昕、Alison、阿哲說的字改成一口氣講的寫法，113 處）：then 原本「我二號回高雄。二十九號去海邊啦，我回去之前。」*/
+    check('2. 阿哲大一上逐字：開頭 → 選第二個 → 它的回答 → then「我二號回高雄，欸二十九號去海邊啦，趁我還沒回去。」',i.s>=0&&i.r>i.s&&i.t>i.r,J({i,said:said()}));
     await dinner('kai','Y1S1','fallback'); const k=FR.Y1S1.kai; check('2. 阿凱（保底的宵夜）：他的開場（open）照舊 → 新稿的開頭和選項 → 收尾照舊',idx('考完了就好。')>=0&&idx(flat(k.says[0].say)[0])>idx('考完了就好。')&&CH.length>=1&&CH[0].length===3&&has('這次我請。'),J(said())); });
 
   await sec(3,async()=>{ if(!ok0){ check('3. 條件',false,'沒有 TERMEND_OPTS.FRIEND'); return; }
@@ -117,8 +118,9 @@ const q6=G=>{ G.events.done.ev_ziqing_secret_game=G.day-30; };
     const back=JSON.parse(J(G)); check('6. 舊存檔（沒有 G.termend）照演、可以序列化；存檔沒有新欄位（只有原本的 done）',!err&&J(Object.keys(back.termend.Y2S2))===J(['done']),err||J(Object.keys(back.termend.Y2S2))); });
   /* thenIf（企劃線 1cf434dee）：學姊大三上朋友版——選項演完以後，朋友以上（SIS_FU）才補「……收到信那天，我打給你。」*/
   await sec(7,async()=>{ if(!ok0){ check('7. thenIf',false,'沒有 TERMEND_OPTS.FRIEND'); return; }
-    const E=FR.Y3S1.heroine_05, L='……收到信那天，我打給你。'; let doc=null; try{ doc=JSON.parse(cp.execFileSync('git',['show','1cf434dee:docs/story_planning/AA_749_termend_friend_v2_Y3S1.json'],{cwd:H.ROOT,encoding:'utf8'})); }catch(e){ doc=null; }
-    check('7. 資料：學姊大三上 thenIf｛if SIS_FU, lines 照稿｝；來源 1cf434dee；其他人沒有 thenIf',!!doc&&J(E.thenIf)===J({if:'SIS_FU',lines:doc.Y3S1.heroine_05.thenIf.lines})&&J(E.thenIf.lines)===J([L])&&TOx.src.friend.includes('docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@1cf434dee')&&Object.keys(FR).every(t=>Object.keys(FR[t]).every(w=>(t==='Y3S1'&&w==='heroine_05')||FR[t][w].thenIf===undefined)),J(E.thenIf));
+    const E=FR.Y3S1.heroine_05, L='……收到信那天，我打給你。'; let doc=null; try{ doc=JSON.parse(cp.execFileSync('git',['show','bd1a6fda3:docs/story_planning/AA_749_termend_friend_v2_Y3S1.json'],{cwd:H.ROOT,encoding:'utf8'})); }catch(e){ doc=null; }
+    /* 2026-11-11 改期望：白名單的來源換成 bd1a6fda3（AA 改斷句的那一版；學姊這一格的字沒有動）——原本 1cf434dee */
+    check('7. 資料：學姊大三上 thenIf｛if SIS_FU, lines 照稿｝；來源 bd1a6fda3；其他人沒有 thenIf',!!doc&&J(E.thenIf)===J({if:'SIS_FU',lines:doc.Y3S1.heroine_05.thenIf.lines})&&J(E.thenIf.lines)===J([L])&&TOx.src.friend.includes('docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3')&&Object.keys(FR).every(t=>Object.keys(FR[t]).every(w=>(t==='Y3S1'&&w==='heroine_05')||FR[t][w].thenIf===undefined)),J(E.thenIf));
     const keep=Lx.COND.SIS_FU; const last=()=>{ const g=CH[0]||[], o=E.opts.find(x=>x.t===g[0]); return o?flat(o.re).slice(-1)[0]:null; };
     try{ Lx.COND.SIS_FU=()=>true; await dinner('heroine_05','Y3S1','friend'); const r=last();
       check('7. 朋友以上（SIS_FU）：選項、她的回答之後補「……收到信那天，我打給你。」（只說一次、在收尾之前）',has('面試的事，今天不講。')&&CH[0].length===3&&said().filter(t=>t===L).length===1&&!!r&&idx(L)===idx(r)+1,J(said()));

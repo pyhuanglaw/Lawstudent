@@ -134,7 +134,9 @@ const GFP=['heroine_01','heroine_03','heroine_05','heroine_02','heroine_04'], HP
     const kx=async(term,want,pre)=>{ const G=H.fresh(DAY[term],18); H.rel('kexin',65,50,45); G.flags.dating_kexin=true; if(pre) pre(G); H.said=[]; CH=[]; WANT=want||[]; const l0=love('kexin'); await TERMEND.dinner(GM,{te:{term,who:'kexin',kind:'kexin'}}); return {G,dl:love('kexin')-l0}; };
     const a=await kx('Y2S1',['「我去。妳排哪幾天？」','「好。哪幾天？」']);
     /* 2026-11-10 改期望（AA 11-10 經 LAWWW）：有選項稿的學期 KX_ASK 的二選一不再接在後面；KX_KHH.Y2W 由選項「我去。妳排哪幾天？」記 */
-    check('7. 可昕大二上：開頭兩句 → 三個選項 → 她的回答（+2）；不再接 KX_ASK 的二選一；選「我去。妳排哪幾天？」＝記 KX_KHH.Y2W yes',has('我家附近那個夜市你還沒去過。我已經跟我媽說了。')&&CH.length===1&&CH[0].length===3&&has('你住旅館喔，我家沒有多的房間。有也不給你住。')&&a.dl===2&&a.G.flags.KX_KHH&&a.G.flags.KX_KHH.Y2W==='yes'&&!has('我們期末考完，你寒假來高雄。')&&!has('你自己挑。我那幾天都在。'),J({ch:CH,dl:a.dl,khh:a.G.flags.KX_KHH}));
+    /* 2026-11-11 改期望（AA 改斷句、意思不變；企劃線 bd1a6fda3：芷若、可昕、Alison、阿哲說的字改成一口氣講的寫法，113 處）：開頭兩句併成一句「寒假你來高雄，我家附近那個夜市你還沒去過，我已經跟我媽說了。」、回答「你住旅館喔，我家沒有多的房間，有也不給你住。」
+       （原本「寒假你來高雄。」「我家附近那個夜市你還沒去過。我已經跟我媽說了。」「你住旅館喔，我家沒有多的房間。有也不給你住。」）*/
+    check('7. 可昕大二上：開頭 → 三個選項 → 她的回答（+2）；不再接 KX_ASK 的二選一；選「我去。妳排哪幾天？」＝記 KX_KHH.Y2W yes',has('寒假你來高雄，我家附近那個夜市你還沒去過，我已經跟我媽說了。')&&CH.length===1&&CH[0].length===3&&has('你住旅館喔，我家沒有多的房間，有也不給你住。')&&a.dl===2&&a.G.flags.KX_KHH&&a.G.flags.KX_KHH.Y2W==='yes'&&!has('我們期末考完，你寒假來高雄。')&&!has('你自己挑。我那幾天都在。'),J({ch:CH,dl:a.dl,khh:a.G.flags.KX_KHH}));
     const a2=await kx('Y2S1',['「寒假我可能要打工。」']); /* 2026-11-10 三改期望（AA 回 LAWWW，企劃線 1cf434dee）：每個選項照稿的 set 記——false＝原本的「沒空」（KX_KHH.Y2W no，寒假第 5 天夜市照片那條）*/
     check('7. 選「寒假我可能要打工。」（set KX_KHH false）＝記 KX_KHH.Y2W no；只有一組選項',!!a2.G.flags.KX_KHH&&a2.G.flags.KX_KHH.Y2W==='no'&&CH.length===1,J({ch:CH,khh:a2.G.flags.KX_KHH||null}));
     const a3=await kx('Y2S1',['「妳跟妳媽說什麼？」']); check('7. 選「妳跟妳媽說什麼？」（set KX_KHH true）＝記 KX_KHH.Y2W yes',!!a3.G.flags.KX_KHH&&a3.G.flags.KX_KHH.Y2W==='yes',J(a3.G.flags.KX_KHH||null));
@@ -144,9 +146,9 @@ const GFP=['heroine_01','heroine_03','heroine_05','heroine_02','heroine_04'], HP
     const y5=[]; for(const t of TOx.KX.Y5S1.opts.map(o=>o.t)){ const r=await kx('Y5S1',[t]); y5.push(r.G.flags.KX_Y5_CALL); } check('7. 大五上三個選項都記 KX_Y5_CALL（sat＝原本「週末一定打。」的值）、不記 KX_KHH',y5.length===3&&y5.every(v=>v==='sat')&&!H.G.flags.KX_KHH,J(y5));
     check('7. 資料：臺灣路線每個選項都有 khh 或 y5、美國路線那一組沒有（大三下例外：三個都是 Y3S yes）；沒有稿上的 set 原樣留著',Object.keys(TOx.KX).every(t=>TOx.KX[t].opts.every(o=>o.set===undefined&&(o.if==='US'?(t==='Y3S2'?(J(o.khh)===J(['Y3S','yes'])&&!o.y5):(!o.khh&&!o.y5)):(t==='Y5S1'?o.y5==='sat'&&!o.khh:Array.isArray(o.khh)&&['yes','no'].includes(o.khh[1]))))));
     const one=[]; for(const t of ['Y2S2','Y3S1','Y3S2','Y4S1','Y5S1']){ await kx(t,[]); if(CH.length!==1||CH[0].length!==3) one.push([t,CH]); } check('7. 大二下～大五上：各一組三個選項、後面沒有二選一',one.length===0,J(one));
-    await kx('Y3S1',['「所以能不能？」']); check('7. 大三上：選項之後接 then「寒假你來高雄。我們都沒去過的地方，我來排。」',idx('寒假你來高雄。我們都沒去過的地方，我來排。')>idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')&&idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')>=0,J(said().slice(0,9)));
+    await kx('Y3S1',['「所以能不能？」']); /* 2026-11-11 改期望（AA 改斷句、意思不變；bd1a6fda3）：then「寒假你來高雄，我們都沒去過的地方，我來排。」（原本「寒假你來高雄。我們都沒去過的地方，我來排。」）*/ check('7. 大三上：選項之後接 then「寒假你來高雄，我們都沒去過的地方，我來排。」',idx('寒假你來高雄，我們都沒去過的地方，我來排。')>idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')&&idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')>=0,J(said().slice(0,9)));
     await kx('Y3S2',[]); const tw={say:has('暑假你在臺北，我在高雄。'),g:CH[0].includes('「那晚上講電話。」')&&CH[0].length===3};
-    await kx('Y3S2',[],G=>{ G.flags.EXCHANGE_ROUTE='US'; }); const usOn=Lx.COND.US(H.G), us={say:has('八月你就去美國了。')&&!has('暑假你在臺北，我在高雄。'),g:CH[0].includes('「幾天？」')&&CH[0].length===3};
+    await kx('Y3S2',[],G=>{ G.flags.EXCHANGE_ROUTE='US'; }); const usOn=Lx.COND.US(H.G), us={say:has('八月你就去美國了，我算過了，我們分開最久就是這次。')/* 2026-11-11 改期望（AA 改斷句、意思不變；bd1a6fda3）：原本「八月你就去美國了。」「我算過了。我們分開最久就是這次。」兩句 */&&!has('暑假你在臺北，我在高雄。'),g:CH[0].includes('「幾天？」')&&CH[0].length===3};
     check('7. 大三下：臺灣路線、美國路線各自的開頭和三個選項',tw.say&&tw.g&&(!usOn||(us.say&&us.g)),J({tw,us,usOn,ch:CH[0]}));
     check('7. 美國路線的條件在測試裡有打開',usOn===true,'STORY.route');
     const f=await kx('Y1S2',[]); check('7. 大一下第一次那一頓照現有的（不在稿裡）',!TOx.KX.Y1S2); });

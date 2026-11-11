@@ -37,7 +37,8 @@ await sec(1,()=>{ const A=TERMEND_LINES.KX_ASK, f=x=>typeof x==='function';
   check('1. termend3d.js kexinDinner：（沒有選項稿的）table 後面接 KX_ASK 的二選一、記 KX_KHH',/Lx\.KX_ASK&&Lx\.KX_ASK\[te\.term\]/.test(src)&&/KX_KHH\|\|\(G\.flags\.KX_KHH=\{\}\)/.test(src)); });
 await sec('1b',async()=>{ const te={term:'Y2S1'}; fresh('2026-12-30',18); H.said=[]; H.opts=[]; H.picks=[0,1]; await TERMEND.kexinDinner(GM,te);   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版）：開頭照新稿、先有一組三個選項，KX_ASK 的二選一是第二組 */
   /* 2026-11-10 再改期望（AA 11-10 經 LAWWW：有選項稿的學期 KX_ASK 的二選一不再接在後面；KX_KHH.Y2W 由選項「我去。妳排哪幾天？」記）*/
-  check('1. 實際演大二上（有選項稿）：開頭照新稿、只有一組三個選項、不再接 KX_ASK 的二選一',has('我家附近那個夜市你還沒去過。我已經跟我媽說了。')&&H.opts.length===1&&H.opts[0].length===3&&!has('……好。那夜市我自己去，拍給你看。')&&!has('你自己挑。我那幾天都在。'),J({s:H.said.map(x=>x.t),o:H.opts}));
+  /* 2026-11-11 改期望（AA 改斷句、意思不變；企劃線 bd1a6fda3：芷若、可昕、Alison、阿哲說的字改成一口氣講的寫法，113 處）：開頭併成一句（原本「寒假你來高雄。」「我家附近那個夜市你還沒去過。我已經跟我媽說了。」）*/
+  check('1. 實際演大二上（有選項稿）：開頭照新稿、只有一組三個選項、不再接 KX_ASK 的二選一',has('寒假你來高雄，我家附近那個夜市你還沒去過，我已經跟我媽說了。')&&H.opts.length===1&&H.opts[0].length===3&&!has('……好。那夜市我自己去，拍給你看。')&&!has('你自己挑。我那幾天都在。'),J({s:H.said.map(x=>x.t),o:H.opts}));
   const k0=TERMEND.SHUFFLE; TERMEND.SHUFFLE=false; try{ fresh('2026-12-30',18); H.said=[]; H.opts=[]; H.picks=[1]; await TERMEND.kexinDinner(GM,te); } finally{ TERMEND.SHUFFLE=k0; }
   check('1. 選「我去。妳排哪幾天？」＝記 KX_KHH.Y2W yes（原本二選一「好。哪幾天？」記的那個）',H.opts[0][1]==='「我去。妳排哪幾天？」'&&!!H.G.flags.KX_KHH&&H.G.flags.KX_KHH.Y2W==='yes',J({o:H.opts,k:H.G.flags.KX_KHH}));
   fresh('2026-12-30',18); H.said=[]; H.opts=[]; H.picks=[0]; TERMEND.SHUFFLE=false; try{ await TERMEND.kexinDinner(GM,te); } finally{ TERMEND.SHUFFLE=k0; }
