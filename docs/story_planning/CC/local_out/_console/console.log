@@ -1915,3 +1915,13 @@
 [11:26:04] solo item GOCLASS_guard_new waits: no new items start until the 2 running item(s) finish
 [11:29:03] 正在跑：GOCLASS_fullsvc_new（已跑 4 分／上限 10 分）、GOCLASS_fullsvc_old（已跑 4 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:30:41] [res] cpu=1% mem=41% (13.1/31.4 GB) chrome_testing=5  END GOCLASS_fullsvc_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6304562da..112a8e2fd  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:30:48] ==== END   GOCLASS_fullsvc_new  exit=0  351s   ====
+[11:30:57] memory 36% before starting GOCLASS_fullsvc_new (1 running)
+[11:30:57] solo item GOCLASS_guard_new waits: no new items start until the 2 running item(s) finish
+[11:30:57] ==== START GOCLASS_fullsvc_new  (probe @ 1d4db297a4b980e82619dbc41f70e41f108f0596) ====
+[11:31:00] [res] cpu=26% mem=36% (11.4/31.4 GB) chrome_testing=0  START GOCLASS_fullsvc_new
+[11:31:02] worktree add 1d4db297a4b980e82619dbc41f70e41f108f0596: invalid reference - fetching main and the commit itself
+[11:31:04] [res] cpu=4% mem=36% (11.4/31.4 GB) chrome_testing=0  END GOCLASS_fullsvc_old
