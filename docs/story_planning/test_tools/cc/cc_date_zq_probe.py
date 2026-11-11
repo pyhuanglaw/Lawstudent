@@ -64,11 +64,13 @@ SYS_NARR = re.compile(r'^（(今天去了|這兩天去了|第二天早上。|晚
 
 # 地點設定：類別（手機選單第二層）、出發時間、記憶的第一個點（remember 的那一格）、點的順序
 LOCS = {
-    'D01': dict(group='臺北市：看展・電影', dep=15, kind='half', order=['D01.expo', 'D01.market', 'D01.wall', 'D01.lawn']),
+    'D01': dict(group='臺北市：看展・電影', dep=15, kind='half', order=['D01.expo', 'D01.lawn', 'D01.market', 'D01.wall']),
     'D03': dict(group='臺北市：看展・電影', dep=15, kind='half', order=['D03.demo', 'D03.arcade', 'D03.gacha', 'D03.window']),
     'D08': dict(group='臺北市：戶外', dep=15, kind='half', order=['D08.panda', 'D08.train', 'D08.penguin', 'D08.giraffe']),
-    'D26': dict(group='兩天一夜…', dep=9, kind='overnight', order=['D26.museum', 'D26.path', 'D26.village', 'D26.plaza']),
+    'D26': dict(group='兩天一夜…', dep=9, kind='overnight', order=['D26.museum', 'D26.path', 'D26.plaza', 'D26.village']),
 }
+# 每趟只點 3 個點：點滿 4 個（兩天一夜每天 2 個）時引擎不再出選單，收尾句會直接接在最後一個點後面、分不出段落——留一個不點，收尾前一定有「差不多了」那個選單
+MAXP = 3
 # 日子：2025 學年大一上的週六（避開 10/06 中秋、10/13 颱風、期中考週；第一個 DATE.check 過的那一天）
 DAY_KEYS = ['2025-09-27', '2025-10-04', '2025-10-18', '2025-10-25', '2025-11-22', '2025-11-29', '2025-12-06']
 REL = {5: dict(fam=50, trust=30, comf=30, npcRom=40), 6: dict(fam=70, trust=50, comf=45, npcRom=56)}
@@ -174,7 +176,7 @@ def text_index(obj, pre):
     """{畫面上的字: [稿裡的位置…]}（旁白補括號後的樣子也收）"""
     idx = {}
     for k, v in leaves(obj, pre, {}).items():
-        if not isinstance(v, str) or not k.endswith('/text') and '/t' not in k[-3:]: continue
+        if not isinstance(v, str) or not (k.endswith('/text') or k.endswith('/t') or '/re' in k or '/dislikeLine/' in k): continue
         for s in {v, v if v.startswith('（') else '（' + v + '）'}:
             idx.setdefault(s, []).append(k)
     return idx
@@ -283,7 +285,8 @@ async def base(pg, day, hour, dating, stage, extra=None):
     if dating: flags['dating_' + ZQ] = True
     wd = await pg.evaluate("(d=>{ const x=CALENDAR.dateOf(d); return x?((x.wd%7)+7)%7:0; })", day)
     stt = {'zone': 'dorm', 'day': day, 'weekday': wd, 'hour': hour, 'weather': 'sunny', 'money': 40000, 'flags': flags}
-    if extra and extra.get('G'): stt = extra['G']; stt['day'] = day; stt['weekday'] = wd; stt['hour'] = hour; stt['zone'] = 'dorm'; stt['weather'] = 'sunny'
+    if extra and extra.get('G'):
+        stt = extra['G']; stt['day'] = day; stt['weekday'] = wd; stt['hour'] = hour; stt['zone'] = 'dorm'; stt['weather'] = 'sunny'; stt.pop('pos', None); stt.pop('trip', None)
     await L.load_state(pg, stt, quiet_events=True)
     await pg.wait_for_timeout(2500)
     await L.phone_away(pg, cdp_of[pg])
@@ -343,7 +346,7 @@ async def book(pg, cdp, loc, cfg, screen):
     if opts and not any(o.startswith('今天') for o in opts) and not any(o.startswith('算了') for o in opts[:1]):
         got = await pick_word(pg, cdp, menu, [lambda o: True], screen=screen); steps.append('交通：' + str(got))   # 交通（她想這樣去的排第一＝預設；D26 高鐵）
     steps.append(await pick_word(pg, cdp, menu, [lambda o: o.startswith('今天')], screen=screen))
-    hh = '%02d:00' % cfg['dep']
+    hh = ('%02d:00' % cfg['dep'], '%d:00' % cfg['dep'])
     steps.append(await pick_word(pg, cdp, menu, [lambda o: o.startswith(hh)], screen=screen))
     steps.append(await pick_word(pg, cdp, menu, ['就這樣約'], screen=screen))
     await idle(pg, cdp, screen, 30)
@@ -380,13 +383,11 @@ async def depart(pg, cdp, cfg, screen, max_s=420):
                 log('  ！等出發時出現別的選單：%s → 選第一個' % J(opts)); k = 0
             said = opts[k]; await tap_btn(pg, cdp, k); menu.tapped = time.time(); await pg.wait_for_timeout(900); continue
         if s['dlg']: await tap_dlg(pg, cdp, s, screen); continue
-        if s['day'] == s['trip']['day'] if s['trip'] else False:
-            pass
         tgt = cfg['dep'] - 1
-        if s['hour'] < tgt - 0.25 and len(skipped) < 3:
+        if s['hour'] < tgt - 0.25 and len(skipped) < 3 and not any(x.get('wait') for x in skipped):
             t, bs = await skip_to(pg, cdp, tgt); skipped.append({'from': s['hour'], 'tap': t, 'buttons': [b['t'] for b in bs]})
             log('  手機「今天」跳過時間：%s（可以點的 %s）' % (t, J([b['t'] for b in bs])))
-            if t is None: skipped[-1]['wait'] = True
+            if t is None: skipped[-1]['wait'] = True; log('  沒有不超過出發前 1 小時的跳過鍵：等遊戲時間自己走（%.2f → %.2f）' % (s['hour'], tgt))
             continue
         await pg.wait_for_timeout(1000)
     return None, skipped
@@ -394,11 +395,13 @@ async def depart(pg, cdp, cfg, screen, max_s=420):
 
 async def play(pg, cdp, cfg, screen, shots_tag, max_s=900):
     """約會本身：選單照 cfg['order'] 選互動點，互動點的選項選 PICK，快速約會選「自己選」；回傳選過的"""
-    menu = Menu(); t0 = time.time(); picked = []; nshot = [0]; stopped = False
-    async def maybe_shot(name, full):
+    menu = Menu(); t0 = time.time(); picked = []; nshot = [0]; stopped = False; want = [None]
+    async def maybe_shot(full):
+        # 每格一張以內：選了互動點以後的第一句（再訪格、交往格都在這裡）、肢體句、晚上那句
         if nshot[0] >= 12: return
-        if CONTACT.search(full) or full.startswith('（晚上') or name in ('remember',):
-            nshot[0] += 1; await R.shot(pg, '%s_%02d' % (shots_tag, nshot[0]))
+        tag = want[0] or ('contact' if CONTACT.search(full) else ('night' if full.startswith('（晚上') else None))
+        if not tag: return
+        want[0] = None; nshot[0] += 1; await R.shot(pg, '%s_%s' % (shots_tag, tag))
     done_t = None
     while time.time() - t0 < max_s:
         s = await st(pg)
@@ -414,12 +417,12 @@ async def play(pg, cdp, cfg, screen, shots_tag, max_s=900):
             opts, dim = s['ch']['opts'], s['ch']['dim']
             if opts and opts[-1] in STOPS:
                 left = opts[:-1]; k = None
-                for pid in cfg['order']:
-                    nm = cfg['names'][pid]
-                    if nm in left and not dim[left.index(nm)] and pid not in picked: k = left.index(nm); picked.append(pid); break
-                if k is None or len([p for p in picked if p]) > 4: k = len(opts) - 1; stopped = True
+                if len(picked) < MAXP:
+                    for pid in cfg['order']:
+                        nm = cfg['names'][pid]
+                        if nm in left and not dim[left.index(nm)] and pid not in picked: k = left.index(nm); picked.append(pid); want[0] = pid.split('.')[-1]; break
+                if k is None: k = len(opts) - 1; stopped = True
                 log('  [選互動點] %s → %s' % (J(opts), opts[k]))
-                if k < len(left): await R.shot(pg, '%s_spot_%s' % (shots_tag, picked[-1].split('.')[-1])) if len(picked) == 1 else None
             elif opts and opts[0] == '自己選':
                 k = 0; log('  [快速約會] %s → 自己選' % J(opts))
             elif '現在出發' in opts or '出發' in opts:
@@ -431,7 +434,7 @@ async def play(pg, cdp, cfg, screen, shots_tag, max_s=900):
             await tap_btn(pg, cdp, k); menu.tapped = time.time(); await pg.wait_for_timeout(800); continue
         if s['dlg']:
             n0 = len(screen); s2 = await tap_dlg(pg, cdp, s, screen)
-            if len(screen) > n0: await maybe_shot('', s2['full'])
+            if len(screen) > n0: await maybe_shot(s2['full'])
             continue
         await pg.wait_for_timeout(500)
     return picked, stopped
@@ -465,9 +468,9 @@ async def analyze(pg, tag, loc, stage, dating, ctx, ev, screen, picked, names):
     who_names = set(await pg.evaluate("(id=>[SOCIAL.displayName(id),(CHARACTERS[id]||{}).name].filter(Boolean))", ZQ))
     page = await pg.evaluate("(()=>({NIGHT:DATE.NIGHT, MORNING:(DATE.MORNING||{}).heroine_04||null, MN:DATE.MORNING_NARR}))()")
     locname = await pg.evaluate("(l=>DATE.loc(l).name)", loc)
-    Z = zl(loc); IDX = text_index(Z, '/' + loc); DIDX = None
+    Z = zl(loc); IDX = text_index({'lines': Z, 'dislikeLine': ((DL['loc'][loc].get('dislikeLine') or {}).get(ZQ) or {})}, '/' + loc); DIDX = None
     dr = draft_of(loc)
-    if dr is not None: DIDX = text_index(((dr.get('lines') or {}).get(ZQ) or {}), '/' + loc)
+    if dr is not None: DIDX = text_index({'lines': ((dr.get('lines') or {}).get(ZQ) or {}), 'dislikeLine': ((dr.get('dislikeLine') or {}).get(ZQ) or {})}, '/' + loc)
     else: log('  （源稿讀不到＝只和遊戲資料檔 date_lines.js 比）')
     rev_name = {v: k for k, v in names.items()}
     def mine(e): return e['cid'] == ZQ or any(e['who'].startswith(n) for n in who_names)
@@ -523,9 +526,9 @@ async def analyze(pg, tag, loc, stage, dating, ctx, ev, screen, picked, names):
     if not dating:
         R.check('[%s] 3a 一般（沒有交往）：沒有牽手／靠肩／拉手這類句子' % tag, not contact, J(contact))
         R.check('[%s] 3b 一般：沒有任何交往格的句子' % tag, n_dating == 0, str(n_dating))
-        dl = [t for _, t in leaves({}, '', {}).items()]
         dating_texts = {v for k, v in leaves(Z, '', {}).items() if '/dating/' in k and isinstance(v, str)}
-        leak = [e['t'] for e in ev if e['k'] == 'say' and e['t'] in dating_texts and not dl]
+        dating_texts |= {'（' + v + '）' for v in list(dating_texts) if not v.startswith('（')}
+        leak = [e['t'] for e in ev if e['k'] == 'say' and e['t'] in dating_texts]
         R.check('[%s] 3c 一般：畫面上沒有出現任何交往格的字（整個 %s 的交往格逐字比）' % (tag, loc), not leak, J(leak))
     else:
         arr = next((r for r in slot_rows if r['seg'] == 'arrive'), None); cl = next((r for r in slot_rows if r['seg'] == 'close'), None)
@@ -653,8 +656,10 @@ async def main():
                     r1 = await one_date(pg, cdp, errs, 'REVISIT_1st', 'D01', 5, False, 0, [], [])
                     if r1: rows.append(r1)
                     G = await pg.evaluate("JSON.parse(JSON.stringify(GAME.G))")
-                    d2 = G['day'] + 1
-                    k2 = await pg.evaluate("(d=>{ const x=CALENDAR.dateOf(d); return x.y+'-'+x.m+'-'+x.d; })", d2)
+                    nx = await pg.evaluate("""(([id,d0])=>{ for(let d=d0+1;d<d0+15;d++){ const G2=Object.assign({},GAME.G,{day:d,hour:13,weather:'sunny'}); const c=DATE.check(G2,{who:id,locs:['D01'],day:d,depart:15,transport:'mrt'});
+                        const T=CALENDAR.termOf?CALENDAR.termOf(d):null; if(c.ok&&!(T&&T.exam)){ const x=CALENDAR.dateOf(d); return {d,k:x.y+'-'+x.m+'-'+x.d}; } } return null; })""", [ZQ, G['day']])
+                    if not nx: raise RuntimeError('第一次之後兩週內找不到能再約華山的日子')
+                    d2, k2 = nx['d'], nx['k']
                     r2 = await one_date(pg, cdp, errs, 'REVISIT_2nd', 'D01', 5, False, 1, [], [], keepG={'G': G}, day_override=(d2, k2))
                     if r2:
                         rows.append(r2)
