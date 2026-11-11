@@ -1,0 +1,40 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_tbl_edge_r2\out
+CC NM1 夜市：PARTS TABLE,EDGE；SHA 11161c101；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 （讀配置）
+PASS [TABLE] 有 TINGZHOU_LAYOUT.stalls（kinds、list、gongguan）  {"kinds": {"milk": {"name": "沈三盃黑糖鮮奶", "size": "M", "w": 2, "d": 0.9, "block": {"w": 2.9, "d": 1.7, "back": 0.25}, "from": 17, "to": 24, "buy": true, "items": [["黑糖珍珠鮮奶（青蛙撞奶）", 65], ["黑糖鮮奶", 55], ["黑糖珍珠奶茶", 55], ["黑糖鮮奶茶", 50], ["黑糖珍珠鮮奶（熱）", 65]]}, "pepper": {"name": "皇家高端胡椒餅", "size": "MW", "w": 2.4
+  [  46.8s] [TABLE] 攤數：汀州路 10、公館 3；合計 13
+  [  46.8s] [TABLE] 各攤開收時間（nm_hours_table.md）：
+| id | 攤名 | 在哪 | from | to | 買 | 只開星期 |
+|---|---|---|---|---|---|---|
+| st_eggcake | 陳家古早味雞蛋糕 | tingzhou alleyA | 15（1500） | 21.5（2130） | True |  |
+| st_wheelcake | 二十元紅豆餅 | gongguan gongguan | 15（1500） | 22（2200） | True |  |
+| st_socks | 襪子 | tingzhou road | 16（1600） | 22（2200） | False |  |
+| st_phonecase | 手機殼 | gongguan gongguan | 16（1600） | 22.5（2230） | False |  |
+| st_scallion | 當蔥蔥油餅 | tingzhou alleyA | 16（1600） | 23（2300） | True |  |
+| st_cane | 節節高甘蔗汁 | tingzhou road | 16（1600） | 23（2300） | True |  |
+| st_pepper | 皇家高端胡椒餅 | tingzhou road | 17（1700） | 23（2300） | True |  |
+| st_jelly | 公館阿婆甜湯 | tingzhou road | 17（1700） | 23（2300） | True |  |
+| st_ball | 一個地球 | tingzhou alleyA | 17（1700） | 24（0000+1） | True |  |
+| st_milk | 沈三盃黑糖鮮奶 | gongguan gongguan | 17（1700） | 24（0000+1） | True |  |
+| st_stinky | 紹興炸豆腐 | tingzhou road | 17.5（1730） | 24（0000+1） | True |  |
+| st_ring | 套圈圈 | tingzhou road | 18（1800） | 22.5（2230） | False | [5, 6, 0] |
+| st_corn | 玉皇大帝 | tingzhou road | 18（1800） | 24（0000+1） | True |  |
+PASS [TABLE] 每一攤的時間不一樣（from／to 組合不全相同）
+PASS [TABLE] 背景攤 ring 的名字只寫賣的東西「套圈圈」（沒有店名）、不能買  {"name": "套圈圈", "size": "BG", "w": 2.2, "d": 1.6, "block": {"w": 2.9, "d": 2.2, "back": 0.2}, "from": 18, "to": 22.5, "buy": false, "days": [5, 6, 0]}
+PASS [TABLE] 背景攤 phonecase 的名字只寫賣的東西「手機殼」（沒有店名）、不能買  {"name": "手機殼", "size": "BG", "w": 1.6, "d": 0.7, "block": {"w": 2.2, "d": 1.5, "back": 0.25}, "from": 16, "to": 22.5, "buy": false}
+PASS [TABLE] 背景攤 socks 的名字只寫賣的東西「襪子」（沒有店名）、不能買  {"name": "襪子", "size": "BG", "w": 1.6, "d": 0.7, "block": {"w": 2.2, "d": 1.5, "back": 0.25}, "from": 16, "to": 22, "buy": false}
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 （讀配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1457 (10.50,0.85) （最早開 邊界前 3 分鐘，之後讓時間自己走）
+  [  72.0s] [EDGE 最早開 st_eggcake 陳家古早味雞蛋糕 1500] 紀錄（G.hour, isOpen, open visible）：[[14.9869, false, false], [14.9899, false, false], [14.9924, false, false], [14.9949, false, false], [14.9976, false, false], [15.0001, false, false], "…", [15.023, true, true], [15.0252, true, true], [15.0274, true, true], [15.0297, true, true], [15.0319, true, true], [15.034, true, true]]
+PASS [EDGE 最早開 st_eggcake 陳家古早味雞蛋糕 1500] 時間走過邊界時翻轉了（開）  [[15.0297, true, true], [15.0319, true, true], [15.034, true, true]]
+PASS [EDGE 最早開 st_eggcake 陳家古早味雞蛋糕 1500] 翻轉在邊界 ±1 分鐘內（翻轉時 G.hour 15.0028；邊界 15）  [{"id": "st_eggcake", "kind": "eggcake", "name": "陳家古早味雞蛋糕", "x": 10.5, "z": -1.65, "yaw": 0, "isOpen": false, "gh": 15.0001, "eh": 15.0001, "expect": true, "openVis": false, "closedVis": true, "ob": {"c": [10.66, 1.02, -1.808], "s": [2.74, 2.04, 1.59], "top": 2.04}, "cb": {"c": [10.852, 0.675, -1.684], "s": [2.35, 1.34, 0.98], "top": 1.35}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}, {"id": "st_eggcake", "kind": "eggcake", "name": "陳家古早味雞蛋糕", "x": 10.5, "z": -1.65, "yaw": 0, "isOpen": true, "gh": 15.0028, "eh": 15.0028, "expect": true, "openVis": true, "closedVis": false, "ob": {"c": [10.66, 1.02, -1.808], "s": [2.74, 2.04, 1.59], "top": 2.04}, "cb": {"c": [10.852, 0.675, -1.684], "s": [2.35, 1.34, 0.98], "top": 1.35}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}]
+PASS [EDGE 最早開 st_eggcake 陳家古早味雞蛋糕 1500] 翻轉後 open 模型 visible 和 isOpen 同步  {"id": "st_eggcake", "kind": "eggcake", "name": "陳家古早味雞蛋糕", "x": 10.5, "z": -1.65, "yaw": 0, "isOpen": true, "gh": 15.0028, "eh": 15.0028, "expect": true, "openVis": true, "closedVis": false, "ob": {"c": [10.66, 1.02, -1.808], "s": [2.74, 2.04, 1.59], "top": 2.04}, "cb": {"c": [10.852, 0.675, -1.684], "s": [2.35, 1.34, 0.98], "top": 1.35}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2357 (18.50,0.85) （最晚收 邊界前 3 分鐘，之後讓時間自己走）
+  [  86.3s] [EDGE 最晚收 st_ball 一個地球 0000+1] 紀錄（G.hour, isOpen, open visible）：[[23.987, true, true], [23.9896, true, true], [23.9931, true, true], [23.9957, true, true], [23.9983, true, true], [24.0009, false, false], "…", [24.0234, false, false], [24.0256, false, false], [24.0278, false, false], [24.0299, false, false], [24.0321, false, false], [24.0343, false, false]]
+PASS [EDGE 最晚收 st_ball 一個地球 0000+1] 時間走過邊界時翻轉了（收）  [[24.0299, false, false], [24.0321, false, false], [24.0343, false, false]]
+PASS [EDGE 最晚收 st_ball 一個地球 0000+1] 翻轉在邊界 ±1 分鐘內（翻轉時 G.hour 24.0009；邊界 24）  [{"id": "st_ball", "kind": "ball", "name": "一個地球", "x": 18.5, "z": -1.65, "yaw": 0, "isOpen": true, "gh": 23.9983, "eh": 23.9983, "expect": true, "openVis": true, "closedVis": false, "ob": {"c": [18.493, 1.259, -1.77], "s": [2.25, 2.52, 1.56], "top": 2.52}, "cb": {"c": [18.5, 0.892, -1.65], "s": [1.68, 1.78, 0.9], "top": 1.78}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}, {"id": "st_ball", "kind": "ball", "name": "一個地球", "x": 18.5, "z": -1.65, "yaw": 0, "isOpen": false, "gh": 24.0009, "eh": 24.0009, "expect": false, "openVis": false, "closedVis": true, "ob": {"c": [18.493, 1.259, -1.77], "s": [2.25, 2.52, 1.56], "top": 2.52}, "cb": {"c": [18.5, 0.892, -1.65], "s": [1.68, 1.78, 0.9], "top": 1.78}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}]
+PASS [EDGE 最晚收 st_ball 一個地球 0000+1] 翻轉後 open 模型 visible 和 isOpen 同步  {"id": "st_ball", "kind": "ball", "name": "一個地球", "x": 18.5, "z": -1.65, "yaw": 0, "isOpen": false, "gh": 24.0009, "eh": 24.0009, "expect": false, "openVis": false, "closedVis": true, "ob": {"c": [18.493, 1.259, -1.77], "s": [2.25, 2.52, 1.56], "top": 2.52}, "cb": {"c": [18.5, 0.892, -1.65], "s": [1.68, 1.78, 0.9], "top": 1.78}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+PASS 沒有 JS 例外  []
+ALL PASS

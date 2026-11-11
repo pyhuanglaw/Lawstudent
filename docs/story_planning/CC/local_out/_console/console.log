@@ -774,3 +774,10 @@
 [08:15:05] ==== START NM_tbl_edge_r2  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
 [08:15:08] [res] cpu=9% mem=46% (14.4/31.4 GB) chrome_testing=9  START NM_tbl_edge_r2
 [08:16:58] [res] cpu=1% mem=46% (14.7/31.4 GB) chrome_testing=9  END TZ5_int_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d3bb59029..5aeb45cb1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:17:04] ==== END   TZ5_int_new  exit=0  204s   ====
+[08:17:11] [res] cpu=3% mem=40% (12.8/31.4 GB) chrome_testing=5  END NM_tbl_edge_r2
+[08:17:20] memory 41% before starting NM_shots_a_r2 (2 running)
+[08:17:20] ==== START NM_shots_a_r2  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
