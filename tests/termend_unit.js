@@ -114,7 +114,8 @@ GM.money=function(n){ G.money+=n; };
   fresh(D('2026-06-11'),12,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',70,50,45); SOCIAL.rel('classmate_peishan').npcRom=40; DATE.log(G,'classmate_peishan').count=4; DATE.log(G,'classmate_peishan').wish=true;
   { const w=TERMEND.windowOf('Y1S2'); G.day=w.from; G.weekday=wdOf(G.day); run(0.1,23.5,0.25); check('7b. 沛珊大一下（和柏翰交往中＝C5）：時段第一天不傳、不發心意邀約',!(G.msgs||[]).some(x=>/^te_(nope_)?Y1S2_classmate_peishan/.test(x.tag||'')));
     G.day=w.to; G.weekday=wdOf(G.day); run(19.8,20.2); const m=(G.msgs||[]).find(x=>x.tag==='te_nope_Y1S2_classmate_peishan');
-    check('7b. 最後一天 20:00 傳 C5 那一句「期末考完了！這次我有約了，下次再問你問題喔。」',!!m&&m.text==='期末考完了！這次我有約了，下次再問你問題喔。'&&m.h===20,JSON.stringify(m)); }
+    /* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_751@33a1769f8）：C5 那一句換成「…下次換你請喔。」（原本「期末考完了！這次我有約了，下次再問你問題喔。」）*/
+    check('7b. 最後一天 20:00 傳 C5 那一句「期末考完了！這次我有約了，下次換你請喔。」',!!m&&m.text==='期末考完了！這次我有約了，下次換你請喔。'&&m.h===20,JSON.stringify(m)); }
   fresh(D('2026-06-11'),12,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',70,50,45); SOCIAL.rel('classmate_peishan').npcRom=40; DATE.log(G,'classmate_peishan').count=4; DATE.log(G,'classmate_peishan').wish=true;
   { const w=TERMEND.windowOf('Y1S2'); G.day=w.from; G.weekday=wdOf(G.day); run(0.1,1); TERMEND.rec(G,'Y1S2').picked={who:'classmate_peishan',kind:'friend',day:G.day,by:'player'}; G.day=w.to; G.weekday=wdOf(G.day); run(19.8,20.2);
     check('7b. 這學期玩家已經自己約她吃過期末飯：不傳',!(G.msgs||[]).some(x=>x.tag==='te_nope_Y1S2_classmate_peishan')); }
@@ -301,7 +302,9 @@ GM.money=function(n){ G.money+=n; };
     const c=await gfDin('heroine_04','Y3S1',T('2028-01-13'));
     check('15. 子晴大三上「期末專題，我挑了一個可能做不完的題目。」「……做不完也沒關係吧。」',has(c,['期末專題，我挑了一個可能做不完的題目。','……做不完也沒關係吧。']),JSON.stringify(c));
     const ps=await gfDin('classmate_peishan','Y3S2',T('2028-06-15')), ps0=await gfDin('classmate_peishan','Y1S2',T('2026-06-15'));
-    check('15. 沛珊大三下（台南）「你每次下來，都搭最後一班高鐵。」「……下次早一點來，我帶你去運河邊。」；大一下照原本',has(ps,['你每次下來，都搭最後一班高鐵。','……下次早一點來，我帶你去運河邊。'])&&ps0.includes('這學期有幾次我想打給你，後來沒打。怕你在讀書。'),JSON.stringify(ps));
+    /* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_751@33a1769f8）：沛珊女朋友版各學期的飯桌句搬到 TERMEND_OPTS.GF（每頓兩句＋選項；tests/peishan_termend_1110_unit.js 逐句比），termend_lines.js 的 tableByTerm 拿掉了——
+       這支測試不載 GF 的選項，所以大三下只剩留著的那一句通用的（原本期望「你每次下來，都搭最後一班高鐵。」「……下次早一點來，我帶你去運河邊。」）*/
+    check('15. 沛珊大三下（台南）：舊的兩句不在 termend_lines.js 了（搬到 TERMEND_OPTS.GF、換了字）；沒載選項稿的時候照留著的那一句通用的；大一下同',!ps.includes('……下次早一點來，我帶你去運河邊。')&&!ps.includes('你每次下來，都搭最後一班高鐵。')&&ps.includes('這學期有幾次我想打給你，後來沒打。怕你在讀書。')&&ps0.includes('這學期有幾次我想打給你，後來沒打。怕你在讀書。'),JSON.stringify(ps));
     const GF=TERMEND_LINES.GF, all=[];
     for(const id in GF) for(const t in (GF[id].tableByTerm||{})){ const v=[].concat(GF[id].tableByTerm[t]).map(x=>typeof x==='string'?x:x.narr); const pool=((TERMEND_LINES.POOL[t]||{})[id]||[]).filter(x=>typeof x==='string'); all.push(...v.filter(x=>pool.includes(x)).map(x=>id+' '+t+' '+x)); }
     check('15. 飯桌一句不和同一學期的話題池重複（AA_352 寫法）',!all.length,all.join(' ')); }

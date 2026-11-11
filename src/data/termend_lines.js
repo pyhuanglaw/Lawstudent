@@ -154,7 +154,7 @@ const TERMEND_LINES=(function(){
       第 5 項：examDay＝邀約照心意邀約的規則（AA_684 第 6 項）——玩家最後一科考完的那天 20:30 發、飯排在那天以後的第一個週六 18:00，週五考完＝隔天週六（termend3d.js S.phone 的 send、S.heartFrom、S.dinnerDay）*/
     heroine_02:{y1s1:'這禮拜五我十點下班。要不要吃宵夜？'/* AA_373 第 6 節第 9 題：「九點」改「十點」 */,gen:'考完了嗎？我下班以後，吃個東西？',genByTerm:{Y2S1:'考完了嗎？我寒假班排很多。下班以後先吃一次。',Y2S2:'考完了嗎？九月我就走了。……出來吃個東西？',Y3S2:'考完了嗎？禮拜四我下班以後，吃個東西？'/* AA_377 第 8 項 */},no:'好啊。那下次。',place:'cafe',h:21,hByTerm:{Y1S1:22,Y1S2:22,Y2S1:22,Y3S2:22}/* AA_373 #18：大一下她的晚班到 22:00，「我下班以後」＝22:00（termend3d.js planDinner）；第 6 節第 9 題：大一上、大二上也是 */,wd:5,over:[{terms:['Y2S2'],place:'yexiao'},{terms:['Y3S2'],wd:4}]/* AA_377 第 8 項：大三下週四下班（22:00）以後；AA_375 第 1 項：大二下她不上班了，「出來吃個東西」不在 Café 打烊以後（她已經不顧店）——LAWWW 排公館宵夜（給 AA 的問題）*/},   /* AA_369 M2：Y2S2 6/3 是她最後一個班，不說「下班以後」*/
     heroine_05:{y1s1:null,gen:'期末考完了嗎？法圖旁邊那家，我請你。',genByTerm:{Y2S1:G=>YOUPAY(G)?'期末考完了嗎？我研究室今天沒人。法圖旁邊那家。':'期末考完了嗎？我研究室今天沒人。法圖旁邊那家，我請你。',Y2S2:G=>YOUPAY(G)?'期末考完了嗎？法圖旁邊那家，這次我請。':'期末考完了嗎？法圖旁邊那家，這次你請。',Y3S1:'期末考完了嗎？明年夏天，我申請了美國的交換。下個月面試。法圖旁邊那家？',Y3S2:'期末考完了嗎？八月我就出發了。法圖旁邊那家？',Y4S1:'期末考完了嗎？我昨天回來的。法圖旁邊那家，還在。'},no:'好。開學見。',noByTerm:{Y3S2:'好。我出發前再找你。'}/* AA_260 (b-1) 第 14 項：8/2 她出發去美國 */,place:'eatery_lib',h:18.5},   /* 筆試前不約；Y4S1：AA_363 S1。AA_518 4-10：Y3S1「我在等美國那邊的結果。」那一句換成「明年夏天，我申請了美國的交換。下個月面試。」（12 月還沒面試）*/
-    classmate_peishan:{y1s1:'期末考完了！吃飯好不好？我有一堆問題想問你。',gen:'考完了！吃飯？',no:'好喔！',place:'eatery',h:18.5},
+    classmate_peishan:{y1s1:'期末考完了！吃飯好不好？我發現一家，我覺得你會喜歡。'/* PEISHAN-VOICE-1110（AA_751@33a1769f8）：只換這一句；和 TERMEND_OPTS.LINES 同字（tests/peishan_termend_1110_unit.js 逐句比）*/,gen:'考完了！吃飯？',no:'好喔！',place:'eatery',h:18.5},
     npc_fangyt:{y1s1:null,gen:'考完了嗎？吃個飯，我下禮拜上山。',no:'好。山上收不到訊號，開學見。',place:'eatery',h:18.5,
       genByTerm:{Y1S2:'考完了嗎？吃個飯。七月我就要上山了。'},   /* AA_373 #12：大一下 6/11 傳，他 7/6 才上山（和 AA_369 L1 一致；其他下學期末照 genBySem.S2）*/
       genBySem:{S2:'考完了嗎？吃個飯，七月我要上山兩個禮拜。',S1:'考完了嗎？吃個飯，寒假我回台中。'},noBySem:{S2:'好。山上收不到訊號，下山再找你。',S1:'好。開學見。'}} };   /* AA_369 L1：分學期——下學期末（6 月）上山兩週、上學期末（1 月）回家（genBySem／noBySem：S1＝上學期末、S2＝下學期末，termend3d.js）；第 7 節第 1 題：老家台中（原本寫嘉義是錯的）*/
@@ -195,14 +195,15 @@ const TERMEND_LINES=(function(){
       over:[{terms:['Y5S1'],invite:'你實習完了吧 宵夜 我想吃兩份'}]},
     classmate_xinci:{invite:G=>US4(G)?'你回來了。明天晚上吃飯。……我提前一天約了。':'明天晚上吃飯。……我提前一天約了。',inviteDayBefore:21,place:'l118_home',placeName:'巷口家常菜',h:18,table:['下學期的週三下午，我先空著。','你不用回答。我只是先說。']},   /* AA_537b 8-1：交往中，提前一天（期末飯的前一天 21:00）約；一般版 AA-B 16:31 換成「明天晚上吃飯。……」（系統的期末飯在最後一科考完以後）；美國路線大四上 12/23 回來那一版 */
     classmate_peishan:{invite:'期末考完了！今天吃飯，我想吃熱的。',invByTerm:{Y1S1:'期末考完了！今天吃飯，我想吃熱的。',Y1S2:'期末考完了！今天吃飯，吃冰的也可以。夏天了。',Y2S1:'期末考完了！今天吃火鍋好不好？我想吃熱的。',Y2S2:'期末考完了！我們去吃那家你上次說好吃的。',Y3S1:'學期結束了！你下來，我帶你吃台南的。',Y3S2:'期末結束了！你下來吃晚餐，我知道一家很小的店。',Y4S1:'學期結束了！你下來。……我想吃熱的，跟第一次一樣。'},place:'eatery',placeName:'系館附近的簡餐',h:18.5,table:'這學期有幾次我想打給你，後來沒打。怕你在讀書。',
-      tableByTerm:{Y3S1:['台南我還沒找到喜歡的早餐店。','……我家的比較好吃。不是我偏心。'],Y3S2:['你每次下來，都搭最後一班高鐵。','……下次早一點來，我帶你去運河邊。'],Y4S1:['下學期去國小實習，要穿得像老師。','……你幫我挑。我挑的都太像學生。'],Y5S1:['台南的冬天不太冷。','……你下來的時候，不用帶外套。']},
+      /* PEISHAN-VOICE-1110：飯桌的話（通用一頓＋大三上、大三下、大四上、大五上，都有選項）在 TERMEND_OPTS.GF.classmate_peishan（AA_751@33a1769f8），這裡原本的 tableByTerm 拿掉了。
+         table 那一句留著：只剩大四下 6/8 台南那一頓（r2y4b3d.js psDinner 直接讀這一格；AA_751 沒有寫大四下）和沒有 TERMEND_OPTS 的舊資料會用到——等 AA 寫大四下那一頓再換 */
       over:[{terms:['Y3S1','Y3S2','Y4S1'],...PS_TN,tnVisited:PS_TN_VISITED},{terms:['Y5S1'],...PS_TN,tnVisited:PS_TN_VISITED,invite:'學期結束了吧！你下來，我們吃熱的。'}]} };   /* 大三起她在台南（AA_282 第 5 節第 5 點、AA_250 第 5 節）：女朋友的學期末約會也在台南她學校附近 */
   /* 她不發心意邀約時的手機一句（AA_254 第 9 節）：時段第一天 20:00，只一次；preexam＝學姊筆試前、knows＝她知道你有別人、low＝低潮期；沛珊重考期、她自己有伴侶＝不傳。
      照學期換的寫成 {gen, byTerm:{學期:句子}}（termend3d.js S.nopeText）：芷若大三下 AA_260 (b-1) 第 5、6 項；子晴大三下第 11 項、大四上 AA_262 (b) 第 4 條 */
   const NOPE={
     /* 學姊筆試前那一句刪（5-3 第一欄，照 BB 不傳；AA_254 第 9 節 8c76052b）。C5 她自己有交往對象：只有芷若、子晴、沛珊（BB_203 5-1）*/
-    partner:{heroine_02:'期末我有約了。下次來店裡，我請你一杯。',heroine_04:'考完了 這次我有約了 下次',classmate_peishan:'期末考完了！這次我有約了，下次再問你問題喔。'},
-    knows:{   /* 芯慈的 knows 拿掉（AA_548 第 7 節：她知道、你說過＝照發；你沒說過＝交往中才有，結果是分手）*/heroine_01:'考完了。這次我不約你了。……你知道為什麼。',heroine_03:'這禮拜我上班。',heroine_05:'期末快樂。……這次我就不約了。',heroine_02:{gen:'期末我排了很多班。開學見。',byTerm:{Y3S2:'期末我排了很多班。出國以前再說。'}},heroine_04:{gen:'考完了 我回家了',byTerm:{Y3S2:'畢業了 我先回家住一陣子',Y4S1:'這陣子工作室在趕 下次'}},classmate_peishan:'考完了！……我有問題想問你，可是不是現在。'},
+    partner:{heroine_02:'期末我有約了。下次來店裡，我請你一杯。',heroine_04:'考完了 這次我有約了 下次',classmate_peishan:'期末考完了！這次我有約了，下次換你請喔。'/* PEISHAN-VOICE-1110（AA_751 phone）*/},
+    knows:{   /* 芯慈的 knows 拿掉（AA_548 第 7 節：她知道、你說過＝照發；你沒說過＝交往中才有，結果是分手）*/heroine_01:'考完了。這次我不約你了。……你知道為什麼。',heroine_03:'這禮拜我上班。',heroine_05:'期末快樂。……這次我就不約了。',heroine_02:{gen:'期末我排了很多班。開學見。',byTerm:{Y3S2:'期末我排了很多班。出國以前再說。'}},heroine_04:{gen:'考完了 我回家了',byTerm:{Y3S2:'畢業了 我先回家住一陣子',Y4S1:'這陣子工作室在趕 下次'}},classmate_peishan:'考完了！這次先不約。你知道為什麼啦。'/* PEISHAN-VOICE-1110（AA_751 phone）*/},
     low:{classmate_xinci:'期末考完，我想先一個人待幾天。下學期再約。',heroine_01:'這次期末我想自己吃。吃完我要回去整理筆記。',heroine_03:'店裡最近很忙。下學期吧。',heroine_05:'這陣子我想一個人。謝謝你。',heroine_02:{gen:'最近不太想出門。開學見。',byTerm:{Y3S2:'最近不太想出門。出國以前再約。'}},heroine_04:'我最近不太想說話 下次',classmate_peishan:'我這禮拜想回家。下次約！'} };
   /* 話題池（AA_250 1-1～7-1；AA-C 全檔照 AA_188 審過 01029de1、BB 人物照 BB_212 換 6f6e9c7e）：邀約人照順序抽 2～3 句；中間祐廷回一句（REPLY 輪流）。
      條件：Alison 的聖誕交換禮物 12/24 以前、跨年 12/31 以前才說；子晴「看過 Q6 或 Q8b」——Q8b 還沒做，先只看 Q6；以安在期末飯不說「理由」*/
@@ -382,10 +383,10 @@ const TERMEND_LINES=(function(){
   const SYS_TE='這是這學期的期末飯。', SYS_GF='這是這學期的期末約會。';
   const AUTO_ME='這次我有約了，開學見。', AUTO_ME_GRAD='今天晚上我有約了。';
   const AUTO_NO={zhe:'好啦 下次',classmate_xinci:'好。那開學見。',classmate_bohan:'好。',heroine_04:'好啦 那下次',classmate_mingxuan:'OK 下次',
-    heroine_01:'好。開學見。',heroine_03:'嗯。下次。',yu:'好吧！！那開學見！',heroine_02:'好。那下次來店裡。',heroine_05:'好。那下學期再約。',classmate_peishan:'好喔！那我下次再問。',npc_fangyt:'好，下次。',kai:'好。',kexin:'好。那下次。'};
+    heroine_01:'好。開學見。',heroine_03:'嗯。下次。',yu:'好吧！！那開學見！',heroine_02:'好。那下次來店裡。',heroine_05:'好。那下學期再約。',classmate_peishan:'好喔！那你欠我一頓。'/* PEISHAN-VOICE-1110（AA_751 phone「REPLY（玩家婉拒）」）*/,npc_fangyt:'好，下次。',kai:'好。',kexin:'好。那下次。'};
   const AUTO_NO_GRAD={heroine_01:'好。畢業快樂。',classmate_xinci:'好。畢業快樂。',yu:'好吧！！畢業快樂！',heroine_05:'好。畢業快樂。'};   /* 大四下畢業傍晚：沒有開學、下學期 */
   const AUTO_NO_GRAD_DELAYED={heroine_01:'好。今天恭喜。',classmate_xinci:'好。今天恭喜。',yu:'好吧！！今天恭喜！',heroine_05:'好。今天恭喜。'};   /* 交換延畢的玩家（日本、美國路線，PG.delayed）：典禮那天不說「畢業快樂」（AA_381 第 1 節，企劃線 d14a0388）*/
-  const ENDED={heroine_01:'這學期不了。謝謝你約我。',heroine_03:'這次先不要。',heroine_05:'這學期我排不出來。你自己保重。',heroine_02:'謝謝。這次我想自己過。',heroine_04:'這次先不要啦。',classmate_peishan:'謝謝你問。……這次我先不去。',kexin:'現在還不行。謝謝你還會約我。'};
+  const ENDED={heroine_01:'這學期不了。謝謝你約我。',heroine_03:'這次先不要。',heroine_05:'這學期我排不出來。你自己保重。',heroine_02:'謝謝。這次我想自己過。',heroine_04:'這次先不要啦。',classmate_peishan:'謝謝你約我。這次我先不去。'/* PEISHAN-VOICE-1110（AA_751 phone）*/,kexin:'現在還不行。謝謝你還會約我。'};
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
   const GF_MORE={heroine_05:{Y4S1:SIS_XM3}}, COND={Q6,SNOWQ,YOUPAY,C10,US:US3,SIS_FU};   /* TERMEND-OPTS-1110：termend_opts.js 的 if 用的條件 */
   return {GF_MORE,COND,KX_ASK,KX_EXTRA,PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};

@@ -325,7 +325,8 @@ print(json.dumps({'fid': fid, 'pick': out['pick'].get(fid), 'fx': out['films'][f
     const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>/AA_745_fallback\.json$/.test(e.path));
     const kinds=Object.values(P.films).every(f=>f.talk.opts.every(o=>KD.includes(o.kind)));
     const fbOk=!!REAL&&W.every(w=>REAL[w]&&FK.every(k=>Array.isArray(REAL[w][k])&&REAL[w][k].length>=1&&REAL[w][k].every(e=>typeof e.re==='string'||Array.isArray(e.re)))&&!REAL[w].ask);
-    check('17. 現在開著：src/movies3d.js 的 MOVIES.CFG.fallback＝true（沛珊在 fallbackOff，11-10）、fallback 的稿在白名單、movie_plots.js 有七個人×六種 kind（沒有 ask）；每個選項的 kind 是七種之一',/S\.CFG=\{fallback:true,fallbackOff:\['classmate_peishan'\]\}/.test(fs.readFileSync(path.join(H.ROOT,'src/movies3d.js'),'utf8'))&&allow&&fbOk&&kinds,J({cfg:MOVIES.CFG,allow,fbOk,kinds}));
+    /* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327）：沛珊的通用回話重寫好了（AA_751@33a1769f8 的 fallback 整組取代 AA_745_fallback.json 的 classmate_peishan），MOVIES.CFG.fallbackOff 把她拿掉——原本期望 fallbackOff:['classmate_peishan'] */
+    check('17. 現在開著：src/movies3d.js 的 MOVIES.CFG.fallback＝true（fallbackOff 沒有人；沛珊 11-11 打開）、fallback 的稿在白名單、movie_plots.js 有七個人×六種 kind（沒有 ask）；每個選項的 kind 是七種之一',/S\.CFG=\{fallback:true,fallbackOff:\[\]\}/.test(fs.readFileSync(path.join(H.ROOT,'src/movies3d.js'),'utf8'))&&allow&&fbOk&&kinds,J({cfg:MOVIES.CFG,allow,fbOk,kinds}));
     MOVIES.CFG.fallback=false; const none0=MOVIES.noTalkPairs(), pick=none0.find(k=>{ const [f,w]=k.split(':'); const F=P.films[f]; return (!F.with||!F.with[w])&&F.talk.opts.filter(o=>o.kind!=='ask').length>=2&&!(P.cond[f]||{}).opt&&!F.talk.nofb&&!F.talk.qOther&&!F.talk.optsOther; }), [nf,nw]=pick.split(':'), TK=film(nf).talk;
     const mk=tag=>{ const o={}; for(const k of FK) o[k]=[{re:'（假）'+tag+k+'一。',fx:{love:2}},{re:['（假）'+tag+k+'二。','（她笑了一下。）'],fx:{fr:1}},{re:'（假）'+tag+k+'三。'}]; return o; };
     const view=async(day)=>{ const G=H.G; G.day=day; CH=[]; H.said=[]; ADJ=[]; G.flags.MOVIE_SEEN={}; (G.daily||(G.daily={}))['mvTalk_'+nw]=null; return MOVIES.after(GM,{place:'xs_nanyang',film:nf,who:nw,id:'ivf'+day},{name:'她',charId:nw}); };
@@ -447,12 +448,19 @@ print(json.dumps(out, ensure_ascii=False))
     /* 2026-11-10（LAWWW：沛珊口氣重寫中，使用者 X327）：MOVIES.CFG.fallbackOff=['classmate_peishan']——她不用通用回話：沒有專屬回答的片不問（和 fallback 還沒有的時候一樣），有專屬回答的照演 */
     const ps='classmate_peishan', psOwn=Object.keys(P.films).filter(f=>MOVIES.ownTalk(P.films[f].talk,ps)), psNone=Object.keys(P.films).filter(f=>!psOwn.includes(f)).map(f=>f+':'+ps), base=m2501b.concat(m2907a), all=[...new Set(base.concat(psNone))];
     let noRe2=0; for(const f of Object.keys(P.films)) for(const w of W){ if(w===ps) continue; const t=MOVIES.talkFor(G0,w,f); if(t) for(const o of t.opts) if(!o.lines.length) noRe2++; }
-    check('18. 七位×72 部＝504 組（沛珊的通用回話關著）：有 talk 的 426 組、沒有的 78 組＝《m2907a》五個人（nofb）＋《m2501b》可昕以外六個人＋沛珊沒有專屬回答的 67 部；其他六個人有 talk 的每個選項都有她的回答',J(MOVIES.CFG.fallbackOff)===J([ps])&&none.length===78&&same(none,all)&&psNone.length===69&&noRe2===0&&!c[1],J({n:none.length,ps:psNone.length,c,noRe2}));
+    /* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327）：沛珊的通用回話重寫好了（AA_751@33a1769f8 的 fallback 整組取代 AA_745_fallback.json 的 classmate_peishan），MOVIES.CFG.fallbackOff 把她拿掉——原本期望「沛珊的通用回話關著：有 talk 426、沒有 78（含沛珊沒有專屬回答的 67 部）」；現在回到 493／11（《m2907a》五個人（nofb）＋《m2501b》可昕以外六個人），沛珊有 talk 的每個選項也都有她的回答 */
+    let noRePs=0; for(const f of Object.keys(P.films)){ const t=MOVIES.talkFor(G0,ps,f); if(t) for(const o of t.opts) if(!o.lines.length) noRePs++; }
+    check('18. 七位×72 部＝504 組（沛珊的通用回話打開了）：有 talk 的 493 組、沒有的 11 組＝《m2907a》五個人（nofb）＋《m2501b》可昕以外六個人；七個人有 talk 的每個選項都有她的回答',J(MOVIES.CFG.fallbackOff)===J([])&&none.length===11&&same(none,base)&&psNone.length===69&&noRe2===0&&noRePs===0&&!c[1],J({n:none.length,ps:psNone.length,c,noRe2,noRePs}));
     { const f=psOwn[0], T=MOVIES.talkFor(G0,ps,f), fN=Object.keys(P.films).find(x=>!psOwn.includes(x)&&x!=='m2907a'&&x!=='m2501b'); const G=fresh('2026-03-10',19); H.FRIEND(ps); const r=await view(ps,fN), quiet={r,ch:CH.length,said:H.said.length,seen:MOVIES.seenWith(G,ps,fN)};
       const ownLines=T?T.opts.filter(o=>o.lines.length&&!o.fb).length:0;
-      check('18. 沛珊：有專屬回答的 '+psOwn.length+' 部照問（專屬的回答照演、沒有一句是通用回話）；沒有的片＝不問、不卡、照記看過；MOVIES.fbOn(沛珊)＝false、其他人 true',psOwn.length===3&&!!T&&ownLines>=1&&T.opts.every(o=>!o.fb)&&quiet.r===true&&quiet.ch===0&&quiet.said===0&&quiet.seen&&MOVIES.fbOn(ps)===false&&MOVIES.fbOn('heroine_01')===true,J({psOwn,ownLines,quiet,T:T&&T.opts.map(o=>[o.t,o.lines.length,o.fb||null])}));
-      const k=MOVIES.CFG.fallbackOff; MOVIES.CFG.fallbackOff=[]; const n0=MOVIES.noTalkPairs().length; MOVIES.CFG.fallbackOff=k;
-      check('18. fallbackOff 清空＝回到 493／11（之後 AA 重寫完，把她從名單拿掉就好）',n0===11&&same(MOVIES.noTalkPairs(),all),String(n0)); }
+      /* 2026-11-11 改期望（同上）：沛珊沒有專屬回答的片現在照問、她回的是 AA_751 的通用回話（原本：不問、不卡；fbOn(沛珊)＝false）*/
+      let A751=null; try{ A751=JSON.parse(require('child_process').execFileSync('git',['show','33a1769f8:docs/story_planning/AA_751_peishan_termend.json'],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:1<<26})).fallback; }catch(e){ A751=null; }
+      const FKs=['feel','notice','wonder','self','joke','crit'], want=A751?J(FKs.map(k=>A751[k])):null, got=J(FKs.map(k=>P.fallback[ps][k]));
+      const TN=MOVIES.talkFor(G0,ps,fN), fbTexts=A751?[].concat(...FKs.map(k=>A751[k].map(e=>String(e.re).replace(/\{name\}/g,'祐廷')))):[], saidFb=H.said.map(s=>s.t).filter(t=>fbTexts.includes(t));
+      check('18. 沛珊：有專屬回答的 '+psOwn.length+' 部照問（專屬的回答照演）；沒有的片＝照問、她回 AA_751 的通用回話（六種 kind 各三句、字和效果照稿）、照記看過；MOVIES.fbOn(沛珊)＝true',psOwn.length===3&&!!T&&ownLines>=1&&!!A751&&got===want&&FKs.every(k=>P.fallback[ps][k].length===3)&&!!TN&&TN.opts.length>=2&&TN.opts.every(o=>o.lines.length)&&quiet.r===true&&quiet.ch===1&&saidFb.length===1&&quiet.seen&&MOVIES.fbOn(ps)===true&&MOVIES.fbOn('heroine_01')===true,J({psOwn,ownLines,quiet,saidFb,same:got===want}));
+      check('18. 沛珊的通用回話裡沒有重寫前的句子（「問題」那一串、評吃的）、沒有沒換掉的 {name}',!/問你一個|問題想問|奇怪的問題|爆米花|蛋餅|早餐店/.test(got)&&!H.said.some(s=>/\{name\}/.test(s.t)),got.slice(0,80));
+      const k=MOVIES.CFG.fallbackOff; MOVIES.CFG.fallbackOff=[ps]; const n0=MOVIES.noTalkPairs().length; MOVIES.CFG.fallbackOff=k;
+      check('18. fallbackOff 放她回去＝426／78（開關照舊有用）',n0===78&&same(MOVIES.noTalkPairs(),base),String(n0)); }
     console.log('INFO 18. fallback 開著：有 talk '+(504-none.length)+'／504；沒有的 '+none.length+' 組：'+none.join('、'));
     console.log('INFO 18. 選項個數（空存檔算，有條件的選項不算在內）：'+J(c)+'；只有兩個選項的片：'+[...new Set(two.map(k=>k.split(':')[0]))].join('、')); });
 

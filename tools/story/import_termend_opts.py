@@ -23,6 +23,9 @@
   confessOpts[{t, result, yesLead／re, fx}], yes, she2, yes2…}：
   芷若＝AA_748 的 HEART／tableOpts／confessOpts.heroine_02（白名單 people.heart 列她才匯；atBar：在吧台、不走路；inviteHeart 取代邀約句，星期和時間照 over 的說明換；closeAdd＝inviteNote 的收尾旁白）；
   沛珊＝docs/story_planning/AA_751_peishan_termend.json 的 HEART（**只認 PS_SHA 那一版**；白名單 people.heart）。播放 src/termend3d.js 的 S.sheFirst。
+- 沛珊其他段（同一份 AA_751，白名單那一筆的 people）：gf → TERMEND_OPTS.GF.classmate_peishan（table＋tableByTerm；大三下「那我留到明天。」的 nextMorning／alt）；
+  friend → TERMEND_OPTS.FRIEND[學期].classmate_peishan（friend_v2 五頓；大三上 hookNoSay）；lines → TERMEND_OPTS.LINES.classmate_peishan（FRIEND.y1s1、手機句；termend_lines.js 照抄同字）；
+  fallback（電影通用回話）在 tools/movie/import_movie_plots.py。AA_749 那幾個檔的白名單列沛珊＝停下來（她只從 AA_751@PS_SHA）。
 稿上有工具不認得的欄位＝停下來（先改這支工具和 src/termend3d.js），不會默默丟掉。
 
 寫給程式的條件（if）：Q6／noQ6（子晴的遊戲）、SNOWQ（美國路線下雪那天）、YOUPAY／noYOUPAY（學姊 11/6「下次你請」）、YT_MET_JOB、
@@ -159,7 +162,18 @@ def gf_entry(who, key, e):
         for k in sorted(K, key=lambda k: k == 'summer'):   # 寫學期的先比
             says.append({'if': 'summer' if k == 'summer' else 'term:' + k, 'say': lines(K[k], f'{where}.sayByKind.{k}')})
     says.append({'say': lines(e.get('say'), where + '.say')})
-    r = {'says': says, 'opts': opts(e.get('opts'), where + '.opts')}
+    r = {'says': says, 'opts': opts(e.get('opts'), where + '.opts', extra=('nextMorning', 'alt') if who == PS else ())}
+    if who == PS:   # 沛珊大三下「那我留到明天。」：nextMorning＝跳到隔天早上演那幾行、回臺北；alt＝隔天有不能錯過的事時改出的選項（src/termend3d.js S.gfPrep）
+        for i, (o, q) in enumerate(zip(e['opts'], r['opts'])):
+            w = f'{where}.opts[{i}]'
+            if ('nextMorning' in o) != ('alt' in o):
+                die(f'{w}：nextMorning 和 alt 要一起寫')
+            if 'nextMorning' in o:
+                nm = o['nextMorning']
+                if not isinstance(nm, dict) or set(nm) != {'where', 'lines'} or not isinstance(nm['where'], str) or '（沒有現成背景就用深色底）' not in nm['where']:
+                    die(f'{w}.nextMorning：只認得 {{where（…（沒有現成背景就用深色底）），lines}}')
+                q['nextMorning'] = {'where': IG.read_fix(nm['where'].replace('（沒有現成背景就用深色底）', '')), 'lines': lines(nm['lines'], w + '.nextMorning.lines')}
+                q['alt'] = opt(o['alt'], w + '.alt')
     note = e.get('note', '')
     after = []
     if who == 'heroine_04' and key == 'table':   # AA 11-10：Q6 通用格（大一下）——選「（現在玩。）」鉤子整個不出；另外兩個不念鉤子的 say、直接出選項
@@ -192,10 +206,19 @@ def gf_entry(who, key, e):
     return r
 
 
-def build_gf(src, people):
+def build_gf(src, people, ps=None):
     out = {}
-    for who in people:
-        g = src['GF'].get(who)
+    if PS in people:
+        die(f'{GF_PATH}：沛珊不從這個檔匯入（使用者 X327 重寫；她的女朋友版在 {PS_PATH}）')
+    todo = [(who, src['GF'].get(who)) for who in people]
+    if ps and ps[2].get('gf'):   # 沛珊：AA_751 的 GF（只認 PS_SHA）
+        if ps[2]['gf'] != [PS]:
+            die(f'{PS_PATH}：people.gf 只能是 [{PS}]')
+        g = dict(ps[0].get('GF') or {})
+        if not str(g.pop('invite', '')).startswith('照現有各學期的邀約') or '大三下選項二「那我留到明天」有 nextMorning' not in str(g.pop('note', '')):
+            die(f'{PS_PATH}：GF.invite／GF.note 改了，先改這支工具')
+        todo.append((PS, g))
+    for who, g in todo:
         if not g:
             die(f'GF.{who}：稿上沒有這個人')
         if set(g) - {'table', 'tableByTerm'}:
@@ -459,7 +482,7 @@ def friend_entry(term, who, e):
         if not isinstance(ti, dict) or set(ti) != {'if', 'lines'} or not str(ti['if']).startswith('SIS_FU'):
             die(f'{where}.thenIf：只認得 {{if: SIS_FU…, lines}}')
         r['thenIf'] = {'if': 'SIS_FU', 'lines': lines(ti['lines'], where + '.thenIf.lines')}
-    if '鉤子不念 say' in note:   # 柏翰大三下：飯桌已經講了補習班，鉤子那一句不念、直接出選項
+    if '鉤子不念 say' in note or (who == PS and '請不念 say、直接出選項' in note):   # 柏翰大三下：飯桌已經講了補習班，鉤子那一句不念、直接出選項；沛珊大三上（去國小看課）同
         r['hookNoSay'] = True
     txt = json.dumps(r, ensure_ascii=False)
     alts = set(re.findall(r'\{[^{}"]*\|[^{}"]*\}', txt))
@@ -480,7 +503,7 @@ def build_friend(allow):
         if not isinstance(want, list):
             die(f'{path}：白名單那一筆的 people 要寫 friend（匯入哪幾個人）')
         if 'classmate_peishan' in want:
-            die(f'{path}：沛珊不匯入（使用者 X327 重寫中）')
+            die(f'{path}：沛珊不從這個檔匯入（使用者 X327 重寫；她的朋友版只認 {PS_PATH}@{PS_SHA}）')
         terms = [k for k in d if k != '_meta']
         if set(terms) - set(TERMS):
             die(f'{path}：不認得的學期 {sorted(set(terms) - set(TERMS))}')
@@ -495,7 +518,35 @@ def build_friend(allow):
             die(f'{path}：白名單列了稿上沒有的人 {sorted(set(want) - used)}')
         srcs.append(f'{path}@{sha}')
         whys.append(why)
+    ps = ps_source(allow)
+    if ps and ps[2].get('friend'):   # 沛珊的朋友版五頓：AA_751 的 friend_v2（只認 PS_SHA），接進已經匯的朋友版
+        if ps[2]['friend'] != [PS]:
+            die(f'{PS_PATH}：people.friend 只能是 [{PS}]')
+        fv = ps[0].get('friend_v2') or {}
+        if not fv or set(fv) - set(TERMS):
+            die(f'{PS_PATH}：friend_v2 沒有，或有不認得的學期')
+        for t, e in fv.items():
+            if PS in out.setdefault(t, {}):
+                die(f'{PS_PATH}：{t} 已經有沛珊')
+            out[t][PS] = friend_entry(t, PS, e)
+            ppl.setdefault(t, []).append(PS)
     return {t: out[t] for t in TERMS if t in out}, srcs, {t: ppl[t] for t in TERMS if t in ppl}, '／'.join(whys)
+
+
+def build_lines(ps):
+    """沛珊的單句（AA_751 FRIEND.y1s1、phone）→ LINES：src/data/termend_lines.js 照抄同樣的字（tests/peishan_termend_1110_unit.js 逐句比）"""
+    if not (ps and ps[2].get('lines') is True):
+        return {}
+    d = ps[0]
+    f, ph = d.get('FRIEND') or {}, d.get('phone') or {}
+    if set(f) != {'y1s1', 'gen', 'no', 'note'} or not f['note'].startswith('只換 y1s1'):
+        die(f'{PS_PATH}：FRIEND 的欄位改了，先改這支工具')
+    if set(ph) != {'NOPE.partner', 'NOPE.knows', 'NOPE.low', 'REPLY（玩家婉拒）', 'ENDED', 'note'}:
+        die(f'{PS_PATH}：phone 的欄位改了，先改這支工具（{sorted(ph)}）')
+    rf = IG.read_fix
+    return {PS: {'FRIEND': {'y1s1': rf(f['y1s1']), 'gen': rf(f['gen']), 'no': rf(f['no'])},
+                 'NOPE': {'partner': rf(ph['NOPE.partner']), 'knows': rf(ph['NOPE.knows']), 'low': rf(ph['NOPE.low'])},
+                 'AUTO_NO': rf(ph['REPLY（玩家婉拒）']), 'ENDED': rf(ph['ENDED'])}}
 
 
 def source(path, allow):
@@ -525,8 +576,9 @@ def main():
     HT = build_heart(ht, hp, ps)
     data = {'src': {'gf': f'{GF_PATH}@{gsha}', 'heart': f'{HEART_PATH}@{hsha}', 'kx': f'{KX_PATH}@{ksha}' if kx_on else None, 'friend': fsrc},
             'people': {'gf': gp.get('gf', []), 'table': hp.get('table', []), 'confess': hp.get('confess', []), 'kx': kx_on, 'friend': fppl, 'heart': list(HT)},
-            'FRIEND': FR, 'HEART': HT,
-            'GF': build_gf(gf, gp.get('gf', [])), 'TABLE': build_table(ht, hp.get('table', [])), 'CONFESS': build_confess(ht, hp.get('confess', [])),
+            'ps': {k: (ps[2].get(k) or False) for k in ('heart', 'gf', 'friend', 'lines')} if ps else None,
+            'FRIEND': FR, 'HEART': HT, 'LINES': build_lines(ps),
+            'GF': build_gf(gf, gp.get('gf', []), ps), 'TABLE': build_table(ht, hp.get('table', [])), 'CONFESS': build_confess(ht, hp.get('confess', [])),
             'KX': build_kx(kx) if kx_on else {}}
     if psrc:
         data['src']['ps'] = psrc[0]

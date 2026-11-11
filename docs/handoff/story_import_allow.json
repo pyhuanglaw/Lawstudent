@@ -5593,9 +5593,17 @@
    "people": {
     "heart": [
      "classmate_peishan"
-    ]
+    ],
+    "gf": [
+     "classmate_peishan"
+    ],
+    "friend": [
+     "classmate_peishan"
+    ],
+    "lines": true,
+    "fallback": true
    },
-   "note": "X327 沛珊重寫（有趣、聰明、會接梗；家裡是台中的小型連鎖餐廳）——tools/story/import_termend_opts.py → src/data/termend_opts.js。people.heart：「她先說」的告白（TERMEND_OPTS.HEART.classmate_peishan）。**只認這個 sha**（工具的 PS_SHA），更舊的版本不匯"
+   "note": "X327 沛珊重寫（有趣、聰明、會接梗；家裡是台中的小型連鎖餐廳）——tools/story/import_termend_opts.py → src/data/termend_opts.js。people.heart：「她先說」的告白（TERMEND_OPTS.HEART.classmate_peishan）。**只認這個 sha**（工具的 PS_SHA），更舊的版本不匯；people.gf：女朋友版（TERMEND_OPTS.GF；大三下「那我留到明天。」nextMorning／alt）；people.friend：朋友版五頓（TERMEND_OPTS.FRIEND[學期]）；people.lines：FRIEND.y1s1、手機句（TERMEND_OPTS.LINES，src/data/termend_lines.js 同字）；people.fallback：電影通用回話整組取代 AA_745_fallback.json 的 classmate_peishan（tools/movie/import_movie_plots.py）"
   }
  ]
 }

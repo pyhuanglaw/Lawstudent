@@ -38,6 +38,13 @@ const LATER=[['src/sis_grad3d.js','這週的時間用完了。下週再問我。
   /* 2026-11-10 TERMEND-OPTS-1110：termend_lines.js 只動程式的寫法（字沒有改）——學姊大四上 XM3 兩句抽成 SIS_XM3（有選項的那一版接在選項後面）、多匯出 GF_MORE／COND */
   ['src/data/termend_lines.js',"G=>XM3(G)?'去年在研究室說的。剛回來一天。':null,G=>XM3(G)?(XM3US(G)?'……我們做到了。':'……我做到了。'):null,G=>SNOWQ","...SIS_XM3,G=>SNOWQ"],
   ['src/data/termend_lines.js',"  const GF={\n","  /* TERMEND-OPTS-1110：學姊大四上 XM3 那兩句（AA_386 3-3）抽出來——有選項的那一版（TERMEND_OPTS，AA_749）接在選項後面（termend3d.js 讀 GF_MORE）；沒有 TERMEND_OPTS 的照舊在 tableByTerm 裡，字沒有動 */\n  const SIS_XM3=[G=>XM3(G)?'去年在研究室說的。剛回來一天。':null,G=>XM3(G)?(XM3US(G)?'……我們做到了。':'……我做到了。'):null];\n  const GF={\n"],
+  /* 2026-11-11（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_751@33a1769f8）：沛珊的六處——朋友邀約大一上那一句、手機三句（她有交往對象、她知道、玩家婉拒的回覆）、關係結束的婉拒、女朋友版各學期的飯桌句 tableByTerm（搬到 TERMEND_OPTS.GF；通用那一句 table 留著給大四下）*/
+  ['src/data/termend_lines.js',"y1s1:'期末考完了！吃飯好不好？我有一堆問題想問你。'","y1s1:'期末考完了！吃飯好不好？我發現一家，我覺得你會喜歡。'/* PEISHAN-VOICE-1110（AA_751@33a1769f8）：只換這一句；和 TERMEND_OPTS.LINES 同字（tests/peishan_termend_1110_unit.js 逐句比）*/"],
+  ['src/data/termend_lines.js',"classmate_peishan:'期末考完了！這次我有約了，下次再問你問題喔。'","classmate_peishan:'期末考完了！這次我有約了，下次換你請喔。'/* PEISHAN-VOICE-1110（AA_751 phone）*/"],
+  ['src/data/termend_lines.js',"classmate_peishan:'考完了！……我有問題想問你，可是不是現在。'","classmate_peishan:'考完了！這次先不約。你知道為什麼啦。'/* PEISHAN-VOICE-1110（AA_751 phone）*/"],
+  ['src/data/termend_lines.js',"classmate_peishan:'好喔！那我下次再問。'","classmate_peishan:'好喔！那你欠我一頓。'/* PEISHAN-VOICE-1110（AA_751 phone「REPLY（玩家婉拒）」）*/"],
+  ['src/data/termend_lines.js',"classmate_peishan:'謝謝你問。……這次我先不去。'","classmate_peishan:'謝謝你約我。這次我先不去。'/* PEISHAN-VOICE-1110（AA_751 phone）*/"],
+  ['src/data/termend_lines.js',"      tableByTerm:{Y3S1:['台南我還沒找到喜歡的早餐店。','……我家的比較好吃。不是我偏心。'],Y3S2:['你每次下來，都搭最後一班高鐵。','……下次早一點來，我帶你去運河邊。'],Y4S1:['下學期去國小實習，要穿得像老師。','……你幫我挑。我挑的都太像學生。'],Y5S1:['台南的冬天不太冷。','……你下來的時候，不用帶外套。']},\n","      /* PEISHAN-VOICE-1110：飯桌的話（通用一頓＋大三上、大三下、大四上、大五上，都有選項）在 TERMEND_OPTS.GF.classmate_peishan（AA_751@33a1769f8），這裡原本的 tableByTerm 拿掉了。\n         table 那一句留著：只剩大四下 6/8 台南那一頓（r2y4b3d.js psDinner 直接讀這一格；AA_751 沒有寫大四下）和沒有 TERMEND_OPTS 的舊資料會用到——等 AA 寫大四下那一頓再換 */\n"],
   ['src/data/termend_lines.js',"  return {KX_ASK,","  const GF_MORE={heroine_05:{Y4S1:SIS_XM3}}, COND={Q6,SNOWQ,YOUPAY,C10,US:US3,SIS_FU};   /* TERMEND-OPTS-1110：termend_opts.js 的 if 用的條件 */\n  return {GF_MORE,COND,KX_ASK,"]];   /* 2026-11-10 再加：COND 多 SIS_FU（朋友版學姊大三上 thenIf，企劃線 1cf434dee；字沒有改）*/
 const LATER_TXT={'這週的時間用完了。下週再問我。':'這週沒有時間了。下週好不好？'}, lt=t=>LATER_TXT[t]||t;
 const later=(f,s)=>LATER.filter(x=>x[0]===f).reduce((a,x)=>a.split(x[1]).join(x[2]),s);

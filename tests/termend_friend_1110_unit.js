@@ -23,14 +23,16 @@ const kindOf=who=>Lx.FRIEND[who]?'friend':'fallback';
 const dinner=async(who,term,kind,want,flags,pre)=>{ const G=H.fresh(DAY[term],18.5,null,flags); H.rel(who,65,50,45); if(kind==='gf') G.flags['dating_'+who]=true; if(pre) pre(G); H.said=[]; CH=[]; WANT=want||[];
   const r0=Object.assign({},SOCIAL.rel(who)); await TERMEND.dinner(GM,{te:{term,who,kind}}); const r1=SOCIAL.rel(who); return {G,dl:(+r1.npcRom||0)-(+r0.npcRom||0)}; };
 const poolOf=(term,who)=>[].concat(...((Lx.POOL[term]||{})[who]||[]).map(x=>typeof x==='string'?[x]:[]));
-const N={Y1S1:10,Y1S2:12,Y2S1:11,Y2S2:12,Y3S1:10,Y3S2:8,Y4S1:9};
+/* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_751@33a1769f8 的 friend_v2 五頓接進朋友版）：大一上、大一下、大三上、大三下、大四上各多沛珊一頓（原本 10、12、11、12、10、8、9＝72 頓；現在 77 頓）*/
+const N={Y1S1:11,Y1S2:13,Y2S1:11,Y2S2:12,Y3S1:11,Y3S2:9,Y4S1:10};
 const q6=G=>{ G.events.done.ev_ziqing_secret_game=G.day-30; };
 
 (async()=>{
   await sec(1,async()=>{ let out=''; try{ out=cp.execFileSync('python3',['tools/story/import_termend_opts.py','--check'],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); }catch(e){ out=String(e.stderr||e.message); }
     check('1. 匯入工具 --check：src/data/termend_opts.js 和白名單的稿一樣',/^OK /.test(out),out.slice(0,200));
-    check('1. 朋友版七個學期、人數照稿（大一上 10、大一下 12、大二上 11、大二下 12、大三上 10、大三下 8、大四上 9＝72 頓）',ok0&&J(Object.keys(FR))===J(Object.keys(N))&&Object.keys(N).every(t=>Object.keys(FR[t]).length===N[t]),ok0?J(Object.keys(FR).map(t=>[t,Object.keys(FR[t]).length])):'沒有 TERMEND_OPTS.FRIEND');
-    check('1. 沒有沛珊；每一頓至少三個選項、有開頭；沒有帶進 note',ok0&&Object.keys(FR).every(t=>!FR[t].classmate_peishan&&Object.values(FR[t]).every(e=>e.opts.length>=3&&e.says.length>=1&&flat(e.says[e.says.length-1].say).length>=1))&&!/"note"/.test(J(FR)));
+    check('1. 朋友版七個學期、人數照稿（大一上 11、大一下 13、大二上 11、大二下 12、大三上 11、大三下 9、大四上 10＝77 頓；含沛珊五頓）',ok0&&J(Object.keys(FR))===J(Object.keys(N))&&Object.keys(N).every(t=>Object.keys(FR[t]).length===N[t]),ok0?J(Object.keys(FR).map(t=>[t,Object.keys(FR[t]).length])):'沒有 TERMEND_OPTS.FRIEND');
+    /* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_751@33a1769f8 的 friend_v2 五頓接進朋友版）：原本期望「沒有沛珊」*/
+    check('1. 沛珊只在大一上、大一下、大三上、大三下、大四上（大二她在重考、聯絡不到）；每一頓至少三個選項、有開頭；沒有帶進 note',ok0&&J(Object.keys(FR).filter(t=>!!FR[t].classmate_peishan))===J(['Y1S1','Y1S2','Y3S1','Y3S2','Y4S1'])&&Object.keys(FR).every(t=>Object.values(FR[t]).every(e=>e.opts.length>=3&&e.says.length>=1&&flat(e.says[e.says.length-1].say).length>=1))&&!/"note"/.test(J(FR)));
     /* 逐字對企劃線的稿（git 讀得到才比；讀不到＝--check 已經比過） */
     let n=0, bad=[]; const IG=t=>t;
     for(const src of (ok0?TOx.src.friend:[])){ const [p,sha]=src.split('@'); let d=null; try{ d=JSON.parse(cp.execFileSync('git',['show',sha+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:1<<24})); }catch(e){ d=null; } if(!d) continue;
@@ -49,7 +51,7 @@ const q6=G=>{ G.events.done.ev_ziqing_secret_game=G.day-30; };
       const order=picked&&flat(say).length&&flat(picked.re).length?S0.indexOf(flat(say)[0].replace('{name}','祐廷'))<S0.lastIndexOf(flat(picked.re)[0].replace('{name}','祐廷')):true;
       const auto=H.said.some(s=>s.who==='祐廷'&&Lx.REPLY.includes(s.t)), all=flat(say).concat(...E.opts.map(o=>flat(o.re)),flat(E.then)), pool=poolOf(term,who).filter(t=>S0.includes(t)&&!all.includes(t)&&!(((Lx.HOOK[term]||{})[who])&&TERMEND.flat(Lx.HOOK[term][who].say,G).includes(t)));   /* 鉤子自己念的那一句不算 */
       if(!grp||vis.length!==3||!sayOk||!reOk||!thenOk||!order||auto||pool.length||/[{}|]/.test(S0.join(''))) bad.push([term,who,{grp:!!grp,n:vis.length,sayOk,reOk:!!reOk,thenOk,order,auto,pool}]); }
-    check('2. 朋友版 '+n+' 頓：開頭照稿 → 三個選項 → 選了以後的回答照稿 → then；祐廷不自動回「嗯。」；不抽話題池；畫面上沒有 {甲|乙}',n===72&&bad.length===0,J(bad.slice(0,4)));
+    check('2. 朋友版 '+n+' 頓：開頭照稿 → 三個選項 → 選了以後的回答照稿 → then；祐廷不自動回「嗯。」；不抽話題池；畫面上沒有 {甲|乙}',n===77&&bad.length===0,J(bad.slice(0,4)));
     const z=FR.Y1S1.zhe; await dinner('zhe','Y1S1','friend',[z.opts[1].t]); const i={s:idx(flat(z.says[0].say)[0]),r:idx(flat(z.opts[1].re)[0]),t:idx('我二號回高雄。二十九號去海邊啦，我回去之前。')};
     check('2. 阿哲大一上逐字：開頭 → 選第二個 → 它的回答 → then「我二號回高雄。二十九號去海邊啦，我回去之前。」',i.s>=0&&i.r>i.s&&i.t>i.r,J({i,said:said()}));
     await dinner('kai','Y1S1','fallback'); const k=FR.Y1S1.kai; check('2. 阿凱（保底的宵夜）：他的開場（open）照舊 → 新稿的開頭和選項 → 收尾照舊',idx('考完了就好。')>=0&&idx(flat(k.says[0].say)[0])>idx('考完了就好。')&&CH.length>=1&&CH[0].length===3&&has('這次我請。'),J(said())); });
@@ -102,10 +104,11 @@ const q6=G=>{ G.events.done.ev_ziqing_secret_game=G.day-30; };
       const pl=poolOf('Y1S2','heroine_01').filter(has), auto=H.said.some(s=>s.who==='祐廷'&&Lx.REPLY.includes(s.t));
       check('6. 心意的飯（以安大一下）不再抽朋友的話題池、祐廷不自動回「嗯。」；飯桌那一句和選項照舊',pl.length===0&&!auto&&CH.some(c=>c.includes('（先不說）')),J({pl,auto,said:said().slice(0,6)})); }
     await dinner(ps,'Y1S2','friend'); const a=poolOf('Y1S2',ps).filter(has).length;
-    check('6. 沛珊（沒匯入）朋友版照原本：話題池的句子、沒有三個選項',a>=1&&!CH.some(c=>c.length===3),J({a,ch:CH}));
+    /* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_751@33a1769f8 的 friend_v2 五頓接進朋友版）：原本期望「沛珊（沒匯入）照原本：話題池的句子、沒有三個選項」*/
+    check('6. 沛珊朋友版（AA_751）：三個選項、不抽話題池',a===0&&CH.some(c=>c.length===3)&&has('我報了營隊隊輔。'),J({a,ch:CH}));
     { const G=H.fresh(DAY.Y1S2,18.5); H.rel(ps,65,50,45); SOCIAL.adjust(ps,{npcRom:40}); H.said=[]; CH=[]; WANT=['（先不說）']; await TERMEND.dinner(GM,{te:{term:'Y1S2',who:ps,kind:'heart'}});
-      /* 2026-11-11 改期望（SHE-FIRST-1110，AA_751@33a1769f8）：沛珊心意的飯桌句換成兩句（原本 Lx.HEART[沛珊].table 那一句）；話題池這一格等她的朋友版匯入（下一個 commit）才拿掉 */
-      check('6. 沛珊心意的飯：飯桌兩句換成重寫的（話題池還在，等朋友版匯入）',poolOf('Y1S2',ps).filter(has).length>=1&&has('你今天話好少。')&&has('平常這個時候，你已經被我鬧到翻白眼了。'),J(said().slice(0,6))); }
+      /* 2026-11-11 改期望（SHE-FIRST-1110／PEISHAN-VOICE-1110，AA_751@33a1769f8）：沛珊心意的飯桌句換成兩句（原本 Lx.HEART[沛珊].table 那一句）；她的朋友版匯入以後，心意的飯也不再抽話題池（原本「話題池還在」）*/
+      check('6. 沛珊心意的飯：飯桌兩句換成重寫的、不再抽話題池',poolOf('Y1S2',ps).filter(has).length===0&&has('你今天話好少。')&&has('平常這個時候，你已經被我鬧到翻白眼了。'),J(said().slice(0,6))); }
     const keep=globalThis.TERMEND_OPTS; globalThis.TERMEND_OPTS=keep?Object.assign({},keep,{FRIEND:undefined}):keep;
     try{ await dinner('zhe','Y1S1','friend'); const p=poolOf('Y1S1','zhe').filter(has).length, auto=H.said.some(s=>s.who==='祐廷'&&Lx.REPLY.includes(s.t));
       check('6. 沒有 TERMEND_OPTS.FRIEND（舊資料）：朋友版照原本的話題池、祐廷照回',p>=2&&auto&&!CH.some(c=>c.length===3),J({p,auto,ch:CH}));
