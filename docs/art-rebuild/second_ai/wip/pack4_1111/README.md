@@ -1,8 +1,8 @@
 # 美術第四包（LAWWW2 帳號 A，2026-11-11）：機車配件三款＋同弦樂器招牌
 
-狀態：**WORK_IN_PROGRESS：相關測試過了，全部 Node 測試在跑**（跑完沒有失敗才算交付；結果補在這一行）。預覽是 Blender，不是遊戲截圖（D131）。
+狀態：**READY_FOR_REVIEW**（2026-11-11 03:1x UTC）。全部 Node 測試 1254 支跑完、沒有失敗（`regression_full.log`；`bookstore_exit_unit` 最後一行是 Node 讀不到網址的警告，結束碼 0）。預覽是 Blender，不是遊戲截圖（D131）。
 
-- patch：`pack4_v1.patch`（10 個檔，基底 dev `099dad440`）。和花序第 2 版都改 `wz_street.py`、`wz_shopkit.py`，改的地方不同，`git apply --3way` 哪一包先套都可以；兩包都沒有重匯對方的模型（這一包：`scooter.glb`、`xinsheng_street.glb`；花序：`gongguan_shops.glb`、`flower_notes_interior.glb`）。
+- patch：`pack4_v1.patch`（10 個檔，基底 dev `099dad440`；在已經整合花序第 2 版的 `7bb6f6311` 上試過 `git apply --3way`，乾淨）。和花序第 2 版都改 `wz_street.py`、`wz_shopkit.py`，改的地方不同，`git apply --3way` 哪一包先套都可以；兩包都沒有重匯對方的模型（這一包：`scooter.glb`、`xinsheng_street.glb`；花序：`gongguan_shops.glb`、`flower_notes_interior.glb`）。
 
 ## 一、機車配件三款（SCOOTER-ACC-1111）
 
