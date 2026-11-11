@@ -206,9 +206,9 @@ const R2Y4B_EVENTS=(function(){
       {if:{custom:()=>hasCG('cg_whiteboard_why_peishan')},cg:'cg_whiteboard_why_peishan'},   /* BCG-05「白板上的為什麼」：媽媽最後一句之後 */
       {speaker:'classmate_peishan',text:'你真的來了！！'},
       {speaker:'classmate_peishan',text:'我剛剛手一直在抖，粉筆斷了兩次。你有看到嗎？'},
-      {choice:[{text:'「沒有。」',goto:'a'},{text:'「妳媽媽坐最後一排。」',goto:'b'}]},
+      {choice:[{text:'「沒有。」',goto:'a'},{text:'「妳媽媽在門外面。」',goto:'b'}]},
       {label:'a'},{speaker:'classmate_peishan',text:'你騙人。好，我當你沒看到。'},{goto:'send'},
-      {label:'b'},{speaker:'classmate_peishan',text:'……我知道。我一進教室就看到了。'},
+      {label:'b'},{speaker:'classmate_peishan',text:'……我知道。她以為那個小窗很小，我看不到。'},
       {label:'send'},{advance:toH(17)},
       {speaker:null,text:'（下課以後，她把老師的外套脫掉，陪你坐車到高鐵站。）'},   /* AA_282 3-1；AA_447 1-2：和去台南找她的送行分開寫 */
       {if:{custom:dating('classmate_peishan')},speaker:'classmate_peishan',text:'你坐最後一排，我一直看到你，害我講錯一題。這題算你的。'},
