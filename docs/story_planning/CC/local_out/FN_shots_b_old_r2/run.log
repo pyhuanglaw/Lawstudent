@@ -1,0 +1,17 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fn_shots_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FN_shots_b_old_r2\out
+CC FN_shots（FLOWER-NOTES-1110）：PARTS STAIRS；SHA fd4dd9aef；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  48.1s] G11（ggShop G11）：{"x0": 41.32, "x1": 51.63, "zf": 18.07, "cx": 46.48, "src": "ggShop G11"}；相機 {"ext_ref": {"eye": [49.98, 1.6, 3.07], "look": [46.48, 4.0, 18.07], "lens": 24}, "ext_front": {"eye": [46.48, 1.7, 10.57], "look": [46.48, 4.2, 18.57], "lens": 16}, "ext_obl": {"eye": [33.48, 1.7, 6.07], "look": [46.48, 4.5, 18.57], "lens": 22}, "sign": {"eye": [46.48, 2.2, 12.07], "look": [46.48, 4.3, 18.07], "lens": 40}, "view_mrt": {"eye": [-33.0, 1.7, 9.0], "look": [46.48, 4.0, 18.07], "lens": 24}, "view_gate": {"eye": [0.0, 1.7, -40.0], "look": [46.48, 4.0, 18.07], "lens": 24}, "view_arcade": {"eye": [22.48, 1.7, 20.47], "look": [46.48, 2.6, 20.47], "lens": 20}}
+PASS 找得到 G11（ggShop 或 FN_G11）
+  [前置／捷徑] 【前置／捷徑】讀檔公館 2025-11-01 14.00（晴，關條件事件）站在 (46.5, 16.1)：[STAIRS]
+PASS [STAIRS] 搖桿走到「進入花序」，按鈕是它（2.1 秒、沒有跳）  {"end": [47.007, 20.731], "btn": "進入花序", "jumps": [], "why": null}
+PASS [STAIRS] 按「進入花序」到了 flower_notes、站得住  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 14.08}
+  [  66.8s] [STAIRS] 進門的位置：{"x": 0, "z": 6.1, "lv": 0, "ry": 3.142, "levels": 2}；門 {"label": "進入花序", "x": 46.6, "z": 21, "lv": 0, "r": 2.2, "to": "flower_notes", "toName": "花序 Flower Notes", "hidden": false, "kind": null}
+  [  67.1s] [STAIRS] 二樓目標（站得住、走得到、最高的地板）：{"x": 0.13, "z": -0.38, "y": 3.9, "sc": 38.352379354868916, "n": 12}
+PASS [STAIRS] 店裡有第二層導航、二樓有走得到的地板
+  [  72.8s] [STAIRS] 搖桿上樓：{"ok": true, "t": 5.7, "pushes": 8, "jumps": [], "end": {"zone": "flower_notes", "x": -0.065, "z": -0.159, "y": 3.9, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 14.13}}
+PASS [STAIRS] 搖桿走上二樓（lv 1、5.7 秒、沒有跳）  {"end": {"zone": "flower_notes", "x": -0.065, "z": -0.159, "y": 3.9, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 14.13}, "why": null, "jumps": []}
+FAIL [STAIRS] 搖桿走下樓回到進門的位置（lv 0、150.3 秒、沒有跳）  {"end": {"zone": "flower_notes", "x": 0.926, "z": 5.932, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 15.13}, "why": "150 秒沒走到", "jumps": []}
+PASS 沒有 JS 例外  []
+FAILED 1: [STAIRS] 搖桿走下樓回到進門的位置（lv 0、150.3 秒、沒有跳）

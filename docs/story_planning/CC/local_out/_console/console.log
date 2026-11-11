@@ -1175,3 +1175,11 @@
 [09:29:08] ==== START ART2_ggext_old  (probe @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
 [09:29:11] [res] cpu=3% mem=47% (14.8/31.4 GB) chrome_testing=9  START ART2_ggext_old
 [09:29:47] [res] cpu=20% mem=44% (13.8/31.4 GB) chrome_testing=9  END ART2_ggext_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       acd027068..8f186bd6c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:29:54] ==== END   ART2_ggext_new  exit=0  114s   ====
+[09:29:57] memory 45% before starting ART2_int_gg_new (2 running)
+[09:29:57] ==== START ART2_int_gg_new  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
+[09:30:00] [res] cpu=16% mem=46% (14.3/31.4 GB) chrome_testing=9  START ART2_int_gg_new
+[09:30:35] [res] cpu=17% mem=40% (12.5/31.4 GB) chrome_testing=4  END FN_shots_b_old_r2
