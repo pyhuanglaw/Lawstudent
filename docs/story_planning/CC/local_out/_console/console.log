@@ -1,11 +1,3 @@
-[10:58:20] ==== START XG3_ydh  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
-[10:58:23] [res] cpu=25% mem=39% (14.1/31.4 GB) chrome_testing=4  START XG3_ydh
-[10:58:29] [res] cpu=2% mem=41% (12.6/31.4 GB) chrome_testing=4  END XG3_ext_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       a45a8796b..69e0b1500  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[10:58:56] ==== END   XG3_ext_old  exit=0  110s   ====
-[10:59:03] 正在跑：XG3_int（已跑 1 分／上限 10 分）、XG3_ydh（已跑 0 分／上限 8 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:59:06] memory 47% before starting XG3_doorjoy (2 running)
 [10:59:06] ==== START XG3_doorjoy  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
 [10:59:09] [res] cpu=1% mem=48% (15.1/31.4 GB) chrome_testing=9  START XG3_doorjoy
@@ -1998,3 +1990,11 @@
 [19:02:34] [res] cpu=14% mem=50% (15.9/31.4 GB) chrome_testing=10  START STAIRX_old_walk10
 [19:04:04] 正在跑：STAIRX_new_run10（已跑 12 分／上限 40 分）、STAIRX_old_run（已跑 6 分／上限 30 分）、STAIRX_old_walk10（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:04:58] [res] cpu=10% mem=49% (15.6/31.4 GB) chrome_testing=10  END STAIRX_new_run10
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2bf9b006a..ceb752c26  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:05:04] ==== END   STAIRX_new_run10  exit=0  814s   ====
+[19:05:07] memory 50% before starting STAIRX_old_run10 (2 running)
+[19:05:07] ==== START STAIRX_old_run10  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[19:05:10] [res] cpu=3% mem=50% (15.8/31.4 GB) chrome_testing=10  START STAIRX_old_run10
+[19:06:14] [res] cpu=11% mem=48% (15.1/31.4 GB) chrome_testing=9  END STAIRX_old_run
