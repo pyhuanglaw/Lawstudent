@@ -1,0 +1,141 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\L118D_C4_a2\docs\story_planning\test_tools\cc\cc_l118d_c_probe.py http://127.0.0.1:8803/index.html http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_C4_a2\out
+CC L118D_C（118 巷九間店改版：舊存檔相容）：MODE both；CASES 4；SHA a2dd74af1；A 2025-11-05、B 2025-11-06；約 heroine_01；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 改之前的版本載入
+  [  24.7s] [MAKE] 改之前的版本：版本 v9.10.24
+  [  24.8s] [日子] 2025-11-05＝第 50 天：{"key": "2025-11-05", "wd": 3, "kind": "term", "hol": null, "typhoon": false, "term": "Y1S1", "week": 10, "exam": null}
+PASS [日子] 2025-11-05 是學期中的上課日（不是假日、颱風天、考試週）  {"key": "2025-11-05", "wd": 3, "kind": "term", "hol": null, "typhoon": false, "term": "Y1S1", "week": 10, "exam": null}
+  [  24.8s] [日子] 2025-11-06＝第 51 天：{"key": "2025-11-06", "wd": 4, "kind": "term", "hol": null, "typhoon": false, "term": "Y1S1", "week": 10, "exam": null}
+PASS [日子] 2025-11-06 是學期中的上課日（不是假日、颱風天、考試週）  {"key": "2025-11-06", "wd": 4, "kind": "term", "hol": null, "typhoon": false, "term": "Y1S1", "week": 10, "exam": null}
+== case 4（改之前：做存檔）
+  [前置／捷徑] [MAKE 4] 熟客紀錄（A 天 15:00）：day46 存檔 → lane118 (-1.6, 11.5) 2025-11-05（第 50 天）15.00、錢 5000、邀約只留做完的、關條件事件
+PASS [MAKE 4] A 天 tea 巷子裡有進 l118_tea 的店門（進一一八茶飲（手搖飲））  [{"label": "進一一八茶飲（手搖飲）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}, {"label": "進慢讀咖啡（咖啡）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}, {"label": "回到首都帝大（後門）", "x": 0, "z": 48.4, "r": 2.2, "lv": 0, "to": "campus"}]
+PASS [MAKE 4] A 天 tea 有「進一一八茶飲（手搖飲）」  [{"label": "進一一八茶飲（手搖飲）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}, {"label": "進慢讀咖啡（咖啡）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}, {"label": "回到首都帝大（後門）", "x": 0, "z": 48.4, "r": 2.2, "lv": 0, "to": "campus"}]
+  [  41.7s] [MAKE 4] A 天 tea 「進一一八茶飲（手搖飲）」在 (-4.3, 11.5) 半徑 1.4；走到範圍裡站得住的 {"x": -3.5, "z": 11.5, "d": 1.9}
+PASS [MAKE 4] A 天 tea 「進一一八茶飲（手搖飲）」範圍裡有站得住的地方  {"label": "進一一八茶飲（手搖飲）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}
+  [  44.5s] 到達「[MAKE 4] A 天 tea 進一一八茶飲（手搖飲）」附近（0.07 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [MAKE 4] A 天 tea 走到那裡，互動按鈕是「進一一八茶飲（手搖飲）」  {"x": -3.43, "z": 11.5, "lv": 0, "interact": "進一一八茶飲（手搖飲）"}
+PASS [MAKE 4] A 天 tea 按下去到了 l118_tea（站得住、沒有被放到目的地）  {"zone": "l118_tea", "x": -0.5, "z": 0.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "點餐（一一八茶飲）", "stand": true, "fb": 0, "hour": 15.07}
+PASS [MAKE 4] A 天 tea 店裡有點餐的地方（shop118 tea）
+PASS [MAKE 4] A 天 tea 走到「點餐（一一八茶飲）」，按鈕是它  {"at": [-0.5, 0.8], "btn": "點餐（一一八茶飲）"}
+  [  59.4s] [MAKE 4] A 天 tea 點餐過程：["甜度", "選項：紅茶拿鐵　50 元｜檸檬綠　45 元｜無糖綠茶　30 元｜不用了", "（你點了紅茶拿鐵。）", "（你拿著飲料走回巷口。）"]
+PASS [MAKE 4] A 天 tea 點了「紅茶拿鐵」（G.l118.n.tea 0→1、last＝紅茶拿鐵、錢 5000→4950）  {"picked": "紅茶拿鐵　50 元"}
+PASS [MAKE 4] A 天 tea 出店 有「離開」  [{"label": "離開一一八茶飲", "x": -0.5, "z": 1.85, "r": 0.7, "lv": 0, "to": "lane118"}]
+  [  59.5s] [MAKE 4] A 天 tea 出店 「離開」在 (-0.5, 1.85) 半徑 0.7；走到範圍裡站得住的 {"x": -0.5, "z": 1.45, "d": 0.6500000000000001}
+PASS [MAKE 4] A 天 tea 出店 「離開」範圍裡有站得住的地方  {"label": "離開一一八茶飲", "x": -0.5, "z": 1.85, "r": 0.7, "lv": 0, "to": "lane118"}
+  [  62.1s] 到達「[MAKE 4] A 天 tea 出店 離開」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [MAKE 4] A 天 tea 出店 走到那裡，互動按鈕是「離開」  {"x": -0.5, "z": 1.22, "lv": 0, "interact": "離開一一八茶飲"}
+PASS [MAKE 4] A 天 tea 出店 按下去到了 lane118（站得住、沒有被放到目的地）  {"zone": "lane118", "x": -3.9, "z": 13.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 15.2}
+PASS [MAKE 4] A 天 cafe2 巷子裡有進 l118_cafe2 的店門（進慢讀咖啡（咖啡））  [{"label": "進一一八茶飲（手搖飲）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}, {"label": "進慢讀咖啡（咖啡）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}, {"label": "回到首都帝大（後門）", "x": 0, "z": 48.4, "r": 2.2, "lv": 0, "to": "campus"}]
+PASS [MAKE 4] A 天 cafe2 有「進慢讀咖啡（咖啡）」  [{"label": "進一一八茶飲（手搖飲）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}, {"label": "進慢讀咖啡（咖啡）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}, {"label": "回到首都帝大（後門）", "x": 0, "z": 48.4, "r": 2.2, "lv": 0, "to": "campus"}]
+  [  68.6s] [MAKE 4] A 天 cafe2 「進慢讀咖啡（咖啡）」在 (-4.3, -12.5) 半徑 1.4；走到範圍裡站得住的 {"x": -4.3, "z": -11.7, "d": 24.903212644154973}
+PASS [MAKE 4] A 天 cafe2 「進慢讀咖啡（咖啡）」範圍裡有站得住的地方  {"label": "進慢讀咖啡（咖啡）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}
+  [  88.5s] 到達「[MAKE 4] A 天 cafe2 進慢讀咖啡（咖啡）」附近（0.24 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，20 秒
+PASS [MAKE 4] A 天 cafe2 走到那裡，互動按鈕是「進慢讀咖啡（咖啡）」  {"x": -4.256, "z": -11.463, "lv": 0, "interact": "進慢讀咖啡（咖啡）"}
+PASS [MAKE 4] A 天 cafe2 按下去到了 l118_cafe2（站得住、沒有被放到目的地）  {"zone": "l118_cafe2", "x": 2.2, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 15.34}
+PASS [MAKE 4] A 天 cafe2 店裡有點餐的地方（shop118 cafe2）
+  [  99.2s] 到達「[MAKE 4] A 天 cafe2 走到「點餐（慢讀咖啡）」」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [MAKE 4] A 天 cafe2 走到「點餐（慢讀咖啡）」，按鈕是它  {"at": [0.104, -1.878], "btn": "點餐（慢讀咖啡）"}
+  [ 103.7s] [MAKE 4] A 天 cafe2 點餐過程：["插座在", "插座在窗邊。點好了我再送過去。", "選項：美式咖啡　70 元｜拿鐵　95 元｜今日蛋糕　90 元｜不用了", "（你點了美式咖啡。）", "（你多坐了一會兒，把上午的筆記"]
+PASS [MAKE 4] A 天 cafe2 點了「美式咖啡」（G.l118.n.cafe2 1→2、last＝美式咖啡、錢 4950→4880）  {"picked": "美式咖啡　70 元"}
+PASS [MAKE 4] A 天 cafe2 出店 有「離開」  [{"label": "離開慢讀咖啡", "x": 2.2, "z": 4.05, "r": 0.7, "lv": 0, "to": "lane118"}]
+  [ 103.7s] [MAKE 4] A 天 cafe2 出店 「離開」在 (2.2, 4.05) 半徑 0.7；走到範圍裡站得住的 {"x": 2.1, "z": 3.66, "d": 5.8892199372173}
+PASS [MAKE 4] A 天 cafe2 出店 「離開」範圍裡有站得住的地方  {"label": "離開慢讀咖啡", "x": 2.2, "z": 4.05, "r": 0.7, "lv": 0, "to": "lane118"}
+  [ 114.8s] 到達「[MAKE 4] A 天 cafe2 出店 離開」附近（0.23 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+PASS [MAKE 4] A 天 cafe2 出店 走到那裡，互動按鈕是「離開」  {"x": 1.936, "z": 3.494, "lv": 0, "interact": "離開慢讀咖啡"}
+PASS [MAKE 4] A 天 cafe2 出店 按下去到了 lane118（站得住、沒有被放到目的地）  {"zone": "lane118", "x": -3.9, "z": -10.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 16.14}
+  [前置／捷徑] [MAKE 4]【捷徑】換到 B 天 2025-11-06 15:00（G.day、G.weekday、G.hour 直接改；人留在巷子裡）：{"day": 51, "wd": 4, "hour": 15}
+PASS [MAKE 4] B 天 tea 巷子裡有進 l118_tea 的店門（進一一八茶飲（手搖飲））  [{"label": "進一一八茶飲（手搖飲）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}, {"label": "進慢讀咖啡（咖啡）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}, {"label": "回到首都帝大（後門）", "x": 0, "z": 48.4, "r": 2.2, "lv": 0, "to": "campus"}]
+PASS [MAKE 4] B 天 tea 有「進一一八茶飲（手搖飲）」  [{"label": "進一一八茶飲（手搖飲）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}, {"label": "進慢讀咖啡（咖啡）", "x": -4.3, "z": -12.5, "r": 1.4, "lv": 0, "to": "l118_cafe2"}, {"label": "回到首都帝大（後門）", "x": 0, "z": 48.4, "r": 2.2, "lv": 0, "to": "campus"}]
+  [ 123.0s] [MAKE 4] B 天 tea 「進一一八茶飲（手搖飲）」在 (-4.3, 11.5) 半徑 1.4；走到範圍裡站得住的 {"x": -4.3, "z": 10.7, "d": 21.503720608304043}
+PASS [MAKE 4] B 天 tea 「進一一八茶飲（手搖飲）」範圍裡有站得住的地方  {"label": "進一一八茶飲（手搖飲）", "x": -4.3, "z": 11.5, "r": 1.4, "lv": 0, "to": "l118_tea"}
+  [ 137.3s] 到達「[MAKE 4] B 天 tea 進一一八茶飲（手搖飲）」附近（0.26 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+PASS [MAKE 4] B 天 tea 走到那裡，互動按鈕是「進一一八茶飲（手搖飲）」  {"x": -4.117, "z": 10.508, "lv": 0, "interact": "進一一八茶飲（手搖飲）"}
+PASS [MAKE 4] B 天 tea 按下去到了 l118_tea（站得住、沒有被放到目的地）  {"zone": "l118_tea", "x": -0.5, "z": 0.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "點餐（一一八茶飲）", "stand": true, "fb": 0, "hour": 15.14}
+PASS [MAKE 4] B 天 tea 店裡有點餐的地方（shop118 tea）
+PASS [MAKE 4] B 天 tea 走到「點餐（一一八茶飲）」，按鈕是它  {"at": [-0.5, 0.8], "btn": "點餐（一一八茶飲）"}
+  [ 145.5s] [MAKE 4] B 天 tea 點餐過程：["", "甜度冰塊？", "選項：紅茶拿鐵　50 元｜檸檬綠　45 元｜無糖綠茶　30 元｜不用了", "（你點了紅茶拿鐵。）", "（你拿著飲料走回巷口。）"]
+PASS [MAKE 4] B 天 tea 點了「紅茶拿鐵」（G.l118.n.tea 1→2、last＝紅茶拿鐵、錢 4880→4830）  {"picked": "紅茶拿鐵　50 元"}
+PASS [MAKE 4] B 天 tea 出店 有「離開」  [{"label": "離開一一八茶飲", "x": -0.5, "z": 1.85, "r": 0.7, "lv": 0, "to": "lane118"}]
+  [ 145.6s] [MAKE 4] B 天 tea 出店 「離開」在 (-0.5, 1.85) 半徑 0.7；走到範圍裡站得住的 {"x": -0.5, "z": 1.45, "d": 0.6500000000000001}
+PASS [MAKE 4] B 天 tea 出店 「離開」範圍裡有站得住的地方  {"label": "離開一一八茶飲", "x": -0.5, "z": 1.85, "r": 0.7, "lv": 0, "to": "lane118"}
+  [ 148.2s] 到達「[MAKE 4] B 天 tea 出店 離開」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [MAKE 4] B 天 tea 出店 走到那裡，互動按鈕是「離開」  {"x": -0.5, "z": 1.22, "lv": 0, "interact": "離開一一八茶飲"}
+PASS [MAKE 4] B 天 tea 出店 按下去到了 lane118（站得住、沒有被放到目的地）  {"zone": "lane118", "x": -3.9, "z": 13.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 15.27}
+  [ 153.8s] [MAKE 4] 真的點出來的紀錄：{"n": {"cafe2": 2, "tea": 2}, "d": {"cafe2": 50, "tea": 51}, "last": {"cafe2": "美式咖啡", "tea": "紅茶拿鐵"}, "w": {}, "once": {}}
+  [前置／捷徑] [MAKE 4]【捷徑】直接寫進 G.l118／G.flags：其他店 [["noodle2", 3, -3, "牛肉麵"], ["korea", 2, -5, "石鍋拌飯"], ["self", 4, -2, "自助餐（三菜一肉）"], ["dian", 1, -7, "椒麻雞飯"], ["pasta", 2, -6, "青醬培根麵"]]；w {"zhe@noodle2": {"n": 2, "d0": 20, "d": 40}, "zhe@korea": {"n": 1, "d0": 27, "d": 27}, "zhe@self": {"n": 1, "d0": 34, "d": 34}, "zhe@home": {"n": 1, "d0": 30, "d": 30}, "classmate_bohan@self": {"n": 3, "d0": 22, "d": 45}, "heroine_01@pasta": {"n": 1, "d0": 33, "d": 33}}；ZHE_118_RANK＝noodle2；SIS_TEA_ORDER＝true（tea、cafe2 的 n／d／last 是上面真的點出來的，沒有動）
+  [ 153.8s] [MAKE 4] 寫完以後：{"l118": {"n": {"cafe2": 2, "tea": 2, "noodle2": 3, "korea": 2, "self": 4, "dian": 1, "pasta": 2}, "d": {"cafe2": 50, "tea": 51, "noodle2": 48, "korea": 46, "self": 49, "dian": 44, "pasta": 45}, "last": {"cafe2": "美式咖啡", "tea": "紅茶拿鐵", "noodle2": "牛肉麵", "korea": "石鍋拌飯", "self": "自助餐（三菜一肉）", "dian": "椒麻雞飯", "pasta": "青醬培根麵"}, "w": {"zhe@noodle2": {"n": 2, "d0": 20, "d": 40}, "zhe@korea": {"n": 1, "d0": 27, "d": 27}, "zhe@self": {"n": 1, "d0": 34, "d": 34}, "zhe@home": {"n": 1, "d0": 30, "d": 30}, "classmate_bohan@self": {"n": 3, "d0": 22, "d": 45}, "heroine_01@pasta": {"n": 1, "d0": 33, "d": 33}}, "once": {}}, "rank": "noodle2", "tea": true}
+  [ 154.1s] [MAKE 4] 存了（quickSave；熟客紀錄（tea、cafe2 真的點；其他【捷徑】寫入）；人在巷子裡）：{"l118": {"n": {"cafe2": 2, "tea": 2, "noodle2": 3, "korea": 2, "self": 4, "dian": 1, "pasta": 2}, "d": {"cafe2": 50, "tea": 51, "noodle2": 48, "korea": 46, "self": 49, "dian": 44, "pasta": 45}, "last": {"cafe2": "美式咖啡", "tea": "紅茶拿鐵", "noodle2": "牛肉麵", "korea": "石鍋拌飯", "self": "自助餐（三菜一肉）", "dian": "椒麻雞飯", "pasta": "青醬培根麵"}, "w": {"zhe@noodle2": {"n": 2, "d0": 20, "d": 40}, "zhe@korea": {"n": 1, "d0": 27, "d": 27}, "zhe@self": {"n": 1, "d0": 34, "d": 34}, "zhe@home": {"n": 1, "d0": 30, "d": 30}, "classmate_bohan@self": {"n": 3, "d0": 22, "d": 45}, "heroine_01@pasta": {"n": 1, "d0": 33, "d": 33}}, "once": {}}, "mok": {"n": 2, "seats": {"16": 1}, "rain": {}, "chat": {"t": null, "k": 0}, "first": 43, "bh": 43, "last": 16}, "rank": "noodle2", "tea": true, "day": 51, "hour": 15.27, "money": 4830, "zone": "lane118", "x": -3.9, "z": 13.2, "lv": 0}
+PASS [MAKE 4] 用遊戲的快速存檔存得起來（不是退回 snapshot）  quickSave
+PASS [MAKE 4] 改之前的版本沒有 JS 例外  []
+  [ 154.1s] [MAKE] 存檔 ["4"] 寫在 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_C4_a2\out\saves
+PASS 改之後的版本載入
+  [ 170.4s] [LOAD] 這個版本的 118 巷店家：{"dian": "118牛排", "self": "水上便當", "tea": "辛亥韓食", "home": "五湖四海", "cafe2": "大學食堂", "pasta": "義大麵屋", "korea": "清州刀削麵", "omu": "奈良咖哩", "noodle2": "迪倫窯烤披薩", "drink_a": "喝不喝咖啡", "drink_b": "果茶社"}
+== case 4（改之後：讀進來）
+PASS [LOAD 4] 有改之前做好的存檔（["4"]）  ["4"]
+  [ 170.4s] [LOAD 4] 存檔（改之前）：{"l118": {"n": {"cafe2": 2, "tea": 2, "noodle2": 3, "korea": 2, "self": 4, "dian": 1, "pasta": 2}, "d": {"cafe2": 50, "tea": 51, "noodle2": 48, "korea": 46, "self": 49, "dian": 44, "pasta": 45}, "last": {"cafe2": "美式咖啡", "tea": "紅茶拿鐵", "noodle2": "牛肉麵", "korea": "石鍋拌飯", "self": "自助餐（三菜一肉）", "dian": "椒麻雞飯", "pasta": "青醬培根麵"}, "w": {"zhe@noodle2": {"n": 2, "d0": 20, "d": 40}, "zhe@korea": {"n": 1, "d0": 27, "d": 27}, "zhe@self": {"n": 1, "d0": 34, "d": 34}, "zhe@home": {"n": 1, "d0": 30, "d": 30}, "classmate_bohan@self": {"n": 3, "d0": 22, "d": 45}, "heroine_01@pasta": {"n": 1, "d0": 33, "d": 33}}, "once": {}}, "mok": {"n": 2, "seats": {"16": 1}, "rain": {}, "chat": {"t": null, "k": 0}, "first": 43, "bh": 43, "last": 16}, "rank": "noodle2", "tea": true, "day": 51, "hour": 15.27, "money": 4830, "zone": "lane118", "x": -3.9, "z": 13.2, "lv": 0}
+  [ 196.8s] 讀進來以後等畫面可以玩：{"fade": false, "paused": false, "title": false, "phone": false, "dlg": false, "busy": false}；做了 []
+PASS [LOAD 4] 讀進來以後再存一次存得起來（quickSave）
+  [ 197.1s] [DIFF 4] 共 50 條有變（全部寫在 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_C4_a2\out\diff_4.txt）；重點 34 條：
+    flags.ZHE_118_RANK : noodle2 → korea
+    invites[21].label : 和陳語彤約在慢讀咖啡 → 和陳語彤約在木曜日
+    invites[21].zone : l118_cafe2 → wz_mokuyobi
+    invites[27].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+    invites[27].zone : l118_cafe2 → wz_mokuyobi
+    l118.d.cafe2 : 50 → 49
+    l118.d.drink_a : （沒有） → 51
+    l118.d.korea : 46 → 48
+    l118.d.noodle2 : 48 → （沒有）
+    l118.d.self : 49 → （沒有）
+    l118.d.tea : 51 → 46
+    l118.last.cafe2 : 美式咖啡 → 自助餐（三菜一肉）
+    l118.last.dian : 椒麻雞飯 → （沒有）
+    l118.last.korea : 石鍋拌飯 → （沒有）
+    l118.last.noodle2 : 牛肉麵 → （沒有）
+    l118.last.self : 自助餐（三菜一肉） → （沒有）
+    l118.last.tea : 紅茶拿鐵 → 石鍋拌飯
+    l118.mv772 : （沒有） → 2
+    l118.n.cafe2 : 2 → 4
+    l118.n.drink_a : （沒有） → 2
+    l118.n.korea : 2 → 3
+    l118.n.noodle2 : 3 → （沒有）
+    l118.n.self : 4 → （沒有）
+    l118.w.classmate_bohan@cafe2 : （沒有） → {"n": 3, "d0": 22, "d": 45}
+    l118.w.classmate_bohan@self : {"n": 3, "d0": 22, "d": 45} → （沒有）
+    l118.w.zhe@home.d : 30 → 34
+    l118.w.zhe@home.n : 1 → 2
+    l118.w.zhe@korea.d : 27 → 40
+    l118.w.zhe@korea.d0 : 27 → 20
+    l118.w.zhe@korea.n : 1 → 2
+    l118.w.zhe@noodle2 : {"n": 2, "d0": 20, "d": 40} → （沒有）
+    l118.w.zhe@self : {"n": 1, "d0": 34, "d": 34} → （沒有）
+    l118.w.zhe@tea : （沒有） → {"n": 1, "d0": 27, "d": 27}
+    mokuyobi.n : 2 → 4
+  [ 197.1s] [DIFF 4] 其他有變的頂層欄位（新版補的預設、時間走了這類）：["courses", "eat", "flags", "hour", "notes", "savedAt"]
+  [ 197.1s] [LOAD 4] 讀進來（改之後）：區域 lane118 (-3.9, 13.2) lv 0、第 51 天 15.3、按鈕「」
+PASS [LOAD 4] 標題「繼續」讀得進來、同一天（51）  {"ok": true, "day": 51}
+PASS [LOAD 4] 區域是 lane118  {"zone": "lane118"}
+PASS [LOAD 4] 站的格子可走（canStand r0.3；(-3.9, 13.2) lv 0）  {"zone": "lane118", "x": -3.9, "z": 13.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 15.3}
+  [ 197.5s] [LOAD 4] 舊 G.l118＝{"n": {"cafe2": 2, "tea": 2, "noodle2": 3, "korea": 2, "self": 4, "dian": 1, "pasta": 2}, "d": {"cafe2": 50, "tea": 51, "noodle2": 48, "korea": 46, "self": 49, "dian": 44, "pasta": 45}, "last": {"cafe2": "美式咖啡", "tea": "紅茶拿鐵", "noodle2": "牛肉麵", "korea": "石鍋拌飯", "self": "自助餐（三菜一肉）", "dian": "椒麻雞飯", "pasta": "青醬培根麵"}, "w": {"zhe@noodle2": {"n": 2, "d0": 20, "d": 40}, "zhe@korea": {"n": 1, "d0": 27, "d": 27}, "zhe@self": {"n": 1, "d0": 34, "d": 34}, "zhe@home": {"n": 1, "d0": 30, "d": 30}, "classmate_bohan@self": {"n": 3, "d0": 22, "d": 45}, "heroine_01@pasta": {"n": 1, "d0": 33, "d": 33}}, "once": {}}；舊 mokuyobi.n＝2；舊 ZHE_118_RANK＝noodle2
+PASS [LOAD 4] G.l118.n 照規格搬（期望 {"dian": 1, "pasta": 2, "korea": 3, "tea": 2, "cafe2": 4, "drink_a": 2}）  實際 {"dian": 1, "pasta": 2, "korea": 3, "tea": 2, "cafe2": 4, "drink_a": 2}
+PASS [LOAD 4] G.l118.d 照規格搬（期望 {"dian": 44, "pasta": 45, "korea": 48, "tea": 46, "cafe2": 49, "drink_a": 51}）  實際 {"dian": 44, "pasta": 45, "korea": 48, "tea": 46, "cafe2": 49, "drink_a": 51}
+PASS [LOAD 4] G.l118.last 照規格搬（期望 {"pasta": "青醬培根麵", "tea": "石鍋拌飯", "cafe2": "自助餐（三菜一肉）"}）  實際 {"pasta": "青醬培根麵", "tea": "石鍋拌飯", "cafe2": "自助餐（三菜一肉）"}
+PASS [LOAD 4] G.l118.w 照規格搬（期望 {"heroine_01@pasta": {"n": 1, "d0": 33, "d": 33}, "zhe@korea": {"n": 2, "d0": 20, "d": 40}, "zhe@tea": {"n": 1, "d0": 27, "d": 27}, "zhe@home": {"n": 2, "d0": 30, "d": 34}, "classmate_bohan@cafe2": {"n": 3, "d0": 22, "d": 45}}）  實際 {"heroine_01@pasta": {"n": 1, "d0": 33, "d": 33}, "zhe@korea": {"n": 2, "d0": 20, "d": 40}, "zhe@tea": {"n": 1, "d0": 27, "d": 27}, "zhe@home": {"n": 2, "d0": 30, "d": 34}, "classmate_bohan@cafe2": {"n": 3, "d0": 22, "d": 45}}
+  [ 197.5s] [LOAD 4] 老樣子（last）對不到新菜單、應該被清掉的：[["dian", "椒麻雞飯"], ["korea", "牛肉麵"], ["drink_a", "紅茶拿鐵"]]
+PASS [LOAD 4] 老樣子「椒麻雞飯」（搬到 dian 118牛排）對不到新菜單＝被清掉  {"pasta": "青醬培根麵", "tea": "石鍋拌飯", "cafe2": "自助餐（三菜一肉）"}
+PASS [LOAD 4] 老樣子「牛肉麵」（搬到 korea 清州刀削麵）對不到新菜單＝被清掉  {"pasta": "青醬培根麵", "tea": "石鍋拌飯", "cafe2": "自助餐（三菜一肉）"}
+PASS [LOAD 4] 老樣子「紅茶拿鐵」（搬到 drink_a 喝不喝咖啡）對不到新菜單＝被清掉  {"pasta": "青醬培根麵", "tea": "石鍋拌飯", "cafe2": "自助餐（三菜一肉）"}
+PASS [LOAD 4] G.l118.once 照留  {"old": {}, "new": {}}
+PASS [LOAD 4] 慢讀咖啡的次數併進木曜日 G.mokuyobi.n（期望 4＝舊 2＋慢讀 2）  實際 4
+PASS [LOAD 4] G.l118.mv772＝2（搬過一次、不會再搬）  2
+PASS [LOAD 4] ZHE_118_RANK（期望 korea）  實際 korea
+PASS [LOAD 4] SIS_TEA_ORDER 保留（舊 True）  新 True
+PASS [LOAD 4] slowread 邀約 iv22（舊：l118_cafe2 第 32 天 15.5 done）→ 區域 （不看）、狀態 done  {"zone": "wz_mokuyobi", "state": "done", "day": 32, "h": 15.5, "label": "和陳語彤約在木曜日"}
+PASS [LOAD 4] slowread 邀約 iv28（舊：l118_cafe2 第 37 天 15.5 done）→ 區域 （不看）、狀態 done  {"zone": "wz_mokuyobi", "state": "done", "day": 37, "h": 15.5, "label": "和沈以安約在木曜日"}
+PASS [LOAD 4] 讀進來的畫面：畫面文字、互動按鈕、區域名稱沒有舊店名  {"old": [], "zone": "118 巷", "its": ["118牛排（夜市鐵板牛排）", "水上便當（雞腿、雞排便當）", "辛亥韓食（韓式鍋物、鐵板烤肉）", "五湖四海（水餃店）", "大學食堂（秤重自助餐）", "義大麵屋（平價義大利麵）", "清州刀削麵（刀削麵館）", "奈良咖哩（日式咖哩飯）", "迪倫窯烤披薩（個人窯烤披薩）", "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））", "果茶社（鮮果茶與多多系列（外帶））", "回到首都帝大（後門）"]}
+PASS [LOAD 4] 讀進來的畫面：畫面文字、互動按鈕沒有 undefined  {"zone": "118 巷", "its": []}
+  [ 197.5s] [LOAD 4] 附近的互動：[{"label": "辛亥韓食（韓式鍋物、鐵板烤肉）", "d": 1.75, "r": 1.4, "shop": "tea", "exit": null}, {"label": "騎腳踏車", "d": 4.18, "r": 1.3, "shop": null, "exit": null}, {"label": "水上便當（雞腿、雞排便當）", "d": 4.32, "r": 1.4, "shop": "self", "exit": null}, {"label": "清州刀削麵（刀削麵館）", "d": 8.52, "r": 1.4, "shop": "korea", "exit": null}, {"label": "118牛排（夜市鐵板牛排）", "d": 11.81, "r": 1.4, "shop": "dian", "exit": null}]
+  [ 197.6s] [LOAD 4] 讀進來的那一格：E.unstick 被叫 2 次 [{"who": "player", "at": [-40, -5], "moved": false}, {"who": "player", "at": [-3.9, 13.2], "moved": false}]、walkFallbacks 0、canStand {"0.2": true, "0.25": true, "0.3": true, "0.33": true, "0.4": true}
+PASS [LOAD 4] 搖桿推得動 9.93 m（≥0.3，人不卡牆）
+PASS [LOAD 4] 沒有 JS 例外  []
+ALL PASS

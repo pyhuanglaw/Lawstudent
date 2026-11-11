@@ -1,0 +1,93 @@
+{
+ "4": {
+  "why": "熟客紀錄（tea、cafe2 真的點；其他【捷徑】寫入）；人在巷子裡",
+  "how": "quickSave",
+  "meta": {
+   "l118": {
+    "n": {
+     "cafe2": 2,
+     "tea": 2,
+     "noodle2": 3,
+     "korea": 2,
+     "self": 4,
+     "dian": 1,
+     "pasta": 2
+    },
+    "d": {
+     "cafe2": 50,
+     "tea": 51,
+     "noodle2": 48,
+     "korea": 46,
+     "self": 49,
+     "dian": 44,
+     "pasta": 45
+    },
+    "last": {
+     "cafe2": "美式咖啡",
+     "tea": "紅茶拿鐵",
+     "noodle2": "牛肉麵",
+     "korea": "石鍋拌飯",
+     "self": "自助餐（三菜一肉）",
+     "dian": "椒麻雞飯",
+     "pasta": "青醬培根麵"
+    },
+    "w": {
+     "zhe@noodle2": {
+      "n": 2,
+      "d0": 20,
+      "d": 40
+     },
+     "zhe@korea": {
+      "n": 1,
+      "d0": 27,
+      "d": 27
+     },
+     "zhe@self": {
+      "n": 1,
+      "d0": 34,
+      "d": 34
+     },
+     "zhe@home": {
+      "n": 1,
+      "d0": 30,
+      "d": 30
+     },
+     "classmate_bohan@self": {
+      "n": 3,
+      "d0": 22,
+      "d": 45
+     },
+     "heroine_01@pasta": {
+      "n": 1,
+      "d0": 33,
+      "d": 33
+     }
+    },
+    "once": {}
+   },
+   "mok": {
+    "n": 2,
+    "seats": {
+     "16": 1
+    },
+    "rain": {},
+    "chat": {
+     "t": null,
+     "k": 0
+    },
+    "first": 43,
+    "bh": 43,
+    "last": 16
+   },
+   "rank": "noodle2",
+   "tea": true,
+   "day": 51,
+   "hour": 15.27,
+   "money": 4830,
+   "zone": "lane118",
+   "x": -3.9,
+   "z": 13.2,
+   "lv": 0
+  }
+ }
+}
