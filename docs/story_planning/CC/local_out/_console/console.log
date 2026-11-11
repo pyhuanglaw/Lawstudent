@@ -1,12 +1,3 @@
-[11:04:27] ==== START NM_oldfps_old  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
-[11:04:30] [res] cpu=32% mem=42% (13.4/31.4 GB) chrome_testing=5  START NM_oldfps_old
-[11:04:36] [res] cpu=1% mem=44% (13.4/31.4 GB) chrome_testing=5  END NM_walk_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       f28bb769e..6a2785473  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[11:05:05] ==== END   NM_walk_old  exit=0  163s   ====
-[11:05:13] [res] cpu=5% mem=42% (13.2/31.4 GB) chrome_testing=4  END NM_cam_new
-[11:05:13] memory 42% before starting NM_ggnav_new (2 running)
 [11:05:13] ==== START NM_ggnav_new  (game @ bd3f67410415267cde659e007e7d09b6f8fd05f3) ====
 [11:05:16] [res] cpu=17% mem=41% (13.2/31.4 GB) chrome_testing=4  START NM_ggnav_new
     To https://github.com/pyhuanglaw/Lawstudent.git
@@ -1998,3 +1989,12 @@
 [19:12:31] [res] cpu=15% mem=49% (15.4/31.4 GB) chrome_testing=10  START L118D_H_B_a2
 [19:14:04] 正在跑：STAIRX_old_run10（已跑 8 分／上限 30 分）、STAIR_7d_run10（已跑 5 分／上限 40 分）、L118D_H_B_a2（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:16:18] [res] cpu=12% mem=47% (15.0/31.4 GB) chrome_testing=10  END L118D_H_B_a2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4c19fb916..d5b435126  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:16:24] ==== END   L118D_H_B_a2  exit=1  230s   ====
+[19:16:27] memory 48% before starting REGA2DD_linze (2 running)
+[19:16:27] ==== START REGA2DD_linze  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[19:16:30] [res] cpu=5% mem=48% (15.1/31.4 GB) chrome_testing=10  START REGA2DD_linze
+[19:19:04] 正在跑：STAIRX_old_run10（已跑 13 分／上限 30 分）、STAIR_7d_run10（已跑 10 分／上限 40 分）、REGA2DD_linze（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:19:05] [res] cpu=13% mem=48% (15.2/31.4 GB) chrome_testing=10  END STAIRX_old_run10
