@@ -7,7 +7,8 @@
   "event": "wish_heroine_04「最後一關換你」（D03 參創）",
   "why": "這個事件和現行設定一致（最後一關不給別人、爸爸的事只說到「以前。……之後再說。」留給 Q12、Q12 前後和大四的分支），內容不動。改四種：①刪節號 26 處留 3 處（她主動約的「……你要來嗎？」、窗邊「以前。……之後再說。」、收尾「……你過橋的時候，我沒在看畫面。」）；②D116：試玩區「好到我有點不爽」「我的會更好」、舊機台「全國第三十二名／地區排行」是跟別人比，改成她看到好東西就想回去改自己的、她國中每天去打；③嫌祐廷的兩句（你很爛、你兩隻手都在亂打）改成講事；④寫死年級或身分的兩句（我回去寫作業、法律系的也會去參創？）。",
   "for_LAWWW": "path 是 date_wish.js（開發分支 2e1644aa3）events.heroine_04 底下的位置（hotspots 的 key 是「D03.demo」這種帶點的字串）；old 是那個檔裡的原字。「……好。」這種在整個檔出現很多次，一定要照 path 換。產生器 tools/date/import_wish.py 的來源請一起換或加一層（同 AA_774）。旁白、選項的字、note 都沒動。",
-  "not_changed": "mention.lines[0]、[1]、三個選項的字、herInvite.lines（三點——和 date3d.js 第 340 行「三點以後到」對得上）、herInvite.accept、playerInvite.known[0]、arrive.lines[0]、extraIf[1]～[3]、各熱點第一句、扭蛋和窗邊的其他句、closing 的旁白和「最後一關換你。」「我說的是以前。」、after[1].lines[0]「我的最後一關，我爸打過了。打很爛。」（說的是她爸，Q12 的設計，留）、ending[0]～[2]。"
+  "not_changed": "mention.lines[0]、[1]、三個選項的字、herInvite.lines（三點——和 date3d.js 第 340 行「三點以後到」對得上）、herInvite.accept、playerInvite.known[0]、arrive.lines[0]、extraIf[1]～[3]、各熱點第一句、扭蛋和窗邊的其他句、closing 的旁白和「最後一關換你。」「我說的是以前。」、after[1].lines[0]「我的最後一關，我爸打過了。打很爛。」（說的是她爸，Q12 的設計，留）、ending[0]～[2]。",
+  "bb": "BB 11-11 看過：可以給 LAWWW（舊機台排名換掉是對的，不換回去）"
  },
  "rows": [
   {
@@ -117,6 +118,12 @@
    "path": "hotspots.D03.gacha.choices[2].reply[0].text",
    "old": "你很掃興耶。……一次就好。",
    "new": "你很掃興耶。一次就好。"
+  },
+  {
+   "path": "hotspots.D03.window.lines[0].text",
+   "old": "（看窗外的路口）以前我爸會帶我來這一帶買零件。",
+   "new": "（看窗外的路口）以前我爸會帶我上來這一帶買零件。",
+   "note": "BB 11-11：她家在臺中，加「上來」兩個字，不會被讀成她在臺北長大；這句是 Q12 的鋪陳（BB_128），內容照留"
   },
   {
    "path": "hotspots.D03.window.lines[1].text",
