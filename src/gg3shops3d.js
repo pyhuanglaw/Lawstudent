@@ -29,7 +29,8 @@
      約去吃：src/data/invites.js 那一套（地點 tz_taimi；吃飯那一類、有點熟以上；午餐 11:30～13:30、晚餐 17:30～20:00、週一不排）；答應的一句七位＋一般（包 INV.personal）；坐下以後的開場句 seatOpen.tz_taimi。
    - 店員站的位置（zone.shopClerk）：開店時放一個路人模型站著（STORY.populate 之後；洗樂沒有店員）。區域的座位補成 zone.seats（約會一起坐、帶位用）。
    - 舊存檔：已經排好的行程地點、標題「公館・日日定食」「公館的日日定食」→「汀州路・泰米村食」「汀州路的泰米村食」（S.migrate，game3d.js 的 migrate 叫；AA_742 第 ③ 節）。
-   存檔只多 G.flags 的 GG3_DOOR、GG3_SIT、GG3_GIFT、GG3_WRAP、GG3_TALK、GG3_SEEN、GG3_WASH、GG3_WASH_DAY；舊存檔沒有＝都還沒發生，不用遷移。
+   - 舊存檔：手機訊息、筆記裡的「日日定食」也換（明軒清單筆記整份換成現在的；BB 11-11 19:25，只做一次＝G.flags.GG3_REN）。
+   存檔只多 G.flags 的 GG3_DOOR、GG3_SIT、GG3_GIFT、GG3_WRAP、GG3_TALK、GG3_SEEN、GG3_WASH、GG3_WASH_DAY、GG3_REN；舊存檔沒有＝都還沒發生，不用遷移。
    測試：node tests/gg_shops3_story_1111_unit.js */
 'use strict';
 const GG3=(function(){
@@ -278,8 +279,21 @@ const GG3=(function(){
     return true; };
 
   /* ---------- 舊存檔：行程的地點字串（AA_742 第 ③ 節）---------- */
-  S.migrate=function(s){ if(!s||typeof s!=='object'||!Array.isArray(s.outings)) return 0; let n=0;
-    for(const q of s.outings){ if(!q||typeof q!=='object') continue; for(const k of ['place','title']){ const v=q[k]; if(typeof v!=='string'||v.indexOf('日日定食')<0) continue; let t=v; for(const [a,b] of S.RENAME) t=t.split(a).join(b); if(t!==v){ q[k]=t; n++; } } }
+  S.migrate=function(s){ if(!s||typeof s!=='object') return 0; let n=0; const ren=v=>{ let t=v; for(const [a,b] of S.RENAME) t=t.split(a).join(b); return t; };
+    if(Array.isArray(s.outings)) for(const q of s.outings){ if(!q||typeof q!=='object') continue; for(const k of ['place','title']){ const v=q[k]; if(typeof v!=='string'||v.indexOf('日日定食')<0) continue; const t=ren(v); if(t!==v){ q[k]=t; n++; } } }
+    /* BB 11-11 19:25（GG-SHOPS3 RENAME 2 FAIL，D141 畫面上有舊店名）：手機訊息（G.msgs、還沒送到的 G.phone.q：每一則裡的字，含回覆選項）、筆記（G.notes 的 title／body）也換；
+       明軒清單那則筆記（mx_fm1）整份換成現在的清單（STORY.MX_FM1：那一列的菜和價錢也跟著換，只換店名會變成泰米村食賣今日定食）。只做一次（flags.GG3_REN；舊存檔沒有＝還沒做）*/
+    const F=s.flags&&typeof s.flags==='object'?s.flags:null;
+    if(!(F&&F.GG3_REN)){
+      const fix=(o,k)=>{ const v=o[k]; if(typeof v==='string'){ if(v.indexOf('日日定食')>=0){ const t=ren(v); if(t!==v){ o[k]=t; n++; } } } else if(v&&typeof v==='object') deep(v); };
+      const deep=o=>{ if(Array.isArray(o)) for(let i=0;i<o.length;i++) fix(o,i); else if(o&&typeof o==='object') for(const k of Object.keys(o)) fix(o,k); };
+      if(Array.isArray(s.msgs)) s.msgs.forEach(deep);
+      if(s.phone&&typeof s.phone==='object'&&Array.isArray(s.phone.q)) s.phone.q.forEach(deep);
+      const MX=typeof STORY!=='undefined'&&STORY.MX_FM1&&typeof STORY.MX_FM1.body==='string'?STORY.MX_FM1:null;
+      if(Array.isArray(s.notes)) for(const nt of s.notes){ if(!nt||typeof nt!=='object') continue;
+        if(nt.id==='mx_fm1'&&MX&&typeof nt.body==='string'&&nt.body.indexOf('日日定食')>=0){ nt.title=MX.title; nt.body=MX.body; n++; continue; }
+        for(const k of ['title','body']) if(typeof nt[k]==='string'&&nt[k].indexOf('日日定食')>=0){ nt[k]=ren(nt[k]); n++; } }
+      if(F) F.GG3_REN=true; }
     return n; };
 
   /* ---------- 接到遊戲 ---------- */
