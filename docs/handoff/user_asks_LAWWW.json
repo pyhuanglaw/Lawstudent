@@ -4730,6 +4730,26 @@
    "status": "進行中",
    "wants": "X341",
    "task": "RELEASE-V91025-1111"
+  },
+  {
+   "id": "UA-LAWWW-1111-16",
+   "at": "2026-11-11T07:5xZ",
+   "quote": "Readme修改優先",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X340",
+   "task": "REL-PACKAGING-1111"
+  },
+  {
+   "id": "UA-LAWWW-1111-17",
+   "at": "2026-11-11T07:5xZ",
+   "quote": "（LAWWW 對「Readme修改優先」的解讀）README 已經改好在開發分支，GitHub 首頁顯示的是 main 的舊版 → 不等 v9.10.25，先把 README 和它連到的文件單獨更新上 main；遊戲檔（src／assets／lib／index.html）維持 v9.10.24 不動、不算發新版",
+   "kind": "AI解讀",
+   "confirmed": false,
+   "delegatedBy": "UA-LAWWW-1110-108",
+   "status": "進行中",
+   "wants": "X340",
+   "task": "REL-PACKAGING-1111"
   }
  ]
 }
