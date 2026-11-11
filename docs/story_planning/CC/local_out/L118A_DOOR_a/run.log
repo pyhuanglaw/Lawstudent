@@ -1,0 +1,67 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A_DOOR_a\out
+CC L118A：PARTS DOORS_dian,DOORS_self,DOORS_korea；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.4s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== DOORS_dian
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1300 (-3.9,26.7) （dian 的 spawn_out＝出店站的位置／舊存檔站的地方）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+PASS [DOORS dian] 街上有「進…」（營業中）  []
+  [  43.8s] [DOORS dian] 街上門口互動點 (-4.30,25.00) r 1.4「進118牛排（夜市鐵板牛排）」；室內門 x 1.50（寬 1.0）→ 換算街上 z 23.50（從巷子看店面在右邊）；店中心 z 25.0；室內出生點 {"x": 1.5, "z": 2.65, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}；出店站 (-3.90,26.70)
+  [  46.2s] 【捷徑機位】l118a_door_dian_1300_facade_marks_cam.jpg：eye [3.3, 1.55, 25.0] look [-5.2, 2.0, 25.0] 焦距 26（垂直 42.55°）；亮度 全畫面 [83.5, 45.7]、中央 [67.2, 35]
+  [  46.2s] [DOORS dian] 標記圖：紅＝街上門口互動點、藍＝室內門換算到立面的位置、綠＝出店站的位置
+PASS [DOORS dian] 互動按鈕是「進…」  {"x": -4.254, "z": 25.181, "interact": "進118牛排（夜市鐵板牛排）"}
+PASS [DOORS dian] 進店：區域 l118_dian、站在出生點 (1.50,2.65) 旁 0.00 m（≤0.5）、站得住（12.8 秒）  {"zone": "l118_dian", "h": 13.08, "x": 1.5, "z": 2.65, "stand": true, "ent": false, "busy": false, "seat": false, "fb": 0, "money": 22000}
+  [  64.1s] [DOORS dian] 【遊戲鏡頭】l118a_door_dian_1300_entered_game.jpg：{"onScreen": true, "ndc": [0, -0.21], "player": [1.5, 2.65], "cam": [1.5, 3.21, 6.55], "yaw": 6.283, "mid": {"m": 154.2, "sd": 74.3, "black": 0.023, "white": 0, "rgb": [173, 149, 134]}, "top": {"m": 154.1, "sd": 50.2, "black": 0.002, "white": 0, "rgb": [177, 148, 127]}, "near": {"m": 139.1, "sd": 87, "black": 0.095, "white": 0, "rgb": [147, 137, 129]}}
+PASS [DOORS dian] 【遊戲鏡頭】l118a_door_dian_1300_entered_game.jpg：畫面上方 20% 不像天空、沒有大面積黑（天花板沒有破洞）  {"m": 154.1, "sd": 50.2, "black": 0.002, "white": 0, "rgb": [177, 148, 127]}
+PASS [DOORS dian] 【遊戲鏡頭】l118a_door_dian_1300_entered_game.jpg：畫面中央 60% 不是一片單色（標準差 74.3 ≥20）  {"m": 154.2, "sd": 74.3, "black": 0.023, "white": 0, "rgb": [173, 149, 134]}
+PASS [DOORS dian] 【遊戲鏡頭】l118a_door_dian_1300_entered_game.jpg：看得到人（玩家附近 100×160 px 標準差 87 ≥15）  {"onScreen": true, "ndc": [0, -0.21], "near": {"m": 139.1, "sd": 87, "black": 0.095, "white": 0, "rgb": [147, 137, 129]}}
+PASS [DOORS dian] 店裡有「離開…」
+PASS [DOORS dian] 互動按鈕是「離開…」  {"x": 1.5, "z": 3.28, "interact": "離開118牛排"}
+PASS [DOORS dian] 出店：回到 118 巷、站在 spawn_out 旁 0.00 m（≤0.8）、站得住  {"zone": "lane118", "h": 13.12, "x": -3.9, "z": 26.7, "stand": true, "ent": false, "busy": false, "seat": false, "fb": 0, "money": 22000}
+  [  71.2s] [DOORS dian] 【遊戲鏡頭】l118a_door_dian_1300_out_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [-3.9, 26.7], "cam": [-3.9, 2.78, 21.63], "yaw": 3.142, "mid": {"m": 108, "sd": 54.5, "black": 0.06, "white": 0, "rgb": [114, 107, 98]}, "top": {"m": 84.7, "sd": 52.2, "black": 0.058, "white": 0, "rgb": [98, 82, 64]}, "near": {"m": 113.6, "sd": 58.9, "black": 0.095, "white": 0, "rgb": [117, 113, 107]}}
+PASS [DOORS dian] 出來以後搖桿推得動（8.90 m）
+PASS [DOORS dian] walkFallbacks 沒增加
+  [  73.1s] DOOR dian {"street_door": [-4.3, 25], "interior_door_x": 1.5, "mapped_z": 23.5, "mapped_side_from_lane": "右", "spawn_in": [1.5, 2.65], "spawn_out": [-3.9, 26.7]}
+== DOORS_self
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1300 (-3.9,19.2) （self 的 spawn_out＝出店站的位置／舊存檔站的地方）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+PASS [DOORS self] 街上有「進…」（營業中）  []
+  [  80.3s] [DOORS self] 街上門口互動點 (-4.30,17.50) r 1.4「進水上便當（雞腿、雞排便當）」；室內門 x -2.20（寬 1.0）→ 換算街上 z 19.70（從巷子看店面在左邊）；店中心 z 17.5；室內出生點 {"x": -2.2, "z": 3, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}；出店站 (-3.90,19.20)
+  [  82.6s] 【捷徑機位】l118a_door_self_1300_facade_marks_cam.jpg：eye [3.3, 1.55, 17.5] look [-5.2, 2.0, 17.5] 焦距 26（垂直 42.55°）；亮度 全畫面 [88.5, 49.4]、中央 [90.9, 40.2]
+  [  82.6s] [DOORS self] 標記圖：紅＝街上門口互動點、藍＝室內門換算到立面的位置、綠＝出店站的位置
+PASS [DOORS self] 互動按鈕是「進…」  {"x": -4.24, "z": 17.77, "interact": "進水上便當（雞腿、雞排便當）"}
+PASS [DOORS self] 進店：區域 l118_self、站在出生點 (-2.20,3.00) 旁 0.00 m（≤0.5）、站得住（4.8 秒）  {"zone": "l118_self", "h": 13.08, "x": -2.2, "z": 3, "stand": true, "ent": false, "busy": false, "seat": false, "fb": 0, "money": 22000}
+  [  92.2s] [DOORS self] 【遊戲鏡頭】l118a_door_self_1300_entered_game.jpg：{"onScreen": true, "ndc": [0, -0.21], "player": [-2.2, 3], "cam": [-2.2, 3.21, 6.9], "yaw": 6.283, "mid": {"m": 166.8, "sd": 63.7, "black": 0.009, "white": 0, "rgb": [180, 164, 145]}, "top": {"m": 164.4, "sd": 35.2, "black": 0, "white": 0, "rgb": [182, 163, 124]}, "near": {"m": 147, "sd": 78.3, "black": 0.065, "white": 0.002, "rgb": [151, 146, 139]}}
+PASS [DOORS self] 【遊戲鏡頭】l118a_door_self_1300_entered_game.jpg：畫面上方 20% 不像天空、沒有大面積黑（天花板沒有破洞）  {"m": 164.4, "sd": 35.2, "black": 0, "white": 0, "rgb": [182, 163, 124]}
+PASS [DOORS self] 【遊戲鏡頭】l118a_door_self_1300_entered_game.jpg：畫面中央 60% 不是一片單色（標準差 63.7 ≥20）  {"m": 166.8, "sd": 63.7, "black": 0.009, "white": 0, "rgb": [180, 164, 145]}
+PASS [DOORS self] 【遊戲鏡頭】l118a_door_self_1300_entered_game.jpg：看得到人（玩家附近 100×160 px 標準差 78.3 ≥15）  {"onScreen": true, "ndc": [0, -0.21], "near": {"m": 147, "sd": 78.3, "black": 0.065, "white": 0.002, "rgb": [151, 146, 139]}}
+PASS [DOORS self] 店裡有「離開…」
+PASS [DOORS self] 互動按鈕是「離開…」  {"x": -2.2, "z": 3.72, "interact": "離開水上便當"}
+PASS [DOORS self] 出店：回到 118 巷、站在 spawn_out 旁 0.00 m（≤0.8）、站得住  {"zone": "lane118", "h": 13.12, "x": -3.9, "z": 19.2, "stand": true, "ent": false, "busy": false, "seat": false, "fb": 0, "money": 22000}
+  [  98.5s] [DOORS self] 【遊戲鏡頭】l118a_door_self_1300_out_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [-3.9, 19.2], "cam": [-3.9, 2.78, 14.13], "yaw": 3.142, "mid": {"m": 109, "sd": 48.3, "black": 0.025, "white": 0, "rgb": [111, 109, 101]}, "top": {"m": 81.9, "sd": 46.9, "black": 0.058, "white": 0, "rgb": [88, 81, 69]}, "near": {"m": 120, "sd": 55.7, "black": 0.061, "white": 0, "rgb": [124, 119, 112]}}
+PASS [DOORS self] 出來以後搖桿推得動（9.82 m）
+PASS [DOORS self] walkFallbacks 沒增加
+  [ 100.4s] DOOR self {"street_door": [-4.3, 17.5], "interior_door_x": -2.2, "mapped_z": 19.7, "mapped_side_from_lane": "左", "spawn_in": [-2.2, 3], "spawn_out": [-3.9, 19.2]}
+== DOORS_korea
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1300 (3.9,17.2) （korea 的 spawn_out＝出店站的位置／舊存檔站的地方）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+PASS [DOORS korea] 街上有「進…」（營業中）  []
+  [ 107.5s] [DOORS korea] 街上門口互動點 (4.30,15.50) r 1.4「進清州刀削麵（刀削麵館）」；室內門 x 2.20（寬 1.0）→ 換算街上 z 17.70（從巷子看店面在右邊）；店中心 z 15.5；室內出生點 {"x": 2.2, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}；出店站 (3.90,17.20)
+  [ 109.8s] 【捷徑機位】l118a_door_korea_1300_facade_marks_cam.jpg：eye [-3.3, 1.55, 15.5] look [5.2, 2.0, 15.5] 焦距 26（垂直 42.55°）；亮度 全畫面 [96.9, 51.8]、中央 [100.7, 45.8]
+  [ 109.8s] [DOORS korea] 標記圖：紅＝街上門口互動點、藍＝室內門換算到立面的位置、綠＝出店站的位置
+PASS [DOORS korea] 互動按鈕是「進…」  {"x": 4.245, "z": 15.74, "interact": "進清州刀削麵（刀削麵館）"}
+PASS [DOORS korea] 進店：區域 l118_korea、站在出生點 (2.20,2.75) 旁 0.00 m（≤0.5）、站得住（5.9 秒）  {"zone": "l118_korea", "h": 13.08, "x": 2.2, "z": 2.75, "stand": true, "ent": false, "busy": false, "seat": false, "fb": 0, "money": 22000}
+  [ 120.6s] [DOORS korea] 【遊戲鏡頭】l118a_door_korea_1300_entered_game.jpg：{"onScreen": true, "ndc": [0, -0.21], "player": [2.2, 2.75], "cam": [2.2, 3.21, 6.65], "yaw": 6.283, "mid": {"m": 148.3, "sd": 69.9, "black": 0.041, "white": 0.004, "rgb": [162, 144, 134]}, "top": {"m": 163.2, "sd": 43.8, "black": 0, "white": 0, "rgb": [174, 161, 143]}, "near": {"m": 160.8, "sd": 75.5, "black": 0.065, "white": 0, "rgb": [166, 160, 151]}}
+PASS [DOORS korea] 【遊戲鏡頭】l118a_door_korea_1300_entered_game.jpg：畫面上方 20% 不像天空、沒有大面積黑（天花板沒有破洞）  {"m": 163.2, "sd": 43.8, "black": 0, "white": 0, "rgb": [174, 161, 143]}
+PASS [DOORS korea] 【遊戲鏡頭】l118a_door_korea_1300_entered_game.jpg：畫面中央 60% 不是一片單色（標準差 69.9 ≥20）  {"m": 148.3, "sd": 69.9, "black": 0.041, "white": 0.004, "rgb": [162, 144, 134]}
+PASS [DOORS korea] 【遊戲鏡頭】l118a_door_korea_1300_entered_game.jpg：看得到人（玩家附近 100×160 px 標準差 75.5 ≥15）  {"onScreen": true, "ndc": [0, -0.21], "near": {"m": 160.8, "sd": 75.5, "black": 0.065, "white": 0, "rgb": [166, 160, 151]}}
+PASS [DOORS korea] 店裡有「離開…」
+PASS [DOORS korea] 互動按鈕是「離開…」  {"x": 2.2, "z": 3.53, "interact": "離開清州刀削麵"}
+PASS [DOORS korea] 出店：回到 118 巷、站在 spawn_out 旁 0.00 m（≤0.8）、站得住  {"zone": "lane118", "h": 13.12, "x": 3.9, "z": 17.2, "stand": true, "ent": false, "busy": false, "seat": false, "fb": 0, "money": 22000}
+  [ 126.8s] [DOORS korea] 【遊戲鏡頭】l118a_door_korea_1300_out_game.jpg：{"onScreen": true, "ndc": [0, -0.19], "player": [3.9, 17.2], "cam": [3.9, 2.78, 12.13], "yaw": 3.142, "mid": {"m": 112.9, "sd": 45.8, "black": 0.033, "white": 0, "rgb": [115, 113, 108]}, "top": {"m": 82, "sd": 47.3, "black": 0.058, "white": 0, "rgb": [89, 80, 71]}, "near": {"m": 106.6, "sd": 51.3, "black": 0.052, "white": 0, "rgb": [109, 106, 102]}}
+PASS [DOORS korea] 出來以後搖桿推得動（10.02 m）
+PASS [DOORS korea] walkFallbacks 沒增加
+  [ 128.6s] DOOR korea {"street_door": [4.3, 15.5], "interior_door_x": 2.2, "mapped_z": 17.7, "mapped_side_from_lane": "右", "spawn_in": [2.2, 2.75], "spawn_out": [3.9, 17.2]}
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS

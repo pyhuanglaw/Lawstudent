@@ -1,12 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:01:41] ==== END   L118A_KITCHEN  exit=0  159s   ====
-[15:01:49] memory 42% before starting L118D_C6 (2 running)
-[15:01:49] ==== START L118D_C6  (game @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
-[15:01:52] [res] cpu=1% mem=42% (13.4/31.4 GB) chrome_testing=5  START L118D_C6
-[15:02:24] [res] cpu=6% mem=44% (13.5/31.4 GB) chrome_testing=5  END L118D_C1
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       af601e18a..8bc8e1396  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [15:02:49] ==== END   L118D_C1  exit=0  241s   ====
 [15:02:52] memory 46% before starting L118A_SPECIAL (2 running)
 [15:02:52] ==== START L118A_SPECIAL  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
@@ -1998,3 +1990,11 @@
 [23:38:08] [res] cpu=3% mem=40% (12.3/31.4 GB) chrome_testing=5  START L118A_DOOR_a
 [23:39:05] 正在跑：ACT_ZR3_SITFIRST_old（已跑 2 分／上限 9 分）、STAIR_old_run_r2（已跑 1 分／上限 40 分）、L118A_DOOR_a（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:39:56] [res] cpu=2% mem=43% (13.8/31.4 GB) chrome_testing=10  END ACT_ZR3_SITFIRST_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0dfc1dbce..c748e4dab  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:40:03] ==== END   ACT_ZR3_SITFIRST_old  exit=1  215s   ====
+[23:40:13] memory 45% before starting LIVE25_deploy_r2 (2 running)
+[23:40:13] ==== START LIVE25_deploy_r2  (game @ dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c) ====
+[23:40:16] [res] cpu=6% mem=42% (14.2/31.4 GB) chrome_testing=10  START LIVE25_deploy_r2
+[23:41:13] [res] cpu=7% mem=44% (14.0/31.4 GB) chrome_testing=9  END L118A_DOOR_a
