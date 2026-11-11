@@ -1,25 +1,36 @@
-[01:44:48] Windows console: QuickEdit already off (mode 0x1b7); keep awake while running: on
-[01:44:48] run_forever round: 27   runner sha256: 1556bf529d
-[01:44:48] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[01:44:48]          playwright 1.64.1 OK
-[01:44:49] git    : git version 2.56.0.windows.4
-[01:44:51] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[01:44:52] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[01:44:52] repo   : C:\Users\USER\Documents\Lawstudent
-[01:44:52] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[01:44:52] parallel: 2  (blender items run alone)
-[01:44:52] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[01:44:52] git fetch
+[01:50:47] Windows console: QuickEdit already off (mode 0x1b7); keep awake while running: on
+[01:50:47] run_forever round: 28   runner sha256: 1556bf529d
+[01:50:47] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[01:50:47]          playwright 1.64.1 OK
+[01:50:47] git    : git version 2.56.0.windows.4
+[01:50:47] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[01:50:47] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[01:50:47] repo   : C:\Users\USER\Documents\Lawstudent
+[01:50:47] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[01:50:47] parallel: 2  (blender items run alone)
+[01:50:47] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[01:50:47] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/modest-rubin-2lyp7g -> FETCH_HEAD
+       1525e4f0a..c6102985c  claude/cc-testing -> origin/claude/cc-testing
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
+       5e5dfd047..58bb06622  claude/second-ai-env-art -> origin/claude/second-ai-env-art
     Already on 'claude/cc-local'
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
-    Already up to date.
-[01:45:22] dev head = bb8a32765   lawww2 head = 5e5dfd047
-[01:45:24] config.txt: PARALLEL 2 -> 3
-[01:45:24] config.txt: HEADLESS 0 -> 1（每一項都不開視窗）
-[01:45:24] memory used: 39%  (new items wait while >= 85%)
+    Merge made by the 'ort' strategy.
+     ...272\244\346\216\245\347\264\200\351\214\204.md" |  7 ++++++
+     .../test_tools/cc/cc_class_terms_probe.py          |  4 +--
+     .../test_tools/cc/cc_date_pays_probe.py            | 29 ++++++++++++----------
+     .../test_tools/cc/cc_gg3shops_probe.py             | 11 ++++----
+     4 files changed, 31 insertions(+), 20 deletions(-)
+[01:51:02] dev head = bb8a32765   lawww2 head = 58bb06622
+[01:51:02] startup: 4 local result commit(s) not on origin yet - merge origin and push now
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       18cf36ae9..8dcc17326  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:51:10] config.txt: PARALLEL 2 -> 3
+[01:51:10] config.txt: HEADLESS 0 -> 1（每一項都不開視窗）
+[01:51:10] memory used: 40%  (new items wait while >= 85%)
