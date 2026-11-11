@@ -1,12 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:12:17] ==== END   TZQ_A_old  exit=0  322s   ====
-[08:12:20] memory 45% before starting SC3_v1 (2 running)
-[08:12:20] ==== START SC3_v1  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
-[08:12:23] [res] cpu=4% mem=46% (14.2/31.4 GB) chrome_testing=9  START SC3_v1
-[08:13:19] [res] cpu=4% mem=45% (14.4/31.4 GB) chrome_testing=9  END SC3_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       ab45b27c5..3f8a9ee64  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [08:13:25] ==== END   SC3_new  exit=0  160s   ====
 [08:13:35] memory 47% before starting TZ5_int_new (2 running)
 [08:13:35] ==== START TZ5_int_new  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
@@ -1998,3 +1990,11 @@
 [15:14:08] ==== START L118A_SPECIAL_r2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
 [15:14:11] [res] cpu=2% mem=48% (15.1/31.4 GB) chrome_testing=10  START L118A_SPECIAL_r2
 [15:14:47] [res] cpu=7% mem=47% (14.8/31.4 GB) chrome_testing=9  END L118D_E_STORYBURST
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b6761e5d7..aec4e5dd6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:14:53] ==== END   L118D_E_STORYBURST  exit=0  169s   ====
+[15:15:03] memory 49% before starting CLASS12_skip5b_np350_r4 (2 running)
+[15:15:03] ==== START CLASS12_skip5b_np350_r4  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
+[15:15:06] [res] cpu=7% mem=49% (15.7/31.4 GB) chrome_testing=9  START CLASS12_skip5b_np350_r4
+[15:17:22] [res] cpu=19% mem=50% (15.9/31.4 GB) chrome_testing=10  END L118A_SPECIAL_r2

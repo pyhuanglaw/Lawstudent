@@ -1,0 +1,75 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A_SPECIAL_r2\out
+CC L118A：PARTS SPECIAL；SHA bc407bfc518c8d6a4260d1a1fa395cb93fc9058b；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.3s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== SPECIAL
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_omu 店裡的進門位置 (-2.20,2.50) 2025-10-08 1300 
+PASS [omu] 店內正式模型載入（1.5 秒）
+  [  43.7s] [SPECIAL omu] 店內全部互動鍵文字：["坐下", "牆上的咖哩飯照片", "離開奈良咖哩", "點餐（奈良咖哩）"]
+  [  43.7s] [SPECIAL omu] 看東西的互動 1 個：[{"label": "牆上的咖哩飯照片", "x": -2.3, "z": 1, "r": 0.8, "to": null, "shop": null, "seat": false, "look": "（牆上的照片都是咖哩飯。每一張的福神漬都放在同一個位置。）"}]
+  [  67.6s] [SPECIAL omu]「牆上的咖哩飯照片」試過的站點（座標、互動鍵）：[[-2.15, 1.51, "坐下"], [-2.12, 1.38, "坐下"], [-2.12, 1.38, "坐下"], [-2.18, 0.61, "坐下"], [-2.18, 0.61, "坐下"]]
+FAIL [SPECIAL omu]「牆上的咖哩飯照片」範圍裡找得到一個互動鍵是它的站點（不是被「坐下」搶走）  [[-2.15, 1.51, "坐下"], [-2.12, 1.38, "坐下"], [-2.12, 1.38, "坐下"], [-2.18, 0.61, "坐下"], [-2.18, 0.61, "坐下"]]
+PASS [黑畫面] l118a_special_omu_look_blocked 不是黑畫面（平均亮度 121.5、變化 61.6）  [121.5, 61.6]
+  [  70.5s] 【捷徑機位】l118a_int_omu_1300_close_地板_cam.jpg：eye [0.0, 1.35, 1.6] look [0.0, 0.0, 0.2] 焦距 30（垂直 37.3°）；亮度 全畫面 [122.2, 70.4]、中央 [110.6, 74.7]
+PASS [黑畫面] l118a_int_omu_1300_close_地板_cam.jpg 不是黑畫面／一片單色（全畫面平均 122.2、變化 70.4）  {"all": [122.2, 70.4], "mid": [110.6, 74.7]}
+  [  70.6s] [SPECIAL omu] 地板中間（0,0,0.25）附近 120 px 平均色 [43, 25, 13]、亮度 29（D112：不要深色木；BB 判）
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_noodle2 店裡的進門位置 (1.60,2.75) 2025-10-08 1300 
+PASS [noodle2] 店內正式模型載入（1.5 秒）
+  [  80.7s] [SPECIAL noodle2] 店內全部互動鍵文字：["坐下", "窯爐", "離開迪倫窯烤披薩", "點餐（迪倫窯烤披薩）"]
+  [  80.8s] [SPECIAL noodle2] 看東西的互動 1 個：[{"label": "窯爐", "x": 0.9, "z": -2.05, "r": 0.9, "to": null, "shop": null, "seat": false, "look": "（窯裡的火是橘色的。站近一點，臉會熱。）"}]
+  [  89.3s] [SPECIAL noodle2]「窯爐」試過的站點（座標、互動鍵）：[[1.05, -1.37, "窯爐"]]
+PASS [SPECIAL noodle2] 互動按鈕是「窯爐…」  {"x": 1.053, "z": -1.367, "interact": "窯爐"}
+  [  90.2s] [SPECIAL noodle2] 按「窯爐」逐字：["（窯裡的火是橘色的。站近一點，臉會熱。）"]；配置的字："（窯裡的火是橘色的。站近一點，臉會熱。）"
+PASS [SPECIAL noodle2] 按「窯爐」出現的字＝配置的字  {"got": ["（窯裡的火是橘色的。站近一點，臉會熱。）"], "want": "（窯裡的火是橘色的。站近一點，臉會熱。）"}
+  [  90.3s] [SPECIAL noodle2] 店員：[{"id": null, "x": -0.45, "z": -3.1, "yaw": 0}]；配置 clerk {"x": -0.45, "z": -3.1, "yaw": 0, "note": "窯爐的左前方、活動門後面（店員的工作區），面向店裡；店員＝新的，三十歲上下，站在窯爐前（AA_772 staff）"}（yaw 0＝面向 +z＝店門那一邊）
+PASS [SPECIAL noodle2] 店員站在配置的位置（0.2 m 內）  [{"id": null, "x": -0.45, "z": -3.1, "yaw": 0}]
+PASS [SPECIAL noodle2] 搖桿走到爐口前（0.0 秒）  []
+  [  91.8s] [SPECIAL noodle2] 【遊戲鏡頭】l118a_special_noodle2_1300_oven_front_game.jpg：{"onScreen": true, "ndc": [0, -0.2], "player": [1.05, -1.37], "cam": [1.05, 3.21, 2.53], "yaw": 6.283, "mid": {"m": 104, "sd": 49.7, "black": 0.047, "white": 0, "rgb": [120, 100, 82]}, "top": {"m": 118, "sd": 52.3, "black": 0.041, "white": 0, "rgb": [133, 115, 94]}, "near": {"m": 117.4, "sd": 55.5, "black": 0.002, "white": 0, "rgb": [136, 112, 94]}}
+PASS [SPECIAL noodle2] 【遊戲鏡頭】l118a_special_noodle2_1300_oven_front_game.jpg：畫面上方 20% 不像天空、沒有大面積黑（天花板沒有破洞）  {"m": 118, "sd": 52.3, "black": 0.041, "white": 0, "rgb": [133, 115, 94]}
+PASS [SPECIAL noodle2] 【遊戲鏡頭】l118a_special_noodle2_1300_oven_front_game.jpg：畫面中央 60% 不是一片單色（標準差 49.7 ≥20）  {"m": 104, "sd": 49.7, "black": 0.047, "white": 0, "rgb": [120, 100, 82]}
+PASS [SPECIAL noodle2] 【遊戲鏡頭】l118a_special_noodle2_1300_oven_front_game.jpg：看得到人（玩家附近 100×160 px 標準差 55.5 ≥15）  {"onScreen": true, "ndc": [0, -0.2], "near": {"m": 117.4, "sd": 55.5, "black": 0.002, "white": 0, "rgb": [136, 112, 94]}}
+  [  94.2s] 【捷徑機位】l118a_special_noodle2_1300_oven_fire_cam.jpg：eye [0.9, 1.5, -0.9] look [0.9, 0.9, -3.6] 焦距 32（垂直 35.12°）；亮度 全畫面 [91.5, 45.2]、中央 [89.6, 57.3]
+PASS [黑畫面] l118a_special_noodle2_1300_oven_fire_cam.jpg 不是黑畫面／一片單色（全畫面平均 91.5、變化 45.2）  {"all": [91.5, 45.2], "mid": [89.6, 57.3]}
+  [  94.3s] [SPECIAL noodle2] 1300 火焰網格（材質名 fire／ember）附近 40 px：{"found": true, "box": [[0.56, 0.97, -2.71], [1.23, 1.48, -2.67]], "screen": [637, 284], "onScreen": true, "rgb": [162, 109, 70], "white": 0}
+PASS [SPECIAL noodle2] 1300 窯爐的火：找得到火焰網格、在畫面上、不是白光（近白像素 <30%、平均色偏橘：R>B＋40）  {"found": true, "box": [[0.56, 0.97, -2.71], [1.23, 1.48, -2.67]], "screen": [637, 284], "onScreen": true, "rgb": [162, 109, 70], "white": 0}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_noodle2 店裡的進門位置 (1.60,2.75) 2025-10-08 2000 （晚上看窯爐的火）
+PASS [noodle2] 店內正式模型載入（1.5 秒）
+  [ 102.7s] 【捷徑機位】l118a_special_noodle2_2000_oven_fire_cam.jpg：eye [0.9, 1.5, -0.9] look [0.9, 0.9, -3.6] 焦距 32（垂直 35.12°）；亮度 全畫面 [92.1, 41.4]、中央 [91.7, 53.4]
+PASS [黑畫面] l118a_special_noodle2_2000_oven_fire_cam.jpg 不是黑畫面／一片單色（全畫面平均 92.1、變化 41.4）  {"all": [92.1, 41.4], "mid": [91.7, 53.4]}
+  [ 102.8s] [SPECIAL noodle2] 2000 火焰網格（材質名 fire／ember）附近 40 px：{"found": true, "box": [[0.56, 0.97, -2.71], [1.23, 1.48, -2.67]], "screen": [637, 284], "onScreen": true, "rgb": [169, 111, 73], "white": 0}
+PASS [SPECIAL noodle2] 2000 窯爐的火：找得到火焰網格、在畫面上、不是白光（近白像素 <30%、平均色偏橘：R>B＋40）  {"found": true, "box": [[0.56, 0.97, -2.71], [1.23, 1.48, -2.67]], "screen": [637, 284], "onScreen": true, "rgb": [169, 111, 73], "white": 0}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_pasta 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 
+PASS [pasta] 店內正式模型載入（1.5 秒）
+  [ 112.2s] [SPECIAL pasta] 店內全部互動鍵文字：["坐下", "坐吧檯", "開放料理檯", "離開義大麵屋", "點餐（義大麵屋）"]
+  [ 112.2s] [SPECIAL pasta] 看東西的互動 1 個：[{"label": "開放料理檯", "x": 2.05, "z": -1.75, "r": 0.9, "to": null, "shop": null, "seat": false, "look": "（鍋子一翻，蒜的味道飄到吧檯這一邊。）"}]
+  [ 117.5s] [SPECIAL pasta]「開放料理檯」試過的站點（座標、互動鍵）：[[1.49, -1.44, "坐吧檯"], [2.2, -1.67, "開放料理檯"]]
+PASS [SPECIAL pasta] 互動按鈕是「開放料理檯…」  {"x": 2.204, "z": -1.672, "interact": "開放料理檯"}
+  [ 118.5s] [SPECIAL pasta] 按「開放料理檯」逐字：["（鍋子一翻，蒜的味道飄到吧檯這一邊。）"]；配置的字："（鍋子一翻，蒜的味道飄到吧檯這一邊。）"
+PASS [SPECIAL pasta] 按「開放料理檯」出現的字＝配置的字  {"got": ["（鍋子一翻，蒜的味道飄到吧檯這一邊。）"], "want": "（鍋子一翻，蒜的味道飄到吧檯這一邊。）"}
+  [前置／捷徑] 【前置／捷徑】G.side.SQ12＝{state:done, doneDay:21}（前一天做完）、G.stage law（痕跡每一格問 SIDEQ.traceOn，不用重進）
+  [ 119.6s] [SPECIAL pasta] TRACE_SQ12：{"name": "TRACE_SQ12_photo_WALL_N", "visible": true, "on": true, "at": [3.05, 1.55, -2.23]}
+PASS [SPECIAL pasta] 模型裡有 TRACE_SQ12_* 節點、SQ12 做完的隔天看得到  {"name": "TRACE_SQ12_photo_WALL_N", "visible": true, "on": true, "at": [3.05, 1.55, -2.23]}
+  [ 120.4s] [SPECIAL pasta] 走到照片前 [2.204, -1.672]：互動鍵「開放料理檯」；照片 1.6 m 內的互動點 [{"label": "開放料理檯", "x": 2.05, "z": -1.75, "r": 0.9, "to": null, "shop": null, "seat": false, "look": "（鍋子一翻，蒜的味道飄到吧檯這一邊。）"}, {"label": "坐吧檯", "x": 2.98, "z": -0.65, "r": 1, "to": null, "shop": null, "seat": true, "look": null}]
+PASS [SPECIAL pasta] 走到照片前看得到互動鍵（記文字）  {"interact": "開放料理檯"}
+  [ 120.7s] [SPECIAL pasta] 【遊戲鏡頭】l118a_special_pasta_1300_sq12_photo_game.jpg：{"onScreen": true, "ndc": [0.01, -0.2], "player": [2.2, -1.67], "cam": [2.2, 3.21, 2.23], "yaw": 6.283, "mid": {"m": 165.5, "sd": 48.1, "black": 0.006, "white": 0, "rgb": [186, 163, 126]}, "top": {"m": 205.7, "sd": 32.3, "black": 0, "white": 0.038, "rgb": [228, 202, 168]}, "near": {"m": 150.2, "sd": 60.9, "black": 0.004, "white": 0, "rgb": [164, 148, 126]}}
+  [ 123.1s] 【捷徑機位】l118a_special_pasta_1300_sq12_photo_cam.jpg：eye [3.05, 1.6500000000000001, -0.9299999999999999] look [3.05, 1.55, -2.23] 焦距 36（垂直 31.42°）；亮度 全畫面 [160.8, 27.8]、中央 [153.9, 40.5]
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_home 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 
+PASS [home] 店內正式模型載入（1.5 秒）
+  [ 132.2s] [SPECIAL home] 店內全部互動鍵文字：["坐下", "煮水餃的大鍋", "離開五湖四海", "點餐（五湖四海）"]
+  [ 132.2s] [SPECIAL home] 看東西的互動 1 個：[{"label": "煮水餃的大鍋", "x": -1.4, "z": -1.8, "r": 0.8, "to": null, "shop": null, "seat": false, "look": "（老闆娘數都不數，一把下去剛好十顆。）"}]
+  [ 142.7s] [SPECIAL home]「煮水餃的大鍋」試過的站點（座標、互動鍵）：[[-1.63, -1.21, "坐下"], [-1.03, -1.75, "煮水餃的大鍋"]]
+PASS [SPECIAL home] 互動按鈕是「煮水餃的大鍋…」  {"x": -1.032, "z": -1.755, "interact": "煮水餃的大鍋"}
+  [ 143.8s] [SPECIAL home] 按「煮水餃的大鍋」逐字：["（老闆娘數都不數，一把下去剛好十顆。）"]；配置的字："（老闆娘數都不數，一把下去剛好十顆。）"
+PASS [SPECIAL home] 按「煮水餃的大鍋」出現的字＝配置的字  {"got": ["（老闆娘數都不數，一把下去剛好十顆。）"], "want": "（老闆娘數都不數，一把下去剛好十顆。）"}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_cafe2 店裡的進門位置 (2.20,3.00) 2025-10-08 1300 
+PASS [cafe2] 店內正式模型載入（1.5 秒）
+  [ 152.4s] [SPECIAL cafe2] 店內全部互動鍵文字：["坐下", "坐窗邊", "秤重的檯子", "離開大學食堂", "點餐（大學食堂）"]
+PASS [SPECIAL cafe2] 沒有書架、念書類互動（大學食堂；念書搬到木曜日）  ["坐下", "坐窗邊", "秤重的檯子", "離開大學食堂", "點餐（大學食堂）"]
+  [ 152.4s] [SPECIAL cafe2] 看東西的互動 1 個：[{"label": "秤重的檯子", "x": 0.75, "z": -2.45, "r": 0.6, "to": null, "shop": null, "seat": false, "look": "（秤旁邊貼著一張紙：「飯也算重量喔」。）"}]
+  [ 155.3s] [SPECIAL cafe2]「秤重的檯子」試過的站點（座標、互動鍵）：[[0.88, -2.09, "秤重的檯子"]]
+PASS [SPECIAL cafe2] 互動按鈕是「秤重的檯子…」  {"x": 0.883, "z": -2.087, "interact": "秤重的檯子"}
+  [ 156.2s] [SPECIAL cafe2] 按「秤重的檯子」逐字：["（秤旁邊貼著一張紙：「飯也算重量喔」。）"]；配置的字："（秤旁邊貼著一張紙：「飯也算重量喔」。）"
+PASS [SPECIAL cafe2] 按「秤重的檯子」出現的字＝配置的字  {"got": ["（秤旁邊貼著一張紙：「飯也算重量喔」。）"], "want": "（秤旁邊貼著一張紙：「飯也算重量喔」。）"}
+PASS 沒有 JS 例外（pageerror）  []
+FAILED 1: [SPECIAL omu]「牆上的咖哩飯照片」範圍裡找得到一個互動鍵是它的站點（不是被「坐下」搶走）
