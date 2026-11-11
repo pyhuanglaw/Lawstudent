@@ -13,7 +13,7 @@ const H=require('./pg_harness.js');
 const {check,GM}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path');
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
-const SHA='33a1769f8', PS='classmate_peishan';
+const SHA='768b9a131', PS='classmate_peishan';   /* 2026-11-11：33a1769f8 → 768b9a131（AA 補大四下 6/8 台南那一頓 GF.tableByTerm.Y4S2，第 12 節；其他段兩版一樣）*/
 let A=null; try{ A=JSON.parse(cp.execFileSync('git',['show',SHA+':docs/story_planning/AA_751_peishan_termend.json'],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:1<<26})); }catch(e){ A=null; }
 const TOx=typeof TERMEND_OPTS!=='undefined'?TERMEND_OPTS:null, Lx=TERMEND_LINES;
 let WANT=[], CH=[], caps=[];
@@ -115,5 +115,21 @@ const tool=(f,args)=>{ try{ return cp.execFileSync('python3',[f].concat(args),{c
     check('8. 來源有寫 AA_751@'+SHA,!!M&&M.src.some(s=>s.indexOf('AA_751_peishan_termend.json@'+SHA)>=0),M?J(M.src.slice(-2)):'');
     check('8. src/movies3d.js：MOVIES.CFG.fallbackOff 沒有她',/S\.CFG=\{fallback:true,fallbackOff:\[\]\}/.test(fs.readFileSync(path.join(H.ROOT,'src/movies3d.js'),'utf8')));
     check('8. 其他六位的通用回話沒有動（還是 AA_745_fallback 的）',!!M&&['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','kexin'].every(p=>M.fallback[p]&&K.every(k=>M.fallback[p][k].length>=1))); });
+
+  /* 12 大四下 6/8 台南那一頓（2026-11-11；AA_751@768b9a131 多的 GF.tableByTerm.Y4S2；演在 src/r2y4b3d.js R2Y4B.psDinner → TERMEND.gfTable）*/
+  await sec(12,async()=>{ const TOx=globalThis.TERMEND_OPTS, E=TOx&&TOx.GF&&TOx.GF[PS]&&TOx.GF[PS].tableByTerm.Y4S2, a=A&&A.GF&&A.GF.tableByTerm&&A.GF.tableByTerm.Y4S2;
+    check('12. TERMEND_OPTS.GF 沛珊有大四下那一頓（兩組開頭：延畢的、一般的；三個選項）',!!E&&E.says.length===2&&E.says[0].if==='DELAYED'&&E.says[1].if===undefined&&E.opts.length===3,J(E&&E.says));
+    if(a&&E){ const m=/改用「([^」]+)」/.exec(a.note||'');
+      check('12. 一般的兩句、三個選項的字／回答／fx 一字照稿',J(E.says[1].say)===J(a.say)&&E.opts.length===a.opts.length&&a.opts.every((o,i)=>E.opts[i].t===o.t&&J(E.opts[i].re)===J(o.re)&&J(E.opts[i].fx)===J(o.fx)),J(E.says[1]));
+      check('12. 延畢的開頭：第一句＝稿 note 裡那一句「大四要結束了欸，我還有兩年。」、第二句照 say',!!m&&J(E.says[0].say)===J([m[1],a.say[1]])&&m[1]==='大四要結束了欸，我還有兩年。',J(E.says[0])); }
+    if(!E||!TERMEND.gfTable){ check('12. TERMEND.gfTable',false); return; }
+    const spec=TERMEND.gf(PS,'Y4S2'), go=async(setup,pick)=>{ const G=H.fresh('2029-06-08',18.5,null,null); H.rel(PS,65,50,45); ROM.start(G,PS); if(setup) setup(G); H.said=[]; CH=[]; WANT=[pick]; const r0=SOCIAL.rel(PS).npcRom||0; const r=await TERMEND.gfTable(GM,PS,'Y4S2',spec); return {r,d:(SOCIAL.rel(PS).npcRom||0)-r0}; };
+    const x=await go(null,'「兩年很快。我會常下來。」'); const s1=said();
+    check('12. 演出來（沒有延畢）：「你要畢業了欸，我還有兩年。」→ 第二句 → 三個選項 → 選的那一個的兩句回答；戀愛有加',x.r===true&&J(s1.slice(0,2))===J(E.says[1].say)&&CH.length===1&&CH[0].length===3&&J(CH[0].slice().sort())===J(E.opts.map(o=>o.t).sort())&&J(s1.slice(2))===J(E.opts[1].re)&&x.d>0,J([s1,CH,x.d]));
+    const y=await go(G=>{ G.flags.FAIL_DELAY=true; },0); const s2=said();
+    check('12. 演出來（祐廷延畢）：第一句換成「大四要結束了欸，我還有兩年。」，不說「你要畢業了欸」',y.r===true&&s2[0]==='大四要結束了欸，我還有兩年。'&&s2[1]===E.says[1].say[1]&&!s2.includes('你要畢業了欸，我還有兩年。'),J(s2));
+    check('12. 稿沒有的學期（只有通用的 table）＝gfTable 回 false、不演（呼叫的地方照原本那一句）',await (async()=>{ H.fresh('2026-06-20',18.5,null,null); H.said=[]; const r=await TERMEND.gfTable(GM,PS,'Y1S2',TERMEND.gf(PS,'Y1S2')); return r===false&&said().length===0; })());
+    const src=fs.readFileSync(path.join(H.ROOT,'src/r2y4b3d.js'),'utf8');
+    check('12. r2y4b3d.js psDinner：女朋友版走 TERMEND.gfTable(…,\'Y4S2\',…)，沒演到才念原本那一句',src.includes("if(!(kind==='gf'&&TERMEND.gfTable&&await TERMEND.gfTable(GM,id,'Y4S2',spec))&&tbl) await play(GM,id,[tbl]);")); });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

@@ -34,7 +34,7 @@ FB_KINDS = ('feel', 'notice', 'wonder', 'self', 'joke', 'crit')   # ask 沒有 f
 # 沛珊的通用回話（PEISHAN-VOICE-1110，使用者 X327）：AA_751_peishan_termend.json 的 fallback **整組取代** AA_745_fallback.json 的 classmate_peishan。
 # 白名單那一筆 people.fallback 是 true 才換，而且只認 PS_SHA 那一版（使用者糾正「不是看到食物就要評論」以後的稿；更舊的不匯）。沒換的時候 src/movies3d.js 的 fallbackOff 要留著她。
 PS_SRC = 'docs/story_planning/AA_751_peishan_termend.json'
-PS_SHA = '33a1769f8'
+PS_SHA = '768b9a131'   # 2026-11-11：33a1769f8 → 768b9a131（AA 補大四下那一頓；fallback 這一段兩版一樣）
 PS = 'classmate_peishan'
 # reBy：那個選項她的句子照「之前另一部片那次選了哪一個」換。稿上的格子名 → 當時第幾個選項；has＝那個選項的字裡要有這一段（核對用，AA 改了選項要重看）
 REBY = {

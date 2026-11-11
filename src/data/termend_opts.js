@@ -1,4 +1,4 @@
-/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@bd1a6fda3、docs/story_planning/AA_748_termend_heart_v2.json@33a1769f8、docs/story_planning/AA_749_termend_kx_v2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@bd1a6fda3、docs/story_planning/AA_751_peishan_termend.json@33a1769f8）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@bd1a6fda3、docs/story_planning/AA_748_termend_heart_v2.json@33a1769f8、docs/story_planning/AA_749_termend_kx_v2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@bd1a6fda3、docs/story_planning/AA_751_peishan_termend.json@768b9a131）。不要手改，改企劃稿再重新匯入。
    期末飯的選項（TERMEND-OPTS-1110，使用者 X324）：女朋友版 GF、心意邀約飯桌句之後 TABLE、祐廷說出來的選項 CONFESS、可昕 KX、朋友版 FRIEND[學期][人]、「她先說」的告白 HEART[人]（SHE-FIRST-1110）；只有 people 列的人，其他人照 termend_lines.js。播放 src/termend3d.js */
 'use strict';
 const TERMEND_OPTS={
@@ -14,7 +14,7 @@ const TERMEND_OPTS={
    "docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@bd1a6fda3",
    "docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@bd1a6fda3"
   ],
-  "ps": "docs/story_planning/AA_751_peishan_termend.json@33a1769f8"
+  "ps": "docs/story_planning/AA_751_peishan_termend.json@768b9a131"
  },
  "people": {
   "gf": [
@@ -5567,6 +5567,55 @@ const TERMEND_OPTS={
        ],
        "fx": {
         "love": 2
+       }
+      }
+     ]
+    },
+    "Y4S2": {
+     "says": [
+      {
+       "if": "DELAYED",
+       "say": [
+        "大四要結束了欸，我還有兩年。",
+        "我本來想好今天要講一些很感人的話，結果早上起來全部忘光了。"
+       ]
+      },
+      {
+       "say": [
+        "你要畢業了欸，我還有兩年。",
+        "我本來想好今天要講一些很感人的話，結果早上起來全部忘光了。"
+       ]
+      }
+     ],
+     "opts": [
+      {
+       "t": "「那講不感人的。」",
+       "re": [
+        "不感人的就是，你畢業以後不要變成那種講話都是條號的人。",
+        "我會聽不懂，聽不懂我會生氣。"
+       ],
+       "fx": {
+        "love": 2
+       }
+      },
+      {
+       "t": "「兩年很快。我會常下來。」",
+       "re": [
+        "你講的喔。",
+        "你工作以後會很忙，我知道。沒關係，你忙的時候換我上去找你。"
+       ],
+       "fx": {
+        "love": 2
+       }
+      },
+      {
+       "t": "「妳想起來再講。」",
+       "re": [
+        "好。",
+        "那你要等我，我想東西很慢。"
+       ],
+       "fx": {
+        "love": 1
        }
       }
      ]

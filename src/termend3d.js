@@ -289,6 +289,7 @@ const TERMEND=(function(){
     if(c==='noJP') return F.EXCHANGE_ROUTE!=='JP';
     if(c==='ZR_LAST'||c==='noZR_LAST'){ const d=!!(G&&G.events&&G.events.done&&G.events.done.ev_zhiruo_last_shift); return c==='ZR_LAST'?d:!d; }   /* 芷若 6/3 最後一個班那天去了沒（AA_749 朋友版大二下）*/
     if(c==='YT_MET_JOB') return !!F.YT_MET_JOB; if(c==='summer') return /S2$/.test(String(term));
+    if(c==='DELAYED') return delayedTE(G)||!!F.FAIL_DELAY;   /* 祐廷延畢（大五上還在學）：交換延畢、或大四下被當的延畢（同 postgrad3d.js S.delayed）。沛珊大四下 6/8 台南那一頓第一句（AA_751@768b9a131 GF.tableByTerm.Y4S2 的 note，2026-11-11）*/
     if(c==='sisGrad'||c==='sisPreGrad'){ const d=DK('2026-09-01'), g=d!=null&&G.day>=d; return c==='sisGrad'?g:!g; }   /* 學姊 2026-09 上法研所（AA_748 tableOpts 學姊的 note）*/
     if(/^term:/.test(c)) return c.slice(5)===term; return false; };
   S.shuffled=function(G,who,arr,salt){ const a=arr.slice(); if(!S.SHUFFLE||a.length<2) return a; let h=2166136261; const s=[G&&G.day,who,salt].join('|'); for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); }
@@ -341,6 +342,9 @@ const TERMEND=(function(){
         if(o.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx) SOCIAL.applyFx(G,who,o.fx,S.fxCap(G,who)); if(o.set&&G.flags&&G.flags[o.set]==null) G.flags[o.set]=G.day; if(o.adv&&GM.advance) GM.advance(o.adv);
         if(Array.isArray(o.khh)&&G.flags){ const KH=G.flags.KX_KHH||(G.flags.KX_KHH={}); KH[o.khh[0]]=o.khh[1]; } if(o.y5&&G.flags) G.flags.KX_Y5_CALL=o.y5; }   /* khh、y5：可昕的選項照稿的 set 記（和原本 KX_ASK 二選一記的值一樣）*/   /* shuffle：顯示的順序洗過（S.shuffled）；adv：選了以後時間多走（AA_748 子晴「現在玩」+15 分鐘）*/
       else if(x.text) await GM.say(x.who&&x.who!==who?{name:nm(x.who),charId:x.who}:me,x.text,x.expr?{expr:x.expr}:undefined); } };
+  /* 女朋友版那一學期自己的一頓（TERMEND_OPTS.GF[她].tableByTerm[學期]）：她說 → 選項 → 回答、fx。期末飯以外的地方演同一份稿用（2026-11-11，X327：沛珊大四下 6/8 台南那一頓，src/r2y4b3d.js R2Y4B.psDinner）；
+     稿沒有那個學期（只有通用的 table）＝回 false，呼叫的地方照原本那一句 */
+  S.gfTable=async function(GM,who,term,spec){ const ge=S.gfEntry(who,term,spec); if(!ge||ge.generic) return false; await run(GM,who,[S.optEntry(GM.G,S.gfPrep(GM,ge.E),who,term,'gf')]); return true; };
   S.dinner=async function(GM,q){ const G=GM.G, te=q&&q.te; if(!te) return false; const Lx=L(), who=te.who, kind=te.kind, R=S.rec(G,te.term);
     if(kind==='kexin') return S.kexinDinner(GM,te);
     S._heart=kind==='heart'?who:null; try{ return await S._dinner(GM,q); } finally{ S._heart=null; } };

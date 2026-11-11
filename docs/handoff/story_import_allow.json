@@ -5633,9 +5633,9 @@
   },
   {
    "path": "docs/story_planning/AA_751_peishan_termend.json",
-   "sha": "33a1769f8",
+   "sha": "768b9a131",
    "status": "approved",
-   "approvedBy": "AA（D109、D149：稿由 AA 定、BB 看過即匯；BB_318 的修正已改）；LAWWW 2026-11-10 指定只認 33a1769f8（使用者 X327 糾正「不是看到食物就要評論」以後的那一版）",
+   "approvedBy": "AA（D109、D149：稿由 AA 定、BB 看過即匯；BB_318 的修正已改）；LAWWW 2026-11-10 指定只認 33a1769f8（使用者 X327 糾正「不是看到食物就要評論」以後的那一版）；768b9a131（AA 2026-11-11，企劃線 750dadee7「補沛珊大四下 6/8 台南那一頓」）：LAWWW 2026-11-11 指定改讀這一版",
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
    "people": {
@@ -5651,7 +5651,13 @@
     "lines": true,
     "fallback": true
    },
-   "note": "X327 沛珊重寫（有趣、聰明、會接梗；家裡是台中的小型連鎖餐廳）——tools/story/import_termend_opts.py → src/data/termend_opts.js。people.heart：「她先說」的告白（TERMEND_OPTS.HEART.classmate_peishan）。**只認這個 sha**（工具的 PS_SHA），更舊的版本不匯；people.gf：女朋友版（TERMEND_OPTS.GF；大三下「那我留到明天。」nextMorning／alt）；people.friend：朋友版五頓（TERMEND_OPTS.FRIEND[學期]）；people.lines：FRIEND.y1s1、手機句（TERMEND_OPTS.LINES，src/data/termend_lines.js 同字）；people.fallback：電影通用回話整組取代 AA_745_fallback.json 的 classmate_peishan（tools/movie/import_movie_plots.py）"
+   "note": "X327 沛珊重寫（有趣、聰明、會接梗；家裡是台中的小型連鎖餐廳）——tools/story/import_termend_opts.py → src/data/termend_opts.js。people.heart：「她先說」的告白（TERMEND_OPTS.HEART.classmate_peishan）。**只認這個 sha**（工具的 PS_SHA），更舊的版本不匯；people.gf：女朋友版（TERMEND_OPTS.GF；大三下「那我留到明天。」nextMorning／alt）；people.friend：朋友版五頓（TERMEND_OPTS.FRIEND[學期]）；people.lines：FRIEND.y1s1、手機句（TERMEND_OPTS.LINES，src/data/termend_lines.js 同字）；people.fallback：電影通用回話整組取代 AA_745_fallback.json 的 classmate_peishan（tools/movie/import_movie_plots.py）；768b9a131：只多 GF.tableByTerm.Y4S2（say 兩句＋三個選項；祐廷延畢的存檔第一句用 note 裡那一句）——6/8 台南那一頓（ev_ps_termend_y4s2，src/r2y4b3d.js R2Y4B.psDinner）接上；其他段和 33a1769f8 一樣（git diff 只有那一段）",
+   "history": [
+    {
+     "sha": "33a1769f8",
+     "approvedBy": "（2026-11-11 換成 768b9a131 以前的版本：還沒有大四下那一頓）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_753_peishan_ladder_Y1S1.json",
