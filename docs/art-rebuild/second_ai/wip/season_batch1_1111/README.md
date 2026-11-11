@@ -1,8 +1,9 @@
 # 季節、節日的布置 第一批：過年、聖誕（LIFE-DETAILS-SEASONAL-1110；LAWWW2 帳號 A，2026-11-11）
 
-狀態：**WORK_IN_PROGRESS：相關測試過了，全部 Node 測試在跑**（跑完沒有失敗才算交付；結果補在這一行）。預覽是 Blender，不是遊戲截圖（D131）。
+狀態：**READY_FOR_REVIEW**（2026-11-11 04:0x UTC）。預覽是 Blender，不是遊戲截圖（D131）。
+全部 Node 測試 1260 支（`regression_full.log`）：1256 支 ALL PASS；`bookstore_exit_unit` 最後一行是 Node 讀不到網址的警告（結束碼 0）；三支印 FAILED，都不是這一包造成的——`date_lines_aa373_unit`、`date_wish_unit` 是這個容器當時沒有企劃線的新 commit（fetch 以後重跑 ALL PASS）；`exam_land_seat_unit` 在基底 `4eaf0d5e7` 就失敗（只讀 `game3d.js`、`adv3d.js`，這一包沒有碰）。
 
-- patch：`season_batch1_v1.patch`（13 個檔，基底 dev `4eaf0d5e7`，已含花序第 2 版和第四包）。和第五包（`../pack5_1111/`）改的檔案不重疊，哪一包先套都可以。花序二樓樓梯口的修正原本放在這一包，LAWWW 03:11 說它優先，已經搬到第五包。
+- patch：`season_batch1_v1.patch`（13 個檔，基底 dev `4eaf0d5e7`，已含花序第 2 版和第四包）。和第五包（`../pack5_1111/`）改的檔案不重疊，哪一包先套都可以；在 `be6014396` 上試過 `git apply --3way`，乾淨。花序二樓樓梯口的修正原本放在這一包，LAWWW 03:11 說它優先，已經搬到第五包。
 - 依據：X317（使用者 11-10「季節性的攤販、店門口的小變化、節日的布置 很棒」→ 對 LAWWW 的選擇題：20 項全做、含萬聖節、攤販能看能買）；提案 `docs/art-rebuild/second_ai/proposals/life_details_seasonal_1110.md`。這一批是提案的 **C1 過年、C3 聖誕**（20 項裡的 2 項）。
 - 預覽：`blender_cny.jpg`（左：溫州街住家門；中：小路；右：公館青木茶室）、`blender_xmas.jpg`（左：公館 afar，過年那一組也一起顯示了；右：溫州街 SUNNY SIDE）、`season_atlas_preview.jpg`（春聯、橫批、福字的貼圖）。
   **預覽裡雪花貼紙和蝴蝶結是黑的**：那是 Blender 預覽對「正反兩面疊在一起的薄片」的假象；模型裡的頂點色是白色、紅色（我讀回模型確認過），遊戲用單面材質，不會黑。

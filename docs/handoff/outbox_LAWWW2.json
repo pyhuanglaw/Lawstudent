@@ -7916,6 +7916,21 @@
    "noDirectIntegrate": false,
    "note": "底 dev 4eaf0d5e7（在 be6014396 上 --3way 乾淨）；全部 Node 測試 1259 支：四支印 FAILED 都不是這一包造成的（三支缺企劃線 commit、fetch 後過；exam_land_seat_unit 是基底的 game3d.js／adv3d.js）；第三包的隔牆判斷是我錯的，README 第一節寫了；一個地球那張要 CC 給鏡頭座標",
    "next": "LAWWW 整合、CC 重跑 LM_cam2 和夜市機位、BB 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "LIFE-DETAILS-SEASONAL-1110 第一批：過年（春聯、橫批、福字、燈籠）、聖誕（花圈、燈串、雪花貼紙）——20 項裡的 C1、C3",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/season_batch1_1111/（README.md、season_batch1_v1.patch、regression_full.log、blender_cny.jpg、blender_xmas.jpg、season_atlas_preview.jpg）"
+   ],
+   "state": "READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "noDirectIntegrate": false,
+   "note": "底 dev 4eaf0d5e7（在 be6014396 上 --3way 乾淨）；街景模型沒有重匯；新檔 src/data/season_deco.js、src/season_deco3d.js、tests/season_deco_unit.js、tools/blender/env_second/season_deco.py、season_wenzhou／gongguan.glb；index.html 多兩行；全部 Node 測試 1260 支（三支印 FAILED 不是這一包造成的，README 開頭寫明）；還剩 18 項",
+   "next": "LAWWW 整合、CC 把遊戲日期調到 12/10 和春節前後拍、BB 判；我接著做第二批"
   }
  ]
 }
