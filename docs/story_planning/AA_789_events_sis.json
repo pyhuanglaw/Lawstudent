@@ -1,0 +1,120 @@
+{
+ "_meta": {
+  "doc": "AA_789 主線、日常事件（events.js）學姊的台詞覆蓋列（X324 E 區）",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "同 AA_786；old＝開發分支 09:2x 的字。最後一列旁白（speaker 空）另列在 narr。",
+  "rule": "學姊 258 句、刪節號 62（句首 45）。她講話慢、會想，想事情、累了（ev_sis_collapse、研究計畫）、自己承認（「……我以前的學姊也是這樣對我」「……這次的題目，是我自己選的」）、拒絕幫忙（「……不用。我自己來」）都留。拿掉的是打招呼、答應、換話題那種句首的（10 句）。家聚「飲料學弟請，咖哩我請」是學姊請直屬吃飯，不是約會付錢，不涉及 SHE_PAYS，留。[118]／[119]、[132]／[133] 是共用同一段原文的兩個事件，列一次。",
+  "counts": {
+   "句": 258,
+   "刪節號前": 62,
+   "後": 52,
+   "列": 12
+  }
+ },
+ "files": [
+  {
+   "who": "heroine_05",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[3].dialogue[7].text",
+     "event": "ev_sis_w1_late",
+     "expr": "neutral",
+     "old": "（抬頭）……{name}。",
+     "new": "（抬頭）{name}。",
+     "note": "句首、旁白後或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[3].dialogue[18].text",
+     "event": "ev_sis_w1_late",
+     "expr": "neutral",
+     "old": "……那還來得及。我六月才畢業。",
+     "new": "那還來得及。我六月才畢業。",
+     "note": "句首、旁白後或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[7].dialogue[47].text",
+     "event": "ev_sis_c1_festival",
+     "expr": "smile",
+     "old": "……不過真的很巧。",
+     "new": "不過真的很巧。",
+     "note": "句首、旁白後或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[11].dialogue[19].text",
+     "event": "ev_sis_club_expo",
+     "expr": "smile",
+     "old": "這麼快？……好啊，歡迎。",
+     "new": "這麼快？好啊，歡迎。",
+     "note": "句首、旁白後或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[20].dialogue[6].text",
+     "event": "ev_studygroup_wed",
+     "expr": "neutral",
+     "old": "……好問題。下週回答。",
+     "new": "好問題。下週回答。",
+     "note": "句首、旁白後或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[41].dialogue[2].text",
+     "event": "ev_family_dinner_y2s2",
+     "expr": "neutral",
+     "old": "……坐。我坐下來你們再坐。",
+     "new": "坐。我坐下來你們再坐。",
+     "note": "句首、旁白後或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[132].dialogue[18].text",
+     "event": "ev_sis_sticky_notes",
+     "expr": "smile",
+     "old": "……你學得很快。",
+     "new": "你學得很快。",
+     "note": "句首、旁白後或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[135].dialogue[2].text",
+     "event": "ev_family_dinner",
+     "expr": "neutral",
+     "old": "……我知道。家聚你都沒來，今天來了就好。",
+     "new": "我知道。家聚你都沒來，今天來了就好。",
+     "note": "句首、旁白後或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[309].dialogue[2].text",
+     "event": "ev_an_sis_meet_lawlib",
+     "expr": "neutral",
+     "old": "可以。……第幾條？",
+     "new": "可以。第幾條？",
+     "note": "句首、旁白後或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[388].dialogue[3].text",
+     "event": "ev_grad_debate",
+     "expr": "smile",
+     "old": "……對。他跳過了。我第一次讀的時候沒看出來，是許老師指出來的。",
+     "new": "對。他跳過了。我第一次讀的時候沒看出來，是許老師指出來的。",
+     "note": "句首、旁白後或笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[366].dialogue[8].text",
+     "event": "ev_sis_collapse",
+     "expr": "tired",
+     "old": "（停住，看著空的保溫瓶）……二，我好像有點累。",
+     "new": "（停住，看著保溫瓶）……二，我好像有點累。",
+     "note": "AA_595 3-10（D127 第 4 點：不寫「空的保溫瓶」）——還沒進遊戲，這裡一起給；她累了，停頓留"
+    }
+   ]
+  }
+ ],
+ "narr": [
+  {
+   "at": "STORY_EVENTS[366].dialogue[0].text",
+   "event": "ev_sis_collapse",
+   "old": "（吧檯旁的單人座。研究計畫攤開，紅筆劃了半頁。保溫瓶是空的。）",
+   "new": "（吧檯旁的單人座。研究計畫攤開，紅筆劃了半頁。保溫瓶的蓋子開著。）",
+   "note": "AA_595 3-9（D127 第 4 點）——還沒進遊戲，這裡一起給"
+  }
+ ]
+}
