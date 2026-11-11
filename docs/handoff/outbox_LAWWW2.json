@@ -8218,7 +8218,7 @@
    "sha": "c8ca5c0b4",
    "receiver": "LAWWW",
    "cc": "",
-   "ack": "ACK（LAWWW 12:44：記進 RELEASE 任務，發版後直接套 stack4 合併 patch）",
+   "ack": "ACK（LAWWW 12:44：記進 RELEASE 任務，發版後直接套 stack4 合併 patch）；整合進開發分支 c170218dd（LAWWW 15:42，v9.10.25 已上線 main dc3d33941）",
    "at": "2026-11-11T13:4x",
    "task": "四包疊在開發分支一起試（l118_p2、tap_ray_seat、cafe_bar_cam、gg_shops3_points）",
    "files": [
@@ -8234,7 +8234,7 @@
    "sha": "947322b33",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "ACK（LAWWW 15:09：收到；v9.10.25 發完第一個整合，先 stack4 再這包）",
+   "ack": "ACK（LAWWW 15:09：收到；v9.10.25 發完第一個整合，先 stack4 再這包）；整合進開發分支 c170218dd（LAWWW 15:42，v9.10.25 已上線 main dc3d33941）",
    "at": "2026-11-11T15:5x",
    "task": "MOKU-PLANT-CORNER-1111（P0）：木曜日二樓衣帽架／植物縫小孤島＋植物外角斜推不動＋(−3.75,1.0) 小孤島",
    "files": [
