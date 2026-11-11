@@ -1,0 +1,670 @@
+{
+ "_meta": {
+  "doc": "AA_764 學姊心願事件「不排的晚上」（D15）照 AA_566 順一次",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "by": "AA 2026-11-11",
+  "why": "這一場的設計是對的（她只看過這個城市的白天和圖書館的燈；計畫本今天那一格第一次空著），句子也大多像她。問題是刪節號：整場有二十幾個「……」，AA_566 定的是「少用，一段最多一次」。這次只留兩處真的停下來的（「……你記得。」「夜景。……還有你。」），其他拿掉。另外三件：①車裡那一段原本是她倒一蓋子熱茶給祐廷、自己喝瓶口——保溫瓶整份約會稿只留三處（D02、D09、D13），這裡改成她把椅背往後調、車門開著聽外面；②玩家約她、她答「好。這次我不帶計畫本。」，可是結尾她從包包拿出計畫本翻到今天——改成「好。這次我什麼都不排。」；③結尾第 6 階那一版原本是「我以前覺得，空格是沒排好。今天覺得，空格是留給以後的。」，像格言（她不下人生結論），改成「我以前看到空格會想補。今天沒有想補。」",
+  "keep": "結構、選項的字、條件、時間、花費、旗標 WISH_DONE_heroine_05、記憶 SIS_THIRD_EMPTY、相簿都不動。closing.after 三版是照時間點分的（寫研究計畫／八月去美國／論文快寫完），綁年級是對的，只拿刪節號。",
+  "for_LAWWW": "wish_event＝date_wish.js events.heroine_05 的整個新物件；rows＝old→new（path 是物件裡的位置）。",
+  "note": "mention.where 寫「法學院圖書館外、讀書會散會後」——法服沒有讀書會（AA_218 17-4），如果程式有照這一欄決定出現的時機，請 BB 看要不要改成別的場合；字我沒動。"
+ },
+ "wish_event": {
+  "id": "wish_heroine_05",
+  "loc": "D15",
+  "title": "不排的晚上",
+  "source": "BB_128 3-3",
+  "wish": "她只看過這個城市的白天和圖書館的燈。想從上面看一次晚上的台北，而且那天不排任何事；計畫本上今天那一格，她第一次讓它空著。",
+  "rule": "她沒有男朋友（使用者 2026-10-17）；研究所筆試考完（2026-02-02 起，旗標 SIS_EXAM_DONE，LAWWW 在那天設）以後才會約、才算；筆試前只會「說說」，不約（BB_122 ★節）。要開車（祐廷台北有車）。次數記在 G.dateLog.heroine_05（SIS_EXAM_DONE 以後才算）。原本 BB_122 6-3 陽明山那一格的台詞已經搬到這裡；七夕那句是這一場的回聲（BB_124 第 3 節）。",
+  "needsCar": true,
+  "record": {
+   "flag": "WISH_DONE_heroine_05",
+   "memory": {
+    "tag": "SIS_THIRD_EMPTY",
+    "text": "她讓計畫本空了一格"
+   },
+   "album": "她用手機拍的夜景（沒有人）"
+  },
+  "mention": {
+   "if": {
+    "dateStage": {
+     "min": 4
+    }
+   },
+   "where": "法學院圖書館外、讀書會散會後",
+   "note": "筆試前也可以，這只是一句話，不是邀約",
+   "lines": [
+    {
+     "who": "heroine_05",
+     "text": "我想從上面看台北晚上的樣子。"
+    },
+    {
+     "who": "heroine_05",
+     "text": "念了很多年書，我只看過這個城市的白天。"
+    },
+    {
+     "who": "heroine_05",
+     "text": "和圖書館的燈。"
+    }
+   ],
+   "choices": [
+    {
+     "t": "「陽明山？」",
+     "reply": [
+      {
+       "who": "heroine_05",
+       "text": "嗯。沒有車，也沒有空，都不在計畫裡。"
+      }
+     ]
+    },
+    {
+     "t": "「為什麼想看晚上？」",
+     "reply": [
+      {
+       "who": "heroine_05",
+       "text": "白天的台北，我知道每一棟是做什麼的。晚上不知道。我想看看不知道的樣子。"
+      }
+     ]
+    },
+    {
+     "t": "（聽她說完）",
+     "reply": [
+      {
+       "who": "heroine_05",
+       "text": "只是想而已。走吧。"
+      }
+     ],
+     "replyIf": [
+      {
+       "if": {
+        "flags": [
+         "SIS_EXAM_DONE"
+        ]
+       },
+       "reply": [
+        {
+         "who": "heroine_05",
+         "text": "以前的計畫本裡，從來沒有這一格。"
+        }
+       ],
+       "note": "筆試考完以後才第一次提到的版本，最後一句換成這句"
+      }
+     ]
+    }
+   ]
+  },
+  "herInvite": {
+   "if": {
+    "dateStage": {
+     "min": 5
+    },
+    "flags": [
+     "SIS_EXAM_DONE"
+    ]
+   },
+   "rule": "AA_128 4-5",
+   "abroadBlock": true,
+   "dateWeekday": [
+    5
+   ],
+   "dateTime": 18.5,
+   "note": "不在美國；口試前、出國前一週不約",
+   "lines": [
+    {
+     "who": "heroine_05",
+     "text": "週五晚上有空嗎。"
+    },
+    {
+     "who": "heroine_05",
+     "text": "陽明山。你有車。"
+    },
+    {
+     "who": "heroine_05",
+     "text": "要做什麼，我還沒想好。這次不想好。"
+    }
+   ],
+   "accept": [
+    {
+     "who": "heroine_05",
+     "text": "好。六點半，B館前面。其他的我不排了。"
+    }
+   ],
+   "decline": [
+    {
+     "who": "heroine_05",
+     "text": "好。那下次。"
+    }
+   ]
+  },
+  "playerInvite": {
+   "if": {
+    "flags": [
+     "SIS_EXAM_DONE"
+    ]
+   },
+   "known": [
+    {
+     "who": "heroine_05",
+     "text": "……你記得。"
+    },
+    {
+     "who": "heroine_05",
+     "text": "好。這次我什麼都不排。"
+    }
+   ],
+   "unknown": [
+    {
+     "who": "heroine_05",
+     "text": "陽明山？晚上？"
+    },
+    {
+     "who": "heroine_05",
+     "text": "好。我一直想去。你怎麼知道？"
+    }
+   ]
+  },
+  "arrive": {
+   "narr": "山路轉了很多彎，車停在觀景台邊。台北的燈在下面一整片。",
+   "lines": [
+    {
+     "who": "heroine_05",
+     "text": "那一片是我們學校。"
+    },
+    {
+     "who": "heroine_05",
+     "text": "我每天在那裡。從這裡看，原來那麼小。"
+    }
+   ]
+  },
+  "hotspots": {
+   "D15.rail": {
+    "name": "觀景台的欄杆",
+    "minutes": 30,
+    "cost": 0,
+    "like": "like",
+    "lines": [
+     {
+      "who": "heroine_05",
+      "text": "我本來想查這裡看得到哪幾棟。忍住了。"
+     }
+    ],
+    "choices": [
+     {
+      "t": "「找得到B館嗎？」",
+      "reply": [
+       {
+        "who": "heroine_05",
+        "text": "找不到。很好。"
+       }
+      ]
+     },
+     {
+      "t": "「那邊是公館。」",
+      "reply": [
+       {
+        "who": "heroine_05",
+        "text": "公館的燈比較黃。我每天走的那條路，從這裡看是一條線。"
+       }
+      ]
+     },
+     {
+      "t": "（不說話）",
+      "reply": [
+       {
+        "who": "heroine_05",
+        "text": "你知道我在想什麼嗎。我也不知道。很舒服。"
+       }
+      ]
+     }
+    ]
+   },
+   "D15.car": {
+    "name": "車裡（開著車門，聽一首歌）",
+    "minutes": 20,
+    "cost": 0,
+    "like": "like",
+    "lines": [
+     {
+      "who": "narr",
+      "text": "（她把椅背往後調了一格，車門開著。）"
+     },
+     {
+      "who": "heroine_05",
+      "text": "車門不要關。我想聽外面。"
+     }
+    ],
+    "choices": [
+     {
+      "t": "「放一首歌？」",
+      "reply": [
+       {
+        "who": "heroine_05",
+        "text": "你選。我不會選歌。我的歌單只有讀書用的。"
+       }
+      ]
+     },
+     {
+      "t": "（一起坐著）",
+      "reply": [
+       {
+        "who": "narr",
+        "text": "（車門開著，山上的風吹進來。她的頭髮亂了，她沒有整理。）"
+       }
+      ]
+     }
+    ]
+   },
+   "D15.store": {
+    "name": "山路邊的便利商店",
+    "minutes": 20,
+    "cost": 60,
+    "costNote": "祐廷自己的；「茶葉蛋我買。」帶 extra 15",
+    "like": "normal",
+    "lines": [
+     {
+      "who": "heroine_05",
+      "text": "熱可可、關東煮、茶葉蛋。"
+     },
+     {
+      "who": "heroine_05",
+      "text": "茶葉蛋不要了。"
+     }
+    ],
+    "choices": [
+     {
+      "t": "「茶葉蛋我買。」",
+      "reply": [
+       {
+        "who": "heroine_05",
+        "text": "好。那茶葉蛋還是有，是你的。"
+       }
+      ],
+      "extra": 15
+     },
+     {
+      "t": "「為什麼不要了？」",
+      "reply": [
+       {
+        "who": "heroine_05",
+        "text": "我想試試看，少買一樣會怎樣。"
+       }
+      ]
+     },
+     {
+      "t": "「關東煮要加什麼？」",
+      "reply": [
+       {
+        "who": "heroine_05",
+        "text": "蘿蔔。只要蘿蔔。這件事我很確定。"
+       }
+      ]
+     }
+    ]
+   },
+   "D15.sky": {
+    "name": "停車場邊的草地（看星星）",
+    "minutes": 20,
+    "cost": 0,
+    "like": "normal",
+    "lines": [
+     {
+      "who": "heroine_05",
+      "text": "城市太亮了。星星看不到幾顆。"
+     },
+     {
+      "who": "heroine_05",
+      "text": "那顆很亮的，是星星嗎？"
+     }
+    ],
+    "choices": [
+     {
+      "t": "「那是飛機。」",
+      "reply": [
+       {
+        "who": "heroine_05",
+        "text": "真的在動。"
+       }
+      ]
+     },
+     {
+      "t": "「在美國看得到比較多？」",
+      "reply": [
+       {
+        "who": "heroine_05",
+        "text": "也許。在那邊我好像沒有抬頭看過。"
+       }
+      ],
+      "if": {
+       "flags": [
+        "SIS_BEEN_US"
+       ]
+      },
+      "note": "她去過美國以後才有這個選項（旗標名由 LAWWW-B 定）"
+     },
+     {
+      "t": "（躺下來看）",
+      "reply": [
+       {
+        "who": "narr",
+        "text": "她也躺下來，隔一個人的距離。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "草是濕的。沒關係。"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "closing": {
+   "title": "觀景台",
+   "lines": [
+    {
+     "who": "narr",
+     "text": "（風很冷。她把手放在欄杆上，看了很久。）"
+    },
+    {
+     "who": "heroine_05",
+     "text": "夜景，看到了。"
+    },
+    {
+     "who": "heroine_05",
+     "text": "有人開車，也有了。"
+    },
+    {
+     "who": "narr",
+     "text": "（她停了很久。）"
+    },
+    {
+     "who": "narr",
+     "text": "（她從包包拿出計畫本，翻到今天。今天那一格是空的。）"
+    },
+    {
+     "who": "heroine_05",
+     "text": "今天這一格，我沒有寫。"
+    },
+    {
+     "who": "heroine_05",
+     "text": "我第一次，讓它空著。"
+    }
+   ],
+   "choices": [
+    {
+     "t": "「空著也很好。」",
+     "reply": [
+      {
+       "who": "heroine_05",
+       "text": "嗯。原來空著是這種感覺。"
+      }
+     ]
+    },
+    {
+     "t": "「要我幫妳寫一點？」",
+     "reply": [
+      {
+       "who": "heroine_05",
+       "text": "不用。今天不用。"
+      }
+     ]
+    },
+    {
+     "t": "（陪她看）",
+     "reply": [
+      {
+       "who": "heroine_05",
+       "text": "嗯。就這樣。"
+      }
+     ]
+    }
+   ],
+   "after": [
+    {
+     "if": {
+      "term": [
+       "Y2S2",
+       "Y3S1"
+      ]
+     },
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "下週要開始寫研究計畫。今天先不想。"
+      }
+     ],
+     "note": "大二下～大三上（她碩一下、碩二上）"
+    },
+    {
+     "if": {
+      "term": [
+       "Y3S2"
+      ]
+     },
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "八月我就去美國了。這裡，回來再來一次。"
+      }
+     ],
+     "note": "大三下（她碩二下；八月出發去美國，美國學期＝祐廷大四上 2028-08～12）"
+    },
+    {
+     "if": {
+      "termFrom": "Y4S1"
+     },
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "論文快寫完了。下禮拜開始，晚上都在研究室。"
+      }
+     ],
+     "note": "大四（她碩三；大四上她在美國，herInvite 不約，實際是大四下）"
+    }
+   ],
+   "ending": [
+    {
+     "if": {
+      "datingHer": true
+     },
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "夜景。……還有你。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "今天夠了。"
+      }
+     ]
+    },
+    {
+     "if": {
+      "dateStage": {
+       "min": 6
+      },
+      "datingHer": false
+     },
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "我以前看到空格會想補。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "今天沒有想補。"
+      }
+     ]
+    },
+    {
+     "if": {},
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "下次我也不排。"
+      }
+     ],
+     "note": "第 5 階"
+    }
+   ]
+  },
+  "repeat": "date_system/lines/D15.json 的 heroine_05",
+  "char": "heroine_05",
+  "src": "bb"
+ },
+ "rows": [
+  {
+   "path": "wish_heroine_05.mention.choices[0].reply[0].text",
+   "old": "嗯。……沒有車，也沒有空。都不在計畫裡。",
+   "new": "嗯。沒有車，也沒有空，都不在計畫裡。"
+  },
+  {
+   "path": "wish_heroine_05.mention.choices[1].reply[0].text",
+   "old": "白天的台北，我知道每一棟是做什麼的。晚上不知道。……我想看看不知道的樣子。",
+   "new": "白天的台北，我知道每一棟是做什麼的。晚上不知道。我想看看不知道的樣子。"
+  },
+  {
+   "path": "wish_heroine_05.mention.choices[2].reply[0].text",
+   "old": "……只是想而已。走吧。",
+   "new": "只是想而已。走吧。"
+  },
+  {
+   "path": "wish_heroine_05.herInvite.lines[2].text",
+   "old": "……要做什麼，我還沒想好。",
+   "new": "要做什麼，我還沒想好。這次不想好。"
+  },
+  {
+   "path": "wish_heroine_05.herInvite.accept[0].text",
+   "old": "好。六點半，B館前面。……其他的，我不排了。",
+   "new": "好。六點半，B館前面。其他的我不排了。"
+  },
+  {
+   "path": "wish_heroine_05.herInvite.decline[0].text",
+   "old": "好。……那下次。",
+   "new": "好。那下次。"
+  },
+  {
+   "path": "wish_heroine_05.playerInvite.known[1].text",
+   "old": "好。這次我不帶計畫本。",
+   "new": "好。這次我什麼都不排。"
+  },
+  {
+   "path": "wish_heroine_05.playerInvite.unknown[1].text",
+   "old": "……好。我一直想去。你怎麼知道？",
+   "new": "好。我一直想去。你怎麼知道？"
+  },
+  {
+   "path": "wish_heroine_05.arrive.lines[0].text",
+   "old": "……那一片是我們學校。",
+   "new": "那一片是我們學校。"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.rail.lines[0].text",
+   "old": "我本來想查這裡看得到哪幾棟。……忍住了。",
+   "new": "我本來想查這裡看得到哪幾棟。忍住了。"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.rail.choices[0].reply[0].text",
+   "old": "找不到。……很好，找不到。",
+   "new": "找不到。很好。"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.rail.choices[1].reply[0].text",
+   "old": "公館的燈比較黃。……原來我每天走的那條路，從這裡看是一條線。",
+   "new": "公館的燈比較黃。我每天走的那條路，從這裡看是一條線。"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.rail.choices[2].reply[0].text",
+   "old": "你知道我在想什麼嗎。……我也不知道。很舒服。",
+   "new": "你知道我在想什麼嗎。我也不知道。很舒服。"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.car.lines[0].text",
+   "old": "（她從包包裡拿出保溫瓶，倒了一蓋子的熱茶。）",
+   "new": "（她把椅背往後調了一格，車門開著。）"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.car.lines[1].text",
+   "old": "蓋子可以當杯子。……給你。我喝瓶口。",
+   "new": "車門不要關。我想聽外面。"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.store.lines[0].text",
+   "old": "熱可可、關東煮。……茶葉蛋。",
+   "new": "熱可可、關東煮、茶葉蛋。"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.store.lines[1].text",
+   "old": "……茶葉蛋不要了。",
+   "new": "茶葉蛋不要了。"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.store.choices[0].reply[0].text",
+   "old": "……好。那茶葉蛋還是有。是你的。",
+   "new": "好。那茶葉蛋還是有，是你的。"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.sky.lines[1].text",
+   "old": "……那顆很亮的，是星星嗎？",
+   "new": "那顆很亮的，是星星嗎？"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.sky.choices[0].reply[0].text",
+   "old": "……真的在動。",
+   "new": "真的在動。"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.sky.choices[1].reply[0].text",
+   "old": "也許。……在那邊，我好像沒有抬頭看過。",
+   "new": "也許。在那邊我好像沒有抬頭看過。"
+  },
+  {
+   "path": "wish_heroine_05.hotspots.D15.sky.choices[2].reply[1].text",
+   "old": "草是濕的。……沒關係。",
+   "new": "草是濕的。沒關係。"
+  },
+  {
+   "path": "wish_heroine_05.closing.lines[2].text",
+   "old": "……有人開車，也有了。",
+   "new": "有人開車，也有了。"
+  },
+  {
+   "path": "wish_heroine_05.closing.choices[0].reply[0].text",
+   "old": "嗯。……原來空著是這種感覺。",
+   "new": "嗯。原來空著是這種感覺。"
+  },
+  {
+   "path": "wish_heroine_05.closing.choices[1].reply[0].text",
+   "old": "不用。……今天不用。",
+   "new": "不用。今天不用。"
+  },
+  {
+   "path": "wish_heroine_05.closing.choices[2].reply[0].text",
+   "old": "……嗯。就這樣。",
+   "new": "嗯。就這樣。"
+  },
+  {
+   "path": "wish_heroine_05.closing.after[0].lines[0].text",
+   "old": "下週要開始寫研究計畫。……今天先不想。",
+   "new": "下週要開始寫研究計畫。今天先不想。"
+  },
+  {
+   "path": "wish_heroine_05.closing.after[1].lines[0].text",
+   "old": "八月我就去美國了。……這裡，回來再來一次。",
+   "new": "八月我就去美國了。這裡，回來再來一次。"
+  },
+  {
+   "path": "wish_heroine_05.closing.ending[1].lines[0].text",
+   "old": "我以前覺得，空格是沒排好。",
+   "new": "我以前看到空格會想補。"
+  },
+  {
+   "path": "wish_heroine_05.closing.ending[1].lines[1].text",
+   "old": "……今天覺得，空格是留給以後的。",
+   "new": "今天沒有想補。"
+  },
+  {
+   "path": "wish_heroine_05.closing.ending[2].lines[0].text",
+   "old": "下次……我也不排。",
+   "new": "下次我也不排。"
+  }
+ ]
+}
