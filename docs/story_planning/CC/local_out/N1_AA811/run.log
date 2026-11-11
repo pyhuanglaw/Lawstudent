@@ -1,0 +1,243 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_aa811_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N1_AA811\out
+CC AA_811（合歡山北峰、子晴語音）：worktree ?；SHA（env）b77af3a4fe6d348ae58337a1ce708442ef9ef458；PARTS HEHUAN_NEG,VOICE,HEHUAN_A,HEHUAN_B；Playwright（844×390 觸控）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+==== HEHUAN_NEG ====
+PASS 資料：AA811_LINES 讀得到、ev_sis_hehuan 登記在 STORY_EVENTS  {"L": true, "ev": true}
+PASS 資料：標題「合歡山北峰」、她答應那一句「好。四點的客運。」、清單小字「04:00 出發・22:00 回到臺北」（和單元／稿一樣）  ["合歡山北峰", "好。四點的客運。", "04:00 出發・22:00 回到臺北"]
+  [  28.4s] 資料：HH＝{"who": "heroine_05", "ev": "ev_sis_hehuan", "from": "2029-06-15", "to": "2029-10-31", "h": 4, "back": 22, "travelH": 0.5, "late": -0.5, "ahead": 7, "bus": "coach_night", "mountain": "trip_mountain", "down": "（下山的時候"}；「這個時候才有」＝這個時候才有；學姊顯示名＝不認識的女生；子晴＝不認識的女生
+  [前置／捷徑] [HEHUAN_NEG_noflag]【前置／捷徑】讀檔（GAME.applySave）到 2029-09-11 15.00 校園（畢業後最小存檔：GRADUATED、GRAD_DONE、PG.done.grad）；學姊 FIRST_MET、rel {"fam": 65, "trust": 50, "comf": 45, "npcRom": 10}、有聯絡方式（沒在交往）；沒有 SIS_HEHUAN（電影那一題沒答應）；沒有 SIS_HEHUAN（2029-09-11）；讀完馬上打開手機「朋友」（等同按手機鍵）；前置結果 {"notes": [], "stage": {"heroine_05": "CLOSE_FRIEND"}, "dating": ["dating_kexin"]}；讀完 {"key": "2029-09-11", "hour": 15.011, "weather": "clear"}；狀態 {"key": "2029-09-11", "hour": 15.01, "weather": "clear", "pg": true, "SIS_HEHUAN": null, "WENT": null, "dating": false, "whyNot": "", "canInv": true, "contact": true, "pres": {"here": true, "kind": null}, "stage": "CLOSE_FRIEND", "offer": null, "days": ["2029-09-15", "2029-09-16"], "cand": [{"key": "2029-09-15", "busy": ""}, {"key": "2029-09-16", "busy": ""}], "exp": [{"d": 1460, "key": "2029-09-15", "wd": 6, "label": "9/15（六）"}, {"d": 1461, "key": "2029-09-16", "wd": 0, "label": "9/16（日）"}], "trips": [], "rel": {"npcRom": 10, "fam": 65, "trust": 50, "comf": 45}}
+  [  54.9s] [HEHUAN_NEG_noflag] 遊戲判：offer null；cand [{"key": "2029-09-15", "busy": ""}, {"key": "2029-09-16", "busy": ""}]；探針照日曆算的週末 ["2029-09-15", "2029-09-16"]；whyNot ''
+PASS [HEHUAN_NEG_noflag] 前置：學姊可以約（「約」按鈕在、畢業後篇）  {"whyNot": "", "canInv": true, "pg": true, "pres": {"here": true, "kind": null}}
+PASS [HEHUAN_NEG_noflag] 手機「朋友」→ 學姊那一列「約」按得到
+    [約] 第一層沒有「合歡山北峰」：["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"]；小項 [["去 2:30 AM 念書", "去總圖一起念書", "去法圖一起念書", "去 afar café 念書"], ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去泰米村食吃飯"], ["去 2:30 AM 坐坐", "去一盞喝茶", "去 afar café 坐坐"], ["去溫州街散步", "去映月湖走走"], ["去新體育館打羽球", "去椰影大道晨跑"], null, null] → 算了
+    [選項] 念書…｜吃飯…｜喝咖啡、喝茶…｜散步…｜運動…｜出去玩…｜算了 → 算了
+PASS [HEHUAN_NEG_noflag] 沒有 SIS_HEHUAN（2029-09-11）：約的清單第一層沒有「合歡山北峰」、每一類的小項也沒有  {"第一層": ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"], "小項": [["去 2:30 AM 念書", "去總圖一起念書", "去法圖一起念書", "去 afar café 念書"], ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去泰米村食吃飯"], ["去 2:30 AM 坐坐", "去一盞喝茶", "去 afar café 坐坐"], ["去溫州街散步", "去映月湖走走"], ["去新體育館打羽球", "去椰影大道晨跑"], null, null]}
+PASS [HEHUAN_NEG_noflag] 沒有排出合歡山北峰的出遊  []
+PASS [HEHUAN_NEG_noflag] 畫面上沒有 {name}／undefined／NaN／TODO／PLACEHOLDER（台詞 0、選項、toast、字幕、手機 0 段）  []
+PASS [HEHUAN_NEG_noflag] 沒有 JS 例外（pageerror）  []
+PASS [HEHUAN_NEG_noflag] 演完以後推得動（搖桿 ≥0.3 m；campus 2029-09-11 15.03）  {"moved": 9.09, "idle": {"key": "2029-09-11", "hour": 15.03, "zone": "campus", "weather": "clear", "me": {"x": -34, "z": 3.41, "busy": false, "seat": false}, "depth": 0, "by": [], "dlg": false, "ev": null, "adv": false, "paused": false, "home": false, "pg": true, "pgBusy": false, "next": "2029-12-14 15.08", "pend": [], "outs": [], "phone": false, "top": "c", "lastSay": null, "cons": []}}
+  [  64.7s] [HEHUAN_NEG_noflag] 走的路：手機「朋友」→ 學姊「約」→ 看清單 → 算了；手機「朋友」→ 學姊「約」→ 清單照字選「合歡山北峰」→ 選日子 → 她答應
+  [HEHUAN_NEG_noflag] 選過的選單：[[["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"], "算了", "2029-09-11", 15.011]]
+  [HEHUAN_NEG_noflag] 台詞（0 句）：
+  [前置／捷徑] [HEHUAN_NEG_early]【前置／捷徑】讀檔（GAME.applySave）到 2029-06-08 15.00 校園（畢業後最小存檔：GRADUATED、GRAD_DONE、PG.done.grad）；學姊 FIRST_MET、rel {"fam": 65, "trust": 50, "comf": 45, "npcRom": 10}、有聯絡方式（沒在交往）；SIS_HEHUAN＝2029-01-20（《m2901b》學姊那一題答應）；2029-06-08（五）：7 天內 6/9、6/10 是 6/15 以前，6/15 在窗內但是週五；讀完馬上打開手機「朋友」（等同按手機鍵）；前置結果 {"notes": [], "stage": {"heroine_05": "CLOSE_FRIEND"}, "dating": ["dating_kexin"]}；讀完 {"key": "2029-06-08", "hour": 15.011, "weather": "clear"}；狀態 {"key": "2029-06-08", "hour": 15.01, "weather": "clear", "pg": true, "SIS_HEHUAN": 1222, "WENT": null, "dating": false, "whyNot": "", "canInv": true, "contact": true, "pres": {"here": true, "kind": null}, "stage": "CLOSE_FRIEND", "offer": null, "days": [], "cand": [], "exp": [], "trips": [], "rel": {"npcRom": 10, "fam": 65, "trust": 50, "comf": 45}}
+  [  83.4s] [HEHUAN_NEG_early] 遊戲判：offer null；cand []；探針照日曆算的週末 []；whyNot ''
+PASS [HEHUAN_NEG_early] 前置：學姊可以約（「約」按鈕在、畢業後篇）  {"whyNot": "", "canInv": true, "pg": true, "pres": {"here": true, "kind": null}}
+PASS [HEHUAN_NEG_early] 手機「朋友」→ 學姊那一列「約」按得到
+    [約] 第一層沒有「合歡山北峰」：["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"]；小項 [["去 2:30 AM 念書", "去總圖一起念書", "去法圖一起念書", "去 afar café 念書"], ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去泰米村食吃飯"], ["去 2:30 AM 坐坐", "去一盞喝茶", "去 afar café 坐坐"], ["去溫州街散步", "去映月湖走走"], ["去新體育館打羽球", "去椰影大道晨跑"], null, null] → 算了
+    [選項] 念書…｜吃飯…｜喝咖啡、喝茶…｜散步…｜運動…｜出去玩…｜算了 → 算了
+PASS [HEHUAN_NEG_early] 2029-06-08（五）：7 天內 6/9、6/10 是 6/15 以前，6/15 在窗內但是週五：約的清單第一層沒有「合歡山北峰」、每一類的小項也沒有  {"第一層": ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"], "小項": [["去 2:30 AM 念書", "去總圖一起念書", "去法圖一起念書", "去 afar café 念書"], ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去泰米村食吃飯"], ["去 2:30 AM 坐坐", "去一盞喝茶", "去 afar café 坐坐"], ["去溫州街散步", "去映月湖走走"], ["去新體育館打羽球", "去椰影大道晨跑"], null, null]}
+PASS [HEHUAN_NEG_early] 沒有排出合歡山北峰的出遊  []
+PASS [HEHUAN_NEG_early] 畫面上沒有 {name}／undefined／NaN／TODO／PLACEHOLDER（台詞 0、選項、toast、字幕、手機 0 段）  []
+PASS [HEHUAN_NEG_early] 沒有 JS 例外（pageerror）  []
+PASS [HEHUAN_NEG_early] 演完以後推得動（搖桿 ≥0.3 m；campus 2029-06-08 15.03）  {"moved": 8.68, "idle": {"key": "2029-06-08", "hour": 15.03, "zone": "campus", "weather": "clear", "me": {"x": -34, "z": 3.82, "busy": false, "seat": false}, "depth": 0, "by": [], "dlg": false, "ev": null, "adv": false, "paused": false, "home": false, "pg": true, "pgBusy": false, "next": "2029-06-18 9", "pend": [], "outs": [], "phone": false, "top": "c", "lastSay": null, "cons": []}}
+  [  91.4s] [HEHUAN_NEG_early] 走的路：手機「朋友」→ 學姊「約」→ 看清單 → 算了；手機「朋友」→ 學姊「約」→ 清單照字選「合歡山北峰」→ 選日子 → 她答應
+  [HEHUAN_NEG_early] 選過的選單：[[["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"], "算了", "2029-06-08", 15.011]]
+  [HEHUAN_NEG_early] 台詞（0 句）：
+  [前置／捷徑] [HEHUAN_NEG_late]【前置／捷徑】讀檔（GAME.applySave）到 2029-10-28 15.00 校園（畢業後最小存檔：GRADUATED、GRAD_DONE、PG.done.grad）；學姊 FIRST_MET、rel {"fam": 65, "trust": 50, "comf": 45, "npcRom": 10}、有聯絡方式（沒在交往）；SIS_HEHUAN＝2029-01-20（《m2901b》學姊那一題答應）；2029-10-28（日）：7 天內的週末 11/3、11/4 已經過了 10/31；讀完馬上打開手機「朋友」（等同按手機鍵）；前置結果 {"notes": [], "stage": {"heroine_05": "CLOSE_FRIEND"}, "dating": ["dating_kexin"]}；讀完 {"key": "2029-10-28", "hour": 15.012, "weather": "clear"}；狀態 {"key": "2029-10-28", "hour": 15.01, "weather": "clear", "pg": true, "SIS_HEHUAN": 1222, "WENT": null, "dating": false, "whyNot": "", "canInv": true, "contact": true, "pres": {"here": true, "kind": null}, "stage": "CLOSE_FRIEND", "offer": null, "days": [], "cand": [], "exp": [], "trips": [], "rel": {"npcRom": 10, "fam": 65, "trust": 50, "comf": 45}}
+  [ 111.0s] [HEHUAN_NEG_late] 遊戲判：offer null；cand []；探針照日曆算的週末 []；whyNot ''
+PASS [HEHUAN_NEG_late] 前置：學姊可以約（「約」按鈕在、畢業後篇）  {"whyNot": "", "canInv": true, "pg": true, "pres": {"here": true, "kind": null}}
+PASS [HEHUAN_NEG_late] 手機「朋友」→ 學姊那一列「約」按得到
+    [約] 第一層沒有「合歡山北峰」：["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"]；小項 [["去 2:30 AM 念書", "去總圖一起念書", "去法圖一起念書", "去 afar café 念書"], ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去泰米村食吃飯"], ["去 2:30 AM 坐坐", "去一盞喝茶", "去 afar café 坐坐"], ["去溫州街散步", "去映月湖走走"], ["去新體育館打羽球", "去椰影大道晨跑"], null, null] → 算了
+    [選項] 念書…｜吃飯…｜喝咖啡、喝茶…｜散步…｜運動…｜出去玩…｜算了 → 算了
+PASS [HEHUAN_NEG_late] 2029-10-28（日）：7 天內的週末 11/3、11/4 已經過了 10/31：約的清單第一層沒有「合歡山北峰」、每一類的小項也沒有  {"第一層": ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"], "小項": [["去 2:30 AM 念書", "去總圖一起念書", "去法圖一起念書", "去 afar café 念書"], ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去泰米村食吃飯"], ["去 2:30 AM 坐坐", "去一盞喝茶", "去 afar café 坐坐"], ["去溫州街散步", "去映月湖走走"], ["去新體育館打羽球", "去椰影大道晨跑"], null, null]}
+PASS [HEHUAN_NEG_late] 沒有排出合歡山北峰的出遊  []
+PASS [HEHUAN_NEG_late] 畫面上沒有 {name}／undefined／NaN／TODO／PLACEHOLDER（台詞 0、選項、toast、字幕、手機 0 段）  []
+PASS [HEHUAN_NEG_late] 沒有 JS 例外（pageerror）  []
+PASS [HEHUAN_NEG_late] 演完以後推得動（搖桿 ≥0.3 m；campus 2029-10-28 15.03）  {"moved": 9.51, "idle": {"key": "2029-10-28", "hour": 15.03, "zone": "campus", "weather": "clear", "me": {"x": -34, "z": 2.99, "busy": false, "seat": false}, "depth": 0, "by": [], "dlg": false, "ev": null, "adv": false, "paused": false, "home": false, "pg": true, "pgBusy": false, "next": "2029-12-14 15.08", "pend": [], "outs": [], "phone": false, "top": "c", "lastSay": null, "cons": []}}
+  [ 119.0s] [HEHUAN_NEG_late] 走的路：手機「朋友」→ 學姊「約」→ 看清單 → 算了；手機「朋友」→ 學姊「約」→ 清單照字選「合歡山北峰」→ 選日子 → 她答應
+  [HEHUAN_NEG_late] 選過的選單：[[["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"], "算了", "2029-10-28", 15.012]]
+  [HEHUAN_NEG_late] 台詞（0 句）：
+  [前置／捷徑] [HEHUAN_NEG_rain]【前置／捷徑】讀檔（GAME.applySave）到 2029-09-11 15.00 校園（畢業後最小存檔：GRADUATED、GRAD_DONE、PG.done.grad）；學姊 FIRST_MET、rel {"fam": 65, "trust": 50, "comf": 45, "npcRom": 10}、有聯絡方式（沒在交往）；SIS_HEHUAN＝2029-01-20（《m2901b》學姊那一題答應）；下雨取消；讀完馬上打開手機「朋友」（等同按手機鍵）；前置結果 {"notes": [], "stage": {"heroine_05": "CLOSE_FRIEND"}, "dating": ["dating_kexin"]}；讀完 {"key": "2029-09-11", "hour": 15.011, "weather": "clear"}；狀態 {"key": "2029-09-11", "hour": 15.01, "weather": "clear", "pg": true, "SIS_HEHUAN": 1222, "WENT": null, "dating": false, "whyNot": "", "canInv": true, "contact": true, "pres": {"here": true, "kind": null}, "stage": "CLOSE_FRIEND", "offer": {"t": "合歡山北峰", "hint": "04:00 出發・22:00 回到臺北", "dim": false, "why": ""}, "days": ["2029-09-15", "2029-09-16"], "cand": [{"key": "2029-09-15", "busy": ""}, {"key": "2029-09-16", "busy": ""}], "exp": [{"d": 1460, "key": "2029-09-15", "wd": 6, "label": "9/15（六）"}, {"d": 1461, "key": "2029-09-16", "wd": 0, "label": "9/16（日）"}], "trips": [], "rel": {"npcRom": 10, "fam": 65, "trust": 50, "comf": 45}}
+PASS [HEHUAN_NEG_rain] 前置：「合歡山北峰」能約  {"offer": {"t": "合歡山北峰", "hint": "04:00 出發・22:00 回到臺北", "dim": false, "why": ""}, "whyNot": "", "cand": [{"key": "2029-09-15", "busy": ""}, {"key": "2029-09-16", "busy": ""}]}
+PASS [HEHUAN_NEG_rain] 手機「朋友」→ 學姊那一列「約」按得到
+    [選項] 念書…｜吃飯…｜喝咖啡、喝茶…｜散步…｜運動…｜出去玩…｜合歡山北峰｜算了 → 合歡山北峰
+    [選項] 9/15（六）｜9/16（日）｜算了 → 9/15（六）
+PASS [HEHUAN_NEG_rain] 前置：照玩家約好了（出遊 planned）  [{"id": "sis_hehuan_1460", "day": 1460, "key": "2029-09-15", "h": 4, "state": "planned", "noRain": true, "dawn": true, "rained": false, "late": -0.5, "travelH": 0.5, "title": "和溫書瑀去合歡山北峰", "who": "heroine_05", "back": "回到臺北。"}]
+  [前置／捷徑] [HEHUAN_NEG_rain]【捷徑】約好以後存檔照抄（GAME.snapshot），只改成出發那天 2029-09-15 03:00、天氣 rain 再讀檔（畢業後篇跳日子時天氣一律設 clear（postgrad3d.js setT），自然下不了雨）
+  [ 154.5s] [HEHUAN_NEG_rain] 讀完：{"key": "2029-09-15", "hour": 3.011, "weather": "rain"}
+PASS [HEHUAN_NEG_rain] 下雨：記成 missed、rained  {"id": "sis_hehuan_1460", "day": 1460, "key": "2029-09-15", "h": 4, "state": "missed", "noRain": true, "dawn": true, "rained": true, "late": -0.5, "travelH": 0.5, "title": "和溫書瑀去合歡山北峰", "who": "heroine_05", "back": "回到臺北。"}
+PASS [HEHUAN_NEG_rain] 下雨：不問「出發」  []
+PASS [HEHUAN_NEG_rain] 下雨：沒有演（第一句「（凌晨四點，往埔里的第一班客運。」沒有出現）
+PASS [HEHUAN_NEG_rain] 一行系統字「下雨了，和溫書瑀去合歡山北峰的行程取消。」  ["下雨了，和溫書瑀去合歡山北峰的行程取消。"]
+  [ 155.1s] [HEHUAN_NEG_rain] 取消以後遊戲判：{"key": "2029-09-15", "hour": 3.26, "offer": {"t": "合歡山北峰", "hint": "04:00 出發・22:00 回到臺北", "dim": false, "why": ""}, "days": ["2029-09-16", "2029-09-22"], "WENT": null, "whyNot": ""}
+PASS [HEHUAN_NEG_rain] 手機「朋友」→ 學姊那一列「約」按得到
+    [選項] 念書…｜吃飯…｜喝咖啡、喝茶…｜散步…｜運動…｜出去玩…｜合歡山北峰｜算了 → 算了
+PASS [HEHUAN_NEG_rain] 之後還可以再約：清單裡還有「合歡山北峰」、沒有 SIS_HEHUAN_WENT  {"清單": {"opts": ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "合歡山北峰", "算了"], "subs": [["去 2:30 AM 念書", "去總圖一起念書", "去法圖一起念書", "去 afar café 念書"], ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去泰米村食吃飯"], ["去 2:30 AM 坐坐", "去一盞喝茶", "去 afar café 坐坐"], ["去溫州街散步", "去映月湖走走"], ["去新體育館打羽球", "去椰影大道晨跑"], null, null, null], "how": "direct"}, "WENT": null, "offer": {"t": "合歡山北峰", "hint": "04:00 出發・22:00 回到臺北", "dim": false, "why": ""}}
+PASS [HEHUAN_NEG_rain] 畫面上沒有 {name}／undefined／NaN／TODO／PLACEHOLDER（台詞 2、選項、toast、字幕、手機 0 段）  []
+PASS [HEHUAN_NEG_rain] 沒有 JS 例外（pageerror）  []
+PASS [HEHUAN_NEG_rain] 演完以後推得動（搖桿 ≥0.3 m；campus 2029-10-10 23.02）  {"moved": 10.75, "idle": {"key": "2029-10-10", "hour": 23.02, "zone": "campus", "weather": "clear", "me": {"x": -34, "z": 1.75, "busy": false, "seat": false}, "depth": 0, "by": [], "dlg": false, "ev": null, "adv": false, "paused": false, "home": false, "pg": true, "pgBusy": false, "next": "2029-12-14 15.08", "pend": ["p:kexin｜……地點你選。我那天下午有空。"], "outs": [], "phone": false, "top": "c", "lastSay": {"t": "約好了：9/15（六） 04:00，合歡山北峰。", "who": "", "h": 15.011}, "cons": []}}
+  [ 181.9s] [HEHUAN_NEG_rain] 走的路：手機「朋友」→ 學姊「約」→ 清單照字選「合歡山北峰」→ 選日子 → 她答應；約好 → 捷徑：存檔改到出發那天 03:00、下雨 → 站著不動；取消以後再打開手機「朋友」→ 學姊「約」→ 看清單 → 算了
+  [HEHUAN_NEG_rain] 選過的選單：[[["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "合歡山北峰", "算了"], "合歡山北峰", "2029-09-11", 15.011], [["9/15（六）", "9/16（日）", "算了"], "9/15（六）", "2029-09-11", 15.011], [["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "合歡山北峰", "算了"], "算了", "2029-09-15", 3.257]]
+  [HEHUAN_NEG_rain] 台詞（2 句）：
+    [說] 1456 15.011｜heroine_05｜好。四點的客運。
+    [說] 1456 15.011｜narr｜約好了：9/15（六） 04:00，合歡山北峰。
+==== HEHUAN_NEG 結束（154 秒）====
+==== VOICE ====
+PASS [VOICE_new] 資料：十則、第九則兩個回覆（字和單元一樣：["（回語音）「恭喜。開門那個聲音我聽到了。」", "「恭喜！」"]）  {"n": 10, "rep": [{"t": "（回語音）「恭喜。開門那個聲音我聽到了。」", "say": ["你下載了", "……你是第四十一個"], "fx": {"love": 1}}, {"t": "「恭喜！」", "say": ["嗯。謝謝"], "fx": {"friend": 1}}]}
+PASS [VOICE_new] 資料：第 N 天→D0＋N−1（探針從字算）＝AA811.ZQ.off  {"字算": [4, 7, 10, 13, 18, 22, 26, 29, 33, 36], "code": [4, 7, 10, 13, 18, 22, 26, 29, 33, 36]}
+  [前置／捷徑] [VOICE_new]【前置／捷徑】讀檔（GAME.applySave）到 2029-09-10 21.00 校園（畢業後最小存檔）；子晴 FIRST_MET、rel {"fam": 60, "trust": 45, "comf": 40}、有聯絡方式；【捷徑】看完《m2909a》散場那一段跳過：叫遊戲的 MOVIES.later（with.later 照稿排三則）＋MOVIES.markSeen；；讀完馬上打開手機（等同按手機鍵）；前置結果 {"notes": [], "later": true, "stage": {"heroine_04": "CLOSE_FRIEND"}, "dating": ["dating_kexin"]}；讀完 {"key": "2029-09-10", "hour": 21.011, "weather": "clear"}
+PASS [VOICE_new] 前置：電影那三則排進手機（mv745_m2909a_heroine_04_0～2）、還沒有語音十則  [{"tag": "mv745_m2909a_heroine_04_0", "day": 1456, "h": 22, "n": 1, "text": "🎤 第一天。今天午餐的便當沒有附筷子，我用兩枝筆吃完", "th": "p:heroine_04", "from": "heroine_04", "ask": null}, {"tag": "mv745_m2909a_heroine_04_1", "day": 1457, "h": 22, "n": 1, "text": "🎤 第二天。老闆說下個月要上架。我覺得來不及", "th": "p:heroine_04", "from": "heroine_04", "ask": null}, {"tag": "mv745_m2909a_heroine_04_2", "day": 1458, "h": 22, "n": 1, "text": "🎤 第三天。你都沒有回。算了，這本來就不用回", "th": "p:heroine_04", "from": "heroine_04", "ask": {"id": null, "opts": ["（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」", "（不回，照她說的。）"], "fx": [null, null]}}]
+PASS [VOICE_new] 前置：第三天那則的回覆選項有「（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」」  ["（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」", "（不回，照她說的。）"]
+    [手機] 列表 → 點「p:heroine_04」（那一段 1 則）
+    [手機] 列表 → 點「p:heroine_04」（那一段 2 則）
+    [手機] 列表 → 點「p:heroine_04」（那一段 3 則）
+    [手機回覆] p:heroine_04：（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」｜（不回，照她說的。） → （回一則語音）「第三天。來不及的話，哪一塊可以先砍？」（照字選）
+PASS [VOICE_new] D0＝「第一天」那則送到的那一天（ZQ_VOICE_D0 記了）  {"D0": 1456, "m0": {"tag": "mv745_m2909a_heroine_04_0", "th": "p:heroine_04", "from": "heroine_04", "text": "🎤 第一天。今天午餐的便當沒有附筷子，我用兩枝筆吃完", "day": 1456, "h": 22, "ask": null, "ans": null}}
+PASS [VOICE_new] 照玩家在手機回了第三天那則「（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」」  [["p:heroine_04", "（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」", "2029-09-13"]]
+PASS [VOICE_new] 回了以後：ZQ_VOICE_MEMO、ZQ_VOICE_Q＝D0  {"ZQ_VOICE_D0": 1456, "ZQ_VOICE_Q": 1456, "ZQ_VOICE_MEMO": 1458}
+PASS [VOICE_new] 一次排好十則（tag zqvoice_1～10、照順序）  ["zqvoice_1", "zqvoice_2", "zqvoice_3", "zqvoice_4", "zqvoice_5", "zqvoice_6", "zqvoice_7", "zqvoice_8", "zqvoice_9", "zqvoice_10"]
+PASS [VOICE_new] 十則的日子＝D0＋N−1（不數了＝D0＋36）：[4, 7, 10, 13, 18, 22, 26, 29, 33, 36]  [4, 7, 10, 13, 18, 22, 26, 29, 33, 36]
+PASS [VOICE_new] 時間都在 22:00～23:40  [22.666666666666668, 23.25, 22.416666666666668, 23.5, 22.833333333333332, 23.083333333333332, 22.583333333333332, 23.333333333333332, 22.75, 23.666666666666668]
+    [手機] 列表 → 點「p:heroine_04」（那一段 8 則）
+    [手機] 列表 → 點「p:heroine_04」（那一段 9 則）
+    [手機] 列表 → 點「p:heroine_04」（那一段 10 則）
+    [手機] 列表 → 點「p:heroine_04」（那一段 11 則）
+    [手機] 列表 → 點「p:heroine_04」（那一段 12 則）
+    [手機] 列表 → 點「p:heroine_04」（那一段 13 則）
+    [手機] 列表 → 點「p:heroine_04」（那一段 14 則）
+    [手機] 列表 → 待回覆「p:kexin」（可昕 ……地點你選。我那天下午有空。 21:00 2 待回覆）
+    [手機回覆] p:kexin：摩天輪。｜木柵大學山下，我們的店。｜河堤。 → 摩天輪。（別人的待回覆：選第一個）
+    [手機] 列表 → 點「p:heroine_04」（那一段 15 則）
+    [手機] 列表 → 點「p:heroine_04」（那一段 16 則）
+    [手機回覆] p:heroine_04：（回語音）「恭喜。開門那個聲音我聽到了。」｜「恭喜！」 → （回語音）「恭喜。開門那個聲音我聽到了。」（照字選）
+    [選項] 出發：週年：摩天輪｜晚一點（20 分鐘後再提醒）｜不去了 → 出發：週年：摩天輪
+    [選項] 「好。」｜「寫什麼？」｜（把卡片收進外套口袋） → 「好。」
+PASS [VOICE_new] 十則都送到（10）、字照資料、照順序  [["zqvoice_1", "🎤 第五天。音效砍掉了。"], ["zqvoice_2", "🎤 第八天。測試的人說主"], ["zqvoice_3", "🎤 第十一天。我在公司睡"], ["zqvoice_4", "🎤 第十四天。老闆說延一"], ["zqvoice_5", "🎤 第十九天。今天修了四"], ["zqvoice_6", "🎤 第二十三天。音效加回"], ["zqvoice_7", "🎤 第二十七天。明天送審"], ["zqvoice_8", "🎤 第三十天。審過了。下"], ["zqvoice_9", "🎤 第三十四天。上架了。"], ["zqvoice_10", "🎤 不數了。之後我傳語音"]]
+PASS [VOICE_new] 送到的日子＝D0＋N−1（[4, 7, 10, 13, 18, 22, 26, 29, 33, 36]）、22:00～23:40  [[4, 22.67], [7, 23.25], [10, 22.42], [13, 23.5], [18, 22.83], [22, 23.08], [26, 22.58], [29, 23.33], [33, 22.75], [36, 23.67]]
+PASS [VOICE_new] 私訊（p:heroine_04、她傳的）  ["heroine_04", "heroine_04", "heroine_04", "heroine_04", "heroine_04", "heroine_04", "heroine_04", "heroine_04", "heroine_04", "heroine_04"]
+PASS [VOICE_new] 只有第九則可以回（ask zqvoice_9）、兩個選項照資料  [["zqvoice_9", {"id": "zqvoice_9", "opts": ["（回語音）「恭喜。開門那個聲音我聽到了。」", "「恭喜！」"]}]]
+PASS [VOICE_new] 照玩家在手機回第九則「（回語音）「恭喜。開門那個聲音我聽到了。」」  [["p:heroine_04", "（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」", "2029-09-13"], ["p:kexin", "摩天輪。", "2029-10-10"], ["p:heroine_04", "（回語音）「恭喜。開門那個聲音我聽到了。」", "2029-10-14"]]
+PASS [VOICE_new] 第九則回了：貼出「（回語音）「恭喜。開門那個聲音我聽到了。」」、她回 ["你下載了", "……你是第四十一個"]（照資料）  {"我": ["（回語音）「恭喜。開門那個聲音我聽到了。」"], "她": ["你下載了", "……你是第四十一個"], "after": [["player", "（回語音）「恭喜。開門那個聲音我聽到了。"], ["heroine_04", "你下載了"], ["heroine_04", "……你是第四十一個"], ["heroine_04", "🎤 不數了。之後我傳語音，就是普通的語音"]]}
+PASS [VOICE_new] 回完以後子晴那一段沒有待回覆（其他九則本來就不能回）  []
+PASS [VOICE_new] 手機畫面上子晴那一段看得到十則（「播放」＝看得到那一則：語音寫成字，沒有播放鍵）  {"沒看到": []}
+  [ 346.9s] [VOICE_new] 對照：子晴那一段的 audio／播放鍵數量＝0（程式：語音寫成字；規格寫「播放」，遊戲沒有播放鍵）
+PASS [VOICE_new] 畫面上沒有 {name}／undefined／NaN／TODO／PLACEHOLDER（台詞 9、選項、toast、字幕、手機 20 段）  []
+PASS [VOICE_new] 沒有 JS 例外（pageerror）  []
+PASS [VOICE_new] 演完以後沒有卡住（在家：60 秒內時間有往下走、或有下一段對話／選單／手機）  {"key": "2029-10-17", "hour": 23.67, "zone": "campus", "weather": "clear", "me": {"x": -34, "z": 12.5, "busy": true, "seat": false}, "depth": 1, "by": ["S.loop (http://127.0.0.1:8802/src/home3d.js?v=9.10.25:522:87)"], "dlg": false, "ev": null, "adv": true, "paused": false, "home": true, "pg": true, "pgBusy": false, "next": "2029-12-14 15.08", "pend": [], "outs": [], "phone": false, "top": "choices", "lastSay": {"t": "回來了。鞋子不要亂放。", "who": "媽媽", "h": 21.503}, "cons": []}
+  [ 347.8s] [VOICE_new] 走的路：站著不動：畢業後篇自己跳到每一則訊息、手機自己打開列表 → 點子晴那一段看 → 第三天那則照字回「（回一則語音）「第三天。來不及的話，哪一塊可以先砍？」」；之後站著不動：十則照時間送到（手機自己打開列表 → 點子晴那一段看）→ 第九則照字回「（回語音）「恭喜。開門那個聲音我聽到了。」」
+  [VOICE_new] 選過的選單：[[["出發：週年：摩天輪", "晚一點（20 分鐘後再提醒）", "不去了"], "出發：週年：摩天輪", "2029-10-17", 17.584], [["「好。」", "「寫什麼？」", "（把卡片收進外套口袋）"], "「好。」", "2029-10-17", 18.5]]
+  [VOICE_new] 台詞（9 句）：
+    [說] 1492 18.5｜kexin｜五年。我們認識的時候，你還在經濟系。
+    [說] 1492 18.5｜kexin｜我十二月放榜。你八月考。……我們兩個，同一年開始。
+    [說] 1492 18.5｜kexin｜你人來了就好。
+    [說] 1492 18.5｜narr｜（她把卡片推過來）
+    [說] 1492 18.5｜kexin｜（把卡片翻到第一頁）第五年。……明年的卡片，換你寫。
+    [說] 1492 18.5｜kexin｜你說的喔。……錯字我會圈起來。
+    [說] 1492 18.5｜narr｜後面幾頁，她說：『回去再看。』
+    [說] 1492 21.503｜narr｜（家。21:30。）
+    [說] 1492 21.503｜媽媽｜回來了。鞋子不要亂放。
+==== VOICE 結束（166 秒）====
+==== HEHUAN_A ====
+  [前置／捷徑] [HEHUAN_A]【前置／捷徑】讀檔（GAME.applySave）到 2029-09-11 15.00 校園（畢業後最小存檔：GRADUATED、GRAD_DONE、PG.done.grad）；學姊 FIRST_MET、rel {"fam": 65, "trust": 50, "comf": 45, "npcRom": 10}、有聯絡方式（沒在交往）；SIS_HEHUAN＝2029-01-20（《m2901b》學姊那一題答應）；候選日 2029-09-11；讀完馬上打開手機「朋友」（等同按手機鍵）；前置結果 {"notes": [], "stage": {"heroine_05": "CLOSE_FRIEND"}, "dating": ["dating_kexin"]}；讀完 {"key": "2029-09-11", "hour": 15.011, "weather": "clear"}；狀態 {"key": "2029-09-11", "hour": 15.01, "weather": "clear", "pg": true, "SIS_HEHUAN": 1222, "WENT": null, "dating": false, "whyNot": "", "canInv": true, "contact": true, "pres": {"here": true, "kind": null}, "stage": "CLOSE_FRIEND", "offer": {"t": "合歡山北峰", "hint": "04:00 出發・22:00 回到臺北", "dim": false, "why": ""}, "days": ["2029-09-15", "2029-09-16"], "cand": [{"key": "2029-09-15", "busy": ""}, {"key": "2029-09-16", "busy": ""}], "exp": [{"d": 1460, "key": "2029-09-15", "wd": 6, "label": "9/15（六）"}, {"d": 1461, "key": "2029-09-16", "wd": 0, "label": "9/16（日）"}], "trips": [], "rel": {"npcRom": 10, "fam": 65, "trust": 50, "comf": 45}}
+PASS [HEHUAN_A] 前置：找到學姊可以約、「合歡山北峰」能約（畢業後篇、沒在交往）的日子  []
+  [ 367.0s] [HEHUAN_A] 用 2029-09-11；探針照日曆算「應該列的日子」（7 天內、6/15～10/31、週六日）＝["2029-09-15", "2029-09-16"]；遊戲 hhDays＝["2029-09-15", "2029-09-16"]；候選＝[{"key": "2029-09-15", "busy": ""}, {"key": "2029-09-16", "busy": ""}]
+PASS [HEHUAN_A] 手機「朋友」→ 學姊那一列「約」按得到
+    [選項] 念書…｜吃飯…｜喝咖啡、喝茶…｜散步…｜運動…｜出去玩…｜合歡山北峰｜算了 → 合歡山北峰
+    [選項] 9/15（六）｜9/16（日）｜算了 → 9/15（六）
+PASS [HEHUAN_A] 約的清單有「合歡山北峰」（direct）  {"opts": ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "合歡山北峰", "算了"], "how": "direct"}
+PASS [HEHUAN_A] 「合歡山北峰」的小字＝「04:00 出發・22:00 回到臺北」  "04:00 出發・22:00 回到臺北"
+PASS [HEHUAN_A] 選日子的小字都是「04:00 出發・22:00 回到臺北」  ["04:00 出發・22:00 回到臺北", "04:00 出發・22:00 回到臺北", ""]
+PASS [HEHUAN_A] 遊戲列的日子（hhDays）都在探針照日曆算的週末裡  {"game": ["2029-09-15", "2029-09-16"], "exp": ["2029-09-15", "2029-09-16"]}
+PASS [HEHUAN_A] 選日子：只列 7 天內 6/15～10/31 的週六、週日（2029-09-15、2029-09-16）＋算了  {"畫面": ["9/15（六）", "9/16（日）", "算了"], "應該": ["9/15（六）", "9/16（日）", "算了"]}
+PASS [HEHUAN_A] 她答應「好。四點的客運。」（手機：說話人寫「（手機）」）  [["溫書瑀（手機）", "好。四點的客運。"], ["", "約好了：9/15（六） 04:00，合歡山北峰。"]]
+PASS [HEHUAN_A] 她答應那一句寫進手機和她的對話串  ["好。四點的客運。"]
+PASS [HEHUAN_A] 排成出遊：2029-09-15 04:00、noRain、dawn、late −0.5、travelH 0.5、回到臺北  {"id": "sis_hehuan_1460", "day": 1460, "key": "2029-09-15", "h": 4, "state": "planned", "noRain": true, "dawn": true, "rained": false, "late": -0.5, "travelH": 0.5, "title": "和溫書瑀去合歡山北峰", "who": "heroine_05", "back": "回到臺北。"}
+PASS [HEHUAN_A] 系統字「約好了：9/15（六） 04:00，合歡山北峰。」  ["好。四點的客運。", "約好了：9/15（六） 04:00，合歡山北峰。"]
+    [選項] 出發：和溫書瑀去合歡山北峰｜不去了 → 出發：和溫書瑀去合歡山北峰
+    [選項] 「泡麵。」｜「水，還有一件外套。」｜「沒什麼。」 → 「水，還有一件外套。」
+    [選項] 「下一座要去哪？」｜「恭喜妳寫完。」｜（不說話，跟她一起看雲） → 「恭喜妳寫完。」
+PASS [HEHUAN_A] 出遊演完（state done，沒有被記成 missed）  {"id": "sis_hehuan_1460", "day": 1460, "key": "2029-09-15", "h": 4, "state": "done", "noRain": true, "dawn": true, "rained": false, "late": -0.5, "travelH": 0.5, "title": "和溫書瑀去合歡山北峰", "who": "heroine_05", "back": "回到臺北。"}
+PASS [HEHUAN_A] 出發那天 03:15～03:30 跳出「出發：…合歡山北峰」  {"opts": ["出發：和溫書瑀去合歡山北峰", "不去了"], "hints": ["04:00", ""], "d": 1460, "h": 3.256}
+PASS [HEHUAN_A] friend版：句子照資料的順序（17 句）、說話人對  {"缺": [], "說話人錯": []}
+PASS [HEHUAN_A] 另一版的句子一句都沒有  []
+PASS [HEHUAN_A] 演出來的每一句都在資料裡（沒有多的）  []
+PASS [HEHUAN_A] 兩組選項照資料（「泡麵。」｜「水，還有一件外套。」｜「沒什麼。」 ／ 「下一座要去哪？」｜「恭喜妳寫完。」｜（不說話，跟她一起看雲））  [["出發：和溫書瑀去合歡山北峰", "不去了"], ["「泡麵。」", "「水，還有一件外套。」", "「沒什麼。」"], ["「下一座要去哪？」", "「恭喜妳寫完。」", "（不說話，跟她一起看雲）"]]
+PASS [HEHUAN_A] 選了 ["「水，還有一件外套。」", "「恭喜妳寫完。」"]  [[["「泡麵。」", "「水，還有一件外套。」", "「沒什麼。」"], 1], [["「下一座要去哪？」", "「恭喜妳寫完。」", "（不說話，跟她一起看雲）"], 1]]
+PASS [HEHUAN_A] 22:00「回到臺北。」（出發那天）  [{"k": "cap", "d": 1460, "h": 22, "t": "回到臺北。"}]
+PASS [HEHUAN_A] 選項的效果（SOCIAL.adjust 加總）：戀愛 1、熟悉 3（單元第 4 節）  {"sum": {"npcRom": 1, "fam": 3, "trust": 3, "comf": 3}, "adj": [{"fam": 1, "trust": 1, "comf": 1, "npcRom": 1}, {"fam": 2, "trust": 2, "comf": 2}]}
+PASS [HEHUAN_A] 演完：SIS_HEHUAN_WENT、記一次校外約會（G.trips 合歡山北峰）、約的清單不再有它（hhOffer null）  {"WENT": true, "trips": [{"locs": ["合歡山北峰"], "counted": true, "day": 1460}], "offer": null}
+PASS [HEHUAN_A] 畫面上沒有 {name}／undefined／NaN／TODO／PLACEHOLDER（台詞 19、選項、toast、字幕、手機 0 段）  []
+PASS [HEHUAN_A] 沒有 JS 例外（pageerror）  []
+FAIL [HEHUAN_A] 演完以後推得動（搖桿 ≥0.3 m；campus 2029-10-10 23.00）  {"moved": 0.0, "idle": {"key": "2029-10-10", "hour": 23, "zone": "campus", "weather": "clear", "me": {"x": -34, "z": 12.5, "busy": true, "seat": false}, "depth": 1, "by": ["S.loop (http://127.0.0.1:8802/src/home3d.js?v=9.10.25:522:87)"], "dlg": false, "ev": null, "adv": true, "paused": false, "home": true, "pg": true, "pgBusy": false, "next": "2029-12-14 15.08", "pend": ["p:kexin｜……地點你選。我那天下午有空。"], "outs": [], "phone": false, "top": "choices", "lastSay": {"t": "回來了。鞋子不要亂放。", "who": "媽媽", "h": 22.502}, "cons": []}}
+  [ 441.9s] [HEHUAN_A] 走的路：手機「朋友」→ 學姊「約」→ 清單照字選「合歡山北峰」→ 選日子 → 她答應；之後站著不動：畢業後篇自己跳到出發那天 03:15 → 選單「出發：…合歡山北峰」→ 出發 → 2D → 選項照字（「水，還有一件外套。」／「恭喜妳寫完。」）
+  [HEHUAN_A] 選過的選單：[[["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "合歡山北峰", "算了"], "合歡山北峰", "2029-09-11", 15.011], [["9/15（六）", "9/16（日）", "算了"], "9/15（六）", "2029-09-11", 15.011], [["出發：和溫書瑀去合歡山北峰", "不去了"], "出發：和溫書瑀去合歡山北峰", "2029-09-15", 3.256], [["「泡麵。」", "「水，還有一件外套。」", "「沒什麼。」"], "「水，還有一件外套。」", "2029-09-15", 4], [["「下一座要去哪？」", "「恭喜妳寫完。」", "（不說話，跟她一起看雲）"], "「恭喜妳寫完。」", "2029-09-15", 4]]
+  [HEHUAN_A] 台詞（19 句）：
+    [說] 1456 15.011｜heroine_05｜好。四點的客運。
+    [說] 1456 15.011｜narr｜約好了：9/15（六） 04:00，合歡山北峰。
+    [說] 1460 4｜narr｜（凌晨四點，往埔里的第一班客運。她一上車就睡著了，計畫本夾在手裡。）
+    [說] 1460 4｜narr｜（埔里轉接駁車。九點，你們在小風口下車。山上只有十二度。）
+    [說] 1460 4｜heroine_05｜從這裡上去，兩公里。
+    [說] 1460 4｜heroine_05｜走慢一點沒關係。我不趕。
+    [說] 1460 4｜narr｜（半路休息。她從背包拿出兩個飯糰、一瓶熱水，還有一包你沒看過的巧克力。）
+    [說] 1460 4｜heroine_05｜你背包裡是什麼？
+    [說] 1460 4｜heroine_05｜外套借我。我的太薄了。
+    [說] 1460 4｜narr｜（十一點，北峰頂。三角點旁邊有人在排隊拍照。往下看，雲在你們下面。）
+    [說] 1460 4｜heroine_05｜寫論文的時候，我每天都想到這裡。
+    [說] 1460 4｜heroine_05｜不是想爬上來。是想站在這裡的時候，後面已經沒有東西在等我寫。
+    [說] 1460 4｜heroine_05｜幫我拍一張。後面要有雲。
+    [說] 1460 4｜narr｜（你拍了三張。她挑了第二張。）
+    [說] 1460 4｜heroine_05｜嗯。口試也過了。
+    [說] 1460 4｜heroine_05｜剩下的只有印。印完那天，我會請你吃飯。
+    [說] 1460 4｜narr｜（下山的時候起霧了。回到臺北，已經晚上十點。）
+    [說] 1460 4｜narr｜（回程的客運上，她靠著窗睡著了。計畫本還是夾在手裡。）
+    [說] 1460 4｜heroine_05｜謝謝你來。今天的照片，我會印一張夾在論文那一疊旁邊。
+==== HEHUAN_A 結束（94 秒）====
+==== HEHUAN_B ====
+  [前置／捷徑] [HEHUAN_B]【前置／捷徑】讀檔（GAME.applySave）到 2029-09-11 15.00 校園（畢業後最小存檔：GRADUATED、GRAD_DONE、PG.done.grad）；學姊 FIRST_MET、rel {"fam": 65, "trust": 50, "comf": 45, "npcRom": 60, "rom": 40}、有聯絡方式、ROM.start（交往中）；SIS_HEHUAN＝2029-01-20（《m2901b》學姊那一題答應）；候選日 2029-09-11；讀完馬上打開手機「朋友」（等同按手機鍵）；前置結果 {"notes": [], "stage": {"heroine_05": "RELATIONSHIP"}, "dating": ["dating_kexin", "dating_heroine_05"]}；讀完 {"key": "2029-09-11", "hour": 15.012, "weather": "clear"}；狀態 {"key": "2029-09-11", "hour": 15.01, "weather": "clear", "pg": true, "SIS_HEHUAN": 1222, "WENT": null, "dating": true, "whyNot": "", "canInv": true, "contact": true, "pres": {"here": true, "kind": null}, "stage": "RELATIONSHIP", "offer": {"t": "合歡山北峰", "hint": "04:00 出發・22:00 回到臺北", "dim": false, "why": ""}, "days": ["2029-09-15", "2029-09-16"], "cand": [{"key": "2029-09-15", "busy": ""}, {"key": "2029-09-16", "busy": ""}], "exp": [{"d": 1460, "key": "2029-09-15", "wd": 6, "label": "9/15（六）"}, {"d": 1461, "key": "2029-09-16", "wd": 0, "label": "9/16（日）"}], "trips": [], "rel": {"npcRom": 60, "fam": 65, "trust": 50, "comf": 45}}
+PASS [HEHUAN_B] 前置：找到學姊可以約、「合歡山北峰」能約（畢業後篇、交往中）的日子  []
+  [ 459.6s] [HEHUAN_B] 用 2029-09-11；探針照日曆算「應該列的日子」（7 天內、6/15～10/31、週六日）＝["2029-09-15", "2029-09-16"]；遊戲 hhDays＝["2029-09-15", "2029-09-16"]；候選＝[{"key": "2029-09-15", "busy": ""}, {"key": "2029-09-16", "busy": ""}]
+PASS [HEHUAN_B] 手機「朋友」→ 學姊那一列「約」按得到
+    [選項] 念書…｜吃飯…｜喝咖啡、喝茶…｜散步…｜運動…｜出去玩…｜合歡山北峰｜算了 → 合歡山北峰
+    [選項] 9/15（六）｜9/16（日）｜算了 → 9/15（六）
+PASS [HEHUAN_B] 約的清單有「合歡山北峰」（direct）  {"opts": ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "合歡山北峰", "算了"], "how": "direct"}
+PASS [HEHUAN_B] 「合歡山北峰」的小字＝「04:00 出發・22:00 回到臺北」  "04:00 出發・22:00 回到臺北"
+PASS [HEHUAN_B] 選日子的小字都是「04:00 出發・22:00 回到臺北」  ["04:00 出發・22:00 回到臺北", "04:00 出發・22:00 回到臺北", ""]
+PASS [HEHUAN_B] 遊戲列的日子（hhDays）都在探針照日曆算的週末裡  {"game": ["2029-09-15", "2029-09-16"], "exp": ["2029-09-15", "2029-09-16"]}
+PASS [HEHUAN_B] 選日子：只列 7 天內 6/15～10/31 的週六、週日（2029-09-15、2029-09-16）＋算了  {"畫面": ["9/15（六）", "9/16（日）", "算了"], "應該": ["9/15（六）", "9/16（日）", "算了"]}
+PASS [HEHUAN_B] 她答應「好。四點的客運。」（手機：說話人寫「（手機）」）  [["溫書瑀（手機）", "好。四點的客運。"], ["", "約好了：9/15（六） 04:00，合歡山北峰。"]]
+PASS [HEHUAN_B] 她答應那一句寫進手機和她的對話串  ["好。四點的客運。"]
+PASS [HEHUAN_B] 排成出遊：2029-09-15 04:00、noRain、dawn、late −0.5、travelH 0.5、回到臺北  {"id": "sis_hehuan_1460", "day": 1460, "key": "2029-09-15", "h": 4, "state": "planned", "noRain": true, "dawn": true, "rained": false, "late": -0.5, "travelH": 0.5, "title": "和溫書瑀去合歡山北峰", "who": "heroine_05", "back": "回到臺北。"}
+PASS [HEHUAN_B] 系統字「約好了：9/15（六） 04:00，合歡山北峰。」  ["好。四點的客運。", "約好了：9/15（六） 04:00，合歡山北峰。"]
+    [選項] 出發：和溫書瑀去合歡山北峰｜不去了 → 出發：和溫書瑀去合歡山北峰
+    [選項] 「泡麵。」｜「水，還有一件外套。」｜「沒什麼。」 → 「泡麵。」
+    [選項] 「下一座要去哪？」｜「恭喜妳寫完。」｜（不說話，跟她一起看雲） → （不說話，跟她一起看雲）
+PASS [HEHUAN_B] 出遊演完（state done，沒有被記成 missed）  {"id": "sis_hehuan_1460", "day": 1460, "key": "2029-09-15", "h": 4, "state": "done", "noRain": true, "dawn": true, "rained": false, "late": -0.5, "travelH": 0.5, "title": "和溫書瑀去合歡山北峰", "who": "heroine_05", "back": "回到臺北。"}
+PASS [HEHUAN_B] 出發那天 03:15～03:30 跳出「出發：…合歡山北峰」  {"opts": ["出發：和溫書瑀去合歡山北峰", "不去了"], "hints": ["04:00", ""], "d": 1460, "h": 3.256}
+PASS [HEHUAN_B] dating版：句子照資料的順序（18 句）、說話人對  {"缺": [], "說話人錯": []}
+PASS [HEHUAN_B] 另一版的句子一句都沒有  []
+PASS [HEHUAN_B] 演出來的每一句都在資料裡（沒有多的）  []
+PASS [HEHUAN_B] 兩組選項照資料（「泡麵。」｜「水，還有一件外套。」｜「沒什麼。」 ／ 「下一座要去哪？」｜「恭喜妳寫完。」｜（不說話，跟她一起看雲））  [["出發：和溫書瑀去合歡山北峰", "不去了"], ["「泡麵。」", "「水，還有一件外套。」", "「沒什麼。」"], ["「下一座要去哪？」", "「恭喜妳寫完。」", "（不說話，跟她一起看雲）"]]
+PASS [HEHUAN_B] 選了 ["「泡麵。」", "（不說話，跟她一起看雲）"]  [[["「泡麵。」", "「水，還有一件外套。」", "「沒什麼。」"], 0], [["「下一座要去哪？」", "「恭喜妳寫完。」", "（不說話，跟她一起看雲）"], 2]]
+PASS [HEHUAN_B] 22:00「回到臺北。」（出發那天）  [{"k": "cap", "d": 1460, "h": 22, "t": "回到臺北。"}]
+PASS [HEHUAN_B] 選項的效果（SOCIAL.adjust 加總）：戀愛 2、熟悉 0（單元第 4 節）  {"sum": {"npcRom": 2, "fam": 0, "trust": 0, "comf": 0}, "adj": [{"npcRom": 2}]}
+PASS [HEHUAN_B] 演完：SIS_HEHUAN_WENT、記一次校外約會（G.trips 合歡山北峰）、約的清單不再有它（hhOffer null）  {"WENT": true, "trips": [{"locs": ["合歡山北峰"], "counted": true, "day": 1460}], "offer": null}
+  [ 502.7s] [HEHUAN_B] 交往中：出發選單的字＝["出發：和溫書瑀去合歡山北峰", "不去了"]（OUT.tt：學姊→書瑀）
+PASS [HEHUAN_B] 畫面上沒有 {name}／undefined／NaN／TODO／PLACEHOLDER（台詞 20、選項、toast、字幕、手機 0 段）  []
+PASS [HEHUAN_B] 沒有 JS 例外（pageerror）  []
+  [ 523.2s] [HEHUAN_B] 演完以後下一段劇情接著開始：不推搖桿，記狀態 {"key": "2029-10-06", "hour": 17.75, "zone": "campus", "weather": "clear", "me": {"x": -34, "z": 12.5, "busy": true, "seat": false}, "depth": 1, "by": ["S.loop (http://127.0.0.1:8802/src/home3d.js?v=9.10.25:522:87)"], "dlg": false, "ev": null, "adv": true, "paused": false, "home": true, "pg": true, "pgBusy": false, "next": "2029-11-03 17.75", "pend": [], "outs": ["pg_date_heroine_05_2029-10@2029-10-06 18.5"], "phone": false, "top": "choices", "lastSay": {"t": "回來了。鞋子不要亂放。", "who": "媽媽", "h": 22.5}, "cons": []}
+  [ 523.2s] [HEHUAN_B] 走的路：手機「朋友」→ 學姊「約」→ 清單照字選「合歡山北峰」→ 選日子 → 她答應；之後站著不動：畢業後篇自己跳到出發那天 03:15 → 選單「出發：…合歡山北峰」→ 出發 → 2D → 選項照字（「泡麵。」／（不說話，跟她一起看雲））
+  [HEHUAN_B] 選過的選單：[[["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "合歡山北峰", "算了"], "合歡山北峰", "2029-09-11", 15.012], [["9/15（六）", "9/16（日）", "算了"], "9/15（六）", "2029-09-11", 15.012], [["出發：和溫書瑀去合歡山北峰", "不去了"], "出發：和溫書瑀去合歡山北峰", "2029-09-15", 3.256], [["「泡麵。」", "「水，還有一件外套。」", "「沒什麼。」"], "「泡麵。」", "2029-09-15", 4], [["「下一座要去哪？」", "「恭喜妳寫完。」", "（不說話，跟她一起看雲）"], "（不說話，跟她一起看雲）", "2029-09-15", 4]]
+  [HEHUAN_B] 台詞（20 句）：
+    [說] 1456 15.012｜heroine_05｜好。四點的客運。
+    [說] 1456 15.012｜narr｜約好了：9/15（六） 04:00，合歡山北峰。
+    [說] 1460 4｜narr｜（凌晨四點，往埔里的第一班客運。她一上車就睡著了，計畫本夾在手裡。）
+    [說] 1460 4｜narr｜（埔里轉接駁車。九點，你們在小風口下車。山上只有十二度。）
+    [說] 1460 4｜heroine_05｜從這裡上去，兩公里。
+    [說] 1460 4｜heroine_05｜走慢一點沒關係。我不趕。
+    [說] 1460 4｜narr｜（半路休息。她從背包拿出兩個飯糰、一瓶熱水，還有一包你沒看過的巧克力。）
+    [說] 1460 4｜heroine_05｜你背包裡是什麼？
+    [說] 1460 4｜heroine_05｜我說不要帶。
+    [說] 1460 4｜narr｜（她倒了半瓶熱水進去，蓋上蓋子，等了三分鐘。）
+    [說] 1460 4｜heroine_05｜……分我一半。
+    [說] 1460 4｜narr｜（十一點，北峰頂。三角點旁邊有人在排隊拍照。往下看，雲在你們下面。）
+    [說] 1460 4｜heroine_05｜寫論文的時候，我每天都想到這裡。
+    [說] 1460 4｜heroine_05｜不是想爬上來。是想站在這裡的時候，後面已經沒有東西在等我寫。
+    [說] 1460 4｜heroine_05｜你站過來一點。
+    [說] 1460 4｜narr｜（她把手機舉高，拍了你們兩個，後面是一整片雲。）
+    [說] 1460 4｜heroine_05｜嗯。這樣就好。
+    [說] 1460 4｜narr｜（下山的時候起霧了。回到臺北，已經晚上十點。）
+    [說] 1460 4｜narr｜（回程的客運上，她又睡著了。這次是靠在你肩膀上。）
+    [說] 1460 4｜heroine_05｜下次換我查車。
+==== HEHUAN_B 結束（81 秒）====
+FAILED: [HEHUAN_A] 演完以後推得動（搖桿 ≥0.3 m；campus 2029-10-10 23.00）
