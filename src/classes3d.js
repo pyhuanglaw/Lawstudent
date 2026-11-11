@@ -210,7 +210,13 @@ const CLS=(function(){
   let sylDone=false; function attachSyllabus(){ if(sylDone||typeof SYLLABUS==='undefined'||typeof COURSES==='undefined') return; sylDone=true;
     for(const c of COURSES.list){ const sid=c.redo||c.id; if(SYLLABUS.courses[sid]) c.syllabus=SYLLABUS.courses[sid]; if(SYLLABUS.pools[sid]) c.pool=SYLLABUS.pools[sid]; if(SYLLABUS.skip[sid]) c.skipLines=SYLLABUS.skip[sid]; if(SYLLABUS.second&&SYLLABUS.second[sid]) c.second=SYLLABUS.second[sid]; } }   /* redo：補修重播那一門的 syllabus（AA_144 X4）*/
   const inScene=id=>{ if(typeof GAME==='undefined'||!GAME.E||!GAME.E.npcs||typeof EVENTS==='undefined'||!EVENTS.npcOf) return true; return !!EVENTS.npcOf(id); };   /* 3D 場景裡：同學要真的在教室才有反應句（使用者 2026-10-15：以安不在教室卻回答老師）；沒有場景（單元測試）照舊 */
-  const reactOK=(r,day,away)=>r&&r.text&&(r.who==='class'||(r.who!=='heroine_06'&&r.who!=='heroine_05'&&typeof CHARACTERS!=='undefined'&&!!CHARACTERS[r.who]&&(day==null||typeof STORY==='undefined'||!STORY.present||STORY.present(r.who,{day}))&&(away||inScene(r.who))));   /* 那學期不在學校的人（presence）沒有反應句；溫書瑀高兩屆，不在祐廷的任何一堂課（AA_110 5-7）*/   /* away：翹課的群組轉述（skipNotes）是群組訊息，說的人不用在玩家身邊（2026-10-19：原本也要 inScene，中午在校園收不到轉述）*/
+  /* 門口上課（2D，S.attend 的 o.door；進不去的房間：萬才館研討室 A、共同教學館 102…）：教室沒有 3D 同學，inScene 一律 false＝有名字的同學的反應句、obs 回話全部被濾掉（CC 11-11 17:11：法律專題研究 w12 阿哲、芯慈、柏翰三句沒播）。
+     改看作息：那個時間的作息是這一堂（STORY.schedEnt：法律系同屆必修＝STORY.classmateClass 帶 cls＝這一堂的 key；日文班照 daily_schedule 的教室）＝在教室，和 3D 教室生出同學用同一套（使用者 2026-10-15「以安不在教室卻回答老師」的規則照舊）。
+     體育課在館內 3D 上（inGym）照舊看 inScene */
+  let doorIt=null;
+  const schedIn=(id,it)=>{ if(typeof STORY==='undefined'||!STORY.schedEnt||typeof GAME==='undefined'||!GAME.G||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return true; let e=null; try{ e=STORY.schedEnt(CHARACTERS[id],GAME.G); }catch(err){ console.warn('CLS.schedIn',err); return false; }
+    if(!e||e.act!=='class') return false; if(e.cls!=null) return e.cls===it.key; const R=it.room||{}; return !!R.zone&&e.zone===R.zone&&(R.room==null||e.room==null||String(e.room)===String(R.room)); };
+  const reactOK=(r,day,away)=>r&&r.text&&(r.who==='class'||(r.who!=='heroine_06'&&r.who!=='heroine_05'&&typeof CHARACTERS!=='undefined'&&!!CHARACTERS[r.who]&&(day==null||typeof STORY==='undefined'||!STORY.present||STORY.present(r.who,{day}))&&(away||(doorIt?schedIn(r.who,doorIt):inScene(r.who)))));   /* 那學期不在學校的人（presence）沒有反應句；溫書瑀高兩屆，不在祐廷的任何一堂課（AA_110 5-7）*/   /* away：翹課的群組轉述（skipNotes）是群組訊息，說的人不用在玩家身邊（2026-10-19：原本也要 inScene，中午在校園收不到轉述）*/
   S.reactLine=function(r){ if(!r) return ''; const act=/^（.*）$/.test(r.text); if(r.who==='class') return act?r.text:'同學：「'+r.text+'」';
     const known=typeof STORY==='undefined'||!STORY.knows||STORY.knows(r.who);   /* BB_170 第 11、32 列：還沒認識的同學（例：開學第一週的沛珊、明軒、以安）顯示「同學」，認識以後才顯示名字 */
     const nm=!known?'同學':((typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(r.who):((CHARACTERS[r.who]||{}).name||'同學')); return act?nm+r.text:nm+'：「'+r.text+'」'; };
@@ -1382,5 +1388,7 @@ const CLS=(function(){
     return {closed:close!=null&&h+hh>close+1e-6,miss:its.map(it=>hhmm(it.t0)+' '+it.c.name),exam:its.filter(it=>it.exam==='final').map(it=>hhmm(it.t0)+' '+it.c.name),hard:S.hardMiss(G,h,hh)}; };   /* hard：HARD_FNS（補考）——呼叫的地方當成不能做 */
   /* 選讀多久；回傳 {hours,uses} 或 null（算了、變灰的選項）。呼叫的地方讀完再 S.slotUse */
   S.chooseStudy=async function(GM){ const L=S.studyLengths(GM); const opts=L.map(q=>({t:q.t,hint:q.hint,dim:q.dim})).concat([{t:'算了'}]); const i=await GM.choose(opts); const q=L[i]; if(!q) return null; if(q.dim){ GM.toast(q.hint.replace(/。會錯過.*$/,''),3000); return null; } return {hours:q.hours,uses:q.uses}; };
+  /* 門口上課（o.door、不是館內 3D 的體育課）：這一堂演的期間 doorIt＝這一堂，反應句、obs 回話照作息判斷同學在不在（見 reactOK 上面）*/
+  { const a0=S.attend; S.attend=async function(GM,it,o){ const prev=doorIt; doorIt=(o&&o.door&&!o.inGym)?it:null; try{ return await a0.apply(this,arguments); } finally { doorIt=prev; } }; }
   return S;
 })();
