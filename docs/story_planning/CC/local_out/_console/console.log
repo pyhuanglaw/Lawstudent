@@ -1,12 +1,4 @@
     To https://github.com/pyhuanglaw/Lawstudent.git
-       c786bd88d..6f093438f  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:34:56] ==== END   L118D_H_E_r2  exit=0  168s   ====
-[15:35:05] memory 49% before starting L118D_H_G_r2 (2 running)
-[15:35:05] ==== START L118D_H_G_r2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
-[15:35:08] [res] cpu=0% mem=49% (15.4/31.4 GB) chrome_testing=10  START L118D_H_G_r2
-[15:35:44] [res] cpu=4% mem=45% (14.4/31.4 GB) chrome_testing=9  END L118D_H_F_r3
-    To https://github.com/pyhuanglaw/Lawstudent.git
        6f093438f..beb5e038b  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [15:35:50] ==== END   L118D_H_F_r3  exit=1  177s   ====
@@ -1998,3 +1990,11 @@
 [00:11:32] ==== START L118D_B2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
 [00:11:35] [res] cpu=31% mem=42% (13.0/31.4 GB) chrome_testing=8  START L118D_B2
 [00:12:25] [res] cpu=12% mem=44% (13.7/31.4 GB) chrome_testing=8  END L118A_DRINK_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       fc663b6be..bd3c1d0f1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:12:32] ==== END   L118A_DRINK_old  exit=0  85s   ====
+[00:12:43] memory 45% before starting MOKU_PLANT_old (2 running)
+[00:12:43] ==== START MOKU_PLANT_old  (probe @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
+[00:12:46] [res] cpu=3% mem=45% (14.2/31.4 GB) chrome_testing=8  START MOKU_PLANT_old
+[00:13:36] [res] cpu=19% mem=43% (13.3/31.4 GB) chrome_testing=9  END L118A_INT_old
