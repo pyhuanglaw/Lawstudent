@@ -80,8 +80,9 @@ OBS_JS = r"""(()=>{ if(window.__ccObs) return window.__ccTxt.length; const T=win
   const grab=(id,e)=>id==='choices'?[...e.querySelectorAll('button')].filter(b=>b.getClientRects().length).map(b=>(b.innerText||'').replace(/\s+/g,' ').trim()).join(' ｜ '):(e.innerText||e.textContent||'').replace(/[ \t]+\n/g,'\n').trim();
   for(const id of ids){ const e=document.getElementById(id); if(!e) continue;
     const rec=()=>{ if(!shown(e)) return; const t=grab(id,e); if(!t) return; const nm=id==='dlgText'?((document.getElementById('dlgName')||{}).textContent||'').trim():'';
+      const G=typeof GAME!=='undefined'?GAME.G:null, m=G?G.money:null;   /* m：這段字出現在畫面上那一刻的 GAME.G.money（「你點了…」那一句出來時扣了多少）*/
       const L=last[id]; if(L&&L.nm===nm&&(t===L.t||t.startsWith(L.t))&&T.length-L.i<6){ L.t=t; T[L.i].t=t; return; }
-      const G=typeof GAME!=='undefined'?GAME.G:null; T.push({id,nm,t,zone:G?G.zone:'',h:G?+(+G.hour).toFixed(2):null}); last[id]={i:T.length-1,t,nm}; };
+      T.push({id,nm,t,m,zone:G?G.zone:'',h:G?+(+G.hour).toFixed(2):null}); last[id]={i:T.length-1,t,nm}; };
     new MutationObserver(rec).observe(e,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['class','style']}); rec(); }
   window.__ccObs=true; return T.length; })()"""
 TXT_FROM = "(n=>(window.__ccTxt||[]).slice(n))"
@@ -229,6 +230,9 @@ async def scene(pg, cdp, tag, pick, max_s=110):
     res['m_end'] = await money(pg)
     tx = await pg.evaluate("(n=>(window.__ccTxt||[]).slice(n).filter(e=>e.id==='toast').map(e=>e.t))(%d)" % mk)
     res['toast'] = tx
+    if res['picked'] and res['m_line'] is None:   # 短句打字很快、可能在兩次檢查之間就點過去了：用畫面上那一句出現那一刻記的錢
+        ln = await pg.evaluate("(n=>(window.__ccTxt||[]).slice(n).find(e=>e.id==='dlgText'&&e.t.indexOf('你點了')>=0)||null)(%d)" % mk)
+        if ln: res['m_line'] = {'g': ln['m'], 'hud': '（畫面上那一句出現時記的）'}
     await flush(pg, tag)
     return res
 
@@ -326,7 +330,7 @@ async def order_all(pg, cdp, sid, tag, reenter):
     # 錢不夠
     cheapest = min(p for _, p in items)
     await R_hour(pg, '錢不夠那一次')
-    R.setup('把錢設成 %d（比最便宜的 %d 少 1 元）' % (cheapest - 1, cheapest))
+    R.setup('把錢設成 %d（比最便宜的 %d 少 1 元；直接改 GAME.G.money，右上角 #money 不會跟著重畫——捷徑造成的，不是遊戲問題）' % (cheapest - 1, cheapest))
     await pg.evaluate("GAME.G.money=%d" % (cheapest - 1)); await pg.wait_for_timeout(600)
     ok = await reenter()
     cn = next(nm for nm, p in items if p == cheapest)
