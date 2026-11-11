@@ -1,0 +1,165 @@
+{
+ "_meta": {
+  "doc": "AA_787 X324 E 區：偶遇（encounters.js）、一起走一段／重訪（enc_walk.js）台詞覆蓋列",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "{who, files:[{file, rows:[{at, old, new, note}]}]}；at＝遊戲 src/data/<file>.js 底下的 JS 路徑，old＝現在遊戲裡的原文（開發分支 2026-11-11 09:2x），工具照原文換、at 只核對。",
+  "notes": [
+   "刪節號：encounters 56／297、enc_walk 53／309，密度本來就在五句一個上下；只拿掉句首當習慣的「……」。句中的停頓多半是笑點（「……很扯」「……我很乖吧」「……參考用」）或前任見面的尷尬（ex 的「……嗨。」「……今天就當沒遇到，好不好。」），都留。",
+   "「上次」25 句逐句查過：school 那 12 句要有 ENC_ 記憶才說（encounter3d.js schoolLine）；revisit 21 句要那個地點有遇過的紀錄（encLast）；其他 5 句是她自己上次來（不是和祐廷），都不用改。",
+   "重複的招：約會時偶遇「你怎麼知道我在這裡／跟蹤我／跟來的」五個人（以安那句「……你不知道。好，那是巧合」是笑點，留；子晴兩個地點各一次，留一個）；芷若三個地點都是「你怎麼在這裡」，換兩個；子晴前任兩個地點同一句，換一個。",
+   "沒動：條件、時段、memo、選項文字（side 的 t）、旁白（why／away／narr）。"
+  ]
+ },
+ "who": "all",
+ "files": [
+  {
+   "file": "encounters",
+   "rows": [
+    {
+     "at": "ENCOUNTERS.rows[0].lines.dating[0]",
+     "old": "……你怎麼在這裡？我剛好多一個小時。",
+     "new": "你怎麼在這裡？我剛好多一個小時。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "ENCOUNTERS.rows[3].lines.friend[1]",
+     "old": "……排完一起吃？吃完再走。",
+     "new": "排完一起吃？吃完再走。",
+     "note": "同上"
+    },
+    {
+     "at": "ENCOUNTERS.rows[4].lines.acq[0]",
+     "old": "……{name}？",
+     "new": "{name}？",
+     "note": "同上"
+    },
+    {
+     "at": "ENCOUNTERS.rows[5].lines.friend[1]",
+     "old": "……你不用。看你想看的就好。",
+     "new": "你不用跟著讀。看你想看的就好。",
+     "note": "「你不用」接不上上一句，補清楚"
+    },
+    {
+     "at": "ENCOUNTERS.rows[6].lines.acq[0]",
+     "old": "……你也來？",
+     "new": "你也來？",
+     "note": "開頭的「……」拿掉"
+    },
+    {
+     "at": "ENCOUNTERS.rows[7].lines.acq[0]",
+     "old": "……{name}。",
+     "new": "{name}。",
+     "note": "同上"
+    },
+    {
+     "at": "ENCOUNTERS.rows[8].ex.apart_drift[0]",
+     "old": "欸不是……好久不見。我要回去改 bug 了。",
+     "new": "欸不是……好久不見。我在這裡想東西，你逛你的。",
+     "note": "和 rows[1] 同一句（子晴兩個地點一樣），換一句"
+    },
+    {
+     "at": "ENCOUNTERS.rows[9].lines.acq[0]",
+     "old": "啊，嗨！……我在找一本舊的繪本。",
+     "new": "啊，嗨！我在找一本舊的繪本。",
+     "note": "沛珊：拿掉「……」"
+    },
+    {
+     "at": "ENCOUNTERS.rows[9].lines.friend[1]",
+     "old": "……你選的那本字比較少。對，就是這本。",
+     "new": "你選字比較少的那本。好，小孩的眼光你很懂。",
+     "note": "沛珊 X327 語氣"
+    },
+    {
+     "at": "ENCOUNTERS.rows[9].lines.dating[0]",
+     "old": "……你怎麼知道我在這裡？",
+     "new": "你怎麼在這裡？你是不是在我手機裝了什麼。",
+     "note": "「你怎麼知道我在這裡？」五個人用（以安那句是笑點，留）；沛珊換"
+    },
+    {
+     "at": "ENCOUNTERS.rows[9].lines.dating[1]",
+     "old": "不知道也來了？那我們一起找。書單有七本。",
+     "new": "沒有喔？那就是緣分。書單有七本，緣分要幫忙找。",
+     "note": "接上一句"
+    },
+    {
+     "at": "ENCOUNTERS.rows[10].lines.dating[0]",
+     "old": "……你跟來的？",
+     "new": "你跟來的？",
+     "note": "開頭的「……」拿掉"
+    },
+    {
+     "at": "ENCOUNTERS.rows[12].lines.friend[0]",
+     "old": "……又是你。",
+     "new": "你也在。",
+     "note": "「……又是你」和柏翰支線同一句（柏翰那句是支線的笑點，留）"
+    },
+    {
+     "at": "ENCOUNTERS.rows[19].lines.acq[0]",
+     "old": "……你也來華山。",
+     "new": "你也來華山。",
+     "note": "開頭的「……」拿掉"
+    },
+    {
+     "at": "ENCOUNTERS.rows[20].lines.dating[0]",
+     "old": "你怎麼在這裡？",
+     "new": "你也挑今天來。",
+     "note": "芷若三個地點都是「你怎麼在這裡」，換兩個"
+    },
+    {
+     "at": "ENCOUNTERS.rows[31].lines.dating[0]",
+     "old": "欸不是……你怎麼知道我在這？",
+     "new": "欸不是，你也來九份？我又沒有打卡。",
+     "note": "子晴 rows[8] 已經是「欸不是……你跟蹤我？」，同一招不用兩次"
+    },
+    {
+     "at": "ENCOUNTERS.rows[33].lines.dating[0]",
+     "old": "你怎麼會在這裡？",
+     "new": "風這麼大，你也來。",
+     "note": "芷若第三個「你怎麼在這裡」"
+    }
+   ]
+  },
+  {
+   "file": "enc_walk",
+   "rows": [
+    {
+     "at": "ENC_WALK.walk[3].friend[0]",
+     "old": "……走慢一點。我要拍。",
+     "new": "走慢一點，我要拍。",
+     "note": "開頭的「……」拿掉"
+    },
+    {
+     "at": "ENC_WALK.walk[5].dating[0]",
+     "old": "……坐下。不用說話。",
+     "new": "坐下。不用說話。",
+     "note": "同上"
+    },
+    {
+     "at": "ENC_WALK.walk[16].friend[0]",
+     "old": "……坐在草上。褲子會髒。……算了。",
+     "new": "坐在草上，褲子會髒。……算了。",
+     "note": "開頭的拿掉，留「算了」前的停頓（笑點）"
+    },
+    {
+     "at": "ENC_WALK.walk[57].friend[1]",
+     "old": "……他們很少叫人坐。你坐吧。",
+     "new": "他們很少叫人坐。你坐吧。",
+     "note": "開頭的「……」拿掉"
+    },
+    {
+     "at": "ENC_WALK.side[0].steps[2].choices[0].r",
+     "old": "……好。看不懂的那一區。",
+     "new": "好。看不懂的那一區。",
+     "note": "開頭的「……」拿掉（重複你的話留著，是指涉）"
+    },
+    {
+     "at": "ENC_WALK.side[0].steps[2].choices[1].r",
+     "old": "……窗戶。好。",
+     "new": "窗戶啊。好。",
+     "note": "同上"
+    }
+   ]
+  }
+ ]
+}
