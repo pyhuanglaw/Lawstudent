@@ -53215,7 +53215,7 @@
    "id": "BUG-XIANGUO-TRAP-1111",
    "title": "汀州鮮果室內：CC 回報走到右後角走不回門口、出不了店（待確認）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -53228,7 +53228,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "LAWWW 11-11 Node 模擬（f5e1ef4e8，E.canStand flood＋E.simWalk）沒重現：2126 個站得住的點全連通、304 個起點走回門口都成功、右後角 121 點走到離開半徑內。等 CC 的 TRAPDIAG（卡住座標、SHA、目標點）。**確認以前這一間不進發布候選**（BB）。LAWWW2 先對 extraStacks 的箱子模型和阻擋範圍。腳本只在 scratchpad（trap2.js），要留就寫成 tests/｜LAWWW 定：切候選時還沒結論或沒修好＝候選版關掉 G08「進入汀州鮮果」的門（只能在門口看），修好下一版再開",
+   "next": "BB 11-11 判 GAME_BUG（CC r2 在使用者電腦重現，SHA 65212b697）。LAWWW 更正：Node 也重現（先前「沒重現」是抽樣漏掉）。**修在 8e33a0df8**：tz_shops_layout.js 汀州鮮果補兩塊阻擋（兩處 0.7～0.8 m 的窄縫）、印得好補一塊（電腦桌旁的角落）；新測試 tests/tz_shops_notrap_1111_unit.js（七間每個站得到的點都走得回「離開」，修前 5＋2 點出不來）。等 CC 用 8e33a0df8 重跑：PASS＝汀州鮮果室內照常進候選；FAIL＝關 G08 的門。LAWWW2：模型在擋起來的地方補箱子；以後室內交件跑這支測試",
    "xai": {
     "spec": "BB 11-11 01:47 判定（BB_255，企劃線 8da731f7c）",
     "branch": "claude/second-ai-env-art",
