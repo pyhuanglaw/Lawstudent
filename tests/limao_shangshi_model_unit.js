@@ -15,7 +15,7 @@ const KEY='char.limao_shangshi', cm=v=>(v*100).toFixed(1)+' cm', tick=()=>new Pr
   check('1. manifest：圓框細金屬眼鏡的 GLB 在',!!g&&fs.existsSync(path.join(ROOT,g.url)));
   if(!m||!g){ console.log('FAILED: '+(fails+4)); process.exit(1); }
   { const d=fs.readFileSync(path.join(ROOT,m.url)), jl=d.readUInt32LE(12), J=JSON.parse(d.slice(20,20+jl).toString('utf8')), names=(J.meshes||[]).map(x=>x.name).concat((J.nodes||[]).map(x=>x.name||'')), mats=(J.materials||[]).map(x=>x.name);
-    const need=['Acc_Cap','Acc_CapBrim','Acc_Mustache','Acc_Goatee','Acc_ScarfRing','Acc_ScarfTailL','Acc_ScarfTailR'], miss=need.filter(n=>!names.some(x=>x.indexOf(n)===0)&&!mats.some(x=>/SHANGSHI_Acc/.test(x)));
+    const need=['Acc_Cap','Acc_CapBrim','Acc_Curls','Acc_Mustache','Acc_Goatee','Acc_BeardLink','Acc_LapelL','Acc_LapelR','Acc_ShirtV','Acc_ScarfBack','Acc_ScarfTailL','Acc_ScarfTailR']   /* 第 2 版：加捲髮、鬍子連起來的兩條、西裝翻領、V 領的襯衫；圍巾改成掛在脖子後面＋兩邊垂下 */, miss=need.filter(n=>!names.some(x=>x.indexOf(n)===0));
     check('2. 模型裡有帽子、鬍子、圍巾（做在 VRM 裡）',mats.some(x=>/SHANGSHI_Acc/.test(x))&&!miss.length,'材質：'+mats.filter(x=>/Acc/.test(x)).join(',')+(miss.length?'；缺 '+miss.join(','):'')); }
   await preload([KEY,'prop.glasses_shangshi']);
   const scene=new THREE.Scene(); const h=CHAR.build({model:KEY,height:1.69}); scene.add(h); h.position.set(0,0,0); h.rotation.y=0;
@@ -32,6 +32,9 @@ const KEY='char.limao_shangshi', cm=v=>(v*100).toFixed(1)+' cm', tick=()=>new Pr
     const eL=L(R('leftEye').getWorldPosition(new THREE.Vector3())), eR=L(R('rightEye').getWorldPosition(new THREE.Vector3())), mid=eL.clone().add(eR).multiplyScalar(0.5);
     const gp=glb?L(glb.getWorldPosition(new THREE.Vector3())):null;
     check('4. 眼鏡：GLB 換上了（程式產生的版本藏起來）',!!glb&&glb.visible&&proc&&proc.visible===false);
+    /* 第 2 版：眼鏡的網格在模型裡自己往前 1.7 cm、往下 0.5 cm（這個人物的臉比眼睛骨頭前面 7.4 cm，固定放 6.8 cm 會陷進臉）：量鏡框網格的中心 */
+    { let fr=null; if(glb) glb.traverse(x=>{ if(x.isMesh&&/frame/.test(x.name)) fr=x; }); const fb=fr&&new THREE.Box3().setFromObject(fr), fc=fb&&L(fb.getCenter(new THREE.Vector3())), fmax=fb&&Math.max(L(fb.min.clone()).z,L(fb.max.clone()).z);
+      check('4. 鏡框（網格）最前面在兩眼骨頭前 7.5～10 cm（不陷進臉）',!!fb&&fmax-mid.z>=0.075&&fmax-mid.z<=0.10,fb?cm(fmax-mid.z):'沒有'); }
     check('4. 眼鏡：在兩眼前面 2～9 cm、高度差 ≤ 2 cm、左右置中 ≤ 1 cm',!!gp&&gp.z-mid.z>=0.02&&gp.z-mid.z<=0.09&&Math.abs(gp.y-mid.y)<=0.02&&Math.abs(gp.x-mid.x)<=0.01,gp?`前 ${cm(gp.z-mid.z)}、高差 ${cm(gp.y-mid.y)}、左右 ${cm(gp.x-mid.x)}`:'沒有'); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();

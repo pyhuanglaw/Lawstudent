@@ -62,6 +62,8 @@ fo = fr.finish(root, uv=False, smooth=False); L.smooth_mesh(fo, angle=1.2)
 lo = ln.finish(root, uv=False, smooth=False); L.smooth_mesh(lo, angle=1.2)
 tris = {ob.name: sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in (fo, lo)}
 print('glasses tris', tris, 'total', sum(tris.values()))
+OFFSET = (0.0, -0.005, -0.017)   # 第 2 版：這個人物的臉比眼睛骨頭前面 7.4 cm（props3d 固定放在骨頭前 6.8 cm → 鏡框陷進臉 6 mm、鼻樑 12 mm）：模型自己往前 1.7 cm、往下 0.5 cm
+for ob in (fo, lo): ob.location = g2b(*OFFSET)
 st = L.export(OUT, gpu_instances=False)
 L.write_json(OUT.replace('.glb', '.json'), {'glb': os.path.relpath(OUT, L.ROOT), 'tris': tris, 'bytes': st['bytes'], 'ipd': SEP, 'rim_w': 2 * HW, 'rim_h': 2 * HH, 'wire_d': 2 * WIRE,
                                             'origin': '兩個鏡片中心的中點；前方 −z、鏡腳往 +z（three.js 模型座標）', 'replaces': 'src/props3d.js glasses()（程式產生的版本）'})
