@@ -1,0 +1,52 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART2_xg_r3_old\out
+CC 汀州路 v1：PARTS INT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS [INT] 有 TZ_SHOPS_LAYOUT（室內配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 14.0 時 (19.6,18.0) （汀州鮮果 門口外面＝舊存檔站的位置）
+PASS [INT 汀州鮮果 1400] 舊存檔站在門口外面：站得住  {"zone": "gongguan", "h": 14.06, "x": 19.6, "z": 18, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 汀州鮮果 1400] 街上有「進汀州鮮果」  {"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "to": "gg_xianguo", "look": null, "tz": null, "tzd": "xianguo", "gate": false, "seat": false}
+  [  51.0s] 到達「[INT 汀州鮮果 1400] 走到「進入汀州鮮果」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  54.6s] [INT 汀州鮮果 1400] 進店：6.4 秒後在 gg_xianguo（{"zone": "gg_xianguo", "h": 14.09, "x": 0.3, "z": 3.4, "free": true, "ent": false, "busy": false, "fb": 0}）
+PASS [INT 汀州鮮果 1400] 走進去：區域 gg_xianguo、站得住  {"zone": "gg_xianguo", "h": 14.09, "x": 0.3, "z": 3.4, "free": true, "ent": false, "busy": false, "fb": 0}
+  [  57.2s] [INT 汀州鮮果 1400] 正式模型：{"formal": true, "glb": true}
+  [  57.2s] [INT 汀州鮮果 1400] 角落挑點：從出生點擴散 515 點、x [-3.2, 3.3]、z [-2.85, 4.15]（房間 8.0×10.0；canStand True）→ [[-1.7, 4.15], [2.3, 4.15], [3.3, -2.85], [-3.2, -2.85]]
+PASS [INT 汀州鮮果 1400] 挑點有走進店裡（擴散範圍 z 跨過房間一半以上）  [-2.85, 4.15]
+  [  59.8s] 到達「[INT 汀州鮮果 1400] 走到角落 1 (-1.7,4.2)」附近（0.08 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  62.4s] 到達「[INT 汀州鮮果 1400] 走到角落 2 (2.3,4.2)」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  68.0s] 到達「[INT 汀州鮮果 1400] 走到角落 3 (3.3,-2.9)」附近（0.02 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [  73.2s] 到達「[INT 汀州鮮果 1400] 走到角落 4 (-3.2,-2.9)」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [INT 汀州鮮果 1400] 店裡走一圈（四個角落都走得到、沒有隱形牆）  {"pts": [[-1.7, 4.15], [2.3, 4.15], [3.3, -2.85], [-3.2, -2.85]], "miss": []}
+  [  81.6s] [INT 汀州鮮果 1400] 店內 8 秒幀率 57.9 fps（PC GPU，不是 iPhone）
+PASS [INT 汀州鮮果 1400] 店裡有「離開汀州鮮果」  [{"label": "離開汀州鮮果", "x": 0.3, "z": 4.6, "r": 0.8, "to": "gongguan", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}, {"label": "挑水果", "x": -1.9, "z": 0.8, "r": 1, "to": null, "look": "（汀州鮮果）", "tz": null, "tzd": null, "gate": false, "seat": false}, {"label": "秤重結帳", "x": 1.1, "
+  [  81.6s] [INT 汀州鮮果 1400] 出店前（TRAPDIAG）：玩家 [-3, -2.76]；E.pathTo 到出口 5 點 [[-2.1, -1.7], [0.1, 4.1], [0.1, 4.3], [0.3, 4.5], [0.3, 4.6]]；四周 canStand 圖（. 站得住、+ 格子 free 但半徑 0.3 站不住、# 擋住、@ 玩家；每格 0.25 m，上＝−z）：
+#################
+#################
+#################
+#################
+#################
+#################
+#################
+######+++++++++++
+######+.@......++
+######+........++
+######+........++
+######+..........
+######+++++......
+###########+.....
+###########+.....
+###########+.....
+###########+.....
+  [  81.7s] [INT 汀州鮮果 1400] TRAPDIAG：受測 SHA dbbe05fa5a03f113ef4a0bae36777a153f98fef8
+  [  83.2s] [INT 汀州鮮果 1400] TRAPDIAG 點地板 #1：目標（世界座標）(0.30,4.60)；點之前 [-3, -2.76]；點到 null；0.6 秒後 path 0 點、P.target None；1.5 秒後在 [-3, -2.76]（path 0）
+  [  84.8s] [INT 汀州鮮果 1400] TRAPDIAG 點地板 #2：目標（世界座標）(0.30,4.60)；點之前 [-3, -2.76]；點到 null；0.6 秒後 path 0 點、P.target None；1.5 秒後在 [-3, -2.76]（path 0）
+  [  86.3s] [INT 汀州鮮果 1400] TRAPDIAG 點地板 #3：目標（世界座標）(0.30,4.60)；點之前 [-3, -2.76]；點到 null；0.6 秒後 path 0 點、P.target None；1.5 秒後在 [-3, -2.76]（path 0）
+  [  87.9s] [INT 汀州鮮果 1400] TRAPDIAG 點地板 #4：目標（世界座標）(0.30,4.60)；點之前 [-3, -2.76]；點到 null；0.6 秒後 path 0 點、P.target None；1.5 秒後在 [-3, -2.76]（path 0）
+  [  89.4s] [INT 汀州鮮果 1400] TRAPDIAG 點地板 #5：目標（世界座標）(0.30,4.60)；點之前 [-3, -2.76]；點到 null；0.6 秒後 path 0 點、P.target None；1.5 秒後在 [-3, -2.76]（path 0）
+  [  99.6s] [INT 汀州鮮果 1400] TRAPDIAG 搖桿直接朝出口推 10 秒：從 [-3, -2.76] 到 [2.13, 4.28]（離出口 1.86 m）；軌跡 [[-3, -2.76], [1.09, 4.24], [-1.63, 4.26], [2.14, 4.28], [-1.53, 4.28]]
+  [ 103.7s] 到達「[INT 汀州鮮果 1400] 走到「離開汀州鮮果」」附近（0.48 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [INT 汀州鮮果 1400] 走出來：回到 gongguan 門口外面（離 layout.out 0.00 m）、站得住  {"zone": "gongguan", "h": 14.43, "x": 19.6, "z": 18, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 汀州鮮果 1400] 出來以後搖桿推得動（沒有卡在門口）  {"zone": "gongguan", "h": 14.44, "x": 18.61, "z": 10.97, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 汀州鮮果 1400] walkFallbacks 0  {"zone": "gongguan", "h": 14.44, "x": 18.61, "z": 10.97, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS 沒有 JS 例外  []
+ALL PASS
