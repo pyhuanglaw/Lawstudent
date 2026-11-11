@@ -1,10 +1,3 @@
-       79369d24a..994b3108a  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[13:30:42] ==== END   CLASS12_skip_2d9_150x20  exit=1  244s   ====
-[13:30:46] memory 47% before starting CLASS12_skip_73_150x20 (2 running)
-[13:30:46] ==== START CLASS12_skip_73_150x20  (probe @ 73faa493f90fc6c90ccc867950bd012cb3d1d72e) ====
-[13:30:49] [res] cpu=3% mem=48% (15.0/31.4 GB) chrome_testing=9  START CLASS12_skip_73_150x20
-[13:32:26] [res] cpu=10% mem=48% (15.1/31.4 GB) chrome_testing=10  END CLASS12_skip_2d9_500x5
     To https://github.com/pyhuanglaw/Lawstudent.git
        994b3108a..cfd607359  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
@@ -1998,3 +1991,10 @@
 [21:57:45] ==== START V25_L118_C5  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
 [21:57:48] [res] cpu=20% mem=37% (11.8/31.4 GB) chrome_testing=5  START V25_L118_C5
 [21:57:53] [res] cpu=6% mem=32% (11.0/31.4 GB) chrome_testing=0  END REL_moku_nosit
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1b1aede60..111e36f9c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:58:22] ==== END   REL_moku_nosit  exit=1  175s   ====
+[21:58:51] [res] cpu=10% mem=34% (10.7/31.4 GB) chrome_testing=4  END V25_L118_C4
+[21:58:58] memory 35% before starting V25_exam (2 running)
+[21:58:58] ==== START V25_exam  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====

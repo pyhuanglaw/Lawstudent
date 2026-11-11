@@ -1,0 +1,87 @@
+# L118D_C case 4：改之前存的 → 改之後讀進來馬上再存的（遞迴比對，只列有變的路徑；共 50 條）
+## 重點（l118、mokuyobi、相關旗標、pos、zone、slowread 邀約）
+flags.ZHE_118_RANK : noodle2 → korea
+invites[21].label : 和陳語彤約在慢讀咖啡 → 和陳語彤約在木曜日
+invites[21].zone : l118_cafe2 → wz_mokuyobi
+invites[27].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+invites[27].zone : l118_cafe2 → wz_mokuyobi
+l118.d.cafe2 : 50 → 49
+l118.d.drink_a : （沒有） → 51
+l118.d.korea : 46 → 48
+l118.d.noodle2 : 48 → （沒有）
+l118.d.self : 49 → （沒有）
+l118.d.tea : 51 → 46
+l118.last.cafe2 : 美式咖啡 → 自助餐（三菜一肉）
+l118.last.dian : 椒麻雞飯 → （沒有）
+l118.last.korea : 石鍋拌飯 → （沒有）
+l118.last.noodle2 : 牛肉麵 → （沒有）
+l118.last.self : 自助餐（三菜一肉） → （沒有）
+l118.last.tea : 紅茶拿鐵 → 石鍋拌飯
+l118.mv772 : （沒有） → 2
+l118.n.cafe2 : 2 → 4
+l118.n.drink_a : （沒有） → 2
+l118.n.korea : 2 → 3
+l118.n.noodle2 : 3 → （沒有）
+l118.n.self : 4 → （沒有）
+l118.w.classmate_bohan@cafe2 : （沒有） → {"n": 3, "d0": 22, "d": 45}
+l118.w.classmate_bohan@self : {"n": 3, "d0": 22, "d": 45} → （沒有）
+l118.w.zhe@home.d : 30 → 34
+l118.w.zhe@home.n : 1 → 2
+l118.w.zhe@korea.d : 27 → 40
+l118.w.zhe@korea.d0 : 27 → 20
+l118.w.zhe@korea.n : 1 → 2
+l118.w.zhe@noodle2 : {"n": 2, "d0": 20, "d": 40} → （沒有）
+l118.w.zhe@self : {"n": 1, "d0": 34, "d": 34} → （沒有）
+l118.w.zhe@tea : （沒有） → {"n": 1, "d0": 27, "d": 27}
+mokuyobi.n : 2 → 4
+## 全部
+courses.note.skip_51:civ_general:pm1 : （沒有） → 1
+courses.note.skipn_civ_general_Y1S1 : 1 → 2
+eat.last.Pasta 118 : 青醬培根麵 → （沒有）
+eat.last.一一八茶飲 : 紅茶拿鐵 → （沒有）
+eat.last.慢讀咖啡 : 美式咖啡 → （沒有）
+eat.n.Pasta 118 : 1 → （沒有）
+eat.n.一一八茶飲 : 3 → （沒有）
+eat.n.喝不喝咖啡 : （沒有） → 3
+eat.n.慢讀咖啡 : 2 → （沒有）
+eat.n.木曜日 : （沒有） → 2
+eat.n.義大麵屋 : （沒有） → 1
+flags.ZHE_118_RANK : noodle2 → korea
+flags._autoAsk[16] : （沒有） → ……你覺得我要怎麼回他？
+flags._autoAsk[17] : （沒有） → 週六下午，貓空。從後山上去。這次換你帶路。
+hour : 15.271 → 15.296
+invites[21].label : 和陳語彤約在慢讀咖啡 → 和陳語彤約在木曜日
+invites[21].zone : l118_cafe2 → wz_mokuyobi
+invites[27].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+invites[27].zone : l118_cafe2 → wz_mokuyobi
+l118.d.cafe2 : 50 → 49
+l118.d.drink_a : （沒有） → 51
+l118.d.korea : 46 → 48
+l118.d.noodle2 : 48 → （沒有）
+l118.d.self : 49 → （沒有）
+l118.d.tea : 51 → 46
+l118.last.cafe2 : 美式咖啡 → 自助餐（三菜一肉）
+l118.last.dian : 椒麻雞飯 → （沒有）
+l118.last.korea : 石鍋拌飯 → （沒有）
+l118.last.noodle2 : 牛肉麵 → （沒有）
+l118.last.self : 自助餐（三菜一肉） → （沒有）
+l118.last.tea : 紅茶拿鐵 → 石鍋拌飯
+l118.mv772 : （沒有） → 2
+l118.n.cafe2 : 2 → 4
+l118.n.drink_a : （沒有） → 2
+l118.n.korea : 2 → 3
+l118.n.noodle2 : 3 → （沒有）
+l118.n.self : 4 → （沒有）
+l118.w.classmate_bohan@cafe2 : （沒有） → {"n": 3, "d0": 22, "d": 45}
+l118.w.classmate_bohan@self : {"n": 3, "d0": 22, "d": 45} → （沒有）
+l118.w.zhe@home.d : 30 → 34
+l118.w.zhe@home.n : 1 → 2
+l118.w.zhe@korea.d : 27 → 40
+l118.w.zhe@korea.d0 : 27 → 20
+l118.w.zhe@korea.n : 1 → 2
+l118.w.zhe@noodle2 : {"n": 2, "d0": 20, "d": 40} → （沒有）
+l118.w.zhe@self : {"n": 1, "d0": 34, "d": 34} → （沒有）
+l118.w.zhe@tea : （沒有） → {"n": 1, "d0": 27, "d": 27}
+mokuyobi.n : 2 → 4
+notes[11] : （沒有） → {"id": "fav_heroine_05", "title": "學姊：無糖綠茶，去冰。從來沒換過。", "body": "", "day": 51}
+savedAt : 1794405426722 → 1794405466956
