@@ -1332,3 +1332,13 @@
 [09:52:58] ==== START ART2_xg_r3_a  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
 [09:53:01] [res] cpu=3% mem=46% (14.6/31.4 GB) chrome_testing=9  START ART2_xg_r3_a
 [09:53:34] [res] cpu=3% mem=45% (14.3/31.4 GB) chrome_testing=9  END LM_cam_b
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a647a2e15..df983542d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:53:40] ==== END   LM_cam_b  exit=0  138s   ====
+[09:53:43] memory 46% before starting ART2_xg_r3_f (2 running)
+[09:53:43] ==== START ART2_xg_r3_f  (probe @ f5e1ef4e8fe2e1d6e71897d891ed600967a146a2) ====
+[09:53:46] [res] cpu=21% mem=47% (14.5/31.4 GB) chrome_testing=9  START ART2_xg_r3_f
+[09:53:46] worktree add f5e1ef4e8fe2e1d6e71897d891ed600967a146a2: invalid reference - fetching main and the commit itself
+[09:54:02] 正在跑：LM2_N1（已跑 2 分／上限 10 分）、ART2_xg_r3_a（已跑 1 分／上限 8 分）、ART2_xg_r3_f（已跑 0 分／上限 8 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:57:31] [res] cpu=15% mem=46% (14.4/31.4 GB) chrome_testing=10  END LM2_N1
