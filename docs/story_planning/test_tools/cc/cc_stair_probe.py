@@ -87,8 +87,24 @@ async def stuck_diag(pg, tag):
     return d
 
 
+FRAMELOG = os.environ.get('FRAMELOG') == '1'   # BB 11:43：逐幀記位置、dt、位移／(速度×dt)；比值 >2 才算跳（記前後幀的 lv、y、blockedAt.slide＝stepEntity 走哪一條：x／z 沿牆滑、half 半步、none 不動；沒有 blockedAt＝整步或換層）
+FRAME_ON = r"""(()=>{ const W=window; if(W.__ccFL) { W.__ccFL.buf=[]; W.__ccFL.n=0; W.__ccFL.maxR=0; return 1; } const st={buf:[],n:0,maxR:0,prev:null}; W.__ccFL=st;
+  const raf=(f)=>W.requestAnimationFrame(f);   /* 用遊戲同一個（限幀後的）rAF，取樣和遊戲幀對齊；用原始 rAF 會在遊戲沒動的幀之間算出假比值 */
+  const tick=(t)=>{ try{ const E=GAME.E, P=E&&E.player; if(P){ const o=P.obj.position, sp=(P.run||P.runHold)?E.SPD.run:E.SPD.walk, b=P.blockedAt;
+      const cur={t:+t.toFixed(1), x:+o.x.toFixed(3), z:+o.z.toFixed(3), y:+o.y.toFixed(3), lv:P.lv|0, slide:b?(b.slide||'?'):null, run:!!(P.run||P.runHold), path:!!(P.path&&P.path.length)};
+      if(st.prev){ const dt=(cur.t-st.prev.t)/1000, d=Math.hypot(cur.x-st.prev.x,cur.z-st.prev.z); if(dt>0){ const ratio=d/(sp*dt); st.n++; if(ratio>st.maxR) st.maxR=+ratio.toFixed(2);
+        if(ratio>2&&d>0.3&&st.buf.length<40) st.buf.push({before:st.prev, after:cur, dt:+dt.toFixed(3), d:+d.toFixed(3), sp, ratio:+ratio.toFixed(2), lvChange:st.prev.lv!==cur.lv}); } }
+      st.prev=cur; } }catch(e){} raf(tick); };
+  raf(tick); return 1; })()"""
+FRAME_TAKE = "(()=>{ const s=window.__ccFL; if(!s) return null; const r={frames:s.n, maxRatio:s.maxR, jumps:s.buf.slice()}; s.buf=[]; s.n=0; s.maxR=0; return r; })()"
+
+
 async def seg(pg, cdp, tag, tx, tz, lv, straight):
+    if FRAMELOG: await pg.evaluate(FRAME_ON)
     r = await F.joy_to(pg, cdp, tag, tx, tz, near=0.5, lv=lv, max_s=45, straight=straight)
+    if FRAMELOG:
+        fl = await pg.evaluate(FRAME_TAKE)
+        if fl: R.note('%s 【逐幀】%d 幀、位移／(速度×dt) 最大 %s；比值 >2 的幀（真的跳）%d 個：%s' % (tag, fl['frames'], fl['maxRatio'], len(fl['jumps']), J(fl['jumps'][:6])))
     e = r['end']
     R.note('%s → (%.2f, %.2f) lv%d：%s、%s 秒、推 %d 次、停在 (%.2f, %.2f) y=%s lv%d、跳 %s' % (tag, tx, tz, lv, '到了' if r['ok'] else '沒到：' + str(r.get('why')), r['t'], r['pushes'], e['x'], e['z'], e.get('y'), e['lv'], J(r['jumps'])))
     return r
