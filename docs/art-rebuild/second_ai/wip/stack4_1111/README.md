@@ -1,6 +1,6 @@
 # 這一輪四包疊在開發分支上一起試（LAWWW 11-11 12:26 派給 LAWWW2）
 
-狀態：**WORK_IN_PROGRESS**（四包一起的全部 Node 測試在跑）。只是試套、跑測試，**沒有 push 到開發分支、四包的內容沒改**。
+狀態：**READY_FOR_REVIEW**（2026-11-11 13:4x UTC）。只是試套、跑測試，**沒有 push 到開發分支、四包的內容沒改**。
 
 基底：開發分支 `56ecee2fb5`。照順序 `git apply --index --3way`：
 
@@ -17,4 +17,5 @@
 
 ## 測試
 
-- 全部 Node 測試（四包一起）：在跑。
+- **全部 Node 測試（四包一起）1290 支**（`regression_stack4.log`，含四包新加、改過的測試）：1289 支 ALL PASS；`bookstore_exit_unit` 老警告（結束碼 0）。
+- 合併 patch 在最新開發分支 `71adf757d7` 上也試過 `git apply --3way`：乾淨。
