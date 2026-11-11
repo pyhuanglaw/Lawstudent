@@ -1,0 +1,1646 @@
+diff --git a/assets/models/env/second_ai/l118_omu.glb b/assets/models/env/second_ai/l118_omu.glb
+index 15ace62ca4927d8ccafe657ab1d3e8f9b2fedcba..49c9b2d77381d4c8050370fa4cceabf8dd62d231 100644
+GIT binary patch
+delta 8992
+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
+
+delta 4827
+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
+W7;H2y2yRxrq(-h^QWLg+$^QY`1KV)`
+
+diff --git a/assets/models/env/second_ai/l118_omu.json b/assets/models/env/second_ai/l118_omu.json
+index e0994a6273..c6190ade8f 100644
+--- a/assets/models/env/second_ai/l118_omu.json
++++ b/assets/models/env/second_ai/l118_omu.json
+@@ -3,9 +3,9 @@
+  "unique_meshes": 38,
+  "tris": 16002,
+  "tris_drawn": 16002,
+- "materials": 20,
++ "materials": 21,
+  "out": "assets/models/env/second_ai/l118_omu.glb",
+- "bytes": 1443836,
++ "bytes": 1448272,
+  "texres": 512,
+  "tris_total": 16002,
+  "layout": "l118_omu.layout.json",
+diff --git a/assets/models/env/second_ai/l118_pasta.glb b/assets/models/env/second_ai/l118_pasta.glb
+index ec1c444178ca048a5efe28a225e854f7de467383..b4a345e01b993416732e05be57ca2e1f84ebc6a7 100644
+GIT binary patch
+delta 55128
+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%0DPakRWX@s|WDAoBtg(hk
+zkU~T_*c_7xBBC0KXI|^R7m4ubZDA6DHD*}(r5OhhktM7hYzg~~aWe_Bg-L|p7{$$`
+z2pfJTj6^7ch%8|eLA_K%@mDJjm7p_Z5i4-&FhPTDVY+5Sgu~3ScCaP9`t@0pAjAr(
+zGf$8pj9bGbh<Z_wIVKUrLpAAfCACGind<8vZz5ZmL|~0IOoE69hnZs%WaLqdFF7K`
+zhBIDsOoD7-5`i_=FbN_aEx!?`H&cSt5h=vS<lH90CZ*)uCZ8xA?>Q<jJj=Y{m95iR
+z#zQqVzhOhrO}Vt8+D$o&p~p?xTP+O>ONJvb(*2H&6vp^(*zoeE9A$94C6|D6mfIxE
+z5<ZcZ7DsUl*zor)IY1>L30Q27sS)EAaLUJ9a=xBQ7WQTD%0qMZ&Yl$$ZwceUQrsHG
+z-ZpJMn0PE<?4`H{EASjKCaSeqXcA!yV?7GO8f%yY5f2VF$JpDZjbcm~onP_iA;(lf
+z@~{hgGm7soi;cfC;JjM@C+s=u_}=>pG~fW$`2$7~&La{`12TdeO)91GW3MHwXcH&`
+zNlDP3Fr5{p!&lQ8vW4j&u_hfW@fznhj05mAF75WsbV~n(@hC~epRr;*r9_HHYzxyF
+zBGFiH3wM5Kd}ZMowTKn7M1?!E)g#7+j9?_C8!e-l?gOk>w2n25M~QbeHv9>rXsn?F
+z_ybl<rv*<V4#3y$pD^7Mbi{bctYJEf$oV@~V%1^V1QOAWlMzfuOat(UZDHiZ8dbES
+zb*x}|()lzxWqRsa!gmHti>J6Xj1Rg~AJ3V16s<!Tn{8oyzd#}!W($)Dtg(WP&wm_7
+zM3yiKA|k4x_?`vFOz$JMFugBejS<81|EFWbcx3nnLqwJ^HdEXZ&Mh7?39^M}E9q~Y
+zSVZc~F$p3f9BhtB1ocu4#pz)1l4-G`br92avV~C)UIOa1gteE(5>7t=MZJmWXi%Lw
+zCP5gthDi|hq9AijB8bOWqZmo4p?ln4@v*mzBCO$4AN8ghYZ!aO!i*xUVeAc4(u-8b
+z4CCvbMA*V40&A>c5<xsD4zZ$5kO(58B8nSNU9I?o`A@5-_s#&z_(Rb~rW$J)d*O?Y
+zVj=?PH;l~`w}eqBiLix91lIhD6{AvW#$mQFi6A1Xr}*qyt4srIVLa=27UA{3O1;La
+zV}_A*W|y<@TriSa!bn7MOL)@$WhOzEu!4gzL5gf)5=2Be*c_7x;-MOfZ}Zq<5(HS$
+zI=^5Ngbmg(2_jM)W{$Okf5*z%z3a<wG7YwcNd(qd!z74!P>?w$5h{<8e*K6P8!jzL
+zH3_nXNd(qd!z74!wETz_YNiCK)5cGv?J^0ng-Ha~Si>YJokvmcULr*i)NBjmgUF}R
+zq!MxVAJu1uHC%Jsd{d2O49|aTj%f1PL}UqLGsP`od>)VpTbM*(jfxdG0+W-DNe~g?
+zU~^0&sF!LePG?A`Gd`-3(-Ky&ffCj*HvgAod^fX(v6pHrVLAYurNN5UF`Wr2B0+SN
+z6ekfxgoDj7iJ)Gpq4+=Z7Qnrxq?N$;exqX<e<*t0RAUXp`br60WFQ_(7<(yh!V0J$
+zr_A4TL6K2}EleV?#u_F;#Djy)G4?8y(25{j@Y+$6AX}J3V2w3Qf`|v_0#?)k>5l14
+z5RrL&^N~X)LAEf7z#41VC<s3P6A=zG$Jk79OZc&OcJ*UBe%!W&=_5SW{DKwmw9Pn-
+zh%8}jrnn^>(Ik&akS&b8I9I_Ua?CM(At53hY>r6;^->MRCm6b@f^a>+0#?+80`ml|
+zXkh$L_|lSYrWKQnVC2NF-?*SL!Judz>zGzXu=!6IMbN6pA2F`~(9z?fK}IkgCDvyI
+zBPXqxm}A9Sf>uDVAtRVpG_d|pn9d3ufTA7&Hqg;n!ads=UuJj{Wd!>)ax&c$wlS>#
+z5GmbgI3OdK?gOmP2*v}$n-1$uSkXEfjH<B+#bpH3S;4cIQH%$v;3^b0(0yPH(`m#3
+z8NtXy_l*s#n2P8qX#m{^*5XKtHFN-f!t{W`HHM#9(K<#<iwsy~4dc@dKQ|DOB}@wr
+z#6vX{SKkZp`Hza|jlmKo5m;jllOW>3Vdhvnn6N^m*pTx|7xldWpW(JJy)R&mHH?Dr
+z4Tg9uVdz!VWi%q9A|yq8d{JwYAX}J3V2w3Qf{4e+uNVi=FzsMVn2rW7lPye_32Urj
+z^^z%?)2_V)gy}jFk$Ies1_jx|Bm!%+SkXGFA`nDGILsWAAR?j~Z5+S*;VK%|Si|WH
+zRf<|ft5(>c#n_CCP()-2)8Z8MQVqrN<wqiZ$BI!YCTOrNOoE6AhnZvTU`rT<(xTOI
+zMeCSh{Hl!0GuU7ar!S+aHP$fp;zAYiXt9D09swz`g-Ha~Si>ZOc(nY4Nf6W+*MH0t
+zC(`^)18iZu9C(JX#u~<9#<c_^=dT#nf2f%fNMw$;c@#DYvV}<m)>y+NNaaz|)e$KU
+zre<5%{!(d^AX}J3V2vdVKh$O<!eO>BHdBoy{Gn)ZlOS7|L|_eIMZJFMjtSE#A|f1Y
+zj!6XdQVqo`+-YDEWF0FFOs55lNS!$*K}3YZ%&~T`B^(x(WD;b;3f#RWCmoXrj9bGb
+zh<Z_wIVKUrLp2n~=YfJtDY%S=jx~%+CRAe$V=pd35sxK|y%bN!#^*mJ@S#B>Y+(|C
+zHP$c*A|4!Uj%#jHjEabeibxP04K6&{!dOo=)-VdfMJVD?F+Tsb32de!OPG!ThuOj;
+zf)0%8wQ-!Q;4mVxgh>PuQ4PhvpU-7llCgzp83t=K7@z;w)#Wv6#t)yiFfGFn5!F+?
+zz(!}2AY0ftS2?#Ai%5hyrd2B<!eQoEJJ=GwmDt%N=r^pSulHesMA*V4h=@>-IVKUr
+zLp2m<er-*H6s=>9Nf5@ZVG=~WILsVt2b*C<U0!?mWmOz~+_r`3Gd$K<!}R%|cu<fz
+z#$IDwF%nS`CE&}XNsui}BCy69CPBo5vrJe?ceH~o;c6`=??ED556CE{MGUOBhSl{S
+zT$O;&?`jba$OuMKIEr}e%_yc-60A?hxc+Z)e!(aL2aupYVdTLxgzE<x!N!A3|M?#}
+zVr;gCk(5?RGKy&h1nVtg#VmnGi7Oh|@Fz@Xh(u$(Ej<6_3iYPOGfG&|I_CIUjcsvw
+z#2C*AMpC-bGKiHpx+$<BBN&eoZ#u016GqWkLkI9XR*XkR2_&VPD5IF}39SDUrn88b
+zNyYf{pC-owMpC+QGJ@%di4zaZ7FLiHi}0q)2!>kqNrwv#wlLhB@l<0C!-Gyym(hp_
+z7Zc1eHdEXZruPCIW($)Dtoe!I`Tx@~z8ByyBC>=@1QAgU#hX2tyoVm)wy^rXfX{y{
+zQXLBziEwd>h%903rMM+L<@q3!AajiCkLp_?CP;)WOoE6A2b*IOK|EALaXJ{dWQys?
+z@cL;IDyB<=acdX_;U%D6OIUkpe#MIM=At7&5w<Xiz#40q1Q8DkGRGuhijq!5MWzJA
+z@p~FBqhYf(Op8`nV+~_3E>sbZ7Axe?N)-{A$MI!JB5Yw2fi>1J34$6$CB<PxN|*!@
+zk$D`2(xR0ujNg=TjR<Rg$BHpQt5!sW3sUA7n<;JyqfioL3zG<}`GD&`s7`e>m;@0K
+z4mQUmf_kZj;_%UY7Y(z96-?muFfOB6$4G<=2t;HFBM-$bVf#x<Vo6XsHm?7eCrA*+
+ztzi;Gy*St$lL+FW8j5?4Ql9Q6MV_OqV-kTi)-VYo9vo(le-1YC%v92gC^67=y-AQQ
+zOd_zx8YV%+gM!Slq8)4rk9u0e^s=#qNd(qd!z74!K#;Om<EWTK5D}`@;;^tVlOS7|
+zL|~0I{GllP{3i||B1@PA5fRl;9G?@ol!7Z{wlJ=kP>l)W^WWs86X7Bh5m~}mPjO2a
+zp9dt!7RFu$6=4yHFvm!Q!-&WdCK1$2H58|V!9^%Dtf;4s64>x3jDm0xiij*><e|7F
+zOa}v>KaG!GB*no$6Glve=*Xx>8z({3i-XNEi69=Tsi~wZ9phF%4j!%QN|-H7%P?4D
+z4I>XOG7yg?Ov^9|5m6B(0{)q25@ZXL2&}P&Nf7bitaNN#|Dk3|Xhjfyb9TZWIzzTF
+ziNG3bm;}8!s~AafFp(104z`4&#tkzGvV}<m*8GO??|-Qo2iw9Vf{3V|;`iYDBYniS
+zh3O+a)~KKV@$)%4+5~+UAR-)Qj<KHNmhj9jp(a6Au(B5uG}sm<K}3Xu%`u4}9;%_Z
+z(qUH#<iYg-BUZGIWlSp?*zhL|U%%Cw^aY1MVg*Uzp`fm4WE9gX3D*A!qafrbLFQO7
+zPar9tB3v}c2&N-WUt~~^*cL`kS|tIjXdSDVRzR>hBN&eo7c{WmHdemjI*eLGs<FWq
+zZqUm3GQ%^M5xlfpTs$5z*8hg-_kXnsB&8cIqnPdktj`F>gTz%d1slk*hEW{W&=LFz
+zBM;p}f567y|HUG@DKdiTY~f|f2u4o2Z+^wF{%a{gM@$3oh;3mc#TvZnGJ@#=<)grY
+zgUPXgX^{bItYLh*;rapbSi-cfKs;2VP=cQSxB_AelL)M_hDi|d;4pKXK37o_S`mah
+zKiml)$&7C>wlKXfV2w45JoqL@JU=nK|B-{uwy;>|q)Cu1Od_zx8YV%al1_?)iIgx2
+zA|mrR9SvSGTbM2r)|g{O+l<$Vh%904rLlzR0FcubCJ|7hm=s}yCZV2c6hTCmFo~dE
+zs?o;rYZ|ViVa@Lte*O~^v{GdYV>2#75s@WKi&n%#H5A8}ABj*g{{9!LGf$8pj9bGb
+zh<b6DIo1xggcVdut5&u!t&(7kHB5_E#Dfb`<`{b^4p`ATD#jxqLAEf7z#40q1Q8Do
+z{uL|6W=fDcBE`5)m)|tN7RJkgt7uqb4I@9U9}tha{$p~|6WB~emayykA|^q$Fp0n#
+zYgi#gM1+IQF^M1|s-gIS_nA$CY+(|CHR)K{t8r9Jf`|x*nPcr>OZd`~Y$idraQ8U)
+z`A@uNSVZc~F$p3f6l9J`1ocu4#qBTMGrekl!HQXeL|~CMOoE6AhnZvTU`seG?5!$D
+z!J{X~5+)H?V-1ra;z2>?m_!gydX1uzqJs|#TuQ+ODO(tqQmDonMjl**A|6W^dn1}C
+z#v-HhE5>I439^Mr1lCx?B#3xWkcyRbrPNFb5~PjO(cmJKEsVWXV-2GqT!d1H2pw~b
+z%@ntU>1c46EleWlV5lDAimH^FahNSkB8Z6UDSql>SUjx}*}}98bLyiK1`mqs>arU)
+zXfZ7k5fLsXm}6Rcp<b$?_*(a3CP5Z4uK!?y2HV0Uh=_2QIo1xggs*+t1OJSmah(w{
+z{{4@7^yUc?gmG(_1W_*vGRGu>c&H{luI!yr`nXAvEleV?#u_F;#Dl}kF$psAD8}FK
+zBvNcBEN?QcTG_(%86In_Vfy?}JX(GgE9uRYKq7OjbXaQ=WDAoBtg(hk5b>zL|4R-I
+zre<6CT-D*KAY2c~D5eDstk+;g>zMHR^21b&12Te<6u*Asibh7Uag_vq{s$Xq$;28)
+z5wz-&5sW-|s&UQ0CdPmN2aD(^Gm4RvR!lOAX`ut_2`gI19Mg&h#{Y!rtk3~qy)E4A
+z!A3ko#^3)<chm(YYk1VtO{RMyBN%z;MzfBUUyJBIz=n)qJW9Oju>MaNMPm)#)FzC-
+z|7&v0Fp|<ulu=Cg1lIov<6H%c@H(OMCyb<Y<75QWfe}C56Ph^w{jc$~U=fmH5iX-;
+z1k=L`7aVM1T35iDUorgrkG2^X5QxYUriBF}q8f_RdjWFV!X%<FKL1UQ8OCQg4j>{+
+zSUcDfb_^J<z8B!*+!9uw|CpdR23wfkREP){q|7n$P}~yUd}Opq5MV{?{DMgkHdw<X
+zh)8j;IVKUrLp8>@^79Drn$gi%!gQIi#u}zeMm%`Q%rRXil}Abc=|&>O208*1VGEN8
+ztg(hk5b<dF5i8V82~uYs$M0{rP=#@8m=>zA#u~<6T&POtQM8T;(@GT)Q3J*C<wqiH
+zVG@Bgma$?a!U05N32O&i!YGs$t!!cZri|aRu|~!C`(Gv}9n-265#b_~ImTv+Tf%rS
+zB*+$4ND&rU!z74^aIiTh5yV3^6b}nqV&d0e1r`c^P2hDkE<`LbEy-YwHjbpm1q5TS
+zC5-hHw}j*DSAd}OfB((s7_W^vrokAuhDi|h;$U-3B8W$=QPN4#ab0gPog!P9L|~0I
+zOoE6<%TE}46|G~AJx9$k39^Mr1lCx?B#3x$7GOmkknX6>w(y6d<4uBWVG@Bg*050!
+z{QfTy;b3!&%@ntUb-KwWLAEf7z?xq$uK(lRPR%&X7A6ryMD-NM=L9WU*}}MDf~#l>
+z7Lj9)Y1N8|aB<2UV=u)mVSFBtAPZPAs(>OAfkoCZ2_hmKY>r6;@lXxL=>TvMYV#4r
+zc)E<vuNWIBZVjU#T!bQ0OBj18{u@@HnT`O5*}^1(j*RNHaS}v4IM^JM2#hOQhj8AY
+zb*5D-TbPz%u*MpuB^lzu526~Zs1B{k5D^tod|b(mCPB6^iNG3bm;@Pl;NO44VMIz;
+zJJ=Fl{d%}bkS$Ciu*M=*(ur^|5m~|{f{3Vw;<?4qCPB6^iNG4f_3(2aIfUsH5fKhE
+z$J)V`@R+s#WP&Yo%G!VIS`{$_cd{E{=-S0DYs$i_b{hr5tM+z-Qqr#5waR8Swb?PH
+zTWdS`566aHv74+`rEKVC7a$l?uYupJy`AXM{*+7nwIeQj--!|NxZ$T=j2YvGi9PH}
+z$wr*A<GS4;BE0QvKiQDKt(|B{lN`oxb+rdU{~vsPENdTA#m62t2iUT}mNlh{k7KJ+
+z1>KxnoH9AN!DjE2*~!%@57<0Tj!rq99GtR)&F+-Xu(P9MZU+yiyiPfsJYdU}^0A|1
+zd(kktn`16Rr*4jg9M)%BlWjq^^{_2YS<wx13B4ib-WzhoonxHior}X(Dy433$Q3;8
+za^2;w%W2pyx?Fa-;Bp7-9hdtq=UvXYTmpN^<*MO$e;9eo<($hEms_wsNXaz7@wHq&
+z)Gf#@!YvfGXty$MCEa4d#=4bo3v?^ymH;-vE!-{6EyOJfY?NDRw@9}zw|KDeZl&Cc
+zyT!N#fDLd9PKh4|LL5%!Jf8DX&XcfRHLMurSUBbKD954hIcpRsTcC1*8nD$ZP_97f
+z0u{klEKtSJa<OA!he`#?7f32l3AQ>Z3l=+G;pMk`t@BFu+78=Zuk~JQyf%T|<h9vr
+zo7WbvRbW?nt@TRv+U=DBHpOd)*J`h=Uc12V^4jS2kJkpTonUu*?Md0Y9N2Q^DU`EN
+z!9sap^DdOXP`*Oh!DcVyYFM%whPxGVDU`dA8*J_=w^lpulMSag!FgW03C?p5@2=hh
+zy?ekmB<0~IpfbGL0=cv;kh@sqT#+k9F2Z&_CDT^O6)fcw?^D^Q6l~ReD)^N3i2)nq
+zQ{1PzPgS4tV9WbdGCbW5*Pw(?tWQaw60ns?DY65PceU>d-(=s_ux<6-=)2B$5!gk(
+zOMSQbZt>j!c7yLfzKea=`)&ri*>|PyCf{YgYrwAYP4QjsyTo@D*j2u3Q_Amw11N77
+z@XenG*ah$ar-1MNU;G8ILVy^MIY0{d<ewR~um0HrvIb-d$OfBzz-NCsAPd+m0lEMd
+z@WbB$tV4ifO5#D#=FmN`bzsN9?y&VWR6gpMyI{Y--ho{M`@z;Duti{(z+PZ`1-1+9
+z5ZE@bC)l2WeNws}#n!Vyr-H5porUeDq2mc?Jr;B^=z7pG*iHvs2|5vU4(z$0TR|s-
+zjt89qdnV|7%A^z6S}Y_gq;yCz*vc7{GmeFGmJEpqi47?UTltX45cr=e!N!CXPuXzB
+zabE=m|EHLNuHLEeJcHlr{2jypAOlMa#<(?%z4(8}5RWB{y%g7A^*`)V6QiEyHi@u>
+zNd(qd!z74!aIiTxicpLRQbeTKfd5|%ofTV{L|~0IOoE8V#1H?rfqLqwnGz&O8{g)U
+z)g;IkCJ|U;4U-^+h;XnuCJ{tLH59)yAd5+mEleV?#tbX!%|*>Pz!ugHwuGP6(3u3;
+z!X)BZ4Mk^CgbhCvMj{kMM3yj#pkAt>xKE=Wd+8psh!uEgVS)zR!gS4u2#1+t?O;nd
+z&i<iE5MqVYnI}jP#;suzM7=1;9Fqv*p_=r#k~(Ss1Ct_Km_%TWHB5qt2Zxzs5@h62
+zj87#Z#fGKbPM8GQ!XyG~tYH#FJX(GgE9uRYAaz8F@ef7QOoD7-5`i_=FbN_aMLU2n
+zi6A2Lxc#MMlOS7|L|}~-tp3}^>JyNNaF{tJK}19~6mK-?ACn+km_%TW5i7Y<e>z4?
+zr-+Dfm^s!CwuHOK%{B?Lh2eMmjc>15MC!~j2_hmCWR6J$^->MR54@jg5~Rh7)<H}n
+zY+({ay*SJqYX@7xmzE4gL5ljJBi*rxNf6dp!z74!P>?w$5yWGxQH-SM)Z8}2bc$?Y
+z5`i_=FbN_aEk9vZkdi)_)DbBb4Roz$5@ZXL2&}P&Nf7Z6zoJc$2qK~)ihGW#Y!YM(
+zlL)M_hSTRNsYHas%&~T`C0yZ79+Mzjm_%UBuNa>H`019KQG_i_B8Z6UDgLa6`Y(N{
+zH?l2EBAzMGU~<ebT^b_7Vdhvn*b;`nAH!e3Qw3SV>gRt<kcf<85=W#c&K#2<;-ngi
+zcaJ-!nACw|6_Yruv4%+y@!&9XtQoBG!0)yjiztD=L`|p57A6r`V-1ra;z2>?SbhFe
+zLMwu>>-zF0LAEf7z#40q1Q8F;RkRK@W5ODSe<oljogrJ8L|~0I3_MEud%uws2NNk_
+zZ2kj|)d;eRH6mhvVr7ZOS)w+l53`Cjg4ABBr#PIs5+ukLRz=|Fe=H(J<`{`^01;Wj
+z+QF7E+;k>E=2(6H;}Z}QBqF1j#1ScqGsh%|IH@K*uHb9bq|O#5aadywlOW>3Vdj_w
+z8F|t_{}U-Tz|+bk$QC9MSYr*7AmY*Ts~CQ_O>L$GsUuR1!!th~iSRPn!XyG~tYH#F
+zJnH9va%dQdAR_ZPy!)91*}^0OYph^JCBgwjWC@cXBBC0K!{-K*AX}J3V2u&O=l`FM
+z5z{FmA{=IpwSz5T_ylDVWDA=<|6>uUGsh%|h)|F@CK1$2H57->l_o)241c%vYl1{z
+z+!`i9)QiK+v39T}3?IW$km>WkNnLt^z6+Q{V4MV*V-iHYD99X>2<kP~!0Vq9@D0W!
+z!WJeGSYr*7AmYJc=2)Gpq$ji@2*Y<dlOS7|L|~0IOoE691tC_n3GHA@7`_FY1lhtQ
+z0&A?{^tlRtwN^<{kvS$2L_{?dr~kNo_AI+p+ZaFQQ;im@pZ_VL)8QlbCy^y={JvnU
+z`5oI|DhO+c$YTc|WNcxh2zx~>N_T$4MnOM`a%)Hl8$}pve#h`{8Nnqm3bKUZ^S>QD
+zOt8o(!ZtPv`bmU;FF*qb8%6x&`87`e13S(IZ2Z~AbjPIBSY#Ar8yf}vB>nkcyyK<(
+z*=r5M^B;bmWv}O`j_M6!3)30G8f)0dqvf=XP0#<Iq{as0fZVX0I>sc<7A8ShV-1tI
+zpFFu!;oml*0oq|ktQBDiqv#W9Rp95Hoz=5w4dY;{F~f=}fz5c$h}0aTP#Rzh(*Qa!
+z9BhthR-C<JB*kGwiWq)XaF6kH;p^Bsrc;eI*07OB%c;Tm`TyqtBc@aRll0d(d^R+R
+zvxP|z)>y;v`48`W{7VQTwT@8`T>@K}E&&}FUIKHRehCycLDz#wNe~S~an>*mqXWQU
+z=9u`2=O@2nyy@`UiSbO>so!9%VLFZUZ3Z7)=GfS4{6_UBTtT@rz%;mm4NQZv#u}z!
+zKY4Iri}-)X$OF%RW5P)KE5;+E({2mnU_9+uV-3?KARe3xSWyR%2pWc}tzjBKM}~vV
+zF%2UgEx!>rh&P@s#SWUu`5pf})eTJVkXWyc8;S7D5sz*B^GpK|t^fZd%?*DI+d5sH
+zolQ(4u-+ObaX&e={P6rYPmsEwq{aq{qtKt1#yb9anT%(}c$t31z+?RTUm~SzL)Q;Q
+z&@fw=hS9;`Fmr6qiL<tO*c%6+Gb6;w-H<KBDN72NAtel-9h_WKZZ@=k#EsCgynQ}9
+zLr@`m2g7#<Cp*KWrfjUq&1Xow3qNt?6yw^-(Dl1rKEuLz9%jm#6?ZmFYMb5NdT~&c
+zox9;>l3fK8!T%He&*Ii8Sq3;&2vX|QzOZ-AYTtyIi7n&Djg3xCn0RkD?kP?_<!8^j
+z0`Il{ztvM5>o-b%saTJD;vt{%>2W220#ram<WrvF=r2q3RR`c+I{<ykQ=EL{!#wdA
+zedT8ZC9oka&0QUUdm_RH^eInq@+nU|<WrvF=<jng^6ygs5D_+Df(j^3KIMsse9BWC
+z{U>@y^#E{BJXnuD<uR_{wWk0T5E1#5r#SjIZ)8;m;9ffbeacgueB{GC@qn+W0V<#b
+z`cgxkIso@XgaqhQp5o+Fo_NToJjKy}SMkT*n2Acucmza*4d_z=#mT2U5s^=Milbkq
+z%zYTpG9LHDLq6r}DCsXh3Qz$NkxzMwqaS$rt~vns+5zZOp5o*qALfZip#T+70{y{f
+z532)kPefRcKIJJ+KIMsre9BWC{Wfh5De3?KzYIV>y}%SF9|<u}MC4PR;^=Q}wnpX0
+zJqg8n^o@DtXTrRJh<<HYV;YS03*W6$2jE^i0Da0+oP6ZNyvnbnKT5R?G#DFRzL=;E
+zz&#Nm0s54uIQf((9`Y$qarBkT!zZW%a8E?ofIb#z<K$DGh{&fr#nG?+xs}R~do4fu
+zkXO_KN|-kg5e`UiQ0pm<^<G{r)B(6B9;`>7@)ReZ^0Q|tKi|!?4cY<w-Tc)7xF;ec
+zKpzRUaq=loJmgcJ;t2{6Oe^7|4#2&30Q%UVjgyar7$+j~DNk|q+qC)L9?auj%a6W7
+z1+=FE@~M#s$)`NU(a*B=wmJy+#Dn$dQ=a1KzG7-1BJ&1{W5cu(?bUkR6A{*<PkD-y
+zPkG`Y-<Vh0@1X<+Zro_B4!}JTVFUV<r#ShPCm!-CPjU2{Ic(jDdEBc!O8Q4H3{Zh~
+zfVP2%h=A%Tp6<t{=VOV7e9BWCeFX-X8i>fef#TQzXQBk=aZg0#Q=a1FQ=WLphrFT^
+zQUV*`TB-wZPej;&KILgodGe`__{gU`#nFeG66V1BKLR4c2K1?b;^b4Fh{&fr#nFeC
+zmwF($CmyUvpYp%F|7#nF$h?8#NC2<@c+BHoI{<ykQ=ELNCmw|YR6q&z;mM{Bz&#OR
+zJ^GZVIQf((9`Y$qarEJdtEdA2{4xOj^a4|yd?ds?5s^=MilYzj87e>SNhsE%Z_Fz{
+z6Xp#>^lL*a(_pNJcSm&q?zIEZr#!{UM?TD}{Pg~>ZJ@!}0Ppka0NfK15};3cijz-y
+z;vt{%6h~iy4<70O+!GNtppOOGIQf((BJwFuarEJ%mdcNNEkF8@SJVPZm^Tm+4oGiM
+z>nV=)@L5nDfP3P>dh{tzaq=nu%lp5!K|5gLz35b2;=sMf;Z1ud-OH6gJ`!r<<Wrso
+zlTUeytMC8K93s^LxYrIq9~-oB@{thZL_|L2DUN>5PW#kFAlz&D(O0N|667Nx77!8n
+zl&3iQJ=_ng18`3~SdTvCDNcTRUioE!wm~~!*UmY6hdONCg?l0*9|^T_@+przm?u7p
+z8|##x2@EuIn4u2By><}#l&3iPNQikHKzsaFO>wFt0qCQk=!y5@b}0ZFY&^I(;IdbO
+z8UUXZQk;Cs6A}72koHthJ_(>W`IJW<_4_{t&KCK$2McgdM@T*@*2c-FJQ87^gi)O8
+zD2_h7$*FU24|5dt<%A6wpaK#=KIM@J>xhsB(E-qrl23VxlTZ0Nwc#JI!fS;AB&Izz
+zkWT_APCn&H5c>E*1@pM410f#|NE=W8{Qt87iLihOv2km&zg0rqYYEXuLT#LU>O&sP
+zoAXhfLJ3kvM?gnPJ{<wY$)`N=ppOG-Pxa)Ju=Kd1zD%?YTB7i<p7Gd#d+m{<kAk&v
+z@~IwqFi(6Gr#fR?F|K|+)(=q!;a)okeQeOi$wxwrBN6TCb+7Fs0W=uT1PW8nfRg^Y
+z#{em$Q${{D5E1$~fc8{RJ_(~Z`IOi47!tNS<u^3j<|L+c+U8Uyzj9MJDclsU2{(k>
+z!d0+Wg^R*@;gWD1>~Z0Ua7wr?TmXAPI4ax{&I)N@(}XL+J>h@CGqBHu$HGJ5iSPmJ
+z2jQ*oUieRV1NM#ZQg|-B67GY&FWeCx3Gaj#U|$G#g^$8h;Q`nO!fQqNB77G__60V9
+z{SX*)1nbBgSXP#e*@LxbnV7^fv#){#+b2QCvM`zHVEZgMG0wh${U+Ek7v{#?!Md~D
+zEGNsuyuo_2f~+tr%DljOF;A9{<!7#7U0HUPixpxXOvwetnH6DqSq`u{SOMn8f>;FD
+z2o}nMSs0548_$Zf609VP1sltvStN^L{$Tx?4+~*&EDCHC^JNJvoCSgnWW`t+R-RP_
+zTa{H}6<B3f7i?Wti`8NESrXVJR-IK-SPfQ|RfDY*tH^4zM6ijhG^@v|uySC_v6`$A
+zYsy-KZOvM+W~?Ra3brfj#JaHVtRvWttQ~8^+Ox)B8?y$iIqS^Yf^EwhvTm#uYXY_j
+z>%e-kzHBhq!E6BQ#|E-7U=6RzI)*Fb*(5fdjfZV2o6PiV0oVm>E}PF5u{mJpu$gQI
+zo5d!8oxuKLQ`kIa0Bc}>vxRILn+SFyo6VN86>J^Yb!;_T$=0wGuqkXa+sd}HWU$F>
+zBU{flv1MSFvBhi^+rl=mRSK9TY#Uq4mV;f+{$ab=UUm@dLAIZzvIFcC*i$Txon&X&
+zaj?hP5q5|jWxK)dW;@tEc7h!SdzkHHr`f-357<5I7(34{u^V7-u&eAcyT%@ZeaP;!
+z|FOsH9@u;AHoM7`JM04NF0ixg3VXnAfxX4fu}ADWy9o9oyUU)jm+S-B59}>_#ojT2
+zzk=->({awfg8j-qv5)LCdk*$Fd&1tZAM8J{|FNfx@%QWn*ca>zlery#3-&F`!tH_M
+z8?)!%6z0Nna2<CB>&%^aR-TP#0-K48+=07tN3f1u;@{b8mKkhjo}K67dAS!@FYd|R
+zd47IbaEHx@`}3<pQLsgMVP24X^W0!_b2sk6{dgg;g?LVWMJT}YfX%~;@E{(_6;IfC
+z@(3OVR6byRcyV3=NMgap@@O8(V|XywU>?B3c^r=d8^r^;FVDwAz=rT*yd*EfgIGz}
+zD)6#AfF*%V;)%Q_ug$B0t;Q?!io6Oh1-2BA=jC|~UI}a^o}lnrJdl+JTbftp^>{;G
+z0c-`{gf{|`M6ijxHE#<ft-!Y8&3RMag4YLIpV#4yc^lpgY%^Y$SLfw;1F#KvOWuKZ
+z=Doo7;@x={-h(S(6+Vy;;lua<umgBs-kbO19l6pQOgr9<59WQq_TlaMP~MYw0^5oA
+z=Og(Tpco0;UwkZ(3<NunPvLqXnGAL^pTPg-6Zt5xqxf(>j!)&|!H(x6_#obuj|MxM
+zPvSH9621)VGQNh-<}3J8uuJ)3K3C!E_;NlMwpDx+-_7@e-OCU0Eqp&u1)IwE@DzT8
+z?*qG!|I5?(MSd0RReq13<hS^Bu-ExzexBdw*T7!mH~2&TmcIx4o`2;}`G5Qa*bn?2
+zf6l-2k6=IY&zy-_#OxvymF!|3Q518C&S0HIN6}u)EoK9oO>`0SiN2ygSbs58EFcDo
+zeqjAXAF-eqE(U-N5QD{Nv8-4gY<aP&SX`_qmIGT(EF+c>6U7Q(D~OfFB(bsB0&EMh
+zqgY#PBen$FQfw+V6gwzlbJ#T(TZt#Qfv@E!V7tVx@b!E?*!lc4pTqy*hru4^EBR`E
+zly3vOjnCs-`6K=f>^FXZALKvyORz8bcK(cC;5WhE<e&H#ew&{Hdy2o{k>W9a7wlbL
+zS}Y~r;pccM@f=rT#Rt5G*dA<q@eO~?+ldXt*SvxFgx3+{#VTSQ*xHJ%#Y$ov*f_C~
+z$i*138rW)LR?$hUE+&9Y5M{BJ=plxI4HKJ)&BO??FxbLkUC~Q)5M9B#ia}zC=q5^F
+zC9#k=jqAi*3hZ);i}*sGQ?wHoayxMr&nqVLU0`?dqGAzoC*R16h#Pr+@i>nX1+aoR
+zoiE@!_$#ol_!*vA^b|LM-N0w^n&SWXX0V&NyLgsA=JmnW7mJA{#d@MQSZ^_t*hL&5
+z4gxz!93d(_L`57d_JD1m*h?HG4gotv943wvr;7%#264VPL7Xkl1UpllAx;t(inGAZ
+z66cCb#r0w`*ko~+xLiyTH-p_QZWPywJH>y%{v&P?_ln2G6JSq>=fwl!Y4If3lVX~9
+zP`oIf5)Ue1&WcyX`{E<8kHpvFb@93Q1nd*>f8t&7jrbVsWAUl@UKAuQy%)J;FMSea
+zNdzlOO!^{bktDE^lv&Cqxl0~kJ*2{tt5iVp1nVi~liZ{tQhu=crGk>56d}ccjgd-8
+z0g_TeiiKUQ6eWd8rKMtEi%G?$Wnx!xq__;W4dNzowAdSLZ*hg#Q~XO@0Cs^mR2(iY
+z5~qNjBK8p{imBoSuouKR;ym$^cnItvakBWYxK7*(cB^<sJST1wSAtzB9u^&?#o`XI
+zI}|amlt<bwt`YM{YeW}mx9B641Y1%%CLR?Nq)_Ro7%J@-1Eri&At?~HcqvZul5&8}
+zA%#oV#O#tcSa0cp_)sh=<&qwXxulz-zw|+Lko+YFDN>4-vP$2?XxM_J&*DAtnfMvD
+zOp=}SLR4;ucG3;;tJq1rEWQH!O6)K86JLsVz}^wNi*Loh#c5!ti8|?rs29hIKVbV$
+zTp~J2SHNBoJBxkAsp1i^N5oa)ZSkWx2J9HIo9HX;5yyiaFTN93i~Gb7X*F!lQf?_&
+z`Yz^%?Uo{zlWIz}q;jw|lqyMerP^R?OG#1{sj*ZCY#ph-)LiN!bpzW?>Laz5dPrTt
+zc9l9yZKZxvcd*^1UeX|GwDcF)za+ghM4BXx2RmLGD~*(<Nq>X=Tbdvlq@~hwu*;>j
+z(i~}}v`kXwfLS8Vlh#Wsz^;&1OaDl_q*Sn}(ot!%bWqw4cE7Yo+94g2_JQ3e9gt2)
+zSEcJ<uS<8OGty1z8rW;n73rLGU%CPIhICtcB)yY9fc+qSlb%VRq>o@fO7Eo?(huoB
+zu>VP4B(BI=WoMbgmRFW!H`xWOi|iyj$a&=KV6)4v@?fdF)JPf(+Zbt_)I_QVwwg3l
+zsw}mT`hx8%)sq@X{iSwb+euZWHquOK9oThJPpP-GL0SNIfz)1_D~*ySf}JR>lGaF*
+zB?YXaNb{xtNdu&*V5drNr8m+PX$062(o<==B*?kt=~8Zav9w6aCELr3Bzt+bB+D<Q
+zuVBAQIprMkXX&|=Lw+u0k&~sz(swBtw%yWRNhiMo`%2m>iSkM59@u-5qnu5CAYG8M
+z$rq$d@>yx8BK<3!h3%GfM>-^J0lP&yFO`utN=LvRk!ncQrNh#8u-m1I(s8M!)Cp`S
+z>9TZ5>L@h>+e|tw4U`^Ao4{_8%1Vh+2WcVLh0-u-n{-NQ3bv_KL1OX@sTJ5(Qkpbe
+znkCuE!(mgNNUx>L@<p&0r4-3S_Lco*57@$FFF8mK02?6t$%W(yIS_2193scaW##f<
+z%gfc|IJuHs0c-`ioE$G#mn(v;C|8kd$xY-IU|Yx?<vMa(xfR$}ax=M++(~W;wx!%!
+z?kW$I2P?1}ERU3X%0uNLV28+q<lgdVSploa!{xu^Y4R+vv*g9{czK>Y8|-X(hCEeX
+zB+mppQ=TI)lmC%7gWW9ekXOlD<z%qQ@+NtWyi48!c8k1CPL<Q-lVDHE7vz8CGx900
+zr{oi|a!9@;pOz27c22$~Kad}TeJsC`Z^$p?r(mDT59NFETloptC-O77w(Kc~gAJFP
+z%FX3S*&D34Tu&}27n2jgCd$Ebs9Zx%0Gl8emP^Rp<WXQp$(7}*@))@<*uHW}xtH8n
+zZX@?nzzmZ|$nE61VC%|#<UMjtxdYe^@^Sf?++J=7wxN7L?kr!CUxR%u50LxIujIR6
+z@5(*ooAP1#JlON{OZmBcRz3*!pnPBcTiz#M1bb1QE*s>_@)58{<cacidAYn3>`wWA
+z@*`Q<Ew6*!I{B8oTGq>R!OoRa<n8i&c>>r8@><zl9xE>dyHNI#i^>b+DPX6_1>_}i
+ztXu|c8F{0;K`t#vgN>F~%1QEGc^ueraz43;TuSZ-wx3*Io-D7BqrgVV`Q@u}7r8jt
+z;(6tzas#=$d<X0udB1#AzAdi@yI!6okD2_y3ASu0lOJT?xTx8OqFEAV&zco~?bGOl
+zI|DYuUn=~>w-U1^U>s`*dye|sRD=Is9n~Y&)(|#q?8BNV`<w<96Xq%L+oyafL3`cz
+zgT*k8dof-YkMSEv2AlR2$9>I;<;o3k)#>V%Emgfv_2~Rv08iEl^90|_tg=v|x$l&6
+zOAD>^UgbPDM3=>`eV4*-PQIv=$6<7~D^Dj)ycD4H?mqI#khB3)-gj7kt4fpeZHwGn
+zaQc4Yo2EbhQ_{x#_`dMlk2c@--n!K{`TLxHI@g@lFKkG=a$(-VuSwg_2K(JBea?T+
+zvkjl7#opO6u<D1uJv@?cH2k;Qrn~!Adp|lpYSD$t4KCkav*GE<vztfHZ1en7bNzw}
+zqXKH5ERc9JtH;@M#ZUZCnYLzB(z`na+DxudsYuIL9^W0mfAvW@w(-6E(BntL9N#Z@
+zZ*lj;zl+=XtVmsdU}OC^fAx=i=yAs|#qsYROCLBzdAJr>UHHn34L1j@`O>?J+v(DF
+zi)+?feSX8cznlM+-13v*eD@_w3-XR{SoqiBJ02BlT_^v0G0A=OnE2iE{aP8KbSaAc
+zbg!uevR)fI&pYk-wub)}*_phgi{~f1yO)}bE^lDh0(1DL<la%LXwk$j0cS?c_<sMm
+zG$zO{V9b-R9fu}g9UM9{ZdHwcCT)mF?B!eFziTxcR=Lu^!GH9wlGD96cD7$Xx9FCk
+z!z$Fiu%JPVYr(2^y;ptPwyAKzV!1ZREaF10rJlJbD7x1h^S+%hxN6CKSBFiXxk0YH
+zIki&n(*Bp*t<UPYepb+=yew~y@xjgg$GEMK%YPgGvB9Rh?a%p(SKmZ8UsvpN_1PO|
+z^{HIM{rjcfHOFLk{cz+&qXy**KAJDQn%+n_GG*$Ac@qa8f43`k<JChAvsW(n!28O~
+z`qSo&oZ9Q_$7lcD@^+OJm-dr}yp4@KdHrSM6WctBzZkG}U8W*w3H#qYR_ZJY-}Po^
+zmlcPmKbg@aAoqz}DJQzNZoDDwVM52U6{0gui*fXR{rTIbW)sie`8w_Vq;<nK?{mqz
+zXUyKHDI=ykRsJ;2xoga^#_u*?8s2_dfyisc2m39bn|t*8aYrHyryUdhJIsu_Il8{G
+zr+v)T+hw2hdVaU=UcO>^-bVo~P6>Z)+;q*i<Bh@vhV8v0Ck&4Hn0fQ&m@7xRw`+88
+z&E>XRN;c^@vE8w;ZEshZlXSy%LVV=%%S9^Jy7^&s_CfXT49nKS`)F~$d6~*IoH2OT
+z(ZXX|4M-{)(kg2isb#9eimgdupKjD?EB5}c$?^jg+X>1z{np807yr%lW@v|+yO-~8
+z;aGCTk}X27L+`x)a(q#3Ouw38MT@nY)TP#3-Izy1c64|CC`3R0c(g{|u_vF^|2yz?
+zz6ZD0e{5XP*Lh#oit{&Kc)YCht6IJ;Gpg(@_-V-1u<!FKU-C~5%@G)yC#c)ax6ivQ
+z${yy?bm;XeXRdBfD%9<p!(8QlUd1nD+=6W}^?JG7uV1cB?Vf|)_*_q2Ft^&C{VN@s
+zHTbcphT_!n!Tw;!Go{@smyA4CaOnBhC)?#;Q|f4HNo7ov$LlYB+E>1H<~uVzXLW4q
+zurs!FT(^j6+eP;|qW!&?D&6-^T0S9BRAvU}&$+f>%89E?_-BHy?Ha$tVM~hnmEW(_
+zD|KbafrhKUret;>Ix=b3<qjW`%1*g7Z*Bd=EvsJ?UAA!I^0H-~er)OKny2A7?^E_C
+zCx`#nvEHYtefl{ZcPx6y{dDzr&&Jfq=hnZ6$Kiu(-n{8M-{X{L(3z9d-|q>Ze$wsm
+zuHb#MKUKLMdGq{i`zra$)rpk*_M84O@<G{NpV~%*6%1FB2X%G*>^HUk0KvV|@H#cT
+z8_hr3t<{XQEnV|=zaM<^Tgk$K4g7=!FR%aiKUVI1Q17bUZ$93=W?1hjJquO7`nFl`
+zhI?|^wR-lcwq44c12LgX#%}C1q{P^ZeIDle=(#lWm}+D51^Bgi?NRv2m^Wc}T&6r(
+zpLf_{`SG`BVq`W?yNP*+cTn1Y&i69u!IUo-SG=ja@$$jN`@{)}f|I{b+Trk;uLu6q
+z)mOK3;k%^beFnV0>*=@L#XsM%+o#Td2|o8?e353En=GB&a!ZxKC!>FC85|dxP_SU%
+z6J?|RIyEmaVaT)t4}+(5>(j-x@Ao#T2~G2K9Um0?_-MWv@{p_DzQ+&k|1z>uzSj$6
+zWv>6M3d3$pzdvc(|EhX?Trdl6f^qSq2YTykdrFTFCT1J<XwCDeHD2!Sordnd{m*>2
+zpz^B@vA371SNo8;eU$;n3YU|7Cr)c$<_cdC`1tFR6ZZ}zd~G+j*V7KGYUOKwboY#q
+z>mU7w6z;ug!|KadXEmrfug<XkUvk)cdldfqC9zklzN3{V%lEEsdFe-`j#&q+=o8V`
+zFGs5V(rXJ&d_TU!x5tFatIqBiKbFlZxhz>2{UB-Wra_%MTpL-nV%xLV=T;jzd|_mR
+z{JWhaJfq9!?KSewyxrGxe19`=OPSI8%62Oibhz4XxwrrK)Qb0d-(m-j2ezDayLv9a
+z*5e=UeKGNJ*)u{H_xI()S}WT&Ox(Do+mC9eH&+b&_tm^!Bi2N}FZOt!N7T`YGj7Be
+zDU;^8ag*J&Gd*ud)ytPQHQ(ZiA3N3F$*-*Q@pE~x;(x~$oz8M`deuG&Ucv42w&5;A
+z4tX6}9N(<X_Lh^!725Ja4jz;*vXE|W&$(V3x;G#3A*Sojnc=05o%3$&vuMhI`hy>M
+zD)lFwzy9CkkFB>J4l7@>+v=xXpVi8|!Z&i;!5Ui)HAjv9XUx1R4z>DZ`f+@b+m>-f
+zr*yth{bn7%d$U8m92=ILpQ%IIqlXuJ=WDpH|AC13$j>!XoC>FST<!g;^@>GpC$I-2
+z&u(z;)W)M}iA@J{UuZeK!g#w?g(o}r`rq|&rB}Xx;BjI=Po@0+o{L`2E8|^9Z0Emf
+zP~op<VwdbpsJy=1*FsY=Uq6t2%iGX_9cP@r;?kh3n@`mRhYH*&p5}gj@0EZE@3pgD
+zg$3WJbRy-_zW0Y}Chi_H{p6Qs6*@n<wW3*{^?{@6)joZoX#Yze&%fxriT7`@xP-&_
+z_Fez$G*tKf+qHRFi?%qCma}n66XpGdxSS8>&wo2OPyfhecS?5P$z$hNJbk}w=aK&n
+zn*Ofm^ufz+Iu?KZ+QC~~K6>)`Rfmhj`F<a>wQB0lAKcx;5G<C@@A;}sK>j@mQ(lB-
+zZjzX{hE#G*zFYo1<9!{AK7X9Q$%>byCvIuBE^F-WRNw7}Pp1v#GtFtY^K_S~|BLbK
+z7`{@8`!v1mfot<hhTmviefecW(doG#bsXiCchRE#i+VdQufH{{+??;9ou@fAsnh<o
+zU3?v-$B~D-zr0y^cS7&Q8{C#Q-te@w;FwTiO1@V5+?5>{tob2VZh7b1oDnZO_gZ7O
+ztYYwnOrc?0OFDKfw6%l19N%<wuIdkilc%}7`SHxVr+BvKJEhoAyPG58lk0Dfe-$0I
+zI5=~GYU>{Q^zY&1P=9Tez(j{m?bdJK7GK+c+^)q9y7ztP?(nL};l3`9b`M<|@42X7
+zyyLX$4fFRZ8!)@u`8P=&S~UvYe68e)eccyky)k*g?7L^OY+m==JEZ#mb``9?wCeW1
+zueJzUwz$K$h1V|KF0m`;oo4Pusw$tp{JZGfwRQ^^KYU!!zd@~)>(4E}QfOn7y;n<$
+zvHLy_iO4>_M}_{agF2s0X~P$~4oMTP?%p}_TC`J(+OH;Mo_D)IOr6Z-icXq&=2L^3
+z+jk`TUjNF5&U_S7G~~sLZ@nI_Z78-L7xgA|Y@2AWxffe+H|!tT!)N@!jm3(Va|=7L
+zuEDvIN`oIiM%!QNzdZVJ|0(fz=UjhWaY40&$~~s$nA3P_@#96pqXPmSKf8PL=8NmK
+z9fMy+`A(i5=-u)(A9${9o{0yx);hAvPb~U*UA-rcUw5STSQ<HHmrIp8jvqTmWQ$tj
+zxi&R1w1(rIE=^a~-(Tb6fi7QCX4Y&x+<WxU<prIaG+utg<<ttLV%sZ8tNL76neCuo
+zq~D$y{)L10S8bB?D6Mmz=l2eWKiIP&_{X6gIiGL6wxIH?&!r|D?Xz%5#Lk@0CRdwW
+zBJ8gZlZ)nC)U3?sLM0Ez4rK*>kIwJ8Z0*i2-fN;C&Y!+3ElZmv-QC|du6<(Uc!$65
+zZ?1ped&D%~XOr@ls^9s=_WY-(U+(!-nJ{YP@!Uto*d=xvmT70y#m?bl8r7{hCSR$J
+zyGP94_deIm0EZTBpTD0vYT^+`!vS|`;@26Ar~A(h*<Y?;)_|O=Gq0IC<4v}*al6h8
+zTOKkwht6-<)a?HiDDUf<^Nh#Jo~NS6cKLDi@@IGt=B+yx2s!p+PI%_zYW?Cy@t0HI
+zxOumBKdoGuey+fPXAPaN4Szmz^uqrVON@CodC;0XS6%*zt~TE8S>Uv8@O#7w{)=yy
+z{rCJ|<#Ux8Tj8%v`(0Yv2i2MXp4ac;ak<@<H%sIH9jUw5?99R2mA<seo7io|v2SnF
+zHU`BnI-Yhnu~^?}Qvw^$$$EV7jv)(|emS>vt>?;<2|HqQJ?z;e=%jLPN%4Qm*e4df
+zFz5R7x>eif9r0?w!Y56ukDVOX>(L?i)Z*UVdiqTHde43Iv4~B<Wu_IWW!O=6__{JP
+zPo?#o*JaN4_|8Ly&s*KS|K35xh1mR+?fM=c75l!}nkUg+;wJW=;p}pI#W=(8V)aJG
+z7Jfa@tJ$^#BW_I6*Y|Q-a%}kpHf7(b63R`#?j`Qd)!lSDed1B{)~`zMzo*3>8+iAa
+z=RC*4h0+e(U7Xc(e4}nHK1{lQzkA!;dCS%<e{4~7i2sji<va@=JD9bci_eUt)y0z=
+zr|6ICmlo@H{=rbYd(|g*I3C`kSAX90P3WsxeTzJBYU}9+f1x-0^2<5V6N)__Q1L^-
+zE;lX=ejndZDVt?x^vDwH+oWwDa^<i2+aFF@)@MLj&+EIE%)8#o^}uI)`QJXXe(b2T
+z^+lHdrfslK80eBG&){D9+zo5(V-No2FzBF1*<5?VTO{|(IlREXb^}L7A33qV#n^Sd
+zo&N2Wt>yd;U*EkvzEWuQ@@AWDBkj+&z8I5t^N<67cMquD{y@Ts%s#^|Dh_?Jf9<-}
+zWp?AhGuPUMR@^+RdcN#Clgre5fBE&C&hnE+b*Bc(L*6vGx%I-G36tOWOyAV8U~}<8
+zwl{9Er$@c3*flC-_te<Z-Y!G@zJCiS-T(TBg$3GuFjQ%}`I_hOC2dAd9yY32mLt(_
+z#a?7}4f;Oh`s)D!n*xrnsJ!z0ja8-3z8D1m%TI9T(H$RFzBH%Y&La_yE#vle@{Ncc
+z+~Q8fDydG(q=3`qtDb5X_pENkZ2Ln?eCzZ&`0&#o&KDLfzBu%N{p*@`1@v<UwNCnU
+zqhziA%}1vF-Q&oU%A>*~yqm=8I(VeDE7G~st*Dai=8bEceEHVmTk)4hFZ~{UKXui`
+zr(IJjcklWAlTbmKF?*AK+MSVooZnWD8RA{#R`HeVc8r<#>GI;D)%CkCu797$eRHkG
+zf9<N*{@?7g((J;!wqLuk_sIBia-A>X4L+9X-^%yI=37&J=L|}?5?L}nwO-)or_08C
+zyPuF;wZNKFZ%6ly(}(5ua%d3sd7%H&N{xP$duf<BTDj26?{<~ir6U%`B`WLcl%Dl1
+zyyf=Z4V2Y4&vyPcH+0GQTyMWuX!^YQ)us(+Rx)HR>-@Q8Z#PF>(6RpuQw6O0|J!o~
+zny>{{oo0HW1xaD#f_<!jlXN>!-LkMaKVD+&>fg{M8y{14mq5+z^?`Ex%a(~a<SmO8
+zbHO`v*#?bdt%b)Nnu~EAVW+Z<1RV>ObE@Ni0bDngt3{Jw4j*jFnsoAqC7=`<^+|%|
+zV|pQF8kbVr=n3>)DUL!>?fpffjbqSbEGy17&%%ha1EPt~vw;kiip5>h+?zaMHJ3DH
+z%AvCQY_`EL*h`-IQtv?%QyTNz-#F=7KrLBQ95M9jX{^H&?U*5eHVKCg85m-$-~Q8o
+z=wszR(Mu>;r6%SdQ>eU^!=`iZiV~;UJ+o*QIpRJXR0hzy+li5I@t)^vIZ<-RX@G!Y
+z5eJWl5$GX}^4J*ATleV5H{bw&5}E;r;7?t6ln%G-(vl8P9agas3h;OLc+E$TR>|}s
+zak?!5!}8X_q$@@B_n-~x%a+9rO3*le;*+2o5a%ZFd-5who4P{OZ(5Az8c%SA%P!9z
+zY||vW0Kv}BDzilI^8Ip!D=|4gKMtMZS9oC!%vUA?@ef@D`jtP5+~{Rd7j7yKd1H9k
+z)OS;j^`&fK=N9~2o?0+G8nl^Lq#`<GR$SI<MQZejcS6dG$01%g^iuO}RfyVuTDS)4
+zeAUc68|?c!356gyfQw{)sim%#IT2rAHNYW^VId7!qACxv-MP2poJ%Y$EK!yBux7+H
+ze%Kl>wtV=)t9WpzZ%!192Qkvkqt$MnlZ{k3`>LF_GC5<J4e60bG#UNoy!z~z<q3|A
+ztW(x{@j5}x;RAePhf<DW0)at)k&U|&Yd4VHNkLeb`F}n01CB}az8roYCvq0SX%5!b
+z-Cz*K`nAEd!G{|!wK7Yk`wc;jJ{`<mlb{M?ckk6U#}Ry8L6lw;?25n68F5`UDXa0_
+zdQ@hKd$g7UnC29fQLW11KsjWMTVo48{OGO&US$iOZ`BD|0vwZcV{({(4?akN1TLco
+zqu5c^&=yygLpqz<vy<+a4yxFk9CyRwKAfgxReX9r&>vz`QG(k_bVt2XoFeE)slp>C
+zIsluxpYDTX>67@*Uee_Cf^XwS6s!o338>uLio{GE^|8+<-U(kAsUG&xvS@~d1zOV*
+zA09LG^yzwWZAmLV4o!rAnPD-J9L+O2j;5qarL9+{d))`c`ve-?0=esZAVd7?CHl6o
+zG4D$_T1sT3M!XQ9fi}1Y!pOAxHXHh%)dPsu5@@lK3&sP6&|>=aY*E_|-)_M67BHev
+z3a|8v^G)QdL}MTQ>WfafS_jH+_u@CXGgSl4ltG+zE|KfSytM>>FMiE-Q|jZz>HeEp
+zy23F6!8&C)hi+$uz>@0EP_hxR&wfSp29fO1R3RZbzv7xk6WkEQ0c5`GedxBb&=%dQ
+zSP&g>zs5=Tdr&l#9%3DpDw_k<E_BX`*INV<3%|bNZ<VmIl?Kkx*_J%UpI0=)1=c#L
+zxoWph<T<Irhh#;6R(e`R^*S`_06rFA8D^f`5--Hp@X0EcJU{LlPmvxBp~;psT6(q0
+zkW@3p0G?Q!wA~Y-dZSTh6j@}64Cr7EBT^h&!j6_n5EN%xj!`FbM>+X1iF5B*Pp@Ny
+zxs<b91+J=bkqUaidr|5^w9*Fq{zx+YMlNujvz7>lPN~FfboL`1?<Ok8w*8vC-7+!c
+zF$)|qORc(LygALtH~@Ev4PEcU)`K{fJkG21bvTV<jW~&==<3StNQ9G;d1BTz$QJl2
+zOIat(sLb!z9d(AuvY%tQ32Y;}wqg>qiiYTlcY*8&Rx%pX@Bjb+w?Bsx0Re|#i4uok
+Ki4&(_i4;Pe!7_UQ
+
+delta 44694
+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
+
+diff --git a/assets/models/env/second_ai/l118_pasta.json b/assets/models/env/second_ai/l118_pasta.json
+index 4edd615fa3..95005b6939 100644
+--- a/assets/models/env/second_ai/l118_pasta.json
++++ b/assets/models/env/second_ai/l118_pasta.json
+@@ -1,13 +1,13 @@
+ {
+  "objects": 34,
+  "unique_meshes": 34,
+- "tris": 13680,
+- "tris_drawn": 13680,
+- "materials": 22,
++ "tris": 13800,
++ "tris_drawn": 13800,
++ "materials": 23,
+  "out": "assets/models/env/second_ai/l118_pasta.glb",
+- "bytes": 1362784,
++ "bytes": 1376132,
+  "texres": 512,
+- "tris_total": 13680,
++ "tris_total": 13800,
+  "layout": "l118_pasta.layout.json",
+  "seats": 21
+ }
+\ No newline at end of file
+diff --git a/assets/models/env/second_ai/l118_pasta.layout.json b/assets/models/env/second_ai/l118_pasta.layout.json
+index f8afb43e22..d809255bb1 100644
+--- a/assets/models/env/second_ai/l118_pasta.layout.json
++++ b/assets/models/env/second_ai/l118_pasta.layout.json
+@@ -71,7 +71,7 @@
+  "seats": [
+   {
+    "x": -1.4,
+-   "z": -1.92,
++   "z": -1.8,
+    "yaw": 3.1416,
+    "kind": "eat",
+    "table": [
+@@ -80,14 +80,14 @@
+    ],
+    "ap": [
+     -1.4,
+-    -1.38
++    -1.26
+    ],
+    "label": "坐吧檯",
+    "lift": 0.29
+   },
+   {
+    "x": -0.75,
+-   "z": -1.92,
++   "z": -1.8,
+    "yaw": 3.1416,
+    "kind": "eat",
+    "table": [
+@@ -96,14 +96,14 @@
+    ],
+    "ap": [
+     -0.75,
+-    -1.38
++    -1.26
+    ],
+    "label": "坐吧檯",
+    "lift": 0.29
+   },
+   {
+    "x": -0.1,
+-   "z": -1.92,
++   "z": -1.8,
+    "yaw": 3.1416,
+    "kind": "eat",
+    "table": [
+@@ -112,14 +112,14 @@
+    ],
+    "ap": [
+     -0.1,
+-    -1.38
++    -1.26
+    ],
+    "label": "坐吧檯",
+    "lift": 0.29
+   },
+   {
+    "x": 0.55,
+-   "z": -1.92,
++   "z": -1.8,
+    "yaw": 3.1416,
+    "kind": "eat",
+    "table": [
+@@ -128,14 +128,14 @@
+    ],
+    "ap": [
+     0.55,
+-    -1.38
++    -1.26
+    ],
+    "label": "坐吧檯",
+    "lift": 0.29
+   },
+   {
+    "x": 1.2,
+-   "z": -1.92,
++   "z": -1.8,
+    "yaw": 3.1416,
+    "kind": "eat",
+    "table": [
+@@ -144,7 +144,7 @@
+    ],
+    "ap": [
+     1.2,
+-    -1.38
++    -1.26
+    ],
+    "label": "坐吧檯",
+    "lift": 0.29
+diff --git a/src/data/l118_shop_layouts.js b/src/data/l118_shop_layouts.js
+index d968aaa49d..78b889303d 100644
+--- a/src/data/l118_shop_layouts.js
++++ b/src/data/l118_shop_layouts.js
+@@ -1,2 +1,2 @@
+ /* 118 巷九間店的室內配置（LANE118-SHOPS-1020，LAWWW2-C）：tools/lane118/gen_shop_layouts.py 由 assets/models/env/second_ai/l118_<id>.layout.json 產生，不要手改 */
+-const L118_SHOP_LAYOUTS={"dian": {"version": 1, "zone": "l118_dian", "shop": "dian", "name": "118牛排", "type": "夜市鐵板牛排", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -2.8, "x1": 2.8, "z0": -4.0, "z1": 4.0}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 1.5, "w": 1.0, "z": 4.0}, "spawn": {"x": 1.5, "z": 2.65, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": 1.5, "z": 3.55, "r": 0.7, "label": "離開118牛排", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": 25.0, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": 26.7, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -2.8, "x1": 0.55, "z0": -3.0, "z1": -2.45, "h": 1.05}, "clerk": {"x": -0.6, "z": -3.45, "yaw": 0.0, "note": "櫃台後面（出菜口前），面向客人；老闆娘（AA_772：原滇香小館的老闆娘，同一個人）"}, "order": {"x": -0.6, "z": -1.9, "r": 0.8, "label": "點餐（118牛排）", "note": "櫃台前面；shop118:dian"}, "seats": [{"x": -2.1, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [-1.85, -1.4], "ap": [-1.05, -2.06]}, {"x": -1.6, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [-1.85, -1.4], "ap": [-1.1, -2.06]}, {"x": -2.1, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [-1.85, -1.4], "ap": [-1.05, -0.74]}, {"x": -1.6, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [-1.85, -1.4], "ap": [-1.1, -0.74]}, {"x": -2.1, "z": -0.26, "yaw": 0.0, "kind": "eat", "table": [-1.85, 0.4], "ap": [-1.05, -0.26]}, {"x": -1.6, "z": -0.26, "yaw": 0.0, "kind": "eat", "table": [-1.85, 0.4], "ap": [-1.1, -0.26]}, {"x": -2.1, "z": 1.06, "yaw": 3.1416, "kind": "eat", "table": [-1.85, 0.4], "ap": [-1.05, 1.06]}, {"x": -1.6, "z": 1.06, "yaw": 3.1416, "kind": "eat", "table": [-1.85, 0.4], "ap": [-1.1, 1.06]}, {"x": 1.6, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [1.85, -1.4], "ap": [1.1, -2.06]}, {"x": 2.1, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [1.85, -1.4], "ap": [1.05, -2.06]}, {"x": 1.6, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [1.85, -1.4], "ap": [1.1, -0.74]}, {"x": 2.1, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [1.85, -1.4], "ap": [1.05, -0.74]}, {"x": 1.6, "z": -0.26, "yaw": 0.0, "kind": "eat", "table": [1.85, 0.4], "ap": [1.1, -0.26]}, {"x": 2.1, "z": -0.26, "yaw": 0.0, "kind": "eat", "table": [1.85, 0.4], "ap": [1.05, -0.26]}, {"x": 1.6, "z": 1.06, "yaw": 3.1416, "kind": "eat", "table": [1.85, 0.4], "ap": [1.1, 1.06]}, {"x": 2.1, "z": 1.06, "yaw": 3.1416, "kind": "eat", "table": [1.85, 0.4], "ap": [1.05, 1.06]}, {"x": 1.66, "z": 1.9, "yaw": 1.5708, "kind": "eat", "table": [2.36, 1.9]}], "interact": [{"id": "soup", "x": -1.65, "z": 2.4, "r": 1.0, "label": "濃湯和紅茶的桶子", "note": "（濃湯和紅茶自己裝。濃湯那一桶前面，永遠有人在排。）", "dev": "AA_772 look_lines.dian；使用者的規格「濃湯與紅茶自取」"}], "blocks": [{"x0": -2.8, "x1": 0.92, "z0": -4.0, "z1": -2.43, "why": "counter"}, {"x0": -2.8, "x1": -2.0, "z0": 1.6, "z1": 3.2, "why": "soup"}, {"x0": 2.4, "x1": 2.8, "z0": 2.8, "z1": 3.6, "why": "cutlery"}, {"x0": -2.38, "x1": -1.32, "z0": -1.79, "z1": -1.01, "why": "table"}, {"x0": -2.38, "x1": -1.32, "z0": 0.01, "z1": 0.79, "why": "table"}, {"x0": 1.32, "x1": 2.38, "z0": -1.79, "z1": -1.01, "why": "table"}, {"x0": 1.32, "x1": 2.38, "z0": 0.01, "z1": 0.79, "why": "table"}, {"x0": 1.93, "x1": 2.79, "z0": 1.51, "z1": 2.29, "why": "table"}, {"x0": 1.83, "x1": 2.67, "z0": -4.0, "z1": -3.34, "why": "fridge"}, {"x0": 0.9, "x1": 2.8, "z0": -4.0, "z1": -2.43, "why": "counter_east"}]}, "self": {"version": 1, "zone": "l118_self", "shop": "self", "name": "水上便當", "type": "雞腿、雞排便當", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.5, "z1": 4.5}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.2, "w": 1.0, "z": 4.5}, "spawn": {"x": -2.2, "z": 3.0, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -2.2, "z": 4.05, "r": 0.7, "label": "離開水上便當", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": 17.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": 19.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -2.3, "x1": -1.5, "z0": -3.2, "z1": 1.0, "h": 0.9}, "clerk": {"x": -2.8, "z": -1.0, "yaw": 1.5708, "note": "配菜櫃後面（靠西牆），面向東邊的客人；老闆（AA_772：新，五十多歲、圍裙，站在配菜櫃後面）"}, "order": {"x": -0.85, "z": -1.0, "r": 0.8, "label": "點餐（水上便當）", "note": "配菜櫃前面；shop118:self"}, "seats": [{"x": 2.6, "z": -1.1, "yaw": 1.5708, "kind": "eat", "table": [3.11, -1.1], "ap": [2.05, -1.1]}, {"x": 2.6, "z": -0.3, "yaw": 1.5708, "kind": "eat", "table": [3.11, -0.3], "ap": [2.05, -0.3]}, {"x": 2.6, "z": 0.5, "yaw": 1.5708, "kind": "eat", "table": [3.11, 0.5], "ap": [2.05, 0.5]}, {"x": 2.6, "z": 1.3, "yaw": 1.5708, "kind": "eat", "table": [3.11, 1.3], "ap": [2.05, 1.3]}, {"x": 1.3, "z": 2.6, "yaw": 1.5708, "kind": "eat", "table": [2.0, 2.6]}, {"x": 2.7, "z": 2.6, "yaw": -1.5708, "kind": "eat", "table": [2.0, 2.6]}], "interact": [{"id": "sides", "x": -0.9, "z": 0.2, "r": 0.9, "label": "配菜櫃", "note": "（配菜櫃的玻璃起了霧。滷蛋那一格只剩兩顆。）", "dev": "AA_772 look_lines.self；使用者的規格「設配菜櫃」"}], "blocks": [{"x0": -2.32, "x1": -1.3, "z0": -3.22, "z1": 1.02, "why": "buffet"}, {"x0": -3.3, "x1": -1.47, "z0": -4.5, "z1": 1.03, "why": "sides"}, {"x0": -3.3, "x1": -1.5, "z0": 1.03, "z1": 1.85, "why": "rice"}, {"x0": -0.53, "x1": 1.93, "z0": -3.58, "z1": -2.97, "why": "pickup"}, {"x0": -1.5, "x1": 3.3, "z0": -4.5, "z1": -3.52, "why": "pickup_back"}, {"x0": 0.33, "x1": 1.47, "z0": -0.87, "z1": -0.13, "why": "pickup_island"}, {"x0": 2.7, "x1": 3.3, "z0": -2.9, "z1": -1.6, "why": "fridge_e"}, {"x0": 2.9, "x1": 3.3, "z0": -1.63, "z1": 1.83, "why": "ledge"}, {"x0": 1.57, "x1": 2.43, "z0": 2.22, "z1": 2.98, "why": "table"}]}, "tea": {"version": 1, "zone": "l118_tea", "shop": "tea", "name": "辛亥韓食", "type": "韓式鍋物・鐵板烤肉", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -1.3, "x1": 1.3, "z0": -4.0, "z1": 4.0}, "h": 3.2, "cam_dist": 3.6, "door": {"x": -0.5, "w": 1.0, "z": 4.0}, "spawn": {"x": -0.5, "z": 2.5, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -0.5, "z": 3.55, "r": 0.7, "label": "離開辛亥韓食", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": 11.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": 13.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -1.3, "x1": 0.25, "z0": -3.0, "z1": -2.55, "h": 1.0}, "clerk": {"x": -0.45, "z": -3.45, "yaw": 0.0, "note": "櫃台後面（出菜口前），面向門口；老闆＝原韓食小廚的老闆（AA_772）"}, "order": {"x": -0.45, "z": -1.95, "r": 0.7, "label": "點餐（辛亥韓食）", "note": "櫃台前面的走道；shop118:tea"}, "seats": [{"x": 0.55, "z": 1.5, "yaw": 0.0, "kind": "eat", "table": [0.8, 2.1], "ap": [-0.05, 1.5]}, {"x": 1.05, "z": 1.5, "yaw": 0.0, "kind": "eat", "table": [0.8, 2.1], "ap": [-0.05, 1.5], "r": 1.25, "inner": true}, {"x": 0.55, "z": 2.7, "yaw": 3.1416, "kind": "eat", "table": [0.8, 2.1], "ap": [-0.05, 2.7]}, {"x": 1.05, "z": 2.7, "yaw": 3.1416, "kind": "eat", "table": [0.8, 2.1], "ap": [-0.05, 2.7], "r": 1.25, "inner": true}, {"x": 0.55, "z": -0.22, "yaw": 0.0, "kind": "eat", "table": [0.8, 0.38], "ap": [-0.05, -0.22]}, {"x": 1.05, "z": -0.22, "yaw": 0.0, "kind": "eat", "table": [0.8, 0.38], "ap": [-0.05, -0.22], "r": 1.25, "inner": true}, {"x": 0.55, "z": 0.98, "yaw": 3.1416, "kind": "eat", "table": [0.8, 0.38], "ap": [-0.05, 0.98]}, {"x": 1.05, "z": 0.98, "yaw": 3.1416, "kind": "eat", "table": [0.8, 0.38], "ap": [-0.05, 0.98], "r": 1.25, "inner": true}, {"x": 0.55, "z": -1.94, "yaw": 0.0, "kind": "eat", "table": [0.8, -1.34], "ap": [-0.05, -1.94]}, {"x": 1.05, "z": -1.94, "yaw": 0.0, "kind": "eat", "table": [0.8, -1.34], "ap": [-0.05, -1.94], "r": 1.25, "inner": true}, {"x": 0.55, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [0.8, -1.34], "ap": [-0.05, -0.74]}, {"x": 1.05, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [0.8, -1.34], "ap": [-0.05, -0.74], "r": 1.25, "inner": true}], "interact": [{"id": "banchan", "x": 0.75, "z": -2.78, "r": 1.3, "label": "小菜櫃", "note": "（小菜自己夾。泡菜那一盒最先見底。）", "dev": "AA_772 look_lines.tea；櫃台東半的小菜櫃"}], "blocks": [{"x0": 0.3, "x1": 1.3, "z0": -2.55, "z1": 2.97, "why": "booths"}, {"x0": -1.33, "x1": 0.28, "z0": -3.03, "z1": -2.52, "why": "counter"}, {"x0": 0.23, "x1": 1.32, "z0": -3.02, "z1": -2.53, "why": "case"}, {"x0": 0.22, "x1": 1.3, "z0": -3.03, "z1": -2.52, "why": "banchan"}, {"x0": -1.3, "x1": 1.3, "z0": -4.0, "z1": -3.0, "why": "staff"}]}, "home": {"version": 1, "zone": "l118_home", "shop": "home", "name": "五湖四海", "type": "水餃店", "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格：店名、菜單；參考圖 l118_ref/int_home.webp）；室內 tools/blender/env_second/l118_int_home.py", "bounds": {"x0": -3.8, "x1": 3.8, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.6, "w": 1.0, "z": 4.25}, "spawn": {"x": -2.6, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡（正前方是走道，直走到煮水餃的大鍋）"}, "exits": [{"x": -2.6, "z": 3.8, "r": 0.7, "label": "離開五湖四海", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": -2.0, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": -0.3, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -0.8, "x1": 2.1, "z0": -2.88, "z1": -2.3, "h": 0.86, "note": "煮水餃區的不鏽鋼工作檯（面向客人）"}, "clerk": {"x": 0.6, "z": -3.3, "yaw": 0.0, "note": "工作檯後面（煮水餃區），面向客人；老闆娘（AA_772 staff：原巷口家常菜的老闆娘）"}, "order": {"x": 0.65, "z": -1.65, "r": 0.8, "label": "點餐（五湖四海）", "note": "工作檯前面（shop118:home）"}, "seats": [{"x": -3.5, "z": -1.7, "yaw": 1.5708, "kind": "eat", "table": [-2.95, -1.4], "ap": [-2.0, -1.7], "r": 1.6}, {"x": -2.3, "z": -1.7, "yaw": -1.5708, "kind": "eat", "table": [-2.95, -1.4]}, {"x": -3.5, "z": -1.1, "yaw": 1.5708, "kind": "eat", "table": [-2.95, -1.4], "ap": [-2.0, -1.1], "r": 1.6}, {"x": -2.3, "z": -1.1, "yaw": -1.5708, "kind": "eat", "table": [-2.95, -1.4]}, {"x": -3.5, "z": -0.2, "yaw": 1.5708, "kind": "eat", "table": [-2.95, -0.2], "ap": [-2.0, -0.2], "r": 1.6}, {"x": -2.3, "z": -0.2, "yaw": -1.5708, "kind": "eat", "table": [-2.95, -0.2]}, {"x": -3.5, "z": 0.75, "yaw": 1.5708, "kind": "eat", "table": [-2.95, 0.75], "ap": [-2.0, 0.75], "r": 1.6}, {"x": -2.3, "z": 0.75, "yaw": -1.5708, "kind": "eat", "table": [-2.95, 0.75]}, {"x": 0.5, "z": -0.9, "yaw": 0.0, "kind": "eat", "table": [0.8, -0.25]}, {"x": 0.5, "z": 0.4, "yaw": 3.1416, "kind": "eat", "table": [0.8, -0.25]}, {"x": 1.1, "z": -0.9, "yaw": 0.0, "kind": "eat", "table": [0.8, -0.25]}, {"x": 1.1, "z": 0.4, "yaw": 3.1416, "kind": "eat", "table": [0.8, -0.25]}, {"x": 0.5, "z": 1.5, "yaw": 0.0, "kind": "eat", "table": [0.8, 2.15]}, {"x": 0.5, "z": 2.8, "yaw": 3.1416, "kind": "eat", "table": [0.8, 2.15]}, {"x": 1.1, "z": 1.5, "yaw": 0.0, "kind": "eat", "table": [0.8, 2.15]}, {"x": 1.1, "z": 2.8, "yaw": 3.1416, "kind": "eat", "table": [0.8, 2.15]}, {"x": 3.3, "z": -1.7, "yaw": 0.0, "kind": "eat", "table": [3.42, -1.05]}, {"x": 3.3, "z": -0.4, "yaw": 3.1416, "kind": "eat", "table": [3.42, -1.05]}, {"x": 3.3, "z": 0.3, "yaw": 0.0, "kind": "eat", "table": [3.42, 0.95]}, {"x": 3.3, "z": 1.6, "yaw": 3.1416, "kind": "eat", "table": [3.42, 0.95]}], "interact": [{"id": "dumpling_pot", "x": -1.4, "z": -1.8, "r": 0.8, "label": "煮水餃的大鍋", "note": "（老闆娘數都不數，一把下去剛好十顆。）", "dev": "AA_772 look_lines.home（開放式煮水餃區）；大鍋在 (-1.6, -2.82)"}], "blocks": [{"x0": -3.8, "x1": 3.8, "z0": -4.25, "z1": -2.25, "why": "dumpling_area"}, {"x0": -3.8, "x1": -2.6, "z0": -2.25, "z1": 1.35, "why": "banquette_row"}, {"x0": 0.2, "x1": 1.4, "z0": -0.65, "z1": 0.15, "why": "table"}, {"x0": 0.2, "x1": 1.4, "z0": 1.75, "z1": 2.55, "why": "table"}, {"x0": 3.0, "x1": 3.8, "z0": -1.45, "z1": -0.65, "why": "table"}, {"x0": 3.0, "x1": 3.8, "z0": 0.55, "z1": 1.35, "why": "table"}, {"x0": 3.0, "x1": 3.8, "z0": 2.15, "z1": 3.75, "why": "utensil_rack"}], "ceiling": {"single_sided": true, "node": "l118_home_ceiling", "note": "天花板只有朝下的單面（材質 cull）：鏡頭高過天花板時看得穿，不需要 ceilHide；吊著的燈在 2.5 m 以上"}}, "cafe2": {"version": 1, "zone": "l118_cafe2", "shop": "cafe2", "name": "大學食堂", "type": "秤重自助餐", "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格：店名、餐飲類型；參考圖 l118_ref/int_cafe2.webp）；室內 tools/blender/env_second/l118_int_cafe2.py", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.5, "z1": 4.5}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 2.2, "w": 1.0, "z": 4.5}, "spawn": {"x": 2.2, "z": 3.0, "yaw": 3.141592653589793, "note": "從門進來、面向店裡（左邊是自助餐台，右後是秤重結帳區）"}, "exits": [{"x": 2.2, "z": 4.05, "r": 0.7, "label": "離開大學食堂", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": -12.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": -10.8, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": 0.72, "x1": 2.68, "z0": -3.55, "z1": -2.95, "h": 0.97, "note": "右後的橘色櫃台「秤重結帳區」"}, "clerk": {"x": 1.55, "z": -4.05, "yaw": 0.0, "note": "櫃台後面、秤的旁邊，面向客人；阿姨（AA_772 staff：原好家自助餐的阿姨）"}, "order": {"x": 1.95, "z": -2.3, "r": 0.8, "label": "點餐（大學食堂）", "note": "秤重結帳區櫃台前面（shop118:cafe2）"}, "seats": [{"x": 2.92, "z": -1.92, "yaw": 0.0, "kind": "eat", "table": [2.95, -1.3]}, {"x": 2.92, "z": -0.68, "yaw": 3.1416, "kind": "eat", "table": [2.95, -1.3]}, {"x": 2.92, "z": 0.08, "yaw": 0.0, "kind": "eat", "table": [2.95, 0.7]}, {"x": 2.92, "z": 1.32, "yaw": 3.1416, "kind": "eat", "table": [2.95, 0.7]}, {"x": -0.35, "z": -1.4, "yaw": 1.5708, "kind": "eat", "table": [0.3, -1.1]}, {"x": 0.95, "z": -1.4, "yaw": -1.5708, "kind": "eat", "table": [0.3, -1.1]}, {"x": -0.35, "z": -0.8, "yaw": 1.5708, "kind": "eat", "table": [0.3, -1.1]}, {"x": 0.95, "z": -0.8, "yaw": -1.5708, "kind": "eat", "table": [0.3, -1.1]}, {"x": -0.35, "z": 1.0, "yaw": 1.5708, "kind": "eat", "table": [0.3, 1.3]}, {"x": 0.95, "z": 1.0, "yaw": -1.5708, "kind": "eat", "table": [0.3, 1.3]}, {"x": -0.35, "z": 1.6, "yaw": 1.5708, "kind": "eat", "table": [0.3, 1.3]}, {"x": 0.95, "z": 1.6, "yaw": -1.5708, "kind": "eat", "table": [0.3, 1.3]}, {"x": -0.35, "z": 3.5, "yaw": 1.5708, "kind": "eat", "table": [0.3, 3.5], "label": "坐窗邊"}, {"x": 0.95, "z": 3.5, "yaw": -1.5708, "kind": "eat", "table": [0.3, 3.5], "label": "坐窗邊"}], "interact": [{"id": "scale", "x": 0.75, "z": -2.45, "r": 0.6, "label": "秤重的檯子", "note": "（秤旁邊貼著一張紙：「飯也算重量喔」。）", "dev": "AA_772 look_lines.cafe2；磅秤在櫃台左端 (1.08, -3.22)"}], "blocks": [{"x0": -3.3, "x1": -2.1, "z0": -2.9, "z1": 3.1, "why": "buffet"}, {"x0": -3.3, "x1": -2.1, "z0": 3.1, "z1": 4.5, "why": "tray_cart"}, {"x0": -3.3, "x1": -2.1, "z0": -4.5, "z1": -2.9, "why": "tray_return"}, {"x0": -2.1, "x1": 0.7, "z0": -4.5, "z1": -3.7, "why": "soup_return"}, {"x0": 0.7, "x1": 3.3, "z0": -4.5, "z1": -2.9, "why": "checkout"}, {"x0": 2.7, "x1": 3.3, "z0": -1.7, "z1": -0.9, "why": "table"}, {"x0": 2.7, "x1": 3.3, "z0": 0.3, "z1": 1.1, "why": "table"}, {"x0": -0.1, "x1": 0.7, "z0": -1.7, "z1": -0.5, "why": "table"}, {"x0": -0.1, "x1": 0.7, "z0": 0.7, "z1": 1.9, "why": "table"}, {"x0": -0.1, "x1": 0.7, "z0": 3.1, "z1": 3.9, "why": "table"}, {"x0": 2.7, "x1": 3.3, "z0": 3.9, "z1": 4.5, "why": "plant"}], "ceiling": {"single_sided": true, "node": "l118_cafe2_ceiling", "note": "天花板只有朝下的單面（材質 cull）：鏡頭高過天花板時看得穿，不需要 ceilHide；吊著的燈在 2.5 m 以上"}}, "pasta": {"version": 1, "zone": "l118_pasta", "shop": "pasta", "name": "義大麵屋", "type": "平價義大利麵", "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格＋參考圖 int_pasta.webp、int2_pasta.webp）；店名、菜單 AA_280；室內 tools/blender/env_second/l118_int_pasta.py（LAWWW 子代理代 LAWWW2）", "bounds": {"x0": -3.8, "x1": 3.8, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.6, "w": 1.0, "z": 4.25}, "spawn": {"x": -2.6, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -2.6, "z": 3.8, "r": 0.7, "label": "離開義大麵屋", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": 24.0, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": 25.7, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -2.6, "x1": 1.4, "z0": -2.65, "z1": -2.25, "h": 1.05, "note": "淺木吧台（後面是開放料理檯：爐台、抽油煙罩）；吧台對著廚房"}, "clerk": {"x": -0.3, "z": -3.15, "yaw": 0.0, "note": "吧台後面、爐台前面（開放料理檯），面向吧台和店裡；店員＝老闆（兼主廚，AA_772 staff）"}, "order": {"x": -2.25, "z": -1.7, "r": 0.8, "label": "點餐（義大麵屋）", "note": "吧台左端的收銀前面（shop118:pasta）"}, "seats": [{"x": -1.4, "z": -1.92, "yaw": 3.1416, "kind": "eat", "table": [-1.4, -2.45], "ap": [-1.4, -1.38], "label": "坐吧檯", "lift": 0.29}, {"x": -0.75, "z": -1.92, "yaw": 3.1416, "kind": "eat", "table": [-0.75, -2.45], "ap": [-0.75, -1.38], "label": "坐吧檯", "lift": 0.29}, {"x": -0.1, "z": -1.92, "yaw": 3.1416, "kind": "eat", "table": [-0.1, -2.45], "ap": [-0.1, -1.38], "label": "坐吧檯", "lift": 0.29}, {"x": 0.55, "z": -1.92, "yaw": 3.1416, "kind": "eat", "table": [0.55, -2.45], "ap": [0.55, -1.38], "label": "坐吧檯", "lift": 0.29}, {"x": 1.2, "z": -1.92, "yaw": 3.1416, "kind": "eat", "table": [1.2, -2.45], "ap": [1.2, -1.38], "label": "坐吧檯", "lift": 0.29}, {"x": 2.98, "z": -0.65, "yaw": 1.5708, "kind": "eat", "table": [3.57, -0.65], "ap": [2.25, -0.65], "label": "坐吧檯", "lift": 0.29, "r": 0.9}, {"x": 2.98, "z": 0.15, "yaw": 1.5708, "kind": "eat", "table": [3.57, 0.15], "ap": [2.25, 0.15], "label": "坐吧檯", "lift": 0.29, "r": 0.9}, {"x": 2.98, "z": 0.95, "yaw": 1.5708, "kind": "eat", "table": [3.57, 0.95], "ap": [2.25, 0.95], "label": "坐吧檯", "lift": 0.29, "r": 0.9}, {"x": 2.98, "z": 1.75, "yaw": 1.5708, "kind": "eat", "table": [3.57, 1.75], "ap": [2.25, 1.75], "label": "坐吧檯", "lift": 0.29, "r": 0.9}, {"x": -3.42, "z": -0.82, "yaw": 0.0, "kind": "eat", "table": [-3.2, -0.25], "ap": [-2.25, -0.82], "r": 1.32, "inner": true}, {"x": -2.9, "z": -0.82, "yaw": 0.0, "kind": "eat", "table": [-3.2, -0.25], "ap": [-2.25, -0.82], "r": 0.8}, {"x": -3.42, "z": 0.32, "yaw": 3.1416, "kind": "eat", "table": [-3.2, -0.25], "ap": [-2.25, 0.32], "r": 1.32, "inner": true}, {"x": -2.9, "z": 0.32, "yaw": 3.1416, "kind": "eat", "table": [-3.2, -0.25], "ap": [-2.25, 0.32], "r": 0.8}, {"x": -0.7, "z": -0.42, "yaw": 0.0, "kind": "eat", "table": [-0.4, 0.15], "ap": [-1.35, -0.42], "r": 0.8}, {"x": -0.1, "z": -0.42, "yaw": 0.0, "kind": "eat", "table": [-0.4, 0.15], "ap": [0.55, -0.42], "r": 0.8}, {"x": -0.7, "z": 0.72, "yaw": 3.1416, "kind": "eat", "table": [-0.4, 0.15], "ap": [-1.35, 0.72], "r": 0.8}, {"x": -0.1, "z": 0.72, "yaw": 3.1416, "kind": "eat", "table": [-0.4, 0.15], "ap": [0.55, 0.72], "r": 0.8}, {"x": -0.7, "z": 1.18, "yaw": 0.0, "kind": "eat", "table": [-0.4, 1.75], "ap": [-1.35, 1.18], "r": 0.8}, {"x": -0.1, "z": 1.18, "yaw": 0.0, "kind": "eat", "table": [-0.4, 1.75], "ap": [0.55, 1.18], "r": 0.8}, {"x": -0.7, "z": 2.32, "yaw": 3.1416, "kind": "eat", "table": [-0.4, 1.75], "ap": [-1.35, 2.32], "r": 0.8}, {"x": -0.1, "z": 2.32, "yaw": 3.1416, "kind": "eat", "table": [-0.4, 1.75], "ap": [0.55, 2.32], "r": 0.8}], "interact": [{"id": "open_kitchen", "x": 2.05, "z": -1.75, "r": 0.9, "label": "開放料理檯", "note": "（鍋子一翻，蒜的味道飄到吧檯這一邊。）", "dev": "AA_772 look_lines pasta；吧台右端外面（看得到爐台的地方；吧台椅的範圍外）"}], "blocks": [{"x0": -3.8, "x1": 3.8, "z0": -4.25, "z1": -2.22, "why": "open_kitchen"}, {"x0": 2.6, "x1": 3.8, "z0": -2.25, "z1": 2.55, "why": "wall_bar"}, {"x0": -3.8, "x1": -2.6, "z0": -1.05, "z1": 0.55, "why": "table_unit"}, {"x0": -1.0, "x1": 0.2, "z0": -0.65, "z1": 0.95, "why": "table_unit"}, {"x0": -1.0, "x1": 0.2, "z0": 0.95, "z1": 2.55, "why": "table_unit"}, {"x0": -3.8, "x1": -3.0, "z0": 0.55, "z1": 2.55, "why": "a_board_plant"}]}, "korea": {"version": 1, "zone": "l118_korea", "shop": "korea", "name": "清州刀削麵", "type": "刀削麵館", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 2.2, "w": 1.0, "z": 4.25}, "spawn": {"x": 2.2, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": 2.2, "z": 3.8, "r": 0.7, "label": "離開清州刀削麵", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": 15.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": 17.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -3.3, "x1": 1.1, "z0": -3.3, "z1": -2.75, "h": 1.0}, "clerk": {"x": -0.2, "z": -3.75, "yaw": 0.0, "note": "櫃台後面（出菜口前），面向店裡；老闆（AA_772：原六張犁麵舖的老闆，只問「大碗小碗？」）"}, "order": {"x": -0.2, "z": -2.2, "r": 0.8, "label": "點餐（清州刀削麵）", "note": "櫃台前面；shop118:korea"}, "seats": [{"x": -2.0, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [-1.75, -1.2], "ap": [-2.5, -1.86]}, {"x": -1.5, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [-1.75, -1.2], "ap": [-1.0, -1.86]}, {"x": -2.0, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [-1.75, -1.2], "ap": [-2.5, -0.54]}, {"x": -1.5, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [-1.75, -1.2], "ap": [-1.0, -0.54]}, {"x": -2.0, "z": 0.09, "yaw": 0.0, "kind": "eat", "table": [-1.75, 0.75], "ap": [-2.5, 0.09]}, {"x": -1.5, "z": 0.09, "yaw": 0.0, "kind": "eat", "table": [-1.75, 0.75], "ap": [-1.0, 0.09]}, {"x": -2.0, "z": 1.41, "yaw": 3.1416, "kind": "eat", "table": [-1.75, 0.75], "ap": [-2.5, 1.41]}, {"x": -1.5, "z": 1.41, "yaw": 3.1416, "kind": "eat", "table": [-1.75, 0.75], "ap": [-1.0, 1.41]}, {"x": 0.15, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [0.4, -1.2], "ap": [-0.35, -1.86]}, {"x": 0.65, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [0.4, -1.2], "ap": [1.15, -1.86]}, {"x": 0.15, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [0.4, -1.2], "ap": [-0.35, -0.54]}, {"x": 0.65, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [0.4, -1.2], "ap": [1.15, -0.54]}, {"x": 0.15, "z": 0.09, "yaw": 0.0, "kind": "eat", "table": [0.4, 0.75], "ap": [-0.35, 0.09]}, {"x": 0.65, "z": 0.09, "yaw": 0.0, "kind": "eat", "table": [0.4, 0.75], "ap": [1.15, 0.09]}, {"x": 0.15, "z": 1.41, "yaw": 3.1416, "kind": "eat", "table": [0.4, 0.75], "ap": [-0.35, 1.41]}, {"x": 0.65, "z": 1.41, "yaw": 3.1416, "kind": "eat", "table": [0.4, 0.75], "ap": [1.15, 1.41]}, {"x": 0.15, "z": 2.04, "yaw": 0.0, "kind": "eat", "table": [0.4, 2.7], "ap": [-0.35, 2.04]}, {"x": 0.65, "z": 2.04, "yaw": 0.0, "kind": "eat", "table": [0.4, 2.7], "ap": [1.15, 2.04]}, {"x": 0.15, "z": 3.36, "yaw": 3.1416, "kind": "eat", "table": [0.4, 2.7], "ap": [-0.35, 3.36]}, {"x": 0.65, "z": 3.36, "yaw": 3.1416, "kind": "eat", "table": [0.4, 2.7], "ap": [1.15, 3.36]}], "interact": [{"id": "noodle_station", "x": -1.9, "z": 2.75, "r": 1.0, "label": "門口的製麵區", "note": "（師傅把麵團架在肩上，刀一片一片削進鍋裡。）", "dev": "AA_772 look_lines.korea；使用者的規格「門口可見製麵區」"}], "blocks": [{"x0": -3.33, "x1": 1.13, "z0": -3.33, "z1": -2.72, "why": "counter"}, {"x0": -3.3, "x1": 1.15, "z0": -4.25, "z1": -3.25, "why": "counter_back"}, {"x0": -3.02, "x1": -1.48, "z0": 3.38, "z1": 4.15, "why": "noodle_station"}, {"x0": -3.05, "x1": -0.7, "z0": 3.37, "z1": 4.25, "why": "noodle_station"}, {"x0": -2.28, "x1": -1.22, "z0": -1.59, "z1": -0.81, "why": "table"}, {"x0": -2.28, "x1": -1.22, "z0": 0.36, "z1": 1.14, "why": "table"}, {"x0": -0.13, "x1": 0.93, "z0": -1.59, "z1": -0.81, "why": "table"}, {"x0": -0.13, "x1": 0.93, "z0": 0.36, "z1": 1.14, "why": "table"}, {"x0": -0.13, "x1": 0.93, "z0": 2.31, "z1": 3.09, "why": "table"}, {"x0": 2.7, "x1": 3.3, "z0": 0.55, "z1": 1.35, "why": "side_fridge"}, {"x0": 2.7, "x1": 3.3, "z0": -1.45, "z1": -0.65, "why": "sauce_station"}], "cook": {"x": -1.1, "z": 2.9, "yaw": 0.0, "note": "削麵的師傅（AA_772：不說話）：站在工作台後面、面向店面的玻璃（街上看得到他）"}}, "omu": {"version": 1, "zone": "l118_omu", "shop": "omu", "name": "奈良咖哩", "type": "日式咖哩飯", "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格＋參考圖 int_omu.webp）；店名、菜單 AA_280；室內 tools/blender/env_second/l118_int_omu.py（LAWWW 子代理代 LAWWW2）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.0, "z1": 4.0}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.2, "w": 1.0, "z": 4.0}, "spawn": {"x": -2.2, "z": 2.5, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -2.2, "z": 3.55, "r": 0.7, "label": "離開奈良咖哩", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": 1.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": 3.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -1.3, "x1": 2.5, "z0": -3.05, "z1": -2.5, "h": 1.0, "note": "木造出餐檯（上面是黃色短門簾和木匾；後面出菜口看得到廚房）"}, "clerk": {"x": 0.4, "z": -3.5, "yaw": 0.0, "note": "出餐檯後面（電子鍋和保溫鍋後面），面向店裡；店員＝綁頭巾的姊姊（AA_772 staff）"}, "order": {"x": -0.9, "z": -1.9, "r": 0.8, "label": "點餐（奈良咖哩）", "note": "出餐檯左端的收銀前面（shop118:omu）"}, "seats": [{"x": -2.9, "z": -1.66, "yaw": 0.0, "kind": "eat", "table": [-2.91, -1.0], "ap": [-2.15, -1.66], "r": 0.9}, {"x": -2.9, "z": -0.34, "yaw": 3.1416, "kind": "eat", "table": [-2.91, -1.0], "ap": [-2.15, -0.34], "r": 0.9}, {"x": -2.9, "z": 0.34, "yaw": 0.0, "kind": "eat", "table": [-2.91, 1.0], "ap": [-2.15, 0.34], "r": 0.9}, {"x": -2.9, "z": 1.66, "yaw": 3.1416, "kind": "eat", "table": [-2.91, 1.0], "ap": [-2.15, 1.66], "r": 0.9}, {"x": -0.6, "z": 0.34, "yaw": 0.0, "kind": "eat", "table": [-0.3, 1.0], "ap": [-1.25, 0.34], "r": 0.8}, {"x": 0.0, "z": 0.34, "yaw": 0.0, "kind": "eat", "table": [-0.3, 1.0], "ap": [0.65, 0.34], "r": 0.8}, {"x": -0.6, "z": 1.66, "yaw": 3.1416, "kind": "eat", "table": [-0.3, 1.0], "ap": [-1.25, 1.66], "r": 0.8}, {"x": 0.0, "z": 1.66, "yaw": 3.1416, "kind": "eat", "table": [-0.3, 1.0], "ap": [0.65, 1.66], "r": 0.8}, {"x": 2.28, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [2.61, -1.4], "ap": [1.55, -2.06], "r": 0.88}, {"x": 2.92, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [2.61, -1.4], "ap": [1.55, -2.06], "r": 1.52, "inner": true}, {"x": 2.28, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [2.61, -1.4], "ap": [1.55, -0.74], "r": 0.88}, {"x": 2.92, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [2.61, -1.4], "ap": [1.55, -0.74], "r": 1.52, "inner": true}, {"x": 2.28, "z": -0.06, "yaw": 0.0, "kind": "eat", "table": [2.61, 0.6], "ap": [1.55, -0.06], "r": 0.88}, {"x": 2.92, "z": -0.06, "yaw": 0.0, "kind": "eat", "table": [2.61, 0.6], "ap": [1.55, -0.06], "r": 1.52, "inner": true}, {"x": 2.28, "z": 1.26, "yaw": 3.1416, "kind": "eat", "table": [2.61, 0.6], "ap": [1.55, 1.26], "r": 0.88}, {"x": 2.92, "z": 1.26, "yaw": 3.1416, "kind": "eat", "table": [2.61, 0.6], "ap": [1.55, 1.26], "r": 1.52, "inner": true}, {"x": 2.28, "z": 1.94, "yaw": 0.0, "kind": "eat", "table": [2.61, 2.6], "ap": [1.55, 1.94], "r": 0.88}, {"x": 2.92, "z": 1.94, "yaw": 0.0, "kind": "eat", "table": [2.61, 2.6], "ap": [1.55, 1.94], "r": 1.52, "inner": true}, {"x": 2.28, "z": 3.26, "yaw": 3.1416, "kind": "eat", "table": [2.61, 2.6], "ap": [1.55, 3.26], "r": 0.88}, {"x": 2.92, "z": 3.26, "yaw": 3.1416, "kind": "eat", "table": [2.61, 2.6], "ap": [1.55, 3.26], "r": 1.52, "inner": true}], "interact": [{"id": "curry_photos", "x": -2.3, "z": 1.0, "r": 0.8, "label": "牆上的咖哩飯照片", "note": "（牆上的照片都是咖哩飯。每一張的福神漬都放在同一個位置。）", "dev": "AA_772 look_lines omu；左牆兩張、右牆兩張都是咖哩飯的照片（福神漬畫在同一個位置）"}], "blocks": [{"x0": -1.3, "x1": 3.3, "z0": -4.0, "z1": -2.47, "why": "counter"}, {"x0": -3.3, "x1": -2.5, "z0": -2.0, "z1": 0.0, "why": "table_unit"}, {"x0": -3.3, "x1": -2.5, "z0": 0.0, "z1": 2.0, "why": "table_unit"}, {"x0": -0.9, "x1": 0.3, "z0": 0.0, "z1": 2.0, "why": "table_unit"}, {"x0": 1.9, "x1": 3.3, "z0": -2.4, "z1": -0.4, "why": "table_unit"}, {"x0": 1.9, "x1": 3.3, "z0": -0.4, "z1": 1.6, "why": "table_unit"}, {"x0": 1.9, "x1": 3.3, "z0": 1.6, "z1": 3.6, "why": "table_unit"}, {"x0": -0.9, "x1": 0.3, "z0": 3.2, "z1": 4.0, "why": "a_board_plant"}]}, "noodle2": {"version": 1, "zone": "l118_noodle2", "shop": "noodle2", "name": "迪倫窯烤披薩", "type": "個人窯烤披薩", "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格＋參考圖 int_noodle2.webp）；店名、菜單 AA_280；室內 tools/blender/env_second/l118_int_noodle2.py（LAWWW 子代理代 LAWWW2）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 1.6, "w": 1.0, "z": 4.25}, "spawn": {"x": 1.6, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": 1.6, "z": 3.8, "r": 0.7, "label": "離開迪倫窯烤披薩", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": -10.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": -8.8, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -3.3, "x1": -0.9, "z0": -2.65, "z1": -2.25, "h": 1.02, "note": "木櫃台「外帶取餐」（收銀在這裡）；右邊是活動門，後面是店員的工作區，窯爐在右後"}, "clerk": {"x": -0.45, "z": -3.1, "yaw": 0.0, "note": "窯爐的左前方、活動門後面（店員的工作區），面向店裡；店員＝新的，三十歲上下，站在窯爐前（AA_772 staff）"}, "order": {"x": -1.5, "z": -1.7, "r": 0.8, "label": "點餐（迪倫窯烤披薩）", "note": "「外帶取餐」木櫃台的收銀前面（shop118:noodle2）"}, "seats": [{"x": -2.9, "z": -0.83, "yaw": 0.0, "kind": "eat", "table": [-2.91, -0.25], "ap": [-2.15, -0.83], "r": 0.9}, {"x": -2.9, "z": 0.33, "yaw": 3.1416, "kind": "eat", "table": [-2.91, -0.25], "ap": [-2.15, 0.2], "r": 0.92}, {"x": -2.9, "z": 0.77, "yaw": 0.0, "kind": "eat", "table": [-2.56, 1.35], "ap": [-1.35, 0.77], "r": 1.7, "inner": true}, {"x": -2.2, "z": 0.77, "yaw": 0.0, "kind": "eat", "table": [-2.56, 1.35], "ap": [-1.35, 0.77], "r": 1.0}, {"x": -2.9, "z": 1.93, "yaw": 3.1416, "kind": "eat", "table": [-2.56, 1.35], "ap": [-1.35, 1.93], "r": 1.7, "inner": true}, {"x": -2.2, "z": 1.93, "yaw": 3.1416, "kind": "eat", "table": [-2.56, 1.35], "ap": [-1.35, 1.93], "r": 1.0}, {"x": -2.9, "z": 2.37, "yaw": 0.0, "kind": "eat", "table": [-2.91, 2.95], "ap": [-2.15, 2.5], "r": 0.92}, {"x": -2.9, "z": 3.53, "yaw": 3.1416, "kind": "eat", "table": [-2.91, 2.95], "ap": [-2.15, 3.53], "r": 0.9}, {"x": -0.5, "z": 2.37, "yaw": 0.0, "kind": "eat", "table": [-0.5, 2.95], "ap": [0.25, 2.37], "r": 0.9}, {"x": -0.5, "z": 3.53, "yaw": 3.1416, "kind": "eat", "table": [-0.5, 2.95], "ap": [0.25, 3.53], "r": 0.9}], "interact": [{"id": "oven", "x": 0.9, "z": -2.05, "r": 0.9, "label": "窯爐", "note": "（窯裡的火是橘色的。站近一點，臉會熱。）", "dev": "AA_772 look_lines noodle2；火是 GLOW_l118_noodle2_fire／ember"}], "blocks": [{"x0": -0.1, "x1": 1.9, "z0": -4.25, "z1": -2.65, "why": "oven"}, {"x0": 1.9, "x1": 3.3, "z0": -4.25, "z1": -2.65, "why": "fridge_corner"}, {"x0": 2.3, "x1": 3.3, "z0": -2.65, "z1": 1.35, "why": "prep_counter"}, {"x0": -3.3, "x1": -0.1, "z0": -4.25, "z1": -2.22, "why": "takeout_counter"}, {"x0": -3.3, "x1": -2.5, "z0": -1.05, "z1": 0.55, "why": "table_unit"}, {"x0": -3.3, "x1": -1.7, "z0": 0.55, "z1": 2.15, "why": "table_unit_joined"}, {"x0": -3.3, "x1": -2.5, "z0": 2.15, "z1": 4.25, "why": "table_unit"}, {"x0": -0.9, "x1": -0.1, "z0": 2.15, "z1": 4.25, "why": "table_unit"}, {"x0": 2.3, "x1": 3.3, "z0": 1.35, "z1": 2.15, "why": "stool_plant"}]}};
++const L118_SHOP_LAYOUTS={"dian": {"version": 1, "zone": "l118_dian", "shop": "dian", "name": "118牛排", "type": "夜市鐵板牛排", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -2.8, "x1": 2.8, "z0": -4.0, "z1": 4.0}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 1.5, "w": 1.0, "z": 4.0}, "spawn": {"x": 1.5, "z": 2.65, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": 1.5, "z": 3.55, "r": 0.7, "label": "離開118牛排", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": 25.0, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": 26.7, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -2.8, "x1": 0.55, "z0": -3.0, "z1": -2.45, "h": 1.05}, "clerk": {"x": -0.6, "z": -3.45, "yaw": 0.0, "note": "櫃台後面（出菜口前），面向客人；老闆娘（AA_772：原滇香小館的老闆娘，同一個人）"}, "order": {"x": -0.6, "z": -1.9, "r": 0.8, "label": "點餐（118牛排）", "note": "櫃台前面；shop118:dian"}, "seats": [{"x": -2.1, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [-1.85, -1.4], "ap": [-1.05, -2.06]}, {"x": -1.6, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [-1.85, -1.4], "ap": [-1.1, -2.06]}, {"x": -2.1, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [-1.85, -1.4], "ap": [-1.05, -0.74]}, {"x": -1.6, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [-1.85, -1.4], "ap": [-1.1, -0.74]}, {"x": -2.1, "z": -0.26, "yaw": 0.0, "kind": "eat", "table": [-1.85, 0.4], "ap": [-1.05, -0.26]}, {"x": -1.6, "z": -0.26, "yaw": 0.0, "kind": "eat", "table": [-1.85, 0.4], "ap": [-1.1, -0.26]}, {"x": -2.1, "z": 1.06, "yaw": 3.1416, "kind": "eat", "table": [-1.85, 0.4], "ap": [-1.05, 1.06]}, {"x": -1.6, "z": 1.06, "yaw": 3.1416, "kind": "eat", "table": [-1.85, 0.4], "ap": [-1.1, 1.06]}, {"x": 1.6, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [1.85, -1.4], "ap": [1.1, -2.06]}, {"x": 2.1, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [1.85, -1.4], "ap": [1.05, -2.06]}, {"x": 1.6, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [1.85, -1.4], "ap": [1.1, -0.74]}, {"x": 2.1, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [1.85, -1.4], "ap": [1.05, -0.74]}, {"x": 1.6, "z": -0.26, "yaw": 0.0, "kind": "eat", "table": [1.85, 0.4], "ap": [1.1, -0.26]}, {"x": 2.1, "z": -0.26, "yaw": 0.0, "kind": "eat", "table": [1.85, 0.4], "ap": [1.05, -0.26]}, {"x": 1.6, "z": 1.06, "yaw": 3.1416, "kind": "eat", "table": [1.85, 0.4], "ap": [1.1, 1.06]}, {"x": 2.1, "z": 1.06, "yaw": 3.1416, "kind": "eat", "table": [1.85, 0.4], "ap": [1.05, 1.06]}, {"x": 1.66, "z": 1.9, "yaw": 1.5708, "kind": "eat", "table": [2.36, 1.9]}], "interact": [{"id": "soup", "x": -1.65, "z": 2.4, "r": 1.0, "label": "濃湯和紅茶的桶子", "note": "（濃湯和紅茶自己裝。濃湯那一桶前面，永遠有人在排。）", "dev": "AA_772 look_lines.dian；使用者的規格「濃湯與紅茶自取」"}], "blocks": [{"x0": -2.8, "x1": 0.92, "z0": -4.0, "z1": -2.43, "why": "counter"}, {"x0": -2.8, "x1": -2.0, "z0": 1.6, "z1": 3.2, "why": "soup"}, {"x0": 2.4, "x1": 2.8, "z0": 2.8, "z1": 3.6, "why": "cutlery"}, {"x0": -2.38, "x1": -1.32, "z0": -1.79, "z1": -1.01, "why": "table"}, {"x0": -2.38, "x1": -1.32, "z0": 0.01, "z1": 0.79, "why": "table"}, {"x0": 1.32, "x1": 2.38, "z0": -1.79, "z1": -1.01, "why": "table"}, {"x0": 1.32, "x1": 2.38, "z0": 0.01, "z1": 0.79, "why": "table"}, {"x0": 1.93, "x1": 2.79, "z0": 1.51, "z1": 2.29, "why": "table"}, {"x0": 1.83, "x1": 2.67, "z0": -4.0, "z1": -3.34, "why": "fridge"}, {"x0": 0.9, "x1": 2.8, "z0": -4.0, "z1": -2.43, "why": "counter_east"}]}, "self": {"version": 1, "zone": "l118_self", "shop": "self", "name": "水上便當", "type": "雞腿、雞排便當", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.5, "z1": 4.5}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.2, "w": 1.0, "z": 4.5}, "spawn": {"x": -2.2, "z": 3.0, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -2.2, "z": 4.05, "r": 0.7, "label": "離開水上便當", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": 17.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": 19.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -2.3, "x1": -1.5, "z0": -3.2, "z1": 1.0, "h": 0.9}, "clerk": {"x": -2.8, "z": -1.0, "yaw": 1.5708, "note": "配菜櫃後面（靠西牆），面向東邊的客人；老闆（AA_772：新，五十多歲、圍裙，站在配菜櫃後面）"}, "order": {"x": -0.85, "z": -1.0, "r": 0.8, "label": "點餐（水上便當）", "note": "配菜櫃前面；shop118:self"}, "seats": [{"x": 2.6, "z": -1.1, "yaw": 1.5708, "kind": "eat", "table": [3.11, -1.1], "ap": [2.05, -1.1]}, {"x": 2.6, "z": -0.3, "yaw": 1.5708, "kind": "eat", "table": [3.11, -0.3], "ap": [2.05, -0.3]}, {"x": 2.6, "z": 0.5, "yaw": 1.5708, "kind": "eat", "table": [3.11, 0.5], "ap": [2.05, 0.5]}, {"x": 2.6, "z": 1.3, "yaw": 1.5708, "kind": "eat", "table": [3.11, 1.3], "ap": [2.05, 1.3]}, {"x": 1.3, "z": 2.6, "yaw": 1.5708, "kind": "eat", "table": [2.0, 2.6]}, {"x": 2.7, "z": 2.6, "yaw": -1.5708, "kind": "eat", "table": [2.0, 2.6]}], "interact": [{"id": "sides", "x": -0.9, "z": 0.2, "r": 0.9, "label": "配菜櫃", "note": "（配菜櫃的玻璃起了霧。滷蛋那一格只剩兩顆。）", "dev": "AA_772 look_lines.self；使用者的規格「設配菜櫃」"}], "blocks": [{"x0": -2.32, "x1": -1.3, "z0": -3.22, "z1": 1.02, "why": "buffet"}, {"x0": -3.3, "x1": -1.47, "z0": -4.5, "z1": 1.03, "why": "sides"}, {"x0": -3.3, "x1": -1.5, "z0": 1.03, "z1": 1.85, "why": "rice"}, {"x0": -0.53, "x1": 1.93, "z0": -3.58, "z1": -2.97, "why": "pickup"}, {"x0": -1.5, "x1": 3.3, "z0": -4.5, "z1": -3.52, "why": "pickup_back"}, {"x0": 0.33, "x1": 1.47, "z0": -0.87, "z1": -0.13, "why": "pickup_island"}, {"x0": 2.7, "x1": 3.3, "z0": -2.9, "z1": -1.6, "why": "fridge_e"}, {"x0": 2.9, "x1": 3.3, "z0": -1.63, "z1": 1.83, "why": "ledge"}, {"x0": 1.57, "x1": 2.43, "z0": 2.22, "z1": 2.98, "why": "table"}]}, "tea": {"version": 1, "zone": "l118_tea", "shop": "tea", "name": "辛亥韓食", "type": "韓式鍋物・鐵板烤肉", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -1.3, "x1": 1.3, "z0": -4.0, "z1": 4.0}, "h": 3.2, "cam_dist": 3.6, "door": {"x": -0.5, "w": 1.0, "z": 4.0}, "spawn": {"x": -0.5, "z": 2.5, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -0.5, "z": 3.55, "r": 0.7, "label": "離開辛亥韓食", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": 11.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": 13.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -1.3, "x1": 0.25, "z0": -3.0, "z1": -2.55, "h": 1.0}, "clerk": {"x": -0.45, "z": -3.45, "yaw": 0.0, "note": "櫃台後面（出菜口前），面向門口；老闆＝原韓食小廚的老闆（AA_772）"}, "order": {"x": -0.45, "z": -1.95, "r": 0.7, "label": "點餐（辛亥韓食）", "note": "櫃台前面的走道；shop118:tea"}, "seats": [{"x": 0.55, "z": 1.5, "yaw": 0.0, "kind": "eat", "table": [0.8, 2.1], "ap": [-0.05, 1.5]}, {"x": 1.05, "z": 1.5, "yaw": 0.0, "kind": "eat", "table": [0.8, 2.1], "ap": [-0.05, 1.5], "r": 1.25, "inner": true}, {"x": 0.55, "z": 2.7, "yaw": 3.1416, "kind": "eat", "table": [0.8, 2.1], "ap": [-0.05, 2.7]}, {"x": 1.05, "z": 2.7, "yaw": 3.1416, "kind": "eat", "table": [0.8, 2.1], "ap": [-0.05, 2.7], "r": 1.25, "inner": true}, {"x": 0.55, "z": -0.22, "yaw": 0.0, "kind": "eat", "table": [0.8, 0.38], "ap": [-0.05, -0.22]}, {"x": 1.05, "z": -0.22, "yaw": 0.0, "kind": "eat", "table": [0.8, 0.38], "ap": [-0.05, -0.22], "r": 1.25, "inner": true}, {"x": 0.55, "z": 0.98, "yaw": 3.1416, "kind": "eat", "table": [0.8, 0.38], "ap": [-0.05, 0.98]}, {"x": 1.05, "z": 0.98, "yaw": 3.1416, "kind": "eat", "table": [0.8, 0.38], "ap": [-0.05, 0.98], "r": 1.25, "inner": true}, {"x": 0.55, "z": -1.94, "yaw": 0.0, "kind": "eat", "table": [0.8, -1.34], "ap": [-0.05, -1.94]}, {"x": 1.05, "z": -1.94, "yaw": 0.0, "kind": "eat", "table": [0.8, -1.34], "ap": [-0.05, -1.94], "r": 1.25, "inner": true}, {"x": 0.55, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [0.8, -1.34], "ap": [-0.05, -0.74]}, {"x": 1.05, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [0.8, -1.34], "ap": [-0.05, -0.74], "r": 1.25, "inner": true}], "interact": [{"id": "banchan", "x": 0.75, "z": -2.78, "r": 1.3, "label": "小菜櫃", "note": "（小菜自己夾。泡菜那一盒最先見底。）", "dev": "AA_772 look_lines.tea；櫃台東半的小菜櫃"}], "blocks": [{"x0": 0.3, "x1": 1.3, "z0": -2.55, "z1": 2.97, "why": "booths"}, {"x0": -1.33, "x1": 0.28, "z0": -3.03, "z1": -2.52, "why": "counter"}, {"x0": 0.23, "x1": 1.32, "z0": -3.02, "z1": -2.53, "why": "case"}, {"x0": 0.22, "x1": 1.3, "z0": -3.03, "z1": -2.52, "why": "banchan"}, {"x0": -1.3, "x1": 1.3, "z0": -4.0, "z1": -3.0, "why": "staff"}]}, "home": {"version": 1, "zone": "l118_home", "shop": "home", "name": "五湖四海", "type": "水餃店", "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格：店名、菜單；參考圖 l118_ref/int_home.webp）；室內 tools/blender/env_second/l118_int_home.py", "bounds": {"x0": -3.8, "x1": 3.8, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.6, "w": 1.0, "z": 4.25}, "spawn": {"x": -2.6, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡（正前方是走道，直走到煮水餃的大鍋）"}, "exits": [{"x": -2.6, "z": 3.8, "r": 0.7, "label": "離開五湖四海", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": -2.0, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": -0.3, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -0.8, "x1": 2.1, "z0": -2.88, "z1": -2.3, "h": 0.86, "note": "煮水餃區的不鏽鋼工作檯（面向客人）"}, "clerk": {"x": 0.6, "z": -3.3, "yaw": 0.0, "note": "工作檯後面（煮水餃區），面向客人；老闆娘（AA_772 staff：原巷口家常菜的老闆娘）"}, "order": {"x": 0.65, "z": -1.65, "r": 0.8, "label": "點餐（五湖四海）", "note": "工作檯前面（shop118:home）"}, "seats": [{"x": -3.5, "z": -1.7, "yaw": 1.5708, "kind": "eat", "table": [-2.95, -1.4], "ap": [-2.0, -1.7], "r": 1.6}, {"x": -2.3, "z": -1.7, "yaw": -1.5708, "kind": "eat", "table": [-2.95, -1.4]}, {"x": -3.5, "z": -1.1, "yaw": 1.5708, "kind": "eat", "table": [-2.95, -1.4], "ap": [-2.0, -1.1], "r": 1.6}, {"x": -2.3, "z": -1.1, "yaw": -1.5708, "kind": "eat", "table": [-2.95, -1.4]}, {"x": -3.5, "z": -0.2, "yaw": 1.5708, "kind": "eat", "table": [-2.95, -0.2], "ap": [-2.0, -0.2], "r": 1.6}, {"x": -2.3, "z": -0.2, "yaw": -1.5708, "kind": "eat", "table": [-2.95, -0.2]}, {"x": -3.5, "z": 0.75, "yaw": 1.5708, "kind": "eat", "table": [-2.95, 0.75], "ap": [-2.0, 0.75], "r": 1.6}, {"x": -2.3, "z": 0.75, "yaw": -1.5708, "kind": "eat", "table": [-2.95, 0.75]}, {"x": 0.5, "z": -0.9, "yaw": 0.0, "kind": "eat", "table": [0.8, -0.25]}, {"x": 0.5, "z": 0.4, "yaw": 3.1416, "kind": "eat", "table": [0.8, -0.25]}, {"x": 1.1, "z": -0.9, "yaw": 0.0, "kind": "eat", "table": [0.8, -0.25]}, {"x": 1.1, "z": 0.4, "yaw": 3.1416, "kind": "eat", "table": [0.8, -0.25]}, {"x": 0.5, "z": 1.5, "yaw": 0.0, "kind": "eat", "table": [0.8, 2.15]}, {"x": 0.5, "z": 2.8, "yaw": 3.1416, "kind": "eat", "table": [0.8, 2.15]}, {"x": 1.1, "z": 1.5, "yaw": 0.0, "kind": "eat", "table": [0.8, 2.15]}, {"x": 1.1, "z": 2.8, "yaw": 3.1416, "kind": "eat", "table": [0.8, 2.15]}, {"x": 3.3, "z": -1.7, "yaw": 0.0, "kind": "eat", "table": [3.42, -1.05]}, {"x": 3.3, "z": -0.4, "yaw": 3.1416, "kind": "eat", "table": [3.42, -1.05]}, {"x": 3.3, "z": 0.3, "yaw": 0.0, "kind": "eat", "table": [3.42, 0.95]}, {"x": 3.3, "z": 1.6, "yaw": 3.1416, "kind": "eat", "table": [3.42, 0.95]}], "interact": [{"id": "dumpling_pot", "x": -1.4, "z": -1.8, "r": 0.8, "label": "煮水餃的大鍋", "note": "（老闆娘數都不數，一把下去剛好十顆。）", "dev": "AA_772 look_lines.home（開放式煮水餃區）；大鍋在 (-1.6, -2.82)"}], "blocks": [{"x0": -3.8, "x1": 3.8, "z0": -4.25, "z1": -2.25, "why": "dumpling_area"}, {"x0": -3.8, "x1": -2.6, "z0": -2.25, "z1": 1.35, "why": "banquette_row"}, {"x0": 0.2, "x1": 1.4, "z0": -0.65, "z1": 0.15, "why": "table"}, {"x0": 0.2, "x1": 1.4, "z0": 1.75, "z1": 2.55, "why": "table"}, {"x0": 3.0, "x1": 3.8, "z0": -1.45, "z1": -0.65, "why": "table"}, {"x0": 3.0, "x1": 3.8, "z0": 0.55, "z1": 1.35, "why": "table"}, {"x0": 3.0, "x1": 3.8, "z0": 2.15, "z1": 3.75, "why": "utensil_rack"}], "ceiling": {"single_sided": true, "node": "l118_home_ceiling", "note": "天花板只有朝下的單面（材質 cull）：鏡頭高過天花板時看得穿，不需要 ceilHide；吊著的燈在 2.5 m 以上"}}, "cafe2": {"version": 1, "zone": "l118_cafe2", "shop": "cafe2", "name": "大學食堂", "type": "秤重自助餐", "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格：店名、餐飲類型；參考圖 l118_ref/int_cafe2.webp）；室內 tools/blender/env_second/l118_int_cafe2.py", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.5, "z1": 4.5}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 2.2, "w": 1.0, "z": 4.5}, "spawn": {"x": 2.2, "z": 3.0, "yaw": 3.141592653589793, "note": "從門進來、面向店裡（左邊是自助餐台，右後是秤重結帳區）"}, "exits": [{"x": 2.2, "z": 4.05, "r": 0.7, "label": "離開大學食堂", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": -12.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": -10.8, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": 0.72, "x1": 2.68, "z0": -3.55, "z1": -2.95, "h": 0.97, "note": "右後的橘色櫃台「秤重結帳區」"}, "clerk": {"x": 1.55, "z": -4.05, "yaw": 0.0, "note": "櫃台後面、秤的旁邊，面向客人；阿姨（AA_772 staff：原好家自助餐的阿姨）"}, "order": {"x": 1.95, "z": -2.3, "r": 0.8, "label": "點餐（大學食堂）", "note": "秤重結帳區櫃台前面（shop118:cafe2）"}, "seats": [{"x": 2.92, "z": -1.92, "yaw": 0.0, "kind": "eat", "table": [2.95, -1.3]}, {"x": 2.92, "z": -0.68, "yaw": 3.1416, "kind": "eat", "table": [2.95, -1.3]}, {"x": 2.92, "z": 0.08, "yaw": 0.0, "kind": "eat", "table": [2.95, 0.7]}, {"x": 2.92, "z": 1.32, "yaw": 3.1416, "kind": "eat", "table": [2.95, 0.7]}, {"x": -0.35, "z": -1.4, "yaw": 1.5708, "kind": "eat", "table": [0.3, -1.1]}, {"x": 0.95, "z": -1.4, "yaw": -1.5708, "kind": "eat", "table": [0.3, -1.1]}, {"x": -0.35, "z": -0.8, "yaw": 1.5708, "kind": "eat", "table": [0.3, -1.1]}, {"x": 0.95, "z": -0.8, "yaw": -1.5708, "kind": "eat", "table": [0.3, -1.1]}, {"x": -0.35, "z": 1.0, "yaw": 1.5708, "kind": "eat", "table": [0.3, 1.3]}, {"x": 0.95, "z": 1.0, "yaw": -1.5708, "kind": "eat", "table": [0.3, 1.3]}, {"x": -0.35, "z": 1.6, "yaw": 1.5708, "kind": "eat", "table": [0.3, 1.3]}, {"x": 0.95, "z": 1.6, "yaw": -1.5708, "kind": "eat", "table": [0.3, 1.3]}, {"x": -0.35, "z": 3.5, "yaw": 1.5708, "kind": "eat", "table": [0.3, 3.5], "label": "坐窗邊"}, {"x": 0.95, "z": 3.5, "yaw": -1.5708, "kind": "eat", "table": [0.3, 3.5], "label": "坐窗邊"}], "interact": [{"id": "scale", "x": 0.75, "z": -2.45, "r": 0.6, "label": "秤重的檯子", "note": "（秤旁邊貼著一張紙：「飯也算重量喔」。）", "dev": "AA_772 look_lines.cafe2；磅秤在櫃台左端 (1.08, -3.22)"}], "blocks": [{"x0": -3.3, "x1": -2.1, "z0": -2.9, "z1": 3.1, "why": "buffet"}, {"x0": -3.3, "x1": -2.1, "z0": 3.1, "z1": 4.5, "why": "tray_cart"}, {"x0": -3.3, "x1": -2.1, "z0": -4.5, "z1": -2.9, "why": "tray_return"}, {"x0": -2.1, "x1": 0.7, "z0": -4.5, "z1": -3.7, "why": "soup_return"}, {"x0": 0.7, "x1": 3.3, "z0": -4.5, "z1": -2.9, "why": "checkout"}, {"x0": 2.7, "x1": 3.3, "z0": -1.7, "z1": -0.9, "why": "table"}, {"x0": 2.7, "x1": 3.3, "z0": 0.3, "z1": 1.1, "why": "table"}, {"x0": -0.1, "x1": 0.7, "z0": -1.7, "z1": -0.5, "why": "table"}, {"x0": -0.1, "x1": 0.7, "z0": 0.7, "z1": 1.9, "why": "table"}, {"x0": -0.1, "x1": 0.7, "z0": 3.1, "z1": 3.9, "why": "table"}, {"x0": 2.7, "x1": 3.3, "z0": 3.9, "z1": 4.5, "why": "plant"}], "ceiling": {"single_sided": true, "node": "l118_cafe2_ceiling", "note": "天花板只有朝下的單面（材質 cull）：鏡頭高過天花板時看得穿，不需要 ceilHide；吊著的燈在 2.5 m 以上"}}, "pasta": {"version": 1, "zone": "l118_pasta", "shop": "pasta", "name": "義大麵屋", "type": "平價義大利麵", "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格＋參考圖 int_pasta.webp、int2_pasta.webp）；店名、菜單 AA_280；室內 tools/blender/env_second/l118_int_pasta.py（LAWWW 子代理代 LAWWW2）", "bounds": {"x0": -3.8, "x1": 3.8, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.6, "w": 1.0, "z": 4.25}, "spawn": {"x": -2.6, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -2.6, "z": 3.8, "r": 0.7, "label": "離開義大麵屋", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": 24.0, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": 25.7, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -2.6, "x1": 1.4, "z0": -2.65, "z1": -2.25, "h": 1.05, "note": "淺木吧台（後面是開放料理檯：爐台、抽油煙罩）；吧台對著廚房"}, "clerk": {"x": -0.3, "z": -3.15, "yaw": 0.0, "note": "吧台後面、爐台前面（開放料理檯），面向吧台和店裡；店員＝老闆（兼主廚，AA_772 staff）"}, "order": {"x": -2.25, "z": -1.7, "r": 0.8, "label": "點餐（義大麵屋）", "note": "吧台左端的收銀前面（shop118:pasta）"}, "seats": [{"x": -1.4, "z": -1.8, "yaw": 3.1416, "kind": "eat", "table": [-1.4, -2.45], "ap": [-1.4, -1.26], "label": "坐吧檯", "lift": 0.29}, {"x": -0.75, "z": -1.8, "yaw": 3.1416, "kind": "eat", "table": [-0.75, -2.45], "ap": [-0.75, -1.26], "label": "坐吧檯", "lift": 0.29}, {"x": -0.1, "z": -1.8, "yaw": 3.1416, "kind": "eat", "table": [-0.1, -2.45], "ap": [-0.1, -1.26], "label": "坐吧檯", "lift": 0.29}, {"x": 0.55, "z": -1.8, "yaw": 3.1416, "kind": "eat", "table": [0.55, -2.45], "ap": [0.55, -1.26], "label": "坐吧檯", "lift": 0.29}, {"x": 1.2, "z": -1.8, "yaw": 3.1416, "kind": "eat", "table": [1.2, -2.45], "ap": [1.2, -1.26], "label": "坐吧檯", "lift": 0.29}, {"x": 2.98, "z": -0.65, "yaw": 1.5708, "kind": "eat", "table": [3.57, -0.65], "ap": [2.25, -0.65], "label": "坐吧檯", "lift": 0.29, "r": 0.9}, {"x": 2.98, "z": 0.15, "yaw": 1.5708, "kind": "eat", "table": [3.57, 0.15], "ap": [2.25, 0.15], "label": "坐吧檯", "lift": 0.29, "r": 0.9}, {"x": 2.98, "z": 0.95, "yaw": 1.5708, "kind": "eat", "table": [3.57, 0.95], "ap": [2.25, 0.95], "label": "坐吧檯", "lift": 0.29, "r": 0.9}, {"x": 2.98, "z": 1.75, "yaw": 1.5708, "kind": "eat", "table": [3.57, 1.75], "ap": [2.25, 1.75], "label": "坐吧檯", "lift": 0.29, "r": 0.9}, {"x": -3.42, "z": -0.82, "yaw": 0.0, "kind": "eat", "table": [-3.2, -0.25], "ap": [-2.25, -0.82], "r": 1.32, "inner": true}, {"x": -2.9, "z": -0.82, "yaw": 0.0, "kind": "eat", "table": [-3.2, -0.25], "ap": [-2.25, -0.82], "r": 0.8}, {"x": -3.42, "z": 0.32, "yaw": 3.1416, "kind": "eat", "table": [-3.2, -0.25], "ap": [-2.25, 0.32], "r": 1.32, "inner": true}, {"x": -2.9, "z": 0.32, "yaw": 3.1416, "kind": "eat", "table": [-3.2, -0.25], "ap": [-2.25, 0.32], "r": 0.8}, {"x": -0.7, "z": -0.42, "yaw": 0.0, "kind": "eat", "table": [-0.4, 0.15], "ap": [-1.35, -0.42], "r": 0.8}, {"x": -0.1, "z": -0.42, "yaw": 0.0, "kind": "eat", "table": [-0.4, 0.15], "ap": [0.55, -0.42], "r": 0.8}, {"x": -0.7, "z": 0.72, "yaw": 3.1416, "kind": "eat", "table": [-0.4, 0.15], "ap": [-1.35, 0.72], "r": 0.8}, {"x": -0.1, "z": 0.72, "yaw": 3.1416, "kind": "eat", "table": [-0.4, 0.15], "ap": [0.55, 0.72], "r": 0.8}, {"x": -0.7, "z": 1.18, "yaw": 0.0, "kind": "eat", "table": [-0.4, 1.75], "ap": [-1.35, 1.18], "r": 0.8}, {"x": -0.1, "z": 1.18, "yaw": 0.0, "kind": "eat", "table": [-0.4, 1.75], "ap": [0.55, 1.18], "r": 0.8}, {"x": -0.7, "z": 2.32, "yaw": 3.1416, "kind": "eat", "table": [-0.4, 1.75], "ap": [-1.35, 2.32], "r": 0.8}, {"x": -0.1, "z": 2.32, "yaw": 3.1416, "kind": "eat", "table": [-0.4, 1.75], "ap": [0.55, 2.32], "r": 0.8}], "interact": [{"id": "open_kitchen", "x": 2.05, "z": -1.75, "r": 0.9, "label": "開放料理檯", "note": "（鍋子一翻，蒜的味道飄到吧檯這一邊。）", "dev": "AA_772 look_lines pasta；吧台右端外面（看得到爐台的地方；吧台椅的範圍外）"}], "blocks": [{"x0": -3.8, "x1": 3.8, "z0": -4.25, "z1": -2.22, "why": "open_kitchen"}, {"x0": 2.6, "x1": 3.8, "z0": -2.25, "z1": 2.55, "why": "wall_bar"}, {"x0": -3.8, "x1": -2.6, "z0": -1.05, "z1": 0.55, "why": "table_unit"}, {"x0": -1.0, "x1": 0.2, "z0": -0.65, "z1": 0.95, "why": "table_unit"}, {"x0": -1.0, "x1": 0.2, "z0": 0.95, "z1": 2.55, "why": "table_unit"}, {"x0": -3.8, "x1": -3.0, "z0": 0.55, "z1": 2.55, "why": "a_board_plant"}]}, "korea": {"version": 1, "zone": "l118_korea", "shop": "korea", "name": "清州刀削麵", "type": "刀削麵館", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 2.2, "w": 1.0, "z": 4.25}, "spawn": {"x": 2.2, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": 2.2, "z": 3.8, "r": 0.7, "label": "離開清州刀削麵", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": 15.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": 17.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -3.3, "x1": 1.1, "z0": -3.3, "z1": -2.75, "h": 1.0}, "clerk": {"x": -0.2, "z": -3.75, "yaw": 0.0, "note": "櫃台後面（出菜口前），面向店裡；老闆（AA_772：原六張犁麵舖的老闆，只問「大碗小碗？」）"}, "order": {"x": -0.2, "z": -2.2, "r": 0.8, "label": "點餐（清州刀削麵）", "note": "櫃台前面；shop118:korea"}, "seats": [{"x": -2.0, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [-1.75, -1.2], "ap": [-2.5, -1.86]}, {"x": -1.5, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [-1.75, -1.2], "ap": [-1.0, -1.86]}, {"x": -2.0, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [-1.75, -1.2], "ap": [-2.5, -0.54]}, {"x": -1.5, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [-1.75, -1.2], "ap": [-1.0, -0.54]}, {"x": -2.0, "z": 0.09, "yaw": 0.0, "kind": "eat", "table": [-1.75, 0.75], "ap": [-2.5, 0.09]}, {"x": -1.5, "z": 0.09, "yaw": 0.0, "kind": "eat", "table": [-1.75, 0.75], "ap": [-1.0, 0.09]}, {"x": -2.0, "z": 1.41, "yaw": 3.1416, "kind": "eat", "table": [-1.75, 0.75], "ap": [-2.5, 1.41]}, {"x": -1.5, "z": 1.41, "yaw": 3.1416, "kind": "eat", "table": [-1.75, 0.75], "ap": [-1.0, 1.41]}, {"x": 0.15, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [0.4, -1.2], "ap": [-0.35, -1.86]}, {"x": 0.65, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [0.4, -1.2], "ap": [1.15, -1.86]}, {"x": 0.15, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [0.4, -1.2], "ap": [-0.35, -0.54]}, {"x": 0.65, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [0.4, -1.2], "ap": [1.15, -0.54]}, {"x": 0.15, "z": 0.09, "yaw": 0.0, "kind": "eat", "table": [0.4, 0.75], "ap": [-0.35, 0.09]}, {"x": 0.65, "z": 0.09, "yaw": 0.0, "kind": "eat", "table": [0.4, 0.75], "ap": [1.15, 0.09]}, {"x": 0.15, "z": 1.41, "yaw": 3.1416, "kind": "eat", "table": [0.4, 0.75], "ap": [-0.35, 1.41]}, {"x": 0.65, "z": 1.41, "yaw": 3.1416, "kind": "eat", "table": [0.4, 0.75], "ap": [1.15, 1.41]}, {"x": 0.15, "z": 2.04, "yaw": 0.0, "kind": "eat", "table": [0.4, 2.7], "ap": [-0.35, 2.04]}, {"x": 0.65, "z": 2.04, "yaw": 0.0, "kind": "eat", "table": [0.4, 2.7], "ap": [1.15, 2.04]}, {"x": 0.15, "z": 3.36, "yaw": 3.1416, "kind": "eat", "table": [0.4, 2.7], "ap": [-0.35, 3.36]}, {"x": 0.65, "z": 3.36, "yaw": 3.1416, "kind": "eat", "table": [0.4, 2.7], "ap": [1.15, 3.36]}], "interact": [{"id": "noodle_station", "x": -1.9, "z": 2.75, "r": 1.0, "label": "門口的製麵區", "note": "（師傅把麵團架在肩上，刀一片一片削進鍋裡。）", "dev": "AA_772 look_lines.korea；使用者的規格「門口可見製麵區」"}], "blocks": [{"x0": -3.33, "x1": 1.13, "z0": -3.33, "z1": -2.72, "why": "counter"}, {"x0": -3.3, "x1": 1.15, "z0": -4.25, "z1": -3.25, "why": "counter_back"}, {"x0": -3.02, "x1": -1.48, "z0": 3.38, "z1": 4.15, "why": "noodle_station"}, {"x0": -3.05, "x1": -0.7, "z0": 3.37, "z1": 4.25, "why": "noodle_station"}, {"x0": -2.28, "x1": -1.22, "z0": -1.59, "z1": -0.81, "why": "table"}, {"x0": -2.28, "x1": -1.22, "z0": 0.36, "z1": 1.14, "why": "table"}, {"x0": -0.13, "x1": 0.93, "z0": -1.59, "z1": -0.81, "why": "table"}, {"x0": -0.13, "x1": 0.93, "z0": 0.36, "z1": 1.14, "why": "table"}, {"x0": -0.13, "x1": 0.93, "z0": 2.31, "z1": 3.09, "why": "table"}, {"x0": 2.7, "x1": 3.3, "z0": 0.55, "z1": 1.35, "why": "side_fridge"}, {"x0": 2.7, "x1": 3.3, "z0": -1.45, "z1": -0.65, "why": "sauce_station"}], "cook": {"x": -1.1, "z": 2.9, "yaw": 0.0, "note": "削麵的師傅（AA_772：不說話）：站在工作台後面、面向店面的玻璃（街上看得到他）"}}, "omu": {"version": 1, "zone": "l118_omu", "shop": "omu", "name": "奈良咖哩", "type": "日式咖哩飯", "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格＋參考圖 int_omu.webp）；店名、菜單 AA_280；室內 tools/blender/env_second/l118_int_omu.py（LAWWW 子代理代 LAWWW2）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.0, "z1": 4.0}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.2, "w": 1.0, "z": 4.0}, "spawn": {"x": -2.2, "z": 2.5, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -2.2, "z": 3.55, "r": 0.7, "label": "離開奈良咖哩", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": 1.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": 3.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -1.3, "x1": 2.5, "z0": -3.05, "z1": -2.5, "h": 1.0, "note": "木造出餐檯（上面是黃色短門簾和木匾；後面出菜口看得到廚房）"}, "clerk": {"x": 0.4, "z": -3.5, "yaw": 0.0, "note": "出餐檯後面（電子鍋和保溫鍋後面），面向店裡；店員＝綁頭巾的姊姊（AA_772 staff）"}, "order": {"x": -0.9, "z": -1.9, "r": 0.8, "label": "點餐（奈良咖哩）", "note": "出餐檯左端的收銀前面（shop118:omu）"}, "seats": [{"x": -2.9, "z": -1.66, "yaw": 0.0, "kind": "eat", "table": [-2.91, -1.0], "ap": [-2.15, -1.66], "r": 0.9}, {"x": -2.9, "z": -0.34, "yaw": 3.1416, "kind": "eat", "table": [-2.91, -1.0], "ap": [-2.15, -0.34], "r": 0.9}, {"x": -2.9, "z": 0.34, "yaw": 0.0, "kind": "eat", "table": [-2.91, 1.0], "ap": [-2.15, 0.34], "r": 0.9}, {"x": -2.9, "z": 1.66, "yaw": 3.1416, "kind": "eat", "table": [-2.91, 1.0], "ap": [-2.15, 1.66], "r": 0.9}, {"x": -0.6, "z": 0.34, "yaw": 0.0, "kind": "eat", "table": [-0.3, 1.0], "ap": [-1.25, 0.34], "r": 0.8}, {"x": 0.0, "z": 0.34, "yaw": 0.0, "kind": "eat", "table": [-0.3, 1.0], "ap": [0.65, 0.34], "r": 0.8}, {"x": -0.6, "z": 1.66, "yaw": 3.1416, "kind": "eat", "table": [-0.3, 1.0], "ap": [-1.25, 1.66], "r": 0.8}, {"x": 0.0, "z": 1.66, "yaw": 3.1416, "kind": "eat", "table": [-0.3, 1.0], "ap": [0.65, 1.66], "r": 0.8}, {"x": 2.28, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [2.61, -1.4], "ap": [1.55, -2.06], "r": 0.88}, {"x": 2.92, "z": -2.06, "yaw": 0.0, "kind": "eat", "table": [2.61, -1.4], "ap": [1.55, -2.06], "r": 1.52, "inner": true}, {"x": 2.28, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [2.61, -1.4], "ap": [1.55, -0.74], "r": 0.88}, {"x": 2.92, "z": -0.74, "yaw": 3.1416, "kind": "eat", "table": [2.61, -1.4], "ap": [1.55, -0.74], "r": 1.52, "inner": true}, {"x": 2.28, "z": -0.06, "yaw": 0.0, "kind": "eat", "table": [2.61, 0.6], "ap": [1.55, -0.06], "r": 0.88}, {"x": 2.92, "z": -0.06, "yaw": 0.0, "kind": "eat", "table": [2.61, 0.6], "ap": [1.55, -0.06], "r": 1.52, "inner": true}, {"x": 2.28, "z": 1.26, "yaw": 3.1416, "kind": "eat", "table": [2.61, 0.6], "ap": [1.55, 1.26], "r": 0.88}, {"x": 2.92, "z": 1.26, "yaw": 3.1416, "kind": "eat", "table": [2.61, 0.6], "ap": [1.55, 1.26], "r": 1.52, "inner": true}, {"x": 2.28, "z": 1.94, "yaw": 0.0, "kind": "eat", "table": [2.61, 2.6], "ap": [1.55, 1.94], "r": 0.88}, {"x": 2.92, "z": 1.94, "yaw": 0.0, "kind": "eat", "table": [2.61, 2.6], "ap": [1.55, 1.94], "r": 1.52, "inner": true}, {"x": 2.28, "z": 3.26, "yaw": 3.1416, "kind": "eat", "table": [2.61, 2.6], "ap": [1.55, 3.26], "r": 0.88}, {"x": 2.92, "z": 3.26, "yaw": 3.1416, "kind": "eat", "table": [2.61, 2.6], "ap": [1.55, 3.26], "r": 1.52, "inner": true}], "interact": [{"id": "curry_photos", "x": -2.3, "z": 1.0, "r": 0.8, "label": "牆上的咖哩飯照片", "note": "（牆上的照片都是咖哩飯。每一張的福神漬都放在同一個位置。）", "dev": "AA_772 look_lines omu；左牆兩張、右牆兩張都是咖哩飯的照片（福神漬畫在同一個位置）"}], "blocks": [{"x0": -1.3, "x1": 3.3, "z0": -4.0, "z1": -2.47, "why": "counter"}, {"x0": -3.3, "x1": -2.5, "z0": -2.0, "z1": 0.0, "why": "table_unit"}, {"x0": -3.3, "x1": -2.5, "z0": 0.0, "z1": 2.0, "why": "table_unit"}, {"x0": -0.9, "x1": 0.3, "z0": 0.0, "z1": 2.0, "why": "table_unit"}, {"x0": 1.9, "x1": 3.3, "z0": -2.4, "z1": -0.4, "why": "table_unit"}, {"x0": 1.9, "x1": 3.3, "z0": -0.4, "z1": 1.6, "why": "table_unit"}, {"x0": 1.9, "x1": 3.3, "z0": 1.6, "z1": 3.6, "why": "table_unit"}, {"x0": -0.9, "x1": 0.3, "z0": 3.2, "z1": 4.0, "why": "a_board_plant"}]}, "noodle2": {"version": 1, "zone": "l118_noodle2", "shop": "noodle2", "name": "迪倫窯烤披薩", "type": "個人窯烤披薩", "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格＋參考圖 int_noodle2.webp）；店名、菜單 AA_280；室內 tools/blender/env_second/l118_int_noodle2.py（LAWWW 子代理代 LAWWW2）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 1.6, "w": 1.0, "z": 4.25}, "spawn": {"x": 1.6, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": 1.6, "z": 3.8, "r": 0.7, "label": "離開迪倫窯烤披薩", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": -10.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": -8.8, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -3.3, "x1": -0.9, "z0": -2.65, "z1": -2.25, "h": 1.02, "note": "木櫃台「外帶取餐」（收銀在這裡）；右邊是活動門，後面是店員的工作區，窯爐在右後"}, "clerk": {"x": -0.45, "z": -3.1, "yaw": 0.0, "note": "窯爐的左前方、活動門後面（店員的工作區），面向店裡；店員＝新的，三十歲上下，站在窯爐前（AA_772 staff）"}, "order": {"x": -1.5, "z": -1.7, "r": 0.8, "label": "點餐（迪倫窯烤披薩）", "note": "「外帶取餐」木櫃台的收銀前面（shop118:noodle2）"}, "seats": [{"x": -2.9, "z": -0.83, "yaw": 0.0, "kind": "eat", "table": [-2.91, -0.25], "ap": [-2.15, -0.83], "r": 0.9}, {"x": -2.9, "z": 0.33, "yaw": 3.1416, "kind": "eat", "table": [-2.91, -0.25], "ap": [-2.15, 0.2], "r": 0.92}, {"x": -2.9, "z": 0.77, "yaw": 0.0, "kind": "eat", "table": [-2.56, 1.35], "ap": [-1.35, 0.77], "r": 1.7, "inner": true}, {"x": -2.2, "z": 0.77, "yaw": 0.0, "kind": "eat", "table": [-2.56, 1.35], "ap": [-1.35, 0.77], "r": 1.0}, {"x": -2.9, "z": 1.93, "yaw": 3.1416, "kind": "eat", "table": [-2.56, 1.35], "ap": [-1.35, 1.93], "r": 1.7, "inner": true}, {"x": -2.2, "z": 1.93, "yaw": 3.1416, "kind": "eat", "table": [-2.56, 1.35], "ap": [-1.35, 1.93], "r": 1.0}, {"x": -2.9, "z": 2.37, "yaw": 0.0, "kind": "eat", "table": [-2.91, 2.95], "ap": [-2.15, 2.5], "r": 0.92}, {"x": -2.9, "z": 3.53, "yaw": 3.1416, "kind": "eat", "table": [-2.91, 2.95], "ap": [-2.15, 3.53], "r": 0.9}, {"x": -0.5, "z": 2.37, "yaw": 0.0, "kind": "eat", "table": [-0.5, 2.95], "ap": [0.25, 2.37], "r": 0.9}, {"x": -0.5, "z": 3.53, "yaw": 3.1416, "kind": "eat", "table": [-0.5, 2.95], "ap": [0.25, 3.53], "r": 0.9}], "interact": [{"id": "oven", "x": 0.9, "z": -2.05, "r": 0.9, "label": "窯爐", "note": "（窯裡的火是橘色的。站近一點，臉會熱。）", "dev": "AA_772 look_lines noodle2；火是 GLOW_l118_noodle2_fire／ember"}], "blocks": [{"x0": -0.1, "x1": 1.9, "z0": -4.25, "z1": -2.65, "why": "oven"}, {"x0": 1.9, "x1": 3.3, "z0": -4.25, "z1": -2.65, "why": "fridge_corner"}, {"x0": 2.3, "x1": 3.3, "z0": -2.65, "z1": 1.35, "why": "prep_counter"}, {"x0": -3.3, "x1": -0.1, "z0": -4.25, "z1": -2.22, "why": "takeout_counter"}, {"x0": -3.3, "x1": -2.5, "z0": -1.05, "z1": 0.55, "why": "table_unit"}, {"x0": -3.3, "x1": -1.7, "z0": 0.55, "z1": 2.15, "why": "table_unit_joined"}, {"x0": -3.3, "x1": -2.5, "z0": 2.15, "z1": 4.25, "why": "table_unit"}, {"x0": -0.9, "x1": -0.1, "z0": 2.15, "z1": 4.25, "why": "table_unit"}, {"x0": 2.3, "x1": 3.3, "z0": 1.35, "z1": 2.15, "why": "stool_plant"}]}};
+diff --git a/src/data/tz_shops_layout.js b/src/data/tz_shops_layout.js
+index 4ebef9de0e..10a1bd9da9 100644
+--- a/src/data/tz_shops_layout.js
++++ b/src/data/tz_shops_layout.js
+@@ -60,13 +60,14 @@ const TZ_SHOPS_LAYOUT=
+     "foldTable": {"x": 0.2, "z": -2.7, "w": 1.8, "d": 0.9},
+     "blocks": [[-2.65, -0.65, 0.7, 4.9], [2.62, 0.75, 0.76, 4.8], [-2.8, 2.3, 0.4, 0.8], [-2.72, 3.35, 0.55, 1.2], [0.2, -2.7, 1.8, 0.9], [1.3, -4.25, 1.3, 0.45], [2.6, -3.7, 0.8, 1.2]],
+     "seats": [
+-      {"id": "c1", "table": 1, "x": -2.72, "z": 2.95, "yaw": 1.5708, "ap": {"x": -2.0, "z": 2.95}}, {"id": "c2", "table": 1, "x": -2.72, "z": 3.35, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.35}}, {"id": "c3", "table": 1, "x": -2.72, "z": 3.75, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.75}}
++      {"id": "c1", "table": 1, "x": -2.72, "z": 2.95, "yaw": 1.5708, "ap": {"x": -2.0, "z": 2.95}, "label": "坐著等"}, {"id": "c2", "table": 1, "x": -2.72, "z": 3.35, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.35}, "label": "坐著等"}, {"id": "c3", "table": 1, "x": -2.72, "z": 3.75, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.75}, "label": "坐著等"}
+     ],
+     "points": [
+       {"id": "wash", "x": -1.85, "z": -0.6, "r": 1.0, "label": "洗衣機", "kind": "tz_xile_wash"},
+       {"id": "dry", "x": 1.8, "z": 0.8, "r": 1.0, "label": "烘衣機", "kind": "tz_xile_dry"},
+       {"id": "change", "x": -2.1, "z": 2.3, "r": 0.7, "label": "兌幣機・洗衣精", "kind": "tz_xile_change"},
+-      {"id": "fold", "x": 0.2, "z": -1.85, "r": 0.9, "label": "折衣桌", "kind": "tz_xile_fold"}
++      {"id": "fold", "x": 0.2, "z": -1.85, "r": 0.9, "label": "折衣桌", "kind": "tz_xile_fold"},
++      {"id": "guide", "x": -1.3, "z": 3.4, "r": 0.55, "label": "看使用說明", "kind": "tz_xile_guide"}
+     ]
+   },
+   "yindehao": {
+@@ -86,7 +87,7 @@ const TZ_SHOPS_LAYOUT=
+     "paperStack": {"x0": 0.78, "x1": 1.32, "z0": -4.38, "z1": -3.52, "note": "LAWWW2 11-11：trapFix 那一塊（blocks 最後一塊）在模型放一疊疊影印紙箱和垃圾桶——看得出為什麼過不去"},
+     "blocks": [[-2.87, 0.85, 0.75, 4.9], [-2.25, -4.37, 1.7, 0.75], [1.45, -0.25, 0.7, 6.5], [3.02, -0.65, 0.45, 7.9], [2.3, 3.15, 1.2, 0.45], [2.3, -3.8, 1.2, 0.6], [0.2, -4.65, 1.3, 0.7], [-0.13, -4.03, 0.4, 0.4], [0.53, -4.03, 0.4, 0.4], [1.05, -3.95, 0.6, 0.9]],
+     "trapFix": "LAWWW 2026-11-11（tests/tz_shops_notrap_1111_unit.js 掃出來）：客用電腦桌東邊那張凳子和長櫃台北端之間有一小塊站得進去、走不出來的角落（x 0.75～1.35、z −4.4～−3.5），blocks 最後一塊擋起來（也是通往櫃台後面的縫，客人本來就不該進去）",
+-    "seats": [],
++    "seats": [{"id": "pc1", "table": 1, "x": -0.13, "z": -4.03, "yaw": 3.1416, "ap": {"x": -0.13, "z": -3.45}, "label": "用電腦"}, {"id": "pc2", "table": 1, "x": 0.53, "z": -4.03, "yaw": 3.1416, "ap": {"x": 0.5, "z": -3.35}, "label": "用電腦"}],
+     "points": [
+       {"id": "copy", "x": -1.9, "z": 1.0, "r": 1.0, "label": "自助影印", "kind": "tz_yin_copy"},
+       {"id": "counter", "x": 0.6, "z": 0.6, "r": 1.0, "label": "櫃台（列印・裝訂）", "kind": "tz_yin_counter"},
+@@ -115,7 +116,8 @@ const TZ_SHOPS_LAYOUT=
+     "points": [
+       {"id": "counter", "x": 0.0, "z": -2.1, "r": 1.1, "label": "藥師櫃台", "kind": "gg_antai_counter"},
+       {"id": "shelf", "x": 0.0, "z": 0.6, "r": 1.0, "label": "看貨架", "kind": "gg_antai_shelf"},
+-      {"id": "bp", "x": 3.3, "z": 1.3, "r": 0.7, "label": "量血壓", "kind": "gg_antai_bp"}
++      {"id": "bp", "x": 3.3, "z": 1.3, "r": 0.7, "label": "量血壓", "kind": "gg_antai_bp"},
++      {"id": "cabinet", "x": 1.5, "z": -2.35, "r": 0.6, "label": "看藥品櫃", "kind": "gg_antai_cabinet"}
+     ]
+   },
+   "xianguo": {
+@@ -141,7 +143,8 @@ const TZ_SHOPS_LAYOUT=
+     "points": [
+       {"id": "pick", "x": -1.9, "z": 0.8, "r": 1.0, "label": "挑水果", "kind": "gg_fruit_pick"},
+       {"id": "counter", "x": 1.1, "z": 2.3, "r": 0.9, "label": "秤重結帳", "kind": "gg_fruit_counter"},
+-      {"id": "box", "x": 2.55, "z": 0.6, "r": 0.8, "label": "切好的水果盒", "kind": "gg_fruit_box"}
++      {"id": "box", "x": 2.55, "z": 0.6, "r": 0.8, "label": "切好的水果盒", "kind": "gg_fruit_box"},
++      {"id": "boxes", "x": -0.8, "z": -0.05, "r": 0.6, "label": "看紙箱", "kind": "gg_fruit_boxes"}
+     ]
+   },
+   "rongendian": {
+@@ -167,7 +170,8 @@ const TZ_SHOPS_LAYOUT=
+       {"id": "art", "x": 3.3, "z": -0.4, "r": 0.9, "label": "看畫材", "kind": "gg_rong_art"},
+       {"id": "notes", "x": 1.0, "z": 2.3, "r": 0.9, "label": "看筆記本", "kind": "gg_rong_notes"},
+       {"id": "counter", "x": -0.3, "z": -2.3, "r": 1.0, "label": "結帳", "kind": "gg_rong_counter"},
+-      {"id": "cart", "x": -2.3, "z": 3.3, "r": 0.8, "label": "特價推車", "kind": "gg_rong_cart"}
++      {"id": "cart", "x": -2.3, "z": 3.3, "r": 0.8, "label": "特價推車", "kind": "gg_rong_cart"},
++      {"id": "easel", "x": 2.25, "z": 3.15, "r": 0.6, "label": "看畫架", "kind": "gg_rong_easel"}
+     ]
+   },
+   "limao": {
+diff --git a/src/engine3d.js b/src/engine3d.js
+index df326c154e..19fb6b2d44 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -240,6 +240,15 @@ const E3 = (function(){
+     if(wm&&wm.length){ const vis=wm.filter(m=>{ for(let o=m;o;o=o.parent){ if(!o.visible) return false; } return true; }); const hits=E.ray.intersectObjects(vis,false); if(hits.length){ const h=hits[0]; return {x:h.point.x,z:h.point.z,y:h.point.y,lv:h.object.userData.walkLv|0,obj:h.object}; } }
+     const lv=P?P.lv|0:0, n=navOf(lv); const fy=n?n.y0:0; const pl=new THREE.Plane(UP,-fy); const hit=new THREE.Vector3(); if(E.ray.ray.intersectPlane(pl,hit)) return {x:hit.x,z:hit.z,y:fy,lv}; return null; };
+   E.screenRay=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); return E.ray; };
++  /* 畫面上那一點射線第一個打到的東西（TAP-RAY-SEAT-1111，LAWWW2 11-11；game3d.js tapToSeat 判「點到哪張椅子」用）：只打區域的模型（E.zone.group，人不算），
++     不算：自己或上層 visible=false 的（淡出的牆 hideFaded、藏起來的備用模型、別層）、材質不畫的（visible=false、colorWrite=false）、半透明的（玻璃：opacity<0.5）、userData.noTapHit。
++     ray：THREE.Ray；far：只看比這個距離近的（地板那一點的距離）。回傳 three 的 intersection（point、distance、object）或 null */
++  const _tapRC=new THREE.Raycaster();
++  E.rayFirstHit=function(ray,far){ const g=E.zone&&E.zone.group; if(!g||!ray) return null; _tapRC.ray.copy(ray); _tapRC.near=0; _tapRC.far=far>0?far:Infinity; _tapRC.camera=camera||null;
++    const hs=_tapRC.intersectObject(g,true);
++    for(const h of hs){ const o=h.object; if(!o||!o.isMesh) continue; let vis=true; for(let q=o;q;q=q.parent){ if(!q.visible){ vis=false; break; } } if(!vis) continue;
++      const m=Array.isArray(o.material)?o.material[(h.face&&h.face.materialIndex)|0]:o.material; if(!m||m.visible===false||m.colorWrite===false||(m.transparent&&m.opacity<0.5)) continue; if(o.userData&&o.userData.noTapHit) continue; return h; }
++    return null; };
+   // ---------- 更新 ----------
+   E.onTapGround=null; E.onInteractNear=null; E.frame=0;
+   /* 玩家沿路線走一步（點地面、劇情 walkTo 都走這裡）；回傳這一幀有沒有在走。
+@@ -259,7 +268,7 @@ const E3 = (function(){
+         /* 室內的樓梯（任務 #42）：點在一跑樓梯上＝走完這一跑（點的地方比腳高就走到上面那一端、比較低就走到下面那一端）。
+            原本只走到點的那一點：從一樓看不到二樓的地板，只點得到前面幾階，上一層樓要點十幾次（萬才館 14 次、霖澤館 16 次）*/
+         const se=hit.obj&&hit.obj.userData.stairEnds; if(se){ const e2=se[hit.y>=P.obj.position.y-0.05?1:0]; tx=e2.x; tz=e2.z; tlv=e2.lv; }
+-        let pref=null; if(!se&&E.tapRedirect){ const r=E.tapRedirect(tx,tz,tlv==null?(P.lv|0):tlv,{ray:E.ray.ray,fy:hit.y}); if(r){ tx=r[0]; tz=r[1]; if(r[2]!=null) tlv=r[2]; if(r[3]) pref=r[3]; } }   /* r[3]＝點到的那張椅子（照椅子的高度判的，見 game3d.js tapToSeat）：tapPref 用椅子的位置，不用射線落在地板的那一點（BB 11-11：俯角淺時點椅面，地板落點在椅子後面 1.3 m，按鈕變「點餐」）*/   /* 點在椅子上＝走到那張椅子坐下前站的位置（game3d.js；2026-10-14 v9.6 回歸：點椅子那一格不能站，找路改去最近能站的地方，人走到 2 m 外別張椅子旁邊）*/
++        let pref=null; if(!se&&E.tapRedirect){ const r=E.tapRedirect(tx,tz,tlv==null?(P.lv|0):tlv,{ray:E.ray.ray,fy:hit.y,hit:{x:hit.x,y:hit.y,z:hit.z}}); if(r){ tx=r[0]; tz=r[1]; if(r[2]!=null) tlv=r[2]; if(r[3]) pref=r[3]; } }   /* r[3]＝點到的那張椅子（畫面上那一點實際打到的椅子，見 game3d.js tapToSeat；hit＝地板那一點：比它近才算打到椅子，TAP-RAY-SEAT-1111）：tapPref 用椅子的位置，不用射線落在地板的那一點（BB 11-11：俯角淺時點椅面，地板落點在椅子後面 1.3 m，按鈕變「點餐」）*/   /* 點在椅子上＝走到那張椅子坐下前站的位置（game3d.js；2026-10-14 v9.6 回歸：點椅子那一格不能站，找路改去最近能站的地方，人走到 2 m 外別張椅子旁邊）*/
+         E.moveTo(P,tx,tz,null,tlv); P.tapPref={x:pref?pref.x:hit.x,z:pref?pref.z:hit.z,lv:tlv==null?(P.lv|0):tlv,zone:E.zone&&E.zone.id};   /* 點的那個位置：走到以後，範圍重疊的互動以離點的位置最近的為準（nearestInteractable；BB-C 10-28 main_day12：點床走過去，停在床底下紙箱那一側，按鈕是紙箱不是睡覺）*/ P.run=Math.hypot(tx-P.obj.position.x,tz-P.obj.position.z)>16||input.runToggle; if(E.onTapGround) E.onTapGround(Object.assign({},hit,{x:tx,z:tz,lv:tlv})); } } }
+     // 直接操控
+     let mv=tmpV.set(0,0,0); if(!P.busy&&E.cam.mode==='follow'){ if(input.keys['w']||input.keys['arrowup']) mv.z-=1; if(input.keys['s']||input.keys['arrowdown']) mv.z+=1; if(input.keys['a']||input.keys['arrowleft']) mv.x-=1; if(input.keys['d']||input.keys['arrowright']) mv.x+=1; if(input.joy.active){ mv.x+=input.joy.x; mv.z+=input.joy.y; } }
+diff --git a/src/game3d.js b/src/game3d.js
+index bdf6a9431d..735c1c0d13 100644
+--- a/src/game3d.js
++++ b/src/game3d.js
+@@ -311,12 +311,26 @@ const GAME = (function(){
+   /* 點地面點在椅子上（那一點站不住、離座位 0.45 m 內、同一層）：改成走到那張椅子坐下前站的位置，到了就看得到「坐下」按鈕（engine3d.js 的 E.tapRedirect）。
+      點的地方站得住就照舊走過去（只改「點到椅子、找路改去別的地方」的情況）*/
+   function tapToSeat(x,z,lv,o){ if(!E||!E.canStand) return null; let best=null, bd=0.45; const seats=(E.interactables||[]).filter(it=>it.seat&&!it.hidden&&((it.seat.lv|0)===(lv|0))).map(it=>it.seat);
+-    if(!E.canStand(x,z,0.3,lv|0)) for(const st of seats){ const d=Math.hypot(st.x-x,st.z-z); if(d<bd){ bd=d; best=st; } }
+-    /* 照椅子的高度判（BB 11-11 CC TAPSEAT：五湖四海 #9 點椅面，射線打到地板的那一點在椅子後面 1.3 m；點椅子中段落點離椅子 0.54 m；只有點椅腳落地那一點坐得到。
+-       俯角淺的店（手機玩家會點椅面）等於點不到）：地板那一點沒對到椅子時，沿著同一條射線看離地 0.3～0.75 m 那一段（椅面、椅背的高度）有沒有穿過哪張椅子（離椅子中心 0.32 m 內；0.3～0.75 m，不看椅背頂以上，免得點地板時越過椅背也算），
+-       有就是點到那張椅子。只在射線往下（從上面看下來）時判；地板那一點已經對到椅子照舊 */
+-    if(!best&&o&&o.ray&&o.useRay&&seats.length){   /* 2026-11-11 BB TSR（擋發布）：遊戲裡先關掉（engine3d.js 不傳 useRay）——俯角淺時點遠處走道，射線在 0.3～0.75 m 那段會擦過前面的椅子，總圖、宿舍、Café 點地走路被帶去椅子、鍵變坐下（舊版停在 0.2～0.3 m 內）。發版後改成用畫面上實際打到的物體判斷（射線第一個打到的面在椅子上、高度在椅面到椅背之間）再打開；這段邏輯照舊留給測試 */ const R=o.ray, oy=R.origin.y, dy=R.direction.y, fy=typeof o.fy==='number'?o.fy:0; if(dy<-1e-3){ for(const h of [0.75,0.6,0.45,0.3]){ const t=(fy+h-oy)/dy; if(!(t>0)) continue; const px=R.origin.x+R.direction.x*t, pz=R.origin.z+R.direction.z*t; let bd2=0.32; for(const st of seats){ const d=Math.hypot(st.x-px,st.z-pz); if(d<bd2){ bd2=d; best=st; } } if(best) break; } }   /* 由高往低（＝離鏡頭由近到遠）：射線先穿過的那張椅子就是點到的（BB 11-11 PC：118牛排座位密，原本取「四個高度裡離中心最近」，點後排 #15 #16 被導到前排）*/ }
++    /* 點到椅子＝畫面上那一點實際打到椅子（TAP-RAY-SEAT-1111，LAWWW2 11-11；取代 0d7922555 的「射線在離地 0.3～0.75 m 那段離椅中心 0.32 m 內」——
++       BB TSR：俯角淺時點遠處走道，射線擦過前面的椅子（從椅面下面、椅子旁邊過去）也被算成點到，總圖、宿舍、Café 點地走路被帶去椅子）：
++       射線第一個打到的東西（engine3d.js E.rayFirstHit：區域的模型，淡出的牆、玻璃、人不算）比地板那一點近、而且落在某張椅子的範圍裡
++       （照椅子的朝向：左右各 TAP_CHAIR.r、前面 TAP_CHAIR.r、後面 TAP_CHAIR.back（椅背、沙發靠背）；高度在那張椅子的地板到椅背頂 TAP_CHAIR.h（＋高腳椅的 lift）之間）＝點到那張椅子；
++       落在兩張的範圍裡（並排、背對背）取比例上離中心近的。
++       射線先打到哪張就是哪張（BB 11-11：118牛排點後排被導到前排、五湖四海 #9 點椅面變「點餐」）。地板先被打到（點的是看得到的地板）、打到的是桌子牆壁：照舊（下面：地板那一點站不住才找 0.45 m 內的椅子）。
++       只在射線會穿過某張椅子的範圍時才打模型（點走道不用整個區域做射線測試）。o.hit＝地板那一點（engine3d.js 傳）；沒有就是舊的呼叫（只看地板那一點）*/
++    if(o&&o.ray&&o.hit&&E.rayFirstHit&&seats.length){ const R=o.ray, H=o.hit, tF=Math.hypot(H.x-R.origin.x,H.y-R.origin.y,H.z-R.origin.z), C=TAP_CHAIR;
++      const boxOf=st=>{ const y0=st.y!=null?st.y:(E.heightAt?E.heightAt(st.x,st.z,lv|0):(typeof o.fy==='number'?o.fy:0)), w=Math.max(C.r,C.back); return [st.x-w,y0,st.z-w,st.x+w,y0+C.h+(st.lift||0),st.z+w]; };   /* 先用包住整張椅子（各方向取大的）的盒子篩 */
++      const cand=seats.filter(st=>rayHitsBox(R,boxOf(st),tF));
++      if(cand.length){ const h=E.rayFirstHit(R,tF-0.03); if(h){ const p=h.point; let bc=1.0001; for(const st of cand){ const b=boxOf(st); if(p.y<b[1]-0.02||p.y>b[4]+0.02) continue; const yw=st.yaw||0, fx=Math.sin(yw), fz=Math.cos(yw), dx=p.x-st.x, dz=p.z-st.z, f=dx*fx+dz*fz, l=Math.abs(dx*fz-dz*fx);   /* f＞0＝椅子前面（人面向的那一邊） */
++        const d=Math.max(l/C.r,f>=0?f/C.r:-f/C.back); if(d<=bc){ bc=d; best=st; } } } } }
++    if(!best&&!E.canStand(x,z,0.3,lv|0)) for(const st of seats){ const d=Math.hypot(st.x-x,st.z-z); if(d<bd){ bd=d; best=st; } }
+     if(!best) return null; const ap=seatApproach(best); return ap?[ap[0],ap[1],best.lv!=null?best.lv|0:lv,{x:best.x,z:best.z}]:null; }
++  /* 椅子的範圍（TAP-RAY-SEAT-1111）：r＝左右、前面的半寬（一般椅面 0.38～0.46 m 寬：0.24；比這大，桌子靠椅子那一條邊也會算進去）；back＝往後（椅背、沙發靠背在座位中心後面 0.2～0.45 m（宿舍交誼廳的沙發：0.45））；
++     h＝地板到椅背頂（一般 0.85～0.95；高腳椅另外加 seat.lift）。椅子的朝向：seat.yaw 0＝面向 +z（和 GAME.sitAt 一樣）*/
++  const TAP_CHAIR={r:0.24,back:0.5,h:0.95};
++  /* 射線（origin＋t·direction，0≤t≤tMax）有沒有穿過盒子 b＝[x0,y0,z0,x1,y1,z1]（slab 法）*/
++  function rayHitsBox(R,b,tMax){ const o=R.origin, d=R.direction; let t0=0, t1=tMax; for(const [oa,da,lo,hi] of [[o.x,d.x,b[0],b[3]],[o.y,d.y,b[1],b[4]],[o.z,d.z,b[2],b[5]]]){ if(Math.abs(da)<1e-9){ if(oa<lo||oa>hi) return false; continue; } let ta=(lo-oa)/da, tb=(hi-oa)/da; if(ta>tb){ const t=ta; ta=tb; tb=t; } if(ta>t0) t0=ta; if(tb<t1) t1=tb; if(t0>t1) return false; } return true; }
++  GM.TAP_CHAIR=TAP_CHAIR; GM.rayHitsBox=rayHitsBox;
+   GM.tapToSeat=tapToSeat;
+   // 搭電梯（v9.4 多樓層，D36）：按按鈕 →（電梯不在這一層就先開過來）→ 門開 → 走進車廂 → 選樓層（整修中的樓層按不亮）→ 門關 → 車廂帶著人上下（看得到整個過程）→ 門開 → 走出來 → 門關
+   async function elevatorRide(it){ const el=E.zone&&E.zone.elev; if(!el) return; const P=E.player, here=P.lv|0, base=el.base||1; let arrived=null; sceneBegin(); try{
+diff --git a/src/l118_shops3d.js b/src/l118_shops3d.js
+index a8d518299f..3a3a4317db 100644
+--- a/src/l118_shops3d.js
++++ b/src/l118_shops3d.js
+@@ -86,12 +86,12 @@ const L118S=(function(){
+       '-3.5,0.75':{i:[-1.75,0.75],ap:[-1.75,0.75],r:0.8}, '-2.3,0.75':{i:[-2.15,0.75],ap:[-2.15,0.75]} } },   /* #7 靠牆、#8 外側 */
+     /* 義大麵屋：西牆卡座（內 x −3.42 #10 #12、外 −2.9 #11 #13）配置給走道上同一個走近點 (−2.25, z)＝內那張坐不到（BB SEATS 第二批 #10）。按鈕沿著走道排開，和辛亥韓食一樣。
+        吧台高腳椅 #1～#5（BB／LAWWW 11-11 第 3 點：#2 #3 坐下後小腿打到吧台木頭邊 y≈0.83、z≈−2.25）：讀模型＝吧台前板在 z −2.25（y 0.1～1.0），椅子中心 z −1.92 只離 0.33 m；
+-       祐廷坐姿膝蓋在人物前面 0.384 m、高 0.83（tools/anim/sit_fit.json：knZ×H、大腿根高－knee×H），膝蓋本身就進到前板裡 5 cm——五張一樣（同一條吧台、同一個 z），坐的位置往外挪 0.12 m（膝蓋前緣離前板約 1 cm；屁股後緣多出凳面約 5～8 cm）。
+-       只改玩家（和用 z.seats 的人）；店裡的客人照 crowd3d.js shopDefs 坐在配置的位置，男生膝蓋在前面 0.5 m，照舊會碰到——要整個修得請 LAWWW2 把吧台椅往外挪或吧台前板往裡縮 */
++       祐廷坐姿膝蓋在人物前面 0.384 m、高 0.83（tools/anim/sit_fit.json：knZ×H、大腿根高－knee×H），膝蓋本身就進到前板裡 5 cm——五張一樣（同一條吧台、同一個 z）。
++       原本這裡把坐的位置往外挪 0.12 m 擋著（sit [x, −1.8]）；LAWWW2 11-11 已在模型裡改（tools/blender/env_second/l118_int_pasta.py）：椅子往外 0.12（z −1.80）、前板往裡退 0.15（−2.40，檯面照舊伸到 −2.11），
++       祐廷膝蓋前緣離前板約 16 cm、店裡的男客人（crowd3d.js 照配置坐、膝蓋在前面 0.5 m）約 4 cm——這五格拿掉了 */
+     pasta:{ seats:{
+       '-2.9,-0.82':{i:[-2.25,-0.82],r:0.8}, '-3.42,-0.82':{i:[-2.25,-0.44],ap:[-2.25,-0.44],r:0.8},   /* #11 外南、#10 內南 */
+-      '-3.42,0.32':{i:[-2.25,-0.06],ap:[-2.25,-0.06],r:0.8}, '-2.9,0.32':{i:[-2.25,0.32],r:0.8},   /* #12 內北、#13 外北 */
+-      '-1.4,-1.92':{sit:[-1.4,-1.8]}, '-0.75,-1.92':{sit:[-0.75,-1.8]}, '-0.1,-1.92':{sit:[-0.1,-1.8]}, '0.55,-1.92':{sit:[0.55,-1.8]}, '1.2,-1.92':{sit:[1.2,-1.8]} } },   /* 吧台 #1～#5 */
++      '-3.42,0.32':{i:[-2.25,-0.06],ap:[-2.25,-0.06],r:0.8}, '-2.9,0.32':{i:[-2.25,0.32],r:0.8} } },   /* #12 內北、#13 外北 */
+     /* 奈良咖哩：東邊三個卡座（外 x 2.28、內 2.92），每對配置給走道上同一個走近點 (1.55, z)＝內那張坐不到（6 張：#10 #12 #14 #16 #18 #20；BB SEATS 第二批 #16 #18 #20）。按鈕沿著走道排開 */
+     omu:{ seats:{
+       '2.28,-2.06':{i:[1.55,-2.06],r:0.8}, '2.92,-2.06':{i:[1.55,-1.62],ap:[1.55,-1.62],r:0.8},   /* #9 外南、#10 內南 */
+diff --git a/src/tz_shops3d.js b/src/tz_shops3d.js
+index e1f7b6a6b0..279dfa8f91 100644
+--- a/src/tz_shops3d.js
++++ b/src/tz_shops3d.js
+@@ -23,7 +23,7 @@ const TZS3=(function(){
+     bin.build(fb); nav._cm=null;
+     const IT=E.interactables, EX=L.exit;
+     IT.push({x:EX.x,z:EX.z,radius:EX.r,label:EX.label,exit:{to:L.outZone,spawn:Object.assign({},L.out)}});
+-    for(const q of L.seats||[]){ const s={x:q.x,z:q.z,yaw:q.yaw,table:L.id+'_t'+q.table}; if(q.ap) s.ap=q.ap; const ip=q.ap||q; IT.push({x:ip.x,z:ip.z,radius:q.ap?0.6:0.7,label:'坐下',tzSeat:q.id,seat:s}); }   /* 卡座（bench）：走近點在兩張桌子中間（ap） */
++    for(const q of L.seats||[]){ const s={x:q.x,z:q.z,yaw:q.yaw,table:L.id+'_t'+q.table}; if(q.ap) s.ap=q.ap; const ip=q.ap||q; IT.push({x:ip.x,z:ip.z,radius:q.ap?0.6:0.7,label:q.label||'坐下',tzSeat:q.id,seat:s}); }   /* label：配置可以寫（洗樂的塑膠椅「坐著等」、印得好的電腦圓凳「用電腦」，AA_743；GG-SHOPS3 資料補五項，LAWWW2 11-11）*/   /* 卡座（bench）：走近點在兩張桌子中間（ap） */
+     for(const p of L.points||[]) IT.push({x:p.x,z:p.z,radius:p.r,label:p.label,kind:p.kind,tzPoint:p.id,look:'（'+L.name+'）'});   /* 句子、選單：AA_742，LAWWW 接；沒接之前只有這一句 */
+     // 鎖著的後間（禮貌生財的書房，X332）：平常導航擋住（隔牆後面整塊）、模型的 STUDY_* 不顯示、STUDY_LID 蓋著、STUDY_DOOR 關著；setStudy(true)＝開門：放行、擋家具、加互動點
+     if(L.study){ const SD=L.study, P=L.partition, pts=[]; z.studyOpen=false;
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 5b2113f550..23c1042e4d 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -2040,6 +2040,10 @@ const Z3 = (function(){
+       const mv=L230&&(L230.added||[]).find(q=>q.kind==='plant_moved'&&q.from&&q.from[0]===-6.35&&q.from[1]===0.4), P1=mv?mv.to:[-6.35,0.4];   /* 2:30 AM（cafe230_layout.js v2）：西牆中間那盆搬到拱門北邊 (−6.35, 1.95)，讓出拱門卡座 */
+       for(const [px,pz] of [P1,[6.35,-0.5],[-6.3,-2.6]]){ const pt=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.22,0.45,14),pm); pt.position.set(px,0.225,pz); g.add(pt); nav.blockCircle(px,pz,0.3); } }
+     if(L230) cafe230Add(E,z,g,nav,L230);
++    /* CAFE-BAR-CAM-1111（LAWWW2 11-11）：天花板下面那一層（水泥大梁深 0.42、風管底 H−0.62：2.78～3.4 m，tools/blender/env_second/aa_support/cafe230_interior.py）當「樓板」給 engine3d.js slabClip——
++       跟隨鏡頭拉高（坐吧檯的人高 0.27，俯角 0.38 就到 3.46 m）穿進這一層時沿著視線拉近，停在梁下面（原本鏡頭在梁旁邊 0.44 m，整個畫面是梁）。
++       站著、預設俯角 0.22 的鏡頭在 2.57 m，碰不到（slabClip 外加 0.15 m：2.63 m 以下照舊）。沒有 levelGroups：這一塊一直有效 */
++    z.slabs=[{lv:0,x0:-7,x1:7,z0:-6,z1:6,y:3.4,t:0.62}];
+     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
+     if(L230){ cafe230Reg(L230); if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.cafe230_interior']) ASSETS.loadOne('bldg.cafe230_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachCafe230(E,z,g0,root); }).catch(e=>console.warn('2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型',e)); }
+     else if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.cafe_interior']) ASSETS.loadOne('bldg.cafe_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachCafeInterior(z,g0,root); }).catch(e=>console.warn('2:30 AM 室內正式模型載入失敗，用程序化備用模型',e));
+@@ -2065,9 +2069,15 @@ const Z3 = (function(){
+     nav._cm=null; }
+   /* 正式模型（attachRoomGLB 之後）：GLOW_* 光暈合成一個網格（照開燈切白天／晚上，和 AA 的公館店一樣 ggAAattach）；窗外的畫（WALL_*_VIEW_*）晚上調暗；
+      正面那張畫（z 8.5）不參加牆面淡出、改成窗的零件——溫州街的 3D 街景（cafeStreetLive）載入以後藏起來（不然會蓋住窗外真的街）；牆面淡出時整面藏起來（細木框的殘影，和舊 Café 一樣）*/
++  /* CAFE-BAR-CAM-1111（LAWWW2 11-11；BB 11:2x：吧檯高腳椅坐下以後鏡頭整片是牆，線上 779 就有）：坐吧檯（高腳椅，人高 0.27 m）鏡頭往上調一點（俯角 0.38 左右）就到 3.4 m 以上，
++     天花板的水泥大梁（深 0.42、底在 3.2 m 左右，a23_vc）離鏡頭 0.2～0.6 m、擋住整個畫面；其他方向（鏡頭轉到吧台那一邊、店的後牆外面）還有吧台後面的胡桃木層架（a23_walnut）、
++     風管（a23_vc_metal）、亮面小東西（a23_vc_gloss）、燈泡（a23_bulb）、黃金葛（a23_leaf_pothos）。
++     鏡頭停在梁下面（上面 cafe 的 z.slabs）；剩下擋住的（鏡頭轉到吧台那一邊時的吊燈、層架…）照溫州街 SUNNY SIDE、小路座位鏡頭的做法（WZ-SEAT-CAMS-1104：家具、管線、植物、胡桃木的材質網點透空）：這幾個材質擋在鏡頭和人中間、或離鏡頭 1.7 m 內時網點透空
++     （engine3d.js updateSeeThrough；區域本來就 seeThru:true；比人遠的照常畫——人面前的吧台不會透）。牆（WALL_，本來就淡出）、地板、天花板不動。測試：node tests/cafe_bar_cam_1111_unit.js */
++  const CAFE230_SEETHRU=['a23_vc','a23_vc_metal','a23_vc_gloss','a23_walnut','a23_bulb','a23_leaf_pothos'];
+   function attachCafe230(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
+     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,'cafe230_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
+-    root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(nm&&/^seethru_/.test(nm)&&!mt.userData.seeThrough){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); } if(nm&&/leaf|pothos/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
++    root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(nm&&(/^seethru_/.test(nm)||CAFE230_SEETHRU.includes(nm))&&!mt.userData.seeThrough){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); } if(nm&&/leaf|pothos/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
+     const vm=[]; let front=null; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)){ if(/^WALL_front/.test(o.name)) front=o; for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } } });
+     /* 窗景卡 a23_window_view（AA v1f 30c2d5998：上半正面溫州街、下半右窗毛玻璃）：晚上換夜版圖、不調暗（和 SUNNY SIDE 一樣，WZ_AA_NIGHTVIEW）；夜版圖載不到或其他窗景卡：照舊調暗 */
+     const nv=CAFE230_NIGHTVIEW, nt=wzNightViewTex(nv.url), nvm=nt?vm.filter(m=>m.name===nv.mat):[]; for(const m of nvm){ m.userData.mapDay=m.map; m.userData.emDay=m.emissiveMap; } z.cafe230NightView=nvm.length;
+diff --git a/tests/cafe_bar_cam_1111_unit.js b/tests/cafe_bar_cam_1111_unit.js
+new file mode 100644
+index 0000000000..0d08ef15c6
+--- /dev/null
++++ b/tests/cafe_bar_cam_1111_unit.js
+@@ -0,0 +1,50 @@
++// 兩點半 Café（2:30 AM，cafe）吧檯高腳椅坐下以後鏡頭整片是牆（CAFE-BAR-CAM-1111；BB 11-11 11:2x，線上 779 就有：「坐吧檯」中間那張、鏡頭在 (−1.3,3.46,0.6)，看不到自己和吧台）——不需要瀏覽器（D131）。
++// 原因：高腳椅（lift 0.27）人比較高，鏡頭俯角調到 0.38 左右就在 3.4 m 以上，天花板的水泥大梁（a23_vc，底在 3.2 m 左右）離鏡頭 0.2～0.6 m，整個畫面被梁擋住；其他方向還有風管、亮面小東西、黃金葛。
++// 修法（src/zones3d.js）：①天花板下面那一層（梁、風管 2.78～3.4 m）當 z.slabs，跟隨鏡頭穿進去時 slabClip 沿視線拉近、停在梁下面；
++//   ②剩下擋住的（吊燈、層架…）照 SUNNY SIDE、小路（WZ-SEAT-CAMS-1104）讓材質網點透空（attachCafe230 的 CAFE230_SEETHRU）。
++// 檢查（在 Node 建出遊戲真正的 cafe，正式模型 cafe230.glb 從檔案讀；鏡頭照遊戲：E.followCam → E.slabClip(看的點, 鏡頭, 1.15)，跟隨點＝人＋1.45 m（高腳椅的人站高 lift））：
++//   吧檯 10～13 號 × 鏡頭 16 個方向 × 俯角 0.22（預設）／0.38（BB 那時候）／0.6／0.9：鏡頭 → 頭這一條線上（頭前 0.35 m 以內不算），
++//   第一個「畫得到、不透明、不會網點透空、不是會淡出的牆（WALL_）」的網格＝鏡頭被擋。要 0；另外全店其他座位（17 張＋卡座）用預設俯角也要 0。
++// 修改前（開發分支 32d35ec2d）：吧檯 FAIL（BB 那一格：12 號 0° 俯角 0.38 被 a23_vc 擋）。用法：node tests/cafe_bar_cam_1111_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,"..");
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch')); console.warn=()=>{};
++const HTML=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), SRCS=[...HTML.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]);
++for(const f of SRCS){ try{ vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (\w+)\s*=/mg,'globalThis.$1='),{filename:f}); }catch(e){} }
++function glbScene(file){ const b=fs.readFileSync(file), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString('utf8')), bin=b.slice(20+jl+8);
++  const acc=i=>{ const a=J.accessors[i], v=J.bufferViews[a.bufferView], n={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type], off=(v.byteOffset||0)+(a.byteOffset||0); const T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5121:Uint8Array}[a.componentType]; return new T(bin.buffer.slice(bin.byteOffset+off,bin.byteOffset+off+a.count*n*T.BYTES_PER_ELEMENT)); };
++  const mats=(J.materials||[]).map(m=>{ const t=new THREE.MeshStandardMaterial({side:m.doubleSided?THREE.DoubleSide:THREE.FrontSide}); t.name=m.name||''; t.transparent=m.alphaMode==='BLEND'; return t; });
++  const objs=J.nodes.map(nd=>{ let o; if(nd.mesh!=null){ const prs=J.meshes[nd.mesh].primitives.map(pr=>{ const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(acc(pr.attributes.POSITION),3)); if(pr.indices!=null) g.setIndex(new THREE.BufferAttribute(acc(pr.indices),1)); return new THREE.Mesh(g,mats[pr.material]); }); if(prs.length===1) o=prs[0]; else { o=new THREE.Group(); for(const q of prs) o.add(q); } } else o=new THREE.Object3D();
++    o.name=nd.name||''; if(nd.translation) o.position.fromArray(nd.translation); if(nd.rotation) o.quaternion.fromArray(nd.rotation); if(nd.scale) o.scale.fromArray(nd.scale); return o; });
++  J.nodes.forEach((nd,i)=>{ for(const c of nd.children||[]) objs[i].add(objs[c]); }); const sc=new THREE.Group(); for(const r of J.scenes[J.scene||0].nodes) sc.add(objs[r]); return sc; }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
++const GLB={}; ASSETS.loadOne=k=>{ const m=ASSETS.manifest[k]; if(m&&/building/.test(m.type)&&fs.existsSync(path.join(ROOT,m.url))){ if(!GLB[k]) GLB[k]=glbScene(path.join(ROOT,m.url)); return Promise.resolve({scene:GLB[k]}); } return new Promise(()=>{}); };
++(async()=>{ global.GAME=global.GAME||{}; GAME.G={hour:14,weather:'clear',flags:{},zone:'cafe',day:1};
++  E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; const zd=Z3.ZONES.cafe; const z=zd.build(E); E.zone=z; E.nav=z.nav; E.indoor=true; for(let i=0;i<60&&!z.formal;i++) await new Promise(r=>setTimeout(r,0)); z.group.updateMatrixWorld(true);
++  check('0. 正式模型（cafe230.glb）接上了',!!z.formal);
++  const vis=[]; z.group.traverse(o=>{ if(!o.isMesh) return; for(let p=o;p;p=p.parent) if(!p.visible) return; const m=[].concat(o.material)[0]; if(!m||m.visible===false||m.colorWrite===false) return; vis.push(o); });
++  const DIST=zd.camDist||3.8;
++  E.player={obj:{position:new THREE.Vector3(0,0,0)},lv:0};
++  const camOf=(st,yaw,pitch)=>{ const tgt=new THREE.Vector3(st.x,(st.lift||0)+1.45,st.z), cam=new THREE.Vector3(); E.followCam(tgt,yaw,pitch,DIST,0,cam); E.slabClip(tgt,cam,1.15); return {tgt,cam}; };
++  const shoot=(st,yaw,pitch)=>{ const {tgt,cam}=camOf(st,yaw,pitch);
++    if(z.fadeWalls){ z.fadeWalls({position:cam},tgt); for(const w of z.walls||[]) w.visible=w.material.opacity>0.5; }
++    const dir=tgt.clone().sub(cam), len=dir.length(); dir.normalize(); const rc=new THREE.Raycaster(cam,dir,0.05,len-0.35);
++    const hs=rc.intersectObjects(vis,false).filter(h=>{ for(let p=h.object;p;p=p.parent) if(!p.visible) return false; const m=[].concat(h.object.material)[0]; if(m.side===THREE.FrontSide&&h.face&&h.face.normal.clone().transformDirection(h.object.matrixWorld).dot(dir)>0) return false;
++      return !(m.userData&&m.userData.seeThrough)&&!m.transparent&&!/WALL_/.test(h.object.name||'')&&!(h.object.parent&&/WALL_/.test(h.object.parent.name||'')); });
++    return hs.length?`(${st.x},${st.z}) ${Math.round(yaw*180/Math.PI)}° 俯角 ${pitch}：${[].concat(hs[0].object.material)[0].name}@${hs[0].distance.toFixed(2)} 鏡頭[${cam.toArray().map(v=>v.toFixed(2))}]`:null; };
++  const bar=(E.interactables||[]).filter(i=>i.cafeSeat>=10&&i.cafeSeat<=13).map(i=>i.seat);
++  let shots=0; const bad=[]; for(const st of bar) for(const pitch of [0.22,0.38,0.6,0.9]) for(let k=0;k<16;k++){ shots++; const b=shoot(st,k*Math.PI/8,pitch); if(b) bad.push(b); }
++  const st12=bar.find(s=>s.x===-1.3)||{x:-1.3,z:-3.3,lift:0.27}, bb=shoot(st12,0,0.38), bbCam=camOf(st12,0,0.38).cam;
++  check('1. 吧檯 10～13 號（'+bar.length+' 張）坐下以後，鏡頭 16 個方向 × 俯角 0.22／0.38／0.6／0.9 都沒有被擋',bar.length===4&&bad.length===0,shots+' 個鏡頭、擋住 '+bad.length+' 個；透空材質 '+(z.seeThru?'開':'關')+(bad.length?'；例：'+bad.slice(0,4).join('、'):''));
++  check('2. BB 那一格（中間那張 (−1.3,−3.3)、鏡頭在人背後 +z、俯角 0.38；原本鏡頭 (−1.3,3.48,0.6) 在梁旁邊）：鏡頭停在梁、風管下面（2.78 m 以下）、沒有被擋',!bb&&bbCam.y<2.78,(bb||'')+' 鏡頭['+bbCam.toArray().map(v=>v.toFixed(2))+']');
++  /* 站著、預設俯角：鏡頭照舊（slabClip 不動） */ { const sd=[[0,0],[-3,2],[3,-2]].map(([x,zz])=>{ const t=new THREE.Vector3(x,1.45,zz), c=new THREE.Vector3(); E.followCam(t,Math.PI*0.3,0.22,DIST,0,c); const c0=c.clone(); E.slabClip(t,c,1.15); return c.distanceTo(c0); });
++    check('4. 站著（看的點 1.45 m）、預設俯角 0.22：鏡頭照舊、不被拉近',sd.every(d=>d<1e-9),sd.map(d=>d.toFixed(3)).join('、')); }
++  const others=(E.interactables||[]).filter(i=>i.seat&&!(i.cafeSeat>=10&&i.cafeSeat<=13)).map(i=>i.seat).concat(z.seats||[]); const seen=new Set(), bad2=[]; let n2=0;
++  for(const st of others){ const key=st.x+','+st.z; if(seen.has(key)) continue; seen.add(key); n2++; for(let k=0;k<16;k++){ const b=shoot(st,k*Math.PI/8,0.22); if(b) bad2.push(b); } }
++  check('3. 全店其他座位（'+n2+' 張）用預設俯角 0.22，鏡頭 16 個方向都沒有被擋',n2>0&&bad2.length===0,bad2.length?'擋住 '+bad2.length+' 個；例：'+bad2.slice(0,4).join('、'):'');
++  console.log(fails?`FAILED ${fails}`:'ALL PASS'); process.exit(fails?1:0); })();
+diff --git a/tests/gg_shops3_points_1111_unit.js b/tests/gg_shops3_points_1111_unit.js
+new file mode 100644
+index 0000000000..eb5ae973b7
+--- /dev/null
++++ b/tests/gg_shops3_points_1111_unit.js
+@@ -0,0 +1,32 @@
++// GG-SHOPS3 資料補五項（LAWWW 11-11 12:07 決定②；AA_743 對照表 docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/AA_743_對照_1111.md）——只加配置、不改模型：
++//   安泰藥局 cabinet「看藥品櫃」、汀州鮮果 boxes「看紙箱」、洗樂洗衣坊 guide「看使用說明」＋塑膠椅「坐著等」、印得好電腦桌兩張圓凳「用電腦」、榮恩典 window（櫥窗畫架）改成現在的畫架「看畫架」。
++// 檢查（Node 建出遊戲真正的區域）：配置有這幾個點和座位；站在新的點上，按鈕（E.nearestInteractable）是它；站在座位的走近點，按鈕是那張座位、字是配置寫的；
++//   原本的點站在它自己的位置上按鈕照舊是它（新的點沒有搶走）。「走得到」由 tests/tz_shops_unit.js 第 3 項（每一個座位、互動點都走得到）管。
++// 修改前（開發分支 f2515c2077）：FAIL。用法：node tests/gg_shops3_points_1111_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++process.on('unhandledRejection',()=>{});
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/tingzhou_layout.js','src/tingzhou3d.js','src/data/tz_shops_layout.js','src/tz_shops3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|TZ3|TZS3|TINGZHOU_LAYOUT|TZ_SHOPS_LAYOUT|LINZE_LAYOUT|CLASSROOM_LAYOUT|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++if(typeof ASSETS!=='undefined') ASSETS.loadOne=()=>new Promise(()=>{});
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.nav._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
++
++const WANT={gg_antai:{points:{cabinet:'看藥品櫃'}},gg_xianguo:{points:{boxes:'看紙箱'}},tz_xile:{points:{guide:'看使用說明'},seats:{c1:'坐著等',c2:'坐著等',c3:'坐著等'}},
++  tz_yindehao:{seats:{pc1:'用電腦',pc2:'用電腦'}},gg_rongendian:{points:{easel:'看畫架'}}};
++const ALL=Object.values(TZ_SHOPS_LAYOUT).filter(s=>s&&s.zone), byZone={}; for(const s of ALL) byZone[s.zone]=s;
++const at=(x,z)=>{ E.player={obj:{position:new THREE.Vector3(x,0,z),rotation:{y:0}},lv:0,radius:0.32}; E.npcs=[]; return E.nearestInteractable(); };
++for(const [zid,w] of Object.entries(WANT)){ const L=byZone[zid]; if(!L){ check(zid+'：配置裡有這一間',false); continue; } loadZone(zid); const N=L.name, bad=[];
++  for(const [pid,lab] of Object.entries(w.points||{})){ const p=(L.points||[]).find(q=>q.id===pid); if(!p){ bad.push('沒有點 '+pid); continue; } if(p.label!==lab) bad.push(pid+' 字是 '+p.label);
++    const it=at(p.x,p.z); if(!it||it.tzPoint!==pid) bad.push('站在 '+pid+' 上按鈕是 '+(it&&(it.label||'?'))); }
++  for(const [sid,lab] of Object.entries(w.seats||{})){ const q=(L.seats||[]).find(s=>s.id===sid); if(!q){ bad.push('沒有座位 '+sid); continue; } const ip=q.ap||q;
++    const it=at(ip.x,ip.z); if(!it||it.tzSeat!==sid||it.label!==lab) bad.push('站在 '+sid+' 的走近點按鈕是 '+(it&&(it.label+'／'+(it.tzSeat||it.tzPoint)))); }
++  for(const p of L.points||[]){ if(w.points&&w.points[p.id]) continue; const it=at(p.x,p.z); if(!it||it.tzPoint!==p.id) bad.push('原本的 '+p.id+' 被搶走（'+(it&&it.label)+'）'); }
++  check(N+'：新的點和座位都在、按鈕是它、字對；原本的點沒有被搶走',!bad.length,bad.join('；')); }
++console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/tap_seat_ray_1111_unit.js b/tests/tap_seat_ray_1111_unit.js
+index ab66d8c6b6..12afa490fe 100644
+--- a/tests/tap_seat_ray_1111_unit.js
++++ b/tests/tap_seat_ray_1111_unit.js
+@@ -1,5 +1,8 @@
+ // 點椅面坐得到（BB 11-11 CC TAPSEAT：五湖四海 #9 (0.5,−0.9)，俯角淺時點椅面，射線打到地板的那一點在椅子後面 1.3 m，按鈕變「點餐」；只有點椅腳落地那一點坐得到）。
+ // src/game3d.js tapToSeat：地板那一點沒對到椅子時，沿同一條射線看離地 0.3～0.75 m 那一段有沒有穿過哪張椅子（0.32 m 內）；src/engine3d.js 把射線傳進來、tapPref 用椅子的位置。
++// 2026-11-11 TAP-RAY-SEAT-1111（LAWWW2）改成「畫面上那一點實際打到椅子」：射線第一個打到的東西（engine3d.js E.rayFirstHit）比地板那一點近、落在某張椅子的範圍裡才算——
++//   這支的椅子沒有模型：E.rayFirstHit 用簡單的椅面＋椅背盒子代替（下面 chairHit）；真正的模型（總圖、宿舍、Café、118 巷）在 tests/tap_seat_ray_real_1111_unit.js。
++//   1、6 的期望不變（點椅面導去那張、點後排椅背導去後排）；呼叫多傳 hit（地板那一點，engine3d.js 現在傳的）；5、7 跟著 engine3d.js 改（見各項）。
+ //  1 從斜上方（俯角約 25°）點椅面：地板落點在椅子後面 1 m 以上、站得住 → 還是導去那張椅子的走近點，回傳的椅子＝那一張
+ //  2 點走道的地板（射線在 0.3～0.75 m 那一段離每張椅子都遠）→ 照舊走過去（null）
+ //  3 地板那一點本來就在椅子上（站不住）→ 照舊導去那張椅子（舊行為不變）
+@@ -8,33 +11,44 @@
+ // 修改前（開發分支 181b18879）：1 FAIL。用法：node tests/tap_seat_ray_1111_unit.js
+ const fs=require('fs'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
+ let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'　'+info:'')); if(!ok) fails++; }; const J=JSON.stringify;
+-const G3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), m=/  function tapToSeat\(x,z,lv(?:,o)?\)\{[\s\S]*?\n    if\(!best\) return null;[^\n]*\n/.exec(G3);
++const G3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), m=/  function tapToSeat\(x,z,lv(?:,o)?\)\{[\s\S]*?\n  GM\.TAP_CHAIR=TAP_CHAIR; GM\.rayHitsBox=rayHitsBox;\n/.exec(G3);   /* TAP-RAY-SEAT-1111：連同 TAP_CHAIR、rayHitsBox 一起拿（原本只拿到 if(!best) return null 那一行）*/
+ check('0. game3d.js 有 tapToSeat',!!m); if(!m){ console.log('FAILED'); process.exit(1); }
+ const SEATS=[{x:0.5,z:-0.9,yaw:0,lv:0},{x:1.1,z:-0.9,yaw:0,lv:0},{x:0.5,z:0.4,yaw:Math.PI,lv:0}];
+-const E={interactables:SEATS.map(s=>({seat:s,x:s.x,z:s.z})).concat([{x:0.65,z:-1.65,label:'點餐'}]),canStand:(x,z)=>!SEATS.some(s=>Math.hypot(s.x-x,s.z-z)<0.25)};
++/* 椅子的模型（TAP-RAY-SEAT-1111）：椅面 0.4×0.4、離地 0.42～0.47；椅背在後面（yaw 0＝面向 +z，椅背在 −z 那一邊）0.03 厚、到 0.9 m。射線打盒子（slab 法），回傳最近的 {point,distance} */
++const boxHit=(R,b)=>{ const o=R.origin, d=R.direction; let t0=0, t1=1e9; for(const [oa,da,lo,hi] of [[o.x,d.x,b[0],b[3]],[o.y,d.y,b[1],b[4]],[o.z,d.z,b[2],b[5]]]){ if(Math.abs(da)<1e-9){ if(oa<lo||oa>hi) return null; continue; } let ta=(lo-oa)/da, tb=(hi-oa)/da; if(ta>tb){ const t=ta; ta=tb; tb=t; } if(ta>t0) t0=ta; if(tb<t1) t1=tb; if(t0>t1) return null; } return t0; };
++const chairBoxes=ss=>ss.flatMap(s=>{ const bz=Math.cos(s.yaw||0)>0?-1:1; return [[s.x-0.2,0.42,s.z-0.2,s.x+0.2,0.47,s.z+0.2],[s.x-0.2,0.47,Math.min(s.z+bz*0.2,s.z+bz*0.17),s.x+0.2,0.9,Math.max(s.z+bz*0.2,s.z+bz*0.17)]]; });
++const chairHit=ss=>(R,far)=>{ let best=null; for(const b of chairBoxes(ss)){ const t=boxHit(R,b); if(t!=null&&t<far&&(!best||t<best.distance)) best={distance:t,point:{x:R.origin.x+R.direction.x*t,y:R.origin.y+R.direction.y*t,z:R.origin.z+R.direction.z*t}}; } return best; };
++const E={interactables:SEATS.map(s=>({seat:s,x:s.x,z:s.z})).concat([{x:0.65,z:-1.65,label:'點餐'}]),canStand:(x,z)=>!SEATS.some(s=>Math.hypot(s.x-x,s.z-z)<0.25),rayFirstHit:chairHit(SEATS)};
+ const seatApproach=st=>[st.x,st.z-0.6];
+-const tapToSeat=new Function('E','seatApproach','return '+m[0].trim().replace(/^function tapToSeat/,'function'))(E,seatApproach);
++const mk=(E_,sa)=>new Function('E','seatApproach','GM',m[0]+'\nreturn tapToSeat;')(E_,sa,{});
++const tapToSeat=mk(E,seatApproach);
+ const V=(x,y,z)=>({x,y,z}); const norm=v=>{ const l=Math.hypot(v.x,v.y,v.z); return V(v.x/l,v.y/l,v.z/l); };
+ const rayTo=(cam,tgt)=>({origin:cam,direction:norm(V(tgt.x-cam.x,tgt.y-cam.y,tgt.z-cam.z))});
+ const floorOf=R=>{ const t=-R.origin.y/R.direction.y; return [R.origin.x+R.direction.x*t,R.origin.z+R.direction.z*t]; };
+ // 鏡頭在椅子南邊（+z）、高 1.9 m、水平距離 4 m（俯角約 25°），點椅面（離地 0.45 m）
+-{ const cam=V(0.5,1.9,3.1), R=rayTo(cam,V(0.5,0.45,-0.9)), [fx,fz]=floorOf(R), r=tapToSeat(fx,fz,0,{ray:R,fy:0,useRay:true});
++const H=(x,z)=>({x,y:0,z});   /* 地板那一點（engine3d.js 傳的 hit）*/
++{ const cam=V(0.5,1.9,3.1), R=rayTo(cam,V(0.5,0.45,-0.9)), [fx,fz]=floorOf(R), r=tapToSeat(fx,fz,0,{ray:R,fy:0,hit:H(fx,fz)});   /* 原本 {ray,fy,useRay:true}（射線高度判）；TAP-RAY-SEAT-1111：傳地板那一點，打椅子的模型 */
+   check('1. 俯角淺、點椅面：地板落點在椅子後面 '+(-0.9-fz).toFixed(2)+' m（站得住）→ 導去那張椅子的走近點、回傳那張椅子',(-0.9-fz)>1&&E.canStand(fx,fz)&&!!r&&r[0]===0.5&&Math.abs(r[1]-(-1.5))<1e-9&&r[3]&&r[3].x===0.5&&r[3].z===-0.9,J({fz:+fz.toFixed(2),r}));
+-  const R2=rayTo(cam,V(1.1,0.6,-0.9)), [gx,gz]=floorOf(R2), r2=tapToSeat(gx,gz,0,{ray:R2,fy:0,useRay:true});
++  const R2=rayTo(cam,V(1.1,0.6,-1.08)), [gx,gz]=floorOf(R2), r2=tapToSeat(gx,gz,0,{ray:R2,fy:0,hit:H(gx,gz)});   /* 椅背中段：原本瞄 (1.1,0.6,−0.9)＝椅子中心的半空（舊做法看射線經過的高度）；現在要打到東西，瞄椅背那一片 z −1.08 */
+   check('1. 點隔壁那張（1.1,−0.9）的椅背中段：導去那一張，不是 0.5 那張',!!r2&&r2[3]&&r2[3].x===1.1,J(r2)); }
+-{ const cam=V(3,1.9,3.1), R=rayTo(cam,V(3,0,-1.5)), [fx,fz]=floorOf(R), r=tapToSeat(fx,fz,0,{ray:R,fy:0,useRay:true});
++{ const cam=V(3,1.9,3.1), R=rayTo(cam,V(3,0,-1.5)), [fx,fz]=floorOf(R), r=tapToSeat(fx,fz,0,{ray:R,fy:0,hit:H(fx,fz)});
+   check('2. 點走道的地板（x 3，離椅子都遠）：照舊走過去（null）',r===null,J(r)); }
+-{ const r=tapToSeat(0.5,-0.85,0,{ray:rayTo(V(0.5,1.9,3.1),V(0.5,0,-0.85)),fy:0,useRay:true}); check('3. 地板那一點在椅子上（站不住）：照舊導去那張椅子',!!r&&r[3]&&r[3].x===0.5&&r[3].z===-0.9,J(r)); }
+-{ const cam=V(0.5,0.1,3.1), up=rayTo(cam,V(0.5,0.45,-0.9)), r=tapToSeat(0.5,-3,0,{ray:up,fy:0,useRay:true}), r0=tapToSeat(0.5,-2.3,0);
+-  check('4. 射線往上、或沒有傳射線：不判椅子高度（舊行為：地板那一點站得住＝null）',r===null&&r0===null,J([r,r0])); }
++{ const r=tapToSeat(0.5,-0.85,0,{ray:rayTo(V(0.5,1.9,-4.9),V(0.5,0,-0.85)),fy:0,hit:H(0.5,-0.85)});   /* 原本鏡頭在南邊 (0.5,1.9,3.1)：TAP-RAY-SEAT-1111 以後那條射線先打到 (0.5,0.4) 那張的椅背（畫面上點到的是那一張），改從北邊點 */ check('3. 地板那一點在椅子上（站不住）：照舊導去那張椅子',!!r&&r[3]&&r[3].x===0.5&&r[3].z===-0.9,J(r)); }
++{ const cam=V(0.5,0.1,3.1), up=rayTo(cam,V(0.5,0.45,-0.9)), r=tapToSeat(0.5,-3,0,{ray:up,fy:0}), r0=tapToSeat(0.5,-2.3,0);   /* 原本 {ray:up,fy:0,useRay:true}（射線往上）；TAP-RAY-SEAT-1111：射線往上碰不到地板、engine3d.js 不會有 hit，照沒有傳 hit 的呼叫測 */
++  check('4. 射線往上（沒有地板那一點）、或沒有傳射線：不判椅子（舊行為：地板那一點站得住＝null）',r===null&&r0===null,J([r,r0])); }
+ { const eng=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
+-  check('5. engine3d.js：tapRedirect 傳 {ray:E.ray.ray,fy:hit.y}；tapPref 用 r[3]（pref）',/E\.tapRedirect\(tx,tz,tlv==null\?\(P\.lv\|0\):tlv,\{ray:E\.ray\.ray,fy:hit\.y\}\)/.test(eng)&&/if\(r\[3\]\) pref=r\[3\];/.test(eng)&&/P\.tapPref=\{x:pref\?pref\.x:hit\.x,z:pref\?pref\.z:hit\.z,/.test(eng)); }
++  /* 原本：傳 {ray:E.ray.ray,fy:hit.y}；TAP-RAY-SEAT-1111：多傳 hit（地板那一點：比它近才算打到椅子）*/
++  check('5. engine3d.js：tapRedirect 傳 {ray:E.ray.ray,fy:hit.y,hit:{x,y,z}}；tapPref 用 r[3]（pref）；有 E.rayFirstHit',/E\.tapRedirect\(tx,tz,tlv==null\?\(P\.lv\|0\):tlv,\{ray:E\.ray\.ray,fy:hit\.y,hit:\{x:hit\.x,y:hit\.y,z:hit\.z\}\}\)/.test(eng)&&/E\.rayFirstHit=function\(ray,far\)/.test(eng)&&/if\(r\[3\]\) pref=r\[3\];/.test(eng)&&/P\.tapPref=\{x:pref\?pref\.x:hit\.x,z:pref\?pref\.z:hit\.z,/.test(eng)); }
+ // 6（BB 11-11 PC：118牛排座位密，點後排被導到前排）：兩張椅子前後排（鏡頭在南邊），點後排那張的椅背上緣——射線先穿過的是後排那張（高處），不能因為低處離前排中心比較近就挑前排
+ { const S2=[{x:1.6,z:-0.26,yaw:0,lv:0},{x:1.6,z:1.06,yaw:Math.PI,lv:0}]; const E2={interactables:S2.map(s=>({seat:s,x:s.x,z:s.z})),canStand:()=>true};
+-  const t2=new Function('E','seatApproach','return '+m[0].trim().replace(/^function tapToSeat/,'function'))(E2,st=>[st.x,st.z+0.6]);
+-  const cam=V(1.6,2.4,5.5), R=rayTo(cam,V(1.6,0.7,1.06)), [fx,fz]=floorOf(R), r=t2(fx,fz,0,{ray:R,fy:0,useRay:true});
++  E2.rayFirstHit=chairHit(S2); const t2=mk(E2,st=>[st.x,st.z+0.6]);
++  const cam=V(1.6,2.4,5.5), R=rayTo(cam,V(1.6,0.7,1.24)), [fx,fz]=floorOf(R), r=t2(fx,fz,0,{ray:R,fy:0,hit:H(fx,fz)});   /* 原本瞄 (1.6,0.7,1.06)＝後排椅子中心的半空；現在要打到東西：瞄後排的椅背（面向 −z，椅背在 z 1.23～1.26）*/
+   check('6. 前後兩排、點後排椅背：導去後排那張（射線先穿過的），不是落點附近的前排',!!r&&r[3]&&r[3].z===1.06,J({r,fz:+fz.toFixed(2)})); }
+ // 7（2026-11-11 BB TSR 擋發布）：遊戲裡先關掉照椅子高度判——engine3d.js 不傳 useRay；沒有 useRay 時點走道（地板那一點站得住）一律照舊走過去，不被帶去椅子
+-{ const cam=V(0.5,1.9,3.1), R=rayTo(cam,V(0.5,0.45,-0.9)), [fx,fz]=floorOf(R), r=tapToSeat(fx,fz,0,{ray:R,fy:0}), eng=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
+-  check('7. 沒有 useRay（遊戲現在）：射線擦過椅子、地板那一點站得住＝照舊走過去（null）；engine3d.js 沒有傳 useRay',r===null&&!/useRay/.test(eng),J(r)); }
++//   TAP-RAY-SEAT-1111：射線高度判拿掉了（useRay 這個旗標也沒了）；同一條射線（擦過椅子中心的半空、地板那一點站得住）照舊 null——傳了 hit 也一樣（沒有打到椅子）；
++//   BB 的四個走道點用真的模型測：tests/tap_seat_ray_real_1111_unit.js 第 1 項
++{ const cam=V(1.38,1.9,3.1), R=rayTo(cam,V(1.38,0.45,-0.9)), [fx,fz]=floorOf(R), r=tapToSeat(fx,fz,0,{ray:R,fy:0}), rh=tapToSeat(fx,fz,0,{ray:R,fy:0,hit:H(fx,fz)}), eng=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
++  /* 原本瞄 (0.5,0.45,−0.9)（地板那一點站得住、沒有 useRay＝null）。TAP-RAY-SEAT-1111：同一條射線現在打得到椅面（那就是點到椅子），改成「擦過」：從椅子旁邊過去（x 1.38，椅子在 0.9～1.3）、高 0.45 時離 (1.1,−0.9) 中心 0.28 m（舊做法會算進 0.32 m 內）、沒有碰到椅面椅背 */
++  const passNear=(()=>{ const t=(0.45-R.origin.y)/R.direction.y; return Math.hypot(R.origin.x+R.direction.x*t-1.1,R.origin.z+R.direction.z*t+0.9); })();
++  check('7. 射線擦過椅子（離中心 '+passNear.toFixed(2)+' m、沒有打到椅子）、地板那一點站得住：沒有 hit、有 hit 都照舊走過去（null）；engine3d.js 沒有 useRay',passNear<0.32&&r===null&&rh===null&&!/useRay/.test(eng),J([r,rh])); }
+ console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/tap_seat_ray_real_1111_unit.js b/tests/tap_seat_ray_real_1111_unit.js
+new file mode 100644
+index 0000000000..5b4aa8fd38
+--- /dev/null
++++ b/tests/tap_seat_ray_real_1111_unit.js
+@@ -0,0 +1,93 @@
++/* TAP-RAY-SEAT-1111（LAWWW 11-11 10:56 派給 LAWWW2）：點畫面判椅子——用遊戲真正的區域＋正式模型（GLB，Node 裡解析、不載貼圖）打射線。
++   src/game3d.js tapToSeat：畫面上那一點射線第一個打到的東西（engine3d.js E.rayFirstHit）比地板那一點近、落在某張椅子的範圍裡，才導去那張椅子。
++   取代 0d7922555 的「射線在離地 0.3～0.75 m 那段離椅中心 0.32 m 內」：BB TSR（擋發布）——俯角淺時點遠處走道，射線擦過前面的椅子也被算成點到。
++     1 BB 的四個走道點（總圖大廳二樓 (−8.5,5)、(−11,6.5)；宿舍 (11.5,3)；Café (1.5,−0.5)）：從「射線會穿過舊做法那一段（離椅子 0.32 m 內、離地 0.3～0.75 m）」的鏡頭點下去，
++       畫面上那一點看得到地板（射線先打到地板）的，一律照舊走過去（null）；而且舊做法在這些點會被帶去椅子（這支抓得到 BB 那一種）
++     2 五湖四海（l118_home）#9 (0.5,−0.9)：八個方向、俯角 0.35／0.5 點椅子——射線先打到 #9 的都導去 #9（只看地板那一點的做法：落點在椅子後面、站得住＝走過去）
++     3 118 巷九間每一張椅子：遊戲那種鏡頭（離 3.2～4.6 m、俯角 0.3～0.7、八個方向）點椅面中心——射線第一個打到的東西落在哪張椅子的範圍裡，就導去哪一張（射線先打到哪張就是哪張）；
++       列出舊做法挑到別張的次數（BB 回報 118 巷點了選錯椅子）
++     4 地板那一點本來就在椅子上（站不住）：沒有射線打到椅子時照舊導去最近那張（舊行為）
++   這是模擬（Node、three 的 Raycaster、遊戲的牆淡出照 z.fadeWalls），不是瀏覽器裡點（D131）；瀏覽器驗證排 CC。用法：node tests/tap_seat_ray_real_1111_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){}, querySelector:()=>null, querySelectorAll:()=>[], body:{appendChild(){},classList:{add(){},remove(){}}} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{}; console.error=()=>{};
++const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); const all=[...html.matchAll(/src="([^"?]+)/g)].map(m=>m[1]);
++const files=[]; for(const f of all){ if(/three-vrm|character3d|props3d/.test(f)) continue; files.push(f); if(/l118_shops3d\.js$/.test(f)) break; }
++for(const f of files){ if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,'globalThis.$1='); try{ vm.runInThisContext(src,{filename:f}); }catch(e){} }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; }; const J=JSON.stringify;
++// 正式模型：GLB 在 Node 裡解析（貼圖拿掉；和 tests/us_club_lounge_unit.js 同一個做法）
++function parseGLB(file){ const b=fs.readFileSync(file); const n=b.readUInt32LE(12); const Jn=JSON.parse(b.slice(20,20+n).toString()); const binLen=b.readUInt32LE(20+n); const bin=b.slice(20+n+8,20+n+8+binLen);
++  for(const m of Jn.materials||[]){ const p=m.pbrMetallicRoughness||{}; for(const k of ['baseColorTexture','metallicRoughnessTexture']) delete p[k]; for(const k of ['normalTexture','occlusionTexture','emissiveTexture']) delete m[k]; if(m.extensions) for(const k of Object.keys(m.extensions)) if(/texture/i.test(J(m.extensions[k]))) delete m.extensions[k]; }
++  delete Jn.textures; delete Jn.images; delete Jn.samplers; delete Jn.extensionsRequired; if(Jn.extensionsUsed) Jn.extensionsUsed=Jn.extensionsUsed.filter(e=>!/texture|KTX|webp/i.test(e));
++  const js=Buffer.from(JSON.stringify(Jn)); const jb=Buffer.concat([js,Buffer.alloc((4-js.length%4)%4,0x20)]); const bb=Buffer.concat([bin,Buffer.alloc((4-bin.length%4)%4)]);
++  const h=Buffer.alloc(12); h.write('glTF',0); h.writeUInt32LE(2,4); h.writeUInt32LE(12+8+jb.length+8+bb.length,8); const c1=Buffer.alloc(8); c1.writeUInt32LE(jb.length,0); c1.write('JSON',4); const c2=Buffer.alloc(8); c2.writeUInt32LE(bb.length,0); c2.writeUInt32LE(0x004E4942,4);
++  const out=Buffer.concat([h,c1,jb,c2,bb]); return new Promise((res,rej)=>new THREE_JSM.GLTFLoader.GLTFLoader().parse(out.buffer.slice(out.byteOffset,out.byteOffset+out.length),'',g=>res(g),rej)); }
++const glbCache={}; ASSETS.loadOne=k=>{ const m=ASSETS.manifest[k]; if(!m||!/\.glb$/.test(m.url||'')||!fs.existsSync(path.join(ROOT,m.url))) return new Promise(()=>{}); if(!glbCache[k]) glbCache[k]=parseGLB(path.join(ROOT,m.url)); return glbCache[k].then(g=>({scene:g.scene.clone(true),userData:g.scene.userData})); };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++// game3d.js 的 tapToSeat、TAP_CHAIR、rayHitsBox（原樣拿出來；走近點照椅子本身，這支只看挑到哪一張）
++const G3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
++const mT=/  function tapToSeat\(x,z,lv,o\)\{[\s\S]*?\n  GM\.TAP_CHAIR=TAP_CHAIR; GM\.rayHitsBox=rayHitsBox;\n/.exec(G3);
++check('0. game3d.js 有 tapToSeat（打模型判椅子）、TAP_CHAIR、rayHitsBox；engine3d.js 有 E.rayFirstHit',!!mT&&typeof E.rayFirstHit==='function'); if(!mT){ console.log('FAILED'); process.exit(1); }
++const T=new Function('E','seatApproach','GM',mT[0]+'\nreturn {tapToSeat,TAP_CHAIR,rayHitsBox};')(E,st=>[st.x,st.z],{});
++/* 修改前（0d7922555 的射線高度判）：拿來比較——舊做法在哪些點會被帶去椅子（照當時的寫法，地板那一點沒對到椅子時看射線離地 0.75／0.6／0.45／0.3 m 那幾點離椅中心 0.32 m 內）*/
++function oldTap(x,z,lv,R,fy,seats){ let best=null, bd=0.45; if(!E.canStand(x,z,0.3,lv|0)) for(const st of seats){ const d=Math.hypot(st.x-x,st.z-z); if(d<bd){ bd=d; best=st; } }
++  if(!best&&R.direction.y<-1e-3) for(const h of [0.75,0.6,0.45,0.3]){ const t=(fy+h-R.origin.y)/R.direction.y; if(!(t>0)) continue; const px=R.origin.x+R.direction.x*t, pz=R.origin.z+R.direction.z*t; let b2=0.32; for(const st of seats){ const d=Math.hypot(st.x-px,st.z-pz); if(d<b2){ b2=d; best=st; } } if(best) break; }
++  return best; }
++async function load(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.exits=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.scene&&z.group&&!z.group.parent) E.scene.add(z.group);
++  E.player={obj:{position:new THREE.Vector3(0,0,0),rotation:{y:0}},radius:0.32,lv:0};
++  for(let i=0;i<400&&!z.formal;i++) await new Promise(r=>setTimeout(r,25)); z.group.updateMatrixWorld(true); return z; }
++const seatsOf=lv=>(E.interactables||[]).filter(it=>it.seat&&!it.hidden&&((it.seat.lv|0)===(lv|0))).map(it=>it.seat);
++/* 鏡頭在 cam、玩家在 pp：照遊戲把背對鏡頭的牆淡出、藏起來（engine3d.js updateCamera → z.fadeWalls → hideFaded）*/
++function fade(z,cam,pp){ if(z.fadeWalls){ z.fadeWalls({position:cam},pp); for(const w of z.walls||[]){ const m=w&&w.material; if(m&&!Array.isArray(m)) w.visible=m.opacity>0.5; } } z.group.updateMatrixWorld(true); }
++const V=(x,y,z)=>new THREE.Vector3(x,y,z);
++/* 打到的點落在哪張椅子的範圍裡（和 tapToSeat 同一個定義：照椅子朝向，左右、前面 TAP_CHAIR.r，後面 TAP_CHAIR.back，高度地板～椅背頂＋lift；兩張都算就取比例上近的）*/
++function chairOf(p,seats,fy){ let want=null, bc=1.0001; const C=T.TAP_CHAIR; for(const s2 of seats){ const y0=s2.y!=null?s2.y:(fy||0); if(p.y<y0-0.02||p.y>y0+C.h+(s2.lift||0)+0.02) continue; const yw=s2.yaw||0, fx=Math.sin(yw), fz=Math.cos(yw), dx=p.x-s2.x, dz=p.z-s2.z, f=dx*fx+dz*fz, l=Math.abs(dx*fz-dz*fx), d=Math.max(l/C.r,f>=0?f/C.r:-f/C.back); if(d<=bc){ bc=d; want=s2; } } return want; }
++function tap(z,lv,cam,aim,fy){ const dir=aim.clone().sub(cam).normalize(), R=new THREE.Ray(cam.clone(),dir); if(dir.y>=-1e-3) return null; const t=(fy-cam.y)/dir.y, F=cam.clone().addScaledVector(dir,t);
++  fade(z,cam,F); const seats=seatsOf(lv), r=T.tapToSeat(F.x,F.z,lv,{ray:R,fy,hit:{x:F.x,y:fy,z:F.z}}), first=E.rayFirstHit(R,t-0.03);
++  return {R,F,t,seats,r,first,old:oldTap(F.x,F.z,lv,R,fy,seats)}; }
++(async()=>{
++  // ---- 1 BB 的四個走道點 ----
++  const BB=[['library_hall',1,[-8.5,5],[-7.025,3.8],'總圖大廳二樓 (−8.5,5)'],['library_hall',1,[-11,6.5],[-10.175,5.8],'總圖大廳二樓 (−11,6.5)'],['dorm_hall',0,[11.5,3],[9,3.35],'宿舍交誼廳 (11.5,3)'],['cafe',null,[1.5,-0.5],[0.85,1.5],'Café (1.5,−0.5)']];
++  for(const [id,lv0,F0,C0,name] of BB){ const z=await load(id); const lv=lv0==null?0:lv0; const fy=E.heightAt(F0[0],F0[1],lv);
++    const st=seatsOf(lv).find(s=>Math.abs(s.x-C0[0])<0.02&&Math.abs(s.z-C0[1])<0.02);
++    if(!st){ check('1. '+name+'：找得到 BB 說的那張椅子 ('+C0+')',false); continue; }
++    const fd=Math.hypot(C0[0]-F0[0],C0[1]-F0[1]), ux=(C0[0]-F0[0])/fd, uz=(C0[1]-F0[1])/fd;
++    let nVis=0, nNew=0, nOld=0, nChair=0, nNewChair=0; const bad=[];
++    for(const hc of [1.6,2.0,2.6,3.2]) for(const hb of [0.35,0.5,0.65,0.75]) for(const off of [-0.24,-0.12,0,0.12,0.24]){
++      const Dh=hc*fd/hb, cam=V(F0[0]+ux*Dh-uz*off*Dh/fd,fy+hc,F0[1]+uz*Dh+ux*off*Dh/fd), q=tap(z,lv,cam,V(F0[0],fy,F0[1]),fy); if(!q) continue;
++      const onChair=q.first&&chairOf(q.first.point,[st],fy)===st;
++      if(!q.first||q.first.point.distanceTo(q.F)<0.2){ nVis++; if(q.r) { nNew++; bad.push('hc'+hc+' hb'+hb+' off'+off+'→'+J(q.r[3])); } if(q.old) nOld++; }   /* 先打到的是地板那一點（或貼在地板上的地毯，離那一點 0.2 m 內）＝畫面上點的是地板 */
++      else if(onChair){ nChair++; if(q.r&&q.r[3]&&q.r[3].x===st.x&&q.r[3].z===st.z) nNewChair++; } }
++    check('1. '+name+'：看得到地板的點（射線先打到地板）'+nVis+' 個，一律照舊走過去（null）；舊做法其中 '+nOld+' 個被帶去 ('+C0+')',nVis>0&&nNew===0&&nOld>0,bad.slice(0,3).join('；'));
++    console.log('     （同一批鏡頭裡射線先打到那張椅子的 '+nChair+' 個：導去那張 '+nNewChair+' 個——畫面上點的就是椅子）'); }
++  // ---- 2 五湖四海 #9 ----
++  /* #9 面向 +z（桌子在 z −0.65～0.15）：鏡頭在 4 m 外、八個方向、俯角 0.35／0.5，點椅背、椅面附近——射線先打到 #9 的，都要導去 #9（從南邊隔著桌子看不到 #9：桌子先被打到）；
++     這些點地板那一點在椅子後面、站得住：只看地板那一點的做法（0d7922555 以前）＝走過去、按鈕變「點餐」（BB 11-11 CC TAPSEAT）*/
++  { const z=await load('l118_home'); const st=seatsOf(0).find(s=>Math.abs(s.x-0.5)<0.02&&Math.abs(s.z+0.9)<0.02);
++    if(!st) check('2. 五湖四海 #9 (0.5,−0.9) 在配置裡',false);
++    else { const res=[]; let ok=0, n=0, oldFloor=0, nAll=0;
++      for(let k=0;k<8;k++) for(const pit of [0.35,0.5]) for(let ax=-0.16;ax<=0.161;ax+=0.08) for(let ay=0.45;ay<=0.951;ay+=0.1) for(let az=-0.2;az<=0.101;az+=0.1){ const yaw=k*Math.PI/4, cx=st.x+Math.sin(yaw)*4, ch=0.5+Math.tan(pit)*4, cz=st.z+Math.cos(yaw)*4; const q=tap(z,0,V(cx,ch,cz),V(st.x+ax,ay,st.z+az),0); if(!q) continue; nAll++;
++        if(!q.first||chairOf(q.first.point,seatsOf(0),0)!==st) continue; n++;
++        const r=q.r, hitThis=r&&r[3]&&r[3].x===st.x&&r[3].z===st.z; if(hitThis) ok++; else res.push(J({cam:[cx,ch,cz],r:r&&r[3],first:[+q.first.point.x.toFixed(2),+q.first.point.y.toFixed(2),+q.first.point.z.toFixed(2)]}));
++        const r0=T.tapToSeat(q.F.x,q.F.z,0); if(!(r0&&r0[3]&&r0[3].x===st.x&&r0[3].z===st.z)) oldFloor++; }
++      check('2. 五湖四海 #9：八個方向點椅子附近（'+nAll+' 個點裡射線先打到 #9 的 '+n+' 個）都導去 #9；只看地板那一點的做法其中 '+oldFloor+' 個坐不到（原本的「點椅面變點餐」）',n>0&&ok===n&&oldFloor>0,res.slice(0,3).join('；')); } }
++  // ---- 3 118 巷九間每一張椅子 ----
++  { let nT=0, nOn=0, nOk=0, nOld=0, nNone=0; const bad=[], oldBad={};
++    for(const sid of Object.keys(L118_SHOP_LAYOUTS)){ const z=await load('l118_'+sid); const seats=seatsOf(0);
++      for(const st of seats){ const top=0.47+(st.lift||0);
++        for(const dist of [3.2,4.6]) for(const pit of [0.3,0.5,0.7]) for(let k=0;k<8;k++){ const yaw=k*Math.PI/4, cam=V(st.x+Math.sin(yaw)*dist,top+Math.tan(pit)*dist,st.z+Math.cos(yaw)*dist);
++          const q=tap(z,0,cam,V(st.x,top,st.z),0); if(!q) continue; nT++; if(!q.first){ nNone++; continue; }
++          const want=chairOf(q.first.point,seats,0);
++          if(!want) continue; nOn++; const got=q.r&&q.r[3]; if(got&&got.x===want.x&&got.z===want.z) nOk++; else bad.push(sid+' ('+want.x+','+want.z+')→'+J(got));
++          if(q.old&&!(q.old.x===want.x&&q.old.z===want.z)){ nOld++; oldBad[sid]=(oldBad[sid]||0)+1; } } } }
++    check('3. 118 巷九間每一張椅子、遊戲那種鏡頭點椅面 '+nT+' 次：射線先打到椅子的 '+nOn+' 次都導去打到的那一張（打到牆、桌子、看不到的 '+(nT-nOn-nNone)+'、射線先到地板 '+nNone+'）',nOn>0&&nOk===nOn,bad.slice(0,4).join('；'));
++    console.log('     （舊做法挑到別張的：'+nOld+' 次 '+J(oldBad)+'）'); }
++  // ---- 4 舊行為 ----
++  { const z=await load('l118_home'); const st=seatsOf(0).find(s=>Math.abs(s.x-0.5)<0.02&&Math.abs(s.z+0.9)<0.02); const r=st&&T.tapToSeat(st.x,st.z+0.05,0);
++    check('4. 地板那一點在椅子上（站不住）、沒有傳射線：照舊導去那張',!!r&&r[3]&&r[3].x===st.x&&r[3].z===st.z,J(r)); }
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
+diff --git a/tools/blender/env_second/l118_int_omu.py b/tools/blender/env_second/l118_int_omu.py
+index f6f06bbedb..77b468d406 100644
+--- a/tools/blender/env_second/l118_int_omu.py
++++ b/tools/blender/env_second/l118_int_omu.py
+@@ -358,10 +358,53 @@ def preview(sid, views, points, samples=40, exposure=0.0, extra=()):
+ 
+ 
+ # ================= 殼（LS.shell 的複本＋門窗框顏色、每面牆的材質）=================
++def street_back(c, key, sx, sy, sw, sdoor, step=0.0):
++    """窗上海報的背面放在哪裡：照街上那一張（wz_shopkit.py SHOPS[店]['photos']：中心 x sx、下緣 y sy、寬 sw；街上的門 x sdoor）換算——
++    離門的距離一樣、方向相反（從外面看和從店裡看左右相反；奈良咖哩原本的兩張就是這樣放的），高＝寬×參考圖裁下來那一塊的高寬比，下緣扣掉門口的台階 step。
++    回傳 shell2 的 backs 一項 (x0, x1, y0, y1, key)"""
++    import l118_signs_tex as ST
++    _sid, box, _w = ST.REF_POSTERS[key]; h = sw * (box[3] - box[1]) / (box[2] - box[0]); xc = c.S['door_x'] + (sdoor - sx); y0 = sy - step
++    return (round(xc - sw / 2, 3), round(xc + sw / 2, 3), round(y0, 3), round(y0 + h, 3), key)
++
++
++def poster_backs(c, backs):
++    """窗上海報的背面（從店裡往外看；LAWWW 11-11 09:41：原本是一整片米白方塊）：米白的紙＋從外面透進來、左右相反的淡淡圖案（白天外面亮，
++    印的東西會從紙背透出來；圖案就是街上那一張，l118_signs_tex.py 從使用者參考圖裁的那一塊）＋四個角的透明膠帶（海報從店裡貼在玻璃上）。
++    一間店一張貼圖 l118_<店>_pback.png（一張海報一格，橫著排）；放在南牆 WALL_S_pback（和牆一起淡出）"""
++    import l118_signs_tex as ST
++    from PIL import ImageChops, ImageOps
++    Z1 = c.Z1; TW, PAD = 256, 4; PAPER = (240, 235, 222); tiles = []
++    for i, b in enumerate(backs):
++        xa, xb, ya, yb = b[:4]; key = b[4] if len(b) > 4 else None
++        th = round(TW * (yb - ya) / (xb - xa)); rng = random.Random(41 + i); t = Image.new('RGB', (TW, th), PAPER); d = ImageDraw.Draw(t)
++        for _ in range(TW * th // 60):                                                                            # 紙的纖維：一點一點深淺
++            x, y, g = rng.randrange(TW), rng.randrange(th), rng.randint(-8, 5); d.point((x, y), fill=tuple(max(0, min(255, v + g)) for v in PAPER))
++        if key:
++            sid_, box, _w = ST.REF_POSTERS[key]
++            if ST.has_ref(sid_):
++                im = ImageOps.mirror(ST.ref_crop(sid_, box).resize((TW, th), Image.LANCZOS)).filter(ImageFilter.GaussianBlur(2.4))
++                im = Image.blend(ImageOps.grayscale(im).convert('RGB'), im, 0.4)                                      # 透過紙的顏色淡、偏灰
++                t = ImageChops.multiply(t, im.point(lambda v: int(176 + 79 * v / 255)))                               # 深的地方暗約三成
++        ov = Image.new('RGBA', (TW, th), (0, 0, 0, 0)); od = ImageDraw.Draw(ov); L_ = round(TW * 0.1 / (xb - xa)); W_ = max(6, L_ // 3)
++        for (cx, cy, sx_, sy_) in ((0, 0, 1, 1), (TW, 0, -1, 1), (0, th, 1, -1), (TW, th, -1, -1)):                # 四個角斜貼的透明膠帶（偏黃、邊上一條亮線）
++            ux, uy = sx_ * 0.7071, sy_ * 0.7071; px, py = -uy, ux; a = (cx - ux * L_ * 0.35, cy - uy * L_ * 0.35); b_ = (cx + ux * L_ * 0.75, cy + uy * L_ * 0.75)
++            poly = [(a[0] + px * W_ / 2, a[1] + py * W_ / 2), (b_[0] + px * W_ / 2, b_[1] + py * W_ / 2), (b_[0] - px * W_ / 2, b_[1] - py * W_ / 2), (a[0] - px * W_ / 2, a[1] - py * W_ / 2)]
++            od.polygon(poly, fill=(236, 226, 186, 92)); od.line(poly[:2], fill=(255, 252, 236, 120), width=1)
++        t = Image.alpha_composite(t.convert('RGBA'), ov).convert('RGB'); ImageDraw.Draw(t).rectangle([0, 0, TW - 1, th - 1], outline=(214, 208, 194), width=1)   # 紙邊
++        tiles.append(t)
++    Hh = max(t.height for t in tiles); Ww = (TW + PAD) * len(tiles); img = Image.new('RGB', (Ww, Hh), PAPER); rects = []
++    for i, t in enumerate(tiles):
++        x0 = i * (TW + PAD); img.paste(t, (x0, Hh - t.height)); rects.append(((x0 + 0.5) / Ww, 0.5 / Hh, (x0 + TW - 0.5) / Ww, (t.height - 0.5) / Hh))   # 貼在下面：v 從 0 開始
++    fn = f'l118_{c.sid}_pback.png'; img.save(os.path.join(LS.GEN, fn))
++    pm = c.wg('S', 'pback', LS.img_mat(f'l118_{c.sid}_pback', fn, rough=0.85))
++    for b, r in zip(backs, rects):
++        xa, xb, ya, yb = b[:4]; uvquad(pm, [(xb, ya, Z1 - 0.032), (xa, ya, Z1 - 0.032), (xa, yb, Z1 - 0.032), (xb, yb, Z1 - 0.032)], r)
++
++
+ def shell2(c, frame='#8f969b', doorc=None, sillc=None, wallmat=None, wainmat=None, base='#3a3530', handle='#c9ccce', backs=(), rail=True, grid=False):
+     """地板、牆、腰牆、踢腳板、天花板、店面玻璃＋門、門外的巷子、兩側鄰居店面卡。出處：lane118_shops.py shell()（LAWWW2-C 2026-10-20）；
+     不一樣的地方：frame／doorc＝店面窗框、門框的顏色（原本固定鋁色）；wallmat／wainmat＝{'W': 材質…}（那一面牆、腰牆用別的材質）；
+-    backs＝貼在玻璃上的海報的背面 [(x0, x1, y0, y1)]（從店裡看是白紙）；rail＝腰牆上緣的壓條要不要；grid＝店面是鐵件格子窗（直條密一點＋兩道橫條）"""
++    backs＝貼在玻璃上的海報的背面 [(x0, x1, y0, y1, 街上那一張的鍵)]（poster_backs：紙的背面＋透過來的圖案＋膠帶；街上的位置換算用 street_back）；rail＝腰牆上緣的壓條要不要；grid＝店面是鐵件格子窗（直條密一點＋兩道橫條）"""
+     s = c.S; X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; M = c.M; wh = s['wainH']; doorc = doorc or frame; wallmat = wallmat or {}; wainmat = wainmat or {}
+     fl = Mesh(f'l118_{c.sid}_floorm', M['floor'], tile=s['floor'][2]); fl.box(X0, X1, -0.05, 0.0, Z0, Z1); fl.finish(c.root)
+     dx, dw = s['door_x'], 1.0; tc = s.get('trim', '#6b4a30')
+@@ -401,7 +444,7 @@ def shell2(c, frame='#8f969b', doorc=None, sillc=None, wallmat=None, wainmat=Non
+     gl.quad([(d1 - 0.04, 2.16, Z1 - 0.025), (d0 + 0.04, 2.16, Z1 - 0.025), (d0 + 0.04, gy1, Z1 - 0.025), (d1 - 0.04, gy1, Z1 - 0.025)])
+     fr.cbox(d1 - 0.2, d1 - 0.17, 0.85, 1.35, Z1 - 0.1, Z1 - 0.07, handle)
+     tr = c.wg('S', 'trim', M['vc'], cm=True)
+-    for (xa, xb, ya, yb) in backs: tr.poly([(xb, ya, Z1 - 0.032), (xa, ya, Z1 - 0.032), (xa, yb, Z1 - 0.032), (xb, yb, Z1 - 0.032)], '#f1ece0')
++    if backs: poster_backs(c, backs)
+     vz = Z1 + 2.4; vw = (X1 - X0) * 1.9; vh = vw * 0.5; vy0 = 1.6 - vh / 2
+     vm = c.wg('S', 'view', M['view'] if 'view' in M else L.flat(f'l118_{c.sid}_viewflat', '#c9cbc6', rough=0.9))
+     uvquad(vm, [(vw / 2, vy0, vz), (-vw / 2, vy0, vz), (-vw / 2, vy0 + vh, vz), (vw / 2, vy0 + vh, vz)], (0.0, 0.0, 1.0, 1.0))
+@@ -631,7 +674,7 @@ def build_omu():
+                 trim='#4a2e1c', ceil='#ecdfbf', noren='#7a3d24', kpass=True)   # 地板：中等偏淺的暖木色（D112：不准深色木地板；參考圖也是這個深淺）
+     c = begin(sid, spec, OMU_REG, omu_atlas(hours)); X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; v = c.vc; DW = '#4b2e1c'
+     dd_x = c.S['door_x']
+-    shell2(c, frame='#4a2e1c', doorc='#4a2e1c', handle='#b08a4a', backs=[(-0.32, 0.45, 1.0, 1.9), (0.85, 1.62, 1.0, 1.9)])
++    shell2(c, frame='#4a2e1c', doorc='#4a2e1c', handle='#b08a4a', backs=[street_back(c, 'omu_p1', -2.35, 1.25, 0.8, 1.2, step=0.06), street_back(c, 'omu_p2', -1.05, 1.25, 0.8, 1.2, step=0.06)])   # 海報的背面：照街上那兩張（wz_shopkit.py SHOPS['omu'] photos；原本 x −0.32～0.45、0.85～1.62，y 1.0～1.9 的米白方塊）
+     LS.kitchen(c, -1.0, 2.2, depth=1.6, win=(1.02, 1.95), door=(-2.7, -1.9))
+     # ---- 最裡面：木造出餐檯（檯面、開放層架：盤子、藤籃）＋攤架（兩支柱子、橫木、黃色短門簾、木匾）----
+     cx0, cx1, cz0, cz1, ch = -1.3, 2.5, Z0 + 0.95, Z0 + 1.5, 1.0
+diff --git a/tools/blender/env_second/l118_int_pasta.py b/tools/blender/env_second/l118_int_pasta.py
+index 660ad046d2..fce8619ba2 100644
+--- a/tools/blender/env_second/l118_int_pasta.py
++++ b/tools/blender/env_second/l118_int_pasta.py
+@@ -107,7 +107,8 @@ def build():
+     os.makedirs(LS.GEN, exist_ok=True); paint_atlas().save(os.path.join(LS.GEN, 'l118_pasta_paint.png'))
+     c = K.begin(sid, spec, REG, atlas(hours)); X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; v = c.vc; vm = c.vm; LW = '#d3a970'; RD = '#b02c24'; dx = c.S['door_x']; rr = c.rng
+     paint = mask_mat('l118_pasta_paint', 'l118_pasta_paint.png')
+-    K.shell2(c, frame='#c8a474', doorc=RD, handle='#c9ccce', base='#c9a877', backs=[(-0.85, -0.05, 1.0, 1.9), (0.3, 1.1, 1.0, 1.9)])   # 奶油色牆＋淺木腰牆（int2）、紅色門框（int2）、淺木窗框
++    K.shell2(c, frame='#c8a474', doorc=RD, handle='#c9ccce', base='#c9a877', backs=[K.street_back(c, 'pasta_p1', -2.5, 1.2, 0.78, 1.9), K.street_back(c, 'pasta_p2', -1.4, 1.2, 0.78, 1.9)])   # 奶油色牆＋淺木腰牆（int2）、紅色門框（int2）、淺木窗框
++    # 海報的背面照街上那兩張（wz_shopkit.py SHOPS['pasta'] photos）換算：x 1.41～2.19、0.31～1.09，y 1.2～2.21（原本 −0.85～−0.05、0.3～1.1，y 1.0～1.9 的米白方塊——第一張的位置街上沒有海報）
+     v.cbox(dx - 0.6, dx + 0.6, 0.0, 0.008, 2.95, 3.95, '#a8322a'); v.cbox(dx - 0.56, dx + 0.56, 0.008, 0.01, 2.99, 3.91, '#b8382e')        # 門口的紅地墊（int2）
+     # ---- 最裡面：開放料理檯（後牆的爐台、抽油煙罩、掛著的鍋、調味罐架、雙門冰箱）----
+     LS.frying_station(c, -1.9, 1.0, Z0, pans=3)
+@@ -125,12 +126,18 @@ def build():
+     for xx in (-3.08, -2.88): vm.cbox(xx, xx + 0.02, 0.85, 1.4, Z0 + 0.73, Z0 + 0.765, '#d9dcde')
+     K.print_quad(c, c.prt, [(-3.6, 1.35, Z0 + 0.735), (-3.37, 1.35, Z0 + 0.735), (-3.37, 1.6, Z0 + 0.735), (-3.6, 1.6, Z0 + 0.735)], 'NOTE')
+     # ---- 料理檯前面的淺木吧台（int2：吧台對著廚房）＋五張高背吧台椅；左端收銀、左邊一扇矮門 ----
+-    kx0, kx1, kz0, kz1, kh = -2.6, 1.4, -2.65, -2.25, 1.05
++    # 坐下膝蓋進前板（LAWWW 11-11 09:41，BB／LAWWW 第 3 點：#2 #3 小腿打到吧台木頭邊）：原本前板在 z −2.25、椅子 −1.92，祐廷的膝蓋前緣到 −2.35（進前板 5 cm）、
++    # 店裡男客人（膝蓋在前面 0.5 m）更多。改成：前板往裡退 0.15（kp −2.40，檯面照舊伸到 −2.11＝留 0.29 m 放腳的空間，下面四個托架、兩端側板）＋椅子往外 0.12（−1.80）：
++    # 祐廷膝蓋前緣約 −2.24（離前板 16 cm）、男客人約 −2.36（4 cm）
++    kx0, kx1, kz0, kz1, kh = -2.6, 1.4, -2.65, -2.25, 1.05; kp = kz1 - 0.15; sz = kz1 + 0.45
+     c.wood.rbox(kx0 - 0.04, kx1 + 0.04, kh - 0.05, kh, kz0 - 0.05, kz1 + 0.14, r=0.008, seg=2)
+     n = 20; w_ = (kx1 - kx0) / n
+-    for k in range(n): c.wood.box(kx0 + k * w_ + 0.005, kx0 + (k + 1) * w_ - 0.005, 0.1, kh - 0.05, kz1 - 0.03, kz1)                           # 吧台正面的直木板
+-    v.cbox(kx0, kx1, 0.0, kh - 0.05, kz0, kz1 - 0.03, '#b98f58'); v.cbox(kx0, kx1, 0.0, 0.1, kz0, kz1 + 0.005, '#8a6a48'); vm.cbox(kx0 + 0.3, kx1 - 0.1, 0.22, 0.25, kz1 + 0.06, kz1 + 0.09, '#9aa0a4')   # 檯身、踢腳、腳踏桿
+-    for xx in (kx0 + 0.4, -0.6, 0.4, kx1 - 0.2): vm.cbox(xx - 0.012, xx + 0.012, 0.22, 0.25, kz1, kz1 + 0.075, '#9aa0a4')
++    for k in range(n): c.wood.box(kx0 + k * w_ + 0.005, kx0 + (k + 1) * w_ - 0.005, 0.1, kh - 0.05, kp - 0.03, kp)                           # 吧台正面的直木板（往裡退到 kp）
++    v.cbox(kx0, kx1, 0.0, kh - 0.05, kz0, kp - 0.03, '#b98f58'); v.cbox(kx0, kx1, 0.0, 0.1, kz0, kp + 0.005, '#8a6a48'); vm.cbox(kx0 + 0.3, kx1 - 0.1, 0.22, 0.25, kp + 0.06, kp + 0.09, '#9aa0a4')   # 檯身、踢腳、腳踏桿
++    for xx in (kx0 + 0.4, -0.6, 0.4, kx1 - 0.2): vm.cbox(xx - 0.012, xx + 0.012, 0.22, 0.25, kp, kp + 0.075, '#9aa0a4')
++    for xx in (kx0 + 0.02, kx1 - 0.02): c.wood.box(xx - 0.02, xx + 0.02, 0.0, kh - 0.05, kp, kz1 + 0.1)                                        # 兩端的側板（檯面下放腳的空間收邊）
++    for xx in (-1.075, -0.425, 0.225, 0.875):                                                                                            # 檯面伸出去那一段的托架（兩張椅子中間；階梯形）
++        c.wood.box(xx - 0.02, xx + 0.02, kh - 0.13, kh - 0.05, kp, kz1 + 0.1); c.wood.box(xx - 0.02, xx + 0.02, kh - 0.25, kh - 0.13, kp, kz1 - 0.04)
+     LS.register(c, -2.25, kh, -2.45, face='+z')
+     for k in range(2): K.plates(v, -1.55 + k * 0.3, kh, -2.5, n=8 - k * 2, r=0.12)
+     ccyl(vm, (-0.5, kh, -2.5), (-0.5, kh + 0.12, -2.5), 0.05, '#c4c8cb', seg=8)
+@@ -138,7 +145,7 @@ def build():
+     for (xx, col) in ((0.5, '#c9b23a'), (0.62, '#4a2c18')): clathe(v, [(0.0, 0.0), (0.03, 0.0), (0.03, 0.16), (0.012, 0.21), (0.012, 0.25), (0.0, 0.25)], xx, kh, -2.5, col, seg=6)
+     K.pot_plant(c, 1.2, -2.5, kh, h=0.3, seed=7, r=0.09, pot='#f1ece0'); K.vine(c, v, 1.3, kh + 0.14, -2.3, 0.45, 91, out=(0, 1))
+     for xx in (-1.4, -0.75, -0.1, 0.55, 1.2):
+-        bar_chair(c, xx, kz1 + 0.33, PI); c.seat(xx, kz1 + 0.33, PI, (xx, -2.45), 'eat', ap=(xx, -1.38), label='坐吧檯', lift=K.BAR_LIFT)
++        bar_chair(c, xx, sz, PI); c.seat(xx, sz, PI, (xx, -2.45), 'eat', ap=(xx, sz + 0.54), label='坐吧檯', lift=K.BAR_LIFT)   # 原本 z kz1＋0.33（−1.92）、走近點 −1.38
+     v.cbox(X0 + 0.02, kx0 - 0.04, 0.12, 0.9, -2.47, -2.43, LW); v.cbox(X0 + 0.02, kx0 - 0.04, 0.82, 0.9, -2.48, -2.42, '#b98f58'); v.cbox(X0, X0 + 0.06, 0.0, 0.95, -2.5, -2.4, '#b98f58')   # 員工進出的矮門
+     # 吧台上方的橫牆（一排四張紅框的麵照片，int2）＋右後的隔間牆、門洞（白門簾，int 第一組）；都在料理檯這一條線上
+     wN = c.wg('N', 'wall', c.M['wall']); c.WGP[('N', 'parttrim')] = c.WGP[('N', 'partprint')] = {'at': [0.0, 1.6, -2.25]}                     # 橫牆、隔間牆放進後牆那一片（要盒狀 UV：LS.finish 只幫 wall／wain 做）；框和照片的淡出判斷點放在這一條線上
