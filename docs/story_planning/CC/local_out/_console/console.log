@@ -908,3 +908,11 @@
 [08:37:31] [res] cpu=6% mem=43% (13.3/31.4 GB) chrome_testing=5  START LM_new
 [08:39:02] 正在跑：NM_sync_old（已跑 8 分／上限 12 分）、NM_oldfps_new_r2（已跑 1 分／上限 8 分）、LM_new（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [08:39:22] [res] cpu=6% mem=48% (15.2/31.4 GB) chrome_testing=10  END NM_sync_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d61f8d8c1..d6695ac16  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:39:27] ==== END   NM_sync_old  exit=0  526s   ====
+[08:39:31] memory 48% before starting LM_old (2 running)
+[08:39:31] ==== START LM_old  (probe @ bd3f67410415267cde659e007e7d09b6f8fd05f3) ====
+[08:39:34] [res] cpu=2% mem=46% (15.4/31.4 GB) chrome_testing=10  START LM_old
+[08:40:30] [res] cpu=1% mem=48% (15.2/31.4 GB) chrome_testing=9  END NM_oldfps_new_r2
