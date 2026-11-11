@@ -19,7 +19,8 @@ PARTS（逗號分隔；預設全部；括號是 PC 預估分鐘）：
   SKIP   （E8＋快速略過，約 11）第一天完整吃一次（記選單：不能有略過）→【前置】同一份進度跳到下一個「會邀、可以略過」的日子 → 選單要有略過（兩次選單的按鈕文字並列）→ 選略過：
          錢只扣一次＝那一份、同行每人熟悉度＝settle 回報的點數（每週上限 6）、inv.done＝今天、seen 不變、n+1、沒有進店（沒有 GAME.enter l118_）、skipLine 那一句；重新整理 → 繼續：錢、熟悉度不再變。
   DECL   （E7，約 9）第一天婉拒（錢、熟悉度都不變；decl[他]=1、別人不變；他回一句）→【前置】跳到下一個「別人發起」的日子 → 接受：decl[那個人]=0、decl[第一天的人] 還是 1。
-  TABLE  （同桌，約 7）辛亥韓食（tea，舊室內只有兩張高腳椅）四人（玩家＋3）那一天：接受 → 進店 → 每人座位、是否同一桌、有沒有人沒位子、是不是退回 2D（ADV／區域不在）。
+  TABLE  （同桌，約 7）辛亥韓食（tea）四人（玩家＋3）那一天：接受 → 進店 → 每人座位、桌號（L118_SHOP_LAYOUTS 的 table）、有沒有人沒位子、是不是退回 2D（ADV／區域不在）。
+         BB 06:33：bcea920be 起 tea 是新室內（卡座，不再是兩張高腳椅）→ 判「四人同桌」：3D、玩家和每一位同行都坐下、全部同一張桌；併桌、有人沒位子、退回 2D 都 FAIL（照實寫是哪一種）。
   E1     （約 5）週二上午大一國文（博思，不是法律系館）照真實流程上完：沒有邀約、inv.day 沒記；【函式】週四下午民總（法律系館、下午）LUNCH118.lawAm＝false。
   E2     （約 5）一個都不認識（新開局旗標 LAW_START_DAY／MAIN_D1、不認識阿哲、沒有 FIRST_MET）上週三刑總：沒有邀約、plan＝nobody、inv.day＝今天、hit＝false。
   E10    （約 3）店門口一個人點餐照常：讀檔在 118牛排（l118_dian）店裡 → 走到點餐的地方（觸控點地）→ 按互動鍵 → 點第一樣 → 只扣那一樣的錢。舊存檔另有 C 探針。
@@ -183,6 +184,7 @@ def print_log(tag, lg):
         elif k == 'toast': R.note('%s %s 提示：%s' % (tag, at, e['text']))
         elif k.startswith('lunch.'): R.note('%s %s %s %s' % (tag, at, k, J({x: y for x, y in e.items() if x not in ('k', 't', 'h', 'd', 'z', 'm')})))
         elif k == 'cls' and e.get('fn') in ('slotFill', 'slotUse', 'goClass', 'attend', 'afterMenu'): R.note('%s %s CLS.%s(%s)' % (tag, at, e['fn'], e.get('key')))
+        elif k == 'clsEnd' and e.get('fn') in ('goClass', 'attend', 'afterMenu'): R.note('%s %s CLS.%s 結束（回 %s）' % (tag, at, e['fn'], e.get('ret')))
         elif k == 'reject': R.note('%s %s 例外（promise reject）%s：%s' % (tag, at, e.get('fn'), e.get('err')))
 
 
@@ -289,7 +291,7 @@ async def lunch_day(pg, cdp, tag, snap, cand, action, ids, after_pick='先自由
         done = await pg.evaluate("k=>!!CLS.rec(GAME.G).done[k]", cand['ik'])
         idle = idle or time.time()
         if done and any(e['k'] in ('lunch.afterEnd', 'clsEnd') and (e['k'] == 'lunch.afterEnd' or e.get('fn') == 'afterMenu') for e in lg) and time.time() - idle > 6: stage = 'idle'; break
-        if done and time.time() - idle > 25: stage = 'idle'; break
+        if done and time.time() - idle > 150: stage = 'idle'; break   # 下課選單要等玩家站起來、空下來 1.5 秒＋2.5 秒（classes3d.js oneTick／freeNow）；低幀率時要等久一點
         await pg.wait_for_timeout(300)
     rec['class_sec'] = round(time.time() - t0, 1); rec['skips'] = skips; rec['stage1'] = stage
     R.note('%s：上課到%s花了 %.0f 秒（按了「略過 »」%d 次）' % (tag, {'invite': '邀約選單', 'after': '下課選單（沒有邀約）', 'idle': '空下來（沒有邀約、沒有下課選單）'}.get(stage, '逾時'), rec['class_sec'], skips))
@@ -590,8 +592,9 @@ async def part_table(p):
             if sp_: tabs.add(((sp_.get('t') or {}).get('table')) or ('座位 %s,%s' % (sp_['x'], sp_['z'])))
         kind = '2D（深色底）' if (st3 is False or adv) else ('全部坐下：同一桌' if len(seated) == len(party) and len(tabs) == 1 else ('全部坐下：併桌（%d 張）' % len(tabs) if len(seated) == len(party) else '3D 但有 %d 位同行沒位子' % (len(party) - len(seated))))
         R.note('TABLE：結果＝%s（桌號 %s）' % (kind, J(sorted(tabs))))
-        R.check('TABLE：四人去辛亥韓食（舊室內 %s 個位子）每一位同行都有位子、或明確退回 2D（實際：%s）' % (len((lay or {}).get('seats') or []), kind), kind.startswith('2D') or len(seated) == len(party), J({'seated': seated, 'party': party, 'ppl': ppl}))
-        R.check('TABLE：玩家自己坐下了（3D 時）', kind.startswith('2D') or bool((se.get('me') or {}).get('seat')), J(se.get('me')))
+        R.check('TABLE：辛亥韓食是 3D 室內（l118_tea 在、沒有退回 2D）', zt and not kind.startswith('2D'), kind)
+        R.check('TABLE：玩家自己坐下了', bool((se.get('me') or {}).get('seat')), J(se.get('me')))
+        R.check('TABLE：%d 人同桌（室內 %s 個位子；每一位同行都有位子、全部同一張桌；實際：%s）' % (len(party) + 1, len((lay or {}).get('seats') or []), kind), len(seated) == len(party) and len(tabs) == 1, J({'seated': seated, 'party': party, 'tabs': sorted(tabs), 'ppl': ppl}))
         mm = menu_money(rec)
         R.check('TABLE：錢只扣玩家那一份 %s 元（%s）' % (Pl.get('price'), J(mm)), mm == [-Pl.get('price')] if Pl.get('price') else False)
         no_errs('TABLE', errs)

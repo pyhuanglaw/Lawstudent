@@ -22,6 +22,7 @@ B 菜單：
   DATE   日期（預設自動挑：學期中的週三、不是假日、不是颱風假，2025-09-24 起；九間店週三都有開——週二 118牛排休、週一義大麵屋和奈良咖哩休、週四披薩休）
   HOUR   預設 12.17（12:10）
   PHONE  1＝A 段抽手機「地點」頁（預設 1）
+  LOOKS  1＝A 段在店裡走到每一個「看的東西」（配置的 interact：湯桶、配菜櫃、窯爐…）按一下，抽旁白的字（預設 1）
   QUIET  1＝讀檔時關條件事件和手機自動打開（預設 1；118 巷點餐不是條件事件，照演）
   PORTRAIT 1＝直向 390×844（預設橫向，和 tests/flow_l118_shops.py 一樣）
   ITEMS_MAX 只點每間的前 N 樣（預設 0＝全部；雲端自檢用，正式跑不要設）
@@ -40,6 +41,7 @@ ALL = ['dian', 'self', 'tea', 'home', 'cafe2', 'pasta', 'korea', 'omu', 'noodle2
 SHOPS = [s.strip() for s in (os.environ.get('SHOPS') or ','.join(ALL)).split(',') if s.strip()]
 HOUR = float(os.environ.get('HOUR') or 12.17)
 PHONE = (os.environ.get('PHONE') or '1') == '1'
+LOOKS = (os.environ.get('LOOKS') or '1') == '1'
 QUIET = (os.environ.get('QUIET') or '1') == '1'
 PORTRAIT = (os.environ.get('PORTRAIT') or '0') == '1'
 ITEMS_MAX = int(os.environ.get('ITEMS_MAX') or 0)   # 0＝每一樣都點（正式跑）；雲端自檢可以只點前幾樣
@@ -97,6 +99,7 @@ MONEY_JS = r"""(()=>({g:GAME.G.money, hud:((document.getElementById('money')||{}
 CLOCKZ_JS = r"""(()=>((document.getElementById('clockZ')||{}).textContent||'').trim())()"""
 NEAR_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position; return E.interactables.filter(i=>!i.hidden&&Math.hypot(i.x-P.x,i.z-P.z)<(i.radius||1.8)).map(i=>({label:i.label||'',d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2),r:i.radius||1.8,prio:i.prio||0,x:+i.x.toFixed(2),z:+i.z.toFixed(2)})); })()"""
 DOOR_JS = r"""(id=>{ const its=GAME.E.interactables.filter(i=>i.shop118===id||(i.exit&&i.exit.to==='l118_'+id)); return its.map(i=>({x:i.x,z:i.z,r:i.radius||1.4,label:i.label,hidden:!!i.hidden,enter:!!i.exit})); })"""
+LOOKS_JS = r"""(()=>GAME.E.interactables.filter(i=>i.look&&!i.seat&&!i.exit&&!i.shop118&&!i.hidden&&!i.npc).map(i=>({x:i.x,z:i.z,r:i.radius||0.8})))()"""
 INSIDE_JS = r"""(()=>{ const its=GAME.E.interactables; const o=its.find(i=>i.shop118); const x=its.find(i=>i.exit&&i.exit.to==='lane118'); return {order:o?{x:o.x,z:o.z,r:o.radius||0.8}:null, exit:x?{x:x.x,z:x.z,r:x.radius||0.7}:null}; })()"""
 LAYOUT_JS = r"""(()=>{ const L=typeof LANE118_LAYOUT!=='undefined'?LANE118_LAYOUT:null; if(!L) return null; const fw=L.facade.west, fe=L.facade.east;
   return {fw,fe,shops:L.shops.map(s=>({id:s.id,side:s.side,x:s.side==='W'?fw+0.9:fe-0.9,z:(s.z0+s.z1)/2,z0:s.z0,z1:s.z1})), lamps:[-30,-10,10,28].map(z=>[fe-0.35,z])}; })()"""
@@ -442,6 +445,17 @@ async def do_shop(pg, cdp, sid, lay, first_shop):
         res = await scene(pg, cdp, tag + '_menuA', lambda o: len(o) - 1)
         if R.check('A %s 點餐有選單（按「不用了」不買）' % tag, bool(res['menu']), J(res)):
             menu_check(sid, res['menu'], tag)
+    if 'A' in PARTS and LOOKS:
+        lk = await pg.evaluate(LOOKS_JS)
+        R.note('%s 店裡「看的東西」%d 個（位置讀資料、字從畫面抽）' % (tag, len(lk)))
+        for q in lk:
+            ok, how = await joy_to(pg, cdp, q['x'], q['z'], max(0.3, q['r'] * 0.5), '%s 看的東西 (%.1f,%.1f)' % (name, q['x'], q['z']), max_s=90)
+            r = await it_label(pg, None)
+            if not ok or not r['t'] or r['t'].startswith(('坐', '離開', '點餐', '進', '和')):   # 畫面上的鍵不是看的東西（座位、出口、店員）＝不按
+                R.note('%s 走不到看的東西 (%.1f,%.1f) 或沒有互動鍵：%s' % (tag, q['x'], q['z'], J(r))); continue
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1800)
+            await talk_idle(pg, cdp, tag + '_look', 30)
+        await flush(pg, tag + '_looks')
     await R_hour(pg, '出店前')
     x = ins['exit']
     ok, how = await joy_to(pg, cdp, x['x'], x['z'], 0.4, '%s 出口' % name)
