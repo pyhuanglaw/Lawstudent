@@ -1,6 +1,7 @@
 """校外約會台詞改完以後整批掃（AA 2026-11-11；BB_325、BB_326 的上限）：
   python3 docs/story_planning/tools_aa/date_scan.py <人物id> D01 D02 … [--old '保溫瓶|論文|研究室']
 每個地點列：爸媽幾次（上限 2）、12 字以內的短格幾格（下限 4）、兩句一格的比例（BB_326：一半上下，太高會變固定節拍）、「今天」幾格、可能是舊設定的字（--old 自己給；不給＝沛珊那一組）。
+可昕另外量（BB_329）：對祐廷下命令的「不准／不要」每個地點 2 格以內、予樂 1 格以內、行程表一處（成對 2 格）以內。
 語彤另外量（BB_328）：蘇姨＋秀琴姨＋我媽每個地點合計 2 格以內（同一件事的第一次＋再訪算一對）、茶屋 2 格以內、她「數東西」（幾秒、幾次、幾個）2 格以內；超過的列出來。
 最後列跨地點一模一樣的句子、整批的每格句數分布、「上次」開頭、收尾講「明天」幾處（整份稿三處以內）。讀 date_system/lines（含沒動的舊格）。"""
 import re,collections,subprocess,sys
@@ -29,6 +30,17 @@ for k,v in D.items():
     if len(par)>2:
         for i,t in par: print('    ',i,t)
     for i,t in oldh: print('    舊字？',i,t)
+    if who=='kexin':
+        cmd=[(i,t) for i,key,t in hers if re.search('不准|你不要|(^|[。，！？）])不要|別想',t)]
+        yl=[(i,t) for i,key,t in v if '予樂' in t]; sc=[(i,t) for i,key,t in v if '行程表' in t]
+        over=len(cmd)>2 or len(yl)>1 or len(sc)>2
+        print(f'    命令（不准／不要）{len(cmd)}、予樂 {len(yl)}、行程表 {len(sc)}'+(' ←' if over else ''))
+        if len(cmd)>2:
+            for i,t in cmd: print('      令',i,t)
+        if len(yl)>1:
+            for i,t in yl: print('      予樂',i,t)
+        if len(sc)>2:
+            for i,t in sc: print('      表',i,t)
     if who=='heroine_03':
         ppl=[(i,t) for i,key,t in v if re.search('蘇姨|秀琴姨|我媽|^媽媽|，媽媽說',t)]
         tea=[(i,t) for i,key,t in v if '茶屋' in t]
