@@ -1,7 +1,7 @@
 """CC（帳號 A）11-11：ACT（BB 的「一起活動」驗收，對稿 AA_708@d30416e6b）＋STUDY（BB 07:37 補：一起念書，對稿 AA_707@1b8e247ec）瀏覽器探針。
 判定歸 BB；Playwright 手機模擬（844×390 觸控）≠ iPhone。雲端沒有在瀏覽器跑過（只做 probe_lint＋node --check）。
 
-受測：開發分支 7266e7a29（含 fea448637：一起活動 98 場 710d49638、一起念書 42 場 7266e7a29）。
+受測：開發分支 7266e7a29351d4d186cae82d82042271a95a67d4（含 fea448637：一起活動 98 場 710d49638、一起念書 42 場 7266e7a29）。遊戲資料＝稿（頁面上的那一場和稿逐字比，另外一項）。
 對照的程式（src/invites3d.js S.meet、src/studyn3d.js、src/movies3d.js、src/arcs3d.js、src/social3d.js applyFx）：
   入口  手機「朋友」→ 她的「約」→ 類別（念書／吃飯／喝咖啡、喝茶／看電影、逛書店）→ 地點（verb；念書類是 verbStudy）→「今天 HH:MM」→ 她答應
         →【捷徑】時間撥到約好的前 10 分鐘 → 手機「今天」按「現在過去」→ 走到／一起坐下（INV.startTogether）→ INV.meet
@@ -46,9 +46,12 @@ PARTS（逗號分隔；每一段各自讀檔，彼此不相干）：
 環境變數：PARTS、PICK3（0）、PS_PICK（0）、DRAFT708（sha:路徑，預設 d30416e6b:docs/story_planning/AA_708_activity_scenes.json）、DRAFT707（1b8e247ec:…AA_707_study_scenes.json）、
   DRAFT_TREE（另外找稿的 git 樹）、TAG。
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=AN_MOVIE_A,AN_MOVIE_B python3 cc_act_probe.py <url> <out>（URL 不加 ?turbo）
-D34：ACT 對 710d49638 之前（例 fea448637^ 的祖先 0c478d5f6a 之前、710d49638^＝a 舊匯入）：舊稿以安電影／書店沒有選項 → AN_* 的「選項跳出來」FAIL；沒有 datingOrReady → 芷若、語彤、可昕電影第 3 場
-  舊版只有一種（舊稿的句子）→ BASE／ALT 逐字 FAIL；沛珊舊稿（早餐店、存錢、零用錢）→ PS1～PS4 禁字 FAIL。STUDY 對 7266e7a29^（＝0c478d5f6a）：沒有 anShopPage → ST_AN6_PAGE 沒有 alt FAIL；
-  舊稿 42 場有的沒選項 → ST_*1 的選項 FAIL。"""
+D34（讀 git log 找的改之前版本；舊版跑法 LW_TESTS=<舊樹>/tests SHA=<舊> PARTS=… ；逐字一律比新稿 AA_708／AA_707，所以舊版的「逐字照稿」會 FAIL）：
+  ACT 舊版 f70d5da4d3（＝710d49638^，一起活動重匯之前）：以安電影第 1 場沒有 opts → AN_MOVIE_* 的「兩個選項真的跳出來」FAIL；studyn3d.js 沒有 datingOrReady、
+    芷若電影第 3 場只有一版 mid「…她沒有移開。」→ ZR3_BASE 的 base 句沒出現＋alt 句出現 FAIL（語彤、可昕同理）；沛珊吃飯 1～4 整塊是舊稿 → PS* 逐字 FAIL
+    （禁字在舊版只在輪換：吃飯 rot3「零用錢」、咖啡 rot2／書店 rot2「存錢」，PS1～4 的禁字項舊版也 PASS——這一項守的是之後別再寫回來）。
+  STUDY 舊版 0c478d5f6a（＝7266e7a29^，一起念書重匯之前）：沒有 anShopPage → ST_AN6_PAGE 的「（她翻到你看過的那一頁。）」FAIL；以安第 6 場舊 mid
+    「…一家都還沒有打勾。」→ ST_AN6_NOPAGE 禁字 FAIL；以安、沛珊第 1 場沒有 opts → ST_*1 的選項 FAIL。"""
 import os, sys, json, asyncio, time, re, subprocess
 LWT = os.environ.get('LW_TESTS') or 'tests'
 sys.path.insert(0, LWT)
@@ -625,14 +628,16 @@ def static_cmp(tag, pg_sc, dr_sc):
     R.check('[%s] 遊戲資料（頁面上的這一場）＝稿逐字（seat／mid／選項／回話／fx／pack／bye／alt）' % tag, not diff, J(diff[:6]))
 
 
-def draft_rules(tag, sc):
-    """BB 定的稿規則（11-11）：每場兩個選項、都不扣分；need 1、2 不給 love；只有第 4 場可以 love 2（舊 rel 的不管）——印【觀察】，不判"""
+def draft_rules(tag, sc, k):
+    """BB 定的稿規則（11-11，AA_708 _meta）：每場兩個選項、都不扣分；need 1、2 不給 love；只有第 4 場可以 love 2（舊 rel 的不管）——印【觀察】，不判"""
     if not sc: return
     obs = []
     if sc['opts'] and len(sc['opts']) != 2: obs.append('選項 %d 個' % len(sc['opts']))
     for o in sc['opts'] + ((sc.get('alt') or {}).get('opts') or []):
         if not fx_ok(o['fx']) or not fx_ok(o['rel']): obs.append('有負的：%s %s' % (o['t'], J(o['fx'] or o['rel'])))
         if (sc.get('need') or 0) <= 2 and (o['fx'] or {}).get('love'): obs.append('need %s 給了 love：%s' % (sc.get('need'), o['t']))
+        if ((o['fx'] or {}).get('love') or 0) >= 2 and str(k) != '4': obs.append('第 %s 場 love %s：%s' % (k, o['fx']['love'], o['t']))
+        if CONTACT_BASE.search(' '.join(o['reply'])) and sc.get('alt') and o in sc['opts']: obs.append('base 版的選項回話有肢體字：%s → %s' % (o['t'], o['reply']))
     if obs: log('  【觀察】%s 稿規則：%s' % (tag, J(obs)))
 
 
@@ -701,7 +706,7 @@ async def run_part(pg, cdp, errs, tag):
         if drs is None: R.note('[%s] 讀不到稿（%s）：逐字改比頁面上的遊戲資料' % (tag, DRAFT707 if kind == 'study' else DRAFT708))
         static_cmp(tag, ((pgs or {}).get('scenes') or {}).get(str(k)), drs)
         sc = drs or norm_sc(((pgs or {}).get('scenes') or {}).get(str(k)))
-        draft_rules(tag, sc)
+        draft_rules(tag, sc, k)
     alt_on = bool(s['altOn'] and ((cfg.get('alt') and kind != 'study' and s['altOn'].get('datingOrReady')) or (cfg.get('an6') == 'page' and s['altOn'].get('anShopPage'))))
     day_on = pk['time']['h'] < 18
     rs = resolve(sc, alt_on, day_on) if sc else None
