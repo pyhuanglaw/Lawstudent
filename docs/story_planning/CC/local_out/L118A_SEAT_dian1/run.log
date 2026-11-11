@@ -1,0 +1,82 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A_SEAT_dian1\out
+CC L118A：PARTS SEATS_dian_1-6；SHA bc407bfc518c8d6a4260d1a1fa395cb93fc9058b；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.5s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== SEATS_dian_1-6
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 
+PASS [dian] 店內正式模型載入（1.9 秒）
+  [  44.7s] [SEATS dian] 座位共 11 張（這一行測 #1～#6）：[{"label": "坐下", "x": -1.85, "z": -2.06, "lv": 0, "sx": -1.85, "sz": -2.06, "sy": null, "slv": 0, "row": null, "ap": [-1.3, -2.06], "lift": 0}, {"label": "坐下", "x": -1.85, "z": -0.74, "lv": 0, "sx": -1.85, "sz": -0.74, "sy": null, "slv": 0, "row": null, "ap": [-1.3, -0.74], "lift": 0}, {"label": "坐下", "x": -1.85, "z": -0.26, "lv": 0, "sx": -1.85, "sz": -0.26, "sy": null, "slv": 0, "row": null, "ap": [-1.3, -0.26], "lift": 0}, {"label": "坐下", "x": -1.85, "z": 1.06, "lv": 0, "sx": -1.85, "sz": 1.06, "sy": null, "slv": 0, "row": null, "ap": [-1.3, 1.06], "lift": 0}, {"label": "坐下", "x": -1.85, "z": 1.54, "lv": 0, "sx": -1.85, "sz": 1.54, "sy": null, "slv": 0, "row": null, "ap": [-1.3, 1.54], "lift": 0}, {"label": "坐下", "x": -1.85, "z": 2.86, "lv": 0, "sx": -1.85, "sz": 2.86, "sy": null, "slv": 0, "row": null, "ap": [-1.3, 2.86], "lift": 0}, {"label": "坐下", "x": 1.85, "z": -2.06, "lv": 0, "sx": 1.85, "sz": -2.06, "sy": null, "slv": 0, "row": null, "ap": [1.35, -2.06], "lift": 0}, {"label": "坐下", "x": 1.85, "z": -0.74, "lv": 0, "sx": 1.85, "sz": -0.74, "sy": null, "slv": 0, "row": null, "ap": [1.35, -0.74], "lift": 0}, {"label": "坐下", "x": 1.85, "z": -0.26, "lv": 0, "sx": 1.85, "sz": -0.26, "sy": null, "slv": 0, "row": null, "ap": [1.35, -0.26], "lift": 0}, {"label": "坐下", "x": 1.85, "z": 1.06, "lv": 0, "sx": 1.85, "sz": 1.06, "sy": null, "slv": 0, "row": null, "ap": [1.35, 1.06], "lift": 0}, {"label": "坐下", "x": 1.66, "z": 1.9, "lv": 0, "sx": 1.66, "sz": 1.9, "sy": null, "slv": 0, "row": null, "ap": [1.66, 2.45], "lift": 0}]
+PASS [SEATS dian #1（-1.85, -2.06）] 走到旁邊，互動按鈕是「坐下」  {"x": -1.412, "z": -2.066, "interact": "坐下", "stand": true}
+PASS [SEATS dian #1（-1.85, -2.06）] 坐下了（player.seat）  {"x": -1.85, "z": -2.06, "y": 0, "sx": -1.85, "sz": -2.06}
+  [  50.1s] [SEATS dian #1（-1.85, -2.06）] 按的互動鍵「坐下」；實際坐到的座位 (-1.85, -2.06)（要坐的是 (-1.85, -2.06)）
+PASS [SEATS dian #1（-1.85, -2.06）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -1.85, "z": -2.06, "y": 0, "sx": -1.85, "sz": -2.06}
+  [  50.2s] [SEATS dian #1（-1.85, -2.06）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 36、骨頭高度 [0.09, 1.14]；打到 []
+PASS [SEATS dian #1（-1.85, -2.06）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  50.5s] [SEATS dian #1（-1.85, -2.06）] 【遊戲鏡頭】l118a_seat_dian_1300_sit1_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.35], "player": [-1.85, -2.06], "cam": [-1.85, 3.21, 1.84], "yaw": 6.283, "mid": {"m": 200.7, "sd": 26.3, "black": 0, "white": 0, "rgb": [203, 201, 195]}, "top": {"m": 191.4, "sd": 43, "black": 0, "white": 0, "rgb": [200, 190, 175]}, "near": {"m": 213.4, "sd": 14.9, "black": 0, "white": 0.081, "rgb": [214, 214, 211]}}  ★看不到人（玩家附近 100×160 px 標準差 <15 或不在畫面上）
+  [  51.9s] [SEATS dian #1（-1.85, -2.06）] 起身：["起身"]
+PASS [SEATS dian #1（-1.85, -2.06）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（5.35）、walkFallbacks 沒增加  {"moved": 5.35, "x": -0.772, "z": 3.277, "stand": true}
+  [  56.0s] [SEATS dian #2（-1.85, -0.74）] 互動鍵被搶：「聽一句」；0.4 m 內的人 []；E.zone.seats {"taken": null, "label": null}；這張的互動點 {"label": "坐下", "hidden": false, "radius": 0.7, "at": [-1.85, -0.74]}
+  [  56.0s] [SEATS dian #2（-1.85, -0.74）] 分數排序（engine3d nearestInteractable 的算法：範圍內 距離－prio 最小的贏）：[{"label": "坐下", "at": [-1.85, -0.74], "seat": [-1.85, -0.74], "d": 0.709, "R": 0.7, "prio": 0.3, "score": 0.409, "inR": false, "skip": null}, {"label": "坐下", "at": [-1.85, -2.06], "seat": [-1.85, -2.06], "d": 1.66, "R": 0.7, "prio": 0.3, "score": 1.36, "inR": false, "skip": null}, {"label": "點餐（118牛排）", "at": [-0.6, -1.9], "seat": null, "d": 1.468, "R": 0.8, "prio": 0, "score": 1.468, "inR": false, "skip": null}, {"label": "坐下", "at": [-1.85, -0.26], "seat": [-1.85, -0.26], "d": 0.74, "R": 0.7, "prio": 0.3, "score": 0.44, "inR": false, "skip": "occupied/taken"}]；2.2 m 內的人 [{"name": null, "d": 0.74, "yieldIt": true}, {"name": null, "d": 1.75, "yieldIt": true}]；遊戲選的 {"label": "聽一句", "at": [-1.85, -0.26]}
+  [  56.0s] [SEATS dian #2（-1.85, -0.74）] ⚠空椅子被搶（沒人佔、互動鍵是「聽一句」）
+  [  56.2s] [SEATS dian #2（-1.85, -0.74）] 【遊戲鏡頭】l118a_seat_dian_1300_steal2_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.2], "player": [-1.17, -0.55], "cam": [-1.17, 3.21, 3.36], "yaw": 6.283, "mid": {"m": 147.8, "sd": 67.7, "black": 0.008, "white": 0, "rgb": [176, 138, 121]}, "top": {"m": 163.4, "sd": 57.5, "black": 0.005, "white": 0.015, "rgb": [194, 154, 132]}, "near": {"m": 128.4, "sd": 78.7, "black": 0.008, "white": 0, "rgb": [162, 116, 103]}}
+FAIL [SEATS dian #2（-1.85, -0.74）] 空椅子在 seatApproach 沒有被別的互動搶走（有人佔不算）  {"interact": "聽一句", "zoneSeat": {"taken": null, "label": null}, "it": {"label": "坐下", "hidden": false, "radius": 0.7, "at": [-1.85, -0.74]}}
+  [  56.3s] [SEATS dian #2（-1.85, -0.74）] 從前邊：0.5～0.7 m 站不住，沒試
+  [  56.3s] [SEATS dian #2（-1.85, -0.74）] 從後邊：0.5～0.7 m 站不住，沒試
+  [  56.4s] [SEATS dian #2（-1.85, -0.74）] 從左邊：0.5～0.7 m 站不住，沒試
+  [  86.7s] [SEATS dian #2（-1.85, -0.74）] 從右邊 [-1.35, -0.74, 0.5] 搖桿 30 秒沒到 (-1.35,-0.74)：停在 (-1.53,-1.07)
+  [  87.5s] [SEATS dian #2（-1.85, -0.74）] 從右邊 0.5 m（站在 [-1.535, -1.073]）：互動鍵「聽一句」（最近的是 {"label": "聽一句", "seat": null, "exit": null}）
+  [  87.5s] [SEATS dian #2（-1.85, -0.74）] 坐得到的方向：沒有
+  [  87.5s] [SEATS dian #2（-1.85, -0.74）] 在 seatApproach 旁最近的按鈕是 {"label": "聽一句", "seat": null, "exit": null}；改走到這一張按鈕範圍裡、最近就是它的一點 {"x": -1.35, "z": -0.74, "sc": 17.950000000000003}
+  [ 118.1s] [SEATS dian #2（-1.85, -0.74）] 搖桿走到這一張的按鈕範圍 搖桿 30 秒沒到 (-1.35,-0.74)：停在 (-1.06,-0.31)
+FAIL [SEATS dian #2（-1.85, -0.74）] 走到旁邊，互動按鈕是「坐下」  {"x": -1.061, "z": -0.31, "interact": "聽一句", "stand": true}
+  [ 122.1s] [SEATS dian #2（-1.85, -0.74）] 【遊戲鏡頭】l118a_seat_dian_1300_nobtn2_game.jpg：{"onScreen": true, "ndc": [0, -0.21], "player": [-1.06, -0.31], "cam": [-1.06, 3.21, 3.59], "yaw": 6.283, "mid": {"m": 150.9, "sd": 68.8, "black": 0.004, "white": 0, "rgb": [178, 142, 125]}, "top": {"m": 160.3, "sd": 55.4, "black": 0.005, "white": 0.012, "rgb": [190, 151, 130]}, "near": {"m": 156.1, "sd": 79.9, "black": 0.011, "white": 0, "rgb": [186, 146, 132]}}
+  [ 122.9s] [SEATS dian #3（-1.85, -0.26）] 互動鍵被搶：「聽一句」；0.4 m 內的人 []；E.zone.seats {"taken": null, "label": null}；這張的互動點 {"label": "坐下", "hidden": false, "radius": 0.7, "at": [-1.85, -0.26]}
+  [ 122.9s] [SEATS dian #3（-1.85, -0.26）] 分數排序（engine3d nearestInteractable 的算法：範圍內 距離－prio 最小的贏）：[{"label": "坐下", "at": [-1.85, -0.26], "seat": [-1.85, -0.26], "d": 0.79, "R": 0.7, "prio": 0.3, "score": 0.49, "inR": false, "skip": null}, {"label": "坐下", "at": [-1.85, 1.06], "seat": [-1.85, 1.06], "d": 1.58, "R": 0.7, "prio": 0.3, "score": 1.28, "inR": false, "skip": null}, {"label": "點餐（118牛排）", "at": [-0.6, -1.9], "seat": null, "d": 1.656, "R": 0.8, "prio": 0, "score": 1.656, "inR": false, "skip": null}, {"label": "坐下", "at": [-1.85, -0.74], "seat": [-1.85, -0.74], "d": 0.898, "R": 0.7, "prio": 0.3, "score": 0.598, "inR": false, "skip": "occupied/taken"}]；2.2 m 內的人 [{"name": null, "d": 1.92, "yieldIt": true}, {"name": null, "d": 0.9, "yieldIt": true}]；遊戲選的 {"label": "聽一句", "at": [-1.85, -0.74]}
+  [ 122.9s] [SEATS dian #3（-1.85, -0.26）] ⚠空椅子被搶（沒人佔、互動鍵是「聽一句」）
+  [ 123.1s] [SEATS dian #3（-1.85, -0.26）] 【遊戲鏡頭】l118a_seat_dian_1300_steal3_game.jpg：{"onScreen": true, "ndc": [0, -0.21], "player": [-1.06, -0.31], "cam": [-1.06, 3.21, 3.59], "yaw": 6.283, "mid": {"m": 150.9, "sd": 68.8, "black": 0.005, "white": 0, "rgb": [178, 142, 125]}, "top": {"m": 160.3, "sd": 55.5, "black": 0.005, "white": 0.012, "rgb": [190, 151, 131]}, "near": {"m": 156.1, "sd": 79.9, "black": 0.011, "white": 0, "rgb": [186, 146, 132]}}
+FAIL [SEATS dian #3（-1.85, -0.26）] 空椅子在 seatApproach 沒有被別的互動搶走（有人佔不算）  {"interact": "聽一句", "zoneSeat": {"taken": null, "label": null}, "it": {"label": "坐下", "hidden": false, "radius": 0.7, "at": [-1.85, -0.26]}}
+  [ 123.1s] [SEATS dian #3（-1.85, -0.26）] 從前邊：0.5～0.7 m 站不住，沒試
+  [ 124.5s] [SEATS dian #3（-1.85, -0.26）] 從後邊 0.5 m（站在 [-1.739, -0.696]）：互動鍵「坐下」＝這一張
+  [ 148.8s] [SEATS dian #3（-1.85, -0.26）] 從左邊 0.5 m（站在 [-1.261, -0.156]）：互動鍵「坐下」＝這一張
+  [ 148.8s] [SEATS dian #3（-1.85, -0.26）] 從右邊：0.5～0.7 m 站不住，沒試
+  [ 148.8s] [SEATS dian #3（-1.85, -0.26）] 坐得到的方向：["後", "左"]
+PASS [SEATS dian #3（-1.85, -0.26）] 走到旁邊，互動按鈕是「坐下」  {"x": -1.787, "z": -0.691, "interact": "坐下", "stand": true}
+PASS [SEATS dian #3（-1.85, -0.26）] 坐下了（player.seat）  {"x": -1.85, "z": -0.26, "y": 0, "sx": -1.85, "sz": -0.26}
+  [ 152.3s] [SEATS dian #3（-1.85, -0.26）] 按的互動鍵「坐下」；實際坐到的座位 (-1.85, -0.26)（要坐的是 (-1.85, -0.26)）
+PASS [SEATS dian #3（-1.85, -0.26）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -1.85, "z": -0.26, "y": 0, "sx": -1.85, "sz": -0.26}
+  [ 152.4s] [SEATS dian #3（-1.85, -0.26）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 35、骨頭高度 [0.09, 1.14]；打到 []
+PASS [SEATS dian #3（-1.85, -0.26）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [ 152.6s] [SEATS dian #3（-1.85, -0.26）] 【遊戲鏡頭】l118a_seat_dian_1300_sit3_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.35], "player": [-1.85, -0.26], "cam": [-1.85, 3.21, 3.64], "yaw": 6.283, "mid": {"m": 156.4, "sd": 67.4, "black": 0.003, "white": 0, "rgb": [187, 147, 128]}, "top": {"m": 174.5, "sd": 52.1, "black": 0.005, "white": 0, "rgb": [196, 169, 147]}, "near": {"m": 137.6, "sd": 70.3, "black": 0.028, "white": 0, "rgb": [167, 128, 110]}}
+  [ 153.9s] [SEATS dian #3（-1.85, -0.26）] 起身：["起身"]
+PASS [SEATS dian #3（-1.85, -0.26）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（3.52）、walkFallbacks 沒增加  {"moved": 3.52, "x": -0.852, "z": 3.253, "stand": true}
+PASS [SEATS dian #4（-1.85, 1.06）] 走到旁邊，互動按鈕是「坐下」  {"x": -1.492, "z": 0.864, "interact": "坐下", "stand": true}
+PASS [SEATS dian #4（-1.85, 1.06）] 坐下了（player.seat）  {"x": -1.85, "z": 1.06, "y": 0, "sx": -1.85, "sz": 1.06}
+  [ 162.8s] [SEATS dian #4（-1.85, 1.06）] 按的互動鍵「坐下」；實際坐到的座位 (-1.85, 1.06)（要坐的是 (-1.85, 1.06)）
+PASS [SEATS dian #4（-1.85, 1.06）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -1.85, "z": 1.06, "y": 0, "sx": -1.85, "sz": 1.06}
+  [ 162.8s] [SEATS dian #4（-1.85, 1.06）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 30、骨頭高度 [0.09, 1.14]；打到 []
+PASS [SEATS dian #4（-1.85, 1.06）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [ 163.0s] [SEATS dian #4（-1.85, 1.06）] 【遊戲鏡頭】l118a_seat_dian_1300_sit4_game.jpg：{"onScreen": true, "ndc": [0, -0.36], "player": [-1.85, 1.06], "cam": [-1.85, 3.21, 4.96], "yaw": 6.283, "mid": {"m": 165.9, "sd": 65.6, "black": 0.016, "white": 0, "rgb": [188, 160, 139]}, "top": {"m": 172.5, "sd": 49.3, "black": 0.005, "white": 0, "rgb": [189, 169, 148]}, "near": {"m": 132.5, "sd": 76, "black": 0.081, "white": 0, "rgb": [156, 125, 109]}}
+  [ 164.3s] [SEATS dian #4（-1.85, 1.06）] 起身：["起身"]
+PASS [SEATS dian #4（-1.85, 1.06）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（2.24）、walkFallbacks 沒增加  {"moved": 2.24, "x": -0.755, "z": 3.265, "stand": true}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 （時間 13.78／區域 l118_dian：重新讀檔回 1300）
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [ 172.8s] [SEATS dian #5（-1.85, 1.54）] 有 NPC 坐著：遊戲不給坐，先跳過
+PASS [SEATS dian #6（-1.85, 2.86）] 走到旁邊，互動按鈕是「坐下」  {"x": -1.591, "z": 2.874, "interact": "坐下", "stand": true}
+PASS [SEATS dian #6（-1.85, 2.86）] 坐下了（player.seat）  {"x": -1.85, "z": 2.86, "y": 0, "sx": -1.85, "sz": 2.86}
+  [ 176.4s] [SEATS dian #6（-1.85, 2.86）] 按的互動鍵「坐下」；實際坐到的座位 (-1.85, 2.86)（要坐的是 (-1.85, 2.86)）
+PASS [SEATS dian #6（-1.85, 2.86）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -1.85, "z": 2.86, "y": 0, "sx": -1.85, "sz": 2.86}
+  [ 176.5s] [SEATS dian #6（-1.85, 2.86）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 31、骨頭高度 [0.09, 1.14]；打到 []
+PASS [SEATS dian #6（-1.85, 2.86）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [ 176.7s] [SEATS dian #6（-1.85, 2.86）] 【遊戲鏡頭】l118a_seat_dian_1300_sit6_game.jpg：{"onScreen": true, "ndc": [0, -0.36], "player": [-1.85, 2.86], "cam": [-1.85, 3.21, 6.76], "yaw": 6.283, "mid": {"m": 159.4, "sd": 62.6, "black": 0.013, "white": 0, "rgb": [173, 156, 144]}, "top": {"m": 156.1, "sd": 49.3, "black": 0.003, "white": 0, "rgb": [167, 154, 141]}, "near": {"m": 116.2, "sd": 62.8, "black": 0.025, "white": 0, "rgb": [126, 114, 104]}}
+  [ 178.1s] [SEATS dian #6（-1.85, 2.86）] 起身：["起身"]
+PASS [SEATS dian #6（-1.85, 2.86）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（0.48）、walkFallbacks 沒增加  {"moved": 0.48, "x": -0.852, "z": 3.274, "stand": true}
+  [ 180.0s] [SEATS dian] 有人坐的 [5]：重新讀檔再試一次
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 （重試有人坐的座位）
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [ 186.1s] [SEATS dian #5（-1.85, 1.54）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [ 186.1s] [SEATS dian] 結果：坐得到 4／6（這一行測的）；{"1": "ok", "2": "nobtn", "3": "ok", "4": "ok", "5": "occupied", "6": "ok"}
+FAIL [SEATS dian #1～#6] 每張都坐得到（有 NPC 一直坐著的另列）  {"1": "ok", "2": "nobtn", "3": "ok", "4": "ok", "5": "occupied", "6": "ok"}
+  [ 186.1s] [SEATS dian] ★兩次都有 NPC 坐著、沒測到：[5]
+PASS 沒有 JS 例外（pageerror）  []
+FAILED 4: [SEATS dian #2（-1.85, -0.74）] 空椅子在 seatApproach 沒有被別的互動搶走（有人佔不算）；[SEATS dian #2（-1.85, -0.74）] 走到旁邊，互動按鈕是「坐下」；[SEATS dian #3（-1.85, -0.26）] 空椅子在 seatApproach 沒有被別的互動搶走（有人佔不算）；[SEATS dian #1～#6] 每張都坐得到（有 NPC 一直坐著的另列）
