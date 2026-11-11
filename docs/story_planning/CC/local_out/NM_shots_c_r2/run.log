@@ -1,0 +1,85 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_shots_c_r2\out
+CC NM1 夜市：PARTS SHOTS；SHA 11161c101；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 （讀配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2030 (29.00,13.10) （沈三盃黑糖鮮奶 前面 1.9 m）
+PASS [SHOTS st_milk 沈三盃黑糖鮮奶 營業中 2030] 遊戲裡有這一攤  ["st_milk", "st_wheelcake", "st_phonecase"]
+  [  66.5s] [SHOTS st_milk 沈三盃黑糖鮮奶 營業中 2030] 讀的那一刻 G.hour 20.5779、E.hour 20.5779；照 TZ3.stallOpen(G.hour) 應該 True；遊戲 isOpen True
+PASS [SHOTS st_milk 沈三盃黑糖鮮奶 營業中 2030] 模型和時間同步：isOpen＝stallOpen(G.hour)＝True（open visible True、closed visible False）  {"gh": 20.5779, "eh": 20.5779, "expect": true, "isOpen": true, "openVis": true, "closedVis": false}
+  [  66.5s] [SHOTS st_milk 沈三盃黑糖鮮奶 營業中 2030] 外框中心 open [28.99, 1.331, 10.985]、closed [29, 1.312, 11.209]，水平差 0.224 m（open 大小 [2.82, 2.66, 1.57]、closed 大小 [2.18, 2.62, 1.12]）
+PASS [SHOTS st_milk 沈三盃黑糖鮮奶 營業中 2030] 開、收兩個模型的 position／rotation／scale 完全一樣（BB 00:14：攤子不能跳位置）  {"open": {"p": [29, 0, 11.2], "r": [0, 0, 0], "s": [1, 1, 1]}, "closed": {"p": [29, 0, 11.2], "r": [0, 0, 0], "s": [1, 1, 1]}}
+  [  66.5s] [SHOTS st_milk 沈三盃黑糖鮮奶 營業中 2030] ★ 開、收兩個模型外框中心水平差 0.224 m（>5 cm；兩個模型擺的 position 一樣，差的是外形：收攤的外框比較小、偏一邊——照片 nm_st_milk_收攤後_正面 對照）
+  [  66.5s] [SHOTS st_milk 沈三盃黑糖鮮奶 營業中 2030] 外框中心離配置位置 (29.00,11.20)：open 0.22 m
+  [  66.5s] [SHOTS st_milk 沈三盃黑糖鮮奶 營業中 2030] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [  71.7s] [SHOTS st_milk 沈三盃黑糖鮮奶 營業中 2030] 互動：鍵「看沈三盃黑糖鮮奶」→ ["（", "（深色木頭的攤子，三盞玻璃罩的燈。左邊一口銅鍋在熬黑糖，冒著煙，隔好幾步就聞得到。）", "（黑板上寫：「招牌　黑糖珍珠鮮奶", "（黑板上寫：「招牌　黑糖珍珠鮮奶（青蛙撞奶）」。冷藏櫃上貼著「小農鮮奶」。）", "珍珠剛煮好，現在喝最Q。"]；選項 [["黑糖珍珠鮮奶　65 元", "黑糖鮮奶　55 元", "黑糖珍珠奶茶　55 元", "黑糖鮮奶茶　50 元", "黑糖珍珠鮮奶（熱）　65 元", "算了"]]（按的時候 G.hour 20.5806、模型 isOpen True）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 1600 (29.00,13.10) （沈三盃黑糖鮮奶 前面 1.9 m）
+PASS [SHOTS st_milk 沈三盃黑糖鮮奶 開之前 1600] 遊戲裡有這一攤  ["st_milk", "st_wheelcake", "st_phonecase"]
+  [  86.1s] [SHOTS st_milk 沈三盃黑糖鮮奶 開之前 1600] 讀的那一刻 G.hour 16.0741、E.hour 16.0741；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_milk 沈三盃黑糖鮮奶 開之前 1600] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 16.0741, "eh": 16.0741, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [  86.1s] [SHOTS st_milk 沈三盃黑糖鮮奶 開之前 1600] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [  88.6s] [SHOTS st_milk 沈三盃黑糖鮮奶 開之前 1600] 互動：鍵「看沈三盃黑糖鮮奶」→ ["（", "（深褐色的帆布蓋住了櫃檯。銅鍋洗好倒扣著，還聞得到一點焦糖味。）"]；選項 []（按的時候 G.hour 16.0767、模型 isOpen False）
+PASS [SHOTS st_milk 沈三盃黑糖鮮奶 開之前 1600] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 0030+1 (29.00,13.10) （沈三盃黑糖鮮奶 前面 1.9 m）
+PASS [SHOTS st_milk 沈三盃黑糖鮮奶 收攤後 0030+1] 遊戲裡有這一攤  ["st_milk", "st_wheelcake", "st_phonecase"]
+  [ 102.1s] [SHOTS st_milk 沈三盃黑糖鮮奶 收攤後 0030+1] 讀的那一刻 G.hour 24.5741、E.hour 24.5741；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_milk 沈三盃黑糖鮮奶 收攤後 0030+1] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 24.5741, "eh": 24.5741, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 102.1s] [SHOTS st_milk 沈三盃黑糖鮮奶 收攤後 0030+1] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_milk 沈三盃黑糖鮮奶 收攤後 0030+1] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 104.4s] [SHOTS st_milk 沈三盃黑糖鮮奶 收攤後 0030+1] 互動：鍵「看沈三盃黑糖鮮奶」→ ["（", "（深褐色的帆布蓋住了櫃檯。銅鍋洗好倒扣著，還聞得到一點焦糖味。）"]；選項 []（按的時候 G.hour 24.5764、模型 isOpen False）
+PASS [SHOTS st_milk 沈三盃黑糖鮮奶 收攤後 0030+1] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_milk] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 1830 (53.60,13.10) （二十元紅豆餅 前面 1.9 m）
+PASS [SHOTS st_wheelcake 二十元紅豆餅 營業中 1830] 遊戲裡有這一攤  ["st_milk", "st_wheelcake", "st_phonecase"]
+  [ 118.5s] [SHOTS st_wheelcake 二十元紅豆餅 營業中 1830] 讀的那一刻 G.hour 18.574、E.hour 18.574；照 TZ3.stallOpen(G.hour) 應該 True；遊戲 isOpen True
+PASS [SHOTS st_wheelcake 二十元紅豆餅 營業中 1830] 模型和時間同步：isOpen＝stallOpen(G.hour)＝True（open visible True、closed visible False）  {"gh": 18.574, "eh": 18.574, "expect": true, "isOpen": true, "openVis": true, "closedVis": false}
+  [ 118.5s] [SHOTS st_wheelcake 二十元紅豆餅 營業中 1830] 外框中心 open [53.74, 1.065, 11.055]、closed [53.745, 0.63, 11.2]，水平差 0.145 m（open 大小 [1.98, 2.13, 1.51]、closed 大小 [1.97, 1.26, 0.9]）
+PASS [SHOTS st_wheelcake 二十元紅豆餅 營業中 1830] 開、收兩個模型的 position／rotation／scale 完全一樣（BB 00:14：攤子不能跳位置）  {"open": {"p": [53.6, 0, 11.2], "r": [0, 0, 0], "s": [1, 1, 1]}, "closed": {"p": [53.6, 0, 11.2], "r": [0, 0, 0], "s": [1, 1, 1]}}
+  [ 118.5s] [SHOTS st_wheelcake 二十元紅豆餅 營業中 1830] ★ 開、收兩個模型外框中心水平差 0.145 m（>5 cm；兩個模型擺的 position 一樣，差的是外形：收攤的外框比較小、偏一邊——照片 nm_st_wheelcake_收攤後_正面 對照）
+  [ 118.5s] [SHOTS st_wheelcake 二十元紅豆餅 營業中 1830] 外框中心離配置位置 (53.60,11.20)：open 0.20 m
+  [ 118.5s] [SHOTS st_wheelcake 二十元紅豆餅 營業中 1830] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 123.1s] [SHOTS st_wheelcake 二十元紅豆餅 營業中 1830] 互動：鍵「看二十元紅豆餅」→ ["（", "（舊舊的不鏽鋼餐車，卡其色的帆布棚。招牌上「20 元」三個字比店名還大。）", "（長長一排烤模，老闆一格一格倒", "（長長一排烤模，老闆一格一格倒麵糊。牌子寫：「紅豆・奶油・花生　每個 20 元」。）", "二十，一直都二十。"]；選項 [["紅豆餅　20 元", "奶油餅　20 元", "花生餅　20 元", "算了"]]（按的時候 G.hour 18.576、模型 isOpen True）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 1400 (53.60,13.10) （二十元紅豆餅 前面 1.9 m）
+PASS [SHOTS st_wheelcake 二十元紅豆餅 開之前 1400] 遊戲裡有這一攤  ["st_milk", "st_wheelcake", "st_phonecase"]
+  [ 136.6s] [SHOTS st_wheelcake 二十元紅豆餅 開之前 1400] 讀的那一刻 G.hour 14.0723、E.hour 14.0723；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_wheelcake 二十元紅豆餅 開之前 1400] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 14.0723, "eh": 14.0723, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 136.6s] [SHOTS st_wheelcake 二十元紅豆餅 開之前 1400] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [ 139.0s] [SHOTS st_wheelcake 二十元紅豆餅 開之前 1400] 互動：鍵「看二十元紅豆餅」→ ["（", "（藍灰色的帆布蓋著，只露出四個輪子。）"]；選項 []（按的時候 G.hour 14.0747、模型 isOpen False）
+PASS [SHOTS st_wheelcake 二十元紅豆餅 開之前 1400] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2230 (53.60,13.10) （二十元紅豆餅 前面 1.9 m）
+PASS [SHOTS st_wheelcake 二十元紅豆餅 收攤後 2230] 遊戲裡有這一攤  ["st_milk", "st_wheelcake", "st_phonecase"]
+  [ 152.1s] [SHOTS st_wheelcake 二十元紅豆餅 收攤後 2230] 讀的那一刻 G.hour 22.5734、E.hour 22.5734；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_wheelcake 二十元紅豆餅 收攤後 2230] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 22.5734, "eh": 22.5734, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 152.1s] [SHOTS st_wheelcake 二十元紅豆餅 收攤後 2230] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_wheelcake 二十元紅豆餅 收攤後 2230] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 154.2s] [SHOTS st_wheelcake 二十元紅豆餅 收攤後 2230] 互動：鍵「看二十元紅豆餅」→ ["（", "（藍灰色的帆布蓋著，只露出四個輪子。）"]；選項 []（按的時候 G.hour 22.5753、模型 isOpen False）
+PASS [SHOTS st_wheelcake 二十元紅豆餅 收攤後 2230] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_wheelcake] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 1915 (15.00,13.10) （手機殼 前面 1.9 m）
+PASS [SHOTS st_phonecase 手機殼 營業中 1915] 遊戲裡有這一攤  ["st_milk", "st_wheelcake", "st_phonecase"]
+  [ 167.8s] [SHOTS st_phonecase 手機殼 營業中 1915] 讀的那一刻 G.hour 19.324、E.hour 19.324；照 TZ3.stallOpen(G.hour) 應該 True；遊戲 isOpen True
+PASS [SHOTS st_phonecase 手機殼 營業中 1915] 模型和時間同步：isOpen＝stallOpen(G.hour)＝True（open visible True、closed visible False）  {"gh": 19.324, "eh": 19.324, "expect": true, "isOpen": true, "openVis": true, "closedVis": false}
+  [ 167.8s] [SHOTS st_phonecase 手機殼 營業中 1915] 外框中心 open [15, 1.006, 11.027]、closed [15, 1, 11.274]，水平差 0.247 m（open 大小 [1.6, 2.01, 1.45]、closed 大小 [1.66, 2, 0.95]）
+PASS [SHOTS st_phonecase 手機殼 營業中 1915] 開、收兩個模型的 position／rotation／scale 完全一樣（BB 00:14：攤子不能跳位置）  {"open": {"p": [15, 0, 11.2], "r": [0, 0, 0], "s": [1, 1, 1]}, "closed": {"p": [15, 0, 11.2], "r": [0, 0, 0], "s": [1, 1, 1]}}
+  [ 167.8s] [SHOTS st_phonecase 手機殼 營業中 1915] ★ 開、收兩個模型外框中心水平差 0.247 m（>5 cm；兩個模型擺的 position 一樣，差的是外形：收攤的外框比較小、偏一邊——照片 nm_st_phonecase_收攤後_正面 對照）
+  [ 167.8s] [SHOTS st_phonecase 手機殼 營業中 1915] 外框中心離配置位置 (15.00,11.20)：open 0.17 m
+  [ 167.8s] [SHOTS st_phonecase 手機殼 營業中 1915] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 170.2s] [SHOTS st_phonecase 手機殼 營業中 1915] 互動：鍵「看手機殼・配件」→ ["（整", "（整面牆的手機殼，白色的燈照得很亮。你的型號在最下面那一排。）"]；選項 []（按的時候 G.hour 19.3262、模型 isOpen True）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 1500 (15.00,13.10) （手機殼 前面 1.9 m）
+PASS [SHOTS st_phonecase 手機殼 開之前 1500] 遊戲裡有這一攤  ["st_milk", "st_wheelcake", "st_phonecase"]
+  [ 183.9s] [SHOTS st_phonecase 手機殼 開之前 1500] 讀的那一刻 G.hour 15.0742、E.hour 15.0742；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_phonecase 手機殼 開之前 1500] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 15.0742, "eh": 15.0742, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 183.9s] [SHOTS st_phonecase 手機殼 開之前 1500] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [ 186.3s] [SHOTS st_phonecase 手機殼 開之前 1500] 互動：鍵「看手機殼・配件」→ ["（", "（掛板折起來了，用鐵鍊鎖著。）"]；選項 []（按的時候 G.hour 15.0766、模型 isOpen False）
+PASS [SHOTS st_phonecase 手機殼 開之前 1500] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2300 (15.00,13.10) （手機殼 前面 1.9 m）
+PASS [SHOTS st_phonecase 手機殼 收攤後 2300] 遊戲裡有這一攤  ["st_milk", "st_wheelcake", "st_phonecase"]
+  [ 199.3s] [SHOTS st_phonecase 手機殼 收攤後 2300] 讀的那一刻 G.hour 23.0738、E.hour 23.0738；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_phonecase 手機殼 收攤後 2300] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 23.0738, "eh": 23.0738, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 199.3s] [SHOTS st_phonecase 手機殼 收攤後 2300] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_phonecase 手機殼 收攤後 2300] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 201.4s] [SHOTS st_phonecase 手機殼 收攤後 2300] 互動：鍵「看手機殼・配件」→ ["（", "（掛板折起來了，用鐵鍊鎖著。）"]；選項 []（按的時候 G.hour 23.0756、模型 isOpen False）
+PASS [SHOTS st_phonecase 手機殼 收攤後 2300] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_phonecase] walkFallbacks 0
+PASS 沒有 JS 例外  []
+ALL PASS
