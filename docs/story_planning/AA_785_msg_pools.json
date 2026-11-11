@@ -1,0 +1,327 @@
+{
+ "_meta": {
+  "doc": "AA_785 玩家主動傳訊息的回覆（msg_pool、msg2_pool）覆蓋列（X324 D 區）",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "同 AA_783：files[{who, file, rows[{at, topic, tier, old, new, note}]}]；at＝MSG_POOL／MSG2_POOL 底下 people.<id>.replies[i].msgs[j]（i、j 是遊戲現在的順序；topic、tier 給你核對）。old＝開發分支 08:3x 的字。",
+  "what": "這兩個檔本來就乾淨：只動 msg_pool 5 句（以安一句沒人記的「下次一起去看」；學姊「拍得不錯。下次拍你自己。」三個話題同一句、各換一句；沛珊舊設定「我家的早餐」）和兩檔的刪節號（留十二個：生日、新年、還好嗎裡真的說不出口的那一下）。「下次揪」「下次帶我去」「下次請我喝飲料就好」這種當下的客套留。"
+ },
+ "files": [
+  {
+   "who": "classmate_bohan",
+   "file": "msg2_pool",
+   "rows": [
+    {
+     "at": "people.classmate_bohan.replies[5].msgs[0]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "還好。……讀書比較快。",
+     "new": "還好。讀書比較快。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "classmate_mingxuan",
+   "file": "msg2_pool",
+   "rows": [
+    {
+     "at": "people.classmate_mingxuan.replies[9].msgs[1]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "……講出來就好了。謝謝你聽",
+     "new": "講出來就好了。謝謝你聽",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "classmate_peishan",
+   "file": "msg2_pool",
+   "rows": [
+    {
+     "at": "people.classmate_peishan.replies[9].msgs[0]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "還好。……我還沒跟我媽說。",
+     "new": "還好。我還沒跟我媽說。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.classmate_peishan.replies[12].msgs[0]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "還好。……沒有吵架。就是走不到一起。",
+     "new": "還好。沒有吵架。就是走不到一起。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "classmate_peishan",
+   "file": "msg_pool",
+   "rows": [
+    {
+     "at": "people.classmate_peishan.replies[21].msgs[0]",
+     "topic": "share_food",
+     "tier": "L",
+     "old": "下次換我帶你去吃早餐。我家的。",
+     "new": "看起來好好吃。我家店裡沒有這個，我要回去跟我爸說。",
+     "note": "舊設定（家裡早餐店，X330）：家裡現在是台中的小型連鎖餐廳"
+    }
+   ]
+  },
+  {
+   "who": "heroine_01",
+   "file": "msg2_pool",
+   "rows": [
+    {
+     "at": "people.heroine_01.replies[7].msgs[0]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "還好。……想一下就好了。",
+     "new": "還好。想一下就好了。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "heroine_01",
+   "file": "msg_pool",
+   "rows": [
+    {
+     "at": "people.heroine_01.replies[13].msgs[0]",
+     "topic": "share_cat",
+     "tier": "L",
+     "old": "下次一起去看。",
+     "new": "這隻我也想看。",
+     "note": "沒人記的「下次一起去看」"
+    }
+   ]
+  },
+  {
+   "who": "heroine_02",
+   "file": "msg2_pool",
+   "rows": [
+    {
+     "at": "people.heroine_02.replies[3].msgs[0]",
+     "topic": "thanks",
+     "tier": "R",
+     "old": "不會。……背面我寫了字，你看到了嗎。",
+     "new": "不會。背面我寫了字，你看到了嗎。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_02.replies[10].msgs[0]",
+     "topic": "bday",
+     "tier": "L",
+     "old": "謝謝。……下班以後，你在嗎。",
+     "new": "謝謝。下班以後，你在嗎。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_02.replies[12].msgs[0]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "還好。……只是還沒寫。",
+     "new": "還好。只是還沒寫。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_02.replies[15].msgs[0]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "交了。……現在換成等。",
+     "new": "交了。現在換成等。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "heroine_03",
+   "file": "msg2_pool",
+   "rows": [
+    {
+     "at": "people.heroine_03.replies[0].msgs[0]",
+     "topic": "thanks",
+     "tier": "A",
+     "old": "……嗯。",
+     "new": "嗯。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.replies[5].msgs[0]",
+     "topic": "bday",
+     "tier": "L",
+     "old": "謝謝。……你今天會來茶屋嗎？",
+     "new": "謝謝。你今天會來茶屋嗎？",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.replies[6].msgs[0]",
+     "topic": "bday",
+     "tier": "L",
+     "old": "謝謝。……你那邊幾點？",
+     "new": "謝謝。你那邊幾點？",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_03.replies[9].msgs[0]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "明天考試。……有點緊張。",
+     "new": "明天考試。有點緊張。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "heroine_04",
+   "file": "msg2_pool",
+   "rows": [
+    {
+     "at": "people.heroine_04.replies[2].msgs[1]",
+     "topic": "bday",
+     "tier": "L",
+     "old": "……你等一下有空嗎",
+     "new": "你等一下有空嗎",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_04.replies[5].msgs[2]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "……可是我還沒拆",
+     "new": "可是我還沒拆",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "heroine_05",
+   "file": "msg2_pool",
+   "rows": [
+    {
+     "at": "people.heroine_05.replies[4].msgs[0]",
+     "topic": "thanks",
+     "tier": "L",
+     "old": "不客氣。……換你用了。",
+     "new": "不客氣。換你用了。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_05.replies[7].msgs[0]",
+     "topic": "bday",
+     "tier": "L",
+     "old": "謝謝。……晚上可以見一面嗎。",
+     "new": "謝謝。晚上可以見一面嗎。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_05.replies[12].msgs[0]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "還好。……只是今天讀不下去。",
+     "new": "還好。只是今天讀不下去。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_05.replies[15].msgs[0]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "考完了。……先不要問我考得怎樣。",
+     "new": "考完了。先不要問我考得怎樣。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "heroine_05",
+   "file": "msg_pool",
+   "rows": [
+    {
+     "at": "people.heroine_05.replies[37].msgs[0]",
+     "topic": "chat",
+     "tier": "L",
+     "old": "研究室。……你那邊吃晚餐了嗎。",
+     "new": "研究室。你那邊吃晚餐了嗎。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.heroine_05.replies[39].msgs[0]",
+     "topic": "share_cat",
+     "tier": "L",
+     "old": "拍得不錯。下次拍你自己。",
+     "new": "拍得不錯。牠很會看鏡頭。",
+     "note": "「拍得不錯。下次拍你自己。」三個話題同一句，各換一句"
+    },
+    {
+     "at": "people.heroine_05.replies[40].msgs[0]",
+     "topic": "share_food",
+     "tier": "L",
+     "old": "拍得不錯。下次拍你自己。",
+     "new": "拍得不錯。看起來你有好好吃飯。",
+     "note": "同上"
+    },
+    {
+     "at": "people.heroine_05.replies[41].msgs[0]",
+     "topic": "share_notes",
+     "tier": "L",
+     "old": "拍得不錯。下次拍你自己。",
+     "new": "拍得不錯。你的字比我想的整齊。",
+     "note": "同上"
+    }
+   ]
+  },
+  {
+   "who": "kai",
+   "file": "msg2_pool",
+   "rows": [
+    {
+     "at": "people.kai.replies[3].msgs[2]",
+     "topic": "bday",
+     "tier": "R",
+     "old": "……打一場就好",
+     "new": "打一場就好",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "kexin",
+   "file": "msg2_pool",
+   "rows": [
+    {
+     "at": "people.kexin.replies[3].msgs[0]",
+     "topic": "bday",
+     "tier": "L",
+     "old": "謝謝。……你還記得。",
+     "new": "謝謝。你還記得。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  },
+  {
+   "who": "npc_fangyt",
+   "file": "msg2_pool",
+   "rows": [
+    {
+     "at": "people.npc_fangyt.replies[5].msgs[0]",
+     "topic": "bday",
+     "tier": "R",
+     "old": "謝謝。你那邊應該還是昨天。……兩天都算。",
+     "new": "謝謝。你那邊應該還是昨天。兩天都算。",
+     "note": "拿掉刪節號"
+    },
+    {
+     "at": "people.npc_fangyt.replies[8].msgs[0]",
+     "topic": "ok",
+     "tier": "R",
+     "old": "還好。她說得很清楚。……我去溫室待一下就好。",
+     "new": "還好。她說得很清楚。我去溫室待一下就好。",
+     "note": "拿掉刪節號"
+    }
+   ]
+  }
+ ]
+}
