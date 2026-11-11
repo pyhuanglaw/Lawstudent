@@ -698,9 +698,10 @@ async def neg_rain(pg, cdp, P, key):
     R.check('[%s] 下雨：不問「出發」' % P.tag, not asked, J([e.get('opts') for e in asked]))
     first = (((LINES.get('L') or {}).get('hehuan') or {}).get('dialogue') or [{}])[0].get('text')
     R.check('[%s] 下雨：沒有演（第一句「%s」沒有出現）' % (P.tag, (first or '')[:16]), not any(e.get('k') == 'say' and e.get('t') == first for e in E), '')
-    want = (LINES.get('rain') or '').replace('{who}', LINES.get('sisName') or '')
+    sis_now = await pg.evaluate("SOCIAL.displayName('heroine_05')")   # 讀檔以後才算名字（開頁時還沒認識，是「不認識的女生」：aa811_r1 rain 的 TEST_BUG）
+    want = (LINES.get('rain') or '').replace('{who}', sis_now or '')
     tt = [e.get('t') for e in E if e.get('k') == 'toast']
-    R.check('[%s] 一行系統字「%s」' % (P.tag, want), bool(want) and want in tt and want == '下雨了，和%s去合歡山北峰的行程取消。' % (LINES.get('sisName') or ''), J(tt))
+    R.check('[%s] 一行系統字「%s」' % (P.tag, want), bool(want) and want in tt and want == '下雨了，和%s去合歡山北峰的行程取消。' % (sis_now or ''), J(tt))
     info2 = await pg.evaluate(HH_INFO_JS, {'from': HH_FROM, 'to': HH_TO})
     R.note('[%s] 取消以後遊戲判：%s' % (P.tag, J({k: info2.get(k) for k in ('key', 'hour', 'offer', 'days', 'WENT', 'whyNot')})))
     # 之後還可以再約：照玩家再打開「約」的清單看（只看、算了）

@@ -173,11 +173,19 @@ async def wait_settle(pg, max_s=60):
     return s, await pg.evaluate(PSTATE), round(time.time() - t0, 1)
 
 
-async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None):
+async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None, floor=False):
     """椅面／地板那一點投影到螢幕，要是遊戲畫面才點；不行就轉鏡頭、再不行就先點地走近。回傳 (pt, 怎麼瞄到的)
     want＝(椅子 x, z)：點椅面時，那個像素射線第一個打到的要是這張椅子（遊戲 tapToSeat 帶 hit 算出來的 rseat＝這張）；被柱子、桌子擋住就換點、轉鏡頭、走近（CC_02 乙 4）"""
     bad0 = lambda q: not q or q.get('off') or not q.get('canvas')
-    hits = lambda q: not want or bool(q.get('rseat') and abs(q['rseat'][0] - want[0]) < 0.06 and abs(q['rseat'][1] - want[1]) < 0.06)
+    # 看不看得到用和遊戲無關的幾何判斷（LAWWW2 19:15：用 rseat＝拿遊戲的判斷決定要不要考遊戲，tapToSeat 壞了會全部變「擋住、不判」）：
+    #   椅面：射線第一個打到的點離椅子中心水平 ≤0.35 m（BB 19:15）、離椅面高度 ≤0.6 m＝看得到；
+    #   走道：射線在地板以前沒打到東西（first 是 null）、或打到的點離地板落點 ≤0.2 m＝看得到。rseat 只印 log 對照，PASS／FAIL 照舊看實際走到哪、按鈕是什麼
+    def hits(q):
+        f = (q.get('first') or {}).get('p'); hp = q.get('hit')
+        if floor: return (not f) or bool(hp and math.hypot(f[0] - hp[0], f[2] - hp[1]) <= 0.2)
+        if not want: return True
+        return bool(f and math.hypot(f[0] - want[0], f[2] - want[1]) <= 0.35 and abs(f[1] - y) <= 0.6)
+    # floor＝點走道：那個像素射線第一個打到的不能是椅子（階梯教室點後排走道，前排椅子在前面：照規則就是點到椅子，不算「走道被導去椅子」）
     bad = lambda q: bad0(q) or not hits(q)
 
     async def try_pts(how):
@@ -200,7 +208,7 @@ async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None):
         await L.turn_camera_to(pg, cdp, x, z); pt, how = await try_pts('走近＋轉鏡頭')
     if bad0(pt): return None, how
     if bad(pt):   # 畫面上點得到，但每一個點射線都先打到別的東西（柱子、桌子、別張椅子）
-        R.note('%s 這張椅子每一個點都被擋住：射線先打到 %s、遊戲會導去 %s（椅子 %s）' % (tag, J(pt.get('first')), J(pt.get('redirect')), J(pt.get('rseat'))))
+        R.note('%s %s：射線先打到 %s、遊戲會導去 %s（椅子 %s）' % (tag, '這塊地板每一個點前面都有椅子擋著' if floor else '這張椅子每一個點都被擋住', J(pt.get('first')), J(pt.get('redirect')), J(pt.get('rseat'))))
         return None, 'blocked'
     return pt, how
 
@@ -265,7 +273,11 @@ async def seat_one(pg, cdp, key, Z, k, pick):
     if not pt and how == 'blocked':
         R.note('%s 從起點、轉鏡頭、走近都看不到這張椅子沒被擋住的地方：不判（玩家也點不到被擋住的那一點）' % t); await shot(pg, '%s_seat%d_blocked' % (key, k)); return 'blocked'
     if not pt:
-        R.check('%s 畫面上點得到這張椅面（%s）' % (t, how), False, ''); await shot(pg, '%s_seat%d_notap' % (key, k)); return 'notap'
+        R.check('%s 畫面上點得到這張椅面（%s）' % (t, how), False, ''); await shot(pg, '%s_seat%d_notap' % (key, k))
+        if s.get('lift'):   # N1_TSR_CAFEBAR（b77a）：高腳椅一直在 HUD 下面點不到——這一行要看的「坐下後鏡頭」改走搖桿那一條，照樣量
+            try: await joy_seat(pg, cdp, key, Z, k, s)
+            except Exception as e: R.note('%s 搖桿那一條沒跑完 %r' % (t, e))
+        return 'notap'
     if await pg.evaluate(PHONE_OPEN):   # CC 11-11 19:1x：宿舍椅子 1 兩次都是點椅面那一下手機開著——分清楚是點之前就開著（走近那一步、自動打開），還是這一下點出來的
         R.note('%s 點椅面之前手機已經開著（%s）：先收起來再點' % (t, await pg.evaluate("(()=>{ const a=document.querySelector('#phone .on, #phone .sel, #phone [aria-selected=true]'); return a?a.textContent.trim():''; })()")))
         await shot(pg, '%s_seat%d_phone_before' % (key, k))
@@ -340,7 +352,7 @@ async def point_one(pg, cdp, key, Z, kind, k, xz, desc, lv):
         if not tt:
             R.note('%s (%s, %s) %s：附近 0.5 m 量不到桌面（地板 %s 上 0.35～1.0 m 沒有面），不點' % (t, x, z, desc, fy)); return {'r': 'notable', 'at': [x, z]}
         x, z, y = tt['x'], tt['z'], tt['y']; what = '桌面（射線量到 y %s，網格「%s」材質「%s」，離原本的點 %s m）' % (y, tt['mesh'], tt['mat'], tt['d'])
-    pt, how = await aim(pg, cdp, x, y, z, t)
+    pt, how = await aim(pg, cdp, x, y, z, t, floor=(kind == 'floor'))
     if not pt:
         R.note('%s (%s, %s) %s：畫面上點不到（%s），不測' % (t, x, z, desc, how)); return {'r': 'notap', 'at': [x, z]}
     fb0 = (await D.st(pg))['fb']
@@ -416,6 +428,9 @@ def print_summary():
     for key, sm in SUMMARY.items():
         seats = sm['seats']; fl = sm['floor']
         print('【%s】%s' % (key, ZONES[key]['name']), flush=True)
+        nj = ['椅子 %s：%s' % (a, r) for a, r in seats if r in ('blocked', 'notap', 'hud')] + ['走道 %s：%s' % (J(r.get('at')), r['r']) for r in fl if r['r'] not in ('PASS', 'FAIL')]
+        tot = len(seats) + len(fl)
+        R.check('[%s] 不判（被擋住、點不到、HUD 蓋住）的不超過一半：%d／%d（LAWWW2 19:15：全部不判不能當成過）' % (key, len(nj), tot), tot == 0 or len(nj) * 2 <= tot, J(nj))
         print('  椅面 %d 張：ok %d｜%s' % (len(seats), sum(1 for _, r in seats if r == 'ok'), '；'.join('%s＝%s' % (a, r) for a, r in seats)), flush=True)
         print('  走道 %d 下：PASS %d、FAIL %d、其他 %d｜%s' % (len(fl), sum(1 for r in fl if r['r'] == 'PASS'), sum(1 for r in fl if r['r'] == 'FAIL'), sum(1 for r in fl if r['r'] not in ('PASS', 'FAIL')),
                                                          '；'.join('%s→%s（%s）' % (J(r.get('at')), r['r'], r.get('d')) for r in fl)), flush=True)
