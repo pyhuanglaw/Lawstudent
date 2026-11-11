@@ -267,7 +267,10 @@ async def part_down(pg, cdp, tag='[DOWN]'):
     if (await D.st(pg))['lv'] != 1 and not await part_up(pg, cdp, tag + '【前置】'): return False
     r = await F.joy_to(pg, cdp, tag, 4.2, 2.0, near=0.6, lv=0, max_s=150)
     R.check('%s 搖桿走下樓梯到一樓樓梯口（lv %s、y %s、%s 秒、沒有跳）' % (tag, r['end']['lv'], r['end'].get('y'), r['t']), r['ok'] and r['end']['lv'] == 0 and abs(r['end'].get('y') or 0) < 0.1 and not r['jumps'], J({'end': r['end'], 'why': r.get('why'), 'jumps': r['jumps']}))
-    if not r['ok']: await F.shot(pg, cdp, 'fni_down_stuck'); return False
+    if not r['ok']:   # BB 03:14 預警：二樓樓梯口低幀率下樓會卡——卡住時記當下 fps（2 秒）和座標
+        fr = await pg.evaluate("new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<2000) requestAnimationFrame(f); else res(+(n/((performance.now()-t0)/1000)).toFixed(1)); }; requestAnimationFrame(f); })")
+        R.note('%s ★下樓卡住：當下 fps %s、座標 %s（lv %s、y %s）、why %s' % (tag, fr, [r['end'].get('x'), r['end'].get('z')], r['end'].get('lv'), r['end'].get('y'), r.get('why')))
+        await F.shot(pg, cdp, 'fni_down_stuck'); return False
     sp0 = CTX.get('spawn') or [lay['spawn']['x'], lay['spawn']['z']]
     r = await F.joy_to(pg, cdp, tag, sp0[0], sp0[1] - 0.5, near=0.6, lv=0, max_s=90)
     R.check('%s 走回進門的位置（%s 秒）' % (tag, r['t']), r['ok'], J({'end': r['end'], 'why': r.get('why')}))
