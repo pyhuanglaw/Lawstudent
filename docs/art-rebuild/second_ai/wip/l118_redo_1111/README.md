@@ -1,8 +1,9 @@
 # 118 巷九間店＋兩間飲料店 第 1 版 第一批（L118-SHOPS-REDO-1111，X338；LAWWW2 帳號 A，2026-11-11）
 
-狀態：**WORK_IN_PROGRESS：相關測試都過了，全部 Node 測試在跑**（結果補在這一行）。預覽是 Blender，不是遊戲截圖（D131）；遊戲畫面我沒看過（D132：BB／CC 代拍）。
+狀態：**READY_FOR_REVIEW**（2026-11-11 06:0x UTC）。預覽是 Blender，不是遊戲截圖（D131）；遊戲畫面我沒看過（D132：BB／CC 代拍）。
+全部 Node 測試 1270 支（`regression_full.log`，對最後這一版跑的第二輪）：1263 支通過；`bookstore_exit_unit` 最後一行是 Node 讀不到網址的警告（結束碼 0）；**六支失敗都不是這一包造成的**——aa311_l118_unit、aa397_sideq_unit、aa404_sideq_unit、aa410_food_fav_unit、eat_unit、invites_quote_b6_unit 在沒有套這一包的基底 `4993c19a6` 上一樣失敗（LAWWW 11-11 05:34 確認：118 巷改名第四階段在修的）。
 
-- patch：`l118_batch1_v1.patch`（53 個檔，基底 dev `4993c19a6`）。
+- patch：`l118_batch1_v1.patch`（53 個檔，基底 dev `4993c19a6`；在 `f247bc77f` 上試過 `git apply --3way`，乾淨）。
 - 依據：使用者 11-11 的文字規格（開發分支 `docs/handoff/user_specs/L118_SHOPS_REDO_1111.md`）＋參考圖（`docs/handoff/user_specs/l118_ref/ext_<id>.webp`、`int_<id>.webp`；使用者直接傳給 LAWWW）；AA_280（營業時間、飲料店和大學食堂的品項價錢）、AA_772（店員、看東西的旁白）；BB_335 的驗收重點。
 - 分工（使用者 11-11 05:2x 對 LAWWW：臨時把我的工作分出去）：這一包＝**街景（十一間外觀，同一顆模型）＋室內四間 dian／self／korea／tea**；其餘五間室內（home／cafe2／pasta／omu／noodle2）LAWWW 的子代理做。
 - D141：這是第 1 版（之前照文字規格的那一版沒有交付，不算）。

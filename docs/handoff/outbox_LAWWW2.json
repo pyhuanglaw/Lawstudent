@@ -7967,7 +7967,7 @@
    "sha": "（這個 commit）",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED＋已整合（LAWWW 11-11 05:01）",
    "task": "ART-PACK7-1111 第七包：算命桌桌燈籤筒挪開（BB 看完人物後唯一要動的）、節日的燈在遊戲裡變白光、公館 G01 燈籠埋進招牌、新生南路配件車三款各指定一台",
    "files": [
     "docs/art-rebuild/second_ai/wip/pack7_1111/（README.md、pack7_v1.patch、regression_full.log、blender_sightline.jpg）"
@@ -7976,6 +7976,21 @@
    "noDirectIntegrate": false,
    "note": "底 dev d926d54bd（在 2d90b034c 上 --3way 乾淨）；9 個檔；全部 Node 測試 1266 支：adv_skip_typing_unit 失敗是基底的（只讀 game3d.js，這一包沒動）",
    "next": "LAWWW 整合、CC 拍、BB 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "L118-SHOPS-REDO-1111 第 1 版第一批：街景九間照使用者參考圖（兩間飲料店文字規格版）＋室內四間 dian／self／korea／tea＋路邊道具＋新測試",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/l118_redo_1111/（README.md、l118_batch1_v1.patch、regression_full.log、blender_ext_batch1_a/b/c.jpg、blender_int_batch1.jpg、blender_drinks_textspec.jpg）"
+   ],
+   "state": "READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "noDirectIntegrate": false,
+   "note": "底 dev 4993c19a6（在 f247bc77f 上 --3way 乾淨）；53 個檔；全部 Node 測試 1270 支：六支失敗是基底的（LAWWW 改名進行中）；改了 LAWWW 的四支測試的期望（檔內註明）",
+   "next": "LAWWW 整合、CC 拍、BB 判；第二批（飲料店照圖＋三個小補充＋其餘五間的鄰居店面卡）已做好、在跑全部測試"
   }
  ]
 }
