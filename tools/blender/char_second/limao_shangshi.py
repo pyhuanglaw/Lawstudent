@@ -14,9 +14,9 @@ import bpy                             # noqa: E402
 rgb = N.rgb
 LONG = dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.69, iris='#2a2018', skin=(0.88, 0.76, 0.64), eye_close=0.14, torso=1.10, stoop=0.014, neck=1.06, belly=0.014,
             # 六十多歲：眼睛細長帶笑（扁、眼尾微微往下）、眉毛灰白稀一點、臉比年輕人寬一點、下巴圓
-            face=dict(EYE_SX=0.96, EYE_SZ=0.50, EYE_TILT=-0.055, MOUTH_DOWN=-0.0008, BROW_ARCH=0.36, BROW_K=1.75, BROW_SCALE_Z=1.55, BROW_COL=(0.56, 0.54, 0.52), FACE_NARROW=1.035, CHIN_WIDEN=0.86, JAW_OUT=0.0078, D_CHIN=0.002, MOUTH_K=1.5, IRIS_FRAC=0.46),
+            face=dict(EYE_SX=0.96, EYE_SZ=0.50, EYE_TILT=0.035, MOUTH_DOWN=-0.0008, BROW_ARCH=0.36, BROW_K=1.75, BROW_SCALE_Z=1.55, BROW_COL=(0.64, 0.59, 0.52), FACE_NARROW=1.035, CHIN_WIDEN=0.86, JAW_OUT=0.0078, D_CHIN=0.002, MOUTH_K=1.5, IRIS_FRAC=0.46),
             # 灰白捲髮：帽子下面兩側和後面蓬出來一圈（頭頂被鴨舌帽蓋住）
-            hair=dict(seed=20261111, part=10.0, col=(0.62, 0.61, 0.60), tip=(0.030, 0.030, 0.026, 0.004, -0.006, -0.012, -0.016, -0.030, -0.028, -0.024), nape=0.03, nape_c=0.0, vol=0.62, curl=(18, 34)),
+            hair=dict(seed=20261111, part=10.0, col=(0.78, 0.73, 0.66), tip=(0.030, 0.030, 0.026, 0.004, -0.006, -0.012, -0.016, -0.030, -0.028, -0.024), nape=0.03, nape_c=0.0, vol=0.62, curl=(18, 34)),
             # 深咖啡燈芯絨西裝外套（敞開）＋墨綠 V 領毛衣＋灰褐毛料長褲＋深咖啡皮鞋
             layered=dict(style=N.outer_style(rgb(64, 44, 32), rgb(104, 94, 82), rgb(58, 40, 28), rgb(40, 28, 20), tex='knit', sleeve_k=0.80, ease=0.92, pants_ell=(0.074, 0.084), shoe_style='loafer'),
                          outer=dict(open=18, buttons=2), inner=dict(rgb=rgb(66, 70, 48))))
@@ -37,7 +37,7 @@ def accessories(m):
     # ---- 貼圖（一張，七格）：0 帽子（咖啡色人字呢）、1 鬍子（灰白）、2 圍巾（棕藍格紋）、3 流蘇、4 翻領（深咖啡）、5 襯衫（米色）、6 捲髮（灰白，深淺一撮一撮）
     NR = 9; W = 64 * NR; img = np.ones((64, W, 4))   # 第 3 版多兩格：7 帽簷（比帽身深一階的人字呢）、8 毛衣的 V 領羅紋（墨綠）
     def fill(i, base, noise=0.05): img[:, i * 64:(i + 1) * 64, :3] = np.clip(np.array(base)[None, None, :] + rng.normal(0, noise, (64, 64, 1)), 0, 1)
-    fill(0, (0.40, 0.29, 0.20), 0.03); fill(1, (0.80, 0.79, 0.77), 0.05); fill(2, (0.42, 0.33, 0.26), 0.02); fill(3, (0.36, 0.30, 0.26), 0.05); fill(4, (0.37, 0.27, 0.20), 0.012); fill(5, (0.90, 0.85, 0.74), 0.012); fill(6, (0.70, 0.69, 0.68), 0.07)
+    fill(0, (0.40, 0.29, 0.20), 0.03); fill(1, (0.87, 0.82, 0.75), 0.05); fill(2, (0.42, 0.33, 0.26), 0.02); fill(3, (0.36, 0.30, 0.26), 0.05); fill(4, (0.37, 0.27, 0.20), 0.012); fill(5, (0.90, 0.85, 0.74), 0.012); fill(6, (0.81, 0.76, 0.69), 0.07)   # 第 4 版（最後一次，LAWWW 11-11 05:47：鬍子、鬢角在遊戲裡偏藍灰；參考圖是暖的灰白）：頭髮、鬍子、捲髮、眉毛都往暖的灰白調（遊戲的天光偏藍，貼圖要比目標色 #c9c4bc 再暖一點）
     fill(7, (0.27, 0.19, 0.13), 0.02); fill(8, (0.21, 0.23, 0.15), 0.012)
     yy, xx = np.mgrid[0:64, 0:64]; herr = (((xx + np.where((xx // 8) % 2 == 0, yy, -yy)) % 8) < 3)                     # 人字紋：一直條一直條、斜線方向交錯
     img[:, 0:64, :3] *= np.where(herr, 0.78, 1.0)[..., None]; img[:, 7 * 64:8 * 64, :3] *= np.where(herr, 0.8, 1.0)[..., None]
@@ -48,7 +48,7 @@ def accessories(m):
     tmpl = next(mt.name for mt in bpy.data.materials if 'HairCard' in mt.name and getattr(mt, 'vrm_addon_extension', None))
     mat = C.mtoon_from(tmpl, 'SHANGSHI_Acc_CLOTH', base_img=im, alpha='OPAQUE', double_sided=True, outline=0.0)
     try:   # 頭髮材質的邊緣光、反光貼圖拿掉（帽簷、帽緣會泛一圈淡金色）
-        _mt = mat.vrm_addon_extension.mtoon1.extensions.vrmc_materials_mtoon; _mt.parametric_rim_color_factor = (0.0, 0.0, 0.0); _mt.matcap_factor = (0.0, 0.0, 0.0); _mt.rim_lighting_mix_factor = 0.0; _mt.shade_color_factor = (0.72, 0.68, 0.66)
+        _mt = mat.vrm_addon_extension.mtoon1.extensions.vrmc_materials_mtoon; _mt.parametric_rim_color_factor = (0.0, 0.0, 0.0); _mt.matcap_factor = (0.0, 0.0, 0.0); _mt.rim_lighting_mix_factor = 0.0; _mt.shade_color_factor = (0.80, 0.73, 0.65)
         _mt.matcap_texture.index.source = None; _mt.rim_multiply_texture.index.source = None
     except Exception as ex: print('  acc material rim', ex)
     col = arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection
@@ -209,7 +209,7 @@ def accessories(m):
     kb = f.data.shape_keys.key_blocks if f.data.shape_keys else None
     if kb:
         n_ = len(kb[0].data); B0 = np.zeros(n_ * 3); kb[0].data.foreach_get('co', B0); delta = np.zeros(n_ * 3); used = []
-        for frag, w_ in (('Fcl_EYE_Joy', 0.55), ('Fcl_MTH_Fun', 0.7)):
+        for frag, w_ in (('Fcl_EYE_Joy', 1.0), ('Fcl_MTH_Fun', 1.0), ('Fcl_BRW_Fun', 1.0)):   # 第 4 版：眼睛笑成彎的（Joy 0.55 → 1.0）、嘴角更上揚（0.7 → 1.0）、眉毛也用笑的形狀；外眼角從往下改成微微往上（EYE_TILT −0.055 → 0.035：LAWWW「眼睛下垂沒有笑意」）
             k_ = next((k for k in kb if k.name.endswith(frag)), None)
             if k_ is None: continue
             X = np.zeros(n_ * 3); k_.data.foreach_get('co', X); delta += w_ * (X - B0); used.append(k_.name)

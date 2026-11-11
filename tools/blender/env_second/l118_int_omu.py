@@ -271,9 +271,9 @@ def begin(sid, spec, regions, atlas):
     """spec＝LS.SPEC 那一筆（地板、牆、腰牆、木頭、配色；W、D、door_x 用原值）；regions＝印刷品貼圖集的區域；atlas＝畫好的 1024×1024 PIL 圖"""
     old = LS.SPEC[sid]
     LS.SPEC[sid] = dict(spec, W=old['W'], D=old['D'], door_x=old['door_x'])
-    # LS.TX.SHOPS[sid] 的 name／sub 不改（還是換店以前的店名）：配置的 name／type 照舊寫——遊戲靠「配置記的舊店名」把街上招牌板面的舊字、「離開○○」「點餐（○○）」
-    #   換成店家資料（src/data/lane118_shops.js）的新店名（zones3d.js 的 ud118、l118_shops3d.js 的 reName；tests/l118_shops_redo_1111_unit.js 3-7）。
-    #   街景模型換成新招牌以後兩邊都對得到，那時候要不要改成新店名由 LAWWW2 決定。店裡看得到的字（木匾、菜單、海報）都是新店名。
+    # 配置的 name／type＝店家資料的新店名、類型（和 LAWWW2 重做的那四間一樣）。街景模型還是舊招牌的時候（開發分支 64add9fcf 以前）遊戲靠「配置記的舊店名」把招牌板面的舊字換成新店名
+    #   （zones3d.js 的 ud118），那時候這裡先不改；64add9fcf 新街景的招牌板面已經是新店名（tests/l118_shops_redo_1111_unit.js 3-7 的 same），所以改成新的。
+    sh = shop_data(sid); LS.TX.SHOPS[sid] = dict(LS.TX.SHOPS[sid], name=sh['name'], sub=sh['type'])
     os.makedirs(LS.GEN, exist_ok=True); ensure_view(sid)
     if not os.path.exists(os.path.join(LS.GEN, 'l118_screens.png')): LS.TX.screens()
     assert atlas.size == (1024, 1024); atlas.save(os.path.join(LS.GEN, f'l118_{sid}_print.png'))

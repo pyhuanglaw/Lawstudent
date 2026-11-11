@@ -187,7 +187,11 @@ const XS3=(function(){
        模型和公館、溫州街、汀州路同一套（Z3.attachWzScooters；款式和顏色用汀州路的挑法 TZ3.pickScooter：相鄰不同款、不同色系）；沒有正式模型時是套件的機車。每台擋導航（和汀州路一樣大） */
     { const SC=L.scooters, spots=S.scooterSpots(L), scG=new THREE.Group(), scList=[], st={n:0,dark:0,tailA:0,run3:0,adjSame:0,codes:{}}, kit=['#c9463d','#2b2b2d','#e8e6e0','#3d6fb0','#8a8f98','#2f6a4a','#d9b23a']; let pv=null; scG.name='xs_kit_scooters'; scG.userData.dyn=true;
       const hash=(a,b)=>{ const t=Math.sin(a*12.9898+b*78.233)*43758.5453; return t-Math.floor(t); };
-      for(const q of spots){ const pk=(typeof TZ3!=='undefined'&&TZ3.pickScooter)?TZ3.pickScooter(q.z,-1,pv,st):null, c=pk?pk.col:kit[Math.floor(hash(q.z,9)*7)]; if(pk) pv={code:pk.code,tail:pk.tail,cf:pk.cf,pp:pv};
+      /* 三款配件車（擋風鏡、腳踏板的袋子、蓋座墊的雨衣）每款指定一台（第 2、6、10 台）：一款的機率只有 3%，這條街 12 台照位置抽剛好一台都沒有（BB 11-11 04:4x） */
+      const ACC=['S1A_W','S1B_G','S7_R']; let qi=-1;
+      for(const q of spots){ qi++; let pk=(typeof TZ3!=='undefined'&&TZ3.pickScooter)?TZ3.pickScooter(q.z,-1,pv,st):null; const acc=(qi%4===1)?ACC[(qi-1)/4]:null;
+        if(pk&&acc&&TZ3.SC&&TZ3.SC[acc]) pk=Object.assign({},pk,{code:acc});
+        const c=pk?pk.col:kit[Math.floor(hash(q.z,9)*7)]; if(pk) pv={code:pk.code,tail:pk.tail,cf:pk.cf,pp:pv};
         const o=TK.scooter(c); o.position.set(q.x,0,q.z); o.rotation.y=q.ry; o.userData.dyn=true; scG.add(o); scList.push(pk?{o,color:c,code:pk.code,pcol:c,grp:'xs'+q.g}:{o,color:c,grp:'xs'+q.g}); nav.blockRect(SC.x,q.z,1.5,0.8,0); }
       nav._cm=null; g.add(scG); zone.xsScooters=scList.length; zone.xsScList=scList.map(q=>({code:q.code||null,col:q.color,grp:q.grp}));
       if(scList.length&&Z3.attachWzScooters&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_scooter']){ if(typeof P3!=='undefined'&&P3.mergeStatic) P3.mergeStatic(scG);

@@ -396,7 +396,7 @@ const CROWD=(function(){
     return []; };
   /* 有人跟著你、今天約好在這間店（邀約的地點）：客人少一半（劇情、約會的那一桌旁邊不要太擠）*/
   const INV_PLACE={noodle:'noodle',wz_brunch:'brunch',wz_teahouse:'teahouse',wz_mokuyobi:'mokuyobi',wz_offbeat:'offbeat'};
-  S.shopCalm=function(G,zone){ const F=G.flags||{}; if(F.companion) return true; const p=INV_PLACE[zone]; return !!p&&(G.invites||[]).some(iv=>iv&&iv.day===G.day&&iv.accepted&&!iv.done&&iv.place===p); };
+  S.shopCalm=function(G,zone){ const F=G.flags||{}; if(F.companion) return true; const p=INV_PLACE[zone]; return !!p&&(G.invites||[]).some(iv=>iv&&iv.day===G.day&&iv.accepted&&!iv.done&&(iv.place===p||(zone==='wz_mokuyobi'&&iv.place==='slowread'))); };   /* 木曜日有兩個邀約地點：mokuyobi（坐坐）、slowread（念書；AA_772 從慢讀咖啡搬來）*/
   /* 位子分組：面對面的兩張（同一張桌子）、吧台相鄰的兩張；剩下的一個人一組。seats＝[{x,z,yaw,table,bar}] */
   S.pairUnits=function(seats){ const used=new Set(), out=[]; const dyaw=(a,b)=>Math.abs(Math.atan2(Math.sin(a-b),Math.cos(a-b)));
     seats.forEach((s,i)=>{ if(used.has(i)) return; let best=-1, bs=1e9, kind='one';

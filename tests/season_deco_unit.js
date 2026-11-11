@@ -49,5 +49,12 @@ check('6. 接法：包住溫州街、公館的 build（只包一次）、資產�
     check('10. '+zid+' 的門：每一筆有位置、朝外的方向、門頂高度（2～3.5 m）；阿德搬家以後的店面（A2C）不貼',DR.length>=10&&DR.every(r=>r.w0&&r.w1&&r.n&&Math.abs(Math.hypot(r.n[0],r.n[1])-1)<1e-3&&r.top>=2&&r.top<=3.5&&/^(shop|house|gg|open)$/.test(r.kind))&&/SKIP = \('A2C',\)/.test(fs.readFileSync(path.join(ROOT,'tools/blender/env_second/season_deco.py'),'utf8')),String(DR.length)); }
   { const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), iD=html.indexOf('src/data/season_deco.js'), iC=html.indexOf('src/season_deco3d.js'), iZ=html.indexOf('src/zones3d.js'), st=fs.readFileSync(path.join(ROOT,'tools/blender/env_second/wz_street.py'),'utf8');
     check('11. index.html 載入（資料在前、程式在後，都在 zones3d.js 後面）；街景生成器只在 --season 才輸出季節模型（平常重匯街景不受影響）',iD>0&&iC>iD&&iD>iZ&&/if '--season' in ARGS:/.test(st)&&/season_deco\.export\(SET, SEASON_DOORS/.test(st)); }
-  console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
+  /* 發光的小東西（紅燈籠、聖誕燈串）在遊戲裡變成白光（BB／CC 11-11 04:4x）：載入時 season_glow 換成不受光的頂點色材質 */
+{ const had=global.THREE; global.THREE={MeshBasicMaterial:function(o){ Object.assign(this,o); this.isMeshBasicMaterial=true; }};
+  const a={isMesh:true,material:{name:'season_glow',emissive:[1,1,1]}}, b={isMesh:true,material:{name:'season_vc'}}, c={isMesh:true,material:[{name:'season_atlas'},{name:'season_glow'}]};
+  const ra=SD3.glowFix(a), rb=SD3.glowFix(b), rc=SD3.glowFix(c);
+  check('燈籠、燈串的發光材質換成不受光的頂點色材質（顏色＝頂點色，不再是白光）；其他材質不動；同一個材質共用',ra&&a.material.isMeshBasicMaterial&&a.material.vertexColors===true&&!rb&&b.material.name==='season_vc'&&rc&&c.material[0].name==='season_atlas'&&c.material[1]===a.material&&!SD3.glowFix(a));
+  check('載入季節模型的地方有呼叫（每個網格）',/o\.isMesh\)\{[^}]*S\.glowFix\(o\)/.test(fs.readFileSync(path.join(ROOT,'src/season_deco3d.js'),'utf8')));
+  if(had===undefined) delete global.THREE; else global.THREE=had; }
+console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();

@@ -15,12 +15,17 @@ const SD3=(function(){ const S={}; const DAYMS=86400000;
     return false; };
   S.active=function(zid,day){ const D=DATA(), Z=D&&D.zones&&D.zones[zid]; return Z?Z.codes.filter(c=>S.on(c,day)):[]; };
   /* 模型的節點照代號顯示／隱藏；回傳看到幾個季節節點 */
+  /* 會發光的小東西（紅燈籠、聖誕燈串、南瓜燈）：顏色在頂點色。模型匯出以後發光是固定的白色（glTF 的發光不會乘頂點色），遊戲裡紅燈籠變成白的
+     （BB／CC 11-11 04:4x 雲端自檢）。載入時把 season_glow 換成不受光的頂點色材質：顏色＝頂點色、白天晚上一樣亮 */
+  S.glowFix=function(o){ if(typeof THREE==='undefined'||!THREE.MeshBasicMaterial||!o||!o.material) return false; const arr=Array.isArray(o.material), ms=arr?o.material:[o.material]; let ch=false;
+    const out=ms.map(m=>{ if(m&&m.name==='season_glow'&&!m.isMeshBasicMaterial){ ch=true; return S._glowMat||(S._glowMat=new THREE.MeshBasicMaterial({vertexColors:true,name:'season_glow'})); } return m; });
+    if(ch) o.material=arr?out:out[0]; return ch; };
   S.apply=function(root,codes){ let n=0; root.traverse(o=>{ const m=/^SEASON_([A-Z0-9]+)_on$/.exec(o.name||''); if(m){ o.visible=codes.indexOf(m[1])>=0; n++; } }); return n; };
   S.day=function(){ const G=typeof GAME!=='undefined'&&GAME.G; return G&&typeof G.day==='number'?G.day:null; };
   S.attach=function(E,z,zid){ const D=DATA(), Z=D&&D.zones[zid]; if(!Z||!z) return null; const codes=S.active(zid,S.day()); z.seasonCodes=codes; z.seasonRoot=null;
     if(!codes.length||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[Z.asset]) return null;
     return ASSETS.loadOne(Z.asset).then(c=>{ if(!c||!c.scene||E.zone!==z||!z.group) return null; const root=c.scene.clone(true); root.name='season_'+zid+'_glb'; root.userData.dyn=true;
-      root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=false; } }); S.apply(root,codes); z.group.add(root); z.seasonRoot=root; return root; }).catch(e=>{ console.warn('季節布置模型載入失敗（沒有布置，其他照舊）',e); return null; }); };
+      root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=false; S.glowFix(o); } }); S.apply(root,codes); z.group.add(root); z.seasonRoot=root; return root; }).catch(e=>{ console.warn('季節布置模型載入失敗（沒有布置，其他照舊）',e); return null; }); };
   S.hook=function(){ const D=DATA(); if(!D||typeof Z3==='undefined'||!Z3.ZONES) return 0; let n=0;
     for(const zid of Object.keys(D.zones)){ const zd=Z3.ZONES[zid], Z=D.zones[zid]; if(!zd||zd._sd3) continue;
       if(typeof ASSETS!=='undefined'&&ASSETS.manifest&&!ASSETS.manifest[Z.asset]) ASSETS.manifest[Z.asset]={url:Z.glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/season_deco.py（wz_street.py --set '+zid+' --season；過年的春聯、橫批、福字、燈籠，聖誕的花圈、燈串、雪花貼紙；字是本作用文泉驛正黑畫的常見吉祥話）',license:'本作；字型 WenQuanYi Zen Hei（GPL v2 with font embedding exception）只用來畫貼圖'};

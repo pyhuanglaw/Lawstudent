@@ -664,7 +664,9 @@ INVITE_DATA.seatOpen.byPlace.corner_records='corner_records';
      外帶店沒有室內：區域＝118 巷（lane118），走到過 118 巷、而且街上有那一間的位置（lane118_layout.js）才列 */
   const IP=(typeof L118_REDO!=='undefined'&&L118_REDO.invitePlaces)||{meal:[],walk:[]};
   const placed=k=>typeof LANE118_LAYOUT!=='undefined'&&Array.isArray(LANE118_LAYOUT.shops)&&LANE118_LAYOUT.shops.some(q=>q.id===k);
-  const WK=(k,name,verb)=>H({id:'l118_'+k,zone:'lane118',name,verb,kind:'walk',minStage:'FRIEND',stay:0.5,memory:'WALKED_TOGETHER',sitAct:'wait',cats:['walk'],times:[14,16,19.5],show:G=>!!G&&!!G.visited&&!!G.visited.lane118&&placed(k)},k);
+  /* 見面點＝那一間的店門口（配置的互動點再往路中間一點；LAWWW 2026-11-11：外帶店的邀約地點區域＝lane118、在各自的店門口見）*/
+  const doorAt=k=>{ const L=typeof LANE118_LAYOUT!=='undefined'?LANE118_LAYOUT:null, q=L&&Array.isArray(L.shops)?L.shops.find(x=>x.id===k):null; if(!q) return null; const W=q.side==='W'; return [+(W?L.facade.west+1.6:L.facade.east-1.6).toFixed(2),(q.z0+q.z1)/2,W?Math.PI/2:-Math.PI/2]; };
+  const WK=(k,name,verb)=>Object.defineProperty(H({id:'l118_'+k,zone:'lane118',name,verb,kind:'walk',minStage:'FRIEND',stay:0.5,memory:'WALKED_TOGETHER',sitAct:'wait',cats:['walk'],times:[14,16,19.5],show:G=>!!G&&!!G.visited&&!!G.visited.lane118&&placed(k)},k),'meetAt',{get:()=>doorAt(k)||undefined,enumerable:true,configurable:true});   /* meetAt 用到的時候才算（配置檔比這個檔晚載入也對）*/
   const P=IP.meal.map(([k,name,verb])=>M(k,name,verb)).concat(IP.walk.map(([k,name,verb])=>WK(k,name,verb)));
   for(const q of P) if(!INVITE_DATA.places.some(x=>x.id===q.id)) INVITE_DATA.places.push(q);
   const B=INVITE_DATA.seatOpen&&INVITE_DATA.seatOpen.byPlace; if(B) for(const [k] of IP.meal) if(!B['l118_'+k]) B['l118_'+k]='meal'; })();

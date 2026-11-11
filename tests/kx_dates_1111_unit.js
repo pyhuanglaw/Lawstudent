@@ -14,6 +14,10 @@ const H=require('./pg_harness.js');
 const {check,GM}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path'), os=require('os'), vm=require('vm');
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
+/* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：白名單 D01～D33 再改認 a29a8aba0（芷若的格子重寫；同一版可昕改三句——D09 到達、D17 女王頭 remember、D33 大廳 remember，原本像在跟祐廷比輸贏；語彤改 D15 一句）——
+   白名單現在的版本改讀 tests/date_src_sha.js（ALLOW_SHA，以後換版只改那一處）；可昕的稿照舊讀 f9c1a2b80（SHA），那三句照 date_src_sha.js 的 ALSO 比（舊期望＝ALSO 的 old）；
+   芷若的格子、短句、心願事件另外驗（tests/zr_dates_1111_unit.js），這裡比別人時拿掉 */
+const CS=require('./date_src_sha.js'), ALLOW_SHA=CS.ALLOW_SHA, ZR='heroine_02', ALSO_KX=CS.ALSO.filter(x=>x.who==='kexin'), ALSO_YT=CS.ALSO.filter(x=>x.who==='heroine_03'), also=(k,p)=>ALSO_KX.find(x=>x.loc===k&&x.path===p);
 const KX='kexin', YT='heroine_03', SIS='heroine_05', PS='classmate_peishan', SHA='f9c1a2b80', PREV='0a2136911', BASE='ab3e81b00', SP='docs/story_planning/';
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<28}); }catch(e){ return null; } };
 const read=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
@@ -36,10 +40,10 @@ const know=id=>{ H.CLOSE(id); H.G.contacts[id]=1; };
 
 (async()=>{
   await sec(1,async()=>{ const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
-    const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===SHA&&e[0].status==='approved'&&['0a2136911','82c946ad7','2883197b6'].every(s=>(e[0].history||[]).some(h=>h.sha===s))); });
-    check('1. 白名單 D01～D33 都是 '+SHA+'、approved，前三版（語彤 0a2136911、學姊 82c946ad7、沛珊 2883197b6）留在 history',bad.length===0,J(bad));
+    const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===ALLOW_SHA&&e[0].status==='approved'&&[SHA,'0a2136911','82c946ad7','2883197b6'].every(s=>(e[0].history||[]).some(h=>h.sha===s))); });
+    check('1. 白名單 D01～D33 都是 '+ALLOW_SHA+'、approved，可昕重寫的 '+SHA+' 和前三版（語彤 0a2136911、學姊 82c946ad7、沛珊 2883197b6）留在 history',bad.length===0,J(bad));
     const e9=allow.filter(x=>x.path===SP+'AA_769_kx_date_common.json'), e0=allow.filter(x=>x.path===SP+'AA_770_kx_wish.json');
-    check('1. 白名單 AA_769_kx_date_common.json、AA_770_kx_wish.json@'+SHA+' 各一筆、approved；date_lines.js 的來源寫著 33 個地點 @'+SHA+' 和 AA_769',e9.length===1&&e9[0].sha===SHA&&e9[0].status==='approved'&&e0.length===1&&e0[0].sha===SHA&&e0[0].status==='approved'&&LOCS.every(k=>NOW.source.includes(k+'.json@'+SHA))&&NOW.source.includes('AA_769_kx_date_common.json@'+SHA));
+    check('1. 白名單 AA_769_kx_date_common.json、AA_770_kx_wish.json@'+SHA+' 各一筆、approved；date_lines.js 的來源寫著 33 個地點 @'+ALLOW_SHA+' 和 AA_769',e9.length===1&&e9[0].sha===SHA&&e9[0].status==='approved'&&e0.length===1&&e0[0].sha===SHA&&e0[0].status==='approved'&&LOCS.every(k=>NOW.source.includes(k+'.json@'+ALLOW_SHA))&&NOW.source.includes('AA_769_kx_date_common.json@'+SHA));
     console.log(haveSrc&&WAS?'（稿和 BASE 都讀得到：逐字比對）':'（這份 checkout 讀不到企劃線的稿或 BASE：不比稿，只驗結構）');
     if(haveSrc){ const tmp=path.join(os.tmpdir(),'date_lines_kx1111_'+process.pid+'.js'); let out='', ok=false;
       try{ out=cp.execFileSync('python3',['tools/date/import_date_lines.py','--out',tmp],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:1<<26}); ok=fs.readFileSync(tmp,'utf8')===read('src/data/date_lines.js'); }catch(e){ out=String(e.stderr||e.stdout||e.message).slice(0,300); }
@@ -49,20 +53,20 @@ const know=id=>{ H.CLOSE(id); H.G.contacts[id]=1; };
       check('1. 可昕跳過的列剛好 3 列：AA_373 6-1 的兩句（「你走的比我少，你請晚餐。」那一格新稿重寫了；「有一隻羊在看我。我在看它。平手。」那一格新稿直接寫了 AA_373 的改成）、AA_359 5-2 的 D28（「今天的行程比昨天鬆。你不要拖。」——新稿直接寫第一天說得通的字）；沒有 AA_694 的列',+m[1]===3&&body.includes('AA_373 6-1 「你走的比我少，你請晚餐。」（原句對不到（源稿重寫了））')&&body.includes('AA_373 6-1 「有一隻羊在看我。我在看它。平手。」（已經是改成的字（新稿直接寫了））')&&body.includes('AA_359 5-2 D28「今天的行程比昨天鬆。你不要拖。」（原句對不到（源稿重寫了））')&&!/AA_694/.test(body),body.slice(0,300));
       check('1. 語彤跳過的列照舊 289 列（AA_630 第 2 節 209 列）、學姊 81 列、沛珊 11 列；AA_767 六列、AA_769 七列照 path 都換了',/語彤重寫（DLG-FULL-REVIEW-1110）跳過的改句 289 列（其中 AA_630 第 2 節 209 列）/.test(out)&&/學姊重寫（DLG-FULL-REVIEW-1110）跳過的改句 81 列/.test(out)&&/沛珊重寫（PEISHAN-VOICE-1110）跳過的改句 11 列/.test(out)&&/AA_767@0a2136911：語彤不分地點的短句 6 列（照 path），換了 6 列/.test(out)&&/AA_769@f9c1a2b80：可昕不分地點的短句 7 列（照 path），換了 7 列/.test(out)); }
     const tool=read('tools/date/import_date_lines.py');
-    check('1. 工具只對沛珊、學姊、語彤、可昕放寬（ps_skip 先看 who；別人的列照舊 sys.exit）',/if who not in \(PS, SIS, YT, KX\) or not ps756\(loc, who\):\s+return False/.test(tool)&&tool.includes("KX = 'kexin'")&&tool.includes("KX_PREV = '0a2136911'")); });
+    check('1. 工具只對沛珊、學姊、語彤、可昕（和後來的芷若）放寬（ps_skip 先看 who；別人的列照舊 sys.exit）',/if who not in \(PS, SIS, YT, KX, ZR\) or not ps756\(loc, who\):\s+return False/.test(tool)&&tool.includes("KX = 'kexin'")&&tool.includes("KX_PREV = '0a2136911'")); });
 
   await sec(2,async()=>{ if(!haveSrc){ for(const k of LOCS) check('2. '+k+'：可昕有台詞',!!(NOW.loc[k].lines&&NOW.loc[k].lines[KX])); return; }
     let n=0; const bad=[];
     for(const k of LOCS){ const g=of(NOW.loc[k],k,KX), s=of(SRC[k],k,KX);
-      for(const p of new Set(Object.keys(g).concat(Object.keys(s)))){ n++; if(g[p]!==s[p]&&!(k==='D13'&&p===NOTE_CELL&&s[p]==='narr'&&g[p]==='note')) bad.push(k+' '+p+'：稿「'+s[p]+'」遊戲「'+g[p]+'」'); } }
-    check('2. 可昕 33 個地點 '+n+' 格和源稿 '+SHA+' 一字不差、格子一樣多（只有 D13「第 3 節她的心願的伏筆」那一格照舊改成不顯示的註記）',n>4500&&bad.length===0,J(bad.slice(0,6)));
-    let ch=0; const miss=[], other=[]; for(const k of LOCS){ const s=of(SRC[k],k,KX), o=of(OLDSRC[k],k,KX), g=of(NOW.loc[k],k,KX); for(const p of new Set(Object.keys(s).concat(Object.keys(o)))) if(s[p]!==o[p]){ ch++; if(g[p]!==s[p]) miss.push(k+' '+p); }
+      for(const p of new Set(Object.keys(g).concat(Object.keys(s)))){ n++; const x=also(k,p); if(x?!(s[p]===x.old&&g[p]===x.new):(g[p]!==s[p]&&!(k==='D13'&&p===NOTE_CELL&&s[p]==='narr'&&g[p]==='note'))) bad.push(k+' '+p+'：稿「'+s[p]+'」遊戲「'+g[p]+'」'); } }   /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：D09／D17／D33 那三句 AA 後來在 a29a8aba0 改了字（稿 f9c1a2b80 是舊字、遊戲是新字）*/
+    check('2. 可昕 33 個地點 '+n+' 格和源稿 '+SHA+' 一字不差、格子一樣多（D13「第 3 節她的心願的伏筆」那一格照舊改成不顯示的註記；D09／D17／D33 三句照後來的 '+ALLOW_SHA+'）',n>4500&&bad.length===0,J(bad.slice(0,6)));
+    let ch=0; const miss=[], other=[]; for(const k of LOCS){ const s=of(SRC[k],k,KX), o=of(OLDSRC[k],k,KX), g=of(NOW.loc[k],k,KX); for(const p of new Set(Object.keys(s).concat(Object.keys(o)))) if(s[p]!==o[p]){ ch++; if(g[p]!==s[p]&&!also(k,p)) miss.push(k+' '+p); }
       const a=leaves(SRC[k],'',{}), b=leaves(OLDSRC[k],'',{}); for(const p of new Set(Object.keys(a).concat(Object.keys(b)))) if(a[p]!==b[p]&&!/^\/(lines|likes|dislikeLine)\/kexin\//.test(p)) other.push(k+p); }
     check('2. 源稿和上一版 '+PREV+' 逐格比：可昕 916 格不同、每一格都照稿；可昕以外的人（含語彤、學姊、沛珊）0 格不同',ch===916&&miss.length===0&&other.length===0,J([ch,miss.slice(0,4),other.slice(0,4)]));
     const cells=(x,o)=>{ if(Array.isArray(x)) x.forEach(v=>cells(v,o)); else if(x&&typeof x==='object') for(const k in x){ if((k==='text'||k==='t')&&typeof x[k]==='string') o.push(x[k]); else cells(x[k],o); } return o; };
     let tot=0, nn=0, pos=0; const lost=[];
     for(const k of LOCS){ const r=REC[k][k], c=cells(SRC[k].lines[KX],[]), g=new Set(Object.values(of(NOW.loc[k],k,KX)).filter(v=>typeof v==='string')); tot+=r.length;
-      r.forEach((t,i)=>{ if(t==null) return; nn++; if(!g.has(t)) lost.push(k+'#'+i+'：'+t); }); if(r.length===c.length){ pos++; r.forEach((t,i)=>{ if(t!=null&&t!==c[i]) lost.push(k+'#'+i+' 位置不對：'+t); }); } }
+      r.forEach((t,i)=>{ if(t==null) return; nn++; if(!g.has(t)&&!ALSO_KX.some(x=>x.loc===k&&x.old===t&&g.has(x.new))) lost.push(k+'#'+i+'：'+t); });   /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：紀錄上那三格還是舊字，遊戲是後來的新字 */ if(r.length===c.length){ pos++; r.forEach((t,i)=>{ if(t!=null&&t!==c[i]) lost.push(k+'#'+i+' 位置不對：'+t); }); } }
     check('2. 改稿紀錄 kx_D01～D33.json：1,789 格裡有新字的 924 格（AA 交付時寫 923，實際數是 924），每一句都在遊戲裡她那個地點的格子（格數相同的 '+pos+' 個地點逐格對位置）；33 個檔都沒有 for_LAWWW',tot===1789&&nn===924&&pos>=28&&lost.length===0&&LOCS.every(k=>!(REC[k]._meta||{}).for_LAWWW),J([tot,nn,pos,lost.slice(0,4)]));
     const K=NOW.loc.D13.lines[KX], hs=K.hotspots, tx=b=>b.lines.map(l=>l.text).join('｜'); let dn=0, same=0; for(const pid in hs){ const h=hs[pid]; (h.dating||[]).forEach((b,i)=>{ dn++; if(h.normal&&h.normal[i]&&tx(h.normal[i])===tx(b)) same++; }); }
     check('2. D13 淡水：四個互動點的 dating 12 格另外寫了（和同一點的 normal 三格不再一樣）、格子數沒變',dn===12&&same===0&&Object.keys(hs).length===4,J([dn,same]));
@@ -71,11 +75,12 @@ const know=id=>{ H.CLOSE(id); H.G.contacts[id]=1; };
     if(WAS){ let nar=0; for(const k of LOCS){ const g=of(NOW.loc[k],k,KX), o=of(WAS.loc[k],k,KX); for(const p in g) if(/\/text$/.test(p)&&g[p]!==o[p]&&g[p.replace(/text$/,'who')]==='narr') nar++; } console.log('（旁白格——who 是旁白——改了字的 '+nar+' 格，照稿匯）'); } });
 
   await sec(3,async()=>{ if(!WAS) return;
-    const strip=D=>{ const x=JSON.parse(J(D)); delete x.source; if(x.lines) delete x.lines[KX]; for(const k in x.loc) for(const part of ['lines','likes','dislikeLine']) if(x.loc[k][part]) delete x.loc[k][part][KX]; return x; };
-    const a=leaves(strip(WAS),'',{}), b=leaves(strip(NOW),'',{}), ka=Object.keys(a), diff=ka.filter(p=>a[p]!==b[p]).concat(Object.keys(b).filter(p=>!(p in a)));
-    check('3. 別人的格子、預約句、交通偏好、互動點（'+ka.length+' 格）和重匯以前（'+BASE+'）完全一樣',ka.length>26000&&diff.length===0,J(diff.slice(0,6).map(p=>p+'：'+a[p]+' → '+b[p])));
-    for(const [who,nm] of [[YT,'語彤'],[SIS,'學姊'],[PS,'沛珊']]){ let n=0; const d=[]; for(const k of LOCS){ const g=of(NOW.loc[k],k,who), w=of(WAS.loc[k],k,who); for(const p of new Set(Object.keys(g).concat(Object.keys(w)))){ n++; if(g[p]!==w[p]) d.push(k+' '+p); } }
-      check('3. '+nm+' 33 個地點 '+n+' 格和重匯以前零差異；不分地點的短句也一樣',n>4000&&d.length===0&&J(NOW.lines[who])===J(WAS.lines[who]),J(d.slice(0,4))); }
+    const strip=D=>{ const x=JSON.parse(J(D)); delete x.source; if(x.lines){ delete x.lines[KX]; delete x.lines[ZR]; } for(const k in x.loc) for(const part of ['lines','likes','dislikeLine']) if(x.loc[k][part]){ delete x.loc[k][part][KX]; delete x.loc[k][part][ZR]; } return x; };   /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：芷若拿掉再比；語彤 D15 圍欄那一句同一版改了字，照 ALSO 比 */
+    const yt15=ALSO_YT.map(x=>'/loc/'+x.loc+'/lines/'+x.who+'/'+x.path.replace(/^lines\//,''));
+    const a=leaves(strip(WAS),'',{}), b=leaves(strip(NOW),'',{}), ka=Object.keys(a), diff=ka.filter(p=>a[p]!==b[p]).concat(Object.keys(b).filter(p=>!(p in a))).filter(p=>!(yt15.includes(p)&&ALSO_YT.some(x=>a[p]===x.old&&b[p]===x.new)));
+    check('3. 別人的格子（芷若另外驗；語彤 D15 圍欄那一句照 '+ALLOW_SHA+' 的新字）、預約句、交通偏好、互動點（'+ka.length+' 格）和重匯以前（'+BASE+'）完全一樣',ka.length>22000&&diff.length===0,J(diff.slice(0,6).map(p=>p+'：'+a[p]+' → '+b[p])));
+    for(const [who,nm] of [[YT,'語彤'],[SIS,'學姊'],[PS,'沛珊']]){ let n=0; const d=[]; for(const k of LOCS){ const g=of(NOW.loc[k],k,who), w=of(WAS.loc[k],k,who); for(const p of new Set(Object.keys(g).concat(Object.keys(w)))){ n++; if(g[p]!==w[p]&&!ALSO_YT.some(x=>who===YT&&x.loc===k&&x.path===p&&w[p]===x.old&&g[p]===x.new)) d.push(k+' '+p); } }
+      check('3. '+nm+' 33 個地點 '+n+' 格和重匯以前零差異'+(who===YT?'（D15 圍欄那一句照後來的新字）':'')+'；不分地點的短句也一樣',n>4000&&d.length===0&&J(NOW.lines[who])===J(WAS.lines[who]),J(d.slice(0,4))); }
     let d3=0; const st=[]; for(const k of LOCS){ const g=of(NOW.loc[k],k,KX), w=of(WAS.loc[k],k,KX); for(const p of new Set(Object.keys(g).concat(Object.keys(w)))) if(g[p]!==w[p]) d3++; if(J(Object.keys(g).sort())!==J(Object.keys(w).sort())) st.push(k); }
     check('3. 可昕的格子和重匯以前比：914 格不同；每個地點的格子（選項數、tier、喜好）一樣多',d3===914&&st.length===0,J([d3,st])); });
 
@@ -130,8 +135,8 @@ const know=id=>{ H.CLOSE(id); H.G.contacts[id]=1; };
       try{ out=cp.execFileSync('python3',['tools/date/import_wish.py','--out',tmp],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=fs.readFileSync(tmp,'utf8')===read('src/data/date_wish.js'); }catch(x){ out=String(x.stderr||x.stdout||x.message).slice(0,300); }
       try{ fs.unlinkSync(tmp); }catch(x){}
       check('7. tools/date/import_wish.py 重匯（--out 另存）的結果和 src/data/date_wish.js 一樣',ok,ok?'':out.slice(0,300)); }
-    const ow=show(BASE,'src/data/date_wish.js'); if(ow){ const O=DW(ow), ids=Object.keys(O.events).filter(k=>k!==KX), a=leaves(O.events[KX],'',{}), b=leaves(ev,'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);
-      check('7. 別人的心願事件（'+ids.length+' 位，含語彤、學姊、沛珊）和重匯以前（'+BASE+'）一樣；hold、verify.miss 照舊是空的',ids.length===6&&ids.every(k=>J(O.events[k])===J(W.events[k]))&&J(O.hold)===J(W.hold)&&W.verify.miss.length===0);
+    const ow=show(BASE,'src/data/date_wish.js'); if(ow){ const O=DW(ow), ids=Object.keys(O.events).filter(k=>k!==KX&&k!==ZR), a=leaves(O.events[KX],'',{}), b=leaves(ev,'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);   /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：芷若的心願事件照 AA_774 收字 27 格（tests/zr_dates_1111_unit.js 第 7 節另外驗），拿掉再比 */
+      check('7. 別人的心願事件（'+ids.length+' 位，含語彤、學姊、沛珊；芷若另外驗）和重匯以前（'+BASE+'）一樣；hold、verify.miss 照舊是空的',ids.length===5&&ids.every(k=>J(O.events[k])===J(W.events[k]))&&J(O.hold)===J(W.hold)&&W.verify.miss.length===0);
       check('7. 可昕的事件和重匯以前比：格子一樣多、不一樣的 23 格都是台詞的 text（選項的字、條件、時間、交通沒動）',J(Object.keys(a))===J(Object.keys(b))&&d.length===23&&d.every(k=>/\/text$/.test(k))&&(!A||A.rows.every(r=>get(O.events[KX],r.path)===r.old)),J(d.filter(k=>!/\/text$/.test(k)))); }
     /* {出發時間}：src/wish3d.js 的 S.fill */
     const f9=WISH.fill(TPL,{depart:9}), f95=WISH.fill(TPL,{depart:9.5}), f0=WISH.fill(TPL), fn=WISH.fill(TPL,{}), fu=WISH.fill(TPL,{depart:null});

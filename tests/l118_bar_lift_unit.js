@@ -24,7 +24,7 @@ for(const [f,n] of [['src/data/lane118_layout.js','LANE118_LAYOUT'],['src/data/l
   vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='),{filename:f});
 /* 2026-11-11 L118-SHOPS-REDO-1111（室內重做，tools/blender/env_second/l118_int_omu.py、l118_int_pasta.py）：奈良咖哩（omu，原蛋包飯）照參考圖沒有吧台了——原本 omu:5 拿掉（它的座位沒有 lift，下面「其他店的座位沒有 lift」會檢查）；
    義大麵屋（pasta）原本 6 → 9：對著開放料理檯的吧台五張（參考圖 int2）＋右牆靠牆的吧台四張（參考圖 int），都是高背木椅、座面一樣 0.76 m */
-const EXPECT={tea:2,cafe2:4,pasta:9};
+const EXPECT={cafe2:4,pasta:9};   // tea 拿掉（L118-SHOPS-REDO-1111，使用者 11-11 X338）：這一格從一一八茶飲（兩張高腳椅）改成辛亥韓食（四人卡座，沒有高腳椅）；其他三間的室內 LAWWW 那邊重做以後照新的配置改這個表
 for(const [id,n] of Object.entries(EXPECT)){ const L=L118_SHOP_LAYOUTS[id]; const hi=L.seats.filter(s=>s.lift);
   check('1. '+L.name+'：吧台高腳椅 '+n+' 個座位帶 lift '+LIFT+'（0.76 − '+SIT_TOP+'）', hi.length===n&&hi.every(s=>Math.abs(s.lift-LIFT)<1e-6), hi.length+' 個：'+hi.map(s=>s.lift).join(',')); }
 { const o=Object.keys(L118_SHOP_LAYOUTS).filter(i=>!EXPECT[i]).flatMap(i=>L118_SHOP_LAYOUTS[i].seats.filter(s=>s.lift).map(()=>i)); check('1. 其他店的座位沒有 lift', o.length===0, o.join(' ')); }

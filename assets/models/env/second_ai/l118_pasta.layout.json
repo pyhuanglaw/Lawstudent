@@ -2,8 +2,8 @@
  "version": 1,
  "zone": "l118_pasta",
  "shop": "pasta",
- "name": "Pasta 118",
- "type": "義大利麵",
+ "name": "義大麵屋",
+ "type": "平價義大利麵",
  "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格＋參考圖 int_pasta.webp、int2_pasta.webp）；店名、菜單 AA_280；室內 tools/blender/env_second/l118_int_pasta.py（LAWWW 子代理代 LAWWW2）",
  "bounds": {
   "x0": -3.8,
@@ -29,7 +29,7 @@
    "x": -2.6,
    "z": 3.8,
    "r": 0.7,
-   "label": "離開Pasta 118",
+   "label": "離開義大麵屋",
    "to": "lane118"
   }
  ],
@@ -65,7 +65,7 @@
   "x": -2.25,
   "z": -1.7,
   "r": 0.8,
-  "label": "點餐（Pasta 118）",
+  "label": "點餐（義大麵屋）",
   "note": "吧台左端的收銀前面（shop118:pasta）"
  },
  "seats": [

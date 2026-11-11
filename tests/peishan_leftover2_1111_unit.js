@@ -65,7 +65,8 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
     let ok=false, out=''; try{ out=cp.execFileSync('python3',['tools/story/import_gifts.py','--check'],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK /.test(out); }catch(x){ out=String(x.stderr||x.stdout||x.message).slice(0,300); }
     if(A) check('4. tools/story/import_gifts.py --check：照白名單重匯的結果＝現在的 gift_lines.js（AA_766 那一層疊在 AA_710 上）；檔頭寫了來源',ok&&read(GF).includes('AA_766_peishan_leftover2.json@'+SHA),out.slice(0,200));
     const ob=show(BASE,GF); if(ob){ const P=t=>JSON.parse(t.slice(t.indexOf('const GIFT_LINES=')+17,t.lastIndexOf(';'))), lv=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>lv(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) lv(x[k],p+'/'+k,o); else o[p]=x; return o; };
-      const a=lv(P(ob),'',{}), b=lv(P(read(GF)),'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);
+      /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 第 95～97 列把品項「紅茶拿鐵」改名「鮮奶茶」（語彤、學姊那幾格）——BASE 先照白名單上的 AA_772 換過再比（tests/l118_redo772_expect.js）。舊期望：直接和 BASE 比 */
+      const a=lv(P(require('./l118_redo772_expect.js').fixFile(GF,ob)),'',{}), b=lv(P(read(GF)),'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);
       check('4. 整份資料和 BASE 比：格子一樣多，只差沛珊這一格（別人的、朋友六位的沒動）',J(Object.keys(a))===J(Object.keys(b))&&J(d)===J(['/people/'+PS+'/drink/fav/lines/1'])&&a[d[0]]==='……我家早餐店也有賣。我從小喝到大的。',J(d)); } });
 
   await sec(5,async()=>{

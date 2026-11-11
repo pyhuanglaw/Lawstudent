@@ -33,8 +33,9 @@ CJK = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
 def make_print():
     W = 512; img = Image.new('RGB', (W, W), (40, 60, 48)); d = ImageDraw.Draw(img)
     F = lambda n: ImageFont.truetype(CJK, n)
-    boards = [('今日便當', ['排骨　95', '雞腿　110', '魚排　100'], (40, 64, 50)), ('午間套餐', ['白醬雞肉　130', '番茄海鮮　150', '＋30 元附飲料'], (30, 30, 34)),
-              ('小菜可續', ['石鍋拌飯　140', '豆腐鍋　150', '加飯免費'], (52, 40, 32)), ('今天的甜點', ['蛋糕　90', '美式　70', '拿鐵　80'], (38, 52, 62))]
+    # L118-SHOPS-REDO-1111（X338）：立牌的字換成新店的（品名、價錢照使用者的文字規格）；只有 118牛排、義大麵屋門口還放立牌（其他店的參考圖門口沒有）
+    boards = [('今日推薦', ['鐵板牛排　190', '雞排　180', '濃湯紅茶自取'], (40, 64, 50)), ('PASTA', ['番茄肉醬麵　170', '奶油雞肉麵　190', '青醬培根麵　190'], (30, 30, 34)),
+              ('小菜可續', ['石鍋拌飯　180', '泡菜鍋　190', '鐵板豬肉　200'], (52, 40, 32)), ('今日菜色', ['三菜一肉　130', '三菜兩肉　160', '秤重計價'], (38, 52, 62))]
     for k, (t, lines, bg) in enumerate(boards):   # 每塊 128 × 256（u 0.25 × v 0.5），上排
         x0, y0 = k * 128, 0; d.rectangle([x0, y0, x0 + 127, y0 + 255], fill=bg); d.rectangle([x0 + 4, y0 + 4, x0 + 123, y0 + 251], outline=(200, 190, 160), width=3)
         d.text((x0 + 64, y0 + 34), t, font=F(24), fill=(250, 240, 200), anchor='mm')
@@ -168,12 +169,12 @@ PLAN = {   # 店 → [(種類, 離店門的 z 位移, 參數)]；種類的 x 都
     'dian': [('pot', -2.4), ('pot', 2.4), ('aframe', -1.6, 0)],
     'self': [('styro', -2.9, 3), ('bins', 2.9, (0, 1, 2))],
     'tea': [('pot_s', -1.5)],
-    'home': [('styro', -3.2, 2), ('crates', -2.4, 2), ('pot', 3.3), ('aframe', 1.6, 0)],
-    'cafe2': [('pot', -2.8), ('pot', 2.8), ('aframe', -1.6, 3), ('bike', 4.4)],
+    'home': [('styro', -3.2, 2), ('crates', -2.4, 2), ('pot', 3.3)],
+    'cafe2': [('pot', -2.8), ('pot', 2.8)],   # 淑女車原本在 +4.4（z −8.1）：那裡現在是果茶社的外帶櫃台前面，搬到 z −17.6（下面沒有店的那幾段；LAWWW 11-11 04:15 同意）
     'pasta': [('pot', -3.4), ('pot', 2.6), ('aframe', -1.7, 1)],   # 北邊那一盆不能到 z 27.4（路燈在 28）
-    'korea': [('pot', -2.9), ('styro', 2.9, 2), ('aframe', 1.65, 2)],
-    'omu': [('aframe', -1.6, 1), ('pot', 3.0)],
-    'noodle2': [('styro', -3.0, 3), ('gas', -2.2), ('bins', 2.9, (0, 1))],
+    'korea': [('pot', -2.9), ('styro', 2.9, 2)],
+    'omu': [('pot', 3.0)],   # 黑板立牌在店面的門廊裡（街景模型，參考圖）
+    'noodle2': [('crates', -3.0, 2), ('bins', 2.9, (0, 1))],
 }
 for sid, items in PLAN.items():
     side, dz = DOORS[sid]; FACE_SIDE[0] = side
@@ -189,9 +190,10 @@ for sid, items in PLAN.items():
         elif kind == 'gas': gas(side_x(side, 0.25), z)
         elif kind == 'bike': bike(side_x(side, 0.3), z, '#8c3b47')
 # 沒有店的那幾段：靠牆的腳踏車、盆栽（住家門口）
-for side, z, kind in (('W', -27.5, 'bike'), ('W', -21.0, 'pot'), ('E', -24.0, 'bike'), ('E', -20.5, 'pot'), ('E', 31.0, 'pot'), ('W', 31.5, 'bike'), ('E', -33.0, 'crates')):
+for side, z, kind in (('W', -27.5, 'bike'), ('W', -17.6, 'bike8'), ('W', -21.0, 'pot'), ('E', -24.0, 'bike'), ('E', -20.5, 'pot'), ('E', 31.0, 'pot'), ('W', 31.5, 'bike'), ('E', -33.0, 'crates')):
     FACE_SIDE[0] = side; assert not near_door(side, z), (side, z)
-    if kind == 'bike': bike(side_x(side, 0.3), z, rr.choice(('#3a6fb0', '#e8e8e4', '#2f5d50', '#c9b48a')))
+    if kind == 'bike8': bike(side_x(side, 0.3), z, '#8c3b47')   # 原本停在慢讀咖啡旁邊的那一台淑女車
+    elif kind == 'bike': bike(side_x(side, 0.3), z, rr.choice(('#3a6fb0', '#e8e8e4', '#2f5d50', '#c9b48a')))
     elif kind == 'pot': pot(side_x(side, 0.32), z)
     else: crates(side_x(side, 0.3), z, 3)
 

@@ -33,7 +33,10 @@ const X=()=>typeof XCROM!=='undefined'?XCROM:null;
 const D=k=>STORY.dayOfKey(k);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const T=()=>H.said.map(s=>s.t);
-const doc=(sha,file)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+file+'"',{cwd:process.env.XC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
+/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：巷口家常菜→五湖四海，番茄炒蛋／排骨飯→高麗菜的／韭菜的；AA_772）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字再比（tests/l118_redo772_expect.js）。舊期望：直接和舊稿比 */
+const R772=require('./l118_redo772_expect.js');
+const doc=(sha,file)=>R772.doc(doc0(sha,file));
+const doc0=(sha,file)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+file+'"',{cwd:process.env.XC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
 const DOC537=doc('2f523e21a','AA_537_吳芯慈可攻略_很難_路線企劃.md'), DOC537b=doc('86659bbc1','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md');
 const DOC548=doc('8e0de1663','AA_548_芯慈戀愛線重寫_門檻與半夜訊息.md');   /* AA_548（芯慈新個性以後重寫：門檻、新時刻、半夜訊息八則、others 一句）取代 AA_537 第 1～3 節、AA_537b 第 9 節靠「第二名」的部分 */
 /* 全部門檻都過的存檔（大三下期末 2028-06-10，時段 6/8～6/18）*/

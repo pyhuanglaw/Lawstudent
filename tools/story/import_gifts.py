@@ -78,6 +78,12 @@ def game_items():
             out[n + suf] = {'cat': cat, 'alt': alt.group(1) if alt else None, 'base': n, 't': t or (t0.group(1) if t0 else None)}
     if len(out) < 10:
         raise SystemExit(f'{GIFT_JS}：S.ITEMS 只讀到 {len(out)} 樣')
+    # AA_772（118 巷九間店改版，L118-SHOPS-REDO-1111）把品項「紅茶拿鐵」換成「鮮奶茶」：遊戲的品項（src/gift3d.js S.ITEMS）已經是新名字，源稿 AA_710／AA_728 還是舊名字——
+    # 核對品項的時候把那一樣先叫回舊名字（組好的文字最後由 l118_fix772.layer_js 換成新名字）。放在這裡：匯入、--check、測試用的每一條路都走得到
+    import l118_fix772 as _f772
+    _d772 = _f772.load(ROOT)
+    for _n, _f, _old, _new, _note in (_f772.rows(_d772) if _d772 else []):
+        if _f == OUT and _new in out and _old not in out: out[_old] = out.pop(_new)
     return out
 
 
@@ -384,12 +390,6 @@ def main():
     sha, why = src_sha(allow, PATH, ref)
     sha2, why2 = src_sha(allow, PATH2, ref2)
     items = game_items()
-    # AA_772（118 巷九間店改版）把品項「紅茶拿鐵」換成「鮮奶茶」：遊戲的品項（src/gift3d.js S.ITEMS）已經是新名字，源稿 AA_710／AA_728 還是舊名字——
-    # 核對品項的時候把那一樣先叫回舊名字（組好的文字最後由 l118_fix772.layer_js 換成新名字）
-    import l118_fix772 as _f772
-    _d772 = _f772.load(ROOT, allow)
-    for _n, _f, _old, _new, _note in (_f772.rows(_d772) if _d772 else []):
-        if _f == OUT and _new in items and _old not in items: items[_old] = items.pop(_new)
     s2 = json.loads(git('show', f'{sha2}:{PATH2}'))
     data, only_done = build(json.loads(git('show', f'{sha}:{PATH}')), sha, items, s2.get('_meta') or {})
     data['friends'] = build_friends(s2, sha2, items)
