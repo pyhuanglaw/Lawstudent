@@ -149,6 +149,11 @@ const TK = (function(){
   function groundFloor(bin,gr,W,gh,spec,winD){ const extras=[]; const t=gr.type;
     if(t==='shop'&&gr.shop&&gr.shop.type==='cafe'){ cafeFront(bin,extras,W,gh,gr.shop); return extras; }
     if(t==='shop'||t==='arcade'){ const s=gr.shop||{}; const dep=t==='arcade'?3.0:0; const iw=W-0.6, ih=gh-0.9;
+      /* shop.shut：拉下鐵捲門的空店面（LAWWW 2026-11-11，使用者 X335 公館 G09、G10「先拉下鐵門」）——沒有玻璃、室內、招牌，只有鐵捲門和門楣 */
+      /* shop.lane：一樓打通成巷口（LAWWW 2026-11-11，使用者選「G10 改成真的巷口」）——套件只畫一個暗的開口和門楣（正式模型是穿過整棟的通道）*/
+      if(s.lane){ bin.add(col('#2a2c30'),planeG(iw,ih),0,ih/2+0.15,-dep+0.02,0,{noShadow:true}); bin.add(col('#8f9295'),boxG(W,0.25,0.25),0,ih+0.27,-dep,0,{noShadow:true}); }
+      else if(s.shut){ bin.add(M('shut',()=>std({map:shutterTex(),roughness:0.5,metalness:0.4})),planeG(iw,ih,[0,0,1,ih/1.2]),0,ih/2+0.15,-dep+0.02,0,{noShadow:true}); bin.add(col('#8f9295'),boxG(W,0.25,0.25),0,ih+0.27,-dep,0,{noShadow:true}); }
+      else {
       // 室內景深卡（後退 1.2m）＋玻璃框
       const im=glowMat('int_'+s.type,interiorTex(s.type),{nightI:1.15,dayI:0.6}); bin.add(im,planeG(iw,ih),0,ih/2+0.15,-1.2-dep,0,{noShadow:true}); bin.add(col('#d9d3c6'),boxG(iw,0.15,1.3),0,0.08,-0.6-dep,0,{noShadow:true});
       for(const sx of [-1,1]) bin.add(col('#d9d3c6'),boxG(0.05,ih,1.2),sx*iw/2,ih/2+0.15,-0.6-dep,0,{noShadow:true});
@@ -159,6 +164,7 @@ const TK = (function(){
       // 直立招牌（突出）
       if(s.vertical){ const vg=glowMat('vsign'+s.vertical,signTex(s.vertical,{vertical:true,bg:s.vBg||'#ffffff',color:s.vColor||'#b0332a',band:s.vBand||'#b0332a'}),{nightI:1.0}); bin.add(vg,boxG(0.16,2.6,0.75),W/2-0.5,gh+1.6,0.55,0,{noShadow:true}); }
       if(s.awning){ const aw=s.awning; bin.add({isPaint:true,color:new THREE.Color(aw).multiplyScalar(1.25),key:'awn',mat:M('awnN',()=>std({map:awningTex('#cccccc'),side:THREE.DoubleSide,roughness:0.85,vertexColors:true}))},planeG(W-0.4,1.3,[0,0,(W-0.4)/1.2,1]),0,gh-0.95,0.55,0,{rx:-1.15}); }
+      }
       if(t==='arcade'){ // 騎樓：上方樓板延伸到街邊，柱子（gr.pillars：柱子的區域 x；預設兩端各一根）
         bin.add(col('#cfc7b8'),boxG(W,0.35,dep),0,gh-0.17,-dep/2); for(const sx of (gr.pillars||[-W/2+0.3,W/2-0.3])) bin.add(M('pillar',()=>seeThru(std({map:tileTex('#b8aa96','#a09482','pillar')}))),boxG(0.55,gh,0.55,1),sx,gh/2,-0.3);
         // 連續騎樓的地面很薄（和人行道幾乎同高，人物的腳不會陷進去）；天花板每 2.5 m 一支日光燈，晚上亮

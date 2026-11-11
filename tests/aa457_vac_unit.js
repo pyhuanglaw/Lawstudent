@@ -37,8 +37,12 @@ const YA=[], YB=[]; let Y5=''; for(const r of rows(part('## 2.','## 3.'))){ if(/
 const FK={情人節:'vday',三月十四:'white',七夕:'qixi',她的生日:'bday',聖誕:'xmas'}, X3={}; for(const r of rows(part('## 3.','## 3-1.'))) if(FK[r[0]]) X3[FK[r[0]]]=r[1];   /* 第 3 節的表（3-1 節的表多一欄「她在哪」，另外讀）*/
 const X3_DOC=Object.assign({},X3); if(X3.xmas) X3.xmas=X3.xmas.replace('你要下來嗎？……不用勉強。','你要下來嗎？');   /* AA_667 第 3 節 3-5（企劃線 090981ebe，AA-C 11-04）：聖誕那句拿掉「……不用勉強。」（所有路線；tests/aa667_vacgap2_unit.js）——稿上原本的字留在 X3_DOC */
 const inDoc=t=>doc.indexOf(t)>=0;
-const OLD3='明天你要下來嗎？……不用勉強。';
-const TC3={vday:'明天情人節。……你要下來台中嗎？不用勉強。',qixi:'明天七夕。台中的夜市很熱鬧，你要下來嗎？……不用勉強。'};   /* 3-1 節①：情人節、七夕她在台中老家；三月十四、聖誕在台南照第 3 節；「做十六歲」、生日那句拿掉 */
+const OLD3='明天你要不要下來？我去車站接你。';   /* 2026-11-11：新稿的 homeLines（原本「明天你要下來嗎？……不用勉強。」）*/
+/* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d） 的 fest.ask）：她約你回家過節的句子整組換了字（哪個節日在台中／台南、沒寫的照 homeLines 的規則不動）——TC3、X3 的沛珊兩格、OLD3 改成新稿的句子；
+   稿上原本的字留在 TC3_DOC／X3_DOC（第 0 項照舊確認 AA_457 稿裡有那幾句） */
+const TC3_DOC={vday:'明天情人節。……你要下來台中嗎？不用勉強。',qixi:'明天七夕。台中的夜市很熱鬧，你要下來嗎？……不用勉強。'};
+const TC3={vday:'明天情人節，你要不要下來台中？我帶你逛。',qixi:'明天七夕，台中的夜市很熱鬧，你要不要下來？'};
+X3.white='明天三月十四！你下來的話，我去車站接你。'; X3.xmas='明天聖誕節，台南的街上也有燈，你要不要下來？';   /* 3-1 節①：情人節、七夕她在台中老家；三月十四、聖誕在台南照第 3 節；「做十六歲」、生日那句拿掉 */
 const ZR='heroine_02', YT='heroine_03', PS='classmate_peishan';
 const PAT=/^zr_uk(_daily_\d+|[12]_\d\d[a-c])$/;
 const ORIG10=()=>((MSG_POOL.people[ZR]||{}).replies||[]).filter(e=>e.variant==='在英國'&&e.topic==='daily'&&!e.disabled);
@@ -47,14 +51,14 @@ const ORIG10=()=>((MSG_POOL.people[ZR]||{}).replies||[]).filter(e=>e.variant==='
 /* ---- 0 ---- */
 await sec(0,()=>{
   check('0. 讀得到稿、檔都載得到（MSG、CRACKTALK、FEST）',!!doc&&!loadErr.length&&typeof MSG!=='undefined'&&typeof CRACKTALK!=='undefined'&&typeof FEST!=='undefined',J(loadErr));
-  check('0. 稿裡四張表都讀得到（1-1 六個月 12 句、1-2 十二個月 30 句、第 2 節四組＋「5 以後：從 2 再輪」、第 3 節五個節日）',Object.keys(X1).length===6&&N(X1)===12&&Object.keys(X2).length===12&&N(X2)===30&&YA.length===4&&YB.length===4&&YA[0]==='今天茶屋到五點。'&&YB[0]==='明天回淡水。我媽叫我回去吃飯。'&&/從 2 再輪.*從 2 再輪/.test(Y5)&&Object.keys(X3).length===5&&doc.indexOf(OLD3)>=0&&doc.indexOf(X3_DOC.xmas)>=0&&X3_DOC.xmas!==X3.xmas,
+  check('0. 稿裡四張表都讀得到（1-1 六個月 12 句、1-2 十二個月 30 句、第 2 節四組＋「5 以後：從 2 再輪」、第 3 節五個節日）',Object.keys(X1).length===6&&N(X1)===12&&Object.keys(X2).length===12&&N(X2)===30&&YA.length===4&&YB.length===4&&YA[0]==='今天茶屋到五點。'&&YB[0]==='明天回淡水。我媽叫我回去吃飯。'&&/從 2 再輪.*從 2 再輪/.test(Y5)&&Object.keys(X3).length===5&&doc.indexOf('明天你要下來嗎？……不用勉強。')>=0   /* 2026-11-11：稿上原本的 homeLines（OLD3 改成新稿的句子了）*/&&doc.indexOf(X3_DOC.xmas)>=0&&X3_DOC.xmas!==X3.xmas,
     J({X1:N(X1),X2:N(X2),YA,YB,Y5,X3}));
   const U=MSG.UK_WEEK||{}, eq=(a,b)=>J(Object.keys(a||{}).sort())===J(Object.keys(b).sort())&&Object.keys(b).every(m=>J((a||{})[m])===J(b[m]));
   check('0. MSG.UK_WEEK 照稿：第一次在英國 = 1-1 的表、第二次 = 1-2 的表（照月份、照表的順序，一字不差；「／」＝照片和那一句分兩則）',eq(U[1],X1)&&eq(U[2],X2),J(U));
   const Y=(CRACKTALK_LINES.SRC2||{}).yt2||{};
   check('0. 語彤 yt2.A.ask、yt2.B.ask 是四組（照第 2 節的表，第 1 組＝原句）',J((Y.A||{}).ask)===J(YA)&&J((Y.B||{}).ask)===J(YB),J([Y.A&&Y.A.ask,Y.B&&Y.B.ask]));
   const A=((FEST_DATA.PEOPLE||{})[PS]||{}).ask||{}, hb=A.homeBy||{};
-  check('0. 沛珊 ask.homeBy 照 3-1 節①：情人節、七夕＝台中那兩句，三月十四、聖誕＝台南（第 3 節）；沒有生日、沒有「做十六歲」；原本的 homeLines 留著',J(hb)===J({vday:{台中:[TC3.vday]},white:{台南:[X3.white]},qixi:{台中:[TC3.qixi]},xmas:{台南:[X3.xmas]}})&&inDoc(TC3.vday)&&inDoc(TC3.qixi)&&J(A.homeLines)===J([OLD3])&&!/做十六歲/.test(J(hb)),J(hb));
+  check('0. 沛珊 ask.homeBy 照 3-1 節①：情人節、七夕＝台中那兩句，三月十四、聖誕＝台南（第 3 節）；沒有生日、沒有「做十六歲」；原本的 homeLines 留著',J(hb)===J({vday:{台中:[TC3.vday]},white:{台南:[X3.white]},qixi:{台中:[TC3.qixi]},xmas:{台南:[X3.xmas]}})&&inDoc(TC3_DOC.vday)&&inDoc(TC3_DOC.qixi)&&J(A.homeLines)===J([OLD3])&&!/做十六歲/.test(J(hb)),J(hb));
 });
 /* ---- 1 芷若在英國：每週一則 ---- */
 const zr=(k,h)=>{ const G=fresh(k,h); SOCIAL.remember(ZR,'FIRST_MET',''); INV.addContact(G,ZR); H.CLOSE(ZR); ROM.start(G,ZR); return G; };

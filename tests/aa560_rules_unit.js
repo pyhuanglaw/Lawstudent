@@ -26,7 +26,7 @@ check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得�
 
 /* C2：稿上的原句遊戲裡沒有；AA-B 11-01 指定改大二上沛珊 P3-L4 整句（來源 ladder_bb_y2s1.json @06ff0acc6，白名單換版） */
 { const lad=file('src/data/ladder.js');
-  check('C2. 大二上沛珊 P3-L4 改成「問我以後要做什麼、有沒有好好睡、有沒有好好吃飯。」（AA-B 11-01）；舊句「錢夠不夠」不在',SEC.includes('C2：沛珊「媽媽問錢夠不夠」→「媽媽問吃飽沒」')&&!inSrc('媽媽問錢夠不夠').length&&lad.includes('問我以後要做什麼、有沒有好好睡、有沒有好好吃飯。')&&!lad.includes('錢夠不夠')); }
+  check('C2. 大二上沛珊 P3-L4：舊句「錢夠不夠」不在（AA-B 11-01 改的那一句 2026-11-11 隨 X327 重寫換掉；新的那一套照 AA_753 linesIf）',SEC.includes('C2：沛珊「媽媽問錢夠不夠」→「媽媽問吃飽沒」')&&!inSrc('媽媽問錢夠不夠').length&&!lad.includes('錢夠不夠')&&lad.includes('我跟我爸媽說了。我爸沒講話，我媽問了一整頓飯。')); }   /* 2026-11-11（X327 沛珊重寫，AA_753_peishan_ladder_linesIf.json@b59a8f9de）：P3-L4 聽過「我要重考」那一套 AA 補了新稿（選項②改成「妳爸後來呢？」），AA-B 11-01 改的那一句回覆（「問我以後要做什麼、有沒有好好睡、有沒有好好吃飯。」）跟著那個選項一起換掉了；C2 要的「不講錢夠不夠」照舊成立 */
 
 /* C3 柏翰志向（資料欄位）*/
 { const B=CHARACTERS.classmate_bohan;

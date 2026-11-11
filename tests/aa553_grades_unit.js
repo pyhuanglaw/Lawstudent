@@ -85,7 +85,7 @@ const talk=async(id,picks)=>{ H.said=[]; H.picks=[].concat(picks||[]); await GRA
   /* 5 第 3 節 */
   { const G=H.fresh('2026-02-23',20,'dorm',{PS_STUDY:'Y1S1'}); INV.addContact(G,'classmate_peishan'); const r=CALENDAR.termDays('Y1S2'); G.day=r.from; G.hour=21.2; GRADES.phone(G); PHONE.tick(G);
     const m=(G.msgs||[]).find(x=>x.th==='p:classmate_peishan');
-    check('5. 沛珊 PS_STUDY：下學期第 1 週週一 21:00「這學期，週三晚上總圖二樓。……要來嗎？」（選項「好。」記 PS_STUDY_ON）',!!m&&m.text==='這學期，週三晚上總圖二樓。……要來嗎？',J(H.msgs('p:classmate_peishan')));
+    check('5. 沛珊 PS_STUDY：下學期第 1 週週一 21:00「這學期週三晚上，總圖二樓。要來嗎？」（選項「好。」記 PS_STUDY_ON）',!!m&&m.text==='這學期週三晚上，總圖二樓。要來嗎？',J(H.msgs('p:classmate_peishan')));
     G.flags.PS_STUDY_ON='Y1S2'; let wed=r.from; while(CALENDAR.dateOf(wed).wd%7!==3) wed++; G.day=wed; G.weekday=3; G.hour=19.5; const e=GRADES.sched(CHARACTERS.classmate_peishan,G); G.hour=21.2; const e2=GRADES.sched(CHARACTERS.classmate_peishan,G);
     check('5. 那學期週三 19:00～21:00 沛珊在總圖二樓（library_hall、read）；21:00 以後照原本作息',!!e&&e.zone==='library_hall'&&e.act==='read'&&!e2,J([e,e2]));
     { G.zone='library_hall'; G.hour=19.5; H.FAMILIAR('classmate_peishan'); G.flags.GR_classmate_peishan_Y1S1=G.day-30;   /* 成績那段演過了（不然這一次先演成績）*/ const a1=await talk('classmate_peishan'); const a2=await talk('classmate_peishan'); G.zone='campus'; const a3=await talk('classmate_peishan'); G.flags.GR_PS_SAT=null;

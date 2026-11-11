@@ -89,7 +89,7 @@ const Z3 = (function(){
   /* 正式街景模型門口、騎樓裡的雜物：人貼牆走會穿過去的那幾個，模型接上以後才擋住那幾格（ART-WZ0，LAWWW2 10-21；套件備用模型沒有這些雜物，不能先擋，不然是看不見的牆）。
      [x, z, 寬, 深]＝wenzhou_street.props.json／gongguan_shops.props.json 的腳印（wz_street.py 建模時寫出來）；pad 半格（blockRect 只擋格子中心在範圍裡的）。改了 Blender 的雜物要跟著改，tests/street_props_nav_unit.js 會抓 */
   const WZ_PROP_BLOCKS=[[-1.82,5.02,0.83,0.83],[-21.9,-4.9,0.6,0.46],[22.73,-7.6,1.46,0.44],[29.5,-7.5,0.6,0.44],[-37.2,-3.02,0.8,0.64],[-37.23,-3.5,0.63,0.61],[-36.78,-8.5,0.5,0.66]];   /* A2 公寓門邊盆栽、B1 鐵捲門前紙箱、B5 茶飲騎樓回收桶、冰菓室 A 字立牌、W0 兩個盆栽、日常失速門口的 A 字立牌（WZ-OFFBEAT-1104） */
-  const GG_PROP_BLOCKS=[[15.6,19.8,0.34,0.34],[-58.0,21.65,0.34,0.34],[-58.6,21.65,0.34,0.34],[-66.23,21.65,1.46,0.44],[-17.0,21.65,0.6,0.44],[-15.2,21.7,0.6,0.46],[-22.12,21.71,0.82,0.68],[21.4,21.56,2.2,1.09],[17.0,21.7,0.6,0.46],[27.7,21.65,1.4,0.36],[25.1,21.57,0.9,0.74],[40.3,21.57,0.9,0.74],[38.9,21.7,0.6,0.46],[46.4,21.6,0.6,0.44],[43.0,21.7,0.52,0.54],[50.9,21.7,0.25,0.26],[63.7,21.6,0.6,0.44],[62.7,21.7,0.25,0.26],[60.48,21.71,0.77,0.58],[-51.3,21.5,0.64,0.48],[-38.0,21.5,0.64,0.48],[-1.75,21.45,0.64,0.48],[-35.17,21.75,0.75,0.35],[-32.74,21.75,0.83,0.4],[-32.03,21.75,0.53,0.4],[-33.63,21.8,0.89,0.7],[-4.25,21.75,0.3,0.3],[-49.63,21.69,0.7,0.83],[-48.89,21.6,0.65,0.65],[-46.96,21.65,0.65,0.65],[-38.78,21.7,0.85,0.79],[-27.8,21.66,0.53,0.5],[-9.3,21.5,0.64,0.48],[75.7,21.5,0.64,0.48],[9.55,21.88,1.4,0.35],[52.6,21.85,0.8,0.4],[-13.3,21.8,0.7,0.4],[6.06,21.65,0.58,0.56],[51.69,21.67,0.82,0.68],[69.16,21.6,0.61,0.62],[76.95,21.66,0.55,0.58]];   /* 公館騎樓 14 間店玻璃前的雜物（G06 腳踏車行的車另外擋） */
+  const GG_PROP_BLOCKS=[[15.6,19.8,0.34,0.34],[-58.0,21.65,0.34,0.34],[-58.6,21.65,0.34,0.34],[-66.23,21.65,1.46,0.44],[-51.3,21.5,0.64,0.48],[-38.0,21.5,0.64,0.48],[-1.75,21.45,0.64,0.48],[-35.17,21.75,0.75,0.35],[-32.74,21.75,0.83,0.4],[-32.03,21.75,0.53,0.4],[-33.63,21.8,0.89,0.7],[-4.25,21.75,0.3,0.3],[-49.63,21.69,0.7,0.83],[-48.89,21.6,0.65,0.65],[-46.96,21.65,0.65,0.65],[-38.78,21.7,0.85,0.79],[-27.8,21.66,0.53,0.5],[-9.3,21.5,0.64,0.48],[75.7,21.5,0.64,0.48],[9.55,21.88,1.4,0.35],[52.6,21.85,0.8,0.4],[-13.3,21.8,0.7,0.4],[6.06,21.65,0.58,0.56],[51.69,21.67,0.82,0.68],[69.16,21.6,0.61,0.62],[76.95,21.66,0.55,0.58],[47.84,21.55,0.74,0.73],[45.35,21.54,0.74,0.73]];   /* 公館騎樓 14 間店玻璃前的雜物（G06 腳踏車行的車另外擋） */
   function propBlocks(nav,list){ for(const [x,z,w,d] of list) nav.blockRect(x,z,w,d,0,0.25); }
   /* 正式模型載好才擋的雜物（盆栽、立牌…）擋好以後：玩家剛好站在擋到的地方就挪到最近站得住的地方（V7-RELOCATE-1104，BB-C 11-04 18:01：v7 舊存檔讀進公館，
      出生點照「模型還沒載好」的導航格找在 (−8.75, 20.75)；一兩秒後模型載好、頁間門口的盆栽（GG_PROP_BLOCKS (−9.3, 21.5)，01505ccd0）擋在旁邊，人站不住）。
@@ -935,8 +935,9 @@ const Z3 = (function(){
     const addCol=(x,z,w,d,y0,y1)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,y1-y0,d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x,(y0+y1)/2,z); g.add(m); E.colliders.push(m); };
     const shops=[{n:'公館燒臘',c:'#c9463d',w:10,type:'noodle',it:'noodle',sub:'叉燒・燒鴨・油雞',v:'公館燒臘'},{n:'青木茶室',c:'#2f7d5b',w:8,type:'tea',it:'tea',sub:'手搖飲・現煮珍珠'},{n:'頁間書屋',c:'#3b5a8c',w:12,type:'book',it:'books',sub:'法律書・文具・二手書',v:'頁間書屋',door:-36.4},{n:'日和便利店',c:'#3a6fb0',w:10,type:'cvs',it:'cvs',band:'#e0a030'},
       {n:'安泰藥局',c:'#f5f5f2',sc:'#1f5a3a',w:8,type:'none',it:'cvs',v:'藥局'},{n:'洋洋鹹酥雞',c:'#e0b24a',sc:'#3b2a1e',w:8,type:'none',it:'luwei',gg2:'yangyang'},{n:'慢輪單車',c:'#b5532c',w:9,type:'bike',it:'bike',sub:'修車・打氣・配件加裝',v:'單車'},{n:'afar café',c:'#8c3b47',w:9,type:'none',it:'cafe',gg2:'afar'},
-      {n:'汀州鮮果',c:'#e8a33a',sc:'#3b2a1e',w:8,type:'none',it:'fruit'},{n:'洗樂洗衣坊',c:'#8cc7e8',w:9,type:'none',it:'laundry'},{n:'印得好',c:'#3a4a5a',w:9,type:'none',it:'print',v:'影印'},{n:'泰米村食',c:'#5c3a21',sc:'#f4ead8',w:10,type:'none',it:'noodle',v:'泰式'},{n:'轉角唱片',c:'#2b2b2b',w:8,type:'none',it:'books',gg2:'corner_records'},{n:'榮恩典文具社',c:'#f2ede0',sc:'#1a1a1a',w:9,type:'none',it:'books'},{n:'Daybreak',c:'#c9463d',w:9,type:'none',it:'cafe',gg2:'daybreak'}];
+      {n:'汀州鮮果',c:'#e8a33a',sc:'#3b2a1e',w:8,type:'none',it:'fruit'},{n:'',c:'#8f9295',w:9,type:'none',it:'laundry',shut:true},{n:'',c:'#8f9295',w:9,type:'none',it:'print',lane:true},{n:'花序 Flower Notes',c:'#f4efe6',sc:'#3b2a1e',w:10,type:'none',it:'cafe'},{n:'轉角唱片',c:'#2b2b2b',w:8,type:'none',it:'books',gg2:'corner_records'},{n:'榮恩典文具社',c:'#f2ede0',sc:'#1a1a1a',w:9,type:'none',it:'books'},{n:'Daybreak',c:'#c9463d',w:9,type:'none',it:'cafe',gg2:'daybreak'}];
     /* GG-SHOPS3-SYS-1110（使用者 11-10 18:5x 正式規格 X320，docs/handoff/user_specs/GG_SHOPS3_1110.md）：G04 安泰藥局、G08 汀州鮮果、G09 洗樂洗衣坊、G10 印得好、G11 泰米村食（泰式，取代日日定食；it 改 noodle、不用日式布簾）、G13 榮恩典文具社；
+       2026-11-11：洗樂、印得好、泰米村食搬到汀州路（X321）以後——G09、G10 使用者選「先拉下鐵門」（X335；shut:true＝套件畫鐵捲門、沒有招牌，之後放什麼店使用者決定）；G10 使用者 11-11 選「改成真的巷口」（lane:true＝一樓是通往汀州路的巷口，不放店）、G11 是花序 Flower Notes（X325）；
        這裡是套件（備用）招牌的字和顏色（照使用者第三節的燈箱顏色），正式招牌在 LAWWW2 的 gongguan_shops GLB；棟號、座標、寬度不動 */
     const FZ=19, GH=4.2, ARC=3.0, SHOPD=16, WALLC=['#d9cbb0','#cfc5b2','#e3ddd0','#c8bca8','#d6c3a5','#e6dfd0','#bfb2a0'], WALLT=['tile','mosaic','tile','plaster'];
     /* 店面街 15 棟＋巷口轉角（userData.ggShop＝棟號 G00–G15）：有 Blender 正式模型（bldg.gongguan_shops，第二個 AI：tools/blender/env_second/wz_street.py --set gongguan）時不參加整區靜態合併，
@@ -944,8 +945,8 @@ const Z3 = (function(){
     const ggGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.gongguan_shops']; const ggTag=(b,id)=>{ b.userData.ggShop=id; if(ggGLB) b.userData.dyn=true; };
     let x=-68; shops.forEach((s,i)=>{ const last=i===shops.length-1; const X0=x, X1=x+s.w+(i<8&&!last?1.2:0), W=X1-X0, cx=(X0+X1)/2;
       // 柱子（TK 區域座標；建築轉 180°，區域 +x＝世界西側）：西邊分界一根；沒有互動的寬店面中間再一根（有互動的店門口前面不放柱子）；最後一間另加東邊盡頭
-      const pl=[W/2]; const nb=(s.type==='none'&&![5,7,12,14].includes(i))?Math.max(1,Math.round(W/5)):1;   /* 第二批四間（AA_650：洋洋、Afar、轉角、Daybreak）變成進得去的店：店門前不放中間那根柱子（和 wz_street.py 的 gongguan_shops 一樣）*/ for(let k=1;k<nb;k++) pl.push(W/2-k*W/nb); if(last) pl.push(-W/2);
-      const b=TK.apartment({w:W,d:SHOPD,floors:4+((i*5)%4),fh:3.1,groundH:GH,wall:WALLT[i%4],color:WALLC[i%7],balcony:i%3===1,tank:i%2===0,roofAdd:i%5===3,ground:{type:'arcade',through:true,pillars:pl,shop:{type:s.it,name:s.n,sub:s.sub,signBg:s.c,signColor:s.sc||'#ffffff',band:s.band,vertical:s.v,vBg:'#ffffff',vColor:s.c,vBand:s.c}}});
+      const pl=[W/2]; const nb=(s.type==='none'&&![4,5,7,8,10,11,12,13,14].includes(i))?Math.max(1,Math.round(W/5)):1;   /* 第二批四間（AA_650：洋洋、Afar、轉角、Daybreak）變成進得去的店：店門前不放中間那根柱子（和 wz_street.py 的 gongguan_shops 一樣）*/ for(let k=1;k<nb;k++) pl.push(W/2-k*W/nb); if(last) pl.push(-W/2);
+      const b=TK.apartment({w:W,d:SHOPD,floors:4+((i*5)%4),fh:3.1,groundH:GH,wall:WALLT[i%4],color:WALLC[i%7],balcony:i%3===1,tank:i%2===0,roofAdd:i%5===3,ground:{type:'arcade',through:true,pillars:pl,shop:{shut:s.shut,lane:s.lane,type:s.it,name:s.n,sub:s.sub,signBg:s.c,signColor:s.sc||'#ffffff',band:s.band,vertical:s.v,vBg:'#ffffff',vColor:s.c,vBand:s.c}}});
       b.position.set(cx,0,FZ); b.rotation.y=Math.PI; g.add(b); buildings.push(b); ggTag(b,'G'+String(i).padStart(2,'0'));
       for(const lx of pl) nav.blockRect(cx-lx,FZ+0.3,0.55,0.55,0,0.1);
       // 鏡頭碰撞：店面玻璃後面的本體＋騎樓上方的樓層（在騎樓裡鏡頭不會被拉到臉前面，也不會穿到樓上）
@@ -1066,15 +1067,8 @@ const Z3 = (function(){
     for(let i=0;i<9;i++){ const l=W3.lampPost(); place(g,l,-63+i*18,-31.4,0); lamps.push(l); nav.blockCircle(-63+i*18,-31.4,0.5); /* 北側路燈原本在 z=-24（馬路的車道上），移到人行道邊 */ const l2=W3.lampPost(); place(g,l2,-63+i*18,5,Math.PI); lamps.push(l2); nav.blockCircle(-63+i*18,5,0.5); }
     for(let i=0;i<6;i++){ const t=TREE(0.9); place(g,t,-65+i*26,-36,0); nav.blockCircle(-65+i*26,-36,0.7); }
     nav.blockRect(-30,15.1,7.2,1.0,0); for(const fx of [-34.2,-25.8,-25.0]) nav.blockCircle(fx,15.1,0.25);   /* 捷運出口東邊的 GONGGUAN 花台、三朵藍色小花（bldg.gongguan_far；夾在路人 z 16.5、(−40,14.5)→(0,10) 兩條路線中間） */
-    /* 捷運站口的花攤「晨露花舖」（GG-FLOWER-STALL-1110，LAWWW2 帳號 A；GIFT-HOLIDAY-1110 AA_732 的 gg_flower「公館站口花攤」：花束、向日葵，09:00～21:00）：
-       正式模型 gg_flower_stall.glb（tools/blender/env_second/gg_flower_stall.py；公館區域座標、放在原點），位置、阻擋、互動點照 gg_flower_stall.json——
-       捷運出口西邊的人行道 (−47, 11.6)，正面朝騎樓；東邊離捷運出口的阻擋 2.6 m、路人 (−60,10)→(−48,14.5) 在攤子前 2 m。
-       互動點 kind＝gg_flower（買花：GIFTH.shopOpt(G,'gg_flower')／GIFTH.pick 由 LAWWW 接；沒接之前是「看」）。雨棚下的燈泡 ggf_lit_bulb 晚上亮 */
-    { const FL={cx:-47,cz:11.725,w:2.9,d:2.05,ix:-47.2,iz:13.45}; nav.blockRect(FL.cx,FL.cz,FL.w,FL.d,0);
-      E.interactables.push({x:FL.ix,z:FL.iz,radius:1.3,label:'看看花攤',kind:'gg_flower',look:'晨露花舖：捷運站口的小花攤。鋅桶裡插著玫瑰、向日葵、滿天星，老闆在旁邊的工作台用牛皮紙包花束。'});
-      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gg_flower_stall']) ASSETS.loadOne('bldg.gg_flower_stall').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name='gg_flower_stall_glb';
-        r.traverse(o=>{ if(!o.isMesh) return; o.receiveShadow=true; const mn=(o.material&&o.material.name)||''; o.castShadow=!/^ggf_(lit_|cellophane)|leaf|fern|broad/.test(mn); if(/^ggf_lit_/.test(mn)&&!o.material.userData.nightReg){ o.material.userData.nightReg=true; if(TK.addNight) TK.addNight(o.material,1.6,0); } });
-        g.add(r); }).catch(e=>console.warn('公館花攤正式模型載入失敗（攤子沒有畫面，阻擋與互動照舊）',e)); }
+    /* 捷運站口的花攤「晨露花舖」（GG-FLOWER-STALL-1110）拿掉了：使用者 2026-11-10（X325）升級成 G11 的雙層花藝店「花序 Flower Notes」（區域 flower_notes，src/flower_notes3d.js），舊花攤完全取代——
+       阻擋、互動點、模型載入一起拿掉；買花的互動點 kind gg_flower 搬到花序一樓的收銀櫃檯前。 */
     // 集合點：公館圓環意象（小廣場）
     { const c=new THREE.Mesh(new THREE.CylinderGeometry(3,3,0.3,24),M('#d9cbb0')); c.position.set(22,0.15,11.5); g.add(c); nav.blockCircle(22,11.5,3.2); const tree=TREE(1.2); place(g,tree,22,11.5,0); }
     /* 公館往溫州街的巷口拿掉（WZ-ENTRY-XINSHENG-1103；使用者 X199，11-03 選擇題：「溫州街主要入口應該是新生南路側門 溫州街就在新生南路後面」、公館那頭的巷口「拿掉」）：
@@ -1405,7 +1399,8 @@ const Z3 = (function(){
     const grps=new Map(), pick={}, cols=new Set();
     list.forEach(s=>{ s.o.updateMatrixWorld(true); const p=new THREE.Vector3().setFromMatrixPosition(s.o.matrixWorld); const gk=s.grp||(Math.floor((p.x+100)/20)+(p.z<0?'n':'s'));
       let r=hash(p.x,p.z,1)*W, v=V[V.length-1]; for(const c of V){ if((r-=c.w)<=0){ v=c; break; } }
-      const col=v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:s.color; pick[v.code]=(pick[v.code]||0)+1; cols.add(col);
+      if(s.code){ const f=V.find(c=>c.code===s.code); if(f) v=f; }   /* 汀州路第 3 版（BB_255）：區域自己照擺放規則指定款式（code）和顏色（pcol）；沒指定的照舊照位置挑 */
+      const col=s.pcol||(v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:s.color); pick[v.code]=(pick[v.code]||0)+1; cols.add(col);
       if(!grps.has(gk)) grps.set(gk,[]); grps.get(gk).push({p,v,col,M4:new THREE.Matrix4().multiplyMatrices(s.o.matrixWorld,fix)}); });
     for(const [gk,L] of grps){ const c=new THREE.Vector3(); L.forEach(e=>c.add(e.p)); c.divideScalar(L.length);
       const near=new THREE.Mesh(scMerge(L.map(e=>({node:e.v.node,M4:e.M4,color:e.col})),c),scooterMat()), far=new THREE.Mesh(scMerge(L.map(e=>({node:e.v.lod,M4:e.M4,color:e.col})),c),scooterMat());
@@ -1621,8 +1616,15 @@ const Z3 = (function(){
     root.traverse(o=>{ if(o.userData&&o.userData.glow) glows.push(o); if(!o.isMesh) return; const ud=o.userData||{}, mt=o.material, nm=mt&&mt.name; const glassy=!!(mt&&mt.transparent); o.castShadow=!glassy&&wzCastsShadow(o); o.receiveShadow=!glassy;
       if(/^PLATE_FACE_/.test(o.name)){ o.geometry.computeBoundingBox(); box.copy(o.geometry.boundingBox).getSize(sz); cafeFacePaint(o,wzPlateTex(ud,Math.max(sz.x,sz.z),sz.y),null); o.castShadow=false; plateFaces.push(o); return; }
       if(/^(V?SIGN|INTERIOR)_FACE_/.test(o.name)){ o.geometry.computeBoundingBox(); box.copy(o.geometry.boundingBox).getSize(sz); const wM=Math.max(sz.x,sz.z), hM=sz.y; o.castShadow=false;
-        if(o.name.indexOf('SIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,false),0.9,0); signFaces.push(o); return; }
-        if(o.name.indexOf('VSIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,true),1.0,0); signFaces.push(o); return; }
+        /* 118 巷（tag 'l118'）招牌上的字照店家資料（L118-SHOPS-REDO-1111，使用者 2026-11-11 九間店換店名）：街景模型 lane118_street.glb 的板面帶的是匯出當時的店名（自訂屬性 sign／sub），
+           LAWWW2 的新外觀延後，這裡先把字換成 src/data/lane118_shops.js 的店名、類型。哪一塊板面是哪一間店：板面上的字等於那間店室內配置（src/data/l118_shop_layouts.js，LAWWW2 匯出）記的店名才換
+           （直式招牌：板面的字是那個店名的開頭幾個字）；底色、色帶照模型原本的。直式：新店名五個字以內整個寫，更長的寫前四個字。模型重新匯出、配置重產以後兩邊一樣，這裡就等於沒換 */
+        const ud118=(tag==='l118'&&typeof ud.sign==='string'&&ud.sign&&typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)&&typeof L118_SHOP_LAYOUTS!=='undefined')?(()=>{ const v=o.name.indexOf('VSIGN_FACE_')===0;
+          for(const id of Object.keys(L118_SHOP_LAYOUTS)){ const old=L118_SHOP_LAYOUTS[id].name, sh=LANE118_SHOPS.shops.find(q=>q.id===id); if(!old||!sh||old===sh.name) continue;
+            if(v?(ud.sign.length>=2&&old.indexOf(ud.sign)===0):ud.sign===old) return Object.assign({},ud,{sign:v?(sh.name.length<=5?sh.name:sh.name.slice(0,4)):sh.name},v||ud.sub==null||ud.sub===''?{}:{sub:sh.type}); }
+          return ud; })():ud;
+        if(o.name.indexOf('SIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud118,wM,hM,false),0.9,0); signFaces.push(o); return; }
+        if(o.name.indexOf('VSIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud118,wM,hM,true),1.0,0); signFaces.push(o); return; }
         const r=Math.max(1,Math.round(wM/hM/2)), t=TK.interiorTex(ud.interior||'cafe').clone(); t.flipY=false; t.wrapS=THREE.RepeatWrapping; t.needsUpdate=true;
         if(!(r>1&&wzSplitQuadU(o,r))) t.repeat.set(r,1);   /* 店內景深卡（LAWWW2-C 2026-10-21）：要合成 atlas，atlas 裡不能重複貼圖 → 重複幾次就把板面切成幾塊，每一塊貼一整張 */
         cafeFacePaint(o,t,null); intFaces.push(o); return; }
@@ -2812,14 +2814,14 @@ const Z3 = (function(){
     for(const side of ['W','E']){ const fx=side==='W'?fw:fe, sx=side==='W'?-1:1; const cuts=gaps(side).map(a=>[a.z0,a.z1]).sort((a,b)=>a[0]-b[0]); let cur=z0; const segs=[]; for(const [a,b] of cuts){ if(a>cur) segs.push([cur,a]); cur=b; } if(z1>cur) segs.push([cur,z1]);
       for(const [a,b] of segs){ const w=b-a, cx=fx+sx*6; const m=new THREE.Mesh(new THREE.BoxGeometry(12,13,w),M(side==='W'?'#cfc5b2':'#d6c3a5')); m.position.set(cx,6.5,(a+b)/2); m.userData.l118=true; m.userData.dyn=true; g.add(m); fb.push(m); addCollider(cx,(a+b)/2,12,w,14); } }
     // 店門口（點餐）：店的中間、人行道上
-    for(const sh of ((L&&L.shops)||[])){ const x=sh.side==='W'?fw+0.9:fe-0.9, z=(sh.z0+sh.z1)/2; const nm=(typeof LANE118_SHOPS!=='undefined'&&(LANE118_SHOPS.shops.find(q=>q.id===sh.id)||{}).name)||sh.name;
+    for(const sh of ((L&&L.shops)||[])){ const x=sh.side==='W'?fw+0.9:fe-0.9, z=(sh.z0+sh.z1)/2; const SD=(typeof LANE118_SHOPS!=='undefined'&&LANE118_SHOPS.shops.find(q=>q.id===sh.id))||null, nm=(SD&&SD.name)||sh.name, ty=(SD&&SD.type)||sh.type;   /* 店名、類型照店家資料（L118-SHOPS-REDO-1111：原本類型讀配置）；配置有、資料沒有的店照配置 */
       /* 店走得進去（LANE118-SHOPS-1020，X66；使用者 2026-10-20「店裡可以進去 店員也在裡面」）：有室內配置的店，營業時間按鈕是「進○○」（區域 l118_<id>，src/l118_shops3d.js）；
          沒開的時候照舊是店門口那個按鈕（L118.order 說鐵門拉下來一半） */
       const open118=()=>{ try{ return typeof L118!=='undefined'&&typeof GAME!=='undefined'&&GAME.G?L118.isOpen(sh.id,GAME.G):true; }catch(e){ return true; } };
       if(typeof L118_SHOP_LAYOUTS!=='undefined'&&L118_SHOP_LAYOUTS[sh.id]){ const LL=L118_SHOP_LAYOUTS[sh.id];
-        E.interactables.push({x,z,radius:1.4,prio:1,label:'進'+nm+'（'+sh.type+'）',exit:{to:'l118_'+sh.id,spawn:{x:LL.spawn.x,z:LL.spawn.z,yaw:LL.spawn.yaw}},get hidden(){ return !open118(); }});
-        E.interactables.push({x,z,radius:1.4,prio:1,label:nm+'（'+sh.type+'）',shop118:sh.id,get hidden(){ return open118(); }}); }   /* prio：在門口等的常客不擋店門（BB-C 10-20：好家自助餐門口江明軒站著，按鈕變「和江明軒說話」進不去）；要跟他說話就進店（L118.populateShop 讓他跟進來）*/
-      else E.interactables.push({x,z,radius:1.4,label:nm+'（'+sh.type+'）',shop118:sh.id}); }
+        E.interactables.push({x,z,radius:1.4,prio:1,label:'進'+nm+'（'+ty+'）',exit:{to:'l118_'+sh.id,spawn:{x:LL.spawn.x,z:LL.spawn.z,yaw:LL.spawn.yaw}},get hidden(){ return !open118(); }});
+        E.interactables.push({x,z,radius:1.4,prio:1,label:nm+'（'+ty+'）',shop118:sh.id,get hidden(){ return open118(); }}); }   /* prio：在門口等的常客不擋店門（BB-C 10-20：好家自助餐門口江明軒站著，按鈕變「和江明軒說話」進不去）；要跟他說話就進店（L118.populateShop 讓他跟進來）*/
+      else E.interactables.push({x,z,radius:1.4,label:nm+'（'+ty+'）',shop118:sh.id}); }   /* 沒有室內配置的店（外帶飲料店 drink_a／drink_b）：店門口點餐 */
     E.interactables.push({x:0,z:gz-0.6,radius:2.2,label:(L&&L.backGate.label)||'回到首都帝大（後門）',exit:{to:'campus',spawn:{x:34,z:-125.6,yaw:0}}});   /* 回到霖澤館後面的小廣場（校園那一側的出口在同一個地方）*/
     // 路燈與店家燈光（晚上）
     const pools=[]; for(const z of [-30,-10,10,28]){ const lp=W3.lampPost(); place(g,lp,fe-0.35,z,-Math.PI/2); nav.blockCircle(fe-0.35,z,0.5); const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(fe-1.1,0.03,z); g.add(pool); pools.push(pool); }
@@ -2951,5 +2953,5 @@ const Z3 = (function(){
         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
-  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();

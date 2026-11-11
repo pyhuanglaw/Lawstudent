@@ -24,11 +24,13 @@ const STUDYN=(function(){
   S.ALT={
     ytMomKnows:G=>{ const F=G.flags||{}; return !!(F.YT_MOM_HERE||F.YT_MOM_TOLD||F.YT_MOM_BACK); },   /* AA_624 事件 10'（src/ytjob3d.js：媽媽在茶屋出現／蘇姨轉述／她回來上班）*/
     notCafe:G=>G.zone!=='cafe',   /* AA_708 芷若咖啡第 2 場：不在 2:30 AM（在 2:30 AM 而她沒班時她是客人）*/
+    datingOrReady:(G,id)=>{ if(!id) return false; if(G.flags&&G.flags['dating_'+id]) return true; try{ return !!(typeof DATE!=='undefined'&&DATE.canConfess&&DATE.canConfess(G,id).ok); }catch(e){ return false; } },   /* AA_708 d30416e6b（BB_342 定）：芷若、語彤、可昕電影第 3 場她主動靠肩、手不移開——那個人交往中，或她的告白條件已經到了（DATE.canConfess）才演；沒到演不碰的版本 */
+    anShopPage:G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&!!SOCIAL.has('heroine_01','AN_SHOP_PAGE'),   /* AA_707 1b8e247ec（BB 定）：以安一起念書第 6 場——期末飯（或七夕、日本的手帳）已經看過「想去的店」那一頁（記憶 AN_SHOP_PAGE，termend3d.js sheMem／AA_589 第 10 節）＝演 alt（有自己的兩個選項）；沒看過＝她手壓著下半頁 */
     sisGrad:G=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.dateOf) return false; const d=CALENDAR.dateOf(G.day); return !!d&&(d.y>2026||(d.y===2026&&d.m>=8)); },   /* 學姊上了法研所（2026-08 起）*/
   };
   const stage=id=>typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):1;
   const flagOn=(G,f)=>!f||!!(G.flags&&G.flags[f]!=null&&G.flags[f]!==false);
-  S.resolve=function(G,sc,o){ const A=sc.alt, on=!!(A&&S.ALT[A.cond]&&S.ALT[A.cond](G)); const out=Object.assign({},sc,o); delete out.alt; delete out.day;
+  S.resolve=function(G,sc,o){ const A=sc.alt, on=!!(A&&S.ALT[A.cond]&&S.ALT[A.cond](G,o&&o.who));   /* o.who＝一起活動的那個人（datingOrReady 要看是誰）*/ const out=Object.assign({},sc,o); delete out.alt; delete out.day;
     if(on) for(const k of ['seat','mid','pack','bye','opts']) if(A[k]) out[k]=A[k];
     if(sc.day&&S.dayTime(G)) for(const k of ['seat','mid','pack','bye']) if(sc.day[k]) out[k]=sc.day[k];   /* day：那一場 18:00 以前開始＝這幾格換句（AA_708 e0e92919e，KX-MOVIE-BYE-1107：可昕講末班車的那幾句只在晚上）*/
     return out; };
@@ -36,10 +38,13 @@ const STUDYN=(function(){
   S.text=(G,t)=>String(t).replace(/\{name\}/g,(G&&G.name)||'祐廷');
   /* 播一段：（…）＝旁白；其他＝她說 */
   S.play=async function(GM,who,lines){ for(const t of lines||[]){ const s=S.text(GM.G,t); if(/^（/.test(s)) await GM.say(null,s); else await GM.say(who,s); } };
-  /* 中途那件事＋選項（有的話）*/
-  S.mid=async function(GM,who,id,sc){ if(!sc) return false; await S.play(GM,who,sc.mid);
-    if(sc.opts&&sc.opts.length&&GM.choose){ const k=await GM.choose(sc.opts.map(o=>({t:S.text(GM.G,o.t)}))); const o=sc.opts[k]||sc.opts[0];
-      if(o){ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(id,o.rel); await S.play(GM,who,o.reply); } }
+  /* 中途那件事＋選項（有的話）。選項 {t, rel?, fx?, reply|re}：re＝reply 的另一個寫法（一句字串或陣列）；輪換（rot）那幾則也可以有 opts */
+  S.replyOf=o=>(Array.isArray(o.reply)?o.reply:(o.re==null?[]:[].concat(o.re))).filter(t=>typeof t==='string'&&t.trim());
+  S.mid=async function(GM,who,id,sc,cap){ if(!sc) return false;   /* cap＝這一次活動 love 上限的鍵（約好的那一次由 invites3d.js 給；沒給＝act:<天>:<活動>；FX-LOVE-CAP-1110）*/ await S.play(GM,who,sc.mid);
+    const OP=Array.isArray(sc.opts)?sc.opts.filter(o=>o&&typeof o.t==='string'&&o.t.trim()):[];
+    if(OP.length&&GM.choose){ const k=await GM.choose(OP.map(o=>({t:S.text(GM.G,o.t)}))); const o=OP[k]||OP[0];
+      if(o){ if(typeof SOCIAL!=='undefined'){ if(SOCIAL.adjust&&o.rel) SOCIAL.adjust(id,o.rel); if(SOCIAL.applyFx) SOCIAL.applyFx(GM.G,id,o.fx,cap||{cap:'act:'+GM.G.day+':'+(sc.kind||'act')}); }   /* fx＝{fr, love}（DLG-FX-MECH-1110；原本的 rel 照舊）*/
+        await S.play(GM,who,S.replyOf(o)); } }
     return true; };
   /* 每種活動一份：of（記錄）、pick（這一次演什麼：{k,…} 或 {rot,…}；{generic:true}＝照一般句；null＝今天已經算過／沒有稿）、done（次數 +1、下一場、旗標；念書第 6 場＝正式約會一次）*/
   function mk(kind){ const K={kind}, Dk=()=>DK(kind);
@@ -48,7 +53,7 @@ const STUDYN=(function(){
     K.count=(G,id)=>K.of(G,id).n;
     K.size=id=>{ const T=Dk()[id]; return T&&T.scenes?Object.keys(T.scenes).length:0; };
     K.pick=function(G,id){ const T=Dk()[id]; if(!T||!G) return null; const r=K.of(G,id); if(r.last===G.day) return null; const N=K.size(id);
-      if(r.k<=N){ const sc=T.scenes&&T.scenes[String(r.k)]; if(!sc||stage(id)<(sc.need|0)) return {generic:true}; return S.resolve(G,sc,{k:r.k,kind}); }
+      if(r.k<=N){ const sc=T.scenes&&T.scenes[String(r.k)]; if(!sc||stage(id)<(sc.need|0)) return {generic:true}; { const out=S.resolve(G,sc,{k:r.k,kind,who:id}); delete out.who; return out; } }
       const L=(T.rot||[]).map((x,i)=>[x,i]).filter(([x])=>flagOn(G,x.if)); if(!L.length) return {generic:true};
       const nx=L.find(([,i])=>i>r.rot)||L[0]; return Object.assign({rot:nx[1],kind},nx[0]); };
     K.done=function(G,id,sc){ if(!G||!K.has(id)) return null; const r=K.of(G,id); if(r.last===G.day) return null; r.n+=1; r.last=G.day; const F=G.flags||(G.flags={});
