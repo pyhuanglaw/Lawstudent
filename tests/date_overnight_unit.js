@@ -86,7 +86,16 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
       const CS=require('./date_src_sha.js'), ZRN={own:'我出門的時候，我媽叫我問你吃不吃蛋餅。她已經在煎了。',c27:'要回去了，我衣服上都是檜木的味道。'};
       let rz=''; try{ rz=cp.execSync('git show '+CS.ZR_COMMON_SHA+':docs/story_planning/AA_773_zr_date_common.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']})+'\n'+cp.execSync('git show '+CS.ALLOW_SHA+':docs/story_planning/date_system/lines/D27.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
       check('0. 芷若住自己家早上那一句、D27 離開句（X324 重寫）：新句在企劃線的 AA_773（S.MORNING_OWN.heroine_02 那一列）和 D27.json 裡'+(rz?'':'（這份 checkout 讀不到，略過）'),!rz||Object.values(ZRN).every(t=>rz.includes(t)),J(Object.values(ZRN).filter(t=>!rz.includes(t))));
-      SP.own.heroine_02=ZRN.own; for(const f of SP.fix53) if(f.who==='heroine_02'&&f.loc==='D27') f.neu=ZRN.c27; } }
+      SP.own.heroine_02=ZRN.own; for(const f of SP.fix53) if(f.who==='heroine_02'&&f.loc==='D27') f.neu=ZRN.c27;
+      /* 2026-11-11（X324 子晴約會台詞重寫，AA 02078efc0）：子晴早上那一句照 AA_775_zq_date_common.json 的 S.MORNING.heroine_04 那一列（原本 AA_359「昨天我又弄到兩點。……今天你負責叫我。」）；
+         5-2 的 D28 第一句、D31 子晴到達句、5-3 條列的 D32 子晴一般到達句，新稿那三格重寫了（AA_359 那三列不再疊；5-2 的 D28 第二句「筆電我帶了。我知道，我不會打開。」源稿寫回了 AA_359 的字，照舊）——
+         舊期望＝AA_359 的「改成」：D28「我六點半起床的。這個月最早的一次。」（和「子晴的約下午三點以後到」打架，AA 換掉）、D31「我七點就起床了。你要稱讚我。」、D32「車上我睡了一路。山路好彎。」。SHA 讀 tests/date_src_sha.js */
+      const ZQN={morning:'昨天我又弄到兩點。你先去吃早餐，幫我留一個甜的。',a28:'蝦捲的店我查好了，三家，照距離排。',a31:'湖比我想的綠，我以為是藍的。',a32:'山路好彎，我數到第三十個彎就放棄了。'};
+      let rq=''; try{ rq=cp.execSync('git show '+CS.ZQ_COMMON_SHA+':docs/story_planning/AA_775_zq_date_common.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']})+'\n'+['D28','D31','D32'].map(k=>cp.execSync('git show '+CS.ALLOW_SHA+':docs/story_planning/date_system/lines/'+k+'.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']})).join('\n'); }catch(e){}
+      check('0. 子晴早上那一句、D28／D31／D32 到達句（X324 重寫）：新句在企劃線的 AA_775（S.MORNING.heroine_04 那一列）和 D28／D31／D32.json 裡'+(rq?'':'（這份 checkout 讀不到，略過）'),!rq||Object.values(ZQN).every(t=>rq.includes(t)),J(Object.values(ZQN).filter(t=>!rq.includes(t))));
+      SP.morning.heroine_04=ZQN.morning;
+      for(const f of SP.fix52) if(f.who==='heroine_04'&&f.loc==='D28'&&/六點半起床/.test(f.neu)) f.neu=ZQN.a28; else if(f.who==='heroine_04'&&f.loc==='D31') f.neu=ZQN.a31;
+      if(SP.var53.zq) SP.var53.zq.neu=ZQN.a32; } }
   check('0. 讀得到稿 AA_359@'+SPEC_SHA+'：晚上四種、早上旁白、七位一句、住自己家／租的地方三句',!!spec&&Object.keys(SP.night).length===4&&!!SP.narr&&Object.keys(SP.morning).length===7&&Object.keys(SP.own).length===3,J(SP));
   check('0. 晚上那一句（第 2 節）四種逐字：兩間房／民宿／她回家／她回租的地方',!!D().NIGHT&&['single','dating','home','rent'].every(k=>D().NIGHT[k]===SP.night[k]),J([D().NIGHT,SP.night]));
   check('0. 第二天早上的旁白一律「'+SP.narr+'」',!!SP.narr&&D().MORNING_NARR===SP.narr,D().MORNING_NARR);
@@ -282,7 +291,7 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
     // 5-3（fb5156ab）：離開那一句在第二天白天說（七句改字、子晴一句）；兩個到達句另一版（DATE.ARRIVE_VAR）
     const texts=(x,o)=>{ if(Array.isArray(x)) x.forEach(v=>texts(v,o)); else if(x&&typeof x==='object'){ if(typeof x.text==='string') o.push(x.text); for(const k in x) if(k!=='text') texts(x[k],o); } return o; };
     const bad=[]; for(const f of SP.fix53.concat(SP.var53.zq?[{loc:'D32',who:'heroine_04',old:SP.var53.zq.old,neu:SP.var53.zq.neu}]:[])){ const T=texts((((DATE_LINES.loc[f.loc]||{}).lines||{})[f.who]),[]), S694=require('./ellipsis694.js').strip;   /* AA_694：稿上的句子照同一條規則拿掉「……」再比 */ if(T.includes(f.old)||T.includes(S694(f.old))) bad.push(f.loc+' '+f.who+' 還有舊句：'+f.old); if(!T.includes(S694(f.neu))) bad.push(f.loc+' '+f.who+' 沒有新句：'+S694(f.neu)); }
-    check('14. 5-3：離開句七句＋子晴「車上我睡了一路。山路好彎。」都換了（舊句不見了）',SP.fix53.length===7&&!!SP.var53.zq&&!bad.length,bad.join('；')||J(SP.fix53.length));
+    check('14. 5-3：離開句七句＋子晴 D32 到達句（2026-11-11 起照新稿「山路好彎，我數到第三十個彎就放棄了。」；原本 AA_359「車上我睡了一路。山路好彎。」）都換了（舊句不見了）',SP.fix53.length===7&&!!SP.var53.zq&&!bad.length,bad.join('；')||J(SP.fix53.length));
     const V=D().ARRIVE_VAR||[], vps=V.find(v=>v.loc==='D28'&&v.who==='classmate_peishan'), vkx=V.find(v=>v.loc==='D32'&&v.who==='kexin');
     check('14. 5-3：兩個到達句另一版逐字照稿（沛珊住臺南的 D28、D31＋D32 同一趟可昕到清境）',!!vps&&J(vps.to)===J(SP.var53.ps)&&J(vps.from)===J(SP.var53.psOld)&&!!vkx&&vkx.to[0]===SP.var53.kx&&vkx.from[0]===SP.var53.kxOld,J({vps,vkx,sp:SP.var53}));
     const L28=(((DATE_LINES.loc.D28||{}).lines||{}).classmate_peishan||{}).arrive.first, t28={who:'classmate_peishan',locs:['D28'],day:STORY.dayOfKey('2027-10-16')};
