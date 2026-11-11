@@ -1,0 +1,135 @@
+{
+ "_meta": {
+  "doc": "AA_789 主線、日常事件（events.js）芷若的台詞覆蓋列（X324 E 區）",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "同 AA_786；old＝開發分支 09:2x 的字。",
+  "rule": "芷若在事件裡 185 句、刪節號 76。拿掉的是笑著講、轉話題、邀約第二三次那種習慣性的（14 句）；留：害羞承認（「……不要笑」「……我也是」「……可是你說得對」「好。……我今天其實八點就到了」）、被說中（「……你記得」「……你怎麼知道」）、「拿鐵。……我已經在做了」的笑點、跨年視訊隔著時差的停頓。STORY_EVENTS_V11 的副本沒動。",
+  "counts": {
+   "句": 185,
+   "刪節號前": 76,
+   "後": 62,
+   "列": 14
+  }
+ },
+ "files": [
+  {
+   "who": "heroine_02",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[13].dialogue[19].text",
+     "event": "ev_cafe_barista_zhiruo",
+     "expr": "smile",
+     "old": "好，你贏了。林芷若，外文系的。……你們法律系，有人看老片嗎？陪審團吵一整晚的那種。",
+     "new": "好，你贏了。林芷若，外文系的。你們法律系，有人看老片嗎？陪審團吵一整晚的那種。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[13].dialogue[20].text",
+     "event": "ev_cafe_barista_zhiruo",
+     "expr": "smile",
+     "old": "好，你贏了。……你們法律系，有人看老片嗎？陪審團吵一整晚的那種。",
+     "new": "好，你贏了。你們法律系，有人看老片嗎？陪審團吵一整晚的那種。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[13].dialogue[57].text",
+     "event": "ev_cafe_barista_zhiruo",
+     "expr": "smile",
+     "old": "……算了，謝謝。我喝。",
+     "new": "算了，謝謝。我喝。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[349].dialogue[8].text",
+     "event": "ev_zhiruo_ge_group",
+     "expr": "smile",
+     "old": "……好，這個可以拍成短片。我剪片。你負責講。",
+     "new": "好，這個可以拍成短片。我剪片。你負責講。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[350].dialogue[4].text",
+     "event": "ev_zhiruo_film_night",
+     "expr": "smile",
+     "old": "……一起去吧。很早喔。",
+     "new": "一起去吧。很早喔。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[350].dialogue[14].text",
+     "event": "ev_zhiruo_film_night",
+     "expr": "laugh",
+     "old": "……好啦，那部電影沒有結局可以劇透。你這樣算答應了嗎？",
+     "new": "好啦，那部電影沒有結局可以劇透。你這樣算答應了嗎？",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[351].dialogue[3].text",
+     "event": "ev_zhiruo_early_show",
+     "expr": "smile",
+     "old": "（把兩張票舉到臉旁邊）早。……票我先買了。",
+     "new": "（把兩張票舉到臉旁邊）早。票我先買了。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[351].dialogue[5].text",
+     "event": "ev_zhiruo_early_show",
+     "expr": "neutral",
+     "old": "（看了一下手錶）方奕廷已經進去了。……他坐倒數第三排。我教的。",
+     "new": "（看了一下手錶）方奕廷已經進去了。他坐倒數第三排。我教的。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[351].dialogue[15].text",
+     "event": "ev_zhiruo_early_show",
+     "expr": "smile",
+     "old": "……沒事。下次帶你看別部。",
+     "new": "沒事。下次帶你看別部。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[351].dialogue[23].text",
+     "event": "ev_zhiruo_early_show",
+     "expr": "smile",
+     "old": "……好，你挑。我不笑你。大概。",
+     "new": "好，你挑。我不笑你。大概。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[353].dialogue[6].text",
+     "event": "ev_zhiruo_matinee",
+     "expr": "smile",
+     "old": "……可是也有好處。看完，還有一整個下午。",
+     "new": "可是也有好處。看完，還有一整個下午。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[355].dialogue[12].text",
+     "event": "ev_zhiruo_applied",
+     "expr": "smile",
+     "old": "……你每次都這樣講。好啦，謝謝。",
+     "new": "你每次都這樣講。好啦，謝謝。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[355].dialogue[32].text",
+     "event": "ev_zhiruo_applied",
+     "expr": "smile",
+     "old": "……好。那我回明信片。",
+     "new": "好。那我回明信片。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[355].dialogue[37].text",
+     "event": "ev_zhiruo_applied",
+     "expr": "smile",
+     "old": "……老闆會以為你是股東。",
+     "new": "老闆會以為你是股東。",
+     "note": "笑著講的「……」是習慣，拿掉"
+    }
+   ]
+  }
+ ]
+}
