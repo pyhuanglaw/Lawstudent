@@ -679,6 +679,7 @@
 | X341 | 118 巷店面做好就先推出新版（不用等其他還在做的東西） | 11-11 07:4x（對 LAWWW：「118巷店面做好就可以先推出新版」） | 進行中（門檻＝X338 的 118 巷店面 BB 在瀏覽器判過：街景四項修好、室內四間第 3 版進來；到了就照發布流程發 v9.10.25——BB 發布前回歸、releasegate、GHA 綠；開發分支上其他已經做好的東西一起出，沒驗完的在發布說明寫明；RELEASE-V91025-1111） | — | LAWWW（發布）、LAWWW2（室內第 3 版）、BB／CC（驗） | 2026-11-12 |
 | X342 | 不用 Fable 模型：各工作階段（和派出去的子代理）用 Opus 5.5 | 11-11 07:5x（對 AA：「我沒有要用fable」；對 LAWWW：「改成用opus5.5」，同時在各工作階段打 /model claude-opus-5-5） | 規則（永久）（11-11 08:0x LAWWW 查 get_session：LAWWW、LAWWW2、CC 都是 claude-opus-5-5；AA、BB 由 AA 回報已換。子代理沒有另外指定模型＝跟著工作階段用 Opus 5.5；之前用 Fable 的兩個子代理因 Fable 額度中斷，成果已收進開發分支或交給新子代理接手） | — | 各職位（自己的工作階段）；LAWWW（派子代理時不指定 fable） | 2026-11-18 |
 | X343 | 法學英文（大二下 legal_english）：英美法著重說明約因是什麼、衡平原則、英美法與大陸法系的差別；介紹常出現的單字（plaintiff、appeal、mutual consent…） | 11-11 13:4x（對 AA：「英美法應該著重說明 約因 是什麼 還有衡平原則 還有英美法與大陸法系差別」「也要介紹常出現的單字 PLANTIFF ....appeal.. mutual consent」；AA user_asks UA-AA-1111-07／08） | 做好了沒進遊戲（AA 改 syllabus/Y2S2.json legal_english：w1 兩大法系、w4 約因、w10 整週改衡平法、各週加常見單字；BB_356 末段再審 PASS；LAWWW 11-11 14:2x 用 b05a68786 匯進發版後那條分支 held-premerge-1111，v9.10.25 之後的下一版） | 企劃線 b05a68786（c344b5f49 起含這次改版）；task STUDY-EXAM-STORY-1102 | AA（稿）／LAWWW（匯） | 下一版發布 |
+| X344 | 寫錯過的探針、怎麼排除的方法都要記成規則（CC 開工前必讀） | 11-11 14:4x（對 CC：「寫錯過的探針、如何排除的方法，都要紀錄成規則」；BB 14:52 轉 LAWWW） | 規則（永久）（CC 寫 docs/story_planning/CC/CC_02_探針錯誤與防範規則.md，cc-testing 6174a08a2：判 FAIL 六步排除流程、12 類錯誤＋真例、寫探針前 12 項檢查；LAWWW 11-11 14:5x 加進 ROLE_CC.md 接班必讀＝D151） | cc-testing 6174a08a2；ROLE_CC.md D151 | CC（寫、更新）／LAWWW（規則） | — |
 
 ---
 
