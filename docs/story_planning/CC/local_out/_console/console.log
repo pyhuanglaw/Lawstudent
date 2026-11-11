@@ -1342,3 +1342,11 @@
 [09:53:46] worktree add f5e1ef4e8fe2e1d6e71897d891ed600967a146a2: invalid reference - fetching main and the commit itself
 [09:54:02] 正在跑：LM2_N1（已跑 2 分／上限 10 分）、ART2_xg_r3_a（已跑 1 分／上限 8 分）、ART2_xg_r3_f（已跑 0 分／上限 8 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:57:31] [res] cpu=15% mem=46% (14.4/31.4 GB) chrome_testing=10  END LM2_N1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       df983542d..30fed8dbb  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:57:36] ==== END   LM2_N1  exit=0  333s   ====
+[09:57:39] memory 46% before starting ART2_xg_r3_old (2 running)
+[09:57:39] ==== START ART2_xg_r3_old  (probe @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
+[09:57:42] [res] cpu=1% mem=46% (14.5/31.4 GB) chrome_testing=10  START ART2_xg_r3_old
+[09:58:38] [res] cpu=4% mem=46% (14.7/31.4 GB) chrome_testing=9  END ART2_xg_r3_a
