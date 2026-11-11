@@ -1,11 +1,3 @@
-[08:50:42] ==== END   NM2_open2_new  exit=0  203s   ====
-[08:50:51] memory 47% before starting NM2_edge2_new (2 running)
-[08:50:51] ==== START NM2_edge2_new  (probe @ e8918a0135d6e003d5d0486795e6a15917923d17) ====
-[08:50:54] [res] cpu=5% mem=47% (14.9/31.4 GB) chrome_testing=9  START NM2_edge2_new
-[08:53:30] [res] cpu=1% mem=50% (15.8/31.4 GB) chrome_testing=10  END NM2_closedbg_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       7561a0f42..6288e505a  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [08:53:36] ==== END   NM2_closedbg_new  exit=0  271s   ====
 [08:53:39] memory 50% before starting NM2_seasongg_new (2 running)
 [08:53:39] ==== START NM2_seasongg_new  (probe @ e8918a0135d6e003d5d0486795e6a15917923d17) ====
@@ -1998,3 +1990,11 @@
 [15:58:59] [res] cpu=18% mem=48% (15.3/31.4 GB) chrome_testing=10  START L118A_SEAT_korea2
 [15:59:04] 正在跑：L118A_SEAT_self1（已跑 2 分／上限 15 分）、L118A_SEAT_korea1（已跑 1 分／上限 15 分）、L118A_SEAT_korea2（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:00:22] [res] cpu=63% mem=48% (15.3/31.4 GB) chrome_testing=10  END L118A_SEAT_korea1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ef69cfeb5..d26dbca86  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:00:27] ==== END   L118A_SEAT_korea1  exit=0  171s   ====
+[16:00:37] memory 50% before starting L118A_SEAT_korea3 (2 running)
+[16:00:37] ==== START L118A_SEAT_korea3  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
+[16:00:40] [res] cpu=68% mem=50% (15.7/31.4 GB) chrome_testing=10  START L118A_SEAT_korea3
+[16:01:14] [res] cpu=26% mem=42% (13.7/31.4 GB) chrome_testing=4  END L118A_SEAT_self1

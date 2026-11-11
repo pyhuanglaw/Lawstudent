@@ -1,0 +1,60 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A_SEAT_self1\out
+CC L118A：PARTS SEATS_self_1-5；SHA bc407bfc518c8d6a4260d1a1fa395cb93fc9058b；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.3s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== SEATS_self_1-5
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_self 店裡的進門位置 (-2.20,3.00) 2025-10-08 1300 
+PASS [self] 店內正式模型載入（1.5 秒）
+  [  44.3s] [SEATS self] 座位共 5 張（這一行測 #1～#5）：[{"label": "坐下", "x": 2.6, "z": -1.1, "lv": 0, "sx": 2.6, "sz": -1.1, "sy": null, "slv": 0, "row": null, "ap": [2.05, -1.1], "lift": 0}, {"label": "坐下", "x": 2.6, "z": -0.3, "lv": 0, "sx": 2.6, "sz": -0.3, "sy": null, "slv": 0, "row": null, "ap": [2.05, -0.3], "lift": 0}, {"label": "坐下", "x": 2.6, "z": 0.5, "lv": 0, "sx": 2.6, "sz": 0.5, "sy": null, "slv": 0, "row": null, "ap": [2.05, 0.5], "lift": 0}, {"label": "坐下", "x": 1.3, "z": 2.6, "lv": 0, "sx": 1.3, "sz": 2.6, "sy": null, "slv": 0, "row": null, "ap": [0.7, 2.6], "lift": 0}, {"label": "坐下", "x": 2.7, "z": 2.6, "lv": 0, "sx": 2.7, "sz": 2.6, "sy": null, "slv": 0, "row": null, "ap": [2.7, 3.15], "lift": 0}]
+  [  44.3s] [SEATS self #1（2.6, -1.1）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [  44.3s] [SEATS self #2（2.6, -0.3）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [  44.4s] [SEATS self #3（2.6, 0.5）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [  48.7s] [SEATS self #4（1.3, 2.6）] 互動鍵被搶：「」；0.4 m 內的人 []；E.zone.seats {"taken": null, "label": null}；這張的互動點 {"label": "坐下", "hidden": false, "radius": 0.7, "at": [1.3, 2.6]}
+  [  48.7s] [SEATS self #4（1.3, 2.6）] 分數排序（engine3d nearestInteractable 的算法：範圍內 距離－prio 最小的贏）：[{"label": "坐下", "at": [1.3, 2.6], "seat": [1.3, 2.6], "d": 0.889, "R": 0.7, "prio": 0.3, "score": 0.589, "inR": false, "skip": null}]；2.2 m 內的人 []；遊戲選的 null
+  [  48.7s] [SEATS self #4（1.3, 2.6）] ⚠空椅子被搶（沒人佔、互動鍵是「」）
+  [  48.9s] [SEATS self #4（1.3, 2.6）] 【遊戲鏡頭】l118a_seat_self_1300_steal4_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.2], "player": [0.41, 2.64], "cam": [0.41, 3.21, 6.54], "yaw": 6.283, "mid": {"m": 180.8, "sd": 59.3, "black": 0.008, "white": 0, "rgb": [188, 180, 166]}, "top": {"m": 189, "sd": 36, "black": 0.002, "white": 0, "rgb": [206, 188, 152]}, "near": {"m": 166, "sd": 83.6, "black": 0.015, "white": 0, "rgb": [173, 165, 156]}}
+FAIL [SEATS self #4（1.3, 2.6）] 空椅子在 seatApproach 沒有被別的互動搶走（有人佔不算）  {"interact": "", "zoneSeat": {"taken": null, "label": null}, "it": {"label": "坐下", "hidden": false, "radius": 0.7, "at": [1.3, 2.6]}}
+  [  49.0s] [SEATS self #4（1.3, 2.6）] 從前邊：0.5～0.7 m 站不住，沒試
+  [  79.4s] [SEATS self #4（1.3, 2.6）] 從後邊 [0.8, 2.6, 0.5] 搖桿 30 秒沒到 (0.80,2.60)：停在 (1.01,2.60)
+  [  80.1s] [SEATS self #4（1.3, 2.6）] 從後邊 0.5 m（站在 [1.013, 2.597]）：互動鍵「坐下」＝這一張
+  [ 110.6s] [SEATS self #4（1.3, 2.6）] 從左邊 [1.3, 2.1, 0.5] 搖桿 30 秒沒到 (1.30,2.10)：停在 (1.19,2.29)
+  [ 111.3s] [SEATS self #4（1.3, 2.6）] 從左邊 0.5 m（站在 [1.195, 2.294]）：互動鍵「坐下」＝這一張
+  [ 115.7s] [SEATS self #4（1.3, 2.6）] 從右邊 [1.3, 3.2, 0.6] 搖桿卡住：停在 (1.25,2.29)，目標 (1.30,3.20)
+  [ 128.9s] [SEATS self #4（1.3, 2.6）] 從右邊 0.6 m（站在 [1.435, 3.189]）：互動鍵「坐下」＝這一張
+  [ 128.9s] [SEATS self #4（1.3, 2.6）] 坐得到的方向：["後", "左", "右"]
+PASS [SEATS self #4（1.3, 2.6）] 走到旁邊，互動按鈕是「坐下」  {"x": 0.832, "z": 2.718, "interact": "坐下", "stand": true}
+PASS [SEATS self #4（1.3, 2.6）] 坐下了（player.seat）  {"x": 1.3, "z": 2.6, "y": 0, "sx": 1.3, "sz": 2.6}
+  [ 134.5s] [SEATS self #4（1.3, 2.6）] 按的互動鍵「坐下」；實際坐到的座位 (1.3, 2.6)（要坐的是 (1.3, 2.6)）
+PASS [SEATS self #4（1.3, 2.6）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 1.3, "z": 2.6, "y": 0, "sx": 1.3, "sz": 2.6}
+  [ 134.6s] [SEATS self #4（1.3, 2.6）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 32、骨頭高度 [0.1, 1.15]；打到 []
+PASS [SEATS self #4（1.3, 2.6）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [ 134.7s] [SEATS self #4（1.3, 2.6）] 【遊戲鏡頭】l118a_seat_self_1300_sit4_game.jpg：{"onScreen": true, "ndc": [-0.01, -0.36], "player": [1.3, 2.6], "cam": [1.3, 3.21, 6.5], "yaw": 6.283, "mid": {"m": 184.8, "sd": 53.6, "black": 0.009, "white": 0, "rgb": [193, 184, 167]}, "top": {"m": 185.4, "sd": 35.5, "black": 0, "white": 0, "rgb": [202, 184, 148]}, "near": {"m": 197.6, "sd": 60.9, "black": 0.023, "white": 0, "rgb": [205, 197, 183]}}
+  [ 136.0s] [SEATS self #4（1.3, 2.6）] 起身：["起身"]
+PASS [SEATS self #4（1.3, 2.6）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（2.12）、walkFallbacks 沒增加  {"moved": 2.12, "x": 1.038, "z": 3.952, "stand": true}
+  [ 183.1s] [SEATS self #5（2.7, 2.6）] 搖桿走到 seatApproach 搖桿 45 秒沒到 (2.70,3.15)：停在 (2.70,3.61)
+  [ 185.4s] [SEATS self #5（2.7, 2.6）] 互動鍵被搶：「」；0.4 m 內的人 []；E.zone.seats {"taken": null, "label": null}；這張的互動點 {"label": "坐下", "hidden": false, "radius": 0.7, "at": [2.7, 2.6]}
+  [ 185.4s] [SEATS self #5（2.7, 2.6）] 分數排序（engine3d nearestInteractable 的算法：範圍內 距離－prio 最小的贏）：[{"label": "坐下", "at": [2.7, 2.6], "seat": [2.7, 2.6], "d": 1.012, "R": 0.7, "prio": 0.3, "score": 0.712, "inR": false, "skip": null}]；2.2 m 內的人 []；遊戲選的 null
+  [ 185.4s] [SEATS self #5（2.7, 2.6）] ⚠空椅子被搶（沒人佔、互動鍵是「」）
+  [ 185.5s] [SEATS self #5（2.7, 2.6）] 【遊戲鏡頭】l118a_seat_self_1300_steal5_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.19], "player": [2.7, 3.61], "cam": [2.7, 3.21, 7.51], "yaw": 6.283, "mid": {"m": 158.7, "sd": 71.5, "black": 0.004, "white": 0.001, "rgb": [162, 160, 143]}, "top": {"m": 159.8, "sd": 44.8, "black": 0.005, "white": 0, "rgb": [175, 158, 126]}, "near": {"m": 150.2, "sd": 67.9, "black": 0.02, "white": 0, "rgb": [154, 151, 137]}}
+FAIL [SEATS self #5（2.7, 2.6）] 空椅子在 seatApproach 沒有被別的互動搶走（有人佔不算）  {"interact": "", "zoneSeat": {"taken": null, "label": null}, "it": {"label": "坐下", "hidden": false, "radius": 0.7, "at": [2.7, 2.6]}}
+  [ 185.6s] [SEATS self #5（2.7, 2.6）] 從前邊：0.5～0.7 m 站不住，沒試
+  [ 185.6s] [SEATS self #5（2.7, 2.6）] 從後邊：0.5～0.7 m 站不住，沒試
+  [ 215.7s] [SEATS self #5（2.7, 2.6）] 從左邊 [2.7, 3.1, 0.5] 搖桿 30 秒沒到 (2.70,3.10)：停在 (2.84,2.74)
+  [ 216.4s] [SEATS self #5（2.7, 2.6）] 從左邊 0.5 m（站在 [2.842, 2.738]）：互動鍵「」（最近的是 null）
+  [ 217.8s] [SEATS self #5（2.7, 2.6）] 從右邊 0.5 m（站在 [2.688, 2.034]）：互動鍵「」（最近的是 null）
+  [ 217.8s] [SEATS self #5（2.7, 2.6）] 坐得到的方向：沒有
+  [ 217.8s] [SEATS self #5（2.7, 2.6）] 在 seatApproach 旁最近的按鈕是 null；改走到這一張按鈕範圍裡、最近就是它的一點 null
+FAIL [SEATS self #5（2.7, 2.6）] 走到旁邊，互動按鈕是「坐下」  {"x": 2.688, "z": 2.034, "interact": "", "stand": true}
+  [ 221.1s] [SEATS self #5（2.7, 2.6）] 【遊戲鏡頭】l118a_seat_self_1300_nobtn5_game.jpg：{"onScreen": true, "ndc": [0, -0.18], "player": [2.69, 2.03], "cam": [2.69, 2.78, -3.04], "yaw": 3.142, "mid": {"m": 113.5, "sd": 46.2, "black": 0.017, "white": 0, "rgb": [119, 113, 102]}, "top": {"m": 94.4, "sd": 44.7, "black": 0.035, "white": 0, "rgb": [104, 94, 68]}, "near": {"m": 130.9, "sd": 42.5, "black": 0.011, "white": 0, "rgb": [135, 130, 123]}}
+  [ 221.1s] [SEATS self] 有人坐的 [1, 2, 3]：重新讀檔再試一次
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_self 店裡的進門位置 (-2.20,3.00) 2025-10-08 1300 （重試有人坐的座位）
+PASS [self] 店內正式模型載入（1.5 秒）
+  [ 227.6s] [SEATS self #1（2.6, -1.1）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [ 227.6s] [SEATS self #2（2.6, -0.3）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [ 227.6s] [SEATS self #3（2.6, 0.5）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [ 227.6s] [SEATS self] 結果：坐得到 1／5（這一行測的）；{"1": "occupied", "2": "occupied", "3": "occupied", "4": "ok", "5": "nobtn"}
+FAIL [SEATS self #1～#5] 每張都坐得到（有 NPC 一直坐著的另列）  {"1": "occupied", "2": "occupied", "3": "occupied", "4": "ok", "5": "nobtn"}
+  [ 227.6s] [SEATS self] ★兩次都有 NPC 坐著、沒測到：[1, 2, 3]
+PASS 沒有 JS 例外（pageerror）  []
+FAILED 4: [SEATS self #4（1.3, 2.6）] 空椅子在 seatApproach 沒有被別的互動搶走（有人佔不算）；[SEATS self #5（2.7, 2.6）] 空椅子在 seatApproach 沒有被別的互動搶走（有人佔不算）；[SEATS self #5（2.7, 2.6）] 走到旁邊，互動按鈕是「坐下」；[SEATS self #1～#5] 每張都坐得到（有 NPC 一直坐著的另列）
