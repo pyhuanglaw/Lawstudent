@@ -1,11 +1,3 @@
-[07:27:09] ==== END   TZP_walk  exit=0  192s   ====
-[07:27:17] memory 47% before starting WZQ_old (2 running)
-[07:27:17] ==== START WZQ_old  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
-[07:27:20] [res] cpu=0% mem=47% (15.0/31.4 GB) chrome_testing=8  START WZQ_old
-[07:27:52] [res] cpu=3% mem=46% (14.6/31.4 GB) chrome_testing=9  END TZP_fps
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       3d29a61e9..5c748fba2  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [07:27:58] ==== END   TZP_fps  exit=0  115s   ====
 [07:28:07] memory 47% before starting TZQ_go_old (2 running)
 [07:28:07] ==== START TZQ_go_old  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
@@ -1998,3 +1990,11 @@
 [14:28:37] [res] cpu=3% mem=49% (15.6/31.4 GB) chrome_testing=9  START CLASS12_skip5b_out150x20
 [14:29:04] 正在跑：CLASS12_skip5b_old150x20（已跑 3 分／上限 12 分）、CLASS12_skip5b_500x5（已跑 1 分／上限 12 分）、CLASS12_skip5b_out150x20（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [14:31:11] [res] cpu=14% mem=49% (15.8/31.4 GB) chrome_testing=10  END CLASS12_skip5b_old150x20
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       abc63c996..83610fc5b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:31:18] ==== END   CLASS12_skip5b_old150x20  exit=1  351s   ====
+[14:31:22] memory 47% before starting CLASS12_skip5b_np1000_r2 (2 running)
+[14:31:22] ==== START CLASS12_skip5b_np1000_r2  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
+[14:31:25] [res] cpu=1% mem=47% (14.9/31.4 GB) chrome_testing=10  START CLASS12_skip5b_np1000_r2
+[14:33:14] [res] cpu=1% mem=48% (15.3/31.4 GB) chrome_testing=10  END CLASS12_skip5b_500x5
