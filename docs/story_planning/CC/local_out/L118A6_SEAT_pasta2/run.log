@@ -1,0 +1,73 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_SEAT_pasta2\out
+CC L118A：PARTS SEATS_pasta_8-14；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.3s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== SEATS_pasta_8-14
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_pasta 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 
+PASS [pasta] 店內正式模型載入（1.5 秒）
+  [  44.9s] [SEATS pasta] 座位共 21 張（這一行測 #8～#14）：[{"label": "坐吧檯", "x": -1.4, "z": -1.8, "lv": 0, "sx": -1.4, "sz": -1.8, "sy": null, "slv": 0, "row": null, "ap": [-1.4, -1.38], "lift": 0.29}, {"label": "坐吧檯", "x": -0.75, "z": -1.8, "lv": 0, "sx": -0.75, "sz": -1.8, "sy": null, "slv": 0, "row": null, "ap": [-0.75, -1.38], "lift": 0.29}, {"label": "坐吧檯", "x": -0.1, "z": -1.8, "lv": 0, "sx": -0.1, "sz": -1.8, "sy": null, "slv": 0, "row": null, "ap": [-0.1, -1.38], "lift": 0.29}, {"label": "坐吧檯", "x": 0.55, "z": -1.8, "lv": 0, "sx": 0.55, "sz": -1.8, "sy": null, "slv": 0, "row": null, "ap": [0.55, -1.38], "lift": 0.29}, {"label": "坐吧檯", "x": 1.2, "z": -1.8, "lv": 0, "sx": 1.2, "sz": -1.8, "sy": null, "slv": 0, "row": null, "ap": [1.2, -1.38], "lift": 0.29}, {"label": "坐吧檯", "x": 2.98, "z": -0.65, "lv": 0, "sx": 2.98, "sz": -0.65, "sy": null, "slv": 0, "row": null, "ap": [2.25, -0.65], "lift": 0.29}, {"label": "坐吧檯", "x": 2.98, "z": 0.15, "lv": 0, "sx": 2.98, "sz": 0.15, "sy": null, "slv": 0, "row": null, "ap": [2.25, 0.15], "lift": 0.29}, {"label": "坐吧檯", "x": 2.98, "z": 0.95, "lv": 0, "sx": 2.98, "sz": 0.95, "sy": null, "slv": 0, "row": null, "ap": [2.25, 0.95], "lift": 0.29}, {"label": "坐吧檯", "x": 2.98, "z": 1.75, "lv": 0, "sx": 2.98, "sz": 1.75, "sy": null, "slv": 0, "row": null, "ap": [2.25, 1.75], "lift": 0.29}, {"label": "坐下", "x": -2.25, "z": -0.44, "lv": 0, "sx": -3.42, "sz": -0.82, "sy": null, "slv": 0, "row": null, "ap": [-2.25, -0.44], "lift": 0}, {"label": "坐下", "x": -2.25, "z": -0.82, "lv": 0, "sx": -2.9, "sz": -0.82, "sy": null, "slv": 0, "row": null, "ap": [-2.25, -0.82], "lift": 0}, {"label": "坐下", "x": -2.25, "z": -0.06, "lv": 0, "sx": -3.42, "sz": 0.32, "sy": null, "slv": 0, "row": null, "ap": [-2.25, -0.06], "lift": 0}, {"label": "坐下", "x": -2.25, "z": 0.32, "lv": 0, "sx": -2.9, "sz": 0.32, "sy": null, "slv": 0, "row": null, "ap": [-2.25, 0.32], "lift": 0}, {"label": "坐下", "x": -0.7, "z": -0.42, "lv": 0, "sx": -0.7, "sz": -0.42, "sy": null, "slv": 0, "row": null, "ap": [-1.35, -0.42], "lift": 0}, {"label": "坐下", "x": -0.1, "z": -0.42, "lv": 0, "sx": -0.1, "sz": -0.42, "sy": null, "slv": 0, "row": null, "ap": [-0.1, -1.02], "lift": 0}, {"label": "坐下", "x": -0.7, "z": 0.72, "lv": 0, "sx": -0.7, "sz": 0.72, "sy": null, "slv": 0, "row": null, "ap": [-1.35, 0.72], "lift": 0}, {"label": "坐下", "x": -0.1, "z": 0.72, "lv": 0, "sx": -0.1, "sz": 0.72, "sy": null, "slv": 0, "row": null, "ap": [0.55, 0.72], "lift": 0}, {"label": "坐下", "x": -0.7, "z": 1.18, "lv": 0, "sx": -0.7, "sz": 1.18, "sy": null, "slv": 0, "row": null, "ap": [-1.35, 1.18], "lift": 0}, {"label": "坐下", "x": -0.1, "z": 1.18, "lv": 0, "sx": -0.1, "sz": 1.18, "sy": null, "slv": 0, "row": null, "ap": [0.55, 1.18], "lift": 0}, {"label": "坐下", "x": -0.7, "z": 2.32, "lv": 0, "sx": -0.7, "sz": 2.32, "sy": null, "slv": 0, "row": null, "ap": [-1.35, 2.32], "lift": 0}, {"label": "坐下", "x": -0.1, "z": 2.32, "lv": 0, "sx": -0.1, "sz": 2.32, "sy": null, "slv": 0, "row": null, "ap": [-0.1, 2.92], "lift": 0}]
+PASS [SEATS pasta #8（2.98, 0.95）] 走到旁邊，互動按鈕是「坐吧檯」  {"x": 2.271, "z": 0.735, "interact": "坐吧檯", "stand": true}
+PASS [SEATS pasta #8（2.98, 0.95）] 坐下了（player.seat）  {"x": 2.98, "z": 0.95, "y": 0.29, "sx": 2.98, "sz": 0.95}
+  [  50.6s] [SEATS pasta #8（2.98, 0.95）] 按的互動鍵「坐吧檯」；實際坐到的座位 (2.98, 0.95)（要坐的是 (2.98, 0.95)）
+PASS [SEATS pasta #8（2.98, 0.95）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.290＝地板＋lift 0.290（±0.06）  {"x": 2.98, "z": 0.95, "y": 0.29, "sx": 2.98, "sz": 0.95}
+  [  50.7s] [SEATS pasta #8（2.98, 0.95）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 31、骨頭高度 [0.38, 1.44]；打到 []
+PASS [SEATS pasta #8（2.98, 0.95）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  50.7s] [SEATS pasta #8（2.98, 0.95）] 高腳椅：椅面高度 0.760（0.47＋lift 0.290）；骨盆（hips 骨頭）0.922（高出椅面 0.162）；膝蓋 [0.826, 0.826]；腳 [0.38, 0.38]；小腿／大腿線段打到網格 0 段
+PASS [SEATS pasta #8（2.98, 0.95）] 高腳椅坐姿：骨盆在椅面上方 0.02～0.30 m（屁股在椅面上，CC 粗判）、腳沒有穿進吧台（腿的線段沒打到網格）  {"hipsY": 0.922, "top": 0.76, "dh": 0.162, "legHits": 0}
+  [  53.9s] 【捷徑機位】l118a_seat_pasta_1300_stool8_inbar_cam.jpg：eye [4.4799999999898805, 0.922, 0.9499944901923449] look [2.98, 0.672, 0.95] 焦距 24（垂直 45.75°）；亮度 全畫面 [117.4, 67.8]、中央 [129.9, 70.4]
+  [  56.3s] 【捷徑機位】l118a_seat_pasta_1300_stool8_side_cam.jpg：eye [3.330003305882232, 0.8220000000000001, 1.8499987143721421] look [3.279999999997976, 0.6220000000000001, 0.9499988980384689] 焦距 24（垂直 45.75°）；亮度 全畫面 [49, 43.9]、中央 [46.2, 44.3]
+  [前置／捷徑] [SEATS pasta #8（2.98, 0.95）] 【捷徑機位】高腳椅 inbar／side：玩家面向 (1.00,-0.00)；inbar＝從玩家前方 1.5 m（吧台內側）回看、和骨盆同高；side＝側面 0.9 m；HUD、選單收起
+  [  56.5s] [SEATS pasta #8（2.98, 0.95）]【捷徑】選單暫時收起 【遊戲鏡頭】l118a_seat_pasta_1300_stool8_nomenu_game.jpg：{"onScreen": true, "ndc": [-0.01, -0.34], "player": [2.98, 0.95], "cam": [4.35, 3.38, 4.46], "yaw": 0.371, "mid": {"m": 175.1, "sd": 53.3, "black": 0.014, "white": 0, "rgb": [190, 173, 146]}, "top": {"m": 191.3, "sd": 32.5, "black": 0, "white": 0.011, "rgb": [202, 190, 167]}, "near": {"m": 131.9, "sd": 77.4, "black": 0.066, "white": 0, "rgb": [146, 130, 105]}}
+  [  56.8s] [SEATS pasta #8（2.98, 0.95）] 【遊戲鏡頭】l118a_seat_pasta_1300_sit8_game.jpg：{"onScreen": true, "ndc": [-0.01, -0.35], "player": [2.98, 0.95], "cam": [4.39, 3.48, 4.57], "yaw": 0.371, "mid": {"m": 174.9, "sd": 52.8, "black": 0.013, "white": 0, "rgb": [190, 173, 146]}, "top": {"m": 191.7, "sd": 32.3, "black": 0, "white": 0.013, "rgb": [203, 191, 168]}, "near": {"m": 135.4, "sd": 76.8, "black": 0.059, "white": 0, "rgb": [150, 133, 108]}}
+  [  58.2s] [SEATS pasta #8（2.98, 0.95）] 起身：["起身"]
+PASS [SEATS pasta #8（2.98, 0.95）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（2.98）、walkFallbacks 沒增加  {"moved": 2.98, "x": 3.051, "z": 3.811, "stand": true}
+  [  60.2s] [SEATS pasta #9（2.98, 1.75）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [  60.3s] [SEATS pasta #10（-3.42, -0.82）] 有 NPC 坐著：遊戲不給坐，先跳過
+PASS [SEATS pasta #11（-2.9, -0.82）] 走到旁邊，互動按鈕是「坐下」  {"x": -2.277, "z": -0.775, "interact": "坐下", "stand": true}
+PASS [SEATS pasta #11（-2.9, -0.82）] 坐下了（player.seat）  {"x": -2.9, "z": -0.82, "y": 0, "sx": -2.9, "sz": -0.82}
+  [  66.6s] [SEATS pasta #11（-2.9, -0.82）] 按的互動鍵「坐下」；實際坐到的座位 (-2.9, -0.82)（要坐的是 (-2.9, -0.82)）
+PASS [SEATS pasta #11（-2.9, -0.82）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -2.9, "z": -0.82, "y": 0, "sx": -2.9, "sz": -0.82}
+  [  66.7s] [SEATS pasta #11（-2.9, -0.82）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 37、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS pasta #11（-2.9, -0.82）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  67.0s] [SEATS pasta #11（-2.9, -0.82）] 【遊戲鏡頭】l118a_seat_pasta_1300_sit11_game.jpg：{"onScreen": true, "ndc": [0, -0.35], "player": [-2.9, -0.82], "cam": [-1.49, 3.21, 2.82], "yaw": 0.371, "mid": {"m": 160.7, "sd": 49.5, "black": 0.007, "white": 0, "rgb": [183, 158, 118]}, "top": {"m": 200.4, "sd": 35, "black": 0, "white": 0.055, "rgb": [223, 197, 162]}, "near": {"m": 157.1, "sd": 55.8, "black": 0.002, "white": 0, "rgb": [180, 153, 117]}}
+  [  68.4s] [SEATS pasta #11（-2.9, -0.82）] 起身：["起身"]
+PASS [SEATS pasta #11（-2.9, -0.82）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（5.81）、walkFallbacks 沒增加  {"moved": 5.81, "x": 1.371, "z": 3.802, "stand": true}
+  [  70.5s] [SEATS pasta #12（-3.42, 0.32）] 有 NPC 坐著：遊戲不給坐，先跳過
+PASS [SEATS pasta #13（-2.9, 0.32）] 走到旁邊，互動按鈕是「坐下」  {"x": -2.25, "z": 0.214, "interact": "坐下", "stand": true}
+PASS [SEATS pasta #13（-2.9, 0.32）] 坐下了（player.seat）  {"x": -2.9, "z": 0.32, "y": 0, "sx": -2.9, "sz": 0.32}
+  [  76.0s] [SEATS pasta #13（-2.9, 0.32）] 按的互動鍵「坐下」；實際坐到的座位 (-2.9, 0.32)（要坐的是 (-2.9, 0.32)）
+PASS [SEATS pasta #13（-2.9, 0.32）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -2.9, "z": 0.32, "y": 0, "sx": -2.9, "sz": 0.32}
+  [  76.1s] [SEATS pasta #13（-2.9, 0.32）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 37、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS pasta #13（-2.9, 0.32）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  76.3s] [SEATS pasta #13（-2.9, 0.32）] 【遊戲鏡頭】l118a_seat_pasta_1300_sit13_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.37], "player": [-2.9, 0.32], "cam": [-1.49, 3.21, 3.96], "yaw": 0.371, "mid": {"m": 159.9, "sd": 49.2, "black": 0.006, "white": 0, "rgb": [181, 157, 118]}, "top": {"m": 187.7, "sd": 45.2, "black": 0, "white": 0.033, "rgb": [213, 182, 148]}, "near": {"m": 159.7, "sd": 57.1, "black": 0.019, "white": 0, "rgb": [177, 157, 128]}}
+  [  77.7s] [SEATS pasta #13（-2.9, 0.32）] 起身：["起身"]
+PASS [SEATS pasta #13（-2.9, 0.32）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（5.22）、walkFallbacks 沒增加  {"moved": 5.22, "x": 1.745, "z": 3.788, "stand": true}
+PASS [SEATS pasta #14（-0.7, -0.42）] 走到旁邊，互動按鈕是「坐下」  {"x": -1.349, "z": -0.527, "interact": "坐下", "stand": true}
+PASS [SEATS pasta #14（-0.7, -0.42）] 坐下了（player.seat）  {"x": -0.7, "z": -0.42, "y": 0, "sx": -0.7, "sz": -0.42}
+  [  84.7s] [SEATS pasta #14（-0.7, -0.42）] 按的互動鍵「坐下」；實際坐到的座位 (-0.7, -0.42)（要坐的是 (-0.7, -0.42)）
+PASS [SEATS pasta #14（-0.7, -0.42）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -0.7, "z": -0.42, "y": 0, "sx": -0.7, "sz": -0.42}
+  [  84.8s] [SEATS pasta #14（-0.7, -0.42）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 37、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS pasta #14（-0.7, -0.42）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  85.1s] [SEATS pasta #14（-0.7, -0.42）] 【遊戲鏡頭】l118a_seat_pasta_1300_sit14_game.jpg：{"onScreen": true, "ndc": [0, -0.35], "player": [-0.7, -0.42], "cam": [0.71, 3.21, 3.22], "yaw": 0.371, "mid": {"m": 168, "sd": 51.7, "black": 0.004, "white": 0, "rgb": [190, 165, 127]}, "top": {"m": 198.1, "sd": 36.9, "black": 0, "white": 0.025, "rgb": [222, 194, 157]}, "near": {"m": 178, "sd": 55.1, "black": 0.001, "white": 0, "rgb": [206, 173, 131]}}
+  [  86.7s] [SEATS pasta #14（-0.7, -0.42）] 起身：["起身"]
+PASS [SEATS pasta #14（-0.7, -0.42）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（5.15）、walkFallbacks 沒增加  {"moved": 5.15, "x": 1.471, "z": 3.817, "stand": true}
+  [  88.7s] [SEATS pasta] 有人坐的 [9, 10, 12]：重新讀檔再試一次
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_pasta 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 （重試有人坐的座位）
+PASS [pasta] 店內正式模型載入（1.5 秒）
+  [  95.8s] [SEATS pasta #9（2.98, 1.75）] 有 NPC 坐著：遊戲不給坐，先跳過
+PASS [SEATS pasta #10（-3.42, -0.82）] 走到旁邊，互動按鈕是「坐下」  {"x": -2.265, "z": -0.395, "interact": "坐下", "stand": true}
+PASS [SEATS pasta #10（-3.42, -0.82）] 坐下了（player.seat）  {"x": -2.9, "z": -0.82, "y": 0, "sx": -2.9, "sz": -0.82}
+  [ 100.5s] [SEATS pasta #10（-3.42, -0.82）] 按的互動鍵「坐下」；實際坐到的座位 (-2.9, -0.82)（要坐的是 (-3.42, -0.82)）
+FAIL [SEATS pasta #10（-3.42, -0.82）] 坐的位置離座位 0.520 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -2.9, "z": -0.82, "y": 0, "sx": -2.9, "sz": -0.82}
+  [ 100.6s] [SEATS pasta #10（-3.42, -0.82）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 37、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS pasta #10（-3.42, -0.82）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [ 100.8s] [SEATS pasta #10（-3.42, -0.82）] 【遊戲鏡頭】l118a_seat_pasta_1300_sit10_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.35], "player": [-2.9, -0.82], "cam": [-2.9, 3.21, 3.08], "yaw": 6.283, "mid": {"m": 154, "sd": 54.4, "black": 0.013, "white": 0, "rgb": [176, 151, 112]}, "top": {"m": 197.8, "sd": 35.3, "black": 0, "white": 0.025, "rgb": [222, 193, 158]}, "near": {"m": 154.7, "sd": 55.1, "black": 0.006, "white": 0, "rgb": [180, 151, 110]}}
+  [ 102.3s] [SEATS pasta #10（-3.42, -0.82）] 起身：["起身"]
+PASS [SEATS pasta #10（-3.42, -0.82）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（4.62）、walkFallbacks 沒增加  {"moved": 4.62, "x": -2.344, "z": 3.797, "stand": true}
+  [ 104.3s] [SEATS pasta #12（-3.42, 0.32）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [ 104.3s] [SEATS pasta] 結果：坐得到 5／7（這一行測的）；{"8": "ok", "9": "occupied", "10": "ok", "11": "ok", "12": "occupied", "13": "ok", "14": "ok"}
+PASS [SEATS pasta #8～#14] 每張都坐得到（有 NPC 一直坐著的另列）  {"8": "ok", "9": "occupied", "10": "ok", "11": "ok", "12": "occupied", "13": "ok", "14": "ok"}
+  [ 104.3s] [SEATS pasta] ★兩次都有 NPC 坐著、沒測到：[9, 12]
+PASS 沒有 JS 例外（pageerror）  []
+FAILED 1: [SEATS pasta #10（-3.42, -0.82）] 坐的位置離座位 0.520 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）
