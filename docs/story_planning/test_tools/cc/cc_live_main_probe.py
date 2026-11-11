@@ -9,6 +9,7 @@ sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests')
 import playlib as L
 from playwright.async_api import async_playwright
 URL = os.environ.get('LIVE_URL') or 'https://pyhuanglaw.github.io/Lawstudent/index.html'
+if os.environ.get('LOCAL') == '1' and len(sys.argv) > 1 and sys.argv[1].startswith('http'): URL = sys.argv[1]   # CC 15:5x（BB 15:48）：本機對照（f312c／779 的 worktree），用 runner 給的網址
 OUT = sys.argv[2] if len(sys.argv) > 2 else '.'; os.makedirs(OUT, exist_ok=True)
 EXP = os.environ.get('EXPECT') or 'v9.10.24'
 RETRY_MIN = float(os.environ.get('RETRY_MIN') or '5'); RETRIES = int(os.environ.get('RETRIES') or '2')
