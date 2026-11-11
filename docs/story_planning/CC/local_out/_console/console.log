@@ -1,11 +1,3 @@
-[10:04:58] ==== END   XG_old_joy  exit=0  259s   ====
-[10:05:01] memory 46% before starting FAR5_lm (2 running)
-[10:05:01] ==== START FAR5_lm  (probe @ 8e33a0df8dfbb5330b1391d9c59164985dc264eb) ====
-[10:05:04] [res] cpu=21% mem=41% (14.6/31.4 GB) chrome_testing=4  START FAR5_lm
-[10:05:36] [res] cpu=0% mem=44% (13.9/31.4 GB) chrome_testing=9  END YDH_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       0ee7598fc..aba431069  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [10:05:41] ==== END   YDH_old  exit=0  181s   ====
 [10:05:44] memory 45% before starting LM2_N2 (2 running)
 [10:05:44] ==== START LM2_N2  (probe @ e7ddae33fee86ab1567ab9f7b4764686cc9c321c) ====
@@ -1998,3 +1990,11 @@
 [17:28:31] [res] cpu=10% mem=49% (15.1/31.4 GB) chrome_testing=9  START L118A_TAPSEAT_home9_old
 [17:29:04] 正在跑：L118A6_WALL_d（已跑 2 分／上限 25 分）、L118A6_TAPSEAT_home（已跑 1 分／上限 30 分）、L118A_TAPSEAT_home9_old（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:29:22] [res] cpu=2% mem=50% (16.0/31.4 GB) chrome_testing=9  END L118A6_WALL_d
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c2f59774e..56073c8f0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:29:27] ==== END   L118A6_WALL_d  exit=0  172s   ====
+[17:29:31] memory 48% before starting L118A6_TAPSEAT_cafe2 (2 running)
+[17:29:31] ==== START L118A6_TAPSEAT_cafe2  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[17:29:34] [res] cpu=5% mem=48% (15.2/31.4 GB) chrome_testing=9  START L118A6_TAPSEAT_cafe2
+[17:30:08] [res] cpu=8% mem=47% (14.8/31.4 GB) chrome_testing=9  END L118A_TAPSEAT_home9_old

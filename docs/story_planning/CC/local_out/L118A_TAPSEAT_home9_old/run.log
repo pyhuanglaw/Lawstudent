@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A_TAPSEAT_home9_old\out
+CC L118A：PARTS TAPSEAT_home_9；SHA bc407bfc518c8d6a4260d1a1fa395cb93fc9058b；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.7s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== TAPSEAT_home_9
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_home 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 
+PASS [home] 店內正式模型載入（1.5 秒）
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_home 店裡的進門位置 (-2.60,2.75) 2025-10-08 1300 （點椅子 #9，點在 0.45 m 高）
+PASS [home] 店內正式模型載入（1.5 秒）
+  [  51.6s] [TAPSEAT home #9（0.5, -0.9）點椅子 0.45 m 高] 點椅面 螢幕 (600.1, 146.7)：落在地板 [1.01, -2.13]、tapRedirect 改走到 None
+  [  59.1s] [TAPSEAT home #9（0.5, -0.9）點椅子 0.45 m 高] 走到 (1.141, -1.928)（7.1 秒；tapPref [1.01, -2.13]）：互動鍵「點餐（五湖四海）」、指到的座位 null
+  [  59.1s] [TAPSEAT home #9（0.5, -0.9）點椅子 0.45 m 高] 點椅子走過去，互動鍵不是「坐下」而且就是這一張：{"interact": "點餐（五湖四海）", "near": {"label": "點餐（五湖四海）", "seat": null, "exit": null}}
+  [  59.4s] [TAPSEAT home #9（0.5, -0.9）點椅子 0.45 m 高] 【遊戲鏡頭】l118a_tapseat_home_1300_nobtn9_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.19], "player": [1.14, -1.93], "cam": [1.14, 3.21, 1.97], "yaw": 6.283, "mid": {"m": 119.1, "sd": 49.8, "black": 0.013, "white": 0, "rgb": [124, 119, 109]}, "top": {"m": 174.6, "sd": 42.8, "black": 0, "white": 0.105, "rgb": [184, 174, 155]}, "near": {"m": 104.9, "sd": 55.8, "black": 0.016, "white": 0, "rgb": [112, 103, 94]}}
+FAIL [TAPSEAT home #9（0.5, -0.9）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "nobtn"}）  {"0.45": "nobtn"}
+  [  59.4s] [TAPSEAT home] 結果 {"9": {"0.45": "nobtn"}}
+PASS 沒有 JS 例外（pageerror）  []
+FAILED 1: [TAPSEAT home #9（0.5, -0.9）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "nobtn"}）
