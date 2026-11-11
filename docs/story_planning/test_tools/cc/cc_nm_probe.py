@@ -305,7 +305,8 @@ async def part_ringsync(pg, cdp):
             if st['h'] >= 24.06: break
             await pg.wait_for_timeout(1000)
         R.note('[RING 換日] （日期、星期、G.hour、st_ring 在 tzStallOff、isOpen、open visible）：%s' % J(log[:3] + ['…'] + log[-4:] if len(log) > 8 else log))
-        R.check('[RING 換日] 週四→週五：st_ring 從「今天不擺」變成不在 tzStallOff（時間已過 22:30，模型照舊收著）', bool(log) and log[0][3] is True and log[-1][3] is False and log[-1][5] is False, J([log[0], log[-1]] if log else []))
+        # BB 00:43：遊戲的一天不在午夜換，同一個晚上照同一天的星期算才對 → 改成「過 24 點規則不變」
+        R.check('[RING 換日] 過 24 點規則不變：G.day 還是週四、st_ring 照舊在 tzStallOff、模型收著', bool(log) and all(r[3] is True and r[5] is False for r in log) and log[-1][2] > 24.0, J([log[0], log[-1]] if log else []))
     finally:
         DAY = d0
 
