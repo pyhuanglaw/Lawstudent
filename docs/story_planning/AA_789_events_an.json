@@ -1,0 +1,79 @@
+{
+ "_meta": {
+  "doc": "AA_789 主線、日常事件（events.js）以安的台詞覆蓋列（X324 E 區）",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "同 AA_786：files[{who, file:'events', rows[{at, event, expr, old, new, note}]}]；old＝開發分支 09:2x 的字。",
+  "rule": "以安在事件裡 179 句、刪節號 34（五句一個上下，她本來就少）。只拿掉句首、旁白後面那種習慣性的；她想事情（thinking、serious、sad、tired）、自己改口（「先問。……對，要先問。」）、承認或軟下來（「……但那天比較好玩」「……那是你那天講的」）的都留。STORY_EVENTS_V11[0～2] 是 [340～342] 的同一份，那幾句都沒動。",
+  "counts": {
+   "句": 179,
+   "刪節號前": 34,
+   "後": 27,
+   "列": 7
+  }
+ },
+ "files": [
+  {
+   "who": "heroine_01",
+   "file": "events",
+   "rows": [
+    {
+     "at": "STORY_EVENTS[89].dialogue[3].text",
+     "event": "ev_b5_table",
+     "expr": "neutral",
+     "old": "……對那個被限制的人呢？",
+     "new": "那對那個被限制的人呢？",
+     "note": "句首或旁白後的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[103].dialogue[9].text",
+     "event": "ev_xmas_exchange",
+     "expr": "neutral",
+     "old": "我在 Café 都點茶。……開學以後會用到。謝謝。",
+     "new": "我在 Café 都點茶。開學以後會用到。謝謝。",
+     "note": "下一句「字比我想的整齊。……謝謝。」的停頓留，這句不用兩次"
+    },
+    {
+     "at": "STORY_EVENTS[283].dialogue[18].text",
+     "event": "ev_an_tutor_family_1",
+     "expr": "smile",
+     "old": "……好，算一點。",
+     "new": "好，算一點。",
+     "note": "句首或旁白後的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[294].dialogue[4].text",
+     "event": "ev_moot_3",
+     "expr": "smile",
+     "old": "……謝謝。",
+     "new": "謝謝。",
+     "note": "句首或旁白後的「……」是習慣，拿掉"
+    },
+    {
+     "at": "STORY_EVENTS[294].dialogue[9].text",
+     "event": "ev_moot_3",
+     "expr": "neutral",
+     "old": "（把手帳闔起來）好。……我去買飲料。",
+     "new": "（把手帳闔起來）好。我去買飲料。",
+     "note": "旁白已經是停頓"
+    },
+    {
+     "at": "STORY_EVENTS[333].dialogue[4].text",
+     "event": "ev_plg_rules_after",
+     "expr": "neutral",
+     "old": "（回頭看長桌，白板上三行字）……好。開始。每人十分鐘。",
+     "new": "（回頭看長桌，白板上三行字）好。開始。每人十分鐘。",
+     "note": "旁白已經是停頓"
+    },
+    {
+     "at": "STORY_EVENTS[394].dialogue[6].text",
+     "event": "ev_r1_jetlag",
+     "expr": null,
+     "old": "……一個人？",
+     "new": "一個人？",
+     "note": "句首或旁白後的「……」是習慣，拿掉"
+    }
+   ]
+  }
+ ]
+}
