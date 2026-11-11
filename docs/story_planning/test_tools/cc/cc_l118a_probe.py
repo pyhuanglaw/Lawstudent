@@ -373,6 +373,8 @@ STEAL = r"""(([x,z])=>{ const E=GAME.E, Z=E.zone||{};
   const zs=(Z.seats||[]).find(q=>Math.hypot(q.x-x,q.z-z)<0.05); const it=(E.interactables||[]).find(q=>q.seat&&Math.hypot(q.seat.x-x,q.seat.z-z)<0.05);
   return {npcs:who, zoneSeat:zs?{taken:zs.taken==null?null:zs.taken, label:zs.label||null}:'沒有', interact:it?{label:it.label, hidden:!!it.hidden, radius:it.radius||null, at:[+it.x.toFixed(2),+it.z.toFixed(2)]}:'沒有'}; })"""
 SEATLAB = ('坐下', '坐吧檯', '坐窗邊')
+# 有人坐（CC 08:1x 從 0.35 放寬到 0.4，和 STEAL／engine3d 一樣；含 seatTarget＝正走過去要坐的人）：回傳 [誰…] 或 []
+OCC_JS = r"""(([x,z])=>(GAME.E.npcs||[]).filter(n=>n&&((n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.4)||(n.seatTarget&&Math.hypot(n.seatTarget.x-x,n.seatTarget.z-z)<0.4))).map(n=>String(n.id||n.name||(n.isExtra?'extra':'?'))))"""
 
 
 async def steal_diag(pg, cdp, t, sid, k, s, first):
@@ -422,6 +424,10 @@ async def home_back_approach(pg, cdp, seats):
     R.check('%s 搖桿走到 (0.5,−1.5)（%s 秒）' % (t, tt), ok, J(st))
     b0 = await D.settle(pg); sc0 = await pg.evaluate(SCORES)
     R.note('%s 在 (0.5,−1.5)：互動鍵「%s」；分數 %s' % (t, b0['interact'], J(sc0['list'])))
+    me_it = next((q for q in sc0['list'] if q['seat'] == [0.5, -0.9]), None)
+    if me_it and me_it['inR'] and not me_it['skip'] and not b0['interact'].startswith(SEATLAB):
+        R.note('%s ⚠空椅子被搶：站在 (0.5,−1.5)，椅子在範圍內（%.2f m < %.2f）、沒人坐，互動鍵卻是「%s」' % (t, me_it['d'], me_it['R'], b0['interact']))
+    R.check('%s 站在椅子後面 (0.5,−1.5)（椅子在坐下範圍內）：空椅子的互動鍵是坐下類' % t, not (me_it and me_it['inR'] and not me_it['skip']) or b0['interact'].startswith(SEATLAB), J({'interact': b0['interact'], 'seat': me_it}))
     m = await pg.evaluate(ME); d = math.hypot(0.5 - m['x'], -0.9 - m['z'])
     while d > 0.62:
         yaw = await pg.evaluate("GAME.E.cam.yaw"); fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw)
@@ -432,12 +438,12 @@ async def home_back_approach(pg, cdp, seats):
     b1 = await D.settle(pg); sc1 = await pg.evaluate(SCORES)
     R.note('%s 從後面搖桿走近到離椅子 %.2f m（%s）：互動鍵「%s」；分數 %s；遊戲選的 %s' % (t, d, [b1['x'], b1['z']], b1['interact'], J(sc1['list']), J(sc1['winner'])))
     await game_shot(pg, fn('seat', 'home', H_INT, 'back_approach', False), t, judge=False)
-    R.check('%s 從椅子後面走近，空椅子的互動鍵是坐下類（不是「點餐」）' % t, b1['interact'].startswith(SEATLAB), J({'interact': b1['interact'], 'winner': sc1['winner']}))
+    R.check('%s 從後面繼續搖桿推到離椅子 %.2f m：互動鍵是坐下類（不是「點餐」）' % (t, d), b1['interact'].startswith(SEATLAB), J({'interact': b1['interact'], 'winner': sc1['winner']}))
 
 
 async def sit_one(pg, cdp, sid, k, s, res):
     t = '[SEATS %s #%d（%s, %s）]' % (sid, k + 1, s['sx'], s['sz'])
-    occ = await pg.evaluate("(([x,z])=>(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.35))", [s['sx'], s['sz']])
+    occ = await pg.evaluate(OCC_JS, [s['sx'], s['sz']])
     if occ: R.note('%s 有 NPC 坐著：遊戲不給坐，先跳過' % t); res[k] = 'occupied'; return
     tgt = s['ap'] or [s['x'], s['z']]; fb0 = (await D.st(pg))['fb']
     ok, tt, st = await joy_walk(pg, cdp, tgt[0], tgt[1], 0.3, 45, '%s 搖桿走到 seatApproach' % t)
@@ -447,6 +453,9 @@ async def sit_one(pg, cdp, sid, k, s, res):
         await pg.wait_for_timeout(400); b = await D.st(pg)
     if not b['interact'].startswith(SEATLAB):
         good = await steal_diag(pg, cdp, t, sid, k, s, b['interact'])
+        occ2 = await pg.evaluate(OCC_JS, [s['sx'], s['sz']])
+        if occ2 and not good:   # CC 08:1x：cafe2 #11 是 crowd 的 extra 坐著（0.35～0.4 m 或中途才坐下）＝有人佔，不是坐不到
+            R.note('%s 診斷後確認有人坐著（%s）：算有人佔，不判坐不到' % (t, J(occ2))); res[k] = 'occupied'; return
         if good: await joy_walk(pg, cdp, good[0], good[1], 0.15, 30, '%s 回到坐得到的那一邊' % t); b = await D.settle(pg)
     ni = await pg.evaluate(D.NEAR_IT)
     mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
