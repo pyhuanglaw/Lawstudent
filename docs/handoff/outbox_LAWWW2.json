@@ -8266,16 +8266,16 @@
   },
   {
    "branch": "claude/second-ai-env-art",
-   "sha": "(本 commit)",
+   "sha": "2d50b62e05",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "未回",
+   "ack": "ACK＋已整合（LAWWW 18:25：--3way 乾淨，leadout_spots＋邀約／約念書相關 52 支過，tasks.json 已整合待測試）；invites_quote_b6、loadgen_locks 兩支 LAWWW 在 b77af3a4f 修了（GHA 全綠）",
    "at": "2026-11-11T18:4x",
    "task": "LEADOUT-WALL-1111（P2）：一起念書散場 S.leadOut 兩個目標點在牆裡（木曜日一樓窄樓梯）→ S.leadOutSpots 選點",
    "files": [
     "docs/art-rebuild/second_ai/wip/leadout_wall_1111/（README.md、leadout_spots_v1.patch、regression_full.log）"
    ],
-   "state": "READY_FOR_REVIEW",
+   "state": "INTEGRATED（待 BB 測試）",
    "noDirectIntegrate": false,
    "note": "2 個檔（invites3d.js：S.leadOutSpots＋leadOut 用它；新 tests/leadout_spots_1111_unit.js 五項，修改前 0、1、2、4 FAIL）；照舊的點可以的 31 區完全不變、總圖兩區不變；改點的 6 區：木曜日、一盞、同弦、大步、好拍、法圖；基底 f16135b3a4，在 b77af3a4fe 上乾淨；全部 Node 1302：1299 過＋bookstore 老警告＋invites_quote_b6、loadgen_locks 兩支基底就 FAIL",
    "next": "LAWWW 整合；invites_quote_b6、loadgen_locks 兩支基底的 FAIL 另外看"

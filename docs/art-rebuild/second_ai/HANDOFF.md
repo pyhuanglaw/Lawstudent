@@ -7,7 +7,8 @@
 - **BAKE-PC-1102-S2**：BK1 11-03 就比完了（PC CPU＝PC GPU）。HIP 那一半**使用者 11-03 已決定 Blender 只用 CPU**，不做。新發現：雲端 Blender 已是 5.2.3（和 PC 同版）→ 改成「雲端 CPU 對 PC CPU」：3F 第二版的 driver `pc_ref/pc_bake_3f_ref.py`＋輸入 GLB＋雲端參考（512²/64：24 秒、重跑逐像素相同；1024²/512：21 分）。佇列兩行在 `wip/bake_pc/README.md` 的 BK2 一節，經 LAWWW／BB 排給 CC（P3 選做）。PC 結果回來以後照該節的判斷跑 `compare_bakes.py`。
 - SHORTCUTS-TODO-1105：11-10 盤點後剩下的都是 P3 外觀或要 CC 瀏覽器拍（D131），這次沒動。
 - **教訓（BB 18:12）**：給 CC 佇列的行**不要寫 SHA `lawww2`**（跟著我分支的 head 走，我每推一次 PC 就重跑一輪：BK2 多跑了 4 輪），一律寫固定 commit SHA。BAKE-PC-1102-S2 已定案（58bb06622a）、BK2 已 HOLD。
-- **LEADOUT-WALL-1111**（LAWWW 17:49 派，P2）：`S.leadOutSpots` 選點＋`tests/leadout_spots_1111_unit.js`，修改前 FAIL、修改後 ALL PASS；**已交**（`wip/leadout_wall_1111/`）：全部 Node 1302：1299 過＋bookstore 老警告＋invites_quote_b6、loadgen_locks（基底 f16135b3a4 就 FAIL）。`$SP/wt_ch`＝f16135b3a4＋這包（staged）；`$SP/wt_bb`＝f16135b3a4 乾淨。
+- **LEADOUT-WALL-1111 已整合**（LAWWW 18:25；待 BB 測試）。LAWWW：手上沒派工先停，BB 這批瀏覽器結果有場景問題會再找。
+- LEADOUT-WALL-1111（LAWWW 17:49 派，P2）：`S.leadOutSpots` 選點＋`tests/leadout_spots_1111_unit.js`，修改前 FAIL、修改後 ALL PASS；**已交**（`wip/leadout_wall_1111/`）：全部 Node 1302：1299 過＋bookstore 老警告＋invites_quote_b6、loadgen_locks（基底 f16135b3a4 就 FAIL）。`$SP/wt_ch`＝f16135b3a4＋這包（staged）；`$SP/wt_bb`＝f16135b3a4 乾淨。
 - 工作目錄：`$SP/wt_ch`＝開發分支 0bdb8fb79f（乾淨）；`$SP/wt_bb`＝566ff8b5bf＋木曜日（已交、已整合，可以重設）。
 
 ## 交接（前一則｜帳號 A｜2026-11-11 15:5x UTC）
