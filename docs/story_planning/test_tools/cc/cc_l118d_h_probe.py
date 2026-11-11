@@ -17,7 +17,8 @@ PARTS（逗號分隔；預設全部；每段在 PC ≤15 分鐘）：
            看 E.npcs 有沒有她（二樓、坐著）＋截圖；語彤／芯慈／乃文再走過去說話，看招呼那一句（SLOWREAD.REGULARS[].hi）。以安的說話在 H3（說話會先演 H3）。
   H3       以安窗邊的位子：大一下週六下午、存檔本來就有 REPORT_PARTNER（day 9 民總）、G.l118.once.H3 沒有 → 進店走過去說話：老闆／旁白／以安三句（照順序、說話人）、
            記 once.H3＝今天；同一天再說一次：不再演 H3、改成招呼那一句。
-  CAFE2    118 巷原址大學食堂（l118_cafe2，週一 12:00）：進店後每個互動鍵沒有念書／讀書／咖啡；坐下的選項沒有「讀書」；點餐選單沒有咖啡。
+  CAFE2    118 巷原址大學食堂（l118_cafe2 新室內，週一 12:00）：進店後每個互動鍵沒有念書類（念書／讀書／看書／書架／書櫃／自習／咖啡／慢讀）、
+           每張座位都不是讀書座位；坐下的選項沒有「讀書」；點餐選單沒有咖啡。
   ORIG     木曜日原本的事件還在（mokuyobi_sys3d.js 有：1-1 第一次進門、1-2 點東西、1-3 讀完旁白、1-4 老位子／溫水／閒聊、1-5 考試週、打烊、1-6 兩個人來、1-7 雨天、看書櫃／唱片機／海報）：
            演三個：【前置】清掉 G.mokuyobi.first 走進去＝1-1 四句；吧檯「點東西」三樣＋什麼都不點、點焙茶拿鐵那一句；「看看書櫃」一句在 AA_645 的三句裡。
   NOSIT    約「去木曜日念書」（地點 slowread）赴約：不演「坐坐」的進門旁白（MOKS.meetLine「…坐在窗邊那桌，已經點好了。」）和 S.DATE 第一次那一句；
@@ -466,7 +467,7 @@ async def part_h3(pg, cdp):
 
 
 # ---------------------------------------------------------------- CAFE2
-IT_JS = r"""(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label||'', x:+(+i.x).toFixed(2), z:+(+i.z).toFixed(2), lv:i.lv|0, seat:!!i.seat, study:!!(i.study||i.deskStudy), shop118:i.shop118||null, exit:i.exit?i.exit.to:null})))()"""
+IT_JS = r"""(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label||'', x:+(+i.x).toFixed(2), z:+(+i.z).toFixed(2), lv:i.lv|0, seat:!!i.seat, study:!!(i.study||i.deskStudy||(i.seat&&(i.seat.study||i.seat.canStudy))), look:i.look?String(i.look).slice(0,80):null, shop118:i.shop118||null, exit:i.exit?i.exit.to:null})))()"""
 
 
 async def part_cafe2(pg, cdp):
@@ -481,9 +482,12 @@ async def part_cafe2(pg, cdp):
     if not R.check('%s 進到 l118_cafe2' % tag, s1['zone'] == 'l118_cafe2', J(s1)): return
     its = await pg.evaluate(IT_JS)
     R.note('%s 店裡的互動鍵：%s' % (tag, J([x['label'] for x in its])))
-    bad = [x for x in its if any(w in x['label'] for w in ('念書', '讀書', '咖啡', '慢讀'))]
-    R.check('%s 店裡每個互動鍵都沒有「念書／讀書／咖啡／慢讀」' % tag, not bad, J(bad))
-    R.check('%s 座位都不是讀書座位（interactable study＝false）' % tag, not any(x['seat'] and x['study'] for x in its), J([x for x in its if x['seat']][:4]))
+    BADW = ('念書', '讀書', '看書', '書架', '書櫃', '自習', '咖啡', '慢讀')
+    bad = [x for x in its if any(w in x['label'] for w in BADW)]
+    R.check('%s 店裡每個互動鍵（%d 個，新室內）都沒有念書類（%s）' % (tag, len(its), '／'.join(BADW)), not bad, J(bad))
+    R.check('%s 座位（%d 張）都不是讀書座位（interactable／seat 的 study、canStudy 都沒有）' % (tag, sum(1 for x in its if x['seat'])), not any(x['seat'] and x['study'] for x in its), J([x for x in its if x['seat'] and x['study']][:4]))
+    lk = [x for x in its if x['look'] and any(w in x['look'] for w in ('念書', '讀書', '咖啡'))]
+    R.note('%s （參考）「看」的旁白提到念書／讀書／咖啡的：%s' % (tag, J(lk)))
     await shot(pg, 'cafe2_inside')
     seats = [x for x in its if x['seat']]
     if seats:
