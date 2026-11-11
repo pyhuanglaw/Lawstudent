@@ -7765,6 +7765,22 @@
    "noDirectIntegrate": false,
    "note": "底 dev 9a5164f24，f3c0f9f19 上 apply --3way 乾淨；全部 1242 支 Node 測試沒有失敗。kind guabao→milk、fortune 拿掉；各攤自己的開收時間；公館三攤用 hookGongguan 加；tingzhou_walkers 第 4 項改成比例（請 LAWWW 過目）；價錢以圖為準、和 AA_744 不同的列在 README。",
    "next": "LAWWW 接看／買、星期幾（套圈圈）、攤主 NPC；CC 拍；BB 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（下一個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB、AA",
+   "ack": "SENT",
+   "task": "LIMAO-SHOP-1110 禮貌生財第 1 版（街上店面＋算命桌＋室內 tz_limao＋鎖著的書房，X332）＋BB_255 三項修正（汀州路機車第 3 版、洗樂／印得好室內第 2 版），一個 patch",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/limao_1110/（README.md、limao_v1_plus_bb255.patch、regression_full.log、preview/）",
+    "docs/art-rebuild/second_ai/wip/bb255_fix_1111/README.md"
+   ],
+   "state": "待整合；遊戲截圖待 CC；場景 BB 判",
+   "noDirectIntegrate": false,
+   "note": "底 dev 57181feb2，apply --3way 乾淨。全部 1242 支跑過：walkers 第 3 項（我的 tzShop）已修；aa401／termend×2 是容器沒抓企劃線 commit，fetch 後 ALL PASS、和 patch 無關。動到 LAWWW 的 zones3d.js attachWzScooters 兩行（code／pcol，其他區域不受影響）。",
+   "next": "LAWWW 接：上師 NPC、桌前互動、書房解鎖旗標（TZS3.studyOpen）、tz_yin_pc 的句子；上師 3D 人物另外交"
   }
  ]
 }

@@ -1,8 +1,9 @@
 # LIMAO-SHOP-1110 禮貌生財 第 1 版（LAWWW2 帳號 A，2026-11-11）
 
-狀態：**WORK_IN_PROGRESS：全部 Node 測試正在跑，跑完沒有失敗才算交付**（結果補在最下面）。Blender 預覽不是遊戲截圖（D131）。
+狀態：**READY_FOR_REVIEW（已交付 LAWWW）**。Blender 預覽不是遊戲截圖（D131）。
 
-- patch：`limao_v1_on_nightmarket.patch`——**疊在夜市那一包上面**：先套 `../night_market_1110/night_market_v1.patch`（基底 dev `f3c0f9f19`），再套這一包。
+- patch：**`limao_v1_plus_bb255.patch`（一個檔：禮貌生財＋BB_255 三項修正，27 個檔）**；基底 dev `57181feb2`（夜市已在開發分支），`git apply --3way` 乾淨。BB_255 那三項的說明在 `../bb255_fix_1111/README.md`。
+- 全部 Node 測試 1242 支（`regression_full.log`，在 57181feb2＋這一包上跑）：log 裡有四支 FAILED，都查過——①`tingzhou_walkers_1110_unit` 第 3 項是我的錯（禮貌生財的門用了 `tzShop`，店門數變成 30），**已修**（改成 `tzLimaoDoor`），修完和汀州路／店內／機車有關的測試全部重跑 ALL PASS；②`aa401_kx_khh`、`termend_friend_1110`、`termend_opts_1110` 三支在**沒有套 patch 的開發分支上也一樣失敗**：測試要讀企劃線的 commit `1cf434dee`，我的容器沒有抓那個分支；`git fetch origin claude/story-planning` 以後三支 ALL PASS，和這一包無關。
 - 依據：規格 dev `docs/handoff/user_specs/LIMAO_SHENGCAI_1110.md`（X332）；使用者 11-10 23:1x 對 LAWWW 選「開始做，聊天免費」、位置照我的提案；使用者 11-11 給的外觀圖 `../../ref/night_market_1110/concept/shop_limao_shengcai_exterior.webp`。室內沒有圖，照規格文字＋外觀圖從門看進去的樣子。
 - 預覽：`preview/blender_exterior_front.webp`（騎樓裡看店面）、`blender_table_open_closed.webp`（算命桌營業／收攤）、`blender_interior_workbench.webp`（室內形狀；這個預覽不顯示頂點色）、`blender_interior_cycles.webp`（室內顏色；隔牆、掛畫、玻璃櫃在這張是黑的——是 Cycles 對單面化以後重疊的正反面的假影，模型的顏色和法線查過是對的，遊戲裡不會）。
 
@@ -20,7 +21,7 @@
 ## 給 LAWWW 接的
 - 街上：`zone.tzLimao＝{open, masterAway, table, door, nodes}`；`zone.tzLimaoOff＝true` 今天不開；`zone.tzLimaoAway＝true` 店開著上師不在（桌子照舊是營業的樣子，只有 `masterAway` 變 true，NPC 你不放）。
 - 上師坐的位置：配置 `limao.table.seatMaster`（29.35, 4.6，面向巷子）；客人：`seatGuest`；桌前的互動點（免費算命、聊天）：`limao.table.at`（28.3, 3.3，r 1.0）——**這個互動點我沒有放**，句子和選單是 AA／你的。
-- 門：`tzShop:'limao'` 的互動點，開著＝「進禮貌生財」→ `tz_limao`；關著＝「看禮貌生財」＋一句暫定的「門關著，裡面沒有開燈。」（AA 可以改）。
+- 門：`zone.tzLimao.door`（標記 `tzLimaoDoor:true`；不用 `tzShop`，那是配置 shops 裡的店）的互動點，開著＝「進禮貌生財」→ `tz_limao`；關著＝「看禮貌生財」＋一句暫定的「門關著，裡面沒有開燈。」（AA 可以改）。
 - 室內：`zone.shopClerk`（茶桌旁的椅子，上師在店裡的時候）、三個座位 `limao_t1`、看書櫃／玻璃櫃／掛畫 `tz_limao_books／_cabinet／_scroll`、書房的門 `tz_limao_study_door`。
 - **書房解鎖**：`TZS3.studyOpen(L)` 預設回傳 false——請改成看存檔旗標（配置 `study.flag＝'LIMAO_STUDY_OPEN'`，名字可以換）；或事件裡直接 `zone.setStudy(true)`。解鎖以後多三個互動點 `tz_limao_study_books／_desk／_photo` 和書桌的座位 `limao_desk`。
 - `tests/tingzhou_unit.js` 第 7 項（樓房數）改成「店數＋4」（多一棟 TA_LIMAO）。

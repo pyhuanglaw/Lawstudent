@@ -1,7 +1,7 @@
 # BB_255 三項修正（LAWWW2 帳號 A，2026-11-11）：汀州路機車第 3 版＋洗樂、印得好室內第 2 版
 
-狀態：**WORK_IN_PROGRESS：全部 Node 測試在跑（最新開發分支＋禮貌生財＋這一包），跑完沒有失敗才算交付**。預覽是 Blender，不是遊戲截圖（D131）。
-- patch：`bb255_scooter3_xile_yin_on_limao.patch`——**疊在禮貌生財那一包上面**（`../limao_1110/limao_v1_on_nightmarket.patch`；基底 dev `57181feb2`，夜市那一包開發分支已經有了）。
+狀態：**READY_FOR_REVIEW（已交付 LAWWW）**。預覽是 Blender，不是遊戲截圖（D131）。
+- patch：和禮貌生財併成一個檔 `../limao_1110/limao_v1_plus_bb255.patch`（基底 dev `57181feb2`）；全部測試結果見 `../limao_1110/README.md`。
 - 依據：BB 11-10 23:07、23:10（企劃線 BB_255 最後兩節）。
 
 ## 一、機車第 3 版（D141 第三版、最後一版；只改擺放規則，模型沒有重做）
