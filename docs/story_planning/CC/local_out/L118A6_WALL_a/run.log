@@ -1,0 +1,22 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_WALL_a\out
+CC L118A：PARTS WALLWALK_dian,WALLWALK_self；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.4s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== WALLWALK_dian
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_dian 店裡的進門位置 (1.50,2.65) 2025-10-08 1300 
+PASS [dian] 店內正式模型載入（1.5 秒）
+  [  43.9s] [WALLWALK dian] 牆邊長方形 24 點；貼不到站得住格子（家具、櫃台貼牆）8 點：[[2.35, -3.55], [1.41, -3.55], [0.47, -3.55], [-0.47, -3.55], [-1.41, -3.55], [-2.35, -3.55], [-2.35, 2.54], [-2.35, 3.55]]
+  [  51.0s] [WALLWALK dian] 第 3 點 [2, 1.4] 搖桿卡住：停在 (1.75,2.41)，目標 (2.00,1.40)
+PASS [WALLWALK dian] 沿牆一圈每一點都用搖桿走到（16 點）  []
+FAIL [WALLWALK dian] 沿牆一圈沒有卡住（4 秒不前進）  [[1.75, 2.41]]
+PASS [WALLWALK dian] walkFallbacks 沒增加
+== WALLWALK_self
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_self 店裡的進門位置 (-2.20,3.00) 2025-10-08 1300 
+PASS [self] 店內正式模型載入（1.5 秒）
+  [  78.7s] [WALLWALK self] 牆邊長方形 28 點；貼不到站得住格子（家具、櫃台貼牆）10 點：[[1.9, -4.05], [0.95, -4.05], [0, -4.05], [-1.9, -4.05], [-2.85, -4.05], [-2.85, -3.04], [-2.85, -2.02], [-2.85, -1.01], [-2.85, 0], [-2.85, 1.01]]
+PASS [WALLWALK self] 沿牆一圈每一點都用搖桿走到（18 點）  []
+PASS [WALLWALK self] 沿牆一圈沒有卡住（4 秒不前進）  []
+PASS [WALLWALK self] walkFallbacks 沒增加
+PASS 沒有 JS 例外（pageerror）  []
+FAILED 1: [WALLWALK dian] 沿牆一圈沒有卡住（4 秒不前進）
