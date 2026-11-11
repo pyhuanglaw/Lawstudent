@@ -1,0 +1,46 @@
+# L118D_C case 2b：改之前存的 → 改之後讀進來馬上再存的（遞迴比對，只列有變的路徑；共 30 條）
+## 重點（l118、mokuyobi、相關旗標、pos、zone、slowread 邀約）
+invites[21].label : 和陳語彤約在慢讀咖啡 → 和陳語彤約在木曜日
+invites[21].zone : l118_cafe2 → wz_mokuyobi
+invites[27].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+invites[27].zone : l118_cafe2 → wz_mokuyobi
+l118.d.cafe2 : 29 → （沒有）
+l118.last.cafe2 : 今日蛋糕 → （沒有）
+l118.mv772 : （沒有） → 2
+l118.n.cafe2 : 1 → （沒有）
+mokuyobi.n : 2 → 3
+pos.x : -0.5 → -3.9
+pos.yaw : 3.142 → 0
+pos.z : 0.8 → 13.2
+zone : l118_tea → lane118
+## 全部
+bike.x : -2.35 → -2.78
+bike.z : 33.5 → 9.174999999999999
+eat.last.Pasta 118 : 青醬培根麵 → （沒有）
+eat.last.一一八茶飲 : 無糖綠茶 → （沒有）
+eat.last.慢讀咖啡 : 今日蛋糕 → （沒有）
+eat.n.Pasta 118 : 1 → （沒有）
+eat.n.一一八茶飲 : 1 → （沒有）
+eat.n.喝不喝咖啡 : （沒有） → 1
+eat.n.慢讀咖啡 : 1 → （沒有）
+eat.n.木曜日 : （沒有） → 1
+eat.n.義大麵屋 : （沒有） → 1
+flags._autoAsk[16] : （沒有） → ……你覺得我要怎麼回他？
+habits.place:lane118:afternoon.days[3] : （沒有） → 51
+habits.place:lane118:afternoon.last : 29 → 51
+habits.place:lane118:afternoon.n : 3 → 4
+hour : 15.59 → 15.637
+invites[21].label : 和陳語彤約在慢讀咖啡 → 和陳語彤約在木曜日
+invites[21].zone : l118_cafe2 → wz_mokuyobi
+invites[27].label : 和沈以安約在慢讀咖啡 → 和沈以安約在木曜日
+invites[27].zone : l118_cafe2 → wz_mokuyobi
+l118.d.cafe2 : 29 → （沒有）
+l118.last.cafe2 : 今日蛋糕 → （沒有）
+l118.mv772 : （沒有） → 2
+l118.n.cafe2 : 1 → （沒有）
+mokuyobi.n : 2 → 3
+pos.x : -0.5 → -3.9
+pos.yaw : 3.142 → 0
+pos.z : 0.8 → 13.2
+savedAt : 1794406351128 → 1794406430757
+zone : l118_tea → lane118
