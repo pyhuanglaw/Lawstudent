@@ -736,6 +736,9 @@ async def part_h23(pg, cdp):
     P.phone_ask = lambda th, o: None
     w, s, ok = await drive(pg, cdp, P, lambda w, s: any(m['tag'] == 'va10_ask' for m in (w or {}).get('msgs', [])) and not s['phone'], 420, {'tags': ['va10_ask', 'va10_nudge'], 'fl': ['VA10']}, 'b1. 7/20 21:00 VA10 群組（不回）')
     va = [m for m in (w or {}).get('msgs', []) if m['tag'] == 'va10_ask']
+    if not any(m.get('ask') for m in va):   # N1_AA814（b77a）這一格 FAIL：vac3d.js 把 ask 掛在群組最後一則（M[M.length-1]），探針記到的卻是 null——印出整串和 G.msgs 原始那一則對照
+        raw = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m&&m.tag==='va10_ask').map(m=>JSON.stringify(m).slice(0,400)))()")
+        R.note('[H23b] va10_ask 全部 %d 則（探針記錄）：%s；G.msgs 原始：%s' % (len(va), J(va), J(raw)))
     R.check('[H23b] 7/20 21:00 麵店團群組揪香港（有回覆選項）', bool(va) and any(m.get('ask') for m in va), J(va[-2:]))
     cl1 = await sys_clash(pg); n1 = sum(1 for m in cl1 if m['text'] == exp_b)
     R.check('[H23b] 群組邀約送出時多一行系統字「%s」' % exp_b, n1 >= 1, J([m['text'] for m in cl1]))
