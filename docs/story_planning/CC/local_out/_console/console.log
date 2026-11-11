@@ -1376,3 +1376,11 @@
 [10:00:33] ==== START XG_old_joy  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
 [10:00:36] [res] cpu=4% mem=44% (14.0/31.4 GB) chrome_testing=9  START XG_old_joy
 [10:01:43] [res] cpu=10% mem=49% (15.5/31.4 GB) chrome_testing=9  END XG_fix_tap
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       84ca45632..32367af41  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:01:49] ==== END   XG_fix_tap  exit=0  172s   ====
+[10:01:52] memory 47% before starting YDH_fix (2 running)
+[10:01:52] ==== START YDH_fix  (probe @ 8e33a0df8dfbb5330b1391d9c59164985dc264eb) ====
+[10:01:55] [res] cpu=6% mem=47% (14.8/31.4 GB) chrome_testing=10  START YDH_fix
+[10:02:26] [res] cpu=0% mem=46% (14.3/31.4 GB) chrome_testing=9  END XG_fix_joy
