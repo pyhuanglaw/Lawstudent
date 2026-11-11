@@ -9,6 +9,8 @@
     python3 docs/story_planning/tools_aa/date_rewrite.py list <人物id> D01 [D02 ...]
   套用（改稿檔是 JSON：{"who": 人物id, "D01": ["第 1 格的新字", "第 2 格…", …], "D02": […]}；null＝這一格不改）：
     python3 docs/story_planning/tools_aa/date_rewrite.py apply <改稿檔.json>
+  和遊戲現在的字對齊（源稿之後還疊了好幾層改稿，遊戲裡的字可能比源稿新；改一個人之前先跑一次，之後那幾層對這個人就不用再套）：
+    python3 docs/story_planning/tools_aa/date_rewrite.py syncgame <開發分支的 src/data/date_lines.js> <人物id> D01 [D02 ...]   （加 --dry 只列不寫）
   數量對不上就停，不寫檔。套用以後 Dxx.py（更早的產生器，已經比 json 舊）不會跟著變——以 json 為準。
 """
 import json, os, sys
@@ -62,6 +64,24 @@ def main():
             todo.append((p, d, loc, n, len(S)))
         for p, d, loc, n, m in todo:
             json.dump(d, open(p, 'w', encoding='utf8'), ensure_ascii=False, indent=1); print(f'{loc}：換了 {n}／{m} 格')
+    elif a and a[0] == 'syncgame':
+        dry = '--dry' in a; a = [x for x in a if x != '--dry']
+        raw = open(a[1], encoding='utf8').read(); G = json.JSONDecoder().raw_decode(raw[raw.index('{'):])[0]['loc']; who = a[2]; tot = 0
+        for loc in a[3:]:
+            p = os.path.join(LINES, loc + '.json'); d = json.load(open(p, encoding='utf8'))
+            if who not in d['lines'] or who not in G.get(loc, {}).get('lines', {}): print(f'{loc}：沒有這個人，跳過'); continue
+            S = slots(d, who); T = slots(G[loc], who)
+            if len(S) != len(T) or [x[0] for x in S] != [x[0] for x in T]: print(f'{loc}：源稿 {len(S)} 格、遊戲 {len(T)} 格，格子對不上，這個地點沒有動'); continue
+            n = 0
+            for (tag, c, k), (_, gc, gk) in zip(S, T):
+                if c[k] != gc[gk]:
+                    n += 1
+                    if dry: print(f'  {loc} {tag}｜{c[k]} → {gc[gk]}')
+                    else: c[k] = gc[gk]
+            tot += n
+            if not dry: json.dump(d, open(p, 'w', encoding='utf8'), ensure_ascii=False, indent=1)
+            print(f'{loc}：和遊戲不同 {n}／{len(S)} 格' + ('' if dry else '，已對齊'))
+        print(f'合計 {tot} 格')
     else:
         print(__doc__)
 
