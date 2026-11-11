@@ -3,7 +3,7 @@
 
 1. 瀏覽器 CASES=ps_ladder：大一上閒聊階梯前三層（P-L1～P-L3，src/data/ladder.js 照 AA_753_peishan_ladder_Y1S1.json @33a1769f8 匯入）逐句記。
    對照的程式（src/story3d.js）：S.talkCharacter → S.ladderTalk → S.ladNext（S.ladData：大一上的 key＝classmate_peishan；一天一層 ladderDay）→ S.ladPlay（選項 re、fx）。
-   每一層：【捷徑】讀 day46 存檔、找 21 天內她在 3D 某一區（不是上課、不是圖書館——圖書館說話只點頭）而且下一層＝第 k 層的時段，閒聊階梯進度設成 k、拿掉今天聊過的記號 → 走到她旁邊、按「說話」→ 一路點（選項選第一個、
+   每一層：【捷徑】讀 day46 存檔、找 21 天內她在 3D 某一區（不是上課、不是圖書館——圖書館說話只點頭）而且下一層＝第 k 層的時段，閒聊階梯進度設成 k、拿掉今天聊過的記號 → 走到她旁邊、按「說話」→ 一路點（她先講別的就選「（說點不一樣的）」、階梯的選項選第一個、
    說完以後的「就這樣」）；那一層的條件要先演過的事件（P-L3：ev_public_law_group）存檔還沒演＝【捷徑】記成演過。稿＝DRAFT_DIR（預設 fixtures/te_drafts）的 AA_753_peishan_ladder_Y1S1.json：那一層的 lines、選項的字、選了以後的 re、fx（SOCIAL.applyFx 收到的）、記憶 mem。
 2. 離線（不開瀏覽器）：python3 cc_te2_probe.py --static <受測樹> <out>：受測樹 src/ 全部搜「早餐店」「四點半」「蛋餅」「煎台」「端七盤」，
    每一處標「沛珊這一行／沛珊（前幾行內）／不確定」，一行很長的 JSON 檔（ladder.js、date_lines.js…）照出現的位置往前找最近的人物 key。輸出 <out>/te2_static.txt、.json。
@@ -150,7 +150,7 @@ async def walk_to_npc(pg, cdp, tag, who):
 
 
 async def drive(pg, cdp, tag, max_s=240):
-    t0 = time.time(); last = time.time(); sig = None; idle = 0; picks = []
+    t0 = time.time(); last = time.time(); sig = None; idle = 0; picks = []; used = {}
     while time.time() - t0 < max_s:
         if await pg.evaluate(PHONE_OPEN_JS): await pe.close_phone(pg, cdp)
         q = await L.state(pg); n = await pg.evaluate("(window.__DL||[]).length")
@@ -159,7 +159,11 @@ async def drive(pg, cdp, tag, max_s=240):
         elif time.time() - last > STUCK_S: return {'stuck': True, 'picks': picks, 'secs': round(time.time() - t0, 1)}
         if q['choices']:
             o = await pe.opts(pg); T = [x['t'] for x in o]
-            k = next((i for i, x in enumerate(T) if x.startswith('就這樣')), None)
+            k = None
+            if not used.get('more'):   # 她先講別的（故事線那一拍、作息的一句）：「（說點不一樣的）」才接閒聊階梯
+                k = next((i for i, x in enumerate(T) if '說點不一樣' in x), None)
+                if k is not None: used['more'] = True
+            if k is None: k = next((i for i, x in enumerate(T) if x.startswith('就這樣')), None)
             if k is None: k = next((i for i, x in enumerate(o) if not x['dim']), 0)
             picks.append({'opts': T, 'pick': k}); await tap_choice(pg, cdp, k); idle = 0; continue
         if q['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(400); idle = 0; continue
