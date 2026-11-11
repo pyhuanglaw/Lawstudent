@@ -644,6 +644,8 @@ TZQ_A_old | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planni
 TZQ_old3 | 470e238cf715dd35453fb5b7e97b9570301cc54a | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 15 | PARTS=TZQ_OLD;SHA=470e238cf715dd35453fb5b7e97b9570301cc54a
 TZP_fps2_new | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 10 | PARTS=TZP_FPS;FQ=low,medium,high;FH=14,18.5;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
 TZP_fps2_old | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 10 | PARTS=TZP_FPS;FQ=low,medium,high;FH=14,18.5;SHA=c17a9919ec13ff237181709df0a3ee70e4e4d5e2
+# BB 00:07：(a) 判定標準＝和同一存檔的公館燒臘同一種顯示 → TZQ_A 加對照列；TZQ_A_new 已開跑（舊探針），補一項 r2
+TZQ_A_new_r2 | 470e238cf715dd35453fb5b7e97b9570301cc54a | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 15 | PARTS=TZQ_A;ONLY=泰米村食;SHA=470e238cf715dd35453fb5b7e97b9570301cc54a
 # BB 23:44 NM1 夜市十三攤第 1 版（模型＋各攤時間；b810b809b 以後＝開發分支 bd3f67410、舊 fd4dd9aef）；cc_nm_probe.py 雲端沒自檢（瀏覽器線被占），第一項 NM_tbl_edge 先當自檢
 NM_tbl_edge | bd3f67410415267cde659e007e7d09b6f8fd05f3 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 6 | PARTS=TABLE,EDGE;SHA=bd3f67410415267cde659e007e7d09b6f8fd05f3
 NM_shots_a | bd3f67410415267cde659e007e7d09b6f8fd05f3 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 18 | PARTS=SHOTS;STALLS=st_eggcake,st_scallion,st_ball,st_pepper,st_corn,st_stinky;SHA=bd3f67410415267cde659e007e7d09b6f8fd05f3
