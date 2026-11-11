@@ -1,12 +1,3 @@
-[11:19:55] [res] cpu=1% mem=53% (16.8/31.4 GB) chrome_testing=9  START NM_cam_new_r2
-[11:21:03] [res] cpu=8% mem=53% (16.9/31.4 GB) chrome_testing=8  END LM_cam2_old_r2
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       a9825af49..3f009b0a5  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[11:21:09] ==== END   LM_cam2_old_r2  exit=0  148s   ====
-[11:21:12] memory 54% before starting NM_cam_old (2 running)
-[11:21:12] ==== START NM_cam_old  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
-[11:21:15] [res] cpu=11% mem=54% (17.3/31.4 GB) chrome_testing=8  START NM_cam_old
 [11:21:47] [res] cpu=15% mem=46% (14.3/31.4 GB) chrome_testing=9  END NM_reach_old
     To https://github.com/pyhuanglaw/Lawstudent.git
        3f009b0a5..6eadbb706  claude/cc-local -> claude/cc-local
@@ -1998,3 +1989,12 @@
 [19:37:39] [res] cpu=19% mem=44% (13.5/31.4 GB) chrome_testing=5  START V25_reach
 [19:39:04] 正在跑：V25_main12（已跑 2 分／上限 60 分）、V25_social（已跑 1 分／上限 60 分）、V25_reach（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:42:08] [res] cpu=30% mem=52% (16.6/31.4 GB) chrome_testing=9  END V25_main12
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b9e116024..c1c8deb99  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:42:15] ==== END   V25_main12  exit=0  337s   ====
+[19:42:18] memory 53% before starting V25_deploy (2 running)
+[19:42:18] ==== START V25_deploy  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[19:42:21] [res] cpu=2% mem=53% (16.8/31.4 GB) chrome_testing=9  START V25_deploy
+[19:44:04] 正在跑：V25_social（已跑 6 分／上限 60 分）、V25_reach（已跑 6 分／上限 40 分）、V25_deploy（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:48:05] [res] cpu=10% mem=57% (18.0/31.4 GB) chrome_testing=9  END V25_reach
