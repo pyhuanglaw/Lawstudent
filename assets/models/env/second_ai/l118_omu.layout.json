@@ -2,8 +2,8 @@
  "version": 1,
  "zone": "l118_omu",
  "shop": "omu",
- "name": "奈良咖哩",
- "type": "日式咖哩飯",
+ "name": "蛋包飯研究所",
+ "type": "蛋包飯",
  "src": "L118-SHOPS-REDO-1111（使用者 2026-11-11 規格＋參考圖 int_omu.webp）；店名、菜單 AA_280；室內 tools/blender/env_second/l118_int_omu.py（LAWWW 子代理代 LAWWW2）",
  "bounds": {
   "x0": -3.3,
@@ -29,7 +29,7 @@
    "x": -2.2,
    "z": 3.55,
    "r": 0.7,
-   "label": "離開奈良咖哩",
+   "label": "離開蛋包飯研究所",
    "to": "lane118"
   }
  ],
@@ -65,7 +65,7 @@
   "x": -0.9,
   "z": -1.9,
   "r": 0.8,
-  "label": "點餐（奈良咖哩）",
+  "label": "點餐（蛋包飯研究所）",
   "note": "出餐檯左端的收銀前面（shop118:omu）"
  },
  "seats": [
