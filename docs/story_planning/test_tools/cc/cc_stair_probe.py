@@ -45,8 +45,9 @@ STUCK_JS = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, lv=P.lv|0; c
   const near=(E.npcs||[]).filter(n=>n&&n.obj&&Math.hypot(n.obj.position.x-o.x,n.obj.position.z-o.z)<2.5).map(n=>{ const q=n.obj.position; return {id:n.charId||n.id||'', name:n.name||'', x:f2(q.x), z:f2(q.z), y:f2(q.y), lv:n.lv|0, r:n.radius, beh:n.beh||null,
     walking:!!(n.path&&n.path.length), extra:!!n.isExtra, leaving:!!n.leaving}; });
   const Ls=E.levels||[]; const cells=[]; for(let dz=-0.7; dz<=0.31; dz+=0.1){ const z=o.z+dz; cells.push({z:f2(z), s0:E.canStand(o.x,z,0.3,0), s1:Ls.length>1?E.canStand(o.x,z,0.3,1):null, h0:Ls[0]&&Ls[0].heightAt?f2(Ls[0].heightAt(o.x,z)):null, h1:Ls[1]&&Ls[1].heightAt?f2(Ls[1].heightAt(o.x,z)):null}); }
+  const south=[]; for(let z=5.2; z<=6.51; z+=0.1){ south.push({z:f2(z), s0:E.canStand(o.x,z,0.3,0), s1:Ls.length>1?E.canStand(o.x,z,0.3,1):null, h0:Ls[0]&&Ls[0].heightAt?f2(Ls[0].heightAt(o.x,z)):null, h1:Ls[1]&&Ls[1].heightAt?f2(Ls[1].heightAt(o.x,z)):null}); }
   let path=null; try{ const p=E.pathTo(o.x,o.z,lv,0,0.9,1); path=p?p.slice(0,8).map(q=>Array.isArray(q)?q.map(f2):[f2(q.x),f2(q.z),q.lv]):null; }catch(e){ path=String(e); }
-  return {pos:{x:f2(o.x),z:f2(o.z),y:f2(o.y),lv}, near, cells, path, unstick:window.__ccUnstick|0, fb:GAME.walkFallbacks||0, run:!!P.runHold}; })()"""
+  return {pos:{x:f2(o.x),z:f2(o.z),y:f2(o.y),lv}, near, cells, path, unstick:window.__ccUnstick|0, fb:GAME.walkFallbacks||0, run:!!P.runHold, south}; })()"""
 
 
 def day_of(key):
@@ -81,6 +82,7 @@ async def stuck_diag(pg, tag):
     nm = 'stair_stuck_%s' % ''.join(ch for ch in tag if ch.isalnum() and ord(ch) < 128)[:24].lower()
     try: await D.shot(pg, nm)
     except Exception: pass
+    R.note('%s 【卡住診斷】樓梯底往南 z 5.2～6.5（同一個 x；BB 08:44：看第 1 層的格子是不是延伸到樓梯底下）%s' % (tag, J(d.get('south'))))
     R.note('%s 【卡住診斷】位置 %s；2.5 m 內 NPC %s；往北幾格（s0／s1＝第 0／1 層站不站得住、h0／h1＝高度）%s；找路 %s；E.unstick 成功 %s 次；walkFallbacks %s；跑步 %s；截圖 %s' % (tag, J(d['pos']), J(d['near']), J(d['cells']), J(d['path']), d['unstick'], d['fb'], d['run'], nm))
     return d
 
@@ -90,6 +92,31 @@ async def seg(pg, cdp, tag, tx, tz, lv, straight):
     e = r['end']
     R.note('%s → (%.2f, %.2f) lv%d：%s、%s 秒、推 %d 次、停在 (%.2f, %.2f) y=%s lv%d、跳 %s' % (tag, tx, tz, lv, '到了' if r['ok'] else '沒到：' + str(r.get('why')), r['t'], r['pushes'], e['x'], e['z'], e.get('y'), e['lv'], J(r['jumps'])))
     return r
+
+
+async def down_escape(pg, cdp, t, x):
+    """BB 08:44：下樓卡住時依序試脫困——往回推（往樓梯頂）1 m、往左 1 m、往右 1 m（各推完再直線推下樓）、點地走到樓梯底外 1 m（z=BOT_Z+1）。
+    前一個已脫困（第 0 層、到樓梯底）就不再試後面的（同一次卡住只能看第一個有效的方法）。回傳 [(方法, 出得來, 秒)]"""
+    out = []
+    async def stuck():
+        q = await D.st(pg); return not (q['lv'] == 0 and q['z'] >= BOT_Z - 0.1)
+    for nm, dx, dz in (('往回推（往樓梯頂）1 m', 0.0, -1.0), ('往左 1 m', -1.0, 0.0), ('往右 1 m', 1.0, 0.0)):
+        if not await stuck(): out.append([nm, None, None]); continue
+        t0 = time.time(); q = await D.st(pg)
+        await seg(pg, cdp, t + ' 【脫困】' + nm, q['x'] + dx, q['z'] + dz, q['lv'], True)
+        r = await seg(pg, cdp, t + ' 【脫困】' + nm + '後再直線推下樓', q['x'] + dx, BOT_Z + 0.2, 0, True)
+        ok = not await stuck(); out.append([nm, ok, round(time.time() - t0, 1)])
+        R.note('%s 【脫困】%s：%s（%.1f 秒；停在 %s）' % (t, nm, '出來了' if ok else '還是出不來', time.time() - t0, J([r['end']['x'], r['end']['z'], r['end'].get('y'), r['end']['lv']])))
+    if await stuck():
+        t0 = time.time(); pt = await L.tap_ground(pg, cdp, x, BOT_Z + 1.0, lv=0)
+        for _ in range(40):
+            await pg.wait_for_timeout(500)
+            if not await stuck(): break
+        ok = not await stuck(); q = await D.st(pg); out.append(['點地走到樓梯底外 1 m', ok, round(time.time() - t0, 1)])
+        R.note('%s 【脫困】點地走到樓梯底外 1 m (%.2f, %.2f)：%s（%.1f 秒；點到 %s；停在 (%.2f, %.2f) lv%d）' % (t, x, BOT_Z + 1.0, '出來了' if ok else '還是出不來', time.time() - t0, J(pt and pt.get('hit')), q['x'], q['z'], q['lv']))
+    else: out.append(['點地走到樓梯底外 1 m', None, None])
+    R.note('%s 【脫困】結果（None＝前面已脫困、沒試）%s' % (t, J(out)))
+    return out
 
 
 async def trip(pg, cdp, x, k, stats):
@@ -114,7 +141,8 @@ async def trip(pg, cdp, x, k, stats):
     r3 = await seg(pg, cdp, t + ' 下樓梯（直線）', x, BOT_Z + 0.2, 0, True)
     if not r3['ok']:
         d = await stuck_diag(pg, t + ' 下')
-        stats['down_stuck'].append({'trip': k, 'pos': d['pos']})
+        esc = await down_escape(pg, cdp, t, x)
+        stats['down_stuck'].append({'trip': k, 'pos': d['pos'], 'escape': esc})
     else: stats['down_ok'] += 1
     R.check('%s 下樓梯直線推得下去、換回第 0 層' % t, r3['ok'], J({'end': [r3['end']['x'], r3['end']['z'], r3['end'].get('y'), r3['end']['lv']], 't': r3['t']}))
     return r3['ok']
