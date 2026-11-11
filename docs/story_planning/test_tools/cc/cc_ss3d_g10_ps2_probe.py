@@ -221,6 +221,41 @@ async def part_ss_walk(pg, cdp):
     await gshot(pg, 'ss_walk_end.jpg')
 
 
+HEADJS = r"""(()=>{ const n=typeof LM!=='undefined'?LM.masterNpc:null; const o=n&&(n.obj||n); if(!o) return null; o.updateMatrixWorld(true); let h=null; o.traverse(q=>{ if(!h&&/(^|_)Head$|J_Bip_C_Head/i.test(q.name||'')) h=q.getWorldPosition(new THREE.Vector3()); });
+  if(!h){ const b=new THREE.Box3().setFromObject(o); h=new THREE.Vector3((b.min.x+b.max.x)/2,b.max.y-0.12,(b.min.z+b.max.z)/2); } return [+h.x.toFixed(3),+h.y.toFixed(3),+h.z.toFixed(3)]; })()"""
+
+
+async def part_ss_face(pg, cdp):
+    """BB 05:13：①臉的特寫重拍（照頭骨位置對準，臉佔畫面高度 1/3 以上：正面、四分之三側各一張，和參考圖並排用）；
+    ②玩家實際坐下算命時的鏡頭（不動鏡頭，照遊戲給的）：走到算命桌前、按「算命桌」，第一句出來時截遊戲畫面。"""
+    d = await y1s1(pg)
+    lay = await pg.evaluate(LAYJS); T = (lay or {}).get('table') or {}
+    sm = T.get('seatMaster') or {'x': SEAT_M[0], 'z': SEAT_M[1]}; at = T.get('at') or {'x': TABLE_AT[0], 'z': TABLE_AT[1]}
+    face = math.atan2(sm['x'] - at['x'], sm['z'] - at['z'])
+    await ld(pg, cdp, '【前置／捷徑】SS_FACE：讀檔到汀州路算命桌前 20:00（面向上師）', 'tingzhou', d, 20.0, at['x'], at['z'], face, wait=8000)
+    for _ in range(40):
+        hd = await pg.evaluate(HEADJS)
+        if hd: break
+        await pg.wait_for_timeout(500)
+    R.note('[SS_FACE] 上師頭骨位置 %s' % hd)
+    if not R.check('[SS_FACE] 量得到上師的頭', bool(hd), ''): return
+    hx, hy, hz = hd; dz = -1.0 if sm['z'] > at['z'] else 1.0   # 往客人那一側
+    await snap(pg, '上師臉 正面特寫', (hx, hy + 0.02, hz + dz * 0.75), (hx, hy - 0.02, hz), 30, 'ss_face_front.jpg')
+    await snap(pg, '上師臉 四分之三側', (hx + 0.5, hy + 0.04, hz + dz * 0.6), (hx, hy - 0.02, hz), 30, 'ss_face_34.jpg')
+    # 玩家視角：照遊戲的鏡頭（不動），走到算命桌、按下去
+    it = next((i for i in await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label,x:i.x,z:i.z})))()") if '算命桌' in (i['label'] or '')), None)
+    if it: await L.go_to(pg, cdp, R, it['x'], it['z'], 0.6, '[SS_FACE] 走到算命桌', max_s=40)
+    await pg.wait_for_timeout(800); await gshot(pg, 'ss_seat_before_tap.jpg')
+    s_ = await L.state(pg); R.note('[SS_FACE] 互動鍵「%s」' % s_['interact'])
+    if '算命' in (s_['interact'] or ''):
+        await L.tap(pg, cdp, '#interact')
+        for _ in range(40):
+            if (await L.state(pg))['dlg']: break
+            await pg.wait_for_timeout(250)
+        await pg.wait_for_timeout(1200); await gshot(pg, 'ss_seat_player_view.jpg')
+        R.note('[SS_FACE] 玩家視角（第一句出來時，鏡頭照遊戲給的）：ss_seat_player_view.jpg；鏡頭 %s' % J(await pg.evaluate("(()=>{ const c=GAME.E.camera.position; return [+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)]; })()")))
+
+
 async def part_ss_main(pg, cdp):
     d = await y1s1(pg)
     lay = await pg.evaluate(LAYJS); R.note('[SS_MAIN] 配置 limao：%s' % J(lay))
@@ -616,7 +651,7 @@ async def part_ps2(pg, cdp):
 async def main():
     print('CC 上師 3D／G10 巷口／沛珊第二批：PARTS %s；SHA %s；Windows＋GPU（PC）／SwiftShader（雲端）≠ iPhone' % (','.join(PARTS), SHA[:9]), flush=True)
     async with async_playwright() as p:
-        for part, fn in (('SS_WALK', part_ss_walk), ('SS_MAIN', part_ss_main), ('G10', part_g10), ('PS2', part_ps2)):
+        for part, fn in (('SS_WALK', part_ss_walk), ('SS_MAIN', part_ss_main), ('SS_FACE', part_ss_face), ('G10', part_g10), ('PS2', part_ps2)):
             if part not in PARTS: continue
             t0 = time.time(); b, ctx, pg, cdp, errs = await L.launch(p, landscape=True); cons = []
             pg.on('console', lambda m, cons=cons: cons.append((m.type, m.text[:300])) if m.type in ('error', 'warning') else None)
