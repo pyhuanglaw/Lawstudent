@@ -24,9 +24,9 @@ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.nav._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
 /* 每間：座位數、AA_772 look_lines（企劃線 docs/story_planning/AA_772_l118_shops_redo_fix.json）的那一句和放在哪樣東西上、重做前的 GLB 大小、一定要有的 GLOW_ 材質 */
 const WANT={
-  omu:{name:'奈良咖哩',seats:24,look:['curry_photos','（牆上的照片都是咖哩飯。每一張的福神漬都放在同一個位置。）'],old:1310256,glow:[]},
+  omu:{name:'奈良咖哩',seats:20,look:['curry_photos','（牆上的照片都是咖哩飯。每一張的福神漬都放在同一個位置。）'],old:1310256,glow:[]},
   noodle2:{name:'迪倫窯烤披薩',seats:10,look:['oven','（窯裡的火是橘色的。站近一點，臉會熱。）'],old:1202232,glow:['GLOW_l118_noodle2_fire']},
-  pasta:{name:'義大麵屋',seats:22,look:['open_kitchen','（鍋子一翻，蒜的味道飄到吧檯這一邊。）'],old:1518072,glow:[]},
+  pasta:{name:'義大麵屋',seats:21,look:['open_kitchen','（鍋子一翻，蒜的味道飄到吧檯這一邊。）'],old:1518072,glow:[]},
 };
 const ONLY=process.argv[2]?process.argv[2].split(','):Object.keys(WANT);
 const DONE=id=>{ const L=L118_SHOP_LAYOUTS[id]; return !!L&&/l118_int_/.test(L.src||''); };   /* 還沒重做的那一間（配置的 src 不是 l118_int_*.py）＝FAIL，不是跳過 */

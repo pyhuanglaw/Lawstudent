@@ -274,7 +274,7 @@ def build():
     K.pot_plant(c, X0 + 0.12, 0.55, 2.585, h=0.2, seed=4, r=0.075, m=trW, pot='#2a2a2a'); K.vine(c, trW, X0 + 0.2, 2.58, 0.66, 1.1, 61, out=(1, 0)); K.vine(c, trW, X0 + 0.2, 2.58, 0.4, 0.6, 62, out=(1, 0))
     K.vine(c, trW, X0 + 0.06, 3.05, 3.95, 1.3, 63, out=(1, 0)); K.vine(c, trW, X0 + 0.06, 3.05, 3.7, 0.8, 64, out=(1, 0))
     # ---- 桌椅：左牆三組（裡面雙人桌、中間兩張雙人桌併成四人桌、靠窗雙人桌）＋中間靠窗一張雙人桌 ----
-    ch = lambda c_, x, z, yaw: iron_chair(c_, x, z, yaw); TK = dict(td=0.66, half=0.8, gap=0.28, legs='posts', legc=IR)
+    ch = lambda c_, x, z, yaw: iron_chair(c_, x, z, yaw); TK = dict(td=0.66, half=0.8, gap=0.25, legs='posts', legc=IR)   # 座位點離桌子中心 0.58：相鄰兩組背對背的座位點隔 0.44 m（遊戲把 0.4 m 內的兩個座位當同一個位子，tests/shop_diners_unit.js）
     t = K.table_unit(c, (X0, -2.5), (-3.26, -2.56), -0.25, [-2.9], [(-2.5, 1)], ch, **TK); candle(c, t[0] - 0.05, t[1] + 0.1); shakers(c, t[0] - 0.18, t[1] - 0.12)
     # 併桌：兩張 0.7 m 的雙人桌併成 1.4 m（中間看得到接縫；四個座位 table 同一個值）
     for (ta, tb) in ((-3.26, -2.57), (-2.55, -1.86)): K.table_top(c, ta, tb, 1.35 - 0.33, 1.35 + 0.33, legs='posts', legc=IR)
@@ -282,7 +282,7 @@ def build():
     t = K.table_unit(c, (X0, -2.5), (-3.26, -2.56), 2.95, [-2.9], [(-2.5, 1)], ch, zext=(2.15, Z1), **TK); candle(c, t[0] - 0.05, t[1] + 0.1); shakers(c, t[0] - 0.18, t[1] - 0.12)
     t = K.table_unit(c, (-0.9, -0.1), (-0.85, -0.15), 2.95, [-0.5], [(-0.1, 1), (-0.9, -1)], ch, zext=(2.15, Z1), **TK); candle(c, t[0], t[1] + 0.08); shakers(c, t[0] - 0.15, t[1] - 0.12)
     for s in c.seats:                                                                                                                 # 緊鄰併桌的兩張椅子：走近點往自己那一桌退 0.16 m（併桌那一組比雙人桌凸出 0.8 m，原本的走近點貼著它的桌角、站不住）
-        for (sz, az) in ((0.36, 0.2), (2.34, 2.5)):
+        for (sz, az) in ((0.33, 0.2), (2.37, 2.5)):
             if abs(s['x'] + 2.9) < 0.01 and abs(s['z'] - sz) < 0.02: s['ap'] = [-2.15, az]; s['r'] = 0.92
     # ---- 地上的白線「外帶取餐 ↑」（從門口往櫃台）、門邊木凳上的盆栽 ----
     fl = c.extra.setdefault('floorpaint', Mesh('l118_noodle2_floorpaint', paint)); y = 0.006
@@ -311,7 +311,7 @@ def build():
     lay = K.end(c, 'L118-SHOPS-REDO-1111（使用者 2026-11-11 規格＋參考圖 int_noodle2.webp）；店名、菜單 AA_280；室內 tools/blender/env_second/l118_int_noodle2.py（LAWWW 子代理代 LAWWW2）')
     if '--preview' in K.ARGS:
         pts = [(2.2, 2.35, -1.7, 90), (2.2, 2.35, 0.3, 90), (-2.7, 2.4, 1.35, 60), (-0.5, 2.4, 2.95, 60), (-0.4, 2.7, 0.9, 70), (1.6, 2.7, 1.2, 70), (0.9, 1.25, -3.15, 45), (-1.5, 2.6, -3.3, 70), (0.9, 2.5, -1.6, 60), (-2.9, 2.4, -0.25, 50)]
-        K.preview(sid, [['door', [dx - 0.35, 1.5, Z1 - 0.3], [0.2, 1.1, Z0 + 0.6], 17], ['back', [0.9, 1.75, -1.9], [-0.3, 1.0, Z1], 15]], pts)
+        K.preview(sid, [['door', [dx - 0.35, 1.5, Z1 - 0.3], [0.2, 1.1, Z0 + 0.6], 17], ['back', [0.9, 1.75, -1.9], [-0.3, 1.0, Z1], 15]], pts, samples=28)
     return lay
 
 
