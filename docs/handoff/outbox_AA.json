@@ -6696,12 +6696,43 @@
     "docs/story_planning/AA_814_三個優先項目劇情斷點對帳.md",
     "docs/story_planning/00_現行設定總表.md"
    ],
-   "status": "已交付",
+   "status": "已整合",
    "at": "2026-11-11T16:3x",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACK",
    "noDirectIntegrate": false,
-   "next": "LAWWW 照第 4 節總表接（台詞已寫好，程式項 LAWWW 定）"
+   "next": "LAWWW 7d9d79425 12 項全接；GHA 綠了交 BB 測"
+  },
+  {
+   "task": "GG-SHOPS3-STORY-1110",
+   "branch": "claude/story-planning",
+   "commit": "8f6650289",
+   "files": [
+    "docs/story_planning/AA_742_公館六間店_設定與台詞.md"
+   ],
+   "status": "已整合",
+   "at": "2026-11-11T16:3x",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 7d9d79425：打烊照 AA_700、泰米午休、柔軟精、合照說明"
+  },
+  {
+   "task": "STUDY-EXAM-STORY-1102",
+   "branch": "claude/story-planning",
+   "commit": "80ed4ea06",
+   "files": [
+    "docs/story_planning/syllabus/Y4S2.json",
+    "docs/story_planning/syllabus/JP.json",
+    "docs/story_planning/syllabus/Y1S1.json",
+    "docs/story_planning/syllabus/Y1S2.json"
+   ],
+   "status": "已整合",
+   "at": "2026-11-11T16:3x",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "拿掉期中考字樣（D118）；LAWWW 7d9d79425 已重匯"
   }
  ],
  "items": [
