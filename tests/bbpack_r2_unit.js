@@ -57,7 +57,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     const G1=fresh(TD('Y2S1',1,1),13.3,'gongtong'); H.said=[]; H.picks=[0]; await X().inClass.g1(GM,{c:CLS.byId('japanese_1'),week:1,exam:null,term:'Y2S1',day:G1.day,key:'k'},null,{});
     check('2. G1 以後三個人都算認識（FIRST_MET，關係面板看得到）',['jp_caizhen','jp_liheng','jp_yuheng'].every(id=>SOCIAL.has(id,'FIRST_MET')));
     const G2=fresh(TD('Y2S1',3,1),13.2,'gongtong',{JP_MET:true}); const it=CLS.dayItems(G2,G2.day).find(x=>x.c.id==='japanese_1'); H.said=[]; H.picks=[0,0,0]; await CLS.attend(GM,it,{inScene:true});
-    check('2. 課表的反應句現在出得來（日文上第 3 週宇恆「コンピューター。這個我會。」）',said().some(t=>/コンピューター。這個我會。/.test(t)),J(said()));
+    check('2. 課表的反應句現在出得來（日文上第 3 週兩句反應播其中一句：宇恆「コンピューター。這個我會。」或采蓁「我的名字用片假名寫，好像變成別人。」）',said().some(t=>/コンピューター。這個我會。|我的名字用片假名寫，好像變成別人。/.test(t)),J(said()));   /* 2026-11-11 日文課堂內容 ba322d6ae（BB_374）多了課前、課後的小互動，隨機數順序變了，播到的是另一句；原意＝反應句出得來 */
     const G3=fresh(TD('Y2S1',2,1),15.2,'gongtong',{JP_MET:true}); const r0=SOCIAL.rel('jp_caizhen').fam|0; const roll=X().roll; X().roll=()=>0; H.said=[]; H.picks=[0]; await CLS.afterClassEvent(GM,{c:CLS.byId('japanese_1'),week:2,exam:null,term:'Y2S1',day:G3.day,key:'k2'}); X().roll=roll;
     check('2. G2 熟悉度記進關係（采蓁 fam +1）',(SOCIAL.rel('jp_caizhen').fam|0)===r0+1);
   });
