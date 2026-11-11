@@ -661,7 +661,7 @@ def analyze(t, case, run, segs, info, check=True):
     me = info.get('name') or '祐廷'
     replies = [e['v'] for e in dl[start:] if e.get('k') == 'say' and not e.get('who') and e.get('name') == me and e['v'] in (info.get('reply') or [])]
     res['auto_reply'] = replies
-    fxs = [e for e in dl[start:] if e.get('k') == 'fx' and e.get('id') == who]
+    fxs = [e for e in dl[start:] if e.get('k') == 'fx' and e.get('id') == who and e.get('fx') is not None]
     love = sum(((e.get('ret') or {}).get('npcRom') or 0) for e in fxs)
     adjl = sum(((e.get('dd') or {}).get('npcRom') or 0) for e in dl[start:] if e.get('k') == 'adj' and e.get('id') == who)
     res['fx_love'] = love; res['adj_love'] = adjl
@@ -754,7 +754,7 @@ def analyze(t, case, run, segs, info, check=True):
         nxt = next((j for j in range(i + 2, len(dl)) if dl[j].get('k') == 'choose'), len(dl))
         after = says(dl, i + 2, nxt); r['after'] = after[:8]
         if s.get('ordered'):
-            fxe = [e for e in dl[i + 2:nxt] if e.get('k') == 'fx' and e.get('id') == who]
+            fxe = [e for e in dl[i + 2:nxt] if e.get('k') == 'fx' and e.get('id') == who and e.get('fx') is not None]
             if k < 3 and o:
                 ck('%s [%s] 選「%s」：fx＝稿 %s' % (t, s['id'], chosen, J(o.get('fx'))), (not o.get('fx') and not fxe) or (bool(fxe) and fxe[0].get('fx') == o['fx']), J([e.get('fx') for e in fxe]))
             cur = i + 1; continue
@@ -767,7 +767,7 @@ def analyze(t, case, run, segs, info, check=True):
         if s.get('thenNot'):
             hit = [x for x in s['thenNot'] if x in allsay]
             ck('%s [%s] 條件不合的 thenIf 沒有演（%s）' % (t, s['id'], J(s['thenNot'])), not hit, J(hit))
-        fxe = [e for e in dl[i + 2:nxt + 1] if e.get('k') == 'fx' and e.get('id') == who]
+        fxe = [e for e in dl[i + 2:nxt + 1] if e.get('k') == 'fx' and e.get('id') == who and e.get('fx') is not None]
         r['fx'] = [[e.get('fx'), e.get('ret')] for e in fxe]
         ok_fx = (not o.get('fx') and not fxe) or (len(fxe) == 1 and fxe[0].get('fx') == o['fx'])
         ck('%s [%s] 效果＝稿 fx %s（SOCIAL.applyFx 收到的）' % (t, s['id'], J(o.get('fx'))), ok_fx, J(r['fx']))

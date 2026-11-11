@@ -305,16 +305,39 @@ async def part_int(pg, cdp):
                                    " const k=(x,z)=>Math.round(x/st)+','+Math.round(z/st); const seen=new Set(), Q=[[a.sx,a.sz]], R=[]; seen.add(k(a.sx,a.sz));"
                                    " while(Q.length&&R.length<8000){ const [x,z]=Q.shift(); R.push([x,z]); for(const [dx,dz] of [[st,0],[-st,0],[0,st],[0,-st]]){ const nx=+(x+dx).toFixed(2), nz=+(z+dz).toFixed(2), kk=k(nx,nz); if(seen.has(kk)) continue; seen.add(kk); if(ok(nx,nz)&&!staff(nx,nz)) Q.push([nx,nz]); } }"
                                    " const xs=R.map(p=>p[0]), zs=R.map(p=>p[1]);"
-                                   " return {n:R.length, x:[Math.min(...xs),Math.max(...xs)], z:[Math.min(...zs),Math.max(...zs)], canStand:!!E.canStand, pts:a.corners.map(([cx,cz])=>{ let b=null,bd=1e9; for(const [x,z] of R){ const d=Math.hypot(x-cx,z-cz); if(d<bd){ bd=d; b=[x,z]; } } return b; })}; })",
+                                   " const EXl=L.exit||{x:a.sx,z:a.sz}; let far=null,fd=-1; for(const [x,z] of R){ const d=Math.hypot(x-EXl.x,z-EXl.z); if(d>fd){ fd=d; far=[x,z]; } } return {far, farD:+fd.toFixed(2), n:R.length, x:[Math.min(...xs),Math.max(...xs)], z:[Math.min(...zs),Math.max(...zs)], canStand:!!E.canStand, pts:a.corners.map(([cx,cz])=>{ let b=null,bd=1e9; for(const [x,z] of R){ const d=Math.hypot(x-cx,z-cz); if(d<bd){ bd=d; b=[x,z]; } } return b; })}; })",
                                    {'sid': sid, 'sx': L_['spawn']['x'], 'sz': L_['spawn']['z'], 'corners': [[-W_ / 2, D_ / 2], [W_ / 2, D_ / 2], [W_ / 2, -D_ / 2], [-W_ / 2, -D_ / 2]]})
             pts = bfs['pts']
             R.note('%s 角落挑點：從出生點擴散 %d 點、x %s、z %s（房間 %.1f×%.1f；canStand %s）→ %s' % (tag, bfs['n'], bfs['x'], bfs['z'], W_, D_, bfs['canStand'], J(pts)))
             R.check('%s 挑點有走進店裡（擴散範圍 z 跨過房間一半以上）' % tag, bfs['z'][1] - bfs['z'][0] > D_ / 2, J(bfs['z']))
             miss = []
+            JOY = os.environ.get('JOYWALK') == '1'   # BB 01:56：純搖桿一輪（照 E.pathTo 中途點推、近目標推輕）
+            async def walk_pt(tx, tz, lab):
+                if not JOY: return await L.go_to(pg, cdp, R, tx, tz, 0.6, lab, max_s=60)
+                t0_ = time.time(); last_ = (time.time(), None); stuck_ = 0
+                while time.time() - t0_ < 60:
+                    m_ = await pg.evaluate(ME); d_ = math.hypot(tx - m_['x'], tz - m_['z'])
+                    if d_ < 0.6: R.note('%s 搖桿到了（%.0f 秒、卡住側推 %d 次）' % (lab, time.time() - t0_, stuck_)); return True
+                    if last_[1] is None or math.hypot(m_['x'] - last_[1][0], m_['z'] - last_[1][1]) > 0.25: last_ = (time.time(), (m_['x'], m_['z']))
+                    elif time.time() - last_[0] > 4: stuck_ += 1; await L.joystick(pg, cdp, 35 * (1 if stuck_ % 2 else -1), 0, 500); last_ = (time.time(), None); continue
+                    ah = await pg.evaluate("(a=>{ const E=GAME.E,P=E.player,o=P.obj.position; const r=E.pathTo?E.pathTo(o.x,o.z,P.lv|0,a[0],a[1],P.lv|0):null; if(!r||!r.length) return null; let ax=o.x,az=o.z,acc=0; for(const q0 of r){ const q=Array.isArray(q0)?q0:[q0.x,q0.z]; const Lq=Math.hypot(q[0]-ax,q[1]-az); if(acc+Lq>=1.2){ const f=(1.2-acc)/Math.max(Lq,1e-6); return [ax+(q[0]-ax)*f,az+(q[1]-az)*f]; } acc+=Lq; ax=q[0]; az=q[1]; } return [ax,az]; })", [tx, tz])
+                    gx, gz = (ah or [tx, tz]); dd_ = math.hypot(gx - m_['x'], gz - m_['z']) or 0.01
+                    yaw = await pg.evaluate("GAME.E.cam.yaw"); fx_, fz_ = -math.sin(yaw), -math.cos(yaw); rx_, rz_ = math.cos(yaw), -math.sin(yaw)
+                    vx_, vz_ = (gx - m_['x']) / dd_, (gz - m_['z']) / dd_; sx_, sy_ = vx_ * rx_ + vz_ * rz_, -(vx_ * fx_ + vz_ * fz_); mm_ = math.hypot(sx_, sy_) or 1
+                    mag = 45 if d_ > 2.0 else max(16, 45 * d_ / 2.0)
+                    await L.joystick(pg, cdp, sx_ / mm_ * mag, sy_ / mm_ * mag, 450 if d_ > 2.0 else 250)
+                m_ = await pg.evaluate(ME); R.note('%s 搖桿 60 秒沒到：停在 (%.2f,%.2f)' % (lab, m_['x'], m_['z'])); return False
             for k, pt in enumerate(pts):
                 if not pt: miss.append(['角落%d 附近沒有站得住的格子' % (k + 1)]); continue
-                ok = await L.go_to(pg, cdp, R, pt[0], pt[1], 0.6, '%s 走到角落 %d (%.1f,%.1f)' % (tag, k + 1, pt[0], pt[1]), max_s=60)
+                ok = await walk_pt(pt[0], pt[1], '%s 走到角落 %d (%.1f,%.1f)%s' % (tag, k + 1, pt[0], pt[1], '（搖桿）' if JOY else ''))
                 if not ok: miss.append(pt)
+            for ep in [x for x in (os.environ.get('EXTRA_PTS') or '').split(';') if x]:   # BB 01:56 ②：印得好電腦桌東邊 (0.6,−4.0) 這種指定點
+                ex_x, ex_z = [float(v) for v in ep.split(',')]
+                okx = await walk_pt(ex_x, ex_z, '%s 走到指定點 (%.2f,%.2f)' % (tag, ex_x, ex_z))
+                R.check('%s 走到指定點 (%.2f,%.2f)（之後要走得回出口）' % (tag, ex_x, ex_z), okx, '')
+            if os.environ.get('FARTHEST') == '1' and bfs.get('far'):   # BB 01:56 ③：走到離門最遠的站得住的點，再走回出口（回歸）
+                okf = await walk_pt(bfs['far'][0], bfs['far'][1], '%s 走到離出口最遠的站得住點 %s（%.1f m）' % (tag, bfs['far'], bfs['farD']))
+                R.check('%s 走到離出口最遠的站得住點 %s' % (tag, bfs['far']), okf, '')
             R.check('%s 店裡走一圈（四個角落都走得到、沒有隱形牆）' % tag, not miss, J({'pts': pts, 'miss': miss}))
             await pg.evaluate("window.__TZ=[]")
             sp = L_['spawn']
@@ -371,7 +394,9 @@ async def part_int(pg, cdp):
                     await L.joystick(pg, cdp, sx_ / mm_ * 45, sy_ / mm_ * 45, 500)
                 me1 = await pg.evaluate(PJ)
                 R.note('%s TRAPDIAG 搖桿直接朝出口推 10 秒：從 %s 到 %s（離出口 %.2f m）；軌跡 %s' % (tag, me0['me'], me1['me'], math.hypot(ex['x'] - me1['me'][0], ex['z'] - me1['me'][1]), J(trail[::3])))
-            t1 = time.time(); await tap_it(pg, cdp, ex, tag)
+            t1 = time.time()
+            if JOY: await walk_pt(ex['x'], ex['z'], '%s 搖桿走到「%s」' % (tag, ex['label'])); await pg.wait_for_timeout(500); await L.tap(pg, cdp, '#interact')
+            else: await tap_it(pg, cdp, ex, tag)
             for _ in range(80):
                 me = await pg.evaluate(ME)
                 if me['zone'] == OZ and not me['ent']: break
