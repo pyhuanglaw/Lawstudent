@@ -52834,7 +52834,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "AA 掃描報告 audit_1110/ → 改稿分批交 LAWWW 重匯；電影 AA_745｜11-11 02:1x AA 知會（還不用匯）：學姊校外約會 D01～D19 已重寫（企劃線 31af6d5d1，date_rewrite/sis_D01～D19.json；交往版寫「林{name}」，都在對話框）＋AA_764_sis_wish.json（心願事件「不排的晚上」，date_wish.js events.heroine_05 整個新物件＋31 列）。等 D20～D33 和 BB 抽看完給一個 SHA 一次匯（做法同沛珊）；AA_595（D15 保溫瓶選項刪）、AA_593（decline 1 句）兩層對新稿不用再套。ytNameT「林{name}」不重複補林已修（8cc9743d8）｜11-11 02:2x AA：學姊校外約會 33 個地點寫完（企劃線 13e00c3dd；1,784 格改約 680 格；BB 看過 D01～D19，**等 BB 看完 D20～D33、AA 給最後 SHA 才匯**）。匯的時候：白名單 D01～D33 換那個 SHA（和沛珊同一批檔——沛珊先照 2883197b6 匯）；AA_764_sis_wish.json（date_wish.js events.heroine_05 整個新物件＋32 列；AA_595、AA_593 兩層不再套）；date3d.js S.MORNING heroine_05 換成「（她已經在大廳，頭髮綁好了）早。你慢了七分鐘。」；import_date_lines.py 不再套 AA_359 5-2 學姊 D31／D32 arrive、5-3 學姊 D26／D32 closing；其他修正層對學姊的列 old 對不到就跳過；選項換字五格（D05 咖啡館 2、D11 地熱谷 2、D17 海蝕平台 2、D18 小店 2、D21 祖師廟 1）；交往版 35 格「林{name}」｜11-11 02:2x AA：約會源稿最新 SHA **82c946ad7**（BB 看完學姊 D20～D33 又改八格：學姊五、沛珊三；取代 2883197b6、13e00c3dd）；學姊可以匯了，另加 AA_765_sis_date_common.json（DATE_LINES.lines.heroine_05 三列）、D32 到達格「你開了很久的車。下車先動一動。」。**已追加給做沛珊的背景子代理當第 9 項**（源稿同一批檔，換 SHA 學姊的格會一起進）｜11-11 03:0x：學姊校外約會 33 個地點＋心願 AA_764＋短句 AA_765（808a6d846）已在開發分支 124fe40e5（和沛珊同一批合併）。待 AA 回：學姊有 35 格新稿沒動、源稿是舊字，遊戲照舊疊著 AA_598 等先前的修正——清單 docs/handoff/notes/sis_35_cells_for_AA_1111.txt，要照舊還是改用源稿的字",
+   "next": "AA 掃描報告 audit_1110/ → 改稿分批交 LAWWW 重匯；電影 AA_745｜11-11 02:1x AA 知會（還不用匯）：學姊校外約會 D01～D19 已重寫（企劃線 31af6d5d1，date_rewrite/sis_D01～D19.json；交往版寫「林{name}」，都在對話框）＋AA_764_sis_wish.json（心願事件「不排的晚上」，date_wish.js events.heroine_05 整個新物件＋31 列）。等 D20～D33 和 BB 抽看完給一個 SHA 一次匯（做法同沛珊）；AA_595（D15 保溫瓶選項刪）、AA_593（decline 1 句）兩層對新稿不用再套。ytNameT「林{name}」不重複補林已修（8cc9743d8）｜11-11 02:2x AA：學姊校外約會 33 個地點寫完（企劃線 13e00c3dd；1,784 格改約 680 格；BB 看過 D01～D19，**等 BB 看完 D20～D33、AA 給最後 SHA 才匯**）。匯的時候：白名單 D01～D33 換那個 SHA（和沛珊同一批檔——沛珊先照 2883197b6 匯）；AA_764_sis_wish.json（date_wish.js events.heroine_05 整個新物件＋32 列；AA_595、AA_593 兩層不再套）；date3d.js S.MORNING heroine_05 換成「（她已經在大廳，頭髮綁好了）早。你慢了七分鐘。」；import_date_lines.py 不再套 AA_359 5-2 學姊 D31／D32 arrive、5-3 學姊 D26／D32 closing；其他修正層對學姊的列 old 對不到就跳過；選項換字五格（D05 咖啡館 2、D11 地熱谷 2、D17 海蝕平台 2、D18 小店 2、D21 祖師廟 1）；交往版 35 格「林{name}」｜11-11 02:2x AA：約會源稿最新 SHA **82c946ad7**（BB 看完學姊 D20～D33 又改八格：學姊五、沛珊三；取代 2883197b6、13e00c3dd）；學姊可以匯了，另加 AA_765_sis_date_common.json（DATE_LINES.lines.heroine_05 三列）、D32 到達格「你開了很久的車。下車先動一動。」。**已追加給做沛珊的背景子代理當第 9 項**（源稿同一批檔，換 SHA 學姊的格會一起進）｜11-11 03:0x：學姊校外約會 33 個地點＋心願 AA_764＋短句 AA_765（808a6d846）已在開發分支 124fe40e5（和沛珊同一批合併）。待 AA 回：學姊有 35 格新稿沒動、源稿是舊字，遊戲照舊疊著 AA_598 等先前的修正——清單 docs/handoff/notes/sis_35_cells_for_AA_1111.txt，要照舊還是改用源稿的字｜AA 11-11 02:5x：學姊 35 格照舊用遊戲的字（AA 已把 34 格寫回源稿，企劃線 5759aed2f）。語彤約會台詞預告（還不用匯）：D01～D21 寫完（企劃線 4c3927e11，date_rewrite/yt_D01～D21.json；BB 看過 D01～D15）；到時 AA_630 第 2 節對她的約會台詞整節跳過、D14 看 yt_D14.json _meta.for_LAWWW（程式加的收尾句照留）、「秀琴姨→煮飯的阿姨」的程式規則 date3d.js S.xiuqin 照留",
    "xai": {
     "spec": "X324、UA-AA-1110-04",
     "branch": "claude/story-planning",
@@ -53060,7 +53060,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【三批都在開發分支】第一批 a648c5f37、第二批 7d365bfb4、第三批 124fe40e5（約會台詞 33 個地點 @82c946ad7、AA_757 心願＋縣市、AA_758 短句 @bed993604、AA_759、階梯 linesIf @b59a8f9de、AA_761／AA_762 事件 40 處、AA_763 零散 23 列、課輔班招呼條件照 BB_326）。子代理跑過全部 1,257 支；合併後關鍵 13 支 ALL PASS；瀏覽器沒跑。【等 AA／BB 回】①大四下還有一則「早。我八點的課，七點就到了。」要不要換 ②BB：aa614_3d.js 把「等一下！我在上班！」蓋成週三 20:50～21:10 的那段拿掉了（不拿掉 19:00 出不來），21:00～21:10 不再出這句可以嗎 ③msg2_pool 新年那則的回問選項回覆稿沒列 ④src/y2b3d.js S.PS_TAINAN 舊副本（沒人用，7 句台南舊句）刪還是同步。【發布前】src 裡「早餐店／蛋餅」還有 56 處（多數是別的角色、世界裡別的早餐店、註解）——請 CC 重掃畫面上和沛珊有關的還剩幾筆（上次 42），歸零或列進「這版沒有」。【AA 說還剩】約會 again／dating 加選項（等 DLG-FX-MECH-1110）、電影專屬回話",
+   "next": "【三批都在開發分支】第一批 a648c5f37、第二批 7d365bfb4、第三批 124fe40e5（約會台詞 33 個地點 @82c946ad7、AA_757 心願＋縣市、AA_758 短句 @bed993604、AA_759、階梯 linesIf @b59a8f9de、AA_761／AA_762 事件 40 處、AA_763 零散 23 列、課輔班招呼條件照 BB_326）。子代理跑過全部 1,257 支；合併後關鍵 13 支 ALL PASS；瀏覽器沒跑。【等 AA／BB 回】①大四下還有一則「早。我八點的課，七點就到了。」要不要換 ②BB：aa614_3d.js 把「等一下！我在上班！」蓋成週三 20:50～21:10 的那段拿掉了（不拿掉 19:00 出不來），21:00～21:10 不再出這句可以嗎 ③msg2_pool 新年那則的回問選項回覆稿沒列 ④src/y2b3d.js S.PS_TAINAN 舊副本（沒人用，7 句台南舊句）刪還是同步。【發布前】src 裡「早餐店／蛋餅」還有 56 處（多數是別的角色、世界裡別的早餐店、註解）——請 CC 重掃畫面上和沛珊有關的還剩幾筆（上次 42），歸零或列進「這版沒有」。【AA 說還剩】約會 again／dating 加選項（等 DLG-FX-MECH-1110）、電影專屬回話｜【AA 11-11 02:5x 回，LAWWW 待做（小）】①沛珊大四下招呼「早。我八點的課，七點就到了。」換成「早。八點的課我還是修了，不要問我為什麼。」（ladder 來源＋tools/story/import_greet_classday.py 的 RENAMED 要跟著）②msg2_pool 新年回問（tools/msg/build_msg2.py:424）：「把書念完。」→「好無聊的答案。我記下來了，年底驗收。」；「還沒想好。」→「那我過幾天再問一次。你躲不掉。」③刪 src/y2b3d.js 的 S.PS_TAINAN（tests/bg107_unit.js 第 3 項跟著改）。BB 同意 21:00～21:10 不出「等一下！我在上班！」",
    "xai": {
     "spec": "X327、UA-AA-1110-06",
     "branch": "claude/story-planning",
@@ -53293,7 +53293,7 @@
    "id": "BUG-GOCLASS-SKIPPED-1111",
    "title": "使用者 day57：早上選「去上課」→ 直接跳到法圖、沒有進教室、手機說沒去上課（USER_WANTS X337，下一版必須）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -53306,7 +53306,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "存檔（使用者上傳，只在 LAWWW 工作階段 /root/.claude/uploads/…/020560dc-fatiao3d_save_day57_2.json，不 commit）：day 57 週三 15:29 在 lawlib；courses.note 有 plan_skip_57:crim_gen1:am＋skip_57:crim_gen1:am（第一堂刑法總則記成「翹課」）、done 只有 57:service_1:pm1（下午服務學習，地點法圖櫃台、門口上課不進教室）；slots am 用掉 1。plan_skip 只有起床選單「翹這堂課→翹」或在家起床會寫——所以遊戲記到的是：翹第一堂 →（再睡一下）→ 第二次起床選單第一項變成「直接去上課：服務學習」→ 時間跳到 13:00、落在法圖。使用者說她選的是去上課。待查：①選單有沒有防連點（game3d.js choose 的按鈕 onclick 沒有延遲——對話點太快，選項一出現就被同一下點到）②在瀏覽器照存檔前一晚重現 ③服務學習「上課」只有 2D 跳時間，看起來像沒上課。修法方向：選單出現後 0.3～0.4 秒內不收點；起床選單的第二次（翹掉第一堂以後）字要寫清楚是下一堂；翹課要更明顯的確認｜11-11 03:0x 第一步已做（996af405a）：選單防連點——選項出現後 350 ms 內按下去的不算（game3d.js tapTooSoon；自動化瀏覽器預設不擋、?tapguard 強制開）。還沒做：防連點的單元測試、瀏覽器重現（從 day56 晚上睡到 day57 起床）、起床選單翹課那一步的確認加強、服務學習上課的呈現",
+   "next": "存檔線索（使用者 day57，原始檔不 commit）：plan_skip_57:crim_gen1:am＋skip_57:…（刑法總則＝翹課）、done 57:service_1:pm1（服務學習，法圖櫃台）、slots am 用 1。plan_skip 只有起床選單「翹這堂課→翹」會寫（和在家起床「今天不去」）；dl01_oneclick_unit 第 2 節就是這條路：翹 → 再睡一下 → 下一次起床選單從下一堂開始。推測是連點（還沒在瀏覽器重現）。【已做，開發分支】996af405a 選單防連點（選項出現後 350 ms 內 pointerdown 的不算；webdriver 預設不擋、?tapguard 強制開）；6f9961fa6 翹課確認「還是去」放第一個、「翹」第二個＋tests/tap_guard_1111_unit.js 9 項。【服務學習】S.attend 的 service 分支：櫃台報到一句旁白（c.serviceLines 第 n 句）→ 淡出跳到下課 → 字幕「服務學習（一）：第 n 次」（AA_110 6-1 設計）——使用者覺得「連教室都沒有、沒播完」；等 CC 第 ④ 項畫面、BB 判要不要補過場（要補請 AA 給字）。【等 CC（BB 已排最前）】真觸控連點重現 10 次、?tapguard、正常選去上課全程新舊各一、服務學習畫面、另外三學期各抽一天、翹掉以後手機「反悔：直接去上課」。【還沒做】在家起床選單「今天不去」沒有確認（home3d.js homeWake k===1 直接記 plan_skip）——要不要加確認；使用者這一天要不要補救（原因確認後用選擇題問）",
    "xai": {
     "spec": "使用者 11-11 02:5x 對 LAWWW（UA-LAWWW-1111-03）",
     "branch": "claude/confident-ritchie-8rwh7t",
