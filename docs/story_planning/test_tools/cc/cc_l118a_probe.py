@@ -574,12 +574,25 @@ async def looks(pg, cdp, sid, tag):
     its = [i for i in await pg.evaluate(ITS) if i['look']]
     R.note('%s 看東西的互動 %d 個：%s' % (tag, len(its), J(its)))
     for it in its:
-        tg = await D.standable_near(pg, it['x'], it['z'], it['r'] * 0.6, 0)
-        if not tg: R.check('%s「%s」範圍裡有站得住的地方' % (tag, it['label']), False, J(it)); continue
-        await joy_walk(pg, cdp, tg['x'], tg['z'], 0.3, 40, '%s 搖桿走到「%s」' % (tag, it['label']))
+        # r2（CC 07:1x）：看東西的互動 prio −0.3、讓位給坐下（src/l118_shops3d.js）——第一個站點互動鍵是「坐下」時，換範圍裡別的站點再試（最多 6 個），記哪裡按得到；全部都被搶＝玩家找不到看那個東西的位置（交 BB）
+        tried = []; okp = None
+        for fr, ang in [(0.6, None), (0.3, 0), (0.3, 90), (0.3, 180), (0.3, 270), (0.85, 45)]:
+            if ang is None: cx, cz = it['x'], it['z']
+            else: cx, cz = it['x'] + it['r'] * 0.5 * math.cos(math.radians(ang)), it['z'] + it['r'] * 0.5 * math.sin(math.radians(ang))
+            tg = await D.standable_near(pg, cx, cz, it['r'] * fr, 0)
+            if not tg: continue
+            await joy_walk(pg, cdp, tg['x'], tg['z'], 0.25, 30, '%s 搖桿走到「%s」附近 (%.2f,%.2f)' % (tag, it['label'], tg['x'], tg['z']))
+            st_ = await D.settle(pg); tried.append([round(st_['x'], 2), round(st_['z'], 2), st_['interact']])
+            if st_['interact'].startswith(it['label']): okp = tried[-1]; break
+        R.note('%s「%s」試過的站點（座標、互動鍵）：%s' % (tag, it['label'], J(tried)))
+        if not okp:
+            R.check('%s「%s」範圍裡找得到一個互動鍵是它的站點（不是被「坐下」搶走）' % (tag, it['label']), False, J(tried)); await D.shot(pg, 'l118a_special_%s_look_blocked' % sid); continue
         if not await tap_interact(pg, cdp, it['label'], tag): continue
         got = []; t0 = time.time()
         while time.time() - t0 < 20:
+            cap = await pg.evaluate("(()=>{ const e=document.getElementById('caption'); return e&&!e.classList.contains('hide')&&+getComputedStyle(e).opacity>0.05?(e.textContent||''):''; })()")   # r2（CC 07:1x）：看東西是 caption('',look,4600)（字幕），不是對話框——第一輪只看 #dlg、抓到 []
+            if cap and (not got or got[-1] != cap): got.append(cap)
+            if cap and time.time() - t0 > 2: break
             q = await D.st(pg)
             if q['dlg']:
                 tx = await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''"); await pg.wait_for_timeout(1200)

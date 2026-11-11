@@ -55,6 +55,8 @@ CLASS12_crim_c | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_p
 # BB 06:23／06:33／06:34 L118A 第二批（美術先看）：四間第 2 版廚房、近照、辛亥韓食橫樑最遠；三間＋home／cafe2 的看東西、窯爐火、奈良咖哩地板、店員站位、TRACE_SQ12
 L118A_KITCHEN | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=KITCHEN;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
 L118A_SPECIAL | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SPECIAL;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+# CC 07:1x：SPECIAL r2——看東西是字幕（caption）不是對話框；被「坐下」搶走時換站點
+L118A_SPECIAL_r2 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SPECIAL;RERUN=r2;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
 # BB 06:38 L118D A＋B：OK（A1、A2 先，另拍菜單牌、價目表、招牌、海報近照；「看的東西」逐字表）
 L118D_A1 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118d_ab_probe.py | index.html | 20 | PARTS=A;LOOKS=1;PHONE=1;SHOPS=dian,self,tea,home,cafe2,drink_b;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
 L118D_A2 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118d_ab_probe.py | index.html | 20 | PARTS=A;LOOKS=1;PHONE=1;SHOPS=pasta,korea,omu,noodle2,drink_a;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
