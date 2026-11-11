@@ -506,6 +506,9 @@ const DATE=(function(){
      DEV_NOTE＝整句不演；DEV_STRIP＝拿掉句子裡的代號；optText＝選項後面的條件說明拿掉。測試 tests/date_devnote_1111_unit.js */
   S.DEV_NOTE=new Set(['爸爸的事只說到這裡，留給 Q12','你說了']);   /* 子晴 D13 欄杆第 6 階以上那一段第 3 句；以安 D13 飲料選項 2 回覆中間（玩家說了理由的舞台指示）*/
   S.DEV_STRIP={'請路人拍背影，C2':'請路人拍背影'};   /* 芷若 D13 合照：C2 是 CG 代號 */
+  /* 選項的字後面寫「（第 N 階以上）」＝到第 N 階或交往中才出現（AA 2026-11-11 企劃線 d501078a3 回覆：「要，請接成第 6 階以上才出現（BB_128 示範規格的本意；…合照那一組也是第 6 階以上，請用同一個條件）」——和 S.spotLine 的 hi 同一個條件）。全部選項都被擋掉＝這一套當作沒有選項（照 CH.length 走） */
+  S.optNeed=t=>{ const m=/（第 ?(\d+) ?階以上[^）]*）$/.exec(String(t==null?'':t)); return m?+m[1]:0; };
+  S.optOk=(G,id,t)=>{ const n=S.optNeed(t); return !n||!!(G&&G.flags&&G.flags['dating_'+id])||S.stageNum(id)>=n; };
   S.optText=t=>String(t==null?'':t).replace(/（第 ?\d+ ?階以上[^）]*）$/,'');   /* 子晴 D13 拍照選項 3「「一起拍？」（第 6 階以上）」*/
   S.mem=function(G,id,loc){ S.rec(G); const M=G.dateMemory[id]||(G.dateMemory[id]={}); const m=M[loc]||(M[loc]={picks:[],last:[],taste:null,photos:0,recent:[]}); if(!Array.isArray(m.picks)) m.picks=[]; if(!Array.isArray(m.last)) m.last=[]; if(!Array.isArray(m.recent)) m.recent=[]; return m; };   /* picks＝和她在這裡點過的互動點、last＝上一次點的 */
   S.tierOf=function(G,id){ const st=S.stageNum(id); return st>=6?'high':((S.log(G,id).count|0)>=2?'mid':'low'); };
@@ -530,7 +533,7 @@ const DATE=(function(){
     const fill=x=>S.xiuqin(G,id,String(x).replace(/\{sunset\}/g,S.sunset(t.day)).replace(/\{lastDrink\}/g,S.TASTE_WORD[m.taste]||''));
     const run=async L=>{ for(const ln of (L||[])){ if(ln&&S.DEV_NOTE.has(ln.text)) continue;   /* 稿上寫成旁白的開發註記：不演（下面 S.DEV_NOTE）*/ if(!ln||ln.who==='note'){ const mm=ln&&/記 `?TASTE`?＝`?([^`]+)`?/.exec(ln.text||''); if(mm) m.taste=mm[1]==='玩家點的'?'player':mm[1]; continue; }
         const tx=fill(S.DEV_STRIP[ln.text]||ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id) await GM.say(me,tx); else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
-    await run(set.lines); const CH=Array.isArray(set.choice)?set.choice.filter(c=>c&&typeof c.t==='string'&&c.t.trim()):[];
+    await run(set.lines); const CH=Array.isArray(set.choice)?set.choice.filter(c=>c&&typeof c.t==='string'&&c.t.trim()&&S.optOk(G,id,c.t)):[];   /* optOk：字後面寫「（第 N 階以上）」的選項，到了才出現 */
     if(CH.length){ const k=await GM.choose(CH.map(c=>({t:S.xiuqin(G,id,S.optText(c.t))}))), c=CH[k]||CH[0]; await run(S.replyOf(id,c)); S.optFx(G,id,c,t); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
   /* ===== 選項的效果、每次去都有選項（DLG-FX-MECH-1110；使用者 X324；AA_746 第 2 節第 1、2 點）=====
      1. 選項 {t, reply|re, fx}：reply＝原本的格式（[{who,text}]）；re＝她回的話（一句字串或幾句的陣列；整句括號＝旁白）；fx＝{fr:n, love:n}（SOCIAL.applyFx；沒寫＝照舊沒有效果）。
