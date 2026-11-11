@@ -8027,7 +8027,7 @@
    "sha": "（這個 commit）",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACK（LAWWW 已整合：dev bc407bfc5）",
    "task": "L118-SHOPS-REDO-1111 室內四間第 2 版（dian／self／korea／tea）：開放式廚房、桌上的餐點、牆上的東西、招牌物件",
    "files": [
     "docs/art-rebuild/second_ai/wip/l118_redo_1111/（README_int_v2.md、l118_int_v2.patch、regression_int_v2.log、blender_int_v2.jpg）"
@@ -8036,6 +8036,22 @@
    "noDirectIntegrate": false,
    "note": "疊在第二批上；在 dev db5bbdf4c 上 --3way 乾淨；9 個檔；配置檔沒變；全部 Node 測試 1271 支沒有失敗",
    "next": "LAWWW 整合、CC 拍、BB 判（第 3 版是最後一版）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "at": "2026-11-11T07:5x",
+   "task": "L118-SHOPS-REDO-1111 室內四間第 3 版＝最後一版（dian／self／korea／tea）：BB_341 第三節 2～6 條＋第四節（貼著天花板的東西 CEIL_*）；X341【下一版必須】",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/l118_redo_1111/（README_int_v3.md、l118_int_v3.patch、regression_int_v3.log、blender_int_v3.jpg）"
+   ],
+   "state": "READY_FOR_REVIEW；待整合；場景美術 BB 驗；遊戲畫面沒看過",
+   "noDirectIntegrate": false,
+   "note": "基底 dev bc407bfc5，在 2d3e3abc8b 上 --3way 乾淨；19 個檔；只動四間室內，沒有碰街景模型和街景腳本；配置有變（dian 座位 21→17、自助台搬到西牆；self 座位 5→6；korea 多兩塊阻擋）；全部 Node 測試 1274 支：1272 過，aa655_wz_rename_unit 是基底就紅（omu 重做後少一句）、bookstore_exit_unit 是老警告",
+   "next": "LAWWW 整合、CC 同機位重拍（含辛亥韓食 beams_far 兩張）、BB 判；交了以後只改擋玩的（D141）"
   }
  ]
 }

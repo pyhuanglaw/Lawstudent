@@ -1,6 +1,6 @@
 # 118 巷室內四間 第 3 版（最後一版）：118牛排、水上便當、清州刀削麵、辛亥韓食（LAWWW2 帳號 A，2026-11-11）
 
-狀態：**READY_FOR_REVIEW**（2026-11-11 07:5x UTC）。預覽是 Blender，不是遊戲截圖（D131）；**遊戲畫面我沒看過**。D141：這是室內的第 3 版＝最後一版。
+狀態：**READY_FOR_REVIEW**（2026-11-11 07:5x UTC；全部 Node 測試已跑完）。預覽是 Blender，不是遊戲截圖（D131）；**遊戲畫面我沒看過**。D141：這是室內的第 3 版＝最後一版。
 
 - patch：`l118_int_v3.patch`（19 個檔，基底 dev `bc407bfc5`，已含室內第 2 版和 LAWWW 那邊的五間）。06:4x 存過一份 BB_341 之前的 WIP（`d20a3ffaf`），**作廢，以這一份為準**。
 - **只動四間室內**：`l118_dian／self／korea／tea` 的 GLB、json、配置檔，`lane118_shops.py`、`lane118_shops_tex.py`、四張印刷品貼圖、`src/data/l118_shop_layouts.js`、`tests/l118_shops_notrap_1111_unit.js`。**沒有重匯 `lane118_street.glb`、沒有改 `wz_street.py`／`wz_shopkit.py`／`l118_signs_tex.py`**（LAWWW 06:53：街景由 LAWWW 那邊修）。
@@ -44,4 +44,8 @@
 
 - `tests/l118_shops_notrap_1111_unit.js` 多一節（5 項）：讀四間的 GLB——`CEIL_` 的節點在；其他不是牆的節點沒有「整個都貼在天花板下面 0.2 m 內」的（這一項第一次跑就抓到廚房的日光燈管漏在外面，已修）；遊戲端 `ceilHide` 照名字藏、`l118_shops3d.js` 用 `Z3.attachRoomGLB`。
 - 原本的：每個站得到的點在 30／10 fps 都走得回出口、每個座位走得到、點餐和看東西的點走得到、店員在客人走不到的地方、天花板單面朝下——四間都過。
-- 全部 Node 測試：見 `regression_int_v3.log`（結果寫在交付訊息和 outbox）。
+- **全部 Node 測試 1274 支**（`regression_int_v3.log`；跑之前 fetch 過企劃線）：1272 支通過。剩下兩支都不是這一包造成的：
+  - `aa655_wz_rename_unit` FAILED 1：它要 `src/data/l118_shop_layouts.js` 裡還有「全熟還是半熟」；那一句在蛋包飯研究所的舊配置裡，LAWWW 那邊把那一間重做成奈良咖哩以後就沒有了——基底 `bc407bfc5` 的檔案裡就沒有這一句（我用 `git show` 確認過），這一包沒有碰那一間。請 LAWWW 改那一支的期望。
+  - `bookstore_exit_unit`：最後一行是 Node 讀不到網址的警告（結束碼 0），老樣子。
+- 在最新 dev `2d3e3abc8b` 上試過 `git apply --3way`：乾淨、沒有衝突（這一包改的檔案，dev 從基底以後都沒有動過）。
+- **另外五間不受影響**：`l118_int_omu.py` 等五支會 import 我的 `lane118_shops.py`。這一版改的共用函式（`printed`、`frame_board`、`tubes`、天花板的節點名）都只對這四間的店代號生效。我用改過的 `lane118_shops.py` 重跑了 `l118_int_omu.py` 比對：配置、節點、每個網格的頂點數和三角形都和 dev 上的一樣（位元組不一樣的只有匯出器的版本字串和三角形的排列順序——同一支腳本連跑兩次也會不一樣）。跑完已還原，patch 裡沒有那一間。
