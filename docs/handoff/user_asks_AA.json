@@ -2098,6 +2098,17 @@
    "task": "DLG-FULL-REVIEW-1110",
    "src": "使用者 11-10 直接對 AA",
    "checked": "①全部劇情對話都要改成像人在說話，不是只改沛珊——照 AA_746 的順序繼續，每個人物都要做 ②可以蒐集公開的劇本、訪談、真人講話的資料當參考，做工具（搜尋、比對 AI 味的句型）——AA 去做：公開資料只當語感參考，不抄句子"
+  },
+  {
+   "id": "UA-AA-1111-01",
+   "at": "2026-11-11 03:4x UTC（使用者對 LAWWW；LAWWW 轉給 AA）",
+   "quote": "《Lawstudent》118 巷課後午餐社交系統 — 開發任務（規格全文：開發分支 docs/handoff/user_specs/L118_LUNCH_1111.md）",
+   "kind": "轉述",
+   "status": "進行中",
+   "wants": "X339",
+   "task": "L118-LUNCH-INVITE-1111",
+   "src": "LAWWW send_message 11-11",
+   "checked": "AA 交第一版 AA_771_l118_lunch.json（邀約句、午餐對話、特殊對話與偶遇、到店離店、錢不夠）；BB 第二意見中"
   }
  ]
 }
