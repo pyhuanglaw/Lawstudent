@@ -1193,8 +1193,8 @@ DATE_ZQ_D26 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_plan
 DATE_ZQ_REVISIT | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 10 | PARTS=REVISIT;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
 DATE_ZQ_WISH | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 8 | PARTS=WISH;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
 DATE_ZQ_D26_old | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 15 | PARTS=D26;TAG=old;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
-# BB 07:06 DATE_ZQ 第 4 個互動點（牽手／靠的格一定要驗到；點滿四個收尾直接接上怪不怪）：探針補 SPOTS=4 前 HOLD
-#HOLD雲端 DATE_ZQ_D01_s4 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 10 | PARTS=D01;SPOTS=4;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
-#HOLD雲端 DATE_ZQ_D03_s4 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 10 | PARTS=D03;SPOTS=4;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
-#HOLD雲端 DATE_ZQ_D08_s4 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 10 | PARTS=D08;SPOTS=4;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
-#HOLD雲端 DATE_ZQ_D26_s4 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 15 | PARTS=D26;SPOTS=4;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+# BB 07:06 DATE_ZQ 第 4 個互動點（牽手／靠的格一定要驗到；點滿四個收尾直接接上怪不怪）
+DATE_ZQ_D01_s4 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 10 | PARTS=D01;SPOTS=4;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+DATE_ZQ_D03_s4 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 10 | PARTS=D03;SPOTS=4;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+DATE_ZQ_D08_s4 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 10 | PARTS=D08;SPOTS=4;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+DATE_ZQ_D26_s4 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_date_zq_probe.py | index.html | 15 | PARTS=D26;SPOTS=4;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
