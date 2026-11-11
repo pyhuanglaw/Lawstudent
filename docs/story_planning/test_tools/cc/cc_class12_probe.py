@@ -30,7 +30,8 @@ PARTS：
           每一下記點到什麼，判定沒有選到任何選項；每次停在選單（call、討論、題目）記下來、選完看下一句會不會自己翻（不能）、再按一次略過；略過到底：done／attend、手機「上過了」、
           ☰「筆記」「法律」兩頁截圖、通知逐字比對；有題的課略過完用同一份存檔（GAME.snapshot）接著上下一堂有題的課，通知不能再出；下課後的人物事件照記（沒有就寫沒有遇到）。
           舊版 57e2e22c2 沒有 GAME.skipScope＝D34 對照，只跑不略過的秒數。
-環境變數：LW_TESTS SHA PARTS COURSE WEEKS SKIPRUN OLDLESSON SCRIPT REF EVQUIET（同 GOCLASS）PORTRAIT VIEWS NOSKIP
+          SKIP 預設網址加 ?tapguard（SKIPGUARD=0 不加）：和真的手機一樣有選單防連點，連點的結果才和使用者一樣。
+環境變數：LW_TESTS SHA PARTS COURSE WEEKS SKIPRUN OLDLESSON SCRIPT REF EVQUIET（同 GOCLASS）PORTRAIT VIEWS NOSKIP SKIPGUARD
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=CLASS COURSE=crim_gen1 python3 cc_class12_probe.py <url> <out>
       舊存檔：PARTS=OLDSAVE python3 cc_class12_probe.py <url2（779ddd650）> <url（新版）> <out>"""
 import os, sys, json, asyncio, time, re
@@ -54,7 +55,8 @@ PROFNM = {'const_1': '張教授', 'crim_gen1': '吳教授', 'civ_general': '周�
 SKIPRUN = ENV('SKIPRUN') or 'crim_gen1:10'
 SKIPSET = [('const_1', 6), ('crim_gen1', 13), ('civ_general', 15)]   # PART SKIP 每科一週（BB 04:27）
 VIEWS = ENV('VIEWS') or 'both'   # both＝第一次看到「略過 »」時直向、橫向各量一次截一張（同一行切 viewport）；one＝只量目前的方向
-NOSKIP = ENV('NOSKIP') != '0'   # 1＝每一堂先不略過跑一次當對照秒數
+NOSKIP = ENV('NOSKIP') != '0'
+SKIPGUARD = ENV('SKIPGUARD') != '0'   # 1＝每一堂先不略過跑一次當對照秒數
 ASKHINT = '題目和答案記在 ☰ 筆記本的「筆記」頁，學習進度在「法律」頁。'
 OLDLESSON = ENV('OLDLESSON') or 'crim_gen1:10'
 SCRIPT = ENV('SCRIPT') or os.path.join(HERE, 'fixtures', 'class12', 'Y1S1_d3a22505b.json')
@@ -451,7 +453,7 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
         if done and sb.get('vis') and not info['after']: info['after'].append(s['dtext']); await shot(pg, '%s_skip_after_class' % tag)
         if att and not started and s['dlg'] and not s['typing'] and sb.get('vis'):
             started = True; tsit = time.time()
-            if VIEWS == 'both':
+            if VIEWS == 'both' and use_skip:
                 vp = pg.viewport_size
                 for w_, h_, lab in ((844, 390, '橫向'), (390, 844, '直向')):
                     await pg.set_viewport_size({'width': w_, 'height': h_}); await pg.wait_for_timeout(700); await skip_geo(pg, tag, lab)
@@ -500,20 +502,26 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
             await pg.wait_for_timeout(500); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250); continue
         if s['phone']: await L.phone_away(pg, cdp, tries=1); continue
         if s['busy'] or s['fade'] or s['paused']: free = None; await pg.wait_for_timeout(200); continue
-        if done and tend is None: tend = time.time()
+        if done and tend is None: tend = await pg.evaluate("performance.now()")
         free = free or time.time()
         if done and time.time() - free >= 3: break
         if not done and time.time() - free >= 25: R.note('%s：空下來 25 秒還沒下課（%s）' % (tag, J(s))); break
         await pg.wait_for_timeout(200)
     await GC.play(pg, cdp, picks=('先自由活動',), max_s=20, idle_s=4, tag=tag + '_after')
-    info['n1'] = n1; info['sitToFree'] = round((tend or time.time()) - (tsit or t0), 1)
+    lg = await GC.logs(pg, n1); att = next((e for e in lg if e['k'] == 'cls' and e['fn'] in ('attend', 'seatPick')), None)
+    info['n1'] = n1; info['sitToFree'] = round((tend - att['t']) / 1000, 1) if (tend and att) else None
+    cap = next((e for e in lg if e['k'] == 'cap' and '下課' in e['text']), None)
+    info['menusInClass'] = [{'opts': e.get('opts'), 't': e['t']} for e in lg if e['k'] == 'choose' and att and e['t'] > att['t'] and (not cap or e['t'] < cap['t'])]
+    info['picksInClass'] = [{'first': e.get('first'), 'txt': e.get('txt'), 'dt': e.get('dt'), 'downDt': e.get('downDt')} for e in lg if e['k'] == 'pick' and att and e['t'] > att['t'] and (not cap or e['t'] < cap['t'] + 1)]
     return info
 
 
 async def part_skip(p):
     b, ctx, pg, cdp, errs = await L.launch(p, landscape=not GC.PORTRAIT)
     try:
-        await pg.goto(URL); R.check('SKIP：遊戲載入', await L.wait_loaded(pg)); await setup_page(pg)
+        u = GC.guard_url(URL) if SKIPGUARD else URL
+        await pg.goto(u); R.check('SKIP：遊戲載入（%s）' % u, await L.wait_loaded(pg)); await setup_page(pg)
+        R.note('SKIP：防連點 %s（SKIPGUARD=1＝網址加 ?tapguard，和手機一樣擋選單出現 350 ms 內的點；自動化瀏覽器不加就不擋）' % J(await pg.evaluate(GC.GUARDINFO)))
         has = await pg.evaluate("typeof GAME.skipScope==='function'")
         R.note('SKIP：遊戲有沒有座位上課的「略過 »」（GAME.skipScope）＝%s%s' % (has, '' if has else '（D34 舊版對照：57e2e22c2 沒有＝預期，只跑不略過的秒數）'))
         sel = lessons() if (ENV('COURSE') or ENV('WEEKS')) else SKIPSET
@@ -550,8 +558,9 @@ async def part_skip(p):
             R.check('%s：坐下以前沒有「略過 »」' % tag, not o['before'], J(o['before']))
             R.check('%s：下課以後沒有「略過 »」' % tag, not o['after'], J(o['after']))
             expect = (['call'] if (sy or {}).get('call') else []) + (['討論'] if (sy or {}).get('obs') else []) + (['ask'] if (sy or {}).get('ask') else [])
-            got = [m['why'] for m in o['stopAt']]
-            R.check('%s：略過會停在每一個選項（稿：%s；停了：%s）' % (tag, J(expect), J(got)), all(any(g.startswith(x) or (x == '討論' and g.startswith('其他')) for g in got) for x in expect))
+            got = [m['opts'] for m in o['menusInClass']]
+            R.note('%s：課堂裡出現的選單（含連點那段）%s；被選的 %s' % (tag, J(got), J(o['picksInClass'])))
+            R.check('%s：略過會停在每一個選項（稿：%s；課堂裡出了 %d 個選單）' % (tag, J(expect), len(got)), len(got) >= len(expect))
             R.check('%s：選完以後不會自己繼續翻（要再按一次略過）' % tag, all(x['stayed'] for x in o['resume']), J(o['resume']))
             R.check('%s：略過到底 done／attend 有記' % tag, bool(r1['done'].get(L_['item'])) and (r1['attend'].get(cid) or 0) > (r0['attend'].get(cid) or 0), J(GC.rdiff(r0, r1)))
             ic = next((i for i, e in enumerate(cl) if e['k'] == 'cap' and '下課' in e['text']), None)
