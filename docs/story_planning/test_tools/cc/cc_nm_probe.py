@@ -220,7 +220,8 @@ async def part_oldpos(pg, cdp):
         R.check('%s 搖桿推得動（>0.3 m）' % tag, math.hypot(me2['x'] - p0[0], me2['z'] - p0[1]) > 0.3, J(me2))
         R.note('%s console warning 全文：%s' % (tag, J(warns)))
         uw = [w for w in warns if 'blocked cell' in w or 'unstick' in w or 'relocat' in w]
-        R.check('%s console 只有那一則 unstick（有挪＝1 則、沒挪＝0 則，沒有別的警告）' % tag, (len(uw) == (1 if mv > 0.05 else 0)) and len(warns) == len(uw), J(warns))
+        ev = len([w for w in uw if w.startswith('unstick')]) or len(uw)   # r3：同一次 unstick 會印兩行（「unstick → [x,z]」＋「spawn was inside a blocked cell」）＝一則
+        R.check('%s console 只有那一次 unstick（有挪＝1 次、沒挪＝0 次，沒有別的警告）' % tag, (ev == (1 if mv > 0.05 else 0)) and len(warns) == len(uw), J(warns))
 
 
 async def part_fps(pg, cdp):
