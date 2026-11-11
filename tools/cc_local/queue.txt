@@ -49,6 +49,8 @@ N1_CLASS_TERMS | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_p
 # CC 19:5x：TSR r3／r2 後續——宿舍長桌椅子點了就開手機（記 pointer／click 落點診斷）、教室走道點改挑看得到的地板（01679＝b77a＋LEADOUT，TSR 相同）
 N1_TSR_DORM_r4 | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 12 | PARTS=DORMHALL;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
 N1_TSR_CLASS_r3 | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 15 | PARTS=CLASS201;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
+# CC 19:5x：N1_MOKU_PLANT 第 7 項 7 格 FAIL＝探針（從二樓 go_to 一樓的點，一下都沒點）；改成先走到樓梯頂再點樓梯底，只重跑第 7 項
+N1_MOKU_PLANT_7 | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_moku_plant_probe.py | index.html | 45 | PARTS=7;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/cc_fn_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
 N1_AA814 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 110 | SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 AA814_old | 9d45ef8b36d5df00cdbca70661a4ca13e9fce813 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 110 | SHA=9d45ef8b36d5df00cdbca70661a4ca13e9fce813
 # BB 18:24 ⑥ X324（以安／芷若 D01 逐句＋選項影響關係）、AA_812 誰付錢（ME／SHE／SPLIT／BROKE）；BB 18:54 之後新排的一律 01679bc0a

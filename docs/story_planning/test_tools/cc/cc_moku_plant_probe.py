@@ -371,7 +371,11 @@ async def item7(pg, cdp):
             if not await guard(pg, cdp, tag):
                 R.check('7. %s 點地走到樓梯底：推之前有對話／選項，沒走' % nm, False); continue
             t0 = time.time()
-            ok, why = await walk_segments(pg, cdp, tag, STAIR_BOT[0], STAIR_BOT[1], 0, 420)
+            if lv == 1:   # N1_MOKU_PLANT（b77a）：從二樓直接 go_to 一樓的點，一樓地板從上面看不到，go_to 一下都沒點（「點地面 0 次」）＝探針的盲點。像玩家一樣：先走到樓梯頂（二樓），再點樓梯底
+                ok1, why1 = await walk_segments(pg, cdp, tag + '（先到樓梯頂）', STAIR_TOP[0], STAIR_TOP[1], 1, 150)
+                s1 = await D.st(pg)
+                R.note('%s 走的路：先點地走到樓梯頂 %s（第 1 層）＝%s（%s，停在 %s）→ 再點樓梯底' % (tag, J(STAIR_TOP), '到了' if ok1 else '沒到', why1, J([s1.get('x'), s1.get('z'), s1.get('lv')])))
+            ok, why = await walk_segments(pg, cdp, tag, STAIR_BOT[0], STAIR_BOT[1], 0, 300 if lv == 1 else 420)
             s = await D.st(pg)
             info = J({'終點': [s.get('x'), s.get('z'), s.get('y'), s.get('lv')], '秒': round(time.time() - t0, 1), 'walkFallbacks': s.get('fb'), '原因': why})
             if not R.check('7. %s 點地走（go_to）到樓梯底 (%.2f, %.2f)（%d fps）：%.1f m 內、在第 0 層' % (nm, STAIR_BOT[0], STAIR_BOT[1], cap, ARRIVE_NEAR), ok, info):
