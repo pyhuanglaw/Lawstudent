@@ -1,11 +1,3 @@
-[11:14:03] 正在跑：NM_reach_new（已跑 6 分／上限 40 分）、NM_reach_old（已跑 2 分／上限 40 分）、FN2_shots_ext_new（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
-[11:16:53] [res] cpu=14% mem=59% (18.5/31.4 GB) chrome_testing=8  END FN2_shots_ext_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       9c31fb957..8d9f73238  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[11:17:02] ==== END   FN2_shots_ext_new  exit=0  192s   ====
-[11:17:12] memory 57% before starting LM_cam2_new_r2 (2 running)
-[11:17:12] ==== START LM_cam2_new_r2  (probe @ 811aa4c0f1b44b8ed62df03c88a85f3f2f8167da) ====
 [11:17:15] [res] cpu=1% mem=57% (18.0/31.4 GB) chrome_testing=8  START LM_cam2_new_r2
 [11:18:20] [res] cpu=5% mem=52% (16.5/31.4 GB) chrome_testing=8  END NM_reach_new
     To https://github.com/pyhuanglaw/Lawstudent.git
@@ -1998,3 +1990,11 @@
 [19:29:04] 正在跑：STAIRDN_B_new（已跑 2 分／上限 30 分）、STAIRDN_L_new（已跑 1 分／上限 30 分）、STAIRDN_L_new10（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:34:04] 正在跑：STAIRDN_B_new（已跑 7 分／上限 30 分）、STAIRDN_L_new（已跑 6 分／上限 30 分）、STAIRDN_L_new10（已跑 5 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:36:21] [res] cpu=6% mem=50% (15.9/31.4 GB) chrome_testing=10  END STAIRDN_B_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b6b4745ce..12bc884fc  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:36:28] ==== END   STAIRDN_B_new  exit=0  560s   ====
+[19:36:31] memory 51% before starting V25_main12 (2 running)
+[19:36:31] ==== START V25_main12  (game @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[19:36:34] [res] cpu=13% mem=51% (16.2/31.4 GB) chrome_testing=10  START V25_main12
+[19:37:18] [res] cpu=11% mem=40% (12.7/31.4 GB) chrome_testing=4  END STAIRDN_L_new
