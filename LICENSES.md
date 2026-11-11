@@ -383,6 +383,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | 印得好室內（汀州路） `assets/models/env/second_ai/tz_yindehao_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/tz_shops_interior.py --shop yindehao`（照使用者 2026-11-10 的室內參考圖；左牆的價目表、裝訂樣品、海報樣張從參考圖裁：`textures/gen/tz_yindehao_int_atlas.jpg`；其他貼圖 Poly Haven CC0） | 本作；貼圖 CC0；牆上三張圖是使用者提供的參考圖，只在本作使用 |
 | 安泰藥局、汀州鮮果、榮恩典文具社室內（公館） `assets/models/env/second_ai/gg_antai_interior.glb`、`gg_xianguo_interior.glb`、`gg_rongendian_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/tz_shops_interior.py --shop antai／xianguo／rongendian`（照使用者 2026-11-10 的室內參考圖；安泰的招牌和衛教海報、汀州鮮果的水果壁畫從參考圖裁：`textures/gen/tz_antai_int_atlas.jpg`、`tz_xianguo_int_atlas.jpg`；其他貼圖 Poly Haven CC0） | 本作；貼圖 CC0；裁的圖是使用者提供的參考圖，只在本作使用 |
 | 何俊朗（Long，`npc_long`）`assets/models/char/second_ai/bl_us_long.vrm`＋圓框眼鏡 `glasses_long.glb`＋奶茶杯鑰匙圈 `keychain_milktea.glb`（LAWWW2 帳號 A 2026-11-10，US-LONG-3D-1110） | 本作 Blender 腳本 `tools/blender/char_second/long_ho.py`（`npc.py`＋`npc_layered.py` 的生產線）改作 VRoid Studio CC0 樣本 Sakurada_Fumiriya：臉的比例、單眼皮、濃眉、短髮、運動外套、T 恤是本作；眼鏡 `glasses_long.py`、鑰匙圈 `keychain_milktea.py`（本作） | CC0 改作 | 美國教室、會所（us_life3d.js）；角色美術待 BB 驗收（D59） |
+| 禮貌生財上師 `assets/models/char/second_ai/bl_limao_shangshi.vrm`＋圓框細金屬眼鏡 `glasses_shangshi.glb`（LAWWW2 帳號 A 2026-11-11，LIMAO-SHANGSHI-3D-1111） | 本作 Blender 腳本 `tools/blender/char_second/limao_shangshi.py`（`npc.py`＋`npc_layered.py` 的生產線；底模 VRoid 樣本 Sakurada_Fumiriya）、`glasses_shangshi.py`；外觀照使用者 2026-11-10 自己生成的人物圖 | VRoid 樣本 CC0 改作＋本作 |
 
 ## 第三方原始碼（不在 repo 內，需要時重新 clone；2026-11-10 從 CLAUDE.md 搬來）
 
