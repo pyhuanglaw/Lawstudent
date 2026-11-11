@@ -1,0 +1,47 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_lm2_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LM2_N11\out
+CC LM2 禮貌生財上師對話：PARTS GRAD；SHA e7ddae33f；稿 fixtures\lm2；Windows＋GPU（PC）／SwiftShader（雲端）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.3s] hook：installed；LM 在＝True
+  [  26.3s] [名字] 對照：祐廷＝祐廷、上師＝上師（稿：他的名字不出現）、吳教授＝SOCIAL.displayName(prof_wu)「吳教授」（CHARACTERS.prof_wu.name「吳教授」）、旁白＝不顯示名字
+  [  26.3s] [GRAD] 存檔 heavy_save_m5.json：第 1383 天；相關旗標 {"FAIL_DELAY_COURSES": "list", "FAIL_DELAY_V": 2, "GRADUATED": true, "FAIL_DELAY": true, "FAIL_DELAY_CERT": true, "FAIL_DELAY_PASS": true, "FAIL_DELAY_DAY": true, "FAIL_DELAY_BARCANCEL": true, "BAR_REG": true, "FD_RESCUE_BAR_UNKNOWN": 1383, "ZQ_GRAD_GO": 1383, "GRAD_ZQ_ZR": true, "GRAD_EXAM_2029": true, "KX_Y5_CALL": true, "GRAD_EXAM_RESULT": true, "GRAD_EXAM_2030": true, "BAR_SIT_2029": true, "YT_JUDGE": true, "PG": true, "BAR_YEAR": true, "PS_GRAD_CARD": true, "GRAD_CAFE_HEARD": true, "SIS_BDAY_Y5": true, "BAR_STUDY_GROUP": true, "BAR_REG_2030": true, "KX_GRAD": true, "Y5_DAYS": true, "GRAD_ADMIT": true, "GRAD_RETRY": true, "GRAD_EVENING": true, "GRAD_DONE": true, "GRAD_PHOTO": true, "FANG_F3_DELAY": true, "GRAD_EXAM_2029_PASS": true, "BAR_STUDY_N": true, "AN_GRAD_PASS_SEEN": true, "KX_GRAD_PHOTO": true, "ZR_CUP_Y5": true, "Y5_INTERN": true, "MULTI_Y5": 1383, "BAR_GROUP_LAST": true, "GRAD_RETRY2": true, "GRAD_QUIT": true, "BAR_GROUP_KIND": true, "BAR_GROUP_START": 1383, "BAR_GROUP_YT_FIRST": true, "BAR_GROUP_N": true, "BAR_GROUP_KI": true, "BAR_GROUP_YI": true, "BAR_GROUP_KNS": 1383, "BAR_GROUP_YNS": true, "BAR_GROUP_KN": true, "BAR_GROUP_YN": true, "BAR_GROUP_3U": true, "SIS_NOTE_GRAD": true, "SIS15_KV_GRAD_GO": true, "SIS15_KV_GRAD": true, "KX_GRADES_PACT": 1383, "KX_GRADES_Y1S2": true, "KX_GRADES2_DAY": 1383, "KX_GRADES2_PEEK": true, "KX_GRADES_PACT_SET": true, "GRAD_ENVELOPE": true}
+  [前置／捷徑] 【前置／捷徑】GRAD：heavy_save_m5.json 只改 zone／pos／hour：汀州路巷 A 20:00（條件事件關著）
+  [  46.9s] [GRAD] 狀態：{"day": 1383, "date": "2029-06-30", "hour": 20.041, "stage": "law", "term": "Y4S2", "weather": "clear", "partners": ["classmate_peishan"], "girls": ["heroine_01:RELATIONSHIP", "heroine_05:RELATIONSHIP", "kexin:RELATIONSHIP", "classmate_peishan:RELATIONSHIP"], "lm": {}, "finalsNext": false, "failedLast": false, "flunked": false, "brokeRecent": false, "lmLoaded": true, "typhoon": false}
+  [  46.9s] [GRAD] 學年：{"termAt": "Y4S2", "termOf": null, "delayed": null, "lmYear": 4, "lmTerm": {"y": 4, "s": 2, "id": "Y4S2"}}（程式看 LM.year＝4 才出 lf3；LAWWW：畢業後、延畢也算 4）
+  [  50.7s] 到達「[GRAD] 算命桌」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [  51.4s] [GRAD] 走到算命桌前 (28.18,3.25) 20:04：按鈕「算命桌」
+  [  51.4s] [GRAD] 照稿的 when＋現在的狀態，人生方向可以出的組 ["lf1", "lf2", "lf3", "lf4"]
+  [  61.4s] [GRAD 第 1 次] 按「算命桌」（20:05）→ 12 句、選單 []、認出＝first；時間 20:05 → 20:20；第一句到最後一句 6.8 秒（探針點的速度）、整段 9.0 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  61.4s] [GRAD 第 1 次] 前後差異：LM_ [["flags.LM_MET", "（沒有）", 1383]]；其他 沒有
+PASS [GRAD 第 1 次] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  61.4s] [GRAD 第 1 次] 先演了 first（不算問人生方向）
+  [  66.4s] [GRAD 第 2 次] 按「算命桌」（20:20）→ 4 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lf4；時間 20:20 → 20:36；第一句到最後一句 1.8 秒（探針點的速度）、整段 4.1 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  66.4s] [GRAD 第 2 次] 前後差異：LM_ []；其他 沒有
+PASS [GRAD 第 2 次] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  66.4s] [GRAD 第 2 次 lf4] #1 OK 稿［yt］「老師，你為什麼在這裡算命？」｜遊戲［祐廷］「老師，你為什麼在這裡算命？」（ADV on blur）
+  [  66.4s] [GRAD 第 2 次 lf4] #2 OK 稿［ms］「這裡的茶比較好喝。」｜遊戲［上師］「這裡的茶比較好喝。」（ADV on blur）
+  [  66.4s] [GRAD 第 2 次 lf4] #3 OK 稿［yt］「你這不是自己泡的嗎？」｜遊戲［祐廷］「你這不是自己泡的嗎？」（ADV on blur）
+  [  66.4s] [GRAD 第 2 次 lf4] #4 OK 稿［ms］「對啊。所以比較好喝。」｜遊戲［上師］「對啊。所以比較好喝。」（ADV on blur）
+  [  70.8s] [GRAD 第 3 次] 按「算命桌」（20:36）→ 2 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lf3；時間 20:36 → 20:52；第一句到最後一句 0.8 秒（探針點的速度）、整段 3.5 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  70.8s] [GRAD 第 3 次] 前後差異：LM_ []；其他 沒有
+PASS [GRAD 第 3 次] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  70.8s] [GRAD 第 3 次 lf3] #1 OK 稿［yt］「老師，我怕考不上。」｜遊戲［祐廷］「老師，我怕考不上。」（ADV on blur）
+  [  70.8s] [GRAD 第 3 次 lf3] #2 OK 稿［ms］「怕是正常的。不怕的那種，我看多了，通常是書還沒打開。」｜遊戲［上師］「怕是正常的。不怕的那種，我看多了，通常是書還沒打開。」（ADV on blur）
+  [  75.8s] [GRAD 第 4 次] 按「算命桌」（20:52）→ 3 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lf1；時間 20:52 → 21:08；第一句到最後一句 1.3 秒（探針點的速度）、整段 4.2 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  75.8s] [GRAD 第 4 次] 前後差異：LM_ []；其他 沒有
+PASS [GRAD 第 4 次] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  75.8s] [GRAD 第 4 次 lf1] #1 OK 稿［yt］「老師，我適不適合念法律？」｜遊戲［祐廷］「老師，我適不適合念法律？」（ADV on blur）
+  [  75.8s] [GRAD 第 4 次 lf1] #2 OK 稿［ms］「你都念到這裡了才問。」｜遊戲［上師］「你都念到這裡了才問。」（ADV on blur）
+  [  75.8s] [GRAD 第 4 次 lf1] #3 OK 稿［ms］「適不適合我不知道。你剛剛問問題的時候，先講條件、再講結論。你已經被教壞了。」｜遊戲［上師］「適不適合我不知道。你剛剛問問題的時候，先講條件、再講結論。你已經被教壞了。」（ADV on blur）
+  [  81.8s] [GRAD 第 5 次] 按「算命桌」（21:08）→ 5 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lf2；時間 21:08 → 21:23；第一句到最後一句 2.8 秒（探針點的速度）、整段 5.1 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  81.8s] [GRAD 第 5 次] 前後差異：LM_ []；其他 沒有
+PASS [GRAD 第 5 次] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  81.8s] [GRAD 第 5 次 lf2] #1 OK 稿［yt］「老師，我該考研究所還是國考？」｜遊戲［祐廷］「老師，我該考研究所還是國考？」（ADV on blur）
+  [  81.8s] [GRAD 第 5 次 lf2] #2 OK 稿［narr］「（他拿起籤筒搖了很久，抽出一支，看了一眼，放回去。）」｜遊戲［］「（他拿起籤筒搖了很久，抽出一支，看了一眼，放回去。）」（ADV on blur narr）
+  [  81.8s] [GRAD 第 5 次 lf2] #3 OK 稿［ms］「籤上面寫「自己決定」。」｜遊戲［上師］「籤上面寫「自己決定」。」（ADV on blur）
+  [  81.8s] [GRAD 第 5 次 lf2] #4 OK 稿［yt］「真的有這支籤？」｜遊戲［祐廷］「真的有這支籤？」（ADV on blur）
+  [  81.8s] [GRAD 第 5 次 lf2] #5 OK 稿［ms］「整筒都是。」｜遊戲［上師］「整筒都是。」（ADV on blur）
+  [  81.8s] [GRAD] 問人生方向抽到：["lf4", "lf3", "lf1", "lf2"]；「大四」那組 lf3 有沒有出＝True（只記，不判）
+  [  81.8s] [GRAD] 花了 56 秒
+PASS 沒有 JS 例外  []
+ALL PASS
