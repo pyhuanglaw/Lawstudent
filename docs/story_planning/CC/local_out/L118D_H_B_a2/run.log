@@ -1,64 +1,47 @@
-[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\L118D_H_B_a2\docs\story_planning\test_tools\cc\cc_l118d_h_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_H_B_a2\out
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\L118D_H_B_a2\docs\story_planning\test_tools\cc\cc_l118d_h_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_H_B_a2\out
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
 PASS 遊戲載入
-  [  26.7s] 受測 SHA a2dd74af190a174e383642ef8d2043b1d2947370、版本 v9.10.24；PARTS REG_YT
+  [  24.9s] 受測 SHA 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329、版本 v9.10.24；PARTS REG_YT
 == REG_YT
     [區域] wenzhou（10.03）
   [前置／捷徑] 【前置】REG_YT（heroine_03） 先讀一份（只為了在頁面裡查 CALENDAR＋作息）：day46 存檔 → 2025-11-03（週一）10.00、wenzhou (7.40, -1.40) lv0、天氣 clear、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
-  [  55.3s] CALENDAR：{"key": "2025-11-03", "wd": 1, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+  [  51.2s] CALENDAR：{"key": "2025-11-03", "wd": 1, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
 PASS [日子] 2025-11-03 不是假日／颱風假、不是考試週（Y1S1 第 10 週）  {"key": "2025-11-03", "wd": 1, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
-  [  55.4s] 讀進來：{"zone": "wenzhou", "day": 48, "hour": 10.04, "weather": "clear", "stage": "law"}
-  [  55.4s] REG_YT（heroine_03） Y2S1 學期 週一 14.60 的候選日（CALENDAR：非假日／颱風／考試週，第 2～15 週）與她的作息：{"list": [{"day": 363, "key": "2026-09-14", "week": 2, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 370, "key": "2026-09-21", "week": 3, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 384, "key": "2026-10-05", "week": 5, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 391, "key": "2026-10-12", "week": 6, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 419, "key": "2026-11-09", "week": 10, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 426, "key": "2026-11-16", "week": 11, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 433, "key": "2026-11-23", "week": 12, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 440, "key": "2026-11-30", "week": 13, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 447, "key": "2026-12-07", "week": 14, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 454, "key": "2026-12-14", "week": 15, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}]}
+  [  51.2s] 讀進來：{"zone": "wenzhou", "day": 48, "hour": 10.04, "weather": "clear", "stage": "law"}
+  [  51.2s] REG_YT（heroine_03） Y2S1 學期 週一 14.60 的候選日（CALENDAR：非假日／颱風／考試週，第 2～15 週）與她的作息：{"list": [{"day": 363, "key": "2026-09-14", "week": 2, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 370, "key": "2026-09-21", "week": 3, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 384, "key": "2026-10-05", "week": 5, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 391, "key": "2026-10-12", "week": 6, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 419, "key": "2026-11-09", "week": 10, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 426, "key": "2026-11-16", "week": 11, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 433, "key": "2026-11-23", "week": 12, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 440, "key": "2026-11-30", "week": 13, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 447, "key": "2026-12-07", "week": 14, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 454, "key": "2026-12-14", "week": 15, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}]}
 PASS REG_YT（heroine_03） 找得到一天她那時候照作息在木曜日（slowread 那一筆）  {"list": [{"day": 363, "key": "2026-09-14", "week": 2, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 370, "key": "2026-09-21", "week": 3, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 384, "key": "2026-10-05", "week": 5, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 391, "key": "2026-10-12", "week": 6, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 419, "key": "2026-11-09", "week": 10, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 426, "key": "2026-11-16", "week": 11, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 433, "key": "2026-11-23", "week": 12, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 440, "key": "2026-11-30", "week": 13, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 447, "key": "2026-12-07", "week": 14, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}, {"day": 454, "key": "2026-12-14", "week": 15, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "err": null}}]}
     [toast] 手機｜沛珊：欸，我跟你說一件事，你不用回喔。
     [toast] 手機｜小安：我媽問我下學期選什麼。
-  [前置／捷徑] 【前置】REG_YT（heroine_03） 2026-09-14（Y2S1 第 2 週）14.35 溫州街木曜日門口外：day46 存檔 → 2026-09-14（週一）14.35、wenzhou (7.40, -1.40) lv0、天氣 clear、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
-  [  66.0s] CALENDAR：{"key": "2026-09-14", "wd": 1, "hol": null, "typh": false, "term": "Y2S1", "week": 2, "exam": null}
-PASS [日子] 2026-09-14 不是假日／颱風假、不是考試週（Y2S1 第 2 週）  {"key": "2026-09-14", "wd": 1, "hol": null, "typh": false, "term": "Y2S1", "week": 2, "exam": null}
-  [  66.1s] 讀進來：{"zone": "wenzhou", "day": 363, "hour": 14.4, "weather": "clear", "stage": "law"}
     [toast] 手機｜可昕：今天有一個客人一直叫我妹妹。
-  [  67.3s] REG_YT（heroine_03） 溫州街→B4 門口 搖桿 → (7.40, -4.55)：到了、1.2 秒、推 1 次、跳 []、停在 {"zone": "wenzhou", "x": 7.479, "z": -4.67, "lv": 0, "interact": "上二樓（木曜日）"}
-PASS REG_YT（heroine_03） 互動鍵是「上二樓…」  {"zone": "wenzhou", "x": 7.479, "z": -4.67, "lv": 0, "interact": "上二樓（木曜日）"}
+  [前置／捷徑] 【前置】REG_YT（heroine_03） 2026-09-14（Y2S1 第 2 週）14.35 溫州街木曜日門口外：day46 存檔 → 2026-09-14（週一）14.35、wenzhou (7.40, -1.40) lv0、天氣 clear、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
+  [  61.1s] CALENDAR：{"key": "2026-09-14", "wd": 1, "hol": null, "typh": false, "term": "Y2S1", "week": 2, "exam": null}
+PASS [日子] 2026-09-14 不是假日／颱風假、不是考試週（Y2S1 第 2 週）  {"key": "2026-09-14", "wd": 1, "hol": null, "typh": false, "term": "Y2S1", "week": 2, "exam": null}
+  [  61.1s] 讀進來：{"zone": "wenzhou", "day": 363, "hour": 14.4, "weather": "clear", "stage": "law"}
+  [  62.4s] REG_YT（heroine_03） 溫州街→B4 門口 搖桿 → (7.40, -4.55)：到了、1.2 秒、推 1 次、跳 []、停在 {"zone": "wenzhou", "x": 7.594, "z": -4.674, "lv": 0, "interact": "上二樓（木曜日）"}
+PASS REG_YT（heroine_03） 互動鍵是「上二樓…」  {"zone": "wenzhou", "x": 7.594, "z": -4.674, "lv": 0, "interact": "上二樓（木曜日）"}
     [按互動鍵] 上二樓（木曜日）
     [區域] wz_mokuyobi（14.41）
-    [toast] 手機｜這週的訊息（3 則）。這週你回得了兩個人。
 PASS REG_YT（heroine_03） 到了木曜日（wz_mokuyobi，一樓樓梯）  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.41}
-  [  77.1s] REG_YT（heroine_03） 爬樓梯進二樓店裡 搖桿 → (0.00, 0.90) lv1：到了、3.0 秒、推 2 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": -0.309, "z": 1.22, "lv": 1, "interact": ""}
-PASS REG_YT（heroine_03） 搖桿走進二樓店裡（lv1、x>−2.85、站得住、沒有跳）  {"x": -0.309, "z": 1.22, "lv": 1, "stand": true, "fb": 0}
+    [toast] 手機｜這週的訊息（3 則）。這週你回得了兩個人。
+  [  71.6s] REG_YT（heroine_03） 爬樓梯進二樓店裡 搖桿 → (0.00, 0.90) lv1：到了、3.0 秒、推 2 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 0.048, "z": 1.087, "lv": 1, "interact": ""}
+PASS REG_YT（heroine_03） 搖桿走進二樓店裡（lv1、x>−2.85、站得住、沒有跳）  {"x": 0.048, "z": 1.087, "lv": 1, "stand": true, "fb": 0}
 PASS REG_YT（heroine_03） 14.46 木曜日裡有 heroine_03（E.npcs）、在二樓、坐著（作息那一筆是 slowread）  {"x": 2.3, "y": 3.2, "z": 4.75, "lv": 1, "seat": true, "pose": "read", "name": "陳語彤", "vis": false, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日寫報告", "slowread": true, "from": 14, "to": 16}}
-  [  83.0s] [截圖] reg_yt_game.png
-PASS [黑畫面] reg_yt_her 不是黑畫面（平均亮度 97.8、變化 47.9）  [97.8, 47.9]
-  [  85.7s] [截圖] reg_yt_her：鏡頭 {"eye": [4, 5, 6.25], "look": [2.3, 4.1000000000000005, 4.75], "lens": 24, "vfov": 45.75}、亮度 [97.8, 47.9]
-  [  86.6s] [截圖] reg_yt_her.png（鏡頭對著她，只給人看）
-  [ 127.7s] REG_YT（heroine_03） 走到 heroine_03 的 45° 方向 0.9 m 走不到 (2.94,5.39)：E.pathTo 從停下的位置 [2.96, 4.64] → 1 點 [[2.94, 5.39]]；目標站得住 True
-  [ 127.7s] REG_YT（heroine_03） 走到 heroine_03 的 45° 方向 0.9 m 搖桿 → (2.94, 5.39) lv1：沒到：40 秒沒走到、41.0 秒、推 45 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 2.962, "z": 4.642, "lv": 1, "interact": "和陳語彤說話"}
-  [ 168.7s] REG_YT（heroine_03） 走到 heroine_03 的 90° 方向 0.9 m 走不到 (3.20,4.75)：E.pathTo 從停下的位置 [3.75, 5.04] → 1 點 [[3.2, 4.75]]；目標站得住 True
+  [  77.2s] [截圖] reg_yt_game.png
+PASS [黑畫面] reg_yt_her 不是黑畫面（平均亮度 97.7、變化 47.9）  [97.7, 47.9]
+  [  79.9s] [截圖] reg_yt_her：鏡頭 {"eye": [4, 5, 6.25], "look": [2.3, 4.1000000000000005, 4.75], "lens": 24, "vfov": 45.75}、亮度 [97.7, 47.9]
+  [  80.8s] [截圖] reg_yt_her.png（鏡頭對著她，只給人看）
+  [ 102.2s] REG_YT（heroine_03） 走到 heroine_03 的 45° 方向 0.9 m 搖桿 → (2.94, 5.39) lv1：到了、21.3 秒、推 25 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 2.89, "z": 5.52, "lv": 1, "interact": "和陳語彤說話"}
+  [ 103.2s] REG_YT（heroine_03） 走到 heroine_03 的 90° 方向 0.9 m 搖桿 → (3.20, 4.75) lv1：到了、0.9 秒、推 1 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 3.215, "z": 4.713, "lv": 1, "interact": "和陳語彤說話"}
+  [ 104.2s] REG_YT（heroine_03） 走到 heroine_03 的 135° 方向 1.1 m 搖桿 → (3.08, 3.97) lv1：到了、0.8 秒、推 1 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 3.068, "z": 3.917, "lv": 1, "interact": "和陳語彤說話"}
+  [ 132.2s] REG_YT（heroine_03） 走到 heroine_03 的 225° 方向 1.1 m 搖桿 → (1.52, 3.97) lv1：到了、27.8 秒、推 33 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 1.52, "z": 4.117, "lv": 1, "interact": "和陳語彤說話"}
+  [ 144.9s] REG_YT（heroine_03） 走到 heroine_03 的 270° 方向 0.9 m 搖桿 → (1.40, 4.75) lv1：到了、12.6 秒、推 15 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 1.38, "z": 4.853, "lv": 1, "interact": "和陳語彤說話"}
+  [ 147.5s] REG_YT（heroine_03） 走到 heroine_03 的 315° 方向 0.9 m 搖桿 → (1.66, 5.39) lv1：到了、2.5 秒、推 3 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 1.732, "z": 5.515, "lv": 1, "interact": "和陳語彤說話"}
+  [ 147.6s] REG_YT（heroine_03） 她在 (2.30, 4.75)；8 個方向的互動鍵：[{"方向": 0, "結果": "0.9／1.1 m 都站不住"}, {"方向": 45, "at": [2.89, 5.52], "互動鍵": "和陳語彤說話"}, {"方向": 90, "at": [3.215, 4.713], "互動鍵": "和陳語彤說話"}, {"方向": 135, "at": [3.068, 3.917], "互動鍵": "和陳語彤說話"}, {"方向": 180, "結果": "0.9／1.1 m 都站不住"}, {"方向": 225, "at": [1.52, 4.117], "互動鍵": "和陳語彤說話"}, {"方向": 270, "at": [1.38, 4.853], "互動鍵": "和陳語彤說話"}, {"方向": 315, "at": [1.732, 5.515], "互動鍵": "和陳語彤說話"}]
+  [ 147.6s] REG_YT（heroine_03） 「和…說話」出現的方向：[45, 90, 135, 225, 270, 315]
+  [ 187.8s] REG_YT（heroine_03） 回到 45° 方向 走不到 (2.94,5.39)：E.pathTo 從停下的位置 [3.19, 5.37] → 1 點 [[2.94, 5.39]]；目標站得住 True
     [toast] 30 分鐘後上課：15:30 體育（體育館）
-  [ 168.8s] REG_YT（heroine_03） 走到 heroine_03 的 90° 方向 0.9 m 搖桿 → (3.20, 4.75) lv1：沒到：40 秒沒走到、40.9 秒、推 47 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 3.754, "z": 5.042, "lv": 1, "interact": "和陳語彤說話"}
-  [ 209.6s] REG_YT（heroine_03） 走到 heroine_03 的 135° 方向 1.1 m 走不到 (3.08,3.97)：E.pathTo 從停下的位置 [3.17, 4.25] → 1 點 [[3.08, 3.97]]；目標站得住 True
-  [ 209.7s] REG_YT（heroine_03） 走到 heroine_03 的 135° 方向 1.1 m 搖桿 → (3.08, 3.97) lv1：沒到：40 秒沒走到、40.7 秒、推 47 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 3.167, "z": 4.247, "lv": 1, "interact": "和陳語彤說話"}
-  [ 250.7s] REG_YT（heroine_03） 走到 heroine_03 的 225° 方向 1.1 m 走不到 (1.52,3.97)：E.pathTo 從停下的位置 [1.48, 3.53] → 1 點 [[1.52, 3.97]]；目標站得住 True
-  [ 250.8s] REG_YT（heroine_03） 走到 heroine_03 的 225° 方向 1.1 m 搖桿 → (1.52, 3.97) lv1：沒到：40 秒沒走到、40.9 秒、推 46 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 1.481, "z": 3.533, "lv": 1, "interact": "坐下"}
-  [ 253.0s] REG_YT（heroine_03） 225°：贏的是 {"label": "坐下", "seat": [2.3, 3.65], "at": [2.3, 3.65]}；她的座位 [2.3, 4.75]；兩張椅子相距 1.1 m；玩家站在 [1.481, 3.533, 1]
-  [ 253.0s] REG_YT（heroine_03） 225° 【互動點分數】玩家 [1.481, 3.533, 1]、遊戲選的「坐下」；照 nearestInteractable 同一套（距離−prio；人＝距離−bias，座位贏的時候 bias 0.5；skip＝不算的原因）由小到大：[{"k": "點", "label": "坐下", "x": 2.3, "z": 3.65, "d": 0.827, "R": 0.9, "prio": 0, "score": 0.827, "inR": true, "skip": null, "seat": [2.3, 3.65]}, {"k": "人", "label": "和陳語彤說話", "id": "heroine_03", "x": 2.3, "z": 4.75, "d": 1.467, "R": 2.2, "bias": 0.5, "score": 0.967, "inR": true, "skip": null, "yieldIt": false, "extra": false, "seat": [2.3, 4.75]}, {"k": "點", "label": "坐下", "x": 1.05, "z": 2.6, "d": 1.028, "R": 0.9, "prio": 0, "score": 1.028, "inR": false, "skip": null, "seat": [1.05, 2.6]}, {"k": "人", "label": "和說話", "id": "", "x": -0.05, "z": 2.6, "d": 1.793, "R": 2.2, "bias": 0.5, "score": 1.293, "inR": true, "skip": "不能說話", "yieldIt": false, "extra": true, "seat": [-0.05, 2.6]}, {"k": "人", "label": "和說話", "id": "", "x": -0.45, "z": 3.9, "d": 1.965, "R": 2.2, "bias": 0.5, "score": 1.465, "inR": true, "skip": "不能說話", "yieldIt": false, "extra": true, "seat": [-0.45, 3.9]}, {"k": "點", "label": "坐下", "x": 2.3, "z": 4.75, "d": 1.467, "R": 0.9, "prio": 0, "score": 1.467, "inR": false, "skip": "有人坐／正走過去", "seat": [2.3, 4.75]}]
-  [ 293.7s] REG_YT（heroine_03） 走到 heroine_03 的 270° 方向 0.9 m 走不到 (1.40,4.75)：E.pathTo 從停下的位置 [1.37, 5.18] → 1 點 [[1.4, 4.75]]；目標站得住 True
-  [ 293.8s] REG_YT（heroine_03） 走到 heroine_03 的 270° 方向 0.9 m 搖桿 → (1.40, 4.75) lv1：沒到：40 秒沒走到、40.7 秒、推 42 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 1.369, "z": 5.179, "lv": 1, "interact": "和陳語彤說話"}
-  [ 316.6s] REG_YT（heroine_03） 走到 heroine_03 的 315° 方向 0.9 m 搖桿 → (1.66, 5.39) lv1：到了、22.7 秒、推 25 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 1.73, "z": 5.457, "lv": 1, "interact": "和陳語彤說話"}
-  [ 316.7s] REG_YT（heroine_03） 她在 (2.30, 4.75)；8 個方向的互動鍵：[{"方向": 0, "結果": "0.9／1.1 m 都站不住"}, {"方向": 45, "at": [2.962, 4.642], "互動鍵": "和陳語彤說話"}, {"方向": 90, "at": [3.754, 5.042], "互動鍵": "和陳語彤說話"}, {"方向": 135, "at": [3.167, 4.247], "互動鍵": "和陳語彤說話"}, {"方向": 180, "結果": "0.9／1.1 m 都站不住"}, {"方向": 225, "at": [1.481, 3.533], "互動鍵": "坐下"}, {"方向": 270, "at": [1.369, 5.179], "互動鍵": "和陳語彤說話"}, {"方向": 315, "at": [1.73, 5.457], "互動鍵": "和陳語彤說話"}]
-  [ 316.7s] REG_YT（heroine_03） 「和…說話」出現的方向：[45, 90, 135, 270, 315]
-  [ 339.9s] REG_YT（heroine_03） 回到 45° 方向 搖桿 → (2.94, 5.39) lv1：到了、23.2 秒、推 25 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 2.809, "z": 5.393, "lv": 1, "interact": "和陳語彤說話"}
-PASS REG_YT（heroine_03） 走到她旁邊，互動鍵是「和…說話」  {"x": 2.809, "z": 5.393, "lv": 1, "interact": "和陳語彤說話"}
-    [按互動鍵] 和陳語彤說話
-    [說] 陳語彤：（小聲）暑假茶屋沒什麼事，我把客人忘在店裡的書拿來看。
-    [說] 陳語彤：（小聲）有一本沒有封面，我到現在還不知道書名。
-    [選項] 「在講什麼？」｜「客人沒回來拿喔？」
-    [按] 「客人沒回來拿喔？」
-    [說] 陳語彤：（小聲）放了一年都沒人拿，蘇姨說就留著吧。
-    [選項] （說點不一樣的）〔看你們現在多熟〕｜約她去…〔念書、吃飯、喝咖啡、散步、運動、出去玩〕｜就這樣
-    [按] 就這樣
-    [toast] 和語彤熟了一點。
-FAIL REG_YT（heroine_03） 當面招呼那一句：「（小聲）我在寫報告。……這裡坐一下午，老闆不會趕人。」  [["陳語彤", "（小聲）暑假茶屋沒什麼事，我把客人忘在店裡的書拿來看。"], ["陳語彤", "（小聲）有一本沒有封面，我到現在還不知道書名。"], ["陳語彤", "（小聲）放了一年都沒人拿，蘇姨說就留著吧。"]]
-FAIL REG_YT（heroine_03） 記 G.flags.SLOWREAD_HI[heroine_03]＝這學期（None）  null
+  [ 187.8s] REG_YT（heroine_03） 回到 45° 方向 搖桿 → (2.94, 5.39) lv1：沒到：40 秒沒走到、40.2 秒、推 50 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 3.193, "z": 5.366, "lv": 1, "interact": "看海報"}
+FAIL REG_YT（heroine_03） 走到她旁邊，互動鍵是「和…說話」  {"x": 3.193, "z": 5.366, "lv": 1, "interact": "看海報"}
 PASS [REG_YT] 沒有 JS 例外（pageerror）  []
-  [ 350.7s] [REG_YT] 用了 324 秒
-FAILED: REG_YT（heroine_03） 當面招呼那一句：「（小聲）我在寫報告。……這裡坐一下午，老闆不會趕人。」, REG_YT（heroine_03） 記 G.flags.SLOWREAD_HI[heroine_03]＝這學期（None）
+  [ 193.1s] [REG_YT] 用了 168 秒
+FAILED: REG_YT（heroine_03） 走到她旁邊，互動鍵是「和…說話」

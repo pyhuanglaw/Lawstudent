@@ -1,12 +1,3 @@
-[11:01:53] ==== START NM_walk_old  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
-[11:01:56] [res] cpu=43% mem=48% (15.1/31.4 GB) chrome_testing=8  START NM_walk_old
-[11:04:03] 正在跑：NM_cam_new（已跑 3 分／上限 15 分）、NM_pano_old（已跑 2 分／上限 8 分）、NM_walk_old（已跑 2 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
-[11:04:17] [res] cpu=4% mem=52% (16.3/31.4 GB) chrome_testing=10  END NM_pano_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       2fa58423c..f28bb769e  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[11:04:23] ==== END   NM_pano_old  exit=0  176s   ====
-[11:04:27] memory 42% before starting NM_oldfps_old (2 running)
 [11:04:27] ==== START NM_oldfps_old  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
 [11:04:30] [res] cpu=32% mem=42% (13.4/31.4 GB) chrome_testing=5  START NM_oldfps_old
 [11:04:36] [res] cpu=1% mem=44% (13.4/31.4 GB) chrome_testing=5  END NM_walk_old
@@ -1998,3 +1989,12 @@
 [19:09:01] [res] cpu=4% mem=48% (15.2/31.4 GB) chrome_testing=9  START STAIR_7d_run10
 [19:09:04] 正在跑：STAIRX_old_run10（已跑 3 分／上限 30 分）、STAIR_7d_walk（已跑 0 分／上限 20 分）、STAIR_7d_run10（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:12:19] [res] cpu=21% mem=48% (15.3/31.4 GB) chrome_testing=10  END STAIR_7d_walk
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       291737825..4c19fb916  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:12:25] ==== END   STAIR_7d_walk  exit=0  244s   ====
+[19:12:28] memory 49% before starting L118D_H_B_a2 (2 running)
+[19:12:28] ==== START L118D_H_B_a2  (probe @ 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329) ====
+[19:12:31] [res] cpu=15% mem=49% (15.4/31.4 GB) chrome_testing=10  START L118D_H_B_a2
+[19:14:04] 正在跑：STAIRX_old_run10（已跑 8 分／上限 30 分）、STAIR_7d_run10（已跑 5 分／上限 40 分）、L118D_H_B_a2（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:16:18] [res] cpu=12% mem=47% (15.0/31.4 GB) chrome_testing=10  END L118D_H_B_a2
