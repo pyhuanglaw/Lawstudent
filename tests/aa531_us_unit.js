@@ -73,6 +73,10 @@ const S8=part('## 8. 實作問答'), Q81=quotes(String(S8.split('### 8-1')[1]||'
 const T83=String(S8.split('### 8-3')[1]||'').split('### 8-4')[0].split('\n').map(l=>l.split('|').map(x=>x.trim())).filter(c=>c.length>=5&&c[1]&&!/^-+$/.test(c[1])&&c[1]!=='誰').map(c=>({who:c[1],tw:c[2],ab:c[3]}));
 const S85=String(S8.split('### 8-5')[1]||''), O85=[...S85.matchAll(/選項「([^」]+)」/g)].map(m=>m[1]), Q85=quotes(S85);   /* 8-5：四個選項；她回的兩句＋電話四行＋「好。我等。」*/
 const SUP=Q81.length===9?{'你那邊是早上。先去上課。':Q81[0],'到了傳一句。':Q81[1],'落地了嗎':Q81[3],'到了嗎～':Q81[5],'（他講德國的部分講了十二分鐘。輪到你的時候，教授看了一下錶。）':Q81[7],'（期末考。三題申論，都是陪審團。寫到第三題，你的手開始痠。）':Q81[8]}:{};
+/* 2026-11-11（X327 漏改，AA_807_us_term_reread.json@551786903）：沛珊美國那學期的七夕、中秋、回國那天、視訊四樣照 AA_807 改了（句尾「～」去掉、多一拍；中秋「台南家裡」→ 台南租屋處；視訊多一句「我說等他回來，我再問他。」）——
+   遊戲 → 稿：遊戲字先換回 AA_807 的舊句（line_rows_expect.js toOldS）再在 AA_531 找；AA_807 新加的那一句（舊句 null）只認它是 AA_807 稿上新加的；稿 → 遊戲：稿句（含 8-1 SUP 換過的）照 AA_807 往前換（fwdS）再在遊戲裡找。舊稿不改 */
+const LR807=require('./line_rows_expect.js'), USF='src/data/us_life_events.js';
+const inDoc807=t=>{ const o=LR807.toOldS(t,USF); return o===null?LR807.sents.some(x=>x.file===USF&&x.old===null&&x.new===t&&/AA_807/.test(x.doc)):DOC.indexOf(o)>=0; }, fwd807=t=>LR807.fwdS(t,USF);
 
 /* ---------- 遊戲這一批的字 ---------- */
 const X=typeof US_LIFE_EVENTS!=='undefined'?US_LIFE_EVENTS.DATA:{};
@@ -101,9 +105,9 @@ await sec(0,()=>{
   const ANREV=require('./an_rev_doc.js');   /* 以安改稿第四批 AA_589 第 47 列（視訊的旁白「桌上攤著手帳」→「書」）：遊戲→稿 在改成欄也算、稿→遊戲 照改成欄找（逐列核對在 tests/aa589_an_b4_unit.js）*/
   /* 2026-11-11（X324 D 區，AA_785_msg_pools.json）：msg_pool、msg2_pool 照覆蓋層拿掉刪節號、換句——遊戲裡的新字、它的舊字在稿上也算（tests/overlay_expect.js 的 inDoc）；舊期望：字本身在稿上 */
   const OE=require('./overlay_expect.js'), inDocM=t=>['msg_pool','msg2_pool'].some(f=>OE.inDoc(f,null,t,u=>DOC.indexOf(u)>=0));
-  const G0=gameNew(), notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&!ANREV.has(t)&&!inDocM(t));
+  const G0=gameNew(), notIn=[...new Set(G0)].filter(t=>!inDoc807(t)&&!ANREV.has(t)&&!inDocM(t));   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊四樣照 AA_807 換回舊句再找（inDoc807，見上）。舊期望：DOC.indexOf(t)>=0 */
   check('0. 遊戲 → 稿：這一批的新句（'+new Set(G0).size+' 句：四位的私訊、五場視訊、勞動節、上課十二句、兩場期末、子晴國外版選項、語彤國外版、大峽谷、七句旁白、挽回中招呼、8-3 四句國外版）都在稿裡（一字不差）',new Set(G0).size>=90&&!notIn.length,J({n:new Set(G0).size,notIn}));
-  const GS=gameSet(), lost=t=>{ const r=SUP[t]||SUP[unq(t)]; if(!r&&ANREV.MAP.has(t)&&GS.has(ANREV.rev(t))) return false; return r?!GS.has(r):(!GS.has(t)&&!GS.has(unq(t))); };   /* 8-1 換掉的舊句：找新句 */
+  const GS=gameSet(), lost=t=>{ const r=SUP[t]||SUP[unq(t)]; if(!r&&ANREV.MAP.has(t)&&GS.has(ANREV.rev(t))) return false; return r?!GS.has(fwd807(r)):(!GS.has(fwd807(t))&&!GS.has(fwd807(unq(t)))); };   /* 8-1 換掉的舊句：找新句 */   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：稿句再照 AA_807 往前換（fwd807，見上）。舊期望：r、t 原樣在遊戲裡 */
   const miss2=DOC2.map(L=>L.filter(lost));
   check('0. 稿 → 遊戲：第 2 節四位的表（'+DOC2.map(L=>L.length).join('、')+' 句）每一句都在遊戲裡',DOC2.every(L=>L.length)&&miss2.every(L=>!L.length),J(miss2));
   check('0. 稿 → 遊戲：5-1 三門各四句（12 句）、5-2 兩場（'+DOC52.length+' 句）、第 6 節表（'+DOC6.length+' 句）都在遊戲裡',DOC51.length===12&&DOC52.length>=7&&DOC6.length===9&&![...DOC51,...DOC52,...DOC6].some(lost),J([...DOC51,...DOC52,...DOC6].filter(lost)));
@@ -278,9 +282,9 @@ await sec('7-4',async()=>{
 await sec('8-1',()=>{
   const GS=gameSet(), old=Object.keys(SUP);
   check('8-1. 稿 8-1 的九句都在遊戲裡；被換掉的六句（「先去上課。」「到了傳一句。」「落地了嗎」「到了嗎～」「他講德國」「期末考。三題申論」）稿上有、遊戲裡沒有',
-    Q81.length===9&&Q81.every(t=>GS.has(t))&&old.length===6&&old.every(t=>DOC.indexOf(t)>=0&&!GS.has(t)),J({miss:Q81.filter(t=>!GS.has(t)),still:old.filter(t=>GS.has(t))}));
-  check('8-1. 以安 8/26（週六）第二則「你那邊是早上。週末，你多睡一點。」；12/23 以安「你的班機早上五點四十落地。我查過了。」「明天見。」、子晴「你今天回來對吧」「時差記得調」、沛珊「回到家了嗎～」「好好睡一覺～」；語彤「回來了？」照舊',
-    wdOf('2028-08-26')===6&&J(pTW(AN,'qixi').msgs)===J(['今天七夕。公館到處都在賣花。',Q81[0]])&&J(pTW(AN,'ret').msgs)===J([Q81[1],Q81[2]])&&J(pTW(ZQ,'ret').msgs)===J([Q81[3],Q81[4]])&&J(pTW(PS,'ret').msgs)===J([Q81[5],Q81[6]])&&pTW(YT,'ret').msgs[0]==='回來了？',
+    Q81.length===9&&Q81.every(t=>GS.has(fwd807(t)))&&old.length===6&&old.every(t=>DOC.indexOf(t)>=0&&!GS.has(t)),J({miss:Q81.filter(t=>!GS.has(fwd807(t))),still:old.filter(t=>GS.has(t))}));   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：8-1 沛珊那兩句（「回到家了嗎～」「好好睡一覺～」）照 AA_807 往前換再找。舊期望：Q81 九句原樣在遊戲裡 */
+  check('8-1. 以安 8/26（週六）第二則「你那邊是早上。週末，你多睡一點。」；12/23 以安「你的班機早上五點四十落地。我查過了。」「明天見。」、子晴「你今天回來對吧」「時差記得調」、沛珊「到家了嗎？」「先睡。美國的事明天一件一件講給我聽，我會發問。」（8-1 的兩句照 AA_807 往前換）；語彤「回來了？」照舊',
+    wdOf('2028-08-26')===6&&J(pTW(AN,'qixi').msgs)===J(['今天七夕。公館到處都在賣花。',Q81[0]])&&J(pTW(AN,'ret').msgs)===J([Q81[1],Q81[2]])&&J(pTW(ZQ,'ret').msgs)===J([Q81[3],Q81[4]])&&J(pTW(PS,'ret').msgs)===J([fwd807(Q81[5]),fwd807(Q81[6])])/* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊 12/23 兩句照 AA_807 第 3 列。舊期望：[Q81[5],Q81[6]]＝「回到家了嗎～」「好好睡一覺～」 */&&pTW(YT,'ret').msgs[0]==='回來了？',
     J({an:pTW(AN,'qixi').msgs,ret:[AN,ZQ,PS,YT].map(id=>pTW(id,'ret').msgs)}));
   /* 演出來：8/26 以安（美國、交往中，當地 09:00）*/
   fresh('2028-08-20',9,'us_apartment',US()); date(AN,'2028-06-01'); phAt('2028-08-26',9); const M=tagMsgs('usl_tw_'+AN+'_qixi').map(m=>m.text);

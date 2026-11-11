@@ -12,7 +12,20 @@ const DOCS=[['docs/story_planning/AA_794_zr_boss.json','60c08798a'],['docs/story
 const gen=f=>{ try{ return fs.readFileSync(path.join(ROOT,f),'utf8').slice(0,400).includes('自動產生'); }catch(e){ return true; } };
 let rows=[]; for(const [doc,sha] of DOCS){ try{ const d=JSON.parse(cp.execSync('git -C "'+ROOT+'" show '+sha+':'+doc,{encoding:'utf8',stdio:['ignore','pipe','ignore']})); rows=rows.concat((d.rows||d).filter(r=>!gen(r.file)).map(r=>Object.assign({doc,sha},r))); }catch(e){} }
 const unq=t=>typeof t==='string'&&/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;
-module.exports={ rows,
+/* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：這兩份的 old／new 是程式片段（含引號：'試教～'、msgs:['…','…']、say(PS,'…'),say(PS,'…')），
+   整格比的 toOld／fwd／isNew 對不上一句一句的字——拆成句子：兩邊照順序取 '…' 裡的字一一對應；new 比 old 多出來的那句＝稿新加的（舊句 null）。
+   只加下面四個匯出，原有的 rows／fixFile／toOld／fwd／isNew 行為不變：
+     sents＝[{doc,sha,file,line,old,new}]（一句一列；只收 old／new 裡有 '…' 的列）
+     toOldS(新句, 檔)＝先照整格 toOld（給檔＝只找那個遊戲檔的列）；不是就找拆開的句子換回舊句（稿新加的那句＝null，呼叫的測試自己決定認不認）；都不是＝原樣
+     fwdS(舊句, 檔)＝先照整格 fwd；不是就找拆開的句子換成新句；都不是＝原樣
+     fwdDeep(值, 檔)＝字串、陣列、物件的值（{yes,no} 這種）裡每一句照 fwdS 換：舊稿的整列往前換成新句再和遊戲比 */
+const qsq=t=>{ const m=String(t).match(/'((?:[^'\\]|\\.)*)'/g); return m?m.map(x=>x.slice(1,-1)):[]; };
+const sents=[]; for(const r of rows){ const o=qsq(r.old), n=qsq(r.new); for(let i=0;i<Math.max(o.length,n.length);i++) sents.push(Object.assign({},r,{old:i<o.length?o[i]:null,new:i<n.length?n[i]:null})); }
+const toOldW=(t,file)=>{ const r=rows.find(r=>r.new===t&&(!file||r.file===file)); return r?r.old:t; }, fwdW=(t,file)=>{ const r=rows.find(r=>r.old===t&&(!file||r.file===file)); return r?r.new:t; };
+const toOldS=(t,file)=>{ const w=toOldW(t,file); if(w!==t) return w; const s=sents.find(s=>s.new===t&&s.old!==t&&(!file||s.file===file)); return s?s.old:t; };
+const fwdS=(t,file)=>{ const w=fwdW(t,file); if(w!==t) return w; const s=sents.find(s=>s.old===t&&s.new!==t&&(!file||s.file===file)); return s?s.new:t; };
+const fwdDeep=(x,file)=>typeof x==='string'?fwdS(x,file):Array.isArray(x)?x.map(y=>fwdDeep(y,file)):x&&typeof x==='object'?Object.fromEntries(Object.entries(x).map(([k,v])=>[k,fwdDeep(v,file)])):x;
+module.exports={ rows, sents, toOldS, fwdS, fwdDeep,
   fixFile:(file,text)=>{ let s=String(text); for(const r of rows) if(r.file===file) s=s.split(r.old).join(r.new); return s; },
   toOld:t=>{ const r=rows.find(r=>r.new===t); return r?r.old:t; },
   /* fwd(舊句, 檔)＝稿上那一列的 new（只找那個遊戲檔的列；不給檔＝不分檔）；不是這幾份改的＝原樣——舊稿／舊期望的句子往前換成新句再比 */

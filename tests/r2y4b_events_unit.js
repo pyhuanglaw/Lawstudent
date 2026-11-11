@@ -155,7 +155,7 @@ const date=id=>H.date(id);
   { fresh('2029-04-14',11.8,'dorm'); PSB(); date('classmate_peishan'); OUT.plan(H.G,{id:'y4_ps_open',ev:'ev_peishan_open_class',day:D('2029-04-14'),h:14,place:'台南',title:'t',travelH:2}); await goOut('y4_ps_open',[0]);
     check('2-Y4-36 交往中：送站那一句換「你坐最後一排，我一直看到你，害我講錯一題。這題算你的。」（AA_447 1-2）；「沒有。」→「你騙人。好，我當你沒看到。」；CG 沒登錄＝不放', has('你坐最後一排，我一直看到你，害我講錯一題。這題算你的。')&&!has('下次待久一點。末班車太早了。')&&!has('謝謝你來看我上課！到臺北傳給我喔。')&&has('你騙人。好，我當你沒看到。')&&!H.cgs.length); }
   { fresh('2029-04-12',20,'dorm'); PSB(); at('2029-04-12',21); phone(); answer('y4_ps_open',1); at('2029-04-14',21); phone(); PHONE.tick(H.G);
-    check('P2 沒去（「那天不行。」→「好～那我拍照給你看。」）：當晚「媽媽來了。她坐最後一排。……」；沒有 CG；PS_OPEN_CLASS missed', th('p:classmate_peishan').includes('好～那我拍照給你看。')&&th('p:classmate_peishan').includes('媽媽來了。她坐最後一排。……就是我叫你坐的那個位子。')&&H.G.flags.PS_OPEN_CLASS==='missed'&&!OUT.get(H.G,'y4_ps_open')); }
+    check('P2 沒去（「那天不行。」→「好！那我拍照給你看，拍你沒來的那個位子。」）：當晚「媽媽來了。她坐最後一排。……」；沒有 CG；PS_OPEN_CLASS missed', th('p:classmate_peishan').includes('好！那我拍照給你看，拍你沒來的那個位子。')/* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：r2y4b3d.js 第 161 列，遊戲照新句。舊期望：「好～那我拍照給你看。」 */&&th('p:classmate_peishan').includes('媽媽來了。她坐最後一排。……就是我叫你坐的那個位子。')&&H.G.flags.PS_OPEN_CLASS==='missed'&&!OUT.get(H.G,'y4_ps_open')); }
   { fresh('2029-04-12',20,'dorm'); H.FAMILIAR('classmate_peishan'); contact('classmate_peishan'); at('2029-04-12',21); phone();
     check('P3 沒重新聯絡上：沒有這一件', !th('p:classmate_peishan').length); }
   /* ===== 2-Y4-37 語彤 16b 阿姨的照片 ===== */

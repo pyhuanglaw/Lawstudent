@@ -18,11 +18,15 @@ const strs=(o,out)=>{ if(typeof o==='string') out.push(o); else if(Array.isArray
 const D1={f:'AA_761_peishan_events_1.json',sha:'dbfc596a5'}, D2={f:'AA_762_peishan_events_2.json',sha:'1fc9a6658'};
 for(const D of [D1,D2]){ const raw=show(D.sha,SP+D.f); D.A=raw?JSON.parse(raw):null; }
 /* 一個檔：rows＝[{old,new,count,ev?}] */
-const fileCheck=(tag,f,rows,total)=>{ const cur=read(f), L=lit(cur), n=t=>L.filter(x=>x===t).length;
+/* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：AA_808 又把 vac_activities.js 沛珊和她出國的兩句改了（第 558 列：AA_762 那一列的 new「我以前都跟在我媽後面，原來要自己填這麼多東西～」→「…東西。」、
+   不在 AA_762 的「我媽說我傳太多了～」→「我媽說我傳太多了。她已讀的速度跟不上。」）——稿那一列的 new 照 AA_808 往前換（line_rows_expect.js fwdS）再數；BASE 先照 AA_807／808 換過（fixFile）再逐個比。
+   沒有 AA_807／808 列的檔（events.js、camp_y1.js、rom1016_events.js、r2y4b_events.js）兩個都是原樣。舊期望：稿的 new 原樣數、BASE 原樣比（vac_activities.js 不一樣的 11 處） */
+const LR=require('./line_rows_expect.js');
+const fileCheck=(tag,f,rows0,total)=>{ const cur=read(f), L=lit(cur), n=t=>L.filter(x=>x===t).length, rows=rows0.map(r=>Object.assign({},r,{new:LR.fwdS(r.new,f)}));
   const bad=rows.filter(r=>n(r.new)!==r.count||n(r.old)!==0);
   check(tag+' '+f+'：'+rows.length+' 列的 new 各剛好 count 處（共 '+total+' 處）、old 不在了',rows.reduce((a,r)=>a+r.count,0)===total&&bad.length===0,J(bad.map(r=>[r.old,n(r.old),r.new,n(r.new)]).slice(0,4)));
   const ob=show(BASE,f); if(!ob){ console.log('（讀不到 '+BASE+' 的 '+f+'：不比重寫以前）'); return; }
-  const O=lit(ob), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(rows.map(r=>r.old+'→'+r.new));
+  const O=lit(LR.fixFile(f,ob)), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(rows.map(r=>r.old+'→'+r.new));   /* fixFile：見上 */
   check(tag+' '+f+'：字串和 BASE 逐個比一樣多（'+O.length+' 個），不一樣的剛好 '+total+' 處、都是稿上的列（選項的字、別人的句子、條件、旗標沒動）',O.length===L.length&&d.length===total&&d.every(([x,y])=>set.has(x+'→'+y)),J([O.length,L.length,d.length,d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,3)]));
   const skel=s=>noCom(s).replace(/'((?:[^'\\]|\\.)*)'/g,"''").replace(/\s+/g,'');
   check(tag+' '+f+'：骨架（字串以外的程式：條件、旗標、數值、結構）和 BASE 一樣',skel(ob)===skel(cur)); };
