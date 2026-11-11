@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "L118D_H_H_r2",
+  "sha": "bc407bfc518c8d6a4260d1a1fa395cb93fc9058b",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_l118d_h_probe.py",
+  "env": "PARTS=H6,SQ04;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/pt1107e_arcs_probe.py,docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/cc_fn_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json",
+  "machine": "MSI",
+  "start": "2026-11-11T15:36:01",
+  "end": "2026-11-11T15:39:18",
+  "seconds": 198,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "26",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 16,
+    "mem": 55,
+    "used_gb": 18.1,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
