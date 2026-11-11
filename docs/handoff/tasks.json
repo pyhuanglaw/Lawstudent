@@ -39785,7 +39785,8 @@
     "acceptance": "缺口清單＋定稿（含來源）交 LAWWW，白名單登記後接進遊戲",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "note": "｜11-11 課堂內容補寫：more 欄位（classes3d.js、import_syllabus.py KEEP；2ece07e21）；大一上三科（const_1、crim_gen1、civ_general）AA d3a22505b、BB_332～334 法律審過 → 開發分支 57e2e22c2 已整合待測試（BB 排 CC 每科抽四週）；大一下三科 AA 11-13 起"
   },
   {
    "id": "ROLE-CC-1102",
