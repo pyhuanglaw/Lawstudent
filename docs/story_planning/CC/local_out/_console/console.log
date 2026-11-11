@@ -665,3 +665,12 @@
 [07:57:01] ==== START NM_shots_b  (probe @ bd3f67410415267cde659e007e7d09b6f8fd05f3) ====
 [07:57:04] [res] cpu=14% mem=43% (13.0/31.4 GB) chrome_testing=4  START NM_shots_b
 [07:58:01] [res] cpu=5% mem=44% (14.0/31.4 GB) chrome_testing=8  END NM_tbl_edge
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b664ed32f..df1c9a6fe  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:58:06] ==== END   NM_tbl_edge  exit=0  174s   ====
+[07:58:09] memory 46% before starting NM_shots_c (2 running)
+[07:58:09] ==== START NM_shots_c  (probe @ bd3f67410415267cde659e007e7d09b6f8fd05f3) ====
+[07:58:13] [res] cpu=10% mem=47% (14.5/31.4 GB) chrome_testing=8  START NM_shots_c
+[07:59:02] 正在跑：NM_shots_a（已跑 2 分／上限 18 分）、NM_shots_b（已跑 2 分／上限 14 分）、NM_shots_c（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:01:50] [res] cpu=8% mem=50% (15.9/31.4 GB) chrome_testing=10  END NM_shots_b

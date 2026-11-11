@@ -1,0 +1,95 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_shots_b\out
+CC NM1 夜市：PARTS SHOTS；SHA bd3f67410；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 （讀配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1930 (6.10,29.60) （節節高甘蔗汁 前面 1.9 m）
+PASS [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_cane 節節高甘蔗汁 營業中 1930] isOpen＝True（open 模型 visible True、closed visible False）  {"id": "st_cane", "kind": "cane", "name": "節節高甘蔗汁", "x": 4.2, "z": 29.6, "yaw": 1.5708, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [3.927, 1.169, 29.6], "s": [1.36, 2.34, 2.74], "top": 2.34}, "cb": {"c": [4.2, 0.95, 29.6], "s": [0.95, 1.9, 2.74], "top": 1.9}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [  62.1s] [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 外框中心 open [3.927, 1.169, 29.6]、closed [4.2, 0.95, 29.6]，水平差 0.273 m（open 大小 [1.36, 2.34, 2.74]、closed 大小 [0.95, 1.9, 2.74]）
+FAIL [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）  0.273 m
+  [  62.1s] [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 外框中心離配置位置 (4.20,29.60)：open 0.27 m
+  [  62.1s] [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [  66.9s] [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 互動：鍵「看節節高甘蔗汁」→ ["（", "（不鏽鋼的小車，白光。兩邊各立著一大捆甘蔗，比人還高。）", "（老闆把一段甘蔗塞進機器，另一", "（老闆把一段甘蔗塞進機器，另一頭流出淺綠色的汁。）", "要不要加檸檬？不用錢。"]；選項 [["甘蔗汁・中杯　50 元", "甘蔗汁・大杯　65 元", "算了"]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1500 (6.10,29.60) （節節高甘蔗汁 前面 1.9 m）
+PASS [SHOTS st_cane 節節高甘蔗汁 開之前 1500] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_cane 節節高甘蔗汁 開之前 1500] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_cane", "kind": "cane", "name": "節節高甘蔗汁", "x": 4.2, "z": 29.6, "yaw": 1.5708, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [3.927, 1.169, 29.6], "s": [1.36, 2.34, 2.74], "top": 2.34}, "cb": {"c": [4.2, 0.95, 29.6], "s": [0.95, 1.9, 2.74], "top": 1.9}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [  79.1s] [SHOTS st_cane 節節高甘蔗汁 開之前 1500] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [  81.1s] [SHOTS st_cane 節節高甘蔗汁 開之前 1500] 互動：鍵「看節節高甘蔗汁」→ ["（", "（淺綠色的帆布包著車子。地上還有幾片甘蔗皮。）"]；選項 []
+PASS [SHOTS st_cane 節節高甘蔗汁 開之前 1500] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2330 (6.10,29.60) （節節高甘蔗汁 前面 1.9 m）
+PASS [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_cane", "kind": "cane", "name": "節節高甘蔗汁", "x": 4.2, "z": 29.6, "yaw": 1.5708, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [3.927, 1.169, 29.6], "s": [1.36, 2.34, 2.74], "top": 2.34}, "cb": {"c": [4.2, 0.95, 29.6], "s": [0.95, 1.9, 2.74], "top": 1.9}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [  93.4s] [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [  95.3s] [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 互動：鍵「看節節高甘蔗汁」→ ["（淺綠色的帆布包著車子。地上還有幾片甘蔗皮。）"]；選項 []
+PASS [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_cane] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 (6.10,35.00) （公館阿婆甜湯 前面 1.9 m）
+PASS [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] isOpen＝True（open 模型 visible True、closed visible False）  {"id": "st_jelly", "kind": "jelly", "name": "公館阿婆甜湯", "x": 4.2, "z": 35, "yaw": 1.5708, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [4.22, 1.275, 35], "s": [2.08, 2.55, 5.6], "top": 2.55}, "cb": {"c": [4.2, 1.223, 35], "s": [1.2, 2.45, 4.09], "top": 2.45}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 108.0s] [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 外框中心 open [4.22, 1.275, 35]、closed [4.2, 1.223, 35]，水平差 0.020 m（open 大小 [2.08, 2.55, 5.6]、closed 大小 [1.2, 2.45, 4.09]）
+PASS [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）  0.020 m
+  [ 108.0s] [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 外框中心離配置位置 (4.20,35.00)：open 0.02 m
+  [ 108.0s] [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 113.6s] [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 互動：鍵「看公館阿婆甜湯」→ ["（", "（紅色的舊布棚，招牌上有阿婆的頭像。長長的玻璃櫃裡七八格配料：粉圓、紅豆、芋圓、花生、綠豆、仙草。）", "（攤子前面兩張紅色的折疊桌，幾", "（攤子前面兩張紅色的折疊桌，幾張塑膠凳。有人坐著吃，書包放在腳邊。）", "（保溫鍋的蓋子一掀開，整個攤子", "（保溫鍋的蓋子一掀開，整個攤子都是仙草的味道。）", "內用還是帶走？"]；選項 [["粉圓冰　50 元", "燒仙草　55 元", "算了"]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1600 (6.10,35.00) （公館阿婆甜湯 前面 1.9 m）
+PASS [SHOTS st_jelly 公館阿婆甜湯 開之前 1600] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_jelly 公館阿婆甜湯 開之前 1600] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_jelly", "kind": "jelly", "name": "公館阿婆甜湯", "x": 4.2, "z": 35, "yaw": 1.5708, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [4.22, 1.275, 35], "s": [2.08, 2.55, 5.6], "top": 2.55}, "cb": {"c": [4.2, 1.223, 35], "s": [1.2, 2.45, 4.09], "top": 2.45}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 125.7s] [SHOTS st_jelly 公館阿婆甜湯 開之前 1600] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [ 127.7s] [SHOTS st_jelly 公館阿婆甜湯 開之前 1600] 互動：鍵「看公館阿婆甜湯」→ ["（桌子和凳子疊在一起，玻璃櫃蓋著紅灰色的帆布。）"]；選項 []
+PASS [SHOTS st_jelly 公館阿婆甜湯 開之前 1600] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2330 (6.10,35.00) （公館阿婆甜湯 前面 1.9 m）
+PASS [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_jelly", "kind": "jelly", "name": "公館阿婆甜湯", "x": 4.2, "z": 35, "yaw": 1.5708, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [4.22, 1.275, 35], "s": [2.08, 2.55, 5.6], "top": 2.55}, "cb": {"c": [4.2, 1.223, 35], "s": [1.2, 2.45, 4.09], "top": 2.45}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 140.0s] [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 141.9s] [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 互動：鍵「看公館阿婆甜湯」→ ["（桌子和凳子疊在一起，玻璃櫃蓋著紅灰色的帆布。）"]；選項 []
+PASS [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_jelly] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1900 (6.10,-15.50) （襪子 前面 1.9 m）
+PASS [SHOTS st_socks 襪子 營業中 1900] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_socks 襪子 營業中 1900] isOpen＝True（open 模型 visible True、closed visible False）  {"id": "st_socks", "kind": "socks", "name": "襪子", "x": 4.2, "z": -15.5, "yaw": 1.5708, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [4.1, 1.25, -15.5], "s": [2.4, 2.5, 2.4], "top": 2.5}, "cb": {"c": [4.14, 1.15, -15.5], "s": [0.82, 2.3, 1.6], "top": 2.3}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 155.1s] [SHOTS st_socks 襪子 營業中 1900] 外框中心 open [4.1, 1.25, -15.5]、closed [4.14, 1.15, -15.5]，水平差 0.040 m（open 大小 [2.4, 2.5, 2.4]、closed 大小 [0.82, 2.3, 1.6]）
+PASS [SHOTS st_socks 襪子 營業中 1900] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）  0.040 m
+  [ 155.1s] [SHOTS st_socks 襪子 營業中 1900] 外框中心離配置位置 (4.20,-15.50)：open 0.10 m
+  [ 155.1s] [SHOTS st_socks 襪子 營業中 1900] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 157.4s] [SHOTS st_socks 襪子 營業中 1900] 互動：鍵「看襪子」→ ["（", "（折疊桌上的襪子一包十雙。紙板上寫的字被雨淋過，看不清楚價錢。）"]；選項 []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1500 (6.10,-15.50) （襪子 前面 1.9 m）
+PASS [SHOTS st_socks 襪子 開之前 1500] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_socks 襪子 開之前 1500] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_socks", "kind": "socks", "name": "襪子", "x": 4.2, "z": -15.5, "yaw": 1.5708, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [4.1, 1.25, -15.5], "s": [2.4, 2.5, 2.4], "top": 2.5}, "cb": {"c": [4.14, 1.15, -15.5], "s": [0.82, 2.3, 1.6], "top": 2.3}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 169.7s] [SHOTS st_socks 襪子 開之前 1500] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [ 171.9s] [SHOTS st_socks 襪子 開之前 1500] 互動：鍵「看襪子」→ ["（", "（掛架收起來了，整攤蓋著帆布，邊角用磚頭壓著。）"]；選項 []
+PASS [SHOTS st_socks 襪子 開之前 1500] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2230 (6.10,-15.50) （襪子 前面 1.9 m）
+PASS [SHOTS st_socks 襪子 收攤後 2230] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_socks 襪子 收攤後 2230] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_socks", "kind": "socks", "name": "襪子", "x": 4.2, "z": -15.5, "yaw": 1.5708, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [4.1, 1.25, -15.5], "s": [2.4, 2.5, 2.4], "top": 2.5}, "cb": {"c": [4.14, 1.15, -15.5], "s": [0.82, 2.3, 1.6], "top": 2.3}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 184.7s] [SHOTS st_socks 襪子 收攤後 2230] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_socks 襪子 收攤後 2230] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 187.1s] [SHOTS st_socks 襪子 收攤後 2230] 互動：鍵「看襪子」→ ["（", "（掛架收起來了，整攤蓋著帆布，邊角用磚頭壓著。）"]；選項 []
+PASS [SHOTS st_socks 襪子 收攤後 2230] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_socks] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2015 (5.90,-27.50) （套圈圈 前面 1.9 m）
+PASS [SHOTS st_ring 套圈圈 營業中 2015] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_ring 套圈圈 營業中 2015] isOpen＝True（open 模型 visible True、closed visible False）  {"id": "st_ring", "kind": "ring", "name": "套圈圈", "x": 4, "z": -27.5, "yaw": 1.5708, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [4.047, 1.125, -27.621], "s": [1.85, 2.25, 2.64], "top": 2.25}, "cb": {"c": [4, 1.105, -27.5], "s": [1.7, 2.21, 2.3], "top": 2.21}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 199.8s] [SHOTS st_ring 套圈圈 營業中 2015] 外框中心 open [4.047, 1.125, -27.621]、closed [4, 1.105, -27.5]，水平差 0.130 m（open 大小 [1.85, 2.25, 2.64]、closed 大小 [1.7, 2.21, 2.3]）
+FAIL [SHOTS st_ring 套圈圈 營業中 2015] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）  0.130 m
+  [ 199.8s] [SHOTS st_ring 套圈圈 營業中 2015] 外框中心離配置位置 (4.00,-27.50)：open 0.13 m
+  [ 199.8s] [SHOTS st_ring 套圈圈 營業中 2015] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 202.2s] [SHOTS st_ring 套圈圈 營業中 2015] 互動：鍵「看套圈圈」→ ["（", "（紅黃條紋的棚子。地上排著一整片玻璃瓶，有人丟了十個圈，一個都沒中。）"]；選項 []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1700 (5.90,-27.50) （套圈圈 前面 1.9 m）
+PASS [SHOTS st_ring 套圈圈 開之前 1700] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+FAIL [SHOTS st_ring 套圈圈 開之前 1700] isOpen＝False（open 模型 visible True、closed visible False）  {"id": "st_ring", "kind": "ring", "name": "套圈圈", "x": 4, "z": -27.5, "yaw": 1.5708, "isOpen": true, "openVis": true, "closedVis": false, "ob": {"c": [4.047, 1.125, -27.621], "s": [1.85, 2.25, 2.64], "top": 2.25}, "cb": {"c": [4, 1.105, -27.5], "s": [1.7, 2.21, 2.3], "top": 2.21}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 215.0s] [SHOTS st_ring 套圈圈 開之前 1700] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 217.5s] [SHOTS st_ring 套圈圈 開之前 1700] 互動：鍵「看套圈圈」→ ["（瓶", "（瓶子收進箱子了。棚子上蓋著帆布。）"]；選項 []
+PASS [SHOTS st_ring 套圈圈 開之前 1700] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2300 (5.90,-27.50) （套圈圈 前面 1.9 m）
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] isOpen＝False（open 模型 visible False、closed visible True）  {"id": "st_ring", "kind": "ring", "name": "套圈圈", "x": 4, "z": -27.5, "yaw": 1.5708, "isOpen": false, "openVis": false, "closedVis": true, "ob": {"c": [4.047, 1.125, -27.621], "s": [1.85, 2.25, 2.64], "top": 2.25}, "cb": {"c": [4, 1.105, -27.5], "s": [1.7, 2.21, 2.3], "top": 2.21}, "litOpen": {"lights": 0, "emissive": 2}, "litClosed": {"lights": 0, "emissive": 0}}
+  [ 229.8s] [SHOTS st_ring 套圈圈 收攤後 2300] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 232.0s] [SHOTS st_ring 套圈圈 收攤後 2300] 互動：鍵「看套圈圈」→ ["（", "（瓶子收進箱子了。棚子上蓋著帆布。）"]；選項 []
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_ring] walkFallbacks 0
+PASS 沒有 JS 例外  []
+FAILED 3: [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）；[SHOTS st_ring 套圈圈 營業中 2015] 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）；[SHOTS st_ring 套圈圈 開之前 1700] isOpen＝False（open 模型 visible True、closed visible False）
