@@ -1,0 +1,29 @@
+{
+  "rerun": "",
+  "id": "L118D_C6",
+  "sha": "bc407bfc518c8d6a4260d1a1fa395cb93fc9058b",
+  "kind": "game",
+  "script": "docs/story_planning/test_tools/cc/cc_l118d_c_probe.py",
+  "env": "SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/pt1107e_arcs_probe.py,docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/cc_fn_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json;XARGS={url2} {url} {out};CASES=6;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b",
+  "machine": "MSI",
+  "start": "2026-11-11T15:01:49",
+  "end": "2026-11-11T15:08:29",
+  "seconds": 400,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "26",
+  "url": "http://127.0.0.1:8800/index.html",
+  "url2": "http://127.0.0.1:8802/index.html",
+  "sha2": "779ddd65081bf770e9850d948b54ecc21dc4d120",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 12,
+    "mem": 55,
+    "used_gb": 17.6,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
