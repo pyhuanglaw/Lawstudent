@@ -2131,6 +2131,16 @@
    "task": "L118-SHOPS-REDO-1111",
    "src": "LAWWW send_message 11-11 04:03",
    "checked": "AA 的部分：①AA_280 改版（九間店名、類型、菜單、價錢照使用者原文；兩間飲料店不取名）②故事怎麼搬的表 ③舊店名台詞的修正稿 ④AA_771 午餐照新店改版。①④第一版已交"
+  },
+  {
+   "id": "UA-AA-1111-04",
+   "at": "2026-11-11 07:5x UTC",
+   "quote": "我沒有要用fable",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X342",
+   "src": "使用者直接對 AA（帳號 A），同時用 /model 把 AA 換成 claude-opus-5-5",
+   "checked": "AA 已是 Opus 5.5；AA 查 get_session 時 LAWWW、BB、LAWWW2 在 Fable 已停，告訴使用者在那三個對話 /model；08:0x LAWWW 回報 LAWWW、LAWWW2、CC、BB 都已是 claude-opus-5-5；LAWWW 開 X342"
   }
  ]
 }
