@@ -151,6 +151,9 @@ REL_live_ctl | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/save_comp
 # BB 20:5x：V25_social 636 PASS／2 FAIL 都在以安 phone_date Daybreak「自己走過去」（開演時她在場、分支 1-1 錯過約定）；線上 779ddd 對照＋發布樹重跑
 REL_soc_ctl | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_01;STEPS=phone_date;TAG=relctl;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 REL_soc_new | f312c68cc961c70c7d548fe40c2ae42483d517ba | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_01;STEPS=phone_date;TAG=relnew;SHA=f312c68cc961c70c7d548fe40c2ae42483d517ba
+# CC 12:5x：探針修好（選單照文字對、自己走過去先等偶遇演完）再跑一次新舊
+REL_soc_new_r2 | f312c68cc961c70c7d548fe40c2ae42483d517ba | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_01;STEPS=phone_date;TAG=relnew2;SHA=f312c68cc961c70c7d548fe40c2ae42483d517ba
+REL_soc_ctl_r2 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_01;STEPS=phone_date;TAG=relctl2;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 V25_main12 | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 V25_social | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | TAG=v25;SHA=0d1eaadc7e746d4e6c6b00619f584e805266fbb6
 V25_reach | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
