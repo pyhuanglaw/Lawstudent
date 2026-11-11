@@ -63,7 +63,10 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
   const R772=require('./l118_redo772_expect.js');
   spec=R772.doc(spec)+'\n'+R772.corpus(); spec576=R772.doc(spec576); spec580=R772.doc(spec580); spec579=R772.doc(spec579); spec584=R772.doc(spec584); spec651=R772.doc(spec651);
-  const inSpec=t=>{ const x=String(t).replace(/^（走出法圖）/,'').replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||(!!spec767&&spec767.includes('"new": "'+x+'"'))||(!!spec780&&spec780.includes('"new": "'+x+'"'))||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x))||(!!spec651&&spec651.includes(x)); };
+  /* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 照覆蓋層拿掉刪節號——下面對稿時，覆蓋層換上去的新字、它的舊字在稿上也算（tests/overlay_expect.js 的 inDoc）；期望值包 FT（舊期望＝FT 裡面的字）*/
+  const OE=require('./overlay_expect.js'), FT=(who,s)=>OE.fwdText('invites',who,s);
+  const inSpec0=t=>{ const x=String(t).replace(/^（走出法圖）/,'').replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||(!!spec767&&spec767.includes('"new": "'+x+'"'))||(!!spec780&&spec780.includes('"new": "'+x+'"'))||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x))||(!!spec651&&spec651.includes(x)); };
+  const inSpec=t=>OE.inDoc('invites',null,t,inSpec0);
   { const bad=[]; const walk=(tag,v)=>{ if(v==null) return; if(typeof v==='function') return walk(tag,v(null,{r:{}})); if(typeof v==='string'){ if(!inSpec(v)) bad.push(tag+':'+v); return; } if(Array.isArray(v)) return v.forEach(x=>walk(tag,x)); if(v.l) return walk(tag,v.l); for(const k in v) walk(tag+'.'+k,v[k]); };
     walk('lawlib',INVITE_DATA.lawlibLines); walk('lake',INVITE_DATA.lakeLines);
     for(const id of ['heroine_01','heroine_03','kexin']) for(const p of ['cafe','library','noodle','wenzhou']) walk('meet.'+id+'.'+p,((REL_LINES[id]||{}).meet||{})[p]);
@@ -152,7 +155,7 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     const w2=INV.placeWhy(G,'heroine_03',LK), wz=INV.placeWhy(G,'heroine_03',INV.place('wenzhou')), dc=INV.decide(G,'heroine_03','lake',sat,17.5), tx=INV.reply(G,'heroine_03','lake',dc); CHARACTERS.heroine_03.partner=P0.from?P0:undefined; if(!P0.from) delete CHARACTERS.heroine_03.partner;
     check('2-2. 有伴侶約映月湖：兩個人單獨的規則照溫州街，系統說明（why.partnerWalk「兩個人單獨去散步不太好。約在 Café 或總圖吧。」）',w2===INVITE_DATA.why.partnerWalk&&w2===wz&&dc.res==='decline'&&dc.why==='partner'&&tx===INVITE_DATA.why.partnerWalk,J([w2,dc,tx])); }
   // ===== 第 4 節（b3e5bca3b）：實作問答的更正與補句 =====
-  const S4T=spec.slice(Math.max(0,spec.indexOf('## 4.'))), in4=t=>!!S4T&&S4T.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''));
+  const S4T=spec.slice(Math.max(0,spec.indexOf('## 4.'))), in4=t=>!!S4T&&OE.inDoc('invites',null,t,t=>S4T.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,'')));
   const KX=INVITE_DATA.people.kexin, SRL=INVITE_DATA.slowreadLines, H8L='118 巷那間牛排的老闆娘人很好。我去問過她開店的事。';
   const PS_TU='那時候我在課輔班。……木曜日開到十點，改天晚上好不好？', PS_SH='那時候我在書店。……木曜日開到十點，改天晚上好不好？';
   { fresh(TD('Y1S2',5,6),9); const lawG=G, FA4=['cafe','library','noodle','wenzhou'].map(p=>KX.firstAt[p](lawG));
@@ -171,7 +174,7 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     const kl=[PA,TC].map(P=>INV.kxPlaceLine(G,P)), ra=INV.personal(G,'kexin',PA,sat,12,{res:'accept'}), rt=INV.personal(G,'kexin',TC,sat+7,14,{res:'accept'});
     check('4-2. 可昕交往中：Pasta 118、茶席有她自己的答應句（kxPlaceLine＝own，原本只有一般句 kx20）',J(kl)===J(['own','own']),J(kl));
     check('4-2. 可昕 Pasta 118 acc「好。我從木柵過去四十分鐘，你先點，我到了就吃。」',J(ra.lines)===J(['好。我從木柵過去四十分鐘，你先點，我到了就吃。']),J(ra.lines));
-    check('4-2. 可昕茶席 acc「茶席。……我要穿裙子嗎？」／「我穿。」',J(rt.lines)===J(['茶席。……我要穿裙子嗎？','我穿。']),J(rt.lines));
+    check('4-2. 可昕茶席 acc「'+FT('kexin','茶席。……我要穿裙子嗎？')+'」／「我穿。」',J(rt.lines)===J([FT('kexin','茶席。……我要穿裙子嗎？'),'我穿。']),J(rt.lines));
     const sub=(L,want)=>{ let i=0; for(const t of L) if(t===want[i]) i++; return i===want.length; };
     for(const p of ['cafe','library','noodle','wenzhou']){ fresh(sat-1,9,{dating_kexin:true}); know('kexin',S6); const P=INV.place(p), FA=KX.firstAt[p](G).map(t=>t.replace(/^「|」$/g,'').replace(/^（|）$/g,''));
       const s1=pickSlot('kexin',P,sat,p==='noodle'?12:15), iv=INV.accept(G,'kexin',p,s1.day,s1.h,{by:'player'}); said=[]; await INV.meet(GM,iv,null); const L1=T().map(t=>String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''));

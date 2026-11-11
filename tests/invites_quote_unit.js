@@ -70,7 +70,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   check('2. 旁白裡引用她的話照留「」（子晴答應總圖、沛珊的便條、約念書中途的便利貼）',
     has(P.heroine_04&&P.heroine_04.acc,'（她答應了，條件是「二樓靠窗，有插座的那一排」。）')&&has(P.classmate_peishan&&P.classmate_peishan.afterMeet,'（她遞過來一張便條：「今天念了 42 頁。你呢？」）')
     &&strings(LSd.mid).some(t=>/^（她把一張便利貼推過來：「這一題你會嗎？」/.test(t)));
-  check('2. 好幾個人一來一往的「…」「…」照留（阿哲、柏翰一起走路的句子）',has(D.walk118,'「宵夜是讀書的一部分。這叫補充體力的權利。」「沒有這個權利。」「先有。」')&&has(D.walk118,'「考完了，我在總圖門口站了五分鐘，不知道要去哪。……你要去哪？」「燒臘店。」「……喔。好。那你去。」'));
+  check('2. 好幾個人一來一往的「…」「…」照留（阿哲、柏翰一起走路的句子）',has(D.walk118,'「宵夜是讀書的一部分。這叫補充體力的權利。」「沒有這個權利。」「先有。」')&&has(D.walk118,require('./overlay_expect.js').fwd('invites','classmate_bohan','「考完了，我在總圖門口站了五分鐘，不知道要去哪。……你要去哪？」「燒臘店。」「……喔。好。那你去。」'))   /* 2026-11-11（X324 D 區，AA_784）：柏翰這一句拿掉刪節號，一來一往的「…」「…」照留——舊期望＝fwd 裡面的字 */);
   check('2. 沛珊第一次去法圖：（走出法圖）館員人好好……（AA_595 1-D10；她說的，第六批拿掉說的話那一對「」，TEXT-QUOTE-UNIFY-1108、tests/invites_quote_b6_unit.js）',has(D.lawlibLines,'（走出法圖）館員人好好。我以為法圖的人都很兇。')&&!has(D.lawlibLines,'（走出法圖）「館員人好好。我以為法圖的人都很兇。」'));
   const chT=[]; (function w(v){ if(Array.isArray(v)) v.forEach(w); else if(v&&typeof v==='object'){ if(Array.isArray(v.ch)) for(const c of v.ch) chT.push(c.t); for(const k of Object.keys(v)) if(k!=='ch') w(v[k]); } })(Object.values(P).map(p=>p.walk));
   check('2. 選項字不動（芷若猜電影、阿凱、子晴、沛珊的選項）',chT.length>=10&&chT.includes('愛情片。')&&chT.includes('（說換方向的事）')&&chT.includes('不一定是告，可以請警察來看'),JSON.stringify(chT)); }
@@ -88,7 +88,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   { const e=strings(D.people.heroine_04.walk).length&&(function f(v){ if(Array.isArray(v)){ for(const x of v){ const r=f(x); if(r) return r; } } else if(v&&typeof v==='object'){ if(v.once==='ZQ_CHANGE_ASK') return v; for(const k of Object.keys(v)){ const r=f(v[k]); if(r) return r; } } return null; })(D.people.heroine_04.walk);
     const a=e?await play(e.ch[0].r,{name:'子晴'}):[];
     check('3. 子晴「你為什麼換」：祐廷說的 {me} 有名字（祐廷）、外面沒有「」；她回的有名字；（她走了好幾步沒說話。）沒名字',
-      a.length===7&&a[0].who==='祐廷'&&a[0].t==='念了一個多月經濟，後來重考到法律。考之前很怕，考完就不怕了。'&&a[1].who==='子晴'&&a[1].t==='……你換過？'&&a[5].who===null,J(a)); }
+      a.length===7&&a[0].who==='祐廷'&&a[0].t==='念了一個多月經濟，後來重考到法律。考之前很怕，考完就不怕了。'&&a[1].who==='子晴'&&a[1].t===require('./overlay_expect.js').fwd('invites','heroine_04','……你換過？')   /* 2026-11-11（X324 D 區，AA_784）：拿掉刪節號——舊期望「……你換過？」*/&&a[5].who===null,J(a)); }
   { const a=await play(D.seatOpen.meal[0],{name:'芷若'});
     check('3. 一起坐下的開場句：旁白沒名字、她那句有名字',a.length===2&&a[0].who===null&&a[1].who==='芷若'&&a[1].t==='你先點。',J(a)); }
   { const a=await play(D.sport.gym_badminton.during,{name:'阿哲'});

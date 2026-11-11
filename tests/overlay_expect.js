@@ -13,4 +13,8 @@ const fwd = (file, who, t) => { const R = rows(file).filter(r => r.who === who &
 const at = (file, a) => rows(file).find(r => r.at === a) || null;
 /* fwdDeep(file, who, x)：x 裡每一個字串都照 fwd 換（陣列、物件照原樣的結構；寫在期望值外面：J(P.heroine_02.acc.cafe)===J(OE.fwdDeep('invites','heroine_02',{A:[…]}))）*/
 const fwdDeep = (file, who, x) => typeof x === 'string' ? fwd(file, who, x) : Array.isArray(x) ? x.map(v => fwdDeep(file, who, v)) : (x && typeof x === 'object' ? Object.fromEntries(Object.entries(x).map(([k, v]) => [k, fwdDeep(file, who, v)])) : x);
-module.exports = { docs, rows, fwd, fwdDeep, at, have: docs.length > 0 && docs.every(d => !!d.doc) };
+/* fwdText(file, who, s)：s 是好幾句接起來的字（例：txt(lines)），那個人每一列的舊字（整句）在 s 裡面就換成新字（長的先換）；who＝null＝不分人 */
+const fwdText = (file, who, s) => { if (typeof s !== 'string') return s; for (const r of rows(file).filter(r => who == null || r.who === who).sort((a, b) => b.old.length - a.old.length)) s = s.split(r.old).join(r.new); return s; };
+/* inDoc(file, who, t, has)：對稿用——t 在稿上（has(t)），或 t 是覆蓋層換上去的新字、而它的舊字在稿上（has(old)）；who＝null＝不分人 */
+const inDoc = (file, who, t, has) => has(t) || rows(file).some(r => (who == null || r.who === who) && r.new === t && has(r.old));
+module.exports = { docs, rows, fwd, fwdDeep, fwdText, inDoc, at, have: docs.length > 0 && docs.every(d => !!d.doc) };

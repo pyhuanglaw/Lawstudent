@@ -37,7 +37,7 @@ await sec(0,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 96847
   const bad=NEW.filter(t=>!md.includes(t)); check('0. 換上去的 '+NEW.length+' 句都在 BB_172 原文裡一字不差',NEW.length===43&&!bad.length,J(bad));
   /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊 firstAt.brunch 那兩句（BB_172 P3）換成新稿的句子——BB_172 原文照舊有舊句（上一項），遊戲裡查的是新句 */
   const PS755={'「她翻蛋的時候手腕都不動耶。我媽也是。」':'「你看她翻蛋，手腕都不動欸。」','「我到現在還學不會。」':'「我在家試過一次，蛋飛到抽油煙機上，我媽到現在還會講。」'};
-  const src=fs.readFileSync(path.join(H.ROOT,'src/data/invites.js'),'utf8'); const gone=NEW.map(t=>PS755[t]||t).filter(t=>!src.includes(t.replace(/^「|」$/g,'')));   /* invites.js 有名字的台詞不加外面的「」（AA-B 2026-11-08 00:21）*/
+  const src=fs.readFileSync(path.join(H.ROOT,'src/data/invites.js'),'utf8'); const gone=NEW.map(t=>PS755[t]||t).filter(t=>!src.includes(OE.fwdText('invites',null,t.replace(/^「|」$/g,''))));   /* 2026-11-11（X324 D 區）：覆蓋層換過的照新字找（舊期望：舊字本身）*/   /* invites.js 有名字的台詞不加外面的「」（AA-B 2026-11-08 00:21）*/
   check('0. 每一句都在 src/data/invites.js',!gone.length,J(gone)); });
 
 await sec(1,()=>{ check('1. 芷若交換聯絡方式：「好啊，你掃我。」「我上班的時候不太看手機，……」（Z1，10-2 第 12、15 點）',J(EX.heroine_02)===J([{say:'好啊，你掃我。'},{say:'我上班的時候不太看手機，下班才會回，不要以為我不理你。'}]));
@@ -64,7 +64,7 @@ await sec(3,()=>{ const d=termDay('Y1S1',6,3); fresh(d,'heroine_04'); const L=pi
   H.G.flags.walkChatN={}; let w=picks('heroine_04','wenzhou',1)[0];
   check('3. 還沒看過 Q6（她在做遊戲）：溫州街「這邊機車停得好亂，走路都要側身。」（10-2 第 6 點；不說破遊戲）',!!w&&txt(w.lines)==='這邊機車停得好亂，走路都要側身。',w&&txt(w.lines));
   H.G.events.done.ev_ziqing_secret_game=H.G.day-1; H.G.flags.walkChatN={}; w=picks('heroine_04','wenzhou',1)[0];
-  check('3. 看過 Q6 以後：「這邊機車停得好亂。做成關卡的話，……」「……欸，我要把它做進去。」',!!w&&txt(w.lines)==='這邊機車停得好亂。做成關卡的話，玩家一定一直撞到。……欸，我要把它做進去。',w&&txt(w.lines));
+  check('3. 看過 Q6 以後：「這邊機車停得好亂。做成關卡的話，……」「……欸，我要把它做進去。」',!!w&&txt(w.lines)===OE.fwdText('invites','heroine_04','這邊機車停得好亂。做成關卡的話，玩家一定一直撞到。……欸，我要把它做進去。'),w&&txt(w.lines));
   check('3. 去總圖：Q5',J(P.heroine_04.walk.library)===J(FI('heroine_04',['你們法律系考試是寫申論對吧？','我們寫程式有點像，只是改的是電腦，錯一個字就零分。'])));
   const e=INV.walkEntry('heroine_04','ZQ_CHANGE_ASK');
   check('3. Q7 問句「欸，阿凱說你之前念經濟？那你怎麼會換來法律？」、②「好喔，那你欠我一次。」（10-1 第 10 點）；①照 LIFE-LINE「念了一個多月經濟」（BB 稿「念了一年」和現在的設定不合）',!!e&&J(e.l)===J(['欸，阿凱說你之前念經濟？那你怎麼會換來法律？'])&&J(e.ch[1].r)===J(['好喔，那你欠我一次。'])&&e.ch[0].r[0].me==='念了一個多月經濟，後來重考到法律。考之前很怕，考完就不怕了。'&&e.ch[0].mem==='TOLD_HER_CHANGE');
@@ -73,13 +73,13 @@ await sec(3,()=>{ const d=termDay('Y1S1',6,3); fresh(d,'heroine_04'); const L=pi
 await sec(4,()=>{ const e=P.heroine_05.walk.wenzhou[0]; check('4. 學姊筆試以後去溫州街：「這家鬆餅聽說很好吃，我每次經過都在趕時間。」（S3）',J(e.l)===J(['這家鬆餅聽說很好吃，我每次經過都在趕時間。'])&&typeof e.if==='function');
   const q=INV.walkEntry('classmate_peishan','PS_LAW_ASK');
   check('4. 沛珊 P2：問句兩句（人已經在目的地，10-1 第 11 點）、三個回答；選項、after 照舊',!!q&&J(q.l)===J(['剛剛路上那排機車，全都停在紅線上。','如果一條規定大家都不守，它還算數嗎？'])&&J(q.ch.map(c=>c.t))===J(['還是法律，只是沒人守。','那它可能該改了。','要看大家為什麼不守。'])
-    &&J(q.ch[0].r)===J(['所以寫下來就算數喔？','那寫的人壓力好大。'])&&J(q.ch[1].r)===J(['所以大家不守，算是在投票嗎？'])&&J(q.ch[2].r)===J(['……也是。有的人是不想守，有的人是沒辦法守。'])&&q.after.length===2);
+    &&J(q.ch[0].r)===J(['所以寫下來就算數喔？','那寫的人壓力好大。'])&&J(q.ch[1].r)===J(['所以大家不守，算是在投票嗎？'])&&J(q.ch[2].r)===J(FI('classmate_peishan',['……也是。有的人是不想守，有的人是沒辦法守。']))&&q.after.length===2);
   check('4. 沛珊第一次到半熟、一盞（P3、P4）',J(P.classmate_peishan.firstAt.brunch)===J(FI('classmate_peishan',['你看她翻蛋，手腕都不動欸。','我在家試過一次，蛋飛到抽油煙機上，我媽到現在還會講。']))&&J(P.classmate_peishan.firstAt.teahouse)===J(FI('classmate_peishan',['這裡講話要很小聲對不對？','……那我小聲問，第一泡為什麼要倒掉？']))); });
 
 await sec(5,()=>{ const w=P.heroine_05.walk, f=P.heroine_05.firstAt;
-  check('5. 學姊 S2、S4～S7 照 10-20 的改稿（較新：AA 直接改字、AA_313 第 6 節），不換回 BB_172',J(w.library[0].l)===J(['B館的電梯很慢，走樓梯比較快。','總圖三樓靠窗的位子，九點以前去才有。','……我大一的時候，這些都沒人告訴我。'])&&w.library[0].if(null,{year:2})&&!w.library[0].if(null,{year:3})   /* AA_416 第 11 節第 2 點（2af5f4899）：「這兩件」算數件數，改「這些」；大三起換 AA_259 (b) 第 3 點那一版（w.library[1]） */
-    &&J(w.noodle)===J(['以前法服有個個案，就住在這附近。阿伯每次來都帶一袋橘子。','……我們不能收，他就放在桌上走掉。'])&&J(w.any)===J(['我大一的時候以為四年很長。'])   /* AA_584 第 79、80 列（學姊改稿第二批）改字 */
-    &&J(f.brunch)===J(['三分四十秒。老闆娘說的。……她每一顆都這樣計時？'])&&J(f.teahouse)===J(['這裡不能讀書。……我很少去不能讀書的地方。']));
+  check('5. 學姊 S2、S4～S7 照 10-20 的改稿（較新：AA 直接改字、AA_313 第 6 節），不換回 BB_172',J(w.library[0].l)===J(FI('heroine_05',['B館的電梯很慢，走樓梯比較快。','總圖三樓靠窗的位子，九點以前去才有。','……我大一的時候，這些都沒人告訴我。']))&&w.library[0].if(null,{year:2})&&!w.library[0].if(null,{year:3})   /* AA_416 第 11 節第 2 點（2af5f4899）：「這兩件」算數件數，改「這些」；大三起換 AA_259 (b) 第 3 點那一版（w.library[1]） */
+    &&J(w.noodle)===J(FI('heroine_05',['以前法服有個個案，就住在這附近。阿伯每次來都帶一袋橘子。','……我們不能收，他就放在桌上走掉。']))&&J(w.any)===J(FI('heroine_05',['我大一的時候以為四年很長。']))   /* AA_584 第 79、80 列（學姊改稿第二批）改字 */
+    &&J(f.brunch)===J(FI('heroine_05',['三分四十秒。老闆娘說的。……她每一顆都這樣計時？']))&&J(f.teahouse)===J(FI('heroine_05',['這裡不能讀書。……我很少去不能讀書的地方。'])));
   check('5. 子晴 Q6、Q8 照 10-20 AA 直接改的句子',J(P.heroine_04.walk.any[0])===J(FI('heroine_04',['（她看到一隻松鼠。）','那隻松鼠在看我。……牠在看我的餅乾。']))&&J(P.heroine_04.firstAt.teahouse)===J(FI('heroine_04',['地板是榻榻米。我要脫鞋？……我的襪子是貓的。不准看。'])));
   check('5. AA_415 的格子沒動（芷若 acc、plan；子晴 first；沛珊 acc、first；學姊 partnerSay）',J(P.heroine_02.acc.cafe)===J(FI('heroine_02',{A:['我放假不太想來上班的地方。……好啦。但我不幫忙收杯子。'],R:['去我們家。我坐客人那一邊，看起來會很奇怪。']}))&&J(P.heroine_02.plan.library)===J(FI('heroine_02',['我在上班。十點下班，總圖也十點關。……你自己加油。']))
     &&J(P.heroine_04.first.wenzhou)===J(FI('heroine_04',['散步？散步是什麼？','（你解釋了一下。）','……好啦。但要有目的地。']))&&J(P.classmate_peishan.first.wenzhou)===J(FI('classmate_peishan',['散步是最好的思考。……我在書上看到的。']))&&J(P.heroine_05.partnerSay.teahouse)===J(FI('heroine_05',['一盞……那裡太安靜了。去 Café 讀書吧。'])));

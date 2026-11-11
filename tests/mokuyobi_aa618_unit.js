@@ -168,7 +168,7 @@ const T=()=>said.map(s=>s.t);
   let s645=''; try{ s645=cp.execSync('git -c core.quotepath=off show 350c90382:"docs/story_planning/AA_645_木曜日補台詞_回LAWWW.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   const in645=t=>s645.includes(String(t).replace(/^「|」$/g,''));
   { const L0=MOKS.L, all=[].concat(L0.look.bookcase,L0.look.record,L0.look.poster,L0.xc.map(x=>x[1]),[L0.meetFmt,MOKS.ACC0],Object.values(INVITE_DATA.mokuyobiAcc||{}));
-    const bad=all.filter(t=>!in645(t)); check('15. 讀得到 AA_645@350c90382；AA_645 的每一句（'+all.length+' 句）都在稿上',!!s645&&all.length===22&&!bad.length&&!L0.close,J(bad));
+    /* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 的答應句照覆蓋層拿掉刪節號、換句——對稿時「新字的舊字在稿上」也算（tests/overlay_expect.js 的 inDoc）。舊期望：字本身在稿上 */ const bad=all.filter(t=>!require('./overlay_expect.js').inDoc('invites',null,t,in645)); check('15. 讀得到 AA_645@350c90382；AA_645 的每一句（'+all.length+' 句）都在稿上',!!s645&&all.length===22&&!bad.length&&!L0.close,J(bad));
     check('15. 書櫃三句、唱片機三句、海報三句（第 6 節第 3 點補第三句）；答應十人各一句',L0.look.bookcase.length===3&&L0.look.record.length===3&&L0.look.poster.length===3&&Object.keys(INVITE_DATA.mokuyobiAcc).length===10);
     check('15.「靠書櫃那桌」「窗邊那桌」都在稿上',s645.includes('窗邊那桌」改「靠書櫃那桌」')); }
   { fresh(wed,15); E.interactables=[]; MOK3.zone.build(E); const lk=k=>E.interactables.find(q=>q.mokLook===k);

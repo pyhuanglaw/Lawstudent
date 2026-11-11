@@ -3,6 +3,7 @@
 稿＝白名單上 overlay:true 的稿（tools/story/overlay_rows.py）裡 file 是 'invites' 的列：{who, at, old, new}，at＝INVITE_DATA 底下的路徑（people.<id>.acc.cafe.A[0]、libStudy.first.<id>.sit…）。
 invites.js 是手寫的（不是產生檔），所以這支工具直接改原始碼：
   1. 換字＝改原始碼文字：old 照 JS 字串寫法（'…' 或 "…"，跳脫照寫）在 invites.js 原始碼裡要剛好出現一次（整個字串，不是某個字串的一部分）→ 換成 new。
+     例外：原始碼寫了 n 次、稿上剛好 n 列（n 個不同的 at）都是這一句、換成同一句新字＝n 處一起換（不用 at 分辨；例：阿語 w118_yu_1 有沒有早餐的兩個版本同一句）。
      同一句在 INVITE_DATA 會掛在好幾個路徑（例：walk118 組進 people.<id>.walk），字真正寫在原始碼一處，換那一處就全部跟著換。
      出現 0 次＝停（除非已經換好：at 那一格已經是 new、原始碼也沒有 old）；2 次以上＝停下來列出來（要 at 才能分辨的，LAWWW 再跟 AA 定）。
   2. at 當驗證：換之前把 invites.js 在 Node 載起來（tools/invite/js_leaves.js），at 那一格要剛好等於 old；換完重載，at 那一格要等於 new，
@@ -58,11 +59,12 @@ def main():
             done.append(x); continue
         if cur != x['old']:
             bad.append(f'{w}：at 那一格現在是 {json.dumps(cur, ensure_ascii=False)}，不是稿的 old「{x["old"]}」（對不到，不猜）'); continue
-        if n_old != 1:
+        same = [y for y in rows if y['old'] == x['old']]
+        if n_old != 1 and not (n_old == len(same) and len({y['new'] for y in same}) == 1 and len({y['at'] for y in same}) == n_old):
             where = [m.start() for lit in lits(x['old']) for m in re.finditer(re.escape(lit), text0)]
             lines = sorted({text0.count('\n', 0, k) + 1 for k in where})
             sub = text0.count(x['old'])
-            bad.append(f'{w}：「{x["old"]}」在 {FILE} 原始碼整個字串出現 {n_old} 次（第 {lines} 行；字面子字串 {sub} 次）——要剛好一次'); continue
+            bad.append(f'{w}：「{x["old"]}」在 {FILE} 原始碼整個字串出現 {n_old} 次（第 {lines} 行；字面子字串 {sub} 次；稿上同一句 {len(same)} 列）——要剛好一次'); continue
         plan.append(x)
     if '--check' in sys.argv:
         pend = [f'{x["src"]} {x["who"]} {x["at"]}：還沒換（「{x["old"]}」→「{x["new"]}」）' for x in plan]
@@ -74,12 +76,15 @@ def main():
         raise SystemExit('\n'.join(bad))
     text = text0
     olds = {x['old'] for x in plan}
-    for x in plan:
-        a, b = lits(x['old']), lits(x['new'])
-        k = [i for i in (0, 1) if text.count(a[i]) == 1]
-        if len(k) != 1:
-            raise SystemExit(f'{x["at"]}：「{x["old"]}」換到一半找不到（前面的列換掉了同一句？）')
-        text = text.replace(a[k[0]], b[k[0]], 1)
+    for o in sorted(olds):   # 同一句舊字原始碼寫了 n 次、稿上剛好 n 列（不同的 at）都換成同一句新字＝n 處一起換（例：阿語 w118_yu_1 兩個版本同一句）；n 對不上上面已經停了
+        x = next(y for y in plan if y['old'] == o)
+        a, b = lits(o), lits(x['new'])
+        n = sum(1 for y in plan if y['old'] == o)
+        k = [i for i in (0, 1) if text.count(a[i]) > 0]
+        if sum(text.count(a[i]) for i in (0, 1)) != n:
+            raise SystemExit(f'{x["at"]}：「{o}」換到一半個數不對（前面的列換掉了同一句？）')
+        for i in k:
+            text = text.replace(a[i], b[i])
     L1 = leaves(text)
     err = []
     if set(L0) != set(L1):

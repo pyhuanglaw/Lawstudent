@@ -33,11 +33,11 @@ const RI = OE.rows('invites'), RR = OE.rows('invite_replies');
   await sec(1, async () => {
     const A = JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(e => e.overlay);
     const P = A.map(e => e.path);
-    check('1. 白名單 overlay 的稿：AA_783 一筆（AA_784 有的話也一筆；一檔一筆）、approved、有 approvedBy、task DLG-FULL-REVIEW-1110；稿讀得到', P.filter(p => p === 'docs/story_planning/AA_783_invite_replies.json').length === 1 && new Set(P).size === P.length && A.every(e => e.status === 'approved' && !!e.approvedBy && e.task === 'DLG-FULL-REVIEW-1110') && OE.have, J(A.map(e => [e.path, e.sha])));
+    check('1. 白名單 overlay 的稿：AA_783、AA_784 各一筆（一檔一筆）、approved、有 approvedBy、task DLG-FULL-REVIEW-1110；稿讀得到', ['AA_783_invite_replies', 'AA_784_invites'].every(k => P.filter(p => p === 'docs/story_planning/' + k + '.json').length === 1) && new Set(P).size === P.length && A.every(e => e.status === 'approved' && !!e.approvedBy && e.task === 'DLG-FULL-REVIEW-1110') && OE.have, J(A.map(e => [e.path, e.sha])));
     const r = cp.spawnSync('python3', [path.join(H.ROOT, 'tools/invite/apply_overlay.py'), '--check'], { encoding: 'utf8', timeout: 300000 });
     check('1. tools/invite/apply_overlay.py --check：invites.js 每一列都已經是新字（結束碼 0）', r.status === 0, (r.stdout || r.stderr || '').slice(-300));
     const n783 = RI.filter(x => /AA_783/.test(x.src)).length, n784 = RI.filter(x => /AA_784/.test(x.src)).length;
-    check('1. 列數：AA_783 invite_replies ' + RR.length + ' 列（63）、invites ' + n783 + ' 列（13）；AA_784 invites ' + n784 + ' 列', RR.length === 63 && n783 === 13 && (n784 === 0 || n784 >= 100), J([RR.length, n783, n784]));
+    check('1. 列數：AA_783 invite_replies ' + RR.length + ' 列（63）、invites ' + n783 + ' 列（13）；AA_784 invites ' + n784 + ' 列（117：七個女主角 74、配角七人 34、(共用) libStudy 9）', RR.length === 63 && n783 === 13 && n784 === 117, J([RR.length, n783, n784]));
     console.log('　稿：' + OE.docs.map(d => d.src).join('、'));
   });
 

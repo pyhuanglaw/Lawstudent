@@ -41,7 +41,7 @@ const NEW=[['A','「好。」'],['A','（她把手機遞過來，自己先掃了
 await sec(0,()=>{ const a=show('f7b96efb8',AA194), b=show('968473469',BB172); const a4=a.slice(a.indexOf('## 4.'));
   check('0. 讀得到企劃線 AA_194（f7b96efb8）第 4 節、BB_172（968473469）第 10 節',a4.includes('| rule 芯慈 |')&&b.includes('## 10. AA-B 互審'));
   const bad=NEW.filter(([s,t])=>!(s==='A'?a4:b).includes(t)); check('0. 換上去的 '+NEW.length+' 句都在企劃原文裡一字不差（阿凱半熟那句 11-10 AA_731 改成「早午餐？…」，不在 BB_172 原文、拿掉）',NEW.length===55&&!bad.length,J(bad));
-  const src=fs.readFileSync(path.join(H.ROOT,'src/data/invites.js'),'utf8'); const gone=NEW.filter(([s,t])=>!src.includes(t.replace(/^「|」$/g,'')));
+  const src=fs.readFileSync(path.join(H.ROOT,'src/data/invites.js'),'utf8'); const gone=NEW.filter(([s,t])=>!src.includes(OE.fwdText('invites',null,t.replace(/^「|」$/g,''))));   /* 2026-11-11（X324 D 區）：覆蓋層換過的照新字找（舊期望：舊字本身）*/
   check('0. 每一句都在 src/data/invites.js',!gone.length,J(gone)); });
 
 await sec(1,()=>{ check('1. 以安交換聯絡方式：「好。」（她把手機遞過來，自己先掃了你的。）「加了。」（AA_194）',J(EX.heroine_01)===J([{say:'好。'},{narr:'（她把手機遞過來，自己先掃了你的。）'},{say:'加了。'}]));
@@ -59,9 +59,9 @@ await sec(2,()=>{ fresh('2025-10-15','heroine_01',45,30); let pk=INV.walkPick(H.
   check('2. 阿凱大一（不是去吃飯）：「我們那層的洗衣機又壞了，我衣服已經堆三天了。」（K1）',!!pk&&txt(pk.lines)==='我們那層的洗衣機又壞了，我衣服已經堆三天了。',pk&&txt(pk.lines));
   const e=INV.walkEntry('kai','KAI_SCOOTER_ASK');
   check('2. 阿凱 K2：問句＋三個回答（③「好，你吃。」（過了十秒）「……吃完了嗎？」）；選項照舊',!!e&&e.l[0]==='欸，你們法律系的，路邊機車停在騎樓擋路，可以告嗎？'&&J(e.ch.map(c=>c.t))===J(['不一定是告，可以請警察來看','你想告誰','先讓我吃完'])
-    &&J(e.ch[0].r)===J(['喔，所以告跟叫警察不一樣。好，我學到了。'])&&J(e.ch[1].r)===J(['沒有啦，我只是想知道我能不能。'])&&J(e.ch[2].r)===J(['好，你吃。','（過了十秒）','……吃完了嗎？']),J(e));
+    &&J(e.ch[0].r)===J(['喔，所以告跟叫警察不一樣。好，我學到了。'])&&J(e.ch[1].r)===J(['沒有啦，我只是想知道我能不能。'])&&J(e.ch[2].r)===J(FI('kai',['好，你吃。','（過了十秒）','……吃完了嗎？'])),J(e));
   check('2. 明軒三句（M2 10-1 第 16 點、M3 10-1 第 7 點、M4）',J(P.classmate_mingxuan.walk.any)===J(FI('classmate_mingxuan',[['我家教那個學生問我，念法律是不是要背很多東西。','我跟他說，要背，背完還要會用。'],['我爸之前傳訊息問我『籃球的三分線是畫在哪裡』。','他在看我們比賽的直播。……到現在還是看不懂。'],['這條路我每個禮拜都走好幾次，去家教都走這邊。']])));
-  const F=P.npc_fangyt.walk.any; check('2. 方奕廷 F2、F3',J(F[0])===J(['椰影大道的大王椰子，葉子一片好幾公斤，掉下來會砸傷人。','走那邊我都走中間。'])&&J(F[1])===J(['這棵是樟樹。這棵是菩提。那棵……我不知道欸，我回去查。']));
+  const F=P.npc_fangyt.walk.any; check('2. 方奕廷 F2、F3',J(F[0])===J(FI('npc_fangyt',['椰影大道的大王椰子，葉子一片好幾公斤，掉下來會砸傷人。','走那邊我都走中間。']))&&J(F[1])===J(FI('npc_fangyt',['這棵是樟樹。這棵是菩提。那棵……我不知道欸，我回去查。'])));
   fresh('2025-10-15','npc_fangyt',45,30); SOCIAL.remember('heroine_02','FIRST_MET',''); const seen=[]; for(let i=0;i<6;i++){ const q=INV.walkPick(H.G,'npc_fangyt','cafe'); seen.push(txt(q.lines)); q.next(); }
   check('2. 方奕廷 F4：認識芷若、還沒看過 Z6（FANG_HINT）不說芷若那句（10-1 第 9 點改條件）',!seen.some(t=>/芷若/.test(t)),J(seen));
   SOCIAL.remember('npc_fangyt','FANG_HINT',''); const seen2=[]; for(let i=0;i<3;i++){ const q=INV.walkPick(H.G,'npc_fangyt','cafe'); seen2.push(txt(q.lines)); q.next(); }
@@ -78,7 +78,7 @@ await sec(3,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'zhe',30,10);
   check('3. 阿凱第一次約溫州街：手機照留、當面「散步要幹嘛？」（你說那裡有貓。）「好。」（K7）',txt(ask('kai','wenzhou',15.5).lines)==='散步要幹嘛（你說那裡有貓。）好'&&txt(ask('kai','wenzhou',15.5,null,true).lines)==='散步要幹嘛？（你說那裡有貓。）好。');
   fresh(key(SAT),'classmate_mingxuan',45,30);
   check('3. 明軒約半熟、一盞：手機照留、當面版（M5、M6）',txt(ask('classmate_mingxuan','brunch',12+10/60).lines)==='早午餐？哈哈 CP 值不高喔 你請的話就可以'&&txt(ask('classmate_mingxuan','brunch',12+10/60,null,true).lines)==='早午餐？CP 值不高喔。你請的話，我就去。'
-    &&txt(ask('classmate_mingxuan','teahouse',14,null,true).lines)==='一盞？我很少喝茶，我爸才喝。……好啊。');
+    &&txt(ask('classmate_mingxuan','teahouse',14,null,true).lines)===OE.fwdText('invites','classmate_mingxuan','一盞？我很少喝茶，我爸才喝。……好啊。'));
   fresh(key(MON),'classmate_mingxuan',45,30);
   check('3. 明軒約吃飯「走啊，阿鳳便宜又大碗。」、散步「可以啊。走一走也好，我最近都坐著。」（M8、M9）',txt(ask('classmate_mingxuan','noodle',12+10/60).lines)==='走啊，阿鳳便宜又大碗。'&&txt(ask('classmate_mingxuan','wenzhou',15.5).lines)==='可以啊。走一走也好，我最近都坐著。');
   check('3. 明軒認識約 Café 照留「好。但我只能待一小時。」（M7）',J(P.classmate_mingxuan.acc.cafe)===J(FI('classmate_mingxuan',{A:['好。但我只能待一小時。']})));
