@@ -3,7 +3,7 @@
   "by": "AA（帳號 A）",
   "date": "2026-11-11",
   "task": "L118-SHOPS-REDO-1111（USER_WANTS X338）",
-  "status": "第一批：搬法表＋店員＋熟客三段＋src/lane118.js；第二批：src/sideq3d.js；第三批：慢讀→木曜日；第四批：AA_721 改版（十間店當邀約地點，另一個檔）、invite_places、eat_lines、food_fav、gift_lines。還沒做：xcrom3d、events、activity_scenes、story3d、characters、termend_lines、sis_grad3d、heroine_asks 和其餘零星的檔。",
+  "status": "全部五批都在這個檔了（修正稿 fix＋各節）；另外兩個源稿直接改版：AA_280（店家）、AA_721（各店當邀約地點的台詞）、AA_771（午餐邀約）。LAWWW 的 l118_old_names_1111.md 到了我再對一次補漏。BB 還沒看口氣。",
   "rule": "使用者 11-11：照餐飲類型搬；沒有對應類型的（滇緬、家常菜、蛋包飯）留在原位置的新店、台詞改成新店的菜；慢讀咖啡的念書、常客、邀約整套搬到別區現有的咖啡店（AA 挑木曜日 wz_mokuyobi）。店員跟著他的故事走。",
   "format": "fix：{file, old（遊戲裡現在的整句或字串）, new, note}；old 在那個檔找不到請告訴我。moves：每一件故事 → 店 id。"
  },
@@ -826,6 +826,126 @@
    "old": "紅茶拿鐵……有點甜。",
    "new": "鮮奶茶……有點甜。",
    "note": "opinion"
+  },
+  {
+   "file": "src/data/activity_scenes.js",
+   "old": "滇香的酸辣河粉，多加辣。",
+   "new": "118牛排的雞排，黑胡椒多加辣。",
+   "note": "語彤喜歡吃的"
+  },
+  {
+   "file": "src/data/activity_scenes.js",
+   "old": "（她看菜單看了很久，最後點了番茄醬蛋包飯。）",
+   "new": "（她看菜單看了很久，最後點了可樂餅咖哩。）",
+   "note": "沛珊"
+  },
+  {
+   "file": "src/data/activity_scenes.js",
+   "old": "（她又點了番茄醬蛋包飯，在上面用番茄醬畫了一個笑臉。）",
+   "new": "（她又點了可樂餅咖哩，把可樂餅切成兩半，一半推到你盤子上。）",
+   "note": "沛珊"
+  },
+  {
+   "file": "src/data/activity_scenes.js",
+   "old": "番茄醬蛋包飯！",
+   "new": "可樂餅咖哩！",
+   "note": "沛珊"
+  },
+  {
+   "file": "src/data/flirt_lines.js",
+   "old": "番茄醬蛋包飯，我陪妳吃到畢業。",
+   "new": "可樂餅咖哩，我陪妳吃到畢業。",
+   "note": "對沛珊"
+  },
+  {
+   "file": "src/data/heroine_asks.js",
+   "old": "明天下午三點，慢讀。要一起嗎？",
+   "new": "明天下午三點，木曜日。要一起嗎？",
+   "note": "學姊主動約（place slowread→木曜日）"
+  },
+  {
+   "file": "src/data/heroine_asks.js",
+   "old": "明天下午三點，慢讀。這次不問題目。",
+   "new": "明天下午三點，木曜日。這次不問題目。",
+   "note": "學姊主動約（交往中）"
+  },
+  {
+   "file": "src/social3d.js",
+   "old": "老闆娘說了她在滇香的點法",
+   "new": "老闆娘說了她在118牛排的點法",
+   "note": "記憶的說明字"
+  },
+  {
+   "file": "src/sis_grad3d.js",
+   "old": "「一一八的店員。」",
+   "new": "「巷口飲料店的店員。」",
+   "note": "AA_284 2-3 第 5 段的選項；學姊回的「……她記性比我好。謝謝。」不動"
+  },
+  {
+   "file": "src/data/fest_events.js",
+   "old": "巷口家常菜",
+   "new": "五湖四海",
+   "note": "芯慈情人節約的地點（place）"
+  },
+  {
+   "file": "src/data/termend_lines.js",
+   "old": "（傍晚的巷口家常菜。菜擺在玻璃櫃裡，用手指一指，老闆娘就幫你夾。）",
+   "new": "（傍晚的五湖四海。門口那一鍋水滾著，老闆娘一把一把下水餃。）",
+   "note": "芯慈的期末飯 l118_home 的 open；name、caption「巷口家常菜」→「五湖四海」"
+  },
+  {
+   "file": "src/data/termend_lines.js",
+   "old": "（老闆娘開始收玻璃櫃裡的菜。你們走出巷口，路燈剛亮。）",
+   "new": "（老闆娘把最後一鍋水倒掉。你們走出巷口，路燈剛亮。）",
+   "note": "l118_home 的 close"
+  },
+  {
+   "file": "src/data/postgrad_lines.js",
+   "old": "我們每週三還是去巷口家常菜。",
+   "new": "我們每週三還是去五湖四海。",
+   "note": "芯慈"
+  },
+  {
+   "file": "src/data/postgrad_lines.js",
+   "old": "我又點回番茄炒蛋了。……今天想吃的就是它。",
+   "new": "我又點回高麗菜的了。……今天想吃的就是它。",
+   "note": "芯慈"
+  },
+  {
+   "file": "src/xcrom3d.js",
+   "old": "巷口那間家常菜，我還是點番茄炒蛋。",
+   "new": "巷口那間水餃，我還是點高麗菜的。",
+   "note": "芯慈（這條線現在關著，XCROM.ON false；字先對齊）"
+  },
+  {
+   "file": "src/xcrom3d.js",
+   "old": "巷口家常菜。六點。",
+   "new": "五湖四海。六點。",
+   "note": "芯慈"
+  },
+  {
+   "file": "src/xcrom3d.js",
+   "old": "巷口家常菜的老闆娘問你是誰。我說是常客。",
+   "new": "五湖四海的老闆娘問你是誰。我說是常客。",
+   "note": "芯慈"
+  },
+  {
+   "file": "src/xcrom3d.js",
+   "old": "在巷口家常菜吃飯",
+   "new": "在五湖四海吃飯",
+   "note": "系統字；同檔另一處地點名「巷口家常菜」也換；H7 那兩句（妹妹今天也是番茄炒蛋？／……排骨飯。）照 lane118.js 的改法"
+  },
+  {
+   "file": "src/outings3d.js",
+   "old": "巷口家常菜",
+   "new": "五湖四海",
+   "note": "2D 背景的 label（l118_home_diner）"
+  },
+  {
+   "file": "src/outings3d.js",
+   "old": "118 巷・Pasta 118（晚上）",
+   "new": "118 巷・義大麵屋（晚上）",
+   "note": "2D 背景的 label（pasta118_night）"
   }
  ],
  "sideq_rename": {
@@ -1095,5 +1215,19 @@
    }
   ],
   "keep": "語彤的 know（老闆娘兩句）、right、itemOnly、wrong 都不用改（老闆娘是同一個人，多放辣、要一小碟辣椒在牛排店也成立）；學姊的五組都不用改。"
- }
+ },
+ "schedule_notes": {
+  "note": "src/data/characters.js 裡去 118 巷吃飯的作息（AA_320）：",
+  "rows": [
+   "以安週二中午 l118_dian（AA_320 L3「週二慢讀休息，換一間」）→ 改 zone l118_pasta（義大麵屋；118牛排週二休，而且慢讀不在了這個理由也沒有了），note 改「週二中午，義大麵屋」。",
+   "學姊週二 17:30～18:20 l118_self（AA_320 L8「吃飯求快，自助餐」）→ 改 zone l118_cafe2（大學食堂，平日 17:00～19:00 有開）。",
+   "週末留在學校那一筆 l118_home（AA_320 L1「家常菜週日有開」）→ zone 不變（五湖四海），note 改「週末留在學校，五湖四海有開」；我把五湖四海改成每天都開（AA_280），週六也不會撲空。",
+   "其他用到 l118_* 的作息請照 AA_280 新的營業時間掃一次：有人排在公休日或關門時段的告訴我，我改店或改時間。"
+  ]
+ },
+ "art_notes": [
+  "2D 背景 assets/bg/l118_home_diner.webp（家常菜店內）、pasta118_night.webp 是舊店的圖：五湖四海是水餃店（不鏽鋼桌、長條座位、開放式煮水餃區），要不要重畫請 BB 排（跟使用者要圖是 BB 的範圍）；在那之前深色底也可以。",
+  "118 巷的店內 3D、招牌、店員站位照使用者規格第二節和這份的 staff，LAWWW2 的範圍。"
+ ],
+ "not_changed": "我看過、不用改的（不是 118 巷的同名東西）：子晴的美式（2:30 AM／公館的咖啡店）、小松和學活的自助餐與雞腿便當、公館的自助餐（直屬的午餐）、辦公大樓和實習公司樓下的自助餐、林家乾麵的餛飩湯、夜市的椒麻口味、以安媽媽的番茄炒蛋（ladder、social3d）、公園那隻貓的名字「所長」、販賣機的無糖綠茶、flirt_lines「無糖綠茶，去冰。我記得。」（學姊，照舊成立）。"
 }
