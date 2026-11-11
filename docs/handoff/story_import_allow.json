@@ -5705,6 +5705,15 @@
    "note": "X327 沛珊故事線八拍：classmate_peishan 整段取代 AA_712 匯出來的同名物件——tools/story/import_arcs.py 的 overlay_peishan → src/data/heroine_arcs.js。只換 theme、topic、lines、ask、opts[].reply、第 5 拍 cite；祐廷的選項 t、ansId、rel、tell、toldAlt、need、invite、set、from／until／late 工具逐欄比過（不一樣就停）"
   },
   {
+   "path": "docs/story_planning/AA_755_peishan_feed_misc.json",
+   "sha": "c5094495d",
+   "status": "approved",
+   "approvedBy": "AA（D109、D149；BB_324 的修正已改）；LAWWW 2026-11-11 指定只認 c5094495d",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊重寫第三份之二：動態牆八則（feed_y1s1 ps4／ps5／ps6、feed_y1s2 ps1b／ps6b、feed_y3s1 ps4e、feed_y3s2 ps4f、feed_pg ps2i：id、who、st 不動，換 pic／say／cm／dm 和貼文鐘點 new.t）、other 逐則 old→new（msg_pool 三則、invites 四處＋invite_replies 同句、activity_scenes 第 4 階 mid、arc_rot 兩處、gift_holiday 四處＋existing 第三則拿掉）、fest（fest_events.js 沛珊整段的字）。工具產生的資料檔由各匯入工具呼叫 tools/story/ps755.py 疊上去（整組相同才換、只認這個 sha）；手寫資料檔（feed_*.js、invites.js、fest_events.js）直接改，逐字比對 tests/peishan_feed_misc_1111_unit.js"
+  },
+  {
    "path": "docs/story_planning/AA_752_night_market.json",
    "sha": "3259b5f78",
    "status": "approved",

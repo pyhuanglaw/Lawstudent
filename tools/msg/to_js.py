@@ -13,6 +13,16 @@ for _p in d['people'].values():
     for _e in _p['replies']:
         _sub = {k: _e[k] for k in ('msgs', 'ask') if k in _e}
         if _sub: _e.update(json.loads(_G.read_fix(json.dumps(_sub, ensure_ascii=False))))
+# 2026-11-11（X327 沛珊重寫）：AA_755_peishan_feed_misc.json 的 other（msg_pool.js 三則）逐則 old→new 疊在 classmate_peishan 的 msgs 上（tools/story/ps755.py；白名單沒有那份稿＝不換）。
+# src（對稿用的來源欄）照舊寫 BB_178；換過的那幾則多一格 ps755＝新稿的來源（tests/msg_chat_unit.js F 項：這幾則改比新稿）
+import ps755 as _ps755
+_R755 = os.path.normpath(os.path.join(HERE, '..', '..'))
+_d755 = _ps755.load(_R755)
+if _d755:
+    _new755 = [new for at, old, new in _ps755.rows(_d755, 'msg_pool.js')]
+    _n755 = _ps755.apply({'classmate_peishan': d['people']['classmate_peishan']}, 'msg_pool.js', _R755)
+    for _e in d['people']['classmate_peishan']['replies']:
+        if _e.get('msgs') in _new755: _e['ps755'] = _ps755.tag(_R755)
 src = d['source']
 L = ['/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 ' + '、'.join(k + '@' + v for k, v in src.items()) + '）。',
      '   產生器 tools/msg/build_pool.py → tools/msg/to_js.py（每一句照抄原文；tests/msg_chat_unit.js 第 F 項逐字比對 git 上的原文）。不要手改句子：改企劃、改產生器、重跑。',
