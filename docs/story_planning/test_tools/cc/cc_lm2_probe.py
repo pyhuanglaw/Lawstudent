@@ -116,6 +116,9 @@ DAYS = r"""(spec=>{ const out={}; for(const [k,re,wk] of spec){ for(let d=-420; 
 ITS = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,to:i.exit?i.exit.to:null,look:i.look||null,tzd:i.tzsDoor||(i.tzLimaoDoor?'limao':null),tzp:i.tzPoint||null,lm:!!i.lmTable,lmAdded:!!i.lmAdded,lv:i.lv|0})))()"
 ME = "(()=>{ const E=GAME.E, P=E.player, p=P.obj.position; return {zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(3), x:+p.x.toFixed(2), z:+p.z.toFixed(2), lv:P.lv|0, stand:E.canStand?!!E.canStand(p.x,p.z,0.3,P.lv|0):null, busy:!!P.busy, fb:GAME.walkFallbacks|0}; })()"
 STANDNEAR = r"""(e=>{ const E=GAME.E; let best=null; for(let r=0; r<=e.r+1e-6; r+=0.05) for(let a=0; a<360; a+=10){ const x=e.x+r*Math.sin(a*Math.PI/180), z=e.z+r*Math.cos(a*Math.PI/180); if(!E.canStand(x,z,0.3,0)) continue; return {x:+x.toFixed(2), z:+z.toFixed(2), d:+r.toFixed(2)}; } return best; })"""
+WDOORS = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden&&i.exit&&i.exit.to==='wancai'&&(i.lv|0)===0).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1,lv:0,to:'wancai'})))()"
+WFRONT = r"""(d=>{ const E=GAME.E, R=Math.PI/180; for(const r of [2.5,3,2,3.5,4,5]) for(let a=0;a<360;a+=15){ const x=d.x+r*Math.sin(a*R), z=d.z+r*Math.cos(a*R); if(!E.canStand(x,z,0.3,0)) continue;
+    let ok=true; for(let t=0.6;t<r;t+=0.2){ if(!E.canStand(d.x+t*Math.sin(a*R),d.z+t*Math.cos(a*R),0.3,0)){ ok=false; break; } } if(ok) return {x:+x.toFixed(2), z:+z.toFixed(2), r, a}; } return null; })"""
 STUDYVIS = r"""(()=>{ const z=GAME.E.zone||{}; const N={lid:[],door:[],study:[]}; GAME.E.scene.traverse(o=>{ const n=o.name||''; if(n.indexOf('STUDY_')!==0) return; const k=n.indexOf('STUDY_LID')===0?'lid':(n.indexOf('STUDY_DOOR')===0?'door':'study'); N[k].push(!!o.visible); });
   const cnt=a=>({n:a.length, vis:a.filter(Boolean).length}); return {zone:GAME.G.zone, studyOpen:!!z.studyOpen, formal:!!z.formal, lid:cnt(N.lid), door:cnt(N.door), study:cnt(N.study)}; })()"""
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||50, c.width/c.height, 0.05, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
@@ -142,6 +145,8 @@ def hhmm(h):
 # ---------- 讀檔、狀態 ----------
 DEFFLAGS = None
 DAYS_FOUND = {}
+QUIET_USED = [False]   # 前面讀檔關過條件事件（playlib 會把 EVENTS.onEnter／tick 換掉，同一頁回不來）
+WSPOT = {}             # 萬才館一樓入口（從遊戲讀）和門前站得住的點
 
 
 async def hook(pg):
@@ -150,6 +155,9 @@ async def hook(pg):
 
 async def ld(pg, cdp, st, why, quiet=True, wait=6000):
     """【前置／捷徑】讀檔（遊戲自己的 applySave）。quiet＝關條件事件；不 quiet 也關「訊息自動打開手機」"""
+    if quiet: QUIET_USED[0] = True
+    elif QUIET_USED[0]:   # 這一段要條件事件：重新載入頁面（前面的讀檔把條件事件關掉了）
+        R.note('（前面關過條件事件，重新載入頁面再讀檔）'); await pg.goto(URL); await L.wait_loaded(pg); await hook(pg); QUIET_USED[0] = False
     R.setup('%s（%s）' % (why, '條件事件關著' if quiet else '條件事件開著、只關手機自動打開'))
     try:
         await L.load_state(pg, st, quiet_events=quiet, quiet_phone=not quiet)
@@ -655,17 +663,32 @@ async def part_reveal(pg, cdp):
     R.note('[REVEAL] 配置的書房：%s' % J(room.get('study') and {k: room['study'].get(k) for k in ('door', 'points')}))
 
 
+async def wancai_at(pg, cdp, day, hour, flags, why):
+    """【前置】讀檔站到萬才館一樓入口前（入口位置從遊戲讀：e7ddae33f 起不在舊的 (93.8,−100.6)）；條件事件開著"""
+    if not WSPOT:
+        await ld(pg, cdp, await mk(pg, day, hour, 'campus', None, None, flags=flags), '【前置／捷徑】先讀校園（出生點）找萬才館一樓入口', quiet=False)
+        ds = await pg.evaluate(WDOORS); R.note('[萬才館] 校園往 wancai 的一樓入口：%s' % J(ds))
+        for d in ds:
+            sp = await pg.evaluate(WFRONT, d)
+            if sp: WSPOT.update({'door': d, 'spot': sp}); break
+        R.note('[萬才館] 用的入口與門前站的點：%s' % J(WSPOT))
+        if not WSPOT: return None
+    sp = WSPOT['spot']
+    await ld(pg, cdp, await mk(pg, day, hour, 'campus', sp['x'], sp['z'], flags=flags), '%s（萬才館「%s」門前 %.1f m (%.2f,%.2f)）' % (why, WSPOT['door']['label'], sp['r'], sp['x'], sp['z']), quiet=False)
+    return WSPOT['door']
+
+
 async def part_reveala(pg, cdp):
     dd = await days(pg); await names(pg); LM_SEEN.clear()
     d = dd['Y4S1']['day']
-    await ld(pg, cdp, await mk(pg, d, 15.0, 'campus', 93.8, -97.6, flags={'dating_kexin': False, 'LM_MET': d - 300, 'LM_PROF': True}),
-             '【前置／捷徑】REVEALA：大四上 %s 15:00、LM_MET、LM_PROF，校園萬才館一樓入口前' % dd['Y4S1']['date'], quiet=False)
+    if not await wancai_at(pg, cdp, d, 15.0, {'dating_kexin': False, 'LM_MET': d - 300, 'LM_PROF': True}, '【前置／捷徑】REVEALA：大四上 %s 15:00、LM_MET、LM_PROF' % dd['Y4S1']['date']):
+        R.check('[REVEALA] 找得到萬才館一樓入口', False, ''); return
     await facts(pg, '[REVEALA]')
     ev = await pg.evaluate("(()=>{ const e=(typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[]).find(q=>q&&q.id==='ev_limao_wu_corridor'); if(!e) return null; let ok=null; try{ ok=e.prereq&&e.prereq.custom?e.prereq.custom(GAME.G):null; }catch(x){ ok='ERR'; } return {title:e.title, location:e.location, trigger:e.trigger, once:e.once, prereq:ok, done:!!(GAME.G.events&&JSON.stringify(GAME.G.events).indexOf('ev_limao_wu_corridor')>=0)}; })()")
     R.note('[REVEALA] 入口 A 事件：%s（稿的標題「%s」）' % (J(ev), DR['reveal']['entryA'].get('title')))
     if not R.check('[REVEALA] 有事件 ev_limao_wu_corridor、條件成立', bool(ev) and ev['prereq'] is True, J(ev)): return
     exs = [i for i in await pg.evaluate(ITS) if i['to'] == 'wancai' and i['lv'] == 0]
-    exs.sort(key=lambda i: math.hypot(i['x'] - 93.8, i['z'] + 100.6))
+    exs.sort(key=lambda i: math.hypot(i['x'] - (WSPOT.get('door') or i)['x'], i['z'] - (WSPOT.get('door') or i)['z']))
     if not R.check('[REVEALA] 萬才館一樓入口', bool(exs), J(exs)): return
     ex = exs[0]; a = await pg.evaluate(SNAPG); n0 = await pg.evaluate(LOGN)
     await L.go_to(pg, cdp, R, ex['x'], ex['z'], min(0.6, ex['r'] * 0.6), '[REVEALA] %s' % ex['label'], max_s=120)
@@ -1014,9 +1037,9 @@ async def part_saveday(pg, cdp):
     log = await pg.evaluate(LOGS, n0); S_ = says(log); f = await facts(pg, '[SAVEDAY ②]')
     R.check('[SAVEDAY ②] 走過算命桌不按：上師不會自己演、沒有 LM_ 旗標', not any(e['shown'] == '上師' or identify([e]) for e in S_) and not f['lm'], J([(e['shown'], e['full']) for e in S_][:4]))
     dd = await days(pg); d = dd['Y4S1']['day']
-    await ld(pg, cdp, await mk(pg, d, 15.0, 'campus', 93.8, -97.6, flags={'dating_kexin': False}), '【前置／捷徑】SAVEDAY ③：大四上 %s 15:00、沒有任何 LM_*，萬才館一樓入口前' % dd['Y4S1']['date'], quiet=False)
+    await wancai_at(pg, cdp, d, 15.0, {'dating_kexin': False}, '【前置／捷徑】SAVEDAY ③：大四上 %s 15:00、沒有任何 LM_*' % dd['Y4S1']['date'])
     exs = [i for i in await pg.evaluate(ITS) if i['to'] == 'wancai' and i['lv'] == 0]
-    exs.sort(key=lambda i: math.hypot(i['x'] - 93.8, i['z'] + 100.6))
+    exs.sort(key=lambda i: math.hypot(i['x'] - (WSPOT.get('door') or i)['x'], i['z'] - (WSPOT.get('door') or i)['z']))
     if R.check('[SAVEDAY ③] 萬才館一樓入口', bool(exs), ''):
         n0 = await pg.evaluate(LOGN)
         me = await walk_exit(pg, cdp, '[SAVEDAY ③ 進萬才館]', 'wancai', exs[0]['label'][:3])
@@ -1038,7 +1061,7 @@ CLSDOOR = r"""(rm=>(GAME.E.interactables||[]).filter(i=>!i.hidden&&((rm.zone&&rm
 async def enter_wancai(pg, cdp, tag, key=None):
     """校園萬才館一樓入口 → 走進去：記說的每一句、標題卡、時間（遊戲、實際）；key＝那堂課（記演完那一刻的狀態）"""
     exs = [i for i in await pg.evaluate(ITS) if i['to'] == 'wancai' and i['lv'] == 0]
-    exs.sort(key=lambda i: math.hypot(i['x'] - 93.8, i['z'] + 100.6))
+    exs.sort(key=lambda i: math.hypot(i['x'] - (WSPOT.get('door') or i)['x'], i['z'] - (WSPOT.get('door') or i)['z']))
     if not R.check('%s 萬才館一樓入口' % tag, bool(exs), ''): return None
     ex = exs[0]; n0 = await pg.evaluate(LOGN)
     await L.go_to(pg, cdp, R, ex['x'], ex['z'], min(0.6, ex['r'] * 0.6), '%s %s' % (tag, ex['label']), max_s=120)
@@ -1077,14 +1100,14 @@ async def enter_wancai(pg, cdp, tag, key=None):
 async def part_entryclass(pg, cdp):
     dd = await days(pg); await names(pg)
     d0 = dd['Y4S1']['day']
-    await ld(pg, cdp, await mk(pg, d0, 12.0, 'campus', 93.8, -97.6, flags={'dating_kexin': False}), '【前置／捷徑】ENTRYCLASS：先讀一個大四上的狀態（只為了查課表）')
+    await ld(pg, cdp, await mk(pg, d0, 12.0, 'campus', None, None, flags={'dating_kexin': False}), '【前置／捷徑】ENTRYCLASS：先讀一個大四上的狀態（只為了查課表）', quiet=False)
     found = await pg.evaluate(FINDCLS, {'d0': d0 - 28, 'd1': d0 + 90})
     R.note('[ENTRYCLASS] 大四上教室在法律系館B 的課（第一個有課的日子）：%s' % J(found))
     if not R.check('[ENTRYCLASS] 找得到大四上在法律系館B 上課的日子', bool(found), ''): return
     c = found[0]; flags = {'dating_kexin': False, 'LM_MET': c['day'] - 300, 'LM_PROF': True}
     h0 = c['t0'] - ENTRYMIN / 60.0
-    await ld(pg, cdp, await mk(pg, c['day'], h0, 'campus', 93.8, -97.6, flags=flags),
-             '【前置】ENTRYCLASS ①：大四上 %s（第 %d 天）%s 上課前 %g 分鐘 %s、LM_MET＋LM_PROF，萬才館一樓入口前' % (c['date'], c['day'], c['name'], ENTRYMIN, hhmm(h0)), quiet=False)
+    if not await wancai_at(pg, cdp, c['day'], h0, flags, '【前置】ENTRYCLASS ①：大四上 %s（第 %d 天）%s 上課前 %g 分鐘 %s、LM_MET＋LM_PROF' % (c['date'], c['day'], c['name'], ENTRYMIN, hhmm(h0))):
+        R.check('[ENTRYCLASS] 找得到萬才館一樓入口', False, ''); return
     f = await facts(pg, '[ENTRYCLASS ①]')
     R.note('[ENTRYCLASS ①] 這一天的課：%s；這堂 %s %s～%s 在 %s' % (J(c['all']), c['name'], hhmm(c['t0']), hhmm(c['t1']), J(c['room'])))
     if f.get('lm', {}).get('LM_HINT'): R.note('[ENTRYCLASS ①] 讀進來就有 LM_HINT（前置不成立）')
@@ -1110,8 +1133,7 @@ async def part_entryclass(pg, cdp):
     # 對照：同一天沒有課的時間
     alls = c['all']; t_first = min(a[1] for a in alls); t_last = max(a[2] for a in alls)
     hc = t_first - 3.0 if t_first - 3.0 >= 7.5 else max(t_last + 0.5, 15.0)
-    await ld(pg, cdp, await mk(pg, c['day'], hc, 'campus', 93.8, -97.6, flags=flags),
-             '【前置】ENTRYCLASS ②（對照）：同一天 %s（沒有課的時間）、LM_MET＋LM_PROF，萬才館一樓入口前' % hhmm(hc), quiet=False)
+    await wancai_at(pg, cdp, c['day'], hc, flags, '【前置】ENTRYCLASS ②（對照）：同一天 %s（沒有課的時間）、LM_MET＋LM_PROF' % hhmm(hc))
     r2 = await enter_wancai(pg, cdp, '[ENTRYCLASS ② 沒課]')
     if r2:
         R.note('[ENTRYCLASS ②] 對照（只記）：被拉進入口 A＝%s；入口 A 三句 %s 遊戲分鐘；按入口到能動 %.1f 遊戲分鐘、實際 %.1f 秒' % (

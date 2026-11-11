@@ -446,7 +446,7 @@ async def part_limao(pg, cdp):
         await at(pg, cdp, 'tingzhou', h, cx - 1.0, -0.8, '（巷 A，禮貌生財前面）'); await pg.wait_for_timeout(2500)
         st = await pg.evaluate(LMN); R.note('%s 狀態：%s' % (tag, J(st)))
         if L0: R.check('%s 店在（zone.tzLimao）、開著＝%s（19:00～23:30）' % (tag, want), bool(st) and st['open'] == want, J(st and {k: st[k] for k in ('open', 'h')}))
-        V = [('店面正面', (cx, 1.7, -2.0), (cx, 2.4, fz), 55), ('招牌近拍', (cx, 2.4, -0.3), (cx, 3.3, LMX['z'] + 0.2), 32), ('招牌放大', (cx, 2.4, -0.3), (cx, 3.3, LMX['z'] + 0.2), 16),
+        V = [('店面正面', (cx, 1.7, -2.0), (cx, 2.4, fz), 55), ('招牌近拍', (cx, 2.5, -0.3), (cx, 3.6, LMX['z'] + 0.2), 32), ('招牌放大', (cx, 2.6, -0.3), (cx, 3.7, LMX['z'] + 0.2), 16),
              ('算命桌', (T['x'] - 0.3, 1.6, -0.6), (T['x'], 0.8, T['z']), 45), ('斜看', (cx - 6.0, 1.7, -1.6), (cx, 2.2, fz - 1.0), 55)]
         await pg.evaluate("window.__TZ=[]")
         for lab, frm, to, fov in V:
