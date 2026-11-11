@@ -17,6 +17,7 @@ OUT = 'src/data/study_scenes.js'
 ALT_COND = {
     "媽媽發現她打工以後（AA_624 事件 10'，大一下第 9 週）": 'ytMomKnows',
     '學姊已上法研所（2026-08 起）': 'sisGrad',
+    '期末飯已經看過手帳那一頁（CG-11）': 'anShopPage',   # AA_707 1b8e247ec：記憶 AN_SHOP_PAGE（src/studyn3d.js S.ALT）
 }
 REPLY_KEEP = {
     ('heroine_03', '5'): ('兩個選項的字照用；選「我不會說。」的那一支改成：「她已經知道了。……可是謝謝你這樣說。」',

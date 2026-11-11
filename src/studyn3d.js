@@ -25,6 +25,7 @@ const STUDYN=(function(){
     ytMomKnows:G=>{ const F=G.flags||{}; return !!(F.YT_MOM_HERE||F.YT_MOM_TOLD||F.YT_MOM_BACK); },   /* AA_624 事件 10'（src/ytjob3d.js：媽媽在茶屋出現／蘇姨轉述／她回來上班）*/
     notCafe:G=>G.zone!=='cafe',   /* AA_708 芷若咖啡第 2 場：不在 2:30 AM（在 2:30 AM 而她沒班時她是客人）*/
     datingOrReady:(G,id)=>{ if(!id) return false; if(G.flags&&G.flags['dating_'+id]) return true; try{ return !!(typeof DATE!=='undefined'&&DATE.canConfess&&DATE.canConfess(G,id).ok); }catch(e){ return false; } },   /* AA_708 d30416e6b（BB_342 定）：芷若、語彤、可昕電影第 3 場她主動靠肩、手不移開——那個人交往中，或她的告白條件已經到了（DATE.canConfess）才演；沒到演不碰的版本 */
+    anShopPage:G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&!!SOCIAL.has('heroine_01','AN_SHOP_PAGE'),   /* AA_707 1b8e247ec（BB 定）：以安一起念書第 6 場——期末飯（或七夕、日本的手帳）已經看過「想去的店」那一頁（記憶 AN_SHOP_PAGE，termend3d.js sheMem／AA_589 第 10 節）＝演 alt（有自己的兩個選項）；沒看過＝她手壓著下半頁 */
     sisGrad:G=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.dateOf) return false; const d=CALENDAR.dateOf(G.day); return !!d&&(d.y>2026||(d.y===2026&&d.m>=8)); },   /* 學姊上了法研所（2026-08 起）*/
   };
   const stage=id=>typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):1;

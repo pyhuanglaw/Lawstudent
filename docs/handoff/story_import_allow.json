@@ -5720,9 +5720,9 @@
   },
   {
    "path": "docs/story_planning/AA_707_study_scenes.json",
-   "sha": "2840eeb1d",
+   "sha": "1b8e247ec",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 05:25／05:28「AA_707 改版，請重匯」：心事搬到 AA_712 故事線；旗標、unlock、need、第 6 場算約會不動）；2840eeb1d（AA-B 11-07 23:38：語彤第 1 場開頭「你先讀。我把這一章看完就好。」）",
+   "approvedBy": "AA 定稿（D109）1b8e247ec：X324 B 區「一起念書」七人重寫（42 場每場兩個選項、沛珊整塊換語氣 PEISHAN-VOICE-1110、不綁科目學期／不寫死經濟系開局與玩家名字、第 6 場不寫哪一天幾點）；BB 抽查兩件已改；AA 11-11 07:34 交 LAWWW",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "七位一起念書第 1～6 次＋輪換 6 則；tools/story/import_study_scenes.py → src/data/study_scenes.js（第一批 49d01b2b2 被這一版取代）",
@@ -5738,6 +5738,10 @@
     {
      "sha": "c47f8ab4d",
      "approvedBy": "（11-07 05:2x 以前的版本；6a0018b90 取代：心事搬進 AA_712，只留一起念書的樣子）"
+    },
+    {
+     "sha": "2840eeb1d",
+     "approvedBy": "AA-B D109（11-07 05:25／05:28「AA_707 改版，請重匯」：心事搬到 AA_712 故事線；旗標、unlock、need、第 6 場算約會不動）；2840eeb1d（AA-B 11-07 23:38：語彤第 1 場開頭「你先讀。我把這一章看完就好。」）"
     }
    ]
   },
