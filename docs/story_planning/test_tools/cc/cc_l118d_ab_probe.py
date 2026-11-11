@@ -129,6 +129,7 @@ SIGN_CAM_JS = r"""(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(.
   const f0=E.frame; for(let i=0;i<240&&E.frame<f0+5;i++) await new Promise(r=>setTimeout(r,200)); return E.frame-f0; })"""
 SIGN_END_JS = r"""(()=>{ const E=GAME.E; (window.__ccHid||[]).forEach(o=>o.visible=true); window.__ccHid=null; const st=document.getElementById('__ccSignCss'); if(st) st.remove(); E.renderer.domElement.style.removeProperty('visibility'); E.endCinematic(); return true; })()"""
 OLD_LOOK_KW = ['書架', '漫畫', '念書', '讀書', '桌位', '咖啡店', '咖啡廳', '自習', '書本', '小說']   # 舊店內容（慢讀咖啡的書架、漫畫、念書位…）
+LOOK_S = int(os.environ.get('LOOK_S') or 60)   # 每個「看的東西」找站點最多幾秒（BB 08:07）
 LOOK_ROWS = []     # 「看的東西」逐字表
 INSIDE_JS = r"""(()=>{ const its=GAME.E.interactables; const o=its.find(i=>i.shop118); const x=its.find(i=>i.exit&&i.exit.to==='lane118'); return {order:o?{x:o.x,z:o.z,r:o.radius||0.8}:null, exit:x?{x:x.x,z:x.z,r:x.radius||0.7}:null}; })()"""
 LAYOUT_JS = r"""(()=>{ const L=typeof LANE118_LAYOUT!=='undefined'?LANE118_LAYOUT:null; if(!L) return null; const fw=L.facade.west, fe=L.facade.east;
@@ -197,7 +198,7 @@ async def talk_idle(pg, cdp, tag, max_s=60):
     await flush(pg, tag)
 
 
-async def joy_to(pg, cdp, tx, tz, near, label, max_s=150):
+async def joy_to(pg, cdp, tx, tz, near, label, max_s=150, go_s=240):
     """搖桿（CDP 觸控按 #joy，往鏡頭座標換算的方向推）走到 (tx,tz) near 公尺內；連續 6 次沒有更近就改點地面（L.go_to）。回傳 (到了沒, 方法)"""
     t0 = time.time(); best = 1e9; stall = 0; pushes = 0
     while time.time() - t0 < max_s:
@@ -218,7 +219,8 @@ async def joy_to(pg, cdp, tx, tz, near, label, max_s=150):
         await L.joystick(pg, cdp, int(38 * (ux * rx + uz * rz)), int(-38 * (ux * fx + uz * fz)), ms); pushes += 1
         await pg.wait_for_timeout(250)
     R.note('「%s」搖桿推不到（推 %d 次、最近 %.2f m），改點地面（L.go_to，也是觸控）' % (label, pushes, best))
-    ok = await L.go_to(pg, cdp, R, tx, tz, near, label, max_s=240)
+    if go_s <= 0: R.note('「%s」時間用完，不改點地面（CC 08:1x：找站點最多 60 秒）' % label); return False, '時間用完'
+    ok = await L.go_to(pg, cdp, R, tx, tz, near, label, max_s=go_s)
     return ok, '點地面'
 
 
@@ -482,13 +484,17 @@ async def do_shop(pg, cdp, sid, lay, first_shop):
     if 'A' in PARTS and LOOKS:
         lk = await pg.evaluate(LOOKS_JS)
         R.note('%s 店裡「看的東西」%d 個（位置讀資料、字從畫面抽）' % (tag, len(lk)))
+        look_timeout = []   # BB 08:07：找站點最多 60 秒、超時就重新讀檔（L118D A1 tea：小菜櫃找了 240 秒，遊戲時間 12.40→14.00 店打烊，出口按鈕不見）
         for q in lk:
+            t_look = time.time()
             # 看東西的互動 prio −0.3、讓位給「坐下」（src/l118_shops3d.js）：第一個站點的互動鍵不是它，就換範圍裡別的站點（最多 6 個），每個試過的點記座標＋互動鍵
             tried = []; hit = None
             for fr, ang in [(0.0, None), (0.5, 0), (0.5, 90), (0.5, 180), (0.5, 270), (0.85, 45)]:
                 cx = q['x'] + (q['r'] * fr * math.cos(math.radians(ang)) if ang is not None else 0)
                 cz = q['z'] + (q['r'] * fr * math.sin(math.radians(ang)) if ang is not None else 0)
-                ok, how = await joy_to(pg, cdp, cx, cz, max(0.25, q['r'] * 0.3), '%s 看的東西「%s」站點 (%.2f,%.2f)' % (name, q['label'], cx, cz), max_s=60)
+                rem = LOOK_S - (time.time() - t_look)
+                if rem <= 0: look_timeout.append(q['label']); R.note('%s「%s」找站點超過 %d 秒，停（BB 08:07）' % (tag, q['label'], LOOK_S)); break
+                ok, how = await joy_to(pg, cdp, cx, cz, max(0.25, q['r'] * 0.3), '%s 看的東西「%s」站點 (%.2f,%.2f)' % (name, q['label'], cx, cz), max_s=min(60, rem), go_s=int(max(0, rem - 20)))
                 r = await it_label(pg, q['label'] or None, 2.5); s_ = await st(pg)
                 tried.append([round(s_['x'], 2), round(s_['z'], 2), r['t']])
                 if r['t'] and q['label'] and r['t'].startswith(q['label']): hit = r; break
@@ -504,6 +510,20 @@ async def do_shop(pg, cdp, sid, lay, first_shop):
             if cap and not any(cap in g for g in got): got.append(cap)   # 補讀（觀察器漏掉時）
             look_row(sid, q, r['t'], ' ⏎ '.join(x.replace('\n', ' ') for x in got), '' if got else '（按了，畫面上沒抽到字）')
         await flush(pg, tag + '_looks')
+        if look_timeout:
+            hh = await pg.evaluate("GAME.G.hour")
+            R.note('%s 找站點超時 %s（遊戲時間 %.2f）：重新讀檔到店門口、再走進店裡，才測出口' % (tag, J(look_timeout), hh))
+            await load_at(pg, DAY['d'], DAY['wd'], sp, '%s 找站點超時後重新讀檔（BB 08:07）' % name)
+            okd, _ = await joy_to(pg, cdp, dx, dz, 0.85, '%s 店門口（重新讀檔後）' % name)
+            rr = await it_label(pg, '進' + name)
+            if rr['t'].startswith('進'):
+                await L.tap(pg, cdp, '#interact')
+                for _ in range(60):
+                    if await pg.evaluate("GAME.G.zone==='l118_%s'&&!GAME.E.player.busy" % sid): break
+                    await pg.wait_for_timeout(1000)
+                await pg.wait_for_timeout(2500)
+            s2 = await st(pg)
+            R.check('%s 重新讀檔後走回店裡（l118_%s）' % (tag, sid), s2['zone'] == 'l118_' + sid and s2['stand'], J(s2))
     if 'A' in PARTS and SIGNS:
         await sign_shots_inside(pg, sid)
     await R_hour(pg, '出店前')

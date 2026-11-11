@@ -72,6 +72,8 @@ L118A3_CORN_a | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_pl
 L118A3_CORN_b | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=CORNERS_korea,CORNERS_tea;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 L118A3_WALL_a | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=WALLWALK_dian,WALLWALK_self;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 L118A3_WALL_b | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=WALLWALK_korea,WALLWALK_tea;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
+# BB 08:07：A1 辛亥韓食第 3 版重跑（找站點最多 60 秒、超時重新讀檔；小菜櫃站得到嗎、出口「離開辛亥韓食」）
+L118D_A1_tea3 | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118d_ab_probe.py | index.html | 15 | PARTS=A;LOOKS=1;PHONE=0;SHOPS=tea;LOOK_S=60;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 #SKIP舊室內（BB 08:02 改用 6a76a9e58） L118A_CORN_a | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=CORNERS_dian,CORNERS_self;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
 #SKIP舊室內（BB 08:02 改用 6a76a9e58） L118A_CORN_b | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=CORNERS_korea,CORNERS_tea;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
 L118A_CORN_c | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=CORNERS_omu,CORNERS_noodle2;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
