@@ -187,7 +187,8 @@ const SOCIAL = (function(){
   S.ytSurnameOn=function(id){ if(id!=='heroine_05') return false; const F=G&&G.flags; if(!F) return false; const R=F.romance&&F.romance[id]; return F['dating_'+id]===true||!!(R&&R.status==='dating'); };
   S.ytNameT=function(t,id){ if(t==null||!S.ytSurnameOn(id)) return t; const n=String((G&&G.name)||'祐廷'); if(!n) return t;
     const esc=n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-    return String(t).replace(/\{name\}/g,YT_SURNAME+n).replace(new RegExp('(?<!'+YT_SURNAME+')'+esc,'g'),YT_SURNAME+n); };
+    return String(t).replace(new RegExp('(?<!'+YT_SURNAME+')\\{name\\}','g'),YT_SURNAME+n).replace(/\{name\}/g,n)   /* 2026-11-11（BB）：稿已經寫「林{name}」的不再補一個林（原本直接拿到還沒換名字的字會變「林林祐廷」）；前面已經有林的 {name} 只換成名字 */
+      .replace(new RegExp('(?<!'+YT_SURNAME+')'+esc,'g'),YT_SURNAME+n); };
   S.shuyuT=function(t){ if(t==null) return t; const nm=S.datingName('heroine_05'); if(!nm) return t; return String(t).replace(/溫?書瑀學姊|溫學姊/g,nm).replace(/(直屬|的)?學姊/g,(m,p)=>p?m:nm); };   /* 已經寫成全名的「溫書瑀學姊／書瑀學姊」整個換成名字一次，不會變成「溫書瑀溫書瑀」（CC_23、BB 11:27 防呆）*/
   /* AA_579 第 39 列（AA 09:30）：交往中的「手機聯絡人」和「對話框／標題」拆開——contact.DATING＝手機聯絡人（私訊串、聯絡人列表）；contact.DATING_NAME＝對話框名字、標題卡、出遊按鈕、事件標題（沒寫＝同 DATING，舊行為）。
      學姊：AA_579 進遊戲，rel_lines.js 已改成 DATING:'貝貝'、DATING_NAME:'溫書瑀'（AA_566 第 13 節）*/
