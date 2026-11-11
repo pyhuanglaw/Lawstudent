@@ -78,7 +78,7 @@ const SIDEQ=(function(){
     '滇香小館':'118牛排（118 巷）','巷口家常菜':'五湖四海（118 巷）','Pasta 118':'義大麵屋（118 巷）','韓食小廚':'辛亥韓食（118 巷）','溫州街・一盞':'一盞茶屋（溫州街）','舊路書房':'頁間書屋（公館）',
     '一一八茶飲':'喝不喝咖啡（118 巷）','清葉茶行':'青木茶室（公館）','巷子裡定食':'小路（溫州街）','溫州街・半熟':'SUNNY SIDE（溫州街）'};
   /* 店名（key）＝各店點餐時記次數用的名字（src/eat3d.js 的 EAT.count）：一盞茶屋、半熟早午餐是「溫州街・一盞」「溫州街・半熟」（wzshops3d.js 的 buy）；清葉茶行、舊路書房沒有吃過的，story3d.js 點完一樣記次數 */
-  const STAFF={'林家乾麵':'老闆','巷口茶飲':'店員','夏日冰菓室':'老闆娘','慢讀咖啡':'店長','六張犁麵舖':'老闆','好家自助餐':'阿姨','蛋包飯研究所':'店員','公館的便利商店':'店員',
+  const STAFF={'林家乾麵':'老闆','巷口茶飲':'店員','夏日冰菓室':'老闆娘','慢讀咖啡':'老闆','六張犁麵舖':'老闆','好家自助餐':'阿姨','蛋包飯研究所':'店員','公館的便利商店':'店員',
     '滇香小館':'老闆娘','巷口家常菜':'老闆娘','Pasta 118':'老闆','韓食小廚':'老闆','溫州街・一盞':'蘇姨','舊路書房':'書店老闆','一一八茶飲':'店員','清葉茶行':'茶行老闆娘','巷子裡定食':'小路的老闆','溫州街・半熟':'小米姐','輪轉單車':'車行老闆'};   /* 說話框（AA_404、AA_405 的「誰」）*/
   S.STAFF=STAFF; S.SHOP_NAME=SHOP_NAME;
   /* 改名（AA_647 第 6 節，企劃線 403b7c51c；D115 的做法）：店名當 key 的地方（shop:、EAT.count、S.known、SHOP_NAME／STAFF 的 key）照舊用舊字，熟客次數、任務進度不歸零；
@@ -118,7 +118,7 @@ const SIDEQ=(function(){
       back:'（她回去跟老闆說了。老闆說：「我只是嚇嚇妳，誰叫妳一直講手機。」最後沒扣。）',treat:'半糖少冰，對吧。……今天不算錢。',
       trace:'（櫃台貼了一張「工作中手機請放後面」——她自己貼的。）',lapse:'杯子的錢，還是扣了。……算了，下次小心一點。'},
     SQ03:{open:['價目板曬到看不到了。你們讀書人字好看，幫我寫一下。'],midN:'（你寫到芒果冰那一行，老闆娘從冰櫃後面探出頭。）',mid:'今年芒果貴。……可是寫上去不好看，你寫原來的價錢。',end:'（價目板是新的，芒果冰的價錢是舊的。）',echo:'……字還在。',lapse:'價目板我叫我兒子寫了。字很醜，看得到就好。'},
-    SQ04:{open:[[null,'（老闆把一台筆電放在吧檯上。）'],['店長','這台放在窗邊那一桌三個禮拜了。'],['店長','……要怎麼辦。']],ask:['交給派出所。','再等一下？'],askReply:[null,['……已經三個禮拜了。','好，再一個禮拜。']],again:'還是沒人來拿。',   /* AA_408 2：一週以後再來＝直接接第 2 步 */
+    SQ04:{open:[[null,'（老闆把一台筆電放在吧檯上。）'],['老闆','這台放在窗邊那一桌三個禮拜了。'],['老闆','……要怎麼辦。']],ask:['交給派出所。','再等一下？'],askReply:[null,['……已經三個禮拜了。','好，再一個禮拜。']],again:'還是沒人來拿。',   /* AA_408 2：一週以後再來＝直接接第 2 步 */
       police:'（警察登記，說會找失主。）',   /* LEGAL_REVIEW_REQUIRED（BB_115）：只有「交給派出所」，拾得物的規定不展開 */
       thanks:'（兩個禮拜後，一個很瘦的男生來店裡道謝。他是國考生，那天胃出血被送急診，住院兩週。筆電裡是他三年的筆記。）',after:'（他每天來同一個窗邊的位子讀書，老闆幫他留。）',
       card:'（窗邊那個位子的桌上，多了一張手寫的小卡「謝謝」。）',pass:'（牆上多了一張剪報大小的紙：「榜單影本」。）',lapse:'那台筆電，我送去派出所了。'},
@@ -212,6 +212,7 @@ const SIDEQ=(function(){
   S.known=(G,key)=>key==='輪轉單車'?S.bikeN(G)>=5:(typeof EAT!=='undefined'&&!!EAT.count&&(EAT.count(G,S.eatKey(key))>=5||!!(EAT.rec&&(EAT.rec(G).l5[key]!=null||EAT.rec(G).l5[S.eatKey(key)]!=null))));   /* 車行沒有點餐：「找車行老闆」第 5 次（一天一次）＝認得你（AA_405 第 3 節）*/   /* 店員認得你（eat3d.js：第 5 次起、或店員已經說過認得你的那一句；在點完那一刻判斷，這一次也算）*/
 
   /* ---------- 各則 ---------- */
+  /* SQ04 說話的人：木曜日一律「老闆」（AA 2026-11-11 定案，BB 提的：這件事從慢讀咖啡搬到木曜日以後標籤還寫「店長」，木曜日其他地方都叫老闆；台詞沒改字） */
   const say=async(GM,w,t)=>{ if(t==null) return; if(Array.isArray(t)){ for(const x of t) await say(GM,w,x); return; } await GM.say(w?{name:w}:null,t); };   /* 陣列＝連續幾句（AA_408 補的回話）*/
   const sayAll=async(GM,w,a)=>{ for(const t of a) await say(GM,w,t); };
   const q2=t=>'「'+t+'」';
@@ -232,8 +233,8 @@ const SIDEQ=(function(){
         r.echoY=y; await GM.say(who(GM,AN),L.SQ03.echo); return true; }},   /* 以安寫的那一版：之後每年夏天，她在溫州街（一年一次）*/
     SQ04:{shop:'慢讀咖啡',title:'木曜日：一台沒人拿的筆電',avail:G=>ti(G)>=3,
       accept:async(GM,r)=>S.ask04(GM,r),
-      visit:async(GM,r)=>{ const G=GM.G; if(r.step==='again'){ if(G.day<r.again) return false; await say(GM,'店長',L.SQ04.again); S.police04(GM,r); return true; }   /* 「再等一下？」一週以後：還是沒人來拿 → 一起送去派出所（AA_408 2）*/
-        if(r.step==='ask'){ await say(GM,'店長',L.SQ04.open[2][1]); await S.ask04(GM,r); return true; }
+      visit:async(GM,r)=>{ const G=GM.G; if(r.step==='again'){ if(G.day<r.again) return false; await say(GM,'老闆',L.SQ04.again); S.police04(GM,r); return true; }   /* 「再等一下？」一週以後：還是沒人來拿 → 一起送去派出所（AA_408 2）*/
+        if(r.step==='ask'){ await say(GM,'老闆',L.SQ04.open[2][1]); await S.ask04(GM,r); return true; }
         if(r.step!=='wait'||G.day<r.wait) return false; await say(GM,null,L.SQ04.thanks); await say(GM,null,L.SQ04.after); S.finish(GM,'SQ04',r); return true; },
       trace:async(GM,r)=>{ const G=GM.G, base=r.state==='done'?r.doneDay:(r.state==='lapsed'&&r.told?r.told:null); if(base==null||G.day<=base) return false; if(!r.t1){ r.t1=G.day; await say(GM,null,L.SQ04.card); return true; }
         if(!r.t2&&G.day>=base+300){ r.t2=G.day; await say(GM,null,L.SQ04.pass); return true; } return false; }},   /* 十個月以後：榜單影本；過期（店長自己送去）的小卡、榜單照樣有（AA_408 1）*/
@@ -419,7 +420,7 @@ const SIDEQ=(function(){
     if(r.writer===AN){ fam(AN,2); r.helped=true; } S.finish(GM,'SQ03',r); return true; };
 
   /* ---------- SQ04：派出所（2D）---------- */
-  S.ask04=async function(GM,r){ const G=GM.G, k=await GM.choose(L.SQ04.ask.map(t=>({t:q2(t)}))); r.ask=k; await say(GM,'店長',L.SQ04.askReply[k]);
+  S.ask04=async function(GM,r){ const G=GM.G, k=await GM.choose(L.SQ04.ask.map(t=>({t:q2(t)}))); r.ask=k; await say(GM,'老闆',L.SQ04.askReply[k]);
     if(k!==0){ r.again=G.day+7; setAct(r,'again',G.day+21); return false; }   /* 再等一個禮拜（AA_408 2）*/
     return S.police04(GM,r); };
   S.police04=function(GM,r){ const G=GM.G; setAct(r,'police',G.day+1); if(typeof OUT!=='undefined') OUT.plan(G,{id:'sq04_police',ev:'ev_sq04_police',day:G.day,h:+G.hour+0.25,late:1,place:'派出所',title:'送筆電去派出所',travel:'走路 約 10 分鐘',travelH:1/6}); return true; };

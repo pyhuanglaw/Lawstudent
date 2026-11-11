@@ -51,7 +51,7 @@ const nextWd=(from,w)=>{ for(let d=D(from);d<D(from)+30;d++) if(wdOf(d)===w&&!CA
         let s=strip(rd(p)); for(const re of KEYOK) s=s.replace(re,''); if(!OLD.test(s)) continue; bad.push([p,s.split('\n').filter(l=>OLD.test(l)).map(l=>{ const m=l.match(OLD); const i=l.indexOf(m[0]); return l.slice(Math.max(0,i-30),i+40).trim(); })]); } };
     walk('src');
     check('1 src/ 裡（註解、存檔 key 除外）沒有「兩點半 Café」「巷子裡定食」、當店名的「半熟」、溫州街那間的「定食店」',!bad.length,J(bad));
-    /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338）：蛋包飯研究所改成奈良咖哩，「蛋的熟度」那三句跟著沒有了（舊期望多三格：eat_lines 的「蛋一樣半熟？」「好，半熟。」、lane118_shops.js 的「蛋要全熟還是半熟？」）；室內配置（LAWWW2 的舊配置）那一格還在 */ const EX=[['src/data/wz_events.js','蛋要半熟'],['src/data/l118_shop_layouts.js','全熟還是半熟'],
+    /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338）：蛋包飯研究所改成奈良咖哩，「蛋的熟度」那三句跟著沒有了（舊期望多三格：eat_lines 的「蛋一樣半熟？」「好，半熟。」、lane118_shops.js 的「蛋要全熟還是半熟？」）；室內配置（LAWWW2 的舊配置）那一格還在 */ /* 2026-11-11 再改：奈良咖哩的新室內配置進來以後（l118_int_omu.py，開發分支 bcea920be 那一批）舊配置那一格也沒有了——整個 src 已經沒有「全熟還是半熟」；舊期望多一格 ['src/data/l118_shop_layouts.js','全熟還是半熟'] */ const EX=[['src/data/wz_events.js','蛋要半熟'],
       ['src/sis_b13_3d.js','118 巷・定食店'],['src/sup497_3d.js','118 巷・定食店'],['src/zones3d.js',"n:'花序 Flower Notes'"]/* 2026-11-11 改期望：泰米村食搬到汀州路（X321），公館 G11 是花序 Flower Notes（X325）——原本查 n:'泰米村食' */,['src/data/wz_jobs.js',"contact:'兩點半的老闆'"]];
     const miss=EX.filter(([f,t])=>!rd(f).includes(t));
     check('1 例外照留：蛋的熟度（eat_lines 540／541、wz_events「蛋要半熟」、118 巷「全熟還是半熟」）、118 巷的定食店、公館 G11（2026-11-10 改期望：使用者 X320 把日日定食改成泰米村食，原本查 n:\'日日定食\'）、單獨的「兩點半」',!miss.length,J(miss));

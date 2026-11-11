@@ -77,6 +77,8 @@ await sec(0,()=>{ const s1=part('## 1.','## 2.'), s2=part('## 2.','## 3.'), s3=p
   const a3=part480('## 3.','## 4.');
   const miss=[...new Set(out)].filter(t=>segs(t).some(x=>s3.indexOf(x)<0&&s5.indexOf(x)<0&&a3.indexOf(x)<0));
   check('0. H2～H9 每一句台詞、旁白、選項都在稿裡（AA_311 第 3、5 節；H7 的「（不說話）」在 AA_480 第 3 節；一字不差）',out.length>=35&&!miss.length&&!!a3,out.length+' '+J(miss));
+  /* 2026-11-11 AA 定案：木曜日一律「老闆」——H3（AA_772 搬到木曜日演）說話的人從稿上的「店長」改成「老闆」，台詞沒改字；對稿時這一句照「店長」找。舊期望：遊戲裡也是店長 */
+  { const h3=who.find(([w,t])=>t==='窗邊那張有插座。她幫你留了。'); check('0. H3 說話的人是「老闆」（木曜日）',!!h3&&h3[0]==='老闆',J(h3)); if(h3&&h3[0]==='老闆') h3[0]='店長'; }
   const wb=who.filter(([w,t])=>![w+'：「'+t+'」',w+'「'+t+'」',w+'第一句換成「'+t+'」',w+'的招呼換成「'+t+'」',w+'：「理由：'+t+'」'].some(x=>s3.indexOf(x)>=0||s5.indexOf(x)>=0||a3.indexOf(x)>=0));   /* 以安那句：第 3 節的「理由：」第 5 節拿掉 */
   check('0. 說話的人照稿（店員、店長、老闆、老闆娘、阿哲、以安、柏翰、芯慈）',who.length>=24&&!wb.length,J(wb));
   const all=J([L().REG,L().H2,L().H3,L().H4,L().H5,L().H6,L().H7,L().H8,L().H9]);
