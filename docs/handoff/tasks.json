@@ -53464,7 +53464,7 @@
    "id": "STAIR-LEVEL-AUDIT-1111",
    "title": "全區多樓層樓梯掃描：上層導航格延伸到樓梯下半段（木曜日下樓卡住的原因 2c962ad66）、樓梯頂底換層會不會卡——Node 掃所有有 z.levels 的區域、找到的照木曜日的修法修",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -53477,7 +53477,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-11 09:4x LAWWW 派】做法照 tests/mokuyobi_stair_top_1111_unit.js、src/mokuyobi3d.js buildNav 那一行；patch＋測試一起交。",
+   "next": "【11-11 10:1x】LAWWW 整合（花序、總圖大廳下樓留上層、大口漢堡低幀率樓梯頂；引擎半步）——進 v9.10.25；等 CC 照木曜日的走法在花序、總圖大廳、大口跑。｜【11-11 09:4x LAWWW 派】做法照 tests/mokuyobi_stair_top_1111_unit.js、src/mokuyobi3d.js buildNav 那一行；patch＋測試一起交。",
    "xai": [
     {
      "from": "LAWWW",
