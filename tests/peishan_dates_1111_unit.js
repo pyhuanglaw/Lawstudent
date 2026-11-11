@@ -9,6 +9,8 @@
 //   7. date_wish.js：白名單、import_wish.py 重匯一樣；沛珊的事件＝稿的 wish_event；wish_rows 69 列的 new 都在、old 不在；別人的事件和重匯以前一樣
 //   8. hometown_lines.js：hometown_rows 31 列（台中／台南 yes、yesDating 同字各兩處）的 new 在、old 不在；sendFlag 那一句不動；整個檔和 BASE 比只差這 31 列＋台南美術館那一段
 //   9. 台南美術館那一段的字照稿的 tainan_museum（結構、旗標、mem、album、loc、旁白、「框外面呢？」的回話照舊；points_note 三點）
+// AA_758_peishan_date_common.json@bed993604（校外約會不分地點的短句，十一種 17 句）：
+//  10. DATE_LINES.lines.classmate_peishan＝稿的 new（每一種句數不變）；rows 的 old 都不在了；AA_694 第 3 節只跳過她被換掉的句子
 // 稿、BASE 讀 git show；讀不到（淺層複本）＝不比稿，只驗結構。用法：node tests/peishan_dates_1111_unit.js
 const H=require('./pg_harness.js');
 const {check}=H; const J=JSON.stringify;
@@ -39,7 +41,8 @@ const haveSrc=Object.keys(SRC).length===33;
       const drop=sk.filter(x=>x.includes('AA 指明新稿不用再套')), miss=sk.filter(x=>x.includes('原句對不到'));
       check('1. 修正層跳過的沛珊的列：AA 指明不再套的剛好四列（AA_359 5-3 D31、AA_525 2-4 P-6 的 D15／D08／D18）；另外「原句對不到」的 0 列',
         drop.length===4&&['AA_359 5-3 D31','AA_525 2-4 P-6 D15','AA_525 2-4 P-6 D08','AA_525 2-4 P-6 D18'].every(t=>drop.some(x=>x.startsWith(t+'「')))&&miss.length===0,J(sk));
-      check('1. AA_694 第 3 節逐列核對：只有沛珊重寫掉的句子跳過（第 127 列「我家的早餐比這個好吃！」＝AA_525 P-6 那一列的新句）',sk.filter(x=>x.startsWith('AA_694 ')).every(x=>x.includes('沛珊的句子，新稿重寫了'))&&sk.some(x=>x.startsWith('AA_694 第 3 節第 127 列')),J(sk.filter(x=>x.startsWith('AA_694 ')))); }
+      const s694=sk.filter(x=>x.startsWith('AA_694 '));
+      check('1. AA_694 第 3 節逐列核對：只有沛珊重寫掉的句子跳過——第 127 列「我家的早餐比這個好吃！」（AA_525 P-6 那一列的新句）＋第 13～18 列（AA_758 換掉的六句短句），共 7 列',s694.every(x=>x.includes('沛珊的句子，新稿重寫了'))&&J(s694.map(x=>+(/第 (\d+) 列/.exec(x)||[])[1]).sort((a,b)=>a-b))===J([13,14,15,16,17,18,127]),J(s694)); }
     const tool=read('tools/date/import_date_lines.py');
     check('1. 工具只對 classmate_peishan 放寬（ps_skip 先看 who；別人的列照舊 sys.exit）',/def ps_skip\(layer, loc, who, old, drop=False, new=None\):[\s\S]{0,400}if who != PS or not ps756\(loc\):\s+return False/.test(tool)&&tool.includes("sys.exit(f'AA_525 {item}：{loc} {who} 找不到")); });
 
@@ -135,5 +138,18 @@ const haveSrc=Object.keys(SRC).length===33;
     check('9. 台南美術館那一段的每一句、每一個選項照稿的 tainan_museum（一字不差；旁白、act 的結構照舊）',bad.length===0,J(bad.slice(0,6)));
     const W=DW(read('src/data/date_wish.js')).events[PS];
     check('9. points_note：草地第三個選項和心願事件同一句；咖啡廳第三個選項 hi＝「台中很遠喔。」「好。我叫我爸留位子。」、其他＝「我爸會出來跟你聊天，你會走不掉。」',M.points['D06.lawn'].opts[2].say[0]===W.hotspots['D06.lawn'].choices[2].reply[0].text&&M.points['D06.lawn'].opts[2].say[0]==='雲走得好慢。今天什麼都不用趕。'&&J(M.points['D06.cafe'].opts[2].say(G0,true))===J(['台中很遠喔。','好。我叫我爸留位子。'])&&J(M.points['D06.cafe'].opts[2].say(G0,false))===J(['我爸會出來跟你聊天，你會走不掉。'])); });
+  /* ======================= AA_758 ======================= */
+  await sec(10,async()=>{ const P758=SP+'AA_758_peishan_date_common.json', S758='bed993604', r=show(S758,P758), A=r?JSON.parse(r):null, LP=NOW.lines[PS];
+    const e=JSON.parse(read('docs/handoff/story_import_allow.json')).files.filter(x=>x.path===P758);
+    check('10. 白名單一筆 AA_758_peishan_date_common.json、sha '+S758+'、approved；date_lines.js 的來源寫著它',e.length===1&&e[0].sha===S758&&e[0].status==='approved'&&NOW.source.includes('AA_758_peishan_date_common.json@'+S758));
+    const KEYS=['accept','acceptDating','move','move3','transport','cancel','flaked','depart','enough','leaveEarly','noPair'], CNT=[2,1,2,1,1,2,1,3,2,1,1];
+    check('10. 沛珊不分地點的短句：十一種、每一種的句數和重寫以前一樣（2／1／2／1／1／2／1／3／2／1／1＝17 句）',J(Object.keys(LP).sort())===J(KEYS.slice().sort())&&KEYS.every((k,i)=>Array.isArray(LP[k])&&LP[k].length===CNT[i]&&LP[k].every(t=>typeof t==='string')),J(KEYS.map(k=>(LP[k]||[]).length)));
+    check('10. 沒有重寫前的字（搭車比較便宜、習慣算錢、回去讀書、早到二十分鐘、帶了一本書、我只是記得、我還不會）',!/比較便宜|習慣算錢|回去讀書|早到二十分鐘|帶了一本書|我只是記得|我還不會/.test(J(LP)),J(LP));
+    if(!A){ console.log('（這份 checkout 讀不到 AA_758@'+S758+'：不比稿）'); return; }
+    check('10. 逐字：lines.classmate_peishan 和稿的 new 一模一樣（十一種 17 句）',KEYS.every(k=>J(LP[k])===J(A.new[k]))&&Object.keys(A.new).length===11,J(KEYS.filter(k=>J(LP[k])!==J(A.new[k]))));
+    const all=Object.values(LP).reduce((a,x)=>a.concat(x),[]);
+    check('10. rows 17 列：每一列的 new 在 [key][i] 那一格、old 都不在她的短句裡了',A.rows.length===17&&A.rows.every(x=>LP[x.key][x.i]===x.new&&!all.includes(x.old)),J(A.rows.filter(x=>LP[x.key][x.i]!==x.new||all.includes(x.old)).map(x=>x.key+'['+x.i+']')));
+    check('10. BB 對過條件改的兩句（bed993604）：acceptDating「好。那天我本來有事，我推掉了。」、depart 第二句「我在車上了，這次真的有提早出門。」',LP.acceptDating[0]==='好。那天我本來有事，我推掉了。'&&LP.depart[1]==='我在車上了，這次真的有提早出門。');
+    const ob=show(BASE,'src/data/date_lines.js'); if(ob){ const O=DL(ob).lines; check('10. 別人不分地點的短句（'+(Object.keys(O).length-1)+' 位）和重匯以前一樣',Object.keys(O).filter(k=>k!==PS).every(k=>J(O[k])===J(NOW.lines[k]))&&J(Object.keys(O))===J(Object.keys(NOW.lines))); } });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
