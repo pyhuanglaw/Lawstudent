@@ -9,7 +9,7 @@
   她說哪一句由資料決定（第一次去＝first 格，選項的回話；再訪＝remember 格……），所以探針用「哪個人、哪個地點、第幾次去、選哪個選項」把情況做出來，選項照字點，像玩家一樣。
   錢不夠：預約時 DATE.check 只看 車資＋門票＋固定段（＋住宿）；互動點的錢不在預約檢查裡；GAME.money 是 G.money+=d（沒有下限）——所以要實際跑看會不會變負的、有沒有換她付或提示。
 
-四趟（PARTS=ME,SHE,SPLIT,BROKE）：
+各趟（PARTS=ME,SHE,SPLIT,BROKE；另外 BROKE2、SPLIT_PURE）：
   ME     子晴 heroine_04 D10 碧潭第一次（一般第 5 階，15:00 出發），點「河邊的小吃攤」，選「「我請客。」」→ 她回「謝謝。」（不在 SHE_PAYS／SPLIT）
          預期：小吃攤祐廷那一份全扣（60）＋請她的 extra（60）＝120
   SHE    子晴 D06 北美館第三次（【前置】dateLog 去過 2 次、上一次點過咖啡廳），點「館內的咖啡廳」→ remember「這家我來過兩次了。這次我請，你不要算。」（AA_812 SHE_PAYS_add）
@@ -38,7 +38,7 @@
   5  約會走完（行程 done）；沒有 JS 例外
 靜態（每次都跑，不開瀏覽器也印）：規格 SHE_PAYS_add ⊆ she_pays.js pays（以安另外看 date3d.js 手寫的）、規格 SPLIT＝she_pays.js split、每一句都在 date_lines.js 那個人那個互動點底下、
   path_rows 的新字在 date_lines.js 那個位置、changes 拿掉的「好。各付各的，最清楚。」不在 split；頁面上再比一次合併後的 DATE.SHE_PAYS／DATE.SPLIT、REMEMBER_IF 沒有 D06.cafe 那一列。
-用法：LW_TESTS=<wt>/tests SHA=<40 碼> PARTS=ME,SHE,SPLIT,BROKE [SPOTS=1] [SPEC_REF=origin/claude/story-planning] python3 cc_date_pays_probe.py <url> <out>（URL 不加 ?turbo）"""
+用法：LW_TESTS=<wt>/tests SHA=<40 碼> PARTS=ME,SHE,SPLIT,BROKE[,BROKE2,SPLIT_PURE] [SPOTS=1] [SPEC_REF=origin/claude/story-planning] python3 cc_date_pays_probe.py <url> <out>（URL 不加 ?turbo）"""
 import os, sys, json, asyncio, time, re, subprocess
 LWT = os.environ.get('LW_TESTS') or 'tests'
 sys.path.insert(0, LWT)
@@ -707,6 +707,59 @@ def page_checks(SPEC, pg_p):
     log('  頁面函式：%s' % J(pg_p.get('fn')))
 
 
+async def walk_to_car(pg, cdp, tag, screen, max_s=900):
+    """開車：選了「現在出發」以後真的走到望月台停車場車旁邊，按互動鍵「開車出發」（carlot3d.js）。
+    乙 5、13：L.go_to（點地，走不動才推搖桿）一段最多 6 秒；每一段之前先看對話／選單／busy，出現就停下來處理（對話點掉、選單照字選、記下來）；
+    「到了」看互動鍵的字（「開車出發」），不看離車多近；互動鍵點之前確認最上面就是它（乙 4）。回傳（按了沒有, 走的紀錄）"""
+    t0 = time.time(); legs = []; idle = Idle(tag, 'walk_car'); menu = Menu(); pressed = False; last_d = None; stuck = 0
+    while time.time() - t0 < max_s:
+        s = await pg.evaluate(CAR_ST_JS)
+        await idle.tick(pg, {'full': s.get('interact'), 'nb': s.get('nb'), 'btn': [], 'hour': s.get('d') or 0, 'trip': {'status': s.get('trip')}, 'phone': s.get('phone')})
+        if s.get('trip') in ('going', 'done'):
+            legs.append('行程 %s（%s）' % (s.get('trip'), '按了開車出發' if pressed else '沒按就出發了')); return pressed, legs
+        if s.get('phone'): await L.phone_away(pg, cdp); continue
+        if s.get('nb'):
+            s2 = await st(pg)
+            if s2['ch']:
+                if not await menu.ready(s2): await pg.wait_for_timeout(150); continue
+                opts = s2['ch']['opts']; k = next((i for i, o in enumerate(opts) if o in ('開車出發', '出發', '現在出發')), 0)
+                log('    [走去停車場途中的選單] %s → %s' % (J(opts), opts[k])); legs.append('途中選單：' + opts[k])
+                await tap_btn(pg, cdp, k); menu.tapped = time.time(); await pg.wait_for_timeout(800); continue
+            await internal_menu(pg, cdp, s2, menu, 'walk_car'); await pg.wait_for_timeout(300); continue
+        if s.get('dlg'):
+            s2 = await st(pg); await tap_dlg(pg, cdp, s2, screen); legs.append('途中對話：' + (s2.get('full') or '')[:30]); continue
+        if s.get('interact') == '開車出發':
+            chk = await pg.evaluate(IT_TOP_JS)
+            log('    [到車旁邊] 離車 %.2f m，互動鍵「開車出發」；最上層 %s → 按' % (s.get('d') or -1, J(chk)))
+            if not chk.get('ok'): log('    ！互動鍵上面蓋著 %s（照樣點，記下來）' % chk.get('top'))
+            await L.tap(pg, cdp, '#interact'); pressed = True; legs.append('按「開車出發」（離車 %.2f m）' % (s.get('d') or -1)); await pg.wait_for_timeout(1500); continue
+        if s.get('busy'): await pg.wait_for_timeout(500); continue
+        st0 = s.get('stand') or {}
+        if not st0: log('    ！找不到停車場（CARLOT.spot()）：%s' % J(s)); return pressed, legs
+        def stop(x): return bool(x.get('dlg') or x.get('choices') or x.get('busy') or x.get('interact') == '開車出發')
+        ok = await L.go_to(pg, cdp, R, st0['x'], st0['z'], 0.8, '走到車旁邊（一段 6 秒）', max_s=6, stop=stop)
+        s3 = await pg.evaluate(CAR_ST_JS)
+        legs.append('走一段：(%.1f, %.1f) 離車 %.2f m%s' % (s3['x'], s3['z'], s3['d'] if s3['d'] is not None else -1, '、到了' if ok else ''))
+        log('    [走一段] %s 互動鍵「%s」' % (legs[-1], s3.get('interact')))
+        if last_d is not None and s3['d'] is not None and abs(last_d - s3['d']) < 0.1 and s3.get('interact') != '開車出發':
+            stuck += 1
+            if stuck >= 5:
+                dg = await pg.evaluate("(([x,z])=>{ const E=GAME.E,P=E.player,o=P.obj.position; const p=E.pathTo?E.pathTo(o.x,o.z,P.lv|0,x,z,0):null; return {canStand:E.canStand?E.canStand(o.x,o.z,0.3,P.lv|0):null, path:p?p.length:null, near:(E.interactables||[]).filter(i=>Math.hypot(i.x-o.x,i.z-o.z)<4).map(i=>({label:i.label,hidden:!!i.hidden,d:+Math.hypot(i.x-o.x,i.z-o.z).toFixed(2)}))}; })", [st0['x'], st0['z']])
+                log('    ！走不過去（連 5 段沒進展）：%s' % J(dg)); await R.shot(pg, tag + '_walk_stuck'); stuck = 0
+        else:
+            stuck = 0
+        last_d = s3['d']
+    return pressed, legs
+
+
+async def can_push(pg, cdp):
+    """走完推得動：搖桿往前推 1.5 秒，量位移（乙 5：搖桿）"""
+    p0 = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.z]; })()")
+    await L.joystick(pg, cdp, 0, -40, 1500); await pg.wait_for_timeout(800)
+    p1 = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.z]; })()")
+    return round(((p1[0] - p0[0]) ** 2 + (p1[1] - p0[1]) ** 2) ** 0.5, 2), p0, p1
+
+
 async def run_one(pg, cdp, errs, part, SPEC, pg_p):
     c = RUNS[part]; who, loc, pid, visits = c['who'], c['loc'], c['pid'], c['visits']
     tag = '%s_%s_%s' % (part, who, loc)
@@ -731,9 +784,18 @@ async def run_one(pg, cdp, errs, part, SPEC, pg_p):
         if share_py <= cost_chk:
             R.check('[%s] 0 前置：做得出「預約過得了、但小於一份」的錢（預約檢查 %d、一份 %d）' % (tag, cost_chk, share_py), False, ''); return None
         money0 = cost_chk + (share_py - cost_chk) // 2
-    rb = await base(pg, who, day, h0, money=money0)
-    R.setup('[%s] 讀檔（applySave、quiet_events）：宿舍、%s（第 %d 天）%05.2f 點、晴天、錢 %d%s；聯絡方式 G.contacts.%s；關係 %s → 第 %s 階；沒交往；canAsk %s' % (
-        tag, dkey, day, h0, money0, '（＝預約檢查要的 %d 和「%s」一份 %d 中間：預約過得了、到那個點時不夠一份）' % (cost_chk, pname, share_py) if c['kind'] == 'broke' else '',
+    zone0, pos0 = 'dorm', None
+    if c.get('car'):   # 【前置／捷徑】開車那一趟：讀檔直接放在校園、停車場「開車出發」那一格 10～25 m 外（省掉宿舍走到校園）
+        await base(pg, who, day, h0, money=money0, zone='campus')
+        cs = await pg.evaluate(CAR_START_JS)
+        log('  開車：停車場 %s；起點候選（能站、找得到路、路長 8 m～2.2×半徑）選 %s（試了 %s 個、不行的 %s 個）' % (J((cs.get('spot') or {}).get('stand')), J(cs.get('pick')), cs.get('n'), cs.get('tried')))
+        if not cs.get('pick'):
+            R.check('[%s] 0 前置：停車場附近找得到能站、找得到路的起點' % tag, False, J(cs)); return None
+        zone0, pos0 = 'campus', {'x': cs['pick']['x'], 'z': cs['pick']['z'], 'yaw': 0, 'lv': 0}
+    rb = await base(pg, who, day, h0, money=money0, zone=zone0, pos=pos0)
+    if pos0: R.setup('[%s] 【捷徑】讀檔位置：校園 (%.2f, %.2f)，離「開車出發」那一格的路長 %s m（不從宿舍走過來）' % (tag, pos0['x'], pos0['z'], cs['pick'].get('pl')))
+    R.setup('[%s] 讀檔（applySave、quiet_events）：%s、%s（第 %d 天）%05.2f 點、晴天、錢 %d%s；聯絡方式 G.contacts.%s；關係 %s → 第 %s 階；沒交往；canAsk %s' % (
+        tag, '校園' if pos0 else '宿舍', dkey, day, h0, money0, '（＝預約檢查要的 %d 和「%s」一份 %d 中間：預約過得了、到那個點時不夠一份）' % (cost_chk, pname, share_py) if c['kind'] == 'broke' else '',
         who, J(rb['r']), rb['stage'], J(rb.get('can'))))
     allp = list(names.keys())
     picks, last = (allp, [pid]) if visits else ([], [])
@@ -757,14 +819,23 @@ async def run_one(pg, cdp, errs, part, SPEC, pg_p):
     said, skipped = await depart(pg, cdp, dep, screen, tag)
     R.check('[%s] 出發（%s）' % (tag, said), said is not None, J(skipped))
     if said is None: await R.shot(pg, tag + '_depart_fail'); return None
+    legs = []
+    if c.get('car'):
+        pressed, legs = await walk_to_car(pg, cdp, tag, screen)
+        R.check('[%s] 開車：走到望月台停車場車旁邊、按「開車出發」、行程出發' % tag, pressed and (await st(pg))['trip']['status'] in ('going', 'done'), J(legs[-6:]))
+        if not pressed: await R.shot(pg, tag + '_car_fail'); return None
     picked, path = await play(pg, cdp, names, [pid], SPOTS, {pid: c['pick']}, screen, tag)
     s = await st(pg)
     ev = await pg.evaluate("window.__ZE||[]")
     trip = await pg.evaluate("(id=>(GAME.G.trips||[]).find(t=>t.trip===id)||null)", s['trip']['id'] if s['trip'] else '')
     m_end = await pg.evaluate("GAME.G.money|0")
-    R.note('[%s] 走的路：預約 %s；出發 %s（跳過時間 %s）；約會 %s' % (tag, how, said, J([x.get('tap') for x in skipped]), J(path)))
+    R.note('[%s] 走的路：預約 %s；出發 %s（跳過時間 %s）；%s約會 %s' % (tag, how, said, J([x.get('tap') for x in skipped]), ('走去停車場 %d 段：%s；' % (len(legs), J(legs))) if legs else '', J(path)))
     R.check('[%s] 5 約會走完（行程 done）、點到「%s」' % (tag, pname), bool(trip and trip.get('status') == 'done') and pid in picked, J({'trip': trip and {k: trip.get(k) for k in ('status', 'counted', 'spots', 'transport', 'fare')}, 'picked': picked}))
     await R.shot(pg, tag + '_end')
+    if c.get('car'):
+        await idle_dlg(pg, cdp, screen, 30)
+        mv, p0, p1 = await can_push(pg, cdp)
+        R.check('[%s] 5 走完推得動：搖桿往前推 1.5 秒，位移 %.2f m（%s → %s）' % (tag, mv, J(p0), J(p1)), mv > 0.3, J(await pg.evaluate(CAR_ST_JS)))
     row = analyze(tag, c, who, loc, pid, pname, ctx, ev, screen, share_py, P, SPEC, pg_p, m_end, money0)
     R.check('[%s] 5 沒有 JS 例外' % tag, len(errs) == e0, J(errs[e0:e0 + 5]))
     json.dump({'tag': tag, 'row': row, 'ev': ev, 'screen': screen, 'trip': trip, 'steps': steps, 'skipped': skipped, 'path': path},
@@ -822,7 +893,7 @@ def analyze(tag, c, who, loc, pid, pname, ctx, ev, screen, share, P, SPEC, pg_p,
         if t in pg_pl: gstate, gline = 'pays', t
         elif t in pg_sl: gstate, gline = 'split', t
     log('  [%s] 她在這個點說的：%s；照規格＝%s（%s）；照頁面 DATE.SHE_PAYS／SPLIT＝%s（%s）' % (tag, J(her), state, line, gstate, gline))
-    want_state = {'she': 'pays', 'split': 'split'}.get(c['kind'])
+    want_state = {'she': 'pays', 'split': 'split', 'split_pure': 'split'}.get(c['kind'])
     if want_state == 'split' and chosen and is_treat(chosen):
         log('  [%s] 選了請客「%s」：照 LAWWW 19:09 這個點不套平分（她說了平分那一句：%s），應扣自己一份全額＋請她' % (tag, chosen, line))
     elif want_state:
@@ -840,6 +911,9 @@ def analyze(tag, c, who, loc, pid, pname, ctx, ev, screen, share, P, SPEC, pg_p,
     if c['kind'] == 'broke': share_due = 0   # LAWWW 19:09 ①：錢不夠＝那一筆她付、不扣
     extra_due = (P.get('extra') or 0) if (chosen and is_treat(chosen) and (P.get('extra') or 0) > 0) else 0
     mon = [e for e in seg if e['k'] == 'money']
+    if c['kind'] == 'split_pure':
+        treat_ev = [[e['amt'], e['label']] for e in ev if e['k'] == 'money' and str(e.get('label') or '').endswith('（請她）')]
+        R.check('[%s] 0 純平分：選的不是請客選項（「%s」，S.isTreat 不成立）、整趟沒有「（請她）」那一筆' % (tag, chosen), bool(chosen) and not is_treat(chosen) and not treat_ev, J(treat_ev))
     share_act = -sum(e['amt'] for e in mon if e['label'] == pname)
     extra_act = -sum(e['amt'] for e in mon if e['label'] == pname + '（請她）')
     R.check('[%s] 2 扣的錢＝規格：一份 %d → 應扣 %d（%s）＋請她 %d ＝ %d；實扣 一份 %d ＋請她 %d ＝ %d' % (
@@ -894,7 +968,7 @@ async def main():
         pg_p = await pg.evaluate(PAGE_PAYS_JS)
         page_checks(SPEC, pg_p)
         for part in PARTS:
-            if part not in RUNS: log('  不認得的 PART：%s（ME、SHE、SPLIT、BROKE、BROKE2）' % part); continue
+            if part not in RUNS: log('  不認得的 PART：%s（ME、SHE、SPLIT、BROKE、BROKE2、SPLIT_PURE）' % part); continue
             try:
                 r = await run_one(pg, cdp, errs, part, SPEC, pg_p)
                 if r: rows.append(r)

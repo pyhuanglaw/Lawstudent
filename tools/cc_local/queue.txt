@@ -40,6 +40,11 @@ N1_TSR_CLASS | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_pla
 N1_TSR_CAFEBAR | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 10 | PARTS=CAFE;ONLY_SEATS=2;N_FLOOR=0;N_BETWEEN=0;N_TABLE=0;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_STOOL_pasta | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 12 | PARTS=SEATS_pasta_2-3;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_GOCLASS_userview | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_goclass_probe.py | index.html | 15 | PARTS=USERVIEW,OTHERS;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
+# BB 18:24 ③ GG-SHOPS3（公館／汀州路六間店：進店、點、坐、離開；CLOSE 打烊／午休；約去泰米；RENAME 日日定食→泰米村食）；雲端 7d9d／b77a 跑過（RENAME 舊訊息、舊筆記沒換字 1 格待 BB 判）；BB 18:54 之後新排的用 01679bc0a
+N1_GG3_shops | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_gg3shops_probe.py | index.html | 70 | PARTS=antai,xianguo,rongendian,taimi,xile,yindehao;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
+N1_GG3_more | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_gg3shops_probe.py | index.html | 60 | PARTS=CLOSE,TAIMI_INVITE,TAIMI_INVITE_SO;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
+# BB 19:25：RENAME 判 FAIL（舊存檔訊息、筆記還有日日定食）→ LAWWW 遷移 G.msgs／G.notes；新 SHA 到了換 SHA、拿掉 #HOLD新SHA。判準：讀檔後整份 G JSON＋手機訊息、筆記畫面都沒有「日日定食」（探針 G_OLD_JS／畫面已經這樣判）
+#HOLD新SHA N1_GG3_rename | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_gg3shops_probe.py | index.html | 30 | PARTS=RENAME;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
 N1_CLASS_TERMS | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_class_terms_probe.py | index.html | 70 | PARTS=Y1S2,Y2S1,Y3S1,Y4S1,Y4S2,JA2;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_AA814 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 110 | SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 AA814_old | 9d45ef8b36d5df00cdbca70661a4ca13e9fce813 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 110 | SHA=9d45ef8b36d5df00cdbca70661a4ca13e9fce813
