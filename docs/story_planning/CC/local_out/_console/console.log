@@ -1,12 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[10:31:48] ==== END   TZP_fps2_new  exit=0  228s   ====
-[10:31:55] [res] cpu=6% mem=43% (13.6/31.4 GB) chrome_testing=5  END LM2_HOURS_old
-[10:31:56] memory 43% before starting TZP_fps2_old (2 running)
-[10:31:56] ==== START TZP_fps2_old  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
-[10:31:59] [res] cpu=11% mem=43% (13.6/31.4 GB) chrome_testing=5  START TZP_fps2_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       14f80dff6..ed7dd7a5b  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [10:32:02] ==== END   LM2_HOURS_old  exit=0  281s   ====
 [10:32:29] memory 44% before starting TZQ_A_new_r2 (2 running)
 [10:32:29] ==== START TZQ_A_new_r2  (probe @ 470e238cf715dd35453fb5b7e97b9570301cc54a) ====
@@ -1998,3 +1990,11 @@
 [17:51:29] ==== START L118D_A7_teabanchan  (probe @ a3b9f0478a5976409f305f97c7fdeac19764e4ca) ====
 [17:51:31] [res] cpu=12% mem=48% (15.3/31.4 GB) chrome_testing=9  START L118D_A7_teabanchan
 [17:53:10] [res] cpu=20% mem=49% (15.6/31.4 GB) chrome_testing=10  END L118A7_TAPSEAT_fix
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a53e07fe0..b2a64d24b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:53:17] ==== END   L118A7_TAPSEAT_fix  exit=0  154s   ====
+[17:53:20] memory 49% before starting L118A7_OCC_retest (2 running)
+[17:53:20] ==== START L118A7_OCC_retest  (probe @ a3b9f0478a5976409f305f97c7fdeac19764e4ca) ====
+[17:53:23] [res] cpu=9% mem=49% (15.5/31.4 GB) chrome_testing=10  START L118A7_OCC_retest
+[17:54:02] [res] cpu=14% mem=48% (15.2/31.4 GB) chrome_testing=9  END L118D_A7_teabanchan

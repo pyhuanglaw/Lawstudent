@@ -1,0 +1,234 @@
+{
+ "seen": [
+  {
+   "id": "clockZ",
+   "nm": "",
+   "t": "118 巷",
+   "m": 5000,
+   "zone": "lane118",
+   "h": 12.19,
+   "tag": "start"
+  },
+  {
+   "id": "toast",
+   "nm": "",
+   "t": "手機｜可昕：週末來木柵大學？我當導遊。",
+   "m": 5000,
+   "zone": "lane118",
+   "h": 12.19,
+   "tag": "start"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "進辛亥韓食（韓式鍋物、鐵板烤肉）",
+   "m": 5000,
+   "zone": "lane118",
+   "h": 12.24,
+   "tag": "tea_door"
+  },
+  {
+   "id": "clockZ",
+   "nm": "",
+   "t": "辛亥韓食（118 巷）",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.29,
+   "tag": "tea_inside"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "坐下",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.29,
+   "tag": "tea_inside"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "聽一句",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.32,
+   "tag": "tea_menuA"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "坐下",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.33,
+   "tag": "tea_menuA"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "點餐（辛亥韓食）",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.33,
+   "tag": "tea_menuA"
+  },
+  {
+   "id": "dlgText",
+   "nm": "老闆",
+   "t": "小菜自己夾，可以續喔。",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.34,
+   "tag": "tea_menuA"
+  },
+  {
+   "id": "clockZ",
+   "nm": "",
+   "t": "辛亥韓食（118 巷）",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.34,
+   "tag": "tea_menuA"
+  },
+  {
+   "id": "choices",
+   "nm": "",
+   "t": "泡菜鍋 190 元 ｜ 海鮮豆腐鍋 210 元 ｜ 鐵板豬肉 200 元 ｜ 鐵板牛肉 230 元 ｜ 石鍋拌飯 180 元 ｜ 不用了",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.34,
+   "tag": "tea_menuA"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "小菜櫃",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.36,
+   "tag": "tea_look"
+  },
+  {
+   "id": "caption",
+   "nm": "",
+   "t": "（小菜自己夾。泡菜那一盒最先見底。）",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.36,
+   "tag": "tea_look"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "點餐（辛亥韓食）",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.18,
+   "tag": "tea_end"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "坐下",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.18,
+   "tag": "tea_end"
+  },
+  {
+   "id": "clockZ",
+   "nm": "",
+   "t": "辛亥韓食（118 巷）",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.18,
+   "tag": "tea_end"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "聽一句",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.18,
+   "tag": "tea_end"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "坐下",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.19,
+   "tag": "tea_end"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "聽一句",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.2,
+   "tag": "tea_end"
+  },
+  {
+   "id": "interactLabel",
+   "nm": "",
+   "t": "離開辛亥韓食",
+   "m": 5000,
+   "zone": "l118_tea",
+   "h": 12.2,
+   "tag": "tea_end"
+  },
+  {
+   "id": "clockZ",
+   "nm": "",
+   "t": "118 巷",
+   "m": 5000,
+   "zone": "lane118",
+   "h": 12.21,
+   "tag": "tea_end"
+  },
+  {
+   "id": "toast",
+   "nm": "",
+   "t": "這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。",
+   "m": 5000,
+   "zone": "lane118",
+   "h": 12.21,
+   "tag": "tea_end"
+  },
+  {
+   "id": "toast",
+   "nm": "",
+   "t": "（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）",
+   "m": 5000,
+   "zone": "lane118",
+   "h": 12.22,
+   "tag": "tea_end"
+  }
+ ],
+ "stat": {
+  "tea": {
+   "signs": 11,
+   "door": {
+    "at": [
+     -4.3,
+     11.5
+    ],
+    "label": "進辛亥韓食（韓式鍋物、鐵板烤肉）",
+    "near": [
+     {
+      "label": "進辛亥韓食（韓式鍋物、鐵板烤肉）",
+      "d": 0.26,
+      "r": 1.4,
+      "prio": 1,
+      "x": -4.3,
+      "z": 11.5
+     }
+    ],
+    "how": "搖桿"
+   }
+  }
+ }
+}
