@@ -232,6 +232,7 @@ def judge_diff(tag, df):
     # 合成存檔沒有教授的 rel 紀錄，第一次說話會從 None 建出整筆。只放過 seen、talked 往上加，和 None→新建時的 0／fam 5；其他欄位變了照舊 FAIL
     def _book(d):
         f = d[0].rsplit('.', 1)[-1]
+        if d[0].startswith('flags.met_'): return d[1] in (None, 'None', '（沒有）') and d[2] is True   # S.meet 第一次見面記 met_<id>（r2 CC 03:2x）
         if not d[0].startswith('social.'): return False
         if f in ('seen', 'talked'): return (d[1] in (None, 'None') and isinstance(d[2], int)) or (isinstance(d[1], int) and isinstance(d[2], int) and d[2] >= d[1])
         if d[1] in (None, 'None'): return d[2] == 0 or (f == 'fam' and d[2] == 5)
