@@ -1037,6 +1037,16 @@
    "wants": "X338",
    "task": "L118-SHOPS-REDO-1111",
    "note": "七張存在我的分支 docs/handoff/user_specs/l118_ref/int2_<id>.webp＋README_int2.md（逐張重點）；和 LAWWW 那邊的 int_<id>.webp 不是同一批圖。已通知 LAWWW（請複製到開發分支、轉給做 home／cafe2／pasta／omu／noodle2 室內的子代理）和 BB（驗美術並排用）。我的四間（dian、self、tea、korea）主要配置和這一組對得上；差的小地方（118牛排自助台上方的海報、辛亥韓食的茶水桶等）併進第二批。"
+  },
+  {
+   "id": "UA-LAWWW2-1111-11",
+   "at": "2026-11-11T05:4x",
+   "quote": "（沒有文字，直接貼九張圖：118牛排、水上便當、辛亥韓食、五湖四海、大學食堂、義大麵屋、清州刀削麵、奈良咖哩、迪倫窯烤披薩的店面外觀）",
+   "kind": "使用者直接貼圖給 LAWWW2（圖有到我的對話）",
+   "status": "進行中",
+   "wants": "X338",
+   "task": "L118-SHOPS-REDO-1111",
+   "note": "逐張比過：這九張和開發分支 docs/handoff/user_specs/l118_ref/ext_<id>.webp（使用者先前傳給 LAWWW 的那一組）是同一批圖（縮圖逐像素差 0.3～0.4，只差壓縮），不另外存。街景第 1 版就是照這九張做的（招牌、玻璃上的海報從圖裁；價目表照文字規格重畫），在第一批裡（wip/l118_redo_1111/，全部測試第二輪在跑，跑完交）。"
   }
  ]
 }
