@@ -794,6 +794,11 @@
    "course": "crim_gen1",
    "term": "Y1S1",
    "scopeWeek": 13,
+   "askedIn": {
+    "term": "Y1S1",
+    "course": "crim_gen1",
+    "week": 13
+   },
    "type": "mc",
    "q": "甲在餐廳離開時，誤將外觀完全相同的乙之雨傘當成自己的雨傘帶走。甲確實相信該傘為自己所有，並無其他不法意圖。下列何者最適當？",
    "options": {
