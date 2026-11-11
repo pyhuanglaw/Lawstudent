@@ -28,7 +28,7 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 const ctx=vm.createContext({console,setTimeout,clearTimeout});
 const load=(f,names)=>{ let s=fs.readFileSync(path.join(ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInContext(s,ctx,{filename:f}); };
 const SRC=fs.readFileSync(path.join(ROOT,'src/data/invites.js'),'utf8');
-load('src/data/l118_redo772.js','src/data/invites.js',['INVITE_DATA']); load('src/invites3d.js',['INV']); load('src/libquiet3d.js',['LIBQ']);
+load('src/data/l118_redo772.js',['L118_REDO']); load('src/data/invites.js',['INVITE_DATA']); load('src/invites3d.js',['INV']); load('src/libquiet3d.js',['LIBQ']);
 if(fs.existsSync(path.join(ROOT,'src/data/invite_replies.js'))) load('src/data/invite_replies.js',['INVITE_REPLIES']);
 const D=ctx.INVITE_DATA, INV=ctx.INV, LIBQ=ctx.LIBQ;
 /* 外面整句一對「」（「A」「B」這種好幾段的不算）*/

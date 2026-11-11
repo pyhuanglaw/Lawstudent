@@ -98,7 +98,7 @@ const SATS=[]; for(let d=dayOf('2025-09-27');SATS.length<8;d+=7) if(CALENDAR.ter
     if(pay.length){ SAYS.length=0; await pay[0].talk(); check('5. 結帳那一句是 AA_640 第 ③ 節的',SAYS.length===1&&SHOP_ENC.hear.cvs.includes(SAYS[0].replace(/^路人：/,'')),JSON.stringify(SAYS)); }
     const G3=mkG(DAYS[0],12.5); enter('wz_print',G3); check('5. 影印店的客人不說',ppl().every(m=>!m.talk));
     const G4=mkG(DAYS[0]+2,15); enter('wz_teahouse',G4); check('5. 一盞的客人不說',ppl().every(m=>!m.talk)); }
-  { const G=mkG(SATS[0],15); enter('l118_cafe2',G); const c=ppl().filter(m=>m.talk); SAYS.length=0; for(const m of c) await m.talk(); const Q=SHOP_ENC.hear.quiet, ok=[Q[1],Q[2],Q[3],Q[4],Q[6]];
+  { const G=mkG(SATS[0],15); enter('l118_cafe2',G);const c=ppl().filter(m=>m.talk); SAYS.length=0; for(const m of c) await m.talk(); const Q=SHOP_ENC.hear.quiet, ok=[Q[1],Q[2],Q[3],Q[4],Q[6]];
     check('5. 慢讀咖啡：Café 的那五句（第 2～5、7）',SAYS.length>0&&SAYS.every(s=>ok.includes(s.replace(/^路人：/,''))),JSON.stringify(SAYS));
     const n=c[0]; if(n){ SAYS.length=0; await n.talk(); const a=SAYS.join(); SAYS.length=0; await n.talk(); check('5. 同一位客人再點一次：同一句',a===SAYS.join()&&!!a); } }
   // ---------- 6. 一起坐 ----------

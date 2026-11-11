@@ -51,7 +51,7 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
     check('9b. AA_355 5-1：118 巷五個物件點了有字（湯兩間、書架、小菜櫃兩間）；電視照舊是 AA_280 那句、餐盤回收台照舊顯示名稱', !bad.length&&lk('home','tv')==='電視在播午間新聞，沒有人在看。'&&lk('self','return')==='餐盤回收台', bad.map(x=>x[0]+'/'+x[1]+'='+lk(x[0],x[1])).join('｜')); } }
 // 4
 { const z=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
-  check('4. 店門口：營業時間「進○○」exit 到 l118_<id>（沒開藏起來）；沒開的時候是 L118.order 的按鈕；門口的按鈕比站在門口的常客優先（prio）', /prio:1,label:'進'\+nm\+'（'\+sh\.type\+'）',exit:\{to:'l118_'\+sh\.id,[^}]*\}\},get hidden\(\)\{ return !open118\(\); \}\}\)/.test(z)&&/prio:1,label:nm\+'（'\+sh\.type\+'）',shop118:sh\.id,get hidden\(\)\{ return open118\(\); \}\}\)/.test(z)); }
+  check('4. （2026-11-11 L118-SHOPS-REDO-1111：按鈕的類型改讀店家資料 ty，原本 sh.type）店門口：營業時間「進○○」exit 到 l118_<id>（沒開藏起來）；沒開的時候是 L118.order 的按鈕；門口的按鈕比站在門口的常客優先（prio）', /prio:1,label:'進'\+nm\+'（'\+ty\+'）',exit:\{to:'l118_'\+sh\.id,[^}]*\}\},get hidden\(\)\{ return !open118\(\); \}\}\)/.test(z)&&/prio:1,label:nm\+'（'\+ty\+'）',shop118:sh\.id,get hidden\(\)\{ return open118\(\); \}\}\)/.test(z)); }
 // 5
 { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
   check('5. 店員在店裡（l118_<id> 照 layout 的 clerk）；有室內配置時巷子裡不站店員', /if\(\/\^l118_\/\.test\(zoneId\)&&typeof L118_SHOP_LAYOUTS!=='undefined'\)\{[^\n]*clerk\(LL\.clerk\.x,LL\.clerk\.z,LL\.clerk\.yaw/.test(s)&&/if\(zoneId==='lane118'&&typeof L118_SHOP_LAYOUTS==='undefined'&&/.test(s)); }
@@ -65,9 +65,9 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
 //    椅子 prio 0.3、看的東西 prio −0.3（l118_shops3d.js）；用 engine3d.js 的 nearestInteractable 實際比：
 //    站在那張椅子後面 0.6 m（前面是桌子，GAME.seatApproach 的第二個位置）＝「坐下」；站在湯的前面＝「自取的湯」；兩邊都沒有 prio 的話椅子後面是「自取的湯」
 { const eng=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8'), sh=fs.readFileSync(path.join(ROOT,'src/l118_shops3d.js'),'utf8'); const m=eng.match(/E\.nearestInteractable=function\(\)\{[\s\S]*?return best; \};/);
-  const ps=sh.match(/IT\.push\(\{x:s\.x,z:s\.z,radius:0\.7,lv:0,(?:prio:(-?[\d.]+),)?seat:st,/), pl=sh.match(/for\(const q of L\.interact\) IT\.push\(\{x:q\.x,z:q\.z,radius:q\.r,lv:0,(?:prio:(-?[\d.]+),)?label:q\.label/);
+  const ps=sh.match(/IT\.push\(\{x:s\.x,z:s\.z,radius:s\.r\|\|0\.7,lv:0,(?:prio:(-?[\d.]+),)?seat:st,/), pl=sh.match(/for\(const q of L\.interact\) IT\.push\(\{x:q\.x,z:q\.z,radius:q\.r,lv:0,(?:prio:(-?[\d.]+),)?label:q\.label/);
   const pS=ps&&ps[1]?+ps[1]:0, pL=pl&&pl[1]?+pl[1]:0, H=LS.home;
-  if(m&&H){ const at=(x,z,a,b)=>{ const its=H.seats.map(q=>({x:q.x,z:q.z,radius:0.7,lv:0,prio:a,seat:{x:q.x,z:q.z,yaw:q.yaw},label:'坐下'})).concat(H.interact.map(q=>({x:q.x,z:q.z,radius:q.r,lv:0,prio:b,label:q.label})));
+  if(m&&H){ const at=(x,z,a,b)=>{ const its=H.seats.map(q=>({x:q.x,z:q.z,radius:q.r||0.7,lv:0,prio:a,seat:{x:q.x,z:q.z,yaw:q.yaw},label:'坐下'})).concat(H.interact.map(q=>({x:q.x,z:q.z,radius:q.r,lv:0,prio:b,label:q.label})));
       const E={levels:null,player:{lv:0,obj:{position:{x,y:0,z}}},interactables:its,npcs:[]}; vm.runInNewContext(m[0],{E,Math}); const r=E.nearestInteractable(); return r&&r.label; };
     const back=at(-2.6,-3.54,pS,pL), soup=at(-2.7,-3.75,pS,pL), old=at(-2.6,-3.54,0,0);
     check('8. 五湖四海 (-2.6,-2.94) 的椅子：站在椅子後面＝「坐下」、站在湯前面＝「自取的湯」；（兩邊都沒有 prio 的話椅子後面是「自取的湯」）', back==='坐下'&&soup==='自取的湯'&&old==='自取的湯', JSON.stringify({pS,pL,back,soup,old})); }

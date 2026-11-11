@@ -189,7 +189,7 @@ await sec(3,async()=>{ const e3=ev('ev_sis13_walk'), d6=D('2027-12-06'), d7=D('2
   /* 作息：那兩天 17:00 起她在研究室那一層；週二 17:30 以後照 AA_320 L8 去 118 巷自助餐（tests/lane118_sched_unit.js：AA_320 那幾列不被蓋掉）——事件照稿到 18:00（上面 17:2x、下面 17:36 都演）*/
   const sAt=(key,hh,done)=>{ fresh(key,hh,'friend'); if(done) H.G.events.done.ev_sis13_walk=1; const s=STORY.schedEnt(CHARACTERS[ID],H.G); return s&&s.zone; };
   const z6=sAt(d6,17.6), z7a=sAt(d7,17.2), z7b=sAt(d7,17.6), z6d=sAt(d6,17.6,true);
-  check('3. 作息：12/6（一）17:36、12/7（二）17:12 她在研究室（linze_5f）；12/7 17:36 照 AA_320 在 118 巷自助餐（l118_self）；演過以後 12/6 不在研究室',z6==='linze_5f'&&z7a==='linze_5f'&&z7b==='l118_self'&&z6d!=='linze_5f',J([z6,z7a,z7b,z6d]));
+  check('3. 作息：12/6（一）17:36、12/7（二）17:12 她在研究室（linze_5f）；12/7 17:36 照 AA_320 在 118 巷自助餐（2026-11-11 L118-SHOPS-REDO-1111、AA_772 schedule_notes：自助餐搬到大學食堂 l118_cafe2；舊期望 l118_self）；演過以後 12/6 不在研究室',z6==='linze_5f'&&z7a==='linze_5f'&&z7b==='l118_cafe2'&&z6d!=='linze_5f',J([z6,z7a,z7b,z6d]));
   fresh(d7,17.6,'friend',{},{zone:'campus'}); check('3. 12/7（二）17:36（她的作息已經去吃飯）走過霖澤館門口：照稿還是演（窗口 17:00～18:00）',EVENTS.check(e3)); });
 
 /* ---- 4 13-4 公館的蛋糕 ---- */
