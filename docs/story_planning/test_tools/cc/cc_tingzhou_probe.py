@@ -281,6 +281,16 @@ async def part_int(pg, cdp):
                 await pg.wait_for_timeout(250)
             R.note('%s 進店：%s 秒後在 %s（%s）' % (tag, ent, me['zone'], J(me)))
             if not R.check('%s 走進去：區域 %s、站得住' % (tag, L_['zone']), me['zone'] == L_['zone'] and me['free'] is not False, J(me)): continue
+            if os.environ.get('CAMDIAG') == '1':   # BB 01:47：禮貌生財進門的遊戲鏡頭一片米色——進門 0.5 秒、2 秒各截一張，再轉 90° 一張（【捷徑】直接設 E.cam.yaw），記鏡頭位置
+                CAMJ = "(()=>{ const E=GAME.E, c=E.camera, P=E.player.obj.position; return {cam:[+c.position.x.toFixed(2),+c.position.y.toFixed(2),+c.position.z.toFixed(2)], yaw:+E.cam.yaw.toFixed(3), pitch:E.cam.pitch!=null?+E.cam.pitch.toFixed(3):null, dist:E.cam.dist!=null?+(+E.cam.dist).toFixed(2):null, distT:E.cam.distTarget!=null?+(+E.cam.distTarget).toFixed(2):null, player:[+P.x.toFixed(2),+P.z.toFixed(2)], room:[%s,%s]}; })()" % (L_['w'], L_['d'])
+                for k, wt in ((0, 500), (1, 1500)):
+                    await pg.wait_for_timeout(wt); cj = await pg.evaluate(CAMJ)
+                    await pg.screenshot(path=os.path.join(OUT, 'camdiag_%s_%s_%s.jpg' % (sid, hh, ('0.5s', '2s')[k])), type='jpeg', quality=80)
+                    R.note('%s 進門 %s 遊戲鏡頭：%s' % (tag, ('0.5 秒', '2 秒')[k], J(cj)))
+                await pg.evaluate("(()=>{ GAME.E.cam.yaw+=Math.PI/2; })()"); await pg.wait_for_timeout(1500); cj = await pg.evaluate(CAMJ)
+                await pg.screenshot(path=os.path.join(OUT, 'camdiag_%s_%s_yaw90.jpg' % (sid, hh)), type='jpeg', quality=80)
+                R.note('%s 【捷徑】鏡頭轉 90° 以後：%s' % (tag, J(cj)))
+                await pg.evaluate("(()=>{ GAME.E.cam.yaw-=Math.PI/2; })()")
             await pg.wait_for_timeout(2500)
             fm = await pg.evaluate("(()=>{ const z=GAME.E.zone||{}; return {formal:!!z.formal, glb:!!GAME.E.scene.getObjectByName(%s)}; })()" % J(L_['zone'] + '_glb'))
             R.note('%s 正式模型：%s' % (tag, J(fm)))
