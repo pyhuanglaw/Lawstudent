@@ -1107,3 +1107,12 @@
 [03:11:16] 正在跑：N1_MOKU_PLANT（已跑 45 分／上限 90 分）、N1_GOCLASS_userview（已跑 4 分／上限 15 分）、N1_CLASS_TERMS（已跑 3 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
 [03:16:16] 正在跑：N1_MOKU_PLANT（已跑 50 分／上限 90 分）、N1_GOCLASS_userview（已跑 9 分／上限 15 分）、N1_CLASS_TERMS（已跑 8 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
 [03:17:22] [res] cpu=93% mem=43% (13.8/31.4 GB) chrome_testing=10  END N1_GOCLASS_userview
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       568097ee1..0e6dae87c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:17:32] ==== END   N1_GOCLASS_userview  exit=0  624s   ====
+[03:17:44] memory 45% before starting N1_TSR_DORM_r3 (2 running)
+[03:17:44] ==== START N1_TSR_DORM_r3  (probe @ b77af3a4fe6d348ae58337a1ce708442ef9ef458) ====
+[03:17:47] [res] cpu=82% mem=44% (14.2/31.4 GB) chrome_testing=10  START N1_TSR_DORM_r3
+[03:21:16] 正在跑：N1_MOKU_PLANT（已跑 55 分／上限 90 分）、N1_CLASS_TERMS（已跑 13 分／上限 70 分）、N1_TSR_DORM_r3（已跑 3 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:22:10] [res] cpu=77% mem=45% (14.2/31.4 GB) chrome_testing=10  END N1_TSR_DORM_r3
