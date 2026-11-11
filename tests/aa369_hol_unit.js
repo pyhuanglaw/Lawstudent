@@ -191,7 +191,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
   { const src=fs.readFileSync(path.join(ROOT,'src/sis_grad3d.js'),'utf8'); check('L7. 學姊筆試前：「再一個禮拜就考試了。我有一點怕。」',src.includes("text:'再一個禮拜就考試了。我有一點怕。'")&&!src.includes("'下禮拜就考試了。我有一點怕。'")); }
   { const bd=route=>{ fresh(D('2028-08-13'),12,'campus',route?{EXCHANGE_ROUTE:route}:{}); R('npc_fangyt','FRI'); const r=MSG.pick2(G,'npc_fangyt','bday',true); return r&&r.e?r.e.msgs.join('／'):null; };
     const us=bd('US'), tw=bd('TW'), jp=bd('JP'), A=bd(null);
-    check('L8. 方奕廷 2028 生日（朋友）：美國路線「謝謝。你那邊應該還是昨天。……兩天都算。」；其他路線「謝謝。」',us==='謝謝。你那邊應該還是昨天。……兩天都算。'&&tw==='謝謝。'&&jp==='謝謝。'&&A==='謝謝。',J([us,tw,jp,A])); }
+    check('L8. 方奕廷 2028 生日（朋友）：美國路線「謝謝。你那邊應該還是昨天。……兩天都算。」；其他路線「謝謝。」',us===require('./overlay_expect.js').fwd('msg2_pool','npc_fangyt','謝謝。你那邊應該還是昨天。……兩天都算。')   /* 2026-11-11（X324 D 區，AA_785）：拿掉刪節號——舊期望＝fwd 裡面的字 */&&tw==='謝謝。'&&jp==='謝謝。'&&A==='謝謝。',J([us,tw,jp,A])); }
   { const ID='classmate_peishan', why=(k0,k1,flags)=>{ fresh(D(k0),12,'dorm',flags||{}); R(ID,'FRI'); let last=null; for(let d=D(k0);d<=D(k1);d++){ const p=pr(ID,K(d)); if(p.here===false&&p.kind==='home') last=d; }
       if(last==null) return null; G.day=last; G.weekday=wdOf(last); const o=HV.offer(G,ID); return o&&o.why||null; };
     const y3=why('2028-08-15','2028-09-20',{PS_BACK_FIRST:1}), y1=why('2026-08-15','2026-09-20'), y3w=why('2028-01-20','2028-02-25',{PS_BACK_FIRST:1}), y2=why('2027-08-15','2027-09-20',{PS_BACK_FIRST:1});

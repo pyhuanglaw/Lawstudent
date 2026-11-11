@@ -28,7 +28,11 @@ const DW=t=>JSON.parse(t.slice(t.indexOf('const DATE_WISH=')+16,t.lastIndexOf(';
 const LOCS=Array.from({length:33},(_,k)=>'D'+String(k+1).padStart(2,'0'));
 const leaves=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>leaves(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) leaves(x[k],p+'/'+k,o); else o[p]=x; return o; };
 const of=(D,k,who)=>{ const o={}; for(const part of ['lines','likes','dislikeLine']) if(D[part]&&D[part][who]!=null) leaves(D[part][who],part,o); return o; };
-const NOW=DL(read('src/data/date_lines.js'));
+/* 2026-11-11（AA_812@f1fab0ec6）：懸著的「下次我請」七格（date_src_sha.js 的 CELLS_812：學姊、子晴 D06.cafe remember，沛珊 D15.store、D21.street，可昕 D15 收尾，子晴 D06 第一次選項的回覆，語彤 D10.boat remember）
+   是匯入工具最後一步疊上去的（改稿紀錄 date_rewrite/ 和稿的 path_rows；源稿 Dxx.json 沒有重新 apply）——這支的逐字對稿、和重匯以前比，NOW 先用 un812 把那七格還原成舊字再比
+   （只有那一格現在剛好是新字才還原，不是＝照舊會紅）；那七格現在＝新字下面另外驗（逐格、她請客在 tests/date_she_pays_812_1111_unit.js）。舊期望：直接拿 NOW 比 */
+const NOW812=DL(read('src/data/date_lines.js')), NOW=CS.un812(NOW812);
+check('0. AA_812 那七格（CELLS_812）現在是新字（還原成舊字以後才拿 NOW 和源稿、重匯以前比）',CS.CELLS_812.length===7&&CS.CELLS_812.every(r=>CS.cell812(NOW812,r)===r.new&&CS.cell812(NOW,r)===r.old),JSON.stringify(CS.CELLS_812.map(r=>CS.cell812(NOW812,r))));
 const SRC={}, OLDSRC={}, REC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'), r=show(SHA,SP+'date_rewrite/kx_'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLDSRC[k]=JSON.parse(u); if(r) REC[k]=JSON.parse(r); }
 const haveSrc=Object.keys(SRC).length===33&&Object.keys(OLDSRC).length===33&&Object.keys(REC).length===33;
 const ob=show(BASE,'src/data/date_lines.js'), WAS=ob?DL(ob):null;
@@ -92,7 +96,8 @@ const know=id=>{ H.CLOSE(id); H.G.contacts[id]=1; };
     check('4. ARRIVE_VAR 可昕 D32（D31＋D32 同一趟）：from 跟著新稿第一次到達的第一句「清境。要開三個多小時，我負責讓你不要睡著。」，對得上資料；to 照 AA 11-11 回 LAWWW 第 4 題的新字「清境。從日月潭上來一個半小時，我本來要睡，結果一路在看路。」（舊：AA_359 5-3「清境。從日月潭上來，一個半小時。我查過了。」）',!!v&&v.loc==='D32'&&J(v.from)===J(['清境。要開三個多小時，我負責讓你不要睡著。'])&&T[0]===v.from[0]&&J(v.to)===J(['清境。從日月潭上來一個半小時，我本來要睡，結果一路在看路。'])&&DATE.ARRIVE_VAR.length===2,J([T,v&&v.from]));
     const t={who:KX,locs:['D32']}, a=DATE.arriveVar({flags:{}},t,F,{combo:true}).lines.map(x=>x.text), b=DATE.arriveVar({flags:{}},t,F,{}).lines.map(x=>x.text);
     check('4. 實際換：同一趟＝第一句換成「從日月潭上來」那一句、第二句照新稿；只去清境＝兩句都照新稿',J(a)===J([v.to[0],T[1]])&&J(b)===J(T)&&T[1]==='這一趟我只排了一件事：看雲。',J([a,b]));
-    check('4. PICK_FLAG、REMEMBER_IF、S.LINE_IF 都沒有可昕的項目（沒有拿她的句子當 key）；原本的 PICK_FLAG 3 筆、REMEMBER_IF 3 筆照舊',![].concat(DATE.REMEMBER_IF,DATE.PICK_FLAG).some(x=>x.who===KX)&&!DATE.LINE_IF[KX]&&DATE.PICK_FLAG.length===3&&DATE.REMEMBER_IF.length===3);
+    /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：S.REMEMBER_IF 拿掉子晴 D06.cafe 那一列（再訪不分第一次選了什麼都聽 remember 的新句、她請；PICK_FLAG 照記 ZQ_D06_TREAT）——REMEMBER_IF 剩 2 筆（子晴 D15、沛珊 D05），D06.cafe 那一列不在。舊期望：REMEMBER_IF 3 筆（子晴 D06／D15、沛珊 D05） */
+    check('4. PICK_FLAG、REMEMBER_IF、S.LINE_IF 都沒有可昕的項目（沒有拿她的句子當 key）；PICK_FLAG 3 筆照舊、REMEMBER_IF 2 筆（AA_812@633b7f7d6 拿掉子晴 D06.cafe 那一列）',![].concat(DATE.REMEMBER_IF,DATE.PICK_FLAG).some(x=>x.who===KX)&&!DATE.LINE_IF[KX]&&DATE.PICK_FLAG.length===3&&DATE.REMEMBER_IF.length===2&&!DATE.REMEMBER_IF.some(r=>r.loc==='D06'||r.pid==='D06.cafe'));
     const G=setup('2026-03-27',20,{dating_kexin:true}); know(KX); const seq=[0,1,2,3].map(()=>DATE.lineFor(G,KX,'depart',{who:KX,day:G.day+1}));
     check('4. 出發那一句三句輪流（不看交通）：「我到了。你在哪？」「你不會遲到吧。不會。」「我出門了。你不准比我晚到。」，第四次回到第一句',J(seq.map(x=>x[0]))===J(['我到了。你在哪？','你不會遲到吧。不會。','我出門了。你不准比我晚到。','我到了。你在哪？']),J(seq));
     const code=fs.readdirSync(path.join(H.ROOT,'src')).filter(f=>/\.js$/.test(f)).map(f=>[f,read('src/'+f).replace(/\/\*[\s\S]*?\*\//g,'')]);

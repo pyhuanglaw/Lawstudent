@@ -42,7 +42,7 @@ const seq=a=>a.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(a[i-1])));
 (async()=>{
 let doc=''; try{ doc=cp.execSync('git show 38b3c9dd:"docs/story_planning/AA_410_女主角各自喜歡吃的東西.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
-const R772=require('./l118_redo772_expect.js');
+const R772=require('./l118_redo772_expect.js'), LR=require('./line_rows_expect.js');
 doc=R772.doc(doc)+'\n'+R772.corpus();
 /* 2026-11-04 改期望（WZ-SECOND-1104；AA_658 第 4 節，企劃線 6ee7ea3a5）：帝大紅茶（原本的巷口茶飲）的菜單換成紅茶／奶茶／檸檬紅茶（中、大），可昕那一杯的品項照換：青茶→紅茶、珍珠奶茶（珍奶）→奶茶、冬瓜檸檬→檸檬紅茶。
    稿（AA_410）照這幾句換了再比；「紅茶。……也可以。」那一句變成用不到（紅茶是選對的那一樣），報告給 AA */
@@ -52,13 +52,14 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. 新檔載得到；index.html：loans3d.js → data/food_fav_lines.js → foodfav3d.js → GAME.boot()',ok&&!!X()&&!!FL()&&/loans3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/food_fav_lines\.js\?v=[^"]+"><\/script>\n<script src="src\/foodfav3d\.js\?v=[^"]+"><\/script>\n(?:<script src="[^"]+"><\/script>\n)*<script>GAME\.boot\(\);/.test(html),err);
   const S4=(doc.split('## 4.')[1]||''), secOf=n=>S4.split('\n- **').filter(x=>x.startsWith(n==='書瑀'?'學姊':n)).join('\n');   /* 第 4 節 4-1：「- **子晴點錯**」那一條底下的字 */
   const WHO={heroine_01:'以安',heroine_03:'語彤',heroine_04:'子晴',heroine_05:'書瑀',classmate_peishan:'沛珊',kexin:'可昕','老闆娘':'老闆娘'};
-  const bad=[], all=[]; for(const id of ['heroine_01','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin']){ const o=L(id); for(const k in o){ const v=o[k]; const arrs=k==='wrong'?Object.values(v):[v]; for(const a of arrs){ if(!a) continue; for(const [w,t] of a){ all.push(t); const want=w==null?t:WHO[w]+'：'+t; if(doc.indexOf(want)<0&&!(w!=null&&secOf(WHO[w]).indexOf('「'+t+'」')>=0)) bad.push(want); } } } }   /* 第 4 節的缺字寫成「……」，列在那個人的條目下（secOf）*/
+  const bad=[], all=[]; for(const id of ['heroine_01','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin']){ const o=L(id); for(const k in o){ const v=o[k]; const arrs=k==='wrong'?Object.values(v):[v]; for(const a of arrs){ if(!a) continue; for(const [w,t] of a){ all.push(t); const want=w==null?t:WHO[w]+'：'+t, inD=x=>doc.indexOf(w==null?x:WHO[w]+'：'+x)>=0||(w!=null&&secOf(WHO[w]).indexOf('「'+x+'」')>=0), o=LR.toOld(t); if(!inD(t)&&!(o!==t&&inD(o))) bad.push(want); } } } }   /* 2026-11-11（X324 G 區，AA_804_food_fav.json@8eab5a25c）：food_fav_lines.js 十句改字（刪節號拿掉；子晴熱可可那句換成「今天我也喝一次。」）——換回舊句（tests/line_rows_expect.js toOld）在稿上就算對。舊期望：遊戲字本身在稿上 */   /* 第 4 節的缺字寫成「……」，列在那個人的條目下（secOf）*/
   check('0. 每一句台詞、旁白都在 AA_410 稿裡（一字不差，說話的人對：以安／語彤／子晴／書瑀／沛珊／可昕／老闆娘／旁白）',!!doc&&all.length>=30&&!bad.length,all.length+' '+J(bad));
   const nb=Object.values(FL().note).filter(t=>doc.indexOf('| '+t+' |')<0);
   check('0. 筆記本那一行七個人都照第 1 節總表最後一欄',!!doc&&Object.keys(FL().note).length===7&&!nb.length,J(nb));
   /* 稿第 2 節每一句（> 某某：……、旁白、交往中那一行）都有接 */
+  /* 2026-11-11（X324 G 區，AA_804_food_fav.json@8eab5a25c）：稿上的句子照 AA_804 old→new（只換 food_fav_lines.js 的列；LR.fwd）換過再找。舊期望：稿上原句在資料裡 */
   const s2=doc.slice(doc.indexOf('## 2.'),doc.indexOf('## 3.')), want=[]; for(const m of s2.matchAll(/^\s*>\s*([^：\n]+)：(.+)$/mg)) want.push(m[2].trim()); for(const m of s2.matchAll(/旁白「(（[^」]+）)」/g)) want.push(m[1]);
-  const joined=all.join('\n'), miss=want.filter(t=>joined.indexOf(t)<0&&!(t==='……嗯，謝謝。（她跟老闆娘要了一小碟辣椒。）'&&all.includes('……嗯，謝謝。')&&all.includes('（她跟老闆娘要了一小碟辣椒。）')));
+  const joined=all.join('\n'), miss=want.filter(t=>joined.indexOf(LR.fwd(t,'src/data/food_fav_lines.js'))<0&&!(t==='……嗯，謝謝。（她跟老闆娘要了一小碟辣椒。）'&&all.includes('……嗯，謝謝。')&&all.includes('（她跟老闆娘要了一小碟辣椒。）')));
   check('0. 稿第 2 節的每一句都在資料裡（語彤「只點」那一行拆成她一句＋括號的旁白）',want.length>=30&&!miss.length,want.length+' '+J(miss));
   const src=fs.readFileSync(path.join(H.ROOT,'src/foodfav3d.js'),'utf8').replace(/\/\*[\s\S]*?\*\//g,'');
   check('0. 不加體力、不做短效加成（DL-02）：foodfav3d.js 沒有 energy',!/energy/.test(src));
@@ -88,7 +89,7 @@ await sec(1,async()=>{ const AN='heroine_01', fri=td('Y1S1',5,5); const setup=f=
   check('1. 知道以後：「也幫以安點一份」→ 品項（咖哩蛋包飯 120／番茄醬蛋包飯 110）→「多要一個盤子」「不用」',J(H.opts.slice(1,4))===J([['也幫以安點一份','（就這樣）'],MENU(OMU).map(([n,p])=>n+'　'+p+' 元'),['多要一個盤子','不用']]),J(H.opts));
   check('1. 只點咖哩蛋包飯、沒要盤子：「（看了一下盤子）……我吃不完。你要幫我吃。」；不加分、沒有 REMEMBERED_HER_FOOD；錢照兩份扣',has('（看了一下盤子）……我吃不完。你要幫我吃。')&&J(rel(AN))===J(r0)&&!SOCIAL.has(AN,'REMEMBERED_HER_FOOD')&&H.G.money===m0-PR(OMU,PSR)-PR(OMU,ANR),J({s:said(),m:[m0,H.G.money]}));
   await order(OMU,[ANR,'也幫以安點一份',PSR,'多要一個盤子']);
-  check('1. 點錯（番茄醬的）：小選項照樣出現；「可樂餅的。……好，我吃吃看。」；不扣分、下次還能點',J(H.opts[3])===J(['多要一個盤子','不用'])&&has('可樂餅的。……好，我吃吃看。')&&J(rel(AN))===J(r0)&&!X().right(H.G,AN),J(said()));
+  check('1. 點錯（番茄醬的）：小選項照樣出現；「可樂餅的。好，我吃吃看。」；不扣分、下次還能點',J(H.opts[3])===J(['多要一個盤子','不用'])&&has('可樂餅的。好，我吃吃看。')&&J(rel(AN))===J(r0)&&!X().right(H.G,AN),J(said()));   /* 2026-11-11（X324 G 區，AA_804_food_fav.json@8eab5a25c）：food_fav_lines.js 刪節號拿掉、遊戲照新句。舊期望：「可樂餅的。……好，我吃吃看。」 */
   await order(OMU,[ANR,'也幫以安點一份',ANR,'多要一個盤子']); const r1=rel(AN);
   check('1. 選對：「……你記得。」「那這一半給你。不准說吃不下。」；熟悉 +2、她的戀愛 +1、REMEMBERED_HER_FOOD（吃的，AA_410 第 4 節）',seq(T(L(AN).right))&&r1.fam===r0.fam+2&&r1.npcRom===r0.npcRom+1&&SOCIAL.has(AN,'REMEMBERED_HER_FOOD')&&!SOCIAL.has(AN,'REMEMBERED_HER'),J({s:said(),r0,r1}));
   check('1. 選對的那一次：吃完那一句（只吃得下半份）不說；沒交往＝沒有交往中那一行旁白',!has('這間的咖哩，我只吃得下半份。')&&!has(L(AN).rightDating[0][1]),J(said()));
@@ -122,7 +123,7 @@ await sec(3,async()=>{ const YT='heroine_03', mon=td('Y2S1',3,1), tue=td('Y2S1',
   check('3. 再下一次（別天）自己來：老闆娘「那個社會系的妹妹，每次都叫我多放辣。」「看不出來吧。」→ KNOW_FAV_YT、筆記本「語彤：118牛排的雞排，黑胡椒多加辣。看不出來。」',seq(T(L(YT).know))&&H.said.find(x=>x.t===L(YT).know[0][1]).who==='老闆娘'&&SOCIAL.has(YT,'KNOW_FAV_YT')&&noteOf(YT)==='語彤：118牛排的雞排，黑胡椒多加辣。看不出來。'&&!has(L118.H8.lines[0][1]),J({s:said(),notes}));
   Object.assign(T0,{day:tue+2,weekday:5}); await order(DIAN,[OWN_D]); check('3. 只說一次',!has(L(YT).know[0][1]));
   fresh(mon+7,12.5,'l118_'+DIAN); met(YT); here(YT); await order(DIAN,[OWN_D,'也幫語彤點一份',WRONG_D,CF.heroine_03.opt[0]]);
-  check('3. 點錯：「謝謝。……我吃這個也可以。」',has('謝謝。……我吃這個也可以。'),J(said()));
+  check('3. 點錯：「謝謝。我吃這個也可以。」',has('謝謝。我吃這個也可以。'),J(said()));   /* 2026-11-11（X324 G 區，AA_804_food_fav.json@8eab5a25c）：food_fav_lines.js 刪節號拿掉、遊戲照新句。舊期望：「謝謝。……我吃這個也可以。」 */
   const r0=rel(YT); await order(DIAN,[OWN_D,'也幫語彤點一份',YTR,CF.heroine_03.opt[0]]); const r1=rel(YT);
   check('3. 選對：「……嗯。」「我們家的不敢做這麼辣。阿姨說客人會跑掉。」；熟悉 +2、她的戀愛 +1、REMEMBERED_HER_FOOD；吃完那一句不說',seq(T(L(YT).right))&&r1.fam===r0.fam+2&&r1.npcRom===r0.npcRom+1&&SOCIAL.has(YT,'REMEMBERED_HER_FOOD')&&!has('下午我回社會系館。……這間比我們家的辣。'),J({s:said(),r0,r1}));
   fresh(td('Y1S1',5,1),12.5,'l118_'+DIAN); met(YT); here(YT); check('3. 大一週一：她不是滇香的常客＝沒有',!L118.companions(GM,DIAN).includes(YT)); });
@@ -131,7 +132,7 @@ await sec(3,async()=>{ const YT='heroine_03', mon=td('Y2S1',3,1), tue=td('Y2S1',
 await sec(4,async()=>{ const SIS='heroine_05', tu=td('Y1S1',5,2); const setup=f=>{ fresh(tu,12.55,'lane118',f); met(SIS); here(SIS); };
   setup(); check('4. 前提：大一上平日 12:33 學姊在一一八茶飲',L118.companions(GM,TEA).includes(SIS));
   await order(TEA,[OWN_T,'也幫學姊點一杯',SISR,CF.heroine_05.opt[1]]);
-  check('4. 「也幫學姊點一杯」→ 紅茶拿鐵／檸檬綠／無糖綠茶 →「去冰」「正常冰」；只點：「謝謝。……冰塊我等一下倒掉。」',J(H.opts.slice(1,4))===J([['也幫學姊點一杯','（就這樣）'],MENU(TEA).map(([n,p])=>n+'　'+p+' 元'),CF.heroine_05.opt])&&has('謝謝。……冰塊我等一下倒掉。'),J({o:H.opts,s:said()}));
+  check('4. 「也幫學姊點一杯」→ 紅茶拿鐵／檸檬綠／無糖綠茶 →「去冰」「正常冰」；只點：「謝謝。冰塊我等一下倒掉。」',J(H.opts.slice(1,4))===J([['也幫學姊點一杯','（就這樣）'],MENU(TEA).map(([n,p])=>n+'　'+p+' 元'),CF.heroine_05.opt])&&has('謝謝。冰塊我等一下倒掉。'),J({o:H.opts,s:said()}));   /* 2026-11-11（X324 G 區，AA_804_food_fav.json@8eab5a25c）：food_fav_lines.js 刪節號拿掉、遊戲照新句。舊期望：「謝謝。……冰塊我等一下倒掉。」 */
   await order(TEA,[OWN_T,'也幫學姊點一杯',WRONG_T,CF.heroine_05.opt[0]]); check('4. 點錯：「謝謝。我喝。」',has('謝謝。我喝。'),J(said()));
   const r0=rel(SIS); await order(TEA,[OWN_T,'也幫學姊點一杯',SISR,CF.heroine_05.opt[0]]); const r1=rel(SIS);
   check('4. 選對：「……誰跟你說的。」「她記性比我好。……謝謝。」；熟悉 +2、她的戀愛 +1、REMEMBERED_HER',seq(T(L(SIS).right))&&r1.fam===r0.fam+2&&r1.npcRom===r0.npcRom+1&&SOCIAL.has(SIS,'REMEMBERED_HER'),J({s:said(),r0,r1}));
@@ -149,8 +150,8 @@ await sec(5,async()=>{ const ZQ='heroine_04', oct=D('2025-10-15'), dec=D('2025-1
   const setup=(d,f)=>{ fresh(d,20.5,'cafe',f); met(ZQ); met('heroine_02'); here(ZQ); };
   setup(oct); await cafe(['拿鐵','也幫子晴點一杯','美式','熱的']);
   check('5. 她在 Café：點完自己的「也幫子晴點一杯」→ 拿鐵／美式／熱可可／紅茶（照芷若那一杯 120）／手沖 150（AA_410 第 4 節）→「冰的」「熱的」',J(H.opts.slice(1,4))===J([['也幫子晴點一杯','（就這樣）'],['拿鐵　120 元','美式　120 元','熱可可　120 元','紅茶　120 元','手沖　150 元'],['冰的','熱的']]),J(H.opts));
-  check('5. 十月：沒有看杯子那一句、還不知道；只點美式、熱的：「熱的？……好啦。我等它涼。」',!has(L(ZQ).know[0][1])&&!X().know(H.G,ZQ)&&has('熱的？……好啦。我等它涼。'),J(said()));
-  await cafe(['拿鐵','也幫子晴點一杯','拿鐵','冰的']); check('5. 點錯（拿鐵）：「拿鐵？……好啦，我也喝。」',has('拿鐵？……好啦，我也喝。'),J(said()));
+  check('5. 十月：沒有看杯子那一句、還不知道；只點美式、熱的：「熱的？好啦，我等它涼。」',!has(L(ZQ).know[0][1])&&!X().know(H.G,ZQ)&&has('熱的？好啦，我等它涼。'),J(said()));   /* 2026-11-11（X324 G 區，AA_804_food_fav.json@8eab5a25c）：food_fav_lines.js 刪節號拿掉、遊戲照新句。舊期望：「熱的？……好啦。我等它涼。」 */
+  await cafe(['拿鐵','也幫子晴點一杯','拿鐵','冰的']); check('5. 點錯（拿鐵）：「拿鐵？好啦，我也喝。」',has('拿鐵？好啦，我也喝。'),J(said()));   /* 2026-11-11（X324 G 區，AA_804_food_fav.json@8eab5a25c）：food_fav_lines.js 刪節號拿掉、遊戲照新句。舊期望：「拿鐵？……好啦，我也喝。」 */
   const r0=rel(ZQ), m0=H.G.money; await cafe(['拿鐵','也幫子晴點一杯','熱可可','冰的']);
   check('5. 點錯熱可可：「熱可可是芷若在喝的。……好啦，我也喝。」（AA_410 第 4 節）；不扣分；錢照扣',seq(T(L(ZQ).wrong['熱可可']))&&J(rel(ZQ))===J(r0)&&H.G.money===m0-120-120,J({s:said(),m:[m0,H.G.money]}));
   await cafe(['拿鐵','也幫子晴點一杯','紅茶','冰的']); check('5. 點錯紅茶：「紅茶。……可以。」',seq(T(L(ZQ).wrong['紅茶'])),J(said()));

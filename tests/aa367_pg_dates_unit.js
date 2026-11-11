@@ -30,7 +30,7 @@ const caps=[]; GM.caption=(a,b)=>{ caps.push(b); };
 let paid=[]; GM.money=(n,why)=>{ paid.push([n,why]); };
 const D=k=>PG.DK(k), T=(d,h)=>d*24+h, lab=(d,h)=>PG.dateLabel(d,h);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' / ')); } };
-const SRC='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md', SHA='9aa8ec40c';   /* AA_593 學姊①b（企劃線 9aa8ec40c，AA-B 11-08 05:53；使用者 11-02 第 10 節）：學姊 2029-09 整列刪掉（講上司那句）＝101 句，第 37、39～44 列改字、決4 2030-01 換句；白名單改成 9aa8ec40c（原本 8dce2f94c）*/   /* AA_688 第 2 節：語彤第 3 節整段換，白名單改成 8dce2f94c（原本 1ebcf530）*/   /* AA_472 第 6 節：沛珊 2030-06 前面加「說好的，運河一圈。」，白名單改成 1ebcf530（原本 e6d4a198）*/   /* AA_382 第 3 節：AA 改了十句（哪一個週六都說得通），白名單改成 e6d4a198 */
+const SRC='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md', SHA='4adf447e5';   /* 2026-11-11（X324 G 區，AA_367@4adf447e5）：白名單換版——芷若 2029-12、2030-05、2030-08、2030-11 四句「店長」→「老闆」（2030-05、08 的「她」→「他」）、沛珊 2029-08、2030-01、2030-08 三列照 AA_759 補回。舊期望：9aa8ec40c */   /* AA_593 學姊①b（企劃線 9aa8ec40c，AA-B 11-08 05:53；使用者 11-02 第 10 節）：學姊 2029-09 整列刪掉（講上司那句）＝101 句，第 37、39～44 列改字、決4 2030-01 換句；白名單改成 9aa8ec40c（原本 8dce2f94c）*/   /* AA_688 第 2 節：語彤第 3 節整段換，白名單改成 8dce2f94c（原本 1ebcf530）*/   /* AA_472 第 6 節：沛珊 2030-06 前面加「說好的，運河一圈。」，白名單改成 1ebcf530（原本 e6d4a198）*/   /* AA_382 第 3 節：AA 改了十句（哪一個週六都說得通），白名單改成 e6d4a198 */
 const SIX=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan'];
 check('0. 載入 pg_dates.js、pgdates3d.js；101 個事件（每一格一個；AA_593 學姊 2029-09 刪掉）、PG.stops／PG.RULES 有掛',ok0&&STORY_EVENTS.filter(e=>/^ev_pg_date_/.test(e.id)).length===101&&PG.stops.includes(PGDATE.stopFn)&&Array.isArray(PG.RULES)&&PG.RULES.includes(PGDATE.rulesFn));
 /* ---------- 稿（從 git 讀；測試自己的讀法）---------- */
@@ -43,8 +43,9 @@ const R65={}; { const row=doc523.split('\n').find(l=>l.startsWith('| 6-5 |'))||'
   R65.ok=!!m&&/2029-06/.test(c[3]||'')&&!!cell&&cell.line.startsWith('論文送進圖書館了。'); R65.old=cell&&cell.line; if(R65.ok){ R65.line=m[1]; cell.line=m[1]; } }
 /* 2026-11-11（X327 沛珊重寫，AA_759_peishan_misc2.json@987845b7c）：沛珊每月一格 17 句裡的 12 句照 AA_759 的 old→new 換（import_pg_dates.py 疊的）——稿（AA_367）那 12 格整句等於 old 才換成 new 再比；讀不到 AA_759＝這 12 格會對不上（FAIL），不放寬 */
 let doc759=null; try{ doc759=JSON.parse(cp.execFileSync('git',['-C',process.env.PG_DOC_REPO||H.ROOT,'show','987845b7c:docs/story_planning/AA_759_peishan_misc2.json'],{encoding:'utf8'})); }catch(e){ doc759=null; }
-const R759={n:0,rows:(doc759&&doc759.files['src/data/pg_dates.js'])||[]}; for(const r of R759.rows){ const i=+(/\[(\d+)\]$/.exec(r.where)||[])[1], cell=(DOC.classmate_peishan||[])[i]; if(cell&&cell.line===r.old){ cell.line=r.new; R759.n++; } }
-check('0. AA_759@987845b7c：沛珊每月一格 12 列的 old 都對得到 AA_367 那一格（換成 new 再逐字比）',R759.rows.length===12&&R759.n===12,R759.rows.length+' 列、對到 '+R759.n);
+const R759={n:0,already:[],rows:(doc759&&doc759.files['src/data/pg_dates.js'])||[]}; for(const r of R759.rows){ const i=+(/\[(\d+)\]$/.exec(r.where)||[])[1], cell=(DOC.classmate_peishan||[])[i]; if(cell&&cell.line===r.old){ cell.line=r.new; R759.n++; } else if(cell&&cell.line===r.new) R759.already.push(cell.ym); }
+/* 2026-11-11（X324 G 區，AA_367@4adf447e5）：稿上沛珊 2029-08、2030-01、2030-08 三列 AA 補回時直接寫 AA_759 的 new（「11-11 補回」那一條）＝這三格本來就是 new、不用換；其他 9 格照 old→new 換。舊期望：12 列都是 old、換了 12 */
+check('0. AA_759@987845b7c：沛珊每月一格 12 列的 old 都對得到 AA_367 那一格（換成 new 再逐字比；AA_367@4adf447e5 補回的 2029-08、2030-01、2030-08 三格稿上已經是 new）',R759.rows.length===12&&R759.n===9&&R759.already.join()==='2029-08,2030-01,2030-08',R759.rows.length+' 列、換了 '+R759.n+'、已經是 new '+R759.already.join());
 const docLine=(id,ym)=>((DOC[id]||[]).find(r=>r.ym===ym)||{}).line;
 /* ---------- 存檔 ---------- */
 const fresh=(key,h,flags,who)=>{ const G=H.fresh(key,h,'dorm',Object.assign({MOVED_OUT:D('2029-06-28'),HOME_AFTER:'home',Y4_PATH:'other',PACKED_Y4:D('2029-06-01'),ROOM_Y2:true,ROOM_Y3:true,ROOM_Y4:true},flags||{}));

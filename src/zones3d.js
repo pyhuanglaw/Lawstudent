@@ -2040,6 +2040,10 @@ const Z3 = (function(){
       const mv=L230&&(L230.added||[]).find(q=>q.kind==='plant_moved'&&q.from&&q.from[0]===-6.35&&q.from[1]===0.4), P1=mv?mv.to:[-6.35,0.4];   /* 2:30 AM（cafe230_layout.js v2）：西牆中間那盆搬到拱門北邊 (−6.35, 1.95)，讓出拱門卡座 */
       for(const [px,pz] of [P1,[6.35,-0.5],[-6.3,-2.6]]){ const pt=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.22,0.45,14),pm); pt.position.set(px,0.225,pz); g.add(pt); nav.blockCircle(px,pz,0.3); } }
     if(L230) cafe230Add(E,z,g,nav,L230);
+    /* CAFE-BAR-CAM-1111（LAWWW2 11-11）：天花板下面那一層（水泥大梁深 0.42、風管底 H−0.62：2.78～3.4 m，tools/blender/env_second/aa_support/cafe230_interior.py）當「樓板」給 engine3d.js slabClip——
+       跟隨鏡頭拉高（坐吧檯的人高 0.27，俯角 0.38 就到 3.46 m）穿進這一層時沿著視線拉近，停在梁下面（原本鏡頭在梁旁邊 0.44 m，整個畫面是梁）。
+       站著、預設俯角 0.22 的鏡頭在 2.57 m，碰不到（slabClip 外加 0.15 m：2.63 m 以下照舊）。沒有 levelGroups：這一塊一直有效 */
+    z.slabs=[{lv:0,x0:-7,x1:7,z0:-6,z1:6,y:3.4,t:0.62}];
     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
     if(L230){ cafe230Reg(L230); if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.cafe230_interior']) ASSETS.loadOne('bldg.cafe230_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachCafe230(E,z,g0,root); }).catch(e=>console.warn('2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型',e)); }
     else if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.cafe_interior']) ASSETS.loadOne('bldg.cafe_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachCafeInterior(z,g0,root); }).catch(e=>console.warn('2:30 AM 室內正式模型載入失敗，用程序化備用模型',e));
@@ -2065,9 +2069,15 @@ const Z3 = (function(){
     nav._cm=null; }
   /* 正式模型（attachRoomGLB 之後）：GLOW_* 光暈合成一個網格（照開燈切白天／晚上，和 AA 的公館店一樣 ggAAattach）；窗外的畫（WALL_*_VIEW_*）晚上調暗；
      正面那張畫（z 8.5）不參加牆面淡出、改成窗的零件——溫州街的 3D 街景（cafeStreetLive）載入以後藏起來（不然會蓋住窗外真的街）；牆面淡出時整面藏起來（細木框的殘影，和舊 Café 一樣）*/
+  /* CAFE-BAR-CAM-1111（LAWWW2 11-11；BB 11:2x：吧檯高腳椅坐下以後鏡頭整片是牆，線上 779 就有）：坐吧檯（高腳椅，人高 0.27 m）鏡頭往上調一點（俯角 0.38 左右）就到 3.4 m 以上，
+     天花板的水泥大梁（深 0.42、底在 3.2 m 左右，a23_vc）離鏡頭 0.2～0.6 m、擋住整個畫面；其他方向（鏡頭轉到吧台那一邊、店的後牆外面）還有吧台後面的胡桃木層架（a23_walnut）、
+     風管（a23_vc_metal）、亮面小東西（a23_vc_gloss）、燈泡（a23_bulb）、黃金葛（a23_leaf_pothos）。
+     鏡頭停在梁下面（上面 cafe 的 z.slabs）；剩下擋住的（鏡頭轉到吧台那一邊時的吊燈、層架…）照溫州街 SUNNY SIDE、小路座位鏡頭的做法（WZ-SEAT-CAMS-1104：家具、管線、植物、胡桃木的材質網點透空）：這幾個材質擋在鏡頭和人中間、或離鏡頭 1.7 m 內時網點透空
+     （engine3d.js updateSeeThrough；區域本來就 seeThru:true；比人遠的照常畫——人面前的吧台不會透）。牆（WALL_，本來就淡出）、地板、天花板不動。測試：node tests/cafe_bar_cam_1111_unit.js */
+  const CAFE230_SEETHRU=['a23_vc','a23_vc_metal','a23_vc_gloss','a23_walnut','a23_bulb','a23_leaf_pothos'];
   function attachCafe230(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,'cafe230_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
-    root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(nm&&/^seethru_/.test(nm)&&!mt.userData.seeThrough){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); } if(nm&&/leaf|pothos/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
+    root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(nm&&(/^seethru_/.test(nm)||CAFE230_SEETHRU.includes(nm))&&!mt.userData.seeThrough){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); } if(nm&&/leaf|pothos/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
     const vm=[]; let front=null; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)){ if(/^WALL_front/.test(o.name)) front=o; for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } } });
     /* 窗景卡 a23_window_view（AA v1f 30c2d5998：上半正面溫州街、下半右窗毛玻璃）：晚上換夜版圖、不調暗（和 SUNNY SIDE 一樣，WZ_AA_NIGHTVIEW）；夜版圖載不到或其他窗景卡：照舊調暗 */
     const nv=CAFE230_NIGHTVIEW, nt=wzNightViewTex(nv.url), nvm=nt?vm.filter(m=>m.name===nv.mat):[]; for(const m of nvm){ m.userData.mapDay=m.map; m.userData.emDay=m.emissiveMap; } z.cafe230NightView=nvm.length;

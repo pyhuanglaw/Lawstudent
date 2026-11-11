@@ -145,7 +145,8 @@ await sec('1-2',async()=>{
   check('1-2. 約她去 Café 的通用句：看過 Q6、2026-06-27 以前＝「第二關做好了。你先玩，我還沒給別人看。」；6/27 以後照舊「新版本做好了…」；沒看過 Q6 照舊',b==='第二關做好了。你先玩，我還沒給別人看。'&&a==='新版本做好了。你先玩，我還沒給別人看。'&&n==='（她把耳機的一邊遞給你）',J([b,a,n]));
 });
 await sec('1-3',()=>{ const st=lad('Y1S2',ZQ,'Q2-L5');
-  check('1-3. 閒聊階梯 Q2-L5「我想聽妳彈。」→「……成發那天來。我只彈一次。」（tools/ladder/import_ladder.py 疊的，來源寫 AA_525）',!!st&&st.choices[0].t==='「我想聽妳彈。」'&&st.choices[0].reply==='……成發那天來。我只彈一次。'&&LADDER.source.includes('AA_525@'+SHA),st&&J(st.choices[0])); });
+  /* 2026-11-11（X324，AA_781_zq_ladder_Y1S2.json@15241f32e rows Q2-L5）：回話拿掉刪節號——舊期望「……成發那天來。我只彈一次。」（AA_525 稿的字，上面對稿照舊）*/
+  check('1-3. 閒聊階梯 Q2-L5「我想聽妳彈。」→「成發那天來。我只彈一次。」（AA_525 疊的、AA_781 拿掉刪節號；來源寫 AA_525）',!!st&&st.choices[0].t==='「我想聽妳彈。」'&&st.choices[0].reply==='成發那天來。我只彈一次。'&&LADDER.source.includes('AA_525@'+SHA),st&&J(st.choices[0])); });
 await sec('1-4',async()=>{
   const I=VAC.inst('C05','Y1'), run=async(withMsg,q6)=>{ fresh('2026-08-29',22,{dating_heroine_04:true}); H.FRIEND(ZQ); if(q6) H.G.events.done.ev_ziqing_secret_game=true;
     if(withMsg) H.G.msgs.push({th:'p:'+ZQ,from:ZQ,text:'試玩一下 回來給你玩',tag:'vac_tm_'+I.key+'_heroine_04_p'+(D('2026-08-26')),day:D('2026-08-26'),h:0.67});
@@ -167,8 +168,12 @@ await sec('1-6',async()=>{
   const a=await two(ZQ,'D06','D06.cafe','我請妳'), b=await two(ZQ,'D06','D06.cafe','什麼邏輯');
   /* 2026-11-11（X324 子晴約會台詞重寫，AA 02078efc0）：D06、D15 的 remember 新稿換字（date_rewrite/zq_D06.json 第 45 格、zq_D15.json 第 43、44 格）；沒旗標的備用句照 AA_775_zq_date_common.json 的 S.REMEMBER_IF 兩列換。
      舊期望：D06「上次說要請你吃滷味，十點以後半價那間。」、D15「上次的布丁，今天我要。」「上次說下次的。」；備用句兩處都是「上次也來這裡。」 */
-  check('1-6. D06 第一次選「我請妳。」（「好。下次我請你吃滷味。」）記 ZQ_D06_TREAT；第二次 remember「我說過要請你吃滷味，等一下去，我知道一間。」',a.f1.ZQ_D06_TREAT!=null&&rep('D06','D06.cafe',ZQ,1)==='好。下次我請你吃滷味。'&&J(a.s2)===J(['我說過要請你吃滷味，等一下去，我知道一間。']),J(a.s2));
-  check('1-6. D06 第一次選另一個：不記，第二次換不提約定的「這家的位子我記得，靠牆那桌插座最近。」（AA_775）',b.f1.ZQ_D06_TREAT==null&&J(b.s2)===J(['這家的位子我記得，靠牆那桌插座最近。']),J(b.s2));
+  /* 2026-11-11（AA_812@f1fab0ec6）：回覆拿掉滷味（path_rows：「好。下次我請。」）、remember 改成當場請（改稿紀錄 zq_D06 第 45 格；那一次她請客，tests/date_she_pays_812_1111_unit.js）；旗標、REMEMBER_IF 照舊。
+     舊期望：回覆「好。下次我請你吃滷味。」、remember「我說過要請你吃滷味，等一下去，我知道一間。」 */
+  check('1-6. D06 第一次選「我請妳。」（「好。下次我請。」）記 ZQ_D06_TREAT；第二次 remember「這家我來過兩次了。這次我請，你不要算。」',a.f1.ZQ_D06_TREAT!=null&&rep('D06','D06.cafe',ZQ,1)==='好。下次我請。'&&J(a.s2)===J(['這家我來過兩次了。這次我請，你不要算。']),J(a.s2));
+  /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：S.REMEMBER_IF 拿掉子晴 D06.cafe 那一列＝第一次選另一個（沒旗標）的人再訪也聽 remember 的新句（她當場請）；PICK_FLAG 照記（選「我請妳。」才記 ZQ_D06_TREAT，不再影響台詞）。
+     舊期望：沒旗標第二次換不提約定的「這家的位子我記得，靠牆那桌插座最近。」（AA_775 的 REMEMBER_IF 備用句） */
+  check('1-6. D06 第一次選另一個：不記 ZQ_D06_TREAT；第二次一樣聽 remember 的新句「這家我來過兩次了。這次我請，你不要算。」（她請；AA_812@633b7f7d6：S.REMEMBER_IF 沒有 D06.cafe 那一列）',b.f1.ZQ_D06_TREAT==null&&J(b.s2)===J(['這家我來過兩次了。這次我請，你不要算。'])&&!DATE.REMEMBER_IF.some(r=>r.loc==='D06'||r.pid==='D06.cafe'),J(b.s2));
   const c=await two(ZQ,'D15','D15.store','布丁不行'), d=await two(ZQ,'D15','D15.store','全部我請');
   check('1-6. D15 第一次選「布丁不行。」（「欸，好啦。布丁下次。」）記 ZQ_D15_NEXT；第二次 remember「說好的布丁，這次我要拿了。」「山上的布丁比較好吃，這是我的理論。」',c.f1.ZQ_D15_NEXT!=null&&rep('D15','D15.store',ZQ,1)==='欸，好啦。布丁下次。'&&J(c.s2)===J(['說好的布丁，這次我要拿了。','山上的布丁比較好吃，這是我的理論。']),J(c.s2));
   check('1-6. D15 第一次選「全部我請。」：不記，第二次「布丁還在同一格，我要拿了。」（AA_775）',d.f1.ZQ_D15_NEXT==null&&J(d.s2)===J(['布丁還在同一格，我要拿了。']),J(d.s2));
@@ -307,7 +312,7 @@ await sec('3-7',async()=>{
 await sec('3-8',async()=>{
   check('3-8 K-10. 寒暑假送上車（交往中）「開學我就上去了。台北見。」',HOMETOWN_LINES[KX].send.dating[0]==='開學我就上去了。台北見。');
   const t=JSON.stringify(ev('ev_kexin_trip_summer_y2')||STORY_EVENTS.find(e=>JSON.stringify(e.dialogue||[]).includes('下次找一個我們都沒去過的地方')));
-  check('3-8 K-12. 「……好。下次找一個我們都沒去過的地方。」',JSON.stringify(STORY_EVENTS.map(e=>e.dialogue||[])).includes('……好。下次找一個我們都沒去過的地方。'));
+  check('3-8 K-12. 「好。下次找一個我們都沒去過的地方。」（稿上「……好。下次找一個我們都沒去過的地方。」，X324 G 區 AA_801 拿掉句首「……」）',JSON.stringify(STORY_EVENTS.map(e=>e.dialogue||[])).includes(J(require('./line_rows_expect.js').fwd('……好。下次找一個我們都沒去過的地方。','src/data/r2y3a_events.js'))));   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3a_events.js 第 54 列拿掉句首「……」——遊戲那一句（整格，含 JSON 的引號）＝稿 old→new。舊期望：「……好。下次找一個我們都沒去過的地方。」 */
   const k13=lad('Y1S2',KX,'K2-L8');
   check('3-8 K-13. 閒聊階梯 K2-L8「我去找妳。」→「……真的喔？那我帶你去夜市。」',!!k13&&k13.choices[0].reply==='……真的喔？那我帶你去夜市。');
   const s=stripComments(SRC('src/story3d.js'));

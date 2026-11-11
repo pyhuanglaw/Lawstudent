@@ -144,11 +144,12 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   for(const term of ['Y3S2','Y4S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!PSRW.feedSkip(term,p.id))}), md=doc[term];
     if(!S||!md){ check('0. '+term+' 對稿（'+(term==='Y3S2'?SHA508:SHA)+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
-    const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!AA518_T.has(t));
+    const LR=require('./line_rows_expect.js'), FF='src/data/feed_'+term.toLowerCase()+'.js';   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊大三下 ps1f～ps5f、大四上 ps1g～ps3g 句尾「～」改掉、多一拍（AA_808 feed_y3s2 第 60～64 列、feed_y4s1 第 47～49 列）——①遊戲字先換回稿上的舊句（toOldS）再在稿裡找；②稿那一列往前換成新句（fwdDeep）再和遊戲比；舊稿不改。舊期望：遊戲字本身在稿裡、稿那一列原樣和遊戲比 */
+    const L=strs(S), bad=L.filter(t=>!md.includes(LR.toOldS(t,FF))&&!AA518_T.has(t));
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+(term==='Y3S2'?SHA508:SHA)+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y3S2'?200:160)&&!bad.length,J(bad.slice(0,8)));
     /* ② 稿 → 遊戲：動態表每一列（表下面才寫的另一版：比一般的那一版）*/
     const rows=rowsOf(md).filter(r=>!PSRW.feedSkip(term,expectRow(term,r).id)), wrong=[], wd=[], went={};
-    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
+    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); for(const k of ['pic','say','cm','dm']) e[k]=LR.fwdDeep(e[k],FF);   /* AA_808 往前換（見上）*/ if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when); if(p&&p.went) went[p.id]=p.went;
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null, nw=p&&NOTE_WENT[p.id];
       const same=!!p&&p.who===e.who&&p.st===e.st&&C(nw?base(p.pic):p.pic)===C(e.pic)&&(nw?base(p.say):p.say)===e.say&&C(nw?base(p.cm):p.cm)===C(e.cm)&&C(nw?base(p.dm):p.dm)===C(e.dm)
@@ -279,7 +280,7 @@ await sec('4',async()=>{ if(!HAS2()){ check('4. 私訊',false,'沒有資料'); r
   const st=((((LADDER.byTerm||{}).Y3S2||{}).heroine_03||{}).steps||[]).find(s=>s.id==='Y6-L8');
   const lad=async(pick)=>{ fresh(DK('2028-05-29'),17); who('heroine_03','FRIEND'); H.said=[]; H.picks=[pick]; await STORY.ladPlay(GM,{name:'語彤',charId:'heroine_03'},'heroine_03',st); return {f:H.G.flags.YT6_WITH,said:H.said.map(s=>s.t),mem:SOCIAL.has('heroine_03','YT6_ASK_AUNT')}; };
   const l1=await lad('我可以陪妳問'), l2=await lad('這次她會說');
-  check('4. 閒聊 Y6-L8 選「我可以陪妳問。」→ YT6_WITH；選「這次她會說。」不記；兩個都照原本說完（她的回覆、這一層的記憶 YT6_ASK_AUNT）',!!st&&l1.f===true&&l1.said.includes('……嗯。你坐旁邊就好。不要說話。蘇姨看到你會想泡茶給你喝。')&&l1.mem&&l2.f===undefined&&l2.said.includes('……不知道。可是這次我會等她說完。')&&l2.mem,J({l1,l2}));
+  check('4. 閒聊 Y6-L8 選「我可以陪妳問。」→ YT6_WITH；選「這次她會說。」不記；兩個都照原本說完（她的回覆、這一層的記憶 YT6_ASK_AUNT）',!!st&&l1.f===true&&l1.said.includes('嗯。你坐旁邊就好。不要說話。蘇姨看到你會想泡茶給你喝。')/* 2026-11-11（X324，AA_781_yt_ladder_Y3S2.json@8e027fc7f rows Y6-L8）：拿掉刪節號——舊期望「……嗯。你坐旁邊就好。…」*/&&l1.mem&&l2.f===undefined&&l2.said.includes('……不知道。可是這次我會等她說完。')&&l2.mem,J({l1,l2}));
   fresh(DK('2028-05-29'),17); who('heroine_03','FRIEND'); const st7=(LADDER.byTerm.Y3S2.heroine_03.steps||[]).find(s=>s.id!=='Y6-L8'&&s.choices&&s.choices.length); H.picks=[0]; const ok7=await STORY.ladPlay(GM,{name:'語彤',charId:'heroine_03'},'heroine_03',st7);
   check('4. 別的層照舊（不經過記號）',ok7===true&&H.G.flags.YT6_WITH===undefined);
   const D821=DK('2028-08-21'), D822=D821+1;

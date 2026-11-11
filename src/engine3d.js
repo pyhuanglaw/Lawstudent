@@ -240,6 +240,15 @@ const E3 = (function(){
     if(wm&&wm.length){ const vis=wm.filter(m=>{ for(let o=m;o;o=o.parent){ if(!o.visible) return false; } return true; }); const hits=E.ray.intersectObjects(vis,false); if(hits.length){ const h=hits[0]; return {x:h.point.x,z:h.point.z,y:h.point.y,lv:h.object.userData.walkLv|0,obj:h.object}; } }
     const lv=P?P.lv|0:0, n=navOf(lv); const fy=n?n.y0:0; const pl=new THREE.Plane(UP,-fy); const hit=new THREE.Vector3(); if(E.ray.ray.intersectPlane(pl,hit)) return {x:hit.x,z:hit.z,y:fy,lv}; return null; };
   E.screenRay=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); return E.ray; };
+  /* 畫面上那一點射線第一個打到的東西（TAP-RAY-SEAT-1111，LAWWW2 11-11；game3d.js tapToSeat 判「點到哪張椅子」用）：只打區域的模型（E.zone.group，人不算），
+     不算：自己或上層 visible=false 的（淡出的牆 hideFaded、藏起來的備用模型、別層）、材質不畫的（visible=false、colorWrite=false）、半透明的（玻璃：opacity<0.5）、userData.noTapHit。
+     ray：THREE.Ray；far：只看比這個距離近的（地板那一點的距離）。回傳 three 的 intersection（point、distance、object）或 null */
+  const _tapRC=new THREE.Raycaster();
+  E.rayFirstHit=function(ray,far){ const g=E.zone&&E.zone.group; if(!g||!ray) return null; _tapRC.ray.copy(ray); _tapRC.near=0; _tapRC.far=far>0?far:Infinity; _tapRC.camera=camera||null;
+    const hs=_tapRC.intersectObject(g,true);
+    for(const h of hs){ const o=h.object; if(!o||!o.isMesh) continue; let vis=true; for(let q=o;q;q=q.parent){ if(!q.visible){ vis=false; break; } } if(!vis) continue;
+      const m=Array.isArray(o.material)?o.material[(h.face&&h.face.materialIndex)|0]:o.material; if(!m||m.visible===false||m.colorWrite===false||(m.transparent&&m.opacity<0.5)) continue; if(o.userData&&o.userData.noTapHit) continue; return h; }
+    return null; };
   // ---------- 更新 ----------
   E.onTapGround=null; E.onInteractNear=null; E.frame=0;
   /* 玩家沿路線走一步（點地面、劇情 walkTo 都走這裡）；回傳這一幀有沒有在走。
@@ -259,7 +268,7 @@ const E3 = (function(){
         /* 室內的樓梯（任務 #42）：點在一跑樓梯上＝走完這一跑（點的地方比腳高就走到上面那一端、比較低就走到下面那一端）。
            原本只走到點的那一點：從一樓看不到二樓的地板，只點得到前面幾階，上一層樓要點十幾次（萬才館 14 次、霖澤館 16 次）*/
         const se=hit.obj&&hit.obj.userData.stairEnds; if(se){ const e2=se[hit.y>=P.obj.position.y-0.05?1:0]; tx=e2.x; tz=e2.z; tlv=e2.lv; }
-        let pref=null; if(!se&&E.tapRedirect){ const r=E.tapRedirect(tx,tz,tlv==null?(P.lv|0):tlv,{ray:E.ray.ray,fy:hit.y}); if(r){ tx=r[0]; tz=r[1]; if(r[2]!=null) tlv=r[2]; if(r[3]) pref=r[3]; } }   /* r[3]＝點到的那張椅子（照椅子的高度判的，見 game3d.js tapToSeat）：tapPref 用椅子的位置，不用射線落在地板的那一點（BB 11-11：俯角淺時點椅面，地板落點在椅子後面 1.3 m，按鈕變「點餐」）*/   /* 點在椅子上＝走到那張椅子坐下前站的位置（game3d.js；2026-10-14 v9.6 回歸：點椅子那一格不能站，找路改去最近能站的地方，人走到 2 m 外別張椅子旁邊）*/
+        let pref=null; if(!se&&E.tapRedirect){ const r=E.tapRedirect(tx,tz,tlv==null?(P.lv|0):tlv,{ray:E.ray.ray,fy:hit.y,hit:{x:hit.x,y:hit.y,z:hit.z}}); if(r){ tx=r[0]; tz=r[1]; if(r[2]!=null) tlv=r[2]; if(r[3]) pref=r[3]; } }   /* r[3]＝點到的那張椅子（畫面上那一點實際打到的椅子，見 game3d.js tapToSeat；hit＝地板那一點：比它近才算打到椅子，TAP-RAY-SEAT-1111）：tapPref 用椅子的位置，不用射線落在地板的那一點（BB 11-11：俯角淺時點椅面，地板落點在椅子後面 1.3 m，按鈕變「點餐」）*/   /* 點在椅子上＝走到那張椅子坐下前站的位置（game3d.js；2026-10-14 v9.6 回歸：點椅子那一格不能站，找路改去最近能站的地方，人走到 2 m 外別張椅子旁邊）*/
         E.moveTo(P,tx,tz,null,tlv); P.tapPref={x:pref?pref.x:hit.x,z:pref?pref.z:hit.z,lv:tlv==null?(P.lv|0):tlv,zone:E.zone&&E.zone.id};   /* 點的那個位置：走到以後，範圍重疊的互動以離點的位置最近的為準（nearestInteractable；BB-C 10-28 main_day12：點床走過去，停在床底下紙箱那一側，按鈕是紙箱不是睡覺）*/ P.run=Math.hypot(tx-P.obj.position.x,tz-P.obj.position.z)>16||input.runToggle; if(E.onTapGround) E.onTapGround(Object.assign({},hit,{x:tx,z:tz,lv:tlv})); } } }
     // 直接操控
     let mv=tmpV.set(0,0,0); if(!P.busy&&E.cam.mode==='follow'){ if(input.keys['w']||input.keys['arrowup']) mv.z-=1; if(input.keys['s']||input.keys['arrowdown']) mv.z+=1; if(input.keys['a']||input.keys['arrowleft']) mv.x-=1; if(input.keys['d']||input.keys['arrowright']) mv.x+=1; if(input.joy.active){ mv.x+=input.joy.x; mv.z+=input.joy.y; } }
@@ -285,14 +294,33 @@ const E3 = (function(){
       /* 半步（STAIR-LEVEL-AUDIT-1111，LAWWW2 11-11）：低幀率跑步一步 0.6 m 以上，整步跨過頭（例：大口二樓樓梯頂右側直接接牆，整步落在牆裡、兩層都站不住）就整個停住、差半步上不去——
          整步、換層、沿牆滑都不行時，試走一半（這一層站得住，或換到另一層站得住）。只在一步超過 0.2 m 時試（高幀率照舊）*/
       const half=()=>{ if(Math.hypot(dx*sp*dt,dz*sp*dt)<=0.2) return false; const hx=o.position.x+dx*sp*dt/2, hz=o.position.z+dz*sp*dt/2; if(cs(hx,hz)||(E.levels&&switchLevel(ent,hx,hz,r))){ o.position.x=hx; o.position.z=hz; ent.blockedAt={x:nx,z:nz,slide:'half'}; return true; } return false; };
-      if(cs(nx,nz)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(E.levels&&switchLevel(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(mx&&cs(nx,o.position.z)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&cs(o.position.x,nz)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mz&&switchLevel(ent,o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mx&&switchLevel(ent,nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(half()) { /* 走了半步 */ } else { ent.blockedAt={x:nx,z:nz,slide:'none'};   /* BUG-MOKUYOBI-STAIR-STUCK-1111（BB 11-11 PC 三次重現：木曜日樓梯頂 (−3.35, 2.876) lv0，搖桿斜著往店裡推 20 秒不動）：斜著推時完整的一步撞到旁邊的牆、換層只試完整那一步——沿牆滑的那一步（只有 z 或只有 x）在這一層站不住、在另一層站得住也要換層（原本只在同一層滑），不然靠著扶手那一側走到樓梯頂就卡住 */
+      /* cornerSlip 讓開中（見下面）：推的方向沒變就先走完讓開的那一段，走到了或推的方向變了就恢復平常的走法 */
+      const slipGo=()=>{ const F=ent._slip; if(!F) return false; if(F.dx*dx+F.dz*dz<0.8){ ent._slip=null; return false; } const ddx=F.x-o.position.x, ddz=F.z-o.position.z, dd=Math.hypot(ddx,ddz);
+        if(dd<1e-3){ ent._slip=null; return false; } const stp=Math.min(dd,sp*dt), qx=o.position.x+ddx/dd*stp, qz=o.position.z+ddz/dd*stp; if(!cs(qx,qz)){ ent._slip=null; return false; }
+        o.position.x=qx; o.position.z=qz; ent.blockedAt={x:nx,z:nz,slide:'slip'}; if(dd-stp<1e-3){ ent._slip=null; ent._slipPref={ax:F.ax,dx:F.dx,dz:F.dz}; } return true; };
+      /* 讓開以後先沿著讓出來的那一軸走（不然下一步「只走 x／只走 z」會先試往角裡那一軸、又滑回角裡）；整步走得通、推的方向變了、那一軸也擋了就恢復平常 */
+      const slipPref=()=>{ const P=ent._slipPref; if(!P) return false; if(P.dx*dx+P.dz*dz<0.8){ ent._slipPref=null; return false; }
+        if(P.ax==='z'&&mz&&cs(o.position.x,nz)){ o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; return true; } if(P.ax==='x'&&mx&&cs(nx,o.position.z)){ o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; return true; }
+        ent._slipPref=null; return false; };
+      if(ent._slip&&slipGo()) { /* 讓開中 */ }
+      else if(cs(nx,nz)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; ent._slipPref=null; } else if(E.levels&&switchLevel(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(ent._slipPref&&slipPref()) { /* 讓開以後沿著那一軸 */ } else if(mx&&cs(nx,o.position.z)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&cs(o.position.x,nz)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mz&&switchLevel(ent,o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mx&&switchLevel(ent,nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(half()) { /* 走了半步 */ } else { ent.blockedAt={x:nx,z:nz,slide:'none'};   /* BUG-MOKUYOBI-STAIR-STUCK-1111（BB 11-11 PC 三次重現：木曜日樓梯頂 (−3.35, 2.876) lv0，搖桿斜著往店裡推 20 秒不動）：斜著推時完整的一步撞到旁邊的牆、換層只試完整那一步——沿牆滑的那一步（只有 z 或只有 x）在這一層站不住、在另一層站得住也要換層（原本只在同一層滑），不然靠著扶手那一側走到樓梯頂就卡住 */
         // 擦到家具或格子的角：前進方向再往左或右偏一點（最多 0.48 m，導航格是 0.5 m）就過得去時，往空的那一側讓開（正面撞平的牆時偏移也過不去，不會亂滑）
         const px=-dz, pz=dx; let side=0; for(const e of [0.08,0.16,0.24,0.32,0.4,0.48]){ if(cs(nx+px*e,nz+pz*e)){ side=1; break; } if(cs(nx-px*e,nz-pz*e)){ side=-1; break; } }
         if(side){ const lat=Math.min(0.18,sp*dt*0.8), lx=o.position.x+px*side*lat, lz=o.position.z+pz*side*lat; if(cs(lx,lz)){ o.position.x=lx; o.position.z=lz; ent.blockedAt.slide='corner'; } }
         // 還是過不去（v9.3 #31：宿舍書桌後面的窄縫，玩家沿牆滑進去之後，往哪個正方向推都過不去，永久卡住）：前進方向往左右各偏 30°／50°／70° 試一步，
         // 站得住就走。每個方向都還有往前的分量；正面頂著平的牆或在牆角時這些方向都過不去，所以不會亂滑；只移到站得住的位置，不穿牆。
         // 目前位置本身站不住（卡在阻擋格裡）時不用這個，交給 escapeOK（否則可能從阻擋格被帶進另一個小空隙）
-        else if(!stuckIn(ent)){ const st=Math.hypot(nx-o.position.x,nz-o.position.z); for(const a of [0.52,-0.52,0.87,-0.87,1.22,-1.22]){ const c=Math.cos(a), sn=Math.sin(a), rx=dx*c-dz*sn, rz=dx*sn+dz*c, tx=o.position.x+rx*st, tz=o.position.z+rz*st; if(cs(tx,tz)){ o.position.x=tx; o.position.z=tz; ent.blockedAt.slide='turn'; break; } } } } } else { o.position.x=nx; o.position.z=nz; }
+        else if(!stuckIn(ent)){ const st=Math.hypot(nx-o.position.x,nz-o.position.z); for(const a of [0.52,-0.52,0.87,-0.87,1.22,-1.22]){ const c=Math.cos(a), sn=Math.sin(a), rx=dx*c-dz*sn, rz=dx*sn+dz*c, tx=o.position.x+rx*st, tz=o.position.z+rz*st; if(cs(tx,tz)){ o.position.x=tx; o.position.z=tz; ent.blockedAt.slide='turn'; break; } } }
+          /* 繞過家具的外角（MOKU-PLANT-CORNER-1111，LAWWW2 11-11；只在區域開了 cornerSlip、只有玩家）：站得住只看人的前後左右四點（NavGrid.clear），所以家具的外角斜對面有一小塊站得進去；
+             站在那裡斜著往角推（木曜日：植物東南角往樓梯推），整步、只走 x、只走 z、往左右偏都還碰到家具＝一步都不動。
+             這時往旁邊讓開（另一軸、和推的方向相反那一邊——離開家具）：讓開 0.34／0.45／0.55 m 以後那一軸走得通 0.6 m（外角）才讓，讓到那裡為止（下面 slipGo 接著走，
+             中途不再試往角裡滑，不然會一步往外一步往裡來回）；牆角（內角）讓開以後還是擋著，不讓（不會被推著亂跑）。先試讓開以後走推的方向比較大的那一軸，不行再試另一軸 */
+          if(ent.blockedAt.slide==='none'&&ent===E.player&&E.zone&&E.zone.cornerSlip){ const px0=o.position.x, pz0=o.position.z, mv=Math.max(Math.hypot(nx-px0,nz-pz0),0.1); let fs=null;
+            for(const [ax,dS,dT] of Math.abs(dx)>=Math.abs(dz)?[['z',dz,dx],['x',dx,dz]]:[['x',dx,dz],['z',dz,dx]]){ if(fs) break; if(Math.abs(dS)<1e-3||Math.abs(dT)<1e-3) continue; const sg=dS>0?-1:1;
+              for(const off of [0.34,0.45,0.55]){ const tx=ax==='x'?px0+sg*off:px0, tz=ax==='z'?pz0+sg*off:pz0, ux=ax==='z'?Math.sign(dT):0, uz=ax==='x'?Math.sign(dT):0; if(!cs(tx,tz)) continue;
+                let free=true; for(let k=1;k<=6&&free;k++) free=cs(tx+ux*0.1*k,tz+uz*0.1*k);   /* 讓開以後那一軸要走得通 0.6 m（外角：沿著家具的邊一路過去）；牆角讓開以後走不了幾步又撞牆＝不讓 */
+                if(free){ fs={x:tx,z:tz,dx,dz,ax:ax==='z'?'x':'z'}; break; } } }
+            if(fs){ ent._slip=fs; slipGo(); } } } } else { o.position.x=nx; o.position.z=nz; }
     settleY(ent,dt);
     flatYaw(o); const targetYaw=Math.atan2(dx,dz); let d=targetYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*12); }
   /* 人物只轉 y：rotation 變成 (±π, y, ±π)（四元數換回 Euler、超過 ±90° 的朝向）時改回 (0, π−y, 0)——看起來的方向一樣，之後改 rotation.y 才是真的轉向（2026-10-18 路人往後走）。騎車的側傾（z 小角度）不動 */

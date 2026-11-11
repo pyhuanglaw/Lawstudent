@@ -32,7 +32,11 @@ const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf('
 const LOCS=Array.from({length:33},(_,k)=>'D'+String(k+1).padStart(2,'0'));
 const leaves=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>leaves(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) leaves(x[k],p+'/'+k,o); else o[p]=x; return o; };
 const texts=(x,o)=>{ if(Array.isArray(x)) x.forEach(v=>texts(v,o)); else if(x&&typeof x==='object'){ if(typeof x.text==='string') o.push(x.text); for(const k in x) if(k!=='text') texts(x[k],o); } return o; };
-const NOW=DL(read('src/data/date_lines.js'));
+/* 2026-11-11（AA_812@f1fab0ec6）：懸著的「下次我請」七格（date_src_sha.js 的 CELLS_812：學姊、子晴 D06.cafe remember，沛珊 D15.store、D21.street，可昕 D15 收尾，子晴 D06 第一次選項的回覆，語彤 D10.boat remember）
+   是匯入工具最後一步疊上去的（改稿紀錄 date_rewrite/ 和稿的 path_rows；源稿 Dxx.json 沒有重新 apply）——這支的逐字對稿、和重匯以前比，NOW 先用 un812 把那七格還原成舊字再比
+   （只有那一格現在剛好是新字才還原，不是＝照舊會紅）；那七格現在＝新字下面另外驗（逐格、她請客在 tests/date_she_pays_812_1111_unit.js）。舊期望：直接拿 NOW 比 */
+const NOW812=DL(read('src/data/date_lines.js')), NOW=require('./date_src_sha.js').un812(NOW812);
+check('0. AA_812 那七格（CELLS_812）現在是新字（還原成舊字以後才拿 NOW 和源稿、重匯以前比）',require('./date_src_sha.js').CELLS_812.length===7&&require('./date_src_sha.js').CELLS_812.every(r=>require('./date_src_sha.js').cell812(NOW812,r)===r.new&&require('./date_src_sha.js').cell812(NOW,r)===r.old),JSON.stringify(require('./date_src_sha.js').CELLS_812.map(r=>require('./date_src_sha.js').cell812(NOW812,r))));
 const SRC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); }
 const haveSrc=Object.keys(SRC).length===33;
 
@@ -175,6 +179,10 @@ const haveSrc=Object.keys(SRC).length===33;
     const rows=A.files['src/data/pg_dates.js'], idx=rows.map(x=>+(/\[(\d+)\]$/.exec(x.where)||[])[1]);
     check('11. pg_dates.js：稿上 12 列（第 0、1、2、4、5、7、9、10、12、13、14、16 格）的句子一字不差',rows.length===12&&J(idx)===J([0,1,2,4,5,7,9,10,12,13,14,16])&&rows.every((x,i)=>cells[idx[i]].line===x.new),J(rows.filter((x,i)=>cells[idx[i]].line!==x.new).map(x=>x.where)));
     const ob=show(BASE,'src/data/pg_dates.js'); if(ob){ const O=JSON.parse(ob.slice(ob.indexOf('const PG_DATES=')+15,ob.lastIndexOf(';')));
-      check('11. pg_dates.js：沛珊其他 5 格、每一格的月份和註、別人（五位＋可昕）和 BASE 一樣',cells.every((c,i)=>c.ym===O.six[PS][i].ym&&c.note===O.six[PS][i].note&&(idx.includes(i)?O.six[PS][i].line===rows[idx.indexOf(i)].old:c.line===O.six[PS][i].line))&&Object.keys(O.six).filter(k=>k!==PS).every(k=>J(O.six[k])===J(PGD.six[k]))&&J(O.kexin)===J(PGD.kexin)); } });
+      /* 2026-11-11（X324 G 區，AA_367@4adf447e5）：源稿換版重匯——芷若 2029-12、2030-05、2030-08、2030-11 四格「店長」→「老闆」。別人的格子先照 AA_367 9aa8ec40c→4adf447e5 那幾格換（BASE 那一格＝舊稿那一格才換）再和 BASE 比；芷若剛好換 4 格、別人沒換。舊期望：別人和 BASE 一字不差 */
+      const P367=SP+'AA_367_畢業以後的交往節奏_六位.md', cell367=sha=>{ const o={}; let who=null; for(const l of String(show(sha,P367)||'').split('\n')){ const m=l.match(/^## (\d)\. .*（(\w+)）\s*$/); if(m){ who=m[2]; continue; } if(l.startsWith('## ')){ who=null; continue; } const r=l.match(/^\| (20\d\d-\d\d) \| 「(.*)」(（[^）]*）)? \|$/); if(r&&who) (o[who]||(o[who]={}))[r[1]]=r[2]; } return o; };
+      const C0=cell367('9aa8ec40c'), C1=cell367('4adf447e5'), fix367=(id,a)=>(a||[]).map(x=>{ const o=(C0[id]||{})[x.ym], n=(C1[id]||{})[x.ym]; return o&&n&&o!==n&&x.line===o?Object.assign({},x,{line:n}):x; });
+      const ch367=Object.keys(O.six).filter(k=>k!==PS).map(k=>k+':'+fix367(k,O.six[k]).filter((x,i)=>x.line!==O.six[k][i].line).map(x=>x.ym).join(',')).filter(x=>!/:$/.test(x));
+      check('11. pg_dates.js：沛珊其他 5 格、每一格的月份和註、別人（五位＋可昕）和 BASE 一樣（X324 G 區芷若四格照 AA_367@4adf447e5 換過再比）',cells.every((c,i)=>c.ym===O.six[PS][i].ym&&c.note===O.six[PS][i].note&&(idx.includes(i)?O.six[PS][i].line===rows[idx.indexOf(i)].old:c.line===O.six[PS][i].line))&&Object.keys(O.six).filter(k=>k!==PS).every(k=>J(fix367(k,O.six[k]))===J(PGD.six[k]))&&J(ch367)===J(['heroine_02:2029-12,2030-05,2030-08,2030-11'])&&J(O.kexin)===J(PGD.kexin),J(ch367)); } });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

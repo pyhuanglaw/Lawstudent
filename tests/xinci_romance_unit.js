@@ -154,7 +154,7 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     const m=(H.G.msgs||[]).find(x=>x.tag==='xc_blank_again'); const r=m&&PHONE.answer(H.G,'xc_blank_again',0); const trip=(H.G.trips||[]).find(t=>t.who===XC&&t.day===d4);
     check('6. 3-5 後補（AA_548）：大四上第 6 週週六 14:00「今天晚上七點，西門町。……我還是一個人。」→ 回「我也去。」記 XC_BLANK、那天排 D04 約會（約 19:00 到）',!!m&&m.text==='今天晚上七點，西門町。……我還是一個人。'&&DOC548.includes('今天晚上七點，西門町。……我還是一個人。')&&!!r&&H.G.flags.XC_BLANK===true&&!!trip&&J(trip.locs)===J(['D04'])&&trip.depart<19&&trip.depart>=18,J([m&&m.text,trip&&[trip.locs,trip.depart,trip.kind]]));
     { const ev6=STORY_EVENTS.find(e=>e.id==='ev_xinci_first_place'); H.fresh('2028-05-04',19.2,'noodle',{introDone:true}); H.said=[]; H.picks=[0,'我可以一起']; await EVENTS.run(ev6);
-      check('6. 3-5（AA_548）：線打開時慈 6「暑期實習」最後多「實習是週一到週五。」「週六晚上，我還是會去西門町，看七點那一場。」→「我可以一起嗎？」→「……可以。不要遲到。」、記 XC_BLANK',J(T().slice(-3))===J(['實習是週一到週五。','週六晚上，我還是會去西門町，看七點那一場。','……可以。不要遲到。'])&&H.G.flags.XC_BLANK===true,J(T())); } });
+      check('6. 3-5（AA_548）：線打開時慈 6「暑期實習」最後多「實習是週一到週五。」「週六晚上，我還是會去西門町，看七點那一場。」→「我可以一起嗎？」→「可以。不要遲到。」、記 XC_BLANK',J(T().slice(-3))===J(['實習是週一到週五。','週六晚上，我還是會去西門町，看七點那一場。','可以。不要遲到。'])&&H.G.flags.XC_BLANK===true,J(T())); } });   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……可以。不要遲到。」 */
 
   /* ===== 第 7 節：第 2 段 3-4 G7「沒有提前一天」===== */
   await sec(7,async()=>{ const wed=(()=>{ for(let k=1;k<=7;k++){ const d=STORY.termDay('Y3S1',14,k); if(CALENDAR.dateOf(d).wd%7===3) return d; } return null; })();

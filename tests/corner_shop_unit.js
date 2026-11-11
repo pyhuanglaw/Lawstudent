@@ -16,6 +16,8 @@
 //   10 台詞逐字對照 AA_725（git show bf5c3e6c6；讀不到就 SKIP）
 // 修改前（corner-1107 的基底 f149bf8e4）：沒有 corner_records 區域、門口沒有按鈕、GG2 沒有轉角唱片、沒有約會地點——第 1～10 節都 FAIL。
 // 用法：node tests/corner_shop_unit.js
+/* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 照覆蓋層拿掉刪節號、換句——答應句的期望包 OE.fwd（舊期望＝裡面的字），逐字對稿時「新字的舊字在稿上」也算（OE.inDoc；tests/overlay_expect.js）*/
+const OE=require('./overlay_expect.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 const rd=p=>fs.readFileSync(path.join(ROOT,p),'utf8'), J=x=>JSON.stringify(x), r2=v=>+(+v).toFixed(2);
@@ -226,7 +228,7 @@ const run=async()=>{
       check('9 一起的時候照 AA_708 書店第 N 次的中途（invites3d.js S.actKind＝bookstore，和頁間、山嵐一樣）',INV.actKind({},P)==='bookstore'&&INV.actKind({},INV.place('bookstore'))==='bookstore');
       check('9 不是兩個人單獨（吃飯、散步）那一類：partnerBlock 不擋（和頁間一樣）',!(INVITE_DATA.soloKinds||[]).includes(P.kind)&&!INV.partnerBlock(fresh('2025-10-15',12,'campus',{dating_heroine_01:true}),'heroine_03',P));
       const ACC={heroine_01:'好。……我不太懂音樂，你不要笑。',heroine_02:'轉角唱片？好。我想找一張電影原聲帶。',heroine_03:'好。……我喜歡那間的味道。舊紙的味道。',heroine_04:'好！我要找遊戲配樂的靈感。',heroine_05:'好。……讀累了，聽一點音樂也好。',classmate_peishan:'好啊！我想找動畫的原聲帶！',kexin:'好啊。我想找一張老唱片。'};   /* 11-10 AA_731：答應句不寫週末（BUG-INV-ACC-TIME-1110）*/
-      const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,P,d+1,15.5,{res:'accept'}); return !(o&&J(o.lines)===J([ACC[id]])); });
+      const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,P,d+1,15.5,{res:'accept'}); return !(o&&J(o.lines)===J([OE.fwd('invites',id,ACC[id])])); });
       check('9 約去轉角唱片答應：七位各自那一句（AA_725 第 8 節）',!bad.length,J(bad.map(id=>[id,(INV.personal(G,id,P,d+1,15.5,{res:'accept'})||{}).lines])));
       const o=INV.personal(G,'zhe',P,d+1,15.5,{res:'accept'}); check('9 沒列的人（阿哲）＝一般那句「唱片行？好啊。我沒去過。」',o&&J(o.lines)===J(['唱片行？好啊。我沒去過。']),J(o&&o.lines));   /* 有名字說的不加外面的「」（TEXT-QUOTE-UNIFY-1108 第三批，GG2.ACC0）*/
       check('9 可昕交往中：列得出來（有她自己的答應句）',!INV.kxPlaceOk||INV.kxPlaceOk(G,P));
@@ -241,7 +243,7 @@ const run=async()=>{
       C.door.forEach(T); Object.values(C.browse).forEach(a=>a.forEach(T)); C.browseOpts.forEach(T); T(C.listen.start); T(C.listen.stand); T(C.listen.again); Object.values(C.listen.g).forEach(T); T(C.listen.end);
       T(C.ask150); T(C.ask250); C.bought.forEach(b=>T(b[1])); T(C.short); T(C.asking); Object.values(C.look).forEach(a=>a.forEach(T)); Object.values(C.seat).forEach(T); T(C.sign); T(C.typhoon); T(GG2.ACC0[ZID]);
       Object.values(INVITE_DATA.cornerAcc||{}).forEach(T); [].concat(...INVITE_DATA.seatOpen[ZID]).forEach(T);
-      const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>doc.indexOf(t)<0&&doc.indexOf(strip(t))<0);
+      const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>!OE.inDoc('invites',null,t,t=>doc.indexOf(t)>=0||doc.indexOf(strip(t))>=0));
       check('10 台詞逐字在 AA_725 裡（'+out.length+' 句：進門、翻唱片、三個選項、試聽、買、錢不夠、櫃台、看音響、坐下、木門、颱風、答應、開場句；打烊是 AA_700 那一句）',!bad.length&&out.length>=50,J(bad));
       check('10 說話的人：稿上「店員：」的那幾句都是店員說；打烊照稿「店員：我們今天要打烊了。」',['這張嗎？……一百五。','這張的 B 面比較好聽。','……下次再來帶走也可以，我先幫你放櫃台後面。','找什麼類型？……沒有要找也可以，慢慢看。'].every(t=>doc.indexOf('店員：「'+t+'」')>=0)&&doc.indexOf('「這張兩百五。」')>=0&&doc.indexOf('店員：我們今天要打烊了。')>=0&&!/我們九點關門喔/.test(rd('src/gg2shops3d.js')));
       check('10 價錢照稿：一般 150、爵士和原聲帶 250',/一般 150；爵士、原聲帶 250/.test(doc)&&GG2.crPrice('indie')===150&&GG2.crPrice('folk')===150&&GG2.crPrice('jazz')===250&&GG2.crPrice('ost')===250&&GG2.crPrice('wall')===150); } }

@@ -40,7 +40,8 @@ const count=(o,t)=>{ let n=0; const w=x=>{ if(J(x)===J(t)&&typeof x===typeof t&&
         check('2. '+f+' '+id+'：剛好一則、是沛珊的、cm／dm 各兩句',p.length===1&&p[0].who===PS&&p[0].cm.length===2&&p[0].dm.length===2&&typeof p[0].say==='string');
         if(r) check('2. '+f+' '+id+'：pic、say、cm、dm、貼文時間一字照稿',p[0].pic===r.new.pic&&p[0].say===r.new.say&&J(p[0].cm)===J(r.new.cm)&&J(p[0].dm)===J(r.new.dm)&&p[0].t===r.new.t,J(p[0]));
         if(o) check('2. '+f+' '+id+'：id、who、st 和重寫以前一樣；日期沒變、只改鐘點；其他欄位沒有多沒有少',p[0].who===o.who&&p[0].st===o.st&&p[0].t.slice(0,10)===o.t.slice(0,10)&&J(Object.keys(p[0]).sort())===J(Object.keys(o).sort()),J([p[0].t,o.t,p[0].st,o.st])); }
-      if(O){ const rest=x=>J(x.posts.filter(q=>!IDS[f].includes(q.id))); check('2. '+f+'：其他貼文（'+(D.posts.length-IDS[f].length)+' 則）沒有動、順序沒有動',rest(D)===rest(O)&&J(D.posts.map(q=>q.id))===J(O.posts.map(q=>q.id))); } }
+      /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：其他貼文裡沛珊的句尾「～」照 AA_808 改了（feed_y1s1 3 列、feed_y1s2 5 列、feed_y3s1 6 列、feed_y3s2 9 列、feed_pg 8 列）——BASE 先照 AA_807／808 換過（line_rows_expect.js fixFile）再比。舊期望：其他貼文和 BASE 原樣一字不差 */
+      if(O){ const Of=feedOf(f,require('./line_rows_expect.js').fixFile('src/data/'+f,ob)), rest=x=>J(x.posts.filter(q=>!IDS[f].includes(q.id))); check('2. '+f+'：其他貼文（'+(D.posts.length-IDS[f].length)+' 則）沒有動、順序沒有動（AA_808 那幾句除外）',rest(D)===rest(Of)&&J(D.posts.map(q=>q.id))===J(O.posts.map(q=>q.id))); } }
     const y32=feedOf('feed_y3s2.js').posts.find(x=>x.id==='ps4f'); check('2. ps4f 的 say 是空字串（照稿）',y32.say===''); });
 
   await sec(3,async()=>{ const DATA={
@@ -82,7 +83,7 @@ const count=(o,t)=>{ let n=0; const w=x=>{ if(J(x)===J(t)&&typeof x===typeof t&&
       check('4. 骨架和重寫以前一樣：條件（years、custom、dtOnly、call）、地點、背景、CG 的判斷、blackout、禮物的名字／價錢／ok、home 都沒動（只差七夕交往中多一句）',so===sc,(()=>{ let i=0; while(i<so.length&&so[i]===sc[i]) i++; return so.slice(Math.max(0,i-40),i+60)+' ≠ '+sc.slice(Math.max(0,i-40),i+60); })());
       const other=s=>s.slice(0,s.indexOf('    /* ---------------- 第 8 節 郭沛珊'))+s.slice(s.indexOf('    /* ---------------- 第 9 節 杜可昕'));
       /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：芯慈情人節約的地點名照 AA_772 第 107 列換了（巷口家常菜→五湖四海）——BASE 先照白名單上的 AA_772 換過再比（tests/l118_redo772_expect.js）。舊期望：其他人的段落和 BASE 一字不差 */
-      check('4. fest_events.js 其他人的段落沒有動（AA_772 那一列除外）',other(cur)===require('./l118_redo772_expect.js').fixFile('src/data/fest_events.js',other(ob))); }
+      check('4. fest_events.js 其他人的段落沒有動（AA_772 那一列除外）',other(cur)===require('./line_rows_expect.js').fixFile('src/data/fest_events.js',require('./l118_redo772_expect.js').fixFile('src/data/fest_events.js',other(ob)))/* X324 G 區 AA_794 芷若店長→老闆也算 */); }
     check('4. 巧克力照舊 ok:false、800 元；白色情人節的 CG（cg_last_page_peishan）兩處條件照舊',B.includes("{id:'choco',name:'一盒很貴的巧克力',price:800,ok:false,")&&B.split("cg('cg_last_page_peishan',G=>!tainan(G)&&!F(G,'PS_WHITE_CG'))").length===3&&B.includes("blackout:['2026-12-17','2027-08-06']")); });
 
   await sec(5,async()=>{ const OLDW=/早餐店|蛋餅|煎台|四點半|喜鵲|豆漿|蘿蔔糕/;

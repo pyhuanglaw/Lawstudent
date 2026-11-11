@@ -66,8 +66,12 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
     if(A) check('4. tools/story/import_gifts.py --check：照白名單重匯的結果＝現在的 gift_lines.js（AA_766 那一層疊在 AA_710 上）；檔頭寫了來源',ok&&read(GF).includes('AA_766_peishan_leftover2.json@'+SHA),out.slice(0,200));
     const ob=show(BASE,GF); if(ob){ const P=t=>JSON.parse(t.slice(t.indexOf('const GIFT_LINES=')+17,t.lastIndexOf(';'))), lv=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>lv(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) lv(x[k],p+'/'+k,o); else o[p]=x; return o; };
       /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 第 95～97 列把品項「紅茶拿鐵」改名「鮮奶茶」（語彤、學姊那幾格）——BASE 先照白名單上的 AA_772 換過再比（tests/l118_redo772_expect.js）。舊期望：直接和 BASE 比 */
-      const a=lv(P(require('./l118_redo772_expect.js').fixFile(GF,ob)),'',{}), b=lv(P(read(GF)),'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);
-      check('4. 整份資料和 BASE 比：格子一樣多，只差沛珊這一格（別人的、朋友六位的沒動）',J(Object.keys(a))===J(Object.keys(b))&&J(d)===J(['/people/'+PS+'/drink/fav/lines/1'])&&a[d[0]]==='……我家早餐店也有賣。我從小喝到大的。',J(d)); } });
+      const a=lv(P(require('./l118_redo772_expect.js').fixFile(GF,ob)),'',{}), b=lv(P(read(GF)),'',{}), d0=Object.keys(b).filter(k=>a[k]!==b[k]);
+      /* 2026-11-11（X324 G 區，AA 31c1c4e2c）：AA_710 源稿改了句首「……」18 處、可昕一句（白名單換 SHA 重匯）——那幾格照 AA_710 be775af69→31c1c4e2c 逐格的改動算對，/src 跟著換；讀不到那兩版＝照舊期望。舊期望：和 BASE 只差沛珊這一格 */
+      const o710=show('be775af69','docs/story_planning/AA_710_gifts.json'), n710=show('31c1c4e2c','docs/story_planning/AA_710_gifts.json'), ch=new Set();
+      if(o710&&n710&&/AA_710_gifts\.json@31c1c4e2c/.test(b['/src']||'')){ const x=lv(JSON.parse(o710),'',{}), y=lv(JSON.parse(n710),'',{}); for(const k in y) if(x[k]!==y[k]) ch.add(x[k]+'→'+y[k]); }
+      const d=d0.filter(k=>!(ch.size&&(k==='/src'||(k!=='/people/'+PS+'/drink/fav/lines/1'&&ch.has(a[k]+'→'+b[k])))));
+      check('4. 整份資料和 BASE 比：格子一樣多，只差沛珊這一格（別人的、朋友六位的沒動；AA_710 31c1c4e2c 改的那幾格照源稿的改動）',J(Object.keys(a))===J(Object.keys(b))&&J(d)===J(['/people/'+PS+'/drink/fav/lines/1'])&&a[d[0]]==='……我家早餐店也有賣。我從小喝到大的。',J(d)); } });
 
   await sec(5,async()=>{
     check('5. D4CQ、沛珊送禮的句子裡沒有早餐店、蛋餅、煎',!/早餐店|蛋餅|煎/.test(J(D4CQ))&&!/早餐店|蛋餅|煎台/.test(J(GIFT_LINES.people[PS])),J(D4CQ).match(/.{0,10}(早餐店|蛋餅|煎).{0,10}/g)); });
@@ -76,13 +80,21 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
     check('6a. 沛珊大四下早上的招呼：「'+NEWG+'」剛好一則、06～08 點（只換字）；舊句整份階梯都不在了；大四上那一則照舊是「早。我八點的課，今天居然趕上了。」',hit.length===1&&J(hit[0].time)===J([6,8])&&!J(LADDER).includes(OLDG)&&LADDER.byTerm.Y4S1[PS].greet.when.filter(x=>x.t==='早。我八點的課，今天居然趕上了。').length===1,J(w.map(x=>x.t)));
     const gc=read('src/data/greet_classday.js'), GC=JSON.parse(gc.slice(gc.indexOf('const GREET_CLASSDAY=')+21,gc.lastIndexOf(';'))), L=GC.classDay[PS]||[];
     check('6a. 「只在上課日說」跟著新句子走：大四上、大四下兩句都在 greet_classday.js 的 classDay，舊句不在；匯入工具 --check 一樣',L.includes(NEWG)&&L.includes('早。我八點的課，今天居然趕上了。')&&!L.includes(OLDG)&&(()=>{ try{ return /OK\s*$/.test(cp.execFileSync('python3',['tools/story/import_greet_classday.py','--check'],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']})); }catch(e){ return false; } })(),J(L));
-    const ob=show(BASE,'src/data/ladder.js'); if(ob){ const a=ob.split(OLDG).length-1, b=read('src/data/ladder.js').split(NEWG).length-1; check('6a. ladder.js 和 BASE 比：舊句原本剛好一處（大四下），現在新句剛好一處；除了這一句和來源說明以外一字不差',a===1&&b===1&&((x,y)=>x===y)(...[ob.split(OLDG).join(NEWG),read('src/data/ladder.js')].map(t=>t.slice(t.indexOf('const LADDER=')).replace(/"source": "[^"]*"/,'')))); }
+    /* 2026-11-11（X324，AA_781 閒聊階梯通用層，tests/ladder_aa781_1111_unit.js 逐列對稿＋零差異）：AA_781 有稿的那幾格（人×學期）另外換了字——比之前兩邊都拿掉那幾格。
+       舊期望：整份 ladder.js（除了這一句和來源說明）一字不差。沛珊沒有 AA_781 的稿，她的每一格照樣整格比 */
+    const ob=show(BASE,'src/data/ladder.js'); if(ob){ const a=ob.split(OLDG).length-1, b=read('src/data/ladder.js').split(NEWG).length-1;
+      const W781={an:'heroine_01',kx:'kexin',zr:'heroine_02',zq:'heroine_04',sis:'heroine_05',yt:'heroine_03'}, C781=JSON.parse(read('docs/handoff/story_import_allow.json')).files.map(e=>/AA_781_([a-z]+)_ladder_(Y\dS[12])\.json$/.exec(e.path)).filter(Boolean).map(m=>[m[2],W781[m[1]]]);
+      const strip=t=>{ const o=new Function(t+';return LADDER;')(); delete o.source; for(const [term,who] of C781){ if(term==='Y1S1'){ delete o.characters[who]; } else if(o.byTerm[term]) delete o.byTerm[term][who]; } delete o.byTerm.Y1S1; return JSON.stringify(o); };
+      check('6a. ladder.js 和 BASE 比：舊句原本剛好一處（大四下），現在新句剛好一處；除了這一句、來源說明、AA_781 有稿的 '+C781.length+' 格以外一字不差',a===1&&b===1&&C781.every(([t,w])=>!!w&&w!==PS)&&strip(ob.split(OLDG).join(NEWG))===strip(read('src/data/ladder.js'))); }
     const m2=read('src/data/msg2_pool.js'), R=new Function(m2.replace(/^'use strict';/m,'')+';return MSG2_POOL;')().people[PS].replies, ny=R.filter(e=>e.topic==='newyear'&&e.ask);
     check('6b. 沛珊新年快樂（交往中）的回問「今年你想做什麼？」：選「把書念完。」→「好無聊的答案。我記下來了，年底驗收。」；選「還沒想好。」→「那我過幾天再問一次。你躲不掉。」（選項的字、回問那一句、那一則的字不動）',ny.length===1&&ny[0].tier==='L'&&ny[0].ask.q==='今年你想做什麼？'&&J(ny[0].ask.opts)===J([{t:'把書念完。',r:['好無聊的答案。我記下來了，年底驗收。']},{t:'還沒想好。',r:['那我過幾天再問一次。你躲不掉。']}])&&J(ny[0].msgs)===J(['新年快樂。新的一年第一件事：你今年想做什麼？我要聽認真的。'])&&!!ny[0].aaReply,J(ny.map(e=>e.ask)));
     const camp=read('src/data/camp_y1.js'), mr=read('src/data/msg_replies.js');
     check('6b. 別的檔的「好。我記下來了。」沒動到：宿營關主學姊三處（camp_y1.js）、msg_replies.js 一處',camp.split("{speaker:'關主學姊',text:'好。我記下來了。'}").length-1===3&&mr.split('"好。我記下來了。"').length-1===1);
-    const ob2=show(BASE,'src/data/msg2_pool.js'); if(ob2){ const a=m2.split('\n'), b=ob2.split('\n'), d=a.filter((l,i)=>l!==b[i]);
-      check('6b. msg2_pool.js 和 BASE 比：一樣多行，只有沛珊新年快樂那一行不同；msg_replies.js、camp_y1.js 和 BASE 一樣',a.length===b.length&&d.length===1&&/"topic": ?"newyear"/.test(d[0])&&d[0].includes('年底驗收')&&show(BASE,'src/data/msg_replies.js')===mr&&show(BASE,'src/data/camp_y1.js')===camp,String(d.length)); }
+    /* 2026-11-11（X324 D 區，AA_709 企劃線 c4772dc7e）：msg_replies.js 後來照 AA_709 重匯，八個人的回話（say）換字——和 BASE 比改成「拿掉 say 和來源以後一樣」（text、選項的字、rel 沒動）。舊期望：整檔和 BASE 一樣 */
+    const MR=s=>{ const o=new Function(s.replace(/^'use strict';/m,'')+';return MSG_REPLIES;')(); delete o.src; for(const k in o.people) for(const e of o.people[k]) for(const q of e.opts||[]) delete q.say; return J(o); };
+    /* 2026-11-11（X324 D 區，AA_785_msg_pools.json）：msg2_pool.js 照覆蓋層換了幾格（換過的那一則多一格 "ov"）——和 BASE 比的時候那幾行不算（逐格在 tests/msg_overlay_1111_unit.js）。舊期望：只有沛珊新年快樂那一行不同 */
+    const ob2=show(BASE,'src/data/msg2_pool.js'), obm=show(BASE,'src/data/msg_replies.js'); if(ob2){ const a=m2.split('\n'), b=ob2.split('\n'), d=a.filter((l,i)=>l!==b[i]&&!/"ov": \[/.test(l));
+      check('6b. msg2_pool.js 和 BASE 比：一樣多行，只有沛珊新年快樂那一行不同；camp_y1.js 和 BASE 一樣；msg_replies.js 和 BASE 比只有回話（say，AA_709 X324 D 區）不同',a.length===b.length&&d.length===1&&/"topic": ?"newyear"/.test(d[0])&&d[0].includes('年底驗收')&&!!obm&&MR(obm.split('媽媽來了。她坐最後一排。……就是我叫你坐的那個位子。').join('媽媽來了。不進來，站在門外從小窗看了兩節，以為我沒發現。'))/* 2026-11-11（AA_709@31f1a4aca 跟 AA_810 公開課媽媽在門外）：沛珊那一則的原文 text 也換了（回覆靠它對私訊）。舊期望：text 和 BASE 一樣 */===MR(mr)&&show(BASE,'src/data/camp_y1.js')===camp,String(d.length)); }
     const y2=read('src/y2b3d.js').replace(/\/\*[\s\S]*?\*\//g,'');
     check('6c. src/y2b3d.js 的舊副本 S.PS_TAINAN 刪掉了（程式裡沒有 PS_TAINAN、沒有舊句「這邊的紅茶很甜喔」）；現行的台南資料在 hometown_lines.js（tests/bg107_unit.js 第 3 項）',!/PS_TAINAN\b(?!_)/.test(y2)&&!y2.includes('這邊的紅茶很甜喔')&&read('src/data/hometown_lines.js').includes("first:{scene:'台南・她的學校',bg:'tn_school'")); });
   H.done();

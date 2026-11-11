@@ -244,7 +244,7 @@ const Y2B_EVENTS=(function(){
   const CAPSTONE={ id:'ev_ziqing_capstone', title:'畢業專題要交哪一個', participants:['heroine_04'], location:'cafe', trigger:'auto', once:true, background:'blur',
     prereq:{stage:{npc:'heroine_04',min:'FRIEND'},custom:G=>at(G,'2027-11-09',19.25,20)},
     dialogue:[ {unless:{custom:G=>Q6(G)||done(G,'ev_ziqing_dad_stuck')},speaker:'heroine_04',text:'……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'},   /* AA_376 #4：Q8b（10/6～10/8 爸爸卡關，含三天都沒去的手機版）已經說過的不再當新消息（同閒聊階梯 Q5-L1 的判斷）*/
-      {if:{custom:G=>done(G,'ev_ziqing_dad_stuck')},speaker:'heroine_04',text:'……上次跟你說的那個遊戲。'},
+      {if:{custom:G=>done(G,'ev_ziqing_dad_stuck')},speaker:'heroine_04',text:'上次跟你說的那個遊戲。'},
       {speaker:'heroine_04',text:'畢業專題。我要交那隻貓。'},
       {speaker:'heroine_04',text:'安全。好玩。一定會過。'},
       {speaker:null,text:'（她看著筆電上兩個資料夾，一個叫「cat」，一個沒有名字。）'},
@@ -270,7 +270,7 @@ const Y2B_EVENTS=(function(){
            AA_117 C5 老實的「要她同意，講清楚怎麼用。細節我不確定，問法服。」沒有另外放（和 BB_98 那一句方向一樣、兩句連著會重複；BB_98 4-2 寫「兩份統一以這裡為準」）*/
       {speaker:'手機筆記',text:'誰：'},{speaker:'手機筆記',text:'向誰：學妹'},{speaker:'手機筆記',text:'依據什麼：'},{speaker:'手機筆記',text:'請求什麼：請學妹同意，講清楚怎麼用（能不能放進要賣的遊戲、要不要寫名字）'},
       {choice:[{text:'「妳會不會被告，我不確定。我們問法服。」',set:{ZQ_C5_WHO:'honest'},goto:'mw1'},{text:'「這件事的主角是學妹。那是她的歌，是妳要請她同意。」',set:{ZQ_C5_WHO:'her'},goto:'mw2'}]},
-      {label:'mw1'},{speaker:'heroine_04',text:'……好。可是我比較想知道，她會不會開心。'},{goto:'mb'},
+      {label:'mw1'},{speaker:'heroine_04',text:'好。可是我比較想知道，她會不會開心。'},{goto:'mb'},
       {label:'mw2'},{speaker:'heroine_04',text:'……對耶。我一直在想我自己。'},
       {label:'mb'},
       {choice:[{text:'「法律上大概是：要她同意、講清楚怎麼用。……可是妳真正想要的是什麼？」',goto:'mb1'},{text:'「要講清楚：能不能放進要賣的遊戲、能不能改編、要不要寫名字。」',if:{flags:['U_COPYRIGHT']},goto:'mb2'}]},
@@ -279,7 +279,7 @@ const Y2B_EVENTS=(function(){
       {speaker:null,text:'（她想了很久。）'},
       {speaker:'heroine_04',text:'……我想要她的歌在我的遊戲裡，而且她很開心。'},
       {speaker:'player',text:'那妳們先把說好的事寫下來。誰做什麼、做完歸誰、可不可以放在別的地方。'},
-      {speaker:'heroine_04',text:'……你們法律系講話都這樣嗎？'},
+      {speaker:'heroine_04',text:'你們法律系講話都這樣嗎？'},
       {speaker:'player',text:'這次是大三的講法。'},
       {speaker:null,text:'（她當天晚上就去找學妹。學妹開心到尖叫，兩個人寫了一頁「說好的事」。）'},
       {set:{ZQ_MUSIC_CREDIT:true}} ] };

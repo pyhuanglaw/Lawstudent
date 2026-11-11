@@ -36,7 +36,11 @@ const A731=[["好。九點，不要遲到。", "好。不要遲到。"], ["早�
   /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊 invites.js 四處五句（firstAt.brunch 兩句、acc.brunch.A／R、acc.run_avenue）和 invite_replies.js 同句的 ps5、ps9 換了字——和 BASE 比的時候這五句照新稿算（逐字比對 tests/peishan_feed_misc_1111_unit.js） */
   ["她翻蛋的時候手腕都不動耶。我媽也是。", "你看她翻蛋，手腕都不動欸。"], ["我到現在還學不會。", "我在家試過一次，蛋飛到抽油煙機上，我媽到現在還會講。"], ["早餐店的女兒，去吃別人的早午餐。……好，我去研究。", "早午餐！好啊，那種不用太早起的我最可以。"], ["好。我想看他們的蛋怎麼翻。", "好啊。我想坐吧台，可以看他們做。"], ["好啊！早上我很習慣，在家的時候四點半就要起來幫忙開店。", "好啊！可是你要打給我，我鬧鐘要響三次才起得來。"]];
 A731.push(...require('./peishan_rewrite_1111.js').PAIRS);   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS）：事件、零散檔案裡她的句子換了字，和 BASE 比的時候照新稿算 */
-const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; if(!A731._772){ A731._772=true; A731.push(...require('./l118_redo772_expect.js').rows); }   /* 2026-11-11：AA_772 的 fix 列（白名單上的版本）照新稿算 */ const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&s(b)===n||(a.includes(o)&&a.split(o).join(n)===b))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
+/* 2026-11-11（X324 D 區）：覆蓋層（白名單 overlay:true 的稿：AA_783 invites／invite_replies、AA_784 invites；tests/overlay_expect.js 讀，不手抄）換的字，和 BASE 比的時候照稿算。逐列對稿在 tests/invite_overlay_1111_unit.js */
+A731.push(...['invites','invite_replies'].flatMap(f=>require('./overlay_expect.js').rows(f).map(r=>[r.old,r.new])));
+/* 同一格先被前面的稿（AA_731、AA_772 fix）換過、再被覆蓋層換一次（例：子晴 daybreak「早上？……十點以後可以。」→ AA_731「Daybreak？……好。我會起來。」→ AA_784「Daybreak？好。我會起來。」）：OVS＝把覆蓋層的舊字整句換成新字，接在前面那一步後面 */
+const OVR=['invites','invite_replies'].flatMap(f=>require('./overlay_expect.js').rows(f)).sort((x,y)=>y.old.length-x.old.length), OVS=t=>typeof t==='string'?OVR.reduce((x,r)=>x.split(r.old).join(r.new),t):t;
+const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; if(!A731._772){ A731._772=true; A731.push(...require('./l118_redo772_expect.js').rows); }   /* 2026-11-11：AA_772 的 fix 列（白名單上的版本）照新稿算 */ const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&(s(b)===n||OVS(n)===s(b))||(a.includes(o)&&(a.split(o).join(n)===b||OVS(a.split(o).join(n))===b)))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
 const CHANGED=['src/data/invites.js','src/invites3d.js','src/libquiet3d.js','src/y2r2_3d.js','src/data/bbpack_events.js','src/data/zrzq_events.js','src/data/encounters.js','src/legal3d.js'];
 const gitShow=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
 const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
@@ -273,8 +277,8 @@ function cmp772(A0,B0,same){ const A=rekey772(A0), B=rekey772(B0), mA=new Map(),
     m=/^INVITE_DATA\.places\[(l118_[a-z0-9_]+)\]\.noWho\.([^.]+)$/.exec(p); if(m){ if(b===undefined) return true; return (((PL772.places[m[1]]||{})[m[2]]||{}).no||'').replace(/^「|」$/g,'')===String(b).replace(/^「|」$/g,''); }
     m=/^INVITE_DATA\.seatOpen\.byPlace\.(l118_[a-z0-9_]+)$/.exec(p); if(m) return a===undefined&&b==='meal'&&!!IPN[m[1]]&&!IPN[m[1]].walk;
     /* E6 */
-    if(/^INVITE_DATA\.people\.heroine_04\.first\.slowread\.2$/.test(p)||/^INVITE_DATA\.slowreadLines\.heroine_04\.first\.2$/.test(p)) return b===(R772.d.fix.find(r=>/第三句：/.test(r.old))||{}).new;
-    if(typeof a==='string'&&typeof b==='string'){ const na=R772.fix(strip772(a)), nb=strip772(b); if(na===nb) return true;
+    if(/^INVITE_DATA\.people\.heroine_04\.first\.slowread\.2$/.test(p)||/^INVITE_DATA\.slowreadLines\.heroine_04\.first\.2$/.test(p)) { const n3=(R772.d.fix.find(r=>/第三句：/.test(r.old))||{}).new; return b===n3||b===OVS(n3); }   /* 2026-11-11：X324 覆蓋層（AA_784）再拿掉刪節號（OVS）*/
+    if(typeof a==='string'&&typeof b==='string'){ const na=R772.fix(strip772(a)), nb=strip772(b); if(na===nb||OVS(na)===nb) return true;   /* 2026-11-11：AA_772 換過以後再被 X324 覆蓋層換一次（OVS）*/
       if(/classmate_peishan/.test(p)&&na.split(",10)) alt={day:d,h:10};").join(",19)) alt={day:d,h:19};")===nb) return true; }
     return false; };
   for(const [p,ea] of mA){ const eb=mB.get(p); if(!eb){ if(!explained(p,ea[1],undefined)) bad.push('現在沒有了：'+p+'：'+String(ea[1]).slice(0,80)); continue; } if(ea[1]===eb[1]||same(ea,eb,p)){ pairs.push([ea,eb]); continue; } if(explained(p,ea[1],eb[1])){ pairs.push([ea,eb,true]); continue; } bad.push('不一樣：'+p+'：'+String(ea[1]).slice(0,80)+' → '+String(eb[1]).slice(0,80)); }
@@ -336,7 +340,7 @@ const findC6=()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format
      AA_772／AA_721 換了字的句子和新地點的句子另外驗：現在的 S.narrLine 對它們的分法＝新的寫法（整句一對（）才是旁白）*/
   { const r=cmp772(IO,IN,(a,b)=>(a[1]===OUTL.old&&b[1]===OUTL.now)||aa731(a[1],b[1])); bad.push(...r.bad);
     const whole=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') d++; else if(ch==='）'){ d--; if(d===0) return i===t.length-1; } } return false; };
-    for(const [a,b,ch0] of r.pairs){ const changed=ch0||(a[1]!==b[1]&&typeof a[1]==='string'&&R772.fix(a[1],1)===b[1]);   /* AA_772 換過字的（例：前面加（小聲））*/ if(changed){ if(b[2]!==whole(b[1])) bad.push('分法不對（換過字的句子）：'+b[0]+'：'+b[1]); continue; } if(a[2]!==b[2]) bad.push('分法不一樣：'+b[0]+'：'+b[1]); if(a[3]!==b[3]||a[4]!==b[4]) lq.push(b[0]+'：'+b[1]); }
+    for(const [a,b,ch0] of r.pairs){ const changed=ch0||(a[1]!==b[1]&&typeof a[1]==='string'&&(R772.fix(a[1],1)===b[1]||OVS(R772.fix(a[1],1))===b[1]||OVS(a[1])===b[1]));   /* 2026-11-11：AA_772 換過、再被 X324 覆蓋層換（OVS）的也算換過字 */   /* AA_772 換過字的（例：前面加（小聲））*/ if(changed){ if(b[2]!==whole(b[1])) bad.push('分法不對（換過字的句子）：'+b[0]+'：'+b[1]); continue; } if(a[2]!==b[2]) bad.push('分法不一樣：'+b[0]+'：'+b[1]); if(a[3]!==b[3]||a[4]!==b[4]) lq.push(b[0]+'：'+b[1]); }
     for(const b of r.onlyB) if(b[2]!==whole(b[1])) bad.push('分法不對（新地點的句子）：'+b[0]+'：'+b[1]); }
   const nNarr=IN.filter(x=>x[2]).length, nParen=IN.filter(x=>typeof x[1]==='string'&&x[1][0]==='（').length;
   check('30. S.narrLine 的輸入（INVITE_DATA、INVITE_REPLIES、改時間的回覆、ACC0、學姊婉拒、一起走路：'+IN.length+' 句，（ 開頭 '+nParen+'、旁白 '+nNarr+'）：BASE 的程式拿 BASE 的字、現在的程式拿現在的字，每一句分法一樣；字只差這一句',

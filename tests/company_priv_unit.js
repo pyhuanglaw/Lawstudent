@@ -408,7 +408,7 @@ await sec('8. 第 7 項 交往中的那一版：旁邊有人說一般版',async(
     R7.push(['招呼',g1!==GT&&!!g1&&g2===GT]);
     fresh(TD('Y2S2',5,2),15,'campus'); H.CLOSE('heroine_01'); SOCIAL.meet('heroine_01','campus'); H.date('heroine_01'); const s4=PRIVTALK.ladStep(H.G,'heroine_01','A4-L5'), ch=s4&&s4.choices.find(c=>c.t==='「妳跟我講話好像也是。」');
     crowd('heroine_01',['yu']); const r1=ch&&STORY.ladReply(s4,ch,H.G,'heroine_01'); crowd('heroine_01',false); const r2=ch&&STORY.ladReply(s4,ch,H.G,'heroine_01');
-    R7.push(['回覆 A4-L5',r1==='真的？我自己沒發現。'&&r2==='真的？……跟你講話本來就不用敬語啊。']);
+    R7.push(['回覆 A4-L5',r1==='真的？我自己沒發現。'&&r2==='真的？跟你講話本來就不用敬語啊。']);   /* 2026-11-11（X324，AA 回 LAWWW 原話指定）：交往版拿掉刪節號——舊期望「真的？……跟你講話本來就不用敬語啊。」*/
     const e=NEEDED_MSGS.list.find(x=>x.who==='heroine_01'&&x.missDating&&x.miss); crowd('heroine_01',['yu']); const m1=STORY.neededMissFor(H.G,e,'heroine_01'); crowd('heroine_01',false); const m2=STORY.neededMissFor(H.G,e,'heroine_01');
     R7.push(['沒回那一句',!!e&&J(m1)===J(e.miss)&&J(m2)===J(e.missDating)]);
     crowd('heroine_01',['yu']); const syn={id:'T7-X',lines:[],linesIf:[{if:{flags:['dating_heroine_01']},lines:['（交往中才有的那一版）']}]}, m3=STORY.neededMissFor(H.G,{id:'t7',missDating:['MD']},'heroine_01');

@@ -24,7 +24,11 @@ const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf('
 const LOCS=Array.from({length:33},(_,k)=>'D'+String(k+1).padStart(2,'0'));
 const leaves=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>leaves(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) leaves(x[k],p+'/'+k,o); else o[p]=x; return o; };
 const of=(D,k,who)=>{ const o={}; for(const part of ['lines','likes','dislikeLine']) if(D[part]&&D[part][who]!=null) leaves(D[part][who],part,o); return o; };
-const NOW=DL(read('src/data/date_lines.js'));
+/* 2026-11-11（AA_812@f1fab0ec6）：懸著的「下次我請」七格（date_src_sha.js 的 CELLS_812：學姊、子晴 D06.cafe remember，沛珊 D15.store、D21.street，可昕 D15 收尾，子晴 D06 第一次選項的回覆，語彤 D10.boat remember）
+   是匯入工具最後一步疊上去的（改稿紀錄 date_rewrite/ 和稿的 path_rows；源稿 Dxx.json 沒有重新 apply）——這支的逐字對稿、和重匯以前比，NOW 先用 un812 把那七格還原成舊字再比
+   （只有那一格現在剛好是新字才還原，不是＝照舊會紅）；那七格現在＝新字下面另外驗（逐格、她請客在 tests/date_she_pays_812_1111_unit.js）。舊期望：直接拿 NOW 比 */
+const NOW812=DL(read('src/data/date_lines.js')), NOW=CS.un812(NOW812);
+check('0. AA_812 那七格（CELLS_812）現在是新字（還原成舊字以後才拿 NOW 和源稿、重匯以前比）',CS.CELLS_812.length===7&&CS.CELLS_812.every(r=>CS.cell812(NOW812,r)===r.new&&CS.cell812(NOW,r)===r.old),JSON.stringify(CS.CELLS_812.map(r=>CS.cell812(NOW812,r))));
 const SRC={}, OLDSRC={}, REC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'), r=show(SHA,SP+'date_rewrite/yt_'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLDSRC[k]=JSON.parse(u); if(r) REC[k]=JSON.parse(r); }
 const haveSrc=Object.keys(SRC).length===33&&Object.keys(OLDSRC).length===33&&Object.keys(REC).length===33;
 const ob=show(BASE,'src/data/date_lines.js'), WAS=ob?DL(ob):null;
@@ -89,7 +93,8 @@ const D14C=p=>/^lines\/closing\//.test(p);
     const bad=[]; for(const v of DATE.ARRIVE_VAR){ const F=(((NOW.loc[v.loc]||{}).lines||{})[v.who]||{}).arrive, T=F&&F.first?F.first.lines.map(x=>x.text):[]; if(!v.from.every(t=>T.includes(t))) bad.push('ARRIVE_VAR '+v.loc+' '+v.who); }
     for(const r of DATE.PICK_FLAG){ const h=((((NOW.loc[r.loc]||{}).lines||{})[r.who]||{}).hotspots||{})[r.pid], c=h&&h.first&&h.first.choice||[]; if(!c.some(x=>x.t===r.t)) bad.push('PICK_FLAG '+r.loc+' '+r.who+' '+r.t); }
     for(const r of DATE.REMEMBER_IF){ const h=((((NOW.loc[r.loc]||{}).lines||{})[r.who]||{}).hotspots||{})[r.pid]; if(!(h&&h.remember&&h.remember.lines&&h.remember.lines.length)) bad.push('REMEMBER_IF '+r.loc+' '+r.who+' '+r.pid); }
-    check('4. 原本的 ARRIVE_VAR（沛珊 D28、可昕 D32）、PICK_FLAG、REMEMBER_IF（子晴 D06／D15、沛珊 D05）重匯以後都還對得上資料',DATE.ARRIVE_VAR.length===2&&DATE.PICK_FLAG.length===3&&DATE.REMEMBER_IF.length===3&&bad.length===0,J(bad));
+    /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：S.REMEMBER_IF 拿掉子晴 D06.cafe 那一列（再訪不分第一次選了什麼都聽 remember 的新句、她請；PICK_FLAG 照記 ZQ_D06_TREAT）——REMEMBER_IF 剩 2 筆（子晴 D15、沛珊 D05），D06.cafe 那一列不在。舊期望：REMEMBER_IF 3 筆（子晴 D06／D15、沛珊 D05） */
+    check('4. 原本的 ARRIVE_VAR（沛珊 D28、可昕 D32）、PICK_FLAG、REMEMBER_IF（子晴 D15、沛珊 D05；AA_812@633b7f7d6 拿掉子晴 D06.cafe 那一列）重匯以後都還對得上資料',DATE.ARRIVE_VAR.length===2&&DATE.PICK_FLAG.length===3&&DATE.REMEMBER_IF.length===2&&!DATE.REMEMBER_IF.some(r=>r.loc==='D06'||r.pid==='D06.cafe')&&bad.length===0,J(bad));
     const a5=read('src/aa524_3d.js'), boat=NOW.loc.D10.lines[YT].hotspots['D10.boat'];
     check('4. aa524_3d.js 的 remember 多一句（y9）：拿語彤 D10 天鵝船第一次選的「我請。」比——這個選項新稿沒換字，還在第二個；回覆照稿',a5.includes("{key:'y9',loc:'D10',who:'heroine_03',pid:'D10.boat',pick:'「我請。」',x:{narr:'（這次她先去付了錢。）'}}")&&boat.first.choice.length===2&&boat.first.choice[1].t==='「我請。」'&&boat.first.choice[1].reply[0].text==='那下次我請。謝謝。'&&!!(boat.remember&&boat.remember.lines.length),J(boat.first.choice));
     check('4. aa524_3d.js 的 rem 只有兩筆（芷若 D04、語彤 D10）；芷若那一筆的選項也還在',(a5.match(/\{key:'[a-z0-9]+',loc:'D\d\d',who:'/g)||[]).length===2&&NOW.loc.D04.lines.heroine_02.hotspots['D04.snack'].first.choice.some(c=>c.t==='「下次換我請。」'));

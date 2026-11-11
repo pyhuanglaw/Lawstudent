@@ -87,7 +87,7 @@ const NEW={
       '問了好幾年，終於看到人了。'],
   Y2:['說好一起看的。','……我開視訊。','（畫面裡是她家的窗戶。遠處的煙火很小，聲音晚了一秒才傳過來。）','這樣算一起嗎。','算。','……嗯。','不算。','我知道。'],
   Y3:['店休。……說好要出去的。','刷完這一排就走。','（刷完椅子，你們去河濱走了一圈。）'],
-  Y4:['去年想帶你去的那個地方，我後來自己去了。','那張椅子還是空的。','……下次你要來。'],   /* AA_630 H-018（an_yt_hol_events.js ev_yt_vday_y4 整段換成）：YT_VDAY_Y3 no／missed 那三句 */
+  Y4:['去年想帶你去的那個地方，我後來自己去了。','那張椅子還是空的。','下次你要來。'],   /* AA_630 H-018（an_yt_hol_events.js ev_yt_vday_y4 整段換成）：YT_VDAY_Y3 no／missed 那三句 */   /* 2026-11-11（X324 G 區，AA_802_sis_b4_anyt.json@f2a55c1e7）：an_yt_hol_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……下次你要來。」 */
   Y5:['今天我待到打烊。',   /* AA_630（位置 src/aa524_3d.js）：語彤在茶屋上班，不顧店 */
       '我過去。','今天不行。','嗯。','（你到的時候，她在收院子的坐墊。蘇姨在裡面算錢。）','你真的來了。'],
   Y6:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。'],
@@ -179,7 +179,9 @@ await sec('A3',async()=>{
 });
 await sec('A4',async()=>{
   fresh('2026-03-02',12); H.FRIEND(AN); H.date(AN); await ladPlay('Y1S2',AN,'A2-L1',['下次做給我吃']);
-  check('A4. 閒聊階梯 A2-L1 選「下次做給我吃。」＝記 AN_COOK_PROMISE（交往中那一句照舊）',H.G.flags.AN_COOK_PROMISE===true&&mem(AN,'AN2_TOMATO_EGG')&&has('練好了先煮給你吃。'),J(said()));
+  /* 2026-11-11：AA_781_an_ladder_Y1S2.json 第一版（15241f32e／a5e537856）把「練好了先煮給你吃。」換成「現在還不能給別人吃。我自己吃都覺得有點鹹。」，這裡曾跟著改；
+     AA 再改（4bfb18805，回 LAWWW：有 AN_COOK_PROMISE 記著、A3-L8 兌現）那一列拿掉＝回到原句，期望也回到原本的 has('練好了先煮給你吃。') */
+  check('A4. 閒聊階梯 A2-L1 選「下次做給我吃。」＝記 AN_COOK_PROMISE（交往中那一句照舊）',H.G.flags.AN_COOK_PROMISE===true&&mem(AN,'AN2_TOMATO_EGG')&&has('練好了先煮給你吃。')&&!has('現在還不能給別人吃。我自己吃都覺得有點鹹。'),J(said()));
   const L=STORY.ladLines(step('Y2S1',AN,'A3-L8'),H.G,AN);
   check('A4. A3-L8（番茄炒蛋那一版）交往中＋有旗標：lines 後面多兩句',J(L.slice(-2))===J(NEW.A4)&&L.indexOf('我媽說這次換我煮給她吃，可是我只會番茄炒蛋。')>=0,J(L));
   ROM.end(H.G,AN,'test'); const L2=STORY.ladLines(step('Y2S1',AN,'A3-L8'),H.G,AN);
@@ -340,11 +342,13 @@ await sec('Z5',async()=>{
   L=await d04({ZR_Z11B:'with'},'player'); check('Z5. 玩家自己約的 D04 不演',L.indexOf(NEW.Z5[0])<0,J(L));
   L=await d04({ZR_Z11B:'who'}); check('Z5. 選「那妳想跟誰看？」不演',L.indexOf(NEW.Z5[0])<0,J(L));
   fresh('2028-04-24',15,{},{zone:'cafe'}); H.FAMILIAR(ZR); await runEv('ev_zhiruo_third_row',['下次我陪妳']);
-  check('Z5. 旗標從哪來：Z11b「下次我陪妳。」→「……那你要坐倒數第三排喔。我習慣那裡。」、ZR_Z11B with（照舊）',H.G.flags.ZR_Z11B==='with'&&has('……那你要坐倒數第三排喔。我習慣那裡。'));
+  check('Z5. 旗標從哪來：Z11b「下次我陪妳。」→「那你要坐倒數第三排喔。我習慣那裡。」、ZR_Z11B with（照舊）',H.G.flags.ZR_Z11B==='with'&&has('那你要坐倒數第三排喔。我習慣那裡。'));   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……那你要坐倒數第三排喔。我習慣那裡。」 */
 });
 await sec('Z6',async()=>{
   fresh('2026-06-08',12); H.FAMILIAR(ZR); contact(ZR); await ladPlay('Y1S2',ZR,'Z2-L8',['回來的時候跟我說']);
-  check('Z6. 閒聊階梯 Z2-L8「回來的時候跟我說。」→「好啊，八月底回來，到了跟你說。」、記 ZR_TELL_BACK',has('好啊，八月底回來，到了跟你說。')&&H.G.flags.ZR_TELL_BACK===true,J(said()));
+  /* 2026-11-11：AA_781_zr_ladder_Y1S2.json 第一版（15241f32e／a5e537856）把回話換成「好啊。回來那天，我應該就在店裡了。」，這裡曾跟著改；
+     AA 再改（4bfb18805，回 LAWWW：有 ZR_TELL_BACK 記著、8/26 私訊「回來了。」兌現）那一列拿掉＝回到原句，期望也回到原本的「好啊，八月底回來，到了跟你說。」*/
+  check('Z6. 閒聊階梯 Z2-L8「回來的時候跟我說。」→「好啊，八月底回來，到了跟你說。」、記 ZR_TELL_BACK',has('好啊，八月底回來，到了跟你說。')&&!has('好啊。回來那天，我應該就在店裡了。')&&H.G.flags.ZR_TELL_BACK===true,J(said()));
   const d=D('2026-08-26'); phAt(d,21); phAt(d,22.1); const n0=byTag('aa524_z6').length; phAt(d,22.12);
   const M=byTag('aa524_z6');
   check('Z6. 2026-08-26（她回臺北那天）22:07 私訊「回來了。」「台中帶來的行李，比我去的時候重。」；22:07 以前沒有',n0===0&&J(M.map(x=>x.text))===J(NEW.Z6)&&M[0].day===d&&Math.abs(M[0].h-(22+7/60))<0.01,J(M.map(x=>[x.text,x.day,x.h])));
@@ -399,10 +403,15 @@ await sec('Z9',async()=>{
 });
 await sec('Z10',async()=>{
   fresh('2027-03-01',12); H.FAMILIAR(ZR); await ladPlay('Y2S2',ZR,'Z4-L1',['一半也想吃']);
-  check('Z10. Z4-L1「一半也想吃。」→ 原本的回覆照舊、記 ZR_LUROU_HALF',has('……一半的滷肉，你也敢吃嗎。好，下次。')&&H.G.flags.ZR_LUROU_HALF===true);
+  /* 2026-11-11（X324，AA_781_zr_ladder_Y2S2.json rows Z4-L1）：原本的期望「……一半的滷肉，你也敢吃嗎。好，下次。」。第一版（d898cded5／a5e537856）換成「…好，等我學會另一半。」，這裡曾跟著改；
+     AA 再改（4bfb18805，回 LAWWW：「下次」有 ZR_LUROU_HALF 記著、大三下 Z5-L5 兌現）只拿刪節號＝「一半的滷肉，你也敢吃嗎。好，下次。」；記 ZR_LUROU_HALF 照比 */
+  check('Z10. Z4-L1「一半也想吃。」→「一半的滷肉，你也敢吃嗎。好，下次。」（AA_781 只拿刪節號）、記 ZR_LUROU_HALF',has('一半的滷肉，你也敢吃嗎。好，下次。')&&!has('一半的滷肉，你也敢吃嗎。好，等我學會另一半。')&&H.G.flags.ZR_LUROU_HALF===true);
   const L=STORY.ladLines(step('Y3S2',ZR,'Z5-L5'),H.G,ZR);
-  check('Z10. 大三下 Z5-L5 有旗標的多一句「上次說的一半。我媽這次寄了一整罐。……分你。」',L[L.length-1]===NEW.Z10[0],J(L));
-  fresh('2027-03-01',12); H.FAMILIAR(ZR); const L2=STORY.ladLines(step('Y3S2',ZR,'Z5-L5'),H.G,ZR); check('Z10. 沒有旗標：沒有',L2.indexOf(NEW.Z10[0])<0);
+  /* 2026-11-11（X324，AA_781_zr_ladder_Y3S2.json rows Z5-L5）：原本的期望 NEW.Z10[0]「上次說的一半。我媽這次寄了一整罐。……分你。」（AA_524 稿的字，上面對稿照舊用）。第一版（8e027fc7f／a5e537856）換成「滷肉，我媽這次寄了一整罐。分你。」，這裡曾跟著改；
+     AA 再改（4bfb18805：這一句在 extraIf，ZR_LUROU_HALF 擋著，「上次」成立）只拿刪節號；有旗標才多這一句照比 */
+  const Z10_781='上次說的一半。我媽這次寄了一整罐。分你。';
+  check('Z10. 大三下 Z5-L5 有旗標的多一句「'+Z10_781+'」（AA_781）',L[L.length-1]===Z10_781,J(L));
+  fresh('2027-03-01',12); H.FAMILIAR(ZR); const L2=STORY.ladLines(step('Y3S2',ZR,'Z5-L5'),H.G,ZR); check('Z10. 沒有旗標：沒有',L2.indexOf(Z10_781)<0&&L2.indexOf(NEW.Z10[0])<0);
   fresh('2026-10-05',12); H.FAMILIAR(ZR); await ladPlay('Y2S1',ZR,'Z3-L4',['下次我帶罐頭']);
   check('Z10. Z3-L4「下次我帶罐頭。」→「不行。牠已經很胖了。」（拿掉「小罐的可以」）',said()[said().length-1]===NEW.Z10[1],J(said()));
 });
@@ -514,9 +523,11 @@ await sec('Y9',async()=>{
   /* 2026-11-11（X324 語彤約會台詞重寫，AA 0a2136911；date_rewrite/yt_D10.json）：這一格的回覆改成「那下次我請。謝謝。」——選項「我請。」沒換字，y9 照舊拿它比 */
   check('Y9. 碧潭天鵝船「我請。」→「那下次我請。謝謝。」（X324 語彤重寫的新句；原本「……下次我請。……嗯，謝謝。」不在了）',has('那下次我請。謝謝。')&&!has(E694.strip('……下次我請。……嗯，謝謝。')),J(said()));
   await spot(YT,'D10','D10.boat',1,[]);
-  check('Y9. 下一次 remember 多一句旁白「（這次她先去付了錢。）」',adj(['上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。',NEW.Y9[0]])&&H.said[idx(NEW.Y9[0])].who===null,J(said()));
+  /* 2026-11-11（AA_812@f1fab0ec6 path_rows）：remember 那一句後面補「這次船票我請。」（第一次她說「那下次我請」，再訪兌現；選另一項的人聽到也成立）。
+     舊期望：remember「上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。」 */
+  check('Y9. 下一次 remember（AA_812：「…她說「有穿救生衣嗎」。這次船票我請。」）多一句旁白「（這次她先去付了錢。）」',adj(['上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。這次船票我請。',NEW.Y9[0]])&&H.said[idx(NEW.Y9[0])].who===null,J(said()));
   fresh('2026-11-14',13); H.FAMILIAR(YT); await spot(YT,'D10','D10.boat',0,['今天坐']); await spot(YT,'D10','D10.boat',1,[]);
-  check('Y9. 第一次選「今天坐。」：沒有',has('上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。')&&!has(NEW.Y9[0]),J(said()));
+  check('Y9. 第一次選「今天坐。」：沒有（remember 照樣是 AA_812 的「…這次船票我請。」；舊期望：「上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。」）',has('上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。這次船票我請。')&&!has(NEW.Y9[0]),J(said()));
 });
 
 /* ---------------- 99 舊存檔 ---------------- */

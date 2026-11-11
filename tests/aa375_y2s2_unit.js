@@ -153,7 +153,10 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   // ===== 第 7 項：語彤 Y4-L7 =====
   { const s=lad('Y2S2','heroine_03','Y4-L7');
     const said7=J([s&&s.lines,s&&s.choices]);
-    check('7. 語彤 Y4-L7（大二下）：「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」；助教、「她說每週要改二十份作業」拿掉',!!s&&J(s.lines)===J(['下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。'])&&!said7.includes('助教')&&!said7.includes('二十份'),said7);
+    /* 2026-11-11（X324，AA_781_yt_ladder_Y2S2.json@d898cded5 steps Y4-L7；BB 08:1x 看過）：AA 補兩個選項、lines 拿掉刪節號和沒人記的「確定再跟你講」。
+       舊期望：lines＝「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」、整層沒有「助教」。新稿選項①的回話是「訪談課的助教。老師問我要不要。」——
+       老師問、還沒答應（AA_375 第 7 項要拿掉的是「已經確定當助教」那兩句和兩個選項；確定是大三上 1B-08，下面對照照比）。「二十份」（確定以後的工作量）照樣不能有 */
+    check('7. 語彤 Y4-L7（大二下）：「下學期系上可能會找我做一點事。還沒確定。」；助教只說「老師問我要不要」（還沒確定）、「她說每週要改二十份作業」拿掉',!!s&&J(s.lines)===J(['下學期系上可能會找我做一點事。還沒確定。'])&&!/當助教|我要當|確定再跟你講/.test(said7)&&said7.includes('老師問我要不要')&&!said7.includes('二十份'),said7);
     const ta=fs.readFileSync(path.join(ROOT,'src/data/y2b_events.js'),'utf8');
     check('7. 對照：大三上 1B-08「系上老師叫我當助教。質性研究方法。」「他說我訪談的時候……」照現在（老師「他」）',ta.includes("text:'系上老師叫我當助教。質性研究方法。'")&&ta.includes("text:'他說我訪談的時候，受訪者會多講十分鐘。……我不知道那是什麼意思。'")); }
   { const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files, a=allow.filter(e=>/AA_375_/.test(e.path)), b=allow.filter(e=>/AA_342_/.test(e.path));

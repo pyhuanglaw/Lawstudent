@@ -34,7 +34,7 @@ const R2Y3B_EVENTS=(function(){
       {if:kn('zhe','heroine_01'),speaker:'zhe',text:'這學期以安只吃一個月。'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'一個月又三天。三月二十五號的飛機。'},
       {if:kn('yu','heroine_01'),speaker:'yu',text:'那三月以前每一頓都要來喔。'},
-      {if:kn('heroine_01','yu'),speaker:'heroine_01',text:'……好。我盡量。'},
+      {if:kn('heroine_01','yu'),speaker:'heroine_01',text:'好。我盡量。'},
       {if:{custom:G=>route(G)==='JP'&&knows('zhe',G)&&knows('heroine_01',G)},speaker:'zhe',text:'（轉向你）你也是。一個月又三天。'},   /* 日本路線多一句 */
       {if:kn('heroine_03'),speaker:'heroine_03',text:'……這學期週四，我去做田野。'},
       {if:kn('heroine_03','zhe'),speaker:'zhe',text:'她週四有自己的事了。'},
@@ -56,7 +56,7 @@ const R2Y3B_EVENTS=(function(){
       {choice:[{text:'「我來放。」',goto:'k'},{text:'（坐到以安旁邊）',if:kn('heroine_01'),goto:'a'},{text:'（躺到阿哲旁邊）',if:kn('zhe'),goto:'z'}]},
       {label:'k'},{if:kn('yu'),speaker:null,text:'（風箏飛起來了。Alison 把線搶過去：「看吧！是風的問題！」）'},{goto:'end'},
       {label:'a'},{if:{custom:G=>strainedAn(G)},speaker:null,text:'（以安看了你一眼，又低頭寫。）'},{if:{custom:G=>strainedAn(G)},goto:'end'},   /* AA_377 第 7 項：挽回中（和以安分手、冷靜中）不接話 */
-      {speaker:'heroine_01',text:'……你也要算嗎？'},{speaker:null,text:'（她把手機轉過來：四個週末，每一格都還空著。）'},{goto:'end'},
+      {speaker:'heroine_01',text:'你也要算嗎？'},{speaker:null,text:'（她把手機轉過來：四個週末，每一格都還空著。）'},{goto:'end'},
       {label:'z'},{speaker:'zhe',text:'這就對了。放假就是要躺。'},
       {label:'end'} ],
     consequences:{flags:{Y3S2_228:true},memo:'228 的河濱（風箏）'},
@@ -223,7 +223,7 @@ const R2Y3B_EVENTS=(function(){
       {speaker:null,text:'（河堤的石階上，櫻花一直在掉。以安坐著讀書，旁邊放著字典和一個保溫杯。）'},
       cg('cg_sakura_riverbank_heroine01'),   /* CG-23 在這一句出現（AA_589 第 81、82 列：她直接說「櫻花只開一個禮拜。」、說話人「手帳」那一行刪掉、CG 不疊字；CG-23 換新圖：她抬頭說話）*/
       {speaker:'heroine_01',text:'櫻花只開一個禮拜。'},
-      {speaker:'heroine_01',text:'……所以這週的讀書會，改在這裡。'},
+      {speaker:'heroine_01',text:'所以這週的讀書會，改在這裡。'},
       {choice:[{text:'「那下週呢？」',goto:'a'},{text:'（坐下來，翻開書）',goto:'b'}]},
       {label:'a'},{speaker:'heroine_01',text:'下週就謝了。下週回圖書館。'},{goto:'end'},
       {label:'b'},{speaker:null,text:'（她看了你一眼，繼續讀。過了一頁，她把保溫杯推過來一點。）'},
@@ -302,7 +302,7 @@ const R2Y3B_EVENTS=(function(){
       {label:'y'},{speaker:null,text:'（她愣住。）'},{speaker:'heroine_02',text:'……阿哲的那個 Alison？'},{speaker:'player',text:'嗯。'},{speaker:null,text:'（她想了一下。）'},{speaker:'heroine_02',text:'那下次遇到她，我請她一杯。'},
         {mem:[{npc:'heroine_02',tag:'ZHIRUO_MET_YU',note:''}]},{goto:'end'},
       {label:'w'},{speaker:'heroine_02',text:'……還在想。'},{speaker:null,text:'（她看著門口，笑了一下。）'},{speaker:'heroine_02',text:'想好了再跟你說。'},{goto:'end'},
-      {label:'c'},{speaker:'heroine_02',text:'好啊。'},{speaker:null,text:'（她說得很快，然後自己愣了一下。）'},{speaker:'heroine_02',text:'……那你要坐倒數第三排喔。我習慣那裡。'},
+      {label:'c'},{speaker:'heroine_02',text:'好啊。'},{speaker:null,text:'（她說得很快，然後自己愣了一下。）'},{speaker:'heroine_02',text:'那你要坐倒數第三排喔。我習慣那裡。'},
       {label:'end'} ] };
 
   /* ---------- 2-Y3-41 可昕 生日（大三）：4/24（一）18:00～18:30 公館，三十分鐘＋一片蛋糕；日本路線＝21:00 視訊（日本 22:00）。邀約、沒做的在 r2y3b3d.js ---------- */
@@ -330,7 +330,7 @@ const R2Y3B_EVENTS=(function(){
     /* AA_548 3-5（G8「週六晚上」，取代「空白的週三下午」）：芯慈戀愛線打開（XCROM.ON）才有；選「我可以一起嗎？」記 XC_BLANK，另外兩個＝大四上第 6 週週六她再傳一則（xcrom3d.js blankAgain）*/
     {if:XON,speaker:'classmate_xinci',text:'實習是週一到週五。'},{if:XON,speaker:'classmate_xinci',text:'週六晚上，我還是會去西門町，看七點那一場。'},
     {if:XON,choice:[{text:'「我可以一起嗎？」',set:{XC_BLANK:true},goto:'s1'},{text:'「妳一個人看嗎？」',goto:'s2'},{text:'「好好實習。」',goto:'s3'}]},{goto:'fin'},
-    {label:'s1'},{speaker:'classmate_xinci',text:'……可以。不要遲到。'},{goto:'fin'},
+    {label:'s1'},{speaker:'classmate_xinci',text:'可以。不要遲到。'},{goto:'fin'},
     {label:'s2'},{speaker:'classmate_xinci',text:'一直都是。'},{goto:'fin'},
     {label:'s3'},{speaker:'classmate_xinci',text:'嗯。'},
     {label:'fin'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:''}]} ];   /* XINCI_FIRST（id 照舊）＝慈 6 演過：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
@@ -372,7 +372,7 @@ const R2Y3B_EVENTS=(function(){
 
   /* ---------- 2-Y3-44 可昕 K20「一個人聽懂了自己的處境」：5/12（五）19:00 公館河濱（5/11 她約）；沒去河濱、日本路線＝21:00 演出來的電話 ---------- */
   const K20_AB=[ {label:'a'},{speaker:'kexin',expression:'surprised',text:'你怎麼知道？'},{speaker:'player',text:'妳每次都先等我講完。'},{goto:'end'},
-    {label:'b'},{speaker:'kexin',expression:'teasing',text:'會。所以你要負責宵夜。'},{if:fl('KX_SUMMER','tired'),speaker:'kexin',expression:'laugh',text:'……這句我大二說過了。好，這次換你說一句。'},{goto:'end'} ];   /* KX_SUMMER 'tired'：大二 K14 選過「會不會很累？」*/
+    {label:'b'},{speaker:'kexin',expression:'teasing',text:'會。所以你要負責宵夜。'},{if:fl('KX_SUMMER','tired'),speaker:'kexin',expression:'laugh',text:'這句我大二說過了。好，這次換你說一句。'},{goto:'end'} ];   /* KX_SUMMER 'tired'：大二 K14 選過「會不會很累？」*/
   const K20={ id:'ev_kexin_k20', title:'一個人聽懂了自己的處境', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'河濱',bg:'riverside'},
       {speaker:null,text:'（公館的河濱。她靠著欄杆，看了很久的河才開口。）'},
@@ -389,7 +389,7 @@ const R2Y3B_EVENTS=(function(){
       {unless:JP,speaker:'kexin',expression:'serious',text:'本來想在河濱講的。實習那邊，有個來問問題的人聽懂了自己的處境。'},   /* 沒去河濱（BB_98 10-1 原文）*/
       {speaker:'kexin',expression:'serious',text:'我想做這個。'},
       {choice:[{text:'「那妳會很適合。」',goto:'a'},{text:'「做這個要很累。」',goto:'b'},{text:'（聽她說完）',goto:'l'}]} ].concat(K20_AB,[
-      {label:'l'},{speaker:'kexin',expression:'smile',text:'……嗯。我講完了。早點睡。'},
+      {label:'l'},{speaker:'kexin',expression:'smile',text:'嗯。我講完了。早點睡。'},
       {label:'end'},{set:{KX_K20:'call'}} ]),
     after:G=>{ const x=X(); if(x) x.kxDirHeard(G); } };
 
@@ -522,7 +522,7 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'heroine_02',text:'那一部，等我回來，一起寫。'},
       {choice:[{text:'「空白那張，我可以先寫一個字嗎？」',goto:'a'},{text:'「十一部，我每一部都寫最長的。」',goto:'b'}]},
       {label:'a'},{speaker:'heroine_02',text:'不行。'},{speaker:null,text:'（她把那張收進自己的口袋）'},{speaker:'heroine_02',text:'那張我回來再拿出來。'},{goto:'end'},
-      {label:'b'},{speaker:'heroine_02',text:'不要寫太長。我會在課堂上看，看到哭。'},{speaker:'heroine_02',text:'……好，寫長一點也可以。'},
+      {label:'b'},{speaker:'heroine_02',text:'不要寫太長。我會在課堂上看，看到哭。'},{speaker:'heroine_02',text:'好，寫長一點也可以。'},
       {label:'end'},{set:{ZR_TWELVE_SLIPS:true}} ],
     outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.slipsMissed(G,q); } };   /* 14:30 還沒到：16:00 照片＋「信封放在吧檯下面。下次來拿」（r2y3b3d.js）*/
   /* 沒到的：之後第一次在她上班的時候進 Café＝她從吧檯下面拿出信封；9/1 以前都沒拿（她 9/2 出國）＝之後第一次進 Café，老闆給（BB_165 3-2 的 10-18 加註，AA_343 D8）*/
@@ -576,10 +576,10 @@ const R2Y3B_EVENTS=(function(){
   const EXE_CALL={ id:'ev_ziqing_exe_call', title:'電話', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'電話'},
       {speaker:null,text:'（手機震了。是她打來的。）'},
-      {speaker:'heroine_04',text:'……你回貼紙喔。'},
+      {speaker:'heroine_04',text:'你回貼紙喔。'},
       {speaker:'heroine_04',text:'插座貓的意思，你知道吧。'},
       {speaker:'player',text:'知道。'},
-      {speaker:'heroine_04',text:'……好啦。'},
+      {speaker:'heroine_04',text:'好啦。'},
       {speaker:'heroine_04',text:'那、那明天見。'},
       {speaker:null,text:'（她先掛了。）'} ] };
   const NOREPLY_CALL={ id:'ev_ziqing_noreply_call', title:'電話', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,

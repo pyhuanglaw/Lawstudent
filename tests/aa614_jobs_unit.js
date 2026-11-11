@@ -51,11 +51,13 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
     const L614=Object.assign({},L); delete L614.watch; delete L614.three; const i5=Object.assign({},L.inv); delete i5.yu; L614.inv=i5;
     /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：溫州街課輔班窗外看到她那一句換字（原本 AA_614 的「你怎麼在這？……我在這裡當助教。教國小的小朋友。」）——這一句對 AA_763（tests/peishan_misc3_1111_unit.js），AA_614 稿上找的是原句 */
     const PSDOOR_OLD='你怎麼在這？……我在這裡當助教。教國小的小朋友。', PSDOOR_NEW='你怎麼在這？我在這裡當助教，教國小的小朋友。';
-    add(L614); const bad=all.filter(t=>!doc.includes(t)&&t!==PSDOOR_NEW);
+    /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊群組那一句「我在課輔班，九點下課。明天可以！」句尾「～」改掉（AA_808 aa614_3d 第 43 列）——遊戲字先換回 AA_808 的舊句（line_rows_expect.js toOldS）再在 AA_614 找；說的人照稿那一項也一樣。舊期望：遊戲字本身在 AA_614 */
+    const LR=require('./line_rows_expect.js'), o808=t=>LR.toOldS(t,'src/aa614_3d.js');
+    add(L614); const bad=all.filter(t=>!doc.includes(o808(t))&&t!==PSDOOR_NEW);
     check('0. AA614.L（AA_614 的 '+all.length+' 句）都在 AA_614 稿裡、一字不差',all.length>=25&&!bad.length,J(bad));
     const L5=[L.inv.yu,L.three].concat(L.watch), bad5=L5.filter(t=>!doc5.includes(t));
     check('0. AA_615 的 '+L5.length+' 句（邀約、三位、1 廳三句旁白）都在 AA_615 稿裡',!bad5.length,J(bad5));
-    const rowOk=(rows)=>rows.every(([id,t])=>doc.includes(NM[id]+'：「'+t+'」'));
+    const rowOk=(rows)=>rows.every(([id,t])=>doc.includes(NM[id]+'：「'+o808(t)+'」'));   /* o808：見上（舊期望：t 原樣）*/
     check('0. 第 3 節群組、私訊：說的人照稿（「阿哲：「宵夜？公館。」」這樣的寫法）',rowOk(L.g1)&&rowOk(L.g2)&&rowOk(L.g3)&&rowOk(L.g4)&&rowOk(L.g5),J([L.g1,L.g3].map(r=>r.map(x=>x[0]))));
     check('0. 第 3 列選項「好。」／「我不去了。」、旁白照稿',J(L.g3opts)===J(['好。','我不去了。'])&&doc.includes('玩家可以回「好。」／「我不去了。」')&&doc.includes('旁白帶過：「'+L.g3movie+'」'));
     /* 改時間的回覆（S.invRule → INV.playLines，有名字說的）不加外面的「」（TEXT-QUOTE-UNIFY-1108 第五批，AA-B 2026-11-08 11:05）；稿上有：加回那一對再找（Q）*/

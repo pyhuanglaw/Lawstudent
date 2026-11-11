@@ -107,7 +107,8 @@ def build():
     os.makedirs(LS.GEN, exist_ok=True); paint_atlas().save(os.path.join(LS.GEN, 'l118_pasta_paint.png'))
     c = K.begin(sid, spec, REG, atlas(hours)); X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; v = c.vc; vm = c.vm; LW = '#d3a970'; RD = '#b02c24'; dx = c.S['door_x']; rr = c.rng
     paint = mask_mat('l118_pasta_paint', 'l118_pasta_paint.png')
-    K.shell2(c, frame='#c8a474', doorc=RD, handle='#c9ccce', base='#c9a877', backs=[(-0.85, -0.05, 1.0, 1.9), (0.3, 1.1, 1.0, 1.9)])   # 奶油色牆＋淺木腰牆（int2）、紅色門框（int2）、淺木窗框
+    K.shell2(c, frame='#c8a474', doorc=RD, handle='#c9ccce', base='#c9a877', backs=[K.street_back(c, 'pasta_p1', -2.5, 1.2, 0.78, 1.9), K.street_back(c, 'pasta_p2', -1.4, 1.2, 0.78, 1.9)])   # 奶油色牆＋淺木腰牆（int2）、紅色門框（int2）、淺木窗框
+    # 海報的背面照街上那兩張（wz_shopkit.py SHOPS['pasta'] photos）換算：x 1.41～2.19、0.31～1.09，y 1.2～2.21（原本 −0.85～−0.05、0.3～1.1，y 1.0～1.9 的米白方塊——第一張的位置街上沒有海報）
     v.cbox(dx - 0.6, dx + 0.6, 0.0, 0.008, 2.95, 3.95, '#a8322a'); v.cbox(dx - 0.56, dx + 0.56, 0.008, 0.01, 2.99, 3.91, '#b8382e')        # 門口的紅地墊（int2）
     # ---- 最裡面：開放料理檯（後牆的爐台、抽油煙罩、掛著的鍋、調味罐架、雙門冰箱）----
     LS.frying_station(c, -1.9, 1.0, Z0, pans=3)
@@ -125,12 +126,18 @@ def build():
     for xx in (-3.08, -2.88): vm.cbox(xx, xx + 0.02, 0.85, 1.4, Z0 + 0.73, Z0 + 0.765, '#d9dcde')
     K.print_quad(c, c.prt, [(-3.6, 1.35, Z0 + 0.735), (-3.37, 1.35, Z0 + 0.735), (-3.37, 1.6, Z0 + 0.735), (-3.6, 1.6, Z0 + 0.735)], 'NOTE')
     # ---- 料理檯前面的淺木吧台（int2：吧台對著廚房）＋五張高背吧台椅；左端收銀、左邊一扇矮門 ----
-    kx0, kx1, kz0, kz1, kh = -2.6, 1.4, -2.65, -2.25, 1.05
+    # 坐下膝蓋進前板（LAWWW 11-11 09:41，BB／LAWWW 第 3 點：#2 #3 小腿打到吧台木頭邊）：原本前板在 z −2.25、椅子 −1.92，祐廷的膝蓋前緣到 −2.35（進前板 5 cm）、
+    # 店裡男客人（膝蓋在前面 0.5 m）更多。改成：前板往裡退 0.15（kp −2.40，檯面照舊伸到 −2.11＝留 0.29 m 放腳的空間，下面四個托架、兩端側板）＋椅子往外 0.12（−1.80）：
+    # 祐廷膝蓋前緣約 −2.24（離前板 16 cm）、男客人約 −2.36（4 cm）
+    kx0, kx1, kz0, kz1, kh = -2.6, 1.4, -2.65, -2.25, 1.05; kp = kz1 - 0.15; sz = kz1 + 0.45
     c.wood.rbox(kx0 - 0.04, kx1 + 0.04, kh - 0.05, kh, kz0 - 0.05, kz1 + 0.14, r=0.008, seg=2)
     n = 20; w_ = (kx1 - kx0) / n
-    for k in range(n): c.wood.box(kx0 + k * w_ + 0.005, kx0 + (k + 1) * w_ - 0.005, 0.1, kh - 0.05, kz1 - 0.03, kz1)                           # 吧台正面的直木板
-    v.cbox(kx0, kx1, 0.0, kh - 0.05, kz0, kz1 - 0.03, '#b98f58'); v.cbox(kx0, kx1, 0.0, 0.1, kz0, kz1 + 0.005, '#8a6a48'); vm.cbox(kx0 + 0.3, kx1 - 0.1, 0.22, 0.25, kz1 + 0.06, kz1 + 0.09, '#9aa0a4')   # 檯身、踢腳、腳踏桿
-    for xx in (kx0 + 0.4, -0.6, 0.4, kx1 - 0.2): vm.cbox(xx - 0.012, xx + 0.012, 0.22, 0.25, kz1, kz1 + 0.075, '#9aa0a4')
+    for k in range(n): c.wood.box(kx0 + k * w_ + 0.005, kx0 + (k + 1) * w_ - 0.005, 0.1, kh - 0.05, kp - 0.03, kp)                           # 吧台正面的直木板（往裡退到 kp）
+    v.cbox(kx0, kx1, 0.0, kh - 0.05, kz0, kp - 0.03, '#b98f58'); v.cbox(kx0, kx1, 0.0, 0.1, kz0, kp + 0.005, '#8a6a48'); vm.cbox(kx0 + 0.3, kx1 - 0.1, 0.22, 0.25, kp + 0.06, kp + 0.09, '#9aa0a4')   # 檯身、踢腳、腳踏桿
+    for xx in (kx0 + 0.4, -0.6, 0.4, kx1 - 0.2): vm.cbox(xx - 0.012, xx + 0.012, 0.22, 0.25, kp, kp + 0.075, '#9aa0a4')
+    for xx in (kx0 + 0.02, kx1 - 0.02): c.wood.box(xx - 0.02, xx + 0.02, 0.0, kh - 0.05, kp, kz1 + 0.1)                                        # 兩端的側板（檯面下放腳的空間收邊）
+    for xx in (-1.075, -0.425, 0.225, 0.875):                                                                                            # 檯面伸出去那一段的托架（兩張椅子中間；階梯形）
+        c.wood.box(xx - 0.02, xx + 0.02, kh - 0.13, kh - 0.05, kp, kz1 + 0.1); c.wood.box(xx - 0.02, xx + 0.02, kh - 0.25, kh - 0.13, kp, kz1 - 0.04)
     LS.register(c, -2.25, kh, -2.45, face='+z')
     for k in range(2): K.plates(v, -1.55 + k * 0.3, kh, -2.5, n=8 - k * 2, r=0.12)
     ccyl(vm, (-0.5, kh, -2.5), (-0.5, kh + 0.12, -2.5), 0.05, '#c4c8cb', seg=8)
@@ -138,7 +145,7 @@ def build():
     for (xx, col) in ((0.5, '#c9b23a'), (0.62, '#4a2c18')): clathe(v, [(0.0, 0.0), (0.03, 0.0), (0.03, 0.16), (0.012, 0.21), (0.012, 0.25), (0.0, 0.25)], xx, kh, -2.5, col, seg=6)
     K.pot_plant(c, 1.2, -2.5, kh, h=0.3, seed=7, r=0.09, pot='#f1ece0'); K.vine(c, v, 1.3, kh + 0.14, -2.3, 0.45, 91, out=(0, 1))
     for xx in (-1.4, -0.75, -0.1, 0.55, 1.2):
-        bar_chair(c, xx, kz1 + 0.33, PI); c.seat(xx, kz1 + 0.33, PI, (xx, -2.45), 'eat', ap=(xx, -1.38), label='坐吧檯', lift=K.BAR_LIFT)
+        bar_chair(c, xx, sz, PI); c.seat(xx, sz, PI, (xx, -2.45), 'eat', ap=(xx, sz + 0.54), label='坐吧檯', lift=K.BAR_LIFT)   # 原本 z kz1＋0.33（−1.92）、走近點 −1.38
     v.cbox(X0 + 0.02, kx0 - 0.04, 0.12, 0.9, -2.47, -2.43, LW); v.cbox(X0 + 0.02, kx0 - 0.04, 0.82, 0.9, -2.48, -2.42, '#b98f58'); v.cbox(X0, X0 + 0.06, 0.0, 0.95, -2.5, -2.4, '#b98f58')   # 員工進出的矮門
     # 吧台上方的橫牆（一排四張紅框的麵照片，int2）＋右後的隔間牆、門洞（白門簾，int 第一組）；都在料理檯這一條線上
     wN = c.wg('N', 'wall', c.M['wall']); c.WGP[('N', 'parttrim')] = c.WGP[('N', 'partprint')] = {'at': [0.0, 1.6, -2.25]}                     # 橫牆、隔間牆放進後牆那一片（要盒狀 UV：LS.finish 只幫 wall／wain 做）；框和照片的淡出判斷點放在這一條線上

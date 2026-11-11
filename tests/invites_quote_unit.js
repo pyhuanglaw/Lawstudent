@@ -70,7 +70,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   check('2. 旁白裡引用她的話照留「」（子晴答應總圖、沛珊的便條、約念書中途的便利貼）',
     has(P.heroine_04&&P.heroine_04.acc,'（她答應了，條件是「二樓靠窗，有插座的那一排」。）')&&has(P.classmate_peishan&&P.classmate_peishan.afterMeet,'（她遞過來一張便條：「今天念了 42 頁。你呢？」）')
     &&strings(LSd.mid).some(t=>/^（她把一張便利貼推過來：「這一題你會嗎？」/.test(t)));
-  check('2. 好幾個人一來一往的「…」「…」照留（阿哲、柏翰一起走路的句子）',has(D.walk118,'「宵夜是讀書的一部分。這叫補充體力的權利。」「沒有這個權利。」「先有。」')&&has(D.walk118,'「考完了，我在總圖門口站了五分鐘，不知道要去哪。……你要去哪？」「燒臘店。」「……喔。好。那你去。」'));
+  check('2. 好幾個人一來一往的「…」「…」照留（阿哲、柏翰一起走路的句子）',has(D.walk118,'「宵夜是讀書的一部分。這叫補充體力的權利。」「沒有這個權利。」「先有。」')&&has(D.walk118,require('./overlay_expect.js').fwd('invites','classmate_bohan','「考完了，我在總圖門口站了五分鐘，不知道要去哪。……你要去哪？」「燒臘店。」「……喔。好。那你去。」'))   /* 2026-11-11（X324 D 區，AA_784）：柏翰這一句拿掉刪節號，一來一往的「…」「…」照留——舊期望＝fwd 裡面的字 */);
   check('2. 沛珊第一次去法圖：（走出法圖）館員人好好……（AA_595 1-D10；她說的，第六批拿掉說的話那一對「」，TEXT-QUOTE-UNIFY-1108、tests/invites_quote_b6_unit.js）',has(D.lawlibLines,'（走出法圖）館員人好好。我以為法圖的人都很兇。')&&!has(D.lawlibLines,'（走出法圖）「館員人好好。我以為法圖的人都很兇。」'));
   const chT=[]; (function w(v){ if(Array.isArray(v)) v.forEach(w); else if(v&&typeof v==='object'){ if(Array.isArray(v.ch)) for(const c of v.ch) chT.push(c.t); for(const k of Object.keys(v)) if(k!=='ch') w(v[k]); } })(Object.values(P).map(p=>p.walk));
   check('2. 選項字不動（芷若猜電影、阿凱、子晴、沛珊的選項）',chT.length>=10&&chT.includes('愛情片。')&&chT.includes('（說換方向的事）')&&chT.includes('不一定是告，可以請警察來看'),JSON.stringify(chT)); }
@@ -88,7 +88,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   { const e=strings(D.people.heroine_04.walk).length&&(function f(v){ if(Array.isArray(v)){ for(const x of v){ const r=f(x); if(r) return r; } } else if(v&&typeof v==='object'){ if(v.once==='ZQ_CHANGE_ASK') return v; for(const k of Object.keys(v)){ const r=f(v[k]); if(r) return r; } } return null; })(D.people.heroine_04.walk);
     const a=e?await play(e.ch[0].r,{name:'子晴'}):[];
     check('3. 子晴「你為什麼換」：祐廷說的 {me} 有名字（祐廷）、外面沒有「」；她回的有名字；（她走了好幾步沒說話。）沒名字',
-      a.length===7&&a[0].who==='祐廷'&&a[0].t==='念了一個多月經濟，後來重考到法律。考之前很怕，考完就不怕了。'&&a[1].who==='子晴'&&a[1].t==='……你換過？'&&a[5].who===null,J(a)); }
+      a.length===7&&a[0].who==='祐廷'&&a[0].t==='念了一個多月經濟，後來重考到法律。考之前很怕，考完就不怕了。'&&a[1].who==='子晴'&&a[1].t===require('./overlay_expect.js').fwd('invites','heroine_04','……你換過？')   /* 2026-11-11（X324 D 區，AA_784）：拿掉刪節號——舊期望「……你換過？」*/&&a[5].who===null,J(a)); }
   { const a=await play(D.seatOpen.meal[0],{name:'芷若'});
     check('3. 一起坐下的開場句：旁白沒名字、她那句有名字',a.length===2&&a[0].who===null&&a[1].who==='芷若'&&a[1].t==='你先點。',J(a)); }
   { const a=await play(D.sport.gym_badminton.during,{name:'阿哲'});
@@ -110,7 +110,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     check('5. 「好。」輪流的比對（REPLY_OK_JSON、S.lineKey）不看外面的「」',typeof INV.lineKey==='function'&&INV.lineKey(['「好。」'])===INV.REPLY_OK_JSON&&INV.lineKey(['好。'])===INV.REPLY_OK_JSON&&INV.lineKey([{me:'「嗯。」'}])===INV.lineKey([{me:'嗯。'}])&&INV.lineKey(['「A」「B」'])!==INV.lineKey(['A」「B'])); }
   else check('5. src/data/invite_replies.js 載得進來',false);
   /* ---------- 第二批（AA-B 11-08 01:09）：和 BASE（c79414b00，拿掉「」以前）逐句比 ---------- */
-  const BASE='c79414b00';
+  const BASE='c79414b00'; let A715N=0;
   /* 11-10 AA_731（企劃線 94ab0865e，BUG-INV-ACC-TIME-1110）：答應句不寫幾點、週末、早上——這十句和來源 commit（AA_415 c71772fbc、AA_721 b782e2c08）的改變不算「多改」 */
   const A731=[["好。九點，不要遲到。", "好。不要遲到。"], ["早上？……十點以後可以。", "Daybreak？……好。我會起來。"], ["好。週末早上我剛好有空。", "好。那天我空下來。"], ["SUNNY SIDE。好。我九點到。", "SUNNY SIDE。好。我會準時到。"], ["SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。", "SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。"], ["十二點？好，那是我的早餐。", "早午餐？好，那是我的早餐。"], ["十二點 好 那是我的早餐", "早午餐 好 那是我的早餐"], ["好。我九點以前要回店裡。", "好。……我跟店裡說一聲。"], ["好。週末的話。", "好啊。我想找一張老唱片。"], ["蛋包飯？好。週末的話。", "蛋包飯？好。我坐捷運過去。"],
   /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊 invites.js 四處五句（firstAt.brunch 兩句、acc.brunch.A／R、acc.run_avenue）和 invite_replies.js 同句的 ps5、ps9 換了字——和 BASE 比的時候這五句照新稿算（逐字比對 tests/peishan_feed_misc_1111_unit.js） */
@@ -118,6 +118,13 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   A731.push(...require('./peishan_rewrite_1111.js').PAIRS);   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS）：rel_lines.js 一起念書的旁白等換了字，和 BASE 比的時候照新稿算 */
   /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 的 fix 列（慢讀→木曜日的台詞、見面旁白等；白名單上的版本，tests/l118_redo772_expect.js 讀，不手抄）和 BASE 比的時候照新稿算 */
   A731.push(...require('./l118_redo772_expect.js').rows);
+  /* 2026-11-11（X324 D 區）：覆蓋層（白名單 overlay:true 的稿：AA_783 invite_replies／invites、AA_784 invites；tests/overlay_expect.js 讀，不手抄）換的字，和 BASE 比的時候照稿算；
+     invite_replies.js 換過的列多一格 ov（稿的來源），比之前拿掉。逐列對稿在 tests/invite_overlay_1111_unit.js */
+  const OE=require('./overlay_expect.js'); A731.push(...['invites','invite_replies'].flatMap(f=>OE.rows(f).map(r=>[r.old,r.new])));
+  /* 2026-11-11（X324 G 區，AA_715_sport_gym_pool_invites.json 2205d6058→3f1569379）：運動邀約源稿換版重匯（「游泳？……」「健身房？……」開頭八句、芷若「店長」→「老闆」一句）——兩版稿逐格比出來的 old→new（拿掉外面的「」）和來源 commit 照稿算，不手抄。舊期望：sport_invite_lines.js 和 BASE 只差外面的「」 */
+  { const P715='docs/story_planning/AA_715_sport_gym_pool_invites.json', g=sha=>{ try{ return JSON.parse(cp.execSync('git -C "'+ROOT+'" show '+sha+':'+P715,{encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']})); }catch(e){ return null; } }, d0=g('2205d6058'), d1=g('3f1569379'), u=t=>t.replace(/^「|」$/g,''), P=[];
+    if(d0&&d1){ (function w(a,b){ if(typeof a==='string'){ if(typeof b==='string'&&a!==b) P.push([u(a),u(b)]); return; } if(a&&typeof a==='object'&&b&&typeof b==='object') for(const k of Object.keys(a)) w(a[k],b[k]); })(d0,d1); P.push([P715+'@2205d6058',P715+'@3f1569379']); }
+    A715N=P.length; A731.push(...P); }
   const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&s(b)===n||(a.includes(o)&&a.split(o).join(n)===b))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc|94ab0865e|ef7280917)/g,'@AA'); return r(a)===r(b)||(a==='c71772fbc'&&b==='94ab0865e'); };   /* 2026-11-11：AA_721 白名單換 ef7280917（118 巷改版），來源 commit 的字不算多改 */
   const gitShow=f=>cp.execSync('git -C "'+ROOT+'" show '+BASE+':'+f,{encoding:'utf8',maxBuffer:1<<28});
   const evalIn=(src,names,extra)=>{ const c=vm.createContext(Object.assign({console},extra||{})); for(const n of names) src=src.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInContext(src,c); return c; };
@@ -138,8 +145,9 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     const RN=rows(NEW), RO=rows(OLD); const strs=[], wr=[], me=[];
     for(const [id,r] of RN) for(const x of r.lines){ const t=typeof x==='string'?x:x&&x.me; if(typeof t!=='string') continue; strs.push(t); if(wrapped(t)) wr.push(id+' '+r.id+'：'+t); if(typeof x!=='string') me.push(t); }
     check('6. invite_replies.js：lines 裡有名字說的（她說的、{me} 祐廷說的）沒有一句外面還有「」（'+strs.length+' 句）',strs.length>=270&&wr.length===0,sample(wr));
-    const r6=cmpTree(RO.map(x=>x[1]),RN.map(x=>x[1]),p=>/^\[\d+\]\.lines\[\d+\](\.me)?$/.test(p));
-    check('6. 和 '+BASE+' 比：一樣的列（'+RN.length+'）、只有 lines 差外面的「」（改了 '+r6.ch+' 句），其他欄位（含 say 表上原文）一字不差',RN.length===RO.length&&RN.length>=250&&r6.bad.length===0&&r6.ch>=250,sample(r6.bad));
+    const noOv=r=>{ const y=Object.assign({},r); delete y.ov; return y; }, nOv=RN.filter(x=>x[1].ov).length;
+    const r6=cmpTree(RO.map(x=>x[1]),RN.map(x=>noOv(x[1])),p=>/^\[\d+\]\.lines\[\d+\](\.me)?$/.test(p));
+    check('6. 和 '+BASE+' 比：一樣的列（'+RN.length+'）、只有 lines 差外面的「」（改了 '+r6.ch+' 句；X324 覆蓋層換過的 '+nOv+' 列照稿），其他欄位（含 say 表上原文）一字不差',RN.length===RO.length&&RN.length>=250&&r6.bad.length===0&&r6.ch+OE.rows('invite_replies').length>=250,sample(r6.bad));   /* 覆蓋層換過的那幾格不算在「只差「」」裡（舊期望 r6.ch>=250）*/
     const who=[]; RO.forEach(([id,r],i)=>r.lines.forEach((x,j)=>{ const y=RN[i][1].lines[j]; if(typeof x==='string'&&isNarr(x)!==isNarr(y)) who.push(r.id+'：'+x+' → '+y); }));
     const narr=strs.filter(isNarr);
     check('6. 誰說的（S.narrLine：旁白／她說）每一句都和 '+BASE+' 一樣；旁白照舊（'+narr.length+' 句，沛珊 ps30 裡面的「…」「…」照留）',who.length===0&&narr.length===7&&narr.includes('（「平日我在家念……」「書店六點打烊……」「七點下課……」）'),sample(who));
@@ -148,7 +156,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   { const ENV={window:{},location:{search:''},document:{getElementById:()=>null,addEventListener(){}}};
     const sc=evalIn(cur('src/data/characters.js'),['CHARACTERS','UNFAMILIAR_POOL','SOCIAL_GRAPH','PORTRAITS'],ENV); vm.runInContext(cur('src/social3d.js').replace(/^const SOCIAL\s*=/m,'globalThis.SOCIAL='),sc);
     const SO=sc.SOCIAL, G7={rel:{},flags:{},social:null,day:30,weekday:1,hour:15,name:'祐廷',contacts:{},invites:[],msgs:[]}; SO.bind(G7);
-    const NEW=evalIn(cur('src/data/rel_lines.js'),['REL_LINES']).REL_LINES, OLD=evalIn(gitShow('src/data/rel_lines.js'),['REL_LINES']).REL_LINES;
+    const NEW=evalIn(cur('src/data/rel_lines.js'),['REL_LINES']).REL_LINES, OLD=evalIn(require('./line_rows_expect.js').fixFile('src/data/rel_lines.js',gitShow('src/data/rel_lines.js')),['REL_LINES']).REL_LINES;   /* X324 G 區 AA_794（店長→老闆，見面旁白兩句）：BASE 先照逐行改稿換過再比（tests/line_rows_expect.js）*/
     /* 有名字說的格子：SOCIAL.playSteps 播的一串台詞（up 的 l、ch 的 r、bye、Café 的學姊 again／hello／tired／today.ask／opts 的 r／small 的 l、lGrad、ch 的 r）；
        沒名字的：meet（見面旁白；另外比）、cafe.note（便條，story3d.js sisCafe 用旁白說）、contact（手機聯絡人的名字）、選項字（ch／opts 的 t、tDating）*/
     const STEP=/\.(l|r|lGrad|again|ask|tired)\[\d+\]$|\.bye\.\w+\[\d+\]$|\.cafe\.hello\.\w+\[\d+\]$/;
@@ -181,11 +189,11 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     const hit=said.find(s=>/好，我餓了。/.test(s.t));
     check('7. 阿凱「認識」約燒臘店（INV.meet）：見面那一句是阿凱說的「好，我餓了。」（有名字、外面沒有「」）',!err&&ec.SOCIAL.friendLevel('kai')==='ACQUAINTANCE'&&!!hit&&hit.who===ec.SOCIAL.npcName('kai')&&!!hit.who&&hit.t==='好，我餓了。',err?String(err.stack).slice(0,300):JSON.stringify(said)); }
   /* 8、9. 匯入工具產生的兩個檔：誰說的（S.playLines／S.narrLine）跟改以前一樣 */
-  const genCheck=(no,f,glob,named,unnamedSample,drop)=>{ const NEW=evalIn(cur(f),[glob])[glob], OLD=evalIn(gitShow(f),[glob])[glob]; if(drop){ drop(OLD); drop(NEW); }
+  const genCheck=(no,f,glob,named,unnamedSample,drop,chPlus)=>{   /* chPlus：稿換版、照稿算（aa731）的那幾句原本也是拿掉「」的句子，不算進 r.ch——門檻加回來（X324 G 區 AA_715 九句） */ const NEW=evalIn(cur(f),[glob])[glob], OLD=evalIn(gitShow(f),[glob])[glob]; if(drop){ drop(OLD); drop(NEW); }
     const r=cmpTree(OLD,NEW,named), strs=[]; (function w(v,p){ if(typeof v==='string'){ if(named(p)) strs.push([p,v]); return; } if(v&&typeof v==='object') for(const k of Object.keys(v)) w(v[k],p+(Array.isArray(v)?'['+k+']':'.'+k)); })(NEW,'');
     const wr=strs.filter(([p,t])=>wrapped(t)).map(([p,t])=>p+'：'+t);
     check(no+'. '+f+'：有名字說的（'+strs.length+' 句）沒有一句外面還有「」',strs.length>=50&&wr.length===0,sample(wr));
-    check(no+'. 和 '+BASE+' 比：只有有名字說的差外面的「」（改了 '+r.ch+' 句）、其他一字不差（'+unnamedSample+'）',r.bad.length===0&&r.ch>=50,sample(r.bad));
+    check(no+'. 和 '+BASE+' 比：只有有名字說的差外面的「」（改了 '+r.ch+' 句'+(chPlus?'＋稿換版照稿算 '+chPlus+' 句':'')+'）、其他一字不差（'+unnamedSample+'）',r.bad.length===0&&r.ch+(chPlus||0)>=50,sample(r.bad));
     const who=[]; (function w(a,b,p){ if(typeof a==='string'){ if(named(p)&&isNarr(a)!==isNarr(b)) who.push(p+'：'+a+' → '+b); return; } if(a&&typeof a==='object') for(const k of Object.keys(a)) w(a[k],b[k],p+(Array.isArray(a)?'['+k+']':'.'+k)); })(OLD,NEW,'');
     check(no+'. 誰說的（S.narrLine）每一句都和 '+BASE+' 一樣（拿掉「」以後沒有一句變成（ 開頭）',who.length===0,sample(who));
     return NEW; };
@@ -198,8 +206,8 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     check('8. no（選單灰掉的說明、GM.say(null,…)，沒名字）照留「」',(()=>{ const NOW=evalIn(cur('src/data/invite_place_lines.js'),['INVITE_PLACE_LINES']).INVITE_PLACE_LINES, no=NOW.places.l118_cafe2.kexin.no;   /* 2026-11-11：可昕不去的那一間從好家自助餐（l118_self）換成大學食堂（l118_cafe2），句子一樣 */ return no==='「平日我在木柵上課。……週末那間又沒開。」'&&INV.placeWhy({},'kexin',{noWho:{kexin:no}})===no; })());
     let rc=0, out=''; try{ out=cp.execSync('python3 "'+path.join(ROOT,'tools/story/import_place_acc.py')+'" --check',{encoding:'utf8'}); }catch(e){ rc=1; out=String(e.stdout||'')+String(e.stderr||e); }
     check('8. 匯入工具 import_place_acc.py --check：遊戲檔和稿（拿掉外面的「」）一致',rc===0&&/^OK/.test(out),out.slice(0,200)); }
-  { const SP=genCheck('9','src/data/sport_invite_lines.js','SPORT_INVITE_LINES',p=>/^\.people\.\w+\.(acc\.\w+(\.\w+)?|firstAt\.\w+|sport\.\w+\.(during\[\d+\]|end)|beforeLearn\.\w+\.decline)\[\d+\]$/.test(p),'shared 兩個人一起的旁白');
-    check('9. 學姊還沒學游泳的婉拒（beforeLearn）是她說的、外面沒有「」；shared 的旁白照舊是（…）',JSON.stringify(SP.people.heroine_05.beforeLearn.gym_pool.decline)===JSON.stringify(['游泳……我不會游。','換一個地方，好嗎？'])&&Object.values(SP.shared).every(o=>o.during.concat(o.end).every(t=>/^（.*）$/.test(t))),JSON.stringify(SP.people.heroine_05.beforeLearn));
+  { const SP=genCheck('9','src/data/sport_invite_lines.js','SPORT_INVITE_LINES',p=>/^\.people\.\w+\.(acc\.\w+(\.\w+)?|firstAt\.\w+|sport\.\w+\.(during\[\d+\]|end)|beforeLearn\.\w+\.decline)\[\d+\]$/.test(p),'shared 兩個人一起的旁白',null,A715N?A715N-1:0);   /* 2026-11-11（X324 G 區，AA_715@3f1569379）：九句照稿換版算（不算在 r.ch），門檻加回這九句。舊期望：r.ch>=50 */
+    check('9. 學姊還沒學游泳的婉拒（beforeLearn）是她說的、外面沒有「」；shared 的旁白照舊是（…）（AA_715@3f1569379：「我不會游泳耶。」）；兩版稿的差（X324 G 區）剛好 9 格＋來源',A715N===10&&JSON.stringify(SP.people.heroine_05.beforeLearn.gym_pool.decline)===JSON.stringify(['我不會游泳耶。','換一個地方，好嗎？'])/* 2026-11-11（X324 G 區，AA_715_sport_gym_pool_invites.json@3f1569379）：學姊 beforeLearn 第一句「「游泳……我不會游。」」→「「我不會游泳耶。」」。舊期望：'游泳……我不會游。' */&&Object.values(SP.shared).every(o=>o.during.concat(o.end).every(t=>/^（.*）$/.test(t))),JSON.stringify(SP.people.heroine_05.beforeLearn));
     let rc=0, out=''; try{ out=cp.execSync('python3 "'+path.join(ROOT,'tools/story/import_sport_invites.py')+'" --check',{encoding:'utf8'}); }catch(e){ rc=1; out=String(e.stdout||'')+String(e.stderr||e); }
     check('9. 匯入工具 import_sport_invites.py --check：遊戲檔和稿（拿掉外面的「」）一致',rc===0&&/^OK/.test(out),out.slice(0,200)); }
   /* 10. src/invites3d.js */

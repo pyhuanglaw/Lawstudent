@@ -121,11 +121,12 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i3=sc('src/data/feed_
   for(const term of ['Y2S2','Y3S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!PSRW.feedSkip(term,p.id))}), md=doc[term];
     if(!S||!md){ check('0. '+term+' 對稿（'+SHA+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
-    const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!AA518_T.has(t)&&!(term==='Y3S1'&&Object.keys(AA512_SAY).some(id=>AA512_SAY[id][1]===t&&AA512_OK(id)))), vp=S.posts.filter(p=>typeof p.pic==='object').map(p=>p.id);   /* AA_512 改的那一句在 AA_512 裡 */
+    const LR=require('./line_rows_expect.js'), FF='src/data/feed_'+term.toLowerCase()+'.js';   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊大二下 ps1d「嗯！開學以後在台南。」、大三上 ps1e～ps3e 六句句尾「～」改掉、多一拍（AA_808 feed_y2s2 第 56 列、feed_y3s1 第 53～55 列）——①遊戲字先換回稿上的舊句（toOldS）再在稿裡找；②稿那一列往前換成新句（fwdDeep）再和遊戲比；舊稿不改。舊期望：遊戲字本身在稿裡、稿那一列原樣和遊戲比 */
+    const L=strs(S), bad=L.filter(t=>!md.includes(LR.toOldS(t,FF))&&!AA518_T.has(t)&&!(term==='Y3S1'&&Object.keys(AA512_SAY).some(id=>AA512_SAY[id][1]===t&&AA512_OK(id)))), vp=S.posts.filter(p=>typeof p.pic==='object').map(p=>p.id);   /* AA_512 改的那一句在 AA_512 裡 */
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+SHA+'，一字不差；'+L.length+' 句；兩個版本的照片 '+(vp.join('、')||'沒有')+' 在 ② 對）',L.length>=(term==='Y2S2'?200:190)&&!bad.length&&J(vp)===J(term==='Y2S2'?['an7d']:[]),J({bad:bad.slice(0,8),vp}));
     /* ② 稿 → 遊戲：動態表每一列 */
     const rows=rowsOf(md).filter(r=>!PSRW.feedSkip(term,expectRow(term,r).id)), wrong=[], wd=[], went={};
-    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); if(AA512_SAY[e.id]&&e.say===AA512_SAY[e.id][0]&&AA512_OK(e.id)) e.say=AA512_SAY[e.id][1];   /* AA_512 改字 */ if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
+    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); for(const k of ['pic','say','cm','dm']) e[k]=LR.fwdDeep(e[k],FF);   /* AA_808 往前換（見上）*/ if(AA512_SAY[e.id]&&e.say===AA512_SAY[e.id][0]&&AA512_OK(e.id)) e.say=AA512_SAY[e.id][1];   /* AA_512 改字 */ if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when); if(e.went) went[e.id]=e.went;
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null;
       const same=!!p&&p.who===e.who&&p.st===e.st&&C(p.pic)===C(e.pic)&&p.say===e.say&&C(p.cm)===C(e.cm)&&C(p.dm)===C(e.dm)&&p.went===e.went&&!!got&&!!w&&got.day===w.day&&Math.abs(got.h-w.h)<1e-6;

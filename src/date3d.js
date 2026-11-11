@@ -534,7 +534,7 @@ const DATE=(function(){
   S.playSet=async function(GM,id,set,t,pid){ if(!set) return false; const G=GM.G, m=S.mem(G,id,t.locs[0]), me={name:nameOf(id),charId:id};   /* pid：正在演哪一個互動點（只有 S.spotLine、S.playOpts 傳；她請客 S.SHE_PAYS 用）*/
     const fill=x=>S.xiuqin(G,id,String(x).replace(/\{sunset\}/g,S.sunset(t.day)).replace(/\{lastDrink\}/g,S.TASTE_WORD[m.taste]||''));
     const run=async L=>{ for(const ln of (L||[])){ if(ln&&S.DEV_NOTE.has(ln.text)) continue;   /* 稿上寫成旁白的開發註記：不演（下面 S.DEV_NOTE）*/ if(!ln||ln.who==='note'){ const mm=ln&&/記 `?TASTE`?＝`?([^`]+)`?/.exec(ln.text||''); if(mm) m.taste=mm[1]==='玩家點的'?'player':mm[1]; continue; }
-        const tx=fill(S.DEV_STRIP[ln.text]||ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id){ if(S.shePays(id,pid,ln.text)) t.shePaid=pid;   /* 她說要請（S.SHE_PAYS）：這個互動點等一下不扣錢 */ await GM.say(me,tx); } else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
+        const tx=fill(S.DEV_STRIP[ln.text]||ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id){ if(S.shePays(id,pid,ln.text)) t.shePaid=pid;   /* 她說要請（S.SHE_PAYS）：這個互動點等一下不扣錢 */ S.splitMark(t,id,pid,ln.text);   /* 她說付一部分（S.SPLIT）＝扣一半；同一個互動點兩種都說了＝最後說的那一句算 */ await GM.say(me,tx); } else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
     await run(set.lines); const CH=Array.isArray(set.choice)?set.choice.filter(c=>c&&typeof c.t==='string'&&c.t.trim()&&S.optOk(G,id,c.t)):[];   /* optOk：字後面寫「（第 N 階以上）」的選項，到了才出現 */
     if(CH.length){ const k=await GM.choose(CH.map(c=>({t:S.xiuqin(G,id,S.optText(c.t))}))), c=CH[k]||CH[0]; await run(S.replyOf(id,c)); S.optFx(G,id,c,t); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
   /* ===== 選項的效果、每次去都有選項（DLG-FX-MECH-1110；使用者 X324；AA_746 第 2 節第 1、2 點）=====
@@ -583,10 +583,11 @@ const DATE=(function(){
   /* 照時間分兩段的台詞（陣列）：沛珊 D13 欄杆 firstHigh＝[重考以前, 重考以後]（AA_281 第 4 節 B-6；原本當物件讀、播出空的）。重考結束＝她的消失期最後一天的隔天 */
   S.timedSet=function(G,id,v){ if(!Array.isArray(v)) return v; if(!v.length) return null; if(v.length===1) return v[0]; const back=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2027-08-06'):null; return id==='classmate_peishan'&&back!=null&&G.day>=back?v[v.length-1]:v[0]; };
   /* AA_525 1-6、2-4（企劃線 6081f725f）：第一次選了哪一個要記下來（PICK_FLAG）；remember 只給選過對應選項的人（REMEMBER_IF：no＝其他人換的那一組；add＝有旗標的多幾句、once＝演過一次記 'paid'）*/
-  S.PICK_FLAG=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',t:'「我請妳。」',flag:'ZQ_D06_TREAT'},   /* 「好。下次我請你吃滷味。」→ remember「我說過要請你吃滷味，等一下去，我知道一間。」（2026-11-11 X324 子晴重寫 date_rewrite/zq_D06.json@02078efc0；原本「上次說要請你吃滷味，十點以後半價那間。」）*/
+  S.PICK_FLAG=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',t:'「我請妳。」',flag:'ZQ_D06_TREAT'},   /* 「好。下次我請你吃滷味。」→ remember「我說過要請你吃滷味，等一下去，我知道一間。」（2026-11-11 X324 子晴重寫 date_rewrite/zq_D06.json@02078efc0；原本「上次說要請你吃滷味，十點以後半價那間。」）；2026-11-11 AA_812@f1fab0ec6：回覆改「好。下次我請。」（path_rows）、remember 改「這家我來過兩次了。這次我請，你不要算。」（改稿紀錄 zq_D06.json 第 45 格；那一次她請客 S.SHE_PAYS）——旗標和 REMEMBER_IF 照舊 */
     {loc:'D15',who:'heroine_04',pid:'D15.store',t:'「布丁不行。」',flag:'ZQ_D15_NEXT'},   /* 「欸，好啦。布丁下次。」→ remember「說好的布丁，這次我要拿了。」「山上的布丁比較好吃，這是我的理論。」（2026-11-11 X324 子晴重寫 date_rewrite/zq_D15.json@02078efc0；原本「上次的布丁，今天我要。」「……上次說下次的。」）*/
     {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',t:'「我請妳。」',flag:'PS_D05_EGG'}];   /* 「好啊，那下次換我。」（X327 沛珊重寫 2026-11-11：原本「那下次我請你吃蛋餅。說好了。」；旗標名不改）*/
-  S.REMEMBER_IF=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',flag:'ZQ_D06_TREAT',no:[{who:'heroine_04',text:'這家的位子我記得，靠牆那桌插座最近。'}]},
+  /* 2026-11-11（AA_812@633b7f7d6 _meta.changes，AA 12:4x「子晴 D06.cafe：拿掉 ZQ_D06_TREAT 綁定，所有人聽新句、她請——OK」）：D06.cafe 那一列拿掉＝再訪不分第一次選了什麼，都聽 remember 的新句（她當場請，AA_812 承諾那格）；PICK_FLAG 照記 ZQ_D06_TREAT（不再影響台詞）。舊：沒旗標的人聽「這家的位子我記得，靠牆那桌插座最近。」 */
+  S.REMEMBER_IF=[
     {loc:'D15',who:'heroine_04',pid:'D15.store',flag:'ZQ_D15_NEXT',no:[{who:'heroine_04',text:'布丁還在同一格，我要拿了。'}]},   /* 子晴這兩列沒旗標的備用句：2026-11-11 照 AA_775_zq_date_common.json@02078efc0 換（使用者 X324；原本兩列都是「上次也來這裡。」）*/
     {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',flag:'PS_D05_EGG',once:true,add:[{who:'narr',text:'（她把一杯熱紅茶推到你面前。）'},{who:'classmate_peishan',text:'說好的，這次換我。'}]}];   /* X327 沛珊重寫（date_rewrite/peishan_D05.json@2883197b6 的 for_LAWWW）：原本是一盒蛋餅、「說好的！」 */
   S.rememberOf=function(G,t,pid,R){ if(!R) return R; const F=(G&&G.flags)||{}, x=S.REMEMBER_IF.find(r=>r.loc===t.locs[0]&&r.who===t.who&&r.pid===pid); if(!x) return R;
@@ -594,7 +595,7 @@ const DATE=(function(){
     if(x.no) return has?R:Object.assign({},R,{lines:x.no});
     return has&&x.add?Object.assign({},R,{lines:(R.lines||[]).concat(x.add),aa525:x}):R; };
   S.pickFlag=function(G,t,pid,c){ if(!G||!G.flags||!c) return; const x=S.PICK_FLAG.find(r=>r.loc===t.locs[0]&&r.who===t.who&&r.pid===pid&&r.t===c.t); if(x&&G.flags[x.flag]==null) G.flags[x.flag]=G.day; };
-  S.spotLine=async function(GM,t,pid,visits){ delete t.shePaid;   /* 她請客（S.SHE_PAYS）：每個互動點從頭算 */ const G=GM.G, id=t.who, H=((LL(id,t.locs[0])||{}).hotspots||{})[pid]; if(!H) return false; const m=S.mem(G,id,t.locs[0]), dating=!!(G.flags&&G.flags['dating_'+id]), hi=dating||S.stageNum(id)>=6, before=m.picks.includes(pid);
+  S.spotLine=async function(GM,t,pid,visits){ delete t.shePaid; delete t.sheSplit;   /* 她請客（S.SHE_PAYS）、平分（S.SPLIT）：每個互動點從頭算 */ const G=GM.G, id=t.who, H=((LL(id,t.locs[0])||{}).hotspots||{})[pid]; if(!H) return false; const m=S.mem(G,id,t.locs[0]), dating=!!(G.flags&&G.flags['dating_'+id]), hi=dating||S.stageNum(id)>=6, before=m.picks.includes(pid);
     let set=null; if(!before&&H.first&&!H.first.wishEvent) set=hi&&H.firstHigh?S.timedSet(G,id,H.firstHigh):H.first;
     if(!set&&(visits===1||m.last.includes(pid))&&H.remember&&setUsable(G,id,H.remember,t)) set=S.rememberOf(G,t,pid,H.remember);   /* 記得上次：第二次，或上一次點過同一個互動點（BB_128 2-6）；AA_525 REMEMBER_IF */
     if(!set&&dating&&id!=='kexin'&&(H.dating||[]).length) set=S.pickSet(G,id,H.dating,t,pid+'.dating');
@@ -626,7 +627,7 @@ const DATE=(function(){
     for(let n=0;n<4;n++){ const now=G.day*24+G.hour; const left=pts.filter(p=>!spots.includes(p.id));
       const opts=left.map(p=>{ const rw=S.spotOff(G,p.id), c=S.pointCost(p,t); return {t:p.name,hint:(p.min|0)+' 分'+(c?'　'+c+' 元':''),dis:!!rw||now+(p.min|0)/60>endH,why:rw||'時間差不多了'}; }).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);
       const k=await GM.choose(opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); n--; continue; }   /* 灰掉的（時間不夠、下雨停用）按了只提示，不結束 */
-      const p=left[k]; spots.push(p.id); const said=await S.spotLine(GM,t,p.id,visits), free=S.takeShePaid(t,p.id); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=free?0:S.pointCost(p,t); if(c&&GM.money) GM.money(-c,p.name); }   /* 互動點的反應（沒有台詞的地點照舊一句旁白）；free＝她說要請的那一次不扣（S.SHE_PAYS）*/
+      const p=left[k]; spots.push(p.id); const said=await S.spotLine(GM,t,p.id,visits), half=S.takeSplit(t,p.id), free=S.takeShePaid(t,p.id); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.halfOf(free?0:S.pointCost(p,t),half); if(c&&GM.money) GM.money(-c,p.name); }   /* 互動點的反應（沒有台詞的地點照舊一句旁白）；free＝她說要請的那一次不扣（S.SHE_PAYS）；half＝她說付一部分的那一次扣一半（S.SPLIT）*/
       const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p);
       if(spots.length===3&&pts.length>3) await S.speak(GM,t.who,'enough',t,{obj:null});   /* 第三個互動點之後她說一句「差不多了」（BB_128 2-5 第 5 步；不分地點）*/ }
     t.spots=spots; S.mem(G,t.who,loc).last=spots.slice();
@@ -688,7 +689,7 @@ const DATE=(function(){
       const opts=left.map(p=>{ const rw=S.spotOff(G,p.id), c=S.pointCost(p,t); return {t:p.name,hint:(p.min|0)+' 分'+(c?'　'+c+' 元':''),dis:!!rw||now+(p.min|0)/60>o.endH,why:rw||'時間差不多了'}; }).concat([{t:o.stop(day.length)}]);   /* 休館的館（第二天是週一的話，G.day 已經換到第二天）、下雨停用的灰掉 */
       const k=await GM.choose(opts.map(x=>x.dis?{t:x.t,hint:x.why,dim:true}:x)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); continue; }
       const p=left[k]; spots.push(p.id); day.push(p.id); { const pb=S.pointBg(p.id); if(pb){ setBg(pb); if(o.bg) o.bg.k=pb; } }   /* 夕陽那一點換 d28b（B12）*/
-      const said=await S.spotLine(GM,t,p.id,visits), free=S.takeShePaid(t,p.id); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=free?0:S.pointCost(p,t); if(c&&GM.money) GM.money(-c,p.name); }   /* free＝她說要請的那一次不扣（S.SHE_PAYS）*/
+      const said=await S.spotLine(GM,t,p.id,visits), half=S.takeSplit(t,p.id), free=S.takeShePaid(t,p.id); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); { const c=S.halfOf(free?0:S.pointCost(p,t),half); if(c&&GM.money) GM.money(-c,p.name); }   /* free＝她說要請的那一次不扣（S.SHE_PAYS）；half＝她說付一部分的那一次扣一半（S.SPLIT）*/
       { const T=S.TIMED[p.id]; if(T&&T.until!=null&&G.hour<T.until&&GM.advance) GM.advance(T.until-G.hour); }   /* 夕陽演完至少到 18:00、星星 20:00（B7），接晚上那一句 */
       const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p); }
     return day; };
@@ -748,8 +749,21 @@ const DATE=(function(){
      是那個互動點才不扣（只是那一趟行程物件上的暫時欄位，演完就拿掉，不是存檔的新欄位；S.spotLine 一開始也清一次）。沒有旁白、沒有提示；選單上的「160 元」照舊；快速約會不演台詞＝照扣；
      祐廷選請客的選項另外扣的那一份（S.isTreat／extra）照舊。測試 tests/date_she_pays_1111_unit.js */
   S.SHE_PAYS={heroine_01:{'D06.cafe':['這家的蛋糕我記得，檸檬的那個。這次我請。'],'D13.drink':['這杯我請。不要跟我搶。'],'D18.teahouse':['這壺茶多少錢？好，不貴。我請。']}};
+  /* AA_782（企劃線 f7a23d408；X324）：其他人的請客格——學姊七格、沛珊兩格、可昕一格——不手寫：tools/date/import_she_pays.py 從稿產生 src/data/she_pays.js（SHE_PAYS_DATA.pays，同一個格式），
+     這裡合進來（index.html 在 date3d.js 前面載）；稿的每一列匯入工具已經對過 date_lines.js 那一格逐字、格號、她那個互動點底下剛好一處 */
+  if(typeof SHE_PAYS_DATA!=='undefined'&&SHE_PAYS_DATA&&SHE_PAYS_DATA.pays) for(const id in SHE_PAYS_DATA.pays) for(const pid in SHE_PAYS_DATA.pays[id]){ const o=S.SHE_PAYS[id]||(S.SHE_PAYS[id]={}); o[pid]=(o[pid]||[]).concat(SHE_PAYS_DATA.pays[id][pid].filter(x=>!(o[pid]||[]).includes(x))); }
   S.shePays=(id,pid,text)=>!!pid&&(((S.SHE_PAYS[id]||{})[pid])||[]).includes(text);
   S.takeShePaid=(t,pid)=>{ const y=!!t&&t.shePaid===pid; if(t) delete t.shePaid; return y; };
+  /* 她付一部分＝那個互動點祐廷那一份（S.pointCost）扣一半（AA_812_date_pays_promises.json@f1fab0ec6 的 SPLIT；規則 AA 和 LAWWW 定：扣一半）。
+     tools/date/import_she_pays.py 從稿產生 src/data/she_pays.js 的 SHE_PAYS_DATA.split（格式同 S.SHE_PAYS），這裡合進 S.SPLIT；稿的每一句匯入工具已經對過 date_lines.js（她那個互動點底下剛好一處、是她說的、同一句不會同時在 SHE_PAYS）。
+     做法同 S.SHE_PAYS：S.playSet 播到這一句記 t.sheSplit＝互動點 id；同一個互動點她先說「我請」、後來又說「一人一半」（例：學姊 D22.fish 第一次選「那我請飲料。」）＝最後說的那一句算（S.splitMark 互相清掉）；
+     S.scene、S.dayRound 在 S.spotLine 演完的當下 S.takeSplit 看一次、清掉，S.halfOf 扣一半（四捨五入到整數，Math.round）。不是存檔的新欄位；選單上的價錢照舊；快速約會不演台詞＝照扣；請她的那一份（extra）照舊。測試 tests/date_she_pays_812_1111_unit.js */
+  S.SPLIT={};
+  if(typeof SHE_PAYS_DATA!=='undefined'&&SHE_PAYS_DATA&&SHE_PAYS_DATA.split) for(const id in SHE_PAYS_DATA.split) for(const pid in SHE_PAYS_DATA.split[id]){ const o=S.SPLIT[id]||(S.SPLIT[id]={}); o[pid]=(o[pid]||[]).concat(SHE_PAYS_DATA.split[id][pid].filter(x=>!(o[pid]||[]).includes(x))); }
+  S.sheSplits=(id,pid,text)=>!!pid&&(((S.SPLIT[id]||{})[pid])||[]).includes(text);
+  S.splitMark=(t,id,pid,text)=>{ if(!t||!pid) return; if(S.shePays(id,pid,text)) delete t.sheSplit; else if(S.sheSplits(id,pid,text)){ t.sheSplit=pid; delete t.shePaid; } };
+  S.takeSplit=(t,pid)=>{ const y=!!t&&t.sheSplit===pid; if(t) delete t.sheSplit; return y; };
+  S.halfOf=(c,half)=>half?Math.round((c|0)/2):c;
   /* 雨天停用的互動點（BB_128 2-2：淡水「長椅停用（『椅子是濕的』）」；DATE-C2）：灰掉、寫原因 */
   S.RAIN_OFF={'D13.bench':'椅子是濕的'};
   S.rainOff=(G,pid)=>(G&&(G.weather==='rain'||G.weather==='typhoon')&&S.RAIN_OFF[pid])||'';

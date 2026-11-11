@@ -175,7 +175,7 @@ await sec('R',async()=>{
     const G2=fresh('2028-07-07',19); G2.flags.REPAIR={heroine_01:1}; const L2=await play('ev_jp_tanabata_repair');
     check('R2. REPAIR 不夠：「（她看了很久，把短冊還給你。）」「掛上去吧。」＝hung',!!L2&&L2.includes('（她看了很久，把短冊還給你。）')&&L2.includes('掛上去吧。')&&!L2.includes('……不准賴。')&&G2.flags.AN_TANABATA_JP_REPAIR==='hung',J(L2)); }
   { const G=fresh('2028-09-13',19); const L=await play('ev_us2_repair',[0,0]);
-    check('R3. 美國 C 棟廚房：她點頭、祐廷問「報告怎麼了？」她才說；「我陪妳吃完再走。」＝US2_STAYED、「……隨你。」；「你吃過了嗎？」不在',!!L&&L.includes('（她看了你一眼，點了一下頭，又回去看鍋子。吧台上放著一份報告，第一頁有教授的紅字。）')&&L.includes('……被退了。教授說：「妳的論點很清楚，但我讀不到妳。」')&&L.includes('……隨你。')&&!L.includes('你吃過了嗎？')&&G.flags.US2_STAYED===true&&G.flags.US2==='repair',J(L));
+    check('R3. 美國 C 棟廚房：她點頭、祐廷問「報告怎麼了？」她才說；「我陪妳吃完再走。」＝US2_STAYED、「隨你。」；「你吃過了嗎？」不在',!!L&&L.includes('（她看了你一眼，點了一下頭，又回去看鍋子。吧台上放著一份報告，第一頁有教授的紅字。）')&&L.includes('……被退了。教授說：「妳的論點很清楚，但我讀不到妳。」')&&L.includes('隨你。')&&!L.includes('你吃過了嗎？')&&G.flags.US2_STAYED===true&&G.flags.US2==='repair',J(L));   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……隨你。」 */
     const G2=fresh('2028-09-13',19); const L2=await play('ev_us2_repair',[1]); check('R3. 放好就走：「（你走的時候，她沒有回頭。）」、沒有 US2_STAYED',!!L2&&L2.includes('（你走的時候，她沒有回頭。）')&&!G2.flags.US2_STAYED,J(L2)); }
   { const G=fresh('2028-11-23',9); const L=await play('ev_us3_lake',[0]);
     check('R4. 感恩節湖邊（挽回中）：你放慢腳步走到她旁邊、祐廷先說「分手那天，我沒有解釋。」；她說的「分手那天，你沒有解釋。」不在',!!L&&L.some(t=>/你放慢腳步，走到她旁邊。她沒有看你。/.test(t))&&L.includes('分手那天，我沒有解釋。')&&L.includes('（她走了好幾步才開口。）')&&!L.includes('分手那天，你沒有解釋。'),J(L)); }

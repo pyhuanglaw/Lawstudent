@@ -1,9 +1,9 @@
-/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@be775af69、docs/story_planning/AA_728_gifts_friends.json@7ac7380ff）。不要手改，改企劃 AA_710／AA_728 再重新匯入。
+/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@31c1c4e2c、docs/story_planning/AA_728_gifts_friends.json@7ac7380ff）。不要手改，改企劃 AA_710／AA_728 再重新匯入。
    沛珊最愛的米漿第二句照 AA_766_peishan_leftover2.json@1e647bb05（X327；tools/story/ps766.py 疊的）。
    送早餐、飲料（GIFT-FLIRT-1107；播放 src/gift3d.js）：people＝七位女主角（AA_710）、friends＝朋友六位（AA_728）*/
 'use strict';
 const GIFT_LINES={
- "src": "docs/story_planning/AA_710_gifts.json@be775af69",
+ "src": "docs/story_planning/AA_710_gifts.json@31c1c4e2c",
  "people": {
   "heroine_01": {
    "drink": {
@@ -13,19 +13,19 @@ const GIFT_LINES={
       "pool": [
        {
         "lines": [
-         "……給我的？",
+         "給我的？",
          "謝謝。下次我還你。"
         ]
        },
        {
         "lines": [
          "你怎麼知道我還沒買？",
-         "……謝謝。"
+         "謝謝。"
         ]
        }
       ],
       "lines": [
-       "……給我的？",
+       "給我的？",
        "謝謝。下次我還你。"
       ],
       "rel": {
@@ -48,7 +48,7 @@ const GIFT_LINES={
        },
        {
         "lines": [
-         "……你又買了。好，我喝。"
+         "你又買了。好，我喝。"
         ]
        }
       ],
@@ -67,7 +67,7 @@ const GIFT_LINES={
        {
         "lines": [
          "你來的路上買的？",
-         "……下次我買給你。這次換我。"
+         "下次我買給你。這次換我。"
         ]
        },
        {
@@ -78,7 +78,7 @@ const GIFT_LINES={
       ],
       "lines": [
        "你來的路上買的？",
-       "……下次我買給你。這次換我。"
+       "下次我買給你。這次換我。"
       ],
       "rel": {
        "comf": 2,
@@ -157,7 +157,7 @@ const GIFT_LINES={
       {
        "lines": [
         "這麼冷的天，你買冰的？",
-        "……好，我喝慢一點。"
+        "好，我喝慢一點。"
        ]
       }
      ]
@@ -175,7 +175,7 @@ const GIFT_LINES={
        },
        {
         "lines": [
-         "……謝謝。我等一下下課吃。"
+         "謝謝。我等一下下課吃。"
         ]
        }
       ],
@@ -265,7 +265,7 @@ const GIFT_LINES={
      "night": [
       {
        "lines": [
-        "……這個時間買早餐？",
+        "這個時間買早餐？",
         "這是明天的早餐嗎？好，我明天吃。"
        ]
       }
@@ -406,7 +406,7 @@ const GIFT_LINES={
       {
        "lines": [
         "又是這個。你是不是覺得我只喝這個？",
-        "……我是只喝這個。"
+        "我是只喝這個。"
        ]
       }
      ],
@@ -414,7 +414,7 @@ const GIFT_LINES={
       {
        "lines": [
         "這麼熱你買熱的？",
-        "……我喝。我們店裡冷氣很冷。"
+        "我喝。我們店裡冷氣很冷。"
        ]
       }
      ]
@@ -510,7 +510,7 @@ const GIFT_LINES={
       {
        "lines": [
         "現在是晚上。",
-        "……我下班剛好餓了。這算宵夜。"
+        "我下班剛好餓了。這算宵夜。"
        ]
       }
      ]
@@ -663,7 +663,7 @@ const GIFT_LINES={
        },
        {
         "lines": [
-         "……謝謝。我等一下吃。"
+         "謝謝。我等一下吃。"
         ]
        }
       ],
@@ -1089,7 +1089,7 @@ const GIFT_LINES={
      "item": "無糖綠茶（去冰）",
      "n": "無糖綠茶（去冰）",
      "lines": [
-      "……無糖綠茶，去冰。",
+      "無糖綠茶，去冰。",
       "你怎麼知道的？"
      ],
      "rel": {
@@ -1565,7 +1565,7 @@ const GIFT_LINES={
        {
         "lines": [
          "你買有糖的？",
-         "……你明明知道我喝無糖的。",
+         "你明明知道我喝無糖的。",
          "（她還是喝了，邊喝邊瞪你。）"
         ]
        }
@@ -1586,7 +1586,7 @@ const GIFT_LINES={
       {
        "lines": [
         "考試週你還記得買。",
-        "……好，你今天及格了。"
+        "好，你今天及格了。"
        ]
       }
      ]
@@ -1604,7 +1604,7 @@ const GIFT_LINES={
        },
        {
         "lines": [
-         "……謝謝。我等一下吃。"
+         "謝謝。我等一下吃，你不要一直看我。"
         ]
        }
       ],

@@ -130,7 +130,9 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   check('0. 稿寫在說明裡的句子（1-2 多的那個選項「Shu，謝謝。」）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&covered(GS,t)),J(INLINE));
   /* 遊戲 → 稿 */
   const A600=require('./aa600_doc.js');   /* AA_600 新寫的旁白（B6）在 AA_600 的稿裡 */
-  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t)&&!A591.has(t.replace(/^「|」$/g,''))&&!A593.has(t)&&!A600.has(t));
+  /* 2026-11-11（X324，AA_781_sis_ladder_Y4S1.json@a5e537856 rows greet.base[2]）：sis_b16_events.js 多了 greetBack781（ladder.js 那一句拿掉刪節號，條件跟著新字）——字在 AA_781 的稿，不在 AA_523。舊期望：沒有這一句 */
+  const A781=new Set(['（她把保溫瓶遞過來）回來了。這邊的飲水機有熱水。']);
+  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t)&&!A591.has(t.replace(/^「|」$/g,''))&&!A593.has(t)&&!A600.has(t)&&!A781.has(t));
   check('0. 遊戲 → 稿：新檔的每一句、改字（'+new Set(G0).size+' 句）都在稿裡（一字不差）',G0.length>=200&&!notIn.length,J({n:G0.length,notIn}));
   /* 第 6 節換掉的舊句不在遊戲裡（註解除外）*/
   const OLD=[['src/data/sis_b13_events.js',"'學姊回來了！！'"],['src/data/sis_b13_events.js',"'禮拜四家聚 歡迎回來 118 巷那家'"],['src/data/sis_b12_events.js',"'「美國好玩嗎？」'"],['src/data/sis_b12_events.js',"'好玩。……照片你都看過了。'"],
@@ -418,9 +420,10 @@ await sec(6,async()=>{
     fresh('2028-11-15',10,'ex',{},{route:'US'}); at('2029-02-20',12); const x0=P(H.G,D('2029-02-24')); H.G.flags.SIS_REBUILD=D('2029-02-20'); const x1=P(H.G,D('2029-02-24'));
     fresh('2029-02-20',12,'friend'); const x2=P(H.G,D('2029-02-24'));
     check('6. 6-9 前任：不收（sisEx），等「4-1 她要的時間」這一次分開演過（SIS_REBUILD）才收；沒分開過照舊',x0==='sisEx'&&x1===''&&x2==='',J([x0,x1,x2])); }
-  { const gb=LADDER.byTerm.Y4S1[ID].greet.base, US=L().greetUS, BK=L().greetBack, GI=STORY.LADDER_GREET_IF;
+  /* 2026-11-11（X324，AA_781 rows greet.base[2]）：ladder.js 裡那一句拿掉刪節號＝L().greetBack781（BK＝AA_523 稿的字，下面對稿照用）；條件兩個 key 同一個——舊期望：ladder.js 裡是 BK */
+  { const gb=LADDER.byTerm.Y4S1[ID].greet.base, US=L().greetUS, BK=L().greetBack, BK2=L().greetBack781, GI=STORY.LADDER_GREET_IF;
     fresh('2028-12-22',12,'friend'); const b0=[GI[US]&&GI[US].test(H.G),GI[BK]&&GI[BK].test(H.G)]; at('2028-12-24',12); const b1=[GI[US].test(H.G),GI[BK].test(H.G)];
-    check('6. 6-10 大四上招呼：base 有回來以後那一句「（她把保溫瓶遞過來）……回來了。這邊的飲水機有熱水。」（ladder.js，import_ladder.py 疊上去）；12/23 以前說美國那一句、回來以後（12/24）說新的那一句',gb.includes(BK)&&gb.includes(US)&&gb.indexOf(BK)===gb.indexOf(US)+1&&J(b0)===J([true,false])&&J(b1)===J([false,true])&&(ROW['6-10']||{toQ:[]}).toQ.includes(BK),J({gb,b0,b1}));
+    check('6. 6-10 大四上招呼：base 有回來以後那一句「（她把保溫瓶遞過來）……回來了。這邊的飲水機有熱水。」（ladder.js，import_ladder.py 疊上去）；12/23 以前說美國那一句、回來以後（12/24）說新的那一句',gb.includes(BK2)&&!gb.includes(BK)&&gb.includes(US)&&gb.indexOf(BK2)===gb.indexOf(US)+1&&GI[BK2]===GI[BK]&&J(b0)===J([true,false])&&J(b1)===J([false,true])&&(ROW['6-10']||{toQ:[]}).toQ.includes(BK),J({gb,b0,b1}));
     let got=[]; fresh('2028-12-24',12,'friend',{},{zone:'cafe'}); for(let i=0;i<12;i++){ H.G.social.greetUsed={}; H.G.day=D('2028-12-24'); const t=STORY.ladGreet(H.G,ID); if(t) got.push(t); H.G.social.ladder=H.G.social.ladder||{}; H.G.social.ladder[ID+'@Y4S1']=(H.G.social.ladder[ID+'@Y4S1']|0)+1; }
     check('6. 6-10 12/24 在臺灣找她說話：招呼不會出現「這邊的飲水機只有冰的。」',got.length>0&&!got.includes(US),J(got)); }
   { const W=SISB13_LINES.welcomeAsk; check('6. 6-11 12/26 家族群組 Kevin 第一句「禮拜四家聚！」、第二句「歡迎學姊回來 118 巷那家」',J(W)===J([['k','禮拜四家聚！'],['k','歡迎學姊回來 118 巷那家']])&&(ROW['6-11']||{toQ:[]}).toQ.includes('禮拜四家聚！')&&(ROW['6-11']||{toQ:[]}).toQ.includes('歡迎學姊回來 118 巷那家'),J(W)); }

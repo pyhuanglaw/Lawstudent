@@ -66,7 +66,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('H0. 2/27 21:00 阿哲兩則；排 2/28 14:00 公館河濱', txt('g:noodle_team').join('|')==='zhe:明天放假 河濱 兩點|zhe:Alison 說要帶風箏'&&q228&&q228.day===D('2028-02-28')&&q228.h===14);
   picks=[1]; await run('ev_y3s2_228');
   check('H1. 去了：以安在場（「三月二十五號以前，還有四個週末。」、柏翰「三個半」）', has('（坐在階梯上，看著手機的月曆）三月二十五號以前，還有四個週末。')&&has('三個半。今天放假，不算。')&&G.flags.Y3S2_228===true);
-  check('H2. 選「（坐到以安旁邊）」：手帳上四個空的週末', has('……你也要算嗎？')&&has('（她把手機轉過來：四個週末，每一格都還空著。）'), JSON.stringify(opts[0]));
+  check('H2. 選「（坐到以安旁邊）」：手帳上四個空的週末', has('你也要算嗎？')&&has('（她把手機轉過來：四個週末，每一格都還空著。）'), JSON.stringify(opts[0]));   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……你也要算嗎？」 */
   fresh('2028-02-27',21.1,'dorm'); grpJoin(); R('zhe','FRI'); R('yu','FRI'); rules(); at('2028-02-28',14.3); OUT.tick(GM); at('2028-02-28',17.6); rules();
   check('H. 沒去：17:30 Alison 在群組（風箏卡在樹上）', txt('g:noodle_team').includes('yu:（照片：河濱的天空，一個風箏卡在樹上）')&&txt('g:noodle_team').includes('yu:是風的問題！！'));
 
@@ -189,7 +189,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   answer('y3_an_sakura',0); rules(); const sq=OUT.get(G,'y3_an_sakura');
   check('S0. 「好。」→「嗯。」；排 4/8 日本 16:30', txt('p:heroine_01').includes('heroine_01:嗯。')&&sq&&sq.day===D('2028-04-08')&&sq.h===16.5);
   CG_REGISTRY.cg_sakura_riverbank_heroine01={file:'x'}; picks=[1]; cgs=[]; await run('ev_an_sakura_riverbank'); delete CG_REGISTRY.cg_sakura_riverbank_heroine01;
-  check('S1. 交往中、去了：CG-23；她直接說「櫻花只開一個禮拜。」、說話人「手帳」那一行刪掉（AA_589 第 81、82 列）；「……所以這週的讀書會，改在這裡。」；AN_SAKURA went', cgs.join()==='cg_sakura_riverbank_heroine01'&&has('櫻花只開一個禮拜。')&&!has('理由：櫻花只開一個禮拜。')&&has('……所以這週的讀書會，改在這裡。')&&has('（她看了你一眼，繼續讀。過了一頁，她把保溫杯推過來一點。）')&&G.flags.AN_SAKURA==='went');
+  check('S1. 交往中、去了：CG-23；她直接說「櫻花只開一個禮拜。」、說話人「手帳」那一行刪掉（AA_589 第 81、82 列）；「所以這週的讀書會，改在這裡。」；AN_SAKURA went', cgs.join()==='cg_sakura_riverbank_heroine01'&&has('櫻花只開一個禮拜。')&&!has('理由：櫻花只開一個禮拜。')&&has('所以這週的讀書會，改在這裡。')&&has('（她看了你一眼，繼續讀。過了一頁，她把保溫杯推過來一點。）')&&G.flags.AN_SAKURA==='went');   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……所以這週的讀書會，改在這裡。」 */
   fresh('2028-04-07',21.1,'dorm',{EXCHANGE_ROUTE:'JP'}); R('heroine_01','FRI'); rules(); check('S2. 挽回中：沒有這一場', txt('p:heroine_01').length===0);
   fresh('2028-04-07',21.1,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); rules(); answer('y3_an_sakura',1); at('2028-04-08',18.1); rules();
   check('S. 「明天不行。」→「好。……櫻花下週就謝了。我拍給你。」（AA_524 A7 改原句）；日本 18:00 照片「今天在這裡讀完一章。」；AN_SAKURA missed', txt('p:heroine_01').includes('heroine_01:好。……櫻花下週就謝了。我拍給你。')&&txt('p:heroine_01').includes('heroine_01:今天在這裡讀完一章。')&&G.flags.AN_SAKURA==='missed');
@@ -301,13 +301,13 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   answer('y3_kx_k20',0); rules(); const kq=OUT.get(G,'y3_kx_k20');
   check('K20-0. 「好。」→ 排 5/12 19:00 公館河濱', !!kq&&kq.day===D('2028-05-12')&&kq.h===19);
   picks=[1]; await run('ev_kexin_k20');
-  check('K20-1. 去了：「有個人聽懂了自己的處境，就不那麼怕了。」；「做這個要很累。」→「會。所以你要負責宵夜。」；KX_DIR.Y3 heard、KX_K20 river', has('有個人聽懂了自己的處境，就不那麼怕了。')&&has('會。所以你要負責宵夜。')&&!has('……這句我大二說過了。好，這次換你說一句。')&&G.flags.KX_DIR.Y3==='heard'&&G.flags.KX_K20==='river');
+  check('K20-1. 去了：「有個人聽懂了自己的處境，就不那麼怕了。」；「做這個要很累。」→「會。所以你要負責宵夜。」；KX_DIR.Y3 heard、KX_K20 river', has('有個人聽懂了自己的處境，就不那麼怕了。')&&has('會。所以你要負責宵夜。')&&!has('這句我大二說過了。好，這次換你說一句。')&&G.flags.KX_DIR.Y3==='heard'&&G.flags.KX_K20==='river');   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……這句我大二說過了。好，這次換你說一句。」 */
   fresh('2028-05-12',19,'dorm',{KX_SUMMER:'tired'}); date('kexin'); picks=[1]; await run('ev_kexin_k20');
-  check('K20. KX_SUMMER tired：多「……這句我大二說過了。好，這次換你說一句。」', has('……這句我大二說過了。好，這次換你說一句。'));
+  check('K20. KX_SUMMER tired：多「這句我大二說過了。好，這次換你說一句。」', has('這句我大二說過了。好，這次換你說一句。'));   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……這句我大二說過了。好，這次換你說一句。」 */
   fresh('2028-05-11',21.1,'dorm'); date('kexin'); rules(); answer('y3_kx_k20',1); at('2028-05-12',20.6); rules(); const kc=OUT.get(G,'y3_kx_k20_call');
   check('K20-2. 沒去：21:00 電話（不是訊息；只有「接起來」）', txt('p:kexin').includes('kexin:……好。那我明天晚上打給你。')&&!!kc&&kc.h===21&&kc.must===true&&kc.place==='電話');
   picks=[2]; await run('ev_kexin_k20_call');
-  check('K20-2. 電話「本來想在河濱講的。」；「（聽她說完）」→「……嗯。我講完了。早點睡。」；KX_K20 call', has('本來想在河濱講的。實習那邊，有個來問問題的人聽懂了自己的處境。')&&has('……嗯。我講完了。早點睡。')&&G.flags.KX_K20==='call'&&G.flags.KX_DIR.Y3==='heard');
+  check('K20-2. 電話「本來想在河濱講的。」；「（聽她說完）」→「嗯。我講完了。早點睡。」；KX_K20 call', has('本來想在河濱講的。實習那邊，有個來問問題的人聽懂了自己的處境。')&&has('嗯。我講完了。早點睡。')&&G.flags.KX_K20==='call'&&G.flags.KX_DIR.Y3==='heard');   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……嗯。我講完了。早點睡。」 */
   check('K20-3. 任何一版：沒有案件內容、實習單位', !/案件|事務所|法扶|法院/.test(JSON.stringify(ev('ev_kexin_k20').dialogue.concat(ev('ev_kexin_k20_call').dialogue))));
   fresh('2028-05-12',21.6,'dorm',{EXCHANGE_ROUTE:'JP'}); date('kexin'); date('heroine_01'); rules();
   check('K20. 日本路線：沒有河濱的邀約；臺灣 21:00＝日本 22:00 電話', !PHONE.sent(G,'y3_kx_k20')&&(OUT.get(G,'y3_kx_k20_call')||{}).h===22);
@@ -507,7 +507,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-08-04',21.1,'dorm'); date('heroine_02'); ct('heroine_02'); rules(); const zsq=OUT.get(G,'y3_zr_slips');
   check('ZS0. 和芷若交往中（台灣路線）：8/4 21:00 兩則（不用回）；排 8/5 14:00「2:30 AM（店休）」（2026-11-04 改期望：原本「兩點半（店休）」；AA_655 第 7 節第 5 點 10020abda，地點字幕寫店名 2:30 AM）', txt('p:heroine_02').join('|')==='heroine_02:明天店休。下午兩點，來店裡。|heroine_02:門會鎖著。敲三下。……我跟老闆借了一個下午。'&&!!zsq&&zsq.day===D('2028-08-05')&&zsq.h===14&&zsq.place==='2:30 AM（店休）'&&zsq.title==='和芷若：2:30 AM（店休）'&&!PHONE.pending(G).some(m=>m.th==='p:heroine_02'), JSON.stringify(txt('p:heroine_02')));
   picks=[1]; await run('ev_zhiruo_twelve_slips');
-  check('ZS1. 去了：「你敲了四下。」…「第十二張是空的。」「那一部，等我回來，一起寫。」；ZR_TWELVE_SLIPS', has('（開門）你敲了四下。……算了，進來。')&&has('那一部，等我回來，一起寫。')&&has('……好，寫長一點也可以。')&&G.flags.ZR_TWELVE_SLIPS===true);
+  check('ZS1. 去了：「你敲了四下。」…「第十二張是空的。」「那一部，等我回來，一起寫。」；ZR_TWELVE_SLIPS', has('（開門）你敲了四下。……算了，進來。')&&has('那一部，等我回來，一起寫。')&&has('好，寫長一點也可以。')&&G.flags.ZR_TWELVE_SLIPS===true);   /* 2026-11-11（X324 G 區，AA_801_y3_events.json@6086bea73）：r2y3b_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……好，寫長一點也可以。」 */
   /* AA_343 D8（改了期待值）：照 BB_165 3-2 的 10-18 加註——沒到＝16:00 照片、信封放在吧檯下面，下次她上班時進 Café 拿；9/1 以前都沒拿＝9/1 21:00 兩則、老闆給；日本路線 8/12；8/21「信封到了」作廢 */
   fresh('2028-08-04',21.1,'dorm'); date('heroine_02'); ct('heroine_02'); rules(); at('2028-08-05',14.6); OUT.tick(GM); at('2028-08-05',16.1); rules(); at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM);
   check('ZS2. D8 14:30 還沒到：16:00「（照片：十二張點單疊在一個信封裡）」「第一部，我先一個人看了」「信封放在吧檯下面。下次來拿」；8/21 沒有「信封到了」；還沒拿到', txt('p:heroine_02').slice(-3).join('|')==='heroine_02:（照片：十二張點單疊在一個信封裡）|heroine_02:第一部，我先一個人看了|heroine_02:信封放在吧檯下面。下次來拿'&&(m=>!!m&&m.day===D('2028-08-05')&&m.h>=16&&m.h<16.2)(G.msgs.find(m=>m.text==='信封放在吧檯下面。下次來拿'))&&!said.some(s=>/信封到了/.test(s.t))&&G.flags.ZR_SLIPS_WAIT==='bar'&&!G.flags.ZR_TWELVE_SLIPS, JSON.stringify(txt('p:heroine_02').slice(-3)));
