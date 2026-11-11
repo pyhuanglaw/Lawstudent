@@ -1,10 +1,3 @@
-[07:19:03] skip F24_live_pos (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[07:19:03] skip F24_posters_r2 (already done on fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114)
-[07:19:03] skip POOL_ent_new1 (already done on 2c37122b682225cbf5ec82e84d3746a43adb12c8)
-[07:19:03] skip POOL_ent_old1 (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[07:19:03] skip POOL_ent_new2 (already done on 2c37122b682225cbf5ec82e84d3746a43adb12c8)
-[07:19:03] skip POOL_ent_old2 (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[07:19:03] skip POOL_ent_new3 (already done on 2c37122b682225cbf5ec82e84d3746a43adb12c8)
 [07:19:03] skip POOL_ent_old3 (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
 [07:19:03] skip NF_r3 (already done on 05a715eaddcb6ad0cc7c838cad3cb5b33fdca205)
 [07:19:03] skip BGN_old (already done on cdcb2650730bc9a90563690e63f35e75e63c9fb3)
@@ -1998,3 +1991,10 @@
 [13:24:38] ==== START CLASS12_skip_2d9_150x5  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
 [13:24:41] [res] cpu=0% mem=48% (15.3/31.4 GB) chrome_testing=10  START CLASS12_skip_2d9_150x5
 [13:25:40] [res] cpu=0% mem=50% (15.9/31.4 GB) chrome_testing=9  END CLASS12_skip_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2bd2c1465..a19d3fb57  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:25:46] ==== END   CLASS12_skip_old  exit=1  222s   ====
+[13:25:54] [res] cpu=1% mem=42% (14.0/31.4 GB) chrome_testing=5  END CLASS12_skip_new
+[13:25:57] memory 42% before starting CLASS12_skip_2d9_150x10 (2 running)
+[13:25:57] ==== START CLASS12_skip_2d9_150x10  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
