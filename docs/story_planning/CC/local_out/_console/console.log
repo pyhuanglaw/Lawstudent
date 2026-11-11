@@ -1,11 +1,3 @@
-[09:30:35] [res] cpu=17% mem=40% (12.5/31.4 GB) chrome_testing=4  END FN_shots_b_old_r2
-[09:30:40] [res] cpu=17% mem=40% (12.6/31.4 GB) chrome_testing=4  END ART2_ggext_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       8f186bd6c..4eae3bc56  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:30:42] ==== END   FN_shots_b_old_r2  exit=0  261s   ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       4eae3bc56..6a481d9d2  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [09:30:48] ==== END   ART2_ggext_old  exit=0  92s   ====
 [09:30:51] memory 42% before starting ART2_int_gg_old (2 running)
@@ -1998,3 +1990,11 @@
 [17:00:02] ==== START L118A6_DRINK  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
 [17:00:05] [res] cpu=9% mem=47% (14.5/31.4 GB) chrome_testing=8  START L118A6_DRINK
 [17:01:09] [res] cpu=4% mem=49% (15.7/31.4 GB) chrome_testing=8  END L118A6_EXT20
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2a143eff2..33b621d2b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:01:16] ==== END   L118A6_EXT20  exit=0  165s   ====
+[17:01:19] memory 48% before starting L118A6_LANE (2 running)
+[17:01:19] ==== START L118A6_LANE  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[17:01:22] [res] cpu=0% mem=48% (15.1/31.4 GB) chrome_testing=8  START L118A6_LANE
+[17:03:09] [res] cpu=3% mem=49% (15.6/31.4 GB) chrome_testing=9  END L118A6_DRINK

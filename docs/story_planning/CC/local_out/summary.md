@@ -4218,3 +4218,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 4.5s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
 - 2026-11-11T17:01:09  L118A6_EXT20  sha=a2dd74af190a174e383642ef8d2043b1d2947370  exit=0  165s    PASS [EXT 2000] walkFallbacks 0 / PASS 沒有 JS 例外（pageerror）  [] / ALL PASS
       err.log (last 5): [gpu_wrap 4.2s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 127.1s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 127.1s] BROWSER DISCONNECTED
+- 2026-11-11T17:03:09  L118A6_DRINK  sha=a2dd74af190a174e383642ef8d2043b1d2947370  exit=0  187s    PASS [DRINK] walkFallbacks 0 / PASS 沒有 JS 例外（pageerror）  [] / FAILED 1: [DRINK drink_b 果茶社] 搖桿沿人行道中間（x -4.3）直走經過店前、來回不卡（4.5／10.8 秒）
+      err.log (last 5): [gpu_wrap 4.2s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 138.1s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 138.1s] BROWSER DISCONNECTED
