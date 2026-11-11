@@ -27,18 +27,20 @@ PARTS（逗號分隔；預設全部；括號是 PC 預估分鐘）：
   DATE   （約 4）交往中（dating_heroine_01）週五手機「朋友」→ 以安「約」→ 吃飯…→ 去義大麵屋吃午餐：時間清單、「其他日子…」裡的週一（義大麵屋週一公休）不能約成；週二照常。
          判定＝週一沒有可選的時間（列出來但灰掉也記下來，BB 看「不列」的字面）；選了灰掉的會說原因、不排進邀約。
   DRINK  （約 4）手機約以安「散步…」→ 喝不喝咖啡（drink_a，外帶店）今天 14:00：答應 →【前置】13:47 讀到 118 巷 → 她站的地方＝店門口（meetAt：店面外 1.6 m、店面中間；不是巷口落點）；果茶社（drink_b）同樣記 meetAt。
-  SEATMIX_A／SEATMIX_B（各約 8；不在預設裡，BB 07:04；SEATMIX＝兩個都跑）入座分桌：【前置】REL 好友值、2025-10-15（週三）12:12 在 201、刑總記成上過；
-         【捷徑】LUNCH118.plan 換成固定的發起人／同行／店，再叫 LUNCH118.afterClass（下課選單的掛勾）；之後照遊戲自己的流程：邀約那一句 → 觸控點「好，走。」→ GM.enter l118_<店> → seatParty。
-         A＝五湖四海 4 人、迪倫窯烤披薩 4 人（兩張雙人桌併成四人）、清州刀削麵 3 人、清州 2 人；B＝辛亥韓食 4 人、118牛排（bc407bfc5 配置只有雙人桌＋單人位）2 人、118牛排 3 人、五湖四海 3 人
-         （SEATMIX_A／SEATMIX_B 環境變數可以換，格式 店:人數,店:人數）。每一場記每個人（含玩家）的桌子編號（配置的 table／group；沒有就座位間距 <1.2 m 聚類，log 寫用哪一種）、座位座標、離玩家距離，
-         另存 l118e_SEATMIX_<A|B>_seated_game_<n>_<店><人數>.png；同一張桌才 PASS，分桌 FAIL 並寫幾人分幾桌、誰沒位子。MAIN、TABLE 進店也記同樣的東西（l118e_<PART>_seated_game.png）。
+  SEATMIX_A／B／C（各約 12；不在預設裡；SEATMIX＝三個都跑）入座（BB 07:04、07:07）：【前置】REL 好友值、2025-10-15（週三，九間都開）12:12 在 201、刑總記成上過；
+         【捷徑】LUNCH118.plan 換成固定的發起人／同行／店（log 印 lunch.planForced），再叫 LUNCH118.afterClass（下課選單的掛勾）；之後照遊戲自己的流程：邀約那一句 → 觸控點「好，走。」
+         → GM.enter l118_<店> → seatParty。A＝dian、self、tea；B＝home、cafe2、pasta；C＝korea、omu、noodle2；每間 2／3／4 人（SHOPS、SIZES 環境變數可改）。
+判準（MAIN、TABLE、SEATMIX 共用，BB 07:07）：tea、home、cafe2、pasta、korea、omu、noodle2＝同一桌（每個人都坐下、任兩人最遠 ≤1.5 m）；dian、self＝相鄰桌（最遠 ≤3.3 m、桌子中心連成一串每段 ≤2.5 m）。
+  每次記：每人（含玩家）的桌號（L118_SHOP_LAYOUTS 的 table；沒有就座位間距 <1.2 m 聚類，log 寫哪一種）、座位座標、離玩家距離、任兩人最遠距離；
+  店裡的路人數（seatParty 前、後、黑幕淡出、對話時）：讓位以後不能變空店（原本就 0 人另記）；有名字的 NPC 入座前後清單比對：不能被趕走；
+  截圖：進門那一刻 l118e_<PART>_enter_<n>.png、黑幕剛淡出 l118e_<PART>_fadeout_<n>.png、坐下後 l118e_<PART>_seated_game[_n].png（SEATMIX：…_seated_game_<n>_<店><人數>.png）。
   STORYBURST（約 6；不在預設裡，BB 06:13）一般劇情對話的連點：網址加 ?tapguard；找會邀的日子照真實流程上課 → 同學開口邀約那一句一出來，在對話框中央用觸控連點 BURSTN 下（預設 20）、
          每 BURSTMS ms（預設 150）一路點到選項出現。判：選項沒有被點掉（期間沒有 pick、選單還在）；每一下記 pointerdown 點到的元素、按鈕字、距選單出現幾 ms。之後照字選「接受」走完。
 別名：E3,E4,E5,E6,E9→MAIN；E7→DECL；E8→SKIP。
 舊版（D34）：779ddd650 沒有 LUNCH118（午餐邀約系統整個沒有）：MAIN／SKIP／DECL／TABLE 會 FAIL「沒有午餐系統」（只做這一項就收）；E1／E2 舊版本來就不會邀（PASS 不代表什麼，只當對照）；
   DATE：779ddd650 的義大麵屋是週三休、days=[1,2,4,5]＝當時週一可以約（那時候是對的）；真正的對照是合併前一個 f247bc77f（店資料已改週一休、days 還是 [1,2,4,5]＝週一約得成＝FAIL）。
   DRINK：779ddd650 沒有 drink_a／drink_b 的地點（FAIL：地點不在）。
-環境變數：LW_TESTS SHA PARTS REL RETRY BURSTN BURSTMS EVQUIET（1＝上課那天也關條件事件）ORIENT（land 預設／port）D0 D1（找日子的範圍，預設大一上第 6～92 天）WHO（DATE／DRINK 的人，預設 heroine_01）
+環境變數：LW_TESTS SHA PARTS REL RETRY BURSTN BURSTMS SHOPS SIZES EVQUIET（1＝上課那天也關條件事件）ORIENT（land 預設／port）D0 D1（找日子的範圍，預設大一上第 6～92 天）WHO（DATE／DRINK 的人，預設 heroine_01）
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=MAIN,SKIP python3 cc_l118d_e_probe.py <url>/index.html <out>
 每項一行 PASS／FAIL，最後 ALL PASS 或 FAILED；exit 0／1。"""
 import os, sys, json, asyncio, time, copy, math
@@ -121,7 +123,8 @@ HOOK = r"""(()=>{ if(window.__LE&&window.__LE.g===GAME) return {again:true}; con
     ok.after=wrap(Lm,'afterClass',(GM,key,a)=>push({k:'lunch.after',key,ev:!!(a&&a.ev),inv0:JSON.parse(JSON.stringify((GM.G.l118&&GM.G.l118.inv)||null))}),(e,v)=>push({k:'lunch.afterEnd',key:e&&e.key,ret:v===undefined?null:v}));
     ok.plan=wrap(Lm,'plan',null,(e,Pl)=>push({k:'lunch.plan',P:sumP(Pl)}));
     ok.settle=wrap(Lm,'settle',(GM,Pl,o)=>push({k:'lunch.settle',skip:!!(o&&o.skip),sp:o&&o.sp?o.sp.id:null}),(e,out)=>push({k:'lunch.settled',out:out?{price:out.price,item:out.item,pts:out.pts}:null}));
-    ok.seat=wrap(Lm,'seatParty',null,(e,n)=>push({k:'lunch.seated',n}));
+    W.crowd=()=>{ const E=GAME.E; return (E.npcs||[]).filter(n=>n&&n.obj).map(n=>({id:n.charId||n.id||n.name||'?',name:n.name||null,named:!!(n.charId&&typeof CHARACTERS!=='undefined'&&CHARACTERS[n.charId]),hidden:!!n.hidden,leaving:!!n.leaving,x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2)})); };
+    ok.seat=wrap(Lm,'seatParty',(GM,Pl)=>push({k:'lunch.seat0',party:Pl&&Pl.party,crowd:W.crowd()}),(e,n)=>push({k:'lunch.seated',n,crowd:W.crowd()}));
     ok.stage=wrap(Lm,'stage3d',null,(e,v)=>push({k:'lunch.stage3d',v}));
     ok.quick=wrap(Lm,'quick',()=>push({k:'lunch.quick'}));
     ok.show=wrap(Lm,'show',()=>push({k:'lunch.show'})); }
@@ -183,13 +186,77 @@ UI = r"""(()=>{ const D=GAME.D||{}, E=GAME.E, Pp=E.player, ch=document.getElemen
 
 async def seat_report(pg, shop, party, tag, gamefile):
     """進店坐下後：每個人（含玩家）的桌子編號（同一張桌一組）、座位座標、離玩家幾 m；另存一張遊戲鏡頭 gamefile"""
-    r = await pg.evaluate(SEATS2, [shop, party or []])
+    r = await pg.evaluate(SEATS2, [shop, party or []]); r['crowd_after'] = crowd_sum(await pg.evaluate(CROWD_NOW), party)
     R.note('%s：入座（%s）分組方式＝%s；%d 人分 %d 桌（%s）；店的桌子 %s' % (tag, r['zone'], r['method'], len(r['rows']), r['nTables'], J(r['tables']), J(r['layoutTables'])))
     for x in r['rows']:
         R.note('%s：  %s（%s）%s 桌號 %s（%s）座位 %s 位置 %s 離玩家 %s m 姿勢 %s%s' % (tag, x['name'], x['id'], '坐下' if x['seated'] else ('沒有位子' if x['present'] else '不在店裡'), x['tableNo'], x['key'], J(x['seat']), J(x['pos']), x['dMe'], x['pose'], '（高腳椅）' if x['lift'] else ''))
     try: await pg.screenshot(path=os.path.join(OUT, gamefile)); r['shot'] = gamefile
     except Exception as e: R.note('截圖失敗 %s：%r' % (gamefile, e))
     return r
+
+
+CROWD_NOW = "(()=>window.__LE&&window.__LE.crowd?window.__LE.crowd():[])()"
+SAME_SHOPS = ('tea', 'home', 'cafe2', 'pasta', 'korea', 'omu', 'noodle2')   # BB 07:07：同一桌（任兩人最遠 ≤1.5 m）
+ADJ_SHOPS = ('dian', 'self')   # 全是兩人桌／吧檯＋一張兩人桌：相鄰桌（最遠 ≤3.3 m、桌子相鄰）
+
+
+def crowd_sum(cr, party):
+    """店裡的人：路人（沒有 CHARACTERS 的）、有名字的 NPC（不算同行）；leaving／hidden 另計"""
+    cr = cr or []; pt = set(party or [])
+    pas = [c for c in cr if not c['named'] and c['id'] not in pt]
+    nm = [c for c in cr if c['named'] and c['id'] not in pt]
+    return {'passers': len([c for c in pas if not c['hidden'] and not c['leaving']]), 'passersLeaving': len([c for c in pas if c['leaving']]),
+            'named': sorted(c['id'] for c in nm if not c['hidden'] and not c['leaving']), 'namedLeaving': sorted(c['id'] for c in nm if c['leaving'])}
+
+
+async def entry_watch(pg, s, ent, tag, party):
+    """進門那一刻（區域剛換成 l118_，黑幕裡）、黑幕剛淡出各截一張遊戲畫面＋店裡的人"""
+    if not s['zone'].startswith('l118_'): return
+    if not ent.get('enter'):
+        ent['enter'] = True; ent['enter_crowd'] = crowd_sum(await pg.evaluate(CROWD_NOW), party)
+        gf = 'l118e_%s_enter_%d.png' % (CUR['part'], CUR['n'] + 1)
+        try: await pg.screenshot(path=os.path.join(OUT, gf))
+        except Exception: pass
+        R.note('%s：進門那一刻（黑幕 %s）截圖 %s；店裡 %s' % (tag, s['fade'], gf, J(ent['enter_crowd'])))
+    if not ent.get('fadeout') and not s['fade']:
+        ent['fadeout'] = True; ent['fade_crowd'] = crowd_sum(await pg.evaluate(CROWD_NOW), party)
+        gf = 'l118e_%s_fadeout_%d.png' % (CUR['part'], CUR['n'] + 1)
+        try: await pg.screenshot(path=os.path.join(OUT, gf))
+        except Exception: pass
+        R.note('%s：黑幕剛淡出 截圖 %s；店裡 %s' % (tag, gf, J(ent['fade_crowd'])))
+
+
+def judge_seats(tag, shop, se, lg, ent, party):
+    """BB 07:07 判準：同一桌（≤1.5 m）或相鄰桌（dian、self：≤3.3 m、桌子相鄰）；路人不能清空；有名字的 NPC 不能被趕走"""
+    rows_ = (se or {}).get('rows') or []; seated = [x for x in rows_ if x['seated']]
+    pts = [x['seat'] for x in seated]
+    maxd = max([math.hypot(a['x'] - b['x'], a['z'] - b['z']) for i, a in enumerate(pts) for b in pts[i + 1:]] or [0.0])
+    cen = []
+    for k in (se or {}).get('tables') or []:
+        try: x, z = [float(v) for v in k.split(' ', 1)[1].split(',')]; cen.append((x, z))
+        except Exception: pass
+    adj = True; edges = []
+    if len(cen) > 1:   # 桌子相鄰：桌子中心連成一串，每一段 ≤2.5 m（Prim 最小生成樹）
+        inn = [cen[0]]; out = cen[1:]
+        while out:
+            d, j = min((min(math.hypot(o[0] - i_[0], o[1] - i_[1]) for i_ in inn), j) for j, o in enumerate(out)); edges.append(round(d, 2)); inn.append(out.pop(j))
+        adj = all(e <= 2.5 for e in edges)
+    n = len(rows_); all_ok = bool(se) and bool(se.get('allSeated'))
+    if shop in ADJ_SHOPS:
+        ok = all_ok and maxd <= 3.3 + 1e-6 and adj; rule = '相鄰桌（最遠 ≤3.3 m、桌子相鄰）'
+    else:
+        ok = all_ok and maxd <= 1.5 + 1e-6; rule = '同一桌（最遠 ≤1.5 m）'
+    lost = [x['id'] for x in rows_ if not x['seated']]
+    R.check('%s：%s %d 人坐%s：%d 張桌 %s、任兩人最遠 %.2f m、桌子中心間距 %s%s（%s）' % (tag, shop, n, rule, len((se or {}).get('tables') or []), J((se or {}).get('tables')), maxd, J(edges), ('、沒位子 %s' % J(lost)) if lost else '', (se or {}).get('method')), ok,
+            J([(x['id'], x['tableNo'], x['key'], x['seat'], x['dMe']) for x in rows_]))
+    s0 = next((e for e in lg if e['k'] == 'lunch.seat0'), None); s1 = next((e for e in lg if e['k'] == 'lunch.seated'), None)
+    b0 = crowd_sum(s0 and s0.get('crowd'), party); b1 = crowd_sum(s1 and s1.get('crowd'), party); b2 = ent.get('fade_crowd') or {}; b3 = (se or {}).get('crowd_after') or {}
+    R.note('%s：店裡的路人 入座前 %s → 入座後 %s → 淡出 %s → 對話時 %s；有名字的 NPC 入座前 %s → 對話時 %s（離開中 %s）' % (tag, b0['passers'], b1['passers'], b2.get('passers'), b3.get('passers'), J(b0['named']), J(b3.get('named')), J(b3.get('namedLeaving'))))
+    after = b3.get('passers') if b3 else b1['passers']
+    R.check('%s：讓位以後店裡不是空的（入座前路人 %d、之後 %s；原本就 0 人也算過）' % (tag, b0['passers'], after), b0['passers'] == 0 or (after or 0) >= 1, J({'前': b0, '後': b3 or b1}))
+    gone = [i for i in b0['named'] if i not in (b3.get('named') if b3 else b1['named'])]
+    R.check('%s：有名字的 NPC 沒有被趕走（入座前 %s；不見或離開中 %s）' % (tag, J(b0['named']), J(gone)), not gone, J({'前': b0['named'], '後': b3 or b1}))
+    return ok
 
 
 async def hook(pg):
@@ -340,10 +407,11 @@ async def lunch_day(pg, cdp, tag, snap, cand, action, ids, after_pick='先自由
         got = await tap_head(pg, cdp, want, exact=True); rec['tapped'] = got
         R.note('%s：邀約選單 %s → 點「%s」（%s）' % (tag, J(s['heads']), want, '點到了' if got else '畫面上沒有這一顆'))
         # 第二段：接受／略過／婉拒之後到下課選單（或空下來）
-        t1 = time.time(); idle = None; seat_done = False; after_menu = None
+        t1 = time.time(); idle = None; seat_done = False; after_menu = None; ent = rec['ent'] = {}
         while time.time() - t1 < 600:
             s = await ui(pg)
             if s['phone'] and not s['heads']: await L.phone_away(pg, cdp, tries=1); await L.close_panels(pg, cdp); continue
+            await entry_watch(pg, s, ent, tag, ((next((e['P'] for e in await logs(pg, n0) if e['k'] == 'lunch.plan' and e['P'] and not e['P'].get('no')), None)) or {}).get('party'))
             if s['zone'].startswith('l118_') and not seat_done and not s['fade'] and (s['dlg'] or s['heads']):
                 seat_done = True; await pg.wait_for_timeout(800)
                 lgp = await logs(pg, n0)
@@ -480,8 +548,7 @@ async def part_main(p):
         R.check('MAIN ④：含玩家 %d 人（≤4）' % (len(Pl.get('party') or []) + 1), 1 <= len(Pl.get('party') or []) <= 3, J(Pl.get('party')))
         se = rec.get('seats') or {}
         R.note('MAIN ④：店裡的人 %s' % J([(x['id'], x['tableNo'], x['dMe']) for x in se.get('rows') or []]))
-        R.check('MAIN：進店坐同一桌（%d 人分 %s 桌；%s）' % (len(se.get('rows') or []), se.get('nTables'), se.get('method')), bool(se.get('allSeated')) and se.get('nTables') == 1,
-                J([(x['id'], x['tableNo'], x['key'], x['seat'], x['dMe']) for x in se.get('rows') or []]))
+        judge_seats('MAIN', Pl.get('shop'), se, rec['log'], rec.get('ent') or {}, Pl.get('party'))
         # ⑤
         mm = menu_money(rec); shopmenu = await pg.evaluate("s=>{ const x=L118.shop(s); return x?x.menu:null; }", Pl.get('shop'))
         mp = next((m[1] for m in (shopmenu or []) if m[0] == Pl.get('item')), None)
@@ -624,8 +691,7 @@ async def part_table(p):
         R.note('TABLE：結果＝%s（桌號 %s）' % (kind, J(sorted(tabs))))
         R.check('TABLE：辛亥韓食是 3D 室內（l118_tea 在、沒有退回 2D）', zt and not kind.startswith('2D'), kind)
         R.check('TABLE：玩家自己坐下了', any(x['id'] == 'player' and x['seated'] for x in rows_), J(rows_[:1]))
-        R.check('TABLE：%d 人同桌（室內 %s 個位子；每一位同行都有位子、全部同一張桌；實際：%s；%s）' % (len(party) + 1, len((lay or {}).get('seats') or []), kind, se.get('method')), len(seated) == len(party) and len(tabs) == 1 and bool(se.get('allSeated')),
-                J([(x['id'], x['tableNo'], x['key'], x['seat'], x['dMe']) for x in rows_]))
+        judge_seats('TABLE', 'tea', se, rec['log'], rec.get('ent') or {}, party)
         mm = menu_money(rec)
         R.check('TABLE：錢只扣玩家那一份 %s 元（%s）' % (Pl.get('price'), J(mm)), mm == [-Pl.get('price')] if Pl.get('price') else False)
         no_errs('TABLE', errs)
@@ -919,14 +985,16 @@ FORCE = r"""(([shop,party])=>{ const Lm=LUNCH118, W=window.__LE;
       inviteLine:IL[0]||null,arrive:(D.arrive||{})[shop]||null,leave:(D.leave||[])[0]||null,h0:h,hA:h+1/6,lim:24,hEnd:h+1/6+0.5};
     if(W) W.push({k:'lunch.planForced',P:W.sumP(Pf)}); return Pf; };
   return {shop,name:L118.shop(shop)&&L118.shop(shop).name,party,open:L118.isOpen(shop,Object.assign({},GAME.G,{hour:GAME.G.hour+1/6}))}; })"""
-SEATMIX_SETS = {'A': [('home', 4), ('noodle2', 4), ('korea', 3), ('korea', 2)], 'B': [('tea', 4), ('dian', 2), ('dian', 3), ('home', 3)]}
+SEATMIX_SHOPS = {'A': 'dian,self,tea', 'B': 'home,cafe2,pasta', 'C': 'korea,omu,noodle2'}
 SEATMIX_PPL = ['zhe', 'yu', 'classmate_mingxuan', 'heroine_01', 'classmate_bohan', 'classmate_peishan']
 
 
 async def part_seatmix(p, which):
     """SEATMIX（BB 07:04）：幾間店 × 人數，照遊戲自己的流程（接受邀約 → GM.enter → seatParty）入座，判同一張桌"""
-    spec = ENV('SEATMIX_' + which) or ','.join('%s:%d' % (x[0], x[1]) for x in SEATMIX_SETS[which])
-    combos = [(a.split(':')[0], int(a.split(':')[1])) for a in spec.split(',') if ':' in a]
+    shops = [x.strip() for x in (ENV('SHOPS') or SEATMIX_SHOPS[which]).split(',') if x.strip()]
+    sizes = [int(x) for x in (ENV('SIZES') or '2,3,4').split(',') if x.strip()]
+    combos = [(sh, n) for sh in shops for n in sizes]
+    R.note('SEATMIX_%s：店 %s × 人數 %s（SHOPS／SIZES 環境變數可改）' % (which, J(shops), J(sizes)))
     b, pg, cdp, errs = await boot(p, 'SEATMIX_' + which)
     try:
         if not await need_lunch(pg, 'SEATMIX_' + which): return
@@ -945,9 +1013,10 @@ async def part_seatmix(p, which):
             n0 = await logn(pg); m0 = await pg.evaluate("GAME.G.money")
             R.setup('%s：【捷徑】叫 LUNCH118.afterClass(GAME, %s)＝下課選單一開頭的那個掛勾（不重上一堂課）' % (tag, it['key']))
             await pg.evaluate("(k=>{ void LUNCH118.afterClass(GAME,k,{}); })(%s)" % J(it['key']))
-            acc = D['opts'].get('accept'); t0 = time.time(); tapped = False; seat = None; idle = None
+            acc = D['opts'].get('accept'); t0 = time.time(); tapped = False; seat = None; idle = None; ent = {}
             while time.time() - t0 < 300:
                 s = await ui(pg)
+                await entry_watch(pg, s, ent, tag, party)
                 if s['zone'].startswith('l118_') and seat is None and not s['fade'] and (s['dlg'] or s['heads']):
                     await pg.wait_for_timeout(800); CUR['n'] += 1
                     seat = await seat_report(pg, s['zone'][5:], party, tag, 'l118e_SEATMIX_%s_seated_game_%d_%s%d.png' % (which, k + 1, shop, n)); continue
@@ -967,10 +1036,7 @@ async def part_seatmix(p, which):
             sn = next((e.get('n') for e in lg if e['k'] == 'lunch.seated'), None); st3 = next((e.get('v') for e in lg if e['k'] == 'lunch.stage3d'), None)
             R.check('%s：接受邀約、走進 %s（GM.enter l118_%s，3D）' % (tag, fr['name'], shop), tapped and st3 is True and any(e['k'] == 'enter' and e.get('to') == 'l118_' + shop for e in lg), J({'tapped': tapped, 'stage3d': st3}))
             if seat:
-                rows_ = seat['rows']; lost = [x['id'] for x in rows_ if not x['seated']]
-                res = '%d 人同一桌' % n if seat['allSeated'] and seat['nTables'] == 1 else ('%d 人分 %d 桌%s' % (n, seat['nTables'], ('、%d 人沒位子 %s' % (len(lost), J(lost))) if lost else ''))
-                R.check('%s：%s（%d 人）同一張桌（實際：%s；seatParty 坐下的同行 %s；%s）' % (tag, fr['name'], n, res, sn, seat['method']), seat['allSeated'] and seat['nTables'] == 1,
-                        J([(x['id'], x['tableNo'], x['key'], x['seat'], x['dMe']) for x in rows_]))
+                R.note('%s：seatParty 坐下的同行 %s 人' % (tag, sn)); judge_seats(tag, shop, seat, lg, ent, party)
             else:
                 R.check('%s：進店以後量到座位' % tag, False, '沒有進到 l118_ 區域')
             R.check('%s：錢只扣玩家那一份 %s 元（%s；%d → %d）' % (tag, Pf.get('price'), J(mm), m0, m1), bool(Pf.get('price')) and mm == [-Pf['price']] and m1 == m0 - Pf['price'], J(mm))
@@ -981,9 +1047,10 @@ async def part_seatmix(p, which):
 
 async def part_seatmix_a(p): await part_seatmix(p, 'A')
 async def part_seatmix_b(p): await part_seatmix(p, 'B')
+async def part_seatmix_c(p): await part_seatmix(p, 'C')
 
 
-FN = {'SEATMIX_A': part_seatmix_a, 'SEATMIX_B': part_seatmix_b, 'SEATMIX': None, 'STORYBURST': part_storyburst, 'MAIN': part_main, 'SKIP': part_skip, 'DECL': part_decl, 'TABLE': part_table, 'E1': part_e1, 'E2': part_e2, 'E10': part_e10, 'DATE': part_date, 'DRINK': part_drink}
+FN = {'SEATMIX_A': part_seatmix_a, 'SEATMIX_B': part_seatmix_b, 'SEATMIX_C': part_seatmix_c, 'SEATMIX': None, 'STORYBURST': part_storyburst, 'MAIN': part_main, 'SKIP': part_skip, 'DECL': part_decl, 'TABLE': part_table, 'E1': part_e1, 'E2': part_e2, 'E10': part_e10, 'DATE': part_date, 'DRINK': part_drink}
 
 
 async def main():
@@ -992,7 +1059,7 @@ async def main():
     async with async_playwright() as p:
         for part in PARTS:
             if part == 'SEATMIX':
-                PARTS.extend([x for x in ('SEATMIX_A', 'SEATMIX_B') if x not in PARTS]); continue
+                PARTS.extend([x for x in ('SEATMIX_A', 'SEATMIX_B', 'SEATMIX_C') if x not in PARTS]); continue
             if part not in FN: R.note('不認得的 PART：%s' % part); continue
             print('== %s' % part, flush=True); t0 = time.time(); CUR['part'] = part; CUR['n'] = 0
             try: await FN[part](p)

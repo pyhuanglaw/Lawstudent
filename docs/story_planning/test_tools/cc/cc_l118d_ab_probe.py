@@ -483,15 +483,25 @@ async def do_shop(pg, cdp, sid, lay, first_shop):
         lk = await pg.evaluate(LOOKS_JS)
         R.note('%s 店裡「看的東西」%d 個（位置讀資料、字從畫面抽）' % (tag, len(lk)))
         for q in lk:
-            ok, how = await joy_to(pg, cdp, q['x'], q['z'], max(0.3, q['r'] * 0.5), '%s 看的東西 (%.1f,%.1f)' % (name, q['x'], q['z']), max_s=90)
-            r = await it_label(pg, None)
-            if not ok or not r['t'] or r['t'].startswith(('坐', '離開', '點餐', '進', '和')):   # 畫面上的鍵不是看的東西（座位、出口、店員）＝不按
-                R.note('%s 走不到看的東西 (%.1f,%.1f) 或沒有互動鍵：%s' % (tag, q['x'], q['z'], J(r)))
-                look_row(sid, q, r['t'], '', '（畫面沒抽到：走不到或互動鍵不是它）'); continue
+            # 看東西的互動 prio −0.3、讓位給「坐下」（src/l118_shops3d.js）：第一個站點的互動鍵不是它，就換範圍裡別的站點（最多 6 個），每個試過的點記座標＋互動鍵
+            tried = []; hit = None
+            for fr, ang in [(0.0, None), (0.5, 0), (0.5, 90), (0.5, 180), (0.5, 270), (0.85, 45)]:
+                cx = q['x'] + (q['r'] * fr * math.cos(math.radians(ang)) if ang is not None else 0)
+                cz = q['z'] + (q['r'] * fr * math.sin(math.radians(ang)) if ang is not None else 0)
+                ok, how = await joy_to(pg, cdp, cx, cz, max(0.25, q['r'] * 0.3), '%s 看的東西「%s」站點 (%.2f,%.2f)' % (name, q['label'], cx, cz), max_s=60)
+                r = await it_label(pg, q['label'] or None, 2.5); s_ = await st(pg)
+                tried.append([round(s_['x'], 2), round(s_['z'], 2), r['t']])
+                if r['t'] and q['label'] and r['t'].startswith(q['label']): hit = r; break
+            R.note('%s「%s」試過的站點（座標、互動鍵）：%s' % (tag, q['label'], J(tried)))
+            if not hit:
+                look_row(sid, q, '', '', '⚠找不到看那個東西的位置（試過 %s）' % J(tried)); continue
+            r = hit
             mk = await pg.evaluate("(window.__ccTxt||[]).length")
-            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1800)
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)   # 看東西是 caption('',look,4600)（#caption 字幕，約 4.6 秒淡出，不是對話框）：觀察器在字出現那一刻就記下來
+            cap = await pg.evaluate("(()=>{ const e=document.getElementById('caption'); return e&&!e.classList.contains('hide')&&+getComputedStyle(e).opacity>0.05?(e.innerText||e.textContent||'').trim():''; })()")
             await talk_idle(pg, cdp, tag + '_look', 30)
             got = await pg.evaluate("(n=>(window.__ccTxt||[]).slice(n).filter(e=>e.id==='dlgText'||e.id==='caption'||e.id==='toast').map(e=>(e.nm?e.nm+'：':'')+e.t))(%d)" % mk)
+            if cap and not any(cap in g for g in got): got.append(cap)   # 補讀（觀察器漏掉時）
             look_row(sid, q, r['t'], ' ⏎ '.join(x.replace('\n', ' ') for x in got), '' if got else '（按了，畫面上沒抽到字）')
         await flush(pg, tag + '_looks')
     if 'A' in PARTS and SIGNS:
