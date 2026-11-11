@@ -110,7 +110,7 @@ const GAME = (function(){
   /* 3D 對話框的「略過」（BB 2026-11-11：座位上課加長到 9～16 句以後要能略過，D118 不用反覆點）：只有開了範圍的那一段（GM.skipScope(true)…(false)，現在是 CLS.attend）才出現按鈕；
      按了＝和 2D 畫面的「略過對話」（ADV.skip）一樣一路翻到下一個選項（選項玩家自己選、選完要再按一次）；範圍結束自動關。測試 tests/class_skip_1111_unit.js */
   const skipOn=()=>(typeof ADV!=='undefined'&&ADV.active&&ADV.skip)||!!D.skip3d;
-  function skipBtnSync(){ let b=$('dlgSkip'); const show=!!D.skipOK&&!D.skip3d&&!(typeof ADV!=='undefined'&&ADV.active); if(!b){ if(!show) return; const box=$('dlg'); if(!box||!document.createElement) return; b=document.createElement('button'); b.id='dlgSkip'; b.textContent='略過 »'; b.style.cssText='position:absolute;right:10px;top:-50px;min-width:76px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:inherit;font-size:14px'; b.addEventListener('pointerup',e=>{ e.stopPropagation(); if(!D.skipOK) return; D.skip3d=true; skipBtnSync(); D.typing=false; dlgAdvance(); }); box.appendChild(b); } b.style.display=show?'block':'none'; }
+  function skipBtnSync(){ let b=$('dlgSkip'); const show=!!D.skipOK&&!D.skip3d&&!D.menuOn&&!(typeof ADV!=='undefined'&&ADV.active); if(!b){ if(!show) return; const box=$('dlg'); if(!box||!document.createElement) return; b=document.createElement('button'); b.id='dlgSkip'; b.textContent='略過 »'; b.style.cssText='position:absolute;left:10px;top:-50px;min-width:76px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:inherit;font-size:14px'; b.addEventListener('pointerup',e=>{ e.stopPropagation(); if(!D.skipOK) return; D.skip3d=true; skipBtnSync(); D.typing=false; dlgAdvance(); }); box.appendChild(b); } b.style.display=show?'block':'none'; }
   GM.skipScope=function(on){ D.skipOK=!!on; if(!on) D.skip3d=false; skipBtnSync(); }; GM.skipping=()=>skipOn();
   function showLine(who,text,opts,res,restored,by){ if(who&&!restored&&typeof FRIENDS2!=='undefined'&&FRIENDS2.onSay){ try{ FRIENDS2.onSay(GM.G,who); }catch(e){} }   /* AA_637 第 3 節：A 層朋友第一次說話＝上方淡入名字卡 */ D.active=true; D.resolve=res; D.sayText=text; D.sayOpts=opts; D.sayDepth=D.busyDepth; D.sayBy=by; const box=$('dlg'); box.classList.remove('hide'); overFade(box); $('dlgName').textContent=who?(who.name||who):''; $('dlgName').style.display=who?'block':'none'; D.full=subst(text); if(who&&typeof SOCIAL!=='undefined'&&SOCIAL.ytNameT) D.full=SOCIAL.ytNameT(D.full,who.charId||(SOCIAL.npcName&&who.name&&who.name===SOCIAL.npcName('heroine_05')?'heroine_05':null));   /* 交往中學姊叫祐廷「林{name}」（AA 對 AA_584 的補充第 1 點）*/ D.shown=restored?D.full.length:0; D.typing=!restored; $('dlgText').textContent=restored?D.full:''; $('dlgNext').style.visibility=restored?'visible':'hidden'; const spd=S.textSpeed>=9?9999:(S.textSpeed===1?18:(S.textSpeed===2?32:60)); D.cps=spd; // 說話者姿態與表情
       if(who&&who.obj){ if(opts.expr) CHAR.setExpr(who.obj,opts.expr); if(who.pose!=='sit'&&who.pose!=='read'&&who.pose!=='lie'&&!opts.keepPose){ who.pose='talk'; who._talkPose=true; } if(E.player&&who.obj!==E.player.obj){ who.lookAt=E.player.obj.position; who._sayLook=true; } }
@@ -127,12 +127,12 @@ const GAME = (function(){
   /* 選單疊在另一個還沒選的選單上（X81 BUG-E37-MOVEIN-1020：使用者 v9.10.2 的 _stuck＝8/30 18:01 宿舍、bedScene 的選單沒結束、畫面上什麼都沒有——
      床邊選單還在等，另一段的選單把它蓋掉、選完就收起來，床邊那一段永遠等不到）：舊的先收起來，新的那一段演完（劇情層數回到舊選單那一層）再放回去；誰蓋的記在 D.coverWho（卡住紀錄看得到）*/
   let chooseCur=null; const chooseStack=[];
-  function choose(options,opt){ uncover(); if(typeof ADV!=='undefined') ADV.skip=false; if(D.skip3d){ D.skip3d=false; skipBtnSync(); }   /* 略過對話停在選項：玩家自己選 */
+  function choose(options,opt){ uncover(); const fromSkip=!!D.skip3d||(typeof ADV!=='undefined'&&ADV.active&&!!ADV.skip);   /* 略過中跳出來的選單：玩家手指還在略過鍵附近，多等一下才收（TAP_GUARD_SKIP）*/ if(typeof ADV!=='undefined') ADV.skip=false; if(D.skip3d){ D.skip3d=false; skipBtnSync(); }   /* 略過對話停在選項：玩家自己選 */
     const who=((new Error().stack||'').split('\n')[2]||'?').trim().replace(/^at /,'').slice(0,140);
     return new Promise(res=>{ if(chooseCur){ chooseStack.push(chooseCur); D.coverWho=who; console.warn('選單蓋在另一個還沒選的選單上，選完會放回去',{under:chooseCur.who,over:who}); }
-      chooseCur={options,opt,res,who,depth:D.busyDepth}; renderChoose(chooseCur); }); }
+      chooseCur={options,opt,res,who,depth:D.busyDepth,guard:fromSkip?TAP_GUARD_SKIP:TAP_GUARD}; renderChoose(chooseCur); }); }
   function chooseRestore(){ if(chooseCur||!chooseStack.length||chooseStack[chooseStack.length-1].depth<D.busyDepth) return; chooseCur=chooseStack.pop(); renderChoose(chooseCur); }
-  GM.chooseReset=()=>{ chooseCur=null; chooseStack.length=0; D.coverWho=null; sayStack.length=0; };   /* 讀檔、新遊戲：還沒選的選單都不要了 */
+  GM.chooseReset=()=>{ chooseCur=null; chooseStack.length=0; D.coverWho=null; sayStack.length=0; D.menuOn=false; };   /* 讀檔、新遊戲：還沒選的選單都不要了 */
   const H_SIDE_MIN=600;   /* 橫向（寬 600 以上）才把題目移到左欄 */
   /* 選單防連點（BUG-GOCLASS-SKIPPED-1111，使用者 2026-11-11 day57：起床選單、翹課確認、再睡一下三個選單被連著點掉，第一堂課記成翹課）：
      選單出現後 TAP_GUARD 毫秒內「按下去」的那一下不算（對話點太快時，選項一出現就在手指底下）。只看真的按下（pointerdown）的時間——
@@ -140,19 +140,30 @@ const GAME = (function(){
   /* 連點到底（BB 2026-11-11 CHOOSE_SCAN：選單貼著下緣往上排，同一點連點會一路點掉「從下面數同一個位置」的按鈕——下課選單、床的快轉、買腳踏車、改約會時間都是同一型）：
      一串連點（每兩下間隔不到 TAP_BURST_GAP 毫秒）如果是在選單出現以前就開始的，這一串裡的每一下都不算，手停下來（間隔超過 TAP_BURST_GAP）再點才算；
      最多擋 TAP_BURST_MAX 毫秒（保險：不會因為別的手指一直在點而永遠選不到）。 */
-  const TAP_GUARD=350, TAP_BURST_GAP=400, TAP_BURST_MAX=4000; let lastDownAt=-1e9, burstStart=-1e9;
-  if(typeof document!=='undefined'&&document.addEventListener) document.addEventListener('pointerdown',()=>{ const now=performance.now(); if(now-lastDownAt>=TAP_BURST_GAP) burstStart=now; lastDownAt=now; },true);
+  const TAP_GUARD=350, TAP_GUARD_SKIP=900, TAP_BURST_GAP=400, TAP_BURST_MAX=4000, TAP_REAL=120; let lastDownAt=-1e9, burstStart=-1e9, lastDownRun=-1e9, lastUpRun=-1e9;
+  /* 時間用事件自己的時間（e.timeStamp：手指真的按下去的時刻，和 performance.now() 同一個時間軸）——主執行緒卡住時事件會排隊晚處理，用「處理的時間」算間隔會把同一串連點切斷（BB／CC 2026-11-11 PC：選單出現後 350～930 ms 的連點沒被當成同一串）；
+     lastDownRun／lastUpRun 是「處理的時間」，只用來分辨這個 click 是不是真的手指點的（緊跟在按下／放開之後）。 */
+  const evT=e=>(e&&typeof e.timeStamp==='number'&&e.timeStamp>0&&e.timeStamp<=performance.now()+5)?e.timeStamp:performance.now();
+  if(typeof document!=='undefined'&&document.addEventListener){ document.addEventListener('pointerdown',e=>{ const t=evT(e); if(t-lastDownAt>=TAP_BURST_GAP) burstStart=t; lastDownAt=t; lastDownRun=performance.now(); },true);
+    document.addEventListener('pointerup',()=>{ lastUpRun=performance.now(); },true); }
   const tapGuardOn=()=>{ try{ const q=(typeof location!=='undefined'&&location.search)||''; if(/[?&]tapguard\b/.test(q)) return true; return !(typeof navigator!=='undefined'&&navigator.webdriver); }catch(e){ return true; } };
-  function tapTooSoon(shownAt){ if(!tapGuardOn()||!(lastDownAt>shownAt)) return false; if(lastDownAt-shownAt<TAP_GUARD) return true; return burstStart<=shownAt&&lastDownAt-shownAt<TAP_BURST_MAX; }   /* 第二個條件：這一下屬於選單出現以前就開始的那一串連點 */   /* 嚴格大於：叫出選單的那一下（同一毫秒）不算在內 */
-  GM.tapTooSoon=tapTooSoon; GM.TAP_GUARD=TAP_GUARD; GM.TAP_BURST_GAP=TAP_BURST_GAP; GM.TAP_BURST_MAX=TAP_BURST_MAX;
-  function renderChoose(c){ const {options,opt,res}=c, shownAt=performance.now(); $('dlg').classList.remove('side');
+  /* 最近那一下「按下去」算不算數：要在選單出現以後、過了 guard 毫秒、而且不屬於選單出現以前就開始的那一串連點 */
+  function downOK(shownAt,guard){ if(!(lastDownAt>shownAt)) return false; if(lastDownAt-shownAt<(guard||TAP_GUARD)) return false; return !(burstStart<=shownAt&&lastDownAt-shownAt<TAP_BURST_MAX); }
+  /* 這個 click 要不要丟掉。b＝被點的選項按鈕：有掛 pointerdown 的按鈕（正式畫面）一定要「這顆按鈕自己被按下去過」而且那一下算數——
+     按下去的時候選單還沒出來、放開（或瀏覽器補發 click）的時候落在新按鈕上的那一下，這顆按鈕沒有收到 pointerdown＝丟掉（BB／CC 2026-11-11：課堂「略過 »」位置連點把考題點掉；
+     原本用「放開的時間晚於選單出現」判斷，選單如果就是在放開那一下的處理裡出現的，會漏掉）。最近沒有任何按下／放開＝程式直接呼叫 onclick（測試、探針、鍵盤），照常算。 */
+  function tapTooSoon(shownAt,b,guard){ if(!tapGuardOn()) return false; const now=performance.now(); if(!(now-lastUpRun<TAP_REAL||now-lastDownRun<TAP_REAL)) return false;
+    if(b&&b._tapHook) return !(b._downAt>shownAt&&b._downOK);
+    if(!(lastDownAt>shownAt)) return true; return !downOK(shownAt,guard); }   /* 沒掛 pointerdown 的（測試的假按鈕）：看最近那一下 */
+  GM.tapTooSoon=tapTooSoon; GM.TAP_GUARD=TAP_GUARD; GM.TAP_GUARD_SKIP=TAP_GUARD_SKIP; GM.TAP_BURST_GAP=TAP_BURST_GAP; GM.TAP_BURST_MAX=TAP_BURST_MAX; GM.TAP_REAL=TAP_REAL;
+  function renderChoose(c){ const {options,opt,res}=c, shownAt=performance.now(), guard=c.guard||TAP_GUARD; $('dlg').classList.remove('side'); D.menuOn=true; skipBtnSync();   /* 選項出來的時候「略過 »」收起來（BB 2026-11-11：選單最下面幾項就在那顆鍵附近，連點會替玩家亂選）*/
     { const box=$('choices'); box.innerHTML=''; box.classList.remove('hide'); overFade(box); const dlg=$('dlg'); overFade(dlg); const keep=!(opt&&opt.menu)&&!!D.full&&!D.active&&(performance.now()-(D.endedAt||0))<1500; if(opt&&opt.menu&&!D.active){ dlg.classList.add('hide'); dlg.classList.remove('static'); }   /* 系統選單（家裡、快轉）：不留上一句（BB-C BB_218 第 4 節：媽媽「洗衣籃在後陽台」留在畫面上，橫向時蓋住第四個選項）*/
     if(keep){ dlg.classList.remove('hide'); $('dlgText').textContent=D.full; $('dlgNext').style.visibility='hidden'; dlg.classList.add('static'); box.style.bottom='calc(max(14px,env(safe-area-inset-bottom)) + '+(dlg.offsetHeight+22)+'px)'; box.style.maxHeight='calc(100% - 58px - env(safe-area-inset-top) - '+(dlg.offsetHeight+22)+'px)'; }   /* 上面留 58 px 給「紀錄」按鈕（BB_218：最上面一格壓到「紀錄」）*/
     const more=()=>box.classList.toggle('more',box.scrollTop+box.clientHeight<box.scrollHeight-4); box.onscroll=more;   /* 選單墊高到對話框上面時，最大高度也要扣掉墊高的部分（v9.7 回歸 flow_clubs C：橫向 844×390、社團博覽會 6 個選項，選單上緣在畫面外 76 px，第一個「吉他社」看不到也捲不到）；太長就在選單裡捲動 */
-    const done=(i)=>{ box.classList.add('hide'); box.classList.remove('more'); box.onscroll=null; box.innerHTML=''; box.style.bottom=''; box.style.maxHeight=''; if(keep){ dlg.classList.add('hide'); dlg.classList.remove('static','side'); } A3.blip('ok'); if(chooseCur===c) chooseCur=null; res(i); chooseRestore(); sayRestoreSoon(); };
+    const done=(i)=>{ D.menuOn=false; box.classList.add('hide'); box.classList.remove('more'); box.onscroll=null; box.innerHTML=''; box.style.bottom=''; box.style.maxHeight=''; if(keep){ dlg.classList.add('hide'); dlg.classList.remove('static','side'); } A3.blip('ok'); if(chooseCur===c) chooseCur=null; res(i); chooseRestore(); sayRestoreSoon(); };
     if(opt&&opt.note){ const h=document.createElement('div'); h.className='chNote'; h.textContent=subst(opt.note); box.appendChild(h); }
     let askEl=null; if(opt&&opt.ask){ askEl=document.createElement('div'); askEl.className='chNote chAsk'; askEl.textContent=subst(opt.ask); if(keep) askEl.style.display='none'; box.appendChild(askEl); }   /* 關鍵選擇：她問的那一句也放在選單上——只在對話框沒有留著的時候（BB-B 11-07：直向對話框還在，選單上再一次＝重複）；下面放不下、把對話框收掉時再打開 */   /* 選單上方一行字（BB_305 10-5「小心選擇」：會影響能不能交往的那一組；src/decide3d.js）*/
-    options.forEach((o,i)=>{ if(o.hidden) return; const b=document.createElement('button'); b.innerHTML=subst(o.t)+(o.hint?'<div class="hint">'+o.hint+'</div>':''); if(o.dim) b.classList.add('dim'); b.onclick=()=>{ if(tapTooSoon(shownAt)) return; done(i); }; box.appendChild(b); }); box.scrollTop=0; requestAnimationFrame(()=>{ if(keep&&chooseCur===c&&box.scrollHeight>box.clientHeight+4){ box.style.bottom=''; box.style.maxHeight='';
+    options.forEach((o,i)=>{ if(o.hidden) return; const b=document.createElement('button'); b.innerHTML=subst(o.t)+(o.hint?'<div class="hint">'+o.hint+'</div>':''); if(o.dim) b.classList.add('dim'); if(b.addEventListener){ b._tapHook=true; b.addEventListener('pointerdown',e=>{ b._downAt=evT(e); b._downOK=downOK(shownAt,guard); }); }   /* document 那個（capture）先跑，lastDownAt 已經是這一下 */ b.onclick=()=>{ if(tapTooSoon(shownAt,b,guard)) return; done(i); }; box.appendChild(b); }); box.scrollTop=0; requestAnimationFrame(()=>{ if(keep&&chooseCur===c&&box.scrollHeight>box.clientHeight+4){ box.style.bottom=''; box.style.maxHeight='';
         const W=innerWidth||0, bw=box.getBoundingClientRect().width||0; if(!document.body.classList.contains('adv-on')&&W>H_SIDE_MIN&&W-bw-42>=260){ dlg.classList.add('side'); }   /* BUG-EXAM-LAND-SEAT-1102（CC K2、BB 10:15）：非 ADV 的橫向（座位上考試）沒有「紀錄」——那一句（題目）不收，移到選單左邊那一欄 */
         else { dlg.classList.add('hide'); dlg.classList.remove('static'); if(askEl) askEl.style.display=''; } } more(); }); } }   /* 留著上一句、選項又放不下（BB-B 10-23 SQ08：橫向、熟客店員先說一句再出六個選項，「不用了」在框外點不到）：收掉那一句，選單用整個高度（那一句在「紀錄」裡）*/   /* 放不下時底部淡出，提示下面還有（BB_218：五個只看得到三個、沒有捲動提示）*/
   GM.choose=choose;

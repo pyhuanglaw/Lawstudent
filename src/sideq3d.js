@@ -104,6 +104,7 @@ const SIDEQ=(function(){
   { const ST=(typeof L118_REDO!=='undefined'&&L118_REDO.staff)||{}, SH=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)?LANE118_SHOPS.shops:[];
     for(const k in S.RENAME_772){ if(!Object.prototype.hasOwnProperty.call(STAFF,k)) continue; const nw=S.RENAME_772[k], sh=SH.find(q=>q.name===nw); if(nw==='木曜日') STAFF[k]='老闆'; else if(sh&&ST[sh.id]) STAFF[k]=ST[sh.id]; } }
   S.eatKey=key=>Object.prototype.hasOwnProperty.call(S.RENAME_772,key)?S.RENAME_772[key]:key;
+  S.keyOfName=name=>{ for(const k in S.RENAME_772) if(S.RENAME_772[k]===name) return k; return null; };   /* 現在的店名 → 那件事的 key（木曜日的點餐用，src/mokuyobi_sys3d.js）*/
   S.keyOf=function(shopId){ const s=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)?LANE118_SHOPS.shops.find(q=>q.id===shopId):null; if(!s) return null; for(const k in S.RENAME_772) if(S.RENAME_772[k]===s.name) return k; return null; };
   S.YES='要我幫忙嗎？'; S.NO='……加油。';
   const L={

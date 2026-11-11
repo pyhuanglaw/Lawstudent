@@ -10,7 +10,7 @@ const SRC=fs.readFileSync(process.argv[2]||path.join(ROOT,'src/game3d.js'),'utf8
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const a=SRC.indexOf('  /* 選單疊在另一個還沒選的選單上')>=0?SRC.indexOf('  /* 選單疊在另一個還沒選的選單上'):SRC.indexOf('  function choose(options,opt)');
 const b=SRC.indexOf('  GM.choose=choose;');
-check('0. 抽得到 choose；裡面有 tapTooSoon',a>=0&&b>a&&SRC.slice(a,b).includes('function tapTooSoon(shownAt)'));
+check('0. 抽得到 choose；裡面有 tapTooSoon',a>=0&&b>a&&SRC.slice(a,b).includes('function tapTooSoon(shownAt,b,guard)'));
 if(fails){ console.log('FAILED '+fails); process.exit(1); }
 function mk(o){ o=o||{}; let now=1000; const listeners={};
   function el(id){ const cls=new Set(); return {id,style:{},children:[],_html:'',offsetHeight:40,scrollTop:0,clientHeight:300,scrollHeight:300,onscroll:null,textContent:'',
@@ -19,21 +19,21 @@ function mk(o){ o=o||{}; let now=1000; const listeners={};
   const els={}; const $=id=>els[id]||(els[id]=el(id)); $('choices').classList.add('hide'); $('dlg').classList.add('hide');
   const ctx={ $, D:{active:false,resolve:null,typing:false,full:'',shown:0,timer:0,busyDepth:0,busyWho:[],stale:false}, GM:{}, A3:{blip(){}}, ADV:{active:false,skip:false,end(){}}, SOCIAL:undefined,
     E:{player:{busy:false,path:null,target:null,pose:'idle',obj:{position:{}}},npcs:[],endCinematic(){}},
-    uncover(){}, overFade(){}, subst:t=>t, hideHUD(){}, letterbox(){}, toast(){}, performance:{now:()=>now}, requestAnimationFrame:f=>f(), sayRestore(){}, sayRestoreSoon(){}, sayStack:[],
+    uncover(){}, overFade(){}, skipBtnSync(){}, subst:t=>t, hideHUD(){}, letterbox(){}, toast(){}, performance:{now:()=>now}, requestAnimationFrame:f=>f(), sayRestore(){}, sayRestoreSoon(){}, sayStack:[],
     navigator:{userAgent:'x',webdriver:!!o.webdriver}, location:{search:o.search||''},
-    document:{createElement:()=>{ const x=el('btn'); x.onclick=null; return x; }, addEventListener:(t,f)=>{ (listeners[t]=listeners[t]||[]).push(f); }}, console:{warn(){},log:console.log} };
+    document:{createElement:()=>{ const x=el('btn'); x.onclick=null; if(o.hook){ x._ls={}; x.addEventListener=(t,f)=>{ (x._ls[t]=x._ls[t]||[]).push(f); }; } return x; }, addEventListener:(t,f)=>{ (listeners[t]=listeners[t]||[]).push(f); }}, console:{warn(){},log:console.log} };
   vm.createContext(ctx); vm.runInContext(SRC.slice(a,b)+'\n  GM.choose=choose;',ctx,{filename:'game3d.js(抽出)'});
   const box=$('choices');
-  return { GM:ctx.GM, box, adv:ms=>{ now+=ms; }, down:()=>{ for(const f of listeners.pointerdown||[]) f({}); }, tap(i){ this.down(); box.children[i].onclick(); }, has:()=>!box.classList.contains('hide')&&box.children.length>0, n:()=>(listeners.pointerdown||[]).length }; }
+  return { setSkip:v=>{ ctx.D.skip3d=!!v; }, GM:ctx.GM, box, adv:ms=>{ now+=ms; }, down:()=>{ for(const f of listeners.pointerdown||[]) f({}); }, up:()=>{ for(const f of listeners.pointerup||[]) f({}); }, tap(i){ this.down(); const b=box.children[i]; if(b&&b._ls) for(const f of b._ls.pointerdown||[]) f({}); this.up(); b.onclick(); }, downTs(ts){ for(const f of listeners.pointerdown||[]) f({timeStamp:ts}); }, btnDownTs(i,ts){ const b=box.children[i]; for(const f of (b._ls&&b._ls.pointerdown)||[]) f({timeStamp:ts}); }, has:()=>!box.classList.contains('hide')&&box.children.length>0, n:()=>(listeners.pointerdown||[]).length }; }
 const tick=()=>new Promise(r=>setImmediate(r));
 (async()=>{
   { const H=mk(); let got='還沒'; H.GM.choose([{t:'直接去上課'},{t:'翹這堂課'},{t:'先起床再說'}]).then(i=>{ got=i; });
-    await tick(); check('1. 有登記 pointerdown；TAP_GUARD 在 250～500 毫秒之間',H.n()===1&&H.GM.TAP_GUARD>=250&&H.GM.TAP_GUARD<=500,String(H.GM.TAP_GUARD));
+    await tick(); check('1. 有登記 pointerdown；TAP_GUARD 在 250～500 毫秒之間',H.n()>=1&&H.GM.TAP_GUARD>=250&&H.GM.TAP_GUARD<=500,String(H.GM.TAP_GUARD));
     H.adv(60); H.tap(1); await tick(); check('1. 選單出現 60 毫秒就按到「翹這堂課」：不算，選單還在',got==='還沒'&&H.has(),String(got));
     H.adv(200); H.tap(1); await tick(); check('1. 260 毫秒再按一次：還是不算',got==='還沒'&&H.has(),String(got));
     H.adv(200); H.tap(0); await tick(); check('1. 460 毫秒（看過了）按「直接去上課」：算，收到第 0 項',got===0&&!H.has(),String(got)); }
   { const H=mk(); let got='還沒'; H.down();   /* 上一句對話那一下（選單出現以前按的）*/ H.GM.choose([{t:'翹'},{t:'還是去'}]).then(i=>{ got=i; }); await tick();
-    H.box.children[0].onclick(); await tick(); check('2. 程式直接呼叫 onclick（沒有新的 pointerdown；測試、探針的寫法）：照常算',got===0,String(got)); }
+    H.adv(200); H.box.children[0].onclick(); await tick(); check('2. 程式直接呼叫 onclick（最近 120 毫秒內沒有按下／放開；測試、探針的寫法）：照常算',got===0,String(got)); }   /* 2026-11-11：改成「最近沒有真的按下／放開才算程式呼叫」，所以先過 200 毫秒 */
   { const H=mk(); const seq=[]; const p1=H.GM.choose([{t:'A'},{t:'B'}]).then(i=>{ seq.push(i); return H.GM.choose([{t:'翹'},{t:'還是去'}]); }).then(i=>{ seq.push(i); });
     await tick(); H.adv(500); H.tap(1); await tick(); await tick(); H.adv(40); H.tap(0); await tick(); const blocked=seq.length===1&&H.has(); H.adv(400); H.tap(1); await p1;
     check('3. 第一個選單正常選了以後，第二個選單 40 毫秒內連著點到的不算；等一下再點才算（每個選單各自從出現的時間算）',blocked&&seq.join()==='1,1',seq.join()); }
@@ -53,6 +53,24 @@ const tick=()=>new Promise(r=>setImmediate(r));
   { const H=mk(); let got='還沒'; H.down(); H.GM.choose([{t:'A'},{t:'B'}]).then(i=>{ got=i; }); await tick();
     let n=0; while(got==='還沒'&&n<60){ H.adv(200); H.tap(0); await tick(); n++; }
     check('8. 保險：一直不停地點（每 0.2 秒）最多擋 '+H.GM.TAP_BURST_MAX+' 毫秒，之後收得到，不會永遠選不到',got===0&&n*200>=H.GM.TAP_BURST_MAX&&n*200<=H.GM.TAP_BURST_MAX+400,n+' 下'); }
+  /* 8b：按下去的時候選單還沒出來、放開的時候已經出來（BB／CC 2026-11-11 課堂「略過 »」連點把考題點掉的第 2 下：按下早 182 ms） */
+  { const H=mk(); let got='還沒'; H.adv(500); H.down(); H.adv(182); H.GM.choose([{t:'A'},{t:'B'}]).then(i=>{ got=i; }); await tick(); H.adv(30); H.up(); H.box.children[1].onclick(); await tick();
+    const blocked=got==='還沒'&&H.has(); H.adv(600); H.tap(0); await tick();
+    check('8b. 手指按下去以後選單才出現、放開時點到新選項：不算；之後正常點一下才算',blocked&&got===0,String(got)); }
+  { const H=mk(); let got='還沒'; H.adv(500); H.down(); H.up(); H.adv(300); H.GM.choose([{t:'A'},{t:'B'}]).then(i=>{ got=i; }); await tick(); H.adv(50); H.box.children[1].onclick(); await tick();
+    check('8c. 很久以前點過、現在程式直接呼叫 onclick（沒有剛放開的紀錄）：照常算',got===1,String(got)); }
+  /* 8d～8g（BUG-CLASS-SKIP-TAPTHROUGH-1111，BB／CC 2026-11-11 PC）：正式畫面的按鈕有掛 pointerdown——一定要這顆按鈕自己被按下去過 */
+  { const H=mk({hook:true}); let got='還沒'; H.adv(500); H.down(); H.GM.choose([{t:'A'},{t:'B'}]).then(i=>{ got=i; }); await tick(); H.up(); H.box.children[1].onclick(); await tick();
+    const b1=got==='還沒'&&H.has();   /* 放開那一下的處理裡選單才出現（按下、放開都比選單早），瀏覽器補發的 click 落在新按鈕上：這顆按鈕沒收到 pointerdown */
+    H.adv(600); H.tap(0); await tick(); check('8d. 按下、放開都比選單早、click 落在新按鈕上：不算（按鈕自己沒被按下去）；之後正常點才算',b1&&got===0,String(got)); }
+  { const H=mk({hook:true}); let got='還沒'; H.GM.choose([{t:'A'},{t:'B'}]).then(i=>{ got=i; }); await tick(); H.adv(100); H.tap(1); await tick(); const b1=got==='還沒'; H.adv(500); H.tap(1); await tick();
+    check('8e. 有掛的按鈕：選單出現 100 毫秒就按下去不算、600 毫秒再按才算',b1&&got===1,String(got)); }
+  { const H=mk({hook:true}); const seq=[]; const t0=1000; H.downTs(t0-100); H.GM.choose([{t:'A'},{t:'B'}]).then(i=>{ seq.push(i); }); await tick();   /* 選單在 1000 出現；連點每 150 毫秒一下（事件時間），可是主執行緒卡住，處理的時間擠在後面 */
+    H.adv(1300); let blocked=0; for(const ts of [t0+50,t0+200,t0+350,t0+500,t0+650,t0+800,t0+950]){ H.downTs(ts); H.btnDownTs(0,ts); H.up(); H.box.children[0]&&H.box.children[0].onclick(); await tick(); if(!seq.length) blocked++; }
+    check('8f. 主執行緒卡住、事件晚處理：照事件自己的時間算還是同一串連點（每 150 毫秒），七下都不算（原本用處理的時間，間隔被拉開就當成新的一下）',blocked===7,blocked+' '+seq.join()); }
+  { const H=mk({hook:true}); H.GM.skipScope=null; const ctxSkip=H.setSkip; let got='還沒';
+    H.setSkip(true); H.GM.choose([{t:'A'},{t:'B'}]).then(i=>{ got=i; }); await tick(); H.adv(600); H.tap(0); await tick(); const b1=got==='還沒'; H.adv(500); H.tap(0); await tick();
+    check('8g. 略過中跳出來的選單：多等到 '+H.GM.TAP_GUARD_SKIP+' 毫秒才收（600 毫秒那一下不算、1100 毫秒算）',b1&&got===0&&H.GM.TAP_GUARD_SKIP>=800,String(got)); }
   /* 9、10：BB CHOOSE_SCAN ①②——選單從下緣往上排，不可逆的那一項不要和上一層被點的那一項同一個「從下面數的位置」 */
   { const fs2=require('fs'), path2=require('path'), R=f=>fs2.readFileSync(path2.join(__dirname,'..',f),'utf8'), CL=R('src/classes3d.js'), JB=R('src/jobs3d.js');
     check('9. 下課選單「下一堂不去」（最下面）→ 翹課確認用 flip：最下面是「還是去」；起床選單照舊「翹」在最下面、「還是去」倒數第二',/c==='skip'\) await S\.skipClass\(GM,nx,\{flip:true\}\)/.test(CL)&&/GM\.choose\(flip\?\[\{t:'翹'\},\{t:'還是去'\}\]:\[\{t:'還是去'\},\{t:'翹'\}\]\)/.test(CL)&&/if\(k!==SK\)\{ await S\.goClass\(GM,it\); return false; \}/.test(CL)&&/k===1&&await S\.skipClass\(GM,it\)\)/.test(CL));

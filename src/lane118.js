@@ -101,8 +101,8 @@ const L118=(function(){
   /* AA_772 regular_greets（十一間，取代 AA_311 第 2 節那張表）：known、usual、item、exam 照 src/data/l118_redo772.js 的 reg。
      usual2（AA_480 第 1 節「上次點別的＝不帶菜名那一句」）AA_772 沒有新寫：原本那幾句跟著店員搬（滇香→dian 不動、Pasta→pasta 不動、韓食小廚→tea、好家自助餐→cafe2）；
      新的兩間有 item、沒有這一句的（水上便當 self、迪倫窯烤披薩 noodle2）：上次點的不是那一樣＝不說「老樣子」那一句，照「認得你」（S.stage），等 AA 補 */
-  S.USUAL2={dian:'跟上次一樣？',pasta:'跟上次一樣？',tea:'一樣的？',cafe2:'一樣那幾樣？'};
-  S.REG=(function(){ const o={}, R=(RD()&&RD().reg)||{}; for(const k in R){ o[k]=Object.assign({},R[k]); if(S.USUAL2[k]) o[k].usual2=S.USUAL2[k]; } return o; })();
+  /* 2026-11-11 AA_772 @d78266901 補了 usual2（六間有 item 的店都有稿）：照資料，這裡不再另外寫；資料沒有這一欄的店照上面的退路（不說老樣子那一句，照「認得你」）*/
+  S.REG=(function(){ const o={}, R=(RD()&&RD().reg)||{}; for(const k in R) o[k]=Object.assign({},R[k]); return o; })();
   S.USUAL_OPTS=['好','看一下菜單'];
   const law=G=>!!G&&(G.stage||'law')==='law';
   const hh=h=>(((+h||0)%24)+24)%24;
@@ -115,17 +115,27 @@ const L118=(function(){
   /* AA_772 的搬法（讀檔做一次，記在 G.l118.mv772；沒有 G.l118、也沒有 ZHE_118_RANK 的存檔不動）：
      - ZHE_118_RANK（H4 選的那一間，阿哲輪流排第一）：noodle2→korea、korea→tea、dian 不變（AA_772 moves H4）。
      - 一起吃的次數 G.l118.w（'人@店'）跟著故事搬：阿哲的四間 noodle2→korea、korea→tea、self／home→home（H4：四間都吃過）；柏翰 self→cafe2（H6：第三次）。其他人、其他店不動。
-       兩筆併成一筆＝次數相加、第一天取早的、最後一天取晚的。來了幾次（n、d）照店的位置不動 */
-  S.MV772={rank:{noodle2:'korea',korea:'tea'},w:{zhe:{noodle2:'korea',korea:'tea',self:'home'},classmate_bohan:{self:'cafe2'}}};
+       兩筆併成一筆＝次數相加、第一天取早的、最後一天取晚的。
+     - 第二步（mv772＝2；LAWWW 2026-11-11 決定：熟客次數跟著店員走）：來了幾次、上次哪天、上次點的（n、d、last）照故事搬——noodle2→korea、korea→tea、self→cafe2、tea→drink_a；
+       dian、home、omu、pasta 留原位。原本 cafe2（慢讀咖啡）的次數不搬到 118 巷的店：併進木曜日自己的來過幾次（G.mokuyobi.n；慢讀整套搬到木曜日），那一格的 d、last 丟掉。
+       新店 self（水上便當）、noodle2（迪倫窯烤披薩）、drink_b 從 0 開始（搬走以後那一格清掉）。搬過來的 last 是舊菜名＝接著由 S.migrate 清掉。
+       只跑過第一步的存檔（mv772＝1）補跑第二步；兩步都跑過＝不動 */
+  S.MV772={rank:{noodle2:'korea',korea:'tea'},w:{zhe:{noodle2:'korea',korea:'tea',self:'home'},classmate_bohan:{self:'cafe2'}},n:{noodle2:'korea',korea:'tea',self:'cafe2',tea:'drink_a'},gone:'cafe2'};
+  S.migrate772n=function(G,R){ let n=0; const M=S.MV772.n, src=Object.keys(M).concat([S.MV772.gone]);
+    const N=R.n&&typeof R.n==='object'&&!Array.isArray(R.n)?R.n:null, Dd=R.d&&typeof R.d==='object'&&!Array.isArray(R.d)?R.d:null, La=R.last&&typeof R.last==='object'&&!Array.isArray(R.last)?R.last:null;
+    if(N&&N[S.MV772.gone]!=null){ const k=N[S.MV772.gone]|0; if(k>0){ const mk=G.mokuyobi&&typeof G.mokuyobi==='object'&&!Array.isArray(G.mokuyobi)?G.mokuyobi:(G.mokuyobi={n:0,seats:{}}); mk.n=(typeof mk.n==='number'&&mk.n>=0?mk.n:0)+k; } n++; }
+    for(const T of [N,Dd,La]){ if(!T) continue; const old={}; for(const k of src){ if(T[k]!==undefined){ old[k]=T[k]; delete T[k]; } } for(const k of Object.keys(M)){ if(old[k]!==undefined){ T[M[k]]=old[k]; if(T===N) n++; } } }
+    return n; };
   S.migrate772=function(G){ if(!G) return 0; const F=G.flags&&typeof G.flags==='object'?G.flags:null, has=G.l118&&typeof G.l118==='object'&&!Array.isArray(G.l118); if(!has&&!(F&&F.ZHE_118_RANK)) return 0;
-    const R=has?G.l118:(G.l118={}); if(R.mv772) return 0; let n=0;
+    const R=has?G.l118:(G.l118={}); if((R.mv772|0)>=2) return 0; let n=0;
+    if((R.mv772|0)===1){ n=S.migrate772n(G,R); R.mv772=2; return n; }   /* 第一步跑過的存檔：只補第二步 */
     if(F&&typeof F.ZHE_118_RANK==='string'&&S.MV772.rank[F.ZHE_118_RANK]){ F.ZHE_118_RANK=S.MV772.rank[F.ZHE_118_RANK]; n++; }
     const W=R.w&&typeof R.w==='object'&&!Array.isArray(R.w)?R.w:null;
     if(W){ const add=(out,k,v)=>{ const o=out[k]; if(!v||typeof v!=='object'){ if(o===undefined) out[k]=v; return; } if(!o||typeof o!=='object'){ out[k]=Object.assign({},v); return; } o.n=(o.n|0)+(v.n|0); if(typeof v.d0==='number'&&(typeof o.d0!=='number'||v.d0<o.d0)) o.d0=v.d0; if(typeof v.d==='number'&&(typeof o.d!=='number'||v.d>o.d)) o.d=v.d; };
       for(const who in S.MV772.w){ const M=S.MV772.w[who], out={}, keys=Object.keys(W).filter(k=>k.indexOf(who+'@')===0); let moved=0;
         for(const k of keys){ const shop=k.slice(who.length+1), to=M[shop]||shop; if(M[shop]) moved++; add(out,who+'@'+to,W[k]); }
         if(moved){ for(const k of keys) delete W[k]; Object.assign(W,out); n+=moved; } } }
-    R.mv772=1; return n; };
+    n+=S.migrate772n(G,R); R.mv772=2; return n; };
   S.migrate=function(G){ if(!G||!D()) return 0; try{ S.migrate772(G); }catch(e){ console.warn('L118.migrate772',e); } const R=G.l118; if(!R||typeof R!=='object'||Array.isArray(R)) return 0; const last=R.last; if(!last||typeof last!=='object'||Array.isArray(last)) return 0; let n=0;
     for(const id of Object.keys(last)){ const s=S.shop(id); if(!s||!s.menu.some(m=>m[0]===last[id])){ delete last[id]; n++; } } return n; };
   S.visitNo=(G,id)=>{ const R=S.rec(G); return (R.n[id]|0)+(R.d[id]===G.day?0:1); };   /* 今天這一次算第幾次來（今天已經記過＝同一次）*/
@@ -270,7 +280,8 @@ const L118=(function(){
      她答應的句子照現有的（AA_415 的表、表上沒有就系統的旁白），不另寫。見面（INV.meet）＝在店裡照 S.order 和她一起點餐（scene；ownMeal：時間、吃完那一句由點餐那一段處理）：
      H9 第一次「兩位嗎？窗邊有位子。」＋吃完那句旁白；之後照一般的「幾位？」、沒有旁白（AA_480 第 5 節）。不算正式校外約會（AA_311 H9）。兩個人一起坐下（seatPose）*/
   S.INVITE={id:'pasta118',zone:'l118_pasta',name:(S.shop('pasta')||{}).name||'義大麵屋',verb:'去義大麵屋吃午餐',kind:'meal',minStage:'FAMILIAR',stay:40/60,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',ownMeal:true,
-    days:[1,2,4,5],hours:[11.5,14],times:[12+10/60],
+    /* 哪幾天、幾點照店家資料（L118-SHOPS-REDO-1111：義大麵屋公休改週一，原本寫死週一、二、四、五＝週三休）：平日扣掉公休日、午餐那一段 */
+    days:[1,2,3,4,5].filter(d=>!((S.shop('pasta')||{hours:{closed:[]}}).hours.closed||[]).includes(d)),hours:(((S.shop('pasta')||{}).hours||{}).open||[[11.5,14]])[0].slice(),times:[12+10/60],
     show:(G,id)=>law(G)&&id!=null&&dating(G,id),
     scene:async(GM,iv)=>{ await S.order(GM,'pasta',{with:[iv.who]}); } };
   if(typeof INVITE_DATA!=='undefined'&&Array.isArray(INVITE_DATA.places)&&!INVITE_DATA.places.some(q=>q.id===S.INVITE.id)) INVITE_DATA.places.push(S.INVITE);

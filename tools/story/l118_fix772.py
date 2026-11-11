@@ -203,6 +203,8 @@ def build_data(d):
         e = {'known': [['@', r['know']]] + ([[None, r['knowNarr']]] if r.get('knowNarr') else []), 'usual': r['usual']}
         for k in ('item', 'exam'):
             if r.get(k): e[k] = r[k]
+        u2 = (d['regular_greets'].get('usual2') or {}).get(r['shop'])   # usual2＝上次點別的、不帶菜名那一句（AA_772 @d78266901 補的 regular_greets.usual2；沒有稿的店沒有這一欄）
+        if isinstance(u2, str) and u2: e['usual2'] = u2
         reg[r['shop']] = e
     ip = d['invite_places']
     sq = d['sideq_rename']

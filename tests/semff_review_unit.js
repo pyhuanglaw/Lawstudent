@@ -14,7 +14,7 @@ GM.choose=async o=>{ menus.push(o.map(q=>q.t||q.text)); const want=picks.shift()
 GM.toast=()=>{}; GM.caption=()=>{}; GM.phoneThread=async()=>{};
 const wd=d=>CALENDAR.dateOf(d).wd;
 const lbl=G=>CALENDAR.dateOf(G.day).key+' '+(+G.hour).toFixed(2);
-const run=async(pk)=>{ const sun=STUDY.remindDay('Y1S1'); H.fresh(CALENDAR.dateOf(sun-1).key,22,'dorm',{EXCHANGE_ROUTE:'TW'}); const G=H.G; G.weekday=wd(G.day)%7; menus=[]; picks=['到下一個有事的時候'].concat(pk);
+const run=async(pk)=>{ const sun=STUDY.remindDay('Y1S1'); H.fresh(CALENDAR.dateOf(sun-1).key,22,'dorm',{EXCHANGE_ROUTE:'TW'}); const G=H.G; G.weekday=wd(G.day)%7; menus=[]; picks=['到下一個有事的時候','快轉'].concat(pk);   /* 2026-11-11：選了以後多一步確認〔算了／快轉〕（BUG-BEDFF-DOUBLETAP-1111）*/
   const r=await SEMFF.menu(GM); return {G,r,sun,menus:menus.slice()}; };
 (async()=>{
   { const {G,r,sun,menus}=await run(['考前總複習']); const m=menus.find(x=>x.includes(STUDY.REVIEW_LABEL));

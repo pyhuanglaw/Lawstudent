@@ -241,7 +241,7 @@ const DATE=(function(){
      手機的約打開（INV.whyNot、canInvite、flow 只有「去校外…」），約會清單只列她老家那個城市的地點（D26；兩天一夜也只有 D26）。她答應的那一句照 T7a（S.T7A_YES，手抄、照稿逐字）。
      還沒到可以約校外的程度（第 5 階、交往中以外；她在等你說清楚；她有交往的對象）＝沒有可以列的＝照舊關著（「回台中了，不在臺北。」）。
      homeCity：她那一天在老家的城市（S6 的以安、芷若；不在＝''）；homeOnly：今天照 T7a 只能列的地點，不是這種情況＝null */
-  S.T7A_YES={heroine_01:'臺中？……好。我去車站接你。',heroine_02:'你要來臺中？……好。我帶你走。',classmate_peishan:'你要來台中喔？好啊！我去車站接你，這次我會準時！'};   /* 沛珊：AA_372 第 7 節（新寫）*/
+  S.T7A_YES={heroine_01:'臺中？……好。我去車站接你。',heroine_02:'你要來臺中？好，我帶你走。',classmate_peishan:'你要來台中喔？好啊！我去車站接你，這次我會準時！'};   /* 沛珊：AA_372 第 7 節（新寫）*/   /* 芷若：2026-11-11 照 AA_773_zr_date_common.json@e8a33995c 換（使用者 X324；原本「你要來臺中？……好。我帶你走。」）*/
   S.homeCity=function(G,id,day){ if(!S.HOME_NO[id]||typeof STORY==='undefined'||!STORY.presence) return ''; const p=STORY.presence(id,day==null?G:Object.assign({},G,{day})); return awayCity(p,id); };
   S.homeOnly=function(G,id){ const c=S.homeCity(G,id); if(!c) return null; { if(typeof CLS!=='undefined'&&CLS.examNear?CLS.examNear(G,G.day):(()=>{ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; return !!(T&&T.exam); })()) return null; }   /* AA_638 ①-4 */   /* AA_383 第 2 節（企劃線 98516b51）：考試週的規則優先——一日遊在考試週本來就不能排（S.check「考試週」），T7a 只列的 D26 也約不成：手機照「回台中，不在臺北。」（以安第 8 週 10/25～26 期中考考完回台中）*/ const L=Object.keys(D().locations).filter(k=>cityOf((S.loc(k)||{}).area)===c&&S.listable(k)); return L.length&&S.canAskCore(G,id).ok?L:null; };
   /* T7a 那一句：從 T7a 的清單約的、出發那天她還在台中（她已經回臺北的日子＝一起從臺北出發，照一般答應的那一句）*/
@@ -649,7 +649,7 @@ const DATE=(function(){
   /* 2026-11-11（使用者 X324 可昕約會台詞重寫，AA_769_kx_date_common.json@f9c1a2b80）：S.MORNING 可昕那一句換了（原本「行程表我昨天晚上重寫了。……你看一下第二天。」） */
   /* 2026-11-11（使用者 X324 語彤約會台詞重寫，AA_767_yt_date_common.json@0a2136911）：S.MORNING 語彤那一句換了（原本講蛋餅和秀琴姨——秀琴姨傍晚才來煮晚餐，沒有幫她煎早餐） */
   /* 2026-11-11（使用者 X324 學姊約會台詞重寫，date_rewrite/sis_D26.json@82c946ad7 的 for_LAWWW）：S.MORNING 學姊那一句換了（原本「（保溫瓶已經裝好熱茶）……出發前喝一口。」；保溫瓶整份約會稿只留 D02、D09、D13 三處） */
-  S.MORNING_OWN={heroine_01:'我媽多做了一份早餐。……叫我帶給你。',heroine_02:'我出門的時候，我媽問我跟誰。……我說回來再講。',classmate_peishan:'我在樓下。早餐我買好了，買太多，你要負責吃。'};   /* 以安、芷若（D26 臺中）、沛珊（D28 臺南）；沛珊三句（MORNING、MORNING_OWN、MORNING_HOME）2026-11-11 照 X327 重寫換（date_rewrite/peishan_D26／D28.json@2883197b6 的 for_LAWWW：新設定早上起不來、家裡是連鎖餐廳） */
+  S.MORNING_OWN={heroine_01:'我媽多做了一份早餐。……叫我帶給你。',heroine_02:'我出門的時候，我媽叫我問你吃不吃蛋餅。她已經在煎了。',classmate_peishan:'我在樓下。早餐我買好了，買太多，你要負責吃。'};   /* 芷若：2026-11-11 照 AA_773_zr_date_common.json@e8a33995c 換（使用者 X324；原本「我出門的時候，我媽問我跟誰。……我說回來再講。」——她對媽媽不藏，BB_330 第 4 節）*/   /* 以安、芷若（D26 臺中）、沛珊（D28 臺南）；沛珊三句（MORNING、MORNING_OWN、MORNING_HOME）2026-11-11 照 X327 重寫換（date_rewrite/peishan_D26／D28.json@2883197b6 的 for_LAWWW：新設定早上起不來、家裡是連鎖餐廳） */
   S.MORNING_HOME={classmate_peishan:'我在樓下。我媽叫我帶水果給你，一大袋，我提得好辛苦。'};   /* 沛珊 D26 臺中、她剛好在台中老家（AA_359 第 3 節、5-1 B2：不借 D28 那句）*/
   /* 2026-11-11（AA_769_kx_date_common.json@f9c1a2b80 的 for_LAWWW；BB 提、AA 同意）：過夜晚上那一句補一列——D29 高雄＋可昕＝「（晚上她回家。你住在車站附近的旅館。）」。
      高雄是她老家，不回家說不通；她學期中 presence 在臺北（一起出發），照 own 算不到 home，所以另外列（比照 D26 以安／芷若在臺中的家、D28 沛珊在台南）。只管晚上那一句旁白；早上那一句照 S.MORNING */

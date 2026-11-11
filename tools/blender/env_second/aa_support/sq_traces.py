@@ -168,10 +168,10 @@ def sq12_pasta(root, X1, Z0):
     return p.finish(root)
 
 
-def sq13_korea(root, X1):
+def sq13_korea(root, X1, cz=-0.95, y0=1.5):
     """韓食小廚：東牆的小菜櫃（glass_case X1−0.6～X1、z −1.2～0.4；玻璃箱頂 1.50 m）頂上靠北那一端；泡菜玻璃罐＋手寫標籤「她的」朝店裡"""
     lab = tex_label('sq13_label.png', '她的', 256, 128, sz=78, tilt=3)
-    p = Part('TRACE_SQ13_jar'); cx, cz, y0 = X1 - 0.3, -0.95, 1.5
+    p = Part('TRACE_SQ13_jar'); cx = X1 - 0.3   # cz、y0：小菜櫃的位置和玻璃箱頂的高度（11-11 L118-SHOPS-REDO-1111：韓食老闆搬到 tea 那一格的辛亥韓食，罐子跟著搬：lane118_shops.py build_tea）
     glass = mat_flat('trace_jar_glass', '#dce8e6', 0.08, alpha=0.35); kim = mat_flat('trace_kimchi', '#b8422e', 0.55); lid = mat_flat('trace_jar_lid', '#d8d4cc', 0.35, metal=0.3)
     p.cyl(kim, cx, cz, y0 + 0.005, y0 + 0.13, 0.058, seg=16)                     # 罐子裡的泡菜（到 2/3）
     p.cyl(glass, cx, cz, y0, y0 + 0.17, 0.065, seg=16, bottom=True)             # 玻璃
