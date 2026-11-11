@@ -1,0 +1,135 @@
+diff --git a/src/engine3d.js b/src/engine3d.js
+index df326c154e..ceec1aad04 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -285,14 +285,33 @@ const E3 = (function(){
+       /* 半步（STAIR-LEVEL-AUDIT-1111，LAWWW2 11-11）：低幀率跑步一步 0.6 m 以上，整步跨過頭（例：大口二樓樓梯頂右側直接接牆，整步落在牆裡、兩層都站不住）就整個停住、差半步上不去——
+          整步、換層、沿牆滑都不行時，試走一半（這一層站得住，或換到另一層站得住）。只在一步超過 0.2 m 時試（高幀率照舊）*/
+       const half=()=>{ if(Math.hypot(dx*sp*dt,dz*sp*dt)<=0.2) return false; const hx=o.position.x+dx*sp*dt/2, hz=o.position.z+dz*sp*dt/2; if(cs(hx,hz)||(E.levels&&switchLevel(ent,hx,hz,r))){ o.position.x=hx; o.position.z=hz; ent.blockedAt={x:nx,z:nz,slide:'half'}; return true; } return false; };
+-      if(cs(nx,nz)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(E.levels&&switchLevel(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(mx&&cs(nx,o.position.z)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&cs(o.position.x,nz)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mz&&switchLevel(ent,o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mx&&switchLevel(ent,nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(half()) { /* 走了半步 */ } else { ent.blockedAt={x:nx,z:nz,slide:'none'};   /* BUG-MOKUYOBI-STAIR-STUCK-1111（BB 11-11 PC 三次重現：木曜日樓梯頂 (−3.35, 2.876) lv0，搖桿斜著往店裡推 20 秒不動）：斜著推時完整的一步撞到旁邊的牆、換層只試完整那一步——沿牆滑的那一步（只有 z 或只有 x）在這一層站不住、在另一層站得住也要換層（原本只在同一層滑），不然靠著扶手那一側走到樓梯頂就卡住 */
++      /* cornerSlip 讓開中（見下面）：推的方向沒變就先走完讓開的那一段，走到了或推的方向變了就恢復平常的走法 */
++      const slipGo=()=>{ const F=ent._slip; if(!F) return false; if(F.dx*dx+F.dz*dz<0.8){ ent._slip=null; return false; } const ddx=F.x-o.position.x, ddz=F.z-o.position.z, dd=Math.hypot(ddx,ddz);
++        if(dd<1e-3){ ent._slip=null; return false; } const stp=Math.min(dd,sp*dt), qx=o.position.x+ddx/dd*stp, qz=o.position.z+ddz/dd*stp; if(!cs(qx,qz)){ ent._slip=null; return false; }
++        o.position.x=qx; o.position.z=qz; ent.blockedAt={x:nx,z:nz,slide:'slip'}; if(dd-stp<1e-3){ ent._slip=null; ent._slipPref={ax:F.ax,dx:F.dx,dz:F.dz}; } return true; };
++      /* 讓開以後先沿著讓出來的那一軸走（不然下一步「只走 x／只走 z」會先試往角裡那一軸、又滑回角裡）；整步走得通、推的方向變了、那一軸也擋了就恢復平常 */
++      const slipPref=()=>{ const P=ent._slipPref; if(!P) return false; if(P.dx*dx+P.dz*dz<0.8){ ent._slipPref=null; return false; }
++        if(P.ax==='z'&&mz&&cs(o.position.x,nz)){ o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; return true; } if(P.ax==='x'&&mx&&cs(nx,o.position.z)){ o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; return true; }
++        ent._slipPref=null; return false; };
++      if(ent._slip&&slipGo()) { /* 讓開中 */ }
++      else if(cs(nx,nz)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; ent._slipPref=null; } else if(E.levels&&switchLevel(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(ent._slipPref&&slipPref()) { /* 讓開以後沿著那一軸 */ } else if(mx&&cs(nx,o.position.z)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&cs(o.position.x,nz)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mz&&switchLevel(ent,o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mx&&switchLevel(ent,nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(half()) { /* 走了半步 */ } else { ent.blockedAt={x:nx,z:nz,slide:'none'};   /* BUG-MOKUYOBI-STAIR-STUCK-1111（BB 11-11 PC 三次重現：木曜日樓梯頂 (−3.35, 2.876) lv0，搖桿斜著往店裡推 20 秒不動）：斜著推時完整的一步撞到旁邊的牆、換層只試完整那一步——沿牆滑的那一步（只有 z 或只有 x）在這一層站不住、在另一層站得住也要換層（原本只在同一層滑），不然靠著扶手那一側走到樓梯頂就卡住 */
+         // 擦到家具或格子的角：前進方向再往左或右偏一點（最多 0.48 m，導航格是 0.5 m）就過得去時，往空的那一側讓開（正面撞平的牆時偏移也過不去，不會亂滑）
+         const px=-dz, pz=dx; let side=0; for(const e of [0.08,0.16,0.24,0.32,0.4,0.48]){ if(cs(nx+px*e,nz+pz*e)){ side=1; break; } if(cs(nx-px*e,nz-pz*e)){ side=-1; break; } }
+         if(side){ const lat=Math.min(0.18,sp*dt*0.8), lx=o.position.x+px*side*lat, lz=o.position.z+pz*side*lat; if(cs(lx,lz)){ o.position.x=lx; o.position.z=lz; ent.blockedAt.slide='corner'; } }
+         // 還是過不去（v9.3 #31：宿舍書桌後面的窄縫，玩家沿牆滑進去之後，往哪個正方向推都過不去，永久卡住）：前進方向往左右各偏 30°／50°／70° 試一步，
+         // 站得住就走。每個方向都還有往前的分量；正面頂著平的牆或在牆角時這些方向都過不去，所以不會亂滑；只移到站得住的位置，不穿牆。
+         // 目前位置本身站不住（卡在阻擋格裡）時不用這個，交給 escapeOK（否則可能從阻擋格被帶進另一個小空隙）
+-        else if(!stuckIn(ent)){ const st=Math.hypot(nx-o.position.x,nz-o.position.z); for(const a of [0.52,-0.52,0.87,-0.87,1.22,-1.22]){ const c=Math.cos(a), sn=Math.sin(a), rx=dx*c-dz*sn, rz=dx*sn+dz*c, tx=o.position.x+rx*st, tz=o.position.z+rz*st; if(cs(tx,tz)){ o.position.x=tx; o.position.z=tz; ent.blockedAt.slide='turn'; break; } } } } } else { o.position.x=nx; o.position.z=nz; }
++        else if(!stuckIn(ent)){ const st=Math.hypot(nx-o.position.x,nz-o.position.z); for(const a of [0.52,-0.52,0.87,-0.87,1.22,-1.22]){ const c=Math.cos(a), sn=Math.sin(a), rx=dx*c-dz*sn, rz=dx*sn+dz*c, tx=o.position.x+rx*st, tz=o.position.z+rz*st; if(cs(tx,tz)){ o.position.x=tx; o.position.z=tz; ent.blockedAt.slide='turn'; break; } } }
++          /* 繞過家具的外角（MOKU-PLANT-CORNER-1111，LAWWW2 11-11；只在區域開了 cornerSlip、只有玩家）：站得住只看人的前後左右四點（NavGrid.clear），所以家具的外角斜對面有一小塊站得進去；
++             站在那裡斜著往角推（木曜日：植物東南角往樓梯推），整步、只走 x、只走 z、往左右偏都還碰到家具＝一步都不動。
++             這時往旁邊讓開（另一軸、和推的方向相反那一邊——離開家具）：讓開 0.34／0.45／0.55 m 以後那一軸走得通 0.6 m（外角）才讓，讓到那裡為止（下面 slipGo 接著走，
++             中途不再試往角裡滑，不然會一步往外一步往裡來回）；牆角（內角）讓開以後還是擋著，不讓（不會被推著亂跑）。先試讓開以後走推的方向比較大的那一軸，不行再試另一軸 */
++          if(ent.blockedAt.slide==='none'&&ent===E.player&&E.zone&&E.zone.cornerSlip){ const px0=o.position.x, pz0=o.position.z, mv=Math.max(Math.hypot(nx-px0,nz-pz0),0.1); let fs=null;
++            for(const [ax,dS,dT] of Math.abs(dx)>=Math.abs(dz)?[['z',dz,dx],['x',dx,dz]]:[['x',dx,dz],['z',dz,dx]]){ if(fs) break; if(Math.abs(dS)<1e-3||Math.abs(dT)<1e-3) continue; const sg=dS>0?-1:1;
++              for(const off of [0.34,0.45,0.55]){ const tx=ax==='x'?px0+sg*off:px0, tz=ax==='z'?pz0+sg*off:pz0, ux=ax==='z'?Math.sign(dT):0, uz=ax==='x'?Math.sign(dT):0; if(!cs(tx,tz)) continue;
++                let free=true; for(let k=1;k<=6&&free;k++) free=cs(tx+ux*0.1*k,tz+uz*0.1*k);   /* 讓開以後那一軸要走得通 0.6 m（外角：沿著家具的邊一路過去）；牆角讓開以後走不了幾步又撞牆＝不讓 */
++                if(free){ fs={x:tx,z:tz,dx,dz,ax:ax==='z'?'x':'z'}; break; } } }
++            if(fs){ ent._slip=fs; slipGo(); } } } } else { o.position.x=nx; o.position.z=nz; }
+     settleY(ent,dt);
+     flatYaw(o); const targetYaw=Math.atan2(dx,dz); let d=targetYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*12); }
+   /* 人物只轉 y：rotation 變成 (±π, y, ±π)（四元數換回 Euler、超過 ±90° 的朝向）時改回 (0, π−y, 0)——看起來的方向一樣，之後改 rotation.y 才是真的轉向（2026-10-18 路人往後走）。騎車的側傾（z 小角度）不動 */
+diff --git a/src/mokuyobi3d.js b/src/mokuyobi3d.js
+index 209afc242f..9ff339bb12 100644
+--- a/src/mokuyobi3d.js
++++ b/src/mokuyobi3d.js
+@@ -36,6 +36,13 @@ const MOK3=(function(){
+     nav1.blockRect(S.x1+0.05,(S.z0-0.1+dz0)/2,0.1,dz0-S.z0+0.1,0);                                            // 東邊隔間牆（門洞以北那一小段）
+     nav1.blockRect((S.x0+S.x1+0.1)/2,S.z0-0.05,S.x1-S.x0+0.1,0.12,0);                                         // 北邊隔間牆（平台的北緣）
+     L.blocks.forEach((b,i)=>{ if(i===0) return; nav1.blockRect(b[0],b[1],b[2],b[3],0,0.05); });               // 家具（第 0 筆是樓梯開口：上面已經接成樓梯）
++    /* MOKU-PLANT-CORNER-1111（LAWWW2 11-11；BB V25_STAIR_run10、線上 779 也卡）：店門南邊的衣帽架 (−2.7,2.75)、落地植物 (−2.15,3.75)、樓梯間東邊隔間牆 (x −2.9)、
++       隔間牆前的書櫃 (z 4.1～6.5) 圍出兩條比人窄的縫（植物北邊 0.45 m、植物西邊 0.4 m；人要 0.64 m）：導航格是空的、人站不進去，
++       只有兩條縫接角那一格 (−2.54,3.33) 剛好站得住＝小孤島（滑進去以後往哪個方向推都出不來，40 秒）；縫口 (−2.49,3.04) 往樓梯推也卡。
++       兩條縫補成阻擋（只有導航，模型不動）：A 植物北邊（x −2.9～−1.9、z 2.95～3.5）、B 植物西邊（x −2.9～−2.4、z 3.45～4.1）。
++       同一次掃出來的另一個（nav_islands 的掃法）：西牆書櫃和 table 3（−3, 0.6）之間、樓梯間北牆前 (−3.75, 1.0) 一小塊（z 0.95～1.1；北邊被桌子、南邊被牆夾住，跑步一步大時跳得進去）——一起擋起來 C。
++       測試：node tests/mokuyobi_plant_corner_1111_unit.js */
++    for(const [x0,x1,z0,z1] of [[-2.9,-1.9,2.95,3.5],[-2.9,-2.4,3.45,4.1],[-4.0,-3.4,0.95,1.1]]) nav1.blockRect((x0+x1)/2,(z0+z1)/2,x1-x0,z1-z0,0);
+     nav0._cm=null; nav1._cm=null; return {nav0,st}; }
+ 
+   // ---- 樓梯的備用模型（正式模型載入前、失敗時）：一階一階的色塊＋兩側的牆 ----
+@@ -62,6 +69,7 @@ const MOK3=(function(){
+     const root=new THREE.Group(); root.add(g0); root.add(g1); z.group=root;
+     const {nav0,st}=buildNav(L,z.nav);
+     z.levels=[nav0,z.nav]; z.levelGroups=[{group:g0,y:0},{group:g1,y:Y1}]; z.nav=nav0; z.spawn=Object.assign({},IN); z.bounds={w:L.w,d:L.d}; z.camMaxY=L.h-0.15;
++    z.cornerSlip=true;   /* MOKU-PLANT-CORNER-1111：玩家推進家具外角（植物東南角往樓梯斜推）時往旁邊讓開、繞過去（engine3d.js stepEntity 的 cornerSlip；只有開了的區域）*/
+     z.slabs=[{lv:1,x0:S.x1,x1:L.w/2,z0:-L.d/2,z1:L.d/2,y:Y1,t:0.2},{lv:1,x0:-L.w/2,x1:S.x1,z0:-L.d/2,z1:S.top,y:Y1,t:0.2}];   /* 二樓地板（樓梯開口以外）：人在樓梯上時鏡頭不穿過樓板（engine3d.js slabClip）*/
+     // 樓梯可以點的面（點地面移動；點在樓梯上＝走到那裡）
+     { const len=Math.hypot(st.z1-st.z0,st.ya-st.yb), m=new THREE.Mesh(new THREE.PlaneGeometry(st.x1-st.x0,len),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}));
+diff --git a/tests/mokuyobi_plant_corner_1111_unit.js b/tests/mokuyobi_plant_corner_1111_unit.js
+new file mode 100644
+index 0000000000..d313e440a1
+--- /dev/null
++++ b/tests/mokuyobi_plant_corner_1111_unit.js
+@@ -0,0 +1,63 @@
++/* MOKU-PLANT-CORNER-1111（LAWWW 11-11 14:37 派給 LAWWW2，P0；BB V25_STAIR_run10、線上 779 就有）：木曜日二樓
++   ① 小孤島：衣帽架 (−2.7,2.75)、落地植物 (−2.15,3.75)、樓梯間東邊隔間牆、隔間牆前的書櫃圍出兩條比人窄的縫，導航格是空的，只有接角那一格 (−2.54,3.33) 剛好站得住，
++     進去以後往哪推都出不來（40 秒）；779 也卡在縫口 (−2.49,3.04)。
++   ② 植物東南角：站在 (−1.82,4.00) 往樓梯方向（202°～247°）斜推一步不動。
++   修法（src/mokuyobi3d.js、src/engine3d.js）：兩條縫補成阻擋（只有導航；同一次掃到的 (−3.75,1.0) 小孤島一起擋）；引擎 stepEntity 加 cornerSlip（只有區域開了、只有玩家）：推進家具外角一步都動不了時往旁邊讓開、繞過去。
++   這支：在 Node 建出真的木曜日區域，用引擎真的 stepEntity 照搖桿推（和 tests/mokuyobi_stair_top_1111_unit.js 同一個做法）：
++     1 兩層的小孤島（tools/dev_scratch/nav_islands.py 同一個掃法：canStand 0.3、每 0.1 m，和最大那一塊不相連、面積 < 0.5 m² 的）：沒有
++     2 (−2.54,3.33)、(−2.49,3.04) 已經在阻擋裡（站不進去）；萬一人在那裡（舊存檔），E.unstick 拉出來的位置在大區
++     3 三個點（縫口那兩點換成拉出來的位置、(−1.82,4.00)）往樓梯方向推、往回推：3 秒內離開 0.5 m 以上（走／跑 × 30／10 fps），每一步都站在站得住的地方
++     4 (−1.82,4.00) 往樓梯方向一直推：走得到樓梯口（店門 x −3.0 那一帶）
++     5 牆角（內角）往角裡推：停住、不會被 cornerSlip 推著跑
++   修改前（開發分支 566ff8b5b）：1、2、3 FAIL。這是模擬，不是真實玩家流程（D131）。用法：node tests/mokuyobi_plant_corner_1111_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); const cerr=console.error, cwarn=console.warn; console.warn=()=>{}; console.error=()=>{};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/mokuyobi_layout.js','src/mokuyobi3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const L=MOKUYOBI_LAYOUT, S=L.stairWell, E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES.wz_mokuyobi.build(E); E.zone=z; E.levels=z.levels; E.nav=z.nav; for(const n of E.levels) n._cm=null;
++if(!E.stepEntity){ console.log("（修改前沒有 E.stepEntity）"); }
++check('0. 引擎有 E.stepEntity、木曜日兩層；區域開了 cornerSlip',typeof E.stepEntity==='function'&&E.levels.length===2&&z.cornerSlip===true);
++const R=0.32;
++function push(x,zz,lv,dir,{sp=E.SPD.walk,dt=1/30,secs=30,until}){ const ent={obj:{position:new THREE.Vector3(x,0,zz),rotation:{y:0}},radius:R,lv}; E.player=ent; let bad=0;
++  const d=Math.hypot(dir[0],dir[1]), dx=dir[0]/d, dz=dir[1]/d; const N=Math.ceil(secs/dt);
++  for(let i=0;i<N;i++){ E.stepEntity(ent,dx,dz,sp,dt); const o=ent.obj.position; if(!E.levels[ent.lv|0].clear(o.x,o.z,R-0.02)) bad++; if(until(ent)) return {ok:true,steps:i+1,lv:ent.lv,x:+o.x.toFixed(2),z:+o.z.toFixed(2),bad}; }
++  const o=ent.obj.position; return {ok:false,lv:ent.lv,x:+o.x.toFixed(2),z:+o.z.toFixed(2),bad}; }
++
++const MODES=[[E.SPD.walk,1/30,'走30'],[E.SPD.walk,0.1,'走10'],[E.SPD.run,1/30,'跑30'],[E.SPD.run,0.1,'跑10']];
++// 1 小孤島（nav_islands.py 的掃法，兩層各掃一次）
++{ const out=[]; for(let lv=0;lv<2;lv++){ const n=E.levels[lv]; E.player={obj:{position:new THREE.Vector3(0,0,0)},lv,radius:R}; const a=n.toWorld(0,0), b=n.toWorld(n.cols-1,n.rows-1), minx=Math.min(a[0],b[0]), maxx=Math.max(a[0],b[0]), minz=Math.min(a[1],b[1]), maxz=Math.max(a[1],b[1]);
++    const h=0.1, W=Math.floor((maxx-minx)/h)+1, H=Math.floor((maxz-minz)/h)+1, S2=new Uint8Array(W*H); for(let j=0;j<H;j++) for(let i=0;i<W;i++) S2[j*W+i]=E.canStand(minx+i*h,minz+j*h,0.3,lv)?1:0;
++    const lab=new Int32Array(W*H).fill(-1), comps=[], q=new Int32Array(W*H);
++    for(let s=0;s<W*H;s++){ if(!S2[s]||lab[s]>=0) continue; let qh=0, qt=0, cnt=0, sx=0, sz=0; q[qt++]=s; lab[s]=comps.length; while(qh<qt){ const c=q[qh++]; cnt++; const ci=c%W, cj=(c/W)|0; sx+=ci; sz+=cj; for(const [di,dj] of [[1,0],[-1,0],[0,1],[0,-1]]){ const ni=ci+di, nj=cj+dj; if(ni<0||nj<0||ni>=W||nj>=H) continue; const t=nj*W+ni; if(S2[t]&&lab[t]<0){ lab[t]=comps.length; q[qt++]=t; } } }
++      comps.push({n:cnt,x:+(minx+sx/cnt*h).toFixed(2),z:+(minz+sz/cnt*h).toFixed(2)}); }
++    comps.sort((p,q2)=>q2.n-p.n); for(const c of comps.slice(1)) if(c.n<50) out.push('第'+lv+'層 ('+c.x+','+c.z+') '+c.n+' 格'); }
++  check('1. 兩層都沒有小孤島（和最大那一塊不相連、面積 < 0.5 m²；nav_islands.py 的掃法）',!out.length,out.join('、')); }
++// 2 縫口那兩點
++const n1=E.levels[1]; const near=(x,zz)=>{ for(let d=0.05;d<1.5;d+=0.05) for(let k=0;k<16;k++){ const a=k*Math.PI/8, px=x+Math.sin(a)*d, pz=zz+Math.cos(a)*d; if(n1.clear(px,pz,R)) return [+px.toFixed(3),+pz.toFixed(3)]; } return null; };
++const GAP=[[-2.54,3.33],[-2.49,3.04]];
++{ const st=GAP.map(p=>n1.clear(p[0],p[1],R)), un=GAP.map(p=>{ const ent={obj:{position:new THREE.Vector3(p[0],Y1L(),p[1]),rotation:{y:0}},radius:R,lv:1}; E.player=ent; E.unstick(ent,16); return [+ent.obj.position.x.toFixed(2),+ent.obj.position.z.toFixed(2)]; });
++  check('2. (−2.54,3.33)、(−2.49,3.04) 站不進去（縫補成阻擋）；E.unstick 從那裡拉出來站得住',st.every(v=>!v)&&un.every(p=>n1.clear(p[0],p[1],R)),JSON.stringify({站得住:st,unstick:un})); }
++function Y1L(){ return n1.heightAt?n1.heightAt(0,0):0; }
++// 3 往樓梯方向推、往回推
++const ST=L.stairTop, pts=[['縫口 (−2.54,3.33) 旁',near(-2.54,3.33)],['縫口 (−2.49,3.04) 旁',near(-2.49,3.04)],['植物東南角 (−1.82,4.00)',[-1.82,4.0]]];
++{ const out=[]; let bad=0; for(const [nm,p] of pts){ if(!p){ bad++; out.push(nm+'找不到站得住的點'); continue; } const tx=ST.x-p[0], tz=ST.z-p[1];
++    for(const [dir,tag] of [[[tx,tz],'往樓梯'],[[-tx,-tz],'往回']]) for(const [sp,dt,mt] of MODES){ const r=push(p[0],p[1],1,dir,{sp,dt,secs:3,until:e=>Math.hypot(e.obj.position.x-p[0],e.obj.position.z-p[1])>0.5}); if(!r.ok||r.bad){ bad++; out.push(nm+tag+mt+':'+JSON.stringify(r)); } } }
++  check('3. 三個點往樓梯方向推、往回推：3 秒內離開 0.5 m 以上、每一步都站得住（走／跑 × 30／10 fps；'+pts.length*2*MODES.length+' 趟）',!bad,out.slice(0,4).join('｜')); }
++// 4 植物東南角往樓梯方向一直推：走得到樓梯口
++{ const out=[]; let bad=0; const p=[-1.82,4.0], tx=ST.x-p[0], tz=ST.z-p[1]; for(const [sp,dt,mt] of MODES){ const r=push(p[0],p[1],1,[tx,tz],{sp,dt,secs:12,until:e=>e.obj.position.x<-2.6&&e.obj.position.z<2.6}); out.push(mt+':'+(r.ok?(r.steps*dt).toFixed(1)+' 秒':'沒到 '+JSON.stringify(r))); if(!r.ok||r.bad) bad++; }
++  check('4. (−1.82,4.00) 往樓梯方向一直推：12 秒內走到樓梯口（x < −2.6、z < 2.6）',!bad,out.join('｜')); }
++// 5 牆角（內角）不會被 cornerSlip 推著跑：樓梯頂平台西北角（西牆 x −4.5、北牆 z 1.54）往西北推 3 秒——和關掉 cornerSlip 推的結果一樣、最後 1 秒不動
++{ const run=(sp,dt,on)=>{ z.cornerSlip=on; const ent={obj:{position:new THREE.Vector3(-3.8,0,2.1),rotation:{y:0}},radius:R,lv:1}; E.player=ent; const a=225*Math.PI/180, N=Math.ceil(3/dt), M=Math.ceil(1/dt); let p2=null;
++    for(let i=0;i<N;i++){ if(i===N-M) p2=ent.obj.position.clone(); E.stepEntity(ent,Math.sin(a),Math.cos(a),sp,dt); } const o=ent.obj.position; return {x:o.x,z:o.z,mv:Math.hypot(o.x-p2.x,o.z-p2.z),lv:ent.lv|0}; };
++  const out=[]; let bad=0; for(const [sp,dt,mt] of MODES){ const a=run(sp,dt,true), b=run(sp,dt,false); out.push(mt+':('+a.x.toFixed(2)+','+a.z.toFixed(2)+') 最後 1 秒 '+a.mv.toFixed(3)+' m'); if(!(Math.hypot(a.x-b.x,a.z-b.z)<0.02&&a.mv<0.02&&a.lv===1)) bad++; }
++  z.cornerSlip=true;
++  check('5. 牆角（樓梯頂平台西北角）往角裡推：和沒有 cornerSlip 時停在同一點、最後 1 秒不動（只繞外角，不會被推著跑）',!bad,out.join('｜')); }
++console.warn=cwarn; console.error=cerr;
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
