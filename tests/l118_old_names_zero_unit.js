@@ -29,7 +29,8 @@ const KEEP_AA={
   'src/data/date_lines.js':{why:AA+'販賣機的無糖綠茶',words:['無糖綠茶']},
   'src/data/ladder.js':{why:AA+'以安媽媽的番茄炒蛋',words:['番茄炒蛋']},
   'src/social3d.js':{why:AA+'以安媽媽的番茄炒蛋（記憶的名稱）',words:['番茄炒蛋']},
-  'src/ggshops_sys3d.js':{why:AA+'公館的今日蛋糕',words:['今日蛋糕']} };
+  'src/ggshops_sys3d.js':{why:AA+'公館的今日蛋糕',words:['今日蛋糕']},
+  'src/data/syllabus.js':{why:'LAWWW 判（11-11，held 整合）：大二下通識 ge_y2s2 第 7 週「家的味道」同學說「我媽的番茄炒蛋」——家裡的菜，不是 118 巷的菜名（AA 課堂稿、BB 審過）',words:['番茄炒蛋']} };
 /* 把註解拿掉（玩家看不到）：字串裡的 // 不當註解 */
 function strip(text){ let out='', i=0; const n=text.length;
   while(i<n){ const c=text[i];

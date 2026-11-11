@@ -157,6 +157,9 @@ def _ov_after(file, new, text):
 
 # 上游的稿重寫以後，這幾列的 old 和 new 都不在了（不是漏換）：{(遊戲檔, 列號): 哪一版重寫的}
 UPSTREAM = {('src/data/activity_scenes.js', n): 'AA_708_activity_scenes.json@d30416e6b（2026-11-11 X324 A 區：語彤吃飯 3 不指店名菜名、沛珊整塊重寫——舊店名、番茄醬蛋包飯都拿掉了）' for n in ('98', '99', '100', '101')}
+# 後來的逐行改稿（apply_line_rows.py）又把這一列的 new 整句改掉＝已經換好：只有改稿後的那一句真的在檔裡才算（X324 G 區，AA_804 拿掉刪節號）
+LATER_ROWS = {('src/data/food_fav_lines.js', 'F4'): ('可樂餅的。好，我吃吃看。', 'AA_804_food_fav.json@8eab5a25c 第 22 行'),
+              ('src/data/food_fav_lines.js', 'F6'): ('雞肉的？好，今天換一次。', 'AA_804_food_fav.json@8eab5a25c 第 45 行')}
 
 
 def layer(file, text, d, data_text='', report=None):
@@ -183,6 +186,8 @@ def layer(file, text, d, data_text='', report=None):
                 if st == 'miss' and (file, n) in UPSTREAM:   # 上游的稿自己把那一句重寫掉了（old、new 都不在）＝不用疊
                     st = 'done'
                 if st == 'miss' and _ov_after(file, new, text):   # 後來的覆蓋層（X324 D 區）又把 new 整句換掉了＝已經換好
+                    st = 'done'
+                if st == 'miss' and (file, n) in LATER_ROWS and LATER_ROWS[(file, n)][0] in text:   # 後來的逐行改稿又改過（見 LATER_ROWS）
                     st = 'done'
                 if st == 'miss':
                     for prev in (d.get('_alts') or {}).get(n, []):   # 已經照舊版套過：舊版的 new → 新版的 new

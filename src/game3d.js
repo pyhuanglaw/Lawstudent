@@ -311,12 +311,26 @@ const GAME = (function(){
   /* 點地面點在椅子上（那一點站不住、離座位 0.45 m 內、同一層）：改成走到那張椅子坐下前站的位置，到了就看得到「坐下」按鈕（engine3d.js 的 E.tapRedirect）。
      點的地方站得住就照舊走過去（只改「點到椅子、找路改去別的地方」的情況）*/
   function tapToSeat(x,z,lv,o){ if(!E||!E.canStand) return null; let best=null, bd=0.45; const seats=(E.interactables||[]).filter(it=>it.seat&&!it.hidden&&((it.seat.lv|0)===(lv|0))).map(it=>it.seat);
-    if(!E.canStand(x,z,0.3,lv|0)) for(const st of seats){ const d=Math.hypot(st.x-x,st.z-z); if(d<bd){ bd=d; best=st; } }
-    /* 照椅子的高度判（BB 11-11 CC TAPSEAT：五湖四海 #9 點椅面，射線打到地板的那一點在椅子後面 1.3 m；點椅子中段落點離椅子 0.54 m；只有點椅腳落地那一點坐得到。
-       俯角淺的店（手機玩家會點椅面）等於點不到）：地板那一點沒對到椅子時，沿著同一條射線看離地 0.3～0.75 m 那一段（椅面、椅背的高度）有沒有穿過哪張椅子（離椅子中心 0.32 m 內；0.3～0.75 m，不看椅背頂以上，免得點地板時越過椅背也算），
-       有就是點到那張椅子。只在射線往下（從上面看下來）時判；地板那一點已經對到椅子照舊 */
-    if(!best&&o&&o.ray&&o.useRay&&seats.length){   /* 2026-11-11 BB TSR（擋發布）：遊戲裡先關掉（engine3d.js 不傳 useRay）——俯角淺時點遠處走道，射線在 0.3～0.75 m 那段會擦過前面的椅子，總圖、宿舍、Café 點地走路被帶去椅子、鍵變坐下（舊版停在 0.2～0.3 m 內）。發版後改成用畫面上實際打到的物體判斷（射線第一個打到的面在椅子上、高度在椅面到椅背之間）再打開；這段邏輯照舊留給測試 */ const R=o.ray, oy=R.origin.y, dy=R.direction.y, fy=typeof o.fy==='number'?o.fy:0; if(dy<-1e-3){ for(const h of [0.75,0.6,0.45,0.3]){ const t=(fy+h-oy)/dy; if(!(t>0)) continue; const px=R.origin.x+R.direction.x*t, pz=R.origin.z+R.direction.z*t; let bd2=0.32; for(const st of seats){ const d=Math.hypot(st.x-px,st.z-pz); if(d<bd2){ bd2=d; best=st; } } if(best) break; } }   /* 由高往低（＝離鏡頭由近到遠）：射線先穿過的那張椅子就是點到的（BB 11-11 PC：118牛排座位密，原本取「四個高度裡離中心最近」，點後排 #15 #16 被導到前排）*/ }
+    /* 點到椅子＝畫面上那一點實際打到椅子（TAP-RAY-SEAT-1111，LAWWW2 11-11；取代 0d7922555 的「射線在離地 0.3～0.75 m 那段離椅中心 0.32 m 內」——
+       BB TSR：俯角淺時點遠處走道，射線擦過前面的椅子（從椅面下面、椅子旁邊過去）也被算成點到，總圖、宿舍、Café 點地走路被帶去椅子）：
+       射線第一個打到的東西（engine3d.js E.rayFirstHit：區域的模型，淡出的牆、玻璃、人不算）比地板那一點近、而且落在某張椅子的範圍裡
+       （照椅子的朝向：左右各 TAP_CHAIR.r、前面 TAP_CHAIR.r、後面 TAP_CHAIR.back（椅背、沙發靠背）；高度在那張椅子的地板到椅背頂 TAP_CHAIR.h（＋高腳椅的 lift）之間）＝點到那張椅子；
+       落在兩張的範圍裡（並排、背對背）取比例上離中心近的。
+       射線先打到哪張就是哪張（BB 11-11：118牛排點後排被導到前排、五湖四海 #9 點椅面變「點餐」）。地板先被打到（點的是看得到的地板）、打到的是桌子牆壁：照舊（下面：地板那一點站不住才找 0.45 m 內的椅子）。
+       只在射線會穿過某張椅子的範圍時才打模型（點走道不用整個區域做射線測試）。o.hit＝地板那一點（engine3d.js 傳）；沒有就是舊的呼叫（只看地板那一點）*/
+    if(o&&o.ray&&o.hit&&E.rayFirstHit&&seats.length){ const R=o.ray, H=o.hit, tF=Math.hypot(H.x-R.origin.x,H.y-R.origin.y,H.z-R.origin.z), C=TAP_CHAIR;
+      const boxOf=st=>{ const y0=st.y!=null?st.y:(E.heightAt?E.heightAt(st.x,st.z,lv|0):(typeof o.fy==='number'?o.fy:0)), w=Math.max(C.r,C.back); return [st.x-w,y0,st.z-w,st.x+w,y0+C.h+(st.lift||0),st.z+w]; };   /* 先用包住整張椅子（各方向取大的）的盒子篩 */
+      const cand=seats.filter(st=>rayHitsBox(R,boxOf(st),tF));
+      if(cand.length){ const h=E.rayFirstHit(R,tF-0.03); if(h){ const p=h.point; let bc=1.0001; for(const st of cand){ const b=boxOf(st); if(p.y<b[1]-0.02||p.y>b[4]+0.02) continue; const yw=st.yaw||0, fx=Math.sin(yw), fz=Math.cos(yw), dx=p.x-st.x, dz=p.z-st.z, f=dx*fx+dz*fz, l=Math.abs(dx*fz-dz*fx);   /* f＞0＝椅子前面（人面向的那一邊） */
+        const d=Math.max(l/C.r,f>=0?f/C.r:-f/C.back); if(d<=bc){ bc=d; best=st; } } } } }
+    if(!best&&!E.canStand(x,z,0.3,lv|0)) for(const st of seats){ const d=Math.hypot(st.x-x,st.z-z); if(d<bd){ bd=d; best=st; } }
     if(!best) return null; const ap=seatApproach(best); return ap?[ap[0],ap[1],best.lv!=null?best.lv|0:lv,{x:best.x,z:best.z}]:null; }
+  /* 椅子的範圍（TAP-RAY-SEAT-1111）：r＝左右、前面的半寬（一般椅面 0.38～0.46 m 寬：0.24；比這大，桌子靠椅子那一條邊也會算進去）；back＝往後（椅背、沙發靠背在座位中心後面 0.2～0.45 m（宿舍交誼廳的沙發：0.45））；
+     h＝地板到椅背頂（一般 0.85～0.95；高腳椅另外加 seat.lift）。椅子的朝向：seat.yaw 0＝面向 +z（和 GAME.sitAt 一樣）*/
+  const TAP_CHAIR={r:0.24,back:0.5,h:0.95};
+  /* 射線（origin＋t·direction，0≤t≤tMax）有沒有穿過盒子 b＝[x0,y0,z0,x1,y1,z1]（slab 法）*/
+  function rayHitsBox(R,b,tMax){ const o=R.origin, d=R.direction; let t0=0, t1=tMax; for(const [oa,da,lo,hi] of [[o.x,d.x,b[0],b[3]],[o.y,d.y,b[1],b[4]],[o.z,d.z,b[2],b[5]]]){ if(Math.abs(da)<1e-9){ if(oa<lo||oa>hi) return false; continue; } let ta=(lo-oa)/da, tb=(hi-oa)/da; if(ta>tb){ const t=ta; ta=tb; tb=t; } if(ta>t0) t0=ta; if(tb<t1) t1=tb; if(t0>t1) return false; } return true; }
+  GM.TAP_CHAIR=TAP_CHAIR; GM.rayHitsBox=rayHitsBox;
   GM.tapToSeat=tapToSeat;
   // 搭電梯（v9.4 多樓層，D36）：按按鈕 →（電梯不在這一層就先開過來）→ 門開 → 走進車廂 → 選樓層（整修中的樓層按不亮）→ 門關 → 車廂帶著人上下（看得到整個過程）→ 門開 → 走出來 → 門關
   async function elevatorRide(it){ const el=E.zone&&E.zone.elev; if(!el) return; const P=E.player, here=P.lv|0, base=el.base||1; let arrived=null; sceneBegin(); try{

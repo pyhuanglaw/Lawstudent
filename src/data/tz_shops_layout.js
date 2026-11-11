@@ -60,13 +60,14 @@ const TZ_SHOPS_LAYOUT=
     "foldTable": {"x": 0.2, "z": -2.7, "w": 1.8, "d": 0.9},
     "blocks": [[-2.65, -0.65, 0.7, 4.9], [2.62, 0.75, 0.76, 4.8], [-2.8, 2.3, 0.4, 0.8], [-2.72, 3.35, 0.55, 1.2], [0.2, -2.7, 1.8, 0.9], [1.3, -4.25, 1.3, 0.45], [2.6, -3.7, 0.8, 1.2]],
     "seats": [
-      {"id": "c1", "table": 1, "x": -2.72, "z": 2.95, "yaw": 1.5708, "ap": {"x": -2.0, "z": 2.95}}, {"id": "c2", "table": 1, "x": -2.72, "z": 3.35, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.35}}, {"id": "c3", "table": 1, "x": -2.72, "z": 3.75, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.75}}
+      {"id": "c1", "table": 1, "x": -2.72, "z": 2.95, "yaw": 1.5708, "ap": {"x": -2.0, "z": 2.95}, "label": "坐著等"}, {"id": "c2", "table": 1, "x": -2.72, "z": 3.35, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.35}, "label": "坐著等"}, {"id": "c3", "table": 1, "x": -2.72, "z": 3.75, "yaw": 1.5708, "ap": {"x": -2.0, "z": 3.75}, "label": "坐著等"}
     ],
     "points": [
       {"id": "wash", "x": -1.85, "z": -0.6, "r": 1.0, "label": "洗衣機", "kind": "tz_xile_wash"},
       {"id": "dry", "x": 1.8, "z": 0.8, "r": 1.0, "label": "烘衣機", "kind": "tz_xile_dry"},
       {"id": "change", "x": -2.1, "z": 2.3, "r": 0.7, "label": "兌幣機・洗衣精", "kind": "tz_xile_change"},
-      {"id": "fold", "x": 0.2, "z": -1.85, "r": 0.9, "label": "折衣桌", "kind": "tz_xile_fold"}
+      {"id": "fold", "x": 0.2, "z": -1.85, "r": 0.9, "label": "折衣桌", "kind": "tz_xile_fold"},
+      {"id": "guide", "x": -1.3, "z": 3.4, "r": 0.55, "label": "看使用說明", "kind": "tz_xile_guide"}
     ]
   },
   "yindehao": {
@@ -86,7 +87,7 @@ const TZ_SHOPS_LAYOUT=
     "paperStack": {"x0": 0.78, "x1": 1.32, "z0": -4.38, "z1": -3.52, "note": "LAWWW2 11-11：trapFix 那一塊（blocks 最後一塊）在模型放一疊疊影印紙箱和垃圾桶——看得出為什麼過不去"},
     "blocks": [[-2.87, 0.85, 0.75, 4.9], [-2.25, -4.37, 1.7, 0.75], [1.45, -0.25, 0.7, 6.5], [3.02, -0.65, 0.45, 7.9], [2.3, 3.15, 1.2, 0.45], [2.3, -3.8, 1.2, 0.6], [0.2, -4.65, 1.3, 0.7], [-0.13, -4.03, 0.4, 0.4], [0.53, -4.03, 0.4, 0.4], [1.05, -3.95, 0.6, 0.9]],
     "trapFix": "LAWWW 2026-11-11（tests/tz_shops_notrap_1111_unit.js 掃出來）：客用電腦桌東邊那張凳子和長櫃台北端之間有一小塊站得進去、走不出來的角落（x 0.75～1.35、z −4.4～−3.5），blocks 最後一塊擋起來（也是通往櫃台後面的縫，客人本來就不該進去）",
-    "seats": [],
+    "seats": [{"id": "pc1", "table": 1, "x": -0.13, "z": -4.03, "yaw": 3.1416, "ap": {"x": -0.13, "z": -3.45}, "label": "用電腦"}, {"id": "pc2", "table": 1, "x": 0.53, "z": -4.03, "yaw": 3.1416, "ap": {"x": 0.5, "z": -3.35}, "label": "用電腦"}],
     "points": [
       {"id": "copy", "x": -1.9, "z": 1.0, "r": 1.0, "label": "自助影印", "kind": "tz_yin_copy"},
       {"id": "counter", "x": 0.6, "z": 0.6, "r": 1.0, "label": "櫃台（列印・裝訂）", "kind": "tz_yin_counter"},
@@ -115,7 +116,8 @@ const TZ_SHOPS_LAYOUT=
     "points": [
       {"id": "counter", "x": 0.0, "z": -2.1, "r": 1.1, "label": "藥師櫃台", "kind": "gg_antai_counter"},
       {"id": "shelf", "x": 0.0, "z": 0.6, "r": 1.0, "label": "看貨架", "kind": "gg_antai_shelf"},
-      {"id": "bp", "x": 3.3, "z": 1.3, "r": 0.7, "label": "量血壓", "kind": "gg_antai_bp"}
+      {"id": "bp", "x": 3.3, "z": 1.3, "r": 0.7, "label": "量血壓", "kind": "gg_antai_bp"},
+      {"id": "cabinet", "x": 1.5, "z": -2.35, "r": 0.6, "label": "看藥品櫃", "kind": "gg_antai_cabinet"}
     ]
   },
   "xianguo": {
@@ -141,7 +143,8 @@ const TZ_SHOPS_LAYOUT=
     "points": [
       {"id": "pick", "x": -1.9, "z": 0.8, "r": 1.0, "label": "挑水果", "kind": "gg_fruit_pick"},
       {"id": "counter", "x": 1.1, "z": 2.3, "r": 0.9, "label": "秤重結帳", "kind": "gg_fruit_counter"},
-      {"id": "box", "x": 2.55, "z": 0.6, "r": 0.8, "label": "切好的水果盒", "kind": "gg_fruit_box"}
+      {"id": "box", "x": 2.55, "z": 0.6, "r": 0.8, "label": "切好的水果盒", "kind": "gg_fruit_box"},
+      {"id": "boxes", "x": -0.8, "z": -0.05, "r": 0.6, "label": "看紙箱", "kind": "gg_fruit_boxes"}
     ]
   },
   "rongendian": {
@@ -167,7 +170,8 @@ const TZ_SHOPS_LAYOUT=
       {"id": "art", "x": 3.3, "z": -0.4, "r": 0.9, "label": "看畫材", "kind": "gg_rong_art"},
       {"id": "notes", "x": 1.0, "z": 2.3, "r": 0.9, "label": "看筆記本", "kind": "gg_rong_notes"},
       {"id": "counter", "x": -0.3, "z": -2.3, "r": 1.0, "label": "結帳", "kind": "gg_rong_counter"},
-      {"id": "cart", "x": -2.3, "z": 3.3, "r": 0.8, "label": "特價推車", "kind": "gg_rong_cart"}
+      {"id": "cart", "x": -2.3, "z": 3.3, "r": 0.8, "label": "特價推車", "kind": "gg_rong_cart"},
+      {"id": "easel", "x": 2.25, "z": 3.15, "r": 0.6, "label": "看畫架", "kind": "gg_rong_easel"}
     ]
   },
   "limao": {
