@@ -7781,6 +7781,36 @@
    "noDirectIntegrate": false,
    "note": "底 dev 57181feb2，apply --3way 乾淨。全部 1242 支跑過：walkers 第 3 項（我的 tzShop）已修；aa401／termend×2 是容器沒抓企劃線 commit，fetch 後 ALL PASS、和 patch 無關。動到 LAWWW 的 zones3d.js attachWzScooters 兩行（code／pcol，其他區域不受影響）。",
    "next": "LAWWW 接：上師 NPC、桌前互動、書房解鎖旗標（TZS3.studyOpen）、tz_yin_pc 的句子；上師 3D 人物另外交"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "6acdb2d7f",
+   "receiver": "LAWWW",
+   "cc": "",
+   "ack": "SENT",
+   "task": "LIMAO-SHANGSHI-3D-1111 禮貌生財上師 3D 人物第 1 版（X332）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/limao_shangshi_1111/（README.md、limao_shangshi_v1.patch、blender_v4_face_body.jpg）"
+   ],
+   "state": "待整合；角色美術 LAWWW 驗（D100a）",
+   "noDirectIntegrate": false,
+   "note": "char.limao_shangshi＋prop.glasses_shangshi；帽子、鬍子、圍巾在 VRM 裡；NPC 沒放。相關六支測試 ALL PASS，沒有跑全部。",
+   "next": "LAWWW 放 NPC、驗角色；第 2 版畫皺紋、捲髮、西裝領"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（下一個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "第二包：夜市各攤時間照 AA_752、GG-G09-G10-SHUTTER-1111（X335）公館 G09／G10 鐵捲門、BB 11-10 23:51 退的四項（公館招牌櫥窗貼圖放大、七間室內牆面、安泰貨架、汀州鮮果補滿）、禮貌生財小項（LM_STUDY、study_letters、收攤椅子靠牆）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/pkg_1111b/（README.md、pkg2_on_dev_f8ff49f43.patch、regression_full.log、preview/）"
+   ],
+   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "noDirectIntegrate": false,
+   "note": "底 dev f8ff49f43；13c9e729d 上 apply --3way 乾淨。全部 1245 支 Node 測試沒有失敗。改了 LAWWW 的 night_market_unit 第 7 項（9→0，LAWWW 已同意）。",
+   "next": "CC 拍、BB 判；G10 要不要改成真的巷口等使用者"
   }
  ]
 }

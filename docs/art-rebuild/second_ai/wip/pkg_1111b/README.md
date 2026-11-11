@@ -1,6 +1,6 @@
 # 第二包（LAWWW2 帳號 A，2026-11-11）：夜市時間照稿、X335 公館 G09／G10 鐵捲門、BB 退的公館三間＋七間室內牆面
 
-狀態：**WORK_IN_PROGRESS：全部 Node 測試在跑，跑完沒有失敗才算交付**（結果補在最下面）。預覽是 Blender，不是遊戲截圖（D131）。
+狀態：**READY_FOR_REVIEW（已交付 LAWWW）**。預覽是 Blender，不是遊戲截圖（D131）。
 - patch：`pkg2_on_dev_f8ff49f43.patch`（45 個檔；基底 dev `f8ff49f43`——夜市、禮貌生財＋BB_255 都已經在開發分支，LAWWW 改過的 tingzhou3d.js 時鐘那一版也在）。
 - 依據：LAWWW 11-10 23:49（夜市三件）、23:52（GG-G09-G10-SHUTTER-1111／X335，使用者 11-11 選「先拉下鐵門」）、11-11 00:20、00:22；BB 11-10 23:51（公館三間第 1 版判定）。
 
@@ -25,3 +25,9 @@
 - 汀州鮮果 7.3 萬面偏多（水果一顆一顆）；如果 CC 量到掉幀，再把遠處的水果換成整盤的低面數。
 - 公館舊店（青木、頁間…）的招牌解析度沒有動（約 490 像素寬，之前已經通過）。
 - 鐵捲門是素的（沒有塗鴉、招租紙）——使用者說之後放什麼店由她決定，所以不貼別的。
+
+## 測試
+- 全部 `tests/*_unit.js` 1245 支（基底 dev f8ff49f43＋這一包；`regression_full.log`）：**沒有失敗**（`bookstore_exit_unit` 最後一行是既有的非同步警告、exit 0）。
+- patch 在更新的開發分支 13c9e729d 上 `git apply --3way` 乾淨；套上後 tingzhou、tz_shops、night_market、limao、street_props_nav、zq_arcade_seat、gg_shops3_names、tz_clock_hour_1111、flower_notes ALL PASS。
+- 新的或改過的測試：`tingzhou_unit` 第 9、11 節（時間照稿、客人那一面站得住）、`tz_shops_unit` 第 7 節（LM_STUDY、study_letters）、第 8 節（七間牆面、字牌）、第 9 節（藥局商品、水果行箱子堆）、`night_market_unit` 第 7 項（9 → 0）。
+- 沒有遊戲截圖：請 CC 拍公館 G04／G08／G13 招牌近看和櫥窗、G09／G10 鐵捲門（白天、晚上）、安泰和汀州鮮果室內、任一間室內的牆面、禮貌生財收攤的算命桌。
