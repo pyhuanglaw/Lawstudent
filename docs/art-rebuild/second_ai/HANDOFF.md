@@ -1,7 +1,16 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-11 06:1x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 06:4x UTC）
+
+- **118 巷（X338）我這邊都交了**：第一批（dev d6c633adc）、第二批（dev 64add9fcf）已整合；**室內四間第 2 版已交**（62d1867c5，`wip/l118_redo_1111/README_int_v2.md`＋`l118_int_v2.patch`，疊在第二批上、在 dev db5bbdf4c 上乾淨），等 LAWWW 整合、CC 拍、BB 判。BB 有具體點＝室內第 3 版（D141 最後一版）；街景目前是第 1 版。
+- **禮貌上師**：第 4 版 LAWWW 已標角色 ART_APPROVED（06:22），結案、不再修。
+- LAWWW 那邊代做的室內：omu／noodle2／pasta 已進 dev 27bbb3b89（`l118_int_<id>.py`，import 我的 lane118_shops 當 LS）；home／cafe2 還在做。**我重跑 lane118_shops.py 只能 --shop dian／self／korea／tea**。
+- 接下來（已問 LAWWW 先做哪一件；沒有回音就先做泳池水面）：POOL-SWIM-LOOK-1110 泳池水面（#17）、季節布置第三批（#19，落地的 11 項，動導航前先跟 LAWWW 對）、南洋戲院海報位置（#11，等 CC 截圖）。
+- 工作目錄：`$SP/wt_ch`＝a740616de＋第二批＋室內第 2 版（已交）；`$SP/wt_bb`＝db5bbdf4c＋室內第 2 版（試套用的）。兩個都可以重設。
+- 這一輪學到的（寫給下一班）：室內交付前一定跑 `l118_shops_notrap_1111_unit`（三次抓到 10 fps 會卡的點：桌角沒對齊 0.4 m 格、櫃台和桌子之間的縫、地上多擋一塊）；兩人桌同排桌距 ≥1.8 m（遊戲把 0.4 m 內的座位當同一個）；模型裡的 `TRACE_SQxx` 節點重匯要保留；街景的三角形數在 `singleside_streets_unit` 是釘死的；預覽要每間兩個機位（只拍門口往裡，招牌物件會剛好在鏡頭背後）。
+
+## 交接（前一則｜帳號 A｜2026-11-11 06:1x UTC）
 
 - **118 巷第 1 版**：第一批（62fa1b9ea）**已整合** dev d6c633adc；**第二批已交**（3ae708d32，`wip/l118_redo_1111/README_batch2.md`＋`l118_batch2_v1.patch`：兩間飲料店照圖、三個小補充、其餘五間的鄰居店面卡），等 LAWWW 整合。
 - **禮貌上師第 4 版（最後一次）已交**（3ae708d32，`wip/limao_shangshi_1111/limao_shangshi_v4.patch`：暖灰白、瞇眼笑），等 LAWWW 判。
