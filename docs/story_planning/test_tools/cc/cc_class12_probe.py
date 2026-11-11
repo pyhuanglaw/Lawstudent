@@ -133,6 +133,17 @@ async def tap_head(pg, cdp, k):
 EVLOG = r"""(()=>{ if(window.__evOn) return; window.__evOn=1; window.__ev=[]; for(const t of ['pointerdown','pointerup','click','touchstart','touchend']) document.addEventListener(t,e=>{ const x=e.target; window.__ev.push([Math.round(performance.now()),t,(x&&(x.id||x.className||x.tagName))+'',Math.round(e.clientX||((e.changedTouches&&e.changedTouches[0])||{}).clientX||0),Math.round(e.clientY||((e.changedTouches&&e.changedTouches[0])||{}).clientY||0)]); },true); })()"""
 
 
+def sentence_changes(tr):
+    """打字機效果：同一句的字會一路變長（前綴相同）。只有「不是前一句延長」才算換句（r2：CALM 雲端第一輪把打字當成換句＝探針判錯）"""
+    ch, prev = [], ''
+    for t, x in tr:
+        x = x or ''
+        if not x: continue
+        if prev and not x.startswith(prev[:max(1, len(prev) - 1)]) and not prev.startswith(x): ch.append([t, x])
+        prev = x
+    return ch
+
+
 async def ev_since(pg, t):
     return await pg.evaluate("t=>(window.__ev||[]).filter(e=>e[0]>=t)", t)
 
@@ -536,7 +547,7 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
                 R.note('%s：選選項前 400 ms 到 5 秒後，頁面收到的觸控／點擊（時間 ms、種類、目標、x、y）%s' % (tag, J([[round(e[0] - tsel - 400)] + e[1:] for e in evs])))
                 info.setdefault('selfadv', []).append({'trace': trace, 'dwell': dwell, 'events': evs})
                 a = {'dlg': bool(trace), 'dtext': trace[0][1] if trace else None}; b2 = await GC.ms(pg); sb2 = await pg.evaluate(SKIPBTN)
-                same = len(trace) <= 1
+                same = not sentence_changes([[t_, x_] for t_, x_, _c in trace])
                 info['resume'].append({'stayed': same, 'text': b2['dtext'], 'btnVisible': sb2.get('vis')})
                 R.note('%s：選完以後下一句停住、不自己翻＝%s（「%s」）；「略過 »」又出現＝%s' % (tag, same, b2['dtext'], sb2.get('vis')))
                 if sb2.get('vis'): await L.touch_tap(cdp, sb2['c'][0], sb2['c'][1]); info['presses'] += 1
@@ -580,9 +591,9 @@ async def part_calm(p):
                 if s['ch']:
                     await pg.wait_for_timeout(1000); hs = await heads(pg); tsel = await pg.evaluate("performance.now()")
                     await tap_head(pg, cdp, 0); nmenu += 1
-                    tt, tr = await dtext_trace(pg, 5000, 50)
+                    tt, tr = await dtext_trace(pg, int(os.environ.get('CALMMS') or '8000'), 50)   # 雲端打字很慢：CALMMS=25000
                     evs = await ev_since(pg, tsel - 50)
-                    moved = len(tr) > 1
+                    moved = bool(sentence_changes(tr))
                     R.note('%s 第 %d 個選單 %s → 照字選第一項「%s」；之後 5 秒不送事件：對話框的字 %s；選之後頁面收到的事件 %s' % (tag, nmenu, J(hs), hs[0] if hs else None, J(tr), J([[round(e[0] - tsel)] + e[1:] for e in evs])))
                     R.check('%s 第 %d 個選單：選完以後 5 秒不按，那一句停住（不自己走）' % (tag, nmenu), not moved, J(tr))
                     continue
