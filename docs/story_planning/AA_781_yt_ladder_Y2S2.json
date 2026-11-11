@@ -6,7 +6,7 @@
   "by": "AA（帳號 A）2026-11-11",
   "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
   "base": "對遊戲現在的字（開發分支 src/data/ladder.js，11-11 07:5x 抓的）。",
-  "what": "大二下刪節號 6 → 5（steps 那一層另算）。rows 換句，選項的 t、rel、mem 不動。留下的：Y4-L6「……一句話都沒講」「……嗯。可是那壺她喝完了」、Y4-L8「……嗯。你字很醜。……好」。Y4-L6 是 LADDER_CHOICE_IF 的層，選項字沒動。Y4-L7 原本沒有選項：steps 補兩個（FRIEND 以上，一個 fr、一個 love 1），lines 拿掉刪節號和沒人記的「確定再跟你講」；整層的 rel、mem（YT4_INTAKE_LEAD）、week 不動。"
+  "what": "大二下刪節號 6 → 5（steps 那一層另算）。rows 換句，選項的 t、rel、mem 不動。留下的：Y4-L6「……一句話都沒講」「……嗯。可是那壺她喝完了」、Y4-L8「……嗯。你字很醜。……好」。Y4-L6 是 LADDER_CHOICE_IF 的層，選項字沒動。Y4-L7 原本沒有選項：steps 補兩個（FRIEND 以上，一個 fr、一個 love 1），lines 拿掉刪節號和沒人記的「確定再跟你講」；整層的 rel、mem（YT4_INTAKE_LEAD）、week 不動。 BB 08:1x：YT4_INTAKE_LEAD 是訪談課助教那條線（AA_141／AA_142／AA_149），選項一的回話照改。"
  },
  "steps": [
   {
@@ -18,7 +18,7 @@
     {
      "t": "「什麼事？」",
      "re": [
-      "跟新生有關的。",
+      "訪談課的助教。老師問我要不要。",
       "我不太會講話，所以也不知道為什麼找我。"
      ],
      "fx": {
