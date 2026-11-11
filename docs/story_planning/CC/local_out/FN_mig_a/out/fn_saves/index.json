@@ -1,0 +1,59 @@
+{
+ "1": {
+  "why": "站在舊花攤前面",
+  "how": "quickSave",
+  "meta": {
+   "zone": "gongguan",
+   "day": 46,
+   "hour": 10.09,
+   "x": -46.36,
+   "z": 13.09,
+   "lv": 0,
+   "money": 5000,
+   "ver": "版本 v9.10.24",
+   "bag": [],
+   "given": {},
+   "sent": {},
+   "fest": {},
+   "giftMem": []
+  }
+ },
+ "3": {
+  "why": "存在原 G11 店裡（flower_notes）",
+  "how": "quickSave",
+  "meta": {
+   "zone": "flower_notes",
+   "day": 46,
+   "hour": 14.45,
+   "x": 0,
+   "z": 6.1,
+   "lv": 0,
+   "money": 5000,
+   "ver": "版本 v9.10.24",
+   "bag": [],
+   "given": {},
+   "sent": {},
+   "fest": {},
+   "giftMem": []
+  }
+ },
+ "3b": {
+  "why": "站在 G11 騎樓（G11 中間、立面後 1.5 m）",
+  "how": "quickSave",
+  "meta": {
+   "zone": "flower_notes",
+   "day": 46,
+   "hour": 16.46,
+   "x": 4.43,
+   "z": 6.43,
+   "lv": 0,
+   "money": 5000,
+   "ver": "版本 v9.10.24",
+   "bag": [],
+   "given": {},
+   "sent": {},
+   "fest": {},
+   "giftMem": []
+  }
+ }
+}
