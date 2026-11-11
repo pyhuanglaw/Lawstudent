@@ -61,7 +61,7 @@ for(const id of Object.keys(WANT)){ const z=loadZone('l118_'+id), nav=z.nav, sp=
   // 6. 每張椅子的走近點（GAME.seatApproach 的候選：ap、前、後、兩側…）：站得住、從進門的位置找得到路、在「坐下」的範圍裡
   { const bad=[]; for(const it of E.interactables.filter(i=>i.seat)){ const s=it.seat, fx=Math.sin(s.yaw||0), fz=Math.cos(s.yaw||0), reach=(it.radius||1.8)-0.05;
       const cand=[...(s.ap?[[s.ap[0]-s.x,s.ap[1]-s.z]]:[]),[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]];
-      const ok=cand.some(([dx,dz])=>{ const x=s.x+dx, zz=s.z+dz; if(!E.canStand(x,zz,0.3,0)||Math.hypot(dx,dz)>reach) return false; const p=E.pathTo(sp.x,sp.z,0,x,zz,0); if(!p||!p.length) return false; const q=p[p.length-1]; return Math.hypot(q[0]-x,q[1]-zz)<=0.6; });
+      const ok=cand.some(([dx,dz])=>{ const x=s.x+dx, zz=s.z+dz; if(!E.canStand(x,zz,0.3,0)||Math.hypot(x-it.x,zz-it.z)>reach) return false;   /* 範圍從按鈕的位置量（和 game3d.js seatApproach 一樣）：2026-11-11 L118-IT-REACH-1111 五湖四海靠牆長椅的按鈕挪到走道上的站位，不在椅子上 */ const p=E.pathTo(sp.x,sp.z,0,x,zz,0); if(!p||!p.length) return false; const q=p[p.length-1]; return Math.hypot(q[0]-x,q[1]-zz)<=0.6; });
       if(!ok) bad.push([s.x,s.z]); }
     check(id+' 6. 每張椅子都有走近點：站得住、從門口找得到路、在「坐下」的範圍裡', !bad.length, JSON.stringify(bad)); }
   { const o=E.interactables.find(i=>i.shop118===id), lk=E.interactables.find(i=>i.look);
