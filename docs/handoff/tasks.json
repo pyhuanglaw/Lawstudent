@@ -53060,7 +53060,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【第一批在開發分支 a648c5f37】期末飯（女朋友版、朋友版、手機句、電影通用回話已打開）、「她先說」告白、大一上階梯 P-L1～L8＋招呼、面板字兩句（AA_751／AA_753 @33a1769f8）；子代理最後被用量上限中斷、LAWWW 接手合併。測試 peishan_termend_1110、peishan_ladder_1110、te_shefirst_1110。【還沒匯，LAWWW 自己一份一份做】①階梯大一下＋大二上 a0ec06ba7（PS2_SIX_PLATES 面板字「寒假看了三部動畫，邊看邊做筆記」）②階梯大三 188061108（面板字四句照 _meta.notes；長句，匯完請 BB 手機直向看）③階梯大四＋公開課 465382f83（面板字 PS7_MOM_WAITS、PS7_MY_EGGS；CG BCG-05 先拿掉；P8-L2 演過公開課就跳過）④故事線八拍 6b5507f8a docs/story_planning/AA_755_peishan_arc.json（整段取代 heroine_arcs.js 的 classmate_peishan；選項 t、ansId、rel 等原樣）。【問 AA】大四下 6/8 台南那一頓稿沒寫（r2y4b3d.js 留原句）。【AA 還沒交】動態牆八則、events／msg_pool 的早餐店、date_lines、邀約與訊息——出版本前還沒交就先關動態牆那八則",
+   "next": "【第一批在開發分支 a648c5f37】期末飯（女朋友版、朋友版、手機句、電影通用回話已打開）、「她先說」告白、大一上階梯 P-L1～L8＋招呼、面板字兩句（AA_751／AA_753 @33a1769f8）；子代理最後被用量上限中斷、LAWWW 接手合併。測試 peishan_termend_1110、peishan_ladder_1110、te_shefirst_1110。【還沒匯，LAWWW 自己一份一份做】①階梯大一下＋大二上 a0ec06ba7（PS2_SIX_PLATES 面板字「寒假看了三部動畫，邊看邊做筆記」）②階梯大三 188061108（面板字四句照 _meta.notes；長句，匯完請 BB 手機直向看）③階梯大四＋公開課 465382f83（面板字 PS7_MOM_WAITS、PS7_MY_EGGS；CG BCG-05 先拿掉；P8-L2 演過公開課就跳過）④故事線八拍 6b5507f8a docs/story_planning/AA_755_peishan_arc.json（整段取代 heroine_arcs.js 的 classmate_peishan；選項 t、ansId、rel 等原樣）。【問 AA】大四下 6/8 台南那一頓稿沒寫（r2y4b3d.js 留原句）。【AA 還沒交】動態牆八則、events／msg_pool 的早餐店、date_lines、邀約與訊息——出版本前還沒交就先關動態牆那八則｜⑤（還沒匯）企劃線 c5094495d docs/story_planning/AA_755_peishan_feed_misc.json：動態牆八則（六則改了貼文時間 new.t——先查會不會影響排序／解鎖再回 AA；ps4f say 空字串）、msg_pool 三則、invites 四處＋invite_replies ps5、activity_scenes、arc_rot 兩處、gift_holiday 四處、fest_events [PS] 整段；AA_753 Y1S2_Y2S1 改以 c5094495d 為準",
    "xai": {
     "spec": "X327、UA-AA-1110-06",
     "branch": "claude/story-planning",
@@ -53164,7 +53164,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "店面＋室內 11161c101、上師對話 28d535073（src/limao3d.js、src/data/limao.js、tools/story/import_limao.py；AA_750_limao.json @227db1c9e）都在開發分支；limao_unit 42 項等 9 支 ALL PASS，瀏覽器沒跑（BB 排）。沒做：上師和吳教授的 3D 人物（LAWWW2 在做上師；做好設 LM.masterNpc、位置 LM.masterSeat()）、店裡找上師、入口 B「喝茶、上師去接待客人」的演出、快速前往。等 AA 回七題（經濟系那一年能不能聊、落榜含不含推甄、大四的範圍、分手一輩子一次、收攤句、入口 A 標題、認識當天不演教授）；請 LAWWW2 在配置加 study_letters 點"
+   "next": "店面＋室內 11161c101、上師對話 28d535073（src/limao3d.js、src/data/limao.js、tools/story/import_limao.py；AA_750_limao.json @227db1c9e）都在開發分支；limao_unit 42 項等 9 支 ALL PASS，瀏覽器沒跑（BB 排）。沒做：上師和吳教授的 3D 人物（LAWWW2 在做上師；做好設 LM.masterNpc、位置 LM.masterSeat()）、店裡找上師、入口 B「喝茶、上師去接待客人」的演出、快速前往。等 AA 回七題（經濟系那一年能不能聊、落榜含不含推甄、大四的範圍、分手一輩子一次、收攤句、入口 A 標題、認識當天不演教授）；請 LAWWW2 在配置加 study_letters 點｜11-11：上師 3D 人物第 1 版模型檔收進 65212b697（char.limao_shangshi），**LAWWW 驗不過、沒放進場景**（臉是少年、帽子像碗、直髮）；退 LAWWW2 做第 2 版，過了再設 LM.masterNpc 放到算命桌"
   },
   {
    "id": "HANDOFF-LOOSE-1110",
@@ -53189,7 +53189,7 @@
    "id": "GG-G09-G10-SHUTTER-1111",
    "title": "公館 G09、G10 先拉下鐵門（洗樂、印得好已搬到汀州路；USER_WANTS X335）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -53202,7 +53202,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "LAWWW 這邊做完：zones3d.js 套件 G09／G10 shut:true（鐵捲門、沒招牌）、G11 招牌字改花序（開發分支，gg_shops3_names_unit）；這兩格在 zones3d.js 沒有互動點、沒有劇情或邀約用到。LAWWW2：正式模型兩格鐵捲門已做、和 BB 退的美術同一包交（基底 e8918a013）。待定：G10 門前的「往汀州路（巷子）」互動點站在鐵門前——要不要把 G10 改成真的巷口，等這兩格之後放什麼再定，這一包不動",
+   "next": "套件 96f487c6f＋正式模型 949a24cc6（LAWWW2 3e39b5c33）都在開發分支；BB 排 CC 拍 G09／G10 白天晚上。待定：G10 門前「往汀州路（巷子）」站在鐵門前，等使用者決定這兩格放什麼再說",
    "xai": {
     "spec": "使用者 11-11 00:0x 選擇題（UA-LAWWW-1110-113）",
     "branch": "claude/second-ai-env-art",
