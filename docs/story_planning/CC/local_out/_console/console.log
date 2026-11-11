@@ -1,14 +1,3 @@
-[15:54:52] ==== START L118A_SEAT_dian1  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
-[15:54:56] [res] cpu=34% mem=44% (13.8/31.4 GB) chrome_testing=5  START L118A_SEAT_dian1
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       fbde9e86f..1276dae3a  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:54:58] ==== END   LIVE_main  exit=0  204s   ====
-[15:55:26] memory 45% before starting L118A_SEAT_dian2 (2 running)
-[15:55:26] ==== START L118A_SEAT_dian2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
-[15:55:29] [res] cpu=48% mem=46% (14.4/31.4 GB) chrome_testing=9  START L118A_SEAT_dian2
-[15:56:27] [res] cpu=37% mem=47% (15.1/31.4 GB) chrome_testing=9  END L118A_SEAT_cafe22
-    To https://github.com/pyhuanglaw/Lawstudent.git
        1276dae3a..dc9b1c5e7  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [15:56:32] ==== END   L118A_SEAT_cafe22  exit=0  205s   ====
@@ -1998,3 +1987,14 @@
 [01:18:10] [res] cpu=4% mem=31% (9.8/31.4 GB) chrome_testing=0  START BK2_cpu_s
 [01:19:06] 正在跑：BK2_cpu_s（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [01:19:23] [res] cpu=0% mem=31% (9.7/31.4 GB) chrome_testing=0  END BK2_cpu_s
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7185bf5ef..ee04a6ff6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:19:29] ==== END   BK2_cpu_s  exit=0  77s   ====
+[01:19:32] memory 31% before starting BK2_cpu_full (0 running)
+[01:19:32] ==== START BK2_cpu_full  (blender @ 5e5dfd047) ====
+[01:19:35] [res] cpu=17% mem=31% (9.9/31.4 GB) chrome_testing=0  START BK2_cpu_full
+[01:24:06] 正在跑：BK2_cpu_full（已跑 4 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:29:06] 正在跑：BK2_cpu_full（已跑 9 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:34:06] 正在跑：BK2_cpu_full（已跑 14 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:35:00] [res] cpu=0% mem=31% (9.9/31.4 GB) chrome_testing=0  END BK2_cpu_full
