@@ -1550,3 +1550,12 @@
 [10:31:55] [res] cpu=6% mem=43% (13.6/31.4 GB) chrome_testing=5  END LM2_HOURS_old
 [10:31:56] memory 43% before starting TZP_fps2_old (2 running)
 [10:31:56] ==== START TZP_fps2_old  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
+[10:31:59] [res] cpu=11% mem=43% (13.6/31.4 GB) chrome_testing=5  START TZP_fps2_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       14f80dff6..ed7dd7a5b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:32:02] ==== END   LM2_HOURS_old  exit=0  281s   ====
+[10:32:29] memory 44% before starting TZQ_A_new_r2 (2 running)
+[10:32:29] ==== START TZQ_A_new_r2  (probe @ 470e238cf715dd35453fb5b7e97b9570301cc54a) ====
+[10:32:32] [res] cpu=28% mem=45% (14.1/31.4 GB) chrome_testing=9  START TZQ_A_new_r2
+[10:33:25] [res] cpu=4% mem=46% (14.5/31.4 GB) chrome_testing=8  END LM2_O1
