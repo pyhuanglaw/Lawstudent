@@ -1,0 +1,44 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_DRINK_r3\out
+CC L118A：PARTS DRINK；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.5s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== DRINK
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1300 (0.0,0.0) （導航格存檔）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+  [  47.3s] [DRINK] 118 巷導航格 56×200 存成 l118a_nav_lane118.json（拼圖時和舊版比）
+PASS [DRINK drink_a 喝不喝咖啡] 店門口有互動點（記位置）  {"label": "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））", "x": 4.3, "z": -4.5, "r": 1.4, "to": null, "shop": "drink_a", "seat": false, "look": null}
+  [  47.4s] [DRINK drink_a 喝不喝咖啡] 互動點 {"label": "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））", "x": 4.3, "z": -4.5, "r": 1.4, "to": null, "shop": "drink_a", "seat": false, "look": null}；立面 x 5.2、店 z -7.0～-2.0；營業 True
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1300 (4.3,2.0) （喝不喝咖啡 南邊 4 m、人行道中間）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+PASS [DRINK drink_a 喝不喝咖啡] 搖桿沿人行道中間（x 4.3）直走經過店前、來回不卡（3.1／2.8 秒）  {"N": [], "S": []}
+PASS [DRINK drink_a 喝不喝咖啡] 人行道中間 walkFallbacks 沒增加
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1300 (3.3,2.0) （喝不喝咖啡 南邊 4 m、路邊）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+PASS [DRINK drink_a 喝不喝咖啡] 搖桿沿路邊（x 3.3）直走經過店前、來回不卡（2.7／2.7 秒）  {"N": [], "S": []}
+PASS [DRINK drink_a 喝不喝咖啡] 路邊 walkFallbacks 沒增加
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1300 (3.4,1.0) （喝不喝咖啡 前面，買飲料）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+  [  82.9s] [DRINK drink_a 喝不喝咖啡] 【遊戲鏡頭】l118a_drink_drink_a_1300_window_game.jpg：{"onScreen": true, "ndc": [-0.01, -0.21], "player": [4.28, -4.38], "cam": [4.33, 2.78, 0.4], "yaw": 6.283, "mid": {"m": 113.2, "sd": 46.1, "black": 0.023, "white": 0, "rgb": [116, 113, 105]}, "top": {"m": 93.4, "sd": 48.6, "black": 0.012, "white": 0, "rgb": [100, 93, 81]}, "near": {"m": 113.7, "sd": 52.9, "black": 0.004, "white": 0, "rgb": [114, 115, 106]}}
+PASS [DRINK drink_a 喝不喝咖啡] 互動按鈕是「喝不喝咖啡…」  {"x": 4.284, "z": -4.378, "interact": "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））"}
+  [  88.9s] [DRINK drink_a 喝不喝咖啡] 點了：["甜度", "▶紅茶　30 元", "（你點了紅茶。）", "（你站在窗口前面，把菜單從上看到下，最後點", "（你站在窗口前面，把菜單從上看到下，最後點了第一個看到的。）", "（你拿著飲料走回巷口。）"]；錢 22000 → 21970
+PASS [DRINK drink_a 喝不喝咖啡] 站窗口按下去買得到（選第一個；錢變少、不是負數）  {"m0": 22000, "m1": 21970}
+PASS [DRINK drink_b 果茶社] 店門口有互動點（記位置）  {"label": "果茶社（鮮果茶與多多系列（外帶））", "x": -4.3, "z": -7.5, "r": 1.4, "to": null, "shop": "drink_b", "seat": false, "look": null}
+  [  88.9s] [DRINK drink_b 果茶社] 互動點 {"label": "果茶社（鮮果茶與多多系列（外帶））", "x": -4.3, "z": -7.5, "r": 1.4, "to": null, "shop": "drink_b", "seat": false, "look": null}；立面 x -5.2、店 z -9.0～-6.0；營業 True
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1300 (-4.3,-2.0) （果茶社 南邊 4 m、人行道中間）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+PASS [DRINK drink_b 果茶社] 搖桿沿人行道中間（x -4.3）直走經過店前、來回不卡（4.5／6.7 秒）  {"N": [], "S": []}
+PASS [DRINK drink_b 果茶社] 人行道中間 walkFallbacks 沒增加
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1300 (-3.3,-2.0) （果茶社 南邊 4 m、路邊）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+PASS [DRINK drink_b 果茶社] 搖桿沿路邊（x -3.3）直走經過店前、來回不卡（3.2／3.1 秒）  {"N": [], "S": []}
+PASS [DRINK drink_b 果茶社] 路邊 walkFallbacks 沒增加
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 1300 (-3.4,-3.0) （果茶社 前面，買飲料）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+  [ 130.5s] [DRINK drink_b 果茶社] 【遊戲鏡頭】l118a_drink_drink_b_1300_window_game.jpg：{"onScreen": true, "ndc": [-0.01, -0.15], "player": [-4.34, -7.67], "cam": [-4.26, 2.78, -2.23], "yaw": 6.283, "mid": {"m": 127.9, "sd": 38.4, "black": 0.008, "white": 0, "rgb": [125, 131, 120]}, "top": {"m": 108.5, "sd": 44.3, "black": 0.018, "white": 0, "rgb": [104, 112, 105]}, "near": {"m": 106.9, "sd": 57.9, "black": 0.002, "white": 0, "rgb": [107, 109, 98]}}
+PASS [DRINK drink_b 果茶社] 互動按鈕是「果茶社…」  {"x": -4.34, "z": -7.669, "interact": "果茶社（鮮果茶與多多系列（外帶））"}
+  [ 137.1s] [DRINK drink_b 果茶社] 點了：["水果", "水果是現切的，要等一下喔。", "▶檸檬綠茶　50 元", "（你點了檸檬綠茶。）", "（窗口旁邊堆著一籃檸檬。店員切水果的聲音", "（窗口旁邊堆著一籃檸檬。店員切水果的聲音很規律。）", "（杯子裡的果肉比你想的多。）"]；錢 22000 → 21950
+PASS [DRINK drink_b 果茶社] 站窗口按下去買得到（選第一個；錢變少、不是負數）  {"m0": 22000, "m1": 21950}
+PASS [DRINK] walkFallbacks 0
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
