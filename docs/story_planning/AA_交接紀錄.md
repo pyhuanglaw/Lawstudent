@@ -1,6 +1,7 @@
 ### AA 帳號 A 目前狀態與全部待辦（2026-11-11 10:0x UTC 更新；roles 讀這一節）
 
-- 11-11 09:5x～10:0x：**X324 A～F 區全部結束**（F 區期末飯多人版查完不用寫，剩 Z13 一個程式點交 LAWWW；free_trips、hometown_lines 量過不用改、multirel `AA_791` 2 列）。**SEASON3-LINES-1111 交稿** `AA_793_season3_stalls.json`（e2ea0ea3c：六攤＋五項布置）。**FLOWER-NOTES-1110 交稿** `AA_792_flower_notes.json`（8475a3b85：十樣商品、花藝師、店裡的「看」、gift_holiday 花攤時期四句；AA_747 A5 改名）。都等 v9.10.25 後整合。**接下來**：CHAR-OLD-PURGE-1110（X330）企劃文件掃舊設定 → 芷若講 2:30 AM 的人「老闆／店長」統一 → STUDY-EXAM-STORY-1102 大一下（11-13 起）。
+- 11-11 10:2x **更正**：X324 只有 A～F 區結束，**還沒全部結束**——A～F 沒包到的 103 個檔（事件包、畢業後、送禮反應、故事池、動態牆…，約 22,270 句）列成 G 區（`AA_779` 第 7 節），照 D81 從經濟系、大一開始做。
+- 11-11 09:5x～10:0x：**X324 A～F 區結束**（F 區期末飯多人版查完不用寫，剩 Z13 一個程式點交 LAWWW；free_trips、hometown_lines 量過不用改、multirel `AA_791` 2 列）。**SEASON3-LINES-1111 交稿** `AA_793_season3_stalls.json`（e2ea0ea3c：六攤＋五項布置）。**FLOWER-NOTES-1110 交稿** `AA_792_flower_notes.json`（8475a3b85：十樣商品、花藝師、店裡的「看」、gift_holiday 花攤時期四句；AA_747 A5 改名）。都等 v9.10.25 後整合。**接下來**：CHAR-OLD-PURGE-1110（X330）企劃文件掃舊設定 → 芷若講 2:30 AM 的人「老闆／店長」統一 → STUDY-EXAM-STORY-1102 大一下（11-13 起）。
 
 - DLG-FULL-REVIEW-1110 進度補記（11-11 09:4x UTC）：**X324 E 區（主線事件、故事線、偶遇、寒暑假、節日禮物）全部交完**，LAWWW 都 ACK，v9.10.25 發版後匯：故事線 `AA_712`（abb960911，照 BB 09:0x 兩條補回指涉詞與自白前的停頓）、沛珊故事線 `AA_755_peishan_arc`（9685559c8）；節日禮物 `AA_732～734`（b844bac36）、沛珊 32 列在 `AA_755_peishan_feed_misc`；偶遇 `AA_787`、寒暑假 `AA_788`；事件 `AA_789_events_*` 八份（最後 91e5386e8）。另補 `AA_785` 沛珊出國版一列（478a783e5）。回 LAWWW 三件：she_pays 格選「平分」＝扣一半、「下次我請／我請飲料」＝她照請；阿語兩處同字是本意。**接下來**：F 區期末飯多人版 → free_trips、hometown_lines、multirel_lines 量 → SEASON3-LINES-1111（等 LAWWW key）→ FLOWER-NOTES-1110 → STUDY-EXAM-STORY-1102 大一下（11-13 起）→ X330。
 
