@@ -16,9 +16,10 @@ AA 往後加 lunch／special 的 id（不改舊 id）可以直接重跑；舊 id
  "who":     { "<人物 id>": { "name":"以安", "weight":1.0, "prefs":{ "<店 id>":權重, … }, "note":"…" } }
               會發起、會同行的人（要和祐廷同堂）。weight＝當發起人的權重倍率（沒寫＝1）。prefs＝他會選的店。
  "options": { "accept":"…", "decline":"…", "skip":"…" }   邀約的選項字。skip＝「快速略過」那一顆的字；沒寫＝遊戲不提供快速略過。
- "invite":  { "<人物 id>": { "lines":["…{店名}…", …], "declineReply":["…", …] } }
- "lunch":   [ { "id":"L-an-1", "who":["<人物 id>", …], "shop":["<店 id>", …]（可省略＝哪一間都可以）, "lines":[["<說話的人>","字"], …] } ]
-              who 的人都在這一桌才抽（一到三位）。說話的人："player"＝祐廷、null＝旁白、who 裡的人物 id。
+ "invite":  { "<人物 id>": { "lines":["…{店名}…", …], "declineReply":["…", …] } }     declineReply 輪著用（婉拒那個人的第幾次）
+ "window":  { "from":11.5, "to":12.5 }             可省略（工具補 11:30～12:30）：那一堂上午課的下課時間落在這裡面才判定
+ "lunch":   [ { "id":"L-an-1", "who":["<人物 id>", …], "shop":["<店 id>", …]（可省略＝哪一間都可以）, "n":3（可省略）, "lines":[["<說話的人>","字"], …] } ]
+              who 的人都在這一桌才抽（一到三位）。n＝含玩家的人數要剛好是這個數才抽。說話的人："player"＝祐廷、null＝旁白、who 裡的人物 id。
  "special": [ { "id":"S-…", "kind":"talk"|"meet", "who":[…], "bonus":{"<人物 id>":1}, "first":true, "shop":[…]（可省略）, "cond":"文字條件", "lines":[…] } ]
               talk＝同桌的人多講一件事（who＝同桌的那個人）；meet＝遇到別人（who＝遇到的人，可以是空的；說話的人可以直接寫路人的稱呼，例「助教」）。
               first:true＝還沒看過的那一次不能被快速略過。bonus 沒寫＝who 的人各 +1。
@@ -48,7 +49,7 @@ import import_guard as IG
 
 PATH = 'docs/story_planning/AA_771_l118_lunch.json'
 OUT = 'src/data/l118_lunch.js'
-TOP = {'_meta', 'who', 'options', 'invite', 'lunch', 'special', 'arrive', 'leave', 'skipLine', 'noMoney'}
+TOP = {'_meta', 'who', 'options', 'invite', 'lunch', 'special', 'arrive', 'leave', 'skipLine', 'noMoney', 'window'}
 PLACE = {'店名', 'name', '發起人', '同行', '品名', '金額'}
 IDMAP = {}   # 稿上的 id → 遊戲的 id（AA_771：kai、zhe、yu、classmate_youchen 都和 characters.js 一樣，不用換）
 NAME2ID = {'以安': 'heroine_01', '芷若': 'heroine_02', '語彤': 'heroine_03', '子晴': 'heroine_04', '學姊': 'heroine_05', '阿哲': 'zhe', 'Alison': 'yu',
@@ -65,7 +66,12 @@ RULES_KNOWN = [
     '好感：八個人都照規格 +2（熟悉度）。和玩家交往中的人（以安、沛珊）也是 +2 熟悉度，不加戀愛的數值——午餐不是約會。偶遇的人 +1；特殊對話（kind: talk）相關的人再 +1。',
     'lunch 的 shop 欄＝這一組只在那幾間店播；沒有 shop 的哪一間都可以。who 有兩三個人的組＝那幾個人都在這一桌時才抽。',
     'special 大約兩成：kind talk＝同桌的人多講一件自己的事；kind meet＝遇到別人。first:true＝第一次不能被快速略過。cond 是給程式看的條件，用文字寫。',
+    'n 欄（BB_331 C5）＝含玩家在內的人數要剛好等於這個數才抽（G-zhe-yu-mx n=4、G-yu-ps n=3）。',
+    '午餐邀約只在中午十二點前後下課的上午課之後觸發（BB_331 C4；柏翰的鐘點句都假設十二點多）。',
+    'declineReply 每人三句，輪著用（連續婉拒不會一直看到同一句）。',
 ]
+# 「十二點前後下課」的時間窗（鐘點）：那一堂的下課時間落在這裡面才判定。稿的最上層寫了 window＝照稿；沒寫＝用這個（LAWWW 2026-11-11：11:30～12:30）
+WINDOW = {'from': 11.5, 'to': 12.5}
 CHANGED, WARN = [], []
 
 
@@ -235,6 +241,10 @@ def build(d):
         if k not in d:
             die(f'少了 {k}')
     out = {'_meta': d.get('_meta', {})}
+    win = d.get('window', WINDOW)
+    if not isinstance(win, dict) or set(win) != {'from', 'to'} or any(isinstance(win[k], bool) or not isinstance(win[k], (int, float)) for k in win) or not (0 <= win['from'] < win['to'] <= 24):
+        die('window：要是 {"from": 鐘點, "to": 鐘點}（例 11.5、12.5）')
+    out['window'] = {'from': win['from'], 'to': win['to']}
     # who
     who = {}
     for k, e in d['who'].items():
@@ -285,8 +295,8 @@ def build(d):
     ids, L = set(), []
     for n, e in enumerate(d['lunch']):
         w = f'lunch[{n}]（{e.get("id")}）'
-        if set(e) - {'id', 'who', 'lines', 'shop'}:
-            die(f'{w}：不認得的欄位 {sorted(set(e) - {"id", "who", "lines", "shop"})}')
+        if set(e) - {'id', 'who', 'lines', 'shop', 'n'}:
+            die(f'{w}：不認得的欄位 {sorted(set(e) - {"id", "who", "lines", "shop", "n"})}')
         if not isinstance(e.get('id'), str) or not e['id'] or e['id'] in ids:
             die(f'{w}：id 沒寫或重複')
         ids.add(e['id'])
@@ -299,13 +309,17 @@ def build(d):
         r = {'id': e['id'], 'who': ws}
         if 'shop' in e:
             r['shop'] = shop_list(e['shop'], shops, w)
+        if 'n' in e:
+            if isinstance(e['n'], bool) or not isinstance(e['n'], int) or not (len(ws) + 1 <= e['n'] <= 4):
+                die(f'{w}：n（含玩家的人數）要是整數，至少 who 的人數＋1、最多 4')
+            r['n'] = e['n']
         r['lines'] = lines(e.get('lines'), set(ws), chars, w + '.lines')
         L.append(r)
     if not L:
         die('lunch：至少一組')
     out['lunch'] = L
     for i in inv:
-        if not any(g['who'] == [i] and 'shop' not in g for g in L):
+        if not any(g['who'] == [i] and 'shop' not in g and 'n' not in g for g in L):
             WARN.append(f'{i} 沒有「只有他一個人、不限店」的 lunch 組：有些組合會找不到句子（那一次就不邀）')
     # special
     S = []

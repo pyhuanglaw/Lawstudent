@@ -1,13 +1,13 @@
-/* 自動產生：tools/story/import_l118_lunch.py（docs/story_planning/AA_771_l118_lunch.json@dd4a310f1）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_l118_lunch.py（docs/story_planning/AA_771_l118_lunch.json@138bfaf45）。不要手改，改企劃稿再重新匯入。
    118 巷課後午餐邀約（L118-LUNCH-INVITE-1111，使用者 X339）的台詞、選項、旁白：一字照 AA 的稿；special 的 when 是工具從 cond（文字條件）拆出來的。
    格式說明在匯入工具的檔頭；怎麼演：src/l118_lunch3d.js */
 'use strict';
 const L118_LUNCH_DATA={
- "src": "docs/story_planning/AA_771_l118_lunch.json@dd4a310f1",
+ "src": "docs/story_planning/AA_771_l118_lunch.json@138bfaf45",
  "_meta": {
   "by": "AA（帳號 A）",
   "date": "2026-11-11",
-  "version": 1,
+  "version": 2,
   "task": "L118-LUNCH-INVITE-1111（USER_WANTS X339）",
   "spec": "開發分支 docs/handoff/user_specs/L118_LUNCH_1111.md（使用者 11-11 原文）",
   "note": "第一版。只列和祐廷同班、上午在法學院同堂的八個人；學姊（高年級）、語彤（社會系、雙主修的課和大一分開）、子晴、芷若、可昕、阿凱不會發起也不同行，只可能在偶遇裡出現。{店名}＝發起人選的那間店的名字；{name}＝玩家的名字；{發起人}＝發起人的名字。對話裡 who 是 player 的是祐廷的句子、null 是旁白、其他字串（「助教」「大四的學長」）是沒有立繪的路人。",
@@ -18,13 +18,22 @@ const L118_LUNCH_DATA={
    "柏翰和沛珊大一下交往、大二上分開：大二上那一學期不要把兩個人排進同一桌（其他學期可以）。",
    "好感：八個人都照規格 +2（熟悉度）。和玩家交往中的人（以安、沛珊）也是 +2 熟悉度，不加戀愛的數值——午餐不是約會。偶遇的人 +1；特殊對話（kind: talk）相關的人再 +1。",
    "lunch 的 shop 欄＝這一組只在那幾間店播；沒有 shop 的哪一間都可以。who 有兩三個人的組＝那幾個人都在這一桌時才抽。",
-   "special 大約兩成：kind talk＝同桌的人多講一件自己的事；kind meet＝遇到別人。first:true＝第一次不能被快速略過。cond 是給程式看的條件，用文字寫。"
+   "special 大約兩成：kind talk＝同桌的人多講一件自己的事；kind meet＝遇到別人。first:true＝第一次不能被快速略過。cond 是給程式看的條件，用文字寫。",
+   "n 欄（BB_331 C5）＝含玩家在內的人數要剛好等於這個數才抽（G-zhe-yu-mx n=4、G-yu-ps n=3）。",
+   "午餐邀約只在中午十二點前後下課的上午課之後觸發（BB_331 C4；柏翰的鐘點句都假設十二點多）。",
+   "declineReply 每人三句，輪著用（連續婉拒不會一直看到同一句）。"
   ],
   "open": [
    "宥辰、阿哲、Alison 的 id 我照 characters.js／lane118_shops.js 寫（classmate_youchen、zhe、yu）；阿凱寫 kai——id 不對請直接改。",
    "每個人的句子都是第一版，BB 還沒看；你可以先接系統，字我會再補（每人的午餐對話想加到五六組）。",
    "人物只用 characters.js 和現行設定總表有的設定；沒有新增人物背景。"
-  ]
+  ],
+  "for_LAWWW": "九間店重新設計（X338）以後要跟著換的地方：arrive 八句（寫了現在的菜和店內樣子）；有 shop 欄的 L-an-2、L-mx-1、L-zhe-1；提到店的 L-xc-1（巷口那間）、L-yu-3（一一八）；偶遇 S-meet-sis（自助餐便當）、S-meet-yt（酸辣河粉）、S-meet-kai（乾麵）、S-meet-ziqing（慢讀咖啡外帶窗口）；who 的 prefs（店 id）。到時候 AA 一次改。",
+  "v2": "照 BB_331 改：L-zhe-2 不提民總；S-meet-senior 限大一上；「下一堂」四處改掉；G-an-ps 重寫；婉拒回覆每人三句；加 n 欄。id 都沒變。"
+ },
+ "window": {
+  "from": 11.5,
+  "to": 12.5
  },
  "who": {
   "heroine_01": {
@@ -118,13 +127,15 @@ const L118_LUNCH_DATA={
  "invite": {
   "heroine_01": {
    "lines": [
-    "中午有約嗎？沒有的話去{店名}，我想在下一堂前回來。",
+    "中午有約嗎？沒有的話去{店名}，我想早點吃完。",
     "我要去{店名}。你要一起嗎？",
     "剛剛那一題我還沒想完。邊吃邊講，{店名}。",
     "你早餐有吃嗎？看起來沒有。走，{店名}。"
    ],
    "declineReply": [
-    "好。那筆記我吃完再傳給你。"
+    "好。那筆記我吃完再傳給你。",
+    "好，那你記得吃。",
+    "沒關係。我本來也只是順路問。"
    ]
   },
   "classmate_bohan": {
@@ -135,7 +146,9 @@ const L118_LUNCH_DATA={
     "你有空嗎？{店名}，吃完我有一題想問你。"
    ],
    "declineReply": [
-    "好。那我先走。"
+    "好。那我先走。",
+    "好。",
+    "知道了。下次。"
    ]
   },
   "classmate_peishan": {
@@ -146,7 +159,9 @@ const L118_LUNCH_DATA={
     "剛剛那堂我有一半沒聽懂。你請我吃飯，我請你講解——不對，反了。走啦，{店名}。"
    ],
    "declineReply": [
-    "好啦，下次。我自己去當吧檯的客人。"
+    "好啦，下次。我自己去當吧檯的客人。",
+    "好，我記下來了，你欠我一餐的陪吃。",
+    "沒關係啦。我去問別人，問不到再回來煩你。"
    ]
   },
   "classmate_mingxuan": {
@@ -157,7 +172,9 @@ const L118_LUNCH_DATA={
     "走，{店名}。吃完還來得及去投兩球。"
    ],
    "declineReply": [
-    "好，下次。"
+    "好，下次。",
+    "好啊，沒差，改天。",
+    "那我自己去，吃快一點。"
    ]
   },
   "classmate_xinci": {
@@ -167,7 +184,9 @@ const L118_LUNCH_DATA={
     "不好意思，臨時問你。要不要去{店名}？"
    ],
    "declineReply": [
-    "沒關係。那我下次早一點問。"
+    "沒關係。那我下次早一點問。",
+    "好，沒關係。",
+    "那改天。我再問你。"
    ]
   },
   "classmate_youchen": {
@@ -177,7 +196,9 @@ const L118_LUNCH_DATA={
     "{店名}。我昨天弄到三點，現在需要熱的。"
    ],
    "declineReply": [
-    "好。那筆記借我拍一下總可以吧。"
+    "好。那筆記借我拍一下總可以吧。",
+    "好，我自己去補眠——補飯。",
+    "下次。如果我有來的話。"
    ]
   },
   "zhe": {
@@ -188,7 +209,9 @@ const L118_LUNCH_DATA={
     "吃飯。{店名}。再多找一個湊一桌。"
    ],
    "declineReply": [
-    "好喔，下次。"
+    "好喔，下次。",
+    "好啦，那我去揪別人。",
+    "沒事，下次你揪。"
    ]
   },
   "yu": {
@@ -199,7 +222,9 @@ const L118_LUNCH_DATA={
     "阿哲去練球了。你陪我去{店名}，不然我要一個人講話。"
    ],
    "declineReply": [
-    "好吧，下次！"
+    "好吧，下次！",
+    "好啦——那我去找別人，你不要後悔喔。",
+    "沒關係，我邊吃邊傳訊息吵你。"
    ]
   }
  },
@@ -256,7 +281,7 @@ const L118_LUNCH_DATA={
    "lines": [
     [
      "heroine_01",
-     "下一堂的判決你看了嗎？"
+     "下禮拜要討論的判決，你看了嗎？"
     ],
     [
      "player",
@@ -602,7 +627,7 @@ const L118_LUNCH_DATA={
    "lines": [
     [
      "zhe",
-     "欸，民總的報告你們組寫到哪？"
+     "欸，那個報告你們組寫到哪？"
     ],
     [
      "player",
@@ -686,7 +711,7 @@ const L118_LUNCH_DATA={
     ],
     [
      "player",
-     "妳不是要趕下一堂？"
+     "妳下午不是還有事？"
     ],
     [
      "yu",
@@ -770,19 +795,19 @@ const L118_LUNCH_DATA={
    "lines": [
     [
      "classmate_peishan",
-     "以安吃一半，我吃一份半，我們兩個平均起來很正常。"
+     "我坐中間。你們兩個等一下講法律的時候，我可以當調解委員。"
     ],
     [
      "heroine_01",
-     "妳不要把我算進去。"
+     "我們沒有要吵。"
     ],
     [
      "classmate_peishan",
-     "{name}，你評評理。"
+     "還沒。{name}，你先講一句錯的。"
     ],
     [
      "player",
-     "我吃我的。"
+     "……我吃我的。"
     ]
    ]
   },
@@ -817,6 +842,7 @@ const L118_LUNCH_DATA={
     "yu",
     "classmate_peishan"
    ],
+   "n": 3,
    "lines": [
     [
      "yu",
@@ -843,6 +869,7 @@ const L118_LUNCH_DATA={
     "yu",
     "classmate_mingxuan"
    ],
+   "n": 4,
    "lines": [
     [
      "zhe",
@@ -1296,11 +1323,10 @@ const L118_LUNCH_DATA={
    "kind": "meet",
    "who": [],
    "first": true,
-   "cond": "大一；學期中",
+   "cond": "大一上（有民總的那一學期）；學期中",
    "when": {
     "terms": [
-     "Y1S1",
-     "Y1S2"
+     "Y1S1"
     ],
     "inTerm": true
    },
@@ -1381,7 +1407,7 @@ const L118_LUNCH_DATA={
  },
  "leave": [
   "（結帳，各付各的。走回學校的路上，巷子還在排隊。）",
-  "（吃完，走回學校。離下午的課還有一點時間。）"
+  "（吃完，走回學校。巷口的紅綠燈還是很久。）"
  ],
  "skipLine": "（和{同行}去{店名}吃了{品名}，{金額} 元。）",
  "noMoney": {
