@@ -1,15 +1,3 @@
-[13:09:04] ==== START CLASS12_crim_b  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
-[13:09:07] [res] cpu=1% mem=49% (15.6/31.4 GB) chrome_testing=10  START CLASS12_crim_b
-[13:11:15] [res] cpu=0% mem=49% (15.6/31.4 GB) chrome_testing=10  END CLASS12_const_b
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       63de4eb2b..c2e7b58e3  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[13:11:22] ==== END   CLASS12_const_b  exit=1  280s   ====
-[13:11:31] memory 49% before starting CLASS12_civ_a (2 running)
-[13:11:31] ==== START CLASS12_civ_a  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
-[13:11:34] [res] cpu=0% mem=49% (15.7/31.4 GB) chrome_testing=10  START CLASS12_civ_a
-[13:12:21] [res] cpu=7% mem=48% (14.8/31.4 GB) chrome_testing=9  END CLASS12_crim_a
-    To https://github.com/pyhuanglaw/Lawstudent.git
        c2e7b58e3..8b9dfce2f  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [13:12:37] ==== END   CLASS12_crim_a  exit=0  344s   ====
@@ -1998,3 +1986,15 @@
        e6146c379..eed878275  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [21:30:22] ==== END   V25_X290_real  exit=0  95s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       eed878275..e4686e2ab  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:30:28] ==== END   V25_X290_invgo  exit=0  136s   ====
+[21:30:31] memory 41% before starting V25_X304_outing (2 running)
+[21:30:31] ==== START V25_X304_outing  (probe @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[21:30:34] [res] cpu=14% mem=41% (13.1/31.4 GB) chrome_testing=5  START V25_X304_outing
+[21:30:34] memory 41% before starting V25_X314_posters (2 running)
+[21:30:34] ==== START V25_X314_posters  (probe @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[21:30:37] [res] cpu=8% mem=43% (13.1/31.4 GB) chrome_testing=5  START V25_X314_posters
+[21:34:05] 正在跑：REL_soc_ctl_r2（已跑 19 分／上限 30 分）、V25_X304_outing（已跑 3 分／上限 30 分）、V25_X314_posters（已跑 3 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:38:33] [res] cpu=28% mem=49% (15.5/31.4 GB) chrome_testing=5  END V25_X314_posters
