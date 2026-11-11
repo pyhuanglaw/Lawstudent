@@ -1,0 +1,104 @@
+diff --git a/src/game3d.js b/src/game3d.js
+index 5201aa885a..43a268f917 100644
+--- a/src/game3d.js
++++ b/src/game3d.js
+@@ -318,7 +318,10 @@ const GAME = (function(){
+        落在兩張的範圍裡（並排、背對背）取比例上離中心近的。
+        射線先打到哪張就是哪張（BB 11-11：118牛排點後排被導到前排、五湖四海 #9 點椅面變「點餐」）。地板先被打到（點的是看得到的地板）、打到的是桌子牆壁：照舊（下面：地板那一點站不住才找 0.45 m 內的椅子）。
+        只在射線會穿過某張椅子的範圍時才打模型（點走道不用整個區域做射線測試）。o.hit＝地板那一點（engine3d.js 傳）；沒有就是舊的呼叫（只看地板那一點）*/
+-    if(o&&o.ray&&o.hit&&E.rayFirstHit&&seats.length){ const R=o.ray, H=o.hit, tF=Math.hypot(H.x-R.origin.x,H.y-R.origin.y,H.z-R.origin.z), C=TAP_CHAIR;
++    /* 沒給 hit、有 ray＋fy（CC 的 cc_tapseat_reg_probe.py 這樣呼叫：TAP-RAY-SEAT 總圖／宿舍 11-11，探針自己那一次永遠拿到 null，log 和遊戲實際走的不一致）：
++       地板那一點＝射線和 y＝fy 的交點（engine3d.js screenToFloor 沒有走路網格時也是這樣算）。遊戲本身有傳 hit，不受影響 */
++    let HH=o&&o.hit; if(!HH&&o&&o.ray&&typeof o.fy==='number'){ const R0=o.ray; if(R0.direction.y<-1e-6){ const t=(o.fy-R0.origin.y)/R0.direction.y; if(t>0) HH={x:R0.origin.x+R0.direction.x*t,y:o.fy,z:R0.origin.z+R0.direction.z*t}; } }
++    if(o&&o.ray&&HH&&E.rayFirstHit&&seats.length){ const R=o.ray, H=HH, tF=Math.hypot(H.x-R.origin.x,H.y-R.origin.y,H.z-R.origin.z), C=TAP_CHAIR;
+       const boxOf=st=>{ const y0=st.y!=null?st.y:(E.heightAt?E.heightAt(st.x,st.z,lv|0):(typeof o.fy==='number'?o.fy:0)), w=Math.max(C.r,C.back); return [st.x-w,y0,st.z-w,st.x+w,y0+C.h+(st.lift||0),st.z+w]; };   /* 先用包住整張椅子（各方向取大的）的盒子篩 */
+       const cand=seats.filter(st=>rayHitsBox(R,boxOf(st),tF));
+       if(cand.length){ const h=E.rayFirstHit(R,tF-0.03); if(h){ const p=h.point; let bc=1.0001; for(const st of cand){ const b=boxOf(st); if(p.y<b[1]-0.02||p.y>b[4]+0.02) continue; const yw=st.yaw||0, fx=Math.sin(yw), fz=Math.cos(yw), dx=p.x-st.x, dz=p.z-st.z, f=dx*fx+dz*fz, l=Math.abs(dx*fz-dz*fx);   /* f＞0＝椅子前面（人面向的那一邊） */
+diff --git a/tests/tap_seat_libdorm_1111_unit.js b/tests/tap_seat_libdorm_1111_unit.js
+new file mode 100644
+index 0000000000..bf9a56dc90
+--- /dev/null
++++ b/tests/tap_seat_libdorm_1111_unit.js
+@@ -0,0 +1,82 @@
++/* TAP-RAY-SEAT 總圖／宿舍（LAWWW 11-11 18:58 派給 LAWWW2，P1；BB：CC 在 b77af3a4f 跑 TSR_LIB「點椅面沒出坐下讀書」、TSR_DORM「長桌椅子 nobtn」）
++   查到的（雲端瀏覽器照 CC cc_tapseat_reg_probe.py 的起點重現，鏡頭、螢幕座標和 CC log 一樣）：遊戲本身點得到——帶遊戲真的參數 {ray,fy,hit} 時都導去那一張；
++   CC 的 FAIL 是①總圖椅子 2 (−7.025,3.8) 點的像素被二樓白柱子擋住（射線先打到柱子，照規則不導）②宿舍椅子 1 點下去手機開著（r2 已不判）；
++   探針 log 的「tapRedirect 導去 null」：探針呼叫 E.tapRedirect(x,z,lv,{ray,fy}) 沒帶 hit，src/game3d.js tapToSeat 的射線判斷要 hit 才跑 → 探針自己那一次永遠 null（或照舊的地板判斷挑到別張）。
++   修法：tapToSeat 沒有 hit、有 ray＋fy 時，自己算射線和 y＝fy 的交點當 hit（遊戲本身有傳 hit，不受影響）。
++   這支（Node、遊戲真的區域＋正式模型 GLB、three 的 Raycaster、牆淡出照 z.fadeWalls；tap_seat_ray_real_1111_unit.js 同一個做法）：
++     1 總圖大廳二樓（library_hall lv 1）、閱覽區（library）、宿舍交誼廳（dorm_hall）每一張椅子：近的鏡頭（3.2／4.6 m、俯角 0.3／0.5／0.7）和 CC 那種遠鏡頭（8／10／12 m、俯角 10°／15°／20°）、八個方向點椅面中心——
++       射線先打到那張椅子的，帶 hit（遊戲）、不帶 hit（{ray,fy}：CC 探針）都導去那一張
++     2 CC log 的那幾下（同一個鏡頭位置 (−0.85,8.43,−3.15)／宿舍 (−2.18,2.45,5.6)、同一條射線：椅子中心和 CC 的地板落點連線）：
++       總圖椅子 1、3、宿舍四張帶不帶 hit 都導去那一張；總圖椅子 2：射線先打到柱子（不導，兩種呼叫一樣）
++     3 BB 的四個走道點（總圖二樓 (−8.5,5)、(−11,6.5)；宿舍 (11.5,3)；Café (1.5,−0.5)）：看得到地板的點，不帶 hit 的呼叫也照舊走過去（null）
++   修改前（開發分支 3df6cfdf6a）：1、2 不帶 hit 的 FAIL。這是模擬（D131），瀏覽器驗證排 CC。用法：node tests/tap_seat_libdorm_1111_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){}, querySelector:()=>null, querySelectorAll:()=>[], body:{appendChild(){},classList:{add(){},remove(){}}} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{}; console.error=()=>{};
++const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); const all=[...html.matchAll(/src="([^"?]+)/g)].map(m=>m[1]);
++const files=[]; for(const f of all){ if(/three-vrm|character3d|props3d/.test(f)) continue; files.push(f); if(/l118_shops3d\.js$/.test(f)) break; }
++for(const f of files){ if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,'globalThis.$1='); try{ vm.runInThisContext(src,{filename:f}); }catch(e){} }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; }; const J=JSON.stringify;
++// 正式模型：GLB 在 Node 裡解析（貼圖拿掉；和 tests/us_club_lounge_unit.js 同一個做法）
++function parseGLB(file){ const b=fs.readFileSync(file); const n=b.readUInt32LE(12); const Jn=JSON.parse(b.slice(20,20+n).toString()); const binLen=b.readUInt32LE(20+n); const bin=b.slice(20+n+8,20+n+8+binLen);
++  for(const m of Jn.materials||[]){ const p=m.pbrMetallicRoughness||{}; for(const k of ['baseColorTexture','metallicRoughnessTexture']) delete p[k]; for(const k of ['normalTexture','occlusionTexture','emissiveTexture']) delete m[k]; if(m.extensions) for(const k of Object.keys(m.extensions)) if(/texture/i.test(J(m.extensions[k]))) delete m.extensions[k]; }
++  delete Jn.textures; delete Jn.images; delete Jn.samplers; delete Jn.extensionsRequired; if(Jn.extensionsUsed) Jn.extensionsUsed=Jn.extensionsUsed.filter(e=>!/texture|KTX|webp/i.test(e));
++  const js=Buffer.from(JSON.stringify(Jn)); const jb=Buffer.concat([js,Buffer.alloc((4-js.length%4)%4,0x20)]); const bb=Buffer.concat([bin,Buffer.alloc((4-bin.length%4)%4)]);
++  const h=Buffer.alloc(12); h.write('glTF',0); h.writeUInt32LE(2,4); h.writeUInt32LE(12+8+jb.length+8+bb.length,8); const c1=Buffer.alloc(8); c1.writeUInt32LE(jb.length,0); c1.write('JSON',4); const c2=Buffer.alloc(8); c2.writeUInt32LE(bb.length,0); c2.writeUInt32LE(0x004E4942,4);
++  const out=Buffer.concat([h,c1,jb,c2,bb]); return new Promise((res,rej)=>new THREE_JSM.GLTFLoader.GLTFLoader().parse(out.buffer.slice(out.byteOffset,out.byteOffset+out.length),'',g=>res(g),rej)); }
++const glbCache={}; ASSETS.loadOne=k=>{ const m=ASSETS.manifest[k]; if(!m||!/\.glb$/.test(m.url||'')||!fs.existsSync(path.join(ROOT,m.url))) return new Promise(()=>{}); if(!glbCache[k]) glbCache[k]=parseGLB(path.join(ROOT,m.url)); return glbCache[k].then(g=>({scene:g.scene.clone(true),userData:g.scene.userData})); };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++// game3d.js 的 tapToSeat、TAP_CHAIR、rayHitsBox（原樣拿出來；走近點照椅子本身，這支只看挑到哪一張）
++const G3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
++const mT=/  function tapToSeat\(x,z,lv,o\)\{[\s\S]*?\n  GM\.TAP_CHAIR=TAP_CHAIR; GM\.rayHitsBox=rayHitsBox;\n/.exec(G3);
++check('0. game3d.js 有 tapToSeat（打模型判椅子）、TAP_CHAIR、rayHitsBox；engine3d.js 有 E.rayFirstHit',!!mT&&typeof E.rayFirstHit==='function'); if(!mT){ console.log('FAILED'); process.exit(1); }
++const T=new Function('E','seatApproach','GM',mT[0]+'\nreturn {tapToSeat,TAP_CHAIR,rayHitsBox};')(E,st=>[st.x,st.z],{});
++/* 修改前（0d7922555 的射線高度判）：拿來比較——舊做法在哪些點會被帶去椅子（照當時的寫法，地板那一點沒對到椅子時看射線離地 0.75／0.6／0.45／0.3 m 那幾點離椅中心 0.32 m 內）*/
++function oldTap(x,z,lv,R,fy,seats){ let best=null, bd=0.45; if(!E.canStand(x,z,0.3,lv|0)) for(const st of seats){ const d=Math.hypot(st.x-x,st.z-z); if(d<bd){ bd=d; best=st; } }
++  if(!best&&R.direction.y<-1e-3) for(const h of [0.75,0.6,0.45,0.3]){ const t=(fy+h-R.origin.y)/R.direction.y; if(!(t>0)) continue; const px=R.origin.x+R.direction.x*t, pz=R.origin.z+R.direction.z*t; let b2=0.32; for(const st of seats){ const d=Math.hypot(st.x-px,st.z-pz); if(d<b2){ b2=d; best=st; } } if(best) break; }
++  return best; }
++async function load(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.exits=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.scene&&z.group&&!z.group.parent) E.scene.add(z.group);
++  E.player={obj:{position:new THREE.Vector3(0,0,0),rotation:{y:0}},radius:0.32,lv:0};
++  for(let i=0;i<400&&!z.formal;i++) await new Promise(r=>setTimeout(r,25)); z.group.updateMatrixWorld(true); return z; }
++const seatsOf=lv=>(E.interactables||[]).filter(it=>it.seat&&!it.hidden&&((it.seat.lv|0)===(lv|0))).map(it=>it.seat);
++/* 鏡頭在 cam、玩家在 pp：照遊戲把背對鏡頭的牆淡出、藏起來（engine3d.js updateCamera → z.fadeWalls → hideFaded）*/
++function fade(z,cam,pp){ if(z.fadeWalls){ z.fadeWalls({position:cam},pp); for(const w of z.walls||[]){ const m=w&&w.material; if(m&&!Array.isArray(m)) w.visible=m.opacity>0.5; } } z.group.updateMatrixWorld(true); }
++const V=(x,y,z)=>new THREE.Vector3(x,y,z);
++/* 打到的點落在哪張椅子的範圍裡（和 tapToSeat 同一個定義：照椅子朝向，左右、前面 TAP_CHAIR.r，後面 TAP_CHAIR.back，高度地板～椅背頂＋lift；兩張都算就取比例上近的）*/
++function chairOf(p,seats,fy){ let want=null, bc=1.0001; const C=T.TAP_CHAIR; for(const s2 of seats){ const y0=s2.y!=null?s2.y:(fy||0); if(p.y<y0-0.02||p.y>y0+C.h+(s2.lift||0)+0.02) continue; const yw=s2.yaw||0, fx=Math.sin(yw), fz=Math.cos(yw), dx=p.x-s2.x, dz=p.z-s2.z, f=dx*fx+dz*fz, l=Math.abs(dx*fz-dz*fx), d=Math.max(l/C.r,f>=0?f/C.r:-f/C.back); if(d<=bc){ bc=d; want=s2; } } return want; }
++function tap(z,lv,cam,aim,fy){ const dir=aim.clone().sub(cam).normalize(), R=new THREE.Ray(cam.clone(),dir); if(dir.y>=-1e-3) return null; const t=(fy-cam.y)/dir.y, F=cam.clone().addScaledVector(dir,t);
++  fade(z,cam,F); const seats=seatsOf(lv), r=T.tapToSeat(F.x,F.z,lv,{ray:R,fy,hit:{x:F.x,y:fy,z:F.z}}), first=E.rayFirstHit(R,t-0.03);
++  return {R,F,t,seats,r,first,old:oldTap(F.x,F.z,lv,R,fy,seats)}; }
++
++const nm=o=>{ const a=[]; for(let p=o;p&&a.length<3;p=p.parent) a.push(p.name||p.type); return a.join('<'); };
++const same=(r,st)=>!!(r&&r[3]&&Math.abs(r[3].x-st.x)<1e-6&&Math.abs(r[3].z-st.z)<1e-6);
++function both(z,lv,cam,aim,fy){ const q=tap(z,lv,cam,aim,fy); if(!q) return null; q.rp=T.tapToSeat(q.F.x,q.F.z,lv,{ray:q.R,fy}); return q; }
++(async()=>{
++  // ---- 1 每一張椅子 ----
++  for(const [id,lv,name] of [['library_hall',1,'總圖大廳二樓'],['library',0,'總圖閱覽區'],['dorm_hall',0,'宿舍交誼廳']]){ const z=await load(id); const seats=seatsOf(lv); let n=0, okG=0, okP=0; const bad=[];
++    for(const st of seats){ const fy=st.y!=null?st.y:E.heightAt(st.x,st.z,lv), top=fy+0.45+(st.lift||0);
++      for(const [dist,pits] of [[3.2,[0.3,0.5,0.7]],[4.6,[0.3,0.5,0.7]],[8,[10,15,20].map(d=>d*Math.PI/180)],[10,[10,15,20].map(d=>d*Math.PI/180)],[12,[10,15,20].map(d=>d*Math.PI/180)]]) for(const pit of pits) for(let k=0;k<8;k++){
++        const yaw=k*Math.PI/4, cam=V(st.x+Math.sin(yaw)*dist*Math.cos(pit),top+Math.sin(pit)*dist,st.z+Math.cos(yaw)*dist*Math.cos(pit)); const q=both(z,lv,cam,V(st.x,top,st.z),fy); if(!q||!q.first) continue;
++        if(chairOf(q.first.point,seats,fy)!==st) continue; n++; if(same(q.r,st)) okG++; else if(bad.length<3) bad.push('帶 hit ('+st.x+','+st.z+')→'+J(q.r&&q.r[3]));
++        if(same(q.rp,st)) okP++; else if(bad.length<6) bad.push('不帶 hit ('+st.x+','+st.z+') 鏡頭'+dist+'m→'+J(q.rp&&q.rp[3])); } }
++    check('1. '+name+'（'+seats.length+' 張）：近／遠鏡頭點椅面中心，射線先打到那張的 '+n+' 次——帶 hit '+okG+'、不帶 hit（CC 探針的呼叫）'+okP+' 次導去那一張',n>0&&okG===n&&okP===n,bad.join('；')); }
++  // ---- 2 CC log 的那幾下 ----
++  { const CASES=[['library_hall',1,[-0.85,8.43,-3.15],[[-10.175,2.2,[-11.57,3]],[-8.075,5.8,[-9.16,7.14]]],[[-7.025,3.8,[-7.95,4.84]]]],['dorm_hall',0,[-2.18,2.45,5.6],[[6,3.42,[7.82,2.93]],[9,5.85,[11.49,5.91]],[6,4.98,[7.82,4.84]],[4.8,3.42,[6.36,2.93]]],[]]];
++    const out=[]; let bad=0;
++    for(const [id,lv,C,ok,blocked] of CASES){ const z=await load(id); const seats=seatsOf(lv);
++      for(const [x,zz,F] of ok.concat(blocked)){ const st=seats.find(s=>Math.abs(s.x-x)<0.02&&Math.abs(s.z-zz)<0.02); const fy=E.heightAt(F[0],F[1],lv); const q=both(z,lv,V(...C),V(F[0],fy,F[1]),fy); const isOk=ok.some(p=>p[0]===x&&p[1]===zz);
++        const g=same(q.r,st), p=same(q.rp,st); const want=isOk?(g&&p):(!q.r&&!q.rp&&q.first&&!chairOf(q.first.point,seats,fy));
++        if(!want) bad++; out.push(id+' ('+x+','+zz+')：'+(isOk?'導去':'不導（先打到 '+(q.first?nm(q.first.object):'—')+'）')+' 帶 hit '+(g?'✓':J(q.r&&q.r[3]))+'／不帶 '+(p?'✓':J(q.rp&&q.rp[3]))); } }
++    check('2. CC log 的那幾下（同一個鏡頭、同一條射線）：總圖椅子 1、3、宿舍四張帶不帶 hit 都導去那一張；總圖椅子 2 射線先打到柱子＝不導',!bad,out.join('｜')); }
++  // ---- 3 BB 的四個走道點：不帶 hit 也照舊 ----
++  { const BB=[['library_hall',1,[-8.5,5],[-7.025,3.8]],['library_hall',1,[-11,6.5],[-10.175,5.8]],['dorm_hall',0,[11.5,3],[9,3.35]],['cafe',0,[1.5,-0.5],[0.85,1.5]]]; let nVis=0; const bad=[];
++    for(const [id,lv,F0,C0] of BB){ const z=await load(id); const fy=E.heightAt(F0[0],F0[1],lv); const fd=Math.hypot(C0[0]-F0[0],C0[1]-F0[1]), ux=(C0[0]-F0[0])/fd, uz=(C0[1]-F0[1])/fd;
++      for(const hc of [1.6,2.0,2.6,3.2]) for(const hb of [0.35,0.5,0.65,0.75]) for(const off of [-0.24,-0.12,0,0.12,0.24]){ const Dh=hc*fd/hb, cam=V(F0[0]+ux*Dh-uz*off*Dh/fd,fy+hc,F0[1]+uz*Dh+ux*off*Dh/fd), q=both(z,lv,cam,V(F0[0],fy,F0[1]),fy); if(!q) continue;
++        if(!q.first||q.first.point.distanceTo(q.F)<0.2){ nVis++; if(q.r||q.rp) bad.push(id+' ('+F0+') hc'+hc+' hb'+hb+'→'+J((q.r||q.rp)[3])); } } }
++    check('3. BB 的四個走道點：看得到地板的 '+nVis+' 個點，帶 hit、不帶 hit 都照舊走過去（null）',nVis>0&&!bad.length,bad.slice(0,3).join('；')); }
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();

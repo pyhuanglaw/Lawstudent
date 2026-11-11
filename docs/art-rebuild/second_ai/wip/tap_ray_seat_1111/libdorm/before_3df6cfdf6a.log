@@ -1,0 +1,8 @@
+PASS 0. game3d.js 有 tapToSeat（打模型判椅子）、TAP_CHAIR、rayHitsBox；engine3d.js 有 E.rayFirstHit
+FAIL 1. 總圖大廳二樓（10 張）：近／遠鏡頭點椅面中心，射線先打到那張的 664 次——帶 hit 664、不帶 hit（CC 探針的呼叫）0 次導去那一張　不帶 hit (-10.174999999999999,2.2) 鏡頭3.2m→null；不帶 hit (-10.174999999999999,2.2) 鏡頭3.2m→null；不帶 hit (-10.174999999999999,2.2) 鏡頭3.2m→null；不帶 hit (-10.174999999999999,2.2) 鏡頭3.2m→null；不帶 hit (-10.174999999999999,2.2) 鏡頭3.2m→null；不帶 hit (-10.174999999999999,2.2) 鏡頭3.2m→null
+FAIL 1. 總圖閱覽區（44 張）：近／遠鏡頭點椅面中心，射線先打到那張的 2378 次——帶 hit 2378、不帶 hit（CC 探針的呼叫）0 次導去那一張　不帶 hit (-10.55,-9.4) 鏡頭3.2m→null；不帶 hit (-10.55,-9.4) 鏡頭3.2m→null；不帶 hit (-10.55,-9.4) 鏡頭3.2m→null；不帶 hit (-10.55,-9.4) 鏡頭3.2m→null；不帶 hit (-10.55,-9.4) 鏡頭3.2m→null；不帶 hit (-10.55,-9.4) 鏡頭3.2m→null
+FAIL 1. 宿舍交誼廳（6 張）：近／遠鏡頭點椅面中心，射線先打到那張的 291 次——帶 hit 291、不帶 hit（CC 探針的呼叫）0 次導去那一張　不帶 hit (9,3.35) 鏡頭3.2m→null；不帶 hit (9,3.35) 鏡頭3.2m→null；不帶 hit (9,3.35) 鏡頭3.2m→null；不帶 hit (9,3.35) 鏡頭3.2m→null；不帶 hit (9,3.35) 鏡頭3.2m→null；不帶 hit (9,3.35) 鏡頭3.2m→null
+FAIL 2. CC log 的那幾下（同一個鏡頭、同一條射線）：總圖椅子 1、3、宿舍四張帶不帶 hit 都導去那一張；總圖椅子 2 射線先打到柱子＝不導　library_hall (-10.175,2.2)：導去 帶 hit ✓／不帶 null｜library_hall (-8.075,5.8)：導去 帶 hit ✓／不帶 {"x":-9.125,"z":7.3999999999999995}｜library_hall (-7.025,3.8)：不導（先打到 L1_plaster<L1_root<L1） 帶 hit null／不帶 null｜dorm_hall (6,3.42)：導去 帶 hit ✓／不帶 null｜dorm_hall (9,5.85)：導去 帶 hit ✓／不帶 null｜dorm_hall (6,4.98)：導去 帶 hit ✓／不帶 null｜dorm_hall (4.8,3.42)：導去 帶 hit ✓／不帶 null
+PASS 3. BB 的四個走道點：看得到地板的 85 個點，帶 hit、不帶 hit 都照舊走過去（null）
+FAILED 4
+restored
