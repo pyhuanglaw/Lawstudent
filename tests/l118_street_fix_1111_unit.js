@@ -1,6 +1,6 @@
 // 118 巷街景：BB_341（企劃線 docs/story_planning/BB_341_118巷3D第1輪_美術判定_1111.md）四項裡資料查得到的三項（L118-STREET-FIX-1111，2026-11-11；LAWWW 的子代理代 LAWWW2）
 //   3. 路燈不站在十一間店的店門、招牌正前方（原本一支在迪倫窯烤披薩招牌的「烤」字和店門中間）
-//   4. 外帶飲料店（喝不喝咖啡、果茶社）整個店面前面沒有機車；每間店的店門＋左右各 0.5 m、店的正中間（進店的互動點）±2.4 m 沒有機車；
+//   4. 外帶飲料店（喝不喝咖啡、果茶社）整個店面前面沒有機車；每間店的店門＋左右各 0.5 m、店的正中間（進店的互動點）±2.4 m 沒有機車，車身只壓到店面最外側 1 m；
 //      從巷子中間走到兩間飲料店的點餐位置沒有東西擋（遊戲真正的區域導航格＋玩家半徑）
 //   1. 九間店「隔著玻璃看進去」的圖（tools/blender/env_second/l118_peek_tex.py）九間都有、範圍在貼圖集裡
 //   2. 九間店門外的照片（W3.VIEW_LAYERS，tools/shots/shop_views_layers.py）四張都在、景深表九間都有——照片裡有沒有舊店名要用眼睛看（docs/art-rebuild/second_ai/wip/l118_street_fix_1111/README.md）
@@ -39,8 +39,9 @@ check('4a. 機車讀得到（中間那一段）',mid.length>=6,mid.length+' 台�
     for(const s of mid){ if(Math.sign(s[0])!==sx) continue; const a=s[1]-HALF, b=s[1]+HALF;
       if(q.takeout&&b>q.z0&&a<q.z1) bad.push([q.name,'店面前',s[1]]);
       if(Math.abs(s[1]-cz)<2.4) bad.push([q.name,'正中間',s[1]]);
+      if(!q.takeout&&b>q.z0+1.0+1e-6&&a<q.z1-1.0-1e-6) bad.push([q.name,'玻璃前（車身超過店面最外側 1 m）',s[1]]);
       const d=doorZ(q); if(d&&b>d[0]-0.5&&a<d[1]+0.5) bad.push([q.name,'店門前',s[1]]); } }
-  check('4b. 十一間店：外帶店整個店面、店門＋左右 0.5 m、正中間 ±2.4 m 都沒有機車',bad.length===0,JSON.stringify(bad)); }
+  check('4b. 十一間店：外帶店整個店面、店門＋左右 0.5 m、正中間 ±2.4 m 都沒有機車；其他九間車身只壓到店面最外側 1 m（兩間店交界）',bad.length===0,JSON.stringify(bad)); }
 { const bad=[]; for(const [x,z,w,d] of LP.scooter_blocks) for(const q of L.shops.filter(q=>q.takeout)){ if(Math.sign(x)===(q.side==='W'?-1:1)&&Math.abs(Math.abs(x)-(L.lane.x1-0.62))<0.01&&z+d/2>q.z0&&z-d/2<q.z1) bad.push([q.name,x,z,d]); }
   check('4c. 機車的導航阻擋沒有壓在外帶店的店面前',bad.length===0,JSON.stringify(bad)); }
 { const near=(a,b)=>Math.abs(a-b)<1.95-1e-6; const bad=[]; for(const sx of [-1,1]){ const zs=mid.filter(s=>Math.sign(s[0])===sx).map(s=>s[1]).sort((a,b)=>a-b); for(let i=1;i<zs.length;i++) if(near(zs[i],zs[i-1])) bad.push([sx,zs[i-1],zs[i]]); }

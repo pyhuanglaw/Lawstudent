@@ -225,9 +225,11 @@ for (za, zb) in BAYS:   # 畫好的機車格：垂直路邊停（車頭朝巷子
         block(sx * (LX1 - 1.05), (za + zb) / 2, 1.9, zb - za + 0.1, SCB)
 RED_N, RED_S = -38.0, 26.0   # 巷底、巷口 8 m 內紅線（lane118_ground_tex.py）
 # L118-STREET-FIX-1111（BB_341 第 4 項，2026-11-11：「喝不喝咖啡門口兩台機車並排擋住整個外帶窗口（14:00、20:00 都在）；果茶社前面也停一台」）：
-#   這一段原本只避開九間店的「店的正中間 ±2.4 m」（進店的互動點）。兩間外帶飲料店是 11-11 才加進配置的，機車的位置沒有重排；店門不在正中間的店（五湖四海、義大麵屋…）門前也可能停到。
-#   現在：先照原本的規則排（亂數的順序不變，沒被擋到的機車位置和原本一樣），再把停在下面這些範圍裡的移到最近的空位（「移到兩側」；附近 9 m 內沒有空位才拿掉）：
-#     ① 外帶店整個店面（窗口、櫃台、展示櫃）；② 每間店的店門＋左右各 0.5 m；③ 店的正中間 ±2.4 m（原本的規則，十一間都算）。範圍是機車「中心」不能在的 z（已經加了半台車長 0.975）
+#   這一段原本只避開九間店的「店的正中間 ±2.4 m」（進店的互動點）。兩間外帶飲料店是 11-11 才加進配置的，機車的位置沒有重排；店門不在正中間的店（五湖四海、義大麵屋…）門前、
+#   貼著餐點海報的那幾片玻璃前面也停得到（從對面看，車擋住海報和店裡）。
+#   現在：先照原本的規則排（亂數的順序不變），再把停在下面這些範圍裡的移到最近的空位（「移到兩側」；附近 12 m 內沒有空位才拿掉）：
+#     ① 外帶店整個店面（窗口、櫃台、展示櫃）一點都不能擋；② 其他九間店：車身只能壓到店面最外側 1 m（兩間店交界的壁柱那一段），再往裡不行；③ 每間店的店門＋左右各 0.5 m；④ 原本的正中間 ±2.4 m。
+#   結果：中間那一段的機車只停在沒有店的那幾段、兩條小巷口、兩間店的交界。範圍是機車「中心」不能在的 z（已經加了半台車長 0.975）
 SC_HALF = 1.95 / 2
 DOOR_X = {'dian': (0.0, 2.7), 'self': (0.0, 1.8), 'tea': (-0.45, 0.95), 'home': (2.2, 1.9), 'cafe2': (1.3, 1.8), 'pasta': (1.9, 1.3), 'korea': (1.7, 1.8), 'omu': (1.2, 1.2), 'noodle2': (2.0, 1.6)}   # 店門在店面的本地 x、門寬（wz_shopkit.py SF_L118 的 door_x、door_w；西側的店本地 +x＝北，東側＝南）
 DOORS9 = {q['id']: (q['side'], (q['z0'] + q['z1']) / 2) for q in LAY['shops'] if not q.get('takeout')}
@@ -237,9 +239,10 @@ def clear_zones(side):
     out = []
     for q in LAY['shops']:
         if q['side'] != side: continue
-        cz = (q['z0'] + q['z1']) / 2; out.append((cz - 2.4, cz + 2.4))
-        if q.get('takeout'): out.append((q['z0'] - SC_HALF, q['z1'] + SC_HALF))
-        elif q['id'] in DOOR_X:
+        cz = (q['z0'] + q['z1']) / 2
+        if q.get('takeout'): out.append((q['z0'] - SC_HALF, q['z1'] + SC_HALF)); continue
+        out.append((q['z0'] + 1.0 - SC_HALF, q['z1'] - 1.0 + SC_HALF)); out.append((cz - 2.4, cz + 2.4))   # 後一個是原本的規則（進店的互動點 ±2.4 m；窄的店——辛亥韓食 3 m——比前一個寬）
+        if q['id'] in DOOR_X:
             dx, dw = DOOR_X[q['id']]; dz = cz - dx if side == 'W' else cz + dx; out.append((dz - dw / 2 - 0.5 - SC_HALF, dz + dw / 2 + 0.5 + SC_HALF))
     return out
 
@@ -260,8 +263,8 @@ for side in ('W', 'E'):   # 中間那一段：靠路邊順著停，兩三台一�
     blocked = lambda z: any(a - EPS < z < b + EPS for a, b in zones)
     keep = [m for m in mid if not blocked(m[0])]
     for m in [m for m in mid if blocked(m[0])]:
-        ok = lambda z: (RED_N + 0.6 <= z <= RED_S - 1.0 and not blocked(z) and not any(a - 1.2 <= z <= b + 1.2 for a, b in BAYS) and all(abs(z - k[0]) >= 1.95 for k in keep))
-        cand = [m[0] + d * k * 0.025 for k in range(1, 361) for d in (-1, 1) if ok(m[0] + d * k * 0.025)]
+        ok = lambda z: (RED_N + 0.6 <= z <= RED_S - 1.0 and not blocked(z) and not any(a - 1.2 <= z <= b + 1.2 for a, b in BAYS) and all(abs(z - k[0]) >= 1.95 - 1e-6 for k in keep))
+        cand = [m[0] + d * k * 0.025 for k in range(1, 481) for d in (-1, 1) if ok(m[0] + d * k * 0.025)]
         if cand: z1 = round(min(cand, key=lambda c: abs(c - m[0])), 3); MOVED.append([side, round(m[0], 3), z1]); keep.append([z1, m[1]])
         else: MOVED.append([side, round(m[0], 3), None])
     keep.sort(key=lambda m: m[0]); grp = []
