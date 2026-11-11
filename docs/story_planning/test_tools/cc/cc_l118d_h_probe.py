@@ -77,6 +77,8 @@ LOG_JS = r"""(()=>{ if(window.__cc&&window.__cc.on) return 'already'; const C=wi
     const tt=document.getElementById('toast'); const tx=tt?(tt.innerText||'').trim():''; if(tx&&tx!==lastToast) C.log.push({k:'toast',text:tx}); lastToast=tx;
   }catch(e){} },40); return 'ok'; })()"""
 LOG = []
+# r3：E.unstick 成功幾次（卡在阻擋格被拉出來；樓梯卡住的診斷用）
+UNSTICK_JS = r"""(()=>{ const E=GAME.E; if(!E||E.__ccUnw||!E.unstick) return; const f=E.unstick; E.unstick=function(){ const r=f.apply(this,arguments); if(r) window.__ccUnstick=(window.__ccUnstick|0)+1; return r; }; E.__ccUnw=1; })()"""
 
 
 async def drain(pg):
@@ -134,7 +136,7 @@ async def load(pg, cdp, why, s, exam_ok=False):
     try: await L.load_state(pg, s, quiet_events=True, quiet_phone=True)
     except TypeError: await L.load_state(pg, s, quiet_events=True)
     await pg.wait_for_timeout(4500); await L.close_panels(pg, cdp)
-    await pg.evaluate(LOG_JS); await F.ready(pg, cdp, 30); await drain(pg)
+    await pg.evaluate(LOG_JS); await pg.evaluate(UNSTICK_JS); await F.ready(pg, cdp, 30); await drain(pg)
     c = await pg.evaluate(CAL_JS, s['day'])
     R.setup('%s：day46 存檔 → %s（週%s）%05.2f、%s (%.2f, %.2f) lv%d、天氣 %s、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開' % (why, c['key'], '日一二三四五六'[c['wd']], s['hour'], s['zone'], s['pos']['x'], s['pos']['z'], s['pos'].get('lv', 0), s['weather']))
     R.note('CALENDAR：%s' % J(c))
@@ -156,8 +158,16 @@ async def opts(pg):
 async def tap_opt(pg, cdp, k, why=''):
     await pg.wait_for_timeout(650)   # 選單剛出來 350 ms 內的點擊會被吃掉
     o = await opts(pg)
-    c = await pg.evaluate("(i=>{ const b=document.querySelectorAll('#choices button')[i]; if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })", k)
-    if not c: return False
+    HIT = "(i=>{ const b=document.querySelectorAll('#choices button')[i]; if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); const x=r.left+r.width/2, y=r.top+r.height/2; const h=document.elementFromPoint(x,y); return {c:[x,y], hit:!!h&&(h===b||b.contains(h)), top:h?((h.id||'')+'.'+String(h.className||'').slice(0,30)+'<'+((h.closest&&h.closest('[id]')||{}).id||'')):null}; })"
+    q = await pg.evaluate(HIT, k)
+    if not q: return False
+    if not q['hit']:   # r3：被手機（或別的面板）蓋住——像玩家一樣先收起來
+        R.note('選項「%s」被「%s」蓋住：先收起手機／面板' % (o[k]['t'] if k < len(o) else '#%d' % k, q['top']))
+        await pe.close_phone(pg, cdp); await L.close_panels(pg, cdp); await pg.wait_for_timeout(700)
+        q = await pg.evaluate(HIT, k)
+        if not q: return False
+        if not q['hit']: R.note('收起來以後還是被「%s」蓋住，照樣按' % q['top'])
+    c = q['c']
     print('    [按] %s%s' % (o[k]['t'] if k < len(o) else '#%d' % k, ('（%s）' % why) if why else ''), flush=True)
     await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(900); await drain(pg)
     return True
@@ -218,8 +228,60 @@ async def press(pg, cdp, tag, prefix, secs=6):
     s = await F.wait_btn(pg, prefix, secs)
     if not R.check('%s 互動鍵是「%s…」' % (tag, prefix), s['interact'].startswith(prefix), J({k: s[k] for k in ('zone', 'x', 'z', 'lv', 'interact')})): return None
     print('    [按互動鍵] ' + s['interact'], flush=True)
+    await drain(pg); s['i0'] = len(LOG)
     await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(700); await drain(pg)
     return s
+
+
+ITS_JS = r"""(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label||'', x:+(+i.x).toFixed(2), z:+(+i.z).toFixed(2), lv:i.lv|0, r:i.radius||1})))()"""
+
+
+SCORE_JS = r"""(()=>{ const E=GAME.E, P=E.player, px=P.obj.position.x, pz=P.obj.position.z, py=P.obj.position.y, plv=P.lv|0; const f2=v=>+(+v).toFixed(3);
+  const occ=st=>E.npcs.some(n=>n.seat&&(n.seat.lv|0)===(st.lv|0)&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.4)||(!st.label&&E.npcs.some(n=>n.seatTarget&&Math.hypot(n.seatTarget.x-st.x,n.seatTarget.z-st.z)<0.4));
+  const out=[]; let best=null, bd=1e9;
+  for(const it of E.interactables){ const d=Math.hypot(it.x-px,it.z-pz), R=it.radius||1.8; if(d>3) continue; let skip=null;
+    if(it.hidden) skip='hidden'; else if(it.seat&&(occ(it.seat)||it.seat.taken)) skip=it.seat.taken?('taken:'+it.seat.taken):'有人坐／正走過去'; else if(E.levels&&it.lv!==undefined&&(it.lv|0)!==plv) skip='別層'; else if(it.y!==undefined&&Math.abs(it.y-py)>1.4) skip='高度';
+    const sc=d-(it.prio||0); out.push({k:'點',label:it.label||'',x:f2(it.x),z:f2(it.z),d:f2(d),R:f2(R),prio:it.prio||0,score:f2(sc),inR:d<R,skip,seat:it.seat?[f2(it.seat.x),f2(it.seat.z)]:null});
+    if(!skip&&d<R&&sc<bd){ bd=sc; best=it; } }
+  for(const n of E.npcs){ if(!n||!n.obj) continue; const q=n.obj.position, d=Math.hypot(q.x-px,q.z-pz); if(d>3) continue; let skip=null;
+    if(!n.talk) skip='不能說話'; else if(n.hidden) skip='hidden'; else if(Math.abs(q.y-py)>1.4) skip='高度';
+    const bias=n.yieldIt?null:(!best||best.seat?0.5:(n.staff&&best.counter?9:0)); out.push({k:'人',label:n.talkLabel||('和'+(n.name||'')+'說話'),id:n.charId||n.id||'',x:f2(q.x),z:f2(q.z),d:f2(d),R:2.2,bias,score:bias==null?null:f2(d-bias),inR:d<2.2,skip,yieldIt:!!n.yieldIt,extra:!!n.isExtra,seat:n.seat?[f2(n.seat.x),f2(n.seat.z)]:null}); }
+  out.sort((a,b)=>((a.skip||!a.inR)?1:0)-((b.skip||!b.inR)?1:0)||((a.score==null?9e9:a.score)-(b.score==null?9e9:b.score)));
+  const ni=E.nearestInteractable(); return {player:[f2(px),f2(pz),plv], nearest:ni?(ni.label||''):null, list:out}; })()"""
+SEAT_DIAG_JS = r"""(q=>{ const E=GAME.E, f2=v=>+(+v).toFixed(3); const near=(a)=>a&&Math.hypot(a.x-q.x,a.z-q.z)<0.4;
+  const crowdKeys=n=>Object.keys(n).filter(k=>/crowd/i.test(k)).concat(/crowd/i.test(String(n.id||'')+String(n.charId||'')+String(n.name||''))?['(id／名字)']:[]);
+  const who=(E.npcs||[]).filter(n=>n&&(near(n.seat)||near(n.seatTarget))).map(n=>({id:n.charId||n.id||'', name:n.name||'', how:near(n.seat)?'seat':'seatTarget', crowd:crowdKeys(n), extra:!!n.isExtra, x:f2(n.obj.position.x), z:f2(n.obj.position.z)}));
+  const zs=((E.zone&&E.zone.seats)||[]).filter(st=>near(st)).map(st=>({x:f2(st.x),z:f2(st.z),lv:st.lv|0,taken:st.taken||null,label:st.label||null}));
+  const its=(E.interactables||[]).filter(i=>i.seat&&near(i.seat)).map(i=>({label:i.label,x:f2(i.x),z:f2(i.z),r:i.radius,hidden:!!i.hidden}));
+  return {seat:[q.x,q.z], 佔的人:who, 'E.zone.seats':zs, '互動點':its}; })"""
+
+
+async def scores(pg, tag, top=8):
+    sc = await pg.evaluate(SCORE_JS)
+    R.note('%s 【互動點分數】玩家 %s、遊戲選的「%s」；照 nearestInteractable 同一套（距離−prio；人＝距離−bias，座位贏的時候 bias 0.5；skip＝不算的原因）由小到大：%s' % (tag, J(sc['player']), sc['nearest'], J(sc['list'][:top])))
+    return sc
+
+
+async def go_btn(pg, cdp, tag, prefix, lv=0):
+    """r3：走到店裡真的互動點（label 開頭是 prefix 的那一個，不用寫死座標）；中心看不到這個鍵（被座位、和人說話搶走）就在它的範圍裡換幾個點試。回傳最後的狀態"""
+    its = await pg.evaluate(ITS_JS)
+    it = next((x for x in its if x['label'].startswith(prefix) and (x['lv'] | 0) == lv), None)
+    if not R.check('%s 店裡有「%s…」的互動點' % (tag, prefix), bool(it), J([x['label'] for x in its])): return await D.st(pg)
+    R.note('%s 「%s」互動點在 (%.2f, %.2f) 半徑 %s' % (tag, it['label'], it['x'], it['z'], it['r']))
+    pts = [(it['x'], it['z'])]
+    for rr in (0.3, 0.5, 0.7):
+        if rr > it['r'] * 0.9: break
+        for a in range(0, 360, 45): pts.append((it['x'] + rr * math.sin(math.radians(a)), it['z'] + rr * math.cos(math.radians(a))))
+    tried = []
+    for x, z in pts:
+        ok = await pg.evaluate("(q=>GAME.E.canStand(q[0],q[1],0.3,q[2]))", [x, z, lv])
+        if not ok: continue
+        await joy(pg, cdp, '%s 走到「%s」' % (tag, prefix), x, z, near=0.2, lv=lv, max_s=40)
+        s = await F.wait_btn(pg, prefix, 2)
+        tried.append([round(x, 2), round(z, 2), s['interact']])
+        if s['interact'].startswith(prefix): break
+    if len(tried) > 1: R.note('%s 找「%s」的鍵試過的點：%s' % (tag, prefix, J(tried)))
+    return await D.st(pg)
 
 
 async def shot(pg, name):
@@ -351,10 +413,47 @@ async def into_mokuyobi(pg, cdp, tag, target=MOK_IN_SHOP):
     s = await D.wait_zone(pg, cdp, 'wz_mokuyobi', 40); await pg.wait_for_timeout(2500); await drain(pg)
     if not R.check('%s 到了木曜日（wz_mokuyobi，一樓樓梯）' % tag, s['zone'] == 'wz_mokuyobi', J(s)): return False
     r = await joy(pg, cdp, '%s 爬樓梯進二樓店裡' % tag, target[0], target[1], near=0.7, lv=1, max_s=150)
+    if not r['ok'] and (await D.st(pg))['lv'] == 0:
+        r = await stair_stuck(pg, cdp, tag, target)
     await run_dialog(pg, cdp, secs=8)
     s = await D.st(pg)
     R.check('%s 搖桿走進二樓店裡（lv1、x>−2.85、站得住、沒有跳）' % tag, s['zone'] == 'wz_mokuyobi' and s['lv'] == 1 and s['x'] > -2.85 and s['stand'] and not r['jumps'], J({k: s[k] for k in ('x', 'z', 'lv', 'stand', 'fb')}))
     return s['lv'] == 1
+
+
+STUCK_JS = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, lv=P.lv|0; const f2=v=>v==null?null:+(+v).toFixed(2);
+  const near=(E.npcs||[]).filter(n=>n&&n.obj&&Math.hypot(n.obj.position.x-o.x,n.obj.position.z-o.z)<2.5).map(n=>{ const q=n.obj.position; return {id:n.charId||n.id||'', name:n.name||'', x:f2(q.x), z:f2(q.z), y:f2(q.y), lv:n.lv|0, r:n.radius, beh:n.beh||null, pose:n.pose||null,
+    walking:!!(n.path&&n.path.length)||(+n.speed||0)>0.01, path:n.path?n.path.length:0, speed:f2(n.speed), seat:!!n.seat, seatTarget:!!n.seatTarget, frozen:!!n.frozen, extra:!!n.isExtra, leaving:!!n.leaving, until:n.until==null?null:n.until,
+    goal:n.path&&n.path.length?(Array.isArray(n.path[n.path.length-1])?n.path[n.path.length-1].map(f2):n.path[n.path.length-1]):null, seatAt:n.seat?[f2(n.seat.x),f2(n.seat.z)]:(n.seatTarget?['→',f2(n.seatTarget.x),f2(n.seatTarget.z)]:null)}; });
+  const stair=(E.npcs||[]).filter(n=>n&&n.obj&&n.obj.position.x>-4.6&&n.obj.position.x<-2.9&&n.obj.position.z>1.4&&n.obj.position.z<7.1).map(n=>({id:n.charId||n.id||'', name:n.name||'', x:f2(n.obj.position.x), z:f2(n.obj.position.z), lv:n.lv|0, beh:n.beh||null, walking:!!(n.path&&n.path.length)}));
+  const L=E.levels||[]; const cells=[]; for(let dz=-0.7; dz<=0.31; dz+=0.1){ const z=o.z+dz; cells.push({z:f2(z), s0:E.canStand(o.x,z,0.3,0), s1:L.length>1?E.canStand(o.x,z,0.3,1):null, h0:L[0]&&L[0].heightAt?f2(L[0].heightAt(o.x,z)):null, h1:L[1]&&L[1].heightAt?f2(L[1].heightAt(o.x,z)):null}); }
+  const row=[]; for(let dx=-0.5; dx<=0.51; dx+=0.1) row.push({x:f2(o.x+dx), s0:E.canStand(o.x+dx,o.z,0.3,0), s1:L.length>1?E.canStand(o.x+dx,o.z-0.4,0.3,1):null});
+  let path=null; try{ const p=E.pathTo(o.x,o.z,lv,0,0.9,1); path=p?p.slice(0,8).map(q=>Array.isArray(q)?q.map(f2):[f2(q.x),f2(q.z),q.lv]):null; }catch(e){ path=String(e); }
+  return {pos:{x:f2(o.x),z:f2(o.z),y:f2(o.y),lv}, near, stair, cells, row, path, unstick:window.__ccUnstick|0, fb:GAME.walkFallbacks||0, hour:f2(GAME.G.hour), npcN:(E.npcs||[]).length}; })()"""
+
+
+async def stair_stuck(pg, cdp, tag, target):
+    """r3（CC 06:5x：REG_YT、REG_XC 在 (−3.35, 2.875) lv0 卡住 20 秒）：卡住的當下截圖、列 2.5 m 內的 NPC、那幾格站不站得住、找路、E.unstick 次數；再試兩條路"""
+    d = await pg.evaluate(STUCK_JS)
+    await shot(pg, 'stuck_' + ''.join(ch for ch in tag if ch.isalnum() and ord(ch) < 128)[:20].lower())
+    R.note('%s 【卡住診斷】樓梯間（x −4.6～−2.9、z 1.4～7.1）上的 NPC：%s' % (tag, J(d['stair'])))
+    R.note('%s 【卡住診斷】位置 %s；2.5 m 內 NPC %s；往北那幾格（s0／s1＝第 0／1 層站不站得住、h0／h1＝高度）%s；同一列 %s；找路 %s；E.unstick 成功 %s 次；walkFallbacks %s；%s 點' % (tag, J(d['pos']), J(d['near']), J(d['cells']), J(d['row']), J(d['path']), d['unstick'], d['fb'], d['hour']))
+    R.check('%s ⚠[P0 候選] 爬木曜日樓梯沒有卡住（搖桿推不動、停在第 0 層 (%s, %s)；旁邊 NPC %d 位）' % (tag, d['pos']['x'], d['pos']['z'], len(d['near'])), False, J({'near': d['near'], 'pos': d['pos']}))
+    s0 = await D.st(pg)
+    await joy(pg, cdp, '%s 【改走 A】先往樓梯下退 1 m' % tag, s0['x'], s0['z'] + 1.0, near=0.3, lv=0, max_s=20)
+    ra = await joy(pg, cdp, '%s 【改走 A】再往上走' % tag, target[0], target[1], near=0.7, lv=1, max_s=60)
+    R.note('%s 【改走 A：退 1 m 再走】%s' % (tag, '上得去' if ra['ok'] else '還是卡住'))
+    if ra['ok']: return ra
+    await pg.wait_for_timeout(10000); d2 = await pg.evaluate(STUCK_JS)
+    R.note('%s 【改走 B】等 10 秒，2.5 m 內 NPC：%s' % (tag, J(d2['near'])))
+    rb = await joy(pg, cdp, '%s 【改走 B】等 10 秒再走' % tag, target[0], target[1], near=0.7, lv=1, max_s=60)
+    R.note('%s 【改走 B：等 10 秒再走】%s' % (tag, '上得去' if rb['ok'] else '還是卡住'))
+    if rb['ok']: return rb
+    rc = await F.joy_to(pg, cdp, tag + ' 【改走 C】直線推向平台', -3.75, 2.0, near=0.3, lv=1, max_s=40, straight=True); await drain(pg)
+    R.note('%s 【改走 C：直線推向平台 (−3.75, 2.0)】%s，停在 %s' % (tag, '到了' if rc['ok'] else '沒到', J({k: rc['end'][k] for k in ('x', 'z', 'lv')})))
+    if rc['ok']: return await joy(pg, cdp, '%s 【改走 C】進店' % tag, target[0], target[1], near=0.7, lv=1, max_s=60)
+    await shot(pg, 'stuck_final_' + ''.join(ch for ch in tag if ch.isalnum() and ord(ch) < 128)[:20].lower())
+    return rc
 
 
 NPC_JS = r"""(pid=>{ const E=GAME.E, n=(GAME.npc&&GAME.npc[pid])||(E.npcs||[]).find(q=>q.charId===pid); if(!n||!n.obj) return null; const o=n.obj.position;
@@ -375,7 +474,28 @@ async def talk(pg, cdp, tag, pid):
     """搖桿走到她旁邊 → 「和…說話」→ 點完；選單選離開那一類。回傳這次的 LOG 起點"""
     n = await npc(pg, pid)
     if not n: R.check('%s 這一區有 %s' % (tag, pid), False); return None
-    await joy(pg, cdp, '%s 走到 %s 旁邊' % (tag, pid), n['x'], n['z'], near=1.15, lv=n['lv'], max_s=90)
+    # r3（CC 06:5x：H3、REG_NW 走過去互動鍵是「坐下」——她坐著，同一桌對面的空位比她近）：從她周圍 8 個方向（0.9 m，站不住就 1.1 m）各試一次，記哪個方向出「和…說話」
+    res = []; good = None
+    for a in range(0, 360, 45):
+        pt = None
+        for rr in (0.9, 1.1):
+            x, z = n['x'] + rr * math.sin(math.radians(a)), n['z'] + rr * math.cos(math.radians(a))
+            if await pg.evaluate("(q=>GAME.E.canStand(q[0],q[1],0.3,q[2]))", [x, z, n['lv']]): pt = (x, z, rr); break
+        if not pt: res.append({'方向': a, '結果': '0.9／1.1 m 都站不住'}); continue
+        await joy(pg, cdp, '%s 走到 %s 的 %d° 方向 %.1f m' % (tag, pid, a, pt[2]), pt[0], pt[1], near=0.15, lv=n['lv'], max_s=40)
+        s = await F.wait_btn(pg, '和', 2)
+        res.append({'方向': a, 'at': [s['x'], s['z']], '互動鍵': s['interact']})
+        if not s['interact'].startswith('和'):   # BB 07:13：坐著的人旁邊是「坐下」——那張空椅子、她的座位、兩者距離、玩家位置、分數
+            ws = await pg.evaluate("(pid=>{ const it=GAME.E.nearestInteractable(); const n=(GAME.npc&&GAME.npc[pid])||(GAME.E.npcs||[]).find(q=>q.charId===pid); const s=n&&n.seat; const f2=v=>+(+v).toFixed(3); return {win:it?{label:it.label||'', seat:it.seat?[f2(it.seat.x),f2(it.seat.z)]:null, at:[f2(it.x),f2(it.z)]}:null, herSeat:s?[f2(s.x),f2(s.z)]:null, gap:(it&&it.seat&&s)?f2(Math.hypot(it.seat.x-s.x,it.seat.z-s.z)):null}; })", pid)
+            R.note('%s %d°：贏的是 %s；她的座位 %s；兩張椅子相距 %s m；玩家站在 %s' % (tag, a, J(ws['win']), J(ws['herSeat']), ws['gap'], J([s['x'], s['z'], s['lv']])))
+            await scores(pg, '%s %d°' % (tag, a), top=6)
+        if s['interact'].startswith('和') and good is None: good = (pt, a)
+    R.note('%s 她在 (%.2f, %.2f)；8 個方向的互動鍵：%s' % (tag, n['x'], n['z'], J(res)))
+    if not good:
+        await shot(pg, 'notalk_' + pid)
+        R.check('%s ⚠玩家可能找不到跟她說話的位置（8 個方向都不是「和…說話」，交 BB 判）' % tag, False, J(res)); return None
+    R.note('%s 「和…說話」出現的方向：%s' % (tag, J([x['方向'] for x in res if str(x.get('互動鍵', '')).startswith('和')])))
+    await joy(pg, cdp, '%s 回到 %d° 方向' % (tag, good[1]), good[0][0], good[0][1], near=0.15, lv=n['lv'], max_s=40)
     s = await F.wait_btn(pg, '和', 5)
     if not R.check('%s 走到她旁邊，互動鍵是「和…說話」' % tag, s['interact'].startswith('和'), J({k: s[k] for k in ('x', 'z', 'lv', 'interact')})): return None
     i0 = len(LOG); print('    [按互動鍵] ' + s['interact'], flush=True)
@@ -390,7 +510,7 @@ REG = {'REG_AN': ('heroine_01', 'Y1S2', 6, 14.0, '「（小聲）你也來木曜
        'REG_XC': ('classmate_xinci', 'Y1S1', 4, 15.5, '「（小聲）這裡每一盞桌燈都能調亮度。我試過了。」'),
        'REG_NW': ('pool_17', 'Y1S1', 5, 14.0, '「（小聲）這裡安靜。筆記一攤開，就不想收了。」')}
 SCAN_JS = r"""(q=>{ const c=CHARACTERS[q.id]; if(!c) return {err:'沒有 CHARACTERS.'+q.id}; const T=CALENDAR.termDays(q.term); const out=[];
-  for(let d=T.from; d<=T.to&&out.length<q.n; d++){ const x=CALENDAR.dateOf(d), t=CALENDAR.termOf(d); if(x.wd%7!==q.wd) continue; if(!t||t.exam||t.week<2||t.week>15) continue; if(CALENDAR.holiday(d)||CALENDAR.typhoon(d)) continue;
+  for(let d=Math.max(T.from,q.min||-1e9); d<=T.to&&out.length<q.n; d++){ const x=CALENDAR.dateOf(d), t=CALENDAR.termOf(d); if(x.wd%7!==q.wd) continue; if(!t||t.exam||t.week<2||t.week>15) continue; if(CALENDAR.holiday(d)||CALENDAR.typhoon(d)) continue;
     const G2=Object.assign({},GAME.G,{day:d,hour:q.h,weekday:q.wd}); let e=null; try{ e=STORY.schedEnt(c,G2); }catch(err){ e={err:String(err)}; }
     out.push({day:d,key:x.key,week:t.week,ent:e?{zone:e.zone||null,label:e.label||null,slowread:!!e.slowread,err:e.err||null}:null}); }
   return {list:out}; })"""
@@ -399,7 +519,7 @@ SCAN_JS = r"""(q=>{ const c=CHARACTERS[q.id]; if(!c) return {err:'沒有 CHARACT
 async def pick_reg_day(pg, cdp, tag, pid, term, wd, h):
     s = base('2025-11-03', 10.0, 'wenzhou', *WZ_START, yaw=math.pi)
     await load(pg, cdp, '【前置】%s 先讀一份（只為了在頁面裡查 CALENDAR＋作息）' % tag, s)
-    r = await pg.evaluate(SCAN_JS, {'id': pid, 'term': term, 'wd': wd, 'h': h + 0.6, 'n': 14})
+    r = await pg.evaluate(SCAN_JS, {'id': pid, 'term': term, 'wd': wd, 'h': h + 0.6, 'n': 14, 'min': 47})   # r3：不挑存檔那天（第 46 天）以前
     R.note('%s %s 學期 週%s %.2f 的候選日（CALENDAR：非假日／颱風／考試週，第 2～15 週）與她的作息：%s' % (tag, term, '日一二三四五六'[wd], h + 0.6, J(r)))
     c = next((x for x in (r.get('list') or []) if x['ent'] and x['ent']['slowread']), None)
     R.check('%s 找得到一天她那時候照作息在木曜日（slowread 那一筆）' % tag, bool(c), J(r))
@@ -494,7 +614,11 @@ async def part_cafe2(pg, cdp):
         ap = await pg.evaluate("(q=>{ const it=GAME.E.interactables.find(i=>i.seat&&Math.abs(i.x-q.x)<0.01&&Math.abs(i.z-q.z)<0.01); const a=it&&GAME.seatApproach?GAME.seatApproach(it.seat):null; return a?[a[0],a[1]]:[q.x,q.z]; })", q)
         await joy(pg, cdp, tag + ' 走到座位「%s」(%.2f,%.2f)' % (q['label'], q['x'], q['z']), ap[0], ap[1], near=0.35)
         stq = await D.st(pg)
-        if not stq['interact'].startswith(q['label'][:2]): R.note('%s ⚠座位 (%.2f,%.2f) 的走近點 %s 上，互動鍵是「%s」不是「%s」（交 BB／L118A SEATS 對照）' % (tag, q['x'], q['z'], J(ap), stq['interact'], q['label'])); continue
+        if not stq['interact'].startswith(q['label'][:2]):
+            sd = await pg.evaluate(SEAT_DIAG_JS, {'x': q['x'], 'z': q['z']})   # BB 07:13：佔的人（有 crowd 字串？）、E.zone.seats 那一張的 taken、那個位置的座位互動點（有沒有、hidden）
+            R.note('%s 【座位被搶診斷】%s（有人佔＝不是 bug；互動點不見、或空椅子也被搶＝bug）' % (tag, J(sd))); await scores(pg, tag)
+            await shot(pg, 'cafe2_seat_stolen_%d' % seats.index(q))
+            R.note('%s ⚠座位 (%.2f,%.2f) 的走近點 %s 上，互動鍵是「%s」不是「%s」（交 BB／L118A SEATS 對照）' % (tag, q['x'], q['z'], J(ap), stq['interact'], q['label'])); continue
         if await press(pg, cdp, tag, q['label'][:2]):
             i0 = len(LOG); await pg.wait_for_timeout(2500); await drain(pg)
             o = await opts(pg); st1 = await D.st(pg)
@@ -505,11 +629,10 @@ async def part_cafe2(pg, cdp):
             st2 = await D.st(pg)
             if st2['seat'] and st2['interact'].startswith('起身'): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
         break
-    od = next((x for x in its if x['label'].startswith('點餐')), None)   # r2：點餐的位置照店裡真的互動點（新室內櫃台在右後），不用舊的寫死座標
-    ox, oz = (od['x'], od['z']) if od else L118_ORDER['cafe2']
-    await joy(pg, cdp, tag + ' 走到點餐的地方', ox, oz, near=0.5)
-    if await press(pg, cdp, tag, '點餐'):
-        i0 = len(LOG)
+    await go_btn(pg, cdp, tag, '點餐')   # r2／r3：照店裡真的互動點（新室內），範圍裡換點找鍵
+    s0 = await press(pg, cdp, tag, '點餐')
+    if s0:
+        i0 = s0['i0']
         await run_dialog(pg, cdp, pick=lambda o: next((i for i, x in enumerate(o) if x['t'].startswith('不用了')), None), secs=30)
         menus = [e['opts'] for e in LOG[i0:] if e['k'] == 'opts' and any('元' in x['t'] for x in e['opts'])]
         R.note('%s 點餐選單：%s' % (tag, J(menus)))
@@ -534,16 +657,18 @@ async def part_orig(pg, cdp):
     f = await pg.evaluate("((GAME.G.mokuyobi||{}).first)"); d = await pg.evaluate("GAME.G.day")
     R.check('ORIG 1-1 記 G.mokuyobi.first＝今天', f == d, J(f))
     await joy(pg, cdp, tag + ' 走到吧檯', MOK_BAR[0], MOK_BAR[1], near=0.5, lv=1)
-    if await press(pg, cdp, tag, '點東西'):
-        i1 = len(LOG); o = await wait_opts(pg, cdp)
+    s0 = await press(pg, cdp, tag, '點東西')
+    if s0:
+        i1 = s0['i0']; o = await wait_opts(pg, cdp)
         R.check('ORIG 1-2 吧檯「點東西」三樣＋什麼都不點（逐字）', [x['t'] for x in o] == ['焙茶拿鐵　150 元', '焦糖布丁　120 元', '巴斯克乳酪蛋糕　140 元', '什麼都不點'], J(o))
         await shot(pg, 'orig_order')
         if o: await tap_opt(pg, cdp, 0, '焙茶拿鐵')
         await run_dialog(pg, cdp, secs=20)
         R.check('ORIG 1-2 點焙茶拿鐵：「（焙茶拿鐵上面有一層很細的奶泡。）」', has_say(i1, '（焙茶拿鐵上面有一層很細的奶泡。）'), J([x['text'] for x in says(i1)]))
     await joy(pg, cdp, tag + ' 走到書櫃', MOK_BOOK[0], MOK_BOOK[1], near=0.5, lv=1)
-    if await press(pg, cdp, tag, '看看書櫃'):
-        i2 = len(LOG); await run_dialog(pg, cdp, secs=15)
+    s0 = await press(pg, cdp, tag, '看看書櫃')
+    if s0:
+        i2 = s0['i0']; await run_dialog(pg, cdp, secs=15)   # r3：從按之前算（那一句在按下去 700 ms 內就出來）
         BOOK = ['（書櫃上的書都很舊，書背褪成差不多的顏色。有一本詩集夾著別人留下的書籤。）', '（最下面一層貼著一張紙：「可以拿下來看，看完請放回原位。」）', '（你抽出一本小說，翻了兩頁，又放回去。旁邊那個人抬頭看了你一眼，又低頭讀書。）']
         R.check('ORIG 看看書櫃：AA_645 的三句之一', any(has_say(i2, t) for t in BOOK), J([x['text'] for x in says(i2)]))
 
@@ -589,7 +714,10 @@ async def part_nosit(pg, cdp, ref):
     if not await pe.tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % iv['id']):
         R.check('%s 手機「今天」有「現在過去」' % tag, False); await pe.close_phone(pg, cdp); return
     print('    [按] 手機「今天」現在過去', flush=True)
-    t0 = time.time(); sat = False; reopen = 0
+    await pg.wait_for_timeout(1500); await drain(pg)
+    if await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"):   # r3：手機還開著（遊戲暫停、蓋住「直接過去」選單）＝像玩家一樣收起來
+        await pe.close_phone(pg, cdp); R.note('%s 按了「現在過去」手機還開著：收起來' % tag)
+    t0 = time.time(); sat = False; reopen = 0; same = [None, 0]
     while time.time() - t0 < 600:
         await drain(pg); q = await L.state(pg)
         if not q['dlg'] and not q['choices'] and await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"):
@@ -602,6 +730,12 @@ async def part_nosit(pg, cdp, ref):
         if q['choices']:
             o = await opts(pg); k = next((i for i, x in enumerate(o) if x['t'].startswith('直接過去')), None)
             if k is None: k = next((i for i, x in enumerate(o) if not x['dim'] and not any(w in x['t'] for w in EXIT_WORDS)), 0)
+            sig = (o[k]['t'], q['zone'], q['hour'])
+            same = [sig, same[1] + 1] if same[0] == sig else [sig, 1]
+            if same[1] > 6:   # r3：同一個選項按了 6 次、時間和區域都沒變＝按不到（r2 按了 500 多次）——記下來、停
+                cov = await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); if(!b) return null; const r=b.getBoundingClientRect(); const h=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2); return {hit:!!h&&(h===b||b.contains(h)), top:h?(h.id||h.className||h.tagName):null, phone:!document.getElementById('phone').classList.contains('hide'), paused:!!GAME.E.paused}; })()")
+                await shot(pg, '%s_stuckopt' % part.lower())
+                R.check('%s 「%s」按得下去（同一個選項按了 6 次沒有反應）' % (tag, o[k]['t']), False, J(cov)); break
             await tap_opt(pg, cdp, k, '赴約中'); continue
         if v and (v['ph'] == 'wait' or (v['st'] == 'accepted' and not v['ph'])) and not q['busy']:
             n = await npc(pg, who)
@@ -705,15 +839,15 @@ async def part_shop(pg, cdp, part):
         if c['comp']:
             n = await npc(pg, c['comp'])
             R.check('%s %s 跟進店裡坐下（L118.populateShop）' % (tag, c['comp']), bool(n) and n['seat'], J(n))
-        ox, oz = L118_ORDER[shop]
-        await joy(pg, cdp, tag + ' 走到點餐的地方', ox, oz, near=0.5)
+        await go_btn(pg, cdp, tag, '點餐')   # r3：新室內的櫃台位置照店裡真的互動點（r2 寫死的舊座標停在「坐下」「和Alison說話」「聽一句」上）
         lab = '點餐（' + c['name']
     else:
         lab = c['name']
     s2 = await F.wait_btn(pg, lab, 6)
     h0 = s2['hour']; zone0 = s2['zone']
-    if not await press(pg, cdp, tag, lab): return
-    i0 = len(LOG)
+    s0 = await press(pg, cdp, tag, lab)
+    if not s0: return
+    i0 = s0['i0']
     await run_dialog(pg, cdp, pick=menu_pick, secs=60)
     seq = c['lines'] + c['after']
     ok, k = in_order(i0, seq)
@@ -752,8 +886,9 @@ async def part_sq04(pg, cdp):
     R.note('%s 條件（參考；canOffer 在點完那一刻次數 +1 才成立）：%s' % (tag, J(pre)))
     if not await into_mokuyobi(pg, cdp, tag): return
     await joy(pg, cdp, tag + ' 走到吧檯', MOK_BAR[0], MOK_BAR[1], near=0.5, lv=1)
-    if not await press(pg, cdp, tag, '點東西'): return
-    i0 = len(LOG)
+    s0 = await press(pg, cdp, tag, '點東西')
+    if not s0: return
+    i0 = s0['i0']
 
     def pk(o):
         if any('元' in x['t'] for x in o): return 0
