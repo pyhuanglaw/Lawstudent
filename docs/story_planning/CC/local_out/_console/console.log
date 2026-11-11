@@ -707,3 +707,11 @@
 [08:05:09] ==== START TZQ_A_new  (probe @ 470e238cf715dd35453fb5b7e97b9570301cc54a) ====
 [08:05:12] [res] cpu=10% mem=46% (14.5/31.4 GB) chrome_testing=10  START TZQ_A_new
 [08:06:31] [res] cpu=4% mem=46% (14.7/31.4 GB) chrome_testing=10  END NM_oldfps_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1237a79af..f321c43bb  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:06:36] ==== END   NM_oldfps_new  exit=0  186s   ====
+[08:06:48] memory 47% before starting TZQ_A_old (2 running)
+[08:06:48] ==== START TZQ_A_old  (probe @ 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4) ====
+[08:06:51] [res] cpu=8% mem=47% (15.0/31.4 GB) chrome_testing=10  START TZQ_A_old
+[08:07:22] [res] cpu=2% mem=44% (13.7/31.4 GB) chrome_testing=9  END NM_walk_new

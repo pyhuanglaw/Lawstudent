@@ -1,0 +1,32 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_walk_new\out
+CC NM1 夜市：PARTS WALK；SHA bd3f67410；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 (26.00,0.00) （巷 A 東端）
+PASS [WALK 巷A 2000] 搖桿走到 (16.5,0.0)（2 秒）  {"x": 16.29, "z": -0.0, "zone": "tingzhou"}
+PASS [WALK 巷A 2000] 搖桿走到 (6.5,0.0)（2 秒）  {"x": 6.26, "z": -0.0, "zone": "tingzhou"}
+PASS [WALK 巷A 2000] 搖桿走到 (16.5,0.0)（2 秒）  {"x": 16.18, "z": -0.0, "zone": "tingzhou"}
+PASS [WALK 巷A 2000] 搖桿走到 (26.0,0.0)（2 秒）  {"x": 26, "z": -0.0, "zone": "tingzhou"}
+PASS [WALK 巷A 2000] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [WALK 巷A 2000] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 0100+1 (26.00,0.00) （巷 A 東端）
+PASS [WALK 巷A 0100+1] 搖桿走到 (16.5,0.0)（2 秒）  {"x": 16.18, "z": -0.0, "zone": "tingzhou"}
+PASS [WALK 巷A 0100+1] 搖桿走到 (6.5,0.0)（2 秒）  {"x": 6.37, "z": -0.0, "zone": "tingzhou"}
+PASS [WALK 巷A 0100+1] 搖桿走到 (16.5,0.0)（2 秒）  {"x": 16.29, "z": -0.0, "zone": "tingzhou"}
+PASS [WALK 巷A 0100+1] 搖桿走到 (26.0,0.0)（2 秒）  {"x": 26.1, "z": 0, "zone": "tingzhou"}
+PASS [WALK 巷A 0100+1] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [WALK 巷A 0100+1] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2000 (8.00,20.00) （公館騎樓西邊）
+PASS [WALK 公館騎樓 2000] 搖桿走到 (34.0,20.0)（16 秒）  {"x": 34.76, "z": 19.99, "zone": "gongguan"}
+FAIL [WALK 公館騎樓 2000] 搖桿走到 (58.0,20.0)（60 秒）  {"x": 56.46, "z": 20, "zone": "gongguan"}
+PASS [WALK 公館騎樓 2000] 卡住改側推 0 次（沒有隱形牆）  0 次
+PASS [WALK 公館騎樓 2000] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2000 (8.00,13.50) （公館人行道西邊）
+  [ 181.0s] [WALK 公館人行道 2000] 卡住 3 秒：{"x": 19.16, "z": 13.5} → 側推
+  [ 185.8s] [WALK 公館人行道 2000] 卡住 3 秒：{"x": 19.16, "z": 13.5} → 側推
+FAIL [WALK 公館人行道 2000] 搖桿走到 (34.0,13.5)（60 秒）  {"x": 35.15, "z": 13.4, "zone": "gongguan"}
+PASS [WALK 公館人行道 2000] 搖桿走到 (58.0,13.5)（5 秒）  {"x": 57.27, "z": 13.49, "zone": "gongguan"}
+FAIL [WALK 公館人行道 2000] 卡住改側推 0 次（沒有隱形牆）  2 次
+PASS [WALK 公館人行道 2000] walkFallbacks 0
+PASS 沒有 JS 例外  []
+FAILED 3: [WALK 公館騎樓 2000] 搖桿走到 (58.0,20.0)（60 秒）；[WALK 公館人行道 2000] 搖桿走到 (34.0,13.5)（60 秒）；[WALK 公館人行道 2000] 卡住改側推 0 次（沒有隱形牆）
