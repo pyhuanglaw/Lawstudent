@@ -542,7 +542,8 @@ async def invite(pg, cdp, tag, cfg, pick, screen):
     return iv, how
 
 
-SITPATH = os.environ.get('SITPATH') == '1'   # CC 15:1x（BB 15:07）：一到就走去按「坐下等開演」，不等 5 秒自動開始
+SITPATH = os.environ.get('SITPATH') == '1'
+SITFIRST = os.environ.get('SITFIRST') == '1'   # CC 15:2x（LAWWW 15:20）：她出現以前（iv.h−0.25 以前）先進大廳坐長椅等她，看約會會不會開始   # CC 15:1x（BB 15:07）：一到就走去按「坐下等開演」，不等 5 秒自動開始
 PATH_SEEN = []
 
 
@@ -567,12 +568,25 @@ HOOK_SAY_JS = r"""(()=>{ if(window.__ccHookSay) return; window.__ccHookSay=1; wi
 async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
     """【捷徑】撥到約好的前 10 分鐘 → 手機「今天」現在過去 → 走到她旁邊／坐下 → 見面整段（選項：活動那一組照 pick，其他選第一個）"""
     who = cfg['who']
-    await pg.evaluate("(h=>{ GAME.G.hour=h; })", iv['h'] - 0.17); await pg.wait_for_timeout(1200)
-    R.setup('[%s]【捷徑】時間撥到約好的前 10 分鐘（%.2f）' % (tag, iv['h'] - 0.17))
-    await phone(pg, cdp, 'today')
-    if not await tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % iv['id']):
-        R.check('[%s] 手機「今天」有「現在過去」' % tag, False, (await pg.evaluate(TODAY_TXT_JS))[:300]); await close_phone(pg, cdp); return False
-    log('    [按] 手機「今天」現在過去')
+    if SITFIRST:   # CC 15:2x（LAWWW 15:20）：真的測「先到、坐下等她」：她出現（iv.h−0.25）以前就坐在大廳長椅上
+        z = iv.get('zone') or 'xs_nanyang'
+        await pg.evaluate("(([h,z])=>{ GAME.G.hour=h; return GAME.enter(z); })", [iv['h'] - 0.5, 'xs_nanyang']); await pg.wait_for_timeout(4000); await close_phone(pg, cdp)
+        R.setup('[%s]【前置／捷徑】時間撥到約好的前 30 分鐘（%.2f）、GAME.enter 直接進南洋戲院大廳（她 iv.h−0.25 才出現）' % (tag, iv['h'] - 0.5))
+        await pg.evaluate(HOOK_SAY_JS)
+        b = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>String(typeof i.label==='function'?i.label():i.label||'').startsWith('坐下等開演')); L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?{x:i.x,z:i.z,n:L.length}:null; })()")
+        if not R.check('[%s] SITFIRST：大廳有「坐下等開演」長椅' % tag, bool(b), J(b)): return False
+        await L.go_to(pg, cdp, R, b['x'], b['z'], 0.8, '走到長椅', max_s=90); s0 = await st(pg)
+        h0 = await pg.evaluate("+(+GAME.G.hour).toFixed(2)"); her0 = await pg.evaluate(NPC_JS, who)
+        if s0['interact'].startswith('坐下等開演'): log('    [按互動鍵] %s（%.2f，她%s）' % (s0['interact'], h0, '已經在' if her0 else '還沒出現')); PATH_SEEN.append(s0['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        R.check('[%s] SITFIRST：她出現以前就坐下了（%.2f＜%.2f、她還不在）' % (tag, h0, iv['h'] - 0.25), bool(PATH_SEEN) and h0 < iv['h'] - 0.25 and not her0, J({'h': h0, 'her': her0, 'btn': s0['interact']}))
+    else:
+        await pg.evaluate("(h=>{ GAME.G.hour=h; })", iv['h'] - 0.17); await pg.wait_for_timeout(1200)
+        R.setup('[%s]【捷徑】時間撥到約好的前 10 分鐘（%.2f）' % (tag, iv['h'] - 0.17))
+    if not SITFIRST:
+        await phone(pg, cdp, 'today')
+        if not await tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % iv['id']):
+            R.check('[%s] 手機「今天」有「現在過去」' % tag, False, (await pg.evaluate(TODAY_TXT_JS))[:300]); await close_phone(pg, cdp); return False
+        log('    [按] 手機「今天」現在過去')
     await pg.wait_for_timeout(1500)
     await pg.evaluate(HOOK_SAY_JS)   # CC 15:0x（LAWWW 要的 ④⑤：console 的 warn／error、最後一句 GM.say）
     menu = Menu(); t0 = time.time(); walked = 0; reopen = 0; same = [None, 0]; done_t = None; zt = [None, 0]; idle_t = time.time(); idle_n = 0
@@ -607,6 +621,15 @@ async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
             if same[1] > 6:
                 await R.shot(pg, 'act_%s_stuckopt' % tag); R.check('[%s] 選項「%s」按得下去' % (tag, opts[k]), False); return False
             await tap_btn(pg, cdp, k); menu.tapped = time.time(); await pg.wait_for_timeout(900); continue
+        if s['nb'] and not s['ch']:   # CC 15:2x（LAWWW 15:20 盲點②）：game3d 內部的 choose（長椅 seatMenu 等）不經 GAME.choose，HOOK 抓不到——照按鈕文字選，記 log
+            bt = s['btn']; v0 = v or {}
+            want = ('坐一下',) if (SITFIRST and v0.get('st') == 'accepted') else ('起身', '算了', '返回')
+            k = next((i for i, t in enumerate(bt) if any(t.startswith(w) for w in want)), None)
+            if k is None: k = next((i for i, t in enumerate(bt) if any(w in t for w in EXIT_WORDS)), 0)
+            log('    [選項（遊戲內部選單）] %s → %s' % ('｜'.join(bt), bt[k] if bt else None))
+            sig = (('int',) + tuple(bt), s['zone'], s['hour']); same = [sig, same[1] + 1] if same[0] == sig else [sig, 1]
+            if same[1] > 6: await R.shot(pg, 'act_%s_stuckopt' % tag); R.check('[%s] 遊戲內部選單「%s」按得下去' % (tag, bt[k] if bt else ''), False); return False
+            await tap_btn(pg, cdp, k); await pg.wait_for_timeout(1500); continue
         if s['dlg']:
             n0 = len(screen); s2 = await tap_dlg(pg, cdp, s, screen)
             if len(screen) > n0 and 'line' not in shots and any(w in s2['full'] for w in cfg.get('shot_on', [])):
@@ -616,7 +639,13 @@ async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
             n = await pg.evaluate(NPC_JS, who)
             if n:
                 walked += 1
-                await L.go_to(pg, cdp, R, n['x'], n['z'], 1.6, '走到她旁邊', lv=n['lv'], max_s=90)
+                tw = time.time(); s3 = s
+                while time.time() - tw < 90:   # CC 15:2x（LAWWW 15:20 盲點①）：L.go_to 途中會盲點對話／選單——改成 6 秒一段，每段前先看 busy／dlg／nb，出現就回主迴圈處理
+                    s3 = await st(pg)
+                    if s3['busy'] or s3['dlg'] or s3['nb']: log('    [走路中斷] busy=%s dlg=%s nb=%s（%.2f）' % (s3['busy'], s3['dlg'], s3['nb'], s3['hour'])); break
+                    n = await pg.evaluate(NPC_JS, who) or n
+                    if await L.go_to(pg, cdp, R, n['x'], n['z'], 1.6, '走到她旁邊', lv=n['lv'], max_s=6): s3 = await st(pg); break
+                if s3['busy'] or s3['dlg'] or s3['nb']: continue
                 s3 = await st(pg)
                 if s3['interact'] and (s3['interact'].startswith('坐') or '說話' in s3['interact']) and not s3['dlg']:
                     log('    [按互動鍵] %s' % s3['interact']); PATH_SEEN.append(s3['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
