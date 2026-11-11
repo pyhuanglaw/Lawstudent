@@ -2,7 +2,8 @@
  "who": "heroine_01",
  "_meta": {
   "by": "AA 11-11",
-  "note": "D04 西門町"
+  "note": "D04 西門町",
+  "fix_bb340b": "BB_340 追加段（8d01d59b4）"
  },
  "D04": [
   null,
@@ -11,7 +12,7 @@
   null,
   "別的事我都排開了，今天不用趕回去。",
   null,
-  null,
+  "好看。",
   null,
   "該回去了。好，再一家店。",
   null,
@@ -41,9 +42,9 @@
   null,
   null,
   null,
+  "三分鐘就好。",
   null,
-  null,
-  null,
+  "那我拍幾張照片就好。",
   null,
   null,
   null,
