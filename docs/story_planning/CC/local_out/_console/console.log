@@ -1098,3 +1098,12 @@
 [09:10:33] ==== START FN_int_b  (probe @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
 [09:10:36] [res] cpu=8% mem=47% (15.0/31.4 GB) chrome_testing=10  START FN_int_b
 [09:11:50] [res] cpu=6% mem=45% (14.3/31.4 GB) chrome_testing=10  END FN_shots_b_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       808e5c26a..06ac9b8ab  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:11:58] ==== END   FN_shots_b_old  exit=0  360s   ====
+[09:12:01] memory 45% before starting FN_mig_a (2 running)
+[09:12:01] ==== START FN_mig_a  (game @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
+[09:12:04] [res] cpu=9% mem=45% (14.3/31.4 GB) chrome_testing=10  START FN_mig_a
+[09:14:02] 正在跑：FN_int_a（已跑 5 分／上限 15 分）、FN_int_b（已跑 3 分／上限 15 分）、FN_mig_a（已跑 2 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:15:34] [res] cpu=1% mem=45% (14.3/31.4 GB) chrome_testing=10  END FN_int_b
