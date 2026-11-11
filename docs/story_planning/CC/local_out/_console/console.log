@@ -1,13 +1,3 @@
-       1276dae3a..dc9b1c5e7  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[15:56:32] ==== END   L118A_SEAT_cafe22  exit=0  205s   ====
-[15:56:42] memory 48% before starting L118A_SEAT_self1 (2 running)
-[15:56:42] ==== START L118A_SEAT_self1  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
-[15:56:45] [res] cpu=51% mem=48% (15.3/31.4 GB) chrome_testing=10  START L118A_SEAT_self1
-[15:57:22] [res] cpu=43% mem=48% (15.1/31.4 GB) chrome_testing=9  END L118A_SEAT_dian2
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       dc9b1c5e7..32dd31213  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [15:57:27] ==== END   L118A_SEAT_dian2  exit=0  116s   ====
 [15:57:31] memory 49% before starting L118A_SEAT_korea1 (2 running)
 [15:57:31] ==== START L118A_SEAT_korea1  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
@@ -1998,3 +1988,13 @@
 [01:29:06] 正在跑：BK2_cpu_full（已跑 9 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
 [01:34:06] 正在跑：BK2_cpu_full（已跑 14 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
 [01:35:00] [res] cpu=0% mem=31% (9.9/31.4 GB) chrome_testing=0  END BK2_cpu_full
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ee04a6ff6..c0f273511  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:35:06] ==== END   BK2_cpu_full  exit=0  928s   ====
+[01:35:09] memory 29% before starting CLASS_DOOR_old (0 running)
+[01:35:09] ==== START CLASS_DOOR_old  (probe @ 7d9d7942544e37ada7ec9cb7e658332b5fd570cb) ====
+[01:35:12] [res] cpu=11% mem=29% (9.1/31.4 GB) chrome_testing=0  START CLASS_DOOR_old
+[01:35:12] worktree add 7d9d7942544e37ada7ec9cb7e658332b5fd570cb: invalid reference - fetching main and the commit itself
+[01:39:06] 正在跑：CLASS_DOOR_old（已跑 3 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:39:35] [res] cpu=2% mem=30% (9.4/31.4 GB) chrome_testing=0  END CLASS_DOOR_old
