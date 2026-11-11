@@ -447,6 +447,44 @@ def print_summary():
             print('  %s（只記）：%s' % (lab, '；'.join('%s %s→%s｜互動鍵「%s」' % (r.get('desc', ''), J(r.get('at')), r['r'], r.get('interact', '')) for r in sm[kind]) or '（沒跑）'), flush=True)
 
 
+NC_JS = r"""(()=>{ const n=document.getElementById('nextClass'); if(!n||n.classList.contains('hide')) return null; const r=n.getBoundingClientRect(); const rg=document.createRange(); rg.selectNodeContents(n); const t=rg.getBoundingClientRect(); const cs=getComputedStyle(n);
+  return {text:(n.textContent||'').trim(), r:[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)], textW:Math.round(t.width), pad:Math.round(parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight)+parseFloat(cs.borderLeftWidth)+parseFloat(cs.borderRightWidth)), alignSelf:cs.alignSelf}; })()"""
+
+
+async def nextclass_check(pg, cdp):
+    """LAWWW 20:14（59a4efb68 #nextClass align-self:flex-start）：①走路以後 chip 寬度≈字寬＋padding ②宿舍長桌椅子同一點 (400.4,128.3) 的 click 不再是 #nextClass、會導去那張椅子 ③點 chip 本身照舊開手機「今天」"""
+    Z = ZONES['DORMHALL']; t = '[NEXTCLASS]'
+    if not await at_start(pg, cdp, 'DORMHALL', Z, 'chip 寬度、長桌椅子同一點、點 chip'): R.check('%s 起點讀檔成功' % t, False, ''); return
+    a = await pg.evaluate(NC_JS); R.note('%s 起點：%s' % (t, J(a)))
+    await L.go_to(pg, cdp, R, 2.24, 4.79, 0.6, '%s（走到 r3 同一點）' % t, max_s=60, lv=0); await D.settle(pg)
+    b = await pg.evaluate(NC_JS); R.note('%s 走路以後：%s' % (t, J(b)))
+    R.check('%s ① 走路以後 chip 寬度≈字寬＋padding（寬 %s；字 %s＋padding %s）' % (t, (b or {}).get('r', [0, 0, 0])[2], (b or {}).get('textW'), (b or {}).get('pad')),
+            bool(b) and b['r'][2] <= b['textW'] + b['pad'] + 12, J(b))
+    await L.turn_camera_to(pg, cdp, 6.0, 3.42)
+    await pg.evaluate(CLICK_REC)
+    sx, sy = 400.4, 128.3
+    efp = await pg.evaluate("(([x,y])=>{ const e=document.elementFromPoint(x,y); return e?(e.id||e.tagName):null; })", [sx, sy])
+    await L.touch_tap(cdp, sx, sy); await pg.wait_for_timeout(600)
+    ck = await pg.evaluate("(window.__ccClicks||[]).slice(-6)")
+    pho = await pg.evaluate(PHONE_OPEN)
+    R.note('%s 點 (%s, %s)（elementFromPoint＝%s）：事件 %s；手機開著 %s' % (t, sx, sy, efp, J(ck), pho))
+    R.check('%s ② 同一點 (400.4, 128.3) 的點擊不再落在 #nextClass、手機沒有打開' % t, not pho and not any(c.get('id') == 'nextClass' for c in ck), J(ck))
+    bs, m, secs = await wait_settle(pg)
+    R.note('%s 點完以後：停在 (%s, %s)、互動鍵「%s」、tapPref %s（鏡頭轉過，這一點不一定是椅子；只記）' % (t, bs['x'], bs['z'], bs['interact'], J(m['tp'])))
+    if pho:
+        try: await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(400)
+        except Exception: pass
+    c = await pg.evaluate(NC_JS)
+    if c:
+        await L.touch_tap(cdp, c['r'][0] + c['r'][2] / 2, c['r'][1] + c['r'][3] / 2); await pg.wait_for_timeout(800)
+        tab = await pg.evaluate("(()=>{ const p=document.getElementById('phone'); if(!p||p.classList.contains('hide')) return null; const a=[...p.querySelectorAll('button')].find(b=>getComputedStyle(b).backgroundColor.indexOf('rgb(2')===0||b.classList.contains('on')||b.classList.contains('sel')); return {open:true, txt:(p.innerText||'').slice(0,60), on:a?a.textContent.trim():null}; })()")
+        R.check('%s ③ 點 chip 本身照舊打開手機「今天」' % t, bool(tab) and '今天' in (tab.get('txt') or ''), J(tab))
+        try: await L.tap(pg, cdp, '#btnPhoneClose')
+        except Exception: pass
+    else:
+        R.check('%s ③ chip 在畫面上（才能點）' % t, False, '')
+
+
 async def main():
     print('CC TAPSEAT_REG：PARTS %s；SHA %s；DAY %s；Playwright 手機模擬 ≠ iPhone' % (','.join(PARTS), SHA, DAY), flush=True)
     async with async_playwright() as p:
@@ -461,6 +499,9 @@ async def main():
             print('== %s' % key, flush=True)
             try: await part(pg, cdp, key)
             except Exception as e: R.check('[%s] 沒有中斷' % key, False, repr(e)[:300])
+            if key == 'DORMHALL' and os.environ.get('NEXTCLASS'):
+                try: await nextclass_check(pg, cdp)
+                except Exception as e: R.check('[NEXTCLASS] 沒有中斷', False, repr(e)[:300])
         R.check('沒有 JS 例外（pageerror）', not errs, J(errs[:3]))
         await b.close()
     print_summary()
