@@ -2147,44 +2147,46 @@
    "at": "2026-11-11 13:4x UTC",
    "quote": "但我說要撥上課不是要上課很長 但如果已經做了也沒關係／我只是原本就以為會撥 是bug沒撥（選擇題答案：繼續補到大四）",
    "kind": "轉述",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "STUDY-EXAM-STORY-1102",
    "src": "使用者對 LAWWW（UA-LAWWW-1111-22），LAWWW 13:39 轉 AA",
    "checked": "X337 原意是 bug（已修 v9.10.25），課堂補長是延伸解讀；使用者選繼續補到大四。AA：照現做法補到大四下，每科過 BB 法律審，給 LAWWW 全部審過的 SHA；其他劇情工作往後排",
-   "note": "11-11 15:5x 大一下～大四下＋日文全部寫完、BB 審過，最後 SHA ba322d6ae 已交 LAWWW（大五上沿用大四上）"
+   "note": "11-11 15:5x 大一下～大四下＋日文全部寫完、BB 審過，最後 SHA ba322d6ae 已交 LAWWW（大五上沿用大四上）；11-11 16:0x LAWWW 匯進開發分支（held c170218dd、大四下＋日文 9d45ef8b3），等發布"
   },
   {
    "id": "UA-AA-1111-06",
    "at": "2026-11-11 13:5x UTC",
    "quote": "大一上的審完就先發布／發布完繼續審大一下到大五",
    "kind": "轉述",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "STUDY-EXAM-STORY-1102",
    "src": "使用者對 LAWWW（UA-LAWWW-1111-24），LAWWW 13:40 轉 AA",
    "checked": "範圍改成補到大五（含交換延畢的大五上）；取代 UA-AA-1111-05 的「到大四」。BB 法律審排到 v9.10.25 發布以後，AA 照寫、照送審。",
-   "note": "11-11 15:5x 大一下～大四下＋日文全部寫完、BB 審過，最後 SHA ba322d6ae 已交 LAWWW（大五上沿用大四上）"
+   "note": "11-11 15:5x 大一下～大四下＋日文全部寫完、BB 審過，最後 SHA ba322d6ae 已交 LAWWW（大五上沿用大四上）；11-11 16:0x LAWWW 匯進開發分支（held c170218dd、大四下＋日文 9d45ef8b3），等發布"
   },
   {
    "id": "UA-AA-1111-07",
    "at": "2026-11-11 13:4x UTC",
    "quote": "既然你要改的話 英美法應該著重說明 約因 是什麼 還有衡平原則　還有英美法與大陸法系差別",
    "kind": "原話",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "STUDY-EXAM-STORY-1102",
    "src": "使用者直接對 AA",
    "checked": "法學英文 legal_english（Y2S2）：w1 大陸法系與英美法系、w2 判決地位比較、w4 約因（consideration）、w10 改成衡平法（equity：大法官、衡平法院、禁制令、特定履行、乾淨的手、合併法院）、w11 equity 一字多義",
-   "wants": "X343"
+   "wants": "X343",
+   "note": "11-11 16:0x LAWWW 匯進開發分支（held c170218dd、大四下＋日文 9d45ef8b3），等發布"
   },
   {
    "id": "UA-AA-1111-08",
    "at": "2026-11-11 13:4x UTC",
    "quote": "也要介紹常出現的單字　PLANTIFF ....appeal.. mutual consent",
    "kind": "原話",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "STUDY-EXAM-STORY-1102",
    "src": "使用者直接對 AA",
    "checked": "法學英文 w2 appellant／appellee、w3 lawsuit、sue、judgment、w4 offer、acceptance、mutual consent、w5 tort、liability、w6 prosecutor、verdict、w7 brief、memo（plaintiff、appeal 原本就在 w2、w3）",
-   "wants": "X343"
+   "wants": "X343",
+   "note": "11-11 16:0x LAWWW 匯進開發分支（held c170218dd、大四下＋日文 9d45ef8b3），等發布"
   }
  ]
 }
