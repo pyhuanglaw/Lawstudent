@@ -1,6 +1,6 @@
 // 閒聊階梯 AA_781 通用覆蓋層（DLG-FULL-REVIEW-1110；使用者 X324 閒聊階梯全部重看；AA 2026-11-11 交稿、BB 看過）——不需要瀏覽器（D131）。
 // tools/ladder/import_ladder.py 的 AA781 那一段：白名單上每一個 docs/story_planning/AA_781_<人>_ladder_<學期>.json（一檔一筆）疊在所有修正層後面 → src/data/ladder.js。
-// 這一次四批 22 檔：大一上 bc4f3f367（6 檔）、大一下 15241f32e（5 檔）、大二上 4c710f37a（5 檔）、大二下 d898cded5（6 檔）。之後 AA 再交的檔加白名單就會被這支測試一起驗。
+// 這一次六批 31 檔：大一上 bc4f3f367（6 檔）、大一下 15241f32e（5 檔）、大二上 4c710f37a（5 檔）、大二下 d898cded5（6 檔）、大三上 1e48c1f20（4 檔）、大三下 8e027fc7f（5 檔）。之後 AA 再交的檔加白名單就會被這支測試一起驗。
 //   1. 白名單一檔一筆、approved；ladder.js 的來源有寫 AA_781 通用層；重匯（tools/ladder/import_ladder.py --out）和 src/data/ladder.js 一字不差
 //   2. steps：那一層的 lines、choices（{t, re, fx}，re 的 {narr} 寫成整句括號的字）一字照稿；選項至少兩個、fx 只有 {fr, love} 非負整數、每個選項都有回話；那一層其他欄位（id、if、week、location、rel、mem、note…）和沒疊以前一樣
 //   3. rows：每一列都換到（at 那一層／那一格是新字、舊字不在了），工具的紀錄（--aa781-log）一列一筆
@@ -17,7 +17,7 @@ const cp=require('child_process'), fs=require('fs'), path=require('path'), os=re
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<28}); }catch(e){ return null; } };
 const WHO={an:'heroine_01',kx:'kexin',zr:'heroine_02',zq:'heroine_04',sis:'heroine_05',yt:'heroine_03'};
-const BATCH=[['Y1S1','bc4f3f367',['an','yt','kx','zr','sis','zq']],['Y1S2','15241f32e',['zq','zr','kx','sis','an']],['Y2S1','4c710f37a',['zq','kx','zr','yt','sis']],['Y2S2','d898cded5',['kx','zr','zq','sis','yt','an']]];
+const BATCH=[['Y1S1','bc4f3f367',['an','yt','kx','zr','sis','zq']],['Y1S2','15241f32e',['zq','zr','kx','sis','an']],['Y2S1','4c710f37a',['zq','kx','zr','yt','sis']],['Y2S2','d898cded5',['kx','zr','zq','sis','yt','an']],['Y3S1','1e48c1f20',['zq','kx','sis','an']],['Y3S2','8e027fc7f',['kx','zq','yt','zr','sis']]];
 const KEYED=['A7-L5','Y6-L3','Y4-L6','A5-L1','A5-L8','K5-L2','Y5-L1','Y5-L6','Y5-L7','Y5-L8'];   /* LAWWW 2026-11-11 列的；另外掃 src（同工具）*/
 const TXT=['lines','choices','linesIf','extraIf','t','reply','re'];
 const texts=(o,out=[])=>{ if(typeof o==='string') out.push(o); else if(Array.isArray(o)) o.forEach(v=>texts(v,out)); else if(o&&typeof o==='object') for(const k of TXT) if(k in o) texts(o[k],out); return out; };
@@ -42,7 +42,7 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
   await sec(1,async()=>{
     for(const [term,sha,ws] of BATCH) for(const w of ws){ const p=`docs/story_planning/AA_781_${w}_ladder_${term}.json`, e=allow.filter(x=>x.path===p);
       check(`1. 白名單一筆 ${path.basename(p)}@${sha}、approved、有 approvedBy、task DLG-FULL-REVIEW-1110`,e.length===1&&e[0].sha===sha&&e[0].status==='approved'&&!!e[0].approvedBy&&e[0].task==='DLG-FULL-REVIEW-1110',J(e.map(x=>[x.sha,x.status]))); }
-    check('1. 白名單上的 AA_781 階梯檔一共 22 個以上（之後的學期加在後面）',F781.length>=22,F781.length);
+    check('1. 白名單上的 AA_781 階梯檔一共 31 個以上（之後的學期加在後面）',F781.length>=31,F781.length);
     check('1. ladder.js 的來源有寫 AA_781 通用層（'+F781.length+' 檔）',String(L.source).includes('＋AA_781 通用層 '+F781.length+' 檔'),String(L.source).slice(-120));
     check('1. 重匯跑得完（結束碼 0），和 src/data/ladder.js 一字不差',rA.status===0&&fs.readFileSync(outA,'utf8')===fs.readFileSync(path.join(H.ROOT,'src/data/ladder.js'),'utf8'),(rA.stderr||rA.stdout||'').slice(-300));
     check('1. 不疊 AA_781（--no-aa781）也跑得完（零差異的比較基準）',rB.status===0&&!!B,(rB.stderr||'').slice(-300));
@@ -115,6 +115,9 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
     const GI=STORY.LADDER_GREET_IF||{};
     for(const t of ['要打烊了。你可以坐到我擦完這張桌子。','（她在吧檯後面抬頭）嗨。']){ const k=Object.keys(GI).filter(k=>t.startsWith(k));
       check('7. 芷若招呼「'+t+'」有 LADDER_GREET_IF（不上班的那段不說）',k.length>0&&k.every(x=>GI[x].test)); }
+    /* 招呼的條件用字開頭認（ladGreetOk：t.startsWith(key)）：稿上每一列招呼，舊字有條件的、新字也要有 */
+    for(const F of F781) for(const term of F.terms) for(const r of ((F.A&&F.A.rows)||[]).filter(r=>/^greet\./.test(r.at))){ const ko=Object.keys(GI).filter(k=>r.old.startsWith(k)), kn=Object.keys(GI).filter(k=>r.new.startsWith(k));
+      if(ko.length) check(`7. ${F.tag} ${term} ${r.at}：舊字有 LADDER_GREET_IF（${ko.join('、')}），新字「${r.new}」也有`,kn.length>=ko.length,J(kn)); }
     const zr=['Y1S2','Y2S1','Y2S2'].map(term=>((cell(L,term,'heroine_02').greet||{}).when||[])).flat().map(w=>w.t);
     check('7. 芷若大一下～大二下的招呼是新字（舊字「要打烊了。……」「（她在吧檯後面抬頭）……嗨。」都不在了）',zr.includes('要打烊了。你可以坐到我擦完這張桌子。')&&!zr.includes('要打烊了。……你可以坐到我擦完這張桌子。')&&!zr.includes('（她在吧檯後面抬頭）……嗨。'),J(zr.filter(t=>/打烊|吧檯後面抬頭/.test(t))));
     const gcS=fs.readFileSync(path.join(H.ROOT,'src/data/greet_classday.js'),'utf8'), GC=JSON.parse(gcS.slice(gcS.indexOf('{'),gcS.lastIndexOf('}')+1));

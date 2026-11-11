@@ -626,7 +626,8 @@ if A326:
 #      測試：tests/ladder_aa781_1111_unit.js（每個檔每一列都換到、其他人其他學期零差異、選項被程式認的層字不變、rel／mem 沒掉）
 AA781_PREFIX = 'docs/story_planning/AA_781_'
 AA781_CHOICE_KEYED = {'A7-L5', 'Y6-L3', 'Y4-L6', 'A5-L1', 'A5-L8', 'K5-L2', 'Y5-L1', 'Y5-L6', 'Y5-L7', 'Y5-L8'}   # LAWWW 2026-11-11 列的（另外掃 src 補）
-AA781_CODE_OK = {}   # {(舊字, 'src/…js'): '為什麼程式裡那一句不用跟著換'}
+AA781_CODE_OK = {   # {(舊字, 'src/…js'): '為什麼程式裡那一句不用跟著換'}（只是剛好同一句，不是程式用字認階梯）
+    ('……嗯。你也是。', 'src/data/jp_blank_lines.js'): '日本篇空白日立衡的台詞（AA_435），和學姊大三下 S6-L4 剛好同一句；不是用字認階梯，不跟著換'}
 A781 = {} if '--no-aa781' in sys.argv else {p: s for p, s in G.approved_files(ALLOW, AA781_PREFIX).items() if re.match(r'^docs/story_planning/AA_781_[A-Za-z0-9]+_ladder_[A-Za-z0-9_]+\.json$', p)}   # --no-aa781：不疊這一層（測試比「其他人、其他學期零差異」用，配 --out）
 AA781_LOG = []
 if A781:
