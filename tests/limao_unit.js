@@ -201,5 +201,34 @@ const TALK=D.reveal.talk.lines;
   const src=fs.readFileSync(path.join(ROOT,'src/limao3d.js'),'utf8');
   check('12. 程式裡沒有扣錢、加好感的呼叫（GM.money、SOCIAL.adjust、SOCIAL.activity、G.rel）',!/GM\.money\(|SOCIAL\.(adjust|activity)|\.rel\[/.test(src)); }
 
+// 13 上師的 3D 人物（2026-11-11：模型 char.limao_shangshi 第 3 版；坐在算命桌後面，店開著、他在才看得到）
+{ const realAdd=E.addNPC, realChar=global.CHAR, realNpcs=E.npcs, built=[]; E.npcs=[];
+  global.CHAR={build:spec=>{ const o=new THREE.Group(); o.userData={buildSpec:spec,wantModel:spec.model||null,degradedHidden:true}; const c=new THREE.Group(); c.visible=false; o.add(c); built.push(spec); return o; }};
+  E.addNPC=n=>{ E.npcs.push(n); return n; };
+  const zT2=loadZone('tingzhou'); E.zone=zT2; const ST=L.table.seatMaster, K=LM.MODEL_KEY;
+  check('13. 模型有登記（'+K+'，lazy、不進路人池）',!!(ASSETS.manifest[K]&&ASSETS.manifest[K].lazy&&!ASSETS.manifest[K].anon),JSON.stringify(ASSETS.manifest[K]&&{lazy:ASSETS.manifest[K].lazy,anon:ASSETS.manifest[K].anon}));
+  GM.G=newG({hour:20}); const n=LM.placeMaster(GM);
+  check('13. 20:00 進汀州路：上師坐在配置的 seatMaster（坐姿、不走動、不是有名字的同學）、看得到；要的是他自己的模型',!!n&&n===LM.masterNpc&&n.obj.position.x===ST.x&&n.obj.position.z===ST.z&&n.obj.rotation.y===(ST.yaw||0)&&n.pose==='sit'&&n.frozen===true&&n.isExtra===true&&n.obj.visible===true&&built[built.length-1].model===K&&built[built.length-1].id===LM.NPC_ID,n&&JSON.stringify([n.obj.position.x,n.obj.position.z,n.pose,n.obj.visible]));
+  const w1=LM.who(GM,'ms');
+  check('13. 他在的時候說話的人帶他的 obj、名字照稿（上師）',!!w1&&w1.obj===n.obj&&w1.name===LM.MASTER.name);
+  GM.G.hour=18; zT2.applyTimeOutdoor(18,null); const hid=n.obj.visible; const w2=LM.who(GM,'ms'); GM.G.hour=20; zT2.applyTimeOutdoor(20,null); const back=n.obj.visible;
+  zT2.tzLimaoAway=true; zT2.applyTimeOutdoor(20,null); const away=n.obj.visible; zT2.tzLimaoAway=false; W.typhoon=true; zT2.applyTimeOutdoor(20,null); const ty=n.obj.visible; W.typhoon=false; zT2.applyTimeOutdoor(20,null);
+  check('13. 收攤（18:00）藏起來、說話的人不帶 obj；20:00 再出現；上師不在、颱風＝藏起來',hid===false&&!w2.obj&&back===true&&away===false&&ty===false&&n.obj.visible===true,[hid,back,away,ty].join());
+  GM.G=newG({hour:18}); E.npcs=[]; const n18=LM.placeMaster(GM);
+  check('13. 收攤時進汀州路：人物先放好、藏著（19:00 一到就出現）',!!n18&&n18.obj.visible===false);
+  GM.G=newG({hour:20,stage:'econ'}); E.npcs=[]; const ne=LM.placeMaster(GM);
+  check('13. 經濟系那一年不放人',ne===null&&LM.masterNpc===null);
+  /* 換區：舊的人物不再當說話的人 */
+  GM.G=newG({hour:20}); E.npcs=[]; const n2=LM.placeMaster(GM); E.npcs=[]; const w3=LM.who(GM,'ms');
+  check('13. 換了區域（他不在 E.npcs 裡）：說話的人不帶舊的 obj',!!n2&&!w3.obj&&w3.name===LM.MASTER.name);
+  /* 下載失敗：露出備用的樣子 */
+  E.npcs=[]; const n3=LM.placeMaster(GM); const before=n3.obj.children[0].visible; LM.masterReveal(); const after=n3.obj.children[0].visible;
+  check('13. 模型下載失敗（masterReveal）：備用的人露出來、不再等那個模型',before===false&&after===true&&n3.obj.userData.wantModel===null&&n3.obj.userData.degradedHidden===false);
+  /* populate 的掛法 */
+  const S0=global.STORY, calls=[]; global.STORY=Object.assign({},S0,{populate:(z,g)=>{ calls.push(z); return 'r'; }}); const hooked=LM.hookPopulate(); E.npcs=[]; const r1=STORY.populate('tingzhou',GM); const got=LM.masterNpc; const r2=STORY.populate('gongguan',GM); const gone=LM.masterNpc; const again=LM.hookPopulate();
+  check('13. STORY.populate 掛一次：進汀州路放人、進別的區域清掉；原本的 populate 照樣跑、回傳值不變',hooked===true&&again===false&&r1==='r'&&r2==='r'&&!!got&&gone===null&&calls.join()==='tingzhou,gongguan');
+  global.STORY=S0; E.addNPC=realAdd; global.CHAR=realChar; E.npcs=realNpcs; LM.masterNpc=null;
+  check('13. 讀檔的鎖有登記（limao3d:masterLoading）',typeof (globalThis.LOADLOCKS||{})['limao3d:masterLoading']==='function'); }
+
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 測試本身出錯 '+(e&&e.stack||e)); process.exit(1); });

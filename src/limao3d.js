@@ -16,8 +16,8 @@
    5 書房：LM_STUDY＝TZS3.studyOpen 回傳 true（區域 tz_limao 建的時候就開著；旗標是在街上的算命桌立的，下一次走進店裡門就開了）。書房裡的互動點照稿 study_room 只有旁白：
      看書櫃／看書桌／看牆上的合照＝配置的三個點；「學生來信」配置沒有點＝這支在東牆矮櫃前補一個（S.LETTERS；配置之後有 id study_letters 的點就用配置的）。
    6 哪幾天不開：規格、稿都沒寫固定公休＝每天開（配置 19:00～23:30）；颱風假不開（zone.tzLimaoOff，和夜市同一個 CALENDAR.typhoon）。上師不在（tzLimaoAway）現在沒有任何事件設。
-   7 上師的 3D 人物還沒做：不放人；對話用 ADV 的模糊背景＋名字（沒有立繪的人物就是 compact），名字 S.MASTER。之後放人物的接點：S.masterSeat()＝配置 limao.table.seatMaster（街上）、
-     區域 tz_limao 的 zone.shopClerk（店裡）；人物放好以後把 S.masterNpc 設成那個 NPC（說話的人就會帶 obj：轉頭、說話姿勢照一般人物）。
+   7 上師的 3D 人物（2026-11-11 接上）：街上坐在算命桌後面（S.placeMaster，配置 limao.table.seatMaster），店開著、他在的時候才看得到；說話的人帶他的 obj（S.who）。
+     店裡（區域 tz_limao 的 zone.shopClerk）還沒放人。對話照舊用 ADV 的模糊背景＋名字 S.MASTER（沒有立繪＝compact）。
    存檔：只有 G.flags 的 LM_MET（第幾天認識的）、LM_PROF、LM_KNOWN、LM_STUDY（稿的四個）＋LM_HINT（看過哪個入口 'A'／'B'）、LM_SER（{組 id: 第幾天}）；舊存檔沒有＝都還沒發生，不用遷移。
    測試：node tests/limao_unit.js */
 'use strict';
@@ -105,7 +105,7 @@ const LM=(function(){
 
   /* ---------- 說話 ---------- */
   S.who=function(GM,w){ const G=GM.G; if(w==='narr') return null; if(w==='yt') return {name:(G&&G.name)||'祐廷'};
-    if(w==='ms') return S.masterNpc&&S.masterNpc.obj?Object.assign({},S.masterNpc,S.MASTER):S.MASTER;
+    if(w==='ms'){ const n=S.masterNpc, E=GM.E; return n&&n.obj&&n.obj.visible&&E&&E.npcs&&E.npcs.includes(n)?Object.assign({},n,S.MASTER):S.MASTER; }   /* 人物在這個區域、看得到的時候才帶 obj（換區以後舊的那個不用）*/
     if(w==='wu'){ const n=GM.npc&&GM.npc[S.WU], nm=typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(S.WU):((typeof CHARACTERS!=='undefined'&&CHARACTERS[S.WU]&&CHARACTERS[S.WU].name)||'吳教授'); return n&&n.obj?n:{name:nm,charId:S.WU}; }
     return null; };
   S.play=async function(GM,lines,from){ for(let i=from|0;i<lines.length;i++){ const l=lines[i]; await GM.say(S.who(GM,l.w),l.t,l.w==='yt'?{me:true}:undefined); } };
@@ -157,10 +157,31 @@ const LM=(function(){
     if(zone.setStudy){ const s0=zone.setStudy; zone.setStudy=function(on){ const r=s0.apply(this,arguments); try{ S.decorate(E,zone); }catch(e){ console.warn('LM.decorate',e); } return r; }; }
     S.decorate(E,zone); return zone; };
 
+  /* ---------- 上師的 3D 人物（LAWWW 2026-11-11；模型 LAWWW2 第 3 版 char.limao_shangshi，照使用者 11-10 的人物圖）----------
+     坐在算命桌後面那張椅子（配置 limao.table.seatMaster）。店開著、他在、祐廷是法律系學生的時候才看得到（和「算命桌」按鈕同一個 S.canTalk）；收攤、不在＝藏起來。
+     模型是 lazy：第一次進汀州路才下載；下載完以前 CHAR.build 先建備用的人（藏著），到了由 GM.upgradeModels 換上；下載失敗＝露出備用的樣子（灰白頭髮、咖啡色開襟外套），不會一直隱形。做法同 us_life3d.js 的何俊朗 */
+  S.MODEL_KEY='char.limao_shangshi'; S.NPC_ID='limao_master'; S._mFail=false; S._mLoading=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['limao3d:masterLoading']=()=>{ S._mLoading=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）*/
+  S.masterModel=function(){ const K=S.MODEL_KEY; if(S._mFail||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[K]) return null;
+    if(ASSETS.has&&!ASSETS.has(K)&&ASSETS.loadOne&&!S._mLoading){ S._mLoading=true; let p; try{ p=Promise.resolve(ASSETS.loadOne(K)); }catch(e){ p=Promise.reject(e); } p.catch(e=>{ S._mFail=true; console.warn('LM master model',e&&e.message); S.masterReveal(); }).finally(()=>{ S._mLoading=false; }); }
+    return K; };
+  S.masterReveal=function(){ const GM=GMof(), E=GM&&GM.E; for(const n of (E&&E.npcs)||[]){ const u=n&&n.obj&&n.obj.userData; if(!u||u.wantModel!==S.MODEL_KEY) continue; u.wantModel=null; if(u.degradedHidden){ for(const c of n.obj.children) c.visible=true; u.degradedHidden=false; } } };
+  S.masterSpec=function(){ const xs=typeof STORY!=='undefined'&&STORY.extraSpec; let s=xs?Object.assign({},xs(21)):{};
+    s.sex='m'; s.height=1.69; s.skin='#efd0b3'; s.hair=Object.assign({},s.hair,{color:'#b9b6b0'}); s.outfit=Object.assign({},s.outfit,{top:{type:'cardiganOpen',color:'#4a3626',inner:'#3f4a36'},bottom:{type:'slacks',color:'#6b6358'}});
+    const k=S.masterModel(); if(k) s.model=k; s.id=S.NPC_ID; s.name=S.MASTER.name; return s; };
+  S.masterShow=function(zone,G){ const n=S.masterNpc; if(!n||!n.obj) return false; const on=!!(G&&S.canTalk(G,zone)); n.obj.visible=on; return on; };
+  S.placeMaster=function(GM){ S.masterNpc=null; const E=GM&&GM.E, zone=E&&E.zone, G=GM&&GM.G, st=S.masterSeat();
+    if(!zone||!zone.tzLimao||!st||!G||!D()||!S.term(G)||typeof CHAR==='undefined'||!CHAR.build||!E.addNPC) return null;
+    const seat={x:st.x,z:st.z,yaw:st.yaw||0}, o=CHAR.build(S.masterSpec()); o.position.set(seat.x,0,seat.z); o.rotation.y=seat.yaw;
+    const n=E.addNPC({obj:o,id:S.NPC_ID,name:S.MASTER.name,beh:'idle',pose:'sit',idlePose:'sit',frozen:true,isExtra:true,lmMaster:true,seat});
+    S.masterNpc=n; S.masterShow(zone,G); return n; };
+  S.hookPopulate=function(){ if(typeof STORY==='undefined'||!STORY.populate||STORY._lmPop) return false; const p0=STORY.populate; STORY._lmPop=true;
+    STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); if(zoneId==='tingzhou'){ try{ S.placeMaster(GM); }catch(e){ console.warn('LM.placeMaster',e); } } else S.masterNpc=null; return r; }; return true; };
+
   /* ---------- 街上：桌前的互動點 ---------- */
   S.attachStreet=function(E,zone){ const L=LAY(); if(!zone||zone._lm||!D()||!L||!L.table||!L.table.at||!zone.tzLimao) return zone; zone._lm=true; const A=L.table.at;
     E.interactables.push({x:A.x,z:A.z,radius:A.r,prio:1,lmTable:true,get label(){ const GM=GMof(); return GM&&GM.G&&S.canTalk(GM.G,zone)?S.LABEL:S.LABEL_LOOK; },get hidden(){ const GM=GMof(), G=GM&&GM.G; return !(G&&D()&&S.term(G)&&(S.canTalk(G,zone)||D().closed)); },onInteract:()=>{ const GM=GMof(); return GM?S.table(GM,zone):null; }});
-    const t0=zone.applyTimeOutdoor; if(t0) zone.applyTimeOutdoor=function(h,E2){ const GM=GMof(), G=GM&&GM.G; if(G) S.sync(zone,G); return t0.call(this,h,E2); };
+    const t0=zone.applyTimeOutdoor; if(t0) zone.applyTimeOutdoor=function(h,E2){ const GM=GMof(), G=GM&&GM.G; if(G) S.sync(zone,G); const r=t0.call(this,h,E2); if(G) S.masterShow(zone,G);   /* 開店、收攤的時候人物跟著出現、不見 */ return r; };
     return zone; };
 
   /* ---------- 入口 A：系館遇到吳教授（事件）---------- */
@@ -177,6 +198,7 @@ const LM=(function(){
     if(typeof TZS3!=='undefined'&&TZS3.studyOpen&&!TZS3.studyOpen._lm&&R){ const s0=TZS3.studyOpen; TZS3.studyOpen=Object.assign(function(L2){ if(L2&&L2.id===R.id){ const GM=GMof(); return S.studyOn(GM&&GM.G); } return s0.apply(this,arguments); },{_lm:true}); n++; }
     return n>0; };
   S.hook();
-  if(!S.register()&&typeof addEventListener==='function'){ addEventListener('DOMContentLoaded',()=>{ S.register(); }); addEventListener('load',()=>{ S.register(); }); }   /* 這支排在 events.js 前面載入：整頁載完再登記 */
+  if(!S.register()&&typeof addEventListener==='function'){ addEventListener('DOMContentLoaded',()=>{ S.register(); }); addEventListener('load',()=>{ S.register(); }); }
+  if(!S.hookPopulate()&&typeof addEventListener==='function'){ addEventListener('DOMContentLoaded',()=>{ S.hookPopulate(); }); addEventListener('load',()=>{ S.hookPopulate(); }); }   /* 這支排在 events.js 前面載入：整頁載完再登記 */
   return S;
 })();
