@@ -7946,6 +7946,21 @@
    "noDirectIntegrate": false,
    "note": "底 dev e4656573d；只有程式和測試；全部 Node 測試 1260 支：xs_farview_unit 釘住的導航格數因為接上機車要改（10513→10513-60），README 開頭寫明",
    "next": "LAWWW 整合、CC 重拍一個地球和新生南路"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "LIFE-DETAILS-SEASONAL-1110 第二批：端午、情人節、萬聖節、便利店季節海報、飲料店季節布條、洗衣店換季告示、期末考週影印店（20 項做到 9 項）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/season_batch2_1111/（README.md、season_batch2_v1.patch、regression_full.log、blender_batch2.jpg、season_atlas_preview.jpg）"
+   ],
+   "state": "READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "noDirectIntegrate": false,
+   "note": "底 dev e4656573d（在 451cb83ab 上 --3way 乾淨）；只改季節布置自己的 8 個檔；全部 Node 測試 1260 支沒有失敗；剩 11 項要落地或換掉現有的東西，會動導航，下一批",
+   "next": "LAWWW 整合、CC 照 README 列的日期拍、BB 判"
   }
  ]
 }

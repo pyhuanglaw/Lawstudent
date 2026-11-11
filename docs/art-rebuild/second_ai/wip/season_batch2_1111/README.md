@@ -1,8 +1,8 @@
 # 季節、節日的布置 第二批：七項（LIFE-DETAILS-SEASONAL-1110；LAWWW2 帳號 A，2026-11-11）
 
-狀態：**WORK_IN_PROGRESS：相關測試過了，全部 Node 測試在跑**（結果補在這一行）。預覽是 Blender，不是遊戲截圖（D131）。
+狀態：**READY_FOR_REVIEW**（2026-11-11 04:2x UTC）。全部 Node 測試 1260 支跑完、沒有失敗（`regression_full.log`；`bookstore_exit_unit` 最後一行是 Node 讀不到網址的警告，結束碼 0）。預覽是 Blender，不是遊戲截圖（D131）。
 
-- patch：`season_batch2_v1.patch`（8 個檔，基底 dev `e4656573d`，已含第一批）。只改季節布置自己的檔（`season_deco.py`、兩顆 `season_<區域>.glb` 和 `.json`、`src/data/season_deco.js`、`src/season_deco3d.js`、`tests/season_deco_unit.js`）；街景模型、`zones3d.js`、`index.html` 都沒有動。
+- patch：`season_batch2_v1.patch`（8 個檔，基底 dev `e4656573d`，已含第一批；在 `451cb83ab` 上試過 `git apply --3way`，乾淨）。只改季節布置自己的檔（`season_deco.py`、兩顆 `season_<區域>.glb` 和 `.json`、`src/data/season_deco.js`、`src/season_deco3d.js`、`tests/season_deco_unit.js`）；街景模型、`zones3d.js`、`index.html` 都沒有動。
 - 預覽：`blender_batch2.jpg`（上排：afar 萬聖節、日和的粽子海報、青木茶室的夏天布條＋門右邊的艾草；下排：Daybreak 情人節的小愛心、花序門口（玫瑰海報在畫面右邊外面，沒拍到）、常在洗衣的換季告示）、`season_atlas_preview.jpg`（貼圖：右半是這一批的海報、布條、告示）。
   **預覽裡小愛心、蝙蝠是黑的**：和第一批的雪花一樣，是 Blender 預覽對正反兩面疊在一起的薄片的假象；蝙蝠本來就是黑的，愛心在模型裡是紅色、粉紅色。
 
