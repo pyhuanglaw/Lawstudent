@@ -46,14 +46,16 @@ const LAD=[['Y4S1','期末。寒假我要回家裡的早餐店煎蛋。','期末
       const b=LADDER.bikeSeat[PS], rb=R.filter(r=>/^bikeSeat\./.test(r.where));
       check('2. 逐字：bikeSeat 的 onFirst／offFirst 照稿',rb.length===2&&rb.every(r=>b[(/\.(onFirst|offFirst)$/.exec(r.where)||[])[1]]===r.new),J([b.onFirst,b.offFirst])); }
     const b=LADDER.bikeSeat[PS]; check('2. 坐後座：「腳踏車後座要抓哪裡？我只坐過汽車的後座。」「好好玩！比我想的穩，你有偷偷騎很慢對不對。」；on／off／decline、最低階段不動',b.onFirst==='腳踏車後座要抓哪裡？我只坐過汽車的後座。'&&b.offFirst==='好好玩！比我想的穩，你有偷偷騎很慢對不對。'&&(!OLD||['min','on','off','decline'].every(k=>J(b[k])===J(OLD.bikeSeat[PS][k]))),J(b));
-    check('2. 大四下還有一則同字的「早。我八點的課，七點就到了。」（AA_763 只列大四上那一則，這一則照舊；已回報 AA）',when('Y4S2').filter(w=>w.t==='早。我八點的課，七點就到了。').length===1);
+    /* 2026-11-11（X327；AA 回覆 LAWWW）：大四下那一則同字的「早。我八點的課，七點就到了。」AA 也給了新字「早。八點的課我還是修了，不要問我為什麼。」（原本這裡驗「照舊」）——只換字，06～08 點的條件和註不動；大四上那一則照 AA_763 的字不動 */
+    { const w2=when('Y4S2').filter(w=>w.t==='早。八點的課我還是修了，不要問我為什麼。');
+      check('2. 大四下那一則同字的早上招呼照 AA 的回覆換成「早。八點的課我還是修了，不要問我為什麼。」（剛好一則、06～08 點；舊句整份階梯都不在了）；大四上那一則照舊是「早。我八點的課，今天居然趕上了。」',w2.length===1&&J(w2[0].time)===J([6,8])&&!J(LADDER).includes('早。我八點的課，七點就到了。')&&when('Y4S1').filter(w=>w.t==='早。我八點的課，今天居然趕上了。').length===1&&when('Y4S2').filter(w=>w.t==='早。我八點的課，今天居然趕上了。').length===0,J(when('Y4S2').map(w=>w.t))); }
     const all=J(Object.keys(LADDER.byTerm).map(t=>(LADDER.byTerm[t][PS]||{}).greet||null).concat([LADDER.bikeSeat[PS].onFirst,LADDER.bikeSeat[PS].offFirst]));
     check('2. 沛珊的招呼、坐後座沒有早餐店、蛋餅、煎蛋',!/早餐店|蛋餅|煎蛋/.test(all)); });
 
   await sec(3,async()=>{ const gc=read('src/data/greet_classday.js'), GC=JSON.parse(gc.slice(gc.indexOf('const GREET_CLASSDAY=')+21,gc.lastIndexOf(';'))), L=GC.classDay[PS]||[];
     const have=new Set(); for(const t of Object.keys(LADDER.byTerm).concat(['__y1'])){ const p=t==='__y1'?LADDER.characters[PS]:LADDER.byTerm[t][PS]; if(!p||!p.greet) continue; (p.greet.base||[]).forEach(x=>have.add(x)); (p.greet.when||[]).forEach(w=>have.add(w.t)); }
     check('3. greet_classday.js（只在上課日說）：沛珊的每一句都對得到 ladder.js 的招呼',L.length>=9&&L.every(t=>have.has(t)),J(L.filter(t=>!have.has(t))));
-    check('3. 換了字的兩句早上的招呼跟著換：「早。老師要比學生早到，我在練習，目前成功率一半。」「早。我八點的課，今天居然趕上了。」都只在上課日說；大四下沒換字的「早。我八點的課，七點就到了。」也還在',L.includes('早。老師要比學生早到，我在練習，目前成功率一半。')&&L.includes('早。我八點的課，今天居然趕上了。')&&L.includes('早。我八點的課，七點就到了。')&&!L.includes('早。……老師要比學生早到，我在練習。'),J(L));
+    check('3. 換了字的早上的招呼跟著換：「早。老師要比學生早到，我在練習，目前成功率一半。」「早。我八點的課，今天居然趕上了。」（大四上）「早。八點的課我還是修了，不要問我為什麼。」（大四下，2026-11-11 AA 回覆）都只在上課日說；舊句「早。我八點的課，七點就到了。」不在了',L.includes('早。老師要比學生早到，我在練習，目前成功率一半。')&&L.includes('早。我八點的課，今天居然趕上了。')&&L.includes('早。八點的課我還是修了，不要問我為什麼。')&&!L.includes('早。我八點的課，七點就到了。')&&!L.includes('早。……老師要比學生早到，我在練習。')&&/'早。八點的課我還是修了，不要問我為什麼。'\)\}/.test(read('tools/story/import_greet_classday.py')),J(L));
     const keys=Object.keys(STORY.LADDER_GREET_IF||{}); check('3. story3d.js 的 LADDER_GREET_IF（拿句子開頭當 key）沒有用到這九句的舊句',keys.length>0&&LAD.every(([t,o])=>!keys.some(k=>o.startsWith(k))),J(keys.filter(k=>LAD.some(([t,o])=>o.startsWith(k))))); });
 
   await sec(4,async()=>{ const m2=read('src/data/msg2_pool.js'), P2=new Function(m2.replace(/^'use strict';/m,'')+';return MSG2_POOL;')().people[PS].replies, tagged=P2.filter(e=>e.ps763);

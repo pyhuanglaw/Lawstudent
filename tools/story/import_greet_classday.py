@@ -25,9 +25,11 @@ RENAMED = {('classmate_peishan', '今天課好多，我到現在都還沒吃東�
            ('classmate_peishan', '今天上教育概論。老師叫我們寫一份小教案。'): '今天上教育概論，老師叫我們寫一份小教案，我還沒想到要寫什麼。',
            ('classmate_peishan', '今天上教育心理學，老師點我回答了兩次。'): '今天上教育心理學，老師點我回答了兩次，我第二次是亂講的。',
            # 2026-11-11（X327，AA_763_peishan_misc3.json@62460ea75：階梯重寫沒包到的招呼 when）：大三下 06～08 點那一句、大四上 06～08 點那一句換了字。
-           # 大四上的舊句「早。我八點的課，七點就到了。」大四下還有一則同字的（AA_763 沒列，照舊）——舊句、新句兩句都在 ladder.js 的時候兩句都列（下面的 both）
+           # 舊句、新句都在 ladder.js 的時候都列（下面的 both）。
+           # 2026-11-11（AA 回覆 LAWWW）：「早。我八點的課，七點就到了。」大四下那一則同字的也換了字（tools/ladder/import_ladder.py 的 PS_Y4S2_GREET）——同一句舊句在兩個學期換成兩句不同的新句，
+           # 兩句都只在上課日說（一個舊句對好幾句新句的寫成 tuple；在 ladder.js 的才列）
            ('classmate_peishan', '早。……老師要比學生早到，我在練習。'): '早。老師要比學生早到，我在練習，目前成功率一半。',
-           ('classmate_peishan', '早。我八點的課，七點就到了。'): '早。我八點的課，今天居然趕上了。'}
+           ('classmate_peishan', '早。我八點的課，七點就到了。'): ('早。我八點的課，今天居然趕上了。', '早。八點的課我還是修了，不要問我為什麼。')}
 
 
 def git(*a):
@@ -69,13 +71,16 @@ def main():
     for tag in TAGS:
         for e in src.get(tag, []):
             who, t = e['who'], e['t']
-            both = t in have.get(who, set()) and RENAMED.get((who, t)) in have.get(who, set())   # 舊句（別的學期還在用）和換了字的新句都在：兩句都只在上課日說
-            if t not in have.get(who, set()) and RENAMED.get((who, t)) in have.get(who, set()):
-                t = RENAMED[(who, t)]
-            if t not in have.get(who, set()):
+            rn = RENAMED.get((who, t)) or ()
+            rn = [x for x in ((rn,) if isinstance(rn, str) else rn) if x in have.get(who, set())]   # 換了字的新句（在 ladder.js 的才算；一句舊句可以對好幾句）
+            if t in have.get(who, set()):   # 舊句（別的學期還在用）還在：舊句、新句都只在上課日說
+                out[tag].setdefault(who, []).append(t)
+                out[tag][who] += rn
+            elif rn:
+                out[tag].setdefault(who, []).extend(rn)
+            else:
                 bad.append(f'{tag} {who}：「{t}」在 ladder.js 對不到')
-            out[tag].setdefault(who, []).append(t)
-            if both: out[tag][who].append(RENAMED[(who, t)])
+                out[tag].setdefault(who, []).append(t)
     add = {}
     for e in src.get('add', []):
         if e.get('kind') not in KINDS:
