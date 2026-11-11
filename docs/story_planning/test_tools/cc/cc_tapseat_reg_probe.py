@@ -259,6 +259,12 @@ async def seat_one(pg, cdp, key, Z, k, pick):
     R.note('%s 點椅面（%s）螢幕 (%s, %s)、離鏡頭 %s m、視線俯角 %s°：地板落點 %s、tapRedirect 導去 %s（椅子 %s）' % (t, how, pt['sx'], pt['sy'], pt['dist'], pt['pitch'], J(pt['hit']), J(pt['redirect']), J(pt['rseat'])))
     await L.touch_tap(cdp, pt['sx'], pt['sy'])
     b, m, secs = await wait_settle(pg); ni = await pg.evaluate(D.NEAR_IT)
+    pho = await pg.evaluate("(()=>{ const p=document.getElementById('phone'); return !!p&&!p.classList.contains('hide')&&p.offsetParent!==null; })()")
+    if pho:   # CC 11-11 19:0x（N1_TSR_DORM 椅子 1）：點椅面後手機開著＝這一下沒點到遊戲畫面，記「HUD 蓋住」不判（CC_02 乙 4）
+        R.note('%s 點椅面後手機開著（這一下沒點到遊戲畫面）：不判，收起手機；tapPref %s' % (t, J(m['tp']))); await shot(pg, '%s_seat%d_hud' % (key, k))
+        try: await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(400)
+        except Exception as e: R.note('%s 收手機失敗 %r' % (t, e))
+        return 'hud'
     mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
     ok_btn = b['interact'].startswith(s['label']) and mine
     dap = math.hypot(b['x'] - s['ap'][0], b['z'] - s['ap'][1]) if s['ap'] else None
