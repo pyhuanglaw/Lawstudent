@@ -64,7 +64,7 @@ MOKU_OPEN = (13.0, 20.5)   # 木曜日約念書：13:00～20:30 開始（坐一�
 OLD_SHOP = {'tea': {'door': (-4.3, 11.5), 'out': (-3.9, 13.2), 'order': (-0.35, 0.15)}, 'cafe2': {'door': (-4.3, -12.5), 'out': (-3.9, -10.8), 'order': (0.1, -2.45)}}
 # 新版這個時間開不開（c19d8b763 src/data/lane118_shops.js hours）：2a、3a 開著＝留在店裡；2b、3b 沒開＝XSCLOSE 走出去
 PLAN = {
-    '1a': {'day': DAY_B, 'h': 12.0, 'zone': 'lane118', 'start': (0.0, 16.0), 'goto': (-3.0, 11.5), 'expect': 'lane118', 'why': '站在舊「一一八茶飲」店門口（現在是辛亥韓食）'},
+    '1a': {'day': DAY_B, 'h': 12.0, 'zone': 'lane118', 'start': (0.0, 16.0), 'goto': (-3.0, 11.5), 'door': 'tea', 'expect': 'lane118', 'why': '站在舊「一一八茶飲」店門口（現在是辛亥韓食）'},
     '1b': {'day': DAY_B, 'h': 12.0, 'zone': 'lane118', 'start': (0.0, -1.0), 'goto': (2.9, -4.5), 'expect': 'lane118', 'why': '站在東側 z −4.5（新的喝不喝咖啡那一段）'},
     '2a': {'day': DAY_B, 'h': 12.0, 'shop': 'tea', 'expect': 'l118_tea', 'why': '在舊一一八茶飲室內（新店辛亥韓食這時候有開）'},
     '2b': {'day': DAY_B, 'h': 15.5, 'shop': 'tea', 'expect': 'lane118', 'why': '在舊一一八茶飲室內（新店辛亥韓食這時候午休）'},
@@ -88,6 +88,8 @@ DOM_JS = r"""(()=>{ const t=document.body.innerText||''; const its=(GAME.E.inter
   return {text:t, its, zn}; })()"""
 ORDERIT_JS = r"""(id=>{ const it=(GAME.E.interactables||[]).find(i=>i.shop118===id&&!i.hidden); return it?{label:it.label,x:+it.x.toFixed(2),z:+it.z.toFixed(2),r:it.radius||1,lv:it.lv|0}:null; })"""
 INVS_JS = r"""((w)=>(GAME.G.invites||[]).filter(v=>v&&v.place==='slowread'&&(!w||v.who===w)).map(v=>({id:v.id,who:v.who,place:v.place,zone:v.zone||null,day:v.day,h:v.h,state:v.state,label:v.label||null,by:v.by||null})))"""
+OVERLAY_JS = "['phone','menu','bigmap','dlg','choices','titleScreen','loading','fade'].filter(id=>{ const e=document.getElementById(id); return e&&!e.classList.contains('hide')&&getComputedStyle(e).display!=='none'&&(id!=='fade'||e.classList.contains('on')); })"
+NPC_NEAR_JS = r"""(()=>{ const P=GAME.E.player.obj.position; return (GAME.E.npcs||[]).filter(n=>n.obj&&Math.hypot(n.obj.position.x-P.x,n.obj.position.z-P.z)<2.5).map(n=>({id:n.charId||n.id||'',x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2),beh:n.beh||null})); })()"""
 NEAR_IT_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position; return (E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:String(i.label||''),d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2),r:i.radius||1,shop:i.shop118||null,exit:i.exit?i.exit.to:null})).sort((a,b)=>a.d-b.d).slice(0,5); })()"""
 
 
@@ -288,7 +290,12 @@ async def make_case(pg, cdp, c, idx, errs):
         for k in SUBS['1']:
             P = PLAN[k]; tag = '[MAKE %s]' % k
             await base_load(pg, cdp, '%s %s' % (tag, P['why']), 'lane118', P['start'][0], P['start'][1], P['day'], P['h'])
-            await F.tap_near(pg, cdp, '%s 走到 (%.1f, %.1f)' % (tag, P['goto'][0], P['goto'][1]), P['goto'][0], P['goto'][1], 0.35, max_s=150)
+            gx, gz = P['goto']
+            if P.get('door'):
+                tg = await D.standable_near(pg, OLD_SHOP[P['door']]['door'][0], OLD_SHOP[P['door']]['door'][1], 1.4 * 0.6, 0)
+                if tg: gx, gz = tg['x'], tg['z']
+            await F.tap_near(pg, cdp, '%s 走到 (%.1f, %.1f)' % (tag, gx, gz), gx, gz, 0.3, max_s=150)
+            if P.get('door'): await F.wait_btn(pg, '進', 5)
             s = await D.st(pg)
             R.note('%s 停在 (%s, %s)；按鈕「%s」；附近的互動：%s' % (tag, s['x'], s['z'], s['interact'], J(await pg.evaluate(NEAR_IT_JS))))
             idx[k] = await save_now(pg, k, P['why'], {'btn': s['interact']})
@@ -530,6 +537,12 @@ async def load_one(pg, cdp, url, k, ent, save, menus, errs):
         R.check('%s 店裡點餐的按鈕是新店名（%s）' % (tag, it and it['label']), bool(it) and NEW_NAME[sid] in it['label'], J(it))
     await F.ready(pg, cdp, 15)
     mv = await D.pushable(pg, cdp)
+    if mv < 0.3:   # 分清楚是卡牆還是遊戲沒在收搖桿（暫停、劇情、面板）：印狀態、再等一下推一次
+        q = await L.state(pg); ov = await pg.evaluate(OVERLAY_JS)
+        R.note('%s 推不動時的狀態：%s；開著的面板／對話：%s；附近的人：%s' % (tag, J(q), J(ov), J(await pg.evaluate(NPC_NEAR_JS))))
+        await D.shot(pg, 'l118d_%s_nopush' % k, judge_black=False)
+        await F.ready(pg, cdp, 20); mv2 = await D.pushable(pg, cdp)
+        R.note('%s 等畫面可以玩以後再推一次：%.2f m' % (tag, mv2)); mv = max(mv, mv2)
     R.check('%s 搖桿推得動 %.2f m（≥0.3，人不卡牆）' % (tag, mv), mv >= 0.3, '')
     if k == '5a':
         e = next((x for x in inv.values() if x['exp']['state'] != 'cancelled' and x['old'].get('state') in ('accepted', 'offered', 'changed')), None)
