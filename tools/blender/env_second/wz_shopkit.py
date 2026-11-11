@@ -1096,6 +1096,27 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
     c＝spec['xs']（wz_street.py 的 GG_XS）：cards＝窗（貼圖、範圍、景深）；door；eave／canopy／awning；signs；decals；lamps；props"""
     c = spec['xs']; wl = acc(gg_plaster(c.get('wallc', '#e9dfcc'))); fr = acc(SK['alu2'] if c.get('frame') == 'alu' else frame_mat(c['frame'] if str(c.get('frame', '')).startswith('#') else GG_WOOD)); cream = acc(frame_mat('#e8e2d6'))
     X0, X1 = -W / 2 + 0.3, W / 2 - 0.3
+    if c.get('lane'):   # 巷口（GG-G10-LANE-MOUTH-1111；使用者 11-11 選擇題選「改成真的巷口」：往汀州路的巷子從 G10 的一樓穿過去）：中間一條通道（兩側牆、樓板底、柏油地面、往裡通到底），
+        #   兩邊各一段牆（電表箱、排水管、信箱）；通道口上面一塊巷名牌的底板（字由遊戲的互動點說，不寫字）、裡面兩盞壁燈
+        lw = c.get('lane_w', 4.6) / 2; depth = c.get('lane_d', 13.0); top = ceil_y; alu = acc(SK['alu2']); dark = acc(frame_mat('#3a3a3c')); road = acc(SK['f_concrete'] if 'f_concrete' in SK else SK['f_granite'])
+        for sg in (-1, 1):
+            a_, b_ = (X0, -lw) if sg < 0 else (lw, X1)
+            xf.box(wl, a_, b_, 0.0, top, gz - 0.25, gz)                                                        # 兩邊的牆
+            xf.box(acc(SK['f_granite']), a_, b_, 0.0, 0.5, gz, gz + 0.02)                                       # 牆腳
+            xi = sg * lw; xf.box(wl, min(xi, xi + sg * 0.22), max(xi, xi + sg * 0.22), 0.0, top, gz - depth, gz)   # 通道的側牆
+            xf.box(acc(SK['f_granite']), min(xi - sg * 0.02, xi), max(xi - sg * 0.02, xi), 0.0, 0.4, gz - depth, gz)
+            xf.box(dark, sg * (lw + 0.9) - 0.3, sg * (lw + 0.9) + 0.3, 1.2, 1.9, gz, gz + 0.14)                  # 電表箱
+            xf.box(alu, sg * (X1 - 0.35) - 0.05, sg * (X1 - 0.35) + 0.05, 0.0, top, gz, gz + 0.1)               # 排水管
+            for k in range(3):                                                                                  # 通道裡牆上的管線、舊冷氣架、壁燈
+                zz = gz - 2.5 - k * 4.0; xw = sg * (lw - 0.02)
+                xf.box(alu, min(xw, xw - sg * 0.06), max(xw, xw - sg * 0.06), 2.5, 2.56, zz - 1.8, zz + 1.8)
+                if (k + (sg > 0)) % 2 == 0:
+                    xf.box(dark, min(xw, xw - sg * 0.16), max(xw, xw - sg * 0.16), 2.25, 2.4, zz - 0.09, zz + 0.09); CL.glow(root, 'arcadelamp', *xf.p(xw - sg * 0.3, 2.2, zz), color='rgba(255,214,150,1)', size=1.6, day=0.0, night=0.8)
+        xf.box(acc(M['ceilA']), -lw, lw, top - 0.02, top + 0.1, gz - depth, gz)                                 # 樓板底
+        xf.box(road, -lw, lw, 0.0, 0.04, gz - depth, gz)                                                       # 通道的地面
+        xf.box(wl, -lw - 0.22, lw + 0.22, top - 0.5, top, gz - 0.25, gz + 0.02)                                 # 通道口上面的樑
+        xf.box(dark, -0.75, 0.75, top - 0.42, top - 0.1, gz + 0.02, gz + 0.06); xf.box(acc(frame_mat('#1f5a3a')), -0.7, 0.7, top - 0.38, top - 0.14, gz + 0.06, gz + 0.068)   # 巷名牌的底板（綠色，沒有字）
+        return
     if c.get('shut'):   # 拉下鐵捲門的空店面（GG-G09-G10-SHUTTER-1111，X335；使用者 11-11「先拉下鐵門」：洗樂、印得好搬到汀州路以後，公館這兩格先空著）：兩扇鐵捲門、中間一根牆柱、上面捲門箱；沒有招牌字、沒有機器、沒有雜物
         sm = acc(M['shutter']); alu = acc(SK['alu2']); top = ceil_y - 0.42; mid = c.get('pier', 0.0)
         xf.box(wl, X0, X1, 0.0, ceil_y, gz - 0.3, gz - 0.22)                                                   # 鐵門後面的牆（鐵門的縫看不到店內）
@@ -2075,7 +2096,8 @@ def arcade_front_v2(spec, xf, W, wall):
         CL.glow(root, 'arcadelamp', *xf.p(tx, ceil_y - 0.2, -dep * 0.55), color='rgba(244,248,255,1)', size=1.5, day=0.0, night=0.7)
     # 招牌（設計稿；和原本的 shopfront 同一套）
     sw = min(W - 0.4, 6.5); sy0, sy1 = GH - 0.67, GH - 0.03
-    if XSM and XSM.get('shut'):   # 空店面：招牌拆掉了，樑上只剩一塊沒有字的舊招牌底板（不寫字、晚上不亮）
+    if XSM and XSM.get('lane'): pass   # 巷口：樑上沒有招牌
+    elif XSM and XSM.get('shut'):   # 空店面：招牌拆掉了，樑上只剩一塊沒有字的舊招牌底板（不寫字、晚上不亮）
         xf.box(acc(SK['alu2']), -sw / 2 - 0.04, sw / 2 + 0.04, sy0 - 0.05, sy1 + 0.03, 0.0, 0.16); xf.box(acc(frame_mat('#d9d6cc')), -sw / 2, sw / 2, sy0, sy1, 0.16, 0.168)
     elif XSM:   # 公館四間新店：騎樓外的招牌也是參考圖裁的字（同一塊招牌，貼在騎樓樑上給馬路看）
         key = XSM['street']; h_ = sy1 - sy0; w_ = min(sw, h_ * XS_ATLAS.get(key, [0, 0, 1, 1, 4])[4]); cx_ = XSM.get('street_x', 0.0)
@@ -2091,7 +2113,7 @@ def arcade_front_v2(spec, xf, W, wall):
         xf.box(acc(fr), -sw / 2 - 0.05, sw / 2 + 0.05, sy0 - 0.04, sy1 + 0.04, 0.0, 0.1)
         face(f'SIGN_FACE_{spec["id"]}', M['board'], xf, [(-sw / 2, sy0, 0.105), (sw / 2, sy0, 0.105), (sw / 2, sy1, 0.105), (-sw / 2, sy1, 0.105)],
              {'sign': s['name'], 'sub': s.get('sub', ''), 'bg': s.get('signBg', '#3b2a1e'), 'color': s.get('signColor', '#f4ead8'), 'serif': 1 if s.get('serif') else 0, 'band': s.get('band', '')})
-    if XSM and XSM.get('shut'): pass
+    if XSM and (XSM.get('shut') or XSM.get('lane')): pass
     elif s.get('vatlas') and s['vatlas'] in SIGN_ATLAS: vsign_tex(xf, spec['id'], s['vatlas'], W / 2 - 0.5, GH + 0.3, vw=0.74)
     elif s.get('vertical'):
         vsign(xf, spec['id'], W / 2 - 0.5, GH + 0.3, GH + 2.9, {'vertical': s['vertical'], 'vBg': s.get('vBg', '#ffffff'), 'vColor': s.get('vColor', '#b0332a'), 'vBand': s.get('vBand', '#b0332a'), 'serif': 1 if s.get('serif') else 0})

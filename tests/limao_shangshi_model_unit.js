@@ -15,7 +15,7 @@ const KEY='char.limao_shangshi', cm=v=>(v*100).toFixed(1)+' cm', tick=()=>new Pr
   check('1. manifest：圓框細金屬眼鏡的 GLB 在',!!g&&fs.existsSync(path.join(ROOT,g.url)));
   if(!m||!g){ console.log('FAILED: '+(fails+4)); process.exit(1); }
   { const d=fs.readFileSync(path.join(ROOT,m.url)), jl=d.readUInt32LE(12), J=JSON.parse(d.slice(20,20+jl).toString('utf8')), names=(J.meshes||[]).map(x=>x.name).concat((J.nodes||[]).map(x=>x.name||'')), mats=(J.materials||[]).map(x=>x.name);
-    const need=['Acc_Cap','Acc_CapBrim','Acc_Curls','Acc_Mustache','Acc_Goatee','Acc_BeardLink','Acc_LapelL','Acc_LapelR','Acc_ShirtV','Acc_ScarfBack','Acc_ScarfTailL','Acc_ScarfTailR']   /* 第 2 版：加捲髮、鬍子連起來的兩條、西裝翻領、V 領的襯衫；圍巾改成掛在脖子後面＋兩邊垂下 */, miss=need.filter(n=>!names.some(x=>x.indexOf(n)===0));
+    const need=['Acc_Cap','Acc_CapBrim','Acc_Curls','Acc_Mustache','Acc_Goatee','Acc_BeardLink','Acc_LapelL','Acc_LapelR','Acc_ShirtV','Acc_VneckRib','Acc_ScarfBack','Acc_ScarfTailL','Acc_ScarfTailR']   /* 第 2 版：加捲髮、鬍子連起來的兩條、西裝翻領、V 領的襯衫；圍巾改成掛在脖子後面＋兩邊垂下 */, miss=need.filter(n=>!names.some(x=>x.indexOf(n)===0));
     check('2. 模型裡有帽子、鬍子、圍巾（做在 VRM 裡）',mats.some(x=>/SHANGSHI_Acc/.test(x))&&!miss.length,'材質：'+mats.filter(x=>/Acc/.test(x)).join(',')+(miss.length?'；缺 '+miss.join(','):'')); }
   await preload([KEY,'prop.glasses_shangshi']);
   const scene=new THREE.Scene(); const h=CHAR.build({model:KEY,height:1.69}); scene.add(h); h.position.set(0,0,0); h.rotation.y=0;
@@ -27,6 +27,9 @@ const KEY='char.limao_shangshi', cm=v=>(v*100).toFixed(1)+' cm', tick=()=>new Pr
   const props=u.props||{}, names=Object.keys(props), plist=CHAR.MODEL_PROPS[KEY]||[], gItem=plist.find(p=>p&&p.name==='glasses');
   check('3. CHAR.build 用 VRM（不是備用）',u.driver==='vrm'&&u.key===KEY,u.driver+' '+u.key);
   check('3. 量出來的身高（含帽子）1.66～1.80 m',box.max.y>=1.66&&box.max.y<=1.80,cm(box.max.y));
+  { /* 第 3 版：帽子是扁的（LAWWW 01:07：第 2 版高度幾乎和臉一樣高、像頭盔）——帽頂比頭的骨頭（head）高不到 21 cm、比兩眼高不到 15 cm */
+    const hd=L(R('head').getWorldPosition(new THREE.Vector3())), eL0=L(R('leftEye').getWorldPosition(new THREE.Vector3()));
+    check('3. 帽子是扁的：帽頂比兩眼高不到 16 cm',box.max.y-eL0.y<=0.16&&box.max.y-eL0.y>=0.07,'帽頂比眼睛高 '+cm(box.max.y-eL0.y)+'、比 head 骨頭高 '+cm(box.max.y-hd.y)); }
   check('3. 配件只有眼鏡，是 prop.glasses_shangshi',names.join()==='glasses'&&!!gItem&&gItem.glb==='prop.glasses_shangshi',names.join(',')+' '+JSON.stringify(gItem||null));
   { let glb=null; if(props.glasses) props.glasses.traverse(x=>{ if(x.name==='glasses_glb') glb=x; }); const proc=props.glasses&&props.glasses.children[0];
     const eL=L(R('leftEye').getWorldPosition(new THREE.Vector3())), eR=L(R('rightEye').getWorldPosition(new THREE.Vector3())), mid=eL.clone().add(eR).multiplyScalar(0.5);

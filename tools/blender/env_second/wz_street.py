@@ -175,7 +175,9 @@ if SET == 'gongguan':
         'G13': dict(dep=3.0, wallc='#efe9dc', frame='alu', street='ggrong_sign', street_fit=7.2, street_lit=True,   # 榮恩典文具社：米色招牌、黑字、鉛筆畫筆圖示、四色線；鋁框玻璃、木層架塞滿
                     cards=[('ggrong_int', -4.15, 4.15, 0.1, 2.85, 0.8, [-2.2, -0.6, 0.9, 2.4])]),
         # GG-G09-G10-SHUTTER-1111（X335，使用者 11-11 選「先拉下鐵門」）：洗樂、印得好搬到汀州路以後，公館這兩格是拉下鐵捲門的空店面；之後放什麼店由使用者決定（D147），不放別的
-        'G09': dict(dep=3.0, wallc='#d9d6cc', shut=True), 'G10': dict(dep=3.0, wallc='#d4d0c4', shut=True, pier=0.6),
+        'G09': dict(dep=3.0, wallc='#d9d6cc', shut=True),
+        # GG-G10-LANE-MOUTH-1111（使用者 11-11 選擇題「改成真的巷口」）：G10 的一樓是往汀州路那條巷子的巷口（遊戲的「往汀州路（巷子）」互動點在這一格前面）；G10 之後不放店
+        'G10': dict(dep=3.0, wallc='#d4d0c4', lane=True, lane_w=4.6, lane_d=13.0),
         'G11': dict(dep=3.0, wallc='#ece5d8', frame='#c9a86a', street='ggfn_sign', street_fit=9.4,   # 花序 Flower Notes：米白洞石色、香檳金細框；兩側大櫥窗、中間雙開玻璃門；招牌帶在騎樓外面；二樓整排玻璃（xs_up）
                     cards=[('ggfn_winl', -4.3, -1.4, 0.25, 3.1, 0.8, [-2.85]), ('ggfn_door', -1.0, 1.0, 0.0, 2.95, 0.8, [0.0]), ('ggfn_winr', 1.4, 4.3, 0.25, 3.1, 0.8, [2.85])],
                     props=[('pot', -1.25, 0.45, 'broad'), ('pot', 1.25, 0.45, 'broad')]),
@@ -183,7 +185,7 @@ if SET == 'gongguan':
     SPECS = []; _x = -68.0
     for _i, _s in enumerate(_SHOPS):
         _last = _i == len(_SHOPS) - 1; _X0 = _x; _X1 = _x + _s['w'] + (1.2 if (_i < 8 and not _last) else 0.0); _W = _X1 - _X0; _cx = (_X0 + _X1) / 2
-        _pl = [_W / 2]; _nb = max(1, round(_W / 5)) if (_s['type'] == 'none' and _i not in (4, 5, 7, 8, 11, 12, 13, 14)) else 1   # 第二批四間（AA_650）變成進得去的店：店門前不放中間那根柱子（參考圖沒有；zones3d.js 一起改）；11-10 再加 G04 安泰、G08 汀州鮮果、G11 花序、G13 榮恩典（參考圖門在中間）
+        _pl = [_W / 2]; _nb = max(1, round(_W / 5)) if (_s['type'] == 'none' and _i not in (4, 5, 7, 8, 10, 11, 12, 13, 14)) else 1   # 第二批四間（AA_650）變成進得去的店：店門前不放中間那根柱子（參考圖沒有；zones3d.js 一起改）；11-10 再加 G04 安泰、G08 汀州鮮果、G11 花序、G13 榮恩典（參考圖門在中間）
         for _k in range(1, _nb): _pl.append(_W / 2 - _k * _W / _nb)
         if _last: _pl.append(-_W / 2)
         _sp = dict(id=f'G{_i:02d}', pos=(_cx, 19.0), ry=math.pi, w=_W, d=16, floors=_GG_FLOORS[_i], wall=_WALLT[_i % 4], color=_WALLC[_i % 7],
@@ -1013,6 +1015,9 @@ def apartment(spec):
     elif spec.get('sf', {}).get('stair_open'):   # 木曜日（B4）：鐵門打開，一樓牆體挖出往上的樓梯間（裡面的樓梯在 wz_shopkit.mok_stair_entry）
         so = spec['sf']; sx0, sx1 = so['door_x'] - so['door_w'] / 2, so['door_x'] + so['door_w'] / 2; dep, ph = so['stair_open']['depth'], GH - 0.05
         xf.box(wall, -W / 2, sx0, 0, GH, -D, -rec); xf.box(wall, sx1, W / 2, 0, GH, -D, -rec); xf.box(wall, sx0, sx1, ph, GH, -D, -rec); xf.box(wall, sx0, sx1, 0, ph, -D, -rec - dep)
+    elif spec.get('xs', {}).get('lane'):   # 巷口（GG-G10-LANE-MOUTH-1111）：一樓牆體在通道的範圍打開（通道的側牆、樓板底、地面在 wz_shopkit.gg_front 的 lane）
+        _lw = spec['xs'].get('lane_w', 4.6) / 2 + 0.22
+        xf.box(wall, -W / 2, -_lw, 0, GH, -D, -rec); xf.box(wall, _lw, W / 2, 0, GH, -D, -rec); xf.box(wall, -_lw, _lw, GH - 0.33, GH, -D, -rec)
     else: xf.box(wall, -W / 2, W / 2, 0, GH, -D, -rec)                                                  # 一樓牆體（店面退縮）
     gw = acc(M['gwall'])
     if gt in ('shop', 'arcade') and not spec.get('sf') and spec.get('xs', {}).get('arcade', True) is not False:   # 日常失速的兩端是牆（xs_street_front 自己做），不加石材壁柱（同一個面會閃）
@@ -1023,6 +1028,7 @@ def apartment(spec):
     else:                                                                                          # 住家／鐵捲門：牆腳的磨石子護牆
         # 鐵捲門、住家鐵門的地方不做護牆：原本護牆整條橫過去，門片／捲門片正好在護牆正面的同一個平面上，下面 0.9 m 一直閃（BUG-WZFLICKER）
         gaps = [(-W / 2 + 0.4, W / 2 - 0.4)] if gt == 'shutter' else ([(-W * 0.2 - 0.72, -W * 0.2 + 0.72)] if not spec.get('sf') else [])
+        if spec.get('xs', {}).get('lane'): _lw = spec['xs'].get('lane_w', 4.6) / 2 + 0.22; gaps = [(-_lw, _lw)]   # 巷口：通道的範圍不做護牆
         xs_ = [-W / 2] + [v for g_ in gaps for v in g_] + [W / 2]
         for k in range(0, len(xs_), 2):
             if xs_[k + 1] - xs_[k] > 0.01: xf.box(gw, xs_[k], xs_[k + 1], 0, 0.9, -rec - 0.02, -rec + 0.04)

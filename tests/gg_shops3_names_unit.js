@@ -9,5 +9,6 @@ for(const [i,[n,w]] of Object.entries(want)) check(`1 G${String(i).padStart(2,'0
 check('1 店面街一共 15 間（G00～G14，順序不變；G15 是巷口轉角）',names.length===15,names.length);
 check('2 舊名字不在店面街：公館藥局、水果行、自助洗衣、影印・輸出、日日定食、文具・畫材',!/n:'(公館藥局|水果行|自助洗衣|影印・輸出|日日定食|文具・畫材)'/.test(m?m[1]:''));
 check('2 搬到汀州路的三間（洗樂洗衣坊、印得好、泰米村食）不再出現在公館店面街',!/n:'(洗樂洗衣坊|印得好|泰米村食)'/.test(m?m[1]:''));
-check('2 G09、G10 是拉下鐵捲門的空店面（shut:true，沒有直招）；套件認得 shop.shut',((m?m[1]:'').match(/\{n:'',c:'[^']+',w:9,type:'none',it:'(laundry|print)',shut:true\}/g)||[]).length===2&&/shop:\{shut:s\.shut,/.test(z)&&/if\(s\.shut\)\{/.test(fs.readFileSync(path.join(__dirname,'..','src','townkit3d.js'),'utf8')));
+/* 2026-11-11 改期望：使用者選「G10 改成真的巷口」——G09 照舊鐵捲門（shut:true）、G10 是巷口（lane:true） */
+check('2 G09 是拉下鐵捲門的空店面（shut:true）、G10 是巷口（lane:true），都沒有店名和直招；套件認得 shop.shut、shop.lane',/\{n:'',c:'[^']+',w:9,type:'none',it:'laundry',shut:true\}/.test(m?m[1]:'')&&/\{n:'',c:'[^']+',w:9,type:'none',it:'print',lane:true\}/.test(m?m[1]:'')&&/shop:\{shut:s\.shut,lane:s\.lane,/.test(z)&&/if\(s\.lane\)\{/.test(fs.readFileSync(path.join(__dirname,'..','src','townkit3d.js'),'utf8'))&&/else if\(s\.shut\)\{/.test(fs.readFileSync(path.join(__dirname,'..','src','townkit3d.js'),'utf8')));
 console.log(fail?`FAIL ${fail}`:'ALL PASS'); process.exit(fail?1:0);

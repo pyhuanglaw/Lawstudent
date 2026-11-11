@@ -12,7 +12,7 @@ C = N.C
 import bpy                             # noqa: E402
 
 rgb = N.rgb
-LONG = dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.69, iris='#2a2018', skin=(0.88, 0.76, 0.64), eye_close=0.34, torso=1.10, stoop=0.014, neck=1.06, belly=0.014,
+LONG = dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.69, iris='#2a2018', skin=(0.88, 0.76, 0.64), eye_close=0.14, torso=1.10, stoop=0.014, neck=1.06, belly=0.014,
             # 六十多歲：眼睛細長帶笑（扁、眼尾微微往下）、眉毛灰白稀一點、臉比年輕人寬一點、下巴圓
             face=dict(EYE_SX=0.96, EYE_SZ=0.50, EYE_TILT=-0.055, MOUTH_DOWN=-0.0008, BROW_ARCH=0.36, BROW_K=1.75, BROW_SCALE_Z=1.55, BROW_COL=(0.56, 0.54, 0.52), FACE_NARROW=1.035, CHIN_WIDEN=0.86, JAW_OUT=0.0078, D_CHIN=0.002, MOUTH_K=1.5, IRIS_FRAC=0.46),
             # 灰白捲髮：帽子下面兩側和後面蓬出來一圈（頭頂被鴨舌帽蓋住）
@@ -35,11 +35,12 @@ def accessories(m):
     import h01_hair as HB
     arm = m['arm']; H = HB.Head(m); c = H.c; lm = C.landmarks(arm); rng = np.random.default_rng(1111)
     # ---- 貼圖（一張，七格）：0 帽子（咖啡色人字呢）、1 鬍子（灰白）、2 圍巾（棕藍格紋）、3 流蘇、4 翻領（深咖啡）、5 襯衫（米色）、6 捲髮（灰白，深淺一撮一撮）
-    NR = 7; W = 64 * NR; img = np.ones((64, W, 4))
+    NR = 9; W = 64 * NR; img = np.ones((64, W, 4))   # 第 3 版多兩格：7 帽簷（比帽身深一階的人字呢）、8 毛衣的 V 領羅紋（墨綠）
     def fill(i, base, noise=0.05): img[:, i * 64:(i + 1) * 64, :3] = np.clip(np.array(base)[None, None, :] + rng.normal(0, noise, (64, 64, 1)), 0, 1)
-    fill(0, (0.40, 0.29, 0.20), 0.03); fill(1, (0.80, 0.79, 0.77), 0.05); fill(2, (0.42, 0.33, 0.26), 0.02); fill(3, (0.36, 0.30, 0.26), 0.05); fill(4, (0.27, 0.185, 0.13), 0.012); fill(5, (0.90, 0.85, 0.74), 0.012); fill(6, (0.70, 0.69, 0.68), 0.07)
+    fill(0, (0.40, 0.29, 0.20), 0.03); fill(1, (0.80, 0.79, 0.77), 0.05); fill(2, (0.42, 0.33, 0.26), 0.02); fill(3, (0.36, 0.30, 0.26), 0.05); fill(4, (0.37, 0.27, 0.20), 0.012); fill(5, (0.90, 0.85, 0.74), 0.012); fill(6, (0.70, 0.69, 0.68), 0.07)
+    fill(7, (0.27, 0.19, 0.13), 0.02); fill(8, (0.21, 0.23, 0.15), 0.012)
     yy, xx = np.mgrid[0:64, 0:64]; herr = (((xx + np.where((xx // 8) % 2 == 0, yy, -yy)) % 8) < 3)                     # 人字紋：一直條一直條、斜線方向交錯
-    img[:, 0:64, :3] *= np.where(herr, 0.78, 1.0)[..., None]
+    img[:, 0:64, :3] *= np.where(herr, 0.78, 1.0)[..., None]; img[:, 7 * 64:8 * 64, :3] *= np.where(herr, 0.8, 1.0)[..., None]
     for k, col in ((6, (0.20, 0.25, 0.36)), (14, (0.62, 0.50, 0.36)), (22, (0.20, 0.25, 0.36)), (38, (0.58, 0.36, 0.26)), (46, (0.20, 0.25, 0.36)), (54, (0.66, 0.56, 0.42))):
         img[:, 128 + k:128 + k + 3, :3] = col; img[k:k + 3, 128:192, :3] = np.array(col) * 0.9 + 0.1 * img[k:k + 3, 128:192, :3]
     wip = os.path.join(C.ROOT, 'tools', 'vroid_wip', 'bl'); os.makedirs(wip, exist_ok=True)
@@ -69,7 +70,7 @@ def accessories(m):
     def scalp(az, el, off):
         d = np.array([math.sin(az) * math.cos(el), -math.cos(az) * math.cos(el), math.sin(el)]); return c + d * (H.R(d) + off)
     def edge_el(az):   # 帽緣的仰角：前面壓到額頭中間、兩側在耳朵上面、後面低
-        f = (math.cos(az) + 1) / 2; return math.radians(-14 + 32 * f ** 1.3)
+        f = (math.cos(az) + 1) / 2; return math.radians(-12 + 40 * f ** 1.3)   # 第 3 版：前面抬到髮際線（原本壓到額頭中間，帽子看起來和臉一樣高）
     # ---- 臉的量測（沿中線打射線）----
     zs = np.linspace(H.brow_z - 0.02, H.brow_z - 0.17, 90); ys = np.array([H.front_y(0.0, z) for z in zs])
     k_n = int(np.argmin(ys[:45])); nose_z = float(zs[k_n]); jump = [i for i in range(k_n + 1, len(ys)) if ys[i] - ys[i - 1] > 0.02]; chin_z = float(zs[jump[0] - 1]) if jump else float(zs[-1])
@@ -84,8 +85,8 @@ def accessories(m):
     def uv_of(p):
         loc, nrm, idx, dist = fb.find_nearest(Vector(p)); pl = polys[idx]; vs = [FW[i] for i in pl.vertices]; uvs = [np.array(uvl[li].uv) for li in pl.loop_indices]
         ws = poly_3d_calc([Vector(v) for v in vs], loc); return sum(wi * u for wi, u in zip(ws, uvs))   # 多邊形內插（第一次用距離倒數：線會一格一格抖）
-    def stroke(ctrl, strength=0.3, rad=2.2, tone=(0.70, 0.55, 0.50)):
-        rad = rad * 1.5; strength = strength * 0.8
+    def stroke(ctrl, strength=0.3, rad=2.2, tone=(0.80, 0.67, 0.57)):   # 第 3 版：比膚色深一階的膚色（原本偏粉紅）、線寬一點柔一點
+        rad = rad * 2.1; strength = strength * 0.95
         pts = []
         for (a, b) in zip(ctrl, ctrl[1:]):
             for t in np.linspace(0, 1, 7)[:-1]: pts.append((a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t))
@@ -100,13 +101,13 @@ def accessories(m):
             A[y0:y1, x0:x1, :3] = A[y0:y1, x0:x1, :3] * (1 - kk * (1 - np.array(tone, dtype=np.float32)))
     exb, ezb = ex, ez; ex, ez = exb + 0.012, ezb - 0.012   # 眼睛骨頭在眼球裡面偏內上：眼睛的中心在外 1.2 cm、下 1.2 cm（看貼圖對過；第一次魚尾紋畫到眉頭上面）
     for sg in (-1, 1):
-        stroke([(sg * 0.014, nose_z - 0.004), (sg * 0.021, nose_z - 0.014), (sg * 0.027, mouth_z + 0.004), (sg * 0.029, mouth_z - 0.008)], 0.42, 2.6)      # 法令紋
-        stroke([(sg * 0.025, mouth_z - 0.004), (sg * 0.026, mouth_z - 0.014), (sg * 0.023, chin_z + 0.008)], 0.26, 2.0)                                        # 嘴角往下的紋
+        stroke([(sg * 0.014, nose_z - 0.004), (sg * 0.021, nose_z - 0.014), (sg * 0.027, mouth_z + 0.004), (sg * 0.029, mouth_z - 0.008)], 0.27, 2.4)      # 法令紋
+        stroke([(sg * 0.025, mouth_z - 0.004), (sg * 0.026, mouth_z - 0.014), (sg * 0.023, chin_z + 0.008)], 0.15, 1.8)                                        # 嘴角往下的紋
         stroke([(sg * (ex - 0.014), ez - 0.010), (sg * (ex - 0.005), ez - 0.0135), (sg * (ex + 0.006), ez - 0.0135), (sg * (ex + 0.015), ez - 0.010)], 0.30, 2.2)                                             # 眼袋
         stroke([(sg * (ex - 0.012), ez - 0.015), (sg * ex, ez - 0.019), (sg * (ex + 0.012), ez - 0.015)], 0.18, 1.8)
         for dz, dz2 in ((0.004, 0.009), (-0.001, -0.002), (-0.006, -0.012)): stroke([(sg * (ex + 0.017), ez + dz), (sg * (ex + 0.027), ez + dz2)], 0.28, 1.5)   # 魚尾紋（笑紋）
         stroke([(sg * 0.004, H.brow_z + 0.002), (sg * 0.005, H.brow_z + 0.012)], 0.2, 1.5)                                                                     # 眉間
-    for dz in (0.016, 0.027): stroke([(-0.034, H.brow_z + dz - 0.002), (-0.012, H.brow_z + dz + 0.001), (0.012, H.brow_z + dz + 0.001), (0.034, H.brow_z + dz - 0.002)], 0.2, 1.7)   # 抬頭紋
+    for dz in (0.016, 0.027): stroke([(-0.034, H.brow_z + dz - 0.002), (-0.012, H.brow_z + dz + 0.001), (0.012, H.brow_z + dz + 0.001), (0.034, H.brow_z + dz - 0.002)], 0.1, 1.7)   # 抬頭紋
     if os.environ.get('SHANGSHI_DBG'):
         from PIL import Image as _I; _I.fromarray((np.clip(A[::-1, :, :3], 0, 1) * 255).astype(np.uint8)).save(os.environ['SHANGSHI_DBG'])
     simg.pixels.foreach_set(A.ravel()); simg.update(); simg.pack(); print('  wrinkles painted on', simg.name, (iw, ih))
@@ -127,30 +128,31 @@ def accessories(m):
             for j in range(S_): a = n0 + i * S_ + j; b = n0 + i * S_ + (j + 1) % S_; CF.append((a, b, b + S_, a + S_))
     for azd in range(66, 295, 7):
         az = math.radians(azd); side = abs(math.sin(az)); e0 = math.degrees(edge_el(az))
-        for k in range(4):
-            el = e0 - 3 - k * 9 + rng.uniform(-2.5, 2.5)
+        for k in range(3):
+            el = e0 - 4 - k * 8 + rng.uniform(-2.5, 2.5)
             if side > 0.86 and el < -12 and math.cos(az) > -0.45: continue                    # 耳朵露出來
             if el < -40: continue
-            r = rng.uniform(0.017, 0.026) * (1.0 if k < 3 else 0.8); curl(scalp(az + math.radians(rng.uniform(-3, 3)), math.radians(el), r * 0.55 + 0.004), r)
+            r = rng.uniform(0.014, 0.020) * (1.0 if k < 2 else 0.85); curl(scalp(az + math.radians(rng.uniform(-3, 3)), math.radians(el), r * 0.55 + 0.004), r)
     curls = make('Acc_Curls_SHANGSHI', CV, CF, CU, 6)
     # ---- 鴨舌帽（報童帽）：帽身扁、往前壓，蓋在短帽簷上；帽緣往裡收一圈（從下面看不是空的） ----
-    def cap_fn(u, v):
+    ztop = c[2] + H.Rtop                                                                            # 頭頂
+    def cap_fn(u, v):   # 第 3 版：帽身壓扁（只比頭頂高一點）、頂是平的往前斜、帽緣不外翻
         az = u * 2 * math.pi; e0 = edge_el(az); fr = max(0.0, math.cos(az))
-        if v < 0.12: el = e0; off = 0.016 + (0.046 - 0.016) * (v / 0.12)                              # 帽緣內側往外
-        else: t = (v - 0.12) / 0.88; el = e0 + (math.pi / 2 - e0) * t ** 1.15; off = 0.046 - 0.012 * t
-        p = scalp(az, el, off); t = max(0.0, (v - 0.12) / 0.88)
-        p[2] = c[2] + (p[2] - c[2]) * (1.0 - 0.20 * t)                                                 # 帽身扁
-        p[1] -= 0.024 * fr ** 2 * (1 - t) ** 0.5 + 0.020 * fr * t                                      # 往前壓：前面的帽身蓋到帽簷上
-        p[2] -= 0.010 * fr ** 2 * (1 - t)
+        if v < 0.1: el = e0; off = 0.010 + 0.012 * (v / 0.1); t = 0.0                               # 帽緣往裡收一小圈
+        else: t = (v - 0.1) / 0.9; el = e0 + (math.pi / 2 - e0) * t; off = 0.022 + 0.014 * math.sin(math.pi * min(1.0, t * 1.5)) * (0.6 + 0.4 * abs(math.sin(az)))   # 帽身比帽緣寬一點（兩側和後面鼓出來）
+        p = scalp(az, el, off)
+        p[1] -= 0.020 * fr * (0.3 + 0.7 * t)                                                        # 整個往前一點（蓋到帽簷根部）
+        zmax = ztop + 0.016 + 0.20 * (p[1] - c[1])                                                  # 平頂：前低後高的一個斜面
+        if p[2] > zmax: p[2] = zmax
         return p, (u * 4, v * 1.5)
-    V, F, U = grid(44, 11, cap_fn, wrap=True); cap = make('Acc_Cap_SHANGSHI', V, F, U, 0)
+    V, F, U = grid(44, 12, cap_fn, wrap=True); cap = make('Acc_Cap_SHANGSHI', V, F, U, 0)
     BV, BF, BU = [], [], []
-    for layer, dz in ((0, 0.0), (1, -0.005)):
-        def brim_fn(u, v, dz=dz):
-            az = (u - 0.5) * math.radians(118); p0 = scalp(az, edge_el(az), 0.030); w_ = math.cos(az * 90 / 59); out = 0.098 * max(0.0, w_) ** 0.6
-            p = p0 + np.array([math.sin(az), -math.cos(az), 0.0]) * out * v; p[2] += dz - 0.016 * v - 0.006; return p, (u * 3, v * 0.6)
-        V, F, U = grid(16, 3, brim_fn); n0 = len(BV); BV += V; BU += U; BF += [tuple(i + n0 for i in f_) for f_ in F]
-    brim = make('Acc_CapBrim_SHANGSHI', BV, BF, BU, 0)
+    for layer, dz in ((0, 0.0), (1, -0.006)):
+        def brim_fn(u, v, dz=dz):   # 帽簷：從帽緣往前伸出約 4 cm、微微往下，顏色比帽身深一階
+            az = (u - 0.5) * math.radians(124); p0 = scalp(az, edge_el(az), 0.014); w_ = math.cos(az * 90 / 62); out = 0.060 * max(0.0, w_) ** 0.55
+            p = p0 + np.array([math.sin(az), -math.cos(az), 0.0]) * out * v; p[2] += dz - 0.012 * v - 0.004; return p, (u * 3, v * 0.6)
+        V, F, U = grid(18, 3, brim_fn); n0 = len(BV); BV += V; BU += U; BF += [tuple(i_ + n0 for i_ in f_) for f_ in F]
+    brim = make('Acc_CapBrim_SHANGSHI', BV, BF, BU, 7)
     # ---- 鬍子：貼著上唇的八字鬍（中間厚、兩端往下）、嘴角兩條接到山羊鬍 ----
     def mus_fn(u, v):
         t = (u - 0.5) * 2; x = t * 0.033; zc = mouth_z + 0.0125 - 0.0075 * t * t; hh = 0.0072 * (1 - 0.3 * abs(t)); z = zc + hh * (1 - 2 * v)
@@ -179,8 +181,14 @@ def accessories(m):
             x = sg * (0.012 + 0.030 * u); z = zn - 0.002 - 0.010 * u - (0.016 + 0.018 * (1 - u)) * v; return chest_pt(x, z, 0.013), (u, v)
         V, F, U = grid(3, 3, collar_fn); parts.append(make('Acc_ShirtCollar%s_SHANGSHI' % ('L' if sg > 0 else 'R'), V, F, U, 5))
     def vneck_fn(u, v):              # V 領裡的襯衫：倒三角
-        z = zn - 0.012 - 0.055 * v; hw = 0.024 * (1 - v) + 0.002; return chest_pt((u - 0.5) * 2 * hw, z, 0.009), (u, v)
+        z = zn - 0.008 - 0.105 * v; hw = 0.040 * (1 - v) + 0.002; return chest_pt((u - 0.5) * 2 * hw, z, 0.009), (u, v)
     V, F, U = grid(4, 6, vneck_fn); parts.append(make('Acc_ShirtV_SHANGSHI', V, F, U, 5))
+    RV, RF, RU = [], [], []                                                                           # 第 3 版：毛衣的 V 領（襯衫的倒三角兩邊各一條墨綠羅紋）
+    for sg in (-1, 1):
+        def rib_fn(u, v, sg=sg):
+            z = zn - 0.004 - 0.112 * v; hw = 0.043 * (1 - v) + 0.003; return chest_pt(sg * (hw + 0.011 * u), z, 0.0105), (u, v * 4)
+        V, F, U = grid(2, 8, rib_fn); n0 = len(RV); RV += V; RU += U; RF += [tuple(i_ + n0 for i_ in f_) for f_ in F]
+    parts.append(make('Acc_VneckRib_SHANGSHI', RV, RF, RU, 8))
     # ---- 圍巾：掛在脖子後面，兩邊各一條從鎖骨垂到腰下（前面不圍起來） ----
     def back_fn(u, v):               # 脖子後面那一段（方位角 100°～260°）
         az = math.radians(100 + 160 * u); d = np.array([math.sin(az), -math.cos(az), 0.0]); z = zn + 0.004 + 0.05 * v; o = Vector((0.0, c[1] * 0.3 + 0.012, z))
@@ -197,6 +205,17 @@ def accessories(m):
         def fr_fn(u, v, sg=sg):
             z = z_end - 0.05 * v; x = sg * 0.092 + (u - 0.5) * 0.07; y = H.front_y(x, z_end) - 0.015; return np.array([x, y, z]), (u * 5, v)
         V, F, U = grid(8, 1, fr_fn); tails.append(make('Acc_ScarfFringe%s_SHANGSHI' % ('L' if sg > 0 else 'R'), V, F, U, 3))
+    # ---- 第 3 版：預設表情＝瞇眼微笑（把 Joy 的眼型、Fun 的嘴型烘進基本形；其他表情鍵一起平移） ----
+    kb = f.data.shape_keys.key_blocks if f.data.shape_keys else None
+    if kb:
+        n_ = len(kb[0].data); B0 = np.zeros(n_ * 3); kb[0].data.foreach_get('co', B0); delta = np.zeros(n_ * 3); used = []
+        for frag, w_ in (('Fcl_EYE_Joy', 0.55), ('Fcl_MTH_Fun', 0.7)):
+            k_ = next((k for k in kb if k.name.endswith(frag)), None)
+            if k_ is None: continue
+            X = np.zeros(n_ * 3); k_.data.foreach_get('co', X); delta += w_ * (X - B0); used.append(k_.name)
+        for k_ in kb:
+            X = np.zeros(n_ * 3); k_.data.foreach_get('co', X); k_.data.foreach_set('co', X + delta)
+        me.vertices.foreach_set('co', B0 + delta); me.update(); print('  smile baked into basis', used, 'max move %.4f' % float(np.abs(delta).max()))
     src = m.get('clothes') or m['body']
     for ob in [ring] + tails + parts:
         C.bind(ob, arm); C.transfer_weights(ob, src if ob is not ring else m['body'])
@@ -213,6 +232,8 @@ def preview_glasses(info):
         bpy.ops.mesh.primitive_torus_add(major_radius=0.023, minor_radius=0.0011, major_segments=40, minor_segments=6, location=(sg * 0.042, y, z), rotation=(math.pi / 2, 0, 0)); bpy.context.object.data.materials.append(gm)
         bpy.ops.mesh.primitive_cylinder_add(radius=0.0009, depth=0.1, vertices=6, location=(sg * 0.066, y + 0.05, z + 0.004), rotation=(math.pi / 2, 0, 0)); bpy.context.object.data.materials.append(gm)
     bpy.ops.mesh.primitive_cylinder_add(radius=0.0009, depth=0.04, vertices=6, location=(0, y, z + 0.006), rotation=(0, math.pi / 2, 0)); bpy.context.object.data.materials.append(gm)
+    for o in bpy.data.objects:   # 預覽的眼鏡不投影（第 2 版預覽：鏡腳的影子落在臉頰上，像刮痕）
+        if o.data and getattr(o.data, 'materials', None) and gm.name in [mm.name for mm in o.data.materials if mm]: o.visible_shadow = False
 
 
 def main():

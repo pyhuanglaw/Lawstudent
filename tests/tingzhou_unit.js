@@ -90,6 +90,13 @@ check('4. 店面玻璃後面、樓房裡面站不住',!freeAt(F.west-F.arcade-0.
   check('11. 公館三攤：鮮奶、紅豆餅、手機殼；攤車擋住、攤前站得住、從巷口走得到；不進騎樓、不擋花序門前和巷口、離互動點 ≥ 2.2 m',GG.map(q=>q.kind).sort().join()==='milk,phonecase,wheelcake'&&gs.length===3&&!bad.length,bad.join(' | '));
   g.applyTimeOutdoor(15.5,null); const m15=gs.filter(q=>q.isOpen).map(q=>q.kind).join(); g.applyTimeOutdoor(19,null); const m19=gs.filter(q=>q.isOpen).length; g.applyTimeOutdoor(0.2,null); const m23=gs.filter(q=>q.isOpen).length; g.tzStallsClosed=true; g.applyTimeOutdoor(19,null); const ty=gs.filter(q=>q.isOpen).length; g.tzStallsClosed=false;
   check('11. 公館三攤照各自的時間：15:30 只有紅豆餅開、19:00 三攤都開、00:12 都收了；颱風（tzStallsClosed）不擺',m15==='wheelcake'&&m19===3&&m23===0&&ty===0,[m15,m19,m23,ty].join(' / ')); }
+/* 公館 G10 是真的巷口（GG-G10-LANE-MOUTH-1111；使用者 11-11 選擇題「改成真的巷口」）：正式模型的 G10 一樓是通道、不是鐵捲門；騎樓中間沒有柱子；「往汀州路」的互動點在通道口前面 */
+{ const py=fs.readFileSync(path.join(ROOT,'tools/blender/env_second/wz_street.py'),'utf8'), kit=fs.readFileSync(path.join(ROOT,'tools/blender/env_second/wz_shopkit.py'),'utf8'), zj=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
+  check('13. 公館 G10：街道模型的設定是巷口（lane）、G09 照舊鐵捲門（shut）；樓房本體的牆在通道範圍打開',/'G10': dict\([^\n]*lane=True/.test(py)&&/'G09': dict\([^\n]*shut=True/.test(py)&&/get\('lane'\):   # 巷口（GG-G10-LANE-MOUTH-1111）/.test(py)&&/if c\.get\('lane'\):/.test(kit));
+  check('13. G10 騎樓中間的柱子拿掉：模型腳本和 zones3d.js 的例外清單都有 10',/_i not in \(4, 5, 7, 8, 10, 11, 12, 13, 14\)/.test(py)&&/!\[4,5,7,8,10,11,12,13,14\]\.includes\(i\)/.test(zj));
+  const E3b=mk(), g=Z3.ZONES.gongguan.build(E3b), gate=E3b.interactables.find(i=>i.tzGate); E3b.zone=g; E3b.levels=g.levels||null; E3b.nav=g.nav; E3b.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
+  const J2=(()=>{ try{ return JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gongguan_shops.json'),'utf8')); }catch(e){ return null; } })();
+  check('13. 「往汀州路（巷子）」的互動點在 G10 通道口正前方（x 37.1，通道 x 34.8～39.4）、站得住；通道口前面那一格沒有柱子擋著',!!gate&&Math.abs(gate.x-37.1)<0.01&&E3b.canStand(gate.x,gate.z-0.6,0.33,0)&&E3b.canStand(37.1,19.6,0.33,0),gate?gate.x+','+gate.z:'沒有'); }
 /* 禮貌生財（LIMAO-SHOP-1110，X332）：巷 A 後段南側靠公館那一端，一樓退成騎樓；算命桌在騎樓下、門前留通道；照時間開 */
 { const LM=L.limao, lm=z.tzLimao, T=LM&&LM.table, sp0=[L.fromGongguan.x,L.fromGongguan.z];
   check('12. 禮貌生財：店名一字不差；在巷 A 南側、靠公館那一端（不在汀州路主街、不在攤販排裡）；區域有 zone.tzLimao',!!LM&&LM.name==='禮貌生財'&&LM.z===L.alleys[0].z1&&LM.x0>=F.east+F.depth&&LM.x1>L.fromGongguan.x&&!!lm&&!L.stalls.list.some(q=>q.where==='alleyA'&&q.z>0&&q.x+TZ3.stallBlock(q,L).w/2>LM.x0-0.5));

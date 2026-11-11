@@ -150,7 +150,9 @@ const TK = (function(){
     if(t==='shop'&&gr.shop&&gr.shop.type==='cafe'){ cafeFront(bin,extras,W,gh,gr.shop); return extras; }
     if(t==='shop'||t==='arcade'){ const s=gr.shop||{}; const dep=t==='arcade'?3.0:0; const iw=W-0.6, ih=gh-0.9;
       /* shop.shut：拉下鐵捲門的空店面（LAWWW 2026-11-11，使用者 X335 公館 G09、G10「先拉下鐵門」）——沒有玻璃、室內、招牌，只有鐵捲門和門楣 */
-      if(s.shut){ bin.add(M('shut',()=>std({map:shutterTex(),roughness:0.5,metalness:0.4})),planeG(iw,ih,[0,0,1,ih/1.2]),0,ih/2+0.15,-dep+0.02,0,{noShadow:true}); bin.add(col('#8f9295'),boxG(W,0.25,0.25),0,ih+0.27,-dep,0,{noShadow:true}); }
+      /* shop.lane：一樓打通成巷口（LAWWW 2026-11-11，使用者選「G10 改成真的巷口」）——套件只畫一個暗的開口和門楣（正式模型是穿過整棟的通道）*/
+      if(s.lane){ bin.add(col('#2a2c30'),planeG(iw,ih),0,ih/2+0.15,-dep+0.02,0,{noShadow:true}); bin.add(col('#8f9295'),boxG(W,0.25,0.25),0,ih+0.27,-dep,0,{noShadow:true}); }
+      else if(s.shut){ bin.add(M('shut',()=>std({map:shutterTex(),roughness:0.5,metalness:0.4})),planeG(iw,ih,[0,0,1,ih/1.2]),0,ih/2+0.15,-dep+0.02,0,{noShadow:true}); bin.add(col('#8f9295'),boxG(W,0.25,0.25),0,ih+0.27,-dep,0,{noShadow:true}); }
       else {
       // 室內景深卡（後退 1.2m）＋玻璃框
       const im=glowMat('int_'+s.type,interiorTex(s.type),{nightI:1.15,dayI:0.6}); bin.add(im,planeG(iw,ih),0,ih/2+0.15,-1.2-dep,0,{noShadow:true}); bin.add(col('#d9d3c6'),boxG(iw,0.15,1.3),0,0.08,-0.6-dep,0,{noShadow:true});
