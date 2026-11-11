@@ -35,6 +35,14 @@ PARTS（逗號分隔；每一段各自讀檔，彼此不相干）：
   ST_ZR6／ST_YT6／ST_PS6／ST_KX6  第 6 場各演一次：句子裡不能有 TIME_STRICT（週六、下週、九點四十、六點半，我在門口等你）；白名單 TIME_OK（課輔班是週三晚上、六點半開始）；
                            比較寬的「哪一天幾點」字樣（TIME_WIDE）印【觀察】不判
   ST_LOWNEED               以安第 3 場（need 3）用第 2 階去約＝一般句：逐字記、次數 +1、k 不動
+  B（BB 08:07，開發分支 f8b6d1e82 起：電影（…）選項在暗的廳裡選；被取代的第 N 場＝不推進、下次再演）
+  ZR3_SMOKE                芷若電影第 3 場（交往中、【捷徑】前兩場）：選項出現當下的 zone／放映中（探針包住 MOVIES.lights 記場燈）、前一句是不是小動作的最後一句；
+                           回話當下的 zone／放映中；聊電影（MOVIES.talkFor 的選項）要在散場後。選項在廳裡、放映中＝PASS；散場後才出現＝FAIL（7266e7a29 的行為）
+  ST_BEAT_DEFER            以安念書第 2 場（need 2），BEATS 從第 1 拍（今天會演一拍）：第 1 次＝故事線那一拍取代中途 → 總次數 +1、k 還是 2；
+                           【捷徑】讀回存檔、只改到隔天（故事線當天不演）再約同一個地方 → 第 2 場整場逐字、k＝3（7266e7a29：第 1 次就推進到 3＝FAIL）
+  MOVIE_WITHMID            芷若電影第 1 場遇到她有 with.mid 的片（片單 m2707b，2027-07；【捷徑】可能要用 INV.accept）：第 1 場的小動作、說出口的句子、選項都不演、散場不補，
+                           總次數 +1、k 還是 1、set 不記（7266e7a29：k 推進＝FAIL）。暑假日子、找得到這部片才跑得成，best effort
+  版本偵測：頁面上 String(INV.meet) 有沒有 actDefer（log 印）；有＝電影的逐字順序照「小動作 → 選項回話（廳裡）→ 說出口的句子（散場）」排
   第 6 場共通：G.flags.STUDY_UNLOCK 有記那一格；G.invites（這一次以外的）、G.trips、G.flags.ARC_INVITE 前後一樣（不會自動排約）；DATE.log 次數 +1（study6）
 每一段：
   逐字：每一句（說話人＋全文）印 [說]；每一組選項逐字印 [選項]（→ 選了哪個）；第 N 場的句子照稿（AA_708／AA_707，讀不到稿才退回頁面上的遊戲資料，會印）的順序逐句比（中間可以夾別的句子）、
@@ -77,7 +85,8 @@ LOGF = open(os.path.join(OUT, 'act_lines.txt'), 'a', encoding='utf-8')
 
 ALL_PARTS = ['AN_MOVIE_A', 'AN_MOVIE_B', 'AN_BOOK_A', 'AN_BOOK_B', 'ZR3_BASE_P0', 'ZR3_BASE_P1', 'ZR3_ALT', 'YT3_BASE_P0', 'YT3_BASE_P1', 'YT3_ALT', 'KX3_BASE_P0', 'KX3_BASE_P1', 'KX3_ALT',
              'PS1', 'PS2', 'PS3', 'PS4', 'FALLBACK', 'ROTATE',
-             'ST_AN1_A', 'ST_AN1_B', 'ST_PS1_A', 'ST_PS1_B', 'ST_AN6_NOPAGE', 'ST_AN6_PAGE', 'ST_ZR6', 'ST_YT6', 'ST_PS6', 'ST_KX6', 'ST_LOWNEED']
+             'ST_AN1_A', 'ST_AN1_B', 'ST_PS1_A', 'ST_PS1_B', 'ST_AN6_NOPAGE', 'ST_AN6_PAGE', 'ST_ZR6', 'ST_YT6', 'ST_PS6', 'ST_KX6', 'ST_LOWNEED',
+             'ZR3_SMOKE', 'ST_BEAT_DEFER', 'MOVIE_WITHMID']
 PARTS = [p.strip().upper() for p in (os.environ.get('PARTS') or ','.join(ALL_PARTS)).split(',') if p.strip()]
 
 # 日子：2025 大一上的週六優先、再週日（避開 10/06 中秋、10/10 國慶、10/13 颱風、考試週；開頭再用 CALENDAR 查一次）
@@ -198,19 +207,23 @@ def role(t):
     return 'narr' if t.startswith('（') else 'her'   # studyn3d.js S.play：（ 開頭＝旁白
 
 
-def expected(sc, mode, pick, name, with_mid=False):
-    """照 invites3d.js 的順序排這一場該出的句子：[(role, 字)]；mode＝cinema／act／study"""
+def expected(sc, mode, pick, name, with_mid=False, opts_in_hall=False):
+    """照 invites3d.js 的順序排這一場該出的句子：[(role, 字)]；mode＝cinema／act／study。
+    opts_in_hall（f8b6d1e82 起）：電影的選項全是（…）開頭＝暗的廳裡、小動作後面就選、回話也在廳裡；說出口的句子照舊散場以後"""
     sub = lambda t: t.replace('{name}', name)
     seq = [(role(t), sub(t)) for t in sc['seat']]
+    rep = []
+    if sc['opts']:
+        o = sc['opts'][min(pick, len(sc['opts']) - 1)]
+        rep = [(role(t), sub(t)) for t in o['reply']]
     if mode == 'cinema':
         dark = [] if with_mid else [t for t in sc['mid'] if narr_whole(t)]
         after = [t for t in sc['mid'] if not narr_whole(t)]
-        seq += [(role(t), sub(t)) for t in dark + after]
+        inhall = opts_in_hall and bool(sc['opts']) and all(o['t'].startswith('（') for o in sc['opts']) and not with_mid
+        if inhall: seq += [(role(t), sub(t)) for t in dark] + rep + [(role(t), sub(t)) for t in after]
+        else: seq += [(role(t), sub(t)) for t in dark + after] + rep
     else:
-        seq += [(role(t), sub(t)) for t in sc['mid']]
-    if sc['opts']:
-        o = sc['opts'][min(pick, len(sc['opts']) - 1)]
-        seq += [(role(t), sub(t)) for t in o['reply']]
+        seq += [(role(t), sub(t)) for t in sc['mid']] + rep
     seq += [(role(t), sub(t)) for t in sc['pack']]
     seq += [(role(t), sub(t)) for t in sc['bye']]
     return seq
@@ -220,14 +233,15 @@ def expected(sc, mode, pick, name, with_mid=False):
 HOOK_JS = r"""(()=>{ if(!window.__ACTH){ window.__ACTH=1; window.__AE=[];
   const n=()=>window.__AE.length, G=()=>GAME.G;
   const snap=id=>{ try{ const r=SOCIAL.rel(id)||{}, o={}; for(const k of Object.keys(r)) if(typeof r[k]==='number') o[k]=r[k]; return o; }catch(e){ return null; } };
-  const s0=GAME.say; GAME.say=function(w,t){ try{ window.__AE.push({k:'say',i:n(),who:(w&&w.name)||(typeof w==='string'?w:''),cid:(w&&w.charId)||'',t:String(t==null?'':t),h:+(+G().hour).toFixed(3),d:G().day,z:G().zone}); }catch(e){} return s0.apply(this,arguments); };
+  const s0=GAME.say; GAME.say=function(w,t){ try{ window.__AE.push({k:'say',i:n(),who:(w&&w.name)||(typeof w==='string'?w:''),cid:(w&&w.charId)||'',t:String(t==null?'':t),h:+(+G().hour).toFixed(3),d:G().day,z:G().zone,dark:!!window.__dark}); }catch(e){} return s0.apply(this,arguments); };
+  if(typeof MOVIES!=='undefined'&&MOVIES.lights){ const l0=MOVIES.lights; MOVIES.lights=function(on){ try{ window.__dark=!on; window.__AE.push({k:'lights',i:n(),on:!!on,z:G().zone}); }catch(e){} return l0.apply(this,arguments); }; }
   if(GAME.caption){ const p0=GAME.caption; GAME.caption=function(a,b){ try{ window.__AE.push({k:'cap',i:n(),t:String(b==null?a:b)}); }catch(e){} return p0.apply(this,arguments); }; }
-  const c0=GAME.choose; GAME.choose=function(o){ const rec={k:'ch',i:n(),opts:(o||[]).map(x=>typeof x==='string'?x:((x&&x.t)||'')),dim:(o||[]).map(x=>!!(x&&x.dim)),pick:null,z:G().zone};
+  const c0=GAME.choose; GAME.choose=function(o){ const rec={k:'ch',i:n(),opts:(o||[]).map(x=>typeof x==='string'?x:((x&&x.t)||'')),dim:(o||[]).map(x=>!!(x&&x.dim)),pick:null,z:G().zone,dark:!!window.__dark};
     try{ window.__AE.push(rec); }catch(e){} const p=c0.apply(this,arguments); try{ Promise.resolve(p).then(k=>{ rec.pick=k; }); }catch(e){} return p; };
   if(typeof SOCIAL!=='undefined'){
     const f0=SOCIAL.applyFx; if(f0) SOCIAL.applyFx=function(G_,id,fx,o){ const b=snap(id); const r=f0.apply(this,arguments); try{ window.__AE.push({k:'fx',i:n(),id,fx:fx?JSON.parse(JSON.stringify(fx)):null,cap:(o&&o.cap)||null,ret:r?JSON.parse(JSON.stringify(r)):null,before:b,after:snap(id)}); }catch(e){} return r; };
     const a0=SOCIAL.adjust; if(a0) SOCIAL.adjust=function(id,d){ const b=snap(id); const r=a0.apply(this,arguments); try{ window.__AE.push({k:'adj',i:n(),id,d:d?JSON.parse(JSON.stringify(d)):null,before:b,after:snap(id)}); }catch(e){} return r; }; }
- } window.__AE=[]; return true; })()"""
+ } window.__AE=[]; window.__dark=false; return true; })()"""
 
 ST_JS = r"""(()=>{ const D=GAME.D||{}, ch=document.getElementById('choices'), tx=document.getElementById('dlgText'), nm=document.getElementById('dlgName'), ph=document.getElementById('phone');
   const B=(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null):[];
@@ -250,7 +264,8 @@ SETUP_JS = r"""(q=>{ const G=GAME.G, F=G.flags||(G.flags={}); const out={notes:[
   for(const t of q.mems||[]) SOCIAL.remember(q.who,t,'');
   if(q.kind==='study'){ const RS=STUDYN.rec(G); RS[q.who]={n:q.n,k:q.k,last:null,rot:q.rot==null?-1:q.rot}; }
   else { const A=F.ACTN&&typeof F.ACTN==='object'?F.ACTN:(F.ACTN={}); const RA=A[q.kind]&&typeof A[q.kind]==='object'?A[q.kind]:(A[q.kind]={}); RA[q.who]={n:q.n,k:q.k,last:null,rot:q.rot==null?-1:q.rot}; }
-  if(typeof ARCS!=='undefined'&&ARCS.rec){ const r=ARCS.rec(G,q.who); r.last=G.day; if(q.rotSrc) r.rotSrc=q.rotSrc; }
+  if(typeof ARCS!=='undefined'&&ARCS.rec){ const r=ARCS.rec(G,q.who); if(q.arcLast!==false) r.last=G.day; else { r.last=null; if(q.arcK) { r.k=q.arcK; r.missed=[]; } } if(q.rotSrc) r.rotSrc=q.rotSrc; }
+  out.arc=(()=>{ try{ const b=typeof ARCS!=='undefined'&&ARCS.pick?ARCS.pick(G,q.who,{kind:q.kind==='study'?'study':q.kind,quiet:false}):null; return b?{n:b.n,ask:b.ask||[],opts:(b.opts||[]).map(o=>o.t)}:null; }catch(e){ return {err:String(e)}; } })();
   let ups=0; if(SOCIAL.upLine&&SOCIAL.markUp){ for(let i=0;i<10;i++){ const U=SOCIAL.upLine(q.who,{place:q.pid||null,outing:true}); if(!U) break; SOCIAL.markUp(q.who,U.k); ups++; } }
   const r=SOCIAL.rel(q.who), rel={}; for(const k of Object.keys(r)) if(typeof r[k]==='number') rel[k]=r[k];
   let cc=null; try{ cc=DATE.canConfess(G,q.who); }catch(e){ cc={err:String(e)}; }
@@ -302,9 +317,13 @@ ACCEPT_JS = r"""(q=>{ const iv=INV.accept(GAME.G,q.who,q.pid,GAME.G.day,q.h,{by:
 
 ROT_OK_JS = r"""(q=>{ const r=((ACTIVITY_SCENES.kinds[q.kind]||{}).people||{})[q.who], F=GAME.G.flags||{}; return ((r&&r.rot)||[]).map((x,i)=>[x,i]).filter(([x])=>!x.if||(F[x.if]!=null&&F[x.if]!==false)).map(([,i])=>i); })"""
 
+VER_JS = r"""(()=>({actDefer:String(INV.meet).includes('actDefer'), doneDefer:String(STUDYN.act('study').done).includes('defer')}))()"""
+
+TALK_JS = r"""(q=>{ if(typeof MOVIES==='undefined'||!MOVIES.talkFor) return null; const T=MOVIES.talkFor(GAME.G,q.who,q.film); return T?(T.opts||[]).map(o=>o.t):null; })"""
+
 TODAY_TXT_JS = r"""(()=>((document.getElementById('phoneBody')||{}).innerText||'').trim())()"""
 
-ALL_JS = [HOOK_JS, ST_JS, CAL_JS, SETUP_JS, PLACES_JS, TIMES_JS, FILM_JS, IV_JS, NPC_JS, REC_JS, PAGE_SCENE_JS, MARK_SEEN_JS, ACCEPT_JS, ROT_OK_JS, TODAY_TXT_JS]   # node --check 用（探針自己不用這個表）
+ALL_JS = [HOOK_JS, ST_JS, CAL_JS, SETUP_JS, PLACES_JS, TIMES_JS, FILM_JS, IV_JS, NPC_JS, REC_JS, PAGE_SCENE_JS, MARK_SEEN_JS, ACCEPT_JS, ROT_OK_JS, VER_JS, TALK_JS, TODAY_TXT_JS]   # node --check 用（探針自己不用這個表）
 
 
 # ---------------------------------------------------------------- 觸控
@@ -420,7 +439,8 @@ def scene_flags(kind, who, k):
 async def setup_part(pg, cdp, cfg, key):
     c = await load_day(pg, cdp, key, cfg.get('h0', 10.0))
     q = {'who': cfg['who'], 'kind': cfg['kind'], 'k': cfg['k'], 'n': cfg['n'], 'rot': cfg.get('rot'), 'rel': REL[cfg['stage']], 'dating': cfg.get('dating', False),
-         'flags': cfg.get('flags') or {}, 'mems': cfg.get('mems') or [], 'unmem': cfg.get('unmem') or [], 'rotSrc': cfg.get('rotSrc'), 'pid': None}
+         'flags': cfg.get('flags') or {}, 'mems': cfg.get('mems') or [], 'unmem': cfg.get('unmem') or [], 'rotSrc': cfg.get('rotSrc'), 'pid': None,
+         'arcLast': not cfg.get('arc'), 'arcK': cfg.get('arcK')}
     s = await pg.evaluate(SETUP_JS, q)
     return c, s
 
@@ -429,9 +449,9 @@ async def choose_day_place(pg, cdp, tag, cfg, force=False):
     """日子（CALENDAR）× 地點（PLACES_JS）× 時間（TIMES_JS：她會答應、不是期末的飯）；電影另外要片單合這一場（FILM_JS）。
     force（只給 accept_fallback 的段：可昕）：手機清單沒有的地點、她不答應的時間也收，之後用 INV.accept 直接寫邀約【捷徑】"""
     tried = []
-    for key in DAY_KEYS:
+    for key in (cfg.get('days') or DAY_KEYS):
         c = await pg.evaluate(CAL_JS, key)
-        if c['hol'] or c['typh'] or c['exam'] or not c['term']:
+        if c['hol'] or c['typh'] or c['exam'] or (not c['term'] and not cfg.get('any_term')):
             tried.append([key, '假日／颱風／考試週／沒有學期']); continue
         c, s = await setup_part(pg, cdp, cfg, key)
         pl = await pg.evaluate(PLACES_JS, {'who': cfg['who'], 'kind': cfg['kind']})
@@ -450,12 +470,14 @@ async def choose_day_place(pg, cdp, tag, cfg, force=False):
             film = None
             if cfg['kind'] == 'movie':
                 film = await pg.evaluate(FILM_JS, {'who': cfg['who']})
-                if not film or not film['ok'] or (film['withMid'] and not cfg.get('_allow_withmid')):
+                if cfg.get('want_withmid'):
+                    if not film or not film['withMid']: tried.append([key, p['id'], '要 with.mid 的片：%s' % J(film)]); continue
+                elif not film or not film['ok'] or (film['withMid'] and not cfg.get('_allow_withmid')):
                     tried.append([key, p['id'], '片單：%s' % J(film)]); continue
             log('  選日子／地點／時間（只讀的查詢）：試過 %s' % J(tried[-12:]))
             fz = bool(force and (p.get('skip') or p.get('why') or hs[0].get('res') != 'accept'))
             return {'key': key, 'cal': c, 'setup': s, 'place': p, 'time': hs[0], 'film': film, 'force': fz}
-    if cfg['kind'] == 'movie' and not cfg.get('_allow_withmid'):
+    if cfg['kind'] == 'movie' and not cfg.get('_allow_withmid') and not cfg.get('want_withmid'):
         log('  每一天的片都有她的 with.mid 或片單不合：改成允許 with.mid（之後把那部片記成她看過【前置】）')
         cfg['_allow_withmid'] = True
         return await choose_day_place(pg, cdp, tag, cfg, force)
@@ -676,6 +698,109 @@ act_part('ST_AN6_PAGE', 'heroine_01', 'study', 6, 5, 0, mems=['AN_SHOP_PAGE'], a
 for nm, w in (('ST_ZR6', 'heroine_02'), ('ST_YT6', 'heroine_03'), ('ST_PS6', 'classmate_peishan'), ('ST_KX6', 'kexin')):
     act_part(nm, w, 'study', 6, 5, 0, six=True, h_pref=15.5, dating=(w == 'kexin'), accept_fallback=(w == 'kexin'))
 act_part('ST_LOWNEED', 'heroine_01', 'study', 3, 2, 0, generic=True, h_pref=15.5)
+# BB 08:07（f8b6d1e82）
+act_part('ZR3_SMOKE', 'heroine_02', 'movie', 3, 4, 0, dating=True, alt=True, smoke=True, shot_on=['中間隔著一點點', '沒有移開'], base_word='中間隔著一點點', alt_word='沒有移開', h_pref=14)
+act_part('ST_BEAT_DEFER', 'heroine_01', 'study', 2, 2, 0, arc=True, beat_defer=True, h_pref=15.5)
+act_part('MOVIE_WITHMID', 'heroine_02', 'movie', 1, 4, 0, withmid=True, want_withmid=True, any_term=True, accept_fallback=True, h_pref=14,
+         days=['2027-07-03', '2027-07-10', '2027-07-17', '2027-07-24', '2027-07-31', '2027-07-04', '2027-07-11', '2027-07-18', '2027-07-25'])
+
+
+async def smoke_checks(tag, ev, i_meet, act_opts, rs, pick, name, who, ver, pk):
+    """ZR3_SMOKE（BB 08:07）：電影第 N 場的選項（全是（…）開頭）在暗的廳裡、小動作後面選，回話也在廳裡；聊電影（MOVIES.after 的選項）在散場以後。
+    廳＝zone xs_nanyang_hall；放映中＝MOVIES.lights(false) 以後、lights(true) 以前（探針包住 MOVIES.lights 記的 __dark）"""
+    E2 = ev[i_meet:]
+    log('== %s 冒煙：選項、回話、聊電影出現的位置' % tag)
+    mi = next((i for i, e in enumerate(E2) if e['k'] == 'ch' and e['opts'] == act_opts), None)
+    if not R.check('[%s] 第 N 場的選項有出現：%s' % (tag, '｜'.join(act_opts)), mi is not None, J([e['opts'] for e in E2 if e['k'] == 'ch'])): return
+    m = E2[mi]
+    prev = next((e for e in reversed(E2[:mi]) if e['k'] == 'say'), None)
+    lights = [[e['on'], e['z']] for e in E2 if e['k'] == 'lights']
+    log('  選項出現當下：zone %s、放映中 %s；前一句「%s」（%s）；場燈紀錄 %s' % (m.get('z'), m.get('dark'), (prev or {}).get('t'), (prev or {}).get('z'), J(lights)))
+    darkmid = [t.replace('{name}', name) for t in rs['mid'] if narr_whole(t)]
+    R.check('[%s] 選項在廳裡（zone xs_nanyang_hall）、放映中（場燈關著）' % tag, m.get('z') == 'xs_nanyang_hall' and bool(m.get('dark')),
+            J({'zone': m.get('z'), 'dark': m.get('dark'), '修改前': '7266e7a29 選項在走出 1 廳以後（zone xs_nanyang、場燈開）＝FAIL'}))
+    R.check('[%s] 選項接在小動作後面（前一句是這一場 mid 的最後一句旁白）' % tag, bool(prev) and bool(darkmid) and prev['t'] == darkmid[-1], J({'前一句': (prev or {}).get('t'), '小動作': darkmid}))
+    o = rs['opts'][min(pick, len(rs['opts']) - 1)]
+    reply = [t.replace('{name}', name) for t in o['reply']]
+    rs_ev = [e for e in E2[mi + 1:] if e['k'] == 'say' and e['t'] in reply]
+    log('  回話出現當下：%s' % J([[e['t'], e.get('z'), e.get('dark')] for e in rs_ev]))
+    R.check('[%s] 回話在廳裡、放映中' % tag, len(rs_ev) == len(reply) and all(e.get('z') == 'xs_nanyang_hall' and e.get('dark') for e in rs_ev), J([[e['t'], e.get('z'), e.get('dark')] for e in rs_ev]))
+    talk = await PG[0].evaluate(TALK_JS, {'who': who, 'film': (pk.get('film') or {}).get('film')}) if pk.get('film') else None
+    tm = [e for e in E2 if e['k'] == 'ch' and talk and e['opts'] and any(x in talk for x in e['opts'])]
+    log('  聊電影的選項（MOVIES.talkFor）%s；出現當下 %s' % (J(talk), J([[e['opts'], e.get('z'), e.get('dark')] for e in tm])))
+    if talk: R.check('[%s] 聊電影那段在散場以後（不在廳裡、場燈開）' % tag, bool(tm) and all(e.get('z') != 'xs_nanyang_hall' and not e.get('dark') for e in tm), J([[e['opts'], e.get('z'), e.get('dark')] for e in tm]))
+    else: log('  【觀察】%s 這部片沒有給她的聊電影選項（talkFor 空的），這一項不判' % tag)
+    if not ver.get('actDefer'): log('  【觀察】%s 頁面沒有 actDefer（修改前的版本）：上面「選項在廳裡」預期 FAIL（D34）' % tag)
+
+
+PG = [None]
+
+
+async def beat_defer_part(pg, cdp, errs, tag):
+    """ST_BEAT_DEFER（BB 08:07 (b)）：以安一起念書第 2 場（need 2），當天有故事線那一拍（ARCS.pick＝第 1 拍）取代第 2 場的中途
+    → 總次數照算、第 2 場不推進；【捷徑】隔天（讀回同一份存檔、只改日子，故事線當天不演）再約同一個地方 → 演到第 2 場（中途、選項）、推進到第 3 場"""
+    cfg = dict(PART_CFG[tag]); who, kind, k = cfg['who'], cfg['kind'], cfg['k']
+    e0 = len(errs)
+    cfg['flags'] = dict(scene_flags(kind, who, k))
+    pk = await choose_day_place(pg, cdp, tag, cfg)
+    if not R.check('[%s] 找得到能約的日子、地點、她會答應的時間' % tag, bool(pk)): return
+    s = pk['setup']; name = s['name']; ver = await pg.evaluate(VER_JS)
+    R.setup('[%s] 讀檔：%s（第 %d 天）10:00、%s 第 %s 階、STUDYN n %d k %d、BEATS 從第 1 拍（last＝null：今天會演一拍）；地點 %s %s；ARCS.pick＝%s；版本 %s' % (
+        tag, pk['key'], pk['cal']['d'], who, s['stage'], cfg['n'], k, pk['place']['id'], pk['time']['t'], J(s.get('arc')), J(ver)))
+    if not R.check('[%s] 前置：今天有故事線那一拍（ARCS.pick 不是 null）' % tag, bool(s.get('arc')) and not s['arc'].get('err'), J(s.get('arc'))): return
+    sc = draft_scene(kind, who, k) or {}
+    rs = resolve(sc, False, True); act_opts = [o['t'].replace('{name}', name) for o in rs.get('opts', [])]
+    arc_opts = s['arc']['opts']
+    cfg['_is_act'] = lambda opts: opts == act_opts
+    cfg['_pickfn'] = lambda opts: 0 if (opts == act_opts or opts == arc_opts) else None
+    rows = []
+    for rnd in (1, 2):
+        b0 = await pg.evaluate(REC_JS, {'who': who, 'kind': kind, 'set': sc.get('set')})
+        await pg.evaluate(HOOK_JS); screen = []; shots = set()
+        iv, how = await invite(pg, cdp, '%s_%d' % (tag, rnd), cfg, pk, screen)
+        if not R.check('[%s] 第 %d 次約成了（%s）' % (tag, rnd, how), bool(iv), J(iv)): return
+        ok = await go_meet(pg, cdp, '%s_%d' % (tag, rnd), cfg, iv, screen, shots)
+        await R.shot(pg, 'act_%s_%d_end' % (tag, rnd))
+        ev = await pg.evaluate("window.__AE||[]"); a0 = await pg.evaluate(REC_JS, {'who': who, 'kind': kind, 'set': sc.get('set')})
+        R.check('[%s] 第 %d 次赴約演完' % (tag, rnd), ok, '')
+        says = [e for e in ev if e['k'] == 'say']; menus = [e for e in ev if e['k'] == 'ch']
+        log('== %s 第 %d 次逐字' % (tag, rnd))
+        for e in ev:
+            if e['k'] == 'say': log('  [說] %s｜%s' % (e['who'] or '（旁白）', e['t']))
+            elif e['k'] == 'ch': log('  [選項] %s → %s' % ('｜'.join(e['opts']), e.get('pick')))
+        joined = [e['t'].replace('（小聲）', '', 1) for e in says]
+        mid = [t.replace('{name}', name) for t in rs.get('mid', [])]
+        rb, ra = b0['rec'] or {}, a0['rec'] or {}
+        rows.append([rnd, rb, ra])
+        if rnd == 1:
+            R.check('[%s] 第 1 次：故事線那一拍有演（她問「%s」、拍的選項出現）' % (tag, ''.join(s['arc']['ask'])), any(t in joined for t in s['arc']['ask']) and any(m['opts'] == arc_opts for m in menus), '')
+            R.check('[%s] 第 1 次：第 %d 場的中途、選項被取代（沒演）' % (tag, k), not any(t in joined for t in mid) and not any(m['opts'] == act_opts for m in menus), J([t for t in mid if t in joined]))
+            R.check('[%s] 第 1 次：總次數 +1、第 %d 場不推進（%s → %s）' % (tag, k, J(rb), J(ra)), ra.get('n') == (rb.get('n') or 0) + 1 and ra.get('k') == k,
+                    '修改前（7266e7a29）會推進到 k+1＝第 %d 場的中途、選項永遠看不到' % k)
+            G2 = await pg.evaluate("JSON.parse(JSON.stringify(GAME.G))")
+            nx = None
+            for dd in range(1, 8):
+                c2 = await pg.evaluate("(d=>{ const x=CALENDAR.dateOf(d), t=CALENDAR.termOf?CALENDAR.termOf(d):null; return {d, wd:((x.wd%7)+7)%7, k:x.y+'-'+x.m+'-'+x.d, hol:!!(CALENDAR.holiday&&CALENDAR.holiday(d)), typh:!!(CALENDAR.typhoon&&CALENDAR.typhoon(d)), exam:!!(t&&t.exam)}; })", G2['day'] + dd)
+                if not (c2['hol'] or c2['typh'] or c2['exam']): nx = c2; break
+            G2['day'] = nx['d']; G2['weekday'] = nx['wd']; G2['hour'] = 10.0; G2['zone'] = 'dorm'; G2.pop('pos', None); G2['invites'] = []
+            try: await L.load_state(pg, G2, quiet_events=True, quiet_phone=True)
+            except TypeError: await L.load_state(pg, G2, quiet_events=True)
+            await pg.wait_for_timeout(3500); await close_phone(pg, cdp); await L.close_panels(pg, cdp)
+            q2 = await pg.evaluate("(w=>{ const r=ARCS.rec(GAME.G,w); r.last=GAME.G.day; const S=STUDYN.rec(GAME.G)[w]; return {beats:JSON.parse(JSON.stringify(r)), studyn:S}; })", who)
+            tm = await pg.evaluate(TIMES_JS, {'who': who, 'pid': pk['place']['id']})
+            hs = [x for x in (tm if isinstance(tm, list) else []) if x.get('res') == 'accept' and not x.get('te')]
+            hs.sort(key=lambda x: abs(x['h'] - (cfg.get('h_pref') or 15)))
+            R.setup('[%s]【捷徑】讀回第 1 次演完的存檔、日子改成 %s（第 %d 天）10:00、清邀約；BEATS.last＝今天（故事線今天不演）：%s' % (tag, nx['k'], nx['d'], J(q2)))
+            if not R.check('[%s] 隔天同一個地方有她會答應的時間' % tag, bool(hs), J(tm)): return
+            pk = dict(pk, time=hs[0])
+        else:
+            m2, br = seq_match(says, expected(rs, 'study', 0, name), who)
+            R.check('[%s] 第 2 次：演到原本那一場（第 %d 場整場逐字照稿）' % (tag, k), not m2 and not br, J({'缺': m2, '說話人': br}))
+            R.check('[%s] 第 2 次：第 %d 場的選項出現' % (tag, k), any(m['opts'] == act_opts for m in menus), J([m['opts'] for m in menus]))
+            R.check('[%s] 第 2 次：總次數 +1、推進到第 %d 場（%s → %s）' % (tag, k + 1, J(rb), J(ra)), ra.get('n') == (rb.get('n') or 0) + 1 and ra.get('k') == k + 1, '')
+            if sc.get('set'): R.check('[%s] 第 2 次：set 旗標 %s＝今天' % (tag, sc['set']), a0['set'] == a0['day'], J(a0['set']))
+    log('  [%s] 兩次的 STUDYN：%s' % (tag, J(rows)))
+    R.check('[%s] 沒有 JS 例外（pageerror）' % tag, len(errs) == e0, J(errs[e0:e0 + 5]))
 
 
 async def run_part(pg, cdp, errs, tag):
@@ -703,6 +828,8 @@ async def run_part(pg, cdp, errs, tag):
     if cfg.get('an6') == 'page': R.check('[%s] 前置：記憶 AN_SHOP_PAGE 有（anShopPage true）' % tag, s['hasPage'] and s['altOn'].get('anShopPage') is True, J(s['altOn']))
     if cfg.get('an6') == 'nopage': R.check('[%s] 前置：沒有記憶 AN_SHOP_PAGE（anShopPage false）' % tag, not s['hasPage'] and s['altOn'].get('anShopPage') is False, J(s['altOn']))
     name = s['name']
+    ver = await pg.evaluate(VER_JS)
+    R.note('[%s] 版本偵測：%s（actDefer＝f8b6d1e82 起：電影（…）選項在廳裡、被取代的第 N 場下次再演）' % (tag, J(ver)))
     # 稿、頁面上的遊戲資料
     pgs = await pg.evaluate(PAGE_SCENE_JS, {'who': who, 'kind': kind})
     R.note('[%s] 頁面上的遊戲資料 src：%s；稿 %s' % (tag, (pgs or {}).get('src'), DRAFT707 if kind == 'study' else DRAFT708))
@@ -724,7 +851,7 @@ async def run_part(pg, cdp, errs, tag):
     cfg['_pickfn'] = lambda opts: (min(pick, len(opts) - 1) if (act_opts and opts == act_opts) else None)
     # 電影：with.mid（這部片和她的那一幕）＝第 N 場的旁白不演 → 【前置】記成她看過
     with_mid = False
-    if kind == 'movie' and pk.get('film') and pk['film'].get('withMid'):
+    if kind == 'movie' and pk.get('film') and pk['film'].get('withMid') and not cfg.get('withmid'):
         await pg.evaluate(MARK_SEEN_JS, {'who': who, 'film': pk['film']['film']})
         R.setup('[%s]【前置】這一段的片《%s》有她的 with.mid（會取代第 %d 場的旁白）：記成她 30 天前看過（MOVIE_SEEN）' % (tag, pk['film']['title'], k))
     before = await pg.evaluate(REC_JS, {'who': who, 'kind': kind, 'set': (sc or {}).get('set')})
@@ -739,7 +866,8 @@ async def run_part(pg, cdp, errs, tag):
         fm = await pg.evaluate("(q=>{ const iv=(GAME.G.invites||[]).find(v=>v.id===q.id); if(!iv||typeof MOVIES==='undefined') return null; const AX=STUDYN.act('movie').pick(GAME.G,q.who); const F=MOVIES.fitScene(GAME.G,iv,AX); const M=MOVIES.midLines(GAME.G,iv,F); return {film:iv.film, fit:!!F&&!F.generic, k:F&&F.k, withMid:!!(M&&M.withMid), scene:M&&!M.withMid?M:null}; })", {'id': iv['id'], 'who': who})
         R.note('[%s] 約好的片：%s' % (tag, J(fm)))
         with_mid = bool(fm and fm['withMid'])
-        if not cfg.get('generic'): R.check('[%s] 約好的片合第 %d 場（MOVIES.fitScene 不是一般句）、沒有 with.mid' % (tag, k), bool(fm and fm['fit'] and not fm['withMid']), J(fm))
+        if cfg.get('withmid'): R.check('[%s] 前置：約好的片有她的 with.mid（會取代第 %d 場的小動作）' % (tag, k), bool(fm and fm['withMid']), J(fm))
+        elif not cfg.get('generic'): R.check('[%s] 約好的片合第 %d 場（MOVIES.fitScene 不是一般句）、沒有 with.mid' % (tag, k), bool(fm and fm['fit'] and not fm['withMid']), J(fm))
     i_meet = len(await pg.evaluate("window.__AE||[]"))
     ok = await go_meet(pg, cdp, tag, cfg, iv, screen, shots)
     await R.shot(pg, 'act_%s_end' % tag)
@@ -782,11 +910,20 @@ async def run_part(pg, cdp, errs, tag):
         bts = after.get('beats') or {}
         R.note('[%s] 中途：%s（rot[%s].mid 缺 %s；BEATS rotSrc %s、rot %s）' % (tag, '活動自己的輪換句' if not m2 else '不是活動自己的輪換句（ARCS.rotPick：她最近的事）', exp_i, J(m2), bts.get('rotSrc'), J(bts.get('rot'))))
         R.check('[%s] 輪換：次數 +1、rec.rot＝%s（%s → %s）' % (tag, exp_i, J(b), J(a)), a.get('n') == (b.get('n') or 0) + 1 and a.get('rot') == exp_i, '')
+    elif cfg.get('withmid'):
+        # f8b6d1e82：這部片的 with.mid 取代了第 N 場的小動作＝那一場（含選項、說出口的句子）整場留到下次（actDefer），總次數照算、第 N 場不推進
+        joined = [e['t'].replace('（小聲）', '', 1) for e in says]
+        own = [t.replace('{name}', name) for f in ('mid',) for t in rs.get(f, [])]
+        R.check('[%s] with.mid 取代：第 %d 場自己的小動作／說出口的句子都沒演' % (tag, k), not any(t in joined for t in own), J([t for t in own if t in joined]))
+        R.check('[%s] with.mid 取代：第 %d 場的選項沒出（散場後也沒補）' % (tag, k), not any(m['opts'] == act_opts for m in menus), J([m['opts'] for m in menus]))
+        R.check('[%s] with.mid 取代＝不推進、下次再演：總次數 +1、k 還是 %d（%s → %s）' % (tag, k, J(b), J(a)), a.get('n') == (b.get('n') or 0) + 1 and a.get('k') == k and a.get('last') == after['day'],
+                '修改前（7266e7a29）會推進到 k+1＝第 %d 場永遠看不到' % k)
+        if sc.get('set'): R.check('[%s] with.mid 取代：set 旗標 %s 沒記' % (tag, sc['set']), after['set'] is None, J(after['set']))
     else:
         R.check('[%s] 次數 +1、下一場 k=%d（%s → %s）' % (tag, k + 1, J(b), J(a)), a.get('n') == (b.get('n') or 0) + 1 and a.get('k') == k + 1 and a.get('last') == after['day'], '')
         if sc.get('set'): R.check('[%s] set 旗標 %s＝今天' % (tag, sc['set']), after['set'] == after['day'], J(after['set']))
         mode = 'cinema' if kind == 'movie' else ('study' if kind == 'study' else 'act')
-        exp = expected(rs, mode, pick, name, with_mid)
+        exp = expected(rs, mode, pick, name, with_mid, ver.get('actDefer'))
         miss, badrole = seq_match(says, exp, who)
         R.check('[%s] 第 %d 場%s逐字照稿、照順序（%d 句；她／旁白分對）' % (tag, k, '（alt）' if alt_on else ('（base）' if cfg.get('base') else ''), len(exp)), not miss and not badrole, J({'缺': miss, '說話人': badrole}))
         if act_opts:
@@ -855,6 +992,8 @@ async def run_part(pg, cdp, errs, tag):
             R.check('[%s] 第 6 場＝正式約會一次：DATE.log 次數 +1、study6＝今天' % tag, (after['dlog'] or {}).get('count') == ((before['dlog'] or {}).get('count') or 0) + 1 and (after['dlog'] or {}).get('study6') == after['day'], J([before['dlog'], after['dlog']]))
             await phone(pg, cdp, 'today'); today1 = await pg.evaluate(TODAY_TXT_JS); await close_phone(pg, cdp)
             R.note('[%s] 手機「今天」前後（參考，不判）：前 %s ／ 後 %s' % (tag, J(today0[:200]), J(today1[:200])))
+    if cfg.get('smoke'):
+        await smoke_checks(tag, ev, i_meet, act_opts, rs, pick, name, who, ver, pk)
     # 禁字（沛珊）
     if cfg.get('ban'):
         bad = [t for t in alltext if any(w in t for w in cfg['ban'])]
@@ -881,6 +1020,7 @@ async def main():
     log('  稿：AA_708 %s（%s）、AA_707 %s（%s）' % (DRAFT708, '讀到' if D708 else '讀不到', DRAFT707, '讀到' if D707 else '讀不到'))
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        PG[0] = pg
         await pg.goto(URL)
         R.check('遊戲載入', await L.wait_loaded(pg))
         ver = await pg.evaluate("(document.body.innerText.match(/版本 v[0-9.]+/)||[''])[0]")
@@ -891,7 +1031,8 @@ async def main():
             if part not in PART_CFG:
                 R.check('認得 PARTS「%s」' % part, False); continue
             try:
-                await run_part(pg, cdp, errs, part)
+                if PART_CFG[part].get('beat_defer'): await beat_defer_part(pg, cdp, errs, part)
+                else: await run_part(pg, cdp, errs, part)
             except Exception:
                 import traceback
                 R.check('[%s] 探針沒有例外' % part, False, traceback.format_exc()[-900:])
