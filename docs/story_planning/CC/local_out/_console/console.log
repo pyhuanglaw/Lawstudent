@@ -1,16 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:37:20] ==== END   NM_ring_old  exit=0  166s   ====
-[08:37:24] memory 42% before starting NM_oldfps_new_r2 (2 running)
-[08:37:24] ==== START NM_oldfps_new_r2  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
-[08:37:27] [res] cpu=4% mem=42% (13.3/31.4 GB) chrome_testing=5  START NM_oldfps_new_r2
-[08:37:28] memory 42% before starting LM_new (2 running)
-[08:37:28] ==== START LM_new  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
-[08:37:31] [res] cpu=6% mem=43% (13.3/31.4 GB) chrome_testing=5  START LM_new
-[08:39:02] 正在跑：NM_sync_old（已跑 8 分／上限 12 分）、NM_oldfps_new_r2（已跑 1 分／上限 8 分）、LM_new（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
-[08:39:22] [res] cpu=6% mem=48% (15.2/31.4 GB) chrome_testing=10  END NM_sync_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       d61f8d8c1..d6695ac16  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [08:39:27] ==== END   NM_sync_old  exit=0  526s   ====
 [08:39:31] memory 48% before starting LM_old (2 running)
 [08:39:31] ==== START LM_old  (probe @ bd3f67410415267cde659e007e7d09b6f8fd05f3) ====
@@ -1998,3 +1986,15 @@
        1ce5bc463..6cd6626f7  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [15:46:44] ==== END   L118D_A2  exit=0  423s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6cd6626f7..dec6a4a45  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:46:52] ==== END   L118D_B1  exit=0  334s   ====
+[15:46:55] memory 44% before starting L118A_SEAT_home1 (2 running)
+[15:46:55] ==== START L118A_SEAT_home1  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
+[15:46:58] [res] cpu=14% mem=44% (14.1/31.4 GB) chrome_testing=5  START L118A_SEAT_home1
+[15:46:58] memory 45% before starting L118A_SEAT_home2 (2 running)
+[15:46:58] ==== START L118A_SEAT_home2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
+[15:47:01] [res] cpu=34% mem=47% (14.2/31.4 GB) chrome_testing=5  START L118A_SEAT_home2
+[15:49:04] 正在跑：L118D_A1（已跑 10 分／上限 20 分）、L118A_SEAT_home1（已跑 2 分／上限 15 分）、L118A_SEAT_home2（已跑 2 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:49:15] [res] cpu=48% mem=50% (15.8/31.4 GB) chrome_testing=10  END L118A_SEAT_home1
