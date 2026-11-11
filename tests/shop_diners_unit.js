@@ -61,8 +61,10 @@ const stat=(z,h,days,o)=>{ let nOpen=0, sum=0, occ=0, mx=0; for(const d of days|
 /* 2026-11-11：l118_tea（辛亥韓食）的室內還是舊茶飲店的模型，只有兩張高腳椅（一組兩人座）——尖峰平均不到 1 位（0.9 左右；有客人，但一組坐滿就沒位子）。
    LAWWW2 的新室內（密集四人桌）延後；在那之前這一間的門檻放 0.8（其他店照舊 1），新室內進來以後拿掉這個例外。
    午餐的取樣時刻：11:30 才開的店（迪倫窯烤披薩等，改版以後開門時間變晚）開門一個小時客人還在進來，改在 12:45 量（開門後一小時十五分；11:00 開的店照舊 12:30）*/
+/* l118_tea 的門檻 0.8 只在它的室內配置座位數 ≤2 的時候用（舊茶飲店模型）；LAWWW2 的新室內（十幾個座位）進來＝自動回到 1，不用再回來改這支測試 */
+const teaSmall=(()=>{ const L=typeof L118_SHOP_LAYOUTS!=='undefined'&&L118_SHOP_LAYOUTS.tea; return !!L&&((L.seats||[]).length<=2); })();
 const lunchH=z=>{ const d=defOf(z), W=d?CROWD.shopWindows(d,mkG(DAYS[0],12.5)):[]; const w=W.find(([a,b])=>a<=12.5&&b>12.5); return w&&w[0]>=11.5?12.75:12.5; };
-{ const bad=[], info=[]; for(const z of SHOP_ZONES){ const h=PEAK[z]||18.5, s=stat(z,h); info.push(z+' '+s.avg.toFixed(1)); if(!s.nOpen||s.avg<(z==='l118_tea'?0.8:1)) bad.push(z+'（'+h+' 點，開門 '+s.nOpen+' 天，平均 '+s.avg.toFixed(2)+' 位）'); }
+{ const bad=[], info=[]; for(const z of SHOP_ZONES){ const h=PEAK[z]||18.5, s=stat(z,h); info.push(z+' '+s.avg.toFixed(1)); if(!s.nOpen||s.avg<(z==='l118_tea'&&teaSmall?0.8:1)) bad.push(z+'（'+h+' 點，開門 '+s.nOpen+' 天，平均 '+s.avg.toFixed(2)+' 位）'); }
   check('1. 每一家店在自己的尖峰有客人（吃飯的店晚餐 18:30；半熟 10:30、一盞 15:00、大學食堂和影印店 12:30）',!bad.length,bad.length?bad.join('、'):info.join('、')); }
 { const bad=[], info=[]; for(const z of MEAL) for(const h of [lunchH(z),18.5]){ const s=stat(z,h); if(!s.nOpen) continue; info.push(z+'@'+h+'='+s.occ.toFixed(2)); if(s.occ<0.35||s.occ>0.65) bad.push(z+'@'+h+' '+s.occ.toFixed(2)); }
   check('1. 吃飯的店午餐（12:30）、晚餐（18:30）平均坐滿約四到六成（三成半以上；大店最多 10 位，十八、二十個位子的店最多五成多）',!bad.length,(bad.length?'不對：'+bad.join('、')+'｜':'')+info.slice(0,8).join(' ')); }
