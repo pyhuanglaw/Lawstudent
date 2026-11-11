@@ -1,0 +1,31 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_oldfps_old\out
+CC NM1 夜市：PARTS OLDPOS,FPS；SHA fd4dd9aef；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 （讀配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2000 (29.00,11.20) （舊存檔的 pos：這裡改版前沒有攤子）
+PASS [OLDPOS 公館 st_milk (29.0,11.2)] 挪到攤子外面最近的可站格（挪 0.00 m ≤2.5 m）、還在同一側的人行道、站得住（BB 00:14）  {"zone": "gongguan", "h": 20.062, "x": 29, "z": 11.2, "free": true, "stand": true, "fb": 0}
+PASS [OLDPOS 公館 st_milk (29.0,11.2)] 搖桿推得動（>0.3 m）  {"zone": "gongguan", "h": 20.071, "x": 29, "z": 3.76, "free": true, "stand": true, "fb": 0}
+  [  66.7s] [OLDPOS 公館 st_milk (29.0,11.2)] console warning 全文：[]
+PASS [OLDPOS 公館 st_milk (29.0,11.2)] console 只有那一次 unstick（有挪＝1 次、沒挪＝0 次，沒有別的警告）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2000 (53.60,11.20) （舊存檔的 pos：這裡改版前沒有攤子）
+PASS [OLDPOS 公館 st_wheelcake (53.6,11.2)] 挪到攤子外面最近的可站格（挪 0.00 m ≤2.5 m）、還在同一側的人行道、站得住（BB 00:14）  {"zone": "gongguan", "h": 20.057, "x": 53.6, "z": 11.2, "free": true, "stand": true, "fb": 0}
+PASS [OLDPOS 公館 st_wheelcake (53.6,11.2)] 搖桿推得動（>0.3 m）  {"zone": "gongguan", "h": 20.066, "x": 53.6, "z": 3.86, "free": true, "stand": true, "fb": 0}
+  [  79.8s] [OLDPOS 公館 st_wheelcake (53.6,11.2)] console warning 全文：[]
+PASS [OLDPOS 公館 st_wheelcake (53.6,11.2)] console 只有那一次 unstick（有挪＝1 次、沒挪＝0 次，沒有別的警告）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2000 (15.00,11.20) （舊存檔的 pos：這裡改版前沒有攤子）
+PASS [OLDPOS 公館 st_phonecase (15.0,11.2)] 挪到攤子外面最近的可站格（挪 0.00 m ≤2.5 m）、還在同一側的人行道、站得住（BB 00:14）  {"zone": "gongguan", "h": 20.057, "x": 15, "z": 11.2, "free": true, "stand": true, "fb": 0}
+PASS [OLDPOS 公館 st_phonecase (15.0,11.2)] 搖桿推得動（>0.3 m）  {"zone": "gongguan", "h": 20.065, "x": 15, "z": 3.97, "free": true, "stand": true, "fb": 0}
+  [  92.1s] [OLDPOS 公館 st_phonecase (15.0,11.2)] console warning 全文：[]
+PASS [OLDPOS 公館 st_phonecase (15.0,11.2)] console 只有那一次 unstick（有挪＝1 次、沒挪＝0 次，沒有別的警告）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 (14.50,0.00) （舊存檔的 pos：這裡改版前沒有攤子）
+PASS [OLDPOS 巷A 中間 (14.5,0.0)] 挪到攤子外面最近的可站格（挪 0.00 m ≤2.5 m）、還在同一側的巷子、站得住（BB 00:14）  {"zone": "tingzhou", "h": 20.057, "x": 14.5, "z": 0, "free": true, "stand": true, "fb": 0}
+PASS [OLDPOS 巷A 中間 (14.5,0.0)] 搖桿推得動（>0.3 m）  {"zone": "tingzhou", "h": 20.066, "x": 15.12, "z": -1.66, "free": true, "stand": true, "fb": 0}
+  [ 104.0s] [OLDPOS 巷A 中間 (14.5,0.0)] console warning 全文：[]
+PASS [OLDPOS 巷A 中間 (14.5,0.0)] console 只有那一次 unstick（有挪＝1 次、沒挪＝0 次，沒有別的警告）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 (20.00,0.00) （幀率）
+  [ 126.4s] [FPS 巷A 20:00] 8 秒 53.6 fps（PC GPU；SHA fd4dd9aef）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2000 (30.00,14.00) （幀率）
+  [ 149.6s] [FPS 公館人行道 20:00] 8 秒 44.5 fps（PC GPU；SHA fd4dd9aef）
+PASS 沒有 JS 例外  []
+ALL PASS
