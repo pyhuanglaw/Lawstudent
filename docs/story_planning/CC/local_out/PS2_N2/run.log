@@ -1,0 +1,55 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_ss3d_g10_ps2_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PS2_N2\out
+CC 上師 3D／G10 巷口／沛珊第二批：PARTS PS2；SHA f5e1ef4e8；Windows＋GPU（PC）／SwiftShader（雲端）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS [PS2] 遊戲載入（新的瀏覽器）
+  [  26.0s] [PS2] 期望字用 fixtures/ps_batch2/expect.json 的 f5e1ef4e8（SHA=f5e1ef4e8）；另一版 65212b697 當「舊稿」對照
+  [前置／捷徑] 【前置／捷徑】③b 故事線第 1 拍（ARCS.play）：讀檔到 gongguan 第 399 天 14:00 (0.00,16.00)（條件事件關著）
+  [  55.1s] [PS2 arc_b1] 演完（結束；10 秒）例外 None；畫面上的每一句（名字｜字）：[["沛珊", "我小時候放學都直接去我爸的店，寫功課在最角落那一桌，客人都以為我是哪一桌忘記帶走的小孩。"], ["沛珊", "店裡的阿姨到現在看到我，第一句還是問功課寫了沒。我都大學了。"], ["沛珊", "你小時候放學都去哪？"], ["選項", ["我家以前開五金行，我負責數螺絲。後來店收了。", "我媽在家幫人記帳，我小時候幫她按計算機。", "沒有，我小時候只負責吃。"], "我家以前開五金行，我負責數螺絲。後來店收了。"], ["祐廷", "我家以前開五金行，我負責數螺絲。後來店收了。"], ["沛珊", "數螺絲！"], ["沛珊", "那個我可以數一整天。店收的時候你一定很捨不得吧，我們家要是收了，我連寫功課的桌子都沒有了。"]]
+PASS [PS2 arc_b1] 播放函式沒有丟例外  None
+PASS [PS2 arc] 第一句在遊戲裡顯示、DOM 的字＝f5e1ef4e8 原始碼「我小時候放學都直接去我爸的店，寫功課在最角落那一桌，客人都以為我是哪一桌忘記帶走的小孩。」（截圖 ps2_arc_b1_first.jpg）
+  [前置／捷徑] 【前置／捷徑】③b 故事線第 8 拍（ARCS.play；選稿上第一個選項）：讀檔到 gongguan 第 399 天 14:00 (0.00,16.00)（條件事件關著）
+  [  73.0s] [PS2 arc_b8] 演完（結束；9 秒）例外 None；畫面上的每一句（名字｜字）：[["沛珊", "前陣子課輔班有個老師請假，叫我去代一個禮拜，我一個人帶一整班。"], ["沛珊", "最後一天我講完，發現整班都在聽，沒有人在看外面，我那時候就覺得，我好像真的可以把一件事做得很好，只是那件事不是法律。"], ["沛珊", "如果我以後不念法律了，你會覺得很可惜嗎？"], ["選項", ["不會。我休學的時候，最怕別人覺得可惜。後來發現，一點都不可惜。", "會一點。可是妳開心比較重要。", "妳是說真的嗎？"], "不會。我休學的時候，最怕別人覺得可惜。後來發現，一點都不可惜。"], ["祐廷", "不會。我休學的時候，最怕別人覺得可惜。後來發現，一點都不可惜。"], ["沛珊", "不可惜。"], ["", "（她把這三個字小聲講了一遍，好像要收起來。）"]]
+PASS [PS2 arc_b8] 播放函式沒有丟例外  None
+PASS [PS2 arc] 最後一句在遊戲裡顯示、DOM 的字＝f5e1ef4e8 原始碼「（她把這三個字小聲講了一遍，好像要收起來。）」（截圖 ps2_arc_b8_last.jpg）
+  [  73.0s] [PS2 arc] 花了 47 秒
+  [  73.0s] [PS2 feed ps4] 遊戲裡的這一則：{"t": "2025-12-27 02:40", "who": "classmate_peishan", "say": "寒假第一天，一口氣看到這裡", "pic": "電腦螢幕上動畫的片尾名單，旁邊一杯喝到一半的熱可可", "dm": ["哪一部？", "不能講！你會跑去看，然後怪我。"]}
+PASS [PS2 feed ps4] 遊戲裡有這一則
+  [前置／捷徑] 【前置／捷徑】③b 動態牆 ps4：G.flags.FEED 只放這一則（2025-12-27 02:40 貼的），讀檔到隔天 14:00：讀檔到 gongguan 第 103 天 14:00 (0.00,16.00)（條件事件關著）
+  [  82.8s] [PS2 feed ps4] 動態頁的卡片："沛珊\n昨天 02:40\n（照片：電腦螢幕上動畫的片尾名單，旁邊一杯喝到一半的熱可可）\n寒假第一天，一口氣看到這裡\n（按愛心）\n妳都不用睡喔？\n（私訊問一句）\n哪一部？"（截圖 ps2_feed_ps4_card.jpg）
+PASS [PS2 feed] 第一句（ps4）在動態頁顯示、字＝f5e1ef4e8 原始碼「寒假第一天，一口氣看到這裡」（截圖 ps2_feed_first.jpg）
+  [  83.5s] [PS2 feed ps2i] 遊戲裡的這一則：{"t": "2030-02-10 12:30", "who": "classmate_peishan", "say": "我爸又貼了。", "pic": "同一面牆，學生證影本旁邊多了一張課輔班的感謝狀", "dm": ["還有位子嗎？", "他留了一格，說是教師證的。我還沒考欸。"]}
+PASS [PS2 feed ps2i] 遊戲裡有這一則
+  [前置／捷徑] 【前置／捷徑】③b 動態牆 ps2i：G.flags.FEED 只放這一則（2030-02-10 12:30 貼的），讀檔到隔天 14:00：讀檔到 gongguan 第 1609 天 14:00 (0.00,16.00)（條件事件關著）
+  [ 105.8s] [PS2 feed ps2i] 動態頁的卡片：null（截圖 ps2_feed_ps2i_card.jpg）
+  [ 107.2s] [PS2 feed ps2i] 按「（私訊問一句）」（按到＝False）以後的卡片：""（截圖 ps2_feed_ps2i_dm.jpg）
+FAIL [PS2 feed] 最後一句（ps2i）在動態頁顯示、字＝f5e1ef4e8 原始碼「他留了一格，說是教師證的。我還沒考欸。」（截圖 ps2_feed_last.jpg）
+  [ 107.3s] [PS2 feed] 花了 34 秒
+  [前置／捷徑] 【前置／捷徑】③b 節日：情人節（FEST.play vday、沒有交往＝s6）：讀檔到 gongguan 第 151 天 18:00 (0.00,16.00)（條件事件關著）
+  [ 119.1s] [PS2 fest_vday] 演完（結束；3 秒）例外 None；畫面上的每一句（名字｜字）：[["沛珊", "情人節你跑來台中喔。我今天本來的計畫是在家看動畫，被你破壞了。"], ["沛珊", "走啦，我帶你去我高中下課都去的那條街。"]]
+PASS [PS2 fest_vday] 播放函式沒有丟例外  None
+PASS [PS2 fest] 第一句在遊戲裡顯示、DOM 的字＝f5e1ef4e8 原始碼「情人節你跑來台中喔。我今天本來的計畫是在家看動畫，被你破壞了。」（截圖 ps2_fest_vday_first.jpg）
+  [前置／捷徑] 【前置／捷徑】③b 節日：聖誕（FEST.play xmas、沒有交往＝s6；禮物選「沒有準備」）：讀檔到 gongguan 第 99 天 18:00 (0.00,16.00)（條件事件關著）
+  [ 130.2s] [PS2 fest_xmas] 演完（結束；2 秒）例外 None；畫面上的每一句（名字｜字）：[["沛珊", "課輔班有個小孩問我聖誕老人是不是真的，我說是，他就問我那他怎麼進大樓。我到現在還沒想到怎麼回。"]]
+PASS [PS2 fest_xmas] 播放函式沒有丟例外  None
+PASS [PS2 fest] 最後一句在遊戲裡顯示、DOM 的字＝f5e1ef4e8 原始碼「課輔班有個小孩問我聖誕老人是不是真的，我說是，他就問我那他怎麼進大樓。我到現在還沒想到怎麼回。」（截圖 ps2_fest_xmas_last.jpg）
+  [ 130.2s] [PS2 fest] 沒帶禮物那一句（稿 none「沒關係啦！你人有來就好了。」）：沒出現（禮物有 gifthol3d 包住時可能是另一套反應，只記）
+  [ 130.2s] [PS2 fest] 花了 23 秒
+  [前置／捷徑] 【前置／捷徑】③b 4/14 公開課（EVENTS.run ev_peishan_open_class）：讀檔到 gongguan 第 1306 天 09:00 (0.00,16.00)（條件事件關著）
+  [ 153.7s] [PS2 open] 演完（結束；14 秒）例外 None；畫面上的每一句（名字｜字）：[["", "（台南車站。你照她傳的地址，搭公車到課輔班。她已經在上課了。）"], ["", "（教室後門站著一個中年女性，手上提著一袋飲料，沒有進去，從門上的小窗往裡面看。）"], ["沛珊媽媽", "（小聲）你是她大學的同學？"], ["沛珊媽媽", "她說她要當老師。我本來不懂，法律系念得好好的。"], ["沛珊媽媽", "可是你看她站在前面的樣子。她以前上台都是笑給別人看的，今天不是。"], ["沛珊媽媽", "她爸把她的學生證貼在辦公室，貼兩年了。我叫他今天不要來，他會哭。"], ["沛珊", "你真的來了！！"], ["沛珊", "……我剛剛手一直在抖。你有看到嗎？"], ["選項", ["「沒有。」", "「妳媽媽坐最後一排。」"], "「沒有。」"], ["沛珊", "你騙人。……好，我當你沒看到。"], ["", "（下課以後，她把老師的外套脫掉，陪你坐車到高鐵站。）"], ["沛珊", "謝謝你來看我上課！到臺北傳給我喔。"]]
+PASS [PS2 open] 播放函式沒有丟例外  None
+PASS [PS2 open] 第一句在遊戲裡顯示、DOM 的字＝f5e1ef4e8 原始碼「（教室後門站著一個中年女性，手上提著一袋飲料，沒有進去，從門上的小窗往裡面看。）」（截圖 ps2_open_first.jpg）
+PASS [PS2 open] 最後一句在遊戲裡顯示、DOM 的字＝f5e1ef4e8 原始碼「她爸把她的學生證貼在辦公室，貼兩年了。我叫他今天不要來，他會哭。」（截圖 ps2_open_last.jpg）
+  [ 153.7s] [PS2 open] 花了 23 秒
+  [前置／捷徑] 【前置／捷徑】③b 大四下 6/8 台南那一頓（R2Y4B.psDinner，女朋友版 kind gf）：讀檔到 gongguan 第 1361 天 18:00 (0.00,16.00)（條件事件關著）
+  [ 175.7s] [PS2 tn] 演完（結束；10 秒）例外 None；畫面上的每一句（名字｜字）：[["", "（簡餐店的電視在播新聞。靠窗的兩人座。）"], ["沛珊", "你要畢業了欸，我還有兩年。"], ["沛珊", "我本來想好今天要講一些很感人的話，結果早上起來全部忘光了。"], ["選項", ["「那講不感人的。」", "「妳想起來再講。」", "「兩年很快。我會常下來。」"], "「那講不感人的。」"], ["沛珊", "不感人的就是，你畢業以後不要變成那種講話都是條號的人。"], ["沛珊", "我會聽不懂，聽不懂我會生氣。"], ["", "（餐盤疊好，拿去回收。外面的路燈已經亮了。）"], ["", "大四下的成績出來了。"], ["", "法律專題研究：通過　法律實習或法律扶助實務：通過　海商法與海洋法：缺考（不及格）"]]
+PASS [PS2 tn] 播放函式沒有丟例外  None
+PASS [PS2 tn] 第一句在遊戲裡顯示、DOM 的字＝f5e1ef4e8 原始碼「你要畢業了欸，我還有兩年。」（截圖 ps2_tn_first.jpg）
+PASS [PS2 tn] 最後一句在遊戲裡顯示、DOM 的字＝f5e1ef4e8 原始碼「我會聽不懂，聽不懂我會生氣。」（截圖 ps2_tn_last.jpg）
+  [ 175.7s] [PS2 tn] 花了 22 秒
+FAIL [PS2] 畫面上所有句子沒有空白、沒有 undefined（36 句）  [["feed_ps2i", ""]]
+  [ 175.7s] [PS2] 畫面上出現另一版（65212b697）才有的句子：沒有
+  [ 175.7s] [PS2] console error／warning 45 則：[["warning", "星期和日期對不上，照行事曆改： 4 → 3"], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."], ["warning", "THREE.WebGLRenderer: Texture marked for update but no image data found."]]
+  [ 175.7s] [PS2] 和上師（LM／limao／shangshi）有關的 console：沒有
+PASS [PS2] 沒有 JS 例外（pageerror）  []
+  [ 175.7s] [PS2] 花了 175 秒
+FAILED 2: [PS2 feed] 最後一句（ps2i）在動態頁顯示、字＝f5e1ef4e8 原始碼「他留了一格，說是教師證的。我還沒考欸。」（截圖 ps2_feed_last.jpg）；[PS2] 畫面上所有句子沒有空白、沒有 undefined（36 句）
