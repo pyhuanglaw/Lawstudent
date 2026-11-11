@@ -963,7 +963,7 @@ def main():
     need_dist = any(p for p in PARTS if p not in ('PAGES', 'SIZE') and not p.startswith('Z3D_ROOT'))
     packed = do_pack() if (need_dist or os.environ.get('PACK') != '0') else False
     srv = None; dist_url = ''
-    if packed or os.path.exists(os.path.join(DIST, 'manifest.json')):
+    if need_dist and (packed or os.path.exists(os.path.join(DIST, 'manifest.json'))):
         srv, dist_url = start_server()
         global DIST_URL_BASE
         DIST_URL_BASE = dist_url.rsplit('/', 1)[0]
