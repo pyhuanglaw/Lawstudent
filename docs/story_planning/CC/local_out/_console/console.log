@@ -1,11 +1,3 @@
-[14:31:22] ==== START CLASS12_skip5b_np1000_r2  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
-[14:31:25] [res] cpu=1% mem=47% (14.9/31.4 GB) chrome_testing=10  START CLASS12_skip5b_np1000_r2
-[14:33:14] [res] cpu=1% mem=48% (15.3/31.4 GB) chrome_testing=10  END CLASS12_skip5b_500x5
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       83610fc5b..134bbbae9  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[14:33:21] ==== END   CLASS12_skip5b_500x5  exit=1  331s   ====
-[14:33:25] memory 49% before starting CLASS12_skip5b_np400_r2 (2 running)
 [14:33:25] ==== START CLASS12_skip5b_np400_r2  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
 [14:33:28] [res] cpu=4% mem=49% (15.4/31.4 GB) chrome_testing=10  START CLASS12_skip5b_np400_r2
 [14:34:04] 正在跑：CLASS12_skip5b_out150x20（已跑 5 分／上限 12 分）、CLASS12_skip5b_np1000_r2（已跑 2 分／上限 12 分）、CLASS12_skip5b_np400_r2（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1990,11 @@
 [22:45:19] ==== START ACT_smoke_anmovie_r2  (probe @ f8b6d1e82f43194080cb860d11148d9fd27de078) ====
 [22:45:22] [res] cpu=5% mem=42% (13.2/31.4 GB) chrome_testing=9  START ACT_smoke_anmovie_r2
 [22:46:49] [res] cpu=3% mem=42% (13.3/31.4 GB) chrome_testing=10  END ACT_SMOKE_BEAT_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       232695030..cc1d3afd3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:46:55] ==== END   ACT_SMOKE_BEAT_old  exit=1  176s   ====
+[22:47:07] memory 42% before starting ACT_SMOKE_ZR3_r2 (2 running)
+[22:47:07] ==== START ACT_SMOKE_ZR3_r2  (probe @ f8b6d1e82f43194080cb860d11148d9fd27de078) ====
+[22:47:10] [res] cpu=0% mem=42% (13.4/31.4 GB) chrome_testing=10  START ACT_SMOKE_ZR3_r2
+[22:47:50] [res] cpu=1% mem=40% (12.7/31.4 GB) chrome_testing=9  END ACT_smoke_anmovie_r2
