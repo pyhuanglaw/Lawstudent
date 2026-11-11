@@ -31,6 +31,8 @@ def meta(d):
 res = {'ref': REF, 'cmp': CMP, 'ref_meta': meta(REF), 'cmp_meta': meta(CMP), 'images': {}, 'pass': True, 'why': []}
 for k in ('day', 'night', 'dark'):
     a, b = load(REF, k), load(CMP, k)
+    if a is None and b is None:   # 兩邊都沒有＝這個場景不烘這一張（3F 沒有熄燈那張：pc_bake_3f_ref.py），不算不一致
+        res['images'][k] = '兩邊都沒有（這個場景不烘）'; continue
     if a is None or b is None:
         res['images'][k] = 'missing'; res['pass'] = False; res['why'].append(k + ' 少一張'); continue
     if a.shape != b.shape:

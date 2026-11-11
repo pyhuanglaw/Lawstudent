@@ -1,0 +1,11 @@
+{
+ "objects": 94,
+ "unique_meshes": 24,
+ "tris": 62492,
+ "tris_drawn": 73890,
+ "materials": 14,
+ "out": "tools/blender/env_second/lightbake/pc_ref/library_3f_v2_bakein.glb（library_3f_v2.py --layout src/data/library_3f_layout.js，開發分支 0bdb8fb79f）",
+ "bytes": 5423896,
+ "texres": 512,
+ "tris_total": 73890
+}
