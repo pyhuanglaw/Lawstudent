@@ -1,12 +1,3 @@
-[11:01:21] [res] cpu=11% mem=41% (12.6/31.4 GB) chrome_testing=4  END XG3_doorjoy
-[11:01:21] memory 41% before starting NM_pano_old (2 running)
-[11:01:21] ==== START NM_pano_old  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
-[11:01:24] [res] cpu=12% mem=41% (13.0/31.4 GB) chrome_testing=4  START NM_pano_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       207e7b159..2fa58423c  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[11:01:26] ==== END   XG3_doorjoy  exit=0  136s   ====
-[11:01:53] memory 48% before starting NM_walk_old (2 running)
 [11:01:53] ==== START NM_walk_old  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
 [11:01:56] [res] cpu=43% mem=48% (15.1/31.4 GB) chrome_testing=8  START NM_walk_old
 [11:04:03] 正在跑：NM_cam_new（已跑 3 分／上限 15 分）、NM_pano_old（已跑 2 分／上限 8 分）、NM_walk_old（已跑 2 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1989,12 @@
 [19:08:15] ==== START STAIR_7d_walk  (probe @ 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329) ====
 [19:08:18] [res] cpu=8% mem=50% (16.0/31.4 GB) chrome_testing=10  START STAIR_7d_walk
 [19:08:49] [res] cpu=20% mem=47% (14.6/31.4 GB) chrome_testing=9  END STAIRX_old_walk10
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       19e9ce894..291737825  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:08:54] ==== END   STAIRX_old_walk10  exit=0  378s   ====
+[19:08:58] memory 48% before starting STAIR_7d_run10 (2 running)
+[19:08:58] ==== START STAIR_7d_run10  (probe @ 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329) ====
+[19:09:01] [res] cpu=4% mem=48% (15.2/31.4 GB) chrome_testing=9  START STAIR_7d_run10
+[19:09:04] 正在跑：STAIRX_old_run10（已跑 3 分／上限 30 分）、STAIR_7d_walk（已跑 0 分／上限 20 分）、STAIR_7d_run10（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:12:19] [res] cpu=21% mem=48% (15.3/31.4 GB) chrome_testing=10  END STAIR_7d_walk
