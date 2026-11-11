@@ -264,7 +264,11 @@ async def seat_one(pg, cdp, key, Z, k, pick):
     dap = math.hypot(b['x'] - s['ap'][0], b['z'] - s['ap'][1]) if s['ap'] else None
     R.note('%s 走到 (%s, %s)（%s 秒；離 seatApproach %s m；tapPref %s）：互動鍵「%s」、最近的互動 %s' % (t, b['x'], b['z'], secs, None if dap is None else round(dap, 2), J(m['tp']), b['interact'], J(ni)))
     if not R.check('%s 點椅面走過去，互動鍵是「%s」而且就是這一張' % (t, s['label']), ok_btn, J({'interact': b['interact'], 'near': ni, 'at': [b['x'], b['z']], 'redirect': pt['redirect']})):
-        await shot(pg, '%s_seat%d_nobtn' % (key, k)); return 'nobtn'
+        await shot(pg, '%s_seat%d_nobtn' % (key, k))
+        if s.get('lift'):   # 點椅面不行也要看搖桿那條路坐下後的鏡頭（舊版對照：線上是不是本來就整片牆，BB 08:52）
+            try: await joy_seat(pg, cdp, key, Z, k, s)
+            except Exception as e: R.note('%s 搖桿那一條沒跑完 %r' % (t, e))
+        return 'nobtn'
     await L.tap(pg, cdp, '#interact'); sat = None
     for i_ in range(24):
         await pg.wait_for_timeout(500)
