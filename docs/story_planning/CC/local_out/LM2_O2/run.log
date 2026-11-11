@@ -1,0 +1,79 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_lm2_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LM2_O2\out
+CC LM2 禮貌生財上師對話：PARTS REVEAL；SHA 11161c101；稿 fixtures\lm2；Windows＋GPU（PC）／SwiftShader（雲端）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.8s] hook：installed；LM 在＝False
+  [  25.9s] [DAYS] 用的日子（不是颱風假、隔天也不是）：{"Y1S1": {"day": 20, "id": "Y1S1", "week": 6, "date": "2025-10-06"}, "Y1S2": {"day": 188, "id": "Y1S2", "week": 5, "date": "2026-03-23"}, "Y2S1": {"day": 391, "id": "Y2S1", "week": 6, "date": "2026-10-12"}, "Y4S1": {"day": 1112, "id": "Y4S1", "week": 5, "date": "2028-10-02"}, "Y4S2": {"day": 1287, "id": "Y4S2", "week": 6, "date": "2029-03-26"}}
+  [  25.9s] [名字] 對照：祐廷＝祐廷、上師＝上師（稿：他的名字不出現）、吳教授＝SOCIAL.displayName(prof_wu)「吳教授」（CHARACTERS.prof_wu.name「吳教授」）、旁白＝不顯示名字
+  [前置／捷徑] 【前置／捷徑】REVEAL ①：大一下 2026-03-23 20:00、LM_MET 前一天、沒有 LM_PROF，禮貌生財門口（條件事件關著）
+  [  44.6s] [REVEAL ①] 狀態：{"day": 188, "date": "2026-03-23", "hour": 20.039, "stage": "law", "term": "Y1S2", "weather": "clear", "partners": [], "girls": [], "lm": {"LM_MET": 187}, "finalsNext": null, "failedLast": null, "flunked": null, "brokeRecent": null, "lmLoaded": false, "typhoon": null}
+PASS [REVEAL ①] 巷子裡有禮貌生財的門
+  [  47.5s] 到達「[REVEAL ①] 店門」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  48.2s] [REVEAL ①] 店門口按鈕「進禮貌生財」
+PASS [REVEAL ①] 進到店裡（tz_limao）、站得住  {"zone": "tz_limao", "h": 20.089, "x": 0.9, "z": 3.3, "lv": 0, "stand": true, "busy": false, "fb": 0}
+  [  56.1s] [REVEAL ①] 書房模型狀態：{"zone": "tz_limao", "studyOpen": false, "formal": true, "lid": {"n": 1, "vis": 1}, "door": {"n": 3, "vis": 3}, "study": {"n": 4, "vis": 0}}
+PASS [REVEAL ①] 還沒解鎖：書房鎖著（studyOpen false）、STUDY_* 都不顯示、屋頂蓋（STUDY_LID）顯示  {"zone": "tz_limao", "studyOpen": false, "formal": true, "lid": {"n": 1, "vis": 1}, "door": {"n": 3, "vis": 3}, "study": {"n": 4, "vis": 0}}
+  [  56.1s] [REVEAL ①] 店裡的互動點：[{"label": "離開禮貌生財", "x": 0.9, "z": 4.6, "r": 0.8, "to": "tingzhou", "look": null, "tzd": null, "tzp": null, "lm": false, "lmAdded": false, "lv": 0}, {"label": "坐下", "x": -0.45, "z": 0.72, "r": 0.7, "to": null, "look": null, "tzd": null, "tzp": null, "lm": false, "lmAdded": false, "lv": 0}, {"label": "坐下", "x": -1.2, "z": 1.75, "r": 0.7, "to": null, "look": null, "tzd": null, "tzp": null, "lm": false, "lmAdded": false, "lv": 0}, {"label": "坐下", "x": 0.3, "z": 1.75, "r": 0.7, "to": null, "look": null, "tzd": null, "tzp": null, "lm": false, "lmAdded": false, "lv": 0}, {"label": "看書櫃", "x": -1.4, "z": 2.9, "r": 0.8, "to": null, "look": "（禮貌生財）", "tzd": null, "tzp": "books", "lm": false, "lmAdded": false, "lv": 0}, {"label": "看玻璃櫃", "x": 1.4, "z": 1.6, "r": 0.8, "to": null, "look": "（禮貌生財）", "tzd": null, "tzp": "cabinet", "lm": false, "lmAdded": false, "lv": 0}, {"label": "看掛畫", "x": -0.8, "z": -0.6, "r": 0.8, "to": null, "look": "（禮貌生財）", "tzd": null, "tzp": "scroll", "lm": false, "lmAdded": false, "lv": 0}, {"label": "書房的門", "x": 1, "z": -0.65, "r": 0.8, "to": null, "look": "門關著。", "tzd": null, "tzp": "study_door", "lm": false, "lmAdded": false, "lv": 0}]
+  [  58.7s] 到達「[REVEAL ① 看] 看書櫃」附近（0.06 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  61.1s] [REVEAL ① 看] 「看書櫃」走到 True、按鈕「看書櫃」→ 旁白 []；字幕 ["caption：（禮貌生財）"]
+  [  63.7s] 到達「[REVEAL ① 看] 看玻璃櫃」附近（0.11 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  66.2s] [REVEAL ① 看] 「看玻璃櫃」走到 True、按鈕「看玻璃櫃」→ 旁白 []；字幕 ["caption：（禮貌生財）"]
+  [  68.8s] 到達「[REVEAL ① 看] 看掛畫」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  71.3s] [REVEAL ① 看] 「看掛畫」走到 True、按鈕「看掛畫」→ 旁白 []；字幕 ["caption：（禮貌生財）"]
+  [  73.9s] 到達「[REVEAL ① 看] 書房的門」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  76.4s] [REVEAL ① 看] 「書房的門」走到 True、按鈕「書房的門」→ 旁白 []；字幕 ["caption：門關著。"]
+PASS [REVEAL ①] 還沒揭曉：店裡看的點、書房的門的字沒有「刑法」「吳」「教授」（不能先洩漏）  []
+  [  76.6s] [REVEAL ①] SNAP 7 張（lm2_pre_*.jpg）
+  [  76.6s] 到達「[REVEAL ①] 書房門前」附近（0.40 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [  85.6s] [REVEAL ①] 遊戲鏡頭 8 個方向（設 E.cam.yaw，實際 [0, 0.785, 1.571, 2.356, 3.142, 3.927, 4.712, 5.498]）：lm2_pre_cam0～7.jpg
+PASS [REVEAL ①] 點書房裡的地板走不進去（z > −1.25）  {"zone": "tz_limao", "h": 20.336, "x": 0.1, "z": -0.68, "lv": 0, "stand": true, "busy": false, "fb": 0}
+PASS [REVEAL ①] 搖桿往書房推也進不去（z > −1.25）  {"zone": "tz_limao", "h": 20.348, "x": 1.35, "z": -0.68, "lv": 0, "stand": true, "busy": false, "fb": 0}
+  [前置／捷徑] 【前置／捷徑】REVEAL ②：大四上 2028-10-02 20:00、LM_MET（300 天前）、LM_PROF，禮貌生財門口（條件事件關著）
+  [ 101.6s] [REVEAL ②] 狀態：{"day": 1112, "date": "2028-10-02", "hour": 20.05, "stage": "law", "term": "Y4S1", "weather": "clear", "partners": [], "girls": [], "lm": {"LM_MET": 812, "LM_PROF": true}, "finalsNext": null, "failedLast": null, "flunked": null, "brokeRecent": null, "lmLoaded": false, "typhoon": null}
+PASS [REVEAL ②] 巷子裡有禮貌生財的門
+  [ 104.3s] 到達「[REVEAL ②] 店門」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 105.0s] [REVEAL ②] 店門口按鈕「進禮貌生財」
+PASS [REVEAL ②] 進到店裡（tz_limao）、站得住  {"zone": "tz_limao", "h": 20.096, "x": 0.9, "z": 3.3, "lv": 0, "stand": true, "busy": false, "fb": 0}
+PASS [REVEAL ②] 有「書房的門」
+  [ 112.3s] 到達「[REVEAL ② 入口 B] 書房的門」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 114.8s] [REVEAL ② 入口 B] 「書房的門」走到 True、按鈕「書房的門」→ 旁白 []；字幕 ["caption：門關著。"]
+  [ 114.8s] [REVEAL ② 入口 B] 前後差異：LM_ []；其他 沒有
+PASS [REVEAL ② 入口 B] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [ 114.8s] [REVEAL ② entryB] #1 差 稿［narr］「（門後是一整面牆的書。刑法總則、刑法分則、德文的。書背上印著同一個名字。）」｜遊戲［None］「None」
+  [ 114.8s] [REVEAL ② entryB] #2 差 稿［narr］「（書桌上有一張舊合照。後排最左邊那個年輕人，長得很像吳教授。）」｜遊戲［None］「None」
+FAIL [REVEAL ②] 入口 B：書房的門＝兩句旁白逐句照稿（沒有名字）  差 #[1, 2]
+FAIL [REVEAL ②] 入口 B 以後 LM_HINT 記上、書房還是鎖著  null
+  [ 114.8s] 到達「[REVEAL ② 入口 B 再按] 書房的門」附近（0.23 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [ 117.3s] [REVEAL ② 入口 B 再按] 「書房的門」走到 True、按鈕「書房的門」→ 旁白 []；字幕 ["caption：門關著。"]
+PASS [REVEAL ②] 再按書房的門＝不重演入口 B（只有門上的字）  []
+  [ 126.8s] 到達「[REVEAL ② 出店] 離開禮貌生財」附近（0.33 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+  [ 133.3s] [REVEAL ② 出店] 按「離開禮貌生財」→ {"zone": "tingzhou", "h": 20.234, "x": 27.4, "z": 3.3, "lv": 0, "stand": true, "busy": false, "fb": 0}
+  [ 136.0s] 到達「[REVEAL ②] 算命桌」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 139.2s] [REVEAL ②] 走到算命桌前 (28.18,3.25) 20:16：按鈕「」
+  [ 139.9s] [REVEAL ② 揭曉] 按鈕是「」不是「算命桌」：{"x": 28.177, "z": 3.25, "hour": 20.28}
+  [ 140.6s] [REVEAL ② 揭曉後再按] 按鈕是「」不是「算命桌」：{"x": 28.177, "z": 3.25, "hour": 20.28}
+FAIL [REVEAL ②] 揭曉以後選單回到五項  null
+PASS [REVEAL ② 再進店] 巷子裡有禮貌生財的門
+  [ 143.3s] 到達「[REVEAL ② 再進店] 店門」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 144.0s] [REVEAL ② 再進店] 店門口按鈕「進禮貌生財」
+PASS [REVEAL ② 再進店] 進到店裡（tz_limao）、站得住  {"zone": "tz_limao", "h": 20.329, "x": 0.9, "z": 3.3, "lv": 0, "stand": true, "busy": false, "fb": 0}
+  [ 150.7s] [REVEAL ② 解鎖後] 書房模型狀態：{"zone": "tz_limao", "studyOpen": false, "formal": true, "lid": {"n": 1, "vis": 1}, "door": {"n": 3, "vis": 3}, "study": {"n": 4, "vis": 0}}
+FAIL [REVEAL ② 解鎖後] 書房開著（studyOpen）、STUDY_* 顯示、屋頂蓋拿掉  {"zone": "tz_limao", "studyOpen": false, "formal": true, "lid": {"n": 1, "vis": 1}, "door": {"n": 3, "vis": 3}, "study": {"n": 4, "vis": 0}}
+  [ 150.7s] [REVEAL ② 解鎖後] 店裡的互動點：[{"label": "離開禮貌生財", "x": 0.9, "z": 4.6, "r": 0.8, "to": "tingzhou", "look": null, "tzd": null, "tzp": null, "lm": false, "lmAdded": false, "lv": 0}, {"label": "坐下", "x": -0.45, "z": 0.72, "r": 0.7, "to": null, "look": null, "tzd": null, "tzp": null, "lm": false, "lmAdded": false, "lv": 0}, {"label": "坐下", "x": -1.2, "z": 1.75, "r": 0.7, "to": null, "look": null, "tzd": null, "tzp": null, "lm": false, "lmAdded": false, "lv": 0}, {"label": "坐下", "x": 0.3, "z": 1.75, "r": 0.7, "to": null, "look": null, "tzd": null, "tzp": null, "lm": false, "lmAdded": false, "lv": 0}, {"label": "看書櫃", "x": -1.4, "z": 2.9, "r": 0.8, "to": null, "look": "（禮貌生財）", "tzd": null, "tzp": "books", "lm": false, "lmAdded": false, "lv": 0}, {"label": "看玻璃櫃", "x": 1.4, "z": 1.6, "r": 0.8, "to": null, "look": "（禮貌生財）", "tzd": null, "tzp": "cabinet", "lm": false, "lmAdded": false, "lv": 0}, {"label": "看掛畫", "x": -0.8, "z": -0.6, "r": 0.8, "to": null, "look": "（禮貌生財）", "tzd": null, "tzp": "scroll", "lm": false, "lmAdded": false, "lv": 0}, {"label": "書房的門", "x": 1, "z": -0.65, "r": 0.8, "to": null, "look": "門關著。", "tzd": null, "tzp": "study_door", "lm": false, "lmAdded": false, "lv": 0}]
+FAIL [REVEAL ② 書房] 有「書櫃」的點
+FAIL [REVEAL ② 書房] 有「書桌」的點
+FAIL [REVEAL ② 書房] 有「合照」的點
+FAIL [REVEAL ② 書房] 有「學生來信」的點
+  [ 150.9s] [REVEAL ② 解鎖後] SNAP 7 張（lm2_post_*.jpg）
+  [ 150.9s] 到達「[REVEAL ②] 走出書房回到前半」附近（0.50 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [REVEAL ②] 走得出書房（z > −0.9）、站得住  {"zone": "tz_limao", "h": 20.347, "x": 0.9, "z": 3.3, "lv": 0, "stand": true, "busy": false, "fb": 0}
+  [ 157.1s] 到達「[REVEAL ② 出店] 離開禮貌生財」附近（0.33 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [ 162.9s] [REVEAL ② 出店] 按「離開禮貌生財」→ {"zone": "tingzhou", "h": 20.413, "x": 27.4, "z": 3.3, "lv": 0, "stand": true, "busy": false, "fb": 0}
+PASS [REVEAL ②] 出店回到巷子、站得住、推得動  [{"zone": "tingzhou", "h": 20.413, "x": 27.4, "z": 3.3, "lv": 0, "stand": true, "busy": false, "fb": 0}, {"zone": "tingzhou", "h": 20.423, "x": 27.3, "z": 4.68, "lv": 0, "stand": true, "busy": false, "fb": 0}]
+  [ 164.5s] [REVEAL] 整段多出／改過的 LM_ 旗標：[]
+  [ 164.5s] [REVEAL] 多出的 LM_ 旗標：[]（稿的四個＝LM_MET／LM_PROF／LM_KNOWN／LM_STUDY；多的照實記，BB 01:02：報 LAWWW、不算 FAIL）
+PASS [REVEAL] 多出的旗標都是 LM_ 開頭（BB 01:02）  []
+  [ 164.5s] [REVEAL] 配置的書房：{"door": {"x": 1, "z": -0.65, "r": 0.8, "label": "書房的門", "kind": "tz_limao_study_door"}, "points": [{"id": "study_books", "x": -1.3, "z": -2.6, "r": 0.9, "label": "看書櫃", "kind": "tz_limao_study_books"}, {"id": "study_desk", "x": 0.3, "z": -2.25, "r": 0.8, "label": "看書桌", "kind": "tz_limao_study_desk"}, {"id": "study_photo", "x": 1.7, "z": -3.3, "r": 0.7, "label": "看牆上的合照", "kind": "tz_limao_study_photo"}]}
+  [ 164.5s] [REVEAL] 花了 139 秒
+PASS 沒有 JS 例外  []
+FAILED 8: [REVEAL ②] 入口 B：書房的門＝兩句旁白逐句照稿（沒有名字）；[REVEAL ②] 入口 B 以後 LM_HINT 記上、書房還是鎖著；[REVEAL ②] 揭曉以後選單回到五項；[REVEAL ② 解鎖後] 書房開著（studyOpen）、STUDY_* 顯示、屋頂蓋拿掉；[REVEAL ② 書房] 有「書櫃」的點；[REVEAL ② 書房] 有「書桌」的點；[REVEAL ② 書房] 有「合照」的點；[REVEAL ② 書房] 有「學生來信」的點
