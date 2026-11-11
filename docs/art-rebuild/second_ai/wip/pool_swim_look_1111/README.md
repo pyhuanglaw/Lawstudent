@@ -1,6 +1,6 @@
 # 游泳池水面＋泳客高度（POOL-SWIM-LOOK-1110；LAWWW2 帳號 A，2026-11-11）
 
-狀態：**WORK_IN_PROGRESS**（相關測試都過；全部 Node 測試在跑）。
+狀態：**READY_FOR_REVIEW**（2026-11-11 08:4x UTC）。LAWWW 08:10：**v9.10.25 發版以後才整合**（不進這一版）。
 
 - patch：`pool_swim_look_v1.patch`（8 個檔，基底 dev `2d3e3abc8b`）：`src/gym3d.js`、`src/character3d.js`（泳客的趴姿兩個數字＋一行）、`LICENSES.md`、兩張貼圖（`assets/models/env/second_ai/pool_ripple_nor.webp`、`pool_env.webp`）、兩支產生貼圖的腳本、新測試 `tests/pool_water_unit.js`。**沒有重匯 `gym_b1.glb`**（它有烘好的光照貼圖），只在遊戲裡換水面的材質。
 - 依據：tasks.json 的 POOL-SWIM-LOOK-1110（LAWWW 對泳客的角色驗收 PARTIAL）：①水太透明、沒有水面，近看像趴在水上——水面要加一層淺藍半透明＋反光，水面下的身體要被水蓋住（頭、肩、划水的手臂露出來）；②腿的膚色偏灰白，和手臂不一樣。CC 的圖在 cc-testing `shots/pool_swim_free.jpg`、`pool_swim_breast.jpg`。
@@ -24,7 +24,14 @@
 ## 測試
 
 - 新的 `tests/pool_water_unit.js`（7 項，不需要瀏覽器）：貼圖檔和尺寸；gym_b1.glb 裡只有 `b1_water` 會被當成水面（飲水機 `GYM2_WATER_*` 不會）；新材質的透明度、顏色、法線圖、環境圖；替沒有 UV 的水面補上 UV；shader 要替換的那一行在 three.js 裡找得到；兩層波紋捲動的方向不同；貼圖載不到或已經離開 B1 時材質照舊；接線和泳客參數。
-- `swim_pose_unit`、`pool_swimmers_wire_unit` ALL PASS。全部 Node 測試：在跑。
+- `swim_pose_unit`、`pool_swimmers_wire_unit` ALL PASS。
+- **全部 Node 測試 1281 支**（`regression_full.log`；跑之前 fetch 了企劃線）：1280 支 ALL PASS；`bookstore_exit_unit` 最後一行是 Node 讀不到網址的警告（結束碼 0），老樣子。
+- 在最新 dev `0d7922555e` 上試過 `git apply --3way`：乾淨、沒有衝突。
+
+## `character3d.js` 改了什麼（共用檔，寫清楚）
+
+- 只有 `C.GYM.swim` 這一組參數（`y` −0.09 → −0.14，新加 `tilt: 0.10`），和趴下那一行（把 `tilt` 算進去；`tilt` 是 0 時算出來和原本一模一樣）。
+- 這一組只在兩種游泳姿勢（`swim_free`、`swim_breast`）用到：別的動作、別的區域的人物站姿、坐姿、健身器材的動作都不經過這一行。LAWWW 整合時會請 BB 加看一行別的區域人物站姿。
 
 ## 還沒做到的（照實寫）
 
