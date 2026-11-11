@@ -9,6 +9,7 @@
      子晴（「欸不是」＋「這不是問句」類每學期合計 2、約會台詞不用「存檔」「這是規則」：AA_188 2-6、AA_313 6-1）、
      學姊（不數東西、沒有「重點是」、朋友以上叫名字；美國學期是大四上 2028-08～12）、可昕（不說「假設」、不比輸贏：AA_373 6-1；AA_188 拿掉「這是告知」）。
      AA 改了原稿重新匯入：衝突的句子不在了，hold 自己消失。
+  4. AA_764（DLG-FULL-REVIEW-1110，使用者 X324）：學姊 D15 心願事件照稿的 rows 32 列 old→new 疊（AA_595、AA_593 那兩層照舊先套；換完要等於稿的 wish_event）。白名單沒有 AA_764＝不疊。
   3. AA_757（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫）：沛珊 D06 心願事件照稿的 wish_rows 69 列 old→new 疊（換完要等於稿的 wish_event；只換字，條件、旗標、時間、花費不動）。白名單沒有 AA_757＝不疊。
 用法：python3 tools/date/import_wish.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_wish.js）]"""
 import json, os, re, subprocess, sys
@@ -235,6 +236,47 @@ if A757:
         sys.exit('AA_757：69 列換完以後和稿的 wish_event 不一樣（稿的兩份對不起來，或源稿 wish_bb.json 沛珊那一段變了）')
     SRC525 += f'＋{os.path.basename(P757)[:6]}@{S757}（沛珊 D06 心願 69 列，換了 {n757} 列）'
 
+# ---- 1g. AA_764（DLG-FULL-REVIEW-1110，使用者 X324 學姊約會台詞重寫；白名單上的 commit）：學姊 D15 心願事件「不排的晚上」照 AA_566 順一次（拿掉多的刪節號、車裡那一段不用保溫瓶、玩家約她那一句、第 6 階結尾）。
+#      做法同 1f：稿的 rows＝32 處 old→new（路徑＝wish_heroine_05.…），wish_event＝整個新物件。源稿 wish_bb.json 沒改（企劃線）——上面 1c（AA_595 刪保溫瓶選項）、1d2（AA_593 decline）照舊先套，
+#      再照表疊：路徑那一格現在的字要剛好是 old（已經是 new＝跳過），換成 new；換完整個物件要和 wish_event 一模一樣。只換字（text、t、title、wish、note、costNote、where），對不上＝停下來 ----
+A764 = G.approved_files(ALLOW, SP + 'AA_764_')
+FIX764 = set()
+SIS = 'heroine_05'
+if A764:
+    P764, S764 = next(iter(A764.items()))
+    ok, why = G.allowed(P764, S764, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d764 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S764}:{P764}'], text=True)))
+    rows764 = d764.get('rows') or []
+    if len(rows764) != 32:
+        sys.exit(f'AA_764@{S764} 的 rows 應該是 32 列，讀到 {len(rows764)} 列')
+    n764 = 0
+    for r in rows764:
+        if not r['path'].startswith('wish_' + SIS + '.'):
+            sys.exit('AA_764 rows：路徑不是學姊的心願事件：' + r['path'])
+        toks = re.findall(r'\[\d+\]|[^.\[\]]+', r['path'][len('wish_' + SIS + '.'):])
+        cur, par, key, i = EV[SIS], None, None, 0
+        while i < len(toks):
+            t = toks[i]; k = int(t[1:-1]) if t.startswith('[') else t
+            if isinstance(cur, dict) and k not in cur and i + 1 < len(toks) and not toks[i + 1].startswith('[') and f'{k}.{toks[i + 1]}' in cur:
+                k = f'{k}.{toks[i + 1]}'; i += 1   # hotspots 的 key 本身有點（D15.rail）
+            try:
+                par, key, cur = cur, k, cur[k]
+            except (KeyError, IndexError, TypeError):
+                sys.exit(f'AA_764 rows：路徑 {r["path"]} 找不到（在 {t}）')
+            i += 1
+        if key not in ('text', 't', 'title', 'wish', 'note', 'costNote', 'where') or not isinstance(cur, str):
+            sys.exit(f'AA_764 rows：{r["path"]} 不是字的欄位（只換 text、t、title、wish、note、costNote、where）')
+        if cur == r['new']:
+            FIX764.add(r['new']); continue
+        if cur != r['old']:
+            sys.exit(f'AA_764 rows：{r["path"]} 現在是「{cur}」，不是原句「{r["old"]}」')
+        par[key] = r['new']; FIX764.add(r['new']); n764 += 1
+    if json.dumps(EV[SIS], ensure_ascii=False, sort_keys=True) != json.dumps(d764.get('wish_event'), ensure_ascii=False, sort_keys=True):
+        sys.exit('AA_764：32 列換完以後和稿的 wish_event 不一樣（稿的兩份對不起來，或源稿 wish_bb.json 學姊那一段變了）')
+    SRC525 += f'＋{os.path.basename(P764)[:6]}@{S764}（學姊 D15 心願 32 列，換了 {n764} 列）'
+
 # ---- 2. 逐句對原稿（台詞、旁白、選項的字；說明欄不算）----
 SKIP = ('wish', 'rule', 'note', 'where', 'context', 'source', 'title', 'hotspotsTitle', 'scene', 'repeat', 'costNote', 'likeNote', 'album', 'code', 'name', 'memory', 'record')
 def all_text(o, path=''):
@@ -272,6 +314,9 @@ for k, e in EV.items():
         parts = [p for p in re.split(r'[（）「」]', t) if p] if who in ('narr', 'opt') else [t]
         if t0 in FIX592: continue   # AA_592 第 53 列換上去的句子（上面 1d 已對過 AA_592 的表）
         if t0 in FIX593 and k == 'heroine_05': continue   # AA_593 第 82 列（上面 1d2 已對過 AA_593 的表）
+        if t0 in FIX764 and k == SIS:   # AA_764 換上去的句子（上面 1g 已對過 AA_764 的 rows、wish_event）；「你來過一次」的照舊列在 freeVisited
+            if free and path.startswith(free): extra.append(f'{path}：{t0}')
+            continue
         if t0 in FIX757 and k == PS:   # AA_757 換上去的句子（上面 1f 已對過 AA_757 的 wish_rows、wish_event）；「你來過一次」那兩句照舊列在 freeVisited
             if free and path.startswith(free): extra.append(f'{path}：{t0}')
             continue

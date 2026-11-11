@@ -642,7 +642,8 @@ const DATE=(function(){
   S.NIGHT={single:'（晚上住在車站附近的旅館。兩間房，隔著一道牆。）',dating:'（晚上住在一間小民宿。窗外很安靜。）',home:'（晚上她回家。你住在車站附近的旅館。）',rent:'（晚上她回租的地方。你住在車站附近的旅館。）'};   /* 還沒交往／交往中／她在自己家（D26 以安、芷若在臺中的家）／她在租的地方（D28 沛珊大三起在台南）*/
   S.MORNING_NARR='（第二天早上。）';
   S.MORNING={heroine_01:'早餐我查過了。……走路五分鐘。',heroine_02:'我六點就醒了。換地方睡，都這樣。',heroine_03:'……這裡的蛋餅，沒有秀琴姨煎的好吃。',heroine_04:'昨天我又弄到兩點。……今天你負責叫我。',
-    heroine_05:'（保溫瓶已經裝好熱茶）……出發前喝一口。',classmate_peishan:'我居然自己醒了，沒有靠鬧鐘。我在大廳等你，快來看奇蹟。',kexin:'行程表我昨天晚上重寫了。……你看一下第二天。'};
+    heroine_05:'（她已經在大廳，頭髮綁好了）早。你慢了七分鐘。',classmate_peishan:'我居然自己醒了，沒有靠鬧鐘。我在大廳等你，快來看奇蹟。',kexin:'行程表我昨天晚上重寫了。……你看一下第二天。'};
+  /* 2026-11-11（使用者 X324 學姊約會台詞重寫，date_rewrite/sis_D26.json@82c946ad7 的 for_LAWWW）：S.MORNING 學姊那一句換了（原本「（保溫瓶已經裝好熱茶）……出發前喝一口。」；保溫瓶整份約會稿只留 D02、D09、D13 三處） */
   S.MORNING_OWN={heroine_01:'我媽多做了一份早餐。……叫我帶給你。',heroine_02:'我出門的時候，我媽問我跟誰。……我說回來再講。',classmate_peishan:'我在樓下。早餐我買好了，買太多，你要負責吃。'};   /* 以安、芷若（D26 臺中）、沛珊（D28 臺南）；沛珊三句（MORNING、MORNING_OWN、MORNING_HOME）2026-11-11 照 X327 重寫換（date_rewrite/peishan_D26／D28.json@2883197b6 的 for_LAWWW：新設定早上起不來、家裡是連鎖餐廳） */
   S.MORNING_HOME={classmate_peishan:'我在樓下。我媽叫我帶水果給你，一大袋，我提得好辛苦。'};   /* 沛珊 D26 臺中、她剛好在台中老家（AA_359 第 3 節、5-1 B2：不借 D28 那句）*/
   S.nightKind=(G,t,own)=>own==='home'?'home':(own==='rent'?'rent':(G.flags&&G.flags['dating_'+t.who]?'dating':'single'));
