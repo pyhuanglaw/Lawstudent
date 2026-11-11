@@ -451,6 +451,11 @@ class SeqPlan(Plan):
 
     def __call__(self, opts, menus):
         i = self.k; self.k += 1
+        sig = '|'.join((o if isinstance(o, str) else (o.get('t') or '')) for o in opts)
+        fs = getattr(self, 'forced_sig', None)
+        if fs is not None:   # CC 12:5x：照選單文字對（校園隨機偶遇「迎面走來一個人」會把選單往後推一格，照第幾個會選錯）
+            if sig in fs and fs[sig] < len(opts): return fs[sig]
+            return Plan.__call__(self, opts, menus)
         if i in self.forced and self.forced[i] < len(opts): return self.forced[i]
         return Plan.__call__(self, opts, menus)
 
@@ -1515,7 +1520,14 @@ class Person:
         done = lambda: self.iv_done(iv['id'])
         if walk:
             got = await self.wait_busy(240)
-            s = await self.st()
+            s = await self.st(); t_w = time.time()
+            while got and time.time() - t_w < 90 and not (s['ch'] and any('自己走過去' in o['t'] for o in s['ch'])):
+                # CC 12:5x：出發前校園隨機偶遇（「迎面走來一個人」）先演——點掉、選第一個，再等「直接過去／自己走過去」（V25_social：沒等就把偶遇當成見面、選到「直接過去」）
+                if s['ch']: R.note('%s：出發前先出現別的選單 %s → 選第一個（偶遇），再等「自己走過去」' % (tag, J([o['t'] for o in s['ch']]))); await self.tap_choice(0); await pg.wait_for_timeout(900)
+                elif s['dlg'] or s['dlgVis']: await L.tap(pg, self.cdp, '#dlg'); await pg.wait_for_timeout(500)
+                else: await pg.wait_for_timeout(800)
+                s = await self.st()
+            self.seat_sample = None; self.first_sample = None; self.tx = []
             if s['ch'] and any('自己走過去' in o['t'] for o in s['ch']):
                 k = next(i for i, o in enumerate(s['ch']) if '自己走過去' in o['t']); await self.tap_choice(k); await pg.wait_for_timeout(1200)
                 ex = await pg.evaluate("(z=>{ const it=(GAME.E.interactables||[]).find(i=>i.exit&&i.exit.to===z); return it?{x:it.x,z:it.z,label:it.label||''}:null; })", iv['zone'])
@@ -1576,7 +1588,9 @@ class Person:
         R.note('%s：見面那一場的選單 %d 個，換選項重跑 %d 次' % (tag, len(menus), len(br)))
         for mi, oi, t in br:
             forced = {j: menus[j]['pick'] for j in range(mi)}; forced[mi] = oi
-            await self.meet_go('%s 分支%d-%d「%s」' % (tag, mi, oi, t[:8]), go, iv, SeqPlan(forced, items=[{'when': '^直接過去', 'pick': '^直接過去'}]), record=False)
+            sp = SeqPlan(forced, items=[{'when': '^直接過去', 'pick': '^直接過去'}])
+            sp.forced_sig = {'|'.join(menus[j]['opts']): menus[j]['pick'] for j in range(mi)}; sp.forced_sig['|'.join(menus[mi]['opts'])] = oi
+            await self.meet_go('%s 分支%d-%d「%s」' % (tag, mi, oi, t[:8]), go, iv, sp, record=False)
 
     async def phone_invite(self, tag, opt):
         """手機 朋友 → 訊息 → 約：照 opt（PRED_JS 的一列）選分類、地點、時間；改期＝答應那個時間。回傳那一筆約（accepted）或 None"""
