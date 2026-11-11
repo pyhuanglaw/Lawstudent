@@ -43,4 +43,13 @@ for(const id of REDO){ const f=path.join(ROOT,'assets/models/env/second_ai/l118_
   const mi=J.materials.findIndex(m=>/_ceiling$/.test(m.name||'')&&!/kceiling/.test(m.name)), acc=i=>{ const a=J.accessors[i], v=J.bufferViews[a.bufferView], o=(v.byteOffset||0)+(a.byteOffset||0), n=a.count*3, out=[]; for(let k=0;k<n;k++) out.push(bin.readFloatLE(o+k*4)); return out; };
   let n=0, okY=true, okN=true; for(const m of J.meshes) for(const p of m.primitives){ if(p.material!==mi) continue; const P=acc(p.attributes.POSITION), N=acc(p.attributes.NORMAL); for(let k=0;k<P.length;k+=3){ n++; if(Math.abs(P[k+1]-H)>0.02) okY=false; if(N[k+1]>-0.99) okN=false; } }
   check(id+'：天花板單面朝下（'+n+' 個頂點都在 '+H+' m、法線朝下、材質不是雙面）',mi>=0&&n>=4&&okY&&okN&&!J.materials[mi].doubleSided,JSON.stringify([mi,n,okY,okN])); }
+/* 第 3 版（BB_341 第四節：辛亥韓食鏡頭拉到最遠，燈具、橫樑從上面橫過畫面）：四間貼著天花板的東西（天花板、格線、橫樑、燈盤、燈管、嵌燈、吊扇）節點都叫 CEIL_*——
+   遊戲的 Z3.attachRoomGLB → ceilHide 在鏡頭高過天花板時整組藏。讀模型：CEIL_ 的節點在；其他不是牆的節點沒有「整個都貼在天花板下面 0.2 m 內」的（漏掉的燈具會被這一項抓到） */
+for(const id of REDO){ const f=path.join(ROOT,'assets/models/env/second_ai/l118_'+id+'.glb'); if(!fs.existsSync(f)) continue;
+  const buf=fs.readFileSync(f), jl=buf.readUInt32LE(12), J=JSON.parse(buf.slice(20,20+jl).toString('utf8')), H=L118_SHOP_LAYOUTS[id].h, names=J.nodes.map(n=>n.name||'');
+  const need=['ceiling','vc','light'].concat(id==='tea'?['beams','warm']:['ceilgrid']).filter(k=>!names.includes('CEIL_l118_'+id+'_'+k));
+  const left=J.nodes.filter(n=>n.mesh!=null&&!/^CEIL_|^WALL_/.test(n.name||'')).filter(n=>{ const ty=(n.translation||[0,0,0])[1]; let lo=1e9; for(const p of J.meshes[n.mesh].primitives){ const a=J.accessors[p.attributes.POSITION]; lo=Math.min(lo,a.min[1]+ty); } return lo>H-0.2; }).map(n=>n.name);
+  check(id+'：貼著天花板的東西都在 CEIL_ 的節點裡（鏡頭高過天花板時遊戲整組藏）',!need.length&&!left.length,JSON.stringify({缺:need,漏在外面:left})); }
+{ const zs=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8'), ls=fs.readFileSync(path.join(ROOT,'src/l118_shops3d.js'),'utf8');
+  check('遊戲端：zones3d.js 的 ceilHide 照 CEIL_ 的名字藏、l118_shops3d.js 用 Z3.attachRoomGLB 接模型',/function ceilHide\(z,root\)/.test(zs)&&/\^CEIL_/.test(zs)&&/Z3\.attachRoomGLB\(/.test(ls)); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
