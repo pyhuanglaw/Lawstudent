@@ -8074,7 +8074,7 @@
    "sha": "（這個 commit）",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACK（LAWWW 09:04：發版後整合）",
    "at": "2026-11-11T09:0x",
    "task": "LIFE-DETAILS-SEASONAL-1110 第三批：四季水果（阿忠鮮果）、花序季節花（B2）、下雨天地墊傘架（照天氣）、元宵燈籠、中秋文旦禮籃、中秋晚上騎樓烤肉架（唯一有導航阻擋）",
    "files": [
@@ -8084,6 +8084,22 @@
    "noDirectIntegrate": false,
    "note": "基底 dev 0d7922555e，在 33ccd6440c 上 --3way 乾淨；10 個檔；SD3 多 weather、hours、blocks（當天才擋、載不到放回）、looks（hidden 不放進互動點）；新測試 season_deco_nav_unit（修改前會失敗）；全部 Node 測試 1282 支：1280 過＋bookstore_exit_unit 老警告＋singleside_streets_unit 基底就紅（lane118_street 是 LAWWW 那邊 a663433547 重匯的）",
    "next": "發版後 LAWWW 整合、CC 照 README 列的日期拍、BB 判；下一包 A1～A6 季節攤販"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "",
+   "ack": "SENT",
+   "at": "2026-11-11T09:5x",
+   "task": "L118-IT-REACH-1111：118牛排、辛亥韓食的座位按鈕位置從 L118_IT_FIX 搬回 lane118_shops.py（LAWWW 08:48）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/l118_itfix_1111/（README.md、l118_itfix_v1.patch、regression_full.log）"
+   ],
+   "state": "READY_FOR_REVIEW；待整合",
+   "noDirectIntegrate": false,
+   "note": "基底 dev 33ccd6440c，在 b1437614bd 上 --3way 乾淨；7 個檔；只重產配置、GLB 沒重匯；l118_shops3d.js 兩行（s.i、q.prio）＋表上 dian、tea 兩格拿掉；l118_interact_reach 全過且不靠覆寫表；全部 Node 測試 1286 支：1284 過",
+   "next": "LAWWW 整合"
   }
  ]
 }
