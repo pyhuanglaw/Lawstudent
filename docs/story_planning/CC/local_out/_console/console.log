@@ -1308,3 +1308,11 @@
 [09:50:22] [res] cpu=2% mem=45% (14.3/31.4 GB) chrome_testing=9  START LM_cam_a
 [09:50:23] worktree add e7ddae33fee86ab1567ab9f7b4764686cc9c321c: invalid reference - fetching main and the commit itself
 [09:51:06] [res] cpu=1% mem=45% (14.3/31.4 GB) chrome_testing=9  END FN_int_b_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8d4050c03..3d4d57561  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:51:13] ==== END   FN_int_b_r3  exit=0  184s   ====
+[09:51:16] memory 41% before starting LM_cam_b (2 running)
+[09:51:16] ==== START LM_cam_b  (probe @ e7ddae33fee86ab1567ab9f7b4764686cc9c321c) ====
+[09:51:19] [res] cpu=12% mem=42% (13.0/31.4 GB) chrome_testing=4  START LM_cam_b
+[09:51:24] [res] cpu=4% mem=43% (13.2/31.4 GB) chrome_testing=4  END FN_shots_b_new_r3
