@@ -1,12 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[13:40:21] ==== END   ANTAI_cam_old  exit=0  184s   ====
-[13:40:26] memory 48% before starting NM_cam3_old (2 running)
-[13:40:26] ==== START NM_cam3_old  (probe @ 696cf6036f3ca9fbc7022c21ab37324b0e46e305) ====
-[13:40:29] [res] cpu=17% mem=48% (15.1/31.4 GB) chrome_testing=9  START NM_cam3_old
-[13:42:07] [res] cpu=3% mem=49% (15.6/31.4 GB) chrome_testing=10  END NM_cam3_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       cb36f15b5..a5803ed03  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [13:42:13] ==== END   NM_cam3_new  exit=0  149s   ====
 [13:42:17] memory 49% before starting NM_lane_new (2 running)
 [13:42:17] ==== START NM_lane_new  (probe @ 1c2b6d4a368d39b2f0c77638d240ec7b6f4bc511) ====
@@ -1998,3 +1990,11 @@
 [22:08:30] [res] cpu=0% mem=37% (11.4/31.4 GB) chrome_testing=4  START V25_STAIR_run10
 [22:09:05] 正在跑：REL_moku_nosit_r4（已跑 1 分／上限 20 分）、REL_moku_nosit_r5（已跑 0 分／上限 20 分）、V25_STAIR_run10（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:10:12] [res] cpu=11% mem=43% (13.7/31.4 GB) chrome_testing=10  END REL_moku_nosit_r4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       83ed34090..bb9b2371d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:10:18] ==== END   REL_moku_nosit_r4  exit=0  164s   ====
+[22:10:21] memory 43% before starting L118D_C2_a2 (2 running)
+[22:10:21] ==== START L118D_C2_a2  (game @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[22:10:24] [res] cpu=2% mem=43% (13.6/31.4 GB) chrome_testing=10  START L118D_C2_a2
+[22:11:23] [res] cpu=12% mem=40% (12.8/31.4 GB) chrome_testing=9  END REL_moku_nosit_r5
