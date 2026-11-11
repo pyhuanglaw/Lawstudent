@@ -1,11 +1,3 @@
-[09:20:39] memory 47% before starting NM2_seasongg_new_r2 (2 running)
-[09:20:39] ==== START NM2_seasongg_new_r2  (probe @ e8918a0135d6e003d5d0486795e6a15917923d17) ====
-[09:20:42] [res] cpu=1% mem=47% (14.8/31.4 GB) chrome_testing=10  START NM2_seasongg_new_r2
-[09:21:50] [res] cpu=6% mem=46% (14.7/31.4 GB) chrome_testing=9  END FN_mig_a
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       38fb99f18..739cbcae0  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:21:56] ==== END   FN_mig_a  exit=0  589s   ====
 [09:22:05] memory 47% before starting FN_func_a_new_r2 (2 running)
 [09:22:05] ==== START FN_func_a_new_r2  (probe @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
 [09:22:08] [res] cpu=1% mem=47% (14.8/31.4 GB) chrome_testing=10  START FN_func_a_new_r2
@@ -1998,3 +1990,11 @@
 [16:32:26] [res] cpu=4% mem=46% (14.6/31.4 GB) chrome_testing=9  START STAIR_new_walk
 [16:34:04] 正在跑：STAIR_old_walk10（已跑 20 分／上限 20 分）、STAIR_old_run10（已跑 15 分／上限 20 分）、STAIR_new_walk（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:34:32] [res] cpu=43% mem=48% (15.3/31.4 GB) chrome_testing=10  END STAIR_old_walk10
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       882f86f3e..2a6ae126c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:34:39] ==== END   STAIR_old_walk10  exit=1  1238s  timeout 20 min ====
+[16:34:42] memory 49% before starting STAIR_new_run (2 running)
+[16:34:42] ==== START STAIR_new_run  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
+[16:34:45] [res] cpu=25% mem=49% (15.5/31.4 GB) chrome_testing=10  START STAIR_new_run
+[16:38:21] [res] cpu=27% mem=48% (15.3/31.4 GB) chrome_testing=10  END STAIR_new_walk
