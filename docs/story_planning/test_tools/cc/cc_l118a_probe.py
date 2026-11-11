@@ -376,6 +376,15 @@ STEAL = r"""(([x,z])=>{ const E=GAME.E, Z=E.zone||{};
   const zs=(Z.seats||[]).find(q=>Math.hypot(q.x-x,q.z-z)<0.05); const it=(E.interactables||[]).find(q=>q.seat&&Math.hypot(q.seat.x-x,q.seat.z-z)<0.05);
   return {npcs:who, zoneSeat:zs?{taken:zs.taken==null?null:zs.taken, label:zs.label||null}:'沒有', interact:it?{label:it.label, hidden:!!it.hidden, radius:it.radius||null, at:[+it.x.toFixed(2),+it.z.toFixed(2)]}:'沒有'}; })"""
 SEATLAB = ('坐下', '坐吧檯', '坐窗邊')
+FREE_OCC = os.environ.get('FREE_OCC') == '1'   # BB 09:43：有人坐著的椅子【捷徑】請那位起身（清 seat／seatTarget、藏起來、搬到店外）後照測
+FREE_JS = r"""(([x,z])=>{ const out=[]; for(const n of (GAME.E.npcs||[])){ if(n&&((n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.4)||(n.seatTarget&&Math.hypot(n.seatTarget.x-x,n.seatTarget.z-z)<0.4))){ out.push(String(n.id||n.name||(n.isExtra?'extra':'?'))); n.seat=null; n.seatTarget=null; n.path=null; n.hidden=true; n.frozen=true; if(n.obj){ n.obj.visible=false; n.obj.position.set(60,0,60); } } } return out; })"""
+
+
+async def free_seat(pg, t, s):
+    who = await pg.evaluate(FREE_JS, [s['sx'], s['sz']])
+    R.setup('%s 有人坐著 %s：【捷徑】請他起身（seat／seatTarget 清掉、藏起來、搬到店外 (60,60)）再測' % (t, J(who)))
+    await pg.wait_for_timeout(600)
+    return who
 # 有人坐（CC 08:1x 從 0.35 放寬到 0.4，和 STEAL／engine3d 一樣；含 seatTarget＝正走過去要坐的人）：回傳 [誰…] 或 []
 OCC_JS = r"""(([x,z])=>(GAME.E.npcs||[]).filter(n=>n&&((n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.4)||(n.seatTarget&&Math.hypot(n.seatTarget.x-x,n.seatTarget.z-z)<0.4))).map(n=>String(n.id||n.name||(n.isExtra?'extra':'?'))))"""
 
@@ -447,6 +456,7 @@ async def home_back_approach(pg, cdp, seats):
 async def sit_one(pg, cdp, sid, k, s, res):
     t = '[SEATS %s #%d（%s, %s）]' % (sid, k + 1, s['sx'], s['sz'])
     occ = await pg.evaluate(OCC_JS, [s['sx'], s['sz']])
+    if occ and FREE_OCC: await free_seat(pg, t, s); occ = await pg.evaluate(OCC_JS, [s['sx'], s['sz']])
     if occ: R.note('%s 有 NPC 坐著：遊戲不給坐，先跳過' % t); res[k] = 'occupied'; return
     tgt = s['ap'] or [s['x'], s['z']]; fb0 = (await D.st(pg))['fb']
     ok, tt, st = await joy_walk(pg, cdp, tgt[0], tgt[1], 0.3, 45, '%s 搖桿走到 seatApproach' % t)
@@ -832,6 +842,7 @@ async def tap_seat_one(pg, cdp, sid, k, s, hy=0.45, last=True):
     t = '[TAPSEAT %s #%d（%s, %s）點椅子 %.2f m 高]' % (sid, k + 1, s['sx'], s['sz'], hy)
     await at_shop(pg, cdp, sid, H_INT, '（點椅子 #%d，點在 %.2f m 高）' % (k + 1, hy))
     occ = await pg.evaluate(OCC_JS, [s['sx'], s['sz']])
+    if occ and FREE_OCC: await free_seat(pg, t, s); occ = await pg.evaluate(OCC_JS, [s['sx'], s['sz']])
     if occ: R.note('%s 有人坐著 %s：跳過' % (t, J(occ))); return 'occupied'
     sy = hy + (s.get('lift') or 0) + (s.get('sy') or 0)
     pt = await pg.evaluate(TAP_PT, [s['sx'], sy, s['sz']])
