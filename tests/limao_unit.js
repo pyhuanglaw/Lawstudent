@@ -228,6 +228,9 @@ const TALK=D.reveal.talk.lines;
   const S0=global.STORY, calls=[]; global.STORY=Object.assign({},S0,{populate:(z,g)=>{ calls.push(z); return 'r'; }}); const hooked=LM.hookPopulate(); E.npcs=[]; const r1=STORY.populate('tingzhou',GM); const got=LM.masterNpc; const r2=STORY.populate('gongguan',GM); const gone=LM.masterNpc; const again=LM.hookPopulate();
   check('13. STORY.populate 掛一次：進汀州路放人、進別的區域清掉；原本的 populate 照樣跑、回傳值不變',hooked===true&&again===false&&r1==='r'&&r2==='r'&&!!got&&gone===null&&calls.join()==='tingzhou,gongguan');
   global.STORY=S0; E.addNPC=realAdd; global.CHAR=realChar; E.npcs=realNpcs; LM.masterNpc=null;
+  /* 2026-11-11（BB P2）：站在算命桌前不動，過了 19:00／23:30 互動鍵的字要跟著換——label 是即時算的（getter），game3d.js updateInteract 字變了就重畫（原本只在換互動點時設字）*/
+  { GM.G=newG({hour:18.9}); const a=itT.label; GM.G.hour=19.05; const b=itT.label; GM.G.hour=23.6; const c=itT.label; const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
+    check('13. 同一個互動點的字跟著鐘點換（18:54「'+LM.LABEL_LOOK+'」→ 19:03「'+LM.LABEL+'」→ 23:36「'+LM.LABEL_LOOK+'」）；互動鍵字變了就重畫',a===LM.LABEL_LOOK&&b===LM.LABEL&&c===LM.LABEL_LOOK&&/if\(it!==nearIt\|\|lb!==nearLb\)\{ \$\('interactLabel'\)\.textContent=lb; nearLb=lb; \}/.test(g3),[a,b,c].join()); }
   check('13. 讀檔的鎖有登記（limao3d:masterLoading）',typeof (globalThis.LOADLOCKS||{})['limao3d:masterLoading']==='function'); }
 
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
