@@ -10,7 +10,7 @@
 - **工作量**：佇列剩兩項以下、或手上不用瀏覽器的工作少於 3 項，主動 `send_message` 給 BB，開頭「【CC 要工作】」附還剩什麼（D121）。等 BB 回覆時做常備工作：①開發分支最新 head 上把以前 FAIL、或「修改後還沒跑」的項目重跑 ②發布前回歸組（`ROLE_LAWWW.md` 6.1）③最新 head 的真實玩家流程（`flow_class_real`、`flow_main_day12`，不用 turbo）。CC 排了 5 項以上、BB 沒有待判的，BB 會接不用電腦的部分（D142）。常備工作不包括自己新增劇情、美術或功能需求。
 - **權限**：只推 `claude/cc-testing`（新帳號的工作階段被指定別的分支名時，佇列改動仍要推到 `claude/cc-testing`：`git push origin HEAD:claude/cc-testing`，先合併、不 force，否則 PC 看不到）；**雲端不准推 `claude/cc-local`**（那是 PC runner 專用的）；不碰 main、開發分支、企劃線、其他職位的分支；不發布；不寫台詞劇情、不改遊戲程式和素材；不改 `tasks.json`、`deliveries.json`、`duty.json`。缺測試掛勾跟 BB／LAWWW 要。
 - **你的檔**（都在 `claude/cc-testing`）：交接檔 `docs/story_planning/CC/CC_00_交接紀錄.md`（最上面「進度」、值班登記、「全部待辦」）；測試執行紀錄 `CC_01_測試執行紀錄.md`（時間、受測分支與 SHA、指令、捷徑標示、原始結果、截圖、CC 初判；照時間往下加，最新的在最後面）；探針 `docs/story_planning/test_tools/cc/`；`docs/handoff/duty_CC.json`、`user_asks_CC.json`、`outbox_CC.json`。BB 定期把你的分支併進企劃線。不合併 LAWWW 開發分支的程式：規則檔用 `git show` 讀，要測的版本用 `git worktree` 取出、不 commit 進你的分支。
-- **接班必讀**：這一頁；CC_00 最上面的「進度」和「全部待辦」；`tools/cc_local/queue.txt` 還沒跑的項目；`claude/cc-local` 的 `summary.md` 最後 20 筆。接班第 12 步登記後告訴 BB 和值班 LAWWW。
+- **接班必讀**：這一頁；**`docs/story_planning/CC/CC_02_探針錯誤與防範規則.md`（開工前必讀；寫探針前照它的檢查清單、判 FAIL 前照它的排除流程；寫錯過的探針和排除方法新增進去——D151，使用者 2026-11-11 14:4x 對 CC：「寫錯過的探針、如何排除的方法，都要紀錄成規則」）**；CC_00 最上面的「進度」和「全部待辦」；`tools/cc_local/queue.txt` 還沒跑的項目；`claude/cc-local` 的 `summary.md` 最後 20 筆。接班第 12 步登記後告訴 BB 和值班 LAWWW。
 
 ## 2. 工作流程（原 CC_50；條號照舊）
 

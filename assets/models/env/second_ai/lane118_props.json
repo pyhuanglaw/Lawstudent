@@ -1,15 +1,15 @@
 {
  "objects": 3,
  "unique_meshes": 3,
- "tris": 16706,
- "tris_drawn": 16706,
+ "tris": 16454,
+ "tris_drawn": 16454,
  "materials": 3,
  "out": "assets/models/env/second_ai/lane118_props.glb",
- "bytes": 1400952,
+ "bytes": 1383012,
  "texres": 512,
- "tris_total": 16706,
- "scooters": 55,
- "blocks": 18,
- "circles": 16,
- "pools": 9
+ "tris_total": 16454,
+ "scooters": 53,
+ "blocks": 14,
+ "circles": 15,
+ "pools": 11
 }

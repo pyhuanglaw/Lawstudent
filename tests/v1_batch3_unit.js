@@ -1,4 +1,5 @@
 // 交接包 v1（大一上）第 3 批：BB 的現有事件改寫（BB_95 2-1、2-3～2-7）——不需要瀏覽器。
+// 2026-11-11（X327 沛珊重寫，AA_761_peishan_events_1.json@dbfc596a5）：這支裡寫死的沛珊在 events.js 的句子照新稿改期望（逐字對稿在 tests/peishan_events_1111_unit.js）。
 // 檢查（修改前都會失敗）：
 //   W1 學姊第一次見面（talkSis）：六句、照群組有沒有回（回過／沒講過／舊存檔沒有群組＝不提）、民總之前／之後兩種、記 FIRST_MET、之後的隨機台詞是新的三句。
 //   Q1 阿凱轉述子晴：第 4 週（第 6 天起）才觸發；台詞不動。
@@ -15,7 +16,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js']) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js']) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 let legalAsked=0; global.LEGAL={ask:async()=>{ legalAsked++; said.push({who:'LEGAL',t:'〔題目〕'}); },apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -78,9 +79,9 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
     check('加入法服（lawclub）＝在「法服」群組；學姊在群組的「三件事」沒有了',PHONE.inGroup(G,'lawclub_study')&&PHONE.rec(G).groups.lawclub_study.name==='法服'&&!PHONE.thread(G,'g:lawclub_study').length); }
   { const P1=ev('ev_peishan_why_plg'), P1b=ev('ev_peishan_why_answer_plg'), thu=STORY.termDay('Y1S1',11,4);
     fresh(thu,20.2,'wancai',{}); SOCIAL.meet('classmate_peishan','campus'); const ok=EVENTS.check(P1); await EVENTS.run(P1);
-    check('P1（公法讀書會，大一上第 11 週起）：AA_222 五句、記 PEISHAN_ASKED_WHY、peishanAskedDay',ok&&JSON.stringify(lines())===JSON.stringify(['（大家在背基本權的審查標準。白板上寫滿了「目的」「手段」「必要」。）','（舉手，停了一下）……我們為什麼要背這個？','因為會考。','（有人笑出來。）','（想了一下）……我下次回答妳。現在講會講不清楚。'])&&G.flags.PEISHAN_ASKED_WHY===true&&G.flags.peishanAskedDay===thu&&EVENTS.check(P1)===false,JSON.stringify(lines()));
+    check('P1（公法讀書會，大一上第 11 週起）：AA_222 五句、記 PEISHAN_ASKED_WHY、peishanAskedDay',ok&&JSON.stringify(lines())===JSON.stringify(['（大家在背基本權的審查標準。白板上寫滿了「目的」「手段」「必要」。）','（舉手）我可以問一個會被打的問題嗎？我們為什麼要背這個？','因為會考。','（有人笑出來。）','（想了一下）……我下次回答妳。現在講會講不清楚。'])&&G.flags.PEISHAN_ASKED_WHY===true&&G.flags.peishanAskedDay===thu&&EVENTS.check(P1)===false,JSON.stringify(lines()));
     const same=EVENTS.check(P1b); G.day=thu+7; const nx=EVENTS.check(P1b); await EVENTS.run(P1b);
-    check('P1b：同一天不演；7 天內下一次讀書會＝以安回答（AA_222）、記 PS_WHY_ANSWERED',same===false&&nx===true&&JSON.stringify(lines().slice(-5))===JSON.stringify(['上禮拜沛珊問的，為什麼要背審查標準。','不背的話，討論的時候只能說「我覺得不合理」。講不出哪裡不合理。','背起來，至少大家吵的時候用的是同一套話。','……好，這樣我可以接受。','那今天讀比例原則。'])&&G.flags.PS_WHY_ANSWERED===true,JSON.stringify(lines().slice(-5)));
+    check('P1b：同一天不演；7 天內下一次讀書會＝以安回答（AA_222）、記 PS_WHY_ANSWERED',same===false&&nx===true&&JSON.stringify(lines().slice(-5))===JSON.stringify(['上禮拜沛珊問的，為什麼要背審查標準。','不背的話，討論的時候只能說「我覺得不合理」。講不出哪裡不合理。','背起來，至少大家吵的時候用的是同一套話。','好，這個理由我買單。那我背。','那今天讀比例原則。'])&&G.flags.PS_WHY_ANSWERED===true,JSON.stringify(lines().slice(-5)));
     fresh(thu,20.2,'wancai',{PEISHAN_ASKED_WHY:true,peishanAskedDay:thu-8}); check('P1b：超過 7 天就沒有（AA_222：沒來那次由 P-L3 帶一句）',EVENTS.check(P1b)===false);
     fresh(STORY.termDay('Y1S1',10,4),20.2,'wancai',{}); SOCIAL.meet('classmate_peishan','campus'); const w10=EVENTS.check(P1); G.day=STORY.termDay('Y1S2',7,4); const y7=EVENTS.check(P1); G.day=STORY.termDay('Y1S2',8,4); const y8=EVENTS.check(P1);
     fresh(thu,20.2,'wancai',{}); const unmet=EVENTS.check(P1);

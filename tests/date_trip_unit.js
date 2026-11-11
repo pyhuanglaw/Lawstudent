@@ -5,7 +5,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|DATE|DATE_DATA|ROM)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js','src/romance3d.js','src/data/date_locations.js','src/date3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js','src/romance3d.js','src/data/date_locations.js','src/date3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -59,7 +59,7 @@ const ADV2=global.ADV; ADV2.active=false;
   // 一個互動點都沒做
   const b4=DATE.book(G,{who:'heroine_01',locs:['D01'],day:G.day,depart:10}); const q4=OUT.get(G,'date_'+b4.trip); G.hour=10; const fam0=SOCIAL.rel('heroine_01').fam;
   picks=['出發','就這樣回去']; await OUT.prompt(GM,q4);
-  check('6. 做了 0 個就離開：不算次數、熟悉 +1、她說 leaveEarly 那一句（以安：AA_535b 1-3「……這樣就回去了？好。排好的，下次再用。」；沒有句子的人照舊旁白「……就這樣？」）',DATE.log(G,'heroine_01').count===0&&SOCIAL.rel('heroine_01').fam===fam0+1&&said.some(s=>s.t===(DATE.EXTRA_LINES&&DATE.EXTRA_LINES.heroine_01?DATE.EXTRA_LINES.heroine_01.leaveEarly[0]:'……就這樣？')));
+  check('6. 做了 0 個就離開：不算次數、熟悉 +1、她說 leaveEarly 那一句（以安：2026-11-11 AA_780@248c8e390「這樣就回去了？好。排好的那幾個地方不會跑。」，原本 AA_535b 1-3「……這樣就回去了？好。排好的，下次再用。」——這一條讀 DATE.EXTRA_LINES，只改說明；沒有句子的人照舊旁白「……就這樣？」）',DATE.log(G,'heroine_01').count===0&&SOCIAL.rel('heroine_01').fam===fam0+1&&said.some(s=>s.t===(DATE.EXTRA_LINES&&DATE.EXTRA_LINES.heroine_01?DATE.EXTRA_LINES.heroine_01.leaveEarly[0]:'……就這樣？')));
   check('7. 不在地點表（公館）不能預約',!DATE.book(G,{who:'heroine_01',locs:['gongguan'],day:G.day+1,depart:10}).ok);
   console.log(fails?`\nFAILED ${fails}`:'\nALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

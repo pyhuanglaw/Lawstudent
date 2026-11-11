@@ -62,3 +62,8 @@
 - 公館 G08 騎樓的紅凳子 `sk_stool_r_G08` 是子晴的劇情座位，重建店面街不能拿掉（`zq_arcade_seat_unit`）；雜物變了要重算 `src/zones3d.js` 的 GG_PROP_BLOCKS（`street_props_nav_unit`）。
 
 - （11-10 23:4x）禮貌生財「上師」的人物圖使用者給過了：開發分支 `docs/handoff/user_specs/limao_ref/shangshi_character.png`；店面外觀圖在 LAWWW2 分支 `ref/night_market_1110/concept/shop_limao_shengcai_exterior.webp`；夜市十攤圖同資料夾。不要再跟她要。
+- （11-11 08:0x）在開發分支重產街景 GLB（`wz_street.py -- --set lane118` 等）要的 `tools/blender/env_second/textures/gen/` 兩百多張圖只在 LAWWW2 分支 `claude/second-ai-env-art`，開發分支沒有；另外要 Poly Haven 的 `floor_tiles_06`、`concrete_floor_painted`（`lib2.fetch` 會抓）。建之前從 LAWWW2 分支取出來（`git checkout origin/claude/second-ai-env-art -- tools/blender/env_second/textures/gen`），**不要 commit 進開發分支**。118 巷玻璃後的室內圖：`l118_peek_tex.py` → `wz_street.py -- --set lane118` → `node tools/gen_zone_assets.js`（室內 GLB 換了就要重跑）。
+- （11-11 07:5x 使用者）各工作階段用 **Opus 5.5**（claude-opus-5-5），不用 Fable（USER_WANTS X342）。派子代理不要指定 `model: fable`。
+- （11-11 12:4x）約會地點的台詞，遊戲讀的是企劃線 `docs/story_planning/date_system/lines/Dxx.json`（`tools/date/import_date_lines.py`，白名單逐檔）；`date_rewrite/` 只是改稿紀錄、沒有工具讀。AA 以後改約會字直接改 `date_system/lines/`。AA_812 那五格是 `import_date_lines.py` 的 apply812 層照 date_rewrite 的差換（held 預先合併分支 852bf5d85）。
+- （11-11 12:5x）AA 的「她傳來的訊息」回覆選項（AA_709 → `src/data/msg_replies.js`）用**私訊原文逐字**對（`src/msgreply3d.js` S.find）。改任何私訊的字，要一起改 AA_709 那一格的 text，不然玩家收到那則就沒有回覆選項；`python3 tools/story/import_msg_replies.py --check` 會擋。
+- （11-11 12:5x）AA 的逐行改稿 {file,line,old,new} 用 `tools/story/apply_line_rows.py <稿>@<sha> [--apply] [--skip-generated]` 套（held 預先合併分支）；檔頭寫「自動產生」的檔不套，要改源稿重匯。比舊稿的測試用 `tests/line_rows_expect.js`（toOld／fwd／fixFile／toOldS／fwdS／fwdDeep）。

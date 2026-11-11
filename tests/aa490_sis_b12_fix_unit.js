@@ -93,7 +93,7 @@ await sec(2,async()=>{ const PUSH='（你把那本書推過去。這半年，它
   await dinner({place:'noodle',placeName:'阿鳳麵店'},{SIS_BOOK:'law',SIS_BOOK_WITH_YOU:true},[0]);
   check('2. 12/24 約在阿鳳麵店（不是法圖旁邊那家）：也演「（你把那本書推過去。…）」「（翻到書籤那一頁）……你沒有往後翻。」；選項「我翻了一頁。」「沒有。」→「哪一頁。……算了，不要講。」',
     seq([PUSH,BM,'哪一頁。……算了，不要講。'])&&H.opts.some(o=>J(o)===J(['「我翻了一頁。」','「沒有。」']))&&!has('（下午的人散了，店裡只剩你們這一桌。）'),J({o:H.opts,s:said()}));
-  await dinner({place:'brunch',placeName:'半熟'},{SIS_BOOK:'novel',SIS_BOOK_WITH_YOU:true},[1]);
+  await dinner({place:'brunch',placeName:'半熟'},{SIS_BOOK:'novel',SIS_BOOK_WITH_YOU:true},[0,1]);   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版）：這一頓前面多一組選項（先選一個），還書那一段的二選一是第二組 */
   const li=t=>said().lastIndexOf(t);   /* 「嗯。」前面的閒聊也有：看最後一次 */
   check('2. 約在半熟：也演；「沒有。」→「嗯。」',seq([PUSH,BM])&&li('嗯。')===idx(BM)+1&&has('（半熟。）'),J(said()));
   await dinner({},{SIS_BOOK:'law',SIS_BOOK_WITH_YOU:true},[0]);

@@ -80,7 +80,8 @@ const LN=DATE_LINES;
   const NL=LN.loc.D13.lines;
   check('4. date_lines.js：D13 以安、學姊合照前的「第 6 階以上」、可昕欄杆選項②的「第 3 節她的心願的伏筆」是註記（who:note）',NL[AN].hotspots['D13.photo']['extra:合照'][0].lines[0].who==='note'&&NL[SIS].hotspots['D13.photo']['extra:合照'][0].lines[0].who==='note'&&NL[KX].hotspots['D13.rail'].first.choice[1].reply[1].who==='note');
   setup('2026-10-10',9,{lv:{[AN]:6}}); r=await goDate(AN,'D13',15,['拍照',0,'差不多',0]);
-  check('4. 以安第 6 階拍照：有「好。拍背影就好，正面我會緊張。」、沒有「（第 6 階以上）」',r.L.includes('好。拍背影就好，正面我會緊張。')&&!r.L.some(t=>/第 6 階以上/.test(t)),J(r.L));
+  /* 2026-11-11（X324 以安約會台詞重寫，AA bd1ce5be0）：D13 合照那一句新稿拿掉開頭的「好。」（date_rewrite/an_D13.json 第 68 格）；舊期望「好。拍背影就好，正面我會緊張。」。「第 6 階以上」那一格照舊是不顯示的註記 */
+  check('4. 以安第 6 階拍照：有「拍背影就好，正面我會緊張。」、沒有「（第 6 階以上）」',r.L.includes('拍背影就好，正面我會緊張。')&&!r.L.some(t=>/第 6 階以上/.test(t)),J(r.L));
   setup('2026-10-10',9,{lv:{[KX]:'dt'}}); r=await goDate(KX,'D13',15,['欄杆',1,'差不多',0]);
   check('4. 可昕欄杆第一次選②：沒有「（第 3 節她的心願的伏筆）」',!r.L.some(t=>/伏筆/.test(t))&&r.L.length>3,J(r.L));
   { const src=fs.readFileSync(path.join(H.ROOT,'tools/date/import_date_lines.py'),'utf8'); check('4. 產生器照白名單重算（NOTE_NARR：整句相同才改）',/NOTE_NARR = \{'第 6 階以上', '第 3 節她的心願的伏筆'\}/.test(src)); }

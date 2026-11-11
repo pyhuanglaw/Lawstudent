@@ -35,7 +35,8 @@ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 手機的頁籤：「動態」在「訊息」旁邊',/<button data-ptab="msg">訊息<\/button><button data-ptab="feed">動態<\/button>/.test(html)); }
 let doc='', old=''; try{ doc=cp.execSync('git show '+SHA+':"'+SPEC+'"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){} try{ old=cp.execSync('git show '+OLD+':"'+SPEC+'"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 sec('0. 台詞對稿',()=>{ const L=[]; const add=(x,w)=>{ if(x==null||x==='') return; if(typeof x==='object'){ if(x.nar) add(x.nar,w); for(const k of ['no','yes']) if(x[k]!=null) add(x[k],w); return; } L.push([w,x]); };
-  for(const p of FEED_Y1S1.posts){ add(p.pic,p.id); add(p.say,p.id); for(const x of p.cm||[]) add(x,p.id); for(const x of p.dm||[]) add(x,p.id); }
+  const PSRW=require('./peishan_rewrite_1111.js');   /* 2026-11-11（X327 沛珊重寫）：ps4／ps5／ps6 三則照 AA_755 整則重寫了，不在 AA_503 稿裡——這裡跳過，逐字比對在 tests/peishan_feed_misc_1111_unit.js */
+  for(const p of FEED_Y1S1.posts){ if(PSRW.feedSkip('Y1S1',p.id)) continue; add(p.pic,p.id); add(p.say,p.id); for(const x of p.cm||[]) add(x,p.id); for(const x of p.dm||[]) add(x,p.id); }
   for(const q of FEED_Y1S1.dms){ for(const l of q.lines) add(l,q.id); if(q.ask) for(const o of q.ask.opts){ add(o.t,q.id); if(typeof o.post==='string') add(o.post,q.id); for(const r of o.r||[]) add(r,q.id); } }
   add(FEED_Y1S1.video.start,'video'); add(FEED_Y1S1.video.end,'video');
   /* YT-REWRITE-1103：語彤的句子照 AA_630 第 3 節（F 列）換了；短句（tests/alison.js 的語料不收）直接對 AA_630 表上的「改成」那一格 */

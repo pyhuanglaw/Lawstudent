@@ -20,6 +20,15 @@ const XS3=(function(){
   S.NO_ARCADE_REC=0.2;
   /* XS-FARVIEW-1105：街的兩頭（走不到的遠景）。數字和 tools/blender/env_second/wz_street.py --set xinsheng_far 的 XSF 同一組，改一邊要一起改（tests/xs_farview_unit.js 比對 GLB）*/
   S.FAR={zN:-178,zS:178,armN:[-100,-84],armS:[74,90],armRoad:2};   // 沒有騎樓的那幾段：一樓牆在立面（facade.upper）往裡 0.2 m（wz_street.py 住家／鐵捲門的 rec）
+  /* 路邊機車的位置（XS-SCOOTERS-1111）：配置 scooters＝{x, spans:[[z0,z1]…]}。一小群三到五台、間距約 0.85 m、群和群之間空 1.4～2.4 m；
+     店門口（門中心前後 1.3 m）、斑馬線（前後多 0.8 m）、溫州街巷口不停。回傳 [{x,z,ry,g}]（g＝第幾群）；位置是固定的（照 z 的雜湊），每次進來都一樣 */
+  S.scooterSpots=function(L){ const SC=L&&L.scooters, out=[]; if(!SC||!SC.spans) return out; const hash=(a,b)=>{ const t=Math.sin(a*12.9898+b*78.233)*43758.5453; return t-Math.floor(t); };
+    const WL=L.wenzhouLane, busy=z=>(L.shops||[]).some(q=>q.door&&Math.abs(q.door.z-z)<(q.door.w||2)/2+0.7)||(L.crossings||[]).some(c=>Math.abs(z-c.z)<c.w/2+0.8)||(WL&&z>WL.z0-0.6&&z<WL.z1+0.6);
+    let gi=0; for(const [a,b] of SC.spans){ const z0=Math.min(a,b)+0.5, z1=Math.max(a,b)-0.5; let z=z0+hash(a,1)*0.6;
+      while(z<z1){ gi++; const n=3+Math.floor(hash(gi,5)*3), slant=(hash(gi,11)-0.5)*0.4, pitch=0.82+hash(gi,13)*0.1;
+        for(let k=0;k<n&&z<z1;k++,z+=pitch){ if(busy(z)) continue; out.push({x:+(SC.x+(hash(z,3)-0.5)*0.26).toFixed(3),z:+z.toFixed(3),ry:-Math.PI/2+slant+(hash(z,5)-0.5)*0.2+(hash(z,7)<0.15?Math.PI:0),g:gi}); }
+        z+=1.4+hash(gi,17)*1.0; } }
+    return out; };
   S.build=function(E){ const L=LAY(); const g=new THREE.Group(); g.name='xinsheng_zone';
     const N=L.nav, nav=new E3.NavGrid(N.w,N.d,N.cell,N.x0,N.z0); nav.b.fill(1);
     const open=(x0,z0,x1,z1)=>{ for(let cz=0;cz<nav.rows;cz++) for(let cx=0;cx<nav.cols;cx++){ const [wx,wz]=nav.toWorld(cx,cz); if(wx>=x0&&wx<=x1&&wz>=z0&&wz<=z1) nav.b[nav.idx(cx,cz)]=0; } };
@@ -173,6 +182,20 @@ const XS3=(function(){
     const zoneTime=(h,E2)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E2&&E2.hemi) E2.hemi.intensity+=0.7*k; for(const p of pools) if(p.material) p.material.opacity=0.55*k; };
     const zone={group:g,nav,spawn:Object.assign({},SG.spawn),lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
     zoneRef.z=zone; for(const f of backFormal) f();
+    /* 店面那一側人行道邊停的機車（XS-SCOOTERS-1111，LAWWW2 帳號 A 11-11；BB／CC 11-11 03:44 讀碼發現：配置 xinsheng_layout.js 的 scooters 從 11-03 就在，這支程式一直沒有讀——新生南路 0 台）。
+       照配置的 x 和幾段 z：一小群一小群（三到五台）、群和群之間空一格；店門口、斑馬線、溫州街巷口前不停；每台前後錯開一點、車頭左右轉幾度。
+       模型和公館、溫州街、汀州路同一套（Z3.attachWzScooters；款式和顏色用汀州路的挑法 TZ3.pickScooter：相鄰不同款、不同色系）；沒有正式模型時是套件的機車。每台擋導航（和汀州路一樣大） */
+    { const SC=L.scooters, spots=S.scooterSpots(L), scG=new THREE.Group(), scList=[], st={n:0,dark:0,tailA:0,run3:0,adjSame:0,codes:{}}, kit=['#c9463d','#2b2b2d','#e8e6e0','#3d6fb0','#8a8f98','#2f6a4a','#d9b23a']; let pv=null; scG.name='xs_kit_scooters'; scG.userData.dyn=true;
+      const hash=(a,b)=>{ const t=Math.sin(a*12.9898+b*78.233)*43758.5453; return t-Math.floor(t); };
+      /* 三款配件車（擋風鏡、腳踏板的袋子、蓋座墊的雨衣）每款指定一台（第 2、6、10 台）：一款的機率只有 3%，這條街 12 台照位置抽剛好一台都沒有（BB 11-11 04:4x） */
+      const ACC=['S1A_W','S1B_G','S7_R']; let qi=-1;
+      for(const q of spots){ qi++; let pk=(typeof TZ3!=='undefined'&&TZ3.pickScooter)?TZ3.pickScooter(q.z,-1,pv,st):null; const acc=(qi%4===1)?ACC[(qi-1)/4]:null;
+        if(pk&&acc&&TZ3.SC&&TZ3.SC[acc]) pk=Object.assign({},pk,{code:acc});
+        const c=pk?pk.col:kit[Math.floor(hash(q.z,9)*7)]; if(pk) pv={code:pk.code,tail:pk.tail,cf:pk.cf,pp:pv};
+        const o=TK.scooter(c); o.position.set(q.x,0,q.z); o.rotation.y=q.ry; o.userData.dyn=true; scG.add(o); scList.push(pk?{o,color:c,code:pk.code,pcol:c,grp:'xs'+q.g}:{o,color:c,grp:'xs'+q.g}); nav.blockRect(SC.x,q.z,1.5,0.8,0); }
+      nav._cm=null; g.add(scG); zone.xsScooters=scList.length; zone.xsScList=scList.map(q=>({code:q.code||null,col:q.color,grp:q.grp}));
+      if(scList.length&&Z3.attachWzScooters&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_scooter']){ if(typeof P3!=='undefined'&&P3.mergeStatic) P3.mergeStatic(scG);
+        ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; zone.xsScooterGLB=Z3.attachWzScooters(g,scG,scList,c.scene,'xs_scooters_glb'); }).catch(e=>console.warn('新生南路機車模型載入失敗，用套件的機車',e)); } }
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xinsheng_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.xinsheng_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       Z3.attachWenzhouModel(E,g,c.scene.clone(true),'xsfb','xinsheng_street_glb'); }).catch(e=>console.warn('新生南路正式模型載入失敗，用方塊立面',e));
     /* XS-FARVIEW-1105：街兩頭的樓房（正式模型，遠景：不投影）；接上以後這一區不畫引擎的城市剪影圓筒（engine3d.js 讀 zone.noSkylineCity；圓筒在校園那一側正好落在校園裡）*/

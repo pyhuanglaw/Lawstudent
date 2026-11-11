@@ -1,7 +1,7 @@
 /* ===== 1B 大二～大三上的人物事件：手機、時間窗、明信片、法服 5/22、債各第 6 週的課堂段、沛珊放榜後（AA_316 1B-01～07、AA_321 1B-08～11；AA-C 定稿，台詞照原文）=====
    事件（出遊、在場景裡碰到的、下課後）在 src/data/y2b_events.js。這裡用 STORY.PHONE_RULES（手機）、STORY.TICKS（9/14 下雨、明信片放在桌上／Café 牆上）、
    CLS.IN_CLASS（債各第 6 週那一堂的劇情段）掛進去；法服 5/22 包住 STORY.fafuShift、沛珊放榜後第一次的回覆包住 MSG.send（不改那兩個檔）。
-   1B-11 只做了訊息（8/7、第一次回覆；8/7 那一則 AA_296 2-3-1 ④ 起是她打來的電話，沒接才是訊息）：沛珊大三起在台南（presence、臺北作息、邀約去台南、期末心意邀約、閒聊階梯 context:'date'）屬 AA_282 第 5 節，見 S.PS_TAINAN 的說明。
+   1B-11 只做了訊息（8/7、第一次回覆；8/7 那一則 AA_296 2-3-1 ④ 起是她打來的電話，沒接才是訊息）：沛珊大三起在台南（presence、臺北作息、邀約去台南、期末心意邀約、閒聊階梯 context:'date'）屬 AA_282 第 5 節（去台南的那一天在 src/hometown3d.js、src/data/hometown_lines.js）。
    AA_349（2026-10-21）：K1 第一次回覆分台中／台南兩句；K9 大三上第 6 週 10/15 21:00 二手書店那兩則；K3 她主動約「台南・美術館」的手機規則（HV.museumPhone）也從這裡叫。
    AA_350 P1（2026-10-21）：第一次回覆照她那天在哪（STORY.presence）——寒暑假在台中＝台中那一句，學期中＝台南那一句（S.psTaichung）。
    測試：node tests/y2b_events_unit.js、tests/peishan_tainan_unit.js（第 8 節）*/
@@ -117,11 +117,8 @@ const Y2B=(function(){
     const text=MSG.playerText(G,id,topic,sub), th='p:'+id; PHONE.post(G,{th,from:'player',who:null,text}); const Rc=MSG.rec(G); Rc.sent[id]=G.day;
     const at=MSG.replyAt?MSG.replyAt(G,id):{day:G.day,h:G.hour%24+0.25}, tc=S.psTaichung(G,at.day);
     PHONE.at(G,at.day,at.h,[P(tc?'好久不見。……我現在在台中，開學以後在台南。':'好久不見。……我現在在台南。'),P('你要來的話，跟我說。')],'ps_back_first'); G.flags.PS_BACK_FIRST=G.day; return {ok:true,text,at}; };
-  /* 去台南的那一天（AA_282 3-1，原文）：presence 改台南、邀約目的地台南要一起做（AA_282 第 5 節）——2026-10-21 已接：presence「在台南」在 characters.js，演出照 hometown3d.js 的結構（PS_TAINAN_VISITS）；AA_507 0-2 第 8 點更新註解 */
-  S.PS_TAINAN={ first:[{narr:'（台南車站。她站在出口，兩手各拿一杯飲料。）'},'{name}！這杯你的。這邊的紅茶很甜喔，你先喝一口。',{scene:'台南・她的學校',bg:'tainan_school'},'這是我們學校。很小吧？走一圈十分鐘。','欸，你覺得我有沒有哪裡不一樣？'],
-    firstOpts:[{t:'曬黑了。',say:['對！這裡的太陽跟台中不一樣。']},{t:'頭髮剪短了？',say:['上個月剪的。我室友到現在都還沒發現。']}],
-    send:{narr:'（傍晚，她陪你坐車到高鐵站。）',dating:['下次待久一點。末班車太早了。'],other:['謝謝你跑這麼遠！到臺北傳給我喔。']},
-    again:[{key:'books',scene:'台南・她打工的二手書店',lines:['這一區是我排的。你看得出來照什麼排的嗎？','……照書背的顏色。老闆說隨便我。']},{key:'food',scene:'台南・老街',lines:['我室友說這攤一定要吃。……其實我也是第一次來。']},{key:'canal',scene:'台南・運河邊',lines:['欸，那艘船是不是一直停在那裡？','它在等什麼啊？']}] };
+  /* 去台南的那一天（AA_282 3-1）：演出在 src/hometown3d.js、字在 src/data/hometown_lines.js 的 'classmate_peishan@台南'（presence「在台南」在 characters.js；去了幾次記 PS_TAINAN_VISITS）。
+     2026-11-11（AA 回覆 LAWWW；使用者 X330 舊設定不留）：原本這裡留的一份舊副本 S.PS_TAINAN（沒有地方讀、字是重寫以前的）刪掉了 */
 
   /* ===================== 1B-02 語彤事件 8：債各第 6 週（2027-03-29）那一堂，第 6 週的課堂那一句後面、下課之前（CLS.IN_CLASS）===================== */
   S.leaseClass=async function(GM,it,prof,ct){ const G=GM.G; if(!it||!it.c||it.c.id!=='oblig_spec'||it.exam||!law(G)||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); if(!t||t.id!=='Y2S2'||t.week!==6||done(G,'ev_yt_lease_class')) return false;
