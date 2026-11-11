@@ -41,6 +41,18 @@ for k,v in D.items():
             for i,t in shop: print('      店',i,t)
         if len(lite)>1:
             for i,t in lite: print('      光',i,t)
+    if who=='heroine_04':
+        meta=[(i,t) for i,key,t in hers if re.search('地圖|關卡|路徑規劃|負載|進度條|材質|彩蛋|任務|存檔|讀取|新手教學|NPC|碰撞|穿模|載入|bug|Bug',t)]
+        own=[(i,t) for i,key,t in hers if re.search('我的遊戲|我想做一關|做進遊戲|教學關',t)]
+        hl=[(i,t) for i,key,t in hers if '好啦' in t]
+        cmd=[(i,t) for i,key,t in hers if re.search('不准|不要動|這是命令|你不要',t)]
+        sl=[(i,t) for i,key,t in hers if re.search('起床|想睡|鬧鐘|睡著',t)]
+        over=len(meta)>2 or len(own)>2 or len(hl)>2 or len(cmd)>1 or len(sl)>1
+        print(f'    遊戲比喻 {len(meta)}、她的遊戲 {len(own)}、好啦 {len(hl)}、命令句 {len(cmd)}、晚起想睡 {len(sl)}'+(' ←' if over else ''))
+        if len(meta)>2:
+            for i,t in meta: print('      比喻',i,t)
+        if len(cmd)>1:
+            for i,t in cmd: print('      命令',i,t)
     if who=='kexin':
         cmd=[(i,t) for i,key,t in hers if re.search('不准|你不要|(^|[。，！？）])不要|別想',t)]
         yl=[(i,t) for i,key,t in v if '予樂' in t]; sc=[(i,t) for i,key,t in v if '行程表' in t]
