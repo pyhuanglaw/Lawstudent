@@ -252,6 +252,9 @@ def kx_expect(term, C):
     allt = [o['t'] for o in opts]
     if 'optsUS' in e:
         ou = [mkopt(o) for o in e['optsUS']]; allt += [o['t'] for o in ou]   # 美國路線那一組沒有 set（不記）
+        if term == 'Y3S2':   # 匯入工具 KX_US_YES（AA 11-10 23:4x）：大三下美國路線三個都記 KX_KHH.Y3S yes（七月第 3 天那一則照發）
+            for m, o in zip(ou, e['optsUS']):
+                if o.get('set') in (None, {'KX_KHH': True}): m['khh'] = ['Y3S', 'yes']
         opts = ou if C.get('US') else opts
     return [{'id': 'kx.%s' % term, 'why': why, 'say': lns(say), 'opts': opts, 'all': allt, 'then': lns(e.get('then')), 'shuffle': True}], term
 
@@ -790,7 +793,7 @@ def analyze(t, case, run, segs, info, check=True):
                 ck('%s [%s] 選「%s」＝KX_Y5_CALL＝sat' % (t, s['id'], chosen), post.get('y5') == 'sat', J(post.get('y5')))
             if not o.get('khh') and not o.get('y5'):
                 k0 = (info.get('khh0') or {})
-                ck('%s [%s] 美國路線那一組沒有 set：KX_KHH 沒有變' % (t, s['id']), kh == k0, '之前 %s；之後 %s' % (J(k0), J(kh)))
+                ck('%s [%s] 美國路線那一組沒有 set：KX_KHH 沒有變' % (t, s['id']), kh == k0, '之前 %s；之後 %s' % (J(k0), J(kh)))   # （大三下以外的學期）
         cur = i + 1
     res.pop('_segs', None)
     return res
@@ -928,7 +931,40 @@ async def case_run(pg, cdp, errs, cid):
             if (top.get('fx') or {}).get('love'):
                 R.check('%s 加戀愛的「%s」不是每一天都排第一（%s）' % (t, top['t'], '、'.join(days)), not all(firsts.get(r_) == top['t'] for r_ in days), J({r_: firsts.get(r_) for r_ in days}))
     res['orders'] = orders
+    if case.get('july'): await kx_july(pg, cdp, t, res, errs)
     open(os.path.join(OUT, 'te_%s.json' % TAG), 'w', encoding='utf-8').write(J(RESULT))
+
+
+KXJULY_JS = r"""(()=>{ const G=GAME.G; if(typeof KXKHH==='undefined') return {err:'沒有 KXKHH'}; const d0=STORY.dayOfKey('2028-07-01'), d1=STORY.dayOfKey('2028-08-31'); let R=null;
+  for(let d=d0; d<=d1&&!R; d++){ const r=KXKHH.run(G,d); if(r&&r.key==='Y3S') R=r; }
+  return {R, khh:(G.flags||{}).KX_KHH||null, route:(G.flags||{}).EXCHANGE_ROUTE||null, a:R?CALENDAR.dateOf(R.a).key:null, d3:R?CALENDAR.dateOf(R.a+2).key:null, msg3:R&&KXKHH.MSG3&&KXKHH.MSG3.Y3S?KXKHH.MSG3.Y3S(G):null}; })()"""
+KXMSG_JS = r"""(()=>((GAME.G.msgs||[]).filter(m=>(m.th||(m.who?'p:'+m.who:''))==='p:kexin'&&/^kxkhh/.test(m.tag||'')).map(m=>({tag:m.tag, day:m.day, dayKey:CALENDAR.dateOf(m.day).key, h:m.h, text:String(m.text)}))))()"""
+
+
+async def kx_july(pg, cdp, t, res, errs):
+    """BB 00:48 第 9 項：可昕美國路線七月那一則——吃完大三下那一頓（KX_KHH.Y3S＝yes）以後，【捷徑】跳到她回高雄的第 3 天 20:45，等 21:00 那一則，照實記日期和字"""
+    j = await pg.evaluate(KXJULY_JS); res['july'] = j
+    R.note('%s 七月：她在高雄的那一段 %s；第 3 天＝%s；KX_KHH＝%s；遊戲的句子 MSG3.Y3S＝%s' % (t, J(j.get('R')), j.get('d3'), J(j.get('khh')), J(j.get('msg3'))))
+    if not R.check('%s 七月：前置——吃完以後 KX_KHH.Y3S＝yes、找得到她七八月在高雄的那一段' % t, bool(j.get('R')) and (j.get('khh') or {}).get('Y3S') == 'yes', J(j)): return
+    s1 = await pg.evaluate(SNAP_JS); s1 = dict(s1.get('G', s1)) if isinstance(s1, dict) else s1
+    d3 = j['R']['a'] + 2; s1['day'] = d3; s1['hour'] = 20.75; s1['zone'] = 'dorm'; s1['pos'] = None
+    try: s1['weekday'] = await pg.evaluate(WD_JS, d3)
+    except Exception: pass
+    await load(pg, cdp, s1, '%s【捷徑】吃完以後的存檔、日期時間改到 %s（她回高雄第 3 天）20:45、在宿舍' % (t, j['d3']), settle=False)
+    got = []; t0 = time.time()
+    while time.time() - t0 < 150:
+        got = await pg.evaluate(KXMSG_JS)
+        if any(m['tag'].startswith('kxkhh_d3_') for m in got): break
+        if await pg.evaluate(PHONE_OPEN_JS): await pe.close_phone(pg, cdp)
+        q = await L.state(pg)
+        if q['choices']:
+            o = await pe.opts(pg); await tap_choice(pg, cdp, next((i for i, x in enumerate(o) if not x['dim']), 0))
+        elif q['dlg']: await L.tap(pg, cdp, '#dlg')
+        await pg.wait_for_timeout(800)
+    res['july_msgs'] = got
+    lines_txt('%s 七月那一則（%s）' % (TAG, t), [{'k': 'say', 'who': 'kexin', 'name': '可昕（手機 %s %.2f %s）' % (m['dayKey'], m['h'] or 0, m['tag']), 'v': m['text']} for m in got])
+    R.note('%s 七月：可昕的手機訊息（照實）：%s' % (t, J(got)))
+    R.check('%s 七月：她回高雄第 3 天 21:00 有那一則（kxkhh_d3_Y3S）' % t, any(m['tag'] == 'kxkhh_d3_Y3S' for m in got), J(got))
 
 
 async def main():
