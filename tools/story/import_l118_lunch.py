@@ -7,7 +7,8 @@
 **台詞、選項、旁白一字照稿**（只過 import_guard.read_fix 的換名；換到了會印出來）。這支工具只多做三件事：
 1. 核對 id：人物（src/data/characters.js，不認得＝停下來）、店（src/data/lane118_shops.js，不在現在的資料裡＝只提醒：遊戲會跳過那間店）。稿上寫錯的 id 在 IDMAP 對照（現在是空的：AA_771 的 id 全部對得上）。
 2. 每一組 special 的 cond（文字條件）拆成遊戲看得懂的 when（下面「cond 怎麼讀」）；讀不懂的子句放進 when.unknown ＝ 那一組遊戲不會播，匯入時印出來。
-3. _meta.rules（文字規則）和 RULES_KNOWN 不一樣＝停下來（規則是寫在 src/l118_lunch3d.js 的 RULES 裡的，稿的規則改了程式要跟著看）；看過以後加 --rules-ok 再匯。
+3. _meta.rules 的第一條（店的規則）對到 shopRules（不當午餐的店、只有某些人會選的店；SHOP_RULES 認得舊九間店和重新設計以後的兩個版本）寫進資料檔；
+   其他條和 RULES_KNOWN 不一樣＝停下來（規則是寫在 src/l118_lunch3d.js 的 RULES 裡的，稿的規則改了程式要跟著看）；看過以後加 --rules-ok 再匯。
 AA 往後加 lunch／special 的 id（不改舊 id）可以直接重跑；舊 id 不見了只印提醒（存檔裡記的是 id）。
 
 ---- 資料格式（AA 照這個寫；遊戲 src/l118_lunch3d.js 讀同一份）----
@@ -35,7 +36,7 @@ AA 往後加 lunch／special 的 id（不改舊 id）可以直接重跑；舊 id
   大一下以後 → termFrom                                    大一、大二上…… → terms
   認識○○ → knows                                          她（他、○○）在臺北、在學校的學期 → present        她（他、○○）在臺北 → reachable
   不和 AA_311 H1 同一天 → notH                              有 YT_MET_JOB → flags            平日 → weekday       學期中 → inTerm
-  第 9 週以後 → weekFrom                                    走出巷子時經過慢讀咖啡 → at:'leave'＋shopOpen:['cafe2']      不指名哪一位老師 →（不是條件）
+  第 9 週以後 → weekFrom                                    走出巷子時經過○○（店名，或括號裡寫店 id）→ at:'leave'＋shopOpen:[那間店]      不指名哪一位老師 →（不是條件）
   其他 → when.unknown（遊戲不播那一組）
 
 用法：python3 tools/story/import_l118_lunch.py [--check] [--rules-ok] [--path docs/story_planning/別的檔名.json]
@@ -58,8 +59,15 @@ NAME2ID = {'以安': 'heroine_01', '芷若': 'heroine_02', '語彤': 'heroine_03
 TIER = {'剛認識': 1, '普通同學': 2, '熟悉朋友': 3, '非常要好': 4}
 YEAR = {'一': 1, '二': 2, '三': 3, '四': 4}
 # 遊戲照這幾條做（src/l118_lunch3d.js 的 RULES）；稿的 _meta.rules 和這裡不一樣＝先看程式要不要改
+# 第一條（店的規則）兩個版本都認得，對到遊戲用的 shopRules（寫進資料檔；遊戲 src/l118_lunch3d.js 的 S.shopRules 讀）：
+#   noLunch＝不當午餐的店 id；onlyFor＝{店 id: [只有這些人會選]}
+SHOP_RULES = {
+    '店：一一八茶飲不當午餐（只在 L-yu-3 被提到）；慢讀咖啡只有以安會選。選到的店那天沒開就照權重換下一間。':
+        {'noLunch': ['tea'], 'onlyFor': {'cafe2': ['heroine_01']}},                      # AA_771 v1、v2（舊九間店）
+    '店：九間餐廳都可以當午餐；兩間外帶飲料店（drink_a 手搖飲、drink_b 鮮果茶）不當午餐，只在 L-yu-3、S-meet-ziqing 被提到。選到的店那天沒開就照權重換下一間。':
+        {'noLunch': ['drink_a', 'drink_b'], 'onlyFor': {}},                              # AA_771 v3（九間店重新設計，X338）
+}
 RULES_KNOWN = [
-    '店：一一八茶飲不當午餐（只在 L-yu-3 被提到）；慢讀咖啡只有以安會選。選到的店那天沒開就照權重換下一間。',
     '週一阿哲手機揪午餐（AA_280 第 4 節）照舊：那天答應了就不再當面邀；沒答應或他沒揪，照常判定。',
     'AA_280 第 3 節的熟客、AA_311 H1～H9 照舊；同一天已經演過那一位的 H 事件，偶遇就不要再抽到同一個人。',
     '柏翰和沛珊大一下交往、大二上分開：大二上那一學期不要把兩個人排進同一桌（其他學期可以）。',
@@ -73,6 +81,7 @@ RULES_KNOWN = [
 # 「十二點前後下課」的時間窗（鐘點）：那一堂的下課時間落在這裡面才判定。稿的最上層寫了 window＝照稿；沒寫＝用這個（LAWWW 2026-11-11：11:30～12:30）
 WINDOW = {'from': 11.5, 'to': 12.5}
 CHANGED, WARN = [], []
+SHOP_NAME = {}   # 店名 → 店 id（現在的 lane118_shops.js；cond「走出巷子時經過○○」用）
 
 
 def git(*a):
@@ -107,6 +116,8 @@ def known_ids():
     s = open(os.path.join(ROOT, 'src/data/lane118_shops.js'), encoding='utf-8').read()
     s = s[s.index('{', s.index('LANE118_SHOPS')):s.rindex('}') + 1]
     shops = [x['id'] for x in json.loads(s)['shops']]
+    SHOP_NAME.clear()
+    SHOP_NAME.update({x['name']: x['id'] for x in json.loads(s)['shops']})
     if len(chars) < 20 or len(shops) < 5:
         die('讀不到 characters.js／lane118_shops.js 的 id（檔案格式改了？）')
     return chars, shops
@@ -163,6 +174,23 @@ def strip_note(s):
     return re.sub(r'（[^（）]*）', '', s).strip()
 
 
+def clauses(text):
+    """用「；」「，」切子句；全形括號裡面的不切"""
+    out, cur, dep = [], '', 0
+    for ch in text:
+        if ch == '（':
+            dep += 1
+        elif ch == '）':
+            dep = max(0, dep - 1)
+        if dep == 0 and ch in '；，;':
+            out.append(cur)
+            cur = ''
+        else:
+            cur += ch
+    out.append(cur)
+    return out
+
+
 def cond(text, who, where):
     """文字條件 → when。讀不懂的子句進 unknown（遊戲不播這一組）"""
     W = {}
@@ -178,7 +206,7 @@ def cond(text, who, where):
             return ref
         return NAME2ID.get(nm)
 
-    for raw in re.split(r'[；，;]', text):
+    for raw in clauses(text):
         c = strip_note(raw)
         if not c:
             continue
@@ -229,9 +257,16 @@ def cond(text, who, where):
         if m:
             W['weekFrom'] = int(m.group(1))
             continue
-        if c == '走出巷子時經過慢讀咖啡':
+        m = re.fullmatch(r'走出巷子時經過(.+)', c)
+        if m:
+            # 經過的那間店要開著：括號裡先寫店 id（例「（drink_b；任何一間店吃完都可以播）」）就用它，沒有就照店名找
+            n = re.search(r'（([a-z][a-z0-9_]*)[；，;）]', raw)
+            sid = n.group(1) if n else SHOP_NAME.get(m.group(1).strip())
             W['at'] = 'leave'
-            W['shopOpen'] = ['cafe2']
+            if sid:
+                W['shopOpen'] = [sid]
+            else:
+                WARN.append(f'{where}：「{raw.strip()}」找不到是哪一間店（括號裡寫店 id，或用 lane118_shops.js 的店名）＝不看那間店有沒有開')
             continue
         if c == '不指名哪一位老師':
             continue
@@ -388,6 +423,10 @@ def build(d):
     return out
 
 
+def rules_ok(rules):
+    return isinstance(rules, list) and len(rules) >= 1 and rules[0] in SHOP_RULES and rules[1:] == RULES_KNOWN
+
+
 def old_ids(p):
     if not os.path.exists(p):
         return set()
@@ -411,6 +450,8 @@ def main():
     rules = (src.get('_meta') or {}).get('rules')
     data = {'src': f'{path}@{sha}'}
     data.update(build(src))
+    if isinstance(rules, list) and rules and rules[0] in SHOP_RULES:
+        data['shopRules'] = SHOP_RULES[rules[0]]
     js = ('/* 自動產生：tools/story/import_l118_lunch.py（' + data['src'] + '）。不要手改，改企劃稿再重新匯入。\n'
           '   118 巷課後午餐邀約（L118-LUNCH-INVITE-1111，使用者 X339）的台詞、選項、旁白：一字照 AA 的稿；special 的 when 是工具從 cond（文字條件）拆出來的。\n'
           '   格式說明在匯入工具的檔頭；怎麼演：src/l118_lunch3d.js */\n'
@@ -423,9 +464,9 @@ def main():
             die(f'{OUT} 和來源不一樣：重新匯入')
         print('OK', why)
         return
-    if rules != RULES_KNOWN and '--rules-ok' not in sys.argv:
-        die('稿的 _meta.rules 和這支工具記的（RULES_KNOWN）不一樣：規則是寫在 src/l118_lunch3d.js 的 RULES 裡的，先看程式要不要跟著改、'
-            '更新 RULES_KNOWN；確定不用改就加 --rules-ok 再跑。這一次沒有產生檔。')
+    if not rules_ok(rules) and '--rules-ok' not in sys.argv:
+        die('稿的 _meta.rules 和這支工具記的（SHOP_RULES 的第一條＋RULES_KNOWN）不一樣：規則是寫在 src/l118_lunch3d.js 的 RULES 裡的，先看程式要不要跟著改、'
+            '更新這支工具；確定不用改就加 --rules-ok 再跑（第一條不認得的話，店的規則用遊戲裡預設的 S.RULES）。這一次沒有產生檔。')
     gone = old_ids(p) - {e['id'] for e in data['lunch']} - {e['id'] for e in data['special']}
     open(p, 'w', encoding='utf-8').write(js)
     print('寫入', OUT, f'發起／同行 {len(data["who"])} 人、lunch {len(data["lunch"])} 組、special {len(data["special"])} 組；{why}')

@@ -55,7 +55,7 @@ const LUNCH118=(function(){
     walkH:10/60, eatH:30/60, minEatH:20/60,
     pts:2, talkPts:1, meetPts:1, weekCap:6, specialP:0.2, spRepeatDays:30, talkReplaces:false, skipAfterEvent:true,
     sideRatio:0.5, firstItemTypes:['手搖飲','咖啡'], meetBusy:['class','barista','ta','club','help','follow','wait'] };
-  /* AA_771 _meta.rules（文字）照這裡做；稿的規則改了匯入工具會停下來（RULES_KNOWN）*/
+  /* AA_771 _meta.rules（文字）照這裡做；稿的規則改了匯入工具會停下來（RULES_KNOWN）。noLunch、onlyFor 是預設值：資料檔有 shopRules 就用資料檔的（S.shopRules）*/
   S.RULES={ noLunch:['tea'], onlyFor:{cafe2:['heroine_01']}, apart:[{ids:['classmate_bohan','classmate_peishan'],terms:['Y2S1']}], zhe:'zhe',
     hWho:{H1:['heroine_05'],H2:['classmate_peishan'],H3:['heroine_01'],H4:['zhe'],H5b:['zhe','yu'],H6:['classmate_bohan'],H7a:['classmate_xinci'],H7c:['classmate_xinci'],H8:['heroine_03']} };
   const TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
@@ -94,9 +94,10 @@ const LUNCH118=(function(){
   S.zheToday=function(G){ const F=G.flags||{}, L=F.L118_LUNCH; if(L&&L.day===G.day) return true; return typeof F.L118_PICK==='string'&&+F.L118_PICK.split(':')[0]===G.day; };
   S.zhePhoned=G=>typeof PHONE!=='undefined'&&!!PHONE.sent&&!!PHONE.sent(G,'l118_lunch_'+G.day);
   /* 這個人會選、到店那一刻開著的店 */
-  /* 能當午餐的店：LANE118_SHOPS 有這間（prefs 寫了資料沒有的 id＝跳過，不報錯）、有菜單、沒被標成不當午餐（店的資料 noLunch／takeout／lunch:false——九間店重新設計以後多的外帶飲料店；S.RULES.noLunch 的 id）*/
-  S.lunchShop=function(id){ const s=L118.shop(id); return !!s&&Array.isArray(s.menu)&&s.menu.length>0&&!s.noLunch&&!s.takeout&&s.lunch!==false&&!S.RULES.noLunch.includes(id); };
-  S.shopsOf=function(G,id,gA){ const d=D(), P=(d&&d.who[id]&&d.who[id].prefs)||{}, R=S.RULES; return Object.keys(P).filter(s=>+P[s]>0&&S.lunchShop(s)&&(!R.onlyFor[s]||R.onlyFor[s].includes(id))&&L118.isOpen(s,gA)); };
+  /* 能當午餐的店：LANE118_SHOPS 有這間（prefs 寫了資料沒有的 id＝跳過，不報錯）、有菜單、沒被標成不當午餐（店的資料 noLunch／takeout／lunch:false——九間店重新設計以後多的外帶飲料店；S.shopRules().noLunch 的 id）*/
+  S.shopRules=function(){ const d=D(), r=d&&d.shopRules; return {noLunch:r&&Array.isArray(r.noLunch)?r.noLunch:S.RULES.noLunch,onlyFor:r&&r.onlyFor&&typeof r.onlyFor==='object'?r.onlyFor:S.RULES.onlyFor}; };   /* 店的規則：資料檔的 shopRules（匯入工具從 _meta.rules 第一條對出來的；九間店重新設計以後重匯就換），沒有＝S.RULES */
+  S.lunchShop=function(id){ const s=L118.shop(id); return !!s&&Array.isArray(s.menu)&&s.menu.length>0&&!s.noLunch&&!s.takeout&&s.lunch!==false&&!S.shopRules().noLunch.includes(id); };
+  S.shopsOf=function(G,id,gA){ const d=D(), P=(d&&d.who[id]&&d.who[id].prefs)||{}, R=S.shopRules(); return Object.keys(P).filter(s=>+P[s]>0&&S.lunchShop(s)&&(!R.onlyFor[s]||R.onlyFor[s].includes(id))&&L118.isOpen(s,gA)); };
   /* 這一桌、這間店能演的午餐對話 */
   S.groupsFor=function(party,shop){ const d=D(); return ((d&&d.lunch)||[]).filter(g=>g&&g.id&&Array.isArray(g.who)&&g.who.length&&g.who.every(id=>party.includes(id))&&(g.n==null||g.n===party.length+1)&&(!g.shop||g.shop.includes(shop))&&Array.isArray(g.lines)&&g.lines.length); };   /* n＝含玩家的人數要剛好 */
   S.pickGroup=function(G,party,shop){ const L=S.groupsFor(party,shop); if(!L.length) return null; const lg=S.rec(G).lg, key=g=>lg[g.id]==null?[0,-g.who.length]:[1,lg[g.id]];

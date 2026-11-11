@@ -1414,6 +1414,16 @@ const L118_LUNCH_DATA={
   "narr": "（你摸了一下口袋。錢不夠吃這一餐。）",
   "player": "「我今天錢不夠，下次。」",
   "reply": "沒關係，下次。"
+ },
+ "shopRules": {
+  "noLunch": [
+   "tea"
+  ],
+  "onlyFor": {
+   "cafe2": [
+    "heroine_01"
+   ]
+  }
  }
 };
 if(typeof module!=='undefined') module.exports=L118_LUNCH_DATA;

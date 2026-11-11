@@ -88,15 +88,16 @@ const snap=()=>J({money:G.money,rel:G.social.rel,l118:G.l118,eat:G.eat,slots:G.s
     if(REAL&&ent.length){ const SHA=ent[0].sha; let has=false; try{ cp.execFileSync('git',['cat-file','-e',SHA+'^{commit}'],{cwd:ROOT,stdio:'ignore'}); has=true; }catch(e){}
       let ok=false, out=''; if(has){ try{ out=cp.execFileSync('python3',[path.join(ROOT,'tools/story/import_l118_lunch.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(err){ out=String(err.stderr||err.message).slice(0,300); } }
       check('A4. 匯入工具 --check：資料檔和企劃稿一致'+(has?'':'（這個複本沒有企劃線的 '+SHA+'，略過）'),!has||ok,out.trim().slice(0,160));
-      if(has){ const src=JSON.parse(cp.execFileSync('git',['show',SHA+':'+ent[0].path],{cwd:ROOT,encoding:'utf8'})); const strip=x=>{ const y=JSON.parse(J(x)); delete y.src; delete y.window; for(const s of y.special||[]) delete s.when; return y; }; const a=strip(REAL), b=strip(src);
-        check('A5. 一字照稿：去掉工具加的 src、window、special.when 以後和稿完全一樣（欄位順序不算）',J(canon(a))===J(canon(b))); } }
+      if(has){ const src=JSON.parse(cp.execFileSync('git',['show',SHA+':'+ent[0].path],{cwd:ROOT,encoding:'utf8'})); const strip=x=>{ const y=JSON.parse(J(x)); delete y.src; delete y.window; delete y.shopRules; for(const s of y.special||[]) delete s.when; return y; }; const a=strip(REAL), b=strip(src);
+        check('A5. 一字照稿：去掉工具加的 src、window、shopRules、special.when 以後和稿完全一樣（欄位順序不算）',J(canon(a))===J(canon(b))); } }
     if(REAL){ const shops=LANE118_SHOPS.shops.map(s=>s.id), W=REAL.who, ids=Object.keys(W);
       check('A6. who 的人物都在 CHARACTERS；每個人的 prefs 至少有一間現在的資料裡能當午餐的店',ids.length>0&&ids.every(id=>CHARACTERS[id]&&Object.keys(W[id].prefs).some(s=>shops.includes(s)&&LUNCH118.lunchShop(s))));
       check('A7. 每個人都有邀約的句子、都有「只有他、不限店、不限人數」的午餐對話',ids.every(id=>REAL.invite[id]&&REAL.invite[id].lines.length&&REAL.lunch.some(g=>g.who.length===1&&g.who[0]===id&&!g.shop&&g.n==null)));
       check('A8. special 的 when 沒有讀不懂的條件、鍵都是遊戲認得的',REAL.special.every(s=>s.when&&!s.when.unknown&&Object.keys(s.when).every(k=>['inParty','minTier','termFrom','terms','knows','present','reachable','notH','flags','weekday','inTerm','weekFrom','shopOpen','at'].includes(k))),J(REAL.special.filter(s=>!s.when||s.when.unknown).map(s=>s.id)));
       const KEYS=new Set(['店名','name','發起人','同行','品名','金額']), all=[]; const walk=x=>{ if(typeof x==='string') all.push(x); else if(x&&typeof x==='object') for(const k of Object.keys(x)) if(k!=='_meta'&&k!=='cond'&&k!=='note') walk(x[k]); }; walk(REAL);
       check('A9. 句子裡的大括號只有認得的那幾個',all.every(t=>(t.match(/\{([^{}]*)\}/g)||[]).every(m=>KEYS.has(m.slice(1,-1)))));
-      check('A10. 時間窗在資料檔（11:30～12:30）',REAL.window&&REAL.window.from===11.5&&REAL.window.to===12.5,J(REAL.window)); }
+      check('A10. 時間窗在資料檔（11:30～12:30）',REAL.window&&REAL.window.from===11.5&&REAL.window.to===12.5,J(REAL.window));
+      useTest(REAL); const sr=LUNCH118.shopRules(); check('A10. 店的規則在資料檔（shopRules：不當午餐的店、只有某些人會選的店），遊戲讀得到；資料沒有 shopRules＝用預設',!!REAL.shopRules&&Array.isArray(REAL.shopRules.noLunch)&&sr.noLunch===REAL.shopRules.noLunch&&sr.onlyFor===REAL.shopRules.onlyFor&&(()=>{ useTest(); return LUNCH118.shopRules().noLunch===LUNCH118.RULES.noLunch; })(),J(REAL.shopRules)); useTest(REAL); }
     /* 白名單沒有那一筆＝停下來、不產生檔（用不存在的稿名）*/
     { let code=0, err=''; const outP=path.join(ROOT,'src/data/l118_lunch.js'), before=HAS_DATA?fs.readFileSync(outP,'utf8'):null; try{ cp.execFileSync('python3',[path.join(ROOT,'tools/story/import_l118_lunch.py'),'--path','docs/story_planning/AA_沒有這份稿.json'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); }catch(e){ code=e.status; err=String(e.stderr||''); }
       check('A11. 白名單沒有那份稿：工具停下來說明（結束碼不是 0）、資料檔沒被動到',code!==0&&/白名單/.test(err)&&(HAS_DATA?fs.readFileSync(outP,'utf8')===before:!fs.existsSync(outP)),err.trim().slice(0,80)); }
@@ -295,7 +296,7 @@ const snap=()=>J({money:G.money,rel:G.social.rel,l118:G.l118,eat:G.eat,slots:G.s
     check('D1. 法律系館A 201、202、法律系館B 多功能教室、研討室都算',['L201','LINZE','L202','WMULTI','WSEM'].every(r=>LUNCH118.lawAm(G,{key:'k',t1:12.17,c:{kind:'required'},room:COURSES.rooms[r]}))&&!['GONGTONG','PUTONG','BOYA','GYM','OFF','LAWLIB_DESK','CAMPUS_SVC'].some(r=>LUNCH118.lawAm(G,{key:'k',t1:12.17,c:{kind:'required'},room:COURSES.rooms[r]})));
     const it=after(MON,[[ZHE,'CLO']]); G.hour=12.75; check('D1. 下課以後拖到 12:45 才空下來：不邀（late）',LUNCH118.plan(GM,it).no==='late'); }
   // D2 店：一一八茶飲不當午餐、慢讀咖啡只有以安、沒開換下一間
-  { const RU=LUNCH118.RULES, only=Object.keys(RU.onlyFor), lunchIds=LANE118_SHOPS.shops.map(s=>s.id).filter(id=>LUNCH118.lunchShop(id)&&!only.includes(id)), [a,b,c]=lunchIds;
+  { const RU=LUNCH118.shopRules(), only=Object.keys(RU.onlyFor), lunchIds=LANE118_SHOPS.shops.map(s=>s.id).filter(id=>LUNCH118.lunchShop(id)&&!only.includes(id)), [a,b,c]=lunchIds;
     fresh(MON,12+10/60,'classroom'); const gA=Object.assign({},G,{hour:12+20/60});
     { const d0=JSON.parse(J(TEST)); d0.who[ZHE].prefs=Object.assign(Object.fromEntries(RU.noLunch.concat(only).map(id=>[id,9])),{[a]:1}); useTest(d0);
       check('D2. 規則（S.RULES）：不當午餐的店（'+RU.noLunch.join('、')+'）寫在 prefs 裡也不會選；只有某些人會選的店（'+only.join('、')+'）別人不會選',J(LUNCH118.shopsOf(G,ZHE,gA))===J([a])&&RU.noLunch.every(id=>!LUNCH118.lunchShop(id))&&only.every(id=>!RU.onlyFor[id].includes(ZHE)),J(LUNCH118.shopsOf(G,ZHE,gA)));
@@ -392,7 +393,7 @@ const snap=()=>J({money:G.money,rel:G.social.rel,l118:G.l118,eat:G.eat,slots:G.s
     for(const term of ['Y1S1','Y1S2']) for(let w=1;w<=16;w++) for(let wd=1;wd<=5;wd++){ const d=termDay(term,w,wd); if(d==null) continue; fresh(d,12+10/60,'classroom');
         if(g0){ G.social=g0.social; SOCIAL.bind(G); G.l118=g0.l118; G.eat=g0.eat; G.money=g0.money; G.flags.MET_ZHE=true; } else for(const id of friends) know(id,'FRI');
         const it=amIt(); if(!it||!LUNCH118.lawAm(G,it)){ continue; } CLS.rec(G).done[it.key]=1; days++; const P=LUNCH118.plan(GM,it); const m0=G.money; picks=[(days%4===0)?REAL.options.decline:REAL.options.accept];
-        const r=await LUNCH118.afterClass(GM,it.key); if(r===false){ g0=JSON.parse(J(G)); continue; } inv++; whoSeen.add(P.who); shops.add(P.shop); maxParty=Math.max(maxParty,P.party.length+1); if(LUNCH118.RULES.noLunch.includes(P.shop)||!LUNCH118.lunchShop(P.shop)) tea++; if(LUNCH118.RULES.onlyFor[P.shop]&&!LUNCH118.RULES.onlyFor[P.shop].includes(P.who)) cafeOther++;
+        const r=await LUNCH118.afterClass(GM,it.key); if(r===false){ g0=JSON.parse(J(G)); continue; } inv++; whoSeen.add(P.who); shops.add(P.shop); maxParty=Math.max(maxParty,P.party.length+1); if(LUNCH118.shopRules().noLunch.includes(P.shop)||!LUNCH118.lunchShop(P.shop)) tea++; if(LUNCH118.shopRules().onlyFor[P.shop]&&!LUNCH118.shopRules().onlyFor[P.shop].includes(P.who)) cafeOther++;
         if(r==='done'){ done++; if(P.sp) sps.add(P.sp.id); if(G.money!==m0-P.price) moneyBad++; }
         for(const s of said){ if(EAT_LINES.first&&Object.values(EAT_LINES.first).includes(s.t)) continue; if(!unfill(s.t,P)) bad.push(s.t); if(/[{}]/.test(s.t)) bad.push('沒填好：'+s.t); }
         for(const o of opts[0]||[]) if(!ALL.has(o)) bad.push('選項：'+o);
