@@ -1200,3 +1200,11 @@
 [09:30:57] [res] cpu=5% mem=41% (12.6/31.4 GB) chrome_testing=4  START ART2_walls_new
 [09:34:02] 正在跑：ART2_int_gg_new（已跑 4 分／上限 12 分）、ART2_int_gg_old（已跑 3 分／上限 12 分）、ART2_walls_new（已跑 3 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:34:46] [res] cpu=3% mem=45% (14.4/31.4 GB) chrome_testing=10  END ART2_int_gg_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6a481d9d2..0ff906c9a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:34:52] ==== END   ART2_int_gg_old  exit=0  235s   ====
+[09:34:55] memory 47% before starting ART2_walls_old (2 running)
+[09:34:55] ==== START ART2_walls_old  (probe @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
+[09:34:58] [res] cpu=7% mem=46% (14.8/31.4 GB) chrome_testing=10  START ART2_walls_old
+[09:36:53] [res] cpu=2% mem=49% (15.5/31.4 GB) chrome_testing=10  END ART2_int_gg_new
