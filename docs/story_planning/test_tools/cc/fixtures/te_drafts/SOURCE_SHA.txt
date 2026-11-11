@@ -4,3 +4,4 @@ df16f91e69132a866e264091a5ee5b1f827907e6
 - AA_748_termend_heart_v2.json、AA_753_peishan_ladder_Y1S1.json：內容＝33a1769f8（65212b697 匯入的那一版）。
 - AA_751_peishan_termend.json：企劃線最新（750dadee70 2026-11-11 00:44，比匯入的 33a1769f8 新）；匯入的那一版另存 AA_751_peishan_termend@33a1769f8.json。
 - 先前的版本（3259b5f78 的 gf／kx／heart、359fce93e 的朋友版）已經被這一批取代；舊版對照（201803df0）拿這一批比會有差異，那是稿改過、不是遊戲錯。
+- AA_401_kx_khh.md：docs/story_planning/AA_401_可昕學期末約會的二選一_寒假來高雄.md（企劃線 df16f91e69132a866e264091a5ee5b1f827907e6，最後一次改 c2fd6b001 2026-11-08）；可昕七月那一則的期望（第 33 列「她回高雄的第 3 天 21:00」）。
