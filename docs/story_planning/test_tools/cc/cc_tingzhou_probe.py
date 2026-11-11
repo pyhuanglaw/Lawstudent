@@ -356,6 +356,21 @@ async def part_int(pg, cdp):
                                        " return {me:[+o.x.toFixed(2),+o.z.toFixed(2)], path:pth?pth.length:null, pathPts:pth?pth.slice(0,12).map(p=>Array.isArray(p)?[+(+p[0]).toFixed(2),+(+p[1]).toFixed(2)]:[+(+p.x).toFixed(2),+(+p.z).toFixed(2)]):null, grid:rows}; })", {'x': ex['x'], 'z': ex['z']})
                 R.note('%s 出店前（TRAPDIAG）：玩家 %s；E.pathTo 到出口 %s 點 %s；四周 canStand 圖（. 站得住、+ 格子 free 但半徑 0.3 站不住、# 擋住、@ 玩家；每格 0.25 m，上＝−z）：\n%s' % (tag, dg['me'], dg['path'], J(dg['pathPts']), '\n'.join(dg['grid'])))
                 save(await pg.evaluate(SNAP, {'from': [0.0, 9.5, 0.5], 'at': [0.0, 0.0, -0.2], 'fov': 70, 'tw': 560, 'label': '%s 俯視' % L_['name'], 'full': True}), 'trap_%s_%s_top.jpg' % (sid, hh))
+                # BB 01:51（LAWWW 在 Node 模擬沒重現）：①SHA ②點地板 5 次（每次目標世界座標、點完 0.6 秒 GAME 有沒有路徑＝P.path 長度、1.5 秒後位置）③（另排 f5e1ef4e8 一版）④搖桿直接朝出口推 10 秒
+                R.note('%s TRAPDIAG：受測 SHA %s' % (tag, os.environ.get('SHA', '')))
+                PJ = "(()=>{ const P=GAME.E.player,o=P.obj.position; return {me:[+o.x.toFixed(2),+o.z.toFixed(2)], path:P.path?P.path.length:0, tgt:P.target?[+(+P.target.x||0).toFixed(2),+(+P.target.z||0).toFixed(2)]:null, busy:!!P.busy}; })()"
+                for k in range(5):
+                    me0 = await pg.evaluate(PJ); r_ = await L.tap_ground(pg, cdp, ex['x'], ex['z']); await pg.wait_for_timeout(600); a1 = await pg.evaluate(PJ); await pg.wait_for_timeout(900); a2 = await pg.evaluate(PJ)
+                    R.note('%s TRAPDIAG 點地板 #%d：目標（世界座標）(%.2f,%.2f)；點之前 %s；點到 %s；0.6 秒後 path %s 點、P.target %s；1.5 秒後在 %s（path %s）' % (tag, k + 1, ex['x'], ex['z'], me0['me'], J(r_), a1['path'], a1['tgt'], a2['me'], a2['path']))
+                me0 = await pg.evaluate(PJ); t0j = time.time(); trail = []
+                while time.time() - t0j < 10:
+                    m_ = await pg.evaluate(PJ); trail.append(m_['me']); d_ = math.hypot(ex['x'] - m_['me'][0], ex['z'] - m_['me'][1])
+                    if d_ < 0.8: break
+                    yaw = await pg.evaluate("GAME.E.cam.yaw"); fx_, fz_ = -math.sin(yaw), -math.cos(yaw); rx_, rz_ = math.cos(yaw), -math.sin(yaw)
+                    vx_, vz_ = (ex['x'] - m_['me'][0]) / d_, (ex['z'] - m_['me'][1]) / d_; sx_, sy_ = vx_ * rx_ + vz_ * rz_, -(vx_ * fx_ + vz_ * fz_); mm_ = math.hypot(sx_, sy_) or 1
+                    await L.joystick(pg, cdp, sx_ / mm_ * 45, sy_ / mm_ * 45, 500)
+                me1 = await pg.evaluate(PJ)
+                R.note('%s TRAPDIAG 搖桿直接朝出口推 10 秒：從 %s 到 %s（離出口 %.2f m）；軌跡 %s' % (tag, me0['me'], me1['me'], math.hypot(ex['x'] - me1['me'][0], ex['z'] - me1['me'][1]), J(trail[::3])))
             t1 = time.time(); await tap_it(pg, cdp, ex, tag)
             for _ in range(80):
                 me = await pg.evaluate(ME)
