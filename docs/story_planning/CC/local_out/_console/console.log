@@ -1,11 +1,3 @@
-[07:19:03] skip WILLOW_old (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[07:19:03] skip W24_outing (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[07:19:03] skip W24_outing_old (already done on 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c)
-[07:19:03] skip W24_outing_r3 (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[07:19:03] skip W24_invgo (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[07:19:03] skip W24_invgo_real (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[07:19:03] skip W24_newfeat_05a (already done on 05a715eaddcb6ad0cc7c838cad3cb5b33fdca205)
-[07:19:03] skip POOL_SWIM (already done on 2c37122b682225cbf5ec82e84d3746a43adb12c8)
 [07:19:03] skip POOL_SWIM_base (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
 [07:19:03] skip W24_movie_real (already done on 05a715eaddcb6ad0cc7c838cad3cb5b33fdca205)
 [07:19:03] skip X315_pre_new (already done on 4cea422cb2efb8184c056fd9bc6c1f868c916be6)
@@ -1998,3 +1990,11 @@
 [14:05:28] [res] cpu=2% mem=46% (14.7/31.4 GB) chrome_testing=10  START CLASS12_skip3_73_150x10
 [14:09:04] 正在跑：FN2_stairs10_new（已跑 11 分／上限 15 分）、FN2_stairs10_old（已跑 10 分／上限 15 分）、CLASS12_skip3_73_150x10（已跑 3 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [14:09:30] [res] cpu=1% mem=47% (14.9/31.4 GB) chrome_testing=10  END CLASS12_skip3_73_150x10
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2bd86aacf..d1ba9b75d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:09:37] ==== END   CLASS12_skip3_73_150x10  exit=1  245s   ====
+[14:09:41] memory 48% before starting CLASS12_skip3_73_150x20 (2 running)
+[14:09:41] ==== START CLASS12_skip3_73_150x20  (probe @ 73faa493f90fc6c90ccc867950bd012cb3d1d72e) ====
+[14:09:44] [res] cpu=2% mem=48% (15.1/31.4 GB) chrome_testing=10  START CLASS12_skip3_73_150x20
+[14:13:04] [res] cpu=3% mem=48% (15.2/31.4 GB) chrome_testing=10  END FN2_stairs10_new
