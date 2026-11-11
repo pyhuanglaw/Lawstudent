@@ -146,6 +146,8 @@ STAIRDN_L_new10 | 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329 | probe | docs/story_
 REL_deploy | f312c68cc961c70c7d548fe40c2ae42483d517ba | game | tests/deploy_check.py | index.html | 15 | XARGS={url} 9.10.25;CC_HEADLESS=0
 REL_main12 | f312c68cc961c70c7d548fe40c2ae42483d517ba | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 REL_live | f312c68cc961c70c7d548fe40c2ae42483d517ba | game | tests/save_compat_v95.py | index.html | 40 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;XARGS={url2} {url};CC_HEADLESS=0
+# BB 20:4x：REL_live 17 FAIL 和 F24_live（v9.10.24 發布時）一模一樣；對照組＝線上 779ddd 自己讀自己的存檔，一樣 17 FAIL＝不是這版造成
+REL_live_ctl | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;XARGS={url2} {url};CC_HEADLESS=0
 V25_main12 | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 V25_social | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | TAG=v25;SHA=0d1eaadc7e746d4e6c6b00619f584e805266fbb6
 V25_reach | 0d1eaadc7e746d4e6c6b00619f584e805266fbb6 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
