@@ -1,14 +1,3 @@
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       b18676a30..7660ecf60  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[13:57:24] ==== END   CLASS12_skip2_150x20  exit=1  270s   ====
-[13:57:28] memory 48% before starting FN2_stairs10_new (2 running)
-[13:57:28] ==== START FN2_stairs10_new  (probe @ 696cf6036f3ca9fbc7022c21ab37324b0e46e305) ====
-[13:57:31] [res] cpu=2% mem=48% (15.2/31.4 GB) chrome_testing=10  START FN2_stairs10_new
-[13:58:54] [res] cpu=5% mem=48% (15.2/31.4 GB) chrome_testing=10  END NM_lane_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       7660ecf60..640e0301b  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [13:58:59] ==== END   NM_lane_old  exit=0  255s   ====
 [13:59:02] memory 48% before starting FN2_stairs10_old (2 running)
 [13:59:02] ==== START FN2_stairs10_old  (probe @ 811aa4c0f1b44b8ed62df03c88a85f3f2f8167da) ====
@@ -1998,3 +1987,14 @@
        97f9d9e21..863e4b9b2  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [22:29:55] ==== END   V25_STAIR_run10  exit=1  1280s  timeout 20 min ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       863e4b9b2..617483d88  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:30:00] ==== END   L118D_E_E1_a2  exit=1  84s   ====
+[22:30:04] memory 35% before starting L118D_E_DRINK_a2 (2 running)
+[22:30:04] ==== START L118D_E_DRINK_a2  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[22:30:06] [res] cpu=2% mem=35% (11.2/31.4 GB) chrome_testing=4  START L118D_E_DRINK_a2
+[22:30:07] memory 35% before starting L118D_E_DATE_a2 (2 running)
+[22:30:07] ==== START L118D_E_DATE_a2  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[22:30:10] [res] cpu=1% mem=37% (11.2/31.4 GB) chrome_testing=4  START L118D_E_DATE_a2
+[22:31:09] [res] cpu=0% mem=42% (13.1/31.4 GB) chrome_testing=8  END L118D_E_E2_a2
