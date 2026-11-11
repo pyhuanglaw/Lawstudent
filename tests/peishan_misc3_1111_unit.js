@@ -46,14 +46,16 @@ const LAD=[['Y4S1','期末。寒假我要回家裡的早餐店煎蛋。','期末
       const b=LADDER.bikeSeat[PS], rb=R.filter(r=>/^bikeSeat\./.test(r.where));
       check('2. 逐字：bikeSeat 的 onFirst／offFirst 照稿',rb.length===2&&rb.every(r=>b[(/\.(onFirst|offFirst)$/.exec(r.where)||[])[1]]===r.new),J([b.onFirst,b.offFirst])); }
     const b=LADDER.bikeSeat[PS]; check('2. 坐後座：「腳踏車後座要抓哪裡？我只坐過汽車的後座。」「好好玩！比我想的穩，你有偷偷騎很慢對不對。」；on／off／decline、最低階段不動',b.onFirst==='腳踏車後座要抓哪裡？我只坐過汽車的後座。'&&b.offFirst==='好好玩！比我想的穩，你有偷偷騎很慢對不對。'&&(!OLD||['min','on','off','decline'].every(k=>J(b[k])===J(OLD.bikeSeat[PS][k]))),J(b));
-    check('2. 大四下還有一則同字的「早。我八點的課，七點就到了。」（AA_763 只列大四上那一則，這一則照舊；已回報 AA）',when('Y4S2').filter(w=>w.t==='早。我八點的課，七點就到了。').length===1);
+    /* 2026-11-11（X327；AA 回覆 LAWWW）：大四下那一則同字的「早。我八點的課，七點就到了。」AA 也給了新字「早。八點的課我還是修了，不要問我為什麼。」（原本這裡驗「照舊」）——只換字，06～08 點的條件和註不動；大四上那一則照 AA_763 的字不動 */
+    { const w2=when('Y4S2').filter(w=>w.t==='早。八點的課我還是修了，不要問我為什麼。');
+      check('2. 大四下那一則同字的早上招呼照 AA 的回覆換成「早。八點的課我還是修了，不要問我為什麼。」（剛好一則、06～08 點；舊句整份階梯都不在了）；大四上那一則照舊是「早。我八點的課，今天居然趕上了。」',w2.length===1&&J(w2[0].time)===J([6,8])&&!J(LADDER).includes('早。我八點的課，七點就到了。')&&when('Y4S1').filter(w=>w.t==='早。我八點的課，今天居然趕上了。').length===1&&when('Y4S2').filter(w=>w.t==='早。我八點的課，今天居然趕上了。').length===0,J(when('Y4S2').map(w=>w.t))); }
     const all=J(Object.keys(LADDER.byTerm).map(t=>(LADDER.byTerm[t][PS]||{}).greet||null).concat([LADDER.bikeSeat[PS].onFirst,LADDER.bikeSeat[PS].offFirst]));
     check('2. 沛珊的招呼、坐後座沒有早餐店、蛋餅、煎蛋',!/早餐店|蛋餅|煎蛋/.test(all)); });
 
   await sec(3,async()=>{ const gc=read('src/data/greet_classday.js'), GC=JSON.parse(gc.slice(gc.indexOf('const GREET_CLASSDAY=')+21,gc.lastIndexOf(';'))), L=GC.classDay[PS]||[];
     const have=new Set(); for(const t of Object.keys(LADDER.byTerm).concat(['__y1'])){ const p=t==='__y1'?LADDER.characters[PS]:LADDER.byTerm[t][PS]; if(!p||!p.greet) continue; (p.greet.base||[]).forEach(x=>have.add(x)); (p.greet.when||[]).forEach(w=>have.add(w.t)); }
     check('3. greet_classday.js（只在上課日說）：沛珊的每一句都對得到 ladder.js 的招呼',L.length>=9&&L.every(t=>have.has(t)),J(L.filter(t=>!have.has(t))));
-    check('3. 換了字的兩句早上的招呼跟著換：「早。老師要比學生早到，我在練習，目前成功率一半。」「早。我八點的課，今天居然趕上了。」都只在上課日說；大四下沒換字的「早。我八點的課，七點就到了。」也還在',L.includes('早。老師要比學生早到，我在練習，目前成功率一半。')&&L.includes('早。我八點的課，今天居然趕上了。')&&L.includes('早。我八點的課，七點就到了。')&&!L.includes('早。……老師要比學生早到，我在練習。'),J(L));
+    check('3. 換了字的早上的招呼跟著換：「早。老師要比學生早到，我在練習，目前成功率一半。」「早。我八點的課，今天居然趕上了。」（大四上）「早。八點的課我還是修了，不要問我為什麼。」（大四下，2026-11-11 AA 回覆）都只在上課日說；舊句「早。我八點的課，七點就到了。」不在了',L.includes('早。老師要比學生早到，我在練習，目前成功率一半。')&&L.includes('早。我八點的課，今天居然趕上了。')&&L.includes('早。八點的課我還是修了，不要問我為什麼。')&&!L.includes('早。我八點的課，七點就到了。')&&!L.includes('早。……老師要比學生早到，我在練習。')&&/'早。八點的課我還是修了，不要問我為什麼。'\)\}/.test(read('tools/story/import_greet_classday.py')),J(L));
     const keys=Object.keys(STORY.LADDER_GREET_IF||{}); check('3. story3d.js 的 LADDER_GREET_IF（拿句子開頭當 key）沒有用到這九句的舊句',keys.length>0&&LAD.every(([t,o])=>!keys.some(k=>o.startsWith(k))),J(keys.filter(k=>LAD.some(([t,o])=>o.startsWith(k))))); });
 
   await sec(4,async()=>{ const m2=read('src/data/msg2_pool.js'), P2=new Function(m2.replace(/^'use strict';/m,'')+';return MSG2_POOL;')().people[PS].replies, tagged=P2.filter(e=>e.ps763);
@@ -64,8 +66,10 @@ const LAD=[['Y4S1','期末。寒假我要回家裡的早餐店煎蛋。','期末
       const cur=read(f.file), L=lit(cur), n=t=>L.filter(x=>x===t).length, bad=f.rows.filter(r=>n(r.new)!==(r.count||1)||n(r.old)!==0);
       check('4. '+f.file+'：'+f.rows.length+' 列的 new 各剛好 '+'count 處、old 不在了；檔裡寫了來源',bad.length===0&&cur.includes('AA_763_peishan_misc3.json@'+S763),J(bad.map(r=>[r.old,n(r.old),n(r.new)])));
       if(['src/date3d.js','src/aa614_3d.js'].includes(f.file)) continue;   /* 這兩個檔同一輪另外有改（約會四處、招呼條件那一段）：和 BASE 的整檔比對在 peishan_dates_1111、下面第 5 節 */
-      const ob=show(BASE,f.file); if(!ob) continue; const O=lit(ob), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(f.rows.map(r=>r.old+'→'+r.new));
-      check('4. '+f.file+'：字串和 BASE 逐個比一樣多，不一樣的剛好是稿上這 '+f.rows.length+' 列',O.length===L.length&&d.length===f.rows.length&&d.every(([x,y])=>set.has(x+'→'+y)),J(d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,3))); }
+      /* 2026-11-11（X327 沛珊重寫，AA_766_peishan_leftover2.json@6325e4b98）：bbpack_events.js 後來又照 AA_766 換了 D4c 四題 25 句（tests/peishan_leftover2_1111_unit.js 逐字對稿）——那 25 句也算稿上的列 */
+      let r766=[]; if(f.file==='src/data/bbpack_events.js'){ const t=show('6325e4b98','docs/story_planning/AA_766_peishan_leftover2.json'); if(!t) continue; r766=JSON.parse(t).rows.filter(r=>r.file===f.file); }
+      const ob=show(BASE,f.file); if(!ob) continue; const O=lit(ob), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(f.rows.concat(r766).map(r=>r.old+'→'+r.new));
+      check('4. '+f.file+'：字串和 BASE 逐個比一樣多，不一樣的剛好是稿上這 '+f.rows.length+' 列'+(r766.length?'＋AA_766 的 '+r766.length+' 列':''),O.length===L.length&&d.length===f.rows.length+r766.length&&d.every(([x,y])=>set.has(x+'→'+y)),J(d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,3))); }
     check('4. date3d.js：T7A_YES、HOME_NO 沛珊那兩句照稿（別人的不動）',DATE.T7A_YES[PS]==='你要來台中喔？好啊！我去車站接你，這次我會準時！'&&DATE.HOME_NO[PS]==='「那幾天我回台中啦！換一天好不好？」'&&DATE.T7A_YES.heroine_01==='臺中？……好。我去車站接你。'&&DATE.HOME_NO.heroine_02==='「那個禮拜我回台中了。換一天好不好？」',J([DATE.T7A_YES&&DATE.T7A_YES[PS],DATE.HOME_NO&&DATE.HOME_NO[PS]])); });
 
   await sec(5,async()=>{ const md=show(S326,F326);

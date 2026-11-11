@@ -26,7 +26,8 @@ const X_CROSS='（她帶著一排小孩過馬路，對你點頭）等一下！�
 const BB326={Y1S2:{[X_CROSS]:{location:['wenzhou'],weekday:[3],time:[18,21]}},Y2S1:{[X_CROSS]:{location:['wenzhou'],weekday:[3],time:[18,21]},[X_BACK]:{weekday:[3],time:[21,22.5]}}};
 const AA763={Y3S1:{'期中。我們系要考試。……我現在知道出題的人在想什麼了。':'期中。我們系要考試，我現在知道出題的人在想什麼了。'},Y3S2:{'早。……老師要比學生早到，我在練習。':'早。老師要比學生早到，我在練習，目前成功率一半。'},
   Y4S1:{'期末。寒假我要回家裡的早餐店煎蛋。':'期末了。寒假我要回台中，我爸已經排好要我去店裡站櫃檯。','早。我八點的課，七點就到了。':'早。我八點的課，今天居然趕上了。','嗨！……我剛從課輔班回來。':'嗨！我剛從課輔班回來。'},
-  Y4S2:{'嗨！……我剛從課輔班回來。手上還有粉筆灰。':'嗨！我剛從課輔班回來，手上還有粉筆灰。','我的公開課快到了。……晚上都在對著鏡子講。':'我的公開課快到了，我晚上都在對著鏡子講，鏡子都聽膩了。'}};
+  Y4S2:{'嗨！……我剛從課輔班回來。手上還有粉筆灰。':'嗨！我剛從課輔班回來，手上還有粉筆灰。','我的公開課快到了。……晚上都在對著鏡子講。':'我的公開課快到了，我晚上都在對著鏡子講，鏡子都聽膩了。',
+    '早。我八點的課，七點就到了。':'早。八點的課我還是修了，不要問我為什麼。'}};   /* 2026-11-11（X327 沛珊重寫；AA 回覆 LAWWW）：大四下那一則同字的早上招呼也換字（AA_763 只列了大四上那一則；字是 AA 給的，tools/ladder/import_ladder.py 的 PS_Y4S2_GREET）——只換字、條件不動 */
 /* 2026-11-11（X327 沛珊重寫，AA 補稿 b59a8f9de）：AA_753_peishan_ladder_Y1S2_Y2S1.json 改認 b59a8f9de（和 c5094495d 只差 P2-L3 主句第一句「一個禮拜兩天。」→「每個禮拜三。」）；
    五套 linesIf 照 AA_753_peishan_ladder_linesIf.json@b59a8f9de（原本第 4 節驗的是「舊的兩句照舊留著、帶重寫以前的選項」，AA 補稿以後改成逐字對稿）*/
 const LI_F='AA_753_peishan_ladder_linesIf.json', LI_SHA='b59a8f9de', LI=(()=>{ const raw=show(LI_SHA,'docs/story_planning/'+LI_F); return raw?JSON.parse(raw):null; })();
@@ -63,7 +64,7 @@ const play=async(sid,pick,setup)=>{ const G=H.fresh('2026-10-20',14,'campus',nul
       if(O){ const keep=O.greet.when.filter(w=>!drop.includes(w.t));
         /* 2026-11-11（BB_326 第 4 節，企劃線 8abb761bd；BB 定、LAWWW 同意）：課輔班兩句招呼的出現條件改了（BB326）；2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：大三上～大四下 when 七句只換字（AA763，條件不動）——其他照舊和重寫以前一樣 */
         const wantC=keep.map((w,i)=>(BB326[term]||{})[P.greet.when[i]&&P.greet.when[i].t]||cond(w)), wantT=keep.map(w=>(AA763[term]||{})[w.t]||w.t);
-        check('3. '+term+' 招呼 when：條件（時間、地點、星期、週次、天氣）和重寫以前一樣，只少拿掉的那 '+drop.length+' 則'+(BB326[term]?'、課輔班那 '+Object.keys(BB326[term]).length+' 則照 BB_326 第 4 節':'')+(mode==='base'?'；句子不動'+(AA763[term]?'（只有 AA_763 的 '+Object.keys(AA763[term]).length+' 句換字）':''):''),J(P.greet.when.map(cond))===J(wantC)&&O.greet.when.length-keep.length===drop.length&&(mode!=='base'||J(P.greet.when.map(w=>w.t))===J(wantT)),J(P.greet.when.map(cond))); } } });
+        check('3. '+term+' 招呼 when：條件（時間、地點、星期、週次、天氣）和重寫以前一樣，只少拿掉的那 '+drop.length+' 則'+(BB326[term]?'、課輔班那 '+Object.keys(BB326[term]).length+' 則照 BB_326 第 4 節':'')+(mode==='base'?'；句子不動'+(AA763[term]?'（只有 AA_763'+(term==='Y4S2'?'＋AA 回覆的一句':'')+'共 '+Object.keys(AA763[term]).length+' 句換字）':''):''),J(P.greet.when.map(cond))===J(wantC)&&O.greet.when.length-keep.length===drop.length&&(mode!=='base'||J(P.greet.when.map(w=>w.t))===J(wantT)),J(P.greet.when.map(cond))); } } });
 
   await sec(4,async()=>{ const have=LINESIF.filter(id=>stepOf(id));
     for(const id of have){ const s=stepOf(id), O=OLD&&(()=>{ for(const t in OLD.byTerm){ const p=OLD.byTerm[t][PS]; const x=p&&p.steps.find(q=>q.id===id); if(x) return x; } return null; })();

@@ -567,6 +567,19 @@ if A753L:
 import ps763 as _ps763
 _n763 = _ps763.apply_ladder(out, ROOT, ALLOW)
 if _ps763.load(ROOT, ALLOW): out['source'] += '＋' + _ps763.tag(ROOT, ALLOW).replace('.json', '') + f'（沛珊招呼 7 句＋坐後座 2 句，換了 {_n763} 列）'
+#      2026-11-11（X327 沛珊重寫；AA 回覆 LAWWW 的問題——AA_763 只列了大四上那一則，大四下還有一則同字的）：byTerm.Y4S2.classmate_peishan.greet.when 裡
+#      「早。我八點的課，七點就到了。」→「早。八點的課我還是修了，不要問我為什麼。」（字是 AA 給的，照抄；只換字 t，time、note 不動；大四上那一則 AA_763 已經換成別的字，不動）。
+#      剛好一則才換；已經是新句＝跳過；兩個都對不到＝停下來。AA_763 那一層有套（白名單上有）才跟著套。「只在上課日說」跟著新句子走：tools/story/import_greet_classday.py 的 RENAMED。
+PS_Y4S2_GREET = ('早。我八點的課，七點就到了。', '早。八點的課我還是修了，不要問我為什麼。')
+if _ps763.load(ROOT, ALLOW):
+    _w = ((((out.get('byTerm') or {}).get('Y4S2') or {}).get('classmate_peishan') or {}).get('greet') or {}).get('when') or []
+    _hit = [q for q in _w if q.get('t') == PS_Y4S2_GREET[0]]
+    if not _hit and sum(1 for q in _w if q.get('t') == PS_Y4S2_GREET[1]) == 1:
+        pass
+    elif len(_hit) != 1:
+        sys.exit(f'沛珊大四下的招呼「{PS_Y4S2_GREET[0]}」對到 {len(_hit)} 則（要剛好 1 則）')
+    else:
+        _hit[0]['t'] = PS_Y4S2_GREET[1]; out['source'] += '＋AA 2026-11-11 回覆（沛珊大四下招呼 1 句）'
 #      BB_326 第 4 節（BB 2026-11-11 定——條件歸 BB；LAWWW 同意）：沛珊課輔班那兩句招呼的出現條件照現行作息改（課輔班每週三 18:00～21:00、溫州街、大一上～大二上，AA_614／characters.js）：
 #      「（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！」（大一下、大二上）＝溫州街、週三 18:00～21:00；「我剛從課輔班回來。……」（大二上）＝週三 21:00～22:30、不限地點。
 #      舊的週二四 16:30～18:00、週二三四 16:30～18:00／18:00～21:00 兩組拿掉。只改 when 的 weekday／time，字不動；現在的條件要剛好是舊的那一組（已經是新的＝跳過；都不是＝停下來）。白名單沒有 BB_326＝不改。

@@ -184,8 +184,10 @@ check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html �
   check('33. BASE：STORY_EVENTS 有名字、整句「…」的＝這 23 句（事件、說的人、字一句一句對）',no.length===23&&TW.every(([f,e,t,sp])=>no.filter(s=>s.ev===e&&s.text===t&&s.speaker===sp).length===1),sample(no.map(s=>s.ev+'：'+s.text)));
   check('33. 現在：STORY_EVENTS 有名字、整句「…」的 0 句',nn.length===0,sample(nn.map(s=>s.ev+'：'+s.text)));
   const nl=L=>L.filter(s=>s.kind==='nameless'&&s.wrapped).map(s=>[s.ev,s.p,s.speaker,s.text]), ch=L=>L.filter(s=>s.kind==='choice'&&s.wrapped).map(s=>[s.ev,s.p,s.text]), ph=L=>L.filter(s=>s.kind==='phone'&&s.wrapped).map(s=>[s.ev,s.p,s.text]);
-  check('33. 照留：沒有名字的「嗶——」（ev_l1_elevator，沒有 speaker＝GM.say(null,…)）、選項 '+ch(sn).length+' 個、手機 '+ph(sn).length+' 句——和 BASE 一模一樣',
-    J(nl(sn))===J([['ev_l1_elevator','[7]',null,'「嗶——」']])&&J(nl(so))===J(nl(sn))&&ch(sn).length>1500&&J(ch(so))===J(ch(sn))&&J(ph(so))===J(ph(sn)),J([nl(sn),ch(so).length,ch(sn).length]));
+  /* 2026-11-11（X327 沛珊重寫，AA_766_peishan_leftover2.json@6325e4b98）：D4c「沛珊的問題」的選項換了字（九個帶「」的選項；個數、位置不變）——選項逐個比，那幾個照 tests/peishan_rewrite_1111.js 的 PAIRS 算，其他一模一樣 */
+  const chSame=(A,B)=>A.length===B.length&&A.every((a,i)=>a[0]===B[i][0]&&a[1]===B[i][1]&&(a[2]===B[i][2]||require('./peishan_rewrite_1111.js').pair(a[2],B[i][2])));
+  check('33. 照留：沒有名字的「嗶——」（ev_l1_elevator，沒有 speaker＝GM.say(null,…)）、選項 '+ch(sn).length+' 個、手機 '+ph(sn).length+' 句——和 BASE 一模一樣（D4c 沛珊的問題那幾個選項照 AA_766 換字）',
+    J(nl(sn))===J([['ev_l1_elevator','[7]',null,'「嗶——」']])&&J(nl(so))===J(nl(sn))&&ch(sn).length>1500&&chSame(ch(so),ch(sn))&&J(ph(so))===J(ph(sn)),J([nl(sn),ch(so).length,ch(sn).length,ch(so).filter((a,i)=>J(a)!==J(ch(sn)[i])).length]));
   const bad=[]; for(const [f,e,t,sp] of TW){ const a=so.find(s=>s.ev===e&&s.text===t), b=sn.find(s=>s.ev===e&&s.text===unq(t)); if(!a||!b){ bad.push('找不到 '+e+'：'+t); continue; }
     if(a.p!==b.p||a.speaker!==b.speaker||a.name!==b.name||!b.name||b.kind!=='named'||b.wrapped) bad.push(e+'：'+J([a,b])); }
   console.log('（33. 說的人：'+[...new Set(sn.filter(s=>NEW23.includes(s.text)).map(s=>s.ev+'＝'+s.name))].join('、')+'）');

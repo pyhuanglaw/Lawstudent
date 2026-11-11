@@ -387,7 +387,11 @@ def main():
     s2 = json.loads(git('show', f'{sha2}:{PATH2}'))
     data, only_done = build(json.loads(git('show', f'{sha}:{PATH}')), sha, items, s2.get('_meta') or {})
     data['friends'] = build_friends(s2, sha2, items)
+    # AA_766（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；白名單上的 commit）：沛珊最愛的米漿第二句（原本講她家早餐店）照稿換——AA_710 的源稿沒改，組好資料以後疊（tools/story/ps766.py；白名單沒有＝不疊）
+    import ps766
+    n766 = ps766.apply_gift(data, ROOT, allow); t766 = ps766.tag(ROOT, allow)
     js = ('/* 自動產生：tools/story/import_gifts.py（' + data['src'] + '、' + data['friends']['src'] + '）。不要手改，改企劃 AA_710／AA_728 再重新匯入。\n'
+          + (f'   沛珊最愛的米漿第二句照 {t766}（X327；tools/story/ps766.py 疊的）。\n' if t766 else '') +
           '   送早餐、飲料（GIFT-FLIRT-1107；播放 src/gift3d.js）：people＝七位女主角（AA_710）、friends＝朋友六位（AA_728）*/\n'
           "'use strict';\nconst GIFT_LINES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
     p = os.path.join(ROOT, OUT)

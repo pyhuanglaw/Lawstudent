@@ -119,7 +119,7 @@ const ADV2=global.ADV; ADV2.active=false;
   DATE_LINES.loc.D09={lines:{}};   /* 測交通偏好用：假裝貓空的台詞到了 */
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true; said=[]; opts=[]; picks=['貓空','開車','明天','14:00','就這樣約']; const tc=await DATE.menu(GM,'heroine_03',null);
   check('9. 交通：她的偏好（捷運）排第一、寫「（她想這樣去）」',opts[2]&&/（她想這樣去）/.test(opts[2][0])&&/捷運/.test(opts[2][0]),JSON.stringify(opts[2]));   /* opts[1]＝「山・溫泉・夜景」那一類（INVITE-MENU-1030）*/
-  check('9. 玩家改開車：約成、她說「改交通」那一句（不扣分）',tc&&tc.transport==='car'&&lines().some(x=>/坐你的車也可以/.test(x)),lines().join(' | '));
+  check('9. 玩家改開車：約成、她說「改交通」那一句（不扣分）',tc&&tc.transport==='car'&&lines().some(x=>/：好，坐你的車。$/.test(x))&&lines().some(x=>/：我平常都坐捷運，在車上要做什麼，我不太知道。$/.test(x)),lines().join(' | '));   /* 2026-11-11（X324 語彤約會台詞重寫，AA_767_yt_date_common.json@0a2136911）：改交通那一句原本「好。坐你的車也可以。」「我只是習慣坐捷運，不是不想坐。」，照新稿換成這兩句 */
   // 改時間、第三次、取消、放鴿子
   fresh(day,9,'dorm',{}); const tm2=DATE.book(G,{who:'heroine_01',locs:['D13'],transport:'mrt',day,depart:15}); const tr2=DATE.trip(G,tm2.trip), qm2=OUT.get(G,'date_'+tm2.trip);
   said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 改時間：以安「改時間」那一句（輪流第 1 句）',lines().some(x=>/新的時間我改好了/.test(x)),lines().join(' | '));

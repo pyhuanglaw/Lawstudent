@@ -5,7 +5,9 @@
 //        gg_basement_gig＝宥辰的第一場 ev_yc_gig；gg_scooter_shop＝公館・機車行（ev_moot_2 的 bike 分支，事件已停用、定義留著）；
 //        jp_laundry＝ev_jpb_w_laundry、ev_jpb_r_laundry；jp_temple_hydrangea＝ev_jpb_w_temple；jp_dorm_lobby＝ev_an_town_notice_repair；
 //        prof_door＝周教授／林教授研究室（ev_prof_zhou_office、ev_prof_lin_office 的 background）、何宇軒陪去研究室 ev_pool_hyx_office
-//   3  tainan_school：y2b3d.js 的 Y2B.PS_TAINAN（第一次去台南的資料）那一個場景帶 bg（這份資料目前沒有地方讀，見下面的說明）
+//   3  「台南・她的學校」：現行的台南資料（src/data/hometown_lines.js 的 'classmate_peishan@台南'.first，hometown3d.js 演）那一個場景帶背景、圖檔在。
+//      2026-11-11：原本這一項查 y2b3d.js 的 Y2B.PS_TAINAN 帶 bg tainan_school——那是沒有地方讀的舊副本，AA 回覆 LAWWW 後刪掉了（使用者 X330 舊設定不留）。
+//      現行資料那一場用的是 tn_school（第 93 組那一張）；這一批的 tainan_school 登記還在、圖檔還在（第 1 項），但目前沒有任何場景用它——已回報 LAWWW／BB 決定要不要換圖
 // 修改前（開發分支 4c8f138f7）：八個新代號沒有登記、八場是深色底、jp_dorm_lobby／prof_door 指到借用的圖——FAIL。用法：node tests/bg107_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -58,9 +60,12 @@ await run('ev_pool_hyx_office','prof_door',{name:'陪宇軒去周教授研究室
 /* 周教授、林教授的研究室：整場的 background 是 getter（OUT.bg('prof_door')），開場就是門口的圖 */
 for(const id of ['ev_prof_zhou_office','ev_prof_lin_office']){ const e=ev(id); check('2. '+id+'：background（getter）＝prof_door 的新圖',!!e&&img(e.background)==='assets/bg/prof_door.webp',J(e&&e.background)); }
 
-/* ---- 3 tainan_school ---- */
-{ const P=typeof Y2B!=='undefined'?Y2B.PS_TAINAN:null, sc=P&&P.first.find(x=>x&&typeof x==='object'&&x.scene==='台南・她的學校');
-  check('3. Y2B.PS_TAINAN（沛珊第一次去台南）的「台南・她的學校」場景帶 bg tainan_school',!!sc&&sc.bg==='tainan_school'&&OUT.bg('tainan_school').image==='assets/bg/tainan_school.webp',J(sc)); }
+/* ---- 3 台南・她的學校（2026-11-11 改：Y2B.PS_TAINAN 刪掉了，改查現行的台南資料）---- */
+{ const T=typeof HOMETOWN_LINES!=='undefined'?HOMETOWN_LINES['classmate_peishan@台南']:null, sc=T&&T.first, b=sc&&OUT.bg(sc.bg);
+  check('3. 現行的台南資料（hometown_lines.js 沛珊@台南 第一次）「台南・她的學校」場景帶背景、圖檔在（現在是 tn_school）',!!sc&&sc.scene==='台南・她的學校'&&!!sc.bg&&!!b&&/^assets\/bg\/(tn_school|tainan_school)\.webp$/.test(String(b.image))&&fs.existsSync(path.join(H.ROOT,b.image)),J(sc&&[sc.scene,sc.bg,b&&b.image]));
+  const noCom=t=>t.replace(/\/\*[\s\S]*?\*\//g,''), users=fs.readdirSync(path.join(H.ROOT,'src')).filter(f=>/\.js$/.test(f)&&/\bPS_TAINAN\b(?!_)/.test(noCom(fs.readFileSync(path.join(H.ROOT,'src',f),'utf8'))));
+  check('3. y2b3d.js 的舊副本 Y2B.PS_TAINAN 刪掉了（沒有地方讀；src/ 的程式裡沒有別的地方用到它）',typeof Y2B!=='undefined'&&Y2B.PS_TAINAN===undefined&&users.length===0,J(users));
+  check('3. tainan_school（這一批的那一張）登記和圖檔還在（目前沒有場景用，等 LAWWW／BB 決定）',OUT.bg('tainan_school').image==='assets/bg/tainan_school.webp'&&fs.existsSync(path.join(H.ROOT,'assets/bg/tainan_school.webp'))); }
 
 H.done();
 })();

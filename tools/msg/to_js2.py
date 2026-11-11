@@ -17,6 +17,20 @@ for _p in d['people'].values():
 import ps763 as _ps763
 _R763 = os.path.normpath(os.path.join(HERE, '..', '..'))
 if _ps763.load(_R763): _ps763.apply_msgs(d['people']['classmate_peishan'], _R763)
+# 2026-11-11（X327 沛珊重寫；AA 回覆 LAWWW 的問題）：沛珊新年快樂（交往中）那一則的回問「今年你想做什麼？」兩個選項的回覆換字（字是 AA 給的，照抄；選項的字、回問那一句不動）。
+# 只換這一則的 ask.opts[].r（「好。我記下來了。」在別的檔也有——宿營關主學姊，不是這裡）：選項的字對得到、回覆剛好是舊句才換；已經是新句＝跳過；都不是＝停下來。
+# 換過的那一則多一格 aaReply＝來源（tests/msg_chat_unit.js H 項：這兩句不在 AA_257，改比這裡）。AA_763 那一層有套（白名單上有）才跟著套
+PS_NEWYEAR_ASK = {'把書念完。': ('好。我記下來了。', '好無聊的答案。我記下來了，年底驗收。'), '還沒想好。': ('那我過幾天再問一次。', '那我過幾天再問一次。你躲不掉。')}
+if _ps763.load(_R763):
+    _ny = [e for e in d['people']['classmate_peishan']['replies'] if e.get('topic') == 'newyear' and e.get('ask')]
+    if len(_ny) != 1 or sorted(o['t'] for o in _ny[0]['ask']['opts']) != sorted(PS_NEWYEAR_ASK):
+        raise SystemExit('沛珊新年快樂的回問對不到（要剛好一則、兩個選項「把書念完。」「還沒想好。」）')
+    for _o in _ny[0]['ask']['opts']:
+        _old, _new = PS_NEWYEAR_ASK[_o['t']]
+        if _o.get('r') == [_new]: continue
+        if _o.get('r') != [_old]:
+            raise SystemExit(f'沛珊新年快樂回問「{_o["t"]}」的回覆現在是 {_o.get("r")}，不是原句「{_old}」')
+        _o['r'] = [_new]; _ny[0]['aaReply'] = 'AA 2026-11-11 回覆（回問兩個選項的回覆）'
 src = d['source']
 L = ['/* 玩家主動傳訊息的第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂）回覆池：AA 六位＝AA_202 第 7 節，BB 九位＝AA_257（AA 定稿）＋BB_178 第 10 節的條件（企劃線 ' + '、'.join(k + '@' + v for k, v in src.items()) + '）。',
      '   產生器 tools/msg/build_msg2.py → tools/msg/to_js2.py（每一句照抄原文；tests/msg_chat_unit.js 第 H 項逐字比對 git 上的原文）。不要手改句子。',
