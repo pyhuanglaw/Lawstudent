@@ -1210,8 +1210,8 @@ const CLS=(function(){
     return true; };
   /* 翹課（1-5）：確認一句；記 plan_skip（手機寫「翹課」、30 分鐘提醒不出）；不加旗標、不改關係；期末考不能翹 */
   S.examName=it=>it&&it.exam==='mid'?'期中考':'期末考';
-  S.skipClass=async function(GM,it){ const G=GM.G; if(it.exam){ GM.toast(S.examName(it)+'不能翹。',3000); return false; }   /* 考試不給翹：期中、期末都一樣（AA_294 ①）*/ let k=0; const miss=S.classMissList(G,it); GM.sceneBegin(); try{ await GM.say(null,'翹掉'+it.c.name+'？記「沒去」，不扣分。'); if(miss.length) await GM.say(null,'你會錯過：'+miss.join('、')+'。'); k=await GM.choose([{t:'還是去'},{t:'翹'}]); } finally { GM.sceneEnd(); }   /* 2026-11-11（BUG-GOCLASS-SKIPPED-1111，使用者 day57：連點把第一堂記成翹課）：「還是去」放第一個、「翹」第二個——連點落在第一個位置＝去上課，不是翹課（原本「翹」在第一個）*/   /* 這一堂課裡的【固】【必】（1-5、R1；DL-04B）*/
-    if(k!==1){ await S.goClass(GM,it); return false; } S.rec(G).note['plan_skip_'+it.key]=1; if(GM.autosave) GM.autosave(); return true; };
+  S.skipClass=async function(GM,it,o){ const G=GM.G, flip=!!(o&&o.flip), SK=flip?0:1;   /* flip（BB 2026-11-11 CHOOSE_SCAN ①）：下課選單的「下一堂不去」在最下面，確認的最下面要是「還是去」——選單從下緣往上排，連點落在「從下面數同一個位置」；起床選單的「翹這堂課」是倒數第二個，所以照舊「還是去」在倒數第二 */ if(it.exam){ GM.toast(S.examName(it)+'不能翹。',3000); return false; }   /* 考試不給翹：期中、期末都一樣（AA_294 ①）*/ let k=1-SK; const miss=S.classMissList(G,it); GM.sceneBegin(); try{ await GM.say(null,'翹掉'+it.c.name+'？記「沒去」，不扣分。'); if(miss.length) await GM.say(null,'你會錯過：'+miss.join('、')+'。'); k=await GM.choose(flip?[{t:'翹'},{t:'還是去'}]:[{t:'還是去'},{t:'翹'}]); } finally { GM.sceneEnd(); }   /* 2026-11-11（BUG-GOCLASS-SKIPPED-1111，使用者 day57：連點把第一堂記成翹課）：「還是去」放第一個、「翹」第二個——連點落在第一個位置＝去上課，不是翹課（原本「翹」在第一個）*/   /* 這一堂課裡的【固】【必】（1-5、R1；DL-04B）*/
+    if(k!==SK){ await S.goClass(GM,it); return false; } S.rec(G).note['plan_skip_'+it.key]=1; if(GM.autosave) GM.autosave(); return true; };
   /* 校外上課（教室 OFF：大四下「法律實習或法律扶助實務」，courses.js rooms.OFF offsite）：沒有 3D 的地點——2D 出門、時間跳到下課、記出席（同服務學習的做法）。
      那一天有旁白的（OFFSITE_LINES：fn(G,it)→一句或 null；例：AA_342 4-2 第 4 週 3/13，twfill3d.js）就說那一句。COURSE-PRACTICE-Y4-1024 */
   S.OFFSITE_LINES=[];
@@ -1272,7 +1272,7 @@ const CLS=(function(){
     const opts=(gap>=60?[{t:'先去吃飯，再去下一堂',hint:'約 40 分鐘',k:'eat'},(sp=>({t:'在附近讀書，再去下一堂',hint:sp.ok?'讀到 '+hhmm(pl.depart)+' 出門。'+sp.hint:sp.why,dim:!sp.ok,k:'study'}))(S.slotPlan(G,Math.max(0.5,pl.depart-hr(G)),'study')),{t:'先自由活動',hint:'手機的「今天」隨時可以直接去',k:'free'},{t:'下一堂不去',k:'skip'}]
                       :[go,{t:'先自由活動',hint:'手機的「今天」隨時可以直接去',k:'free'},{t:'下一堂不去',k:'skip'}]).filter(q=>!(ate&&q.k==='eat'));
     let i=-1; GM.sceneBegin(); try{ i=await GM.choose(opts); } finally { GM.sceneEnd(); } const c=opts[i]&&opts[i].k;
-    if(c==='go') await S.goClass(GM,nx); else if(c==='skip') await S.skipClass(GM,nx); else if(c==='eat'){ if(await S.lunchBreak(GM)) await S.goClass(GM,nx); } else if(c==='study'){ if(opts[i].dim){ GM.toast(opts[i].hint,3000); return true; } if(await S.studyUntil(GM,nx,pl.depart)) await S.goClass(GM,nx); }
+    if(c==='go') await S.goClass(GM,nx); else if(c==='skip') await S.skipClass(GM,nx,{flip:true}); else if(c==='eat'){ if(await S.lunchBreak(GM)) await S.goClass(GM,nx); } else if(c==='study'){ if(opts[i].dim){ GM.toast(opts[i].hint,3000); return true; } if(await S.studyUntil(GM,nx,pl.depart)) await S.goClass(GM,nx); }
     return true; };
   /* 先去吃飯（1-4）：一頓飯 40 分鐘、照價錢扣錢（吃飯不扣時段次數）；只寫一般的場面（和誰一起吃、偶遇是第 5 節第二批）*/
   const MEALS=[{t:'小松',price:90,line:'小松的自助餐，夾了三樣菜。'},{t:'公館燒臘',price:100,line:'公館燒臘，一盤叉燒飯加一顆滷蛋。',bg:'noodle_table'},{t:'便利商店',price:75,line:'便利商店的微波義大利麵，在門口的桌子吃完。',bg:'cvs_table_day',bgNight:'cvs_table_night'}];   /* bg：吃飯那一段的 2D 背景（BUG-EAT-AFTER-CLASS-SCENE-1103）；小松／學活還沒有圖＝深色底＋地點字幕，不再停在教室 */

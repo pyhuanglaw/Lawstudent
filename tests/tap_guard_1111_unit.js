@@ -41,5 +41,21 @@ const tick=()=>new Promise(r=>setImmediate(r));
     check('4. 自動化瀏覽器（navigator.webdriver）預設不擋：探針一出現就點也收得到',got===1,String(got)); }
   { const H=mk({webdriver:true,search:'?dev&tapguard'}); let got='還沒'; H.GM.choose([{t:'A'},{t:'B'}]).then(i=>{ got=i; }); await tick(); H.adv(10); H.tap(1); await tick(); const blocked=got==='還沒'; H.adv(400); H.tap(1); await tick();
     check('5. 網址加 ?tapguard：自動化瀏覽器也擋（給 CC 驗這個功能）',blocked&&got===1,String(got)); }
+  /* 6～8：連點到底（BB 2026-11-11 CHOOSE_SCAN）——選單出現以前就開始的一串連點，整串都不算，手停下來再點才算 */
+  { const H=mk(); const seq=[]; const p=H.GM.choose([{t:'下一堂不去'},{t:'去上課'}]).then(i=>{ seq.push(i); return H.GM.choose([{t:'翹'},{t:'還是去'}]); }).then(i=>{ seq.push(i); });
+    await tick(); H.adv(600); H.tap(0); await tick(); await tick();   /* 這一下選了第一個選單，第二個選單同時出現 */
+    let blocked=0; for(let n=0;n<12;n++){ H.adv(150); H.tap(0); await tick(); if(seq.length===1&&H.has()) blocked++; }   /* 每 0.15 秒一下、連點 12 下（1.8 秒）：都超過 350 毫秒了，還是同一串 */
+    check('6. 每 0.15 秒連點 12 下：第二個選單一下都沒被點掉（舊的只擋前 350 毫秒）',blocked===12,String(blocked)+' '+seq.join());
+    H.adv(450); H.tap(1); await p; check('6. 手停 0.45 秒以後再點：算，收到那一項',seq.join()==='0,1',seq.join()); }
+  { const H=mk(); let got='還沒'; H.down(); H.adv(100); H.down(); H.adv(20);   /* 翻對話連點兩下，最後一下之後 20 毫秒選單出現 */ H.GM.choose([{t:'A'},{t:'B'}]).then(i=>{ got=i; }); await tick();
+    H.adv(360); H.tap(0); await tick(); const b1=got==='還沒';   /* 選單出現已經 360 毫秒（過了 350），可是和前一下只隔 380＝同一串 */ H.adv(420); H.tap(1); await tick();
+    check('7. 翻對話的連點延續到選單上（間隔不到 0.4 秒）：不算；停一下再點才算',b1&&got===1,String(got)); }
+  { const H=mk(); let got='還沒'; H.down(); H.GM.choose([{t:'A'},{t:'B'}]).then(i=>{ got=i; }); await tick();
+    let n=0; while(got==='還沒'&&n<60){ H.adv(200); H.tap(0); await tick(); n++; }
+    check('8. 保險：一直不停地點（每 0.2 秒）最多擋 '+H.GM.TAP_BURST_MAX+' 毫秒，之後收得到，不會永遠選不到',got===0&&n*200>=H.GM.TAP_BURST_MAX&&n*200<=H.GM.TAP_BURST_MAX+400,n+' 下'); }
+  /* 9、10：BB CHOOSE_SCAN ①②——選單從下緣往上排，不可逆的那一項不要和上一層被點的那一項同一個「從下面數的位置」 */
+  { const fs2=require('fs'), path2=require('path'), R=f=>fs2.readFileSync(path2.join(__dirname,'..',f),'utf8'), CL=R('src/classes3d.js'), JB=R('src/jobs3d.js');
+    check('9. 下課選單「下一堂不去」（最下面）→ 翹課確認用 flip：最下面是「還是去」；起床選單照舊「翹」在最下面、「還是去」倒數第二',/c==='skip'\) await S\.skipClass\(GM,nx,\{flip:true\}\)/.test(CL)&&/GM\.choose\(flip\?\[\{t:'翹'\},\{t:'還是去'\}\]:\[\{t:'還是去'\},\{t:'翹'\}\]\)/.test(CL)&&/if\(k!==SK\)\{ await S\.goClass\(GM,it\); return false; \}/.test(CL)&&/k===1&&await S\.skipClass\(GM,it\)\)/.test(CL));
+    check('10. 打工櫃台非上班時間「找老闆」：「（算了）」在前（互動鍵那個高度）、「（辭職）」在最下面，選第 1 個才辭職',/GM\.choose\(\[\{t:'（算了）'\},\{t:'（辭職）',hint:[^\]]*\}\]\); if\(c===1\) await S\.quit\(GM,k\);/.test(JB)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

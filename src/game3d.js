@@ -137,11 +137,14 @@ const GAME = (function(){
   /* 選單防連點（BUG-GOCLASS-SKIPPED-1111，使用者 2026-11-11 day57：起床選單、翹課確認、再睡一下三個選單被連著點掉，第一堂課記成翹課）：
      選單出現後 TAP_GUARD 毫秒內「按下去」的那一下不算（對話點太快時，選項一出現就在手指底下）。只看真的按下（pointerdown）的時間——
      程式直接呼叫 click／onclick（測試、探針）不受影響；自動化瀏覽器（navigator.webdriver）預設不擋，網址加 ?tapguard 才擋（給 CC 驗這個功能用）。 */
-  const TAP_GUARD=350; let lastDownAt=-1e9;
-  if(typeof document!=='undefined'&&document.addEventListener) document.addEventListener('pointerdown',()=>{ lastDownAt=performance.now(); },true);
+  /* 連點到底（BB 2026-11-11 CHOOSE_SCAN：選單貼著下緣往上排，同一點連點會一路點掉「從下面數同一個位置」的按鈕——下課選單、床的快轉、買腳踏車、改約會時間都是同一型）：
+     一串連點（每兩下間隔不到 TAP_BURST_GAP 毫秒）如果是在選單出現以前就開始的，這一串裡的每一下都不算，手停下來（間隔超過 TAP_BURST_GAP）再點才算；
+     最多擋 TAP_BURST_MAX 毫秒（保險：不會因為別的手指一直在點而永遠選不到）。 */
+  const TAP_GUARD=350, TAP_BURST_GAP=400, TAP_BURST_MAX=4000; let lastDownAt=-1e9, burstStart=-1e9;
+  if(typeof document!=='undefined'&&document.addEventListener) document.addEventListener('pointerdown',()=>{ const now=performance.now(); if(now-lastDownAt>=TAP_BURST_GAP) burstStart=now; lastDownAt=now; },true);
   const tapGuardOn=()=>{ try{ const q=(typeof location!=='undefined'&&location.search)||''; if(/[?&]tapguard\b/.test(q)) return true; return !(typeof navigator!=='undefined'&&navigator.webdriver); }catch(e){ return true; } };
-  function tapTooSoon(shownAt){ return tapGuardOn()&&lastDownAt>shownAt&&lastDownAt-shownAt<TAP_GUARD; }   /* 嚴格大於：叫出選單的那一下（同一毫秒）不算在內 */
-  GM.tapTooSoon=tapTooSoon; GM.TAP_GUARD=TAP_GUARD;
+  function tapTooSoon(shownAt){ if(!tapGuardOn()||!(lastDownAt>shownAt)) return false; if(lastDownAt-shownAt<TAP_GUARD) return true; return burstStart<=shownAt&&lastDownAt-shownAt<TAP_BURST_MAX; }   /* 第二個條件：這一下屬於選單出現以前就開始的那一串連點 */   /* 嚴格大於：叫出選單的那一下（同一毫秒）不算在內 */
+  GM.tapTooSoon=tapTooSoon; GM.TAP_GUARD=TAP_GUARD; GM.TAP_BURST_GAP=TAP_BURST_GAP; GM.TAP_BURST_MAX=TAP_BURST_MAX;
   function renderChoose(c){ const {options,opt,res}=c, shownAt=performance.now(); $('dlg').classList.remove('side');
     { const box=$('choices'); box.innerHTML=''; box.classList.remove('hide'); overFade(box); const dlg=$('dlg'); overFade(dlg); const keep=!(opt&&opt.menu)&&!!D.full&&!D.active&&(performance.now()-(D.endedAt||0))<1500; if(opt&&opt.menu&&!D.active){ dlg.classList.add('hide'); dlg.classList.remove('static'); }   /* 系統選單（家裡、快轉）：不留上一句（BB-C BB_218 第 4 節：媽媽「洗衣籃在後陽台」留在畫面上，橫向時蓋住第四個選項）*/
     if(keep){ dlg.classList.remove('hide'); $('dlgText').textContent=D.full; $('dlgNext').style.visibility='hidden'; dlg.classList.add('static'); box.style.bottom='calc(max(14px,env(safe-area-inset-bottom)) + '+(dlg.offsetHeight+22)+'px)'; box.style.maxHeight='calc(100% - 58px - env(safe-area-inset-top) - '+(dlg.offsetHeight+22)+'px)'; }   /* 上面留 58 px 給「紀錄」按鈕（BB_218：最上面一格壓到「紀錄」）*/
