@@ -125,9 +125,9 @@ SIGN_FIND_JS = r"""(rg=>{ const E=GAME.E, re=/print|SIGN_FACE|VSIGN_FACE|ABOARD|
 # 【捷徑機位】：鏡頭擺到 e、看 l；藏人物、藏 HUD（只留 canvas），等幾幀再拍
 SIGN_CAM_JS = r"""(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
   if(!window.__ccHid){ window.__ccHid=[E.player.obj,...E.npcs.map(n=>n.obj)].filter(o=>o&&o.visible); window.__ccHid.forEach(o=>o.visible=false); }
-  if(!document.getElementById('__ccSignCss')){ const st=document.createElement('style'); st.id='__ccSignCss'; st.textContent='*{visibility:hidden!important} canvas{visibility:visible!important}'; document.head.appendChild(st); }
+  if(!document.getElementById('__ccSignCss')){ const st=document.createElement('style'); st.id='__ccSignCss'; st.textContent='*{visibility:hidden!important}'; document.head.appendChild(st); E.renderer.domElement.style.setProperty('visibility','visible','important'); }   /* 只留 3D 畫面的 canvas（小地圖也是 canvas，要藏）*/
   const f0=E.frame; for(let i=0;i<240&&E.frame<f0+5;i++) await new Promise(r=>setTimeout(r,200)); return E.frame-f0; })"""
-SIGN_END_JS = r"""(()=>{ const E=GAME.E; (window.__ccHid||[]).forEach(o=>o.visible=true); window.__ccHid=null; const st=document.getElementById('__ccSignCss'); if(st) st.remove(); E.endCinematic(); return true; })()"""
+SIGN_END_JS = r"""(()=>{ const E=GAME.E; (window.__ccHid||[]).forEach(o=>o.visible=true); window.__ccHid=null; const st=document.getElementById('__ccSignCss'); if(st) st.remove(); E.renderer.domElement.style.removeProperty('visibility'); E.endCinematic(); return true; })()"""
 OLD_LOOK_KW = ['書架', '漫畫', '念書', '讀書', '桌位', '咖啡店', '咖啡廳', '自習', '書本', '小說']   # 舊店內容（慢讀咖啡的書架、漫畫、念書位…）
 LOOK_ROWS = []     # 「看的東西」逐字表
 INSIDE_JS = r"""(()=>{ const its=GAME.E.interactables; const o=its.find(i=>i.shop118); const x=its.find(i=>i.exit&&i.exit.to==='lane118'); return {order:o?{x:o.x,z:o.z,r:o.radius||0.8}:null, exit:x?{x:x.x,z:x.z,r:x.radius||0.7}:null}; })()"""
