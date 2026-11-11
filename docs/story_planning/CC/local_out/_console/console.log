@@ -1,11 +1,3 @@
-[13:58:59] ==== END   NM_lane_old  exit=0  255s   ====
-[13:59:02] memory 48% before starting FN2_stairs10_old (2 running)
-[13:59:02] ==== START FN2_stairs10_old  (probe @ 811aa4c0f1b44b8ed62df03c88a85f3f2f8167da) ====
-[13:59:04] 正在跑：CLASS12_skip2_500x5（已跑 4 分／上限 12 分）、FN2_stairs10_new（已跑 1 分／上限 15 分）、FN2_stairs10_old（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
-[13:59:05] [res] cpu=11% mem=42% (15.3/31.4 GB) chrome_testing=5  START FN2_stairs10_old
-[13:59:35] [res] cpu=0% mem=47% (14.9/31.4 GB) chrome_testing=9  END CLASS12_skip2_500x5
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       640e0301b..3b4e7ce8f  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [13:59:42] ==== END   CLASS12_skip2_500x5  exit=1  300s   ====
 [13:59:52] memory 47% before starting FN2_shots_ext_new (2 running)
@@ -1998,3 +1990,11 @@
 [22:30:07] ==== START L118D_E_DATE_a2  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
 [22:30:10] [res] cpu=1% mem=37% (11.2/31.4 GB) chrome_testing=4  START L118D_E_DATE_a2
 [22:31:09] [res] cpu=0% mem=42% (13.1/31.4 GB) chrome_testing=8  END L118D_E_E2_a2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       617483d88..a95d1775d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:31:16] ==== END   L118D_E_E2_a2  exit=1  116s   ====
+[22:31:19] memory 39% before starting L118D_E_E10_a2 (2 running)
+[22:31:19] ==== START L118D_E_E10_a2  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[22:31:22] [res] cpu=8% mem=40% (12.3/31.4 GB) chrome_testing=8  START L118D_E_E10_a2
+[22:32:12] [res] cpu=9% mem=37% (11.8/31.4 GB) chrome_testing=4  END L118D_E_DATE_a2
