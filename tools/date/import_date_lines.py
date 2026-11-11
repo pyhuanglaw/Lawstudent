@@ -26,6 +26,11 @@
     AA_694 第 3 節裡她重寫掉的句子（上一版 82c946ad7 她那一格有、新稿沒有）跟著跳過。AA_767（白名單上的 commit）：語彤不分地點的短句六列照 path 換（lines.heroine_03.…；寫檔前最後一步，AA_630 預約句、AA_694 都套完以後）。
     2026-11-11 起可昕（kexin）也一樣（DLG-FULL-REVIEW-1110，使用者 X324：源稿 f9c1a2b80 可昕 33 個地點重寫；和 0a2136911 比只動她的格子）：疊在上面的改句裡她的列（AA_373 6-1 那兩句、AA_359 5-2 的 D28）
     原句對不到＝跳過、印出來（KX_SKIP）；AA_694 第 3 節裡她重寫掉的句子（上一版 0a2136911 她那一格有、新稿沒有）跟著跳過。AA_769（白名單上的 commit）：可昕不分地點的短句七列照 path 換（lines.kexin.…，和 AA_767 同一步）。
+    2026-11-11 起芷若（heroine_02）也一樣（DLG-FULL-REVIEW-1110，使用者 X324：源稿 a29a8aba0 芷若 33 個地點重寫；和 f9c1a2b80 比只動她的格子，另外語彤 D15 一句、可昕 D09／D17／D33 三句）：
+    疊在上面的改句裡她的列（AA_359 5-3 的 D26、D27、D29，AA_524 Z7 的 D18 兩句、D10 一句）原句對不到＝跳過、逐列印出來（ZR_SKIP：已經是改成的字／那一格新稿重寫了）；
+    **原句還在、而且和改成不一樣＝源稿沒對齊：不換、全部收齊以後停下來列出來（ZR_STALE；不猜）**。AA_694 第 3 節裡她重寫掉的句子（上一版 f9c1a2b80 她那一格有、新稿沒有）跟著跳過。
+    她不分地點的短句（lines.heroine_02）和心願事件 AA 還沒交（AA_773、AA_774），這一輪不動。
+    換源稿 SHA 重跑：tools/date/bump_lines_sha.py（白名單 33 筆）→ tests/date_src_sha.js 的 ALLOW_SHA → 這支；這支裡的 *_PREV 是各輪「重寫以前的那一版」，不用跟著換。
 用法：python3 tools/date/import_date_lines.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_lines.js）]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -88,6 +93,11 @@ KX = 'kexin'   # 可昕（DLG-FULL-REVIEW-1110，使用者 X324：校外約會�
 KX_PREV = '0a2136911'   # 可昕重寫以前的那一版（只拿來認「她重寫掉了哪些句子」；不匯入）
 PRE_KX = PRE_YT + (KX_PREV,)
 KX_SKIP = []; KX_GONE = set()
+ZR = 'heroine_02'   # 芷若（DLG-FULL-REVIEW-1110，使用者 X324：校外約會台詞重寫，源稿 Dxx.json 企劃線 a29a8aba0）：和沛珊、學姊、語彤、可昕同一個做法；另外「原句還在」＝源稿沒對齊，停下來（ZR_STALE）
+ZR_PREV = 'f9c1a2b80'   # 芷若重寫以前的那一版（只拿來認「她重寫掉了哪些句子」；不匯入。AA 再給新 SHA 時這個不用換）
+PRE_ZR = PRE_KX + (ZR_PREV,)
+ZR_SKIP = []; ZR_GONE = set()
+ZR_STALE = []   # 芷若的列原句還在源稿裡（和改成不一樣）：(哪一層, 地點, 原句, 改成)——不換，最後一起列出來停下
 PS_SKIP = []   # 沛珊跳過的列：(哪一層, 地點, 原句, 為什麼)
 PS_GONE = set()   # 沛珊跳過的列的原句、改成：AA_694 第 3 節逐列核對時，這些句子不在檔裡＝源稿重寫了，不算漏換
 SIS_SKIP = []; SIS_GONE = set()   # 學姊的（同上）
@@ -96,17 +106,30 @@ SIS_SKIP = []; SIS_GONE = set()   # 學姊的（同上）
 def ps756(loc, who=PS):
     """這個地點的源稿是不是那個人（沛珊／學姊）重寫以後的版本"""
     sha = str(APPROVED.get(SP + 'date_system/lines/' + loc + '.json') or '')
-    return bool(sha) and not any(sha.startswith(x) or x.startswith(sha) for x in (PRE_KX if who == KX else PRE_YT if who == YT else PRE_SIS if who == SIS else PRE756))
+    return bool(sha) and not any(sha.startswith(x) or x.startswith(sha) for x in (PRE_ZR if who == ZR else PRE_KX if who == KX else PRE_YT if who == YT else PRE_SIS if who == SIS else PRE756))
 
 
 def ps_skip(layer, loc, who, old, drop=False, new=None):
     """沛珊、學姊的列：AA 指明不再套（drop）或原句對不到 → 記下來、回 True（呼叫的地方跳過）；別人、或源稿還是重寫以前的版本＝False（照舊）"""
-    if who not in (PS, SIS, YT, KX) or not ps756(loc, who):
+    if who not in (PS, SIS, YT, KX, ZR) or not ps756(loc, who):
         return False
-    if drop and (layer, loc) not in (SIS_DROP if who == SIS else set() if who in (YT, KX) else PS_DROP):
+    if drop and (layer, loc) not in (SIS_DROP if who == SIS else set() if who in (YT, KX, ZR) else PS_DROP):
         return False
-    (KX_SKIP if who == KX else YT_SKIP if who == YT else SIS_SKIP if who == SIS else PS_SKIP).append((layer, loc, old, 'AA 指明新稿不用再套' if drop else '原句對不到（源稿重寫了）'))
-    (KX_GONE if who == KX else YT_GONE if who == YT else SIS_GONE if who == SIS else PS_GONE).update(x for x in (old, new) if x)
+    why = 'AA 指明新稿不用再套' if drop else '原句對不到（源稿重寫了）'
+    if who == ZR and new and any(o['text'] == new for o in texts(((LOC.get(loc) or {}).get('lines') or {}).get(ZR))):
+        why = '已經是改成的字（源稿寫回了）'
+    (ZR_SKIP if who == ZR else KX_SKIP if who == KX else YT_SKIP if who == YT else SIS_SKIP if who == SIS else PS_SKIP).append((layer, loc, old, why))
+    (ZR_GONE if who == ZR else KX_GONE if who == KX else YT_GONE if who == YT else SIS_GONE if who == SIS else PS_GONE).update(x for x in (old, new) if x)
+    return True
+
+
+def zr_stale(layer, loc, who, old, new):
+    """芷若的列、源稿是她重寫以後的版本、原句還在而且和改成不一樣 → 記下來、回 True（呼叫的地方不換）；最後 ZR_STALE 有東西＝停下來全部列出來"""
+    if who != ZR or not ps756(loc, ZR) or old == new:
+        return False
+    if not any(o['text'] == old for o in texts(((LOC.get(loc) or {}).get('lines') or {}).get(ZR))):
+        return False
+    ZR_STALE.append((layer, loc, old, new))
     return True
 
 
@@ -243,6 +266,14 @@ for p in sorted(APPROVED):
             KX_GONE.update(t for t in ({o['text'] for o in texts((d0.get('lines') or {}).get(KX))} | set(((d0.get('dislikeLine') or {}).get(KX) or {}).values())) if t not in nowk)
         except subprocess.CalledProcessError:
             pass
+    if ps756(m.group(1), ZR):   # X324 芷若重寫：同上（ZR_PREV）
+        try:
+            if not A694: raise subprocess.CalledProcessError(1, 'show')
+            d0 = json.loads(show(p, ZR_PREV))
+            nowz = {o['text'] for o in texts((d.get('lines') or {}).get(ZR))} | set(((d.get('dislikeLine') or {}).get(ZR) or {}).values())
+            ZR_GONE.update(t for t in ({o['text'] for o in texts((d0.get('lines') or {}).get(ZR))} | set(((d0.get('dislikeLine') or {}).get(ZR) or {}).values())) if t not in nowz)
+        except subprocess.CalledProcessError:
+            pass
     LOC[m.group(1)] = {k: d[k] for k in ('points', 'likes', 'dislikeLine', 'lines') if k in d}
     FILES['loc_' + m.group(1)] = p
 # AA_373 6-1「date_lines.js」那一列：疊在地點台詞上的改句（現在 → AA 定，一句對一句）
@@ -269,6 +300,8 @@ for old, new in FIX:
     FIXED.append((old, new, len(hit)))
     if not hit and (old in KX_GONE or new in KX_GONE):   # X324 可昕重寫：AA_373 6-1 這一列是她的句子（上一版她那一格是原句），新稿那一格重寫了、或直接寫了改成的字＝跳過
         KX_SKIP.append(('AA_373 6-1', '', old, '已經是改成的字（新稿直接寫了）' if any(o['text'] == new for o in texts(LOC)) else '原句對不到（源稿重寫了）')); KX_GONE.update((old, new))
+    elif not hit and (old in ZR_GONE or new in ZR_GONE):   # X324 芷若重寫：同上
+        ZR_SKIP.append(('AA_373 6-1', '', old, '已經是改成的字（新稿直接寫了）' if any(o['text'] == new for o in texts(LOC)) else '原句對不到（源稿重寫了）')); ZR_GONE.update((old, new))
     elif not hit:
         print('AA_373 6-1：找不到「' + old + '」，沒換')
 # AA_359 5-2：D26～D32 時間不對的句子；5-3（fb5156ab）：離開那一句在第二天白天說，有天色、「下次早上來」的七句（| 地點 | 誰、哪一句 | 現在 | 改成 |）——只在那個地點、那個人的台詞裡換。
@@ -298,6 +331,8 @@ def fix_table(tag, want):
             sys.exit('拆不出來（' + tag + ' 那一列）：' + json.dumps(r, ensure_ascii=False))
         old, new = [N(old[0])], [N(new[0])]
         if ps_skip('AA_359 ' + tag, r[0], who, old[0], drop=True, new=new[0]):   # PEISHAN-VOICE-1110：D31 沛珊 closing（交往中）新稿直接寫好了
+            FIXED359.append((tag + ' ' + r[0], who, old[0], new[0], 0)); continue
+        if zr_stale('AA_359 ' + tag, r[0], who, old[0], new[0]):   # X324 芷若重寫：原句還在＝源稿沒對齊，不換（最後一起停）
             FIXED359.append((tag + ' ' + r[0], who, old[0], new[0], 0)); continue
         hit = [o for o in texts(((LOC.get(r[0]) or {}).get('lines') or {}).get(who)) if o['text'] == old[0]]
         for o in hit:
@@ -341,6 +376,8 @@ for item, loc, who, old, new, quote in [
     old, new = N(old), N(new)
     objs = list(texts(((LOC.get(loc) or {}).get('lines') or {}).get(who)))
     hit = [o for o in objs if o['text'] == old]
+    if zr_stale('AA_524 ' + item, loc, who, old, new) or (not hit and ps_skip('AA_524 ' + item, loc, who, old, new=new)):   # X324 芷若重寫：Z7 的三列——原句還在＝不換、最後一起停；對不到＝跳過
+        FIXED524.append((item + ' ' + loc, who, old, new, 0)); continue
     if len(hit) != 1 and not (not hit and sum(1 for o in objs if o['text'] == new) == 1):
         sys.exit('AA_524 ' + item + '：' + loc + ' ' + who + ' 的台詞裡「' + old + '」有 ' + str(len(hit)) + ' 句（應該是 1 句；或已經是新句）')
     for o in hit:
@@ -698,6 +735,8 @@ def apply767(body, rows=None, tag='AA_767'):
     return json.dumps(o, ensure_ascii=False), n
 
 
+if ZR_STALE:   # X324 芷若重寫：原句還在源稿裡的列——源稿沒對齊成遊戲現在的字，不猜（要問 AA：是漏了寫回、還是那一格不重寫要照舊疊）
+    sys.exit(f'芷若重寫（DLG-FULL-REVIEW-1110）：疊在上面的改句有 {len(ZR_STALE)} 列原句還在源稿裡、和改成不一樣（源稿沒對齊，沒寫檔）：\n' + '\n'.join(f'  {l} {loc}「{o}」→「{n}」' for l, loc, o, n in ZR_STALE))
 out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p]}' for p in FILES.values()), 'lines': L, 'prefs': prefs, 'loc': LOC}
 dst = os.path.join(ROOT, 'src', 'data', 'date_lines.js')
 if '--out' in sys.argv:   # 另存比對用（tests/peishan_dates_1111_unit.js：重匯的結果要和現在的檔一樣）
@@ -740,6 +779,8 @@ with open(dst, 'w', encoding='utf8') as fo:
                     YT_SKIP.append(('AA_694 第 3 節第 ' + r[0] + ' 列', '', r[2], '語彤的句子，新稿重寫了')); continue
                 if r[2] in KX_GONE and r[1] not in have:   # X324：可昕的句子，源稿重寫了（同上）
                     KX_SKIP.append(('AA_694 第 3 節第 ' + r[0] + ' 列', '', r[2], '可昕的句子，新稿重寫了')); continue
+                if r[2] in ZR_GONE and r[1] not in have:   # X324：芷若的句子，源稿重寫了（同上）
+                    ZR_SKIP.append(('AA_694 第 3 節第 ' + r[0] + ' 列', '', r[2], '芷若的句子，新稿重寫了')); continue
                 sys.exit(f'AA_694 第 3 節第 {r[0]} 列：「{r[2]}」不在 date_lines.js 裡')
         c694 = E694.counts(allS)
         if any(c694.values()):
@@ -763,3 +804,4 @@ print(f'沛珊重寫（PEISHAN-VOICE-1110）跳過的改句 {len(PS_SKIP)} 列�
 print(f'學姊重寫（DLG-FULL-REVIEW-1110）跳過的改句 {len(SIS_SKIP)} 列：' + '；'.join(f'{l} {loc}「{o}」（{why}）' for l, loc, o, why in SIS_SKIP))
 print(f'語彤重寫（DLG-FULL-REVIEW-1110）跳過的改句 {len(YT_SKIP)} 列（其中 AA_630 第 2 節 {sum(1 for x in YT_SKIP if x[0].startswith("AA_630 "))} 列）：' + '；'.join(f'{l} {loc}「{o}」（{why}）' for l, loc, o, why in YT_SKIP))
 print(f'可昕重寫（DLG-FULL-REVIEW-1110）跳過的改句 {len(KX_SKIP)} 列：' + '；'.join(f'{l} {loc}「{o}」（{why}）' for l, loc, o, why in KX_SKIP))
+print(f'芷若重寫（DLG-FULL-REVIEW-1110）跳過的改句 {len(ZR_SKIP)} 列：' + '；'.join(f'{l} {loc}「{o}」（{why}）' for l, loc, o, why in ZR_SKIP))
