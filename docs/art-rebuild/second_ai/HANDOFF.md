@@ -1,7 +1,18 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-11 04:4x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 05:3x UTC）
+
+- **已整合**：第七包（62afcfbc4：算命桌視線、節日的燈變白光、G01 燈籠、新生南路配件車）。BB 看完我做的三組 3D 人物：模型都不用再修（UA-LAWWW2-1111-08 可以結）。
+- **118 巷（L118-SHOPS-REDO-1111，X338）第 1 版**：使用者的參考圖二十二張在開發分支 `docs/handoff/user_specs/l118_ref/`（九間 ext＋int、兩間飲料店 ext＋int；使用者直接傳給 LAWWW——**不要再跟使用者說沒收到圖**）。
+  - 分工（使用者 11-11 05:2x 對 LAWWW：臨時把我的工作分出去）：我＝街景（十一間外觀）＋室內 dian／self／korea／tea；LAWWW 的子代理＝室內 home／cafe2／pasta／omu／noodle2（`l118_int_<id>.py`）。季節第三批、泳池水面先放著。
+  - **第一批**（`wip/l118_redo_1111/`：README、`l118_batch1_v1.patch` 底 dev 4993c19a6）：街景九間照圖＋飲料店文字規格版、室內四間、道具、新測試 `tests/l118_shops_notrap_1111_unit.js`。全部 Node 測試 05:13 起在 `$SP/wt_ch` 跑（`$SP/l118_regress.log`）；跑完：README 狀態改 READY、copy log、cmp patch（**patch 要重出：跑的途中又改了 `tests/l118_shops_redo_1111_unit.js` 兩項期望**）、outbox、commit/push、send_message LAWWW（cc BB）。
+  - 基底就失敗、不是我的（在乾淨的 4993c19a6 上一樣）：aa311_l118_unit、aa397_sideq_unit、aa404_sideq_unit、aa410_food_fav_unit、eat_unit、invites_quote_b6_unit（LAWWW 的 118 巷改名進行中）。
+  - **第二批（任務 #43）**：兩間飲料店照圖（喝不喝咖啡：深藍白字黑框燈箱、左邊關著的玻璃門＋飲料海報、右邊外帶窗口灰磁磚腰牆；果茶社：米白招牌金黃立體字、淺木直紋櫃台、三杯水果茶橫幅、玻璃水果櫃、垂掛綠植）；只動街景。做完重拍十一間的鄰居店面卡、通知 LAWWW 重跑他那五間。
+  - 做法筆記：招牌、海報從參考圖裁（`l118_signs_tex.py` 的 REF_SIGNS／REF_POSTERS，框的座標是 1280×720 縮圖上的）；價目表一律照文字規格／AA_280 重畫；室內用 `lane118_shops.py -- --shop <id>`（一次一間）；改了 `TX.SHOPS` 要先跑 `lane118_shops_tex.py`；`python3 tools/lane118/gen_shop_layouts.py` 重產 `src/data/l118_shop_layouts.js`；`lane118_neighbors.py -- --shop a,b` 重拍鄰居卡。桌子的阻擋要對齊 0.4 m 導航格、櫃台和桌子之間不要留 0.3～0.7 m 的縫（dian 被新測試抓到兩次）。
+  - 讀通知晚了三次（12～14 分鐘，都在連續算圖／重匯的時候）。
+
+## 交接（前一則｜帳號 A｜2026-11-11 04:4x UTC）
 
 - **已整合進開發分支**（LAWWW ACK）：第五包（天花板、花序樓梯口、攤子透視）、季節布置第一批、第二批（cc894577f；20 項做了 9 項）、第六包（348b343a2：汀州路巷 A 兩側鏡頭碰撞盒、新生南路路邊機車 12 台）。
 - **使用者 11-11 04:4x 直接給的指示**（`docs/handoff/user_asks_LAWWW2.json` UA-LAWWW2-1111-08、09）：
