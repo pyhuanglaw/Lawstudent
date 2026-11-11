@@ -203,6 +203,43 @@ async def part_walk(pg, cdp):
     await joy_walk(pg, cdp, [(34.0, 13.5), (58.0, 13.5)], '[WALK 公館人行道 2000]')
 
 
+CAMCHK = r"""(id=>{ const E=GAME.E, cam=E.camera, P=E.player.obj; const z=E.zone||{}; const q=(z.tzStalls||z.ggStalls||[]).find(s=>s.id===id); if(!q||!q.open) return null;
+  P.updateMatrixWorld(true); const head=new THREE.Vector3(); new THREE.Box3().setFromObject(P).getCenter(head); head.y+=0.5;
+  const o=cam.position.clone(), dir=head.clone().sub(o); const L=dir.length(); dir.normalize(); const rc=new THREE.Raycaster(o,dir,0.05,L-0.2);
+  const hits=rc.intersectObject(q.open,true).filter(h=>h.object.visible); const b=new THREE.Box3().setFromObject(q.open); const camIn=b.containsPoint(o);
+  const bulbs=[]; q.open.traverse(m=>{ if(m.isMesh&&m.visible){ for(const mt of [].concat(m.material||[])){ if(mt&&mt.emissive&&(mt.emissive.r+mt.emissive.g+mt.emissive.b)>0.05){ const c=new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3()); bulbs.push([+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2),m.name||'']); break; } } } });
+  return {cam:[+o.x.toFixed(2),+o.y.toFixed(2),+o.z.toFixed(2)], camInStallBox:camIn, blockHits:hits.length, firstHit:hits[0]?(hits[0].object.name||hits[0].object.type):null, playerVisible:P.visible, bulbs:bulbs.slice(0,8), isOpen:!!q.isOpen}; })"""
+
+
+async def part_nmcam(pg, cdp):
+    """BB 02:33 ④：營業中、搖桿走到攤前（照找路），兩張遊戲畫面（1.9 m、1.2 m）：人看得到、棚子不擋（鏡頭→玩家頭的射線不碰攤子模型、鏡頭不在攤子外框裡）；燈泡近拍（攤子發光材質中心）"""
+    await at(pg, cdp, 'tingzhou', 20.0, None, None, '（讀配置）'); Ly = await lay(pg)
+    if not Ly: R.check('[NMCAM] 有 stalls 配置', False, ''); return
+    A = all_stalls(Ly); want = [x for x in (os.environ.get('STALLS') or 'st_ball,st_eggcake').split(',') if x]
+    rest = [q for q in A if q['id'] not in want]; import random; rnd = random.Random(int(os.environ.get('NMSEED') or '1111'))
+    pick = [q for q in A if q['id'] in want] + rnd.sample(rest, min(int(os.environ.get('RANDN') or '2'), len(rest)))
+    R.note('[NMCAM] 這次拍：%s' % J([(q['id'], q['name'], q['zone']) for q in pick]))
+    for q in pick:
+        fx, fz = math.sin(q['yaw']), math.cos(q['yaw']); h = min(q['from'] + 2.0, (q['from'] + q['to']) / 2)
+        tag = '[NMCAM %s %s %s]' % (q['id'], q['name'], hhmm(h))
+        await at(pg, cdp, q['zone'], h, q['x'] + fx * 6.0, q['z'] + fz * 6.0, '（%s 前面 6 m）' % q['name'], wait=7000)
+        for dist in (1.9, 1.2):
+            await joy_walk(pg, cdp, [(q['x'] + fx * dist, q['z'] + fz * dist)], '%s 走到攤前 %.1f m' % (tag, dist))
+            await pg.wait_for_timeout(2000)
+            c = await pg.evaluate(CAMCHK, q['id'])
+            b2 = await pg.screenshot(type='jpeg', quality=82); open(os.path.join(OUT, 'nmcam_%s_%s_%.1fm.jpg' % (q['id'], hhmm(h), dist)), 'wb').write(b2)
+            if not R.check('%s %.1f m 遊戲裡有這一攤、營業中' % (tag, dist), bool(c) and c['isOpen'], J(c)): break
+            R.note('%s %.1f m 鏡頭 %s；射線碰到攤子 %d 次（%s）；鏡頭在攤子外框裡 %s' % (tag, dist, c['cam'], c['blockHits'], c['firstHit'], c['camInStallBox']))
+            R.check('%s %.1f m 人看得到、棚子不擋（鏡頭→玩家頭不碰攤子、鏡頭不在攤子外框裡）' % (tag, dist), c['playerVisible'] and c['blockHits'] == 0 and not c['camInStallBox'], J(c))
+        c = await pg.evaluate(CAMCHK, q['id'])
+        R.note('%s 發光的零件（燈泡）%d 個：%s' % (tag, len(c['bulbs']) if c else 0, J(c and c['bulbs'])))
+        for k, bl in enumerate((c or {}).get('bulbs', [])[:2]):
+            frm = [bl[0] + fx * 0.9, bl[1] - 0.15, bl[2] + fz * 0.9]
+            save(await pg.evaluate(SNAP, {'from': frm, 'at': bl[:3], 'fov': 40}), 'nmcam_%s_%s_燈泡%d.jpg' % (q['id'], hhmm(h), k + 1))
+        if c and not c['bulbs']: R.note('%s ★ 這一攤沒有發光材質的零件（燈泡近拍改拍招牌上方）' % tag); save(await pg.evaluate(SNAP, {'from': [q['x'] + fx * 1.0, 2.0, q['z'] + fz * 1.0], 'at': [q['x'], 2.2, q['z']], 'fov': 45}), 'nmcam_%s_%s_燈泡0.jpg' % (q['id'], hhmm(h)))
+        R.check('%s walkFallbacks 0' % tag, (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
+
+
 async def part_oldpos(pg, cdp):
     warns = []; pg.on('console', lambda m: warns.append(m.text[:200]) if m.type in ('warning', 'warn') else None)
     Ly = None
@@ -372,7 +409,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('TABLE', part_table), ('SHOTS', part_shots), ('PANO', part_pano), ('WALK', part_walk), ('OLDPOS', part_oldpos), ('FPS', part_fps), ('EDGE', part_edge), ('RING', part_ringsync), ('SYNC', part_sync)):
+        for part, fn in (('TABLE', part_table), ('SHOTS', part_shots), ('PANO', part_pano), ('WALK', part_walk), ('OLDPOS', part_oldpos), ('FPS', part_fps), ('EDGE', part_edge), ('RING', part_ringsync), ('SYNC', part_sync), ('NMCAM', part_nmcam)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])

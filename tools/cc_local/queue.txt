@@ -760,6 +760,21 @@ SS3D_O2 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning
 G10_O1 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=G10;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
 PS2_O1 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=PS2;PSG=lad;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
 PS2_O2 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=PS2;PSG=arc,feed,fest,open,tn;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
+# BB 02:33 派工（開發分支 44986e635＝LAWWW2 第三包＋f58131631）：①LM_cam2 ②LM_scene2 ③XG3 ④NM_cam；插在 LM2／SS3D／PS2 後、TE3 前
+LM_cam2_new | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=INT;SHOPS=limao;HOURS=20;CAMDIAG2=1;SHA=44986e6357936e7b673dfce68a02bf740c397550
+LM_cam2_old | e7ddae33fee86ab1567ab9f7b4764686cc9c321c | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=INT;SHOPS=limao;HOURS=20;CAMDIAG2=1;SHA=e7ddae33fee86ab1567ab9f7b4764686cc9c321c
+LM_scene2_new | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=LIMAO;LMHOURS=14,20;SHA=44986e6357936e7b673dfce68a02bf740c397550
+LM_scene2_int | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=INT;SHOPS=limao;HOURS=20;FARTHEST=1;SHA=44986e6357936e7b673dfce68a02bf740c397550
+LM_scene2_old | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 12 | PARTS=LIMAO;LMHOURS=14,20;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
+# CC：SS3D_N2、G10_N1 在 BB 02:33 之前已用 f5e1ef4e8 開跑（不動）；BB 要 44986e635，另排一次
+SS3D_N2_44986 | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=SS_MAIN;SHA=44986e6357936e7b673dfce68a02bf740c397550
+G10_N1_44986 | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=G10;SHA=44986e6357936e7b673dfce68a02bf740c397550
+XG3_ext_new | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=GGEXT;GGS=G08;HOURS=14,20.5;SHA=44986e6357936e7b673dfce68a02bf740c397550
+XG3_ext_old | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=GGEXT;GGS=G08;HOURS=14,20.5;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
+XG3_int | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=INT;SHOPS=xianguo;HOURS=14;TRAPDIAG=1;CLOSE=1;FIXSHOTS=1;SHA=44986e6357936e7b673dfce68a02bf740c397550
+XG3_ydh | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 8 | PARTS=INT;SHOPS=yindehao;HOURS=14;CLOSE=1;FIXSHOTS=1;SHA=44986e6357936e7b673dfce68a02bf740c397550
+XG3_doorjoy | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 12 | PARTS=DOORJOY;SHOPS=xianguo;SHA=44986e6357936e7b673dfce68a02bf740c397550
+NM_cam_new | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 15 | PARTS=NMCAM;STALLS=st_ball,st_eggcake;RANDN=2;NMSEED=1111;SHA=44986e6357936e7b673dfce68a02bf740c397550
 # CC 23:5x：GG3_int_new 第一輪「四角」挑點是 TEST_BUG（只擴散到門口那一排 z≈3）→ 角落改用 E.canStand(0.3)、印擴散範圍；公館三間重跑，汀州路三間也用新挑點補驗四角（BB 判過舊挑點 TEST_BUG）
 GG3_int_new_14_r2 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;SHOPS=antai,xianguo,rongendian;HOURS=14;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8
 TZ4_int_r4 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;SHOPS=taimi,xile,yindehao;HOURS=14;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8
@@ -867,9 +882,9 @@ TE_N01 | 201803df0a593a75e084f5a11718cedb3c512bd3 | probe | docs/story_planning/
 # 作廢（TE3 取代）TE_O05 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_te_probe.py | index.html | 15 | CASES=kx_Y2S1,kx_Y3S2tw,kx_Y3S2us;TAG=old;DRAFT_DIR=fixtures/te_drafts;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 # 暫停（BB 23:27：heart_* 改乾淨存檔＋告白結果要判，探針改完重排）TE_O06 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_te_probe.py | index.html | 15 | CASES=heart_an,heart_yt,heart_sis,heart_zq;TAG=old;DRAFT_DIR=fixtures/te_drafts;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 # 常備回歸（D143：佇列空、PC 閒；開發分支最新 9da05d8eb；汀州路發布前暖身）；BB 02:15 改用 f58131631（動到所有互動鍵）
-REG_f5813_deploy | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
-REG_f5813_p0 | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
-REG_f5813_zone | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
-REG_f5813_mini | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
-REG_f5813_tzgate | f581316311d7b4d1e5800348213b550219c087b1 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=GATE,SHOPS
-REG_f5813_touch | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
+REG_44986_deploy | 44986e6357936e7b673dfce68a02bf740c397550 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
+REG_44986_p0 | 44986e6357936e7b673dfce68a02bf740c397550 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+REG_44986_zone | 44986e6357936e7b673dfce68a02bf740c397550 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+REG_44986_mini | 44986e6357936e7b673dfce68a02bf740c397550 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+REG_44986_tzgate | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=GATE,SHOPS
+REG_44986_touch | 44986e6357936e7b673dfce68a02bf740c397550 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
