@@ -462,16 +462,21 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
             sb = await pg.evaluate(SKIPBTN)
         if use_skip and started and not burst_done and sb.get('vis'):
             burst_done = True; c = sb['c']; nb = await GC.logn(pg); tb = await pg.evaluate("performance.now()")
-            for k in range(5):
-                await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(150)
+            BN = int(os.environ.get('BURSTN') or '5'); BMS = int(os.environ.get('BURSTMS') or '150')   # BB 04:56：5 下／20 下、150／500 ms
+            for k in range(BN):
+                await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(BMS)
             await pg.wait_for_timeout(500)
+            try:   # 被點掉的是掛的考題時：有沒有寫進一筆玩家沒選的答案（STUDY／筆記）——BB 判嚴重度的依據
+                rec = await pg.evaluate("(()=>{ const G=GAME.G, R=CLS.rec(G); const st=typeof STUDY!=='undefined'&&STUDY.rec?STUDY.rec(G):null; return {ask:R.ask||null, notes:(G.notes||G.flags&&G.flags.notes||[]).slice?((G.notes||[]).slice(-3)):null, study:st?JSON.stringify(st).slice(0,400):null}; })()")
+                R.note('%s：連點後 CLS.rec.ask／筆記／STUDY：%s' % (tag, J(rec)))
+            except Exception as e: R.note('%s：讀 ask／筆記失敗 %r' % (tag, e))
             blg = await GC.logs(pg, nb)
             downs = [{'k': i + 1, 'tgt': e.get('tgt'), 'btn': e.get('btn'), 'menu': e.get('menu'), 'sinceMenu': e.get('sinceMenu')} for i, e in enumerate([x for x in blg if x['k'] == 'down'])]
             picks = [e for e in blg if e['k'] == 'pick']
             info['burst'] = {'at': c, 'downs': downs, 'picks': picks, 'menus': [e.get('opts') for e in blg if e['k'] == 'choose'], 'says': len([e for e in blg if e['k'] == 'say'])}
             info['presses'] += 1
-            R.note('%s：在「略過 »」的位置連點 5 下（每 150 ms，第一下＝按略過）：每一下 %s；這段時間翻過 %d 句、出現的選單 %s' % (tag, J(downs), info['burst']['says'], J(info['burst']['menus'])))
-            R.check('%s：連點 5 下沒有選到任何選項（使用者踩到的那一種）' % tag, not picks, J([[p.get('first'), p.get('txt'), p.get('downDt')] for p in picks]))
+            R.note('%s：在「略過 »」的位置連點 %d 下（每 %d ms，第一下＝按略過）：每一下 %s；這段時間翻過 %d 句、出現的選單 %s' % (tag, BN, BMS, J(downs), info['burst']['says'], J(info['burst']['menus'])))
+            R.check('%s：連點 %d 下（每 %d ms）沒有選到任何選項（使用者踩到的那一種）' % (tag, BN, BMS), not picks, J([[p.get('first'), p.get('txt'), p.get('downDt')] for p in picks]))
             await shot(pg, '%s_after_burst' % tag)
             continue
         if s['ch']:
