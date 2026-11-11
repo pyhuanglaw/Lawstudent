@@ -1,0 +1,203 @@
+{
+ "_meta": {
+  "doc": "AA_788 X324 E 區：寒暑假活動（vac_activities.js）台詞覆蓋列",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
+  "format": "同 AA_787：{who, files:[{file, rows:[{at, old, new, note}]}]}；at＝VAC_DATA 底下的 JS 路徑，old＝開發分支 2026-11-11 09:2x 的原文。",
+  "notes": [
+   "刪節號 135 句裡，句中的多半是笑點（「……我只聽懂 adjourned」「……還有一攤」「……他的火比秀琴姨的大」）或出國時女朋友的訊息裡說不出口的那一下（「……有點想你」），都留；只拿掉句首當習慣的。",
+   "byYear 底下逐年重複的同一句（C03「……那下課一起練。十分鐘」、C18「……我只聽懂 adjourned」）都是停頓有意義的，沒列。",
+   "「上次」9 句是旁白講祐廷自己第二、三次去（TRAVEL.again、補習班）或 NPC，「我請」是首爾交流的學生（C08），都不用接；「下次」除了 TRAVEL.gf.later 那一組，其他是 NPC 或旁白。",
+   "重複的招：回國那一刻「回來了？……」八個人、遠的地方「下次」六個人、「先在國內」三個人，各換掉一部分。",
+   "沒動：條件、日期、選項文字（t）、旁白。沛珊在這份只有 later 一句，語氣對，留。"
+  ]
+ },
+ "who": "all",
+ "files": [
+  {
+   "file": "vac_activities",
+   "rows": [
+    {
+     "at": "VAC_DATA.A.C02.rep.late.eveOpt2[0].text",
+     "old": "……學長你也還在想喔？",
+     "new": "學長你也還在想喔？",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.A.C02.keys[1].choice[1].say[0].text",
+     "old": "……學長你大一喔？",
+     "new": "學長你大一喔？",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.A.T02.keys[0].lines[2].text",
+     "old": "……霧裡的樹比較好看。",
+     "new": "霧裡的樹比較好看。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.A.C09.keys[2].lines[2].text",
+     "old": "……明天如果還沒來電，就帶孩子在外面上課。",
+     "new": "明天如果還沒來電，就帶孩子在外面上課。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.A.C10.pre[0].lines[1].text",
+     "old": "……國外的課不一定都抵得掉。先問清楚比較好。",
+     "new": "國外的課不一定都抵得掉。先問清楚比較好。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.A.C17.kx.choice[0].say[0].text",
+     "old": "……全台灣的律師都在講這句吧。",
+     "new": "全台灣的律師都在講這句吧。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.MSGS[12].ms[2].text",
+     "old": "……不要問我分數 7/3 才知道",
+     "new": "不要問我分數 7/3 才知道",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.gf.heroine_03.pool[7][0]",
+     "old": "……晚安",
+     "new": "晚安",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.gf.heroine_03.dark[1]",
+     "old": "……沒事就好",
+     "new": "沒事就好",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.gf.heroine_02.darkAns",
+     "old": "……那就好。",
+     "new": "那就好。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.gf.heroine_05.pool[7][0]",
+     "old": "……回來說一聲。",
+     "new": "回來說一聲。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.backGreet.heroine_03",
+     "old": "……回來了喔。",
+     "new": "回來了喔。",
+     "note": "「回來了？……」八個人都這樣開頭：拿掉「……」，有幾個換成自己的話"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.backGreet.heroine_01",
+     "old": "回來了？……曬黑了。",
+     "new": "回來了？你看起來沒睡飽。",
+     "note": "同上；「曬黑了」子晴的重逢也用，以安換掉"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.backGreet.heroine_02",
+     "old": "回來了？……那邊的咖啡，好喝嗎。",
+     "new": "回來了？那邊的咖啡，有比我做的好喝嗎。",
+     "note": "同上"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.backGreet.npc_fangyt",
+     "old": "回來了。……那邊的樹，有拍嗎？",
+     "new": "回來了。那邊的樹，有拍嗎？",
+     "note": "同上"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.gf.heroine_05.back[0]",
+     "old": "回來了？……好。",
+     "new": "回來了？好。早點睡。",
+     "note": "同上"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.reunionHome.kexin[0]",
+     "old": "回來了？……我在高雄。要來的話，先跟我說幾點的車。",
+     "new": "回來了？我在高雄。要來的話，先跟我說幾點的車。",
+     "note": "同上"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.reunion.heroine_02.away.text",
+     "old": "回來了？……我 26 號回臺北。",
+     "new": "回來了？我 26 號才回臺北。",
+     "note": "同上"
+    },
+    {
+     "at": "VAC_DATA.TRIP_MSG.reunion.heroine_04.lines[3].text",
+     "old": "……走，吃東西。",
+     "new": "走，吃東西。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.TRAVEL.gf.heroine_02.mid[1]",
+     "old": "……這裡的片名翻得好好聽。",
+     "new": "這裡的片名翻得好好聽。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.TRAVEL.gf.heroine_02.no",
+     "old": "……先在國內吧。我還想先跟你看幾部電影。",
+     "new": "先在國內吧。我還想先跟你看幾部電影。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.TRAVEL.gf.heroine_02.later",
+     "old": "……我也想去。下次好不好，我想慢慢排。",
+     "new": "我也想去。下次好不好，我想慢慢排。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.TRAVEL.gf.heroine_03.last",
+     "old": "……秀琴姨傳訊息問我們吃了什麼。我拍給她看了。",
+     "new": "秀琴姨傳訊息問我們吃了什麼。我拍給她看了。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.TRAVEL.gf.heroine_05.yes[0]",
+     "old": "……我要先看研究所的時間。",
+     "new": "我要先看研究所的時間。",
+     "note": "開頭的「……」是習慣，拿掉"
+    },
+    {
+     "at": "VAC_DATA.TRAVEL.gf.heroine_05.no",
+     "old": "……先在國內。出國的話，我要先排好時間。",
+     "new": "我研究所的時間還排不開。這次先去國內的。",
+     "note": "「先在國內」三個人同一句，換兩個"
+    },
+    {
+     "at": "VAC_DATA.TRAVEL.gf.kexin.no",
+     "old": "我排了一下……先在國內，出國我要多排一點時間。",
+     "new": "我排了一下，出國的話時間不夠玩。國內的我可以排得很好。",
+     "note": "同上"
+    },
+    {
+     "at": "VAC_DATA.TRAVEL.gf.heroine_01.later",
+     "old": "歐洲……我想去。可是要排十天以上，我們下次。",
+     "new": "歐洲……我想去。可是要排十天以上，等我們把時間空出來。",
+     "note": "遠的地方「下次」六個人都用，留芷若、沛珊兩個，其他換"
+    },
+    {
+     "at": "VAC_DATA.TRAVEL.gf.heroine_03.later",
+     "old": "那麼遠喔……店裡要找人顧十天。下次啦。",
+     "new": "那麼遠喔……店裡要找人顧十天。等我找到人再說。",
+     "note": "同上"
+    },
+    {
+     "at": "VAC_DATA.TRAVEL.gf.heroine_04.later",
+     "old": "美國？！……下次啦，我先存一點錢買遊戲。",
+     "new": "美國？！……先讓我存一點錢，現在的錢要買遊戲。",
+     "note": "同上"
+    },
+    {
+     "at": "VAC_DATA.TRAVEL.gf.heroine_05.later",
+     "old": "十天以上，我要先跟研究所請好。下次。",
+     "new": "十天以上，我要先跟研究所請好假。請到了再說。",
+     "note": "同上"
+    }
+   ]
+  }
+ ]
+}
