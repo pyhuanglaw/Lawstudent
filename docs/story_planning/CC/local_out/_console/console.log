@@ -1007,3 +1007,11 @@
 [08:54:24] ==== START NM2_saveold_new  (probe @ e8918a0135d6e003d5d0486795e6a15917923d17) ====
 [08:54:27] [res] cpu=16% mem=47% (14.7/31.4 GB) chrome_testing=9  START NM2_saveold_new
 [08:55:03] [res] cpu=11% mem=46% (14.6/31.4 GB) chrome_testing=9  END NM2_edge2_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b194d469c..09cbd8fe1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:55:09] ==== END   NM2_edge2_new  exit=0  252s   ====
+[08:55:13] memory 45% before starting NM2_open_old (2 running)
+[08:55:13] ==== START NM2_open_old  (probe @ b810b809b16f6134141d75a811ebca0e3b49a04f) ====
+[08:55:16] [res] cpu=20% mem=46% (14.3/31.4 GB) chrome_testing=9  START NM2_open_old
+[08:57:02] [res] cpu=5% mem=48% (15.2/31.4 GB) chrome_testing=10  END NM2_open_old

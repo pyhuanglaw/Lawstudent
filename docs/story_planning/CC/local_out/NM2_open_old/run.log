@@ -1,0 +1,20 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm2_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM2_open_old\out
+CC NM2 夜市能看能買：PARTS OPEN；STALLS st_milk,st_eggcake；SHA b810b809b；稿 fixtures\nm2；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.7s] 記錄層：ok（包 GAME.say／choose／toast 只記錄，照原樣呼叫）
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-04 20:00 錢 3000 元 （讀配置）
+FAIL [OPEN] 有夜市資料（NIGHT_MARKET、NM3）  {"hasNM": false, "hasNM3": false}
+  [  46.0s] [OPEN] 跑 2 攤：["st_milk", "st_eggcake"]；日期 2025-11-04（11 月）
+  [  46.1s] [OPEN] 稿十攤共 33 樣（遊戲配置裡的十攤）
+  [前置／捷徑] 讀檔到 gongguan 2025-11-04 20:00 (29.00,13.10) 錢 3000 元 （st_milk 沈三盃黑糖鮮奶 客人那一面 1.9 m）
+  [  61.3s] [st_milk] 站在 1.9 m 鍵上是「」（要「看沈三盃黑糖鮮奶」）；互動點 null → 照玩家走過去
+FAIL [OPEN st_milk 沈三盃黑糖鮮奶 20:00] 互動鍵寫「看沈三盃黑糖鮮奶」  畫面「」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-04 20:00 (10.50,0.25) 錢 3000 元 （st_eggcake 陳家古早味雞蛋糕 客人那一面 1.9 m）
+  [  70.5s] [st_eggcake] 站在 1.9 m 鍵上是「」（要「看陳家古早味雞蛋糕」）；互動點 null → 照玩家走過去
+FAIL [OPEN st_eggcake 陳家古早味雞蛋糕 20:00] 互動鍵寫「看陳家古早味雞蛋糕」  畫面「」
+  [  70.5s] [OPEN 摘要] st_milk 沈三盃黑糖鮮奶｜鍵「」｜look None｜買 null｜錢不夠 None｜沒有看的鍵
+  [  70.5s] [OPEN 摘要] st_eggcake 陳家古早味雞蛋糕｜鍵「」｜look None｜買 null｜錢不夠 None｜沒有看的鍵
+PASS 畫面上沒有出現「整條巷子都聞得到」「書忘在這裡」「粉筆畫的框」（整個過程收到 0 段字）  {"整條巷子都聞得到": [], "書忘在這裡": [], "粉筆畫的框": []}
+PASS 沒有 JS 例外  []
+FAILED 3: [OPEN] 有夜市資料（NIGHT_MARKET、NM3）；[OPEN st_milk 沈三盃黑糖鮮奶 20:00] 互動鍵寫「看沈三盃黑糖鮮奶」；[OPEN st_eggcake 陳家古早味雞蛋糕 20:00] 互動鍵寫「看陳家古早味雞蛋糕」
