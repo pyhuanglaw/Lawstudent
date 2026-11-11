@@ -878,11 +878,11 @@ async def part_tapseat(pg, cdp, sid, idxs):
         for hy in (0.45, 0.2, 0.0):
             r = await tap_seat_one(pg, cdp, sid, k - 1, seats[k - 1], hy)
             tried['%.2f' % hy] = r
-            if r == 'ok' or r == 'occupied': break
+            if r == 'occupied': break   # 椅面坐得到也照樣把中段、椅腳記完（BB 08:18：只記不算）
         res[k] = tried
-        ok = any(v == 'ok' for v in tried.values())
+        # BB 08:18：判準以點椅面（0.45）為準；中段（0.2）參考、椅腳（0）只記不算（手機玩家會點椅面）
         if 'occupied' not in tried.values():
-            R.check('[TAPSEAT %s #%d（%s, %s）] 點椅子（椅面／中段／椅腳任一處）走過去坐得到這一張' % (sid, k, seats[k - 1]['sx'], seats[k - 1]['sz']), ok, J(tried))
+            R.check('[TAPSEAT %s #%d（%s, %s）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：%s）' % (sid, k, seats[k - 1]['sx'], seats[k - 1]['sz'], J(tried)), tried.get('0.45') == 'ok', J(tried))
     R.note('[TAPSEAT %s] 結果 %s' % (sid, J(res)))
 
 
