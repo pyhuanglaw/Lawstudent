@@ -1208,3 +1208,11 @@
 [09:34:55] ==== START ART2_walls_old  (probe @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
 [09:34:58] [res] cpu=7% mem=46% (14.8/31.4 GB) chrome_testing=10  START ART2_walls_old
 [09:36:53] [res] cpu=2% mem=49% (15.5/31.4 GB) chrome_testing=10  END ART2_int_gg_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0ff906c9a..99e0556a9  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:37:00] ==== END   ART2_int_gg_new  exit=0  417s   ====
+[09:37:03] memory 47% before starting ART2_lmint_new (2 running)
+[09:37:03] ==== START ART2_lmint_new  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
+[09:37:06] [res] cpu=1% mem=43% (14.8/31.4 GB) chrome_testing=5  START ART2_lmint_new
+[09:37:38] [res] cpu=80% mem=44% (13.8/31.4 GB) chrome_testing=9  END ART2_walls_new
