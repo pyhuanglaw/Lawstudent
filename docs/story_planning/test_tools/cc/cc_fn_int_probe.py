@@ -47,6 +47,12 @@ CAMS = {   # 店裡的座標（FLOWER_NOTES_LAYOUT：10×14 m、房間中心在�
     'cam_2f':         {'eye': [0.4, Y1 + 1.6, 0.3], 'look': [0.3, Y1 + 1.4, -6.9], 'lens': 20},   # 參考圖 interior_2f：教室南邊（玻璃欄杆內）往後牆看
     'cam_2f_close_a': {'eye': [-0.9, Y1 + 1.6, -3.9], 'look': [-0.9, Y1 + 1.0, -5.5], 'lens': 45},   # 近拍：示範長桌上的花
     'cam_2f_close_b': {'eye': [-3.3, Y1 + 1.6, -4.4], 'look': [-3.3, Y1 + 1.2, -6.7], 'lens': 45},   # 近拍：花器層架
+    # FN2（BB 02:57，第 2 版）：中央展示台近拍（花瓣、包裝紙）、櫃台、二樓西牆落地窗（窗外）、黑板
+    'cam_display':    {'eye': [-0.4, 1.45, 5.3], 'look': [-0.4, 0.95, 3.5], 'lens': 38},     # 中央展示台 (-0.4,3.5) 3.2×1.5 h0.9，從入口那一側往北
+    'cam_display_cl': {'eye': [0.3, 1.35, 4.6], 'look': [-0.4, 0.95, 3.6], 'lens': 60},     # 展示台上的花束（看花瓣、包裝紙）
+    'cam_counter':    {'eye': [0.6, 1.55, 4.4], 'look': [3.4, 1.0, 4.4], 'lens': 32},       # 櫃台 x 3.05～3.7、z 2.6～6.2
+    'cam_2f_west':    {'eye': [2.6, Y1 + 1.6, -3.2], 'look': [-5.0, Y1 + 1.4, -3.2], 'lens': 24},   # 二樓西牆整面落地窗 z −6.7～0.3（窗外的景）
+    'cam_2f_board':   {'eye': [0.6, Y1 + 1.6, -2.6], 'look': [2.0, Y1 + 1.6, -6.9], 'lens': 32},   # 黑板（「看黑板」點 (2.0,−5.6)，二樓）
 }
 try:
     for k, v in json.loads(os.environ.get('FN_CAMS') or '{}').items(): CAMS.setdefault(k, {'lens': 24}).update(v)
@@ -183,8 +189,7 @@ async def part_old(pg, cdp):
     await F.shot(pg, cdp, 'fni_old_stall', {'eye': [o['cx'], 2.2, 18.2], 'look': [o['cx'], 0.9, o['cz']], 'lens': 24})
 
 
-async def part_door(pg, cdp):
-    tag = '[DOOR]'
+async def part_door(pg, cdp, tag='[DOOR]'):
     door = await street(pg, cdp, '進出')
     fb0 = (await D.st(pg))['fb']
     s = await go_in(pg, cdp, tag, joy=True)
@@ -231,7 +236,7 @@ async def part_loop(pg, cdp):
 async def part_shot1(pg, cdp):
     tag = '[SHOT1]'
     if not await ensure_lv(pg, cdp, tag, 0): return
-    for nm, lb in (('cam_1f', '一樓從入口往裡（對照 interior_1f.png）'), ('cam_stairs', '樓梯'), ('cam_1f_close_a', '一樓近拍：永生花層架'), ('cam_1f_close_b', '一樓近拍：鮮花花台')):
+    for nm, lb in tuple((k, l) for k, l in (('cam_display', 'FN2 一樓中央展示台'), ('cam_display_cl', 'FN2 展示台上的花（花瓣、包裝紙）'), ('cam_counter', 'FN2 櫃台')) if os.environ.get('FN2') == '1') + (('cam_1f', '一樓從入口往裡（對照 interior_1f.png）'), ('cam_stairs', '樓梯'), ('cam_1f_close_a', '一樓近拍：永生花層架'), ('cam_1f_close_b', '一樓近拍：鮮花花台')):
         await full_shot(pg, cdp, 'fni_%s' % nm[4:], cam(nm), lb)
     d = await pg.evaluate(DUP_JS)
     R.note('%s 這一區的 mesh %s 個（正式模型 %s）；同一個幾何用很多次的（前 15）：%s；InstancedMesh：%s' % (tag, d and d['meshes'], d and d['formal'], J(d and d['sharedGeom']), J(d and d['instanced'])))
@@ -272,7 +277,7 @@ async def part_down(pg, cdp, tag='[DOWN]'):
 async def part_shot2(pg, cdp):
     tag = '[SHOT2]'
     if not await ensure_lv(pg, cdp, tag, 1): return
-    for nm, lb in (('cam_2f', '二樓教室（對照 interior_2f.png）'), ('cam_2f_close_a', '二樓近拍：示範桌的花'), ('cam_2f_close_b', '二樓近拍：花器層架')):
+    for nm, lb in tuple((k, l) for k, l in (('cam_2f_west', 'FN2 二樓西牆落地窗（窗外）'), ('cam_2f_board', 'FN2 黑板')) if os.environ.get('FN2') == '1') + (('cam_2f', '二樓教室（對照 interior_2f.png）'), ('cam_2f_close_a', '二樓近拍：示範桌的花'), ('cam_2f_close_b', '二樓近拍：花器層架')):
         await full_shot(pg, cdp, 'fni_%s' % nm[4:], cam(nm), lb)
 
 
@@ -303,7 +308,7 @@ async def main():
         lay = await pg.evaluate(LAY_JS)
         if not R.check('這一版有花序室內（FLOWER_NOTES_LAYOUT、FN3）', bool(lay), ''): await b.close(); return
         CTX['lay'] = lay
-        steps = [('OLD', part_old), ('DOOR', part_door), ('LOOP', part_loop), ('SHOT1', part_shot1), ('UP', part_up), ('SHOT2', part_shot2), ('SEAT', part_seat)]
+        steps = [('OLD', part_old), ('DOOR', part_door), ('DOOR2', lambda pg_, cdp_: part_door(pg_, cdp_, '[DOOR 第 2 次（門口樹、花箱不擋）]')), ('LOOP', part_loop), ('SHOT1', part_shot1), ('UP', part_up), ('SHOT2', part_shot2), ('SEAT', part_seat)]
         for part, fn in steps:
             if part not in PARTS: continue
             try: await fn(pg, cdp)

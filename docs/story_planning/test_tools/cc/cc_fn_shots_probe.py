@@ -38,6 +38,8 @@ CAMS = {
     'sign':        {'eye': [0, 2.2, -6.0], 'look': [0, 4.3, 0.0], 'lens': 40, 'rel': [True, True]},       # 招牌近拍（改之前套件燈箱高 3.85 m，cc_gg_signs_probe.py）
     'view_mrt':    {'eye': [-33.0, 1.7, 9.0], 'look': [0, 4.0, 0.0], 'lens': 24, 'rel': [False, True]},   # 捷運公館站出口西邊人行道（出口 (−35.6, 11)）
     'view_gate':   {'eye': [0.0, 1.7, -40.0], 'look': [0, 4.0, 0.0], 'lens': 24, 'rel': [False, True]},   # 校門外（回到校園 (±5.3, −47.5)）
+    'door_props':  {'eye': [0, 1.6, -4.2], 'look': [0, 0.8, 0.6], 'lens': 18, 'rel': [True, True]},       # FN2：門口兩棵樹（±1.2, 0.3）和櫥窗下兩個花箱
+    'door_props_l': {'eye': [-5.5, 1.5, -2.5], 'look': [-1.0, 0.8, 0.4], 'lens': 26, 'rel': [True, True]},  # FN2：從西邊斜看門口的樹和花箱
     'view_arcade': {'eye': [-24.0, 1.7, 2.4], 'look': [0, 2.6, 2.4], 'lens': 20, 'rel': [True, True]},    # 騎樓走道中間往東看（G11 前緣 18.07＋2.4≈20.5；騎樓 z 19～22，柱子在 19.3 那一排）
 }
 try:
@@ -71,7 +73,7 @@ async def load_street(pg, cdp, h, g=None, why=''):
 async def part_ext(pg, cdp, g):
     for h, hs in HOURS:
         await load_street(pg, cdp, h, g, '：外觀')
-        for nm in ('ext_ref', 'ext_front', 'ext_obl'):
+        for nm in ('ext_ref', 'ext_front', 'ext_obl') + (('door_props', 'door_props_l') if os.environ.get('FN2') == '1' else ()):
             await snap(pg, cdp, 'fns_%s_%s' % (nm, hs), cam_of(nm, g), '%s %s' % (nm, hs))
 
 
