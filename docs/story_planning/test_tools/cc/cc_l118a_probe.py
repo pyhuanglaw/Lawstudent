@@ -14,7 +14,10 @@ PARTS（逗號分隔；店相關的可以加 _<店 id>，座位可以再加 _<�
   DRINK         兩間飲料店：互動點、搖桿沿人行道和路邊來回走（擋不擋路）、站窗口按鈕、買一杯；118 巷導航格存檔（拼圖時和舊版比）
   LANEWALK      14:00、20:00 各一輪（HOURS 可改）：從巷底（後門）搖桿走到巷口、再走回來；每趟 4 張【遊戲鏡頭】；巷子中間 6 秒幀率
   CORNERS       四角＋最裡面各一張【遊戲鏡頭】（CAMDIAG2 判準；看得到人＝吊牌、隔間沒擋住玩家）；辛亥韓食、五湖四海最裡面鏡頭每 45° 一張轉一圈（煮水餃區整組淡出怪不怪；SPIN=1 其他店也轉）；最後走回出口、出店
-  SEATS         每張椅子：搖桿走到 seatApproach → 按「坐下」→ player.seat、位置／高度 → 穿模（骨頭連線射線打桌椅）→ 截圖 → 起身 → 搖桿四方向推得動 ≥0.3 m；
+  SEATS         （BB 07:13）走到 seatApproach 互動鍵被搶（不是坐下／坐吧檯／坐窗邊）時：0.4 m 內的 NPC（seat／seatTarget）、E.zone.seats 那一張的 taken、
+                那張的互動點（有沒有、hidden）、照 engine3d nearestInteractable 算的全部分數排序；沒人佔＝印「⚠空椅子被搶」＋截圖；再從椅子前後左右 0.5～0.7 m 各試一次。
+                五湖四海 (0.5,−0.9)：從椅子後面 (0.5,−1.5) 搖桿走近，記互動鍵與分數（有人坐就【捷徑】換時間、再不行請路人離開，標清楚）。
+                每張椅子：搖桿走到 seatApproach → 按「坐下」→ player.seat、位置／高度 → 穿模（骨頭連線射線打桌椅）→ 截圖 → 起身 → 搖桿四方向推得動 ≥0.3 m；
                 高腳椅（seat.lift）另記骨盆（hips 骨頭）高度－椅面高度（0.47＋lift）、腳骨頭高度、小腿／腳線段有沒有打到吧台
   WALLWALK      沿牆（離房間邊 0.45 m 的長方形，每 1 m 一點，貼到人站得住的格子）搖桿走一圈，記卡住的點
   DOORS         街上「進○○」→ 店裡出生點 → 「離開○○」→ 街上站的位置；室內門 x 換算成街上 z（W 側 z＝店中心 z－門x、E 側 z＝店中心 z＋門x），標記圖【捷徑機位】
@@ -356,13 +359,96 @@ async def part_corners(pg, cdp, sid):
 
 
 # ------------------------------------------------------------------ 座位
+# 互動鍵分數：照 engine3d.js E.nearestInteractable（bc407bfc5）——座位有人坐（npc.seat 0.4 m 內；沒有 label 的座位再加 seatTarget）或 seat.taken 就跳過；
+#   範圍 R＝radius（沒有＝1.8）、分數＝距離－prio，範圍內分數最小的贏；人（talk）另算：2.2 m 內、分數＝距離－bias（目前最佳是座位或沒有＝0.5）。不含 tapPref（搖桿走過去沒有點地）
+SCORES = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, plv=P.lv|0;
+  const occ=st=>E.npcs.some(n=>n.seat&&(n.seat.lv|0)===(st.lv|0)&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.4)||(!st.label&&E.npcs.some(n=>n.seatTarget&&Math.hypot(n.seatTarget.x-st.x,n.seatTarget.z-st.z)<0.4));
+  const L=[]; for(const it of E.interactables){ const d=Math.hypot(it.x-o.x,it.z-o.z), R=it.radius||1.8; if(d>R+1.0) continue; const skip=it.hidden?'hidden':(it.seat&&(occ(it.seat)||it.seat.taken)?'occupied/taken':null);
+    L.push({label:it.label||'', at:[+it.x.toFixed(2),+it.z.toFixed(2)], seat:it.seat?[+it.seat.x.toFixed(2),+it.seat.z.toFixed(2)]:null, d:+d.toFixed(3), R:+R.toFixed(2), prio:it.prio||0, score:+(d-(it.prio||0)).toFixed(3), inR:d<R, skip}); }
+  L.sort((a,b)=>(a.skip?1:0)-(b.skip?1:0)||(b.inR-a.inR)||a.score-b.score);
+  const npcs=E.npcs.filter(n=>n&&n.talk&&!n.hidden).map(n=>({name:n.name||n.id, d:+Math.hypot(n.obj.position.x-o.x,n.obj.position.z-o.z).toFixed(2), yieldIt:!!n.yieldIt})).filter(n=>n.d<2.2);
+  const ni=E.nearestInteractable(); return {me:[+o.x.toFixed(2),+o.z.toFixed(2)], winner:ni?{label:ni.label, at:[+ni.x.toFixed(2),+ni.z.toFixed(2)]}:null, list:L.slice(0,10), npcs}; })()"""
+STEAL = r"""(([x,z])=>{ const E=GAME.E, Z=E.zone||{};
+  const who=(E.npcs||[]).filter(n=>n&&((n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.4)||(n.seatTarget&&Math.hypot(n.seatTarget.x-x,n.seatTarget.z-z)<0.4))).map(n=>({id:n.id||null, charId:n.charId||null, name:n.name||null, by:n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.4?'seat':'seatTarget', crowd:/crowd/i.test(String(n.id||'')+' '+String(n.charId||'')+' '+String(n.kind||'')+' '+String(n.src||''))||!!n.crowd||!!n.isCrowd, extra:!!n.isExtra}));
+  const zs=(Z.seats||[]).find(q=>Math.hypot(q.x-x,q.z-z)<0.05); const it=(E.interactables||[]).find(q=>q.seat&&Math.hypot(q.seat.x-x,q.seat.z-z)<0.05);
+  return {npcs:who, zoneSeat:zs?{taken:zs.taken==null?null:zs.taken, label:zs.label||null}:'沒有', interact:it?{label:it.label, hidden:!!it.hidden, radius:it.radius||null, at:[+it.x.toFixed(2),+it.z.toFixed(2)]}:'沒有'}; })"""
+SEATLAB = ('坐下', '坐吧檯', '坐窗邊')
+
+
+async def steal_diag(pg, cdp, t, sid, k, s, first):
+    """走到 seatApproach，互動鍵不是坐下類：記誰佔、taken、互動點、分數；再從前後左右各試一次。回傳坐得到的那一點或 None"""
+    sd = await pg.evaluate(STEAL, [s['sx'], s['sz']]); sc = await pg.evaluate(SCORES)
+    R.note('%s 互動鍵被搶：「%s」；0.4 m 內的人 %s；E.zone.seats %s；這張的互動點 %s' % (t, first, J(sd['npcs']), J(sd['zoneSeat']), J(sd['interact'])))
+    R.note('%s 分數排序（engine3d nearestInteractable 的算法：範圍內 距離－prio 最小的贏）：%s；2.2 m 內的人 %s；遊戲選的 %s' % (t, J(sc['list']), J(sc['npcs']), J(sc['winner'])))
+    empty = not sd['npcs'] and not (isinstance(sd['zoneSeat'], dict) and sd['zoneSeat'].get('taken'))
+    gone = not isinstance(sd['interact'], dict) or sd['interact']['hidden']
+    if gone or empty:
+        R.note('%s ⚠空椅子被搶%s（沒人佔、互動鍵是「%s」）' % (t, '（互動點不見或 hidden）' if gone else '', first))
+        await game_shot(pg, fn('seat', sid, H_INT, 'steal%d' % (k + 1), False), t, judge=False)
+        R.check('%s 空椅子在 seatApproach 沒有被別的互動搶走（有人佔不算）' % t, False, J({'interact': first, 'zoneSeat': sd['zoneSeat'], 'it': sd['interact']}))
+    else: R.note('%s 有人佔（不是 bug）' % t)
+    yaw = await pg.evaluate("(([x,z])=>{ const it=GAME.E.interactables.find(q=>q.seat&&Math.hypot(q.seat.x-x,q.seat.z-z)<0.05); return it?(it.seat.yaw||0):0; })", [s['sx'], s['sz']])
+    fx, fz = math.sin(yaw), math.cos(yaw); ok_dirs = []; good = None
+    for dname, ux, uz in (('前', fx, fz), ('後', -fx, -fz), ('左', fz, -fx), ('右', -fz, fx)):
+        pt = None
+        for r_ in (0.5, 0.6, 0.7):
+            x_, z_ = s['sx'] + ux * r_, s['sz'] + uz * r_
+            if await pg.evaluate("(([x,z])=>GAME.E.canStand(x,z,0.3,0))", [x_, z_]): pt = [round(x_, 2), round(z_, 2), r_]; break
+        if not pt: R.note('%s 從%s邊：0.5～0.7 m 站不住，沒試' % (t, dname)); continue
+        okw, tw, stw = await joy_walk(pg, cdp, pt[0], pt[1], 0.15, 30, '%s 從%s邊 %s' % (t, dname, pt))
+        b2 = await D.settle(pg); ni = await pg.evaluate(D.NEAR_IT)
+        mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
+        R.note('%s 從%s邊 %s m（站在 %s）：互動鍵「%s」%s' % (t, dname, pt[2], [b2['x'], b2['z']], b2['interact'], '＝這一張' if mine else ('（最近的是 %s）' % J(ni))))
+        if mine and b2['interact'].startswith(SEATLAB): ok_dirs.append(dname); good = good or pt
+    R.note('%s 坐得到的方向：%s' % (t, J(ok_dirs) if ok_dirs else '沒有'))
+    return good
+
+
+async def home_back_approach(pg, cdp, seats):
+    """LAWWW 用配置算出：五湖四海 (0.5,−0.9) 從椅子後面 (0.5,−1.5) 走近時，空椅子也會是「點餐」贏——搖桿從後面走近，記互動鍵與分數"""
+    t = '[SEATS home (0.5,-0.9) 從後面走近]'
+    s = next((q for q in seats if abs(q['sx'] - 0.5) < 0.05 and abs(q['sz'] + 0.9) < 0.05), None)
+    if not R.check('%s 配置裡有這一張' % t, bool(s), ''): return
+    occ_js = "(()=>(GAME.E.npcs||[]).filter(n=>n&&((n.seat&&Math.hypot(n.seat.x-0.5,n.seat.z+0.9)<0.4)||(n.seatTarget&&Math.hypot(n.seatTarget.x-0.5,n.seatTarget.z+0.9)<0.4))).map(n=>n.id||n.name))()"
+    for hh in (H_INT, 13.5, 12.0):
+        who = await pg.evaluate(occ_js)
+        if not who: break
+        R.note('%s %s 有人：%s → 換時間重新讀檔' % (t, hhmm(hh), J(who))); await at_shop(pg, cdp, 'home', hh + 0.01, '（%s 那張有人，換時間）' % t)
+    who = await pg.evaluate(occ_js)
+    if who:
+        n = await pg.evaluate("(()=>{ let k=0; for(const n of (GAME.E.npcs||[])){ if(n&&((n.seat&&Math.hypot(n.seat.x-0.5,n.seat.z+0.9)<0.4)||(n.seatTarget&&Math.hypot(n.seatTarget.x-0.5,n.seatTarget.z+0.9)<0.4))){ n.seat=null; n.seatTarget=null; n.hidden=true; if(n.obj) n.obj.visible=false; k++; } } return k; })()")
+        R.setup('%s 換時間還是有人（%s）：【捷徑】把坐那張的 %d 個 NPC 的 seat／seatTarget 清掉、藏起來（請路人離開）' % (t, J(who), n))
+    ok, tt, st = await joy_walk(pg, cdp, 0.5, -1.5, 0.15, 40, '%s 搖桿走到椅子後面 (0.5,−1.5)' % t)
+    R.check('%s 搖桿走到 (0.5,−1.5)（%s 秒）' % (t, tt), ok, J(st))
+    b0 = await D.settle(pg); sc0 = await pg.evaluate(SCORES)
+    R.note('%s 在 (0.5,−1.5)：互動鍵「%s」；分數 %s' % (t, b0['interact'], J(sc0['list'])))
+    m = await pg.evaluate(ME); d = math.hypot(0.5 - m['x'], -0.9 - m['z'])
+    while d > 0.62:
+        yaw = await pg.evaluate("GAME.E.cam.yaw"); fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw)
+        vx, vz = (0.5 - m['x']) / d, (-0.9 - m['z']) / d; sx, sy = vx * rx + vz * rz, -(vx * fx + vz * fz); mm = math.hypot(sx, sy) or 1
+        await L.joystick(pg, cdp, sx / mm * 18, sy / mm * 18, 250); m2 = await pg.evaluate(ME)
+        if math.hypot(m2['x'] - m['x'], m2['z'] - m['z']) < 0.02: break
+        m = m2; d = math.hypot(0.5 - m['x'], -0.9 - m['z'])
+    b1 = await D.settle(pg); sc1 = await pg.evaluate(SCORES)
+    R.note('%s 從後面搖桿走近到離椅子 %.2f m（%s）：互動鍵「%s」；分數 %s；遊戲選的 %s' % (t, d, [b1['x'], b1['z']], b1['interact'], J(sc1['list']), J(sc1['winner'])))
+    await game_shot(pg, fn('seat', 'home', H_INT, 'back_approach', False), t, judge=False)
+    R.check('%s 從椅子後面走近，空椅子的互動鍵是坐下類（不是「點餐」）' % t, b1['interact'].startswith(SEATLAB), J({'interact': b1['interact'], 'winner': sc1['winner']}))
+
+
 async def sit_one(pg, cdp, sid, k, s, res):
     t = '[SEATS %s #%d（%s, %s）]' % (sid, k + 1, s['sx'], s['sz'])
     occ = await pg.evaluate("(([x,z])=>(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.35))", [s['sx'], s['sz']])
     if occ: R.note('%s 有 NPC 坐著：遊戲不給坐，先跳過' % t); res[k] = 'occupied'; return
     tgt = s['ap'] or [s['x'], s['z']]; fb0 = (await D.st(pg))['fb']
     ok, tt, st = await joy_walk(pg, cdp, tgt[0], tgt[1], 0.3, 45, '%s 搖桿走到 seatApproach' % t)
-    b = await D.settle(pg); ni = await pg.evaluate(D.NEAR_IT)
+    b = await D.settle(pg)
+    for _ in range(4):
+        if b['interact']: break
+        await pg.wait_for_timeout(400); b = await D.st(pg)
+    if not b['interact'].startswith(SEATLAB):
+        good = await steal_diag(pg, cdp, t, sid, k, s, b['interact'])
+        if good: await joy_walk(pg, cdp, good[0], good[1], 0.15, 30, '%s 回到坐得到的那一邊' % t); b = await D.settle(pg)
+    ni = await pg.evaluate(D.NEAR_IT)
     mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
     if not mine:
         wc = await pg.evaluate(D.WIN_CELL, {'sx': s['sx'], 'sz': s['sz'], 'lv': 0, 'ap': tgt})
@@ -425,6 +511,8 @@ async def part_seats(pg, cdp, sid, rng):
     a, b = (rng if rng else (1, len(seats)))
     R.note('[SEATS %s] 座位共 %d 張（這一行測 #%d～#%d）：%s' % (sid, len(seats), a, b, J(seats)))
     res = {}
+    if sid == 'home' and any(abs(seats[k]['sx'] - 0.5) < 0.05 and abs(seats[k]['sz'] + 0.9) < 0.05 for k in range(a - 1, min(b, len(seats)))):
+        await home_back_approach(pg, cdp, seats); await at_shop(pg, cdp, sid, H_INT, '（從後面走近那一項做完，回到進門位置）')
     for k in range(a - 1, min(b, len(seats))):
         h = (await pg.evaluate(ME))['h']; z = (await pg.evaluate(ME))['zone']
         if h > H_INT + 0.75 or z != 'l118_' + sid: await at_shop(pg, cdp, sid, H_INT, '（時間 %.2f／區域 %s：重新讀檔回 %s）' % (h, z, hhmm(H_INT)))
