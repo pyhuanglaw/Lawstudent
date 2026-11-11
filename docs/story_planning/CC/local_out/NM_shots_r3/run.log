@@ -1,0 +1,85 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_shots_r3\out
+CC NM1 夜市：PARTS SHOTS；SHA e8918a013；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 （讀配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2100 (-6.10,-16.50) （玉皇大帝 前面 1.9 m）
+PASS [SHOTS st_corn 玉皇大帝 營業中 2100] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [  60.6s] [SHOTS st_corn 玉皇大帝 營業中 2100] 讀的那一刻 G.hour 21.0741、E.hour 21.0741；照 TZ3.stallOpen(G.hour) 應該 True；遊戲 isOpen True
+PASS [SHOTS st_corn 玉皇大帝 營業中 2100] 模型和時間同步：isOpen＝stallOpen(G.hour)＝True（open visible True、closed visible False）  {"gh": 21.0741, "eh": 21.0741, "expect": true, "isOpen": true, "openVis": true, "closedVis": false}
+  [  60.6s] [SHOTS st_corn 玉皇大帝 營業中 2100] 外框中心 open [-3.965, 1.442, -16.532]、closed [-4.2, 1.452, -16.5]，水平差 0.237 m（open 大小 [1.53, 2.88, 3.24]、closed 大小 [1.1, 2.9, 2.58]）
+PASS [SHOTS st_corn 玉皇大帝 營業中 2100] 開、收兩個模型的 position／rotation／scale 完全一樣（BB 00:14：攤子不能跳位置）  {"open": {"p": [-4.2, 0, -16.5], "r": [0, -1.5708, 0], "s": [1, 1, 1]}, "closed": {"p": [-4.2, 0, -16.5], "r": [0, -1.5708, 0], "s": [1, 1, 1]}}
+  [  60.6s] [SHOTS st_corn 玉皇大帝 營業中 2100] ★ 開、收兩個模型外框中心水平差 0.237 m（>5 cm；兩個模型擺的 position 一樣，差的是外形：收攤的外框比較小、偏一邊——照片 nm_st_corn_收攤後_正面 對照）
+  [  60.6s] [SHOTS st_corn 玉皇大帝 營業中 2100] 外框中心離配置位置 (-4.20,-16.50)：open 0.24 m
+  [  60.6s] [SHOTS st_corn 玉皇大帝 營業中 2100] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [  65.9s] [SHOTS st_corn 玉皇大帝 營業中 2100] 互動：鍵「看玉皇大帝」→ ["（黑", "（黑底金字的大招牌：「玉皇大帝　炭烤玉米」。招牌上的玉米戴著皇冠和墨鏡。）", "（炭火是紅的。老闆一手轉玉米，一", "（炭火是紅的。老闆一手轉玉米，一手刷醬，刷了一層又一層。攤子前面寫：「一口玉米　封神上癮！」）", "要等一下，玉米不能催。"]；選項 [["炭烤玉米・經典原味　70 元", "炭烤玉米・蒜香厚醬　70 元", "炭烤玉米・沙茶霸味　70 元", "炭烤玉米・椒麻嗆辣　70 元", "炭烤玉米・起司香濃　70 元", "炭烤玉米・檸檬椒鹽　70 元", "算了"]]（按的時候 G.hour 21.0767、模型 isOpen True）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1700 (-6.10,-16.50) （玉皇大帝 前面 1.9 m）
+PASS [SHOTS st_corn 玉皇大帝 開之前 1700] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [  78.6s] [SHOTS st_corn 玉皇大帝 開之前 1700] 讀的那一刻 G.hour 17.0732、E.hour 17.0732；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_corn 玉皇大帝 開之前 1700] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 17.0732, "eh": 17.0732, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [  78.6s] [SHOTS st_corn 玉皇大帝 開之前 1700] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [  81.0s] [SHOTS st_corn 玉皇大帝 開之前 1700] 互動：鍵「看玉皇大帝」→ ["（", "（黑色的帆布綁在攤車上。招牌上那根玉米還戴著墨鏡。）"]；選項 []（按的時候 G.hour 17.0753、模型 isOpen False）
+PASS [SHOTS st_corn 玉皇大帝 開之前 1700] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 0030+1 (-6.10,-16.50) （玉皇大帝 前面 1.9 m）
+PASS [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [  93.4s] [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 讀的那一刻 G.hour 24.5738、E.hour 24.5738；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 24.5738, "eh": 24.5738, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [  93.4s] [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [  95.4s] [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 互動：鍵「看玉皇大帝」→ ["（黑色的帆布綁在攤車上。招牌上那根玉米還戴著墨鏡。）"]；選項 []（按的時候 G.hour 24.5751、模型 isOpen False）
+PASS [SHOTS st_corn 玉皇大帝 收攤後 0030+1] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_corn] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2045 (-6.10,-21.50) （紹興炸豆腐 前面 1.9 m）
+PASS [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 108.1s] [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 讀的那一刻 G.hour 20.82、E.hour 20.82；照 TZ3.stallOpen(G.hour) 應該 True；遊戲 isOpen True
+PASS [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 模型和時間同步：isOpen＝stallOpen(G.hour)＝True（open visible True、closed visible False）  {"gh": 20.82, "eh": 20.82, "expect": true, "isOpen": true, "openVis": true, "closedVis": false}
+  [ 108.1s] [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 外框中心 open [-4.155, 1.373, -21.54]、closed [-4.405, 1.375, -21.755]，水平差 0.330 m（open 大小 [1.91, 2.75, 2.9]、closed 大小 [1.51, 2.75, 2.69]）
+PASS [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 開、收兩個模型的 position／rotation／scale 完全一樣（BB 00:14：攤子不能跳位置）  {"open": {"p": [-4.2, 0, -21.5], "r": [0, -1.5708, 0], "s": [1, 1, 1]}, "closed": {"p": [-4.2, 0, -21.5], "r": [0, -1.5708, 0], "s": [1, 1, 1]}}
+  [ 108.1s] [SHOTS st_stinky 紹興炸豆腐 營業中 2045] ★ 開、收兩個模型外框中心水平差 0.330 m（>5 cm；兩個模型擺的 position 一樣，差的是外形：收攤的外框比較小、偏一邊——照片 nm_st_stinky_收攤後_正面 對照）
+  [ 108.1s] [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 外框中心離配置位置 (-4.20,-21.50)：open 0.06 m
+  [ 108.1s] [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 113.2s] [SHOTS st_stinky 紹興炸豆腐 營業中 2045] 互動：鍵「看紹興炸豆腐」→ ["（", "（酒紅色的招牌，金色的字，旁邊掛一個寫著「紹興」的紅燈籠。攤子前面擺了兩個酒甕。）", "（還沒走近就聞到了。瀝油架上一排炸", "（還沒走近就聞到了。瀝油架上一排炸得金黃的豆腐。黑板寫：「炸豆腐 70　加泡菜 10」。）", "泡菜是自己醃的。"]；選項 [["炸豆腐　70 元", "炸豆腐加泡菜　80 元", "算了"]]（按的時候 G.hour 20.8221、模型 isOpen True）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1630 (-6.10,-21.50) （紹興炸豆腐 前面 1.9 m）
+PASS [SHOTS st_stinky 紹興炸豆腐 開之前 1630] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 125.6s] [SHOTS st_stinky 紹興炸豆腐 開之前 1630] 讀的那一刻 G.hour 16.5741、E.hour 16.5741；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_stinky 紹興炸豆腐 開之前 1630] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 16.5741, "eh": 16.5741, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 125.6s] [SHOTS st_stinky 紹興炸豆腐 開之前 1630] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [ 127.9s] [SHOTS st_stinky 紹興炸豆腐 開之前 1630] 互動：鍵「看紹興炸豆腐」→ ["（", "（酒紅色的帆布蓋住工作台。兩個酒甕還在原地，味道淡了很多。）"]；選項 []（按的時候 G.hour 16.5761、模型 isOpen False）
+PASS [SHOTS st_stinky 紹興炸豆腐 開之前 1630] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 0030+1 (-6.10,-21.50) （紹興炸豆腐 前面 1.9 m）
+PASS [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 140.3s] [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 讀的那一刻 G.hour 24.5742、E.hour 24.5742；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 24.5742, "eh": 24.5742, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 140.3s] [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 142.4s] [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 互動：鍵「看紹興炸豆腐」→ ["（", "（酒紅色的帆布蓋住工作台。兩個酒甕還在原地，味道淡了很多。）"]；選項 []（按的時候 G.hour 24.5759、模型 isOpen False）
+PASS [SHOTS st_stinky 紹興炸豆腐 收攤後 0030+1] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_stinky] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2015 (5.90,-27.50) （套圈圈 前面 1.9 m）
+PASS [SHOTS st_ring 套圈圈 營業中 2015] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 155.4s] [SHOTS st_ring 套圈圈 營業中 2015] 讀的那一刻 G.hour 20.3239、E.hour 20.3239；照 TZ3.stallOpen(G.hour) 應該 True；遊戲 isOpen True
+PASS [SHOTS st_ring 套圈圈 營業中 2015] 模型和時間同步：isOpen＝stallOpen(G.hour)＝True（open visible True、closed visible False）  {"gh": 20.3239, "eh": 20.3239, "expect": true, "isOpen": true, "openVis": true, "closedVis": false}
+  [ 155.4s] [SHOTS st_ring 套圈圈 營業中 2015] 外框中心 open [4.047, 1.125, -27.621]、closed [4, 1.105, -27.5]，水平差 0.130 m（open 大小 [1.85, 2.25, 2.64]、closed 大小 [1.7, 2.21, 2.3]）
+PASS [SHOTS st_ring 套圈圈 營業中 2015] 開、收兩個模型的 position／rotation／scale 完全一樣（BB 00:14：攤子不能跳位置）  {"open": {"p": [4, 0, -27.5], "r": [0, 1.5708, 0], "s": [1, 1, 1]}, "closed": {"p": [4, 0, -27.5], "r": [0, 1.5708, 0], "s": [1, 1, 1]}}
+  [ 155.4s] [SHOTS st_ring 套圈圈 營業中 2015] ★ 開、收兩個模型外框中心水平差 0.130 m（>5 cm；兩個模型擺的 position 一樣，差的是外形：收攤的外框比較小、偏一邊——照片 nm_st_ring_收攤後_正面 對照）
+  [ 155.4s] [SHOTS st_ring 套圈圈 營業中 2015] 外框中心離配置位置 (4.00,-27.50)：open 0.13 m
+  [ 155.4s] [SHOTS st_ring 套圈圈 營業中 2015] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 158.0s] [SHOTS st_ring 套圈圈 營業中 2015] 互動：鍵「看套圈圈」→ ["（", "（紅黃條紋的棚子。地上排著一整片玻璃瓶，有人丟了十個圈，一個都沒中。）"]；選項 []（按的時候 G.hour 20.3264、模型 isOpen True）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1700 (5.90,-27.50) （套圈圈 前面 1.9 m）
+PASS [SHOTS st_ring 套圈圈 開之前 1700] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 170.7s] [SHOTS st_ring 套圈圈 開之前 1700] 讀的那一刻 G.hour 17.0741、E.hour 17.0741；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_ring 套圈圈 開之前 1700] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 17.0741, "eh": 17.0741, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 170.7s] [SHOTS st_ring 套圈圈 開之前 1700] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [ 173.3s] [SHOTS st_ring 套圈圈 開之前 1700] 互動：鍵「看套圈圈」→ ["（", "（瓶子收進箱子了。棚子上蓋著帆布。）"]；選項 []（按的時候 G.hour 17.0767、模型 isOpen False）
+PASS [SHOTS st_ring 套圈圈 開之前 1700] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2300 (5.90,-27.50) （套圈圈 前面 1.9 m）
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 185.6s] [SHOTS st_ring 套圈圈 收攤後 2300] 讀的那一刻 G.hour 23.0739、E.hour 23.0739；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 23.0739, "eh": 23.0739, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 185.6s] [SHOTS st_ring 套圈圈 收攤後 2300] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 187.8s] [SHOTS st_ring 套圈圈 收攤後 2300] 互動：鍵「看套圈圈」→ ["（", "（瓶子收進箱子了。棚子上蓋著帆布。）"]；選項 []（按的時候 G.hour 23.0757、模型 isOpen False）
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_ring] walkFallbacks 0
+PASS 沒有 JS 例外  []
+ALL PASS
