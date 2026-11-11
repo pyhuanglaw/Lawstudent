@@ -5582,6 +5582,15 @@
    "task": "NIGHT-MARKET-1110",
    "kind": "json",
    "note": "X326 夜市十攤＋背景三攤的看、買：tools/story/import_night_market.py → src/data/night_market.js（NIGHT_MARKET）。店名、品名、價錢、台詞一字照稿；演出 src/night_market3d.js。算命不在夜市（另一間店「禮貌生財」，稿 AA_750，不在這一筆）。"
+  },
+  {
+   "path": "docs/story_planning/AA_750_limao.json",
+   "sha": "227db1c9e",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-10 交稿（D100b 稿就是定稿；使用者 X332「開始做，聊天免費」）",
+   "task": "LIMAO-SHOP-1110",
+   "kind": "json",
+   "note": "X332 禮貌生財上師：初次見面、四類聊天池、教授偶遇、身分揭曉、書房四個看的點：tools/story/import_limao.py → src/data/limao.js（LIMAO）。台詞一字照稿（orig:true＝使用者原句）；演出 src/limao3d.js。"
   }
  ]
 }
