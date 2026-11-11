@@ -505,7 +505,8 @@ await sec('Y8',async()=>{
 });
 await sec('Y9',async()=>{
   fresh('2026-11-14',13); H.FAMILIAR(YT); await spot(YT,'D10','D10.boat',0,['我請']);
-  check('Y9. 碧潭天鵝船「我請。」→「……下次我請。……嗯，謝謝。」照留（AA_694 拿掉句首、「。」後的「……」）',has(E694.strip('……下次我請。……嗯，謝謝。')),J(said()));
+  /* 2026-11-11（X324 語彤約會台詞重寫，AA 0a2136911；date_rewrite/yt_D10.json）：這一格的回覆改成「那下次我請。謝謝。」——選項「我請。」沒換字，y9 照舊拿它比 */
+  check('Y9. 碧潭天鵝船「我請。」→「那下次我請。謝謝。」（X324 語彤重寫的新句；原本「……下次我請。……嗯，謝謝。」不在了）',has('那下次我請。謝謝。')&&!has(E694.strip('……下次我請。……嗯，謝謝。')),J(said()));
   await spot(YT,'D10','D10.boat',1,[]);
   check('Y9. 下一次 remember 多一句旁白「（這次她先去付了錢。）」',adj(['上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。',NEW.Y9[0]])&&H.said[idx(NEW.Y9[0])].who===null,J(said()));
   fresh('2026-11-14',13); H.FAMILIAR(YT); await spot(YT,'D10','D10.boat',0,['今天坐']); await spot(YT,'D10','D10.boat',1,[]);
