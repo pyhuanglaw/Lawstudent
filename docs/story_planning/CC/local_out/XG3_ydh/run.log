@@ -1,0 +1,28 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XG3_ydh\out
+CC 汀州路 v1：PARTS INT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS [INT] 有 TZ_SHOPS_LAYOUT（室內配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 14.0 時 (5.4,5.8) （印得好 門口外面＝舊存檔站的位置）
+PASS [INT 印得好 1400] 舊存檔站在門口外面：站得住  {"zone": "tingzhou", "h": 14.06, "x": 5.4, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 印得好 1400] 街上有「進印得好」  {"label": "進印得好", "x": 7.3, "z": 5.75, "r": 1.6, "to": "tz_yindehao", "look": null, "tz": "yindehao", "tzd": null, "gate": false, "seat": false}
+  [  50.3s] 到達「[INT 印得好 1400] 走到「進印得好」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  53.6s] [INT 印得好 1400] 進店：6.17 秒後在 tz_yindehao（{"zone": "tz_yindehao", "h": 14.09, "x": 0, "z": 3, "free": true, "ent": false, "busy": false, "fb": 0}）
+PASS [INT 印得好 1400] 走進去：區域 tz_yindehao、站得住  {"zone": "tz_yindehao", "h": 14.09, "x": 0, "z": 3, "free": true, "ent": false, "busy": false, "fb": 0}
+  [  56.2s] [INT 印得好 1400] 正式模型：{"formal": true, "glb": true}
+  [  56.2s] [INT 印得好 1400] 角落挑點：從出生點擴散 436 點、x [-2.5, 2.25]、z [-4.25, 4.25]（房間 6.5×10.0；canStand True）→ [[-2.5, 4.25], [2.25, 4.25], [0.75, -3], [-2.5, -3.5]]
+PASS [INT 印得好 1400] 挑點有走進店裡（擴散範圍 z 跨過房間一半以上）  [-4.25, 4.25]
+  [  61.3s] 到達「[INT 印得好 1400] 走到角落 1 (-2.5,4.2)」附近（0.25 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  66.5s] 到達「[INT 印得好 1400] 走到角落 2 (2.2,4.2)」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  71.2s] 到達「[INT 印得好 1400] 走到角落 3 (0.8,-3.0)」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  73.8s] 到達「[INT 印得好 1400] 走到角落 4 (-2.5,-3.5)」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [INT 印得好 1400] 店裡走一圈（四個角落都走得到、沒有隱形牆）  {"pts": [[-2.5, 4.25], [2.25, 4.25], [0.75, -3], [-2.5, -3.5]], "miss": []}
+  [  74.3s] [INT 印得好 1400] 近拍 9 張（tz5close_yindehao_1400_*）
+  [  82.4s] [INT 印得好 1400] 店內 8 秒幀率 58.2 fps（PC GPU，不是 iPhone）
+PASS [INT 印得好 1400] 店裡有「離開印得好」  [{"label": "離開印得好", "x": 0, "z": 4.55, "r": 0.8, "to": "tingzhou", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}, {"label": "自助影印", "x": -1.9, "z": 1, "r": 1, "to": null, "look": "（印得好）", "tz": null, "tzd": null, "gate": false, "seat": false}, {"label": "櫃台（列印・裝訂）", "x": 0.6, 
+  [  93.9s] 到達「[INT 印得好 1400] 走到「離開印得好」」附近（0.27 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+PASS [INT 印得好 1400] 走出來：回到 tingzhou 門口外面（離 layout.out 0.00 m）、站得住  {"zone": "tingzhou", "h": 14.37, "x": 5.4, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 印得好 1400] 出來以後搖桿推得動（沒有卡在門口）  {"zone": "tingzhou", "h": 14.38, "x": -3.18, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 印得好 1400] walkFallbacks 0  {"zone": "tingzhou", "h": 14.38, "x": -3.18, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS 沒有 JS 例外  []
+ALL PASS

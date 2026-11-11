@@ -1758,3 +1758,10 @@
 [10:59:06] ==== START XG3_doorjoy  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
 [10:59:09] [res] cpu=1% mem=48% (15.1/31.4 GB) chrome_testing=9  START XG3_doorjoy
 [11:00:31] [res] cpu=21% mem=49% (16.1/31.4 GB) chrome_testing=10  END XG3_int
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       69e0b1500..9d6cb5e5c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:00:37] ==== END   XG3_int  exit=0  164s   ====
+[11:00:45] [res] cpu=9% mem=43% (13.8/31.4 GB) chrome_testing=5  END XG3_ydh
+[11:00:45] memory 44% before starting NM_cam_new (2 running)
+[11:00:45] ==== START NM_cam_new  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
