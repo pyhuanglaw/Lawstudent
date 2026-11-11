@@ -58,6 +58,8 @@ def main():
     js = ('/* 自動產生：tools/story/import_flirt.py（' + data['src'] + '）。不要手改，改企劃 AA_711 再重新匯入。\n'
           '   說點不一樣的（GIFT-FLIRT-1107；播放 src/flirt3d.js）*/\n'
           "'use strict';\nconst FLIRT_LINES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
+    import l118_fix772   # 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 給這個檔的幾列 old→new 疊在組好的文字上（tools/story/l118_fix772.py；白名單沒有那份稿＝不疊）
+    js = l118_fix772.layer_js(OUT, js, ROOT, allow)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

@@ -3,7 +3,7 @@
 只從劇情匯入白名單上的版本讀（tools/story/import_guard.py；docs/handoff/story_import_allow.json），不讀分支上的最新檔。
 字串照抄 AA_280 表格與引言（只拿掉 markdown 的 **、反引號）；營業時間、星期、學期拆成程式用的欄位。
 用法：python3 tools/lane118/import_lane118.py [--check]（--check：只比對，不寫檔；和現有的 lane118_shops.js 不同就結束碼 1）
-2026-11-11（L118-SHOPS-REDO-1111，AA_280 @93a507e77 的新寫法）：
+2026-11-11（L118-SHOPS-REDO-1111，AA_280 @ef7280917 的新寫法）：
 - 第 4 節標題下面多了一段「> **定稿（11-11）**：……」的說明：阿哲第一次的那四句只從「第一次」那一條底下的引言拿（原本從第 4 節開頭拿，會把那段說明當成一句話）。
 - 第一次去哪一間寫在選項那一行（「出遊排到 korea（清州刀削麵）」）：匯成 lunch.firstShop（原本程式寫死 noodle2）。
 - 外帶飲料店（店 id 開頭 drink_，使用者 11-11 規格的飲料店 A／B）：那一間多 drink:true（點了＝飲料 5 分鐘，不是一餐 40 分鐘）、takeout:true（不能內用、沒有室內）；其他店沒有這兩欄。

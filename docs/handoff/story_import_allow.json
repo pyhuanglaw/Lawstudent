@@ -1348,12 +1348,12 @@
   },
   {
    "path": "docs/story_planning/AA_280_118巷_店家菜單與午餐.md",
-   "sha": "93a507e77",
+   "sha": "ef7280917",
    "status": "approved",
    "approvedBy": "AA 2026-11-11 定稿（D109）；使用者 11-11 規格 docs/handoff/user_specs/L118_SHOPS_REDO_1111.md",
    "task": "L118-SHOPS-REDO-1111",
    "kind": "text",
-   "note": "93a507e77（AA 11-11 收尾：五湖四海改每天都開；AA_280、AA_721、AA_772、AA_771 統一這個 SHA）；前一版 6859e114f：L118-SHOPS-REDO-1111（USER_WANTS X338）九間店店名、類型、菜單、價錢全換＋兩間外帶飲料店 drink_a／drink_b；第 3、4 節照「照餐飲類型搬」（AA 先交 06715b81b，同一天再改：語彤週一留 dian、水上便當招呼的說話人改老闆、義大麵屋公休改週一＝6859e114f）。子代理代登（2026-11-11），給值班 LAWWW 核。",
+   "note": "ef7280917（AA 11-11 最終版，四份稿統一這個 SHA；AA_280 的內容和 93a507e77、d4ce20719 一樣：五湖四海改每天都開）；前一版 6859e114f：L118-SHOPS-REDO-1111（USER_WANTS X338）九間店店名、類型、菜單、價錢全換＋兩間外帶飲料店 drink_a／drink_b；第 3、4 節照「照餐飲類型搬」（AA 先交 06715b81b，同一天再改：語彤週一留 dian、水上便當招呼的說話人改老闆、義大麵屋公休改週一＝6859e114f）。子代理代登（2026-11-11），給值班 LAWWW 核。",
    "history": [
     {
      "sha": "719ac68a",
@@ -5557,14 +5557,35 @@
    ]
   },
   {
-   "path": "docs/story_planning/AA_721_l118_invite_acc.json",
-   "sha": "94ab0865e",
+   "path": "docs/story_planning/AA_772_l118_shops_redo_fix.json",
+   "sha": "ef7280917",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 09:27「INVITE-PLACES 第二批」）",
-   "task": "INVITE-PLACES-1107",
+   "approvedBy": "AA 2026-11-11 定稿（D109）；使用者 11-11 規格 docs/handoff/user_specs/L118_SHOPS_REDO_1111.md（故事照餐飲類型搬、慢讀咖啡整套搬到木曜日）",
+   "task": "L118-SHOPS-REDO-1111",
    "kind": "json",
-   "note": "118 巷七家店 × 七位 acc／firstAt；可昕不去好家自助餐（no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js",
+   "note": "ef7280917：118 巷九間店改版的修正稿（fix 117 列＋搬法表、店員、熟客三段、慢讀→木曜日、邀約地點、eat_lines、food_fav）；tools/story/l118_fix772.py 照稿換、產生 src/data/l118_redo772.js。子代理代登（2026-11-11），給值班 LAWWW 核。",
    "history": [
+    {
+     "sha": "d4ce20719",
+     "note": "被 ef7280917 取代（AA 照 BB 的審稿改了四列的 new：學姊 first、沛珊 acc A、沛珊 rule 兩句）。已經照這一版套進檔裡的那幾句，l118_fix772.py 會讀這一版的 new 當成可以接受的 old 再換成新的"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_721_l118_invite_acc.json",
+   "sha": "ef7280917",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-11 定稿（D109）；使用者 11-11 規格 docs/handoff/user_specs/L118_SHOPS_REDO_1111.md",
+   "task": "L118-SHOPS-REDO-1111",
+   "kind": "json",
+   "note": "ef7280917（AA 照 BB 的審稿改了五格：l118_home／l118_dian 語彤、l118_cafe2／l118_korea／l118_drink_a 芷若）：L118-SHOPS-REDO-1111（X338）118 巷十個位置 × 七位 acc／firstAt（新 key l118_cafe2、l118_drink_a、l118_drink_b；可昕不去大學食堂＝no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js。子代理代登（2026-11-11），給值班 LAWWW 核。",
+   "history": [
+    {
+     "sha": "94ab0865e",
+     "approvedBy": "AA-B D109（11-07 09:27「INVITE-PLACES 第二批」）",
+     "task": "INVITE-PLACES-1107",
+     "note": "被 d4ce20719 取代（118 巷九間店改版）。原本：118 巷七家店 × 七位 acc／firstAt；可昕不去好家自助餐（no）"
+    },
     {
      "sha": "b782e2c08",
      "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"

@@ -1,7 +1,7 @@
 /* 118 巷的店家、點餐台詞、常客、阿哲週一揪人。自動產生，不要手改：python3 tools/lane118/import_lane118.py
-   來源：docs/story_planning/AA_280_118巷_店家菜單與午餐.md@93a507e77（劇情匯入白名單）。字串照抄 AA_280。*/
+   來源：docs/story_planning/AA_280_118巷_店家菜單與午餐.md@ef7280917（劇情匯入白名單）。字串照抄 AA_280。*/
 const LANE118_SHOPS={
- "src": "docs/story_planning/AA_280_118巷_店家菜單與午餐.md@93a507e77",
+ "src": "docs/story_planning/AA_280_118巷_店家菜單與午餐.md@ef7280917",
  "closedLine": "（鐵門拉下來一半。門上貼著營業時間。）",
  "orderLine": "（你點了{品名}。）",
  "groupGreet": "幾位？……那邊那張可以坐。",

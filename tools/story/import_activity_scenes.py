@@ -99,6 +99,8 @@ def main():
     js = ('/* 自動產生：tools/story/import_activity_scenes.py（' + data['src'] + (f'；沛珊 {n755} 處照 {ps755.tag(ROOT, allow)}' if n755 else '') + '）。不要手改，改企劃 AA_708 再重新匯入。\n'
           '   一起活動第 1～N 次（吃飯、咖啡、電影、書店；播放 src/studyn3d.js STUDYN.act）*/\n'
           "'use strict';\nconst ACTIVITY_SCENES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
+    import l118_fix772   # 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 給這個檔的幾列 old→new 疊在組好的文字上（tools/story/l118_fix772.py；白名單沒有那份稿＝不疊）
+    js = l118_fix772.layer_js(OUT, js, ROOT, allow)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''

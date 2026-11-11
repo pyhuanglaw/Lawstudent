@@ -10,7 +10,7 @@
      H2～H9（S.H2…S.H9：和人一起來的招呼 S.withScene＝H3／H5／H7／H9，吃完的 H4／H6／H7，店員多說的 H2／H8；H4 記 ZHE_118_RANK，阿哲揪午餐的輪流照它排）。H2b 作廢（AA_334 第 2 節），不做。
      存檔 G.l118＝{n:{店:來了幾次（點了東西才算、一天最多一次）}, d:{店:上次算的那天}, last:{店:上次點的}, w:{'人@店':{n,d0,d}}（一起吃的次數）, once:{H2…H9:哪一天}, rankAt}；舊存檔沒有＝從空的開始。
    - AA_480（企劃線 be47f6341，回實作後的六題）：「老樣子」上次點別的＝不帶菜名那一句（usual2）；118 巷九間和 AA_329 第 3 節合併（EAT.choose 的選項：不說第 5 次那一句、
-     店員主動問過就不加選單的「老樣子」、回答的說話人照 S.STAFF）；H7 兩個選項留到選了為止；阿哲輪流 home 改 self（S.LUNCH_FIX）；H9 的路＝交往中約她「去 Pasta 118 吃午餐」（S.INVITE）。
+     店員主動問過就不加選單的「老樣子」、回答的說話人照 S.STAFF）；H7 兩個選項留到選了為止；阿哲輪流 home 改 self（S.LUNCH_FIX）；H9 的路＝交往中約她「去義大麵屋吃午餐」（S.INVITE）。
    - 順手的事（AA_397，src/sideq3d.js）：點完餐最後叫 SIDEQ.atShop（慢讀咖啡、六張犁麵舖、好家自助餐、蛋包飯研究所；第二、三批 AA_404／405：滇香小館、巷口家常菜、Pasta 118、韓食小廚、一一八茶飲）；
      六張犁麵舖公休那兩週（SQ05）isOpen＝false、點餐＝門上那張紙；Pasta 118 做完 SQ12 的下學期起，一個人來的招呼換 SIDEQ.greet、她補一句 SIDEQ.greetMore。
    - 她們各自喜歡吃的（AA_410，src/foodfav3d.js）：點完自己的那一句之後 FAV.l118（一起來的常客＝也幫她點；一個人來滇香＝老闆娘那兩句，排在 AA_311 H8 之後、不同一天：S.ytHold）；選對的那一次常客吃完那一句不說。
@@ -95,14 +95,14 @@ const L118=(function(){
      「老樣子」說了菜名的五間（item）：上次點的不是那一樣＝不帶菜名的那一句（usual2，AA_480 第 1 節）；一一八茶飲的 {上次點的} 換成上次點的品名。
      和人一起來照舊是 AA_280 的「幾位？……」（熟客的招呼都是一個人的說法：Pasta「一位嗎？吧檯老位子。」），和 H3／H5／H7／H9 的人一起來換那一段。不加關係數值（店員不是人物）。
      '@'＝這間店的店員（S.STAFF）；null＝旁白 */
-  S.REG={ dian:{known:[['@','又來了喔。今天的椒麻雞我放少一點辣。']],usual:'一樣椒麻雞？',item:'椒麻雞飯',usual2:'跟上次一樣？'},
+  S.REG={ dian:{known:[['@','又來了喔。今天鐵板麵我多給你一點。']],usual:'一樣鐵板牛排？',item:'鐵板牛排',usual2:'跟上次一樣？'},
     self:{known:[['@','同學，自己夾喔。'],[null,'（她多看了你一眼。）']],usual:'一樣三菜一肉？',item:'自助餐（三菜一肉）',usual2:'一樣那幾樣？',exam:'考試喔？多夾一點，不加錢。'},
     tea:{known:[['@','甜度冰塊跟上次一樣嗎？']],usual:'{上次點的}，對吧。',exam:'考試週喔。……今天幫你多加一點冰塊，醒腦。'},
     home:{known:[['@','同學，排骨今天也剛炸好。']],usual:'一樣嗎？'},
     cafe2:{known:[['@','窗邊那張的插座是好的。']],usual:'一樣美式？',item:'美式咖啡',usual2:'一樣的？',exam:'今天人多，窗邊滿了。吧檯可以嗎？'},
-    pasta:{known:[['@','一位嗎？吧檯老位子。']],usual:'一樣白醬？',item:'白醬雞肉麵',usual2:'跟上次一樣？'},
+    pasta:{known:[['@','一位嗎？吧檯老位子。']],usual:'一樣奶油雞肉？',item:'奶油雞肉麵',usual2:'跟上次一樣？'},
     korea:{known:[['@','小菜可以續喔。……你知道了。']],usual:'一樣拌飯？',item:'石鍋拌飯',usual2:'一樣的？'},
-    omu:{known:[['@','歡迎回到本所。']],usual:'一樣的？……本所的熟客都這樣。'},
+    omu:{known:[['@','又是你。位子一樣靠牆？']],usual:'一樣的？我記得，不用講。'},
     noodle2:{known:[['@','大碗喔？']],usual:'大碗加蛋喔。'} };
   S.USUAL_OPTS=['好','看一下菜單'];
   const law=G=>!!G&&(G.stage||'law')==='law';
@@ -129,15 +129,15 @@ const L118=(function(){
   S.ate=function(G,id,shop){ const R=S.rec(G), k=id+'@'+shop, w=R.w[k]||(R.w[k]={n:0,d0:G.day,d:null}); if(w.d!==G.day){ w.n=(w.n|0)+1; w.d=G.day; } return w; };
   const once=(G,k)=>S.rec(G).once[k]!=null, mark=(G,k)=>{ S.rec(G).once[k]=G.day; };
   /* ---------- AA_311 第 3 節 H2～H9（第 5 節改過的字；都只演一次、不加數值；H2b 作廢）。台詞照抄；'@'＝這間店的店員、null＝旁白、人物 id＝那個人 ---------- */
-  S.H2={lines:[['店員','那個每次都點番茄醬蛋包飯的女生，這學期都沒來耶。']],
-    opts:[{t:'「她最近比較忙。」',say:[['店員','喔。那你跟她說，本所幫她留位子。']]},{t:'「……我也不知道。」',say:[[null,'（店員點點頭，沒有再問。）']]}]};
+  S.H2={lines:[['店員','那個每次都點可樂餅咖哩的女生，這學期都沒來耶。']],
+    opts:[{t:'「她最近比較忙。」',say:[['店員','喔。那你跟她說，靠牆那個位子我幫她留著。']]},{t:'「……我也不知道。」',say:[[null,'（店員點點頭，沒有再問。）']]}]};
   S.H3={lines:[['店長','窗邊那張有插座。她幫你留了。'],[null,'（以安把她的包從旁邊的椅子拿起來。）'],[AN,'你的筆電電池撐不過一節課。']]};
   S.H4={lines:[['zhe','欸，118 巷四間都吃過了。'],['zhe','我的排名：這間第一。……你的呢？']],shops:['noodle2','dian','korea',['self','home']],   /* 四間照阿哲輪流的店（AA_480 第 4 節：家常菜改好家；舊存檔和他吃過家常菜的也算那一間）*/
-    opts:[{t:'「這間第一。」',rank:'noodle2',say:[['zhe','英雄所見略同。老闆，他也是大碗。']]},{t:'「滇緬那間。」',rank:'dian',say:[['zhe','辣的喔……好，下禮拜去那間。']]},{t:'「韓式。」',rank:'korea',say:[['zhe','你被 Alison 洗腦了。']]}]};
+    opts:[{t:'「這間第一。」',rank:'noodle2',say:[['zhe','英雄所見略同。老闆，他也是大碗。']]},{t:'「牛排那間。」',rank:'dian',say:[['zhe','牛排喔……好，下禮拜去那間，我要點雙拼。']]},{t:'「韓式。」',rank:'korea',say:[['zhe','你被 Alison 洗腦了。']]}]};
   S.H5={lines:[['老闆','Alison 又帶朋友來了。小菜多一盤。']],three:[['老闆','三位？'],[null,'（他看了一下阿哲和 Alison 坐的位子。）'],['老闆','……兩位加一位。小菜一樣多一盤。']]};
   S.H6={lines:[[BH,'十二點四十了。'],[BH,'……今天等你五分鐘。']]};
-  S.H7={lines:[['老闆娘','妹妹今天也是番茄炒蛋？'],[XC,'……一樣。']],third:[[XC,'我發現我每次都點一樣的。……下次我想換。你幫我記著。']],
-    opts:[{t:'「她今天要換。」',key:'H7c',say:[[XC,'……排骨飯。'],['老闆娘','喔！難得！']]},{t:'（不說話）',say:[[XC,'……一樣。']]}]};   /* AA_480 第 3 節：老闆娘那句以後馬上兩個選項；沒選＝下一次一起來還會出，直到選了 */
+  S.H7={lines:[['老闆娘','妹妹今天也是高麗菜的？'],[XC,'……一樣。']],third:[[XC,'我發現我每次都點一樣的。……下次我想換。你幫我記著。']],
+    opts:[{t:'「她今天要換。」',key:'H7c',say:[[XC,'……韭菜的。'],['老闆娘','喔！難得！']]},{t:'（不說話）',say:[[XC,'……一樣。']]}]};   /* AA_480 第 3 節：老闆娘那句以後馬上兩個選項；沒選＝下一次一起來還會出，直到選了 */
   S.H8={lines:[['老闆娘','上次跟你一起來的那個妹妹，前幾天自己來，問我開店的事。'],['老闆娘','問了兩個小時，還寫筆記。我說我又不是名人。']],
     opts:[{t:'「她是社會系的。」',say:[['老闆娘','難怪。她問的我都沒想過。']]},{t:'「她問什麼？」',say:[['老闆娘','問我為什麼開在這裡。……我說房租便宜啊。她寫了一整頁。']]}]};
   S.H9={lines:[['老闆','兩位嗎？窗邊有位子。']],done:'（窗外的巷子有人牽著腳踏車經過。你們都沒有急著走。）'};
@@ -221,7 +221,7 @@ const L118=(function(){
   /* AA_480 第 4 節（企劃線 be47f6341）：AA_280 第 4 節的輪流排錯了（巷口家常菜週一休）——那一週改好家自助餐（週一到週五都開），阿哲那句換「自助餐 我需要吃菜」。
      資料檔照白名單上的 AA_280 匯入（import_lane118.py --check 對得上），這裡換掉；AA_280 改了重新匯入以後，資料有 self 就照資料 */
   S.LUNCH_FIX={from:'home',to:'self',text:'自助餐 我需要吃菜'};
-  /* L118-SHOPS-REDO-1111：這個換店只在「資料裡那一間週一真的沒開」的時候才換（原本的理由）；AA_280 @93a507e77 的輪流是 korea → dian → tea → home，五湖四海（home）週一有開＝照資料、不換。
+  /* L118-SHOPS-REDO-1111：這個換店只在「資料裡那一間週一真的沒開」的時候才換（原本的理由）；AA_280 @ef7280917 的輪流是 korea → dian → tea → home，五湖四海（home）週一有開＝照資料、不換。
      輪流裡街上還沒有位置的店（S.placed）跳過 */
   S.lunchFixOn=()=>{ const s=S.shop(S.LUNCH_FIX.from); return !!(s&&s.hours&&s.hours.closed.includes(1)); };
   S.baseRotation=()=>((D()&&D().lunch&&D().lunch.rotation)||[]).map(x=>S.lunchFixOn()&&x===S.LUNCH_FIX.from?S.LUNCH_FIX.to:x).filter(x=>S.placed(x));
@@ -254,11 +254,11 @@ const L118=(function(){
     const withs=['zhe']; const yp=typeof STORY!=='undefined'&&STORY.presence?STORY.presence('yu',G):{here:true}; if(yp.here!==false) withs.push('yu');
     F.L118_LUNCH={day,shop,with:withs};
     if(typeof OUT!=='undefined'&&!OUT.get(G,'l118_lunch_'+day)&&G.day<=day) OUT.plan(G,{id:'l118_lunch_'+day,ev:null,day,h:12.25,late:0.5,place:'118 巷',title:'中午 118 巷（'+s.name+'）',travel:'走路約 5 分鐘',travelH:1/12,goto:{zone:'lane118',x:d.x+(d.side==='W'?1.6:-1.6),z:d.z+1.2,yaw:d.yaw}}); };
-  /* ---------- AA_480 第 5 節：H9 的路——交往中的玩家，平日中午約她「去 Pasta 118 吃午餐」（邀約的「一起吃飯」那一類 kind:'meal'，src/invites3d.js）----------
+  /* ---------- AA_480 第 5 節：H9 的路——交往中的玩家，平日中午約她「去義大麵屋吃午餐」（邀約的「一起吃飯」那一類 kind:'meal'，src/invites3d.js）----------
      地點：l118_pasta；週一、二、四、五（週三休、平日，照 AA_280）11:30～14:00，約 12:10（S.timeOptions 的 times）。只有交往中、法律系那幾年列出來（show）。
      她答應的句子照現有的（AA_415 的表、表上沒有就系統的旁白），不另寫。見面（INV.meet）＝在店裡照 S.order 和她一起點餐（scene；ownMeal：時間、吃完那一句由點餐那一段處理）：
      H9 第一次「兩位嗎？窗邊有位子。」＋吃完那句旁白；之後照一般的「幾位？」、沒有旁白（AA_480 第 5 節）。不算正式校外約會（AA_311 H9）。兩個人一起坐下（seatPose）*/
-  S.INVITE={id:'pasta118',zone:'l118_pasta',name:'Pasta 118',verb:'去 Pasta 118 吃午餐',kind:'meal',minStage:'FAMILIAR',stay:40/60,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',ownMeal:true,
+  S.INVITE={id:'pasta118',zone:'l118_pasta',name:'Pasta 118',verb:'去義大麵屋吃午餐',kind:'meal',minStage:'FAMILIAR',stay:40/60,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',ownMeal:true,
     days:[1,2,4,5],hours:[11.5,14],times:[12+10/60],
     show:(G,id)=>law(G)&&id!=null&&dating(G,id),
     scene:async(GM,iv)=>{ await S.order(GM,'pasta',{with:[iv.who]}); } };
