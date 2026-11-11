@@ -1063,3 +1063,12 @@
 [02:56:55] ==== START N1_TSR_CAFEBAR  (probe @ b77af3a4fe6d348ae58337a1ce708442ef9ef458) ====
 [02:56:58] [res] cpu=87% mem=43% (13.7/31.4 GB) chrome_testing=10  START N1_TSR_CAFEBAR
 [02:59:22] [res] cpu=87% mem=46% (14.6/31.4 GB) chrome_testing=10  END N1_TSR_CAFEBAR
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5b006dd0e..364e91a22  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[02:59:27] ==== END   N1_TSR_CAFEBAR  exit=1  147s   ====
+[02:59:39] memory 43% before starting N1_STOOL_pasta (2 running)
+[02:59:39] ==== START N1_STOOL_pasta  (probe @ b77af3a4fe6d348ae58337a1ce708442ef9ef458) ====
+[02:59:42] [res] cpu=74% mem=43% (13.6/31.4 GB) chrome_testing=10  START N1_STOOL_pasta
+[03:01:16] 正在跑：N1_MOKU_PLANT（已跑 35 分／上限 90 分）、N1_TSR_CLASS（已跑 6 分／上限 15 分）、N1_STOOL_pasta（已跑 1 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:01:32] [res] cpu=72% mem=38% (12.2/31.4 GB) chrome_testing=5  END N1_TSR_CLASS
