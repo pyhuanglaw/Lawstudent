@@ -1,12 +1,3 @@
-[07:19:02] skip MT4_fb_b2 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_nofb_r2 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_later2_r2 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_old_later2_r2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[07:19:02] skip MT4_oo_r3 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_nofb_r3 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_oo_r4 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_nofb_r4 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_oo2805_r5 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
 [07:19:02] skip TZ4_scoot (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
 [07:19:03] skip TZ4_scoot_v2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
 [07:19:03] skip TZ4_scoot3 (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
@@ -1998,3 +1989,12 @@
 [13:06:38] ==== START CLASS12_crim_a  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
 [13:06:41] [res] cpu=3% mem=45% (13.8/31.4 GB) chrome_testing=4  START CLASS12_crim_a
 [13:08:54] [res] cpu=3% mem=49% (15.5/31.4 GB) chrome_testing=10  END PACK7_ss_front
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f1778a9aa..63de4eb2b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:09:01] ==== END   PACK7_ss_front  exit=0  209s   ====
+[13:09:03] 正在跑：CLASS12_const_b（已跑 2 分／上限 12 分）、CLASS12_crim_a（已跑 2 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:09:04] memory 49% before starting CLASS12_crim_b (2 running)
+[13:09:04] ==== START CLASS12_crim_b  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
+[13:09:07] [res] cpu=1% mem=49% (15.6/31.4 GB) chrome_testing=10  START CLASS12_crim_b
+[13:11:15] [res] cpu=0% mem=49% (15.6/31.4 GB) chrome_testing=10  END CLASS12_const_b
