@@ -1,7 +1,15 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-11 10:2x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 10:5x UTC）
+
+- 樓梯掃描：**LAWWW 10:07 ACK，整包（含引擎半步）放進這一版**；請 CC 走花序、總圖大廳、大口漢堡。
+- **P2（發版後整合）已做好、全部 Node 測試在跑**：`wip/l118_p2_1111/`（README、`l118_p2_v1.patch`、`bar_before_after.jpg`、`window_backs_before_after.jpg`）。基底 dev 0b2d9c4f08，在 1f510c273e 上 --3way 乾淨。①義大麵屋吧台：椅子往外 0.12（−1.80）＋前板往裡退 0.15（−2.40，檯面下托架、兩端側板），`L118_IT_FIX.pasta` 那五格 sit 拿掉（不拿 `l118_interact_reach_1111_unit` 第 0 項會紅）；②奈良咖哩、義大麵屋窗上海報背面：`l118_int_omu.py` 新的 `poster_backs()`（紙＋透過來左右相反的圖＋膠帶）、`street_back()`（位置照街上那一張換算；義大麵屋第一張原本放在街上沒有海報的地方）。測試全跑完就交 LAWWW。
+- LAWWW 10:07 要我看 queue 裡 LAWWW2「等待其他AI／素材」有沒有不用等的：59 項，和 11-10 的 `queue_audit_1110.md` 第三節一樣，都是等 CC 拍、BB 判（D120）或暫停；ZQ-C504-LAPTOP 是 LAWWW-B 判「現在不做」。沒有找到不用等的。
+- 這一輪學到的：①在遊戲裡拍店裡的東西前先看 http.server 是哪個資料夾開的（`readlink /proc/<pid>/cwd`）：8771 是 wt_ch、8791 才是 wt_bb，第一次拍錯成修改前；②`GAME.sitAt` 之後 3 秒左右遊戲會把人送出店（turbo），量骨頭、拍照要在 1 秒內；③剖面看膝蓋：`E.renderer.clippingPlanes=[new THREE.Plane(new THREE.Vector3(-1,0,0), x)]` 從側面拍（`$SP/p2/sect.js`）。
+- 工作目錄：`$SP/wt_bb`＝dev 0b2d9c4f08＋P2（staged）；`$SP/wt_ch`＝dev d8e8a9ea56＋樓梯掃描（已交）。
+
+## 交接（前一則｜帳號 A｜2026-11-11 10:2x UTC）
 
 - **全區多樓層樓梯掃描（STAIR-LEVEL-AUDIT-1111，LAWWW 09:41 派的 P1）已交**：`wip/stair_audit_1111/`（edf92bf53，基底 dev d8e8a9ea56，在 0b2d9c4f08 上 --3way 乾淨）。新測試 `tests/stair_levels_audit_1111_unit.js`（15 個多樓層區域、14 座共用的樓梯、336 趟：左中右 × 上下 × 走跑 × 30／10 fps，引擎真的 stepEntity）。找到三個：花序、總圖大廳的第 1 層一路開到樓梯底（木曜日 ② 那一類，照 2c962ad66 的寫法擋下半段）；大口漢堡跑步 10 fps 卡在樓梯頂下面（樓梯頂接牆、一整步落在牆裡）→ 引擎 stepEntity 加「試走半步」（引擎共用，LAWWW 不想發版前動引擎可以單獨退那一段 hunk）。全部 Node 測試 1287 支：1286 過＋bookstore 老警告。
 - 接下來（LAWWW 09:41 排的 P2，發版以後）：①義大利麵吧台的高腳椅膝蓋插進前板 5 cm（LAWWW 現在用 L118_IT_FIX 的 sit +0.12 m 墊著）→ 改 `tools/blender/env_second/l118_int_pasta.py`，椅子往外移或前板往內退；②omu、pasta 窗上海報的背面從店裡看是一大片米白長方形 → 背面貼圖或從裡面看不見。
