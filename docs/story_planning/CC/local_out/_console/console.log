@@ -1,14 +1,3 @@
-[07:19:02] skip MT4_arc_a (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_arc_b (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_fb_a (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_fb_b (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_c (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_d (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_zr (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_kxch (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
-[07:19:02] skip MT4_old_later2 (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[07:19:02] skip MT4_old_cd (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
-[07:19:02] skip MT4_arc_r2 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
 [07:19:02] skip MT4_fb_b2 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
 [07:19:02] skip MT4_nofb_r2 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
 [07:19:02] skip MT4_later2_r2 (already done on b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91)
@@ -1998,3 +1987,14 @@
        d6e992f77..746b4e022  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [13:06:25] ==== END   GOCLASS_userview_new  exit=0  651s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       746b4e022..f1778a9aa  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:06:32] ==== END   CLASS12_const_a  exit=1  288s   ====
+[13:06:35] memory 43% before starting CLASS12_const_b (2 running)
+[13:06:35] ==== START CLASS12_const_b  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
+[13:06:38] [res] cpu=3% mem=44% (13.7/31.4 GB) chrome_testing=4  START CLASS12_const_b
+[13:06:38] memory 43% before starting CLASS12_crim_a (2 running)
+[13:06:38] ==== START CLASS12_crim_a  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
+[13:06:41] [res] cpu=3% mem=45% (13.8/31.4 GB) chrome_testing=4  START CLASS12_crim_a
+[13:08:54] [res] cpu=3% mem=49% (15.5/31.4 GB) chrome_testing=10  END PACK7_ss_front
