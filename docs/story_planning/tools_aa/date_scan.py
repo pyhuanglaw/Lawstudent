@@ -1,6 +1,7 @@
 """校外約會台詞改完以後整批掃（AA 2026-11-11；BB_325、BB_326 的上限）：
   python3 docs/story_planning/tools_aa/date_scan.py <人物id> D01 D02 … [--old '保溫瓶|論文|研究室']
 每個地點列：爸媽幾次（上限 2）、12 字以內的短格幾格（下限 4）、兩句一格的比例（BB_326：一半上下，太高會變固定節拍）、「今天」幾格、可能是舊設定的字（--old 自己給；不給＝沛珊那一組）。
+語彤另外量（BB_328）：蘇姨＋秀琴姨＋我媽每個地點合計 2 格以內（同一件事的第一次＋再訪算一對）、茶屋 2 格以內、她「數東西」（幾秒、幾次、幾個）2 格以內；超過的列出來。
 最後列跨地點一模一樣的句子、整批的每格句數分布、「上次」開頭、收尾講「明天」幾處（整份稿三處以內）。讀 date_system/lines（含沒動的舊格）。"""
 import re,collections,subprocess,sys
 a=sys.argv[1:]; old='早餐店|蛋餅|好貴|問題|不用回答|課本|太貴'
@@ -28,6 +29,20 @@ for k,v in D.items():
     if len(par)>2:
         for i,t in par: print('    ',i,t)
     for i,t in oldh: print('    舊字？',i,t)
+    if who=='heroine_03':
+        ppl=[(i,t) for i,key,t in v if re.search('蘇姨|秀琴姨|我媽|^媽媽|，媽媽說',t)]
+        tea=[(i,t) for i,key,t in v if '茶屋' in t]
+        num=[(i,t) for i,key,t in hers if re.search('(\\d+|[兩二三四五六七八九十百]+|半)(秒|分鐘|次|個(?!人在)|步|架|小時|遍|百個字)|數了|數到|算過|還要數',strip(t))]
+        hm=[(i,t) for i,key,t in hers if strip(t).startswith('嗯')]
+        msg=f'    家裡店裡的人 {len(ppl)}、茶屋 {len(tea)}、數東西 {len(num)}、嗯開頭 {len(hm)}'
+        over=len(ppl)>2 or len(tea)>2 or len(num)>2 or len(hm)>1
+        print(msg+(' ←' if over else ''))
+        if len(ppl)>2:
+            for i,t in ppl: print('      人',i,t)
+        if len(tea)>2:
+            for i,t in tea: print('      茶屋',i,t)
+        if len(num)>2:
+            for i,t in num: print('      數',i,t)
     for i,key,t in hers:
         tot[nsent(t)]+=1; up+=strip(t).startswith('上次'); tom+=('closing' in key and '明天' in t)
     for i,key,t in v: allv[t].append((k,i))
