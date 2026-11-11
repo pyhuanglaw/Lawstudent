@@ -1875,3 +1875,11 @@
 [11:19:52] ==== START NM_cam_new_r2  (probe @ 811aa4c0f1b44b8ed62df03c88a85f3f2f8167da) ====
 [11:19:55] [res] cpu=1% mem=53% (16.8/31.4 GB) chrome_testing=9  START NM_cam_new_r2
 [11:21:03] [res] cpu=8% mem=53% (16.9/31.4 GB) chrome_testing=8  END LM_cam2_old_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a9825af49..3f009b0a5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:21:09] ==== END   LM_cam2_old_r2  exit=0  148s   ====
+[11:21:12] memory 54% before starting NM_cam_old (2 running)
+[11:21:12] ==== START NM_cam_old  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
+[11:21:15] [res] cpu=11% mem=54% (17.3/31.4 GB) chrome_testing=8  START NM_cam_old
+[11:21:47] [res] cpu=15% mem=46% (14.3/31.4 GB) chrome_testing=9  END NM_reach_old
