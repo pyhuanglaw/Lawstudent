@@ -1,0 +1,54 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YDH_fix\out
+CC 汀州路 v1：PARTS INT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS [INT] 有 TZ_SHOPS_LAYOUT（室內配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 14.0 時 (5.4,5.8) （印得好 門口外面＝舊存檔站的位置）
+PASS [INT 印得好 1400] 舊存檔站在門口外面：站得住  {"zone": "tingzhou", "h": 14.05, "x": 5.4, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 印得好 1400] 街上有「進印得好」  {"label": "進印得好", "x": 7.3, "z": 5.75, "r": 1.6, "to": "tz_yindehao", "look": null, "tz": "yindehao", "tzd": null, "gate": false, "seat": false}
+  [  48.7s] 到達「[INT 印得好 1400] 走到「進印得好」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  52.0s] [INT 印得好 1400] 進店：6.2 秒後在 tz_yindehao（{"zone": "tz_yindehao", "h": 14.09, "x": 0, "z": 3, "free": true, "ent": false, "busy": false, "fb": 0}）
+PASS [INT 印得好 1400] 走進去：區域 tz_yindehao、站得住  {"zone": "tz_yindehao", "h": 14.09, "x": 0, "z": 3, "free": true, "ent": false, "busy": false, "fb": 0}
+  [  54.5s] [INT 印得好 1400] 正式模型：{"formal": true, "glb": true}
+  [  54.5s] [INT 印得好 1400] 角落挑點：從出生點擴散 436 點、x [-2.5, 2.25]、z [-4.25, 4.25]（房間 6.5×10.0；canStand True）→ [[-2.5, 4.25], [2.25, 4.25], [0.75, -3], [-2.5, -3.5]]
+PASS [INT 印得好 1400] 挑點有走進店裡（擴散範圍 z 跨過房間一半以上）  [-4.25, 4.25]
+  [  59.7s] 到達「[INT 印得好 1400] 走到角落 1 (-2.5,4.2)」附近（0.25 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  64.9s] 到達「[INT 印得好 1400] 走到角落 2 (2.2,4.2)」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  69.5s] 到達「[INT 印得好 1400] 走到角落 3 (0.8,-3.0)」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  72.1s] 到達「[INT 印得好 1400] 走到角落 4 (-2.5,-3.5)」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  76.8s] 到達「[INT 印得好 1400] 走到指定點 (0.60,-4.00)」附近（0.35 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [INT 印得好 1400] 走到指定點 (0.60,-4.00)（之後要走得回出口）
+PASS [INT 印得好 1400] 店裡走一圈（四個角落都走得到、沒有隱形牆）  {"pts": [[-2.5, 4.25], [2.25, 4.25], [0.75, -3], [-2.5, -3.5]], "miss": []}
+  [  85.1s] [INT 印得好 1400] 店內 8 秒幀率 58.8 fps（PC GPU，不是 iPhone）
+PASS [INT 印得好 1400] 店裡有「離開印得好」  [{"label": "離開印得好", "x": 0, "z": 4.55, "r": 0.8, "to": "tingzhou", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}, {"label": "自助影印", "x": -1.9, "z": 1, "r": 1, "to": null, "look": "（印得好）", "tz": null, "tzd": null, "gate": false, "seat": false}, {"label": "櫃台（列印・裝訂）", "x": 0.6, 
+  [  85.1s] [INT 印得好 1400] 出店前（TRAPDIAG）：玩家 [0.33, -3.78]；E.pathTo 到出口 4 點 [[0.25, 4.1], [0.25, 4.3], [0.05, 4.5], [0, 4.55]]；四周 canStand 圖（. 站得住、+ 格子 free 但半徑 0.3 站不住、# 擋住、@ 玩家；每格 0.25 m，上＝−z）：
+#################
+#################
+#################
+#################
+#################
+#++++######++++++
+#++.+########++++
+#++.+###+####+###
++....+++@+###+###
+.....+++.+#######
+..........++##+++
+...........+##+..
+...........+##+..
+...........+##+..
+...........+##+..
+...........+##+..
+...........+##+..
+  [  85.2s] [INT 印得好 1400] TRAPDIAG：受測 SHA 8e33a0df8dfbb5330b1391d9c59164985dc264eb
+  [  86.8s] [INT 印得好 1400] TRAPDIAG 點地板 #1：目標（世界座標）(0.00,4.55)；點之前 [0.33, -3.78]；點到 null；0.6 秒後 path 0 點、P.target None；1.5 秒後在 [0.33, -3.78]（path 0）
+  [  88.3s] [INT 印得好 1400] TRAPDIAG 點地板 #2：目標（世界座標）(0.00,4.55)；點之前 [0.33, -3.78]；點到 null；0.6 秒後 path 0 點、P.target None；1.5 秒後在 [0.33, -3.78]（path 0）
+  [  89.9s] [INT 印得好 1400] TRAPDIAG 點地板 #3：目標（世界座標）(0.00,4.55)；點之前 [0.33, -3.78]；點到 null；0.6 秒後 path 0 點、P.target None；1.5 秒後在 [0.33, -3.78]（path 0）
+  [  91.4s] [INT 印得好 1400] TRAPDIAG 點地板 #4：目標（世界座標）(0.00,4.55)；點之前 [0.33, -3.78]；點到 null；0.6 秒後 path 0 點、P.target None；1.5 秒後在 [0.33, -3.78]（path 0）
+  [  92.9s] [INT 印得好 1400] TRAPDIAG 點地板 #5：目標（世界座標）(0.00,4.55)；點之前 [0.33, -3.78]；點到 null；0.6 秒後 path 0 點、P.target None；1.5 秒後在 [0.33, -3.78]（path 0）
+  [  95.0s] [INT 印得好 1400] TRAPDIAG 搖桿直接朝出口推 10 秒：從 [0.33, -3.78] 到 [-0.13, 4.27]（離出口 0.31 m）；軌跡 [[0.33, -3.78], [-0.13, 4.27]]
+  [  95.0s] 到達「[INT 印得好 1400] 走到「離開印得好」」附近（0.31 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [INT 印得好 1400] 走出來：回到 tingzhou 門口外面（離 layout.out 0.00 m）、站得住  {"zone": "tingzhou", "h": 14.39, "x": 5.4, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 印得好 1400] 出來以後搖桿推得動（沒有卡在門口）  {"zone": "tingzhou", "h": 14.4, "x": -2.97, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 印得好 1400] walkFallbacks 0  {"zone": "tingzhou", "h": 14.4, "x": -2.97, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS 沒有 JS 例外  []
+ALL PASS
