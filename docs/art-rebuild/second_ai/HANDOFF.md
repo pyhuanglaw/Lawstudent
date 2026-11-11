@@ -1,13 +1,13 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-11 09:3x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 09:0x UTC）
 
-- **使用者 08:0x 把這個工作階段的模型換成 Opus 5.5**（`/model`）：commit 的署名行跟著改成 Opus 5.5。
+- **使用者 07:5x 把這個工作階段的模型換成 Opus 5.5**（`/model`）：commit 的署名行跟著改成 Opus 5.5。
 - 118 巷室內四間第 3 版：LAWWW 08:01 已整合（dev 6a76a9e58），交給 BB／CC 同機位重拍。之後只改擋玩的。
 - **泳池水面＋泳客高度（POOL-SWIM-LOOK-1110）已交**：`wip/pool_swim_look_1111/`（d58fa7ea3）。LAWWW 08:10：v9.10.25 發版以後才整合。腿灰白是水面蓋的（拿掉水面腿和手臂同色）；遊戲端換 b1_water 的材質、不重匯 gym_b1.glb；character3d.js 只動 C.GYM.swim（tilt 0＝原本）。
-- **季節布置第三批**：`wip/season_batch3_1111/`（WIP e2c7c708f，全部測試在跑，跑完就交）。四季水果、花序季節花（B2 放在花序，不是晨露花舖）、下雨天（照天氣）、元宵燈籠、中秋文旦禮籃和騎樓烤肉架（唯一有導航阻擋的）。看的互動點都 hidden（LAWWW：沒台詞不開）。
-- 下一包：季節攤販 A1～A6——LAWWW 08:10 定的：接夜市那一套（night_market3d.js），我給 key（sea_yam、sea_aiyu、sea_mooncake、sea_couplet、sea_bouquet、sea_textbook）、攤販站的位置、客人站的位置、擺攤日期；文字 AA 寫；招牌只寫賣的東西（D147）。
+- **季節布置第三批已交**：`wip/season_batch3_1111/`（READY_FOR_REVIEW；LAWWW：發版後整合）。四季水果、花序季節花（B2 放在花序，不是晨露花舖）、下雨天（照天氣）、元宵燈籠、中秋文旦禮籃和騎樓烤肉架（唯一有導航阻擋的）。看的互動點都 hidden（LAWWW：沒台詞不開）。
+- 再下一包：L118 dian、tea 的座位按鈕位置從 LAWWW 的 L118_IT_FIX 表（a2dd74af1）搬進 lane118_shops.py（LAWWW 08:48，任務 #47）；然後季節攤販 A1～A6——LAWWW 08:10 定的：接夜市那一套（night_market3d.js），我給 key（sea_yam、sea_aiyu、sea_mooncake、sea_couplet、sea_bouquet、sea_textbook）、攤販站的位置、客人站的位置、擺攤日期；文字 AA 寫；招牌只寫賣的東西（D147）。
 - 這一輪學到的（寫給下一班）：①引擎的「站得住」（NavGrid.clear）只看人的前後左右四個點，落地東西的阻擋要比東西大一圈（0.5 m 的格子就多一格），不然人可以斜站到東西邊上；`tests/season_deco_nav_unit.js` 會抓。②`wz_street.py --season` 會順手重寫 `textures/gen/wz_rows_atlas_wenzhou.jpg`，每次跑完要還原（不能用 `git checkout -- textures/gen/` 整個資料夾，會把自己要的也還原掉）。③頂點色網格會平滑＋合併重疊的頂點：一條一條板條＋角柱的木箱，匯出後邊不是兩個面，single_side 補反面，Cycles 整箱黑的——箱子做成一個封閉的箱身＋貼在外面的深色薄片。④在遊戲裡拍：這台機器只有 Node 的 Playwright（`require('playwright')`），沒有 Python 版；拍照腳本 `$SP/pool/shot.js`（包 E.render 直接擺鏡頭）。
 - 工作目錄：`$SP/wt_ch`＝dev 2d3e3abc8b＋泳池（已交）；`$SP/wt_bb`＝dev 0d7922555e＋季節第三批。
 

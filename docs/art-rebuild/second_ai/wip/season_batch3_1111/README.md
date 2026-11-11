@@ -1,6 +1,6 @@
 # 季節、節日的布置 第三批：四季的水果、花序的季節花、下雨天、元宵、中秋（LIFE-DETAILS-SEASONAL-1110；LAWWW2 帳號 A，2026-11-11）
 
-狀態：**WORK_IN_PROGRESS**（相關測試都過；全部 Node 測試在跑）。LAWWW 08:10：**v9.10.25 發版以後才整合**。預覽是 Blender，不是遊戲截圖（D131）；**遊戲畫面沒看過**。
+狀態：**READY_FOR_REVIEW**（2026-11-11 09:0x UTC）。LAWWW 08:10：**v9.10.25 發版以後才整合**。預覽是 Blender，不是遊戲截圖（D131）；**遊戲畫面沒看過**。
 
 - patch：`season_batch3_v1.patch`（10 個檔，基底 dev `0d7922555e`）：`src/data/season_deco.js`、`src/season_deco3d.js`、`tools/blender/env_second/season_deco.py`、兩顆季節模型（`season_wenzhou.glb`、`season_gongguan.glb`＋json）、`tests/season_deco_unit.js`、新的 `tests/season_deco_nav_unit.js`、`LICENSES.md`（季節布置以前沒有登記，這次補一列）。
 - **沒有動街景**：`wz_street.py`、`wz_shopkit.py`、`wenzhou_street.glb`、`gongguan_shops.glb` 都沒改（季節模型由 `wz_street.py --season` 產生，它會順手重寫 `textures/gen/wz_rows_atlas_wenzhou.jpg`，那個檔我每次都還原了，不在 patch 裡）；沒有動 `zones3d.js`。
@@ -34,7 +34,10 @@
   **改了兩個舊期望**（檔案裡寫了原本的期望和原因）：④ 平常日原本是 3/15、5/10、11/12——5/10 現在有枇杷、康乃馨，改成 3/25；⑩ 整顆模型原本 ≤ 12,000 個三角形——現在溫州街 1.3 萬、公館 2.6 萬，改成 ≤ 30,000（同一天只顯示其中幾組）。
 - 新的 `tests/season_deco_nav_unit.js`（不需要瀏覽器，建出遊戲真正的溫州街、公館，blocks 全部擋起來）：① 每個落地東西的腳印，站得住的人中心離它 ≥ 0.30 m；② blocks 附近 6 m 內站得到的 841 個點都走得到 6 m 外的騎樓（30、10 fps）；③ 擋以前走得到的互動點、座位，擋以後還走得到；④ 路人站點（`CROWD.SPOTS`）不和 blocks 重疊；⑤ 放回去以後導航和原本一模一樣。
   **修改前會失敗**：阻擋和烤肉架一樣大（x 26～27、z 21～21.5）時第 ① 項 FAIL（人斜站到離烤肉架 7 cm）；把模型載不到時的 `undo()`、`hidden` 拿掉，`season_deco_unit` 第 12 項兩條 FAIL。
-- 全部 Node 測試：在跑。
+- **全部 Node 測試 1282 支**（`regression_full.log`；跑之前 fetch 了企劃線）：1280 支 ALL PASS。另外兩支不是這一包造成的：
+  - `bookstore_exit_unit`：最後一行是 Node 讀不到網址的警告（結束碼 0），老樣子。
+  - `singleside_streets_unit` FAILED 2（lane118_street：大面的材質單面、三角形數 74,492 → 68,876）：基底 `0d7922555e` 已經含 LAWWW 那邊重匯的 118 巷街景（`a663433547`「街景模型重產——九間店玻璃後面換成新室內」），這一包沒有碰 `lane118_street.glb`。請 LAWWW 那邊改期望或重匯時處理。
+- 在最新 dev `33ccd6440c` 上試過 `git apply --3way`：乾淨、沒有衝突。
 
 ## 還沒做到的（照實寫）
 
