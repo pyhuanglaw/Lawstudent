@@ -55,6 +55,12 @@ L118D_E_TABLE | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_pl
 L118D_E_STORYBURST | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_planning/test_tools/cc/cc_l118d_e_probe.py | index.html | 10 | PARTS=STORYBURST;BURSTN=20;BURSTMS=150;SHA=b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa
 # BB 07:07 刑總第 7、13 週重匯（7c57ef63f，含在 b131eef2d）：more 新句、ask CRIM45_34／33、句數 ≤15
 CLASS12_crim_c | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 14 | PARTS=CLASS;COURSE=crim_gen1;WEEKS=7,13;SHA=b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa
+# BB 07:07 SEATMIX 九間×2／3／4 人（同桌或相鄰桌；路人數、有名字的 NPC、進門／淡出／坐下截圖）；MAIN、TABLE 用新判準＋路人數再跑一次
+L118D_E_SEATMIX_A | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_planning/test_tools/cc/cc_l118d_e_probe.py | index.html | 15 | PARTS=SEATMIX_A;SHA=b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa
+L118D_E_SEATMIX_B | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_planning/test_tools/cc/cc_l118d_e_probe.py | index.html | 15 | PARTS=SEATMIX_B;SHA=b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa
+L118D_E_SEATMIX_C | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_planning/test_tools/cc/cc_l118d_e_probe.py | index.html | 15 | PARTS=SEATMIX_C;SHA=b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa
+L118D_E_MAIN_r2 | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_planning/test_tools/cc/cc_l118d_e_probe.py | index.html | 10 | PARTS=MAIN;RERUN=r2;SHA=b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa
+L118D_E_TABLE_r2 | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_planning/test_tools/cc/cc_l118d_e_probe.py | index.html | 10 | PARTS=TABLE;RERUN=r2;SHA=b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa
 # CC 07:2x L118D H 重跑：點餐照真的互動點、坐著的人 8 方向找說話位置＋分數、樓梯卡住診斷（P0 候選）、按之前就開始記字、手機蓋住選單；BB 07:13 的座位被搶三樣
 L118D_H_B_r2 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118d_h_probe.py | index.html | 15 | PARTS=REG_AN,REG_YT;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/pt1107e_arcs_probe.py,docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/cc_fn_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json
 L118D_H_C_r2 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118d_h_probe.py | index.html | 15 | PARTS=REG_XC,REG_NW;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/pt1107e_arcs_probe.py,docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/cc_fn_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json
@@ -92,7 +98,6 @@ L118D_E_DRINK | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_pl
 L118D_E_DATE | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_planning/test_tools/cc/cc_l118d_e_probe.py | index.html | 8 | PARTS=DATE;SHA=b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa
 L118D_E_E10 | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_planning/test_tools/cc/cc_l118d_e_probe.py | index.html | 6 | PARTS=E10;SHA=b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa
 L118D_E_DATE_old | f247bc77f0a4db76579f4efee4aafbde519b02bf | probe | docs/story_planning/test_tools/cc/cc_l118d_e_probe.py | index.html | 8 | PARTS=DATE;SHA=f247bc77f0a4db76579f4efee4aafbde519b02bf
-#HOLD雲端 L118D_E_SEATMIX | b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa | probe | docs/story_planning/test_tools/cc/cc_l118d_e_probe.py | index.html | 20 | PARTS=SEATMIX;SHA=b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa
 # L118A 第三批（功能）：飲料店、門、四角、每張椅子、沿牆、巷子、窗景；舊版對照
 L118A_DRINK | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=DRINK;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
 L118A_DOOR_a | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=DOORS_dian,DOORS_self,DOORS_korea;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
