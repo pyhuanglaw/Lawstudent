@@ -1,29 +1,29 @@
-01:18:45 | INFO: Data are loaded, start creating Blender stuff
-01:18:45 | INFO: Blender create Mesh node L3_books
-01:18:46 | INFO: Blender create Mesh node L3_carpet
-01:18:46 | INFO: Blender create Mesh node L3_ceil
-01:18:46 | INFO: Blender create Mesh node L3_frame
-01:18:46 | INFO: Blender create Mesh node L3_glass
-01:18:46 | INFO: Blender create Mesh node L3_light
-01:18:46 | INFO: Blender create Mesh node L3_parquet
-01:18:46 | INFO: Blender create Mesh node L3_plaster
-01:18:46 | INFO: Blender create Mesh node L3_trim
-01:18:46 | INFO: Blender create Mesh node L3_vc
-01:18:46 | INFO: Blender create Mesh node L3_vcm
-01:18:46 | INFO: Blender create Mesh node L3_walnut
-01:18:46 | INFO: Blender create Mesh node L3_wood
-01:18:46 | INFO: Blender create Mesh node WALL_E
-01:18:46 | INFO: Blender create Mesh node WALL_N
-01:18:46 | INFO: Blender create Mesh node WALL_RE
-01:18:46 | INFO: Blender create Mesh node WALL_RN
-01:18:46 | INFO: Blender create Mesh node WALL_RW
-01:18:46 | INFO: Blender create Mesh node WALL_S
-01:18:46 | INFO: Blender create Mesh node WALL_W
-01:18:46 | INFO: Blender create Mesh node INST_chair_vc
-01:18:46 | INFO: Blender create Mesh node INST_lamp_vm
-01:18:46 | INFO: Blender create Mesh node INST_lounge_vc
-01:18:46 | INFO: Blender create Mesh node INST_lounge_vm
-01:18:46 | INFO: glTF import finished in 0.80s
+01:52:12 | INFO: Data are loaded, start creating Blender stuff
+01:52:12 | INFO: Blender create Mesh node L3_books
+01:52:13 | INFO: Blender create Mesh node L3_carpet
+01:52:13 | INFO: Blender create Mesh node L3_ceil
+01:52:13 | INFO: Blender create Mesh node L3_frame
+01:52:13 | INFO: Blender create Mesh node L3_glass
+01:52:13 | INFO: Blender create Mesh node L3_light
+01:52:13 | INFO: Blender create Mesh node L3_parquet
+01:52:13 | INFO: Blender create Mesh node L3_plaster
+01:52:13 | INFO: Blender create Mesh node L3_trim
+01:52:13 | INFO: Blender create Mesh node L3_vc
+01:52:13 | INFO: Blender create Mesh node L3_vcm
+01:52:13 | INFO: Blender create Mesh node L3_walnut
+01:52:13 | INFO: Blender create Mesh node L3_wood
+01:52:13 | INFO: Blender create Mesh node WALL_E
+01:52:13 | INFO: Blender create Mesh node WALL_N
+01:52:13 | INFO: Blender create Mesh node WALL_RE
+01:52:13 | INFO: Blender create Mesh node WALL_RN
+01:52:13 | INFO: Blender create Mesh node WALL_RW
+01:52:13 | INFO: Blender create Mesh node WALL_S
+01:52:13 | INFO: Blender create Mesh node WALL_W
+01:52:13 | INFO: Blender create Mesh node INST_chair_vc
+01:52:13 | INFO: Blender create Mesh node INST_lamp_vm
+01:52:13 | INFO: Blender create Mesh node INST_lounge_vc
+01:52:13 | INFO: Blender create Mesh node INST_lounge_vm
+01:52:13 | INFO: glTF import finished in 0.77s
 import 99 objects
 bake objects 14
 back faces dropped 0
@@ -67,59 +67,59 @@ saved C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_ou
 black faces collapsed 2041
 INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
 INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
-01:19:12 | INFO: Starting glTF 2.0 export
-01:19:12 | INFO: Extracting primitive: L3_books
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_carpet
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_ceil
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_frame
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_glass
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_light
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_parquet
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_plaster
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_trim
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_vc
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_vcm
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_walnut
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: L3_wood
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: INST_chair_vc
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: INST_lamp_vm
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: INST_lounge_vc
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: INST_lounge_vm
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: WALL_E
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: WALL_N
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: WALL_RE
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: WALL_RN
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: WALL_RW
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: WALL_S
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Extracting primitive: WALL_W
-01:19:12 | INFO: Primitives created: 1
-01:19:12 | INFO: Finished glTF 2.0 export in 0.5296297073364258 s
+01:52:41 | INFO: Starting glTF 2.0 export
+01:52:41 | INFO: Extracting primitive: L3_books
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_carpet
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_ceil
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_frame
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_glass
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_light
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_parquet
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_plaster
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_trim
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_vc
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_vcm
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_walnut
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: L3_wood
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: INST_chair_vc
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: INST_lamp_vm
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: INST_lounge_vc
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: INST_lounge_vm
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: WALL_E
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: WALL_N
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: WALL_RE
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: WALL_RN
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: WALL_RW
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: WALL_S
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Extracting primitive: WALL_W
+01:52:41 | INFO: Primitives created: 1
+01:52:41 | INFO: Finished glTF 2.0 export in 0.543175220489502 s
 
 exported C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BK2_cpu_s\out\d.glb
-PCBAKE {"scene": "library_3f_v2", "res": 512, "samples": 64, "total_seconds": 28.4, "images": {"day": {"mean": 0.1186, "p50": 0.0, "p95": 0.45437, "pixels": 262144}, "night": {"mean": 0.11384, "p50": 0.0, "p95": 0.46245, "pixels": 262144}}, "device": "CPU", "blender": "5.2.3 LTS", "bake_seconds": 21.0}
+PCBAKE {"scene": "library_3f_v2", "res": 512, "samples": 64, "total_seconds": 33.7, "images": {"day": {"mean": 0.1186, "p50": 0.0, "p95": 0.45437, "pixels": 262144}, "night": {"mean": 0.11384, "p50": 0.0, "p95": 0.46245, "pixels": 262144}}, "device": "CPU", "blender": "5.2.3 LTS", "bake_seconds": 22.1}
 Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
 
 Blender quit
