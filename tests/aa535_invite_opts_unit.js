@@ -60,11 +60,13 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
     const PS763_F='她在便利貼上畫了一隻打瞌睡的貓，貼到你的書上。';
     const M=[]; for(const id of Object.keys(SR)){ const m=((REL_LINES[id]||{}).meet||{}).slowread||{}; for(const k of ['A','F','R']) if(!m[k]||!(inSpec(m[k])||(id==='classmate_peishan'&&k==='F'&&m[k]===PS763_F))) M.push(id+'.'+k); }
     check('0. 見面旁白 meet.slowread（A／F／R）七位都有、照稿',M.length===0,J(M));
-    const sg=[SISG.STUDY_YES].concat(SISG.DECLINE_OFF,SISG.STUDY_OPTS,SLOWREAD.NARR,SLOWREAD.REGULARS.map(r=>r.hi)).filter(t=>!inSpec(t));
+    const sg=[SISG.STUDY_YES].concat(SISG.DECLINE_OFF,SISG.STUDY_OPTS,SLOWREAD.NARR||[],SLOWREAD.REGULARS.map(r=>r.hi)).filter(t=>!inSpec(t));
     check('0. 學姊兩句婉拒、那一起念書、答應句、慢讀旁白四句、常客招呼照稿',sg.length===0,J(sg)); }
   // ===== 1. 七位各約一次慢讀（第一次＋第二次）=====
   const IDS=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'], P=INV.place('slowread');
-  check('1. 慢讀咖啡是邀約地點：念書＋喝咖啡、喝茶兩類、有點熟以下（reason）、一個半小時、週二休、只在法律系',!!P&&P.zone==='l118_cafe2'&&J(INV.catsOf(P))===J(['study','sit'])&&P.kind==='reason'&&P.minStage==='ACQUAINTANCE'&&P.stay===1.5&&J(P.off)===J([2])&&P.show({stage:'law'})&&!P.show({stage:'econ'}),J(P));
+  /* （2026-11-11 L118-SHOPS-REDO-1111、AA_772 slowread_to_mokuyobi：慢讀咖啡整套搬到木曜日）——舊期望：區域 l118_cafe2、念書＋喝咖啡兩類、只在法律系（show 看 stage）、營業 09:00～18:00、時間平日 12:10／15:30、週末多 10:00／14:00。
+     新期望：區域 wz_mokuyobi、名字木曜日、只在念書那一類（坐坐是木曜日原本那個地點 mokuyobi）、走去過木曜日才列（不限法律系年級，AA 11-11 確認）、13:00～22:00、時間平日 15:30／19:00、週末 14:00／15:30／19:00 */
+  check('1. 地點 slowread 在木曜日：念書那一類、有點熟以下（reason）、一個半小時、週二休、走去過木曜日才列',!!P&&P.zone==='wz_mokuyobi'&&P.name==='木曜日'&&J(INV.catsOf(P))===J(['study'])&&P.kind==='reason'&&P.minStage==='ACQUAINTANCE'&&P.stay===1.5&&J(P.off)===J([2])&&P.show({stage:'law',visited:{wz_mokuyobi:1}})&&!P.show({stage:'law',visited:{}})&&P.memory==='SLOWREAD_TOGETHER',J(P));
   const sun=TD('Y1S2',4,7);   /* 週日（termDay 的星期 1～7）*/
   for(const id of IDS){ fresh(sun,9,id==='kexin'?{dating_kexin:true}:{}); know(id,id==='kexin'?S6:S4); const SR=INVITE_DATA.slowreadLines[id];
     let slot=null, day=sun; for(const h of [10,14]) if(slot==null&&INV.freeAt(G,id,P,sun,h)) slot=h; if(slot==null){ const a=INV.nextFree(G,id,P,sun,10); if(a){ slot=a.h; day=a.day; } }
@@ -101,11 +103,11 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
     check('2. 第 15 週約 Café：婉拒（換成兩句裡的一句）→「那一起念書。」／「不用了。」',a.L.some(t=>SISG.DECLINE_OFF.includes(t))&&a.opts.some(o=>J(o)===J(['那一起念書。','不用了。'])),J([a.L,a.opts.slice(-2)]));
     check('2. 選「那一起念書。」：平日＝同一個時間約到總圖、她說「好。我帶刑訴。……」',iv.who==='heroine_05'&&iv.place==='library'&&iv.state==='accepted'&&iv.by==='player'&&iv.day===w15+1&&iv.h===19&&a.L.includes(SISG.STUDY_YES),J([iv,a.L]));
     const sat=TD('Y1S1',15,6); fresh(sat-1,10,{met_sis:true}); know('heroine_05',S4);
-    const b=await ask('heroine_05',['喝咖啡','2:30 AM','明天 12:10','那一起念書。']); const iv2=(G.invites||[]).slice(-1)[0]||{};
-    check('2. 週末（週六 12:10）：約到慢讀咖啡',iv2.place==='slowread'&&iv2.day===sat&&b.L.includes(SISG.STUDY_YES),J([iv2,b.L]));
+    const b=await ask('heroine_05',['喝咖啡','2:30 AM','明天 19:00','那一起念書。']);   /* 舊期望：明天 12:10（木曜日 13:00 才開，改 19:00）*/ const iv2=(G.invites||[]).slice(-1)[0]||{};
+    check('2. 週末（週六 19:00）：約到木曜日（地點 slowread）',iv2.place==='slowread'&&iv2.day===sat&&b.L.includes(SISG.STUDY_YES),J([iv2,b.L]));
     fresh(w15,10,{met_sis:true}); know('heroine_05',S4); const c=await ask('heroine_05',['喝咖啡','2:30 AM','明天 19:00','不用了。']);
     check('2. 選「不用了。」：什麼都不發生',!(G.invites||[]).length,J(G.invites));
-    const sr=INV.personal(G,'heroine_05',P,TD('Y1S1',15,6),10,INV.decide(G,'heroine_05','slowread',TD('Y1S1',15,6),10));
+    const sr=INV.personal(G,'heroine_05',P,TD('Y1S1',15,6),14,INV.decide(G,'heroine_05','slowread',TD('Y1S1',15,6),14));   /* 舊期望：10:00（木曜日 13:00 才開，改 14:00）*/
     check('2. 第 15 週約慢讀（念書）：照常答應、念「好。我帶刑訴。……」',sr.res==='accept'&&J(sr.lines)===J([SISG.STUDY_YES]),J([sr.res,sr.lines]));
     G.hour=10; check('2. 第 14 週起校外照舊婉拒（S.dateDecline）',SISG.dateDecline(G)); }
   // ===== 3. 晚上在 Café 找學姊：選單有「約她去…」 =====
@@ -115,15 +117,15 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
   // ===== 4. 週二約慢讀：系統說週二休 =====
   { const mon=TD('Y1S2',4,1); fresh(mon-6,10); know('heroine_01',S4);
     const tue=mon+1, r=INV.decide(G,'heroine_01','slowread',tue,15.5), t=INV.reply(G,'heroine_01','slowread',r);
-    check('4. 週二約慢讀：約不成（closed），系統說「慢讀咖啡週二休。」',r.res==='resched'&&r.why==='closed'&&/^慢讀咖啡週二休。/.test(t),J([r,t]));
-    const a=await ask('heroine_01',['念書','慢讀','其他日子',/（週二）$/,'15:30','換一天','返回','算了']); const tl=a.full.find(o=>o.some(x=>x.t==='15:30'&&x.dim))||[];
-    check('4. 其他日子選週二：時間都灰掉、小字「慢讀咖啡週二休」；選了說一樣的話',tl.length&&tl.filter(x=>x.t!=='換一天').every(x=>x.dim&&x.hint==='慢讀咖啡週二休')&&a.L.includes('慢讀咖啡週二休。'),J([tl,a.L]));
+    check('4. 週二約木曜日念書：約不成（closed），系統說「木曜日週二休。」',r.res==='resched'&&r.why==='closed'&&/^木曜日週二休。/.test(t),J([r,t]));
+    const a=await ask('heroine_01',['念書','木曜日','其他日子',/（週二）$/,'15:30','換一天','返回','算了']); const tl=a.full.find(o=>o.some(x=>x.t==='15:30'&&x.dim))||[];
+    check('4. 其他日子選週二：時間都灰掉、小字「木曜日週二休」；選了說一樣的話',tl.length&&tl.filter(x=>x.t!=='換一天').every(x=>x.dim&&x.hint==='木曜日週二休')&&a.L.includes('木曜日週二休。'),J([tl,a.L]));
     const wk=INV.timesOf(G,P,mon), we=INV.timesOf(G,P,TD('Y1S2',4,6));
-    check('4. 時間：平日 12:10、15:30；週末多 10:00、14:00',J(wk)===J([12+10/60,15.5])&&J(we)===J([10,12+10/60,14,15.5]),J([wk,we]));
-    check('4. 最晚 16:30 開始（18:00 關、坐一個半小時）',INV.slotOpen(G,P,mon,16.5)&&!INV.slotOpen(G,P,mon,17)&&!INV.slotOpen(G,P,mon,8.5)); }
+    check('4. 時間：平日 15:30、19:00；週末 14:00、15:30、19:00',J(wk)===J([15.5,19])&&J(we)===J([14,15.5,19]),J([wk,we]));
+    check('4. 最晚 20:30 開始（22:00 關、坐一個半小時）；13:00 以前沒開',INV.slotOpen(G,P,mon,20.5)&&!INV.slotOpen(G,P,mon,21)&&!INV.slotOpen(G,P,mon,12.5)); }
   // ===== 5. 經濟系那一年：選單沒有慢讀 =====
-  { const d=D('2024-10-07'); fresh(d,10,{},'econ'); check('5. 經濟系那一年：慢讀不列（show）',!P.show(G));
-    const ok=INVITE_DATA.places.filter(Q=>!Q.show||Q.show(G,'kexin')).map(Q=>Q.id); check('5. 經濟系那一年的地點清單沒有 slowread',!ok.includes('slowread'),J(ok)); }
+  { const d=D('2024-10-07'); fresh(d,10,{},'econ'); check('5. 經濟系那一年：走去過木曜日就列、沒去過不列（AA 11-11 確認不限法律系年級；舊期望：經濟系那一年不列）',P.show(G)&&!P.show(Object.assign({},G,{visited:{}})));
+    const ok=INVITE_DATA.places.filter(Q=>!Q.show||Q.show(G,'kexin')).map(Q=>Q.id); check('5. 經濟系那一年、去過木曜日：地點清單有 slowread（舊期望：沒有）',ok.includes('slowread'),J(ok)); }
   // ===== 6. 分類名稱（第 2 節）=====
   { const mon=TD('Y1S2',4,1); fresh(mon,10); know('heroine_01',{fam:10,trust:4,comf:2,npcRom:0,rom:0});
     const a=await ask('heroine_01',['算了']); const f=a.full[0]||[];
@@ -140,22 +142,21 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
   // ===== 7. 慢讀的常客（3-1）、招呼、旁白、路人 =====
   { const at=(id,day,h)=>{ const g=Object.assign({},G,{day,hour:h,weekday:wdOf(day),invites:[]}); const e=STORY.schedEnt(CHARACTERS[id],g); return e&&e.zone; };
     fresh(TD('Y1S2',4,1),9);
-    const r=[['heroine_01',TD('Y1S2',5,6),15],['heroine_03',TD('Y2S1',5,1),15],['classmate_xinci',TD('Y1S1',5,4),16],['pool_17',TD('Y1S2',5,5),11]].map(([id,d,h])=>[id,at(id,d,h)]);
-    check('7. 常客作息：以安大一下週六 15:00、語彤大二上週一 15:00、芯慈大一上週四 16:00、乃文大一下週五 11:00＝在慢讀',r.every(x=>x[1]==='l118_cafe2'),J(r));
+    const r=[['heroine_01',TD('Y1S2',5,6),15],['heroine_03',TD('Y2S1',5,1),15],['classmate_xinci',TD('Y1S1',5,4),16],['pool_17',TD('Y1S2',5,5),15]].map(([id,d,h])=>[id,at(id,d,h)]);
+    check('7. 常客作息：以安大一下週六 15:00、語彤大二上週一 15:00、芯慈大一上週四 16:00、乃文大一下週五 15:00（舊期望 11:00；AA_772 改 14～16）＝在木曜日（舊期望 l118_cafe2）',r.every(x=>x[1]==='wz_mokuyobi'),J(r));
     const no=[['heroine_01',TD('Y1S1',5,6),15],['heroine_01',TD('Y4S1',5,6),15],['heroine_03',TD('Y1S2',5,1),15],['classmate_xinci',TD('Y3S1',5,4),16]].map(([id,d,h])=>[id,at(id,d,h)]);
-    check('7. 不在那幾個學期的不排（以安大一上照 H3、大四；語彤大一下；芯慈大三）',no.every(x=>x[1]!=='l118_cafe2'),J(no));
-    check('7. 學姊不排',!(CHARACTERS.heroine_05.daily_schedule||[]).some(e=>e&&e.zone==='l118_cafe2'));
+    check('7. 不在那幾個學期的不排（以安大一上照 H3、大四；語彤大一下；芯慈大三）',no.every(x=>x[1]!=='wz_mokuyobi'),J(no));
+    check('7. 學姊不排',!(CHARACTERS.heroine_05.daily_schedule||[]).some(e=>e&&(e.slowread||e.zone==='wz_mokuyobi'&&e.act==='read')));
     const s=TD('Y1S2',5,6); fresh(s-2,10); know('heroine_01',S4); const hr=INV.personal(G,'heroine_01',P,s,14,INV.decide(G,'heroine_01','slowread',s,14));
     check('7. 以安常客時段（週六 14:00）約慢讀＝她本來就在（here）：「我已經在木曜日了。窗邊。」',hr.res==='here'&&J(hr.lines)===J(['我已經在木曜日了。窗邊。']),J([hr.res,hr.lines]));
-    fresh(s,15); G.zone='l118_cafe2'; know('heroine_01',S4); said=[]; const w={name:'沈以安'};
+    fresh(s,15); G.zone='wz_mokuyobi'; know('heroine_01',S4); said=[]; const w={name:'沈以安'};
     const g1=await SLOWREAD.greet(GM,w,'heroine_01'), g2=await SLOWREAD.greet(GM,w,'heroine_01'); const L=T();
     G.day=TD('Y2S1',6,6); G.weekday=6;   /* 大二上第 6 週週六（第 5 週週六是 10/10 國定假日）*/ said=[]; const g3=await SLOWREAD.greet(GM,w,'heroine_01');
     check('7. 招呼：常客時段在慢讀點她＝第一句「（小聲）你也來木曜日？窗邊那桌我先坐了。」，一學期一次、下一學期再一次',g1&&!g2&&g3&&J(L)===J(['「（小聲）你也來木曜日？窗邊那桌我先坐了。」']),J([g1,g2,g3,L]));
-    G.zone='l118_cafe2'; const n4=[0,1,2,3,4].map(()=>STORY.studyNarr(GM)); G.zone='cafe'; const nc=STORY.studyNarr(GM);
-    check('7. 玩家在慢讀讀書：旁白四句輪流（原本 done 那一句也在）；別的地方沒有',J(n4.slice(0,4))===J(SLOWREAD.NARR)&&n4[4]===SLOWREAD.NARR[0]&&SLOWREAD.NARR.includes('（你多坐了一會兒，把上午的筆記看完。）')&&nc==null,J(n4));
+    check('7. （AA_772 study_narr）慢讀的四句讀完旁白拿掉了：木曜日用它原本的四句（src/mokuyobi_sys3d.js）。舊期望：在 l118_cafe2 讀書四句輪流',SLOWREAD.NARR===undefined&&SLOWREAD.narr===undefined);
     const seats=[0,1,2,3,4,5,6].map(i=>({x:i,z:0,yaw:0,lv:0})).concat([{x:9,z:0,yaw:0,lv:0,lift:0.31}]), added=[];
     const E2={zone:{seats},npcs:[],player:{seat:null},addNPC(o){ added.push(o); this.npcs.push(o); return o; }};
-    fresh(TD('Y1S2',5,3),14); G.zone='l118_cafe2'; const k=SLOWREAD.addExtras({G,E:E2}), k2=SLOWREAD.addExtras({G,E:E2});
+    fresh(TD('Y1S2',5,3),14); G.zone='wz_mokuyobi'; const k=SLOWREAD.addExtras({G,E:E2}), k2=SLOWREAD.addExtras({G,E:E2});
     check('7. 路人兩到三位：坐桌位看書、不說話（沒有名字）、不坐吧檯、至少留兩個桌位；同一次不重複補',k>=2&&k<=3&&k2===0&&added.every(o=>o.name===''&&o.pose==='read'&&!o.seat.lift)&&seats.filter(st=>!st.lift&&!added.some(o=>o.seat===st)).length>=2,J([k,k2]));
     const E3={zone:{seats},npcs:[],player:{seat:null},addNPC(o){ this.npcs.push(o); return o; }}; fresh(TD('Y1S2',5,2),14); G.zone='l118_cafe2';
     check('7. 週二（公休）沒有路人',SLOWREAD.addExtras({G,E:E3})===0); }
