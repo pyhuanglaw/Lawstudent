@@ -1,0 +1,108 @@
+{
+ "5a": {
+  "why": "已經約了 heroine_01 慢讀念書 keep（第 51 天 15.5）",
+  "how": "quickSave",
+  "meta": {
+   "l118": {
+    "n": {
+     "cafe2": 1
+    },
+    "d": {
+     "cafe2": 29
+    },
+    "last": {
+     "cafe2": "今日蛋糕"
+    },
+    "w": {},
+    "once": {}
+   },
+   "mok": {
+    "n": 2,
+    "seats": {
+     "16": 1
+    },
+    "rain": {},
+    "chat": {
+     "t": null,
+     "k": 0
+    },
+    "first": 43,
+    "bh": 43,
+    "last": 16
+   },
+   "rank": null,
+   "tea": null,
+   "day": 50,
+   "hour": 9.55,
+   "money": 5000,
+   "zone": "lane118",
+   "x": 0,
+   "z": 0,
+   "lv": 0,
+   "iv": {
+    "id": "iv54",
+    "who": "heroine_01",
+    "place": "slowread",
+    "zone": "l118_cafe2",
+    "day": 51,
+    "h": 15.5,
+    "state": "accepted",
+    "label": "和沈以安約在慢讀咖啡",
+    "by": "player"
+   }
+  }
+ },
+ "5b": {
+  "why": "已經約了 heroine_01 慢讀念書 cancel（第 51 天 12.166666666666666）",
+  "how": "quickSave",
+  "meta": {
+   "l118": {
+    "n": {
+     "cafe2": 1
+    },
+    "d": {
+     "cafe2": 29
+    },
+    "last": {
+     "cafe2": "今日蛋糕"
+    },
+    "w": {},
+    "once": {}
+   },
+   "mok": {
+    "n": 2,
+    "seats": {
+     "16": 1
+    },
+    "rain": {},
+    "chat": {
+     "t": null,
+     "k": 0
+    },
+    "first": 43,
+    "bh": 43,
+    "last": 16
+   },
+   "rank": null,
+   "tea": null,
+   "day": 50,
+   "hour": 9.56,
+   "money": 5000,
+   "zone": "lane118",
+   "x": 0,
+   "z": 0,
+   "lv": 0,
+   "iv": {
+    "id": "iv54",
+    "who": "heroine_01",
+    "place": "slowread",
+    "zone": "l118_cafe2",
+    "day": 51,
+    "h": 12.166666666666666,
+    "state": "accepted",
+    "label": "和沈以安約在慢讀咖啡",
+    "by": "player"
+   }
+  }
+ }
+}
