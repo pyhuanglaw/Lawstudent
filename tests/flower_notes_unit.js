@@ -63,4 +63,19 @@ check('0. 樓梯的數字對得起來：階數 × 階高＝樓高、階數 × �
   { const inside=[]; for(const lv of [0,1]) for(const b of FN3.blocks(L,lv)) if(stand(b[0],b[1],lv,0.2)) inside.push(lv+':'+b.join('/')); check('5. 家具裡面站不住（展示台、櫃檯、花台、冷藏櫃、桌子…）',!inside.length,inside.slice(0,4).join(' ')); }
   { const d=L.display; check('5. 中央展示台四周繞得過去（入口 → 展示台後面 → 冷藏花櫃）',walk(SP,[d.x,d.z-d.d/2-0.8,0]).ok&&walk(SP,[0.1,-5.4,0]).ok&&walk(SP,[-3.4,-2.6,0]).ok); }
   check('6. 樓板資料給鏡頭（zone.slabs）扣掉樓梯開口；點樓梯＝走完這一跑（stairEnds）',(z.slabs||[]).length>=2&&z.walkMeshes.some(m=>m.userData.stairEnds),String((z.slabs||[]).length)); }
+/* 7. 美術第 2 版（BB 11-11 01:50 的六點；LAWWW2 帳號 A 11-11） */
+{ const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8'), py=rd('tools/blender/env_second/flower_notes_interior.py'), st=rd('tools/blender/env_second/wz_street.py'), kit=rd('tools/blender/env_second/wz_shopkit.py'), tex=rd('tools/blender/env_second/gg_shops6_tex.py');
+  let G={nodes:[],materials:[],images:[]}; try{ const d=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/flower_notes_interior.glb')), jl=d.readUInt32LE(12); G=JSON.parse(d.slice(20,20+jl).toString('utf8')); }catch(e){}
+  const nd=n=>(G.nodes||[]).find(q=>q.name===n), mats=(G.materials||[]).map(m=>m.name), WW=L.front.westWin2, cab=L.items1.find(i=>i.kind==='low_cabinet');
+  check('7. 室內的牆：米白暖色的平塗（fn_wall_cream），不是灰泥貼圖（fn_travertine）',mats.includes('fn_wall_cream')&&!mats.includes('fn_travertine'),mats.join(' '));
+  check('7. 花：一朵朵有花瓣（flower：外圈＋內圈＋花心）、花束有兩層包裝紙和蝴蝶結；一團花不再是幾顆球',/def flower\(c, x, y, z, r, cols/.test(py)&&/def leafq\(/.test(py)&&/兩層包裝紙/.test(py)&&/蝴蝶結/.test(py)&&!/blob\(c, x \+ math\.cos\(a\) \* rd, y \+ RR\.uniform\(-0\.25, 0\.45\) \* r/.test(py));
+  const dirOk=n=>{ const q=nd(n); return !!q&&q.extras&&JSON.stringify(q.extras.dir)==='[1,0,0]'; };
+  check('7. 二樓教室西牆整面落地窗：配置 front.westWin2（窗台離地 ≤ 0.2 m、到天花板下 ≤ 0.4 m、長 ≥ 6 m）；模型有玻璃、窗框、窗外的行道樹（WALL_L1_W_GLASS／FRAME／VIEW，dir 朝室內＝跟著西牆淡出）；窗景貼圖 fn_view2f',
+    !!WW&&WW.sill<=0.2&&WW.top<=0.4&&WW.z1-WW.z0>=6&&dirOk('WALL_L1_W_GLASS')&&dirOk('WALL_L1_W_FRAME')&&dirOk('WALL_L1_W_VIEW')&&(G.images||[]).some(i=>i.name==='fn_view2f'),JSON.stringify(WW));
+  check('7. 西牆原本擋住整面牆的高玻璃櫃改成窗前的矮櫃（高 ≤ 0.9 m；範圍沒變：導航一樣、站不進去）',!L.items1.some(i=>i.kind==='glass_cabinet')&&!!cab&&cab.h<=0.9&&cab.x0===-5.0&&cab.x1===-4.5&&cab.z0===-5.4&&cab.z1===-1.4&&(()=>{ loadZone('flower_notes'); return !stand(-4.75,-3.4,1,0.2); })());
+  const i11=st.indexOf("'G11': dict("), g11=i11>=0?st.slice(i11,st.indexOf('\n',st.indexOf('props=',i11))):''; let fp=[]; try{ fp=JSON.parse(rd('assets/models/env/second_ai/gongguan_shops.props.json')).props||[]; }catch(e){}
+  const tr=fp.filter(q=>q.tag==='gg_fn_tree'), bx=fp.filter(q=>q.tag==='gg_fn_box'), deep=tr.concat(bx).map(q=>22.0-q.rect[1]);
+  check('7. 外觀：牆改平塗的米白石材（wall_flat）、招牌重畫（gg_shops6_tex.fn_sign：深色字「花序｜Flower Notes」）、門口兩棵樹＋兩個長花箱（原型 p_fntree／p_fnbox）',
+    /wall_flat=True/.test(g11)&&(g11.match(/\('fn_tree'/g)||[]).length===2&&(g11.match(/\('fn_box'/g)||[]).length===2&&/def fn_sign\(/.test(tex)&&/t1 = '花序'; t2 = 'Flower Notes'/.test(tex)&&/def p_fntree\(/.test(kit)&&/def p_fnbox\(/.test(kit)&&/def gg_flatwall\(/.test(kit));
+  check('7. 樹和花箱的腳印寫進 props.json（各兩個），都貼著店面（凸進騎樓 ≤ 0.6 m：騎樓 3 m 還剩 2.4 m 走路）',tr.length===2&&bx.length===2&&deep.every(d=>d>0&&d<=0.6),deep.map(d=>d.toFixed(2)).join(' ')); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

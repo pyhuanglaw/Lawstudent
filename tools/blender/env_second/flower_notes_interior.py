@@ -21,6 +21,7 @@ src = open(os.path.join(L.ROOT, 'src/data/flower_notes_layout.js'), encoding='ut
 J = json.loads(src[src.index('{', src.index('const FLOWER_NOTES_LAYOUT=')):src.rindex('}') + 1])
 W, D, T, Y1, RY, ST = J['W'], J['D'], J['wallT'], J['floors'][1]['y'], J['roofY'], J['slabT']
 U, WL, SR, LD, FR, CT, DP = J['upper'], J['well'], J['stair'], J['landing'], J['front'], J['counter'], J['display']
+WW = FR.get('westWin2')   # 二樓教室西牆的落地窗（第 2 版）
 PI = math.pi; H0 = Y1 - ST   # 一樓（二樓樓板底下）的天花板高度
 GOLD, GOLD_D, STONE, STONE_D, OAK, OAK_D, CREAM = '#c9a86a', '#a88a52', '#ece6da', '#d9d1c2', '#cdb38c', '#b89a70', '#f3eee4'
 PINK, ROSE, LILAC, WHITE, PEACH, YEL, LEAF, LEAF_D = '#f0b8c4', '#e58aa0', '#b9a3d8', '#f6f1e8', '#f4cdb0', '#f0d264', '#5c8a4a', '#3f6a3a'
@@ -63,7 +64,7 @@ _tx = _nt.nodes.new('ShaderNodeTexImage'); _tx.image = bpy.data.images.load(os.p
 M = {
     'floor': L.pbr('fn_floor', 'granite_tile', tile=1.6, target='#e6e0d6', normal=0.2, maps=('diff', 'nor'), rough_value=0.32),       # 淺色石材地板（D112）
     'wood_floor': L.pbr('fn_wood_floor', 'laminate_floor_02', tile=1.8, target='#d9c3a0', normal=0.25, maps=('diff', 'nor'), rough_value=0.5),   # 二樓淺色木地板
-    'wall': L.pbr('fn_travertine', 'white_plaster_02', tile=2.4, target='#ece5d8', normal=0.2, maps=('diff', 'nor'), rough_value=0.7),  # 米白洞石色的牆
+    'wall': L.flat('fn_wall_cream', '#f4ecdd', rough=0.85),   # 第 2 版（BB 11-11 01:50：原本的灰泥貼圖在遊戲裡是灰色斑駁水泥）：米白暖色的平塗牆，和參考圖一樣乾淨
     'ceil': L.flat('fn_ceiling', '#f4f0e8', rough=0.95),
     'oak': L.pbr('fn_oak', 'walnut_veneer', tile=0.9, target=OAK, maps=('diff',), res=256, rough_value=0.5),
     'glass': L.flat('fn_glass', '#e6eeee', rough=0.05, alpha=0.14),
@@ -92,6 +93,19 @@ class Lv:
             m.finish(self.parent, uv=False, merge=False)
 
 
+def make_view():
+    """二樓窗外的景：參考圖 interior_2f.png 中間兩格窗（行道樹、對面的店、車）拉正、把窗框那幾欄用兩邊的顏色補掉、左右鏡射接四片 → textures/gen/fn_view2f.jpg（2048×512）"""
+    out = os.path.join(GEN, 'fn_view2f.jpg'); ref = os.path.join(L.ROOT, 'docs/handoff/user_specs/flower_notes_ref/interior_2f.png')
+    if not os.path.exists(ref): return out if os.path.exists(out) else None
+    im = Image.open(ref).convert('RGB'); px = im.load()
+    for (a, b) in ((398, 416),):   # 中間那根窗框
+        for xx in range(a, b):
+            t = (xx - a + 1) / (b - a + 1)
+            for yy in range(im.height): l_, r_ = px[a - 2, yy], px[b + 1, yy]; px[xx, yy] = tuple(int(l_[k] * (1 - t) + r_[k] * t) for k in range(3))
+    tile = im.transform((512, 512), Image.QUAD, (252, 78, 252, 520, 500, 500, 500, 132), Image.BICUBIC)   # 左上、左下、右下、右上
+    strip = Image.new('RGB', (2048, 512))
+    for i in range(4): strip.paste(tile if i % 2 == 0 else tile.transpose(Image.FLIP_LEFT_RIGHT), (i * 512, 0))
+    os.makedirs(GEN, exist_ok=True); strip.save(out, quality=88); return out
 C0, C1 = Lv(0, R0), Lv(1, R1)
 WALLS = {}
 def wallmesh(lv, side, dirv):
@@ -107,44 +121,81 @@ def ccyl(m, a, b, r, col, seg=10, r2=None, caps=True):   # 蓋掉 lane118_shops 
     bmesh.ops.rotate(m.bm, verts=res['verts'], cent=(0, 0, 0), matrix=Vector((0, 0, 1)).rotation_difference(d.normalized()).to_matrix()); bmesh.ops.translate(m.bm, verts=res['verts'], vec=(pa + pb) / 2)
     m.paint({f for v in res['verts'] for f in v.link_faces}, col)
 RR = random.Random(11)
-def blob(c, x, y, z, r, col, k=1.0):
-    """一顆小球（花、葉團）。直接拿 bmesh 回傳的頂點找面來上色——不能每顆都把整個網格的面做成集合（幾千顆會慢到跑不完）"""
-    bm = c.vc.bm; res = bmesh.ops.create_uvsphere(bm, u_segments=9, v_segments=5, radius=r); bmesh.ops.translate(bm, verts=res['verts'], vec=g2b(x, y, z))
-    c.vc.paint({f for v in res['verts'] for f in v.link_faces}, col, k)
+def blob(c, x, y, z, r, col, k=1.0, u=9, v=5):
+    """一顆小球（葉團、花心的底）。直接拿 bmesh 回傳的頂點找面來上色——不能每顆都把整個網格的面做成集合（幾千顆會慢到跑不完）"""
+    bm = c.vc.bm; res = bmesh.ops.create_uvsphere(bm, u_segments=u, v_segments=v, radius=r); bmesh.ops.translate(bm, verts=res['verts'], vec=g2b(x, y, z))
+    c.vc.paint({f for v_ in res['verts'] for f in v_.link_faces}, col, k)
+def _basis(n):
+    n = Vector(n).normalized(); u = n.cross(Vector((0.0, 0.0, 1.0)) if abs(n.z) < 0.9 else Vector((1.0, 0.0, 0.0))).normalized(); return n, u, n.cross(u)
+def flower(c, x, y, z, r, cols, n=(0, 1, 0), cup=0.4, seg=6):
+    """一朵花（第 2 版，BB 11-11 01:50「花是圓球插在棍子上，近看不像花」）：外圈 seg 片花瓣（風箏形、往上翹）＋內圈小一號、更直立的花瓣＋花心。
+    n＝花朝哪裡（遊戲座標）；cols＝(外圈, 內圈, 花心)。一朵約 30 個三角形，比原本一顆球（72）少"""
+    N, U_, V_ = _basis(n); O = Vector((x, y, z)); ph = RR.uniform(0, PI)
+    def P(a, rad, h): q = O + (U_ * math.cos(a) + V_ * math.sin(a)) * rad + N * h; return (q.x, q.y, q.z)
+    for (sg, r0, r1, h0, h1, wd, col, off) in ((seg, 0.1, 1.0, 0.0, cup, 0.95, cols[0], 0.0), (max(4, seg - 1), 0.05, 0.62, 0.06, cup + 0.42, 0.9, cols[1 % len(cols)], 0.5)):
+        for i in range(sg):
+            a = ph + (i + off) * 2 * PI / sg; da = PI / sg * wd; rm = r * (r0 + (r1 - r0) * 0.62); hm = r * (h0 + (h1 - h0) * 0.45)
+            c.vc.poly([P(a, r * r0, r * h0), P(a - da, rm, hm), P(a - da * 0.5, r * r1 * 0.96, r * h1), P(a + da * 0.5, r * r1 * 0.96, r * h1), P(a + da, rm, hm)], col, 0.9 + 0.14 * ((i * 7 + sg) % 5) / 4)   # 花瓣：尖端是平的（五邊形），比風箏形圓
+    ct = cols[2] if len(cols) > 2 else YEL; c.vc.poly([P(k * 2 * PI / 5, r * 0.16, r * (cup * 0.5 + 0.2)) for k in range(5)], ct, 0.95)
+def leafq(c, x, y, z, d, ln, wd=0.36, lift=0.25, col=None):
+    """一片葉子（風箏形）：從 (x, y, z) 往水平方向 d 伸出去 ln、往上翹 lift"""
+    dx, dz = math.cos(d), math.sin(d); px, pz = -dz, dx; w = ln * wd
+    c.vc.poly([(x, y, z), (x + dx * ln * 0.5 + px * w, y + ln * lift * 0.6, z + dz * ln * 0.5 + pz * w), (x + dx * ln, y + ln * lift, z + dz * ln), (x + dx * ln * 0.5 - px * w, y + ln * lift * 0.6, z + dz * ln * 0.5 - pz * w)], col or RR.choice((LEAF, LEAF_D)), RR.uniform(0.9, 1.08))
 def cluster(c, x, y, z, r, cols, n=14, leaf=True):
-    """一團花（幾顆小球＋葉子）"""
+    """一團花：n 朵排成半球（每朵朝外）、底下一顆深綠的葉團、周圍幾片葉子"""
+    blob(c, x, y - r * 0.22, z, r * 0.5, LEAF_D, 0.9, u=7, v=4)
+    cup = RR.uniform(0.28, 0.5); sg = RR.choice((5, 6, 6, 7)); n = max(7, n); ga = 2.39996
     for i in range(n):
-        a = RR.uniform(0, 2 * PI); rd = RR.uniform(0, r * 0.75); blob(c, x + math.cos(a) * rd, y + RR.uniform(-0.25, 0.45) * r, z + math.sin(a) * rd, r * RR.uniform(0.2, 0.3), RR.choice(cols), RR.uniform(0.92, 1.05))
+        t = (i + 0.3) / n; th = math.acos(1 - t * 1.05); a = i * ga + RR.uniform(-0.2, 0.2); d = (math.sin(th) * math.cos(a), math.cos(th), math.sin(th) * math.sin(a))
+        c1 = cols[i % len(cols)]; c2 = cols[(i + 1) % len(cols)]; rr_ = r * RR.uniform(0.4, 0.52)
+        flower(c, x + d[0] * r * 0.6, y + d[1] * r * 0.55 - r * 0.05, z + d[2] * r * 0.6, rr_, (c1, c2, YEL if c1 in (WHITE, PINK, PEACH) else '#f6e9c8'), n=(d[0], d[1] + 0.3, d[2]), cup=cup, seg=sg)
     if leaf:
-        for i in range(max(3, n // 2)): a = RR.uniform(0, 2 * PI); blob(c, x + math.cos(a) * r * 0.85, y - r * 0.3, z + math.sin(a) * r * 0.85, r * 0.28, RR.choice((LEAF, LEAF_D)))
+        for i in range(max(4, n // 2)): a = i * 2 * PI / max(4, n // 2) + RR.uniform(-0.3, 0.3); leafq(c, x + math.cos(a) * r * 0.5, y - r * 0.28, z + math.sin(a) * r * 0.5, a, r * RR.uniform(0.55, 0.8), lift=RR.uniform(0.0, 0.35))
 def vase(c, x, y, z, h, cols, r=0.16, glass=True):
     """花瓶＋一束花"""
     if glass: c.get('glass').cyl((x, y, z), (x, y + h, z), r * 0.45, seg=10, r2=r * 0.55)
     else: clathe(c.vc, [(0.0, 0.0), (r * 0.4, 0.0), (r * 0.55, h * 0.5), (r * 0.35, h), (0.0, h)], x, y, z, WHITE, seg=10)
     for i in range(4): a = i * PI / 2; ccyl(c.vc, (x, y + 0.02, z), (x + math.cos(a) * r * 0.5, y + h + r * 0.4, z + math.sin(a) * r * 0.5), 0.006, LEAF_D, seg=4)
-    cluster(c, x, y + h + r * 0.9, z, r * 1.5, cols)
+    cluster(c, x, y + h + r * 0.95, z, r * 1.6, cols, n=12)
 def bouquet(c, x, y, z, s, cols, wrap=PEACH):
-    """包好的花束（立著）：包裝紙圓錐、緞帶、上面一團花"""
-    f0 = set(c.vc.bm.faces); c.vc.cyl((x, y, z), (x, y + s * 0.58, z), s * 0.05, seg=12, r2=s * 0.24); c.vc.paint([q for q in c.vc.bm.faces if q not in f0], wrap)
-    ccyl(c.vc, (x, y + s * 0.2, z), (x, y + s * 0.25, z), s * 0.12, ROSE, seg=8); cluster(c, x, y + s * 0.74, z, s * 0.3, cols, n=8)
+    """包好的花束（立著）：兩層包裝紙（外層有顏色、內層白色薄紙；上緣一高一低像摺出來的紙角）、緞帶和蝴蝶結、上面一團花"""
+    for (rb, rt, ht, col, zig, ph) in ((0.05, 0.30, 0.6, wrap, 0.09, 0.0), (0.04, 0.25, 0.68, '#fbf8f1', 0.07, 0.31)):
+        sg = 10; ring = []
+        for i in range(sg):
+            a = ph + i * 2 * PI / sg; top = ht + (zig if i % 2 else -zig * 0.4)
+            ring.append(((x + math.cos(a) * s * rb, y + s * 0.02, z + math.sin(a) * s * rb), (x + math.cos(a) * s * rt * (1.08 if i % 2 else 0.94), y + s * top, z + math.sin(a) * s * rt * (1.08 if i % 2 else 0.94))))
+        for i in range(sg): (b0, t0), (b1, t1) = ring[i], ring[(i + 1) % sg]; c.vc.poly([b0, b1, t1, t0], col, 0.93 + 0.1 * (i % 3) / 2)
+    ccyl(c.vc, (x, y + s * 0.2, z), (x, y + s * 0.25, z), s * 0.125, ROSE, seg=8)                                         # 緞帶
+    for sg_ in (-1, 1):                                                                                                 # 蝴蝶結（朝 −x：朝店中央的走道）
+        c.vc.poly([(x - s * 0.125, y + s * 0.225, z), (x - s * 0.16, y + s * 0.3, z + sg_ * s * 0.13), (x - s * 0.17, y + s * 0.2, z + sg_ * s * 0.15)], ROSE, 1.05)
+        c.vc.poly([(x - s * 0.125, y + s * 0.225, z), (x - s * 0.15, y + s * 0.05, z + sg_ * s * 0.03), (x - s * 0.15, y + s * 0.06, z + sg_ * s * 0.08)], ROSE, 0.92)
+    cluster(c, x, y + s * 0.82, z, s * 0.36, cols, n=12)
 def dome(c, x, y, z, h=0.42, cols=(ROSE, PINK)):
-    """玻璃罩永生玫瑰：香檳金底座、一小團花、玻璃罩"""
-    ccyl(c.vm, (x, y, z), (x, y + 0.04, z), 0.15, GOLD, seg=14); cluster(c, x, y + 0.2, z, 0.1, cols, n=5)
+    """玻璃罩永生玫瑰：香檳金底座、一朵大玫瑰和葉子、玻璃罩"""
+    ccyl(c.vm, (x, y, z), (x, y + 0.04, z), 0.15, GOLD, seg=14); ccyl(c.vc, (x, y + 0.04, z), (x, y + h * 0.42, z), 0.008, LEAF_D, seg=4)
+    flower(c, x, y + h * 0.42, z, 0.085, (cols[0], cols[1 % len(cols)], cols[0]), cup=0.75, seg=6); flower(c, x, y + h * 0.42 + 0.03, z, 0.05, (cols[1 % len(cols)], cols[0], cols[0]), cup=1.2, seg=5)
+    for a in (0.6, 3.5): leafq(c, x, y + h * 0.22, z, a, 0.07, lift=0.4)
     g = c.get('glass'); g.cyl((x, y + 0.04, z), (x, y + h * 0.7, z), 0.14, seg=12, caps=False); g.sphere((x, y + h * 0.7, z), 0.14, seg=12, rings=6, sy=0.9)
 def giftbox(c, x, y, z, s=0.22, col=PINK):
     c.vc.crbox(x - s / 2, x + s / 2, y, y + s * 0.6, z - s / 2, z + s / 2, col, r=0.01); c.vc.cbox(x - 0.012, x + 0.012, y, y + s * 0.61, z - s / 2 - 0.002, z + s / 2 + 0.002, WHITE); c.vc.cbox(x - s / 2 - 0.002, x + s / 2 + 0.002, y, y + s * 0.61, z - 0.012, z + 0.012, WHITE)
 def tree(c, x, z, h=1.9, y=0.0):
-    """大盆栽（橄欖樹那一種）：白色圓盆、細樹幹、一團團葉子"""
+    """大盆栽（橄欖樹那一種）：白色圓盆、細樹幹、一團團葉子＋伸出來的葉片"""
     clathe(c.vc, [(0.0, 0.0), (0.2, 0.0), (0.26, 0.5), (0.24, 0.52), (0.0, 0.52)], x, y, z, CREAM, seg=14)
     ccyl(c.vc, (x, y + 0.5, z), (x + 0.04, y + h * 0.7, z), 0.022, '#7a6a52', seg=6)
-    for i in range(14): a = RR.uniform(0, 2 * PI); rd = RR.uniform(0.05, 0.42); blob(c, x + math.cos(a) * rd, y + RR.uniform(h * 0.6, h), z + math.sin(a) * rd, RR.uniform(0.12, 0.2), RR.choice((LEAF, LEAF_D, '#7a9a5a')))
+    for i in range(10):
+        a = RR.uniform(0, 2 * PI); rd = RR.uniform(0.05, 0.38); bx, by, bz = x + math.cos(a) * rd, y + RR.uniform(h * 0.62, h), z + math.sin(a) * rd; br = RR.uniform(0.12, 0.19)
+        blob(c, bx, by, bz, br, RR.choice((LEAF, LEAF_D, '#7a9a5a')), u=7, v=4)
+        for k in range(5): a2 = RR.uniform(0, 2 * PI); leafq(c, bx + math.cos(a2) * br * 0.7, by + RR.uniform(-0.4, 0.6) * br, bz + math.sin(a2) * br * 0.7, a2, br * RR.uniform(0.8, 1.2), wd=0.3, lift=RR.uniform(-0.2, 0.5), col=RR.choice((LEAF, '#7a9a5a', '#8aa86a')))
 def blossom(c, x, y, z, h=1.5):
-    """一大瓶櫻花枝（中央展示台、參考圖的視覺焦點）"""
+    """一大瓶櫻花枝（中央展示台、參考圖的視覺焦點）：枝條上一朵朵五瓣的小花"""
     c.get('glass').cyl((x, y, z), (x, y + 0.5, z), 0.13, seg=12, r2=0.17)
-    for i in range(9):
-        a = i * 2 * PI / 9 + RR.uniform(-0.2, 0.2); sp = RR.uniform(0.35, 0.8); top = (x + math.cos(a) * sp, y + h * RR.uniform(0.75, 1.0), z + math.sin(a) * sp * 0.7)
-        ccyl(c.vc, (x, y + 0.1, z), top, 0.012, '#6a5038', seg=5)
-        for k in range(9): t = RR.uniform(0.45, 1.0); blob(c, x + (top[0] - x) * t + RR.uniform(-0.07, 0.07), y + 0.1 + (top[1] - y - 0.1) * t + RR.uniform(-0.05, 0.05), z + (top[2] - z) * t + RR.uniform(-0.07, 0.07), RR.uniform(0.035, 0.06), RR.choice((PINK, '#f7d3da', WHITE)))
+    for i in range(11):
+        a = i * 2 * PI / 11 + RR.uniform(-0.2, 0.2); sp = RR.uniform(0.35, 0.85); top = (x + math.cos(a) * sp, y + h * RR.uniform(0.72, 1.0), z + math.sin(a) * sp * 0.7)
+        mid = (x + (top[0] - x) * 0.5 + RR.uniform(-0.06, 0.06), y + 0.1 + (top[1] - y - 0.1) * 0.52, z + (top[2] - z) * 0.5 + RR.uniform(-0.06, 0.06))
+        ccyl(c.vc, (x, y + 0.1, z), mid, 0.009, '#7a5e44', seg=5, r2=0.007); ccyl(c.vc, mid, top, 0.007, '#7a5e44', seg=5, r2=0.003)
+        for k in range(16):
+            t = RR.uniform(0.4, 1.0); fx, fy, fz = x + (top[0] - x) * t + RR.uniform(-0.08, 0.08), y + 0.1 + (top[1] - y - 0.1) * t + RR.uniform(-0.06, 0.06), z + (top[2] - z) * t + RR.uniform(-0.08, 0.08)
+            flower(c, fx, fy, fz, RR.uniform(0.055, 0.085), (RR.choice((PINK, '#f7d3da', WHITE)), '#f7d3da', ROSE), n=(RR.uniform(-0.6, 0.6), 1.0, RR.uniform(-0.6, 0.6)), cup=0.25, seg=5)
 MIX = [(PINK, ROSE, WHITE), (LILAC, '#8f86c8', WHITE), (WHITE, PEACH, '#f2e6c0'), (YEL, '#e9a23a', WHITE), (ROSE, '#d9577a', PINK), ('#8fb6e0', LILAC, WHITE)]
 
 
@@ -164,7 +215,10 @@ C1.get('ceil').box(-W / 2, W / 2, RY, RY + 0.1, -D / 2, D / 2)
 # 牆：北、東、西（兩層各一塊）；南＝店面（一樓門＋兩個櫥窗，二樓整排玻璃）
 for lv, (ya, yb) in enumerate(((0.0, Y1), (Y1, RY))):
     wallmesh(lv, 'N', [0, 0, 1]).box(-W / 2, W / 2, ya, yb, -D / 2 - T, -D / 2)
-    wallmesh(lv, 'W', [1, 0, 0]).box(-W / 2 - T, -W / 2, ya, yb, -D / 2, D / 2)
+    if lv == 1 and WW:   # 二樓西牆的落地窗（配置 front.westWin2）：牆只留窗的四周
+        wz0, wz1, wy0, wy1 = WW['z0'], WW['z1'], Y1 + WW['sill'], RY - WW['top']; wm_ = wallmesh(lv, 'W', [1, 0, 0])
+        wm_.box(-W / 2 - T, -W / 2, ya, yb, -D / 2, wz0); wm_.box(-W / 2 - T, -W / 2, ya, yb, wz1, D / 2); wm_.box(-W / 2 - T, -W / 2, ya, wy0, wz0, wz1); wm_.box(-W / 2 - T, -W / 2, wy1, yb, wz0, wz1)
+    else: wallmesh(lv, 'W', [1, 0, 0]).box(-W / 2 - T, -W / 2, ya, yb, -D / 2, D / 2)
     wallmesh(lv, 'E', [-1, 0, 0]).box(W / 2, W / 2 + T, ya, yb, -D / 2, D / 2)
 ws = wallmesh(0, 'S', [0, 0, -1]); DR = FR['door']; zS = D / 2; h1 = FR['head1']
 xs = [-W / 2] + [v for w_ in FR['windows1'][:1] for v in w_] + [DR['x0'], DR['x1']] + [v for w_ in FR['windows1'][1:] for v in w_] + [W / 2]
@@ -183,6 +237,26 @@ def glazing(c, a, b, ya, yb, n, door=False):
 for (a, b) in FR['windows1']: glazing(C0, a, b, FR['sill1'], h1, 2)
 glazing(C0, DR['x0'], DR['x1'], 0.0, DR['h'], 2, door=True)
 glazing(C1, w2[0], w2[1], FR['sill2'], FR['head2'], 6)
+# 第 2 版（BB 11-11 01:50「二樓教室沒有窗；參考是整面落地窗看得到行道樹」）：照參考圖 interior_2f.png 的構圖，落地窗在教室左邊（西牆）。
+# 玻璃 WALL_L1_W_GLASS、香檳金窗框 WALL_L1_W_FRAME、牆外 0.9 m 的窗景卡 WALL_L1_W_VIEW（參考圖窗外的行道樹和街道，拉正、去掉窗框、左右鏡射接成一長條）——都跟著西牆一起淡出
+if WW:
+    wz0, wz1, wy0, wy1, np_ = WW['z0'], WW['z1'], Y1 + WW['sill'], RY - WW['top'], WW.get('panes', 5); xw = -W / 2 - T / 2
+    gm_ = Mesh('WALL_L1_W_GLASS', M['glass']); gm_.quad([(xw, wy0, wz1), (xw, wy0, wz0), (xw, wy1, wz0), (xw, wy1, wz1)]); WALLS['L1_W_GLASS'] = (gm_, R1, [1, 0, 0])
+    fm_ = CMesh('WALL_L1_W_FRAME', M['vcm'])
+    for i in range(np_ + 1): z = wz0 + i * (wz1 - wz0) / np_; fm_.cbox(xw - 0.05, xw + 0.06, wy0, wy1, z - 0.03, z + 0.03, GOLD)
+    for y in (wy0, wy1): fm_.cbox(xw - 0.05, xw + 0.06, y - 0.03, y + 0.03, wz0, wz1, GOLD)
+    fm_.cbox(-W / 2 - T, -W / 2 + 0.02, wy0 - 0.06, wy0 - 0.03, wz0, wz1, STONE)
+    WALLS['L1_W_FRAME'] = (fm_, R1, [1, 0, 0])
+    _vw = make_view()
+    if _vw:
+        _vm = bpy.data.materials.new('fn_view2f'); _vm.use_nodes = True; _vn = _vm.node_tree; _vb = _vn.nodes['Principled BSDF']; _vb.inputs['Roughness'].default_value = 1.0
+        _vt = _vn.nodes.new('ShaderNodeTexImage'); _vt.image = bpy.data.images.load(_vw); _vn.links.new(_vt.outputs['Color'], _vb.inputs['Base Color']); _vn.links.new(_vt.outputs['Color'], _vb.inputs['Emission Color']); _vb.inputs['Emission Strength'].default_value = 0.55
+        vq = Mesh('WALL_L1_W_VIEW', _vm); lay = vq.bm.loops.layers.uv.new('UVMap'); xc_ = -W / 2 - T - 0.9; zm_ = (wz0 + wz1) / 2; za, zb, ya_, yb_ = zm_ - 5.8, zm_ + 5.8, Y1 - 0.25, RY + 0.1
+        f = vq.bm.faces.new([vq.bm.verts.new(g2b(*q)) for q in ((xc_, ya_, zb), (xc_, ya_, za), (xc_, yb_, za), (xc_, yb_, zb))])   # 正面朝 +x（朝室內）
+        for lp, t in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[lay].uv = t
+        WALLS['L1_W_VIEW'] = (vq, R1, [1, 0, 0])
+    for (a_, b_) in ((wz0, wz0 + 0.8), (wz1 - 0.8, wz1)):   # 窗兩端的白紗簾
+        for i in range(6): z = a_ + (i + 0.5) * (b_ - a_) / 6; C1.vc.cbox(-W / 2 + 0.06 + (i % 2) * 0.04, -W / 2 + 0.08 + (i % 2) * 0.04, wy0, wy1, z - 0.065, z + 0.065, '#f7f4ee')
 for (a, b) in ((w2[0], w2[0] + 0.9), (w2[1] - 0.9, w2[1])):   # 二樓窗兩端的白紗簾
     for i in range(6): x = a + (i + 0.5) * (b - a) / 6; C1.vc.cbox(x - 0.07, x + 0.07, FR['sill2'], FR['head2'], zS - 0.12 + (i % 2) * 0.04, zS - 0.1 + (i % 2) * 0.04, '#f7f4ee')
 # 櫥窗展示（一樓兩個櫥窗裡面：矮台＋花）
@@ -271,7 +345,7 @@ for it in J['items0']:
         C0.get('glass').quad([(x0, 0.18, z1 - 0.02), (x1, 0.18, z1 - 0.02), (x1, h - 0.14, z1 - 0.02), (x0, h - 0.14, z1 - 0.02)])
         for j, y in enumerate((0.2, 0.98, 1.72)):
             C0.vc.cbox(x0 + 0.03, x1 - 0.03, y - 0.02, y, z0 + 0.04, z1 - 0.08, '#e8ecec')
-            for i in range(nd * 2): xc = x0 + (i + 0.5) * (x1 - x0) / (nd * 2); ccyl(C0.vm, (xc, y, z0 + 0.4), (xc, y + 0.26, z0 + 0.4), 0.1, '#b9bdc1', seg=8); cluster(C0, xc, y + 0.42, z0 + 0.4, 0.17, MIX[(i + j * 2) % 6], n=6)
+            for i in range(nd * 2): xc = x0 + (i + 0.5) * (x1 - x0) / (nd * 2); ccyl(C0.vm, (xc, y, z0 + 0.4), (xc, y + 0.26, z0 + 0.4), 0.1, '#b9bdc1', seg=8); cluster(C0, xc, y + 0.42, z0 + 0.4, 0.17, MIX[(i + j * 2) % 6], n=7)
     elif k == 'wrap_shelf':
         x0, x1, z0, z1, h = it['x0'], it['x1'], it['z0'], it['z1'], it['h']
         for i in range(4): z = z0 + i * (z1 - z0) / 3; C0.vm.cbox(x0, x1, 0.9, h, z - 0.012, z + 0.012, GOLD)
@@ -328,6 +402,14 @@ for it in J['items1']:
         for j, y in enumerate((0.85, 1.3, 1.75)):
             for i in range(4): clathe(C1.vc, [(0.0, 0.0), (0.05, 0.0), (0.075, 0.12), (0.04, 0.22), (0.05, 0.25), (0.0, 0.25)], x0 + 0.18 + i * (x1 - x0 - 0.36) / 3, Y1 + y, (z0 + z1) / 2, (WHITE, CREAM, '#d9c9a8', PEACH)[(i + j) % 4], seg=10)
         cluster(C1, (x0 + x1) / 2, Y1 + h + 0.25, (z0 + z1) / 2, 0.3, (WHITE, LEAF, LEAF_D), n=10)
+    elif k == 'low_cabinet':   # 落地窗前的矮櫃（淺木、石材檯面；上面幾個白瓷花器和兩瓶花）——原本這裡是擋住整面牆的高玻璃櫃
+        x0, x1, z0, z1, h = it['x0'], it['x1'], it['z0'], it['z1'], it['h']
+        C1.get('oak').box(x0 + 0.08, x1, Y1 + 0.05, Y1 + h - 0.04, z0, z1); C1.vc.cbox(x0 + 0.06, x1 + 0.02, Y1 + h - 0.04, Y1 + h, z0 - 0.02, z1 + 0.02, STONE); C1.vm.cbox(x0 + 0.08, x1, Y1, Y1 + 0.05, z0, z1, GOLD)
+        for i in range(6): z = z0 + (i + 0.5) * (z1 - z0) / 6; C1.vc.cbox(x1, x1 + 0.006, Y1 + 0.1, Y1 + h - 0.08, z - 0.005, z + 0.005, OAK_D)
+        for i in range(7):
+            zc = z0 + 0.3 + i * (z1 - z0 - 0.6) / 6
+            if i % 3 == 1: vase(C1, (x0 + x1) / 2 + 0.05, Y1 + h, zc, 0.26, MIX[(i + 1) % 6], r=0.13)
+            else: clathe(C1.vc, [(0.0, 0.0), (0.05, 0.0), (0.08, 0.12), (0.045, 0.24), (0.055, 0.27), (0.0, 0.27)], (x0 + x1) / 2 + 0.05, Y1 + h, zc, (WHITE, CREAM, '#e6ddd0')[i % 3], seg=10)
     elif k == 'glass_cabinet':
         x0, x1, z0, z1, h = it['x0'], it['x1'], it['z0'], it['z1'], it['h']
         C1.get('oak').box(x0, x1, Y1, Y1 + 0.8, z0, z1); C1.vc.cbox(x0, x0 + 0.03, Y1 + 0.8, Y1 + h, z0, z1, CREAM); C1.vc.cbox(x0, x1, Y1 + h - 0.04, Y1 + h, z0, z1, OAK)
@@ -362,7 +444,7 @@ for i in range(8): x = -3.7 + i * 0.9; ccyl(C1.vm, (x, RY - 0.06, -4.0), (x, RY 
 
 
 # ---------- 完成 ----------
-for wid, (m, par, d) in WALLS.items(): m.finish(par, props={'dir': d})
+for wid, (m, par, d) in WALLS.items(): m.finish(par, props={'dir': d}, **({'uv': False, 'merge': False} if wid.endswith('VIEW') else ({'uv': False} if wid.endswith(('GLASS', 'FRAME')) else {})))
 C0.finish(); C1.finish()
 L.merge_by_material(root, keep=lambda ob: 'WALL_' in ob.name, key=lambda ob: 'L0' if ob.parent == R0 else 'L1')
 if '--nosingle' not in ARGS: L.single_side(root, keep=r'glass', nodup=r'(ceil|lightpanel)')

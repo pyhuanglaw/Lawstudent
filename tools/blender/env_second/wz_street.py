@@ -181,9 +181,9 @@ if SET == 'gongguan':
         'G09': dict(dep=3.0, wallc='#d9d6cc', shut=True),
         # GG-G10-LANE-MOUTH-1111（使用者 11-11 選擇題「改成真的巷口」）：G10 的一樓是往汀州路那條巷子的巷口（遊戲的「往汀州路（巷子）」互動點在這一格前面）；G10 之後不放店
         'G10': dict(dep=3.0, wallc='#d4d0c4', lane=True, lane_w=4.6, lane_d=13.0),
-        'G11': dict(dep=3.0, wallc='#ece5d8', frame='#c9a86a', street='ggfn_sign', street_fit=9.4,   # 花序 Flower Notes：米白洞石色、香檳金細框；兩側大櫥窗、中間雙開玻璃門；招牌帶在騎樓外面；二樓整排玻璃（xs_up）
+        'G11': dict(dep=3.0, wallc='#f6efe1', wall_flat=True, frame='#c9a86a', street='ggfn_sign', street_fit=9.4,   # 花序 Flower Notes：米白洞石色、香檳金細框；兩側大櫥窗、中間雙開玻璃門；招牌帶在騎樓外面；二樓整排玻璃（xs_up）
                     cards=[('ggfn_winl', -4.3, -1.4, 0.25, 3.1, 0.8, [-2.85]), ('ggfn_door', -1.0, 1.0, 0.0, 2.95, 0.8, [0.0]), ('ggfn_winr', 1.4, 4.3, 0.25, 3.1, 0.8, [2.85])],
-                    props=[('pot', -1.25, 0.45, 'broad'), ('pot', 1.25, 0.45, 'broad')]),
+                    props=[('fn_tree', -1.2, 0.3), ('fn_tree', 1.2, 0.3), ('fn_box', -4.2, -1.6, 0.03, 0.34), ('fn_box', 1.6, 4.2, 0.03, 0.34)]),   # 第 2 版（BB 11-11 01:50）：牆改平塗的米白石材（wall_flat，比兩邊亮）；門口兩棵白方盆的樹、兩個櫥窗下各一個長花箱（原本只有兩盆小盆栽）；招牌重畫（gg_shops6_tex.fn_sign）
     })
     SPECS = []; _x = -68.0
     for _i, _s in enumerate(_SHOPS):
@@ -196,7 +196,7 @@ if SET == 'gongguan':
                    shop=SHOP(type=_s['it'], name=_s['n'], sub=_s.get('sub', ''), signBg=_s['c'], signColor=_s.get('sc', '#ffffff'), band=_s.get('band', ''), atlas=_s.get('atlas'),
                              vertical=_s.get('v'), vatlas=_s.get('vatlas'), vBg='#ffffff', vColor=_s['c'], vBand=_s['c']))
         if _sp['id'] in GG_XS: _sp['xs'] = GG_XS[_sp['id']]   # 公館四間新店（AA_647）
-        if _sp['id'] == 'G11': _sp.update(wall='plaster', color='#ece5d8', balcony=False, xs_up=[dict(f=1, x0=-4.5, x1=4.5, y0=GH + 0.75, y1=GH + 2.95, tex='ggfn_up', pane=1.5, frame='#c9a86a')])   # 花序：一、二樓都是店（二樓花藝教室整排玻璃），樓上照舊是公寓
+        if _sp['id'] == 'G11': _sp.update(wall='plaster', color='#f6efe1', balcony=False, xs_up=[dict(f=1, x0=-4.5, x1=4.5, y0=GH + 0.75, y1=GH + 2.95, tex='ggfn_up', pane=1.5, frame='#c9a86a')])   # 花序：一、二樓都是店（二樓花藝教室整排玻璃），樓上照舊是公寓
         if _i in _VT: _t = _VT[_i]; _sp['vtenant'] = dict(vertical=_t[0], vBg=_t[1], vColor=_t[2], vBand=_t[2], len=_t[3], vatlas=_VTA.get(_i))
         if _i in _S2 and _i != 11: _t = _S2[_i]; _sp['sign2f'] = dict(sign=_t[0], sub=_t[1], bg=_t[2], color=_t[3], band=_t[4], atlas=_S2A.get(_i))
         if _i in _RS: _t = _RS[_i]; _sp['roofsign'] = dict(sign=_t[0], sub=_t[1], bg=_t[2], color=_t[3], band=_t[4], atlas=_RSA.get(_i))

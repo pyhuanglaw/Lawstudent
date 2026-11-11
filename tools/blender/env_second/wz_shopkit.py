@@ -448,6 +448,53 @@ def p_outlet(face='x'):
 
 
 P_STOOL_R, P_STOOL_B = p_stool('#c8392e'), p_stool('#2f6fb0')
+def p_fntree():
+    """花序門口的樹（FLOWER-NOTES 第 2 版；參考圖 exterior.png：門兩邊各一棵，白色方盆、細樹幹、修成圓的細葉樹冠）。原點＝底部中央。
+    樹冠＝幾顆平滑的橢球（深淺三種綠）＋表面伸出來的一片片葉子（風箏形，兩面都看得到）——不是一顆顆多面體的球"""
+    m = _cm('fntree'); rr = random.Random(417); parts = []
+    m.cbox(-0.24, 0.24, 0.0, 0.6, -0.24, 0.24, '#f1ece2'); m.cbox(-0.25, 0.25, 0.56, 0.6, -0.25, 0.25, '#e6dfd2'); m.cbox(-0.21, 0.21, 0.6, 0.61, -0.21, 0.21, '#4a3a2a')
+    tk = Mesh('fntrunk', flat('wz_sf_fntrunk', '#7a6a52', rough=0.8)); tk.cyl((0.0, 0.6, 0.0), (0.02, 1.15, 0.01), 0.028, seg=7, r2=0.022); tk.cyl((0.02, 1.15, 0.01), (0.0, 1.6, 0.0), 0.022, seg=7, r2=0.016)
+    for (ex, ez) in ((0.16, 0.05), (-0.14, 0.08), (0.02, -0.15)): tk.cyl((0.0, 1.5, 0.0), (ex, 1.85, ez), 0.012, seg=5, r2=0.006)
+    parts.append(tk.finish(None, smooth=True))
+    cols = ('#4f7242', '#456a3c', '#5c7f4c'); lcols = ('#7a9a62', '#628a50', '#90ad74'); blobs = [[], [], []]; leaves = [Mesh('fnleaf%d' % k, flat('wz_sf_fnleaf_' + c[1:], c, rough=0.75, cull=False)) for k, c in enumerate(lcols)]
+    for i in range(13):
+        a_ = i * 2.39996; rd = 0.06 + 0.27 * rr.random(); c = (math.cos(a_) * rd, 1.62 + 0.62 * rr.random(), math.sin(a_) * rd * 0.85); r_ = 0.15 + 0.08 * rr.random()
+        blobs[i % 3].append((c, r_ * 0.93, r_ * 0.82, r_ * 0.93))
+        for k in range(64):   # 葉片：貼著橢球表面鋪（面朝外、葉尖稍微翹起來），從外面看到的是一片片葉子，不是球
+            th = rr.uniform(0.1, 2.8); ph = rr.uniform(0, 2 * math.pi); n = Vector((math.sin(th) * math.cos(ph), math.cos(th), math.sin(th) * math.sin(ph)))
+            t1 = n.cross(Vector((0.0, 1.0, 0.0))); t1 = (t1 if t1.length > 1e-3 else Vector((1.0, 0.0, 0.0))).normalized(); t2 = n.cross(t1); ang = rr.uniform(0, 2 * math.pi)
+            d_ = (t1 * math.cos(ang) + t2 * math.sin(ang) + n * 0.4).normalized(); wv = n.cross(d_).normalized(); ln = rr.uniform(0.12, 0.19); wd = ln * 0.32
+            b = Vector(c) + Vector((n.x * r_, n.y * r_ * 0.88, n.z * r_)) * 0.96; tip = b + d_ * ln; mid = b + d_ * ln * 0.5 + n * ln * 0.06
+            leaves[(i + k) % 3].quad([tuple(b), tuple(mid + wv * wd), tuple(tip), tuple(mid - wv * wd)])
+    for k, c in enumerate(cols):
+        f = Mesh('fnball%d' % k, flat('wz_sf_fnball_' + c[1:], c, rough=0.85))
+        for (cc, rx, ry, rz) in blobs[k]: f.ell(cc, rx, ry, rz, seg=10, rings=6)
+        parts.append(f.finish(None, smooth=True)); parts.append(leaves[k].finish(None, smooth=False))
+    parts.insert(0, m.finish(None, uv=False))
+    return combine(parts, 'sk_fntree')
+
+
+def p_fnbox(w=2.6, d=0.34):
+    """花序櫥窗下的長花箱（參考圖：白色花箱，一叢叢綠葉上面粉、紫、白的小花）。原點＝底部中央、長邊沿 x"""
+    m = _cm('fnbox'); rr = random.Random(523); parts = []
+    m.cbox(-w / 2, w / 2, 0.0, 0.34, -d / 2, d / 2, '#f1ece2'); m.cbox(-w / 2 - 0.01, w / 2 + 0.01, 0.3, 0.34, -d / 2 - 0.01, d / 2 + 0.01, '#e6dfd2'); m.cbox(-w / 2 + 0.03, w / 2 - 0.03, 0.34, 0.35, -d / 2 + 0.03, d / 2 - 0.03, '#4a3a2a')
+    n_ = max(3, int(w / 0.24)); mound = [[], []]; fl = {c: [] for c in ('#e9a3b8', '#b9a3d8', '#f6f1e8', '#d98aa6')}; fk = list(fl)
+    for i in range(n_):
+        xx = -w / 2 + 0.13 + i * (w - 0.26) / (n_ - 1); zz = 0.03 * ((i % 3) - 1); mound[i % 2].append(((xx, 0.4, zz), 0.14, 0.11, 0.13))
+        for j in range(4):
+            a_ = j * 2.39996 + i; rd = 0.05 + 0.06 * rr.random(); fl[fk[(i + j) % 4]].append(((xx + math.cos(a_) * rd, 0.5 + 0.03 * rr.random(), zz + math.sin(a_) * rd), 0.045, 0.034, 0.045))
+    for k, c in enumerate(('#58804a', '#6f8f5a')):
+        f = Mesh('fnmound%d' % k, flat('wz_sf_fnball_' + c[1:], c, rough=0.85))
+        for (cc, rx, ry, rz) in mound[k]: f.ell(cc, rx, ry, rz, seg=9, rings=5)
+        parts.append(f.finish(None, smooth=True))
+    for c, lst in fl.items():
+        f = Mesh('fnflower_' + c[1:], flat('wz_sf_fnflower_' + c[1:], c, rough=0.6))
+        for (cc, rx, ry, rz) in lst: f.ell(cc, rx, ry, rz, seg=6, rings=3)
+        parts.append(f.finish(None, smooth=True))
+    parts.insert(0, m.finish(None, uv=False))
+    return combine(parts, 'sk_fnbox_%d' % int(w * 100))
+
+
 PROTO = {'fruit_pine': p_fruitcrates('pine'), 'fruit_banana': p_fruitcrates('banana'), 'fruit_melon': p_fruitcrates('melon'), 'fruit_orange': p_fruitcrates('orange'), 'fruit_apple': p_fruitcrates('apple'), 'fruit_guava': p_fruitcrates('guava'), 'fruit_tomato': p_fruitcrates('tomato'), 'stool_r': P_STOOL_R, 'stool_b': P_STOOL_B, 'bins': p_bins(), 'boxes': p_boxes(), 'umb': p_umbrella(), 'vend': p_vend(),
          'fridge': p_fridge(), 'bench': p_bench(), 'crates': p_crates(), 'fruitstall': p_fruitstall(), 'noodle': p_noodle(), 'bookcart': p_bookcart(), 'meter': p_meter(), 'outlet': p_outlet('x'), 'outlet_z': p_outlet('z')}
 
@@ -1096,6 +1143,13 @@ def bistro_table(xf, x, z):
 GG_WOOD = '#8a5a32'   # 公館四間新店共用的木框色（材質少一點：每個顏色一個材質、一次 draw call）
 
 
+def gg_flatwall(col):
+    """平塗的淺色石材牆（花序第 2 版，BB 11-11 01:50：灰泥貼圖在遊戲裡是灰水泥；參考是米白石材，整間在街上比兩邊亮）：沒有貼圖、帶一點暖色自發光（騎樓裡整天背光）"""
+    nm = 'gg_xs_flatwall_' + col.lstrip('#')
+    if nm not in _mats: _mats[nm] = L.flat(nm, col, rough=0.85, emit=B.srgb('#4a4436'))
+    return _mats[nm]
+
+
 def gg_plaster(col):
     col = {'#efe8da': '#f0eee8'}.get(col.lower(), col)   # PERF-GG-DC-1104：青木的 #efe8da 和日和的 #f0eee8 看不出差別，合成一個材質（少一次 draw call）
     nm = 'gg_xs_plaster_' + col.lstrip('#')
@@ -1108,7 +1162,7 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
     參考圖就是規格（SCENE_RULES §12）：窗後面看到的店內、門裡面、招牌、黑板立牌、販賣機等等是參考圖裁的（xs_front_tex.py 的 QG → gg_fronts_atlas）；
     牆、窗框、門框、玻璃、屋簷、雨遮、燈、盆栽是 3D。遊戲的店面比參考圖寬，多出來的那一段用同一間店的室內參考圖做另一扇窗。
     c＝spec['xs']（wz_street.py 的 GG_XS）：cards＝窗（貼圖、範圍、景深）；door；eave／canopy／awning；signs；decals；lamps；props"""
-    c = spec['xs']; wl = wall if c.get('wall_same') else acc(gg_plaster(c.get('wallc', '#e9dfcc'))); fr = acc(SK['alu2'] if c.get('frame') == 'alu' else frame_mat(c['frame'] if str(c.get('frame', '')).startswith('#') else GG_WOOD)); cream = acc(frame_mat('#e8e2d6'))   # wall_same＝店面的牆和這一棟的外牆同一種（禮貌生財：米白小方磚）
+    c = spec['xs']; wl = wall if c.get('wall_same') else acc(gg_flatwall(c['wallc']) if c.get('wall_flat') else gg_plaster(c.get('wallc', '#e9dfcc'))); fr = acc(SK['alu2'] if c.get('frame') == 'alu' else frame_mat(c['frame'] if str(c.get('frame', '')).startswith('#') else GG_WOOD)); cream = acc(frame_mat('#e8e2d6'))   # wall_same＝店面的牆和這一棟的外牆同一種（禮貌生財：米白小方磚）
     X0, X1 = -W / 2 + 0.3, W / 2 - 0.3
     if c.get('lane'):   # 巷口（GG-G10-LANE-MOUTH-1111；使用者 11-11 選擇題選「改成真的巷口」：往汀州路的巷子從 G10 的一樓穿過去）：中間一條通道（兩側牆、樓板底、柏油地面、往裡通到底），
         #   兩邊各一段牆（電表箱、排水管、信箱）；通道口上面一塊巷名牌的底板（字由遊戲的互動點說，不寫字）、裡面兩盞壁燈
@@ -1258,6 +1312,12 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
         if k == 'pot':
             _pm = POT_BROAD if it[3] == 'broad' else POT_FERN[0]; _w = _wp(xf, it[1], gz + it[2]); B.instance(_pm, f'ggpot_{spec["id"]}_{len(_inst)}', *_w, root, ry=it[1] * 1.7); _inst.append(1); prop_fp(_pm, 'ggpot', _w[0], _w[2], it[1] * 1.7)
         elif k == 'board': gg_board(xf, it[1], it[2], gz + it[3])
+        elif k == 'fn_tree':   # 花序門口的樹（白色方盆、細樹幹、圓的樹冠；原型 p_fntree）：('fn_tree', x, 離店面線)
+            x, zo = it[1], gz + it[2]; _w = xf.p(x, 0, zo); B.instance(_fn_proto('tree'), f'ggfntree_{spec["id"]}_{len(_inst)}', _w[0], 0.0, _w[2], root, ry=xf.ry + x * 1.3); _inst.append(1)
+            a_, b_ = xf.p(x - 0.25, 0, zo - 0.25), xf.p(x + 0.25, 0, zo + 0.25); PROP_FP.append(dict(tag='gg_fn_tree', rect=[round(min(a_[0], b_[0]), 3), round(min(a_[2], b_[2]), 3), round(max(a_[0], b_[0]), 3), round(max(a_[2], b_[2]), 3)], h=2.3))
+        elif k == 'fn_box':   # 花序櫥窗下的長花箱（原型 p_fnbox）：('fn_box', x0, x1, 離店面線, 深)
+            _, x0, x1, zo, dp = it; z0_, z1_ = gz + zo, gz + zo + dp; _w = xf.p((x0 + x1) / 2, 0, (z0_ + z1_) / 2); B.instance(_fn_proto('box', round(x1 - x0, 2), dp), f'ggfnbox_{spec["id"]}_{len(_inst)}', _w[0], 0.0, _w[2], root, ry=xf.ry); _inst.append(1)
+            a_, b_ = xf.p(x0, 0, z0_), xf.p(x1, 0, z1_); PROP_FP.append(dict(tag='gg_fn_box', rect=[round(min(a_[0], b_[0]), 3), round(min(a_[2], b_[2]), 3), round(max(a_[0], b_[0]), 3), round(max(a_[2], b_[2]), 3)], h=0.6))
         elif k == 'fruit':   # 敞開的店面裡的水果箱（汀州鮮果第 3 版）：('fruit', 種類, x, 離店面線的深度（負的＝店面線裡面，不佔騎樓、不用腳印）[, 墊高])——放在開口和照片卡中間
             _pm = PROTO['fruit_' + it[1]]; _y = it[4] if len(it) > 4 else 0.0
             if _y > 0: xf.box(acc(frame_mat(GG_WOOD)), it[2] - 0.42, it[2] + 0.42, 0.0, _y, gz + it[3] - 0.3, gz + it[3] + 0.3)   # 後排墊高的木台
@@ -1787,6 +1847,12 @@ def _pot_pick(it, x):
     """門廊盆栽的種類（第四個欄位）：broad＝紅陶大葉、tall_w＝高的白瓷圓筒盆、broad_w＝白瓷碗形盆、fern_c＝水泥盆蕨類；沒寫＝紅陶蕨類（ADE-V2.1）"""
     v = it[3] if len(it) > 3 else None
     return {'broad': POT_BROAD, 'tall_w': globals().get('POT_TALL_W', POT_BROAD), 'broad_w': globals().get('POT_BROAD_W', POT_BROAD), 'fern_c': globals().get('POT_FERN_C', POT_FERN[0])}.get(v) or POT_FERN[int(abs(x * 7)) % 2]
+
+
+_FNP = {}
+def _fn_proto(kind, *a):   # 花序門口的樹、花箱：用到才建（只有公館那一組有）
+    if (kind, a) not in _FNP: _FNP[(kind, a)] = p_fntree() if kind == 'tree' else p_fnbox(*a)
+    return _FNP[(kind, a)]
 
 
 FRUIT = {}
