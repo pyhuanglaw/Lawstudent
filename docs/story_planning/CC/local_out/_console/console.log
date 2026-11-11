@@ -1,11 +1,3 @@
-       2bd86aacf..d1ba9b75d  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[14:09:37] ==== END   CLASS12_skip3_73_150x10  exit=1  245s   ====
-[14:09:41] memory 48% before starting CLASS12_skip3_73_150x20 (2 running)
-[14:09:41] ==== START CLASS12_skip3_73_150x20  (probe @ 73faa493f90fc6c90ccc867950bd012cb3d1d72e) ====
-[14:09:44] [res] cpu=2% mem=48% (15.1/31.4 GB) chrome_testing=10  START CLASS12_skip3_73_150x20
-[14:13:04] [res] cpu=3% mem=48% (15.2/31.4 GB) chrome_testing=10  END FN2_stairs10_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
        d1ba9b75d..c3beb62e5  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [14:13:09] ==== END   FN2_stairs10_new  exit=1  936s  timeout 15 min ====
@@ -1998,3 +1990,11 @@
 [22:33:40] [res] cpu=4% mem=42% (13.1/31.4 GB) chrome_testing=8  START DATE_AN_D01
 [22:34:05] 正在跑：CHS2_N_bedffc_P（已跑 1 分／上限 10 分）、CHS2_O_bedffc_P（已跑 1 分／上限 10 分）、DATE_AN_D01（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:35:23] [res] cpu=7% mem=41% (13.1/31.4 GB) chrome_testing=10  END CHS2_N_bedffc_P
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       85d4d6827..012f74700  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:35:29] ==== END   CHS2_N_bedffc_P  exit=0  174s   ====
+[22:35:32] memory 42% before starting ACT_smoke_anmovie (2 running)
+[22:35:32] ==== START ACT_smoke_anmovie  (probe @ f8b6d1e82f43194080cb860d11148d9fd27de078) ====
+[22:35:35] [res] cpu=3% mem=42% (13.2/31.4 GB) chrome_testing=10  START ACT_smoke_anmovie
+[22:36:47] [res] cpu=5% mem=35% (13.0/31.4 GB) chrome_testing=4  END CHS2_O_bedffc_P

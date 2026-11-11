@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "CHS2_O_bedffc_P",
+  "sha": "73faa493f90fc6c90ccc867950bd012cb3d1d72e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_choose_probe.py",
+  "env": "PARTS=BEDFFC;MASHO=P;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e",
+  "machine": "MSI",
+  "start": "2026-11-11T22:32:32",
+  "end": "2026-11-11T22:36:47",
+  "seconds": 255,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "26",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 44,
+    "mem": 50,
+    "used_gb": 15.6,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
