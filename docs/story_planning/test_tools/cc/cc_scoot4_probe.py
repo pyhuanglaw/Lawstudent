@@ -516,7 +516,7 @@ async def part_xscoot(pg, cdp):
     for nm, b in bases:
         df = nav_diff(b, cur)
         if df is None: R.check('%s 導航格和「%s」同尺寸' % (tag, nm), False, J({k: b.get(k) for k in ('cols', 'rows')})); continue
-        far = [d for d in df if not any(obb_dist(q['obb'], d[0], d[1]) <= 0.35 for q in items)]
+        far = [list(d) + [round(min([obb_dist(q['obb'], d[0], d[1]) for q in items] or [99.0]), 3)] for d in df if not any(obb_dist(q['obb'], d[0], d[1]) <= 0.35 for q in items)]   # 最後一欄＝離最近那台外框幾公尺（導航阻擋＝配置 x、z 前後 0.4 m 的方框，canStand 再加半徑 0.3：外框邊上差幾公分的會在這裡）
         R.note('%s 和「%s」比：不一樣的格子 %d 個（少了 %d、多了 %d）；不在機車外框＋0.35 m 以內的 %d 個：%s' % (tag, nm, len(df), sum(1 for d in df if d[2] == 'lost'), sum(1 for d in df if d[2] == 'gained'), len(far), J(far[:40])))
         R.check('%s 和「%s」比，不一樣的格子都在機車外框＋0.35 m 以內' % (tag, nm), not far, J(far[:20]))
     if bases and bases[0][0] == '同一版拿掉機車':
