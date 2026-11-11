@@ -20,7 +20,7 @@ global.STORY={extraSpec:i=>({id:'x'+i,sex:i%2===0?'f':'m',i}),CROWD_X:2,dayOfKey
 global.SOCIAL={displayName:id=>({classmate_mingxuan:'明軒',classmate_xinci:'芯慈',kai:'阿凱'})[id]||id};
 let NPC={}; global.EVENTS={npcOf:id=>NPC[id]||null,running:false};
 const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/data/lane118_layout.js',
-  'src/data/lane118_shops.js','src/data/lane118_props.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/calendar.js','src/data/places.js','src/lane118.js','src/data/l118_shop_layouts.js','src/l118_shops3d.js','src/noodle_closed3d.js','src/crowd3d.js','src/data/shop_enc.js','src/shopenc3d.js'];
+  'src/data/lane118_shops.js','src/data/l118_redo772.js','src/data/lane118_props.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/calendar.js','src/data/places.js','src/lane118.js','src/data/l118_shop_layouts.js','src/l118_shops3d.js','src/noodle_closed3d.js','src/crowd3d.js','src/data/shop_enc.js','src/shopenc3d.js'];
 let miss=null; for(const f of files){ const p=path.join(ROOT,f); if(!fs.existsSync(p)){ miss=f; continue; } let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>'globalThis.'+n+'='); vm.runInThisContext(src,{filename:f}); }
 ASSETS.loadOne=()=>new Promise(()=>{});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
@@ -98,7 +98,7 @@ const SATS=[]; for(let d=dayOf('2025-09-27');SATS.length<8;d+=7) if(CALENDAR.ter
     if(pay.length){ SAYS.length=0; await pay[0].talk(); check('5. 結帳那一句是 AA_640 第 ③ 節的',SAYS.length===1&&SHOP_ENC.hear.cvs.includes(SAYS[0].replace(/^路人：/,'')),JSON.stringify(SAYS)); }
     const G3=mkG(DAYS[0],12.5); enter('wz_print',G3); check('5. 影印店的客人不說',ppl().every(m=>!m.talk));
     const G4=mkG(DAYS[0]+2,15); enter('wz_teahouse',G4); check('5. 一盞的客人不說',ppl().every(m=>!m.talk)); }
-  { const G=mkG(SATS[0],15); enter('l118_cafe2',G); const c=ppl().filter(m=>m.talk); SAYS.length=0; for(const m of c) await m.talk(); const Q=SHOP_ENC.hear.quiet, ok=[Q[1],Q[2],Q[3],Q[4],Q[6]];
+  { const G=mkG(SATS[0],15); enter('l118_cafe2',G);const c=ppl().filter(m=>m.talk); SAYS.length=0; for(const m of c) await m.talk(); const Q=SHOP_ENC.hear.quiet, ok=[Q[1],Q[2],Q[3],Q[4],Q[6]];
     check('5. 慢讀咖啡：Café 的那五句（第 2～5、7）',SAYS.length>0&&SAYS.every(s=>ok.includes(s.replace(/^路人：/,''))),JSON.stringify(SAYS));
     const n=c[0]; if(n){ SAYS.length=0; await n.talk(); const a=SAYS.join(); SAYS.length=0; await n.talk(); check('5. 同一位客人再點一次：同一句',a===SAYS.join()&&!!a); } }
   // ---------- 6. 一起坐 ----------

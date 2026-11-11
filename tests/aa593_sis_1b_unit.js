@@ -59,9 +59,9 @@ const ROWS=[
   ['51','src/data/heroine_asks.js','明天下午，總圖三樓。放假了，題目照帶。','明天下午，總圖三樓。放假了，人比較少。'],
   ['52','src/data/heroine_asks.js','我明天下午都在總圖。你要來就來，五點以後我有空。','我明天下午都在總圖。五點以後我有空。'],
   ['53','src/data/heroine_asks.js','明天五點。總圖。這次換你先講你卡在哪。','明天五點以後，我在總圖三樓。'],
-  ['54','src/data/heroine_asks.js','明天下午三點，慢讀。你帶要問的題目。','明天下午三點，慢讀。要一起嗎？'],
+  ['54','src/data/heroine_asks.js','明天下午三點，慢讀。你帶要問的題目。','明天下午三點，木曜日。要一起嗎？'],
   ['55','src/data/heroine_asks.js','明天五點，總圖三樓。今天不問題目。','明天五點，總圖三樓。這次不問題目。'],
-  ['56','src/data/heroine_asks.js','明天下午三點，慢讀。今天不問題目。','明天下午三點，慢讀。這次不問題目。'],
+  ['56','src/data/heroine_asks.js','明天下午三點，慢讀。今天不問題目。','明天下午三點，木曜日。這次不問題目。'],
   ['57','src/data/heroine_asks.js','週日九點，SUNNY SIDE。不要遲到。','週日早上要不要去 SUNNY SIDE？九點。'],   /* 稿寫「半熟」：店名 AA_655 第 1 節改 SUNNY SIDE，英文店名前面空半形（places.js PLACES.at）*/
   ['58','src/data/heroine_asks.js','週六下午，Café。帶你的筆記。','週六下午，Café。我會待到五點。'],
   ['59','src/data/heroine_asks.js','週六下午，一盞。這次你點。','週六下午有空嗎？想去一盞。'],

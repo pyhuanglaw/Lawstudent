@@ -34,8 +34,9 @@ const SEATACT=(function(){
   S.FOOD=/(food|snack|bento|cake|sandwich|plate|bowl|toast|bread|noodle|rice|dessert)/i;
   /* 場所：圖書館、咖啡廳（可以用筆電）、輕食（茶屋、早午餐、茶飲：不用筆電）、吃飯的店（只有滑手機、什麼都不做）*/
   S.LIB_ZONES={library:1,library_hall:1,library_stacks:1,library_carrels:1,library_b1:1,lawlib:1,soclib:1,soclib_2f:1,us_lawlib:1,us_lawlib_2f:1};
-  S.CAFE_ZONES={cafe:1,afar:1,l118_cafe2:1,wz_mokuyobi:1,wz_offbeat:1};
-  S.LIGHT_ZONES={daybreak:1,wz_brunch:1,wz_teahouse:1,aoki:1,l118_tea:1,wz_tea:1};
+  /* 118 巷的店不寫在這兩張表（L118-SHOPS-REDO-1111，使用者 2026-11-11：l118_cafe2 現在是大學食堂、l118_tea 是辛亥韓食，都是吃飯的店）：照 CROWD.SHOP_ZONES 的 kind（它讀店家資料 src/data/lane118_shops.js 的 drink）*/
+  S.CAFE_ZONES={cafe:1,afar:1,wz_mokuyobi:1,wz_offbeat:1};
+  S.LIGHT_ZONES={daybreak:1,wz_brunch:1,wz_teahouse:1,aoki:1,wz_tea:1};
   S.placeOf=function(zone){ if(!zone) return null; if(S.LIB_ZONES[zone]) return 'library'; if(S.CAFE_ZONES[zone]) return 'cafe'; if(S.LIGHT_ZONES[zone]) return 'light';
     const d=typeof CROWD!=='undefined'&&CROWD.SHOP_ZONES&&CROWD.SHOP_ZONES[zone]; if(d){ if(d.kind==='meal') return 'meal'; if(d.kind==='cafe') return 'cafe'; if(d.kind==='brunch'||d.kind==='tea'||d.kind==='drink') return 'light'; } return null; };
   /* 一個人坐的路人可以做的事（順序不重要：每個位子照種子洗牌）*/

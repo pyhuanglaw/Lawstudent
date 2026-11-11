@@ -1,18 +1,18 @@
-/* 自動產生：tools/story/import_l118_lunch.py（docs/story_planning/AA_771_l118_lunch.json@138bfaf45）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_l118_lunch.py（docs/story_planning/AA_771_l118_lunch.json@1669b3ae0）。不要手改，改企劃稿再重新匯入。
    118 巷課後午餐邀約（L118-LUNCH-INVITE-1111，使用者 X339）的台詞、選項、旁白：一字照 AA 的稿；special 的 when 是工具從 cond（文字條件）拆出來的。
    格式說明在匯入工具的檔頭；怎麼演：src/l118_lunch3d.js */
 'use strict';
 const L118_LUNCH_DATA={
- "src": "docs/story_planning/AA_771_l118_lunch.json@138bfaf45",
+ "src": "docs/story_planning/AA_771_l118_lunch.json@1669b3ae0",
  "_meta": {
   "by": "AA（帳號 A）",
   "date": "2026-11-11",
-  "version": 2,
+  "version": 3,
   "task": "L118-LUNCH-INVITE-1111（USER_WANTS X339）",
   "spec": "開發分支 docs/handoff/user_specs/L118_LUNCH_1111.md（使用者 11-11 原文）",
   "note": "第一版。只列和祐廷同班、上午在法學院同堂的八個人；學姊（高年級）、語彤（社會系、雙主修的課和大一分開）、子晴、芷若、可昕、阿凱不會發起也不同行，只可能在偶遇裡出現。{店名}＝發起人選的那間店的名字；{name}＝玩家的名字；{發起人}＝發起人的名字。對話裡 who 是 player 的是祐廷的句子、null 是旁白、其他字串（「助教」「大四的學長」）是沒有立繪的路人。",
   "rules": [
-   "店：一一八茶飲不當午餐（只在 L-yu-3 被提到）；慢讀咖啡只有以安會選。選到的店那天沒開就照權重換下一間。",
+   "店：九間餐廳都可以當午餐；兩間外帶飲料店（drink_a 喝不喝咖啡、drink_b 果茶社）不當午餐，只在 L-yu-3、S-meet-ziqing 被提到。選到的店那天沒開就照權重換下一間。",
    "週一阿哲手機揪午餐（AA_280 第 4 節）照舊：那天答應了就不再當面邀；沒答應或他沒揪，照常判定。",
    "AA_280 第 3 節的熟客、AA_311 H1～H9 照舊；同一天已經演過那一位的 H 事件，偶遇就不要再抽到同一個人。",
    "柏翰和沛珊大一下交往、大二上分開：大二上那一學期不要把兩個人排進同一桌（其他學期可以）。",
@@ -21,15 +21,18 @@ const L118_LUNCH_DATA={
    "special 大約兩成：kind talk＝同桌的人多講一件自己的事；kind meet＝遇到別人。first:true＝第一次不能被快速略過。cond 是給程式看的條件，用文字寫。",
    "n 欄（BB_331 C5）＝含玩家在內的人數要剛好等於這個數才抽（G-zhe-yu-mx n=4、G-yu-ps n=3）。",
    "午餐邀約只在中午十二點前後下課的上午課之後觸發（BB_331 C4；柏翰的鐘點句都假設十二點多）。",
-   "declineReply 每人三句，輪著用（連續婉拒不會一直看到同一句）。"
+   "declineReply 每人三句，輪著用（連續婉拒不會一直看到同一句）。",
+   "options.skip（LAWWW 11-11）：看過一次的普通午餐才出現，放在答應和婉拒中間；選了就不演對話，只出 skipLine。"
   ],
   "open": [
    "宥辰、阿哲、Alison 的 id 我照 characters.js／lane118_shops.js 寫（classmate_youchen、zhe、yu）；阿凱寫 kai——id 不對請直接改。",
    "每個人的句子都是第一版，BB 還沒看；你可以先接系統，字我會再補（每人的午餐對話想加到五六組）。",
    "人物只用 characters.js 和現行設定總表有的設定；沒有新增人物背景。"
   ],
-  "for_LAWWW": "九間店重新設計（X338）以後要跟著換的地方：arrive 八句（寫了現在的菜和店內樣子）；有 shop 欄的 L-an-2、L-mx-1、L-zhe-1；提到店的 L-xc-1（巷口那間）、L-yu-3（一一八）；偶遇 S-meet-sis（自助餐便當）、S-meet-yt（酸辣河粉）、S-meet-kai（乾麵）、S-meet-ziqing（慢讀咖啡外帶窗口）；who 的 prefs（店 id）。到時候 AA 一次改。",
-  "v2": "照 BB_331 改：L-zhe-2 不提民總；S-meet-senior 限大一上；「下一堂」四處改掉；G-an-ps 重寫；婉拒回覆每人三句；加 n 欄。id 都沒變。"
+  "for_LAWWW": "已照新九間店改版（v3）。提到店或菜的地方：arrive 九句；有 shop 欄的 L-an-2（omu、pasta）、L-mx-1（cafe2）、L-zhe-1（korea、tea）、L-xc-1（home 以外）；L-yu-3（巷口的手搖飲＝喝不喝咖啡）；偶遇 S-meet-sis（self）、S-meet-yt（dian）、S-meet-kai（korea）、S-meet-ziqing（drink_b）。",
+  "v2": "照 BB_331 改：L-zhe-2 不提民總；S-meet-senior 限大一上；「下一堂」四處改掉；G-an-ps 重寫；婉拒回覆每人三句；加 n 欄。id 都沒變。",
+  "v3": "照使用者 11-11 的九間店新規格（L118-SHOPS-REDO-1111／X338；AA_280 改版）改：prefs、有 shop 欄的組、arrive 九句（九間都算午餐）、四個偶遇的店。id 都沒變。",
+  "v3b": "LAWWW 11-11 三件：補 options.skip；S-meet-ta 的考卷改成案例作業、cond 改第 10 週以後；Alison「我今天排了四件事，這是第二件。」照留（是她在排行程，不是學姊數件數）。特殊對話是加演（meet 在前、talk 在後）、發起人想去的店都沒開就換人、那堂課有課後劇情當天不邀——三個設計都同意。"
  },
  "window": {
   "from": 11.5,
@@ -41,20 +44,20 @@ const L118_LUNCH_DATA={
    "weight": 1.0,
    "prefs": {
     "omu": 3,
-    "cafe2": 2,
-    "pasta": 1
+    "pasta": 2,
+    "cafe2": 1
    },
-   "note": "咖哩蛋包飯只吃得下半份（AA_410）；週三會去慢讀咖啡（AA_280 熟客）。慢讀咖啡只對她算午餐。"
+   "note": "奈良咖哩只吃得下半份（AA_280 熟客）；大學食堂可以夾少一點。"
   },
   "classmate_bohan": {
    "name": "柏翰",
    "weight": 1.0,
    "prefs": {
-    "self": 4,
-    "home": 2,
-    "noodle2": 1
+    "cafe2": 4,
+    "self": 2,
+    "home": 1
    },
-   "note": "吃很快，十二點四十要回總圖（AA_311 H6）。"
+   "note": "吃很快，十二點四十要回總圖。"
   },
   "classmate_peishan": {
    "name": "沛珊",
@@ -62,20 +65,20 @@ const L118_LUNCH_DATA={
    "prefs": {
     "omu": 3,
     "pasta": 3,
-    "korea": 2,
+    "noodle2": 2,
     "dian": 1
    },
-   "note": "不看價錢、愛鬧；不評別人吃的東西（UA-AA-1110-17）。消失期不出現（照 presence）。"
+   "note": "不看價錢、愛鬧；不評別人吃的東西。消失期不出現（照 presence）。"
   },
   "classmate_mingxuan": {
    "name": "明軒",
    "weight": 1.0,
    "prefs": {
-    "self": 4,
-    "noodle2": 2,
-    "home": 2
+    "cafe2": 3,
+    "home": 3,
+    "self": 1
    },
-   "note": "一百以內；跟阿哲一起打球。"
+   "note": "一百上下；跟阿哲一起打球。"
   },
   "classmate_xinci": {
    "name": "芯慈",
@@ -83,7 +86,7 @@ const L118_LUNCH_DATA={
    "prefs": {
     "home": 3,
     "pasta": 2,
-    "korea": 2
+    "tea": 2
    },
    "note": "她的習慣是吃飯提前一天約，所以當面邀的機率低一點，邀的話會先說不好意思臨時問。"
   },
@@ -91,9 +94,9 @@ const L118_LUNCH_DATA={
    "name": "宥辰",
    "weight": 0.4,
    "prefs": {
-    "noodle2": 3,
+    "korea": 3,
     "dian": 2,
-    "korea": 1
+    "noodle2": 1
    },
    "note": "考前才出現；有來上課的日子才可能邀（照出席判定）。"
   },
@@ -101,9 +104,9 @@ const L118_LUNCH_DATA={
    "name": "阿哲",
    "weight": 1.2,
    "prefs": {
-    "noodle2": 3,
+    "korea": 3,
     "dian": 3,
-    "korea": 2,
+    "tea": 2,
     "home": 2
    },
    "note": "本來就是揪人的那個。週一手機揪午餐照舊（AA_280 第 4 節）；那天有約就不另外當面邀。"
@@ -112,17 +115,18 @@ const L118_LUNCH_DATA={
    "name": "Alison",
    "weight": 1.1,
    "prefs": {
-    "korea": 4,
+    "tea": 4,
     "omu": 2,
     "pasta": 2,
-    "dian": 1
+    "noodle2": 1
    },
    "note": "怕一個人吃。"
   }
  },
  "options": {
   "accept": "「好，走。」",
-  "decline": "「今天不行，下次。」"
+  "decline": "「今天不行，下次。」",
+  "skip": "「好，走。」（直接到吃完）"
  },
  "invite": {
   "heroine_01": {
@@ -419,22 +423,20 @@ const L118_LUNCH_DATA={
     "classmate_mingxuan"
    ],
    "shop": [
-    "self",
-    "noodle2",
-    "home"
+    "cafe2"
    ],
    "lines": [
     [
      "classmate_mingxuan",
-     "加一顆蛋還在一百以內。"
+     "秤出來九十八。"
     ],
     [
      "player",
-     "你每次都算。"
+     "你是用眼睛量的嗎？"
     ],
     [
      "classmate_mingxuan",
-     "算了比較敢加。"
+     "練過。"
     ]
    ]
   },
@@ -483,10 +485,20 @@ const L118_LUNCH_DATA={
    "who": [
     "classmate_xinci"
    ],
+   "shop": [
+    "dian",
+    "self",
+    "tea",
+    "cafe2",
+    "pasta",
+    "korea",
+    "omu",
+    "noodle2"
+   ],
    "lines": [
     [
      "classmate_xinci",
-     "這間我第一次來。平常我都去巷口那間。"
+     "這間我第一次來。平常我都吃水餃。"
     ],
     [
      "player",
@@ -600,9 +612,8 @@ const L118_LUNCH_DATA={
     "zhe"
    ],
    "shop": [
-    "noodle2",
-    "dian",
-    "korea"
+    "korea",
+    "tea"
    ],
    "lines": [
     [
@@ -707,7 +718,7 @@ const L118_LUNCH_DATA={
    "lines": [
     [
      "yu",
-     "吃完要不要去買飲料？一一八那間。"
+     "吃完要不要去買飲料？巷口那間手搖的。"
     ],
     [
      "player",
@@ -1155,8 +1166,7 @@ const L118_LUNCH_DATA={
    },
    "first": true,
    "shop": [
-    "self",
-    "home"
+    "self"
    ],
    "cond": "認識學姊；她在臺北、在學校的學期（照 presence）；不和 AA_311 H1 同一天",
    "when": {
@@ -1173,7 +1183,7 @@ const L118_LUNCH_DATA={
    "lines": [
     [
      null,
-     "（好家自助餐門口，學姊提著一個便當走出來。）"
+     "（水上便當門口，學姊提著一個便當走出來。）"
     ],
     [
      "heroine_05",
@@ -1218,7 +1228,7 @@ const L118_LUNCH_DATA={
    "lines": [
     [
      null,
-     "（靠牆那桌，語彤一個人，面前一碗酸辣河粉，辣椒另外一小碟。）"
+     "（靠牆那桌，語彤一個人，面前一份雞排，鐵板上的黑胡椒醬她又加了辣。）"
     ],
     [
      "heroine_03",
@@ -1245,7 +1255,7 @@ const L118_LUNCH_DATA={
    },
    "first": true,
    "shop": [
-    "noodle2"
+    "korea"
    ],
    "cond": "大一（阿凱是室友的那一年）；阿凱在臺北",
    "when": {
@@ -1260,7 +1270,7 @@ const L118_LUNCH_DATA={
    "lines": [
     [
      null,
-     "（阿凱一個人在角落吃乾麵，看到你們，舉了一下筷子。）"
+     "（阿凱一個人在角落吃炸醬刀削麵，看到你們，舉了一下筷子。）"
     ],
     [
      "kai",
@@ -1286,7 +1296,7 @@ const L118_LUNCH_DATA={
     "heroine_04": 1
    },
    "first": true,
-   "cond": "認識子晴；她在臺北；走出巷子時經過慢讀咖啡（任何一間店吃完都可以播）",
+   "cond": "認識子晴；她在臺北；走出巷子時經過果茶社（drink_b；任何一間店吃完都可以播）",
    "when": {
     "knows": [
      "heroine_04"
@@ -1296,13 +1306,13 @@ const L118_LUNCH_DATA={
     ],
     "at": "leave",
     "shopOpen": [
-     "cafe2"
+     "drink_b"
     ]
    },
    "lines": [
     [
      null,
-     "（慢讀咖啡的外帶窗口，子晴在等她的咖啡。）"
+     "（果茶社的外帶窗口，子晴在等她的飲料。）"
     ],
     [
      "heroine_04",
@@ -1354,15 +1364,15 @@ const L118_LUNCH_DATA={
    "kind": "meet",
    "who": [],
    "first": true,
-   "cond": "學期中，第 9 週以後（期中考完）",
+   "cond": "學期中，第 10 週以後（第 9 週當堂寫的案例作業收回去改；法律系沒有期中考）",
    "when": {
     "inTerm": true,
-    "weekFrom": 9
+    "weekFrom": 10
    },
    "lines": [
     [
      null,
-     "（隔壁桌是系上的助教，面前攤著一疊考卷，一邊吃一邊改。）"
+     "（隔壁桌是系上的助教，面前攤著一疊案例作業，一邊吃一邊改。）"
     ],
     [
      "助教",
@@ -1396,14 +1406,15 @@ const L118_LUNCH_DATA={
   }
  ],
  "arrive": {
-  "dian": "（滇香小館。門一開，辣椒的味道先出來。）",
-  "self": "（好家自助餐。隊伍排到門口，前進得很快。）",
-  "home": "（巷口家常菜。排骨下鍋的聲音從裡面傳出來。）",
-  "pasta": "（Pasta 118。位子不多，你們擠進靠牆那一桌。）",
-  "korea": "（韓食小廚。小菜已經擺好了。）",
-  "omu": "（蛋包飯研究所。老闆照例問蛋要全熟還是半熟。）",
-  "noodle2": "（六張犁麵舖。大鍋的蒸氣把玻璃都弄霧了。）",
-  "cafe2": "（慢讀咖啡。中午的人都在外帶，窗邊還有一桌。）"
+  "dian": "（118牛排。鐵板的聲音從門口就聽得到。）",
+  "self": "（水上便當。黃色的大招牌下面，隊伍排到門口。）",
+  "tea": "（辛亥韓食。四人桌排得很密，你們側身擠進去。）",
+  "home": "（五湖四海。門口那一鍋水滾著，水餃一盤一盤下。）",
+  "cafe2": "（大學食堂。配菜台前面，每個人都端著餐盤在想。）",
+  "pasta": "（義大麵屋。位子不多，你們坐進靠牆那一桌。）",
+  "korea": "（清州刀削麵。門口的師傅在削麵，一片一片飛進鍋裡。）",
+  "omu": "（奈良咖哩。一進門就是咖哩的味道。）",
+  "noodle2": "（迪倫窯烤披薩。小小的窯爐前面，你們併了兩張雙人桌。）"
  },
  "leave": [
   "（結帳，各付各的。走回學校的路上，巷子還在排隊。）",
@@ -1417,13 +1428,10 @@ const L118_LUNCH_DATA={
  },
  "shopRules": {
   "noLunch": [
-   "tea"
+   "drink_a",
+   "drink_b"
   ],
-  "onlyFor": {
-   "cafe2": [
-    "heroine_01"
-   ]
-  }
+  "onlyFor": {}
  }
 };
 if(typeof module!=='undefined') module.exports=L118_LUNCH_DATA;

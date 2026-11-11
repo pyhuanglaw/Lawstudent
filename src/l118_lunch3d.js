@@ -103,7 +103,7 @@ const LUNCH118=(function(){
   S.pickGroup=function(G,party,shop){ const L=S.groupsFor(party,shop); if(!L.length) return null; const lg=S.rec(G).lg, key=g=>lg[g.id]==null?[0,-g.who.length]:[1,lg[g.id]];
     return L.map(g=>({g,k:key(g),r:S.rnd(G,'grp:'+g.id)})).sort((a,b)=>a.k[0]-b.k[0]||a.k[1]-b.k[1]||a.r-b.r)[0].g; };
   /* 玩家吃什麼：{item, price, ok（買得起）}；店沒有菜單＝null */
-  S.meal=function(G,shopId){ const s=L118.shop(shopId); if(!s||!Array.isArray(s.menu)||!s.menu.length) return null; const C=S.CFG, base=s.menu[0][1], money=G.money|0, first=C.firstItemTypes.includes(s.type);
+  S.meal=function(G,shopId){ const s=L118.shop(shopId); if(!s||!Array.isArray(s.menu)||!s.menu.length) return null; const C=S.CFG, base=s.menu[0][1], money=G.money|0, first=(typeof L118!=='undefined'&&L118.isDrink?L118.isDrink(shopId):!!s.drink)||C.firstItemTypes.includes(s.type);   /* 飲料店＝點菜單第一樣：照店家資料的 drink（和 lane118.js「飲料 5 分鐘」同一個來源，L118-SHOPS-REDO-1111）；firstItemTypes（照類型的字）留給資料沒有標的舊資料 */
     const mains=first?[s.menu[0]]:s.menu.filter(m=>m[1]>=base*C.sideRatio), R=L118.rec(G), last=R.last[shopId]!=null?R.last[shopId]:(G.eat&&G.eat.last?G.eat.last[s.name]:null);
     const lm=last!=null?(first?s.menu:mains).find(m=>m[0]===last):null, cheap=mains.slice().sort((a,b)=>a[1]-b[1])[0], m=lm&&money>=lm[1]?lm:cheap;
     return {item:m[0],price:m[1],ok:money>=m[1]}; };

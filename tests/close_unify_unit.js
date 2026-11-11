@@ -17,7 +17,7 @@ const L=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f+
 global.CG_REGISTRY=global.CG_REGISTRY||{};
 global.MOK3={OUT:{x:7.4,z:-2.85,yaw:0},IN:{x:-3.75,z:5.4,yaw:Math.PI,lv:0},zone:{id:'wz_mokuyobi',build(){ return {seats:[]}; }}};
 global.SH3={streetOut:()=>({x:1,z:2,yaw:0})}; global.NY3={streetOut:()=>({x:3,z:4,yaw:0})}; global.XSS={streetOut:id=>({x:id==='dabu'?5:6,z:0,yaw:0})}; global.XP3={streetOut:()=>({x:7,z:0,yaw:0})};
-for(const f of ['src/data/lane118_shops.js','src/data/l118_shop_layouts.js','src/lane118.js','src/data/afar_layout.js','src/data/daybreak_layout.js','src/data/daily_offbeat_layout.js','src/data/tongxian_layout.js','src/tongxian3d.js',
+for(const f of ['src/data/lane118_shops.js','src/data/l118_redo772.js','src/data/l118_shop_layouts.js','src/lane118.js','src/data/afar_layout.js','src/data/daybreak_layout.js','src/data/daily_offbeat_layout.js','src/data/tongxian_layout.js','src/tongxian3d.js',
   'src/mokuyobi_sys3d.js','src/offbeat_sys3d.js','src/gg2shops3d.js','src/ggshops_sys3d.js','src/guitar3d.js','src/xs_close3d.js']) L(f);
 const X=typeof XSCLOSE!=='undefined'?XSCLOSE:null;
 const toasts=[]; GM.toast=t=>toasts.push(t); GM.enterN=1; let stood=0; GM.standUp=()=>{ stood++; E.player.seat=null; };

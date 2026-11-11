@@ -144,7 +144,7 @@ const INVITE_DATA={
       rule:(G,c,I)=>{ const r=c.r;
         /* 大四（畢業，在臺北的工作室上班；BB_163 第 2 節；三句照 AA_312 B-5 拿掉「欸不是」）：平日 20:00 以前在工作室、總圖要辦校友證；其他照下面原本的規則 */
         if(typeof STORY!=='undefined'&&STORY.presence&&STORY.presence('heroine_04',{day:c.day}).kind==='taipei'&&(r.res==='accept'||r.why==='busy')){ const wk=c.wd>=1&&c.wd<=5, late=20+10/60;
-          if(c.pid==='slowread'&&wk) return {res:'resched',why:'work',act:'work',lines:['平日我在工作室。……週六下午，慢讀？'],alt:I.nextSat(G,'heroine_04',c.P,c.day,14)};
+          if(c.pid==='slowread'&&wk) return {res:'resched',why:'work',act:'work',lines:['平日我在工作室。……週六下午，木曜日？'],alt:I.nextSat(G,'heroine_04',c.P,c.day,14)};
           if(c.pid==='lawlib'&&wk) return {res:'resched',why:'work',act:'work',lines:['平日我在工作室。……週六下午可以。法圖週六開到五點對吧。'],alt:I.nextSat(G,'heroine_04',c.P,c.day,14)};   /* AA_535b 2-1 */   /* AA_535 4-2：大四平日的慢讀＝婉拒＋改到下一個週六 14:00 */
           if(c.pid==='library') return {res:'decline',why:'grad',lines:['我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？'],alt:null};
           if(c.pid==='teahouse'&&wk) return {res:'resched',why:'work',act:'work',lines:['平日下午我在工作室。……週六下午可以嗎？'],alt:I.nextSat(G,'heroine_04',c.P,c.day,14)};   /* BB_163 第 2 節（BB-B 55509fe2）：平日（週三～週五下午）的一盞改到最近的週六下午 */
@@ -210,19 +210,19 @@ const INVITE_DATA={
         /* 1-2：大三起。週二三四 16～19 課輔班、週六 10～18／週日 13～18 書店 */
         const tutor=[2,3,4].includes(c.wd)&&c.h<19&&c.h+(c.P.stay||1)>16, shop=(c.wd===6&&c.h<18&&c.h+(c.P.stay||1)>10)||(c.wd===0&&c.h<18&&c.h+(c.P.stay||1)>13);
         const at=(h)=>I.freeAt(G,'classmate_peishan',c.P,c.day,h)?{day:c.day,h}:I.nextFree(G,'classmate_peishan',c.P,c.day,h);
-        if(c.pid==='lawlib') return INVITE_DATA.toSlow(G,'classmate_peishan',c,I,['法圖我現在進不去了。……慢讀好不好？']);   /* AA_535b 2-1：大三起不在這裡念了 */
+        if(c.pid==='lawlib') return INVITE_DATA.toSlow(G,'classmate_peishan',c,I,['法圖我現在進不去了。……木曜日好不好？']);   /* AA_535b 2-1：大三起不在這裡念了 */
         if(c.pid==='lake'&&r.res==='accept'&&!c.first) return {lines:['好。……我好久沒回去了。']};   /* AA_535b 2-2：acc R 換這一句（校園誰都進得來）*/
         if(c.pid==='slowread'){ if(tutor||shop){ const wdD=d=>((G.weekday+(d-G.day))%7+7)%7, tpD=d=>STORY.presence('classmate_peishan',{day:d}).kind==='taipei'; let alt=null;
-            for(let d=c.day+1; d<=c.day+14&&!alt; d++) if(wdD(d)!==6&&tpD(d)&&I.freeAt(G,'classmate_peishan',c.P,d,10)) alt={day:d,h:10};   /* 下一個她有空的早上 10:00（週六整天在書店；在臺北；慢讀週二休由 freeAt 擋）*/
-            return {res:'resched',why:'work',act:'work',lines:[shop?'那時候我在書店。……慢讀早上也開，早上好不好？':'那時候我在課輔班。……慢讀早上也開，早上好不好？'],alt}; }   /* AA_535b 4-3：撞到書店、課輔班不用 plan 那句；慢讀 18:00 關門，不像 Café 改到下班以後 */
-          return r.res==='accept'?{lines:['好。慢讀不用學生證。……我帶作業去改。']}:null; }   /* AA_535 4-2（大三起，在臺北）*/
+            for(let d=c.day+1; d<=c.day+14&&!alt; d++) if(wdD(d)!==6&&tpD(d)&&I.freeAt(G,'classmate_peishan',c.P,d,19)) alt={day:d,h:19};   /* AA_772 rules：改約下一個她有空的 19:00（原本早上 10:00；木曜日 13:00 才開）*/   /* 下一個她有空的早上 10:00（週六整天在書店；在臺北；慢讀週二休由 freeAt 擋）*/
+            return {res:'resched',why:'work',act:'work',lines:[shop?'那時候我在書店。……木曜日開到十點，改天晚上好不好？':'那時候我在課輔班。……木曜日開到十點，改天晚上好不好？'],alt}; }   /* AA_535b 4-3：撞到書店、課輔班不用 plan 那句；慢讀 18:00 關門，不像 Café 改到下班以後 */
+          return r.res==='accept'?{lines:['好。木曜日不用學生證。……我帶作業去改。']}:null; }   /* AA_535 4-2（大三起，在臺北）*/
         if(c.pid==='library') return {res:'decline',why:'school',lines:['我現在進不去總圖了。……Café 好不好？我帶作業去改。'],alt:null};
         if(c.pid==='cafe'){ if(shop) return {res:'resched',why:'work',act:'work',lines:['書店六點打烊。……六點十分，兩點半。'],alt:at(18+10/60)}; if(tutor) return {res:'resched',why:'work',act:'work',lines:['七點下課。……七點半，我走過去。'],alt:at(19.5)};
           return {res:'accept',lines:['好。我帶作業去改，你念你的。']}; }
         if(c.pid==='noodle'&&!(G.invites||[]).some(iv=>iv.who==='classmate_peishan'&&iv.place==='noodle'&&['done','accepted','going'].includes(iv.state)&&/^Y[34]/.test((CALENDAR.termOf(iv.day)||{id:''}).id))&&r.res==='accept') return {lines:['好。阿鳳阿姨一定會問我現在念什麼。……我要講很久。']};
         if(c.pid==='wenzhou'&&tutor) return {res:'resched',why:'work',act:'work',lines:['課輔班下課，剛好在溫州街。……七點，門口等我。'],alt:at(19)};
         return null; } },   /* rule：BB_158 第 4 節，大二下重考那一學期半熟、一盞都婉拒（SYS-21 起她那學期休學、presence 先回 away：照樣換成她自己的這一句）*/   /* 沛珊（6-4）*/
-    kexin:{ rule:(G,c,I)=>c.pid==='lawlib'&&c.r&&(c.r.res==='accept'||c.r.res==='resched')?INVITE_DATA.toSlow(G,'kexin',c,I,['法圖？我是外校的，進不去吧。','……慢讀好不好？那裡不用證件。']):null,   /* AA_535b 2-1：她是外校的，法圖進不去，改約慢讀 */
+    kexin:{ rule:(G,c,I)=>c.pid==='lawlib'&&c.r&&(c.r.res==='accept'||c.r.res==='resched')?INVITE_DATA.toSlow(G,'kexin',c,I,['法圖？我是外校的，進不去吧。','……木曜日好不好？那裡不用證件。']):null,   /* AA_535b 2-1：她是外校的，法圖進不去，改約慢讀 */
       acc:{brunch:{A:['SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。'],R:['好啊，我先查一下菜單。']},teahouse:{R:['一盞。安靜的地方。……我可能一個小時都不講話喔。']},
         pasta118:['好。我從木柵過去四十分鐘，你先點，我到了就吃。'],teahouse_ceremony:['茶席。……我要穿裙子嗎？','我穿。'],   /* AA_535b 4-2（企劃線 b3e5bca3b）：茶席那句接茶席現場她「坐下來，又站起來，把裙子拉好再坐」（wzlines3d.js CEREMONY_LINES）*/
         /* AA_417 3-2（她是政大的學生：羽球場由祐廷用台大的帳號預約）；政大那幾年的句子，經濟系那一年不用 */
@@ -245,25 +245,29 @@ const INVITE_DATA={
    只在法律系的年級（118 巷的場景本來就只在法律系）；時間：平日 12:10、15:30，週末多 10:00、14:00（timesBy）；下雨照常。見面兩個人一起坐下讀書（seatPose）。
    台詞（4-2，一字照稿）：first＝第一次約這裡、acc A＝認識和有點熟、R＝朋友以上、plan＝她那時候有事（系統接改天）、here＝她本來就在（3-1 的常客時段）、firstAt＝第一次和她到這裡多說的、walk＝一起走過去。
    芷若的 plan：上班照現有的 barista 規則（AA_415 表），不用這句。個人規則（子晴大四平日、學姊大三起平日與筆試前、沛珊大三起）寫在上面各人的 rule。見面旁白在 rel_lines.js 的 meet.slowread */
-INVITE_DATA.places.push({id:'slowread',zone:'l118_cafe2',name:'慢讀咖啡',verb:'去慢讀咖啡念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1.5,memory:'SLOWREAD_TOGETHER',sitAct:'read',seatPose:'read',cats:['study','sit'],
-  days:[0,1,3,4,5,6],off:[2],hours:[9,18],timesBy:{wk:[12+10/60,15.5],we:[10,12+10/60,14,15.5]},show:G=>!!G&&(G.stage||'law')==='law'});
+/* 2026-11-11 AA_772 slowread_to_mokuyobi（L118-SHOPS-REDO-1111，使用者：慢讀咖啡的念書、常客、邀約整套搬到別區現有的咖啡店；AA 挑溫州街的木曜日）：
+   地點 id slowread、記憶 SLOWREAD_TOGETHER 不改名（舊存檔照認）；區域換成 wz_mokuyobi、名字「木曜日」、營業 13:00～22:00、週二休（坐一個半小時＝最晚 20:30 開始）；
+   時間：平日 15:30、19:00，週末 14:00、15:30、19:00。只列在「念書」那一類（木曜日原本那個地點 mokuyobi 留「坐坐」，它的 verbStudy 拿掉，選單上木曜日的念書只有這一組）。
+   show：自己走去過木曜日一次才列（和 mokuyobi 那個地點同一個條件，AA_617 第 1 節；原本限法律系的年級拿掉）。七位的台詞下面照稿（tools/story/l118_fix772.py 換的字）*/
+INVITE_DATA.places.push({id:'slowread',zone:'wz_mokuyobi',name:'木曜日',verb:'去木曜日念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1.5,memory:'SLOWREAD_TOGETHER',sitAct:'read',seatPose:'read',cats:['study'],
+  days:[0,1,3,4,5,6],off:[2],hours:[13,22],timesBy:{wk:[15.5,19],we:[14,15.5,19]},show:G=>!!G&&!!G.visited&&!!G.visited.wz_mokuyobi});
 (function(){ const ytH8=G=>{ const o=G&&G.l118&&G.l118.once; return !!o&&typeof o==='object'&&o.H8!=null; };   /* 118 巷 H8 演過（滇香小館的老闆娘說語彤自己來問開店的事；lane118.js S.H8）。AA_535b 4-1 更正：稿上原本寫家常菜，H8 在滇香 */
   const SR={
-    heroine_01:{first:['慢讀？……那間我常去。窗邊有插座那張，我知道什麼時候會空。'],acc:{A:['好。我先去占位子。'],R:['好。']},plan:['那時候我排了別的。{zh}可以嗎？'],
-      here:['我已經在慢讀了。窗邊。'],firstAt:['（店長看到她，直接去做一杯熱拿鐵，沒有問她要什麼。）','……我每次都點一樣的。所以她不問了。'],walk:['蛋包飯研究所。……我每次經過都想問，他們研究出什麼了。']},
-    heroine_02:{first:['慢讀？去別人家的咖啡店喔……好啊，我想看他們的拉花。'],acc:{A:['好啊。我坐那邊會很想去幫他們洗杯子，你要拉住我。'],R:['好啊，我帶小說去。這次真的會看。']},
-      plan:(G,c)=>c&&c.r&&c.r.act==='barista'?null:['那時候我有事啦。{zh}好不好？'],firstAt:['（拿鐵端上來，她先看了很久才喝。）','……拉得比我好。','不要跟我們店長講。'],walk:['這條巷子的咖啡店，聽說一年會換一間。','慢讀撐那麼久，一定有什麼原因。']},
-    heroine_03:{first:['慢讀……美式七十，可以坐一下午。','好。'],acc:{A:['好。我帶筆記。'],R:['好。我那天剛好要寫報告。']},plan:['那時候不行。{zh}。'],here:['我在慢讀。你來。'],
-      firstAt:['（她看了一圈書架，抽出一本，翻到中間又放回去。）','這本我有。茶屋也有一本，被茶滴到過。'],walk:[{if:G=>ytH8(G),l:['滇香小館的老闆娘人很好。我去問過她開店的事。']},{if:G=>!ytH8(G),l:['118 巷的店，老闆幾乎都住樓上。','你看二樓的窗戶，有曬衣服的就是。']}]},
-    heroine_04:{first:['慢讀？……有插座嗎？','（你說有。）','好。'],acc:{A:['好啊。我要坐有插座的地方，不然我會很焦慮。'],R:['好。我寫程式，你念書。誰先分心誰請下一杯。']},plan:['那時候不行。{zh}？'],
-      firstAt:['（她把筆電插上電，看到電量開始跳，才把外套脫掉。）','好。我活過來了。'],walk:['這條巷子好窄。做成地圖的話，鏡頭一定會卡牆。']},
-    heroine_05:{first:['慢讀……我大一常去。','好。'],acc:{A:['可以。我只能待一個半小時。'],R:['好。今天我不趕。']},plan:['那時候我有安排了。{zh}，可以嗎？'],
-      firstAt:['（她坐下來，先用紙巾把桌上的水漬擦乾，才把書放上去。）','這張桌子我大一坐過。……桌腳還是會晃。'],
-      walk:[{if:(G,c)=>c.year<=2,l:['118 巷的店，我大一的時候只吃過兩間。','每天都在想要念什麼，沒在想要吃什麼。']},{if:(G,c)=>c.year>=3,l:['我現在比較常來了。','……念不下去的時候。']}]},
-    classmate_peishan:{first:['慢讀？好啊！我一直想進去，可是一個人不敢。'],acc:{A:['好啊！我帶民總，有問題可以問你嗎？'],R:['好。你念你的，我念我的，念完一起吃飯。']},plan:['啊，那時候我有事！{zh}可以嗎？'],
-      firstAt:['（她進門先把整面書架看完一遍，才坐下來。）','我們家店裡也有一面這種書架。……都是我媽在看。'],walk:['你看韓食小廚門口的菜單，手寫的。','我們家的菜單也是我寫的。字很醜，可是客人說看得懂。']},
-    kexin:{first:['慢讀？名字取得很好。我念書就是很慢。','……好，我過去。四十分鐘。'],acc:{A:['好。我坐窗邊，你坐對面，不准講話。'],R:['好。我帶刑總，你負責讓我不要睡著。']},plan:['那時候不行。{zh}，不准再改。'],
-      firstAt:['（她點了美式，喝一口，看了一下價錢。）','七十。我們學校旁邊要八十。','……你們這邊什麼都比較便宜，除了房租。'],walk:['你們學校旁邊的巷子都長得好像。我上次在這裡走錯兩次。']} };
+    heroine_01:{first:['木曜日？……那間我常去。窗邊那桌什麼時候會空，我知道。'],acc:{A:['好。我先去占位子。'],R:['好。']},plan:['那時候我排了別的。{zh}可以嗎？'],
+      here:['我已經在木曜日了。窗邊。'],firstAt:['（老闆看到她，直接去做一杯焙茶拿鐵，沒有問她要什麼。）','（小聲）……我每次都點一樣的。所以他不問了。'],walk:['這條巷子每一棟都長得很像。我是認二樓窗外那棵樹。']},
+    heroine_02:{first:['木曜日？離我們店才兩條巷子……好啊，我一直想進去偷看。'],acc:{A:['好啊。我坐那邊會很想去幫他們洗杯子，你要拉住我。'],R:['好啊，我帶小說去。這次真的會看。']},
+      plan:(G,c)=>c&&c.r&&c.r.act==='barista'?null:['那時候我有事啦。{zh}好不好？'],firstAt:['（焙茶拿鐵端上來，她先看了很久才喝。）','（小聲）……奶泡打得比我細。','（小聲）不要跟我們老闆講。'],walk:['溫州街的咖啡店，誰跟誰是朋友，我大概都知道。','只有木曜日的老闆，從來不出來串門子。']},
+    heroine_03:{first:['木曜日……那裡很安靜，可以坐一下午。','好。'],acc:{A:['好。我帶筆記。'],R:['好。我那天剛好要寫報告。']},plan:['那時候不行。{zh}。'],here:['我在木曜日。你來。'],
+      firstAt:['（她看了一圈牆上的唱片，停在其中一張前面。）','（小聲）這張茶屋也有。蘇姨只在打烊以後放。'],walk:[{if:G=>ytH8(G),l:['118 巷那間牛排的老闆娘人很好。我去問過她開店的事。']},{if:G=>!ytH8(G),l:['溫州街這些老房子，一樓開店的，老闆多半住樓上。','你看二樓的窗戶，有曬衣服的就是。']}]},
+    heroine_04:{first:['木曜日？……有插座嗎？','（你說沒有。）','……好。我充飽再去。'],acc:{A:['好啊。那裡沒有插座，我帶行動電源，兩顆。'],R:['好。我寫程式，你念書。誰先分心誰請下一杯。']},plan:['那時候不行。{zh}？'],
+      firstAt:['（她把筆電打開，先看了一眼電量，才把外套脫掉。）','（小聲）百分之九十八。夠我寫到打烊。'],walk:['這條巷子好窄。做成地圖的話，鏡頭一定會卡牆。']},
+    heroine_05:{first:['木曜日……我大一常去。','好。'],acc:{A:['可以。我只能待一個半小時。'],R:['好。今天我不趕。']},plan:['那時候我有安排了。{zh}，可以嗎？'],
+      firstAt:['（她坐下來，先用紙巾把桌上的水漬擦乾，才把書放上去。）','（小聲）這張桌子我大一坐過。……桌腳還是會晃。'],
+      walk:[{if:(G,c)=>c.year<=2,l:['溫州街的店，我大一的時候只進過兩間。','每天都在想要念什麼，沒在想要去哪。']},{if:(G,c)=>c.year>=3,l:['我現在比較常來了。','……念不下去的時候。']}]},
+    classmate_peishan:{first:['木曜日？好啊！我一直想進去，可是那裡太安靜，我一個人會很想講話。'],acc:{A:['好啊！我帶課本，有問題我用寫的問你。'],R:['好。你念你的，我念我的，念完一起吃飯。']},plan:['啊，那時候我有事！{zh}可以嗎？'],
+      firstAt:['（她進門先把每一桌的小檯燈看過一遍，才坐下來。）','（小聲）這種燈，我媽一定會先問一盞多少錢。'],walk:['你看那間門口的小黑板，手寫的。','我們家的菜單也是我寫的。字很醜，可是客人說看得懂。']},
+    kexin:{first:['木曜日？那我星期四以外去，算不算違規。','……好，我過去。四十分鐘。'],acc:{A:['好。我坐窗邊，你坐對面，不准講話。'],R:['好。我帶刑總，你負責讓我不要睡著。']},plan:['那時候不行。{zh}，不准再改。'],
+      firstAt:['（她點了焙茶拿鐵，喝一口，看了一下價錢。）','（小聲）一百五。','（小聲）……好喝。可是我要坐滿三個小時才划算。'],walk:['你們學校旁邊的巷子都長得好像。我上次在這裡走錯兩次。']} };
   INVITE_DATA.slowreadLines=SR;
   for(const id in SR){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}), x=SR[id]; for(const k in x) (p[k]||(p[k]={})).slowread=x[k]; } })();
 /* ---------- AA_535b（INVITE-OPTS-1030 第二份，AA-B 定稿，企劃線 2dbcc5691；第②級）第 2 節：新的校內地點 ----------
@@ -502,7 +506,7 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
    見面那一段（進門旁白、第一次的那一句、隨機一句、朋友一句）在 src/mokuyobi_sys3d.js（MOKS.meetScene；台詞照 AA_618 1-6 一字照抄）；答應、改天照一般規則（AA_618 沒有寫答應句：系統旁白）。
    可昕照現在的規則（只在她在臺北、約得到的時候）。沒有 MOKS（舊的測試環境）＝照一般的見面旁白。
    答應的那一句（AA_645 第 4 節，企劃線 ed6a4329d，一字照稿）：下面十人各一句（people[人].acc.mokuyobi）；沒列的人＝一般那句（MOKS.ACC0）；不答應照一般回覆表 */
-INVITE_DATA.places.push({id:'mokuyobi',zone:'wz_mokuyobi',name:'木曜日',verb:'去木曜日坐坐',verbStudy:'去木曜日念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'MOKUYOBI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
+INVITE_DATA.places.push({id:'mokuyobi',zone:'wz_mokuyobi',name:'木曜日',verb:'去木曜日坐坐',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'MOKUYOBI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit'],   /* AA_772：念書那一類搬給地點 slowread（原本這裡有 verbStudy、cats 也有 study）*/
   days:[0,1,3,4,5,6],off:[2],hours:[13,22],show:G=>!!G&&!!G.visited&&!!G.visited.wz_mokuyobi,
   scene:(GM,iv,who)=>typeof MOKS!=='undefined'&&MOKS.meetScene?MOKS.meetScene(GM,iv,who):GM.say(null,'你和'+((who&&who.name)||'')+'在木曜日坐坐。')});
 (function(){ const ACC={heroine_01:'木曜日？好，我帶書。',heroine_02:'好。……我想坐窗邊。',heroine_03:'好。我把報告帶去寫。',heroine_04:'那裡不能大聲說話吧。……好啦。',heroine_05:'好。我很久沒去了。',
@@ -655,7 +659,12 @@ INVITE_DATA.seatOpen.byPlace.corner_records='corner_records';
   const hrs=k=>{ const s=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)&&LANE118_SHOPS.shops.find(x=>x.id===k); return (s&&s.hours)||{open:[[11,14],[17,20]],closed:[]}; };
   const H=(o,k)=>{ const h=hrs(k), c=h.closed||[]; return Object.assign(o,{windows:h.open.map(w=>w.slice()),off:c.slice(),days:[0,1,2,3,4,5,6].filter(d=>!c.includes(d))}); };
   const M=(k,name,verb)=>H({id:'l118_'+k,zone:'l118_'+k,name,verb,kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],times:[12,12.5,18,18.5],show:V('l118_'+k)},k);
-  const P=[M('dian','滇香小館','去滇香小館吃飯'),M('home','巷口家常菜','去巷口家常菜吃飯'),M('omu','蛋包飯研究所','去蛋包飯研究所吃飯'),M('noodle2','六張犁麵舖','去六張犁麵舖吃麵'),M('korea','韓食小廚','去韓食小廚吃飯'),M('self','好家自助餐','去好家自助餐吃飯'),
-    H({id:'l118_tea',zone:'l118_tea',name:'一一八茶飲',verb:'去一一八茶飲買飲料、走一走',kind:'walk',minStage:'FRIEND',stay:0.5,memory:'WALKED_TOGETHER',sitAct:'wait',cats:['walk'],times:[14,16,19.5],show:V('l118_tea')},'tea')];
+  /* 2026-11-11 AA_772 invite_places（L118-SHOPS-REDO-1111，九間店改版）：店名、動詞照 src/data/l118_redo772.js 的 invitePlaces（tools/story/l118_fix772.py 產生），不寫在這裡。
+     吃飯類八間（l118_tea 現在是辛亥韓食＝吃飯類；多 l118_cafe2 大學食堂；義大麵屋照舊走 L118.INVITE）；散步類兩間外帶飲料店（設定照原本的茶飲店：walk、朋友以上、半小時、14／16／19.5）。
+     外帶店沒有室內：區域＝118 巷（lane118），走到過 118 巷、而且街上有那一間的位置（lane118_layout.js）才列 */
+  const IP=(typeof L118_REDO!=='undefined'&&L118_REDO.invitePlaces)||{meal:[],walk:[]};
+  const placed=k=>typeof LANE118_LAYOUT!=='undefined'&&Array.isArray(LANE118_LAYOUT.shops)&&LANE118_LAYOUT.shops.some(q=>q.id===k);
+  const WK=(k,name,verb)=>H({id:'l118_'+k,zone:'lane118',name,verb,kind:'walk',minStage:'FRIEND',stay:0.5,memory:'WALKED_TOGETHER',sitAct:'wait',cats:['walk'],times:[14,16,19.5],show:G=>!!G&&!!G.visited&&!!G.visited.lane118&&placed(k)},k);
+  const P=IP.meal.map(([k,name,verb])=>M(k,name,verb)).concat(IP.walk.map(([k,name,verb])=>WK(k,name,verb)));
   for(const q of P) if(!INVITE_DATA.places.some(x=>x.id===q.id)) INVITE_DATA.places.push(q);
-  const B=INVITE_DATA.seatOpen&&INVITE_DATA.seatOpen.byPlace; if(B) for(const k of ['dian','home','omu','noodle2','korea','self']) if(!B['l118_'+k]) B['l118_'+k]='meal'; })();
+  const B=INVITE_DATA.seatOpen&&INVITE_DATA.seatOpen.byPlace; if(B) for(const [k] of IP.meal) if(!B['l118_'+k]) B['l118_'+k]='meal'; })();

@@ -1348,11 +1348,19 @@
   },
   {
    "path": "docs/story_planning/AA_280_118巷_店家菜單與午餐.md",
-   "sha": "719ac68a",
+   "sha": "ef7280917",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（D46 使用者 10-11；使用者 10-18 02:2x「118巷…現在就放進這個發佈版本」；D100 台詞歸 AA）；AA-C 10-20 14:56 店裡的招呼三句（店走得進去以後，LANE118-SHOPS-1020）",
-   "task": "ART-03",
-   "kind": "text"
+   "approvedBy": "AA 2026-11-11 定稿（D109）；使用者 11-11 規格 docs/handoff/user_specs/L118_SHOPS_REDO_1111.md",
+   "task": "L118-SHOPS-REDO-1111",
+   "kind": "text",
+   "note": "ef7280917（AA 11-11 最終版，四份稿統一這個 SHA；AA_280 的內容和 93a507e77、d4ce20719 一樣：五湖四海改每天都開）；前一版 6859e114f：L118-SHOPS-REDO-1111（USER_WANTS X338）九間店店名、類型、菜單、價錢全換＋兩間外帶飲料店 drink_a／drink_b；第 3、4 節照「照餐飲類型搬」（AA 先交 06715b81b，同一天再改：語彤週一留 dian、水上便當招呼的說話人改老闆、義大麵屋公休改週一＝6859e114f）。子代理代登（2026-11-11），給值班 LAWWW 核。",
+   "history": [
+    {
+     "sha": "719ac68a",
+     "approvedBy": "AA-C 定稿（D46 使用者 10-11；使用者 10-18 02:2x「118巷…現在就放進這個發佈版本」；D100 台詞歸 AA）；AA-C 10-20 14:56 店裡的招呼三句（店走得進去以後，LANE118-SHOPS-1020）",
+     "task": "ART-03"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/retake_home/retake_home_v1.json",
@@ -5549,14 +5557,35 @@
    ]
   },
   {
-   "path": "docs/story_planning/AA_721_l118_invite_acc.json",
-   "sha": "94ab0865e",
+   "path": "docs/story_planning/AA_772_l118_shops_redo_fix.json",
+   "sha": "ef7280917",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 09:27「INVITE-PLACES 第二批」）",
-   "task": "INVITE-PLACES-1107",
+   "approvedBy": "AA 2026-11-11 定稿（D109）；使用者 11-11 規格 docs/handoff/user_specs/L118_SHOPS_REDO_1111.md（故事照餐飲類型搬、慢讀咖啡整套搬到木曜日）",
+   "task": "L118-SHOPS-REDO-1111",
    "kind": "json",
-   "note": "118 巷七家店 × 七位 acc／firstAt；可昕不去好家自助餐（no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js",
+   "note": "ef7280917：118 巷九間店改版的修正稿（fix 117 列＋搬法表、店員、熟客三段、慢讀→木曜日、邀約地點、eat_lines、food_fav）；tools/story/l118_fix772.py 照稿換、產生 src/data/l118_redo772.js。子代理代登（2026-11-11），給值班 LAWWW 核。",
    "history": [
+    {
+     "sha": "d4ce20719",
+     "note": "被 ef7280917 取代（AA 照 BB 的審稿改了四列的 new：學姊 first、沛珊 acc A、沛珊 rule 兩句）。已經照這一版套進檔裡的那幾句，l118_fix772.py 會讀這一版的 new 當成可以接受的 old 再換成新的"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_721_l118_invite_acc.json",
+   "sha": "ef7280917",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-11 定稿（D109）；使用者 11-11 規格 docs/handoff/user_specs/L118_SHOPS_REDO_1111.md",
+   "task": "L118-SHOPS-REDO-1111",
+   "kind": "json",
+   "note": "ef7280917（AA 照 BB 的審稿改了五格：l118_home／l118_dian 語彤、l118_cafe2／l118_korea／l118_drink_a 芷若）：L118-SHOPS-REDO-1111（X338）118 巷十個位置 × 七位 acc／firstAt（新 key l118_cafe2、l118_drink_a、l118_drink_b；可昕不去大學食堂＝no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js。子代理代登（2026-11-11），給值班 LAWWW 核。",
+   "history": [
+    {
+     "sha": "94ab0865e",
+     "approvedBy": "AA-B D109（11-07 09:27「INVITE-PLACES 第二批」）",
+     "task": "INVITE-PLACES-1107",
+     "note": "被 d4ce20719 取代（118 巷九間店改版）。原本：118 巷七家店 × 七位 acc／firstAt；可昕不去好家自助餐（no）"
+    },
     {
      "sha": "b782e2c08",
      "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"
@@ -6402,12 +6431,18 @@
   },
   {
    "path": "docs/story_planning/AA_771_l118_lunch.json",
-   "sha": "138bfaf45",
+   "sha": "1669b3ae0",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-11-11 交稿第二版（照 BB_331 改；D100b 稿就是定稿；使用者 X339）；LAWWW 2026-11-11 指定匯企劃線 138bfaf45 這一版（第一版 dd4a310f1，id 沒變）",
    "task": "L118-LUNCH-INVITE-1111",
    "kind": "json",
-   "note": "X339 118 巷課後午餐邀約的台詞、選項、旁白（發起／同行 8 人、lunch 31 組、special 15 組、到店 8 句、吃完 2 句、快速略過一行、錢不夠三句）：tools/story/import_l118_lunch.py 一字照稿 → src/data/l118_lunch.js（L118_LUNCH_DATA）；special 的 when 是工具從 cond 文字拆的。AA 往後加 id 重跑同一支工具（換 sha）。測試 tests/l118_lunch_unit.js"
+   "note": "X339 118 巷課後午餐邀約的台詞、選項、旁白（發起／同行 8 人、lunch 31 組、special 15 組、到店 8 句、吃完 2 句、快速略過一行、錢不夠三句）：tools/story/import_l118_lunch.py 一字照稿 → src/data/l118_lunch.js（L118_LUNCH_DATA）；special 的 when 是工具從 cond 文字拆的。AA 往後加 id 重跑同一支工具（換 sha）。測試 tests/l118_lunch_unit.js",
+   "history": [
+    {
+     "sha": "138bfaf45",
+     "note": "被 1669b3ae0 取代（AA 11-11 最終版 v3：新店的 prefs／shop／arrive、options.skip「好，走。」、S-meet-ta 第一句旁白和 cond、Alison 那一句照留；118 巷九間店改版 L118-SHOPS-REDO-1111 一起換）。子代理代登，給值班 LAWWW 核"
+    }
+   ]
   }
  ]
 }

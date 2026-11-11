@@ -1616,8 +1616,15 @@ const Z3 = (function(){
     root.traverse(o=>{ if(o.userData&&o.userData.glow) glows.push(o); if(!o.isMesh) return; const ud=o.userData||{}, mt=o.material, nm=mt&&mt.name; const glassy=!!(mt&&mt.transparent); o.castShadow=!glassy&&wzCastsShadow(o); o.receiveShadow=!glassy;
       if(/^PLATE_FACE_/.test(o.name)){ o.geometry.computeBoundingBox(); box.copy(o.geometry.boundingBox).getSize(sz); cafeFacePaint(o,wzPlateTex(ud,Math.max(sz.x,sz.z),sz.y),null); o.castShadow=false; plateFaces.push(o); return; }
       if(/^(V?SIGN|INTERIOR)_FACE_/.test(o.name)){ o.geometry.computeBoundingBox(); box.copy(o.geometry.boundingBox).getSize(sz); const wM=Math.max(sz.x,sz.z), hM=sz.y; o.castShadow=false;
-        if(o.name.indexOf('SIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,false),0.9,0); signFaces.push(o); return; }
-        if(o.name.indexOf('VSIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,true),1.0,0); signFaces.push(o); return; }
+        /* 118 巷（tag 'l118'）招牌上的字照店家資料（L118-SHOPS-REDO-1111，使用者 2026-11-11 九間店換店名）：街景模型 lane118_street.glb 的板面帶的是匯出當時的店名（自訂屬性 sign／sub），
+           LAWWW2 的新外觀延後，這裡先把字換成 src/data/lane118_shops.js 的店名、類型。哪一塊板面是哪一間店：板面上的字等於那間店室內配置（src/data/l118_shop_layouts.js，LAWWW2 匯出）記的店名才換
+           （直式招牌：板面的字是那個店名的開頭幾個字）；底色、色帶照模型原本的。直式：新店名五個字以內整個寫，更長的寫前四個字。模型重新匯出、配置重產以後兩邊一樣，這裡就等於沒換 */
+        const ud118=(tag==='l118'&&typeof ud.sign==='string'&&ud.sign&&typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)&&typeof L118_SHOP_LAYOUTS!=='undefined')?(()=>{ const v=o.name.indexOf('VSIGN_FACE_')===0;
+          for(const id of Object.keys(L118_SHOP_LAYOUTS)){ const old=L118_SHOP_LAYOUTS[id].name, sh=LANE118_SHOPS.shops.find(q=>q.id===id); if(!old||!sh||old===sh.name) continue;
+            if(v?(ud.sign.length>=2&&old.indexOf(ud.sign)===0):ud.sign===old) return Object.assign({},ud,{sign:v?(sh.name.length<=5?sh.name:sh.name.slice(0,4)):sh.name},v||ud.sub==null||ud.sub===''?{}:{sub:sh.type}); }
+          return ud; })():ud;
+        if(o.name.indexOf('SIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud118,wM,hM,false),0.9,0); signFaces.push(o); return; }
+        if(o.name.indexOf('VSIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud118,wM,hM,true),1.0,0); signFaces.push(o); return; }
         const r=Math.max(1,Math.round(wM/hM/2)), t=TK.interiorTex(ud.interior||'cafe').clone(); t.flipY=false; t.wrapS=THREE.RepeatWrapping; t.needsUpdate=true;
         if(!(r>1&&wzSplitQuadU(o,r))) t.repeat.set(r,1);   /* 店內景深卡（LAWWW2-C 2026-10-21）：要合成 atlas，atlas 裡不能重複貼圖 → 重複幾次就把板面切成幾塊，每一塊貼一整張 */
         cafeFacePaint(o,t,null); intFaces.push(o); return; }
@@ -2807,14 +2814,14 @@ const Z3 = (function(){
     for(const side of ['W','E']){ const fx=side==='W'?fw:fe, sx=side==='W'?-1:1; const cuts=gaps(side).map(a=>[a.z0,a.z1]).sort((a,b)=>a[0]-b[0]); let cur=z0; const segs=[]; for(const [a,b] of cuts){ if(a>cur) segs.push([cur,a]); cur=b; } if(z1>cur) segs.push([cur,z1]);
       for(const [a,b] of segs){ const w=b-a, cx=fx+sx*6; const m=new THREE.Mesh(new THREE.BoxGeometry(12,13,w),M(side==='W'?'#cfc5b2':'#d6c3a5')); m.position.set(cx,6.5,(a+b)/2); m.userData.l118=true; m.userData.dyn=true; g.add(m); fb.push(m); addCollider(cx,(a+b)/2,12,w,14); } }
     // 店門口（點餐）：店的中間、人行道上
-    for(const sh of ((L&&L.shops)||[])){ const x=sh.side==='W'?fw+0.9:fe-0.9, z=(sh.z0+sh.z1)/2; const nm=(typeof LANE118_SHOPS!=='undefined'&&(LANE118_SHOPS.shops.find(q=>q.id===sh.id)||{}).name)||sh.name;
+    for(const sh of ((L&&L.shops)||[])){ const x=sh.side==='W'?fw+0.9:fe-0.9, z=(sh.z0+sh.z1)/2; const SD=(typeof LANE118_SHOPS!=='undefined'&&LANE118_SHOPS.shops.find(q=>q.id===sh.id))||null, nm=(SD&&SD.name)||sh.name, ty=(SD&&SD.type)||sh.type;   /* 店名、類型照店家資料（L118-SHOPS-REDO-1111：原本類型讀配置）；配置有、資料沒有的店照配置 */
       /* 店走得進去（LANE118-SHOPS-1020，X66；使用者 2026-10-20「店裡可以進去 店員也在裡面」）：有室內配置的店，營業時間按鈕是「進○○」（區域 l118_<id>，src/l118_shops3d.js）；
          沒開的時候照舊是店門口那個按鈕（L118.order 說鐵門拉下來一半） */
       const open118=()=>{ try{ return typeof L118!=='undefined'&&typeof GAME!=='undefined'&&GAME.G?L118.isOpen(sh.id,GAME.G):true; }catch(e){ return true; } };
       if(typeof L118_SHOP_LAYOUTS!=='undefined'&&L118_SHOP_LAYOUTS[sh.id]){ const LL=L118_SHOP_LAYOUTS[sh.id];
-        E.interactables.push({x,z,radius:1.4,prio:1,label:'進'+nm+'（'+sh.type+'）',exit:{to:'l118_'+sh.id,spawn:{x:LL.spawn.x,z:LL.spawn.z,yaw:LL.spawn.yaw}},get hidden(){ return !open118(); }});
-        E.interactables.push({x,z,radius:1.4,prio:1,label:nm+'（'+sh.type+'）',shop118:sh.id,get hidden(){ return open118(); }}); }   /* prio：在門口等的常客不擋店門（BB-C 10-20：好家自助餐門口江明軒站著，按鈕變「和江明軒說話」進不去）；要跟他說話就進店（L118.populateShop 讓他跟進來）*/
-      else E.interactables.push({x,z,radius:1.4,label:nm+'（'+sh.type+'）',shop118:sh.id}); }
+        E.interactables.push({x,z,radius:1.4,prio:1,label:'進'+nm+'（'+ty+'）',exit:{to:'l118_'+sh.id,spawn:{x:LL.spawn.x,z:LL.spawn.z,yaw:LL.spawn.yaw}},get hidden(){ return !open118(); }});
+        E.interactables.push({x,z,radius:1.4,prio:1,label:nm+'（'+ty+'）',shop118:sh.id,get hidden(){ return open118(); }}); }   /* prio：在門口等的常客不擋店門（BB-C 10-20：好家自助餐門口江明軒站著，按鈕變「和江明軒說話」進不去）；要跟他說話就進店（L118.populateShop 讓他跟進來）*/
+      else E.interactables.push({x,z,radius:1.4,label:nm+'（'+ty+'）',shop118:sh.id}); }   /* 沒有室內配置的店（外帶飲料店 drink_a／drink_b）：店門口點餐 */
     E.interactables.push({x:0,z:gz-0.6,radius:2.2,label:(L&&L.backGate.label)||'回到首都帝大（後門）',exit:{to:'campus',spawn:{x:34,z:-125.6,yaw:0}}});   /* 回到霖澤館後面的小廣場（校園那一側的出口在同一個地方）*/
     // 路燈與店家燈光（晚上）
     const pools=[]; for(const z of [-30,-10,10,28]){ const lp=W3.lampPost(); place(g,lp,fe-0.35,z,-Math.PI/2); nav.blockCircle(fe-0.35,z,0.5); const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(fe-1.1,0.03,z); g.add(pool); pools.push(pool); }
