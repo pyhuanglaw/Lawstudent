@@ -1850,3 +1850,11 @@
 [11:13:44] worktree add 811aa4c0f1b44b8ed62df03c88a85f3f2f8167da: invalid reference - fetching main and the commit itself
 [11:14:03] 正在跑：NM_reach_new（已跑 6 分／上限 40 分）、NM_reach_old（已跑 2 分／上限 40 分）、FN2_shots_ext_new（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:16:53] [res] cpu=14% mem=59% (18.5/31.4 GB) chrome_testing=8  END FN2_shots_ext_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9c31fb957..8d9f73238  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:17:02] ==== END   FN2_shots_ext_new  exit=0  192s   ====
+[11:17:12] memory 57% before starting LM_cam2_new_r2 (2 running)
+[11:17:12] ==== START LM_cam2_new_r2  (probe @ 811aa4c0f1b44b8ed62df03c88a85f3f2f8167da) ====
+[11:17:15] [res] cpu=1% mem=57% (18.0/31.4 GB) chrome_testing=8  START LM_cam2_new_r2
+[11:18:20] [res] cpu=5% mem=52% (16.5/31.4 GB) chrome_testing=8  END NM_reach_new
