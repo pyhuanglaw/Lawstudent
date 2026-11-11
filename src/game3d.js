@@ -384,6 +384,8 @@ const GAME = (function(){
     if(typeof FD!=='undefined'&&FD.migrate){ try{ FD.migrate(s); }catch(e){ console.warn('FD.migrate',e); } }   /* BUG-Y4S2-NOFINAL-1102：大四下沒有期末考日被誤判延畢的舊存檔 */
     if(typeof ADV!=='undefined'&&ADV.backfillCG){ try{ ADV.backfillCG(s); }catch(e){ console.warn('ADV.backfillCG',e); } }
     if(typeof BIKE!=='undefined'&&BIKE.migrate){ try{ BIKE.migrate(s); }catch(e){ console.warn('BIKE.migrate',e); } }
+    if(typeof SLOWREAD!=='undefined'&&SLOWREAD.migrate){ try{ SLOWREAD.migrate(s); }catch(e){ console.warn('SLOWREAD.migrate',e); } }   /* AA_772：慢讀咖啡搬到木曜日——已經排好的邀約（地點 slowread）改去木曜日，時間對不上的取消（src/slowread3d.js）*/
+    if(typeof EAT!=='undefined'&&EAT.migrate772){ try{ EAT.migrate772(s); }catch(e){ console.warn('EAT.migrate772',e); } }   /* 118 巷九間店改版：「吃過幾次」的店名 key 照 AA_772 的對照換成現在的店名（src/eat3d.js）*/
     if(typeof L118!=='undefined'&&L118.migrate){ try{ L118.migrate(s); }catch(e){ console.warn('L118.migrate',e); } }   /* L118-SHOPS-REDO-1111（使用者 11-11 118 巷九間店換菜單）：舊存檔「上次點的」不在新菜單裡的清掉（src/lane118.js）；來了幾次、一起吃的次數照留 */
     if(typeof SIDEQ!=='undefined'&&SIDEQ.renameMigrate){ try{ SIDEQ.renameMigrate(s); }catch(e){ console.warn('SIDEQ.renameMigrate',e); } }   /* 公館四間店改名（AA_647 第 6 節）：相簿裡已經存下的順手的事標題換新店名；熟客次數、任務進度的 key 照舊 */   /* 單車的款式、顏色、買過的車（BIKE-SHOP-PARK-1104；舊存檔＝開局那台城市通勤車）*/   /* CG 補記（BB 2026-11-02；adv3d.js）*/
     if(typeof FRIENDS2!=='undefined'&&FRIENDS2.migrate){ try{ FRIENDS2.migrate(s); }catch(e){ console.warn('FRIENDS2.migrate',e); } }   /* AA_637 第 3 節：舊存檔已經認識的朋友，名字卡不出現 */

@@ -81,10 +81,24 @@ staff['公館的便利商店']['line5Alt'] = {'when': '沒加熱', 't': m4.group
 # key 照舊用舊字（畫面上的店名 eat3d.js S.SHOW 換）。換回 key、句子照新字
 KEY_OLD = {'2:30 AM': '兩點半 Café', '溫州街・SUNNY SIDE': '溫州街・半熟'}
 first = {KEY_OLD.get(k, k): v for k, v in first.items()}; staff = {KEY_OLD.get(k, k): v for k, v in staff.items()}
-data = {'source': f'AA_329（企劃 {SHA}）＋AA_336 第 A 節（企劃 {SHA_A}）＋AA_497 第 8 節第 3 點換一句（企劃 60fc3b9a3）', 'open': OPEN, 'closeRecycle': RECYCLE, 'closeDoor': DOOR, 'doorShops': door_shops,
+# L118-SHOPS-REDO-1111（使用者 2026-11-11 118 巷九間店改版；AA_772 的 eat_lines 那一節，白名單上的版本；LAWWW 決定疊在匯入工具、不請 AA 改 AA_329 源稿）：
+# 118 巷九間舊店的 first／staff 拿掉（慢讀咖啡那一列也拿掉，木曜日有自己的），換成十一間新店的；吃完在店門口分開的店（doorShops）照 AA_772 換字。白名單沒有 AA_772＝不疊
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
+import l118_fix772
+OV772 = l118_fix772.eat_overlay(ROOT)
+N_FIRST, N_STAFF = 15, 16
+if OV772:
+    for o in OV772['oldNames']:
+        if first.pop('118 巷・' + o, None) is None or staff.pop(o, None) is None: raise SystemExit('AA_772 eat_lines：AA_329 沒有這間舊店：' + o)
+    first.update(OV772['first']); staff.update(OV772['staff'])
+    for o in OV772['doorOld']:
+        if o not in door_shops: raise SystemExit('AA_772 eat_lines.doorShops：原本的清單沒有「' + o + '」')
+    door_shops = [x for x in door_shops if x not in OV772['doorOld']] + [x for x in OV772['doorShops'] if x not in door_shops or x in OV772['doorOld']]
+    N_FIRST += len(OV772['first']) - len(OV772['oldNames']); N_STAFF += len(OV772['staff']) - len(OV772['oldNames'])
+data = {'source': f'AA_329（企劃 {SHA}）＋AA_336 第 A 節（企劃 {SHA_A}）＋AA_497 第 8 節第 3 點換一句（企劃 60fc3b9a3）' + (f'＋118 巷十一間照 {OV772["tag"]} 的 eat_lines' if OV772 else ''), 'open': OPEN, 'closeRecycle': RECYCLE, 'closeDoor': DOOR, 'doorShops': door_shops,
         'together': together, 'first': first, 'staff': staff, 'staffYutong': ['heroine_03', yt]}
 n = sum(len(v) for g in together.values() for v in g.values())
-assert len(together) == 12 and len(first) == 15 and len(staff) == 16, (len(together), len(first), len(staff))
+assert len(together) == 12 and len(first) == N_FIRST and len(staff) == N_STAFF, (len(together), len(first), len(staff))
 out = ('/* ===== 吃東西（X67，使用者 10-20「吃東西好像只是花錢沒有別的功用」）：一起吃、吃過的、店員認得你——台詞 AA_329＋AA_336 第 A 節（AA-C 定稿，D100 照抄）=====\n'
        f'   自動產生：python3 tools/eat/import_eat_lines.py（只讀匯入白名單上的版本 AA_329@{SHA}、AA_336@{SHA_A}）。不要手改；改字請 AA 改企劃、改白名單、重匯。\n'
        '   together[id][ACQ|FAM|FRI|dating|exFriend|exLow]＝[說話的人, 台詞]（null＝旁白、me＝祐廷）；first[店]＝第一次的旁白；staff[店]＝{who,line5,same,alt}；\n'

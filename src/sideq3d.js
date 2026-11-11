@@ -74,9 +74,9 @@ const SIDEQ=(function(){
   const metSis=G=>met(SIS)||!!(G&&G.flags&&G.flags.met_sis);
 
   /* ---------- 稿（AA_397 第 2 節＋AA_408 補字，企劃線 29e41dd8；第 6 節第二、三批的缺字 b0b80a54）：照抄；null＝稿裡沒有，先不演 ---------- */
-  const SHOP_NAME={'林家乾麵':'林家乾麵','巷口茶飲':'帝大紅茶','夏日冰菓室':'夏日冰菓室','慢讀咖啡':'慢讀咖啡（118 巷）','六張犁麵舖':'六張犁麵舖（118 巷）','好家自助餐':'好家自助餐（118 巷）','蛋包飯研究所':'蛋包飯研究所（118 巷）','公館的便利商店':'公館的便利商店',
-    '滇香小館':'滇香小館（118 巷）','巷口家常菜':'巷口家常菜（118 巷）','Pasta 118':'Pasta 118（118 巷）','韓食小廚':'韓食小廚（118 巷）','溫州街・一盞':'一盞茶屋（溫州街）','舊路書房':'頁間書屋（公館）',
-    '一一八茶飲':'一一八茶飲（118 巷）','清葉茶行':'青木茶室（公館）','巷子裡定食':'小路（溫州街）','溫州街・半熟':'SUNNY SIDE（溫州街）'};
+  const SHOP_NAME={'林家乾麵':'林家乾麵','巷口茶飲':'帝大紅茶','夏日冰菓室':'夏日冰菓室','慢讀咖啡':'木曜日（溫州街）','六張犁麵舖':'清州刀削麵（118 巷）','好家自助餐':'大學食堂（118 巷）','蛋包飯研究所':'奈良咖哩（118 巷）','公館的便利商店':'公館的便利商店',
+    '滇香小館':'118牛排（118 巷）','巷口家常菜':'五湖四海（118 巷）','Pasta 118':'義大麵屋（118 巷）','韓食小廚':'辛亥韓食（118 巷）','溫州街・一盞':'一盞茶屋（溫州街）','舊路書房':'頁間書屋（公館）',
+    '一一八茶飲':'喝不喝咖啡（118 巷）','清葉茶行':'青木茶室（公館）','巷子裡定食':'小路（溫州街）','溫州街・半熟':'SUNNY SIDE（溫州街）'};
   /* 店名（key）＝各店點餐時記次數用的名字（src/eat3d.js 的 EAT.count）：一盞茶屋、半熟早午餐是「溫州街・一盞」「溫州街・半熟」（wzshops3d.js 的 buy）；清葉茶行、舊路書房沒有吃過的，story3d.js 點完一樣記次數 */
   const STAFF={'林家乾麵':'老闆','巷口茶飲':'店員','夏日冰菓室':'老闆娘','慢讀咖啡':'店長','六張犁麵舖':'老闆','好家自助餐':'阿姨','蛋包飯研究所':'店員','公館的便利商店':'店員',
     '滇香小館':'老闆娘','巷口家常菜':'老闆娘','Pasta 118':'老闆','韓食小廚':'老闆','溫州街・一盞':'蘇姨','舊路書房':'書店老闆','一一八茶飲':'店員','清葉茶行':'茶行老闆娘','巷子裡定食':'小路的老闆','溫州街・半熟':'小米姐','輪轉單車':'車行老闆'};   /* 說話框（AA_404、AA_405 的「誰」）*/
@@ -86,7 +86,25 @@ const SIDEQ=(function(){
   S.RENAME_1104={'舊路書房':'頁間書屋','輪轉單車':'慢輪單車','清葉茶行':'青木茶室','日日便利':'日和便利店'};
   /* 溫州街第一批改名（AA_655 第 1、2 節，企劃線 a22e53016）：SQ19 巷子裡定食→小路、SQ20 半熟早午餐→SUNNY SIDE；key（shop:、SHOP_NAME／STAFF 的 key）照舊 */
   S.RENAME_AA655={'巷子裡定食':'小路','半熟早午餐':'SUNNY SIDE','兩點半 Café':'2:30 AM','巷口茶飲':'帝大紅茶'};   /* AA_658（企劃線 6af703d63）：溫州街第二批，SQ02 的標題 */
-  S.renameMigrate=function(s){ const A=s&&Array.isArray(s.album)?s.album:null; if(!A) return 0; let n=0; const OLD=Object.keys(S.RENAME_1104).concat(Object.keys(S.RENAME_AA655)); for(const x of A){ if(!x||x.kind!=='memory'||typeof x.id!=='string'||!/^side_SQ\d+$/.test(x.id)) continue; const q=Q[x.id.slice(5)]; if(q&&q.title&&x.title!==q.title&&OLD.some(o=>String(x.title).includes(o))){ x.title=q.title; n++; } } return n; };
+  /* SQ17 那位聯絡人改名（AA_772 第 43 列）：存檔裡如果存了她的舊名字（手機訊息、對話串、聯絡人、邀約紀錄裡的字串），換成現在的（L.SQ17.contact）。舊名字＝現在的名字把店名換回 S.RENAME_772 的 key。做幾次都一樣 */
+  S.contact772=function(s){ const cur=L&&L.SQ17&&L.SQ17.contact; if(!s||!cur) return 0; let old=null; for(const k in (S.RENAME_772||{})){ const nw=S.RENAME_772[k]; if(nw&&cur.indexOf(nw)===0){ old=k+cur.slice(nw.length); break; } } if(!old||old===cur) return 0; let n=0;
+    const walk=(o,d)=>{ if(!o||typeof o!=='object'||d>6) return; for(const k of Object.keys(o)){ const v=o[k]; if(typeof v==='string'){ if(v.indexOf(old)>=0){ o[k]=v.split(old).join(cur); n++; } } else walk(v,d+1); } };
+    for(const k of ['msgs','inv','contacts','phone','threads','outings']) walk(s[k],0); return n; };
+  S.renameMigrate=function(s){ try{ S.contact772(s); }catch(e){ console.warn('SIDEQ.contact772',e); } const A=s&&Array.isArray(s.album)?s.album:null; if(!A) return 0; let n=0; const OLD=Object.keys(S.RENAME_1104).concat(Object.keys(S.RENAME_AA655)).concat(Object.keys(S.RENAME_772||{})).concat(['滇香','蛋包飯']);   /* AA_772：118 巷九件的舊標題（標題開頭是舊店名）*/ for(const x of A){ if(!x||x.kind!=='memory'||typeof x.id!=='string'||!/^side_SQ\d+$/.test(x.id)) continue; const q=Q[x.id.slice(5)]; if(q&&q.title&&x.title!==q.title&&OLD.some(o=>String(x.title).includes(o))){ x.title=q.title; n++; } } return n; };
+  /* 118 巷九間店改版（AA_772 sideq_rename，L118-SHOPS-REDO-1111；使用者 2026-11-11）：九件順手的事照故事搬到別間店（店員跟著搬），對照在 src/data/l118_redo772.js 的 sideq——
+     rename＝這裡的店名 key → 現在的店名（慢讀咖啡→木曜日，在溫州街；其他在 118 巷）、shopZone＝那一件事現在在哪一間（118 巷的店 id，SQ04＝wz_mokuyobi）。
+     和 S.RENAME_1104 一樣：當 key 的地方（Q 的 shop、STAFF／SHOP_NAME 的 key）照舊用舊字，任務進度不歸零；玩家看得到的字（SHOP_NAME 的值、任務標題、提示）是新店名。
+     - S.keyOf(118 巷的店 id)：這間店現在是哪一個 key（lane118.js 點完餐叫 S.atShop／S.greet 用；沒有故事的新店＝null）。
+     - S.eatKey(key)：那個 key 現在點餐記次數的店名（src/eat3d.js 的 EAT.count 用現在的店名；S.known 認這個）。
+     - 店員的稱呼跟著現在那間店（l118_redo772.js 的 staff；木曜日＝老闆，AA_772 第 17 列的 note）。
+     - 讀檔（S.renameMigrate）：相簿裡存下的任務標題換新的；SQ17 那位聯絡人的名字跟著 L.SQ17.contact（PORTRAIT_ONLY，不存在存檔裡）——手機對話串、聯絡人清單照 id 顯示現在的名字 */
+  S.RENAME_772=Object.assign({},(typeof L118_REDO!=='undefined'&&L118_REDO.sideq&&L118_REDO.sideq.rename)||{});
+  S.ZONE_772=Object.assign({},(typeof L118_REDO!=='undefined'&&L118_REDO.sideq&&L118_REDO.sideq.shopZone)||{});
+  for(const k in S.RENAME_772){ if(Object.prototype.hasOwnProperty.call(SHOP_NAME,k)) SHOP_NAME[k]=S.RENAME_772[k]+(S.RENAME_772[k]==='木曜日'?'（溫州街）':'（118 巷）'); }
+  { const ST=(typeof L118_REDO!=='undefined'&&L118_REDO.staff)||{}, SH=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)?LANE118_SHOPS.shops:[];
+    for(const k in S.RENAME_772){ if(!Object.prototype.hasOwnProperty.call(STAFF,k)) continue; const nw=S.RENAME_772[k], sh=SH.find(q=>q.name===nw); if(nw==='木曜日') STAFF[k]='老闆'; else if(sh&&ST[sh.id]) STAFF[k]=ST[sh.id]; } }
+  S.eatKey=key=>Object.prototype.hasOwnProperty.call(S.RENAME_772,key)?S.RENAME_772[key]:key;
+  S.keyOf=function(shopId){ const s=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)?LANE118_SHOPS.shops.find(q=>q.id===shopId):null; if(!s) return null; for(const k in S.RENAME_772) if(S.RENAME_772[k]===s.name) return k; return null; };
   S.YES='要我幫忙嗎？'; S.NO='……加油。';
   const L={
     SQ01:{open:['有人給我一顆星。說湯是冷的。','……我們乾麵沒有湯。'],review:'★☆☆☆☆　湯是冷的。等了十分鐘。不推。',   /* 手機畫面（AA_408 2）*/
@@ -190,7 +208,7 @@ const SIDEQ=(function(){
   S.isOpen=(G,id)=>{ const r=S.get(G,id); return !!r&&r.state==='open'; };
   S.openIds=G=>Object.keys(S.rec(G)).filter(id=>Q[id]&&S.isOpen(G,id));
   S.MAX=2; S.ROLL=0.35; S.roll=()=>Math.random();   /* 「偶爾」：點完餐 35%（測試換掉 S.roll）*/
-  S.known=(G,key)=>key==='輪轉單車'?S.bikeN(G)>=5:(typeof EAT!=='undefined'&&!!EAT.count&&(EAT.count(G,key)>=5||!!(EAT.rec&&EAT.rec(G).l5[key]!=null)));   /* 車行沒有點餐：「找車行老闆」第 5 次（一天一次）＝認得你（AA_405 第 3 節）*/   /* 店員認得你（eat3d.js：第 5 次起、或店員已經說過認得你的那一句；在點完那一刻判斷，這一次也算）*/
+  S.known=(G,key)=>key==='輪轉單車'?S.bikeN(G)>=5:(typeof EAT!=='undefined'&&!!EAT.count&&(EAT.count(G,S.eatKey(key))>=5||!!(EAT.rec&&(EAT.rec(G).l5[key]!=null||EAT.rec(G).l5[S.eatKey(key)]!=null))));   /* 車行沒有點餐：「找車行老闆」第 5 次（一天一次）＝認得你（AA_405 第 3 節）*/   /* 店員認得你（eat3d.js：第 5 次起、或店員已經說過認得你的那一句；在點完那一刻判斷，這一次也算）*/
 
   /* ---------- 各則 ---------- */
   const say=async(GM,w,t)=>{ if(t==null) return; if(Array.isArray(t)){ for(const x of t) await say(GM,w,x); return; } await GM.say(w?{name:w}:null,t); };   /* 陣列＝連續幾句（AA_408 補的回話）*/
@@ -306,16 +324,16 @@ const SIDEQ=(function(){
   S.Q=Q;
   const PASTA_PARTNERS=()=>Object.keys(L.SQ12.pair);   /* SQ12 一起去的交往對象：以安、語彤、子晴、學姊、可昕（AA_408 6）*/
   const HINT={SQ01:{wait:'下次去林家乾麵'},SQ02:{fafu:r=>'帶去法服問（'+(r.fafuDay!=null?md(r.fafuDay)+' 週六上午，':'')+'法律系館B）',wait:'下次去帝大紅茶'},SQ03:{board:'在夏日冰菓室的窗口「看價目板」'},
-    SQ04:{ask:'下次去慢讀咖啡（118 巷）',again:r=>md(r.again)+' 以後再去慢讀咖啡（118 巷）',police:'送筆電去派出所',wait:'下次去慢讀咖啡（118 巷）'},SQ05:{closed:r=>'清州刀削麵公休到 '+md(r.closeTo)+'；之後再去'},
-    SQ06:{lesson:'等家教第一次上課',twist:'下次去好家自助餐（118 巷）',club:r=>'帶孫子去吉他社社課（'+md(r.by)+'）'},SQ07:{sis:'找學姊看讀書計畫（2:30 AM）',wait:'下次去蛋包飯研究所（118 巷）',last:'下次去蛋包飯研究所（118 巷）'},
+    SQ04:{ask:'下次去木曜日（溫州街）',again:r=>md(r.again)+' 以後再去木曜日（溫州街）',police:'送筆電去派出所',wait:'下次去木曜日（溫州街）'},SQ05:{closed:r=>'清州刀削麵公休到 '+md(r.closeTo)+'；之後再去'},
+    SQ06:{lesson:'等家教第一次上課',twist:'下次去大學食堂（118 巷）',club:r=>'帶孫子去吉他社社課（'+md(r.by)+'）'},SQ07:{sis:'找學姊看讀書計畫（2:30 AM）',wait:'下次去奈良咖哩（118 巷）',last:'下次去奈良咖哩（118 巷）'},
     SQ08:{board:'去溫州街的公園看公布欄',ask:r=>'問象棋阿伯（早上）'+(r.abo?'✓':'')+'、一盞茶屋的蘇姨（下午）'+(r.su?'✓':''),back:'回公館的便利商店說',post:'把餵貓表貼到公園的公布欄'},
-    SQ10:{go:r=>'週末去中和的華新街'+(r.outDay!=null?'（'+md(r.outDay)+' 週六 14:00，捷運南勢角站）':''),give:'下次去滇香小館（118 巷），把乳扇和紙條交給老闆娘'},SQ11:{check:'下次去巷口家常菜（118 巷）幫老闆娘對發票'},
-    SQ12:{go:r=>(r.outDay!=null?md(r.outDay)+'（一）':'下禮拜一')+' 19:00 去 Pasta 118（118 巷）當客人'},
-    SQ13:{taste:r=>'再去韓食小廚（118 巷）吃吃看泡菜（'+((r.tastes||[]).length)+'／3）',wait:'等老闆娘回來'},
+    SQ10:{go:r=>'週末去中和的華新街'+(r.outDay!=null?'（'+md(r.outDay)+' 週六 14:00，捷運南勢角站）':''),give:'下次去118牛排（118 巷），把乳扇和紙條交給老闆娘'},SQ11:{check:'下次去五湖四海（118 巷）幫老闆娘對發票'},
+    SQ12:{go:r=>(r.outDay!=null?md(r.outDay)+'（一）':'下禮拜一')+' 19:00 去 義大麵屋（118 巷）當客人'},
+    SQ13:{taste:r=>'再去辛亥韓食（118 巷）吃吃看泡菜（'+((r.tastes||[]).length)+'／3）',wait:'等老闆娘回來'},
     SQ14:{cage:'去溫州街的公園，把貓放進外出籠',vet:'帶牠去羅斯福路上的動物醫院'},
     SQ16:{ask:'週四 19:30～21:00 去普通教學館 201 門口「問登山社的人」（第 5～15 週）',back:'回公館的慢輪單車跟老闆說'},
     SQ15:{sort:'去頁間書屋（公館）後面整理那一箱書',sis:'找學姊說那本民法總則',buy:'去頁間書屋把那本民法總則買下來（80 元）'},
-    SQ17:{ask:r=>'再去一一八茶飲（118 巷）問她一題（'+((r.asked||[]).length)+'／3）',result:r=>r.phone?'等她傳訊息（四月底）':'四月底以後再去一一八茶飲（118 巷）'},
+    SQ17:{ask:r=>'再去喝不喝咖啡（118 巷）問她一題（'+((r.asked||[]).length)+'／3）',result:r=>r.phone?'等她傳訊息（四月底）':'四月底以後再去喝不喝咖啡（118 巷）'},
     SQ18:{go:r=>(r.outDay!=null?md(r.outDay)+'（日）':'週日')+' 08:30 把飲料送到溫州街的小公園'},SQ19:{ret:'把筆記本還給芯慈（在學校，或週二、四中午的五湖四海）'},
     SQ20:{s1:r=>(r.outDay!=null?md(r.outDay)+'（六）':'週六')+' 08:00 去 SUNNY SIDE 幫小蕙計時（第 1 次）',s2:r=>(r.outDay!=null?md(r.outDay)+'（六）':'週六')+' 08:00 去 SUNNY SIDE 幫小蕙計時（第 2 次）',wait:'等小蕙的證照考試'}};
   S.hint=(id,r)=>{ const h=HINT[id]&&HINT[id][r.step]; return typeof h==='function'?h(r):(h||''); };
@@ -410,7 +428,7 @@ const SIDEQ=(function(){
     outingMissed:(G)=>{ const r=S.get(G,'SQ04'); if(r&&r.state==='open'&&r.step==='police'){ r.state='lapsed'; r.lapseDay=G.day; } } };
 
   /* ---------- SQ05：公休（lane118.js 的 isOpen、order 照這裡）---------- */
-  S.closedNote=function(G,shopId){ if(shopId!=='noodle2'||!G) return null; const r=S.get(G,'SQ05'); if(!r||r.closeFrom==null||(r.state!=='open'&&r.state!=='done')) return null; return G.day>=r.closeFrom&&G.day<=r.closeTo?q2(r.note):null; };
+  S.closedNote=function(G,shopId){ if(shopId!==(S.ZONE_772.SQ05||'noodle2')||!G) return null;   /* SQ05 公休的那一間：AA_772 搬到清州刀削麵（korea；麵舖老闆跟著搬）*/ const r=S.get(G,'SQ05'); if(!r||r.closeFrom==null||(r.state!=='open'&&r.state!=='done')) return null; return G.day>=r.closeFrom&&G.day<=r.closeTo?q2(r.note):null; };
 
   /* ---------- SQ06：吉他社社課（下一次社課，ACTIVITIES club_guitar）---------- */
   S.clubNext=function(G){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.list||!ACTIVITIES.on) return null; const a=ACTIVITIES.list.find(x=>x.id==='club_guitar'); if(!a) return null;

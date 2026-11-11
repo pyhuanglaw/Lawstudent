@@ -40,6 +40,7 @@ SPECIAL = {
 # 第 90 列的 note：「另外三筆『在慢讀咖啡寫報告／整理講義／整理筆記』同樣換成『在木曜日…』」
 EXTRA = {90: [('在慢讀咖啡寫報告', '在木曜日寫報告'), ('在慢讀咖啡整理講義', '在木曜日整理講義'), ('在慢讀咖啡整理筆記', '在木曜日整理筆記')]}
 _PH = '\u0000L118FIX772\u0000'
+WANT = {}   # 衍生列（下面 rows() 加的）各自要出現幾次；'*'＝一次以上都換
 
 
 def load(root, allow=None):
@@ -89,8 +90,24 @@ def rows(d):
         out.append((str(k), r['file'], r['old'], r['new'], r.get('note', '')))
         for j, (a, b) in enumerate(EXTRA.get(k, []), 1):
             out.append((f'{k}.{j}', r['file'], a, b, '第 %d 列 note 帶的' % k))
+    fx = d.get('fix') or []
+    def add(n, f, old, new, note, want):
+        out.append((n, f, old, new, note)); WANT[n] = want
+    # 第 108 列的 note：「name、caption『巷口家常菜』→『五湖四海』」（同一個檔芯慈那兩筆的 placeName 也是這個地點名）：整個字串就是舊店名的那幾格
+    # 第 115 列的 note：「同檔另一處地點名『巷口家常菜』也換；H7 那兩句照 lane118.js 的改法」（＝第 12、13 列）
+    if len(fx) >= 115 and fx[107]['file'] == 'src/data/termend_lines.js' and fx[114]['file'] == 'src/xcrom3d.js':
+        o, n_ = "'巷口家常菜'", "'五湖四海'"
+        add('108.1', 'src/data/termend_lines.js', o, n_, '第 108 列 note：name、caption、placeName', '*')
+        add('115.1', 'src/xcrom3d.js', o, n_, '第 115 列 note：同檔另一處地點名', '*')
+        add('115.2', 'src/xcrom3d.js', fx[11]['old'], fx[11]['new'], '第 115 列 note：H7 那兩句照第 12 列', 1)
+        add('115.3', 'src/xcrom3d.js', "text:'" + fx[12]['old'] + "'", "text:'" + fx[12]['new'] + "'", '第 115 列 note：H7 那兩句照第 13 列', 1)
+    # sideq_rename：src/sideq3d.js 玩家看得到的店名（SHOP_NAME 的值、提示句裡的「店名（118 巷）」）換新店名；木曜日那一間換成「（溫州街）」。當 key 的字（沒有括號的）不動
+    for k, (o, n_) in enumerate(((d.get('sideq_rename') or {}).get('map') or {}).items(), 1):
+        add(f'R{k}', 'src/sideq3d.js', o + '（118 巷）', n_ + ('（溫州街）' if n_ == '木曜日' else '（118 巷）'), 'sideq_rename：顯示的店名', '*')
     for k, r in enumerate(((d.get('food_fav') or {}).get('fix')) or [], 1):
         out.append((f'F{k}', FAV_LINES, r['old'], r['new'], r.get('note', '')))
+        m = re.search(r'key「(.+?)」→「(.+?)」', r.get('note', ''))   # note 寫的「wrong 的 key「舊品名」→「新品名」」：那一格的 key 一起換
+        if m: out.append((f'F{k}.1', FAV_LINES, "wrong:{'" + m.group(1) + "':", "wrong:{'" + m.group(2) + "':", '第 F%d 列 note 帶的 key' % k))
     return out
 
 
@@ -123,6 +140,7 @@ def layer(file, text, d, data_text='', report=None):
         if f != file:
             continue
         base = int(re.match(r'\d+', n).group(0)) if n[0].isdigit() else None
+        want = WANT.get(n, 1)
         sp = SPECIAL.get(base) if base is not None and '.' not in n else None
         if sp and sp[0] == 'gone':
             st = 'pending' if old in text else 'done'; c = text.count(old)
@@ -131,7 +149,8 @@ def layer(file, text, d, data_text='', report=None):
         elif old == new:
             c = text.count(old); st = 'keep' if c else 'miss'
         else:
-            c = _count(text, old, new); want = EXPECT.get(base, 1) if base is not None and '.' not in n else 1
+            c = _count(text, old, new); want = EXPECT.get(base, 1) if base is not None and '.' not in n else WANT.get(n, 1)
+            if want == '*': want = c if c else 1
             if c == 0:
                 st = 'done' if (new in text or (data_text and new in data_text)) else 'miss'
                 if st == 'miss':
@@ -170,8 +189,9 @@ def eat_overlay(root, allow=None):
     if not door:
         raise SystemExit('AA_772 eat_lines.doorShops：找不到「改成「…」「…」」那一串')
     old = d['sideq_rename']['map']
+    door0 = re.search(r'原本的((?:「[^」]+」)+)', e.get('doorShops', ''))
     return {'first': dict(e['first']), 'staff': {k: {x: v[x] for x in ('who', 'line5', 'same', 'alt')} for k, v in e['staff'].items()},
-            'doorShops': re.findall(r'「([^」]+)」', door.group(1)), 'oldNames': sorted(old.keys()), 'tag': tag(root, allow)}
+            'doorShops': re.findall(r'「([^」]+)」', door.group(1)), 'doorOld': re.findall(r'「([^」]+)」', door0.group(1)) if door0 else [], 'oldNames': sorted(old.keys()), 'tag': tag(root, allow)}
 
 
 def build_data(d):

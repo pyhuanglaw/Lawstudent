@@ -19,7 +19,7 @@ const FOOD_FAV_LINES={
   right:[['heroine_01','……你記得。'],['heroine_01','那這一半給你。不准說吃不下。']],
   rightDating:[[null,'（她把一半撥到空盤子上，推過來的時候，順手把湯匙也放好。）']],
   itemOnly:[['heroine_01','（看了一下盤子）……我吃不完。你要幫我吃。']],
-  wrong:{'番茄醬蛋包飯':[['heroine_01','可樂餅的。……好，我吃吃看。']]}
+  wrong:{'可樂餅咖哩':[['heroine_01','可樂餅的。……好，我吃吃看。']]}
  },
  heroine_03:{
   know:[['老闆娘','那個社會系的妹妹，每次都叫我多放辣。'],['老闆娘','看不出來吧。']],
@@ -42,7 +42,7 @@ const FOOD_FAV_LINES={
  },
  classmate_peishan:{
   right:[['classmate_peishan','你幫我點好了？'],['classmate_peishan','……可樂餅的。嗯。不要笑。']],
-  wrong:{'咖哩蛋包飯':[['classmate_peishan','雞肉的？……好，今天換一次。'],['classmate_peishan','（吃了兩口）……下次還是可樂餅。']]}
+  wrong:{'雞肉咖哩':[['classmate_peishan','雞肉的？……好，今天換一次。'],['classmate_peishan','（吃了兩口）……下次還是可樂餅。']]}
  },
  kexin:{
   know:[['kexin','……有糖。'],['kexin','我只喝無糖的。你下次記得。']],

@@ -13,7 +13,7 @@ OUT = 'src/data/invite_place_lines.js'
 PLACES = ('soclib', 'wz_lin', 'wz_teishoku', 'xs_dakou', 'xs_nanyang', 'bookstore', 'xs_shanlan')
 # 第二批：118 巷的店（AA_721；店 id＝區域 id，src/data/invites.js 最後那一段）
 PATH2 = 'docs/story_planning/AA_721_l118_invite_acc.json'
-PLACES2 = ('l118_dian', 'l118_home', 'l118_omu', 'l118_noodle2', 'l118_korea', 'l118_self', 'l118_tea')
+PLACES2 = ('l118_dian', 'l118_self', 'l118_tea', 'l118_home', 'l118_cafe2', 'l118_korea', 'l118_omu', 'l118_noodle2', 'l118_drink_a', 'l118_drink_b')   # L118-SHOPS-REDO-1111（AA_721 @ef7280917）：十個位置（多 l118_cafe2、兩間外帶飲料店）
 
 
 def git(*a):
