@@ -1,4 +1,6 @@
 {
+ "who": "heroine_01",
+ "term": "Y1S1",
  "_meta": {
   "doc": "AA_781 以安閒聊階梯改稿：大一上（X324 C 區樣板）",
   "by": "AA（帳號 A）2026-11-11",
@@ -6,7 +8,7 @@
   "base": "對的是遊戲現在的字（開發分支 src/data/ladder.js，11-11 07:4x 的版本），不是企劃線 ladder/ladder_aa.json——源稿上面疊了很多層修正（小語→Alison、「寒假你會回家住嗎？」等），兩邊不一樣。",
   "target": "src/data/ladder.js 的 characters.heroine_01（大一上）。格式照 AA_753：steps 裡列到的層只換 lines 和 choices；id、if、week、location、順序、整層的 rel、mem 都不動。沒列到的層不動。rows＝整句相同才換。",
   "what": "以安大一上本來就乾淨（50 句、刪節號 1 個）。這一份只做三件：①四層沒有選項的（A-L2、A-L4、A-L5、A-L7）各補兩個選項（都不扣分；大一上還在認識，只給 fr）；②A-L11 一句回話拿掉刪節號；③短招呼一句沒人記的承諾（「你要的話晚上傳給你」）換掉。",
-  "for_LAWWW": "AA_753 的匯入現在是寫給沛珊的（_ps753）；請看能不能讓同一套接受別人（這份是 heroine_01）。這四層的 lines 我照遊戲現在的字原樣寫在裡面，等於只加 choices。"
+  "for_LAWWW": "格式照 LAWWW 11-11 07:4x 定的通用層：最上層 who、term；steps（整層換 lines、choices；選項可以同時寫 rel 和 fx；原本選項有 rel／mem 的要照抄）＋rows（單句換，at＝層 id 或 greet.base[i]，old 在那裡整句相同剛好一處）。先 steps 再 rows。這四層的 lines 照遊戲現在的字原樣，等於只加 choices。"
  },
  "steps": [
   {
@@ -129,13 +131,15 @@
    "path": "characters.heroine_01.steps[A-L11].choices[0].reply",
    "old": "會。她是第一個說要來的。……她說她是被憲法逼的。",
    "new": "會。她是第一個說要來的，她說她是被憲法逼的。",
-   "note": "拿掉刪節號"
+   "note": "拿掉刪節號",
+   "at": "A-L11"
   },
   {
    "path": "characters.heroine_01.greet.base[4]",
    "old": "今天的進度我抄完了。你要的話晚上傳給你。",
    "new": "今天的進度我抄完了。字有點醜，你不要笑。",
-   "note": "沒人記的承諾（不會真的傳）"
+   "note": "沒人記的承諾（不會真的傳）",
+   "at": "greet.base[4]"
   }
  ]
 }
