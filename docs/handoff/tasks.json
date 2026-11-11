@@ -53060,7 +53060,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-11 01:5x】背景子代理（worktree，基準 50887dae6，每項各自 commit）在匯「還沒匯」的四份（約會源稿 2883197b6、AA_757、AA_758、AA_759）；回來當回合合併（D148）；被中斷就到 .claude/worktrees 看 commit 接手。｜【在開發分支】第一批 a648c5f37（期末飯、「她先說」告白、手機句、電影通用回話、大一上階梯）＋第二批 7d365bfb4（階梯大一下～大四、4/14 公開課媽媽的句子、故事線八拍、大四下 6/8 台南、動態牆八則、零散句、節日整段；AA_753 @c5094495d／188061108／465382f83、AA_755 @6b5507f8a／c5094495d、AA_751 @768b9a131）。31 支改過的測試＋關鍵 9 支 ALL PASS，瀏覽器沒跑。CG BCG-05 cg_whiteboard_why_peishan 從 CG_REGISTRY 搬到 CG_HELD（adv3d.js），等 BB 的新圖。【等 AA】階梯 linesIf 五套（P2-L3 看過她上課、P3-L3／L4／L6／L8 聽過「我要重考」）稿沒寫，留著舊的兩句和選項。【還沒匯，照順序】①約會源稿 D01～D33 @2883197b6（白名單換 SHA；修正層 AA_373／359／524／525／598／694 對沛珊的列 old 對不到就跳過；AA_525 2-4 P-6 三列、AA_359 5-3 D31 沛珊列不再套；date3d.js 換四處：REMEMBER_IF D05.cafe、S.MORNING、S.MORNING_OWN、S.MORNING_HOME；ARRIVE_VAR D28 兩格原句要還在——加測試；先查選項文字有沒有被當 key）②AA_757 @052644c58 美術館心願（date_wish.js）＋去她的縣市（hometown_lines.js 31 列）＋台南美術館 ③AA_758 @987845b7c date_lines.js 不分地點短句 16 句 ④AA_759 @987845b7c aa667_3d.js 9 列、pg_dates.js 12 列、psresults3d.js 3 列。【AA 還沒交】events.js 她的事件 18 場、multirel_lines.js、零散十幾檔（盤點 AA_760）",
+   "next": "【11-11 01:5x】背景子代理（worktree，基準 50887dae6，每項各自 commit）在匯「還沒匯」的四份（約會源稿 2883197b6、AA_757、AA_758 改用 bed993604、AA_759）；回來當回合合併（D148）；被中斷就到 .claude/worktrees 看 commit 接手。｜【在開發分支】第一批 a648c5f37（期末飯、「她先說」告白、手機句、電影通用回話、大一上階梯）＋第二批 7d365bfb4（階梯大一下～大四、4/14 公開課媽媽的句子、故事線八拍、大四下 6/8 台南、動態牆八則、零散句、節日整段；AA_753 @c5094495d／188061108／465382f83、AA_755 @6b5507f8a／c5094495d、AA_751 @768b9a131）。31 支改過的測試＋關鍵 9 支 ALL PASS，瀏覽器沒跑。CG BCG-05 cg_whiteboard_why_peishan 從 CG_REGISTRY 搬到 CG_HELD（adv3d.js），等 BB 的新圖。【等 AA】階梯 linesIf 五套（P2-L3 看過她上課、P3-L3／L4／L6／L8 聽過「我要重考」）稿沒寫，留著舊的兩句和選項。【還沒匯，照順序】①約會源稿 D01～D33 @2883197b6（白名單換 SHA；修正層 AA_373／359／524／525／598／694 對沛珊的列 old 對不到就跳過；AA_525 2-4 P-6 三列、AA_359 5-3 D31 沛珊列不再套；date3d.js 換四處：REMEMBER_IF D05.cafe、S.MORNING、S.MORNING_OWN、S.MORNING_HOME；ARRIVE_VAR D28 兩格原句要還在——加測試；先查選項文字有沒有被當 key）②AA_757 @052644c58 美術館心願（date_wish.js）＋去她的縣市（hometown_lines.js 31 列）＋台南美術館 ③AA_758 @987845b7c date_lines.js 不分地點短句 16 句 ④AA_759 @987845b7c aa667_3d.js 9 列、pg_dates.js 12 列、psresults3d.js 3 列。【AA 還沒交】events.js 她的事件 18 場、multirel_lines.js、零散十幾檔（盤點 AA_760）｜【AA 11-11 01:4x 新交，還沒匯】AA_761_peishan_events_1.json @dbfc596a5：events.js 她的十場事件 18 列 old→new（每列有 count；count＝2 的兩列看 _meta.note_count），AA 說等 BB 看過再匯",
    "xai": {
     "spec": "X327、UA-AA-1110-06",
     "branch": "claude/story-planning",
@@ -53164,7 +53164,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "店面＋室內 11161c101、上師對話 28d535073（src/limao3d.js、src/data/limao.js、tools/story/import_limao.py；AA_750_limao.json @227db1c9e）都在開發分支；limao_unit 42 項等 9 支 ALL PASS，瀏覽器沒跑（BB 排）。沒做：上師和吳教授的 3D 人物（LAWWW2 在做上師；做好設 LM.masterNpc、位置 LM.masterSeat()）、店裡找上師、入口 B「喝茶、上師去接待客人」的演出、快速前往。等 AA 回七題（經濟系那一年能不能聊、落榜含不含推甄、大四的範圍、分手一輩子一次、收攤句、入口 A 標題、認識當天不演教授）；請 LAWWW2 在配置加 study_letters 點｜11-11：上師 3D 人物第 1 版模型檔收進 65212b697（char.limao_shangshi），**LAWWW 驗不過、沒放進場景**（臉是少年、帽子像碗、直髮）；退 LAWWW2 做第 2 版，過了再設 LM.masterNpc 放到算命桌｜11-11 01:1x：上師人物第 2 版模型檔收進 ece29a284（LAWWW2 f0f58fca4），LAWWW 驗仍不過（帽子像頭盔、臉頰紋路像刮痕、沒有微笑、圓領），退第 3 版（最後一版）。LAWWW 待做：把人物放到算命桌 seatMaster（坐著、店開且他在才出現、設 LM.masterNpc），用遊戲截圖驗"
+   "next": "店面＋室內、上師對話（AA_750 @93f731790）、上師 3D 人物第 3 版（LAWWW2 bc1954d4b；LAWWW 看預覽判可以進遊戲）都在開發分支；f5e1ef4e8 起他坐在算命桌後面（S.placeMaster，店開著、他在才出現）。limao_unit 55 項 ALL PASS，瀏覽器沒跑。等 CC 截圖：坐的高度／朝向、模型下載要多久、對話鏡頭；截圖 OK 後 LAWWW 標角色 ART_APPROVED。沒做：店裡的上師（zone.shopClerk）、吳教授的 3D 人物、入口 B「喝茶、上師去接待客人」的演出、快速前往；入口 A 會不會卡到趕上課等 CC 實測"
   },
   {
    "id": "HANDOFF-LOOSE-1110",
@@ -53189,7 +53189,7 @@
    "id": "GG-G09-G10-SHUTTER-1111",
    "title": "公館 G09、G10 先拉下鐵門（洗樂、印得好已搬到汀州路；USER_WANTS X335）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -53202,7 +53202,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "G09、G10 鐵捲門已整合 949a24cc6。**使用者 11-11 01:1x 選「G10 改成真的巷口」**（UA-LAWWW2-1111-06／UA-LAWWW-1111-02）：LAWWW2 改 gongguan_shops.glb（G10 一樓通道、拿掉中間柱子；zones3d.js 柱子清單加 10 放在它的 patch 裡），導航和「往汀州路（巷子）」按鈕位置（37.1, 21）不動。LAWWW：整合後把套件備用外觀的 G10 從 shut 改成巷口樣（或至少不畫鐵門），gg_shops3_names_unit、aa655、tingzhou_places 跟著改",
+   "next": "G09 鐵捲門（949a24cc6）＋G10 改成真的巷口（731cca95b；LAWWW2 bc1954d4b 正式模型通道、套件備用 shop.lane）都在開發分支；BB 排 CC 拍 G10 白天晚上、通道另一頭看出去是什麼（一片空的話 LAWWW2 下一版在通道底加汀州路那一頭的景）。G09 之後放什麼店等使用者決定（D147）",
    "xai": {
     "spec": "使用者 11-11 00:0x 選擇題（UA-LAWWW-1110-113）",
     "branch": "claude/second-ai-env-art",
