@@ -48199,7 +48199,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 12:4x】LAWWW2 c64b9086a 盤點：窗景第一二批、GONGGUAN 反字已標做掉；林家一進門就有離開按鈕不動（BB 的配置）；山嵐二樓盆栽在一樓網格（P3，要改模型，不動）；店門標籤括號另交 XS-DOOR-LABELS-1110。 ｜ 清單在 LAWWW2 分支 docs/art-rebuild/second_ai/TODO_SHORTCUTS.md（1f38c584c 起），每交一包就加；LAWWW 的部分：DRIVE-PICKUP-1105（開車從新南停車場出發）、望月台／體育館改 Blender 後重接；各包「瀏覽器沒跑」交 BB 排 CC。接班時對一次清單。USER_WANTS X258。",
+   "next": "【11-11 20:2x LAWWW】林家「一進門就有離開」推到全遊戲＝另開 SPAWN-EXIT-ALL-1111（暫停 P3，下一版發布後做）；其他剩下的都是 P3 外觀或要 CC 拍，這次不動｜【LAWWW 11-10 12:4x】LAWWW2 c64b9086a 盤點：窗景第一二批、GONGGUAN 反字已標做掉；林家一進門就有離開按鈕不動（BB 的配置）；山嵐二樓盆栽在一樓網格（P3，要改模型，不動）；店門標籤括號另交 XS-DOOR-LABELS-1110。 ｜ 清單在 LAWWW2 分支 docs/art-rebuild/second_ai/TODO_SHORTCUTS.md（1f38c584c 起），每交一包就加；LAWWW 的部分：DRIVE-PICKUP-1105（開車從新南停車場出發）、望月台／體育館改 Blender 後重接；各包「瀏覽器沒跑」交 BB 排 CC。接班時對一次清單。USER_WANTS X258。",
    "source": "UA-LAWWW-1105-29",
    "authorized": "使用者原話",
    "xai": {
@@ -53792,6 +53792,84 @@
     "to": "LAWWW2",
     "receiver": "BB",
     "ack": "LAWWW"
+   }
+  },
+  {
+   "id": "SPAWN-EXIT-ALL-1111",
+   "title": "換區出生點落在出口範圍內（D108）全遊戲 28 處：進店一出現就是「離開」、出店一出現就是「再進去」、戶外換區（LAWWW2 d260d660da wip/spawn_exit_audit_1111/）",
+   "owner": "LAWWW2",
+   "status": "暫停",
+   "priority": "P3",
+   "first": {
+    "term": "Y0",
+    "week": null,
+    "earliest": "經濟系第一次進店",
+    "mainline": false,
+    "blocks": "",
+    "prereq": "",
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "d260d660da",
+   "pausedBy": "LAWWW 11-11 20:2x",
+   "pausedReason": "不擋玩（D99、D141 只做擋玩的）；要動二十幾個區域的出生點（有 BB 的配置、劇情站位、寫死座標的測試），下一版 BB 正在測，發布前動風險大",
+   "resumeWhen": "下一版發布以後",
+   "recheckOn": "2026-11-18",
+   "next": "【11-11 20:2x LAWWW 決定（LAWWW2 問三選一）】先不改、記 P3；下一版發布後 LAWWW2 照清單改（出生點往區域裡挪到離每個出口範圍 0.2 m 以上，spawn_exit_unit 改全遊戲檢查），優先室內那一類",
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "ack": "LAWWW"
+   }
+  },
+  {
+   "id": "ECON-NAV-TRAPS-1111",
+   "title": "經濟系那一年（D99 ①：新遊戲→宿營→在學→10/17 休學→在家→重考→放榜→進法律系）會用到的場景「擋玩」巡檢（D141：走不到、坐不下、穿模、卡住、黑畫面），做法照 US-NAV-TRAPS-1111",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y0",
+    "week": null,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": "",
+    "prereq": "",
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "【11-11 20:2x LAWWW 派】照美國那一包的方法（Node 出生點、互動點走得到、小孤島推進去出得來；雲端瀏覽器正式模型、黑畫面、JS 例外），區域照經濟系流程用到的（宿營河濱、經濟系上課的教室、宿舍、補習班、高雄家、政大…以 AA_269 第 6 節的事件為準），找到的用 patch 交",
+   "xai": {
+    "from": "LAWWW",
+    "to": "LAWWW2",
+    "receiver": "BB",
+    "ack": ""
+   }
+  },
+  {
+   "id": "VAC-NAV-TRAPS-1111",
+   "title": "寒暑假系統（D99 ②）會用到的場景「擋玩」巡檢：回家、出遊、旅行目的地、約會地點（D141 擋玩），做法照 US-NAV-TRAPS-1111",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一個寒假",
+    "mainline": true,
+    "blocks": "",
+    "prereq": "",
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "【11-11 20:2x LAWWW 派】ECON-NAV-TRAPS-1111 做完接著做",
+   "xai": {
+    "from": "LAWWW",
+    "to": "LAWWW2",
+    "receiver": "BB",
+    "ack": ""
    }
   }
  ]
