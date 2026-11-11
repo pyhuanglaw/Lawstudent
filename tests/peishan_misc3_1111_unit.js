@@ -64,7 +64,7 @@ const LAD=[['Y4S1','期末。寒假我要回家裡的早餐店煎蛋。','期末
     if(!A) return;
     for(const f of A.files.slice(1)){ if(f.file==='src/data/msg2_pool.js'){ const all=P2.reduce((x,e)=>x.concat(e.msgs||[]),[]); check('4. '+f.file+'：兩列的 new 各一格、old 不在了',f.rows.every(r=>all.filter(t=>t===r.new).length===(r.count||1)&&!all.includes(r.old))); continue; }
       /* 2026-11-11（X324，AA_781 閒聊階梯通用層）：story3d.js 的 LADDER_GREET_IF 多了芷若兩句招呼的新字（拿掉刪節號；舊字的 key 照留）——是加上去的兩個字串，不是稿上這幾列，比 BASE 之前先拿掉（各一個）。舊期望：直接比 */
-      const ADD781={'src/story3d.js':['（她在吧檯後面抬頭）嗨。','要打烊了。你可以坐到我擦完這張桌子。']};
+      const ADD781={'src/story3d.js':['（她在吧檯後面抬頭）嗨。','要打烊了。你可以坐到我擦完這張桌子。','學弟，我論文寫到第四章了。','{name}，我論文寫到第四章了。']};   /* 後兩句：學姊大四下「論文寫到第四章了」拿掉刪節號的新字（AA_781 Y4S2）*/
       const cur=read(f.file), L=(ADD781[f.file]||[]).reduce((a,t)=>{ const i=a.indexOf(t); return i<0?a:a.slice(0,i).concat(a.slice(i+1)); },lit(cur)), n=t=>L.filter(x=>x===t).length, bad=f.rows.filter(r=>n(r.new)!==(r.count||1)||n(r.old)!==0);
       check('4. '+f.file+'：'+f.rows.length+' 列的 new 各剛好 '+'count 處、old 不在了；檔裡寫了來源',bad.length===0&&cur.includes('AA_763_peishan_misc3.json@'+S763),J(bad.map(r=>[r.old,n(r.old),n(r.new)])));
       if(['src/date3d.js','src/aa614_3d.js'].includes(f.file)) continue;   /* 這兩個檔同一輪另外有改（約會四處、招呼條件那一段）：和 BASE 的整檔比對在 peishan_dates_1111、下面第 5 節 */
