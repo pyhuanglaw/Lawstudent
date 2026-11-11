@@ -897,6 +897,9 @@ if A812:
     if len(R812) != 2 or any(r.get('file') != 'src/data/date_lines.js' or not all(isinstance(r.get(k), str) and r.get(k) for k in ('path', 'old', 'new')) for r in R812):
         sys.exit(f'AA_812@{S812} 的 path_rows 應該是兩列（file 都是 src/data/date_lines.js、path／old／new 都有字），讀到 {len(R812)} 列')
     FILES['fix812'] = P812
+    # 改稿紀錄的「舊的那一版」：AA_812 比的是約會台詞源稿 248c8e390 那一版（D01～D33 那時候的白名單）。2026-11-11 19:1x 源稿換 52c3ee258（AA 只加選項 fx、拿掉 fx 和 248c8e390 逐檔相同），
+    # 那一版的企劃線已經包含 AA_812 改過的紀錄＝拿它當舊版會比出 0 格（工具停下來）——舊版固定用 248c8e390，不跟著源稿換
+    BASE812 = '248c8e390'
     SRC812 = sorted({APPROVED[p] for p in APPROVED if re.match(SP + r'date_system/lines/D\d\d\.json$', p)})
     if len(SRC812) != 1:
         sys.exit(f'AA_812：白名單 date_system/lines/D01～D33 應該是同一個 sha，讀到 {SRC812}')
@@ -906,9 +909,9 @@ if A812:
             sys.exit('拒絕匯入：' + why)
         new_r = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{s}:{p}'], text=True)))
         try:
-            old_r = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{SRC812[0]}:{p}'], text=True, stderr=subprocess.DEVNULL)))
+            old_r = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{BASE812}:{p}'], text=True, stderr=subprocess.DEVNULL)))
         except subprocess.CalledProcessError:
-            sys.exit(f'AA_812：改稿紀錄 {p} 在源稿那一版 {SRC812[0]} 沒有（不知道舊字是什麼，不猜）')
+            sys.exit(f'AA_812：改稿紀錄 {p} 在源稿那一版 {BASE812} 沒有（不知道舊字是什麼，不猜）')
         who = new_r.get('who')
         if not who or old_r.get('who') != who:
             sys.exit(f'AA_812：改稿紀錄 {p} 的 who 兩版不一樣或沒寫（{old_r.get("who")}／{who}）')

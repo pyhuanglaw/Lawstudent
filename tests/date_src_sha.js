@@ -6,7 +6,8 @@
 //   4. node tests/an_dates_1111_unit.js（和 zq／zr／yt／kx／sis／peishan_dates_1111、date_overnight、date_wish、date_lines_* 這幾支）
 // 工具（import_date_lines.py）裡的 *_PREV 是各輪「重寫以前的那一版」，不用跟著換。
 module.exports={
-  ALLOW_SHA:'248c8e390',       // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-11 以安重寫 bd1ce5be0 匯入以後，AA 照 LAWWW 的匯入回報再改以安 14 格，見 AN_FIX14；別人的格子和 bd1ce5be0 一樣）
+  ALLOW_SHA:'52c3ee258',       // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-11 19:03 AA 交 X324 選項效果：1,765 個選項加 fx；把 fx 拿掉和 248c8e390 一字不差）
+  FX_PREV:'248c8e390',         // 加 fx 以前的那一版（2026-11-11 以安重寫 bd1ce5be0 匯入以後，AA 照 LAWWW 的匯入回報再改以安 14 格，見 AN_FIX14；別人的格子和 bd1ce5be0 一樣）
   ZR_PREV:'f9c1a2b80',         // 芷若重寫以前的那一版（＝可昕重寫的那一版）
   ZR_SHA:'a29a8aba0',          // 芷若重寫的那一版（＝子晴重寫以前的那一版；之後只多芷若 D10 一句，見 ALSO_ZQ）
   ZR_COMMON_SHA:'e8a33995c',   // AA_773_zr_date_common.json（芷若不分地點的短句）
@@ -113,5 +114,8 @@ module.exports.cell780=(x,r)=>{ let o=x; for(const t of r.p.split('/').slice(1))
 /* 各人自己那一輪的逐字對稿：稿上那一列（path、new）如果是 AA_780 之後又換掉的那一格（FLAKED_780 的 path 一樣、old＝那一列的 new），現在認 AA_780 的 new；別的列照舊認那一列的 new */
 module.exports.want780=r=>{ const x=module.exports.FLAKED_780.find(y=>y.path===r.path&&y.old===r.new); return x?x.new:r.new; };
 /* AA_812 那七格（CELLS_812）：回傳一份複本，把現在剛好是 new 的格還原成 old（源稿 248c8e390、重匯以前的字）。x＝整份 DATE_LINES（r.p 照 leaves 的路徑走）；不是 new＝不動（照舊會紅）*/
-module.exports.un812=x=>{ const y=JSON.parse(JSON.stringify(x)); for(const r of module.exports.CELLS_812){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
+/* 2026-11-11 起（AA 52c3ee258，X324 選項效果）：源稿和遊戲的選項多了 fx（友情／愛情）。「和源稿一字不差」「和重匯以前比」只比字：
+   noFx 回傳拿掉所有 fx 的複本；un812 也一起拿掉（un812＝回到 248c8e390 那一層）。fx 本身和源稿逐格比在 tests/date_fx_x324_1111_unit.js */
+module.exports.noFx=x=>JSON.parse(JSON.stringify(x,(k,v)=>k==='fx'?undefined:v));
+module.exports.un812=x=>{ const y=module.exports.noFx(x); for(const r of module.exports.CELLS_812){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
 module.exports.cell812=(x,r)=>{ let o=x; for(const t of r.p.split('/').slice(1)) o=o==null?o:o[t]; return o; };

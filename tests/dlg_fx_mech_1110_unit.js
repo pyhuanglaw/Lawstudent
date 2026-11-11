@@ -41,6 +41,7 @@ module.exports={H,sec,clone,reset,idx,sum,J,get CH(){ return CH; },set WANT(v){ 
     const day=STORY.termDay('Y1S2',5,6), start=()=>{ const G=H.fresh('2026-03-01',9); G.day=day; G.weekday=6; G.money=50000; H.rel(who,65,50,45); return G; };
     try{
       const F=LN.hotspots[pid].first, c0=F.choice[0], c1=F.choice[1];
+      delete c0.fx; delete c1.fx;   /* 2026-11-11 起真的資料有 fx（AA 52c3ee258，X324）：這兩個選項先拿掉 fx＝「沒有新欄位」的樣子，下面再放假的 fx 比差多少 */
       /* 沒有新欄位：第一次有選項、第二次以後沒有（原本的樣子）；選項沒有 fx＝只有互動點原本的加法 */
       start(); await go([pn(pid),c0.t]); const base={ch:CH.filter(c=>c.includes(c0.t)).length,rom:sum(who,'npcRom'),fam:sum(who,'fam'),trust:sum(who,'trust')};
       next(); await go([pn(pid)]); const again0=CH.filter(c=>!c.includes(pn('D13.rail'))&&!c.includes('出發')&&!c.includes('自己選')&&c.length>1&&!c.some(t=>/回去/.test(t)));

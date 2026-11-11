@@ -33,7 +33,7 @@ const of=(D,k,who)=>{ const o={}; for(const part of ['lines','likes','dislikeLin
    （只有那一格現在剛好是新字才還原，不是＝照舊會紅）；那七格現在＝新字下面另外驗（逐格、她請客在 tests/date_she_pays_812_1111_unit.js）。舊期望：直接拿 NOW 比 */
 const NOW812=DL(read('src/data/date_lines.js')), NOW=C.un812(NOW812);
 check('0. AA_812 那七格（CELLS_812）現在是新字（還原成舊字以後才拿 NOW 和源稿、重匯以前比）',C.CELLS_812.length===7&&C.CELLS_812.every(r=>C.cell812(NOW812,r)===r.new&&C.cell812(NOW,r)===r.old),JSON.stringify(C.CELLS_812.map(r=>C.cell812(NOW812,r))));
-const SRC={}, OLDSRC={}, REC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'), r=show(SHA,SP+'date_rewrite/zr_'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLDSRC[k]=JSON.parse(u); if(r) REC[k]=JSON.parse(r); }
+const SRC={}, OLDSRC={}, REC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'), r=show(SHA,SP+'date_rewrite/zr_'+k+'.json'); if(t) SRC[k]=C.noFx(JSON.parse(t));   /* 52c3ee258 起源稿有 fx：只比字（date_src_sha.js noFx） */ if(u) OLDSRC[k]=JSON.parse(u); if(r) REC[k]=JSON.parse(r); }
 const haveSrc=Object.keys(SRC).length===33&&Object.keys(OLDSRC).length===33&&Object.keys(REC).length===33;
 const ob=show(BASE,'src/data/date_lines.js'), WAS=ob?DL(ob):null;
 /* 那四句：Dxx.json 裡的位置 → 遊戲檔的 of() 路徑（lines/…）、整份 leaves 的路徑（/loc/Dxx/lines/誰/…）*/

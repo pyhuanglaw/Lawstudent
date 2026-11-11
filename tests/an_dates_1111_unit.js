@@ -41,7 +41,7 @@ const cell=s=>s[0][s[1]];
    （只有那一格現在剛好是新字才還原，不是＝照舊會紅）；那七格現在＝新字下面另外驗（逐格、她請客在 tests/date_she_pays_812_1111_unit.js）。舊期望：直接拿 NOW 比 */
 const NOW812=DL(read('src/data/date_lines.js')), NOW=C.un812(NOW812);
 check('0. AA_812 那七格（CELLS_812）現在是新字（還原成舊字以後才拿 NOW 和源稿、重匯以前比）',C.CELLS_812.length===7&&C.CELLS_812.every(r=>C.cell812(NOW812,r)===r.new&&C.cell812(NOW,r)===r.old),JSON.stringify(C.CELLS_812.map(r=>C.cell812(NOW812,r))));
-const SRC={}, OLDSRC={}, REC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'), r=show(SHA,SP+'date_rewrite/an_'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLDSRC[k]=JSON.parse(u); if(r) REC[k]=JSON.parse(r); }
+const SRC={}, OLDSRC={}, REC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'), r=show(SHA,SP+'date_rewrite/an_'+k+'.json'); if(t) SRC[k]=C.noFx(JSON.parse(t));   /* 52c3ee258 起源稿有 fx：只比字（date_src_sha.js noFx） */ if(u) OLDSRC[k]=JSON.parse(u); if(r) REC[k]=JSON.parse(r); }
 const haveSrc=Object.keys(SRC).length===33&&Object.keys(OLDSRC).length===33&&Object.keys(REC).length===33;
 const ob=show(BASE,'src/data/date_lines.js'), WAS=ob?DL(ob):null;
 /* 同一版子晴再改的 31 格：Dxx.json 裡的位置 → 遊戲檔的 of() 路徑（lines/…）、整份 leaves 的路徑（/loc/Dxx/lines/heroine_04/…）*/
@@ -229,7 +229,7 @@ const getp=(o,pth)=>pth.match(/\[\d+\]|[^.\[\]]+/g).reduce((x,t)=>x==null?x:x[t[
      她請客（_meta.she_pays＝S.SHE_PAYS）實際扣不扣錢在 tests/date_she_pays_1111_unit.js */
   await sec(9,async()=>{ const SH=C.AN_FOLLOW_SHA, OS=C.AN_SHA, b2=show(C.AN_BASE2,'src/data/date_lines.js'), W2=b2?DL(b2):null, q=t=>"'"+t+"'";
     const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files, e=allow.filter(x=>x.path===SP+'AA_780_an_date_followup.json');
-    check('9. 白名單 AA_780_an_date_followup.json@'+SH+' 一筆、approved、有 approvedBy；date_lines.js 的來源寫著它；白名單 D01～D33＝'+SH+'、上一版 '+OS+' 留在 history',e.length===1&&e[0].sha===SH&&e[0].status==='approved'&&!!e[0].approvedBy&&NOW.source.includes('AA_780_an_date_followup.json@'+SH)&&SHA===SH&&LOCS.every(k=>{ const x=allow.filter(y=>y.path===SP+'date_system/lines/'+k+'.json'); return x.length===1&&x[0].sha===SH&&(x[0].history||[]).some(h=>h.sha===OS); }));
+    check('9. 白名單 AA_780_an_date_followup.json@'+SH+' 一筆、approved、有 approvedBy；date_lines.js 的來源寫著它；白名單 D01～D33＝'+SH+'、上一版 '+OS+' 留在 history',e.length===1&&e[0].sha===SH&&e[0].status==='approved'&&!!e[0].approvedBy&&NOW.source.includes('AA_780_an_date_followup.json@'+SH)&&LOCS.every(k=>{ const x=allow.filter(y=>y.path===SP+'date_system/lines/'+k+'.json'); return x.length===1&&(x[0].sha===SH||(SHA===x[0].sha&&(x[0].history||[]).some(h=>h.sha===SH)))&&(x[0].history||[]).some(h=>h.sha===OS); }));   /* 2026-11-11 19:03 起 D01～D33 再換 52c3ee258（AA 加 fx，X324）：SH 進 history 也算 */
     /* 14 格：AA 交稿訊息裡的清單（格號＝date_rewrite.py list heroine_01 Dxx 的格號，和上面的 slots() 同一個順序）*/
     const LIST='D05:21、43｜D07:34、43｜D09:9｜D10:41｜D12:21｜D18:49、53｜D23:11｜D26:31｜D28:11｜D29:10｜D31:11';
     const by={}; for(const x of C.AN_FIX14) (by[x.loc]=by[x.loc]||[]).push(x.n); const mine=Object.keys(by).sort().map(k=>k+':'+by[k].sort((p,r)=>p-r).join('、')).join('｜');
