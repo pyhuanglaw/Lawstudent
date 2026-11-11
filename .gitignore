@@ -24,3 +24,6 @@ tools/blender/models_ph/
 
 # python3 build.py 的輸出（單檔版；要用時再產生，不放 repo）
 build/
+
+# tools/release/pack.py 的打包輸出（發行包、容量報告的暫存；要用時再產生，不放 repo）
+dist/
