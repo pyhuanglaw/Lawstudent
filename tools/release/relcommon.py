@@ -53,12 +53,133 @@ def git_info(root):
     return {'commit': run('rev-parse', 'HEAD'), 'branch': run('rev-parse', '--abbrev-ref', 'HEAD'),
             'dirty': bool(run('status', '--porcelain', '--untracked-files=no'))}
 
+# ---------- 樹：磁碟上的目錄，或 git 裡的某個版本（不用解到磁碟上） ----------
+class DiskTree:
+    """磁碟上的一棵樹（repo 的工作樹，或 git archive 解出來的目錄）。"""
+    kind = 'disk'
+
+    def __init__(self, root, mode='auto'):
+        self.root = pathlib.Path(root).resolve()
+        self.files, self.mode = list_files(self.root, mode)
+        self.label = str(self.root)
+        self.cache = {}
+
+    def size(self, f):
+        return (self.root / f).stat().st_size
+
+    def read_bytes(self, f):
+        return (self.root / f).read_bytes()
+
+    def read_prefix(self, f, n):
+        with open(self.root / f, 'rb') as fh:
+            return fh.read(n)
+
+    def read_text(self, f):
+        return (self.root / f).read_text(encoding='utf-8', errors='replace')
+
+    def content_id(self, f):
+        return sha256_file(self.root / f)
+
+    def git_info(self):
+        return git_info(self.root)
+
+    def git_repo(self):
+        return self.root if is_git_tree(self.root) else None
+
+
+class GitTree:
+    """git 裡的某個版本（例：origin/main），直接從物件庫讀，不解到磁碟上（整棵樹一點多 GB，暫存碟放不下）。
+    只給「量」和「檢查」用；打包（pack.py）要真的複製檔案，只吃磁碟上的樹。"""
+    kind = 'git-ref'
+
+    def __init__(self, repo, ref):
+        self.repo = pathlib.Path(repo).resolve()
+        self.ref = ref
+        self.commit = subprocess.run(['git', '-C', str(self.repo), 'rev-parse', ref + '^{commit}'], capture_output=True, text=True, check=True).stdout.strip()
+        out = subprocess.run(['git', '-C', str(self.repo), 'ls-tree', '-r', '-l', '-z', self.commit], capture_output=True, check=True).stdout.decode('utf-8')
+        self._size, self._blob = {}, {}
+        for rec in out.split('\0'):
+            if not rec:
+                continue
+            meta, path = rec.split('\t', 1)
+            mode, typ, sha, sz = meta.split()
+            if typ != 'blob':
+                continue
+            self._size[path] = int(sz)
+            self._blob[path] = sha
+        self.files = sorted(self._size)
+        self.mode = 'git-ref'
+        self.label = 'git:%s（%s）' % (ref, self.commit[:9])
+        self.cache = {}
+        self._proc = None
+        self._last = (None, None)
+
+    def size(self, f):
+        return self._size[f]
+
+    def read_bytes(self, f):
+        if self._last[0] == f:
+            return self._last[1]
+        if self._proc is None:
+            self._proc = subprocess.Popen(['git', '-C', str(self.repo), 'cat-file', '--batch'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        self._proc.stdin.write((self._blob[f] + '\n').encode())
+        self._proc.stdin.flush()
+        head = self._proc.stdout.readline().split()
+        n = int(head[2])
+        data = b''
+        while len(data) < n:
+            chunk = self._proc.stdout.read(n - len(data))
+            if not chunk:
+                raise IOError('git cat-file 讀到一半斷了：' + f)
+            data += chunk
+        self._proc.stdout.read(1)
+        self._last = (f, data)
+        return data
+
+    def read_prefix(self, f, n):
+        return self.read_bytes(f)[:n]
+
+    def read_text(self, f):
+        return self.read_bytes(f).decode('utf-8', errors='replace')
+
+    def content_id(self, f):
+        return self._blob[f]   # git 的 blob 編號：內容一樣編號就一樣
+
+    def git_info(self):
+        return {'commit': self.commit, 'branch': self.ref, 'dirty': False}
+
+    def git_repo(self):
+        return self.repo
+
+    def materialize(self, paths, dest):
+        """把指定的檔寫到 dest（給 Node 讀執行期表：只要 index.html 和它載入的 script，約二十幾 MB）。"""
+        dest = pathlib.Path(dest)
+        for f in paths:
+            if f in self._size:
+                (dest / f).parent.mkdir(parents=True, exist_ok=True)
+                (dest / f).write_bytes(self.read_bytes(f))
+        return dest
+
+
+def open_tree(spec, mode='auto', repo=None):
+    """spec：磁碟路徑、'git:<ref>'（從 repo 的物件庫讀那個版本）、或已經開好的樹。"""
+    if isinstance(spec, (DiskTree, GitTree)):
+        return spec
+    spec = str(spec)
+    if spec.startswith('git:'):
+        return GitTree(repo or pathlib.Path(__file__).resolve().parents[2], spec[4:])
+    return DiskTree(spec, mode)
+
+
 # ---------- 版本（單一來源：index.html 標題畫面的「版本 vX（日期）」） ----------
 VERSION_RE = re.compile(r'版本 v([0-9][0-9.]*)（([0-9]{4}-[0-9]{2}-[0-9]{2})）')
 
 def read_version(root):
     """從 index.html 讀版本與日期；回傳 {version, date, queryVersions:{版號:次數}}。"""
-    html = (pathlib.Path(root) / 'index.html').read_text(encoding='utf-8')
+    return read_version_text((pathlib.Path(root) / 'index.html').read_text(encoding='utf-8'))
+
+
+def read_version_text(html):
     m = VERSION_RE.search(html)
     q = {}
     for v in re.findall(r'\?v=([0-9][0-9.]*)"', html):
@@ -207,7 +328,8 @@ def line_of(text, pos, _cache={}):
 # 順序有意義：第一條符合的算。規則寫在 docs/RELEASE_PACKAGING.md 第 8 節。
 CATEGORIES = [
     ('3D 場景（GLB、窗外景、匯出側寫）', lambda p: p.startswith('assets/models/env/')),
-    ('3D 人物（VRM、配件、動作、遠距離版本）', lambda p: p.startswith('assets/models/')),
+    ('3D 人物（VRM、配件、動作、遠距離版本）', lambda p: p.startswith('assets/models/char/')),
+    ('早期的範例人物模型（assets/models/*.glb）', lambda p: p.startswith('assets/models/')),
     ('2D 背景', lambda p: p.startswith('assets/bg/')),
     ('事件 CG', lambda p: p.startswith('assets/cg/')),
     ('電影海報', lambda p: p.startswith('assets/posters/')),

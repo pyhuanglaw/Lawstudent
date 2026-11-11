@@ -133,23 +133,22 @@ def scan_js(path, text, static, comment_only, dynamic):
             comment_only.setdefault(p, []).append('%s:%d' % (path, rc.line_of(text, m.start())))
 
 
-def glb_json(path):
+def glb_json(tree, f):
     """讀 GLB／VRM 的 JSON 區塊（不讀幾何資料）；不是 GLB 就回 None。"""
     import struct
     try:
-        with open(path, 'rb') as f:
-            hdr = f.read(12)
-            if len(hdr) < 12 or hdr[:4] != b'glTF':
-                return None
-            clen, ctype = struct.unpack('<I4s', f.read(8))
-            if ctype != b'JSON':
-                return None
-            return json.loads(f.read(clen).decode('utf-8'))
+        hdr = tree.read_prefix(f, 20)
+        if len(hdr) < 20 or hdr[:4] != b'glTF':
+            return None
+        clen, ctype = struct.unpack('<I4s', hdr[12:20])
+        if ctype != b'JSON':
+            return None
+        return json.loads(tree.read_prefix(f, 20 + clen)[20:20 + clen].decode('utf-8'))
     except Exception:
         return None
 
 
-def scan_glb_refs(root, files):
+def scan_glb_refs(tree, files):
     """GLB／VRM 檔裡面指到的外部檔：extras 裡寫的 assets/ 路徑（例如光照貼圖 extras.lightmap.day／night）、
     images／buffers 的外部 uri（相對於 GLB 所在的目錄）。回傳 {路徑: [來源]}、壞掉讀不了的 GLB 清單。"""
     refs, bad = {}, []
@@ -157,7 +156,7 @@ def scan_glb_refs(root, files):
     for f in files:
         if not (f.startswith('assets/') and f.rsplit('.', 1)[-1].lower() in ('glb', 'vrm')):
             continue
-        j = glb_json(pathlib.Path(root) / f)
+        j = glb_json(tree, f)
         if j is None:
             bad.append(f)
             continue
@@ -189,23 +188,35 @@ def scan_glb_refs(root, files):
     return refs, bad
 
 
-def run_runtime(root):
-    """node tools/release/runtime_manifest.js；失敗就回 {'ok':False,…}（打包照常，只是少一種來源，報告會寫）。"""
+def run_runtime(tree, scripts):
+    """node tools/release/runtime_manifest.js；失敗就回 {'ok':False,…}（打包照常，只是少一種來源，報告會寫）。
+    git 裡的版本：先把 index.html 和它載入的 script 寫到暫存目錄（二十幾 MB），讀完刪掉。"""
     script = pathlib.Path(__file__).resolve().parent / 'runtime_manifest.js'
+    tmp = None
     try:
+        if tree.kind == 'disk':
+            root = tree.root
+        else:
+            import tempfile
+            tmp = tempfile.mkdtemp(prefix='relrt_')
+            root = tree.materialize(['index.html'] + list(scripts), tmp)
         r = subprocess.run(['node', str(script), str(root)], capture_output=True, text=True, timeout=300)
         d = json.loads(r.stdout)
         return d
     except Exception as e:   # 沒有 node、逾時、輸出壞掉
         return {'ok': False, 'manifest': [], 'data': [], 'portraits': [], 'zones': {}, 'errors': ['執行期表讀不到：%s' % e], 'scripts': 0}
+    finally:
+        if tmp:
+            import shutil
+            shutil.rmtree(tmp, ignore_errors=True)
 
 
 def analyze(root, target='web', runtime=True, files_mode='auto'):
-    root = pathlib.Path(root).resolve()
-    files, mode = rc.list_files(root, files_mode)
+    tree = rc.open_tree(root, files_mode)
+    files, mode = tree.files, tree.mode
     fset = set(files)
-    size = {f: (root / f).stat().st_size for f in files}
-    html = (root / 'index.html').read_text(encoding='utf-8')
+    size = {f: tree.size(f) for f in files}
+    html = tree.read_text('index.html')
     scripts, others, external = scan_index(html)
 
     static, comment_only, dynamic = {}, {}, {}
@@ -219,12 +230,14 @@ def analyze(root, target='web', runtime=True, files_mode='auto'):
         comment_only.pop(m.group(0), None)
     loaded_js = [s for s in scripts if s in fset]
     for s in loaded_js:
-        scan_js(s, (root / s).read_text(encoding='utf-8', errors='replace'), static, comment_only, dynamic)
+        scan_js(s, tree.read_text(s), static, comment_only, dynamic)
     for p in list(comment_only):
         if p in static:
             del comment_only[p]
 
-    rt = run_runtime(root) if runtime else {'ok': False, 'manifest': [], 'data': [], 'portraits': [], 'zones': {}, 'errors': ['--no-runtime：沒有讀執行期表'], 'scripts': 0}
+    if runtime and 'runtime' not in tree.cache:
+        tree.cache['runtime'] = run_runtime(tree, loaded_js)
+    rt = tree.cache['runtime'] if runtime else {'ok': False, 'manifest': [], 'data': [], 'portraits': [], 'zones': {}, 'errors': ['--no-runtime：沒有讀執行期表'], 'scripts': 0}
     rt_paths = {}
     for m in rt.get('manifest', []):
         rt_paths.setdefault(m['url'], []).append('ASSETS.manifest[%s].%s' % (m['key'], m['field'] or 'url'))
@@ -237,7 +250,9 @@ def analyze(root, target='web', runtime=True, files_mode='auto'):
     for p in rt.get('portraits', []):
         rt_paths.setdefault(p, []).append('PORTRAIT_FILES')
 
-    glb_refs, glb_bad = scan_glb_refs(root, files)
+    if 'glbrefs' not in tree.cache:
+        tree.cache['glbrefs'] = scan_glb_refs(tree, files)
+    glb_refs, glb_bad = tree.cache['glbrefs']
 
     dyn_rules = [{'id': 'R5-DYNAMIC', 'prefix': k[0], 'exts': list(k[1]), 'where': sorted(set(v))[:6], 'count': len(v)} for k, v in sorted(dynamic.items())]
     derived = [dict(r) for r in DERIVED_RULES]
@@ -331,7 +346,7 @@ def analyze(root, target='web', runtime=True, files_mode='auto'):
         'byRule': dict(sorted(by_rule.items())),
     }
     return {
-        'root': str(root), 'target': target, 'filesMode': mode, 'git': rc.git_info(root), 'version': rc.read_version(root),
+        'root': tree.label, 'target': target, 'filesMode': mode, 'git': tree.git_info(), 'version': rc.read_version_text(html),
         'index': {'scripts': scripts, 'others': others, 'external': external},
         'static': {p: w[:4] for p, w in sorted(static.items())},
         'commentOnly': {p: w[:3] for p, w in sorted(comment_only.items())},
@@ -357,7 +372,7 @@ def to_markdown(res):
     g = res['git']
     L.append('# 依賴檢查（%s）' % res['target'])
     L.append('')
-    L.append('- 樹：`%s`（檔案清單：%s）' % (res['root'], 'git 追蹤的檔' if res['filesMode'] == 'git' else '整棵樹'))
+    L.append('- 樹：`%s`（檔案清單：%s）' % (res['root'], {'git': 'git 追蹤的檔', 'git-ref': 'git 裡的那個版本'}.get(res['filesMode'], '整棵樹')))
     if g.get('commit'):
         L.append('- commit `%s`，分支 `%s`%s' % (g['commit'][:9], g['branch'], '（工作樹有還沒 commit 的改動）' if g['dirty'] else ''))
     L.append('- 版本（index.html）：v%s（%s）' % (res['version']['version'], res['version']['date']))
@@ -453,7 +468,7 @@ def to_markdown(res):
 
 def main():
     ap = argparse.ArgumentParser(description='依賴檢查器（只讀）')
-    ap.add_argument('--root', default=str(pathlib.Path(__file__).resolve().parents[2]))
+    ap.add_argument('--root', default=str(pathlib.Path(__file__).resolve().parents[2]), help='目錄，或 git:<ref>（例 git:origin/main，直接從 git 讀，不用解出來）')
     ap.add_argument('--target', default='web', choices=TARGETS)
     ap.add_argument('--files', default='auto', choices=('auto', 'git', 'walk'), help='檔案清單：git 追蹤的（預設，有 .git 時）或整棵樹')
     ap.add_argument('--no-runtime', action='store_true', help='不跑 node 讀執行期表（只做靜態掃描）')
