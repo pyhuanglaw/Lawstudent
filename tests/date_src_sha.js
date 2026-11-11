@@ -67,6 +67,7 @@ module.exports={
   AN_SHA:'bd1ce5be0',          // 以安重寫的那一版（＝AA 後續改 14 格以前的那一版；同一版帶子晴再改的 31 格，見 ALSO_AN）
   AN_FOLLOW_SHA:'248c8e390',   // AA_780_an_date_followup.json（不分地點的短句 9 列：date_lines.js 五列——以安 flaked 兩則、子晴／語彤／芷若 flaked 各一列；date3d.js 四列——S.EXTRA_LINES.heroine_01；_meta.she_pays＝S.SHE_PAYS）
   AN_BASE2:'7266e7a29',        // AA 後續改稿匯入以前的開發分支（src/data/date_lines.js、date3d.js 拿來比「只差這 14 格＋AA_780 九列」；這個不用跟著換）
+  AN780_D3_SHA:'cd8f64806',    // AA_780 四列＋S.SHE_PAYS 進 src/date3d.js 的那個 commit（tests/an_dates_1111_unit.js 第 9 節比「date3d.js 的字串只差這幾個」固定比這一版；之後 date3d.js 再加字串不用換）
   /* 2026-11-11 248c8e390（以安匯入以後 AA 的後續改稿；AA_780 的 _meta）：源稿只動以安 14 格（改稿紀錄 date_rewrite/an_Dxx.json 的 _meta.fix_lawww_an_1111；沒人記的承諾、綁第一次選項的再訪句）。
      n＝date_rewrite.py list heroine_01 Dxx 的格號；path 是 Dxx.json 裡 lines.heroine_01 底下的位置；old＝上一版 bd1ce5be0 的字 */
   AN_FIX14:[
@@ -94,3 +95,7 @@ module.exports={
 /* 「和重匯以前比」用：回傳一份複本，把 AA_780 換的那三格（FLAKED_780）還原成各人自己那一輪的字。x＝整份 DATE_LINES（或 strip 過、少了幾個人的）；只有那一格現在剛好是 AA_780 的 new 才還原（不是＝不動，照舊會紅）；
    重匯以前的那一份（那一格還是 old）丟進來不會變 */
 module.exports.un780=x=>{ const y=JSON.parse(JSON.stringify(x)); for(const r of module.exports.FLAKED_780){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
+/* FLAKED_780 那一格的字（r.p 照 leaves 的路徑走；整份 DATE_LINES 丟進來）：各支測試另外驗「現在＝new、重匯以前＝old」，un780 才不會把別的差異藏起來 */
+module.exports.cell780=(x,r)=>{ let o=x; for(const t of r.p.split('/').slice(1)) o=o==null?o:o[t]; return o; };
+/* 各人自己那一輪的逐字對稿：稿上那一列（path、new）如果是 AA_780 之後又換掉的那一格（FLAKED_780 的 path 一樣、old＝那一列的 new），現在認 AA_780 的 new；別的列照舊認那一列的 new */
+module.exports.want780=r=>{ const x=module.exports.FLAKED_780.find(y=>y.path===r.path&&y.old===r.new); return x?x.new:r.new; };
