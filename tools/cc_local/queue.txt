@@ -21,6 +21,12 @@ CLASS12_skip5b_out150x20 | 64add9fcfbd75796463e9b99373f6301359ba012 | probe | do
 # CC 06:3x：np1000／np400 開跑時探針還會先截圖再點（雲端自檢抓到，660f94cdc 修），r2 重跑
 CLASS12_skip5b_np1000_r2 | 64add9fcfbd75796463e9b99373f6301359ba012 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;NORMALPICK=1000;RERUN=r2;SHA=64add9fcfbd75796463e9b99373f6301359ba012
 CLASS12_skip5b_np400_r2 | 64add9fcfbd75796463e9b99373f6301359ba012 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;NORMALPICK=400;RERUN=r2;SHA=64add9fcfbd75796463e9b99373f6301359ba012
+# ★BB 06:34 L118A（bc407bfc5＝BB 判 118 巷的版本，今天先回）：街景十一間外觀、九間室內門口往裡／最裡面往門口＋進門第一眼遊戲鏡頭＋近照（含奈良咖哩地板）
+L118A_EXT14 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=EXT14;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+L118A_INT_a | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 18 | PARTS=INTFRONT;SHOPS=omu,dian,self,korea,tea;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+L118A_INT_b | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 18 | PARTS=INTFRONT;SHOPS=noodle2,pasta,home,cafe2;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+L118A_EXT20 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=EXT20;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+L118A_EXT14_old | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=EXT14;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 # ★P1 BB 06:08 CLASS12_skip5（a740616de：選項按鈕自己被按下才算、事件時間、略過中跳出的選單 900 ms、略過鍵移到對話框左上；?tapguard；三堂＝憲法 15、刑總 13、民總 15；舊版對照＝skip3）
 # 換 SHA（BB 06:09：全部改 64add9fcf）CLASS12_skip5_150x5 | a740616de62d7d06fbb06290fd7168173531d6fb | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;BURSTN=5;BURSTMS=150;SKIPHIDE=1;SHA=a740616de62d7d06fbb06290fd7168173531d6fb
 # 換 SHA（BB 06:09：全部改 64add9fcf）CLASS12_skip5_150x10 | a740616de62d7d06fbb06290fd7168173531d6fb | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;BURSTN=10;BURSTMS=150;SKIPHIDE=1;SHA=a740616de62d7d06fbb06290fd7168173531d6fb

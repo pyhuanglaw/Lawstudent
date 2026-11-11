@@ -1,6 +1,6 @@
 """CC（帳號 A）11-11：L118A——118 巷 3D 第 1 版（LAWWW2 L118-SHOPS-REDO-1111，X338；BB_335 D、F 節）。Playwright 手機模擬（PC GPU）≠ iPhone。
-受測：開發分支 27bbb3b89（含 64add9fcf 第二批：飲料店立面照參考圖、118牛排自助台上方海報、辛亥韓食茶水桶、水上便當吊牌；27bbb3b89：奈良咖哩、迪倫窯烤披薩、義大麵屋三間室內照參考圖重做）；
-  七間新室內＝dian、self、korea、tea、omu、noodle2、pasta；home、cafe2 還是舊模型。舊版對照 779ddd650（舊店名、舊模型）。
+受測：開發分支 bcea920be（九間室內第 1 版到齊：含 27bbb3b89、含 64add9fcf 第二批：飲料店立面照參考圖、118牛排自助台上方海報、辛亥韓食茶水桶、水上便當吊牌；27bbb3b89：奈良咖哩、迪倫窯烤披薩、義大麵屋；bcea920be：五湖四海、大學食堂）；
+  九間都是新室內（dian、self、korea、tea、omu、noodle2、pasta、home、cafe2），預設九間同一套。舊版對照 779ddd650（舊店名、舊模型）。
 對照的程式：src/data/lane118_layout.js（店 id、side、z0／z1；立面 x ±5.2、人行道 ±3.4～±5.2）、src/data/l118_shop_layouts.js（室內 bounds、door、spawn、exits、street.door／spawn_out、seats）、
   src/l118_shops3d.js（店內區域 l118_<id>、座位按鈕「坐下」、出口「離開○○」、門外窗景 W3.VIEW_LAYERS／l118_window_view）、src/zones3d.js buildLane118（店門口互動點 x＝立面±0.9、z＝店中間；「進○○」）、
   src/lane118.js（L118.isOpen：營業時間）。
@@ -10,10 +10,10 @@
 走路一律搖桿（CDP 觸控按 #joy；方向照 E.pathTo 的下一段，像玩家知道往哪走）；按鈕一律觸控點 #interact、#dlg、選項。讀檔只當前置條件，印【前置／捷徑】。
 PARTS（逗號分隔；店相關的可以加 _<店 id>，座位可以再加 _<起>-<迄>（從 1 起、含迄））：
   EXT14 EXT20   十一間（九間＋兩間飲料店）正面＋招牌近拍【捷徑機位】（ONLY_SHOPS 可限定）
-  INTFRONT      七間新室內（SHOPS 可改）：門口往裡、最裡面往門口【捷徑機位】、進門那一刻【遊戲鏡頭】、近照（118牛排自助台上方海報、辛亥韓食茶水桶、水上便當吊牌、奈良咖哩地板）（別名 INT_FRONT）
+  INTFRONT      九間室內（SHOPS 可改）：門口往裡、最裡面往門口【捷徑機位】、進門那一刻【遊戲鏡頭】、近照（118牛排自助台上方海報、辛亥韓食茶水桶、水上便當吊牌、奈良咖哩地板）（別名 INT_FRONT）
   DRINK         兩間飲料店：互動點、搖桿沿人行道和路邊來回走（擋不擋路）、站窗口按鈕、買一杯；118 巷導航格存檔（拼圖時和舊版比）
   LANEWALK      14:00、20:00 各一輪（HOURS 可改）：從巷底（後門）搖桿走到巷口、再走回來；每趟 4 張【遊戲鏡頭】；巷子中間 6 秒幀率
-  CORNERS       四角＋最裡面各一張【遊戲鏡頭】（CAMDIAG2 判準）；辛亥韓食最裡面鏡頭轉一圈（8 張，SPIN=1 其他店也轉）；最後走回出口、出店
+  CORNERS       四角＋最裡面各一張【遊戲鏡頭】（CAMDIAG2 判準；看得到人＝吊牌、隔間沒擋住玩家）；辛亥韓食、五湖四海最裡面鏡頭每 45° 一張轉一圈（煮水餃區整組淡出怪不怪；SPIN=1 其他店也轉）；最後走回出口、出店
   SEATS         每張椅子：搖桿走到 seatApproach → 按「坐下」→ player.seat、位置／高度 → 穿模（骨頭連線射線打桌椅）→ 截圖 → 起身 → 搖桿四方向推得動 ≥0.3 m；
                 高腳椅（seat.lift）另記骨盆（hips 骨頭）高度－椅面高度（0.47＋lift）、腳骨頭高度、小腿／腳線段有沒有打到吧台
   WALLWALK      沿牆（離房間邊 0.45 m 的長方形，每 1 m 一點，貼到人站得住的格子）搖桿走一圈，記卡住的點
@@ -21,8 +21,8 @@ PARTS（逗號分隔；店相關的可以加 _<店 id>，座位可以再加 _<�
   VIEWS         九間店裡往門外看【捷徑機位】（13:00、19:15）＋窗景平面用的照片（沒重拍＝現況）
   VIEWSNEW      先用 cc_shop_views_gg.py（＝tools/shots/shop_views_layers.py 的 PC 版）重拍九間門外景，有 webp（PC 有 numpy／PIL）就放進受測 worktree 再拍窗外；
                 VIEWS_DIR＝cc-testing 上已經去背好的資料夾（雲端 VIEWS_REMATTE 後）就不重拍、直接用那一份。拍完把 worktree 的原檔放回去
-  OTHER         還是舊模型的店（OLD_SHOPS，預設 home、cafe2）：門口往裡一張＋進門【遊戲鏡頭】一張，只拍不判（別名 OTHER5）
-  SPECIAL3      奈良咖哩、迪倫、義大麵屋另外的：店裡「看東西」的互動每個按一次記逐字（和配置 note 比）；迪倫店員座標和面向、搖桿走到爐口前一張【遊戲鏡頭】；
+  OTHER         還是舊模型的店（OLD_SHOPS，bcea920be 起預設沒有；舊版對照時可以 OLD_SHOPS=home,cafe2）：門口往裡一張＋進門【遊戲鏡頭】一張，只拍不判（別名 OTHER5）
+  SPECIAL       奈良咖哩、迪倫、義大麵屋、五湖四海、大學食堂另外的（別名 SPECIAL3）：店裡「看東西」的互動每個按一次記逐字（和配置 note 比）；店內全部互動鍵文字（大學食堂不能有書架、念書類）；迪倫店員座標和面向、搖桿走到爐口前一張【遊戲鏡頭】；
                 窯爐的火 13:00／20:00 近拍【捷徑機位】＋火焰網格附近像素色值（有沒有變成白光）；奈良咖哩地板近拍＋地板像素色值（D112 不要深色木）；
                 義大麵屋 TRACE_SQ12_photo：【前置／捷徑】G.side.SQ12 設成前一天做完 → 模型節點看不看得到、位置 → 搖桿走過去記互動鍵文字
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=... python3 cc_l118a_probe.py <url> <out>"""
@@ -38,7 +38,7 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 WT = os.path.abspath(os.path.join(os.environ.get('LW_TESTS') or 'tests', '..'))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
 DAY = os.environ.get('DAY') or '2025-10-08'
-NEW7 = ['dian', 'self', 'korea', 'tea', 'omu', 'noodle2', 'pasta']; OLD2 = [x for x in (os.environ.get('OLD_SHOPS') or 'home,cafe2').split(',') if x]; ALL9 = ['dian', 'self', 'tea', 'home', 'cafe2', 'pasta', 'korea', 'omu', 'noodle2']
+NEW9 = ['dian', 'self', 'korea', 'tea', 'omu', 'noodle2', 'pasta', 'home', 'cafe2']; OLD2 = [x for x in (os.environ.get('OLD_SHOPS') or '').split(',') if x]; ALL9 = ['dian', 'self', 'tea', 'home', 'cafe2', 'pasta', 'korea', 'omu', 'noodle2']
 H_INT = float(os.environ.get('H_INT') or 13.0)
 VP = {'width': 844, 'height': 390}
 hhmm = lambda h: '%02d%02d' % (int(h), int(round((h % 1) * 60)))
@@ -337,7 +337,7 @@ async def part_corners(pg, cdp, sid):
         if not ok: miss.append([lab, p, st])
         await pg.wait_for_timeout(1500); await game_shot(pg, fn('corner', sid, h, lab, False), tag)
     R.check('%s 四角＋最裡面都用搖桿走得到' % tag, not miss, J(miss))
-    if sid == 'tea' or os.environ.get('SPIN') == '1':
+    if sid in ('tea', 'home') or os.environ.get('SPIN') == '1':
         for k in range(8):
             if k: await drag_yaw(pg, cdp, math.pi / 4)
             await pg.wait_for_timeout(1000); await game_shot(pg, fn('corner', sid, h, 'spin%d' % (k * 45), False), tag + ' 最裡面轉一圈')
@@ -385,6 +385,7 @@ async def sit_one(pg, cdp, sid, k, s, res):
     await pg.wait_for_timeout(1500)
     p = await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position, s=P.seat; return {x:+o.x.toFixed(3),z:+o.z.toFixed(3),y:+o.y.toFixed(3), sx:s?+s.x.toFixed(3):null, sz:s?+s.z.toFixed(3):null}; })()")
     R.check('%s 坐下了（player.seat）' % t, sat, J(p))
+    if sat: R.note('%s 按的互動鍵「%s」；實際坐到的座位 (%s, %s)（要坐的是 (%s, %s)）' % (t, b['interact'], p['sx'], p['sz'], s['sx'], s['sz']))
     clip = None
     if sat:
         d = math.hypot(p['x'] - s['sx'], p['z'] - s['sz']); fy = round((s['sy'] if s.get('sy') is not None else 0.0) + (s.get('lift') or 0), 3)
@@ -500,7 +501,7 @@ VIEWINFO = r"""(s=>{ const E=GAME.E, key='l118_'+s, m=E.scene.getObjectByName('l
 
 
 async def part_views(pg, cdp, label):
-    shops = shop_filter(None, ALL9 if label == 'asis' else NEW7)
+    shops = shop_filter(None, ALL9 if label == 'asis' else NEW9)
     for h in [float(x) for x in (os.environ.get('VIEW_HOURS') or '13,19.25').split(',')]:
         for sid in shops:
             tag = '[VIEWS %s %s %s]' % (label, sid, hhmm(h))
@@ -590,9 +591,12 @@ async def looks(pg, cdp, sid, tag):
 
 
 async def part_special3(pg, cdp):
-    for sid in shop_filter(None, ['omu', 'noodle2', 'pasta']):
-        tag = '[SPECIAL3 %s]' % sid
+    for sid in shop_filter(None, ['omu', 'noodle2', 'pasta', 'home', 'cafe2']):
+        tag = '[SPECIAL %s]' % sid
         await at_shop(pg, cdp, sid, H_INT)
+        labs = sorted({i['label'] for i in await pg.evaluate(ITS)})
+        R.note('%s 店內全部互動鍵文字：%s' % (tag, J(labs)))
+        if sid == 'cafe2': R.check('%s 沒有書架、念書類互動（大學食堂；念書搬到木曜日）' % tag, not any(k in x for x in labs for k in ('書架', '讀書', '念書', '唸書', '自習')), J(labs))
         await looks(pg, cdp, sid, tag)
         if sid == 'omu':
             await cam_shot(pg, fn('int', sid, H_INT, 'close_地板', True), (0.0, 1.35, 1.6), (0.0, 0.0, 0.2), 30)
@@ -678,17 +682,17 @@ async def main():
                 try:
                     if base == 'EXT14': await part_ext(pg, cdp, 14.0)
                     elif base == 'EXT20': await part_ext(pg, cdp, 20.0)
-                    elif base == 'INTFRONT': await part_intfront(pg, cdp, shop_filter(shop, NEW7), [float(x) for x in (os.environ.get('HOURS_INT') or str(H_INT)).split(',')])
+                    elif base == 'INTFRONT': await part_intfront(pg, cdp, shop_filter(shop, NEW9), [float(x) for x in (os.environ.get('HOURS_INT') or str(H_INT)).split(',')])
                     elif base == 'DRINK': await part_drink(pg, cdp)
                     elif base == 'LANEWALK': await part_lanewalk(pg, cdp)
                     elif base == 'CORNERS':
-                        for sid in shop_filter(shop, NEW7): await part_corners(pg, cdp, sid)
+                        for sid in shop_filter(shop, NEW9): await part_corners(pg, cdp, sid)
                     elif base == 'SEATS':
-                        for sid in shop_filter(shop, NEW7): await part_seats(pg, cdp, sid, rng)
+                        for sid in shop_filter(shop, NEW9): await part_seats(pg, cdp, sid, rng)
                     elif base == 'WALLWALK':
-                        for sid in shop_filter(shop, NEW7): await part_wallwalk(pg, cdp, sid)
+                        for sid in shop_filter(shop, NEW9): await part_wallwalk(pg, cdp, sid)
                     elif base == 'DOORS':
-                        for sid in shop_filter(shop, NEW7): await part_doors(pg, cdp, sid)
+                        for sid in shop_filter(shop, NEW9): await part_doors(pg, cdp, sid)
                     elif base == 'VIEWS': await part_views(pg, cdp, 'asis')
                     elif base == 'VIEWSNEW':
                         if not vsrc: R.note('[VIEWSNEW] 沒有新拍的 webp，窗外沒有換（見上面的訊息）；只留 views_new/ 的原始檔'); continue
@@ -698,7 +702,7 @@ async def main():
                             R.setup('【捷徑】W3.VIEW_LAYERS 換成重拍量到的景深（%d 間）：%s' % (n, J(dd)))
                         await part_views(pg, cdp, 'reshot')
                     elif base in ('OTHER', 'OTHER5'): await part_other(pg, cdp)
-                    elif base == 'SPECIAL3': await part_special3(pg, cdp)
+                    elif base in ('SPECIAL', 'SPECIAL3'): await part_special3(pg, cdp)
                     else: R.check('[%s] 認得這個 PART' % part, False, '')
                 except Exception as e:
                     R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
