@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A7_SEAT_tea9\out
+CC L118A：PARTS SEATS_tea_9-9；SHA a3b9f0478a5976409f305f97c7fdeac19764e4ca；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.0s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== SEATS_tea_9-9
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_tea 店裡的進門位置 (-0.50,2.50) 2025-10-08 1300 
+PASS [tea] 店內正式模型載入（1.5 秒）
+  [  45.5s] [SEATS tea] 座位共 12 張（這一行測 #9～#9）：[{"label": "坐下", "x": -0.05, "z": 1.42, "lv": 0, "sx": 0.55, "sz": 1.5, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 1.42], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 1.75, "lv": 0, "sx": 1.05, "sz": 1.5, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 1.75], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 2.42, "lv": 0, "sx": 0.55, "sz": 2.7, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 2.42], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 2.08, "lv": 0, "sx": 1.05, "sz": 2.7, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 2.08], "lift": 0}, {"label": "坐下", "x": -0.05, "z": -0.22, "lv": 0, "sx": 0.55, "sz": -0.22, "sy": null, "slv": 0, "row": null, "ap": [-0.05, -0.22], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 0.18, "lv": 0, "sx": 1.05, "sz": -0.22, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 0.18], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 0.98, "lv": 0, "sx": 0.55, "sz": 0.98, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 0.98], "lift": 0}, {"label": "坐下", "x": -0.05, "z": 0.58, "lv": 0, "sx": 1.05, "sz": 0.98, "sy": null, "slv": 0, "row": null, "ap": [-0.05, 0.58], "lift": 0}, {"label": "坐下", "x": -0.05, "z": -1.72, "lv": 0, "sx": 0.55, "sz": -1.94, "sy": null, "slv": 0, "row": null, "ap": [-0.05, -1.72], "lift": 0}, {"label": "坐下", "x": -0.05, "z": -1.39, "lv": 0, "sx": 1.05, "sz": -1.94, "sy": null, "slv": 0, "row": null, "ap": [-0.05, -1.39], "lift": 0}, {"label": "坐下", "x": -0.05, "z": -0.74, "lv": 0, "sx": 0.55, "sz": -0.74, "sy": null, "slv": 0, "row": null, "ap": [-0.05, -0.74], "lift": 0}, {"label": "坐下", "x": -0.05, "z": -1.07, "lv": 0, "sx": 1.05, "sz": -0.74, "sy": null, "slv": 0, "row": null, "ap": [-0.05, -1.07], "lift": 0}]
+  [  45.5s] [SEATS tea #9（0.55, -1.94）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [  45.5s] [SEATS tea] 有人坐的 [9]：重新讀檔再試一次
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_tea 店裡的進門位置 (-0.50,2.50) 2025-10-08 1300 （重試有人坐的座位）
+PASS [tea] 店內正式模型載入（1.5 秒）
+  [  52.2s] [SEATS tea #9（0.55, -1.94）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [  52.2s] [SEATS tea] 結果：坐得到 0／1（這一行測的）；{"9": "occupied"}
+PASS [SEATS tea #9～#9] 每張都坐得到（有 NPC 一直坐著的另列）  {"9": "occupied"}
+  [  52.3s] [SEATS tea] ★兩次都有 NPC 坐著、沒測到：[9]
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
