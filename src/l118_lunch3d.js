@@ -17,6 +17,8 @@
    2 機率：最熟的那個人的級距（S.tier＝SOCIAL.stage：ACQUAINTANCE 1、FAMILIAR 2、FRIEND 3、CLOSE_FRIEND 以上 4；認識了但還不到 ACQUAINTANCE 算 1）→ 20／40／65／80%。
    3 發起人：有邀約句子、有開著的店、那間店有他自己一個人就能演的午餐對話的人裡加權抽：級距權重 1／2／3／4 × 資料檔 who.weight × 連續婉拒倍率（0、1 次 1；2 次 0.75；3 次 0.5；4 次以上 0.25——不會是 0）。
    4 店：發起人的 prefs 照權重抽，到店時間（下課後 10 分鐘）沒開的不算（＝沒開照權重換下一間）；一一八茶飲不當午餐、慢讀咖啡只有以安會選（S.RULES）。
+     店名、菜單、價錢、營業時間都是當下從 LANE118_SHOPS 讀的（店重新設計、重匯以後不用改這裡）；prefs 寫了資料沒有的店、被標成不當午餐的店（S.lunchShop）＝跳過。
+     存檔記的是店 id＋品名（L118.rec 的 last）：品名後來不在菜單上＝當作沒點過。
    5 時間：從那間店出發去下一件固定的事（下一堂課的出門時間 CLS.goPlan、已接受的邀約／出遊／有時限的劇情 CLS.skipStops、補考 CLS.hardItems）以前要吃得完：
      走過去 10 分鐘＋至少吃 20 分鐘，不夠＝不邀。吃 30 分鐘，最晚到下一件事的出門時間。不呼叫 slotUse（不占行動格）。
    6 同行：其他有資格的人加權抽 0～2 位（人數權重 S.CFG.mateN）；柏翰、沛珊大二上不同桌（S.RULES.apart）。
@@ -92,7 +94,9 @@ const LUNCH118=(function(){
   S.zheToday=function(G){ const F=G.flags||{}, L=F.L118_LUNCH; if(L&&L.day===G.day) return true; return typeof F.L118_PICK==='string'&&+F.L118_PICK.split(':')[0]===G.day; };
   S.zhePhoned=G=>typeof PHONE!=='undefined'&&!!PHONE.sent&&!!PHONE.sent(G,'l118_lunch_'+G.day);
   /* 這個人會選、到店那一刻開著的店 */
-  S.shopsOf=function(G,id,gA){ const d=D(), P=(d&&d.who[id]&&d.who[id].prefs)||{}, R=S.RULES; return Object.keys(P).filter(s=>+P[s]>0&&!R.noLunch.includes(s)&&(!R.onlyFor[s]||R.onlyFor[s].includes(id))&&!!L118.shop(s)&&L118.isOpen(s,gA)); };
+  /* 能當午餐的店：LANE118_SHOPS 有這間（prefs 寫了資料沒有的 id＝跳過，不報錯）、有菜單、沒被標成不當午餐（店的資料 noLunch／takeout／lunch:false——九間店重新設計以後多的外帶飲料店；S.RULES.noLunch 的 id）*/
+  S.lunchShop=function(id){ const s=L118.shop(id); return !!s&&Array.isArray(s.menu)&&s.menu.length>0&&!s.noLunch&&!s.takeout&&s.lunch!==false&&!S.RULES.noLunch.includes(id); };
+  S.shopsOf=function(G,id,gA){ const d=D(), P=(d&&d.who[id]&&d.who[id].prefs)||{}, R=S.RULES; return Object.keys(P).filter(s=>+P[s]>0&&S.lunchShop(s)&&(!R.onlyFor[s]||R.onlyFor[s].includes(id))&&L118.isOpen(s,gA)); };
   /* 這一桌、這間店能演的午餐對話 */
   S.groupsFor=function(party,shop){ const d=D(); return ((d&&d.lunch)||[]).filter(g=>g&&g.id&&Array.isArray(g.who)&&g.who.length&&g.who.every(id=>party.includes(id))&&(g.n==null||g.n===party.length+1)&&(!g.shop||g.shop.includes(shop))&&Array.isArray(g.lines)&&g.lines.length); };   /* n＝含玩家的人數要剛好 */
   S.pickGroup=function(G,party,shop){ const L=S.groupsFor(party,shop); if(!L.length) return null; const lg=S.rec(G).lg, key=g=>lg[g.id]==null?[0,-g.who.length]:[1,lg[g.id]];
@@ -188,10 +192,12 @@ const LUNCH118=(function(){
     if(free.length<need&&typeof CROWD!=='undefined'&&CROWD.shopMakeRoom){ try{ CROWD.shopMakeRoom(GM,need); }catch(e){} free=seats.filter(isFree); }
     if(!free.length) return 0;
     const L=typeof L118_SHOP_LAYOUTS!=='undefined'&&L118_SHOP_LAYOUTS?L118_SHOP_LAYOUTS[P.shop]:null, tk=st=>{ const q=L&&Array.isArray(L.seats)?L.seats.find(s=>Math.abs(s.x-st.x)<0.02&&Math.abs(s.z-st.z)<0.02):null; return q&&Array.isArray(q.table)?q.table.join(','):null; };
-    const byT={}; for(const st of free){ const k=tk(st); if(k!=null) (byT[k]=byT[k]||[]).push(st); }
-    const dist=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z), tabs=Object.keys(byT).map(k=>byT[k]).filter(a=>a.length>=need).sort((a,b)=>(a.some(q=>q.lift)?1:0)-(b.some(q=>q.lift)?1:0)||a.length-b.length);
-    let pick=tabs.length?tabs[0].slice(0,need):null;   /* 一張坐得下的桌子（不是吧檯的先）*/
-    if(!pick){ let best=null; for(const s0 of free){ const near=free.slice().sort((a,b)=>dist(a,s0)-dist(b,s0)).slice(0,need), span=dist(near[near.length-1],s0); if(!best||near.length>best.n||(near.length===best.n&&span<best.span)) best={n:near.length,span,list:near}; } pick=best.list; }   /* 沒有：最靠近的幾個空位 */
+    /* 空位照桌子分組（沒有桌號的位子自己一組）：從每一張桌子出發，由近到遠併桌到坐得下；挑「坐得下 → 用的桌子最少 → 不是吧檯高腳椅 → 併的桌子靠得最近」的那一組 */
+    const byT={}; for(const st of free){ const k=tk(st)||('s:'+st.x+','+st.z); (byT[k]=byT[k]||[]).push(st); }
+    const TB=Object.keys(byT).map(k=>{ const a=byT[k]; return {a,x:a.reduce((t,q)=>t+q.x,0)/a.length,z:a.reduce((t,q)=>t+q.z,0)/a.length,lift:a.some(q=>q.lift)?1:0}; }), dist=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
+    let best=null; for(const t0 of TB){ const list=[]; let tabs=0, span=0; for(const t of TB.slice().sort((p,q)=>dist(p,t0)-dist(q,t0))){ if(list.length>=need) break; for(const q of t.a){ if(list.length<need) list.push(q); } tabs++; span=dist(t,t0); }
+      const sc=[need-list.length,tabs,t0.lift,span], better=!best||sc.some((v,i)=>v!==best.sc[i]&&sc.slice(0,i).every((w,j)=>w===best.sc[j])&&v<best.sc[i]); if(better) best={sc,list}; }
+    const pick=best.list;
     GM.sitAt(E.player,pick[0]); let k=1, n=0;
     for(const id of P.party){ const st=pick[k]; if(!st) break; let c=GM.npc&&GM.npc[id]; if(c){ c.seatTarget=null; c.path=null; if(c.seat!==st) GM.sitAt(c,st); } else if(GM.spawnCharacter) c=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'});
       if(!c) continue; k++; n++; c.pose=c.idlePose='sit'; c.frozen=true; c.l118Shop=P.shop; c.lunch118=G.day; c.until=P.hEnd; }

@@ -5,7 +5,7 @@
 白名單沒有這一筆（或不是 approved）＝停下來說明，不產生檔；遊戲那邊沒有資料檔＝整個系統不開（src/l118_lunch3d.js）。
 
 **台詞、選項、旁白一字照稿**（只過 import_guard.read_fix 的換名；換到了會印出來）。這支工具只多做三件事：
-1. 核對 id：人物（src/data/characters.js）、店（src/data/lane118_shops.js）。稿上寫錯的 id 在 IDMAP 對照（現在是空的：AA_771 的 id 全部對得上）。
+1. 核對 id：人物（src/data/characters.js，不認得＝停下來）、店（src/data/lane118_shops.js，不在現在的資料裡＝只提醒：遊戲會跳過那間店）。稿上寫錯的 id 在 IDMAP 對照（現在是空的：AA_771 的 id 全部對得上）。
 2. 每一組 special 的 cond（文字條件）拆成遊戲看得懂的 when（下面「cond 怎麼讀」）；讀不懂的子句放進 when.unknown ＝ 那一組遊戲不會播，匯入時印出來。
 3. _meta.rules（文字規則）和 RULES_KNOWN 不一樣＝停下來（規則是寫在 src/l118_lunch3d.js 的 RULES 裡的，稿的規則改了程式要跟著看）；看過以後加 --rules-ok 再匯。
 AA 往後加 lunch／special 的 id（不改舊 id）可以直接重跑；舊 id 不見了只印提醒（存檔裡記的是 id）。
@@ -119,12 +119,19 @@ def cid(x, chars, where):
     return y
 
 
+def shop_ok(s, shops, where):
+    """店 id 不在現在的 lane118_shops.js：只提醒（店的資料之後會重匯；遊戲遇到沒有的店會跳過，不報錯）"""
+    if not isinstance(s, str) or not re.fullmatch(r'[a-z][a-z0-9_]*', s):
+        die(f'{where}：店 id 要是小寫英數（{json.dumps(s, ensure_ascii=False)}）')
+    if s not in shops:
+        WARN.append(f'{where}：店 id「{s}」不在現在的 src/data/lane118_shops.js（遊戲會跳過這間；店的資料重匯以後再跑一次 --check）')
+
+
 def shop_list(a, shops, where):
     if not isinstance(a, list) or not a:
         die(f'{where}：shop 要是陣列、至少一間（不限店就不要寫這一欄）')
     for s in a:
-        if s not in shops:
-            die(f'{where}：不認得的店 id「{s}」')
+        shop_ok(s, shops, where)
     return list(a)
 
 
@@ -255,8 +262,7 @@ def build(d):
         if not isinstance(e.get('prefs'), dict) or not e['prefs']:
             die(f'{w}.prefs：至少一間店')
         for s, n in e['prefs'].items():
-            if s not in shops:
-                die(f'{w}.prefs：不認得的店 id「{s}」')
+            shop_ok(s, shops, w + '.prefs')
             if isinstance(n, bool) or not isinstance(n, (int, float)) or n <= 0:
                 die(f'{w}.prefs.{s}：權重要是正的數字')
         wt = e.get('weight', 1)
@@ -369,8 +375,7 @@ def build(d):
     if not isinstance(A, dict):
         die('arrive：要是 {店 id: 一句}')
     for s in A:
-        if s not in shops:
-            die(f'arrive：不認得的店 id「{s}」')
+        shop_ok(s, shops, 'arrive')
     out['arrive'] = {s: txt(A[s], 'arrive.' + s) for s in A}
     out['leave'] = txts(d['leave'], 'leave') if d.get('leave') else []
     if 'skipLine' in d:
