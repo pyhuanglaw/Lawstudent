@@ -480,6 +480,8 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
             await shot(pg, '%s_after_burst' % tag)
             continue
         if s['ch']:
+            if use_skip and os.environ.get('SKIPHIDE') == '1':   # BB 04:59（2d90b034c）：選項出來的時候「略過 »」要收起來（display:none）
+                sbm = await pg.evaluate(SKIPBTN); R.check('%s：選單出現時「略過 »」收起來（看不到）' % tag, not sbm.get('vis'), J({k: sbm.get(k) for k in ('vis', 'r', 'disp') if k in sbm}))
             free = None; await pg.wait_for_timeout(600); hs = await heads(pg)
             if not hs: continue
             if att and not done:
