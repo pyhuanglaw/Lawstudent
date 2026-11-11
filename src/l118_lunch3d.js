@@ -187,6 +187,7 @@ const LUNCH118=(function(){
     if(!o.skip){ I.seen=(I.seen|0)+1; if(P.grp) I.lg[P.grp.id]=G.day; }
     return out; };
   /* 3D：黑幕裡（GM.enter 的 onLoaded）玩家和同行的人坐同一桌。位子不夠＝坐得下的先坐；回傳坐下的同行人數 */
+  S.TOGETHER_GAIN=0.5;   /* 併桌的桌數一樣時，請路人讓位要能近多少才值得（m；最遠那張桌子到中心桌的距離）*/
   S.seatParty=function(GM,P){ const E=GM.E, G=GM.G; if(!E||!E.zone||!E.player||!GM.sitAt) return 0; const seats=E.zone.seats||[], need=P.party.length+1;
     const mine=q=>!!q&&P.party.includes(q.charId), busyNpc=st=>(E.npcs||[]).some(n=>n&&!mine(n)&&(n.seat===st||n.seatTarget===st||((n.seat||n.seatTarget)&&Math.hypot((n.seat||n.seatTarget).x-st.x,(n.seat||n.seatTarget).z-st.z)<0.35)));
     const isFree=st=>!st.taken&&!busyNpc(st); let free=seats.filter(isFree);
@@ -194,10 +195,21 @@ const LUNCH118=(function(){
     if(!free.length) return 0;
     const L=typeof L118_SHOP_LAYOUTS!=='undefined'&&L118_SHOP_LAYOUTS?L118_SHOP_LAYOUTS[P.shop]:null, tk=st=>{ const q=L&&Array.isArray(L.seats)?L.seats.find(s=>Math.abs(s.x-st.x)<0.02&&Math.abs(s.z-st.z)<0.02):null; return q&&Array.isArray(q.table)?q.table.join(','):null; };
     /* 空位照桌子分組（沒有桌號的位子自己一組）：從每一張桌子出發，由近到遠併桌到坐得下；挑「坐得下 → 用的桌子最少 → 不是吧檯高腳椅 → 併的桌子靠得最近」的那一組 */
-    const byT={}; for(const st of free){ const k=tk(st)||('s:'+st.x+','+st.z); (byT[k]=byT[k]||[]).push(st); }
-    const TB=Object.keys(byT).map(k=>{ const a=byT[k]; return {a,x:a.reduce((t,q)=>t+q.x,0)/a.length,z:a.reduce((t,q)=>t+q.z,0)/a.length,lift:a.some(q=>q.lift)?1:0}; }), dist=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
-    let best=null; for(const t0 of TB){ const list=[]; let tabs=0, span=0; for(const t of TB.slice().sort((p,q)=>dist(p,t0)-dist(q,t0))){ if(list.length>=need) break; for(const q of t.a){ if(list.length<need) list.push(q); } tabs++; span=dist(t,t0); }
-      const sc=[need-list.length,tabs,list.filter(q=>q.lift).length,span], better=!best||sc.some((v,i)=>v!==best.sc[i]&&sc.slice(0,i).every((w,j)=>w===best.sc[j])&&v<best.sc[i]); if(better) best={sc,list}; }
+    const dist=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
+    const choose=(pool,cost)=>{ const byT={}; for(const st of pool){ const k=tk(st)||('s:'+st.x+','+st.z); (byT[k]=byT[k]||[]).push(st); }
+      const TB=Object.keys(byT).map(k=>{ const a=byT[k].slice().sort((p,q)=>cost(p)-cost(q)); return {a,x:a.reduce((t,q)=>t+q.x,0)/a.length,z:a.reduce((t,q)=>t+q.z,0)/a.length,lift:a.some(q=>q.lift)?1:0}; });
+      let best=null; for(const t0 of TB){ const list=[]; let tabs=0, span=0; for(const t of TB.slice().sort((p,q)=>dist(p,t0)-dist(q,t0))){ if(list.length>=need) break; for(const q of t.a){ if(list.length<need) list.push(q); } tabs++; span=dist(t,t0); }
+        const sc=[need-list.length,tabs,list.filter(q=>q.lift).length,Math.round(span*100)/100,list.reduce((n,q)=>n+cost(q),0)], better=!best||sc.some((v,i)=>v!==best.sc[i]&&sc.slice(0,i).every((w,j)=>w===best.sc[j])&&v<best.sc[i]); if(better) best={sc,list}; }
+      return best; };
+    let best=choose(free,()=>0);
+    /* 路人客人讓位：把路人坐著的位子也算進來再挑一次（有名字的人的位子不算）；那樣挑到的比只用空位的好（坐得下的人多、用的桌子少、或桌數一樣但近 S.TOGETHER_GAIN 以上）才用，
+       挑到的位子上有路人＝那一桌路人整組離開（CROWD.shopYield；只在進門的黑幕裡、和 shopMakeRoom 同一個時機）。BB 2026-11-11 雲端自檢：柏翰、芯慈和玩家隔 3～4 m 兩桌（中間的桌子被路人坐掉）。 */
+    if(typeof CROWD!=='undefined'&&CROWD.shopYield){ const crowdOn=st=>(E.npcs||[]).some(n=>n&&typeof n.crowd==='string'&&/^shop_/.test(n.crowd)&&!n.leaving&&[n.seat,n.seatTarget].some(q=>q&&(q===st||Math.hypot(q.x-st.x,q.z-st.z)<0.35)));
+      const named=st=>(E.npcs||[]).some(n=>n&&!mine(n)&&!(typeof n.crowd==='string'&&/^shop_/.test(n.crowd))&&[n.seat,n.seatTarget].some(q=>q&&(q===st||Math.hypot(q.x-st.x,q.z-st.z)<0.35)));
+      const pool=seats.filter(st=>!st.taken&&!named(st)), b2=choose(pool,st=>crowdOn(st)?1:0);
+      if(b2&&b2.sc[4]>0&&(!best||b2.sc[0]<best.sc[0]||(b2.sc[0]===best.sc[0]&&(b2.sc[1]<best.sc[1]||(b2.sc[1]===best.sc[1]&&best.sc[3]-b2.sc[3]>S.TOGETHER_GAIN))))){   /* 路人讓位才坐得下／用的桌子比較少／一樣多桌但近很多，才請路人讓 */ let gone=0; try{ gone=CROWD.shopYield(GM,b2.list.filter(crowdOn)); }catch(e){ console.warn('LUNCH118 shopYield',e); }
+        if(b2.list.every(isFree)) best=b2; else { free=seats.filter(isFree); best=choose(free,()=>0)||best; } } }
+    if(!best) return 0;
     const pick=best.list;
     GM.sitAt(E.player,pick[0]); let k=1, n=0;
     for(const id of P.party){ const st=pick[k]; if(!st) break; let c=GM.npc&&GM.npc[id]; if(c){ c.seatTarget=null; c.path=null; if(c.seat!==st) GM.sitAt(c,st); } else if(GM.spawnCharacter) c=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'});

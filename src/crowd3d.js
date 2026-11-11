@@ -557,6 +557,11 @@ const CROWD=(function(){
     while(S.shopFree(E)<need){ const ids=Object.keys(live).filter(id=>id.indexOf('shop_'+G.zone+'_')===0&&live[id].npcs.some(n=>(n.seat||n.seatTarget)&&E.npcs.includes(n))).sort((a,b)=>dd(a)-dd(b)); if(!ids.length) break;
       const L=live[ids[0]]; for(const n of L.npcs) if(E.npcs.includes(n)) E.removeNPC(n); L.npcs=[]; L.yielded=true; k++; }
     return k; };
+  /* 指定的位子上的路人客人讓位（整組離開；118 巷午餐邀約要和同行的人坐同一桌，l118_lunch3d.js S.seatParty）。和 shopMakeRoom 一樣只在進門那一刻；回傳離開的組數 */
+  S.shopYield=function(GM,seats){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G||!S.SHOP_ZONES[G.zone]||!entering||G.zone!==zoneNow||!Array.isArray(seats)||!seats.length) return 0; let k=0;
+    const on=n=>[n.seat,n.seatTarget].some(q=>q&&seats.some(st=>q===st||Math.hypot(q.x-st.x,q.z-st.z)<0.35));
+    for(const id of Object.keys(live)){ if(id.indexOf('shop_'+G.zone+'_')!==0) continue; const L=live[id]; if(!L.npcs.some(n=>E.npcs.includes(n)&&on(n))) continue; for(const n of L.npcs) if(E.npcs.includes(n)) E.removeNPC(n); L.npcs=[]; L.yielded=true; k++; }
+    return k; };
   S.seatBusy=function(E,st,self){ if(!st) return false; if(st.taken) return true; { const G=G0(); if(G&&S.shopRes[G.zone]&&S.shopReserved(G.zone,st,G)) return true; }   /* 預約的位子（shopSeatTake）*/ const near=q=>!!q&&(q.lv|0)===(st.lv|0)&&Math.hypot(q.x-st.x,q.z-st.z)<0.4; const P=E&&E.player; if(P&&near(P.seat)) return true;
     return !!E&&(E.npcs||[]).some(m=>m&&m!==self&&(near(m.seat)||near(m.seatTarget))); };
   /* 玩家坐著的那一桌（DATE-SEAT-AFAR-1105，使用者 11-05：和學姊在 afar 坐下，四人桌對面有人）：路人不來坐（同一桌＝invites3d.js INV.tableMates：四個位子以內的桌子整桌、長桌 1.8 m 內）*/
