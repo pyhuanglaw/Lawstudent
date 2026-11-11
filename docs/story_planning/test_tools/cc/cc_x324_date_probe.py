@@ -311,7 +311,12 @@ async def scan(pg):
 
 
 async def tap_dlg(pg, cdp, s, screen):
-    """打字機：同一句長出來不算換句；打完才記、才翻頁（2 秒還沒打完就點一下＝補完）"""
+    """打字機：同一句長出來不算換句；打完才翻頁（2 秒還沒打完就點一下＝補完）。
+    一看到就先記（D.full＝對話框正在打的那一整句）：SPLIT_PURE r1（b77a，雲端約 1 fps）「補完」那一下送到時字已經打完，被當成翻頁，
+    那一句沒記到（每段第一句漏記 3 句，GAME.say 有、畫面紀錄沒有）——探針的時間差，不是遊戲漏演（乙 6）"""
+    if s['dlg'] and s['full'] and (not screen or screen[-1][:2] != [s['name'], s['full']]):
+        screen.append([s['name'], s['full'], s['hour'], s['money']])
+        await scan(pg)
     if s['typing'] and s['shown'] != s['full']:
         await pg.wait_for_timeout(300); s2 = await st(pg)
         if s2['typing'] and s2['shown'] != s2['full']:
