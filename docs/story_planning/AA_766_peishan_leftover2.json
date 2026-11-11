@@ -1,0 +1,149 @@
+{
+ "_meta": {
+  "by": "AA（帳號 A）",
+  "date": "2026-11-11",
+  "task": "PEISHAN-VOICE-1110（X327）",
+  "why": "BB／CC 重掃開發分支 124fe40e5，畫面上還剩兩筆早餐店／蛋餅（CC_PS_BATCH3_文字檢查.md）。第一筆所在的 D4c「沛珊的問題」四題整組都是舊口氣：她自己是法律系，卻問「法律系的人是不是都怕遲到」、說「你很會回答。法律系的」；第 3 題整題是早餐店設定。四題一起換成她現在的樣子（會鬧、會接梗），題數、選項數、流程都不變，只換字。",
+  "for_LAWWW": "bbpack_events.js 的 D4CQ 陣列（ev_d4c_question）：每列 old 在那個檔裡應該都只出現一次；如果「嗯。這個最難。」之類的短句在別處也有，只換 D4CQ 這一處。"
+ },
+ "rows": [
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "法律系的人，是不是都很怕遲到？",
+   "new": "你也提早到。我們系是不是遲到會被寫進判決書？",
+   "note": "D4CQ 第 1 題；她自己就是法律系，原句把她寫成外系"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "「怕。遲到要寫理由。」",
+   "new": "「會，還會公告。」"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "要寫三段喔。……那我以後提早出門。",
+   "new": "那我完了。我的前科可以出一本。"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "「不怕。依情形而定。」",
+   "new": "「我只是剛好早。」"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "那我也要學這句。",
+   "new": "剛好早二十分鐘。好，我相信你。"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "我怕。所以都提早二十分鐘，在這裡站著。",
+   "new": "我是被以安訓練的。她說六點半，就是六點二十五到。",
+   "note": "選項「妳自己呢？」不變"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "讀書會，是去讀書的，還是去見人的？",
+   "new": "讀書會到底是去讀書，還是去吃飯順便讀書？",
+   "note": "第 2 題"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "我也是這樣跟我媽說的。",
+   "new": "好乖。我跟我媽也是這樣講的。",
+   "note": "選項「讀書。」不變"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "「見人。」",
+   "new": "「吃飯。」"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "……我也是。一個人讀不下去。",
+   "new": "誠實。我喜歡跟誠實的人一桌。"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "你很會回答。法律系的。",
+   "new": "兩說併陳。你期中考一定也這樣寫。",
+   "note": "選項「都有。」不變"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "你早餐都吃什麼？",
+   "new": "以安說六點半下來。她一定是六點半整，不會早一秒。要不要賭？",
+   "note": "第 3 題整題換掉：原題問玩家早餐吃什麼＋她家的蛋餅，是作廢的早餐店設定（X327、UA-AA-1110-17 不評別人吃的東西）"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "「蛋餅。」",
+   "new": "「賭她準時。」"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "什麼口味？……不用回答，我在心裡幫你煎了。",
+   "new": "那沒得賭，我也押這邊。"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "「不吃。」",
+   "new": "「賭她提早。」"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "……這是我今天聽過最難過的事。",
+   "new": "你輸了。她提早會先傳訊息報備。"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "「便利商店的飯糰。」",
+   "new": "「賭什麼？」"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "那個也很好。可是我家的蛋餅比較好。",
+   "new": "輸的人等一下幫大家倒茶。先說好，我不會輸。"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "你覺得老師上課，最重要的是什麼？",
+   "new": "公法你讀到哪？不要講頁數，我會有壓力。",
+   "note": "第 4 題"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "「講得清楚。」",
+   "new": "「讀完了。」"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "……我也這麼覺得。我會記起來。",
+   "new": "好，等一下你坐我對面，我要抄。"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "「不要點名。」",
+   "new": "「還沒開始。」"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "那是學生最重要的。不是老師的。",
+   "new": "太好了，我們是同一國的。"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "「讓人想聽。」",
+   "new": "「妳呢？」"
+  },
+  {
+   "file": "src/data/bbpack_events.js",
+   "old": "嗯。這個最難。",
+   "new": "我讀到目錄。目錄寫得不錯。"
+  },
+  {
+   "file": "src/data/gift_lines.js",
+   "old": "……我家早餐店也有賣。我從小喝到大的。",
+   "new": "你怎麼知道我喝這個？我國中福利社每天一瓶。",
+   "note": "classmate_peishan 的 fav 米漿第二句；第一句「米漿！」不變"
+  }
+ ]
+}
