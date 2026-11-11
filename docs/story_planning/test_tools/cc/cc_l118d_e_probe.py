@@ -128,7 +128,7 @@ DATA = "(()=>{ const d=L118_LUNCH_DATA; return {opts:d.options, who:Object.keys(
 SETREL = r"""(([ids,v])=>{ const G=GAME.G; G.contacts=G.contacts||{}; const out={}; for(const id of ids){ SOCIAL.meet(id,'CC 探針前置'); const r=SOCIAL.rel(id); r.fam=v[0]; r.trust=v[1]; r.comf=v[2]; G.contacts[id]=G.contacts[id]!=null?G.contacts[id]:G.day; out[id]=SOCIAL.stage(id); } return out; })"""
 STATE = r"""(ids=>{ const G=GAME.G, I=(G.l118&&G.l118.inv)||null, R=CLS.rec(G), c=o=>o==null?null:JSON.parse(JSON.stringify(o)); const fam={};
   for(const id of ids){ const r=G.social&&G.social.rel&&G.social.rel[id]; fam[id]=r?{fam:r.fam,trust:r.trust,comf:r.comf,stage:SOCIAL.stage(id)}:null; }
-  return {day:G.day,h:+(+G.hour).toFixed(3),zone:G.zone,money:G.money,fam,inv:c(I),slots:c(G.slots),done:c(R.done||{}),skipNotes:Object.keys(R.note||{}).filter(k=>/skip/.test(k)),
+  return {day:G.day,h:+(+G.hour).toFixed(3),zone:G.zone,money:G.money,fam,inv:c(I),slots:c(G.slots),done:c(R.done||{}),skipNotes:Object.keys(R.note||{}).filter(k=>/skip/.test(k)&&k.indexOf(':'+G.day+':')<0&&k.indexOf('_'+G.day+':')>=0),
     l118:G.l118?{last:c(G.l118.last),ate:c(G.l118.ate),d:c(G.l118.d||null),n:c(G.l118.n||null)}:null,doneToday:typeof LUNCH118!=='undefined'?LUNCH118.doneToday(G):null}; })"""
 FIND = r"""(([d0,d1])=>{ if(typeof LUNCH118==='undefined') return null; const W=window.__LE; if(W) W.mute=true; const out=[]; const base=JSON.stringify(GAME.G);
   try{ for(let d=d0; d<=d1; d++){ const c=CALENDAR.dateOf(d), wd=c.wd===7?0:c.wd; if(wd<1||wd>5) continue; if(CALENDAR.holiday&&CALENDAR.holiday(d)) continue;
@@ -449,6 +449,9 @@ async def part_main(p):
         R.check('MAIN ④：含玩家 %d 人（≤4）' % (len(Pl.get('party') or []) + 1), 1 <= len(Pl.get('party') or []) <= 3, J(Pl.get('party')))
         se = rec.get('seats') or {}
         R.note('MAIN ④：店裡看到的人 %s' % J(se.get('ppl')))
+        tb = lambda q: ((q or {}).get('t') or {}).get('table') if q else None
+        mt = tb((se.get('me') or {}).get('seat')); ot = {i: tb(((se.get('ppl') or {}).get(i) or {}).get('seat')) for i in Pl.get('party') or []}
+        R.check('MAIN：進店坐同一桌（玩家桌 %s；同行 %s）' % (mt, J(ot)), bool(mt) and all(v == mt for v in ot.values()), J(se))
         # ⑤
         mm = menu_money(rec); shopmenu = await pg.evaluate("s=>{ const x=L118.shop(s); return x?x.menu:null; }", Pl.get('shop'))
         mp = next((m[1] for m in (shopmenu or []) if m[0] == Pl.get('item')), None)
