@@ -130,8 +130,25 @@ async def tap_head(pg, cdp, k):
     await P.tap_choice(pg, cdp, k)
 
 
+EVLOG = r"""(()=>{ if(window.__evOn) return; window.__evOn=1; window.__ev=[]; for(const t of ['pointerdown','pointerup','click','touchstart','touchend']) document.addEventListener(t,e=>{ const x=e.target; window.__ev.push([Math.round(performance.now()),t,(x&&(x.id||x.className||x.tagName))+'',Math.round(e.clientX||((e.changedTouches&&e.changedTouches[0])||{}).clientX||0),Math.round(e.clientY||((e.changedTouches&&e.changedTouches[0])||{}).clientY||0)]); },true); })()"""
+
+
+async def ev_since(pg, t):
+    return await pg.evaluate("t=>(window.__ev||[]).filter(e=>e[0]>=t)", t)
+
+
+async def dtext_trace(pg, ms=5000, step=50):
+    """每 step ms 取樣對話框的字（不送任何事件）；回傳 [[ms, 字]]（字換的時候才記）"""
+    t0 = await pg.evaluate("performance.now()"); out = []; last = None
+    for _ in range(int(ms / step)):
+        q = await pg.evaluate("(()=>{ const e=document.getElementById('dlgText'); const d=document.getElementById('dlg'); return [performance.now(), d&&!d.classList.contains('hide')&&getComputedStyle(d).display!=='none'?(e?e.textContent:''):null]; })()")
+        if q[1] != last: out.append([round(q[0] - t0), (q[1] or '')[:40]]); last = q[1]
+        await pg.wait_for_timeout(step)
+    return t0, out
+
+
 async def setup_page(pg):
-    await pg.evaluate("localStorage.clear()"); await GC.hook(pg)
+    await pg.evaluate("localStorage.clear()"); await GC.hook(pg); await pg.evaluate(EVLOG)
     await pg.evaluate(ENTERHOOK % json.dumps(BOARDHOOK))
 
 
@@ -508,14 +525,16 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
             if use_skip and att and not done:
                 # 選完：下一句要停住（不自己翻）；1.5 秒後看還是不是同一句，再按一次略過
                 # BB 05:46：follow 那一句在畫面上停了幾毫秒才換下一句；玩家不按時會不會自己走（停手 5 秒看還在不在）——每 100 ms 取樣 5 秒
-                tsel = await pg.evaluate("performance.now()"); trace = []; last_t = None
+                tsel = await pg.evaluate("performance.now()") - 400; trace = []; last_t = None   # 往前 400 ms＝包含選選項那一下
                 for _ in range(50):
                     q = await GC.ms(pg); now = await pg.evaluate("performance.now()")
                     if q.get('dtext') != last_t: trace.append([round(now - tsel), (q.get('dtext') or '')[:40], bool(q.get('ch'))]); last_t = q.get('dtext')
                     await pg.wait_for_timeout(100)
                 dwell = [trace[i + 1][0] - trace[i][0] for i in range(len(trace) - 1)]
                 R.note('%s：選完以後 5 秒不按（每 100 ms 取樣）：句子換的時間點（ms，字）%s；每句停留 %s ms；5 秒後還在「%s」' % (tag, J(trace), J(dwell), (last_t or '')[:40]))
-                info.setdefault('selfadv', []).append({'trace': trace, 'dwell': dwell})
+                evs = await ev_since(pg, tsel)
+                R.note('%s：選選項前 400 ms 到 5 秒後，頁面收到的觸控／點擊（時間 ms、種類、目標、x、y）%s' % (tag, J([[round(e[0] - tsel - 400)] + e[1:] for e in evs])))
+                info.setdefault('selfadv', []).append({'trace': trace, 'dwell': dwell, 'events': evs})
                 a = {'dlg': bool(trace), 'dtext': trace[0][1] if trace else None}; b2 = await GC.ms(pg); sb2 = await pg.evaluate(SKIPBTN)
                 same = len(trace) <= 1
                 info['resume'].append({'stayed': same, 'text': b2['dtext'], 'btnVisible': sb2.get('vis')})
@@ -541,6 +560,41 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
     info['menusInClass'] = [{'opts': e.get('opts'), 't': e['t']} for e in lg if e['k'] == 'choose' and att and e['t'] > att['t'] and (not cap or e['t'] < cap['t'])]
     info['picksInClass'] = [{'first': e.get('first'), 'txt': e.get('txt'), 'dt': e.get('dt'), 'downDt': e.get('downDt')} for e in lg if e['k'] == 'pick' and att and e['t'] > att['t'] and (not cap or e['t'] < cap['t'] + 1)]
     return info
+
+
+async def part_calm(p):
+    """BB 05:48 ③：不按略過、不連點——照遊戲正常速度點對話（每句等 1.2 秒才點一下），第一個選單出現後等 1 秒、照字選第一項，
+    之後 5 秒完全不送任何事件，每 50 ms 記對話框的字：那句會不會自己走。另記選選項前後頁面收到的所有觸控／點擊。"""
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=not GC.PORTRAIT)
+    try:
+        u = GC.guard_url(URL) if SKIPGUARD else URL
+        await pg.goto(u); R.check('CALM：遊戲載入（%s）' % u, await L.wait_loaded(pg)); await setup_page(pg)
+        sel = lessons() if (ENV('COURSE') or ENV('WEEKS')) else [('crim_gen1', 13), ('civ_general', 15)]
+        for cid, w in sel:
+            L_ = await pg.evaluate(FINDLESSON, [cid, w]); tag = 'calm_%s_w%d' % (cid, w)
+            if not R.check('CALM %s 第 %d 週：找到那一天' % (cid, w), bool(L_)): continue
+            if not await go_lesson(pg, cdp, L_, tag, 'phone'): continue
+            t0 = time.time(); nmenu = 0
+            while time.time() - t0 < 240 and nmenu < 2:
+                s = await GC.ms(pg)
+                if s['ch']:
+                    await pg.wait_for_timeout(1000); hs = await heads(pg); tsel = await pg.evaluate("performance.now()")
+                    await tap_head(pg, cdp, 0); nmenu += 1
+                    tt, tr = await dtext_trace(pg, 5000, 50)
+                    evs = await ev_since(pg, tsel - 50)
+                    moved = len(tr) > 1
+                    R.note('%s 第 %d 個選單 %s → 照字選第一項「%s」；之後 5 秒不送事件：對話框的字 %s；選之後頁面收到的事件 %s' % (tag, nmenu, J(hs), hs[0] if hs else None, J(tr), J([[round(e[0] - tsel)] + e[1:] for e in evs])))
+                    R.check('%s 第 %d 個選單：選完以後 5 秒不按，那一句停住（不自己走）' % (tag, nmenu), not moved, J(tr))
+                    continue
+                if s['dlg'] and not s.get('typing'):
+                    await pg.wait_for_timeout(1200); await L.tap(pg, cdp, '#dlg'); continue
+                await pg.wait_for_timeout(300)
+            await shot(pg, '%s_end' % tag)
+        R.check('CALM：沒有 JS 例外', not errs, J(errs[:3]))
+    except Exception as e:
+        R.check('CALM：沒有例外', False, repr(e)[:300])
+    finally:
+        await b.close()
 
 
 async def part_skip(p):
@@ -612,7 +666,7 @@ async def part_skip(p):
         await b.close()
 
 
-FN = {'CLASS': part_class, 'OLDSAVE': part_oldsave, 'SKIP': part_skip}
+FN = {'CLASS': part_class, 'OLDSAVE': part_oldsave, 'SKIP': part_skip, 'CALM': part_calm}
 
 
 async def main():
