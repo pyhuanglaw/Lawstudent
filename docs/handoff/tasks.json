@@ -52194,7 +52194,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【11-11 09:0x LAWWW2 交付第三批 READY_FOR_REVIEW】claude/second-ai-env-art ca5823dea（season_batch3_1111/season_batch3_v1.patch，10 檔；20 項做 14 項：阿忠鮮果四季水果、花序門口季節盆花 flower_notes_season、下雨天地墊傘架、元宵燈籠、中秋文旦禮籃、中秋烤肉架——只有烤肉架加阻擋；looks 一律 hidden:true，key sea_fruit／sea_moon_pomelo／sea_lantern／flower_notes_season／sea_moon_bbq；季節攤販 A1～A6 還沒做）；在 dev 33ccd6440 試套乾淨；新 season_deco_nav_unit。**v9.10.25 發版後整合**，整合後 CC 照 README 的日期拍、AA 寫字（SEASON3-LINES-1111）。｜使用者 20:3x：20 項全做、含萬聖節、攤販能看能買；LAWWW2 做模型與 SEASON_ 節點（排汀州路、公館六間後）；AA 寫攤販看／買句；LAWWW 接買的互動",
+   "next": "【11-11 09:4x LAWWW2 交季節第三批 v2（v1 作廢）＝第三批＋季節攤販 A1～A6：claude/second-ai-env-art 165778c67，season_batch3_v2.patch；20 項模型都有了；攤販 key sea_yam／sea_aiyu／sea_mooncake／sea_couplet／sea_bouquet／sea_textbook，資料在 src/data/season_deco.js stalls（clerk、at、日期）；互動點、NPC 由 LAWWW 接夜市那一套；發版後整合。｜【11-11 09:0x LAWWW2 交付第三批 READY_FOR_REVIEW】claude/second-ai-env-art ca5823dea（season_batch3_1111/season_batch3_v1.patch，10 檔；20 項做 14 項：阿忠鮮果四季水果、花序門口季節盆花 flower_notes_season、下雨天地墊傘架、元宵燈籠、中秋文旦禮籃、中秋烤肉架——只有烤肉架加阻擋；looks 一律 hidden:true，key sea_fruit／sea_moon_pomelo／sea_lantern／flower_notes_season／sea_moon_bbq；季節攤販 A1～A6 還沒做）；在 dev 33ccd6440 試套乾淨；新 season_deco_nav_unit。**v9.10.25 發版後整合**，整合後 CC 照 README 的日期拍、AA 寫字（SEASON3-LINES-1111）。｜使用者 20:3x：20 項全做、含萬聖節、攤販能看能買；LAWWW2 做模型與 SEASON_ 節點（排汀州路、公館六間後）；AA 寫攤販看／買句；LAWWW 接買的互動",
    "xai": {
     "spec": "使用者 11-10 18:1x 對 LAWWW2",
     "branch": "claude/second-ai-env-art",
@@ -53459,6 +53459,53 @@
      "state": "ACK"
     }
    ]
+  },
+  {
+   "id": "STAIR-LEVEL-AUDIT-1111",
+   "title": "全區多樓層樓梯掃描：上層導航格延伸到樓梯下半段（木曜日下樓卡住的原因 2c962ad66）、樓梯頂底換層會不會卡——Node 掃所有有 z.levels 的區域、找到的照木曜日的修法修",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "全遊戲有樓梯的室內",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【11-11 09:4x LAWWW 派】做法照 tests/mokuyobi_stair_top_1111_unit.js、src/mokuyobi3d.js buildNav 那一行；patch＋測試一起交。",
+   "xai": [
+    {
+     "from": "LAWWW",
+     "to": "LAWWW2",
+     "what": "派工 09:4x",
+     "state": "SENT"
+    }
+   ]
+  },
+  {
+   "id": "L118-PASTA-BAR-POSTERS-1111",
+   "title": "義大麵屋吧台凳離前板太近（膝蓋進前板 5 cm，遊戲端先用 L118_IT_FIX sit 往外 0.12 m 擋著）＋奈良咖哩、義大麵屋店內往外看窗上海報背面是米白方塊",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "118 巷",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【11-11 09:4x LAWWW 派，發版後】l118_int_pasta.py 凳子外挪或前板內縮（做完 LAWWW 拿掉 L118_IT_FIX 的 sit）；海報背面給貼圖或從裡面看不到。",
+   "xai": []
   }
  ]
 }
