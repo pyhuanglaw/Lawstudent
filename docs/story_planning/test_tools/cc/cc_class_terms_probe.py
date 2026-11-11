@@ -387,7 +387,7 @@ async def class_loop(pg, cdp, L_, tag, ctx, whos):
         if i0 is not None:
             if pres is None:
                 pq = await pg.evaluate(PRESENCE, [whos, L_['d'], key]); pres = pq.get('list') or []; door_cls[0] = bool(pq.get('door'))
-                R.note('%s：坐下那時，稿裡說話的同學（reactOK 的條件；%s：%s）%s' % (tag, '門口上課（2D）＝看作息 schedEnt' if door_cls[0] else '3D 教室＝看 inScene', J(pq.get('room')), J(pres)))
+                R.note('%s：坐下那時，稿裡說話的同學（reactOK 的條件；%s：%s）%s' % (tag, '教室有 room.door（可能是門口 2D）＝看作息 schedIn 或 inRoom' if door_cls[0] else '3D 教室＝看 inRoom', J(pq.get('room')), J(pres)))
             ls = [e for e in lg[i0:] if e['k'] in ('say', 'cap')]
             if len(ls) > seen and ((s['dlg'] and not s['typing']) or ls[-1]['k'] == 'cap' or s['ch']):
                 seen = len(ls); fn = await shot(pg, '%s_line%02d' % (tag, len(ls)))
@@ -428,7 +428,7 @@ def compare(tag, sy, cl, menus, bank, pres):
     pw = {p['who']: p for p in (pres or [])}
     # CC 17:1x（BB 17:12 判準）：STORY.present 為 true 的同學（或 who＝class）要播；不在學校的不播。門口上課（2D）也一樣（LAWWW 修：away＝true、只看 STORY.present）
     # BB 17:22：STORY.present 是前提；門口上課（2D）看作息 schedIn（坐下那一刻 schedEnt act＝class 且 cls＝這一堂 key，或教室對得上）、3D 教室看 inRoom（EVENTS.npcOf）
-    here = lambda w: w == 'class' or ((pw.get(w) or {}).get('present') is True and ((pw.get(w) or {}).get('schedIn') is True if door_cls[0] else (pw.get(w) or {}).get('inRoom') is True))
+    here = lambda w: w == 'class' or ((pw.get(w) or {}).get('present') is True and (((pw.get(w) or {}).get('schedIn') is True or (pw.get(w) or {}).get('inRoom') is True) if door_cls[0] else (pw.get(w) or {}).get('inRoom') is True))   # CC 17:4x：room.door 有值不一定是 2D（JA2 共同 102 實際走進 3D 教室、inRoom true）——門口那類課：作息在這堂或人在 3D 教室其一就算
     _who = [r.get('who') for r in sy.get('react') or []] + [q.get('who') for q in (sy.get('obs') or {}).get('replies') or []]
     if [w for w in _who if w and w != 'class'] and not pres: miss.append(('同學在不在', J(_who), '坐下那時沒量到 STORY.present（pres 空的）＝不能判誰該播，不算 PASS'))
     rs_all = sy.get('react') or []; rs = [r for r in rs_all if here(r.get('who'))]; rs_no = [r for r in rs_all if not here(r.get('who'))]
