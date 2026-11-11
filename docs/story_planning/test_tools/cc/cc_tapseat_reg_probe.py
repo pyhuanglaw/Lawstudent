@@ -120,6 +120,7 @@ TABLE_TOP = r"""((a)=>{ const E=GAME.E, V=THREE.Vector3; const vis=o=>{ for(let 
     rc.set(new V(x,a.fy+1.5,z),new V(0,-1,0)); rc.near=0; rc.far=1.45; const hs=rc.intersectObjects(T,false); const h=hs.find(q=>q.point.y<=a.fy+1.0); if(!h||h.point.y<a.fy+0.35) continue;
     best={x:+x.toFixed(2),z:+z.toFixed(2),y:+h.point.y.toFixed(3),d:+d.toFixed(2),mesh:h.object.name||'',mat:([].concat(h.object.material)[0]||{}).name||''}; }
   return best; })"""
+PHONE_OPEN = r"""(()=>{ const p=document.getElementById('phone'); return !!p&&!p.classList.contains('hide')&&p.offsetParent!==null; })()"""
 OFFS = [(0.0, 0.0), (0.15, 0.0), (-0.15, 0.0), (0.0, 0.1), (0.0, -0.1)]
 # 椅面：椅子中心被柱子、桌子擋住時，點椅子露出來的那一邊（BB 19:08／LAWWW2：總圖椅子 2 中心那個像素被白柱子擋住，左半邊點得到）
 OFFS_SEAT = OFFS + [(0.1, 0.1), (-0.1, 0.1), (0.1, -0.1), (-0.1, -0.1), (0.2, 0.0), (-0.2, 0.0)]
@@ -265,6 +266,13 @@ async def seat_one(pg, cdp, key, Z, k, pick):
         R.note('%s 從起點、轉鏡頭、走近都看不到這張椅子沒被擋住的地方：不判（玩家也點不到被擋住的那一點）' % t); await shot(pg, '%s_seat%d_blocked' % (key, k)); return 'blocked'
     if not pt:
         R.check('%s 畫面上點得到這張椅面（%s）' % (t, how), False, ''); await shot(pg, '%s_seat%d_notap' % (key, k)); return 'notap'
+    if await pg.evaluate(PHONE_OPEN):   # CC 11-11 19:1x：宿舍椅子 1 兩次都是點椅面那一下手機開著——分清楚是點之前就開著（走近那一步、自動打開），還是這一下點出來的
+        R.note('%s 點椅面之前手機已經開著（%s）：先收起來再點' % (t, await pg.evaluate("(()=>{ const a=document.querySelector('#phone .on, #phone .sel, #phone [aria-selected=true]'); return a?a.textContent.trim():''; })()")))
+        await shot(pg, '%s_seat%d_phone_before' % (key, k))
+        try: await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(400)
+        except Exception as e: R.note('%s 收手機失敗 %r' % (t, e))
+        pt2 = await pg.evaluate(TAP_PT, [s['sx'] + (pt.get('off_xz') or [0, 0])[0], y, s['sz'] + (pt.get('off_xz') or [0, 0])[1]])
+        if pt2 and not pt2.get('off'): pt2['off_xz'] = pt.get('off_xz'); pt = pt2
     fb0 = (await D.st(pg))['fb']
     R.note('%s 點椅面（%s）螢幕 (%s, %s)、離鏡頭 %s m、視線俯角 %s°：地板落點 %s、射線先打到 %s、tapRedirect 導去 %s（椅子 %s）' % (t, how, pt['sx'], pt['sy'], pt['dist'], pt['pitch'], J(pt['hit']), J(pt.get('first')), J(pt['redirect']), J(pt['rseat'])))
     await L.touch_tap(cdp, pt['sx'], pt['sy'])

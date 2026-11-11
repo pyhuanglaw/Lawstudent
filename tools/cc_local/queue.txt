@@ -31,6 +31,9 @@ N1_TSR_CAFE | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_plan
 # BB 19:00：TSR_DORM＋LIB 用修好的探針（be7ba61ac4：手機開著＝HUD 蓋住不判）重跑；結果同時給 LAWWW（LAWWW2 在修總圖／宿舍椅面）
 N1_TSR_DORM_r2 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 12 | PARTS=DORMHALL;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_TSR_LIB_r2 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 12 | PARTS=LIBHALL;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
+# BB 19:08：探針改成點之前用 E.rayFirstHit＋tapRedirect（帶 hit）確認打到那張椅子、被擋換點；點之前手機開著先收（5ba6207070 之後）—— r3 確認
+N1_TSR_DORM_r3 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 12 | PARTS=DORMHALL;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
+N1_TSR_LIB_r3 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 12 | PARTS=LIBHALL;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_TSR_CLASS | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 15 | PARTS=CLASS201;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_TSR_CAFEBAR | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 10 | PARTS=CAFE;ONLY_SEATS=2;N_FLOOR=0;N_BETWEEN=0;N_TABLE=0;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_STOOL_pasta | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 12 | PARTS=SEATS_pasta_2-3;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
