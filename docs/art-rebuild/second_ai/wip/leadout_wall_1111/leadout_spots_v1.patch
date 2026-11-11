@@ -31,7 +31,7 @@ index f4ae6aa764..ddde4b126d 100644
    /* 其他約會兩個人一起坐下的開場句（AA_649 第 4 節）：店自己有見面內容的（scene、ownMeal）不加 */
 diff --git a/tests/leadout_spots_1111_unit.js b/tests/leadout_spots_1111_unit.js
 new file mode 100644
-index 0000000000..51092fca36
+index 0000000000..cc670d305c
 --- /dev/null
 +++ b/tests/leadout_spots_1111_unit.js
 @@ -0,0 +1,74 @@
@@ -46,7 +46,7 @@ index 0000000000..51092fca36
 +     2 其他有座位的區域（同一套檢查，一個座位一組）：以後別的地點加 sitAt.lead 也不會走進牆裡
 +     3 照舊的兩個點本來就可以的區域：選出來的就是照舊那兩個點（行為不變）
 +     4 S.leadOut 真的用選出來的點（假的 GM：記下 walkTo 的目的地）；木曜日不是出生點左右各 0.55 m 那兩個在牆裡的點
-+   修改前（開發分支 f16135b3a4）：0、4 FAIL；1、2 木曜日、茶屋、同弦、大步、好拍、法圖 FAIL（兩個點有一個站不住或走不到）。這是模擬，不是真實玩家流程（D131）。
++   修改前（開發分支 f16135b3a4）：0、4 FAIL；1、2 木曜日、一盞、同弦、大步、好拍、法圖 FAIL（兩個點有一個站不住或走不到）。這是模擬，不是真實玩家流程（D131）。
 +   用法：node tests/leadout_spots_1111_unit.js [區域 id,…] */
 +const fs=require('fs'), vm=require('vm'), path=require('path');
 +const ROOT=path.resolve(__dirname,'..');

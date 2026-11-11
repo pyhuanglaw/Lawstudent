@@ -1,8 +1,8 @@
 # 一起念書散場走到入口：目標點在牆裡（LEADOUT-WALL-1111；LAWWW 11-11 17:49 派給 LAWWW2，P2）
 
-狀態：**READY_FOR_REVIEW**（全部 Node 測試結果見最下面）。不改流程、不改台詞。
+狀態：**READY_FOR_REVIEW**（2026-11-11 18:4x UTC）。不改流程、不改台詞。
 
-- patch：`leadout_spots_v1.patch`（2 個檔：`src/invites3d.js`、新 `tests/leadout_spots_1111_unit.js`；基底開發分支 `f16135b3a4`，`git apply --3way` 乾淨）。
+- patch：`leadout_spots_v1.patch`（2 個檔：`src/invites3d.js`、新 `tests/leadout_spots_1111_unit.js`；基底開發分支 `f16135b3a4`；在最新開發分支 `b77af3a4fe` 上 `git apply --3way` 乾淨）。
 
 ## 原因
 
@@ -49,7 +49,7 @@
 
 修改前（`f16135b3a4`）：0、1（木曜日）、2（一盞、同弦、大步、好拍、法圖）、4 FAIL；3 PASS。修改後 ALL PASS。
 
-全部 Node 測試：見下面「回歸」。
+**全部 Node 測試 1302 支**（`regression_full.log`，基底 f16135b3a4＋這包）：1299 支過；`bookstore_exit_unit` 老警告（結束碼 0）；`invites_quote_b6_unit`（第 27 項：aa811_lines.js 一句引號）、`loadgen_locks_unit`（第 1 項：classes3d.js doorIt 沒登記）FAIL——**基底 f16135b3a4 不套這包也一樣 FAIL**（兩支都逐字相同），不是這包造成的，請你另外看。`inv_sit_together_unit`（約念書走到桌子坐下、收書起身走到入口）ALL PASS。
 
 ## 沒做的
 
