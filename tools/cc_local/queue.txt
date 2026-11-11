@@ -749,6 +749,17 @@ LM2_O2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/
 # BB 02:15：鍵上的字不換＝GAME_BUG（P2），LAWWW 修在 f58131631（updateInteract 字變了就重畫）；HOURS 等開／等收／23:48 重跑，新舊對照
 LM2_HOURS_new | f581316311d7b4d1e5800348213b550219c087b1 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=HOURS;SHA=f581316311d7b4d1e5800348213b550219c087b1
 LM2_HOURS_old | e7ddae33fee86ab1567ab9f7b4764686cc9c321c | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=HOURS;SHA=e7ddae33fee86ab1567ab9f7b4764686cc9c321c
+# BB 01:44 ②上師 3D ①G10 巷口 ③b 沛珊第二批顯示（新 f5e1ef4e8、舊 65212b697；子代理 cc_ss3d_g10_ps2_probe）
+SS3D_N1 | f5e1ef4e8fe2e1d6e71897d891ed600967a146a2 | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 10 | PARTS=SS_WALK;SHA=f5e1ef4e8fe2e1d6e71897d891ed600967a146a2
+SS3D_N2 | f5e1ef4e8fe2e1d6e71897d891ed600967a146a2 | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=SS_MAIN;SHA=f5e1ef4e8fe2e1d6e71897d891ed600967a146a2
+G10_N1 | f5e1ef4e8fe2e1d6e71897d891ed600967a146a2 | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=G10;SHA=f5e1ef4e8fe2e1d6e71897d891ed600967a146a2
+PS2_N1 | f5e1ef4e8fe2e1d6e71897d891ed600967a146a2 | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=PS2;PSG=lad;SHA=f5e1ef4e8fe2e1d6e71897d891ed600967a146a2
+PS2_N2 | f5e1ef4e8fe2e1d6e71897d891ed600967a146a2 | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=PS2;PSG=arc,feed,fest,open,tn;SHA=f5e1ef4e8fe2e1d6e71897d891ed600967a146a2
+SS3D_O1 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 10 | PARTS=SS_WALK;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
+SS3D_O2 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=SS_MAIN;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
+G10_O1 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=G10;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
+PS2_O1 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=PS2;PSG=lad;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
+PS2_O2 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=PS2;PSG=arc,feed,fest,open,tn;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
 # CC 23:5x：GG3_int_new 第一輪「四角」挑點是 TEST_BUG（只擴散到門口那一排 z≈3）→ 角落改用 E.canStand(0.3)、印擴散範圍；公館三間重跑，汀州路三間也用新挑點補驗四角（BB 判過舊挑點 TEST_BUG）
 GG3_int_new_14_r2 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;SHOPS=antai,xianguo,rongendian;HOURS=14;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8
 TZ4_int_r4 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;SHOPS=taimi,xile,yindehao;HOURS=14;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8
