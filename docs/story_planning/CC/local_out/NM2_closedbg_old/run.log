@@ -1,0 +1,62 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm2_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM2_closedbg_old\out
+CC NM2 夜市能看能買：PARTS CLOSED,BG；STALLS 全部；SHA b810b809b；稿 fixtures\nm2；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  24.9s] 記錄層：ok（包 GAME.say／choose／toast 只記錄，照原樣呼叫）
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 20:00 錢 3000 元 （讀配置）
+  [前置／捷徑] 讀檔到 gongguan 2025-11-05 00:30（隔天） (29.00,13.10) 錢 3000 元 （st_milk 沈三盃黑糖鮮奶 客人那一面 1.9 m）
+  [  59.5s] [st_milk] 站在 1.9 m 鍵上是「」（要「看沈三盃黑糖鮮奶」）；互動點 null → 照玩家走過去
+FAIL [CLOSED st_milk 沈三盃黑糖鮮奶 00:30（隔天）] 互動鍵寫「看沈三盃黑糖鮮奶」  畫面「」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 23:30 (-6.10,-11.50) 錢 3000 元 （st_pepper 皇家高端胡椒餅 客人那一面 1.9 m）
+  [  67.4s] [st_pepper] 站在 1.9 m 鍵上是「看手搖飲」（要「看皇家高端胡椒餅」）；互動點 null → 照玩家走過去
+FAIL [CLOSED st_pepper 皇家高端胡椒餅 23:30] 互動鍵寫「看皇家高端胡椒餅」  畫面「看手搖飲」
+  [前置／捷徑] 讀檔到 gongguan 2025-11-05 22:30 (53.60,13.10) 錢 3000 元 （st_wheelcake 二十元紅豆餅 客人那一面 1.9 m）
+  [  77.2s] [st_wheelcake] 站在 1.9 m 鍵上是「」（要「看二十元紅豆餅」）；互動點 null → 照玩家走過去
+FAIL [CLOSED st_wheelcake 二十元紅豆餅 22:30] 互動鍵寫「看二十元紅豆餅」  畫面「」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 00:30（隔天） (18.50,0.25) 錢 3000 元 （st_ball 一個地球 客人那一面 1.9 m）
+  [  84.8s] [st_ball] 站在 1.9 m 鍵上是「」（要「看一個地球」）；互動點 null → 照玩家走過去
+FAIL [CLOSED st_ball 一個地球 00:30（隔天）] 互動鍵寫「看一個地球」  畫面「」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 23:30 (14.50,-0.25) 錢 3000 元 （st_scallion 當蔥蔥油餅 客人那一面 1.9 m）
+  [  93.0s] [st_scallion] 站在 1.9 m 鍵上是「」（要「看當蔥蔥油餅」）；互動點 null → 照玩家走過去
+FAIL [CLOSED st_scallion 當蔥蔥油餅 23:30] 互動鍵寫「看當蔥蔥油餅」  畫面「」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 00:30（隔天） (-6.10,-21.50) 錢 3000 元 （st_stinky 紹興炸豆腐 客人那一面 1.9 m）
+  [ 100.7s] [st_stinky] 站在 1.9 m 鍵上是「看麵線・小吃」（要「看紹興炸豆腐」）；互動點 null → 照玩家走過去
+FAIL [CLOSED st_stinky 紹興炸豆腐 00:30（隔天）] 互動鍵寫「看紹興炸豆腐」  畫面「看麵線・小吃」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 00:30（隔天） (-6.10,-16.50) 錢 3000 元 （st_corn 玉皇大帝 客人那一面 1.9 m）
+  [ 108.5s] [st_corn] 站在 1.9 m 鍵上是「看印尼料理」（要「看玉皇大帝」）；互動點 null → 照玩家走過去
+FAIL [CLOSED st_corn 玉皇大帝 00:30（隔天）] 互動鍵寫「看玉皇大帝」  畫面「看印尼料理」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 22:00 (10.50,0.25) 錢 3000 元 （st_eggcake 陳家古早味雞蛋糕 客人那一面 1.9 m）
+  [ 117.2s] [st_eggcake] 站在 1.9 m 鍵上是「」（要「看陳家古早味雞蛋糕」）；互動點 null → 照玩家走過去
+FAIL [CLOSED st_eggcake 陳家古早味雞蛋糕 22:00] 互動鍵寫「看陳家古早味雞蛋糕」  畫面「」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 23:30 (6.10,29.60) 錢 3000 元 （st_cane 節節高甘蔗汁 客人那一面 1.9 m）
+  [ 125.1s] [st_cane] 站在 1.9 m 鍵上是「」（要「看節節高甘蔗汁」）；互動點 null → 照玩家走過去
+FAIL [CLOSED st_cane 節節高甘蔗汁 23:30] 互動鍵寫「看節節高甘蔗汁」  畫面「」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-05 23:30 (6.10,35.00) 錢 3000 元 （st_jelly 公館阿婆甜湯 客人那一面 1.9 m）
+  [ 132.9s] [st_jelly] 站在 1.9 m 鍵上是「看水源市場」（要「看公館阿婆甜湯」）；互動點 null → 照玩家走過去
+FAIL [CLOSED st_jelly 公館阿婆甜湯 23:30] 互動鍵寫「看公館阿婆甜湯」  畫面「看水源市場」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-07 20:00 錢 3000 元 （讀配置）
+PASS [BG] 配置有 ring，kinds.buy＝false  {"name": "套圈圈", "size": "BG", "w": 2.2, "d": 1.6, "block": {"w": 2.9, "d": 2.2, "back": 0.2}, "from": 18, "to": 22.5, "buy": false, "days": [5, 6, 0]}
+PASS [BG] 配置有 phonecase，kinds.buy＝false  {"name": "手機殼", "size": "BG", "w": 1.6, "d": 0.7, "block": {"w": 2.2, "d": 1.5, "back": 0.25}, "from": 16, "to": 22.5, "buy": false}
+PASS [BG] 配置有 socks，kinds.buy＝false  {"name": "襪子", "size": "BG", "w": 1.6, "d": 0.7, "block": {"w": 2.2, "d": 1.5, "back": 0.25}, "from": 16, "to": 22, "buy": false}
+  [ 142.1s] [BG] 背景三攤配置時間：{"ring": [18, 22.5, [5, 6, 0]], "phonecase": [16, 22.5, null], "socks": [16, 22, null]}
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-06 20:00 (5.90,-27.50) 錢 3000 元 （st_ring 套圈圈 客人那一面 1.9 m）
+  [ 150.2s] [st_ring] 站在 1.9 m 鍵上是「看馬來西亞餐」（要「看套圈圈」）；互動點 null → 照玩家走過去
+FAIL [BG 套圈圈 週四 2025-11-06 20:00] 互動鍵寫「看套圈圈」  畫面「看馬來西亞餐」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-07 20:00 (5.90,-27.50) 錢 3000 元 （st_ring 套圈圈 客人那一面 1.9 m）
+  [ 158.4s] [st_ring] 站在 1.9 m 鍵上是「看馬來西亞餐」（要「看套圈圈」）；互動點 null → 照玩家走過去
+FAIL [BG 套圈圈 週五 2025-11-07 20:00] 互動鍵寫「看套圈圈」  畫面「看馬來西亞餐」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-07 20:00 (6.10,-15.50) 錢 3000 元 （st_socks 襪子 客人那一面 1.9 m）
+  [ 166.8s] [st_socks] 站在 1.9 m 鍵上是「」（要「看襪子」）；互動點 null → 照玩家走過去
+FAIL [BG socks 20:00] 互動鍵寫「看襪子」  畫面「」
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-07 22:30 (6.10,-15.50) 錢 3000 元 （st_socks 襪子 客人那一面 1.9 m）
+  [ 174.8s] [st_socks] 站在 1.9 m 鍵上是「」（要「看襪子」）；互動點 null → 照玩家走過去
+FAIL [BG socks 22:30] 互動鍵寫「看襪子」  畫面「」
+  [前置／捷徑] 讀檔到 gongguan 2025-11-07 20:00 (15.00,13.10) 錢 3000 元 （st_phonecase 手機殼・配件 客人那一面 1.9 m）
+  [ 184.2s] [st_phonecase] 站在 1.9 m 鍵上是「」（要「看手機殼・配件」）；互動點 null → 照玩家走過去
+FAIL [BG phonecase 20:00] 互動鍵寫「看手機殼・配件」  畫面「」
+  [前置／捷徑] 讀檔到 gongguan 2025-11-07 23:00 (15.00,13.10) 錢 3000 元 （st_phonecase 手機殼・配件 客人那一面 1.9 m）
+  [ 193.0s] [st_phonecase] 站在 1.9 m 鍵上是「」（要「看手機殼・配件」）；互動點 null → 照玩家走過去
+FAIL [BG phonecase 23:00] 互動鍵寫「看手機殼・配件」  畫面「」
+PASS 畫面上沒有出現「整條巷子都聞得到」「書忘在這裡」「粉筆畫的框」（整個過程收到 0 段字）  {"整條巷子都聞得到": [], "書忘在這裡": [], "粉筆畫的框": []}
+PASS 沒有 JS 例外  []
+FAILED 16: [CLOSED st_milk 沈三盃黑糖鮮奶 00:30（隔天）] 互動鍵寫「看沈三盃黑糖鮮奶」；[CLOSED st_pepper 皇家高端胡椒餅 23:30] 互動鍵寫「看皇家高端胡椒餅」；[CLOSED st_wheelcake 二十元紅豆餅 22:30] 互動鍵寫「看二十元紅豆餅」；[CLOSED st_ball 一個地球 00:30（隔天）] 互動鍵寫「看一個地球」；[CLOSED st_scallion 當蔥蔥油餅 23:30] 互動鍵寫「看當蔥蔥油餅」；[CLOSED st_stinky 紹興炸豆腐 00:30（隔天）] 互動鍵寫「看紹興炸豆腐」；[CLOSED st_corn 玉皇大帝 00:30（隔天）] 互動鍵寫「看玉皇大帝」；[CLOSED st_eggcake 陳家古早味雞蛋糕 22:00] 互動鍵寫「看陳家古早味雞蛋糕」；[CLOSED st_cane 節節高甘蔗汁 23:30] 互動鍵寫「看節節高甘蔗汁」；[CLOSED st_jelly 公館阿婆甜湯 23:30] 互動鍵寫「看公館阿婆甜湯」；[BG 套圈圈 週四 2025-11-06 20:00] 互動鍵寫「看套圈圈」；[BG 套圈圈 週五 2025-11-07 20:00] 互動鍵寫「看套圈圈」；[BG socks 20:00] 互動鍵寫「看襪子」；[BG socks 22:30] 互動鍵寫「看襪子」；[BG phonecase 20:00] 互動鍵寫「看手機殼・配件」；[BG phonecase 23:00] 互動鍵寫「看手機殼・配件」
