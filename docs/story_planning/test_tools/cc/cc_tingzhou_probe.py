@@ -323,6 +323,10 @@ async def part_int(pg, cdp):
                 CL = {'xile': [('兌幣機和洗衣精販賣機', (-1.0, 1.4, 2.28), (-2.85, 1.1, 2.28), 46), ('兌幣機的字', (-1.6, 1.62, 2.07), (-2.69, 1.61, 2.07), 22),
                                ('洗衣精販賣機的字', (-1.5, 1.7, 2.48), (-2.6, 1.6, 2.48), 26), ('牆上的字牌', (-1.4, 1.95, 2.07), (-2.99, 2.01, 2.07), 22),
                                ('左牆', (1.8, 1.6, 3.6), (-3.0, 1.7, -1.5), 62), ('右牆', (-1.8, 1.6, 3.6), (3.0, 1.7, -1.5), 62), ('後牆', (0.3, 1.6, 2.0), (0.3, 1.7, -4.5), 62)],
+                      'antai': [('左邊貨架（藥盒藥瓶口罩）', (0.0, 1.5, 1.6), (-2.05, 1.1, 0.4), 34), ('右邊貨架', (0.0, 1.5, 1.6), (2.05, 1.1, 0.4), 34), ('左牆藥櫃', (-2.2, 1.6, 2.8), (-4.3, 1.3, 0.5), 38),
+                                ('貨架放大', (-0.9, 1.3, 0.6), (-1.6, 1.2, 0.2), 22), ('價目卡放大', (-0.9, 1.0, 0.6), (-1.55, 0.95, 0.4), 16), ('櫃台後藥品櫃', (0.0, 1.6, -1.2), (0.0, 1.4, -4.8), 44)],
+                      'xianguo': [('左牆木架（水果）', (0.0, 1.5, 2.6), (-3.2, 0.9, 0.7), 40), ('掛著的香蕉', (-0.8, 1.6, 3.6), (-3.0, 1.5, 3.9), 30), ('冷藏櫃', (0.6, 1.5, 2.4), (3.5, 1.2, 1.6), 38),
+                                  ('箱子籃子', (0.5, 1.4, 0.8), (0.0, 0.5, -1.0), 40), ('價目卡放大', (-1.0, 1.1, 1.6), (-2.6, 0.9, 1.0), 18), ('後面紙箱堆', (0.3, 1.6, 0.0), (0.3, 1.0, -4.5), 50)],
                       'yindehao': [('客用電腦桌', (0.2, 1.55, -2.5), (0.2, 0.85, -4.65), 48), ('電腦桌上方的字', (0.2, 1.6, -3.2), (0.2, 1.85, -4.95), 26),
                                    ('裁紙機', (-0.9, 1.35, -0.13), (-2.9, 0.85, -0.13), 38), ('裁紙機的字牌', (-1.4, 0.7, -0.13), (-2.49, 0.57, -0.13), 22),
                                    ('膠裝機', (-0.9, 1.35, -1.11), (-2.9, 0.85, -1.11), 38), ('膠裝機的字牌', (-1.4, 0.7, -1.11), (-2.49, 0.57, -1.11), 22),
@@ -343,6 +347,9 @@ async def part_int(pg, cdp):
                 await pg.wait_for_timeout(250)
             d_ = ((me['x'] - L_['out']['x']) ** 2 + (me['z'] - L_['out']['z']) ** 2) ** 0.5
             R.check('%s 走出來：回到 %s 門口外面（離 layout.out %.2f m）、站得住' % (tag, OZ, d_), me['zone'] == OZ and d_ < 1.5 and me['free'] is not False, J(me))
+            if os.environ.get('DOORFPS') == '1':
+                await pg.wait_for_timeout(2500)
+                R.note('%s 門口外面 8 秒幀率 %s fps（PC GPU）' % (tag, await pg.evaluate("new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<8000) requestAnimationFrame(f); else res(+(n/((performance.now()-t0)/1000)).toFixed(1)); }; requestAnimationFrame(f); })")))
             p0 = (me['x'], me['z']); await L.joystick(pg, cdp, 0, -45, 1200); me2 = await pg.evaluate(ME)
             R.check('%s 出來以後搖桿推得動（沒有卡在門口）' % tag, ((me2['x'] - p0[0]) ** 2 + (me2['z'] - p0[1]) ** 2) ** 0.5 > 0.3, J(me2))
             R.check('%s walkFallbacks 0' % tag, me2['fb'] == 0, J(me2))
@@ -452,6 +459,22 @@ async def part_limao(pg, cdp):
         ok = await L.go_to(pg, cdp, R, d['x'], d['z'], 0.7, '%s 走到店門' % tag, max_s=60); await pg.wait_for_timeout(700)
         s = await L.state(pg); R.note('%s 店門口互動鍵：「%s」' % (tag, s['interact']))
         R.check('%s 互動鍵是「%s禮貌生財」' % (tag, '進' if want else '看'), s['interact'].startswith(('進' if want else '看') + '禮貌生財'), s['interact'])
+        if not want and L0.get('table', {}).get('at'):   # BB 00:48 5：收著的時候算命桌的按鈕（看算命桌）念的旁白，逐字記
+            ta = L0['table']['at']; await L.go_to(pg, cdp, R, ta['x'], ta['z'], 0.6, '%s 走到算命桌前' % tag, max_s=40); await pg.wait_for_timeout(700)
+            s2 = await L.state(pg); R.note('%s 算命桌前互動鍵：「%s」' % (tag, s2['interact'])); lines2 = []
+            if s2['interact']:
+                await L.tap(pg, cdp, '#interact')
+                for _ in range(20):
+                    q2 = await L.state(pg)
+                    if q2['dlg']:
+                        t2 = (await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")).strip()
+                        if t2 and (not lines2 or lines2[-1] != t2): lines2.append(t2)
+                        await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+                    if lines2: break
+                    await pg.wait_for_timeout(300)
+            R.note('%s 按「%s」→ %s' % (tag, s2['interact'], J(lines2)))
+            R.check('%s 收著：算命桌的按鈕是「看算命桌」、按了念一句旁白、錢沒動' % tag, s2['interact'].startswith('看算命桌') and bool(lines2) and (await pg.evaluate("GAME.G.money")) == m0, J(lines2))
+            await L.go_to(pg, cdp, R, d['x'], d['z'], 0.7, '%s 走回店門' % tag, max_s=40); await pg.wait_for_timeout(600); s = await L.state(pg)
         if want:
             await pg.screenshot(path=os.path.join(OUT, 'lm_%s_door_game.jpg' % hh), type='jpeg', quality=80); continue   # 開著：按下去會進店，室內在第 ② 段
         await L.tap(pg, cdp, '#interact'); lines = []
@@ -535,6 +558,40 @@ async def part_limao(pg, cdp):
     s = await L.state(pg)
     R.check('[LIMAO 巷A] 搖桿來回走一趟（%.0f 秒、卡住 %d 次）' % (time.time() - t0, stuck), abs(s['x'] - 6.5) < 1.0 and stuck == 0, J({k: s[k] for k in ('x', 'z')}))
     R.check('[LIMAO] walkFallbacks 0', (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
+
+
+async def part_g0910(pg, cdp):
+    """BB 00:48 4：公館 G09、G10 拉下鐵捲門（65212b697）。14:00、20:30 正面和騎樓裡看（GGEXT 的機位，GGS=G09,G10 另外跑）；
+    這裡：兩格門口 2.5 m 內有哪些互動點（全文記；G10 原本有「往汀州路（巷子）」）、搖桿沿騎樓走過兩格門口、舊存檔站在兩格門口讀檔"""
+    await at(pg, cdp, 'gongguan', 14.0, 22.0, 20.0, '（公館騎樓 G08、G09 之間）'); await pg.wait_for_timeout(3000)
+    bx = await pg.evaluate("(()=>{ const o={}; for(const b of (GAME.E.zone.buildings||[])) if(b.userData&&b.userData.ggShop) o[b.userData.ggShop]=+b.position.x.toFixed(2); return o; })()")
+    its = await pg.evaluate(ITS)
+    for g in ('G09', 'G10'):
+        if g not in bx: R.check('[G0910] 有 %s' % g, False, J(bx)); continue
+        near = [i for i in its if math.hypot(i['x'] - bx[g], i['z'] - 21.0) < 2.5]
+        R.note('[G0910 %s] 門口 2.5 m 內的互動點：%s' % (g, J(near)))
+        R.check('[G0910 %s] 門口沒有這一格自己的互動點（「往汀州路」那種巷口照實記、不算）' % g, not [i for i in near if not i.get('gate') and abs(i['x'] - bx[g]) < 1.6], J(near))
+    t0 = time.time(); stuck = 0; last = (time.time(), None)
+    for tx in (bx.get('G10', 37.1) + 3.0, 22.0):
+        while time.time() - t0 < 90:
+            s_ = await L.state(pg); dd = tx - s_['x']
+            if abs(dd) < 0.8: break
+            if last[1] is None or abs(s_['x'] - last[1]) > 0.3: last = (time.time(), s_['x'])
+            elif time.time() - last[0] > 3: stuck += 1; await L.joystick(pg, cdp, 0, 30, 600); last = (time.time(), None); continue
+            yaw = await pg.evaluate("GAME.E.cam.yaw"); fx_, fz_ = -math.sin(yaw), -math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw)
+            vx, vz = (1 if dd > 0 else -1), (20.0 - s_['z']) * 0.4; m = math.hypot(vx, vz) or 1; vx, vz = vx / m, vz / m
+            sx, sy = vx * rx + vz * rz, -(vx * fx_ + vz * fz_); mm = math.hypot(sx, sy) or 1
+            await L.joystick(pg, cdp, sx / mm * 45, sy / mm * 45, 700)
+    s_ = await L.state(pg)
+    R.check('[G0910] 搖桿沿騎樓（z 20）走過 G09、G10 門口再走回來（%.0f 秒、卡住 %d 次）' % (time.time() - t0, stuck), abs(s_['x'] - 22.0) < 1.0 and stuck == 0, J({k: s_[k] for k in ('x', 'z')}))
+    R.check('[G0910] walkFallbacks 0', (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
+    for g in ('G09', 'G10'):
+        if g not in bx: continue
+        x, z = bx[g], 21.0
+        await at(pg, cdp, 'gongguan', 14.0, x, z, '（舊存檔站在 %s 門口）' % g)
+        me = await pg.evaluate(ME); mv = math.hypot(me['x'] - x, me['z'] - z)
+        p0 = (me['x'], me['z']); await L.joystick(pg, cdp, 0, 45, 1000); me2 = await pg.evaluate(ME)
+        R.check('[G0910 舊存檔 %s (%.1f,21)] 讀得進來、站得住（挪 %.2f m）、推得動' % (g, x, mv), me['zone'] == 'gongguan' and me['free'] is not False and math.hypot(me2['x'] - p0[0], me2['z'] - p0[1]) > 0.3, J([me, me2]))
 
 
 async def part_ggext(pg, cdp):
@@ -672,7 +729,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('SCOOT3', part_scoot3), ('SCOOT4', part_scoot4), ('INT', part_int), ('ZQSEAT', part_zqseat), ('GGWALK', part_ggwalk), ('GGEXT', part_ggext), ('LIMAO', part_limao)):
+        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('SCOOT3', part_scoot3), ('SCOOT4', part_scoot4), ('INT', part_int), ('ZQSEAT', part_zqseat), ('GGWALK', part_ggwalk), ('GGEXT', part_ggext), ('LIMAO', part_limao), ('G0910', part_g0910)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
