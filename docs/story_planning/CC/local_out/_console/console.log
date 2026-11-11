@@ -1733,3 +1733,10 @@
 [10:56:39] ==== START XG3_ext_old  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
 [10:56:42] [res] cpu=17% mem=49% (15.3/31.4 GB) chrome_testing=9  START XG3_ext_old
 [10:57:34] [res] cpu=14% mem=48% (15.2/31.4 GB) chrome_testing=6  END G10_N1_0eb2a
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b6ce46371..743eeaec6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:57:40] ==== END   G10_N1_0eb2a  exit=0  204s   ====
+[10:57:47] [res] cpu=3% mem=44% (13.7/31.4 GB) chrome_testing=4  END XG3_ext_new
+[10:57:47] memory 44% before starting XG3_int (2 running)
+[10:57:47] ==== START XG3_int  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====

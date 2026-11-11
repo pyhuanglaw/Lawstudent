@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XG3_ext_new\out
+CC 汀州路 v1：PARTS GGEXT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 14.0 時 (0.0,16.0) （公館外觀照）
+  [  54.0s] [GGEXT 1400] 棟號 x：{"G00": -62.4, "G01": -52.2, "G02": -41, "G03": -28.8, "G04": -18.6, "G05": -9.4, "G06": 0.3, "G07": 10.5, "G08": 19.6, "G09": 28.1, "G10": 37.1, "G11": 46.6, "G12": 55.6, "G13": 64.1, "G14": 73.1, "G15": -81}；正式店面模型 gongguan_shops_glb：True
+  [  54.0s] [GGEXT 1400] G08 店門附近的互動點：[{"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "to": "gg_xianguo", "look": null, "tz": null, "tzd": "xianguo", "gate": false, "seat": false}, {"label": "坐在騎樓的板凳", "x": 15.6, "z": 19.8, "r": 1.4, "to": null, "look": null, "tz": null, "tzd": null, "gate": false, "seat": true}]
+  [  54.3s] [GGEXT 1400 G08] 外觀照 5 張（gg3ext_xianguo_1400_*）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 20.5 時 (0.0,16.0) （公館外觀照）
+  [  71.3s] [GGEXT 2030] 棟號 x：{"G00": -62.4, "G01": -52.2, "G02": -41, "G03": -28.8, "G04": -18.6, "G05": -9.4, "G06": 0.3, "G07": 10.5, "G08": 19.6, "G09": 28.1, "G10": 37.1, "G11": 46.6, "G12": 55.6, "G13": 64.1, "G14": 73.1, "G15": -81}；正式店面模型 gongguan_shops_glb：True
+  [  71.4s] [GGEXT 2030] G08 店門附近的互動點：[{"label": "進入汀州鮮果", "x": 19.6, "z": 21, "r": 2.2, "to": "gg_xianguo", "look": null, "tz": null, "tzd": "xianguo", "gate": false, "seat": false}, {"label": "坐在騎樓的板凳", "x": 15.6, "z": 19.8, "r": 1.4, "to": null, "look": null, "tz": null, "tzd": null, "gate": false, "seat": true}]
+  [  71.7s] [GGEXT 2030 G08] 外觀照 5 張（gg3ext_xianguo_2030_*）
+PASS 沒有 JS 例外  []
+ALL PASS
