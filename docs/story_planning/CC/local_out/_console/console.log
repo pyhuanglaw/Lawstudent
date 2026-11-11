@@ -1824,3 +1824,11 @@
 [11:08:29] [res] cpu=1% mem=49% (15.5/31.4 GB) chrome_testing=8  START NM_ggnav_old
 [11:09:03] 正在跑：NM_zone_new（已跑 3 分／上限 25 分）、NM_reach_new（已跑 1 分／上限 40 分）、NM_ggnav_old（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:09:39] [res] cpu=4% mem=51% (16.0/31.4 GB) chrome_testing=8  END NM_zone_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ad04c0819..d30edd2f8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:09:44] ==== END   NM_zone_new  exit=0  234s   ====
+[11:09:47] memory 51% before starting NM_zone_old (2 running)
+[11:09:47] ==== START NM_zone_old  (game @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
+[11:09:50] [res] cpu=14% mem=51% (16.2/31.4 GB) chrome_testing=8  START NM_zone_old
+[11:11:06] [res] cpu=0% mem=52% (16.3/31.4 GB) chrome_testing=8  END NM_ggnav_old
