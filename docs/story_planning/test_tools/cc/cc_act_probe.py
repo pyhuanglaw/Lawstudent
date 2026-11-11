@@ -454,6 +454,9 @@ async def choose_day_place(pg, cdp, tag, cfg, force=False):
         if c['hol'] or c['typh'] or c['exam'] or (not c['term'] and not cfg.get('any_term')):
             tried.append([key, '假日／颱風／考試週／沒有學期']); continue
         c, s = await setup_part(pg, cdp, cfg, key)
+        if cfg['kind'] == 'movie':   # CC 14:5x（ACT_smoke_anmovie／ACT_SMOKE_ZR3 TEST_BUG）：南洋戲院要自己去過才列（invites.js show:V('xs_nanyang')，779／f312c／f8b6 都一樣）；探針沒設＝每一天都「show」略過
+            v0 = await pg.evaluate("(()=>{ const V=(GAME.G.visited=GAME.G.visited||{}); const b=!!V.xs_nanyang; V.xs_nanyang=true; return b; })()")
+            if not v0: R.setup('[%s]【前置／捷徑】G.visited.xs_nanyang＝true（去過南洋戲院，約看電影的清單才列；%s）' % (cfg.get('tag') or cfg['who'], key))
         pl = await pg.evaluate(PLACES_JS, {'who': cfg['who'], 'kind': cfg['kind']})
         cand = [p for p in pl if force or (not p.get('skip') and not p.get('why'))]
         if not force: tried.append([key, '地點（略過的）', [[p['id'], p.get('skip') or p.get('why')] for p in pl if p.get('skip') or p.get('why')]])
