@@ -95,46 +95,57 @@ await sec(0,()=>{ const s1=part('## 1.','## 2.'), s2=part('## 2.','## 3.'), s3=p
   check('0. AA_480 第 5 節：邀約的吃飯那一類（kind meal）多義大麵屋（舊期望：店名 Pasta 118；AA_772 第 15 列只換店名）、平日中午',L().INVITE.kind==='meal'&&L().INVITE.name===L().shop('pasta').name&&L().INVITE.verb===R772.line('去 Pasta 118 吃午餐')&&J(L().INVITE.days)===J([1,2,3,4,5].filter(d=>!L().shop('pasta').hours.closed.includes(d)))&&J(L().INVITE.days)===J([2,3,4,5])&&part480('## 5.','## 6.').indexOf('「'+L().shop('pasta').name+'」')>=0   /* 平日扣掉公休日：義大麵屋週一休＝週二～五（舊期望 週一、二、四、五）*/&&!!INV.place('pasta118')); });
 
 /* ---- 1 熟客 ---- */
-await sec(1,async()=>{ const days=[1,2,3,4,5,6].map(w=>td('Y1S1',3,w)).concat([1,2,3,4,5,6].map(w=>td('Y1S1',4,w)));   /* 大一上第 3、4 週週一～六（麵舖週日休）*/
-  fresh(days[0],12.5,'l118_noodle2'); const G=H.G; const g=[];
-  for(let i=0;i<7;i++){ await order('noodle2',['乾麵＋滷蛋'],days[i],12.5); g.push(H.said[0]&&H.said[0].who+'：'+H.said[0].t); if(i===0){ await order('noodle2',['餛飩湯'],days[0],13.4); g.push('同一天：'+(H.said[0]&&H.said[0].t)); } }
-  check('1. 第 1、2 次：老闆「大碗小碗？」（AA_280）；同一天再點不算第二次；第 3～7 次：老闆「大碗喔？」',J(g)===J(['老闆：大碗小碗？','同一天：大碗小碗？','老闆：大碗小碗？','老闆：大碗喔？','老闆：大碗喔？','老闆：大碗喔？','老闆：大碗喔？','老闆：大碗喔？'])&&rec().n.noodle2===7,J([g,rec().n]));
-  const m0=G.money; await order('noodle2',['好'],days[7],12.5);
-  check('1. 第 8 次：老闆「大碗加蛋喔。」→「好」「看一下菜單」→ 選「好」直接點上次那一樣（乾麵＋滷蛋，不出選單、扣 75）',J(H.opts[0])===J(['好','看一下菜單'])&&H.said[0].t==='大碗加蛋喔。'&&H.said[0].who==='老闆'&&has('（你點了乾麵＋滷蛋。）')&&!menuShown()&&G.money===m0-75,J([said(),H.opts,m0-G.money]));
-  await order('noodle2',['看一下菜單','牛肉麵'],days[8],12.5);
-  check('1. 選「看一下菜單」：照常出選單、點別的（牛肉麵）',menuShown()&&has('（你點了牛肉麵。）'),J([said(),H.opts]));
-  await order('noodle2',['看一下菜單','不用了'],days[9],12.5); const n10=rec().n.noodle2; await order('noodle2',['看一下菜單','不用了'],days[10],12.5);
-  check('1. 沒點東西（看一下菜單 → 不用了）不算一次',n10===9&&rec().n.noodle2===9,J(rec().n));
-  /* 說了菜名的老樣子（滇香「一樣鐵板牛排？」）：上次點別的＝不帶菜名那一句（AA_480 第 1 節，不倒回「認得你」）；上次點椒麻雞飯＝老樣子 */
-  fresh(days[0],12.5,'l118_dian'); for(let i=0;i<7;i++) await order('dian',['酸辣河粉'],days[i],12.5); await order('dian',['好'],days[7],12.5);
-  const a=said(), oa=H.opts.slice(); await order('dian',['看一下菜單','椒麻雞飯'],days[8],12.5); await order('dian',['好'],days[9],12.5); const b=said();
-  check('1. 滇香第 8 次、上次點酸辣河粉：老闆娘「跟上次一樣？」（不說「一樣鐵板牛排？」、不倒回「認得你」）→「好」＝酸辣河粉；上次點椒麻雞飯：「一樣鐵板牛排？」→「好」＝椒麻雞飯',
-    a[0]==='老闆娘：跟上次一樣？'&&J(oa[0])===J(['好','看一下菜單'])&&a.includes('（你點了酸辣河粉。）')&&!a.some(t=>/一樣椒麻雞|又來了喔/.test(t))&&b[0]==='老闆娘：一樣鐵板牛排？'&&b.includes('（你點了椒麻雞飯。）'),J([a,b]));
-  const u2=[['self','加滷蛋','一樣那幾樣？','自助餐（三菜一肉）','一樣三菜一肉？'],['cafe2','拿鐵','一樣的？','美式咖啡','一樣美式？'],['pasta','番茄海鮮麵','跟上次一樣？','奶油雞肉麵','一樣奶油雞肉？'],['korea','海苔飯捲','一樣的？','石鍋拌飯','一樣拌飯？']].map(([id,other,l2,item,l1])=>{
-    fresh(days[0],12,'l118_'+id); const R=rec(); R.n[id]=7; R.d[id]=days[0]-1; R.last[id]=other; const x=L().stage(H.G,id); R.last[id]=item; const y=L().stage(H.G,id);
-    const menu=L().shop(id).menu.map(m=>m[0]); return [id,x&&x.lines[0][1]===l2&&x.usual===menu.indexOf(other)&&y&&y.lines[0][1]===l1&&y.usual===menu.indexOf(item)]; });
-  check('1. 其他四間第 8 次：上次點別的＝好家「一樣那幾樣？」、慢讀「一樣的？」、Pasta「跟上次一樣？」、韓食「一樣的？」（「好」點上次那一樣）；上次就是那一樣＝有菜名那一句',u2.every(x=>x[1]),J(u2));
-  /* 好家自助餐：認得你兩行（阿姨一句＋旁白）；一一八茶飲 {上次點的} */
-  fresh(days[0],12,'l118_self'); for(let i=0;i<2;i++) await order('self',['加滷蛋'],days[i],12); await order('self',['加滷蛋'],days[2],12);
-  check('1. 好家自助餐第 3 次：阿姨「同學，自己夾喔。」＋（她多看了你一眼。）',seq(['同學，自己夾喔。','（她多看了你一眼。）'])&&whoOf('同學，自己夾喔。')==='阿姨'&&whoOf('（她多看了你一眼。）')==null,J(said()));
-  fresh(days[0],15,'l118_tea'); for(let i=0;i<7;i++) await order('tea',['檸檬綠'],days[i],15); await order('tea',['好'],days[7],15);
-  check('1. 一一八茶飲第 8 次：店員「檸檬綠，對吧。」→「好」＝檸檬綠',H.said[0].t==='檸檬綠，對吧。'&&H.said[0].who==='店員'&&has('（你點了檸檬綠。）'),J(said()));
+/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338；AA_772 regular_greets）改期望——測的事不變（第 1～2 次照 AA_280、第 3 次起認得你、第 8 次起老樣子、上次點別的、認得你兩行、{上次點的}、考試週、和人一起來、舊存檔），
+   店、句子、品名、價錢都從資料讀（L118.REG＝AA_772、L118.shop 的菜單），不寫死。
+   舊期望：麵舖＝noodle2（大碗喔？／大碗加蛋喔。／乾麵＋滷蛋 75）、有菜名的＝滇香（酸辣河粉／椒麻雞飯）＋好家、慢讀、Pasta、韓食四間、認得你兩行＝好家自助餐、{上次點的}＝一一八茶飲 tea（檸檬綠）、
+           考試週三間（自助餐、茶飲、慢讀「今天人多，窗邊滿了。吧檯可以嗎？」）。
+   新期望：麵店老闆在 korea、有菜名的六間（dian 另外走一遍流程）、認得你兩行＝cafe2（阿姨搬去大學食堂）、{上次點的}＝drink_a、考試週兩間（cafe2、drink_a；慢讀那一句跟著慢讀搬走，118 巷沒有了）*/
+await sec(1,async()=>{ const RG=L().REG, M=id=>L().shop(id).menu, wdOf=d=>CALENDAR.dateOf(d).wd%7, ST=id=>L().STAFF[id];
+  const days=[1,2,3,4,5,6].map(w=>td('Y1S1',3,w)).concat([1,2,3,4,5,6].map(w=>td('Y1S1',4,w)));   /* 大一上第 3、4 週週一～六（清州刀削麵週日休）*/
+  const NS='korea', own=M(NS)[3][0], own2=M(NS)[1][0], greet=L().shop(NS).greet.text;
+  fresh(days[0],12.5,'l118_'+NS); const G=H.G; const g=[];
+  for(let i=0;i<7;i++){ await order(NS,[own],days[i],12.5); g.push(H.said[0]&&H.said[0].who+'：'+H.said[0].t); if(i===0){ await order(NS,[own2],days[0],13.4); g.push('同一天：'+(H.said[0]&&H.said[0].t)); } }
+  const kn=RG[NS].known[0][1];
+  check('1. 麵店第 1、2 次：照 AA_280 的招呼；同一天再點不算第二次；第 3～7 次：「認得你」那一句',J(g)===J([ST(NS)+'：'+greet,'同一天：'+greet,ST(NS)+'：'+greet,ST(NS)+'：'+kn,ST(NS)+'：'+kn,ST(NS)+'：'+kn,ST(NS)+'：'+kn,ST(NS)+'：'+kn])&&rec().n[NS]===7&&kn!==greet,J([g,rec().n]));
+  const m0=G.money; await order(NS,['好'],days[7],12.5);
+  check('1. 第 8 次：「老樣子」那一句 →「好」「看一下菜單」→ 選「好」直接點上次那一樣（不出選單、扣那一樣的錢）',J(H.opts[0])===J(['好','看一下菜單'])&&H.said[0].t===RG[NS].usual&&H.said[0].who===ST(NS)&&has('（你點了'+own+'。）')&&!menuShown()&&G.money===m0-M(NS)[3][1],J([said(),H.opts,m0-G.money]));
+  await order(NS,['看一下菜單',M(NS)[0][0]],days[8],12.5);
+  check('1. 選「看一下菜單」：照常出選單、點別的',menuShown()&&has('（你點了'+M(NS)[0][0]+'。）'),J([said(),H.opts]));
+  await order(NS,['看一下菜單','不用了'],days[9],12.5); const n10=rec().n[NS]; await order(NS,['看一下菜單','不用了'],days[10],12.5);
+  check('1. 沒點東西（看一下菜單 → 不用了）不算一次',n10===9&&rec().n[NS]===9,J(rec().n));
+  /* 說了菜名的老樣子（118牛排）：上次點別的＝不帶菜名那一句（usual2，不倒回「認得你」）；上次點那一樣＝有菜名那一句。118牛排週二休：跳過週二 */
+  { const id='dian', it=RG[id].item, other=M(id).map(m=>m[0]).find(n=>n!==it), dd=days.filter(d=>!L().shop(id).hours.closed.includes(wdOf(d)));
+    fresh(dd[0],12.5,'l118_'+id); for(let k=0;k<7;k++) await order(id,[other],dd[k],12.5); await order(id,['好'],dd[7],12.5);
+    const a=said(), oa=H.opts.slice(); await order(id,['看一下菜單',it],dd[8],12.5); await order(id,['好'],dd[9],12.5); const b=said();
+    check('1. 118牛排第 8 次、上次點別的：老闆娘說不帶菜名那一句（不說有菜名的、不倒回「認得你」）→「好」＝上次那一樣；上次點那一樣：有菜名那一句 →「好」＝那一樣',
+      dd.length>=10&&!!it&&!!RG[id].usual2&&a[0]===ST(id)+'：'+RG[id].usual2&&J(oa[0])===J(['好','看一下菜單'])&&a.includes('（你點了'+other+'。）')&&!a.includes(ST(id)+'：'+RG[id].usual)&&!a.includes(ST(id)+'：'+RG[id].known[0][1])&&b[0]===ST(id)+'：'+RG[id].usual&&b.includes('（你點了'+it+'。）'),J([a,b])); }
+  const u2=Object.keys(RG).filter(id=>RG[id].item&&id!=='dian').map(id=>{ const it=RG[id].item, menu=M(id).map(m=>m[0]), other=menu.find(n=>n!==it);
+    fresh(days[0],12,'l118_'+id); const R=rec(); R.n[id]=7; R.d[id]=days[0]-1; R.last[id]=other; const x=L().stage(H.G,id); R.last[id]=it; const y=L().stage(H.G,id);
+    return [id,!!RG[id].usual2&&!!x&&x.lines[0][1]===RG[id].usual2&&x.usual===menu.indexOf(other)&&!!y&&y.lines[0][1]===RG[id].usual&&y.usual===menu.indexOf(it)]; });
+  check('1. 其他有菜名的五間第 8 次：上次點別的＝不帶菜名那一句（「好」點上次那一樣）；上次就是那一樣＝有菜名那一句',u2.length===5&&u2.every(x=>x[1]),J(u2));
+  /* 認得你兩行（一句＋旁白）：AA_772 的表上有 knowNarr 的那一間（大學食堂的阿姨）；{上次點的}：喝不喝咖啡 */
+  { const id=Object.keys(RG).find(k=>RG[k].known.length===2), it=M(id)[0][0];
+    fresh(days[0],12,'l118_'+id); for(let k=0;k<2;k++) await order(id,[it],days[k],12); await order(id,[it],days[2],12);
+    check('1. 第 3 次、認得你兩行的那一間：店員一句＋旁白一句（旁白沒有說話的人）',id==='cafe2'&&seq([RG[id].known[0][1],RG[id].known[1][1]])&&whoOf(RG[id].known[0][1])===ST(id)&&whoOf(RG[id].known[1][1])==null&&RG[id].known[1][0]===null,J(said())); }
+  { const id=Object.keys(RG).find(k=>/\{上次點的\}/.test(RG[k].usual)&&L().isDrink(k)&&k==='drink_a'), it=M(id)[2][0];
+    fresh(days[0],15,'lane118'); for(let k=0;k<7;k++) await order(id,[it],days[k],15); await order(id,['好'],days[7],15);
+    check('1. 喝不喝咖啡第 8 次：店員把上次點的說出來（「○○，對吧。」）→「好」＝那一杯',H.said[0].t===RG[id].usual.replace('{上次點的}',it)&&!/\{/.test(H.said[0].t)&&H.said[0].who===ST(id)&&has('（你點了'+it+'。）'),J(said())); }
   /* 考試週 */
-  const ex=async(shop,d,h,item)=>{ fresh(d,h,'l118_'+shop); await order(shop,[item]); return H.said[0]?H.said[0].who+'：'+H.said[0].t:''; };
-  const r={self8:await ex('self',td('Y1S1',8,2),12,'加滷蛋'),tea9:await ex('tea',td('Y1S1',9,3),15,'紅茶拿鐵'),cafe16:await ex('cafe2',td('Y1S1',16,3),15,'拿鐵'),y4s2w15:await ex('self',td('Y4S2',15,2),12,'加滷蛋'),
-    y4s2w14:await ex('self',td('Y4S2',14,2),12,'加滷蛋'),self7:await ex('self',td('Y1S1',7,2),12,'加滷蛋'),self10:await ex('self',td('Y1S1',10,2),12,'加滷蛋'),noodle8:await ex('noodle2',td('Y1S1',8,2),12.5,'餛飩湯'),y0:await ex('tea',td('Y0S1',16,3),15,'紅茶拿鐵')};
-  check('1. 考試週（第一次來也算）：自助餐第 8 週、茶飲第 9 週、慢讀第 16 週、大四下第 15 週換那一句；第 7、10 週、大四下第 14 週照舊；麵舖（沒有考試週那句）照舊',
-    r.self8==='阿姨：考試喔？多夾一點，不加錢。'&&r.tea9==='店員：考試週喔。……今天幫你多加一點冰塊，醒腦。'&&r.cafe16==='店長：今天人多，窗邊滿了。吧檯可以嗎？'&&r.y4s2w15==='阿姨：考試喔？多夾一點，不加錢。'&&
-    r.y4s2w14==='阿姨：自己夾，夾好拿過來算。'&&r.self7==='阿姨：自己夾，夾好拿過來算。'&&r.self10==='阿姨：自己夾，夾好拿過來算。'&&r.noodle8==='老闆：大碗小碗？',J(r));
+  const ex=async(shop,d,h)=>{ fresh(d,h,L().isTakeout(shop)?'lane118':'l118_'+shop); await order(shop,[M(shop)[0][0]]); return H.said[0]?H.said[0].who+'：'+H.said[0].t:''; };
+  const EXS=Object.keys(RG).filter(id=>RG[id].exam), GR=id=>ST(id)+'：'+L().shop(id).greet.text, EX=id=>ST(id)+'：'+RG[id].exam;
+  const r={c8:await ex('cafe2',td('Y1S1',8,2),12),d9:await ex('drink_a',td('Y1S1',9,3),15),y4s2w15:await ex('cafe2',td('Y4S2',15,2),12),
+    y4s2w14:await ex('cafe2',td('Y4S2',14,2),12),c7:await ex('cafe2',td('Y1S1',7,2),12),c10:await ex('cafe2',td('Y1S1',10,2),12),n8:await ex(NS,td('Y1S1',8,2),12.5),d16:await ex('drink_a',td('Y1S1',16,3),15)};
+  check('1. 考試週（第一次來也算）：有考試週那一句的兩間（大學食堂、喝不喝咖啡）第 8、9、16 週、大四下第 15 週換那一句；第 7、10 週、大四下第 14 週照舊；麵店（沒有考試週那句）照舊',
+    J(EXS.slice().sort())===J(['cafe2','drink_a'])&&r.c8===EX('cafe2')&&r.d9===EX('drink_a')&&r.d16===EX('drink_a')&&r.y4s2w15===EX('cafe2')&&r.y4s2w14===GR('cafe2')&&r.c7===GR('cafe2')&&r.c10===GR('cafe2')&&r.n8===GR(NS),J(r));
   /* 考試週蓋過老樣子 */
-  fresh(days[0],12,'l118_self'); rec().n.self=9; rec().d.self=days[0]-1; rec().last.self='自助餐（三菜一肉）'; at(td('Y1S1',9,2),12); await order('self',['加滷蛋']);
-  check('1. 考試週＋第 10 次：考試週那句、不問「一樣三菜一肉？」、照常出選單',H.said[0].t==='考試喔？多夾一點，不加錢。'&&!has('一樣三菜一肉？')&&menuShown(),J(said()));
+  fresh(days[0],12,'l118_cafe2'); rec().n.cafe2=9; rec().d.cafe2=days[0]-1; rec().last.cafe2=RG.cafe2.item; at(td('Y1S1',9,2),12); await order('cafe2',[M('cafe2')[0][0]]);
+  check('1. 考試週＋第 10 次：考試週那句、不問老樣子那一句、照常出選單',H.said[0].t===RG.cafe2.exam&&!has(RG.cafe2.usual)&&menuShown(),J(said()));
   /* 和人一起來：照舊「幾位？」（熟客只有一個人的招呼）*/
-  fresh(td('Y1S1',5,1),12.5,'l118_noodle2'); rec().n.noodle2=9; rec().d.noodle2=td('Y1S1',5,1)-1; rec().last.noodle2='牛肉麵'; met('zhe'); here('zhe'); await order('noodle2',['牛肉麵']);
-  check('1. 和阿哲一起來（第 10 次）：老闆「幾位？……那邊那張可以坐。」，不說熟客那句',H.said[0].t==='幾位？……那邊那張可以坐。'&&!has('大碗加蛋喔。')&&!has('大碗喔？'),J(said()));
+  fresh(td('Y1S1',5,1),12.5,'l118_'+NS); rec().n[NS]=9; rec().d[NS]=td('Y1S1',5,1)-1; rec().last[NS]=M(NS)[0][0]; met('zhe'); here('zhe'); await order(NS,[M(NS)[0][0]]);
+  check('1. 和阿哲一起來（第 10 次）：「幾位？……那邊那張可以坐。」，不說熟客那句',H.said[0].t===LANE118_SHOPS.groupGreet&&!has(RG[NS].usual)&&!has(RG[NS].known[0][1]),J(said()));
   /* 舊存檔 */
-  let err=null; fresh(td('Y1S1',5,2),12,'l118_self'); delete H.G.l118; try{ await order('self',['加滷蛋']); }catch(e){ err=e; } const ok1=!err&&H.G.l118&&H.G.l118.n.self===1;
-  fresh(td('Y1S1',5,2),12,'l118_self'); H.G.l118=[1,2]; err=null; try{ await order('self',['加滷蛋']); }catch(e){ err=e; }
+  let err=null; fresh(td('Y1S1',5,2),12,'l118_self'); delete H.G.l118; try{ await order('self',[M('self')[0][0]]); }catch(e){ err=e; } const ok1=!err&&H.G.l118&&H.G.l118.n.self===1;
+  fresh(td('Y1S1',5,2),12,'l118_self'); H.G.l118=[1,2]; err=null; try{ await order('self',[M('self')[0][0]]); }catch(e){ err=e; }
   check('1. 舊存檔沒有 G.l118（或壞掉）：點餐不壞、從 0 開始記',ok1&&!err&&H.G.l118.n.self===1,String(err)); });
 
 /* ---- 2 H2 ---- */
