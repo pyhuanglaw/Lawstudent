@@ -239,6 +239,8 @@ const SOCIAL = (function(){
   Object.assign(MEMORY_LABEL,{AN_GRAD_PASS:'她研究所放榜那晚，在燒臘店',AN_COLUMBIA:'她說紐約那間法學院上了，八月要去'});   /* AA_327 2-Y4-34、2-Y4-50（src/data/r2y4b_events.js）：面板名稱 AA_345 第 4 節定稿（G7）*/
   Object.assign(MEMORY_LABEL,{SIS5_LIBRARY_SEAT:'學姊在法學院圖書館的位子'});   /* 大二上 S3-L3 才記；AA_584 第 11 節整層刪了，源稿 03af79d17 起匯入不再帶這個名稱——舊存檔記過的照樣顯示中文（AA 2026-11-02 19:29）*/
   Object.assign(MEMORY_LABEL,{PS7_SPECIAL_ED:'沛珊說她晚兩年',PS7_DECIDE:'沛珊選了國小'});   /* 沛珊大四上的階梯記憶（AA_262 第 6 點、BB_209：階梯台詞照 AA_282 改了，名稱跟著改；企劃的階梯表 BB_142 還是舊名稱，匯入的 LADDER.labels 會帶舊的——這裡優先）*/
+  Object.assign(MEMORY_LABEL,{PS5_BOOK_COVER:'她說課輔班做過了，想試試看站櫃台',PS5_EARLY_RISER:'老師要比學生早到，她在練習早起',PS6_WALL:'她爸把她新的學生證影本貼在辦公室',PS6_NO_WEIRD:'第一次被叫上台示範，她讓全班都安靜了'});   /* 沛珊大三的階梯重寫（2026-11-11，X327；AA_753_peishan_ladder_Y3@188061108 的 _meta.notes，BB_321 改過以後的句子）：這四層換了事，面板字跟著換；寫在這裡優先於匯入的 LADDER.labels（企劃的階梯表還是舊名稱）*/
+  Object.assign(MEMORY_LABEL,{PS7_MOM_WAITS:'她媽說公開課那天要把事情都排開',PS7_MY_EGGS:'寒假她去國小代課兩個禮拜，第一次自己帶一整天'});   /* 沛珊大四上的階梯重寫（2026-11-11，X327；AA_753_peishan_ladder_Y4@465382f83 的 _meta.notes）：P7-L7、P7-L8 換了事（原本「早餐店那天可以休息」「寒假回早餐店顧煎台」）*/
   Object.assign(MEMORY_LABEL,{AN8_ELECTIVE:'她大四下多選了一門證券交易法',YT8_EXTRA_YEAR:'她四年修完雙主修',YT8_SUMMER_THURSDAY:'暑假她週末還在茶屋'});   /* AA_661 第 85 列（AA_152 記憶名稱表 c25969887；AA_510 0-2、AA_629、AA_630 L-262）：匯入工具的 labelsRef 讀固定 commit（先列的優先），企劃的新名稱讀不到——寫在這裡，優先於匯入的 LADDER.labels。AA_265 其他改了名稱的，這裡（上面幾行）已經是新名稱或 AA 定的遊戲版（AA_630 L-031 YT_TEN_MINUTES 照舊）*/
   Object.assign(MEMORY_LABEL,{AN_JP_LIGHT:'她房間的燈，是你換的',AN_JP_FIREWORK:'在河堤看了她在日本的第一場煙火'});   /* 面板名稱：日本篇的空白日（AA_435 第 7 節；src/jp_blank3d.js 也會登記，一字相同）*/
   MEMORY_LABEL.ZR_WITH_ZQ='她和子晴在交往'; MEMORY_LABEL.ZQ_WITH_ZR='她和芷若在交往';   /* 芷若×子晴：祐廷知道她們在一起以後的人物頁（AA_232 4-7「他之後在人物頁看到兩人的關係」；src/zrzq3d.js 的 coupleMem）*/

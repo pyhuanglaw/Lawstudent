@@ -195,11 +195,13 @@ const R2Y4B_EVENTS=(function(){
     dialogue:[ {scene:'台南車站',bg:'tn_station'},
       {speaker:null,text:'（台南車站。你照她傳的地址，搭公車到課輔班。她已經在上課了。）'},   /* 裁定 #44 */
       {scene:'台南・課輔班',bg:'cram_class'},
-      {speaker:null,text:'（教室後門，一個穿著早餐店圍裙外套的中年女性偷偷往裡面看。）'},
+      /* 2026-11-11（X327 沛珊重寫；AA_753_peishan_ladder_Y4@465382f83 的 event_open_class，BB_322）：媽媽出場的旁白和她的四句照稿逐句換（原本「穿著早餐店圍裙外套」「我們家的榜單還貼著」）；
+         沛珊的句子和選項沒動。BCG-05 圖上還是早餐店圍裙：新圖到以前不放（src/adv3d.js 的 CG_HELD；下面那一行 hasCG 守門照留，登錄放回去就會出現）。 */
+      {speaker:null,text:'（教室後門站著一個中年女性，手上提著一袋飲料，沒有進去，從門上的小窗往裡面看。）'},
       {speaker:'沛珊媽媽',text:'（小聲）你是她大學的同學？'},
-      {speaker:'沛珊媽媽',text:'她說她要去當老師。我本來不懂。'},
-      {speaker:'沛珊媽媽',text:'可是她站在前面的樣子，跟她高中講法律的時候不一樣。'},
-      {speaker:'沛珊媽媽',text:'……我們家的榜單還貼著。旁邊多貼了一張。'},
+      {speaker:'沛珊媽媽',text:'她說她要當老師。我本來不懂，法律系念得好好的。'},
+      {speaker:'沛珊媽媽',text:'可是你看她站在前面的樣子。她以前上台都是笑給別人看的，今天不是。'},
+      {speaker:'沛珊媽媽',text:'她爸把她的學生證貼在辦公室，貼兩年了。我叫他今天不要來，他會哭。'},
       {if:{custom:()=>hasCG('cg_whiteboard_why_peishan')},cg:'cg_whiteboard_why_peishan'},   /* BCG-05「白板上的為什麼」：媽媽最後一句之後 */
       {speaker:'classmate_peishan',text:'你真的來了！！'},
       {speaker:'classmate_peishan',text:'……我剛剛手一直在抖。你有看到嗎？'},

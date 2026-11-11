@@ -16,6 +16,14 @@ OUT = 'src/data/greet_classday.js'
 LADDER = 'src/data/ladder.js'
 TAGS = ('classDay', 'playerNoClass', 'nextClassDay')
 KINDS = ('weekend', 'offDay')
+# 2026-11-11（X327 沛珊重寫，AA_753 第三、四份）：她大三、大四招呼 base 的句子換了字（同一格、同一件事），AA_729 上寫的還是舊句——
+# 舊句在 ladder.js 對不到、而且下面對到的新句在＝「只在上課日說」的條件跟著新句子走（不然假日也會說「今天上班級經營…」）。AA_729 自己改成新句以後這張表就用不到。
+RENAMED = {('classmate_peishan', '今天課好多，我到現在都還沒吃東西。'): '今天課好多，我現在腦袋是滿的，你講慢一點。',
+           ('classmate_peishan', '我剛下課。……你真的坐高鐵來喔？'): '我剛下課，你真的坐高鐵來喔？',
+           ('classmate_peishan', '今天上班級經營。點名要記得每個人的臉。'): '今天上班級經營，老師說點名要記得每個人的臉，我先拿你練習。',
+           ('classmate_peishan', '我剛下課。下午還要去國小。'): '我剛下課，下午還要去國小，可以講十分鐘。',
+           ('classmate_peishan', '今天上教育概論。老師叫我們寫一份小教案。'): '今天上教育概論，老師叫我們寫一份小教案，我還沒想到要寫什麼。',
+           ('classmate_peishan', '今天上教育心理學，老師點我回答了兩次。'): '今天上教育心理學，老師點我回答了兩次，我第二次是亂講的。'}
 
 
 def git(*a):
@@ -57,6 +65,8 @@ def main():
     for tag in TAGS:
         for e in src.get(tag, []):
             who, t = e['who'], e['t']
+            if t not in have.get(who, set()) and RENAMED.get((who, t)) in have.get(who, set()):
+                t = RENAMED[(who, t)]
             if t not in have.get(who, set()):
                 bad.append(f'{tag} {who}：「{t}」在 ladder.js 對不到')
             out[tag].setdefault(who, []).append(t)

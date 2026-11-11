@@ -18,6 +18,8 @@ const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:
 /* 一份稿：檔名、只認的 SHA、學期 → [招呼模式, 要拿掉的 when] */
 const FILES=[
   {f:'AA_753_peishan_ladder_Y1S2_Y2S1.json',sha:'c5094495d',terms:{Y1S2:['full',['我在客運上背了一路，才背到第三章。']],Y2S1:['full',['我背到第三章，還有四章。']]}},
+  {f:'AA_753_peishan_ladder_Y3.json',sha:'188061108',terms:{Y3S1:['base',['你吃早餐了嗎？……我家開早餐店，習慣問。']],Y3S2:['base',['期中。我的考卷上，畫了一個笑臉。……我自己畫的。','你吃早餐了嗎？']]}},
+  {f:'AA_753_peishan_ladder_Y4.json',sha:'465382f83',terms:{Y4S1:['base',[]],Y4S2:['base',[]]},skipIf:{'P8-L2':{events:['ev_peishan_open_class']}}},
 ];
 const LINESIF=['P2-L3','P3-L3','P3-L4','P3-L6','P3-L8'];
 const str=x=>typeof x==='string'?x:(x&&x.narr)||null;
@@ -75,7 +77,7 @@ const play=async(sid,pick,setup)=>{ const G=H.fresh('2026-10-20',14,'campus',nul
     if(stepOf('P2-L1')){ await play('P2-L1',1); check('5. P2-L1 聊完記 PS2_SIX_PLATES（名字照舊）；兩句 → 兩個選項 → 回答',SOCIAL.has(PS,'PS2_SIX_PLATES')&&CH.length===1&&CH[0].length===2&&H.said[0].t===stepOf('P2-L1').lines[0]&&H.said.length===4,J(H.said.map(x=>x.t))); } });
 
   await sec(6,async()=>{ const src=fs.readFileSync(path.join(H.ROOT,'src/social3d.js'),'utf8'); const lab=k=>{ const m=src.match(new RegExp('\\b'+k+":'([^']*)'")); return m?m[1]:(LADDER.labels||{})[k]; };
-    const WANT_LAB={PS2_SIX_PLATES:'寒假看了三部動畫，邊看邊做筆記'};
+    const WANT_LAB={PS2_SIX_PLATES:'寒假看了三部動畫，邊看邊做筆記',PS5_BOOK_COVER:'她說課輔班做過了，想試試看站櫃台',PS5_EARLY_RISER:'老師要比學生早到，她在練習早起',PS6_WALL:'她爸把她新的學生證影本貼在辦公室',PS6_NO_WEIRD:'第一次被叫上台示範，她讓全班都安靜了',PS7_MOM_WAITS:'她媽說公開課那天要把事情都排開',PS7_MY_EGGS:'寒假她去國小代課兩個禮拜，第一次自己帶一整天'};
     const bad=Object.keys(WANT_LAB).filter(k=>lab(k)!==WANT_LAB[k]);
     check('6. 關係面板的字照新句：'+Object.keys(WANT_LAB).map(k=>k+'「'+WANT_LAB[k]+'」').join('、'),bad.length===0,J(bad.map(k=>[k,lab(k)])));
     const all=[]; for(const F of FILES) for(const term of Object.keys(F.terms)) for(const s of LADDER.byTerm[term][PS].steps){ if(s.mem) all.push(s.mem); for(const c of s.choices) if(c.mem) all.push(c.mem); }
@@ -85,7 +87,7 @@ const play=async(sid,pick,setup)=>{ const G=H.fresh('2026-10-20',14,'campus',nul
       const cur=J({s:P.steps.map(s=>[s.lines,s.choices]),b:P.greet.base});   /* linesIf（等 AA 補）和沒動的 when 不算 */
       const old=['早餐店','端六盤','一次端','客運','煎蛋','蛋餅','想太多','奇怪的問題','顧店','家傳'].filter(t=>cur.includes(t));
       check('7. '+term+'：她的八層、招呼 base 裡沒有重寫前的字（早餐店、端盤子、客運、煎蛋、「想太多」、顧店）',old.length===0,J(old)); }
-    if(stepOf('P2-L4')){ const G=H.fresh('2026-04-20',14,'campus',null); H.rel(PS,30,10,5); (G.social.ladder||(G.social.ladder={}))[PS+':Y1S2']=3; const D=STORY.ladData(G,PS);
+    if(stepOf('P2-L4')){ const G=H.fresh('2026-04-20',14,'campus',null); H.rel(PS,30,10,5); G.social.ladder=G.social.ladder||{}; const D=STORY.ladData(G,PS);
       const k=D&&D.key, n=k?(G.social.ladder[k]|0):null; if(k&&k!==PS+':Y1S2'){ G.social.ladder[k]=3; }
       const nx=STORY.ladNext?STORY.ladNext(G,PS):null;
       check('7. 舊存檔（大一下聊到第 3 層）：下一層照接 P2-L4（層數的存法沒有動；key '+k+'）',!!D&&(!STORY.ladNext||(!!nx&&nx.id==='P2-L4')),J([k,n,nx&&nx.id])); } });
@@ -98,5 +100,16 @@ const play=async(sid,pick,setup)=>{ const G=H.fresh('2026-10-20',14,'campus',nul
     if(typeof GREET_CLASSDAY!=='undefined'){ const have=new Set(); for(const t in LADDER.byTerm){ const p=LADDER.byTerm[t][PS]; if(!p||!p.greet) continue; p.greet.base.forEach(x=>have.add(x)); p.greet.when.forEach(w=>have.add(w.t)); }
       const lost=(GREET_CLASSDAY.classDay[PS]||[]).filter(t=>!have.has(t));
       check('8. 只在上課日說的招呼（greet_classday.js classDay）：她的每一句都還對得到 ladder.js 的招呼（重寫的句子有跟著換，不會假日也說「今天上…」）',lost.length===0,J(lost)); } });
+  /* 9 大四下 4/14 公開課那一場（AA_753_peishan_ladder_Y4 的 event_open_class）：媽媽的旁白＋四句照稿；BCG-05 先不放；P8-L2 演過那一場就跳過 */
+  await sec(9,async()=>{ const A=FILES[2].A, src=fs.readFileSync(path.join(H.ROOT,'src/data/r2y4b_events.js'),'utf8'), adv=fs.readFileSync(path.join(H.ROOT,'src/adv3d.js'),'utf8');
+    const i0=src.indexOf("id:'ev_peishan_open_class'"), ev=src.slice(i0,src.indexOf("consequences:",i0));
+    if(A){ const R=A.event_open_class.replace, miss=R.filter(r=>ev.split("text:'"+r.new+"'").length!==2), left=R.filter(r=>r.old!==r.new&&ev.includes(r.old));
+      check('9. ev_peishan_open_class：稿上五列的 new 各剛好一句（媽媽出場的旁白＋她的四句），old 都不在了',R.length===5&&miss.length===0&&left.length===0,J([miss.map(r=>r.new),left.map(r=>r.old)])); }
+    check('9. ev_peishan_open_class：沒有「早餐店」「榜單」；沛珊的句子和選項照舊（「你真的來了！！」、兩個選項、送到高鐵站）',i0>0&&!/早餐店|榜單/.test(ev.replace(/\/\*[\s\S]*?\*\//g,''))&&ev.includes("text:'你真的來了！！'")&&ev.includes("{text:'「沒有。」',goto:'a'},{text:'「妳媽媽坐最後一排。」',goto:'b'}")&&ev.includes('謝謝你來看我上課！到臺北傳給我喔。'));
+    const m=/^const CG_REGISTRY=(\{.*\});$/m.exec(adv), REG=m?eval('('+m[1]+')'):null, h=/^const CG_HELD=(\{.*\});$/m.exec(adv), HELD=h?eval('('+h[1]+')'):null;
+    check('9. BCG-05（cg_whiteboard_why_peishan）：新圖到以前不放——不在 CG_REGISTRY（事件那一行 hasCG 守門照留＝不顯示）、資料留在 CG_HELD、圖檔沒有刪',!!REG&&!REG.cg_whiteboard_why_peishan&&!!HELD&&!!HELD.cg_whiteboard_why_peishan&&fs.existsSync(path.join(H.ROOT,HELD.cg_whiteboard_why_peishan.file))&&ev.includes("{if:{custom:()=>hasCG('cg_whiteboard_why_peishan')},cg:'cg_whiteboard_why_peishan'}"));
+    const s=stepOf('P8-L2'); const next=(done)=>{ const G=H.fresh('2029-03-05',14,'campus',null); H.rel(PS,65,50,45); if(done){ G.events=G.events||{}; G.events.done=G.events.done||{}; G.events.done.ev_peishan_open_class=true; } const D=STORY.ladData(G,PS); if(D) (G.social.ladder||(G.social.ladder={}))[D.key]=1; const nx=STORY.ladNext?STORY.ladNext(G,PS,'date'):null; return [D&&D.key,nx&&nx.id]; };   /* 大四她在台南：context date＝私下約的那天才推進（mode 'date'）*/
+    const a=next(false), b=next(true);
+    check('9. P8-L2（要排公開課，我舉手了）：skipIf ev_peishan_open_class、skipAfterWeek 8 照留；那一場演過＝這一層跳過（下一層 P8-L3 以後），沒演過照出 P8-L2',J(s.skipIf)===J({events:['ev_peishan_open_class']})&&s.skipAfterWeek===8&&(!STORY.ladNext||(a[1]==='P8-L2'&&b[1]!=='P8-L2')),J([a,b])); });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

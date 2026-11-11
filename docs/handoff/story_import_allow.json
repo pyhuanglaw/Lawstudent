@@ -5672,6 +5672,24 @@
    "note": "X327 沛珊大一下 P2-L1～P2-L8、大二上 P3-L1～P3-L8＋招呼：只換 lines、choices（{t, re, fx}）和 greet（兩學期第 8、9 週那一則拿掉），id、if、friendOnly、順序、rel、mem 不動——tools/ladder/import_ladder.py 的 PS753_MORE 疊在 ladder_bb_y1s2／y2s1 的 classmate_peishan 上 → src/data/ladder.js。linesIf 五套（P2-L3、P3-L3／L4／L6／L8）稿沒有寫：舊的兩句和舊選項一起留著（linesIf[].choices），等 AA 補"
   },
   {
+   "path": "docs/story_planning/AA_753_peishan_ladder_Y3.json",
+   "sha": "188061108",
+   "status": "approved",
+   "approvedBy": "AA（D109、D149；BB_321 的修正已改）；LAWWW 2026-11-11 指定只認 188061108",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊大三上 P5-L1～P5-L8、大三下 P6-L1～P6-L8＋招呼 base：只換 lines、choices（{t, re, fx}）和 greet.base；when 只拿掉稿上說的三則（大三上「你吃早餐了嗎？……我家開早餐店，習慣問。」、大三下「期中。我的考卷上，畫了一個笑臉。……我自己畫的。」「你吃早餐了嗎？」），其他 when、id、if、順序、rel、context、friendOnly、mem、P5-L6 的 extraIf 不動——tools/ladder/import_ladder.py 的 PS753_MORE → src/data/ladder.js。面板字（src/social3d.js）：PS5_BOOK_COVER、PS5_EARLY_RISER、PS6_WALL、PS6_NO_WEIRD"
+  },
+  {
+   "path": "docs/story_planning/AA_753_peishan_ladder_Y4.json",
+   "sha": "465382f83",
+   "status": "approved",
+   "approvedBy": "AA（D109、D149；BB_322 的修正已改）；LAWWW 2026-11-11 指定只認 465382f83",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊大四上 P7-L1～P7-L8、大四下 P8-L1～P8-L8＋招呼 base：只換 lines、choices（{t, re, fx}）和 greet.base，when、id、if、順序、rel、context、friendOnly、mem 不動；P8-L2 加 skipIf ev_peishan_open_class（稿的 event_open_class.ladder）——tools/ladder/import_ladder.py 的 PS753_MORE → src/data/ladder.js。同一個檔的 event_open_class（4/14 公開課媽媽的旁白＋四句）：src/data/r2y4b_events.js 手改、逐句照稿（tests/peishan_ladder_1111_unit.js 對稿）；CG BCG-05 新圖到以前不放。面板字（src/social3d.js）：PS7_MOM_WAITS、PS7_MY_EGGS"
+  },
+  {
    "path": "docs/story_planning/AA_752_night_market.json",
    "sha": "3259b5f78",
    "status": "approved",
