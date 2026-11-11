@@ -18,13 +18,14 @@ PARTS：
   SHOTS  DATES 每個日期 × ZONES 每條街 × HOURS（預設 14,20）：【前置】讀檔到那一天那個時間 → 等季節模型 → log 場景裡 season_*／SEASON_* 物件名稱、數量、看得到的那幾個、外框；
          和 SD3.active 的預期比對（平常日 2025-11-05 不能有任何布置）→ 全景三張、每扇有布置的門近拍、晚上發光那一叢再近一張（中央全白 >15% 標★）→ 拼一張。
          第一個時間另外做穿模（外框交集近似：每扇門的布置外框 vs 招牌、柱子、機車、其他網格的頂點）。
+         過曝：18 點以後，有發光網格（season_glow）的門：另外畫一張遮罩（發光網格白、其他黑但照樣擋），在正常截圖的同樣像素上算全白（>245）和紅色的比例；全白 >15% 標★。
   EDGE   照日期表算邊界（每一段：開始前一天、開始當天、最後一天、結束隔天）× ZONES：數物件、拍一張全景（14:00）。舊版沒有 SEASON_DECO 就用新版的日期（EDGE_DATES 可蓋過）。
   WALK   FUNC_DATES 每個日期 × ZONES：搖桿沿街走一趟（照 E.pathTo 中途點，F.joy_to）；walkFallbacks 0。
   DOORS  FUNC_DATES × ZONES：每一間「進…」的店門（ITS 找 label 開頭是「進」、有 exit 的）搖桿走過去、按鈕是它、按了進得去、從店裡出口出得來、出來推得動（DOORS_MAX 間）。
   NAV    ZONES：平常日（NORMAL_DATE）和 FUNC_DATES 每一天各掃一次 canStand（半徑 0.3、每個導航格中心），記不一樣的格子。
   FPS    ZONES × FPS_DATES（預設平常日＋FUNC_DATES）× FPS_HOURS（預設 20）：兩個點各 FPSS 秒（舊版同位置對照）。
-環境變數：SHA、PARTS、ZONES（預設 gongguan,wenzhou）、DATES（預設 2025-12-10,2026-02-13,2026-02-19,2025-11-05）、HOURS（預設 14,20）、FUNC_DATES（預設 2026-02-19）、
-  NORMAL_DATE（預設 2025-11-05）、EDGE_DATES（逗號分隔，蓋過自動算的）、DOORS_MAX（預設 99）、FPSS（預設 8）、FPS_HOURS（預設 20）、Q（畫質，預設 medium）、LW_TESTS。
+環境變數：SHA、PARTS、ZONES（預設 gongguan,wenzhou）、DATES（預設 2025-12-10,2026-02-13,2026-02-19,2025-11-05）、HOURS（預設 14,20）、FUNC_DATES（預設 2026-02-13＝除夕前三天：有過年布置、店照常開；初三國定假日很多店不開，DOORS 會跳過不開的店）、
+  NORMAL_DATE（預設 2025-11-05）、EDGE_DATES（逗號分隔，蓋過自動算的）、EDGE_LIST_ONLY（1＝只列邊界日）、DOORS_MAX（預設 99）、FPSS（預設 8）、FPS_HOURS（預設 20）、Q（畫質，預設 medium）、LW_TESTS。
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=SHOTS [DATES=…] [ZONES=gongguan] python cc_season_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, base64, math
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -39,7 +40,7 @@ ZONES = [z for z in EV('ZONES', 'gongguan,wenzhou').split(',') if z]
 NORMAL = EV('NORMAL_DATE', '2025-11-05')
 DATES = [d for d in EV('DATES', '2025-12-10,2026-02-13,2026-02-19,' + NORMAL).split(',') if d]
 HOURS = [float(x) for x in EV('HOURS', '14,20').split(',')]
-FUNC_DATES = [d for d in EV('FUNC_DATES', '2026-02-19').split(',') if d]
+FUNC_DATES = [d for d in EV('FUNC_DATES', '2026-02-13').split(',') if d]   # 除夕前三天：有過年布置、店照常開（初三是國定假日，很多店關）
 SHA = EV('SHA', '')[:9]
 R = L.Run('season', OUT); F.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -103,6 +104,19 @@ CAP_JS = r"""(s=>{ let d=document.getElementById('cccap'); if(!s){ if(d) d.remov
 LUMA_JS = r"""(async b64=>{ const im=new Image(); im.src='data:image/jpeg;base64,'+b64; await im.decode(); const c=document.createElement('canvas'); c.width=im.width; c.height=im.height; const x=c.getContext('2d'); x.drawImage(im,0,0);
   const x0=Math.floor(im.width*0.2), y0=Math.floor(im.height*0.2), w=Math.floor(im.width*0.6), h=Math.floor(im.height*0.6), d=x.getImageData(x0,y0,w,h).data; let n=0,bk=0,wh=0,s=0;
   for(let i=0;i<d.length;i+=8){ const y=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; n++; s+=y; if(y<12) bk++; else if(y>245) wh++; } return {mean:+(s/n).toFixed(1), black:+(bk/n).toFixed(3), white:+(wh/n).toFixed(3)}; })"""
+# 發光像素遮罩：把非發光的網格換成黑色（照樣寫深度、會擋住後面的燈）、season_glow 換成純白，背景黑、關霧，畫一張 → 遮罩＝看得到的發光像素；
+# 再拿正常那張截圖的同樣像素算全白（>245）、紅色的比例。之後材質、背景、霧都還原。
+GLOWMASK_JS = r"""(async b64=>{ const E=GAME.E, r=E.renderer, sc=E.scene, cam=E.camera, root=E.zone&&E.zone.seasonRoot; if(!root) return null;
+  const im=new Image(); im.src='data:image/jpeg;base64,'+b64; await im.decode(); const W=im.width, H=im.height;
+  const blk=new THREE.MeshBasicMaterial({color:0x000000}), wht=new THREE.MeshBasicMaterial({color:0xffffff,side:THREE.DoubleSide}); const sw=[], hid=[]; let glowN=0;
+  const under=o=>{ for(let q=o;q;q=q.parent) if(q===root) return true; return false; };
+  sc.traverse(o=>{ if(o.isSprite||o.isPoints||o.isLine){ if(o.visible){ hid.push(o); o.visible=false; } return; } if(!o.isMesh) return; const m=Array.isArray(o.material)?o.material[0]:o.material; const g=under(o)&&m&&/glow/.test(m.name||''); if(g) glowN++; sw.push([o,o.material]); o.material=g?wht:blk; });
+  const bg=sc.background, fog=sc.fog; sc.background=new THREE.Color(0x000000); sc.fog=null; let mk=null;
+  try{ r.render(sc,cam); const c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d'); x.drawImage(r.domElement,0,0,W,H); mk=x.getImageData(0,0,W,H).data; }
+  finally{ for(const [o,m] of sw) o.material=m; for(const o of hid) o.visible=true; sc.background=bg; sc.fog=fog; blk.dispose(); wht.dispose(); E.render(); }
+  const c2=document.createElement('canvas'); c2.width=W; c2.height=H; const x2=c2.getContext('2d'); x2.drawImage(im,0,0); const d=x2.getImageData(0,0,W,H).data; let n=0,wh=0,red=0,sum=0;
+  for(let i=0;i<d.length;i+=4){ if(mk[i]<128) continue; n++; const y=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; sum+=y; if(y>245) wh++; if(d[i]>120&&d[i]>d[i+1]*1.8&&d[i]>d[i+2]*1.8) red++; }
+  return {glowMeshes:glowN, px:n, white:n?+(wh/n).toFixed(3):null, red:n?+(red/n).toFixed(3):null, mean:n?+(sum/n).toFixed(1):null}; })"""
 MONT_JS = r"""(async a=>{ const ims=await Promise.all(a.imgs.map(u=>new Promise(res=>{ const q=new Image(); q.onload=()=>res(q); q.src='data:image/jpeg;base64,'+u; })));
   const w=480, h=Math.round(480*ims[0].height/ims[0].width), C=a.cols, rows=Math.ceil(ims.length/C), k=document.createElement('canvas'); k.width=w*C; k.height=h*rows+30; const g=k.getContext('2d'); g.fillStyle='#000'; g.fillRect(0,0,k.width,k.height);
   g.fillStyle='#fff'; g.font='bold 20px sans-serif'; g.fillText(a.title,8,22); ims.forEach((im,i)=>g.drawImage(im,(i%C)*w,30+Math.floor(i/C)*h,w,h)); return k.toDataURL('image/jpeg',0.85); })"""
@@ -165,12 +179,16 @@ class Shooter:
         await self.pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()"); await self.pg.evaluate(D.HUD + '(false)')
         return self
 
-    async def shot(self, fn, label, eye, look, lens=24):
+    async def shot(self, fn, label, eye, look, lens=24, glow=None):
         c = await self.pg.evaluate(D.CAM, {'eye': list(eye), 'look': list(look), 'lens': lens}); await self.pg.wait_for_timeout(500)
         await self.pg.evaluate(CAP_JS, '%s｜%s｜%s' % (self.tag, label, SHA)); await self.pg.evaluate("GAME.E.render()")
         b = await self.pg.screenshot(path=os.path.join(OUT, fn), type='jpeg', quality=85)
         lm = await self.pg.evaluate(LUMA_JS, b64(b)); self.imgs.append(b64(b)); self.files.append(fn)
         star = '　★大面積全黑' if lm['black'] > 0.15 else ('　★大面積全白（過曝？看圖）' if lm['white'] > 0.15 else '')
+        if glow:   # 看得到的發光像素（遮罩，會被前面的東西擋）：全白比例（>15%＝★白球）、紅色比例（紅燈籠應該是紅的）
+            g = await self.pg.evaluate(GLOWMASK_JS, b64(b)); lm['glow'] = g
+            if g and g['px'] and g['white'] > 0.15: star += '　★發光像素全白 %.0f%%（變成白球？）' % (g['white'] * 100)
+            if g: R.note('[發光] %s 看得到的發光像素 %d 個（season_glow 網格 %d 個）：全白 %s、紅色 %s、平均亮度 %s' % (fn, g['px'], g['glowMeshes'], g['white'], g['red'], g['mean']))
         if star: self.stars.append(fn + star)
         R.note('[截圖] %s %s：鏡頭 eye %s → look %s（lens %s、vfov %s）；中央 60%% 亮度 %s、全黑 %.1f%%、全白 %.1f%%%s' % (fn, label, J([round(x, 2) for x in c['eye']]), J([round(x, 2) for x in c['look']]), c['lens'], c['vfov'], lm['mean'], lm['black'] * 100, lm['white'] * 100, star))
         return lm
@@ -220,10 +238,10 @@ async def part_shots(pg, cdp):
                     for d in deco:
                         b = d['box']; cx, cz = (b[0][0] + b[1][0]) / 2, (b[0][2] + b[1][2]) / 2; cy = (b[0][1] + b[1][1]) / 2; nx, nz = d['n']
                         span = max(b[1][0] - b[0][0], b[1][2] - b[0][2], b[1][1] - b[0][1]); dist = max(2.6, min(6.0, span * 1.3 + 1.2))
-                        await sh.shot('season_%s_%s_%s_%s.jpg' % (zone, day, hh, d['id']), '門 %s（%s）布置近拍：%s' % (d['id'], d['kind'], '、'.join(d['meshes'])), (cx + nx * dist, 1.7, cz + nz * dist), (cx, cy, cz), 30)
+                        await sh.shot('season_%s_%s_%s_%s.jpg' % (zone, day, hh, d['id']), '門 %s（%s）布置近拍：%s' % (d['id'], d['kind'], '、'.join(d['meshes'])), (cx + nx * dist, 1.7, cz + nz * dist), (cx, cy, cz), 30, d['glow'] if h >= 18 else None)
                         if d['glow'] and h >= 18:
                             g = d['glow']; gx, gy, gz = (g[0][0] + g[1][0]) / 2, (g[0][1] + g[1][1]) / 2, (g[0][2] + g[1][2]) / 2
-                            await sh.shot('season_%s_%s_%s_%s_glow.jpg' % (zone, day, hh, d['id']), '門 %s 晚上發光那一叢（season_glow）再近一張：看有沒有變成白球' % d['id'], (gx + nx * 2.4, 1.6, gz + nz * 2.4), (gx, gy, gz), 45)   # 站在騎樓裡抬頭看（1.8 m、高 2.4 m 的機位會卡進雨遮）
+                            await sh.shot('season_%s_%s_%s_%s_glow.jpg' % (zone, day, hh, d['id']), '門 %s 晚上發光那一叢（season_glow）再近一張：看有沒有變成白球' % d['id'], (gx + nx * 2.4, 1.6, gz + nz * 2.4), (gx, gy, gz), 30, d['glow'])   # 站在騎樓裡抬頭看（1.8 m、高 2.4 m 的機位會卡進雨遮）
                     await sh.montage('season_%s_%s_%s_all.jpg' % (zone, day, hh), '%s %s（%s）%s（%s）：全景三張、每扇有布置的門近拍' % (ZN[zone], day, DAYNAME.get(day, ''), hh, SHA))
 
 
@@ -233,6 +251,7 @@ async def part_edge(pg, cdp):
     if not edges: edges = EDGE_FALLBACK; R.note('[EDGE] 這一版沒有日期表（舊版）：照新版 b394363fe 的邊界日拍（舊版應該全部沒有）')
     else: edges = [tuple(e) for e in edges]
     R.note('[EDGE] 邊界日：%s' % J(edges))
+    if EV('EDGE_LIST_ONLY', '') == '1': R.note('[EDGE] EDGE_LIST_ONLY=1：只列邊界日，不讀檔、不拍'); return
     for code, lab, day, want in edges:
         for zone in ZONES:
             S_ = STREETS.get(zone)
@@ -268,6 +287,24 @@ async def part_walk(pg, cdp):
             R.check('%s walkFallbacks 0' % tag, me['fb'] - fb0 == 0, J(me))
 
 
+async def enter(pg, cdp, tag, d):
+    """和 F.enter_door 一樣（搖桿走到門、按鈕是它才按、等換區域），差在：按了 20 秒沒換區域，記下畫面上的提示，等 3 秒再按一次（玩家也會再按）；第二次才進去會寫在判定裡"""
+    r = await F.joy_to(pg, cdp, tag, d['x'], d['z'], near=min(0.9, d['r'] * 0.5), lv=d['lv'], max_s=120)
+    s = await F.wait_btn(pg, d['label'], 5)
+    if not R.check('%s 搖桿走到「%s」，按鈕是它（%s 秒、沒有跳）' % (tag, d['label'], r['t']), s['interact'].startswith(d['label']) and not r['jumps'], J({'end': [s['x'], s['z']], 'btn': s['interact'], 'jumps': r['jumps'], 'why': r.get('why')})): return None
+    k = 0
+    for k in (1, 2):
+        await L.tap(pg, cdp, '#interact'); s = await D.wait_zone(pg, cdp, d['to'], max_s=20 if k == 1 else 40)
+        if s['zone'] == d['to']: break
+        t = await pg.evaluate("(()=>{ const e=document.getElementById('toast'); return e?(e.textContent||'').trim():''; })()")
+        R.note('%s 第 %d 次按「%s」沒有換區域：提示「%s」、按鈕「%s」、%s' % (tag, k, d['label'], t, s['interact'], J({q: s[q] for q in ('zone', 'x', 'z', 'busy', 'dlg')})))
+        await pg.wait_for_timeout(3000)
+    await pg.wait_for_timeout(2500); await L.close_panels(pg, cdp); s = await D.st(pg)
+    ok = s['zone'] == d['to']
+    R.check('%s 按「%s」到了 %s、站得住%s' % (tag, d['label'], d['to'], '（第 2 次按才進去）' if ok and k == 2 else ''), ok and s['stand'] and k == 1, J(s))
+    return s if ok else None
+
+
 async def part_doors(pg, cdp):
     mx = int(EV('DOORS_MAX', '99'))
     for day in FUNC_DATES:
@@ -281,17 +318,23 @@ async def part_doors(pg, cdp):
             R.note('%s 「進…」的店門 %d 間：%s' % (tagz, len(doors), J(doors)))
             for i, d in enumerate(doors[:mx]):
                 tag = '%s #%d %s' % (tagz, i + 1, d['label'])
+                op = await pg.evaluate("(to=>{ let ws; try{ ws=(typeof PLACES!=='undefined'&&PLACES.windowsOf)?PLACES.windowsOf(to,GAME.G.day):undefined; }catch(e){ ws='err'; } const hol=(typeof CALENDAR!=='undefined'&&CALENDAR.holiday)?CALENDAR.holiday(GAME.G.day):null; return {ws:ws===undefined?'沒有營業時間表':ws, hol:hol||null, open:ws===undefined||(Array.isArray(ws)&&ws.some(w=>w[0]<=14.2&&w[1]>14.6))}; })", d['to'])
+                if not op['open']:
+                    R.note('%s 那一天 14:00 這間不開（PLACES.windowsOf %s、假日 %s）——跳過，不是布置造成' % (tag, J(op['ws']), J(op['hol']))); continue
                 ax = S_['axisZ']; sx_, sz_ = d['x'], (ax if abs(d['z'] - ax) <= 8 else d['z'] + math.copysign(5.0, ax - d['z']))   # 店門往街上那一側 5 m 左右（街的中線 z）
                 sp = await pg.evaluate(SNAPFREE, [sx_, sz_, 3.0]) or [sx_, sz_, 0]
                 # 每一間從那一間門前的街上開始（不然雲端低幀率要走 60 m 以上）；之後全程搖桿
                 await at(pg, cdp, zone, day, 14.0, sp[0], sp[1], '（店門「%s」前面的街上）' % d['label']); await wait_season(pg); await F.ready(pg, cdp, 20)
                 fb0 = (await pg.evaluate(ME))['fb']
-                s = await F.enter_door(pg, cdp, tag, d)
+                s = await enter(pg, cdp, tag, d)
+                if not s:
+                    t = await pg.evaluate("(()=>{ const e=document.getElementById('toast'); return e?(e.textContent||'').trim():''; })()")
+                    R.note('%s 沒進去：畫面上的提示「%s」；營業時間 %s' % (tag, t, J(op['ws'])))
                 if s:
                     await pg.wait_for_timeout(1200)
                     ex = await pg.evaluate("(z=>{ const i=(GAME.E.interactables||[]).find(q=>!q.hidden&&q.exit&&q.exit.to===z); return i?{x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1,lv:i.lv|0,label:i.label,to:i.exit.to}:null; })", zone)
                     if R.check('%s 店裡有出口回%s' % (tag, ZN[zone]), bool(ex), ''):
-                        s2 = await F.enter_door(pg, cdp, tag + ' 出店', ex)
+                        s2 = await enter(pg, cdp, tag + ' 出店', ex)
                         if s2:
                             mv = await D.pushable(pg, cdp); R.check('%s 出店站在 %s、推得動（%.2f m）' % (tag, J([s2['x'], s2['z']]), mv), mv >= 0.3 and s2['stand'], J(s2))   # 讀檔會把 walkFallbacks 歸零：每一間各自算
                 me = await pg.evaluate(ME); fbs += me['fb'] - fb0

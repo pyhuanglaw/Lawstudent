@@ -52,7 +52,9 @@ import playlib as L
 import bbplay as P
 from playwright.async_api import async_playwright
 
-URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
+MAIN = __name__ == '__main__'   # cc_class12_probe.py 會 import 這支（只用函式；它自己設 R、OUT、SHA）
+URL, OUT = (sys.argv[1], sys.argv[2]) if MAIN else ('', '.')
+if MAIN: os.makedirs(OUT, exist_ok=True)
 ENV = os.environ.get
 PARTS = [p.strip().upper() for p in (ENV('PARTS') or 'REPRO,GUARD,FULL,CONTENTWEEK,SERVICE,OTHERS,REGRET,PHONE,USERVIEW').split(',') if p.strip()]
 SHA = (ENV('SHA') or '')[:9]
@@ -66,7 +68,7 @@ USERWAIT = float(ENV('USERWAIT') or 20); USERTO = float(ENV('USERTO') or 13 + 40
 EVQUIET = ENV('EVQUIET') == '1'; PORTRAIT = ENV('PORTRAIT') == '1'
 TARGET = ENV('TARGET') or '2025-11-12'
 random.seed(int(ENV('SEED') or 1111))
-R = L.Run('goclass', OUT)
+R = L.Run('goclass', OUT) if MAIN else None
 J = lambda o: json.dumps(o, ensure_ascii=False, default=str)
 SHOTN = [0]
 
@@ -114,7 +116,7 @@ HOOK = r"""(()=>{ if(window.__GC&&window.__GC.g===GAME) return {again:true}; con
   ok.choose=wrap(GAME,'choose',(opts,opt)=>{ const t0=now(); W.lastChooseT=t0; const all=(opts||[]).map(o=>o&&o.t); const e=push({k:'choose',all,opts:(opts||[]).filter(o=>o&&!o.hidden).map(o=>o.t),hints:(opts||[]).filter(o=>o&&!o.hidden).map(o=>o.hint||''),sinceDown:W.lastDown!=null?+(t0-W.lastDown).toFixed(1):null}); e.t0=t0; W.cur={opts:e.opts,t0};
       setTimeout(()=>{ try{ e.rects=rects(); e.cover=cover(); }catch(x){} },0); requestAnimationFrame(()=>{ try{ e.rects2=rects(); }catch(x){} }); return e; },
     (e,i)=>{ const t=now(); if(W.cur&&e&&W.cur.t0===e.t0) W.cur=null; push({k:'pick',ref:e&&e.t0,i,txt:e&&e.all?e.all[i]:null,first:e&&e.opts?e.opts[0]:null,dt:e?+(t-e.t0).toFixed(1):null,downDt:(e&&W.lastDown!=null)?+(W.lastDown-e.t0).toFixed(1):null}); });
-  ok.say=wrap(GAME,'say',(who,text)=>push({k:'say',who:who?(who.name||String(who)):null,text:String(text),sinceDown:W.lastDown!=null?+(now()-W.lastDown).toFixed(1):null,cover:/^早安/.test(String(text))?cover():undefined}));
+  ok.say=wrap(GAME,'say',(who,text)=>{ const e=push({k:'say',who:who?(who.name||String(who)):null,cid:who&&(who.charId||who.id)||null,text:String(text),sinceDown:W.lastDown!=null?+(now()-W.lastDown).toFixed(1):null,cover:/^早安/.test(String(text))?cover():undefined}); setTimeout(()=>{ try{ const n=document.getElementById('dlgName'); e.shown=n?(n.style.display==='none'?'':(n.textContent||'').trim()):null; }catch(x){} },0); return e; });
   ok.caption=wrap(GAME,'caption',(who,text)=>push({k:'cap',who:who||'',text:String(text)}));
   ok.toast=wrap(GAME,'toast',(text)=>push({k:'toast',text:String(text)}));
   ok.enter=wrap(GAME,'enter',(to)=>push({k:'enter',to}),(e)=>push({k:'entered',to:e&&e.to}));
@@ -132,7 +134,7 @@ MS = r"""(()=>{ const D=GAME.D||{}, E=GAME.E, P=E.player, ch=document.getElement
   const r=dl&&!dl.classList.contains('hide')?dl.getBoundingClientRect():null;
   return {dlg:!!D.active, ch:(ch&&!ch.classList.contains('hide'))?ch.querySelectorAll('button').length:0, busy:!!P.busy, path:!!(P.path&&P.path.length), seat:!!P.seat, fade:!!(fd&&fd.classList.contains('on')),
     phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()), paused:!!E.paused, zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(3), day:GAME.G.day, dtext:((document.getElementById('dlgText')||{}).textContent||'').slice(0,40),
-    dlgC:r?[Math.round(r.left+r.width/2),Math.round(r.top+Math.min(r.height,60)/2)]:null, nd:window.__GC?(window.__GC.nd|0):0}; })()"""
+    dlgC:r?[Math.round(r.left+r.width/2),Math.round(r.top+Math.min(r.height,60)/2)]:null, nd:window.__GC?(window.__GC.nd|0):0, typing:!!D.typing}; })()"""
 REC = r"""(()=>{ const G=GAME.G, R=CLS.rec(G), c=o=>JSON.parse(JSON.stringify(o||{})); return {day:G.day,h:+(+G.hour).toFixed(3),zone:G.zone,note:c(R.note),done:c(R.done),attend:c(R.attend),late:c(R.late),abs:c(R.abs)}; })()"""
 TODAY = r"""(()=>{ try{ const d=document.createElement('div'); d.innerHTML=CLS.todayHTML(GAME.G); return d.innerText.replace(/\n+/g,' ｜ ').slice(0,900); }catch(e){ return 'ERR '+e; } })()"""
 ITEMS = r"""(d=>{ const G=GAME.G; return CLS.dayItems(G,d).map(i=>({key:i.key,id:i.c.id,name:i.c.name,kind:i.c.kind,t0:+i.t0.toFixed(3),t1:+i.t1.toFixed(3),zone:(i.room&&i.room.zone)||null,door:(i.room&&i.room.door)||null,room:(i.room&&i.room.name)||'',exam:i.exam||null,week:i.week,term:i.term})); })"""
@@ -995,4 +997,4 @@ async def main():
     sys.exit(R.finish())
 
 
-asyncio.run(main())
+if MAIN: asyncio.run(main())
