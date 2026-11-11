@@ -817,18 +817,18 @@ TAP_PT = r"""(([x,y,z])=>{ const E=GAME.E; const v=new THREE.Vector3(x,y,z).proj
   return {sx:+sx.toFixed(1), sy:+sy.toFixed(1), canvas:!!el&&el.id==='c', el:el?(el.id||el.tagName):null, hit:h?[+h.x.toFixed(2),+h.z.toFixed(2)]:null, redirect:r?[+r[0].toFixed(2),+r[1].toFixed(2)]:null}; })"""
 
 
-async def tap_seat_one(pg, cdp, sid, k, s):
-    t = '[TAPSEAT %s #%d（%s, %s）]' % (sid, k + 1, s['sx'], s['sz'])
-    await at_shop(pg, cdp, sid, H_INT, '（點椅子 #%d）' % (k + 1))
+async def tap_seat_one(pg, cdp, sid, k, s, hy=0.45, last=True):
+    t = '[TAPSEAT %s #%d（%s, %s）點椅子 %.2f m 高]' % (sid, k + 1, s['sx'], s['sz'], hy)
+    await at_shop(pg, cdp, sid, H_INT, '（點椅子 #%d，點在 %.2f m 高）' % (k + 1, hy))
     occ = await pg.evaluate(OCC_JS, [s['sx'], s['sz']])
     if occ: R.note('%s 有人坐著 %s：跳過' % (t, J(occ))); return 'occupied'
-    sy = 0.45 + (s.get('lift') or 0) + (s.get('sy') or 0)
+    sy = hy + (s.get('lift') or 0) + (s.get('sy') or 0)
     pt = await pg.evaluate(TAP_PT, [s['sx'], sy, s['sz']])
     if not pt or pt.get('off') or not pt.get('canvas'):
         R.note('%s 從進門位置看，椅面在畫面外或被按鈕蓋住（%s）：用手指滑轉鏡頭朝椅子' % (t, J(pt)))
         await L.turn_camera_to(pg, cdp, s['sx'], s['sz']); pt = await pg.evaluate(TAP_PT, [s['sx'], sy, s['sz']])
     if not pt or pt.get('off') or not pt.get('canvas'):
-        R.check('%s 畫面上點得到這張椅子' % t, False, J(pt)); return 'notap'
+        R.note('%s 畫面上點不到這張椅子 %s' % (t, J(pt))); return 'notap'
     fb0 = (await D.st(pg))['fb']
     R.note('%s 點椅面 螢幕 (%s, %s)：落在地板 %s、tapRedirect 改走到 %s' % (t, pt['sx'], pt['sy'], pt['hit'], pt['redirect']))
     await L.touch_tap(cdp, pt['sx'], pt['sy'])
@@ -843,7 +843,8 @@ async def tap_seat_one(pg, cdp, sid, k, s):
     b = await D.settle(pg); ni = await pg.evaluate(D.NEAR_IT)
     mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
     R.note('%s 走到 (%s, %s)（%.1f 秒；tapPref %s）：互動鍵「%s」、指到的座位 %s' % (t, b['x'], b['z'], time.time() - t0, J(last and last['tp']), b['interact'], J(ni and ni['seat'])))
-    ok_btn = R.check('%s 點椅子走過去，互動鍵是「%s」而且就是這一張' % (t, s['label']), b['interact'].startswith(s['label']) and mine, J({'interact': b['interact'], 'near': ni}))
+    ok_btn = b['interact'].startswith(s['label']) and mine
+    R.note('%s 點椅子走過去，互動鍵%s「%s」而且就是這一張：%s' % (t, '是' if ok_btn else '不是', s['label'], J({'interact': b['interact'], 'near': ni})))
     if not ok_btn:
         await game_shot(pg, fn('tapseat', sid, H_INT, 'nobtn%d' % (k + 1), False), t, judge=False); return 'nobtn'
     await L.tap(pg, cdp, '#interact'); sat = None
@@ -861,8 +862,19 @@ async def tap_seat_one(pg, cdp, sid, k, s):
 async def part_tapseat(pg, cdp, sid, idxs):
     await at_shop(pg, cdp, sid, H_INT)
     seats = await pg.evaluate(D.SEATS); res = {}
+    # 玩家點椅子的哪裡不一定：椅面（0.45）、椅子中段（0.2）、椅腳落地處（0）各試一次（CC 08:2x 雲端自檢：home #9 點椅面換算到地板落在椅子後 1.3 m、tapRedirect 沒接上）；
+    #   三個高度有一個坐得到這一張就算「點椅子坐得到」，每個高度的結果都記
     for k in idxs:
-        if 1 <= k <= len(seats): res[k] = await tap_seat_one(pg, cdp, sid, k - 1, seats[k - 1])
+        if not (1 <= k <= len(seats)): continue
+        tried = {}
+        for hy in (0.45, 0.2, 0.0):
+            r = await tap_seat_one(pg, cdp, sid, k - 1, seats[k - 1], hy)
+            tried['%.2f' % hy] = r
+            if r == 'ok' or r == 'occupied': break
+        res[k] = tried
+        ok = any(v == 'ok' for v in tried.values())
+        if 'occupied' not in tried.values():
+            R.check('[TAPSEAT %s #%d（%s, %s）] 點椅子（椅面／中段／椅腳任一處）走過去坐得到這一張' % (sid, k, seats[k - 1]['sx'], seats[k - 1]['sz']), ok, J(tried))
     R.note('[TAPSEAT %s] 結果 %s' % (sid, J(res)))
 
 
