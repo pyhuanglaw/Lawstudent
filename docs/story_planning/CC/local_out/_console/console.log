@@ -1,11 +1,3 @@
-       c603ab725..3c5c7c983  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[12:55:16] ==== END   GOCLASS_repro_old  exit=0  530s   ====
-[12:55:24] memory 36% before starting GOCLASS_userview_new (0 running)
-[12:55:24] memory 36% before starting GOCLASS_userview_old (1 running)
-[12:55:24] ==== START GOCLASS_userview_new  (probe @ 1d4db297a4b980e82619dbc41f70e41f108f0596) ====
-[12:55:24] memory 36% before starting CLASS12_const_a (2 running)
-[12:55:24] ==== START GOCLASS_userview_old  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
 [12:55:24] ==== START CLASS12_const_a  (probe @ 69374803ad5f12cebb71c4f5c259798fed4563be) ====
 [12:55:28] [res] cpu=16% mem=36% (11.3/31.4 GB) chrome_testing=0  START GOCLASS_userview_old
 [12:55:28] [res] cpu=16% mem=36% (11.3/31.4 GB) chrome_testing=0  START GOCLASS_userview_new
@@ -1998,3 +1990,11 @@
 [21:09:05] 正在跑：REL_soc_ctl（已跑 23 分／上限 30 分）、REL_soc_new（已跑 20 分／上限 30 分）、REL_soc_new_r2（已跑 19 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:14:05] 正在跑：REL_soc_ctl（已跑 28 分／上限 30 分）、REL_soc_new（已跑 25 分／上限 30 分）、REL_soc_new_r2（已跑 24 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:14:25] [res] cpu=9% mem=51% (16.2/31.4 GB) chrome_testing=10  END REL_soc_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c9906a1ac..1f5a02ecc  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:14:36] ==== END   REL_soc_new  exit=1  1547s   ====
+[21:14:41] memory 52% before starting REL_soc_ctl_r2 (2 running)
+[21:14:41] ==== START REL_soc_ctl_r2  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[21:14:44] [res] cpu=2% mem=52% (16.4/31.4 GB) chrome_testing=10  START REL_soc_ctl_r2
+[21:16:26] [res] cpu=7% mem=49% (15.6/31.4 GB) chrome_testing=9  END REL_soc_ctl
