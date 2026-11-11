@@ -26,7 +26,10 @@ PARTS：
   PS2      ③b 沛珊第二批六組（PSG＝lad,arc,feed,fest,open,tn）：每組【捷徑】用遊戲自己的播放函式演（STORY.ladPlay／ARCS.play／FEED 動態頁／FEST.play／EVENTS.run／R2Y4B.psDinner），
            字從 DOM 讀（#dlgName、#dlgText、GAME.D.full；動態頁讀卡片 innerText）；第一句、最後一句各一張截圖（ps2_<組>_first／last.jpg），每一句另存 ps2_<組>_<序號>.jpg；
            比對 fixtures/ps_batch2/expect.json 的受測 SHA（SHA 前 9 碼；沒有就用 f5e1ef4e8）那一份；同時記是不是另一版（舊稿）的字；所有句子不能是空的、不能有 undefined。
-用法：LW_TESTS=<wt>/tests SHA=<40 碼> PARTS=SS_WALK,SS_MAIN,G10,PS2 [PSG=lad,arc,feed,fest,open,tn] python3 cc_ss3d_g10_ps2_probe.py <url> <out>"""
+雲端自檢（11-11，SwiftShader，不算判定）發現：18:00、23:32、23:41（收著）上師 3 秒裡 8～9／10 幀照樣畫出來、閃 3～4 次——S.masterShow 只在 applyTime（每 5 幀）設 visible，
+  updateNPC 每一幀照視錐蓋回 true（engine3d.js 405 行；events3d.js 107 行的註解就是這件事：要設 n.hidden）。PC 上照跑確認。
+用法：LW_TESTS=<wt>/tests SHA=<40 碼> PARTS=SS_WALK,SS_MAIN,G10,PS2 [PSG=lad,arc,feed,fest,open,tn] python3 cc_ss3d_g10_ps2_probe.py <url> <out>
+  只跑幾步（自檢用）：SS_STEPS=a,b,c,d（SS_MAIN；a 讀檔計時一定跑）、G10_STEPS=a,b,c,d、PS_TERMS=Y1S2,…（階梯的學期）"""
 import os, sys, json, asyncio, time, base64, math, shutil
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import playlib as L
@@ -106,14 +109,14 @@ PROJ = r"""(()=>{ const X=typeof LM!=='undefined'?LM:null, n=X&&X.masterNpc; con
   if(!hp) hp=o.position.clone().add(new V(0,1.25,0)); o.updateWorldMatrix(true,false); cam.updateMatrixWorld(); const v=hp.clone().project(cam), c=E.renderer.domElement.getBoundingClientRect();
   const px=c.left+(v.x+1)/2*c.width, py=c.top+(1-v.y)/2*c.height; out.head=[+hp.x.toFixed(2),+hp.y.toFixed(2),+hp.z.toFixed(2)]; out.px=[Math.round(px),Math.round(py)]; out.ndcZ=+v.z.toFixed(3);
   out.onScreen=v.z<1&&v.z>-1&&px>=0&&py>=0&&px<innerWidth&&py<innerHeight; out.underDlg=!!rb&&px>=rb.left&&px<=rb.right&&py>=rb.top&&py<=rb.bottom;
-  const e=out.onScreen?document.elementFromPoint(px,py):null; out.topEl=e?(e.id||e.className||e.tagName):null; out.vis=!!o.visible; out.degr=!!u.degradedHidden;
+  const e=out.onScreen?document.elementFromPoint(px,py):null; out.topEl=e?(e.id||e.className||e.tagName):null; try{ out.canvasFilter=getComputedStyle(E.renderer.domElement).filter||null; const ar=document.getElementById('adv'); out.advFilter=ar?(getComputedStyle(ar).backdropFilter||getComputedStyle(ar).webkitBackdropFilter||null):null; }catch(_){} out.vis=!!o.visible; out.degr=!!u.degradedHidden;
   const fw=new V(); cam.getWorldDirection(fw); const to=hp.clone().sub(cam.position).normalize(); out.offAxisDeg=+(Math.acos(Math.max(-1,Math.min(1,fw.dot(to))))*180/Math.PI).toFixed(1); out.dist=+hp.distanceTo(cam.position).toFixed(2);
   return out; })()"""
 # 獨立相機照相（同 cc_tingzhou_probe.py 的 SNAP；多：上師的 visible 照 LM.canTalk 重設——主迴圈照跟隨鏡頭的視錐設 visible，換相機以後要重算；記原本的值）
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||50, c.width/c.height, 0.05, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const z=E.zone, P=E.player&&E.player.obj; if(z&&z.fadeWalls){ try{ z.fadeWalls(cam,P?P.position:cam.position); if(E.hideFaded) E.hideFaded(); }catch(e){} }
   const hid=[]; if(P){ hid.push([P,P.visible]); P.visible=false; } const X=typeof LM!=='undefined'?LM:null, m=X&&X.masterNpc&&X.masterNpc.obj; let mv=null;
-  if(m){ mv=m.visible; hid.push([m,m.visible]); m.visible=!!(X.canTalk&&X.canTalk(GAME.G,z)); }
+  if(m){ mv=m.visible; if(!a.keep){ hid.push([m,m.visible]); m.visible=!!(X.canTalk&&X.canTalk(GAME.G,z)); } }   /* keep：照主迴圈這一格留下的 visible 畫（量開收時用）*/
   try{ r.render(E.scene,cam); const k=document.createElement('canvas'); k.width=c.width; k.height=c.height; const g=k.getContext('2d'); g.drawImage(c,0,0);
     g.fillStyle='rgba(0,0,0,0.6)'; g.fillRect(0,0,k.width,22); g.fillStyle='#fff'; g.font='15px sans-serif'; g.fillText(a.label,6,16); return {u:k.toDataURL('image/jpeg',0.9), masterVisBefore:mv, masterVisSnap:m?m.visible:null}; }
   finally { for(const [o,v] of hid) o.visible=v; if(z&&z.fadeWalls&&E.camera){ try{ z.fadeWalls(E.camera,P.position); if(E.hideFaded) E.hideFaded(); }catch(e){} } } })"""
@@ -151,8 +154,8 @@ async def y1s1(pg):
     return d['day'] if d else await pg.evaluate(DAYOF + "('2025-10-22')")
 
 
-async def snap(pg, lab, frm, at_, fov, fn):
-    r = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'label': lab})
+async def snap(pg, lab, frm, at_, fov, fn, keep=False):
+    r = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'label': lab, 'keep': keep})
     if r: save(r['u'], fn); R.note('[照片] %s → %s（上師 visible：主迴圈留下的 %s、照相時 %s）' % (lab, fn, r['masterVisBefore'], r['masterVisSnap']))
     return r
 
@@ -251,6 +254,7 @@ async def ss_photos(pg, cdp, sm, sg, at):
         await snap(pg, '上師 20:00 %s' % lab, frm, to, fov, fn)
     P_ = await pg.evaluate(POSE, {'guest': [sg['x'], sg['z']]})
     R.note('[SS_MAIN 坐姿] %s' % J(P_))
+    R.check('[SS_MAIN 坐姿] 量得到上師的人物（LM.masterNpc）', bool(P_), '')
     if P_:
         cand = [h['y'] for h in (P_.get('seatC') or []) if 0.25 < h['y'] < 0.9]
         R.note('[SS_MAIN 坐姿] 座位中心 (seatMaster) 往下打到的第一個 0.25～0.9 m 的面：%s' % (max(cand) if cand else '沒有（下面沒有椅面）'))
@@ -285,7 +289,9 @@ async def ss_hours(pg, cdp, d, sm, sg, at, face):
         st = await pg.evaluate(MS); vf = await pg.evaluate(VISF, 3000); pj = await pg.evaluate(PROJ)
         R.note('[SS_MAIN %s] 遊戲鏡頭：上師的頭投影 %s、在畫面裡 %s、離中線 %s°' % (tag, pj.get('px'), pj.get('onScreen'), pj.get('offAxisDeg')))
         fn = 'ss_hour_%s.jpg' % tag.replace(':', '').replace('→', '_'); await gshot(pg, fn)
-        await snap(pg, '上師 %s（G.hour %s）正面' % (tag, hhmm(vf['h'])), (mx, 1.25, sg['z'] + 0.15), (mx, 1.05, mz), 42, 'ss_hour_%s_snap.jpg' % tag.replace(':', '').replace('→', '_'))
+        for k3 in range(3):   # 獨立相機、照主迴圈那一格的 visible 畫（不改它）；連拍三張（隔 0.25 秒）：閃的話三張會不一樣
+            await snap(pg, '上師 %s（G.hour %s）正面 第 %d 張（照遊戲當下的 visible）' % (tag, hhmm(vf['h']), k3 + 1), (mx, 1.25, sg['z'] + 0.15), (mx, 1.05, mz), 42, 'ss_hour_%s_snap%d.jpg' % (tag.replace(':', '').replace('→', '_'), k3 + 1), keep=True)
+            await pg.wait_for_timeout(250)
         rows.append((tag, vf['h'], st.get('canTalk'), vf))
         R.note('[SS_MAIN %s] G.hour %s：LM.canTalk %s、zone.tzLimao.open %s；3 秒 %d 幀：obj.visible %d 幀、看得到 %d 幀、閃 %d 次；狀態 %s' % (tag, hhmm(vf['h']), st.get('canTalk'), st.get('open'), vf['frames'], vf['visFrames'], vf['shownFrames'], vf['flips'], J({k: st.get(k) for k in ('has', 'driver', 'degr', 'vis', 'hidden')})))
         if want: R.check('[SS_MAIN %s] 店開著（G.hour %s）：每一幀都看得到上師' % (tag, hhmm(vf['h'])), vf['frames'] > 0 and vf['shownFrames'] == vf['frames'], J(vf))
@@ -312,12 +318,13 @@ async def ss_talk(pg, cdp, d, at):
             await full_line(pg, cdp); dd = await pg.evaluate(DLGDOM)
             if dd['text'] != lastt:
                 lastt = dd['text']; k += 1
-                lg = await pg.evaluate("(n=>(window.__SSLOG||[]).slice(n))", n0); e = lg[-1] if lg else {}
+                lg = await pg.evaluate("(n=>(window.__SSLOG||[]).slice(n))", n0); cur = (dd['full'] or dd['text'] or '').strip()
+                e = next((x for x in reversed(lg) if (x.get('text') or '').strip() == cur), lg[-1] if lg else {})   # 這一句是誰說的：照 GAME.say 的紀錄對字
                 if not shot_first: shot_first = True; await gshot(pg, 'ss_talk_line01.jpg')
                 if e.get('who') == '上師' and mslines < 2:
                     mslines += 1; pj = await pg.evaluate(PROJ); fn = 'ss_talk_ms%d.jpg' % mslines; await gshot(pg, fn)
-                    R.note('[SS_MAIN 對話] 上師第 %d 句「%s」（畫面名字「%s」、帶 obj＝%s）：頭的投影 %s（畫面 %dx%d、在畫面裡 %s、離鏡頭中線 %s°、距離 %s m）、對話框 %s、頭在框裡 %s、那一點最上面 %s、ADV %s；截圖 %s' % (
-                        mslines, dd['text'], dd['name'], e.get('obj'), pj.get('px'), pj['vw'], pj['vh'], pj.get('onScreen'), pj.get('offAxisDeg'), pj.get('dist'), pj.get('dlg'), pj.get('underDlg'), pj.get('topEl'), J(pj.get('adv')), fn))
+                    R.note('[SS_MAIN 對話] 上師第 %d 句「%s」（畫面名字「%s」、帶 obj＝%s）：頭的投影 %s（畫面 %dx%d、在畫面裡 %s、離鏡頭中線 %s°、距離 %s m）、對話框 %s、頭在框裡 %s、那一點最上面 %s、ADV %s（畫布 filter %s、#adv backdrop-filter %s：模糊背景的 ADV 會把 3D 畫面糊掉，看截圖）；截圖 %s' % (
+                        mslines, dd['text'], dd['name'], e.get('obj'), pj.get('px'), pj['vw'], pj['vh'], pj.get('onScreen'), pj.get('offAxisDeg'), pj.get('dist'), pj.get('dlg'), pj.get('underDlg'), pj.get('topEl'), J(pj.get('adv')), pj.get('canvasFilter'), pj.get('advFilter'), fn))
                     R.check('[SS_MAIN 對話] 上師第 %d 句：說話的人帶他的 3D 人物（obj）' % mslines, bool(e.get('obj')), J(e))
                     R.check('[SS_MAIN 對話] 上師第 %d 句：頭在畫面裡、沒有被對話框蓋住（投影 %s、框 %s）' % (mslines, pj.get('px'), pj.get('dlg')), bool(pj.get('onScreen')) and not pj.get('underDlg'), J({k2: pj.get(k2) for k2 in ('px', 'dlg', 'topEl', 'onScreen')}))
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(380); idle = 0; continue
