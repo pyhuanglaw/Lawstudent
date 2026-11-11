@@ -1749,3 +1749,12 @@
 [10:58:20] ==== START XG3_ydh  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
 [10:58:23] [res] cpu=25% mem=39% (14.1/31.4 GB) chrome_testing=4  START XG3_ydh
 [10:58:29] [res] cpu=2% mem=41% (12.6/31.4 GB) chrome_testing=4  END XG3_ext_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a45a8796b..69e0b1500  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:58:56] ==== END   XG3_ext_old  exit=0  110s   ====
+[10:59:03] 正在跑：XG3_int（已跑 1 分／上限 10 分）、XG3_ydh（已跑 0 分／上限 8 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:59:06] memory 47% before starting XG3_doorjoy (2 running)
+[10:59:06] ==== START XG3_doorjoy  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
+[10:59:09] [res] cpu=1% mem=48% (15.1/31.4 GB) chrome_testing=9  START XG3_doorjoy
+[11:00:31] [res] cpu=21% mem=49% (16.1/31.4 GB) chrome_testing=10  END XG3_int
