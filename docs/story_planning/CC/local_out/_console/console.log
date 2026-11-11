@@ -1897,3 +1897,14 @@
        6eadbb706..04944697f  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [11:24:35] ==== END   NM_cam_new_r2  exit=0  276s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       04944697f..a10c47bdc  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:24:40] ==== END   LM2_N6_r3  exit=0  158s   ====
+[11:24:50] memory 43% before starting GOCLASS_fullsvc_new (2 running)
+[11:24:50] ==== START GOCLASS_fullsvc_new  (probe @ 6f9961fa670e54f1e699eea4fbd11cb415b21451) ====
+[11:24:52] [res] cpu=6% mem=43% (13.6/31.4 GB) chrome_testing=5  START GOCLASS_fullsvc_new
+[11:24:53] memory 43% before starting GOCLASS_fullsvc_old (2 running)
+[11:24:53] ==== START GOCLASS_fullsvc_old  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[11:24:56] [res] cpu=0% mem=45% (13.7/31.4 GB) chrome_testing=5  START GOCLASS_fullsvc_old
+[11:25:48] [res] cpu=5% mem=46% (14.4/31.4 GB) chrome_testing=8  END NM_cam_old
