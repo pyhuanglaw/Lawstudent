@@ -90,11 +90,14 @@ for(const id of NINE){ const [oldName,name,type,menu]=WANT[id], s=shop(id)||{men
     check('2-3. 大學食堂點三個份量：扣的錢就是菜單的價錢，都在 100～160',bad.length===0,J(bad));
     check('2-3. 大學食堂的招呼是資料裡阿姨那一句（「自己夾，夾好拿過來秤。」，AA_280 第 2 節），句子照資料；沒有另外加字',s.greet.text==='自己夾，夾好拿過來秤。'&&lines.some(l=>l.t===s.greet.text)&&lines.every(l=>l.t===s.greet.text||l.t===s.done||s.menu.some(m=>l.t===D.orderLine.replace('{品名}',m[0]))),J(lines.slice(0,3))); }
   // 2-4 舊存檔：G.l118＝{n,d,last,w,once,rankAt}（改版前的格式、舊菜名）
-  { const old=()=>({n:{dian:9,tea:8,self:8,home:2,cafe2:12},d:{dian:90,tea:91,self:92,home:80,cafe2:93},last:{dian:'椒麻雞飯',tea:'紅茶拿鐵',self:'排骨飯',home:'番茄炒蛋（單點）',cafe2:'美式咖啡',gone_shop:'什麼'},w:{'zhe@noodle2':{n:3,d0:10,d:60},'classmate_xinci@home':{n:2,d0:20,d:70}},once:{H7a:70},rankAt:{term:'Y1S1',week:9}});
-    const g=fresh(3,12.5,5000,old()), keep=J([g.l118.n,g.l118.d,g.l118.once,g.l118.rankAt]);
+  { const old=()=>({n:{dian:9,tea:8,self:8,home:2,cafe2:12,korea:3},d:{dian:90,tea:91,self:92,home:80,cafe2:93,korea:95},last:{dian:'椒麻雞飯',tea:'紅茶拿鐵',self:'排骨飯',home:'番茄炒蛋（單點）',cafe2:'美式咖啡',korea:'石鍋拌飯',gone_shop:'什麼'},w:{'zhe@noodle2':{n:3,d0:10,d:60},'classmate_xinci@home':{n:2,d0:20,d:70}},once:{H7a:70},rankAt:{term:'Y1S1',week:9}});
+    const g=fresh(3,12.5,5000,old()), keep=J([g.l118.once,g.l118.rankAt]);
     const n1=L118.migrate(g), after1=J(g.l118), n2=L118.migrate(g), after2=J(g.l118);
-    check('2-4. 讀舊存檔：last 不在新菜單的清掉（椒麻雞飯、紅茶拿鐵、番茄炒蛋、美式咖啡、已經沒有的店），還在新菜單的留著（水上便當的排骨飯）',J(g.l118.last)===J({self:'排骨飯'}),J(g.l118.last)+' '+n1);
-    check('2-4. 來了幾次（n、d）、演過的（once）、rankAt 一個都沒動；一起吃的次數（w）每一筆都還在',J([g.l118.n,g.l118.d,g.l118.once,g.l118.rankAt])===keep&&Object.keys(g.l118.w).length===2&&Object.values(g.l118.w).reduce((a,x)=>a+x.n,0)===5,J(g.l118.w));
+    /* 2026-11-11 LAWWW 決定（AA 同意）：熟客次數跟著店員走——n、d、last 照故事搬（noodle2→korea、korea→tea、self→cafe2、tea→drink_a；原 cafe2＝慢讀的次數併進木曜日 G.mokuyobi.n）。
+       舊期望（第一階段）：n、d 照位置不動、last 只清不在新菜單的（留下水上便當的排骨飯）*/
+    check('2-4. 讀舊存檔：last 跟著店員搬以後，不在那間店新菜單的清掉（椒麻雞飯、紅茶拿鐵、排骨飯搬到大學食堂、番茄炒蛋、美式咖啡、已經沒有的店），還在的留著（韓食老闆搬到辛亥韓食：石鍋拌飯）',J(g.l118.last)===J({tea:'石鍋拌飯'}),J(g.l118.last)+' '+n1);
+    check('2-4. 來了幾次、上次哪天跟著店員走：korea→tea、self→cafe2、tea→drink_a，dian、home 留原位；慢讀（原 cafe2）的 12 次併進木曜日；新店 self 從 0 開始',J(g.l118.n)===J({dian:9,home:2,tea:3,cafe2:8,drink_a:8})&&J(g.l118.d)===J({dian:90,home:80,tea:95,cafe2:92,drink_a:91})&&g.mokuyobi&&g.mokuyobi.n===12&&g.l118.n.self===undefined,J([g.l118.n,g.l118.d,g.mokuyobi]));
+    check('2-4. 演過的（once）、rankAt 一個都沒動；一起吃的次數（w）每一筆都還在',J([g.l118.once,g.l118.rankAt])===keep&&Object.keys(g.l118.w).length===2&&Object.values(g.l118.w).reduce((a,x)=>a+x.n,0)===5,J(g.l118.w));
     check('2-4. 做第二次什麼都不變（冪等）',n1>0&&n2===0&&after1===after2);
     const g0=fresh(3,12.5,5000); L118.migrate(g0); const g1=fresh(3,12.5,5000,[]); L118.migrate(g1); const g2=fresh(3,12.5,5000,{n:{dian:1}}); L118.migrate(g2);
     check('2-4. 沒有 G.l118、G.l118 壞掉、沒有 last 的存檔：不出錯、不多寫東西',g0.l118===undefined&&Array.isArray(g1.l118)&&J(g2.l118.n)===J({dian:1})&&g2.l118.last===undefined);
@@ -131,8 +134,11 @@ for(const id of NINE){ const [oldName,name,type,menu]=WANT[id], s=shop(id)||{men
   // 3-2 熟客：第 8 次起「老樣子」；有菜名、上次點別的、沒有「不帶菜名那一句」的店＝照「認得你」，不說對不上的菜名
   { const mk=(id,last)=>{ fresh(3,12.5,5000,{n:{[id]:9},d:{[id]:1},last:last?{[id]:last}:{}}); return L118.stage(G,id); };
     const a=mk('dian','鐵板牛排'), b=mk('dian','雪花牛排'), c=mk('self','排骨飯'), d=mk('self','炸雞腿飯'), e=mk('drink_a','冬瓜茶');
-    check('3-2. 118牛排第 9 次、上次點鐵板牛排＝「一樣鐵板牛排？」；上次點雪花牛排＝不帶菜名那一句（跟著老闆娘留在這一間）',a&&a.kind==='usual'&&a.lines[0][1]===L118_REDO.reg.dian.usual&&b&&b.kind==='usual'&&b.lines[0][1]===L118.USUAL2.dian,J([a,b]));
-    check('3-2. 水上便當（新店、沒有不帶菜名那一句）上次點排骨飯＝照「認得你」那一句，不會說「一樣炸雞腿飯？」；上次點炸雞腿飯＝老樣子',c&&c.kind==='known'&&d&&d.kind==='usual',J([c,d]));
+    check('3-2. 118牛排第 9 次、上次點鐵板牛排＝「一樣鐵板牛排？」；上次點雪花牛排＝不帶菜名那一句（跟著老闆娘留在這一間）',a&&a.kind==='usual'&&a.lines[0][1]===L118_REDO.reg.dian.usual&&b&&b.kind==='usual'&&b.lines[0][1]===L118_REDO.reg.dian.usual2&&!!L118_REDO.reg.dian.usual2,J([a,b]));
+    check('3-2. 水上便當上次點排骨飯＝不帶菜名那一句（AA_772 @d78266901 補的 usual2），不會說「一樣炸雞腿飯？」；上次點炸雞腿飯＝老樣子那一句',c&&c.kind==='usual'&&c.lines[0][1]===L118_REDO.reg.self.usual2&&d&&d.kind==='usual'&&d.lines[0][1]===L118_REDO.reg.self.usual,J([c,d]));
+    { const keep=L118.REG.self.usual2; delete L118.REG.self.usual2; const c2=mk('self','排骨飯'); L118.REG.self.usual2=keep;
+      check('3-2. 退路：有菜名、沒有不帶菜名那一句的店，上次點別的＝照「認得你」那一句（不說對不上的菜名）',c2&&c2.kind==='known',J(c2)); }
+    check('3-2. 六間老樣子說了菜名的店都有不帶菜名那一句（資料的 usual2）',Object.keys(L118.REG).filter(k=>L118.REG[k].item).every(k=>typeof L118.REG[k].usual2==='string'&&L118.REG[k].usual2)&&Object.keys(L118.REG).filter(k=>L118.REG[k].item).length===6);
     check('3-2. 喝不喝咖啡的老樣子把上次點的填進去（「冬瓜茶，對吧。」），沒有留下 {上次點的}',e&&e.kind==='usual'&&e.lines[0][1]==='冬瓜茶，對吧。',J(e)); }
   // 3-3 H1～H9 搬到哪一間
   { const src=fs.readFileSync(path.join(ROOT,'src/lane118.js'),'utf8');
@@ -150,7 +156,9 @@ for(const id of NINE){ const [oldName,name,type,menu]=WANT[id], s=shop(id)||{men
     L118.migrate(g); const a1=J(g); L118.migrate(g); const a2=J(g);
     check('3-4. ZHE_118_RANK：noodle2→korea（存檔選「這間第一」的還是阿哲的麵店）',g.flags.ZHE_118_RANK==='korea');
     check('3-4. 一起吃的次數：阿哲 noodle2→korea、korea→tea、self 併進 home（次數相加）；柏翰 self→cafe2；別人的（Alison@korea）不動',J(g.l118.w['zhe@korea'])===J({n:2,d0:5,d:9})&&J(g.l118.w['zhe@tea'])===J({n:1,d0:7,d:7})&&J(g.l118.w['zhe@home'])===J({n:2,d0:3,d:8})&&g.l118.w['zhe@noodle2']===undefined&&g.l118.w['zhe@self']===undefined&&J(g.l118.w['classmate_bohan@cafe2'])===J({n:2,d0:1,d:2})&&J(g.l118.w['yu@korea'])===J({n:4,d0:1,d:2}),J(g.l118.w));
-    check('3-4. 來了幾次（n、d）、演過的（once）不動；做第二次不變（不會把 korea 再搬到 tea）',J(g.l118.n)===J({noodle2:6})&&J(g.l118.once)===J({H4:9})&&a1===a2&&g.flags.ZHE_118_RANK==='korea');
+    check('3-4. 來了幾次跟著麵店老闆走（noodle2 的 6 次→korea）、演過的（once）不動；做第二次不變（不會把 korea 再搬到 tea）',J(g.l118.n)===J({korea:6})&&J(g.l118.d)===J({korea:3})&&J(g.l118.once)===J({H4:9})&&a1===a2&&g.flags.ZHE_118_RANK==='korea'&&g.l118.mv772===2);
+    { const h={flags:{ZHE_118_RANK:'korea'},l118:{mv772:1,n:{noodle2:6,korea:2,cafe2:5},d:{noodle2:3,korea:4,cafe2:9},last:{},w:{'zhe@korea':{n:2,d0:5,d:9}},once:{}},mokuyobi:{n:4,seats:{}}}; L118.migrate(h); const b1=J(h); L118.migrate(h);
+      check('3-4. 只跑過第一步的存檔（mv772＝1）補跑第二步：旗標、一起吃的次數不再搬一次，n、d 才搬；慢讀的 5 次加進木曜日原本的 4 次；再跑不變',h.flags.ZHE_118_RANK==='korea'&&J(h.l118.w)===J({'zhe@korea':{n:2,d0:5,d:9}})&&J(h.l118.n)===J({korea:6,tea:2})&&J(h.l118.d)===J({korea:3,tea:4})&&h.mokuyobi.n===9&&h.l118.mv772===2&&b1===J(h),J(h)); }
     const g2={flags:{ZHE_118_RANK:'korea'}}; L118.migrate(g2); L118.migrate(g2); const g3={flags:{ZHE_118_RANK:'dian'},l118:{}}; L118.migrate(g3); const g4={flags:{}}; L118.migrate(g4);
     check('3-4. 只有旗標、沒有 G.l118 的存檔也搬（korea→tea 一次）；dian 不變；兩樣都沒有的存檔不動',g2.flags.ZHE_118_RANK==='tea'&&g3.flags.ZHE_118_RANK==='dian'&&g4.l118===undefined); }
   // 3-5 作息：排在 118 巷店裡的人不能撞公休、不在營業時間（撞到＝列給 AA 決定，不自己改去別的店）

@@ -52,7 +52,7 @@ const same=(a,b)=>J(a)===J(b);
       for(const e of [E.fav].concat(E.opinion||[]).filter(Boolean)) if(!ITEMN.includes(e.n)||kindOf(id,e.n)!==c) bad.push(id+'.'+c+' 品項 '+e.item+'→'+e.n);
       for(const k in E.ctx||{}) if(!GIFT.CTX.includes(k)) bad.push(id+'.'+c+' ctx '+k); }
     check('0. 七位都有飲料、早餐：need 1、交往中那一格、pool（lines＝第一組）、no；fav／opinion 的品項都是遊戲買得到的',!bad.length,bad.join('；'));
-    check('0. 七位都有最喜歡的（fav；以安豆漿、語彤紅茶拿鐵、沛珊米漿是第二版新的）',IDS.every(id=>LN[id].drink.fav)&&LN.heroine_01.drink.fav.n==='豆漿'&&LN.heroine_03.drink.fav.n==='紅茶拿鐵'&&LN.classmate_peishan.drink.fav.n==='米漿',J(IDS.map(id=>(LN[id].drink.fav||{}).n)));
+    check('0. 七位都有最喜歡的（fav；以安豆漿、語彤鮮奶茶（2026-11-11 AA_772 第 95 列：品項「紅茶拿鐵」改名「鮮奶茶」，舊期望 紅茶拿鐵）、沛珊米漿是第二版新的）',IDS.every(id=>LN[id].drink.fav)&&LN.heroine_01.drink.fav.n==='豆漿'&&LN.heroine_03.drink.fav.n==='鮮奶茶'&&LN.classmate_peishan.drink.fav.n==='米漿',J(IDS.map(id=>(LN[id].drink.fav||{}).n)));
     const py=(code)=>{ try{ cp.execFileSync('python3',['-c',code],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); return 'ran'; }catch(e){ return String(e.stderr||''); } };
     const pre="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','be775af69:'+M.PATH]).decode());I=M.game_items();m2=json.loads(subprocess.check_output(['git','show','7ac7380ff:'+M.PATH2]).decode())['_meta'];";
     const e1=py(pre+"d['heroine_01']['drink']['fav']['item']='珍珠奶茶';M.build(d,'x',I,m2)");
@@ -178,8 +178,8 @@ const same=(a,b)=>J(a)===J(b);
       const want=[split(P[0].lines),split(P[1].lines),sw(P[0]),sw(P[1]),sw(P[0])];
       if(!/學弟/.test(P[0].lines.join(''))||!P[0].swap||!same(ls,want)||ls.slice(2).some(s=>/學弟/.test(s.join('')))) bad.push(c+' '+J(ls)); }
     check('8. 學姊（飲料、早餐）：第 1～2 次叫「學弟」，第 3 次起那一句的「學弟」換成名字（notes「之後 {name}」）、照樣輪流',!bad.length,bad.join('；')); }
-  { const G=fresh(); stageOf.heroine_04=2; await give(G,'heroine_04','青茶'); G.day+=1; const h=await give(G,'heroine_04','青茶'); const G2=fresh('2025-12-10'); const h2=await give(G2,'heroine_04','紅茶拿鐵');
-    check('8. 子晴：連續兩天送青茶不說「又是冰美式」；冬天送紅茶拿鐵不說「冬天的冰美式」',h.r==='yes'&&!/冰美式/.test(h.s.join(''))&&h2.r==='yes'&&!/冰美式/.test(h2.s.join('')),J([h.r,h.s,h2.r,h2.s])); }
+  { const G=fresh(); stageOf.heroine_04=2; await give(G,'heroine_04','青茶'); G.day+=1; const h=await give(G,'heroine_04','青茶'); const G2=fresh('2025-12-10'); const h2=await give(G2,'heroine_04','鮮奶茶');
+    check('8. 子晴：連續兩天送青茶不說「又是冰美式」；冬天送鮮奶茶（2026-11-11 AA_772 第 95 列改名，舊期望「紅茶拿鐵」）不說「冬天的冰美式」',h.r==='yes'&&!/冰美式/.test(h.s.join(''))&&h2.r==='yes'&&!/冰美式/.test(h2.s.join('')),J([h.r,h.s,h2.r,h2.s])); }
   { const bad=[]; for(const n of ['拿鐵','熱可可（加一份濃縮）','美式咖啡']) for(let k=0;k<4;k++){ const G=fresh(); stageOf.heroine_04=6; G.flags.dating_heroine_04=true; G.flags.GIFT={pool:{'heroine_04|drink|yes2':k%2}}; const h=await give(G,'heroine_04',n); if(/冰你一下/.test(h.s.join(''))) bad.push(n+' '+k); }
     const G=fresh(); stageOf.heroine_04=6; G.flags.dating_heroine_04=true; G.flags.GIFT={pool:{'heroine_04|drink|yes2':0}}; const h=await give(G,'heroine_04','無糖綠茶');
     check('8. 子晴交往中：「冰你一下」不配熱的（拿鐵、熱可可、熱美式）；冰的（無糖綠茶）可以',!bad.length&&/冰你一下/.test(h.s.join('')),bad.join('；')+' '+J(h.s)); }
@@ -256,7 +256,7 @@ const same=(a,b)=>J(a)===J(b);
   { const G=fresh('2025-12-15'); stageOf.heroine_01=2; const a=await give(G,'heroine_01','豆漿');
     check('13. fav 先於情境（以安期末週第一次收到豆漿：fav，不是 exam）',(CALENDAR.termOf(G.day)||{}).exam==='final'&&a.r==='fav',a.r);
     const bad=[];
-    for(const [id,n,st] of [['heroine_02','美式咖啡',2],['heroine_02','美式咖啡',4],['heroine_05','紅茶拿鐵',4],['kexin','青茶',2]]){ const G2=fresh(); stageOf[id]=st; const r0=Object.assign({},SOCIAL.rel(id)); const h=await give(G2,id,n); const r1=SOCIAL.rel(id);
+    for(const [id,n,st] of [['heroine_02','美式咖啡',2],['heroine_02','美式咖啡',4],['heroine_05','鮮奶茶',4],['kexin','青茶',2]]){ const G2=fresh(); stageOf[id]=st; const r0=Object.assign({},SOCIAL.rel(id)); const h=await give(G2,id,n); const r1=SOCIAL.rel(id);
       const y=E_(id,'drink').yes.filter(q=>!q.dating&&q.need<=st).sort((p,q)=>q.need-p.need)[0], d={fam:r1.fam-(r0.fam|0),comf:r1.comf-(r0.comf|0),trust:r1.trust-(r0.trust|0),npcRom:r1.npcRom-(r0.npcRom|0)};
       const want={fam:y.rel.fam|0,comf:y.rel.comf|0,trust:y.rel.trust|0,npcRom:st>=3?(y.rel.npcRom|0):0}; if(h.r!=='opinion'||!same(d,want)) bad.push(id+' '+n+' '+st+' '+h.r+' '+J(d)+' 要 '+J(want)); }
     { const G3=fresh(); stageOf.heroine_01=2; await give(G3,'heroine_01','無糖綠茶'); G3.day+=1; const r0=Object.assign({},SOCIAL.rel('heroine_01')); const h=await give(G3,'heroine_01','無糖綠茶'); const r1=SOCIAL.rel('heroine_01'); const y=E_('heroine_01','drink').yes.find(q=>!q.dating&&q.need===1);

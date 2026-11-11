@@ -37,6 +37,9 @@ let doc='', doc400='', doc408=''; try{ doc408=cp.execSync('git show 29e41dd8:"do
     +cp.execSync('git show ee0d6b70d:"docs/story_planning/AA_465_法律系大四下讀一遍_畢業那一週的家人群組_子晴的貓_八學期總清單.md"',{cwd:H.ROOT,encoding:'utf8'})   /* AA_465 第 2 節：貓的第 6 張照片換字 */
     +cp.execSync('git show 33189103b:"docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md"',{cwd:H.ROOT,encoding:'utf8'})
     +cp.execSync('git show e89728272:"docs/story_planning/AA_663_檢查表試跑_遊戲裡30句改前改後.md"',{cwd:H.ROOT,encoding:'utf8'});   /* 2026-11-04 AA_663 第 29 列（D116）：SQ19 筆記本最後一頁改字 */   /* AA_498 第 1 節：SQ16 借車名單裡和 pool 撞名的兩個名字換成黃惠玲、鄭文彬 */   /* 第二、三批（SQ10～SQ20）的稿也在 SIDEQ.LINES 裡：逐字對稿在 tests/aa404_sideq_unit.js（AA_408 第 6 節的缺字在 b0b80a54）*/ doc400=cp.execSync('git show ce4f34378:"docs/story_planning/AA_400_子晴的測試版_HOOK_ZQ_GAME.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
+/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
+const R772=require('./l118_redo772_expect.js');
+doc=R772.doc(doc)+'\n'+R772.corpus();
 /* ---- 0 ---- */
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 kx_khh3d.js 後面',ok&&!!X()&&/kx_khh3d\.js\?v=[^"]+"><\/script>\n<script src="src\/sideq3d\.js\?v=[^"]+"><\/script>/.test(html),err);

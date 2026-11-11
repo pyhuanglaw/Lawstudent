@@ -39,7 +39,9 @@ const lapse=(id)=>{ R(id).by=H.G.day; set(keyOf(H.G.day+1),H.G.hour); X().lapse(
 let d404='', d405='', d408='', d408b='', d663=''; const sh=(c,f)=>cp.execSync('git show '+c+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8'});
 try{ d404=sh('30bf21de8','AA_404_店員的支線_第二批.md'); d405=sh('1fa2b494a','AA_405_店員的支線_第三批.md'); d408=sh('29e41dd8','AA_408_店員支線補字_回LAWWW實作問題.md'); d408b=sh('b0b80a54','AA_408_店員支線補字_回LAWWW實作問題.md'); d663=sh('e89728272','AA_663_檢查表試跑_遊戲裡30句改前改後.md'); }catch(e){}
 const RN647=s=>String(s).replace(/舊路書房/g,'頁間書屋').replace(/清葉茶行/g,'青木茶室').replace(/輪轉單車/g,'慢輪單車').replace(/日日便利/g,'日和便利店');   /* 2026-11-04 改期望：公館四間店改名（AA_647 第 6 節，企劃線 403b7c51c）——稿裡的舊店名照改名清單換成新店名再比 */
-const doc=RN647(d404+d405+d408+d408b+d663),   /* 2026-11-04：AA_663 第 29 列（企劃線 e89728272，D116）SQ19 筆記本最後一頁改字 */ IDS=['SQ10','SQ11','SQ12','SQ13','SQ14','SQ15','SQ17','SQ18','SQ19','SQ20'];
+/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
+const R772=require('./l118_redo772_expect.js');
+const doc=R772.doc(RN647(d404+d405+d408+d408b+d663))+'\n'+R772.corpus(),   /* 2026-11-04：AA_663 第 29 列（企劃線 e89728272，D116）SQ19 筆記本最後一頁改字 */ IDS=['SQ10','SQ11','SQ12','SQ13','SQ14','SQ15','SQ17','SQ18','SQ19','SQ20'];
 /* ---- 0 稿 ---- */
 await sec(0,()=>{ check('0. sideq3d.js 載得到；第二、三批十則都在（SQ16 輪轉單車 2026-10-23 AA_405 第 3 節以後也有：tests/sq_traces_unit.js 第 4 節）',ok&&!!X()&&IDS.every(id=>X().Q[id]&&X().LINES[id])&&!!X().Q.SQ16,err||J(Object.keys((X()||{Q:{}}).Q)));
   const out=[]; const walk=v=>{ if(v==null) return; if(typeof v==='string'){ if(!/^[a-z_0-9]+$/.test(v)) out.push(v); } else if(Array.isArray(v)) v.forEach(walk); else if(typeof v==='object') for(const k in v) walk(v[k]); };

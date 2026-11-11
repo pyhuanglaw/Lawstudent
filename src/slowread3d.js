@@ -20,8 +20,8 @@ const SLOWREAD=(function(){
   S.REGULARS=[
     {id:'heroine_01',ent:ent({days:[6],from:14,to:17,terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],label:'在木曜日念書',note:'AA_535 3-1：窗邊有插座那張'}),hi:'「（小聲）你也來木曜日？窗邊那桌我先坐了。」'},
     {id:'heroine_03',ent:ent({days:[1],from:14,to:16,terms:['Y2S1','Y2S2','Y3S1','Y3S2'],label:'在木曜日寫報告',note:'AA_535 3-1：寫社會系的報告；那兩個小時是麵店的班（help）照麵店'}),hi:'「（小聲）我在寫報告。……這裡坐一下午，老闆不會趕人。」'},
-    {id:'classmate_xinci',ent:ent({days:[4],from:15.5,to:17.5,terms:['Y1S1','Y1S2','Y2S1','Y2S2'],label:'在木曜日整理講義',note:'AA_535 3-1：三支螢光筆排一排'}),hi:'「這裡的插座比總圖多。……我數過。」'},
-    {id:'pool_17',ent:ent({days:[5],from:14,to:16,terms:['Y1S1','Y1S2','Y2S1','Y2S2'],label:'在木曜日整理筆記',note:'AA_535 3-1：蕭乃文（她的大二、大三），整理筆記、拍照存檔'}),hi:'「這裡的桌子比較大。筆記攤得開。」'}];
+    {id:'classmate_xinci',ent:ent({days:[4],from:15.5,to:17.5,terms:['Y1S1','Y1S2','Y2S1','Y2S2'],label:'在木曜日整理講義',note:'AA_535 3-1：三支螢光筆排一排'}),hi:'「（小聲）這裡每一盞桌燈都能調亮度。我試過了。」'},
+    {id:'pool_17',ent:ent({days:[5],from:14,to:16,terms:['Y1S1','Y1S2','Y2S1','Y2S2'],label:'在木曜日整理筆記',note:'AA_535 3-1：蕭乃文（她的大二、大三），整理筆記、拍照存檔'}),hi:'「（小聲）這裡安靜。筆記一攤開，就不想收了。」'}];
   /* ① 接到作息的最後面（只接一次；乃文的作息由 src/pool3d.js 的 POOL.apply 重建，包一層：重建以後再接）*/
   const add=r=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[r.id]; if(!c) return false; const L=c.daily_schedule||(c.daily_schedule=[]); if(L.some(e=>e&&e.slowread)) return false; L.push(Object.assign({},r.ent)); return true; };
   S.apply=function(){ let n=0; for(const r of S.REGULARS) if(add(r)) n++; return n; };
