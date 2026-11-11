@@ -31,6 +31,9 @@ N1_TSR_CAFE | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_plan
 # BB 19:00：TSR_DORM＋LIB 用修好的探針（be7ba61ac4：手機開著＝HUD 蓋住不判）重跑；結果同時給 LAWWW（LAWWW2 在修總圖／宿舍椅面）
 N1_TSR_DORM_r2 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 12 | PARTS=DORMHALL;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_TSR_LIB_r2 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 12 | PARTS=LIBHALL;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
+# BB 19:08：探針改成點之前用 E.rayFirstHit＋tapRedirect（帶 hit）確認打到那張椅子、被擋換點；點之前手機開著先收（5ba6207070 之後）—— r3 確認
+N1_TSR_DORM_r3 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 12 | PARTS=DORMHALL;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
+N1_TSR_LIB_r3 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 12 | PARTS=LIBHALL;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_TSR_CLASS | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 15 | PARTS=CLASS201;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_TSR_CAFEBAR | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 10 | PARTS=CAFE;ONLY_SEATS=2;N_FLOOR=0;N_BETWEEN=0;N_TABLE=0;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_STOOL_pasta | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 12 | PARTS=SEATS_pasta_2-3;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
@@ -40,7 +43,8 @@ N1_AA814 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_plannin
 AA814_old | 9d45ef8b36d5df00cdbca70661a4ca13e9fce813 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 110 | SHA=9d45ef8b36d5df00cdbca70661a4ca13e9fce813
 # BB 18:24 ⑥ X324（以安／芷若 D01 逐句＋選項影響關係）、AA_812 誰付錢（ME／SHE／SPLIT／BROKE）；BB 18:54 之後新排的一律 01679bc0a
 N1_X324 | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_x324_date_probe.py | index.html | 80 | PARTS=AN,ZR;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
-N1_PAYS | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_date_pays_probe.py | index.html | 100 | PARTS=ME,SHE,SPLIT,BROKE;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
+# BB 19:09：AA_812 已改（錢不夠她付＋旁白、「我請」不平分、D31.egg 不算）→ N1_PAYS 等 LAWWW 新 SHA（GHA 綠）再換 SHA、拿掉 #HOLD新SHA；判準已改（探針 BROKE2＝第二次不夠只有旁白）
+#HOLD新SHA N1_PAYS | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_date_pays_probe.py | index.html | 100 | PARTS=ME,SHE,SPLIT,BROKE,BROKE2;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
 N1_SEASON_gg | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 15 | PARTS=WALK,DOORS,FPS;FUNC_DATES=cny-3;ZONES=gongguan;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_SEASON_wz | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_season_probe.py | index.html | 15 | PARTS=WALK,DOORS,FPS;FUNC_DATES=cny-3;ZONES=wenzhou;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 N1_POOL_swim | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_pool_probe.py | index.html | 10 | PARTS=OPEN,FPS,CLOSED;Q=high;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
