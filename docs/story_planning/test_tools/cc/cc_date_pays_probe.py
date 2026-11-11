@@ -165,8 +165,8 @@ def pick_set(pool, tier, key, recent):
 
 
 def expect(who, seg, pid, ctx):
-    """照 date3d.js 的選句順序算這一段該出的那一格：(格名, 那一套)。第一次去（visits 0）＝first 格"""
-    Z = zl(who)
+    """照 date3d.js 的選句順序算這一段該出的那一格：(格名, 那一套)。第一次去（visits 0）＝first 格；地點＝ctx['loc']（沒有＝LOC）"""
+    Z = zl(who, ctx.get('loc') or LOC)
     if seg in ('arrive', 'close'):
         A = Z.get('arrive' if seg == 'arrive' else 'closing') or {}
         if not ctx['visits'] and A.get('first') and not A['first'].get('wishEvent'): return 'first', A['first']
@@ -706,7 +706,7 @@ async def run_one(pg, cdp, errs, part, SPEC, pg_p):
     SEEN.clear()
     await pg.evaluate("(w=>{ window.__XW=w; })", who)
     await pg.evaluate(HOOK)
-    ctx = {'visits': visits, 'dating': False, 'stage': 5, 'tier': mem['tier'], 'picks': list(picks), 'last': list(last), 'recent': []}
+    ctx = {'loc': loc, 'visits': visits, 'dating': False, 'stage': 5, 'tier': mem['tier'], 'picks': list(picks), 'last': list(last), 'recent': []}   # loc：SPLIT r3 沒帶地點，expect() 拿到空的格子（探針錯，已修）
     screen = []
     how, steps, trip = await book(pg, cdp, who, loc, grp, dep, screen, tag)
     R.check('[%s] 預約（%s）：%s；行程 booked、今天 %02d:00 出發' % (tag, how, J(steps), dep),
@@ -754,6 +754,7 @@ def analyze(tag, c, who, loc, pid, pname, ctx, ev, screen, share, P, SPEC, pg_p,
     slot, S = expect(who, 'spot', pid, ctx)
     want = set_lines(who, S, pk, ctx)
     got = [e['t'] for e in says]
+    if not want: log('  ！[%s] 照資料算出來的預期是空的（%s 格）：探針可能讀錯格子，1a 的 FAIL 先當探針問題查' % (tag, slot))
     R.check('[%s] 1a 「%s」畫面上的句子＝資料 %s 格（%s 選「%s」），逐句照順序' % (tag, pname, slot, pid, chosen), got == want, J({'want': want, 'got': got}))
     scr_ok = all(any(x[1] == t for x in screen) for t in want)
     R.check('[%s] 1a 這幾句都真的出現在畫面上的對話框' % tag, scr_ok, J([t for t in want if not any(x[1] == t for x in screen)]))
