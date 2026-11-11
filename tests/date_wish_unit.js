@@ -162,13 +162,13 @@ const E_=id=>X()&&X().ev(id);
     check('1. 大三下在日本（2028-03-25～08-05）：不約',msgs(AN).length===0&&!X().here(H.G,AN));
     // 玩家約她
     setup('2026-10-03',9,{lv:{[AN]:5}});
-    check('1. 玩家約她去 D07：還不知道＝「景美？……我一直想去。你怎麼知道？」「好。」；知道了＝「……景美？」「你記得。」「好。理由：你記得。」',J(sp(AN,X().playerLines(H.G,AN,'D07')))===J(sp(AN,ev.playerInvite.unknown))&&(X().learn(H.G,AN),J(sp(AN,X().playerLines(H.G,AN,'D07')))===J(sp(AN,ev.playerInvite.known)))&&X().playerLines(H.G,AN,'D06')===null);
+    check('1. 玩家約她去 D07：還不知道＝「景美？我一直想去。你怎麼知道？」「好。」（AA_778 拿掉刪節號）；知道了＝「……景美？」「你記得。」「好。理由：你記得。」',J(sp(AN,X().playerLines(H.G,AN,'D07')))===J(sp(AN,ev.playerInvite.unknown))&&(X().learn(H.G,AN),J(sp(AN,X().playerLines(H.G,AN,'D07')))===J(sp(AN,ev.playerInvite.known)))&&X().playerLines(H.G,AN,'D06')===null);
     // 那一天（大一、交往中）
     setup('2026-04-11',9,{lv:{[AN]:'dt'}}); r=await goDate(AN,'D07',13,['看守所',0,'小路',0,'法庭',1,'名字',2,0]);
     const P=ev.hotspots, C=ev.closing;
     check('1. 那一天：抵達旁白＋兩句＋交往中那一句（「我想講話的人是你。理由：你會反駁我。」），沒有第 6 階單身那一句',has(r.L,['（'+ev.arrive.narr+'）'].concat(sp(AN,ev.arrive.lines),sp(AN,ev.arrive.extraIf[1].lines)))&&!r.L.includes(ev.arrive.extraIf[0].lines[0].text),J(r.L.slice(0,8)));
     check('1. 大一去的版本：走廊「上課的時候，我只把它們背起來。」、讀書會開以前的小路「上課分組的時候……」＋選項「班上的人都在聽。」→「有幾個吧。」',r.L.includes('上課的時候，我只把它們背起來。')&&!r.L.includes('大一的時候，我只把它們背起來。')&&r.L.includes('上課分組的時候，我常叫別人講完。')&&r.L.includes('有幾個吧。')&&r.O.some(o=>o.includes('「班上的人都在聽。」')),J(r.L));
-    check('1. 法庭選②：「好，那你說理由。」「……規則寫了，就一定對嗎？……」；名字的牆選③',has(r.L,sp(AN,P['D07.court'].choices[1].reply))&&has(r.L,sp(AN,P['D07.wall'].choices[2].reply)));
+    check('1. 法庭選②：「好，那你說理由。」「規則寫了，就一定對嗎？……」（AA_778 拿掉句首的刪節號）；名字的牆選③',has(r.L,sp(AN,P['D07.court'].choices[1].reply))&&has(r.L,sp(AN,P['D07.wall'].choices[2].reply)));
     check('1. 收尾（大一）：旁白、「上憲法講第八條那天，我只覺得它很長。」「今天才知道，那些都是真的發生過的事。」、手帳旁白；選①「『想到人』。」；大一的結尾「回去吧。我想回去再讀一次第八條。」；沒有「我大一說」',has(r.L,['（園區裡的大樹下，有一張長椅。）','上憲法講第八條那天，我只覺得它很長。','今天才知道，那些都是真的發生過的事。','（她拿出筆記本，寫了一行，沒有給你看。）','『想到人』。','回去吧。我想回去再讀一次第八條。'])&&!r.L.includes('我大一的時候，覺得規則寫了就要照做。')&&!r.L.includes('回去吧。行政法的報告，我想改一個例子。'),J(r.L.slice(-10)));
     check('1. 「我選公法研究所……」AA_426 第 4 節作廢：資料裡沒有、不播',!r.L.includes('我選公法研究所，有一個原因在這裡。')&&!J(ev).includes('公法研究所'));
     const G=H.G;
@@ -177,7 +177,7 @@ const E_=id=>X()&&X().ev(id);
     check('1. 只有第一次：第二次去景美照一般約會（沒有心願的抵達、收尾）',r.t&&r.t.status==='done'&&!r.L.includes(ev.arrive.lines[1].text)&&!r.L.includes('『想到人』。'),J(r.L.slice(0,5)));
     // 大二、不知道、第 5 階：選不用給我看＝記 AN_REASON_HIDDEN；大二的結尾
     setup('2026-10-03',9,{lv:{[AN]:5}}); r=await goDate(AN,'D07',13,['法庭',2,'差不多',0]);
-    check('1. 大二：收尾照原本三句（「我大一的時候，覺得規則寫了就要照做。」）、結尾「回去吧。行政法的報告……」；只做一個點也播收尾',r.L.includes('我大一的時候，覺得規則寫了就要照做。')&&r.L.includes('回去吧。行政法的報告，我想改一個例子。')&&!r.L.includes('……而且你會反駁我。')&&H.G.flags.WISH_DONE_heroine_01===true,J(r.L.slice(-8)));
+    check('1. 大二：收尾照原本三句（「我大一的時候，覺得規則寫了就要照做。」）、結尾「回去吧。行政法的報告……」；只做一個點也播收尾',r.L.includes('我大一的時候，覺得規則寫了就要照做。')&&r.L.includes('回去吧。行政法的報告，我想改一個例子。')&&!r.L.includes('而且你會反駁我。') /* 2026-11-11（X324 以安約會台詞重寫，AA_778_an_wish.json@1f88da7cc）：這一句拿掉句首的刪節號，「沒播」跟著對新字（舊：'……而且你會反駁我。'）*/&&H.G.flags.WISH_DONE_heroine_01===true,J(r.L.slice(-8)));
     setup('2026-10-03',9,{lv:{[AN]:5}}); r=await goDate(AN,'D07',13,['法庭',2,'差不多',1]);
     check('1. 收尾選「不用給我看。」：「嗯。下次再給你看。」、記 AN_REASON_HIDDEN',r.L.includes('嗯。下次再給你看。')&&SOCIAL.has(AN,'AN_REASON_HIDDEN'));   /* 2026-11-11（X324 以安約會台詞重寫，AA_778_an_wish.json@1f88da7cc）：這一句只拿掉刪節號（舊期望「嗯。……下次再給你看。」；約定有後續——告白「理由欄」會回聲，照留）*/
     setup('2026-10-03',9,{lv:{[AN]:5}}); r=await goDate(AN,'D07',13,['就這樣回去']);
