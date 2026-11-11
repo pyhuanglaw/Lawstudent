@@ -203,6 +203,7 @@ async def class_loop(pg, cdp, L_, tag, sy, call_pick=0, ask_right=True, skipdlg=
             elif bank and (hs[0].startswith('（') or hs == ['對', '錯']):
                 ans = str(bank['answer']); right = next((i for i, h in enumerate(hs) if h.startswith('（' + ans + '）') or h == ans), None)
                 k = right if ask_right else next((i for i in range(len(hs)) if i != right), 0); why = 'ask（%s）' % ('答對' if ask_right else '答錯')
+                if k is None: k = 0; why = 'ask（★選項裡找不到題庫答案 %s，照第一項；選單和題庫 %s 不一致或不是那一題）' % (ans, bank.get('id'))   # r2：civ_b 第一輪 TypeError
             elif hs[0].startswith('「') and callopts: k = min(call_pick, len(hs) - 1); why = 'call（字和稿不一樣）'
             else: k = 0; why = '其他（第一項）'
             menus.append({'why': why, 'opts': hs, 'pick': hs[k]}); R.note('%s：選單［%s］%s → %s' % (tag, why, J(hs), hs[k]))
