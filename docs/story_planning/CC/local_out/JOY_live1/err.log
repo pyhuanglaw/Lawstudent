@@ -1,0 +1,5 @@
+C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_live_main_probe.py:18: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  now = lambda: datetime.datetime.utcnow().strftime('%H:%M:%S UTC')
+[gpu_wrap 4.2s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+[gpu_wrap 145.2s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html?nocache=1794428336
+[gpu_wrap 145.3s] BROWSER DISCONNECTED
