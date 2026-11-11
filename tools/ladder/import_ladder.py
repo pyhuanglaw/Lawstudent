@@ -577,7 +577,7 @@ if A326:
     S = A326[PATH326]
     ok, why = G.allowed(PATH326, S, ALLOW)
     if not ok: sys.exit('拒絕匯入：' + why)
-    md326 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S}:{PATH326}'], text=True)
+    md326 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S}:{PATH326}'], text=True))
     for q in ('溫州街、週三 18:00～21:00、Y1S1～Y2S1', '週三 21:00～22:30，不限地點', '舊的週二四 16:30～18:00、週二三四兩組條件拿掉'):
         if q not in md326: sys.exit(f'BB_326@{S} 第 4 節找不到：{q}')
     CROSS326 = '（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！'
