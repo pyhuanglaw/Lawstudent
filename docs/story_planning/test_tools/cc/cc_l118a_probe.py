@@ -242,6 +242,8 @@ async def part_ext(pg, cdp, h):
         await cam_shot(pg, fn('ext', s['id'], h, 'front', True), (fx + dirn * 8.5, 1.55, cz), (fx, 2.3, cz), 26)
         dist = max(3.0, min(5.0, 0.6 * w))
         await cam_shot(pg, fn('ext', s['id'], h, 'sign', True), (fx + dirn * dist, 2.0, cz), (fx, 3.45, cz), 24 if w >= 6 else 30)
+        if os.environ.get('EXT_GLASS', '1') == '1':   # BB 08:40：街上看進玻璃後面（第 3 版室內重產的那張圖）：離立面 3 m、眼睛高度，往店裡看
+            await cam_shot(pg, fn('ext', s['id'], h, 'glass', True), (fx + dirn * 3.0, 1.5, cz), (fx - dirn * 2.0, 1.25, cz), 26)
     R.check('[EXT %s] walkFallbacks 0' % hhmm(h), (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
 
 

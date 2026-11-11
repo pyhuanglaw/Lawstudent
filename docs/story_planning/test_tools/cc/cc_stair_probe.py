@@ -39,7 +39,7 @@ TAG = '%s%s' % ('跑' if RUN else '走', ('、%d fps' % FPSCAP) if FPSCAP else '
 UNSTICK_JS = r"""(()=>{ const E=GAME.E; if(!E||E.__ccUnw||!E.unstick) return; const f=E.unstick; E.unstick=function(){ const r=f.apply(this,arguments); if(r) window.__ccUnstick=(window.__ccUnstick|0)+1; return r; }; E.__ccUnw=1; })()"""
 FPSCAP_JS = r"""(cap=>{ const W=window; if(!W.__rafOrig) W.__rafOrig=W.requestAnimationFrame.bind(W); const orig=W.__rafOrig;
   if(!cap){ W.requestAnimationFrame=orig; W.__fpsCap=0; return 0; } const gap=1000/cap; W.__fpsCap=cap; let last=0;
-  W.requestAnimationFrame=cb=>orig(function tick(t){ if(t-last>=gap-1){ last=t; cb(t); } else orig(tick); }); return cap; })"""
+  W.requestAnimationFrame=cb=>orig(function tick(t){ if(t===last||t-last>=gap-1){ last=t; cb(t); } else orig(tick); }); return cap; })"""   # CC 08:4x：同一幀放行的時間戳記其他回呼也放行（原本遊戲主迴圈永遠排第一、量幀率的回呼餓死，evaluate 卡到 20 分鐘逾時）
 FPS_JS = "new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<2000) requestAnimationFrame(f); else res(+(n/((performance.now()-t0)/1000)).toFixed(1)); }; requestAnimationFrame(f); })"
 STUCK_JS = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, lv=P.lv|0; const f2=v=>v==null?null:+(+v).toFixed(2);
   const near=(E.npcs||[]).filter(n=>n&&n.obj&&Math.hypot(n.obj.position.x-o.x,n.obj.position.z-o.z)<2.5).map(n=>{ const q=n.obj.position; return {id:n.charId||n.id||'', name:n.name||'', x:f2(q.x), z:f2(q.z), y:f2(q.y), lv:n.lv|0, r:n.radius, beh:n.beh||null,
