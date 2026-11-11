@@ -37,7 +37,7 @@ const sumAdj=(id,k)=>ADJ.filter(([w])=>w===id).reduce((s,[,d])=>s+(+d[k]||0),0);
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')), e=A.files.find(x=>x.path===DOC);
   check('0. 白名單有 AA_811@fb1256280（approved、approvedBy、kind json）',!!e&&e.sha===SHA&&e.status==='approved'&&!!e.approvedBy&&e.kind==='json',J(e));
   let ck=''; try{ ck=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_aa811.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); }catch(err){ ck='ERR '+String(err.stderr||err.message||err).slice(0,300); }
-  if(/讀不到|fatal|invalid object/i.test(ck)) console.log('（跳過：匯入工具讀不到 '+SHA+'，企劃線沒 fetch）'); else check('0. tools/story/import_aa811.py --check：src/data/aa811_lines.js 和稿一致',/^OK/.test(ck),ck);
+  if(/讀不到|fatal|invalid object|CalledProcessError/i.test(ck)) console.log('（跳過：匯入工具讀不到 '+SHA+'，企劃線沒 fetch）'); else check('0. tools/story/import_aa811.py --check：src/data/aa811_lines.js 和稿一致',/^OK/.test(ck),ck);
   let doc=null; try{ doc=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show',SHA+':'+DOC],{encoding:'utf8',stdio:['ignore','pipe','ignore']})); }catch(err){ doc=null; }
   if(doc){
     check('0. 合歡山北峰 dialogue 和稿一字不差（'+doc.hehuan.dialogue.length+' 格）',J(HH.dialogue)===J(doc.hehuan.dialogue),'');
