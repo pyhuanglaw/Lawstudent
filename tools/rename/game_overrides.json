@@ -97,5 +97,6 @@
 {"path": "src/sup497_3d.js", "line": 163, "cls": "written", "body": "平日 12:10～12:20 到霖澤館一樓的樓梯口幫宥辰擋人"},
 {"path": "src/y2r2_3d.js", "line": 607, "cls": "spoken", "body": "禮拜五七點 萬才館"},
 {"path": "src/zones3d.js", "line": 1699, "cls": "written", "body": "萬才館 社辦"},
-{"path": "src/social3d.js", "line": 138, "cls": "skip", "body": "AN_COLUMBIA|她說哥大上了、要去"}
+{"path": "src/social3d.js", "line": 138, "cls": "skip", "body": "AN_COLUMBIA|她說哥大上了、要去"},
+{"path": "src/data/date_lines.js", "line": 3, "cls": "skip", "body": "放空拍機的那個人又來了，他換了一台大的。"}
 ]

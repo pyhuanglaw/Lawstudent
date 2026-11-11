@@ -16,6 +16,8 @@
      herInvite.accept[1]「不行，火車有時間。{出發時間}，車站見。」的 {出發時間} 由 src/wish3d.js 播的時候代換；帶不到出發時間的退路句（AA 指定）也在 wish3d.js。白名單沒有 AA_770＝不疊。
   7. AA_774（DLG-FULL-REVIEW-1110，使用者 X324）：芷若 D05 心願事件「這次留兩張票」照稿的 rows 27 列 old→new 疊（照 path；內容不動：刪節號 30 處留 3 處、「嗯。」開頭兩處拿掉、對祐廷下命令或嫌他的三句改掉）。
      herInvite.accept[0]「好。兩點半出發，光典門口見。…」（841c1810e 起；原「好。兩點半，光典門口。…」）寫死時間：換完檢查她主動約的 dateTime 還是 14.5（不是＝停下來，要換 AA 的備用句）。白名單沒有 AA_774＝不疊。
+  8. AA_776（DLG-FULL-REVIEW-1110，使用者 X324）：子晴 D03 心願事件「最後一關換你」照稿的 rows 30 列 old→new 疊（照 path；內容、分支、旁白、選項的字、note 不動：
+     刪節號 26 處留 3 處、D116 三處、嫌祐廷兩處、寫死身分兩處改掉、窗邊加「上來」兩個字）。只換她說的那一格（who 是 heroine_04）。白名單沒有 AA_776＝不疊。
   3. AA_757（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫）：沛珊 D06 心願事件照稿的 wish_rows 69 列 old→new 疊（換完要等於稿的 wish_event；只換字，條件、旗標、時間、花費不動）。白名單沒有 AA_757＝不疊。
 用法：python3 tools/date/import_wish.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_wish.js）]"""
 import json, os, re, subprocess, sys
@@ -407,6 +409,48 @@ if A774:
         sys.exit(f'AA_774：herInvite.accept 寫「兩點半，光典門口」，可是她主動約的 dateTime 是 {i774.get("dateTime")!r}、地點 {EV[ZR].get("loc")!r}（要換 AA 的備用句）')
     SRC525 += f'＋{os.path.basename(P774)[:6]}@{S774}（芷若 D05 心願 27 列，換了 {n774} 列）'
 
+# ---- 1k. AA_776（DLG-FULL-REVIEW-1110，使用者 X324 子晴約會台詞重寫；白名單上的 commit）：子晴 D03 參創的心願事件「最後一關換你」——事件和現行設定一致，內容、分支不動、只換她的句子
+#      （刪節號 26 處留 3 處；D116 三處＝試玩區「好到我有點不爽」「我的會更好」、舊機台排名；嫌祐廷兩處；寫死身分兩處；窗邊加「上來」）。做法同 1h～1j：稿只有 rows＝30 列 old→new，
+#      path 是 events.heroine_04 底下的位置（hotspots.D03.demo 這種 key 本身有點，不能單純用「.」切）；照 path 換（「……好。」整個檔很多處），那一格現在的字要剛好是 old（已經是 new＝跳過），
+#      兩個都不是＝停下來。只換她說的台詞（who 是 heroine_04 的 text；旁白、選項的字、note 不能動）。上面 1b（AA_525 1-5 結尾那一句）在這之前套，兩邊不同格 ----
+A776 = G.approved_files(ALLOW, SP + 'AA_776_')
+FIX776 = set()
+ZQ = 'heroine_04'
+if A776:
+    P776, S776 = next(iter(A776.items()))
+    ok, why = G.allowed(P776, S776, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d776 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S776}:{P776}'], text=True)))
+    rows776 = d776.get('rows') or []
+    if len(rows776) != 30 or len({r['path'] for r in rows776}) != 30:
+        sys.exit(f'AA_776@{S776} 的 rows 應該是 30 列（path 不重複），讀到 {len(rows776)} 列')
+    n776 = 0
+    for r in rows776:
+        toks = [q if q else (a if a else int(b)) for q, a, b in re.findall(r'\["([^"]+)"\]|\.?([^.\[\]"]+)|\[(\d+)\]', r['path'])]
+        cur, par, key, i = EV[ZQ], None, None, 0
+        while i < len(toks):
+            t = toks[i]
+            if isinstance(cur, dict) and t not in cur and i + 1 < len(toks) and isinstance(toks[i + 1], str) and f'{t}.{toks[i + 1]}' in cur:
+                t = f'{t}.{toks[i + 1]}'; i += 1   # hotspots 的 key 本身有點（D03.demo）
+            try:
+                par, key, cur = cur, t, cur[t]
+            except (KeyError, IndexError, TypeError):
+                sys.exit(f'AA_776 rows：路徑 {r["path"]} 找不到（在 {t!r}）')
+            i += 1
+        if isinstance(cur, dict) and isinstance(cur.get('text'), str):
+            par, key, cur = cur, 'text', cur['text']
+        if not isinstance(cur, str) or key != 'text' or not isinstance(par, dict) or par.get('who') != ZQ:
+            sys.exit(f'AA_776 rows：{r["path"]} 不是她的一句台詞（只換 who 是 {ZQ} 的 text）')
+        if '{' in r['new']:
+            sys.exit(f'AA_776 rows：{r["path"]} 的新句有佔位符（這個事件沒有接）')
+        if cur == r['new']:
+            FIX776.add(r['new']); continue
+        if cur != r['old']:
+            sys.exit(f'AA_776 rows：{r["path"]} 現在是「{cur}」，不是原句「{r["old"]}」')
+        par[key] = r['new']; FIX776.add(r['new']); n776 += 1
+    SRC525 += f'＋{os.path.basename(P776)[:6]}@{S776}（子晴 D03 心願 30 列，換了 {n776} 列）'
+
 # ---- 2. 逐句對原稿（台詞、旁白、選項的字；說明欄不算）----
 SKIP = ('wish', 'rule', 'note', 'where', 'context', 'source', 'title', 'hotspotsTitle', 'scene', 'repeat', 'costNote', 'likeNote', 'album', 'code', 'name', 'memory', 'record')
 def all_text(o, path=''):
@@ -444,6 +488,9 @@ for k, e in EV.items():
         parts = [p for p in re.split(r'[（）「」]', t) if p] if who in ('narr', 'opt') else [t]
         if t0 in FIX592: continue   # AA_592 第 53 列換上去的句子（上面 1d 已對過 AA_592 的表）
         if t0 in FIX593 and k == 'heroine_05': continue   # AA_593 第 82 列（上面 1d2 已對過 AA_593 的表）
+        if t0 in FIX776 and k == ZQ:   # AA_776 換上去的句子（上面 1k 已照 path 對過 AA_776 的 rows）
+            if free and path.startswith(free): extra.append(f'{path}：{t0}')
+            continue
         if t0 in FIX774 and k == ZR:   # AA_774 換上去的句子（上面 1j 已照 path 對過 AA_774 的 rows）
             if free and path.startswith(free): extra.append(f'{path}：{t0}')
             continue

@@ -572,11 +572,11 @@ const DATE=(function(){
   /* 照時間分兩段的台詞（陣列）：沛珊 D13 欄杆 firstHigh＝[重考以前, 重考以後]（AA_281 第 4 節 B-6；原本當物件讀、播出空的）。重考結束＝她的消失期最後一天的隔天 */
   S.timedSet=function(G,id,v){ if(!Array.isArray(v)) return v; if(!v.length) return null; if(v.length===1) return v[0]; const back=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2027-08-06'):null; return id==='classmate_peishan'&&back!=null&&G.day>=back?v[v.length-1]:v[0]; };
   /* AA_525 1-6、2-4（企劃線 6081f725f）：第一次選了哪一個要記下來（PICK_FLAG）；remember 只給選過對應選項的人（REMEMBER_IF：no＝其他人換的那一組；add＝有旗標的多幾句、once＝演過一次記 'paid'）*/
-  S.PICK_FLAG=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',t:'「我請妳。」',flag:'ZQ_D06_TREAT'},   /* 「好。下次我請你吃滷味。」→ remember「上次說要請你吃滷味，十點以後半價那間。」*/
-    {loc:'D15',who:'heroine_04',pid:'D15.store',t:'「布丁不行。」',flag:'ZQ_D15_NEXT'},   /* 「……欸，好啦。布丁下次。」→ remember「上次的布丁，今天我要。」「……上次說下次的。」*/
+  S.PICK_FLAG=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',t:'「我請妳。」',flag:'ZQ_D06_TREAT'},   /* 「好。下次我請你吃滷味。」→ remember「我說過要請你吃滷味，等一下去，我知道一間。」（2026-11-11 X324 子晴重寫 date_rewrite/zq_D06.json@02078efc0；原本「上次說要請你吃滷味，十點以後半價那間。」）*/
+    {loc:'D15',who:'heroine_04',pid:'D15.store',t:'「布丁不行。」',flag:'ZQ_D15_NEXT'},   /* 「欸，好啦。布丁下次。」→ remember「說好的布丁，這次我要拿了。」「山上的布丁比較好吃，這是我的理論。」（2026-11-11 X324 子晴重寫 date_rewrite/zq_D15.json@02078efc0；原本「上次的布丁，今天我要。」「……上次說下次的。」）*/
     {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',t:'「我請妳。」',flag:'PS_D05_EGG'}];   /* 「好啊，那下次換我。」（X327 沛珊重寫 2026-11-11：原本「那下次我請你吃蛋餅。說好了。」；旗標名不改）*/
-  S.REMEMBER_IF=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',flag:'ZQ_D06_TREAT',no:[{who:'heroine_04',text:'上次也來這裡。'}]},
-    {loc:'D15',who:'heroine_04',pid:'D15.store',flag:'ZQ_D15_NEXT',no:[{who:'heroine_04',text:'上次也來這裡。'}]},
+  S.REMEMBER_IF=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',flag:'ZQ_D06_TREAT',no:[{who:'heroine_04',text:'這家的位子我記得，靠牆那桌插座最近。'}]},
+    {loc:'D15',who:'heroine_04',pid:'D15.store',flag:'ZQ_D15_NEXT',no:[{who:'heroine_04',text:'布丁還在同一格，我要拿了。'}]},   /* 子晴這兩列沒旗標的備用句：2026-11-11 照 AA_775_zq_date_common.json@02078efc0 換（使用者 X324；原本兩列都是「上次也來這裡。」）*/
     {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',flag:'PS_D05_EGG',once:true,add:[{who:'narr',text:'（她把一杯熱紅茶推到你面前。）'},{who:'classmate_peishan',text:'說好的，這次換我。'}]}];   /* X327 沛珊重寫（date_rewrite/peishan_D05.json@2883197b6 的 for_LAWWW）：原本是一盒蛋餅、「說好的！」 */
   S.rememberOf=function(G,t,pid,R){ if(!R) return R; const F=(G&&G.flags)||{}, x=S.REMEMBER_IF.find(r=>r.loc===t.locs[0]&&r.who===t.who&&r.pid===pid); if(!x) return R;
     const has=F[x.flag]!=null&&F[x.flag]!==false&&!(x.once&&F[x.flag]==='paid');
@@ -644,8 +644,9 @@ const DATE=(function(){
      晚上旁白一句、不演住宿（交往中也不演房間裡的事）；第二天早上旁白「（第二天早上。）」＋她一句。她住自己家、租的地方的那幾種換成 S.MORNING_OWN（沛珊在台中老家的 D26＝S.MORNING_HOME）。 */
   S.NIGHT={single:'（晚上住在車站附近的旅館。兩間房，隔著一道牆。）',dating:'（晚上住在一間小民宿。窗外很安靜。）',home:'（晚上她回家。你住在車站附近的旅館。）',rent:'（晚上她回租的地方。你住在車站附近的旅館。）'};   /* 還沒交往／交往中／她在自己家（D26 以安、芷若在臺中的家）／她在租的地方（D28 沛珊大三起在台南）*/
   S.MORNING_NARR='（第二天早上。）';
-  S.MORNING={heroine_01:'早餐我查過了。……走路五分鐘。',heroine_02:'我六點就醒了。換地方睡，都這樣。',heroine_03:'早。旅館的早餐我看過了，有稀飯。我在樓下。',heroine_04:'昨天我又弄到兩點。……今天你負責叫我。',
+  S.MORNING={heroine_01:'早餐我查過了。……走路五分鐘。',heroine_02:'我六點就醒了。換地方睡，都這樣。',heroine_03:'早。旅館的早餐我看過了，有稀飯。我在樓下。',heroine_04:'昨天我又弄到兩點。你先去吃早餐，幫我留一個甜的。',
     heroine_05:'（她已經在大廳，頭髮綁好了）早。你慢了七分鐘。',classmate_peishan:'我居然自己醒了，沒有靠鬧鐘。我在大廳等你，快來看奇蹟。',kexin:'第二天的我昨天重排了。你先看，有意見現在講。'};
+  /* 2026-11-11（使用者 X324 子晴約會台詞重寫，AA_775_zq_date_common.json@02078efc0）：S.MORNING 子晴那一句換了（原本「昨天我又弄到兩點。……今天你負責叫我。」） */
   /* 2026-11-11（使用者 X324 可昕約會台詞重寫，AA_769_kx_date_common.json@f9c1a2b80）：S.MORNING 可昕那一句換了（原本「行程表我昨天晚上重寫了。……你看一下第二天。」） */
   /* 2026-11-11（使用者 X324 語彤約會台詞重寫，AA_767_yt_date_common.json@0a2136911）：S.MORNING 語彤那一句換了（原本講蛋餅和秀琴姨——秀琴姨傍晚才來煮晚餐，沒有幫她煎早餐） */
   /* 2026-11-11（使用者 X324 學姊約會台詞重寫，date_rewrite/sis_D26.json@82c946ad7 的 for_LAWWW）：S.MORNING 學姊那一句換了（原本「（保溫瓶已經裝好熱茶）……出發前喝一口。」；保溫瓶整份約會稿只留 D02、D09、D13 三處） */
@@ -653,7 +654,9 @@ const DATE=(function(){
   S.MORNING_HOME={classmate_peishan:'我在樓下。我媽叫我帶水果給你，一大袋，我提得好辛苦。'};   /* 沛珊 D26 臺中、她剛好在台中老家（AA_359 第 3 節、5-1 B2：不借 D28 那句）*/
   /* 2026-11-11（AA_769_kx_date_common.json@f9c1a2b80 的 for_LAWWW；BB 提、AA 同意）：過夜晚上那一句補一列——D29 高雄＋可昕＝「（晚上她回家。你住在車站附近的旅館。）」。
      高雄是她老家，不回家說不通；她學期中 presence 在臺北（一起出發），照 own 算不到 home，所以另外列（比照 D26 以安／芷若在臺中的家、D28 沛珊在台南）。只管晚上那一句旁白；早上那一句照 S.MORNING */
-  S.NIGHT_HOME=[{loc:'D29',who:'kexin'}];
+  /* 2026-11-11（AA_775_zq_date_common.json@02078efc0；BB 11-11 定的過夜條件，BB_339 最後一段）：再補一列——D26 臺中＋子晴＝同一句「（晚上她回家。你住在車站附近的旅館。）」。
+     臺中是她的家鄉（新稿 D26 改成她帶路）；不寫阿嬤家、不寫爸爸。早上那一句照 S.MORNING（她沒有 MORNING_OWN） */
+  S.NIGHT_HOME=[{loc:'D29',who:'kexin'},{loc:'D26',who:'heroine_04'}];
   S.nightKind=(G,t,own)=>own==='home'||S.NIGHT_HOME.some(x=>x.who===t.who&&x.loc===(t.locs||[])[0])?'home':(own==='rent'?'rent':(G.flags&&G.flags['dating_'+t.who]?'dating':'single'));
   S.morningLine=(id,own)=>(own==='home'&&S.MORNING_HOME[id])||(own&&S.MORNING_OWN[id])||S.MORNING[id]||null;
   /* 有時間的三個互動點（AA_359 5-1 B7：台詞寫死了時間，兩天一夜要限制；一日約會不限）：day＝第幾天、at＝那一天的第幾個點（0 起算）才列；until＝演完至少到幾點（接晚上那一句）。

@@ -157,18 +157,23 @@ await sec('1-5',()=>{ const E5=(DATE_WISH.events[ZQ].closing.ending||[]).find(e=
   check('1-5. 心願約會（子晴）交往中 Q12 以前的結尾：「那座橋，我回去要畫一次。」（tools/date/import_wish.py 疊的，來源寫 AA_525）',J(t)===J(['那座橋，我回去要畫一次。'])&&DATE_WISH.source.includes('AA_525'),J(t)); });
 await sec('1-6',async()=>{
   const L=(loc,who)=>(DATE_LINES.loc[loc]||{}).lines[who].hotspots, rep=(loc,pid,who,i)=>L(loc,who)[pid].first.choice[i].reply[0].text;
-  check('1-6. 子晴約會第一次的回覆改成不欠：D10「……謝謝。」、D12「謝謝。」、D13「好啦。謝謝。」、D30「好。謝謝。」、D31「好！謝謝！」',
-    rep('D10','D10.snack',ZQ,0)==='謝謝。'&&rep('D12','D12.pier',ZQ,0)==='謝謝。'&&rep('D13','D13.drink',ZQ,2)==='好啦。謝謝。'&&rep('D30','D30.stall',ZQ,0)==='好。謝謝。'&&rep('D31','D31.egg',ZQ,0)==='好！謝謝！',J([rep('D10','D10.snack',ZQ,0),rep('D12','D12.pier',ZQ,0),rep('D13','D13.drink',ZQ,2),rep('D30','D30.stall',ZQ,0),rep('D31','D31.egg',ZQ,0)]));
+  /* 2026-11-11（X324 子晴約會台詞重寫，AA 02078efc0）：這五格源稿寫回或重寫了（AA_525 1-6 那五列不再疊）——D10、D12、D31 源稿寫回 AA_525 的字；D13「那我不客氣了，謝謝。」、D30「好，謝謝。」是新稿重寫的（一樣不欠）。
+     舊期望＝AA_525 1-6：D13「好啦。謝謝。」、D30「好。謝謝。」 */
+  check('1-6. 子晴約會第一次的回覆不欠（沒有「下次我請／下次換我／宵夜我請」）：D10「謝謝。」、D12「謝謝。」、D13「那我不客氣了，謝謝。」、D30「好，謝謝。」、D31「好！謝謝！」',
+    rep('D10','D10.snack',ZQ,0)==='謝謝。'&&rep('D12','D12.pier',ZQ,0)==='謝謝。'&&rep('D13','D13.drink',ZQ,2)==='那我不客氣了，謝謝。'&&rep('D30','D30.stall',ZQ,0)==='好，謝謝。'&&rep('D31','D31.egg',ZQ,0)==='好！謝謝！'&&![['D10','D10.snack',0],['D12','D12.pier',0],['D13','D13.drink',2],['D30','D30.stall',0],['D31','D31.egg',0]].some(([l,p,i])=>/下次|我請|換我/.test(rep(l,p,ZQ,i))),J([rep('D10','D10.snack',ZQ,0),rep('D12','D12.pier',ZQ,0),rep('D13','D13.drink',ZQ,2),rep('D30','D30.stall',ZQ,0),rep('D31','D31.egg',ZQ,0)]));
   /* 第一次選了哪一個 → 第二次的 remember */
   const two=async(who,loc,pid,pick)=>{ fresh('2027-03-06',14,{}); H.FRIEND(who); const t={who,locs:[loc],day:H.G.day,trip:'T9'}; H.said=[]; H.picks=[pick]; await DATE.spotLine(GM,t,pid,0); const f1=JSON.parse(JSON.stringify(H.G.flags));
     const m=DATE.mem(H.G,who,loc); m.last=[pid]; H.said=[]; H.picks=[]; await DATE.spotLine(GM,t,pid,1); const s2=said(); return {f1,s2,F:H.G.flags}; };
   const a=await two(ZQ,'D06','D06.cafe','我請妳'), b=await two(ZQ,'D06','D06.cafe','什麼邏輯');
-  check('1-6. D06 第一次選「我請妳。」（「好。下次我請你吃滷味。」）記 ZQ_D06_TREAT；第二次 remember「上次說要請你吃滷味，十點以後半價那間。」',a.f1.ZQ_D06_TREAT!=null&&J(a.s2)===J(['上次說要請你吃滷味，十點以後半價那間。']),J(a.s2));
-  check('1-6. D06 第一次選另一個：不記，第二次換通用的「上次也來這裡。」',b.f1.ZQ_D06_TREAT==null&&J(b.s2)===J(['上次也來這裡。']),J(b.s2));
+  /* 2026-11-11（X324 子晴約會台詞重寫，AA 02078efc0）：D06、D15 的 remember 新稿換字（date_rewrite/zq_D06.json 第 45 格、zq_D15.json 第 43、44 格）；沒旗標的備用句照 AA_775_zq_date_common.json 的 S.REMEMBER_IF 兩列換。
+     舊期望：D06「上次說要請你吃滷味，十點以後半價那間。」、D15「上次的布丁，今天我要。」「上次說下次的。」；備用句兩處都是「上次也來這裡。」 */
+  check('1-6. D06 第一次選「我請妳。」（「好。下次我請你吃滷味。」）記 ZQ_D06_TREAT；第二次 remember「我說過要請你吃滷味，等一下去，我知道一間。」',a.f1.ZQ_D06_TREAT!=null&&rep('D06','D06.cafe',ZQ,1)==='好。下次我請你吃滷味。'&&J(a.s2)===J(['我說過要請你吃滷味，等一下去，我知道一間。']),J(a.s2));
+  check('1-6. D06 第一次選另一個：不記，第二次換不提約定的「這家的位子我記得，靠牆那桌插座最近。」（AA_775）',b.f1.ZQ_D06_TREAT==null&&J(b.s2)===J(['這家的位子我記得，靠牆那桌插座最近。']),J(b.s2));
   const c=await two(ZQ,'D15','D15.store','布丁不行'), d=await two(ZQ,'D15','D15.store','全部我請');
-  check('1-6. D15 第一次選「布丁不行。」（「……欸，好啦。布丁下次。」）記 ZQ_D15_NEXT；第二次 remember「上次的布丁，今天我要。」「……上次說下次的。」',c.f1.ZQ_D15_NEXT!=null&&J(c.s2)===J(['上次的布丁，今天我要。','上次說下次的。']),J(c.s2));
-  check('1-6. D15 第一次選「全部我請。」：不記，第二次「上次也來這裡。」',d.f1.ZQ_D15_NEXT==null&&J(d.s2)===J(['上次也來這裡。']),J(d.s2));
-  check('1-6. AA_526 第 2 節：D15「全部我請。」的回覆＝「……好。我記下來。」（拿掉「下次滷味我請」；tools/date/import_date_lines.py 疊的，來源寫 AA_526）',rep('D15','D15.store',ZQ,0)==='好。我記下來。'&&L('D15',ZQ)['D15.store'].first.choice[0].t==='「全部我請。」'&&DATE_LINES.source.includes('AA_526_回LAWWW_AA524_525重做九題.md@'+SHA6),rep('D15','D15.store',ZQ,0));
+  check('1-6. D15 第一次選「布丁不行。」（「欸，好啦。布丁下次。」）記 ZQ_D15_NEXT；第二次 remember「說好的布丁，這次我要拿了。」「山上的布丁比較好吃，這是我的理論。」',c.f1.ZQ_D15_NEXT!=null&&rep('D15','D15.store',ZQ,1)==='欸，好啦。布丁下次。'&&J(c.s2)===J(['說好的布丁，這次我要拿了。','山上的布丁比較好吃，這是我的理論。']),J(c.s2));
+  check('1-6. D15 第一次選「全部我請。」：不記，第二次「布丁還在同一格，我要拿了。」（AA_775）',d.f1.ZQ_D15_NEXT==null&&J(d.s2)===J(['布丁還在同一格，我要拿了。']),J(d.s2));
+  /* 2026-11-11（X324 子晴約會台詞重寫，AA 02078efc0）：D15 這一格新稿重寫成「好，我記下來。」（逗號；一樣沒有「下次滷味我請」），AA_526 那一列原句對不到、不再疊（來源照舊列 AA_526）。舊期望：「好。我記下來。」 */
+  check('1-6. AA_526 第 2 節：D15「全部我請。」的回覆＝「好，我記下來。」（沒有「下次滷味我請」；2026-11-11 新稿重寫，來源照舊寫 AA_526）',rep('D15','D15.store',ZQ,0)==='好，我記下來。'&&L('D15',ZQ)['D15.store'].first.choice[0].t==='「全部我請。」'&&DATE_LINES.source.includes('AA_526_回LAWWW_AA524_525重做九題.md@'+SHA6),rep('D15','D15.store',ZQ,0));
 });
 
 /* ================= 2 沛珊 ================= */
