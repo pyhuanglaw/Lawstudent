@@ -72,6 +72,9 @@ N1_MOKU_PLANT_7b | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story
 N1_AA811_A2 | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_aa811_probe.py | index.html | 40 | PARTS=HEHUAN_A;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
 N1_MOKU_PLANT_7c | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_moku_plant_probe.py | index.html | 45 | PARTS=7;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/cc_fn_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
 N1_AA814_H23 | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 40 | PARTS=H23;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
+# LAWWW 20:52：H23b 抓到（ytjob3d.js 閘門把語彤那則拿掉、ask 跟著不見；沒認識語彤時 ask 移到欣慈），修 28d5057e8；#nextClass 59a4efb68。GHA 綠給 SHA 後換 SHA、拿掉 #HOLD新SHA；ab28 那行＝修改前對照
+#HOLD新SHA N1_AA814_H23_fix | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 40 | PARTS=H23;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
+#HOLD新SHA N1_TSR_NEXTCLASS | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 15 | PARTS=DORMHALL;NEXTCLASS=1;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
 # CC 20:5x：JOY 四行 ③ FAIL＝探針（第一推走 2.38 m 觸發 kaiMoveIn，推完在對話中就作廢）；修好重跑線上／779 各一
 JOY_live1_r2 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.25;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 JOY_779_1_r2 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.24;LOCAL=1;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120

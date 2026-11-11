@@ -731,10 +731,13 @@ async def part_h23(pg, cdp):
     await ps_load(pg, P, '2027-07-20', 20.83, vac=vac, flags={'VAC_C09': True, 'VAC_C09_INT': True, 'VAC_C12': True},
                   meet=['npc_fangyt', 'zhe', 'yu', 'classmate_bohan'], groups=[['noodle_team', '麵店團']],
                   why='b 重新讀：C09、C12 yes、T02 沒報（a 答應的 T02 8/1～8/4 會和阿哲 8/1 催問撞，不帶）')
+    DIAG_VA = "(()=>{ const G=GAME.G, Q=(G.phone&&G.phone.q)||[]; return {key:(CALENDAR.dateOf(G.day)||{}).key, h:+(+G.hour).toFixed(2), msgs:(G.msgs||[]).filter(m=>m&&m.tag==='va10_ask').map(m=>({from:m.from||null, t:String(m.text||'').slice(0,16), ask:!!m.ask})), q:Q.filter(x=>x&&x.tag==='va10_ask').map(x=>({day:x.day,h:x.h,n:(x.items||[]).length,asks:(x.items||[]).filter(i=>i&&i.ask).map(i=>i.ask.id)})), pending:(typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).map(m=>m.ask&&m.ask.id):[])}; })()"
+    R.note('[H23b] BB 20:50 診斷：讀檔完（7/20 21:00 以前）G.msgs／G.phone.q 的 va10_ask、PHONE.pending：%s' % J(await pg.evaluate(DIAG_VA)))
     P.path.append('b1 自然觸發：7/20 21:00 麵店團群組揪香港（VA10）——先不回')
     P.phone_want = ['g:noodle_team']; P.cur_th = None; P.opened = {}; P.answered = []
     P.phone_ask = lambda th, o: None
     w, s, ok = await drive(pg, cdp, P, lambda w, s: any(m['tag'] == 'va10_ask' for m in (w or {}).get('msgs', [])) and not s['phone'], 420, {'tags': ['va10_ask', 'va10_nudge'], 'fl': ['VA10']}, 'b1. 7/20 21:00 VA10 群組（不回）')
+    R.note('[H23b] BB 20:50 診斷：21:00 送出以後 G.msgs／G.phone.q 的 va10_ask、PHONE.pending：%s' % J(await pg.evaluate(DIAG_VA)))
     va = [m for m in (w or {}).get('msgs', []) if m['tag'] == 'va10_ask']
     if not any(m.get('ask') for m in va):   # N1_AA814（b77a）這一格 FAIL：vac3d.js 把 ask 掛在群組最後一則（M[M.length-1]），探針記到的卻是 null——印出整串和 G.msgs 原始那一則對照
         raw = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m&&m.tag==='va10_ask').map(m=>JSON.stringify(m).slice(0,400)))()")
