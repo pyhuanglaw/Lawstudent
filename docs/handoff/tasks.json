@@ -27245,7 +27245,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-01 08:3x LAWWW-B】D 醉月湖晚上整合（DL-LW2-LAKE-NIGHT-1101）→ BB 看 E12 11/6 17:45 的畫面、跑 campus_layout_nav／reachability_all；F 兩段劇情背景＝劇情已 retired（AA_218 10/17 休學刪除），只記錄；剩 E 四季服裝（另案）、G X14、H ART_APPROVED（使用者）｜【10-31 08:1x】BB-B n28（BB_218）A／B／C 功能面都 PASS（FUNCTIONAL_VERIFIED；ART_APPROVED 照舊等使用者）：共同固定鏡頭 12 張、光照 34 張、沒有純黑；經濟系在共同 102 上課同學坐著、老師在講桌、沒人穿桌；總圖 3F 38 張、天花板不發白；普通光照、黑白比例 PASS（桃橘、燈色兩行是量法框到手機提示、橘色窗景）。BB 觀察普通 101 從後面看白天右邊窗整片黑→LAWWW2 判斷：窗景沒缺，是博思一樓深色玻璃帷幕（遊戲的玻璃不反射天空）；LAWWW-B 決定先不改（D99 不影響遊玩、只記錄），列進使用者美術清單｜剩 D 醉月湖晚上（這輪不做）、E 四季服裝（另案）、F 兩段劇情背景、G X14、H ART_APPROVED｜【LAWWW-B 10-31 05:1x】C 總圖 3F 閱覽區光照整合（LAWWW2 3ce25a2f1：library_3f.glb 加光照 UV＋光照貼圖兩張，冷白燈＋燈下點光源；library_3f_lm_unit）＋法律學院圖書館 GPU instancing 修回來（lawlib_interior.glb 800→137 節點、27 個實例，二樓書庫 draw call 1008→417；bake_room／lm_fix_hidden 保留實例、lm_instancing_unit）→ BB 看畫面；A、B、C 三件都已整合待測試、READY_FOR_ART_REVIEW｜【LAWWW-B 10-31 03:2x】B 普通教學館室內光照整合（LAWWW2 1154ef5da：putong_interior.glb 加光照 UV、光照貼圖兩張、putong_interior_lm_unit、bake_putong.sh；冷白燈、白天整張降色溫）→ BB 看畫面；已知：一樓樓梯井沒燈偏暗、101 門邊牆偏奶油色、單人桌椅三棟都還是方塊；LAWWW2 接 C 總圖 3F｜【LAWWW-B 10-31 02:0x】A 共同教學館室內正式模型整合（LAWWW2 c1a2026b4：gongtong_interior.glb＋光照貼圖兩張、assets3d 一行、gongtong_interior_glb_unit、room_ceiling 清單；lightbake_tools_1031：bake_room collapse_black、lm_squash_scan、四支烘焙腳本）→ BB 看畫面；LAWWW2 接 B 普通教學館光照、再 C 總圖 3F｜【LAWWW2-B 10-30 23:3x 現況清單 274e4d47f（docs/art-rebuild/second_ai/ECON_3D_GAP_STATUS_1030.md）】j7～j13 全部已整合；還沒做：A 共同教學館室內正式模型、B 普通教學館光照、C 總圖 3F 閱覽區光照（LAWWW2 照 A→B→C 開工）；D 醉月湖晚上（這輪不做）、E 玩家四季服裝（人物＋系統，另案）、F 兩段沒演到的劇情背景、G X14 載入流程（LAWWW）、H ART_APPROVED 等使用者｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；經濟系 3D 缺口＝場景美術（窗景、捲簾、補光）；L966-977 大榕樹看過——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-B 10-24 10:3x】LAWWW2 盤點完經濟系路線（宿舍 412→共同→椰林大道→文學院→普通，日夜 18 張，沒有方盒、黑塊、穿模）；三件交付：社科院捲簾（b9d19d8a6）、普通／共同教室窗景（aef97e506）、博雅寬窗景（d123fcbc5，整合中）。BB 驗：經濟系那年在普通上課看窗外、社科院外觀日夜 ｜ 【LAWWW（帳號 A）2026-10-22 02:4x】LAWWW2 2ccd1e60：宿舍 412 洗手間牆磚地磚補光（dorm_seethru.diff 第三版）整合進 e8c4ce7a；室內網點透空（宿舍上舖、Café 電線）一起進 ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】LAWWW2 交件 223252e5（四棟拱廊大門雙開玻璃木門、博雅東側一樓玻璃帶，READY_FOR_ART_REVIEW）只換 GLB，整合進開發分支 7b4fb34b（原始檔 9f187fed）；宿舍 412 的對照（259d2ceb）LAWWW2 還在交。BB 看畫面 ｜ 【LAWWW（帳號 A）21:3x】第一批整合：榕樹氣根（f858b47c）、椰林大道路燈（5f03d748）；其餘照 LAWWW2 截圖佇列（博雅東側＋三棟大門 j8、j9 → 美國超市街 j7 → 412 洗手間＋Café 地板 j12、j13 → 路人遠距離 j10）｜ 【LAWWW（帳號 A）19:51 UTC】LAWWW2 巡場景 WIP（claude/second-ai-env-art f858b47c 榕樹氣根、89655410 四棟拱廊大門、fa34a418／30e9cb84 椰林大道路燈、0343b994 博雅東側一樓、71ca706a Café 吊燈、b47d499b 宿舍網點透空、2bc9992d 宿舍洗手間頂板）；交件後 LAWWW 整合 ｜ LAWWW2 照清查 B8 列出的缺口做，D99 第一優先",
+   "next": "【11-11 15:5x LAWWW】LAWWW2 建議結案（剩下的都在別的任務）；要結案得寫替代 ID：E 四季服裝、G X14、H 驗收（D128 改 BB）各對哪一個任務——請 LAWWW2 列出來再改｜【11-01 08:3x LAWWW-B】D 醉月湖晚上整合（DL-LW2-LAKE-NIGHT-1101）→ BB 看 E12 11/6 17:45 的畫面、跑 campus_layout_nav／reachability_all；F 兩段劇情背景＝劇情已 retired（AA_218 10/17 休學刪除），只記錄；剩 E 四季服裝（另案）、G X14、H ART_APPROVED（使用者）｜【10-31 08:1x】BB-B n28（BB_218）A／B／C 功能面都 PASS（FUNCTIONAL_VERIFIED；ART_APPROVED 照舊等使用者）：共同固定鏡頭 12 張、光照 34 張、沒有純黑；經濟系在共同 102 上課同學坐著、老師在講桌、沒人穿桌；總圖 3F 38 張、天花板不發白；普通光照、黑白比例 PASS（桃橘、燈色兩行是量法框到手機提示、橘色窗景）。BB 觀察普通 101 從後面看白天右邊窗整片黑→LAWWW2 判斷：窗景沒缺，是博思一樓深色玻璃帷幕（遊戲的玻璃不反射天空）；LAWWW-B 決定先不改（D99 不影響遊玩、只記錄），列進使用者美術清單｜剩 D 醉月湖晚上（這輪不做）、E 四季服裝（另案）、F 兩段劇情背景、G X14、H ART_APPROVED｜【LAWWW-B 10-31 05:1x】C 總圖 3F 閱覽區光照整合（LAWWW2 3ce25a2f1：library_3f.glb 加光照 UV＋光照貼圖兩張，冷白燈＋燈下點光源；library_3f_lm_unit）＋法律學院圖書館 GPU instancing 修回來（lawlib_interior.glb 800→137 節點、27 個實例，二樓書庫 draw call 1008→417；bake_room／lm_fix_hidden 保留實例、lm_instancing_unit）→ BB 看畫面；A、B、C 三件都已整合待測試、READY_FOR_ART_REVIEW｜【LAWWW-B 10-31 03:2x】B 普通教學館室內光照整合（LAWWW2 1154ef5da：putong_interior.glb 加光照 UV、光照貼圖兩張、putong_interior_lm_unit、bake_putong.sh；冷白燈、白天整張降色溫）→ BB 看畫面；已知：一樓樓梯井沒燈偏暗、101 門邊牆偏奶油色、單人桌椅三棟都還是方塊；LAWWW2 接 C 總圖 3F｜【LAWWW-B 10-31 02:0x】A 共同教學館室內正式模型整合（LAWWW2 c1a2026b4：gongtong_interior.glb＋光照貼圖兩張、assets3d 一行、gongtong_interior_glb_unit、room_ceiling 清單；lightbake_tools_1031：bake_room collapse_black、lm_squash_scan、四支烘焙腳本）→ BB 看畫面；LAWWW2 接 B 普通教學館光照、再 C 總圖 3F｜【LAWWW2-B 10-30 23:3x 現況清單 274e4d47f（docs/art-rebuild/second_ai/ECON_3D_GAP_STATUS_1030.md）】j7～j13 全部已整合；還沒做：A 共同教學館室內正式模型、B 普通教學館光照、C 總圖 3F 閱覽區光照（LAWWW2 照 A→B→C 開工）；D 醉月湖晚上（這輪不做）、E 玩家四季服裝（人物＋系統，另案）、F 兩段沒演到的劇情背景、G X14 載入流程（LAWWW）、H ART_APPROVED 等使用者｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；經濟系 3D 缺口＝場景美術（窗景、捲簾、補光）；L966-977 大榕樹看過——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-B 10-24 10:3x】LAWWW2 盤點完經濟系路線（宿舍 412→共同→椰林大道→文學院→普通，日夜 18 張，沒有方盒、黑塊、穿模）；三件交付：社科院捲簾（b9d19d8a6）、普通／共同教室窗景（aef97e506）、博雅寬窗景（d123fcbc5，整合中）。BB 驗：經濟系那年在普通上課看窗外、社科院外觀日夜 ｜ 【LAWWW（帳號 A）2026-10-22 02:4x】LAWWW2 2ccd1e60：宿舍 412 洗手間牆磚地磚補光（dorm_seethru.diff 第三版）整合進 e8c4ce7a；室內網點透空（宿舍上舖、Café 電線）一起進 ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】LAWWW2 交件 223252e5（四棟拱廊大門雙開玻璃木門、博雅東側一樓玻璃帶，READY_FOR_ART_REVIEW）只換 GLB，整合進開發分支 7b4fb34b（原始檔 9f187fed）；宿舍 412 的對照（259d2ceb）LAWWW2 還在交。BB 看畫面 ｜ 【LAWWW（帳號 A）21:3x】第一批整合：榕樹氣根（f858b47c）、椰林大道路燈（5f03d748）；其餘照 LAWWW2 截圖佇列（博雅東側＋三棟大門 j8、j9 → 美國超市街 j7 → 412 洗手間＋Café 地板 j12、j13 → 路人遠距離 j10）｜ 【LAWWW（帳號 A）19:51 UTC】LAWWW2 巡場景 WIP（claude/second-ai-env-art f858b47c 榕樹氣根、89655410 四棟拱廊大門、fa34a418／30e9cb84 椰林大道路燈、0343b994 博雅東側一樓、71ca706a Café 吊燈、b47d499b 宿舍網點透空、2bc9992d 宿舍洗手間頂板）；交件後 LAWWW 整合 ｜ LAWWW2 照清查 B8 列出的缺口做，D99 第一優先",
    "xai": {
     "spec": "LAWWW2 清查 B8",
     "branch": "claude/focused-cray-c9uwvw",
@@ -45649,7 +45649,7 @@
    "title": "從開源找把使用者給的 2D 參考圖做成好看 3D 的方法、還有其他需要的美術素材（使用者 11-04 14:1x 對 LAWWW2-C：「你沒辦法從github開源找要怎麼把我給你的二d圖片轉換成3 d的時候好看嗎還有很多你需要用的美術內容」；UA-LAWWW2-1104-05）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "取消",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45661,7 +45661,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-05 06:4x】使用者對 LAWWW2-C：「這不用做 我電腦也跑不了」＝TRELLIS.2 取消（UA-LAWWW2-1105-04；試用被 HF 免費 GPU 額度擋，e0e612502）｜【LAWWW-C 11-05 03:5x】使用者選「可以上傳試」TRELLIS.2 線上版（挑幾張參考圖、結果好才用），自己加好網域（hf.space、hf.co、blender.org、sketchfab、arxiv、貼圖站），proxy 實測放行｜【LAWWW-C 11-04 21:4x】R1、R2 BB-C 21:25 同意（D128 定案），LAWWW2 dd6cffe64 寫進 ART_DIRECTION 12.2／12.8（含 TripoSR「目前不用」一行），開發分支已帶進來；CLAUDE.md 美術規則第 2 點補一段指過去。剩 LAWWW2 自己要問使用者的（TRELLIS.2 上傳、NVIDIA 顯示卡），記在 user_asks_LAWWW2｜【LAWWW-C 11-04 21:3x】LAWWW2-C 交研究收尾 25349f5f9（docs/art-rebuild/second_ai/research/OPEN_SRC_2D3D_1104.md）：單張圖轉 3D 的 AI 只適合小物件、要 NVIDIA；有用的三種已經在用（參考圖鏡頭＋同角度疊圖、CC0 掃描模型、窗卡）。提案照 D128（美術不經使用者：LAWWW2 提、BB 和 LAWWW 同意就定）：R1（12.2 近景小道具用 Poly Haven／ambientCG CC0 掃描模型）、R2（12.8 照參考圖做的店面附參考圖鏡頭＋同角度疊圖，和 D138 一致）LAWWW 同意，等 BB 同意 → LAWWW2 寫進 ART_DIRECTION（X225「試成功的方法要寫進美術規則」）；HDRI 另開 HDRI-ENV-1104 暫停｜【LAWWW-C 11-04 14:25】BB 的 IMG2-3D-RESEARCH-1104（同一題，使用者也問了 BB-C）試跑 CPU 版工具，成果交 LAWWW2 一起決定｜【LAWWW-C 11-04 14:23】LAWWW2-C 14:19（b8c42ea65）：單張圖轉 3D 的 AI 要 NVIDIA 顯示卡、模型大檔在雲端被擋，只適合小物件；雲端能用：Poly Haven 521 個 CC0 模型＋HDRI、參考圖鏡頭對位疊圖、DeepBump、Depth Anything V2 Small；之後交件開始用 Poly Haven 模型（LICENSES.md 同批補）；會提「低解析 CC0 HDRI 環境貼圖（PMREM）」的引擎提案（現在沒有環境貼圖、金屬度上限 0.45），改引擎 LAWWW 決定（v9.10.20 以後）；阿德轉角改試做：同角度疊圖＋Poly Haven 盆栽、花箱、冷氣",
+   "next": "【11-11 15:5x LAWWW 結案：取消】授權＝使用者 11-05 對 LAWWW2-C「這不用做 我電腦也跑不了」（UA-LAWWW2-1105-04）；替代：無（不做 TRELLIS.2 線上試用）｜【LAWWW-C 11-05 06:4x】使用者對 LAWWW2-C：「這不用做 我電腦也跑不了」＝TRELLIS.2 取消（UA-LAWWW2-1105-04；試用被 HF 免費 GPU 額度擋，e0e612502）｜【LAWWW-C 11-05 03:5x】使用者選「可以上傳試」TRELLIS.2 線上版（挑幾張參考圖、結果好才用），自己加好網域（hf.space、hf.co、blender.org、sketchfab、arxiv、貼圖站），proxy 實測放行｜【LAWWW-C 11-04 21:4x】R1、R2 BB-C 21:25 同意（D128 定案），LAWWW2 dd6cffe64 寫進 ART_DIRECTION 12.2／12.8（含 TripoSR「目前不用」一行），開發分支已帶進來；CLAUDE.md 美術規則第 2 點補一段指過去。剩 LAWWW2 自己要問使用者的（TRELLIS.2 上傳、NVIDIA 顯示卡），記在 user_asks_LAWWW2｜【LAWWW-C 11-04 21:3x】LAWWW2-C 交研究收尾 25349f5f9（docs/art-rebuild/second_ai/research/OPEN_SRC_2D3D_1104.md）：單張圖轉 3D 的 AI 只適合小物件、要 NVIDIA；有用的三種已經在用（參考圖鏡頭＋同角度疊圖、CC0 掃描模型、窗卡）。提案照 D128（美術不經使用者：LAWWW2 提、BB 和 LAWWW 同意就定）：R1（12.2 近景小道具用 Poly Haven／ambientCG CC0 掃描模型）、R2（12.8 照參考圖做的店面附參考圖鏡頭＋同角度疊圖，和 D138 一致）LAWWW 同意，等 BB 同意 → LAWWW2 寫進 ART_DIRECTION（X225「試成功的方法要寫進美術規則」）；HDRI 另開 HDRI-ENV-1104 暫停｜【LAWWW-C 11-04 14:25】BB 的 IMG2-3D-RESEARCH-1104（同一題，使用者也問了 BB-C）試跑 CPU 版工具，成果交 LAWWW2 一起決定｜【LAWWW-C 11-04 14:23】LAWWW2-C 14:19（b8c42ea65）：單張圖轉 3D 的 AI 要 NVIDIA 顯示卡、模型大檔在雲端被擋，只適合小物件；雲端能用：Poly Haven 521 個 CC0 模型＋HDRI、參考圖鏡頭對位疊圖、DeepBump、Depth Anything V2 Small；之後交件開始用 Poly Haven 模型（LICENSES.md 同批補）；會提「低解析 CC0 HDRI 環境貼圖（PMREM）」的引擎提案（現在沒有環境貼圖、金屬度上限 0.45），改引擎 LAWWW 決定（v9.10.20 以後）；阿德轉角改試做：同角度疊圖＋Poly Haven 盆栽、花箱、冷氣",
    "source": "使用者 11-04 14:1x 對 LAWWW2-C（UA-LAWWW2-1104-05，LAWWW2-C 14:19 轉 LAWWW-C）",
    "authorized": "使用者直接要求",
    "xai": {
@@ -52216,7 +52216,7 @@
    "id": "GG-SHOP-G04-PHARM-1110",
    "title": "公館 G04 改成「安泰藥局（社區藥局）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52229,7 +52229,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
+   "next": "【11-11 15:5x LAWWW 對帳（LAWWW2 15:46 queue 對帳，D148；SHA 都查過在開發分支裡）】招牌外觀、室內 3a216dfb27／949a24cc64／44986e6357／696cf6036f 已整合（v9.10.25 已上線）；店內台詞接線 GG-SHOPS3-SYS-1110 子代理在做｜LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
     "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
@@ -52242,7 +52242,7 @@
    "id": "GG-SHOP-G08-FRUIT-1110",
    "title": "公館 G08 改成「汀州鮮果（傳統水果行）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52255,7 +52255,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
+   "next": "【11-11 15:5x LAWWW 對帳（LAWWW2 15:46 queue 對帳，D148；SHA 都查過在開發分支裡）】同 G04（gg_xianguo）｜LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
     "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
@@ -52268,7 +52268,7 @@
    "id": "GG-SHOP-G09-LAUNDRY-1110",
    "title": "公館 G09 改成「洗樂洗衣坊（自助洗衣）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52281,7 +52281,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
+   "next": "【11-11 15:5x LAWWW 對帳（LAWWW2 15:46 queue 對帳，D148；SHA 都查過在開發分支裡）】X321 搬汀州路 tz_xile：f6947aff32、11161c101f、鐵捲門 949a24cc64 已整合（v9.10.25 已上線）｜LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
     "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
@@ -52294,7 +52294,7 @@
    "id": "GG-SHOP-G10-PRINT-1110",
    "title": "公館 G10 改成「印得好（影印、列印、裝訂、輸出；和溫州街阿德影印並存）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52307,7 +52307,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
+   "next": "【11-11 15:5x LAWWW 對帳（LAWWW2 15:46 queue 對帳，D148；SHA 都查過在開發分支裡）】tz_yindehao：f6947aff32、11161c101f、巷口 731cca95b3 已整合（v9.10.25 已上線）｜LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
     "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
@@ -52320,7 +52320,7 @@
    "id": "GG-SHOP-G11-TEISHOKU-1110",
    "title": "公館 G11 改成「泰米村食（平價泰式料理，取代日日定食；內部 id 不改）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52333,7 +52333,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
+   "next": "【11-11 15:5x LAWWW 對帳（LAWWW2 15:46 queue 對帳，D148；SHA 都查過在開發分支裡）】tz_taimi（泰米村食）：f6947aff32、11161c101f 已整合（v9.10.25 已上線）｜LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
     "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
@@ -52346,7 +52346,7 @@
    "id": "GG-SHOP-G13-STATIONERY-1110",
    "title": "公館 G13 改成「榮恩典文具社（傳統文具與美術用品）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52359,7 +52359,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
+   "next": "【11-11 15:5x LAWWW 對帳（LAWWW2 15:46 queue 對帳，D148；SHA 都查過在開發分支裡）】同 G04（gg_rongendian）｜LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
     "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
@@ -52675,7 +52675,7 @@
    "id": "TINGZHOU-AREA-1110",
    "title": "新區域「汀州路商圈」：和公館相連、走得過去；放泰米村食、洗樂洗衣坊、印得好三間（使用者：LAWWW2 優先規劃生成）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52688,7 +52688,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "第 2 版 BB 11-10 21:52：功能 PASS、街景＋五間外觀 ART_APPROVED；泰米、洗樂、印得好招牌退 LAWWW2 第 3 版（店名重複一塊、字太小）；巷 A、夜市攤併 NIGHT-MARKET-1110；iPhone 沒驗",
+   "next": "【11-11 15:5x LAWWW 對帳（LAWWW2 15:46 queue 對帳，D148；SHA 都查過在開發分支裡）】第 3 版招牌 24b4c2fb48 已整合，等 BB 判｜第 2 版 BB 11-10 21:52：功能 PASS、街景＋五間外觀 ART_APPROVED；泰米、洗樂、印得好招牌退 LAWWW2 第 3 版（店名重複一塊、字太小）；巷 A、夜市攤併 NIGHT-MARKET-1110；iPhone 沒驗",
    "xai": {
     "spec": "X321（UA-LAWWW-1110-89）",
     "branch": "claude/second-ai-env-art",
@@ -52805,7 +52805,7 @@
    "id": "SIGN-RECTIFY-1110",
    "title": "照參考圖做的店面招牌從斜的重新截成正的（16 塊；gongguan_shops、wenzhou_street、xinsheng_street 三顆 GLB 只換招牌貼圖）（X323）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52818,7 +52818,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "先公館五塊；交件附每塊前後對照；BB 判",
+   "next": "【11-11 15:5x LAWWW 對帳（LAWWW2 15:46 queue 對帳，D148；SHA 都查過在開發分支裡）】第 1 包 94ca14b1e、第 2／3 包 6ecd28432→9c769623a、大口第二版 35e560bbd 已整合，等 BB 判｜先公館五塊；交件附每塊前後對照；BB 判",
    "xai": {
     "spec": "X323",
     "branch": "claude/second-ai-env-art",
@@ -53499,7 +53499,7 @@
    "id": "L118-PASTA-BAR-POSTERS-1111",
    "title": "義大麵屋吧台凳離前板太近（膝蓋進前板 5 cm，遊戲端先用 L118_IT_FIX sit 往外 0.12 m 擋著）＋奈良咖哩、義大麵屋店內往外看窗上海報背面是米白方塊",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -53512,7 +53512,7 @@
     "confirmed": true
    },
    "sha": "988dfcbe2",
-   "next": "【11-11 10:5x LAWWW2 交付，發版後整合】claude/second-ai-env-art 988dfcbe2（outbox f30abd2e2）：docs/art-rebuild/second_ai/wip/l118_p2_1111/l118_p2_v1.patch（9 檔；dev 2b0929e27 上 git apply --3way 乾淨）。吧台凳外移 0.12＋前板內退 0.15（膝蓋離前板 1→16 cm），L118_IT_FIX.pasta 吧台五格 sit 拿掉；奈良咖哩／義大麵屋窗上海報背面＝紙背＋透光反向淡圖＋膠帶，義大麵屋第一張移到 x 1.41～2.19。相關 15 支過、全部 1286 支 1285 過＋bookstore 老警告。沒在瀏覽器坐過。｜【11-11 09:4x LAWWW 派，發版後】l118_int_pasta.py 凳子外挪或前板內縮（做完 LAWWW 拿掉 L118_IT_FIX 的 sit）；海報背面給貼圖或從裡面看不到。",
+   "next": "【11-11 15:5x LAWWW 對帳（LAWWW2 15:46 queue 對帳，D148；SHA 都查過在開發分支裡）】stack4 ①進 c170218dd｜【11-11 10:5x LAWWW2 交付，發版後整合】claude/second-ai-env-art 988dfcbe2（outbox f30abd2e2）：docs/art-rebuild/second_ai/wip/l118_p2_1111/l118_p2_v1.patch（9 檔；dev 2b0929e27 上 git apply --3way 乾淨）。吧台凳外移 0.12＋前板內退 0.15（膝蓋離前板 1→16 cm），L118_IT_FIX.pasta 吧台五格 sit 拿掉；奈良咖哩／義大麵屋窗上海報背面＝紙背＋透光反向淡圖＋膠帶，義大麵屋第一張移到 x 1.41～2.19。相關 15 支過、全部 1286 支 1285 過＋bookstore 老警告。沒在瀏覽器坐過。｜【11-11 09:4x LAWWW 派，發版後】l118_int_pasta.py 凳子外挪或前板內縮（做完 LAWWW 拿掉 L118_IT_FIX 的 sit）；海報背面給貼圖或從裡面看不到。",
    "xai": []
   },
   {
