@@ -197,7 +197,7 @@ const LUNCH118=(function(){
     const byT={}; for(const st of free){ const k=tk(st)||('s:'+st.x+','+st.z); (byT[k]=byT[k]||[]).push(st); }
     const TB=Object.keys(byT).map(k=>{ const a=byT[k]; return {a,x:a.reduce((t,q)=>t+q.x,0)/a.length,z:a.reduce((t,q)=>t+q.z,0)/a.length,lift:a.some(q=>q.lift)?1:0}; }), dist=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
     let best=null; for(const t0 of TB){ const list=[]; let tabs=0, span=0; for(const t of TB.slice().sort((p,q)=>dist(p,t0)-dist(q,t0))){ if(list.length>=need) break; for(const q of t.a){ if(list.length<need) list.push(q); } tabs++; span=dist(t,t0); }
-      const sc=[need-list.length,tabs,t0.lift,span], better=!best||sc.some((v,i)=>v!==best.sc[i]&&sc.slice(0,i).every((w,j)=>w===best.sc[j])&&v<best.sc[i]); if(better) best={sc,list}; }
+      const sc=[need-list.length,tabs,list.filter(q=>q.lift).length,span], better=!best||sc.some((v,i)=>v!==best.sc[i]&&sc.slice(0,i).every((w,j)=>w===best.sc[j])&&v<best.sc[i]); if(better) best={sc,list}; }
     const pick=best.list;
     GM.sitAt(E.player,pick[0]); let k=1, n=0;
     for(const id of P.party){ const st=pick[k]; if(!st) break; let c=GM.npc&&GM.npc[id]; if(c){ c.seatTarget=null; c.path=null; if(c.seat!==st) GM.sitAt(c,st); } else if(GM.spawnCharacter) c=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'});
