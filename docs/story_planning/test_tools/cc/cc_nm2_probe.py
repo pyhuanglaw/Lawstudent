@@ -466,7 +466,7 @@ async def edge_one(pg, cdp, q, E, day, b, lab):
     r1 = await press(pg, cdp, tag + ' 翻轉後'); press_sync(tag + ' 翻轉後（邊界後）', r1, q['id'], E)
     got = lambda r: '買得到' if r['menus'] else ('closed' if [t for _, t in r['lines']] == [E['closed']] else J([t for _, t in r['lines']])[:40])
     fl = ('翻 %s→%s' % (hhmm(flip[0]['gh']), hhmm(flip[1]['gh']))) if flip else ('沒在邊界翻（讀進來就是%s）' % ('開' if first and first['isOpen'] else '收'))
-    return '前 %s 模型%s %s｜%s｜後 %s %s' % (hhmm(r0['hp']) if r0.get('hp') is not None else '?', '開' if (r0.get('osp', {}).get(q['id']) or (None,))[0] else '收', got(r0), fl, hhmm(r1['hp']) if r1.get('hp') is not None else '?', got(r1))
+    return '前 %s 模型%s %s｜%s｜後 %s %s' % (hhmm(r0['hp']) if r0.get('hp') is not None else '?', '開' if (r0.get('os0', {}).get(q['id']) or (None, None))[1] else '收', got(r0), fl, hhmm(r1['hp']) if r1.get('hp') is not None else '?', got(r1))
 
 
 async def part_edge(pg, cdp):

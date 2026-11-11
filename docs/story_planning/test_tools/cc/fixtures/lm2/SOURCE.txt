@@ -1,0 +1,9 @@
+AA_750_limao.json：企劃線 claude/story-planning 的 docs/story_planning/AA_750_limao.json（原樣，未改）。
+抓的時候（2026-11-11 UTC）企劃線 HEAD：6b5507f8a9fd9f4ee65348316f267895f1bc4674
+這個檔最後一次修改的 commit：804f55bb36882c62f5d5f9fb520129dff62f62b8（2026-11-11 00:20:34 UTC「AA_750_limao：補收攤旁白、入口 A 標題、信放木盒；記回 LAWWW 的七題」）
+遊戲 src/data/limao.js（開發分支 e8918a013）標的來源是 @227db1c9e（2026-11-10 23:12:59 UTC，比這份早一版）。CC 比過兩版的差別（只有這三處＋_meta.rules 多一條）：
+  1. study_room.look[3]（學生來信）：227db1c9e「一個鐵盒」→ 804f55bb3「一個木盒」——探針照這份比，遊戲照舊的會對不上（不是探針問題）。
+  2. 新增 closed（「收攤」「店開著、他不在」兩句旁白）——遊戲 e8918a013 沒有這兩句（收攤時算命桌的按鈕藏起來）；探針只記遊戲顯示什麼，和這兩句並排。
+  3. 新增 reveal.entryA.title「走廊上的吳教授」——遊戲事件 ev_limao_wu_corridor 的 title 是空字串；探針只記有沒有標題卡。
+抓法：gh api "repos/pyhuanglaw/Lawstudent/contents/docs/story_planning/AA_750_limao.json?ref=claude/story-planning" -H "Accept: application/vnd.github.raw"
+用途：cc_lm2_probe.py（LM2 禮貌生財上師對話）逐句對稿；PC 沒有企劃線，探針用 DRAFT_DIR（預設＝探針資料夾/fixtures/lm2）讀這份。

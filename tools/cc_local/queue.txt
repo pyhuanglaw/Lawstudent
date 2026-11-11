@@ -652,6 +652,8 @@ NM_sync_new | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_plan
 NM_sync_old | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 12 | PARTS=SYNC;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
 NM_ring_new | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 10 | PARTS=RING;RDAY=2025-12-11;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
 NM_ring_old | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 10 | PARTS=RING;RDAY=2025-12-11;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
+# CC 00:4x：NM_shots r2（11161c101）三攤「開之前」模型開著＝LAWWW 9ecfe0fad 修的那個（冬天光線時間）；在 e8918a013 重拍那三攤確認
+NM_shots_r3 | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 10 | PARTS=SHOTS;STALLS=st_corn,st_stinky,st_ring;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
 # CC 00:2x NM1 r2（11161c101；BB 00:07 NM 改用 11161c101 以後）：第一輪 EDGE 是 TEST_BUG（讀檔後時間走了 3 分鐘）→ 改成等時間自己走過邊界；SHOTS 改照讀的那一刻 G.hour 判、印 E.hour、按的時候的 isOpen；位置差只記；WALK 照 E.pathTo 中途點推；OLDPOS 攤位的 ≤1 m 只記
 NM_tbl_edge_r2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 8 | PARTS=TABLE,EDGE;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
 NM_shots_a_r2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 18 | PARTS=SHOTS;STALLS=st_eggcake,st_scallion,st_ball,st_pepper,st_corn,st_stinky;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
@@ -660,6 +662,17 @@ NM_shots_c_r2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_pl
 NM_walk_new_r2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 15 | PARTS=WALK;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
 NM_oldfps_new_r2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_nm_probe.py | index.html | 8 | PARTS=OLDPOS,FPS;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
 # BB 00:14 NM1 第一輪定的四件：開收模型 position／rotation／scale 一樣＝PASS；OLDPOS 攤位 ≤2.5 m、同一側、只有一則 unstick；套圈圈同步兩條路＋換日（PARTS=RING，週四 2025-11-06）
+# BB 23:52 NM2 夜市能看能買（子代理 cc_nm2_probe；稿 fixtures/nm2 = 企劃線 b76a518af）：新 e8918a013（含 9ecfe0fad 光線時間修正）、舊 b810b809b＝只有模型（預期 FAIL）
+NM2_open1_new | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_nm2_probe.py | index.html | 10 | PARTS=OPEN;STALLS=st_milk,st_wheelcake,st_eggcake,st_scallion,st_ball;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+NM2_open2_new | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_nm2_probe.py | index.html | 10 | PARTS=OPEN;STALLS=st_pepper,st_corn,st_stinky,st_cane,st_jelly;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+NM2_closedbg_new | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_nm2_probe.py | index.html | 10 | PARTS=CLOSED,BG;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+NM2_edge1_new | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_nm2_probe.py | index.html | 10 | PARTS=EDGE;STALLS=st_milk,st_wheelcake,st_eggcake,st_scallion,st_ball;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+NM2_edge2_new | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_nm2_probe.py | index.html | 10 | PARTS=EDGE;STALLS=st_pepper,st_corn,st_stinky,st_cane,st_jelly;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+NM2_seasongg_new | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_nm2_probe.py | index.html | 12 | PARTS=SEASON,GG;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+NM2_saveold_new | e8918a0135d6e003d5d0486795e6a15917923d17 | probe | docs/story_planning/test_tools/cc/cc_nm2_probe.py | index.html | 10 | PARTS=SAVE,OLD;SHA=e8918a0135d6e003d5d0486795e6a15917923d17
+NM2_open_old | b810b809b16f6134141d75a811ebca0e3b49a04f | probe | docs/story_planning/test_tools/cc/cc_nm2_probe.py | index.html | 5 | PARTS=OPEN;STALLS=st_milk,st_eggcake;SHA=b810b809b16f6134141d75a811ebca0e3b49a04f
+NM2_closedbg_old | b810b809b16f6134141d75a811ebca0e3b49a04f | probe | docs/story_planning/test_tools/cc/cc_nm2_probe.py | index.html | 8 | PARTS=CLOSED,BG;SHA=b810b809b16f6134141d75a811ebca0e3b49a04f
+NM2_edge_old | b810b809b16f6134141d75a811ebca0e3b49a04f | probe | docs/story_planning/test_tools/cc/cc_nm2_probe.py | index.html | 8 | PARTS=EDGE;STALLS=st_cane,st_eggcake;SHA=b810b809b16f6134141d75a811ebca0e3b49a04f
 # BB 00:07 禮貌生財第 1 版（X332；新 11161c101、舊 bd3f67410＝還沒有這間店）：PARTS=LIMAO（店面三個時間＋算命桌、室內、書房門、舊存檔、巷 A）
 LM_new | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=LIMAO;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
 LM_old | bd3f67410415267cde659e007e7d09b6f8fd05f3 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 8 | PARTS=LIMAO;SHA=bd3f67410415267cde659e007e7d09b6f8fd05f3
