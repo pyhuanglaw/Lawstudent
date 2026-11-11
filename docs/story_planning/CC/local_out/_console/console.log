@@ -1,12 +1,3 @@
-[07:19:03] skip XSGATE_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[07:19:03] skip WZCAT_new (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[07:19:03] skip WZCAT_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[07:19:03] skip GUIDE_063 (already done on 063cf14abca16d890ae7c7d82ac05bd12eea58ef)
-[07:19:03] skip GGNAV_063 (already done on 063cf14abca16d890ae7c7d82ac05bd12eea58ef)
-[07:19:03] skip X199_ANROUTE (already done on 063cf14abca16d890ae7c7d82ac05bd12eea58ef)
-[07:19:03] skip GGLANE_new (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[07:19:03] skip GGLANE_old (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[07:19:03] skip WILLOW_new (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
 [07:19:03] skip WILLOW_old (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
 [07:19:03] skip W24_outing (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
 [07:19:03] skip W24_outing_old (already done on 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c)
@@ -1998,3 +1989,12 @@
 [14:02:58] [res] cpu=3% mem=47% (14.8/31.4 GB) chrome_testing=10  START CLASS12_const_c2
 [14:04:04] 正在跑：FN2_stairs10_new（已跑 6 分／上限 15 分）、FN2_stairs10_old（已跑 5 分／上限 15 分）、CLASS12_const_c2（已跑 1 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
 [14:05:11] [res] cpu=2% mem=46% (14.5/31.4 GB) chrome_testing=10  END CLASS12_const_c2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f04c2d326..2bd86aacf  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:05:17] ==== END   CLASS12_const_c2  exit=0  136s   ====
+[14:05:25] memory 46% before starting CLASS12_skip3_73_150x10 (2 running)
+[14:05:25] ==== START CLASS12_skip3_73_150x10  (probe @ 73faa493f90fc6c90ccc867950bd012cb3d1d72e) ====
+[14:05:28] [res] cpu=2% mem=46% (14.7/31.4 GB) chrome_testing=10  START CLASS12_skip3_73_150x10
+[14:09:04] 正在跑：FN2_stairs10_new（已跑 11 分／上限 15 分）、FN2_stairs10_old（已跑 10 分／上限 15 分）、CLASS12_skip3_73_150x10（已跑 3 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:09:30] [res] cpu=1% mem=47% (14.9/31.4 GB) chrome_testing=10  END CLASS12_skip3_73_150x10
