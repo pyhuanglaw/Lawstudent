@@ -6214,6 +6214,15 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "X324 語彤校外約會不分地點的短句 13 列（每列有 path 和 count_in_file，一定照 path 換）：①src/data/date_lines.js 最上層 lines.heroine_03 六列（move 第一句、transport 兩句、cancel、flaked 兩句）——tools/date/import_date_lines.py 寫檔前最後一步照 path 疊（apply767；那一格現在的字要剛好是 old）；②src/date3d.js 七列手寫檔直接換（S.EXTRA_LINES.heroine_03 的 depart[1]、depart[2]、enough 兩句、leaveEarly、noPair；S.MORNING.heroine_03）。enough 新句保留「秀琴姨煮了飯」，S.LINE_IF 的條件不動。逐字對稿 tests/yt_dates_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_768_yt_wish.json",
+   "sha": "0a2136911",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X324；企劃線 1a4c61289 寫、到 0a2136911 沒有再改）；LAWWW 2026-11-11 指定匯這一版",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 語彤 D13 心願事件「這次只有兩個人」（內容不動、只收字：刪節號 33 處留 4 處、「嗯。」開頭 9 處拿掉、長椅和河那兩句）：rows 34 列 old→new，path 是 date_wish.js 的 events.heroine_03 底下的位置——tools/date/import_wish.py 的 1h 照 path 疊在 wish_aa.json 語彤那一段上（那一格現在的字要剛好是 old；只換台詞的字，選項、條件、旗標、結構不動）→ src/data/date_wish.js。closing.lines[5]「……不用趕回去。」是 timeline replace 的 key，不動。逐字對稿 tests/yt_dates_1111_unit.js"
   }
  ]
 }

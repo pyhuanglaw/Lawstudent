@@ -6,6 +6,7 @@
 //   4. date3d.js：S.LINE_IF 兩組（accept、enough）還對得上；ARRIVE_VAR／REMEMBER_IF／PICK_FLAG 沒有拿語彤的句子當 key；aa524_3d.js y9 的「我請。」還在；S.xiuqin 照留
 //   5. 選項換字 42 格、選項數／tier／喜好不變（D14 夕陽多留一格）；請客的選項同一組
 //   6. AA_767_yt_date_common.json@0a2136911（13 列，照 path 換）：date_lines.js 最上層 lines.heroine_03 六列（工具寫檔前最後一層）、src/date3d.js 七列（S.EXTRA_LINES.heroine_03 六格＋S.MORNING.heroine_03）
+//   7. AA_768_yt_wish.json@0a2136911（34 列，照 path 換）：date_wish.js 的 events.heroine_03（心願事件「這次只有兩個人」，內容不動、只收字）；closing.lines[5]「……不用趕回去。」和 timeline replace 的 key 沒動
 // 稿、BASE 讀 git show；讀不到（淺層複本）＝不比稿，只驗結構。用法：node tests/yt_dates_1111_unit.js
 const H=require('./pg_harness.js');
 const {check}=H; const J=JSON.stringify;
@@ -122,5 +123,21 @@ const D14C=p=>/^lines\/closing\//.test(p);
       const ob=show(BASE,'src/date3d.js'); if(ob){ const O=lit(ob), L=lit(code), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(r2.map(r=>"'"+r.old+"'→'"+r.new+"'"));
         check('6. date3d.js 的字串和重匯以前（'+BASE+'）逐個比：一樣多，不一樣的剛好是稿上這七列（條件、以安的四格、別人早上那一句沒動）',O.length===L.length&&d.length===7&&d.every(([x,y])=>set.has(x+'→'+y)),J(d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,4))); } }
     check('6. S.xiuqin 照留：還沒聽過她家裡的事，enough 第一句顯示成「差不多了。煮飯的阿姨煮了飯，我想回去吃熱的。」',DATE.xiuqin({flags:{}},YT,EX.enough[0])==='差不多了。煮飯的阿姨煮了飯，我想回去吃熱的。'&&/S\.xiuqin=\(G,id,s\)=>id==='heroine_03'&&!\(G&&G\.flags&&G\.flags\.YT_FAMILY_HEARD\)&&typeof s==='string'\?s\.replace\(\/秀琴姨\/g,'煮飯的阿姨'\):s;/.test(code)); });
+  await sec(7,async()=>{ const DW=t=>JSON.parse(t.slice(t.indexOf('const DATE_WISH=')+16,t.lastIndexOf(';'))), W=DW(read('src/data/date_wish.js')), ev=W.events[YT];
+    const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files, e=allow.filter(x=>x.path===SP+'AA_768_yt_wish.json');
+    check('7. 白名單 AA_768_yt_wish.json@0a2136911 一筆、approved；date_wish.js 的來源寫著「AA_768@0a2136911（語彤 D13 心願 34 列，換了 34 列）」',e.length===1&&e[0].sha==='0a2136911'&&e[0].status==='approved'&&W.source.includes('AA_768@0a2136911（語彤 D13 心願 34 列，換了 34 列）'),W.source.slice(-60));
+    check('7. 語彤的事件 id、地點 D13、標題照舊；closing.lines[5]「……不用趕回去。」沒動、timeline replace 的 key 還是它',ev.id==='wish_heroine_03'&&ev.loc==='D13'&&ev.closing.lines[5].text==='……不用趕回去。'&&J(Object.keys(ev.closing.timeline[0].replace))===J(['……不用趕回去。'])&&ev.closing.timeline[0].replace['……不用趕回去。'][0].text==='今天我跟蘇姨換了班。',J(ev.closing.timeline));
+    check('7. 抽五句照稿：她提起「我家在淡水。」、答應「那就{出發時間}。」、還不知道的「好。我帶路。」、河「這條河，跟學校旁邊那條，是同一條嗎。」、長椅「這張椅子，我國中放假回來坐過。」',ev.mention.lines[1].text==='我家在淡水。'&&ev.herInvite.accept[0].text==='那就{出發時間}。'&&ev.playerInvite.unknown[1].text==='好。我帶路。'&&ev.hotspots['D13.rail'].lines[1].text==='這條河，跟學校旁邊那條，是同一條嗎。'&&ev.hotspots['D13.bench'].lines[0].text==='這張椅子，我國中放假回來坐過。');
+    const raw=show(SHA,SP+'AA_768_yt_wish.json'), A=raw?JSON.parse(raw):null;
+    const get=(o,pth)=>{ let x=o; for(const m of pth.matchAll(/\["([^"]+)"\]|\.?([^.\[\]"]+)|\[(\d+)\]/g)){ if(x==null) return x; x=x[m[1]!=null?m[1]:(m[2]!=null?m[2]:+m[3])]; } return x&&typeof x==='object'?x.text:x; };
+    if(A){ check('7. 逐字：稿 34 列，每一列 path 那一格現在是 new',A.rows.length===34&&A.rows.every(r=>get(ev,r.path)===r.new),J(A.rows.filter(r=>get(ev,r.path)!==r.new).map(r=>r.path)));
+      const tmp=path.join(os.tmpdir(),'date_wish_yt1111_'+process.pid+'.js'); let ok=false, out='';
+      try{ out=cp.execFileSync('python3',['tools/date/import_wish.py','--out',tmp],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=fs.readFileSync(tmp,'utf8')===read('src/data/date_wish.js'); }catch(x){ out=String(x.stderr||x.stdout||x.message).slice(0,300); }
+      try{ fs.unlinkSync(tmp); }catch(x){}
+      check('7. tools/date/import_wish.py 重匯（--out 另存）的結果和 src/data/date_wish.js 一樣',ok,ok?'':out.slice(0,300)); }
+    const ow=show(BASE,'src/data/date_wish.js'); if(ow){ const O=DW(ow), ids=Object.keys(O.events).filter(k=>k!==YT), a=leaves(O.events[YT],'',{}), b=leaves(ev,'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);
+      check('7. 別人的心願事件（'+ids.length+' 位）和重匯以前（'+BASE+'）一樣；hold、verify.miss 照舊是空的',ids.length===6&&ids.every(k=>J(O.events[k])===J(W.events[k]))&&J(O.hold)===J(W.hold)&&W.verify.miss.length===0&&W.verify.freeVisited.length===O.verify.freeVisited.length);
+      check('7. 語彤的事件和重匯以前比：格子一樣多、不一樣的 34 格都是台詞的 text（選項的字 t、條件、旗標、時間、結構沒動）',J(Object.keys(a))===J(Object.keys(b))&&d.length===34&&d.every(k=>/\/text$/.test(k))&&(!A||A.rows.every(r=>get(O.events[YT],r.path)===r.old)),J(d.filter(k=>!/\/text$/.test(k)))); }
+    const wcode=read('src/wish3d.js'); check('7. src/wish3d.js 沒有寫死語彤心願事件的句子（讀資料檔；timeline replace 用資料裡的 key）',!/不用趕回去|跟小時候一樣|我們拍一張/.test(wcode)); });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

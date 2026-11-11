@@ -109,8 +109,8 @@ const haveSrc=Object.keys(SRC).length===33;
       const vals=Object.values(leaves(ev,'',{})), olds=A757.wish_rows.filter(r=>!A757.wish_rows.some(q=>q.new===r.old));
       check('7. wish_rows 69 列：new 都在她的事件裡、old 都不在了',A757.wish_rows.length===69&&A757.wish_rows.every(r=>vals.includes(r.new))&&olds.every(r=>!vals.includes(r.old)),J(A757.wish_rows.filter(r=>!vals.includes(r.new)||(olds.includes(r)&&vals.includes(r.old))).map(r=>r.path)));
       check('7. 選項的字換了四處（聊天提到第 1 個、咖啡廳三個）：照稿',ev.mention.choices[0].t==='「妳撐不過十分鐘。」'&&J(ev.hotspots['D06.cafe'].choices.map(c=>c.t))===J(['「記下來了。」','「忍得很辛苦？」','「下次去妳家的店坐。」']),J(ev.hotspots['D06.cafe'].choices.map(c=>c.t))); }
-    const ob=show(BASE,'src/data/date_wish.js'); if(ob){ const O=DW(ob), ids=Object.keys(O.events).filter(k=>k!==PS&&k!==SIS);
-      check('7. 別人（學姊以外）的心願事件（'+ids.length+' 位）和重匯以前（'+BASE+'）一樣；hold、verify.miss 照舊是空的',ids.length===5&&ids.every(k=>J(O.events[k])===J(W.events[k]))&&J(O.hold)===J(W.hold)&&W.verify.miss.length===0&&W.verify.freeVisited.length===O.verify.freeVisited.length);
+    const ob=show(BASE,'src/data/date_wish.js'); if(ob){ const O=DW(ob), ids=Object.keys(O.events).filter(k=>k!==PS&&k!==SIS&&k!==YT);   /* 2026-11-11（X324，AA_768@0a2136911）：語彤的心願事件收字 34 格（tests/yt_dates_1111_unit.js 第 7 節另外驗），拿掉再比 */
+      check('7. 別人（學姊、語彤以外）的心願事件（'+ids.length+' 位）和重匯以前（'+BASE+'）一樣；hold、verify.miss 照舊是空的',ids.length===4&&ids.every(k=>J(O.events[k])===J(W.events[k]))&&J(O.hold)===J(W.hold)&&W.verify.miss.length===0&&W.verify.freeVisited.length===O.verify.freeVisited.length);
       const a=leaves(O.events[PS],'',{}), b=leaves(ev,'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);
       check('7. 沛珊的事件和重匯以前比：格子一樣多、不一樣的 69 格都是字的欄位（條件、旗標、時間、花費、選項數沒動）',J(Object.keys(a))===J(Object.keys(b))&&d.length===69&&d.every(k=>/\/(text|t|title|wish|note|costNote)$/.test(k)),J(d.filter(k=>!/\/(text|t|title|wish|note|costNote)$/.test(k)))); } });
 

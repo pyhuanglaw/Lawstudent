@@ -10,6 +10,8 @@
      學姊（不數東西、沒有「重點是」、朋友以上叫名字；美國學期是大四上 2028-08～12）、可昕（不說「假設」、不比輸贏：AA_373 6-1；AA_188 拿掉「這是告知」）。
      AA 改了原稿重新匯入：衝突的句子不在了，hold 自己消失。
   4. AA_764（DLG-FULL-REVIEW-1110，使用者 X324）：學姊 D15 心願事件照稿的 rows 32 列 old→new 疊（AA_595、AA_593 那兩層照舊先套；換完要等於稿的 wish_event）。白名單沒有 AA_764＝不疊。
+  5. AA_768（DLG-FULL-REVIEW-1110，使用者 X324）：語彤 D13 心願事件「這次只有兩個人」照稿的 rows 34 列 old→new 疊（照 path；內容不動、只收字：刪節號、「嗯。」開頭、長椅和河那兩句）。
+     closing.lines[5]「……不用趕回去。」是 timeline replace 的 key，不動（換完再檢查一次）。白名單沒有 AA_768＝不疊。
   3. AA_757（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫）：沛珊 D06 心願事件照稿的 wish_rows 69 列 old→new 疊（換完要等於稿的 wish_event；只換字，條件、旗標、時間、花費不動）。白名單沒有 AA_757＝不疊。
 用法：python3 tools/date/import_wish.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_wish.js）]"""
 import json, os, re, subprocess, sys
@@ -277,6 +279,48 @@ if A764:
         sys.exit('AA_764：32 列換完以後和稿的 wish_event 不一樣（稿的兩份對不起來，或源稿 wish_bb.json 學姊那一段變了）')
     SRC525 += f'＋{os.path.basename(P764)[:6]}@{S764}（學姊 D15 心願 32 列，換了 {n764} 列）'
 
+# ---- 1h. AA_768（DLG-FULL-REVIEW-1110，使用者 X324 語彤約會台詞重寫；白名單上的 commit）：語彤 D13 心願事件「這次只有兩個人」——事件已經是現行設定（AA_626），內容不動、只收字
+#      （刪節號 33 處留 4 處、「嗯。」開頭 9 處拿掉、長椅那句的「我們」、河那句的「公館」）。稿只有 rows＝34 列 old→new，path 是 events.heroine_03 底下的位置（那一句台詞的物件或字）。
+#      **一定照 path 換**（「……嗯。」「嗯。」「……好。」「……淡水？」「……下次。」整個檔出現很多次）：path 那一格現在的字要剛好是 old（已經是 new＝跳過），換成 new；兩個都不是＝停下來，不猜。
+#      只換台詞的字（那一格是 {who,text} 的 text，或直接是一句字）；選項的字、條件、旗標、時間、結構都不動。closing.lines[5]「……不用趕回去。」是 timeline replace 的 key：換完檢查它和 key 都還在 ----
+A768 = G.approved_files(ALLOW, SP + 'AA_768_')
+FIX768 = set()
+YT = 'heroine_03'
+if A768:
+    P768, S768 = next(iter(A768.items()))
+    ok, why = G.allowed(P768, S768, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d768 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S768}:{P768}'], text=True)))
+    rows768 = d768.get('rows') or []
+    if len(rows768) != 34:
+        sys.exit(f'AA_768@{S768} 的 rows 應該是 34 列，讀到 {len(rows768)} 列')
+    KEEP768 = '……不用趕回去。'
+    n768 = 0
+    for r in rows768:
+        toks = [q if q else (a if a else int(b)) for q, a, b in re.findall(r'\["([^"]+)"\]|\.?([^.\[\]"]+)|\[(\d+)\]', r['path'])]
+        cur, par, key = EV[YT], None, None
+        for t in toks:
+            try:
+                par, key, cur = cur, t, cur[t]
+            except (KeyError, IndexError, TypeError):
+                sys.exit(f'AA_768 rows：路徑 {r["path"]} 找不到（在 {t!r}）')
+        if isinstance(cur, dict) and isinstance(cur.get('text'), str) and cur.get('who') in (YT, 'narr'):
+            par, key, cur = cur, 'text', cur['text']
+        if not isinstance(cur, str) or key in ('t', 'note', 'who', 'scene', 'rule'):
+            sys.exit(f'AA_768 rows：{r["path"]} 不是一句台詞（只換台詞的字）')
+        if KEEP768 in (r['old'], r['new']):
+            sys.exit(f'AA_768 rows：{r["path"]} 動到 timeline replace 的 key「{KEEP768}」')
+        if cur == r['new']:
+            FIX768.add(r['new']); continue
+        if cur != r['old']:
+            sys.exit(f'AA_768 rows：{r["path"]} 現在是「{cur}」，不是原句「{r["old"]}」')
+        par[key] = r['new']; FIX768.add(r['new']); n768 += 1
+    c768 = EV[YT]['closing']
+    if c768['lines'][5].get('text') != KEEP768 or not any(KEEP768 in (x.get('replace') or {}) for x in c768.get('timeline') or []):
+        sys.exit(f'AA_768：closing.lines[5]「{KEEP768}」或 timeline replace 的 key 不在了')
+    SRC525 += f'＋{os.path.basename(P768)[:6]}@{S768}（語彤 D13 心願 34 列，換了 {n768} 列）'
+
 # ---- 2. 逐句對原稿（台詞、旁白、選項的字；說明欄不算）----
 SKIP = ('wish', 'rule', 'note', 'where', 'context', 'source', 'title', 'hotspotsTitle', 'scene', 'repeat', 'costNote', 'likeNote', 'album', 'code', 'name', 'memory', 'record')
 def all_text(o, path=''):
@@ -314,6 +358,9 @@ for k, e in EV.items():
         parts = [p for p in re.split(r'[（）「」]', t) if p] if who in ('narr', 'opt') else [t]
         if t0 in FIX592: continue   # AA_592 第 53 列換上去的句子（上面 1d 已對過 AA_592 的表）
         if t0 in FIX593 and k == 'heroine_05': continue   # AA_593 第 82 列（上面 1d2 已對過 AA_593 的表）
+        if t0 in FIX768 and k == YT:   # AA_768 換上去的句子（上面 1h 已照 path 對過 AA_768 的 rows）；「你來過一次」的照舊列在 freeVisited
+            if free and path.startswith(free): extra.append(f'{path}：{t0}')
+            continue
         if t0 in FIX764 and k == SIS:   # AA_764 換上去的句子（上面 1g 已對過 AA_764 的 rows、wish_event）；「你來過一次」的照舊列在 freeVisited
             if free and path.startswith(free): extra.append(f'{path}：{t0}')
             continue

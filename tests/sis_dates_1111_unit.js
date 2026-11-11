@@ -101,8 +101,8 @@ const ob=show(BASE,'src/data/date_lines.js'), WAS=ob?DL(ob):null;
       try{ out=cp.execFileSync('python3',['tools/date/import_wish.py','--out',tmp],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=fs.readFileSync(tmp,'utf8')===read('src/data/date_wish.js'); }catch(x){ out=String(x.stderr||x.stdout||x.message).slice(0,300); }
       try{ fs.unlinkSync(tmp); }catch(x){}
       check('6. tools/date/import_wish.py 重匯（--out 另存）的結果和 src/data/date_wish.js 一樣',ok,ok?'':out.slice(0,300)); }
-    const ow=show(BASE,'src/data/date_wish.js'); if(ow){ const O=DW(ow), ids=Object.keys(O.events).filter(k=>k!==SIS), a=leaves(O.events[SIS],'',{}), b=leaves(ev,'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);
-      check('6. 別人的心願事件（'+ids.length+' 位，含沛珊）和重匯以前（'+BASE+'）一樣；hold、verify.miss 照舊是空的',ids.length===6&&ids.every(k=>J(O.events[k])===J(W.events[k]))&&J(O.hold)===J(W.hold)&&W.verify.miss.length===0&&W.verify.freeVisited.length===O.verify.freeVisited.length);
+    const ow=show(BASE,'src/data/date_wish.js'); if(ow){ const O=DW(ow), ids=Object.keys(O.events).filter(k=>k!==SIS&&k!==YT), a=leaves(O.events[SIS],'',{}), b=leaves(ev,'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);   /* 2026-11-11（X324，AA_768@0a2136911）：語彤的心願事件收字 34 格（tests/yt_dates_1111_unit.js 第 7 節另外驗），拿掉再比 */
+      check('6. 別人的心願事件（'+ids.length+' 位，含沛珊；語彤另外驗）和重匯以前（'+BASE+'）一樣；hold、verify.miss 照舊是空的',ids.length===5&&ids.every(k=>J(O.events[k])===J(W.events[k]))&&J(O.hold)===J(W.hold)&&W.verify.miss.length===0&&W.verify.freeVisited.length===O.verify.freeVisited.length);
       check('6. 學姊的事件和重匯以前比：格子一樣多、不一樣的 32 格都是字的欄位（選項的字、條件、旗標、時間、花費沒動；選項 t 一個都沒換）',J(Object.keys(a))===J(Object.keys(b))&&d.length===32&&d.every(k=>/\/(text|where)$/.test(k)),J(d.filter(k=>!/\/(text|where)$/.test(k)))); } });
 
   await sec(7,async()=>{ const LS=NOW.lines[SIS], raw=show('808a6d846',SP+'AA_765_sis_date_common.json'), A=raw?JSON.parse(raw):null;
