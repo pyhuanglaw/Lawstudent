@@ -7697,6 +7697,24 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "改稿紀錄（AA_812 懸著的承諾，可昕 D15 收尾（第 10 格））：AA 只改了這份紀錄、源稿 date_system/lines/Dxx.json 沒有重新 apply（白名單 33 筆還是 248c8e390，和 f1fab0ec6 的 Dxx.json 一樣）——tools/date/import_date_lines.py 拿這份紀錄在源稿那一版（248c8e390）和這一版逐格比，不一樣的格照格號（date_rewrite.py list 的順序）換在遊戲那一格（寫檔前最後一步；那一格要是舊字，已經是新字＝跳過，都不是＝停下來）。git diff 248c8e390 f1fab0ec6 這份檔只有 AA_812 這一格"
+  },
+  {
+   "path": "docs/story_planning/AA_742_公館六間店_設定與台詞.md",
+   "sha": "75f5de658",
+   "status": "approved",
+   "approvedBy": "AA 定稿（D109）；LAWWW 接線 GG-SHOPS3-STORY-1110",
+   "task": "GG-SHOPS3-STORY-1110",
+   "kind": "md",
+   "note": "公館三間（安泰藥局、汀州鮮果、榮恩典文具社）＋汀州路三間（洗樂洗衣坊、印得好、泰米村食）的店家設定、商品價錢、進門、說話、情境、看、打烊、關門、約去泰米村食；③ 日日定食改成泰米村食（tools/shops/import_gg3_shops.py → src/data/gg3_shops_lines.js；流程 src/gg3shops3d.js；③ 手動照抄在 src/sis_grad3d.js、src/story3d.js；tests/gg_shops3_story_1111_unit.js 逐句對照）"
+  },
+  {
+   "path": "docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md",
+   "sha": "75f5de658",
+   "status": "approved",
+   "approvedBy": "AA 定稿（D109）；LAWWW 接線 GG-SHOPS3-STORY-1110",
+   "task": "GG-SHOPS3-STORY-1110",
+   "kind": "md",
+   "note": "以這份為準：AA_742 的 kind 對照 LAWWW2 的配置、第 2 節新加／改寫的「看」、要改模型的句子不接、騎樓 sale／rack 不接、汀州鮮果老闆娘那一句換老闆說、印得好老闆那一句換店員說、榮恩典女兒週末不接（tools/shops/import_gg3_shops.py）"
   }
  ]
 }
