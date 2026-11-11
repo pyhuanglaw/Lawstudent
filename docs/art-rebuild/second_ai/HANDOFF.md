@@ -1,7 +1,14 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-11 12:3x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 13:4x UTC）
+
+- 這一輪交的五件都是「發版後整合」，LAWWW 都 ACK 了：P2 吧台凳＋海報背面（988dfcbe2）、TAP-RAY-SEAT（cef36c9c7）、CAFE-BAR-CAM（42671da70）、GG-SHOPS3 資料補五項（24a2bc245）；**四包疊在開發分支 56ecee2fb 一起試**（`wip/stack4_1111/`，c8ca5c0b4）：都乾淨、全部 Node 1290 支 1289 過＋bookstore 老警告，合併 patch 在 71adf757d7 上也乾淨（等 LAWWW ACK）。
+- 對帳（D148）：GG-SHOPS3-ART-1110、FLOWER-NOTES-ART-1110 早就做了、已整合（在 v9.10.25 候選裡），LAWWW 改「已整合待測試」；AA_743 對照表 `wip/gg_shops6_int_1110/AA_743_對照_1111.md`。LAWWW／AA（AA_813）決定：kind 不改、資料五項做了、要改模型的五項記 P3 GG-SHOPS3-ART-V2（等 BB 判室內 v1 再說）、騎樓照現在、店裡的人（老闆娘、女兒…）LAWWW 發版後和 AA 看。
+- **現在照 §5 停**：等 BB 判（118 巷室內第 3 版、泳池、季節、六間室內、花序 v2、汀州路招牌第 3 版、Café 吊燈網點）、LAWWW 給座位最後的值（#47 重跑 `it_fix()`）、CC 的南洋戲院截圖，或 LAWWW 派新的。
+- 工作目錄：`$SP/wt_ch`＝開發分支 56ecee2fb＋四包（staged）；`$SP/wt_bb`＝f2515c2077＋資料五項（staged，已交）。兩個都可以重設。
+
+## 交接（前一則｜帳號 A｜2026-11-11 12:3x UTC）
 
 - 三包都交了、都是「發版後整合」（v9.10.25 候選 0d1eaadc7 不動）：
   - P2 義大麵屋吧台凳＋窗上海報背面（988dfcbe2）：LAWWW 10:56 ACK。

@@ -8199,10 +8199,10 @@
   },
   {
    "branch": "claude/second-ai-env-art",
-   "sha": "（這個 commit）",
+   "sha": "24a2bc245",
    "receiver": "LAWWW",
    "cc": "AA",
-   "ack": "SENT",
+   "ack": "ACK（LAWWW 12:26：記上，發版後整合；句子 LAWWW 接 AA_742／813）",
    "at": "2026-11-11T13:0x",
    "task": "GG-SHOPS3 資料補五項：安泰看藥品櫃、鮮果看紙箱、洗樂看使用說明＋坐著等、印得好電腦圓凳用電腦、文具看畫架",
    "files": [
@@ -8212,6 +8212,22 @@
    "noDirectIntegrate": false,
    "note": "3 個檔（tz_shops_layout.js 資料、tz_shops3d.js 座位字讀 label、新 gg_shops3_points_1111_unit）；基底 f2515c2077，在 56ecee2fb5 上乾淨；不改模型；全部 Node 1288：1287 過＋bookstore 老警告",
    "next": "LAWWW 發版後整合、接 AA_742／AA_813 的句子"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "c8ca5c0b4",
+   "receiver": "LAWWW",
+   "cc": "",
+   "ack": "SENT",
+   "at": "2026-11-11T13:4x",
+   "task": "四包疊在開發分支一起試（l118_p2、tap_ray_seat、cafe_bar_cam、gg_shops3_points）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/stack4_1111/（README.md、stack4_on_56ecee2fb.patch、regression_stack4.log）"
+   ],
+   "state": "READY_FOR_REVIEW",
+   "noDirectIntegrate": false,
+   "note": "56ecee2fb5 上依序 --3way 都乾淨、都不用改；全部 Node 1290：1289 過＋bookstore 老警告；合併 patch 在 71adf757d7 上也乾淨",
+   "next": "LAWWW 發版後整合；LAWWW2 照 §5 停，等 BB 判或 LAWWW 派"
   }
  ]
 }
