@@ -114,7 +114,10 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('6. 閒聊階梯 P2-L3：「我在溫州街的課輔班帶小朋友，每個禮拜三。」（不說三天、兩天）',!!L3&&L3.lines[0]==='我在溫州街的課輔班帶小朋友，每個禮拜三。'&&!/三天|兩天/.test(JSON.stringify(L3.lines)),L3&&L3.lines[0]);
     fresh(termDay('Y1S2',6,2),17,'wenzhou',{}); R('classmate_peishan','FAM'); const g=[]; for(let i=0;i<6;i++){ const t=STORY.ladGreet(G,'classmate_peishan'); if(t) g.push(t); }
     /* AA-B 11-07 以後週二 17:00 她不在溫州街（在總圖）：招呼的條件（ladder.js 的 when：週二、四 16:30～18:00）是 AA 的資料，沒有改——已問 AA（AA614 回報）；這裡只確認資料還在、她週二不在溫州街 */
-    check('6. 第 6 週週二 17:00：招呼「（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！」（2026-11-11 新稿的字；原本「……等一下！」）的資料照舊；她已經不在溫州街（AA-B 11-07 課輔班改週三）',STORY.schedEnt(ps,G).zone!=='wenzhou'&&g.includes('（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！'),J([STORY.schedEnt(ps,G).zone,g])); }
+    /* 2026-11-11（BB_326 第 4 節，企劃線 8abb761bd；BB 定、LAWWW 同意）：這一則招呼的條件照現行作息改成溫州街、週三 18:00～21:00（原本資料還是週二、四 16:30～18:00，這裡期望週二 17:00 抽得到）——週二 17:00 她不在溫州街、也不再說這一句；週三 19:00 她在溫州街、說得到 */
+    check('6. 第 6 週週二 17:00：她不在溫州街（AA-B 11-07 課輔班改週三），招呼「（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！」不出（BB_326 第 4 節：改週三 18:00～21:00）',STORY.schedEnt(ps,G).zone!=='wenzhou'&&!g.includes('（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！'),J([STORY.schedEnt(ps,G).zone,g]));
+    fresh(termDay('Y1S2',6,3),19,'wenzhou',{}); R('classmate_peishan','FAM'); const g3=[]; for(let i=0;i<6;i++){ const t=STORY.ladGreet(G,'classmate_peishan'); if(t) g3.push(t); }
+    check('6. 第 6 週週三 19:00：她在溫州街（課輔班），招呼出得來「（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！」',STORY.schedEnt(ps,G).zone==='wenzhou'&&g3.includes('（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！'),J([STORY.schedEnt(ps,G).zone,g3])); }
   // ===== 第 7 項＋BB-5：語彤大一下期末邀約「禮拜五」=====
   { const inv=(term,kind)=>{ const w=TERMEND.windowOf(term); fresh(w.from,20,'dorm',{}); R('heroine_03','FRI'); TERMEND.rec(G,term).plan={back:w.from,heart:kind==='heart'?['heroine_03']:[],friend:kind==='friend'?['heroine_03']:[],fallback:null,gf:[],nope:{},kx:false};
       G.hour=20.9; TERMEND.phone(GM); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='te_'+term+'_heroine_03'); return m?m.text:null; };
