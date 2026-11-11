@@ -1,0 +1,244 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_ab_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_B4\out
+受測 SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b；PARTS=B；SHOPS=drink_a,drink_b；URL=http://127.0.0.1:8801/index.html
+Playwright 手機模擬（橫向 844×390）≠ iPhone 實機
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.5s] 畫面上的版本字樣：版本 v9.10.24（2026-11-10）
+  [  26.6s] 候選日期：[{"k": "2025-09-24", "d": 8, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 4}, {"k": "2025-10-01", "d": 15, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 5}, {"k": "2025-10-15", "d": 29, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 7}, {"k": "2025-10-22", "d": 36, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 8}, {"k": "2025-10-29", "d": 43, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 9}, {"k": "2025-11-05", "d": 50, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 10}]
+PASS 日期 2025-09-24：學期中（Y1S1 第 4 週）、不是假日、不是颱風假  {"k": "2025-09-24", "d": 8, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 4}
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (0.00, 31.00)，12.17 點、錢 5000、QUIET=True（查營業時間（巷口））
+  [  46.0s] 營業（L118.isOpen，2025-09-24 12.17）：[{"id": "dian", "open": true, "note": null}, {"id": "self", "open": true, "note": null}, {"id": "tea", "open": true, "note": null}, {"id": "home", "open": true, "note": null}, {"id": "cafe2", "open": true, "note": null}, {"id": "pasta", "open": true, "note": null}, {"id": "korea", "open": true, "note": null}, {"id": "omu", "open": true, "note": null}, {"id": "noodle2", "open": true, "note": null}, {"id": "drink_a", "open": true, "note": null}, {"id": "drink_b", "open": true, "note": null}]
+PASS drink_a 這個時間有開（沒有公休紙）  {"id": "drink_a", "open": true, "note": null}
+PASS drink_b 這個時間有開（沒有公休紙）  {"id": "drink_b", "open": true, "note": null}
+  逐字｜start｜lane118｜clockZ｜118 巷
+  逐字｜start｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+
+===== drink_a 喝不喝咖啡（PARTS=B）=====
+PASS drink_a 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (3.90, -1.10)，12.17 點、錢 5000、QUIET=True（喝不喝咖啡 店門口附近的人行道）
+PASS drink_a 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": 3.9, "z": -1.1, "ry": 3.02, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 6.166, "fallbacks": 0, "y": 0, "lv": 0, "frame": 280, "paused": false}
+PASS drink_a 巷子裡有這間店的店門口互動點  [{"x": 4.3, "z": -4.5, "r": 1.4, "label": "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））", "hidden": false, "enter": false}]
+  [  54.5s] 搖桿走到「喝不喝咖啡 店門口」（0.15 m，推 2 次，3 秒）
+  逐字｜drink_a_door｜lane118｜interactLabel｜喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））
+PASS A drink_a 店門口互動鍵（畫面）是「喝不喝咖啡（…）」  畫面：「喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））」；搖桿
+  [  55.0s] drink_a 互動點 (4.30, -4.50)；站的位置範圍內的互動點 1 個：[{"label": "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））", "d": 0.15, "r": 1.4, "prio": 0, "x": 4.3, "z": -4.5}]；畫面上的互動鍵 1 個、最上層＝interact
+PASS B drink_a 站在店門口：畫面上的互動鍵就是它、在最上層（沒被別的蓋住）  {"shown": true, "t": "喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））", "top": "interact", "n": 1}
+PASS B drink_a 站在店門口：範圍內沒有別的互動點跟它搶  []
+  逐字｜drink_a_menu｜lane118｜dlgText｜店員｜甜度冰塊？
+  逐字｜drink_a_menu｜lane118｜choices｜紅茶 30 元 ｜ 綠茶 30 元 ｜ 冬瓜茶 35 元 ｜ 珍珠奶茶 55 元 ｜ 鮮奶茶 65 元 ｜ 美式咖啡 50 元 ｜ 拿鐵 75 元 ｜ 不用了
+PASS B drink_a 點餐有選單  {"menu": [{"i": 0, "t": "紅茶 30 元", "dim": false, "name": "紅茶", "price": 30}, {"i": 1, "t": "綠茶 30 元", "dim": false, "name": "綠茶", "price": 30}, {"i": 2, "t": "冬瓜茶 35 元", "dim": false, "name": "冬瓜茶", "price": 35}, {"i": 3, "t": "珍珠奶茶 55 元", "dim": false, "name": "珍珠奶茶", "price": 55}, {"i": 4, "t": "鮮奶茶 65 元", "dim": false, "name": "鮮奶茶", "price": 65}, {"i": 5, "t": "美式咖啡 50 元", "dim": false, "name": "美式咖啡", "price": 50}, {"i": 6, "t": "拿鐵 75 元", "dim": false, "name": "拿鐵", "price": 75}, {"i": 7, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [  60.1s] drink_a 選單（畫面）：["紅茶 30 元", "綠茶 30 元", "冬瓜茶 35 元", "珍珠奶茶 55 元", "鮮奶茶 65 元", "美式咖啡 50 元", "拿鐵 75 元", "不用了"]
+PASS B drink_a 喝不喝咖啡 7 樣、價錢都在 30～75  [["紅茶", 30], ["綠茶", 30], ["冬瓜茶", 35], ["珍珠奶茶", 55], ["鮮奶茶", 65], ["美式咖啡", 50], ["拿鐵", 75]]
+PASS B drink_a 喝不喝咖啡 菜單有「咖啡|拿鐵」  ["紅茶", "綠茶", "冬瓜茶", "珍珠奶茶", "鮮奶茶", "美式咖啡", "拿鐵"]
+  [前置／捷徑] 遊戲時間 12.24 → 設回 12.17（下一樣（紅茶）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_a_紅茶｜lane118｜dlgText｜店員｜甜度冰塊？
+  逐字｜drink_a_紅茶｜lane118｜clockZ｜118 巷
+  逐字｜drink_a_紅茶｜lane118｜toast｜💸 30 元
+  逐字｜drink_a_紅茶｜lane118｜dlgText｜（你點了紅茶。）
+  逐字｜drink_a_紅茶｜lane118｜dlgText｜（你站在窗口前面，把菜單從上看到下，最後點了第一個看到的。）
+  逐字｜drink_a_紅茶｜lane118｜toast｜📓 吃過的：118 巷・喝不喝咖啡　紅茶
+  逐字｜drink_a_紅茶｜lane118｜dlgText｜（你拿著飲料走回巷口。）
+  逐字｜drink_a_紅茶｜lane118｜clockZ｜118 巷
+  逐字｜drink_a_紅茶｜lane118｜interactLabel｜喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））
+PASS B drink_a 「紅茶」標價 30＝扣的錢（點完那一句時）  點前 {"g": 5000, "hud": "$5000"} → 你點了 {"g": 4970, "hud": "$4970"} → 演完 {"g": 4970, "hud": "$4970"}
+PASS B drink_a 「紅茶」整段演完只扣自己的 30（玩家只付自己的餐費）  扣 30；其他選項 []
+PASS B drink_a 「紅茶」右上角錢數跟著變（#money＝$4970）  $4970
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（下一樣（綠茶）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_a_綠茶｜lane118｜dlgText｜店員｜甜度冰塊？
+  逐字｜drink_a_綠茶｜lane118｜choices｜紅茶 30 元 ｜ 綠茶 30 元 ｜ 冬瓜茶 35 元 ｜ 珍珠奶茶 55 元 ｜ 鮮奶茶 65 元 ｜ 美式咖啡 50 元 ｜ 拿鐵 75 元 ｜ 不用了
+  逐字｜drink_a_綠茶｜lane118｜toast｜💸 30 元
+  逐字｜drink_a_綠茶｜lane118｜dlgText｜（你點了綠茶。）
+  逐字｜drink_a_綠茶｜lane118｜clockZ｜118 巷
+  逐字｜drink_a_綠茶｜lane118｜dlgText｜（你拿著飲料走回巷口。）
+  逐字｜drink_a_綠茶｜lane118｜interactLabel｜喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））
+  逐字｜drink_a_綠茶｜lane118｜toast｜📓 吃過的：118 巷・喝不喝咖啡　綠茶
+PASS B drink_a 「綠茶」標價 30＝扣的錢（點完那一句時）  點前 {"g": 4970, "hud": "$4970"} → 你點了 {"g": 4940, "hud": "$4940"} → 演完 {"g": 4940, "hud": "$4940"}
+PASS B drink_a 「綠茶」整段演完只扣自己的 30（玩家只付自己的餐費）  扣 30；其他選項 []
+PASS B drink_a 「綠茶」右上角錢數跟著變（#money＝$4940）  $4940
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（下一樣（冬瓜茶）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_a_冬瓜茶｜lane118｜dlgText｜店員｜甜度冰塊？
+  逐字｜drink_a_冬瓜茶｜lane118｜choices｜紅茶 30 元 ｜ 綠茶 30 元 ｜ 冬瓜茶 35 元 ｜ 珍珠奶茶 55 元 ｜ 鮮奶茶 65 元 ｜ 美式咖啡 50 元 ｜ 拿鐵 75 元 ｜ 不用了
+  逐字｜drink_a_冬瓜茶｜lane118｜clockZ｜118 巷
+  逐字｜drink_a_冬瓜茶｜lane118｜toast｜💸 35 元
+  逐字｜drink_a_冬瓜茶｜lane118｜dlgText｜（你點了冬瓜茶。）
+  逐字｜drink_a_冬瓜茶｜lane118｜dlgText｜（你拿著飲料走回巷口。）
+  逐字｜drink_a_冬瓜茶｜lane118｜interactLabel｜喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））
+  逐字｜drink_a_冬瓜茶｜lane118｜toast｜📓 吃過的：118 巷・喝不喝咖啡　冬瓜茶
+  逐字｜drink_a_冬瓜茶｜lane118｜clockZ｜118 巷
+PASS B drink_a 「冬瓜茶」標價 35＝扣的錢（點完那一句時）  點前 {"g": 4940, "hud": "$4940"} → 你點了 {"g": 4905, "hud": "$4905"} → 演完 {"g": 4905, "hud": "$4905"}
+PASS B drink_a 「冬瓜茶」整段演完只扣自己的 35（玩家只付自己的餐費）  扣 35；其他選項 []
+PASS B drink_a 「冬瓜茶」右上角錢數跟著變（#money＝$4905）  $4905
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（下一樣（珍珠奶茶）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_a_珍珠奶茶｜lane118｜dlgText｜店員｜甜度冰塊？
+  逐字｜drink_a_珍珠奶茶｜lane118｜choices｜紅茶 30 元 ｜ 綠茶 30 元 ｜ 冬瓜茶 35 元 ｜ 珍珠奶茶 55 元 ｜ 鮮奶茶 65 元 ｜ 美式咖啡 50 元 ｜ 拿鐵 75 元 ｜ 不用了
+  逐字｜drink_a_珍珠奶茶｜lane118｜toast｜💸 55 元
+  逐字｜drink_a_珍珠奶茶｜lane118｜dlgText｜（你點了珍珠奶茶。）
+  逐字｜drink_a_珍珠奶茶｜lane118｜dlgText｜（你拿著飲料走回巷口。）
+  逐字｜drink_a_珍珠奶茶｜lane118｜clockZ｜118 巷
+  逐字｜drink_a_珍珠奶茶｜lane118｜interactLabel｜喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））
+  逐字｜drink_a_珍珠奶茶｜lane118｜toast｜📓 吃過的：118 巷・喝不喝咖啡　珍珠奶茶
+PASS B drink_a 「珍珠奶茶」標價 55＝扣的錢（點完那一句時）  點前 {"g": 4905, "hud": "$4905"} → 你點了 {"g": 4850, "hud": "$4850"} → 演完 {"g": 4850, "hud": "$4850"}
+PASS B drink_a 「珍珠奶茶」整段演完只扣自己的 55（玩家只付自己的餐費）  扣 55；其他選項 []
+PASS B drink_a 「珍珠奶茶」右上角錢數跟著變（#money＝$4850）  $4850
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（下一樣（鮮奶茶）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_a_鮮奶茶｜lane118｜dlgText｜店員｜甜度冰塊？
+  逐字｜drink_a_鮮奶茶｜lane118｜choices｜紅茶 30 元 ｜ 綠茶 30 元 ｜ 冬瓜茶 35 元 ｜ 珍珠奶茶 55 元 ｜ 鮮奶茶 65 元 ｜ 美式咖啡 50 元 ｜ 拿鐵 75 元 ｜ 老樣子 珍珠奶茶 ｜ 不用了
+  逐字｜drink_a_鮮奶茶｜lane118｜toast｜💸 65 元
+  逐字｜drink_a_鮮奶茶｜lane118｜dlgText｜（你點了鮮奶茶。）
+  逐字｜drink_a_鮮奶茶｜lane118｜clockZ｜118 巷
+  逐字｜drink_a_鮮奶茶｜lane118｜dlgText｜（你拿著飲料走回巷口。）
+  逐字｜drink_a_鮮奶茶｜lane118｜interactLabel｜喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））
+  逐字｜drink_a_鮮奶茶｜lane118｜toast｜📓 吃過的：118 巷・喝不喝咖啡　鮮奶茶
+PASS B drink_a 「鮮奶茶」標價 65＝扣的錢（點完那一句時）  點前 {"g": 4850, "hud": "$4850"} → 你點了 {"g": 4785, "hud": "$4785"} → 演完 {"g": 4785, "hud": "$4785"}
+PASS B drink_a 「鮮奶茶」整段演完只扣自己的 65（玩家只付自己的餐費）  扣 65；其他選項 []
+PASS B drink_a 「鮮奶茶」右上角錢數跟著變（#money＝$4785）  $4785
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（下一樣（美式咖啡）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_a_美式咖啡｜lane118｜dlgText｜店員｜甜度冰塊？
+  逐字｜drink_a_美式咖啡｜lane118｜choices｜紅茶 30 元 ｜ 綠茶 30 元 ｜ 冬瓜茶 35 元 ｜ 珍珠奶茶 55 元 ｜ 鮮奶茶 65 元 ｜ 美式咖啡 50 元 ｜ 拿鐵 75 元 ｜ 老樣子 鮮奶茶 ｜ 不用了
+  逐字｜drink_a_美式咖啡｜lane118｜clockZ｜118 巷
+  逐字｜drink_a_美式咖啡｜lane118｜toast｜💸 50 元
+  逐字｜drink_a_美式咖啡｜lane118｜dlgText｜（你點了美式咖啡。）
+  逐字｜drink_a_美式咖啡｜lane118｜dlgText｜（你拿著飲料走回巷口。）
+  逐字｜drink_a_美式咖啡｜lane118｜interactLabel｜喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））
+  逐字｜drink_a_美式咖啡｜lane118｜toast｜📓 吃過的：118 巷・喝不喝咖啡　美式咖啡
+  逐字｜drink_a_美式咖啡｜lane118｜clockZ｜118 巷
+PASS B drink_a 「美式咖啡」標價 50＝扣的錢（點完那一句時）  點前 {"g": 4785, "hud": "$4785"} → 你點了 {"g": 4735, "hud": "$4735"} → 演完 {"g": 4735, "hud": "$4735"}
+PASS B drink_a 「美式咖啡」整段演完只扣自己的 50（玩家只付自己的餐費）  扣 50；其他選項 []
+PASS B drink_a 「美式咖啡」右上角錢數跟著變（#money＝$4735）  $4735
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（下一樣（拿鐵）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_a_拿鐵｜lane118｜dlgText｜店員｜甜度冰塊？
+  逐字｜drink_a_拿鐵｜lane118｜choices｜紅茶 30 元 ｜ 綠茶 30 元 ｜ 冬瓜茶 35 元 ｜ 珍珠奶茶 55 元 ｜ 鮮奶茶 65 元 ｜ 美式咖啡 50 元 ｜ 拿鐵 75 元 ｜ 老樣子 美式咖啡 ｜ 不用了
+  逐字｜drink_a_拿鐵｜lane118｜toast｜💸 75 元
+  逐字｜drink_a_拿鐵｜lane118｜dlgText｜（你點了拿鐵。）
+  逐字｜drink_a_拿鐵｜lane118｜dlgText｜（你拿著飲料走回巷口。）
+  逐字｜drink_a_拿鐵｜lane118｜clockZ｜118 巷
+  逐字｜drink_a_拿鐵｜lane118｜interactLabel｜喝不喝咖啡（傳統外帶手搖飲（兼賣咖啡））
+  逐字｜drink_a_拿鐵｜lane118｜toast｜📓 吃過的：118 巷・喝不喝咖啡　拿鐵
+PASS B drink_a 「拿鐵」標價 75＝扣的錢（點完那一句時）  點前 {"g": 4735, "hud": "$4735"} → 你點了 {"g": 4660, "hud": "$4660"} → 演完 {"g": 4660, "hud": "$4660"}
+PASS B drink_a 「拿鐵」整段演完只扣自己的 75（玩家只付自己的餐費）  扣 75；其他選項 []
+PASS B drink_a 「拿鐵」右上角錢數跟著變（#money＝$4660）  $4660
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（錢不夠那一次；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [前置／捷徑] 把錢設成 29（比最便宜的 30 少 1 元；直接改 GAME.G.money，右上角 #money 不會跟著重畫——捷徑造成的，不是遊戲問題）
+  逐字｜drink_a_錢不夠｜lane118｜dlgText｜店員｜甜度冰塊？
+  逐字｜drink_a_錢不夠｜lane118｜choices｜紅茶 30 元 ｜ 綠茶 30 元 ｜ 冬瓜茶 35 元 ｜ 珍珠奶茶 55 元 ｜ 鮮奶茶 65 元 ｜ 美式咖啡 50 元 ｜ 拿鐵 75 元 ｜ 不用了
+  逐字｜drink_a_錢不夠｜lane118｜toast｜錢不夠
+  逐字｜drink_a_錢不夠｜lane118｜clockZ｜118 巷
+PASS B drink_a 錢不夠（$29）：選單每一樣都是灰的（.dim）  [{"i": 0, "t": "紅茶 30 元", "dim": true, "name": "紅茶", "price": 30}, {"i": 1, "t": "綠茶 30 元", "dim": true, "name": "綠茶", "price": 30}, {"i": 2, "t": "冬瓜茶 35 元", "dim": true, "name": "冬瓜茶", "price": 35}, {"i": 3, "t": "珍珠奶茶 55 元", "dim": true, "name": "珍珠奶茶", "price": 55}, {"i": 4, "t": "鮮奶茶 65 元", "dim": true, "name": "鮮奶茶", "price": 65}, {"i": 5, "t": "美式咖啡 50 元", "dim": true, "name": "美式咖啡", "price": 50}, {"i": 6, "t": "拿鐵 75 元", "dim": true, "name": "拿鐵", "price": 75}, {"i": 7, "t": "不用了", "dim": false, "name": null, "price": null}]
+PASS B drink_a 錢不夠：點「紅茶」出「錢不夠」、錢不變（29）、不會變負  演完 {"g": 29, "hud": "$29"}；toast ["錢不夠"]
+  [前置／捷徑] 錢設回 5000
+PASS B drink_a 點下互動鍵：回話的是這一間（招呼、選單上是這間的菜：喝不喝咖啡）  {"said": ["店員：甜度冰塊？", "店員：甜度冰塊？", "（你點了紅茶。）"], "menu": ["紅茶 30 元", "綠茶 30 元", "冬瓜茶 35 元", "珍珠奶茶 55 元", "鮮奶茶 65 元", "美式咖啡 50 元", "拿鐵 75 元", "不用了"]}
+  [ 119.4s] drink_a 這一間花了 73 秒
+
+===== drink_b 果茶社（PARTS=B）=====
+PASS drink_b 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (-3.90, -3.50)，12.17 點、錢 5000、QUIET=True（果茶社 店門口附近的人行道）
+PASS drink_b 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": -3.9, "z": -3.5, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "甜度冰塊？", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 3426, "paused": false}
+  逐字｜drink_b_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+PASS drink_b 巷子裡有這間店的店門口互動點  [{"x": -4.3, "z": -7.5, "r": 1.4, "label": "果茶社（鮮果茶與多多系列（外帶））", "hidden": false, "enter": false}]
+  [ 128.2s] 搖桿走到「果茶社 店門口」（0.19 m，推 2 次，3 秒）
+  逐字｜drink_b_door｜lane118｜interactLabel｜果茶社（鮮果茶與多多系列（外帶））
+PASS A drink_b 店門口互動鍵（畫面）是「果茶社（…）」  畫面：「果茶社（鮮果茶與多多系列（外帶））」；搖桿
+  [ 128.6s] drink_b 互動點 (-4.30, -7.50)；站的位置範圍內的互動點 1 個：[{"label": "果茶社（鮮果茶與多多系列（外帶））", "d": 0.18, "r": 1.4, "prio": 0, "x": -4.3, "z": -7.5}]；畫面上的互動鍵 1 個、最上層＝interact
+PASS B drink_b 站在店門口：畫面上的互動鍵就是它、在最上層（沒被別的蓋住）  {"shown": true, "t": "果茶社（鮮果茶與多多系列（外帶））", "top": "interact", "n": 1}
+PASS B drink_b 站在店門口：範圍內沒有別的互動點跟它搶  []
+  逐字｜drink_b_menu｜lane118｜dlgText｜店員｜水果是現切的，要等一下喔。
+  逐字｜drink_b_menu｜lane118｜choices｜檸檬綠茶 50 元 ｜ 百香果綠茶 60 元 ｜ 柳橙綠茶 75 元 ｜ 葡萄柚茶 95 元 ｜ 檸檬多多 60 元 ｜ 葡萄柚多多 80 元 ｜ 不用了
+PASS B drink_b 點餐有選單  {"menu": [{"i": 0, "t": "檸檬綠茶 50 元", "dim": false, "name": "檸檬綠茶", "price": 50}, {"i": 1, "t": "百香果綠茶 60 元", "dim": false, "name": "百香果綠茶", "price": 60}, {"i": 2, "t": "柳橙綠茶 75 元", "dim": false, "name": "柳橙綠茶", "price": 75}, {"i": 3, "t": "葡萄柚茶 95 元", "dim": false, "name": "葡萄柚茶", "price": 95}, {"i": 4, "t": "檸檬多多 60 元", "dim": false, "name": "檸檬多多", "price": 60}, {"i": 5, "t": "葡萄柚多多 80 元", "dim": false, "name": "葡萄柚多多", "price": 80}, {"i": 6, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [ 133.8s] drink_b 選單（畫面）：["檸檬綠茶 50 元", "百香果綠茶 60 元", "柳橙綠茶 75 元", "葡萄柚茶 95 元", "檸檬多多 60 元", "葡萄柚多多 80 元", "不用了"]
+PASS B drink_b 果茶社 6 樣、價錢都在 50～95  [["檸檬綠茶", 50], ["百香果綠茶", 60], ["柳橙綠茶", 75], ["葡萄柚茶", 95], ["檸檬多多", 60], ["葡萄柚多多", 80]]
+PASS B drink_b 果茶社 菜單有「多多」  ["檸檬綠茶", "百香果綠茶", "柳橙綠茶", "葡萄柚茶", "檸檬多多", "葡萄柚多多"]
+  [前置／捷徑] 遊戲時間 12.24 → 設回 12.17（下一樣（檸檬綠茶）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_b_檸檬綠茶｜lane118｜dlgText｜店員｜水果是現切的，要等一下喔。
+  逐字｜drink_b_檸檬綠茶｜lane118｜clockZ｜118 巷
+  逐字｜drink_b_檸檬綠茶｜lane118｜toast｜💸 50 元
+  逐字｜drink_b_檸檬綠茶｜lane118｜dlgText｜（你點了檸檬綠茶。）
+  逐字｜drink_b_檸檬綠茶｜lane118｜dlgText｜（窗口旁邊堆著一籃檸檬。店員切水果的聲音很規律。）
+  逐字｜drink_b_檸檬綠茶｜lane118｜dlgText｜（杯子裡的果肉比你想的多。）
+  逐字｜drink_b_檸檬綠茶｜lane118｜toast｜📓 吃過的：118 巷・果茶社　檸檬綠茶
+  逐字｜drink_b_檸檬綠茶｜lane118｜clockZ｜118 巷
+  逐字｜drink_b_檸檬綠茶｜lane118｜interactLabel｜果茶社（鮮果茶與多多系列（外帶））
+PASS B drink_b 「檸檬綠茶」標價 50＝扣的錢（點完那一句時）  點前 {"g": 5000, "hud": "$5000"} → 你點了 {"g": 4950, "hud": "$4950"} → 演完 {"g": 4950, "hud": "$4950"}
+PASS B drink_b 「檸檬綠茶」整段演完只扣自己的 50（玩家只付自己的餐費）  扣 50；其他選項 []
+PASS B drink_b 「檸檬綠茶」右上角錢數跟著變（#money＝$4950）  $4950
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（下一樣（百香果綠茶）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_b_百香果綠茶｜lane118｜dlgText｜店員｜水果是現切的，要等一下喔。
+  逐字｜drink_b_百香果綠茶｜lane118｜choices｜檸檬綠茶 50 元 ｜ 百香果綠茶 60 元 ｜ 柳橙綠茶 75 元 ｜ 葡萄柚茶 95 元 ｜ 檸檬多多 60 元 ｜ 葡萄柚多多 80 元 ｜ 不用了
+  逐字｜drink_b_百香果綠茶｜lane118｜toast｜💸 60 元
+  逐字｜drink_b_百香果綠茶｜lane118｜dlgText｜（你點了百香果綠茶。）
+  逐字｜drink_b_百香果綠茶｜lane118｜clockZ｜118 巷
+  逐字｜drink_b_百香果綠茶｜lane118｜dlgText｜（杯子裡的果肉比你想的多。）
+  逐字｜drink_b_百香果綠茶｜lane118｜interactLabel｜果茶社（鮮果茶與多多系列（外帶））
+  逐字｜drink_b_百香果綠茶｜lane118｜toast｜📓 吃過的：118 巷・果茶社　百香果綠茶
+PASS B drink_b 「百香果綠茶」標價 60＝扣的錢（點完那一句時）  點前 {"g": 4950, "hud": "$4950"} → 你點了 {"g": 4890, "hud": "$4890"} → 演完 {"g": 4890, "hud": "$4890"}
+PASS B drink_b 「百香果綠茶」整段演完只扣自己的 60（玩家只付自己的餐費）  扣 60；其他選項 []
+PASS B drink_b 「百香果綠茶」右上角錢數跟著變（#money＝$4890）  $4890
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（下一樣（柳橙綠茶）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_b_柳橙綠茶｜lane118｜dlgText｜店員｜水果是現切的，要等一下喔。
+  逐字｜drink_b_柳橙綠茶｜lane118｜choices｜檸檬綠茶 50 元 ｜ 百香果綠茶 60 元 ｜ 柳橙綠茶 75 元 ｜ 葡萄柚茶 95 元 ｜ 檸檬多多 60 元 ｜ 葡萄柚多多 80 元 ｜ 不用了
+  逐字｜drink_b_柳橙綠茶｜lane118｜clockZ｜118 巷
+  逐字｜drink_b_柳橙綠茶｜lane118｜toast｜💸 75 元
+  逐字｜drink_b_柳橙綠茶｜lane118｜dlgText｜（你點了柳橙綠茶。）
+  逐字｜drink_b_柳橙綠茶｜lane118｜dlgText｜（杯子裡的果肉比你想的多。）
+  逐字｜drink_b_柳橙綠茶｜lane118｜interactLabel｜果茶社（鮮果茶與多多系列（外帶））
+  逐字｜drink_b_柳橙綠茶｜lane118｜toast｜📓 吃過的：118 巷・果茶社　柳橙綠茶
+  逐字｜drink_b_柳橙綠茶｜lane118｜clockZ｜118 巷
+PASS B drink_b 「柳橙綠茶」標價 75＝扣的錢（點完那一句時）  點前 {"g": 4890, "hud": "$4890"} → 你點了 {"g": 4815, "hud": "$4815"} → 演完 {"g": 4815, "hud": "$4815"}
+PASS B drink_b 「柳橙綠茶」整段演完只扣自己的 75（玩家只付自己的餐費）  扣 75；其他選項 []
+PASS B drink_b 「柳橙綠茶」右上角錢數跟著變（#money＝$4815）  $4815
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（下一樣（葡萄柚茶）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_b_葡萄柚茶｜lane118｜dlgText｜店員｜水果是現切的，要等一下喔。
+  逐字｜drink_b_葡萄柚茶｜lane118｜choices｜檸檬綠茶 50 元 ｜ 百香果綠茶 60 元 ｜ 柳橙綠茶 75 元 ｜ 葡萄柚茶 95 元 ｜ 檸檬多多 60 元 ｜ 葡萄柚多多 80 元 ｜ 不用了
+  逐字｜drink_b_葡萄柚茶｜lane118｜toast｜💸 95 元
+  逐字｜drink_b_葡萄柚茶｜lane118｜dlgText｜（你點了葡萄柚茶。）
+  逐字｜drink_b_葡萄柚茶｜lane118｜dlgText｜（杯子裡的果肉比你想的多。）
+  逐字｜drink_b_葡萄柚茶｜lane118｜clockZ｜118 巷
+  逐字｜drink_b_葡萄柚茶｜lane118｜interactLabel｜果茶社（鮮果茶與多多系列（外帶））
+  逐字｜drink_b_葡萄柚茶｜lane118｜toast｜📓 吃過的：118 巷・果茶社　葡萄柚茶
+PASS B drink_b 「葡萄柚茶」標價 95＝扣的錢（點完那一句時）  點前 {"g": 4815, "hud": "$4815"} → 你點了 {"g": 4720, "hud": "$4720"} → 演完 {"g": 4720, "hud": "$4720"}
+PASS B drink_b 「葡萄柚茶」整段演完只扣自己的 95（玩家只付自己的餐費）  扣 95；其他選項 []
+PASS B drink_b 「葡萄柚茶」右上角錢數跟著變（#money＝$4720）  $4720
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（下一樣（檸檬多多）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_b_檸檬多多｜lane118｜dlgText｜店員｜水果是現切的，要等一下喔。
+  逐字｜drink_b_檸檬多多｜lane118｜choices｜檸檬綠茶 50 元 ｜ 百香果綠茶 60 元 ｜ 柳橙綠茶 75 元 ｜ 葡萄柚茶 95 元 ｜ 檸檬多多 60 元 ｜ 葡萄柚多多 80 元 ｜ 老樣子 葡萄柚茶 ｜ 不用了
+  逐字｜drink_b_檸檬多多｜lane118｜toast｜💸 60 元
+  逐字｜drink_b_檸檬多多｜lane118｜dlgText｜（你點了檸檬多多。）
+  逐字｜drink_b_檸檬多多｜lane118｜clockZ｜118 巷
+  逐字｜drink_b_檸檬多多｜lane118｜dlgText｜（杯子裡的果肉比你想的多。）
+  逐字｜drink_b_檸檬多多｜lane118｜interactLabel｜果茶社（鮮果茶與多多系列（外帶））
+  逐字｜drink_b_檸檬多多｜lane118｜toast｜📓 吃過的：118 巷・果茶社　檸檬多多
+PASS B drink_b 「檸檬多多」標價 60＝扣的錢（點完那一句時）  點前 {"g": 4720, "hud": "$4720"} → 你點了 {"g": 4660, "hud": "$4660"} → 演完 {"g": 4660, "hud": "$4660"}
+PASS B drink_b 「檸檬多多」整段演完只扣自己的 60（玩家只付自己的餐費）  扣 60；其他選項 []
+PASS B drink_b 「檸檬多多」右上角錢數跟著變（#money＝$4660）  $4660
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（下一樣（葡萄柚多多）；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  逐字｜drink_b_葡萄柚多多｜lane118｜dlgText｜店員｜水果是現切的，要等一下喔。
+  逐字｜drink_b_葡萄柚多多｜lane118｜choices｜檸檬綠茶 50 元 ｜ 百香果綠茶 60 元 ｜ 柳橙綠茶 75 元 ｜ 葡萄柚茶 95 元 ｜ 檸檬多多 60 元 ｜ 葡萄柚多多 80 元 ｜ 老樣子 檸檬多多 ｜ 不用了
+  逐字｜drink_b_葡萄柚多多｜lane118｜clockZ｜118 巷
+  逐字｜drink_b_葡萄柚多多｜lane118｜toast｜💸 80 元
+  逐字｜drink_b_葡萄柚多多｜lane118｜dlgText｜（你點了葡萄柚多多。）
+  逐字｜drink_b_葡萄柚多多｜lane118｜dlgText｜（杯子裡的果肉比你想的多。）
+  逐字｜drink_b_葡萄柚多多｜lane118｜interactLabel｜果茶社（鮮果茶與多多系列（外帶））
+  逐字｜drink_b_葡萄柚多多｜lane118｜toast｜📓 吃過的：118 巷・果茶社　葡萄柚多多
+  逐字｜drink_b_葡萄柚多多｜lane118｜clockZ｜118 巷
+PASS B drink_b 「葡萄柚多多」標價 80＝扣的錢（點完那一句時）  點前 {"g": 4660, "hud": "$4660"} → 你點了 {"g": 4580, "hud": "$4580"} → 演完 {"g": 4580, "hud": "$4580"}
+PASS B drink_b 「葡萄柚多多」整段演完只扣自己的 80（玩家只付自己的餐費）  扣 80；其他選項 []
+PASS B drink_b 「葡萄柚多多」右上角錢數跟著變（#money＝$4580）  $4580
+  [前置／捷徑] 遊戲時間 12.28 → 設回 12.17（錢不夠那一次；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [前置／捷徑] 把錢設成 49（比最便宜的 50 少 1 元；直接改 GAME.G.money，右上角 #money 不會跟著重畫——捷徑造成的，不是遊戲問題）
+  逐字｜drink_b_錢不夠｜lane118｜dlgText｜店員｜水果是現切的，要等一下喔。
+  逐字｜drink_b_錢不夠｜lane118｜choices｜檸檬綠茶 50 元 ｜ 百香果綠茶 60 元 ｜ 柳橙綠茶 75 元 ｜ 葡萄柚茶 95 元 ｜ 檸檬多多 60 元 ｜ 葡萄柚多多 80 元 ｜ 不用了
+  逐字｜drink_b_錢不夠｜lane118｜toast｜錢不夠
+  逐字｜drink_b_錢不夠｜lane118｜interactLabel｜果茶社（鮮果茶與多多系列（外帶））
+PASS B drink_b 錢不夠（$49）：選單每一樣都是灰的（.dim）  [{"i": 0, "t": "檸檬綠茶 50 元", "dim": true, "name": "檸檬綠茶", "price": 50}, {"i": 1, "t": "百香果綠茶 60 元", "dim": true, "name": "百香果綠茶", "price": 60}, {"i": 2, "t": "柳橙綠茶 75 元", "dim": true, "name": "柳橙綠茶", "price": 75}, {"i": 3, "t": "葡萄柚茶 95 元", "dim": true, "name": "葡萄柚茶", "price": 95}, {"i": 4, "t": "檸檬多多 60 元", "dim": true, "name": "檸檬多多", "price": 60}, {"i": 5, "t": "葡萄柚多多 80 元", "dim": true, "name": "葡萄柚多多", "price": 80}, {"i": 6, "t": "不用了", "dim": false, "name": null, "price": null}]
+PASS B drink_b 錢不夠：點「檸檬綠茶」出「錢不夠」、錢不變（49）、不會變負  演完 {"g": 49, "hud": "$49"}；toast ["錢不夠"]
+  [前置／捷徑] 錢設回 5000
+PASS B drink_b 點下互動鍵：回話的是這一間（招呼、選單上是這間的菜：果茶社）  {"said": ["店員：水果是現切的，要等一下喔。", "店員：水果是現切的，要等一下喔。", "（你點了檸檬綠茶。）"], "menu": ["檸檬綠茶 50 元", "百香果綠茶 60 元", "柳橙綠茶 75 元", "葡萄柚茶 95 元", "檸檬多多 60 元", "葡萄柚多多 80 元", "不用了"]}
+  [ 185.8s] drink_b 這一間花了 66 秒
+
+===== 畫面上抽到的字：彙總（A）=====
+  新店名（出現在哪些畫面元素）：{"118牛排": [], "水上便當": [], "辛亥韓食": [], "五湖四海": [], "大學食堂": [], "義大麵屋": [], "清州刀削麵": [], "奈良咖哩": [], "迪倫窯烤披薩": [], "喝不喝咖啡": ["interactLabel", "toast"], "果茶社": ["interactLabel", "toast"]}
+  菜名（出現在哪些畫面元素）：{"冬瓜茶": ["choices", "dlgText", "toast"], "可樂餅咖哩": [], "四種起司": [], "夏威夷": [], "奶油雞肉麵": [], "拿鐵": ["choices", "dlgText", "toast"], "排骨飯": [], "木須炒刀削麵": [], "柳橙綠茶": ["choices", "dlgText", "toast"], "檸檬多多": ["choices", "dlgText", "toast"], "檸檬綠茶": ["choices", "dlgText", "toast"], "泡菜鍋": [], "海鮮豆腐鍋": [], "滷雞腿飯": [], "炸醬刀削麵": [], "炸雞腿飯": [], "燻雞蘑菇": [], "牛肉刀削麵": [], "牛肉咖哩": [], "玉米濃湯": [], "珍珠奶茶": ["choices", "dlgText", "toast"], "瑪格麗特": [], "番茄刀削麵": [], "番茄肉醬麵": [], "百香果綠茶": ["choices", "dlgText", "toast"], "石鍋拌飯": [], "紅茶": ["choices", "dlgText", "toast"], "綠茶": ["choices", "dlgText", "toast"], "美式咖啡": ["choices", "dlgText", "toast"], "葡萄柚多多": ["choices", "dlgText", "toast"], "葡萄柚茶": ["choices", "dlgText", "toast"], "蒜香蛤蜊麵": [], "豬排": [], "豬排咖哩": [], "酸辣湯": [], "鐵板牛排": [], "鐵板牛肉": [], "鐵板豬肉": [], "雙拼": [], "雞排": [], "雞排飯": [], "雞肉咖哩": [], "雪花牛排": [], "青醬培根麵": [], "韭菜水餃10顆": [], "高麗菜水餃10顆": [], "鮮奶茶": ["choices", "dlgText", "toast"]}
+PASS A 畫面上抽到的字（127 段）裡舊店名、舊菜名命中數＝0  命中 0 筆
+PASS 沒有 JS 例外（pageerror）  0 個
+PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0
+總結：0 項 FAIL
+ALL PASS
