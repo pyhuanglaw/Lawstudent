@@ -1,4 +1,5 @@
 /* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@be775af69、docs/story_planning/AA_728_gifts_friends.json@7ac7380ff）。不要手改，改企劃 AA_710／AA_728 再重新匯入。
+   沛珊最愛的米漿第二句照 AA_766_peishan_leftover2.json@1e647bb05（X327；tools/story/ps766.py 疊的）。
    送早餐、飲料（GIFT-FLIRT-1107；播放 src/gift3d.js）：people＝七位女主角（AA_710）、friends＝朋友六位（AA_728）*/
 'use strict';
 const GIFT_LINES={
@@ -604,10 +605,10 @@ const GIFT_LINES={
      }
     ],
     "fav": {
-     "item": "紅茶拿鐵",
-     "n": "紅茶拿鐵",
+     "item": "鮮奶茶",
+     "n": "鮮奶茶",
      "lines": [
-      "紅茶拿鐵。",
+      "鮮奶茶。",
       "……我小時候只喝這個。現在也是。"
      ],
      "rel": {
@@ -811,7 +812,7 @@ const GIFT_LINES={
         "only": [
          "無糖綠茶",
          "無糖綠茶（去冰）",
-         "紅茶拿鐵",
+         "鮮奶茶",
          "美式咖啡（冰的）",
          "青茶",
          "青茶（無糖）"
@@ -1099,12 +1100,12 @@ const GIFT_LINES={
     },
     "opinion": [
      {
-      "item": "紅茶拿鐵",
-      "n": "紅茶拿鐵",
+      "item": "鮮奶茶",
+      "n": "鮮奶茶",
       "pool": [
        {
         "lines": [
-         "紅茶拿鐵……有點甜。",
+         "鮮奶茶……有點甜。",
          "我喝一半，剩下的你喝。"
         ]
        }
@@ -1323,7 +1324,7 @@ const GIFT_LINES={
      "n": "米漿",
      "lines": [
       "米漿！",
-      "……我家早餐店也有賣。我從小喝到大的。"
+      "你怎麼知道我喝這個？我國中福利社每天一瓶。"
      ],
      "rel": {
       "trust": 2,

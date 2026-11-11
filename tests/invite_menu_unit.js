@@ -15,7 +15,7 @@ const mkObj=()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z
 global.CHAR={setExpr(){},build:()=>mkObj()};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+String(info).slice(0,700):'')); if(!ok) fails++; };
 const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js',
-  'src/social3d.js','src/events3d.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
+  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
   'src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/sis_grad3d.js',
   'src/data/dorm_room_layout.js','src/story3d.js','src/classes3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
@@ -32,7 +32,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },
   choose:async o=>{ const T=o.map(q=>q.t||q.text); opts.push(T); full.push(o); if(opts.length>80) throw new Error('選項一直重來：'+J(opts.slice(-3))); if(picks.length){ const w=picks[0]; if(typeof w==='number'){ picks.shift(); return w; } const k=T.findIndex(x=>w instanceof RegExp?w.test(x):x.includes(w)); if(k>=0){ picks.shift(); return k; } } return o.length-1; }};
-const fresh=(day,hour,flags)=>{ G={v:3,stage:'law',day,hour,zone:'dorm',weekday:wdOf(day),weather:'clear',energy:70,money:50000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,afternoonDone:true,classDone:true,introDone:true,metAn:true,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,contacts:{},invites:[],stats:{classes:0}};
+const fresh=(day,hour,flags)=>{ G={v:3,stage:'law',day,hour,zone:'dorm',weekday:wdOf(day),weather:'clear',energy:70,money:50000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,afternoonDone:true,classDone:true,introDone:true,metAn:true,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,contacts:{},invites:[],stats:{classes:0},visited:{wz_mokuyobi:true}};   /* 2026-11-11（L118-SHOPS-REDO-1111、AA_772）：慢讀咖啡搬到木曜日——地點 slowread 要走去過木曜日才列（和 mokuyobi 同一個條件），這裡當成去過 */
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; picks=[]; opts=[]; full=[]; GM.npc={}; if(STORY._fy) STORY._fy.reset(); return G; };
 const S3={fam:22,trust:12,comf:8,npcRom:2,rom:0}, S4={fam:30,trust:20,comf:15,npcRom:10,rom:0}, S5={fam:45,trust:30,comf:20,npcRom:35,rom:10}, S6={fam:60,trust:45,comf:40,npcRom:55,rom:30};
 const know=(id,rel,noContact)=>{ SOCIAL.remember(id,'FIRST_MET',''); Object.assign(SOCIAL.rel(id),rel); if(!noContact) G.contacts[id]=1; };
@@ -53,9 +53,9 @@ const CATS=['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動�
     const b=await ask('heroine_01',['吃飯','返回','喝咖啡','返回','運動','返回','念書','返回','算了']);
     /* 2026-11-04 改期望（GG-SHOPS2-1104，AA_652 第 3 節：afar café、Daybreak 加進可以約的地點——afar＝喝咖啡、Daybreak＝吃飯）*/
     check('A2. 吃飯…：麵店、SUNNY SIDE、Daybreak、洋洋鹹酥雞（YANGYANG-IN-1107）＋返回；返回回到第一層',J(b.opts[1])===J(['去公館燒臘吃飯','去 SUNNY SIDE 吃早午餐','去 Daybreak 吃早午餐','去洋洋鹹酥雞吃宵夜','返回'])&&J(b.opts[2])===J(b.opts[0]),J(b.opts.slice(0,3)));
-    check('A2. 喝咖啡、喝茶…：2:30 AM、一盞、慢讀咖啡、afar café＋返回',J(b.opts[3])===J(['去 2:30 AM 坐坐','去一盞喝茶','去慢讀咖啡念書','去 afar café 坐坐','返回']),J(b.opts[3]));
-    check('A2. 念書…：2:30 AM、總圖、慢讀咖啡（同一個地點可以放兩類）、法圖、afar café＋返回（使用者 11-05：咖啡館也能約念書）',J(b.opts[7])===J(['去 2:30 AM 念書','去總圖一起念書','去慢讀咖啡念書','去法圖一起念書','去 afar café 念書','返回']),J(b.opts[7]));
-    { const P=INVITE_DATA.places, v=id=>(P.find(q=>q.id===id)||{}); check('A2b. 念書那一類的選項字照 AA_702（0babfd524）：2:30 AM、afar、木曜日、青木換成「去…念書」；坐坐、喝茶那一類照舊',v('cafe').verbStudy==='去 2:30 AM 念書'&&v('afar').verbStudy==='去 afar café 念書'&&v('mokuyobi').verbStudy==='去木曜日念書'&&v('aoki').verbStudy==='去青木茶室念書'&&v('cafe').verb==='去 2:30 AM 坐坐'&&v('aoki').verb==='去青木茶室喝茶'); }
+    check('A2. 喝咖啡、喝茶…：2:30 AM、一盞、木曜日（坐坐）、afar café＋返回（2026-11-11 L118-SHOPS-REDO-1111、AA_772：慢讀咖啡搬到木曜日；舊期望：這一格是「去慢讀咖啡念書」）',J(b.opts[3])===J(['去 2:30 AM 坐坐','去一盞喝茶','去木曜日坐坐','去 afar café 坐坐','返回']),J(b.opts[3]));
+    check('A2. 念書…：2:30 AM、總圖、木曜日（念書那一組＝地點 slowread）、法圖、afar café＋返回（使用者 11-05：咖啡館也能約念書）（2026-11-11 L118-SHOPS-REDO-1111、AA_772：慢讀咖啡搬到木曜日；舊期望：這一格是「去慢讀咖啡念書」）',J(b.opts[7])===J(['去 2:30 AM 念書','去總圖一起念書','去木曜日念書','去法圖一起念書','去 afar café 念書','返回']),J(b.opts[7]));
+    { const P=INVITE_DATA.places, v=id=>(P.find(q=>q.id===id)||{}); check('A2b. 念書那一類的選項字照 AA_702（0babfd524）：2:30 AM、afar、木曜日、青木換成「去…念書」；坐坐、喝茶那一類照舊',v('cafe').verbStudy==='去 2:30 AM 念書'&&v('afar').verbStudy==='去 afar café 念書'&&v('slowread').verb==='去木曜日念書'&&v('mokuyobi').verbStudy===undefined&&v('mokuyobi').verb==='去木曜日坐坐'&&   /* 2026-11-11 AA_772：木曜日的念書只剩地點 slowread 這一組，mokuyobi 的 verbStudy 拿掉（舊期望：v('mokuyobi').verbStudy==='去木曜日念書'）*/ v('aoki').verbStudy==='去青木茶室念書'&&v('cafe').verb==='去 2:30 AM 坐坐'&&v('aoki').verb==='去青木茶室喝茶'); }
     check('A2. 運動…：羽球、晨跑＋返回',J(b.opts[5])===J(['去新體育館打羽球','去椰影大道晨跑','返回']),J(b.opts[5]));
     const c=await ask('heroine_01',['吃飯','燒臘',/^明天/]);
     const iv=(G.invites||[]).slice(-1)[0]||{};
@@ -68,7 +68,7 @@ const CATS=['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動�
     check('A4. 還沒到有點熟（'+st+'）：吃飯…整類灰掉、小字「再熟一點，才約得出去吃飯。」',meal.dim===true&&meal.hint==='再熟一點，才約得出去吃飯。',J(meal));
     check('A4. 選了灰掉的一類：說原因、留在第一層',a.L.includes('再熟一點，才約得出去吃飯。')&&J(a.opts[1])===J(a.opts[0]),J([a.L,a.opts.length]));
     const sit=f.find(o=>o.t==='喝咖啡、喝茶…')||{};
-    check('A4. 一類裡還有約得到的（Café、慢讀、afar）：不灰、小字只列約得到的（一盞要朋友）',!sit.dim&&sit.hint==='2:30 AM、慢讀咖啡、afar café',J(sit));
+    check('A4. 一類裡還有約得到的（Café、木曜日、afar）：不灰、小字只列約得到的（一盞要朋友）（2026-11-11 L118-SHOPS-REDO-1111、AA_772：慢讀咖啡搬到木曜日；舊期望：這一格是「去慢讀咖啡念書」）',!sit.dim&&sit.hint==='2:30 AM、木曜日、afar café',J(sit));
   }
   // ===== A. 校外第二層 =====
   { fresh(sat-1,10); know('heroine_01',S5);

@@ -116,7 +116,9 @@ await tsec(5,async()=>{ const L29='我在對面的便利商店等。考完先傳
 await tsec(6,async()=>{ const NEW='說好的，運河一圈。……下學期就大四了，我開始寫教檢的考古題。你以前也是這樣嗎？';
   check('6. 稿：AA_472「郭沛珊：'+NEW+'」、AA_367（1ebcf530e）2030-06 那一格（台南）',sec(6).includes('> 郭沛珊：'+NEW)&&D367.includes('| 2030-06 | 「'+NEW+'」（台南） |'));
   const row=(PG_DATES.six.classmate_peishan||[]).find(x=>x.ym==='2030-06'), ev=STORY_EVENTS.find(e=>e.id==='ev_pg_date_classmate_peishan_2030-06'), ln=ev&&ev.dialogue.find(l=>l.speaker==='classmate_peishan');
-  check('6. pg_dates.js（重新匯入）與那一格的事件：2030-06 那一句、台南',!!row&&row.line===NEW&&row.note==='台南'&&!!ln&&ln.text===NEW,J([row,ln&&ln.text]));
+  /* 2026-11-11（X327 沛珊重寫，AA_759_peishan_misc2.json@987845b7c）：這一格後半重寫（「說好的，運河一圈。」照留，AA_472 加的那一句還在最前面）；原本＝NEW */
+  const NEW759='說好的，運河一圈。下學期就大四了，我開始寫教檢的考古題，寫到懷疑人生。';
+  check('6. pg_dates.js（重新匯入）與那一格的事件：2030-06「說好的，運河一圈。……」（X327 重寫後半）、台南',!!row&&row.line===NEW759&&row.line.startsWith('說好的，運河一圈。')&&row.note==='台南'&&!!ln&&ln.text===NEW759,J([row,ln&&ln.text]));
   check('6. 2030-04 視訊那一句照舊（「下次你來，我們走一圈好不好？」）',((PG_DATES.six.classmate_peishan||[]).find(x=>x.ym==='2030-04')||{}).line==='運河那邊晚上很漂亮！下次你來，我們走一圈好不好？');
   check('6. 匯入來源：AA_367 白名單同一版（1ebcf530 起；AA_688 以後是 8dce2f94c；AA_593 學姊①b 以後是 9aa8ec40c，history 留 1ebcf530、8dce2f94c；沛珊那一格不變）',/AA_367.*@9aa8ec40c/.test(PG_DATES.source.AA_367)&&JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>e.path==='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md'&&e.sha==='9aa8ec40c'&&e.status==='approved'&&(e.history||[]).some(x=>x.sha==='1ebcf530')&&(e.history||[]).some(x=>x.sha==='8dce2f94c'))&&git('9aa8ec40c','docs/story_planning/AA_367_畢業以後的交往節奏_六位.md').includes('| 2030-06 | 「'+NEW+'」（台南） |')); });
 

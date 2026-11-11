@@ -9,6 +9,7 @@
    宿營只認識芯慈（破冰，第七小隊）、阿哲（撕名牌，隔壁第八小隊、不同寢室）、沛珊（第二天晚上營火才到；交換聯絡方式）。明軒、Alison 只有一句印象旁白（不寫名字、不記認識、不設 CAMP_SEEN）；柏翰、Kevin 不出場（不再有臥底）。
    第一天＝遊覽車（坐窗邊，CAMP_BUS 'win'）、破冰、撕名牌、自由時間（大老二）；第二天＝一句旁白、營火（沛珊）；第三天＝早餐、結業。學測／哥／為什麼重考在第一天自由時間打牌的最後（10-5，阿哲不同寢室）。
    迎新晚會、夜遊、法律闖關、水大地、夜談 retired（定義留給舊存檔）。新局不再設：CAMP_MOLE_*、CAMP_CLUE*、CAMP_F*、CAMP_KEVIN、CAMP_SEEN、MX_CAMP_PAIR；舊存檔照舊。 */
+/* 2026-11-11（使用者 X327 沛珊重寫）：ev_camp_d2_fire 沛珊的四句照 AA_762_peishan_events_2.json@1fc9a6658 換（行程、條件、別人的句子不動）。逐字對稿：tests/peishan_events_1111_unit.js */
 /* Kevin 的立繪（使用者 2026-10-18 15:5x「營地差在Kevin沒有立繪」→ 選「潮流大哥型」；KEVIN-PORTRAIT-1018）：他不是 CHARACTERS 的人物，只登記立繪；
    台詞用 speaker:'npc_kevin'＋name（揭曉前「凱文」、揭曉後「Kevin」）。圖放進 assets/portraits/npc_kevin/campus/<表情>.webp、跑 build.py（或 tools/gen_portrait_manifest.py）就出現；沒放＝照舊沒有立繪 */
 if(typeof PORTRAITS!=='undefined'&&!PORTRAITS.npc_kevin){ const o={campus:{}}; for(const ex of ['neutral','smile','laugh','surprised']) o.campus[ex]='assets/portraits/npc_kevin/campus/'+ex+'.webp'; PORTRAITS.npc_kevin={characterId:'npc_kevin',displayName:'Kevin',tier:2,defaultOutfit:'campus',defaultPortrait:'assets/portraits/npc_kevin/campus/neutral.webp',outfits:o,silhouette:'m'}; }
@@ -175,13 +176,13 @@ const CAMP_Y1_EVENTS=[
       {speaker:null,text:'（營火晚會開始沒多久，小隊輔帶著一個揹大背包的女生走過來。）'},
       {speaker:'小隊輔',text:'這是沛珊。妳先坐這邊。'},
       {speaker:null,text:'（她在你旁邊坐下，把背包放在腳邊。）'},
-      {speaker:'classmate_peishan',text:'嗨。……我錯過很多嗎？'},
+      {speaker:'classmate_peishan',text:'嗨！我是不是錯過很多？我是遲到一天半的那個沛珊。'},
       {choice:[{text:'「還好，昨天主要在玩遊戲。」',goto:'fine'},{text:'「妳怎麼今天才來？」',goto:'why'}]},
-      {label:'fine'},{speaker:'classmate_peishan',text:'那還好。我先去中友會的宿營，台中同學的那個，今天中午才結束。'},{goto:'grp'},
-      {label:'why'},{speaker:'classmate_peishan',text:'中友會也辦宿營，日期撞到了。那邊今天中午結束，我就直接過來。'},
+      {label:'fine'},{speaker:'classmate_peishan',text:'那還好。我先跑了一場中友會的宿營，台中同學辦的，今天中午才結束。'},{goto:'grp'},
+      {label:'why'},{speaker:'classmate_peishan',text:'中友會也辦宿營，日期撞在一起。那邊中午一結束我就衝過來，行李都還沒打開。'},
       {label:'grp'},
       {speaker:null,text:'（營火那邊開始喊各小隊的名字。）'},
-      {speaker:'classmate_peishan',text:'我們小隊有群組嗎？可以拉我進去嗎？'},
+      {speaker:'classmate_peishan',text:'我們小隊有群組嗎？拉我拉我，我要補進度。'},
       {speaker:null,text:'（你把她拉進小隊的群組。她傳了一個貼圖。）'},
       {meet:[{id:'classmate_peishan',where:'camp'}],consequences:{contact:'classmate_peishan'},set:{CAMP_PS_P0:true}} ] },
 

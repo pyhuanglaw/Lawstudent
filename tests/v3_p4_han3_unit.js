@@ -1,4 +1,5 @@
 // 沛珊 P4 交接讀書會＋柏翰 翰 3 分數表（BB_97 4-3；AA_40、AA_177 第 5 節；任務 V3-B15）——不需要瀏覽器。
+// 2026-11-11（X327 沛珊重寫，AA_761_peishan_events_1.json@dbfc596a5）：這支裡寫死的沛珊在 events.js 的句子照新稿改期望（逐字對稿在 tests/peishan_events_1111_unit.js）。
 // 2026-10-17 起在以安的公法讀書會（週四 20:00，BB_191 §8-7、AA_222；法服沒有讀書會）。
 // 檢查：大二下第 1 週週四讀書會的 clubEvent＝P4（她在場）；「我接。」要大一公法讀書會 5 次以上（舊存檔的法服讀書會也算）；沒去 21:30 公法讀書會群組最後一則；翰 3 第 2 週週四（柏翰接）、選項、她走了；一個月後的旁白；祐廷接＝3/4 21:00 全班群組分布圖。用法：node tests/v3_p4_han3_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -7,7 +8,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -49,7 +50,7 @@ GM.money=function(n){ G.money+=n; };
   check('1. 下一週（第 16 週）不是 P4',!e||e.id!=='ev_peishan_handover');
   const play=async(id,pick,o)=>{ base(o.day,o); said=[]; opts=[]; picks=[pick]; await EVENTS.run(ev(id)); return {L:L0(),O:opts[0]||[]}; };
   let r=await play('ev_peishan_handover',0,{day:w1,att:5});
-  check('2. 三句：下學期的題目……（AA_281 改字：她什麼都不說）／誰要接？／不要變成比分數的地方',r.L.slice(0,3).join('｜')==='沛珊：下學期的題目，我想換人整理。我一個人出的都太簡單。｜沛珊：每週的題目整理……（看柏翰，又看你）誰要接？｜沛珊：只有一個條件：要好玩。',JSON.stringify(r.L));
+  check('2. 三句：下學期的題目……（AA_281 改字：她什麼都不說）／誰要接？／不要變成比分數的地方',r.L.slice(0,3).join('｜')==='沛珊：下學期的題目我想換人整理。我出的，大家都說太簡單。｜沛珊：每週的題目整理……（看柏翰，又看你）誰要接？｜沛珊：只有一個條件：要好玩。',JSON.stringify(r.L));
   check('2. 大一去過 5 次（AA_638 ④-8 起 1 次就可以）：「我接。」／（不說話）；選「我接。」＝STUDYGROUP_LEADER',JSON.stringify(r.O)==='["「我接。」","（不說話）"]'&&G.flags.STUDYGROUP_LEADER===true&&STORY.plgY1Count(G)===5);
   r=await play('ev_peishan_handover',0,{day:w1,att:0});
   check('2. 大一一次都沒去（AA_638 ④-8：原本 4 次以下）：只有（不說話）、不設 STUDYGROUP_LEADER',JSON.stringify(r.O)==='["（不說話）"]'&&!G.flags.STUDYGROUP_LEADER);

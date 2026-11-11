@@ -21,7 +21,9 @@ const P=()=>typeof AA720P!=='undefined'?AA720P:null;
 const REF=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') d++; else if(ch==='）'){ d--; if(d===0) return i===t.length-1; } } return false; };
 const OLD=t=>typeof t==='string'&&/^（/.test(t);
 const PS='classmate_peishan', KX='kexin', SIS='heroine_05';
-const EXPECT=['（她說完，馬上笑著說：）不好意思，我問太多了～','（她說完，馬上換上笑臉。）沒事啦～今天精神很好！','（她說完，馬上笑著揮手。）啊，我亂講的～','（她笑著揮手。）沒有啦，我亂想的～','（她皺了一下眉頭。）那件真的很醜。',
+/* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_arc@6b5507f8a）：沛珊的四句變三句、字換了——「（她說完，馬上笑著說：）不好意思，我問太多了～」那一句新稿拿掉；
+   其他三句原本「沒事啦～今天精神很好！」「啊，我亂講的～」「沒有啦，我亂想的～」。一共 8 句 → 7 句，檢查的事（（動作）說的話要有名字）沒有變 */
+const EXPECT=['（她說完，馬上換上笑臉。）沒事啦，你看我今天精神多好！','（她說完，馬上笑著揮手。）啊，我亂講的啦。','（她笑著揮手。）沒有啦，我亂想的。','（她皺了一下眉頭。）那件真的很醜。',
   '（小聲）明天要是又寫錯上個月就會的題目……','（小聲）算了。不會。','（小聲）謝謝你。'];
 const strs=[]; const walk=o=>{ if(Array.isArray(o)) o.forEach(walk); else if(o&&typeof o==='object') Object.values(o).forEach(walk); else if(typeof o==='string') strs.push(o); };
 (async()=>{
@@ -37,14 +39,14 @@ const strs=[]; const walk=o=>{ if(Array.isArray(o)) o.forEach(walk); else if(o&&
   /* 演的時候會走到 play 的、舊的寫法分錯的：（ 開頭但不是整句一對（），而且不是傳訊息的時間（「（19:00）算了。」走手機、TIMED 先濾掉）、不是企劃說明 */
   const diff=[...new Set(strs.filter(t=>OLD(t)&&!REF(t)))];
   const played=diff.filter(t=>EXPECT.includes(t)), other=diff.filter(t=>!EXPECT.includes(t));
-  check('1. 舊寫法分錯的正好是這 8 句（沛珊四、可昕一、學姊考前一晚三）',J([...played].sort())===J([...EXPECT].sort()),J(played));
+  check('1. 舊寫法分錯的正好是這 7 句（沛珊三、可昕一、學姊考前一晚三；2026-11-11 以前是 8 句、沛珊四）',J([...played].sort())===J([...EXPECT].sort()),J(played));
   check('1. 其他（ 開頭、不是整句一對（）的只剩不演的（手機時間、企劃說明）',other.every(t=>/^（\d{1,2}:\d{2}）/.test(t)||/AA_\d+/.test(t)),J(other));
   /* 2 演出來 */
   const G=H.fresh('2026-10-05',15,'dorm',{});
   const beats=id=>HEROINE_ARCS.people[id].beats;
   { H.said=[]; H.picks=[0]; const b=beats(PS)[2]; await ARCS.play(GM,{name:'沛珊',charId:PS},PS,b);
-    const s=H.said.find(x=>x.t==='（她說完，馬上換上笑臉。）沒事啦～今天精神很好！');
-    check('2. 沛珊第 3 拍「（她說完，馬上換上笑臉。）沒事啦～……」名字框＝沛珊、字沒改',!!s&&s.who==='沛珊',J(H.said.slice(0,5)));
+    const s=H.said.find(x=>x.t==='（她說完，馬上換上笑臉。）沒事啦，你看我今天精神多好！');   /* 2026-11-11 改期望：X327 新稿的字 */
+    check('2. 沛珊第 3 拍「（她說完，馬上換上笑臉。）沒事啦，你看我今天精神多好！」名字框＝沛珊、字沒改',!!s&&s.who==='沛珊',J(H.said.slice(0,5)));
     const nr=H.said.filter(x=>REF(x.t)); check('2. 同一拍整句（…）的照舊是旁白',nr.length>0&&nr.every(x=>x.who===null),J(nr.slice(0,3))); }
   { H.said=[]; H.picks=[1]; const b=beats(KX)[1]; await ARCS.play(GM,{name:'可昕',charId:KX},KX,b);
     const s=H.said.find(x=>x.t==='（她皺了一下眉頭。）那件真的很醜。'); check('2. 可昕第 2 拍選 2「（她皺了一下眉頭。）那件真的很醜。」名字框＝可昕',!!s&&s.who==='可昕',J(H.said)); }

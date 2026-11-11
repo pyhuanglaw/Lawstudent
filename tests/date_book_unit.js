@@ -5,7 +5,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|DATE|DATE_DATA|DATE_LINES|ROM)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/date3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/date3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -119,16 +119,17 @@ const ADV2=global.ADV; ADV2.active=false;
   DATE_LINES.loc.D09={lines:{}};   /* 測交通偏好用：假裝貓空的台詞到了 */
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true; said=[]; opts=[]; picks=['貓空','開車','明天','14:00','就這樣約']; const tc=await DATE.menu(GM,'heroine_03',null);
   check('9. 交通：她的偏好（捷運）排第一、寫「（她想這樣去）」',opts[2]&&/（她想這樣去）/.test(opts[2][0])&&/捷運/.test(opts[2][0]),JSON.stringify(opts[2]));   /* opts[1]＝「山・溫泉・夜景」那一類（INVITE-MENU-1030）*/
-  check('9. 玩家改開車：約成、她說「改交通」那一句（不扣分）',tc&&tc.transport==='car'&&lines().some(x=>/坐你的車也可以/.test(x)),lines().join(' | '));
+  check('9. 玩家改開車：約成、她說「改交通」那一句（不扣分）',tc&&tc.transport==='car'&&lines().some(x=>/：好，坐你的車。$/.test(x))&&lines().some(x=>/：我平常都坐捷運，在車上要做什麼，我不太知道。$/.test(x)),lines().join(' | '));   /* 2026-11-11（X324 語彤約會台詞重寫，AA_767_yt_date_common.json@0a2136911）：改交通那一句原本「好。坐你的車也可以。」「我只是習慣坐捷運，不是不想坐。」，照新稿換成這兩句 */
   // 改時間、第三次、取消、放鴿子
   fresh(day,9,'dorm',{}); const tm2=DATE.book(G,{who:'heroine_01',locs:['D13'],transport:'mrt',day,depart:15}); const tr2=DATE.trip(G,tm2.trip), qm2=OUT.get(G,'date_'+tm2.trip);
   said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 改時間：以安「改時間」那一句（輪流第 1 句）',lines().some(x=>/新的時間我改好了/.test(x)),lines().join(' | '));
-  said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 再改一次：輪到第 2 句',lines().some(x=>/下午我空得出來/.test(x)),lines().join(' | '));
+  said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 再改一次：輪到第 2 句',lines().some(x=>/：可以。那天我空得出來。$/.test(x)),lines().join(' | '));   /* 2026-11-11（X324 以安約會台詞重寫，AA_777_an_date_common.json@1f88da7cc）：move 第二句原本「可以。那天下午我空得出來。」（不綁時段）*/
   said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 同一個行程改到第三次：「第三次了。」那一句',tr2.moves===3&&lines().some(x=>/第三次了。/.test(x)),lines().join(' | '));
   said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 第四次：照一般改時間（第三次那句只說一次）',!lines().some(x=>/第三次了/.test(x))&&lines().some(x=>/新的時間|空得出來/.test(x)),lines().join(' | '));
   said=[]; await DATE.drop(GM,qm2,tr2); check('9. 今天不去了：以安「取消」那一句（連發：「好。怎麼了？」「好。下次早一點講。」——AA_594 第 53、54 列；AA_694 拿掉句首「……」，原本「好。理由？」「……好。下次你要說理由。」）、還沒有 FLAKED',!G.flags.FLAKED_heroine_01&&lines().some(x=>/好。怎麼了？$/.test(x))&&lines().some(x=>/：好。下次早一點講。$/.test(x))&&!lines().some(x=>/理由/.test(x)),lines().join(' | '));
   const tm3=DATE.book(G,{who:'heroine_01',locs:['D13'],transport:'mrt',day:day+1,depart:15}); said=[]; await DATE.drop(GM,OUT.get(G,'date_'+tm3.trip),DATE.trip(G,tm3.trip));
-  check('9. 30 天內第二次取消：FLAKED、放鴿子那一句（AA_389 第 7 點；AA_594 第 55、56 列改成「第二次了。」「下次不能來，先跟我說。」，原本「第二次了。我在手帳上記了一筆。」「……下次證明我記錯。」）',G.flags.FLAKED_heroine_01!=null&&lines().some(x=>/：第二次了。$/.test(x))&&lines().some(x=>/下次不能來，先跟我說。$/.test(x))&&!lines().some(x=>/手帳|證明我記錯/.test(x))&&!lines().some(x=>/他會臨時取消/.test(x)),lines().join(' | '));
+  /* 2026-11-11（X324 以安約會台詞重寫，AA_777_an_date_common.json@1f88da7cc）：放鴿子那兩則照 lines.heroine_01.flaked[0] 換成「那天我等了四十分鐘。我有帶書，所以還好。」「下次請提早說。謝謝。」（原句寫死次數、第二則和語彤的一字不差）；舊期望「第二次了。」「下次不能來，先跟我說。」 */
+  check('9. 30 天內第二次取消：FLAKED、放鴿子那一句（AA_389 第 7 點；AA_777 換成「那天我等了四十分鐘。我有帶書，所以還好。」「下次請提早說。謝謝。」；更早是 AA_594 第 55、56 列「第二次了。」「下次不能來，先跟我說。」）',G.flags.FLAKED_heroine_01!=null&&lines().some(x=>/：那天我等了四十分鐘。我有帶書，所以還好。$/.test(x))&&lines().some(x=>/：下次請提早說。謝謝。$/.test(x))&&!lines().some(x=>/手帳|證明我記錯|第二次了|下次不能來/.test(x))&&!lines().some(x=>/他會臨時取消/.test(x)),lines().join(' | '));
   check('9. 輪流的位置存在 dateLog（存檔裡；讀檔補預設）',!!DATE.log(G,'heroine_01').lineIdx&&DATE.log(G,'heroine_01').lineIdx.move===3&&DATE.log(G,'heroine_01').lineIdx.move3===1,JSON.stringify(DATE.log(G,'heroine_01').lineIdx));
   // ---------- 10 睡覺的鬧鐘、跳過時間的停點（DATE-S4；AA_128 4-1）----------
   { fresh(day,22,'dorm',{dating_heroine_03:true}); G.contacts.heroine_03=1; const t=DATE.book(G,{who:'heroine_03',locs:['D13'],transport:'mrt',day:day+1,depart:11});

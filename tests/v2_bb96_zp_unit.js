@@ -1,4 +1,5 @@
 // 交接包 v2（BB_96）：芷若 Z4「十點的電話」（3-4，改寫 ev_zhiruo_secret）＋沛珊 P3b「課輔班的下午」（3-3）——不需要瀏覽器。修改前 P3b 不存在、Z4 在 Café（第 1 項失敗）。
+// 2026-11-11（X327 沛珊重寫，AA_761_peishan_events_1.json@dbfc596a5）：這支裡寫死的沛珊在 events.js 的句子照新稿改期望（逐字對稿在 tests/peishan_events_1111_unit.js）。
 // 檢查：Z4 在大一下第 12 週以後的週六 14–18 溫州街（她那時候在那裡）、台詞照原文、沒有「你不要跟別人說」、三個選項的反應與數字（交往中第一個沒有 aff、第三個不扣 comf）、SHARED_SECRET、Z4_PICK；
 //   P3b：第 5 週起週二四 16:30–18:00 走進溫州街、P2 之後、2D 背景、第二個選項只給去過讀書會的、三個反應、SAW_HER_TEACH
 // 用法：node tests/v2_bb96_zp_unit.js
@@ -8,7 +9,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -57,12 +58,12 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const play=async(pick,club,formOnly)=>{ fresh(termDay('Y1S2',5,3),21,'wenzhou',club||formOnly?{CLUB_lawclub_study:true}:{}); if(club){ G.acts={att:{}}; G.acts.att['lawclub_study@'+(G.day-7)]={h:19}; } G.events.done.ev_peishan_doubt=1; picks=[pick]; await EVENTS.run(p); return lines(); };   /* BB_161 ④：去過讀書會＝出席紀錄；只有博覽會填表（CLUB_lawclub_study）不算 */
     let L=await play('開心');
     const nm=(CHARACTERS.classmate_peishan&&CHARACTERS.classmate_peishan.name)||'郭沛珊';
-    check('P3b 台詞照原文（開頭旁白、「每個禮拜三。」照 AA-B 11-07 改）',JSON.stringify(L.slice(0,4))===JSON.stringify(['她帶著一群國小生從課輔班走出來。門口有幾個家長在等，她手上還拿著一疊作業本。',nm+'：喔，是你。我在這裡當助教。每個禮拜三。'/* AA_373 #6 → AA-B 11-07 */,'一個小孩拉她的衣角。她蹲下來聽他講完，站起來。',nm+'：……我在這裡的時候，不會看時間。']),JSON.stringify(L.slice(0,4)));
+    check('P3b 台詞照原文（開頭旁白、「每個禮拜三。」照 AA-B 11-07 改）',JSON.stringify(L.slice(0,4))===JSON.stringify(['她帶著一群國小生從課輔班走出來。門口有幾個家長在等，她手上還拿著一疊作業本。',nm+'：喔，是你。我在這裡當助教。每個禮拜三。'/* AA_373 #6 → AA-B 11-07 */,'一個小孩拉她的衣角。她蹲下來聽他講完，站起來。',nm+'：我在這裡都不會看時間。上課的時候我五分鐘看一次。']),JSON.stringify(L.slice(0,4)));
     check('沒去過讀書會：兩個選項（沒有「讀書會最近比較少看到妳」）',JSON.stringify(opts[0])==='["「妳看起來很開心。」","（幫她拿一半的作業本）"]',JSON.stringify(opts[0]));
     check('「妳看起來很開心。」：「有嗎。」（她想了一下。）「……有。」；SAW_HER_TEACH',JSON.stringify(L.slice(4))===JSON.stringify([nm+'：有嗎。','她想了一下。',nm+'：……有。'])&&SOCIAL.has('classmate_peishan','SAW_HER_TEACH'),JSON.stringify(L.slice(4)));
     { const Lf=await play('看起來',false,true); check('BB_161 ④：只在博覽會填了表、沒去過讀書會＝沒有「讀書會最近比較少看到妳。」',!opts[0].includes('「讀書會最近比較少看到妳。」'),JSON.stringify(opts[0])); }
     L=await play('讀書會',true); check('去過讀書會：多「讀書會最近比較少看到妳。」→「嗯。我還是會去，只是比較少。」（她不躲這個問題。）「我在找我比較想待的地方。」',JSON.stringify(opts[0])==='["「妳看起來很開心。」","「讀書會最近比較少看到妳。」","（幫她拿一半的作業本）"]'&&JSON.stringify(L.slice(4))===JSON.stringify([nm+'：嗯。我還是會去，只是比較少。','她不躲這個問題。',nm+'：我在找我比較想待的地方。']),JSON.stringify(L.slice(4)));
-    L=await play('作業本'); check('（幫她拿一半的作業本）：「謝謝。……你走路很慢，跟小孩一樣。」（小孩們笑。）',JSON.stringify(L.slice(4))===JSON.stringify([nm+'：謝謝。……你走路很慢，跟小孩一樣。','小孩們笑。']),JSON.stringify(L.slice(4)));
+    L=await play('作業本'); check('（幫她拿一半的作業本）：「謝謝。你走路好慢，跟他們一樣，剛好排一隊。」（小孩們笑。）',JSON.stringify(L.slice(4))===JSON.stringify([nm+'：謝謝。你走路好慢，跟他們一樣，剛好排一隊。','小孩們笑。']),JSON.stringify(L.slice(4)));
     check('記憶的中文說明：SAW_HER_TEACH',!!SOCIAL.MEMORY_LABEL.SAW_HER_TEACH); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

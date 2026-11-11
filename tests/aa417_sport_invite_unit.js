@@ -52,7 +52,9 @@ await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show ab9d7
   /* 語彤晨跑答應句照 AA_630 Z-123 改（語彤新背景，她不在麵店備料；企劃線 bb4401fd3，YT-REWRITE-1103）：這一句也接受 AA_630 那一列的「改成」 */
   let md630=''; try{ md630=cp.execSync('git -C "'+H.ROOT+'" -c core.quotepath=false show bb4401fd3:"docs/story_planning/AA_630_語彤台詞改寫.md"',{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ md630=''; }
   const z123=(md630.split('\n').find(l=>l.startsWith('| Z-123 |'))||'').split('|').map(x=>x.trim())[4]||'';
-  const bad=all.filter(([w,t])=>!s3.includes(t)&&!(w==='heroine_01'&&md580.includes('| 34 |')&&md580.includes(t))&&!(w==='heroine_03'&&z123==="'"+t+"'"));
+  /* 2026-11-11 改期望（X327 沛珊重寫，AA_755_peishan_feed_misc@c5094495d）：沛珊晨跑的答應句（acc.run_avenue）換成新稿的句子（原本「好啊！早上我很習慣，在家的時候四點半就要起來幫忙開店。」），不在 AA_417 裡 */
+  const PS755_RUN='好啊！可是你要打給我，我鬧鐘要響三次才起得來。';
+  const bad=all.filter(([w,t])=>!s3.includes(t)&&!(w==='heroine_01'&&md580.includes('| 34 |')&&md580.includes(t))&&!(w==='heroine_03'&&z123==="'"+t+"'")&&!(w==='classmate_peishan'&&t===PS755_RUN));
   check('1. §3 的 '+all.length+' 句都在 AA_417 第 3 節裡一字不差',all.length===45&&!bad.length,all.length+' '+J(bad.slice(0,4)));
   check('1. 男生朋友沒有自己的句子＝旁白「（他答應了。）」（AA_417 原文）',s3.includes('旁白「（他答應了。）」')&&J(INVITE_DATA.sportPlain)===J(['zhe','classmate_bohan','kai','classmate_mingxuan','npc_fangyt']));
   const of=w=>all.filter(x=>x[0]===w).map(x=>x[1]).join('');
@@ -91,7 +93,7 @@ await sec(3,()=>{ fresh('2026-03-11','heroine_04',2); const a=ask('heroine_04','
   fresh('2025-03-12','kexin',2,{econ:true}); const k3=INV.personal(H.G,'kexin',P('gym_badminton'),H.G.day,15.5,{res:'accept'});
   check('3. 可昕經濟系那一年：不說木柵大學那幾年的句子',!/木柵大學|首都帝大的球場|山上/.test(txt(k3.lines)),txt(k3.lines));
   const W={heroine_01:['羽球？好。我國中是校隊。……替補。','六點半？……好。我設兩個鬧鐘。'],heroine_03:['……我不太會。好。你不要笑。','早上九點有課。……七點半以前可以。'   /* AA_630 Z-123 */],
-    heroine_02:['羽球！好啊，我手腕很好。拉花練的。','早上？……我昨天上到兩點。……好啦。我去。'],heroine_05:['羽球。好。……我只會發球。','晨跑。好。跑完我直接去研究室。'],classmate_peishan:['好啊！！我要問你，你為什麼會打。','好啊！早上我很習慣，在家的時候四點半就要起來幫忙開店。']};
+    heroine_02:['羽球！好啊，我手腕很好。拉花練的。','早上？……我昨天上到兩點。……好啦。我去。'],heroine_05:['羽球。好。……我只會發球。','晨跑。好。跑完我直接去研究室。'],classmate_peishan:['好啊！！我要問你，你為什麼會打。','好啊！可是你要打給我，我鬧鐘要響三次才起得來。'   /* 2026-11-11 改期望：X327 新稿（AA_755）的晨跑答應句 */]};
   for(const id in W){ fresh('2026-03-11',id,3); const x=ask(id,'gym_badminton',15.5), y=ask(id,'run_avenue',6.5,H.G.day+1);
     check('3. '+id+'：羽球、晨跑照 §3-3',txt(x.lines)===W[id][0]&&txt(y.lines)===W[id][1],x.res+' '+txt(x.lines)+' / '+y.res+' '+txt(y.lines)); }
   for(const id of ['zhe','kai','classmate_mingxuan','npc_fangyt']){ fresh('2026-03-11',id,3); const x=ask(id,'gym_badminton',15.5), y=ask(id,'run_avenue',6.5,H.G.day+1);

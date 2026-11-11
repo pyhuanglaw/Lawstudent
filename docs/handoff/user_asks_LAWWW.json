@@ -4750,6 +4750,14 @@
    "status": "進行中",
    "wants": "X340",
    "task": "REL-PACKAGING-1111"
+  },
+  {
+   "id": "UA-LAWWW-1111-18",
+   "at": "2026-11-11T07:5xZ",
+   "quote": "改成用opus5.5",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X342"
   }
  ]
 }

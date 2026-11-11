@@ -35,12 +35,12 @@ def ctext(d, cx, y, t, f, fill):
 SHOPS = {
     # L118-SHOPS-REDO-1111（X338）：店名、品名、價錢照使用者的文字規格；營業時間照 AA_280 第 1 節（11-11 定稿）
     'dian': dict(name='118牛排', sub='夜市鐵板牛排', menu=[('鐵板牛排', 190), ('雪花牛排', 230), ('雞排', 180), ('豬排', 170), ('雙拼', 280)], hours='11:30～14:00、17:00～21:30；週二休',
-                 bg='#c4201a', fg='#ffd21e', ac='#ffd21e', p1=('招牌', ['鐵板牛排　190', '雞排　180']), ph=['steak', 'steak_chicken'], p2='濃湯・紅茶 自取'),
+                 bg='#c4201a', fg='#ffd21e', ac='#ffd21e', p1=('招牌', ['鐵板牛排　190', '雞排　180']), ph=['steak', 'steak_chicken'], p1big=('steak', '鐵板牛排'), p2='濃湯・紅茶 自取'),
     'self': dict(name='水上便當', sub='雞腿、雞排便當', menu=[('炸雞腿飯', 145), ('雞排飯', 135), ('滷雞腿飯', 130), ('排骨飯', 125), ('雙拼', 165)], hours='10:30～14:00、16:30～19:30；週日休',
-                 bg='#f7c41a', fg='#4a2414', ac='#c8201a', p1=('招牌', ['炸雞腿飯　145', '雞排飯　135']), ph=['bento_leg', 'bento_cutlet'], p2='內用・外帶'),
+                 bg='#f7c41a', fg='#4a2414', ac='#c8201a', p1=('招牌', ['炸雞腿飯　145', '雞排飯　135']), ph=['bento_leg', 'bento_cutlet'], p1big=('bento_leg', '炸雞腿飯'), p2='內用・外帶'),
     # L118-SHOPS-REDO-1111（X338，使用者 11-11）：tea 這一格改成辛亥韓食（韓式鍋物、鐵板烤肉；品名、價錢照使用者的規格）。營業時間照 AA_280 第 1 節
     'tea': dict(name='辛亥韓食', sub='韓式鍋物・鐵板烤肉', menu=[('泡菜鍋', 190), ('海鮮豆腐鍋', 210), ('鐵板豬肉', 200), ('鐵板牛肉', 230), ('石鍋拌飯', 180)], hours='11:00～14:00、17:00～20:30；每天',
-                bg='#7a1418', fg='#ffffff', ac='#e8c890', p1=('招牌', ['泡菜鍋　190', '石鍋拌飯　180']), ph=['stew', 'bibimbap'], p2='小菜可以續'),
+                bg='#7a1418', fg='#ffffff', ac='#e8c890', p1=('招牌', ['泡菜鍋　190', '石鍋拌飯　180']), ph=['stew', 'bibimbap'], p1big=('stew', '泡菜鍋'), p2='小菜可以續'),
     'home': dict(name='巷口家常菜', sub='家常菜', menu=[('排骨飯', 95), ('雞腿便當', 110), ('番茄炒蛋（單點）', 70)], hours='11:00～14:00、17:00～20:00；週一休',
                  bg='#8c3b2a', fg='#f4ead8', ac='#f2c230', p1=('本店', ['排骨現炸', '便當可外帶', '湯免費自取']), p2='電話訂便當請早'),
     'cafe2': dict(name='慢讀咖啡', sub='咖啡', menu=[('美式咖啡', 70), ('拿鐵', 95), ('今日蛋糕', 90)], hours='09:00～18:00；週二休',
@@ -48,7 +48,7 @@ SHOPS = {
     'pasta': dict(name='Pasta 118', sub='義大利麵', menu=[('白醬雞肉麵', 130), ('番茄海鮮麵', 150), ('青醬培根麵', 140)], hours='11:30～14:00、17:00～21:00；週三休',
                   bg='#f4f1ea', fg='#8c3b47', ac='#2f5d50', p1=('TODAY', ['今日濃湯：南瓜', '加麵 +30', '吧檯座位歡迎一位']), p2='麵的軟硬可以說'),
     'korea': dict(name='清州刀削麵', sub='刀削麵館', menu=[('牛肉刀削麵', 190), ('番茄刀削麵', 150), ('木須炒刀削麵', 170), ('炸醬刀削麵', 140)], hours='11:00～14:00、17:00～20:00；週日休',
-                  bg='#fbfaf5', fg='#c8201a', ac='#c8201a', menu_paper=True, p1=('招牌', ['牛肉刀削麵　190', '番茄刀削麵　150']), ph=['noodle_beef', 'noodle_tomato'], p2='現削現煮'),
+                  bg='#fbfaf5', fg='#c8201a', ac='#c8201a', menu_paper=True, p1=('招牌', ['牛肉刀削麵　190', '番茄刀削麵　150']), ph=['noodle_beef', 'noodle_tomato'], p1big=('noodle_beef', '牛肉刀削麵'), p2='現削現煮'),
     'omu': dict(name='蛋包飯研究所', sub='蛋包飯', menu=[('咖哩蛋包飯', 120), ('番茄醬蛋包飯', 110)], hours='11:30～14:30、17:00～20:30；週一休',
                 bg='#f2c230', fg='#5c3a21', ac='#e0a030', p1=('今日實驗', ['半熟：蛋汁會流下來', '全熟：比較好帶走', '醬汁可以加量']), p2='研究員招募中（打工）'),
     'noodle2': dict(name='六張犁麵舖', sub='麵店', menu=[('牛肉麵', 150), ('乾麵＋滷蛋', 75), ('餛飩湯', 50)], hours='11:00～14:00、17:00～20:00；週日休',
@@ -114,6 +114,10 @@ def shop_atlas(sid, S):
         lines = []
     for ln in lines: ctext(d, p.width / 2, yy, ln, F(40 if len(ln) <= 9 else 32), (60, 50, 40)); yy += 86
     d.rectangle([4, 4, p.width - 5, p.height - 5], outline=(190, 180, 160), width=3)
+    if S.get('p1big'):   # 第 3 版（BB_341：牆上要大張的餐點圖）：整張一道菜＋下面一條品名（l118_food_tex.py：程式畫的，不是照片）
+        import l118_food_tex as _FD
+        kind, cap = S['p1big']; p = Image.new('RGB', (x1 - x0, y1 - y0), bg if sum(bg) < 650 else ac); p.paste(_FD.dish(kind, x1 - x0, 356), (0, 0)); d = ImageDraw.Draw(p)
+        ctext(d, p.width / 2, 368, cap, F(56), fg if sum(bg) < 650 else (255, 255, 255)); d.rectangle([3, 3, p.width - 4, p.height - 4], outline=ac if sum(bg) < 650 else (255, 255, 255), width=6)
     im.paste(p, (x0, y0))
     # HOURS：營業時間（白紙黑字）
     x0, y0, x1, y1 = REG['HOURS']; h = paper(x1 - x0, y1 - y0, '#ffffff', seed=7); d = ImageDraw.Draw(h)

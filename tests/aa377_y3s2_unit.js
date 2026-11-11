@@ -15,9 +15,12 @@ const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.repla
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 global.CG_REGISTRY={};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js',
-  'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
+  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
   'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/data/needed_msgs.js','src/data/hometown_lines.js','src/msg3d.js',
   'src/data/y2b_events.js','src/y2b3d.js','src/data/group_events.js','src/group3d.js','src/y34b3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/jp_events.js','src/jp3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+/* 2026-11-11（SHE-FIRST-1110／PEISHAN-VOICE-1110）：芷若、沛珊心意邀約的台詞搬到 src/data/termend_opts.js 的 TERMEND_OPTS.HEART（沒載＝這兩位沒有邀約句、不發）——這支測試只載那一份的 HEART、LINES，
+   其他人的期末飯選項（GF／TABLE／CONFESS／KX／FRIEND）照舊不載（這支測的是沒有選項的原本流程；選項在 tests/termend_opts_1110_unit.js、「她先說」在 tests/te_shefirst_1110_unit.js）*/
+{ const fs_=require('fs'), p_=require('path').join(__dirname,'..','src/data/termend_opts.js'); if(fs_.existsSync(p_)){ require('vm').runInThisContext(fs_.readFileSync(p_,'utf8').replace(/^const TERMEND_OPTS\s*=/m,'globalThis.__TO_ALL='),{filename:'src/data/termend_opts.js'}); globalThis.TERMEND_OPTS={HEART:globalThis.__TO_ALL.HEART||{},LINES:globalThis.__TO_ALL.LINES||{}}; } }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info&&!ok?'　'+info:'')); if(!ok) fails++; };
 const sec=async(name,f)=>{ try{ await f(); }catch(e){ check(name+'（例外）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' | ')); } };
 global.ADV={active:false,preload(){},begin(){ this.active=true; },end(){ this.active=false; },log(){},speaker(){},cg(){ return true; },setBg(){},hide(){}}; global.CHAR={setExpr(){}};
@@ -152,7 +155,8 @@ const inMD=t=>MD.indexOf(t)>=0;
     const ws=LADDER.byTerm.Y3S2.heroine_02.workShifts, en=ZR.daily_schedule.find(e=>e.act==='barista'&&e.dates&&e.dates[0][0]==='2028-02-21');
     check('8. 作息那一筆和閒聊階梯 Y3S2 的 workShifts 一樣（週三、四 19～22）',!!en&&ws.length===1&&J(en.days)===J(ws[0].weekday)&&en.from===ws[0].time[0]&&en.to===ws[0].time[1],J({ws,en:en&&[en.days,en.from,en.to]}));
     const rs=x=>typeof x==='function'?x(G):x, h=TERMEND.heart('heroine_02','Y3S2'), f=TERMEND.friend('heroine_02','Y3S2');   /* 大三下的心意邀約被 r2y3b3d.js 包了一層（Z13 那一版），一般版照台詞表 */
-    check('8. 期末心意：「這禮拜四我十點下班。……你要不要等我？……」週四 22:00；第二次「禮拜四十點。」',rs(h.invite)==='這禮拜四我十點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。'&&rs(h.invite2)==='禮拜四十點。……上次那句，你想好了嗎？'&&h.wd===4&&h.h===22,J({i:rs(h.invite),i2:rs(h.invite2),wd:h.wd,h:h.h}));
+    /* 2026-11-11 改期望（使用者 11-10 芷若告白「寫在杯子上」＋「她先說」SHE-FIRST-1110，AA_748@33a1769f8）：邀約句換成 inviteHeart、第二次換成「…老地方。」，星期和時間照她大三下的班（週四十點）。原本「這禮拜四我十點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。」「禮拜四十點。……上次那句，你想好了嗎？」*/
+    check('8. 期末心意：「這禮拜四你來店裡等我下班。先不要吃太飽。」週四 22:00；第二次「禮拜四十點。老地方。」',rs(h.invite)==='這禮拜四你來店裡等我下班。先不要吃太飽。'&&rs(h.invite2)==='禮拜四十點。老地方。'&&h.wd===4&&h.h===22,J({i:rs(h.invite),i2:rs(h.invite2),wd:h.wd,h:h.h}));
     check('8. 期末朋友邀約：「考完了嗎？禮拜四我下班以後，吃個東西？」週四 22:00',f.genByTerm.Y3S2==='考完了嗎？禮拜四我下班以後，吃個東西？'&&f.wd===4&&f.hByTerm.Y3S2===22,J({g:f.genByTerm.Y3S2,wd:f.wd,h:f.hByTerm.Y3S2}));
     const h1=TERMEND.heart('heroine_02','Y2S1'), f1=TERMEND.friend('heroine_02','Y2S1');
     check('8. 對照：大二上照舊（週五、十點）',h1.wd===5&&/禮拜五/.test(rs(h1.invite))&&f1.wd===5); });

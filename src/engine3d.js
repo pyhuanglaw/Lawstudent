@@ -282,7 +282,7 @@ const E3 = (function(){
   };
   function stepEntity(ent,dx,dz,sp,dt){ const o=ent.obj; const nx=o.position.x+dx*sp*dt, nz=o.position.z+dz*sp*dt; const r=ent.radius||0.3; const cs=(x,z)=>standL(x,z,r,ent.lv|0); // 圓形碰撞（對導航格；多樓層：對人物所在那一層，高度要接得上）
     ent.blockedAt=null; if(navOf(ent.lv|0)){ const mx=Math.abs(dx*sp*dt)>1e-4, mz=Math.abs(dz*sp*dt)>1e-4; // 滑動只在那個方向真的有位移時才算（沿著床邊直走時 dx=0，舊版會「滑動成功」但原地不動）
-      if(cs(nx,nz)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(E.levels&&switchLevel(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(mx&&cs(nx,o.position.z)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&cs(o.position.x,nz)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else { ent.blockedAt={x:nx,z:nz,slide:'none'};
+      if(cs(nx,nz)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(E.levels&&switchLevel(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(mx&&cs(nx,o.position.z)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&cs(o.position.x,nz)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mz&&switchLevel(ent,o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else if(E.levels&&mx&&switchLevel(ent,nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else { ent.blockedAt={x:nx,z:nz,slide:'none'};   /* BUG-MOKUYOBI-STAIR-STUCK-1111（BB 11-11 PC 三次重現：木曜日樓梯頂 (−3.35, 2.876) lv0，搖桿斜著往店裡推 20 秒不動）：斜著推時完整的一步撞到旁邊的牆、換層只試完整那一步——沿牆滑的那一步（只有 z 或只有 x）在這一層站不住、在另一層站得住也要換層（原本只在同一層滑），不然靠著扶手那一側走到樓梯頂就卡住 */
         // 擦到家具或格子的角：前進方向再往左或右偏一點（最多 0.48 m，導航格是 0.5 m）就過得去時，往空的那一側讓開（正面撞平的牆時偏移也過不去，不會亂滑）
         const px=-dz, pz=dx; let side=0; for(const e of [0.08,0.16,0.24,0.32,0.4,0.48]){ if(cs(nx+px*e,nz+pz*e)){ side=1; break; } if(cs(nx-px*e,nz-pz*e)){ side=-1; break; } }
         if(side){ const lat=Math.min(0.18,sp*dt*0.8), lx=o.position.x+px*side*lat, lz=o.position.z+pz*side*lat; if(cs(lx,lz)){ o.position.x=lx; o.position.z=lz; ent.blockedAt.slide='corner'; } }
@@ -322,7 +322,7 @@ const E3 = (function(){
   function stuckIn(ent){ const n=navOf(ent.lv|0); if(!n) return false; const o=ent.obj.position; return !standL(o.x,o.z,ent.radius||0.3,ent.lv|0); }
   // 目前位置本身就不合法（起身位置太靠近桌子、舊存檔、資料錯誤）時：允許「不會變更糟」的移動，讓玩家走出來；不允許穿牆（分數變低的方向仍擋）
   function escapeOK(ent,nx,nz,r){ const o=ent.obj.position; return stuckIn(ent)&&freeScore(nx,nz,r,ent.lv|0)>=freeScore(o.x,o.z,r,ent.lv|0); }
-  E.canStand=canStand; E.freeScore=freeScore; E.navOf=navOf; E.setLv=setLv; E.settleY=settleY;
+  E.canStand=canStand; E.freeScore=freeScore; E.navOf=navOf; E.setLv=setLv; E.settleY=settleY; E.stepEntity=stepEntity;   /* 測試用（tests/mokuyobi_stair_top_1111_unit.js：搖桿一步一步推）*/
   E.SPD={walk:1.8,run:6.2,bike:8.5};   /* 跑步 4.8 → 6.2（使用者 2026-10-20「跑步好慢」，X72）；跑步動畫照速度加快（character3d.js run 的 timeScale＝spd/4.1）*/
   /* 騎車的速度：載人時 85%（AA_137 第 5 節）；一起走、不坐後座的人走在旁邊（rideMode 'walk'，目前沒有人用；使用者 10-16 要學姊也坐後座）時騎慢，跟走路差不多 */
   E.bikeSp=function(){ let k=1, cap=Infinity; for(const n of E.npcs){ if(n.beh==='passenger') k=0.85; else if(n.beh==='follow'&&E.rideMode&&E.rideMode(n)==='walk') cap=2.4; } return Math.min(E.SPD.bike*k,cap); };
