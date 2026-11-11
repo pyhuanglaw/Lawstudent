@@ -219,12 +219,14 @@ await sec('2-4',async()=>{
   check('2-4 P-6. 偶遇道別（交往中）D12「今天買的書，第一本是繪本。……給課輔班的。」、D20「回程的車上，我要把今天的事寫下來！」',all.includes('"dating":"今天買的書，第一本是繪本。……給課輔班的。"')&&all.includes('"dating":"回程的車上，我要把今天的事寫下來！"'));
   check('2-4 P-6. 重考期回覆池 share_food「看起來好好吃！！我考完要吃很多！」',J(HOMETOWN_LINES[PS].keep.replies.share_food)===J(['看起來好好吃！！我考完要吃很多！']));
   const L=(loc)=>DATE_LINES.loc[loc].lines[PS].hotspots;
-  check('2-4 P-6. 約會：D15「……我家的早餐比這個好吃！」、D08、D18「謝謝！」',L('D15')['D15.store'].first.choice[0].reply[0].text==='我家的早餐比這個好吃！'&&L('D08')['D08.train'].first.choice[0].reply[0].text==='謝謝！'&&L('D18')['D18.snack'].first.choice[1].reply[0].text==='謝謝！');
+  /* 2026-11-11（X327 沛珊重寫，源稿 date_system/lines@2883197b6）：這三格新稿直接寫好了，AA_525 2-4 P-6 的修正層不再套（import_date_lines.py 的 PS_DROP）。原本：D15「我家的早餐比這個好吃！」、D08、D18「謝謝！」 */
+  check('2-4 P-6. 約會（X327 重寫以後）：D15「好啊。那下山以後的宵夜算我的。」、D08「謝謝。回程換你。」、D18「謝謝！那我要加料，你自己說要請的。」',L('D15')['D15.store'].first.choice[0].reply[0].text==='好啊。那下山以後的宵夜算我的。'&&L('D08')['D08.train'].first.choice[0].reply[0].text==='謝謝。回程換你。'&&L('D18')['D18.snack'].first.choice[1].reply[0].text==='謝謝！那我要加料，你自己說要請的。');
   const two=async pick=>{ fresh('2027-03-06',14,{}); H.FRIEND(PS); const t={who:PS,locs:['D05'],day:H.G.day,trip:'T9'}; H.said=[]; H.picks=[pick]; await DATE.spotLine(GM,t,'D05.cafe',0); const f=H.G.flags.PS_D05_EGG;
     DATE.mem(H.G,PS,'D05').last=['D05.cafe']; H.said=[]; await DATE.spotLine(GM,t,'D05.cafe',1); const s2=said(); H.said=[]; await DATE.spotLine(GM,t,'D05.cafe',1); return {f,s2,s3:said(),F:H.G.flags.PS_D05_EGG}; };
-  const a=await two('我請妳'), b=await two('小杯');
-  check('2-4 P-6. D05 第一次選「我請妳。」（「……那下次我請你吃蛋餅。說好了。」照留）記 PS_D05_EGG；remember 多「（她把一盒蛋餅放到你面前。）」「說好的！」（只拿一次）',a.f!=null&&J(a.s2)===J(['上次我們坐那個位子。今天被坐走了。','（她把一盒蛋餅放到你面前。）','說好的！'])&&a.F==='paid'&&J(a.s3)===J(['上次我們坐那個位子。今天被坐走了。'])&&L('D05')['D05.cafe'].first.choice[0].reply[0].text==='那下次我請你吃蛋餅。說好了。',J(a));
-  check('2-4 P-6. D05 選另一個：不記，remember 照舊',b.f==null&&J(b.s2)===J(['上次我們坐那個位子。今天被坐走了。']),J(b));
+  const a=await two('我請妳'), b=await two('看得懂');   /* 2026-11-11（X327）：第二個選項「點小杯的？」→「點妳看得懂的。」 */
+  /* 2026-11-11（X327 沛珊重寫）：回話「那下次我請你吃蛋餅。說好了。」→「好啊，那下次換我。」；remember「上次我們坐那個位子。今天被坐走了。」→「我們的位子今天被坐走了，我瞪了他們一下，沒用。」；多演的兩句改成熱紅茶、「說好的，這次換我。」（date_rewrite/peishan_D05.json 的 for_LAWWW；旗標 PS_D05_EGG 不改名） */
+  check('2-4 P-6. D05 第一次選「我請妳。」（「好啊，那下次換我。」）記 PS_D05_EGG；remember 多「（她把一杯熱紅茶推到你面前。）」「說好的，這次換我。」（只拿一次）',a.f!=null&&J(a.s2)===J(['我們的位子今天被坐走了，我瞪了他們一下，沒用。','（她把一杯熱紅茶推到你面前。）','說好的，這次換我。'])&&a.F==='paid'&&J(a.s3)===J(['我們的位子今天被坐走了，我瞪了他們一下，沒用。'])&&L('D05')['D05.cafe'].first.choice[0].reply[0].text==='好啊，那下次換我。',J(a));
+  check('2-4 P-6. D05 選另一個：不記，remember 照舊',b.f==null&&J(b.s2)===J(['我們的位子今天被坐走了，我瞪了他們一下，沒用。']),J(b));
 });
 
 /* ================= 3 可昕 ================= */

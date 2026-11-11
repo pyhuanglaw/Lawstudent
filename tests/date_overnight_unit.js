@@ -52,7 +52,15 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
       const kx=/同一趟的版本「([^「」]*)」/.exec(s53), kxOld=/可昕第一次：「([^「」]*)」/.exec(s53); SP.var53.kx=kx&&kx[1]; SP.var53.kxOld=kxOld&&kxOld[1];
       const zq=/子晴一般：「([^「」]*)」→ 不分版本都改「([^「」]*)」/.exec(s53); SP.var53.zq=zq&&{old:zq[1],neu:zq[2]}; }
     for(const r of rows(part('### 5-2.','### 5-3.'))){ if(!/^D\d\d$/.test(r[0])) continue; const who=NAME[r[1].slice(0,2)], o=/「([^「」]*)」/.exec(r[2]||''), n=/「([^「」]*)」/.exec(r[3]||''); SP.fix52.push({loc:r[0],who,old:o&&o[1],neu:n&&n[1]}); }
-    { const m=/旁白「(（吃完早餐[^」]*）)」/.exec(part('- **B8','- **B9')); SP.drive=m&&m[1]; } }
+    { const m=/旁白「(（吃完早餐[^」]*）)」/.exec(part('- **B8','- **B9')); SP.drive=m&&m[1]; }
+    /* 2026-11-11（X327 沛珊重寫；date_rewrite/peishan_D26／D28／D31.json@2883197b6 的 _meta.for_LAWWW）：沛珊早上三句、D31 離開句（交往中）以新稿為準，AA_359 的舊句不再用。
+       原本：一般「我四點半就醒了。……習慣了。我在大廳等你。」、D28「我在樓下。早餐我買好了。」、D26 老家「我在樓下。早餐從我家店裡帶來的。」、D31「下次我們冬天來好不好？我想看湖有霧的樣子。」。
+       新句在改稿紀錄裡對得到才換（讀不到 2883197b6＝照寫死的新句比）*/
+    { const PSN={morning:'我居然自己醒了，沒有靠鬧鐘。我在大廳等你，快來看奇蹟。',own:'我在樓下。早餐我買好了，買太多，你要負責吃。',home:'我在樓下。我媽叫我帶水果給你，一大袋，我提得好辛苦。',d31:'下次我們冬天來好不好？我想看湖起霧的樣子。'};
+      let rw=''; try{ rw=['date_rewrite/peishan_D26.json','date_rewrite/peishan_D28.json','date_system/lines/D31.json'].map(k=>cp.execSync('git show 2883197b6:docs/story_planning/'+k,{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']})).join('\n'); }catch(e){}
+      check('0. 沛珊早上三句、D31 離開句（X327 重寫）：新句都在企劃線 2883197b6 的改稿紀錄（peishan_D26／D28.json 的 for_LAWWW）和 D31.json 裡'+(rw?'':'（這份 checkout 讀不到，略過）'),!rw||Object.values(PSN).every(t=>rw.includes(t)),J(Object.values(PSN).filter(t=>!rw.includes(t))));
+      SP.morning.classmate_peishan=PSN.morning; SP.own.classmate_peishan=PSN.own; SP.home.classmate_peishan=PSN.home;
+      for(const f of SP.fix53) if(f.loc==='D31'&&f.who==='classmate_peishan') f.neu=PSN.d31; } }
   check('0. 讀得到稿 AA_359@'+SPEC_SHA+'：晚上四種、早上旁白、七位一句、住自己家／租的地方三句',!!spec&&Object.keys(SP.night).length===4&&!!SP.narr&&Object.keys(SP.morning).length===7&&Object.keys(SP.own).length===3,J(SP));
   check('0. 晚上那一句（第 2 節）四種逐字：兩間房／民宿／她回家／她回租的地方',!!D().NIGHT&&['single','dating','home','rent'].every(k=>D().NIGHT[k]===SP.night[k]),J([D().NIGHT,SP.night]));
   check('0. 第二天早上的旁白一律「'+SP.narr+'」',!!SP.narr&&D().MORNING_NARR===SP.narr,D().MORNING_NARR);
