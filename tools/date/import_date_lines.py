@@ -29,7 +29,8 @@
     2026-11-11 起芷若（heroine_02）也一樣（DLG-FULL-REVIEW-1110，使用者 X324：源稿 a29a8aba0 芷若 33 個地點重寫；和 f9c1a2b80 比只動她的格子，另外語彤 D15 一句、可昕 D09／D17／D33 三句）：
     疊在上面的改句裡她的列（AA_359 5-3 的 D26、D27、D29，AA_524 Z7 的 D18 兩句、D10 一句）原句對不到＝跳過、逐列印出來（ZR_SKIP：已經是改成的字／那一格新稿重寫了）；
     **原句還在、而且和改成不一樣＝源稿沒對齊：不換、全部收齊以後停下來列出來（ZR_STALE；不猜）**。AA_694 第 3 節裡她重寫掉的句子（上一版 f9c1a2b80 她那一格有、新稿沒有）跟著跳過。
-    她不分地點的短句（lines.heroine_02）和心願事件 AA 還沒交（AA_773、AA_774），這一輪不動。
+    AA_773（白名單上的 commit，企劃線 e8a33995c）：芷若不分地點的短句九列照 path 換（lines.heroine_02.…，和 AA_767、AA_769 同一步）；另外兩列是 src/date3d.js 手寫的（S.MORNING_OWN、S.T7A_YES 她那一格）。
+    她的心願事件 AA_774 在 tools/date/import_wish.py（1j）。
     換源稿 SHA 重跑：tools/date/bump_lines_sha.py（白名單 33 筆）→ tests/date_src_sha.js 的 ALLOW_SHA → 這支；這支裡的 *_PREV 是各輪「重寫以前的那一版」，不用跟著換。
 用法：python3 tools/date/import_date_lines.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_lines.js）]"""
 import json, os, re, subprocess, sys
@@ -712,6 +713,25 @@ if A769:
     FILES['fix769'] = P769
 
 
+# AA_773（DLG-FULL-REVIEW-1110，使用者 X324 芷若約會台詞重寫；白名單上的 commit）：芷若不分地點的短句——稿的 rows 11 列裡 file 是 src/data/date_lines.js 的九列
+# （acceptDating、move 第二句、transport、flaked 第二句、depart 前兩句、enough 兩句、leaveEarly；accept 兩句、move 第一句、move3、cancel 兩句、flaked 第一句、depart 第三句、noPair 不改；
+# 另外兩列是 src/date3d.js 的 S.MORNING_OWN.heroine_02、S.T7A_YES.heroine_02，直接改在那個檔）。做法同 AA_767、AA_769：照 path 換，寫檔前最後一步。白名單沒有 AA_773＝不疊
+A773 = G.approved_files(ALLOW, SP + 'AA_773_')
+R773 = []
+if A773:
+    P773, S773 = next(iter(A773.items()))
+    ok, why = G.allowed(P773, S773, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d773 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S773}:{P773}'], text=True)))
+    if len(d773.get('rows') or []) != 11:
+        sys.exit(f'AA_773@{S773} 的 rows 應該是 11 列，讀到 {len(d773.get("rows") or [])} 列')
+    R773 = [r for r in d773['rows'] if r.get('file') == 'src/data/date_lines.js']
+    if len(R773) != 9 or any(not r['path'].startswith('lines.' + ZR + '.') for r in R773) or [r['path'] for r in d773['rows'] if r.get('file') == 'src/date3d.js'] != ['S.MORNING_OWN.heroine_02', 'S.T7A_YES.heroine_02']:
+        sys.exit(f'AA_773@{S773}：date_lines.js 應該是九列（都在 lines.heroine_02 底下）、date3d.js 兩列（S.MORNING_OWN.heroine_02、S.T7A_YES.heroine_02）')
+    FILES['fix773'] = P773
+
+
 def apply767(body, rows=None, tag='AA_767'):
     """寫檔前最後一步：AA_767 六列（或 rows＝AA_769 七列）照 path 換在整份 JSON 上（回傳新的 JSON 字、換了幾列）"""
     o = json.loads(body); n = 0
@@ -793,6 +813,9 @@ with open(dst, 'w', encoding='utf8') as fo:
     if R769:
         body, n769 = apply767(body, R769, 'AA_769')
         print(f'AA_769@{S769}：可昕不分地點的短句 7 列（照 path），換了 {n769} 列')
+    if R773:
+        body, n773 = apply767(body, R773, 'AA_773')
+        print(f'AA_773@{S773}：芷若不分地點的短句 9 列（照 path），換了 {n773} 列')
     fo.write("'use strict';\nconst DATE_LINES=" + body + ';\n')
 print('AA_630：' + '；'.join(LOG630))
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))

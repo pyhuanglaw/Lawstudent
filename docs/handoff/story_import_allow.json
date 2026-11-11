@@ -6533,6 +6533,24 @@
    "note": "X324 可昕 D25 心願事件「如果今天沒有行程表」（內容不動：刪節號 28 處留 5 處；她開口約的那句改用 {出發時間}）：rows 23 列 old→new，path 是 date_wish.js 的 events.kexin 底下的位置——tools/date/import_wish.py 的 1i 照 path 疊在 wish_bb.json 可昕那一段上 → src/data/date_wish.js。herInvite.accept[1]「不行，火車有時間。{出發時間}，車站見。」：src/wish3d.js 播的時候帶那一趟的出發時間；帶不到＝退回「不行，火車有時間。九點，台北車站。」（AA 指定），畫面不印大括號。逐字對稿 tests/kx_dates_1111_unit.js"
   },
   {
+   "path": "docs/story_planning/AA_773_zr_date_common.json",
+   "sha": "e8a33995c",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X324）；BB 看過（LAWWW 2026-11-11 轉述）；LAWWW 2026-11-11 指定匯 e8a33995c；LAWWW 的匯入子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 芷若校外約會不分地點的短句 11 列（照 path 換）：①src/data/date_lines.js 最上層 lines.heroine_02 九列（acceptDating、move 第二句、transport、flaked 第二句、depart 前兩句、enough 兩句、leaveEarly）——tools/date/import_date_lines.py 寫檔前最後一步照 path 疊（apply767 的 AA_773 那一輪）；②src/date3d.js 兩列手寫檔直接換（S.MORNING_OWN.heroine_02、S.T7A_YES.heroine_02）。逐字對稿 tests/zr_dates_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_774_zr_wish.json",
+   "sha": "e8a33995c",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X324）；BB 看過（LAWWW 2026-11-11 轉述）；LAWWW 2026-11-11 指定匯 e8a33995c；LAWWW 的匯入子代理代登，待值班 LAWWW 核",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "X324 芷若 D05 心願事件「這次留兩張票」（內容不動：刪節號 30 處留 3 處、「嗯。」開頭兩處拿掉、對祐廷下命令或嫌他的三句改掉）：rows 27 列 old→new，path 是 date_wish.js 的 events.heroine_02 底下的位置——tools/date/import_wish.py 的 1j 照 path 疊在 wish_bb.json 芷若那一段上 → src/data/date_wish.js。herInvite.accept[0]「好。兩點半，光典門口。…」：她主動約的那一場 dateTime 14.5（出發時間 14:30、D05 光典臺北），對得上，沒用備用句。逐字對稿 tests/zr_dates_1111_unit.js"
+  },
+  {
    "path": "docs/story_planning/AA_771_l118_lunch.json",
    "sha": "138bfaf45",
    "status": "approved",
