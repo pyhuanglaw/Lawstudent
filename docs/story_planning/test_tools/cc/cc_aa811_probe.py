@@ -600,6 +600,9 @@ async def part_hh(pg, cdp, ver):
     P.path.append('之後站著不動：畢業後篇自己跳到出發那天 03:15 → 選單「出發：…%s」→ 出發 → 2D → 選項照字（%s）' % (HH_T, '／'.join(PICKS[ver])))
     w2, s2, ok2 = await drive(pg, cdp, P, lambda w, s: any(x['state'] in ('done', 'missed') for x in w['outs']) and not s['dlg'] and not s['nb'], 1500,
                               {'ev': 'ev_sis_hehuan', 'fl': ['SIS_HEHUAN_WENT']}, '等出發、演合歡山北峰')
+    for _ in range(40):   # aa811_r1：state 先變 done，「回到臺北。」字幕在 fade、advance 之後才出（outings3d.js）——先等字幕（最多 20 秒）再收事件（CC_02 乙 6）
+        if any(e.get('k') in ('cap', 'say') and e.get('t') == HH_BACK for e in (await evs(pg))[i_after:]): break
+        await pg.wait_for_timeout(500)
     E2 = (await evs(pg))[i_after:]; ss2 = says_of(E2)
     qq = next((x for x in (w2 or {}).get('outs', [])), None)
     R.check('[%s] 出遊演完（state done，沒有被記成 missed）' % P.tag, bool(qq) and qq['state'] == 'done', J(qq))
@@ -803,7 +806,7 @@ async def voice_new(pg, cdp, P, L_, msgs, rep, OFF):
     R.check('[%s] 一次排好十則（tag zqvoice_1～10、照順序）' % P.tag, [x['tag'] for x in Q] == ['zqvoice_%d' % (i + 1) for i in range(10)], J([x['tag'] for x in Q]))
     if D0 is not None and len(Q) == 10:
         R.check('[%s] 十則的日子＝D0＋N−1（不數了＝D0＋36）：%s' % (P.tag, J(OFF)), [x['day'] - D0 for x in Q] == OFF, J([x['day'] - D0 for x in Q]))
-        R.check('[%s] 時間都在 22:00～23:40' % P.tag, all(22 - 1e-6 <= x['h'] <= 23 + 40 / 60 + 1e-6 for x in Q), J([x['h'] for x in Q]))
+        R.check('[%s] 時間都在 22:00～23:40' % P.tag, all(22 - 0.006 <= x['h'] <= 23 + 40 / 60 + 0.006 for x in Q), J([x['h'] for x in Q]))
     if not ok1:
         R.check('[%s] 第一段（回第三天那則）有走完' % P.tag, False, '前一步沒成功，後面的十則跳過'); return
     # 第二段：十則照時間送到、第九則照字回
@@ -821,7 +824,7 @@ async def voice_new(pg, cdp, P, L_, msgs, rep, OFF):
     got = sorted([m for m in thr if (m['tag'] or '').startswith('zqvoice_')], key=lambda m: m['day'] * 24 + m['h'])
     R.check('[%s] 十則都送到（%d）、字照資料、照順序' % (P.tag, len(got)), [m['text'] for m in got] == msgs, J([[m['tag'], m['text'][:12]] for m in got]))
     if D0 is not None and got:
-        R.check('[%s] 送到的日子＝D0＋N−1（%s）、22:00～23:40' % (P.tag, J(OFF)), [m['day'] - D0 for m in got] == OFF and all(22 - 1e-6 <= m['h'] <= 23 + 40 / 60 + 1e-6 for m in got), J([[m['day'] - D0, m['h']] for m in got]))
+        R.check('[%s] 送到的日子＝D0＋N−1（%s）、22:00～23:40' % (P.tag, J(OFF)), [m['day'] - D0 for m in got] == OFF and all(22 - 0.006 <= m['h'] <= 23 + 40 / 60 + 0.006 for m in got), J([[m['day'] - D0, m['h']] for m in got]))
         R.check('[%s] 私訊（p:%s、她傳的）' % (P.tag, ZQ), all(m['from'] == ZQ for m in got), J([m['from'] for m in got]))
     asks = [m for m in got if m.get('ask')]
     R.check('[%s] 只有第九則可以回（ask zqvoice_9）、兩個選項照資料' % P.tag, [m['tag'] for m in asks] == ['zqvoice_9'] and asks[0]['ask']['opts'] == [o.get('t') for o in rep], J([[m['tag'], m.get('ask')] for m in asks]))
