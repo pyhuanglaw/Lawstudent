@@ -1659,3 +1659,11 @@
 [10:47:06] ==== START LM2_N6_r2  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
 [10:47:09] [res] cpu=5% mem=50% (15.7/31.4 GB) chrome_testing=9  START LM2_N6_r2
 [10:47:41] [res] cpu=5% mem=49% (15.2/31.4 GB) chrome_testing=9  END PS2_O2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       283b87374..d6d0671c5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:47:48] ==== END   PS2_O2  exit=0  223s   ====
+[10:47:57] memory 51% before starting LM_cam2_new (2 running)
+[10:47:57] ==== START LM_cam2_new  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
+[10:48:00] [res] cpu=6% mem=51% (16.2/31.4 GB) chrome_testing=9  START LM_cam2_new
+[10:48:40] [res] cpu=0% mem=48% (15.2/31.4 GB) chrome_testing=9  END LM2_N4_r2

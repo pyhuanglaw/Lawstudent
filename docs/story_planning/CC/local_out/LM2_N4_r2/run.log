@@ -1,0 +1,80 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_lm2_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LM2_N4_r2\out
+CC LM2 禮貌生財上師對話：PARTS SERIOUS；SHA 0eb2a0049；稿 fixtures\lm2；Windows＋GPU（PC）／SwiftShader（雲端）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.2s] hook：installed；LM 在＝True
+  [  27.2s] [DAYS] 用的日子（不是颱風假、隔天也不是）：{"Y1S1": {"day": 20, "id": "Y1S1", "week": 6, "date": "2025-10-06"}, "Y1S2": {"day": 188, "id": "Y1S2", "week": 5, "date": "2026-03-23"}, "Y2S1": {"day": 391, "id": "Y2S1", "week": 6, "date": "2026-10-12"}, "Y4S1": {"day": 1112, "id": "Y4S1", "week": 5, "date": "2028-10-02"}, "Y4S2": {"day": 1287, "id": "Y4S2", "week": 6, "date": "2029-03-26"}}
+  [  27.3s] [名字] 對照：祐廷＝祐廷、上師＝上師（稿：他的名字不出現）、吳教授＝SOCIAL.displayName(prof_wu)「吳教授」（CHARACTERS.prof_wu.name「吳教授」）、旁白＝不顯示名字
+  [前置／捷徑] 【前置／捷徑】SERIOUS ①：大二上 2026-10-12 19:30、交往中（可昕）、認識過（條件事件關著）
+  [前置／捷徑] SERIOUS ①：【捷徑】ROM.end(GAME.G,"kexin")（遊戲自己的分手函式）→ true
+  [  48.8s] [SERIOUS ①] 狀態：{"day": 391, "date": "2026-10-12", "hour": 19.536, "stage": "law", "term": "Y2S1", "weather": "clear", "partners": [], "girls": [], "lm": {"LM_MET": 291, "LM_PROF": true}, "finalsNext": false, "failedLast": true, "flunked": false, "brokeRecent": true, "lmLoaded": true, "typhoon": false}
+PASS [SERIOUS ①] 前置成立：最近分手（LM.brokeRecent）、沒有交往  {"brokeRecent": true, "partners": []}
+  [  53.5s] 到達「[SERIOUS ①] 算命桌」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  54.2s] [SERIOUS ①] 走到算命桌前 (27.57,3.39) 19:34：按鈕「算命桌」
+  [  58.9s] [SERIOUS ① 分手後 第 1 次 聊聊天] 按「算命桌」（19:34）→ 3 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv4；時間 19:34 → 19:50；第一句到最後一句 1.4 秒（探針點的速度）、整段 3.8 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  58.9s] [SERIOUS ① 分手後 第 1 次 聊聊天] 前後差異：LM_ [["flags.LM_SER", "（沒有）", {"lv4": 391}]]；其他 沒有
+PASS [SERIOUS ① 分手後 第 1 次 聊聊天] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  58.9s] [SERIOUS ① 第 1 次 lv4] #1 OK 稿［ms］「今天不算。」｜遊戲［上師］「今天不算。」（ADV on blur）
+  [  58.9s] [SERIOUS ① 第 1 次 lv4] #2 OK 稿［narr］「（他把茶推過來。）」｜遊戲［］「（他把茶推過來。）」（ADV on blur narr）
+  [  58.9s] [SERIOUS ① 第 1 次 lv4] #3 OK 稿［ms］「坐一下再走。不用講話。」｜遊戲［上師］「坐一下再走。不用講話。」（ADV on blur）
+  [  64.5s] [SERIOUS ① 分手後 第 2 次 問感情] 按「算命桌」（19:50）→ 4 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv1；時間 19:50 → 20:06；第一句到最後一句 1.9 秒（探針點的速度）、整段 4.8 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  64.5s] [SERIOUS ① 分手後 第 2 次 問感情] 前後差異：LM_ []；其他 沒有
+PASS [SERIOUS ① 分手後 第 2 次 問感情] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  64.5s] [SERIOUS ① 第 2 次 lv1] #1 OK 稿［yt］「老師，我什麼時候會交到女朋友？」｜遊戲［祐廷］「老師，我什麼時候會交到女朋友？」（ADV on blur）
+  [  64.5s] [SERIOUS ① 第 2 次 lv1] #2 OK 稿［ms］「你都怎麼做？」｜遊戲［上師］「你都怎麼做？」（ADV on blur）
+  [  64.5s] [SERIOUS ① 第 2 次 lv1] #3 OK 稿［yt］「等。」｜遊戲［祐廷］「等。」（ADV on blur）
+  [  64.5s] [SERIOUS ① 第 2 次 lv1] #4 OK 稿［ms］「用等的想等到結果，那個叫不能犯。手段自始不可能。換一個手段再來。」｜遊戲［上師］「用等的想等到結果，那個叫不能犯。手段自始不可能。換一個手段再來。」（ADV on blur）
+  [  69.6s] [SERIOUS ① 分手後 第 3 次 問感情] 按「算命桌」（20:06）→ 3 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lv5；時間 20:06 → 20:21；第一句到最後一句 1.9 秒（探針點的速度）、整段 4.3 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  69.6s] [SERIOUS ① 分手後 第 3 次 問感情] 前後差異：LM_ []；其他 沒有
+PASS [SERIOUS ① 分手後 第 3 次 問感情] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  69.6s] [SERIOUS ① 第 3 次 lv5] #1 OK 稿［yt］「老師，喜歡一個人要不要講？」｜遊戲［祐廷］「老師，喜歡一個人要不要講？」（ADV on blur）
+  [  69.6s] [SERIOUS ① 第 3 次 lv5] #2 OK 稿［ms］「放在心裡的東西，法律不處罰，也沒有人會知道。」｜遊戲［上師］「放在心裡的東西，法律不處罰，也沒有人會知道。」（ADV on blur）
+  [  69.6s] [SERIOUS ① 第 3 次 lv5] #3 OK 稿［ms］「兩樣都是。你自己選。」｜遊戲［上師］「兩樣都是。你自己選。」（ADV on blur）
+  [  75.8s] [SERIOUS ① 分手後 第 4 次 聊聊天] 按「算命桌」（20:22）→ 5 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝ch1；時間 20:22 → 20:37；第一句到最後一句 3.0 秒（探針點的速度）、整段 5.4 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  75.8s] [SERIOUS ① 分手後 第 4 次 聊聊天] 前後差異：LM_ []；其他 沒有
+PASS [SERIOUS ① 分手後 第 4 次 聊聊天] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  75.8s] [SERIOUS ① 第 4 次 ch1] #1 OK 稿［ms］「吃飯沒？」｜遊戲［上師］「吃飯沒？」（ADV on blur）
+  [  75.8s] [SERIOUS ① 第 4 次 ch1] #2 OK 稿［yt］「還沒。」｜遊戲［祐廷］「還沒。」（ADV on blur）
+  [  75.8s] [SERIOUS ① 第 4 次 ch1] #3 OK 稿［ms］「巷口那攤雞蛋糕。跟老闆說我叫你去的。」｜遊戲［上師］「巷口那攤雞蛋糕。跟老闆說我叫你去的。」（ADV on blur）
+  [  75.8s] [SERIOUS ① 第 4 次 ch1] #4 OK 稿［yt］「有比較便宜嗎？」｜遊戲［祐廷］「有比較便宜嗎？」（ADV on blur）
+  [  75.8s] [SERIOUS ① 第 4 次 ch1] #5 OK 稿［ms］「沒有。他會多跟你講五分鐘話。」｜遊戲［上師］「沒有。他會多跟你講五分鐘話。」（ADV on blur）
+  [  75.8s] [SERIOUS ①] 分手後四次：["lv4", "lv1", "lv5", "ch1"]（稿 seriousNote：serious:true 的兩組（剛分手、落榜）條件成立時優先出，而且那一次不管玩家選哪一類都先演這一組一次（他不開玩笑）；演過一次就不再出。）
+PASS [SERIOUS ①] 第一次（選聊聊天）＝lv4；之後不再出 lv4  ["lv4", "lv1", "lv5", "ch1"]
+  [  75.8s] [SERIOUS ①] LM_SER＝{"lv4": 391}
+  [前置／捷徑] 【前置／捷徑】SERIOUS ②：大四下 2029-03-26 19:30、認識過、GRAD_EXAM_RESULT＝fail（研究所筆試沒上）（條件事件關著）
+  [  85.4s] [SERIOUS ②] 狀態：{"day": 1287, "date": "2029-03-26", "hour": 19.551, "stage": "law", "term": "Y4S2", "weather": "clear", "partners": [], "girls": [], "lm": {"LM_MET": 987, "LM_PROF": true}, "finalsNext": false, "failedLast": true, "flunked": true, "brokeRecent": false, "lmLoaded": true, "typhoon": false}
+PASS [SERIOUS ②] 前置成立：落榜（LM.flunked）  true
+  [  88.1s] 到達「[SERIOUS ②] 算命桌」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  88.8s] [SERIOUS ②] 走到算命桌前 (27.57,3.36) 19:34：按鈕「算命桌」
+  [  94.0s] [SERIOUS ② 落榜後 第 1 次 問學業與考試] 按「算命桌」（19:35）→ 4 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lf5；時間 19:35 → 19:50；第一句到最後一句 1.9 秒（探針點的速度）、整段 4.4 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [  94.0s] [SERIOUS ② 落榜後 第 1 次 問學業與考試] 前後差異：LM_ [["flags.LM_SER", "（沒有）", {"lf5": 1287}]]；其他 沒有
+PASS [SERIOUS ② 落榜後 第 1 次 問學業與考試] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [  94.0s] [SERIOUS ② 第 1 次 lf5] #1 OK 稿［ms］「我聽說了。」｜遊戲［上師］「我聽說了。」（ADV on blur）
+  [  94.0s] [SERIOUS ② 第 1 次 lf5] #2 OK 稿［yt］「聽誰說？」｜遊戲［祐廷］「聽誰說？」（ADV on blur）
+  [  94.0s] [SERIOUS ② 第 1 次 lf5] #3 OK 稿［ms］「……算出來的。」｜遊戲［上師］「……算出來的。」（ADV on blur）
+  [  94.0s] [SERIOUS ② 第 1 次 lf5] #4 OK 稿［ms］「讀進去的都還在。茶喝完再走。」｜遊戲［上師］「讀進去的都還在。茶喝完再走。」（ADV on blur）
+  [ 100.3s] [SERIOUS ② 落榜後 第 2 次 問人生方向] 按「算命桌」（19:51）→ 5 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝lf2；時間 19:51 → 20:06；第一句到最後一句 3.0 秒（探針點的速度）、整段 5.4 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 100.3s] [SERIOUS ② 落榜後 第 2 次 問人生方向] 前後差異：LM_ []；其他 沒有
+PASS [SERIOUS ② 落榜後 第 2 次 問人生方向] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [ 100.3s] [SERIOUS ② 第 2 次 lf2] #1 OK 稿［yt］「老師，我該考研究所還是國考？」｜遊戲［祐廷］「老師，我該考研究所還是國考？」（ADV on blur）
+  [ 100.3s] [SERIOUS ② 第 2 次 lf2] #2 OK 稿［narr］「（他拿起籤筒搖了很久，抽出一支，看了一眼，放回去。）」｜遊戲［］「（他拿起籤筒搖了很久，抽出一支，看了一眼，放回去。）」（ADV on blur narr）
+  [ 100.3s] [SERIOUS ② 第 2 次 lf2] #3 OK 稿［ms］「籤上面寫「自己決定」。」｜遊戲［上師］「籤上面寫「自己決定」。」（ADV on blur）
+  [ 100.3s] [SERIOUS ② 第 2 次 lf2] #4 OK 稿［yt］「真的有這支籤？」｜遊戲［祐廷］「真的有這支籤？」（ADV on blur）
+  [ 100.3s] [SERIOUS ② 第 2 次 lf2] #5 OK 稿［ms］「整筒都是。」｜遊戲［上師］「整筒都是。」（ADV on blur）
+  [ 106.5s] [SERIOUS ② 落榜後 第 3 次 問學業與考試] 按「算命桌」（20:06）→ 6 句、選單 [["聊聊天", "問學業與考試", "問感情", "問人生方向", "離開"]]、認出＝st1；時間 20:06 → 20:22；第一句到最後一句 3.0 秒（探針點的速度）、整段 5.4 秒；結束後 {"busy": false, "adv": false, "interact": "算命桌", "depth": 0}
+  [ 106.5s] [SERIOUS ② 落榜後 第 3 次 問學業與考試] 前後差異：LM_ []；其他 沒有
+PASS [SERIOUS ② 落榜後 第 3 次 問學業與考試] 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動  []
+  [ 106.5s] [SERIOUS ② 第 3 次 st1] #1 OK 稿［yt］「老師，我刑法讀不懂。」｜遊戲［祐廷］「老師，我刑法讀不懂。」（ADV on blur）
+  [ 106.5s] [SERIOUS ② 第 3 次 st1] #2 OK 稿［ms］「哪裡不懂？」｜遊戲［上師］「哪裡不懂？」（ADV on blur）
+  [ 106.5s] [SERIOUS ② 第 3 次 st1] #3 OK 稿［yt］「不作為犯。」｜遊戲［祐廷］「不作為犯。」（ADV on blur）
+  [ 106.5s] [SERIOUS ② 第 3 次 st1] #4 OK 稿［ms］「你現在不去讀書，也算是一種不作為。」｜遊戲［上師］「你現在不去讀書，也算是一種不作為。」（ADV on blur）
+  [ 106.5s] [SERIOUS ② 第 3 次 st1] #5 OK 稿［yt］「老師，你不是算命的嗎？」｜遊戲［祐廷］「老師，你不是算命的嗎？」（ADV on blur）
+  [ 106.5s] [SERIOUS ② 第 3 次 st1] #6 OK 稿［ms］「算命不能讀書？」｜遊戲［上師］「算命不能讀書？」（ADV on blur）
+  [ 106.5s] [SERIOUS ②] 落榜後三次：["lf5", "lf2", "st1"]
+PASS [SERIOUS ②] 第一次（選問學業與考試）＝lf5；之後不再出 lf5  ["lf5", "lf2", "st1"]
+  [ 106.5s] [SERIOUS] 整段多出／改過的 LM_ 旗標：["LM_SER"]
+  [ 106.5s] [SERIOUS] 多出的 LM_ 旗標：["LM_SER"]（稿的四個＝LM_MET／LM_PROF／LM_KNOWN／LM_STUDY；多的照實記，BB 01:02：報 LAWWW、不算 FAIL）
+PASS [SERIOUS] 多出的旗標都是 LM_ 開頭（BB 01:02）  ["LM_SER"]
+  [ 106.5s] [SERIOUS] 花了 79 秒
+PASS 沒有 JS 例外  []
+ALL PASS
