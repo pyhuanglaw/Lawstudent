@@ -57,7 +57,7 @@ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.nav._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
 const STEP=0.25, R=0.32;
 for(const id of Object.keys(WANT)){ const z=loadZone('l118_'+id), nav=z.nav, sp=z.spawn, ex=E.interactables.find(i=>i.exit), LJ=L118_SHOP_LAYOUTS[id];
-  check(id+' 6. src/data/l118_shop_layouts.js 是新的配置（'+WANT[id].name+'、'+WANT[id].seats+' 個座位）', LJ.name===WANT[id].oldName&&LJ.order.label==='點餐（'+WANT[id].name+'）'&&LJ.seats.length===WANT[id].seats&&E.interactables.filter(i=>i.seat).length===WANT[id].seats);
+  check(id+' 6. src/data/l118_shop_layouts.js 是新的配置（'+WANT[id].name+'、'+WANT[id].seats+' 個座位）', LJ.name===WANT[id].name&&LJ.order.label==='點餐（'+WANT[id].name+'）'&&LJ.seats.length===WANT[id].seats&&E.interactables.filter(i=>i.seat).length===WANT[id].seats);
   // 6. 每張椅子的走近點（GAME.seatApproach 的候選：ap、前、後、兩側…）：站得住、從進門的位置找得到路、在「坐下」的範圍裡
   { const bad=[]; for(const it of E.interactables.filter(i=>i.seat)){ const s=it.seat, fx=Math.sin(s.yaw||0), fz=Math.cos(s.yaw||0), reach=(it.radius||1.8)-0.05;
       const cand=[...(s.ap?[[s.ap[0]-s.x,s.ap[1]-s.z]]:[]),[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]];
