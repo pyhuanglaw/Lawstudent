@@ -1,0 +1,56 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A_EXT20\out
+CC L118A：PARTS EXT20；SHA bc407bfc518c8d6a4260d1a1fa395cb93fc9058b；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.7s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== EXT20
+  [前置／捷徑] 【前置／捷徑】讀檔到 118 巷 2025-10-08 2000 (0.0,0.0) （巷子中間，拍十一間正面）
+PASS 118 巷正式街景（lane118_street_glb）載入（1.5 秒）
+  [  41.6s] [EXT 2000] 店：[{"id": "dian", "side": "W", "z0": 22, "z1": 28, "name": "118牛排", "takeout": false, "open": true}, {"id": "self", "side": "W", "z0": 14, "z1": 21, "name": "水上便當", "takeout": false, "open": false}, {"id": "tea", "side": "W", "z0": 10, "z1": 13, "name": "辛亥韓食", "takeout": false, "open": true}, {"id": "home", "side": "W", "z0": -6, "z1": 2, "name": "五湖四海", "takeout": false, "open": false}, {"id": "cafe2", "side": "W", "z0": -16, "z1": -9, "name": "大學食堂", "takeout": false, "open": false}, {"id": "pasta", "side": "E", "z0": 20, "z1": 28, "name": "義大麵屋", "takeout": false, "open": true}, {"id": "korea", "side": "E", "z0": 12, "z1": 19, "name": "清州刀削麵", "takeout": false, "open": false}, {"id": "omu", "side": "E", "z0": -2, "z1": 5, "name": "奈良咖哩", "takeout": false, "open": true}, {"id": "noodle2", "side": "E", "z0": -14, "z1": -7, "name": "迪倫窯烤披薩", "takeout": false, "open": true}, {"id": "drink_a", "side": "E", "z0": -7, "z1": -2, "name": "喝不喝咖啡", "takeout": true, "open": true}, {"id": "drink_b", "side": "W", "z0": -9, "z1": -6, "name": "果茶社", "takeout": true, "open": true}]
+  [  44.0s] 【捷徑機位】l118a_ext_dian_2000_front_cam.jpg：eye [3.3, 1.55, 25.0] look [-5.2, 2.3, 25.0] 焦距 26（垂直 42.55°）；亮度 全畫面 [61.8, 51.2]、中央 [61.8, 46.4]
+PASS [黑畫面] l118a_ext_dian_2000_front_cam.jpg 不是黑畫面／一片單色（全畫面平均 61.8、變化 51.2）  {"all": [61.8, 51.2], "mid": [61.8, 46.4]}
+  [  46.4s] 【捷徑機位】l118a_ext_dian_2000_sign_cam.jpg：eye [-1.6000000000000005, 2.0, 25.0] look [-5.2, 3.45, 25.0] 焦距 24（垂直 45.75°）；亮度 全畫面 [79.9, 66.1]、中央 [88.1, 71.1]
+PASS [黑畫面] l118a_ext_dian_2000_sign_cam.jpg 不是黑畫面／一片單色（全畫面平均 79.9、變化 66.1）  {"all": [79.9, 66.1], "mid": [88.1, 71.1]}
+  [  48.7s] 【捷徑機位】l118a_ext_self_2000_front_cam.jpg：eye [3.3, 1.55, 17.5] look [-5.2, 2.3, 17.5] 焦距 26（垂直 42.55°）；亮度 全畫面 [66.3, 56.1]、中央 [80, 65]
+PASS [黑畫面] l118a_ext_self_2000_front_cam.jpg 不是黑畫面／一片單色（全畫面平均 66.3、變化 56.1）  {"all": [66.3, 56.1], "mid": [80, 65]}
+  [  51.0s] 【捷徑機位】l118a_ext_self_2000_sign_cam.jpg：eye [-1.0, 2.0, 17.5] look [-5.2, 3.45, 17.5] 焦距 24（垂直 45.75°）；亮度 全畫面 [89.5, 74.1]、中央 [100, 80.3]
+PASS [黑畫面] l118a_ext_self_2000_sign_cam.jpg 不是黑畫面／一片單色（全畫面平均 89.5、變化 74.1）  {"all": [89.5, 74.1], "mid": [100, 80.3]}
+  [  53.3s] 【捷徑機位】l118a_ext_tea_2000_front_cam.jpg：eye [3.3, 1.55, 11.5] look [-5.2, 2.3, 11.5] 焦距 26（垂直 42.55°）；亮度 全畫面 [60.8, 47.5]、中央 [53.9, 44.7]
+PASS [黑畫面] l118a_ext_tea_2000_front_cam.jpg 不是黑畫面／一片單色（全畫面平均 60.8、變化 47.5）  {"all": [60.8, 47.5], "mid": [53.9, 44.7]}
+  [  55.6s] 【捷徑機位】l118a_ext_tea_2000_sign_cam.jpg：eye [-2.2, 2.0, 11.5] look [-5.2, 3.45, 11.5] 焦距 30（垂直 37.3°）；亮度 全畫面 [73, 56.2]、中央 [88.7, 64.1]
+PASS [黑畫面] l118a_ext_tea_2000_sign_cam.jpg 不是黑畫面／一片單色（全畫面平均 73、變化 56.2）  {"all": [73, 56.2], "mid": [88.7, 64.1]}
+  [  57.9s] 【捷徑機位】l118a_ext_home_2000_front_cam.jpg：eye [3.3, 1.55, -2.0] look [-5.2, 2.3, -2.0] 焦距 26（垂直 42.55°）；亮度 全畫面 [54, 41]、中央 [48, 31.5]
+PASS [黑畫面] l118a_ext_home_2000_front_cam.jpg 不是黑畫面／一片單色（全畫面平均 54、變化 41）  {"all": [54, 41], "mid": [48, 31.5]}
+  [  60.2s] 【捷徑機位】l118a_ext_home_2000_sign_cam.jpg：eye [-0.40000000000000036, 2.0, -2.0] look [-5.2, 3.45, -2.0] 焦距 24（垂直 45.75°）；亮度 全畫面 [43.9, 27.1]、中央 [48.7, 34.2]
+PASS [黑畫面] l118a_ext_home_2000_sign_cam.jpg 不是黑畫面／一片單色（全畫面平均 43.9、變化 27.1）  {"all": [43.9, 27.1], "mid": [48.7, 34.2]}
+  [  62.6s] 【捷徑機位】l118a_ext_cafe2_2000_front_cam.jpg：eye [3.3, 1.55, -12.5] look [-5.2, 2.3, -12.5] 焦距 26（垂直 42.55°）；亮度 全畫面 [80.1, 65.2]、中央 [97.6, 71.1]
+PASS [黑畫面] l118a_ext_cafe2_2000_front_cam.jpg 不是黑畫面／一片單色（全畫面平均 80.1、變化 65.2）  {"all": [80.1, 65.2], "mid": [97.6, 71.1]}
+  [  64.9s] 【捷徑機位】l118a_ext_cafe2_2000_sign_cam.jpg：eye [-1.0, 2.0, -12.5] look [-5.2, 3.45, -12.5] 焦距 24（垂直 45.75°）；亮度 全畫面 [100.4, 80]、中央 [130.2, 91.5]
+PASS [黑畫面] l118a_ext_cafe2_2000_sign_cam.jpg 不是黑畫面／一片單色（全畫面平均 100.4、變化 80）  {"all": [100.4, 80], "mid": [130.2, 91.5]}
+  [  67.2s] 【捷徑機位】l118a_ext_pasta_2000_front_cam.jpg：eye [-3.3, 1.55, 24.0] look [5.2, 2.3, 24.0] 焦距 26（垂直 42.55°）；亮度 全畫面 [61.2, 44.1]、中央 [59.9, 34]
+PASS [黑畫面] l118a_ext_pasta_2000_front_cam.jpg 不是黑畫面／一片單色（全畫面平均 61.2、變化 44.1）  {"all": [61.2, 44.1], "mid": [59.9, 34]}
+  [  69.6s] 【捷徑機位】l118a_ext_pasta_2000_sign_cam.jpg：eye [0.40000000000000036, 2.0, 24.0] look [5.2, 3.45, 24.0] 焦距 24（垂直 45.75°）；亮度 全畫面 [57.1, 33.6]、中央 [56.1, 38.5]
+PASS [黑畫面] l118a_ext_pasta_2000_sign_cam.jpg 不是黑畫面／一片單色（全畫面平均 57.1、變化 33.6）  {"all": [57.1, 33.6], "mid": [56.1, 38.5]}
+  [  71.9s] 【捷徑機位】l118a_ext_korea_2000_front_cam.jpg：eye [-3.3, 1.55, 15.5] look [5.2, 2.3, 15.5] 焦距 26（垂直 42.55°）；亮度 全畫面 [73.5, 58.7]、中央 [93.1, 72.2]
+PASS [黑畫面] l118a_ext_korea_2000_front_cam.jpg 不是黑畫面／一片單色（全畫面平均 73.5、變化 58.7）  {"all": [73.5, 58.7], "mid": [93.1, 72.2]}
+  [  74.3s] 【捷徑機位】l118a_ext_korea_2000_sign_cam.jpg：eye [1.0, 2.0, 15.5] look [5.2, 3.45, 15.5] 焦距 24（垂直 45.75°）；亮度 全畫面 [102.6, 79.9]、中央 [127.4, 91]
+PASS [黑畫面] l118a_ext_korea_2000_sign_cam.jpg 不是黑畫面／一片單色（全畫面平均 102.6、變化 79.9）  {"all": [102.6, 79.9], "mid": [127.4, 91]}
+  [  76.6s] 【捷徑機位】l118a_ext_omu_2000_front_cam.jpg：eye [-3.3, 1.55, 1.5] look [5.2, 2.3, 1.5] 焦距 26（垂直 42.55°）；亮度 全畫面 [72.1, 55.3]、中央 [85.3, 66.4]
+PASS [黑畫面] l118a_ext_omu_2000_front_cam.jpg 不是黑畫面／一片單色（全畫面平均 72.1、變化 55.3）  {"all": [72.1, 55.3], "mid": [85.3, 66.4]}
+  [  79.0s] 【捷徑機位】l118a_ext_omu_2000_sign_cam.jpg：eye [1.0, 2.0, 1.5] look [5.2, 3.45, 1.5] 焦距 24（垂直 45.75°）；亮度 全畫面 [93.3, 73.1]、中央 [109.3, 79.6]
+PASS [黑畫面] l118a_ext_omu_2000_sign_cam.jpg 不是黑畫面／一片單色（全畫面平均 93.3、變化 73.1）  {"all": [93.3, 73.1], "mid": [109.3, 79.6]}
+  [  81.3s] 【捷徑機位】l118a_ext_noodle2_2000_front_cam.jpg：eye [-3.3, 1.55, -10.5] look [5.2, 2.3, -10.5] 焦距 26（垂直 42.55°）；亮度 全畫面 [63, 52.7]、中央 [45.8, 41.2]
+PASS [黑畫面] l118a_ext_noodle2_2000_front_cam.jpg 不是黑畫面／一片單色（全畫面平均 63、變化 52.7）  {"all": [63, 52.7], "mid": [45.8, 41.2]}
+  [  83.7s] 【捷徑機位】l118a_ext_noodle2_2000_sign_cam.jpg：eye [1.0, 2.0, -10.5] look [5.2, 3.45, -10.5] 焦距 24（垂直 45.75°）；亮度 全畫面 [59.9, 59.8]、中央 [49.9, 52.8]
+PASS [黑畫面] l118a_ext_noodle2_2000_sign_cam.jpg 不是黑畫面／一片單色（全畫面平均 59.9、變化 59.8）  {"all": [59.9, 59.8], "mid": [49.9, 52.8]}
+  [  86.1s] 【捷徑機位】l118a_ext_drink_a_2000_front_cam.jpg：eye [-3.3, 1.55, -4.5] look [5.2, 2.3, -4.5] 焦距 26（垂直 42.55°）；亮度 全畫面 [67.3, 56.7]、中央 [73.3, 54.7]
+PASS [黑畫面] l118a_ext_drink_a_2000_front_cam.jpg 不是黑畫面／一片單色（全畫面平均 67.3、變化 56.7）  {"all": [67.3, 56.7], "mid": [73.3, 54.7]}
+  [  88.4s] 【捷徑機位】l118a_ext_drink_a_2000_sign_cam.jpg：eye [2.2, 2.0, -4.5] look [5.2, 3.45, -4.5] 焦距 30（垂直 37.3°）；亮度 全畫面 [89.6, 66]、中央 [111.7, 71]
+PASS [黑畫面] l118a_ext_drink_a_2000_sign_cam.jpg 不是黑畫面／一片單色（全畫面平均 89.6、變化 66）  {"all": [89.6, 66], "mid": [111.7, 71]}
+  [  90.7s] 【捷徑機位】l118a_ext_drink_b_2000_front_cam.jpg：eye [3.3, 1.55, -7.5] look [-5.2, 2.3, -7.5] 焦距 26（垂直 42.55°）；亮度 全畫面 [67.4, 57.7]、中央 [80.4, 58.9]
+PASS [黑畫面] l118a_ext_drink_b_2000_front_cam.jpg 不是黑畫面／一片單色（全畫面平均 67.4、變化 57.7）  {"all": [67.4, 57.7], "mid": [80.4, 58.9]}
+  [  93.0s] 【捷徑機位】l118a_ext_drink_b_2000_sign_cam.jpg：eye [-2.2, 2.0, -7.5] look [-5.2, 3.45, -7.5] 焦距 30（垂直 37.3°）；亮度 全畫面 [98.2, 75.6]、中央 [141.7, 88.8]
+PASS [黑畫面] l118a_ext_drink_b_2000_sign_cam.jpg 不是黑畫面／一片單色（全畫面平均 98.2、變化 75.6）  {"all": [98.2, 75.6], "mid": [141.7, 88.8]}
+PASS [EXT 2000] walkFallbacks 0
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
