@@ -1,11 +1,3 @@
-[07:19:03] skip PERFCG_new_m (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[07:19:03] skip PERFCG_old_d (already done on a2de6154551eb433a1addae7df7a9a047f633f7c)
-[07:19:03] skip PERFCG_new_d (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[07:19:03] skip X295E_fair_keep (already done on bb8a32765065cc64530791f42aee631e06133b12)
-[07:19:03] skip X295E_fair_off (already done on bb8a32765065cc64530791f42aee631e06133b12)
-[07:19:03] skip VIEWRAW_cvs (already done on 4d7f556a61e028ab5409fcf0103e7448b3038b51)
-[07:19:03] skip TEACHVIEW_pn_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
-[07:19:03] skip TEACHVIEW_pn_old (already done on 35b88d5ff2613c039115576877e7f8a7525295a3)
 [07:19:03] skip BOYA1F_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
 [07:19:03] skip BOYA1F_old (already done on 35b88d5ff2613c039115576877e7f8a7525295a3)
 [07:19:03] skip FAIRTENT_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
@@ -1998,3 +1990,11 @@
 [13:46:35] ==== START CLASS12_civ_b_r2  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
 [13:46:38] [res] cpu=5% mem=42% (13.1/31.4 GB) chrome_testing=5  START CLASS12_civ_b_r2
 [13:46:43] [res] cpu=17% mem=43% (13.1/31.4 GB) chrome_testing=5  END NM_lane_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d3fc9569b..73cddb941  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:47:08] ==== END   NM_lane_new  exit=0  266s   ====
+[13:47:18] memory 48% before starting CLASS12_const_c (2 running)
+[13:47:18] ==== START CLASS12_const_c  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
+[13:47:21] [res] cpu=3% mem=48% (15.2/31.4 GB) chrome_testing=9  START CLASS12_const_c
+[13:47:59] [res] cpu=3% mem=46% (14.6/31.4 GB) chrome_testing=9  END CLASS12_skip2_150x5
