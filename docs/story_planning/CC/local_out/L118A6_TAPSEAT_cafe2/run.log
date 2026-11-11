@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_TAPSEAT_cafe2\out
+CC L118A：PARTS TAPSEAT_cafe2_1.11；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.9s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== TAPSEAT_cafe2_1.11
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_cafe2 店裡的進門位置 (2.20,3.00) 2025-10-08 1300 
+PASS [cafe2] 店內正式模型載入（1.5 秒）
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_cafe2 店裡的進門位置 (2.20,3.00) 2025-10-08 1300 （點椅子 #1，點在 0.45 m 高）
+PASS [cafe2] 店內正式模型載入（1.5 秒）
+  [  52.3s] [TAPSEAT cafe2 #1（2.92, -1.92）點椅子 0.45 m 高] 點椅面 螢幕 (458.2, 124.7)：落在地板 [3.04, -3.36]、tapRedirect 改走到 None
+  [  57.5s] [TAPSEAT cafe2 #1（2.92, -1.92）點椅子 0.45 m 高] 走到 (2.362, -1.677)（4.4 秒；tapPref [2.92, -1.92]）：互動鍵「坐下」、指到的座位 [2.92, -1.92]
+  [  57.5s] [TAPSEAT cafe2 #1（2.92, -1.92）點椅子 0.45 m 高] 點椅子走過去，互動鍵是「坐下」而且就是這一張：{"interact": "坐下", "near": {"label": "坐下", "seat": [2.92, -1.92], "exit": null}}
+PASS [TAPSEAT cafe2 #1（2.92, -1.92）點椅子 0.45 m 高] 按下去坐到這一張（座位差 ≤0.15 m）  {"sat": [2.92, -1.92], "want": [2.92, -1.92]}
+PASS [TAPSEAT cafe2 #1（2.92, -1.92）點椅子 0.45 m 高] walkFallbacks 沒增加
+  [  58.4s] [TAPSEAT cafe2 #1（2.92, -1.92）點椅子 0.45 m 高] 【遊戲鏡頭】l118a_tapseat_cafe2_1300_sit1_game.jpg：{"onScreen": true, "ndc": [0, -0.35], "player": [2.92, -1.92], "cam": [2.89, 3.21, 1.99], "yaw": 6.283, "mid": {"m": 178.1, "sd": 58.9, "black": 0.011, "white": 0, "rgb": [192, 176, 155]}, "top": {"m": 198.3, "sd": 38.8, "black": 0, "white": 0, "rgb": [214, 195, 171]}, "near": {"m": 158.1, "sd": 59.9, "black": 0.026, "white": 0, "rgb": [176, 155, 128]}}
+PASS [TAPSEAT cafe2 #1（2.92, -1.92）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "ok"}）  {"0.45": "ok"}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_cafe2 店裡的進門位置 (2.20,3.00) 2025-10-08 1300 （點椅子 #11，點在 0.45 m 高）
+PASS [cafe2] 店內正式模型載入（1.5 秒）
+  [  64.5s] [TAPSEAT cafe2 #11（-0.35, 1.6）點椅子 0.45 m 高] 有人坐著 ["extra"]：跳過
+  [  64.5s] [TAPSEAT cafe2] 結果 {"1": {"0.45": "ok"}, "11": {"0.45": "occupied"}}
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
