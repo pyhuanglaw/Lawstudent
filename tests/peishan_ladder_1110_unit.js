@@ -21,7 +21,7 @@ const who={name:'沛珊',charId:PS};
 const play=async(sid,pick)=>{ const G=H.fresh('2025-10-20',14,'campus',null); H.rel(PS,65,50,45); INV.addContact&&INV.addContact(G,PS); H.said=[]; CH=[]; WANT=[pick]; const r0=Object.assign({},SOCIAL.rel(PS)); await STORY.ladPlay(GM,who,PS,ST.find(s=>s.id===sid)); return {G,r0,r1:SOCIAL.rel(PS)}; };
 
 (async()=>{
-  await sec(1,async()=>{ const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_753_peishan_ladder/.test(e.path));
+  await sec(1,async()=>{ const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_753_peishan_ladder_Y1S1/.test(e.path));   /* 2026-11-11：AA_753 其他學期的三份另外各一筆（tests/peishan_ladder_1111_unit.js），這裡只數大一上那一筆 */
     check('1. 白名單一筆 AA_753、sha '+SHA+'、approved；工具寫死只認這一版',allow.length===1&&allow[0].sha===SHA&&allow[0].status==='approved'&&fs.readFileSync(path.join(H.ROOT,'tools/ladder/import_ladder.py'),'utf8').includes("PS753_SHA = '"+SHA+"'"));
     check('1. ladder.js 的來源有 AA_753@'+SHA,String(LADDER.source).includes('AA_753@'+SHA),String(LADDER.source).slice(-90));
     check('1. 讀得到企劃線 '+SHA+' 的 AA_753（讀不到＝後面的逐字比對做不了）',!!A); });
