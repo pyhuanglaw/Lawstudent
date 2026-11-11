@@ -57,10 +57,10 @@ const NEW=[
   '……真的？那第二關做好，你再幫我玩。','你測過的那一關，我改完了。','第二關做好了。你先玩，我還沒給別人看。','……成發那天來。我只彈一次。',
   '（她把筆電轉過來，推到你面前。）','說好的。玩。','那座橋，我回去要畫一次。','……謝謝。','謝謝。','好啦。謝謝。','好。謝謝。','好！謝謝！','上次也來這裡。',
   '上次你說的那件事。','……我想好了。好！','上次你說的那件事，我還在想。……我沒有忘喔。',
-  '（她帶你走了一條窄窄的巷子，兩邊都是透天厝。）','國中三年，每天走這條！','……那時候覺得好遠。現在走起來好近。',
+  '（她帶你走了一條窄窄的巷子，兩邊都是透天厝。）','國中三年我每天在這條路上用跑的，因為都快遲到。','那時候覺得好遠。現在走起來好近。',
   '（她從包包拿出三張卡片。）','課輔班的！她們畫的你。……長得不太像。',
   '明年……好！！','妳舉手了嗎？','……還沒！不要一直問！','不行。這是家傳的！','今天那一題，你講得很好。……我想多聽你講。',
-  '今天買的書，第一本是繪本。……給課輔班的。','回程的車上，我要把今天的事寫下來！','看起來好好吃！！我考完要吃很多！',
+  '今天買的書，第一本是繪本。……給課輔班的。','回程的車上，我要把今天的事寫下來！','看起來好好吃！！我考完要一次吃回來！',
   '（她把一盒蛋餅放到你面前。）','說好的！','……我家的早餐比這個好吃！','謝謝！',
   '（吃完飯，她從包包拿出一個小盒子，推過來。）','聖誕的。說好考完換。','（你也把準備好的那一份拿出來。）','還有，去年說的。今年的第二頁，你排。','河濱，看燈。','……抄我的。好。','山上，看夜景。','好。你開車。','（那一晚的第二頁，是你排的。）',
   '（信箱裡有一張臺灣寄來的卡片。第一頁寫著：第四年。）','摩天輪。說好的。','（吃完飯，你們去搭了摩天輪。轉到最高的時候，她靠著窗，沒有說話。）',
@@ -94,7 +94,9 @@ await sec(0,()=>{
   check('0. AA_526：讀得到稿（'+SHA6+' 第 2 節 D15、大三上期末飯、1-1、3-9、2-1），白名單有一筆（approved、AA-B 定稿、HEROINE-LIFE-1028）',DOC6.length>2000&&/### D15/.test(DOC6)&&/ZQ_STICKER3/.test(DOC6)&&/### 3-9/.test(DOC6)&&A6.length===1&&A6[0].sha===SHA6&&A6[0].status==='approved'&&A6[0].task==='HEROINE-LIFE-1028',J(A6.map(e=>e.sha)));
   const miss6=NEW6.filter(t=>!DOC6.includes(t));
   check('0. AA_526 這兩句一字不差在 AA_526 裡（「……好。我記下來。」「寒假你來高雄。……我們都沒去過的地方，我來排。」）',!miss6.length,J(miss6));
-  const miss=NEW.filter(t=>!inDoc(t));
+  /* 2026-11-11（X327 沛珊重寫，AA_757_peishan_wish_hometown.json@052644c58）：沛珊「國中走路上學那條路」那兩句、重考期回覆池 share_food 重寫了，新句對 AA_757 的 hometown_rows（tests/peishan_dates_1111_unit.js 逐字對），不在 AA_525 */
+  const PS757=['國中三年我每天在這條路上用跑的，因為都快遲到。','那時候覺得好遠。現在走起來好近。','看起來好好吃！！我考完要一次吃回來！'];
+  const miss=NEW.filter(t=>!inDoc(t)&&!PS757.includes(t));
   check('0. 新加的 '+NEW.length+' 句每一句都一字不差在稿裡',!miss.length,J(miss));
   const files=listSrc(), hit=[]; for(const f of files){ const s=stripComments(SRC(f)); for(const t of OLD) if(s.includes(t)) hit.push(f+'：'+t); }
   check('0. 改掉的 '+OLD.length+' 句舊句：src 裡（不算註解）都不在了',!hit.length,J(hit));
@@ -188,11 +190,11 @@ await sec('2-2',async()=>{
   const T1=await trip(), f1=H.G.flags.PS_SCHOOLROAD;
   check('2-2. 去台中第一次（交往中、考上台南以前）送行「下次來，我帶你去我國中走路上學那條路。」＝記 PS_SCHOOLROAD',T1.includes('下次來，我帶你去我國中走路上學那條路。')&&f1!=null&&f1!=='walked',J({f1,tail:T1.slice(-2)}));
   at('2026-07-29',8); const T2=await trip();
-  check('2-2. 第二次：先走那一條（旁白、「國中三年，每天走這條！」「……那時候覺得好遠。現在走起來好近。」），記 PS_SCHOOLROAD walked',seq(['（她帶你走了一條窄窄的巷子，兩邊都是透天厝。）','國中三年，每天走這條！','……那時候覺得好遠。現在走起來好近。'])&&H.G.flags.PS_SCHOOLROAD==='walked'&&!T2.includes('我小時候在這裡學騎腳踏車。我爸在後面扶，扶到一半就偷偷放手。'),J(T2.slice(0,8)));
+  check('2-2. 第二次：先走那一條（旁白、「國中三年我每天在這條路上用跑的，因為都快遲到。」「那時候覺得好遠。現在走起來好近。」），記 PS_SCHOOLROAD walked',seq(['（她帶你走了一條窄窄的巷子，兩邊都是透天厝。）','國中三年我每天在這條路上用跑的，因為都快遲到。','那時候覺得好遠。現在走起來好近。'])&&H.G.flags.PS_SCHOOLROAD==='walked'&&!T2.includes('我小時候在這裡學騎腳踏車。我爸在後面扶，扶到一半就偷偷放手。'),J(T2.slice(0,8)));
   at('2026-08-12',8); const T3=await trip(); at('2026-08-19',8); const T4=await trip();
-  check('2-2. 走過以後不再走；三選一的輪流照舊（第三次＝公園、第四次＝書店：那條路不佔順位）',!T3.includes('國中三年，每天走這條！')&&T3.includes('我小時候在這裡學騎腳踏車。我爸在後面扶，扶到一半就偷偷放手。')&&T4.includes('這間比頁間書屋大很多。可是我比較喜歡頁間書屋。'),J([T3.slice(2,4),T4.slice(2,4)]));
+  check('2-2. 走過以後不再走；三選一的輪流照舊（第三次＝公園、第四次＝書店：那條路不佔順位）',!T3.includes('國中三年我每天在這條路上用跑的，因為都快遲到。')&&T3.includes('我小時候在這裡學騎腳踏車。我爸在後面扶，扶到一半就偷偷放手。')&&T4.includes('這間比頁間書屋大很多，可是我比較喜歡頁間書屋，小間的比較好躲。'),J([T3.slice(2,4),T4.slice(2,4)]));
   fresh('2026-07-15',8,{dating_classmate_peishan:true}); H.FRIEND(PS); H.date(PS); H.G.flags.HV_N={classmate_peishan:1}; const T5=await trip();
-  check('2-2. 沒有聽過那一句（沒有 PS_SCHOOLROAD）＝照舊三選一',!T5.includes('國中三年，每天走這條！'),J(T5.slice(2,4)));
+  check('2-2. 沒有聽過那一句（沒有 PS_SCHOOLROAD）＝照舊三選一',!T5.includes('國中三年我每天在這條路上用跑的，因為都快遲到。'),J(T5.slice(2,4)));
 });
 await sec('2-3',async()=>{
   const prep=sentCard=>{ fresh('2026-06-30',13,{},'campus'); H.FRIEND(PS); if(sentCard){ PHONE.at(H.G,D('2026-06-25'),18.5,[{th:'p:'+PS,from:PS,text:'她們有做卡片給你。我先收著。'}],'wz_p4_cards'); tick(); } };
@@ -217,7 +219,7 @@ await sec('2-4',async()=>{
   const W=s=>(ENC_WALK.walks||ENC_WALK.walk||[]).find?(ENC_WALK.walks||ENC_WALK.walk||[]).find(x=>x.who===PS&&x.spot===s):null;
   const all=JSON.stringify(ENC_WALK);
   check('2-4 P-6. 偶遇道別（交往中）D12「今天買的書，第一本是繪本。……給課輔班的。」、D20「回程的車上，我要把今天的事寫下來！」',all.includes('"dating":"今天買的書，第一本是繪本。……給課輔班的。"')&&all.includes('"dating":"回程的車上，我要把今天的事寫下來！"'));
-  check('2-4 P-6. 重考期回覆池 share_food「看起來好好吃！！我考完要吃很多！」',J(HOMETOWN_LINES[PS].keep.replies.share_food)===J(['看起來好好吃！！我考完要吃很多！']));
+  check('2-4 P-6. 重考期回覆池 share_food「看起來好好吃！！我考完要一次吃回來！」',J(HOMETOWN_LINES[PS].keep.replies.share_food)===J(['看起來好好吃！！我考完要一次吃回來！']));
   const L=(loc)=>DATE_LINES.loc[loc].lines[PS].hotspots;
   /* 2026-11-11（X327 沛珊重寫，源稿 date_system/lines@2883197b6）：這三格新稿直接寫好了，AA_525 2-4 P-6 的修正層不再套（import_date_lines.py 的 PS_DROP）。原本：D15「我家的早餐比這個好吃！」、D08、D18「謝謝！」 */
   check('2-4 P-6. 約會（X327 重寫以後）：D15「好啊。那下山以後的宵夜算我的。」、D08「謝謝。回程換你。」、D18「謝謝！那我要加料，你自己說要請的。」',L('D15')['D15.store'].first.choice[0].reply[0].text==='好啊。那下山以後的宵夜算我的。'&&L('D08')['D08.train'].first.choice[0].reply[0].text==='謝謝。回程換你。'&&L('D18')['D18.snack'].first.choice[1].reply[0].text==='謝謝！那我要加料，你自己說要請的。');

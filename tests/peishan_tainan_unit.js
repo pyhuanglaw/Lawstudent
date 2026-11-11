@@ -1,4 +1,5 @@
 // 沛珊放榜以後在台南（AA_282 第 5 節，AA-C 2026-10-18；AA_342 C2；任務 PS-TAINAN-AA282）——不需要瀏覽器。
+// 2026-11-11（X327 沛珊重寫，AA_757_peishan_wish_hometown.json@052644c58）：這支裡寫死的沛珊「去她的縣市」（台中、台南、台南美術館）的句子照新稿改期望（hometown_rows 31 列＋tainan_museum；逐字對稿在 tests/peishan_dates_1111_unit.js）。
 //   1. presence：8/6～9/3 台中老家、開學前 2 天回台南；大三、大四學期中在台南（kind 'city'、不在臺北、不在台大）；寒暑假台中（期末考最後一天的第 3 天回去）；
 //      手機「現在大概在」：重新聯絡上以前「很久沒聯絡」、以後「在台中」「在台南」（第 1 節的表）
 //   2. 大三起沒有臺北的作息、偶遇（溫州街課輔班、公館書店、美術館 D06、烏來 D20、動物園 D08 的大三下／大四下）；大一下的 D08 照舊；enc_walk D06.cafe 拿掉
@@ -197,34 +198,35 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     check('7. K3 放榜以前（大一寒假去台中，AA_276）照舊不算', (DATE.log(G,ID).count|0)===0, JSON.stringify(DATE.log(G,ID))); }
   // K3 心願地點：聊天提到（「再去」接人以後，第 4 階以上）
   { const d=termDay('Y3S1',7,6); fresh(d,10.5,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=35; G.flags.HV_N={[ID+'@台南']:1};   /* 第 5 階（人物頁的提示從第 5 階起）*/
-    said=[]; opts=[]; picks=[0,0]; await HV.play(GM,tn); const k1=said.findIndex(s=>s.t==='你去過美術館嗎？'), kp=said.findIndex(s=>s.t==='今天我已經想好要去哪裡了。'), kb=said.findIndex(s=>s.t==='這一區是我排的。你看得出來照什麼排的嗎？');
-    check('7. K3 聊天提到：第二次去台南（再去・書店），接人以後、書店以前：「你去過美術館嗎？」……「我想去一次。看畫，不用寫答案。」；選「畫也有答案吧？」→「……是嗎？那我更想去看，它的答案是什麼。」；wishKnown',
-      kp>=0&&k1>kp&&kb>k1&&has('我想去一次。看畫，不用寫答案。')&&JSON.stringify(opts[0])===JSON.stringify(['「畫也有答案吧？」','「那就去啊。」','（聽她說完）'])&&has('……是嗎？那我更想去看，它的答案是什麼。')&&DATE.log(G,ID).wishKnown===true, JSON.stringify(said.map(s=>s.t)));
+    said=[]; opts=[]; picks=[0,0]; await HV.play(GM,tn); const k1=said.findIndex(s=>s.t==='你去過美術館嗎？'), kp=said.findIndex(s=>s.t==='今天去哪我已經想好了，你跟著走就好。'), kb=said.findIndex(s=>s.t==='這一區是我排的。你看得出來照什麼排的嗎？');
+    check('7. K3 聊天提到：第二次去台南（再去・書店），接人以後、書店以前：「你去過美術館嗎？」……「我想自己去一次。聽說裡面不能大聲講話，我想知道我能撐多久。」；選「妳撐不過十分鐘。」→「十五。我賭我可以十五分鐘。」；wishKnown',
+      kp>=0&&k1>kp&&kb>k1&&has('我想自己去一次。聽說裡面不能大聲講話，我想知道我能撐多久。')&&JSON.stringify(opts[0])===JSON.stringify(['「妳撐不過十分鐘。」','「那就去啊。」','（聽她說完）'])&&has('十五。我賭我可以十五分鐘。')&&DATE.log(G,ID).wishKnown===true, JSON.stringify(said.map(s=>s.t)));
     { const L=DATE.log(G,ID), c=L.count; L.count=4; const h=DATE.hint(G,ID); L.count=c; check('7. K3 人物頁的提示（次數夠、還沒去）：「她提過想去台南・美術館」（不是臺北市立美術館）', h==='她提過想去台南・美術館', h); }
     G.day+=1; G.weekday=wdOf(G.day); said=[]; picks=[0,0]; await HV.play(GM,tn); check('7. K3 聊天提到只一次', !has('你去過美術館嗎？')); }
   // K3 她主動約（手機）→ 下一次去台南＝美術館（BB_128 3-4 照抄）
   { const d=termDay('Y3S1',3,3); fresh(d,20,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=60; SOCIAL.rel(ID).rom=35; run(d,20.5,21.2);
     const M=TH(TH_PS).filter(m=>m.from===ID).map(m=>m.text), m=PHONE.byAsk(G,'ps_museum_Y3S1');
-    check('7. K3 她主動約（第 5 階以上、雙方單身；學期中第 3 週起的晚上 21:00）：「你下次來台南，我們去美術館。」「我想要一天，沒有標準答案。」（AA_462 第 5 節：第二句開頭的「美術館。」拿掉）「你可以說不。我只是問問看。」；選項「答應」「這週不行」',
-      JSON.stringify(M)===JSON.stringify(['你下次來台南，我們去美術館。','我想要一天，沒有標準答案。','你可以說不。我只是問問看。'])&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='答應|這週不行', JSON.stringify(M));
+    check('7. K3 她主動約（第 5 階以上、雙方單身；學期中第 3 週起的晚上 21:00）：「你下次來台南，我們去美術館。」「我想找一天不用負責好笑。」（AA_462 第 5 節：第二句開頭的「美術館。」拿掉）「不行也沒關係，我只是問問看。」；選項「答應」「這週不行」',
+      JSON.stringify(M)===JSON.stringify(['你下次來台南，我們去美術館。','我想找一天不用負責好笑。','不行也沒關係，我只是問問看。'])&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='答應|這週不行', JSON.stringify(M));
     PHONE.answer(G,'ps_museum_Y3S1',0);
-    check('7. K3 答應：「好。……我會準備。不對，我什麼都不準備。」', txt(TH_PS).includes(ID+':好。……我會準備。不對，我什麼都不準備。')&&G.flags.PS_MUSEUM==='yes');
+    check('7. K3 答應：「好。那我要想一下穿什麼。算了，不想了，隨便穿。」', txt(TH_PS).includes(ID+':好。那我要想一下穿什麼。算了，不想了，隨便穿。')&&G.flags.PS_MUSEUM==='yes');
     G.day=d+3; G.weekday=wdOf(G.day); G.hour=10.5; said=[]; caps=[]; opts=[]; picks=[0,0,0,0,0,0]; const m0=G.money, c0=DATE.log(G,ID).count|0; await HV.play(GM,tn);
-    const iA=said.findIndex(s=>s.t==='（白色的建築，屋頂一片一片疊起來，裡面很亮。）'), iU=said.findIndex(s=>s.t==='〈無題〉。……它連題目都沒有。'), iS=said.findIndex(s=>s.t==='謝謝你跑這麼遠！到臺北傳給我喔。');
-    check('7. K3 下一次去台南＝美術館：地點字幕「台南・美術館」、抵達旁白「（白色的建築，屋頂一片一片疊起來，裡面很亮。）」「這裡好安靜。像考場。」「……可是沒有人在寫字。」；不演她的學校',
-      caps.includes('台南・美術館')&&iA>=0&&has('這裡好安靜。像考場。')&&has('……可是沒有人在寫字。')&&!has('這是我們學校。很小吧？走一圈十分鐘。'), JSON.stringify(caps));
-    check('7. K3 四個互動點照 D06（大展廳、只有空畫框的作品、館內的咖啡廳、館外的草地）；大展廳「說明牌寫，作者想表達城市的孤獨。」→「說明牌也不一定對。」→「……可以這樣想嗎？考試不行。這裡可以。」',
-      JSON.stringify(opts[0])===JSON.stringify(['大展廳','只有空畫框的作品','館內的咖啡廳','館外的草地'])&&has('說明牌寫，作者想表達城市的孤獨。')&&has('……可以這樣想嗎？考試不行。這裡可以。'), JSON.stringify(opts.slice(0,3)));
-    check('7. K3 四個都看了：咖啡廳「這杯一百六。……」（扣 160；門票照 D06 30、高鐵 2700）、空畫框、草地；收尾〈無題〉在送上車以前、「我現在學怎麼教書。以後我要跟學生說，有些題目沒有標準答案。」；第 6 階（單身）：抵達多「今天我沒帶筆記本。……」、結尾「……我想記得今天。不寫下來，用記的。」',
-      has('這杯一百六。……我家早餐店的紅茶，一杯二十。')&&has('……這個我會。框。')&&has('……天空原來這麼大。')&&iU>iA&&iS>iU&&has('我現在學怎麼教書。以後我要跟學生說，有些題目沒有標準答案。')&&has('今天我沒帶筆記本。……帶了，但不拿出來。')&&has('……我想記得今天。不寫下來，用記的。')&&!has('今天，我什麼都沒寫。')&&G.money===m0-2700-30-160, JSON.stringify([m0-G.money,said.map(s=>s.t).slice(-8)]));
+    const iA=said.findIndex(s=>s.t==='（白色的建築，屋頂一片一片疊起來，裡面很亮。）'), iU=said.findIndex(s=>s.t==='〈無題〉。連題目都沒有。'), iS=said.findIndex(s=>s.t==='謝謝你跑這麼遠！到臺北傳給我喔。');
+    check('7. K3 下一次去台南＝美術館：地點字幕「台南・美術館」、抵達旁白「（白色的建築，屋頂一片一片疊起來，裡面很亮。）」「這裡好安靜，我講話都自動變小聲了。」「我第一次知道我可以這麼小聲。」；不演她的學校',
+      caps.includes('台南・美術館')&&iA>=0&&has('這裡好安靜，我講話都自動變小聲了。')&&has('我第一次知道我可以這麼小聲。')&&!has('這是我們學校，很小吧？走一圈十分鐘，遲到都沒有藉口。'), JSON.stringify(caps));
+    check('7. K3 四個互動點照 D06（大展廳、只有空畫框的作品、館內的咖啡廳、館外的草地）；大展廳「說明牌寫，作者想表達城市的孤獨。」→「說明牌也不一定對。」→「對吧。寫說明牌的人又不是他，搞不好兩個人根本不熟。」',
+      JSON.stringify(opts[0])===JSON.stringify(['大展廳','只有空畫框的作品','館內的咖啡廳','館外的草地'])&&has('說明牌寫，作者想表達城市的孤獨。')&&has('對吧。寫說明牌的人又不是他，搞不好兩個人根本不熟。'), JSON.stringify(opts.slice(0,3)));
+    check('7. K3 四個都看了：咖啡廳「這杯一百六。……」（扣 160；門票照 D06 30、高鐵 2700）、空畫框、草地；收尾〈無題〉在送上車以前、「我現在在學怎麼教書。以後學生問我這幅在畫什麼，我要說老師也不知道。」；第 6 階（單身）：抵達多「今天我沒帶筆記本。……」、結尾「我想記得今天。不拍照，用記的。」',
+      has('坐下來才發現，我剛剛一個小時沒講幾句話。')&&has('空的。這個我可以，我最會亂填。')&&has('天空原來這麼大。')&&iU>iA&&iS>iU&&has('我現在在學怎麼教書。以後學生問我這幅在畫什麼，我要說老師也不知道。')&&has('今天我沒帶筆記本。好啦，帶了，但不會拿出來。')&&has('我想記得今天。不拍照，用記的。')&&!has('今天我講的話大概只有平常的一半。很舒服。')&&G.money===m0-2700-30-160, JSON.stringify([m0-G.money,said.map(s=>s.t).slice(-8)]));
     check('7. K3 心願完成：wish、WISH_DONE、記憶 PS_UNTITLED「她說〈無題〉是傍晚」、相簿〈無題〉明信片；也算一次正式約會', DATE.log(G,ID).wish===true&&G.flags.WISH_DONE_classmate_peishan===true&&SOCIAL.has(ID,'PS_UNTITLED')&&SOCIAL.MEMORY_LABEL.PS_UNTITLED==='她說〈無題〉是傍晚'&&(G.album||[]).some(a=>a.title==='〈無題〉明信片')&&(DATE.log(G,ID).count|0)===c0+1&&G.flags.PS_MUSEUM==='done');
-    G.day+=1; G.weekday=wdOf(G.day); said=[]; picks=[0,0]; await HV.play(GM,tn); check('7. K3 美術館那一趟不佔順位：之後去台南演第一次（她的學校）、接人用第二次以後那一句', has('這是我們學校。很小吧？走一圈十分鐘。')&&has('{name}！你又來了！'.replace('{name}','祐廷'))&&!has('（白色的建築，屋頂一片一片疊起來，裡面很亮。）'), JSON.stringify(said.map(s=>s.t))); }
+    G.day+=1; G.weekday=wdOf(G.day); said=[]; picks=[0,0]; await HV.play(GM,tn); check('7. K3 美術館那一趟不佔順位：之後去台南演第一次（她的學校）、接人用第二次以後那一句', has('這是我們學校，很小吧？走一圈十分鐘，遲到都沒有藉口。')&&has('{name}！你又來了！'.replace('{name}','祐廷'))&&!has('（白色的建築，屋頂一片一片疊起來，裡面很亮。）'), JSON.stringify(said.map(s=>s.t))); }
   { const d=termDay('Y3S1',9,6); const go=async(dt,pk)=>{ fresh(d,10.5,'dorm',{PS_BACK_FIRST:1,PS_MUSEUM:'yes'}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=35; if(dt) date(ID); G.events.done.ev_peishan_syllogism=1; G.flags.HV_N={[ID+'@台南']:2}; said=[]; picks=pk.slice(); await HV.play(GM,tn); };
-    await go(false,['館內的咖啡廳','下次去妳家喝','只有空畫框的作品','框外面呢','館外的草地','躺下來看','差不多了','跟妳一樣']);
-    check('7. K3 第 5 階（單身）：咖啡廳「下次去妳家喝。」＝「早餐店五點開門。你起得來嗎？」；P2b（三段論）看過的「框外面呢？」多「你記得我說過。」；草地「躺下來看？」＝「……裙子會髒。」「……算了，髒就髒。」（她躺下來）；〈無題〉「跟妳一樣，傍晚。」；結尾「今天，我什麼都沒寫。」',
-      has('早餐店五點開門。你起得來嗎？')&&!has('……台中很遠。')&&has('框外面，是看框的人。')&&has('你記得我說過。')&&has('……裙子會髒。')&&has('……算了，髒就髒。')&&has('（她躺下來）')&&has('……你不用跟我一樣。')&&has('可是一樣，也很好。')&&has('今天，我什麼都沒寫。')&&!has('今天我沒帶筆記本。……帶了，但不拿出來。')&&!has('雲走得好慢。……我們也走慢一點。'), JSON.stringify(said.map(s=>s.t)));
-    await go(true,['館內的咖啡廳','下次去妳家喝','差不多了','我看不出來']);
-    check('7. K3 交往中：抵達多「沙漏我放在家裡。今天不翻。」、咖啡廳「……台中很遠。」「好。」、結尾「今天的答案是：跟你來。」「……這題我不用想。」；只看一個也可以「差不多了」', has('沙漏我放在家裡。今天不翻。')&&has('……台中很遠。')&&has('好。')&&has('好。看不出來，也是一個答案。')&&has('今天的答案是：跟你來。')&&has('……這題我不用想。')&&!has('說明牌寫，作者想表達城市的孤獨。'), JSON.stringify(said.map(s=>s.t))); }
+    /* 2026-11-11（X327 沛珊重寫，AA_757_peishan_wish_hometown.json@052644c58）：台南美術館整段的字照 tainan_museum 換；這裡寫死的句子、要選的選項（「下次去妳家喝。」→「下次去妳家的店坐。」）跟著改 */
+    await go(false,['館內的咖啡廳','下次去妳家的店坐','只有空畫框的作品','框外面呢','館外的草地','躺下來看','差不多了','跟妳一樣']);
+    check('7. K3 第 5 階（單身）：咖啡廳「下次去妳家的店坐。」＝「我爸會出來跟你聊天，你會走不掉。」；P2b（三段論）看過的「框外面呢？」多「你記得我說過。」；草地「躺下來看？」＝「裙子會髒。」「算了，髒就髒。」（她躺下來）；〈無題〉「跟妳一樣，傍晚。」；結尾「今天我講的話大概只有平常的一半。很舒服。」',
+      has('我爸會出來跟你聊天，你會走不掉。')&&!has('台中很遠喔。')&&has('框外面，是看框的人。')&&has('你記得我說過。')&&has('裙子會髒。')&&has('算了，髒就髒。')&&has('（她躺下來）')&&has('你不用跟我一樣啦。')&&has('可是一樣也很好。')&&has('今天我講的話大概只有平常的一半。很舒服。')&&!has('今天我沒帶筆記本。好啦，帶了，但不會拿出來。')&&!has('雲走得好慢。今天什麼都不用趕。'), JSON.stringify(said.map(s=>s.t)));
+    await go(true,['館內的咖啡廳','下次去妳家的店坐','差不多了','我看不出來']);
+    check('7. K3 交往中：抵達多「手機我關靜音了。今天誰找我都不回。」、咖啡廳「台中很遠喔。」「好。我叫我爸留位子。」、結尾「今天最好的決定是找你來。」「這個我不用想。」；只看一個也可以「差不多了」', has('手機我關靜音了。今天誰找我都不回。')&&has('台中很遠喔。')&&has('好。我叫我爸留位子。')&&!has('我爸會出來跟你聊天，你會走不掉。')&&has('看不出來也可以。這裡好像什麼都可以。')&&has('今天最好的決定是找你來。')&&has('這個我不用想。')&&!has('說明牌寫，作者想表達城市的孤獨。'), JSON.stringify(said.map(s=>s.t))); }
   { const d=termDay('Y3S1',6,1); fresh(d,10.5,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=40; const c0=TERMEND.cond(G,ID);
     for(let i=0;i<3;i++){ G.day=d+i; G.weekday=wdOf(G.day); G.hour=10.5; said=[]; picks=[0,0,0]; await HV.play(GM,tn); }
     G.flags.PS_MUSEUM='yes'; G.day=d+3; G.weekday=wdOf(G.day); G.hour=10.5; said=[]; picks=[0,0,'差不多了',0]; await HV.play(GM,tn); const c1=TERMEND.cond(G,ID);
@@ -235,9 +237,9 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
   { const d=termDay('Y3S1',8,2); fresh(d,12,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=60; SOCIAL.rel(ID).rom=35; said=[]; opts=[]; picks=['臺北市立美術館','台南・美術館',0];
     const day=await DATE.menu(GM,ID,null); const L0=opts[0]||[], q=OUT.rec(G).find(x=>x.hv&&x.hv.museum);
     check('7. K11 校外約會的清單：北部的地點選了＝「她在台南。要見她，得去台南。」（INVITE-MENU-1030 分層：北部那幾類整類灰掉、選了說同一句）；清單多一個「台南・美術館」（外縣市一日那一類）', (L0.all||L0).includes('臺北市立美術館')&&(L0.all||L0).includes('台南・美術館')&&has('她在台南。要見她，得去台南。'), JSON.stringify(L0.all||L0));
-    check('7. K3 玩家主動約、她還不知道：「美術館？為什麼是美術館？」「……好。我一直想去。」；排去台南（美術館）', has('美術館？為什麼是美術館？')&&has('……好。我一直想去。')&&!!q&&q.ev==='ev_hv_ps_tn'&&q.day===day&&q.hv.key===ID+'@台南', JSON.stringify(q));
+    check('7. K3 玩家主動約、她還不知道：「美術館？怎麼會想到美術館？」「好啊。我其實一直想去。」；排去台南（美術館）', has('美術館？怎麼會想到美術館？')&&has('好啊。我其實一直想去。')&&!!q&&q.ev==='ev_hv_ps_tn'&&q.day===day&&q.hv.key===ID+'@台南', JSON.stringify(q));
     fresh(d,12,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=35; DATE.knowWish(G,ID); said=[]; picks=['台南・美術館',0]; await DATE.menu(GM,ID,null);
-    check('7. K3 已經知道：「美術館？……你記得。」「好。這件事，我會記很久。」', has('美術館？……你記得。')&&has('好。這件事，我會記很久。'));
+    check('7. K3 已經知道：「美術館？你還記得喔。」「好。我以為那種話講完就沒了。」', has('美術館？你還記得喔。')&&has('好。我以為那種話講完就沒了。'));
     const hk=[]; const ch0=GM.choose; GM.choose=async o=>{ hk.push(o.map(x=>[x.t,x.hint])); return o.length-1; }; await DATE.menu(GM,ID,null); GM.choose=ch0;
     check('7. K11 清單上灰掉的北部地點的說明：「她現在在台南。」（分層：整類灰掉的那一類小字寫這一句）', (hk[0]||[]).some(x=>x[0]==='臺北市：看展・電影…'&&x[1]==='她現在在台南。'), JSON.stringify(hk[0])); }
   // K4 台南的學期末飯、P6 公開課（OUT.AFTER）也推進一層；同一天最多一層
@@ -255,7 +257,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     check('7. K5 視訊：祐廷「視訊？」→「（視訊。她的書桌上堆著教案，螢光筆的蓋子散了一桌。）」「等我一下，我把這頁寫完！……好了！」→ 閒聊一層 → 「好，我要去備課了。晚安！」',
       txt(TH_PS).includes('player:視訊？')&&said[1].t==='（視訊。她的書桌上堆著教案，螢光筆的蓋子散了一桌。）'&&has('等我一下，我把這頁寫完！……好了！')&&has(L[0].lines[0])&&said[said.length-1].t==='好，我要去備課了。晚安！'&&caps.includes('視訊')&&(G.social.ladder[ID+'@Y3S1']|0)===1, JSON.stringify(said.map(s=>s.t)));
     G.day+=1; G.weekday=wdOf(G.day); G.hour=21; said=[]; await HV.video(GM,ID);
-    check('7. K5 第二次：開頭換第二句「（視訊。她坐在套房的地板上，背靠著床。）」；階梯再一層', has('（視訊。她坐在套房的地板上，背靠著床。）')&&has('今天課輔班有一個孩子叫我老師。……我還沒習慣。')&&(G.social.ladder[ID+'@Y3S1']|0)===2);
+    check('7. K5 第二次：開頭換第二句「（視訊。她坐在套房的地板上，背靠著床。）」；階梯再一層', has('（視訊。她坐在套房的地板上，背靠著床。）')&&has('今天有一個小朋友叫我老師，我還回頭看他在叫誰。')&&(G.social.ladder[ID+'@Y3S1']|0)===2);
     G.day+=1; G.weekday=wdOf(G.day); G.hour=21; const e=HV.videoOffer(G,ID); check('7. K5 一週最多兩次', !!e&&!e.ok&&e.why==='這週已經視訊兩次了', JSON.stringify(e));
     G.day+=5; G.weekday=wdOf(G.day); G.hour=21; said=[]; await HV.video(GM,ID); check('7. K5 下一週可以再視訊，開頭第三句「（視訊。她那邊在下雨，窗戶一直響。）」「台南很少下這麼大。你那邊呢？」', has('（視訊。她那邊在下雨，窗戶一直響。）')&&has('台南很少下這麼大。你那邊呢？'));
     fresh(d,21,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); check('7. K5 沒交往的不開視訊', HV.videoOffer(G,ID)===null);
@@ -285,6 +287,6 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     check('8. P1＋P5 2030 寒假（2/1）才第一次傳：台中那一句', !!f.r&&f.r.ok&&JSON.stringify(f.ps)===JSON.stringify(TC), JSON.stringify(f.ps)); }
 
   { const src=fs.readFileSync(path.join(ROOT,'src/data/hometown_lines.js'),'utf8');
-    check('9. 草地「（一起看）」照 AA-C 交班（AA_362）：「雲走得好慢。……我們也走慢一點。」；舊句「我第一次覺得，慢不是壞事。」不在了', src.includes("say:['雲走得好慢。……我們也走慢一點。']")&&!src.includes('慢不是壞事')); }
+    check('9. 草地「（一起看）」照 AA-C 交班（AA_362）：「雲走得好慢。今天什麼都不用趕。」；舊句「我第一次覺得，慢不是壞事。」不在了', src.includes("say:['雲走得好慢。今天什麼都不用趕。']")&&!src.includes('慢不是壞事')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });
