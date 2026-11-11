@@ -266,7 +266,11 @@ async def seat_one(pg, cdp, key, Z, k, pick):
     if not pt and how == 'blocked':
         R.note('%s 從起點、轉鏡頭、走近都看不到這張椅子沒被擋住的地方：不判（玩家也點不到被擋住的那一點）' % t); await shot(pg, '%s_seat%d_blocked' % (key, k)); return 'blocked'
     if not pt:
-        R.check('%s 畫面上點得到這張椅面（%s）' % (t, how), False, ''); await shot(pg, '%s_seat%d_notap' % (key, k)); return 'notap'
+        R.check('%s 畫面上點得到這張椅面（%s）' % (t, how), False, ''); await shot(pg, '%s_seat%d_notap' % (key, k))
+        if s.get('lift'):   # N1_TSR_CAFEBAR（b77a）：高腳椅一直在 HUD 下面點不到——這一行要看的「坐下後鏡頭」改走搖桿那一條，照樣量
+            try: await joy_seat(pg, cdp, key, Z, k, s)
+            except Exception as e: R.note('%s 搖桿那一條沒跑完 %r' % (t, e))
+        return 'notap'
     if await pg.evaluate(PHONE_OPEN):   # CC 11-11 19:1x：宿舍椅子 1 兩次都是點椅面那一下手機開著——分清楚是點之前就開著（走近那一步、自動打開），還是這一下點出來的
         R.note('%s 點椅面之前手機已經開著（%s）：先收起來再點' % (t, await pg.evaluate("(()=>{ const a=document.querySelector('#phone .on, #phone .sel, #phone [aria-selected=true]'); return a?a.textContent.trim():''; })()")))
         await shot(pg, '%s_seat%d_phone_before' % (key, k))
