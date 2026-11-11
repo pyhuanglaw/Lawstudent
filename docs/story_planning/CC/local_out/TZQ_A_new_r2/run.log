@@ -1,0 +1,40 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tzq_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZQ_A_new_r2\out
+CC TZQ／TZP／WZQ：SHA 470e238cf PARTS TZQ_A Q low,medium,high；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== TZQ_A
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (37.10,17.50) {"visited": {"dorm": true}} （新存檔：visited 只有 dorm；公館店面街 G10 巷子口前的人行道）
+  [  52.4s] [TZQ_A 1] 新存檔的汀州路那一區：[["汀州路", "約 10 分鐘", "前往"], ["泰米村食", "還沒去過", null], ["洗樂洗衣坊", "還沒去過", null], ["印得好", "還沒去過", null], ["溫特寶邸", "還沒去過", null], ["汀州聯通", "還沒去過", null], ["東南大聯商行", "還沒去過", null], ["客居雲南", "還沒去過", null], ["越好吃小館", "還沒去過", null]]；地區 ["汀州路（9）▾"]
+PASS [TZQ_A 1] 新存檔：「汀州路」那一筆在、有前往按鈕  {"name": "汀州路", "st": "約 10 分鐘", "place": "tingzhou|汀州路", "btn": "前往", "area": "tingzhou", "pin": null}
+  [  52.5s] [TZQ_A 1] 八間店在清單上的樣子：[["泰米村食", "還沒去過"], ["洗樂洗衣坊", "還沒去過"], ["印得好", "還沒去過"], ["溫特寶邸", "還沒去過"], ["汀州聯通", "還沒去過"], ["東南大聯商行", "還沒去過"], ["客居雲南", "還沒去過"], ["越好吃小館", "還沒去過"]]（不列出＝0 間；列出但「還沒去過」、沒有按鈕＝8 間）
+PASS [TZQ_A 1] 新存檔：八間店都不能直接前往（不在清單上，或寫「還沒去過」、沒有前往按鈕）  []
+  [  55.2s] [TZQ_A 1] 對照：同一個新存檔的「公館燒臘」＝["公館燒臘", "還沒去過", null]；八間＝[["泰米村食", "還沒去過", null], ["洗樂洗衣坊", "還沒去過", null], ["印得好", "還沒去過", null], ["溫特寶邸", "還沒去過", null], ["汀州聯通", "還沒去過", null], ["東南大聯商行", "還沒去過", null], ["客居雲南", "還沒去過", null], ["越好吃小館", "還沒去過", null]]
+PASS [TZQ_A 1] 八間店的顯示和公館燒臘（沒去過的店）同一種（都列出、「還沒去過」、沒有前往鍵）  {"name": "公館燒臘", "st": "還沒去過", "place": null, "btn": null, "area": "gongguan", "pin": null}
+PASS [TZQ_A 2] 公館有「往汀州路（巷子）」
+  [  70.4s] 到達「[TZQ_A 2 進] 走到「往汀州路（巷子）」」附近（0.24 m）：點地面 4 次、轉鏡頭 1 次、搖桿 0 次，15 秒
+  [  71.0s] [TZQ_A 2 進] 走到 True；按鈕「往汀州路（巷子）」
+PASS [TZQ_A 2] 從公館走進汀州路（7.2 秒）  {"zone": "tingzhou", "h": 14.1831, "x": 27, "z": 0, "ry": -1.571, "lv": 0, "free": true, "stand": true, "interact": "往公館（羅斯福路）", "ent": false, "busy": false, "fb": 0, "clockZ": "汀州路", "phone": false, "dlg": false, "toast": "手機｜可昕：週末來木柵大學？我當導遊。", "q": "medium"}
+PASS [TZQ_A 2] 走進去以後 G.visited 有 tingzhou  {"dorm": true, "gongguan": true, "tingzhou": true}
+PASS [TZQ_A 2] 汀州路有「往公館」
+  [  89.7s] 到達「[TZQ_A 2 回] 走到「往公館（羅斯福路）」」附近（0.43 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [  90.3s] [TZQ_A 2 回] 走到 True；按鈕「往公館（羅斯福路）」
+PASS [TZQ_A 2] 走回公館（5.5 秒）  {"zone": "gongguan", "h": 14.2792, "x": 37.1, "z": 18, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "騎腳踏車", "ent": false, "busy": false, "fb": 0, "clockZ": "公館", "phone": false, "dlg": false, "toast": "這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。", "q": "medium"}
+  [  99.5s] [TZQ_A 3] 走過一次以後：[["汀州路", "約 10 分鐘", "前往"], ["泰米村食", "約 10 分鐘", "前往"], ["洗樂洗衣坊", "約 10 分鐘", "前往"], ["印得好", "約 10 分鐘", "前往"], ["溫特寶邸", "約 10 分鐘", "前往"], ["汀州聯通", "約 10 分鐘", "前往"], ["東南大聯商行", "約 10 分鐘", "前往"], ["客居雲南", "約 10 分鐘", "前往"], ["越好吃小館", "約 10 分鐘", "前往"]]
+PASS [TZQ_A 3] 走過一次以後八間都在、都有前往按鈕  有 ["泰米村食", "洗樂洗衣坊", "印得好", "溫特寶邸", "汀州聯通", "東南大聯商行", "客居雲南", "越好吃小館"]；少 []
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) {"visited": {"dorm": true, "gongguan": true, "tingzhou": true}} （每次前往之間讀檔回公館；visited＝第 2 步走出來的 ["dorm", "gongguan", "tingzhou"]）
+PASS [TZQ_A 4 泰米村食] 手機「地點」的「tingzhou」那一區有「泰米村食」  [{"name": "汀州路", "st": "約 10 分鐘", "place": "tingzhou|汀州路", "btn": "前往", "area": "tingzhou", "pin": null}, {"name": "泰米村食", "st": "約 10 分鐘", "place": "tingzhou|泰米村食", "btn": "前往", "area": "tingzhou", "pin": null}, {"name": "洗樂洗衣坊", "st": "約 10 分鐘", "place": "tingzhou|洗樂洗衣坊", "btn": "前往", "area": "tingzhou", "pin": null}, {"name": "印得好", "st": "約 10 分鐘", "place": "tingzhou|印得好", "btn": "前往", "area": "tingzhou", "pin": null}, {"name": "溫特寶邸", "st": "約 10 分鐘", "place": "tingzhou|溫特寶邸", "btn": "前往", "area": "tingzhou", "pin": null}, {"name": "汀州聯通", "st": "約 10 分鐘", "place": "tingzhou|汀州聯通", "btn": "前往", "area": "tingzhou", "pin": null}, {"name": "東南大聯商行", "st": "約 10 分鐘", "place": "tingzhou|東南大聯商行", "btn": "前往", "area": "tingzhou", "pin": null}, {"name": "客居雲南", "st": "約 10 分鐘", "place": "tingzhou|客居雲南", "btn": "前往", "area": "tingzhou", "pin": null}, {"name": "越好吃小館", "st": "約 10 分鐘", "place": "tingzhou|越好吃小館", "btn": "前往", "area": "tingzhou", "pin": null}]
+  [ 120.3s] [TZQ_A 4 泰米村食] 按「前往」（約 10 分鐘）；3.7 秒後 {"zone": "tingzhou", "h": 14.2519, "x": -7.3, "z": -1, "ry": -1.571, "lv": 0, "free": true, "stand": true, "interact": "進泰米村食", "ent": false, "busy": false, "fb": 0, "clockZ": "汀州路", "phone": false, "dlg": false, "toast": "走了 10 分鐘到泰米村食", "q": "medium"}；G.hour 跳動 [[14.0698, 14.2364]]
+PASS [TZQ_A 4 泰米村食] 到 tingzhou、落在清單的落點 (-7.3,-1)（0.5 m 內）  {"zone": "tingzhou", "h": 14.2519, "x": -7.3, "z": -1, "ry": -1.571, "lv": 0, "free": true, "stand": true, "interact": "進泰米村食", "ent": false, "busy": false, "fb": 0, "clockZ": "汀州路", "phone": false, "dlg": false, "toast": "走了 10 分鐘到泰米村食", "q": "medium"}
+PASS [TZQ_A 4 泰米村食] 站得住（E.nav.free、E.canStand 半徑 0.3：不在牆裡、機車、攤子的導航格）  {"zone": "tingzhou", "h": 14.2519, "x": -7.3, "z": -1, "ry": -1.571, "lv": 0, "free": true, "stand": true, "interact": "進泰米村食", "ent": false, "busy": false, "fb": 0, "clockZ": "汀州路", "phone": false, "dlg": false, "toast": "走了 10 分鐘到泰米村食", "q": "medium"}
+PASS [TZQ_A 4 泰米村食] 不在夜市攤的範圍（含 0.3 m 人的半徑）  []
+PASS [TZQ_A 4 泰米村食] 在騎樓／人行道上（|x| 7.30 > 路寬 5.0＋0.3：不在路邊機車格）  {"zone": "tingzhou", "h": 14.2519, "x": -7.3, "z": -1, "ry": -1.571, "lv": 0, "free": true, "stand": true, "interact": "進泰米村食", "ent": false, "busy": false, "fb": 0, "clockZ": "汀州路", "phone": false, "dlg": false, "toast": "走了 10 分鐘到泰米村食", "q": "medium"}
+PASS [TZQ_A 4 泰米村食] 面向店面（ry -1.57，店在 西 側＝要 -1.57；±25°）  {"zone": "tingzhou", "h": 14.2519, "x": -7.3, "z": -1, "ry": -1.571, "lv": 0, "free": true, "stand": true, "interact": "進泰米村食", "ent": false, "busy": false, "fb": 0, "clockZ": "汀州路", "phone": false, "dlg": false, "toast": "走了 10 分鐘到泰米村食", "q": "medium"}
+PASS [TZQ_A 4 泰米村食] 互動鍵是那一間（「看／進泰米村食」）  畫面「進泰米村食」；店門互動點 {"id": "taimi", "label": "進泰米村食", "x": -7.300000000000001, "z": -1, "r": 1.6}
+  [ 120.3s] [TZQ_A 4 泰米村食] 有室內的店：落點 (-7.3,-1) 在店門口（zone tingzhou、按鈕「進泰米村食」；LAWWW 之後才改成進店裡）
+PASS [黑畫面] TZQ_A4_00_泰米村食 不是黑畫面（平均亮度 74.5、變化 51.1）  [74.5, 51.1]
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) {"visited": {"dorm": true, "gongguan": true, "tingzhou": true}} （舊存檔：visited 已有 tingzhou）
+  [ 137.8s] [TZQ_A 5] 舊存檔：[["汀州路", "約 10 分鐘", "前往"], ["泰米村食", "約 10 分鐘", "前往"], ["洗樂洗衣坊", "約 10 分鐘", "前往"], ["印得好", "約 10 分鐘", "前往"], ["溫特寶邸", "約 10 分鐘", "前往"], ["汀州聯通", "約 10 分鐘", "前往"], ["東南大聯商行", "約 10 分鐘", "前往"], ["客居雲南", "約 10 分鐘", "前往"], ["越好吃小館", "約 10 分鐘", "前往"]]
+PASS [TZQ_A 5] 舊存檔（去過汀州路）：八間直接在清單上、有前往按鈕  少 []
+PASS [TZQ_A] walkFallbacks 0
+PASS [TZQ_A] 沒有 JS 例外  []
+ALL PASS
