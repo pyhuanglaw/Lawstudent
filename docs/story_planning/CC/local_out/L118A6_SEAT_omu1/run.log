@@ -1,0 +1,82 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_SEAT_omu1\out
+CC L118A：PARTS SEATS_omu_1-7；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.7s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== SEATS_omu_1-7
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_omu 店裡的進門位置 (-2.20,2.50) 2025-10-08 1300 
+PASS [omu] 店內正式模型載入（1.5 秒）
+  [  44.9s] [SEATS omu] 座位共 20 張（這一行測 #1～#7）：[{"label": "坐下", "x": -2.9, "z": -1.66, "lv": 0, "sx": -2.9, "sz": -1.66, "sy": null, "slv": 0, "row": null, "ap": [-2.15, -1.66], "lift": 0}, {"label": "坐下", "x": -2.9, "z": -0.34, "lv": 0, "sx": -2.9, "sz": -0.34, "sy": null, "slv": 0, "row": null, "ap": [-2.15, -0.34], "lift": 0}, {"label": "坐下", "x": -2.9, "z": 0.34, "lv": 0, "sx": -2.9, "sz": 0.34, "sy": null, "slv": 0, "row": null, "ap": [-2.15, 0.34], "lift": 0}, {"label": "坐下", "x": -2.9, "z": 1.66, "lv": 0, "sx": -2.9, "sz": 1.66, "sy": null, "slv": 0, "row": null, "ap": [-2.15, 1.66], "lift": 0}, {"label": "坐下", "x": -0.6, "z": 0.34, "lv": 0, "sx": -0.6, "sz": 0.34, "sy": null, "slv": 0, "row": null, "ap": [-1.25, 0.34], "lift": 0}, {"label": "坐下", "x": 0, "z": 0.34, "lv": 0, "sx": 0, "sz": 0.34, "sy": null, "slv": 0, "row": null, "ap": [0.65, 0.34], "lift": 0}, {"label": "坐下", "x": -0.6, "z": 1.66, "lv": 0, "sx": -0.6, "sz": 1.66, "sy": null, "slv": 0, "row": null, "ap": [-1.25, 1.66], "lift": 0}, {"label": "坐下", "x": 0, "z": 1.66, "lv": 0, "sx": 0, "sz": 1.66, "sy": null, "slv": 0, "row": null, "ap": [0, 2.36], "lift": 0}, {"label": "坐下", "x": 1.55, "z": -2.06, "lv": 0, "sx": 2.28, "sz": -2.06, "sy": null, "slv": 0, "row": null, "ap": [1.55, -2.06], "lift": 0}, {"label": "坐下", "x": 1.55, "z": -1.62, "lv": 0, "sx": 2.92, "sz": -2.06, "sy": null, "slv": 0, "row": null, "ap": [1.55, -1.62], "lift": 0}, {"label": "坐下", "x": 1.55, "z": -0.74, "lv": 0, "sx": 2.28, "sz": -0.74, "sy": null, "slv": 0, "row": null, "ap": [1.55, -0.74], "lift": 0}, {"label": "坐下", "x": 1.55, "z": -1.18, "lv": 0, "sx": 2.92, "sz": -0.74, "sy": null, "slv": 0, "row": null, "ap": [1.55, -1.18], "lift": 0}, {"label": "坐下", "x": 1.55, "z": -0.06, "lv": 0, "sx": 2.28, "sz": -0.06, "sy": null, "slv": 0, "row": null, "ap": [1.55, -0.06], "lift": 0}, {"label": "坐下", "x": 1.55, "z": 0.38, "lv": 0, "sx": 2.92, "sz": -0.06, "sy": null, "slv": 0, "row": null, "ap": [1.55, 0.38], "lift": 0}, {"label": "坐下", "x": 1.55, "z": 1.26, "lv": 0, "sx": 2.28, "sz": 1.26, "sy": null, "slv": 0, "row": null, "ap": [1.55, 1.26], "lift": 0}, {"label": "坐下", "x": 1.55, "z": 0.82, "lv": 0, "sx": 2.92, "sz": 1.26, "sy": null, "slv": 0, "row": null, "ap": [1.55, 0.82], "lift": 0}, {"label": "坐下", "x": 1.55, "z": 1.94, "lv": 0, "sx": 2.28, "sz": 1.94, "sy": null, "slv": 0, "row": null, "ap": [1.55, 1.94], "lift": 0}, {"label": "坐下", "x": 1.55, "z": 2.38, "lv": 0, "sx": 2.92, "sz": 1.94, "sy": null, "slv": 0, "row": null, "ap": [1.55, 2.38], "lift": 0}, {"label": "坐下", "x": 1.55, "z": 3.26, "lv": 0, "sx": 2.28, "sz": 3.26, "sy": null, "slv": 0, "row": null, "ap": [1.55, 3.26], "lift": 0}, {"label": "坐下", "x": 1.55, "z": 2.82, "lv": 0, "sx": 2.92, "sz": 3.26, "sy": null, "slv": 0, "row": null, "ap": [1.55, 2.82], "lift": 0}]
+PASS [SEATS omu #1（-2.9, -1.66）] 走到旁邊，互動按鈕是「坐下」  {"x": -2.154, "z": -1.837, "interact": "坐下", "stand": true}
+PASS [SEATS omu #1（-2.9, -1.66）] 坐下了（player.seat）  {"x": -2.9, "z": -1.66, "y": 0, "sx": -2.9, "sz": -1.66}
+  [  49.5s] [SEATS omu #1（-2.9, -1.66）] 按的互動鍵「坐下」；實際坐到的座位 (-2.9, -1.66)（要坐的是 (-2.9, -1.66)）
+PASS [SEATS omu #1（-2.9, -1.66）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -2.9, "z": -1.66, "y": 0, "sx": -2.9, "sz": -1.66}
+  [  49.6s] [SEATS omu #1（-2.9, -1.66）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 40、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS omu #1（-2.9, -1.66）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  49.9s] [SEATS omu #1（-2.9, -1.66）] 【遊戲鏡頭】l118a_seat_omu_1300_sit1_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.35], "player": [-2.9, -1.66], "cam": [-2.9, 3.21, 2.24], "yaw": 6.283, "mid": {"m": 130.1, "sd": 63, "black": 0.001, "white": 0, "rgb": [152, 129, 81]}, "top": {"m": 192.9, "sd": 33.9, "black": 0, "white": 0, "rgb": [220, 190, 138]}, "near": {"m": 112.5, "sd": 54.3, "black": 0.012, "white": 0, "rgb": [138, 107, 74]}}
+  [  51.2s] [SEATS omu #1（-2.9, -1.66）] 起身：["起身"]
+PASS [SEATS omu #1（-2.9, -1.66）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（4.93）、walkFallbacks 沒增加  {"moved": 4.93, "x": -2.344, "z": 3.268, "stand": true}
+PASS [SEATS omu #2（-2.9, -0.34）] 走到旁邊，互動按鈕是「坐下」  {"x": -2.168, "z": -0.611, "interact": "坐下", "stand": true}
+PASS [SEATS omu #2（-2.9, -0.34）] 坐下了（player.seat）  {"x": -2.9, "z": -0.34, "y": 0, "sx": -2.9, "sz": -0.34}
+  [  57.6s] [SEATS omu #2（-2.9, -0.34）] 按的互動鍵「坐下」；實際坐到的座位 (-2.9, -0.34)（要坐的是 (-2.9, -0.34)）
+PASS [SEATS omu #2（-2.9, -0.34）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -2.9, "z": -0.34, "y": 0, "sx": -2.9, "sz": -0.34}
+  [  57.7s] [SEATS omu #2（-2.9, -0.34）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 40、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS omu #2（-2.9, -0.34）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  57.9s] [SEATS omu #2（-2.9, -0.34）] 【遊戲鏡頭】l118a_seat_omu_1300_sit2_game.jpg：{"onScreen": true, "ndc": [0, -0.36], "player": [-2.9, -0.34], "cam": [-2.9, 3.21, 3.56], "yaw": 6.283, "mid": {"m": 141.1, "sd": 61.3, "black": 0.002, "white": 0, "rgb": [168, 137, 91]}, "top": {"m": 173.9, "sd": 42.1, "black": 0, "white": 0, "rgb": [201, 171, 119]}, "near": {"m": 106.2, "sd": 57, "black": 0.007, "white": 0, "rgb": [131, 102, 65]}}
+  [  59.3s] [SEATS omu #2（-2.9, -0.34）] 起身：["起身"]
+PASS [SEATS omu #2（-2.9, -0.34）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（3.62）、walkFallbacks 沒增加  {"moved": 3.62, "x": -2.15, "z": 3.276, "stand": true}
+PASS [SEATS omu #3（-2.9, 0.34）] 走到旁邊，互動按鈕是「坐下」  {"x": -2.162, "z": 0.074, "interact": "坐下", "stand": true}
+PASS [SEATS omu #3（-2.9, 0.34）] 坐下了（player.seat）  {"x": -2.9, "z": 0.34, "y": 0, "sx": -2.9, "sz": 0.34}
+  [  65.0s] [SEATS omu #3（-2.9, 0.34）] 按的互動鍵「坐下」；實際坐到的座位 (-2.9, 0.34)（要坐的是 (-2.9, 0.34)）
+PASS [SEATS omu #3（-2.9, 0.34）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -2.9, "z": 0.34, "y": 0, "sx": -2.9, "sz": 0.34}
+  [  65.1s] [SEATS omu #3（-2.9, 0.34）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 34、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS omu #3（-2.9, 0.34）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  65.2s] [SEATS omu #3（-2.9, 0.34）] 【遊戲鏡頭】l118a_seat_omu_1300_sit3_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.35], "player": [-2.9, 0.34], "cam": [-2.9, 3.21, 4.24], "yaw": 6.283, "mid": {"m": 138.7, "sd": 55.8, "black": 0.001, "white": 0, "rgb": [167, 134, 88]}, "top": {"m": 164.4, "sd": 42.6, "black": 0, "white": 0, "rgb": [192, 161, 109]}, "near": {"m": 114.7, "sd": 56.1, "black": 0.015, "white": 0, "rgb": [142, 109, 74]}}
+  [  66.6s] [SEATS omu #3（-2.9, 0.34）] 起身：["起身"]
+PASS [SEATS omu #3（-2.9, 0.34）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（2.93）、walkFallbacks 沒增加  {"moved": 2.93, "x": -2.247, "z": 3.269, "stand": true}
+PASS [SEATS omu #4（-2.9, 1.66）] 走到旁邊，互動按鈕是「坐下」  {"x": -2.153, "z": 1.742, "interact": "坐下", "stand": true}
+PASS [SEATS omu #4（-2.9, 1.66）] 坐下了（player.seat）  {"x": -2.9, "z": 1.66, "y": 0, "sx": -2.9, "sz": 1.66}
+  [  72.7s] [SEATS omu #4（-2.9, 1.66）] 按的互動鍵「坐下」；實際坐到的座位 (-2.9, 1.66)（要坐的是 (-2.9, 1.66)）
+PASS [SEATS omu #4（-2.9, 1.66）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -2.9, "z": 1.66, "y": 0, "sx": -2.9, "sz": 1.66}
+  [  72.8s] [SEATS omu #4（-2.9, 1.66）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 34、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS omu #4（-2.9, 1.66）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  73.0s] [SEATS omu #4（-2.9, 1.66）] 【遊戲鏡頭】l118a_seat_omu_1300_sit4_game.jpg：{"onScreen": true, "ndc": [0, -0.36], "player": [-2.9, 1.66], "cam": [-2.9, 3.21, 5.56], "yaw": 6.283, "mid": {"m": 116.8, "sd": 64.4, "black": 0.027, "white": 0.001, "rgb": [137, 113, 81]}, "top": {"m": 160.5, "sd": 57.6, "black": 0, "white": 0, "rgb": [180, 158, 120]}, "near": {"m": 118.2, "sd": 54.4, "black": 0.014, "white": 0, "rgb": [143, 115, 69]}}
+  [  74.4s] [SEATS omu #4（-2.9, 1.66）] 起身：["起身"]
+PASS [SEATS omu #4（-2.9, 1.66）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（1.62）、walkFallbacks 沒增加  {"moved": 1.62, "x": -2.229, "z": 3.277, "stand": true}
+  [  80.1s] [SEATS omu #5（-0.6, 0.34）] 互動鍵被搶：「聽一句」；0.4 m 內的人 [{"id": null, "charId": null, "name": null, "by": "seat", "crowd": true, "extra": true}]；E.zone.seats {"taken": null, "label": null}；這張的互動點 {"label": "坐下", "hidden": false, "radius": 0.8, "at": [-0.6, 0.34]}
+  [  80.1s] [SEATS omu #5（-0.6, 0.34）] 分數排序（engine3d nearestInteractable 的算法：範圍內 距離－prio 最小的贏）：[{"label": "坐下", "at": [-0.6, 1.66], "seat": [-0.6, 1.66], "d": 1.245, "R": 0.8, "prio": 0.3, "score": 0.945, "inR": false, "skip": null}, {"label": "坐下", "at": [-2.9, 0.34], "seat": [-2.9, 0.34], "d": 1.686, "R": 1.05, "prio": 0.3, "score": 1.386, "inR": false, "skip": null}, {"label": "牆上的咖哩飯照片", "at": [-2.3, 1], "seat": null, "d": 1.144, "R": 0.8, "prio": -0.3, "score": 1.444, "inR": false, "skip": null}, {"label": "坐下", "at": [-2.9, -0.34], "seat": [-2.9, -0.34], "d": 1.908, "R": 1.05, "prio": 0.3, "score": 1.608, "inR": false, "skip": null}, {"label": "坐下", "at": [-0.6, 0.34], "seat": [-0.6, 0.34], "d": 0.679, "R": 0.8, "prio": 0.3, "score": 0.379, "inR": true, "skip": "occupied/taken"}, {"label": "坐下", "at": [0, 0.34], "seat": [0, 0.34], "d": 1.257, "R": 0.8, "prio": 0.3, "score": 0.957, "inR": false, "skip": "occupied/taken"}, {"label": "坐下", "at": [0, 1.66], "seat": [0, 1.66], "d": 1.634, "R": 0.8, "prio": 0.3, "score": 1.334, "inR": false, "skip": "occupied/taken"}]；2.2 m 內的人 [{"name": null, "d": 1.26, "yieldIt": true}, {"name": null, "d": 1.63, "yieldIt": true}]；遊戲選的 {"label": "聽一句", "at": [0, 0.34]}
+  [  80.1s] [SEATS omu #5（-0.6, 0.34）] 有人佔（不是 bug）
+  [  80.2s] [SEATS omu #5（-0.6, 0.34）] 從前邊：0.5～0.7 m 站不住，沒試
+  [  82.4s] [SEATS omu #5（-0.6, 0.34）] 從後邊 0.7 m（站在 [-0.652, -0.392]）：互動鍵「聽一句」（最近的是 {"label": "聽一句", "seat": null, "exit": null}）
+  [  82.5s] [SEATS omu #5（-0.6, 0.34）] 從左邊：0.5～0.7 m 站不住，沒試
+  [ 100.5s] [SEATS omu #5（-0.6, 0.34）] 從右邊 0.6 m（站在 [-1.221, 0.241]）：互動鍵「聽一句」（最近的是 {"label": "聽一句", "seat": null, "exit": null}）
+  [ 100.5s] [SEATS omu #5（-0.6, 0.34）] 坐得到的方向：沒有
+  [ 100.5s] [SEATS omu #5（-0.6, 0.34）] 診斷後確認有人坐著（["extra"]）：算有人佔，不判坐不到
+  [ 100.6s] [SEATS omu #6（0, 0.34）] 有 NPC 坐著：遊戲不給坐，先跳過
+PASS [SEATS omu #7（-0.6, 1.66）] 走到旁邊，互動按鈕是「坐下」  {"x": -1.233, "z": 1.854, "interact": "坐下", "stand": true}
+PASS [SEATS omu #7（-0.6, 1.66）] 坐下了（player.seat）  {"x": -0.6, "z": 1.66, "y": 0, "sx": -0.6, "sz": 1.66}
+  [ 105.2s] [SEATS omu #7（-0.6, 1.66）] 按的互動鍵「坐下」；實際坐到的座位 (-0.6, 1.66)（要坐的是 (-0.6, 1.66)）
+PASS [SEATS omu #7（-0.6, 1.66）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -0.6, "z": 1.66, "y": 0, "sx": -0.6, "sz": 1.66}
+  [ 105.2s] [SEATS omu #7（-0.6, 1.66）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 35、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS omu #7（-0.6, 1.66）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [ 105.5s] [SEATS omu #7（-0.6, 1.66）] 【遊戲鏡頭】l118a_seat_omu_1300_sit7_game.jpg：{"onScreen": true, "ndc": [0, -0.36], "player": [-0.6, 1.66], "cam": [-0.6, 3.21, 5.56], "yaw": 6.283, "mid": {"m": 129.1, "sd": 63.5, "black": 0.007, "white": 0, "rgb": [160, 123, 81]}, "top": {"m": 171.1, "sd": 51.9, "black": 0, "white": 0, "rgb": [199, 168, 115]}, "near": {"m": 152, "sd": 60.5, "black": 0.009, "white": 0, "rgb": [185, 145, 103]}}
+  [ 106.9s] [SEATS omu #7（-0.6, 1.66）] 起身：["起身"]
+PASS [SEATS omu #7（-0.6, 1.66）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（1.62）、walkFallbacks 沒增加  {"moved": 1.62, "x": -1.429, "z": 3.277, "stand": true}
+  [ 108.8s] [SEATS omu] 有人坐的 [5, 6]：重新讀檔再試一次
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_omu 店裡的進門位置 (-2.20,2.50) 2025-10-08 1300 （重試有人坐的座位）
+PASS [omu] 店內正式模型載入（1.5 秒）
+PASS [SEATS omu #5（-0.6, 0.34）] 走到旁邊，互動按鈕是「坐下」  {"x": -1.233, "z": 0.089, "interact": "坐下", "stand": true}
+PASS [SEATS omu #5（-0.6, 0.34）] 坐下了（player.seat）  {"x": -0.6, "z": 0.34, "y": 0, "sx": -0.6, "sz": 0.34}
+  [ 120.4s] [SEATS omu #5（-0.6, 0.34）] 按的互動鍵「坐下」；實際坐到的座位 (-0.6, 0.34)（要坐的是 (-0.6, 0.34)）
+PASS [SEATS omu #5（-0.6, 0.34）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": -0.6, "z": 0.34, "y": 0, "sx": -0.6, "sz": 0.34}
+  [ 120.4s] [SEATS omu #5（-0.6, 0.34）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 34、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS omu #5（-0.6, 0.34）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [ 120.7s] [SEATS omu #5（-0.6, 0.34）] 【遊戲鏡頭】l118a_seat_omu_1300_sit5_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.35], "player": [-0.6, 0.34], "cam": [-0.6, 3.21, 4.24], "yaw": 6.283, "mid": {"m": 128.7, "sd": 61.7, "black": 0.002, "white": 0, "rgb": [159, 123, 80]}, "top": {"m": 173.2, "sd": 50.8, "black": 0, "white": 0, "rgb": [203, 170, 115]}, "near": {"m": 155.9, "sd": 55.1, "black": 0.009, "white": 0, "rgb": [190, 148, 107]}}
+  [ 122.1s] [SEATS omu #5（-0.6, 0.34）] 起身：["起身"]
+PASS [SEATS omu #5（-0.6, 0.34）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（2.93）、walkFallbacks 沒增加  {"moved": 2.93, "x": -1.447, "z": 3.268, "stand": true}
+  [ 124.1s] [SEATS omu #6（0, 0.34）] 有 NPC 坐著：遊戲不給坐，先跳過
+  [ 124.1s] [SEATS omu] 結果：坐得到 6／7（這一行測的）；{"1": "ok", "2": "ok", "3": "ok", "4": "ok", "5": "ok", "6": "occupied", "7": "ok"}
+PASS [SEATS omu #1～#7] 每張都坐得到（有 NPC 一直坐著的另列）  {"1": "ok", "2": "ok", "3": "ok", "4": "ok", "5": "ok", "6": "occupied", "7": "ok"}
+  [ 124.1s] [SEATS omu] ★兩次都有 NPC 坐著、沒測到：[6]
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
