@@ -1,7 +1,14 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-11 13:4x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 15:5x UTC）
+
+- **MOKU-PLANT-CORNER-1111（P0）已交**（947322b33，`wip/moku_plant_corner_1111/`）：木曜日二樓衣帽架／植物縫的小孤島、植物外角斜推不動、(−3.75,1.0) 小孤島。mokuyobi3d.js 三塊導航阻擋＋`z.cornerSlip`；engine3d.js stepEntity 的 cornerSlip（只開了的區域、只玩家；牆角不讓）。LAWWW 14:53 ACK 做法，v9.10.25 發完第一個整合、BB 跑 NOSIT／STAIR＋冒煙。全部 Node 1288：1287 過＋bookstore 老警告。
+- 學到的：①「站得住」只看四點→家具外角斜對面有缺口；推進角裡整步／x／z／偏轉都碰到＝不動，要讓開再繞（cornerSlip 的 lookahead 要求讓開後那一軸走得通 0.6 m，不然牆角會被推著跑）。②找路先只走人站得住的格子，起點在小孤島時會退回「格子空就通」的路——小孤島就是「pathTo 有路卻走不出去」的原因；nav_islands 的掃法在 `tests/mokuyobi_plant_corner_1111_unit.js` 第 1 項有 Node 版。③測試直接呼叫 stepEntity 時方向要是單位向量（不然一步走好幾倍）。
+- 其他照前一則：這一輪五件（P2、TAP-RAY、CAFE-BAR-CAM、GG-SHOPS3 資料、四包一起試）都等發版後整合；照 §5 停，等 BB 判或 LAWWW 派。
+- 工作目錄：`$SP/wt_bb`＝566ff8b5bf＋木曜日（staged，已交）；`$SP/wt_ch`＝566ff8b5bf 乾淨。
+
+## 交接（前一則｜帳號 A｜2026-11-11 13:4x UTC）
 
 - 這一輪交的五件都是「發版後整合」，LAWWW 都 ACK 了：P2 吧台凳＋海報背面（988dfcbe2）、TAP-RAY-SEAT（cef36c9c7）、CAFE-BAR-CAM（42671da70）、GG-SHOPS3 資料補五項（24a2bc245）；**四包疊在開發分支 56ecee2fb 一起試**（`wip/stack4_1111/`，c8ca5c0b4）：都乾淨、全部 Node 1290 支 1289 過＋bookstore 老警告，合併 patch 在 71adf757d7 上也乾淨（等 LAWWW ACK）。
 - 對帳（D148）：GG-SHOPS3-ART-1110、FLOWER-NOTES-ART-1110 早就做了、已整合（在 v9.10.25 候選裡），LAWWW 改「已整合待測試」；AA_743 對照表 `wip/gg_shops6_int_1110/AA_743_對照_1111.md`。LAWWW／AA（AA_813）決定：kind 不改、資料五項做了、要改模型的五項記 P3 GG-SHOPS3-ART-V2（等 BB 判室內 v1 再說）、騎樓照現在、店裡的人（老闆娘、女兒…）LAWWW 發版後和 AA 看。
