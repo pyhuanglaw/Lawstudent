@@ -1,11 +1,3 @@
-[07:19:03] skip LE738_touch (already done on e73888074c)
-[07:19:03] skip BGN_new (already done on 063592f18baec790f772bd64a32835cd98a0a950)
-[07:19:03] skip YZCUP_47 (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[07:19:03] skip YZCUP_51 (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[07:19:03] skip X283_old (already done on e73888074c)
-[07:19:03] skip X283_new (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[07:19:03] skip X285_old (already done on e73888074c)
-[07:19:03] skip X285_new (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
 [07:19:03] skip X294_new (already done on 9202e2fab36b4c6fa6b10487a1e2ac2c113ae464)
 [07:19:03] skip X294_old (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
 [07:19:03] skip X294S_new (already done on 9202e2fab36b4c6fa6b10487a1e2ac2c113ae464)
@@ -1998,3 +1990,11 @@
 [13:28:41] [res] cpu=2% mem=47% (15.0/31.4 GB) chrome_testing=10  START CLASS12_skip_2d9_500x5
 [13:29:03] 正在跑：CLASS12_skip_2d9_150x10（已跑 3 分／上限 12 分）、CLASS12_skip_2d9_150x20（已跑 2 分／上限 12 分）、CLASS12_skip_2d9_500x5（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:29:51] [res] cpu=0% mem=47% (14.8/31.4 GB) chrome_testing=10  END CLASS12_skip_2d9_150x10
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4a71328fb..79369d24a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:29:59] ==== END   CLASS12_skip_2d9_150x10  exit=1  235s   ====
+[13:30:02] memory 48% before starting CLASS12_skip_73_150x5 (2 running)
+[13:30:02] ==== START CLASS12_skip_73_150x5  (probe @ 73faa493f90fc6c90ccc867950bd012cb3d1d72e) ====
+[13:30:05] [res] cpu=2% mem=48% (15.1/31.4 GB) chrome_testing=10  START CLASS12_skip_73_150x5
+[13:30:36] [res] cpu=2% mem=47% (14.6/31.4 GB) chrome_testing=9  END CLASS12_skip_2d9_150x20
