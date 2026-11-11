@@ -25,6 +25,7 @@ OUT = 'src/data/limao.js'
 WHO = ('yt', 'ms', 'wu', 'narr')
 MENU_POOL = {'聊聊天': 'chat', '問學業與考試': 'study', '問感情': 'love', '問人生方向': 'life', '離開': None}
 POOLS = ('study', 'love', 'life', 'chat')
+CLOSED = {'收攤': 'shut', '店開著、他不在': 'away'}   # 稿 closed 的兩個 key → 資料檔的欄位
 CHANGED = []
 
 
@@ -92,7 +93,7 @@ def group(e, where, ids):
 
 
 def build(d):
-    keys(d, '最上層', ('_meta', 'menu', 'first', 'pool', 'prof', 'reveal', 'study_room'))
+    keys(d, '最上層', ('_meta', 'menu', 'first', 'pool', 'prof', 'reveal', 'study_room'), ('closed',))
     if not isinstance(d['menu'], list) or set(d['menu']) != set(MENU_POOL) or len(d['menu']) != len(MENU_POOL) or d['menu'][-1] != '離開':
         die(f'menu 改了（{d["menu"]}）：先改這支工具的 MENU_POOL 和 src/limao3d.js')
     menu = []
@@ -120,7 +121,7 @@ def build(d):
     prof = {'when': txt(R['when'], 'prof.when'), 'set': txt(R['set'], 'prof.set'), 'lines': lines(R['lines'], 'prof.lines')}
     V = d['reveal']
     keys(V, 'reveal', ('when', 'entryA', 'entryB', 'talk'))
-    keys(V['entryA'], 'reveal.entryA', ('where', 'lines'))
+    keys(V['entryA'], 'reveal.entryA', ('where', 'lines'), ('title',))
     keys(V['entryB'], 'reveal.entryB', ('where', 'lines'))
     keys(V['talk'], 'reveal.talk', ('set', 'lines'), ('note',))
     if not isinstance(V['talk']['set'], list) or not all(isinstance(x, str) for x in V['talk']['set']):
@@ -134,6 +135,12 @@ def build(d):
               'entryA': {'where': txt(V['entryA']['where'], 'reveal.entryA.where'), 'lines': lines(V['entryA']['lines'], 'reveal.entryA.lines', ('yt', 'wu', 'narr'))},
               'entryB': {'where': txt(V['entryB']['where'], 'reveal.entryB.where'), 'lines': lines(V['entryB']['lines'], 'reveal.entryB.lines', ('narr',))},
               'talk': talk}
+    if 'title' in V['entryA']:   # 入口 A 那個事件的標題字（AA 2026-11-11）
+        reveal['entryA']['title'] = txt(V['entryA']['title'], 'reveal.entryA.title')
+    closed = None
+    if 'closed' in d:   # 收攤、店開著他不在：各一句旁白（AA 2026-11-11 回 LAWWW 第 5 題）
+        keys(d['closed'], 'closed', tuple(CLOSED))
+        closed = {CLOSED[k]: txt(d['closed'][k], 'closed.' + k) for k in CLOSED}
     SR = d['study_room']
     keys(SR, 'study_room', ('when', 'look'), ('note',))
     look = []
@@ -146,6 +153,8 @@ def build(d):
     out.update({'prof': prof, 'reveal': reveal, 'study_room': {'when': txt(SR['when'], 'study_room.when'), 'look': look}})
     if 'note' in SR:
         out['study_room']['note'] = SR['note']
+    if closed:
+        out['closed'] = closed
     out['rules'] = list(d['_meta'].get('rules', []))
     return out
 

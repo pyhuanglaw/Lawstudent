@@ -1,5 +1,5 @@
 /* 禮貌生財上師的免費算命、聊天（LIMAO-SHOP-1110，使用者 X332；LAWWW 2026-11-11）——不需要瀏覽器（D131）。這是模擬，不是真實玩家流程。
-   字：src/data/limao.js（AA_750 @227db1c9e，tools/story/import_limao.py）；演出：src/limao3d.js；場景：src/tingzhou3d.js、src/tz_shops3d.js（LAWWW2，沒有改）。
+   字：src/data/limao.js（AA_750 @93f731790，tools/story/import_limao.py）；演出：src/limao3d.js；場景：src/tingzhou3d.js、src/tz_shops3d.js（LAWWW2，沒有改）。
    1  index.html 有載入（資料在前、程式在後，都在 tingzhou3d.js、tz_shops3d.js 後面）；白名單有那一筆；匯入工具 --check 一致
    2  逐字對稿：有企劃線那個 commit 就整份一句一句比（說話的人、字、orig）；使用者原句（o:true）每一句都在規格書裡（一字不差）；選單＝稿的四類＋離開
    3  when：稿的每一個條件都對得到現有的判斷（S.unmapped 空的）；對照表沒有多的
@@ -15,7 +15,7 @@
    12 存檔：整個流程下來存檔只多 G.flags 的 LM_MET／LM_PROF／LM_KNOWN／LM_STUDY／LM_HINT／LM_SER；沒有 flags 的舊存檔不出錯；錢、關係沒有動
    修改前（開發分支 11161c101：沒有 limao.js、limao3d.js）：0 就 FAIL。用法：node tests/limao_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
-const ROOT=path.resolve(__dirname,'..'), SHA='227db1c9e', SRC='docs/story_planning/AA_750_limao.json', SPEC='docs/handoff/user_specs/LIMAO_SHENGCAI_1110.md';
+const ROOT=path.resolve(__dirname,'..'), SHA='93f731790'   /* 2026-11-11 改期望：AA 回七題後補 closed 兩句、入口 A 標題、信改木盒（原 227db1c9e）*/, SRC='docs/story_planning/AA_750_limao.json', SPEC='docs/handoff/user_specs/LIMAO_SHENGCAI_1110.md';
 global.window=global; global.self=global;
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
@@ -96,11 +96,18 @@ const allLines=()=>{ const out=[]; const add=(k,a)=>a.forEach((l,i)=>out.push([k
 const zT=loadZone('tingzhou'); const itT=E.interactables.find(i=>i.lmTable);
 { const A=L.table.at, p=itT&&standNear(itT), sp=[zT.spawn.x,zT.spawn.z,0];
   check('4. 算命桌的互動點在配置 limao.table.at、站得住、從出生點走得到；按鈕不是台詞（'+LM.LABEL+'）',!!itT&&itT.x===A.x&&itT.z===A.z&&itT.radius===A.r&&!!p&&walk(sp,p).ok&&itT.label===LM.LABEL&&typeof itT.onInteract==='function');
-  const vis=(h,o)=>{ GM.G=newG(Object.assign({hour:h},o||{})); return !itT.hidden; };
+  /* 2026-11-11 改期望（AA 93f731790 補了 closed 兩句）：收攤、上師不在的時候互動點不再藏起來，按鈕變「看算命桌」、按了念稿的旁白；能聊（按鈕「算命桌」）的時間不變；經濟系那一年照舊整個藏 */
+  const vis=(h,o)=>{ GM.G=newG(Object.assign({hour:h},o||{})); return itT.hidden?null:itT.label; };
   const a=[vis(18.9),vis(19),vis(23.4),vis(23.5),vis(2)]; W.typhoon=true; const ty=vis(20); W.typhoon=false; zT.tzLimaoAway=true; const aw=vis(20); zT.tzLimaoAway=false; const ec=vis(20,{stage:'econ'});
-  check('4. 營業（配置 19:00～23:30）才有：18:54 沒有、19:00 有、23:24 有、23:30 沒有、凌晨沒有；颱風、上師不在、經濟系那一年沒有',eq(a,[false,true,true,false,false])&&!ty&&!aw&&!ec,JSON.stringify(a)+ty+aw+ec);
+  const T=LM.LABEL, K=LM.LABEL_LOOK;
+  check('4. 營業（配置 19:00～23:30）按鈕是「'+T+'」：18:54 不是、19:00 是、23:24 是、23:30 不是、凌晨不是；颱風、上師不在＝「'+K+'」；經濟系那一年沒有這個點',eq(a,[K,T,T,K,K])&&ty===K&&aw===K&&ec===null&&T!==K,JSON.stringify(a)+ty+aw+ec);
   GM.G=newG({hour:18}); reset(); const h0=GM.G.hour, r=await LM.table(GM,zT);
-  check('4. 收攤硬按：什麼都不說、不出選單、時間不動、不記旗標；模型是收攤的樣子（zone.tzLimao.open false）',r==='closed'&&!LOG.length&&!MENUS.length&&GM.G.hour===h0&&!Object.keys(GM.G.flags).length&&zT.tzLimao.open===false&&DEPTH===0,r);
+  check('4. 收攤的時候按：只有稿 closed 收攤那一句旁白（沒有名字）、不出選單、時間不動、不記旗標；模型是收攤的樣子（zone.tzLimao.open false）',r==='closed'&&eq(LOG,[[null,D.closed.shut,null,false]])&&!MENUS.length&&GM.G.hour===h0&&!Object.keys(GM.G.flags).length&&zT.tzLimao.open===false&&DEPTH===0,JSON.stringify(LOG));
+  { GM.G=newG({hour:20}); reset(); zT.tzLimaoAway=true; const h1=GM.G.hour, r2=await LM.table(GM,zT); const okAway=r2==='closed'&&eq(LOG,[[null,D.closed.away,null,false]])&&!MENUS.length&&GM.G.hour===h1&&!Object.keys(GM.G.flags).length&&zT.tzLimao.open===true; zT.tzLimaoAway=false;
+    W.typhoon=true; GM.G=newG({hour:20}); reset(); const r3=await LM.table(GM,zT); const okTy=r3==='closed'&&eq(LOG,[[null,D.closed.shut,null,false]]); W.typhoon=false;
+    GM.G=newG({hour:20,stage:'econ'}); reset(); const r4=await LM.table(GM,zT); const okEc=r4==='closed'&&!LOG.length;
+    let raw=null; try{ raw=JSON.parse(cp.execFileSync('git',['-C',ROOT,'show',SHA+':'+SRC],{encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']})); }catch(e){}   /* 這份 checkout 沒有企劃線那個 commit（GHA 淺層複本）＝不比稿，只驗演出 */
+    check('4. 店開著、上師不在（tzLimaoAway）按＝稿 closed「店開著、他不在」那一句；颱風＝收攤那一句；經濟系那一年什麼都不說；兩句和稿一字不差',okAway&&okTy&&okEc&&(!raw||(D.closed.shut===raw.closed['收攤']&&D.closed.away===raw.closed['店開著、他不在']))&&DEPTH===0,[r2,r3,r4].join()+JSON.stringify(LOG)); }
   GM.G=newG({hour:20}); zT.applyTimeOutdoor(20,null); check('4. 20:00 區域切到營業（zone.tzLimao.open true、門是「進禮貌生財」）',zT.tzLimao.open===true&&/^進/.test(zT.tzLimao.door.label),zT.tzLimao.door.label);
   W.typhoon=true; zT.applyTimeOutdoor(20,null); const off=zT.tzLimao.open; W.typhoon=false; zT.applyTimeOutdoor(20,null); check('4. 颱風假那天不開（zone.tzLimaoOff → 模型收攤）',off===false&&zT.tzLimao.open===true); }
 
@@ -157,6 +164,7 @@ const TALK=D.reveal.talk.lines;
 { W.term='Y3S2'; const a=LM.hintDue(G0); W.term='Y4S1'; const b=LM.hintDue(G0);
   check('10. 大三不開、大四開（有 LM_PROF、沒有 LM_KNOWN）；沒有 LM_PROF 的大四不開',!a&&b&&!LM.hintDue(newG()));
   const ev=STORY_EVENTS.find(e=>e.id===LM.EV_A), A=D.reveal.entryA.lines;
+  check('10. 入口 A 事件的標題照稿（AA 93f731790：「'+D.reveal.entryA.title+'」）',!!ev&&!!D.reveal.entryA.title&&ev.title===D.reveal.entryA.title,ev&&ev.title);
   const dl=ev?ev.dialogue.filter(x=>x.text!==undefined):[], call=ev?ev.dialogue.find(x=>typeof x.call==='function'):null;
   check('10. 入口 A：事件 '+LM.EV_A+'（進法律系館 wancai、一次、臨時生出吳教授）；三句照稿（祐廷＝player、吳教授＝prof_wu）；條件＝還沒看過入口',!!ev&&ev.trigger==='enter'&&ev.location==='wancai'&&ev.once===true&&ev.spawn.npc==='prof_wu'&&eq(ev.participants,['prof_wu'])&&eq(dl.map(x=>[x.speaker,x.text]),A.map(l=>[l.w==='yt'?'player':'prof_wu',l.t]))&&ev.prereq.custom(G0)===true&&STORY_EVENTS.filter(e=>e.id===LM.EV_A).length===1&&LM.register()&&STORY_EVENTS.filter(e=>e.id===LM.EV_A).length===1);
   G0.hour=20; reset(); PICK=byT('離開'); await LM.table(GM,zT); const m0=MENUS[0].slice();

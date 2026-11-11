@@ -3,7 +3,7 @@
    場景（LAWWW2，不改它的檔）：街上 src/tingzhou3d.js（zone.tzLimao＝{open, masterAway, table, door}、zone.tzLimaoOff／tzLimaoAway；配置 TINGZHOU_LAYOUT.limao）、
      室內 src/tz_shops3d.js（區域 tz_limao；書房 zone.setStudy、TZS3.studyOpen；配置 TZ_SHOPS_LAYOUT.limao）。這支只包它們的 build（和 night_market3d.js 同一個做法）。
    做的事：
-   1 桌前的互動點（配置 limao.table.at；按鈕 S.LABEL）：店開著、上師在、祐廷是法律系的時候才有（收攤、上師不在＝這個點藏起來，只剩場景的「看禮貌生財」；稿沒有收攤的句子）。
+   1 桌前的互動點（配置 limao.table.at；按鈕 S.LABEL）：店開著、上師在、祐廷是法律系的時候是「算命桌」（聊天）；收攤、上師不在＝按鈕變「看算命桌」、念稿 closed 的一句旁白（AA 93f731790）；經濟系那一年整個藏起來。
      第一次＝first（記 LM_MET＝那一天）；之後＝選單（稿的四類＋離開）→ 那一類抽一組演完就結束；每聊一次時間過 15 分鐘（S.HRS）。一天幾次稿沒寫＝不限。全部免費，不加好感、不動成績。
      抽法（S.pick）：條件成立的組裡，先挑還沒講過的；全部講過再輪（不連續抽到剛講過的那一組）。講過哪幾組只記在記憶體，不進存檔。
      serious 的兩組（剛分手 lv4、落榜 lf5）：條件成立、還沒演過＝不管選哪一類先演這一組一次（記在 LM_SER），之後不再出、也不進一般的抽組。
@@ -31,6 +31,7 @@ const LM=(function(){
   const CAL=()=>typeof CALENDAR!=='undefined'?CALENDAR:null;
   S.MASTER={name:'上師'};        /* 稿的 rules：ms＝上師（他的名字不出現）*/
   S.WU='prof_wu';
+  S.LABEL_LOOK='看算命桌';        /* 收攤、上師不在的時候的按鈕（按了是稿 closed 的旁白）*/
   S.LABEL='算命桌';              /* 互動點的按鈕（不是台詞）*/
   S.HRS=0.25;                    /* 聊一次時間過多久 */
   S.EV_A='ev_limao_wu_corridor'; S.ZONE_A='wancai';
@@ -124,7 +125,8 @@ const LM=(function(){
   /* ---------- 算命桌 ---------- */
   S.table=async function(GM,zone){ const G=GM.G, d=D(); if(!d||!G) return null; S.sync(zone,G);
     if(zone&&zone.applyTimeOutdoor){ try{ zone.applyTimeOutdoor(S.hour(G),null); }catch(e){ console.warn('LM.table',e); } }   /* 模型的開收和這裡看同一個鐘點 */
-    if(!S.canTalk(G,zone)) return 'closed';
+    if(!S.canTalk(G,zone)){ const c=d.closed, lm=zone&&zone.tzLimao;   /* 收攤、店開著他不在：稿 closed 的一句旁白（AA 93f731790）；經濟系那一年不出（互動點藏著）*/
+      if(c&&S.term(G)) await S.narr(GM,[lm&&lm.open&&zone.tzLimaoAway?c.away:c.shut]); return 'closed'; }
     const F=F_(G); S.begin(GM);
     try{
       if(S.firstDue(G)){ F.LM_MET=G.day; await S.play(GM,d.first.lines); S.spend(GM); return 'first'; }
@@ -157,13 +159,13 @@ const LM=(function(){
 
   /* ---------- 街上：桌前的互動點 ---------- */
   S.attachStreet=function(E,zone){ const L=LAY(); if(!zone||zone._lm||!D()||!L||!L.table||!L.table.at||!zone.tzLimao) return zone; zone._lm=true; const A=L.table.at;
-    E.interactables.push({x:A.x,z:A.z,radius:A.r,prio:1,label:S.LABEL,lmTable:true,get hidden(){ const GM=GMof(); return !(GM&&GM.G&&S.canTalk(GM.G,zone)); },onInteract:()=>{ const GM=GMof(); return GM?S.table(GM,zone):null; }});
+    E.interactables.push({x:A.x,z:A.z,radius:A.r,prio:1,lmTable:true,get label(){ const GM=GMof(); return GM&&GM.G&&S.canTalk(GM.G,zone)?S.LABEL:S.LABEL_LOOK; },get hidden(){ const GM=GMof(), G=GM&&GM.G; return !(G&&D()&&S.term(G)&&(S.canTalk(G,zone)||D().closed)); },onInteract:()=>{ const GM=GMof(); return GM?S.table(GM,zone):null; }});
     const t0=zone.applyTimeOutdoor; if(t0) zone.applyTimeOutdoor=function(h,E2){ const GM=GMof(), G=GM&&GM.G; if(G) S.sync(zone,G); return t0.call(this,h,E2); };
     return zone; };
 
   /* ---------- 入口 A：系館遇到吳教授（事件）---------- */
   S.eventA=function(){ const d=D(); if(!d) return null; const sp={yt:'player',wu:S.WU,narr:null};
-    return { id:S.EV_A, title:'', participants:[S.WU], location:S.ZONE_A, trigger:'enter', once:true, background:'blur', spawn:{npc:S.WU,dist:2.2}, despawn:20,
+    return { id:S.EV_A, title:(d.reveal.entryA.title||''), participants:[S.WU], location:S.ZONE_A, trigger:'enter', once:true, background:'blur', spawn:{npc:S.WU,dist:2.2}, despawn:20,
       prereq:{custom:G=>S.hintDue(G)},
       dialogue:d.reveal.entryA.lines.map(l=>({speaker:sp[l.w],text:l.t})).concat([{call:G=>{ F_(G).LM_HINT='A'; }}]) }; };
   S.register=function(){ if(typeof STORY_EVENTS==='undefined'||!D()) return false; if(!STORY_EVENTS.some(e=>e&&e.id===S.EV_A)) STORY_EVENTS.push(S.eventA()); return true; };
