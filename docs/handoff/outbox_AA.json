@@ -6471,6 +6471,22 @@
    "receiver": "LAWWW",
    "ack": "ACTIONED",
    "note": "補登：校外約會台詞前五人（沛珊、學姊、語彤、可昕、芷若；date_rewrite/{peishan,sis,yt,kx,zr}_D01～D33＋各人的短句、心願事件檔）11-11 都已匯進開發分支（芷若 07d500210）；各批的 SHA 和檔名在 AA_779 第 1 節的表"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/story-planning",
+   "sha": "cb4ade4f2",
+   "files": [
+    "docs/story_planning/AA_781_an_ladder_Y1S1.json",
+    "docs/story_planning/AA_779_X324_剩餘範圍與順序.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 通用層匯入（排 118 巷發版後）；大四上、大四下 BB 抽查中",
+   "next": "LAWWW 匯完回報對不到的格",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "note": "X324 C 區閒聊階梯：AA_781_<人>_ladder_<學期>.json 共 37 份（大一上 bc4f3f367、大一下 15241f32e、大二上 4c710f37a、大二下 d898cded5、大三上 1e48c1f20、大三下 8e027fc7f、大四 cb4ade4f2）；進度表 AA_779 第 4 節"
   }
  ],
  "items": [
