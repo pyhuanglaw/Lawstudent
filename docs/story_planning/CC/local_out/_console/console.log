@@ -1,12 +1,4 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:17:04] ==== END   TZ5_int_new  exit=0  204s   ====
-[08:17:11] [res] cpu=3% mem=40% (12.8/31.4 GB) chrome_testing=5  END NM_tbl_edge_r2
-[08:17:20] memory 41% before starting NM_shots_a_r2 (2 running)
-[08:17:20] ==== START NM_shots_a_r2  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
-[08:17:23] [res] cpu=12% mem=41% (13.0/31.4 GB) chrome_testing=5  START NM_shots_a_r2
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       5aeb45cb1..ee88ea065  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [08:17:25] ==== END   NM_tbl_edge_r2  exit=0  127s   ====
 [08:17:56] memory 38% before starting SC3_new_r2 (2 running)
 [08:17:56] ==== START SC3_new_r2  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
@@ -1998,3 +1990,11 @@
 [15:20:03] ==== START L118D_H_C_r2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
 [15:20:06] [res] cpu=3% mem=45% (13.8/31.4 GB) chrome_testing=5  START L118D_H_C_r2
 [15:22:12] [res] cpu=3% mem=49% (15.5/31.4 GB) chrome_testing=10  END CLASS12_skip5b_np450_r4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       37b8453d2..160ad61f4  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:22:19] ==== END   CLASS12_skip5b_np450_r4  exit=0  274s   ====
+[15:22:28] memory 50% before starting L118D_E_SEATMIX_A (2 running)
+[15:22:28] ==== START L118D_E_SEATMIX_A  (probe @ b131eef2d5a05cb70cdf91eeb5cc73b1bdec55aa) ====
+[15:22:31] [res] cpu=3% mem=50% (15.7/31.4 GB) chrome_testing=10  START L118D_E_SEATMIX_A
+[15:23:59] [res] cpu=10% mem=51% (16.1/31.4 GB) chrome_testing=10  END L118D_H_B_r2
