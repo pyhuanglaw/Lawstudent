@@ -55,15 +55,20 @@ const cellOne=c=>{ const m=/「([^」]+)」/.exec(c||''); return m?m[1]:null; };
 /* ---- 0 稿 ---- */
 await sec(0,()=>{ const s1=part('## 1.','## 2.'), s2=part('## 2.','## 3.'), s3=part('## 3.','## 4.'), s5=part('## 5.');
   check('0. 稿讀得到（580ed6302，第 1、2、3、5 節）',!!s1&&!!s2&&!!s3&&!!s5);
-  const staff={}; for(const ln of s1.split('\n')){ const c=ln.split('|').map(x=>x.trim()); if(c.length>4&&/^[a-z0-9]+$/.test(c[1])) staff[c[1]]=c[3].replace(/（.*?）/g,''); }
-  check('0. 第 1 節店員的稱呼（九間）＝L118.STAFF',Object.keys(staff).length===9&&J(staff)===J(Object.fromEntries(Object.keys(staff).map(k=>[k,L().STAFF[k]]))),J([staff,L().STAFF]));
+  /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，店員跟著他的故事走；AA_772）改期望——
+     舊期望：店員的稱呼＝AA_311 第 1 節的表（九間）、熟客表＝AA_311 第 2 節（九間）、usual2＝AA_480 第 1 節（五間）。
+     新期望：這三張表都換成 AA_772 的 staff（十一間）、regular_greets（十一間）、regular_greets.usual2（六間）——從白名單上的 AA_772 讀（tests/l118_redo772_expect.js 的 R772.d），不手抄 */
+  const A772=R772.d, staff={}; for(const r of A772.staff) staff[r.shop]=String(r.staff).split(/[（(]/)[0].trim();
+  check('0. 店員的稱呼（AA_772 staff，十一間）＝L118.STAFF',Object.keys(staff).length===11&&J(staff)===J(Object.fromEntries(Object.keys(staff).map(k=>[k,L().STAFF[k]]))),J([staff,L().STAFF]));
   const cell=c=>{ const out=[]; const re=/(?:([^「」（）\s：]+)：)?「([^」]+)」|（([^）]+)）/g; let m; while((m=re.exec(c))) out.push(m[3]!=null?[null,'（'+m[3]+'）']:[m[1]||'@',m[2]]); return out; };
-  const bad=[]; let n=0; for(const ln of s2.split('\n')){ const c=ln.split('|').map(x=>x.trim()); if(c.length<6||!/^[a-z0-9]+$/.test(c[1])) continue; n++; const id=c[1], Q=L().REG[id]||{};
-    const kn=cell(c[2]).map(([w,t])=>[w!=null&&w!=='@'&&w===L().STAFF[id]?'@':w,t]), us=cell(c[3]), ex=c[4]==='—'?null:cell(c[4]);
+  const bad=[]; let n=0; for(const r of A772.regular_greets.rows){ n++; const id=r.shop, Q=L().REG[id]||{};
+    const kn=[['@',r.know]].concat(r.knowNarr?[[null,r.knowNarr]]:[]);
     if(J(kn)!==J(Q.known)) bad.push([id,'認得你',kn,Q.known]);
-    if(us.length!==1||us[0][1]!==Q.usual||(us[0][0]!=='@'&&us[0][0]!==L().STAFF[id])) bad.push([id,'老樣子',us,Q.usual]);
-    if((ex?ex[0][1]:undefined)!==Q.exam||(ex&&ex[0][0]!=='@'&&ex[0][0]!==L().STAFF[id])) bad.push([id,'考試週',ex,Q.exam]); }
-  check('0. 第 2 節熟客表九間逐格＝L118.REG（認得你、老樣子、考試週；說話的人＝第 1 節的店員）',n===9&&!bad.length,J(bad));
+    if(r.usual!==Q.usual) bad.push([id,'老樣子',r.usual,Q.usual]);
+    if((r.exam||undefined)!==Q.exam) bad.push([id,'考試週',r.exam,Q.exam]);
+    if((r.item||undefined)!==Q.item||(r.item&&!L().shop(id).menu.some(m=>m[0]===r.item))) bad.push([id,'老樣子的那一樣',r.item,Q.item]);
+    if(r.who&&r.who!==L().STAFF[id]) bad.push([id,'說話的人',r.who,L().STAFF[id]]); }
+  check('0. 熟客表（AA_772 regular_greets，十一間）逐格＝L118.REG（認得你、老樣子、考試週、老樣子的那一樣在菜單上；說話的人＝店員的稱呼）',n===11&&!bad.length,J(bad));
   check('0. 「老樣子」的選項照稿：「好」「看一下菜單」',J(L().USUAL_OPTS)===J(['好','看一下菜單'])&&s2.indexOf('選「好」')>=0&&s2.indexOf('選「看一下菜單」')>=0);
   const out=[], who=[]; const NM={[AN]:'以安',zhe:'阿哲',[BH]:'柏翰',[XC]:'芯慈'};
   for(const k of ['H2','H3','H4','H5','H6','H7','H8','H9']){ const Hk=L()[k]; const walk=(arr)=>{ for(const [w,t] of arr||[]){ out.push(t); if(w!=null) who.push([NM[w]||w,t]); } };
@@ -79,13 +84,15 @@ await sec(0,()=>{ const s1=part('## 1.','## 2.'), s2=part('## 2.','## 3.'), s3=p
   const src=fs.readFileSync(path.join(H.ROOT,'src/lane118.js'),'utf8');
   check('0. H2b 作廢（AA_334 第 2 節）：沒有做（遊戲裡沒有「好久不見。一樣嗎？」）',doc.indexOf('好久不見。一樣嗎？')>=0&&src.indexOf('好久不見')<0&&!L().H2b);
   /* AA_480 */
-  const t1=part480('## 1.','## 2.'), u2={}; for(const ln of t1.split('\n')){ const c=ln.split('|').map(x=>x.trim()); const m=/^([a-z0-9]+) /.exec(c[1]||''); if(m&&c.length>4) u2[m[1]]=[cellOne(c[2]),cellOne(c[3])]; }
-  const ub=Object.keys(u2).filter(id=>!(L().REG[id]&&L().REG[id].usual===u2[id][0]&&L().REG[id].usual2===u2[id][1]));
-  check('0. AA_480 第 1 節：「老樣子」有菜名的五間，上次點別的那一句（滇香、好家、慢讀、Pasta、韓食）＝L118.REG 的 usual2；其他四間沒有',Object.keys(u2).length===5&&!ub.length&&['tea','home','omu','noodle2'].every(id=>!L().REG[id].usual2),J([u2,ub]));
+  const u2=Object.assign({},A772.regular_greets.usual2||{}); delete u2.note;
+  const ub=Object.keys(u2).filter(id=>!(L().REG[id]&&L().REG[id].item&&L().REG[id].usual2===u2[id]));
+  check('0. 「老樣子」有菜名的六間，上次點別的那一句（AA_772 regular_greets.usual2；原本 AA_480 第 1 節五間）＝L118.REG 的 usual2；沒有菜名的五間沒有',Object.keys(u2).length===6&&!ub.length&&Object.keys(L().REG).filter(id=>!u2[id]).every(id=>!L().REG[id].usual2&&!L().REG[id].item),J([u2,ub]));
   const a4=part480('## 4.','## 5.');
-  check('0. AA_480 第 4 節：阿哲輪流 home 換好家，那一週「自助餐 我需要吃菜」（資料檔照 AA_280，程式換）',a4.indexOf('「'+L().LUNCH_FIX.text+'」')>=0&&J(L().baseRotation())===J(['noodle2','dian','korea','self'])&&J(LANE118_SHOPS.lunch.rotation)===J(['noodle2','dian','korea','home']),J(L().baseRotation()));
+  /* 舊期望：AA_480 第 4 節 home 換好家（S.LUNCH_FIX、「自助餐 我需要吃菜」）、輪流 noodle2→dian→korea→self。AA_772 第 14 列把它拿掉（五湖四海週一有開）*/
+  { const row14=A772.fix.find(r=>r.file==='src/lane118.js'&&r.new==='（拿掉）')||{};
+    check('0. AA_480 第 4 節的換店拿掉了（AA_772）：沒有 S.LUNCH_FIX、程式裡沒有那一句；輪流照 AA_280＝korea→dian→tea→home',!!row14.old&&a4.indexOf('「'+row14.old+'」')>=0&&L().LUNCH_FIX===undefined&&src.indexOf(row14.old)<0&&J(L().baseRotation())===J(LANE118_SHOPS.lunch.rotation)&&J(LANE118_SHOPS.lunch.rotation)===J(['korea','dian','tea','home']),J(L().baseRotation())); }
   check('0. AA_480 第 3 節：H7 兩個選項「她今天要換。」「（不說話）」',J(L().H7.opts.map(o=>o.t))===J(['「她今天要換。」','（不說話）'])&&a3.indexOf('「她今天要換。」')>=0&&a3.indexOf('（不說話）')>=0);
-  check('0. AA_480 第 5 節：邀約的吃飯那一類（kind meal）多「Pasta 118」，週三休（週一、二、四、五）、平日中午',L().INVITE.kind==='meal'&&L().INVITE.name==='Pasta 118'&&J(L().INVITE.days)===J([1,2,4,5])&&part480('## 5.','## 6.').indexOf('「Pasta 118」')>=0&&!!INV.place('pasta118')); });
+  check('0. AA_480 第 5 節：邀約的吃飯那一類（kind meal）多義大麵屋（舊期望：店名 Pasta 118；AA_772 第 15 列只換店名）、平日中午',L().INVITE.kind==='meal'&&L().INVITE.name===L().shop('pasta').name&&L().INVITE.verb===R772.line('去 Pasta 118 吃午餐')&&J(L().INVITE.days)===J([1,2,3,4,5].filter(d=>!L().shop('pasta').hours.closed.includes(d)))&&J(L().INVITE.days)===J([2,3,4,5])&&part480('## 5.','## 6.').indexOf('「'+L().shop('pasta').name+'」')>=0   /* 平日扣掉公休日：義大麵屋週一休＝週二～五（舊期望 週一、二、四、五）*/&&!!INV.place('pasta118')); });
 
 /* ---- 1 熟客 ---- */
 await sec(1,async()=>{ const days=[1,2,3,4,5,6].map(w=>td('Y1S1',3,w)).concat([1,2,3,4,5,6].map(w=>td('Y1S1',4,w)));   /* 大一上第 3、4 週週一～六（麵舖週日休）*/
