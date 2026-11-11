@@ -702,7 +702,7 @@ def page_checks(SPEC, pg_p):
     pp, ps = as_sets(pg_p.get('pays')), as_sets(pg_p.get('split'))
     miss = [[w, p, t] for (w, p), v in as_sets(SPEC.get('SHE_PAYS_add')).items() for t in v if t not in pp.get((w, p), set())]
     R.check('頁面 1 合併後的 DATE.SHE_PAYS 有規格 SHE_PAYS_add 的每一句', not miss, J(miss))
-    egg = [[w, p, sorted(v)] for (w, p), v in pp.items() if p == EGG_PID]
+    egg = [[w, p, sorted(v)] for (w, p), v in pp.items() if w == 'classmate_peishan' and p == EGG_PID]   # 以安 D31.egg「你一顆，我一顆。我付過了。」在 AA_812 SHE_PAYS_add 裡，本來就該在（子代理 r2 指出）
     R.check('頁面 1b 沛珊 %s 不算她請客（DATE.SHE_PAYS 沒有這一格；LAWWW 19:09 ③）' % EGG_PID, not egg, J(egg))
     ss = as_sets(SPEC.get('SPLIT'))
     d1 = [[w, p, sorted(v ^ ps.get((w, p), set()))] for (w, p), v in ss.items() if v != ps.get((w, p), set())] + [[w, p, sorted(v)] for (w, p), v in ps.items() if (w, p) not in ss]
