@@ -861,3 +861,4 @@ REG_f5813_p0 | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/p0_moveme
 REG_f5813_zone | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
 REG_f5813_mini | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
 REG_f5813_tzgate | f581316311d7b4d1e5800348213b550219c087b1 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=GATE,SHOPS
+REG_f5813_touch | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
