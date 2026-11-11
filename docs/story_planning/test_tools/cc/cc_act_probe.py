@@ -211,9 +211,9 @@ def expected(sc, mode, pick, name, with_mid=False, opts_in_hall=False):
     """照 invites3d.js 的順序排這一場該出的句子：[(role, 字)]；mode＝cinema／act／study。
     opts_in_hall（f8b6d1e82 起）：電影的選項全是（…）開頭＝暗的廳裡、小動作後面就選、回話也在廳裡；說出口的句子照舊散場以後"""
     sub = lambda t: t.replace('{name}', name)
-    seq = [(role(t), sub(t)) for t in sc['seat']]
+    seq = [(role(t), sub(t)) for t in sc.get('seat') or []]
     rep = []
-    if sc['opts']:
+    if sc.get('opts'):
         o = sc['opts'][min(pick, len(sc['opts']) - 1)]
         rep = [(role(t), sub(t)) for t in o['reply']]
     if mode == 'cinema':
@@ -751,7 +751,11 @@ async def beat_defer_part(pg, cdp, errs, tag):
     R.setup('[%s] 讀檔：%s（第 %d 天）10:00、%s 第 %s 階、STUDYN n %d k %d、BEATS 從第 1 拍（last＝null：今天會演一拍）；地點 %s %s；ARCS.pick＝%s；版本 %s' % (
         tag, pk['key'], pk['cal']['d'], who, s['stage'], cfg['n'], k, pk['place']['id'], pk['time']['t'], J(s.get('arc')), J(ver)))
     if not R.check('[%s] 前置：今天有故事線那一拍（ARCS.pick 不是 null）' % tag, bool(s.get('arc')) and not s['arc'].get('err'), J(s.get('arc'))): return
-    sc = draft_scene(kind, who, k) or {}
+    sc = draft_scene(kind, who, k)
+    if not sc:   # CC 14:5x（ACT_SMOKE_BEAT KeyError 'seat'：PC 讀不到 AA_707／708 稿）：和一般段一樣，改比頁面上的遊戲資料
+        pgs = await pg.evaluate(PAGE_SCENE_JS, {'who': who, 'kind': kind})
+        sc = norm_sc(((pgs or {}).get('scenes') or {}).get(str(k))) or {}
+        R.note('[%s] 讀不到稿（%s）：逐字改比頁面上的遊戲資料（第 %s 場：%s）' % (tag, DRAFT707 if kind == 'study' else DRAFT708, k, '有' if sc else '也沒有'))
     rs = resolve(sc, False, True); act_opts = [o['t'].replace('{name}', name) for o in rs.get('opts', [])]
     arc_opts = s['arc']['opts']
     cfg['_is_act'] = lambda opts: opts == act_opts
