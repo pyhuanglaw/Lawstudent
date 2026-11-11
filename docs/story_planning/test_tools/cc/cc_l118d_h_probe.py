@@ -490,9 +490,11 @@ async def part_cafe2(pg, cdp):
     R.note('%s （參考）「看」的旁白提到念書／讀書／咖啡的：%s' % (tag, J(lk)))
     await shot(pg, 'cafe2_inside')
     seats = [x for x in its if x['seat']]
-    if seats:
-        q = seats[0]; ap = await pg.evaluate("(q=>{ const it=GAME.E.interactables.find(i=>i.seat&&Math.abs(i.x-q.x)<0.01&&Math.abs(i.z-q.z)<0.01); const a=it&&GAME.seatApproach?GAME.seatApproach(it.seat):null; return a?[a[0],a[1]]:[q.x,q.z]; })", q)
-        await joy(pg, cdp, tag + ' 走到座位「%s」' % q['label'], ap[0], ap[1], near=0.35)
+    for q in seats[:4]:   # r2（CC 06:4x）：第一張的 seatApproach 上互動鍵是「點餐」（被櫃台搶走）——記下來，換下一張，最多試 4 張
+        ap = await pg.evaluate("(q=>{ const it=GAME.E.interactables.find(i=>i.seat&&Math.abs(i.x-q.x)<0.01&&Math.abs(i.z-q.z)<0.01); const a=it&&GAME.seatApproach?GAME.seatApproach(it.seat):null; return a?[a[0],a[1]]:[q.x,q.z]; })", q)
+        await joy(pg, cdp, tag + ' 走到座位「%s」(%.2f,%.2f)' % (q['label'], q['x'], q['z']), ap[0], ap[1], near=0.35)
+        stq = await D.st(pg)
+        if not stq['interact'].startswith(q['label'][:2]): R.note('%s ⚠座位 (%.2f,%.2f) 的走近點 %s 上，互動鍵是「%s」不是「%s」（交 BB／L118A SEATS 對照）' % (tag, q['x'], q['z'], J(ap), stq['interact'], q['label'])); continue
         if await press(pg, cdp, tag, q['label'][:2]):
             i0 = len(LOG); await pg.wait_for_timeout(2500); await drain(pg)
             o = await opts(pg); st1 = await D.st(pg)
@@ -502,7 +504,9 @@ async def part_cafe2(pg, cdp):
             await run_dialog(pg, cdp, pick=lambda o: next((i for i, x in enumerate(o) if x['t'].startswith('起身')), None), secs=12)
             st2 = await D.st(pg)
             if st2['seat'] and st2['interact'].startswith('起身'): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
-    ox, oz = L118_ORDER['cafe2']
+        break
+    od = next((x for x in its if x['label'].startswith('點餐')), None)   # r2：點餐的位置照店裡真的互動點（新室內櫃台在右後），不用舊的寫死座標
+    ox, oz = (od['x'], od['z']) if od else L118_ORDER['cafe2']
     await joy(pg, cdp, tag + ' 走到點餐的地方', ox, oz, near=0.5)
     if await press(pg, cdp, tag, '點餐'):
         i0 = len(LOG)
@@ -558,7 +562,7 @@ async def part_nosit(pg, cdp, ref):
     tag = '%s（地點 %s「%s」）' % (part, pid, verb)
     s = base('2025-11-08', 10.0, 'wenzhou', *WZ_START, yaw=math.pi, weather='rain')
     await load(pg, cdp, '【前置】%s 週六 10:00、下雨' % tag, s)
-    cand = await pg.evaluate(PICK_JS, {'whos': NOSIT_WHO, 'pid': pid, 'hs': [14.0, 15.5, 19.0]})
+    cand = await pg.evaluate(PICK_JS, {'whos': NOSIT_WHO, 'pid': pid, 'hs': [15.5, 19.0, 14.0]})   # r2（CC 06:4x）：「坐坐」週末沒有 14:00（12:10／15:30／17:30／19:00／21:00），念書和坐坐共有的 15:30、19:00 排前面
     R.note('%s 誰今天哪個時間會答應（INV.decide＋INV.personal，照玩家會按的選項先查）：%s' % (tag, J(cand)))
     c = next((x for x in cand if x.get('res') == 'accept'), None)
     if not R.check('%s 候選 %s 裡有人今天 14:00／15:30／19:00 會答應' % (tag, J(NOSIT_WHO)), bool(c), J(cand)): return
