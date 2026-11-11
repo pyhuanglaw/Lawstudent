@@ -45,6 +45,7 @@ REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
 DAY = os.environ.get('DAY') or '2025-10-08'
 NEW9 = ['dian', 'self', 'korea', 'tea', 'omu', 'noodle2', 'pasta', 'home', 'cafe2']; OLD2 = [x for x in (os.environ.get('OLD_SHOPS') or '').split(',') if x]; ALL9 = ['dian', 'self', 'tea', 'home', 'cafe2', 'pasta', 'korea', 'omu', 'noodle2']
 H_INT = float(os.environ.get('H_INT') or 13.0)
+TAP_HEIGHTS = [float(x) for x in (os.environ.get('TAP_HEIGHTS') or '0.45,0.2,0.0').split(',')]   # TAPSEAT 點椅子的高度（BB 08:22：0d7922555 起只看椅面＝TAP_HEIGHTS=0.45）
 VP = {'width': 844, 'height': 390}
 hhmm = lambda h: '%02d%02d' % (int(h), int(round((h % 1) * 60)))
 # 三張近照（64add9fcf 的 tools/blender/env_second/lane118_shops.py：118牛排 西牆 z 1.35～2.15、y 1.5～2.2 的海報＋自助台上方黃牌 z 2.3～3.4；
@@ -875,7 +876,7 @@ async def part_tapseat(pg, cdp, sid, idxs):
     for k in idxs:
         if not (1 <= k <= len(seats)): continue
         tried = {}
-        for hy in (0.45, 0.2, 0.0):
+        for hy in TAP_HEIGHTS:
             r = await tap_seat_one(pg, cdp, sid, k - 1, seats[k - 1], hy)
             tried['%.2f' % hy] = r
             if r in ('ok', 'occupied'): break   # 椅面坐得到就不用再點（BB 08:18：判準看椅面；椅面不行才記中段、椅腳當參考）

@@ -52,9 +52,10 @@ REGA609_linze | a60902c2aa2040d8b2a769eeb9cbca9589649c43 | game | tests/flow_lin
 REGA609_dorm | a60902c2aa2040d8b2a769eeb9cbca9589649c43 | game | tests/flow_dorm_hall.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
 REGA609_library | a60902c2aa2040d8b2a769eeb9cbca9589649c43 | game | tests/flow_library_floors.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 REGA609_wancai | a60902c2aa2040d8b2a769eeb9cbca9589649c43 | game | tests/flow_wancai_floors.py | index.html | 40 | XARGS={url} {out};CC_HEADLESS=0
-L118A_TAPSEAT_home | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 25 | PARTS=TAPSEAT_home_3.7.9.11.8;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
-L118A_TAPSEAT_dian | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=TAPSEAT_dian_2.3;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
-L118A_TAPSEAT_cafe2 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=TAPSEAT_cafe2_1.11;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+L118A_TAPSEAT_home | 0d7922555e284beff8b501b55a64a06c412d4cf3 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 25 | PARTS=TAPSEAT_home_3.7.9.11.8;TAP_HEIGHTS=0.45;SHA=0d7922555e284beff8b501b55a64a06c412d4cf3
+L118A_TAPSEAT_home9_old | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 10 | PARTS=TAPSEAT_home_9;TAP_HEIGHTS=0.45;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+#SKIP舊配置（BB 08:22：dian 第 3 版由 L118A3_TAPSEAT_dian1-3 測） L118A_TAPSEAT_dian | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=TAPSEAT_dian_2.3;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
+L118A_TAPSEAT_cafe2 | 0d7922555e284beff8b501b55a64a06c412d4cf3 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=TAPSEAT_cafe2_1.11;TAP_HEIGHTS=0.45;SHA=0d7922555e284beff8b501b55a64a06c412d4cf3
 # ===== BB 08:02 室內第 3 版 6a76a9e58（四間：dian 17 張、self 6、korea 20、tea 12）；外觀等下一個 SHA =====
 L118A3_INT | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=INTFRONT;SHOPS=dian,self,korea,tea;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 L118A3_KITCHEN | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=KITCHEN;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
@@ -66,16 +67,16 @@ L118A3_SEAT_korea2 | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/sto
 L118A3_SEAT_korea3 | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SEATS_korea_15-20;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 L118A3_SEAT_tea1 | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SEATS_tea_1-6;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 L118A3_SEAT_tea2 | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=SEATS_tea_7-12;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
-L118A3_TAPSEAT_dian1 | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 25 | PARTS=TAPSEAT_dian_1.2.3.4.5.6;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
-L118A3_TAPSEAT_dian2 | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 25 | PARTS=TAPSEAT_dian_7.8.9.10.11.12;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
-L118A3_TAPSEAT_dian3 | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 25 | PARTS=TAPSEAT_dian_13.14.15.16.17;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
+L118A3_TAPSEAT_dian1 | 0d7922555e284beff8b501b55a64a06c412d4cf3 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 25 | PARTS=TAPSEAT_dian_1.2.3.4.5.6;TAP_HEIGHTS=0.45;SHA=0d7922555e284beff8b501b55a64a06c412d4cf3
+L118A3_TAPSEAT_dian2 | 0d7922555e284beff8b501b55a64a06c412d4cf3 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 25 | PARTS=TAPSEAT_dian_7.8.9.10.11.12;TAP_HEIGHTS=0.45;SHA=0d7922555e284beff8b501b55a64a06c412d4cf3
+L118A3_TAPSEAT_dian3 | 0d7922555e284beff8b501b55a64a06c412d4cf3 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 25 | PARTS=TAPSEAT_dian_13.14.15.16.17;TAP_HEIGHTS=0.45;SHA=0d7922555e284beff8b501b55a64a06c412d4cf3
 L118A3_CORN_a | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=CORNERS_dian,CORNERS_self;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 L118A3_CORN_b | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=CORNERS_korea,CORNERS_tea;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 L118A3_WALL_a | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=WALLWALK_dian,WALLWALK_self;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 L118A3_WALL_b | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=WALLWALK_korea,WALLWALK_tea;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 # BB 08:15：坐到隔壁那幾張也點椅子（三個高度）；義大麵屋高腳椅 #2 #3 從吧台內側＋側面拍腿（人看得到、選單收起）
-L118A3_TAPSEAT_omu | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=TAPSEAT_omu_16.18.20;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
-L118A3_TAPSEAT_np | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=TAPSEAT_noodle2_7,TAPSEAT_pasta_10;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
+L118A3_TAPSEAT_omu | 0d7922555e284beff8b501b55a64a06c412d4cf3 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 20 | PARTS=TAPSEAT_omu_16.18.20;TAP_HEIGHTS=0.45;SHA=0d7922555e284beff8b501b55a64a06c412d4cf3
+L118A3_TAPSEAT_np | 0d7922555e284beff8b501b55a64a06c412d4cf3 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=TAPSEAT_noodle2_7,TAPSEAT_pasta_10;TAP_HEIGHTS=0.45;SHA=0d7922555e284beff8b501b55a64a06c412d4cf3
 L118A3_STOOL_pasta | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 12 | PARTS=SEATS_pasta_2-3;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
 # BB 08:07：A1 辛亥韓食第 3 版重跑（找站點最多 60 秒、超時重新讀檔；小菜櫃站得到嗎、出口「離開辛亥韓食」）
 L118D_A1_tea3 | 6a76a9e58447bc0574c9ae6f26db5c3404e8f667 | probe | docs/story_planning/test_tools/cc/cc_l118d_ab_probe.py | index.html | 15 | PARTS=A;LOOKS=1;PHONE=0;SHOPS=tea;LOOK_S=60;SHA=6a76a9e58447bc0574c9ae6f26db5c3404e8f667
