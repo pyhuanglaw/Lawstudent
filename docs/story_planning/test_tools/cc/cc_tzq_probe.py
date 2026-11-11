@@ -540,12 +540,16 @@ async def part_tzp_ty(pg, cdp, errs):
 
 
 async def part_tzp_fps(pg, cdp, errs):
-    await set_q(pg, 'high')
-    await load(pg, cdp, 'tingzhou', DAY, 18.5, 0.0, 6.0, 0.0, why='（高畫質、路中間 18:30）')
-    await pg.wait_for_timeout(3000)
-    fps = await pg.evaluate(FPS8, 8000); ex = await pg.evaluate(EXTRAS)
-    R.note('[B5] 高畫質 18:30 路中間 8 秒：%s fps（路人 %d、NPC 共 %d；Playwright，不是 iPhone；雲端 SwiftShader 不當結論）' % (fps, len(ex), await pg.evaluate("(GAME.E.npcs||[]).length")))
-    await D.shot(pg, 'B5_high_1830')
+    """B5（BB 23:51 補：低、中畫質、14:00 人少、舊版同位置同時段）：FQ＝畫質清單（預設 high）、FH＝時間清單（預設 18.5）"""
+    for q in (os.environ.get('FQ') or 'high').split(','):
+        await set_q(pg, q)
+        for h in [float(x) for x in (os.environ.get('FH') or '18.5').split(',')]:
+            hh = '%02d%02d' % (int(h), int(round((h % 1) * 60)))
+            await load(pg, cdp, 'tingzhou', DAY, h, 0.0, 6.0, 0.0, why='（%s 畫質、路中間 %s）' % (q, hh))
+            await pg.wait_for_timeout(3000)
+            fps = await pg.evaluate(FPS8, 8000); ex = await pg.evaluate(EXTRAS)
+            R.note('[B5] %s 畫質 %s 路中間 8 秒：%s fps（路人 %d、NPC 共 %d；SHA %s；Playwright，不是 iPhone；雲端 SwiftShader 不當結論）' % (q, hh, fps, len(ex), await pg.evaluate("(GAME.E.npcs||[]).length"), (os.environ.get('SHA') or '')[:9]))
+            await D.shot(pg, 'B5_%s_%s' % (q, hh))
 
 
 # ---------------------------------------------------------------- C：溫州街快速前往
