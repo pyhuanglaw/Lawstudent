@@ -16,7 +16,8 @@
    "special 大約兩成：kind talk＝同桌的人多講一件自己的事；kind meet＝遇到別人。first:true＝第一次不能被快速略過。cond 是給程式看的條件，用文字寫。",
    "n 欄（BB_331 C5）＝含玩家在內的人數要剛好等於這個數才抽（G-zhe-yu-mx n=4、G-yu-ps n=3）。",
    "午餐邀約只在中午十二點前後下課的上午課之後觸發（BB_331 C4；柏翰的鐘點句都假設十二點多）。",
-   "declineReply 每人三句，輪著用（連續婉拒不會一直看到同一句）。"
+   "declineReply 每人三句，輪著用（連續婉拒不會一直看到同一句）。",
+   "options.skip（LAWWW 11-11）：看過一次的普通午餐才出現，放在答應和婉拒中間；選了就不演對話，只出 skipLine。"
   ],
   "open": [
    "宥辰、阿哲、Alison 的 id 我照 characters.js／lane118_shops.js 寫（classmate_youchen、zhe、yu）；阿凱寫 kai——id 不對請直接改。",
@@ -25,7 +26,8 @@
   ],
   "for_LAWWW": "已照新九間店改版（v3）。提到店或菜的地方：arrive 九句；有 shop 欄的 L-an-2（omu、pasta）、L-mx-1（cafe2）、L-zhe-1（korea、tea）、L-xc-1（home 以外）；L-yu-3（巷口的手搖飲＝喝不喝咖啡）；偶遇 S-meet-sis（self）、S-meet-yt（dian）、S-meet-kai（korea）、S-meet-ziqing（drink_b）。",
   "v2": "照 BB_331 改：L-zhe-2 不提民總；S-meet-senior 限大一上；「下一堂」四處改掉；G-an-ps 重寫；婉拒回覆每人三句；加 n 欄。id 都沒變。",
-  "v3": "照使用者 11-11 的九間店新規格（L118-SHOPS-REDO-1111／X338；AA_280 改版）改：prefs、有 shop 欄的組、arrive 九句（九間都算午餐）、四個偶遇的店。id 都沒變。"
+  "v3": "照使用者 11-11 的九間店新規格（L118-SHOPS-REDO-1111／X338；AA_280 改版）改：prefs、有 shop 欄的組、arrive 九句（九間都算午餐）、四個偶遇的店。id 都沒變。",
+  "v3b": "LAWWW 11-11 三件：補 options.skip；S-meet-ta 的考卷改成案例作業、cond 改第 10 週以後；Alison「我今天排了四件事，這是第二件。」照留（是她在排行程，不是學姊數件數）。特殊對話是加演（meet 在前、talk 在後）、發起人想去的店都沒開就換人、那堂課有課後劇情當天不邀——三個設計都同意。"
  },
  "who": {
   "heroine_01": {
@@ -114,6 +116,7 @@
  },
  "options": {
   "accept": "「好，走。」",
+  "skip": "「好，走。」（直接到吃完）",
   "decline": "「今天不行，下次。」"
  },
  "invite": {
@@ -1254,7 +1257,7 @@
    "lines": [
     [
      null,
-     "（隔壁桌是系上的助教，面前攤著一疊考卷，一邊吃一邊改。）"
+     "（隔壁桌是系上的助教，面前攤著一疊案例作業，一邊吃一邊改。）"
     ],
     [
      "助教",
@@ -1267,7 +1270,7 @@
    ],
    "kind": "meet",
    "first": true,
-   "cond": "學期中，第 9 週以後（期中考完）"
+   "cond": "學期中，第 10 週以後（第 9 週當堂寫的案例作業收回去改；法律系沒有期中考）"
   },
   {
    "id": "S-meet-prof",
