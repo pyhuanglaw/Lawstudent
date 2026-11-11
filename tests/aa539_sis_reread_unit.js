@@ -31,7 +31,9 @@ for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_
   'src/data/sis_b12_events.js','src/sis_b12_3d.js','src/data/sis_aa539_lines.js','src/sis_aa539_3d.js','src/data/heroine_asks.js','src/heroine_asks3d.js']) L3(f);
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const A539='docs/story_planning/AA_539_學姊重讀_AA470之後_空白與重複.md', SHA='4fe297d9c';   /* 10-30 09:1x 換 4fe297d9c：只多 5-1 的見面前旁白（AA-B 補稿）*/
-const doc=git(SHA,A539), docLines=doc.split('\n');
+/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
+const R772=require('./l118_redo772_expect.js');
+const doc=R772.doc(git(SHA,A539)), docLines=doc.split('\n');
 const D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h, keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;
 const at=(d,h)=>{ const G=H.G; G.day=typeof d==='number'?d:D(d); G.hour=h; G.weekday=wdOf(G.day); };
 const rules=()=>{ STORY.phoneRules(GM); PHONE.tick(H.G); };

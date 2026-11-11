@@ -49,6 +49,9 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
   const inSpec=t=>{ const x=String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||spec.includes(x)||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x)); };
   /* AA_535b 第 4 節（企劃線 b3e5bca3b）更正 AA_535 4-2 語彤的 walk（H8 在滇香小館）：慢讀台詞也認那一節 */
   let spec4=''; try{ spec4=cp.execSync('git show b3e5bca3b:"docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} spec4=spec4.slice(Math.max(0,spec4.indexOf('## 4.')));
+  /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
+  const R772=require('./l118_redo772_expect.js');
+  spec=R772.doc(spec)+'\n'+R772.corpus(); spec579=R772.doc(spec579); spec580=R772.doc(spec580); spec4=R772.doc(spec4);
   const inSpecSR=t=>inSpec(t)||(!!spec4&&spec4.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,'')));
   { const SR=INVITE_DATA.slowreadLines||{}, all=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; const L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L) all.push(typeof x==='string'?x:[].concat(x.l||[]).join('')); }
     const bad=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; let L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L){ for(const t of (typeof x==='string'?[x]:(x.l||[]))) if(!inSpecSR(t)) bad.push(id+'.'+k+':'+t); } }

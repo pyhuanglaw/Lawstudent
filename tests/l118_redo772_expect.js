@@ -4,6 +4,7 @@
 //   R.d            AA_772 整份
 //   R.fix(text)    把一段字（舊稿、舊期望的句子）照 fix 列 old→new 換（長的先換；new 包著 old 的不重複換）；也換 food_fav.fix
 //   R.fixFile(f,t) 只套 fix 裡 file＝f 的列（和歷史 commit 整檔比字用）
+//   R.doc(text)    舊稿整份 → 現在的字（fix 再把舊店名換成現在的店名）；R.names(text) 只換店名
 //   R.line(s)      一句舊期望 → 現在的句子（＝fix(s)）
 //   R.corpus()     AA_772 裡所有新的句子接成一大串（fix 的 new、regular_greets、H3 三句、eat_lines 的 first／staff、food_fav、invite_places、sideq_rename 的新店名、staff）：
 //                  「遊戲裡每一句都在稿裡」這種檢查，稿＝舊稿＋這一串
@@ -25,4 +26,7 @@ function strings(o,out){ if(typeof o==='string') out.push(o); else if(o&&typeof 
 let _corpus=null;
 function corpus(){ if(_corpus!=null) return _corpus; const out=[]; for(const r of (d.fix||[])) out.push(r.new); strings(d.regular_greets,out); strings((d.slowread_to_mokuyobi||{}).H3,out); strings(d.eat_lines,out); strings(d.food_fav,out); strings(d.invite_places,out); strings(d.sideq_rename,out); strings(d.staff,out); return (_corpus=out.join('\n')); }
 const rename=Object.assign({},(d.sideq_rename||{}).map||{}), shopZone={}; for(const k of Object.keys((d.sideq_rename||{}).shop_zone||{})) shopZone[k]=String(d.sideq_rename.shop_zone[k]).split(/[（(]/)[0].trim();
-module.exports={d,sha:ent.sha,rows,fix,fixFile,line:s=>fix(s,1),corpus,rename,shopZone,name:o=>Object.prototype.hasOwnProperty.call(rename,o)?rename[o]:o};
+/* 舊稿整份換成現在的字：fix 列＋舊店名（整個店名）換成現在的店名（照 sideq_rename：故事搬到哪一間）*/
+function names(text){ let s=String(text); for(const o of Object.keys(rename).sort((x,y)=>y.length-x.length)) s=s.split(o).join(rename[o]); return s; }
+const doc=text=>names(fix(text));
+module.exports={d,sha:ent.sha,rows,fix,fixFile,names,doc,line:s=>fix(s,1),corpus,rename,shopZone,name:o=>Object.prototype.hasOwnProperty.call(rename,o)?rename[o]:o};

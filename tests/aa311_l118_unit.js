@@ -46,6 +46,9 @@ const rec=()=>L118.rec(H.G);
 (async()=>{
 let doc='', d480=''; try{ doc=cp.execSync('git show 580ed6302:"docs/story_planning/AA_311_118巷每間店的故事.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }   /* alison.js：舊稿的舊名照匯入的規則換成 Alison */
 try{ d480=cp.execSync('git show be47f6341:"docs/story_planning/AA_480_回LAWWW_118巷六題.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ d480=''; }
+/* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
+const R772=require('./l118_redo772_expect.js');
+doc=R772.doc(doc)+'\n'+R772.corpus(); d480=R772.doc(d480);
 const part=(a,b)=>{ const i=doc.indexOf(a), j=b?doc.indexOf(b,i+1):-1; return i<0?'':doc.slice(i,j<0?undefined:j); };
 const part480=(a,b)=>{ const i=d480.indexOf(a), j=b?d480.indexOf(b,i+1):-1; return i<0?'':d480.slice(i,j<0?undefined:j); };
 const cellOne=c=>{ const m=/「([^」]+)」/.exec(c||''); return m?m[1]:null; };

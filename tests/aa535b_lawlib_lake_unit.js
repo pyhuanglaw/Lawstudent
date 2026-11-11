@@ -58,6 +58,9 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   let spec651=''; try{ spec651=require('./alison.js').ndl(cp.execSync('git -c core.quotepath=false show d07e6d124:"docs/story_planning/AA_651_回LAWWW_1104_02點_單車店小東西_約念書兩句_機場便利店.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}));}catch(e){}   /* AA_651（11-04）改了以安總圖見面那一句：規格改了，認新稿 */
   /* 2026-11-11（X324 語彤約會台詞重寫，AA 0a2136911）：語彤校外的 depart 第二、三句、enough 兩句、leaveEarly、noPair 照 AA_767_yt_date_common.json 改：也接受 AA_767 的稿 */
   let spec767=''; try{ spec767=cp.execSync('git show 0a2136911:docs/story_planning/AA_767_yt_date_common.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+  /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版，故事照 AA_772 搬）：稿是改版以前寫的——讀進來以後照白名單上的 AA_772 換成現在的字（fix 列＋舊店名→現在的店名）再比，AA_772 新寫的句子（熟客新表、H3 新三句…）也算稿（tests/l118_redo772_expect.js；不手抄）。舊期望：直接和舊稿比 */
+  const R772=require('./l118_redo772_expect.js');
+  spec=R772.doc(spec)+'\n'+R772.corpus(); spec576=R772.doc(spec576); spec580=R772.doc(spec580); spec579=R772.doc(spec579); spec584=R772.doc(spec584); spec651=R772.doc(spec651);
   const inSpec=t=>{ const x=String(t).replace(/^（走出法圖）/,'').replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||(!!spec767&&spec767.includes('"new": "'+x+'"'))||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x))||(!!spec651&&spec651.includes(x)); };
   { const bad=[]; const walk=(tag,v)=>{ if(v==null) return; if(typeof v==='function') return walk(tag,v(null,{r:{}})); if(typeof v==='string'){ if(!inSpec(v)) bad.push(tag+':'+v); return; } if(Array.isArray(v)) return v.forEach(x=>walk(tag,x)); if(v.l) return walk(tag,v.l); for(const k in v) walk(tag+'.'+k,v[k]); };
     walk('lawlib',INVITE_DATA.lawlibLines); walk('lake',INVITE_DATA.lakeLines);
