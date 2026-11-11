@@ -1,0 +1,21 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_live_main_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LIVE_main\out
+  [   0.1s] ④ PC 上 origin/main＝12555291d805e80a5165a2f86382641c46c0bdea（沒有 fetch，只是 runner 抓過的那一個）
+== attempt 1（07:52:09 UTC）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+  [  24.7s] [07:52:33 UTC] index HTTP 200；標題版本字樣「版本 v9.10.24（2026-11-10）」；?v= 值 ["9.10.24"]
+PASS ① 標題版本字樣含 v9.10.24  版本 v9.10.24（2026-11-10）
+PASS ① ?v= 都是同一個版號、而且就是 v9.10.24  ["9.10.24"]
+   ▶ 「臺北。我家就在這附近。」
+   ▶ 「你偷襲。」
+   ▶ 「好啊。」
+   ▶ 「嗯。」
+   ▶ 「還好，昨天主要在玩遊戲。」
+   ▶ 「好，開學見。」
+  [ 117.4s] [07:54:06 UTC] 新遊戲走到可以動：{"title": false, "zone": "dorm", "day": -18, "hour": 16.1, "x": 0, "z": 2.4, "dlg": false, "busy": false, "ch": false, "phone": false}（90 秒）
+PASS ③ 新遊戲走到可以動（dorm）、搖桿推得動 ≥0.3 m  {"s": {"title": false, "zone": "dorm", "day": -18, "hour": 16.1, "x": 0, "z": 2.4, "dlg": false, "busy": false, "ch": false, "phone": false}, "moved": 0.52}
+  [ 124.0s] ③ 存一格（GAME.quickSave，右上 💾 同一個函式）：{"ok": true, "slot": true}；存的時候 {"title": false, "zone": "dorm", "day": -18, "hour": 16.1, "x": 0, "z": 1.88, "dlg": true, "busy": true, "ch": false, "phone": false}
+PASS ③ 重新整理 → 標題「繼續」讀回來（同一天、同一區）  {"continue": true, "before": {"title": false, "zone": "dorm", "day": -18, "hour": 16.1, "x": 0, "z": 1.88, "dlg": true, "busy": true, "ch": false, "phone": false}, "after": {"title": false, "zone": "dorm", "day": -18, "hour": 16.11, "x": 0, "z": 1.88, "dlg": true, "busy": true, "ch": false, "phone": false}}
+  [ 142.3s] ② 一共 2762 個回應；非 200（含 304 以外、requestfailed）0 筆：[]
+PASS ② network 非 200＝0  []
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
