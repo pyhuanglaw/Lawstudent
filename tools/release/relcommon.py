@@ -61,7 +61,7 @@ class DiskTree:
     def __init__(self, root, mode='auto'):
         self.root = pathlib.Path(root).resolve()
         self.files, self.mode = list_files(self.root, mode)
-        self.label = str(self.root)
+        self.label = '這個 repo 的工作樹' if self.root == pathlib.Path(__file__).resolve().parents[2] else str(self.root)   # 報告裡不寫這台機器的絕對路徑
         self.cache = {}
 
     def size(self, f):

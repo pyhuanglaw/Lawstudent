@@ -360,14 +360,14 @@ def to_markdown(trees, prelim_label):
         L.append('')
         L.append('| 項目 | 依據（實測） | 最多可省 | 風險與前提 |')
         L.append('|---|---|---:|---|')
-        L.append('| 確認「無法判定」的檔是不是真的沒用 | %d 個檔，最大的：%s | %s | 要人確認（備用模型、舊版人物、匯出側寫）；確認以前留在包裡 |' % (o['unsureFiles'], '、'.join('`%s`' % f.rsplit('/', 1)[-1] for f, _s in o['unsureTop'][:4]), F(o['unsureBytes'])))
-        L.append('| 其中模型旁邊的匯出側寫 JSON | %d 個；程式裡沒有任何地方 fetch 它們（唯一的 `.json` 請求是 GLB 抓不到時的 `<檔名>.glb.json` 備援） | %s | 低；但金額很小，不急 |' % (o['sidecarJsonFiles'], F(o['sidecarJsonBytes'])))
+        L.append('| 確認「無法判定」的檔是不是真的沒用 | %d 個檔，最大的：%s | %s | 要人確認（舊版人物、範例模型、匯出側寫）；確認以前留在包裡。`assets/models/` 直下 4 個範例 GLB 在 `LICENSES.md` 註明「正式發佈前應移除」 |' % (o['unsureFiles'], '、'.join('`%s`' % f.rsplit('/', 1)[-1] for f, _s in o['unsureTop'][:4]), F(o['unsureBytes'])))
+        L.append('| 其中模型旁邊的匯出側寫 JSON | %d 個；程式裡沒有任何地方 fetch 它們（唯一的 `.json` 請求是 GLB 抓不到時的 `<檔名>.glb.json` 備援） | %s | 低；但省的很少，不急 |' % (o['sidecarJsonFiles'], F(o['sidecarJsonBytes'])))
         L.append('| 整個檔重複的 | E1：%d 組 | %s | 要改程式指到同一個檔；動到 manifest，要回歸 |' % (d['groups'], F(d['redundantBytes'])))
         L.append('| GLB／VRM 之間重複的內嵌貼圖 | E2 | %s（理論上限） | 高：要把貼圖抽成外部共用檔或改用 KTX2，載入流程、快取、驗收都要重做；不是打包規則能解的 |' % F(e['redundantBytes']))
         L.append('| 同一個 GLB 裡自己重複的貼圖 | E2 | %s | 中：重新匯出時合併（Blender 匯出設定）；程式載入時已經會合併重複貼圖（`bldgLoader` 的 texDedup），省的是下載量 |' % F(e['redundantWithinSameFile']))
         if o['nonWebpImages']:
             L.append('| 不是 WebP 的圖 | %s | 未量（要實際轉檔才知道） | 低；先確認有沒有人用 |' % '、'.join('`%s` %s' % (f, F(s2)) for f, s2 in o['nonWebpImages'][:4]))
-        L.append('| 幾何壓縮（Draco／Meshopt） | 模型檔扣掉貼圖與 JSON 以後 %s | 未量 | 高：載入器要加解壓、解析變慢；`tools/undraco.js` 顯示以前拿掉過 Draco，要先問原因 |' % F(e['otherBytes']))
+        L.append('| 幾何壓縮（Draco／Meshopt） | 模型檔扣掉貼圖與 JSON 以後 %s | 未量 | 高：載入器要加解壓、解析變慢；`tools/undraco.js` 顯示以前拿掉過 Draco，要先問原因。幾何佔模型檔的大宗，是最大的一塊，但要實際轉檔、量載入時間才知道值不值得 |' % F(e['otherBytes']))
         L.append('')
     return '\n'.join(L) + '\n'
 
