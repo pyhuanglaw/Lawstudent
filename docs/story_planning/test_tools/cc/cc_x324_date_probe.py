@@ -151,8 +151,8 @@ def pick_set(pool, tier, key, recent):
 
 
 def expect(who, seg, pid, ctx):
-    """照 date3d.js 的選句順序算這一段該出的那一格：(格名, 那一套)。第一次去（visits 0）＝first 格"""
-    Z = zl(who)
+    """照 date3d.js 的選句順序算這一段該出的那一格：(格名, 那一套)。第一次去（visits 0）＝first 格；地點＝ctx['loc']（沒有＝LOC）"""
+    Z = zl(who, ctx.get('loc') or LOC)
     if seg in ('arrive', 'close'):
         A = Z.get('arrive' if seg == 'arrive' else 'closing') or {}
         if not ctx['visits'] and A.get('first') and not A['first'].get('wishEvent'): return 'first', A['first']
