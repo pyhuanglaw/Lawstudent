@@ -244,7 +244,8 @@ IDLE_JS = r"""(()=>{ const D=GAME.D||{}, E=GAME.E||{}, P=E.player||{}; const f2=
   const T=(GAME.G.trips||[]).slice(-1)[0]||null;
   return {zone:GAME.G.zone, day:GAME.G.day, hour:f2(GAME.G.hour), busy:!!P.busy, depth:D.busyDepth|0, by:(D.busyWho||[]).slice(-3), dlg:!!D.active, line:String(D.full||'').slice(0,60), lastSay:window.__ccLastSay||null,
     btn:B, phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()), adv:typeof ADV!=='undefined'&&!!ADV.active, paused:!!E.paused, money:GAME.G.money|0,
-    trip:T?{id:T.trip,status:T.status,depart:T.depart,day:T.day,spots:T.spots||[]}:null,
+    trip:T?{id:T.trip,status:T.status,depart:T.depart,day:T.day,spots:T.spots||[],reminded:!!T.reminded}:null, chCls:ch?ch.className:null, cover:D.coverWho||null,
+    pend:(()=>{ const E=window.__ZE||[]; for(let i=E.length-1;i>=0;i--) if(E[i].k==='ch') return E[i].pick==null?E[i].opts:null; return null; })(),
     top:(()=>{ const e=document.elementFromPoint(innerWidth/2, innerHeight*0.8); return e?(e.id||String(e.className).slice(0,40)||e.tagName):null; })()}; })()"""
 
 
@@ -442,12 +443,29 @@ async def skip_to(pg, cdp, target):
     return b['t'], bs
 
 
-async def depart(pg, cdp, dep, screen, tag, max_s=480):
-    """等出發：手機的跳過時間跳到出發前 1 小時，之後點「現在出發」或「出發」；回傳（點了哪個, 跳過紀錄）"""
-    menu = Menu(); t0 = time.time(); skipped = []; said = None; idle = Idle(tag, 'depart'); nb_only = None
+async def depart(pg, cdp, dep, screen, tag, max_s=1800):
+    """等出發：手機的跳過時間跳到出發前 1 小時，之後點「現在出發」或「出發」；回傳（點了哪個, 跳過紀錄）。
+    雲端 SwiftShader 遊戲時間很慢（約 0.035 小時／30 秒），提早出發的選單沒出來時要等到出發時間的「出發」，所以上限 30 分鐘。
+    HOOK 記到 GAME.choose 還沒選、畫面上卻沒有按鈕（選單沒顯示）超過 10 秒：記狀態＋截圖，照玩家會做的試一次（點對話框、開關手機），結果記下來（乙 4、甲 6）"""
+    menu = Menu(); t0 = time.time(); skipped = []; said = None; idle = Idle(tag, 'depart'); nb_only = None; hid = None; hid_tries = 0
     while time.time() - t0 < max_s:
         s = await st(pg); await idle.tick(pg, s)
         if s['trip'] and s['trip']['status'] in ('going', 'done'): return said or 'going（自己出發）', skipped
+        if s['ch'] and not s['nb'] and not s['dlg']:
+            hid = hid or time.time()
+            if time.time() - hid > 10 and hid_tries < 2:
+                hid_tries += 1; hid = time.time()
+                dg = await pg.evaluate(IDLE_JS)
+                log('    ！[%s] 選單沒顯示：HOOK 記到 GAME.choose %s 還沒選，畫面上沒有按鈕（第 %d 次）：%s' % (tag, J(s['ch']['opts']), hid_tries, J(dg)))
+                await R.shot(pg, '%s_hidden_menu%d' % (tag, hid_tries))
+                if hid_tries == 1: await L.tap(pg, cdp, '#dlg'); log('    試：點一下對話框')
+                else:
+                    await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900); await L.phone_away(pg, cdp); log('    試：打開手機再收起來')
+                await pg.wait_for_timeout(1500); s2 = await st(pg)
+                log('    試完：按鈕 %s、HOOK 還沒選的選單 %s' % (J(s2['btn']), J((s2['ch'] or {}).get('opts'))))
+                skipped.append({'hidden_menu': s['ch']['opts'], 'try': hid_tries, 'after_btn': s2['btn']})
+        else:
+            hid = None
         if s['phone'] and not s['nb']: await L.phone_away(pg, cdp); continue
         if s['nb'] and s['ch']:
             nb_only = None
