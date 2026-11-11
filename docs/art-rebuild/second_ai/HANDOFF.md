@@ -1,7 +1,16 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-11 01:0x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 02:4x UTC）
+
+- **已整合進開發分支**：G10 巷口（731cca95b）、上師第 3 版（f5e1ef4e8，LAWWW 判可以進遊戲；D141 不再改版）、**美術第三包**（`wip/pack3_1111/`，我的 3d4107ca1；LAWWW 02:32 ACK）＝禮貌生財場景第 2 版＋室內隔牆鏡頭（PART_*）、汀州鮮果外觀第 3 版（最後一版）、trapFix 的地方放箱子、夜市棚子 seethru_tzs_awning 和燈泡。
+- **做到一半：花序第 2 版**（`wip/flower_notes_v2_1111/`：README、patch 底 dev 099dad440）。改完、相關測試過；**全部 Node 測試在跑**（`$SP/fn_regress.log`）。跑完沒失敗 → README 改 READY_FOR_REVIEW、outbox 加一筆、send_message LAWWW（副本 BB）。
+- BB 的判定（企劃線 BB_255 最後幾節）：夜市十攤、安泰藥局、榮恩典文具社（外觀＋室內）ART_APPROVED；汀州鮮果室內等 trapFix 修好重拍；禮貌生財場景、花序等 CC 拍第 2 版。
+- 等 CC 拍的（我這裡無頭瀏覽器太慢、沒看過遊戲畫面）：禮貌生財隔牆鏡頭、上師新座位、夜市棚子透視、汀州鮮果外觀第 3 版、G10 通道另一頭、花序第 2 版。
+- 接下來的佇列：花序交付 → 機車配件（風鏡、車廂、雨衣）→ 泰米村食的窗 → 季節 20 項（#19）→ 電影海報位置（#11）→ 同弦招牌（#20）→ 泳池水面（#17）。
+- 這個容器的注意事項：`.git/objects/pack/tmp_pack_*` 是抓 cc-local 失敗留下的（一次 3 GB），**不要整支 fetch cc-local／cc-testing**；要看 CC 的圖用 GitHub 工具讀單一檔（`docs/story_planning/CC/local_out/<批>/out/<檔>`）。Python 沒有 playwright，Node 有（`$SP/lmcam/shot.js` 是 fast_shots 的 Node 版，SwiftShader 很慢）。
+
+## 交接（上一則｜帳號 A｜2026-11-11 01:0x UTC）
 - **第二包已整合 dev**（949a24cc6）：夜市時間照稿、X335 公館 G09／G10 鐵捲門、公館招牌櫥窗貼圖、七間室內牆面、安泰貨架、汀州鮮果。BB：機車第 3 版 FIXED、汀州路街景 ART_APPROVED 恢復；洗樂、印得好室內第 2 版 ART_APPROVED。
 - **上師 3D 人物**：第 1 版模型檔在 dev，但 LAWWW 驗角色不過（六點）；**第 2 版已交、等 LAWWW 驗**：`wip/limao_shangshi_1111/limao_shangshi_v2.patch`（f0f58fca4；README 最上面有六點對照和還差的）。不過的話做第 3 版（D141 最後一版）。腳本 `tools/blender/char_second/limao_shangshi.py`（在 dev；第 2 版的改動在 patch 裡）；VRoid 樣本要 `bash tools/blender/setup_env.sh` 抓。
 - **等使用者決定（要用選擇題問，D150 之外使用者 11-11 00:26 的要求）**：公館 G10 要不要改成真的巷口（「往汀州路」的按鈕現在在鐵捲門前）。
