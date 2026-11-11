@@ -16,6 +16,8 @@
     AA_694（DATE-ELLIPSIS-1105，使用者 11-05 選「整批改」）：拿掉沒必要的「……」（句首、。！？後、）後；規則在 tools/date/ellipsis694.py）。源稿 Dxx.json 企劃線 1b095a239 已經改好；
     上面疊的改句（AA_373／359／524／525／526／598／594／630）原句、改成都先照同一條規則換過再對（源稿已經拿掉了），寫檔前整份再套一次，
     AA_694 第 3 節 252 句逐列核對（規則算出來和表不一樣、表上的新句不在檔裡、三種還有＝停下來）。白名單沒有 AA_694＝不套。
+    PEISHAN-VOICE-1110（使用者 X327 沛珊重寫；AA_756 第 3 節，源稿 Dxx.json 企劃線 2883197b6 只動 classmate_peishan 的格子）：疊在上面的改句裡**沛珊的列**原句對不到＝跳過、不報錯
+    （只對沛珊放寬，別人照舊停下來；跳過的列印出來：PS_SKIP）。AA 指明新稿不用再套的四列不套（PS_DROP：AA_525 2-4 P-6 的 D08／D15／D18、AA_359 5-3 的 D31——新稿直接寫好了）。
 用法：python3 tools/date/import_date_lines.py [--check 企劃線ref]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -64,6 +66,30 @@ if A694:   # AA_694：讀稿時照字換的那幾份（import_guard.ndl542 的 *
             if x in s: s = s.replace(x, y)
             elif N(x) != x and N(x) and N(x) in s: s = s.replace(N(x), N(y))
         return json.dumps(deepN(json.loads(s)), ensure_ascii=False)   # 照字換進來的新句（帶「……」的）也照同一條規則
+PS = 'classmate_peishan'
+PRE756 = ('1b095a239', '9aa8ec40c', 'a5b936a69')   # 沛珊重寫（AA_756）以前的 Dxx.json 版本：白名單退回這幾版＝照舊套、照舊報錯
+PS_DROP = {('AA_525 2-4 P-6', 'D08'), ('AA_525 2-4 P-6', 'D15'), ('AA_525 2-4 P-6', 'D18'), ('AA_359 5-3', 'D31')}   # AA 指明不再套（改稿紀錄 date_rewrite/peishan_D15／D18／D31.json 的 _meta、AA_756 第 3 節）
+PS_SKIP = []   # 沛珊跳過的列：(哪一層, 地點, 原句, 為什麼)
+PS_GONE = set()   # 沛珊跳過的列的原句、改成：AA_694 第 3 節逐列核對時，這些句子不在檔裡＝源稿重寫了，不算漏換
+
+
+def ps756(loc):
+    """這個地點的源稿是不是沛珊重寫以後的版本"""
+    sha = str(APPROVED.get(SP + 'date_system/lines/' + loc + '.json') or '')
+    return bool(sha) and not any(sha.startswith(x) or x.startswith(sha) for x in PRE756)
+
+
+def ps_skip(layer, loc, who, old, drop=False, new=None):
+    """沛珊的列：AA 指明不再套（drop）或原句對不到 → 記下來、回 True（呼叫的地方跳過）；別人、或源稿還是重寫以前的版本＝False（照舊）"""
+    if who != PS or not ps756(loc):
+        return False
+    if drop and (layer, loc) not in PS_DROP:
+        return False
+    PS_SKIP.append((layer, loc, old, 'AA 指明新稿不用再套' if drop else '原句對不到（源稿重寫了）'))
+    PS_GONE.update(x for x in (old, new) if x)
+    return True
+
+
 NAME = {'芷若': 'heroine_02', '子晴': 'heroine_04', '學姊': 'heroine_05', '沛珊': 'classmate_peishan', '可昕': 'kexin', '以安': 'heroine_01', '語彤': 'heroine_03'}
 
 
@@ -218,11 +244,15 @@ def fix_table(tag, want):
         if not who or len(old) != 1 or len(new) != 1:
             sys.exit('拆不出來（' + tag + ' 那一列）：' + json.dumps(r, ensure_ascii=False))
         old, new = [N(old[0])], [N(new[0])]
+        if ps_skip('AA_359 ' + tag, r[0], who, old[0], drop=True, new=new[0]):   # PEISHAN-VOICE-1110：D31 沛珊 closing（交往中）新稿直接寫好了
+            FIXED359.append((tag + ' ' + r[0], who, old[0], new[0], 0)); continue
         hit = [o for o in texts(((LOC.get(r[0]) or {}).get('lines') or {}).get(who)) if o['text'] == old[0]]
         for o in hit:
             o['text'] = new[0]
         FIXED359.append((tag + ' ' + r[0], who, old[0], new[0], len(hit)))
-        if not hit:
+        if not hit and ps_skip('AA_359 ' + tag, r[0], who, old[0], new=new[0]):
+            pass
+        elif not hit:
             print('AA_359 ' + tag + '：' + r[0] + ' ' + who + ' 找不到「' + old[0] + '」，沒換')
     if len(FIXED359) - n0 != want:
         sys.exit('拆不出來：AA_359 ' + tag + ' 應該是 ' + str(want) + ' 句，拆出 ' + str(len(FIXED359) - n0) + ' 句')
@@ -285,7 +315,11 @@ if A525:
         if quote not in md525:
             sys.exit(f'AA_525@{S525} 裡找不到 {item} 的「改成」：{quote}')
         old, new = N(old), N(new)
+        if ps_skip('AA_525 ' + item, loc, who, old, drop=True, new=new):   # PEISHAN-VOICE-1110：沛珊 P-6 三列新稿直接寫好了，不再套
+            FIXED525.append((item + ' ' + loc, who, old, new, 0)); continue
         hit = [o for o in texts(((LOC.get(loc) or {}).get('lines') or {}).get(who)) if o['text'] in (old, new)]
+        if not hit and ps_skip('AA_525 ' + item, loc, who, old, new=new):
+            FIXED525.append((item + ' ' + loc, who, old, new, 0)); continue
         if not hit:
             sys.exit(f'AA_525 {item}：{loc} {who} 找不到「{old}」（也不是「{new}」）')
         for o in hit:
@@ -524,6 +558,8 @@ with open(dst, 'w', encoding='utf8') as fo:
             if r[2] not in have:
                 if r[0] in GONE694 and r[1] not in have and E694.strip(r[1]) not in have and GONE694[r[0]][0] in have:
                     print(f'AA_694 第 3 節第 {r[0]} 列：「{r[2]}」後來改寫成「{GONE694[r[0]][0]}」（{GONE694[r[0]][1]}）'); continue
+                if r[2] in PS_GONE and r[1] not in have:   # PEISHAN-VOICE-1110：沛珊的句子，源稿重寫了（只認上面記下來的沛珊的列，別人照舊停下來）
+                    PS_SKIP.append(('AA_694 第 3 節第 ' + r[0] + ' 列', '', r[2], '沛珊的句子，新稿重寫了')); continue
                 sys.exit(f'AA_694 第 3 節第 {r[0]} 列：「{r[2]}」不在 date_lines.js 裡')
         c694 = E694.counts(allS)
         if any(c694.values()):
@@ -537,3 +573,4 @@ print('AA_373 6-1 改句：' + '；'.join(f'「{o}」→「{n}」{c} 處' for o,
 print('AA_359 5-2、5-3 改句：' + '；'.join(f'{l} {w}「{o}」→「{n}」{c} 處' for l, w, o, n, c in FIXED359))
 print('AA_524 改句：' + '；'.join(f'{l} {w}「{o}」→「{n}」{c} 處' for l, w, o, n, c in FIXED524))
 print('AA_525 1-6、2-4 改句：' + '；'.join(f'{l} {w}「{o}」→「{n}」{c} 處' for l, w, o, n, c in FIXED525))
+print(f'沛珊重寫（PEISHAN-VOICE-1110）跳過的改句 {len(PS_SKIP)} 列：' + '；'.join(f'{l} {loc}「{o}」（{why}）' for l, loc, o, why in PS_SKIP))
