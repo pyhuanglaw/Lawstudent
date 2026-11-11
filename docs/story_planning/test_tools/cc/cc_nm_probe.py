@@ -309,13 +309,68 @@ async def part_ringsync(pg, cdp):
         DAY = d0
 
 
+LMS = r"""(()=>{ const z=GAME.E.zone||{}, lm=z.tzLimao; if(!lm) return null; return {open:!!lm.open, h:+(+GAME.G.hour).toFixed(3), eh:GAME.E.hour!=null?+(+GAME.E.hour).toFixed(3):null,
+  door:lm.door?{label:lm.door.label, exit:!!lm.door.exit}:null, tableOpen:lm.nodes&&lm.nodes.LIMAO_TABLE_open?!!lm.nodes.LIMAO_TABLE_open.visible:null}; })()"""
+
+
+async def sync_one(pg, cdp, day, h, what, q):
+    """一個時間、一樣東西：讀檔站在前面 → 記模型（或門）、isOpen、互動鍵、按下去第一句（門開著＝進店）"""
+    global DAY
+    DAY = day; tag = '[SYNC %s %s %s]' % (day, hhmm(h), what)
+    if what == '禮貌生財':
+        await at(pg, cdp, 'tingzhou', h, q['x'], q['z'] - 0.6, '（%s 門前）' % what, wait=6000); await pg.wait_for_timeout(1200)
+        st0 = await pg.evaluate(LMS)
+        if not st0: R.note('%s 這一版沒有 zone.tzLimao' % tag); return None
+        await L.go_to(pg, cdp, R, q['x'], q['z'] - 0.3, 0.6, '%s 走到門前' % tag, max_s=30); await pg.wait_for_timeout(600)
+        st = await pg.evaluate(LMS); btn = (await L.state(pg))['interact']
+        z0 = await pg.evaluate("GAME.G.zone"); t = await talk(pg, cdp, tag); await pg.wait_for_timeout(1500); z1 = await pg.evaluate("GAME.G.zone")
+        first = '（進到 %s）' % z1 if z1 != z0 else (t['lines'][0] if t['lines'] else '')
+        model_open = st['open']; text_open = (z1 != z0) or btn.startswith('進')
+        R.note('%s G.hour %s E.hour %s；lm.open %s、桌子 open visible %s、門 %s；鍵「%s」；按下去：%s' % (tag, st['h'], st['eh'], st['open'], st['tableOpen'], J(st['door']), btn, first))
+        R.check('%s 門／桌子／按下去三樣一致（模型 %s、鍵 %s、按了 %s）' % (tag, '開' if model_open else '收', btn, '進店' if z1 != z0 else '沒進'), model_open == text_open and (st['tableOpen'] is None or st['tableOpen'] == model_open), '')
+        return model_open
+    fx, fz = math.sin(q['yaw']), math.cos(q['yaw'])
+    await at(pg, cdp, 'tingzhou', h, q['x'] + fx * 1.9, q['z'] + fz * 1.9, '（%s 攤前）' % what, wait=6000); await pg.wait_for_timeout(1200)
+    g = next((x for x in await pg.evaluate(STALLS) if x['id'] == q['id']), None)
+    if not g: R.note('%s 遊戲裡沒有這一攤' % tag); return None
+    btn = (await L.state(pg))['interact']; t = await talk(pg, cdp, tag)
+    first = t['lines'][0] if t['lines'] else ''; opts = sum(t['opts'], [])
+    closed_txt = any(('收' in x or '帆布' in x or '箱子' in x or '還沒' in x) for x in t['lines']) and not any('元' in o for o in opts)
+    R.note('%s G.hour %s E.hour %s；isOpen %s、open visible %s、off %s；鍵「%s」；按下去：%s；選項 %s' % (tag, g['gh'], g['eh'], g['isOpen'], g['openVis'], g['off'], btn, J(t['lines'][:3]), J(opts)))
+    R.check('%s 模型、isOpen、按下去三樣一致（模型 %s、isOpen %s、字 %s）' % (tag, '開' if g['openVis'] else '收', g['isOpen'], '收攤' if closed_txt else '營業'), g['openVis'] == g['isOpen'] and g['isOpen'] != closed_txt, J({'lines': t['lines'][:3], 'opts': opts}))
+    return g['isOpen']
+
+
+async def part_sync(pg, cdp):
+    """BB 00:21 一（LAWWW 9ecfe0fad：場景原本用光線時間判開收、買東西照時鐘，冬天日落早模型提早開；改成都照時鐘）：
+    冬天週五 2025-12-12、夏天週五 2026-07-10 各 17:30、18:30、19:30：烤玉米（18:00 開）、套圈圈、禮貌生財（19:00 開）——模型（門）、isOpen、互動鍵、按下去第一句三樣一致；
+    冬天週四 2025-12-11 整晚（18:30、20:00、21:30）：套圈圈都是收攤樣、按下去是收攤那一句。"""
+    global DAY
+    d0 = DAY
+    try:
+        await at(pg, cdp, 'tingzhou', 20.0, None, None, '（讀配置）'); Ly = await lay(pg)
+        LMq = await pg.evaluate("(()=>typeof TINGZHOU_LAYOUT!=='undefined'&&TINGZHOU_LAYOUT.limao?TINGZHOU_LAYOUT.limao.door:null)()")
+        S_ = {q['id']: q for q in (Ly or {}).get('list', [])}
+        T = [('烤玉米', S_.get('st_corn')), ('套圈圈', S_.get('st_ring')), ('禮貌生財', LMq)]
+        for day, season in (('2025-12-12', '冬天週五'), ('2026-07-10', '夏天週五')):
+            for h in (17.5, 18.5, 19.5):
+                for what, q in T:
+                    if q: await sync_one(pg, cdp, day, h, what, q)
+        if S_.get('st_ring'):
+            for h in (18.5, 20.0, 21.5):
+                o = await sync_one(pg, cdp, '2025-12-11', h, '套圈圈', S_['st_ring'])
+                R.check('[SYNC 2025-12-11 冬天週四 %s] 套圈圈是收攤樣（週四不擺）' % hhmm(h), o is False, str(o))
+    finally:
+        DAY = d0
+
+
 async def main():
     print('CC NM1 夜市：PARTS %s；SHA %s；Playwright ≠ iPhone' % (','.join(PARTS), SHA), flush=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('TABLE', part_table), ('SHOTS', part_shots), ('PANO', part_pano), ('WALK', part_walk), ('OLDPOS', part_oldpos), ('FPS', part_fps), ('EDGE', part_edge), ('RING', part_ringsync)):
+        for part, fn in (('TABLE', part_table), ('SHOTS', part_shots), ('PANO', part_pano), ('WALK', part_walk), ('OLDPOS', part_oldpos), ('FPS', part_fps), ('EDGE', part_edge), ('RING', part_ringsync), ('SYNC', part_sync)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
