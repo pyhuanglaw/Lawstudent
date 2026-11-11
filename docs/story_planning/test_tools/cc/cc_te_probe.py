@@ -198,13 +198,14 @@ def friend_expect(who, term, C):
         if 'if' in o: m['if'] = fr_if(o['if'])
         opts.append(m)
     if term == 'Y3S1' and who == 'yu' and re.match(r'第三個選項：日本路線（[^）]*）不出', note) and len(opts) == 3: opts[2]['if'] = 'noJP'
-    then = lns(e.get('then')); ti = e.get('thenIf')
+    then = lns(e.get('then')); ti = e.get('thenIf'); then_not = []
     if isinstance(ti, dict):   # 學姊大三上：then 之後照條件多說的（if 寫「SIS_FU（…）」）
         c = 'SIS_FU' if str(ti.get('if', '')).startswith('SIS_FU') else '不認得:' + str(ti.get('if'))
         notes.append('thenIf %s＝%s → %s' % (c, C.get(c), J(lns(ti.get('lines')))))
         if C.get(c): then = then + lns(ti.get('lines'))
+        else: then_not = lns(ti.get('lines'))
     seg = {'id': 'friend.%s' % term, 'why': why, 'say': lns(say), 'opts': vis(opts, C), 'all': [o['t'] for o in opts], 'then': then, 'shuffle': True,
-           'hookNoSay': '鉤子不念 say' in note, 'nAll': len(opts)}
+           'hookNoSay': '鉤子不念 say' in note, 'nAll': len(opts), 'thenNot': then_not}
     return [seg], notes
 
 
@@ -716,6 +717,9 @@ def analyze(t, case, run, segs, info, check=True):
         if s.get('then'):
             th = after[len(o['re']):len(o['re']) + len(s['then'])]
             ck('%s [%s] then（選項之後接著說）照稿' % (t, s['id']), th == s['then'], '期望 %s；實際 %s' % (J(s['then']), J(th)))
+        if s.get('thenNot'):
+            hit = [x for x in s['thenNot'] if x in allsay]
+            ck('%s [%s] 條件不合的 thenIf 沒有演（%s）' % (t, s['id'], J(s['thenNot'])), not hit, J(hit))
         fxe = [e for e in dl[i + 2:nxt + 1] if e.get('k') == 'fx' and e.get('id') == who]
         r['fx'] = [[e.get('fx'), e.get('ret')] for e in fxe]
         ok_fx = (not o.get('fx') and not fxe) or (len(fxe) == 1 and fxe[0].get('fx') == o['fx'])
