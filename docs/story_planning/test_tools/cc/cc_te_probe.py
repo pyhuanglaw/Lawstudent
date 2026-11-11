@@ -480,6 +480,7 @@ def make_pick(segs, ctl=None):
             if ctl.get('think'): return next((i for i, t in enumerate(T) if '讓我想想' in t), len(T) - 1)
             return 0
         if ctl.get('want') and ctl['want'] in T: return T.index(ctl['want'])
+        if T == ['「好。」', '「那天有約了。」']: return 1   # 阿凱在宿舍當面問「宵夜？」（S.kaiAsk：女朋友版、可昕的飯不佔名額，晚上 8 點以後在宿舍會問）＝已經有約，婉拒
         for s in segs:
             if s.get('opts') and not s.get('ordered') and set(T) == set(x['t'] for x in s['opts']):
                 by = {x['t']: x for x in s['opts']}
