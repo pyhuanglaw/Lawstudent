@@ -124,13 +124,13 @@ async def expect(pg):
 # ---------------------------------------------------------------- 走路
 async def joy_to(pg, cdp, tag, tx, tz, near=0.6, lv=None, max_s=90, straight=False, push_ms=600):
     """搖桿走到 (tx,tz)：straight＝一直朝目標直線推（測「這裡走不走得過去」，不繞路）；否則朝 E.pathTo 前方 1.5 m 推（玩家看著路推搖桿）。
-    每一步記位置；兩次取樣之間位移 > max(2.5, 6×秒) m＝跳（傳送）。回傳 {ok, t, pushes, jumps, end, log}"""
+    每一步記位置；兩次取樣之間位移 > max(2.5, 6.2×1.5×秒) m＝跳（傳送；跑速 6.2）。回傳 {ok, t, pushes, jumps, end, log}"""
     t0 = time.time(); log = []; jumps = []; pushes = 0; last_prog = (time.time(), None); prev = None
     while time.time() - t0 < max_s:
         s = await D.st(pg); now = time.time()
         if prev is not None:
             dd = math.hypot(s['x'] - prev[1], s['z'] - prev[2]); dt = now - prev[0]
-            if s['zone'] == prev[3] and dd > max(2.5, 6 * dt): jumps.append({'t': round(now - t0, 1), 'from': prev[1:3], 'to': [s['x'], s['z']], 'd': round(dd, 2)})
+            if s['zone'] == prev[3] and dd > max(2.5, 6.2 * 1.5 * dt):  jumps.append({'t': round(now - t0, 1), 'from': prev[1:3], 'to': [s['x'], s['z']], 'd': round(dd, 2)})   # CC 12:1x：跑速 6.2（E.SPD.run），原本 6×秒 低於跑速，10 fps 取樣 0.5 秒誤判（逐幀比值最大 1.0）
         if straight and prev is not None and s['zone'] == prev[3]:   # r3（CC 01:4x）：直線測「走不走得過去」——兩次取樣之間的線段穿過目標 near 以內也算到（PC 上會衝過頭）
             ax0, az0, bx0, bz0 = prev[1], prev[2], s['x'], s['z']; vx0, vz0 = bx0 - ax0, bz0 - az0; L2 = vx0 * vx0 + vz0 * vz0
             u0 = max(0.0, min(1.0, ((tx - ax0) * vx0 + (tz - az0) * vz0) / L2)) if L2 > 1e-9 else 0.0
