@@ -1,0 +1,1359 @@
+{
+ "_meta": {
+  "doc": "AA_757 沛珊：美術館心願事件＋去她的縣市（台中、台南）＋視訊開頭，照新口氣重寫",
+  "task": "PEISHAN-VOICE-1110（X327）／DLG-FULL-REVIEW-1110（X324）",
+  "by": "AA 2026-11-11",
+  "why": "這兩塊原本整個建立在舊設定上（一直在找標準答案、考試考不到的地方、早餐店一杯二十、沙漏）。新設定的沛珊什麼話都接得上，所以心願改成「不用接話的一天」：她想去一個不用講話的地方，看一幅她接不上話的畫。物件都留著（說明牌那幅城市、空畫框〈請自行填入〉、倒影、草地、〈無題〉、傍晚／早上），記憶 PS_UNTITLED、相簿、條件、時間、花費都不動；沙漏整個拿掉。",
+  "for_LAWWW": "①wish_event＝date_wish.js events.classmate_peishan 的整個新物件（可以直接換；也附 wish_rows 69 處 old→new，方便照 AA_594 那樣做成修正層）。②hometown_rows＝hometown_lines.js 的 old→new（31 列，每列的 old 都在開發分支現在的檔裡對得到；sendFlag 那一句「下次來，我帶你去我國中走路上學那條路。」沒動，旗標照舊）。③tainan_museum＝台南美術館那一段的新字。④D06 的「再去」台詞在 date_rewrite/peishan_D06.json，已套進 date_system/lines/D06.json。",
+  "keep": "PS_SEND 三組送行、台南 extra（孩子的作業）、視訊其他兩個開頭和結尾都沒動：口氣本來就對。"
+ },
+ "wish_event": {
+  "id": "wish_classmate_peishan",
+  "loc": "D06",
+  "title": "不用接話的一天",
+  "source": "BB_128 3-4",
+  "wish": "她什麼話都接得上，朋友也習慣等她接。她想去一個不用講話的地方，看一幅她接不上話的畫。",
+  "rule": "只在雙方都單身時（大二上第 6 週她和柏翰分開以後）才會約，或她就是祐廷的女友（AA_128 4-5）；大二下重考那學期，這一天是她給自己的唯一例外（BB_128 1-1）。",
+  "record": {
+   "flag": "WISH_DONE_classmate_peishan",
+   "memory": {
+    "tag": "PS_UNTITLED",
+    "text": "她說〈無題〉是傍晚"
+   },
+   "album": "美術館商店買的〈無題〉明信片（沒有人）"
+  },
+  "mention": {
+   "if": {
+    "dateStage": {
+     "min": 4
+    }
+   },
+   "where": "讀書會散會後、總圖外面",
+   "note": "有伴侶時也可以，這只是一句話",
+   "lines": [
+    {
+     "who": "classmate_peishan",
+     "text": "你去過美術館嗎？"
+    },
+    {
+     "who": "classmate_peishan",
+     "text": "我沒去過。我媽逛那種地方都在問這幅多少錢，我就不想跟。"
+    },
+    {
+     "who": "classmate_peishan",
+     "text": "我想自己去一次。聽說裡面不能大聲講話，我想知道我能撐多久。"
+    }
+   ],
+   "choices": [
+    {
+     "t": "「妳撐不過十分鐘。」",
+     "reply": [
+      {
+       "who": "classmate_peishan",
+       "text": "十五。我賭我可以十五分鐘。"
+      }
+     ]
+    },
+    {
+     "t": "「那就去啊。」",
+     "reply": [
+      {
+       "who": "classmate_peishan",
+       "text": "好啊。等我找到一個不會一直逗我講話的人陪我去。"
+      }
+     ]
+    },
+    {
+     "t": "（聽她說完）",
+     "reply": [
+      {
+       "who": "classmate_peishan",
+       "text": "你怎麼不接話。也好，這樣我比較敢講。"
+      }
+     ]
+    }
+   ]
+  },
+  "herInvite": {
+   "if": {
+    "dateStage": {
+     "min": 5
+    }
+   },
+   "rule": "AA_128 4-5",
+   "perTerm": 1,
+   "dateWeekday": [
+    0
+   ],
+   "dateTime": 14,
+   "lines": [
+    {
+     "who": "classmate_peishan",
+     "text": "週日下午你有空嗎？"
+    },
+    {
+     "who": "classmate_peishan",
+     "text": "美術館。我想找一天不用負責好笑。"
+    },
+    {
+     "who": "classmate_peishan",
+     "text": "不行也沒關係，我只是問問看。"
+    }
+   ],
+   "linesIf": [
+    {
+     "term": [
+      "Y2S2"
+     ],
+     "note": "大二下（重考中）的版本，第一句換成這兩句；這學期只問這一次，玩家拒絕的話放榜以後才會再問",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "我現在一週只放自己出來一小時。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "週日那天我不算時間，我跟自己講好了。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "美術館。我想找一天不用負責好笑。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "不行也沒關係，我只是問問看。"
+      }
+     ]
+    }
+   ],
+   "accept": [
+    {
+     "who": "classmate_peishan",
+     "text": "好。那我要想一下穿什麼。算了，不想了，隨便穿。"
+    }
+   ],
+   "decline": [
+    {
+     "who": "classmate_peishan",
+     "text": "好啦，沒關係。下次我再問，你就不能拒絕了喔。"
+    }
+   ]
+  },
+  "playerInvite": {
+   "known": [
+    {
+     "who": "classmate_peishan",
+     "text": "美術館？你還記得喔。"
+    },
+    {
+     "who": "classmate_peishan",
+     "text": "好。我以為那種話講完就沒了。"
+    }
+   ],
+   "unknown": [
+    {
+     "who": "classmate_peishan",
+     "text": "美術館？怎麼會想到美術館？"
+    },
+    {
+     "who": "classmate_peishan",
+     "text": "好啊。我其實一直想去。"
+    }
+   ],
+   "retakeTerm": {
+    "term": "Y2S2",
+    "line": "這一天不算時間。",
+    "note": "大二下約她：只有 D06 會答應；其他地點照 BB_123 婉拒"
+   }
+  },
+  "arrive": {
+   "narr": "白色方塊一樣的建築，大片玻璃，裡面很亮。",
+   "admission": true,
+   "lines": [
+    {
+     "who": "classmate_peishan",
+     "text": "這裡好安靜，我講話都自動變小聲了。"
+    },
+    {
+     "who": "classmate_peishan",
+     "text": "我第一次知道我可以這麼小聲。"
+    }
+   ],
+   "extraIf": [
+    {
+     "if": {
+      "freeVisited": "D06"
+     },
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "你自己來過？"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "那你帶路。哪一幅前面可以站很久，不會被後面的人擠？"
+      }
+     ],
+     "note": "AB-25：玩家自己來過北美館（自由出行，G.places.free.D06≥1，AA_160 4-4）；只多這兩句，心願內容不變；不讀 ENC_（R7）"
+    },
+    {
+     "if": {
+      "datingHer": true
+     },
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "手機我關靜音了。今天誰找我都不回。"
+      }
+     ],
+     "note": "交往中多一句（原本是沙漏那一句；沙漏整個拿掉）"
+    },
+    {
+     "if": {
+      "dateStage": {
+       "min": 6
+      },
+      "datingHer": false
+     },
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "今天我沒帶筆記本。好啦，帶了，但不會拿出來。"
+      }
+     ]
+    }
+   ]
+  },
+  "hotspots": {
+   "D06.gallery": {
+    "name": "大展廳（一幅一幅讀說明牌）",
+    "minutes": 30,
+    "cost": 0,
+    "like": "like",
+    "lines": [
+     {
+      "who": "classmate_peishan",
+      "text": "（在一幅畫前面，讀說明牌讀了很久）"
+     },
+     {
+      "who": "classmate_peishan",
+      "text": "說明牌寫，作者想表達城市的孤獨。"
+     },
+     {
+      "who": "classmate_peishan",
+      "text": "我覺得不是。我覺得他只是很喜歡那棟樓，然後被人家寫成這樣。"
+     }
+    ],
+    "choices": [
+     {
+      "t": "「說明牌也不一定對。」",
+      "reply": [
+       {
+        "who": "classmate_peishan",
+        "text": "對吧。寫說明牌的人又不是他，搞不好兩個人根本不熟。"
+       }
+      ]
+     },
+     {
+      "t": "「妳覺得是什麼就是什麼。」",
+      "reply": [
+       {
+        "who": "classmate_peishan",
+        "text": "這句話好不負責任。可是在這裡聽起來還不錯。"
+       }
+      ]
+     },
+     {
+      "t": "「我也覺得是孤獨。」",
+      "reply": [
+       {
+        "who": "classmate_peishan",
+        "text": "那我再看一次。"
+       },
+       {
+        "who": "narr",
+        "text": "（她又看了五分鐘。）"
+       }
+      ]
+     }
+    ]
+   },
+   "D06.frame": {
+    "name": "只有空畫框的作品",
+    "minutes": 20,
+    "cost": 0,
+    "like": "like",
+    "lines": [
+     {
+      "who": "narr",
+      "text": "（白牆上只掛著一個空的木頭畫框。說明牌寫：〈請自行填入〉。）"
+     },
+     {
+      "who": "classmate_peishan",
+      "text": "空的。這個我可以，我最會亂填。"
+     },
+     {
+      "who": "classmate_peishan",
+      "text": "可是站在這裡，我一個都不想填。"
+     }
+    ],
+    "choices": [
+     {
+      "t": "「那妳現在想填什麼？」",
+      "reply": [
+       {
+        "who": "classmate_peishan",
+        "text": "不知道。我居然講不出來，而且沒有很想硬掰一個。"
+       }
+      ]
+     },
+     {
+      "t": "「框外面呢？」",
+      "reply": [
+       {
+        "who": "classmate_peishan",
+        "text": "框外面，是看框的人。"
+       }
+      ],
+      "extraIf": [
+       {
+        "if": {
+         "events": [
+          "ev_peishan_syllogism"
+         ]
+        },
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "你記得我說過。"
+         }
+        ],
+        "note": "P2b 看過的玩家多一句"
+       }
+      ]
+     },
+     {
+      "t": "（站在框前面）",
+      "reply": [
+       {
+        "who": "narr",
+        "text": "（玻璃門的倒影剛好落在框裡，是你們兩個。她笑了一下："
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "我們剛好在框裡。"
+       }
+      ]
+     }
+    ]
+   },
+   "D06.cafe": {
+    "name": "館內的咖啡廳",
+    "minutes": 30,
+    "cost": 160,
+    "costNote": "祐廷自己那杯",
+    "like": "normal",
+    "lines": [
+     {
+      "who": "classmate_peishan",
+      "text": "坐下來才發現，我剛剛一個小時沒講幾句話。"
+     },
+     {
+      "who": "classmate_peishan",
+      "text": "破紀錄了，你要不要幫我記一下。"
+     }
+    ],
+    "choices": [
+     {
+      "t": "「記下來了。」",
+      "reply": [
+       {
+        "who": "classmate_peishan",
+        "text": "好。你是證人，以後有人說我吵，你要出來講話。"
+       }
+      ]
+     },
+     {
+      "t": "「忍得很辛苦？」",
+      "reply": [
+       {
+        "who": "classmate_peishan",
+        "text": "沒有欸。奇怪，我以為會。"
+       }
+      ]
+     },
+     {
+      "t": "「下次去妳家的店坐。」",
+      "reply": [
+       {
+        "who": "classmate_peishan",
+        "text": "我爸會出來跟你聊天，你會走不掉。"
+       }
+      ],
+      "replyIf": [
+       {
+        "if": {
+         "any": [
+          {
+           "dateStage": {
+            "min": 6
+           }
+          },
+          {
+           "datingHer": true
+          }
+         ]
+        },
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "台中很遠喔。"
+         },
+         {
+          "who": "classmate_peishan",
+          "text": "好。我叫我爸留位子。"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "D06.lawn": {
+    "name": "館外的草地",
+    "minutes": 20,
+    "cost": 0,
+    "like": "normal",
+    "lines": [
+     {
+      "who": "classmate_peishan",
+      "text": "（看天空）我好久沒有抬頭看這麼久了，平常都在看手機跟書。"
+     },
+     {
+      "who": "classmate_peishan",
+      "text": "天空原來這麼大。"
+     }
+    ],
+    "choices": [
+     {
+      "t": "「以後常出來看。」",
+      "reply": [
+       {
+        "who": "classmate_peishan",
+        "text": "好。那你要約我，我自己不會記得。"
+       }
+      ]
+     },
+     {
+      "t": "「躺下來看？」",
+      "reply": [
+       {
+        "who": "classmate_peishan",
+        "text": "裙子會髒。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "算了，髒就髒。"
+       },
+       {
+        "who": "narr",
+        "text": "（她躺下來）"
+       }
+      ]
+     },
+     {
+      "t": "（一起看）",
+      "reply": [
+       {
+        "who": "classmate_peishan",
+        "text": "雲走得好慢。今天什麼都不用趕。"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "closing": {
+   "title": "〈無題〉",
+   "lines": [
+    {
+     "who": "narr",
+     "text": "（最後一間展廳。一幅很大的畫，只有幾塊顏色。牌子上寫：〈無題〉。）"
+    },
+    {
+     "who": "classmate_peishan",
+     "text": "〈無題〉。連題目都沒有。"
+    },
+    {
+     "who": "classmate_peishan",
+     "text": "我每次都有話可以接，別人講什麼我都接得上。"
+    },
+    {
+     "who": "classmate_peishan",
+     "text": "這一幅，我接不上。"
+    },
+    {
+     "who": "narr",
+     "text": "（她站了很久。）"
+    },
+    {
+     "who": "classmate_peishan",
+     "text": "我覺得它是傍晚。你覺得呢？"
+    }
+   ],
+   "choices": [
+    {
+     "t": "「我覺得是早上。」",
+     "reply": [
+      {
+       "who": "classmate_peishan",
+       "text": "好，早上。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "我居然不想跟你爭。這也是第一次。"
+      }
+     ]
+    },
+    {
+     "t": "「跟妳一樣，傍晚。」",
+     "reply": [
+      {
+       "who": "classmate_peishan",
+       "text": "你不用跟我一樣啦。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "可是一樣也很好。"
+      }
+     ]
+    },
+    {
+     "t": "「我看不出來。」",
+     "reply": [
+      {
+       "who": "classmate_peishan",
+       "text": "看不出來也可以。這裡好像什麼都可以。"
+      }
+     ]
+    }
+   ],
+   "after": [
+    {
+     "if": {
+      "term": [
+       "Y2S1"
+      ]
+     },
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "下禮拜開始我要認真想一件事了，想好再跟你說。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "今天先不想。"
+      }
+     ],
+     "note": "大二上（決定重考前後）"
+    },
+    {
+     "if": {
+      "term": [
+       "Y2S2"
+      ]
+     },
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "明天開始又是一週一小時。今天是一整天。"
+      }
+     ],
+     "note": "大二下（重考中，例外的一天）"
+    },
+    {
+     "if": {
+      "termFrom": "Y3S1"
+     },
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "我現在在學怎麼教書。以後學生問我這幅在畫什麼，我要說老師也不知道。"
+      }
+     ],
+     "note": "大三以後（她念教育相關的科系）"
+    }
+   ],
+   "ending": [
+    {
+     "if": {
+      "datingHer": true
+     },
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "今天最好的決定是找你來。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "這個我不用想。"
+      }
+     ]
+    },
+    {
+     "if": {
+      "dateStage": {
+       "min": 6
+      },
+      "datingHer": false
+     },
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "我想記得今天。不拍照，用記的。"
+      }
+     ]
+    },
+    {
+     "if": {},
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "今天我講的話大概只有平常的一半。很舒服。"
+      }
+     ],
+     "note": "第 5 階"
+    }
+   ]
+  },
+  "repeat": "date_system/lines/D06.json 的 classmate_peishan",
+  "char": "classmate_peishan",
+  "src": "bb"
+ },
+ "wish_rows": [
+  {
+   "path": "wish_classmate_peishan.title",
+   "old": "沒有標準答案的一天",
+   "new": "不用接話的一天"
+  },
+  {
+   "path": "wish_classmate_peishan.wish",
+   "old": "她一直在找標準答案。她想去一個「考試考不到」的地方，看一幅沒有人會改她考卷的畫；「框」的意象在這裡接上。",
+   "new": "她什麼話都接得上，朋友也習慣等她接。她想去一個不用講話的地方，看一幅她接不上話的畫。"
+  },
+  {
+   "path": "wish_classmate_peishan.mention.lines[1].text",
+   "old": "……我沒有。考試考不到的地方，我都沒去過。",
+   "new": "我沒去過。我媽逛那種地方都在問這幅多少錢，我就不想跟。"
+  },
+  {
+   "path": "wish_classmate_peishan.mention.lines[2].text",
+   "old": "我想去一次。看畫，不用寫答案。",
+   "new": "我想自己去一次。聽說裡面不能大聲講話，我想知道我能撐多久。"
+  },
+  {
+   "path": "wish_classmate_peishan.mention.choices[0].t",
+   "old": "「畫也有答案吧？」",
+   "new": "「妳撐不過十分鐘。」"
+  },
+  {
+   "path": "wish_classmate_peishan.mention.choices[0].reply[0].text",
+   "old": "……是嗎？那我更想去看，它的答案是什麼。",
+   "new": "十五。我賭我可以十五分鐘。"
+  },
+  {
+   "path": "wish_classmate_peishan.mention.choices[1].reply[0].text",
+   "old": "好。等有一天，我不需要標準答案的時候。",
+   "new": "好啊。等我找到一個不會一直逗我講話的人陪我去。"
+  },
+  {
+   "path": "wish_classmate_peishan.mention.choices[2].reply[0].text",
+   "old": "……好奇怪，我說出來了。",
+   "new": "你怎麼不接話。也好，這樣我比較敢講。"
+  },
+  {
+   "path": "wish_classmate_peishan.herInvite.lines[0].text",
+   "old": "週日下午，你有空嗎？",
+   "new": "週日下午你有空嗎？"
+  },
+  {
+   "path": "wish_classmate_peishan.herInvite.lines[1].text",
+   "old": "美術館。我想要一天，沒有標準答案。",
+   "new": "美術館。我想找一天不用負責好笑。"
+  },
+  {
+   "path": "wish_classmate_peishan.herInvite.lines[2].text",
+   "old": "你可以說不。我只是問問看。",
+   "new": "不行也沒關係，我只是問問看。"
+  },
+  {
+   "path": "wish_classmate_peishan.herInvite.linesIf[0].lines[0].text",
+   "old": "我現在一週只出來一小時。",
+   "new": "我現在一週只放自己出來一小時。"
+  },
+  {
+   "path": "wish_classmate_peishan.herInvite.linesIf[0].lines[1].text",
+   "old": "……週日那天，我不算時間。我跟自己說好了。",
+   "new": "週日那天我不算時間，我跟自己講好了。"
+  },
+  {
+   "path": "wish_classmate_peishan.herInvite.linesIf[0].lines[2].text",
+   "old": "美術館。我想要一天，沒有標準答案。",
+   "new": "美術館。我想找一天不用負責好笑。"
+  },
+  {
+   "path": "wish_classmate_peishan.herInvite.linesIf[0].lines[3].text",
+   "old": "你可以說不。我只是問問看。",
+   "new": "不行也沒關係，我只是問問看。"
+  },
+  {
+   "path": "wish_classmate_peishan.herInvite.accept[0].text",
+   "old": "好。……我會準備。不對，我什麼都不準備。",
+   "new": "好。那我要想一下穿什麼。算了，不想了，隨便穿。"
+  },
+  {
+   "path": "wish_classmate_peishan.herInvite.decline[0].text",
+   "old": "好。這也是一個答案。",
+   "new": "好啦，沒關係。下次我再問，你就不能拒絕了喔。"
+  },
+  {
+   "path": "wish_classmate_peishan.playerInvite.known[0].text",
+   "old": "美術館？……你記得。",
+   "new": "美術館？你還記得喔。"
+  },
+  {
+   "path": "wish_classmate_peishan.playerInvite.known[1].text",
+   "old": "好。這件事，我會記很久。",
+   "new": "好。我以為那種話講完就沒了。"
+  },
+  {
+   "path": "wish_classmate_peishan.playerInvite.unknown[0].text",
+   "old": "美術館？為什麼是美術館？",
+   "new": "美術館？怎麼會想到美術館？"
+  },
+  {
+   "path": "wish_classmate_peishan.playerInvite.unknown[1].text",
+   "old": "……好。我一直想去。",
+   "new": "好啊。我其實一直想去。"
+  },
+  {
+   "path": "wish_classmate_peishan.arrive.lines[0].text",
+   "old": "這裡好安靜。像考場。",
+   "new": "這裡好安靜，我講話都自動變小聲了。"
+  },
+  {
+   "path": "wish_classmate_peishan.arrive.lines[1].text",
+   "old": "……可是沒有人在寫字。",
+   "new": "我第一次知道我可以這麼小聲。"
+  },
+  {
+   "path": "wish_classmate_peishan.arrive.extraIf[0].lines[0].text",
+   "old": "……你一個人來過？",
+   "new": "你自己來過？"
+  },
+  {
+   "path": "wish_classmate_peishan.arrive.extraIf[0].lines[1].text",
+   "old": "那你知道，哪一幅前面可以站很久，不會有人催。",
+   "new": "那你帶路。哪一幅前面可以站很久，不會被後面的人擠？"
+  },
+  {
+   "path": "wish_classmate_peishan.arrive.extraIf[1].lines[0].text",
+   "old": "沙漏我放在家裡。今天不翻。",
+   "new": "手機我關靜音了。今天誰找我都不回。"
+  },
+  {
+   "path": "wish_classmate_peishan.arrive.extraIf[1].note",
+   "old": "BB_119 1b-2 星期日的一小時",
+   "new": "交往中多一句（原本是沙漏那一句；沙漏整個拿掉）"
+  },
+  {
+   "path": "wish_classmate_peishan.arrive.extraIf[2].lines[0].text",
+   "old": "今天我沒帶筆記本。……帶了，但不拿出來。",
+   "new": "今天我沒帶筆記本。好啦，帶了，但不會拿出來。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.gallery.lines[2].text",
+   "old": "……我覺得不是。我覺得他只是很喜歡那棟樓。",
+   "new": "我覺得不是。我覺得他只是很喜歡那棟樓，然後被人家寫成這樣。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.gallery.choices[0].reply[0].text",
+   "old": "……可以這樣想嗎？考試不行。這裡可以。",
+   "new": "對吧。寫說明牌的人又不是他，搞不好兩個人根本不熟。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.gallery.choices[1].reply[0].text",
+   "old": "好奇怪。……我以前覺得，這句話很不負責任。",
+   "new": "這句話好不負責任。可是在這裡聽起來還不錯。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.gallery.choices[2].reply[0].text",
+   "old": "……那我再看一次。",
+   "new": "那我再看一次。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.frame.lines[1].text",
+   "old": "……這個我會。框。",
+   "new": "空的。這個我可以，我最會亂填。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.frame.lines[2].text",
+   "old": "我以前都在想，框裡面要填什麼。",
+   "new": "可是站在這裡，我一個都不想填。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.frame.choices[0].reply[0].text",
+   "old": "不知道。……第一次覺得，不知道也可以。",
+   "new": "不知道。我居然講不出來，而且沒有很想硬掰一個。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.cafe.costNote",
+   "old": "祐廷自己那杯；她說「這杯一百六」",
+   "new": "祐廷自己那杯"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.cafe.lines[0].text",
+   "old": "這杯一百六。……我家早餐店的紅茶，一杯二十。",
+   "new": "坐下來才發現，我剛剛一個小時沒講幾句話。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.cafe.lines[1].text",
+   "old": "我在算，這杯等於八杯紅茶。好，不算了。",
+   "new": "破紀錄了，你要不要幫我記一下。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.cafe.choices[0].t",
+   "old": "「今天不算。」",
+   "new": "「記下來了。」"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.cafe.choices[0].reply[0].text",
+   "old": "好。今天不算。……我說了兩次，所以是真的。",
+   "new": "好。你是證人，以後有人說我吵，你要出來講話。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.cafe.choices[1].t",
+   "old": "「妳家的紅茶比較好喝？」",
+   "new": "「忍得很辛苦？」"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.cafe.choices[1].reply[0].text",
+   "old": "……當然。我媽會很高興你這樣說。",
+   "new": "沒有欸。奇怪，我以為會。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.cafe.choices[2].t",
+   "old": "「下次去妳家喝。」",
+   "new": "「下次去妳家的店坐。」"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.cafe.choices[2].reply[0].text",
+   "old": "早餐店五點開門。你起得來嗎？",
+   "new": "我爸會出來跟你聊天，你會走不掉。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.cafe.choices[2].replyIf[0].reply[0].text",
+   "old": "……台中很遠。",
+   "new": "台中很遠喔。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.cafe.choices[2].replyIf[0].reply[1].text",
+   "old": "好。",
+   "new": "好。我叫我爸留位子。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.lawn.lines[0].text",
+   "old": "（看天空）重考的時候，我每天只看到書桌上面的燈。",
+   "new": "（看天空）我好久沒有抬頭看這麼久了，平常都在看手機跟書。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.lawn.lines[1].text",
+   "old": "……天空原來這麼大。",
+   "new": "天空原來這麼大。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.lawn.choices[0].reply[0].text",
+   "old": "……好。這是我今天的作業。",
+   "new": "好。那你要約我，我自己不會記得。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.lawn.choices[1].reply[0].text",
+   "old": "……裙子會髒。",
+   "new": "裙子會髒。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.lawn.choices[1].reply[1].text",
+   "old": "……算了，髒就髒。",
+   "new": "算了，髒就髒。"
+  },
+  {
+   "path": "wish_classmate_peishan.hotspots.D06.lawn.choices[2].reply[0].text",
+   "old": "雲走得好慢。……今天不用趕任何東西。",
+   "new": "雲走得好慢。今天什麼都不用趕。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.lines[1].text",
+   "old": "〈無題〉。……它連題目都沒有。",
+   "new": "〈無題〉。連題目都沒有。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.lines[2].text",
+   "old": "我一直在找標準答案。重考也是，選科系也是。",
+   "new": "我每次都有話可以接，別人講什麼我都接得上。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.lines[3].text",
+   "old": "這一幅，沒有人會改我的考卷。",
+   "new": "這一幅，我接不上。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.lines[5].text",
+   "old": "……我覺得它是傍晚。你覺得呢？",
+   "new": "我覺得它是傍晚。你覺得呢？"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.choices[0].reply[0].text",
+   "old": "好。這是一個答案。",
+   "new": "好，早上。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.choices[0].reply[1].text",
+   "old": "……兩個答案都對。好奇怪，我不想要誰對。",
+   "new": "我居然不想跟你爭。這也是第一次。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.choices[1].reply[0].text",
+   "old": "……你不用跟我一樣。",
+   "new": "你不用跟我一樣啦。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.choices[1].reply[1].text",
+   "old": "可是一樣，也很好。",
+   "new": "可是一樣也很好。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.choices[2].reply[0].text",
+   "old": "好。看不出來，也是一個答案。",
+   "new": "看不出來也可以。這裡好像什麼都可以。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.after[0].lines[0].text",
+   "old": "下禮拜開始，我又要每天找標準答案了。",
+   "new": "下禮拜開始我要認真想一件事了，想好再跟你說。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.after[0].lines[1].text",
+   "old": "……今天先不找。",
+   "new": "今天先不想。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.after[1].lines[0].text",
+   "old": "明天開始，又是一小時。……今天是一整天。",
+   "new": "明天開始又是一週一小時。今天是一整天。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.after[2].lines[0].text",
+   "old": "我現在學怎麼教書。以後我要跟學生說，有些題目沒有標準答案。",
+   "new": "我現在在學怎麼教書。以後學生問我這幅在畫什麼，我要說老師也不知道。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.ending[0].lines[0].text",
+   "old": "今天的答案是：跟你來。",
+   "new": "今天最好的決定是找你來。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.ending[0].lines[1].text",
+   "old": "……這題我不用想。",
+   "new": "這個我不用想。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.ending[1].lines[0].text",
+   "old": "……我想記得今天。不寫下來，用記的。",
+   "new": "我想記得今天。不拍照，用記的。"
+  },
+  {
+   "path": "wish_classmate_peishan.closing.ending[2].lines[0].text",
+   "old": "今天，我什麼都沒寫。",
+   "new": "今天我講的話大概只有平常的一半。很舒服。"
+  }
+ ],
+ "hometown_rows": [
+  {
+   "where": "台中 yes／台南 yes（兩處同字）",
+   "old": "好啊！！我帶你去吃我家附近那間。……你不能嫌遠喔。",
+   "new": "好啊！！你來，我帶你去我從小吃到大的那間。不能嫌遠喔。"
+  },
+  {
+   "where": "台中 yesDating／台南 yesDating（兩處同字）",
+   "old": "真的嗎！！那我去車站等你。我會提早到。",
+   "new": "真的嗎！！那我去車站接你，我會提早到。大概。"
+  },
+  {
+   "where": "台中 yesKeep",
+   "old": "好。……一個下午就好，我晚上還要念。",
+   "new": "好。可是只能一個下午，我晚上還要念。"
+  },
+  {
+   "where": "台中 pick",
+   "old": "先說好，我家附近那間要排隊。排隊的時候我可以問你問題嗎？",
+   "new": "先說好，等一下那間要排隊。排隊的時候你負責講話，我今天已經跟我媽講一早上了。"
+  },
+  {
+   "where": "台中 pickAgain",
+   "old": "{name}！這邊！……你這次沒有迷路耶。",
+   "new": "{name}！這邊！你這次沒有迷路耶，有進步。"
+  },
+  {
+   "where": "台中 first",
+   "old": "我小時候每個禮拜六都來。老闆還認得我。",
+   "new": "我從小每個禮拜六都來，老闆到現在還叫我妹妹。"
+  },
+  {
+   "where": "台中 first 選項回話",
+   "old": "對！而且路比較寬！",
+   "new": "對！而且路比較寬，我在臺北一直覺得路在擠我。"
+  },
+  {
+   "where": "台中 first 選項回話（交往中）",
+   "old": "……你不要突然講這種話啦。",
+   "new": "你不要突然講這種話啦。我會不知道怎麼接。"
+  },
+  {
+   "where": "台中 again park",
+   "old": "就是這裡。我第一次自己騎到這裡，回頭看，我爸站在很遠的地方。",
+   "new": "就是這裡。我第一次自己騎到這棵樹，回頭看，我爸站在好遠的地方跟我揮手，我嚇到直接摔車。"
+  },
+  {
+   "where": "台中 again books",
+   "old": "這間比頁間書屋大很多。可是我比較喜歡頁間書屋。",
+   "new": "這間比頁間書屋大很多，可是我比較喜歡頁間書屋，小間的比較好躲。"
+  },
+  {
+   "where": "台中 again books",
+   "old": "……還太早了。我先看小說。",
+   "new": "還太早了。我先看小說。"
+  },
+  {
+   "where": "台中 again rain",
+   "old": "本來要帶你去公園的。……那我們來猜隔壁那桌在聊什麼。",
+   "new": "本來要帶你去公園的。算了，我們來猜隔壁那桌在聊什麼，我賭是在講同事壞話。"
+  },
+  {
+   "where": "台中 schoolroad",
+   "old": "國中三年，每天走這條！",
+   "new": "國中三年我每天在這條路上用跑的，因為都快遲到。"
+  },
+  {
+   "where": "台中 schoolroad",
+   "old": "……那時候覺得好遠。現在走起來好近。",
+   "new": "那時候覺得好遠。現在走起來好近。"
+  },
+  {
+   "where": "台中 send dating（2027-08-06 以後）",
+   "old": "下次換你來台南。……我帶你走。",
+   "new": "下次換你來台南，我帶路。我現在比 Google 還熟。"
+  },
+  {
+   "where": "台中 keep pick",
+   "old": "我只能出來三個小時。",
+   "new": "我只能出來三個小時，我跟自己講好的。"
+  },
+  {
+   "where": "台中 keep place",
+   "old": "……可是我很高興你來。",
+   "new": "我一直在講念書的事，好無聊喔對不起。可是你來，我真的很高興。"
+  },
+  {
+   "where": "台中 keep replies.chat",
+   "old": "在念地理。",
+   "new": "在念地理。等高線在跟我作對。"
+  },
+  {
+   "where": "台中 keep replies.chat",
+   "old": "在寫考古題，第三回。",
+   "new": "在寫考古題，第三回，我快認得出題老師的個性了。"
+  },
+  {
+   "where": "台中 keep replies.share_cat",
+   "old": "好可愛。……我先念書。",
+   "new": "好可愛。不行，我要去念書了，你不要再傳。"
+  },
+  {
+   "where": "台中 keep replies.share_food",
+   "old": "看起來好好吃！！我考完要吃很多！",
+   "new": "看起來好好吃！！我考完要一次吃回來！"
+  },
+  {
+   "where": "台中 keep replies.share_notes",
+   "old": "你們的講義還是好多字。",
+   "new": "你們的講義還是那麼多字，我現在看到會怕。"
+  },
+  {
+   "where": "台南 pick",
+   "old": "{name}！這杯你的。這邊的紅茶很甜喔，你先喝一口。",
+   "new": "{name}！這杯你的。這邊什麼都很甜，你先喝一口適應一下。"
+  },
+  {
+   "where": "台南 pickAgain",
+   "old": "今天我已經想好要去哪裡了。",
+   "new": "今天去哪我已經想好了，你跟著走就好。"
+  },
+  {
+   "where": "台南 first",
+   "old": "這是我們學校。很小吧？走一圈十分鐘。",
+   "new": "這是我們學校，很小吧？走一圈十分鐘，遲到都沒有藉口。"
+  },
+  {
+   "where": "台南 first 選項回話",
+   "old": "對！這裡的太陽跟台中不一樣。",
+   "new": "對！這裡的太陽是不講道理的。"
+  },
+  {
+   "where": "台南 first 選項回話",
+   "old": "上個月剪的。我室友到現在都還沒發現。",
+   "new": "上個月剪的。我室友到現在都還沒發現，你比她有用。"
+  },
+  {
+   "where": "台南 again books",
+   "old": "……照書背的顏色。老闆說隨便我。",
+   "new": "照書背的顏色。老闆說隨便我，我就真的隨便。"
+  },
+  {
+   "where": "台南 again food",
+   "old": "我室友說這攤一定要吃。……其實我也是第一次來。",
+   "new": "我室友說這攤一定要來。其實我也是第一次，我只是裝熟。"
+  },
+  {
+   "where": "台南 again canal",
+   "old": "它在等什麼啊？",
+   "new": "我每次來它都在。它是不是也在等人。"
+  },
+  {
+   "where": "台南 video open",
+   "old": "今天課輔班有一個孩子叫我老師。……我還沒習慣。",
+   "new": "今天有一個小朋友叫我老師，我還回頭看他在叫誰。"
+  }
+ ],
+ "tainan_museum": {
+  "note": "hometown_lines.js 'classmate_peishan@台南'.museum：整段照下面換（結構、旗標、mem、album、loc 不動）；字和心願事件一樣，只有 invite 第一句、arrive 旁白是台南專用（照舊）",
+  "known": {
+   "lines": [
+    "你去過美術館嗎？",
+    "我沒去過。我媽逛那種地方都在問這幅多少錢，我就不想跟。",
+    "我想自己去一次。聽說裡面不能大聲講話，我想知道我能撐多久。"
+   ],
+   "opts": [
+    {
+     "t": "妳撐不過十分鐘。",
+     "say": [
+      "十五。我賭我可以十五分鐘。"
+     ]
+    },
+    {
+     "t": "那就去啊。",
+     "say": [
+      "好啊。等我找到一個不會一直逗我講話的人陪我去。"
+     ]
+    },
+    {
+     "t": "（聽她說完）",
+     "say": [
+      "你怎麼不接話。也好，這樣我比較敢講。"
+     ]
+    }
+   ]
+  },
+  "invite": {
+   "lines": [
+    "你下次來台南，我們去美術館。",
+    "我想找一天不用負責好笑。",
+    "不行也沒關係，我只是問問看。"
+   ],
+   "yes": "好。那我要想一下穿什麼。算了，不想了，隨便穿。",
+   "no": "好啦，沒關係。下次我再問，你就不能拒絕了喔。"
+  },
+  "askKnown": [
+   "美術館？你還記得喔。",
+   "好。我以為那種話講完就沒了。"
+  ],
+  "askNew": [
+   "美術館？怎麼會想到美術館？",
+   "好啊。我其實一直想去。"
+  ],
+  "arrive": [
+   "（旁白照舊）",
+   "這裡好安靜，我講話都自動變小聲了。",
+   "我第一次知道我可以這麼小聲。"
+  ],
+  "arriveHigh": [
+   "今天我沒帶筆記本。好啦，帶了，但不會拿出來。"
+  ],
+  "arriveDating": [
+   "手機我關靜音了。今天誰找我都不回。"
+  ],
+  "points": {
+   "D06.gallery": {
+    "lines": [
+     "（在一幅畫前面，讀說明牌讀了很久）",
+     "說明牌寫，作者想表達城市的孤獨。",
+     "我覺得不是。我覺得他只是很喜歡那棟樓，然後被人家寫成這樣。"
+    ],
+    "opts": [
+     {
+      "t": "說明牌也不一定對。",
+      "say": [
+       "對吧。寫說明牌的人又不是他，搞不好兩個人根本不熟。"
+      ]
+     },
+     {
+      "t": "妳覺得是什麼就是什麼。",
+      "say": [
+       "這句話好不負責任。可是在這裡聽起來還不錯。"
+      ]
+     },
+     {
+      "t": "我也覺得是孤獨。",
+      "say": [
+       "那我再看一次。",
+       "（她又看了五分鐘。）"
+      ]
+     }
+    ]
+   },
+   "D06.frame": {
+    "lines": [
+     "（白牆上只掛著一個空的木頭畫框。說明牌寫：〈請自行填入〉。）",
+     "空的。這個我可以，我最會亂填。",
+     "可是站在這裡，我一個都不想填。"
+    ],
+    "opts": [
+     {
+      "t": "那妳現在想填什麼？",
+      "say": [
+       "不知道。我居然講不出來，而且沒有很想硬掰一個。"
+      ]
+     },
+     {
+      "t": "框外面呢？",
+      "say": [
+       "框外面，是看框的人。"
+      ]
+     },
+     {
+      "t": "（站在框前面）",
+      "say": [
+       "（玻璃門的倒影剛好落在框裡，是你們兩個。她笑了一下：",
+       "我們剛好在框裡。"
+      ]
+     }
+    ]
+   },
+   "D06.cafe": {
+    "lines": [
+     "坐下來才發現，我剛剛一個小時沒講幾句話。",
+     "破紀錄了，你要不要幫我記一下。"
+    ],
+    "opts": [
+     {
+      "t": "記下來了。",
+      "say": [
+       "好。你是證人，以後有人說我吵，你要出來講話。"
+      ]
+     },
+     {
+      "t": "忍得很辛苦？",
+      "say": [
+       "沒有欸。奇怪，我以為會。"
+      ]
+     },
+     {
+      "t": "下次去妳家的店坐。",
+      "say": [
+       "我爸會出來跟你聊天，你會走不掉。",
+       {
+        "hi": [
+         "台中很遠喔。",
+         "好。我叫我爸留位子。"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "D06.lawn": {
+    "lines": [
+     "（看天空）我好久沒有抬頭看這麼久了，平常都在看手機跟書。",
+     "天空原來這麼大。"
+    ],
+    "opts": [
+     {
+      "t": "以後常出來看。",
+      "say": [
+       "好。那你要約我，我自己不會記得。"
+      ]
+     },
+     {
+      "t": "躺下來看？",
+      "say": [
+       "裙子會髒。",
+       "算了，髒就髒。",
+       "（她躺下來）"
+      ]
+     },
+     {
+      "t": "（一起看）",
+      "say": [
+       "雲走得好慢。今天什麼都不用趕。"
+      ]
+     }
+    ]
+   }
+  },
+  "points_note": "D06.frame 第二個選項「框外面呢？」的回話和看過 ev_peishan_syllogism 多的那一句照舊；第三個選項（站在框前面）的旁白照舊。D06.lawn 第三個選項台南版原本是「雲走得好慢。……我們也走慢一點。」，改成和心願事件同一句。D06.cafe 第三個選項：hi（第 6 階以上或交往中）＝「台中很遠喔。」「好。我叫我爸留位子。」，其他＝「我爸會出來跟你聊天，你會走不掉。」",
+  "close": {
+   "lines": [
+    "（最後一間展廳。一幅很大的畫，只有幾塊顏色。牌子上寫：〈無題〉。）",
+    "〈無題〉。連題目都沒有。",
+    "我每次都有話可以接，別人講什麼我都接得上。",
+    "這一幅，我接不上。",
+    "（她站了很久。）",
+    "我覺得它是傍晚。你覺得呢？"
+   ],
+   "opts": [
+    {
+     "t": "我覺得是早上。",
+     "say": [
+      "好，早上。",
+      "我居然不想跟你爭。這也是第一次。"
+     ]
+    },
+    {
+     "t": "跟妳一樣，傍晚。",
+     "say": [
+      "你不用跟我一樣啦。",
+      "可是一樣也很好。"
+     ]
+    },
+    {
+     "t": "我看不出來。",
+     "say": [
+      "看不出來也可以。這裡好像什麼都可以。"
+     ]
+    }
+   ],
+   "after": [
+    "我現在在學怎麼教書。以後學生問我這幅在畫什麼，我要說老師也不知道。"
+   ],
+   "end5": [
+    "今天我講的話大概只有平常的一半。很舒服。"
+   ],
+   "end6": [
+    "我想記得今天。不拍照，用記的。"
+   ],
+   "endDating": [
+    "今天最好的決定是找你來。",
+    "這個我不用想。"
+   ]
+  }
+ }
+}
