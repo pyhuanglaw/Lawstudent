@@ -1,0 +1,100 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_e_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_E_TABLE_r2\out
+CC L118D_E（118 巷課後午餐邀約）：SHA=b131eef2d worktree=?；PARTS=TABLE；REL=FRI；橫向；Playwright 手機模擬 ≠ iPhone
+== TABLE
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS TABLE：遊戲載入
+PASS TABLE：遊戲有午餐邀約系統（LUNCH118＋L118_LUNCH_DATA）
+  [前置／捷徑] TABLE：最小存檔 2025-09-21（第 5 天）20.00 dorm（條件事件開著，只關「要回覆的訊息自動打開手機」）
+  [前置／捷徑] TABLE：好友值 FRI（熟悉 50、信任 35、自在 20）：{"heroine_01": "FRIEND", "classmate_bohan": "FRIEND", "classmate_peishan": "FRIEND", "classmate_mingxuan": "FRIEND", "classmate_xinci": "FRIEND", "classmate_youchen": "FRIEND", "zhe": "FRIEND", "yu": "FRIEND"}
+  [前置／捷徑] 【捷徑】TABLE 找辛亥韓食（tea）的日子（優先四人）：LUNCH118.plan 在存檔複本上試第 6～92 天的法律系館上午課（不改存檔）
+  [  40.4s]   候選 2025-09-22（第 6 天 Y1S1 第 4 週 週1）憲法（上） 9.167～12.167：不邀：roll
+  [  40.4s]   候選 2025-09-24（第 8 天 Y1S1 第 4 週 週3）刑法總則（一） 9.167～12.167：不邀：roll
+  [  40.4s]   候選 2025-10-01（第 15 天 Y1S1 第 5 週 週3）刑法總則（一） 9.167～12.167：classmate_mingxuan 約去 大學食堂（cafe2），同行 []，玩家 自助餐（菜多肉少） 100 元，特殊 null，可略過 True
+  [  40.4s]   候選 2025-10-08（第 22 天 Y1S1 第 6 週 週3）刑法總則（一） 9.167～12.167：不邀：roll
+  [  40.4s]   候選 2025-10-15（第 29 天 Y1S1 第 7 週 週3）刑法總則（一） 9.167～12.167：classmate_bohan 約去 大學食堂（cafe2），同行 ["classmate_xinci"]，玩家 自助餐（菜多肉少） 100 元，特殊 null，可略過 True
+  [  40.4s]   候選 2025-10-20（第 34 天 Y1S1 第 8 週 週1）憲法（上） 9.167～12.167：classmate_youchen 約去 清州刀削麵（korea），同行 ["classmate_peishan"]，玩家 炸醬刀削麵 140 元，特殊 null，可略過 True
+  [  40.4s]   候選 2025-10-22（第 36 天 Y1S1 第 8 週 週3）刑法總則（一） 9.167～12.167：zhe 約去 辛亥韓食（tea），同行 ["classmate_peishan", "classmate_mingxuan"]，玩家 石鍋拌飯 180 元，特殊 {"id": "S-talk-zhe", "kind": "talk", "first": true}，可略過 False
+  [  40.4s]   候選 2025-10-27（第 41 天 Y1S1 第 9 週 週1）憲法（上） 9.167～12.167：yu 約去 辛亥韓食（tea），同行 ["heroine_01", "zhe"]，玩家 石鍋拌飯 180 元，特殊 null，可略過 True
+  [  40.4s]   候選 2025-10-29（第 43 天 Y1S1 第 9 週 週3）刑法總則（一） 9.167～12.167：yu 約去 義大麵屋（pasta），同行 []，玩家 番茄肉醬麵 170 元，特殊 null，可略過 True
+  [  40.4s]   候選 2025-11-03（第 48 天 Y1S1 第 10 週 週1）憲法（上） 9.167～12.167：heroine_01 約去 大學食堂（cafe2），同行 []，玩家 自助餐（菜多肉少） 100 元，特殊 null，可略過 True
+  [  40.4s]   候選 2025-11-05（第 50 天 Y1S1 第 10 週 週3）刑法總則（一） 9.167～12.167：不邀：roll
+  [  40.4s]   候選 2025-11-10（第 55 天 Y1S1 第 11 週 週1）憲法（上） 9.167～12.167：heroine_01 約去 大學食堂（cafe2），同行 []，玩家 自助餐（菜多肉少） 100 元，特殊 null，可略過 True
+  [  40.4s]   候選 2025-11-12（第 57 天 Y1S1 第 11 週 週3）刑法總則（一） 9.167～12.167：不邀：roll
+  [  40.4s]   候選 2025-11-17（第 62 天 Y1S1 第 12 週 週1）憲法（上） 9.167～12.167：classmate_mingxuan 約去 大學食堂（cafe2），同行 []，玩家 自助餐（菜多肉少） 100 元，特殊 null，可略過 True
+  [  40.4s]   候選 2025-11-19（第 64 天 Y1S1 第 12 週 週3）刑法總則（一） 9.167～12.167：不邀：roll
+  [  40.4s]   候選 2025-11-24（第 69 天 Y1S1 第 13 週 週1）憲法（上） 9.167～12.167：yu 約去 辛亥韓食（tea），同行 []，玩家 石鍋拌飯 180 元，特殊 null，可略過 True
+  [  40.4s]   候選 2025-11-26（第 71 天 Y1S1 第 13 週 週3）刑法總則（一） 9.167～12.167：不邀：roll
+  [  40.4s]   候選 2025-12-01（第 76 天 Y1S1 第 14 週 週1）憲法（上） 9.167～12.167：classmate_mingxuan 約去 大學食堂（cafe2），同行 []，玩家 自助餐（菜多肉少） 100 元，特殊 {"id": "S-talk-mx", "kind": "talk", "first": true}，可略過 False
+  [  40.4s]   候選 2025-12-03（第 78 天 Y1S1 第 14 週 週3）刑法總則（一） 9.167～12.167：不邀：roll
+  [  40.4s]   候選 2025-12-08（第 83 天 Y1S1 第 15 週 週1）憲法（上） 9.167～12.167：不邀：roll
+  [  40.4s]   候選 2025-12-10（第 85 天 Y1S1 第 15 週 週3）刑法總則（一） 9.167～12.167：不邀：roll
+  [  40.4s] TABLE：辛亥韓食室內配置 {"seats": [[0.55, 1.5, [0.8, 2.1], false], [1.05, 1.5, [0.8, 2.1], false], [0.55, 2.7, [0.8, 2.1], false], [1.05, 2.7, [0.8, 2.1], false], [0.55, -0.22, [0.8, 0.38], false], [1.05, -0.22, [0.8, 0.38], false], [0.55, 0.98, [0.8, 0.38], false], [1.05, 0.98, [0.8, 0.38], false], [0.55, -1.94, [0.8, -1.34], false], [1.05, -1.94, [0.8, -1.34], false], [0.55, -0.74, [0.8, -1.34], false], [1.05, -0.74, [0.8, -1.34], false]], "name": "辛亥韓食"}；區域 l118_tea 存在＝True
+PASS TABLE：找得到約去辛亥韓食的日子  21 天
+  [前置／捷徑] TABLE_2025-10-22：同一份進度讀到 2025-10-22（第 36 天）8.92、在那一堂的教室區域 classroom（條件事件開著，只關「要回覆的訊息自動打開手機」）
+  [  56.6s] TABLE_2025-10-22：那一堂下課會不會演課後劇情（CLS.afterClassFirst，暫時把時間設成下課算完就還原）：{"ev": null}
+  [  59.4s] TABLE_2025-10-22：真的點手機「今天」刑法總則（一） 那一列的「直接去上課」
+  [  81.4s] TABLE_2025-10-22：上課到邀約選單花了 21 秒（按了「略過 »」1 次）
+  [  83.3s] TABLE_2025-10-22：邀約選單 ["「好，走。」", "「今天不行，下次。」"] → 點「「好，走。」」（點到了）
+  [  98.6s] TABLE_2025-10-22：進門那一刻（黑幕 True）截圖 l118e_TABLE_enter_1.png；店裡 {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [  99.3s] TABLE_2025-10-22：黑幕剛淡出 截圖 l118e_TABLE_fadeout_1.png；店裡 {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}
+  [ 100.6s] TABLE_2025-10-22：入座（l118_tea）分組方式＝配置的 table／group 欄位（L118_SHOP_LAYOUTS）；4 人分 1 桌（["table 0.8,2.1"]）；店的桌子 {"table 0.8,2.1": 4, "table 0.8,0.38": 4, "table 0.8,-1.34": 4}
+  [ 100.6s] TABLE_2025-10-22：  祐廷（player）坐下 桌號 1（table 0.8,2.1）座位 {"x": 0.55, "z": 1.5} 位置 {"x": 0.55, "z": 1.5} 離玩家 0 m 姿勢 sit
+  [ 100.6s] TABLE_2025-10-22：  阿哲（zhe）坐下 桌號 1（table 0.8,2.1）座位 {"x": 0.55, "z": 2.7} 位置 {"x": 0.55, "z": 2.7} 離玩家 1.2 m 姿勢 sit
+  [ 100.6s] TABLE_2025-10-22：  沛珊（classmate_peishan）坐下 桌號 1（table 0.8,2.1）座位 {"x": 1.05, "z": 1.5} 位置 {"x": 1.05, "z": 1.5} 離玩家 0.5 m 姿勢 sit
+  [ 100.6s] TABLE_2025-10-22：  明軒（classmate_mingxuan）坐下 桌號 1（table 0.8,2.1）座位 {"x": 1.05, "z": 2.7} 位置 {"x": 1.05, "z": 2.7} 離玩家 1.3 m 姿勢 sit
+  [ 120.9s] TABLE_2025-10-22 [第36天 8.965 classroom] CLS.goClass(36:crim_gen1:am)
+  [ 120.9s] TABLE_2025-10-22 [第36天 8.965 classroom] CLS.attend(36:crim_gen1:am)
+  [ 120.9s] TABLE_2025-10-22 [第36天 8.965 classroom] 說 （旁白）：（你在座位上等。教室慢慢坐滿了。）
+  [ 120.9s] TABLE_2025-10-22 [第36天 9.167 classroom] 說 吳教授：七週下來，我們還站在第一道門前面。不急，門後面的東西要一樣一樣看。
+  [ 120.9s] TABLE_2025-10-22 [第36天 9.167 classroom] 說 （旁白）：阿哲：「七週，第一道門。那三道要走到大三喔？」
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.167 classroom] 字幕：下課了。吳老師收起講義。
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.167 classroom] CLS.slotFill(am)
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.167 classroom] CLS.attend 結束（回 True）
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.167 classroom] CLS.goClass 結束（回 True）
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.181 classroom] 提示：手機｜Alison：欸
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.181 classroom] 提示：手機｜Alison：欸欸
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.181 classroom] 提示：手機｜Alison：你今天中午吃什麼
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.181 classroom] 提示：手機｜Alison：我隨便問的
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.181 classroom] 提示：手機｜Alison：我一個人在小松
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.191 classroom] CLS.afterMenu(36:crim_gen1:am)
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.191 classroom] lunch.after {"key": "36:crim_gen1:am", "ev": false, "inv0": null}
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.191 classroom] lunch.plan {"P": {"who": "zhe", "mates": ["classmate_peishan", "classmate_mingxuan"], "party": ["zhe", "classmate_peishan", "classmate_mingxuan"], "shop": "tea", "shopName": "辛亥韓食", "item": "石鍋拌飯", "price": 180, "poor": false, "grp": "G-zhe-mx", "sp": {"id": "S-talk-zhe", "kind": "talk", "first": true}, "el": ["heroine_01", "classmate_bohan", "classmate_peishan", "classmate_mingxuan", "classmate_xinci", "classmate_youchen", "zhe", "yu"], "top": 3, "p": 0.65, "h0": 12.191222000000003, "hA": 12.35788866666667, "hEnd": 12.85788866666667, "lim": 24}}
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.191 classroom] 說 阿哲：欸，中午 118？辛亥韓食，我揪。
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.191 classroom] 選單 ["「好，走。」", "「今天不行，下次。」"]
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.191 classroom]   → 選了 #0 「好，走。」
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.191 classroom] lunch.show {}
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 classroom] enter l118_tea
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] lunch.seat0 {"party": ["zhe", "classmate_peishan", "classmate_mingxuan"], "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.45, "z": -3.45}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.55, "z": 1.5}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.55, "z": 2.7}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 1.05, "z": 1.5}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 1.05, "z": 2.7}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.55, "z": -0.22}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.55, "z": 0.98}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.55, "z": -1.94}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.55, "z": -0.74}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 1.05, "z": -1.94}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 1.05, "z": -0.74}]}
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] lunch.seated {"n": 3, "crowd": [{"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": -0.45, "z": -3.45}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.55, "z": -0.22}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.55, "z": 0.98}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.55, "z": -1.94}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 0.55, "z": -0.74}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 1.05, "z": -1.94}, {"id": "?", "name": null, "named": false, "hidden": false, "leaving": false, "x": 1.05, "z": -0.74}, {"id": "zhe", "name": "阿哲", "named": true, "hidden": false, "leaving": false, "x": 0.55, "z": 2.7}, {"id": "classmate_peishan", "name": "沛珊", "named": true, "hidden": false, "leaving": false, "x": 1.05, "z": 1.5}, {"id": "classmate_mingxuan", "name": "明軒", "named": true, "hidden": false, "leaving": false, "x": 1.05, "z": 2.7}]}
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] entered l118_tea
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] lunch.stage3d {"v": true}
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] 說 （旁白）：（辛亥韓食。四人桌排得很密，你們側身擠進去。）
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] 說 阿哲：明軒，球鞋你買了沒？
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] 說 明軒：還在等特價。
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] 說 阿哲：等到球季結束。
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] 說 明軒：那就明年穿。
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] 說 阿哲：我高雄的朋友問我臺北什麼好吃。我說 118 巷。
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] 說 祐廷：他怎麼說？
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.358 l118_tea] 說 阿哲：他說那是什麼，門牌號碼嗎。
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.858 l118_tea] lunch.settle {"skip": false, "sp": "S-talk-zhe"}
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.858 l118_tea] 錢 -180（餐費）
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.858 l118_tea] 提示：📓 吃過的：118 巷・辛亥韓食　石鍋拌飯
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.858 l118_tea] 說 （旁白）：（小菜先上了五碟。你還沒點，桌子就滿了一半。）
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.858 l118_tea] lunch.settled {"out": {"price": 180, "item": "石鍋拌飯", "pts": {"zhe": 3, "classmate_peishan": 2, "classmate_mingxuan": 2}}}
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.858 l118_tea] 說 （旁白）：（結帳，各付各的。走回學校的路上，巷子還在排隊。）
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.858 l118_tea] lunch.afterEnd {"key": "36:crim_gen1:am", "ret": "done"}
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.858 l118_tea] 字幕：今天的課上完了。
+  [ 120.9s] TABLE_2025-10-22 [第36天 12.858 l118_tea] CLS.afterMenu 結束（回 False）
+PASS TABLE：照真實流程跑到邀約
+  [ 120.9s] TABLE：含玩家 4 人；stage3d=True（false＝深色底 2D）；seatParty 坐下的同行 3 人；進店時座位 {"zone": "l118_tea", "adv": false, "method": "配置的 table／group 欄位（L118_SHOP_LAYOUTS）", "nTables": 1, "tables": ["table 0.8,2.1"], "rows": [{"id": "player", "name": "祐廷", "present": true, "seated": true, "seat": {"x": 0.55, "z": 1.5}, "pos": {"x": 0.55, "z": 1.5}, "key": "table 0.8,2.1", "lift": false, "pose": "sit", "hidden": false, "dMe": 0, "tableNo": 1}, {"id": "zhe", "name": "阿哲", "present": true, "seated": true, "seat": {"x": 0.55, "z": 2.7}, "pos": {"x": 0.55, "z": 2.7}, "key": "table 0.8,2.1", "lift": false, "pose": "sit", "hidden": false, "dMe": 1.2, "tableNo": 1}, {"id": "classmate_peishan", "name": "沛珊", "present": true, "seated": true, "seat": {"x": 1.05, "z": 1.5}, "pos": {"x": 1.05, "z": 1.5}, "key": "table 0.8,2.1", "lift": false, "pose": "sit", "hidden": false, "dMe": 0.5, "tableNo": 1}, {"id": "classmate_mingxuan", "name": "明軒", "present": true, "seated": true, "seat": {"x": 1.05, "z": 2.7}, "pos": {"x": 1.05, "z": 2.7}, "key": "table 0.8,2.1", "lift": false, "pose": "sit", "hidden": false, "dMe": 1.3, "tableNo": 1}], "allSeated": true, "layoutSeats": 12, "layoutTables": {"table 0.8,2.1": 4, "table 0.8,0.38": 4, "table 0.8,-1.34": 4}, "crowd_after": {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}, "shot": "l118e_TABLE_seated_game.png"}
+  [ 120.9s] TABLE：結果＝全部坐下：同一桌（桌號 ["table 0.8,2.1"]）
+PASS TABLE：辛亥韓食是 3D 室內（l118_tea 在、沒有退回 2D）  全部坐下：同一桌
+PASS TABLE：玩家自己坐下了  [{"id": "player", "name": "祐廷", "present": true, "seated": true, "seat": {"x": 0.55, "z": 1.5}, "pos": {"x": 0.55, "z": 1.5}, "key": "table 0.8,2.1", "lift": false, "pose": "sit", "hidden": false, "dMe": 0, "tableNo": 1}]
+PASS TABLE：tea 4 人坐同一桌（最遠 ≤1.5 m）：1 張桌 ["table 0.8,2.1"]、任兩人最遠 1.30 m、桌子中心間距 []（配置的 table／group 欄位（L118_SHOP_LAYOUTS））  [["player", 1, "table 0.8,2.1", {"x": 0.55, "z": 1.5}, 0], ["zhe", 1, "table 0.8,2.1", {"x": 0.55, "z": 2.7}, 1.2], ["classmate_peishan", 1, "table 0.8,2.1", {"x": 1.05, "z": 1.5}, 0.5], ["classmate_mingxuan", 1, "table 0.8,2.1", {"x": 1.05, "z": 2.7}, 1.3]]
+  [ 120.9s] TABLE：店裡的路人 入座前 11 → 入座後 7 → 淡出 7 → 對話時 7；有名字的 NPC 入座前 [] → 對話時 []（離開中 []）
+PASS TABLE：讓位以後店裡不是空的（入座前路人 11、之後 7；原本就 0 人也算過）  {"前": {"passers": 11, "passersLeaving": 0, "named": [], "namedLeaving": []}, "後": {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS TABLE：有名字的 NPC 沒有被趕走（入座前 []；不見或離開中 []）  {"前": [], "後": {"passers": 7, "passersLeaving": 0, "named": [], "namedLeaving": []}}
+PASS TABLE：錢只扣玩家那一份 180 元（[-180]）
+PASS TABLE：沒有 JS 例外（pageerror）  []
+  [ 121.5s] TABLE 花了 2.0 分鐘
+ALL PASS
