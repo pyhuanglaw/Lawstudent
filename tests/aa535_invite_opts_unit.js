@@ -53,7 +53,9 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
   { const SR=INVITE_DATA.slowreadLines||{}, all=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; const L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L) all.push(typeof x==='string'?x:[].concat(x.l||[]).join('')); }
     const bad=[]; for(const id in SR) for(const k in SR[id]){ const v=SR[id][k]; let L=typeof v==='function'?v(null,{r:{}})||[]:(Array.isArray(v)?v:[].concat(v.A||[],v.R||[])); for(const x of L){ for(const t of (typeof x==='string'?[x]:(x.l||[]))) if(!inSpecSR(t)) bad.push(id+'.'+k+':'+t); } }
     check('0. 七位的慢讀台詞（first／acc／plan／here／firstAt／walk）每一句都在稿上（一字照稿；語彤的 walk 照 AA_535b 4-1 更正）',Object.keys(SR).length===7&&bad.length===0&&all.length>50,J(bad));
-    const M=[]; for(const id of Object.keys(SR)){ const m=((REL_LINES[id]||{}).meet||{}).slowread||{}; for(const k of ['A','F','R']) if(!m[k]||!inSpec(m[k])) M.push(id+'.'+k); }
+    /* 2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：沛珊一起念書的旁白 F 換了字（原本「她把一個問題寫在便利貼上，貼到你的書上。」）——這一句對 AA_763（tests/peishan_misc3_1111_unit.js），不在 AA_535 */
+    const PS763_F='她在便利貼上畫了一隻打瞌睡的貓，貼到你的書上。';
+    const M=[]; for(const id of Object.keys(SR)){ const m=((REL_LINES[id]||{}).meet||{}).slowread||{}; for(const k of ['A','F','R']) if(!m[k]||!(inSpec(m[k])||(id==='classmate_peishan'&&k==='F'&&m[k]===PS763_F))) M.push(id+'.'+k); }
     check('0. 見面旁白 meet.slowread（A／F／R）七位都有、照稿',M.length===0,J(M));
     const sg=[SISG.STUDY_YES].concat(SISG.DECLINE_OFF,SISG.STUDY_OPTS,SLOWREAD.NARR,SLOWREAD.REGULARS.map(r=>r.hi)).filter(t=>!inSpec(t));
     check('0. 學姊兩句婉拒、那一起念書、答應句、慢讀旁白四句、常客招呼照稿',sg.length===0,J(sg)); }
