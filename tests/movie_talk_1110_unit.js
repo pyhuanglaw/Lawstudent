@@ -482,7 +482,9 @@ print(json.dumps(out, ensure_ascii=False))
       const by=ACTIVITY_SCENES.kinds.movie.people[id].scenes['1'].bye[0], bi=idx(STUDYN.text(G,by));
       const bc=CHZ.findIndex(c=>J(c.T)===J(B.opts.map(o=>o.t))), tc=CHZ.findIndex(c=>same(c.T,F.talk.opts.map(o=>o.t)));
       check('19. 她的故事線那一拍等著演：看到一半還是演這部片的那一幕（在 1 廳、燈暗以後）',iv.state==='done'&&!!dim&&!!sc&&sc.i>dim.i&&sc.z===HALLZ&&H.said[sc.i].who===null,J({dim,sc,L:H.said.map(s=>s.t).slice(0,10)}));
-      check('19. 放映中（在 1 廳、燈暗以後到走出來以前）沒有選項、沒有她故事線的句子',CHZ.length>=2&&CHZ.every(c=>c.z===LOB)&&trace.every((x,i)=>!(x.zone===HALLZ&&dim&&i>dim.i&&/^（假）/.test(x.t))),J({CHZ,hall:trace.filter(x=>x.zone===HALLZ).map(x=>x.t)}));
+      /* 2026-11-11 改期望（BB 11-11 CC 讀碼、LAWWW 判、BB 同意）：AA_708@d30416e6b 給電影場寫的選項是放映中的小動作（「（小聲）「先看，散場再講。」」「（手不動）」，全是（…）開頭）＝在暗的廳裡選；其他選項（故事線那一拍、聊這部片）照舊不在廳裡。舊期望：廳裡一個選項都沒有 */
+      const MOVOPT=new Set(Object.values(ACTIVITY_SCENES.kinds.movie.people).flatMap(P=>Object.values(P.scenes).flatMap(sc=>(sc.opts||[]).map(o=>o.t)))), inHallOk=c=>c.z===LOB||(c.z===HALLZ&&c.T.every(t=>/^（/.test(t)&&MOVOPT.has(t)));
+      check('19. 放映中（在 1 廳、燈暗以後到走出來以前）只有 AA_708 電影場的小動作選項、沒有她故事線的句子和選項',CHZ.length>=2&&CHZ.every(inHallOk)&&trace.every((x,i)=>!(x.zone===HALLZ&&dim&&i>dim.i&&/^（假）/.test(x.t))),J({CHZ,hall:trace.filter(x=>x.zone===HALLZ).map(x=>x.t)}));
       check('19. 那一拍（她說的事 → 她問 → 你選 → 她回）在走出 1 廳以後、聊這部片（talk）和 with.after 以後、道別以前',!!bl&&!!ba&&!!br&&!!q&&!!wl&&bl.z===LOB&&bl.i>q.i&&bl.i>wl.i&&ba.i>bl.i&&br.i>ba.i&&bc>tc&&tc>=0&&bi>br.i&&KIND==='movie',J({bl,ba,br,q,wl,bi,bc,tc,KIND,L:H.said.map(s=>s.t).slice(-10)}));
       check('19. 一次看電影最多一拍：故事線那一拍演了＝她最近的事不演；那一拍只演一次、記演過（BEATS）',!at(R.lines[0])&&H.said.filter(s=>s.t===B.lines[0]).length===1&&ARCS.rec(G,id).last===G.day&&ARCS.rec(G,id).k===2,J({rot:at(R.lines[0]),rec:ARCS.rec(G,id)}));
       /* (b) 沒有故事線那一拍、有她最近的事 */
@@ -492,19 +494,25 @@ print(json.dumps(out, ensure_ascii=False))
       /* (c) 兩個都沒有：照常 */
       ({G,iv}=await run(false,false,null)); check('19. 兩個都沒有：那一幕 → talk → 道別，照常演完',iv.state==='done'&&!!at(F.scene)&&!!at(F.talk.q)&&idx(STUDYN.text(G,by))>at(F.talk.q).i&&!H.said.some(s=>/^（假）/.test(s.t)),J(H.said.map(s=>s.t)));
       /* (d) AA_708 第 N 場自己的 mid：只留旁白；說出口的、選項挪到散場以後 */
-      const AX={k:1,kind:'movie',seat:['（假）今天坐這裡。'],mid:['（假的小動作：她看到一半，把外套蓋在腿上。）','假的：這段我看不懂。','（她小聲說）（假）等一下跟你說。'],opts:[{t:'（假）等一下說。',reply:['（假）好。']},{t:'（假）噓。'}],bye:['（假）掰掰。']};
+      const AX={k:1,kind:'movie',seat:['（假）今天坐這裡。'],mid:['（假的小動作：她看到一半，把外套蓋在腿上。）','假的：這段我看不懂。','（她小聲說）（假）等一下跟你說。'],opts:[{t:'假：等一下說。',reply:['（假）好。']},{t:'假：噓。'}],bye:['（假）掰掰。']};   /* 2026-11-11：選項字改成不以（開頭＝「說出口的選項」，照舊散場以後；（…）開頭的動作選項在廳裡選，見下面 (d3) */
       ({G,iv}=await run(true,false,AX)); const m0=at(AX.mid[0]), m1=at(AX.mid[1]), m2=at(AX.mid[2]), rp=at(AX.opts[0].reply[0]), sc3=at(F.scene), byd=at(AX.bye[0]), q3=at(F.talk.q), b3=at(B.lines[0]), oc=CHZ.find(c=>J(c.T)===J(AX.opts.map(o=>o.t)));
       check('19. AA_708 第 N 場：這部片的那一幕照演，她不說話的小動作（整句括號的旁白）留在放映中、接在那一幕後面',!!sc3&&!!m0&&sc3.z===HALLZ&&m0.z===HALLZ&&m0.i>sc3.i&&H.said[m0.i].who===null,J({sc3,m0}));
       check('19. AA_708 第 N 場 mid 裡說出口的句子（括號後面還有字的也算）、選項：走出 1 廳以後才說、才選，在道別以前；放映中沒有選項',!!m1&&!!m2&&!!rp&&!!byd&&m1.z===LOB&&m2.z===LOB&&H.said[m1.i].who!==null&&!!oc&&oc.z===LOB&&rp.i>m2.i&&byd.i>rp.i&&CHZ.every(c=>c.z===LOB),J({m1,m2,rp,byd,CHZ}));
       check('19. 第 N 場＋故事線那一拍：順序＝（散場）說出口的那幾句 → talk → 故事線那一拍 → 道別；每一段只演一次、第 N 場照算（下一場）',!!q3&&!!b3&&m1.i<q3.i&&q3.i<b3.i&&b3.i<byd.i&&H.said.filter(s=>s.t===AX.mid[1]).length===1&&STUDYN.act('movie').of(G,id).n===1,J({m1,q3,b3,byd}));
       /* (d2) with.mid 那一次（AA 11-10 裁定）：這部片和她看的那一幕（with.mid）演了＝AA_708 第 N 場自己的小動作這一次不演（二選一，with.mid 優先）；說出口的句子、選項照舊在散場以後。第二次看同一部（with.mid 只有第一次）＝那一幕＋小動作照舊 */
-      { const id2='heroine_05', f2='m2707b', X2=film(f2).with[id2], AX2={k:1,kind:'movie',seat:['（假）今天坐這裡。'],mid:['（假的小動作：她把外套蓋在腿上。）','假的：這段我看不懂。'],opts:[{t:'（假）等一下說。',reply:['（假）好。']},{t:'（假）噓。'}],bye:['（假）掰掰。']};
+      { const id2='heroine_05', f2='m2707b', X2=film(f2).with[id2], AX2={k:1,kind:'movie',seat:['（假）今天坐這裡。'],mid:['（假的小動作：她把外套蓋在腿上。）','假的：這段我看不懂。'],opts:[{t:'假：等一下說。',reply:['（假）好。']},{t:'假：噓。'}],bye:['（假）掰掰。']};
         const go=async(seen)=>{ const G=fresh('2027-07-20',19.4); H.FRIEND(id2); CHZ=[]; ARCS.pick=()=>null; ARCS.rotPick=()=>null; A.pick=()=>AX2; MOVIES.fitScene=(g,iv,x)=>x; if(seen) G.flags.MOVIE_SEEN={[id2]:{[f2]:G.day-30}}; const iv=await watch(id2,f2); return {G,iv}; };
         const isMid=X2&&X2.kind==='mid'; let r=await go(false); const w0=at(X2.lines[0]), wN=at(X2.lines[X2.lines.length-1]), a0=at(AX2.mid[0]), a1=at(AX2.mid[1]), sc=at(film(f2).scene);
-        check('19. with.mid 演的那一次（學姊《m2707b》）：AA_708 第 N 場的小動作不演（原本接在 with.mid 後面，兩個都演）；那一幕（scene）由 with.mid 取代；說出口的那一句照舊在散場以後',isMid&&r.iv.state==='done'&&!!w0&&!!wN&&w0.z===HALLZ&&!a0&&!sc&&!!a1&&a1.z===LOB&&a1.i>wN.i,J({isMid,w0,wN,a0,a1,sc}));
+        /* 2026-11-11 改期望（BB 11-11 CC 讀碼、LAWWW 判、BB 同意）：with.mid 取代了第 N 場＝那一場這次整場不演（小動作、說出口的句子、選項都留到下次）、不算次數（第 N 場不推進）；舊期望：說出口的那一句照舊在散場以後、第 N 場照算 */
+        const k2=STUDYN.act('movie').of(r.G,id2);
+        check('19. with.mid 演的那一次（學姊《m2707b》）：AA_708 第 N 場的小動作不演；那一幕（scene）由 with.mid 取代；第 N 場這次整場不演（說出口的句子、選項也不演）、不推進（下次再演），總次數照算',isMid&&r.iv.state==='done'&&!!w0&&!!wN&&w0.z===HALLZ&&!a0&&!sc&&!a1&&k2.k===1&&k2.n===1,J({isMid,w0,wN,a0,a1,sc,k:k2.k,n:k2.n}));
         r=await go(true); const b0=at(AX2.mid[0]), sc2=at(film(f2).scene), w1=at(X2.lines[0]);
         check('19. 第二次看同一部（with.mid 不再演）：這部片的那一幕 → 第 N 場的小動作照舊',!w1&&!!sc2&&!!b0&&b0.z===HALLZ&&b0.i>sc2.i,J({w1,sc2,b0}));
         const ML=MOVIES.midLines(H.G,{place:'xs_nanyang',film:f2,who:'kexin'},null); check('19. MOVIES.midLines：with.mid 的那一份標 withMid，一般的那一幕沒有',MOVIES.midLines(fresh('2027-07-20',19),{place:'xs_nanyang',film:f2,who:id2},null).withMid===true&&!ML.withMid); }
+      /* (d3) 2026-11-11（AA_708@d30416e6b 電影場的選項是放映中的小動作）：選項全是（…）開頭＝在暗的廳裡、小動作後面選，回話也在廳裡；之後才走出 1 廳 */
+      { const AX3={k:1,kind:'movie',seat:['（假）今天坐這裡。'],mid:['（假的小動作：她把手放在扶手上。）'],opts:[{t:'（假）手不動',reply:['（假的：她的手也沒有動。）']},{t:'（假）把手翻過來',reply:['（假的：她放了上來。）']}],bye:['（假）掰掰。']};
+        ({G,iv}=await run(false,false,AX3)); const d0=at(AX3.mid[0]), rp3=at(AX3.opts[0].reply[0]), oc3=CHZ.find(c=>J(c.T)===J(AX3.opts.map(o=>o.t))), q4=at(F.talk.q);
+        check('19. 第 N 場的選項全是（…）開頭：在 1 廳裡、小動作後面選，回話也在廳裡，聊這部片（talk）在走出 1 廳以後',!!d0&&d0.z===HALLZ&&!!oc3&&oc3.z===HALLZ&&!!rp3&&rp3.z===HALLZ&&rp3.i>d0.i&&!!q4&&q4.z===LOB&&q4.i>rp3.i&&STUDYN.act('movie').of(G,id).k===2,J({d0,oc3,rp3,q4,k:STUDYN.act('movie').of(G,id).k})); }
       /* (e) 輪換那一則：mid 照舊由那一幕取代；選項挪到散場以後 */
       ({G,iv}=await run(false,false,RX)); check('19. 輪換那一則：mid 照舊由這部片的那一幕取代（不演兩個）',!!at(F.scene)&&!at(RX.mid[0]),J(H.said.map(s=>s.t).slice(0,8)));
       /* (f) 資料 */

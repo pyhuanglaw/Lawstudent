@@ -56,7 +56,8 @@ const STUDYN=(function(){
       if(r.k<=N){ const sc=T.scenes&&T.scenes[String(r.k)]; if(!sc||stage(id)<(sc.need|0)) return {generic:true}; { const out=S.resolve(G,sc,{k:r.k,kind,who:id}); delete out.who; return out; } }
       const L=(T.rot||[]).map((x,i)=>[x,i]).filter(([x])=>flagOn(G,x.if)); if(!L.length) return {generic:true};
       const nx=L.find(([,i])=>i>r.rot)||L[0]; return Object.assign({rot:nx[1],kind},nx[0]); };
-    K.done=function(G,id,sc){ if(!G||!K.has(id)) return null; const r=K.of(G,id); if(r.last===G.day) return null; r.n+=1; r.last=G.day; const F=G.flags||(G.flags={});
+    K.done=function(G,id,sc,o){ if(!G||!K.has(id)) return null; const r=K.of(G,id); if(r.last===G.day) return null; r.n+=1; r.last=G.day; const F=G.flags||(G.flags={});
+      if(sc&&sc.k&&o&&o.defer) return r;   /* 這一次第 N 場的中途（mid＋選項）沒演到（被她的故事線那一拍、或這部片的 with.mid 取代）＝總次數照算，第 N 場不算、下次再演；旗標、解鎖、約會次數也等真的演到（BB 11-11 CC 讀碼、LAWWW 判，BB 同意）*/
       if(sc&&sc.k){ r.k=sc.k+1; if(sc.set) F[sc.set]=G.day; if(sc.unlock){ const U=F.STUDY_UNLOCK||(F.STUDY_UNLOCK={}); if(U[sc.unlock]==null) U[sc.unlock]=G.day; }
         if(kind==='study'&&sc.k===6&&typeof DATE!=='undefined'&&DATE.log){ const L=DATE.log(G,id); if(L.study6==null){ L.count=(L.count|0)+1; L.study6=G.day; } } }
       else if(sc&&sc.rot!=null) r.rot=sc.rot;
