@@ -1,3 +1,6 @@
+AA_750_limao.json：BB 01:02 決定逐句對用「遊戲匯入的那一版」＝企劃線 227db1c9e 的 docs/story_planning/AA_750_limao.json（原樣，gh api ?ref=227db1c9e 抓）。
+AA_750_limao_804f55bb3.json：企劃線最新（比遊戲新一版），只拿來列差別：DIFF_227db1c9e_vs_804f55bb3.md（給 LAWWW 重匯）。
+以下是第一版的說明（當時探針用 804f55bb3）：
 AA_750_limao.json：企劃線 claude/story-planning 的 docs/story_planning/AA_750_limao.json（原樣，未改）。
 抓的時候（2026-11-11 UTC）企劃線 HEAD：6b5507f8a9fd9f4ee65348316f267895f1bc4674
 這個檔最後一次修改的 commit：804f55bb36882c62f5d5f9fb520129dff62f62b8（2026-11-11 00:20:34 UTC「AA_750_limao：補收攤旁白、入口 A 標題、信放木盒；記回 LAWWW 的七題」）

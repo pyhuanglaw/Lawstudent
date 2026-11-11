@@ -4,7 +4,7 @@ Windows＋GPU（PC runner）≠ iPhone；雲端 SwiftShader 只做探針自檢�
   身分揭曉 S.revealOpen／hintDue／askDue 第 92～94 行、入口 A 事件 S.eventA 第 165 行、入口 B S.studyDoor 第 141 行、書房 S.decorate 第 146 行、說話的人 S.who 第 106 行、ADV 模糊背景 S.begin 第 111 行）、
   src/data/limao.js（AA_750 @227db1c9e 匯入）、src/data/tingzhou_layout.js limao（table.at (28.3,3.3) r1.0、door (27.4,4.75) r0.9、19:00～23:30）、
   src/data/tz_shops_layout.js limao（室內：書房的門 (1.0,−0.65)、study.points、partition z −1.2；離開 (0.9,4.6)）、src/tz_shops3d.js（setStudy、STUDY_* 節點）。
-稿：DRAFT_DIR（預設 fixtures/lm2）/AA_750_limao.json＝企劃線 804f55bb3（比遊戲用的 227db1c9e 新一版，差別見 fixtures/lm2/SOURCE.txt：學生來信 鐵盒→木盒、closed 兩句、entryA 標題）。
+稿：DRAFT_DIR（預設 fixtures/lm2）/AA_750_limao.json＝企劃線 227db1c9e（遊戲匯入的那一版；BB 01:02：逐句對用這版）。比較新的 804f55bb3 另存 AA_750_limao_804f55bb3.json，差別表 fixtures/lm2/DIFF_227db1c9e_vs_804f55bb3.md（給 LAWWW 重匯）。
 共用：每一次互動前後印 錢／各科成績（G.courses.grades）／每個人的關係（G.rel、G.social.rel）／戀愛（G.flags.romance）／全部旗標的差異；說的每一句由 GAME.say 的包裝記（說話的人、畫面上的名字、字、ADV 模式），
   「探針包了 GAME.say／choose／caption 只為了記錄，不改內容」。時間判斷一律用「按下去那一刻的 G.hour」（PC 上遊戲鐘約 0.45 分／秒，一直在走）。
 【前置／捷徑】（log 都印 [前置／捷徑]）：讀檔到汀州路巷 A 某日某時（L.load_state＝遊戲自己的 applySave；flags 用 GAME.defaults() 的再加減）；跳日、跳回 19:30（保留當時整個 G）；
@@ -499,7 +499,8 @@ async def part_flags(pg, cdp):
         r = await table_press(pg, cdp, '[FLAGS %s]' % t, pick=by_text(t))
         if not r: await to_table(pg, cdp, '[FLAGS]')
     R.note('[FLAGS] 整段多出／改過的 LM_ 旗標：%s' % J(sorted(LM_SEEN)))
-    R.check('[FLAGS] 多出的 LM_ 旗標都是稿的四個（%s）' % '／'.join(FOUR), LM_SEEN <= set(FOUR), J(sorted(LM_SEEN - set(FOUR))))
+    R.note('[FLAGS] 多出的 LM_ 旗標：%s（稿的四個＝%s；多的照實記，BB 01:02：報 LAWWW、不算 FAIL）' % (J(sorted(LM_SEEN)), '／'.join(FOUR)))
+    R.check('[FLAGS] 多出的旗標都是 LM_ 開頭（BB 01:02）', all(str(k).startswith('LM_') for k in LM_SEEN), J(sorted(LM_SEEN)))
 
 
 async def part_prof(pg, cdp):
@@ -641,7 +642,8 @@ async def part_reveal(pg, cdp):
         p0 = (me['x'], me['z']); await L.joystick(pg, cdp, 0, 45, 1200); me2 = await pg.evaluate(ME)
         R.check('[REVEAL ②] 出店回到巷子、站得住、推得動', me['zone'] == 'tingzhou' and me['stand'] is not False and math.hypot(me2['x'] - p0[0], me2['z'] - p0[1]) > 0.3, J([me, me2]))
     R.note('[REVEAL] 整段多出／改過的 LM_ 旗標：%s' % J(sorted(LM_SEEN)))
-    R.check('[REVEAL] 多出的 LM_ 旗標都是稿的四個（limao3d.js:21 寫明多記 LM_HINT：要 BB 判）', LM_SEEN <= set(FOUR), J(sorted(LM_SEEN - set(FOUR))))
+    R.note('[REVEAL] 多出的 LM_ 旗標：%s（稿的四個＝%s；多的照實記，BB 01:02：報 LAWWW、不算 FAIL）' % (J(sorted(LM_SEEN)), '／'.join(FOUR)))
+    R.check('[REVEAL] 多出的旗標都是 LM_ 開頭（BB 01:02）', all(str(k).startswith('LM_') for k in LM_SEEN), J(sorted(LM_SEEN)))
     R.note('[REVEAL] 配置的書房：%s' % J(room.get('study') and {k: room['study'].get(k) for k in ('door', 'points')}))
 
 
@@ -901,7 +903,8 @@ async def part_serious(pg, cdp):
     R.note('[SERIOUS ②] 落榜後三次：%s' % J(seq))
     R.check('[SERIOUS ②] 第一次（選問學業與考試）＝lf5；之後不再出 lf5', bool(seq) and seq[0] == 'lf5' and 'lf5' not in seq[1:], J(seq))
     R.note('[SERIOUS] 整段多出／改過的 LM_ 旗標：%s' % J(sorted(LM_SEEN)))
-    R.check('[SERIOUS] 多出的 LM_ 旗標都是稿的四個（limao3d.js:21 寫明多記 LM_SER：要 BB 判）', LM_SEEN <= set(FOUR), J(sorted(LM_SEEN - set(FOUR))))
+    R.note('[SERIOUS] 多出的 LM_ 旗標：%s（稿的四個＝%s；多的照實記，BB 01:02：報 LAWWW、不算 FAIL）' % (J(sorted(LM_SEEN)), '／'.join(FOUR)))
+    R.check('[SERIOUS] 多出的旗標都是 LM_ 開頭（BB 01:02）', all(str(k).startswith('LM_') for k in LM_SEEN), J(sorted(LM_SEEN)))
 
 
 async def part_save(pg, cdp, errs):

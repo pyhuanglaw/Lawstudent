@@ -315,7 +315,7 @@ CASE_DEF = {
     'kx_Y4S1': dict(kind='kexin', who='kexin', term='Y4S1', label='可昕 大四上（每個選項都跑：KX_KHH.Y4W）'),
     'kx_Y5S1': dict(kind='kexin', who='kexin', term='Y5S1', flags={'EXCHANGE_ROUTE': 'JP'}, label='可昕 大五上（交換延畢：路線 JP；每個選項都跑：KX_Y5_CALL）'),
     'kx_Y3S2tw': dict(kind='kexin', who='kexin', term='Y3S2', flags={'EXCHANGE_ROUTE': 'TW'}, label='可昕 大三下（臺灣路線）'),
-    'kx_Y3S2us': dict(kind='kexin', who='kexin', term='Y3S2', flags={'EXCHANGE_ROUTE': 'US'}, label='可昕 大三下（美國路線）'),
+    'kx_Y3S2us': dict(kind='kexin', who='kexin', term='Y3S2', flags={'EXCHANGE_ROUTE': 'US'}, july=True, label='可昕 大三下（美國路線；三個選項都記 KX_KHH.Y3S yes；之後跳到七月她回高雄第 3 天 21:00 記那一則）'),
     'kx_Y2S1_go': dict(kind='kexin', who='kexin', term='Y2S1', want='「我去。妳排哪幾天？」', label='可昕 大二上（選「我去。妳排哪幾天？」：不再接 KX_ASK、記 KX_KHH.Y2W）'),
     # 告白那一晚：乾淨存檔（拿掉和可昕交往）；yes＝說出來第一句，think＝（先不說）→「讓我想想。」
     'heart_an_yes': dict(kind='heart', who='heroine_01', term='Y1S2', confess='yes', label='以安 告白那一晚（大一下）：說出來＝答應'),
@@ -329,7 +329,12 @@ CASE_DEF = {
     'heart_zr_yes': dict(kind='heart', who='heroine_02', term='Y1S2', expect='old', confess='yes', label='芷若 告白那一晚（稿沒匯：照舊流程）：說出來＝答應'),
     'heart_zr_think': dict(kind='heart', who='heroine_02', term='Y1S2', expect='old', confess='think', label='芷若 告白那一晚（稿沒匯）：（先不說）→讓我想想'),
     'heart_ps_yes': dict(kind='heart', who='classmate_peishan', term='Y1S2', expect='old', confess='yes', label='沛珊 告白那一晚（稿沒匯：照舊流程）：說出來＝答應'),
+    'heart_ps_yes_me': dict(kind='heart', who='classmate_peishan', term='Y1S2', expect='old', confess='yes', want='「是我嗎？」', label='沛珊 告白那一晚（她先說）：猜的時候選「是我嗎？」（sheFrom）→ 答應'),
     'heart_ps_think': dict(kind='heart', who='classmate_peishan', term='Y1S2', expect='old', confess='think', label='沛珊 告白那一晚（稿沒匯）：（先不說）→讓我想想'),
+    # 沛珊第一批（BB 00:48 第 6 項）：只記（不對稿；台詞在 AA_751，TERMEND_OPTS 照 33a1769f8 匯入）
+    'fr_ps_Y1S1': dict(kind='friend', who='classmate_peishan', term='Y1S1', record=True, label='沛珊 朋友版 大一上（逐句記）'),
+    'gf_ps_Y1S2': dict(kind='gf', who='classmate_peishan', term='Y1S2', record=True, label='沛珊 女朋友版 大一下（通用 table；逐句記）'),
+    'gf_ps_Y3S2': dict(kind='gf', who='classmate_peishan', term='Y3S2', record=True, extra=True, label='沛珊 女朋友版 大三下（台南；「那我留到明天。」nextMorning；逐句記）'),
     # 朋友版
     'fr_an': dict(kind='friend', who='heroine_01', term='Y1S1', label='以安 朋友版（大一上）'),
     'fr_zq': dict(kind='friend', who='heroine_04', term='Y1S2', label='子晴 朋友版（大一下）'),
@@ -416,7 +421,10 @@ INFO_JS = r"""(a=>{ const G=GAME.G, Lx=TERMEND_LINES, has=typeof TERMEND_OPTS!==
       const strOnly=x=>flat(x);   /* 字串、旁白、{text}；{cg} 不算 */
       she=spec.she?strOnly(again&&spec.she2?spec.she2:spec.she):null; think=spec.think==null?null:res(spec.think); answer=(spec.answer||Lx.ANSWER||[]).map(res);
       let y=again&&spec.yes2?spec.yes2:(spec.yes||(D&&D.yes?(typeof D.yes==='function'?D.yes(G,null,a.cpick|0):D.yes):[])); try{ if(typeof CF723!=='undefined'&&CF723.swapYes) y=CF723.swapYes(G,a.who,y); }catch(e){} yes=strOnly(y); } }catch(e){ she=['ERR '+e]; }
-  return {hasFriend, frHas, hookSay, hookOk, she, think, answer, yes, khh0:JSON.parse(JSON.stringify((G.flags||{}).KX_KHH||{})), y50:(G.flags||{}).KX_Y5_CALL==null?null:G.flags.KX_Y5_CALL, stage:SOCIAL.stage?SOCIAL.stage(a.who):null, has, c, gameTbt, tl, pool, hook, say3, kxAsk, notYet:Lx.NOT_YET_OPT||null, reply:Lx.REPLY||[], name:G.name||'祐廷', cap, capConfess:typeof SOCIAL!=='undefined'?(SOCIAL.FX_CAP_CONFESS||null):null,
+  let sf=null; try{ if(a.kind==='heart'&&spec&&spec.mode==='sheFirst'){ const ts=x=>(x||[]).map(o=>o&&o.t);
+      sf={co:(spec.confessOpts||[]).map(o=>({t:o.t,result:o.result,yesLead:flat(o.yesLead||[]),re:flat(o.re||[]),fx:o.fx||null})), walkOpts:ts(spec.walkOpts), guess:spec.guess?ts(spec.guess.opts):[], tableOpts:ts(spec.tableOpts),
+        atBar:!!spec.atBar, answer:Array.isArray(spec.answer)?spec.answer:null, she:flat(spec.she), yes:flat(spec.yes), walk:flat(spec.walk)}; } }catch(e){ sf={err:String(e)}; }
+  return {sheFirst:sf, hasFriend, frHas, hookSay, hookOk, she, think, answer, yes, khh0:JSON.parse(JSON.stringify((G.flags||{}).KX_KHH||{})), y50:(G.flags||{}).KX_Y5_CALL==null?null:G.flags.KX_Y5_CALL, stage:SOCIAL.stage?SOCIAL.stage(a.who):null, has, c, gameTbt, tl, pool, hook, say3, kxAsk, notYet:Lx.NOT_YET_OPT||null, reply:Lx.REPLY||[], name:G.name||'祐廷', cap, capConfess:typeof SOCIAL!=='undefined'?(SOCIAL.FX_CAP_CONFESS||null):null,
     romOk:typeof SOCIAL!=='undefined'&&SOCIAL.romOk?!!SOCIAL.romOk(a.who):null, ytMetJob:!!(G.flags||{}).YT_MET_JOB, route:(G.flags||{}).EXCHANGE_ROUTE||null, dkey:CALENDAR.dateOf(G.day).key,
     dating:!!(G.flags||{})['dating_'+a.who], shuffle:typeof TERMEND.shuffled==='function', rel:(()=>{ const r=SOCIAL.rel(a.who)||{}; return {fam:r.fam,trust:r.trust,comf:r.comf,npcRom:r.npcRom}; })() }; })"""
 POST_JS = r"""(a=>{ const G=GAME.G, R=TERMEND.rec(G,a.term), F=G.flags||{}; const r=SOCIAL.rel(a.who)||{};
@@ -477,6 +485,8 @@ def make_pick(segs, ctl=None):
         T = [x['t'] for x in o]
         for i, t in enumerate(T):
             if t.startswith('出發') and not o[i]['dim']: return i
+        if ctl.get('sfco') and T == [o['t'] for o in ctl['sfco']]:   # 「她先說」：照 yes／think 挑 result 一樣的第一個
+            return next((i for i, o in enumerate(ctl['sfco']) if o['result'] == ctl.get('sfwant')), 0)
         if ctl.get('notYet') and len(T) >= 4 and T[-1] == ctl['notYet']: return min(ctl.get('cpick', CONF_PICK), len(T) - 1)
         if ctl.get('answer') and T == ctl['answer']:
             if ctl.get('think'): return next((i for i, t in enumerate(T) if '讓我想想' in t), len(T) - 1)
@@ -574,6 +584,37 @@ def confess_check(t, case, dl, start, info, post, ck, res):
     want = case.get('confess')
     if not want: return
     who = case['who']; nyo = info.get('notYet')
+    sf = info.get('sheFirst') if isinstance(info.get('sheFirst'), dict) and info['sheFirst'].get('co') else None
+    if sf:   # SHE-FIRST-1110（芷若、沛珊）：她先說 → 稿上的幾個回應（各有 result）；沒有「（先不說）」、後面沒有「好。／讓我想想。」
+        co = sf['co']; cot = [o['t'] for o in co]
+        if sf.get('tableOpts'):
+            ti = next((i for i in range(start, len(dl)) if dl[i].get('k') == 'choose' and set(dl[i].get('v') or []) == set(sf['tableOpts'])), None)
+            ck('%s 她先說：飯桌選項（她那一份自己帶的 tableOpts）有出現' % t, ti is not None, J(sf['tableOpts']))
+        for nm_, lst in (('walkOpts（路上三個入口）', sf.get('walkOpts')), ('guess（猜）', sf.get('guess'))):
+            if lst:
+                wi = next((i for i in range(start, len(dl)) if dl[i].get('k') == 'choose' and dl[i].get('v') == lst), None)
+                ck('%s 她先說：%s 的選單有出現' % (t, nm_), wi is not None, J(lst))
+        ci = next((i for i in range(start, len(dl)) if dl[i].get('k') == 'choose' and dl[i].get('v') == cot), None)
+        res['confess_menu'] = dl[ci]['v'] if ci is not None else None
+        if not ck('%s 她先說：回應的選單照遊戲的 confessOpts、照順序（不洗）%s' % (t, J(cot)), ci is not None, J([e['v'] for e in dl[start:] if e.get('k') == 'choose'])): return
+        ck('%s 她先說：選單裡沒有「%s」' % (t, nyo), nyo not in cot, '')
+        k = dl[ci + 1]['v'] if ci + 1 < len(dl) and dl[ci + 1].get('k') == 'pick' else None
+        o = co[k] if k is not None and k < len(co) else {}
+        after = says(dl, ci + 2, len(dl)); res['confess_after'] = after[:16]
+        later = [e['v'] for e in dl[ci + 2:] if e.get('k') == 'choose']
+        ck('%s 她先說：之後沒有「好。／讓我想想。」那一組' % t, info.get('answer') not in later, J(later[:2]))
+        if want == 'yes':
+            ck('%s 她先說（答應）：選了 result yes 的「%s」' % (t, o.get('t')), o.get('result') == 'yes', '')
+            ck('%s 她先說（答應）：交往旗標 dating_%s 立起來、result sheSaid' % (t, who), post.get('dating') and post.get('result') == 'sheSaid', J({x: post.get(x) for x in ('result', 'dating', 'confessed')}))
+            j = subseq_at(after, o.get('yesLead') or [])
+            ck('%s 她先說（答應）：畫面上有 yesLead %s' % (t, J(o.get('yesLead'))), j is not None, J(after[:8]))
+            jy = subseq_at(after, sf.get('yes') or [], j or 0)
+            ck('%s 她先說（答應）：畫面上有 yes %s' % (t, J(sf.get('yes'))), bool(sf.get('yes')) and jy is not None, J(after[:14]))
+        else:
+            ck('%s 她先說（讓我想想）：選了 result think 的「%s」' % (t, o.get('t')), o.get('result') == 'think', '')
+            ck('%s 她先說（讓我想想）：交往旗標沒有立、result think' % t, not post.get('dating') and post.get('result') == 'think', J({x: post.get(x) for x in ('result', 'dating', 'think')}))
+            ck('%s 她先說（讓我想想）：畫面上是她的回話 %s' % (t, J(o.get('re'))), subseq_at(after, o.get('re') or []) is not None, J(after[:8]))
+        return
     ci = next((i for i in range(start, len(dl)) if dl[i].get('k') == 'choose' and (dl[i].get('v') or [None])[-1] == nyo and len(dl[i]['v']) >= 4), None)
     res['confess_menu'] = dl[ci]['v'] if ci is not None else None
     if not ck('%s 告白：有「說出來」的選單（最後一個「%s」）' % (t, nyo), ci is not None, J([e['v'] for e in dl[start:] if e.get('k') == 'choose'])): return
@@ -651,6 +692,9 @@ def analyze(t, case, run, segs, info, check=True):
     if kind == 'heart' and info.get('frHas'):
         pl = [x for x in (info.get('pool') or []) if x in allsay and x not in (info.get('hook') or [])]
         ck('%s 心意的飯不抽朋友的話題池（她有朋友版稿：S.frHas）' % t, not pl, J(pl[:3]))
+    if expect == 'old' and isinstance(info.get('sheFirst'), dict) and info['sheFirst'].get('co'):
+        R.note('%s 這一版芷若／沛珊的告白已經是「她先說」的模式（TERMEND_OPTS.HEART），不比 AA_748 的舊稿；結果在上面' % t) if check else None
+        res.pop('_segs', None); return res
     if expect == 'old':   # 稿沒匯的人（芷若、沛珊告白）：不該出現稿上的字；說出來那一組照遊戲原本的三句＋（先不說）
         # 稿上和遊戲原本一字不差的（「我喜歡妳。」）不算：只看稿才有的字
         allopt = set(x for s in segs for x in (s.get('all') or [])) - set(info.get('say3') or []) - {info.get('notYet')}
@@ -806,6 +850,9 @@ async def case_run(pg, cdp, errs, cid):
         R.check('%s 稿上有這一頓（%s）' % (t, J(key)), False, ''); segs = []
     if case.get('want'): segs = [dict(x, want=case['want']) for x in segs]
     ctl = {'cpick': cpick, 'notYet': info.get('notYet'), 'answer': info.get('answer'), 'think': case.get('confess') == 'think', 'want': case.get('want')}
+    sf = info.get('sheFirst') if isinstance(info.get('sheFirst'), dict) and info['sheFirst'].get('co') else None
+    if sf: ctl.update(sfco=sf['co'], sfwant='think' if case.get('confess') == 'think' else 'yes'); R.note('%s 「她先說」的模式（S.sheFirst）：%s' % (t, J(sf)))
+    if case.get('record'): segs = []; R.note('%s 只記（不對稿）：逐句寫在 te_lines.txt' % t)
     # 舊版（TAG=old）：條件全是 null，期望只拿來比「稿上的選項沒有出現」（每一段的 all）
     res['expect'] = segs
     R.note('%s 期望（稿）：%s' % (t, J([dict([(k, s.get(k)) for k in ('id', 'why', 'say', 'menu')], opts=[o['t'] for o in s.get('opts') or []]) for s in segs])))
