@@ -49,7 +49,7 @@ SHA = (ENV('SHA') or '')[:9]
 REF = ENV('REF') == '1' or SHA.startswith('1d4db297')
 PARTS = [p.strip().upper() for p in (ENV('PARTS') or 'CLASS,OLDSAVE').split(',') if p.strip()]   # 另有 SKIP（不在預設裡）
 ALIAS = {'憲法': 'const_1', 'const': 'const_1', '刑總': 'crim_gen1', 'crim': 'crim_gen1', '民總': 'civ_general', 'civ': 'civ_general'}
-FULLSET = {'const_1': [2, 7, 15], 'crim_gen1': [4, 7, 10, 13], 'civ_general': [4, 6, 12, 15]}
+FULLSET = {'const_1': [2, 5, 8, 15], 'crim_gen1': [4, 7, 10, 13], 'civ_general': [4, 6, 12, 15]}
 REFSET = {'const_1': [15], 'crim_gen1': [10], 'civ_general': [6]}
 PROFNM = {'const_1': '張教授', 'crim_gen1': '吳教授', 'civ_general': '周教授'}
 SKIPRUN = ENV('SKIPRUN') or 'crim_gen1:10'
@@ -507,8 +507,17 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
             last_menu_t = time.time(); await pg.wait_for_timeout(300)
             if use_skip and att and not done:
                 # 選完：下一句要停住（不自己翻）；1.5 秒後看還是不是同一句，再按一次略過
-                await pg.wait_for_timeout(300); a = await GC.ms(pg); await pg.wait_for_timeout(1500); b2 = await GC.ms(pg); sb2 = await pg.evaluate(SKIPBTN)
-                same = a['dlg'] and b2['dlg'] and a['dtext'] == b2['dtext']
+                # BB 05:46：follow 那一句在畫面上停了幾毫秒才換下一句；玩家不按時會不會自己走（停手 5 秒看還在不在）——每 100 ms 取樣 5 秒
+                tsel = await pg.evaluate("performance.now()"); trace = []; last_t = None
+                for _ in range(50):
+                    q = await GC.ms(pg); now = await pg.evaluate("performance.now()")
+                    if q.get('dtext') != last_t: trace.append([round(now - tsel), (q.get('dtext') or '')[:40], bool(q.get('ch'))]); last_t = q.get('dtext')
+                    await pg.wait_for_timeout(100)
+                dwell = [trace[i + 1][0] - trace[i][0] for i in range(len(trace) - 1)]
+                R.note('%s：選完以後 5 秒不按（每 100 ms 取樣）：句子換的時間點（ms，字）%s；每句停留 %s ms；5 秒後還在「%s」' % (tag, J(trace), J(dwell), (last_t or '')[:40]))
+                info.setdefault('selfadv', []).append({'trace': trace, 'dwell': dwell})
+                a = {'dlg': bool(trace), 'dtext': trace[0][1] if trace else None}; b2 = await GC.ms(pg); sb2 = await pg.evaluate(SKIPBTN)
+                same = len(trace) <= 1
                 info['resume'].append({'stayed': same, 'text': b2['dtext'], 'btnVisible': sb2.get('vis')})
                 R.note('%s：選完以後下一句停住、不自己翻＝%s（「%s」）；「略過 »」又出現＝%s' % (tag, same, b2['dtext'], sb2.get('vis')))
                 if sb2.get('vis'): await L.touch_tap(cdp, sb2['c'][0], sb2['c'][1]); info['presses'] += 1
