@@ -1,0 +1,25 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_e_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_E_E10_a2\out
+CC L118D_E（118 巷課後午餐邀約）：SHA=a2dd74af1 worktree=?；PARTS=E10；REL=FRI；橫向；Playwright 手機模擬 ≠ iPhone
+== E10
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS E10：遊戲載入
+  [  25.4s] E10：dian 的資料 {"name": "118牛排", "menu": [["鐵板牛排", 190], ["雪花牛排", 230], ["雞排", 180], ["豬排", 170], ["雙拼", 280]], "hours": {"open": [[11.5, 14], [17, 21.5]], "closed": [2], "text": "11:30～14:00、17:00～21:30；週二休"}, "open": true}
+  [前置／捷徑] E10：最小存檔 2025-10-01（週三）12:40 在 118牛排 店裡（l118_dian 的落點）（條件事件關著）
+PASS E10：店裡有點餐的互動點（{"x": -0.6, "z": -1.9, "label": "點餐（118牛排）", "shop": "dian"}）
+  [  45.9s] 到達「點餐的地方」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS E10：走到了，互動鍵寫「點餐（118牛排）」  "點餐（118牛排）"
+  [  49.4s] E10：選單 ["鐵板牛排　190 元", "雪花牛排　230 元", "雞排　180 元", "豬排　170 元", "雙拼　280 元", "不用了"] → 鐵板牛排　190 元
+  [  58.0s] E10 [第15天 12.721 l118_dian] 說 老闆娘：黑胡椒還是蘑菇？濃湯、紅茶自己裝。
+  [  58.0s] E10 [第15天 12.721 l118_dian] 選單 ["鐵板牛排　190 元", "雪花牛排　230 元", "雞排　180 元", "豬排　170 元", "雙拼　280 元", "不用了"]
+  [  58.0s] E10 [第15天 12.721 l118_dian]   → 選了 #0 鐵板牛排　190 元
+  [  58.0s] E10 [第15天 12.721 l118_dian] 錢 -190（餐費）
+  [  58.0s] E10 [第15天 12.721 l118_dian] 說 （旁白）：（你點了鐵板牛排。）
+  [  58.0s] E10 [第15天 13.388 l118_dian] 提示：📓 吃過的：118 巷・118牛排　鐵板牛排
+  [  58.0s] E10 [第15天 13.388 l118_dian] 說 （旁白）：（鐵板端上來還在響。隔壁桌的人教你先拿餐巾紙擋著。）
+  [  58.0s] E10 [第15天 13.388 l118_dian] 說 （旁白）：（鐵板不響了。你的衣服上有一點油煙味。）
+PASS E10 ⑩：一個人點餐照常：選了「鐵板牛排　190 元」、GAME.money 只叫一次 [-190]＝那一樣 190 元；錢 30000 → 29810  [-190]
+  [  58.0s] E10：G.l118 前 null ｜ 後 {"n":{"dian":1},"d":{"dian":15},"last":{"dian":"鐵板牛排"},"w":{},"once":{}}
+PASS E10 ⑩：點餐沒有觸發午餐邀約（沒有 LUNCH118.afterClass／plan）
+PASS E10：沒有 JS 例外（pageerror）  []
+  [  58.4s] E10 花了 1.0 分鐘
+ALL PASS
