@@ -380,7 +380,9 @@ async def g10_inside(pg, cdp, gx):
     end = r['end']; R.note('[G10 ①b] 搖桿直直往通道裡推（目標 z 36）：停在 (%.2f,%.2f)（%s；推 %d 下）' % (end['x'], end['z'], r.get('why') or '到了', r['pushes']))
     pth = await pg.evaluate("(a=>{ const E=GAME.E,P=E.player,o=P.obj.position; const r=E.pathTo?E.pathTo(o.x,o.z,0,a[0],a[1],0):null; return r?r.length:null; })", [gx, 34.0])
     R.note('[G10 ①b] 從停下的位置 E.pathTo 到 (%.1f,34)：%s' % (gx, '找不到路' if pth is None else '%s 點' % pth))
-    for tgt, fn in (((gx, 45.0), 'g10_deep_look_in.jpg'), ((gx, 8.0), 'g10_deep_look_back.jpg')):
+    # BB 02:47：轉鏡頭是捷徑擺的（鏡頭可能貼在主角臉上），檔名和 log 都標【捷徑】，不要當成遊戲鏡頭的問題
+    for tgt, fn in (((gx, 45.0), 'g10_deep_look_in_捷徑轉鏡頭.jpg'), ((gx, 8.0), 'g10_deep_look_back_捷徑轉鏡頭.jpg')):
+        R.setup('【捷徑】G10 L.turn_camera_to 把遊戲鏡頭轉向 (%.1f,%.1f) 拍 %s（鏡頭位置是捷徑擺的，不是玩家正常會看到的鏡頭）' % (tgt[0], tgt[1], fn))
         try: await L.turn_camera_to(pg, cdp, tgt[0], tgt[1])
         except Exception: pass
         await pg.wait_for_timeout(700); await gshot(pg, fn)

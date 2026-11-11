@@ -956,6 +956,27 @@ async def part_serious(pg, cdp):
     R.check('[SERIOUS] 多出的旗標都是 LM_ 開頭（BB 01:02）', all(str(k).startswith('LM_') for k in LM_SEEN), J(sorted(LM_SEEN)))
 
 
+async def part_serorder(pg, cdp):
+    """BB 02:45 定案：認真那一組（serious）先、吳教授撞見（prof）留到下一次。存檔沒有 LM_PROF＋剛分手（大二上，ROM.end）→
+    四類各讀一次檔：第一次按（選那一類）＝serious lv4、LM_PROF 還沒記；第二次去＝prof（吳教授撞見）、LM_PROF 記上。"""
+    dd = await days(pg); await names(pg); d = dd['Y2S1']['day']
+    for t in ('聊聊天', '問學業與考試', '問感情', '問人生方向'):
+        tag = '[SERORDER %s]' % t
+        await ld(pg, cdp, await mk(pg, d, 19.5, 'tingzhou', *LANE, flags={'dating_kexin': True, 'LM_MET': d - 100}), '【前置／捷徑】%s 大二上 %s 19:30、交往中（可昕）、認識過、沒有 LM_PROF' % (tag, dd['Y2S1']['date']))
+        end = await pg.evaluate("(()=>{ try{ return ROM.end(GAME.G,'kexin'); }catch(e){ return 'ERR '+e.message; } })()")
+        R.setup('%s 【捷徑】ROM.end(GAME.G,"kexin") → %s' % (tag, J(end)))
+        f = await facts(pg, tag); F0 = (await pg.evaluate(SNAPG))['flags']
+        R.check('%s 前置：剛分手、沒有交往、沒有 LM_PROF' % tag, f.get('brokeRecent') is True and not f['partners'] and not F0.get('LM_PROF'), J({'brokeRecent': f.get('brokeRecent'), 'partners': f['partners'], 'LM_PROF': F0.get('LM_PROF')}))
+        await to_table(pg, cdp, tag)
+        r1 = await table_press(pg, cdp, '%s 第 1 次' % tag, pick=by_text(t)); F1 = (await pg.evaluate(SNAPG))['flags']
+        g = POOLG.get((r1 or {}).get('id') or '')
+        if r1 and g: cmp_lines('%s 第 1 次 %s' % (tag, r1['id']), g['lines'], r1['lines'])
+        R.check('%s 第 1 次（選%s）＝serious lv4、LM_PROF 還沒記' % (tag, t), bool(r1) and r1.get('id') == 'lv4' and not F1.get('LM_PROF'), J({'id': r1 and r1.get('id'), 'LM_PROF': F1.get('LM_PROF'), 'LM_SER': F1.get('LM_SER')}))
+        r2 = await table_press(pg, cdp, '%s 第 2 次' % tag, pick=by_text(t)); F2 = (await pg.evaluate(SNAPG))['flags']
+        if r2 and r2.get('id') == 'prof': cmp_lines('%s 第 2 次 prof' % tag, SEC['prof'], r2['lines'])
+        R.check('%s 第 2 次＝吳教授撞見（prof）、LM_PROF 記上' % tag, bool(r2) and r2.get('id') == 'prof' and bool(F2.get('LM_PROF')), J({'id': r2 and r2.get('id'), 'LM_PROF': F2.get('LM_PROF')}))
+
+
 async def part_save(pg, cdp, errs):
     await names(pg)
     # ① 線上 v9.10.24 做一份存檔
@@ -1213,7 +1234,7 @@ async def main():
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
         R.note('hook：%s；LM 在＝%s' % (await hook(pg), await pg.evaluate("typeof LM!=='undefined'")))
         for part, fn in (('FIRST', part_first), ('MENU', part_menu), ('POOL', part_pool), ('FLAGS', part_flags), ('PROF', part_prof), ('REVEAL', part_reveal), ('REVEALA', part_reveala),
-                         ('HOURS', part_hours), ('UI', part_ui), ('SERIOUS', part_serious), ('SAVE', None), ('SAVEDAY', part_saveday), ('ENTRYCLASS', part_entryclass), ('GRAD', part_grad)):
+                         ('HOURS', part_hours), ('UI', part_ui), ('SERIOUS', part_serious), ('SERORDER', part_serorder), ('SAVE', None), ('SAVEDAY', part_saveday), ('ENTRYCLASS', part_entryclass), ('GRAD', part_grad)):
             if part not in PARTS: continue
             t0 = time.time()
             try:
