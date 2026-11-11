@@ -1,0 +1,40 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_TAPSEAT_omu\out
+CC L118A：PARTS TAPSEAT_omu_16.18.20；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.1s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== TAPSEAT_omu_16.18.20
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_omu 店裡的進門位置 (-2.20,2.50) 2025-10-08 1300 
+PASS [omu] 店內正式模型載入（1.5 秒）
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_omu 店裡的進門位置 (-2.20,2.50) 2025-10-08 1300 （點椅子 #16，點在 0.45 m 高）
+PASS [omu] 店內正式模型載入（1.5 秒）
+  [  53.2s] [TAPSEAT omu #16（2.92, 1.26）點椅子 0.45 m 高] 點椅面 螢幕 (825.5, 212.2)：落在地板 [3.76, 0.42]、tapRedirect 改走到 None
+  [  58.3s] [TAPSEAT omu #16（2.92, 1.26）點椅子 0.45 m 高] 走到 (1.407, 1.016)（4.9 秒；tapPref [2.92, 1.26]）：互動鍵「坐下」、指到的座位 [2.92, 1.26]
+  [  58.3s] [TAPSEAT omu #16（2.92, 1.26）點椅子 0.45 m 高] 點椅子走過去，互動鍵是「坐下」而且就是這一張：{"interact": "坐下", "near": {"label": "坐下", "seat": [2.92, 1.26], "exit": null}}
+PASS [TAPSEAT omu #16（2.92, 1.26）點椅子 0.45 m 高] 按下去坐到這一張（座位差 ≤0.15 m）  {"sat": [2.92, 1.26], "want": [2.92, 1.26]}
+PASS [TAPSEAT omu #16（2.92, 1.26）點椅子 0.45 m 高] walkFallbacks 沒增加
+  [  59.3s] [TAPSEAT omu #16（2.92, 1.26）點椅子 0.45 m 高] 【遊戲鏡頭】l118a_tapseat_omu_1300_sit16_game.jpg：{"onScreen": true, "ndc": [0, -0.37], "player": [2.92, 1.26], "cam": [2.83, 3.21, 5.15], "yaw": 6.283, "mid": {"m": 130.6, "sd": 63.3, "black": 0.006, "white": 0, "rgb": [152, 127, 92]}, "top": {"m": 163.6, "sd": 39.7, "black": 0, "white": 0, "rgb": [188, 161, 114]}, "near": {"m": 94, "sd": 54.3, "black": 0.013, "white": 0, "rgb": [117, 89, 60]}}
+PASS [TAPSEAT omu #16（2.92, 1.26）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "ok"}）  {"0.45": "ok"}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_omu 店裡的進門位置 (-2.20,2.50) 2025-10-08 1300 （點椅子 #18，點在 0.45 m 高）
+PASS [omu] 店內正式模型載入（1.5 秒）
+  [  65.6s] [TAPSEAT omu #18（2.92, 1.94）點椅子 0.45 m 高] 從進門位置看，椅面在畫面外或被按鈕蓋住（{"off": true, "sx": 872.7169653316412, "sy": 240.5546546032}）：用手指滑轉鏡頭朝椅子
+  [  67.6s] [TAPSEAT omu #18（2.92, 1.94）點椅子 0.45 m 高] 點椅面 螢幕 (422, 121.3)：落在地板 [4.39, 1.78]、tapRedirect 改走到 None
+  [  71.7s] [TAPSEAT omu #18（2.92, 1.94）點椅子 0.45 m 高] 走到 (1.308, 2.388)（3.9 秒；tapPref [2.92, 1.94]）：互動鍵「坐下」、指到的座位 [2.92, 1.94]
+  [  71.7s] [TAPSEAT omu #18（2.92, 1.94）點椅子 0.45 m 高] 點椅子走過去，互動鍵是「坐下」而且就是這一張：{"interact": "坐下", "near": {"label": "坐下", "seat": [2.92, 1.94], "exit": null}}
+PASS [TAPSEAT omu #18（2.92, 1.94）點椅子 0.45 m 高] 按下去坐到這一張（座位差 ≤0.15 m）  {"sat": [2.92, 1.94], "want": [2.92, 1.94]}
+PASS [TAPSEAT omu #18（2.92, 1.94）點椅子 0.45 m 高] walkFallbacks 沒增加
+  [  72.6s] [TAPSEAT omu #18（2.92, 1.94）點椅子 0.45 m 高] 【遊戲鏡頭】l118a_tapseat_omu_1300_sit18_game.jpg：{"onScreen": true, "ndc": [-0.01, -0.34], "player": [2.92, 1.94], "cam": [-1.06, 3.21, 2.39], "yaw": 4.822, "mid": {"m": 130.8, "sd": 69.4, "black": 0.028, "white": 0, "rgb": [153, 127, 91]}, "top": {"m": 195.6, "sd": 37, "black": 0, "white": 0, "rgb": [218, 194, 145]}, "near": {"m": 97, "sd": 60.7, "black": 0.002, "white": 0, "rgb": [125, 91, 54]}}
+PASS [TAPSEAT omu #18（2.92, 1.94）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "ok"}）  {"0.45": "ok"}
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_omu 店裡的進門位置 (-2.20,2.50) 2025-10-08 1300 （點椅子 #20，點在 0.45 m 高）
+PASS [omu] 店內正式模型載入（1.5 秒）
+  [  78.7s] [TAPSEAT omu #20（2.92, 3.26）點椅子 0.45 m 高] 從進門位置看，椅面在畫面外或被按鈕蓋住（{"off": true, "sx": 1005.2396111897563, "sy": 320.01956543853566}）：用手指滑轉鏡頭朝椅子
+  [  80.8s] [TAPSEAT omu #20（2.92, 3.26）點椅子 0.45 m 高] 點椅面 螢幕 (422, 120.9)：落在地板 [4.38, 3.48]、tapRedirect 改走到 None
+  [  84.8s] [TAPSEAT omu #20（2.92, 3.26）點椅子 0.45 m 高] 走到 (1.357, 2.804)（3.9 秒；tapPref [2.92, 3.26]）：互動鍵「坐下」、指到的座位 [2.92, 3.26]
+  [  84.8s] [TAPSEAT omu #20（2.92, 3.26）點椅子 0.45 m 高] 點椅子走過去，互動鍵是「坐下」而且就是這一張：{"interact": "坐下", "near": {"label": "坐下", "seat": [2.92, 3.26], "exit": null}}
+PASS [TAPSEAT omu #20（2.92, 3.26）點椅子 0.45 m 高] 按下去坐到這一張（座位差 ≤0.15 m）  {"sat": [2.92, 3.26], "want": [2.92, 3.26]}
+PASS [TAPSEAT omu #20（2.92, 3.26）點椅子 0.45 m 高] walkFallbacks 沒增加
+  [  85.7s] [TAPSEAT omu #20（2.92, 3.26）點椅子 0.45 m 高] 【遊戲鏡頭】l118a_tapseat_omu_1300_sit20_game.jpg：{"onScreen": true, "ndc": [0.01, -0.34], "player": [2.92, 3.26], "cam": [-1.04, 3.21, 2.66], "yaw": 4.565, "mid": {"m": 129.1, "sd": 67.6, "black": 0.001, "white": 0, "rgb": [146, 126, 97]}, "top": {"m": 199.1, "sd": 38.6, "black": 0, "white": 0, "rgb": [222, 197, 149]}, "near": {"m": 90.4, "sd": 56.7, "black": 0.004, "white": 0, "rgb": [117, 85, 50]}}
+PASS [TAPSEAT omu #20（2.92, 3.26）] 點椅面（0.45 m）走過去坐得到這一張（中段、椅腳只記：{"0.45": "ok"}）  {"0.45": "ok"}
+  [  85.7s] [TAPSEAT omu] 結果 {"16": {"0.45": "ok"}, "18": {"0.45": "ok"}, "20": {"0.45": "ok"}}
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
