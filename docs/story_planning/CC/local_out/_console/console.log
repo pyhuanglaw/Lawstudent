@@ -1,11 +1,3 @@
-[10:18:03] ==== END   LM2_N8  exit=0  224s   ====
-[10:18:16] memory 47% before starting LM2_N10 (2 running)
-[10:18:16] ==== START LM2_N10  (probe @ e7ddae33fee86ab1567ab9f7b4764686cc9c321c) ====
-[10:18:19] [res] cpu=0% mem=48% (15.1/31.4 GB) chrome_testing=10  START LM2_N10
-[10:19:03] 正在跑：LM2_N7（已跑 5 分／上限 15 分）、LM2_N9（已跑 3 分／上限 15 分）、LM2_N10（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
-[10:19:46] [res] cpu=8% mem=46% (14.6/31.4 GB) chrome_testing=9  END LM2_N9
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       c7d19889f..d1e539be5  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [10:19:53] ==== END   LM2_N9  exit=0  281s   ====
 [10:19:56] memory 47% before starting LM2_N10b (2 running)
@@ -1998,3 +1990,11 @@
 [17:36:36] [res] cpu=9% mem=47% (14.9/31.4 GB) chrome_testing=9  START TSR_LIB_new
 [17:39:04] 正在跑：TSR_CLASS_new（已跑 3 分／上限 15 分）、TSR_CLASS_old（已跑 3 分／上限 15 分）、TSR_LIB_new（已跑 2 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:42:06] [res] cpu=11% mem=50% (15.7/31.4 GB) chrome_testing=10  END TSR_LIB_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       610befff0..6af5ced81  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:42:14] ==== END   TSR_LIB_new  exit=1  333s   ====
+[17:42:18] memory 50% before starting TSR_LIB_old (2 running)
+[17:42:18] ==== START TSR_LIB_old  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[17:42:21] [res] cpu=6% mem=48% (15.9/31.4 GB) chrome_testing=10  START TSR_LIB_old
+[17:42:53] [res] cpu=11% mem=46% (14.5/31.4 GB) chrome_testing=9  END TSR_CLASS_new
