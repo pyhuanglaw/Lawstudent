@@ -340,6 +340,12 @@ async def part_int(pg, cdp):
             # 出來
             its = await pg.evaluate(ITS); ex = next((i for i in its if i.get('to') == OZ), None)
             if not R.check('%s 店裡有「%s」' % (tag, L_['exit']['label']), bool(ex), J(its)[:300]): continue
+            if os.environ.get('TRAPDIAG') == '1':   # CC 01:4x（ART2 汀州鮮果新版走不回門口）：出店前先記玩家在哪、E.pathTo 到出口有沒有路、玩家四周 2 m 的 canStand 格子圖、俯視照
+                dg = await pg.evaluate("(a=>{ const E=GAME.E,P=E.player,o=P.obj.position; const pth=E.pathTo?E.pathTo(o.x,o.z,P.lv|0,a.x,a.z,0):null; const rows=[];"
+                                       " for(let dz=-2;dz<=2.001;dz+=0.25){ let r=''; for(let dx=-2;dx<=2.001;dx+=0.25){ const x=o.x+dx,z=o.z+dz; r+=(Math.abs(dx)<0.13&&Math.abs(dz)<0.13)?'@':(E.canStand(x,z,0.3,P.lv|0)?'.':(E.nav&&E.nav.free(x,z)?'+':'#')); } rows.push(r); }"
+                                       " return {me:[+o.x.toFixed(2),+o.z.toFixed(2)], path:pth?pth.length:null, pathPts:pth?pth.slice(0,12).map(p=>Array.isArray(p)?[+(+p[0]).toFixed(2),+(+p[1]).toFixed(2)]:[+(+p.x).toFixed(2),+(+p.z).toFixed(2)]):null, grid:rows}; })", {'x': ex['x'], 'z': ex['z']})
+                R.note('%s 出店前（TRAPDIAG）：玩家 %s；E.pathTo 到出口 %s 點 %s；四周 canStand 圖（. 站得住、+ 格子 free 但半徑 0.3 站不住、# 擋住、@ 玩家；每格 0.25 m，上＝−z）：\n%s' % (tag, dg['me'], dg['path'], J(dg['pathPts']), '\n'.join(dg['grid'])))
+                save(await pg.evaluate(SNAP, {'from': [0.0, 9.5, 0.5], 'at': [0.0, 0.0, -0.2], 'fov': 70, 'tw': 560, 'label': '%s 俯視' % L_['name'], 'full': True}), 'trap_%s_%s_top.jpg' % (sid, hh))
             t1 = time.time(); await tap_it(pg, cdp, ex, tag)
             for _ in range(80):
                 me = await pg.evaluate(ME)
