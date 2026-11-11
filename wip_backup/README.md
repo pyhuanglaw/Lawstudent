@@ -71,3 +71,4 @@ git worktree add <資料夾> wip/dorm-hall
 ## next1102_1102.bundle（LAWWW 2026-11-02 11:1x UTC，D126）
 - 下一版的整合分支 `int/next1102`（從發布候選 b1b249873 開出；候選版發布前開發分支只放不影響遊戲的 commit）：第一個 commit 是補考當天在家睡覺的修正（BUG-MAKEUP-HOME-SLEEP-WARN-1102）。之後每小時更新這一份。
 - 還原：`git fetch wip_backup/next1102_1102.bundle 'refs/heads/*:refs/remotes/wip/*'`。
+| `aa781_ladder_1111.bundle` | `worktree-agent-a0c477db6664ebd52`（9 個 commit，基準 f8b6d1e82） | 650e16882 | 2026-11-11 08:4x LAWWW 子代理做完：閒聊階梯 AA_781 通用覆蓋層＋七批 39 檔（X324 C 區；import_ladder.py、ladder.js、greet_classday.js、story3d.js／sis_b16 的招呼條件跟著新字、白名單 39 筆、新測試 ladder_aa781_1111 698 項＋13 支舊測試改期望；Node 全過）。**等 v9.10.25 候選版定了再合進開發分支**（不放這一版）。還原：`git fetch wip_backup/aa781_ladder_1111.bundle worktree-agent-a0c477db6664ebd52:aa781 && git merge --no-ff aa781` | WORK_IN_PROGRESS（READY_FOR_INTEGRATION，等發版） |
