@@ -1,0 +1,109 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_shots_b_r2\out
+CC NM1 夜市：PARTS SHOTS；SHA 11161c101；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 （讀配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1930 (6.10,29.60) （節節高甘蔗汁 前面 1.9 m）
+PASS [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [  61.0s] [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 讀的那一刻 G.hour 19.5748、E.hour 19.5748；照 TZ3.stallOpen(G.hour) 應該 True；遊戲 isOpen True
+PASS [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 模型和時間同步：isOpen＝stallOpen(G.hour)＝True（open visible True、closed visible False）  {"gh": 19.5748, "eh": 19.5748, "expect": true, "isOpen": true, "openVis": true, "closedVis": false}
+  [  61.0s] [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 外框中心 open [3.927, 1.169, 29.6]、closed [4.2, 0.95, 29.6]，水平差 0.273 m（open 大小 [1.36, 2.34, 2.74]、closed 大小 [0.95, 1.9, 2.74]）
+PASS [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 開、收兩個模型的 position／rotation／scale 完全一樣（BB 00:14：攤子不能跳位置）  {"open": {"p": [4.2, 0, 29.6], "r": [0, 1.5708, 0], "s": [1, 1, 1]}, "closed": {"p": [4.2, 0, 29.6], "r": [0, 1.5708, 0], "s": [1, 1, 1]}}
+  [  61.0s] [SHOTS st_cane 節節高甘蔗汁 營業中 1930] ★ 開、收兩個模型外框中心水平差 0.273 m（>5 cm；兩個模型擺的 position 一樣，差的是外形：收攤的外框比較小、偏一邊——照片 nm_st_cane_收攤後_正面 對照）
+  [  61.0s] [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 外框中心離配置位置 (4.20,29.60)：open 0.27 m
+  [  61.0s] [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [  66.0s] [SHOTS st_cane 節節高甘蔗汁 營業中 1930] 互動：鍵「看節節高甘蔗汁」→ ["（", "（不鏽鋼的小車，白光。兩邊各立著一大捆甘蔗，比人還高。）", "（老闆把一段甘蔗塞進機器，另一", "（老闆把一段甘蔗塞進機器，另一頭流出淺綠色的汁。）", "節節高，考試會過。"]；選項 [["甘蔗汁・中杯　50 元", "甘蔗汁・大杯　65 元", "算了"]]（按的時候 G.hour 19.5774、模型 isOpen True）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1500 (6.10,29.60) （節節高甘蔗汁 前面 1.9 m）
+PASS [SHOTS st_cane 節節高甘蔗汁 開之前 1500] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [  78.2s] [SHOTS st_cane 節節高甘蔗汁 開之前 1500] 讀的那一刻 G.hour 15.0734、E.hour 15.0734；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_cane 節節高甘蔗汁 開之前 1500] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 15.0734, "eh": 15.0734, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [  78.2s] [SHOTS st_cane 節節高甘蔗汁 開之前 1500] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [  80.3s] [SHOTS st_cane 節節高甘蔗汁 開之前 1500] 互動：鍵「看節節高甘蔗汁」→ ["（淺綠色的帆布包著車子。地上還有幾片甘蔗皮。）"]；選項 []（按的時候 G.hour 15.0749、模型 isOpen False）
+PASS [SHOTS st_cane 節節高甘蔗汁 開之前 1500] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2330 (6.10,29.60) （節節高甘蔗汁 前面 1.9 m）
+PASS [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [  92.6s] [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 讀的那一刻 G.hour 23.5733、E.hour 23.5733；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 23.5733, "eh": 23.5733, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [  92.6s] [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [  94.5s] [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 互動：鍵「看節節高甘蔗汁」→ ["（淺綠色的帆布包著車子。地上還有幾片甘蔗皮。）"]；選項 []（按的時候 G.hour 23.5747、模型 isOpen False）
+PASS [SHOTS st_cane 節節高甘蔗汁 收攤後 2330] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_cane] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 (6.10,35.00) （公館阿婆甜湯 前面 1.9 m）
+PASS [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 107.2s] [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 讀的那一刻 G.hour 20.0738、E.hour 20.0738；照 TZ3.stallOpen(G.hour) 應該 True；遊戲 isOpen True
+PASS [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 模型和時間同步：isOpen＝stallOpen(G.hour)＝True（open visible True、closed visible False）  {"gh": 20.0738, "eh": 20.0738, "expect": true, "isOpen": true, "openVis": true, "closedVis": false}
+  [ 107.2s] [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 外框中心 open [4.22, 1.275, 35]、closed [4.2, 1.223, 35]，水平差 0.020 m（open 大小 [2.08, 2.55, 5.6]、closed 大小 [1.2, 2.45, 4.09]）
+PASS [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 開、收兩個模型的 position／rotation／scale 完全一樣（BB 00:14：攤子不能跳位置）  {"open": {"p": [4.2, 0, 35], "r": [0, 1.5708, 0], "s": [1, 1, 1]}, "closed": {"p": [4.2, 0, 35], "r": [0, 1.5708, 0], "s": [1, 1, 1]}}
+  [ 107.2s] [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 外框中心離配置位置 (4.20,35.00)：open 0.02 m
+  [ 107.2s] [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 113.0s] [SHOTS st_jelly 公館阿婆甜湯 營業中 2000] 互動：鍵「看公館阿婆甜湯」→ ["（", "（紅色的舊布棚，招牌上有阿婆的頭像。長長的玻璃櫃裡七八格配料：粉圓、紅豆、芋圓、花生、綠豆、仙草。）", "（攤子前面兩張紅色的折疊桌，幾", "（攤子前面兩張紅色的折疊桌，幾張塑膠凳。有人坐著吃，書包放在腳邊。）", "（保溫鍋的蓋子一掀開，整個攤子", "（保溫鍋的蓋子一掀開，整個攤子都是仙草的味道。）", "配料選四樣。選不出來我幫你選。"]；選項 [["粉圓冰　50 元", "燒仙草　55 元", "算了"]]（按的時候 G.hour 20.0754、模型 isOpen True）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1600 (6.10,35.00) （公館阿婆甜湯 前面 1.9 m）
+PASS [SHOTS st_jelly 公館阿婆甜湯 開之前 1600] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 125.1s] [SHOTS st_jelly 公館阿婆甜湯 開之前 1600] 讀的那一刻 G.hour 16.0732、E.hour 16.0732；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_jelly 公館阿婆甜湯 開之前 1600] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 16.0732, "eh": 16.0732, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 125.1s] [SHOTS st_jelly 公館阿婆甜湯 開之前 1600] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [ 127.1s] [SHOTS st_jelly 公館阿婆甜湯 開之前 1600] 互動：鍵「看公館阿婆甜湯」→ ["（", "（桌子和凳子疊在一起，玻璃櫃蓋著紅灰色的帆布。）"]；選項 []（按的時候 G.hour 16.0748、模型 isOpen False）
+PASS [SHOTS st_jelly 公館阿婆甜湯 開之前 1600] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2330 (6.10,35.00) （公館阿婆甜湯 前面 1.9 m）
+PASS [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 139.3s] [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 讀的那一刻 G.hour 23.5731、E.hour 23.5731；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 23.5731, "eh": 23.5731, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 139.3s] [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 141.3s] [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 互動：鍵「看公館阿婆甜湯」→ ["（桌子和凳子疊在一起，玻璃櫃蓋著紅灰色的帆布。）"]；選項 []（按的時候 G.hour 23.5746、模型 isOpen False）
+PASS [SHOTS st_jelly 公館阿婆甜湯 收攤後 2330] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_jelly] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1900 (6.10,-15.50) （襪子 前面 1.9 m）
+PASS [SHOTS st_socks 襪子 營業中 1900] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 154.6s] [SHOTS st_socks 襪子 營業中 1900] 讀的那一刻 G.hour 19.0727、E.hour 19.0727；照 TZ3.stallOpen(G.hour) 應該 True；遊戲 isOpen True
+PASS [SHOTS st_socks 襪子 營業中 1900] 模型和時間同步：isOpen＝stallOpen(G.hour)＝True（open visible True、closed visible False）  {"gh": 19.0727, "eh": 19.0727, "expect": true, "isOpen": true, "openVis": true, "closedVis": false}
+  [ 154.6s] [SHOTS st_socks 襪子 營業中 1900] 外框中心 open [4.1, 1.25, -15.5]、closed [4.14, 1.15, -15.5]，水平差 0.040 m（open 大小 [2.4, 2.5, 2.4]、closed 大小 [0.82, 2.3, 1.6]）
+PASS [SHOTS st_socks 襪子 營業中 1900] 開、收兩個模型的 position／rotation／scale 完全一樣（BB 00:14：攤子不能跳位置）  {"open": {"p": [4.2, 0, -15.5], "r": [0, 1.5708, 0], "s": [1, 1, 1]}, "closed": {"p": [4.2, 0, -15.5], "r": [0, 1.5708, 0], "s": [1, 1, 1]}}
+  [ 154.6s] [SHOTS st_socks 襪子 營業中 1900] 外框中心離配置位置 (4.20,-15.50)：open 0.10 m
+  [ 154.6s] [SHOTS st_socks 襪子 營業中 1900] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 156.9s] [SHOTS st_socks 襪子 營業中 1900] 互動：鍵「看襪子」→ ["（", "（折疊桌上的襪子一包十雙。紙板上寫的字被雨淋過，看不清楚價錢。）"]；選項 []（按的時候 G.hour 19.0747、模型 isOpen True）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1500 (6.10,-15.50) （襪子 前面 1.9 m）
+PASS [SHOTS st_socks 襪子 開之前 1500] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 169.3s] [SHOTS st_socks 襪子 開之前 1500] 讀的那一刻 G.hour 15.0742、E.hour 15.0742；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_socks 襪子 開之前 1500] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 15.0742, "eh": 15.0742, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 169.3s] [SHOTS st_socks 襪子 開之前 1500] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+  [ 171.5s] [SHOTS st_socks 襪子 開之前 1500] 互動：鍵「看襪子」→ ["（", "（掛架收起來了，整攤蓋著帆布，邊角用磚頭壓著。）"]；選項 []（按的時候 G.hour 15.0761、模型 isOpen False）
+PASS [SHOTS st_socks 襪子 開之前 1500] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2230 (6.10,-15.50) （襪子 前面 1.9 m）
+PASS [SHOTS st_socks 襪子 收攤後 2230] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 184.3s] [SHOTS st_socks 襪子 收攤後 2230] 讀的那一刻 G.hour 22.574、E.hour 22.574；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_socks 襪子 收攤後 2230] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 22.574, "eh": 22.574, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 184.3s] [SHOTS st_socks 襪子 收攤後 2230] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_socks 襪子 收攤後 2230] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 186.7s] [SHOTS st_socks 襪子 收攤後 2230] 互動：鍵「看襪子」→ ["（", "（掛架收起來了，整攤蓋著帆布，邊角用磚頭壓著。）"]；選項 []（按的時候 G.hour 22.5761、模型 isOpen False）
+PASS [SHOTS st_socks 襪子 收攤後 2230] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_socks] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2015 (5.90,-27.50) （套圈圈 前面 1.9 m）
+PASS [SHOTS st_ring 套圈圈 營業中 2015] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 199.5s] [SHOTS st_ring 套圈圈 營業中 2015] 讀的那一刻 G.hour 20.3236、E.hour 20.3236；照 TZ3.stallOpen(G.hour) 應該 True；遊戲 isOpen True
+PASS [SHOTS st_ring 套圈圈 營業中 2015] 模型和時間同步：isOpen＝stallOpen(G.hour)＝True（open visible True、closed visible False）  {"gh": 20.3236, "eh": 20.3236, "expect": true, "isOpen": true, "openVis": true, "closedVis": false}
+  [ 199.5s] [SHOTS st_ring 套圈圈 營業中 2015] 外框中心 open [4.047, 1.125, -27.621]、closed [4, 1.105, -27.5]，水平差 0.130 m（open 大小 [1.85, 2.25, 2.64]、closed 大小 [1.7, 2.21, 2.3]）
+PASS [SHOTS st_ring 套圈圈 營業中 2015] 開、收兩個模型的 position／rotation／scale 完全一樣（BB 00:14：攤子不能跳位置）  {"open": {"p": [4, 0, -27.5], "r": [0, 1.5708, 0], "s": [1, 1, 1]}, "closed": {"p": [4, 0, -27.5], "r": [0, 1.5708, 0], "s": [1, 1, 1]}}
+  [ 199.5s] [SHOTS st_ring 套圈圈 營業中 2015] ★ 開、收兩個模型外框中心水平差 0.130 m（>5 cm；兩個模型擺的 position 一樣，差的是外形：收攤的外框比較小、偏一邊——照片 nm_st_ring_收攤後_正面 對照）
+  [ 199.5s] [SHOTS st_ring 套圈圈 營業中 2015] 外框中心離配置位置 (4.00,-27.50)：open 0.13 m
+  [ 199.5s] [SHOTS st_ring 套圈圈 營業中 2015] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 201.9s] [SHOTS st_ring 套圈圈 營業中 2015] 互動：鍵「看套圈圈」→ ["（", "（紅黃條紋的棚子。地上排著一整片玻璃瓶，有人丟了十個圈，一個都沒中。）"]；選項 []（按的時候 G.hour 20.3258、模型 isOpen True）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 1700 (5.90,-27.50) （套圈圈 前面 1.9 m）
+PASS [SHOTS st_ring 套圈圈 開之前 1700] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 214.7s] [SHOTS st_ring 套圈圈 開之前 1700] 讀的那一刻 G.hour 17.075、E.hour 17.075；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen True
+FAIL [SHOTS st_ring 套圈圈 開之前 1700] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible True、closed visible False）  {"gh": 17.075, "eh": 17.075, "expect": false, "isOpen": true, "openVis": true, "closedVis": false}
+  [ 214.7s] [SHOTS st_ring 套圈圈 開之前 1700] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 open）
+  [ 217.2s] [SHOTS st_ring 套圈圈 開之前 1700] 互動：鍵「看套圈圈」→ ["（", "（瓶子收進箱子了。棚子上蓋著帆布。）"]；選項 []（按的時候 G.hour 17.0774、模型 isOpen True）
+PASS [SHOTS st_ring 套圈圈 開之前 1700] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2300 (5.90,-27.50) （套圈圈 前面 1.9 m）
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] 遊戲裡有這一攤  ["st_eggcake", "st_scallion", "st_ball", "st_pepper", "st_corn", "st_stinky", "st_cane", "st_jelly", "st_socks", "st_ring"]
+  [ 229.5s] [SHOTS st_ring 套圈圈 收攤後 2300] 讀的那一刻 G.hour 23.0741、E.hour 23.0741；照 TZ3.stallOpen(G.hour) 應該 False；遊戲 isOpen False
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible False、closed visible True）  {"gh": 23.0741, "eh": 23.0741, "expect": false, "isOpen": false, "openVis": false, "closedVis": true}
+  [ 229.5s] [SHOTS st_ring 套圈圈 收攤後 2300] 燈：open {"lights": 0, "emissive": 2}、closed {"lights": 0, "emissive": 0}（看得到的是 closed）
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] 收攤後模型沒有亮著的燈（Light＝0）  {"lights": 0, "emissive": 0}
+  [ 231.8s] [SHOTS st_ring 套圈圈 收攤後 2300] 互動：鍵「看套圈圈」→ ["（", "（瓶子收進箱子了。棚子上蓋著帆布。）"]；選項 []（按的時候 G.hour 23.076、模型 isOpen False）
+PASS [SHOTS st_ring 套圈圈 收攤後 2300] 沒營業時不能出現買的清單（選項裡沒有價錢／元）  []
+PASS [SHOTS st_ring] walkFallbacks 0
+PASS 沒有 JS 例外  []
+FAILED 1: [SHOTS st_ring 套圈圈 開之前 1700] 模型和時間同步：isOpen＝stallOpen(G.hour)＝False（open visible True、closed visible False）
