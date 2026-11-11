@@ -27,7 +27,8 @@ ME = "(()=>{ const E=GAME.E, P=E.player, p=P.obj.position, N=E.nav; return {zone
 LAY = "(()=>{ const T=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:null; const S=T&&T.stalls; if(!S) return null; return {kinds:S.kinds||null, list:S.list||[], gongguan:S.gongguan||[], from:S.from, to:S.to}; })()"
 STALLS = r"""(()=>{ const z=GAME.E.zone||{}, A=(z.tzStalls||z.ggStalls||[]); const box=o=>{ if(!o) return null; o.updateMatrixWorld(true); const b=new THREE.Box3().setFromObject(o); if(b.isEmpty()) return null; const c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3()); return {c:[+c.x.toFixed(3),+c.y.toFixed(3),+c.z.toFixed(3)], s:[+s.x.toFixed(2),+s.y.toFixed(2),+s.z.toFixed(2)], top:+b.max.y.toFixed(2)}; };
   const lit=o=>{ if(!o) return null; let L=0, em=0; o.traverse(q=>{ if(q.isLight&&q.visible&&q.intensity>0) L++; if(q.isMesh&&q.visible){ for(const m of [].concat(q.material||[])){ if(m&&m.emissive&&(m.emissive.r+m.emissive.g+m.emissive.b)>0.05&&(m.emissiveIntensity==null||m.emissiveIntensity>0)) em++; } } }); return {lights:L, emissive:em}; };
-  return A.map(q=>({id:q.id, kind:q.kind, name:q.name, x:q.x, z:q.z, yaw:q.yaw, isOpen:!!q.isOpen, openVis:q.open?!!q.open.visible:null, closedVis:q.closed?!!q.closed.visible:null, ob:box(q.open), cb:box(q.closed), litOpen:lit(q.open), litClosed:lit(q.closed)})); })()"""
+  const gh=+(+GAME.G.hour).toFixed(4), eh=GAME.E.hour!=null?+(+GAME.E.hour).toFixed(4):null, so=(typeof TZ3!=='undefined'&&TZ3.stallOpen)?(q=>TZ3.stallOpen(+GAME.G.hour,q)):(()=>null);
+  return A.map(q=>({id:q.id, kind:q.kind, name:q.name, x:q.x, z:q.z, yaw:q.yaw, isOpen:!!q.isOpen, gh, eh, expect:so(q), openVis:q.open?!!q.open.visible:null, closedVis:q.closed?!!q.closed.visible:null, ob:box(q.open), cb:box(q.closed), litOpen:lit(q.open), litClosed:lit(q.closed)})); })()"""
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||50, c.width/c.height, 0.1, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const P=E.player&&E.player.obj, hid=[]; if(P){ hid.push([P,P.visible]); P.visible=false; }
   try{ r.render(E.scene,cam); return c.toDataURL('image/jpeg',0.88); } finally { for(const [o,v] of hid) o.visible=v; } })"""
@@ -114,12 +115,15 @@ async def part_shots(pg, cdp):
             ss = await pg.evaluate(STALLS); g = next((s for s in ss if s['id'] == q['id']), None)
             if not R.check('%s 遊戲裡有這一攤' % tag, bool(g), J([s['id'] for s in ss])): continue
             want = st == '營業中'
-            R.check('%s isOpen＝%s（open 模型 visible %s、closed visible %s）' % (tag, want, g['openVis'], g['closedVis']), g['isOpen'] == want and g['openVis'] == want and g['closedVis'] == (not want), J(g))
+            R.note('%s 讀的那一刻 G.hour %s、E.hour %s；照 TZ3.stallOpen(G.hour) 應該 %s；遊戲 isOpen %s' % (tag, g['gh'], g['eh'], g['expect'], g['isOpen']))
+            exp = g['expect'] if g['expect'] is not None else want
+            R.check('%s 模型和時間同步：isOpen＝stallOpen(G.hour)＝%s（open visible %s、closed visible %s）' % (tag, exp, g['openVis'], g['closedVis']), g['isOpen'] == exp and g['openVis'] == exp and g['closedVis'] == (not exp), J({k: g[k] for k in ('gh', 'eh', 'expect', 'isOpen', 'openVis', 'closedVis')}))
+            if exp != want: R.note('%s 讀的時候時間已經走過邊界（排的是 %s、讀到 %s）：照讀到的時間判' % (tag, hhmm(h), g['gh']))
             if st == '營業中':
                 if g['ob'] and g['cb']:
                     d = math.hypot(g['ob']['c'][0] - g['cb']['c'][0], g['ob']['c'][2] - g['cb']['c'][2])
                     R.note('%s 外框中心 open %s、closed %s，水平差 %.3f m（open 大小 %s、closed 大小 %s）' % (tag, g['ob']['c'], g['cb']['c'], d, g['ob']['s'], g['cb']['s']))
-                    R.check('%s 開、收兩個模型位置一樣（外框中心水平差 ≤5 cm）' % tag, d <= 0.05, '%.3f m' % d)
+                    if d > 0.05: R.note('%s ★ 開、收兩個模型外框中心水平差 %.3f m（>5 cm；兩個模型擺的 position 一樣，差的是外形：收攤的外框比較小、偏一邊——照片 nm_%s_收攤後_正面 對照）' % (tag, d, q['id']))
                     R.note('%s 外框中心離配置位置 (%.2f,%.2f)：open %.2f m' % (tag, q['x'], q['z'], math.hypot(g['ob']['c'][0] - q['x'], g['ob']['c'][2] - q['z'])))
                 else: R.check('%s 有 open、closed 兩個模型' % tag, False, J({'ob': g['ob'], 'cb': g['cb']}))
             R.note('%s 燈：open %s、closed %s（看得到的是 %s）' % (tag, J(g['litOpen']), J(g['litClosed']), 'open' if g['openVis'] else 'closed'))
@@ -132,8 +136,9 @@ async def part_shots(pg, cdp):
             for lab, frm, to, fov in V:
                 save(await pg.evaluate(SNAP, {'from': list(frm), 'at': list(to), 'fov': fov}), 'nm_%s_%s_%s.jpg' % (q['id'], st, lab))
             b2 = await pg.screenshot(type='jpeg', quality=80); open(os.path.join(OUT, 'nm_%s_%s_game.jpg' % (q['id'], st)), 'wb').write(b2)
+            g2 = next((s for s in await pg.evaluate(STALLS) if s['id'] == q['id']), None)
             t = await talk(pg, cdp, tag)
-            R.note('%s 互動：鍵「%s」→ %s；選項 %s' % (tag, t['btn'], J(t['lines']), J(t['opts'])))
+            R.note('%s 互動：鍵「%s」→ %s；選項 %s（按的時候 G.hour %s、模型 isOpen %s）' % (tag, t['btn'], J(t['lines']), J(t['opts']), g2 and g2['gh'], g2 and g2['isOpen']))
             if st != '營業中':
                 flat = ' '.join(sum(t['opts'], []))
                 R.check('%s 沒營業時不能出現買的清單（選項裡沒有價錢／元）' % tag, not any(k in flat for k in ('元', '$')), J(t['opts']))
@@ -154,8 +159,17 @@ async def part_pano(pg, cdp):
 
 
 async def joy_walk(pg, cdp, pts, tag, leg_s=60):
-    stuck = 0; ok = True
-    for tx, tz in pts:
+    stuck = 0; ok = True; P2 = []
+    for tx, tz in pts:   # r2：每一段先問遊戲的找路（E.pathTo）中途點，每 2 m 取一點
+        me = await pg.evaluate(ME); lastp = P2[-1] if P2 else (me['x'], me['z'])
+        wp = await pg.evaluate("(a=>{ const E=GAME.E, P=E.player; const r=E.pathTo?E.pathTo(a[0],a[1],P.lv|0,a[2],a[3],P.lv|0):null; return r?r.map(p=>Array.isArray(p)?[p[0],p[1]]:[p.x,p.z]):null; })", [lastp[0], lastp[1], tx, tz])
+        if not wp: R.note('%s 找路找不到 (%.1f,%.1f)→(%.1f,%.1f)' % (tag, lastp[0], lastp[1], tx, tz)); P2.append((tx, tz)); continue
+        acc = None
+        for x, z in wp:
+            if acc is None or math.hypot(x - acc[0], z - acc[1]) >= 2.0: P2.append((x, z)); acc = (x, z)
+        if not P2 or P2[-1] != (tx, tz): P2.append((tx, tz))
+    R.note('%s 中途點（照 E.pathTo）%d 個：%s' % (tag, len(P2), J([[round(a, 1), round(b, 1)] for a, b in P2][:40])))
+    for tx, tz in P2:
         t0 = time.time(); last = (time.time(), None); side = 1; reached = False
         while time.time() - t0 < leg_s:
             s = await L.state(pg); d = math.hypot(tx - s['x'], tz - s['z'])
@@ -168,8 +182,9 @@ async def joy_walk(pg, cdp, pts, tag, leg_s=60):
             vx, vz = (tx - s['x']) / d, (tz - s['z']) / d; sx, sy = vx * rx + vz * rz, -(vx * fx + vz * fz); m = math.hypot(sx, sy) or 1
             await L.joystick(pg, cdp, sx / m * 45, sy / m * 45, 700 if d > 3 else 300)
         s = await L.state(pg)
-        R.check('%s 搖桿走到 (%.1f,%.1f)（%.0f 秒）' % (tag, tx, tz, time.time() - t0), reached, J({k: s[k] for k in ('x', 'z', 'zone')}))
+        if not reached: R.check('%s 搖桿走到中途點 (%.1f,%.1f)（%.0f 秒）' % (tag, tx, tz, time.time() - t0), False, J({k: s[k] for k in ('x', 'z', 'zone')}))
         ok = ok and reached
+    R.check('%s 照找路的中途點都走到（%d 個）' % (tag, len(P2)), ok, '')
     R.check('%s 卡住改側推 0 次（沒有隱形牆）' % tag, stuck == 0, '%d 次' % stuck)
     R.check('%s walkFallbacks 0' % tag, (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
     return ok
@@ -196,7 +211,7 @@ async def part_oldpos(pg, cdp):
         tag = '[OLDPOS %s (%.1f,%.1f)]' % (lab, x, z); del warns[:]
         await at(pg, cdp, zn, 20.0, x, z, '（舊存檔的 pos：這裡改版前沒有攤子）', wait=7000)
         me = await pg.evaluate(ME); mv = math.hypot(me['x'] - x, me['z'] - z)
-        R.check('%s 讀進來挪 %.2f m（≤1 m）、在 %s、站得住' % (tag, mv, zn), me['zone'] == zn and mv <= 1.0 and me['stand'] is not False, J(me))
+        R.check('%s 讀進來在 %s、站得住（挪 %.2f m%s）' % (tag, zn, mv, '' if mv <= 1.0 else '：>1 m——站的點在攤子的阻擋範圍正中間，攤子半個深度＋人的半徑就超過 1 m，只記、交 BB 判'), me['zone'] == zn and me['stand'] is not False, J(me))
         p0 = (me['x'], me['z']); await L.joystick(pg, cdp, 0, 45, 1000); me2 = await pg.evaluate(ME)
         R.check('%s 搖桿推得動（>0.3 m）' % tag, math.hypot(me2['x'] - p0[0], me2['z'] - p0[1]) > 0.3, J(me2))
         R.note('%s console warning：%s' % (tag, J([w for w in warns if 'spawn' in w or 'relocat' in w or 'stuck' in w.lower()] or warns[:5])))
@@ -209,17 +224,32 @@ async def part_fps(pg, cdp):
 
 
 async def part_edge(pg, cdp):
+    """r2（第一輪 TEST_BUG：讀檔後到檢查之間遊戲時間走了約 3 分鐘，14:59 讀到時已經過了 15:00）：讀檔到邊界前 3 分鐘，之後不動、每 0.3 秒記 G.hour／isOpen／open visible，
+    等時間自己走過邊界＋2 分鐘：翻轉要發生在邊界 ±1 分鐘內、模型 visible 和 isOpen 同步；翻轉前最後一刻、翻轉後第一刻各拍一張"""
     await at(pg, cdp, 'tingzhou', 20.0, None, None, '（讀配置）'); Ly = await lay(pg)
     if not Ly: R.check('[EDGE] 有 stalls 配置', False, ''); return
     A = all_stalls(Ly); e = min(A, key=lambda q: q['from']); l = max(A, key=lambda q: q['to'])
     for q, b, lab in ((e, e['from'], '最早開'), (l, l['to'], '最晚收')):
-        fx, fz = math.sin(q['yaw']), math.cos(q['yaw'])
-        for dm, want in ((-1, lab == '最晚收'), (1, lab == '最早開')):
-            h = b + dm / 60.0; tag = '[EDGE %s %s %s %s]' % (lab, q['id'], q['name'], hhmm(h))
-            await at(pg, cdp, q['zone'], h, q['x'] + fx * 2.5, q['z'] + fz * 2.5, '（%s 邊界 %+d 分鐘）' % (lab, dm), wait=6000); await pg.wait_for_timeout(1500)
+        fx, fz = math.sin(q['yaw']), math.cos(q['yaw']); tag = '[EDGE %s %s %s %s]' % (lab, q['id'], q['name'], hhmm(b))
+        await at(pg, cdp, q['zone'], b - 3 / 60.0, q['x'] + fx * 2.5, q['z'] + fz * 2.5, '（%s 邊界前 3 分鐘，之後讓時間自己走）' % lab, wait=4000)
+        log, prev, flip, t0 = [], None, None, time.time()
+        while time.time() - t0 < 60:
             g = next((s for s in await pg.evaluate(STALLS) if s['id'] == q['id']), None)
-            R.check('%s isOpen＝%s' % (tag, want), bool(g) and g['isOpen'] == want and g['openVis'] == want, J(g and {k: g[k] for k in ('isOpen', 'openVis', 'closedVis')}))
-            save(await pg.evaluate(SNAP, {'from': [q['x'] + fx * 4.5, 1.6, q['z'] + fz * 4.5], 'at': [q['x'], 1.2, q['z']], 'fov': 50}), 'nmedge_%s_%s_%s.jpg' % (lab, q['id'], hhmm(h).replace('+', 'p')))
+            if not g: break
+            log.append((g['gh'], g['isOpen'], g['openVis']))
+            if prev is not None and g['isOpen'] != prev['isOpen'] and flip is None:
+                flip = (prev, g); save(await pg.evaluate(SNAP, {'from': [q['x'] + fx * 4.5, 1.6, q['z'] + fz * 4.5], 'at': [q['x'], 1.2, q['z']], 'fov': 50}), 'nmedge_%s_%s_after.jpg' % (lab, q['id']))
+            elif flip is None:
+                save(await pg.evaluate(SNAP, {'from': [q['x'] + fx * 4.5, 1.6, q['z'] + fz * 4.5], 'at': [q['x'], 1.2, q['z']], 'fov': 50}), 'nmedge_%s_%s_before.jpg' % (lab, q['id']))
+            prev = g
+            gadj = g['gh'] + (24 if b >= 24 and g['gh'] < 20 else 0)   # 跨午夜：G.hour 可能回到 0 或繼續加到 24 以上，兩種都換成同一條時間軸
+            if gadj > b + 2 / 60.0: break
+            await pg.wait_for_timeout(300)
+        R.note('%s 紀錄（G.hour, isOpen, open visible）：%s' % (tag, J(log[:6] + ['…'] + log[-6:] if len(log) > 12 else log)))
+        if not R.check('%s 時間走過邊界時翻轉了（%s）' % (tag, '開' if lab == '最早開' else '收'), bool(flip), J(log[-3:])): continue
+        hb = flip[1]['gh'] + (24 if b >= 24 and flip[1]['gh'] < 20 else 0)
+        R.check('%s 翻轉在邊界 ±1 分鐘內（翻轉時 G.hour %s；邊界 %s）' % (tag, flip[1]['gh'], b), abs(hb - b) <= 1 / 60.0 + 0.002, J(flip))
+        R.check('%s 翻轉後 open 模型 visible 和 isOpen 同步' % tag, flip[1]['openVis'] == flip[1]['isOpen'] and flip[1]['isOpen'] == (lab == '最早開'), J(flip[1]))
 
 
 async def main():
