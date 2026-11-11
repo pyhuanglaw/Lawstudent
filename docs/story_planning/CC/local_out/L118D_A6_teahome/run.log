@@ -1,0 +1,155 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118d_ab_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_A6_teahome\out
+受測 SHA=a2dd74af190a174e383642ef8d2043b1d2947370；PARTS=A；SHOPS=tea,home；URL=http://127.0.0.1:8802/index.html
+Playwright 手機模擬（橫向 844×390）≠ iPhone 實機
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.9s] 畫面上的版本字樣：版本 v9.10.24（2026-11-10）
+  [  26.9s] 候選日期：[{"k": "2025-09-24", "d": 8, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 4}, {"k": "2025-10-01", "d": 15, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 5}, {"k": "2025-10-15", "d": 29, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 7}, {"k": "2025-10-22", "d": 36, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 8}, {"k": "2025-10-29", "d": 43, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 9}, {"k": "2025-11-05", "d": 50, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 10}]
+PASS 日期 2025-09-24：學期中（Y1S1 第 4 週）、不是假日、不是颱風假  {"k": "2025-09-24", "d": 8, "wd": 3, "hol": null, "ty": false, "term": "Y1S1", "week": 4}
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (0.00, 31.00)，12.17 點、錢 5000、QUIET=True（查營業時間（巷口））
+  [  45.6s] 營業（L118.isOpen，2025-09-24 12.17）：[{"id": "dian", "open": true, "note": null}, {"id": "self", "open": true, "note": null}, {"id": "tea", "open": true, "note": null}, {"id": "home", "open": true, "note": null}, {"id": "cafe2", "open": true, "note": null}, {"id": "pasta", "open": true, "note": null}, {"id": "korea", "open": true, "note": null}, {"id": "omu", "open": true, "note": null}, {"id": "noodle2", "open": true, "note": null}, {"id": "drink_a", "open": true, "note": null}, {"id": "drink_b", "open": true, "note": null}]
+PASS tea 這個時間有開（沒有公休紙）  {"id": "tea", "open": true, "note": null}
+PASS home 這個時間有開（沒有公休紙）  {"id": "home", "open": true, "note": null}
+  逐字｜start｜lane118｜clockZ｜118 巷
+  逐字｜start｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+
+===== tea 辛亥韓食（PARTS=A）=====
+PASS tea 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (-3.90, 7.50)，12.17 點、錢 5000、QUIET=True（辛亥韓食 店門口附近的人行道）
+PASS tea 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": -3.9, "z": 7.5, "ry": -0.1, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 3.042, "fallbacks": 0, "y": 0, "lv": 0, "frame": 274, "paused": false}
+PASS tea 巷子裡有這間店的店門口互動點  [{"x": -4.3, "z": 11.5, "r": 1.4, "label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "hidden": false, "enter": true}, {"x": -4.3, "z": 11.5, "r": 1.4, "label": "辛亥韓食（韓式鍋物、鐵板烤肉）", "hidden": true, "enter": false}]
+  [  58.6s] 搖桿走到「辛亥韓食 店門口」（0.29 m，推 4 次，7 秒）
+  逐字｜tea_door｜lane118｜interactLabel｜進辛亥韓食（韓式鍋物、鐵板烤肉）
+  [前置／捷徑] tea street：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720
+  [  60.3s] tea street 有字的板面（依距離分群）2 群：[{"nm": "wz_small_atlas_lane118", "c": [-5.27, 0.06, 10.1], "s": [0.35, 0.12, 0]}, {"nm": "wz_small_atlas_lane118", "c": [-5.27, 0.06, 12.85], "s": [0.35, 0.12, 0]}]
+  [  61.2s] tea 板面近照 sign_tea_street_00_wz_small_atlas_lane118.png（鏡頭 [-5.27, 0.06, 10.7] → [-5.27, 0.06, 10.1]，13 幀）
+  [  61.9s] tea 板面近照 sign_tea_street_01_wz_small_atlas_lane118.png（鏡頭 [-5.27, 0.06, 12.25] → [-5.27, 0.06, 12.85]，13 幀）
+  [  62.7s] tea 板面近照 sign_tea_facade.png（鏡頭 [3.64, 2.3, 11.5] → [-5.2, 2.4, 11.5]，13 幀）
+  [  63.4s] tea 板面近照 sign_tea_front.png（鏡頭 [-2.8, 1.5, 11.5] → [-5.2, 1.3, 11.5]，12 幀）
+  [  65.5s] 搖桿走到「辛亥韓食 店門口（拍完招牌走回來）」（0.29 m，推 0 次，0 秒）
+PASS A tea 店門口互動鍵（畫面）「進辛亥韓食（韓式鍋物、鐵板烤肉）」  畫面：「進辛亥韓食（韓式鍋物、鐵板烤肉）」；搖桿；範圍內 ["進辛亥韓食（韓式鍋物、鐵板烤肉）"]
+  逐字｜tea_inside｜l118_tea｜clockZ｜辛亥韓食（118 巷）
+  逐字｜tea_inside｜l118_tea｜interactLabel｜坐下
+PASS tea 進到店裡（l118_tea）、站得住  {"zone": "l118_tea", "x": -0.5, "z": 2.5, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下", "hour": 12.31, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1044, "paused": false}
+PASS A tea 左上角地點（畫面 #clockZ）是「辛亥韓食（118 巷）」  畫面：「辛亥韓食（118 巷）」
+PASS tea 店裡有點餐、出口的互動點  {"order": {"x": -0.45, "z": -1.95, "r": 0.7}, "exit": {"x": -0.5, "z": 3.55, "r": 0.7}}
+  [  84.5s] 搖桿走到「辛亥韓食 櫃台」（0.34 m，推 2 次，4 秒）
+PASS A tea 櫃台前面互動鍵（畫面）「點餐（辛亥韓食）」  畫面：「點餐（辛亥韓食）」；搖桿
+  逐字｜tea_menuA｜l118_tea｜interactLabel｜聽一句
+  逐字｜tea_menuA｜l118_tea｜interactLabel｜坐下
+  逐字｜tea_menuA｜l118_tea｜interactLabel｜點餐（辛亥韓食）
+  逐字｜tea_menuA｜l118_tea｜dlgText｜老闆｜小菜自己夾，可以續喔。
+  逐字｜tea_menuA｜l118_tea｜clockZ｜辛亥韓食（118 巷）
+  逐字｜tea_menuA｜l118_tea｜choices｜泡菜鍋 190 元 ｜ 海鮮豆腐鍋 210 元 ｜ 鐵板豬肉 200 元 ｜ 鐵板牛肉 230 元 ｜ 石鍋拌飯 180 元 ｜ 不用了
+PASS A tea 點餐有選單（按「不用了」不買）  {"menu": [{"i": 0, "t": "泡菜鍋 190 元", "dim": false, "name": "泡菜鍋", "price": 190}, {"i": 1, "t": "海鮮豆腐鍋 210 元", "dim": false, "name": "海鮮豆腐鍋", "price": 210}, {"i": 2, "t": "鐵板豬肉 200 元", "dim": false, "name": "鐵板豬肉", "price": 200}, {"i": 3, "t": "鐵板牛肉 230 元", "dim": false, "name": "鐵板牛肉", "price": 230}, {"i": 4, "t": "石鍋拌飯 180 元", "dim": false, "name": "石鍋拌飯", "price": 180}, {"i": 5, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [  90.3s] tea 選單（畫面）：["泡菜鍋 190 元", "海鮮豆腐鍋 210 元", "鐵板豬肉 200 元", "鐵板牛肉 230 元", "石鍋拌飯 180 元", "不用了"]
+PASS B tea 辛亥韓食 選單＝規格表（品名、價錢、項數）  預期 [["泡菜鍋", 190], ["海鮮豆腐鍋", 210], ["鐵板豬肉", 200], ["鐵板牛肉", 230], ["石鍋拌飯", 180]]；實際 [["泡菜鍋", 190], ["海鮮豆腐鍋", 210], ["鐵板豬肉", 200], ["鐵板牛肉", 230], ["石鍋拌飯", 180]]
+  [  90.3s] tea 店裡「看的東西」1 個（位置讀資料、字從畫面抽）
+  [  91.2s] 搖桿走到「辛亥韓食 看的東西「小菜櫃」站點 (-0.05,-2.15)」（0.09 m，推 1 次，1 秒）
+  [  91.3s] tea「小菜櫃」試過的站點（座標、互動鍵）：[[-0.02, -2.07, "小菜櫃"]]
+  逐字｜tea_look｜l118_tea｜interactLabel｜小菜櫃
+  逐字｜tea_look｜l118_tea｜caption｜（小菜自己夾。泡菜那一盒最先見底。）
+  看的東西｜tea｜?｜小菜櫃｜畫面：（小菜自己夾。泡菜那一盒最先見底。）｜資料：（小菜自己夾。泡菜那一盒最先見底。）
+  [前置／捷徑] tea inside：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720
+  [  94.5s] tea inside 有字的板面（依距離分群）5 群：[{"nm": "WALL_W_print", "c": [-1.29, 1.79, -0.78], "s": [0, 0.74, 2.75]}, {"nm": "WALL_N_print", "c": [0, 1.95, -3.98], "s": [2.4, 0.45, 0]}, {"nm": "WALL_W_print", "c": [-1.29, 1.8, 1.75], "s": [0, 0.6, 1.6]}, {"nm": "WALL_S_print", "c": [0.5, 1.41, 3.97], "s": [0.5, 0.22, 0]}, {"nm": "WALL_E_print", "c": [1.28, 1.6, 2.52], "s": [0, 0.2, 0.45]}]
+  [  95.2s] tea 板面近照 sign_tea_inside_00_WALL_W_print.png（鏡頭 [1.17, 1.79, -0.78] → [-1.29, 1.79, -0.78]，10 幀）
+  [  95.8s] tea 板面近照 sign_tea_inside_01_WALL_N_print.png（鏡頭 [0, 1.95, -1.83] → [0, 1.95, -3.98]，12 幀）
+  [  96.4s] tea 板面近照 sign_tea_inside_02_WALL_W_print.png（鏡頭 [0.15, 1.8, 1.75] → [-1.29, 1.8, 1.75]，12 幀）
+  [  97.0s] tea 板面近照 sign_tea_inside_03_WALL_S_print.png（鏡頭 [0.5, 1.41, 3.37] → [0.5, 1.41, 3.97]，13 幀）
+  [  97.5s] tea 板面近照 sign_tea_inside_04_WALL_E_print.png（鏡頭 [0.68, 1.6, 2.52] → [1.28, 1.6, 2.52]，13 幀）
+  [  98.3s] tea 板面近照 sign_tea_wide_in.png（鏡頭 [-0.44, 2.1, 3.52] → [0.3, 1.3, -2.4]，9 幀）
+  [  99.1s] tea 板面近照 sign_tea_wide_out.png（鏡頭 [0.42, 2.1, -3.4] → [-0.5, 1.3, 4]，9 幀）
+  [前置／捷徑] 遊戲時間 12.42 → 設回 12.17（出店前；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [ 106.1s] 搖桿走到「辛亥韓食 出口」（0.27 m，推 3 次，4 秒）
+PASS A tea 出口互動鍵（畫面）「離開辛亥韓食」  畫面：「離開辛亥韓食」；搖桿
+PASS tea 出來回到 118 巷、站得住、互動鍵不是「進辛亥韓食」  {"zone": "lane118", "x": -3.9, "z": 13.2, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "小菜自己夾，可以續喔。", "choices": 0, "interact": "", "hour": 12.22, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 2163, "paused": false, "it": "", "clockZ": "118 巷"}
+  逐字｜tea_end｜l118_tea｜interactLabel｜點餐（辛亥韓食）
+  逐字｜tea_end｜l118_tea｜interactLabel｜坐下
+  逐字｜tea_end｜l118_tea｜clockZ｜辛亥韓食（118 巷）
+  逐字｜tea_end｜l118_tea｜interactLabel｜聽一句
+  逐字｜tea_end｜l118_tea｜interactLabel｜坐下
+  逐字｜tea_end｜l118_tea｜interactLabel｜聽一句
+  逐字｜tea_end｜l118_tea｜interactLabel｜離開辛亥韓食
+  逐字｜tea_end｜lane118｜clockZ｜118 巷
+  逐字｜tea_end｜lane118｜toast｜這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。
+  逐字｜tea_end｜lane118｜toast｜（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）
+  [ 111.4s] tea 這一間花了 66 秒
+
+===== home 五湖四海（PARTS=A）=====
+PASS home 118 巷配置有這間店（LANE118_LAYOUT）
+  [前置／捷徑] 讀檔：2025-09-24 週三 118 巷 (-3.90, 2.00)，12.17 點、錢 5000、QUIET=True（五湖四海 店門口附近的人行道）
+PASS home 讀檔後站在 118 巷人行道、站得住  {"zone": "lane118", "x": -3.9, "z": 2, "ry": -3.04, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "小菜自己夾，可以續喔。", "choices": 0, "interact": "", "hour": 12.2, "stand": true, "camYaw": 0.1, "fallbacks": 0, "y": 0, "lv": 0, "frame": 2322, "paused": false}
+  逐字｜home_load｜lane118｜toast｜手機｜可昕：週末來木柵大學？我當導遊。
+PASS home 巷子裡有這間店的店門口互動點  [{"x": -4.3, "z": -2, "r": 1.4, "label": "進五湖四海（水餃店）", "hidden": false, "enter": true}, {"x": -4.3, "z": -2, "r": 1.4, "label": "五湖四海（水餃店）", "hidden": true, "enter": false}]
+  [ 119.8s] 搖桿走到「五湖四海 店門口」（0.30 m，推 2 次，3 秒）
+  逐字｜home_door｜lane118｜interactLabel｜進五湖四海（水餃店）
+  [前置／捷徑] home street：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720
+  [ 121.6s] home street 有字的板面（依距離分群）1 群：[{"nm": "wz_small_atlas_lane118", "c": [-5.27, 0.06, 1.85], "s": [0.35, 0.12, 0]}]
+  [ 122.5s] home 板面近照 sign_home_street_00_wz_small_atlas_lane118.png（鏡頭 [-5.27, 0.06, 1.25] → [-5.27, 0.06, 1.85]，7 幀）
+  [ 123.3s] home 板面近照 sign_home_facade.png（鏡頭 [3.64, 2.3, -2] → [-5.2, 2.4, -2]，12 幀）
+  [ 123.9s] home 板面近照 sign_home_front.png（鏡頭 [-2.8, 1.5, -2] → [-5.2, 1.3, -2]，12 幀）
+  [ 125.9s] 搖桿走到「五湖四海 店門口（拍完招牌走回來）」（0.30 m，推 0 次，0 秒）
+PASS A home 店門口互動鍵（畫面）「進五湖四海（水餃店）」  畫面：「進五湖四海（水餃店）」；搖桿；範圍內 ["進五湖四海（水餃店）"]
+  逐字｜home_inside｜l118_home｜clockZ｜五湖四海（118 巷）
+  逐字｜home_inside｜l118_home｜interactLabel｜聽一句
+PASS home 進到店裡（l118_home）、站得住  {"zone": "l118_home", "x": -2.6, "z": 2.75, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "小菜自己夾，可以續喔。", "choices": 0, "interact": "聽一句", "hour": 12.27, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 2911, "paused": false}
+PASS A home 左上角地點（畫面 #clockZ）是「五湖四海（118 巷）」  畫面：「五湖四海（118 巷）」
+PASS home 店裡有點餐、出口的互動點  {"order": {"x": 0.65, "z": -2.15, "r": 0.75}, "exit": {"x": -2.6, "z": 3.8, "r": 0.7}}
+  [ 138.7s] 搖桿走到「五湖四海 櫃台」（0.26 m，推 3 次，5 秒）
+PASS A home 櫃台前面互動鍵（畫面）「點餐（五湖四海）」  畫面：「點餐（五湖四海）」；搖桿
+  逐字｜home_menuA｜l118_home｜interactLabel｜點餐（五湖四海）
+  逐字｜home_menuA｜l118_home｜dlgText｜老闆娘｜水餃幾顆？十顆起。
+  逐字｜home_menuA｜l118_home｜choices｜高麗菜水餃10顆 80 元 ｜ 韭菜水餃10顆 85 元 ｜ 酸辣湯 45 元 ｜ 玉米濃湯 45 元 ｜ 不用了
+PASS A home 點餐有選單（按「不用了」不買）  {"menu": [{"i": 0, "t": "高麗菜水餃10顆 80 元", "dim": false, "name": "高麗菜水餃10顆", "price": 80}, {"i": 1, "t": "韭菜水餃10顆 85 元", "dim": false, "name": "韭菜水餃10顆", "price": 85}, {"i": 2, "t": "酸辣湯 45 元", "dim": false, "name": "酸辣湯", "price": 45}, {"i": 3, "t": "玉米濃湯 45 元", "dim": false, "name": "玉米濃湯", "price": 45}, {"i": 4, "t": "不用了", "dim": false, "name": null, "price": null}], "picked": "不用了", "m_pick": {"g": 5000, "hud": "$5000"}, "m_line": null, "m_end": {"g": 5000, "hud": "$5000"}, "other": [], "toast": []}
+  [ 144.5s] home 選單（畫面）：["高麗菜水餃10顆 80 元", "韭菜水餃10顆 85 元", "酸辣湯 45 元", "玉米濃湯 45 元", "不用了"]
+PASS B home 五湖四海 選單＝規格表（品名、價錢、項數）  預期 [["高麗菜水餃10顆", 80], ["韭菜水餃10顆", 85], ["酸辣湯", 45], ["玉米濃湯", 45]]；實際 [["高麗菜水餃10顆", 80], ["韭菜水餃10顆", 85], ["酸辣湯", 45], ["玉米濃湯", 45]]
+  [ 144.5s] home 店裡「看的東西」1 個（位置讀資料、字從畫面抽）
+  [ 146.0s] 搖桿走到「五湖四海 看的東西「煮水餃的大鍋」站點 (-1.40,-1.80)」（0.17 m，推 1 次，2 秒）
+  [ 146.1s] home「煮水餃的大鍋」試過的站點（座標、互動鍵）：[[-1.23, -1.84, "煮水餃的大鍋"]]
+  逐字｜home_look｜l118_home｜interactLabel｜聽一句
+  逐字｜home_look｜l118_home｜clockZ｜五湖四海（118 巷）
+  逐字｜home_look｜l118_home｜interactLabel｜煮水餃的大鍋
+  逐字｜home_look｜l118_home｜caption｜（老闆娘數都不數，一把下去剛好十顆。）
+  看的東西｜home｜dumpling_pot｜煮水餃的大鍋｜畫面：（老闆娘數都不數，一把下去剛好十顆。）｜資料：（老闆娘數都不數，一把下去剛好十顆。）
+  [前置／捷徑] home inside：拍模型上的字——鏡頭獨立擺（不跟人物）、藏人物和 HUD、視窗暫時 1280×720
+  [ 149.3s] home inside 有字的板面（依距離分群）10 群：[{"nm": "WALL_W_iprint", "c": [-3.78, 1.86, -0.74], "s": [0.02, 1.15, 2.48]}, {"nm": "WALL_N_iprint", "c": [2.9, 1.76, -4.21], "s": [0.95, 0.68, 0]}, {"nm": "WALL_E_iprint", "c": [3.79, 1.81, -0.09], "s": [0, 0.83, 0.62]}, {"nm": "WALL_E_iprint", "c": [3.78, 1.75, 2.66], "s": [0, 1.05, 0.42]}, {"nm": "WALL_W_iprint", "c": [-3.77, 1.68, 3.4], "s": [0, 0.96, 0.4]}, {"nm": "WALL_W_iprint", "c": [-3.79, 1.63, 1], "s": [0, 0.42, 0.52]}, {"nm": "WALL_E_iprint", "c": [3.79, 1.64, -1.82], "s": [0, 0.29, 0.55]}, {"nm": "WALL_S_iprint", "c": [0.63, 1.53, 4.22], "s": [0.45, 0.35, 0]}, {"nm": "WALL_E_iprint", "c": [3.77, 2.55, 1.55], "s": [0, 0.38, 0.38]}, {"nm": "WALL_S_iprint", "c": [-1.82, 1.39, 4.22], "s": [0.45, 0.28, 0]}]
+  [ 150.0s] home 板面近照 sign_home_inside_00_WALL_W_iprint.png（鏡頭 [-1.56, 1.86, -0.74] → [-3.78, 1.86, -0.74]，12 幀）
+  [ 150.4s] home 板面近照 sign_home_inside_01_WALL_N_iprint.png（鏡頭 [2.9, 1.76, -3.13] → [2.9, 1.76, -4.21]，13 幀）
+  [ 150.9s] home 板面近照 sign_home_inside_02_WALL_E_iprint.png（鏡頭 [2.47, 1.81, -0.09] → [3.79, 1.81, -0.09]，12 幀）
+  [ 151.4s] home 板面近照 sign_home_inside_03_WALL_E_iprint.png（鏡頭 [2.11, 1.75, 2.66] → [3.78, 1.75, 2.66]，14 幀）
+  [ 151.8s] home 板面近照 sign_home_inside_04_WALL_W_iprint.png（鏡頭 [-2.24, 1.68, 3.4] → [-3.77, 1.68, 3.4]，12 幀）
+  [ 152.3s] home 板面近照 sign_home_inside_05_WALL_W_iprint.png（鏡頭 [-3.12, 1.63, 1] → [-3.79, 1.63, 1]，13 幀）
+  [ 152.8s] home 板面近照 sign_home_inside_06_WALL_E_iprint.png（鏡頭 [3.19, 1.64, -1.82] → [3.79, 1.64, -1.82]，12 幀）
+  [ 153.4s] home 板面近照 sign_home_inside_07_WALL_S_iprint.png（鏡頭 [0.63, 1.53, 3.62] → [0.63, 1.53, 4.22]，13 幀）
+  [ 153.9s] home 板面近照 sign_home_inside_08_WALL_E_iprint.png（鏡頭 [3.16, 2.55, 1.55] → [3.77, 2.55, 1.55]，13 幀）
+  [ 154.4s] home 板面近照 sign_home_inside_09_WALL_S_iprint.png（鏡頭 [-1.82, 1.39, 3.62] → [-1.82, 1.39, 4.22]，12 幀）
+  [ 155.3s] home 板面近照 sign_home_wide_in.png（鏡頭 [-2.29, 2.1, 3.74] → [1.56, 1.3, -2.55]，9 幀）
+  [ 156.2s] home 板面近照 sign_home_wide_out.png（鏡頭 [2.21, 2.1, -3.61] → [-2.6, 1.3, 4.25]，9 幀）
+  [前置／捷徑] 遊戲時間 12.42 → 設回 12.17（出店前；一餐 40 分鐘、飲料 5 分鐘，不設回會過營業時間）
+  [ 163.1s] 搖桿走到「五湖四海 出口」（0.19 m，推 3 次，4 秒）
+PASS A home 出口互動鍵（畫面）「離開五湖四海」  畫面：「離開五湖四海」；搖桿
+PASS home 出來回到 118 巷、站得住、互動鍵不是「進五湖四海」  {"zone": "lane118", "x": -3.9, "z": -0.3, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "水餃幾顆？十顆起。", "choices": 0, "interact": "騎腳踏車", "hour": 12.22, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 4281, "paused": false, "it": "騎腳踏車", "clockZ": "118 巷"}
+  逐字｜home_end｜l118_home｜interactLabel｜坐下
+  逐字｜home_end｜l118_home｜interactLabel｜聽一句
+  逐字｜home_end｜l118_home｜interactLabel｜離開五湖四海
+  逐字｜home_end｜l118_home｜clockZ｜五湖四海（118 巷）
+  逐字｜home_end｜lane118｜clockZ｜118 巷
+  逐字｜home_end｜lane118｜interactLabel｜騎腳踏車
+  逐字｜home_end｜lane118｜toast｜這附近停著你的腳踏車：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。
+  逐字｜home_end｜lane118｜toast｜（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）
+  [ 168.4s] home 這一間花了 57 秒
+
+===== 畫面上抽到的字：彙總（A）=====
+  新店名（出現在哪些畫面元素）：{"118牛排": [], "水上便當": [], "辛亥韓食": ["clockZ", "interactLabel"], "五湖四海": ["clockZ", "interactLabel"], "大學食堂": [], "義大麵屋": [], "清州刀削麵": [], "奈良咖哩": [], "迪倫窯烤披薩": [], "喝不喝咖啡": [], "果茶社": []}
+  菜名（出現在哪些畫面元素）：{"可樂餅咖哩": [], "四種起司": [], "夏威夷": [], "奶油雞肉麵": [], "排骨飯": [], "木須炒刀削麵": [], "泡菜鍋": ["choices"], "海鮮豆腐鍋": ["choices"], "滷雞腿飯": [], "炸醬刀削麵": [], "炸雞腿飯": [], "燻雞蘑菇": [], "牛肉刀削麵": [], "牛肉咖哩": [], "玉米濃湯": ["choices"], "瑪格麗特": [], "番茄刀削麵": [], "番茄肉醬麵": [], "石鍋拌飯": ["choices"], "蒜香蛤蜊麵": [], "豬排": [], "豬排咖哩": [], "酸辣湯": ["choices"], "鐵板牛排": [], "鐵板牛肉": ["choices"], "鐵板豬肉": ["choices"], "雙拼": [], "雞排": [], "雞排飯": [], "雞肉咖哩": [], "雪花牛排": [], "青醬培根麵": [], "韭菜水餃10顆": ["choices"], "高麗菜水餃10顆": ["choices"]}
+PASS A 畫面上抽到的字（42 段）裡舊店名、舊菜名命中數＝0  命中 0 筆
+
+===== 看的東西：逐字表（2 列，C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_A6_teahome\out\looks_table.md）=====
+  |---|---|---|---|---|---|
+  | 辛亥韓食（tea） | ? | 小菜櫃 | （小菜自己夾。泡菜那一盒最先見底。） | （小菜自己夾。泡菜那一盒最先見底。） |  |
+  | 五湖四海（home） | dumpling_pot | 煮水餃的大鍋 | （老闆娘數都不數，一把下去剛好十顆。） | （老闆娘數都不數，一把下去剛好十顆。） |  |
+  [ 168.5s] 看的東西 2 列，其中 0 列標「⚠舊內容？」（關鍵字比對，交 BB 判，不算 FAIL）
+PASS 沒有 JS 例外（pageerror）  0 個
+PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0
+總結：0 項 FAIL
+ALL PASS

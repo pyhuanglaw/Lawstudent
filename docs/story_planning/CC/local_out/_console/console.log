@@ -1,11 +1,3 @@
-[09:59:47] ==== END   ART2_xg_r3_f  exit=0  359s   ====
-[09:59:50] memory 46% before starting XG_fix_joy (2 running)
-[09:59:50] ==== START XG_fix_joy  (probe @ 8e33a0df8dfbb5330b1391d9c59164985dc264eb) ====
-[09:59:53] [res] cpu=14% mem=47% (14.6/31.4 GB) chrome_testing=9  START XG_fix_joy
-[10:00:25] [res] cpu=5% mem=46% (14.5/31.4 GB) chrome_testing=9  END ART2_xg_r3_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       87c1bad6a..84ca45632  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [10:00:30] ==== END   ART2_xg_r3_old  exit=0  166s   ====
 [10:00:33] memory 44% before starting XG_old_joy (2 running)
 [10:00:33] ==== START XG_old_joy  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
@@ -1998,3 +1990,11 @@
 [17:23:49] [res] cpu=0% mem=49% (15.6/31.4 GB) chrome_testing=10  START L118A6_WALL_a
 [17:24:04] 正在跑：L118A6_SPECIAL（已跑 2 分／上限 25 分）、L118D_A6_teahome（已跑 1 分／上限 25 分）、L118A6_WALL_a（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:25:21] [res] cpu=2% mem=50% (15.9/31.4 GB) chrome_testing=10  END L118A6_SPECIAL
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       df7f5acbc..1f4a1a346  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:25:27] ==== END   L118A6_SPECIAL  exit=0  250s   ====
+[17:25:31] memory 51% before starting L118A6_WALL_b (2 running)
+[17:25:31] ==== START L118A6_WALL_b  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[17:25:34] [res] cpu=7% mem=48% (16.1/31.4 GB) chrome_testing=10  START L118A6_WALL_b
+[17:26:07] [res] cpu=11% mem=41% (12.8/31.4 GB) chrome_testing=4  END L118D_A6_teahome
