@@ -9,12 +9,14 @@
 //   7. 子晴 D06.cafe remember：S.REMEMBER_IF 照舊（第一次選「我請妳。」有旗標＝新句「這家我來過兩次了。這次我請，你不要算。」、不扣；沒旗標＝備用句、照扣 160）；第一次選項的回覆是「好。下次我請。」
 //   8. 程式：S.splitMark／S.takeSplit／S.halfOf；S.scene、S.dayRound 兩條路；行程物件、存檔不留 sheSplit；選單價錢照舊；快速約會照扣
 //   可昕 D10.snack 的 dating 那一套（「這串我們一人一半。好，你多一口。」）資料有、S.sheSplits 認得，但 S.spotLine 不演可昕的 dating 套（id!=='kexin'）——第 5 節不演，印出來。
+//   2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：白名單 AA_812 換 633b7f7d6（history 留 f1fab0ec6；改稿紀錄 date_rewrite/ 五份照舊 f1fab0ec6）；SPLIT 學姊 D22.fish 多「好。你堅持的話。」、D30.stall「好。各付各的，最清楚。」拿掉＝SPLIT 11 句 10 個互動點；
+//     第 6 節選「我們平分。」也扣一半、學姊 D30.stall 第一次選「我自己來。」照原價；第 7 節 S.REMEMBER_IF 拿掉子晴 D06.cafe 那一列＝沒旗標的人也聽新句、她請（上面第 2、5、6、7 行是 f1fab0ec6 那時的說法）。
 // 用法：node tests/date_she_pays_812_1111_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const {check,GM}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path'), os=require('os');
-const AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', SP='docs/story_planning/', SHA='f1fab0ec6', PREV='248c8e390';
+const AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', SP='docs/story_planning/', SHA='f1fab0ec6', PREV='248c8e390', SHA812='633b7f7d6';   /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：AA_812 這份稿換 633b7f7d6（SHA812）；改稿紀錄 date_rewrite/ 五份、path_rows 照舊 f1fab0ec6（SHA）。舊：AA_812 也是 SHA */
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<26}); }catch(e){ return null; } };
 const read=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
@@ -68,7 +70,7 @@ const lastSaid=(who,pid,s,ci)=>{ let st=null; const her=(s.lines||[]).filter(x=>
   for(const t of her){ if(DATE.shePays(who,pid,t)) st='pays'; else if(DATE.sheSplits(who,pid,t)) st='split'; } return st; };
 const want=(st,c)=>st==='pays'?0:st==='split'?Math.round(c/2):c;
 const D=SHE_PAYS_DATA, C812=D.cells812||[], PAYS=C812.filter(c=>c.kind==='pays'), SPL=C812.filter(c=>c.kind==='split');
-const A812=JSON.parse(show(SHA,SP+'AA_812_date_pays_promises.json')||'null');
+const A812=JSON.parse(show(SHA812,SP+'AA_812_date_pays_promises.json')||'null');   /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）。舊期望：show(SHA,…)（f1fab0ec6） */
 const REC=[
   {rec:'sis_D06',who:SIS,loc:'D06',n:45,old:'上次你請的。這次我請。',new:'這次我請。你坐著就好。'},
   {rec:'zq_D06',who:ZQ,loc:'D06',n:45,old:'我說過要請你吃滷味，等一下去，我知道一間。',new:'這家我來過兩次了。這次我請，你不要算。'},
@@ -82,15 +84,17 @@ const PATHS=[
 (async()=>{
   await sec(1,async()=>{ const A=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
     const e812=A.filter(x=>x.path===SP+'AA_812_date_pays_promises.json'), eRec=A.filter(x=>x.path.startsWith(SP+'date_rewrite/'));
-    check('1. 白名單 AA_812_date_pays_promises.json 一筆：'+SHA+'、approved、有 approvedBy、task DLG-FULL-REVIEW-1110',e812.length===1&&e812[0].sha===SHA&&e812[0].status==='approved'&&!!e812[0].approvedBy&&e812[0].task==='DLG-FULL-REVIEW-1110',J(e812.map(x=>[x.sha,x.status])));
+    /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：白名單 AA_812 換 633b7f7d6、f1fab0ec6 留在 history。舊期望：sha＝f1fab0ec6、沒有 history */
+    check('1. 白名單 AA_812_date_pays_promises.json 一筆：'+SHA812+'（history 有 '+SHA+'）、approved、有 approvedBy、task DLG-FULL-REVIEW-1110',e812.length===1&&e812[0].sha===SHA812&&(e812[0].history||[]).some(h=>h.sha===SHA)&&e812[0].status==='approved'&&!!e812[0].approvedBy&&e812[0].task==='DLG-FULL-REVIEW-1110',J(e812.map(x=>[x.sha,x.status,(x.history||[]).map(h=>h.sha)])));
     check('1. 白名單改稿紀錄 date_rewrite/ 剛好五筆（kx_D15、peishan_D15、peishan_D21、sis_D06、zq_D06）：都是 '+SHA+'、approved、approvedBy 寫著 AA_812 懸著的承諾',J(eRec.map(x=>x.path.slice((SP+'date_rewrite/').length)).sort())===J(['kx_D15.json','peishan_D15.json','peishan_D21.json','sis_D06.json','zq_D06.json'])&&eRec.every(x=>x.sha===SHA&&x.status==='approved'&&/f1fab0ec6（AA 11-11 AA_812 懸著的承諾）/.test(x.approvedBy||'')&&x.task==='DLG-FULL-REVIEW-1110'),J(eRec.map(x=>[x.path,x.sha])));
     check('1. 白名單 date_system/lines/D01～D33 還是 '+PREV+'（AA_812 沒有改源稿 Dxx.json；改稿紀錄是另外一層）',A.filter(x=>/date_system\/lines\/D\d\d\.json$/.test(x.path)).every(x=>x.sha===PREV)&&A.filter(x=>/date_system\/lines\/D\d\d\.json$/.test(x.path)).length===33);
     const sp=cp.spawnSync('python3',[path.join(H.ROOT,'tools/date/import_she_pays.py'),'--check'],{encoding:'utf8',timeout:120000});
-    check('1. src/data/she_pays.js 和重匯一致（tools/date/import_she_pays.py --check）；來源寫 AA_782＋AA_812',sp.status===0&&D.src.endsWith('＋'+SP+'AA_812_date_pays_promises.json@'+SHA),(sp.stdout||sp.stderr||'').slice(-200));
+    check('1. src/data/she_pays.js 和重匯一致（tools/date/import_she_pays.py --check）；來源寫 AA_782＋AA_812',sp.status===0&&D.src.endsWith('＋'+SP+'AA_812_date_pays_promises.json@'+SHA812),   /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）。舊期望：@'+SHA（f1fab0ec6） */(sp.stdout||sp.stderr||'').slice(-200));
     const out=path.join(os.tmpdir(),'date_lines_812_'+process.pid+'.js'); const r=cp.spawnSync('python3',[path.join(H.ROOT,'tools/date/import_date_lines.py'),'--out',out],{encoding:'utf8',timeout:300000});
     const same=r.status===0&&fs.existsSync(out)&&fs.readFileSync(out,'utf8')===read('src/data/date_lines.js'); try{ fs.unlinkSync(out); }catch(e){}
-    check('1. src/data/date_lines.js 和重匯一致（tools/date/import_date_lines.py --out；AA_812 那一步：改稿紀錄 5 格＋path_rows 2 列，換了 7 格）',same&&/AA_812@f1fab0ec6：懸著的「下次我請」——改稿紀錄 5 格.*換了 7 格/.test(r.stdout||''),(r.stderr||'').slice(-300));
-    check('1. date_lines.js 的來源寫著 AA_812 和五份改稿紀錄（@'+SHA+'）',['AA_812_date_pays_promises.json','kx_D15.json','peishan_D15.json','peishan_D21.json','sis_D06.json','zq_D06.json'].every(f=>NOW.source.includes('＋'+f+'@'+SHA))); });
+    check('1. src/data/date_lines.js 和重匯一致（tools/date/import_date_lines.py --out；AA_812 那一步：改稿紀錄 5 格＋path_rows 2 列，換了 7 格）',same&&/AA_812@633b7f7d6：懸著的「下次我請」——改稿紀錄 5 格.*換了 7 格/.test(r.stdout||'')   /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：匯入工具印 AA_812@633b7f7d6。舊期望：AA_812@f1fab0ec6 */,(r.stderr||'').slice(-300));
+    /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：來源 AA_812@633b7f7d6，五份改稿紀錄照舊 @f1fab0ec6。舊期望：六份都 @f1fab0ec6 */
+    check('1. date_lines.js 的來源寫著 AA_812（@'+SHA812+'）和五份改稿紀錄（@'+SHA+'）',NOW.source.includes('＋AA_812_date_pays_promises.json@'+SHA812)&&!NOW.source.includes('AA_812_date_pays_promises.json@'+SHA)&&['kx_D15.json','peishan_D15.json','peishan_D21.json','sis_D06.json','zq_D06.json'].every(f=>NOW.source.includes('＋'+f+'@'+SHA))); });
 
   await sec(2,async()=>{
     for(const x of REC){ const sl=slots(NOW.loc[x.loc],x.who), her=leaves(NOW.loc[x.loc].lines[x.who],'',{});
@@ -101,13 +105,14 @@ const PATHS=[
       else console.log('（這份 checkout 讀不到企劃線的 date_rewrite/'+x.rec+'.json：不比改稿紀錄）'); }
     for(const x of PATHS) check('2. path_rows：'+x.at+' 是新句「'+x.new+'」、整份 date_lines.js 沒有舊句',getAt(NOW,x.at)===x.new&&!Object.values(leaves(NOW,'',{})).includes(x.old),J(getAt(NOW,x.at)));
     if(A812){ const pr=A812.path_rows.map(r=>({path:r.path,old:r.old,new:r.new}));
-      check('2. 稿 AA_812@'+SHA+' 的 path_rows 兩列＝上面兩格（舊句、新句一字不差）',pr.length===2&&pr.every((r,i)=>r.old===PATHS[i].old&&r.new===PATHS[i].new)&&/D06\.cafe/.test(pr[0].path)&&/D10\.boat/.test(pr[1].path),J(pr)); }
+      check('2. 稿 AA_812@'+SHA812+' 的 path_rows 兩列＝上面兩格（舊句、新句一字不差；633b7f7d6 沒動 path_rows）',pr.length===2&&pr.every((r,i)=>r.old===PATHS[i].old&&r.new===PATHS[i].new)&&/D06\.cafe/.test(pr[0].path)&&/D10\.boat/.test(pr[1].path),J(pr)); }
     else console.log('（這份 checkout 讀不到企劃線的 AA_812：不比稿）'); });
 
   await sec(3,async()=>{ const all=leaves(NOW,'',{});
-    check('3. 稿的數量：她付全部 18 句（17 個互動點）、平分 11 句（11 個互動點）；cells812＝18＋11 列',PAYS.length===18&&new Set(PAYS.map(c=>c.who+' '+c.pid)).size===17&&SPL.length===11&&new Set(SPL.map(c=>c.who+' '+c.pid)).size===11,J([PAYS.length,SPL.length]));
+    /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：SPLIT 學姊 D22.fish 多一句「好。你堅持的話。」、D30.stall 那一句拿掉＝還是 11 句、互動點 10 個。舊期望：平分 11 句（11 個互動點） */
+    check('3. 稿的數量：她付全部 18 句（17 個互動點）、平分 11 句（10 個互動點：學姊 D22.fish 兩句）；cells812＝18＋11 列',PAYS.length===18&&new Set(PAYS.map(c=>c.who+' '+c.pid)).size===17&&SPL.length===11&&new Set(SPL.map(c=>c.who+' '+c.pid)).size===10,J([PAYS.length,SPL.length,new Set(SPL.map(c=>c.who+' '+c.pid)).size]));
     if(A812){ const flat=X=>[].concat(...Object.keys(X).map(w=>[].concat(...Object.keys(X[w]).map(p=>X[w][p].map(t=>[w,p,t])))));
-      check('3. cells812 和稿 AA_812 的 SHE_PAYS_add、SPLIT 一字不差、同樣的順序',J(PAYS.map(c=>[c.who,c.pid,c.text]))===J(flat(A812.SHE_PAYS_add))&&J(SPL.map(c=>[c.who,c.pid,c.text]))===J(flat(A812.SPLIT))); }
+      check('3. cells812 和稿 AA_812@'+SHA812+' 的 SHE_PAYS_add、SPLIT 一字不差、同樣的順序',J(PAYS.map(c=>[c.who,c.pid,c.text]))===J(flat(A812.SHE_PAYS_add))&&J(SPL.map(c=>[c.who,c.pid,c.text]))===J(flat(A812.SPLIT))); }
     const bad=[];
     for(const c of C812){ const h=HS(c.who,c.pid), L=leaves(h,'',{}), at=Object.keys(L).filter(p=>L[p]===c.text);
       if(at.length!==1) bad.push(c.who+' '+c.pid+' 「'+c.text+'」在她那個互動點底下 '+at.length+' 處');
@@ -117,7 +122,9 @@ const PATHS=[
     check('3. S.SHE_PAYS 認得她付全部的十八句、S.SPLIT 認得平分的十一句；同一句不會兩邊都有（S.shePays 和 S.sheSplits 不會同時是 true）',PAYS.every(c=>DATE.shePays(c.who,c.pid,c.text)&&!DATE.sheSplits(c.who,c.pid,c.text))&&SPL.every(c=>DATE.sheSplits(c.who,c.pid,c.text)&&!DATE.shePays(c.who,c.pid,c.text)));
     const nS=o=>Object.values(o).reduce((a,x)=>a+Object.values(x).reduce((b,v)=>b+v.length,0),0);
     check('3. 重複的不重複：S.SHE_PAYS 一共 22 句（以安手寫 3＋AA_782 留下的 8＋AA_812 新的 11；AA_812 和 AA_782 重複的 7 句標 dup）；S.SPLIT 11 句',nS(DATE.SHE_PAYS)===22&&nS(DATE.SPLIT)===11&&PAYS.filter(c=>c.dup).length===7&&PAYS.filter(c=>c.dup).every(c=>/^AA_782 /.test(c.dup)),J([nS(DATE.SHE_PAYS),nS(DATE.SPLIT)]));
-    check('3. 同一個人同一個互動點兩邊都有的只有學姊 D22.fish、D30.stall（不同的句子：D22 第一次那一套的第一句和選項回話；D30 remember 和第一次的選項回話）',J(Object.keys(DATE.SPLIT).flatMap(w=>Object.keys(DATE.SPLIT[w]).filter(p=>(DATE.SHE_PAYS[w]||{})[p]).map(p=>w+' '+p)))===J([SIS+' D22.fish',SIS+' D30.stall']));
+    /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：學姊 D30.stall「好。各付各的，最清楚。」從 SPLIT 拿掉（祐廷照原價），兩邊都有的剩 D22.fish；D22.fish 的 SPLIT 是第一次兩個選項的回話。舊期望：學姊 D22.fish、D30.stall 兩個 */
+    check('3. 同一個人同一個互動點兩邊都有的只有學姊 D22.fish（不同的句子：第一次那一套的第一句「這家我請」和兩個選項的回話）',J(Object.keys(DATE.SPLIT).flatMap(w=>Object.keys(DATE.SPLIT[w]).filter(p=>(DATE.SHE_PAYS[w]||{})[p]).map(p=>w+' '+p)))===J([SIS+' D22.fish']),J(Object.keys(DATE.SPLIT).flatMap(w=>Object.keys(DATE.SPLIT[w]).filter(p=>(DATE.SHE_PAYS[w]||{})[p]).map(p=>w+' '+p))));
+    check('3. 學姊的 S.SPLIT 只有 D22.fish 兩句（「好。飯我請，飲料你請。」「好。你堅持的話。」＝第一次兩個選項的回話）；D30.stall 不在 S.SPLIT、「好。各付各的，最清楚。」S.sheSplits 不認（AA_812@'+SHA812+'）',J(DATE.SPLIT[SIS])===J({'D22.fish':['好。飯我請，飲料你請。','好。你堅持的話。']})&&J(HS(SIS,'D22.fish').first.choice.map(c=>c.reply[0].text))===J(['好。飯我請，飲料你請。','好。你堅持的話。'])&&!DATE.sheSplits(SIS,'D30.stall','好。各付各的，最清楚。')&&!DATE.shePays(SIS,'D30.stall','好。各付各的，最清楚。')&&HS(SIS,'D30.stall').first.choice[1].reply[0].text==='好。各付各的，最清楚。',J(DATE.SPLIT[SIS]));
     const ss=DATE.sheSplits;
     check('3. S.sheSplits 只認「那個人＋那個互動點＋整句」：別人說同一句、別的互動點、沒有互動點、多一個字都不算',SPL.every(c=>ss(c.who,c.pid,c.text)&&!ss(c.who===AN?ZR:AN,c.pid,c.text)&&!ss(c.who,null,c.text)&&!ss(c.who,c.pid,c.text+'。'))&&!ss(KX,'D05.lawn','這裡的蛋糕很貴，一人一半就還好。'));
     check('3. 稿「不列」的不在：沛珊 D27 雞肉飯、可昕 D22.fish、學姊／可昕 closing 的「晚餐我請」——S.SPLIT、S.SHE_PAYS 都沒有可昕 D22.fish；可昕 D15 收尾那一句（「宵夜我請。…」，收尾不在互動點）兩邊都沒有',!((DATE.SHE_PAYS[KX]||{})['D22.fish'])&&!((DATE.SPLIT[KX]||{})['D22.fish'])&&!Object.values(DATE.SHE_PAYS[KX]||{}).flat().includes('宵夜我請。我已經挑好了，在山下。')); });
@@ -131,8 +138,12 @@ const PATHS=[
         check(w+'：{lastDrink} 那一套現在演不到（S.TASTE_WORD 空的）——沒說這一句、照扣 '+cost+'（不是匯錯：等 AA 給 TASTE 的說法）',!!r.b.ok&&!r.said.some(x=>/這次換我幫你點/.test(x))&&J(paid(r,P.name))===J([cost]),J([r.b.why,r.ch,r.said])); continue; }
       /* 那一套有選項、這一句不是選項的回話：選一個回話不會再說平分的選項（學姊 D22.fish 第一次選「我們平分。」；選「那我請飲料。」的在第 6 節）*/
       const S0=setOf(c.who,pid,kind,k), cc=ci!=null?ci:((S0.choice||[]).length?S0.choice.findIndex((_,i)=>lastSaid(c.who,pid,S0,i)==='pays'):null);
-      const a=await trip(c.who,pid,kind,k,cc,o), st=lastSaid(c.who,pid,S0,cc), heard=c.text.includes('{lastDrink}')?a.said.some(x=>x.startsWith(c.text.split('{lastDrink}')[0])&&x.endsWith(c.text.split('{lastDrink}')[1])):a.said.includes(c.text);
-      check(w+'：演到「'+c.text+'」那一次'+(cc!=null?'（選「'+S0.choice[cc].t+'」）':'')+'——'+P.name+'不扣'+(cost?'':'（這個互動點本來就 0 元）')+'；行程物件上沒有留下 shePaid／sheSplit',!!a.b.ok&&heard&&st==='pays'&&J(paid(a,P.name))==='[]'&&!('shePaid' in (a.t||{}))&&!('sheSplit' in (a.t||{})),J([a.b.why,a.ch,a.said.slice(0,5)]));
+      /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：學姊 D22.fish 第一次兩個選項的回話都在 SPLIT（「好。你堅持的話。」加進去了）——這一套找不到「最後說的是請客」的選項（cc＝-1）：每個選項都演一次，「這家我請」照說、最後說的是平分＝扣一半。
+         舊期望：選「我們平分。」（那時不在 SPLIT）＝最後是「這家我請」＝不扣 */
+      if(cc===-1){ const half=[]; for(let i=0;i<S0.choice.length;i++){ const r=await trip(c.who,pid,kind,k,i,o); half.push([S0.choice[i].t,lastSaid(c.who,pid,S0,i),!!r.b.ok&&r.said.includes(c.text)&&J(paid(r,P.name))===J([Math.round(cost/2)])&&!r.ch.some(([l])=>/（請她）/.test(l))&&!('shePaid' in (r.t||{}))&&!('sheSplit' in (r.t||{})),r.ch]); }
+        check(w+'：這一套每個選項的回話都是平分（只有學姊 D22.fish 第一次，AA_812@'+SHA812+'）——演到「'+c.text+'」、不管選哪一個（'+S0.choice.map(x=>x.t).join('、')+'），最後說的都是平分＝'+P.name+'扣一半 '+Math.round(cost/2),c.who===SIS&&c.key==='D22.fish.first'&&half.length===2&&half.every(h=>h[1]==='split'&&h[2]),J(half)); }
+      else { const a=await trip(c.who,pid,kind,k,cc,o), st=lastSaid(c.who,pid,S0,cc), heard=c.text.includes('{lastDrink}')?a.said.some(x=>x.startsWith(c.text.split('{lastDrink}')[0])&&x.endsWith(c.text.split('{lastDrink}')[1])):a.said.includes(c.text);
+      check(w+'：演到「'+c.text+'」那一次'+(cc!=null?'（選「'+S0.choice[cc].t+'」）':'')+'——'+P.name+'不扣'+(cost?'':'（這個互動點本來就 0 元）')+'；行程物件上沒有留下 shePaid／sheSplit',!!a.b.ok&&heard&&st==='pays'&&J(paid(a,P.name))==='[]'&&!('shePaid' in (a.t||{}))&&!('sheSplit' in (a.t||{})),J([a.b.why,a.ch,a.said.slice(0,5)])); }
       /* 別套：first、remember、選項回話的格＝normal 第一套；normal#k＝第一套（k＝0 的演第二套）——那一套沒有請客／平分的句子 */
       const j=kind==='normal'&&k===0?1:0, alt=setOf(c.who,pid,'normal',j), sa=lastSaid(c.who,pid,alt,null);
       if(sa){ check(w+'：別套 normal#'+j+' 自己也有請客／平分的句子，不比',false,J(alt)); continue; }
@@ -156,12 +167,18 @@ const PATHS=[
   await sec(6,async()=>{ const P=PT('D22.fish');
     const a=await trip(SIS,'D22.fish','first',null,0), b=await trip(SIS,'D22.fish','first',null,1);
     check('6. 學姊 D22.fish 第一次：她先說「（活魚料理）這家我請。你不要搶。」，選「那我請飲料。」她回「好。飯我請，飲料你請。」——最後說的是平分＝活魚料理扣 150（300 的一半）',!!a.b.ok&&a.said.includes('（活魚料理）這家我請。你不要搶。')&&a.said.includes('好。飯我請，飲料你請。')&&P.cost===300&&J(paid(a,'活魚料理'))===J([150])&&!a.ch.some(([l])=>/（請她）/.test(l)),J([a.b.why,a.ch]));
-    check('6. 同一套選「我們平分。」（她回「好。你堅持的話。」，稿沒有列進 SPLIT）——最後說的請客句還是「這家我請」＝活魚料理不扣',!!b.b.ok&&b.said.includes('好。你堅持的話。')&&J(paid(b,'活魚料理'))==='[]',J([b.b.why,b.ch])); });
+    /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：「好。你堅持的話。」加進 SPLIT＝選「我們平分。」最後說的也是平分，活魚料理扣一半 150。舊期望：那一句不在 SPLIT，最後說的請客句是「這家我請」＝不扣 */
+    check('6. 同一套選「我們平分。」（她回「好。你堅持的話。」，AA_812@'+SHA812+' 列進 SPLIT）——最後說的是平分＝活魚料理扣 150（300 的一半）',!!b.b.ok&&b.said.includes('（活魚料理）這家我請。你不要搶。')&&b.said.includes('好。你堅持的話。')&&J(paid(b,'活魚料理'))===J([150])&&!b.ch.some(([l])=>/（請她）/.test(l)),J([b.b.why,b.ch]));
+    /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）新加：學姊 D30.stall 第一次選「我自己來。」她回「好。各付各的，最清楚。」——從 SPLIT 拿掉了，祐廷照原價付（兩天一夜 S.dayRound）。舊期望：在 SPLIT＝扣一半（第 5 節逐格） */
+    const P30=PT('D30.stall'), c30=await trip(SIS,'D30.stall','first',null,1);
+    check('6. 學姊 D30.stall 第一次選「我自己來。」（她回「好。各付各的，最清楚。」，AA_812@'+SHA812+' 從 SPLIT 拿掉）——'+P30.name+'照原價 '+P30.cost+'、沒有「（請她）」',!!c30.b.ok&&c30.said.includes('好。各付各的，最清楚。')&&P30.cost>0&&J(paid(c30,P30.name))===J([P30.cost])&&!c30.ch.some(([l])=>/（請她）/.test(l)),J([c30.b.why,c30.ch,c30.said.slice(0,5)])); });
 
   await sec(7,async()=>{ const P=PT('D06.cafe'), RI=DATE.REMEMBER_IF.find(r=>r.who===ZQ&&r.pid==='D06.cafe');
     const a=await trip(ZQ,'D06.cafe','remember',null,null,{flags:{ZQ_D06_TREAT:1}}), b=await trip(ZQ,'D06.cafe','remember',null,null);
     check('7. 子晴 D06.cafe 再訪，有旗標（第一次選了「我請妳。」）：她說「這家我來過兩次了。這次我請，你不要算。」——咖啡廳不扣',!!a.b.ok&&a.said.includes('這家我來過兩次了。這次我請，你不要算。')&&J(paid(a,P.name))==='[]',J([a.b.why,a.ch,a.said.slice(0,4)]));
-    check('7. 沒旗標（第一次選了另一個）：S.REMEMBER_IF 照舊換成備用句「'+((RI&&RI.no[0].text)||'')+'」——咖啡廳照扣 '+P.cost,!!RI&&!!b.b.ok&&b.said.includes(RI.no[0].text)&&!b.said.includes('這家我來過兩次了。這次我請，你不要算。')&&J(paid(b,P.name))===J([P.cost]),J([b.b.why,b.ch,b.said.slice(0,4)]));
+    /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：S.REMEMBER_IF 拿掉子晴 D06.cafe 那一列＝沒旗標（第一次選了另一個）的人再訪也聽新句、她請（咖啡廳不扣）；PICK_FLAG 照記。
+       舊期望：S.REMEMBER_IF 照舊換成備用句「這家的位子我記得，靠牆那桌插座最近。」——咖啡廳照扣 160 */
+    check('7. 沒旗標（第一次選了另一個）：S.REMEMBER_IF 沒有 D06.cafe 那一列（AA_812@'+SHA812+'），一樣聽「這家我來過兩次了。這次我請，你不要算。」——咖啡廳不扣；聽不到 AA_775 的備用句',!RI&&!DATE.REMEMBER_IF.some(r=>r.loc==='D06'||r.pid==='D06.cafe')&&!!b.b.ok&&b.said.includes('這家我來過兩次了。這次我請，你不要算。')&&!b.said.includes('這家的位子我記得，靠牆那桌插座最近。')&&J(paid(b,P.name))==='[]'&&!('shePaid' in (b.t||{})),J([b.b.why,b.ch,b.said.slice(0,4)]));
     const f=await trip(ZQ,'D06.cafe','first',null,1);
     check('7. 第一次選「我請妳。」她回「好。下次我請。」（path_rows；滷味拿掉了）、記 ZQ_D06_TREAT；咖啡廳照扣 160（這一次是祐廷請）',!!f.b.ok&&f.said.includes('好。下次我請。')&&!f.said.some(x=>/滷味/.test(x))&&H.G.flags.ZQ_D06_TREAT!=null&&J(paid(f,P.name))===J([P.cost]),J([f.b.why,f.ch,f.said.slice(0,4)])); });
 

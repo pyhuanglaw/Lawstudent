@@ -93,7 +93,8 @@ const know=id=>{ H.CLOSE(id); H.G.contacts[id]=1; };
       check('3. 源稿 '+SHA+' 和上一版 '+PREV+' 逐格比：芷若、子晴、以安以外的人只有那四句不同（語彤其餘、學姊、沛珊、可昕其餘 0 格）',J(other.sort())===J(ALSO.map(x=>x.loc+x.srcp).sort()),J(other.slice(0,8))); } });
 
   await sec(4,async()=>{
-    check('4. PICK_FLAG、REMEMBER_IF、ARRIVE_VAR、S.LINE_IF 都沒有芷若的項目（沒有拿她的選項或句子當 key）；原本的 PICK_FLAG 3 筆、REMEMBER_IF 3 筆、ARRIVE_VAR 2 筆照舊',![].concat(DATE.REMEMBER_IF,DATE.PICK_FLAG,DATE.ARRIVE_VAR).some(x=>x.who===ZR)&&!DATE.LINE_IF[ZR]&&DATE.PICK_FLAG.length===3&&DATE.REMEMBER_IF.length===3&&DATE.ARRIVE_VAR.length===2);
+    /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：S.REMEMBER_IF 拿掉子晴 D06.cafe 那一列（再訪不分第一次選了什麼都聽 remember 的新句、她請；PICK_FLAG 照記 ZQ_D06_TREAT）——REMEMBER_IF 剩 2 筆（子晴 D15、沛珊 D05），D06.cafe 那一列不在。舊期望：REMEMBER_IF 3 筆（子晴 D06／D15、沛珊 D05） */
+    check('4. PICK_FLAG、REMEMBER_IF、ARRIVE_VAR、S.LINE_IF 都沒有芷若的項目（沒有拿她的選項或句子當 key）；PICK_FLAG 3 筆、ARRIVE_VAR 2 筆照舊，REMEMBER_IF 2 筆（AA_812@633b7f7d6 拿掉子晴 D06.cafe 那一列）',![].concat(DATE.REMEMBER_IF,DATE.PICK_FLAG,DATE.ARRIVE_VAR).some(x=>x.who===ZR)&&!DATE.LINE_IF[ZR]&&DATE.PICK_FLAG.length===3&&DATE.REMEMBER_IF.length===2&&!DATE.REMEMBER_IF.some(r=>r.loc==='D06'||r.pid==='D06.cafe')&&DATE.ARRIVE_VAR.length===2);
     const bad=[]; for(const v of DATE.ARRIVE_VAR){ const F=(((NOW.loc[v.loc]||{}).lines||{})[v.who]||{}).arrive, T=F&&F.first?F.first.lines.map(x=>x.text):[]; if(!v.from.every(t=>T.includes(t))) bad.push('ARRIVE_VAR '+v.loc+' '+v.who); }
     for(const r of DATE.PICK_FLAG){ const h=((((NOW.loc[r.loc]||{}).lines||{})[r.who]||{}).hotspots||{})[r.pid], c=h&&h.first&&h.first.choice||[]; if(!c.some(x=>x.t===r.t)) bad.push('PICK_FLAG '+r.loc+' '+r.who+' '+r.t); }
     for(const r of DATE.REMEMBER_IF){ const h=((((NOW.loc[r.loc]||{}).lines||{})[r.who]||{}).hotspots||{})[r.pid]; if(!(h&&h.remember&&h.remember.lines&&h.remember.lines.length)) bad.push('REMEMBER_IF '+r.loc+' '+r.who+' '+r.pid); }

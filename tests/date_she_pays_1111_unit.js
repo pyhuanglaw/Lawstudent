@@ -205,7 +205,11 @@ const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請
       /* 2026-11-11（AA_812@f1fab0ec6 SPLIT）：學姊 D22.fish 第一次選「那我請飲料。」她回「好。飯我請，飲料你請。」＝平分（最後說的那一句算，扣一半；tests/date_she_pays_812_1111_unit.js）——
          這裡選另一個「我們平分。」（她回「好。你堅持的話。」，不在 SPLIT）測「這家我請」那一句不扣。舊期望：選單一律選第一個（那時「那我請飲料。」也不扣）*/
       const a=await run(kind,k,c.who===SIS&&c.key==='D22.fish.first'?['我們平分']:[]);
-      check(w+'：演到「'+c.text+'」那一次——'+P.name+'不扣'+(ov?'（兩天一夜 S.dayRound）':'')+'；行程物件上沒有留下 shePaid',!!a.b.ok&&a.said.filter(x=>x===c.text).length===1&&J(paid(a,P.name))==='[]'&&!('shePaid' in (a.t||{})),J([a.b.why,a.ch,a.said.slice(0,4)]));
+      /* 2026-11-11（AA_812@633b7f7d6、AA 12:4x 四點）：學姊 D22.fish 第一次選「我們平分。」她回「好。你堅持的話。」——這一句也進了 SPLIT＝最後說的是平分，活魚料理扣一半（300→150；兩個選項都是平分，「這家我請」那一句這一套都會被後面的平分蓋過）。
+         舊期望：選「我們平分。」（那時不在 SPLIT）＝最後說的請客句還是「這家我請」，活魚料理不扣 */
+      const sp22=c.who===SIS&&c.key==='D22.fish.first';
+      if(sp22) check(w+'：演到「'+c.text+'」那一次、選「我們平分。」她回「好。你堅持的話。」（AA_812@633b7f7d6 進了 SPLIT）——最後說的是平分＝'+P.name+'扣一半 '+Math.round(P.cost/2)+'（'+P.cost+' 的一半）；行程物件上沒有留下 shePaid／sheSplit',!!a.b.ok&&a.said.filter(x=>x===c.text).length===1&&a.said.includes('好。你堅持的話。')&&P.cost===300&&J(paid(a,P.name))===J([150])&&!('shePaid' in (a.t||{}))&&!('sheSplit' in (a.t||{})),J([a.b.why,a.ch,a.said.slice(0,4)]));
+      else check(w+'：演到「'+c.text+'」那一次——'+P.name+'不扣'+(ov?'（兩天一夜 S.dayRound）':'')+'；行程物件上沒有留下 shePaid',!!a.b.ok&&a.said.filter(x=>x===c.text).length===1&&J(paid(a,P.name))==='[]'&&!('shePaid' in (a.t||{})),J([a.b.why,a.ch,a.said.slice(0,4)]));
       /* 別套：first、remember 的格＝輪 normal 第一套；normal#k 的格＝輪 normal 第一套（k＝0 的輪第二套）*/
       const ok2=kind==='normal'&&k===0?1:0, b=await run('normal',ok2), other=(NOW.loc[c.loc].lines[c.who].hotspots[pid].normal[ok2].lines||[]).filter(x=>x.who===c.who).map(x=>x.text);
       check(w+'：同一個互動點演別套（normal 第 '+(ok2+1)+' 套「'+other.join('')+'」）——照扣 '+P.cost,!!b.b.ok&&other.length>0&&other.every(x=>b.said.includes(x))&&!b.said.includes(c.text)&&J(paid(b,P.name))===J([P.cost]),J([b.b.why,b.ch,b.said.slice(0,4)])); } });
