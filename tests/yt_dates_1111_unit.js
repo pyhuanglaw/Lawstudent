@@ -109,7 +109,9 @@ const D14C=p=>/^lines\/closing\//.test(p);
   await sec(6,async()=>{ const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files, e=allow.filter(x=>x.path===SP+'AA_767_yt_date_common.json');
     check('6. 白名單 AA_767_yt_date_common.json@0a2136911 一筆、approved；date_lines.js 的來源寫著它',e.length===1&&e[0].sha==='0a2136911'&&e[0].status==='approved'&&NOW.source.includes('AA_767_yt_date_common.json@0a2136911'));
     const LY=NOW.lines[YT];
-    check('6. lines.heroine_03 六格：move 第一句「好，改那天。」、transport「好，坐你的車。」「我平常都坐捷運，在車上要做什麼，我不太知道。」、cancel「沒關係。下次再約。」、flaked「那天我等了一下。」「班也請了。下次不能來，先跟我說。」',LY.move[0]==='好，改那天。'&&J(LY.transport)===J([['好，坐你的車。','我平常都坐捷運，在車上要做什麼，我不太知道。']])&&J(LY.cancel)===J(['沒關係。下次再約。'])&&J(LY.flaked)===J([['那天我等了一下。','班也請了。下次不能來，先跟我說。']]),J(LY));
+    /* 2026-11-11（AA_780_an_date_followup.json@248c8e390，以安約會台詞匯入以後 AA 的後續改稿）：flaked 第一則「那天我等了一下。」換成「嗯。第二次了。」（30 天內第二次當天取消的當下說的，沒有人等過；第二則照舊）。
+       舊期望：flaked＝[['那天我等了一下。','班也請了。下次不能來，先跟我說。']]（AA_767 的字）*/
+    check('6. lines.heroine_03 六格：move 第一句「好，改那天。」、transport「好，坐你的車。」「我平常都坐捷運，在車上要做什麼，我不太知道。」、cancel「沒關係。下次再約。」、flaked「嗯。第二次了。」（AA_780 再換；AA_767 是「那天我等了一下。」）「班也請了。下次不能來，先跟我說。」',LY.move[0]==='好，改那天。'&&J(LY.transport)===J([['好，坐你的車。','我平常都坐捷運，在車上要做什麼，我不太知道。']])&&J(LY.cancel)===J(['沒關係。下次再約。'])&&J(LY.flaked)===J([['嗯。第二次了。','班也請了。下次不能來，先跟我說。']]),J(LY));
     check('6. accept（兩句）、acceptDating、move 第二句、move3 不改',J(LY.accept)===J([['好。','我跟蘇姨說那天不排班。'],'可以。那天我沒有班。'])&&J(LY.acceptDating)===J(['好。蘇姨說，那天她自己顧。'])&&LY.move[1]==='可以。我再跟蘇姨講一次。'&&J(LY.move3)===J([['第三次了。','蘇姨問我到底哪一天。我說我也不知道。']]),J(LY));
     const EX=DATE.EXTRA_LINES[YT];
     check('6. date3d.js S.EXTRA_LINES 語彤：depart 第一句照舊「我到了。」、第二、三句、enough 兩句、leaveEarly、noPair 照稿',J(EX)===J({depart:['我到了。','出門了。傘有帶，這次有。','快到了。你先找地方站，我看得到你。'],enough:['差不多了。秀琴姨煮了飯，我想回去吃熱的。','我走不動了。到這裡就好。'],leaveEarly:['就這樣？好。那我回去了。'],noPair:['我不用。我幫你拍，你站過去。']}),J(EX));
@@ -118,7 +120,8 @@ const D14C=p=>/^lines\/closing\//.test(p);
     const code=read('src/date3d.js');
     if(A){ const get=(o,pth)=>pth.match(/\[\d+\]|[^.\[\]]+/g).reduce((x,t)=>x==null?x:x[t[0]==='['?+t.slice(1,-1):t],o);
       const r1=A.rows.filter(r=>r.file==='src/data/date_lines.js'), r2=A.rows.filter(r=>r.file==='src/date3d.js');
-      check('6. 逐字：稿 13 列（date_lines.js 六列、date3d.js 七列）；date_lines.js 六列的 new 在 path 那一格',A.rows.length===13&&r1.length===6&&r2.length===7&&r1.every(r=>get(NOW,r.path)===r.new),J(r1.filter(r=>get(NOW,r.path)!==r.new).map(r=>r.path)));
+      /* 2026-11-11（AA_780@248c8e390）：flaked[0][0] 那一列 AA_780 再換（old＝這一列的 new），那一格改認 AA_780 的 new（date_src_sha.js 的 want780；別的列照舊認這份稿的 new）。舊期望：六列都＝這份稿的 new */
+      check('6. 逐字：稿 13 列（date_lines.js 六列、date3d.js 七列）；date_lines.js 六列的 new 在 path 那一格（flaked[0][0] 那一列＝AA_780 再換的「嗯。第二次了。」）',A.rows.length===13&&r1.length===6&&r2.length===7&&r1.every(r=>get(NOW,r.path)===CS.want780(r))&&r1.filter(r=>CS.want780(r)!==r.new).map(r=>r.path).join()==='lines.heroine_03.flaked[0][0]',J(r1.filter(r=>get(NOW,r.path)!==CS.want780(r)).map(r=>r.path)));
       const at=r=>r.path==='S.MORNING.heroine_03'?DATE.MORNING[YT]:get(EX,r.path.replace('S.LINES heroine_03.',''));
       check('6. 逐字：date3d.js 七列的 new 在 path 那一格；每一句在程式裡（註解不算）剛好一處、old 都不在了',r2.every(r=>at(r)===r.new&&strip(code).split("'"+r.new+"'").length-1===1&&!strip(code).includes("'"+r.old+"'")),J(r2.filter(r=>at(r)!==r.new).map(r=>r.path)));
       if(WAS){ const a=leaves(WAS.lines[YT],'',{}), b=leaves(LY,'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]).sort();

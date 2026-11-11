@@ -1,12 +1,12 @@
 // 校外約會的源稿（企劃線 claude/story-planning）現在白名單認哪一版——約會的逐字對稿測試只認這一處。
 // AA 因為審稿再給新 SHA 時：
-//   1. python3 tools/date/bump_lines_sha.py <新 SHA> --by '…' --why '…' --rec an   （白名單 D01～D33 的 33 筆；AA_773～AA_778 換版就改白名單那幾筆的 sha）
+//   1. python3 tools/date/bump_lines_sha.py <新 SHA> --by '…' --why '…' --rec an   （白名單 D01～D33 的 33 筆；AA_773～AA_780 換版就改白名單那幾筆的 sha）
 //   2. 改下面的常數
 //   3. python3 tools/date/import_date_lines.py；python3 tools/date/import_wish.py
 //   4. node tests/an_dates_1111_unit.js（和 zq／zr／yt／kx／sis／peishan_dates_1111、date_overnight、date_wish、date_lines_* 這幾支）
 // 工具（import_date_lines.py）裡的 *_PREV 是各輪「重寫以前的那一版」，不用跟著換。
 module.exports={
-  ALLOW_SHA:'bd1ce5be0',       // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-11 以安重寫；同一版帶子晴再改的 31 格，見 ALSO_AN）
+  ALLOW_SHA:'248c8e390',       // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-11 以安重寫 bd1ce5be0 匯入以後，AA 照 LAWWW 的匯入回報再改以安 14 格，見 AN_FIX14；別人的格子和 bd1ce5be0 一樣）
   ZR_PREV:'f9c1a2b80',         // 芷若重寫以前的那一版（＝可昕重寫的那一版）
   ZR_SHA:'a29a8aba0',          // 芷若重寫的那一版（＝子晴重寫以前的那一版；之後只多芷若 D10 一句，見 ALSO_ZQ）
   ZR_COMMON_SHA:'e8a33995c',   // AA_773_zr_date_common.json（芷若不分地點的短句）
@@ -64,4 +64,38 @@ module.exports={
     {loc:'D29',n:1,path:'lines/arrive/first/lines/0/text',old:'高雄的路好寬，機車好多。',new:'高雄。港口就在城市裡面，船比房子高。'},
     {loc:'D29',n:52,path:'lines/hotspots/D29.rail/normal/1/lines/0/text',old:'輕軌經過的時候會叮叮兩聲，很客氣。',new:'有人把腳踏車停在鐵軌上拍照，輕軌來了才搬。'},
     {loc:'D30',n:3,path:'lines/arrive/normal/0/lines/0/text',old:'山就在後面，海就在前面，中間只有一條路。',new:'這裡的浪是直接拍在石頭上的，沒有沙。'}],
+  AN_SHA:'bd1ce5be0',          // 以安重寫的那一版（＝AA 後續改 14 格以前的那一版；同一版帶子晴再改的 31 格，見 ALSO_AN）
+  AN_FOLLOW_SHA:'248c8e390',   // AA_780_an_date_followup.json（不分地點的短句 9 列：date_lines.js 五列——以安 flaked 兩則、子晴／語彤／芷若 flaked 各一列；date3d.js 四列——S.EXTRA_LINES.heroine_01；_meta.she_pays＝S.SHE_PAYS）
+  AN_BASE2:'7266e7a29',        // AA 後續改稿匯入以前的開發分支（src/data/date_lines.js、date3d.js 拿來比「只差這 14 格＋AA_780 九列」；這個不用跟著換）
+  AN780_D3_SHA:'cd8f64806',    // AA_780 四列＋S.SHE_PAYS 進 src/date3d.js 的那個 commit（tests/an_dates_1111_unit.js 第 9 節比「date3d.js 的字串只差這幾個」固定比這一版；之後 date3d.js 再加字串不用換）
+  /* 2026-11-11 248c8e390（以安匯入以後 AA 的後續改稿；AA_780 的 _meta）：源稿只動以安 14 格（改稿紀錄 date_rewrite/an_Dxx.json 的 _meta.fix_lawww_an_1111；沒人記的承諾、綁第一次選項的再訪句）。
+     n＝date_rewrite.py list heroine_01 Dxx 的格號；path 是 Dxx.json 裡 lines.heroine_01 底下的位置；old＝上一版 bd1ce5be0 的字 */
+  AN_FIX14:[
+    {loc:'D05',n:21,path:'lines/hotspots/D05.cafe/remember/lines/0/text',old:'那三個論點我回去又想了，加了第四個，寫在手帳裡。',new:'在這裡看完的那部，我回去又想了很久，寫了半頁。'},
+    {loc:'D05',n:43,path:'lines/hotspots/D05.shop/remember/lines/0/text',old:'講法庭戲的那本書，我後來讀完了。想去旁聽一次真的。',new:'這裡有一本講法庭戲的書，我後來讀完了。想去旁聽一次真的。'},
+    {loc:'D07',n:34,path:'lines/hotspots/D07.wall/normal/0/lines/0/text',old:'你讀過的那個名字，我回去查了。',new:'牆上的名字，我回去查了其中一個。'},
+    {loc:'D07',n:43,path:'lines/hotspots/D07.wall/remember/lines/0/text',old:'抄在筆記本最後一頁的那個名字，我又找到他了。',new:'我查過的那個名字，我又找到他了。在這一排。'},
+    {loc:'D09',n:9,path:'lines/closing/normal/0/lines/0/text',old:'照片我要整理一下。挑好的再傳給你。',new:'照片我要整理一下。拍歪的那幾張，我也會留著。'},
+    {loc:'D10',n:41,path:'lines/hotspots/D10.walk/normal/1/lines/0/text',old:'步道好平，下次騎腳踏車來。',new:'步道好平。騎腳踏車的人看起來很輕鬆。'},
+    {loc:'D12',n:21,path:'lines/hotspots/D12.street/remember/lines/0/text',old:'屋頂那隻石雕的動物，我回去查了。是獅子，我猜錯了。',new:'屋頂那隻石雕的動物，我回去查了，是獅子。'},
+    {loc:'D18',n:49,path:'lines/hotspots/D18.shop/first/choice/1/reply/0/text',old:'謝謝，我會寫第一頁給你看。',new:'謝謝。第一頁我會寫得很慢。'},
+    {loc:'D18',n:53,path:'lines/hotspots/D18.shop/remember/lines/0/text',old:'在這裡買的那本筆記本，我寫到第二十頁了。',new:'這間店的筆記本，紙很好寫。我有一本寫到第二十頁了。'},
+    {loc:'D23',n:11,path:'lines/closing/dating/0/lines/0/text',old:'你剝蝦很快。下次教我。',new:'你剝蝦很快。我看了還是學不會。'},
+    {loc:'D26',n:31,path:'lines/hotspots/D26.museum/normal/2/lines/0/text',old:'下一檔展覽，我想再來。帶你。',new:'下一檔展覽的海報已經貼出來了。我看了很久。'},
+    {loc:'D28',n:11,path:'lines/closing/dating/0/lines/0/text',old:'下次換你帶我去一個我沒去過的地方。',new:'你有沒有一個地方，是我沒去過的？我想聽你講。'},
+    {loc:'D29',n:10,path:'lines/closing/normal/1/lines/0/text',old:'下次換我排行程，我會排得很鬆。',new:'這次的行程是我排過最鬆的。我有進步。'},
+    {loc:'D31',n:11,path:'lines/closing/dating/0/lines/0/text',old:'（她打了一則訊息，打了又刪，最後收起手機）沒事。等一下當面講。',new:'（她打了一則訊息，打了又刪，最後收起手機）沒事。我只是想說，今天很好。'}],
+  /* 2026-11-11 AA_780_an_date_followup.json@248c8e390：不分地點的短句（DATE_LINES.lines）裡以安以外的三列——四個人「30 天內第二次當天取消」那一句改成當下的反應（前一次她只回了「好。怎麼了？」，沒有人等過）。
+     path＝稿上的 path；p＝遊戲檔 leaves 的路徑；old＝那個人自己那一輪（was）匯進來的字。各人的逐字對稿測試（zq／zr／yt）那一格改認 new；「和重匯以前比」的測試用下面的 un780 還原再比 */
+  FLAKED_780:[
+    {who:'heroine_04',path:'lines.heroine_04.flaked[0]',p:'/lines/heroine_04/flaked/0',old:'那天我設了鬧鐘，還真的起來了，結果你沒來。這種事一次就好。',new:'又取消。我鬧鐘都設好了。這種事不要有第三次。',was:'AA_775'},
+    {who:'heroine_03',path:'lines.heroine_03.flaked[0][0]',p:'/lines/heroine_03/flaked/0/0',old:'那天我等了一下。',new:'嗯。第二次了。',was:'AA_767'},
+    {who:'heroine_02',path:'lines.heroine_02.flaked[0][1]',p:'/lines/heroine_02/flaked/0/1',old:'我那天把一杯熱可可等到涼掉。下次，你請我一杯熱的。',new:'今天我連要穿哪一件都想好了。沒關係，衣服不會跑。',was:'AA_773'}],
 };
+/* 「和重匯以前比」用：回傳一份複本，把 AA_780 換的那三格（FLAKED_780）還原成各人自己那一輪的字。x＝整份 DATE_LINES（或 strip 過、少了幾個人的）；只有那一格現在剛好是 AA_780 的 new 才還原（不是＝不動，照舊會紅）；
+   重匯以前的那一份（那一格還是 old）丟進來不會變 */
+module.exports.un780=x=>{ const y=JSON.parse(JSON.stringify(x)); for(const r of module.exports.FLAKED_780){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
+/* FLAKED_780 那一格的字（r.p 照 leaves 的路徑走；整份 DATE_LINES 丟進來）：各支測試另外驗「現在＝new、重匯以前＝old」，un780 才不會把別的差異藏起來 */
+module.exports.cell780=(x,r)=>{ let o=x; for(const t of r.p.split('/').slice(1)) o=o==null?o:o[t]; return o; };
+/* 各人自己那一輪的逐字對稿：稿上那一列（path、new）如果是 AA_780 之後又換掉的那一格（FLAKED_780 的 path 一樣、old＝那一列的 new），現在認 AA_780 的 new；別的列照舊認那一列的 new */
+module.exports.want780=r=>{ const x=module.exports.FLAKED_780.find(y=>y.path===r.path&&y.old===r.new); return x?x.new:r.new; };

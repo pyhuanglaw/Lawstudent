@@ -10,6 +10,8 @@
 //   6. AA_777（9 列）：lines.heroine_01 四列照 path＋date3d.js 五列（S.MORNING、S.MORNING_OWN、S.HOME_NO、S.T7A_YES、D26 臺中過夜她回家）；transport 那一句只在她想搭的車被改成開車時播；{name} 八格都在交往格
 //   7. AA_778（16 列，照 path）：date_wish.js 的 events.heroine_01；別人 0 格；刪節號剩 3 處
 //   8. D13 示範規格（{sunset}、{lastDrink}、記 TASTE、旁白格、註記格）照留；D07 只有再訪的格；每一格是誰說的；以安沒有「下次我請」這種欠著的句子
+//   9. 匯入以後 AA 的後續改稿（企劃線 248c8e390）：以安 14 格（AN_FIX14）逐字＝源稿、別人 33 個地點零差異；AA_780 九列（date_lines.js 五列＝四個人 flaked、date3d.js 四列＝S.EXTRA_LINES）；
+//      _meta.she_pays 三格＝S.SHE_PAYS（扣不扣錢在 tests/date_she_pays_1111_unit.js）；date3d.js 字串增減固定比 AN780_D3_SHA
 // 稿、BASE 讀 git show；讀不到（淺層複本）＝不比稿，只驗結構。用法：node tests/an_dates_1111_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -66,7 +68,8 @@ const getp=(o,pth)=>pth.match(/\[\d+\]|[^.\[\]]+/g).reduce((x,t)=>x==null?x:x[t[
       const back=r594.filter(r=>/（已經是改成的字（源稿寫回了））$/.test(r)).length;
       check('1. AA_594 第 2-14 節她各地點的列 288 列照 path 對、全部跳過、逐列寫了是哪一種（源稿寫回了 '+back+' 列、那一格重寫了 '+(r594.length-back)+' 列）；不分地點的那幾列照舊換（工具印「換了 n 列」，n≥1）；其餘 '+r694.length+' 列都是 AA_694 第 3 節跟著跳過的',+m[2]===288&&r594.length===288&&r594.every(r=>WHY.test(r))&&back>=100&&r594.length-back>=150&&r8.length+r594.length+r694.length===rows.length&&r694.every(r=>/（以安的句子，新稿重寫了）$/.test(r))&&/AA_594 第 2-14 節：314 列，換了 [1-9]\d* 列（其他是 BB_240 補回原句；以安重寫：她各地點的列源稿寫回了 \d+ 列、那一格重寫了 \d+ 列，都跳過）/.test(out),J([m[2],r594.length,back,r694.length]));
       console.log('（以安跳過 '+rows.length+' 列：'+r8.map(r=>r.replace(/^(AA_\d+ .*?D\d\d)「.*?」（(.*)）$/,'$1＝$2')).join('、')+'；AA_594 '+r594.length+' 列；AA_694 第 3 節 '+r694.length+' 列）');
-      check('1. 別人跳過的列數照舊：語彤 289 列（AA_630 第 2 節 209 列）、學姊 81 列、沛珊 11 列、可昕 3 列、芷若 10 列、子晴至少 10 列；AA_767 六列、AA_769 七列、AA_773 九列、AA_775 五列、AA_777 四列照 path 都換了',/語彤重寫（DLG-FULL-REVIEW-1110）跳過的改句 289 列（其中 AA_630 第 2 節 209 列）/.test(out)&&/學姊重寫（DLG-FULL-REVIEW-1110）跳過的改句 81 列/.test(out)&&/沛珊重寫（PEISHAN-VOICE-1110）跳過的改句 11 列/.test(out)&&/可昕重寫（DLG-FULL-REVIEW-1110）跳過的改句 3 列/.test(out)&&/芷若重寫（DLG-FULL-REVIEW-1110）跳過的改句 10 列/.test(out)&&/子晴重寫（DLG-FULL-REVIEW-1110）跳過的改句 1\d 列/.test(out)&&/AA_767@0a2136911：語彤不分地點的短句 6 列（照 path），換了 6 列/.test(out)&&/AA_769@f9c1a2b80：可昕不分地點的短句 7 列（照 path），換了 7 列/.test(out)&&new RegExp('AA_773@'+C.ZR_COMMON_SHA+'：芷若不分地點的短句 9 列（照 path），換了 9 列').test(out)&&new RegExp('AA_775@'+C.ZQ_COMMON_SHA+'：子晴不分地點的短句 5 列（照 path），換了 5 列').test(out)&&new RegExp('AA_777@'+C.AN_COMMON_SHA+'：以安不分地點的短句 4 列（照 path），換了 4 列').test(out)); }
+      check('1. 別人跳過的列數照舊：語彤 289 列（AA_630 第 2 節 209 列）、學姊 81 列、沛珊 11 列、可昕 3 列、芷若 10 列、子晴至少 10 列；AA_767 六列、AA_769 七列、AA_773 九列、AA_775 五列、AA_777 四列照 path 都換了',/語彤重寫（DLG-FULL-REVIEW-1110）跳過的改句 289 列（其中 AA_630 第 2 節 209 列）/.test(out)&&/學姊重寫（DLG-FULL-REVIEW-1110）跳過的改句 81 列/.test(out)&&/沛珊重寫（PEISHAN-VOICE-1110）跳過的改句 11 列/.test(out)&&/可昕重寫（DLG-FULL-REVIEW-1110）跳過的改句 3 列/.test(out)&&/芷若重寫（DLG-FULL-REVIEW-1110）跳過的改句 10 列/.test(out)&&/子晴重寫（DLG-FULL-REVIEW-1110）跳過的改句 1\d 列/.test(out)&&/AA_767@0a2136911：語彤不分地點的短句 6 列（照 path），換了 6 列/.test(out)&&/AA_769@f9c1a2b80：可昕不分地點的短句 7 列（照 path），換了 7 列/.test(out)&&new RegExp('AA_773@'+C.ZR_COMMON_SHA+'：芷若不分地點的短句 9 列（照 path），換了 9 列').test(out)&&new RegExp('AA_775@'+C.ZQ_COMMON_SHA+'：子晴不分地點的短句 5 列（照 path），換了 5 列').test(out)&&new RegExp('AA_777@'+C.AN_COMMON_SHA+'：以安不分地點的短句 4 列（照 path），換了 4 列').test(out));
+      check('1. AA_780（以安匯入以後 AA 的後續改稿，@'+C.AN_FOLLOW_SHA+'）：date_lines.js 五列照 path 都換了（工具印「換了 5 列」；逐字在第 9 節）',new RegExp('AA_780@'+C.AN_FOLLOW_SHA+'：以安、子晴、語彤、芷若「第二次當天取消」那一句 5 列（照 path），換了 5 列').test(out)); }
     const tool=read('tools/date/import_date_lines.py'), code=tool.replace(/^""".*?"""/s,'').replace(/#.*$/mg,'');
     check('1. 工具只對重寫過的七個人放寬（ps_skip 先看 who；別人的列照舊 sys.exit）；以安的列原句還在＝不寫檔、全部列出來停下（AN_STALE；AA_594 她各地點的列也一樣）；工具裡沒有寫死這一輪的 SHA（只有上一版 AN_PREV）',/if who not in \(PS, SIS, YT, KX, ZR, ZQ, AN\) or not ps756\(loc, who\):\s+return False/.test(tool)&&tool.includes("AN = 'heroine_01'")&&tool.includes("AN_PREV = '"+PREV+"'")&&/if AN_STALE:[^\n]*\n\s+sys\.exit\(/.test(tool)&&/if who not in \(ZR, ZQ, AN\) or not ps756\(loc, who\) or old == new:/.test(tool)&&/AN_STALE\.append\(\(f'AA_594 第/.test(tool)&&!code.includes(SHA)&&!code.includes(C.AN_WISH_SHA)); });
 
@@ -90,11 +93,15 @@ const getp=(o,pth)=>pth.match(/\[\d+\]|[^.\[\]]+/g).reduce((x,t)=>x==null?x:x[t[
 
   await sec(3,async()=>{ if(!WAS) return;
     const strip=D=>{ const x=JSON.parse(J(D)); delete x.source; if(x.lines) delete x.lines[AN]; for(const k in x.loc) for(const part of ['lines','likes','dislikeLine']) if(x.loc[k][part]) delete x.loc[k][part][AN]; return x; };
-    const a=leaves(strip(WAS),'',{}), b=leaves(strip(NOW),'',{}), ka=Object.keys(a), diff=ka.filter(p=>a[p]!==b[p]).concat(Object.keys(b).filter(p=>!(p in a))).sort();
-    check('3. 別人的格子、預約句、交通偏好、互動點（'+ka.length+' 格）和重匯以前（'+BASE+'）比：只有同一版子晴再改的那 31 格不同（old、new 都對），其他零差異',ka.length>26000&&ALSO.length===31&&J(diff)===J(ALSO.map(x=>x.full).sort())&&ALSO.every(x=>a[x.full]===x.old&&b[x.full]===x.new),J(diff.slice(0,8).map(p=>p+'：'+a[p]+' → '+b[p])));
+    /* 2026-11-11（AA_780_an_date_followup.json@248c8e390，以安匯入以後 AA 的後續改稿）：子晴 flaked[0]、語彤 flaked[0][0]、芷若 flaked[0][1] 改成第二次當天取消的當下反應——
+       NOW 先用 date_src_sha.js 的 un780 把那三格還原成各人自己那一輪的字再比，那三格另外驗現在＝新字、重匯以前＝舊字（逐字在第 9 節）。舊期望：直接拿 NOW 比 */
+    const N7=C.un780(NOW);
+    check('3. AA_780 換的別人那三格（子晴 flaked[0]、語彤 flaked[0][0]、芷若 flaked[0][1]）：現在是新字、重匯以前（'+BASE+'）是她們自己那一輪的字；整份還原以後和 NOW 只差這三格',C.FLAKED_780.length===3&&C.FLAKED_780.every(r=>C.cell780(NOW,r)===r.new&&C.cell780(WAS,r)===r.old)&&(()=>{ const x=leaves(NOW,'',{}), y=leaves(N7,'',{}); return J(Object.keys(x).filter(p=>x[p]!==y[p]).sort())===J(C.FLAKED_780.map(r=>r.p).sort()); })(),J(C.FLAKED_780.map(r=>[C.cell780(NOW,r),C.cell780(WAS,r)])));
+    const a=leaves(strip(WAS),'',{}), b=leaves(strip(N7),'',{}), ka=Object.keys(a), diff=ka.filter(p=>a[p]!==b[p]).concat(Object.keys(b).filter(p=>!(p in a))).sort();
+    check('3. 別人的格子、預約句、交通偏好、互動點（'+ka.length+' 格）和重匯以前（'+BASE+'）比：只有同一版子晴再改的那 31 格不同（old、new 都對），其他零差異（AA_780 那三格還原再比）',ka.length>26000&&ALSO.length===31&&J(diff)===J(ALSO.map(x=>x.full).sort())&&ALSO.every(x=>a[x.full]===x.old&&b[x.full]===x.new),J(diff.slice(0,8).map(p=>p+'：'+a[p]+' → '+b[p])));
     for(const [who,nm] of [[SIS,'學姊'],[PS,'沛珊'],[YT,'語彤'],[KX,'可昕'],[ZR,'芷若'],[ZQ,'子晴'],['classmate_xinci','芯慈']]){ let n=0; const d=[]; for(const k of LOCS){ const g=of(NOW.loc[k],k,who), w=of(WAS.loc[k],k,who); for(const p of new Set(Object.keys(g).concat(Object.keys(w)))){ n++; if(g[p]!==w[p]) d.push(k+' '+p); } }
       const exp=ALSO.filter(x=>x.who===who).map(x=>x.loc+' '+x.p).sort();
-      check('3. '+nm+' 33 個地點 '+n+' 格和重匯以前比：'+(exp.length?'剛好那 '+exp.length+' 格不同':'零差異')+'；不分地點的短句一樣',n>(who==='classmate_xinci'?150:3500)&&J(d.sort())===J(exp)&&exp.length===(who===ZQ?31:0)&&J(NOW.lines[who])===J(WAS.lines[who]),J([n,d.slice(0,4)])); }
+      check('3. '+nm+' 33 個地點 '+n+' 格和重匯以前比：'+(exp.length?'剛好那 '+exp.length+' 格不同':'零差異')+'；不分地點的短句一樣'+(C.FLAKED_780.some(r=>r.who===who)?'（flaked 那一格 AA_780 再換，還原再比）':''),n>(who==='classmate_xinci'?150:3500)&&J(d.sort())===J(exp)&&exp.length===(who===ZQ?31:0)&&J(N7.lines[who])===J(WAS.lines[who]),J([n,d.slice(0,4)])); }   /* 2026-11-11（AA_780@248c8e390）：短句改比 N7（子晴、語彤、芷若 flaked 那一格還原；上面另外驗）；舊期望 J(NOW.lines[who])===J(WAS.lines[who]) */
     check('3. 交通偏好（prefs）、互動點名稱（points）和重匯以前一樣',J(NOW.prefs)===J(WAS.prefs)&&LOCS.every(k=>J(NOW.loc[k].points)===J(WAS.loc[k].points)));
     /* 子晴那 31 格的格號對 AA 交稿訊息的清單 */
     const by={}; for(const x of C.ALSO_AN) (by[x.loc]=by[x.loc]||[]).push(x.n); const mine=Object.keys(by).sort().map(k=>k+':'+by[k].sort((p,q)=>p-q).join('、')).join('｜');
@@ -104,7 +111,7 @@ const getp=(o,pth)=>pth.match(/\[\d+\]|[^.\[\]]+/g).reduce((x,t)=>x==null?x:x[t[
       check('3. 源稿 '+SHA+' 和上一版 '+PREV+' 逐格比：以安以外的人只有子晴那 31 格不同（學姊、沛珊、語彤、可昕、芷若 0 格）；照格號數也是同一組、old／new 都對',J(other.sort())===J(ALSO.map(x=>x.loc+x.srcp).sort())&&J(zq.sort())===J(C.ALSO_AN.map(x=>x.loc+':'+x.n+':'+x.old+'→'+x.new).sort()),J([other.length,zq.length,other.slice(0,4)])); } });
 
   await sec(4,async()=>{
-    check('4. 拿選項的字當 key 的地方沒有以安的項目：PICK_FLAG、REMEMBER_IF、ARRIVE_VAR 都沒有 heroine_01（AA_777：grep 過 0 筆）；S.LINE_IF 她只有 enough 一條（認的是 date3d.js 手寫的「明天早上有課」那一句，不是地點台詞）；總數照舊（PICK_FLAG 3、REMEMBER_IF 3、ARRIVE_VAR 2）',!DATE.PICK_FLAG.some(x=>x.who===AN)&&!DATE.REMEMBER_IF.some(x=>x.who===AN)&&!DATE.ARRIVE_VAR.some(x=>x.who===AN)&&J(Object.keys(DATE.LINE_IF[AN]||{}))===J(['enough'])&&DATE.PICK_FLAG.length===3&&DATE.REMEMBER_IF.length===3&&DATE.ARRIVE_VAR.length===2);
+    check('4. 拿選項的字當 key 的地方沒有以安的項目：PICK_FLAG、REMEMBER_IF、ARRIVE_VAR 都沒有 heroine_01（AA_777：grep 過 0 筆）；S.LINE_IF 她只有 enough 一條（認 date3d.js 手寫的「明天早上有課」，不是地點台詞；2026-11-11 AA_780 以後那一句不說了，條件留著、不擋任何一句——第 9 節）；總數照舊（PICK_FLAG 3、REMEMBER_IF 3、ARRIVE_VAR 2）',!DATE.PICK_FLAG.some(x=>x.who===AN)&&!DATE.REMEMBER_IF.some(x=>x.who===AN)&&!DATE.ARRIVE_VAR.some(x=>x.who===AN)&&J(Object.keys(DATE.LINE_IF[AN]||{}))===J(['enough'])&&DATE.PICK_FLAG.length===3&&DATE.REMEMBER_IF.length===3&&DATE.ARRIVE_VAR.length===2);
     const bad=[]; for(const v of DATE.ARRIVE_VAR){ const F=(((NOW.loc[v.loc]||{}).lines||{})[v.who]||{}).arrive, T=F&&F.first?F.first.lines.map(x=>x.text):[]; if(!v.from.every(t=>T.includes(t))) bad.push('ARRIVE_VAR '+v.loc+' '+v.who); }
     for(const r of DATE.PICK_FLAG){ const h=((((NOW.loc[r.loc]||{}).lines||{})[r.who]||{}).hotspots||{})[r.pid], c=h&&h.first&&h.first.choice||[]; if(!c.some(x=>x.t===r.t)) bad.push('PICK_FLAG '+r.loc+' '+r.who+' '+r.t); }
     for(const r of DATE.REMEMBER_IF){ const h=((((NOW.loc[r.loc]||{}).lines||{})[r.who]||{}).hotspots||{})[r.pid]; if(!(h&&h.remember&&h.remember.lines&&h.remember.lines.length)) bad.push('REMEMBER_IF '+r.loc+' '+r.who+' '+r.pid); }
@@ -133,18 +140,24 @@ const getp=(o,pth)=>pth.match(/\[\d+\]|[^.\[\]]+/g).reduce((x,t)=>x==null?x:x[t[
     check('5. 抽三格照稿：D10 到達「你連我的水都帶了？謝謝。我沒有想到要帶你的。」（不再「先欠著」）、D14 交往收尾「這裡的夕陽我想再看一次。跟你。」（不再「我會努力起床」）、D26 草悟道「（草悟道）我以前都騎腳踏車經過，沒有停下來過。」',NOW.loc.D10.lines[ZQ].arrive.normal[2].lines[0].text==='你連我的水都帶了？謝謝。我沒有想到要帶你的。'&&NOW.loc.D14.lines[ZQ].closing.dating[0].lines[0].text==='這裡的夕陽我想再看一次。跟你。'&&NOW.loc.D26.lines[ZQ].hotspots['D26.path'].first.lines[0].text==='（草悟道）我以前都騎腳踏車經過，沒有停下來過。'); });
 
   await sec(6,async()=>{ const LA=NOW.lines[AN];
-    check('6. lines.heroine_01 四格照稿：move 第二句「可以。那天我空得出來。」、transport「好，開車也可以。本來想在路上看書的，那就到了再看。」、flaked 連發兩則「那天我等了四十分鐘。我有帶書，所以還好。」「下次請提早說。謝謝。」',LA.move[1]==='可以。那天我空得出來。'&&J(LA.transport)===J(['好，開車也可以。本來想在路上看書的，那就到了再看。'])&&J(LA.flaked)===J([['那天我等了四十分鐘。我有帶書，所以還好。','下次請提早說。謝謝。']]),J(LA));
+    /* 2026-11-11（AA_780_an_date_followup.json@248c8e390，以安匯入以後 AA 的後續改稿）：flaked 兩則再換——引擎是 30 天內第二次當天取消的當下說的，沒有「等了四十分鐘」這回事（逐字在第 9 節）。
+       舊期望：flaked＝[['那天我等了四十分鐘。我有帶書，所以還好。','下次請提早說。謝謝。']]（AA_777 的字）*/
+    check('6. lines.heroine_01 四格照稿：move 第二句「可以。那天我空得出來。」、transport「好，開車也可以。本來想在路上看書的，那就到了再看。」、flaked 連發兩則（AA_780 再換）「第二次了。我不問原因。」「不能來的話，請早一點說。謝謝。」（AA_777 是「那天我等了四十分鐘。我有帶書，所以還好。」「下次請提早說。謝謝。」）',LA.move[1]==='可以。那天我空得出來。'&&J(LA.transport)===J(['好，開車也可以。本來想在路上看書的，那就到了再看。'])&&J(LA.flaked)===J([['第二次了。我不問原因。','不能來的話，請早一點說。謝謝。']]),J(LA));
     check('6. 不改的照舊：accept 兩句、acceptDating、move 第一句、move3、cancel 連發兩則；她沒有 depart、enough、leaveEarly、noPair（資料檔裡）',J(LA.accept)===J(['好。我記到行事曆了。','可以。那天我沒有排別的。'])&&J(LA.acceptDating)===J(['好。那天我空下來。'])&&LA.move[0]==='好。新的時間我改好了。'&&J(LA.move3)===J(['第三次了。可以。你最近很忙嗎？'])&&J(LA.cancel)===J([['好。怎麼了？','好。下次早一點講。']])&&J(Object.keys(LA).sort())===J(['accept','acceptDating','cancel','flaked','move','move3','transport']),J(Object.keys(LA)));
     /* AA_777 的 _meta 寫「她沒有 depart、enough、leaveEarly、noPair 的專屬句（來源檔裡沒有，照引擎的通用句）」——資料檔裡確實沒有，可是 src/date3d.js 的 S.EXTRA_LINES.heroine_01 有手寫的七句
        （AA_594 那一輪的；S.lineFor 在資料檔沒有那一格時用）。這七句 AA_777 沒列、匯入沒動，已回報 LAWWW 轉 AA（其中四句還有刪節號）。AA 之後給了新句，改這一條的期望 */
+    /* 2026-11-11（AA_780_an_date_followup.json@248c8e390）：AA 更正（她漏看 date3d.js）——depart 三句不改；enough 兩句、leaveEarly、noPair 照 AA_780 換字（逐字在第 9 節）。
+       舊期望：AA_777 沒列、照舊沒動＝enough「……今天差不多了。明天早上有課。」「排的都走完了。……多走的那一段，我很喜歡。」、leaveEarly「……這樣就回去了？好。排好的，下次再用。」、noPair「照片？……我幫你拍。我拍得比較正。」*/
     const EX=DATE.EXTRA_LINES&&DATE.EXTRA_LINES[AN];
-    check('6. date3d.js 手寫的以安專屬句（S.EXTRA_LINES：depart 三句、enough 兩句、leaveEarly、noPair）AA_777 沒列，照舊沒動',!!EX&&J(EX.depart)===J(['我到了。早到十分鐘。你慢慢來。','出門了。傘帶了。','車上。我在看等一下要去的地方的地圖。'])&&J(EX.enough)===J(['……今天差不多了。明天早上有課。','排的都走完了。……多走的那一段，我很喜歡。'])&&J(EX.leaveEarly)===J(['……這樣就回去了？好。排好的，下次再用。'])&&J(EX.noPair)===J(['照片？……我幫你拍。我拍得比較正。']),J(EX));
+    check('6. date3d.js 手寫的以安專屬句（S.EXTRA_LINES）：depart 三句照舊（AA_780：不用改）；enough 兩句、leaveEarly、noPair 是 AA_780 的字（拿掉刪節號、不綁「明天早上有課」、不說「下次再用」）',!!EX&&J(EX.depart)===J(['我到了。早到十分鐘。你慢慢來。','出門了。傘帶了。','車上。我在看等一下要去的地方的地圖。'])&&J(EX.enough)===J(['今天差不多了。再走下去，我會開始看錶。','排的都走完了。多走的那一段，我很喜歡。'])&&J(EX.leaveEarly)===J(['這樣就回去了？好。排好的那幾個地方不會跑。'])&&J(EX.noPair)===J(['照片？我幫你拍。我拍得比較正。']),J(EX));
     const HOME='（晚上她回家。你住在車站附近的旅館。）', d3=read('src/date3d.js').replace(/\/\*[\s\S]*?\*\//g,'');
     check('6. date3d.js 五格：S.MORNING「早餐我查過了，走路五分鐘。」、S.MORNING_OWN「早。我買了以前上學路上那家的飯糰，兩個，一個是你的。」（不再是媽媽做早餐）、S.HOME_NO「「那幾天我在台中。換一天。」」、S.T7A_YES「臺中？好。我去車站接你。」；S.NIGHT_HOME 多一列 D26＋以安（＝「'+HOME+'」）；舊句不在程式裡',DATE.MORNING[AN]==='早餐我查過了，走路五分鐘。'&&DATE.MORNING_OWN[AN]==='早。我買了以前上學路上那家的飯糰，兩個，一個是你的。'&&DATE.HOME_NO[AN]==='「那幾天我在台中。換一天。」'&&DATE.T7A_YES[AN]==='臺中？好。我去車站接你。'&&J(DATE.NIGHT_HOME)===J([{loc:'D29',who:KX},{loc:'D26',who:ZQ},{loc:'D26',who:AN}])&&DATE.NIGHT.home===HOME&&!/我媽多做了一份早餐|早餐我查過了。……|那幾天我在台中。……|臺中？……好。/.test(d3),J([DATE.MORNING[AN],DATE.MORNING_OWN[AN],DATE.HOME_NO[AN],DATE.T7A_YES[AN],DATE.NIGHT_HOME]));
     const raw=show(C.AN_COMMON_SHA,SP+'AA_777_an_date_common.json'), A=raw?JSON.parse(raw):null;
     if(A){ const r1=A.rows.filter(r=>r.file==='src/data/date_lines.js'), r2=A.rows.filter(r=>r.file==='src/date3d.js');
       const at=r=>{ const m=/^S\.(MORNING|MORNING_OWN|HOME_NO|T7A_YES)\.heroine_01$/.exec(r.path); if(m) return DATE[m[1]][AN]; if(/^D26 /.test(r.path)) return DATE.NIGHT_HOME.some(x=>x.loc==='D26'&&x.who===AN)?DATE.NIGHT[DATE.nightKind({flags:{}},{who:AN,locs:['D26']},null)]:null; return undefined; };
-      check('6. 逐字：稿 9 列（date_lines.js 四列、date3d.js 五列）；每一列的 new 在 path 那一格（D26 那一列＝對象是以安、地點 D26、她沒有先在臺中時晚上那一句）',A.rows.length===9&&r1.length===4&&r2.length===5&&r1.every(r=>getp(NOW,r.path)===r.new)&&r2.every(r=>at(r)===r.new),J(r1.filter(r=>getp(NOW,r.path)!==r.new).map(r=>r.path).concat(r2.filter(r=>at(r)!==r.new).map(r=>r.path+'＝'+at(r)))));
+      /* 2026-11-11（AA_780_an_date_followup.json@248c8e390）：flaked 兩列 AA_780 再換（AA_780 那兩列的 old＝這份稿的 new），那兩格改認 AA_780 的 new；move、transport 兩列照舊認這份稿的 new。舊期望：四列都＝這份稿的 new */
+      const r780=(JSON.parse(show(C.AN_FOLLOW_SHA,SP+'AA_780_an_date_followup.json')||'{"rows":[]}').rows||[]), w780=r=>{ const x=r780.find(y=>y.path===r.path&&y.old===r.new); return x?x.new:r.new; };
+      check('6. 逐字：稿 9 列（date_lines.js 四列、date3d.js 五列）；每一列的 new 在 path 那一格（D26 那一列＝對象是以安、地點 D26、她沒有先在臺中時晚上那一句；flaked 兩列＝AA_780 再換的字）',A.rows.length===9&&r1.length===4&&r2.length===5&&r1.every(r=>getp(NOW,r.path)===w780(r))&&J(r1.filter(r=>w780(r)!==r.new).map(r=>r.path))===J(['lines.heroine_01.flaked[0][0]','lines.heroine_01.flaked[0][1]'])&&r2.every(r=>at(r)===r.new),J(r1.filter(r=>getp(NOW,r.path)!==w780(r)).map(r=>r.path).concat(r2.filter(r=>at(r)!==r.new).map(r=>r.path+'＝'+at(r)))));
       if(WAS){ const a=leaves(WAS.lines[AN],'',{}), b=leaves(LA,'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]).sort();
         check('6. lines.heroine_01 和重匯以前比：格子一樣多、只有這四格不同（照 path；old 就是原本那一格的字）',J(Object.keys(a))===J(Object.keys(b))&&J(d)===J(['/flaked/0/0','/flaked/0/1','/move/1','/transport/0'])&&r1.every(r=>getp(WAS,r.path)===r.old),J(d)); }
       const ob3=show(BASE,'src/date3d.js'); if(ob3){ const lit=t=>t.replace(/\/\*[\s\S]*?\*\//g,'').match(/'(?:[^'\\\n]|\\.)*'/g)||[], O=lit(ob3), L=lit(show(C.AN_D3_SHA,'src/date3d.js')||read('src/date3d.js')) /* 「重匯以後」固定比 AN_D3_SHA（AA_777 進 date3d.js 的那個 commit）；之後這個檔再加別的字串不會讓這一條紅（同 zq／zr／yt 那三支的做法）*/, cnt=A=>A.reduce((m,t)=>(m[t]=(m[t]||0)+1,m),{}), co=cnt(O), cl=cnt(L), gone=[], came=[];
@@ -206,5 +219,54 @@ const getp=(o,pth)=>pth.match(/\[\d+\]|[^.\[\]]+/g).reduce((x,t)=>x==null?x:x[t[
     /* AA 交稿：原稿「下次我請／上次說下次我請／回程的便當我出／下山換我請」都改成當場請掉——她的格子裡沒有欠著的請客；date3d.js 沒有照這幾句抄的註解或 key */
     const owe=[]; for(const k of LOCS) for(const s of slots(NOW.loc[k],AN)) if(s[1]!=='t'&&/下次我請|下次換我請|上次說下次|便當我出|換我請|先欠著/.test(cell(s))) owe.push(k+'：'+cell(s));
     check('8. 以安的台詞沒有「下次我請／上次說下次我請／回程的便當我出／下山換我請」這種欠著的請客（她沒有 PICK_FLAG）；date3d.js 也沒有這幾句',owe.length===0&&!/便當我出|下山換我請|上次說下次我請/.test(read('src/date3d.js')),J(owe)); });
+  /* 9. 以安匯入以後 AA 的後續改稿（2026-11-11；企劃線 248c8e390＝C.AN_FOLLOW_SHA；開發分支 cd8f64806）：源稿只動以安 14 格（C.AN_FIX14；改稿紀錄 an_Dxx.json 的 _meta.fix_lawww_an_1111）
+     ＋AA_780_an_date_followup.json 九列（date_lines.js 五列＝以安 flaked 兩則、子晴／語彤／芷若 flaked 各一列；date3d.js 四列＝S.EXTRA_LINES.heroine_01）。重匯以前＝C.AN_BASE2（7266e7a29）。
+     她請客（_meta.she_pays＝S.SHE_PAYS）實際扣不扣錢在 tests/date_she_pays_1111_unit.js */
+  await sec(9,async()=>{ const SH=C.AN_FOLLOW_SHA, OS=C.AN_SHA, b2=show(C.AN_BASE2,'src/data/date_lines.js'), W2=b2?DL(b2):null, q=t=>"'"+t+"'";
+    const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files, e=allow.filter(x=>x.path===SP+'AA_780_an_date_followup.json');
+    check('9. 白名單 AA_780_an_date_followup.json@'+SH+' 一筆、approved、有 approvedBy；date_lines.js 的來源寫著它；白名單 D01～D33＝'+SH+'、上一版 '+OS+' 留在 history',e.length===1&&e[0].sha===SH&&e[0].status==='approved'&&!!e[0].approvedBy&&NOW.source.includes('AA_780_an_date_followup.json@'+SH)&&SHA===SH&&LOCS.every(k=>{ const x=allow.filter(y=>y.path===SP+'date_system/lines/'+k+'.json'); return x.length===1&&x[0].sha===SH&&(x[0].history||[]).some(h=>h.sha===OS); }));
+    /* 14 格：AA 交稿訊息裡的清單（格號＝date_rewrite.py list heroine_01 Dxx 的格號，和上面的 slots() 同一個順序）*/
+    const LIST='D05:21、43｜D07:34、43｜D09:9｜D10:41｜D12:21｜D18:49、53｜D23:11｜D26:31｜D28:11｜D29:10｜D31:11';
+    const by={}; for(const x of C.AN_FIX14) (by[x.loc]=by[x.loc]||[]).push(x.n); const mine=Object.keys(by).sort().map(k=>k+':'+by[k].sort((p,r)=>p-r).join('、')).join('｜');
+    check('9. 以安 14 格的格號（date_rewrite.py list heroine_01 Dxx）就是 AA 交稿的清單：'+LIST,C.AN_FIX14.length===14&&mine===LIST,mine);
+    const OSRC={}; for(const k of LOCS){ const t=show(OS,SP+'date_system/lines/'+k+'.json'); if(t) OSRC[k]=JSON.parse(t); }
+    if(haveSrc&&Object.keys(OSRC).length===33){ const bad=[];
+      for(const x of C.AN_FIX14){ const s1=slots(SRC[x.loc],AN), s0=slots(OSRC[x.loc],AN), g=slots(NOW.loc[x.loc],AN), i=x.n-1;
+        if(cell(s1[i])!==x.new) bad.push(x.loc+'#'+x.n+' 源稿「'+cell(s1[i])+'」'); if(cell(s0[i])!==x.old) bad.push(x.loc+'#'+x.n+' 上一版「'+cell(s0[i])+'」'); if(cell(g[i])!==x.new) bad.push(x.loc+'#'+x.n+' 遊戲「'+cell(g[i])+'」');
+        if(of(NOW.loc[x.loc],x.loc,AN)[x.path]!==x.new||of(SRC[x.loc],x.loc,AN)[x.path]!==x.new||of(OSRC[x.loc],x.loc,AN)[x.path]!==x.old) bad.push(x.loc+'#'+x.n+' 格號和 path 不是同一格：'+x.path);
+        if((REC[x.loc][x.loc]||[])[i]!==x.new) bad.push(x.loc+'#'+x.n+' 改稿紀錄「'+(REC[x.loc][x.loc]||[])[i]+'」'); }
+      check('9. 14 格逐字：源稿 '+SH+' 那一格＝新字、上一版 '+OS+' 那一格＝舊字、遊戲 date_lines.js 那一格＝新字；格號和 path 指的是同一格；改稿紀錄 an_Dxx.json 那一格也是新字',bad.length===0,J(bad.slice(0,4)));
+      const fx=[]; for(const k of LOCS) for(const n of ((REC[k]._meta||{}).fix_lawww_an_1111||[])) fx.push(k+':'+n);
+      check('9. 改稿紀錄的 _meta.fix_lawww_an_1111 合起來剛好是這 14 格',J(fx.sort())===J(C.AN_FIX14.map(x=>x.loc+':'+x.n).sort()),J(fx));
+      const sd=[]; for(const k of LOCS){ const a=leaves(SRC[k],'',{}), b=leaves(OSRC[k],'',{}); for(const p of new Set(Object.keys(a).concat(Object.keys(b)))) if(a[p]!==b[p]) sd.push(k+p); }
+      check('9. 源稿 '+SH+' 和上一版 '+OS+' 逐格比（33 個檔、每個人、每一格）：只有以安這 14 格不同（學姊、沛珊、語彤、可昕、芷若、子晴、芯慈 0 格；格子數一樣）',J(sd.sort())===J(C.AN_FIX14.map(x=>x.loc+'/lines/'+AN+'/'+x.path.replace(/^lines\//,'')).sort()),J(sd.slice(0,6))); }
+    if(!W2) return;
+    { const d=[]; for(const k of LOCS){ const g=of(NOW.loc[k],k,AN), w=of(W2.loc[k],k,AN); for(const p of new Set(Object.keys(g).concat(Object.keys(w)))) if(g[p]!==w[p]) d.push(k+' '+p); }
+      check('9. 以安 33 個地點（台詞、選項、tier、喜好、不喜歡那一句）和重匯以前（'+C.AN_BASE2+'）比：剛好這 14 格不同（old＝重匯以前那一格、new＝現在）',J(d.sort())===J(C.AN_FIX14.map(x=>x.loc+' '+x.path).sort())&&C.AN_FIX14.every(x=>of(W2.loc[x.loc],x.loc,AN)[x.path]===x.old&&of(NOW.loc[x.loc],x.loc,AN)[x.path]===x.new),J(d.slice(0,6))); }
+    for(const [who,nm] of [[SIS,'學姊'],[PS,'沛珊'],[YT,'語彤'],[KX,'可昕'],[ZR,'芷若'],[ZQ,'子晴'],['classmate_xinci','芯慈']]){ let n=0; const dd=[]; for(const k of LOCS){ const g=of(NOW.loc[k],k,who), w=of(W2.loc[k],k,who); for(const p of new Set(Object.keys(g).concat(Object.keys(w)))){ n++; if(g[p]!==w[p]) dd.push(k+' '+p); } }
+      check('9. '+nm+' 33 個地點 '+n+' 格和重匯以前（'+C.AN_BASE2+'）比：零差異',n>(who==='classmate_xinci'?150:3500)&&dd.length===0,J(dd.slice(0,4))); }
+    { const strip2=D=>{ const x=JSON.parse(J(D)); delete x.source; delete x.lines; for(const k in x.loc) for(const part of ['lines','likes','dislikeLine']) if(x.loc[k][part]) delete x.loc[k][part][AN]; return x; };
+      const a=leaves(strip2(W2),'',{}), b=leaves(strip2(NOW),'',{}), ka=Object.keys(a), df=ka.filter(p=>a[p]!==b[p]).concat(Object.keys(b).filter(p=>!(p in a)));
+      check('9. 整份 date_lines.js 拿掉以安的地點格子和不分地點的短句（下面另外比）以後（'+ka.length+' 格：別人的地點格子、交通偏好、互動點）和重匯以前零差異',ka.length>20000&&df.length===0,J(df.slice(0,4))); }
+    const R=JSON.parse(show(SH,SP+'AA_780_an_date_followup.json')||'null'); if(!R) return;
+    const r1=R.rows.filter(r=>r.file==='src/data/date_lines.js'), r2=R.rows.filter(r=>r.file==='src/date3d.js');
+    check('9. AA_780 稿 9 列：date_lines.js 五列（以安 flaked 兩則、子晴 flaked[0]、語彤 flaked[0][0]、芷若 flaked[0][1]）、date3d.js 四列（S.EXTRA_LINES.heroine_01 的 enough 兩句、leaveEarly、noPair）',R.rows.length===9&&J(r1.map(r=>r.path))===J(['lines.heroine_01.flaked[0][0]','lines.heroine_01.flaked[0][1]','lines.heroine_04.flaked[0]','lines.heroine_03.flaked[0][0]','lines.heroine_02.flaked[0][1]'])&&J(r2.map(r=>r.path))===J(['S.EXTRA_LINES.heroine_01.enough[0]','S.EXTRA_LINES.heroine_01.enough[1]','S.EXTRA_LINES.heroine_01.leaveEarly[0]','S.EXTRA_LINES.heroine_01.noPair[0]']),J(R.rows.map(r=>r.file+' '+r.path)));
+    { const la=leaves({lines:W2.lines},'',{}), lb=leaves({lines:NOW.lines},'',{}), dl=Object.keys(lb).filter(p=>la[p]!==lb[p]).concat(Object.keys(la).filter(p=>!(p in lb))).sort(), P5=r1.map(r=>'/'+r.path.replace(/\[(\d+)\]/g,'/$1').replace(/\./g,'/')).sort();
+      check('9. date_lines.js 五列逐字：每一列 path 那一格現在＝new、重匯以前（'+C.AN_BASE2+'）＝old；不分地點的短句（七個人的預約、改期、取消、放鴿子、出發…）和重匯以前比剛好差這五格',r1.every(r=>getp(NOW,r.path)===r.new&&getp(W2,r.path)===r.old)&&J(dl)===J(P5),J([dl,r1.filter(r=>getp(NOW,r.path)!==r.new||getp(W2,r.path)!==r.old).map(r=>r.path)]));
+      check('9. 別人那三列（子晴、語彤、芷若）和 tests/date_src_sha.js 的 FLAKED_780 一模一樣（path、old、new；別支測試的 un780、want780 照它）',J(C.FLAKED_780.map(x=>[x.path,x.old,x.new]).sort())===J(r1.filter(r=>!r.path.includes(AN)).map(r=>[r.path,r.old,r.new]).sort())); }
+    const EX=DATE.EXTRA_LINES[AN], code=read('src/date3d.js').replace(/\/\*[\s\S]*?\*\//g,'');
+    check('9. date3d.js 四列逐字：S.EXTRA_LINES.heroine_01 那一格＝new、每一句在程式裡（註解不算）剛好一處、old 不在程式裡；depart 三句照舊（AA_780：不用改）',r2.every(r=>getp({S:{EXTRA_LINES:DATE.EXTRA_LINES}},r.path)===r.new&&code.split(q(r.new)).length-1===1&&!code.includes(q(r.old)))&&J(EX.depart)===J(['我到了。早到十分鐘。你慢慢來。','出門了。傘帶了。','車上。我在看等一下要去的地方的地圖。']),J(r2.filter(r=>getp({S:{EXTRA_LINES:DATE.EXTRA_LINES}},r.path)!==r.new).map(r=>r.path)));
+    /* 她請客的三格：AA_780 的 _meta.she_pays 寫格號（D06#43、D13#23、D18#41）和位置；S.SHE_PAYS 的字＝源稿那一格（逐格、實際扣錢在 tests/date_she_pays_1111_unit.js）*/
+    const SPX=[...String((R._meta||{}).she_pays||'').matchAll(/(D\d\d)#(\d+)（(D\d\d\.\w+)\.(\w+)(?:#(\d+))?）/g)].map(m=>({loc:m[1],n:+m[2],pid:m[3],kind:m[4],k:m[5]==null?null:+m[5]}));
+    check('9. _meta.she_pays 三格（D06#43 D06.cafe.remember、D13#23 D13.drink.normal#2、D18#41 D18.teahouse.normal#2）＝S.SHE_PAYS.heroine_01 的三個互動點；每一格的字（源稿 slots 第 n 格）＝S.SHE_PAYS 那一句',SPX.length===3&&J(SPX.map(x=>x.loc+'#'+x.n+' '+x.pid+'.'+x.kind+(x.k==null?'':'#'+x.k)))===J(['D06#43 D06.cafe.remember','D13#23 D13.drink.normal#2','D18#41 D18.teahouse.normal#2'])&&J(Object.keys(DATE.SHE_PAYS))===J([AN])&&J(Object.keys(DATE.SHE_PAYS[AN]))===J(SPX.map(x=>x.pid))&&(!haveSrc||SPX.every(x=>J(DATE.SHE_PAYS[AN][x.pid])===J([cell(slots(SRC[x.loc],AN)[x.n-1])]))),J([SPX,DATE.SHE_PAYS]));
+    /* date3d.js 的字串增減：固定比 AA_780 進來的那個 commit（C.AN780_D3_SHA）和重匯以前（C.AN_BASE2）——之後 date3d.js 再加字串不會讓這一條紅（同第 6 節 AN_D3_SHA、zq／zr／yt 的 e61d19547）*/
+    { const ob=show(C.AN_BASE2,'src/date3d.js'), nb=show(C.AN780_D3_SHA,'src/date3d.js'); if(ob&&nb){ const lit=t=>t.replace(/\/\*[\s\S]*?\*\//g,'').match(/'(?:[^'\\\n]|\\.)*'/g)||[], O=lit(ob), L=lit(nb), cnt=A=>A.reduce((m,t)=>(m[t]=(m[t]||0)+1,m),{}), co=cnt(O), cl=cnt(L), gone=[], came=[];
+      for(const t of new Set(O.concat(L))){ const n=(cl[t]||0)-(co[t]||0); for(let i=0;i<Math.abs(n);i++) (n<0?gone:came).push(t); }
+      const SP3=[]; if(haveSrc) for(const x of SPX) SP3.push(q(x.pid),q(cell(slots(SRC[x.loc],AN)[x.n-1])));
+      check('9. date3d.js 的字串（'+C.AN780_D3_SHA+' 和重匯以前 '+C.AN_BASE2+' 比）：少掉的剛好是 AA_780 四列的 old、多出來的剛好是四列的 new＋S.SHE_PAYS 的三個互動點 id 和三句（條件、別人的句子、程式沒動）',!haveSrc||(J(gone.sort())===J(r2.map(r=>q(r.old)).sort())&&J(came.sort())===J(r2.map(r=>q(r.new)).concat(SP3).sort())),J([gone,came])); } }
+    /* enough 第一句不再說「明天早上有課」（AA：不綁那個條件）：S.LINE_IF.heroine_01.enough 那一行留著，現在兩句都不會被它擋——學期中、寒暑假都輪得到兩句（原本寒暑假只剩第二句）*/
+    { const G=setup('2026-03-27',20,{}), f=DATE.LINE_IF[AN].enough, dT=G.day, dB=H.D('2026-08-05');
+      const all=[dT,dB].every(d=>EX.enough.every(x=>f(G,{day:d},x))), probe=[f(G,{day:dT},'明天早上有課'),f(G,{day:dB},'明天早上有課')];
+      check('9. S.LINE_IF.heroine_01.enough 條件留著（學期中 3/27 放「明天早上有課」、暑假 8/5 擋——確認兩天一個學期中一個放假），AA_780 的兩句學期中、暑假都放；DATE.lineFor 暑假也有句子',all&&J(probe)===J([true,false])&&!!DATE.lineFor(G,AN,'enough',{day:dB})&&EX.enough.length===2,J([probe,all])); } });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
