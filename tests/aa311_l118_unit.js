@@ -229,43 +229,48 @@ await sec(4,async()=>{ const H4=L().H4, ROT=LANE118_SHOPS.lunch.rotation.slice()
   check('4. 「這間第一。」→ 他的回話、記這一間（korea）；「韓式。」→「你被 Alison 洗腦了。」、記韓食老闆現在那一間（tea）',O(0).t==='「這間第一。」'&&a.some(t=>t.endsWith('：'+O(0).say[0][1]))&&ra===NS&&O(2).t==='「韓式。」'&&O(2).say[0][1]==='你被 Alison 洗腦了。'&&b.some(t=>t.endsWith('：你被 Alison 洗腦了。'))&&rb==='tea',J([a,b])); });
 
 /* ---- 5 H5 ---- */
-await sec(5,async()=>{ const H5=L().H5;
-  fresh(td('Y1S1',3,2),12.5,'l118_korea'); met('yu'); here('yu'); await order('korea',['石鍋拌飯']); const a=said(); await order('korea',['海苔飯捲'],td('Y1S1',3,4),12.5); const b=said();
+/* 2026-11-11（L118-SHOPS-REDO-1111；AA_772 moves：H5 跟著韓食老闆搬到辛亥韓食 tea，台詞不變）：舊期望在韓食小廚 l118_korea（石鍋拌飯、海苔飯捲）；店和品名改從資料讀 */
+await sec(5,async()=>{ const H5=L().H5, HS=LANE118_SHOPS.regulars.find(r=>r.id==='yu').shop, MT=L().shop(HS).menu;
+  check('5. Alison 常去的那一間＝辛亥韓食（tea），清州刀削麵（korea）不演 H5',HS==='tea'&&(fresh(td('Y1S1',3,2),12.5,'l118_korea'),L().withScene(H.G,'korea',['yu'],12.5))===null);
+  fresh(td('Y1S1',3,2),12.5,'l118_'+HS); met('yu'); here('yu'); await order(HS,[MT[0][0]]); const a=said(); await order(HS,[MT[1][0]],td('Y1S1',3,4),12.5); const b=said();
   check('5. H5 和 Alison 在韓食小廚（週二、四）：老闆「Alison 又帶朋友來了。小菜多一盤。」代替「幾位？」（每次）；吃完她那一句照舊',a[0]==='老闆：'+H5.lines[0][1]&&b[0]==='老闆：'+H5.lines[0][1]&&!a.includes('老闆：幾位？……那邊那張可以坐。')&&a.some(t=>t.endsWith('欸，下次換你選！我都選韓式。')),J([a,b]));
-  fresh(td('Y1S1',5,1),12.5,'l118_korea'); met('zhe'); met('yu'); lunch('korea'); await order('korea',['石鍋拌飯']); const c=said();
-  const mon=td('Y2S2',4,1); fresh(mon,12.5,'l118_korea'); met('zhe'); met('yu'); lunch('korea'); await order('korea',['石鍋拌飯']); const d=said(); at(mon+7,12.5); lunch('korea'); await order('korea',['石鍋拌飯']); const e=said();
+  fresh(td('Y1S1',5,1),12.5,'l118_'+HS); met('zhe'); met('yu'); lunch(HS); await order(HS,[MT[0][0]]); const c=said();
+  const mon=td('Y2S2',4,1); fresh(mon,12.5,'l118_'+HS); met('zhe'); met('yu'); lunch(HS); await order(HS,[MT[0][0]]); const d=said(); at(mon+7,12.5); lunch(HS); await order(HS,[MT[0][0]]); const e=said();
   check('5. 阿哲、Alison 交往以前（大一）三個人＝每次那一句；大二上 12/19 起三個人：老闆「三位？」（他看了一下阿哲和 Alison 坐的位子。）「……兩位加一位。小菜一樣多一盤。」（一次，之後照每次那一句）',
     c[0]==='老闆：'+H5.lines[0][1]&&!c.includes('老闆：三位？')&&J(d.slice(0,3))===J(['老闆：三位？','（他看了一下阿哲和 Alison 坐的位子。）','老闆：……兩位加一位。小菜一樣多一盤。'])&&e[0]==='老闆：'+H5.lines[0][1]&&!e.includes('老闆：三位？'),J([c,d,e])); });
 
 /* ---- 6 H6 ---- */
-await sec(6,async()=>{ const H6=L().H6, d0=td('Y1S1',3,1);
-  fresh(d0,12.2,'l118_self'); met(BH); here(BH); const r=[];
-  await order('self',['加滷蛋'],d0,12.2); r.push(said()); await order('self',['加滷蛋'],d0,12.3); r.push(said());   /* 同一天兩次＝一次 */
-  await order('self',['加滷蛋'],d0+1,12.2); r.push(said()); await order('self',['加滷蛋'],d0+2,12.2); r.push(said()); await order('self',['加滷蛋'],d0+3,12.2); r.push(said());
-  const nm=GM.npc[BH].name, L0=nm+'：十二點四十了。我先回總圖。', Wt=[nm+'：'+H6.lines[0][1],nm+'：'+H6.lines[1][1]];
+/* 2026-11-11（AA_772 moves：H6 跟著自助餐的阿姨搬到大學食堂 cafe2，台詞不變）：舊期望在好家自助餐 l118_self（加滷蛋）；店、品名、柏翰那一句改從資料讀 */
+await sec(6,async()=>{ const H6=L().H6, d0=td('Y1S1',3,1), BS=LANE118_SHOPS.regulars.find(r=>r.id===BH), MC=L().shop(BS.shop).menu;
+  fresh(d0,12.2,'l118_'+BS.shop); met(BH); here(BH); const r=[];
+  await order(BS.shop,[MC[0][0]],d0,12.2); r.push(said()); await order(BS.shop,[MC[0][0]],d0,12.3); r.push(said());   /* 同一天兩次＝一次 */
+  await order(BS.shop,[MC[0][0]],d0+1,12.2); r.push(said()); await order(BS.shop,[MC[0][0]],d0+2,12.2); r.push(said()); await order(BS.shop,[MC[0][0]],d0+3,12.2); r.push(said());
+  check('6. 柏翰常去的那一間＝大學食堂（cafe2）',BS.shop==='cafe2'&&L().h6Due(Object.assign({},H.G,{}),'self',[BH],12.9)===false);
+  const nm=GM.npc[BH].name, L0=nm+'：'+BS.line, Wt=[nm+'：'+H6.lines[0][1],nm+'：'+H6.lines[1][1]];
   check('6. H6 和柏翰一起吃：第 1、2 次（同一天兩次算一次）他「十二點四十了。我先回總圖。」；第三次：「十二點四十了。」「……今天等你五分鐘。」代替那一句；第 4 次照舊',
     r[0].includes(L0)&&r[1].includes(L0)&&r[2].includes(L0)&&!r[3].includes(L0)&&r[3].indexOf(Wt[0])>=0&&r[3].indexOf(Wt[1])===r[3].indexOf(Wt[0])+1&&r[4].includes(L0)&&!r[4].includes(Wt[1]),J(r)); });
 
 /* ---- 7 H7 ---- */
-await sec(7,async()=>{ const H7=L().H7, tues=[3,4,5,6,7,8].map(w=>td('Y1S1',w,2)), O=['「她今天要換。」','（不說話）'];
+/* 2026-11-11（AA_772 moves：H7 留在 home，現在是五湖四海；老闆娘、芯慈那兩句照 AA_772 第 12、13 列）：自己點的東西改從菜單讀（舊期望寫死 排骨飯、雞腿便當）*/
+await sec(7,async()=>{ const MH=L().shop('home').menu; const H7=L().H7, tues=[3,4,5,6,7,8].map(w=>td('Y1S1',w,2)), O=['「她今天要換。」','（不說話）'];
   fresh(tues[0],12.5,'l118_home'); met(XC); here(XC); const nm=GM.npc[XC].name, r=[];
-  for(let i=0;i<3;i++){ await order('home',['排骨飯'],tues[i],12.5); r.push(said()); }
+  for(let i=0;i<3;i++){ await order('home',[MH[0][0]],tues[i],12.5); r.push(said()); }
   const g0=['老闆娘：妹妹今天也是高麗菜的？',nm+'：……一樣。'];
   check('7. H7 和芯慈在家常菜（每次）：老闆娘「妹妹今天也是高麗菜的？」→ 芯慈「……一樣。」代替「幾位？」；第三次吃完，她那一句之後多「我發現我每次都點一樣的。……下次我想換。你幫我記著。」（第 1、2 次沒有）',
     r.every(x=>J(x.slice(0,2))===J(g0))&&!r[0].includes(nm+'：'+H7.third[0][1])&&!r[1].includes(nm+'：'+H7.third[0][1])&&r[2].indexOf(nm+'：'+H7.third[0][1])===r[2].indexOf(nm+'：下禮拜也來這間嗎？我先記一下。')+1,J(r));
-  await order('home',['（不說話）','排骨飯'],tues[3],12.5); const s4=said(), o4=H.opts.slice();
+  await order('home',['（不說話）',MH[0][0]],tues[3],12.5); const s4=said(), o4=H.opts.slice();
   check('7. 下一次一起來：老闆娘那句以後馬上兩個選項「她今天要換。」「（不說話）」（不在點餐選單裡）；選「（不說話）」→ 芯慈「……一樣。」',
     s4[0]==='老闆娘：妹妹今天也是高麗菜的？'&&J(o4[0])===J(O)&&s4[1]===nm+'：……一樣。'&&!o4.slice(1).some(o=>o.includes(O[0])),J([s4,o4]));
-  await order('home',['「她今天要換。」','雞腿便當'],tues[4],12.5); const s5=said(), o5=H.opts.slice();
+  await order('home',['「她今天要換。」',MH[1][0]],tues[4],12.5); const s5=said(), o5=H.opts.slice();
   check('7. 沒選的下一次還會再出：選「她今天要換。」→ 芯慈「……韭菜的。」老闆娘「喔！難得！」→ 再點自己的（雞腿便當）；她沒有說「……一樣。」',
-    J(o5[0])===J(O)&&J(s5.slice(0,3))===J(['老闆娘：妹妹今天也是高麗菜的？',nm+'：……韭菜的。','老闆娘：喔！難得！'])&&s5.includes('（你點了雞腿便當。）')&&!s5.includes(nm+'：……一樣。'),J([s5,o5]));
-  await order('home',['排骨飯'],tues[5],12.5);
+    J(o5[0])===J(O)&&J(s5.slice(0,3))===J(['老闆娘：妹妹今天也是高麗菜的？',nm+'：……韭菜的。','老闆娘：喔！難得！'])&&s5.includes('（你點了'+MH[1][0]+'。）')&&!s5.includes(nm+'：……一樣。'),J([s5,o5]));
+  await order('home',[MH[0][0]],tues[5],12.5);
   check('7. 選過以後照舊：老闆娘「妹妹今天也是高麗菜的？」→ 芯慈「……一樣。」，沒有那兩個選項',J(said().slice(0,2))===J(g0)&&!H.opts.some(o=>o.includes(O[0])),J([said(),H.opts]));
   /* 舊存檔（v9.10.13：選項出過一次就記 H7b，沒有記選了什麼）：沒有 H7c＝下一次照樣出那兩個選項，選了才記 H7c、之後不再出 */
   fresh(tues[2],12.5,'l118_home'); met(XC); here(XC); rec().w[XC+'@home']={n:4,d0:tues[0],d:tues[1]}; rec().once.H7a=tues[0]; rec().once.H7b=tues[1];   /* 【前置／捷徑】舊存檔的 G.l118 直接寫 */
-  await order('home',['（不說話）','排骨飯'],tues[2],12.5); const q1=H.opts.slice(), c1=rec().once.H7c;
-  await order('home',['「她今天要換。」','排骨飯'],tues[3],12.5); const q2=H.opts.slice(), s2=said();
-  await order('home',['排骨飯'],tues[4],12.5); const q3=H.opts.slice();
+  await order('home',['（不說話）',MH[0][0]],tues[2],12.5); const q1=H.opts.slice(), c1=rec().once.H7c;
+  await order('home',['「她今天要換。」',MH[0][0]],tues[3],12.5); const q2=H.opts.slice(), s2=said();
+  await order('home',[MH[0][0]],tues[4],12.5); const q3=H.opts.slice();
   check('7. 舊存檔（v9.10.13 記了 H7b、沒有 H7c）：下一次照樣出那兩個選項；「（不說話）」不記，下一次再出；選「她今天要換。」記 H7c，之後不出',
     J(q1[0])===J(O)&&c1==null&&J(q2[0])===J(O)&&s2[1]===nm+'：……韭菜的。'&&rec().once.H7c===tues[3]&&!q3.some(o=>o.includes(O[0])),J([q1,q2,s2,q3,rec().once])); });
 
