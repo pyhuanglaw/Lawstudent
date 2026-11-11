@@ -110,7 +110,8 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const T=evText('ev_peishan_tutoring'); check('6. 溫州街課輔班（P3b）：「喔，是你。我在這裡當助教。每個禮拜三。」（AA-B 11-07，原本「一週兩天。」）',T.includes('喔，是你。我在這裡當助教。每個禮拜三。')&&!T.some(t=>/一週三天|一週兩天/.test(t)),J(T.slice(0,2)));
     const L3=LADDER.byTerm.Y1S2.classmate_peishan.steps.find(s=>s.id==='P2-L3');
     /* 2026-11-11 改期望（X327 沛珊重寫，AA_753_peishan_ladder_Y1S2_Y2S1@c5094495d）：P2-L3 整層重寫，第一句從「我在溫州街的課輔班當志工。一週兩天。」換成新稿的句子（「兩天」這個次數沒有變，AA_373 第 6 項要的是不說「三天」）；招呼那一則的字也換了 */
-    check('6. 閒聊階梯 P2-L3：「我在溫州街的課輔班帶小朋友。一個禮拜兩天。」（不說三天）',!!L3&&L3.lines[0]==='我在溫州街的課輔班帶小朋友。一個禮拜兩天。'&&!JSON.stringify(L3.lines).includes('三天'),L3&&L3.lines[0]);
+    /* 2026-11-11（X327 沛珊重寫，AA 補稿 b59a8f9de）：P2-L3 第一句更正成「每個禮拜三」（課輔班每週三 18:00～21:00，AA_614；原本新稿抄成「一個禮拜兩天。」） */
+    check('6. 閒聊階梯 P2-L3：「我在溫州街的課輔班帶小朋友，每個禮拜三。」（不說三天、兩天）',!!L3&&L3.lines[0]==='我在溫州街的課輔班帶小朋友，每個禮拜三。'&&!/三天|兩天/.test(JSON.stringify(L3.lines)),L3&&L3.lines[0]);
     fresh(termDay('Y1S2',6,2),17,'wenzhou',{}); R('classmate_peishan','FAM'); const g=[]; for(let i=0;i<6;i++){ const t=STORY.ladGreet(G,'classmate_peishan'); if(t) g.push(t); }
     /* AA-B 11-07 以後週二 17:00 她不在溫州街（在總圖）：招呼的條件（ladder.js 的 when：週二、四 16:30～18:00）是 AA 的資料，沒有改——已問 AA（AA614 回報）；這裡只確認資料還在、她週二不在溫州街 */
     check('6. 第 6 週週二 17:00：招呼「（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！」（2026-11-11 新稿的字；原本「……等一下！」）的資料照舊；她已經不在溫州街（AA-B 11-07 課輔班改週三）',STORY.schedEnt(ps,G).zone!=='wenzhou'&&g.includes('（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！'),J([STORY.schedEnt(ps,G).zone,g])); }

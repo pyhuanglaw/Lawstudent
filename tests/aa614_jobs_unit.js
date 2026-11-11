@@ -204,7 +204,8 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
     const cross=['Y1S2','Y2S1'].map(t=>gw(t).find(w=>w.t==='（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！')||null);
     check('7. 階梯招呼「（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！」（大一下、大二上）搬到週三 20:50～21:10 溫州街、字照新稿',typeof LADDER!=='undefined'&&cross.every(w=>w&&J(w.weekday)===J([3])&&Math.abs(w.time[0]-(20+50/60))<1e-9&&Math.abs(w.time[1]-(21+10/60))<1e-9&&J(w.location)===J(['wenzhou'])),J(cross));
     const p23=st('Y1S2').find(x=>x&&x.id==='P2-L3');
-    check('7. P2-L3：2026-11-11 起是新稿的「我在溫州街的課輔班帶小朋友。一個禮拜兩天。」（原本期望 aa614 換成「當助教。每個禮拜三。」；AA_614 的那一條說明還在稿上，等 AA 定新句要不要改成週三）',!!p23&&p23.lines[0]==='我在溫州街的課輔班帶小朋友。一個禮拜兩天。'&&doc.includes('P2-L3「一週兩天。」→「每個禮拜三。」'),J(p23&&p23.lines));
+    /* 2026-11-11（X327 沛珊重寫，AA 補稿 b59a8f9de）：AA 把新稿這一句更正成「每個禮拜三」（源稿 AA_753_peishan_ladder_Y1S2_Y2S1.json@b59a8f9de 直接改好，不靠 aa614 載入時換字） */
+    check('7. P2-L3：「我在溫州街的課輔班帶小朋友，每個禮拜三。」（AA_614 的「一週兩天。」→「每個禮拜三。」落在新稿上）',!!p23&&p23.lines[0]==='我在溫州街的課輔班帶小朋友，每個禮拜三。'&&doc.includes('P2-L3「一週兩天。」→「每個禮拜三。」'),J(p23&&p23.lines));
     const rows=id=>((typeof WHOIS!=='undefined'&&WHOIS.R)||{})[id]||[], job=id=>rows(id).find(r=>r.id==='job');
     const jk=job(KAI), jp=job(PS);
     fresh('2025-10-04',10); const k0=!!(jk&&jk.if(H.G)), p0=!!(jp&&jp.if(H.G));
