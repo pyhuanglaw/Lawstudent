@@ -149,10 +149,10 @@ def export(SET, doors, out):
                 tq(S, 'fu' if (i + int(ax * 10)) % 3 else 'chun', [D.P(ax, 1.5 - fs, off), D.P(ax + fs, 1.5, off), D.P(ax, 1.5 + fs, off), D.P(ax - fs, 1.5, off)])
         if r['id'] in LANTERN.get(SET, ()):                                           # 一對紅燈籠：門兩邊、掛在門頂上面
             for a_ in (-0.35, wd + 0.35):
-                c = D.P(a_, D.top + 0.02, 0.28); ball(S['Gl'], c, 0.17, '#d8261c', sy=1.12, seg=12, rings=7)
+                c = D.P(a_, D.top - 0.12, 0.56); ball(S['Gl'], c, 0.17, '#d8261c', sy=1.12, seg=12, rings=7)   # 離門面 0.56 m、門頂下面一點（BB 11-11 04:4x：原本 0.28 m、在門頂的高度，下半顆埋進這間店的招牌橫帶）
                 for yy in (0.2, -0.2): cyl(S['V'], (c[0], c[1] + yy - 0.02, c[2]), (c[0], c[1] + yy + 0.02, c[2]), 0.075, GOLD, seg=10)
                 cyl(S['V'], (c[0], c[1] + 0.22, c[2]), (c[0], c[1] + 0.42, c[2]), 0.006, INK, seg=4); cyl(S['V'], (c[0], c[1] - 0.22, c[2]), (c[0], c[1] - 0.46, c[2]), 0.02, '#d8261c', seg=5)
-                p0 = D.P(a_, D.top + 0.44, 0.0); cyl(S['V'], p0, (c[0], c[1] + 0.42, c[2]), 0.008, INK, seg=4)
+                p0 = D.P(a_, D.top + 0.3, 0.0); cyl(S['V'], p0, (c[0], c[1] + 0.42, c[2]), 0.012, INK, seg=4)   # 從牆上伸出來的一支小鐵桿，燈籠掛在桿頭
         S['n'] += 1
     groups = [S]
 
