@@ -35,9 +35,9 @@
    "file": "src/data/date_lines.js",
    "path": "lines.heroine_02.flaked[0][1]",
    "old": "我不會說什麼。我會記得。",
-   "new": "我那天有等。下次不能來，先跟我講一聲就好。",
+   "new": "我那天把一杯熱可可等到涼掉。下次，你請我一杯熱的。",
    "count_in_file": 1,
-   "note": "原句像在記帳；她不嫌祐廷"
+   "note": "原句像在記帳。BB 11-11：第一版和語彤的 flaked 同一個形狀，換成她自己的收法（拿自己開玩笑、不讓場面僵）"
   },
   {
    "file": "src/data/date_lines.js",
