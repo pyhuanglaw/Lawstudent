@@ -1,0 +1,77 @@
+{
+ "_meta": {
+  "by": "AA（帳號 A）",
+  "date": "2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "why": "LAWWW 匯完以安約會台詞（開發分支 fea448637）以後回報的三類，這份是不分地點的短句；分地點的 14 格改在 date_rewrite/an_Dxx.json（_meta.fix_lawww_an_1111）。",
+  "flaked": "四個人的 flaked 我上一版都寫成「上次你沒來，我等過」；引擎實際是「30 天內第二次當天取消」的當下說的，前一次她只回了「好。怎麼了？」，沒有人等過。這次四個人一起改成當下的反應。",
+  "depart": "S.EXTRA_LINES.heroine_01.depart 三句（「我到了。早到十分鐘。你慢慢來。」「出門了。傘帶了。」「車上。我在看等一下要去的地方的地圖。」）不用改。AA_777 的 _meta 寫「她沒有 depart、enough、leaveEarly、noPair 的專屬句」是我漏看 date3d.js，更正在這裡。",
+  "she_pays": "【請 LAWWW 做機制】她說要請的格＝那個互動點不扣玩家的錢：heroine_01 D06#43（D06.cafe.remember）、D13#23（D13.drink.normal#2）、D18#41（D18.teahouse.normal#2）。字不改。",
+  "keep": "不改的：D12#11（她拍一張河傳給你，是當下的動作）、D29#11「回去換我走你的」、D33#10「到了傳訊息給我。我等你傳了再睡。」（是她的要求，不是遊戲要兌現的承諾）、心願事件 mention 選項②「我要記下來」、D29#50／D30#26／D32#26 比賽那三句（兩個人自己玩，不是跟別人比，D116 不算）。"
+ },
+ "rows": [
+  {
+   "file": "src/date3d.js",
+   "path": "S.EXTRA_LINES.heroine_01.enough[0]",
+   "old": "……今天差不多了。明天早上有課。",
+   "new": "今天差不多了。再走下去，我會開始看錶。",
+   "note": "拿掉刪節號；不綁「明天早上有課」"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.EXTRA_LINES.heroine_01.enough[1]",
+   "old": "排的都走完了。……多走的那一段，我很喜歡。",
+   "new": "排的都走完了。多走的那一段，我很喜歡。",
+   "note": "拿掉刪節號"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.EXTRA_LINES.heroine_01.leaveEarly[0]",
+   "old": "……這樣就回去了？好。排好的，下次再用。",
+   "new": "這樣就回去了？好。排好的那幾個地方不會跑。",
+   "note": "拿掉刪節號；沒人記的「下次再用」"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.EXTRA_LINES.heroine_01.noPair[0]",
+   "old": "照片？……我幫你拍。我拍得比較正。",
+   "new": "照片？我幫你拍。我拍得比較正。",
+   "note": "拿掉刪節號"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_01.flaked[0][0]",
+   "old": "那天我等了四十分鐘。我有帶書，所以還好。",
+   "new": "第二次了。我不問原因。",
+   "note": "引擎是第二次當天取消的當下說的，沒有「等了四十分鐘」這回事（AA 上一版寫錯）"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_01.flaked[0][1]",
+   "old": "下次請提早說。謝謝。",
+   "new": "不能來的話，請早一點說。謝謝。",
+   "note": "同上；她不高興的時候突然很客氣，留著"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_04.flaked[0]",
+   "old": "那天我設了鬧鐘，還真的起來了，結果你沒來。這種事一次就好。",
+   "new": "又取消。我鬧鐘都設好了。這種事不要有第三次。",
+   "note": "同上：子晴（AA_775 那一列寫成等過了）"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_03.flaked[0][0]",
+   "old": "那天我等了一下。",
+   "new": "嗯。第二次了。",
+   "note": "同上：語彤（AA_767）；[0][1]「班也請了。下次不能來，先跟我說。」當天取消也成立，不動"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_02.flaked[0][1]",
+   "old": "我那天把一杯熱可可等到涼掉。下次，你請我一杯熱的。",
+   "new": "今天我連要穿哪一件都想好了。沒關係，衣服不會跑。",
+   "note": "同上：芷若（AA_773）；也拿掉沒人記的「你請我一杯」"
+  }
+ ]
+}
