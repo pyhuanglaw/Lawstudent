@@ -7697,6 +7697,24 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "改稿紀錄（AA_812 懸著的承諾，可昕 D15 收尾（第 10 格））：AA 只改了這份紀錄、源稿 date_system/lines/Dxx.json 沒有重新 apply（白名單 33 筆還是 248c8e390，和 f1fab0ec6 的 Dxx.json 一樣）——tools/date/import_date_lines.py 拿這份紀錄在源稿那一版（248c8e390）和這一版逐格比，不一樣的格照格號（date_rewrite.py list 的順序）換在遊戲那一格（寫檔前最後一步；那一格要是舊字，已經是新字＝跳過，都不是＝停下來）。git diff 248c8e390 f1fab0ec6 這份檔只有 AA_812 這一格"
+  },
+  {
+   "path": "docs/story_planning/syllabus/Y4S2.json",
+   "sha": "ba322d6ae",
+   "status": "approved",
+   "approvedBy": "AA 11-11 15:53「課堂內容 全部審過：大四下＋日文」（企劃線 ba322d6ae；這個 SHA 沒有未審內容）；大四下：海商法與海洋法（BB_372 PASS，W13 照改「一定噸位以上的船」；海污法 2023 修正後條號 BB 核不到，ref 改成不寫條號）、法律專題研究（BB_373 PASS，W12 改「借錢給人的那一方」）",
+   "task": "STUDY-EXAM-STORY-1102",
+   "kind": "data",
+   "note": "tools/syllabus/import_syllabus.py；大五上沿用大四上（AA）"
+  },
+  {
+   "path": "docs/story_planning/syllabus/JP.json",
+   "sha": "ba322d6ae",
+   "status": "approved",
+   "approvedBy": "AA 11-11 15:53「課堂內容 全部審過：大四下＋日文」（企劃線 ba322d6ae；這個 SHA 沒有未審內容）；日文（上）（下）（BB_374 PASS；日文下 W14 黑板改「〜ましょう／一起……吧」、補普通形 いこう、たべよう）",
+   "task": "STUDY-EXAM-STORY-1102",
+   "kind": "data",
+   "note": "tools/syllabus/import_syllabus.py；大五上沿用大四上（AA）"
   }
  ]
 }
