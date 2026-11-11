@@ -1286,9 +1286,12 @@ TE_N01 | 201803df0a593a75e084f5a11718cedb3c512bd3 | probe | docs/story_planning/
 # BB 07:33／07:37 ACT＋STUDY（7266e7a29）全量：發布以後；B3P1＝base 選第 2 個（稿裡有手疊手，預期 FAIL）
 #HOLD發布後 ACT_ANM | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=AN_MOVIE_A,AN_MOVIE_B;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
 #HOLD發布後 ACT_ANB | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=AN_BOOK_A,AN_BOOK_B,FALLBACK;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
-#HOLD發布後 ACT_ZR3 | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=ZR3_BASE,ZR3_ALT;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
-#HOLD發布後 ACT_YT3 | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=YT3_BASE,YT3_ALT;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
-#HOLD發布後 ACT_KX3 | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=KX3_BASE,KX3_ALT;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
+#HOLD發布後 ACT_ZR3B | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=ZR3_BASE_P0,ZR3_BASE_P1;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
+#HOLD發布後 ACT_ZR3A | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 8 | PARTS=ZR3_ALT;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
+#HOLD發布後 ACT_YT3B | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=YT3_BASE_P0,YT3_BASE_P1;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
+#HOLD發布後 ACT_YT3A | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 8 | PARTS=YT3_ALT;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
+#HOLD發布後 ACT_KX3B | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=KX3_BASE_P0,KX3_BASE_P1;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
+#HOLD發布後 ACT_KX3A | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 8 | PARTS=KX3_ALT;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
 #HOLD發布後 ACT_PS12 | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=PS1,PS2,ROTATE;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
 #HOLD發布後 ACT_PS34 | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 10 | PARTS=PS3,PS4;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
 #HOLD發布後 ACT_ST1 | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 14 | PARTS=ST_AN1_A,ST_AN1_B,ST_LOWNEED;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
@@ -1296,4 +1299,3 @@ TE_N01 | 201803df0a593a75e084f5a11718cedb3c512bd3 | probe | docs/story_planning/
 #HOLD發布後 ACT_ST6A | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 11 | PARTS=ST_AN6_NOPAGE,ST_AN6_PAGE;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
 #HOLD發布後 ACT_ST6B | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 11 | PARTS=ST_ZR6,ST_YT6;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
 #HOLD發布後 ACT_ST6C | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 11 | PARTS=ST_PS6,ST_KX6;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
-#HOLD發布後 ACT_B3P1 | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 15 | PARTS=ZR3_BASE,YT3_BASE;PICK3=1;TAG=pick1;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
