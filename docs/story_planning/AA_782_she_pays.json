@@ -1,0 +1,81 @@
+{
+ "_meta": {
+  "doc": "AA_782 校外約會「她請」的格（給 S.SHE_PAYS；以安三格在 AA_780 已做）",
+  "by": "AA（帳號 A）2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "how": "格號＝date_rewrite.py list 的編號；字照遊戲現在的（企劃線 date_system/lines）。只列「她在這個互動點當場請」的格；收尾、到達時說「回去我請你吃晚餐」這種不在互動點的、和玩家選項（「我請妳。」）不列。字都不改。",
+  "not_listed": "子晴 D06.cafe.remember「我說過要請你吃滷味，等一下去」：要請的是別的地方，不是咖啡廳這一點，不列。語彤、芷若沒有當場請的格。"
+ },
+ "she_pays": [
+  {
+   "who": "heroine_05",
+   "loc": "D06",
+   "n": 45,
+   "key": "D06.cafe.remember",
+   "text": "上次你請的。這次我請。"
+  },
+  {
+   "who": "heroine_05",
+   "loc": "D10",
+   "n": 54,
+   "key": "D10.snack.remember",
+   "text": "這次我請。"
+  },
+  {
+   "who": "heroine_05",
+   "loc": "D20",
+   "n": 18,
+   "key": "D20.street.normal#0",
+   "text": "竹筒飯。我買一個，你也一個。我請。"
+  },
+  {
+   "who": "heroine_05",
+   "loc": "D22",
+   "n": 45,
+   "key": "D22.fish.first",
+   "text": "（活魚料理）這家我請。你不要搶。"
+  },
+  {
+   "who": "heroine_05",
+   "loc": "D22",
+   "n": 54,
+   "key": "D22.fish.remember",
+   "text": "今天這家，還是我請。"
+  },
+  {
+   "who": "heroine_05",
+   "loc": "D23",
+   "n": 23,
+   "key": "D23.cook.first",
+   "text": "（代客料理）這頓我請。"
+  },
+  {
+   "who": "heroine_05",
+   "loc": "D30",
+   "n": 54,
+   "key": "D30.stall.remember",
+   "text": "這攤還在。今天兩杯都我付。"
+  },
+  {
+   "who": "classmate_peishan",
+   "loc": "D21",
+   "n": 20,
+   "key": "D21.street.normal#2",
+   "text": "你要吃什麼？我請你，上次是你請的。"
+  },
+  {
+   "who": "classmate_peishan",
+   "loc": "D31",
+   "n": 53,
+   "key": "D31.egg.normal#2",
+   "text": "你要不要再一顆？我請你。"
+  },
+  {
+   "who": "kexin",
+   "loc": "D30",
+   "n": 54,
+   "key": "D30.stall.remember",
+   "text": "烤玉米這攤還在。這次我付。"
+  }
+ ]
+}
