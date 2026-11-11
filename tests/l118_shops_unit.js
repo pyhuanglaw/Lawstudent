@@ -42,7 +42,7 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
   /* 9. AA_355 1-3（AA-C 2026-10-21）：滇香小館牆上的織布點了有字（配置檔的 note 是空的，原本只顯示「牆上的織布」）*/
   { const S=global.L118S, q=(LS.dian&&LS.dian.interact||[]).find(x=>x.id==='tapestry'), t=S&&S.lookText&&q?S.lookText('dian',q):null;
     check('9. AA_355 1-3 牆上的織布：「（牆上掛著一塊條紋織布，紅色和深藍色，顏色洗得有點淡了。）」', t==='（牆上掛著一塊條紋織布，紅色和深藍色，顏色洗得有點淡了。）', String(t)); }
-  /* 9b. AA_355 5-1（AA-C 2026-10-21 2f1aaa22）：還沒有字的物件——自取的湯（第一間＝好家自助餐、第二間＝巷口家常菜）、書架（慢讀咖啡）、小菜櫃（第一間＝韓食小廚、第二間＝六張犁麵舖）；
+  /* 9b. AA_355 5-1（AA-C 2026-10-21 2f1aaa22）：還沒有字的物件——自取的湯（第一間＝好家自助餐、第二間＝五湖四海）、書架（慢讀咖啡）、小菜櫃（第一間＝韓食小廚、第二間＝六張犁麵舖）；
      「第一間、第二間」照配置檔的順序。電視照配置檔的 note（AA_280）、餐盤回收台照舊顯示名稱（修改前 FAIL：五個都只顯示名稱）*/
   { const S=global.L118S, it=(sh,k)=>(LS[sh]&&LS[sh].interact||[]).find(x=>x.id===k), lk=(sh,k)=>S&&S.lookText&&it(sh,k)?S.lookText(sh,it(sh,k)):null;
     const want=[['self','soup','（自取的湯，今天是蘿蔔湯。鍋邊貼著「請自取，不要浪費」。）'],['home','soup','（湯桶上寫著「紫菜蛋花」。湯勺掛在桶邊。）'],['cafe2','books','（書架上大多是舊漫畫，有幾套缺了第一集。）'],
@@ -70,6 +70,6 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
   if(m&&H){ const at=(x,z,a,b)=>{ const its=H.seats.map(q=>({x:q.x,z:q.z,radius:0.7,lv:0,prio:a,seat:{x:q.x,z:q.z,yaw:q.yaw},label:'坐下'})).concat(H.interact.map(q=>({x:q.x,z:q.z,radius:q.r,lv:0,prio:b,label:q.label})));
       const E={levels:null,player:{lv:0,obj:{position:{x,y:0,z}}},interactables:its,npcs:[]}; vm.runInNewContext(m[0],{E,Math}); const r=E.nearestInteractable(); return r&&r.label; };
     const back=at(-2.6,-3.54,pS,pL), soup=at(-2.7,-3.75,pS,pL), old=at(-2.6,-3.54,0,0);
-    check('8. 巷口家常菜 (-2.6,-2.94) 的椅子：站在椅子後面＝「坐下」、站在湯前面＝「自取的湯」；（兩邊都沒有 prio 的話椅子後面是「自取的湯」）', back==='坐下'&&soup==='自取的湯'&&old==='自取的湯', JSON.stringify({pS,pL,back,soup,old})); }
-  else check('8. 找得到 nearestInteractable、巷口家常菜的配置', false); }
+    check('8. 五湖四海 (-2.6,-2.94) 的椅子：站在椅子後面＝「坐下」、站在湯前面＝「自取的湯」；（兩邊都沒有 prio 的話椅子後面是「自取的湯」）', back==='坐下'&&soup==='自取的湯'&&old==='自取的湯', JSON.stringify({pS,pL,back,soup,old})); }
+  else check('8. 找得到 nearestInteractable、五湖四海的配置', false); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

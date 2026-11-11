@@ -14,7 +14,7 @@ const mkObj=()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z
 global.CHAR={setExpr(){},build:()=>mkObj()};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+String(info).slice(0,700):'')); if(!ok) fails++; };
 const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js',
-  'src/social3d.js','src/events3d.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
+  'src/social3d.js','src/events3d.js','src/data/l118_redo772.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',
   'src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/sis_grad3d.js',
   'src/data/dorm_room_layout.js','src/story3d.js','src/classes3d.js','src/slowread3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
@@ -110,7 +110,7 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   // ===== 可昕約法圖 → 改約慢讀（週二慢讀休 → 系統改天）=====
   { const mon=TD('Y1S2',5,1); fresh(mon-2,10,{dating_kexin:true}); know('kexin',S6);
     const sat=TD('Y1S2',5,6), r=await once('kexin','lawlib',sat,10);
-    check('2-1. 可昕約法圖（週六 10:00）：婉拒「法圖？我是外校的，進不去吧。」「……慢讀好不好？那裡不用證件。」→ 同一時間慢讀有開＝改約慢讀',r.res==='resched'&&J(r.lines)===J(['法圖？我是外校的，進不去吧。','……慢讀好不好？那裡不用證件。'])&&r.alt&&r.alt.place==='slowread'&&r.alt.day===sat&&r.alt.h===10,J(r));
+    check('2-1. 可昕約法圖（週六 10:00）：婉拒「法圖？我是外校的，進不去吧。」「……木曜日好不好？那裡不用證件。」→ 同一時間慢讀有開＝改約慢讀',r.res==='resched'&&J(r.lines)===J(['法圖？我是外校的，進不去吧。','……木曜日好不好？那裡不用證件。'])&&r.alt&&r.alt.place==='slowread'&&r.alt.day===sat&&r.alt.h===10,J(r));
     const tue=mon+1, rt=await once('kexin','lawlib',tue,15.5);
     check('2-1. 週二（慢讀休）：照系統改天（慢讀的下一個空檔，不是週二）',rt.res==='resched'&&rt.alt&&rt.alt.place==='slowread'&&rt.alt.day!==tue&&wdOf(rt.alt.day)!==2,J(rt));
     const a=await ask('kexin',['念書','法圖','明天 12:10','好，就']); const iv=(G.invites||[]).slice(-1)[0]||{};
@@ -122,7 +122,7 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     check('2-1. 子晴認識階段約法圖：婉拒「法圖？比總圖還不能講話吧。……不要。」',q.res==='decline'&&J(q.lines)===J(['法圖？比總圖還不能講話吧。……不要。']),J(q)); }
   // ===== 沛珊大三起（在臺北）、子晴大四平日 =====
   { const r=INVITE_DATA.people.classmate_peishan.rule, src=String(r);
-    check('2-1. 沛珊大三起：法圖改約慢讀「法圖我現在進不去了。……慢讀好不好？」；映月湖 acc R 換「好。……我好久沒回去了。」（她在臺北的時候）',/c\.pid==='lawlib'\) return INVITE_DATA\.toSlow\(G,'classmate_peishan',c,I,\['法圖我現在進不去了。……慢讀好不好？'\]\)/.test(src)&&/c\.pid==='lake'&&r\.res==='accept'&&!c\.first\) return \{lines:\['好。……我好久沒回去了。'\]\}/.test(src));
+    check('2-1. 沛珊大三起：法圖改約慢讀「法圖我現在進不去了。……木曜日好不好？」；映月湖 acc R 換「好。……我好久沒回去了。」（她在臺北的時候）',/c\.pid==='lawlib'\) return INVITE_DATA\.toSlow\(G,'classmate_peishan',c,I,\['法圖我現在進不去了。……木曜日好不好？'\]\)/.test(src)&&/c\.pid==='lake'&&r\.res==='accept'&&!c\.first\) return \{lines:\['好。……我好久沒回去了。'\]\}/.test(src));
     const zq=String(INVITE_DATA.people.heroine_04.rule);
     check('2-1. 子晴大四平日：「平日我在工作室。……週六下午可以。法圖週六開到五點對吧。」改到週六 14:00',/c\.pid==='lawlib'&&wk\) return \{res:'resched',why:'work',act:'work',lines:\['平日我在工作室。……週六下午可以。法圖週六開到五點對吧。'\],alt:I\.nextSat\(G,'heroine_04',c\.P,c\.day,14\)\}/.test(zq)); }
   // ===== 學姊：法圖不算上限、筆試前那一句、here；筆試前約映月湖 → 婉拒 =====
@@ -142,8 +142,8 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     check('2-2. 有伴侶約映月湖：兩個人單獨的規則照溫州街，系統說明（why.partnerWalk「兩個人單獨去散步不太好。約在 Café 或總圖吧。」）',w2===INVITE_DATA.why.partnerWalk&&w2===wz&&dc.res==='decline'&&dc.why==='partner'&&tx===INVITE_DATA.why.partnerWalk,J([w2,dc,tx])); }
   // ===== 第 4 節（b3e5bca3b）：實作問答的更正與補句 =====
   const S4T=spec.slice(Math.max(0,spec.indexOf('## 4.'))), in4=t=>!!S4T&&S4T.includes(String(t).replace(/^「|」$/g,'').replace(/^（|）$/g,''));
-  const KX=INVITE_DATA.people.kexin, SRL=INVITE_DATA.slowreadLines, H8L='滇香小館的老闆娘人很好。我去問過她開店的事。';
-  const PS_TU='那時候我在課輔班。……慢讀早上也開，早上好不好？', PS_SH='那時候我在書店。……慢讀早上也開，早上好不好？';
+  const KX=INVITE_DATA.people.kexin, SRL=INVITE_DATA.slowreadLines, H8L='118 巷那間牛排的老闆娘人很好。我去問過她開店的事。';
+  const PS_TU='那時候我在課輔班。……木曜日開到十點，改天晚上好不好？', PS_SH='那時候我在書店。……木曜日開到十點，改天晚上好不好？';
   { fresh(TD('Y1S2',5,6),9); const lawG=G, FA4=['cafe','library','noodle','wenzhou'].map(p=>KX.firstAt[p](lawG));
     const all=[].concat(KX.acc.pasta118,KX.acc.teahouse_ceremony,...FA4,[H8L,PS_TU,PS_SH]), bad=all.filter(t=>!in4(t));
     check('4. 稿第 4 節：語彤 walk 的 H8 句、可昕六處、沛珊兩句都在 b3e5bca3b 第 4 節（一字照稿）',!!S4T&&bad.length===0&&all.length===14,J([all.length,bad])); }
@@ -151,8 +151,8 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   { const d=TD('Y2S1',6,1); fresh(d,10); know('heroine_03',S6);
     const pick=()=>{ G.flags.walkChatN={}; const p=INV.walkPick(G,'heroine_03','slowread'); return p&&p.lines; }, own=()=>SRL.heroine_03.walk.filter(e=>!e.if||e.if(G,{year:2})).map(e=>e.l);
     const a0=own(), p0=pick(); G.l118={n:{},d:{},last:{},w:{},once:{H8:d-3}}; const a1=own(), p1=pick();
-    check('4-1. 語彤慢讀的 walk：H8 沒演過＝原本兩句（「118 巷的店，老闆幾乎都住樓上。」「你看二樓的窗戶……」）',J(a0)===J([['118 巷的店，老闆幾乎都住樓上。','你看二樓的窗戶，有曬衣服的就是。']])&&J(p0)===J(a0[0]),J([a0,p0]));
-    check('4-1. H8 演過（G.l118.once.H8）＝「滇香小館的老闆娘人很好。我去問過她開店的事。」',J(a1)===J([[H8L]])&&J(p1)===J([H8L]),J([a1,p1]));
+    check('4-1. 語彤慢讀的 walk：H8 沒演過＝原本兩句（「溫州街這些老房子，一樓開店的，老闆多半住樓上。」「你看二樓的窗戶……」）',J(a0)===J([['溫州街這些老房子，一樓開店的，老闆多半住樓上。','你看二樓的窗戶，有曬衣服的就是。']])&&J(p0)===J(a0[0]),J([a0,p0]));
+    check('4-1. H8 演過（G.l118.once.H8）＝「118 巷那間牛排的老闆娘人很好。我去問過她開店的事。」',J(a1)===J([[H8L]])&&J(p1)===J([H8L]),J([a1,p1]));
     check('4-1. 稿上寫錯的「家常菜的老闆娘」那一句拿掉了',!JSON.stringify(SRL).includes('家常菜的老闆娘')); }
   // 4-2 可昕補的六處
   { const sat=TD('Y1S2',5,6); fresh(sat-1,9,{dating_kexin:true}); know('kexin',S6);
@@ -180,17 +180,17 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     const info=x=>J(x&&[x.d,wdOf(x.d),x.r.res,x.r.why,x.r.lines,x.r.alt,x.r.alt&&wdOf(x.r.alt.day)]);
     try{
       const tu=await run(6,3,15.5);
-      check('4-3. 週三 15:30 約慢讀（課輔班 16～19）：「那時候我在課輔班。……慢讀早上也開，早上好不好？」、改到下一個她有空的早上 10:00（週四）',tu.r.res==='resched'&&J(tu.r.lines)===J([PS_TU])&&okAlt(tu.d,tu.r.alt)&&tu.r.alt.day===tu.d+1,info(tu));
+      check('4-3. 週三 15:30 約慢讀（課輔班 16～19）：「那時候我在課輔班。……木曜日開到十點，改天晚上好不好？」、改到下一個她有空的早上 10:00（週四）',tu.r.res==='resched'&&J(tu.r.lines)===J([PS_TU])&&okAlt(tu.d,tu.r.alt)&&tu.r.alt.day===tu.d+1,info(tu));
       const tu2=await run(6,3,15.5,[1]);
       check('4-3. 週四她不在臺北：跳過，改到週五 10:00',tu2.r.res==='resched'&&okAlt(tu2.d,tu2.r.alt)&&tu2.r.alt.day===tu2.d+2,info(tu2));
       const sh=await run(6,6,14);
-      check('4-3. 週六 14:00 約慢讀（書店 10～18）：「那時候我在書店。……慢讀早上也開，早上好不好？」、改到週日 10:00（週六整天在書店）',sh.r.res==='resched'&&J(sh.r.lines)===J([PS_SH])&&okAlt(sh.d,sh.r.alt)&&sh.r.alt.day===sh.d+1,info(sh));
+      check('4-3. 週六 14:00 約慢讀（書店 10～18）：「那時候我在書店。……木曜日開到十點，改天晚上好不好？」、改到週日 10:00（週六整天在書店）',sh.r.res==='resched'&&J(sh.r.lines)===J([PS_SH])&&okAlt(sh.d,sh.r.alt)&&sh.r.alt.day===sh.d+1,info(sh));
       const sh2=await run(6,6,14,[1]);
       check('4-3. 週日她回台南：改到週一 10:00（週二慢讀休也會跳過）',sh2.r.res==='resched'&&okAlt(sh2.d,sh2.r.alt)&&sh2.r.alt.day===sh2.d+2,info(sh2));
       const su=await run(6,7,14);
       check('4-3. 週日 14:00（書店 13～18）也一樣；三種都不用 plan 那句「啊，那時候我有事！」',J(su.r.lines)===J([PS_SH])&&okAlt(su.d,su.r.alt)&&![tu,tu2,sh,sh2,su].some(x=>/那時候我有事/.test(J(x.r.lines))),info(su));
       const ok=(await run(6,5,12+10/60)).r;
-      check('4-3. 沒撞到（週五 12:10）照舊答應「好。慢讀不用學生證。……我帶作業去改。」',ok.res==='accept'&&J(ok.lines)===J(['好。慢讀不用學生證。……我帶作業去改。']),J(ok));
+      check('4-3. 沒撞到（週五 12:10）照舊答應「好。木曜日不用學生證。……我帶作業去改。」',ok.res==='accept'&&J(ok.lines)===J(['好。木曜日不用學生證。……我帶作業去改。']),J(ok));
     } finally { STORY.presence=P0; } }
   // ===== 分類 =====
   { const mon=TD('Y1S2',4,1); fresh(mon,10); know('heroine_01',S6);

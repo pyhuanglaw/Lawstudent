@@ -16,8 +16,8 @@ require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
-const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(EAT|EAT_LINES|WZS|L118|LANE118_SHOPS|LANE118_LAYOUT|FAV|FOOD_FAV_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
-for(const f of ['src/data/eat_lines.js','src/eat3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js','src/wzshops3d.js']) load(f);
+const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(EAT|EAT_LINES|WZS|L118|LANE118_SHOPS|L118_REDO|LANE118_LAYOUT|FAV|FOOD_FAV_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+for(const f of ['src/data/eat_lines.js','src/eat3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/l118_redo772.js','src/lane118.js','src/wzshops3d.js']) load(f);
 let ok=true, err=''; try{ load('src/data/food_fav_lines.js'); load('src/foodfav3d.js'); }catch(e){ ok=false; err=String(e); }
 const X=()=>typeof FAV!=='undefined'?FAV:null, FL=()=>typeof FOOD_FAV_LINES!=='undefined'?FOOD_FAV_LINES:null;
 const D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, td=(t,w,wd)=>STORY.termDay(t,w,wd);
@@ -71,13 +71,13 @@ await sec(1,async()=>{ const AN='heroine_01', fri=td('Y1S1',5,5); const setup=f=
   /* 知道以前：照樣可以點（靠猜）；她吃完的那一句＝知道 */
   let m0=H.G.money; await order('omu',['咖哩蛋包飯','（就這樣）']);
   check('1. 知道以前：點完自己的，多一個「也幫以安點一份」「（就這樣）」',J(H.opts[1])===J(['也幫以安點一份','（就這樣）'])&&H.G.money===m0-120,J(H.opts));
-  check('1. 她吃完那一句「這間的咖哩，我只吃得下半份。」＝知道；筆記本記「以安：咖哩蛋包飯。她只吃得下半份，多要一個盤子。」',has('這間的咖哩，我只吃得下半份。')&&X().know(H.G,AN)&&noteOf(AN)==='以安：咖哩蛋包飯。她只吃得下半份，多要一個盤子。',J(notes));
+  check('1. 她吃完那一句「這間的咖哩，我只吃得下半份。」＝知道；筆記本記「以安：奈良咖哩的雞肉咖哩。她只吃得下半份，多要一個盤子。」',has('這間的咖哩，我只吃得下半份。')&&X().know(H.G,AN)&&noteOf(AN)==='以安：奈良咖哩的雞肉咖哩。她只吃得下半份，多要一個盤子。',J(notes));
   /* 知道以後：一樣的選項；小選項的畫面兩個品項都一樣 */
   const r0=rel(AN); m0=H.G.money; await order('omu',['番茄醬蛋包飯','也幫以安點一份','咖哩蛋包飯','不用']);
   check('1. 知道以後：「也幫以安點一份」→ 品項（咖哩蛋包飯 120／番茄醬蛋包飯 110）→「多要一個盤子」「不用」',J(H.opts.slice(1,4))===J([['也幫以安點一份','（就這樣）'],['咖哩蛋包飯　120 元','番茄醬蛋包飯　110 元'],['多要一個盤子','不用']]),J(H.opts));
   check('1. 只點咖哩蛋包飯、沒要盤子：「（看了一下盤子）……我吃不完。你要幫我吃。」；不加分、沒有 REMEMBERED_HER_FOOD；錢照兩份扣',has('（看了一下盤子）……我吃不完。你要幫我吃。')&&J(rel(AN))===J(r0)&&!SOCIAL.has(AN,'REMEMBERED_HER_FOOD')&&H.G.money===m0-110-120,J({s:said(),m:[m0,H.G.money]}));
   await order('omu',['咖哩蛋包飯','也幫以安點一份','番茄醬蛋包飯','多要一個盤子']);
-  check('1. 點錯（番茄醬的）：小選項照樣出現；「番茄醬的。……好，我吃吃看。」；不扣分、下次還能點',J(H.opts[3])===J(['多要一個盤子','不用'])&&has('番茄醬的。……好，我吃吃看。')&&J(rel(AN))===J(r0)&&!X().right(H.G,AN),J(said()));
+  check('1. 點錯（番茄醬的）：小選項照樣出現；「可樂餅的。……好，我吃吃看。」；不扣分、下次還能點',J(H.opts[3])===J(['多要一個盤子','不用'])&&has('可樂餅的。……好，我吃吃看。')&&J(rel(AN))===J(r0)&&!X().right(H.G,AN),J(said()));
   await order('omu',['咖哩蛋包飯','也幫以安點一份','咖哩蛋包飯','多要一個盤子']); const r1=rel(AN);
   check('1. 選對：「……你記得。」「那這一半給你。不准說吃不下。」；熟悉 +2、她的戀愛 +1、REMEMBERED_HER_FOOD（吃的，AA_410 第 4 節）',seq(T(L(AN).right))&&r1.fam===r0.fam+2&&r1.npcRom===r0.npcRom+1&&SOCIAL.has(AN,'REMEMBERED_HER_FOOD')&&!SOCIAL.has(AN,'REMEMBERED_HER'),J({s:said(),r0,r1}));
   check('1. 選對的那一次：吃完那一句（只吃得下半份）不說；沒交往＝沒有交往中那一行旁白',!has('這間的咖哩，我只吃得下半份。')&&!has(L(AN).rightDating[0][1]),J(said()));
@@ -92,9 +92,9 @@ await sec(1,async()=>{ const AN='heroine_01', fri=td('Y1S1',5,5); const setup=f=
 await sec(2,async()=>{ const PS='classmate_peishan', wed=td('Y1S1',5,3); const setup=()=>{ fresh(wed,12.5,'l118_omu'); met(PS); here(PS); };
   setup(); await order('omu',['咖哩蛋包飯','也幫沛珊點一份','咖哩蛋包飯']);
   check('2. 沛珊（週三）：「也幫沛珊點一份」→ 品項，沒有小選項',J(H.opts.slice(1))===J([['也幫沛珊點一份','（就這樣）'],['咖哩蛋包飯　120 元','番茄醬蛋包飯　110 元']]),J(H.opts));
-  check('2. 點錯（咖哩的）：「咖哩的？……好，今天換一次。」「（吃了兩口）……下次還是番茄醬。」；她吃完的那一句「我每次都點一樣的。……你們不要笑。」＝知道＋筆記本',seq(T(L(PS).wrong['咖哩蛋包飯']))&&has('我每次都點一樣的。……你們不要笑。')&&X().know(H.G,PS)&&noteOf(PS)==='沛珊：番茄醬蛋包飯。她每次都點一樣的。',J({s:said(),notes}));
+  check('2. 點錯（咖哩的）：「雞肉的？……好，今天換一次。」「（吃了兩口）……下次還是可樂餅。」；她吃完的那一句「我每次都點一樣的。……你們不要笑。」＝知道＋筆記本',seq(T(L(PS).wrong['咖哩蛋包飯']))&&has('我每次都點一樣的。……你們不要笑。')&&X().know(H.G,PS)&&noteOf(PS)==='沛珊：可樂餅咖哩。她每次都點一樣的。',J({s:said(),notes}));
   const r0=rel(PS); await order('omu',['咖哩蛋包飯','也幫沛珊點一份','番茄醬蛋包飯']); const r1=rel(PS);
-  check('2. 選對：「你幫我點好了？」「……番茄醬的。嗯。不要笑。」；熟悉 +2、她的戀愛 +1、REMEMBERED_HER_FOOD；吃完那一句不說',seq(T(L(PS).right))&&r1.fam===r0.fam+2&&r1.npcRom===r0.npcRom+1&&SOCIAL.has(PS,'REMEMBERED_HER_FOOD')&&!has('我每次都點一樣的。……你們不要笑。'),J({s:said(),r0,r1}));
+  check('2. 選對：「你幫我點好了？」「……可樂餅的。嗯。不要笑。」；熟悉 +2、她的戀愛 +1、REMEMBERED_HER_FOOD；吃完那一句不說',seq(T(L(PS).right))&&r1.fam===r0.fam+2&&r1.npcRom===r0.npcRom+1&&SOCIAL.has(PS,'REMEMBERED_HER_FOOD')&&!has('我每次都點一樣的。……你們不要笑。'),J({s:said(),r0,r1}));
   const late=td('Y2S2',3,3); fresh(late,12.5,'l118_omu'); met(PS); here(PS); await order('omu',['咖哩蛋包飯']);
   check('2. 2026-12-16 以後（'+keyOf(late)+'）她不在蛋包飯研究所＝沒有「也幫沛珊點一份」',late>D('2026-12-16')&&!L118.companions(GM,'omu').includes(PS)&&!H.opts.some(o=>o.includes('也幫沛珊')),J(H.opts)); });
 
@@ -108,7 +108,7 @@ await sec(3,async()=>{ const YT='heroine_03', mon=td('Y2S1',3,1), tue=td('Y2S1',
   Object.assign(T0,{day:tue,weekday:2,hour:12.5}); await order('dian',['椒麻雞飯']);   /* AA_410 第 2 節、4-1：這兩句排在 AA_311 H8 之後、不同一天（H8 做了以後）*/
   check('3. 一起吃過以後、別天第一次自己來：先演 AA_311 H8（老闆娘說她問開店的事），老闆娘說她點法的那兩句這一天不說',has(L118.H8.lines[0][1])&&!has(L(YT).know[0][1])&&!X().know(H.G,YT),J(said()));
   Object.assign(T0,{day:tue+1,weekday:3}); await order('dian',['椒麻雞飯']);
-  check('3. 再下一次（別天）自己來：老闆娘「那個社會系的妹妹，每次都叫我多放辣。」「看不出來吧。」→ KNOW_FAV_YT、筆記本「語彤：滇香的酸辣河粉，多加辣。看不出來。」',seq(T(L(YT).know))&&H.said.find(x=>x.t===L(YT).know[0][1]).who==='老闆娘'&&SOCIAL.has(YT,'KNOW_FAV_YT')&&noteOf(YT)==='語彤：滇香的酸辣河粉，多加辣。看不出來。'&&!has(L118.H8.lines[0][1]),J({s:said(),notes}));
+  check('3. 再下一次（別天）自己來：老闆娘「那個社會系的妹妹，每次都叫我多放辣。」「看不出來吧。」→ KNOW_FAV_YT、筆記本「語彤：118牛排的雞排，黑胡椒多加辣。看不出來。」',seq(T(L(YT).know))&&H.said.find(x=>x.t===L(YT).know[0][1]).who==='老闆娘'&&SOCIAL.has(YT,'KNOW_FAV_YT')&&noteOf(YT)==='語彤：118牛排的雞排，黑胡椒多加辣。看不出來。'&&!has(L118.H8.lines[0][1]),J({s:said(),notes}));
   Object.assign(T0,{day:tue+2,weekday:4}); await order('dian',['椒麻雞飯']); check('3. 只說一次',!has(L(YT).know[0][1]));
   fresh(mon+7,12.5,'l118_dian'); met(YT); here(YT); await order('dian',['椒麻雞飯','也幫語彤點一份','打拋豬飯','多加辣']);
   check('3. 點錯：「謝謝。……我吃這個也可以。」',has('謝謝。……我吃這個也可以。'),J(said()));

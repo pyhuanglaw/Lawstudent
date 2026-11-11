@@ -62,7 +62,7 @@ for(const line of DOC.split('\n')){ const m=/^\|\s*(\d+)\s*\|\s*ladder\.js:3 (\S
   check('3. 她的階梯、坐後座（不算註解、條件）沒有「爸」「空的保溫瓶」「不要跟我講話」「一句可以」「叫一下」「你騎慢一點」「不要回頭」',hit.length===0,J(hit)); }
 
 // ===== 4 邀約、STUDY_YES =====
-{ const inv=src('src/data/invites.js'), sg=src('src/sis_grad3d.js');
+{ const inv=src('src/data/l118_redo772.js','src/data/invites.js'), sg=src('src/sis_grad3d.js');
   const R=[];
   for(const line of DOC.split('\n')){ const m=/^\|\s*(\d+)\s*\|\s*(\S*(?:invites\.js|sis_grad3d\.js)\S*)[^|]*\|[^|]*\|([^|]*)\|([^|]*)\|/.exec(line); if(m) R.push({n:+m[1],f:/sis_grad/.test(m[2])?sg:inv,old:m[3].trim(),nw:m[4].trim()}); }
   check('4. 稿上邀約、STUDY_YES 的列＝第 79～88 列',J(R.map(r=>r.n))===J([79,80,81,82,83,84,85,86,87,88]));

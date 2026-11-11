@@ -161,6 +161,11 @@ for(const id of NINE){ const [oldName,name,type,menu]=WANT[id], s=shop(id)||{men
     for(const r of D.regulars){ const s=shop(r.shop); for(const wd of r.days){ if(s.hours.closed.includes(wd)) bad.push(['AA_280 常客',r.id,s.name,'週'+'日一二三四五六'[wd]+'公休']); else if(!s.hours.open.some(([a,b])=>r.from>=a-1e-6&&r.to<=b+1e-6)) bad.push(['AA_280 常客',r.id,s.name,r.from+'～'+r.to+' 不在營業時間（'+s.hours.text+'）']); } }
     check('3-5. characters.js 的作息有排到 118 巷的店（掃得到東西）',seen.length>=8,String(seen.length));
     check('3-5. 排在 118 巷店裡吃飯的作息、AA_280 的常客：沒有人排在公休日或關門的時段',bad.length===0,bad.map(b=>b.join('｜')).join('\n  ')); }
-  // @@PART4@@
+  // 3-6 室內座位的互動半徑：配置寫了 r 就用（LAWWW2 之後的卡座會寫 r:1.25），沒寫＝0.7（現有九間都沒寫，行為不變）
+  { const s3=fs.readFileSync(path.join(ROOT,'src/l118_shops3d.js'),'utf8'); load('src/data/l118_shop_layouts.js',NAMES);
+    const withR=Object.keys(L118_SHOP_LAYOUTS).filter(id=>(L118_SHOP_LAYOUTS[id].seats||[]).some(q=>q.r!=null));
+    check('3-6. src/l118_shops3d.js 座位的互動半徑＝s.r||0.7；現有九間的配置都沒有寫 r（還是 0.7）',/radius:s\.r\|\|0\.7,lv:0,prio:0\.3,seat:st/.test(s3)&&!/radius:0\.7,lv:0,prio:0\.3,seat:st/.test(s3)&&withR.length===0,J(withR));
+    check('3-6. 大學食堂（cafe2）的桌位不再是「坐下讀書」（念書搬到木曜日）',/const study=false;/.test(s3)&&!/study=id==='cafe2'/.test(s3)); }
+  // @@PART5@@
   console.log(fails?('\n有 '+fails+' 項失敗'):'\n全部通過'); process.exit(fails?1:0);
 })();

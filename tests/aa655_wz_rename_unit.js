@@ -15,12 +15,12 @@ let fails=0, skips=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAI
 const J=x=>JSON.stringify(x), rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:'?noriders'};
-const NAMES=/^(HOMETOWN_LINES|HV|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|NEEDED_MSGS|ROM|MSG|MSG_POOL|MSG2_POOL|VAC|VAC_DATA|L118|LANE118_SHOPS|LANE118_LAYOUT|WZS|EAT|EAT_LINES|WZ_SHOPS_LAYOUT|SHOP_ENC|SISQX_LINES)$/;
+const NAMES=/^(HOMETOWN_LINES|HV|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|NEEDED_MSGS|ROM|MSG|MSG_POOL|MSG2_POOL|VAC|VAC_DATA|L118|LANE118_SHOPS|L118_REDO|LANE118_LAYOUT|WZS|EAT|EAT_LINES|WZ_SHOPS_LAYOUT|SHOP_ENC|SISQX_LINES)$/;
 const load=f=>{ let src=rd(f); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NAMES.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 const mkObj=()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z; }},rotation:{y:0},userData:{},add(){}});
 global.CHAR={setExpr(){},build:()=>mkObj()};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/wzshops3d.js','src/data/eat_lines.js','src/eat3d.js','src/data/shop_enc.js','src/data/sis_qixi_events.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/l118_redo772.js','src/lane118.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/wzshops3d.js','src/data/eat_lines.js','src/eat3d.js','src/data/shop_enc.js','src/data/sis_qixi_events.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){},narrate(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
 let said=[], opts=[], picks=[], G=null, toasts=[], entered=[];
@@ -51,7 +51,7 @@ const nextWd=(from,w)=>{ for(let d=D(from);d<D(from)+30;d++) if(wdOf(d)===w&&!CA
         let s=strip(rd(p)); for(const re of KEYOK) s=s.replace(re,''); if(!OLD.test(s)) continue; bad.push([p,s.split('\n').filter(l=>OLD.test(l)).map(l=>{ const m=l.match(OLD); const i=l.indexOf(m[0]); return l.slice(Math.max(0,i-30),i+40).trim(); })]); } };
     walk('src');
     check('1 src/ 裡（註解、存檔 key 除外）沒有「兩點半 Café」「巷子裡定食」、當店名的「半熟」、溫州街那間的「定食店」',!bad.length,J(bad));
-    const EX=[['src/data/eat_lines.js','蛋一樣半熟？'],['src/data/eat_lines.js','好，半熟。'],['src/data/wz_events.js','蛋要半熟'],['src/data/l118_shop_layouts.js','全熟還是半熟'],['src/data/lane118_shops.js','蛋要全熟還是半熟？'],
+    const EX=[['src/data/eat_lines.js','蛋一樣半熟？'],['src/data/eat_lines.js','好，半熟。'],['src/data/wz_events.js','蛋要半熟'],['src/data/l118_shop_layouts.js','全熟還是半熟'],['src/data/lane118_shops.js','src/data/l118_redo772.js','蛋要全熟還是半熟？'],
       ['src/sis_b13_3d.js','118 巷・定食店'],['src/sup497_3d.js','118 巷・定食店'],['src/zones3d.js',"n:'花序 Flower Notes'"]/* 2026-11-11 改期望：泰米村食搬到汀州路（X321），公館 G11 是花序 Flower Notes（X325）——原本查 n:'泰米村食' */,['src/data/wz_jobs.js',"contact:'兩點半的老闆'"]];
     const miss=EX.filter(([f,t])=>!rd(f).includes(t));
     check('1 例外照留：蛋的熟度（eat_lines 540／541、wz_events「蛋要半熟」、118 巷「全熟還是半熟」）、118 巷的定食店、公館 G11（2026-11-10 改期望：使用者 X320 把日日定食改成泰米村食，原本查 n:\'日日定食\'）、單獨的「兩點半」',!miss.length,J(miss));

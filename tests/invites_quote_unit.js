@@ -28,7 +28,7 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 const ctx=vm.createContext({console,setTimeout,clearTimeout});
 const load=(f,names)=>{ let s=fs.readFileSync(path.join(ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInContext(s,ctx,{filename:f}); };
 const SRC=fs.readFileSync(path.join(ROOT,'src/data/invites.js'),'utf8');
-load('src/data/invites.js',['INVITE_DATA']); load('src/invites3d.js',['INV']); load('src/libquiet3d.js',['LIBQ']);
+load('src/data/l118_redo772.js','src/data/invites.js',['INVITE_DATA']); load('src/invites3d.js',['INV']); load('src/libquiet3d.js',['LIBQ']);
 if(fs.existsSync(path.join(ROOT,'src/data/invite_replies.js'))) load('src/data/invite_replies.js',['INVITE_REPLIES']);
 const D=ctx.INVITE_DATA, INV=ctx.INV, LIBQ=ctx.LIBQ;
 /* 外面整句一對「」（「A」「B」這種好幾段的不算）*/
@@ -171,7 +171,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     check('7. 舊的寫法（開頭是「的字串）照樣認得是她說的，外面整句的「」拿掉再顯示；旁白字串＝旁白',!!mt&&JSON.stringify(mt('「好，我餓了。」'))===JSON.stringify({t:'好，我餓了。',say:true})&&JSON.stringify(mt('她點了最甜的。'))===JSON.stringify({t:'她點了最甜的。',say:false})&&mt(null)===null);
     /* 演出來：阿凱「認識」約燒臘店（INV.meet） */
     const ec=vm.createContext(Object.assign({console,setTimeout,clearTimeout},ENV)); const run=(f,names)=>{ let s=cur(f); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInContext(s,ec,{filename:f}); };
-    run('src/data/characters.js',['CHARACTERS','UNFAMILIAR_POOL','SOCIAL_GRAPH','PORTRAITS']); run('src/social3d.js',['SOCIAL']); run('src/data/rel_lines.js',['REL_LINES']); run('src/data/invites.js',['INVITE_DATA']); run('src/invites3d.js',['INV']);
+    run('src/data/characters.js',['CHARACTERS','UNFAMILIAR_POOL','SOCIAL_GRAPH','PORTRAITS']); run('src/social3d.js',['SOCIAL']); run('src/data/rel_lines.js',['REL_LINES']); run('src/data/l118_redo772.js',['L118_REDO']); run('src/data/invites.js',['INVITE_DATA']); run('src/invites3d.js',['INV']);
     const G={rel:{},flags:{},social:null,day:30,weekday:1,hour:12,name:'祐廷',contacts:{},invites:[],msgs:[],zone:'noodle'}; ec.SOCIAL.bind(G); const rk=ec.SOCIAL.rel('kai'); rk.fam=10; rk.trust=0; rk.comf=0;
     const iv={id:'k1',who:'kai',place:'noodle',zone:'noodle',day:G.day,h:12,state:'going',by:'player'}; G.invites=[iv]; const said=[];
     const GMk={G,sceneBegin(){},sceneEnd(){},say:async(w,t)=>{ said.push({who:w?w.name:null,t}); },choose:async()=>0,fade:async()=>{},advance(dh){ G.hour+=dh; },caption(){},autosave(){},money(){},toast(){}};
