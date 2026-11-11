@@ -834,6 +834,8 @@ CLASS12_const_a | 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397 | probe | docs/story_
 CLASS12_const_b | 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=CLASS;COURSE=const_1;WEEKS=7,15;SHA=2d90b034c88f1d2539fcb9d75eed1e1c4fa49397
 CLASS12_crim_a | 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=CLASS;COURSE=crim_gen1;WEEKS=4;SHA=2d90b034c88f1d2539fcb9d75eed1e1c4fa49397
 CLASS12_crim_b | 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 14 | PARTS=CLASS;COURSE=crim_gen1;WEEKS=10;SKIPRUN=crim_gen1:10;SHA=2d90b034c88f1d2539fcb9d75eed1e1c4fa49397
+# BB 05:13：上師臉特寫重拍（頭骨對準，正面、四分之三側）＋玩家坐下算命時的遊戲鏡頭（b942470ff）
+PACK7_ss_face | b942470ff1f83b0fb577f32d6be582ac106988d5 | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 10 | PARTS=SS_FACE;SHA=b942470ff1f83b0fb577f32d6be582ac106988d5
 CLASS12_civ_a | 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=CLASS;COURSE=civ_general;WEEKS=4,6;SHA=2d90b034c88f1d2539fcb9d75eed1e1c4fa49397
 CLASS12_civ_b | 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=CLASS;COURSE=civ_general;WEEKS=12,15;SHA=2d90b034c88f1d2539fcb9d75eed1e1c4fa49397
 CLASS12_oldsave | 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397 | game | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 10 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/cc_goclass_probe.py,docs/story_planning/test_tools/bbplay.py,docs/story_planning/test_tools/cc/fixtures/class12/Y1S1_d3a22505b.json;XARGS={url2} {url} {out};PARTS=OLDSAVE;OLDLESSON=crim_gen1:10;SHA=2d90b034c88f1d2539fcb9d75eed1e1c4fa49397;CC_HEADLESS=0
@@ -914,6 +916,14 @@ SEASON_old_xmas | 696cf6036f3ca9fbc7022c21ab37324b0e46e305 | probe | docs/story_
 SC4_xs_old | 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585 | probe | docs/story_planning/test_tools/cc/cc_scoot4_probe.py | index.html | 8 | PARTS=XSCOOT;SHA=0eb2a0049cc6feff9fcd2f91153eca1a5c30b585
 # BB 04:39 POOL_swimmers 體育館泳池泳客（開發分支 d926d54bd；cc_pool_probe）
 POOL_swim | d926d54bda6e7d27af3c49506679ae1a9c90dceb | probe | docs/story_planning/test_tools/cc/cc_pool_probe.py | index.html | 10 | PARTS=OPEN,FPS,CLOSED;Q=high;SHA=d926d54bda6e7d27af3c49506679ae1a9c90dceb
+# BB 05:06 床快轉加確認（新 0792dac30、舊 73faa493f）：BEDFF 位置＋三種連點、BEDFFC 照字選（CHOOSE 最前面）
+CHS2_N_bedff_P | 0792dac3045e2e441c89c17b175aebe3d3e083ca | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;ORIENTS=P,L;MASHO=P;SHA=0792dac3045e2e441c89c17b175aebe3d3e083ca
+CHS2_N_bedff_L | 0792dac3045e2e441c89c17b175aebe3d3e083ca | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;ORIENTS=L;MASHO=L;SHA=0792dac3045e2e441c89c17b175aebe3d3e083ca
+CHS2_N_bedffc_P | 0792dac3045e2e441c89c17b175aebe3d3e083ca | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 10 | PARTS=BEDFFC;MASHO=P;SHA=0792dac3045e2e441c89c17b175aebe3d3e083ca
+CHS2_N_bedffc_L | 0792dac3045e2e441c89c17b175aebe3d3e083ca | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 10 | PARTS=BEDFFC;MASHO=L;SHA=0792dac3045e2e441c89c17b175aebe3d3e083ca
+CHS2_O_bedff_P | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;ORIENTS=P,L;MASHO=P;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS2_O_bedff_L | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;ORIENTS=L;MASHO=L;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+CHS2_O_bedffc_P | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 10 | PARTS=BEDFFC;MASHO=P;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
 # BB 04:15／04:33／04:36 CHOOSE 動態（cc_choose_probe，子代理；新 73faa493f／舊 779ddd650，網址自己加 ?tapguard）：十個不可逆選單、150／500 ms、直向橫向
 CHS_N_wake_a | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=WAKE;RUNS=150:20:dlg/500:8:dlg/150:40:dlg;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
 CHS_N_wake_b | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=WAKE;ORIENTS=P;RUNS=150:20:menu/500:8:menu;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
