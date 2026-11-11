@@ -74,6 +74,17 @@ def seen_of(dl):
 # ---------------- 稿 ----------------
 DRAFT_FILES = {'gf': 'AA_749_termend_gf_v2.json', 'kx': 'AA_749_termend_kx_v2.json', 'heart': 'AA_748_termend_heart_v2.json'}
 FRIEND_FILES = ['AA_749_termend_friend_v2_%s.json' % k for k in ('Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2_Y4S1')]
+AA401_PATH = 'docs/story_planning/AA_401_可昕學期末約會的二選一_寒假來高雄.md'   # 可昕「她回高雄的第 3 天 21:00」那一則（第 33 列）
+AA401_FIX = 'AA_401_kx_khh.md'   # fixtures/te_drafts 裡的同一份（SOURCE_SHA.txt 有寫）
+
+
+def aa401_cell(md, label='大三暑假（美國）'):
+    """AA_401 第 33 列「她回高雄的第 3 天 21:00」那一格裡 label 那一段的「…」（一句一則訊息）"""
+    for l in (md or '').split('\n'):
+        if '她回高雄的第 3 天 21:00' in l:
+            m = re.search(re.escape(label) + r'：((?:「[^」]*」)+)', l)
+            if m: return [rf(x) for x in re.findall(r'「([^」]*)」', m.group(1))]
+    return None
 
 
 def merge_friend(docs):
@@ -93,6 +104,8 @@ def load_drafts():
             out[k] = json.load(open(os.path.join(dd, f), encoding='utf-8')); src[k] = 'DRAFT_DIR ' + os.path.join(dd, f)
         fr = [f for f in FRIEND_FILES if os.path.exists(os.path.join(dd, f))]
         out['friend'] = merge_friend([json.load(open(os.path.join(dd, f), encoding='utf-8')) for f in fr]); src['friend'] = 'DRAFT_DIR %s：%s' % (dd, '、'.join(fr) or '沒有朋友版稿')
+        p401 = os.path.join(dd, AA401_FIX)
+        if os.path.exists(p401): out['aa401'] = open(p401, encoding='utf-8').read(); src['aa401'] = 'DRAFT_DIR ' + p401
         for sf in ('SOURCE_SHA.txt', 'SOURCE_FRIEND.txt'):
             if os.path.exists(os.path.join(dd, sf)): src[sf] = open(os.path.join(dd, sf), encoding='utf-8').read().strip()[:600]
         return out, src
@@ -111,6 +124,8 @@ def load_drafts():
         try: docs.append(json.loads(g('show', '%s:%s' % (sha, p)))); fs.append('%s（%s）' % (f, g('log', '-1', '--format=%h %ci', sha, '--', p).strip()))
         except Exception: fs.append(f + '：沒有')
     out['friend'] = merge_friend(docs); src['friend'] = '@%s：%s' % (sha[:10], '、'.join(fs))
+    try: out['aa401'] = g('show', '%s:%s' % (sha, AA401_PATH)); src['aa401'] = '%s@%s' % (AA401_PATH, sha[:10])
+    except Exception: pass
     return out, src
 
 
@@ -326,7 +341,8 @@ CASE_DEF = {
     'heart_yt_yes': dict(kind='heart', who='heroine_03', term='Y1S2', confess='yes', label='語彤 告白那一晚（大一下）：說出來＝答應'),
     'heart_yt_think': dict(kind='heart', who='heroine_03', term='Y1S2', confess='think', label='語彤 告白那一晚（大一下）：（先不說）→讓我想想'),
     'heart_sis_yes': dict(kind='heart', who='heroine_05', term='Y2S1', confess='yes', label='學姊 告白那一晚（大二上：「論文」那一格）：說出來＝答應'),
-    'heart_sis_think': dict(kind='heart', who='heroine_05', term='Y2S1', confess='think', label='學姊 告白那一晚（大二上）：（先不說）＝她不先說（silent），沒有「讓我想想」'),
+    'heart_sis_think': dict(kind='heart', who='heroine_05', term='Y2S1', confess='think', allConfess=True,
+                            label='學姊 告白那一晚（大二上）：（先不說）＝她不先說（silent），沒有「讓我想想」；另外說出來的三個選項各跑一次，逐句記（BB 01:58 第 2 項）'),
     'heart_zq_yes': dict(kind='heart', who='heroine_04', term='Y1S2', evUndo=['ev_ziqing_secret_game'], confess='yes', label='子晴 告白那一晚（大一下，沒玩過 Q6）：說出來＝答應'),
     'heart_zq_think': dict(kind='heart', who='heroine_04', term='Y1S2', evUndo=['ev_ziqing_secret_game'], confess='think', label='子晴 告白那一晚（大一下）：（先不說）→讓我想想'),
     'heart_zr_yes': dict(kind='heart', who='heroine_02', term='Y1S2', expect='old', confess='yes', label='芷若 告白那一晚（稿沒匯：照舊流程）：說出來＝答應'),
@@ -867,6 +883,9 @@ async def case_run(pg, cdp, errs, cid):
         ots = [o['t'] for o in segs[0]['opts']]
         runs = [('main', s0, '同一份存檔，出發；選稿上第 1 個「%s」' % ots[0], dict(ctl, want=ots[0]))]
         for n_, ot in enumerate(ots[1:], 2): runs.append(('opt%d' % n_, copy.deepcopy(s0), '【捷徑】同一份存檔重讀（同一天）；選稿上第 %d 個「%s」' % (n_, ot), dict(ctl, want=ot)))
+    if case.get('allConfess'):   # BB 01:58 第 2 項：學姊那一場說出來的三個選項各自的結果也逐句記（同一份存檔、同一天重讀；只記不判，主要那一次照 confess 判）
+        for c_ in range(3):
+            if c_ != cpick: runs.append(('conf%d' % (c_ + 1), copy.deepcopy(s0), '【捷徑】同一份存檔重讀（同一天）；告白選單選第 %d 個' % (c_ + 1), dict(ctl, cpick=c_)))
     if shuf and not allopt: runs.append(('same', copy.deepcopy(s0), '【捷徑】同一份存檔重讀一次（同一天：順序要一樣）', None))
     if shuf and mode == 'full': runs.append(('same2', copy.deepcopy(s0), '【捷徑】同一份存檔再重讀一次（同一天第三次）', None))
     orders = {}
@@ -899,7 +918,7 @@ async def case_run(pg, cdp, errs, cid):
         open(os.path.join(OUT, 'te_%s.json' % TAG), 'w', encoding='utf-8').write(J(RESULT))
     if shuf:
         same = [orders.get(x) for x in orders if x in ('same', 'same2') or x.startswith('opt')]
-        R.check('%s 同一天讀檔重來（%d 次）：選單順序和第一次一樣' % (t, len(same)), all(x == orders.get('main') for x in same) and all(x is not None for x in orders.get('main') or [None]), J([orders.get('main')] + same))
+        R.check(('%s 同一天讀檔重吃三次：三次的選項順序一樣（存讀檔不能刷選項）' % t) if mode == 'full' else ('%s 同一天讀檔重來（%d 次）：選單順序和第一次一樣' % (t, len(same))), (len(same) == 2 or mode != 'full') and all(x == orders.get('main') for x in same) and all(x is not None for x in orders.get('main') or [None]), J([orders.get('main')] + same))
         diff = False
         for k in (1, 2):
             st2 = copy.deepcopy(s0); st2['day'] = s0['day'] + k
@@ -931,6 +950,21 @@ async def case_run(pg, cdp, errs, cid):
             if (top.get('fx') or {}).get('love'):
                 R.check('%s 加戀愛的「%s」不是每一天都排第一（%s）' % (t, top['t'], '、'.join(days)), not all(firsts.get(r_) == top['t'] for r_ in days), J({r_: firsts.get(r_) for r_ in days}))
     res['orders'] = orders
+    if case.get('allConfess'):
+        co = next((x for x in segs if x.get('id') == 'confess'), None); summ = []
+        for r_ in res['runs']:
+            an_ = r_.get('analysis') or {}; menu = an_.get('confess_menu'); dl_ = r_.get('dl') or []
+            ci = next((i for i, e in enumerate(dl_) if e.get('k') == 'choose' and e.get('v') == menu), None) if menu else None
+            k_ = dl_[ci + 1]['v'] if ci is not None and ci + 1 < len(dl_) and dl_[ci + 1].get('k') == 'pick' else None
+            pickt = menu[k_] if menu and k_ is not None else None
+            d_ = (co['opts'][k_] if co and k_ is not None and k_ < len(co.get('opts') or []) else {}) if co else {}
+            summ.append({'run': r_.get('why'), 'pick': k_, 't': pickt, 'result': (r_.get('post') or {}).get('result'), 'dating': (r_.get('post') or {}).get('dating'),
+                         'after': an_.get('confess_after'), 'draft_yesLead': d_.get('yesLead'), 'draft_fx': d_.get('fx'), 'fx': [[e.get('fx'), e.get('ret')] for e in dl_[(ci or 0) + 2:] if e.get('k') == 'fx' and e.get('fx') is not None][:2]})
+        res['confess_all'] = summ
+        lines_txt('%s %s 告白選單每一個選項的結果（BB 01:58 第 2 項）' % (TAG, cid), [{'k': 'say', 'who': None, 'name': '選第 %s 個「%s」→ result %s、dating %s；稿 yesLead %s、fx %s；實際 fx %s' % (
+            (x['pick'] + 1) if x['pick'] is not None else '?', x['t'], x['result'], x['dating'], J(x['draft_yesLead']), J(x['draft_fx']), J(x['fx'])), 'v': '之後的字：' + J(x['after'])} for x in summ])
+        for x in summ: R.note('%s 告白選單：%s' % (t, J(x)))
+        R.note('%s 學姊的告白選單（遊戲）：%s；有沒有「讓我想想」：%s（S._walkHome：她沒有 she＝選（先不說）就是 silent）' % (t, J(summ[0].get('t') and (res['runs'][0].get('analysis') or {}).get('confess_menu')), any('讓我想想' in str(x.get('t')) for x in summ)))
     if case.get('july'): await kx_july(pg, cdp, t, res, errs)
     open(os.path.join(OUT, 'te_%s.json' % TAG), 'w', encoding='utf-8').write(J(RESULT))
 
@@ -964,7 +998,25 @@ async def kx_july(pg, cdp, t, res, errs):
     res['july_msgs'] = got
     lines_txt('%s 七月那一則（%s）' % (TAG, t), [{'k': 'say', 'who': 'kexin', 'name': '可昕（手機 %s %.2f %s）' % (m['dayKey'], m['h'] or 0, m['tag']), 'v': m['text']} for m in got])
     R.note('%s 七月：可昕的手機訊息（照實）：%s' % (t, J(got)))
-    R.check('%s 七月：她回高雄第 3 天 21:00 有那一則（kxkhh_d3_Y3S）' % t, any(m['tag'] == 'kxkhh_d3_Y3S' for m in got), J(got))
+    # BB 01:58 第 1 項：照稿是「她回高雄的第 3 天 21:00」（AA_401 第 33 列），不看月份；判三件：那一天 21:00 到、字和 AA_401 那一格逐字一樣、整段只來一次
+    mine = [m for m in got if m['tag'] == 'kxkhh_d3_Y3S']
+    R.check('%s 七月那一則：她回高雄第 3 天（%s）21:00 到' % (t, j['d3']), bool(mine) and all(m['day'] == d3 and abs((m['h'] or 0) - 21) < 1e-6 for m in mine), J(mine))
+    exp = aa401_cell(DR.get('aa401'))
+    R.check('%s 七月那一則：字和 AA_401 第 33 列「大三暑假（美國）」那一格逐字一樣 %s' % (t, J(exp)), bool(exp) and [m['text'] for m in mine] == exp, '實際 %s；稿 %s' % (J([m['text'] for m in mine]), DRSRC.get('aa401')))
+    s2 = await pg.evaluate(SNAP_JS); s2 = dict(s2.get('G', s2)) if isinstance(s2, dict) else s2
+    s2['day'] = d3 + 1; s2['hour'] = 21.25; s2['zone'] = 'dorm'; s2['pos'] = None
+    try: s2['weekday'] = await pg.evaluate(WD_JS, d3 + 1)
+    except Exception: pass
+    await load(pg, cdp, s2, '%s【捷徑】收到那一則以後的存檔、日期時間改到隔天 21:15（kx_khh3d.js 還會再看的最後一天）' % t, settle=False)
+    t1 = time.time()
+    while time.time() - t1 < 45:
+        if await pg.evaluate(PHONE_OPEN_JS): await pe.close_phone(pg, cdp)
+        q = await L.state(pg)
+        if q['dlg']: await L.tap(pg, cdp, '#dlg')
+        await pg.wait_for_timeout(1000)
+    got2 = await pg.evaluate(KXMSG_JS); res['july_msgs_next'] = got2
+    again = [m for m in got2 if m['tag'] == 'kxkhh_d3_Y3S']
+    R.check('%s 七月那一則：整段只來一次（隔天 21:15 再看，kxkhh_d3_Y3S 還是 %d 則）' % (t, len(exp or mine)), len(again) == len(exp or mine) and len(again) > 0, J(got2))
 
 
 async def main():
