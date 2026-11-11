@@ -66,6 +66,12 @@ function audit(id){ const L=L118_SHOP_LAYOUTS[id], z=loadZone('l118_'+id), sp=z.
 const FIX=L118S.IT_FIX||{}, DEF=L118S.IT_DEF||{}, saved={}; for(const k of Object.keys(FIX)){ saved[k]=FIX[k]; delete FIX[k]; } const r0=DEF.seatR; DEF.seatR=0.7;
 const before={}; for(const id of IDS){ const a=audit(id); before[id]=a; }
 Object.assign(FIX,saved); DEF.seatR=r0;
+/* 覆寫表的每一格都對得到配置（腳本重新產生、座位挪了，那一格就不再套用——這裡抓出來，不讓它默默失效）*/
+{ const stale=[]; for(const [id,F] of Object.entries(FIX)){ const L=L118_SHOP_LAYOUTS[id]; if(!L){ stale.push(id); continue; }
+    for(const k of Object.keys(F.seats||{})) if(!L.seats.some(s=>s.x+','+s.z===k)) stale.push(id+' 座位 '+k);
+    for(const k of Object.keys(F.interact||{})) if(!(L.interact||[]).some(q=>q.id===k)) stale.push(id+' 看的東西 '+k);
+    if(F.order&&!L.order) stale.push(id+' 點餐'); }
+  check('0. 覆寫表（l118_shops3d.js L118_IT_FIX）每一格都對得到配置的座位座標、看的東西 id',Object.keys(FIX).length>0&&!stale.length,stale.join('、')); }
 const tot={seats:0,cands:0,b:0,a:0};
 for(const id of IDS){ const a=audit(id), b=before[id]; tot.seats+=a.seats; tot.cands+=a.cands; tot.b+=b.noSeat.length+b.gameAp.length; tot.a+=a.noSeat.length;
   console.log('— '+id+' '+a.name+'：'+a.seats+' 張椅子、'+a.cands+' 個站得住的站位；拿掉覆寫表時 '+b.noSeat.length+' 張搖桿坐不到'+(b.noSeat.length?'（'+b.noSeat.map(s=>s.split(' ')[0]).join(' ')+'）':'')+'、'+b.gameAp.length+' 張遊戲帶去的站位按鈕不是它、'+b.stolen.length+' 個站位被點餐／看的東西搶走；'+a.items.join('；'));
