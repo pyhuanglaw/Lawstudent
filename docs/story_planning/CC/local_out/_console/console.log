@@ -1,12 +1,3 @@
-       de56df925..808e5c26a  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:10:28] ==== END   FN_shots_b_new  exit=0  347s   ====
-[09:10:33] memory 47% before starting FN_int_b (2 running)
-[09:10:33] ==== START FN_int_b  (probe @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
-[09:10:36] [res] cpu=8% mem=47% (15.0/31.4 GB) chrome_testing=10  START FN_int_b
-[09:11:50] [res] cpu=6% mem=45% (14.3/31.4 GB) chrome_testing=10  END FN_shots_b_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       808e5c26a..06ac9b8ab  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [09:11:58] ==== END   FN_shots_b_old  exit=0  360s   ====
 [09:12:01] memory 45% before starting FN_mig_a (2 running)
@@ -1998,3 +1989,12 @@
 [16:11:37] ==== START STAIR_old_run  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
 [16:11:40] [res] cpu=36% mem=49% (15.5/31.4 GB) chrome_testing=9  START STAIR_old_run
 [16:13:37] [res] cpu=30% mem=48% (15.1/31.4 GB) chrome_testing=10  END L118A_SEAT_pasta3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e63878985..c0aca7001  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:13:45] ==== END   L118A_SEAT_pasta3  exit=0  249s   ====
+[16:13:54] memory 48% before starting STAIR_old_walk10 (2 running)
+[16:13:54] ==== START STAIR_old_walk10  (probe @ 779ddd65081bf770e9850d948b54ecc21dc4d120) ====
+[16:13:57] [res] cpu=28% mem=48% (15.2/31.4 GB) chrome_testing=10  START STAIR_old_walk10
+[16:14:04] 正在跑：STAIR_old_walk（已跑 3 分／上限 20 分）、STAIR_old_run（已跑 2 分／上限 20 分）、STAIR_old_walk10（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:18:12] [res] cpu=17% mem=48% (15.3/31.4 GB) chrome_testing=9  END STAIR_old_walk
