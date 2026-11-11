@@ -19,6 +19,10 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<28}); }catch(e){ return null; } };
 const WHO={an:'heroine_01',kx:'kexin',zr:'heroine_02',zq:'heroine_04',sis:'heroine_05',yt:'heroine_03'};
 const FINAL='a5e537856';
+/* 2026-11-11（AA 回 LAWWW 匯入回報，企劃線 4bfb18805）：五個檔再改——以安大一上 A-L2 回話（D116，不羨慕）、以安大一下 A2-L1 那一列拿掉（AN_COOK_PROMISE）、芷若大一下 Z2-L8 那一列拿掉（ZR_TELL_BACK）、
+   芷若大二下 Z4-L1、大三下 Z5-L5 改成只拿刪節號（ZR_LUROU_HALF）。白名單這五筆讀 REV2（a5e537856 進 history），其他 34 筆照讀 FINAL（4bfb18805 和 a5e537856 內容一樣，下面第 1 項驗）。
+   舊期望：39 筆都 @a5e537856 */
+const REV2='4bfb18805', REV2_FILES=new Set(['an_ladder_Y1S1','an_ladder_Y1S2','zr_ladder_Y1S2','zr_ladder_Y2S2','zr_ladder_Y3S2'].map(x=>`docs/story_planning/AA_781_${x}.json`));
 const BATCH=[['Y1S1','bc4f3f367',['an','yt','kx','zr','sis','zq']],['Y1S2','15241f32e',['zq','zr','kx','sis','an']],['Y2S1','4c710f37a',['zq','kx','zr','yt','sis']],['Y2S2','d898cded5',['kx','zr','zq','sis','yt','an']],['Y3S1','1e48c1f20',['zq','kx','sis','an']],['Y3S2','8e027fc7f',['kx','zq','yt','zr','sis']],
   ['Y4S1','a5e537856',['kx','sis','yt','an']],['Y4S2','a5e537856',['kx','sis','yt','an']]];   /* 學期、最早交的 commit、人 */
 /* 遊戲裡其他用字認招呼的程式（sis_b16_3d.js 的 LADDER_GREET_IF 等）也載進來：index.html 上 pg_harness 沒載的 src 都載（同 tests/aa523_sis_b16_unit.js）*/
@@ -46,9 +50,10 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
   const L=LADDER, B=rB.status===0?new Function(fs.readFileSync(outB,'utf8')+';return LADDER;')():null, LOG=rA.status===0&&fs.existsSync(logP)?JSON.parse(fs.readFileSync(logP,'utf8')):[];
 
   await sec(1,async()=>{
-    for(const [term,sha,ws] of BATCH) for(const w of ws){ const p=`docs/story_planning/AA_781_${w}_ladder_${term}.json`, e=allow.filter(x=>x.path===p), b0=show(sha,p), b1=show(FINAL,p);
+    for(const [term,sha,ws] of BATCH) for(const w of ws){ const p=`docs/story_planning/AA_781_${w}_ladder_${term}.json`, e=allow.filter(x=>x.path===p), b0=show(sha,p), b1=show(FINAL,p), b2=show(REV2,p), want=REV2_FILES.has(p)?REV2:FINAL;
       check(`1. ${path.basename(p)}：最早交的 ${sha} 和 ${FINAL} 內容一樣`,!b0||!b1||b0===b1);
-      check(`1. 白名單一筆 ${path.basename(p)}@${FINAL}、approved、有 approvedBy、task DLG-FULL-REVIEW-1110`,e.length===1&&e[0].sha===FINAL&&e[0].status==='approved'&&!!e[0].approvedBy&&e[0].task==='DLG-FULL-REVIEW-1110',J(e.map(x=>[x.sha,x.status]))); }
+      check(`1. ${path.basename(p)}：${REV2} 和 ${FINAL} ${REV2_FILES.has(p)?'不一樣（AA 再改的五個檔之一）':'內容一樣'}`,!b1||!b2||(b1===b2)===!REV2_FILES.has(p));
+      check(`1. 白名單一筆 ${path.basename(p)}@${want}、approved、有 approvedBy、task DLG-FULL-REVIEW-1110${want===REV2?'；'+FINAL+' 在 history':''}`,e.length===1&&e[0].sha===want&&e[0].status==='approved'&&!!e[0].approvedBy&&e[0].task==='DLG-FULL-REVIEW-1110'&&(want!==REV2||(e[0].history||[]).some(h=>h.sha===FINAL)),J(e.map(x=>[x.sha,x.status]))); }
     check('1. 白名單上的 AA_781 階梯檔一共 39 個（七個人八學期，AA_779 第 4 節）',F781.length===39,F781.length);
     check('1. ladder.js 的來源有寫 AA_781 通用層（'+F781.length+' 檔）',String(L.source).includes('＋AA_781 通用層 '+F781.length+' 檔'),String(L.source).slice(-120));
     check('1. 重匯跑得完（結束碼 0），和 src/data/ladder.js 一字不差',rA.status===0&&fs.readFileSync(outA,'utf8')===fs.readFileSync(path.join(H.ROOT,'src/data/ladder.js'),'utf8'),(rA.stderr||rA.stdout||'').slice(-300));

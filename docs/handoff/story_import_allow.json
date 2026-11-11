@@ -7063,12 +7063,18 @@
   },
   {
    "path": "docs/story_planning/AA_781_an_ladder_Y1S1.json",
-   "sha": "a5e537856",
+   "sha": "4bfb18805",
    "status": "approved",
-   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；4bfb18805（AA 11-11 照 LAWWW 匯入回報改回三處有旗標兌現的承諾、以安一句「羨慕」）；子代理代登，待值班 LAWWW 核",
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
-   "note": "X324 以安大一上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S1＝characters）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 bc4f3f367 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+   "note": "X324 以安大一上閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S1＝characters）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 bc4f3f367 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）。2026-11-11 換 4bfb18805（AA 回 LAWWW 的意見）：A-L2 選項「我都記在腦子裡。」的第二句回話「沒有在罵你。我只是羨慕，你忘了也不會睡不著。」→「沒有在罵你。你忘了也睡得著，這樣很好。」（D116：不羨慕別人）；其他 34 檔 4bfb18805 和 a5e537856 內容一樣，照讀 a5e537856",
+   "history": [
+    {
+     "sha": "a5e537856",
+     "note": "被 4bfb18805 取代（AA 11-11 回 LAWWW：A-L2 選項「我都記在腦子裡。」的第二句回話「沒有在罵你。我只是羨慕，你忘了也不會睡不著。」→「沒有在罵你。你忘了也睡得著，這樣很好。」（D116：不羨慕別人））"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_781_yt_ladder_Y1S1.json",
@@ -7126,12 +7132,18 @@
   },
   {
    "path": "docs/story_planning/AA_781_zr_ladder_Y1S2.json",
-   "sha": "a5e537856",
+   "sha": "4bfb18805",
    "status": "approved",
-   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；4bfb18805（AA 11-11 照 LAWWW 匯入回報改回三處有旗標兌現的承諾、以安一句「羨慕」）；子代理代登，待值班 LAWWW 核",
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
-   "note": "X324 芷若大一下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 15241f32e 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+   "note": "X324 芷若大一下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 15241f32e 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）。2026-11-11 換 4bfb18805（AA 回 LAWWW 的意見）：Z2-L8 那一列拿掉：「好啊，八月底回來，到了跟你說。」有 ZR_TELL_BACK 記著、8/26 私訊兌現，照原句；其他 34 檔 4bfb18805 和 a5e537856 內容一樣，照讀 a5e537856",
+   "history": [
+    {
+     "sha": "a5e537856",
+     "note": "被 4bfb18805 取代（AA 11-11 回 LAWWW：Z2-L8 那一列拿掉：「好啊，八月底回來，到了跟你說。」有 ZR_TELL_BACK 記著、8/26 私訊兌現，照原句）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_781_kx_ladder_Y1S2.json",
@@ -7153,12 +7165,18 @@
   },
   {
    "path": "docs/story_planning/AA_781_an_ladder_Y1S2.json",
-   "sha": "a5e537856",
+   "sha": "4bfb18805",
    "status": "approved",
-   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；4bfb18805（AA 11-11 照 LAWWW 匯入回報改回三處有旗標兌現的承諾、以安一句「羨慕」）；子代理代登，待值班 LAWWW 核",
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
-   "note": "X324 以安大一下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 15241f32e 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+   "note": "X324 以安大一下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y1S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 15241f32e 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）。2026-11-11 換 4bfb18805（AA 回 LAWWW 的意見）：A2-L1 那一列拿掉：「練好了先煮給你吃。」有 AN_COOK_PROMISE 記著、A3-L8 兌現，照原句；其他 34 檔 4bfb18805 和 a5e537856 內容一樣，照讀 a5e537856",
+   "history": [
+    {
+     "sha": "a5e537856",
+     "note": "被 4bfb18805 取代（AA 11-11 回 LAWWW：A2-L1 那一列拿掉：「練好了先煮給你吃。」有 AN_COOK_PROMISE 記著、A3-L8 兌現，照原句）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_781_zq_ladder_Y2S1.json",
@@ -7216,12 +7234,18 @@
   },
   {
    "path": "docs/story_planning/AA_781_zr_ladder_Y2S2.json",
-   "sha": "a5e537856",
+   "sha": "4bfb18805",
    "status": "approved",
-   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；4bfb18805（AA 11-11 照 LAWWW 匯入回報改回三處有旗標兌現的承諾、以安一句「羨慕」）；子代理代登，待值班 LAWWW 核",
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
-   "note": "X324 芷若大二下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 d898cded5 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+   "note": "X324 芷若大二下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y2S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 d898cded5 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）。2026-11-11 換 4bfb18805（AA 回 LAWWW 的意見）：Z4-L1 改成只拿刪節號：「一半的滷肉，你也敢吃嗎。好，下次。」（「下次」有 ZR_LUROU_HALF 記著、大三下 Z5-L5 兌現）；其他 34 檔 4bfb18805 和 a5e537856 內容一樣，照讀 a5e537856",
+   "history": [
+    {
+     "sha": "a5e537856",
+     "note": "被 4bfb18805 取代（AA 11-11 回 LAWWW：Z4-L1 改成只拿刪節號：「一半的滷肉，你也敢吃嗎。好，下次。」（「下次」有 ZR_LUROU_HALF 記著、大三下 Z5-L5 兌現））"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_781_zq_ladder_Y2S2.json",
@@ -7324,12 +7348,18 @@
   },
   {
    "path": "docs/story_planning/AA_781_zr_ladder_Y3S2.json",
-   "sha": "a5e537856",
+   "sha": "4bfb18805",
    "status": "approved",
-   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；子代理代登，待值班 LAWWW 核",
+   "approvedBy": "AA 11-11（X324 C 區，BB 看過）；4bfb18805（AA 11-11 照 LAWWW 匯入回報改回三處有旗標兌現的承諾、以安一句「羨慕」）；子代理代登，待值班 LAWWW 核",
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
-   "note": "X324 芷若大三下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 8e027fc7f 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）"
+   "note": "X324 芷若大三下閒聊階梯改稿（AA_781 通用層：steps 整層換 lines、choices，rows 整句相同剛好一處才換）：tools/ladder/import_ladder.py 的 AA781 那一段疊在所有修正層後面 → src/data/ladder.js（byTerm.Y3S2）。逐列對稿 tests/ladder_aa781_1111_unit.js。最早在企劃線 8e027fc7f 交（那一批）；全部交齊以後白名單統一讀 a5e537856（LAWWW 2026-11-11：多個 SHA 都有的用最新的；子代理比過 blob 一樣）。2026-11-11 換 4bfb18805（AA 回 LAWWW 的意見）：Z5-L5 改成只拿刪節號：「上次說的一半。我媽這次寄了一整罐。分你。」（這一句在 extraIf，ZR_LUROU_HALF 擋著，「上次」成立）；其他 34 檔 4bfb18805 和 a5e537856 內容一樣，照讀 a5e537856",
+   "history": [
+    {
+     "sha": "a5e537856",
+     "note": "被 4bfb18805 取代（AA 11-11 回 LAWWW：Z5-L5 改成只拿刪節號：「上次說的一半。我媽這次寄了一整罐。分你。」（這一句在 extraIf，ZR_LUROU_HALF 擋著，「上次」成立））"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_781_sis_ladder_Y3S2.json",
