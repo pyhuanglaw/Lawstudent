@@ -101,7 +101,7 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
     fresh('2027-11-09',19.5,'cafe'); R(Q,'FRI'); G.events.done.ev_ziqing_dad_stuck=1; await play('ev_ziqing_capstone'); const b=all().slice(0,2);
     fresh('2027-11-09',19.5,'cafe'); R(Q,'FRI'); SOCIAL.remember(Q,'PLAYTESTED',''); await play('ev_ziqing_capstone'); const c=all().slice(0,1);
     check('4. 沒演過 Q8b、沒看過 Q6：「……你應該不知道。我在做遊戲…」',a[0]==='……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'&&a[1]==='畢業專題。我要交那隻貓。',J(a));
-    check('4. 演過 Q8b（ev_ziqing_dad_stuck）：第一句換「……上次跟你說的那個遊戲。」，後面照接',b[0]==='……上次跟你說的那個遊戲。'&&b[1]==='畢業專題。我要交那隻貓。',J(b));
+    check('4. 演過 Q8b（ev_ziqing_dad_stuck）：第一句換「上次跟你說的那個遊戲。」（AA_800 拿掉句首「……」），後面照接',b[0]==='上次跟你說的那個遊戲。'/* AA_800（X324 G 區 e7dfbbe61）拿掉句首「……」；AA_376 稿上照舊（NEW376）*/&&b[1]==='畢業專題。我要交那隻貓。',J(b));
     check('4. 對照：看過 Q6、沒演過 Q8b：照舊沒有開頭那一句',c[0]==='畢業專題。我要交那隻貓。',J(c));
   });
   // ===== 5. K5-L3／K17 =====
