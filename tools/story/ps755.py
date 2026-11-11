@@ -15,6 +15,8 @@ PATH = 'docs/story_planning/AA_755_peishan_feed_misc.json'
 SHA = 'c5094495d'
 PS = 'classmate_peishan'
 _CACHE = {}
+# 上游的稿把沛珊那一塊整個重寫了＝這份稿在那個遊戲檔的列不再疊（old、new 都不在新稿裡）。逐字比對改看上游的稿。
+SUPERSEDED = {'activity_scenes.js': 'AA_708_activity_scenes.json@d30416e6b（2026-11-11 X324 A 區：沛珊整塊重寫，AA 交付訊息 07:20）'}
 
 
 def load(root, allow=None):
@@ -79,6 +81,8 @@ def _find(o, target, hits):
 
 def apply(data, file, root, allow=None, only=None):
     """data（匯入工具組好的資料）裡 classmate_peishan 底下：稿上 file 的每一列 old → new。回傳換了幾處。only＝只換 at 裡有這段字的列（同一個遊戲檔分兩支工具產生時用）"""
+    if file in SUPERSEDED:
+        return 0
     d = load(root, allow)
     if not d:
         return 0

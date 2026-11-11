@@ -12,7 +12,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PATH = 'docs/story_planning/AA_708_activity_scenes.json'
 OUT = 'src/data/activity_scenes.js'
 KINDS = ('eat', 'cafe', 'movie', 'bookstore')
-ALT_COND = dict(ST.ALT_COND, **{'學姊已上法研所（2026-08 起）': 'sisGrad', '不在 2:30 AM': 'notCafe'})
+ALT_COND = dict(ST.ALT_COND, **{'學姊已上法研所（2026-08 起）': 'sisGrad', '不在 2:30 AM': 'notCafe', '交往中，或她的告白條件已到': 'datingOrReady'})   # datingOrReady：AA_708 d30416e6b（BB_342），src/studyn3d.js S.ALT
 LISTS = ST.LISTS
 
 

@@ -134,6 +134,10 @@ def _special68(text):
     return text, ('done' if ("','" + new3 + "']") in text else 'miss')
 
 
+# 上游的稿重寫以後，這幾列的 old 和 new 都不在了（不是漏換）：{(遊戲檔, 列號): 哪一版重寫的}
+UPSTREAM = {('src/data/activity_scenes.js', n): 'AA_708_activity_scenes.json@d30416e6b（2026-11-11 X324 A 區：語彤吃飯 3 不指店名菜名、沛珊整塊重寫——舊店名、番茄醬蛋包飯都拿掉了）' for n in ('98', '99', '100', '101')}
+
+
 def layer(file, text, d, data_text='', report=None):
     """把 file 的每一列疊到 text 上。report（list）收 (列號, 狀態, old, new, 次數)：apply／done／miss（對不到）／many（次數不對，不換）／keep（old＝new，確認在）／pending（等程式刪）"""
     for n, f, old, new, note in rows(d):
@@ -153,6 +157,8 @@ def layer(file, text, d, data_text='', report=None):
             if want == '*': want = c if c else 1
             if c == 0:
                 st = 'done' if (new in text or (data_text and new in data_text)) else 'miss'
+                if st == 'miss' and (file, n) in UPSTREAM:   # 上游的稿自己把那一句重寫掉了（old、new 都不在）＝不用疊
+                    st = 'done'
                 if st == 'miss':
                     for prev in (d.get('_alts') or {}).get(n, []):   # 已經照舊版套過：舊版的 new → 新版的 new
                         if _count(text, prev, new) == want:

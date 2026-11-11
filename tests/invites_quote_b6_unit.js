@@ -198,6 +198,8 @@ const O=runProbe('old'), N=runProbe('new');
     'src/data/ladder.js':['choice',['（喝掉，說）「我也太兇了。」']],'src/data/date_lines.js':['choice',['「一起拍？」（第 6 階以上）']],
     /* 2026-11-11（L118-LUNCH-INVITE-1111／L118-SHOPS-REDO-1111；AA_771 最終版 @1669b3ae0）：午餐邀約多一個選項 options.skip「好，走。」（直接到吃完）——選項字（GM.choose 的 t），照既有選項的慣例留「」（同一個檔的 accept、decline 也是帶「」的選項）；舊期望：沒有這一格 */
     'src/data/l118_lunch.js':['choice',['「好，走。」（直接到吃完）']],
+    /* 2026-11-11（X324 A 區，AA_708@d30416e6b）：一起活動 98 場都補了兩個選項；其中 13 個選項字是「（小聲）「…」」這種動作＋說的話（電影院裡小聲講；祐廷的選項，選項照留那一類，都在 opts 的 t，不是誰說的台詞）；舊期望：沒有這一格 */
+    'src/data/activity_scenes.js':['choice',['「謝謝。」（吃大的）','（小聲）「對，他前面說沒看到。」','（小聲）「先看，散場再講。」','（小聲）「我沒聽到。」','（小聲）「妳在看哪裡？」','（小聲）「像蘇姨。」','（小聲）「什麼是粒子系統？」','（小聲）「看電影。」','（小聲）「好看嗎？」','（小聲）「像妳。」','（小聲）「片尾不算。」','（小聲）「來得及。」','（小聲）「要不要假裝哭一下？」']],
     'src/data/invite_replies.js':['record',['「好。」（她把吧檯又擦了一遍，才回你。）','「嗯。」（她只回一個字，可是三秒就回了。）','「好。我會去。」（她回得很快，然後很久沒有下一則。）']],
     'src/data/library_3f_layout.js':['record',['「看桌上的紙條」（守誠那張桌子；pool_more3d.js 的 POP）','「看期刊架」（語彤的系刊；r2y4a3d.js 的 shelfPlace）']],
     'src/data/shop_enc.js':['nameless',['（她翻了十分鐘，把書遞給你。）「第三章的筆記最好看。」','（她把手機遞過來。）「加一下吧。看到好書跟你說。」','（他把印好的講義對齊，用長尾夾夾好。）「拿去。考好一點。」']],
@@ -215,7 +217,7 @@ const O=runProbe('old'), N=runProbe('new');
   const s1=scan(LIT), want1=flat(KEEP);
   check('27. 單引號的字串（第五批第 21 項那一套掃描）：剩下 '+s1.length+' 個＝照留的 '+want1.length+' 個（路人沒名字 4、分科系拆開播 5、選項 7），一個不多一個不少',J(s1)===J(want1),sample(s1.filter(x=>!want1.includes(x)).concat(want1.filter(x=>!s1.includes(x)).map(x=>'少了 '+x))));
   const s2=scan(LIT2), want2=flat(Object.assign({},KEEP,KEEP2));
-  check('27. 單、雙引號一起掃：剩下 '+s2.length+' 個＝照留的 '+want2.length+' 個（再加：選項 2＋午餐邀約選項 1＋電影選項 3＋期末飯選項 6、稿的紀錄 5、沒名字 4）',J(s2)===J(want2),sample(s2.filter(x=>!want2.includes(x)).concat(want2.filter(x=>!s2.includes(x)).map(x=>'少了 '+x))));
+  check('27. 單、雙引號一起掃：剩下 '+s2.length+' 個＝照留的 '+want2.length+' 個（再加：選項 2＋午餐邀約選項 1＋一起活動選項 13＋電影選項 3＋期末飯選項 6、稿的紀錄 5、沒名字 4）',J(s2)===J(want2),sample(s2.filter(x=>!want2.includes(x)).concat(want2.filter(x=>!s2.includes(x)).map(x=>'少了 '+x))));
   /* 照留的理由：選項＝choice 的 text；沒名字＝播的程式看開頭的（給 null；拆開播＝deptSteps；紀錄＝不播的欄位 */
   const opt=st.opt||[];
   check('27. 選項（events.js 三個、r2y4a_events.js 三個、y2r2_3d.js 一個）都是事件 choice 的 text（GM.choose，不是誰說的）',KEEP['src/data/events.js'][1].concat(KEEP['src/data/r2y4a_events.js'][1],KEEP['src/y2r2_3d.js'][1]).every(t=>opt.some(s=>s.text===t&&s.choice)&&!opt.some(s=>s.text===t&&!s.choice)),J(opt.map(s=>[s.ev,s.choice,s.text])));

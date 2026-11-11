@@ -29,7 +29,9 @@ const count=(o,t)=>{ let n=0; const w=x=>{ if(J(x)===J(t)&&typeof x===typeof t&&
     if(A) for(const [tool,args] of [['tools/story/import_activity_scenes.py',['--check']],['tools/story/import_arc_rot.py',['--check']],['tools/gift/import_gift_holiday.py',['--check']]]){
       let ok=false, out=''; try{ out=cp.execFileSync('python3',[tool].concat(args),{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/m.test(out); }catch(e){ out=String(e.stderr||e.stdout||e.message).slice(0,200); }
       check('1. '+tool+' --check：資料檔和工具重匯（含 AA_755 疊稿）的結果一樣',ok,out.slice(0,160)); }
-    for(const f of ['activity_scenes.js','arc_rot.js','gift_holiday.js']) check('1. src/data/'+f+' 的檔頭寫了 AA_755_peishan_feed_misc.json@'+SHA,read('src/data/'+f).split('\n')[0].includes('AA_755_peishan_feed_misc.json@'+SHA)); });
+    /* 2026-11-11（X324 A 區，AA_708@d30416e6b）：一起活動的沛珊整塊重寫了，AA_755 在 activity_scenes.js 的那一列（第 4 階 mid「我家早餐店的蘿蔔糕」）不再疊（tools/story/ps755.py SUPERSEDED）；舊期望：三個檔的檔頭都寫 AA_755、other 14 列都在 */
+    check('1. activity_scenes.js：AA_755 那一列被上游重寫取代（ps755.SUPERSEDED），檔頭不再寫 AA_755',/SUPERSEDED = \{'activity_scenes\.js'/.test(read('tools/story/ps755.py'))&&!read('src/data/activity_scenes.js').split('\n')[0].includes('AA_755'));
+    for(const f of ['arc_rot.js','gift_holiday.js']) check('1. src/data/'+f+' 的檔頭寫了 AA_755_peishan_feed_misc.json@'+SHA,read('src/data/'+f).split('\n')[0].includes('AA_755_peishan_feed_misc.json@'+SHA)); });
 
   await sec(2,async()=>{ const IDS={'feed_y1s1.js':['ps4','ps5','ps6'],'feed_y1s2.js':['ps1b','ps6b'],'feed_y3s1.js':['ps4e'],'feed_y3s2.js':['ps4f'],'feed_pg.js':['ps2i']};
     if(A) check('2. 稿上八則＝這八個 id',J(A.feed.map(r=>r.file+':'+r.id).sort())===J(Object.keys(IDS).flatMap(f=>IDS[f].map(i=>f+':'+i)).sort()));
@@ -49,7 +51,7 @@ const count=(o,t)=>{ let n=0; const w=x=>{ if(J(x)===J(t)&&typeof x===typeof t&&
       'gift_holiday.js':()=>loadConst(read('src/data/gift_holiday.js'),'GIFT_HOLIDAY') };
     const T={}; for(const f in DATA) T[f]=trees(DATA[f](),[]);
     check('3. 五個檔都找得到沛珊的資料',Object.keys(T).every(f=>T[f].length>=1),J(Object.keys(T).map(f=>[f,T[f].length])));
-    if(A){ const bad=[]; for(const r of A.other){ const t=T[r.file]; if(!t){ bad.push(r.file+'：測試不認得的檔'); continue; } const nNew=t.reduce((a,x)=>a+count(x,r.new),0), nOld=t.reduce((a,x)=>a+count(x,r.old),0); if(nNew!==1||nOld!==0) bad.push(r.file+'（'+r.at+'）new '+nNew+' 處、old '+nOld+' 處'); }
+    if(A){ const bad=[]; for(const r of A.other){ const t=T[r.file]; if(r.file==='activity_scenes.js'){ const nN=t.reduce((a,x)=>a+count(x,r.new),0), nO=t.reduce((a,x)=>a+count(x,r.old),0); if(nO!==0) bad.push('activity_scenes.js：舊句還在'); continue; }   /* 上游重寫：新舊都不在（舊的「我家早餐店」不能回來）*/ if(!t){ bad.push(r.file+'：測試不認得的檔'); continue; } const nNew=t.reduce((a,x)=>a+count(x,r.new),0), nOld=t.reduce((a,x)=>a+count(x,r.old),0); if(nNew!==1||nOld!==0) bad.push(r.file+'（'+r.at+'）new '+nNew+' 處、old '+nOld+' 處'); }
       check('3. other '+A.other.length+' 列：每一列的 new 在那個檔沛珊底下剛好一處、old 不在了',A.other.length===14&&bad.length===0,J(bad));
       const R=loadConst(read('src/data/invite_replies.js'),'INVITE_REPLIES').people[PS], m={}; for(const r of A.other) if(r.file==='invites.js'&&r.old.length===1) m[r.old[0]]=r.new[0];
       const all=strs(R,[]);
