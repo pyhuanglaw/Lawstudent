@@ -1,12 +1,3 @@
-       a3ef24aa4..fa3b5b54c  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:04:24] ==== END   FN_shots_a_new  exit=0  184s   ====
-[09:04:34] memory 41% before starting FN_shots_b_new (2 running)
-[09:04:34] ==== START FN_shots_b_new  (probe @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
-[09:04:37] [res] cpu=8% mem=41% (12.9/31.4 GB) chrome_testing=5  START FN_shots_b_new
-[09:04:42] [res] cpu=12% mem=43% (13.0/31.4 GB) chrome_testing=5  END FN_func_b_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       fa3b5b54c..be704a0d7  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [09:05:09] ==== END   FN_func_b_old  exit=0  295s   ====
 [09:05:13] memory 40% before starting FN_shots_a_old (2 running)
@@ -1998,3 +1989,12 @@
 [16:07:45] ==== START L118A_SEAT_pasta1  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
 [16:07:48] [res] cpu=30% mem=48% (15.2/31.4 GB) chrome_testing=9  START L118A_SEAT_pasta1
 [16:08:22] [res] cpu=54% mem=46% (14.6/31.4 GB) chrome_testing=9  END L118A_SEAT_noodle21
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       32530681b..ec830ffaa  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:08:27] ==== END   L118A_SEAT_noodle21  exit=0  133s   ====
+[16:08:36] memory 49% before starting L118A_SEAT_pasta2 (2 running)
+[16:08:36] ==== START L118A_SEAT_pasta2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
+[16:08:39] [res] cpu=28% mem=49% (15.5/31.4 GB) chrome_testing=9  START L118A_SEAT_pasta2
+[16:09:04] 正在跑：L118A_SEAT_noodle22（已跑 2 分／上限 15 分）、L118A_SEAT_pasta1（已跑 1 分／上限 15 分）、L118A_SEAT_pasta2（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:09:13] [res] cpu=45% mem=48% (15.0/31.4 GB) chrome_testing=9  END L118A_SEAT_noodle22
