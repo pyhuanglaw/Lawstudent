@@ -103,12 +103,12 @@ PC（RX 6600M，Blender 5.2.3）：`BK1_cpu` 51 秒、`BK1_hip` 196 秒（`DEVIC
 ### 給 CC 的佇列（照 cc_local/queue.txt 的格式；runner 會強制 CPU，ENV 照寫 CPU 比較清楚）
 
 ```
-BK2_cpu_s    | lawww2 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 30 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 64
-BK2_cpu_full | lawww2 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 1024 --samples 512
+BK2_cpu_s    | ceaab04cb | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 30 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 64
+BK2_cpu_full | ceaab04cb | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 1024 --samples 512
 ```
 
 - `BK2_cpu_s` 幾分鐘：先看這個就知道能不能混用。`BK2_cpu_full` 是正式大小，只是要 PC 的時間（雲端 21 分；BK1 時 PC 的 CPU 比雲端快約 4 倍，估 5～8 分）。只排得下一個就排 `BK2_cpu_s`。
-- SHA 寫 `lawww2`（second-ai-env-art 最新），或指定這一包的 commit。
+- ~~SHA 寫 `lawww2`（second-ai-env-art 最新），或指定這一包的 commit。~~ **更正（BB 11-11 18:12）**：寫 `lawww2` 會跟著我分支的最新 head 走——我每推一次，CC 的 runner 就當成新項目重跑一輪（17:1x～18:1x 多跑了 4 輪、每輪約 17 分鐘），BB 已請 CC 加 #HOLD。**以後給 PC 的佇列行一律寫固定的 commit SHA**（例：BK2 這兩行應寫 `ceaab04cb`），不寫 `lawww2`。
 - 請回傳 `{out}` 裡的 `stats.json`、`d.json`、`d_day.png`、`d_night.png`，和 runner 的 log（看 `DEVICE CPU`、`blender 5.2.3`）。`d.glb` 小於 50 MB 會推，留著：萬一 UV 不一樣，要用 `compare_bakes_uv.py`。
 
 ### 怎麼判斷（看結果以前先定好，和 BK1 同一套標準）
