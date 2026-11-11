@@ -6,9 +6,10 @@
   l118a_ext_<id>_<hhmm>.jpg    外觀：上排 參考圖｜新 正面｜舊 正面；下排 參考圖上半（招牌）｜新 招牌近拍｜舊 招牌近拍（十一間 × 14:00、20:00）
   l118a_int_<id>_<hhmm>.jpg    室內：上排 int_｜int2_｜新 門口往裡｜舊 門口往裡；下排 新 最裡面往門口｜舊 最裡面往門口｜新 進門遊戲鏡頭｜近照
   l118a_sheet_<kind>_<id>.jpg  遊戲鏡頭總覽（四角、轉一圈、座位、沿牆卡點、巷子走一趟、門、窗景）
+  l118a_int_row9_<hhmm>.jpg   總表：同一列九間「門口往裡」（新），每格下面印平均亮度、中央 60% 標準差（LAWWW2 四間 vs LAWWW 五間的亮度、空不空）
   l118a_nav_diff.txt           DRINK 存的 118 巷導航格新舊比對（差異格的世界座標範圍）"""
 import os, sys, glob, json
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageStat
 REF, NEW, OLD, OUT = sys.argv[1:5]; os.makedirs(OUT, exist_ok=True)
 FONT = next((f for f in ['/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc'] if os.path.exists(f)), None)
 F = ImageFont.truetype(FONT, 22) if FONT else ImageFont.load_default()
@@ -66,8 +67,24 @@ for sid in ('dian', 'self', 'korea', 'tea', 'home', 'cafe2', 'pasta', 'omu', 'no
                 [tile(g(NEWD, 'out'), '新 最裡面往門口【捷徑機位】'), tile(g(OLDD, 'out'), '舊 最裡面往門口'), tile(g(NEWD, 'door', 'game'), '新 進門【遊戲鏡頭】'),
                  tile(close, '新 近照 %s' % (os.path.basename(close).split('_close_')[1].rsplit('_', 1)[0] if close else ''))]]
         grid(rows, 'l118a_int_%s_%s.jpg' % (sid, hh), 'L118A %s 室內 %s：參考圖 int_／int2_｜新｜舊（同機位）' % (NAME[sid], hh)); n += 1
+# 總表：九間門口往裡一列
+WHO = {'dian': 'LAWWW2', 'self': 'LAWWW2', 'korea': 'LAWWW2', 'tea': 'LAWWW2', 'omu': 'LAWWW', 'noodle2': 'LAWWW', 'pasta': 'LAWWW', 'home': 'LAWWW', 'cafe2': 'LAWWW'}
+for hh in sorted({os.path.basename(p).split('_')[3] for d in NEWD for p in glob.glob(os.path.join(d, '**', 'l118a_int_*_in_cam.jpg'), recursive=True)}):
+    TW = 420; cells = []
+    for sid in WHO:
+        p = find(NEWD, 'l118a_int_%s_%s_in_cam.jpg' % (sid, hh)); cell = Image.new('RGB', (TW, 300), (0, 0, 0)); d = ImageDraw.Draw(cell)
+        if p:
+            im = Image.open(p).convert('RGB'); g = im.convert('L'); w, h = g.size
+            mean = ImageStat.Stat(g).mean[0]; sd = ImageStat.Stat(g.crop((int(w * 0.2), int(h * 0.2), int(w * 0.8), int(h * 0.8)))).stddev[0]
+            t = im.resize((TW, int(h * TW / w))); cell.paste(t, (0, 0)); txt = '平均亮度 %.0f｜中央標準差 %.0f' % (mean, sd)
+        else: txt = '（沒有）'
+        d.rectangle((0, 0, TW, 28), fill=(0, 0, 0)); d.text((5, 2), '%s %s（%s）' % (NAME[sid], hh, WHO[sid]), fill=(255, 255, 255), font=F); d.text((5, 246), txt, fill=(255, 230, 120), font=F)
+        cells.append(cell)
+    out = Image.new('RGB', (TW * len(cells), 340), (0, 0, 0)); ImageDraw.Draw(out).text((8, 6), 'L118A 九間門口往裡【捷徑機位】同一列：左四間 LAWWW2、右五間 LAWWW（%s）' % hh, fill=(255, 255, 255), font=F)
+    for i, c in enumerate(cells): out.paste(c, (i * TW, 40))
+    out.save(os.path.join(OUT, 'l118a_int_row9_%s.jpg' % hh), quality=85); print('寫 l118a_int_row9_%s.jpg' % hh); n += 1
 # 遊戲鏡頭總覽
-for kind in ('corner', 'seat', 'wall', 'walk', 'door', 'view', 'drink', 'special'):
+for kind in ('corner', 'seat', 'wall', 'walk', 'door', 'view', 'drink', 'special', 'kitchen'):
     ps = sorted({p for d in NEWD for p in glob.glob(os.path.join(d, '**', 'l118a_%s_*.jpg' % kind), recursive=True)})
     groups = {}
     for p in ps: groups.setdefault(os.path.basename(p).split('_')[2], []).append(p)
