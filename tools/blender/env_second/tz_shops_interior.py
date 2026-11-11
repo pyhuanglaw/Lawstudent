@@ -103,7 +103,13 @@ def wall(side, dirv):
 
 
 # ---------- 殼 ----------
-mesh('floor').box(-W / 2, W / 2, -0.1, 0.0, -D / 2, D / 2); mesh('ceil').box(-W / 2, W / 2, H, H + 0.1, -D / 2, D / 2)
+mesh('floor').box(-W / 2, W / 2, -0.1, 0.0, -D / 2, D / 2)
+# 天花板（TZS-CEIL-1111，LAWWW／BB 11-11 03:15：禮貌生財玩家走到房間後半，跟隨鏡頭 y 3.21 高過天花板 3.0，看到天花板的「上表面」＝整個畫面一片米色；
+#   原本是一塊 10 cm 厚、六個面都有的板子）：只留朝下的那一面（單面，從上面看不到）、節點叫 CEIL_ceil——Z3.attachRoomGLB 的 ceilHide 會在鏡頭高過天花板時把 CEIL_* 整組藏起來；
+#   吸頂的燈具也放進 CEIL_*（下面各間用 PRE='CEIL:' 包起來的那幾行），不然天花板藏了、燈具還浮在半空擋住房間
+PRE = 'CEIL:'
+mesh('ceil').quad([(-W / 2, H, -D / 2), (W / 2, H, -D / 2), (W / 2, H, D / 2), (-W / 2, H, D / 2)])   # 逆時針（從下面看）＝法線朝下
+PRE = ''
 wall('N', [0, 0, 1]).box(-W / 2, W / 2, 0, H, -D / 2 - T, -D / 2); wall('W', [1, 0, 0]).box(-W / 2 - T, -W / 2, 0, H, -D / 2, D / 2); wall('E', [-1, 0, 0]).box(W / 2, W / 2 + T, 0, H, -D / 2, D / 2)
 FR = J['front']; zS = D / 2; ws = wall('S', [0, 0, -1]); dx0, dx1, dh = FR['door']; sill, head = FR['sill'], FR['head']
 cuts = sorted([(a, b, sill, head) for a, b in FR['windows']] + [(dx0, dx1, 0.0, dh)]); x = -W / 2
@@ -212,7 +218,9 @@ if SHOP == 'taimi':
     for xx in (-1.6, 1.2): ccyl(vc(), (xx, H - 0.14, -D / 2 + 0.3), (xx, H - 0.14, D / 2 - 0.3), 0.07, '#efe4cc', seg=10)
     vc().cbox(-0.6, 0.6, H - 0.2, H - 0.02, 0.6, 1.8, '#e6dcc6'); vc().cbox(-0.5, 0.5, H - 0.215, H - 0.2, 0.7, 1.7, '#bfb6a2')
     vc().cbox(-3.2, -3.16, H - 0.06, H - 0.03, -2.5, 4.4, '#2b2b2b')
+    PRE = 'CEIL:'   # 吸頂的燈具：鏡頭高過天花板時一起藏
     for i in range(6): z = -2.0 + i * 1.2; ccyl(vc(), (-3.18, H - 0.06, z), (-3.3, H - 0.24, z), 0.04, '#2b2b2b', seg=8); mesh('light').cyl((-3.3, H - 0.245, z), (-3.31, H - 0.255, z), 0.033, seg=8)
+    PRE = ''
 
 
 # ---------- 洗樂洗衣坊 ----------
@@ -288,7 +296,9 @@ if SHOP == 'xile':
     vc().cbox(2.2, W / 2, 0.0, 0.85, -4.3, -3.1, '#f4f4f0'); vm().cbox(2.3, W / 2 - 0.06, 0.8, 0.86, -4.2, -3.2, STEEL); ccyl(vm(), (2.85, 0.86, -3.7), (2.85, 1.1, -3.7), 0.015, STEEL_D, seg=6)
     # 天花板：日光燈六支、冷氣、壁扇、監視器
     for xx in (-1.4, 1.4):
+        PRE = 'CEIL:'   # 吸頂的燈具：鏡頭高過天花板時一起藏
         for zz in (-2.6, 0.0, 2.6): vc().cbox(xx - 0.7, xx + 0.7, H - 0.07, H - 0.02, zz - 0.09, zz + 0.09, '#eceeee'); mesh('light').box(xx - 0.62, xx + 0.62, H - 0.095, H - 0.07, zz - 0.035, zz + 0.035)
+        PRE = ''
     vc().crbox(W / 2 - 0.24, W / 2, 2.35, 2.65, -2.6, -1.75, '#f4f4f0', r=0.02); ccyl(vc(), (0.0, H - 0.1, 1.2), (0.0, H, 1.2), 0.06, '#2a2f36', seg=10)
     ccyl(vc(), (W / 2 - 0.02, 2.5, -3.6), (W / 2 - 0.25, 2.45, -3.6), 0.02, '#eceeee', seg=6); ccyl(vc(), (W / 2 - 0.25, 2.45, -3.6), (W / 2 - 0.3, 2.45, -3.6), 0.2, '#eceeee', seg=16)
 
@@ -387,7 +397,9 @@ if SHOP == 'yindehao':
     vc().crbox(-0.2, 0.9, 2.35, 2.65, -D / 2, -D / 2 + 0.24, '#f4f4f0', r=0.02)
     for i in range(8): a = 0.4 + i * 0.13; vc().cbox(a, a + 0.13, 0.05, 2.1, -D / 2 + 0.03 + (i % 2) * 0.02, -D / 2 + 0.05 + (i % 2) * 0.02, ('#c9c4b8', '#b8b2a4')[i % 2])
     for i in range(5): vc().cbox(-1.2 + (i % 3) * 0.45, -0.8 + (i % 3) * 0.45, (i // 3) * 0.36, (i // 3) * 0.36 + 0.34, -D / 2 + 0.06, -D / 2 + 0.46, '#c9a878')
+    PRE = 'CEIL:'   # 吸頂的燈具：鏡頭高過天花板時一起藏
     for zz in (-3.0, -0.6, 1.8, 3.9): vc().cbox(-1.3, 0.3, H - 0.07, H - 0.02, zz - 0.09, zz + 0.09, '#eceeee'); mesh('light').box(-1.22, 0.22, H - 0.095, H - 0.07, zz - 0.035, zz + 0.035)
+    PRE = ''
     ccyl(vc(), (-W / 2 + 0.12, H - 0.25, -D / 2 + 0.2), (-W / 2 + 0.12, H - 0.25, D / 2 - 0.2), 0.03, '#e2e4e4', seg=8); ccyl(vc(), (-W / 2 + 0.2, H - 0.12, -D / 2 + 0.2), (-W / 2 + 0.2, H - 0.12, D / 2 - 0.2), 0.02, '#d6d9da', seg=6)
 
 
@@ -420,12 +432,15 @@ def gondola(g, cols_by_level, body='#f1f0ea', levels=(0.25, 0.65, 1.05, 1.42), s
             if fill: fill(x0 + 0.05, x1 - 0.05, y, z0, zm - 0.02, 'x', i); fill(x0 + 0.05, x1 - 0.05, y, zm + 0.02, z1, 'x', i + 2); continue
             goods(x0 + 0.05, x1 - 0.05, y, z0, zm - 0.02, cols_by_level[i % len(cols_by_level)], along='x'); goods(x0 + 0.05, x1 - 0.05, y, zm + 0.02, z1, cols_by_level[(i + 1) % len(cols_by_level)], along='x')
 def tubes(rows, x0=-1.5, x1=1.5, grid=True):
-    """天花板的日光燈；grid＝輕鋼架格柵天花板的線"""
+    """天花板的日光燈；grid＝輕鋼架格柵天花板的線。整組放進 CEIL_*（鏡頭高過天花板時遊戲一起藏）"""
+    global PRE
+    PRE = 'CEIL:'
     if grid:
         for k in range(int(W / 1.2) + 1): xx = -W / 2 + k * 1.2; vc().cbox(xx - 0.012, xx + 0.012, H - 0.012, H - 0.004, -D / 2, D / 2, '#d9dad6')
         for k in range(int(D / 1.2) + 1): zz = -D / 2 + k * 1.2; vc().cbox(-W / 2, W / 2, H - 0.012, H - 0.004, zz - 0.012, zz + 0.012, '#d9dad6')
     for zz in rows:
         for xx in (x0, x1): vc().cbox(xx - 0.62, xx + 0.62, H - 0.06, H - 0.015, zz - 0.11, zz + 0.11, '#eceeee'); mesh('light').box(xx - 0.58, xx + 0.58, H - 0.085, H - 0.06, zz - 0.03, zz + 0.03); mesh('light').box(xx - 0.58, xx + 0.58, H - 0.085, H - 0.06, zz + 0.05, zz + 0.08)
+    PRE = ''
 
 def pharma(x0, x1, y, z0, z1, along='z', k=0):
     """藥局貨架的一層（第 2 版；BB 11-10 23:51：一塊一塊的色塊看起來像書店——參考圖是藥盒、瓶罐、口罩）：一段一段排——

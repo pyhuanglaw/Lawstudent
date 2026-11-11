@@ -34,6 +34,9 @@ const FN3=(function(){
     nav1.freeRect(LD.x0-0.3,LD.z0+0.15,LD.x1-0.25,LD.z1);                                            // 樓梯平台（連到教室）
     nav1.freeRect(T.x0,T.zTop,T.x1,T.zBottom); for(const s of ss.all) nav1.addSurf(Object.assign({},s));
     nav1.blockRect(T.railX-0.05,(LD.z1+0.1+U.railZ)/2,0.3,U.railZ-(LD.z1+0.1),0);                    // 樓梯開口西邊的欄杆（平台那一段留開口）
+    nav1.blockRect(T.railX-0.275,LD.z1+0.32,0.2,0.5,0);   /* FN-STAIRTOP-POCKET-1111（LAWWW2 11-11；LAWWW 要的「每個站得到的點都走得回離開」掃出來）：欄杆只有一格厚（0.25 m），人的半徑 0.32——
+      樓梯最上面兩三階和二樓地板一樣高的那一小段（z −5.3～−4.8），站在樓梯西緣 x 3.5 時左邊的取樣點跨過欄杆落在教室地板上，被當成站得住；
+      站進去以後點地板走不出來（往東是樓梯中間、身體卡著欄杆）。欄杆北端靠教室那一側多擋一格，這個口袋就站不進去；教室到樓梯平台的開口（z ≤ −5.32）不變 */
     const blk=(nav,b)=>nav.blockRect(b[0],b[1],b[2],b[3],0,0.05);
     for(const b of S.blocks(L,0)) blk(nav0,b); for(const b of S.blocks(L,1)) blk(nav1,b);
     nav0._cm=null; nav1._cm=null; return {nav0,nav1,ss}; };

@@ -78,4 +78,18 @@ check('0. 樓梯的數字對得起來：階數 × 階高＝樓高、階數 × �
   check('7. 外觀：牆改平塗的米白石材（wall_flat）、招牌重畫（gg_shops6_tex.fn_sign：深色字「花序｜Flower Notes」）、門口兩棵樹＋兩個長花箱（原型 p_fntree／p_fnbox）',
     /wall_flat=True/.test(g11)&&(g11.match(/\('fn_tree'/g)||[]).length===2&&(g11.match(/\('fn_box'/g)||[]).length===2&&/def fn_sign\(/.test(tex)&&/t1 = '花序'; t2 = 'Flower Notes'/.test(tex)&&/def p_fntree\(/.test(kit)&&/def p_fnbox\(/.test(kit)&&/def gg_flatwall\(/.test(kit));
   check('7. 樹和花箱的腳印寫進 props.json（各兩個），都貼著店面（凸進騎樓 ≤ 0.6 m：騎樓 3 m 還剩 2.4 m 走路）',tr.length===2&&bx.length===2&&deep.every(d=>d>0&&d<=0.6),deep.map(d=>d.toFixed(2)).join(' ')); }
+/* 8. 沒有站得進去、走不出來的縫（LAWWW 11-11 02:56：照 tests/tz_shops_notrap_1111_unit.js 的做法，花序一樓、二樓也要有；第 2 版二樓換了矮櫃、一樓多了花）：
+      每一層從一個站得住的點出發，每 0.25 m 掃出所有走得到的點；每一個點都用引擎真正的找路＋移動碰撞走到「離開」（一樓的店門；二樓的點要先下樓梯），停下來的地方要在互動半徑裡 */
+{ const z=loadZone('flower_notes'), ex=E.interactables.find(i=>i.exit), STEP=0.25, R=0.32, navs=z.levels||[z.nav], sp=z.spawn, tot=[];
+  for(const lv of [0,1]){ const nav=navs[lv]||navs[0], X0=nav.ox, Z0=nav.oz, Wn=nav.cols*nav.cell, Dn=nav.rows*nav.cell, key=(i,j)=>i+','+j;
+    const ok=(i,j)=>{ const x=X0+i*STEP, zz=Z0+j*STEP; return x>X0&&zz>Z0&&x<X0+Wn&&zz<Z0+Dn&&E.canStand(x,zz,R,lv); };
+    const s0=lv===0?[sp.x,sp.z]:[L.tables1[2].x,L.tables1[2].z+1.6], si=Math.round((s0[0]-X0)/STEP), sj=Math.round((s0[1]-Z0)/STEP); let start=null;
+    for(let d=0;d<6&&!start;d++) for(let a=-d;a<=d&&!start;a++) for(let b=-d;b<=d&&!start;b++) if(ok(si+a,sj+b)) start=[si+a,sj+b];
+    if(!start||!ex){ check('8. 花序 '+(lv+1)+'F：出發點站得住、有「離開」',false,JSON.stringify([s0,ex&&ex.label])); continue; }
+    const seen=new Set([key(...start)]), q=[start]; while(q.length){ const [i,j]=q.pop(); for(const [a,b] of [[1,0],[-1,0],[0,1],[0,-1]]){ const k=key(i+a,j+b); if(!seen.has(k)&&ok(i+a,j+b)){ seen.add(k); q.push([i+a,j+b]); } } }
+    const pts=[...seen].map(k=>k.split(',').map(Number)).map(([i,j])=>[+(X0+i*STEP).toFixed(2),+(Z0+j*STEP).toFixed(2)]), bad=[];
+    for(const p of pts) for(const dt of [0.1,0.033]){ const r=E.simWalk(p[0],p[1],ex.x,ex.z,{lv0:lv,lv1:ex.lv|0,dt,speed:1.45}); const end=r&&r.x!=null?[r.x,r.z]:(r&&r.ok?[ex.x,ex.z]:null);
+      if(!end||Math.hypot(end[0]-ex.x,end[1]-ex.z)>(ex.radius||1)+1e-6){ bad.push([p[0],p[1],dt,end&&end.map(v=>+v.toFixed(2)),r&&r.reason]); break; } }
+    tot.push(pts.length);
+    check('8. 花序 '+(lv+1)+'F：站得到的 '+pts.length+' 個點（每 '+STEP+' m）都走得回「'+ex.label+'」的半徑裡（走路、30 fps 和 10 fps'+(lv?'；先下樓梯':'')+'）',pts.length>(lv?150:300)&&!bad.length,bad.length+' 個出不來：'+JSON.stringify(bad.slice(0,6))); } }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

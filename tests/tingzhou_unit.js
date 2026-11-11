@@ -126,9 +126,9 @@ check('10. 路邊的機車是一小群一小群停、有空位（使用者 11-10
 /* 14. 夜市的棚子不擋鏡頭、燈泡不是純白大球（NM-AWNING-CAM-1111，BB 11-11 01:50） */
 { let G={materials:[],nodes:[]}; try{ const d=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/tingzhou_stalls.glb')), jl=d.readUInt32LE(12); G=JSON.parse(d.slice(20,20+jl).toString('utf8')); }catch(e){}
   const mats=(G.materials||[]).map(m=>m.name), nd=(G.nodes||[]).map(n=>n.name), src=fs.readFileSync(path.join(ROOT,'src/tingzhou3d.js'),'utf8'), py=fs.readFileSync(path.join(ROOT,'tools/blender/env_second/nm_stalls.py'),'utf8');
-  let patched=0; const mt={name:'seethru_tzs_awning',userData:{}}, r1=TZ3.stallSeeThru({patchSeeThrough(){ patched++; }},mt), r2=TZ3.stallSeeThru({patchSeeThrough(){ patched++; }},mt), r3=TZ3.stallSeeThru({patchSeeThrough(){ patched++; }},{name:'tzs_vc',userData:{}});
-  check('14. 棚布、陽傘在另一個材質 seethru_tzs_awning（一個地球、雞蛋糕的攤子都有 _aw 網格）；遊戲把它標成 seeThrough（一次）、別的材質不標；汀州路、公館兩邊載入攤位時都呼叫',
-    mats.includes('seethru_tzs_awning')&&nd.includes('STALL_ball_open_aw')&&nd.includes('STALL_eggcake_open_aw')&&r1===true&&r2===false&&r3===false&&patched===1&&mt.userData.seeThrough===true&&(src.match(/S\.stallSeeThru\(E,m\.material\)/g)||[]).length===2,mats.join(' ')+' '+[r1,r2,r3,patched].join(','));
+  let patched=0; const mt={name:'seethru_tzs_awning',userData:{}}, r1=TZ3.stallSeeThru({patchSeeThrough(){ patched++; }},mt), r2=TZ3.stallSeeThru({patchSeeThrough(){ patched++; }},mt), r3=TZ3.stallSeeThru({patchSeeThrough(){ patched++; }},{name:'wz_wall_tile',userData:{}}), all3=['tzs_vc','tzs_atlas','tzs_glow'].map(n=>TZ3.stallSeeThru({patchSeeThrough(){}},{name:n,userData:{}}));
+  check('14. 棚布、陽傘在另一個材質 seethru_tzs_awning（一個地球、雞蛋糕的攤子都有 _aw 網格）；遊戲把它標成 seeThrough（一次）；攤位的車身和背板、招牌、燈三個材質也標（BB 03:15：招牌、背板擋住人）；街景的材質不標；汀州路、公館兩邊載入攤位時都呼叫',
+    mats.includes('seethru_tzs_awning')&&nd.includes('STALL_ball_open_aw')&&nd.includes('STALL_eggcake_open_aw')&&r1===true&&r2===false&&r3===false&&patched===1&&mt.userData.seeThrough===true&&all3.every(v=>v===true)&&(src.match(/S\.stallSeeThru\(E,m\.material\)/g)||[]).length===2,mats.join(' ')+' '+[r1,r2,r3,patched].join(','));
   const m=/tzGlowMat\.emissiveIntensity=([0-9.]+)\+([0-9.]+)\*k/.exec(src), top=m?(+m[1])+(+m[2]):99;
   check('14. 燈泡：夜裡自發光最高 ≤ 2（原本 3.0 是純白的球）、半徑縮小（nm_stalls.py 的 bulb）',top<=2&&/r = min\(r, 0\.05\) \* 0\.68/.test(py),'最高 '+top); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

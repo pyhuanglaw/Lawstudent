@@ -42,8 +42,10 @@ const TZ3=(function(){
   S.stallOpen=function(h,q,L){ const ST=(L||LAY()).stalls; if(!ST) return false; const K=(ST.kinds&&ST.kinds[q.kind||q])||ST, a=K.from!=null?K.from:ST.from, b=K.to!=null?K.to:ST.to; return (h>=a&&h<b)||(h+24>=a&&h+24<b); };
   S.stallsOpen=function(h,L){ const ST=(L||LAY()).stalls; return !!ST&&ST.list.some(q=>S.stallOpen(h,q,L)); };
   /* 攤子頭頂上的布（棚子、陽傘；模型材質 seethru_tzs_awning）：擋住人、或跟隨鏡頭鑽到棚子底下時網點透空（engine3d.js 的樹幹透視，只作用在標了 seeThrough 的材質）。
+     NM-STALL-SEETHRU-1111（BB 11-11 03:15：棚子透了以後，雞蛋糕的招牌橫在畫面中間擋住人、一個地球整面擋住人、手機殼攤從背面看背板把人整個擋住）：攤位的三個材質（tzs_vc 車身和背板、tzs_atlas 招牌、tzs_glow 燈）也都標——
+       只有擋在鏡頭和玩家中間的那一小塊（玩家周圍的橢圓）和貼著鏡頭 1.7 m 內的部分透空，其他照常。
      NM-AWNING-CAM-1111（BB 11-11 01:50：玩家走到「一個地球」「陳家古早味雞蛋糕」前面，鏡頭鑽到棚子底下，上半個畫面被棚布蓋住、看不到人）。燈泡的亮度同一則：0.5+2.5k → 0.4+1.4k（原本夜裡是純白的大球） */
-  S.stallSeeThru=function(E,mt){ if(!mt||!/^seethru_/.test(mt.name||'')||(mt.userData&&mt.userData.seeThrough)) return false; mt.userData.seeThrough=true; if(E&&E.patchSeeThrough) E.patchSeeThrough(mt); return true; };
+  S.stallSeeThru=function(E,mt){ if(!mt||!/^(seethru_|tzs_(vc|atlas|glow)$)/.test(mt.name||'')||(mt.userData&&mt.userData.seeThrough)) return false; mt.userData.seeThrough=true; if(E&&E.patchSeeThrough) E.patchSeeThrough(mt); return true; };
   S.stallBlock=function(q,L){ const ST=(L||LAY()).stalls, K=ST.kinds&&ST.kinds[q.kind]; return (K&&K.block)||ST.block; };
   S.build=function(E){ const L=LAY(); const g=new THREE.Group(); g.name='tingzhou_zone';
     const N=L.nav, nav=new E3.NavGrid(N.w,N.d,N.cell,N.x0,N.z0); nav.b.fill(1);

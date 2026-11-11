@@ -1,11 +1,11 @@
 {
  "objects": 64,
  "unique_meshes": 64,
- "tris": 46208,
- "tris_drawn": 46208,
+ "tris": 46458,
+ "tris_drawn": 46458,
  "materials": 4,
  "out": "assets/models/env/second_ai/tingzhou_stalls.glb",
- "bytes": 4326360,
+ "bytes": 4346764,
  "texres": 2048,
  "note": "NIGHT-MARKET-1110 夜市十攤＋背景三攤；LIMAO-SHOP-1110 禮貌生財的算命桌",
  "kinds": {
