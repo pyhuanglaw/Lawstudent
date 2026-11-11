@@ -1125,6 +1125,28 @@ async def part_entryclass(pg, cdp):
                 await L.tap(pg, cdp, '#interact')
                 await drive(pg, cdp, pick=lambda o: next((i for i, t in enumerate(o) if any(k in t for k in ('進去', '上課', '進教室', '聽'))), 0), max_s=150)
             await pg.wait_for_timeout(3000)
+            st_in = await pg.evaluate(CLSST, c['key'])
+            if not st_in['done'] and not st_in['seat'] and st_in['zone'] == (c['room'].get('zone') or 'wancai'):   # 進了教室還沒算上課：照玩家找最近的座位坐下
+                seats = await pg.evaluate(D.SEATS); me = await pg.evaluate(ME)
+                seats.sort(key=lambda q: math.hypot(q['x'] - me['x'], q['z'] - me['z']))
+                R.note('[ENTRYCLASS ①] 進了教室（%s），還沒算上課；座位 %d 張，最近的 %s' % (J(st_in), len(seats), J(seats[:1])))
+                occ = await pg.evaluate("(()=>(GAME.E.npcs||[]).filter(n=>n&&n.seat).map(n=>[n.seat.x,n.seat.z]))()")
+                seats = [q for q in seats if not any(math.hypot(q['sx'] - o[0], q['sz'] - o[1]) < 0.35 for o in occ)]
+                s = {'interact': ''}
+                for q in seats[:5]:   # 沒人坐的座位：走到 seatApproach，按鈕是「坐下」才按（旁邊有同學時按鈕可能是「和某某說話」，換下一張）
+                    tgt = q['ap'] or [q['x'], q['z']]
+                    await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.2, '[ENTRYCLASS ①] 走到座位 (%s,%s)' % (q['sx'], q['sz']), max_s=120, lv=q['slv']); s = await D.settle(pg)
+                    R.note('[ENTRYCLASS ①] 座位 (%s,%s) 旁按鈕「%s」' % (q['sx'], q['sz'], s['interact']))
+                    if s['interact'].startswith('坐下'): break
+                if seats:
+                    if s['interact'].startswith('坐下'):
+                        await L.tap(pg, cdp, '#interact')
+                        t1 = time.time()
+                        while time.time() - t1 < 240:   # 上課（點對話、選選項；坐下以後轉暗快轉到下課）
+                            await drive(pg, cdp, pick=lambda o: next((i for i, t in enumerate(o) if any(k in t for k in ('上課', '聽', '進去', '專心'))), 0), max_s=60)
+                            st_c = await pg.evaluate(CLSST, c['key'])
+                            if st_c['done'] or not st_c['seat']: break
+                            await pg.wait_for_timeout(2000)
             log = await pg.evaluate(LOGS, n0); st2 = await pg.evaluate(CLSST, c['key'])
             R.note('[ENTRYCLASS ①] 按下去以後說的話：%s；選單 %s' % (J([(e['shown'], (e['full'] or '')[:40]) for e in says(log)][:12]), J([e['opts'] for e in log if e['k'] == 'choose'])))
             R.note('[ENTRYCLASS ①] 那堂課最後（G.courses 的 done／late／abs）：%s' % J(st2))
