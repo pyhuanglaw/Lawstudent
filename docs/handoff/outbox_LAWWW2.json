@@ -8244,6 +8244,25 @@
    "noDirectIntegrate": false,
    "note": "3 個檔（mokuyobi3d.js 三塊導航阻擋＋z.cornerSlip；engine3d.js stepEntity cornerSlip 只開木曜日、只玩家；新 mokuyobi_plant_corner_1111_unit 七項）；基底 566ff8b5bf，在 d90c8a4fe6 上乾淨、和 stack4 一起也乾淨；全部 Node 1288：1287 過＋bookstore 老警告",
    "next": "LAWWW 整合；BB 跑木曜日 NOSIT／STAIR＋冒煙"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "未回",
+   "at": "2026-11-11T16:2x",
+   "task": "BAKE-PC-1102-S2：HIP 部分照使用者 11-03 決定（Blender 只用 CPU）不做；改成總圖 3F 的雲端 5.2.3 CPU 對 PC 5.2.3 CPU 對照（BK2，P3 選做）",
+   "files": [
+    "tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py",
+    "tools/blender/env_second/lightbake/pc_ref/library_3f_v2_bakein.glb（＋.json）",
+    "tools/blender/env_second/lightbake/pc_ref/compare_bakes.py（兩邊都沒有的那張不算不一致）",
+    "docs/art-rebuild/second_ai/wip/bake_pc/（README.md BK2 一節、cloud_ref_3f_s/、cloud_ref_3f_full/、bk1_result/bk2_cloud_repeat.json）"
+   ],
+   "state": "CHECKPOINT_SAVED（PC 還沒跑）",
+   "noDirectIntegrate": true,
+   "note": "不進遊戲（只是比對工具和參考圖）；雲端 512²/64 24 秒、重跑逐像素相同；1024²/512 21 分",
+   "next": "LAWWW／BB 把 README BK2 一節的兩行佇列（BK2_cpu_s、BK2_cpu_full）排給 CC；結果回來 LAWWW2 跑 compare_bakes.py"
   }
  ]
 }

@@ -1,0 +1,46 @@
+{
+ "ref": "cloud_ref_3f_s（第一次）",
+ "cmp": "cloud_s2（同一組參數重跑）",
+ "ref_meta": {
+  "device": "CPU",
+  "blender": "5.2.3 LTS",
+  "bake_seconds": 24.4,
+  "total_seconds": 27.9,
+  "res": 512,
+  "samples": 64
+ },
+ "cmp_meta": {
+  "device": "CPU",
+  "blender": "5.2.3 LTS",
+  "bake_seconds": 22.9,
+  "total_seconds": 26.0,
+  "res": 512,
+  "samples": 64
+ },
+ "images": {
+  "day": {
+   "mean_ref": 0.24855,
+   "mean_cmp": 0.24855,
+   "ratio": 1.0,
+   "mad_255": 0.0,
+   "p95_255": 0.0,
+   "p99_255": 0.0,
+   "alpha_same": true,
+   "ok": true
+  },
+  "night": {
+   "mean_ref": 0.24109,
+   "mean_cmp": 0.24109,
+   "ratio": 1.0,
+   "mad_255": 0.0,
+   "p95_255": 0.0,
+   "p99_255": 0.0,
+   "alpha_same": true,
+   "ok": true
+  },
+  "dark": "兩邊都沒有（這個場景不烘）"
+ },
+ "pass": true,
+ "why": [],
+ "speedup": 1.07
+}

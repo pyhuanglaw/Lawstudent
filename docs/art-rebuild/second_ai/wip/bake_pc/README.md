@@ -68,3 +68,61 @@ PC（RX 6600M，Blender 5.2.3）：`BK1_cpu` 51 秒、`BK1_hip` 196 秒（`DEVIC
   2. 踢腳板的毛病**雲端版也有**（光照貼圖只有一個點），下次改宿舍房間時順手修：把踢腳板往房間裡推 1～2 mm，或從光照貼圖排除，改用頂點色。
   3. 速度：HIP 這次比 CPU 慢將近 4 倍（第一次要編譯 kernel，加上場景太小）。下一張工作單換大場景（3F 或展演廳），HIP 連跑兩次、只算第二次的時間；如果還是比較慢，就用 PC 的 CPU（PC 的 CPU 本來就比雲端快 4 倍：51 秒對雲端 213 秒）。
 - 比對 json：`bk1_result/`。
+
+## BK2：大場景（總圖 3F）——BAKE-PC-1102-S2（LAWWW2 帳號 A，2026-11-11 16:2x UTC）
+
+狀態：`CHECKPOINT_SAVED`（driver、輸入、雲端參考都 commit 了；**PC 還沒跑**，要經 LAWWW／BB 排進 CC 的佇列）。**選做（P3）**，排在發布前測試和其他正式工作後面。
+
+### 為什麼和原本的工作單不一樣
+
+- 原本的 S2 是「HIP 連跑兩次、只算第二次的時間；GPU 還是比較慢就改 PC 的 CPU 烘」。**這一半已經由使用者決定了**：11-03 13:3x 選「改成只用 CPU（建議）」，CC 的 runner 把 blender 項目的 `CC_BLENDER_DEVICE` 一律強制成 CPU（`tools/cc_local/README.md`「SOLO=1、blender 等待…」一節，cc-testing 分支）。HIP 不排、不比。
+- **新的情況**：雲端的 Blender 已經升到 **5.2.3 LTS**，和 PC 同版（BK1 時雲端是 5.2.2）。BK1 雲端和 PC 不能逐像素比，原因就是版本不同、自動 UV 排法不同。現在同版，值得再比一次：**如果一樣，雲端和 PC 烘出來的就可以混著用**（例如這間在雲端烘、那間在 PC 烘），BK1 建議第 1 點（固定一台機器）可以放寬。
+
+### 檔案
+
+| 檔案 | 內容 |
+|---|---|
+| `tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py` | 3F 第二版的 driver：和正式烘焙（`bake_library_3f_v2.sh`）同一組燈、太陽、天空、外殼、`--nolm`、`--keep-instances`；燈寫死、93 顆點光源讀 `library_3f_v2_lm.json`（上一次正式烘焙實際用的那一組；數量不對會停）。只收 `--out`、`--res`（預設 1024）、`--samples`（預設 512）。3F 沒有熄燈那張。 |
+| `tools/blender/env_second/lightbake/pc_ref/library_3f_v2_bakein.glb` | 輸入（`library_3f_v2.py --layout src/data/library_3f_layout.js` 匯出，配置用開發分支 0bdb8fb79f 那一份；5.4 MB、94 個物件、7.4 萬個三角形）。 |
+| `compare_bakes.py`（改一行） | 兩邊都沒有的那一張（3F 沒有 `d_dark.png`）記「兩邊都沒有（這個場景不烘）」，不算不一致。兩邊都有、或只有一邊有，照舊。宿舍那一組（三張都有）結果不變。 |
+| `cloud_ref_3f_s/` | 雲端參考：512²、64 取樣（day、night PNG、`d.json`、`stats.json`）。 |
+| `cloud_ref_3f_full/` | 雲端參考：1024²、512 取樣（正式烘焙的大小）。 |
+| `bk1_result/bk2_cloud_repeat.json` | 雲端同一組參數（512²、64）跑兩次：**逐像素完全相同**（平均差 0、95% 0）。雲端 5.2.3 是穩定的。 |
+
+`d.glb`（5.5 MB）沒有 commit：雲端重跑結果逐像素一樣，要用 `compare_bakes_uv.py` 時重跑（小的 26 秒、大的 21 分）就有。
+
+### 雲端時間（CPU，Intel Xeon 2.1 GHz；同時沒有別的重工作）
+
+| 參數 | 烘焙秒數 | 全部秒數 | day 平均 | night 平均 |
+|---|---|---|---|---|
+| 512²、64 取樣 | 24.4 | 27.9 | 0.11718 | 0.11234 |
+| 1024²、512 取樣 | 1259.5 | 1265.0（約 21 分） | 0.19676 | 0.1931 |
+
+（512² 那張平均比較低，是因為貼圖空白的地方多：同樣的面積攤在比較少的像素上，空白比例不同；比對只算有分到光照的像素。）
+
+### 給 CC 的佇列（照 cc_local/queue.txt 的格式；runner 會強制 CPU，ENV 照寫 CPU 比較清楚）
+
+```
+BK2_cpu_s    | lawww2 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 30 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 64
+BK2_cpu_full | lawww2 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 1024 --samples 512
+```
+
+- `BK2_cpu_s` 幾分鐘：先看這個就知道能不能混用。`BK2_cpu_full` 是正式大小，只是要 PC 的時間（雲端 21 分；BK1 時 PC 的 CPU 比雲端快約 4 倍，估 5～8 分）。只排得下一個就排 `BK2_cpu_s`。
+- SHA 寫 `lawww2`（second-ai-env-art 最新），或指定這一包的 commit。
+- 請回傳 `{out}` 裡的 `stats.json`、`d.json`、`d_day.png`、`d_night.png`，和 runner 的 log（看 `DEVICE CPU`、`blender 5.2.3`）。`d.glb` 小於 50 MB 會推，留著：萬一 UV 不一樣，要用 `compare_bakes_uv.py`。
+
+### 怎麼判斷（看結果以前先定好，和 BK1 同一套標準）
+
+```
+python3 tools/blender/env_second/lightbake/pc_ref/compare_bakes.py docs/art-rebuild/second_ai/wip/bake_pc/cloud_ref_3f_s <PC 的 BK2_cpu_s/out>
+python3 tools/blender/env_second/lightbake/pc_ref/compare_bakes.py docs/art-rebuild/second_ai/wip/bake_pc/cloud_ref_3f_full <PC 的 BK2_cpu_full/out>
+```
+1. day／night 平均亮度比 0.97～1.03；
+2. 同一個 UV 像素：平均差 ≤ 3/255、95 百分位 ≤ 12/255；
+3. 圖一樣大、alpha 一樣。
+
+- **PASS**：同版 Blender 的雲端和 PC 一樣，可以混著烘（BK1 建議第 1 點放寬成「同一個 Blender 版本就好」；同一個房間的白天、晚上照舊要同一次烘）。
+- **FAIL、平均差很大但亮度比在範圍內**：多半是 UV 排法還是不一樣（CPU 不同、浮點數）→ 用 `compare_bakes_uv.py`（要兩邊的 `d.glb`）再比；如果還是不一樣，維持 BK1 建議第 1 點（固定一台機器）。
+- **亮度比不在範圍內**：真的不一樣，先查原因，不混用。
+
+時間只報告（雲端 21 分對 PC 幾分）：正式烘焙放哪裡，由 LAWWW／BB 依排程決定，這張單不決定。

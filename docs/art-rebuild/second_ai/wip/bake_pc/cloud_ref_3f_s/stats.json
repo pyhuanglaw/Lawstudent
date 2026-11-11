@@ -1,0 +1,23 @@
+{
+ "scene": "library_3f_v2",
+ "res": 512,
+ "samples": 64,
+ "total_seconds": 27.9,
+ "images": {
+  "day": {
+   "mean": 0.11718,
+   "p50": 0.0,
+   "p95": 0.45208,
+   "pixels": 262144
+  },
+  "night": {
+   "mean": 0.11234,
+   "p50": 0.0,
+   "p95": 0.45658,
+   "pixels": 262144
+  }
+ },
+ "device": "CPU",
+ "blender": "5.2.3 LTS",
+ "bake_seconds": 24.4
+}
