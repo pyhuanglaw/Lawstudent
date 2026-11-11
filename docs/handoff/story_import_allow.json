@@ -4906,9 +4906,9 @@
   },
   {
    "path": "docs/story_planning/syllabus/Y1S1.json",
-   "sha": "d3a22505b",
+   "sha": "d501078a3",
    "status": "approved",
-   "approvedBy": "AA 2026-11-11 定稿 d3a22505b（D109）；BB 法律審 BB_332（憲法上）、BB_333（刑總一）、BB_334（民總）通過，適用 d3a22505b（BB 11-11 03:58 UTC 訊息：16 處拆句逐行對過，法律意思沒變）",
+   "approvedBy": "AA 2026-11-11 定稿 d501078a3（D109；d3a22505b 之後只搬刑總（一）第 13 週 more 兩句到第 7 週）；BB 法律審 BB_332（憲法上）、BB_333（刑總一，含 11-11 追加段＝適用 d501078a3，企劃線 fea8c4008）、BB_334（民總）通過",
    "task": "STUDY-EXAM-STORY-1102",
    "kind": "data",
    "note": "課堂內容補寫大一上三科（const_1、crim_gen1、civ_general；X337「上課至少也要播完」的內容面）：more（教授接著講的句子）、react、tpl B／C、ask（crim_gen1 第 13 週 CRIM45_33）。tools/syllabus/import_syllabus.py claude/story-planning@d3a22505b 重匯。LAWWW 2026-11-11 登記",
@@ -4921,6 +4921,10 @@
     {
      "sha": "57b2a7b39",
      "approvedBy": "之前的匯入基準：tools/syllabus/import_syllabus.py claude/magical-albattani-bk7b4n@57b2a7b39（學期檔還沒進白名單的時期；src/data/syllabus.js 的 source）"
+    },
+    {
+     "sha": "d3a22505b",
+     "note": "被 d501078a3 取代（AA 11-11：刑總（一）因果歷程兩句從第 13 週 more 搬到第 7 週；只動 crim_gen1 第 7、13 週的 more 和 ref；BB_333 追加段法律審 PASS，企劃線 fea8c4008）"
     }
    ]
   },
