@@ -459,6 +459,12 @@ RECJS = "(()=>{ const G=GAME.G, R=CLS.rec(G); const st=typeof STUDY!=='undefined
 def area(r): return (r[2] * r[3]) if r else 0
 
 
+WAITMENU = r"""(()=>new Promise(res=>{ const vis=()=>{ const ch=document.getElementById('choices'); return !!(ch&&!ch.classList.contains('hide')&&ch.querySelector('button')); };
+  if(vis()) return res((window.__GC&&window.__GC.lastChooseT)||performance.now());
+  const ob=new MutationObserver(()=>{ if(vis()){ ob.disconnect(); res(performance.now()); } }); ob.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
+  setTimeout(()=>{ ob.disconnect(); res(null); },45000); }))()"""
+
+
 def inter(a, b):
     if not a or not b: return None
     x0, y0 = max(a[0], b[0]), max(a[1], b[1]); x1, y1 = min(a[0] + a[2], b[0] + b[2]), min(a[1] + a[3], b[1] + b[3])
@@ -483,6 +489,21 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
     n1 = await GC.logn(pg); t0 = time.time(); free = None; info = {'before': [], 'after': [], 'menus': [], 'burst': None, 'presses': 0, 'stopAt': [], 'resume': []}
     key = L_['item']; bank = await pg.evaluate(BANKQ, sy['ask']['qid']) if sy and sy.get('ask') else None
     callopts = [norm(o) for o in ((sy or {}).get('call') or {}).get('options', [])]
+    async def np_do(k, hs, t_menu):   # BB 06:08 第 2 點：選單出現後停 NORMALPICK ms 照字點；記每一下距選單幾 ms、第幾下成立
+        nlg = await GC.logn(pg); now0 = await pg.evaluate("performance.now()")
+        if t_menu is not None and now0 - t_menu < NORMALPICK: await pg.wait_for_timeout(int(NORMALPICK - (now0 - t_menu)))
+        tries = []; ok_at = None
+        for kk in range(6):
+            tt = await pg.evaluate("performance.now()"); await tap_head(pg, cdp, k); await pg.wait_for_timeout(350)
+            pk = [e for e in await GC.logs(pg, nlg) if e['k'] == 'pick']; tries.append(round(tt - t_menu) if t_menu is not None else None)
+            if pk: ok_at = kk + 1; break
+            if not (await GC.ms(pg)).get('ch'): break
+            await pg.wait_for_timeout(300)
+        R.note('%s：正常路徑（選單出現後停 %d ms 照字點「%s」）：每一下距選單出現 %s ms；第 %s 下成立' % (tag, NORMALPICK, hs[k], J(tries), ok_at))
+        if NORMALPICK >= 1000: R.check('%s：選單出現 %d ms 後照字點，第 1 下就選得到' % (tag, NORMALPICK), ok_at == 1, J({'tries': tries, 'ok_at': ok_at}))
+        else: R.note('%s：只記（%d ms＜900 ms）：第 %s 下才成立——玩家「按了沒反應」%s 次' % (tag, NORMALPICK, ok_at, (ok_at - 1) if ok_at else '（一直沒成立）'))
+        if tries and tries[0] is not None and abs(tries[0] - NORMALPICK) > 250: R.note('%s：⚠第 1 下實際在選單出現後 %d ms（目標 %d ms），這一筆的時間不準' % (tag, tries[0], NORMALPICK))
+        if not ok_at and (await GC.ms(pg)).get('ch'): await tap_head(pg, cdp, k)
     started = False; burst_done = (not use_skip) or OUTBURST or bool(NORMALPICK); last_menu_t = None; tsit = None; tend = None; out_done = not OUTBURST
     while time.time() - t0 < max_s:
         s = await GC.ms(pg); lg = await GC.logs(pg, n1)
@@ -565,21 +586,8 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
                 info['stopAt'].append({'why': why, 'opts': hs})
                 if not (NORMALPICK and not info.get('np')): await shot(pg, '%s_skip_stop%d' % (tag, len(info['stopAt'])))
             info['menus'].append([why, hs[k]]); R.note('%s：停在選單［%s］%s → %s' % (tag, why, J(hs), hs[k]))
-            if NORMALPICK and inmenu and not info.get('np'):   # BB 06:08 第 2 點：按略過 → 選單出現 → 停 NORMALPICK ms → 照字點；記選不選得到、第幾下成立
-                info['np'] = True; nlg = await GC.logn(pg)
-                t_menu = await pg.evaluate("(window.__GC&&window.__GC.lastChooseT)||null"); now0 = await pg.evaluate("performance.now()")
-                if t_menu is not None and now0 - t_menu < NORMALPICK: await pg.wait_for_timeout(int(NORMALPICK - (now0 - t_menu)))
-                tries = []; ok_at = None
-                for kk in range(6):
-                    tt = await pg.evaluate("performance.now()"); await tap_head(pg, cdp, k); await pg.wait_for_timeout(350)
-                    pk = [e for e in await GC.logs(pg, nlg) if e['k'] == 'pick']; tries.append(round(tt - t_menu) if t_menu is not None else None)
-                    if pk: ok_at = kk + 1; break
-                    if not (await GC.ms(pg)).get('ch'): break
-                    await pg.wait_for_timeout(300)
-                R.note('%s：正常路徑（選單出現後停 %d ms 照字點「%s」）：每一下距選單出現 %s ms；第 %s 下成立' % (tag, NORMALPICK, hs[k], J(tries), ok_at))
-                if NORMALPICK >= 1000: R.check('%s：選單出現 %d ms 後照字點，第 1 下就選得到' % (tag, NORMALPICK), ok_at == 1, J({'tries': tries, 'ok_at': ok_at}))
-                else: R.note('%s：只記（%d ms＜900 ms）：第 %s 下才成立——玩家「按了沒反應」%s 次' % (tag, NORMALPICK, ok_at, (ok_at - 1) if ok_at else '（一直沒成立）'))
-                if not ok_at and (await GC.ms(pg)).get('ch'): await tap_head(pg, cdp, k)
+            if NORMALPICK and inmenu and not info.get('np'):   # 保險：WAITMENU 沒接到時（選單在按略過以前就出來了）照舊在這裡做
+                info['np'] = True; await np_do(k, hs, await pg.evaluate("(window.__GC&&window.__GC.lastChooseT)||null"))
             else: await tap_head(pg, cdp, k)
             last_menu_t = time.time(); await pg.wait_for_timeout(300)
             if use_skip and att and not done:
@@ -617,7 +625,17 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
         if s['dlg']:
             free = None
             if use_skip and att and not done and sb.get('vis') and burst_done:
-                await L.touch_tap(cdp, sb['c'][0], sb['c'][1]); info['presses'] += 1; await pg.wait_for_timeout(300); continue
+                await L.touch_tap(cdp, sb['c'][0], sb['c'][1]); info['presses'] += 1
+                if NORMALPICK and not info.get('np'):   # r3（CC 06:4x）：按略過以後在頁面裡等選單出現（MutationObserver），一出來就照時間點——不經過主迴圈（主迴圈一圈要 2 秒，np400 r2 實際都在 2 秒後才點）
+                    tm = await pg.evaluate(WAITMENU)
+                    if tm is not None:
+                        hs = await heads(pg)
+                        if hs:
+                            k = 0
+                            if bank and (hs[0].startswith('（') or hs == ['對', '錯']): ans = str(bank['answer']); k = next((i for i, h in enumerate(hs) if h.startswith('（' + ans + '）') or h == ans), 0)
+                            info['np'] = True; info['stopAt'].append({'why': 'np', 'opts': hs}); info['menus'].append(['np', hs[k]]); await np_do(k, hs, tm)
+                            last_menu_t = time.time()
+                await pg.wait_for_timeout(300); continue
             await pg.wait_for_timeout(500); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250); continue
         if s['phone']: await L.phone_away(pg, cdp, tries=1); continue
         if s['busy'] or s['fade'] or s['paused']: free = None; await pg.wait_for_timeout(200); continue
