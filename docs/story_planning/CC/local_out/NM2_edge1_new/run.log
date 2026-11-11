@@ -1,0 +1,193 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm2_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM2_edge1_new\out
+CC NM2 夜市能看能買：PARTS EDGE；STALLS st_milk,st_wheelcake,st_eggcake,st_scallion,st_ball；SHA e8918a013；稿 fixtures\nm2；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.8s] 記錄層：ok（包 GAME.say／choose／toast 只記錄，照原樣呼叫）
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-12 20:00 錢 3000 元 （讀配置、時間表）
+PASS [EDGE 時間表] st_milk 沈三盃黑糖鮮奶：配置（模型開收用的）＝稿 17:00～00:00（隔天）  {"from": 17, "to": 24}
+PASS [EDGE 時間表] st_pepper 皇家高端胡椒餅：配置（模型開收用的）＝稿 17:00～23:00  {"from": 17, "to": 23}
+PASS [EDGE 時間表] st_wheelcake 二十元紅豆餅：配置（模型開收用的）＝稿 15:00～22:00  {"from": 15, "to": 22}
+PASS [EDGE 時間表] st_ball 一個地球：配置（模型開收用的）＝稿 17:00～00:00（隔天）  {"from": 17, "to": 24}
+PASS [EDGE 時間表] st_scallion 當蔥蔥油餅：配置（模型開收用的）＝稿 16:00～23:00  {"from": 16, "to": 23}
+PASS [EDGE 時間表] st_stinky 紹興炸豆腐：配置（模型開收用的）＝稿 17:30～00:00（隔天）  {"from": 17.5, "to": 24}
+PASS [EDGE 時間表] st_corn 玉皇大帝：配置（模型開收用的）＝稿 18:00～00:00（隔天）  {"from": 18, "to": 24}
+PASS [EDGE 時間表] st_eggcake 陳家古早味雞蛋糕：配置（模型開收用的）＝稿 15:00～21:30  {"from": 15, "to": 21.5}
+PASS [EDGE 時間表] st_cane 節節高甘蔗汁：配置（模型開收用的）＝稿 16:00～23:00  {"from": 16, "to": 23}
+PASS [EDGE 時間表] st_jelly 公館阿婆甜湯：配置（模型開收用的）＝稿 17:00～23:00  {"from": 17, "to": 23}
+  [  47.1s] [EDGE] 十攤開收時間（nm2_hours_table.md）：
+| 攤 | 店名 | 稿 hours | 稿解析（11 月） | 遊戲 NIGHT_MARKET open | 配置 kinds（同步後） | 一樣？ |
+|---|---|---|---|---|---|---|
+| st_milk | 沈三盃黑糖鮮奶 | 17:00～24:00 | 17:00～00:00（隔天） | {"from": 17, "to": 24} | 17～24 | 是 |
+| st_pepper | 皇家高端胡椒餅 | 17:00～23:00（賣完提早收） | 17:00～23:00 | {"from": 17, "to": 23} | 17～23 | 是 |
+| st_wheelcake | 二十元紅豆餅 | 15:00～22:00 | 15:00～22:00 | {"from": 15, "to": 22} | 15～22 | 是 |
+| st_ball | 一個地球 | 17:00～24:00 | 17:00～00:00（隔天） | {"from": 17, "to": 24} | 17～24 | 是 |
+| st_scallion | 當蔥蔥油餅 | 16:00～23:00 | 16:00～23:00 | {"from": 16, "to": 23} | 16～23 | 是 |
+| st_stinky | 紹興炸豆腐 | 17:30～24:00 | 17:30～00:00（隔天） | {"from": 17.5, "to": 24} | 17.5～24 | 是 |
+| st_corn | 玉皇大帝 | 18:00～24:00 | 18:00～00:00（隔天） | {"from": 18, "to": 24} | 18～24 | 是 |
+| st_eggcake | 陳家古早味雞蛋糕 | 15:00～21:30 | 15:00～21:30 | {"from": 15, "to": 21.5} | 15～21.5 | 是 |
+| st_cane | 節節高甘蔗汁 | 16:00～23:00 | 16:00～23:00 | {"from": 16, "to": 23} | 16～23 | 是 |
+| st_jelly | 公館阿婆甜湯 | 夏天 14:00～23:00；其他月份 17:00～23:00 | 17:00～23:00 | {"from": 17, "to": 23} | 17～23 | 是 |
+  [  47.1s] [EDGE] 胡椒餅「17:00～23:00（賣完提早收）」：NM3 有沒有賣完的狀態 → 沒有（NM3 沒有 sold／stock 之類的欄位；收攤照 23:00）；稿 s02 的欄位 ["name", "look", "closed", "greet", "items", "hours", "open"]（只記，BB 判）
+  [前置／捷徑] 讀檔到 gongguan 2025-11-12 16:57 (29.00,13.10) 錢 3000 元 （st_milk 沈三盃黑糖鮮奶 客人那一面 1.9 m）（開 邊界前 2.5 分鐘，之後讓時間自己走）
+  [  60.9s] [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 翻轉前 按之前 16:59 模型 open visible False；按的那一刻 G.hour 16.985（16:59）isOpen False → 出來的是 closed
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 翻轉前 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 翻轉前 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 翻轉前 按的那一刻 16:59 照稿 17:00～00:00（隔天） 應該收
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 翻轉前那一次真的在邊界前（按的那一刻 16:59）  {"hp": 16.98499800000005, "before": {"gh": 16.980554000000037, "lh": 18.6616, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": true, "off": false}}
+  [  65.7s] [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 紀錄（G.hour, 光線用的時刻 E.lightH, isOpen, open visible, TZ3.stallOpen(G.hour)）15 筆：[[16.9947, 18.6879, false, false, false], [16.9968, 18.6924, false, false, false], [16.9991, 18.6961, false, false, false], [17.0012, 18.6994, true, true, true], "…", [17.0153, 18.7267, true, true, true], [17.0176, 18.7308, true, true, true], [17.0198, 18.7347, true, true, true], [17.0219, 18.7374, true, true, true], [17.024, 18.7417, true, true, true], [17.0263, 18.7468, true, true, true]]
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 每一筆 open 模型 visible＝isOpen  []
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 每一筆模型（isOpen）＝照那一刻 G.hour 算的 TZ3.stallOpen（邊界後 0.5 分鐘內的刷新延遲不算）  []
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 時間走過邊界時翻轉（開）  [[17.0219, 18.7374, true, true, true], [17.024, 18.7417, true, true, true], [17.0263, 18.7468, true, true, true]]
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 翻轉在邊界 ±1 分鐘內（翻轉前 17:00、翻轉後 17:00；邊界 17:00）  [{"gh": 16.999108666666736, "lh": 18.6961, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": true, "off": false}, {"gh": 17.001220666666736, "lh": 18.6994, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}]
+  [  70.7s] [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 翻轉後（邊界後） 按之前 17:02 模型 open visible True；按的那一刻 G.hour 17.0282（17:02）isOpen True → 出來的是 open
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 翻轉後（邊界後） 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 翻轉後（邊界後） 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 開 17:00] 翻轉後（邊界後） 按的那一刻 17:02 照稿 17:00～00:00（隔天） 應該開
+  [前置／捷徑] 讀檔到 gongguan 2025-11-12 23:58 (29.00,13.10) 錢 3000 元 （st_milk 沈三盃黑糖鮮奶 客人那一面 1.9 m）（收 邊界前 2.5 分鐘，之後讓時間自己走）
+  [  79.3s] [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 翻轉前 按之前 23:59 模型 open visible True；按的那一刻 G.hour 23.9792（23:59）isOpen True → 出來的是 open
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 翻轉前 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 翻轉前 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 翻轉前 按的那一刻 23:59 照稿 17:00～00:00（隔天） 應該開
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 翻轉前那一次真的在邊界前（按的那一刻 23:59）  {"hp": 23.97922066666671, "before": {"gh": 23.97677600000004, "lh": 23.9763, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}}
+  [  84.6s] [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 紀錄（G.hour, 光線用的時刻 E.lightH, isOpen, open visible, TZ3.stallOpen(G.hour)）17 筆：[[23.9906, 23.99, true, true, true], [23.9928, 23.9922, true, true, true], [23.9949, 23.9944, true, true, true], [23.997, 23.9967, true, true, true], "…", [24.0149, 0.0146, false, false, false], [24.0169, 0.0168, false, false, false], [24.0191, 0.019, false, false, false], [24.0212, 0.0207, false, false, false], [24.0233, 0.0229, false, false, false], [24.0254, 0.0251, false, false, false]]
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 每一筆 open 模型 visible＝isOpen  []
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 每一筆模型（isOpen）＝照那一刻 G.hour 算的 TZ3.stallOpen（邊界後 0.5 分鐘內的刷新延遲不算）  []
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 時間走過邊界時翻轉（收）  [[24.0212, 0.0207, false, false, false], [24.0233, 0.0229, false, false, false], [24.0254, 0.0251, false, false, false]]
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 翻轉在邊界 ±1 分鐘內（翻轉前 00:00（隔天）、翻轉後 00:00（隔天）；邊界 00:00（隔天））  [{"gh": 23.999109333333443, "lh": 23.9989, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}, {"gh": 24.001220000000117, "lh": 0.0011, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": false, "off": false}]
+  [  86.7s] [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 翻轉後（邊界後） 按之前 00:02（隔天） 模型 open visible False；按的那一刻 G.hour 24.0263（00:02（隔天））isOpen False → 出來的是 closed
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 翻轉後（邊界後） 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 翻轉後（邊界後） 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [EDGE st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）] 翻轉後（邊界後） 按的那一刻 00:02（隔天） 照稿 17:00～00:00（隔天） 應該收
+  [前置／捷徑] 讀檔到 gongguan 2025-11-12 14:58 (53.60,13.10) 錢 3000 元 （st_wheelcake 二十元紅豆餅 客人那一面 1.9 m）（開 邊界前 2.5 分鐘，之後讓時間自己走）
+  [  95.0s] [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 翻轉前 按之前 14:59 模型 open visible False；按的那一刻 G.hour 14.9792（14:59）isOpen False → 出來的是 closed
+PASS [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 翻轉前 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 翻轉前 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 翻轉前 按的那一刻 14:59 照稿 15:00～22:00 應該收
+PASS [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 翻轉前那一次真的在邊界前（按的那一刻 14:59）  {"hp": 14.979221999999934, "before": {"gh": 14.97633266666661, "lh": 14.9762, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": false, "off": false}}
+  [ 100.6s] [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 紀錄（G.hour, 光線用的時刻 E.lightH, isOpen, open visible, TZ3.stallOpen(G.hour)）18 筆：[[14.9887, 14.9884, false, false, false], [14.9908, 14.9907, false, false, false], [14.993, 14.9929, false, false, false], [14.9951, 14.9946, false, false, false], "…", [15.0152, 15.0279, true, true, true], [15.0174, 15.0321, true, true, true], [15.0196, 15.0351, true, true, true], [15.0217, 15.0392, true, true, true], [15.0238, 15.0434, true, true, true], [15.0259, 15.0475, true, true, true]]
+PASS [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 每一筆 open 模型 visible＝isOpen  []
+PASS [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 每一筆模型（isOpen）＝照那一刻 G.hour 算的 TZ3.stallOpen（邊界後 0.5 分鐘內的刷新延遲不算）  []
+PASS [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 時間走過邊界時翻轉（開）  [[15.0217, 15.0392, true, true, true], [15.0238, 15.0434, true, true, true], [15.0259, 15.0475, true, true, true]]
+PASS [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 翻轉在邊界 ±1 分鐘內（翻轉前 15:00、翻轉後 15:00；邊界 15:00）  [{"gh": 14.999443333333184, "lh": 14.999, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": false, "off": false}, {"gh": 15.001443333333176, "lh": 15.0023, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}]
+  [ 105.3s] [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 翻轉後（邊界後） 按之前 15:02 模型 open visible True；按的那一刻 G.hour 15.0272（15:02）isOpen True → 出來的是 open
+PASS [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 翻轉後（邊界後） 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 翻轉後（邊界後） 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [EDGE st_wheelcake 二十元紅豆餅 開 15:00] 翻轉後（邊界後） 按的那一刻 15:02 照稿 15:00～22:00 應該開
+  [前置／捷徑] 讀檔到 gongguan 2025-11-12 21:58 (53.60,13.10) 錢 3000 元 （st_wheelcake 二十元紅豆餅 客人那一面 1.9 m）（收 邊界前 2.5 分鐘，之後讓時間自己走）
+  [ 113.9s] [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 翻轉前 按之前 21:59 模型 open visible True；按的那一刻 G.hour 21.9803（21:59）isOpen True → 出來的是 open
+PASS [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 翻轉前 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 翻轉前 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 翻轉前 按的那一刻 21:59 照稿 15:00～22:00 應該開
+PASS [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 翻轉前那一次真的在邊界前（按的那一刻 21:59）  {"hp": 21.98033200000004, "before": {"gh": 21.977220666666703, "lh": 21.977, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}}
+  [ 119.0s] [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 紀錄（G.hour, 光線用的時刻 E.lightH, isOpen, open visible, TZ3.stallOpen(G.hour)）16 筆：[[21.992, 21.9919, true, true, true], [21.9943, 21.9939, true, true, true], [21.9964, 21.9958, true, true, true], [21.9987, 21.9981, true, true, true], "…", [22.015, 22.0144, false, false, false], [22.0171, 22.0167, false, false, false], [22.0193, 22.0189, false, false, false], [22.0214, 22.0212, false, false, false], [22.0237, 22.0236, false, false, false], [22.0259, 22.0258, false, false, false]]
+PASS [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 每一筆 open 模型 visible＝isOpen  []
+PASS [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 每一筆模型（isOpen）＝照那一刻 G.hour 算的 TZ3.stallOpen（邊界後 0.5 分鐘內的刷新延遲不算）  []
+PASS [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 時間走過邊界時翻轉（收）  [[22.0214, 22.0212, false, false, false], [22.0237, 22.0236, false, false, false], [22.0259, 22.0258, false, false, false]]
+PASS [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 翻轉在邊界 ±1 分鐘內（翻轉前 22:00、翻轉後 22:00；邊界 22:00）  [{"gh": 21.998664666666752, "lh": 21.9981, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}, {"gh": 22.000776000000094, "lh": 22.0004, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": false, "off": false}]
+  [ 121.4s] [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 翻轉後（邊界後） 按之前 22:02 模型 open visible False；按的那一刻 G.hour 22.0276（22:02）isOpen False → 出來的是 closed
+PASS [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 翻轉後（邊界後） 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 翻轉後（邊界後） 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [EDGE st_wheelcake 二十元紅豆餅 收 22:00] 翻轉後（邊界後） 按的那一刻 22:02 照稿 15:00～22:00 應該收
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-12 16:57 (18.50,0.25) 錢 3000 元 （st_ball 一個地球 客人那一面 1.9 m）（開 邊界前 2.5 分鐘，之後讓時間自己走）
+  [ 128.2s] [EDGE st_ball 一個地球 開 17:00] 翻轉前 按之前 16:59 模型 open visible False；按的那一刻 G.hour 16.979（16:59）isOpen False → 出來的是 closed
+PASS [EDGE st_ball 一個地球 開 17:00] 翻轉前 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [EDGE st_ball 一個地球 開 17:00] 翻轉前 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [EDGE st_ball 一個地球 開 17:00] 翻轉前 按的那一刻 16:59 照稿 17:00～00:00（隔天） 應該收
+PASS [EDGE st_ball 一個地球 開 17:00] 翻轉前那一次真的在邊界前（按的那一刻 16:59）  {"hp": 16.978999333333398, "before": {"gh": 16.976666666666723, "lh": 18.6548, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": true, "off": false}}
+  [ 133.8s] [EDGE st_ball 一個地球 開 17:00] 紀錄（G.hour, 光線用的時刻 E.lightH, isOpen, open visible, TZ3.stallOpen(G.hour)）18 筆：[[16.9883, 18.676, false, false, false], [16.9904, 18.6801, false, false, false], [16.9926, 18.6842, false, false, false], [16.9947, 18.6883, false, false, false], "…", [17.0147, 18.7255, true, true, true], [17.0168, 18.7286, true, true, true], [17.0189, 18.7327, true, true, true], [17.021, 18.7368, true, true, true], [17.0232, 18.7409, true, true, true], [17.0253, 18.745, true, true, true]]
+PASS [EDGE st_ball 一個地球 開 17:00] 每一筆 open 模型 visible＝isOpen  []
+PASS [EDGE st_ball 一個地球 開 17:00] 每一筆模型（isOpen）＝照那一刻 G.hour 算的 TZ3.stallOpen（邊界後 0.5 分鐘內的刷新延遲不算）  []
+PASS [EDGE st_ball 一個地球 開 17:00] 時間走過邊界時翻轉（開）  [[17.021, 18.7368, true, true, true], [17.0232, 18.7409, true, true, true], [17.0253, 18.745, true, true, true]]
+PASS [EDGE st_ball 一個地球 開 17:00] 翻轉在邊界 ±1 分鐘內（翻轉前 17:00、翻轉後 17:00；邊界 17:00）  [{"gh": 16.998887333333467, "lh": 18.6955, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": true, "off": false}, {"gh": 17.00088733333348, "lh": 18.6996, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}]
+  [ 138.3s] [EDGE st_ball 一個地球 開 17:00] 翻轉後（邊界後） 按之前 17:02 模型 open visible True；按的那一刻 G.hour 17.0267（17:02）isOpen True → 出來的是 open
+PASS [EDGE st_ball 一個地球 開 17:00] 翻轉後（邊界後） 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [EDGE st_ball 一個地球 開 17:00] 翻轉後（邊界後） 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [EDGE st_ball 一個地球 開 17:00] 翻轉後（邊界後） 按的那一刻 17:02 照稿 17:00～00:00（隔天） 應該開
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-12 23:58 (18.50,0.25) 錢 3000 元 （st_ball 一個地球 客人那一面 1.9 m）（收 邊界前 2.5 分鐘，之後讓時間自己走）
+  [ 145.8s] [EDGE st_ball 一個地球 收 00:00（隔天）] 翻轉前 按之前 23:59 模型 open visible True；按的那一刻 G.hour 23.9789（23:59）isOpen True → 出來的是 open
+PASS [EDGE st_ball 一個地球 收 00:00（隔天）] 翻轉前 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [EDGE st_ball 一個地球 收 00:00（隔天）] 翻轉前 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [EDGE st_ball 一個地球 收 00:00（隔天）] 翻轉前 按的那一刻 23:59 照稿 17:00～00:00（隔天） 應該開
+PASS [EDGE st_ball 一個地球 收 00:00（隔天）] 翻轉前那一次真的在邊界前（按的那一刻 23:59）  {"hp": 23.97888800000004, "before": {"gh": 23.976888000000038, "lh": 23.9767, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}}
+  [ 151.4s] [EDGE st_ball 一個地球 收 00:00（隔天）] 紀錄（G.hour, 光線用的時刻 E.lightH, isOpen, open visible, TZ3.stallOpen(G.hour)）18 筆：[[23.9902, 23.9899, true, true, true], [23.9923, 23.9921, true, true, true], [23.9944, 23.9943, true, true, true], [23.9966, 23.996, true, true, true], "…", [24.0163, 0.016, false, false, false], [24.0184, 0.0182, false, false, false], [24.0207, 0.0204, false, false, false], [24.0228, 0.0227, false, false, false], [24.0249, 0.0243, false, false, false], [24.0271, 0.0266, false, false, false]]
+PASS [EDGE st_ball 一個地球 收 00:00（隔天）] 每一筆 open 模型 visible＝isOpen  []
+PASS [EDGE st_ball 一個地球 收 00:00（隔天）] 每一筆模型（isOpen）＝照那一刻 G.hour 算的 TZ3.stallOpen（邊界後 0.5 分鐘內的刷新延遲不算）  []
+PASS [EDGE st_ball 一個地球 收 00:00（隔天）] 時間走過邊界時翻轉（收）  [[24.0228, 0.0227, false, false, false], [24.0249, 0.0243, false, false, false], [24.0271, 0.0266, false, false, false]]
+PASS [EDGE st_ball 一個地球 收 00:00（隔天）] 翻轉在邊界 ±1 分鐘內（翻轉前 00:00（隔天）、翻轉後 00:00（隔天）；邊界 00:00（隔天））  [{"gh": 23.998665333333438, "lh": 23.9982, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}, {"gh": 24.000776000000112, "lh": 0.0004, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": false, "off": false}]
+  [ 153.5s] [EDGE st_ball 一個地球 收 00:00（隔天）] 翻轉後（邊界後） 按之前 00:02（隔天） 模型 open visible False；按的那一刻 G.hour 24.028（00:02（隔天））isOpen False → 出來的是 closed
+PASS [EDGE st_ball 一個地球 收 00:00（隔天）] 翻轉後（邊界後） 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [EDGE st_ball 一個地球 收 00:00（隔天）] 翻轉後（邊界後） 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [EDGE st_ball 一個地球 收 00:00（隔天）] 翻轉後（邊界後） 按的那一刻 00:02（隔天） 照稿 17:00～00:00（隔天） 應該收
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-12 15:58 (14.50,-0.25) 錢 3000 元 （st_scallion 當蔥蔥油餅 客人那一面 1.9 m）（開 邊界前 2.5 分鐘，之後讓時間自己走）
+  [ 160.0s] [EDGE st_scallion 當蔥蔥油餅 開 16:00] 翻轉前 按之前 15:59 模型 open visible False；按的那一刻 G.hour 15.9792（15:59）isOpen False → 出來的是 closed
+PASS [EDGE st_scallion 當蔥蔥油餅 開 16:00] 翻轉前 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [EDGE st_scallion 當蔥蔥油餅 開 16:00] 翻轉前 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [EDGE st_scallion 當蔥蔥油餅 開 16:00] 翻轉前 按的那一刻 15:59 照稿 16:00～23:00 應該收
+PASS [EDGE st_scallion 當蔥蔥油餅 開 16:00] 翻轉前那一次真的在邊界前（按的那一刻 15:59）  {"hp": 15.979221333333262, "before": {"gh": 15.976776666666604, "lh": 16.8061, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": true, "off": false}}
+  [ 165.6s] [EDGE st_scallion 當蔥蔥油餅 開 16:00] 紀錄（G.hour, 光線用的時刻 E.lightH, isOpen, open visible, TZ3.stallOpen(G.hour)）18 筆：[[15.9887, 16.8281, false, false, false], [15.9909, 16.8314, false, false, false], [15.9931, 16.8355, false, false, false], [15.9952, 16.8396, false, false, false], "…", [16.0153, 16.8768, true, true, true], [16.0174, 16.8809, true, true, true], [16.0196, 16.885, true, true, true], [16.0217, 16.8891, true, true, true], [16.0238, 16.8922, true, true, true], [16.026, 16.8963, true, true, true]]
+PASS [EDGE st_scallion 當蔥蔥油餅 開 16:00] 每一筆 open 模型 visible＝isOpen  []
+PASS [EDGE st_scallion 當蔥蔥油餅 開 16:00] 每一筆模型（isOpen）＝照那一刻 G.hour 算的 TZ3.stallOpen（邊界後 0.5 分鐘內的刷新延遲不算）  []
+PASS [EDGE st_scallion 當蔥蔥油餅 開 16:00] 時間走過邊界時翻轉（開）  [[16.0217, 16.8891, true, true, true], [16.0238, 16.8922, true, true, true], [16.026, 16.8963, true, true, true]]
+PASS [EDGE st_scallion 當蔥蔥油餅 開 16:00] 翻轉在邊界 ±1 分鐘內（翻轉前 16:00、翻轉後 16:00；邊界 16:00）  [{"gh": 15.999443333333181, "lh": 16.8478, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": true, "off": false}, {"gh": 16.001554666666514, "lh": 16.852, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}]
+  [ 170.2s] [EDGE st_scallion 當蔥蔥油餅 開 16:00] 翻轉後（邊界後） 按之前 16:02 模型 open visible True；按的那一刻 G.hour 16.0272（16:02）isOpen True → 出來的是 open
+PASS [EDGE st_scallion 當蔥蔥油餅 開 16:00] 翻轉後（邊界後） 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [EDGE st_scallion 當蔥蔥油餅 開 16:00] 翻轉後（邊界後） 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [EDGE st_scallion 當蔥蔥油餅 開 16:00] 翻轉後（邊界後） 按的那一刻 16:02 照稿 16:00～23:00 應該開
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-12 22:58 (14.50,-0.25) 錢 3000 元 （st_scallion 當蔥蔥油餅 客人那一面 1.9 m）（收 邊界前 2.5 分鐘，之後讓時間自己走）
+  [ 178.1s] [EDGE st_scallion 當蔥蔥油餅 收 23:00] 翻轉前 按之前 22:59 模型 open visible True；按的那一刻 G.hour 22.9796（22:59）isOpen True → 出來的是 open
+PASS [EDGE st_scallion 當蔥蔥油餅 收 23:00] 翻轉前 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [EDGE st_scallion 當蔥蔥油餅 收 23:00] 翻轉前 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [EDGE st_scallion 當蔥蔥油餅 收 23:00] 翻轉前 按的那一刻 22:59 照稿 16:00～23:00 應該開
+PASS [EDGE st_scallion 當蔥蔥油餅 收 23:00] 翻轉前那一次真的在邊界前（按的那一刻 22:59）  {"hp": 22.979554000000046, "before": {"gh": 22.97677666666671, "lh": 22.9764, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}}
+  [ 183.5s] [EDGE st_scallion 當蔥蔥油餅 收 23:00] 紀錄（G.hour, 光線用的時刻 E.lightH, isOpen, open visible, TZ3.stallOpen(G.hour)）17 筆：[[22.9911, 22.9908, true, true, true], [22.9934, 22.9928, true, true, true], [22.9957, 22.9954, true, true, true], [22.9977, 22.9974, true, true, true], "…", [23.0164, 23.016, false, false, false], [23.0186, 23.0183, false, false, false], [23.0207, 23.0202, false, false, false], [23.0228, 23.0227, false, false, false], [23.025, 23.0244, false, false, false], [23.0271, 23.027, false, false, false]]
+PASS [EDGE st_scallion 當蔥蔥油餅 收 23:00] 每一筆 open 模型 visible＝isOpen  []
+PASS [EDGE st_scallion 當蔥蔥油餅 收 23:00] 每一筆模型（isOpen）＝照那一刻 G.hour 算的 TZ3.stallOpen（邊界後 0.5 分鐘內的刷新延遲不算）  []
+PASS [EDGE st_scallion 當蔥蔥油餅 收 23:00] 時間走過邊界時翻轉（收）  [[23.0228, 23.0227, false, false, false], [23.025, 23.0244, false, false, false], [23.0271, 23.027, false, false, false]]
+PASS [EDGE st_scallion 當蔥蔥油餅 收 23:00] 翻轉在邊界 ±1 分鐘內（翻轉前 23:00、翻轉後 23:00；邊界 23:00）  [{"gh": 22.999886666666757, "lh": 22.9994, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}, {"gh": 23.001997333333424, "lh": 23.0014, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": false, "off": false}]
+  [ 185.9s] [EDGE st_scallion 當蔥蔥油餅 收 23:00] 翻轉後（邊界後） 按之前 23:02 模型 open visible False；按的那一刻 G.hour 23.0288（23:02）isOpen False → 出來的是 closed
+PASS [EDGE st_scallion 當蔥蔥油餅 收 23:00] 翻轉後（邊界後） 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [EDGE st_scallion 當蔥蔥油餅 收 23:00] 翻轉後（邊界後） 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [EDGE st_scallion 當蔥蔥油餅 收 23:00] 翻轉後（邊界後） 按的那一刻 23:02 照稿 16:00～23:00 應該收
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-12 14:58 (10.50,0.25) 錢 3000 元 （st_eggcake 陳家古早味雞蛋糕 客人那一面 1.9 m）（開 邊界前 2.5 分鐘，之後讓時間自己走）
+  [ 192.5s] [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 翻轉前 按之前 14:59 模型 open visible False；按的那一刻 G.hour 14.9797（14:59）isOpen False → 出來的是 closed
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 翻轉前 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 翻轉前 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 翻轉前 按的那一刻 14:59 照稿 15:00～21:30 應該收
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 翻轉前那一次真的在邊界前（按的那一刻 14:59）  {"hp": 14.979665333333264, "before": {"gh": 14.977220666666605, "lh": 14.9771, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": false, "off": false}}
+  [ 198.2s] [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 紀錄（G.hour, 光線用的時刻 E.lightH, isOpen, open visible, TZ3.stallOpen(G.hour)）18 筆：[[14.9893, 14.989, false, false, false], [14.9916, 14.9913, false, false, false], [14.9937, 14.9936, false, false, false], [14.9959, 14.9953, false, false, false], "…", [15.0163, 15.03, true, true, true], [15.0184, 15.0331, true, true, true], [15.0206, 15.0372, true, true, true], [15.0227, 15.0413, true, true, true], [15.0248, 15.0454, true, true, true], [15.0269, 15.0495, true, true, true]]
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 每一筆 open 模型 visible＝isOpen  []
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 每一筆模型（isOpen）＝照那一刻 G.hour 算的 TZ3.stallOpen（邊界後 0.5 分鐘內的刷新延遲不算）  []
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 時間走過邊界時翻轉（開）  [[15.0227, 15.0413, true, true, true], [15.0248, 15.0454, true, true, true], [15.0269, 15.0495, true, true, true]]
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 翻轉在邊界 ±1 分鐘內（翻轉前 15:00、翻轉後 15:00；邊界 15:00）  [{"gh": 15.00021999999985, "lh": 14.9999, "isOpen": false, "openVis": false, "closedVis": true, "tz": true, "tzL": false, "off": false}, {"gh": 15.002330666666507, "lh": 15.0041, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}]
+  [ 202.8s] [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 翻轉後（邊界後） 按之前 15:02 模型 open visible True；按的那一刻 G.hour 15.0282（15:02）isOpen True → 出來的是 open
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 翻轉後（邊界後） 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 翻轉後（邊界後） 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 開 15:00] 翻轉後（邊界後） 按的那一刻 15:02 照稿 15:00～21:30 應該開
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-12 21:28 (10.50,0.25) 錢 3000 元 （st_eggcake 陳家古早味雞蛋糕 客人那一面 1.9 m）（收 邊界前 2.5 分鐘，之後讓時間自己走）
+  [ 210.6s] [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 翻轉前 按之前 21:29 模型 open visible True；按的那一刻 G.hour 21.4797（21:29）isOpen True → 出來的是 open
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 翻轉前 按之前看到的模型（開）＝按下去出來的東西（open）
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 翻轉前 按的那一刻 isOpen（True）＝出來的東西（open）
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 翻轉前 按的那一刻 21:29 照稿 15:00～21:30 應該開
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 翻轉前那一次真的在邊界前（按的那一刻 21:29）  {"hp": 21.479666666666706, "before": {"gh": 21.47677800000004, "lh": 21.4762, "isOpen": true, "openVis": true, "closedVis": false, "tz": true, "tzL": true, "off": false}}
+  [ 215.8s] [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 紀錄（G.hour, 光線用的時刻 E.lightH, isOpen, open visible, TZ3.stallOpen(G.hour)）16 筆：[[21.4913, 21.4907, true, true, true], [21.4934, 21.4933, true, true, true], [21.4958, 21.4954, true, true, true], [21.498, 21.4974, true, true, true], "…", [21.5147, 21.5146, false, false, false], [21.5169, 21.5161, false, false, false], [21.519, 21.5183, false, false, false], [21.5211, 21.5207, false, false, false], [21.5233, 21.5229, false, false, false], [21.5254, 21.525, false, false, false]]
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 每一筆 open 模型 visible＝isOpen  []
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 每一筆模型（isOpen）＝照那一刻 G.hour 算的 TZ3.stallOpen（邊界後 0.5 分鐘內的刷新延遲不算）  []
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 時間走過邊界時翻轉（收）  [[21.5211, 21.5207, false, false, false], [21.5233, 21.5229, false, false, false], [21.5254, 21.525, false, false, false]]
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 翻轉在邊界 ±1 分鐘內（翻轉前 21:30、翻轉後 21:30；邊界 21:30）  [{"gh": 21.500221333333418, "lh": 21.4996, "isOpen": true, "openVis": true, "closedVis": false, "tz": false, "tzL": true, "off": false}, {"gh": 21.50244333333342, "lh": 21.5019, "isOpen": false, "openVis": false, "closedVis": true, "tz": false, "tzL": false, "off": false}]
+  [ 218.3s] [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 翻轉後（邊界後） 按之前 21:32 模型 open visible False；按的那一刻 G.hour 21.5276（21:32）isOpen False → 出來的是 closed
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 翻轉後（邊界後） 按之前看到的模型（收）＝按下去出來的東西（closed）
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 翻轉後（邊界後） 按的那一刻 isOpen（False）＝出來的東西（closed）
+PASS [EDGE st_eggcake 陳家古早味雞蛋糕 收 21:30] 翻轉後（邊界後） 按的那一刻 21:32 照稿 15:00～21:30 應該收
+  [ 218.3s] [EDGE 摘要] st_milk 沈三盃黑糖鮮奶 開 17:00：前 16:59 模型收 closed｜翻 17:00→17:00｜後 17:02 買得到
+  [ 218.3s] [EDGE 摘要] st_milk 沈三盃黑糖鮮奶 收 00:00（隔天）：前 23:59 模型開 買得到｜翻 00:00（隔天）→00:00（隔天）｜後 00:02（隔天） closed
+  [ 218.3s] [EDGE 摘要] st_wheelcake 二十元紅豆餅 開 15:00：前 14:59 模型收 closed｜翻 15:00→15:00｜後 15:02 買得到
+  [ 218.3s] [EDGE 摘要] st_wheelcake 二十元紅豆餅 收 22:00：前 21:59 模型開 買得到｜翻 22:00→22:00｜後 22:02 closed
+  [ 218.3s] [EDGE 摘要] st_ball 一個地球 開 17:00：前 16:59 模型收 closed｜翻 17:00→17:00｜後 17:02 買得到
+  [ 218.3s] [EDGE 摘要] st_ball 一個地球 收 00:00（隔天）：前 23:59 模型開 買得到｜翻 00:00（隔天）→00:00（隔天）｜後 00:02（隔天） closed
+  [ 218.3s] [EDGE 摘要] st_scallion 當蔥蔥油餅 開 16:00：前 15:59 模型收 closed｜翻 16:00→16:00｜後 16:02 買得到
+  [ 218.3s] [EDGE 摘要] st_scallion 當蔥蔥油餅 收 23:00：前 22:59 模型開 買得到｜翻 23:00→23:00｜後 23:02 closed
+  [ 218.3s] [EDGE 摘要] st_eggcake 陳家古早味雞蛋糕 開 15:00：前 14:59 模型收 closed｜翻 15:00→15:00｜後 15:02 買得到
+  [ 218.3s] [EDGE 摘要] st_eggcake 陳家古早味雞蛋糕 收 21:30：前 21:29 模型開 買得到｜翻 21:30→21:30｜後 21:32 closed
+PASS 畫面上沒有出現「整條巷子都聞得到」「書忘在這裡」「粉筆畫的框」（整個過程收到 47 段字）  {"整條巷子都聞得到": [], "書忘在這裡": [], "粉筆畫的框": []}
+PASS 沒有 JS 例外  []
+ALL PASS
