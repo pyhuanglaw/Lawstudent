@@ -1218,3 +1218,12 @@
 [03:49:49] ==== START N1_MOKU_PLANT_7  (probe @ 01679bc0a7580dabd373d2fbfda8542c21e0fc20) ====
 [03:49:52] [res] cpu=49% mem=46% (14.7/31.4 GB) chrome_testing=9  START N1_MOKU_PLANT_7
 [03:50:26] [res] cpu=68% mem=42% (13.0/31.4 GB) chrome_testing=9  END N1_AA814
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b5940b55d..30a68a3cd  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:50:33] ==== END   N1_AA814  exit=1  1244s   ====
+[03:50:36] memory 42% before starting N1_POOL_swim (2 running)
+[03:50:36] ==== START N1_POOL_swim  (probe @ b77af3a4fe6d348ae58337a1ce708442ef9ef458) ====
+[03:50:39] [res] cpu=77% mem=43% (13.4/31.4 GB) chrome_testing=9  START N1_POOL_swim
+[03:51:16] 正在跑：N1_TSR_CLASS_r3（已跑 2 分／上限 15 分）、N1_MOKU_PLANT_7（已跑 1 分／上限 45 分）、N1_POOL_swim（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:52:31] [res] cpu=18% mem=44% (14.0/31.4 GB) chrome_testing=10  END N1_POOL_swim

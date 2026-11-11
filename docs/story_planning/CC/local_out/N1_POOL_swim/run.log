@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_pool_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N1_POOL_swim\out
+CC POOL_swimmers：PARTS OPEN,FPS,CLOSED；SHA b77af3a4f；2025-11-05；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 gym_b1 2025-11-05 10.00 時（池邊 (-4,-1.2)）（開館）；畫質 high
+  [  43.6s] [OPEN] 開館 [8, 22]、True；水面 {"name": "GYM2_WATER_5_0", "y": 1.1, "minY": 0}；池子 {"x0": -12.5, "x1": 12.5, "z0": -21, "z1": -3.5, "depth": 1.4, "lanes": 7}；泳客 3 人：[["char.swim_sf2", "swim_free", 1, 1.115], ["char.swim_sm1", "swim_breast", 4, 1.021], ["char.swim_sm2", "swim_free", 6, 1.152]]
+PASS [OPEN] 開館時段有人在游（2～4 人）  {"zone": "gym_b1", "h": 10.053, "q": "high", "open": true, "hours": [8, 22], "basin": {"x0": -12.5, "x1": 12.5, "z0": -21, "z1": -3.5, "depth": 1.4, "lanes": 7}, "water": {"name": "GYM2_WATER_5_0", "y": 1.1, "minY": 0}, "swimmers": [{"key": "swim|0", "model": "char.swim_sf2", "pose": "swim_free", "lane": 1, "v": 1.115, "x": 7.84, "y": 0, "z": -17.25, "yaw": -1.57, "turn": 0, "visible": false, "box": [7.7, 0, -17.93, 7.95, 1.631, -16.57], "headY": 1.431, "hipsY": 0.954, "head": [7.85, -17.25], "mats": {"SWIM_SF2_suit": "#ffffff", "SWIM_SF2_cap": "#ffffff", "SWIM_SF2_strap": "#ffffff", "SWIM_SF2_lens": "#ffffff"}}, {"key": "swim|1", "model": "char.swim_sm1", "pose": "swim_breast", "lane": 4, "v": 1.021, "x": -6.71, "y": 0, "z": -9.75, "yaw": 1.57, "turn": 0, "visible": false, "box": [-7.74, -0.528, -10.46, -6.03, -0.115, -9.04], "headY": -0.237, "hipsY": -0.292, "head": [-6.22, -9.75], "mats": {"SWIM_SM1_suit": "#ffffff", "SWIM_SM1_cap": "#ffffff", "SWIM_SM1_strap": "#ffffff", "SWIM_SM1_lens": "#ffffff"}}, {"key": "swim|2", "model": "char.swim_sm2", "pose": "swim_free", "lane": 6, "v": 1.152, "x": -9.69, "y": 0, "z": -4.75, "yaw": 1.57, "turn": 0, "visible": false, "box": [-10.69, -0.545, -5.53, -8.95, -0.108, -3.97], "headY": -0.233, "hipsY": -0.29, "head": [-9.16, -4.75], "mats": {"SWIM_SM2_suit": "#ffffff", "SWIM_SM2_cap": "#ffffff", "SWIM_SM2_strap": "#ffffff", "SWIM_SM2_lens": "#ffffff"}}]}
+  [  44.1s] [OPEN] 第 0 格：[{"key": "swim|0", "x": 7.84, "z": -17.25, "yaw": -1.57, "turn": 0, "box": [7.7, 0, -17.93, 7.95, 1.631, -16.57], "headY": 1.431, "hipsY": 0.954}, {"key": "swim|1", "x": -6.71, "z": -9.75, "yaw": 1.57, "turn": 0, "box": [-7.74, -0.528, -10.46, -6.03, -0.115, -9.04], "headY": -0.239, "hipsY": -0.292}, {"key": "swim|2", "x": -9.69, "z": -4.75, "yaw": 1.57, "turn": 0, "box": [-10.69, -0.545, -5.53, -8.95, -0.108, -3.97], "headY": -0.233, "hipsY": -0.29}]
+  [  46.1s] [OPEN] 第 15 格：[{"key": "swim|0", "x": 5.61, "z": -17.25, "yaw": -1.57, "turn": 0, "box": [4.98, -0.215, -17.93, 6.07, 1.292, -16.57], "headY": 1.068, "hipsY": 0.659}, {"key": "swim|1", "x": -4.67, "z": -9.75, "yaw": 1.57, "turn": 0, "box": [-5.71, -0.528, -10.46, -3.99, -0.115, -9.04], "headY": -0.239, "hipsY": -0.292}, {"key": "swim|2", "x": -7.39, "z": -4.75, "yaw": 1.57, "turn": 0, "box": [-8.39, -0.545, -5.53, -6.65, -0.108, -3.97], "headY": -0.233, "hipsY": -0.29}]
+  [  48.0s] [OPEN] 第 29 格：[{"key": "swim|0", "x": 3.39, "z": -17.25, "yaw": -1.57, "turn": 0, "box": [2.7, -0.515, -17.93, 4.35, -0.104, -16.57], "headY": -0.227, "hipsY": -0.288}, {"key": "swim|1", "x": -2.63, "z": -9.75, "yaw": 1.57, "turn": 0, "box": [-3.67, -0.528, -10.46, -1.95, -0.115, -9.04], "headY": -0.239, "hipsY": -0.292}, {"key": "swim|2", "x": -5.09, "z": -4.75, "yaw": 1.57, "turn": 0, "box": [-6.08, -0.545, -5.53, -4.35, -0.108, -3.97], "headY": -0.233, "hipsY": -0.29}]
+PASS [OPEN] 3 秒逐格：外框都在池子裡（留 0.1 m）  []
+PASS [OPEN] 3 秒逐格：人和人外框不交疊  []
+PASS [OPEN] 3 秒逐格：頭不低於池底、臀不高出水面 0.5 m（水面 1.1）  []
+  [  48.1s] [OPEN] 池邊轉身拍到的：[]
+  [  48.2s] [OPEN 近拍 swim|0] char.swim_sf2 swim_free；泳帽／泳鏡相關材質顏色 {"SWIM_SF2_suit": "#ffffff", "SWIM_SF2_cap": "#ffffff", "SWIM_SF2_strap": "#ffffff", "SWIM_SF2_lens": "#ffffff"}
+  [  48.3s] [OPEN 近拍 swim|1] char.swim_sm1 swim_breast；泳帽／泳鏡相關材質顏色 {"SWIM_SM1_suit": "#ffffff", "SWIM_SM1_cap": "#ffffff", "SWIM_SM1_strap": "#ffffff", "SWIM_SM1_lens": "#ffffff"}
+  [  48.4s] [OPEN 近拍 swim|2] char.swim_sm2 swim_free；泳帽／泳鏡相關材質顏色 {"SWIM_SM2_suit": "#ffffff", "SWIM_SM2_cap": "#ffffff", "SWIM_SM2_strap": "#ffffff", "SWIM_SM2_lens": "#ffffff"}
+  [  52.5s] [OPEN 連拍] swim_free：swim|0，10 張（每 0.3 秒）
+  [  56.5s] [OPEN 連拍] swim_breast：swim|1，10 張（每 0.3 秒）
+  [  64.6s] [FPS] gym_b1 池邊 high 畫質、泳客 3 人：32.2 fps（SHA b77af3a4f；Windows GPU ≠ iPhone）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gym_b1 2025-11-05 23.00 時（池邊 (-4,-1.2)）（閉館）；畫質 high
+PASS [CLOSED] 閉館（23.074 時，開館 [8, 22]）水裡沒有人  {"h": 23.074, "open": false, "hours": [8, 22]} []
+PASS 沒有 JS 例外  []
+ALL PASS
