@@ -665,7 +665,8 @@ const DATE=(function(){
   /* 2026-11-11（使用者 X324 以安約會台詞重寫，AA_777_an_date_common.json@1f88da7cc；BB 11-11 定的過夜條件，BB_340）：再補一列——D26 臺中＋以安＝同一句「（晚上她回家。你住在車站附近的旅館。）」。
      原本只有她人已經在臺中的家（寒暑假、週末，own＝home）才是這一句；學期中從臺北一起出發的那一種算不到 home（交往中＝民宿、沒交往＝兩間房），所以另外列。D26 是她的家鄉；不見媽媽、不寫媽媽在不在家。
      同一份稿另外四格只換字：S.MORNING（原本「早餐我查過了。……走路五分鐘。」）、S.HOME_NO（原本「那幾天我在台中。……換一天。」）、S.T7A_YES（原本「臺中？……好。我去車站接你。」）拿掉刪節號；
-     S.MORNING_OWN 換句（原本「我媽多做了一份早餐。……叫我帶給你。」——等於媽媽知道他、還做早餐給他，那是主線的事）。隔天早上那一句見下面 S.sceneOvernight 的 S.morningLine（AA_777 第 9 列的 note） */
+     S.MORNING_OWN 換句（原本「我媽多做了一份早餐。……叫我帶給你。」——等於媽媽知道他、還做早餐給他，那是主線的事）。這一列只管晚上那一句旁白（同可昕、子晴那兩列）：隔天早上照 S.morningLine——她人本來就在臺中的家（own）＝S.MORNING_OWN，學期中一起從臺北去＝S.MORNING。
+     AA_777 第 9 列的 note 寫「隔天早上的 S.MORNING_OWN 照上面那一列」：學期中那一種要不要也換成 S.MORNING_OWN 是引擎行為，匯入時沒動，已回報 LAWWW */
   S.NIGHT_HOME=[{loc:'D29',who:'kexin'},{loc:'D26',who:'heroine_04'},{loc:'D26',who:'heroine_01'}];
   S.nightKind=(G,t,own)=>own==='home'||S.NIGHT_HOME.some(x=>x.who===t.who&&x.loc===(t.locs||[])[0])?'home':(own==='rent'?'rent':(G.flags&&G.flags['dating_'+t.who]?'dating':'single'));
   S.morningLine=(id,own)=>(own==='home'&&S.MORNING_HOME[id])||(own&&S.MORNING_OWN[id])||S.MORNING[id]||null;

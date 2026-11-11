@@ -29,6 +29,7 @@ module.exports={
   AN_COMMON_SHA:'1f88da7cc',   // AA_777_an_date_common.json（以安不分地點的短句 9 列：date_lines.js 四列、date3d.js 五列）
   AN_WISH_SHA:'1f88da7cc',     // AA_778_an_wish.json（以安 D07 心願事件 16 列）
   AN_BASE:'6112a6b5a',         // 以安重寫匯入以前的開發分支（src/data/date_lines.js、date_wish.js、date3d.js 拿來比「別人零差異」；這個不用跟著換）
+  AN_D3_SHA:'117a38189',       // AA_777 進 src/date3d.js 的那個 commit（tests/an_dates_1111_unit.js 比「date3d.js 的字串只差那五列」固定比這一版；之後 date3d.js 再加字串不用換）
   /* 2026-11-11 bd1ce5be0 那一版除了以安的格子，另外改的 31 格——都是子晴的（AA 交稿的清單：改稿紀錄 date_rewrite/zq_Dxx.json 的 _meta.fix_vs_an／fix_lawww_1111／fix_bb340c；
      和以安撞的句子、LAWWW 匯入後回報的沒有兌現場合的約定／D116、BB_340 複核 D26 騎車的說法）。n＝date_rewrite.py list heroine_04 Dxx 的格號；path 是 Dxx.json 裡 lines.heroine_04 底下的位置；old＝上一版 02078efc0 的字 */
   ALSO_AN:[
