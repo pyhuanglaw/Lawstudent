@@ -37,7 +37,7 @@ const same=(a,b)=>J(a)===J(b);
   /* 0 資料 */
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_gifts.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     const src=ok1?GIFT_LINES.src:'';
-    check('0. src/data/gift_lines.js 和白名單上的 AA_710 一致（import_gifts.py --check；第二版 be775af69）',ok1&&ok2&&ok&&/@be775af69$/.test(src),out.trim().slice(0,200)+' '+src); }
+    check('0. src/data/gift_lines.js 和白名單上的 AA_710 一致（import_gifts.py --check；31c1c4e2c＝X324 G 區改句首「……」，AA 11-11 10:30；舊期望第二版 be775af69）',ok1&&ok2&&ok&&/@31c1c4e2c$/.test(src),out.trim().slice(0,200)+' '+src); }
   if(!ok1||!ok2){ H.done(); return; }
   const LN=GIFT_LINES.people;
   const ITEMN=Object.keys(GIFT.TEMP);

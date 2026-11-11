@@ -5879,9 +5879,9 @@
   },
   {
    "path": "docs/story_planning/AA_710_gifts.json",
-   "sha": "be775af69",
+   "sha": "31c1c4e2c",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 06:02「AA_710 改了你說的六句」）",
+   "approvedBy": "AA D109（11-11 10:30「X324 G 區第三份：送早餐飲料改源稿」：句首「……」18 處、可昕「謝謝。我等一下吃，你不要一直看我。」、沛珊米漿第二句同步 AA_766）",
    "task": "GIFT-FLIRT-1107",
    "kind": "json",
    "note": "第二版（BB_304 第 7 節）：七位送飲料、早餐：yes（need 1／4、dating 交往中；pool 兩三組輪流）、no（一天第二次，輪流）、fav（七位都有，AA_410）、opinion（她有意見的那一樣）、ctx（again／exam／night／winterCold／summerHot）；tools/story/import_gifts.py → src/data/gift_lines.js",
@@ -5897,6 +5897,10 @@
     {
      "sha": "74aa33345",
      "approvedBy": "（11-07 06:00 以前；be775af69 取代：改六句（以安晚上、芷若 no／opinion、語彤交往中、子晴 no、可昕有糖））"
+    },
+    {
+     "sha": "be775af69",
+     "approvedBy": "AA-B D109（11-07 06:02「AA_710 改了你說的六句」）；31c1c4e2c 取代（X324 G 區）"
     }
    ]
   },

@@ -66,8 +66,12 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
     if(A) check('4. tools/story/import_gifts.py --check：照白名單重匯的結果＝現在的 gift_lines.js（AA_766 那一層疊在 AA_710 上）；檔頭寫了來源',ok&&read(GF).includes('AA_766_peishan_leftover2.json@'+SHA),out.slice(0,200));
     const ob=show(BASE,GF); if(ob){ const P=t=>JSON.parse(t.slice(t.indexOf('const GIFT_LINES=')+17,t.lastIndexOf(';'))), lv=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>lv(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) lv(x[k],p+'/'+k,o); else o[p]=x; return o; };
       /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 第 95～97 列把品項「紅茶拿鐵」改名「鮮奶茶」（語彤、學姊那幾格）——BASE 先照白名單上的 AA_772 換過再比（tests/l118_redo772_expect.js）。舊期望：直接和 BASE 比 */
-      const a=lv(P(require('./l118_redo772_expect.js').fixFile(GF,ob)),'',{}), b=lv(P(read(GF)),'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);
-      check('4. 整份資料和 BASE 比：格子一樣多，只差沛珊這一格（別人的、朋友六位的沒動）',J(Object.keys(a))===J(Object.keys(b))&&J(d)===J(['/people/'+PS+'/drink/fav/lines/1'])&&a[d[0]]==='……我家早餐店也有賣。我從小喝到大的。',J(d)); } });
+      const a=lv(P(require('./l118_redo772_expect.js').fixFile(GF,ob)),'',{}), b=lv(P(read(GF)),'',{}), d0=Object.keys(b).filter(k=>a[k]!==b[k]);
+      /* 2026-11-11（X324 G 區，AA 31c1c4e2c）：AA_710 源稿改了句首「……」18 處、可昕一句（白名單換 SHA 重匯）——那幾格照 AA_710 be775af69→31c1c4e2c 逐格的改動算對，/src 跟著換；讀不到那兩版＝照舊期望。舊期望：和 BASE 只差沛珊這一格 */
+      const o710=show('be775af69','docs/story_planning/AA_710_gifts.json'), n710=show('31c1c4e2c','docs/story_planning/AA_710_gifts.json'), ch=new Set();
+      if(o710&&n710&&/AA_710_gifts\.json@31c1c4e2c/.test(b['/src']||'')){ const x=lv(JSON.parse(o710),'',{}), y=lv(JSON.parse(n710),'',{}); for(const k in y) if(x[k]!==y[k]) ch.add(x[k]+'→'+y[k]); }
+      const d=d0.filter(k=>!(ch.size&&(k==='/src'||(k!=='/people/'+PS+'/drink/fav/lines/1'&&ch.has(a[k]+'→'+b[k])))));
+      check('4. 整份資料和 BASE 比：格子一樣多，只差沛珊這一格（別人的、朋友六位的沒動；AA_710 31c1c4e2c 改的那幾格照源稿的改動）',J(Object.keys(a))===J(Object.keys(b))&&J(d)===J(['/people/'+PS+'/drink/fav/lines/1'])&&a[d[0]]==='……我家早餐店也有賣。我從小喝到大的。',J(d)); } });
 
   await sec(5,async()=>{
     check('5. D4CQ、沛珊送禮的句子裡沒有早餐店、蛋餅、煎',!/早餐店|蛋餅|煎/.test(J(D4CQ))&&!/早餐店|蛋餅|煎台/.test(J(GIFT_LINES.people[PS])),J(D4CQ).match(/.{0,10}(早餐店|蛋餅|煎).{0,10}/g)); });
