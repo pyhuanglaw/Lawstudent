@@ -542,6 +542,12 @@ async def invite(pg, cdp, tag, cfg, pick, screen):
     return iv, how
 
 
+IDLE_JS = r"""(w=>{ const E=GAME.E, P=E.player, D=GAME.D||{}, f2=v=>v==null?null:+(+v).toFixed(2); const n=(GAME.npc&&GAME.npc[w])||(E.npcs||[]).find(q=>q.charId===w);
+  return {me:{x:f2(P.obj.position.x), z:f2(P.obj.position.z), busy:!!P.busy, pose:P.pose||null, seat:!!P.seat, frozen:!!P.frozen}, cam:E.cam&&E.cam.mode, depth:D.busyDepth|0, by:(D.busyWho||[]).slice(-3), dlg:!!D.active,
+    ev:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, adv:typeof ADV!=='undefined'&&!!ADV.active, paused:!!E.paused, fade:!!(document.getElementById('fade')&&document.getElementById('fade').classList.contains('on')),
+    her:n&&n.obj?{x:f2(n.obj.position.x), z:f2(n.obj.position.z), seat:!!n.seat, pose:n.pose||null, vis:n.obj.visible!==false}:null, dark:window.__dark==null?null:!!window.__dark}; })"""
+
+
 async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
     """【捷徑】撥到約好的前 10 分鐘 → 手機「今天」現在過去 → 走到她旁邊／坐下 → 見面整段（選項：活動那一組照 pick，其他選第一個）"""
     who = cfg['who']
@@ -552,7 +558,7 @@ async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
         R.check('[%s] 手機「今天」有「現在過去」' % tag, False, (await pg.evaluate(TODAY_TXT_JS))[:300]); await close_phone(pg, cdp); return False
     log('    [按] 手機「今天」現在過去')
     await pg.wait_for_timeout(1500)
-    menu = Menu(); t0 = time.time(); walked = 0; reopen = 0; same = [None, 0]; done_t = None; zt = [None, 0]
+    menu = Menu(); t0 = time.time(); walked = 0; reopen = 0; same = [None, 0]; done_t = None; zt = [None, 0]; idle_t = time.time(); idle_n = 0
     while time.time() - t0 < max_s:
         s = await st(pg)
         if s['zone'] != zt[0]: zt = [s['zone'], time.time()]; log('    [區域] %s（%.2f）' % (s['zone'], s['hour']))
@@ -598,6 +604,11 @@ async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
                 if s3['interact'] and (s3['interact'].startswith('坐') or '說話' in s3['interact']) and not s3['dlg']:
                     log('    [按互動鍵] %s' % s3['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
                 continue
+        if time.time() - idle_t > 30:   # CC 15:0x（ACT_SMOKE_ZR3_r2 f8b6：坐下等開演以後 6 分鐘沒有任何紀錄就逾時）：沒進展每 30 秒記一次狀態，前兩次截圖
+            idle_t = time.time(); idle_n += 1
+            dg = await pg.evaluate(IDLE_JS, who)
+            log('    [等待 %d] 狀態 %s；邀約 %s；%s' % (idle_n, J({k: s.get(k) for k in ('zone', 'hour', 'busy', 'dlg', 'nb', 'phone', 'interact')}), J(v), J(dg)))
+            if idle_n <= 2: await R.shot(pg, 'act_%s_idle%d' % (tag, idle_n))
         await pg.wait_for_timeout(500)
     v = await pg.evaluate(IV_JS, iv['id'])
     return bool(v and v['st'] == 'done')
