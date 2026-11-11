@@ -1,0 +1,78 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A_SEAT_korea3\out
+CC L118A：PARTS SEATS_korea_15-20；SHA bc407bfc518c8d6a4260d1a1fa395cb93fc9058b；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.2s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== SEATS_korea_15-20
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_korea 店裡的進門位置 (2.20,2.75) 2025-10-08 1300 
+PASS [korea] 店內正式模型載入（1.5 秒）
+  [  43.7s] [SEATS korea] 座位共 20 張（這一行測 #15～#20）：[{"label": "坐下", "x": -2, "z": -1.86, "lv": 0, "sx": -2, "sz": -1.86, "sy": null, "slv": 0, "row": null, "ap": [-2.5, -1.86], "lift": 0}, {"label": "坐下", "x": -1.5, "z": -1.86, "lv": 0, "sx": -1.5, "sz": -1.86, "sy": null, "slv": 0, "row": null, "ap": [-1, -1.86], "lift": 0}, {"label": "坐下", "x": -2, "z": -0.54, "lv": 0, "sx": -2, "sz": -0.54, "sy": null, "slv": 0, "row": null, "ap": [-2.5, -0.54], "lift": 0}, {"label": "坐下", "x": -1.5, "z": -0.54, "lv": 0, "sx": -1.5, "sz": -0.54, "sy": null, "slv": 0, "row": null, "ap": [-1, -0.54], "lift": 0}, {"label": "坐下", "x": -2, "z": 0.09, "lv": 0, "sx": -2, "sz": 0.09, "sy": null, "slv": 0, "row": null, "ap": [-2.5, 0.09], "lift": 0}, {"label": "坐下", "x": -1.5, "z": 0.09, "lv": 0, "sx": -1.5, "sz": 0.09, "sy": null, "slv": 0, "row": null, "ap": [-1, 0.09], "lift": 0}, {"label": "坐下", "x": -2, "z": 1.41, "lv": 0, "sx": -2, "sz": 1.41, "sy": null, "slv": 0, "row": null, "ap": [-2.5, 1.41], "lift": 0}, {"label": "坐下", "x": -1.5, "z": 1.41, "lv": 0, "sx": -1.5, "sz": 1.41, "sy": null, "slv": 0, "row": null, "ap": [-1, 1.41], "lift": 0}, {"label": "坐下", "x": 0.15, "z": -1.86, "lv": 0, "sx": 0.15, "sz": -1.86, "sy": null, "slv": 0, "row": null, "ap": [-0.35, -1.86], "lift": 0}, {"label": "坐下", "x": 0.65, "z": -1.86, "lv": 0, "sx": 0.65, "sz": -1.86, "sy": null, "slv": 0, "row": null, "ap": [1.15, -1.86], "lift": 0}, {"label": "坐下", "x": 0.15, "z": -0.54, "lv": 0, "sx": 0.15, "sz": -0.54, "sy": null, "slv": 0, "row": null, "ap": [-0.35, -0.54], "lift": 0}, {"label": "坐下", "x": 0.65, "z": -0.54, "lv": 0, "sx": 0.65, "sz": -0.54, "sy": null, "slv": 0, "row": null, "ap": [1.15, -0.54], "lift": 0}, {"label": "坐下", "x": 0.15, "z": 0.09, "lv": 0, "sx": 0.15, "sz": 0.09, "sy": null, "slv": 0, "row": null, "ap": [-0.35, 0.09], "lift": 0}, {"label": "坐下", "x": 0.65, "z": 0.09, "lv": 0, "sx": 0.65, "sz": 0.09, "sy": null, "slv": 0, "row": null, "ap": [1.15, 0.09], "lift": 0}, {"label": "坐下", "x": 0.15, "z": 1.41, "lv": 0, "sx": 0.15, "sz": 1.41, "sy": null, "slv": 0, "row": null, "ap": [-0.35, 1.41], "lift": 0}, {"label": "坐下", "x": 0.65, "z": 1.41, "lv": 0, "sx": 0.65, "sz": 1.41, "sy": null, "slv": 0, "row": null, "ap": [1.15, 1.41], "lift": 0}, {"label": "坐下", "x": 0.15, "z": 2.04, "lv": 0, "sx": 0.15, "sz": 2.04, "sy": null, "slv": 0, "row": null, "ap": [-0.35, 2.04], "lift": 0}, {"label": "坐下", "x": 0.65, "z": 2.04, "lv": 0, "sx": 0.65, "sz": 2.04, "sy": null, "slv": 0, "row": null, "ap": [1.15, 2.04], "lift": 0}, {"label": "坐下", "x": 0.15, "z": 3.36, "lv": 0, "sx": 0.15, "sz": 3.36, "sy": null, "slv": 0, "row": null, "ap": [-0.35, 3.36], "lift": 0}, {"label": "坐下", "x": 0.65, "z": 3.36, "lv": 0, "sx": 0.65, "sz": 3.36, "sy": null, "slv": 0, "row": null, "ap": [1.15, 3.36], "lift": 0}]
+PASS [SEATS korea #15（0.15, 1.41）] 走到旁邊，互動按鈕是「坐下」  {"x": -0.324, "z": 1.428, "interact": "坐下", "stand": true}
+PASS [SEATS korea #15（0.15, 1.41）] 坐下了（player.seat）  {"x": 0.15, "z": 1.41, "y": 0, "sx": 0.15, "sz": 1.41}
+  [  49.1s] [SEATS korea #15（0.15, 1.41）] 按的互動鍵「坐下」；實際坐到的座位 (0.15, 1.41)（要坐的是 (0.15, 1.41)）
+PASS [SEATS korea #15（0.15, 1.41）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 0.15, "z": 1.41, "y": 0, "sx": 0.15, "sz": 1.41}
+  [  49.2s] [SEATS korea #15（0.15, 1.41）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 29、骨頭高度 [0.1, 1.15]；打到 []
+PASS [SEATS korea #15（0.15, 1.41）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  49.5s] [SEATS korea #15（0.15, 1.41）] 【遊戲鏡頭】l118a_seat_korea_1300_sit15_game.jpg：{"onScreen": true, "ndc": [0, -0.36], "player": [0.15, 1.41], "cam": [0.15, 3.21, 5.31], "yaw": 6.283, "mid": {"m": 170.9, "sd": 67.7, "black": 0.046, "white": 0.001, "rgb": [178, 170, 157]}, "top": {"m": 175.4, "sd": 54.7, "black": 0.002, "white": 0, "rgb": [190, 172, 154]}, "near": {"m": 156.5, "sd": 94.6, "black": 0.095, "white": 0.079, "rgb": [165, 155, 144]}}
+  [  50.9s] [SEATS korea #15（0.15, 1.41）] 起身：["起身"]
+PASS [SEATS korea #15（0.15, 1.41）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（2.42）、walkFallbacks 沒增加  {"moved": 2.42, "x": -0.421, "z": 3.822, "stand": true}
+  [  55.7s] [SEATS korea #16（0.65, 1.41）] 互動鍵被搶：「聽一句」；0.4 m 內的人 []；E.zone.seats {"taken": null, "label": null}；這張的互動點 {"label": "坐下", "hidden": false, "radius": 0.7, "at": [0.65, 1.41]}
+  [  55.7s] [SEATS korea #16（0.65, 1.41）] 分數排序（engine3d nearestInteractable 的算法：範圍內 距離－prio 最小的贏）：[{"label": "坐下", "at": [0.65, 1.41], "seat": [0.65, 1.41], "d": 0.777, "R": 0.7, "prio": 0.3, "score": 0.477, "inR": false, "skip": null}, {"label": "坐下", "at": [0.65, 2.04], "seat": [0.65, 2.04], "d": 0.963, "R": 0.7, "prio": 0.3, "score": 0.663, "inR": false, "skip": null}, {"label": "坐下", "at": [0.15, 1.41], "seat": [0.15, 1.41], "d": 1.276, "R": 0.7, "prio": 0.3, "score": 0.976, "inR": false, "skip": null}, {"label": "坐下", "at": [0.15, 2.04], "seat": [0.15, 2.04], "d": 1.397, "R": 0.7, "prio": 0.3, "score": 1.097, "inR": false, "skip": "occupied/taken"}, {"label": "坐下", "at": [0.65, 0.09], "seat": [0.65, 0.09], "d": 1.58, "R": 0.7, "prio": 0.3, "score": 1.28, "inR": false, "skip": "occupied/taken"}]；2.2 m 內的人 [{"name": null, "d": 1.4, "yieldIt": true}, {"name": null, "d": 0.81, "yieldIt": true}, {"name": null, "d": 0.81, "yieldIt": true}]；遊戲選的 {"label": "聽一句", "at": [1.65, 2.24]}
+  [  55.7s] [SEATS korea #16（0.65, 1.41）] ⚠空椅子被搶（沒人佔、互動鍵是「聽一句」）
+  [  56.0s] [SEATS korea #16（0.65, 1.41）] 【遊戲鏡頭】l118a_seat_korea_1300_steal16_game.jpg：{"onScreen": true, "ndc": [0, -0.2], "player": [1.42, 1.47], "cam": [1.42, 3.21, 5.37], "yaw": 6.283, "mid": {"m": 165.6, "sd": 67.5, "black": 0.04, "white": 0.005, "rgb": [173, 165, 152]}, "top": {"m": 174.2, "sd": 51.5, "black": 0.002, "white": 0, "rgb": [186, 172, 154]}, "near": {"m": 156.2, "sd": 84.8, "black": 0.063, "white": 0, "rgb": [163, 155, 145]}}
+FAIL [SEATS korea #16（0.65, 1.41）] 空椅子在 seatApproach 沒有被別的互動搶走（有人佔不算）  {"interact": "聽一句", "zoneSeat": {"taken": null, "label": null}, "it": {"label": "坐下", "hidden": false, "radius": 0.7, "at": [0.65, 1.41]}}
+  [  56.1s] [SEATS korea #16（0.65, 1.41）] 從前邊：0.5～0.7 m 站不住，沒試
+  [  56.2s] [SEATS korea #16（0.65, 1.41）] 從後邊：0.5～0.7 m 站不住，沒試
+  [  86.6s] [SEATS korea #16（0.65, 1.41）] 從左邊 [0.15, 1.41, 0.5] 搖桿 30 秒沒到 (0.15,1.41)：停在 (-0.37,1.41)
+  [  87.4s] [SEATS korea #16（0.65, 1.41）] 從左邊 0.5 m（站在 [-0.373, 1.406]）：互動鍵「坐下」（最近的是 {"label": "坐下", "seat": [0.15, 1.41], "exit": null}）
+  [  89.3s] [SEATS korea #16（0.65, 1.41）] 從右邊 0.5 m（站在 [1.126, 1.405]）：互動鍵「坐下」＝這一張
+  [  89.3s] [SEATS korea #16（0.65, 1.41）] 坐得到的方向：["右"]
+PASS [SEATS korea #16（0.65, 1.41）] 走到旁邊，互動按鈕是「坐下」  {"x": 1.126, "z": 1.405, "interact": "坐下", "stand": true}
+PASS [SEATS korea #16（0.65, 1.41）] 坐下了（player.seat）  {"x": 0.65, "z": 1.41, "y": 0, "sx": 0.65, "sz": 1.41}
+  [  92.3s] [SEATS korea #16（0.65, 1.41）] 按的互動鍵「坐下」；實際坐到的座位 (0.65, 1.41)（要坐的是 (0.65, 1.41)）
+PASS [SEATS korea #16（0.65, 1.41）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 0.65, "z": 1.41, "y": 0, "sx": 0.65, "sz": 1.41}
+  [  92.4s] [SEATS korea #16（0.65, 1.41）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 29、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS korea #16（0.65, 1.41）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [  92.5s] [SEATS korea #16（0.65, 1.41）] 【遊戲鏡頭】l118a_seat_korea_1300_sit16_game.jpg：{"onScreen": true, "ndc": [0, -0.36], "player": [0.65, 1.41], "cam": [0.65, 3.21, 5.31], "yaw": 6.283, "mid": {"m": 171.1, "sd": 70.1, "black": 0.057, "white": 0.002, "rgb": [178, 170, 158]}, "top": {"m": 175.3, "sd": 54.2, "black": 0.001, "white": 0, "rgb": [189, 172, 154]}, "near": {"m": 167, "sd": 90.5, "black": 0.12, "white": 0.103, "rgb": [174, 166, 155]}}
+  [  93.9s] [SEATS korea #16（0.65, 1.41）] 起身：["起身"]
+PASS [SEATS korea #16（0.65, 1.41）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（2.45）、walkFallbacks 沒增加  {"moved": 2.45, "x": -0.527, "z": 3.822, "stand": true}
+PASS [SEATS korea #17（0.15, 2.04）] 走到旁邊，互動按鈕是「坐下」  {"x": -0.395, "z": 2.141, "interact": "坐下", "stand": true}
+PASS [SEATS korea #17（0.15, 2.04）] 坐下了（player.seat）  {"x": 0.15, "z": 2.04, "y": 0, "sx": 0.15, "sz": 2.04}
+  [ 101.0s] [SEATS korea #17（0.15, 2.04）] 按的互動鍵「坐下」；實際坐到的座位 (0.15, 2.04)（要坐的是 (0.15, 2.04)）
+PASS [SEATS korea #17（0.15, 2.04）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 0.15, "z": 2.04, "y": 0, "sx": 0.15, "sz": 2.04}
+  [ 101.1s] [SEATS korea #17（0.15, 2.04）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 29、骨頭高度 [0.09, 1.15]；打到 []
+PASS [SEATS korea #17（0.15, 2.04）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [ 101.3s] [SEATS korea #17（0.15, 2.04）] 【遊戲鏡頭】l118a_seat_korea_1300_sit17_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.35], "player": [0.15, 2.04], "cam": [0.15, 3.21, 5.94], "yaw": 6.283, "mid": {"m": 181.2, "sd": 61.7, "black": 0.035, "white": 0.018, "rgb": [188, 180, 167]}, "top": {"m": 177.8, "sd": 51.4, "black": 0.001, "white": 0, "rgb": [191, 175, 157]}, "near": {"m": 189.6, "sd": 75.6, "black": 0.048, "white": 0.14, "rgb": [197, 188, 176]}}
+  [ 102.7s] [SEATS korea #17（0.15, 2.04）] 起身：["起身"]
+PASS [SEATS korea #17（0.15, 2.04）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（1.76）、walkFallbacks 沒增加  {"moved": 1.76, "x": -0.518, "z": 3.798, "stand": true}
+PASS [SEATS korea #18（0.65, 2.04）] 走到旁邊，互動按鈕是「坐下」  {"x": 1.303, "z": 2.084, "interact": "坐下", "stand": true}
+PASS [SEATS korea #18（0.65, 2.04）] 坐下了（player.seat）  {"x": 0.65, "z": 2.04, "y": 0, "sx": 0.65, "sz": 2.04}
+  [ 109.5s] [SEATS korea #18（0.65, 2.04）] 按的互動鍵「坐下」；實際坐到的座位 (0.65, 2.04)（要坐的是 (0.65, 2.04)）
+PASS [SEATS korea #18（0.65, 2.04）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 0.65, "z": 2.04, "y": 0, "sx": 0.65, "sz": 2.04}
+  [ 109.6s] [SEATS korea #18（0.65, 2.04）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 29、骨頭高度 [0.09, 1.14]；打到 []
+PASS [SEATS korea #18（0.65, 2.04）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [ 109.7s] [SEATS korea #18（0.65, 2.04）] 【遊戲鏡頭】l118a_seat_korea_1300_sit18_game.jpg：{"onScreen": true, "ndc": [-0.0, -0.35], "player": [0.65, 2.04], "cam": [0.65, 3.21, 5.94], "yaw": 6.283, "mid": {"m": 180, "sd": 63, "black": 0.036, "white": 0.022, "rgb": [187, 179, 166]}, "top": {"m": 176.5, "sd": 50.7, "black": 0.001, "white": 0, "rgb": [190, 174, 156]}, "near": {"m": 183.2, "sd": 76.5, "black": 0.047, "white": 0.115, "rgb": [191, 182, 170]}}
+  [ 111.1s] [SEATS korea #18（0.65, 2.04）] 起身：["起身"]
+PASS [SEATS korea #18（0.65, 2.04）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（1.76）、walkFallbacks 沒增加  {"moved": 1.76, "x": 1.483, "z": 3.796, "stand": true}
+PASS [SEATS korea #19（0.15, 3.36）] 走到旁邊，互動按鈕是「坐下」  {"x": -0.102, "z": 3.452, "interact": "坐下", "stand": true}
+PASS [SEATS korea #19（0.15, 3.36）] 坐下了（player.seat）  {"x": 0.15, "z": 3.36, "y": 0, "sx": 0.15, "sz": 3.36}
+  [ 117.2s] [SEATS korea #19（0.15, 3.36）] 按的互動鍵「坐下」；實際坐到的座位 (0.15, 3.36)（要坐的是 (0.15, 3.36)）
+PASS [SEATS korea #19（0.15, 3.36）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 0.15, "z": 3.36, "y": 0, "sx": 0.15, "sz": 3.36}
+  [ 117.3s] [SEATS korea #19（0.15, 3.36）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 29、骨頭高度 [0.09, 1.14]；打到 []
+PASS [SEATS korea #19（0.15, 3.36）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [ 117.4s] [SEATS korea #19（0.15, 3.36）] 【遊戲鏡頭】l118a_seat_korea_1300_sit19_game.jpg：{"onScreen": true, "ndc": [0, -0.36], "player": [0.15, 3.36], "cam": [0.15, 3.21, 7.26], "yaw": 6.283, "mid": {"m": 170, "sd": 66.7, "black": 0.041, "white": 0.001, "rgb": [177, 169, 156]}, "top": {"m": 175.1, "sd": 48.6, "black": 0.001, "white": 0, "rgb": [187, 173, 155]}, "near": {"m": 172.7, "sd": 81.1, "black": 0.093, "white": 0.009, "rgb": [179, 172, 160]}}
+  [ 118.8s] [SEATS korea #19（0.15, 3.36）] 起身：["起身"]
+PASS [SEATS korea #19（0.15, 3.36）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（0.46）、walkFallbacks 沒增加  {"moved": 0.46, "x": 0.803, "z": 3.809, "stand": true}
+PASS [SEATS korea #20（0.65, 3.36）] 走到旁邊，互動按鈕是「坐下」  {"x": 1.264, "z": 3.217, "interact": "坐下", "stand": true}
+PASS [SEATS korea #20（0.65, 3.36）] 坐下了（player.seat）  {"x": 0.65, "z": 3.36, "y": 0, "sx": 0.65, "sz": 3.36}
+  [ 124.2s] [SEATS korea #20（0.65, 3.36）] 按的互動鍵「坐下」；實際坐到的座位 (0.65, 3.36)（要坐的是 (0.65, 3.36)）
+PASS [SEATS korea #20（0.65, 3.36）] 坐的位置離座位 0.000 m（≤0.15）、高度 0.000＝地板＋lift 0.000（±0.06）  {"x": 0.65, "z": 3.36, "y": 0, "sx": 0.65, "sz": 3.36}
+  [ 124.3s] [SEATS korea #20（0.65, 3.36）] 穿模檢查：骨頭 ["chest", "footL", "footR", "head", "hips", "llL", "llR", "neck", "spine", "uchest", "ulL", "ulR"]、線段 8、店裡網格 29、骨頭高度 [0.09, 1.14]；打到 []
+PASS [SEATS korea #20（0.65, 3.36）] 坐下以後身體沒有穿進桌椅（大腿／小腿／脊椎／脖子線段沒有打到店裡的網格；找到 8 段）  []
+  [ 124.4s] [SEATS korea #20（0.65, 3.36）] 【遊戲鏡頭】l118a_seat_korea_1300_sit20_game.jpg：{"onScreen": true, "ndc": [0, -0.36], "player": [0.65, 3.36], "cam": [0.65, 3.21, 7.26], "yaw": 6.283, "mid": {"m": 171.4, "sd": 66.1, "black": 0.041, "white": 0.007, "rgb": [178, 171, 157]}, "top": {"m": 174.3, "sd": 48, "black": 0, "white": 0, "rgb": [186, 172, 155]}, "near": {"m": 169.5, "sd": 80.3, "black": 0.094, "white": 0.049, "rgb": [176, 169, 157]}}
+  [ 125.7s] [SEATS korea #20（0.65, 3.36）] 起身：["起身"]
+PASS [SEATS korea #20（0.65, 3.36）] 起身：不是坐著、站得住、搖桿四方向至少一個推得動 ≥0.3 m（0.46）、walkFallbacks 沒增加  {"moved": 0.46, "x": -0.197, "z": 3.808, "stand": true}
+  [ 127.6s] [SEATS korea] 結果：坐得到 6／6（這一行測的）；{"15": "ok", "16": "ok", "17": "ok", "18": "ok", "19": "ok", "20": "ok"}
+PASS [SEATS korea #15～#20] 每張都坐得到（有 NPC 一直坐著的另列）  {"15": "ok", "16": "ok", "17": "ok", "18": "ok", "19": "ok", "20": "ok"}
+PASS 沒有 JS 例外（pageerror）  []
+FAILED 1: [SEATS korea #16（0.65, 1.41）] 空椅子在 seatApproach 沒有被別的互動搶走（有人佔不算）

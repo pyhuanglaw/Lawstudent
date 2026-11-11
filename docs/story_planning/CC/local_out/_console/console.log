@@ -1,14 +1,3 @@
-[08:54:14] [res] cpu=6% mem=45% (14.1/31.4 GB) chrome_testing=9  END NM2_edge1_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       6288e505a..b194d469c  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:54:21] ==== END   NM2_edge1_new  exit=0  265s   ====
-[08:54:24] memory 46% before starting NM2_saveold_new (2 running)
-[08:54:24] ==== START NM2_saveold_new  (probe @ e8918a0135d6e003d5d0486795e6a15917923d17) ====
-[08:54:27] [res] cpu=16% mem=47% (14.7/31.4 GB) chrome_testing=9  START NM2_saveold_new
-[08:55:03] [res] cpu=11% mem=46% (14.6/31.4 GB) chrome_testing=9  END NM2_edge2_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       b194d469c..09cbd8fe1  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [08:55:09] ==== END   NM2_edge2_new  exit=0  252s   ====
 [08:55:13] memory 45% before starting NM2_open_old (2 running)
@@ -1998,3 +1987,14 @@
        d26dbca86..714df775f  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [16:01:23] ==== END   L118A_SEAT_self1  exit=0  272s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       714df775f..537bcf886  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:01:28] ==== END   L118A_SEAT_korea2  exit=0  144s   ====
+[16:01:31] memory 42% before starting L118A_SEAT_tea1 (2 running)
+[16:01:31] ==== START L118A_SEAT_tea1  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
+[16:01:34] [res] cpu=19% mem=43% (13.4/31.4 GB) chrome_testing=4  START L118A_SEAT_tea1
+[16:01:35] memory 43% before starting L118A_SEAT_tea2 (2 running)
+[16:01:35] ==== START L118A_SEAT_tea2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
+[16:01:38] [res] cpu=20% mem=44% (13.5/31.4 GB) chrome_testing=4  START L118A_SEAT_tea2
+[16:03:24] [res] cpu=54% mem=49% (15.4/31.4 GB) chrome_testing=10  END L118A_SEAT_korea3
