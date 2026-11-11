@@ -1,11 +1,3 @@
-       8a889120c..a7ad52a3f  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[10:50:32] ==== END   LM_cam2_new  exit=0  150s   ====
-[10:50:35] memory 47% before starting LM_scene2_int (2 running)
-[10:50:35] ==== START LM_scene2_int  (probe @ 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585) ====
-[10:50:38] [res] cpu=14% mem=48% (14.9/31.4 GB) chrome_testing=9  START LM_scene2_int
-[10:51:17] [res] cpu=10% mem=48% (15.3/31.4 GB) chrome_testing=9  END LM_cam2_old
-    To https://github.com/pyhuanglaw/Lawstudent.git
        a7ad52a3f..0c601d054  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [10:51:23] ==== END   LM_cam2_old  exit=0  149s   ====
@@ -1998,3 +1990,11 @@
 [18:40:02] ==== START L118A9_tap13  (probe @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
 [18:40:05] [res] cpu=32% mem=43% (13.0/31.4 GB) chrome_testing=5  START L118A9_tap13
 [18:41:51] [res] cpu=13% mem=48% (15.2/31.4 GB) chrome_testing=10  END L118A9_tea9
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0d38488ab..047b9727e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:41:56] ==== END   L118A9_tea9  exit=0  113s   ====
+[18:42:00] memory 48% before starting STAIRX_new_walk (2 running)
+[18:42:00] ==== START STAIRX_new_walk  (probe @ 0d1eaadc7e746d4e6c6b00619f584e805266fbb6) ====
+[18:42:03] [res] cpu=6% mem=48% (15.3/31.4 GB) chrome_testing=10  START STAIRX_new_walk
+[18:43:55] [res] cpu=16% mem=47% (15.8/31.4 GB) chrome_testing=10  END STAIR_a2_run
