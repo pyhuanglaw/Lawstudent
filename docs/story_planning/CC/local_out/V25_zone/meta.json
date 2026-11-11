@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "V25_zone",
+  "sha": "0d1eaadc7e746d4e6c6b00619f584e805266fbb6",
+  "kind": "game",
+  "script": "tests/zone_transitions.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-11T20:18:06",
+  "end": "2026-11-11T20:21:53",
+  "seconds": 227,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "26",
+  "url": "http://127.0.0.1:8800/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 17,
+    "mem": 63,
+    "used_gb": 19.8,
+    "chrome_testing": 14
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
