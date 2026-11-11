@@ -79,7 +79,7 @@ async def one(p, attempt):
             await L.joystick(pg, cdp, JOY[k][0], JOY[k][1], 900); await pg.wait_for_timeout(500)
             b2 = await pg.evaluate(ST); pb = await pg.evaluate(PB_JS)
             d = ((b2['x'] - a['x']) ** 2 + (b2['z'] - a['z']) ** 2) ** 0.5
-            ok = not (pa['busy'] or pa['dlg'] or pb['busy'] or pb['dlg'])
+            ok = not (pa['busy'] or pa['dlg'])   # JOY_live1／JOY_779_1：推之前能動、推了走 2.38 m，走到觸發 kaiMoveIn 對話——推完才開始的劇情不能讓這一推不算（TEST_BUG）
             pushes.append({'dir': k, 'free': free.get(k), 'moved': round(d, 2), 'counted': ok, 'before': pa, 'after': pb})
             if ok: moved = max(moved, d)
         R.note('③ 每推一次：%s' % J(pushes))
