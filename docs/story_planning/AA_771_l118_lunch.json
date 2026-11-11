@@ -23,7 +23,7 @@
    "每個人的句子都是第一版，BB 還沒看；你可以先接系統，字我會再補（每人的午餐對話想加到五六組）。",
    "人物只用 characters.js 和現行設定總表有的設定；沒有新增人物背景。"
   ],
-  "for_LAWWW": "已照新九間店改版（v3）。提到店或菜的地方：arrive 九句；有 shop 欄的 L-an-2（omu、pasta）、L-mx-1（cafe2）、L-zhe-1（korea、tea）、L-xc-1（home 以外）；L-yu-3（巷口的手搖飲＝喝不喝咖啡）；偶遇 S-meet-sis（self）、S-meet-yt（tea）、S-meet-kai（korea）、S-meet-ziqing（drink_b）。",
+  "for_LAWWW": "已照新九間店改版（v3）。提到店或菜的地方：arrive 九句；有 shop 欄的 L-an-2（omu、pasta）、L-mx-1（cafe2）、L-zhe-1（korea、tea）、L-xc-1（home 以外）；L-yu-3（巷口的手搖飲＝喝不喝咖啡）；偶遇 S-meet-sis（self）、S-meet-yt（dian）、S-meet-kai（korea）、S-meet-ziqing（drink_b）。",
   "v2": "照 BB_331 改：L-zhe-2 不提民總；S-meet-senior 限大一上；「下一堂」四處改掉；G-an-ps 重寫；婉拒回覆每人三句；加 n 欄。id 都沒變。",
   "v3": "照使用者 11-11 的九間店新規格（L118-SHOPS-REDO-1111／X338；AA_280 改版）改：prefs、有 shop 欄的組、arrive 九句（九間都算午餐）、四個偶遇的店。id 都沒變。"
  },
@@ -1135,7 +1135,7 @@
    "lines": [
     [
      null,
-     "（靠牆那桌，語彤一個人，面前一鍋泡菜鍋，紅通通的。）"
+     "（靠牆那桌，語彤一個人，面前一份雞排，鐵板上的黑胡椒醬她又加了辣。）"
     ],
     [
      "heroine_03",
@@ -1156,7 +1156,7 @@
    },
    "first": true,
    "shop": [
-    "tea"
+    "dian"
    ],
    "cond": "有 YT_MET_JOB；語彤在臺北；平日；不和 AA_311 H8 同一天"
   },
