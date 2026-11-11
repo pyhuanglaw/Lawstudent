@@ -5871,6 +5871,15 @@
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
    "note": "X327 沛珊美術館心願事件「不用接話的一天」＋去她的縣市（台中、台南）＋台南美術館：①wish_rows 69 列 old→new 由 tools/date/import_wish.py 疊在 wish_bb.json 的 classmate_peishan 上（換完要等於稿的 wish_event；物件、旗標 PS_UNTITLED、條件、時間、花費不動）→ src/data/date_wish.js；②hometown_rows 31 列、tainan_museum 整段的字直接換進手寫的 src/data/hometown_lines.js（sendFlag 那一句、PS_SEND、台南 extra、視訊其他開頭和結尾不動）。逐字對稿 tests/peishan_dates_1111_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_758_peishan_date_common.json",
+   "sha": "bed993604",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X327 沛珊重寫第 7 批）；bed993604＝照 BB 對條件的結果改兩句（acceptDating、depart 第二句）；LAWWW 2026-11-11 指定匯這一版（取代 987845b7c）",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊校外約會不分地點的短句（十一種 17 句；每一種句數不變）：tools/date/import_date_lines.py 照稿的 rows old→new 疊在 BB_128 3-6、3-7 拆出來的 DATE_LINES.lines.classmate_peishan 上（換完要等於稿的 new）→ src/data/date_lines.js。逐字對稿 tests/peishan_dates_1111_unit.js"
   }
  ]
 }

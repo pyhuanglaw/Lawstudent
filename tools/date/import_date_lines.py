@@ -16,6 +16,7 @@
     AA_694（DATE-ELLIPSIS-1105，使用者 11-05 選「整批改」）：拿掉沒必要的「……」（句首、。！？後、）後；規則在 tools/date/ellipsis694.py）。源稿 Dxx.json 企劃線 1b095a239 已經改好；
     上面疊的改句（AA_373／359／524／525／526／598／594／630）原句、改成都先照同一條規則換過再對（源稿已經拿掉了），寫檔前整份再套一次，
     AA_694 第 3 節 252 句逐列核對（規則算出來和表不一樣、表上的新句不在檔裡、三種還有＝停下來）。白名單沒有 AA_694＝不套。
+    AA_758（X327 沛珊重寫第 7 批，白名單上的 commit）：沛珊不分地點的短句 17 列 old→new 疊在 BB_128 3-6、3-7 拆出來的 lines.classmate_peishan 上（每一種句數不變；換完要等於稿的 new）。
     PEISHAN-VOICE-1110（使用者 X327 沛珊重寫；AA_756 第 3 節，源稿 Dxx.json 企劃線 2883197b6 只動 classmate_peishan 的格子）：疊在上面的改句裡**沛珊的列**原句對不到＝跳過、不報錯
     （只對沛珊放寬，別人照舊停下來；跳過的列印出來：PS_SKIP）。AA 指明新稿不用再套的四列不套（PS_DROP：AA_525 2-4 P-6 的 D08／D15／D18、AA_359 5-3 的 D31——新稿直接寫好了）。
 用法：python3 tools/date/import_date_lines.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_lines.js）]"""
@@ -471,6 +472,35 @@ print('旁白改成註記（不顯示）：', len(noted), '行')
 bad = [(w, k) for w in NAME.values() for k in KEYS + ['cancel', 'flaked'] if not (L.get(w) or {}).get(k)]
 if bad:
     sys.exit('拆不出來（表格格式變了？）：' + json.dumps(bad, ensure_ascii=False))
+# AA_758（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫第 7 批；白名單上的 commit）：沛珊不分地點的短句（答應、改時間、交通、取消、放鴿子、出發、玩夠了、提早走、合照；十一種 17 句）。
+# 源頭 BB_128 3-6、3-7 的表沒改（企劃線），照稿的 rows 疊：DATE_LINES.lines.classmate_peishan[key][i] 現在的字（照 AA_694 拿掉「……」以後）要剛好是 old，換成 new；
+# 已經是 new＝源稿自己改好了，跳過；兩個都不是＝停下來。每一種的句數不變；換完整組要等於稿的 new（兩邊互相對）。換掉的舊句記進 PS_GONE（AA_694 第 3 節逐列核對時不算漏換）。白名單沒有 AA_758＝不疊
+A758 = G.approved_files(ALLOW, SP + 'AA_758_')
+FIXED758 = 0
+if A758:
+    P758, S758 = next(iter(A758.items()))
+    ok, why = G.allowed(P758, S758, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d758 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S758}:{P758}'], text=True)))
+    if len(d758.get('rows') or []) != 17:
+        sys.exit(f'AA_758@{S758} 的 rows 應該是 17 列，讀到 {len(d758.get("rows") or [])} 列')
+    LP = L.get(PS) or {}
+    for r in d758['rows']:
+        k, i = r['key'], r['i']
+        if k not in LP or not isinstance(LP[k], list) or i >= len(LP[k]) or not isinstance(LP[k][i], str):
+            sys.exit(f'AA_758 {k}[{i}]：沛珊沒有這一格（或不是一句）')
+        cur = LP[k][i]
+        if cur == r['new']: continue
+        if N(cur) != N(r['old']):
+            sys.exit(f'AA_758 {k}[{i}]：現在是「{N(cur)}」，不是原句「{r["old"]}」')
+        if N(r['new']) != r['new']:
+            sys.exit(f'AA_758 {k}[{i}]：新句照 AA_694 的規則會被改掉「……」（{r["new"]}），先問 AA')
+        LP[k][i] = r['new']; PS_GONE.update((cur, N(cur))); FIXED758 += 1
+    if {k: LP.get(k) for k in d758['new']} != d758['new'] or any(len(LP[k]) != len(v) for k, v in d758['new'].items()):
+        sys.exit('AA_758：17 列換完以後和稿的 new 不一樣（稿的兩份對不起來，或 BB_128 沛珊那幾格變了）')
+    FILES['fix758'] = P758
+    print(f'AA_758@{S758}：沛珊不分地點的短句 17 列，換了 {FIXED758} 列')
 # AA_594（以安改稿④b，白名單 AA594-AN-4B-1102；第 9、10 節「本批全部可以交 LAWWW 整合」）第 2-14 節：以安的約會台詞改 314 列（含全域那幾格，源頭 AA_127 第 8 節）。
 # 源稿 lines/Dxx.json、AA_127 沒改（企劃線），照表疊：位置欄的 `路徑`（DATE_LINES 底下的 lines.… 或 loc.…）那一格現在的字要剛好是「原句」（旁白的括號照原樣），換成「改成」；
 # 對不上（路徑找不到、字不一樣）＝停下來，不猜。改成＝原句的列（BB_240 補回原句）跳過。白名單沒有 AA_594＝不疊
