@@ -1,8 +1,3 @@
-       f1778a9aa..63de4eb2b  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[13:09:01] ==== END   PACK7_ss_front  exit=0  209s   ====
-[13:09:03] 正在跑：CLASS12_const_b（已跑 2 分／上限 12 分）、CLASS12_crim_a（已跑 2 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
-[13:09:04] memory 49% before starting CLASS12_crim_b (2 running)
 [13:09:04] ==== START CLASS12_crim_b  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
 [13:09:07] [res] cpu=1% mem=49% (15.6/31.4 GB) chrome_testing=10  START CLASS12_crim_b
 [13:11:15] [res] cpu=0% mem=49% (15.6/31.4 GB) chrome_testing=10  END CLASS12_const_b
@@ -1998,3 +1993,8 @@
 [21:28:41] [res] cpu=30% mem=45% (14.2/31.4 GB) chrome_testing=9  START V25_X290_real
 [21:29:05] 正在跑：REL_soc_ctl_r2（已跑 14 分／上限 30 分）、V25_X290_invgo（已跑 1 分／上限 30 分）、V25_X290_real（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:30:13] [res] cpu=20% mem=43% (13.6/31.4 GB) chrome_testing=5  END V25_X290_real
+[21:30:19] [res] cpu=18% mem=43% (13.8/31.4 GB) chrome_testing=5  END V25_X290_invgo
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e6146c379..eed878275  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:30:22] ==== END   V25_X290_real  exit=0  95s   ====
