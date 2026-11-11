@@ -3,8 +3,8 @@
 
 1. 瀏覽器 CASES=ps_ladder：大一上閒聊階梯前三層（P-L1～P-L3，src/data/ladder.js 照 AA_753_peishan_ladder_Y1S1.json @33a1769f8 匯入）逐句記。
    對照的程式（src/story3d.js）：S.talkCharacter → S.ladderTalk → S.ladNext（S.ladData：大一上的 key＝classmate_peishan；一天一層 ladderDay）→ S.ladPlay（選項 re、fx）。
-   每一層：【捷徑】讀 day46 存檔、找 14 天內她在 3D 某一區（不是上課）而且下一層＝第 k 層的時段，閒聊階梯進度設成 k、拿掉今天聊過的記號 → 走到她旁邊、按「說話」→ 一路點（選項選第一個、
-   說完以後的「就這樣」）。稿＝DRAFT_DIR（預設 fixtures/te_drafts）的 AA_753_peishan_ladder_Y1S1.json：那一層的 lines、選項的字、選了以後的 re、fx（SOCIAL.applyFx 收到的）、記憶 mem。
+   每一層：【捷徑】讀 day46 存檔、找 21 天內她在 3D 某一區（不是上課、不是圖書館——圖書館說話只點頭）而且下一層＝第 k 層的時段，閒聊階梯進度設成 k、拿掉今天聊過的記號 → 走到她旁邊、按「說話」→ 一路點（選項選第一個、
+   說完以後的「就這樣」）；那一層的條件要先演過的事件（P-L3：ev_public_law_group）存檔還沒演＝【捷徑】記成演過。稿＝DRAFT_DIR（預設 fixtures/te_drafts）的 AA_753_peishan_ladder_Y1S1.json：那一層的 lines、選項的字、選了以後的 re、fx（SOCIAL.applyFx 收到的）、記憶 mem。
 2. 離線（不開瀏覽器）：python3 cc_te2_probe.py --static <受測樹> <out>：受測樹 src/ 全部搜「早餐店」「四點半」「蛋餅」「煎台」「端七盤」，
    每一處標「沛珊這一行／沛珊（前幾行內）／不確定」，一行很長的 JSON 檔（ladder.js、date_lines.js…）照出現的位置往前找最近的人物 key。輸出 <out>/te2_static.txt、.json。
 用法：LW_TESTS=<worktree>/tests SHA=<sha> [CASES=ps_ladder] [DRAFT_DIR=...] python3 cc_te2_probe.py <url> <out>"""
@@ -79,17 +79,19 @@ CH_AT = "(k=>{ const b=[...document.querySelectorAll('#choices button')]; const 
 PHONE_OPEN_JS = "(()=>{ const e=document.getElementById('phone'); return !!e&&!e.classList.contains('hide'); })()"
 NPC_JS = r"""(id=>{ const E=GAME.E; let n=(E.npcs||[]).find(q=>q&&q.charId===id&&q.talk&&!q.hidden&&q.obj)||null; if(!n&&GAME.npc&&GAME.npc[id]&&GAME.npc[id].talk) n=GAME.npc[id];
   if(!n||!n.obj) return null; const p=n.obj.position; return {x:+p.x.toFixed(2), z:+p.z.toFixed(2), lv:n.lv|0, label:n.talkLabel||null, name:n.name||''}; })"""
-# 14 天內她在 3D（不是上課）、下一層＝第 k 層、半小時後還在同一區的時段（只算，算完把日期、區域、階梯進度放回去）
+# 21 天內她在 3D（不是上課、不是圖書館）、下一層＝第 k 層、半小時後還在同一區的時段（只算，算完把日期、區域、階梯進度放回去）
 SCAN_JS = r"""(a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday,zone:G.zone}, so=G.social||(G.social={}); so.ladder=so.ladder||{}; so.ladderDay=so.ladderDay||{};
   const snap=JSON.stringify({l:so.ladder, d:so.ladderDay}); const back=()=>{ const S0=JSON.parse(snap); so.ladder=S0.l; so.ladderDay=S0.d; };
   try{ for(let d=a.d0; d<a.d0+a.days; d++){ for(const hr of a.hours){ G.day=d; G.hour=hr; G.weekday=CALENDAR.dateOf(d).wd%7; G.zone=keep.zone; back();
         const D=STORY.ladData(G,a.id); if(!D) continue; const steps=D.L.steps||[]; if(!steps[a.k]) return {err:'沒有第 '+a.k+' 層'};
         let w=null; try{ w=STORY.whereIs(GAME,a.id); }catch(e){} if(!w||!w.zone||w.away) continue; if(w.zone==='classroom'||/上課|上班/.test(w.act||'')) continue;
+        if(typeof LIBQ!=='undefined'&&LIBQ.ZONES&&LIBQ.ZONES[w.zone]) continue;   /* 圖書館（小聲）：說話只點頭（libquiet3d.js S.NOD），不推進階梯 */
         G.zone=w.zone; so.ladder[D.key]=a.k; delete so.ladderDay[a.id]; let nx=null; try{ nx=STORY.ladNext(G,a.id); }catch(e){} if(!nx||nx.id!==steps[a.k].id) continue;
         G.hour=hr+0.5; let w2=null; try{ w2=STORY.whereIs(GAME,a.id); }catch(e){} if(!w2||w2.zone!==w.zone) continue;
         const st=steps[a.k]; return {key:D.key, k:a.k, step:st.id, lines:st.lines||[], choices:(st.choices||[]).map(c=>c.t), d, wd:CALENDAR.dateOf(d).wd%7, dkey:CALENDAR.dateOf(d).key, hr, zone:w.zone, act:w.act||''}; } } }
   finally{ Object.assign(G,keep); back(); }
   return null; })"""
+STEPEV_JS = "(a=>{ const D=STORY.ladData(GAME.G,a.id); const st=D&&(D.L.steps||[])[a.k]; return st?{id:st.id, cond:st.if||null, events:(st.if&&st.if.events)||[]}:null; })"
 REL_JS = "(w=>{ const r=SOCIAL.rel(w)||{}; return {fam:r.fam, trust:r.trust, comf:r.comf, npcRom:r.npcRom, stage:SOCIAL.stage?SOCIAL.stage(w):null}; })"
 MEM_JS = "(a=>a.ms.map(m=>[m, !!(SOCIAL.has&&SOCIAL.has(a.w,m))]))"
 
@@ -188,11 +190,17 @@ async def case_ladder(pg, cdp, errs):
         t = '[ps_ladder 第 %d 層]' % (k + 1); e0 = len(errs); ds = steps[k]
         st = dict(base); st.update({'hour': 10.0, 'invites': []})
         await L.load_state(pg, st, quiet_phone=True); await pg.wait_for_timeout(3000); await pe.settle(pg, cdp, [], 30); await pg.evaluate(HOOK_JS)
-        slot = await pg.evaluate(SCAN_JS, {'id': WHO, 'k': k, 'd0': base['day'], 'days': 14, 'hours': [10, 11, 13, 14, 15, 16, 17, 19, 20]})
+        sev = await pg.evaluate(STEPEV_JS, {'id': WHO, 'k': k}) or {}
+        need = [e for e in sev.get('events') or [] if e not in ((base.get('events') or {}).get('done') or {})]
+        if need:   # 這一層的條件要先演過的事件（P-L3：ev_public_law_group）：存檔還沒演＝【捷徑】記成演過
+            ev = json.loads(json.dumps(st.get('events') or {})); ev.setdefault('done', {}); ev['done'].update({e_: base['day'] for e_ in need}); st['events'] = ev
+            await L.load_state(pg, st, quiet_phone=True); await pg.wait_for_timeout(3000); await pe.settle(pg, cdp, [], 30); await pg.evaluate(HOOK_JS)
+            R.setup('%s【捷徑】這一層的條件（%s）要的事件 %s 存檔還沒演，記成演過' % (t, J(sev.get('cond')), J(need)))
+        slot = await pg.evaluate(SCAN_JS, {'id': WHO, 'k': k, 'd0': base['day'], 'days': 21, 'hours': [10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21]})
         r = {'k': k, 'draft_id': ds.get('id'), 'slot': slot}; res['steps'].append(r)
         R.note('%s 掃到的時段：%s' % (t, J(slot)))
-        if not R.check('%s 前置：14 天內找得到她在 3D、下一層＝%s 的時段' % (t, ds.get('id')), bool(slot) and not slot.get('err'), J(slot)): continue
-        st2 = dict(base); st2.update({'day': slot['d'], 'hour': slot['hr'] + 0.05, 'weekday': slot['wd'], 'zone': slot['zone'], 'pos': None, 'invites': []})
+        if not R.check('%s 前置：21 天內找得到她在 3D、下一層＝%s 的時段' % (t, ds.get('id')), bool(slot) and not slot.get('err'), J(slot)): continue
+        st2 = dict(st); st2.update({'day': slot['d'], 'hour': slot['hr'] + 0.05, 'weekday': slot['wd'], 'zone': slot['zone'], 'pos': None, 'invites': []})
         so = json.loads(json.dumps(st2.get('social') or {})); so.setdefault('ladder', {})[slot['key']] = k; ld = dict(so.get('ladderDay') or {}); ld.pop(WHO, None); so['ladderDay'] = ld; st2['social'] = so
         await L.load_state(pg, st2, quiet_phone=True); await pg.wait_for_timeout(3000); await pe.settle(pg, cdp, [], 30); await pg.evaluate(HOOK_JS); await pg.evaluate(RESET_JS)
         R.setup('%s【捷徑】讀 day46 存檔、日期 %s %.2f 點、區域 %s（她的作息：%s）；閒聊階梯 %s 進度設成 %d、拿掉今天聊過的記號' % (t, slot['dkey'], slot['hr'] + 0.05, slot['zone'], slot['act'], slot['key'], k))
