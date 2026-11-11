@@ -5,6 +5,7 @@
    可昕 K7 第一年週年卡片的後面幾頁（第 9 節）是宿舍的房間物件，不是事件：頁面在 PAGES（src/rom1016_3d.js 的 STORY.ROOM_EXTRA）。
    沛珊 5-1：AA_360 第 3 節拿掉「她用祐廷對她的方式」的錨點，場面台詞不動（她會等學生問完，是因為她國中的老師這樣等過她）。
    測試：node tests/rom1016_unit.js */
+/* 2026-11-11（使用者 X327 沛珊重寫）：ev_peishan_waited、ev_peishan_red_pen 沛珊的五句照 AA_762_peishan_events_2.json@1fc9a6658 換（條件、選項的字不動）。逐字對稿：tests/peishan_events_1111_unit.js */
 'use strict';
 const ROM1016_EVENTS=(function(){
   const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
@@ -37,13 +38,13 @@ const ROM1016_EVENTS=(function(){
       {speaker:null,text:'（你在門外看了三分鐘。她一句答案都沒有說。最後小男生自己說了一句，她在他的作業本上畫了一個紅筆笑臉。）'},
       to(19),
       {speaker:'classmate_peishan',text:'（下課，走出來）你看到了嗎？'},
-      {speaker:'classmate_peishan',text:'他問我，為什麼負負得正。我沒有回答。我問他：「你覺得呢？」'},
-      {speaker:'classmate_peishan',text:'他想了三分鐘。……答錯了。可是他自己想了三分鐘。'},
+      {speaker:'classmate_peishan',text:'他問我為什麼負負得正。我沒回答，我問他：「你覺得呢？」'},
+      {speaker:'classmate_peishan',text:'他想了三分鐘，答錯了。可是那三分鐘是他自己想的。'},
       {speaker:null,text:'（她把紅筆蓋上，看了你一眼。）'},
       {speaker:'classmate_peishan',text:'你怎麼都不講話？'},
       {choice:[{text:'「他後來有算對嗎？」',goto:'a'},{text:'「下次換我問，妳等我。」',goto:'b'}]},
       {label:'a'},{speaker:'classmate_peishan',text:'還沒。他說下禮拜要再問一次。'},{goto:'c'},
-      {label:'b'},{speaker:'classmate_peishan',text:'好。……那你要問難一點的。太簡單的我會忍不住回答。'},
+      {label:'b'},{speaker:'classmate_peishan',text:'好。那你要問難一點的，太簡單的我會忍不住直接講答案。'},
       {label:'c'},{speaker:'classmate_peishan',text:'走吧，我好餓。'},
       {call:(G,GM)=>{ const x=X(); return x?x.ladder(GM):null; }},   /* 私下約那一天推進一層閒聊階梯（AA_349 K4；hometown3d.js 的 HV.ladder）*/
       to(21),
@@ -64,8 +65,8 @@ const ROM1016_EVENTS=(function(){
       {speaker:null,text:'（你看了第三段。……她說對了。）'},
       {speaker:null,text:'（她在旁邊畫了一個笑臉，沒有說話，把本子推回來。）'},
       {choice:[{text:'「妳比我的老師還準。」',goto:'a'},{text:'「那妳的作業，換我改一本。」',goto:'b'}]},
-      {label:'a'},{speaker:'classmate_peishan',text:'我又看不懂法律。我只是看你哪裡寫得快。'},{goto:'c'},
-      {label:'b'},{speaker:'classmate_peishan',text:'不行。……好啦，你改一本。只能畫笑臉，不能打分數。'},
+      {label:'a'},{speaker:'classmate_peishan',text:'法律我早就還給老師了。我只是看你哪裡寫得快。'},{goto:'c'},
+      {label:'b'},{speaker:'classmate_peishan',text:'不行。好啦，你改一本。只能畫笑臉，不能打分數。'},
       {label:'c'},{call:(G,GM)=>{ const x=X(); return x?x.ladder(GM):null; }},
       to(21.5),
       {speaker:null,text:'（九點半，她陪你走到車站。）'},

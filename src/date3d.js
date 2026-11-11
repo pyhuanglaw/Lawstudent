@@ -8,6 +8,7 @@
      G.trips＝[{trip:'T0001', who, locs:['D13'], day, depart, back, transport, fare, by:'player'|'her', wish, status, spots:[], departed}]
      G.groupTrips＝[{loc, day, members:[…]}]（一群人去，不計數）
    兩天一夜（DATE-OVERNIGHT-1021，AA_359）：trip 的 kind:'overnight'、nights:1、lodging、leave、night；G.flags.DATE_OVERNIGHT＝{人物 id:次數}（一趟記一次，AA_359 5-1 B9）。測試：node tests/date_overnight_unit.js */
+/* 2026-11-11（使用者 X327 沛珊重寫）：S.T7A_YES、S.HOME_NO 沛珊的兩句照 AA_763_peishan_misc3.json@62460ea75 換（2 列，只換字）。逐字對稿：tests/peishan_misc3_1111_unit.js */
 'use strict';
 const DATE=(function(){
   const S={};
@@ -228,7 +229,7 @@ const DATE=(function(){
   const liveIv=v=>v.state==='accepted'||v.state==='going'||v.state==='offered'||v.state==='changed';
   /* 以安、芷若回台中的日子（presence kind home，AA_350 S6）：校外約會擋掉（和沛珊同一套：約的那一天照那一天算）；約的是她老家那個城市的地點（D26 臺中）不擋——
      「她人在臺中，正好是 D26 檔頭說的『回到自己長大的城市，被你帶著逛』」。婉拒的句子照 S6（她說的話，用「」）。她今天就在台中的話照 T7a（下面的 S.homeOnly），這裡管約到哪一天 */
-  S.HOME_NO={heroine_01:'「那幾天我在台中。……換一天。」',heroine_02:'「那個禮拜我回台中了。換一天好不好？」',classmate_peishan:'「那幾天我回台中啦！……換一天好不好？」'};   /* 沛珊：AA_372 第 7 節（企劃線 da55ec2b，寒暑假、週末共用）*/
+  S.HOME_NO={heroine_01:'「那幾天我在台中。……換一天。」',heroine_02:'「那個禮拜我回台中了。換一天好不好？」',classmate_peishan:'「那幾天我回台中啦！換一天好不好？」'};   /* 沛珊：AA_372 第 7 節（企劃線 da55ec2b，寒暑假、週末共用）*/
   const cityOf=s=>String(s||'').replace(/臺/g,'台').replace(/[市縣]$/,'');
   /* 她那一天在老家的城市：寒暑假（presence kind home）、週末回台中（kind trip「回台中」：以安第 4／8／12 週、沛珊單數週，AA_372 #8；
      AA_372 第 7 節（企劃線 da55ec2b）：週末也照 T7a、S6——BB 10-22 03:16 讀碼：原本只看 home，前一天在臺北約那個週末照常出發、當天手機的約整個關著）*/
@@ -240,7 +241,7 @@ const DATE=(function(){
      手機的約打開（INV.whyNot、canInvite、flow 只有「去校外…」），約會清單只列她老家那個城市的地點（D26；兩天一夜也只有 D26）。她答應的那一句照 T7a（S.T7A_YES，手抄、照稿逐字）。
      還沒到可以約校外的程度（第 5 階、交往中以外；她在等你說清楚；她有交往的對象）＝沒有可以列的＝照舊關著（「回台中了，不在臺北。」）。
      homeCity：她那一天在老家的城市（S6 的以安、芷若；不在＝''）；homeOnly：今天照 T7a 只能列的地點，不是這種情況＝null */
-  S.T7A_YES={heroine_01:'臺中？……好。我去車站接你。',heroine_02:'你要來臺中？……好。我帶你走。',classmate_peishan:'你要來台中喔？好啊！我幫完早餐店就去車站接你！'};   /* 沛珊：AA_372 第 7 節（新寫）*/
+  S.T7A_YES={heroine_01:'臺中？……好。我去車站接你。',heroine_02:'你要來臺中？……好。我帶你走。',classmate_peishan:'你要來台中喔？好啊！我去車站接你，這次我會準時！'};   /* 沛珊：AA_372 第 7 節（新寫）*/
   S.homeCity=function(G,id,day){ if(!S.HOME_NO[id]||typeof STORY==='undefined'||!STORY.presence) return ''; const p=STORY.presence(id,day==null?G:Object.assign({},G,{day})); return awayCity(p,id); };
   S.homeOnly=function(G,id){ const c=S.homeCity(G,id); if(!c) return null; { if(typeof CLS!=='undefined'&&CLS.examNear?CLS.examNear(G,G.day):(()=>{ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; return !!(T&&T.exam); })()) return null; }   /* AA_638 ①-4 */   /* AA_383 第 2 節（企劃線 98516b51）：考試週的規則優先——一日遊在考試週本來就不能排（S.check「考試週」），T7a 只列的 D26 也約不成：手機照「回台中，不在臺北。」（以安第 8 週 10/25～26 期中考考完回台中）*/ const L=Object.keys(D().locations).filter(k=>cityOf((S.loc(k)||{}).area)===c&&S.listable(k)); return L.length&&S.canAskCore(G,id).ok?L:null; };
   /* T7a 那一句：從 T7a 的清單約的、出發那天她還在台中（她已經回臺北的日子＝一起從臺北出發，照一般答應的那一句）*/
@@ -570,10 +571,10 @@ const DATE=(function(){
   /* AA_525 1-6、2-4（企劃線 6081f725f）：第一次選了哪一個要記下來（PICK_FLAG）；remember 只給選過對應選項的人（REMEMBER_IF：no＝其他人換的那一組；add＝有旗標的多幾句、once＝演過一次記 'paid'）*/
   S.PICK_FLAG=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',t:'「我請妳。」',flag:'ZQ_D06_TREAT'},   /* 「好。下次我請你吃滷味。」→ remember「上次說要請你吃滷味，十點以後半價那間。」*/
     {loc:'D15',who:'heroine_04',pid:'D15.store',t:'「布丁不行。」',flag:'ZQ_D15_NEXT'},   /* 「……欸，好啦。布丁下次。」→ remember「上次的布丁，今天我要。」「……上次說下次的。」*/
-    {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',t:'「我請妳。」',flag:'PS_D05_EGG'}];   /* 「……那下次我請你吃蛋餅。說好了。」*/
+    {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',t:'「我請妳。」',flag:'PS_D05_EGG'}];   /* 「好啊，那下次換我。」（X327 沛珊重寫 2026-11-11：原本「那下次我請你吃蛋餅。說好了。」；旗標名不改）*/
   S.REMEMBER_IF=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',flag:'ZQ_D06_TREAT',no:[{who:'heroine_04',text:'上次也來這裡。'}]},
     {loc:'D15',who:'heroine_04',pid:'D15.store',flag:'ZQ_D15_NEXT',no:[{who:'heroine_04',text:'上次也來這裡。'}]},
-    {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',flag:'PS_D05_EGG',once:true,add:[{who:'narr',text:'（她把一盒蛋餅放到你面前。）'},{who:'classmate_peishan',text:'說好的！'}]}];
+    {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',flag:'PS_D05_EGG',once:true,add:[{who:'narr',text:'（她把一杯熱紅茶推到你面前。）'},{who:'classmate_peishan',text:'說好的，這次換我。'}]}];   /* X327 沛珊重寫（date_rewrite/peishan_D05.json@2883197b6 的 for_LAWWW）：原本是一盒蛋餅、「說好的！」 */
   S.rememberOf=function(G,t,pid,R){ if(!R) return R; const F=(G&&G.flags)||{}, x=S.REMEMBER_IF.find(r=>r.loc===t.locs[0]&&r.who===t.who&&r.pid===pid); if(!x) return R;
     const has=F[x.flag]!=null&&F[x.flag]!==false&&!(x.once&&F[x.flag]==='paid');
     if(x.no) return has?R:Object.assign({},R,{lines:x.no});
@@ -641,9 +642,10 @@ const DATE=(function(){
   S.NIGHT={single:'（晚上住在車站附近的旅館。兩間房，隔著一道牆。）',dating:'（晚上住在一間小民宿。窗外很安靜。）',home:'（晚上她回家。你住在車站附近的旅館。）',rent:'（晚上她回租的地方。你住在車站附近的旅館。）'};   /* 還沒交往／交往中／她在自己家（D26 以安、芷若在臺中的家）／她在租的地方（D28 沛珊大三起在台南）*/
   S.MORNING_NARR='（第二天早上。）';
   S.MORNING={heroine_01:'早餐我查過了。……走路五分鐘。',heroine_02:'我六點就醒了。換地方睡，都這樣。',heroine_03:'……這裡的蛋餅，沒有秀琴姨煎的好吃。',heroine_04:'昨天我又弄到兩點。……今天你負責叫我。',
-    heroine_05:'（保溫瓶已經裝好熱茶）……出發前喝一口。',classmate_peishan:'我四點半就醒了。……習慣了。我在大廳等你。',kexin:'行程表我昨天晚上重寫了。……你看一下第二天。'};
-  S.MORNING_OWN={heroine_01:'我媽多做了一份早餐。……叫我帶給你。',heroine_02:'我出門的時候，我媽問我跟誰。……我說回來再講。',classmate_peishan:'我在樓下。早餐我買好了。'};   /* 以安、芷若（D26 臺中）、沛珊（D28 臺南）；沛珊「四點半起床」照 BB_198 2-3 */
-  S.MORNING_HOME={classmate_peishan:'我在樓下。早餐從我家店裡帶來的。'};   /* 沛珊 D26 臺中、她剛好在台中老家（AA_359 第 3 節、5-1 B2：她家開早餐店，不借 D28 那句）*/
+    heroine_05:'（她已經在大廳，頭髮綁好了）早。你慢了七分鐘。',classmate_peishan:'我居然自己醒了，沒有靠鬧鐘。我在大廳等你，快來看奇蹟。',kexin:'行程表我昨天晚上重寫了。……你看一下第二天。'};
+  /* 2026-11-11（使用者 X324 學姊約會台詞重寫，date_rewrite/sis_D26.json@82c946ad7 的 for_LAWWW）：S.MORNING 學姊那一句換了（原本「（保溫瓶已經裝好熱茶）……出發前喝一口。」；保溫瓶整份約會稿只留 D02、D09、D13 三處） */
+  S.MORNING_OWN={heroine_01:'我媽多做了一份早餐。……叫我帶給你。',heroine_02:'我出門的時候，我媽問我跟誰。……我說回來再講。',classmate_peishan:'我在樓下。早餐我買好了，買太多，你要負責吃。'};   /* 以安、芷若（D26 臺中）、沛珊（D28 臺南）；沛珊三句（MORNING、MORNING_OWN、MORNING_HOME）2026-11-11 照 X327 重寫換（date_rewrite/peishan_D26／D28.json@2883197b6 的 for_LAWWW：新設定早上起不來、家裡是連鎖餐廳） */
+  S.MORNING_HOME={classmate_peishan:'我在樓下。我媽叫我帶水果給你，一大袋，我提得好辛苦。'};   /* 沛珊 D26 臺中、她剛好在台中老家（AA_359 第 3 節、5-1 B2：不借 D28 那句）*/
   S.nightKind=(G,t,own)=>own==='home'?'home':(own==='rent'?'rent':(G.flags&&G.flags['dating_'+t.who]?'dating':'single'));
   S.morningLine=(id,own)=>(own==='home'&&S.MORNING_HOME[id])||(own&&S.MORNING_OWN[id])||S.MORNING[id]||null;
   /* 有時間的三個互動點（AA_359 5-1 B7：台詞寫死了時間，兩天一夜要限制；一日約會不限）：day＝第幾天、at＝那一天的第幾個點（0 起算）才列；until＝演完至少到幾點（接晚上那一句）。

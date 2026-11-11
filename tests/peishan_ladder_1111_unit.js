@@ -17,11 +17,19 @@ const PS='classmate_peishan', BASE='a724370bc';   /* BASE＝重寫以前的開�
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<28}); }catch(e){ return null; } };
 /* 一份稿：檔名、只認的 SHA、學期 → [招呼模式, 要拿掉的 when] */
 const FILES=[
-  {f:'AA_753_peishan_ladder_Y1S2_Y2S1.json',sha:'c5094495d',terms:{Y1S2:['full',['我在客運上背了一路，才背到第三章。']],Y2S1:['full',['我背到第三章，還有四章。']]}},
+  {f:'AA_753_peishan_ladder_Y1S2_Y2S1.json',sha:'b59a8f9de',terms:{Y1S2:['full',['我在客運上背了一路，才背到第三章。']],Y2S1:['full',['我背到第三章，還有四章。']]}},
   {f:'AA_753_peishan_ladder_Y3.json',sha:'188061108',terms:{Y3S1:['base',['你吃早餐了嗎？……我家開早餐店，習慣問。']],Y3S2:['base',['期中。我的考卷上，畫了一個笑臉。……我自己畫的。','你吃早餐了嗎？']]}},
   {f:'AA_753_peishan_ladder_Y4.json',sha:'465382f83',terms:{Y4S1:['base',[]],Y4S2:['base',[]]},skipIf:{'P8-L2':{events:['ev_peishan_open_class']}}},
 ];
 const LINESIF=['P2-L3','P3-L3','P3-L4','P3-L6','P3-L8'];
+const X_CROSS='（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！', X_BACK='我剛從課輔班回來。你看我的手，都是紅筆。';
+const BB326={Y1S2:{[X_CROSS]:{location:['wenzhou'],weekday:[3],time:[18,21]}},Y2S1:{[X_CROSS]:{location:['wenzhou'],weekday:[3],time:[18,21]},[X_BACK]:{weekday:[3],time:[21,22.5]}}};
+const AA763={Y3S1:{'期中。我們系要考試。……我現在知道出題的人在想什麼了。':'期中。我們系要考試，我現在知道出題的人在想什麼了。'},Y3S2:{'早。……老師要比學生早到，我在練習。':'早。老師要比學生早到，我在練習，目前成功率一半。'},
+  Y4S1:{'期末。寒假我要回家裡的早餐店煎蛋。':'期末了。寒假我要回台中，我爸已經排好要我去店裡站櫃檯。','早。我八點的課，七點就到了。':'早。我八點的課，今天居然趕上了。','嗨！……我剛從課輔班回來。':'嗨！我剛從課輔班回來。'},
+  Y4S2:{'嗨！……我剛從課輔班回來。手上還有粉筆灰。':'嗨！我剛從課輔班回來，手上還有粉筆灰。','我的公開課快到了。……晚上都在對著鏡子講。':'我的公開課快到了，我晚上都在對著鏡子講，鏡子都聽膩了。'}};
+/* 2026-11-11（X327 沛珊重寫，AA 補稿 b59a8f9de）：AA_753_peishan_ladder_Y1S2_Y2S1.json 改認 b59a8f9de（和 c5094495d 只差 P2-L3 主句第一句「一個禮拜兩天。」→「每個禮拜三。」）；
+   五套 linesIf 照 AA_753_peishan_ladder_linesIf.json@b59a8f9de（原本第 4 節驗的是「舊的兩句照舊留著、帶重寫以前的選項」，AA 補稿以後改成逐字對稿）*/
+const LI_F='AA_753_peishan_ladder_linesIf.json', LI_SHA='b59a8f9de', LI=(()=>{ const raw=show(LI_SHA,'docs/story_planning/'+LI_F); return raw?JSON.parse(raw):null; })();
 const str=x=>typeof x==='string'?x:(x&&x.narr)||null;
 const cond=q=>{ const o={}; for(const k in q) if(k!=='t'&&k!=='note') o[k]=q[k]; return o; };
 for(const F of FILES){ const raw=show(F.sha,'docs/story_planning/'+F.f); F.A=raw?JSON.parse(raw):null; }
@@ -53,17 +61,26 @@ const play=async(sid,pick,setup)=>{ const G=H.fresh('2026-10-20',14,'campus',nul
       check('3. '+term+' 招呼：拿掉的那幾則（'+(drop.join('／')||'無')+'）不在了',drop.every(t=>!P.greet.when.some(w=>w.t===t)&&!P.greet.base.includes(t)));
       if(A) check('3. '+term+' 招呼 base 一字照稿'+(mode==='full'?'、when 的句子一字照稿':''),J(P.greet.base)===J(A.greet.base)&&(mode!=='full'||J(P.greet.when.map(w=>w.t))===J(A.greet.when.map(w=>w.t))),J(P.greet.base));
       if(O){ const keep=O.greet.when.filter(w=>!drop.includes(w.t));
-        check('3. '+term+' 招呼 when：條件（時間、地點、星期、週次、天氣）和重寫以前一樣，只少拿掉的那 '+drop.length+' 則'+(mode==='base'?'；句子不動':''),J(P.greet.when.map(cond))===J(keep.map(cond))&&O.greet.when.length-keep.length===drop.length&&(mode!=='base'||J(P.greet.when.map(w=>w.t))===J(keep.map(w=>w.t))),J(P.greet.when.map(cond))); } } });
+        /* 2026-11-11（BB_326 第 4 節，企劃線 8abb761bd；BB 定、LAWWW 同意）：課輔班兩句招呼的出現條件改了（BB326）；2026-11-11（X327 沛珊重寫，AA_763_peishan_misc3.json@62460ea75）：大三上～大四下 when 七句只換字（AA763，條件不動）——其他照舊和重寫以前一樣 */
+        const wantC=keep.map((w,i)=>(BB326[term]||{})[P.greet.when[i]&&P.greet.when[i].t]||cond(w)), wantT=keep.map(w=>(AA763[term]||{})[w.t]||w.t);
+        check('3. '+term+' 招呼 when：條件（時間、地點、星期、週次、天氣）和重寫以前一樣，只少拿掉的那 '+drop.length+' 則'+(BB326[term]?'、課輔班那 '+Object.keys(BB326[term]).length+' 則照 BB_326 第 4 節':'')+(mode==='base'?'；句子不動'+(AA763[term]?'（只有 AA_763 的 '+Object.keys(AA763[term]).length+' 句換字）':''):''),J(P.greet.when.map(cond))===J(wantC)&&O.greet.when.length-keep.length===drop.length&&(mode!=='base'||J(P.greet.when.map(w=>w.t))===J(wantT)),J(P.greet.when.map(cond))); } } });
 
   await sec(4,async()=>{ const have=LINESIF.filter(id=>stepOf(id));
     for(const id of have){ const s=stepOf(id), O=OLD&&(()=>{ for(const t in OLD.byTerm){ const p=OLD.byTerm[t][PS]; const x=p&&p.steps.find(q=>q.id===id); if(x) return x; } return null; })();
-      check('4. '+id+'：linesIf 那一套留著、自己帶選項（舊格式 reply）',Array.isArray(s.linesIf)&&s.linesIf.length===1&&Array.isArray(s.linesIf[0].choices)&&s.linesIf[0].choices.length>=2&&s.linesIf[0].choices.every(c=>typeof c.reply==='string'));
-      if(O) check('4. '+id+'：linesIf 的條件、兩句和重寫以前一樣；帶的選項＝重寫以前那一層的選項',J(cond(Object.assign({},s.linesIf[0],{choices:undefined,lines:undefined})))===J(cond(Object.assign({},O.linesIf[0],{lines:undefined})))&&J(s.linesIf[0].lines)===J(O.linesIf[0].lines)&&J(s.linesIf[0].choices)===J(O.choices)); }
+      check('4. '+id+'：linesIf 剛好一套、自己帶選項，新格式 {t, re, fx}（沒有 reply、沒有選項自己的 rel）、兩句',Array.isArray(s.linesIf)&&s.linesIf.length===1&&Array.isArray(s.linesIf[0].choices)&&s.linesIf[0].choices.length>=2&&s.linesIf[0].lines.length===2&&s.linesIf[0].choices.every(c=>c.reply===undefined&&c.rel===undefined&&Array.isArray(c.re)&&c.re.length&&c.re.every(x=>typeof x==='string'&&x.trim())&&c.fx&&Object.keys(c.fx).every(k=>k==='fr'||k==='love')));
+      if(O) check('4. '+id+'：linesIf 的條件（和其他欄位）和重寫以前一樣，只換兩句和選項',J(cond(Object.assign({},s.linesIf[0],{choices:undefined,lines:undefined})))===J(cond(Object.assign({},O.linesIf[0],{lines:undefined})))&&J(s.linesIf[0].lines)!==J(O.linesIf[0].lines));
+      const a=LI&&LI[id]; if(a) check('4. '+id+'：linesIf 那一套的條件、兩句、每個選項的字／回答／fx 一字照稿（'+LI_F+'@'+LI_SHA+'）',J(s.linesIf[0].if)===J(a.if)&&J(s.linesIf[0].lines)===J(a.lines)&&s.linesIf[0].choices.length===a.choices.length&&a.choices.every((c,k)=>s.linesIf[0].choices[k].t===c.t&&J(s.linesIf[0].choices[k].re)===J(c.re.map(str))&&J(s.linesIf[0].choices[k].fx||null)===J(c.fx||null)),J(s.linesIf[0])); }
+    { const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(x=>x.path==='docs/story_planning/'+LI_F), tool=fs.readFileSync(path.join(H.ROOT,'tools/ladder/import_ladder.py'),'utf8');
+      check('4. 白名單一筆 '+LI_F+'、sha '+LI_SHA+'、approved；工具寫死只認這一版；ladder.js 的來源有它',allow.length===1&&allow[0].sha===LI_SHA&&allow[0].status==='approved'&&tool.includes("PS753_LINESIF_FILE = ('"+LI_F+"', '"+LI_SHA+"')")&&String(LADDER.source).includes(LI_F.replace('.json','')+'@'+LI_SHA));
+      if(LI){ check('4. 稿剛好這五層（P2-L3、P3-L3、P3-L4、P3-L6、P3-L8）',J(Object.keys(LI).filter(k=>k[0]!=='_').sort())===J(LINESIF.slice().sort()));
+        const fx=LI['P2-L3'].mainLineFix, s=stepOf('P2-L3'); check('4. P2-L3 主句第一句更正：「'+fx.new+'」（不是「'+fx.old+'」）；第二句不動',s.lines[0]===fx.new&&s.lines[0]==='我在溫州街的課輔班帶小朋友，每個禮拜三。'&&!J(s.lines).includes('一個禮拜兩天'),J(s.lines)); }
+      const old=['上次你在溫州街看到的那班，有一個小孩問我你是誰。','教授問問題的時候，我舉手了。……手在抖。','……跟我想的一模一樣。說完我回房間睡了一整個下午。','……我在拼另一份。重考的。','……期末前最後一次讀書會，你可以來嗎？那是我最後一次。','「妳舉手了嗎？」','……還沒！不要一直問！'];
+      const all=J(LINESIF.map(id=>stepOf(id))); check('4. 五套 linesIf 重寫以前的句子、舊選項都不在了',old.every(t=>!all.includes(J(t).slice(1,-1))),J(old.filter(t=>all.includes(J(t).slice(1,-1))))); }
     if(stepOf('P3-L3')){ const s=stepOf('P3-L3');
       await play('P3-L3',0); const n1=H.said.map(x=>x.t), c1=CH[0];
       check('4. P3-L3 沒聽過「我要重考」：演新的兩句、新的兩個選項',J(n1.slice(0,2))===J(s.lines)&&J(c1)===J(s.choices.map(c=>c.t)),J([n1,c1]));
       await play('P3-L3',1,G=>{ G.events=G.events||{}; G.events.done=G.events.done||{}; G.events.done.ev_peishan_decision=true; }); const n2=H.said.map(x=>x.t), c2=CH[0];
-      check('4. P3-L3 聽過「我要重考」（ev_peishan_decision）：演 linesIf 那兩句＋它自己帶的選項和回覆（不會接到新的選項）',J(n2.slice(0,2))===J(s.linesIf[0].lines)&&J(c2)===J(s.linesIf[0].choices.map(c=>c.t))&&n2[n2.length-1]===s.linesIf[0].choices[1].reply,J([n2,c2])); }
+      check('4. P3-L3 聽過「我要重考」（ev_peishan_decision）：演 linesIf 那兩句＋它自己帶的選項和回覆（選②「答對了嗎？」→「答錯了！」「可是教授說錯得很有意思，我當作是稱讚。」；不會接到一般版的選項）',J(n2.slice(0,2))===J(s.linesIf[0].lines)&&J(c2)===J(s.linesIf[0].choices.map(c=>c.t))&&J(n2.slice(-2))===J(s.linesIf[0].choices[1].re)&&J(c2)===J(['「那堂課妳是認真的。」','「答對了嗎？」'])&&J(n2.slice(-2))===J(['答錯了！','可是教授說錯得很有意思，我當作是稱讚。']),J([n2,c2])); }
     if(stepOf('P2-L3')){ const s=stepOf('P2-L3');
       await play('P2-L3',0,G=>SOCIAL.remember(PS,'SAW_HER_TEACH','x')); const n=H.said.map(x=>x.t);
       check('4. P2-L3 看過她上課（SAW_HER_TEACH）：演 linesIf 那兩句＋它自己帶的選項；整層的記憶 PS2_TUTOR_HEARD 照記',J(n.slice(0,2))===J(s.linesIf[0].lines)&&J(CH[0])===J(s.linesIf[0].choices.map(c=>c.t))&&SOCIAL.has(PS,'PS2_TUTOR_HEARD'),J([n,CH])); } });
@@ -96,7 +113,8 @@ const play=async(sid,pick,setup)=>{ const G=H.fresh('2026-10-20',14,'campus',nul
     /* aa614_3d.js 不在 pg_harness 的載入清單：照 tests/aa614_jobs_unit.js 的方式載入（它載入時改 LADDER） */
     { const vm=require('vm'); for(const f of ['src/data/shop_npc.js','src/data/heroine_circle.js','src/whois3d.js','src/aa614_3d.js']){ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); } }
     for(const term of ['Y1S2','Y2S1']){ const w=LADDER.byTerm[term][PS].greet.when.find(q=>q.t===X);
-      check('8. '+term+' 溫州街帶小孩過馬路那一則（新句）：aa614 載入時照舊改到週三 20:50～21:10（課輔班搬到週三晚上，條件跟著新句子走）',!!w&&J(w.weekday)===J([3])&&Math.abs(w.time[0]-(20+50/60))<1e-9&&Math.abs(w.time[1]-(21+10/60))<1e-9&&J(w.location)===J(['wenzhou']),J(w)); }
+      /* 2026-11-11（BB_326 第 4 節，企劃線 8abb761bd；BB 定、LAWWW 同意）：出現條件＝溫州街、週三 18:00～21:00（ladder.js 的資料）；aa614_3d.js 載入以後也還是這一組（不再搬到 20:50～21:10）。實際在那個時間出不出得來在 tests/peishan_misc3_1111_unit.js */
+      check('8. '+term+' 溫州街帶小孩過馬路那一則（新句）：溫州街、週三 18:00～21:00（BB_326 第 4 節）；載入 aa614_3d.js 以後條件沒有被改掉',!!w&&J(w.weekday)===J([3])&&J(w.time)===J([18,21])&&J(w.location)===J(['wenzhou']),J(w)); }
     if(typeof GREET_CLASSDAY!=='undefined'){ const have=new Set(); for(const t in LADDER.byTerm){ const p=LADDER.byTerm[t][PS]; if(!p||!p.greet) continue; p.greet.base.forEach(x=>have.add(x)); p.greet.when.forEach(w=>have.add(w.t)); }
       const lost=(GREET_CLASSDAY.classDay[PS]||[]).filter(t=>!have.has(t));
       check('8. 只在上課日說的招呼（greet_classday.js classDay）：她的每一句都還對得到 ladder.js 的招呼（重寫的句子有跟著換，不會假日也說「今天上…」）',lost.length===0,J(lost)); } });

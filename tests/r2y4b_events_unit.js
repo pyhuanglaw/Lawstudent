@@ -1,4 +1,5 @@
 // 事件包第 2 輪之三（後半）：大四下、畢業後篇、尾聲（AA_327 2-Y4-31～61，AA-C 定稿 e284d601；src/data/r2y4b_events.js、src/r2y4b3d.js）——不需要瀏覽器。
+// 2026-11-11（X327 沛珊重寫，AA_762_peishan_events_2.json@1fc9a6658）：這支裡寫死的沛珊的句子照新稿改期望（逐字對稿在 tests/peishan_events_1111_unit.js）。
 // 照 AA_327 每一件的「給 BB 的驗收情境」逐件檢查（台詞只查有沒有出現、出現在哪一段；不改字）。45、49 已在 AA_319（postgrad3d.js），這裡只確認還在；
 // 42、51 的一部分、53、60 在 AA_319／AA_331 那一批（postgrad3d.js）已經有，這裡查 AA_327 的驗收點。
 // 修改前：沒有 src/r2y4b3d.js、src/data/r2y4b_events.js（第 0 項 FAIL，其他全部跟著 FAIL）。用法：node tests/r2y4b_events_unit.js
@@ -152,7 +153,7 @@ const date=id=>H.date(id);
     check('P1 去了：台南車站的旁白、媽媽四句、BCG-05 在媽媽最後一句之後、「你真的來了！！」、送到高鐵站「謝謝你來看我上課！」（AA_447 1-2：和去台南找她的送行分開）；票錢照扣；PS_OPEN_CLASS went', has('（台南車站。你照她傳的地址，搭公車到課輔班。她已經在上課了。）')&&has('（小聲）你是她大學的同學？')&&has('她說她要當老師。我本來不懂，法律系念得好好的。')&&has('可是你看她站在前面的樣子。她以前上台都是笑給別人看的，今天不是。')&&has(last)&&!has('她說她要去當老師。我本來不懂。')&&H.cgs.includes('cg_whiteboard_why_peishan')&&has('你真的來了！！')&&has('……我知道。我一進教室就看到了。')&&has('（下課以後，她把老師的外套脫掉，陪你坐車到高鐵站。）')&&has('謝謝你來看我上課！到臺北傳給我喔。')&&!has('謝謝你跑這麼遠！到臺北傳給我喔。')&&H.G.flags.PS_OPEN_CLASS==='went'&&paid.some(p=>p[0]<0&&p[1]==='交通')&&caps.includes('台南・課輔班'));
     at('2029-04-14',21.2); phone(); check('2-Y4-36 去了的：當晚沒有「媽媽來了」那一則', !th('p:classmate_peishan').some(t=>/媽媽來了/.test(t))); }
   { fresh('2029-04-14',11.8,'dorm'); PSB(); date('classmate_peishan'); OUT.plan(H.G,{id:'y4_ps_open',ev:'ev_peishan_open_class',day:D('2029-04-14'),h:14,place:'台南',title:'t',travelH:2}); await goOut('y4_ps_open',[0]);
-    check('2-Y4-36 交往中：送站那一句換「你坐最後一排，我一直看到你。……害我講錯一題。」（AA_447 1-2）；「沒有。」→「你騙人。……好，我當你沒看到。」；CG 沒登錄＝不放', has('你坐最後一排，我一直看到你。……害我講錯一題。')&&!has('下次待久一點。末班車太早了。')&&!has('謝謝你來看我上課！到臺北傳給我喔。')&&has('你騙人。……好，我當你沒看到。')&&!H.cgs.length); }
+    check('2-Y4-36 交往中：送站那一句換「你坐最後一排，我一直看到你，害我講錯一題。這題算你的。」（AA_447 1-2）；「沒有。」→「你騙人。好，我當你沒看到。」；CG 沒登錄＝不放', has('你坐最後一排，我一直看到你，害我講錯一題。這題算你的。')&&!has('下次待久一點。末班車太早了。')&&!has('謝謝你來看我上課！到臺北傳給我喔。')&&has('你騙人。好，我當你沒看到。')&&!H.cgs.length); }
   { fresh('2029-04-12',20,'dorm'); PSB(); at('2029-04-12',21); phone(); answer('y4_ps_open',1); at('2029-04-14',21); phone(); PHONE.tick(H.G);
     check('P2 沒去（「那天不行。」→「好～那我拍照給你看。」）：當晚「媽媽來了。她坐最後一排。……」；沒有 CG；PS_OPEN_CLASS missed', th('p:classmate_peishan').includes('好～那我拍照給你看。')&&th('p:classmate_peishan').includes('媽媽來了。她坐最後一排。……就是我叫你坐的那個位子。')&&H.G.flags.PS_OPEN_CLASS==='missed'&&!OUT.get(H.G,'y4_ps_open')); }
   { fresh('2029-04-12',20,'dorm'); H.FAMILIAR('classmate_peishan'); contact('classmate_peishan'); at('2029-04-12',21); phone();

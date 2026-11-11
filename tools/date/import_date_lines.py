@@ -16,7 +16,11 @@
     AA_694（DATE-ELLIPSIS-1105，使用者 11-05 選「整批改」）：拿掉沒必要的「……」（句首、。！？後、）後；規則在 tools/date/ellipsis694.py）。源稿 Dxx.json 企劃線 1b095a239 已經改好；
     上面疊的改句（AA_373／359／524／525／526／598／594／630）原句、改成都先照同一條規則換過再對（源稿已經拿掉了），寫檔前整份再套一次，
     AA_694 第 3 節 252 句逐列核對（規則算出來和表不一樣、表上的新句不在檔裡、三種還有＝停下來）。白名單沒有 AA_694＝不套。
-用法：python3 tools/date/import_date_lines.py [--check 企劃線ref]"""
+    AA_758（X327 沛珊重寫第 7 批，白名單上的 commit）：沛珊不分地點的短句 17 列 old→new 疊在 BB_128 3-6、3-7 拆出來的 lines.classmate_peishan 上（每一種句數不變；換完要等於稿的 new）。
+    PEISHAN-VOICE-1110（使用者 X327 沛珊重寫；AA_756 第 3 節，源稿 Dxx.json 企劃線 2883197b6 只動 classmate_peishan 的格子）：疊在上面的改句裡**沛珊的列**原句對不到＝跳過、不報錯
+    （只對沛珊放寬，別人照舊停下來；跳過的列印出來：PS_SKIP）。2026-11-11 起學姊（heroine_05）也一樣（DLG-FULL-REVIEW-1110，使用者 X324：源稿 82c946ad7 學姊 33 個地點重寫；SIS_SKIP、SIS_DROP＝AA_359 5-2 的 D31／D32、5-3 的 D26／D32；
+    AA_598 逐句表裡原句對不到的列跳過、沒重寫的格子照舊換）。AA_765（白名單上的 commit）：學姊不分地點的短句四列 old→new，做法同 AA_758。AA 指明新稿不用再套的四列不套（PS_DROP：AA_525 2-4 P-6 的 D08／D15／D18、AA_359 5-3 的 D31——新稿直接寫好了）。
+用法：python3 tools/date/import_date_lines.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_lines.js）]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -64,6 +68,34 @@ if A694:   # AA_694：讀稿時照字換的那幾份（import_guard.ndl542 的 *
             if x in s: s = s.replace(x, y)
             elif N(x) != x and N(x) and N(x) in s: s = s.replace(N(x), N(y))
         return json.dumps(deepN(json.loads(s)), ensure_ascii=False)   # 照字換進來的新句（帶「……」的）也照同一條規則
+PS = 'classmate_peishan'
+SIS = 'heroine_05'   # 學姊（DLG-FULL-REVIEW-1110，使用者 X324：校外約會台詞重寫，源稿 Dxx.json 企劃線 82c946ad7——同一批檔沛珊多改三格、學姊 33 個地點重寫）：和沛珊同一個做法
+PRE756 = ('1b095a239', '9aa8ec40c', 'a5b936a69')   # 沛珊重寫（AA_756）以前的 Dxx.json 版本：白名單退回這幾版＝照舊套、照舊報錯
+PRE_SIS = PRE756 + ('2883197b6',)   # 學姊重寫以前的版本（2883197b6＝只有沛珊重寫的那一版）
+PS_DROP = {('AA_525 2-4 P-6', 'D08'), ('AA_525 2-4 P-6', 'D15'), ('AA_525 2-4 P-6', 'D18'), ('AA_359 5-3', 'D31')}   # AA 指明不再套（改稿紀錄 date_rewrite/peishan_D15／D18／D31.json 的 _meta、AA_756 第 3 節）
+SIS_DROP = {('AA_359 5-2', 'D31'), ('AA_359 5-2', 'D32'), ('AA_359 5-3', 'D26'), ('AA_359 5-3', 'D32')}   # AA 指明不再套（date_rewrite/sis_D26／D31／D32.json 的 _meta.for_LAWWW：新稿直接寫好了）
+PS_SKIP = []   # 沛珊跳過的列：(哪一層, 地點, 原句, 為什麼)
+PS_GONE = set()   # 沛珊跳過的列的原句、改成：AA_694 第 3 節逐列核對時，這些句子不在檔裡＝源稿重寫了，不算漏換
+SIS_SKIP = []; SIS_GONE = set()   # 學姊的（同上）
+
+
+def ps756(loc, who=PS):
+    """這個地點的源稿是不是那個人（沛珊／學姊）重寫以後的版本"""
+    sha = str(APPROVED.get(SP + 'date_system/lines/' + loc + '.json') or '')
+    return bool(sha) and not any(sha.startswith(x) or x.startswith(sha) for x in (PRE_SIS if who == SIS else PRE756))
+
+
+def ps_skip(layer, loc, who, old, drop=False, new=None):
+    """沛珊、學姊的列：AA 指明不再套（drop）或原句對不到 → 記下來、回 True（呼叫的地方跳過）；別人、或源稿還是重寫以前的版本＝False（照舊）"""
+    if who not in (PS, SIS) or not ps756(loc, who):
+        return False
+    if drop and (layer, loc) not in (SIS_DROP if who == SIS else PS_DROP):
+        return False
+    (SIS_SKIP if who == SIS else PS_SKIP).append((layer, loc, old, 'AA 指明新稿不用再套' if drop else '原句對不到（源稿重寫了）'))
+    (SIS_GONE if who == SIS else PS_GONE).update(x for x in (old, new) if x)
+    return True
+
+
 NAME = {'芷若': 'heroine_02', '子晴': 'heroine_04', '學姊': 'heroine_05', '沛珊': 'classmate_peishan', '可昕': 'kexin', '以安': 'heroine_01', '語彤': 'heroine_03'}
 
 
@@ -218,11 +250,15 @@ def fix_table(tag, want):
         if not who or len(old) != 1 or len(new) != 1:
             sys.exit('拆不出來（' + tag + ' 那一列）：' + json.dumps(r, ensure_ascii=False))
         old, new = [N(old[0])], [N(new[0])]
+        if ps_skip('AA_359 ' + tag, r[0], who, old[0], drop=True, new=new[0]):   # PEISHAN-VOICE-1110：D31 沛珊 closing（交往中）新稿直接寫好了
+            FIXED359.append((tag + ' ' + r[0], who, old[0], new[0], 0)); continue
         hit = [o for o in texts(((LOC.get(r[0]) or {}).get('lines') or {}).get(who)) if o['text'] == old[0]]
         for o in hit:
             o['text'] = new[0]
         FIXED359.append((tag + ' ' + r[0], who, old[0], new[0], len(hit)))
-        if not hit:
+        if not hit and ps_skip('AA_359 ' + tag, r[0], who, old[0], new=new[0]):
+            pass
+        elif not hit:
             print('AA_359 ' + tag + '：' + r[0] + ' ' + who + ' 找不到「' + old[0] + '」，沒換')
     if len(FIXED359) - n0 != want:
         sys.exit('拆不出來：AA_359 ' + tag + ' 應該是 ' + str(want) + ' 句，拆出 ' + str(len(FIXED359) - n0) + ' 句')
@@ -285,7 +321,11 @@ if A525:
         if quote not in md525:
             sys.exit(f'AA_525@{S525} 裡找不到 {item} 的「改成」：{quote}')
         old, new = N(old), N(new)
+        if ps_skip('AA_525 ' + item, loc, who, old, drop=True, new=new):   # PEISHAN-VOICE-1110：沛珊 P-6 三列新稿直接寫好了，不再套
+            FIXED525.append((item + ' ' + loc, who, old, new, 0)); continue
         hit = [o for o in texts(((LOC.get(loc) or {}).get('lines') or {}).get(who)) if o['text'] in (old, new)]
+        if not hit and ps_skip('AA_525 ' + item, loc, who, old, new=new):
+            FIXED525.append((item + ' ' + loc, who, old, new, 0)); continue
         if not hit:
             sys.exit(f'AA_525 {item}：{loc} {who} 找不到「{old}」（也不是「{new}」）')
         for o in hit:
@@ -418,6 +458,8 @@ if A598:
         n_new = sum(1 for o in objs if o['text'] == new) + sum(1 for v in dl.values() if v == new)
         if n_old == 0 and n_new >= 1:
             FIXED598.append((item + ' ' + loc, old, new, 0)); continue
+        if n_old == 0 and ps_skip(f'AA_598 第 {item} 列', loc, SIS, old, new=new):   # X324 學姊重寫：那一格新稿整句換了，AA_598 的原句對不到＝跳過（沒重寫的格子照舊換）
+            FIXED598.append((item + ' ' + loc, old, new, -1)); continue
         if n_old != 1:
             sys.exit(f'{tag598} 第 {item} 列：{loc} 學姊的台詞裡「{old}」有 {n_old} 句（應該是 1 句；或已經是新句）')
         for o in objs:
@@ -426,7 +468,7 @@ if A598:
             if v == old: dl[k] = new
         FIXED598.append((item + ' ' + loc, old, new, 1))
     FILES['fix598'] = P598
-    print(f'{tag598}：學姊約會地點台詞 換 {sum(c for *_, c in FIXED598)} 句、已經是新句 {sum(1 for *_, c in FIXED598 if not c)} 句（共 {len(FIXED598)} 列）')
+    print(f'{tag598}：學姊約會地點台詞 換 {sum(1 for *_, c in FIXED598 if c > 0)} 句、已經是新句 {sum(1 for *_, c in FIXED598 if c == 0)} 句、源稿重寫了跳過 {sum(1 for *_, c in FIXED598 if c < 0)} 句（共 {len(FIXED598)} 列）')
 # 地點檔裡寫成旁白、其實是給開發看的條件或伏筆說明：改成 who:'note'（遊戲不顯示）。整句相同才改，其他旁白不動（DATE-C3：淡水示範的反應，
 # 遊戲裡原本會演出「（第 6 階以上）」——D13 以安、學姊的合照那一句前面；「（第 3 節她的心願的伏筆）」——D13 可昕欄杆第一次的選項②）
 NOTE_NARR = {'第 6 階以上', '第 3 節她的心願的伏筆'}
@@ -437,6 +479,61 @@ print('旁白改成註記（不顯示）：', len(noted), '行')
 bad = [(w, k) for w in NAME.values() for k in KEYS + ['cancel', 'flaked'] if not (L.get(w) or {}).get(k)]
 if bad:
     sys.exit('拆不出來（表格格式變了？）：' + json.dumps(bad, ensure_ascii=False))
+# AA_758（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫第 7 批；白名單上的 commit）：沛珊不分地點的短句（答應、改時間、交通、取消、放鴿子、出發、玩夠了、提早走、合照；十一種 17 句）。
+# 源頭 BB_128 3-6、3-7 的表沒改（企劃線），照稿的 rows 疊：DATE_LINES.lines.classmate_peishan[key][i] 現在的字（照 AA_694 拿掉「……」以後）要剛好是 old，換成 new；
+# 已經是 new＝源稿自己改好了，跳過；兩個都不是＝停下來。每一種的句數不變；換完整組要等於稿的 new（兩邊互相對）。換掉的舊句記進 PS_GONE（AA_694 第 3 節逐列核對時不算漏換）。白名單沒有 AA_758＝不疊
+A758 = G.approved_files(ALLOW, SP + 'AA_758_')
+FIXED758 = 0
+if A758:
+    P758, S758 = next(iter(A758.items()))
+    ok, why = G.allowed(P758, S758, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d758 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S758}:{P758}'], text=True)))
+    if len(d758.get('rows') or []) != 17:
+        sys.exit(f'AA_758@{S758} 的 rows 應該是 17 列，讀到 {len(d758.get("rows") or [])} 列')
+    LP = L.get(PS) or {}
+    for r in d758['rows']:
+        k, i = r['key'], r['i']
+        if k not in LP or not isinstance(LP[k], list) or i >= len(LP[k]) or not isinstance(LP[k][i], str):
+            sys.exit(f'AA_758 {k}[{i}]：沛珊沒有這一格（或不是一句）')
+        cur = LP[k][i]
+        if cur == r['new']: continue
+        if N(cur) != N(r['old']):
+            sys.exit(f'AA_758 {k}[{i}]：現在是「{N(cur)}」，不是原句「{r["old"]}」')
+        if N(r['new']) != r['new']:
+            sys.exit(f'AA_758 {k}[{i}]：新句照 AA_694 的規則會被改掉「……」（{r["new"]}），先問 AA')
+        LP[k][i] = r['new']; PS_GONE.update((cur, N(cur))); FIXED758 += 1
+    if {k: LP.get(k) for k in d758['new']} != d758['new'] or any(len(LP[k]) != len(v) for k, v in d758['new'].items()):
+        sys.exit('AA_758：17 列換完以後和稿的 new 不一樣（稿的兩份對不起來，或 BB_128 沛珊那幾格變了）')
+    FILES['fix758'] = P758
+    print(f'AA_758@{S758}：沛珊不分地點的短句 17 列，換了 {FIXED758} 列')
+# AA_765（DLG-FULL-REVIEW-1110，使用者 X324；白名單上的 commit）：學姊不分地點的短句 11 種 15 句只改四句（move 第二句、transport、enough 第二句、depart 第三句）——做法同 AA_758：
+# DATE_LINES.lines.heroine_05[key][i] 現在的字（照 AA_694 拿掉「……」以後）要剛好是 old，換成 new；已經是 new＝跳過；兩個都不是＝停下來。句數不變。白名單沒有 AA_765＝不疊
+A765 = G.approved_files(ALLOW, SP + 'AA_765_')
+FIXED765 = 0
+if A765:
+    P765, S765 = next(iter(A765.items()))
+    ok, why = G.allowed(P765, S765, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d765 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S765}:{P765}'], text=True)))
+    if len(d765.get('rows') or []) != 4:
+        sys.exit(f'AA_765@{S765} 的 rows 應該是 4 列，讀到 {len(d765.get("rows") or [])} 列')
+    LS = L.get(SIS) or {}
+    for r in d765['rows']:
+        k, i = r['key'], r['i']
+        if k not in LS or not isinstance(LS[k], list) or i >= len(LS[k]) or not isinstance(LS[k][i], str):
+            sys.exit(f'AA_765 {k}[{i}]：學姊沒有這一格（或不是一句）')
+        cur = LS[k][i]
+        if cur == r['new']: continue
+        if N(cur) != N(r['old']):
+            sys.exit(f'AA_765 {k}[{i}]：現在是「{N(cur)}」，不是原句「{r["old"]}」')
+        if N(r['new']) != r['new']:
+            sys.exit(f'AA_765 {k}[{i}]：新句照 AA_694 的規則會被改掉「……」（{r["new"]}），先問 AA')
+        LS[k][i] = r['new']; SIS_GONE.update((cur, N(cur))); FIXED765 += 1
+    FILES['fix765'] = P765
+    print(f'AA_765@{S765}：學姊不分地點的短句 4 列，換了 {FIXED765} 列')
 # AA_594（以安改稿④b，白名單 AA594-AN-4B-1102；第 9、10 節「本批全部可以交 LAWWW 整合」）第 2-14 節：以安的約會台詞改 314 列（含全域那幾格，源頭 AA_127 第 8 節）。
 # 源稿 lines/Dxx.json、AA_127 沒改（企劃線），照表疊：位置欄的 `路徑`（DATE_LINES 底下的 lines.… 或 loc.…）那一格現在的字要剛好是「原句」（旁白的括號照原樣），換成「改成」；
 # 對不上（路徑找不到、字不一樣）＝停下來，不猜。改成＝原句的列（BB_240 補回原句）跳過。白名單沒有 AA_594＝不疊
@@ -494,6 +591,8 @@ if A594:
     print(f'AA_594 第 2-14 節：314 列，換了 {FIXED594} 列（其他是 BB_240 補回原句）')
 out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p]}' for p in FILES.values()), 'lines': L, 'prefs': prefs, 'loc': LOC}
 dst = os.path.join(ROOT, 'src', 'data', 'date_lines.js')
+if '--out' in sys.argv:   # 另存比對用（tests/peishan_dates_1111_unit.js：重匯的結果要和現在的檔一樣）
+    dst = sys.argv[sys.argv.index('--out') + 1]
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 校外約會預約系統的句子與交通偏好（DATE-S6；AA_128 4-1、4-3；BB_128 3-6、3-7、AA_127 1-7、2-7、第 8 節、date_prefs_*.json）。'
              '產生器：tools/date/import_date_lines.py（不要手改）。來源：' + out['source'] + (f'＋AA_694@{next(iter(A694.values()))}' if A694 else '') + ' */\n')
@@ -524,6 +623,10 @@ with open(dst, 'w', encoding='utf8') as fo:
             if r[2] not in have:
                 if r[0] in GONE694 and r[1] not in have and E694.strip(r[1]) not in have and GONE694[r[0]][0] in have:
                     print(f'AA_694 第 3 節第 {r[0]} 列：「{r[2]}」後來改寫成「{GONE694[r[0]][0]}」（{GONE694[r[0]][1]}）'); continue
+                if r[2] in PS_GONE and r[1] not in have:   # PEISHAN-VOICE-1110：沛珊的句子，源稿重寫了（只認上面記下來的沛珊的列，別人照舊停下來）
+                    PS_SKIP.append(('AA_694 第 3 節第 ' + r[0] + ' 列', '', r[2], '沛珊的句子，新稿重寫了')); continue
+                if r[2] in SIS_GONE and r[1] not in have:   # X324：學姊的句子，源稿重寫了（同上，只認上面記下來的學姊的列）
+                    SIS_SKIP.append(('AA_694 第 3 節第 ' + r[0] + ' 列', '', r[2], '學姊的句子，新稿重寫了')); continue
                 sys.exit(f'AA_694 第 3 節第 {r[0]} 列：「{r[2]}」不在 date_lines.js 裡')
         c694 = E694.counts(allS)
         if any(c694.values()):
@@ -537,3 +640,5 @@ print('AA_373 6-1 改句：' + '；'.join(f'「{o}」→「{n}」{c} 處' for o,
 print('AA_359 5-2、5-3 改句：' + '；'.join(f'{l} {w}「{o}」→「{n}」{c} 處' for l, w, o, n, c in FIXED359))
 print('AA_524 改句：' + '；'.join(f'{l} {w}「{o}」→「{n}」{c} 處' for l, w, o, n, c in FIXED524))
 print('AA_525 1-6、2-4 改句：' + '；'.join(f'{l} {w}「{o}」→「{n}」{c} 處' for l, w, o, n, c in FIXED525))
+print(f'沛珊重寫（PEISHAN-VOICE-1110）跳過的改句 {len(PS_SKIP)} 列：' + '；'.join(f'{l} {loc}「{o}」（{why}）' for l, loc, o, why in PS_SKIP))
+print(f'學姊重寫（DLG-FULL-REVIEW-1110）跳過的改句 {len(SIS_SKIP)} 列：' + '；'.join(f'{l} {loc}「{o}」（{why}）' for l, loc, o, why in SIS_SKIP))
