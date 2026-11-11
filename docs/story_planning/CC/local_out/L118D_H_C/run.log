@@ -1,0 +1,58 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\L118D_H_C\docs\story_planning\test_tools\cc\cc_l118d_h_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118D_H_C\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  27.7s] 受測 SHA bc407bfc518c8d6a4260d1a1fa395cb93fc9058b、版本 v9.10.24；PARTS REG_XC,REG_NW
+== REG_XC
+    [區域] wenzhou（10.03）
+  [前置／捷徑] 【前置】REG_XC（classmate_xinci） 先讀一份（只為了在頁面裡查 CALENDAR＋作息）：day46 存檔 → 2025-11-03（週一）10.00、wenzhou (7.40, -1.40) lv0、天氣 clear、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
+  [  53.8s] CALENDAR：{"key": "2025-11-03", "wd": 1, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+PASS [日子] 2025-11-03 不是假日／颱風假、不是考試週（Y1S1 第 10 週）  {"key": "2025-11-03", "wd": 1, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+  [  53.9s] 讀進來：{"zone": "wenzhou", "day": 48, "hour": 10.04, "weather": "clear", "stage": "law"}
+  [  53.9s] REG_XC（classmate_xinci） Y1S1 學期 週四 16.10 的候選日（CALENDAR：非假日／颱風／考試週，第 2～15 週）與她的作息：{"list": [{"day": -5, "key": "2025-09-11", "week": 2, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 2, "key": "2025-09-18", "week": 3, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 9, "key": "2025-09-25", "week": 4, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 16, "key": "2025-10-02", "week": 5, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 23, "key": "2025-10-09", "week": 6, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 30, "key": "2025-10-16", "week": 7, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 51, "key": "2025-11-06", "week": 10, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 58, "key": "2025-11-13", "week": 11, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 65, "key": "2025-11-20", "week": 12, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 72, "key": "2025-11-27", "week": 13, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 79, "key": "2025-12-04", "week": 14, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 86, "key": "2025-12-11", "week": 15, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}]}
+PASS REG_XC（classmate_xinci） 找得到一天她那時候照作息在木曜日（slowread 那一筆）  {"list": [{"day": -5, "key": "2025-09-11", "week": 2, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 2, "key": "2025-09-18", "week": 3, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 9, "key": "2025-09-25", "week": 4, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 16, "key": "2025-10-02", "week": 5, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 23, "key": "2025-10-09", "week": 6, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 30, "key": "2025-10-16", "week": 7, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 51, "key": "2025-11-06", "week": 10, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 58, "key": "2025-11-13", "week": 11, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 65, "key": "2025-11-20", "week": 12, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 72, "key": "2025-11-27", "week": 13, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 79, "key": "2025-12-04", "week": 14, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}, {"day": 86, "key": "2025-12-11", "week": 15, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理講義", "slowread": true, "err": null}}]}
+    [toast] 排進行程：9/12（五） 19:00　家聚 19:00（公館巷子裡的簡餐店）
+    [toast] 手機｜法律系直屬家族｜Kevin：各位～這週五晚上家聚，大一到大四都來，地點晚點貼。
+  [前置／捷徑] 【前置】REG_XC（classmate_xinci） 2025-09-11（Y1S1 第 2 週）15.85 溫州街木曜日門口外：day46 存檔 → 2025-09-11（週四）15.85、wenzhou (7.40, -1.40) lv0、天氣 clear、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
+  [  64.9s] CALENDAR：{"key": "2025-09-11", "wd": 4, "hol": null, "typh": false, "term": "Y1S1", "week": 2, "exam": null}
+PASS [日子] 2025-09-11 不是假日／颱風假、不是考試週（Y1S1 第 2 週）  {"key": "2025-09-11", "wd": 4, "hol": null, "typh": false, "term": "Y1S1", "week": 2, "exam": null}
+  [  64.9s] 讀進來：{"zone": "wenzhou", "day": -5, "hour": 15.9, "weather": "clear", "stage": "law"}
+  [  66.2s] REG_XC（classmate_xinci） 溫州街→B4 門口 搖桿 → (7.40, -4.55)：到了、1.2 秒、推 1 次、跳 []、停在 {"zone": "wenzhou", "x": 7.594, "z": -4.674, "lv": 0, "interact": "上二樓（木曜日）"}
+PASS REG_XC（classmate_xinci） 互動鍵是「上二樓…」  {"zone": "wenzhou", "x": 7.594, "z": -4.674, "lv": 0, "interact": "上二樓（木曜日）"}
+    [按互動鍵] 上二樓（木曜日）
+    [區域] wz_mokuyobi（15.91）
+PASS REG_XC（classmate_xinci） 到了木曜日（wz_mokuyobi，一樓樓梯）  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 15.91}
+  [  96.4s] REG_XC（classmate_xinci） 爬樓梯進二樓店裡 搖桿 → (0.00, 0.90) lv1：沒到：20 秒沒有前進 0.3 m（卡住）、22.2 秒、推 20 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": -3.351, "z": 2.876, "lv": 0, "interact": ""}
+FAIL REG_XC（classmate_xinci） 搖桿走進二樓店裡（lv1、x>−2.85、站得住、沒有跳）  {"x": -3.351, "z": 2.876, "lv": 0, "stand": true, "fb": 0}
+PASS [REG_XC] 沒有 JS 例外（pageerror）  []
+  [  98.8s] [REG_XC] 用了 71 秒
+== REG_NW
+    [區域] wenzhou（10）
+  [前置／捷徑] 【前置】REG_NW（pool_17） 先讀一份（只為了在頁面裡查 CALENDAR＋作息）：day46 存檔 → 2025-11-03（週一）10.00、wenzhou (7.40, -1.40) lv0、天氣 clear、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
+  [ 107.8s] CALENDAR：{"key": "2025-11-03", "wd": 1, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+PASS [日子] 2025-11-03 不是假日／颱風假、不是考試週（Y1S1 第 10 週）  {"key": "2025-11-03", "wd": 1, "hol": null, "typh": false, "term": "Y1S1", "week": 10, "exam": null}
+  [ 107.8s] 讀進來：{"zone": "wenzhou", "day": 48, "hour": 10.05, "weather": "clear", "stage": "law"}
+  [ 107.8s] REG_NW（pool_17） Y1S1 學期 週五 14.60 的候選日（CALENDAR：非假日／颱風／考試週，第 2～15 週）與她的作息：{"list": [{"day": -4, "key": "2025-09-12", "week": 2, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 3, "key": "2025-09-19", "week": 3, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 10, "key": "2025-09-26", "week": 4, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 17, "key": "2025-10-03", "week": 5, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 31, "key": "2025-10-17", "week": 7, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 52, "key": "2025-11-07", "week": 10, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 59, "key": "2025-11-14", "week": 11, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 73, "key": "2025-11-28", "week": 13, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 80, "key": "2025-12-05", "week": 14, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 87, "key": "2025-12-12", "week": 15, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}]}
+PASS REG_NW（pool_17） 找得到一天她那時候照作息在木曜日（slowread 那一筆）  {"list": [{"day": -4, "key": "2025-09-12", "week": 2, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 3, "key": "2025-09-19", "week": 3, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 10, "key": "2025-09-26", "week": 4, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 17, "key": "2025-10-03", "week": 5, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 31, "key": "2025-10-17", "week": 7, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 52, "key": "2025-11-07", "week": 10, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 59, "key": "2025-11-14", "week": 11, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 73, "key": "2025-11-28", "week": 13, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 80, "key": "2025-12-05", "week": 14, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}, {"day": 87, "key": "2025-12-12", "week": 15, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "err": null}}]}
+    [toast] 排進行程：今天 19:00　家聚 19:00（公館巷子裡的簡餐店）
+    [toast] 手機｜法律系直屬家族｜Kevin：各位～這週五晚上家聚，大一到大四都來，地點晚點貼。
+  [前置／捷徑] 【前置】REG_NW（pool_17） 2025-09-12（Y1S1 第 2 週）14.35 溫州街木曜日門口外：day46 存檔 → 2025-09-12（週五）14.35、wenzhou (7.40, -1.40) lv0、天氣 clear、清邀約、錢 3000、l118.mv772＝2、關條件事件／手機自動打開
+  [ 116.6s] CALENDAR：{"key": "2025-09-12", "wd": 5, "hol": null, "typh": false, "term": "Y1S1", "week": 2, "exam": null}
+PASS [日子] 2025-09-12 不是假日／颱風假、不是考試週（Y1S1 第 2 週）  {"key": "2025-09-12", "wd": 5, "hol": null, "typh": false, "term": "Y1S1", "week": 2, "exam": null}
+  [ 116.7s] 讀進來：{"zone": "wenzhou", "day": -4, "hour": 14.4, "weather": "clear", "stage": "law"}
+  [ 117.7s] REG_NW（pool_17） 溫州街→B4 門口 搖桿 → (7.40, -4.55)：到了、1.0 秒、推 1 次、跳 []、停在 {"zone": "wenzhou", "x": 7.554, "z": -4.666, "lv": 0, "interact": "上二樓（木曜日）"}
+PASS REG_NW（pool_17） 互動鍵是「上二樓…」  {"zone": "wenzhou", "x": 7.554, "z": -4.666, "lv": 0, "interact": "上二樓（木曜日）"}
+    [按互動鍵] 上二樓（木曜日）
+    [區域] wz_mokuyobi（14.41）
+PASS REG_NW（pool_17） 到了木曜日（wz_mokuyobi，一樓樓梯）  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.41}
+  [ 124.1s] REG_NW（pool_17） 爬樓梯進二樓店裡 搖桿 → (0.00, 0.90) lv1：到了、2.5 秒、推 3 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": 0.078, "z": 0.87, "lv": 1, "interact": ""}
+PASS REG_NW（pool_17） 搖桿走進二樓店裡（lv1、x>−2.85、站得住、沒有跳）  {"x": 0.078, "z": 0.87, "lv": 1, "stand": true, "fb": 0}
+PASS REG_NW（pool_17） 14.47 木曜日裡有 pool_17（E.npcs）、在二樓、坐著（作息那一筆是 slowread）  {"x": -0.45, "y": 3.2, "z": 5, "lv": 1, "seat": true, "pose": "read", "name": "筆記借人看的人", "vis": false, "ent": {"zone": "wz_mokuyobi", "label": "在木曜日整理筆記", "slowread": true, "from": 14, "to": 16}}
+  [ 129.6s] [截圖] reg_nw_game.png
+PASS [黑畫面] reg_nw_her 不是黑畫面（平均亮度 91.5、變化 52.6）  [91.5, 52.6]
+  [ 132.0s] [截圖] reg_nw_her：鏡頭 {"eye": [1.25, 5, 6.5], "look": [-0.45, 4.1000000000000005, 5], "lens": 24, "vfov": 45.75}、亮度 [91.5, 52.6]
+  [ 132.8s] [截圖] reg_nw_her.png（鏡頭對著她，只給人看）
+  [ 135.1s] REG_NW（pool_17） 走到 pool_17 旁邊 搖桿 → (-0.45, 5.00) lv1：到了、2.2 秒、推 3 次、跳 []、停在 {"zone": "wz_mokuyobi", "x": -0.928, "z": 3.975, "lv": 1, "interact": "坐下"}
+FAIL REG_NW（pool_17） 走到她旁邊，互動鍵是「和…說話」  {"x": -0.928, "z": 3.975, "lv": 1, "interact": "坐下"}
+PASS [REG_NW] 沒有 JS 例外（pageerror）  []
+  [ 140.4s] [REG_NW] 用了 42 秒
+FAILED: REG_XC（classmate_xinci） 搖桿走進二樓店裡（lv1、x>−2.85、站得住、沒有跳）, REG_NW（pool_17） 走到她旁邊，互動鍵是「和…說話」

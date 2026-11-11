@@ -1,11 +1,3 @@
-[07:55:03] ==== START GG3_zq_old_r2  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
-[07:55:06] [res] cpu=0% mem=39% (12.3/31.4 GB) chrome_testing=5  START GG3_zq_old_r2
-[07:55:07] memory 39% before starting NM_tbl_edge (2 running)
-[07:55:07] ==== START NM_tbl_edge  (probe @ bd3f67410415267cde659e007e7d09b6f8fd05f3) ====
-[07:55:10] [res] cpu=3% mem=40% (12.4/31.4 GB) chrome_testing=5  START NM_tbl_edge
-[07:55:29] worktree add bd3f67410415267cde659e007e7d09b6f8fd05f3: invalid reference - fetching main and the commit itself
-[07:56:42] [res] cpu=3% mem=40% (12.7/31.4 GB) chrome_testing=4  END GG3_zq_old_r2
-[07:56:47] [res] cpu=10% mem=40% (12.7/31.4 GB) chrome_testing=4  END TZ4_int_r4
     To https://github.com/pyhuanglaw/Lawstudent.git
        713849b38..6ca5a4692  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
@@ -1998,3 +1990,11 @@
 [14:56:22] ==== START L118D_H_A_r2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
 [14:56:25] [res] cpu=10% mem=50% (15.7/31.4 GB) chrome_testing=9  START L118D_H_A_r2
 [14:57:01] [res] cpu=10% mem=48% (15.3/31.4 GB) chrome_testing=9  END L118D_H_B
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       554ad0c26..e44f19b8e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:57:08] ==== END   L118D_H_B  exit=1  170s   ====
+[14:57:18] memory 49% before starting L118D_H_F_r2 (2 running)
+[14:57:18] ==== START L118D_H_F_r2  (probe @ bc407bfc518c8d6a4260d1a1fa395cb93fc9058b) ====
+[14:57:21] [res] cpu=1% mem=49% (15.4/31.4 GB) chrome_testing=9  START L118D_H_F_r2
+[14:58:10] [res] cpu=20% mem=50% (15.5/31.4 GB) chrome_testing=4  END L118D_H_C
