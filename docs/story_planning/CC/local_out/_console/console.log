@@ -1,11 +1,3 @@
-[14:18:52] [res] cpu=1% mem=47% (14.9/31.4 GB) chrome_testing=10  END CLASS12_skip5_150x5
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       00dab6a88..e619078e8  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[14:19:00] ==== END   CLASS12_skip5_150x5  exit=1  334s   ====
-[14:19:04] 正在跑：CLASS12_skip5b_150x5（已跑 2 分／上限 12 分）、CLASS12_skip5b_150x10（已跑 1 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
-[14:19:04] memory 48% before starting CLASS12_skip5b_150x20 (2 running)
-[14:19:04] ==== START CLASS12_skip5b_150x20  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
 [14:19:07] [res] cpu=2% mem=48% (15.1/31.4 GB) chrome_testing=10  START CLASS12_skip5b_150x20
 [14:21:55] [res] cpu=0% mem=48% (15.4/31.4 GB) chrome_testing=10  END CLASS12_skip5b_150x5
     To https://github.com/pyhuanglaw/Lawstudent.git
@@ -1998,3 +1990,11 @@
 [22:39:03] [res] cpu=8% mem=36% (11.3/31.4 GB) chrome_testing=4  START ACT_SMOKE_ZR3
 [22:39:05] 正在跑：REL_L118D_E_E2（已跑 1 分／上限 8 分）、ACT_smoke_st_an1（已跑 0 分／上限 14 分）、ACT_SMOKE_ZR3（已跑 0 分／上限 9 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:39:09] [res] cpu=11% mem=37% (11.3/31.4 GB) chrome_testing=4  END REL_L118D_E_E2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7a2ab4ebe..2e3f319da  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:39:35] ==== END   REL_L118D_E_E2  exit=1  111s   ====
+[22:39:39] memory 40% before starting ACT_SMOKE_ZR3_old (2 running)
+[22:39:39] ==== START ACT_SMOKE_ZR3_old  (probe @ 7266e7a29351d4d186cae82d82042271a95a67d4) ====
+[22:39:42] [res] cpu=3% mem=40% (12.7/31.4 GB) chrome_testing=9  START ACT_SMOKE_ZR3_old
+[22:40:29] [res] cpu=10% mem=43% (13.3/31.4 GB) chrome_testing=8  END ACT_smoke_st_an1

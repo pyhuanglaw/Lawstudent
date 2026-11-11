@@ -1,0 +1,62 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_act_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ACT_smoke_st_an1\out
+# ACT 2026-11-11 22:38:54 SHA=f8b6d1e82f43194080cb860d11148d9fd27de078 TAG=new PARTS=ST_AN1_A PICK3=0 PS_PICK=0
+  稿：AA_708 d30416e6b:docs/story_planning/AA_708_activity_scenes.json（讀不到）、AA_707 1b8e247ec:docs/story_planning/AA_707_study_scenes.json（讀不到）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  版本字樣：版本 v9.10.24
+== ST_AN1_A
+  選日子／地點／時間（只讀的查詢）：試過 [["2025-10-18", "地點（略過的）", [["slowread", "show"], ["aoki", "show"], ["soclib", "show"], ["slot_kx_mzu_lib", "show"], ["lib_b1", "show"]]]]
+PASS [ST_AN1_A] 找得到能約的日子、地點、她會答應的時間
+  [前置／捷徑] [ST_AN1_A] 讀檔（applySave、關條件事件／手機自動打開）：宿舍、2025-10-18（第 32 天，週六）10.00、晴天、錢 3000；heroine_01 的聯絡方式；關係 {"fam": 28, "trust": 12, "comf": 12, "npcRom": 4} → 第 2 階（SOCIAL FAMILIAR）；沒有交往；canConfess {"ok": false, "why": "stage", "stage": 2}；升階門檻台詞記成說過 1 則；BEATS.last＝今天
+  [前置／捷徑] [ST_AN1_A] 次數：STUDYN[heroine_01]＝n 0、k 1；旗標 {}；記憶 +[] −[]；拿掉 dating_kexin
+  [  36.0s] [ST_AN1_A] 地點 afar（去 afar café 坐坐）、時間 今天 15:30、片 null；alt 條件 {"datingOrReady": false, "anShopPage": false}；AN_SHOP_PAGE False
+PASS [ST_AN1_A] 前置：DATE.stageNum＝2  {"fam": 28, "trust": 12, "aff": 0, "resp": 0, "comf": 12, "rom": 0, "npcRom": 4, "seen": 0, "talked": 0}
+  [  36.0s] [ST_AN1_A] 版本偵測：{"actDefer": true, "doneDefer": true}（actDefer＝f8b6d1e82 起：電影（…）選項在廳裡、被取代的第 N 場下次再演）
+  [  36.0s] [ST_AN1_A] 頁面上的遊戲資料 src：docs/story_planning/AA_707_study_scenes.json@1b8e247ec；稿 1b8e247ec:docs/story_planning/AA_707_study_scenes.json
+  [  36.0s] [ST_AN1_A] 讀不到稿（1b8e247ec:docs/story_planning/AA_707_study_scenes.json）：逐字改比頁面上的遊戲資料
+  [  36.0s] [ST_AN1_A] 靜態比對略過（稿 沒有、頁面 有）
+    [選項] 念書…｜吃飯…｜喝咖啡、喝茶…｜散步…｜運動…｜出去玩…｜算了 → 念書…（類別／地點）
+    [選項] 去 2:30 AM 念書｜去總圖一起念書｜去法圖一起念書｜去 afar café 念書｜返回 → 去 afar café 念書（類別／地點）
+    [選項] 今天 12:10｜今天 15:30｜今天 17:30｜今天 19:00｜今天 21:00｜明天 12:10｜明天 19:00｜其他日子…｜算了 → 今天 15:30（時間）
+PASS [ST_AN1_A] 約成了（手機「朋友」→「約」）：afar 今天 15:30  {"id": "iv1", "h": 15.5, "film": null, "cat": "study"}
+  [前置／捷徑] [ST_AN1_A]【捷徑】時間撥到約好的前 10 分鐘（15.33）
+    [按] 手機「今天」現在過去
+    [區域] dorm（15.33）
+    [選項] 直接過去：和沈以安約在afar café（15:30）｜自己走過去 → 直接過去：和沈以安約在afar café（15:30）
+    [區域] afar（15.58）
+  [  67.7s] 到達「走到她旁邊」附近（1.10 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+    [選項] 「計時器是幾分鐘？」｜「不照計時器會怎樣？」 → 「計時器是幾分鐘？」
+PASS [ST_AN1_A] 赴約演完（邀約 done）  {"zone": "afar", "hour": 18.02}
+== ST_AN1_A 逐字（說話人｜全文）
+  [選項] 直接過去：和沈以安約在afar café（15:30）｜自己走過去 → 直接過去：和沈以安約在afar café（15:30）
+  [說] （旁白）｜（她把兩杯咖啡的杯墊對齊，一杯推給你。）
+  [說] 沈以安｜我讀我的，你讀你的。不懂再問我。
+  [說] （旁白）｜（她把計時器放在桌角，按了一下。）
+  [說] （旁白）｜（計時器震了一下。她準時放下筆。）
+  [說] 沈以安｜休息五分鐘。你也要休息，這是規定。
+  [選項] 「計時器是幾分鐘？」｜「不照計時器會怎樣？」 → 「計時器是幾分鐘？」
+  [adjust] heroine_01 {}（{}）
+  [adjust] heroine_01 {"fam": 1, "trust": 1, "comf": 1}（{"comf": [12, 13], "fam": [28, 29], "trust": [12, 13]}）
+  [fx] heroine_01 fx={"fr": 1} cap="meet:iv1" → 加了 {"fam": 1, "trust": 1, "comf": 1}（{"comf": [12, 13], "fam": [28, 29], "trust": [12, 13]}）
+  [說] 沈以安｜二十五。讀二十五，休息五。我試過別的，這個最不會想看手機。
+  [字幕] afar café・沈以安・（1 小時）
+  [adjust] heroine_01 {"fam": 3, "trust": 1, "comf": 2}（{"comf": [13, 15], "fam": [29, 32], "trust": [13, 14]}）
+  [adjust] heroine_01 {"npcRom": 1, "rom": 1, "trust": 1}（{"npcRom": [4, 5], "rom": [0, 1], "trust": [14, 15]}）
+  [說] （旁白）｜（她把螢光筆照顏色排回筆袋。）
+  [說] 沈以安｜下次換你決定讀哪一科。
+  [字幕] （下午的時間用完了）你在afar café待到 18:00。
+PASS [ST_AN1_A] 畫面上沒有沒換掉的 {name}、undefined  []
+PASS [ST_AN1_A] 次數 +1、下一場 k=2（{"n": 0, "k": 1, "last": null, "rot": -1} → {"n": 1, "k": 2, "last": 32, "rot": -1}）
+PASS [ST_AN1_A] 第 1 場逐字照稿、照順序（7 句；她／旁白分對）  {"缺": [], "說話人": []}
+PASS [ST_AN1_A] 兩個選項真的跳出來、逐字＝稿：「計時器是幾分鐘？」｜「不照計時器會怎樣？」  [["直接過去：和沈以安約在afar café（15:30）", "自己走過去"], ["「計時器是幾分鐘？」", "「不照計時器會怎樣？」"]]
+PASS [ST_AN1_A] 選了第 1 個「「計時器是幾分鐘？」」  0
+PASS [ST_AN1_A] 選了以後的回話逐字（["二十五。讀二十五，休息五。我試過別的，這個最不會想看手機。"]）  []
+PASS [ST_AN1_A] 這個選項不扣分（fx {"fr": 1}、rel null 沒有負的）
+PASS [ST_AN1_A] fx 有加：SOCIAL.applyFx({"fr": 1}) 回傳 {"fam": 1, "trust": 1, "comf": 1}、前後 {"comf": [12, 13], "fam": [28, 29], "trust": [12, 13]}（稿 {"fam": 1, "trust": 1, "comf": 1}）  {"cap": "meet:iv1"}
+  [關係] heroine_01 見面前 {"fam": 28, "trust": 12, "aff": 0, "resp": 0, "comf": 12, "rom": 0, "npcRom": 4, "seen": 0, "talked": 0}
+  [關係] heroine_01 見面後 {"fam": 32, "trust": 15, "aff": 0, "resp": 0, "comf": 15, "rom": 1, "npcRom": 5, "seen": 1, "talked": 0}
+  [關係] diff {"comf": [12, 15], "fam": [28, 32], "npcRom": [4, 5], "rom": [0, 1], "seen": [0, 1], "trust": [12, 15]}
+PASS [ST_AN1_A] 見面前後 fam／trust／comf／npcRom／rom 都沒有變少  {}
+PASS [ST_AN1_A] 沒有 JS 例外（pageerror）  []
+  [ST_AN1_A] 用了 61 秒
+ALL PASS

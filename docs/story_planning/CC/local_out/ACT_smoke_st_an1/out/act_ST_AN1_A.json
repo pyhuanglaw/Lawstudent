@@ -1,0 +1,526 @@
+{
+ "tag": "ST_AN1_A",
+ "cfg": {
+  "who": "heroine_01",
+  "kind": "study",
+  "k": 1,
+  "n": 0,
+  "stage": 2,
+  "pick": 0,
+  "h_pref": 15.5
+ },
+ "pick": {
+  "key": "2025-10-18",
+  "cal": {
+   "k": "2025-10-18",
+   "d": 32,
+   "wd": 6,
+   "hol": false,
+   "typh": false,
+   "term": "Y1S1",
+   "week": 7,
+   "exam": false
+  },
+  "setup": {
+   "notes": [
+    "拿掉 dating_kexin"
+   ],
+   "arc": null,
+   "stage": 2,
+   "sstage": "FAMILIAR",
+   "rel": {
+    "fam": 28,
+    "trust": 12,
+    "aff": 0,
+    "resp": 0,
+    "comf": 12,
+    "rom": 0,
+    "npcRom": 4,
+    "seen": 0,
+    "talked": 0
+   },
+   "dating": false,
+   "canConfess": {
+    "ok": false,
+    "why": "stage",
+    "stage": 2
+   },
+   "ups": 1,
+   "canInvite": true,
+   "whyNot": "",
+   "hasPage": false,
+   "altOn": {
+    "datingOrReady": false,
+    "anShopPage": false
+   },
+   "name": "祐廷"
+  },
+  "place": {
+   "id": "afar",
+   "name": "afar café",
+   "verb": "去 afar café 坐坐",
+   "verbStudy": "去 afar café 念書",
+   "zone": "afar",
+   "cats": [
+    "sit",
+    "study"
+   ],
+   "why": "",
+   "lib": false
+  },
+  "time": {
+   "t": "今天 15:30",
+   "h": 15.5,
+   "res": "accept",
+   "why": null,
+   "te": false
+  },
+  "film": null,
+  "force": false
+ },
+ "ev": [
+  {
+   "k": "ch",
+   "i": 5,
+   "opts": [
+    "直接過去：和沈以安約在afar café（15:30）",
+    "自己走過去"
+   ],
+   "dim": [
+    false,
+    false
+   ],
+   "pick": 0,
+   "z": "dorm",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 6,
+   "who": "",
+   "cid": "",
+   "t": "（她把兩杯咖啡的杯墊對齊，一杯推給你。）",
+   "h": 15.605,
+   "d": 32,
+   "z": "afar",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 7,
+   "who": "沈以安",
+   "cid": "heroine_01",
+   "t": "我讀我的，你讀你的。不懂再問我。",
+   "h": 15.605,
+   "d": 32,
+   "z": "afar",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 8,
+   "who": "",
+   "cid": "",
+   "t": "（她把計時器放在桌角，按了一下。）",
+   "h": 15.605,
+   "d": 32,
+   "z": "afar",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 9,
+   "who": "",
+   "cid": "",
+   "t": "（計時器震了一下。她準時放下筆。）",
+   "h": 16.105,
+   "d": 32,
+   "z": "afar",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 10,
+   "who": "沈以安",
+   "cid": "heroine_01",
+   "t": "休息五分鐘。你也要休息，這是規定。",
+   "h": 16.105,
+   "d": 32,
+   "z": "afar",
+   "dark": false
+  },
+  {
+   "k": "ch",
+   "i": 11,
+   "opts": [
+    "「計時器是幾分鐘？」",
+    "「不照計時器會怎樣？」"
+   ],
+   "dim": [
+    false,
+    false
+   ],
+   "pick": 0,
+   "z": "afar",
+   "dark": false
+  },
+  {
+   "k": "adj",
+   "i": 12,
+   "id": "heroine_01",
+   "d": {},
+   "before": {
+    "fam": 28,
+    "trust": 12,
+    "aff": 0,
+    "resp": 0,
+    "comf": 12,
+    "rom": 0,
+    "npcRom": 4,
+    "seen": 1,
+    "talked": 0
+   },
+   "after": {
+    "fam": 28,
+    "trust": 12,
+    "aff": 0,
+    "resp": 0,
+    "comf": 12,
+    "rom": 0,
+    "npcRom": 4,
+    "seen": 1,
+    "talked": 0
+   }
+  },
+  {
+   "k": "adj",
+   "i": 13,
+   "id": "heroine_01",
+   "d": {
+    "fam": 1,
+    "trust": 1,
+    "comf": 1
+   },
+   "before": {
+    "fam": 28,
+    "trust": 12,
+    "aff": 0,
+    "resp": 0,
+    "comf": 12,
+    "rom": 0,
+    "npcRom": 4,
+    "seen": 1,
+    "talked": 0
+   },
+   "after": {
+    "fam": 29,
+    "trust": 13,
+    "aff": 0,
+    "resp": 0,
+    "comf": 13,
+    "rom": 0,
+    "npcRom": 4,
+    "seen": 1,
+    "talked": 0
+   }
+  },
+  {
+   "k": "fx",
+   "i": 14,
+   "id": "heroine_01",
+   "fx": {
+    "fr": 1
+   },
+   "cap": "meet:iv1",
+   "ret": {
+    "fam": 1,
+    "trust": 1,
+    "comf": 1
+   },
+   "before": {
+    "fam": 28,
+    "trust": 12,
+    "aff": 0,
+    "resp": 0,
+    "comf": 12,
+    "rom": 0,
+    "npcRom": 4,
+    "seen": 1,
+    "talked": 0
+   },
+   "after": {
+    "fam": 29,
+    "trust": 13,
+    "aff": 0,
+    "resp": 0,
+    "comf": 13,
+    "rom": 0,
+    "npcRom": 4,
+    "seen": 1,
+    "talked": 0
+   }
+  },
+  {
+   "k": "say",
+   "i": 15,
+   "who": "沈以安",
+   "cid": "heroine_01",
+   "t": "二十五。讀二十五，休息五。我試過別的，這個最不會想看手機。",
+   "h": 16.105,
+   "d": 32,
+   "z": "afar",
+   "dark": false
+  },
+  {
+   "k": "cap",
+   "i": 16,
+   "t": "afar café・沈以安・（1 小時）"
+  },
+  {
+   "k": "adj",
+   "i": 17,
+   "id": "heroine_01",
+   "d": {
+    "fam": 3,
+    "trust": 1,
+    "comf": 2
+   },
+   "before": {
+    "fam": 29,
+    "trust": 13,
+    "aff": 0,
+    "resp": 0,
+    "comf": 13,
+    "rom": 0,
+    "npcRom": 4,
+    "seen": 1,
+    "talked": 0
+   },
+   "after": {
+    "fam": 32,
+    "trust": 14,
+    "aff": 0,
+    "resp": 0,
+    "comf": 15,
+    "rom": 0,
+    "npcRom": 4,
+    "seen": 1,
+    "talked": 0
+   }
+  },
+  {
+   "k": "adj",
+   "i": 18,
+   "id": "heroine_01",
+   "d": {
+    "npcRom": 1,
+    "rom": 1,
+    "trust": 1
+   },
+   "before": {
+    "fam": 32,
+    "trust": 14,
+    "aff": 0,
+    "resp": 0,
+    "comf": 15,
+    "rom": 0,
+    "npcRom": 4,
+    "seen": 1,
+    "talked": 0
+   },
+   "after": {
+    "fam": 32,
+    "trust": 15,
+    "aff": 0,
+    "resp": 0,
+    "comf": 15,
+    "rom": 1,
+    "npcRom": 5,
+    "seen": 1,
+    "talked": 0
+   }
+  },
+  {
+   "k": "say",
+   "i": 19,
+   "who": "",
+   "cid": "",
+   "t": "（她把螢光筆照顏色排回筆袋。）",
+   "h": 16.605,
+   "d": 32,
+   "z": "afar",
+   "dark": false
+  },
+  {
+   "k": "say",
+   "i": 20,
+   "who": "沈以安",
+   "cid": "heroine_01",
+   "t": "下次換你決定讀哪一科。",
+   "h": 16.605,
+   "d": 32,
+   "z": "afar",
+   "dark": false
+  },
+  {
+   "k": "cap",
+   "i": 21,
+   "t": "（下午的時間用完了）你在afar café待到 18:00。"
+  }
+ ],
+ "screen": [
+  [
+   "沈以安（手機）",
+   "好。我帶書去，你不要一直跟我講話。",
+   "dorm",
+   10.024
+  ],
+  [
+   "",
+   "約好 今天 15:30，afar café。",
+   "dorm",
+   10.024
+  ],
+  [
+   "",
+   "（她把兩杯咖啡的杯墊對齊，一杯推給你。）",
+   "afar",
+   15.605
+  ],
+  [
+   "沈以安",
+   "我讀我的，你讀你的。不懂再問我。",
+   "afar",
+   15.605
+  ],
+  [
+   "",
+   "（她把計時器放在桌角，按了一下。）",
+   "afar",
+   15.605
+  ],
+  [
+   "",
+   "（計時器震了一下。她準時放下筆。）",
+   "afar",
+   16.105
+  ],
+  [
+   "沈以安",
+   "休息五分鐘。你也要休息，這是規定。",
+   "afar",
+   16.105
+  ],
+  [
+   "沈以安",
+   "二十五。讀二十五，休息五。我試過別的，這個最不會想看手機。",
+   "afar",
+   16.105
+  ],
+  [
+   "",
+   "（她把螢光筆照顏色排回筆袋。）",
+   "afar",
+   16.605
+  ],
+  [
+   "沈以安",
+   "下次換你決定讀哪一科。",
+   "afar",
+   16.605
+  ]
+ ],
+ "before": {
+  "rec": {
+   "n": 0,
+   "k": 1,
+   "last": null,
+   "rot": -1
+  },
+  "rel": {
+   "fam": 28,
+   "trust": 12,
+   "aff": 0,
+   "resp": 0,
+   "comf": 12,
+   "rom": 0,
+   "npcRom": 4,
+   "seen": 0,
+   "talked": 0
+  },
+  "day": 32,
+  "hour": 10.02,
+  "zone": "dorm",
+  "set": null,
+  "unlock": null,
+  "invites": [],
+  "trips": [],
+  "arcInv": null,
+  "dlog": {
+   "count": 0,
+   "study6": null
+  },
+  "beats": {
+   "k": 1,
+   "last": 32,
+   "ans": {},
+   "missed": []
+  }
+ },
+ "after": {
+  "rec": {
+   "n": 1,
+   "k": 2,
+   "last": 32,
+   "rot": -1
+  },
+  "rel": {
+   "fam": 32,
+   "trust": 15,
+   "aff": 0,
+   "resp": 0,
+   "comf": 15,
+   "rom": 1,
+   "npcRom": 5,
+   "seen": 1,
+   "talked": 0
+  },
+  "day": 32,
+  "hour": 18.02,
+  "zone": "afar",
+  "set": null,
+  "unlock": null,
+  "invites": [
+   {
+    "id": "iv1",
+    "who": "heroine_01",
+    "place": "afar",
+    "zone": "afar",
+    "day": 32,
+    "h": 15.5,
+    "state": "done",
+    "accepted": true,
+    "by": "player",
+    "now": false,
+    "label": "和沈以安約在afar café",
+    "cat": "study",
+    "kxd": 1,
+    "rem": 1,
+    "waitSeat": null,
+    "opened": 1
+   }
+  ],
+  "trips": [],
+  "arcInv": null,
+  "dlog": {
+   "count": 0,
+   "study6": null
+  },
+  "beats": {
+   "k": 1,
+   "last": 32,
+   "ans": {},
+   "missed": []
+  }
+ }
+}
