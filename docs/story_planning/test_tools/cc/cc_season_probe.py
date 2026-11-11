@@ -156,7 +156,10 @@ MONT_JS = r"""(async a=>{ const ims=await Promise.all(a.imgs.map(u=>new Promise(
 FPS_JS = "(ms=>new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<ms) requestAnimationFrame(f); else { const i=GAME.E.renderer.info.render; res({fps:+(n/((performance.now()-t0)/1000)).toFixed(1), calls:i.calls, tris:i.triangles}); } }; requestAnimationFrame(f); }))"
 EDGES_JS = r"""(zids=>{ if(typeof SEASON_DECO==='undefined'||typeof CALENDAR==='undefined'||typeof SD3==='undefined') return null; const out=[], codes=new Set(); for(const z of zids){ const Z=SEASON_DECO.zones[z]; if(Z) Z.codes.forEach(c=>codes.add(c)); }
   const d0=(typeof STORY!=='undefined'&&STORY.dayOfKey)?STORY.dayOfKey('2025-09-01'):1, KEY=d=>CALENDAR.dateOf(d).key;
+  const G=GAME.G, F0=G.flags; G.flags={};   /* 算邊界日不看目前存檔的旗標（EXAM 的 unlessFlag：上一個讀檔如果是阿德搬走以後，EXAM 整年都算不到）；算完還原 */
+  try{
   for(const c of codes){ let prev=SD3.on(c,d0), segs=0; for(let d=d0+1;d<d0+400&&segs<1;d++){ const on=SD3.on(c,d); if(on&&!prev){ let e=d; while(SD3.on(c,e+1)) e++; out.push([c,'開始前一天',KEY(d-1),false],[c,'開始當天',KEY(d),true],[c,'最後一天',KEY(e),true],[c,'結束隔天',KEY(e+1),false]); segs++; d=e; } prev=on; } }
+  } finally { G.flags=F0; }
   return out; })"""
 
 
@@ -261,8 +264,10 @@ class Shooter:
 async def clip_report(pg, tag, dj):
     c = await pg.evaluate(CLIP_JS, {'doors': dj['doors']})
     hits = c['hits']; real = [h for h in hits if h['cat'] in ('招牌', '柱子', '機車', '其他')]   # 招牌＝材質或網格名有 sign、plate、hours、band、small_atlas（店名招牌、營業時間牌、小牌子都在這幾種貼圖集）、fronts、GLOW_
-    sg = [h for h in real if h['cat'] == '招牌']
-    R.check('%s 布置的外框沒有蓋到招牌／營業時間牌（外框交集近似；貼圖集裡也有別的東西，交集了看圖判）' % tag, not sg, J([[h['door'], h['mesh'], h['mat'], h['dims']] for h in sg[:12]]))
+    area = lambda h: sorted(h['dims'])[1] * sorted(h['dims'])[2]   # 交集外框最大的兩邊相乘＝貼在同一面上蓋到的面積（只碰到一條邊＝0）
+    sg = [h for h in real if h['cat'] == '招牌' and area(h) > 0.001]; edge = [h for h in real if h['cat'] == '招牌' and area(h) <= 0.001]
+    if edge: R.note('%s 　只碰到邊（面積 ≤0.001 m²，不判）：%s' % (tag, J([[h['door'], h['mesh'], h['mat'], h['dims']] for h in edge[:12]])))
+    R.check('%s 布置的外框沒有蓋到招牌／營業時間牌（外框交集面積 >0.001 m² 才算；貼圖集裡也有別的東西，交集了看圖判）' % tag, not sg, J([[h['door'], h['mesh'], h['mat'], h['dims'], round(area(h), 4)] for h in sg[:12]]))
     R.note('%s 穿模（外框交集近似）：有布置的門 %d 扇、檢查了 %d 個網格；交集 %d 筆（招牌／柱子／機車／其他 %d 筆）' % (tag, c['doors'], c.get('meshesChecked', 0), len(hits), len(real)))
     for h in real[:40]: R.note('%s 　門 %s × %s「%s」（材質 %s）：%d 個頂點在布置外框裡、交集 %s m、體積 %s m³' % (tag, h['door'], h['cat'], h['mesh'], h['mat'], h['n'], J(h['dims']), h['vol']))
     wall = {}
