@@ -4,12 +4,12 @@
   "by": "AA（帳號 A）2026-11-11",
   "task": "DLG-FULL-REVIEW-1110（USER_WANTS X324）",
   "format": "同 D 區：files[{who, file:'events', rows[{at, event, expr, old, new, note}]}]；at＝組好的 STORY_EVENTS／STORY_EVENTS_V11／Y4_EVENTS 底下的路徑（LAWWW 的工具照原始碼文字換、at 驗證）；event、expr 給核對。old＝開發分支 09:0x 的字。",
-  "rule": "可昕在事件裡 608 句、刪節號 205 個（一個人佔全遊戲事件的四分之一）。規則：表情是 sad、embarrassed、serious、thinking、tired 的那一句——她真的停下來的時候——刪節號留；smile、teasing、laugh、neutral、surprised、annoyed 的（笑著、鬧著講話時的「……」）拿掉。「下次」「上次」「我請」13 句沒動：她的事件是一條連著的故事線，「下次換你來」「下次你來，我們吃山下那家」後面都有事件接（visits_ntu → tour_nccu、reschedule），不是沒人記的承諾。選項的字、條件、旗標都沒動。 另外照字面多留兩句（「……我知道我考不好。我不用你幫我難過。」「A館。……第一次走進來。」）。",
+  "rule": "可昕在事件裡 608 句、刪節號 205 個（一個人佔全遊戲事件的四分之一）。規則：表情是 sad、embarrassed、serious、thinking、tired 的那一句——她真的停下來的時候——刪節號留；smile、teasing、laugh、neutral、surprised、annoyed 的（笑著、鬧著講話時的「……」）拿掉。「下次」「上次」「我請」13 句沒動：她的事件是一條連著的故事線，「下次換你來」「下次你來，我們吃山下那家」後面都有事件接（visits_ntu → tour_nccu、reschedule），不是沒人記的承諾。選項的字、條件、旗標都沒動。 另外照字面多留兩句（「……我知道我考不好。我不用你幫我難過。」「A館。……第一次走進來。」）。 BB 11-11 09:0x 補一輪：句中「A。……B」、B 是她承認、發現、軟下來的（「……你真的存了」「……念不太進去」「……我等了一整個寒假」「……明年的卡片，換你寫」），不論表情都留停頓；句首「……我發現了。只是沒說。」也留。",
   "counts": {
    "句": 608,
    "刪節號前": 205,
-   "後": 48,
-   "列": 157
+   "後": 69,
+   "列": 136
   }
  },
  "files": [
@@ -50,14 +50,6 @@
      "note": "拿掉刪節號"
     },
     {
-     "at": "STORY_EVENTS[53].dialogue[23].text",
-     "event": "ev_kexin_yule_pass",
-     "expr": "smile",
-     "old": "民總。……她說你的字比我的好認。",
-     "new": "民總。她說你的字比我的好認。",
-     "note": "拿掉刪節號"
-    },
-    {
      "at": "STORY_EVENTS[53].dialogue[26].text",
      "event": "ev_kexin_yule_pass",
      "expr": "teasing",
@@ -74,14 +66,6 @@
      "note": "拿掉刪節號"
     },
     {
-     "at": "STORY_EVENTS[54].dialogue[50].text",
-     "event": "ev_mid_autumn_bbq",
-     "expr": "smile",
-     "old": "杜可昕。木柵大學法律。我們以前是經濟系的同學。……後來一起重考。",
-     "new": "杜可昕。木柵大學法律。我們以前是經濟系的同學。後來一起重考。",
-     "note": "拿掉刪節號"
-    },
-    {
      "at": "STORY_EVENTS[107].dialogue[3].text",
      "event": "ev_nye_river",
      "expr": "teasing",
@@ -95,14 +79,6 @@
      "expr": "smile",
      "old": "……那我先說：新年快樂。",
      "new": "那我先說：新年快樂。",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[107].dialogue[14].text",
-     "event": "ev_nye_river",
-     "expr": "smile",
-     "old": "明年的這個時候，也在這裡看。……新年快樂。",
-     "new": "明年的這個時候，也在這裡看。新年快樂。",
      "note": "拿掉刪節號"
     },
     {
@@ -178,22 +154,6 @@
      "note": "拿掉刪節號"
     },
     {
-     "at": "STORY_EVENTS[129].dialogue[4].text",
-     "event": "ev_revisit_y1_kexin",
-     "expr": "smile",
-     "old": "一年前你也坐在那間教室。……這次你待到最後了。",
-     "new": "一年前你也坐在那間教室。這次你待到最後了。",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[129].dialogue[15].text",
-     "event": "ev_revisit_y1_kexin",
-     "expr": "smile",
-     "old": "你們系的人，連宿舍的事都寫成申訴書。……我喜歡。",
-     "new": "你們系的人，連宿舍的事都寫成申訴書。我喜歡。",
-     "note": "拿掉刪節號"
-    },
-    {
      "at": "STORY_EVENTS[129].dialogue[28].text",
      "event": "ev_revisit_y1_kexin",
      "expr": "smile",
@@ -258,14 +218,6 @@
      "note": "拿掉刪節號"
     },
     {
-     "at": "STORY_EVENTS[149].dialogue[35].text",
-     "event": "ev_kexin_video_study",
-     "expr": "teasing",
-     "old": "我眼睛快閉起來了。……你先不要掛。",
-     "new": "我眼睛快閉起來了。你先不要掛。",
-     "note": "拿掉刪節號"
-    },
-    {
      "at": "STORY_EVENTS[149].dialogue[42].text",
      "event": "ev_kexin_video_study",
      "expr": "smile",
@@ -279,14 +231,6 @@
      "expr": "surprised",
      "old": "……你怎麼知道我幾點下課？",
      "new": "你怎麼知道我幾點下課？",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[150].dialogue[7].text",
-     "event": "ev_kexin_birthday_y1",
-     "expr": "smile",
-     "old": "那張是我開玩笑傳給你的。……你真的存了。",
-     "new": "那張是我開玩笑傳給你的。你真的存了。",
      "note": "拿掉刪節號"
     },
     {
@@ -394,14 +338,6 @@
      "note": "拿掉刪節號"
     },
     {
-     "at": "STORY_EVENTS[154].dialogue[4].text",
-     "event": "ev_kexin_valentine_y1",
-     "expr": "smile",
-     "old": "臺北的冷是濕的，我這邊是乾的。……你多穿一件。",
-     "new": "臺北的冷是濕的，我這邊是乾的。你多穿一件。",
-     "note": "拿掉刪節號"
-    },
-    {
      "at": "STORY_EVENTS[154].dialogue[7].text",
      "event": "ev_kexin_valentine_y1",
      "expr": "laugh",
@@ -423,14 +359,6 @@
      "expr": "laugh",
      "old": "……寒假還在讀民總的人，都這樣回答。",
      "new": "寒假還在讀民總的人，都這樣回答。",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[155].dialogue[5].text",
-     "event": "ev_kexin_our_day",
-     "expr": "smile",
-     "old": "那一格我寫了『我們』。……『約會』兩個字太噁心了。",
-     "new": "那一格我寫了『我們』。『約會』兩個字太噁心了。",
      "note": "拿掉刪節號"
     },
     {
@@ -471,30 +399,6 @@
      "expr": "smile",
      "old": "……你一月拿證書。我們兩個，同一年開始。",
      "new": "你一月拿證書。我們兩個，同一年開始。",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[160].dialogue[5].text",
-     "event": "ev_kexin_anniversary_yn",
-     "expr": "smile",
-     "old": "我十二月放榜。你八月考。……我們兩個，同一年開始。",
-     "new": "我十二月放榜。你八月考。我們兩個，同一年開始。",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[160].dialogue[6].text",
-     "event": "ev_kexin_anniversary_yn",
-     "expr": "smile",
-     "old": "六年。……今年是你寫。",
-     "new": "六年。今年是你寫。",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[160].dialogue[7].text",
-     "event": "ev_kexin_anniversary_yn",
-     "expr": "smile",
-     "old": "六年。……你想好要寫什麼了嗎？",
-     "new": "六年。你想好要寫什麼了嗎？",
      "note": "拿掉刪節號"
     },
     {
@@ -554,22 +458,6 @@
      "note": "拿掉刪節號"
     },
     {
-     "at": "STORY_EVENTS[160].dialogue[52].text",
-     "event": "ev_kexin_anniversary_yn",
-     "expr": "smile",
-     "old": "（把卡片翻到第一頁）第五年。……明年的卡片，換你寫。",
-     "new": "（把卡片翻到第一頁）第五年。明年的卡片，換你寫。",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[160].dialogue[53].text",
-     "event": "ev_kexin_anniversary_yn",
-     "expr": "smile",
-     "old": "（把卡片翻到第一頁）第五年。……明年的卡片，又換你寫。",
-     "new": "（把卡片翻到第一頁）第五年。明年的卡片，又換你寫。",
-     "note": "拿掉刪節號"
-    },
-    {
      "at": "STORY_EVENTS[160].dialogue[56].text",
      "event": "ev_kexin_anniversary_yn",
      "expr": "teasing",
@@ -583,22 +471,6 @@
      "expr": "laugh",
      "old": "你自己想。……你想五年了吧。",
      "new": "你自己想。你想五年了吧。",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[160].dialogue[69].text",
-     "event": "ev_kexin_anniversary_yn",
-     "expr": "smile",
-     "old": "（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。",
-     "new": "（把卡片翻到第一頁）第四年。明年這一天，我們都畢業了。",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[160].dialogue[72].text",
-     "event": "ev_kexin_anniversary_yn",
-     "expr": "smile",
-     "old": "第四年。……明年這一天，我們都畢業了。",
-     "new": "第四年。明年這一天，我們都畢業了。",
      "note": "拿掉刪節號"
     },
     {
@@ -842,14 +714,6 @@
      "note": "拿掉刪節號"
     },
     {
-     "at": "STORY_EVENTS[199].dialogue[28].text",
-     "event": "ev_y0_e25",
-     "expr": "neutral",
-     "old": "你那時候問我是不是唐睿。我說不是。……然後你就沒有問下一句了。我等了一整個寒假。",
-     "new": "你那時候問我是不是唐睿。我說不是。然後你就沒有問下一句了。我等了一整個寒假。",
-     "note": "拿掉刪節號"
-    },
-    {
      "at": "STORY_EVENTS[200].dialogue[14].text",
      "event": "ev_y0_e26",
      "expr": "annoyed",
@@ -1058,14 +922,6 @@
      "note": "拿掉刪節號"
     },
     {
-     "at": "STORY_EVENTS[237].dialogue[3].text",
-     "event": "ev_y0_e36",
-     "expr": "smile",
-     "old": "首都帝大法律。……恭喜你啦，真的。",
-     "new": "首都帝大法律。恭喜你啦，真的。",
-     "note": "拿掉刪節號"
-    },
-    {
      "at": "STORY_EVENTS[237].dialogue[17].text",
      "event": "ev_y0_e36",
      "expr": "smile",
@@ -1079,14 +935,6 @@
      "expr": "smile",
      "old": "……你說的喔。",
      "new": "你說的喔。",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[238].dialogue[3].text",
-     "event": "ev_y0_e36h",
-     "expr": "smile",
-     "old": "首都帝大法律。……恭喜你啦，真的。",
-     "new": "首都帝大法律。恭喜你啦，真的。",
      "note": "拿掉刪節號"
     },
     {
@@ -1127,14 +975,6 @@
      "expr": "laugh",
      "old": "……我餓了。剛剛在夜市都在講話。",
      "new": "我餓了。剛剛在夜市都在講話。",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[253].dialogue[3].text",
-     "event": "ev_y0_e10b",
-     "expr": "neutral",
-     "old": "我一個人在總圖念到剛剛。……念不太進去。",
-     "new": "我一個人在總圖念到剛剛。念不太進去。",
      "note": "拿掉刪節號"
     },
     {
@@ -1199,14 +1039,6 @@
      "expr": "neutral",
      "old": "……你覺得呢？",
      "new": "你覺得呢？",
-     "note": "拿掉刪節號"
-    },
-    {
-     "at": "STORY_EVENTS[276].dialogue[100].text",
-     "event": "ev_y0_p2b",
-     "expr": "smile",
-     "old": "……我發現了。只是沒說。",
-     "new": "我發現了。只是沒說。",
      "note": "拿掉刪節號"
     },
     {
