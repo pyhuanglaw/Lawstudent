@@ -7826,6 +7826,36 @@
    "noDirectIntegrate": false,
    "note": "底 dev a724370bc；六點逐項對照表在 README；limao_shangshi_model 等五支 ALL PASS，沒有跑全部（只換資產和一支測試）。",
    "next": "LAWWW 驗；過了才放到算命桌"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（下一個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "GG-G10-LANE-MOUTH-1111 公館 G10 改成真的巷口第 1 版（使用者 11-11 選擇題答案，UA-LAWWW2-1111-06／X335）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_g10_lane_1111/（README.md、gg_g10_lane_v1.patch、regression_full.log、blender_g10_lane.jpg）"
+   ],
+   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "noDirectIntegrate": false,
+   "note": "底 dev 4a0a2d69b（動到的檔在 50887dae6 沒有再變）。全部 1249 支跑過：四支 termend 類 FAILED 是容器沒抓企劃線 commit bd1a6fda3，fetch 後 ALL PASS，和 patch 無關。zones3d.js 只改柱子清單一個數字；shops 的 shut:true 沒動。",
+   "next": "LAWWW 改套件備用；CC 拍通道另一頭看到什麼"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（下一個 commit）",
+   "receiver": "LAWWW",
+   "cc": "",
+   "ack": "SENT",
+   "task": "LIMAO-SHANGSHI-3D-1111 上師 3D 人物第 3 版（LAWWW 01:07 四點；D141 最後一版）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/limao_shangshi_1111/（README.md 最上面的第 3 版、limao_shangshi_v3.patch、blender_v3_vs_ref.jpg）"
+   ],
+   "state": "待整合；角色美術 LAWWW 驗（D100a）",
+   "noDirectIntegrate": false,
+   "note": "底 dev 15ed22e70；四點對照表在 README；limao_shangshi_model 等五支 ALL PASS，沒有跑全部。",
+   "next": "LAWWW 驗"
   }
  ]
 }
