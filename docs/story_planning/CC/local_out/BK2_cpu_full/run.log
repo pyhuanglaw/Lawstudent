@@ -1,0 +1,125 @@
+01:02:50 | INFO: Data are loaded, start creating Blender stuff
+01:02:50 | INFO: Blender create Mesh node L3_books
+01:02:51 | INFO: Blender create Mesh node L3_carpet
+01:02:51 | INFO: Blender create Mesh node L3_ceil
+01:02:51 | INFO: Blender create Mesh node L3_frame
+01:02:51 | INFO: Blender create Mesh node L3_glass
+01:02:51 | INFO: Blender create Mesh node L3_light
+01:02:51 | INFO: Blender create Mesh node L3_parquet
+01:02:51 | INFO: Blender create Mesh node L3_plaster
+01:02:51 | INFO: Blender create Mesh node L3_trim
+01:02:51 | INFO: Blender create Mesh node L3_vc
+01:02:51 | INFO: Blender create Mesh node L3_vcm
+01:02:51 | INFO: Blender create Mesh node L3_walnut
+01:02:51 | INFO: Blender create Mesh node L3_wood
+01:02:51 | INFO: Blender create Mesh node WALL_E
+01:02:51 | INFO: Blender create Mesh node WALL_N
+01:02:51 | INFO: Blender create Mesh node WALL_RE
+01:02:51 | INFO: Blender create Mesh node WALL_RN
+01:02:51 | INFO: Blender create Mesh node WALL_RW
+01:02:51 | INFO: Blender create Mesh node WALL_S
+01:02:51 | INFO: Blender create Mesh node WALL_W
+01:02:51 | INFO: Blender create Mesh node INST_chair_vc
+01:02:51 | INFO: Blender create Mesh node INST_lamp_vm
+01:02:51 | INFO: Blender create Mesh node INST_lounge_vc
+01:02:51 | INFO: Blender create Mesh node INST_lounge_vm
+01:02:51 | INFO: glTF import finished in 1.03s
+import 99 objects
+bake objects 14
+back faces dropped 0
+hidden faces 172
+uv pack margin 4.0 max 0.9959
+DEVICE CPU blender 5.2.3 LTS
+area lights 162 day-only fill 0
+shell ['SHELL_N', 'SHELL_UP', 'SHELL_DOWN'] room bbox [-12.1, -9.1, 0.0, 12.1, 22.47, 4.0]
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+day lm mean 0.1449180692434311 p99 1.0020452737808228
+saved C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BK2_cpu_full\out\d_day.png
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+night lm mean 0.1312505304813385 p99 0.9831669330596924
+saved C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BK2_cpu_full\out\d_night.png
+black faces collapsed 1412
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+01:17:41 | INFO: Starting glTF 2.0 export
+01:17:41 | INFO: Extracting primitive: L3_books
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_carpet
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_ceil
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_frame
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_glass
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_light
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_parquet
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_plaster
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_trim
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_vc
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_vcm
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_walnut
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: L3_wood
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: INST_chair_vc
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: INST_lamp_vm
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: INST_lounge_vc
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: INST_lounge_vm
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: WALL_E
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: WALL_N
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: WALL_RE
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: WALL_RN
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: WALL_RW
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: WALL_S
+01:17:41 | INFO: Primitives created: 1
+01:17:41 | INFO: Extracting primitive: WALL_W
+01:17:42 | INFO: Primitives created: 1
+01:17:42 | INFO: Finished glTF 2.0 export in 0.5225744247436523 s
+
+exported C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BK2_cpu_full\out\d.glb
+PCBAKE {"scene": "library_3f_v2", "res": 1024, "samples": 512, "total_seconds": 893.3, "images": {"day": {"mean": 0.19506, "p50": 0.15462, "p95": 0.50116, "pixels": 1048576}, "night": {"mean": 0.19188, "p50": 0.13725, "p95": 0.51399, "pixels": 1048576}}, "device": "CPU", "blender": "5.2.3 LTS", "bake_seconds": 874.9}
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit
