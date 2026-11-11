@@ -67,7 +67,9 @@ check('7. 學姊大一約散步：不會因為「有伴侶」婉拒（使用者 
 const SAT3=Y3(6), MON3=Y3(1); W8=false; fresh(SAT,9); rel('heroine_05',65,50,45); r=ask('heroine_05','wenzhou',SAT,15.5);
 check('7. 學姊筆試（2026-02-02）以前約散步：「散步的話，等我考完。」「週三晚上我在法圖。要讀書的話，可以一起。」（AA_284 1-3；婉拒，不給改天）',r.res==='decline'&&r.why==='exam'&&L(r)==='散步的話，等我考完。｜週三晚上我在法圖。要讀書的話，可以一起。'&&!r.alt,r.res+' '+L(r));
 { const EX=STORY.dayOfKey('2026-02-02'); let d=EX+1; while(wdOf(d)!==6) d++; fresh(d,9); rel('heroine_05',65,50,45); r=ask('heroine_05','wenzhou',d,15.5); check('7. 筆試以後的週六（不看 W8）：答應',r.res==='accept',r.res+' '+L(r)); }
-r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊大三下的週六（W8 旗標沒有也一樣）：「散步。好。……溫州街我只有路過，沒有真的走過。」',r.res==='accept'&&L(r)==='散步。好。……溫州街我只有路過，沒有真的走過。',r.res+' '+L(r));
+/* 2026-11-11（X324 D 區，AA_783 invites.js people.heroine_05.acc.wenzhou[0]）：拿掉刪節號——舊期望「散步。好。……溫州街我只有路過，沒有真的走過。」（tests/overlay_expect.js 換成稿上的新字）*/
+const OE=require('./overlay_expect.js'), SIS_W=OE.fwd('invites','heroine_05','散步。好。……溫州街我只有路過，沒有真的走過。'), ZQ_W=OE.fwd('invites','heroine_04','……好啦。但要有目的地。');
+r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊大三下的週六（W8 旗標沒有也一樣）：「'+SIS_W+'」',r.res==='accept'&&L(r)===SIS_W,r.res+' '+L(r));
 fresh(MON,9); rel('heroine_05',65,50,45); r=ask('heroine_05','cafe',MON,12+10/60); check('7. 學姊平日中午（在總圖）約 Café：「五點以後好不好？我要先把這段寫完。」→ 17:00 以後',r.res==='resched'&&L(r)==='五點以後好不好？我要先把這段寫完。'&&r.alt&&r.alt.h>=17,r.res+' '+JSON.stringify(r.alt));
 r=ask('heroine_05','library',MON,12+10/60); check('7. 學姊平日約總圖：「好啊，我在總圖三樓。到了跟我說。」（AA_579 第 15 列）',r.res==='here'&&L(r)==='好啊，我在總圖三樓。到了跟我說。',r.res+' '+L(r));
 r=ask('heroine_05','cafe',MON,19); check('7. 學姊 W8 以後、朋友以上約 Café（晚上）：「今天不看筆記。」',r.res==='accept'&&L(r)==='今天不看筆記。',r.res+' '+L(r));
@@ -95,7 +97,8 @@ async function await0(){}
   if(!before&&CHARACTERS.classmate_youchen){ await INV.flow(gm,'classmate_youchen',null,false); check('10. 沒有個性資料的人照舊：「某某答應了。約好 …」（旁白）',gm.out.some(t=>/^旁白：.*答應了。約好/.test(t)),gm.out.join('｜')); }
   // 11 第一次散步
   fresh(MON,10); rel('heroine_04',45,30,10); r=ask('heroine_04','wenzhou',MON,15.5);
-  check('11. 子晴第一次約散步：「散步？散步是什麼？」（你解釋了一下。）「……好啦。但要有目的地。」',r.res==='accept'&&L(r)==='散步？散步是什麼？｜（你解釋了一下。）｜……好啦。但要有目的地。',L(r));
+  /* 2026-11-11（X324 D 區，AA_783 invites.js people.heroine_04.first.wenzhou[2]）：拿掉刪節號——舊期望「……好啦。但要有目的地。」*/
+  check('11. 子晴第一次約散步：「散步？散步是什麼？」（你解釋了一下。）「'+ZQ_W+'」',r.res==='accept'&&L(r)==='散步？散步是什麼？｜（你解釋了一下。）｜'+ZQ_W,L(r));
   G.invites.push({id:'x',who:'heroine_04',place:'wenzhou',zone:'wenzhou',day:MON-3,h:15,state:'done'}); r=ask('heroine_04','wenzhou',MON,15.5);
   check('11. 散步過一次以後：沒有「第一次」的那幾句',r.res==='accept'&&!/散步是什麼/.test(L(r)),L(r));
   // 12 一起走過去的路上聊一句

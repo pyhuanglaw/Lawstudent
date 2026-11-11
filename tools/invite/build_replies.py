@@ -196,6 +196,14 @@ def sections(md):
 
 
 DATA = invite_data()
+# 2026-11-11（X324 D 區）：invites.js 已經照覆蓋層換過字（tools/invite/apply_overlay.py；AA_783、AA_784 file invites 的列）——「現有」的比對照 AA_415 稿上的舊字，
+# 那幾格先換回 old 再比（表上的字＝old；invite_replies.js 的字最後一步照 AA_783 file invite_replies 的列換成新字，見檔案最後 overlay_replies）
+import overlay_rows as OV
+OV_INV = OV.rows(ROOT, 'invites', ALLOW)
+for _x in OV_INV:
+    _t = OV.parse(_x['at'])
+    if _t[0] == 'people' and OV.get(DATA, _t[1:]) == _x['new']:
+        OV.put(DATA, _t[1:], _x['old'])
 import ps755 as PS755   # tools/story/ps755.py（AA_755_peishan_feed_misc.json；白名單沒有那份稿＝空表、不換）
 PS755_MAP = PS755.sentence_map(PS755.load(ROOT, ALLOW), 'invites.js')
 
@@ -351,3 +359,65 @@ def strip_quotes(path):
 
 
 strip_quotes(OUT)
+
+
+def overlay_replies(path):
+    """X324 D 區覆蓋層（白名單 overlay:true 的稿裡 file 是 invite_replies 的列；AA_783…；tools/story/overlay_rows.py）——放在最後
+    （AA_627／AA_630、PS755、拿掉「」以後；稿的 old＝遊戲現在的字）：at＝<列 id>.lines[i]，那一列要是 who 的、那一格（她說的字串或 {me}）要剛好等於 old 才換，對不到就停。
+    換過的列多一格 ov＝稿的來源（[path@sha]；tests/invites_quote_unit.js 這些列改比稿）；say（表上原文）不動。
+    換完：同一個人的 lines 不能再有這幾句舊句；invites.js 那邊換了的句子（file invites 的列），這個人的 lines 也不能再有舊句（兩邊同句都要換到）。
+    同一句別人也說（例：第 5 階「……只有我們？」語彤照留）＝不在稿上，照留、印出來。"""
+    R = OV.rows(ROOT, 'invite_replies', ALLOW)
+    if not R and not OV_INV:
+        return
+    p = os.path.join(ROOT, path)
+    L = open(p, encoding='utf-8').read().split('\n')
+    idx, who = {}, None
+    for i, ln in enumerate(L):
+        m = re.match(r'^ "(\w+)":\[$', ln)
+        if m:
+            who = m.group(1); continue
+        m = re.match(r'^  (\{.*\})(,?)$', ln)
+        if m:
+            r = json.loads(m.group(1))
+            if r['id'] in idx:
+                die(f'invite_replies.js 有兩列 id {r["id"]}')
+            idx[r['id']] = [i, r, who, m.group(2)]
+    txt = lambda x: x if isinstance(x, str) else (x.get('me') if isinstance(x, dict) else None)
+    for x in R:
+        w = f'{x["src"]} {x["who"]} {x["at"]}'
+        m = re.fullmatch(r'(\w+)\.lines\[(\d+)\]', x['at'])
+        if not m:
+            die(f'{w}：at 要寫 <列 id>.lines[i]')
+        if m.group(1) not in idx:
+            die(f'{w}：invite_replies.js 沒有 {m.group(1)} 這一列')
+        i, r, w2, comma = idx[m.group(1)]
+        k = int(m.group(2))
+        if w2 != x['who']:
+            die(f'{w}：{m.group(1)} 是 {w2} 的列，不是 {x["who"]}')
+        if k >= len(r['lines']) or txt(r['lines'][k]) != x['old']:
+            die(f'{w}：那一格現在是 {json.dumps(r["lines"][k] if k < len(r["lines"]) else None, ensure_ascii=False)}，不是稿的 old「{x["old"]}」（對不到，不猜）')
+        if isinstance(r['lines'][k], str):
+            r['lines'][k] = x['new']
+        else:
+            r['lines'][k] = dict(r['lines'][k], me=x['new'])
+        if x['src'] not in r.setdefault('ov', []):
+            r['ov'].append(x['src'])
+    left = []
+    for x in R + OV_INV:
+        mine = [(rid, k) for rid, (i, r, w2, c) in idx.items() if w2 == x['who'] for k, t in enumerate(r['lines']) if txt(t) == x['old']]
+        if mine:
+            left.append(f'{x["who"]}：「{x["old"]}」還在 {mine}（{x["src"]} {x["at"]}）')
+        other = [(w2, rid) for rid, (i, r, w2, c) in idx.items() if w2 != x['who'] and any(txt(t) == x['old'] for t in r['lines'])]
+        if other and x in R:
+            print(f'同一句別人也說（不在稿上，照留）：「{x["old"]}」{other}')
+    if left:
+        die('覆蓋層換完，同一個人還有舊句（invites.js 換了、invite_replies.js 沒換，或同一句兩列只換一列）：\n' + '\n'.join(left))
+    for rid, (i, r, w2, comma) in idx.items():
+        L[i] = '  ' + json.dumps(r, ensure_ascii=False, separators=(',', ':')) + comma
+    open(p, 'w', encoding='utf-8').write('\n'.join(L))
+    if R:
+        print(f'{path}：覆蓋層 {len(R)} 格（{"、".join(OV.sources(ROOT, "invite_replies", ALLOW))}）')
+
+
+overlay_replies(OUT)

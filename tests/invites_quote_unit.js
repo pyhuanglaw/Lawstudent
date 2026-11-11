@@ -118,6 +118,9 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   A731.push(...require('./peishan_rewrite_1111.js').PAIRS);   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS）：rel_lines.js 一起念書的旁白等換了字，和 BASE 比的時候照新稿算 */
   /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版）：AA_772 的 fix 列（慢讀→木曜日的台詞、見面旁白等；白名單上的版本，tests/l118_redo772_expect.js 讀，不手抄）和 BASE 比的時候照新稿算 */
   A731.push(...require('./l118_redo772_expect.js').rows);
+  /* 2026-11-11（X324 D 區）：覆蓋層（白名單 overlay:true 的稿：AA_783 invite_replies／invites、AA_784 invites；tests/overlay_expect.js 讀，不手抄）換的字，和 BASE 比的時候照稿算；
+     invite_replies.js 換過的列多一格 ov（稿的來源），比之前拿掉。逐列對稿在 tests/invite_overlay_1111_unit.js */
+  const OE=require('./overlay_expect.js'); A731.push(...['invites','invite_replies'].flatMap(f=>OE.rows(f).map(r=>[r.old,r.new])));
   const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&s(b)===n||(a.includes(o)&&a.split(o).join(n)===b))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc|94ab0865e|ef7280917)/g,'@AA'); return r(a)===r(b)||(a==='c71772fbc'&&b==='94ab0865e'); };   /* 2026-11-11：AA_721 白名單換 ef7280917（118 巷改版），來源 commit 的字不算多改 */
   const gitShow=f=>cp.execSync('git -C "'+ROOT+'" show '+BASE+':'+f,{encoding:'utf8',maxBuffer:1<<28});
   const evalIn=(src,names,extra)=>{ const c=vm.createContext(Object.assign({console},extra||{})); for(const n of names) src=src.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInContext(src,c); return c; };
@@ -138,8 +141,9 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     const RN=rows(NEW), RO=rows(OLD); const strs=[], wr=[], me=[];
     for(const [id,r] of RN) for(const x of r.lines){ const t=typeof x==='string'?x:x&&x.me; if(typeof t!=='string') continue; strs.push(t); if(wrapped(t)) wr.push(id+' '+r.id+'：'+t); if(typeof x!=='string') me.push(t); }
     check('6. invite_replies.js：lines 裡有名字說的（她說的、{me} 祐廷說的）沒有一句外面還有「」（'+strs.length+' 句）',strs.length>=270&&wr.length===0,sample(wr));
-    const r6=cmpTree(RO.map(x=>x[1]),RN.map(x=>x[1]),p=>/^\[\d+\]\.lines\[\d+\](\.me)?$/.test(p));
-    check('6. 和 '+BASE+' 比：一樣的列（'+RN.length+'）、只有 lines 差外面的「」（改了 '+r6.ch+' 句），其他欄位（含 say 表上原文）一字不差',RN.length===RO.length&&RN.length>=250&&r6.bad.length===0&&r6.ch>=250,sample(r6.bad));
+    const noOv=r=>{ const y=Object.assign({},r); delete y.ov; return y; }, nOv=RN.filter(x=>x[1].ov).length;
+    const r6=cmpTree(RO.map(x=>x[1]),RN.map(x=>noOv(x[1])),p=>/^\[\d+\]\.lines\[\d+\](\.me)?$/.test(p));
+    check('6. 和 '+BASE+' 比：一樣的列（'+RN.length+'）、只有 lines 差外面的「」（改了 '+r6.ch+' 句；X324 覆蓋層換過的 '+nOv+' 列照稿），其他欄位（含 say 表上原文）一字不差',RN.length===RO.length&&RN.length>=250&&r6.bad.length===0&&r6.ch+OE.rows('invite_replies').length>=250,sample(r6.bad));   /* 覆蓋層換過的那幾格不算在「只差「」」裡（舊期望 r6.ch>=250）*/
     const who=[]; RO.forEach(([id,r],i)=>r.lines.forEach((x,j)=>{ const y=RN[i][1].lines[j]; if(typeof x==='string'&&isNarr(x)!==isNarr(y)) who.push(r.id+'：'+x+' → '+y); }));
     const narr=strs.filter(isNarr);
     check('6. 誰說的（S.narrLine：旁白／她說）每一句都和 '+BASE+' 一樣；旁白照舊（'+narr.length+' 句，沛珊 ps30 裡面的「…」「…」照留）',who.length===0&&narr.length===7&&narr.includes('（「平日我在家念……」「書店六點打烊……」「七點下課……」）'),sample(who));

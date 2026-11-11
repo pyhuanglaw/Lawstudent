@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+"""邀約的手寫資料檔 src/data/invites.js 的覆蓋層（X324 D 區；AA_783 的 invites 列、AA_784……；LAWWW 2026-11-11 定）。
+稿＝白名單上 overlay:true 的稿（tools/story/overlay_rows.py）裡 file 是 'invites' 的列：{who, at, old, new}，at＝INVITE_DATA 底下的路徑（people.<id>.acc.cafe.A[0]、libStudy.first.<id>.sit…）。
+invites.js 是手寫的（不是產生檔），所以這支工具直接改原始碼：
+  1. 換字＝改原始碼文字：old 照 JS 字串寫法（'…' 或 "…"，跳脫照寫）在 invites.js 原始碼裡要剛好出現一次（整個字串，不是某個字串的一部分）→ 換成 new。
+     同一句在 INVITE_DATA 會掛在好幾個路徑（例：walk118 組進 people.<id>.walk），字真正寫在原始碼一處，換那一處就全部跟著換。
+     出現 0 次＝停（除非已經換好：at 那一格已經是 new、原始碼也沒有 old）；2 次以上＝停下來列出來（要 at 才能分辨的，LAWWW 再跟 AA 定）。
+  2. at 當驗證：換之前把 invites.js 在 Node 載起來（tools/invite/js_leaves.js），at 那一格要剛好等於 old；換完重載，at 那一格要等於 new，
+     而且 INVITE_DATA 裡任何地方都不能再有 old（舊句一個不剩；函式的原始碼也算），換掉的格子以外（含條件、k、st、選項的字、函式）一格都不能變。
+  3. 不換玩家的選項字：at 是 …ch[i].t（選項）＝停（ch[i].r 回話可以）。who 不是 (共用) 的，at 要在 people.<who> 底下。
+用法：python3 tools/invite/apply_overlay.py [--check] [--dry]
+  --check：只檢查（每一列 at 那一格已經是 new、原始碼沒有 old、其他格子和重套一樣）；沒套到的列出來、結束碼 1。
+  --dry：照常檢查、算出結果，不寫檔（印每一列換到哪裡）。
+測試：tests/invite_overlay_1111_unit.js"""
+import json, os, re, subprocess, sys, tempfile
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
+import overlay_rows as OV
+
+FILE = 'src/data/invites.js'
+LEAVES = os.path.join(ROOT, 'tools', 'invite', 'js_leaves.js')
+
+
+def leaves(text):
+    """invites.js 的文字 → {路徑: 字串（函式＝'ƒ'＋原始碼）}"""
+    with tempfile.TemporaryDirectory() as td:
+        p = os.path.join(td, 'invites.js')
+        open(p, 'w', encoding='utf-8').write(text)
+        return json.loads(subprocess.check_output(['node', LEAVES, p, 'INVITE_DATA'], text=True))
+
+
+def lits(s):
+    """一句話在 JS 原始碼裡可能的寫法（單引號、雙引號）"""
+    b = s.replace('\\', '\\\\').replace('\n', '\\n')
+    return ["'" + b.replace("'", "\\'") + "'", '"' + b.replace('"', '\\"') + '"']
+
+
+def count(text, s):
+    return sum(text.count(x) for x in lits(s))
+
+
+def main():
+    rows = OV.rows(ROOT, 'invites')
+    path = os.path.join(ROOT, FILE)
+    text0 = open(path, encoding='utf-8').read()
+    L0 = leaves(text0)
+    bad, plan, done = [], [], []
+    for x in rows:
+        w = f'{x["src"]} {x["who"]} {x["at"]}'
+        toks = OV.parse(x['at'])
+        if x['who'] != '(共用)' and toks[:2] != ['people', x['who']]:
+            bad.append(f'{w}：at 不在 people.{x["who"]} 底下'); continue
+        if len(toks) >= 3 and toks[-1] == 't' and isinstance(toks[-2], int) and toks[-3] in ('ch', 'choice', 'opts'):
+            bad.append(f'{w}：at 是玩家選項的字（{toks[-3]}[i].t），不換'); continue
+        cur = L0.get(x['at'])
+        n_old, n_new = count(text0, x['old']), count(text0, x['new'])
+        if cur == x['new'] and n_old == 0:
+            done.append(x); continue
+        if cur != x['old']:
+            bad.append(f'{w}：at 那一格現在是 {json.dumps(cur, ensure_ascii=False)}，不是稿的 old「{x["old"]}」（對不到，不猜）'); continue
+        if n_old != 1:
+            where = [m.start() for lit in lits(x['old']) for m in re.finditer(re.escape(lit), text0)]
+            lines = sorted({text0.count('\n', 0, k) + 1 for k in where})
+            sub = text0.count(x['old'])
+            bad.append(f'{w}：「{x["old"]}」在 {FILE} 原始碼整個字串出現 {n_old} 次（第 {lines} 行；字面子字串 {sub} 次）——要剛好一次'); continue
+        plan.append(x)
+    if '--check' in sys.argv:
+        pend = [f'{x["src"]} {x["who"]} {x["at"]}：還沒換（「{x["old"]}」→「{x["new"]}」）' for x in plan]
+        if bad or pend:
+            raise SystemExit('\n'.join(bad + pend))
+        print(f'OK {FILE}：{len(done)} 列都已經是新字（{"、".join(OV.sources(ROOT, "invites"))}）')
+        return
+    if bad:
+        raise SystemExit('\n'.join(bad))
+    text = text0
+    olds = {x['old'] for x in plan}
+    for x in plan:
+        a, b = lits(x['old']), lits(x['new'])
+        k = [i for i in (0, 1) if text.count(a[i]) == 1]
+        if len(k) != 1:
+            raise SystemExit(f'{x["at"]}：「{x["old"]}」換到一半找不到（前面的列換掉了同一句？）')
+        text = text.replace(a[k[0]], b[k[0]], 1)
+    L1 = leaves(text)
+    err = []
+    if set(L0) != set(L1):
+        err.append(f'換完以後路徑變了：少了 {sorted(set(L0) - set(L1))[:5]}、多了 {sorted(set(L1) - set(L0))[:5]}')
+    for x in plan:
+        if L1.get(x['at']) != x['new']:
+            err.append(f'{x["at"]}：換完以後是 {json.dumps(L1.get(x["at"]), ensure_ascii=False)}，不是 new')
+    left = sorted(p for p, v in L1.items() if v in olds or (v.startswith('ƒ') and any(count(v, o) for o in olds)))
+    if left:
+        err.append(f'換完以後 INVITE_DATA 還有舊句：{left[:8]}')
+    rep = {}
+    for x in plan:
+        rep[x['old']] = x['new']
+    for p in set(L0) & set(L1):
+        a, b = L0[p], L1[p]
+        if a == b:
+            continue
+        if a.startswith('ƒ'):
+            want = a
+            for o, n in rep.items():
+                for lo, ln in zip(lits(o), lits(n)):
+                    want = want.replace(lo, ln)
+            if want != b:
+                err.append(f'{p}：函式變了，而且不只是換那幾句')
+        elif rep.get(a) != b:
+            err.append(f'{p}：「{a}」→「{b}」不是稿上的列')
+    if err:
+        raise SystemExit('\n'.join(err))
+    changed = sum(1 for p in L0 if L0[p] != L1.get(p))
+    for x in plan:
+        al = sorted(p for p in L1 if L1[p] == x['new'] and L0.get(p) == x['old'])
+        print(f'{x["who"]} {x["at"]}：「{x["old"]}」→「{x["new"]}」（同一個字串掛在 {len(al)} 個路徑）')
+    print(f'{FILE}：換 {len(plan)} 列（已經是新字 {len(done)} 列），INVITE_DATA 變了 {changed} 格；來源 {"、".join(OV.sources(ROOT, "invites"))}')
+    if '--dry' not in sys.argv:
+        open(path, 'w', encoding='utf-8').write(text)
+
+
+if __name__ == '__main__':
+    main()
