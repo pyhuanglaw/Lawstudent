@@ -53210,6 +53210,84 @@
     "receiver": "LAWWW2",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BUG-XIANGUO-TRAP-1111",
+   "title": "汀州鮮果室內：CC 回報走到右後角走不回門口、出不了店（待確認）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "夜市旁巷子",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "LAWWW 11-11 Node 模擬（f5e1ef4e8，E.canStand flood＋E.simWalk）沒重現：2126 個站得住的點全連通、304 個起點走回門口都成功、右後角 121 點走到離開半徑內。等 CC 的 TRAPDIAG（卡住座標、SHA、目標點）。**確認以前這一間不進發布候選**（BB）。LAWWW2 先對 extraStacks 的箱子模型和阻擋範圍。腳本只在 scratchpad（trap2.js），要留就寫成 tests/",
+   "xai": {
+    "spec": "BB 11-11 01:47 判定（BB_255，企劃線 8da731f7c）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "BB：CC 在瀏覽器走到右後角、走回門口離開，新版 PASS",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "LIMAO-INT-CAM-1111",
+   "title": "禮貌生財進門後遊戲鏡頭一片米色（鏡頭卡在隔板或牆裡）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "夜市旁巷子",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "BB 11-11：cc-local ART2_lmint_new/out/tz4int_limao_2000_game.jpg。LAWWW2 修進門鏡頭／出生點朝向／隔牆的鏡頭碰撞；排在花序第 2 版之前",
+   "xai": {
+    "spec": "BB 11-11 01:47 判定（BB_255，企劃線 8da731f7c）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "BB：進門第一眼看得到命理館",
+    "receiver": "LAWWW2",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "GG-XIANGUO-EXT3-1111",
+   "title": "汀州鮮果外觀第 3 版（最後一版）：敞開的店面開口前排放真的水果箱（現在是一張平面照片）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "夜市旁巷子",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "BB 11-11 判 PARTIAL（第 2 版）。排在鏡頭修正之後",
+   "xai": {
+    "spec": "BB 11-11 01:47 判定（BB_255，企劃線 8da731f7c）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "BB 場景美術判定",
+    "receiver": "LAWWW2",
+    "ack": "SENT"
+   }
   }
  ]
 }
