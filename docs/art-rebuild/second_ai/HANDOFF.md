@@ -1,7 +1,15 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-11 00:1x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 00:3x UTC）
+- **使用者 11-11 00:26（UA-LAWWW2-1111-05）**：稱呼使用者用「你」，不是「妳」；要他決定的事用選擇題問；可以開工。
+- **已整合 dev**：花序 B 件＋公館三間（3a216dfb2）、夜市十攤＋背景三攤（b810b809b；LAWWW 接了能買 night_market3d.js）、禮貌生財＋BB_255 三項（11161c101；LAWWW 接了上師對話 limao3d.js，並把我的 tingzhou3d.js 改成營業時間照時鐘 TZ3.clockHour）。
+- **已交、等 LAWWW 整合／驗**：上師 3D 人物第 1 版 `wip/limao_shangshi_1111/`（6acdb2d7f；角色美術 LAWWW 驗；NPC 沒放）。
+- **做完、全部測試在跑、還沒交**：第二包 `wip/pkg_1111b/pkg2_on_dev_f8ff49f43.patch`（README 在同一個資料夾）＝夜市時間照 AA_752、X335 公館 G09／G10 鐵捲門、公館招牌櫥窗貼圖放大、七間室內牆面改乾淨、安泰貨架、汀州鮮果補滿、禮貌生財小項。測試 log 在 scratch 的 `p2_regress.log`；跑完沒有失敗 → README 狀態改 READY、outbox 加一筆、send_message LAWWW（副本 BB）。如果中斷：在最新 dev 的工作樹 `git apply --3way` 這個 patch，重跑全部測試再交。
+- **教訓（這一班新增）**：①通知排隊太久三次（14、15、15 分鐘）：長的工具鏈中間要插 ReadNotifications。②容器磁碟只有約 9 GB 可用，工作樹一個約 2 GB：只留一兩個，舊的 `git worktree remove --force`；`cd` 到不存在的工作樹失敗以後，後面的指令會在主資料夾跑（有一次 `git apply` 因此在主資料夾執行，檢查過沒有改到追蹤的檔）——`cd X && …` 要用 `&&` 串。③Cycles 預覽裡單面化後重疊的正反面會算成黑色，是預覽假影，不是模型壞。④測試讀企劃線的 commit：容器要 `git fetch origin claude/story-planning`，不然 aa401、termend 兩支會假失敗。
+- **接下來的佇列**：第二包交付 → 等 CC 拍、BB 判（夜市、禮貌生財、機車第 3 版、洗樂／印得好、公館三間第 2 版、G09／G10）→ 上師臉部皺紋（第 2 版）→ 花序第 2 版換真的花 → 機車配件模型（擋風鏡、袋子、雨衣）→ 其餘舊佇列（南洋戲院海報、同弦招牌、泳池水面、季節細節 20 項）。
+
+## 交接（上一則｜帳號 A｜2026-11-11 00:1x UTC）
 - **等 LAWWW ACK 的只有一包**：`wip/flower_notes_1110/gg_flowerB_gg3_ext_int_r2.patch`（8e15235bc，README_r2.md）＝花序 B 件（公館 G11 外觀、拿掉舊花攤）＋公館三間外觀＋公館三間室內。第一次交（8dd2084a2）被退：`zq_arcade_seat_unit`（G08 子晴的凳子不見）、`street_props_nav_unit`（GG_PROP_BLOCKS 沒重算），已修。
 - **已整合 dev**：汀州路第 2、3 版和機車、花序 A 件（室內）、泰米／洗樂／印得好室內。
 - **教訓（照做）**：交件前跑**全部** Node 測試（`ls tests/*_unit.js > list; bash $SP/kit_run.sh <工作樹> list`，約 20 分鐘），不能只跑相關的幾十支。重建公館店面街以後一定看 `zq_arcade_seat_unit`、`street_props_nav_unit`：照參考圖的店面（gg_front）會把騎樓雜物換掉——要留的寫進 `keep`；`GG_PROP_BLOCKS`（`src/zones3d.js`）要照新的 `gongguan_shops.props.json` 重算。
