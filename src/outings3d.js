@@ -104,10 +104,13 @@ const OUT=(function(){
   /* 跳過時間、小睡、睡覺要不要停在出發前（BUG-OUT-ALARM-SKIP-1109，BB-B 11-09 19:53：沒寫 alarm 的出遊——看電影、系烤…——按「等到晚上」直接跳過、安靜地變 missed，和排進行程時的「時間到會跳出『出發』」對不上）：
      預設都停；真的不用停的出遊寫 alarm:false。CLS.skipStops、STORY.wakeAlarms、STORY.outStopsToday 都看這一個 */
   S.alarmOn=q=>!!q&&q.alarm!==false&&!q.dateTrip;   /* 校外約會（date3d.js，dateTrip）有自己的鬧鐘（DATE.alarmsFor），不重複；舊存檔排好的約會也一樣 */
-  S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&!running.has(q.id)&&!(typeof CARLOT!=='undefined'&&CARLOT.walking&&CARLOT.walking(G,q))&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
+  /* q.noRain：下雨就不去（AA_811 學姊合歡山北峰，src/aa811_3d.js）——該問「出發」的時候在下雨（rain、typhoon）＝不問，S.expire 記成 missed、q.rained（事件的 outingMissed 照常叫）；沒有 noRain 的照舊 */
+  S.rained=(G,q)=>!!(q&&q.noRain&&G&&(G.weather==='rain'||G.weather==='typhoon'));
+  S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&!running.has(q.id)&&!S.rained(G,q)&&!(typeof CARLOT!=='undefined'&&CARLOT.walking&&CARLOT.walking(G,q))&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
   S.lateEnd=q=>lateEnd(q); S.isRunning=id=>running.has(id);   /* 望月台停車場的「開車出發」（src/carlot3d.js）用：出發的時間窗、正在演的那一趟 */   /* CARLOT.walking：選了出發、正走去停車場的那一趟不再跳出發選單（到車旁邊按「開車出發」）*/
   /* 過了時間（後 45 分鐘以上）還沒出發＝missed */
-  S.expire=function(G){ const now=t(G.day,G.hour), out=[]; for(const q of S.rec(G)) if(q.state==='planned'&&now>lateEnd(q)){ q.state='missed'; out.push(q); } return out; };
+  S.expire=function(G){ const now=t(G.day,G.hour), out=[]; for(const q of S.rec(G)){ if(q.state!=='planned') continue; const wet=S.rained(G,q)&&!running.has(q.id)&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25;   /* noRain：到了該問的時間在下雨＝取消 */
+      if(now>lateEnd(q)||wet){ q.state='missed'; if(wet) q.rained=true; out.push(q); } } return out; };
   const evOf=id=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===id)||null:null;
   S.onMissed=function(GM,q){ const ev=evOf(q.ev); if(ev&&typeof ev.outingMissed==='function'){ try{ ev.outingMissed(GM.G,GM,q); }catch(e){ console.warn('outingMissed',q.id,e); } } };
   /* 每 0.5 秒（story3d.js 的 S.tick；劇情、對話進行中 S.tick 不會呼叫）*/

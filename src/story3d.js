@@ -3723,7 +3723,7 @@ const STORY = (function(){
   S.wakeAlarms=function(G,day){ const out=[]; if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined') for(const it of CLS.dayItems(G,day)) if(it.exam) out.push({h:it.t0-1,why:it.c.name+'考試'});
     for(const iv of (G.invites||[])) if(iv.day===day&&iv.accepted&&!iv.done&&iv.h!=null) out.push({h:iv.h-0.5,why:'約好的時間'+(iv.label?'：'+iv.label:'')});
     if(typeof DATE!=='undefined'&&DATE.alarmsFor) for(const a of DATE.alarmsFor(G,day)) out.push({h:a.h,why:a.why});   /* 校外約會：出發前 30 分鐘（DATE-S4）*/
-    if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if((OUT.alarmOn?OUT.alarmOn(q):q.alarm)&&q.state==='planned'&&q.day===day) out.push({h:q.h-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0))-0.5,why:'約好的時間：'+q.title});   /* 出遊標 alarm 的（X81：8/30 載可昕上山）：出發前 30 分鐘叫醒 */
+    if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if((OUT.alarmOn?OUT.alarmOn(q):q.alarm)&&q.state==='planned'&&q.day===day) out.push(Object.assign({h:q.h-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0))-0.5,why:'約好的時間：'+q.title},q.dawn?{dawn:true}:{}));   /* 出遊標 alarm 的（X81：8/30 載可昕上山）：出發前 30 分鐘叫醒。q.dawn：天亮以前就要出發的（AA_811 合歡山北峰 04:00 的客運）＝鬧鐘可以早於 06:30（bedOptions）*/
     if(S.y4Alarms) for(const a of S.y4Alarms(G,day)) out.push(a);   /* 1A-12 畢業典禮 08:00、1A-15 宿舍期滿 10:00（AA_318）*/
     for(const f of S.ALARMS){ try{ for(const a of (f(G,day)||[])) out.push(a); }catch(e){ console.warn('STORY.ALARMS',e); } }   /* 事件包各自的鬧鐘（STORY.ALARMS.push(fn)：fn(G,day) 回傳 [{h,why}]）*/
     return out.sort((a,b)=>a.h-b.h); };
@@ -3754,7 +3754,7 @@ const STORY = (function(){
       const morning=first?Math.max(6.5,first.t0-1):(S.lateWake&&S.lateWake(G)?10:7.5);   /* 午夜場回來（XINCI-ROMANCE-1030，AA-B 16:31）：隔天睡到十點 */
       for(const [k,lab,w0,why] of [['morning',morning>=17?'睡到明天晚上':morning>=13?'睡到明天下午':morning>=11?'睡到明天中午':'睡到明天早上',morning,first?(first.exam?'考試 ':'第一堂 ')+hm(first.t0)+' '+first.c.name+'前一小時':'明天沒有課'],['noon','睡到明天中午',12,''],['afternoon','睡到明天下午',14,''],['evening','睡到明天晚上',18,'']]){
         if(k!=='morning'&&w0<=morning+0.05) continue; let w=w0, hint=hm(w)+(why?'（'+why+'）':''); const a=A.find(q=>q.h<w);
-        if(a){ w=Math.max(6.5,a.h); hint=hm(w0)+'——但'+a.why+'，鬧鐘 '+hm(w)+' 會叫醒你'; } else { const ms=S.missText(G,day,0,w); if(ms) hint+='。'+ms; }
+        if(a){ w=a.dawn?a.h:Math.max(6.5,a.h); hint=hm(w0)+'——但'+a.why+'，鬧鐘 '+hm(w)+' 會叫醒你'; } else { const ms=S.missText(G,day,0,w); if(ms) hint+='。'+ms; }
         if(!out.some(o=>Math.abs(o.wake-w)<0.02)) out.push({kind:'sleep',wake:w,alarm:a?a.why:null,t:lab+(k==='morning'?'（'+hm(w)+'）':''),hint}); } }
     if(typeof HOME!=='undefined'&&HOME.ffOpts&&HOME.ffOpts(G)) out.push({kind:'ff',t:'快轉',hint:'到下一個有事的日子、過三天、過一週'}); else if(typeof SEMFF!=='undefined'&&SEMFF.on(G)) out.push({kind:'semff',t:'快轉',hint:'到下一個有事的時候、過一週；沒有劇情的課自動去上'});   /* 學期中（FF-SEMESTER-1023，使用者 10-23）*/   /* 寒暑假（AA_197 1-2）：快轉是玩家自己選的 */
     out.push({kind:'stay',t:'再撐一下'}); return out; };
