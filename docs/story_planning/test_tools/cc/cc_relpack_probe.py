@@ -197,7 +197,7 @@ class Net:
     def hook(self, pg, origin):
         def on_resp(r):
             u = r.url
-            if u.startswith('data:') or u.startswith('blob:'): return
+            if u.startswith('data:') or u.startswith('blob:') or r.request.method == 'HEAD': return   # HEAD＝MISS 探針自己發的檢查，不算遊戲的請求
             if u.startswith(origin):
                 self.n += 1
                 if r.status not in OK_STATUS: self.bad.append({'at': self.mark, 'status': r.status, 'url': u[len(origin):]})
@@ -205,7 +205,7 @@ class Net:
 
         def on_fail(rq):
             u = rq.url
-            if u.startswith('data:') or u.startswith('blob:'): return
+            if u.startswith('data:') or u.startswith('blob:') or rq.method == 'HEAD': return
             err = (rq.failure or '') if isinstance(rq.failure, str) else str(rq.failure)
             if 'ERR_ABORTED' in err and (u.endswith('.webp') or u.endswith('.jpg')): err += '（取消：換圖）'
             (self.bad if u.startswith(origin) else self.ext).append({'at': self.mark, 'status': 'FAILED ' + err, 'url': u[len(origin):] if u.startswith(origin) else u[:160]})
@@ -312,9 +312,7 @@ ZDATA_JS = r"""(()=>{ const E=GAME.E; const drv=o=>{ let d=null; o.traverse(c=>{
 
 
 async def zone_list(pg):
-    zs = sorted(await pg.evaluate("Object.keys(Z3.ZONES)"))
-    if os.environ.get('ZONES'): zs = [z for z in os.environ['ZONES'].split(',') if z]
-    return zs
+    return sorted(await pg.evaluate("Object.keys(Z3.ZONES)"))
 
 
 async def part_z3d(b, url, part, n):
@@ -322,7 +320,7 @@ async def part_z3d(b, url, part, n):
     print('== %s（②：區域第 %d 批，%s）' % (part, n, '包 dist/web' if tag == 'dist' else 'repo 根目錄（對照）'), flush=True)
     ctx, pg, cdp, net = await open_game(b, url, part)
     allz = await zone_list(pg)
-    batch = allz if os.environ.get('ZONES') else allz[(n - 1) * ZB:n * ZB]
+    batch = [z for z in os.environ['ZONES'].split(',') if z] if os.environ.get('ZONES') else allz[(n - 1) * ZB:n * ZB]
     note('遊戲共 %d 區（Z3.ZONES）；每批 %d 區＝%d 批；這一批：%s' % (len(allz), ZB, math.ceil(len(allz) / ZB), ','.join(batch)))
     if n == 1: wjson('zones_all_%s.json' % tag, allz)
     setup('每區用 GAME.applySave 讀檔進去（第 8 天 11:00 晴天、條件事件關掉；和 tests/deploy_check.py、smoke_dist.js 同一個做法），不是照劇情走進去')
