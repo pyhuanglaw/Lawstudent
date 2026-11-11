@@ -1,0 +1,20 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_nm_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NM_pano_new\out
+CC NM1 夜市：PARTS PANO；SHA bd3f67410；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 (25.00,0.00) （全景 巷A）
+  [  49.8s] [PANO 巷A 2000] 攤：[["st_eggcake", true], ["st_scallion", true], ["st_ball", true], ["st_pepper", true], ["st_corn", true], ["st_stinky", true], ["st_cane", true], ["st_jelly", true], ["st_socks", true], ["st_ring", true]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 0100+1 (25.00,0.00) （全景 巷A）
+  [  61.9s] [PANO 巷A 0100+1] 攤：[["st_eggcake", false], ["st_scallion", false], ["st_ball", false], ["st_pepper", false], ["st_corn", false], ["st_stinky", false], ["st_cane", false], ["st_jelly", false], ["st_socks", false], ["st_ring", false]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 (1.50,-6.00) （全景 汀州路西側三攤）
+  [  75.1s] [PANO 汀州路西側三攤 2000] 攤：[["st_eggcake", true], ["st_scallion", true], ["st_ball", true], ["st_pepper", true], ["st_corn", true], ["st_stinky", true], ["st_cane", true], ["st_jelly", true], ["st_socks", true], ["st_ring", true]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 2000 (-1.50,24.00) （全景 水源市場前）
+  [  87.9s] [PANO 水源市場前 2000] 攤：[["st_eggcake", true], ["st_scallion", true], ["st_ball", true], ["st_pepper", true], ["st_corn", true], ["st_stinky", true], ["st_cane", true], ["st_jelly", true], ["st_socks", true], ["st_ring", true]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 1400 (34.00,14.50) （全景 公館人行道三攤）
+  [ 106.4s] [PANO 公館人行道三攤 1400] 攤：[["st_milk", false], ["st_wheelcake", false], ["st_phonecase", false]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 2000 (34.00,14.50) （全景 公館人行道三攤）
+  [ 120.3s] [PANO 公館人行道三攤 2000] 攤：[["st_milk", true], ["st_wheelcake", true], ["st_phonecase", true]]
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 0100+1 (34.00,14.50) （全景 公館人行道三攤）
+  [ 133.8s] [PANO 公館人行道三攤 0100+1] 攤：[["st_milk", false], ["st_wheelcake", false], ["st_phonecase", false]]
+PASS 沒有 JS 例外  []
+ALL PASS

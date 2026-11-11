@@ -690,3 +690,12 @@
 [08:02:39] ==== START NM_walk_new  (probe @ bd3f67410415267cde659e007e7d09b6f8fd05f3) ====
 [08:02:42] [res] cpu=9% mem=47% (15.0/31.4 GB) chrome_testing=9  START NM_walk_new
 [08:03:14] [res] cpu=0% mem=45% (14.2/31.4 GB) chrome_testing=8  END NM_shots_a
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0fb0ffebf..19dd68ec2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:03:22] ==== END   NM_shots_a  exit=0  377s   ====
+[08:03:25] memory 47% before starting NM_oldfps_new (2 running)
+[08:03:25] ==== START NM_oldfps_new  (probe @ bd3f67410415267cde659e007e7d09b6f8fd05f3) ====
+[08:03:28] [res] cpu=2% mem=48% (14.9/31.4 GB) chrome_testing=8  START NM_oldfps_new
+[08:04:02] 正在跑：NM_pano_new（已跑 2 分／上限 8 分）、NM_walk_new（已跑 1 分／上限 15 分）、NM_oldfps_new（已跑 0 分／上限 8 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:04:54] [res] cpu=7% mem=48% (15.2/31.4 GB) chrome_testing=9  END NM_pano_new
