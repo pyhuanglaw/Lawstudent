@@ -412,6 +412,50 @@ if X595:
     P595, S595, md595 = X595
     _swap(f'AA_595@{S595}', md595, y1, [('4-1', 'heroine_01', '寒假你回臺北的家，對吧。', '寒假你會回家住嗎？', '「寒假你會回家住嗎？」')])
     out['source'] += f'＋{os.path.basename(P595)[:6]}@{S595}（以安 A-L10 一句）'
+#      AA_753（沛珊重寫第二份，PEISHAN-VOICE-1110，使用者 X327「有趣、聰明、會接梗」）：大一上 P-L1～P-L8 的 lines、choices 和 greet 整組換成稿上的；
+#      id、if／skipIf／week、順序、rel、整層的 mem 不動（稿的 _meta.target）。choices 用 {t, re, fx, mem?}（DLG-FX-MECH-1110；re 裡的 {narr} 寫成整句括號的字串＝story3d.js ladPlay 當旁白演）。
+#      舊的 note（都在講被換掉的舊句）拿掉。**只認 PS753_SHA 那一版**（LAWWW 2026-11-10：使用者糾正「不是看到食物就要評論」以後的稿）。這一段放在最後＝前面疊在沛珊大一上的修正（AA_703 P-L6…）都被整層取代
+PS753_SHA = '33a1769f8'
+A753 = G.approved_files(ALLOW, 'docs/story_planning/AA_753_')
+if A753:
+    (P753, S753), = A753.items()
+    ok, why = G.allowed(P753, S753, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    if not (S753.startswith(PS753_SHA) or PS753_SHA.startswith(S753)): sys.exit(f'{P753}@{S753}：沛珊的稿只認 {PS753_SHA}（要換版本先改這支工具的 PS753_SHA）')
+    d753 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S753}:{P753}'], text=True)))
+    ps = y1['classmate_peishan']; cur = {s['id']: s for s in ps['steps']}
+    ids = [s.get('id') for s in d753['steps']]
+    if ids != [f'P-L{i}' for i in range(1, 9)] or [s['id'] for s in ps['steps']] != ids: sys.exit(f'AA_753@{S753}：steps 要剛好是 P-L1～P-L8、順序和現在的階梯一樣（{ids}）')
+    def _re753(x, w):
+        if isinstance(x, str) and x.strip(): return x
+        if isinstance(x, dict) and set(x) == {'narr'} and re.fullmatch(r'（[^（）]+）', x['narr'] or ''): return x['narr']
+        sys.exit(f'AA_753 {w}：re 的每一行要是字串或 {{narr: （…）}}')
+    for s in d753['steps']:
+        t = cur[s['id']]; w = s['id']
+        if set(s) - {'id', 'lines', 'choices', 'mem', 'note'}: sys.exit(f'AA_753 {w}：不認得的欄位 {sorted(set(s) - {"id", "lines", "choices", "mem", "note"})}')
+        if s.get('mem') != t.get('mem'): sys.exit(f'AA_753 {w}：整層的 mem 要和現在的一樣（稿 {s.get("mem")}、現在 {t.get("mem")}）')
+        if not (isinstance(s.get('lines'), list) and s['lines'] and all(isinstance(l, str) and l.strip() for l in s['lines'])): sys.exit(f'AA_753 {w}：lines 要是字串陣列')
+        ch = []
+        for i, c in enumerate(s.get('choices') or []):
+            if set(c) - {'t', 're', 'fx', 'mem'} or not isinstance(c.get('t'), str) or not isinstance(c.get('re'), list) or not c['re']: sys.exit(f'AA_753 {w} 選項 {i + 1}：只認得 {{t, re, fx, mem}}')
+            fx = c.get('fx') or {}
+            if set(fx) - {'fr', 'love'} or not all(isinstance(v, int) for v in fx.values()): sys.exit(f'AA_753 {w} 選項 {i + 1}：fx 只能是 {{fr, love}} 整數')
+            o = {'t': c['t'], 're': [_re753(x, f'{w} 選項 {i + 1}') for x in c['re']]}
+            if fx: o['fx'] = fx
+            if c.get('mem'): o['mem'] = c['mem']
+            ch.append(o)
+        if len(ch) < 2: sys.exit(f'AA_753 {w}：選項至少兩個')
+        t['lines'] = list(s['lines']); t['choices'] = ch; t.pop('note', None)
+        for k in ('linesIf', 'extraIf'):
+            if k in t: sys.exit(f'AA_753 {w}：現在的階梯這一層有 {k}（稿沒有寫怎麼處理），先問 AA')
+    g = d753.get('greet') or {}
+    if set(g) - {'base', 'when', 'note'} or not g.get('base') or not all(isinstance(x, str) and x.strip() for x in g['base']): sys.exit('AA_753 greet：只認得 {base, when, note}')
+    old_when = [{k: v for k, v in x.items() if k != 't'} for x in (ps.get('greet') or {}).get('when') or []]
+    if [{k: v for k, v in x.items() if k != 't'} for x in g.get('when') or []] != old_when: sys.exit('AA_753 greet.when：條件（time／location／weekday）要和現在的一樣，只換句子')
+    ps['greet'] = {'base': list(g['base']), 'when': [dict(x) for x in g['when']]}
+    bad = [m for m in mems({'classmate_peishan': ps}) if not has(m)]
+    if bad: sys.exit(f'AA_753：記憶沒有中文名稱 {bad}（src/social3d.js 補）')
+    out['source'] += f'＋AA_753@{S753}（沛珊大一上 P-L1～P-L8＋招呼整組重寫）'
 if R630: out['source'] += f'＋AA_630@{R630["sha"]}（語彤 {sum(int(re.search(r"(\d+) 列", x).group(1)) for x in LOG630)} 列）'
 with open(OUT, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')

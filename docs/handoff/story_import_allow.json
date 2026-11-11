@@ -5604,6 +5604,15 @@
     "fallback": true
    },
    "note": "X327 沛珊重寫（有趣、聰明、會接梗；家裡是台中的小型連鎖餐廳）——tools/story/import_termend_opts.py → src/data/termend_opts.js。people.heart：「她先說」的告白（TERMEND_OPTS.HEART.classmate_peishan）。**只認這個 sha**（工具的 PS_SHA），更舊的版本不匯；people.gf：女朋友版（TERMEND_OPTS.GF；大三下「那我留到明天。」nextMorning／alt）；people.friend：朋友版五頓（TERMEND_OPTS.FRIEND[學期]）；people.lines：FRIEND.y1s1、手機句（TERMEND_OPTS.LINES，src/data/termend_lines.js 同字）；people.fallback：電影通用回話整組取代 AA_745_fallback.json 的 classmate_peishan（tools/movie/import_movie_plots.py）"
+  },
+  {
+   "path": "docs/story_planning/AA_753_peishan_ladder_Y1S1.json",
+   "sha": "33a1769f8",
+   "status": "approved",
+   "approvedBy": "AA（D109、D149；BB_319 的修正已改）；LAWWW 2026-11-10 指定只認 33a1769f8",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "note": "X327 沛珊大一上閒聊階梯 P-L1～P-L8＋招呼：只換 lines、choices（{t, re, fx, mem?}）和 greet，id、if、順序、rel 不動——tools/ladder/import_ladder.py 疊在 ladder_bb.json 的 classmate_peishan 上 → src/data/ladder.js"
   }
  ]
 }

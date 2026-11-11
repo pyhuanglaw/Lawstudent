@@ -160,7 +160,8 @@ const D2=STORY._day2||{};
     check('8. 沛珊迪化街偶遇：單數週週六（9/20，第 3 週）不排；雙數週週六（9/27，第 4 週）照舊',!p1.ok&&p2.ok,J([p1.why,p2.why]));
     const greet=(k,zone)=>{ fresh(D(k),18,zone,{introDone:true,classDone:true,afternoonDone:true}); R('classmate_peishan','FAM'); R('heroine_01','FAM'); const out=[]; for(let i=0;i<4;i++){ const t=STORY.ladGreet(G,'classmate_peishan'); if(t) out.push(t); } return out; };
     const g1=greet('2025-09-19','library'), g2=greet('2025-09-26','library');
-    check('8. 沛珊週五 18:00 的招呼：單數週（9/19，第 3 週）「我要去搭客運回台中了，下禮拜見！」；雙數週（9/26，第 4 週）不說',g1.includes('我要去搭客運回台中了，下禮拜見！')&&!g2.includes('我要去搭客運回台中了，下禮拜見！'),J([g1,g2]));
+    /* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_753@33a1769f8 的招呼）：週五那一句換成「我要回台中了，下禮拜見！」（拿掉「搭客運」）；只在單數週說的條件照舊（原本的句子「我要去搭客運回台中了，下禮拜見！」）*/
+    check('8. 沛珊週五 18:00 的招呼：單數週（9/19，第 3 週）「我要回台中了，下禮拜見！」；雙數週（9/26，第 4 週）不說',g1.includes('我要回台中了，下禮拜見！')&&!g2.includes('我要回台中了，下禮拜見！')&&!g1.concat(g2).some(t=>/搭客運/.test(t)),J([g1,g2]));
     const ga=(k)=>{ fresh(D(k),18,'library',{introDone:true,classDone:true,afternoonDone:true}); R('heroine_01','FAM'); const out=[]; for(let i=0;i<4;i++){ const t=STORY.ladGreet(G,'heroine_01'); if(t) out.push(t); } return out; };
     check('8. 對照：以安第 4 週週五照舊說「這個週末我要回台中。」',ga('2025-09-26').includes('這個週末我要回台中。'));
     fresh(D('2025-09-27'),14,'campus',{introDone:true,classDone:true,afternoonDone:true}); R('heroine_01','FAM'); R('classmate_peishan','FAM');
