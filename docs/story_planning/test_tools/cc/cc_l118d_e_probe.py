@@ -26,11 +26,13 @@ PARTS（逗號分隔；預設全部；括號是 PC 預估分鐘）：
   DATE   （約 4）交往中（dating_heroine_01）週五手機「朋友」→ 以安「約」→ 吃飯…→ 去義大麵屋吃午餐：時間清單、「其他日子…」裡的週一（義大麵屋週一公休）不能約成；週二照常。
          判定＝週一沒有可選的時間（列出來但灰掉也記下來，BB 看「不列」的字面）；選了灰掉的會說原因、不排進邀約。
   DRINK  （約 4）手機約以安「散步…」→ 喝不喝咖啡（drink_a，外帶店）今天 14:00：答應 →【前置】13:47 讀到 118 巷 → 她站的地方＝店門口（meetAt：店面外 1.6 m、店面中間；不是巷口落點）；果茶社（drink_b）同樣記 meetAt。
+  STORYBURST（約 6；不在預設裡，BB 06:13）一般劇情對話的連點：網址加 ?tapguard；找會邀的日子照真實流程上課 → 同學開口邀約那一句一出來，在對話框中央用觸控連點 BURSTN 下（預設 20）、
+         每 BURSTMS ms（預設 150）一路點到選項出現。判：選項沒有被點掉（期間沒有 pick、選單還在）；每一下記 pointerdown 點到的元素、按鈕字、距選單出現幾 ms。之後照字選「接受」走完。
 別名：E3,E4,E5,E6,E9→MAIN；E7→DECL；E8→SKIP。
 舊版（D34）：779ddd650 沒有 LUNCH118（午餐邀約系統整個沒有）：MAIN／SKIP／DECL／TABLE 會 FAIL「沒有午餐系統」（只做這一項就收）；E1／E2 舊版本來就不會邀（PASS 不代表什麼，只當對照）；
   DATE：779ddd650 的義大麵屋是週三休、days=[1,2,4,5]＝當時週一可以約（那時候是對的）；真正的對照是合併前一個 f247bc77f（店資料已改週一休、days 還是 [1,2,4,5]＝週一約得成＝FAIL）。
   DRINK：779ddd650 沒有 drink_a／drink_b 的地點（FAIL：地點不在）。
-環境變數：LW_TESTS SHA PARTS REL RETRY EVQUIET（1＝上課那天也關條件事件）ORIENT（land 預設／port）D0 D1（找日子的範圍，預設大一上第 6～92 天）WHO（DATE／DRINK 的人，預設 heroine_01）
+環境變數：LW_TESTS SHA PARTS REL RETRY BURSTN BURSTMS EVQUIET（1＝上課那天也關條件事件）ORIENT（land 預設／port）D0 D1（找日子的範圍，預設大一上第 6～92 天）WHO（DATE／DRINK 的人，預設 heroine_01）
 用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=MAIN,SKIP python3 cc_l118d_e_probe.py <url>/index.html <out>
 每項一行 PASS／FAIL，最後 ALL PASS 或 FAILED；exit 0／1。"""
 import os, sys, json, asyncio, time, copy, math
@@ -100,7 +102,10 @@ HOOK = r"""(()=>{ if(window.__LE&&window.__LE.g===GAME) return {again:true}; con
       const r=f0.apply(this,arguments); if(post){ if(r&&typeof r.then==='function') r.then(v=>{ try{ post(e,v); }catch(x){} },err=>{ push({k:'reject',fn,err:String(err)}); }); else { try{ post(e,r); }catch(x){} } } return r; }; return true; };
   const ok={};
   ok.say=wrap(GAME,'say',(w,t)=>push({k:'say',who:w?(w.name||String(w)):null,cid:w&&w.charId||null,text:String(t)}));
-  ok.choose=wrap(GAME,'choose',o=>push({k:'choose',opts:(o||[]).map(x=>x&&(x.t||x.text)),dims:(o||[]).map(x=>!!(x&&x.dim)),hints:(o||[]).map(x=>(x&&x.hint)||'')}),(e,i)=>push({k:'pick',i,txt:e&&e.opts?e.opts[i]:null}));
+  ok.choose=wrap(GAME,'choose',o=>{ W.menuT=now(); W.menuOpts=(o||[]).map(x=>x&&(x.t||x.text)); return push({k:'choose',opts:W.menuOpts,dims:(o||[]).map(x=>!!(x&&x.dim)),hints:(o||[]).map(x=>(x&&x.hint)||'')}); },(e,i)=>{ const t=now(); push({k:'pick',i,txt:e&&e.opts?e.opts[i]:null,dt:W.menuT!=null?t-W.menuT:null}); W.menuT=null; W.menuOpts=null; });
+  document.addEventListener('pointerdown',ev=>{ const el=ev.target, b=el&&el.closest?el.closest('#choices button'):null;
+    push({k:'down',x:Math.round(ev.clientX),y:Math.round(ev.clientY),tgt:el?(el.id||(el.className&&String(el.className).slice(0,30))||el.tagName):null,btn:b?((b.firstChild&&b.firstChild.nodeType===3)?b.firstChild.textContent:(b.textContent||'')).trim().slice(0,30):null,sinceMenu:W.menuT!=null?now()-W.menuT:null,menu:W.menuOpts?W.menuOpts.slice(0,4):null}); },true);
+  W.guard={tapTooSoon:typeof GAME.tapTooSoon==='function',webdriver:!!navigator.webdriver,q:location.search};
   ok.money=wrap(GAME,'money',(v,why)=>push({k:'money',v:+v,why:why||''}));
   ok.enter=wrap(GAME,'enter',z=>push({k:'enter',to:String(z)}),e=>push({k:'entered',to:e&&e.to}));
   ok.caption=wrap(GAME,'caption',(w,t)=>push({k:'cap',text:String(t==null?'':t)}));
@@ -181,10 +186,10 @@ def print_log(tag, lg):
         elif k == 'reject': R.note('%s %s 例外（promise reject）%s：%s' % (tag, at, e.get('fn'), e.get('err')))
 
 
-async def boot(p, tag):
+async def boot(p, tag, url=None):
     b, ctx, pg, cdp, errs = await L.launch(p, landscape=LAND)
     pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
-    await pg.goto(URL); ok = await L.wait_loaded(pg); R.check('%s：遊戲載入' % tag, ok)
+    await pg.goto(url or URL); ok = await L.wait_loaded(pg); R.check('%s：遊戲載入' % tag, ok)
     await pg.evaluate("localStorage.clear()"); await hook(pg)
     return b, pg, cdp, errs
 
@@ -229,7 +234,7 @@ async def find(pg, why, d0=None, d1=None):
 
 
 # ---------- 一天：照真實流程上那一堂 → 邀約 → 選 ----------
-async def lunch_day(pg, cdp, tag, snap, cand, action, ids, after_pick='先自由活動', quiet=None):
+async def lunch_day(pg, cdp, tag, snap, cand, action, ids, after_pick='先自由活動', quiet=None, burst=None):
     """action：'accept'／'skip'／'decline'／None（不該有邀約）。回傳紀錄 dict；那天下課演了課後劇情＝{'ev':id}（前置不符）"""
     st = copy.deepcopy(snap); st = st.get('G', st)
     for k in ('_stuck', '_busy'): st.pop(k, None)
@@ -264,6 +269,10 @@ async def lunch_day(pg, cdp, tag, snap, cand, action, ids, after_pick='先自由
     while time.time() - t0 < 900:
         s = await ui(pg)
         if s['phone'] and not s['heads']: await L.phone_away(pg, cdp, tries=1); await L.close_panels(pg, cdp); continue
+        if burst and 'burst' not in rec and s['dlg'] and not s['heads']:
+            lgb = await logs(pg, n0); ia = next((i for i, e in enumerate(lgb) if e['k'] == 'lunch.after' and not e.get('ev')), None)
+            if ia is not None and any(e['k'] == 'say' for e in lgb[ia:]):
+                rec['burst'] = await do_burst(pg, cdp, tag, burst); continue
         if s['heads']:
             idle = None; await pg.wait_for_timeout(600); s = await ui(pg)
             if not s['heads']: continue
@@ -337,6 +346,26 @@ async def lunch_day(pg, cdp, tag, snap, cand, action, ids, after_pick='先自由
     rec['inv_menus'] = [e for e in lg if e['k'] == 'choose' and any(x in inv_heads for x in (e['opts'] or []))]
     rec['settles'] = [e for e in lg if e['k'] == 'lunch.settled']
     return rec
+
+
+async def do_burst(pg, cdp, tag, nb):
+    """邀約那一句一出來（對話框上）就用觸控連點對話框中央：每 ms 毫秒一下、共 n 下。回傳每一下的紀錄（pointerdown 點到什麼、距選單出現幾 ms）與期間有沒有 pick"""
+    n, ms = nb
+    c = await L.center_of(pg, '#dlg')
+    s0 = await ui(pg); R.note('%s：STORYBURST 開始：對話框中央 %s；畫面上那一句（打字中）「%s」' % (tag, J(c), s0['txt']))
+    await shot(pg, '%s_burst_start' % tag)
+    nl = await logn(pg); t0 = time.time(); sent = []
+    for i in range(n):
+        await L.touch_tap(cdp, c[0], c[1]); sent.append(round((time.time() - t0) * 1000))
+        rest = t0 + (i + 1) * ms / 1000.0 - time.time()
+        if rest > 0: await asyncio.sleep(rest)
+    await pg.wait_for_timeout(900)
+    lg = await logs(pg, nl); s1 = await ui(pg); await shot(pg, '%s_burst_end' % tag)
+    downs = [{'btn': e.get('btn'), 'tgt': e.get('tgt'), 'sinceMenu': e.get('sinceMenu'), 'menu': e.get('menu')} for e in lg if e['k'] == 'down']
+    picks = [e for e in lg if e['k'] == 'pick']; menus = [e['opts'] for e in lg if e['k'] == 'choose']
+    for k, dn in enumerate(downs): R.note('%s：  第 %d 下（送出於 %s ms）點到 %s%s；距選單出現 %s' % (tag, k + 1, sent[k] if k < len(sent) else '?', dn['tgt'], ('，按鈕「%s」' % dn['btn']) if dn['btn'] else '', ('%s ms' % dn['sinceMenu']) if dn['sinceMenu'] is not None else '（選單還沒出）'))
+    R.note('%s：STORYBURST 送了 %d 下（實際間隔 %s ms）、收到 pointerdown %d 下；期間出的選單 %s；pick %s；結束時畫面上的選項 %s' % (tag, n, J([b - a for a, b in zip(sent, sent[1:])][:6]), len(downs), J(menus), J(picks), J(s1['heads'])))
+    return {'sent': sent, 'downs': downs, 'picks': picks, 'menus': menus, 'heads_after': s1['heads']}
 
 
 async def run_with_retry(pg, cdp, tag, snap, cands, action, ids, **kw):
@@ -819,7 +848,37 @@ async def part_drink(p):
         await b.close()
 
 
-FN = {'MAIN': part_main, 'SKIP': part_skip, 'DECL': part_decl, 'TABLE': part_table, 'E1': part_e1, 'E2': part_e2, 'E10': part_e10, 'DATE': part_date, 'DRINK': part_drink}
+def guard_url(u):
+    return u if 'tapguard' in u else u + ('&' if '?' in u else '?') + 'tapguard'
+
+
+async def part_storyburst(p):
+    n, ms = int(ENV('BURSTN') or 20), int(ENV('BURSTMS') or 150)
+    b, pg, cdp, errs = await boot(p, 'STORYBURST', guard_url(URL))
+    try:
+        gd = await pg.evaluate("window.__LE&&window.__LE.guard")
+        R.note('STORYBURST：網址加 ?tapguard（webdriver 下才啟用選單防連點）：%s；連點 %d 下、每 %d ms' % (J(gd), n, ms))
+        if not await need_lunch(pg, 'STORYBURST'): return
+        D = await pg.evaluate(DATA); ids = D['who']; o = D['opts']
+        snap, _ = await base_snap(pg, cdp, 'STORYBURST', '2025-09-21', 20.0, 'dorm', REL, ids)
+        rows = await find(pg, 'STORYBURST 找會邀的日子')
+        hits = [r for r in rows if r['P'] and not r['P'].get('no') and not r['P'].get('poor')]
+        if not R.check('STORYBURST：找得到會邀的日子', bool(hits)): return
+        rec = await run_with_retry(pg, cdp, 'BURST', snap, hits, 'accept', ids, burst=(n, ms))
+        if not R.check('STORYBURST：照真實流程跑到邀約', bool(rec) and rec.get('stage1') == 'invite', J(rec and rec.get('stage1'))): return
+        bu = rec.get('burst')
+        if not R.check('STORYBURST：邀約那一句一出來就開始連點（有連點紀錄）', bool(bu)): return
+        R.check('STORYBURST：連點期間邀約選單出來了（一路點到選項出現）', bool(bu['menus']) or any(d['sinceMenu'] is not None for d in bu['downs']), J(bu['menus']))
+        R.check('STORYBURST：選項沒有被連點點掉（期間沒有任何 pick；結束時選單還在）', not bu['picks'] and any(h in (o.get('accept'), o.get('decline')) for h in bu['heads_after']), J({'picks': bu['picks'], 'heads': bu['heads_after']}))
+        hit_btn = [d for d in bu['downs'] if d['btn']]
+        R.note('STORYBURST：連點落在選項按鈕上的有 %d 下（%s）' % (len(hit_btn), J([(d['btn'], d['sinceMenu']) for d in hit_btn])))
+        R.check('STORYBURST：連點以後照字選「%s」照常繼續（%s）' % (o.get('accept'), J(rec.get('tapped'))), rec.get('tapped') == o.get('accept') and len(rec['settles']) == 1, J(rec['settles']))
+        no_errs('STORYBURST', errs)
+    finally:
+        await b.close()
+
+
+FN = {'STORYBURST': part_storyburst, 'MAIN': part_main, 'SKIP': part_skip, 'DECL': part_decl, 'TABLE': part_table, 'E1': part_e1, 'E2': part_e2, 'E10': part_e10, 'DATE': part_date, 'DRINK': part_drink}
 
 
 async def main():
