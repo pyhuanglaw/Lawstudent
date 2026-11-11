@@ -378,7 +378,7 @@ async def part_int(pg, cdp):
                                        " for(let dz=-2;dz<=2.001;dz+=0.25){ let r=''; for(let dx=-2;dx<=2.001;dx+=0.25){ const x=o.x+dx,z=o.z+dz; r+=(Math.abs(dx)<0.13&&Math.abs(dz)<0.13)?'@':(E.canStand(x,z,0.3,P.lv|0)?'.':(E.nav&&E.nav.free(x,z)?'+':'#')); } rows.push(r); }"
                                        " return {me:[+o.x.toFixed(2),+o.z.toFixed(2)], path:pth?pth.length:null, pathPts:pth?pth.slice(0,12).map(p=>Array.isArray(p)?[+(+p[0]).toFixed(2),+(+p[1]).toFixed(2)]:[+(+p.x).toFixed(2),+(+p.z).toFixed(2)]):null, grid:rows}; })", {'x': ex['x'], 'z': ex['z']})
                 R.note('%s 出店前（TRAPDIAG）：玩家 %s；E.pathTo 到出口 %s 點 %s；四周 canStand 圖（. 站得住、+ 格子 free 但半徑 0.3 站不住、# 擋住、@ 玩家；每格 0.25 m，上＝−z）：\n%s' % (tag, dg['me'], dg['path'], J(dg['pathPts']), '\n'.join(dg['grid'])))
-                save(await pg.evaluate(SNAP, {'from': [0.0, 9.5, 0.5], 'at': [0.0, 0.0, -0.2], 'fov': 70, 'tw': 560, 'label': '%s 俯視' % L_['name'], 'full': True}), 'trap_%s_%s_top.jpg' % (sid, hh))
+                save(await pg.evaluate(SNAP, {'from': [0.0, 2.75, 0.3], 'at': [0.0, 0.0, 0.0], 'fov': 110, 'tw': 560, 'label': '%s 俯視（天花板下面）' % L_['name'], 'full': True}), 'trap_%s_%s_top.jpg' % (sid, hh))   # BB 02:13：原本 y 9.5 拍到天花板上面一片米色，改在天花板下面往下拍
                 # BB 01:51（LAWWW 在 Node 模擬沒重現）：①SHA ②點地板 5 次（每次目標世界座標、點完 0.6 秒 GAME 有沒有路徑＝P.path 長度、1.5 秒後位置）③（另排 f5e1ef4e8 一版）④搖桿直接朝出口推 10 秒
                 R.note('%s TRAPDIAG：受測 SHA %s' % (tag, os.environ.get('SHA', '')))
                 PJ = "(()=>{ const P=GAME.E.player,o=P.obj.position; return {me:[+o.x.toFixed(2),+o.z.toFixed(2)], path:P.path?P.path.length:0, tgt:P.target?[+(+P.target.x||0).toFixed(2),+(+P.target.z||0).toFixed(2)]:null, busy:!!P.busy}; })()"
