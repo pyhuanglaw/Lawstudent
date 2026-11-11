@@ -55,7 +55,7 @@ ZONES = {
         ],
         'between': [((-1.5, -1.7), '第 2 排 x −2.25 和 −0.75 兩張中間'), ((1.5, 2.5), '第 4 排 x 0.75 和 2.25 中間'), ((-4.5, 4.6), '第 5 排 x −5.25 和 −3.75 中間')],
         'tables': [((0.0, -4.345), '第 1 排長桌（座位前 0.545 m）'), ((3.0, -0.145), '第 3 排長桌'), ((-3.0, 4.055), '第 5 排長桌')],
-        'floors': [((7.0, 0.0), '右側走道（第 3 排旁）'), ((-6.75, 1.0), '左側走道（第 3 排後面）'), ((3.0, -6.0), '講台前的空地'),
+        'floors': [((7.0, 0.0), '右側走道（第 3 排旁）'), ((3.0, -6.0), '講台前的空地'),
                    ((1.5, 3.25), '第 4 排椅子後面的橫走道（兩張椅子之間的後方）'), ((-3.0, -1.25), '第 2 排椅子後面的橫走道')],
     },
     'LIBHALL': {
@@ -78,7 +78,7 @@ ZONES = {
         ],
         'between': [((5.4, 3.42), '長桌北側兩張中間'), ((5.4, 4.98), '長桌南側兩張中間（(4.8,4.98) 常有人坐）'), ((9.0, 4.6), '兩張沙發中間')],
         'tables': [((5.0, 4.2), '長桌西半'), ((5.8, 4.2), '長桌東半'), ((10.2, 4.6), '沙發前面的矮桌（有就量得到）')],
-        'floors': [((2.0, 1.0), '門廳往交誼廳的走道'), ((8.0, 1.0), '交誼廳北邊'), ((7.5, 6.5), '交誼廳南邊'), ((11.5, 3.0), '沙發東邊'), ((3.0, 6.0), '門廳南邊')],
+        'floors': [((2.0, 1.0), '門廳往交誼廳的走道'), ((7.5, 6.5), '交誼廳南邊'), ((11.5, 3.0), '沙發東邊'), ((3.0, 6.0), '門廳南邊')],
     },
     'CAFE': {
         'zone': 'cafe', 'name': '2:30 AM（兩點半 Café）', 'start': (0.0, 4.6, math.pi, 0), 'start_why': '進門的位置（區域出生點，往吧檯看）',
@@ -264,7 +264,11 @@ async def seat_one(pg, cdp, key, Z, k, pick):
     dap = math.hypot(b['x'] - s['ap'][0], b['z'] - s['ap'][1]) if s['ap'] else None
     R.note('%s 走到 (%s, %s)（%s 秒；離 seatApproach %s m；tapPref %s）：互動鍵「%s」、最近的互動 %s' % (t, b['x'], b['z'], secs, None if dap is None else round(dap, 2), J(m['tp']), b['interact'], J(ni)))
     if not R.check('%s 點椅面走過去，互動鍵是「%s」而且就是這一張' % (t, s['label']), ok_btn, J({'interact': b['interact'], 'near': ni, 'at': [b['x'], b['z']], 'redirect': pt['redirect']})):
-        await shot(pg, '%s_seat%d_nobtn' % (key, k)); return 'nobtn'
+        await shot(pg, '%s_seat%d_nobtn' % (key, k))
+        if s.get('lift'):   # 點椅面不行也要看搖桿那條路坐下後的鏡頭（舊版對照：線上是不是本來就整片牆，BB 08:52）
+            try: await joy_seat(pg, cdp, key, Z, k, s)
+            except Exception as e: R.note('%s 搖桿那一條沒跑完 %r' % (t, e))
+        return 'nobtn'
     await L.tap(pg, cdp, '#interact'); sat = None
     for i_ in range(24):
         await pg.wait_for_timeout(500)
@@ -317,6 +321,11 @@ async def point_one(pg, cdp, key, Z, kind, k, xz, desc, lv):
         R.note('%s (%s, %s) %s：畫面上點不到（%s），不測' % (t, x, z, desc, how)); return {'r': 'notap', 'at': [x, z]}
     fb0 = (await D.st(pg))['fb']
     R.note('%s 點 (%s, %s) %s——%s；螢幕 (%s, %s)（%s）、離鏡頭 %s m、俯角 %s°：地板落點 %s、tapRedirect 導去 %s（椅子 %s）' % (t, x, z, desc, what, pt['sx'], pt['sy'], how, pt['dist'], pt['pitch'], J(pt['hit']), J(pt['redirect']), J(pt['rseat'])))
+    tap64 = 'tsr_%s_%s_%s%d_tap64.png' % (SHA7, key, kind, k)   # BB 10:13：點的那一點螢幕上看到什麼（64×64 小圖，點的位置在正中央）
+    try:
+        await pg.screenshot(path=os.path.join(OUT, tap64), clip={'x': max(0, pt['sx'] - 32), 'y': max(0, pt['sy'] - 32), 'width': 64, 'height': 64})
+        R.note('%s 點擊螢幕座標 (%s, %s)；那一點的 64×64 小圖 %s' % (t, pt['sx'], pt['sy'], tap64))
+    except Exception as e: R.note('%s 64×64 小圖失敗 %r' % (t, e))
     await L.touch_tap(cdp, pt['sx'], pt['sy'])
     b, m, secs = await wait_settle(pg); ni = await pg.evaluate(D.NEAR_IT)
     d = math.hypot(b['x'] - x, b['z'] - z)
