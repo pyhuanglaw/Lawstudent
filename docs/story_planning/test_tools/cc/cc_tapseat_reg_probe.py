@@ -292,6 +292,8 @@ async def seat_one(pg, cdp, key, Z, k, pick):
         pt2 = await pg.evaluate(TAP_PT, [s['sx'] + (pt.get('off_xz') or [0, 0])[0], y, s['sz'] + (pt.get('off_xz') or [0, 0])[1]])
         if pt2 and not pt2.get('off'): pt2['off_xz'] = pt.get('off_xz'); pt = pt2
     await pg.evaluate(CLICK_REC)
+    efp = await pg.evaluate("(([x,y])=>{ const e=document.elementFromPoint(x,y), n=document.getElementById('nextClass'), r=n&&n.getBoundingClientRect(); return {el:e?(e.id||String(e.className||'').slice(0,30)||e.tagName):null, nextClass:n?{hide:n.classList.contains('hide'), r:r?[Math.round(r.left),Math.round(r.top),Math.round(r.right),Math.round(r.bottom)]:null, text:(n.textContent||'').trim().slice(0,40)}:null}; })", [pt['sx'], pt['sy']])
+    R.note('%s 點的當下（LAWWW 19:46）：elementFromPoint(%s, %s)＝%s；#nextClass %s' % (t, pt['sx'], pt['sy'], efp.get('el'), J(efp.get('nextClass'))))
     fb0 = (await D.st(pg))['fb']
     R.note('%s 點椅面（%s）螢幕 (%s, %s)、離鏡頭 %s m、視線俯角 %s°：地板落點 %s、射線先打到 %s、tapRedirect 導去 %s（椅子 %s）' % (t, how, pt['sx'], pt['sy'], pt['dist'], pt['pitch'], J(pt['hit']), J(pt.get('first')), J(pt['redirect']), J(pt['rseat'])))
     await L.touch_tap(cdp, pt['sx'], pt['sy'])

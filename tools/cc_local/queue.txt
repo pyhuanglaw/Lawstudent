@@ -66,7 +66,7 @@ N1_POOL_swim | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_pla
 N1_AA811 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_aa811_probe.py | index.html | 100 | PARTS=HEHUAN_NEG,VOICE,HEHUAN_A,HEHUAN_B;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 # BB 18:54 放行 LEADOUT-WALL-1111（LAWWW：01679bc0a GHA 全綠 run 43077716700）：散場一起走到門口 LIB、MOKU；修改前 15e7b31f8 對照（預期 MOKU FAIL）
 N1_LEADOUT | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_leadout_probe.py | index.html | 60 | PARTS=LIB,MOKU;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
-LEADOUT_old | 15e7b31f83b1559d4ebfec7b322aaf956698990d | probe | docs/story_planning/test_tools/cc/cc_leadout_probe.py | index.html | 60 | PARTS=LIB,MOKU;SHA=15e7b31f83b1559d4ebfec7b322aaf956698990d
+LEADOUT_old | 15e7b31f83b1559d4ebfec7b322aaf956698990d | probe | docs/story_planning/test_tools/cc/cc_leadout_probe.py | index.html | 100 | PARTS=LIB,MOKU,MOKU,MOKU;SHA=15e7b31f83b1559d4ebfec7b322aaf956698990d
 # BB 16:00 木曜日盆栽角 PC 實走（tests/mokuyobi_plant_corner_1111_unit.js 2～7＋8 (−3.75,1.0)；真的搖桿、走／跑×30／10 fps）：新 SHA 全套（HOLD 等正式 SHA）、f312c 對照（D34：2、3、4、8 預期 FAIL）先跑
 # BB 16:03＋16:38：課堂六堂（Y1S2 const_2 w3、Y2S1 crim_spec w10、Y3S1 civpro_1 w7、Y4S1 enforcement w12、Y4S2 legal_research w12、JA2 japanese_2 w3）；雲端 c170 五堂 PASS、Y4S2 FAIL（門口上課 2D，有名字同學的 replies 被 inScene 濾掉）
 # LAWWW 17:21：門口上課反應句＝規則漏了、修法在本機（等 GHA 推了給 SHA）；修改前（7d9d79425）先跑 Y4S2 w12、JA2 w3 當對照（BB 17:12 判準：STORY.present 的同學要播＝預期 FAIL）

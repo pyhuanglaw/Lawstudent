@@ -15,7 +15,7 @@ PARTS（逗號分隔；預設 LIB,MOKU；各自讀檔）：
         （只在這一次約、而且 INV.sitRule 說遊戲自己不帶路的時候插；遊戲以後自己會帶路就不插、log 寫明）。走的是遊戲的 S.leadOut 原封不動：起身、選點、walkTo、保險都照遊戲。
 判準（BB）：散場走到門口那一刻——
   1 兩個目標點都站得住（E.canStand 半徑 0.32，在出生點那一層；0.32＝S.leadOutSpots 的 R／tests/leadout_spots_1111_unit.js）
-  2 你和她各自在 15 秒遊戲時間內走到自己的點（GAME.walkTo 完成、停在目標 0.4 m 內、同一層、沒有被 E.placeAt 放過去）
+  2 你和她各自在「照路線長度」的時間內走到自己的點（路線長÷速度×1.5＋2 秒；BB 19:48 改，15 秒只記）（GAME.walkTo 完成、停在目標 0.4 m 內、同一層、沒有被 E.placeAt 放過去）
     遊戲時間＝E.time（主迴圈的 dt，每格最多 0.1 秒；雲端 SwiftShader 掉幀時比真實時間慢，walkTo 的 4 秒保險也是用這個時間）
   3 沒有人卡在牆上或原地走：每一格（E.update）記兩個人的位置；還沒到以前，任何 2 秒遊戲時間的移動 < 0.15 m＝卡住
     （走路 E.SPD.walk 1.8 m/s，2 秒該走 3.6 m；0.15 m 比 10 fps 一格 0.18 m 還小）；相鄰兩格移動超過 max(0.5, E.SPD.run×1.5×dt)＝瞬移
@@ -541,8 +541,7 @@ def analyze(tag, cfg, d, ver, who):
         R.note('[%s] %s的軌跡（[距開始秒, x, z, 層]，每 0.5 秒遊戲時間）：%s' % (tag, lab, J(traj(smp, key, c['t0'], t_end))))
         R.note('[%s] %s：walkTo 開始 E.time %s、完成 %s（回傳 %s）、停在 %s（離目標 %s m）、路線 %s' % (tag, lab, r.get('t0'), r.get('done'), r.get('ret'), J(r.get('at')), None if de is None else round(de, 2), J(r.get('path'))))
         ok = arr is not None and arr <= LIMIT_S and r.get('ret') is True and de is not None and de <= ARRIVE_M and (r.get('at') or [0, 0, -1])[2] == r['lv'] and not tele
-        R.check('[%s] %s %.0f 秒（遊戲時間）內自己走到目標點（walkTo 完成、停在 %.1f m 內、同一層、沒有被 E.placeAt 放過去）：%s' % (
-            tag, lab, LIMIT_S, ARRIVE_M, '%.1f 秒' % arr if arr is not None else '沒走完'), ok, J({'tele': tele, 'at': r.get('at'), 'ret': r.get('ret')}))
+        R.note('[%s] %s（只記，BB 19:48：15 秒是拍的數字，改用照路線長度）%.0f 秒內走到：%s（%s）' % (tag, lab, LIMIT_S, '是' if ok else '否', '%.1f 秒' % arr if arr is not None else '沒走完'))
         # 11-11 雲端修改前第一次跑（LIB）：總圖二樓長桌 → 一樓入口的路線 42～44 m，玩家走路 E.SPD.walk 1.8 m/s、NPC 1.35 m/s（engine3d.js 的 n.walkSpeed||1.35），
         # 物理上就要 24～32 秒，BB 的 15 秒在總圖一定 FAIL。這一行照路線長度從遊戲常數推（CC_02 乙 8）：路線長／速度×1.5＋2 秒（起身、轉彎、最後一步），分開「路太長」和「卡住」
         spd = ((ver.get('spd') or {}).get('walk') or 1.8) if key == 'p' else 1.35
@@ -550,7 +549,8 @@ def analyze(tag, cfg, d, ver, who):
         lim2 = (plen / spd * 1.5 + 2.0) if plen else None
         R.check('[%s] %s照路線長度的時間內走到（路線 %s m ÷ %.2f m/s ×1.5＋2＝%s 秒；實際 %s）' % (
             tag, lab, plen, spd, None if lim2 is None else round(lim2, 1), '%.1f 秒' % arr if arr is not None else '沒走完'),
-            lim2 is not None and arr is not None and arr <= lim2 and r.get('ret') is True and not tele, J({'15 秒以內': arr is not None and arr <= LIMIT_S}))
+            lim2 is not None and arr is not None and arr <= lim2 and r.get('ret') is True and not tele and de is not None and de <= ARRIVE_M and (r.get('at') or [0, 0, -1])[2] == r['lv'],
+            J({'tele': tele, 'at': r.get('at'), 'ret': r.get('ret'), '離目標': None if de is None else round(de, 2)}))
         sl = stalls(smp, key, r.get('t0') or c['t0'], tb)
         R.check('[%s] %s走到以前沒有卡住或原地走（%.0f 秒遊戲時間內移動 < %.2f m 的段落：%d 段）' % (tag, lab, STALL_S, STALL_M, len(sl)), not sl,
                 J([[round(a - c['t0'], 1), round(b - c['t0'], 1), p] for a, b, p in sl[:6]]))
@@ -614,6 +614,7 @@ async def main():
             R.note('【D34】頁面沒有 INV.leadOutSpots＝修改前的版本：預期 MOKU 的「站得住」「自己走到」「walkFallbacks」FAIL（兩個點在牆裡、靠保險），LIB 照舊 PASS')
         for part in PARTS:
             log('== %s' % part); t0 = time.time()
+            if part == 'MOKU': R.note('[MOKU] 結果＝預防性（平常不觸發）：遊戲在木曜日念書不走 leadOut，這一段是【捷徑】在 INV.ON_STAYED 插一次遊戲自己的 INV.leadOut，驗選點和走路（BB 19:48 接受）')
             if part not in PART_CFG:
                 R.check('認得 PARTS「%s」' % part, False); continue
             try:
