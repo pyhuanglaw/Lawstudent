@@ -38,6 +38,18 @@ const L118S=(function(){
     cafe2:{ books:'（書架上大多是舊漫畫，有幾套缺了第一集。）' },
     korea:{ banchan:'（小菜櫃裡有海帶、豆干、滷蛋。豆干只剩兩塊。）' }, noodle2:{ sides:'（小菜櫃的玻璃起霧了，看得到裡面的燙青菜。）' } };
   const lookText=(id,q)=>(LOOK[id]&&LOOK[id][q.id])||q.note||q.label;
+  /* 互動鍵覆寫表（L118-IT-REACH-1111；BB 11-11 在使用者電腦用搖桿逐張走到每張椅子的「坐下前站的位置」按互動鍵：好幾張按出來是別張椅子、點餐或看的東西）。
+     配置檔（LAWWW2 的 Blender 腳本產生，不手改）照舊；遊戲端在這裡改「按鈕在哪裡出現」，之後交給做模型的人搬回腳本，搬好以後這裡的那一格刪掉。
+     遊戲怎麼選按鈕：engine3d.js E.nearestInteractable——在半徑內、「距離－prio」最小的贏（椅子 prio 0.3、點餐 0、看的東西 −0.3）。
+     座位用配置的座標「x,z」對（不用序號：腳本重新產生、順序換了也對得上；座標改了這一格就不套用，tests/l118_interact_reach_1111_unit.js 會抓到）：
+       i：按鈕的位置（座位本身不動，坐下照樣坐在配置的位置）；ap：坐下前站的位置（GAME.seatApproach、NPC 走過去坐也用）；r：按鈕半徑；sit：坐的位置（只有要挪座位時才寫）。
+     點餐 order、看的東西 interact（照配置的 id）：x、z、r、prio。
+     同一種毛病的通則：兩張並排、只能從同一頭走近的椅子（靠牆那張＋外側那張，配置給同一個走近點），原本按鈕都在椅子上——靠牆那張永遠比外側那張遠，搖桿走到哪裡都是外側那張。
+       改成每張的按鈕在它自己的站位上：走道上沿著桌子排開（外側那張在它那一排、靠牆那張往桌子中間 1/3），或走進桌子和櫃台之間的縫（118牛排）。
+     測試：node tests/l118_interact_reach_1111_unit.js（九間店每張椅子在至少一個站位上是它、點餐和看的東西各有站得到的位置、點椅子走過去按鈕是那一張）*/
+  const IT_DEF={seatR:0.8};   /* 座位按鈕的預設半徑 0.7 → 0.8（BB 11-11 第 3 項：118牛排兩張、五湖四海一張，搖桿停在走近點旁邊 0.709 m，差 1 cm 出界，按鈕變成旁邊客人的「聽一句」）*/
+  const L118_IT_FIX={};
+  const fixOf=id=>L118_IT_FIX[id]||{};
   /* 店名照店家資料（src/data/lane118_shops.js；L118-SHOPS-REDO-1111，使用者 2026-11-11 九間店換店名）：室內配置檔（LAWWW2 產生，不手改）裡寫的還是配置當時的店名——
      區域名稱、「點餐（○○）」「離開○○」這些按鈕上的店名換成資料的；配置重新產生以後兩邊一樣，這裡就什麼都不換 */
   const shopName=id=>{ const s=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)?LANE118_SHOPS.shops.find(q=>q.id===id):null; return (s&&s.name)||L118_SHOP_LAYOUTS[id].name; };
@@ -55,10 +67,10 @@ const L118S=(function(){
       const lamps=[]; const cx=(Bd.x0+Bd.x1)/2; for(const zz of [Bd.z0+2.2,(Bd.z0+Bd.z1)/2,Bd.z1-2.0]){ const l=new THREE.PointLight(0xfff1dc,3,12,2); l.position.set(cx,H-0.4,zz); l.userData.on=5; l.userData.off=3.2; g0.add(l); lamps.push(l); }
       let glow=[], views=[], pview=null; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
       const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); setView(views,h); setPhotoView(pview,h,weather); };
-      const IT=E.interactables; z.seats=[];
-      for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; if(s.lift) st.lift=s.lift;   /* lift：吧檯高腳椅（座面 0.76 m，坐姿抬高 0.29＝座面－CHAR.SIT_TOP 0.47，SIT-HEIGHT-1104；原本 0.31＝照 0.45 算；GAME.sitAt 的 seat.lift，和 Café、定食店的吧台一樣）*/ z.seats.push(st); const study=false;   /* AA_772（L118-SHOPS-REDO-1111）：cafe2 現在是大學食堂，桌位不能讀書（原本 L118-CAFE2-STUDY-1030：慢讀咖啡的桌位可以自習；念書搬到木曜日）*/ IT.push({x:s.x,z:s.z,radius:s.r||0.7,lv:0,prio:0.3,seat:st,label:s.label||(study?'坐下讀書':'坐下'),study}); }   /* study：慢讀咖啡（cafe2）的桌位可以自習（使用者 2026-10-30「慢讀咖啡為什麼不能念書」，L118-CAFE2-STUDY-1030；吧檯高腳椅不算）*/   /* prio：站在椅子旁邊要坐下時，「坐下」比旁邊的電視、自取的湯優先（BB-C 10-20 家常菜） */
-      for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:q.label,look:lookText(id,q)});   /* 只是看的東西（電視、自取的湯）讓位給坐下、點餐、出口：家常菜的湯就在椅子後面（BB-C 10-20） */
-      if(L.order) IT.push({x:L.order.x,z:L.order.z,radius:L.order.r,lv:0,label:reName(id,L.order.label),shop118:id});
+      const IT=E.interactables; z.seats=[]; const FX=fixOf(id), FS=FX.seats||{}, FI=FX.interact||{};
+      for(const s of L.seats){ const f=FS[s.x+','+s.z]||{}, at=f.sit||[s.x,s.z], ip=f.i||at; const st={x:at[0],z:at[1],yaw:s.yaw,lv:0}; if(f.ap||s.ap) st.ap=(f.ap||s.ap).slice(); if(s.lift) st.lift=s.lift;   /* f：覆寫表那一格（L118-IT-REACH-1111）*/   /* lift：吧檯高腳椅（座面 0.76 m，坐姿抬高 0.29＝座面－CHAR.SIT_TOP 0.47，SIT-HEIGHT-1104；原本 0.31＝照 0.45 算；GAME.sitAt 的 seat.lift，和 Café、定食店的吧台一樣）*/ z.seats.push(st); const study=false;   /* AA_772（L118-SHOPS-REDO-1111）：cafe2 現在是大學食堂，桌位不能讀書（原本 L118-CAFE2-STUDY-1030：慢讀咖啡的桌位可以自習；念書搬到木曜日）*/ IT.push({x:ip[0],z:ip[1],radius:f.r||s.r||IT_DEF.seatR,lv:0,prio:0.3,seat:st,label:s.label||(study?'坐下讀書':'坐下'),study}); }   /* study：慢讀咖啡（cafe2）的桌位可以自習（使用者 2026-10-30「慢讀咖啡為什麼不能念書」，L118-CAFE2-STUDY-1030；吧檯高腳椅不算）*/   /* prio：站在椅子旁邊要坐下時，「坐下」比旁邊的電視、自取的湯優先（BB-C 10-20 家常菜） */
+      for(const q of L.interact){ const f=FI[q.id]||{}; IT.push({x:f.x!=null?f.x:q.x,z:f.z!=null?f.z:q.z,radius:f.r||q.r,lv:0,prio:f.prio!=null?f.prio:-0.3,label:q.label,look:lookText(id,q)}); }   /* 只是看的東西（電視、自取的湯）讓位給坐下、點餐、出口：家常菜的湯就在椅子後面（BB-C 10-20） */
+      if(L.order){ const O=Object.assign({},L.order,FX.order||{}); IT.push({x:O.x,z:O.z,radius:O.r,lv:0,label:reName(id,L.order.label),shop118:id}); }
       for(const X of L.exits){ const so=L.street.spawn_out; IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:reName(id,X.label),exit:{to:'lane118',spawn:{x:so.x,z:so.z,yaw:so.yaw}}}); }
       z.formal=false; const key='bldg.l118_'+id; if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
         root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
@@ -66,5 +78,5 @@ const L118S=(function(){
       return z; } }; }
   if(typeof L118_SHOP_LAYOUTS!=='undefined') for(const id of Object.keys(L118_SHOP_LAYOUTS)){ Z3.ZONES['l118_'+id]=zoneFor(id);
     if(typeof ASSETS!=='undefined') ASSETS.manifest['bldg.l118_'+id]={url:'assets/models/env/second_ai/l118_'+id+'.glb',type:'building',lazy:true,source:'LAWWW2-C lane118_shops.py',license:'本作'}; }
-  return {viewK,zoneFor,viewMats,setView,lookText};
+  return {viewK,zoneFor,viewMats,setView,lookText,IT_FIX:L118_IT_FIX,IT_DEF};
 })();
