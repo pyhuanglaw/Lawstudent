@@ -773,6 +773,8 @@ async def part_ui(pg, cdp):
     ui_judge('[UI ① 橫向]', boxes)
     # ② 直向
     await pg.set_viewport_size({'width': 390, 'height': 844}); await pg.wait_for_timeout(1500)
+    if await pg.evaluate("(()=>{ const r=document.getElementById('rotate'); return !!r&&r.classList.contains('want')&&getComputedStyle(r).display!=='none'; })()"):
+        R.note('[UI ②] 直向跳出「請把手機轉成橫向」，像玩家一樣點掉'); await L.tap(pg, cdp, '#rotate'); await pg.wait_for_timeout(800)
     s = await D.settle(pg); boxes = []
     if s['interact'] == '算命桌':
         async def on_line2(e):
