@@ -1458,3 +1458,12 @@
 [10:13:03] ==== START LM2_N7  (probe @ e7ddae33fee86ab1567ab9f7b4764686cc9c321c) ====
 [10:13:06] [res] cpu=1% mem=47% (14.8/31.4 GB) chrome_testing=10  START LM2_N7
 [10:14:00] [res] cpu=5% mem=47% (14.7/31.4 GB) chrome_testing=9  END LM2_N6
+[10:14:03] 正在跑：LM2_N5（已跑 3 分／上限 12 分）、LM2_N6（已跑 2 分／上限 10 分）、LM2_N7（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       be4dff3eb..7a9ea9043  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:14:05] ==== END   LM2_N6  exit=0  153s   ====
+[10:14:14] memory 47% before starting LM2_N8 (2 running)
+[10:14:14] ==== START LM2_N8  (probe @ e7ddae33fee86ab1567ab9f7b4764686cc9c321c) ====
+[10:14:17] [res] cpu=2% mem=47% (15.0/31.4 GB) chrome_testing=10  START LM2_N8
+[10:14:57] [res] cpu=1% mem=43% (13.7/31.4 GB) chrome_testing=9  END LM2_N5
