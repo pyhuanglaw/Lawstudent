@@ -1,14 +1,3 @@
-[10:40:47] ==== START SS3D_O2  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
-[10:40:49] [res] cpu=14% mem=46% (14.5/31.4 GB) chrome_testing=9  START SS3D_O2
-[10:41:23] [res] cpu=9% mem=46% (14.6/31.4 GB) chrome_testing=9  END SS3D_O1
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       a75eabb52..605a1c9de  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[10:41:27] ==== END   SS3D_O1  exit=0  88s   ====
-[10:41:31] memory 51% before starting G10_O1 (2 running)
-[10:41:31] ==== START G10_O1  (probe @ 65212b697b96a553f1d5340e301d1803c11a3fae) ====
-[10:41:35] [res] cpu=77% mem=52% (16.2/31.4 GB) chrome_testing=9  START G10_O1
-[10:42:40] [res] cpu=58% mem=53% (16.7/31.4 GB) chrome_testing=8  END PS2_N2
     To https://github.com/pyhuanglaw/Lawstudent.git
        605a1c9de..ab6192c3b  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
@@ -1998,3 +1987,14 @@
 [18:11:04] [res] cpu=12% mem=47% (15.0/31.4 GB) chrome_testing=10  START L118D_H_B_a2
 [18:14:04] 正在跑：STAIR_a2_run（已跑 7 分／上限 40 分）、STAIR_a2_run10（已跑 6 分／上限 40 分）、L118D_H_B_a2（已跑 3 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:17:31] [res] cpu=8% mem=49% (15.7/31.4 GB) chrome_testing=10  END L118D_H_B_a2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       fb1407e2e..521a5b443  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:17:39] ==== END   L118D_H_B_a2  exit=1  390s   ====
+[18:17:43] memory 47% before starting TSR_CLASS_7d (2 running)
+[18:17:43] ==== START TSR_CLASS_7d  (probe @ 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329) ====
+[18:17:46] [res] cpu=14% mem=47% (14.9/31.4 GB) chrome_testing=10  START TSR_CLASS_7d
+[18:17:46] worktree add 7d9c46786c45b5cdae8fd6c8244bf5e64f9fb329: invalid reference - fetching main and the commit itself
+[18:19:04] 正在跑：STAIR_a2_run（已跑 12 分／上限 40 分）、STAIR_a2_run10（已跑 11 分／上限 40 分）、TSR_CLASS_7d（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:24:04] 正在跑：STAIR_a2_run（已跑 17 分／上限 40 分）、STAIR_a2_run10（已跑 16 分／上限 40 分）、TSR_CLASS_7d（已跑 6 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:24:41] [res] cpu=27% mem=48% (15.2/31.4 GB) chrome_testing=10  END TSR_CLASS_7d
