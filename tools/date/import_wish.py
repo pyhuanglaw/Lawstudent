@@ -15,7 +15,7 @@
   6. AA_770（DLG-FULL-REVIEW-1110，使用者 X324）：可昕 D25 心願事件「如果今天沒有行程表」照稿的 rows 23 列 old→new 疊（照 path；內容不動：刪節號 28 處留 5 處、她開口約的那句改用 {出發時間}）。
      herInvite.accept[1]「不行，火車有時間。{出發時間}，車站見。」的 {出發時間} 由 src/wish3d.js 播的時候代換；帶不到出發時間的退路句（AA 指定）也在 wish3d.js。白名單沒有 AA_770＝不疊。
   7. AA_774（DLG-FULL-REVIEW-1110，使用者 X324）：芷若 D05 心願事件「這次留兩張票」照稿的 rows 27 列 old→new 疊（照 path；內容不動：刪節號 30 處留 3 處、「嗯。」開頭兩處拿掉、對祐廷下命令或嫌他的三句改掉）。
-     herInvite.accept[0]「好。兩點半，光典門口。…」寫死時間：換完檢查她主動約的 dateTime 還是 14.5（不是＝停下來，要換 AA 的備用句）。白名單沒有 AA_774＝不疊。
+     herInvite.accept[0]「好。兩點半出發，光典門口見。…」（841c1810e 起；原「好。兩點半，光典門口。…」）寫死時間：換完檢查她主動約的 dateTime 還是 14.5（不是＝停下來，要換 AA 的備用句）。白名單沒有 AA_774＝不疊。
   3. AA_757（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫）：沛珊 D06 心願事件照稿的 wish_rows 69 列 old→new 疊（換完要等於稿的 wish_event；只換字，條件、旗標、時間、花費不動）。白名單沒有 AA_757＝不疊。
 用法：python3 tools/date/import_wish.py [--check 企劃線ref] [--out 另存的檔（不寫 src/data/date_wish.js）]"""
 import json, os, re, subprocess, sys

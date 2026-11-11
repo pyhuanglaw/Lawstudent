@@ -6576,12 +6576,18 @@
   },
   {
    "path": "docs/story_planning/AA_774_zr_wish.json",
-   "sha": "e8a33995c",
+   "sha": "841c1810e",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X324）；BB 看過（LAWWW 2026-11-11 轉述）；LAWWW 2026-11-11 指定匯 e8a33995c；LAWWW 的匯入子代理代登，待值班 LAWWW 核",
+   "approvedBy": "AA（帳號 A）2026-11-11 定稿 841c1810e（D100b；herInvite.accept[0] 改成「好。兩點半出發，光典門口見。兩點半是巧合，跟店名沒關係。」——遊戲的 14:30 是出發時間；其餘 26 列同 e8a33995c）",
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
-   "note": "X324 芷若 D05 心願事件「這次留兩張票」（內容不動：刪節號 30 處留 3 處、「嗯。」開頭兩處拿掉、對祐廷下命令或嫌他的三句改掉）：rows 27 列 old→new，path 是 date_wish.js 的 events.heroine_02 底下的位置——tools/date/import_wish.py 的 1j 照 path 疊在 wish_bb.json 芷若那一段上 → src/data/date_wish.js。herInvite.accept[0]「好。兩點半，光典門口。…」：她主動約的那一場 dateTime 14.5（出發時間 14:30、D05 光典臺北），對得上，沒用備用句。逐字對稿 tests/zr_dates_1111_unit.js"
+   "note": "X324 芷若 D05 心願事件「這次留兩張票」（內容不動：刪節號 30 處留 3 處、「嗯。」開頭兩處拿掉、對祐廷下命令或嫌他的三句改掉）：rows 27 列 old→new，path 是 date_wish.js 的 events.heroine_02 底下的位置——tools/date/import_wish.py 的 1j 照 path 疊在 wish_bb.json 芷若那一段上 → src/data/date_wish.js。herInvite.accept[0]「好。兩點半，光典門口。…」：她主動約的那一場 dateTime 14.5（出發時間 14:30、D05 光典臺北），對得上，沒用備用句。逐字對稿 tests/zr_dates_1111_unit.js",
+   "history": [
+    {
+     "sha": "e8a33995c",
+     "approvedBy": "AA（帳號 A）2026-11-11 交稿（D100b 稿就是定稿；使用者 X324）；BB 看過（LAWWW 2026-11-11 轉述）；LAWWW 2026-11-11 指定匯 e8a33995c；LAWWW 的匯入子代理代登，待值班 LAWWW 核"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_771_l118_lunch.json",

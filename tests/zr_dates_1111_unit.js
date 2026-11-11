@@ -135,7 +135,7 @@ const know=id=>{ H.CLOSE(id); H.G.contacts[id]=1; };
       let t=null; try{ t=await DATE.menu(GM,ZR,null); }catch(e){ t={ok:false,why:String(e.message)}; } const L=H.said.map(s=>s.t); res.push([loc,mode,!!(t&&t.ok),t&&t.transport,L.includes(TL)]); }
     check('6. 實際約一次（選單）：D30 花蓮（兩天一夜）改開車＝她說這一句、照她的搭火車＝不說；D18 九份（當天來回）改開車＝說、照她的捷運轉客運＝不說；D12 大稻埕（她沒有偏好、只有捷運）不說',J(res)===J([['D30','開車',true,'car',true],['D30','台鐵',true,'rail',false],['D18','開車',true,'car',true],['D18','捷運轉客運',true,'mrt+coach',false],['D12',null,true,'mrt',false]]),J(res)); });
 
-  await sec(7,async()=>{ const W=DW(read('src/data/date_wish.js')), ev=W.events[ZR], I=ev.herInvite, ACC='好。兩點半，光典門口。兩點半是巧合，跟店名沒關係。';
+  await sec(7,async()=>{ const W=DW(read('src/data/date_wish.js')), ev=W.events[ZR], I=ev.herInvite, ACC='好。兩點半出發，光典門口見。兩點半是巧合，跟店名沒關係。';   /* 2026-11-11 AA 841c1810e：改成對得上出發時間（遊戲的 14:30 是從學校出發）；舊：「好。兩點半，光典門口。…」 */
     check('7. date_wish.js 的來源寫著「AA_774@'+C.ZR_WISH_SHA+'（芷若 D05 心願 27 列，換了 27 列）」；芷若的事件 id、地點 D05、她約的時間（週六或週日 14.5、訊息週三四 22:30 以後）照舊',W.source.includes('AA_774@'+C.ZR_WISH_SHA+'（芷若 D05 心願 27 列，換了 27 列）')&&ev.id==='wish_heroine_02'&&ev.loc==='D05'&&I.dateTime===14.5&&J(I.dateWeekday)===J([6,0])&&J(I.message)===J({weekday:[3,4],time:[22.5,24]}),W.source.slice(-60));
     const raw=show(C.ZR_WISH_SHA,SP+'AA_774_zr_wish.json'), A=raw?JSON.parse(raw):null;
     const get=(o,pth)=>{ let x=o; const tk=[...pth.matchAll(/\["([^"]+)"\]|\.?([^.\[\]"]+)|\[(\d+)\]/g)].map(m=>m[1]!=null?m[1]:(m[2]!=null?m[2]:+m[3])); for(let i=0;i<tk.length;i++){ if(x==null) return x; let t=tk[i]; if(typeof x==='object'&&!Array.isArray(x)&&!(t in x)&&typeof tk[i+1]==='string'&&(t+'.'+tk[i+1]) in x){ t=t+'.'+tk[i+1]; i++; } x=x[t]; } return x&&typeof x==='object'?x.text:x; };

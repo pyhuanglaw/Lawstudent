@@ -70,7 +70,7 @@ const E_=id=>X()&&X().ev(id);
       const key=r=>'/'+r.path.replace(/\["([^"]+)"\]/g,'.$1').replace(/\[(\d+)\]/g,'.$1').split('.').join('/').replace('D05/','D05.');   /* AA_774 的 path 自己帶 .text */
       check('0. 芷若的事件和 wish_bb.json@9aa8ec40c 比：格子一樣多，不一樣的剛好 27 格、都是台詞的 text＝AA_774_zr_wish.json@'+SHA774+' 的 rows（path 那一格從 old 換成 new；選項的字、條件、時間、地點沒動）',J(Object.keys(a).sort())===J(Object.keys(b).sort())&&d.length===27&&d.every(k=>/\/text$/.test(k))&&AA774.rows.length===27&&AA774.rows.every(r=>b[key(r)]===r.old&&a[key(r)]===r.new)&&DW.source.includes('AA_774@'+SHA774),J([d.length,AA774.rows.filter(r=>!(b[key(r)]===r.old&&a[key(r)]===r.new)).map(r=>r.path)]));
       const zr=Object.keys(a).filter(k=>/\/text$/.test(k)&&a[k.replace(/text$/,'who')]===ZR).map(k=>a[k]);
-      check('0. 芷若的事件裡她說的句子：刪節號只留三句（「……今天放不了。旁邊有人。」「……再說。」「下次的票……再說。」）；沒有佔位符；她主動約的時間照舊 14.5（「兩點半，光典門口」）',J(zr.filter(t=>/……/.test(t)).sort())===J(['……今天放不了。旁邊有人。','……再說。','下次的票……再說。'].sort())&&!Object.values(a).some(v=>typeof v==='string'&&/[{}]/.test(v))&&DW.events[ZR].herInvite.dateTime===14.5&&DW.events[ZR].herInvite.accept[0].text==='好。兩點半，光典門口。兩點半是巧合，跟店名沒關係。',J(zr.filter(t=>/……/.test(t)))); }
+      check('0. 芷若的事件裡她說的句子：刪節號只留三句（「……今天放不了。旁邊有人。」「……再說。」「下次的票……再說。」）；沒有佔位符；她主動約的時間照舊 14.5（「兩點半，光典門口」）',J(zr.filter(t=>/……/.test(t)).sort())===J(['……今天放不了。旁邊有人。','……再說。','下次的票……再說。'].sort())&&!Object.values(a).some(v=>typeof v==='string'&&/[{}]/.test(v))&&DW.events[ZR].herInvite.dateTime===14.5&&DW.events[ZR].herInvite.accept[0].text==='好。兩點半出發，光典門口見。兩點半是巧合，跟店名沒關係。',J(zr.filter(t=>/……/.test(t)))); }
     else console.log('（讀不到 AA_774@'+SHA774+' 或 wish_bb.json：芷若的事件不比稿）');
     /* 2026-11-11（X324 可昕約會台詞重寫，AA f9c1a2b80）：可昕＝wish_bb.json 那一段照 AA_770 的 rows 23 列換字（照 path）；格子一樣多，不一樣的剛好 23 格、都是台詞的 text */
     if(AA770&&WBB){ const lv4=(x,p,o)=>{ if(Array.isArray(x)) x.forEach((v,i)=>lv4(v,p+'/'+i,o)); else if(x&&typeof x==='object') for(const k in x) lv4(x[k],p+'/'+k,o); else o[p]=x; return o; };
@@ -213,7 +213,7 @@ const E_=id=>X()&&X().ev(id);
        舊期望：邀約第三句「你的，你自己買。……這樣才算約好。」、答應「好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。」、院子「我在申請交換。……去看別人的電影院。」、書店「……你挑的？」、沒選到的「想。很想。……講出來好像就要負責。」、收尾「票根。……你的，給我。」「……今天很好。這句話我很少說。」 */
     check('3. 她主動約（週三打烊後 23:00）：「光典的影展，週六下午那一場。」「我買好我的票了。」「你的，你自己買。這樣才算約好。」',I.lines[2].text==='你的，你自己買。這樣才算約好。'&&J(msgs(ZR))===J(sp(ZR,I.lines))&&!!PHONE.byAsk(H.G,tag),J(msgs(ZR)));
     PHONE.answer(H.G,tag,0); phone(); const tr=H.G.trips.find(t=>t.who===ZR);
-    check('3. 答應：「好。兩點半，光典門口。兩點半是巧合，跟店名沒關係。」（AA_460 第 6 節換字、AA_774 收字）；週六 14:30 光典（by:her）',I.accept[0].text==='好。兩點半，光典門口。兩點半是巧合，跟店名沒關係。'&&msgs(ZR).slice(-1)[0]===sp(ZR,I.accept)[0]&&!!tr&&tr.locs[0]==='D05'&&tr.depart===14.5&&tr.day===H.D('2026-10-17'),J(tr));
+    check('3. 答應：「好。兩點半出發，光典門口見。兩點半是巧合，跟店名沒關係。」（AA_460 第 6 節換字、AA_774 收字）；週六 14:30 光典（by:her）',I.accept[0].text==='好。兩點半出發，光典門口見。兩點半是巧合，跟店名沒關係。'&&msgs(ZR).slice(-1)[0]===sp(ZR,I.accept)[0]&&!!tr&&tr.locs[0]==='D05'&&tr.depart===14.5&&tr.day===H.D('2026-10-17'),J(tr));
     setup('2026-10-17',9,{lv:{[ZR]:6}}); SOCIAL.remember(ZR,'WATCHED_FILM',''); const m0=H.G.money; r=await goDate(ZR,'D05',13,['院子',1,'書店',1,'片單',0,'咖啡',1,0]);
     check('3. 那一天：抵達「這裡以前住的是外交官。現在住的是電影。」……第 6 階單身「今天我不坐走道。……」；看電影（固定，不算互動點）兩句旁白',has(r.L,sp(ZR,ev.arrive.lines).concat(sp(ZR,ev.arrive.extraIf[1].lines),allSay(ev.fixed.lines))),J(r.L.slice(0,9)));
     check('3. 院子選②大二＝「我在申請交換。去看別人的電影院。」；書店選②買明信片（扣 30）；片單選①第 6 階＝「好。我先買我的。」',has(r.L,['我在申請交換。去看別人的電影院。','你挑的？','這張我會貼在店裡的吧檯後面。不告訴任何人。','好。我先買我的。'])&&!r.L.includes('想。很想。講出來好像就要負責。')&&!r.L.includes('想。很想。……講出來好像就要負責。'),J(r.L));

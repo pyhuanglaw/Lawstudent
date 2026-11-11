@@ -9,7 +9,7 @@ module.exports={
   ALLOW_SHA:'a29a8aba0',       // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-11 芷若重寫；同一版帶語彤 D15 一句、可昕 D09／D17／D33 三句）
   ZR_PREV:'f9c1a2b80',         // 芷若重寫以前的那一版（＝可昕重寫的那一版）
   ZR_COMMON_SHA:'e8a33995c',   // AA_773_zr_date_common.json（芷若不分地點的短句）
-  ZR_WISH_SHA:'e8a33995c',     // AA_774_zr_wish.json（芷若 D05 心願事件）
+  ZR_WISH_SHA:'841c1810e',     // AA_774_zr_wish.json（芷若 D05 心願事件）
   /* 2026-11-11 a29a8aba0 那一版除了芷若的格子，另外改的四句（AA 回 LAWWW 的五題；路徑是 Dxx.json 裡的位置、old＝上一版 f9c1a2b80 的字）*/
   ALSO:[
     {loc:'D15',who:'heroine_03',path:'lines/hotspots/D15.rail/normal/2/lines/0/text',old:'期中考在那一片裡面。從這裡看，小小的。',new:'要交的報告都在那一片裡面。從這裡看，小小的。'},
