@@ -1,0 +1,236 @@
+[
+ {
+  "file": "fns_ext_ref_1400.png",
+  "label": "ext_ref 1400",
+  "cam": {
+   "eye": [
+    49.98,
+    1.6,
+    3.07
+   ],
+   "look": [
+    46.48,
+    4,
+    18.07
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ },
+ {
+  "file": "fns_ext_front_1400.png",
+  "label": "ext_front 1400",
+  "cam": {
+   "eye": [
+    46.48,
+    1.7,
+    10.57
+   ],
+   "look": [
+    46.48,
+    4.2,
+    18.57
+   ],
+   "lens": 16,
+   "vfov": 64.65
+  }
+ },
+ {
+  "file": "fns_ext_obl_1400.png",
+  "label": "ext_obl 1400",
+  "cam": {
+   "eye": [
+    33.48,
+    1.7,
+    6.07
+   ],
+   "look": [
+    46.48,
+    4.5,
+    18.57
+   ],
+   "lens": 22,
+   "vfov": 49.43
+  }
+ },
+ {
+  "file": "fns_ext_ref_1715.png",
+  "label": "ext_ref 1715",
+  "cam": {
+   "eye": [
+    49.98,
+    1.6,
+    3.07
+   ],
+   "look": [
+    46.48,
+    4,
+    18.07
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ },
+ {
+  "file": "fns_ext_front_1715.png",
+  "label": "ext_front 1715",
+  "cam": {
+   "eye": [
+    46.48,
+    1.7,
+    10.57
+   ],
+   "look": [
+    46.48,
+    4.2,
+    18.57
+   ],
+   "lens": 16,
+   "vfov": 64.65
+  }
+ },
+ {
+  "file": "fns_ext_obl_1715.png",
+  "label": "ext_obl 1715",
+  "cam": {
+   "eye": [
+    33.48,
+    1.7,
+    6.07
+   ],
+   "look": [
+    46.48,
+    4.5,
+    18.57
+   ],
+   "lens": 22,
+   "vfov": 49.43
+  }
+ },
+ {
+  "file": "fns_ext_ref_2030.png",
+  "label": "ext_ref 2030",
+  "cam": {
+   "eye": [
+    49.98,
+    1.6,
+    3.07
+   ],
+   "look": [
+    46.48,
+    4,
+    18.07
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ },
+ {
+  "file": "fns_ext_front_2030.png",
+  "label": "ext_front 2030",
+  "cam": {
+   "eye": [
+    46.48,
+    1.7,
+    10.57
+   ],
+   "look": [
+    46.48,
+    4.2,
+    18.57
+   ],
+   "lens": 16,
+   "vfov": 64.65
+  }
+ },
+ {
+  "file": "fns_ext_obl_2030.png",
+  "label": "ext_obl 2030",
+  "cam": {
+   "eye": [
+    33.48,
+    1.7,
+    6.07
+   ],
+   "look": [
+    46.48,
+    4.5,
+    18.57
+   ],
+   "lens": 22,
+   "vfov": 49.43
+  }
+ },
+ {
+  "file": "fns_sign_1400.png",
+  "label": "sign 1400",
+  "cam": {
+   "eye": [
+    46.48,
+    2.2,
+    12.07
+   ],
+   "look": [
+    46.48,
+    4.3,
+    18.07
+   ],
+   "lens": 40,
+   "vfov": 28.41
+  }
+ },
+ {
+  "file": "fns_view_mrt_1400.png",
+  "label": "view_mrt 1400",
+  "cam": {
+   "eye": [
+    -33,
+    1.7,
+    9
+   ],
+   "look": [
+    46.48,
+    4,
+    18.07
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ },
+ {
+  "file": "fns_view_gate_1400.png",
+  "label": "view_gate 1400",
+  "cam": {
+   "eye": [
+    0,
+    1.7,
+    -40
+   ],
+   "look": [
+    46.48,
+    4,
+    18.07
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ },
+ {
+  "file": "fns_view_arcade_1400.png",
+  "label": "view_arcade 1400",
+  "cam": {
+   "eye": [
+    22.48,
+    1.7,
+    20.47
+   ],
+   "look": [
+    46.48,
+    2.6,
+    20.47
+   ],
+   "lens": 20,
+   "vfov": 53.7
+  }
+ }
+]
