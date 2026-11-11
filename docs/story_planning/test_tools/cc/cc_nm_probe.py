@@ -249,6 +249,44 @@ async def part_nmcam(pg, cdp):
         R.check('%s walkFallbacks 0' % tag, (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
 
 
+LANEJS = r"""(()=>{ const E=GAME.E, cam=E.camera, r=E.renderer, c=r.domElement, P=E.player.obj; r.render(E.scene,cam); P.updateMatrixWorld(true);
+  const head=new THREE.Box3().setFromObject(P).getCenter(new THREE.Vector3()); head.y+=0.5; const o=cam.position.clone(), dir=head.clone().sub(o), L=dir.length(); dir.normalize();
+  const own=x=>{ while(x){ if(x===P) return true; x=x.parent; } return false; };
+  const hit=new THREE.Raycaster(o,dir,0.05,Math.max(0.06,L-0.2)).intersectObjects(E.scene.children,true).filter(h=>h.object.visible&&h.object.isMesh&&!own(h.object)).slice(0,2).map(h=>[h.object.name||h.object.type,+h.distance.toFixed(2)]);
+  const ctr=new THREE.Box3().setFromObject(P).getCenter(new THREE.Vector3()), ndc=ctr.clone().project(cam), on=P.visible&&Math.abs(ndc.x)<=1&&Math.abs(ndc.y)<=1&&ndc.z<1;
+  let near=null; if(on){ const W=c.width,H=c.height,sc=W/(c.clientWidth||W),px=(ndc.x+1)/2*W,py=(1-ndc.y)/2*H,bw=100*sc,bh=160*sc; const k=document.createElement('canvas'); k.width=50; k.height=80; const g=k.getContext('2d');
+    g.drawImage(c,Math.max(0,px-bw/2),Math.max(0,py-bh/2),bw,bh,0,0,50,80); const d=g.getImageData(0,0,50,80).data; let s=0,s2=0,n=0; for(let i=0;i<d.length;i+=4){ const v=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; s+=v; s2+=v*v; n++; } const m=s/n; near=+Math.sqrt(Math.max(0,s2/n-m*m)).toFixed(1); }
+  const pp=P.position; return {player:[+pp.x.toFixed(2),+pp.z.toFixed(2)], ry:+P.rotation.y.toFixed(2), cam:[+o.x.toFixed(2),+o.y.toFixed(2),+o.z.toFixed(2)], yaw:+E.cam.yaw.toFixed(2), dist:E.cam.dist!=null?+(+E.cam.dist).toFixed(2):null, distTarget:E.cam.distTarget!=null?+(+E.cam.distTarget).toFixed(2):null, onScreen:on, nearSD:near, hit}; })()"""
+
+
+async def part_lanewalk(pg, cdp):
+    """BB 04:16：沿巷 A 從頭走到尾（真的搖桿），每 3 m 停一下、用手指拖曳把鏡頭轉一圈（8 次、每次約 45°，不用捷徑）；
+    每個角度記玩家投影附近 100×160 px 標準差（看不看得到人）、鏡頭→玩家射線第一個打到的物件、cam.dist（<1.2 標★貼臉）、鏡頭在不在巷子裡（|z|≤2.5）"""
+    h = float(os.environ.get('LANEH') or '20')
+    await at(pg, cdp, 'tingzhou', h, 6.5, 0.0, '（巷 A 西端，汀州路口）', wait=7000)
+    xs = [x / 10 for x in range(65, 270, 30)]; bad = []; close = []; outlane = []
+    for x in xs:
+        await joy_walk(pg, cdp, [(x, 0.0)], '[LANEWALK 走到 x %.1f]' % x)
+        await pg.wait_for_timeout(800)
+        for k in range(8):
+            if k:
+                pt = await pg.evaluate("(()=>{ for(const fy of [0.4,0.33,0.5,0.27]){ const y=innerHeight*fy, x0=innerWidth/2-52; const a=document.elementFromPoint(x0,y), b=document.elementFromPoint(x0+105,y); if(a&&a.id==='c'&&b&&b.id==='c') return {x0,y}; } return null; })()")
+                if not pt: R.note('[LANEWALK x %.1f] 找不到可以拖曳的空白處' % x); break
+                await L.drag(pg, cdp, pt['x0'], pt['y'], pt['x0'] + 105, pt['y'], steps=10); await pg.wait_for_timeout(700)
+            c = await pg.evaluate(LANEJS)
+            seen = c['onScreen'] and (c['nearSD'] or 0) >= 15
+            tag = '[LANEWALK x %.1f 第 %d 個角度 yaw %s]' % (x, k + 1, c['yaw'])
+            R.note('%s %s%s' % (tag, J(c), '  ★看不到人' if not seen else '') + ('  ★鏡頭貼臉 dist<1.2' if (c['dist'] or 9) < 1.2 else '') + ('  ★鏡頭在巷子外' if abs(c['cam'][2]) > 2.5 else ''))
+            if k in (0, 4): save(await pg.evaluate("(()=>{ const E=GAME.E; E.renderer.render(E.scene,E.camera); return E.renderer.domElement.toDataURL('image/jpeg',0.8); })()"), 'lane_x%04.1f_a%d.jpg' % (x, k + 1))
+            if not seen: bad.append((x, k + 1, c['hit'][:1]))
+            if (c['dist'] or 9) < 1.2: close.append((x, k + 1, c['dist']))
+            if abs(c['cam'][2]) > 2.5: outlane.append((x, k + 1, c['cam']))
+    R.check('[LANEWALK] 每個點每個角度都看得到人（玩家附近標準差 ≥15）', not bad, J(bad[:20]))
+    R.check('[LANEWALK] 鏡頭沒有被拉到貼臉（cam.dist ≥1.2）', not close, J(close[:20]))
+    R.note('[LANEWALK] 鏡頭在巷子外（|z|>2.5，照實記；巷子兩側有騎樓時可能是正常的）：%s' % J(outlane[:20]))
+    R.check('[LANEWALK] walkFallbacks 0', (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
+
+
 async def part_oldpos(pg, cdp):
     warns = []; pg.on('console', lambda m: warns.append(m.text[:200]) if m.type in ('warning', 'warn') else None)
     Ly = None
@@ -418,7 +456,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('TABLE', part_table), ('SHOTS', part_shots), ('PANO', part_pano), ('WALK', part_walk), ('OLDPOS', part_oldpos), ('FPS', part_fps), ('EDGE', part_edge), ('RING', part_ringsync), ('SYNC', part_sync), ('NMCAM', part_nmcam)):
+        for part, fn in (('TABLE', part_table), ('SHOTS', part_shots), ('PANO', part_pano), ('WALK', part_walk), ('OLDPOS', part_oldpos), ('FPS', part_fps), ('EDGE', part_edge), ('RING', part_ringsync), ('SYNC', part_sync), ('NMCAM', part_nmcam), ('LANEWALK', part_lanewalk)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
