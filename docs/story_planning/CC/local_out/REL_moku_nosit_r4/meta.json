@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "REL_moku_nosit_r4",
+  "sha": "f312c68cc961c70c7d548fe40c2ae42483d517ba",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_l118d_h_probe.py",
+  "env": "PARTS=NOSIT;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/pt1107e_arcs_probe.py,docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/cc_fn_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json;SHA=f312c68cc961c70c7d548fe40c2ae42483d517ba",
+  "machine": "MSI",
+  "start": "2026-11-11T22:07:27",
+  "end": "2026-11-11T22:10:12",
+  "seconds": 164,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "26",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 38,
+    "mem": 49,
+    "used_gb": 15.2,
+    "chrome_testing": 13
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
