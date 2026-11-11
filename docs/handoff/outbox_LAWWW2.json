@@ -8298,18 +8298,18 @@
   },
   {
    "branch": "claude/second-ai-env-art",
-   "sha": "(本 commit)",
+   "sha": "28dc66ce64",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "未回",
+   "ack": "ACK＋已整合（LAWWW 20:23：dev d7fe9c9ca，新測試＋美國相關 51 支過；引擎通改這一版不改）",
    "at": "2026-11-11T21:0x",
    "task": "US-NAV-TRAPS-1111：美國交換 14 區擋玩巡檢（LAWWW 19:37 派第 2 項）；超市街、會所兩條進得去出不來的小縫補導航阻擋",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_nav_traps_1111/（README.md、us_nav_traps_v1.patch、regression_full.log、us_tour_contact.jpg、aa814_points_dated.jpg、tour_browser.js）"
    ],
-   "state": "READY_FOR_REVIEW",
+   "state": "INTEGRATED（待 BB 判）",
    "noDirectIntegrate": false,
-   "note": "3 個檔（us3d.js outdoorZone navFix＋超市街燈桿和車中間一格；us_clubhouse3d.js buildNav 櫃台東頭牆裡一條；新 tests/us_nav_traps_1111_unit.js 五項，修改前 3、4 FAIL）；出生點（含 AA_814 3-1 廚房、3-2 社區門口）、349 個互動點都過；瀏覽器 14 區沒有黑畫面、JS 例外 0；全部 Node 1307：1301 過＋bookstore 老警告＋gym_wear 搶 CPU（單獨過）＋四支約會付錢的基底就 FAIL",
+   "note": "3 個檔（us3d.js outdoorZone navFix＋超市街燈桿和車中間一格；us_clubhouse3d.js buildNav 櫃台東頭牆裡一條；新 tests/us_nav_traps_1111_unit.js 五項，修改前 3、4 FAIL）；出生點（含 AA_814 3-1 廚房、3-2 社區門口）、349 個互動點都過；瀏覽器 14 區沒有黑畫面、JS 例外 0；全部 Node 1307：1301 過＋bookstore 老警告＋gym_wear 搶 CPU（單獨過）；四支約會測試＝我沒 fetch 企劃線（fetch 後 ALL PASS）",
    "next": "LAWWW 整合；引擎「四點檢查跨過一格厚的牆」要不要通改由 LAWWW 決定"
   }
  ]
