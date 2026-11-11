@@ -46,6 +46,9 @@ N1_GG3_more | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_plan
 # BB 19:25：RENAME 判 FAIL（舊存檔訊息、筆記還有日日定食）→ LAWWW 遷移 G.msgs／G.notes；新 SHA 到了換 SHA、拿掉 #HOLD新SHA。判準：讀檔後整份 G JSON＋手機訊息、筆記畫面都沒有「日日定食」（探針 G_OLD_JS／畫面已經這樣判）
 #HOLD新SHA N1_GG3_rename | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_gg3shops_probe.py | index.html | 30 | PARTS=RENAME;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
 N1_CLASS_TERMS | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_class_terms_probe.py | index.html | 70 | PARTS=Y1S2,Y2S1,Y3S1,Y4S1,Y4S2,JA2;SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
+# CC 19:5x：TSR r3／r2 後續——宿舍長桌椅子點了就開手機（記 pointer／click 落點診斷）、教室走道點改挑看得到的地板（01679＝b77a＋LEADOUT，TSR 相同）
+N1_TSR_DORM_r4 | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 12 | PARTS=DORMHALL;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
+N1_TSR_CLASS_r3 | 01679bc0a7580dabd373d2fbfda8542c21e0fc20 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 15 | PARTS=CLASS201;SHA=01679bc0a7580dabd373d2fbfda8542c21e0fc20
 N1_AA814 | b77af3a4fe6d348ae58337a1ce708442ef9ef458 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 110 | SHA=b77af3a4fe6d348ae58337a1ce708442ef9ef458
 AA814_old | 9d45ef8b36d5df00cdbca70661a4ca13e9fce813 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 110 | SHA=9d45ef8b36d5df00cdbca70661a4ca13e9fce813
 # BB 18:24 ⑥ X324（以安／芷若 D01 逐句＋選項影響關係）、AA_812 誰付錢（ME／SHE／SPLIT／BROKE）；BB 18:54 之後新排的一律 01679bc0a
