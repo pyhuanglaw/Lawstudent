@@ -20,7 +20,10 @@ PARTS（逗號分隔；每一段各自讀檔，彼此不相干）：
   ZR3_BASE／ZR3_ALT        芷若電影第 3 場：【捷徑】寫次數 n=2、k=3（第 1、2 場的 set 旗標補上）；第 4 階；BASE＝沒交往（canConfess 不 ok）、ALT＝交往中
   YT3_BASE／YT3_ALT        語彤（同上）；KX3_BASE／KX3_ALT 可昕（同上；可昕預設存檔就是交往中，BASE 拿掉 dating_kexin）
                            base 句：芷若「中間隔著一點點」、語彤「手臂貼著」、可昕「歪過來一點，又坐正」；alt 句：「沒有移開」／頭靠肩膀／頭靠過來。
-                           base 那趟任何一句出現靠肩、手疊手（CONTACT_BASE）＝FAIL；選第幾個選項 PICK3（預設 0）
+                           base 那趟這一場的 mid（她自己主動的那一段）出現靠肩、手疊手（CONTACT_BASE）＝FAIL；玩家選的選項之後她的回應、片子那一段有接觸
+                           只印【觀察】（BB 07:56：need 4、玩家先動，可以；學姊那場睡著靠過來也留）。
+  ZR3_BASE_P0／_P1、YT3_BASE_P0／_P1、KX3_BASE_P0／_P1  base 兩個選項各一趟（BB 07:56 ②）；不加尾巴的 ZR3_BASE 等＝選 PICK3（預設 0）；ALT 照 PICK3
+                           KX3_BASE*：沒交往約不到可昕，這一版正常玩家玩不到（BB：不是問題）→ 照舊 INV.accept【捷徑】，log 標【說明】
   PS1／PS2／PS3／PS4       沛珊吃飯第 1～4 場（【捷徑】寫次數 n=k-1）：整場逐字；畫面上不能有「早餐店」「存錢」「零用錢」；選第幾個 PS_PICK（預設 0）
   FALLBACK                 以安書店第 2 場（need 3）用第 2 階的關係去約＝一般句：逐字記、次數 +1、k 不動、不能出現第 2 場的句子
   ROTATE                   以安吃飯 4 場都演過（【捷徑】n=4、k=5）＝輪換第 1 則（rot[0]）：seat 逐字、中途是 rot[0] 的 mid 或她最近的事（ARCS.rotPick，記是哪一種）
@@ -72,7 +75,7 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 R = L.Run('act_' + TAG, OUT)
 LOGF = open(os.path.join(OUT, 'act_lines.txt'), 'a', encoding='utf-8')
 
-ALL_PARTS = ['AN_MOVIE_A', 'AN_MOVIE_B', 'AN_BOOK_A', 'AN_BOOK_B', 'ZR3_BASE', 'ZR3_ALT', 'YT3_BASE', 'YT3_ALT', 'KX3_BASE', 'KX3_ALT',
+ALL_PARTS = ['AN_MOVIE_A', 'AN_MOVIE_B', 'AN_BOOK_A', 'AN_BOOK_B', 'ZR3_BASE_P0', 'ZR3_BASE_P1', 'ZR3_ALT', 'YT3_BASE_P0', 'YT3_BASE_P1', 'YT3_ALT', 'KX3_BASE_P0', 'KX3_BASE_P1', 'KX3_ALT',
              'PS1', 'PS2', 'PS3', 'PS4', 'FALLBACK', 'ROTATE',
              'ST_AN1_A', 'ST_AN1_B', 'ST_PS1_A', 'ST_PS1_B', 'ST_AN6_NOPAGE', 'ST_AN6_PAGE', 'ST_ZR6', 'ST_YT6', 'ST_PS6', 'ST_KX6', 'ST_LOWNEED']
 PARTS = [p.strip().upper() for p in (os.environ.get('PARTS') or ','.join(ALL_PARTS)).split(',') if p.strip()]
@@ -482,7 +485,7 @@ async def invite(pg, cdp, tag, cfg, pick, screen):
         await close_phone(pg, cdp)
         if cfg.get('accept_fallback'):
             iv = await pg.evaluate(ACCEPT_JS, {'who': who, 'pid': P['id'], 'h': pick['time']['h'], 'cat': 'study' if cfg['kind'] == 'study' else None})
-            R.setup('[%s]【捷徑】INV.accept 直接寫一筆約好的邀約：%s %s %s' % (tag, P['id'], t, J(iv)))
+            R.setup('[%s]【捷徑】INV.accept 直接寫一筆約好的邀約：%s %s %s%s' % (tag, P['id'], t, J(iv), '（沒交往約不到她，這一版正常玩家玩不到；BB：不是問題）' if cfg.get('kx_note') else ''))
             return iv, 'INV.accept【捷徑】'
         R.check('[%s] 手機「朋友」有 %s 的「約」' % (tag, who), False, body[:300]); return None, None
     await pg.wait_for_timeout(1200)
@@ -637,7 +640,7 @@ def draft_rules(tag, sc, k):
         if not fx_ok(o['fx']) or not fx_ok(o['rel']): obs.append('有負的：%s %s' % (o['t'], J(o['fx'] or o['rel'])))
         if (sc.get('need') or 0) <= 2 and (o['fx'] or {}).get('love'): obs.append('need %s 給了 love：%s' % (sc.get('need'), o['t']))
         if ((o['fx'] or {}).get('love') or 0) >= 2 and str(k) != '4': obs.append('第 %s 場 love %s：%s' % (k, o['fx']['love'], o['t']))
-        if CONTACT_BASE.search(' '.join(o['reply'])) and sc.get('alt') and o in sc['opts']: obs.append('base 版的選項回話有肢體字：%s → %s' % (o['t'], o['reply']))
+        if CONTACT_BASE.search(' '.join(o['reply'])) and sc.get('alt') and o in sc['opts']: obs.append('base 版的選項回話有肢體字（BB 07:56：玩家先動，可以）：%s → %s' % (o['t'], o['reply']))
     if obs: log('  【觀察】%s 稿規則：%s' % (tag, J(obs)))
 
 
@@ -654,7 +657,9 @@ act_part('AN_MOVIE_B', 'heroine_01', 'movie', 1, 4, 1, h_pref=14)
 act_part('AN_BOOK_A', 'heroine_01', 'bookstore', 1, 4, 0, h_pref=14, pids=['bookstore', 'xs_shanlan'])
 act_part('AN_BOOK_B', 'heroine_01', 'bookstore', 1, 4, 1, h_pref=14, pids=['bookstore', 'xs_shanlan'])
 for nm, w, base_w, alt_w in (('ZR3', 'heroine_02', '中間隔著一點點', '沒有移開'), ('YT3', 'heroine_03', '手臂貼著', '肩膀上'), ('KX3', 'kexin', '又坐正', '頭靠過來')):
-    act_part(nm + '_BASE', w, 'movie', 3, 4, PICK3, dating=False, base=True, shot_on=[base_w, alt_w], base_word=base_w, alt_word=alt_w, h_pref=14, accept_fallback=(w == 'kexin'))
+    for sfx, pk_ in (('', PICK3), ('_P0', 0), ('_P1', 1)):   # BB 07:56 ②：base 兩個選項都要跑（_P0＝第 1 個、_P1＝第 2 個；不加尾巴＝PICK3）
+        act_part(nm + '_BASE' + sfx, w, 'movie', 3, 4, pk_, dating=False, base=True, shot_on=[base_w, alt_w], base_word=base_w, alt_word=alt_w, h_pref=14, accept_fallback=(w == 'kexin'),
+                 kx_note=(w == 'kexin'))
     act_part(nm + '_ALT', w, 'movie', 3, 4, PICK3, dating=True, alt=True, shot_on=[base_w, alt_w], base_word=base_w, alt_word=alt_w, h_pref=14, accept_fallback=(w == 'kexin'))
 for i in range(1, 5):
     act_part('PS%d' % i, 'classmate_peishan', 'eat', i, max(2, i), PS_PICK, ban=PS_BAN, h_pref=12.2)
@@ -680,6 +685,9 @@ async def run_part(pg, cdp, errs, tag):
         cfg['flags'] = dict(scene_flags(kind, who, k), **(cfg.get('flags') or {}))
     if cfg.get('rotate'):
         cfg['flags'] = dict(scene_flags(kind, who, 5), **(cfg.get('flags') or {}))
+    if cfg.get('kx_note'):
+        log('  【說明】%s：可昕沒交往時約不到她（INV.canInvite：G 層，只有交往中 kxGF 才能用手機約；當面約也要 canInvite），這一版正常玩家玩不到（BB 07:56：不是問題）。'
+            '這一段用【捷徑】INV.accept 直接寫一筆約好的邀約來演，看的是台詞和 base／alt 的切換' % tag)
     pk = await choose_day_place(pg, cdp, tag, cfg)
     if not R.check('[%s] 找得到能約的日子、地點、她會答應的時間' % tag, bool(pk)): return
     s = pk['setup']
@@ -811,8 +819,11 @@ async def run_part(pg, cdp, errs, tag):
             if cfg.get('base'):
                 R.check('[%s] base 句「%s」出現' % (tag, cfg['base_word']), cfg['base_word'] in joined, '')
                 R.check('[%s] base：alt 句「%s」沒有出現' % (tag, cfg['alt_word']), cfg['alt_word'] not in joined, '')
-                ct = [e['t'] for e in says if CONTACT_BASE.search(e['t'])]
-                R.check('[%s] base 那趟沒有靠肩、手疊手（%s）' % (tag, CONTACT_BASE.pattern), not ct, J(ct))
+                mids = set(t.replace('{name}', name) for t in (sc.get('mid') or []) + ((sc.get('alt') or {}).get('mid') or []))   # 這一場的 mid（base 和 alt 兩版）：她自己主動的那一段
+                ct_mid = [e['t'] for e in says if (e['t'] in mids or e['t'].replace('（小聲）', '', 1) in mids) and CONTACT_BASE.search(e['t'])]
+                R.check('[%s] base 那趟 mid（她自己主動的那一段）沒有靠肩、手疊手（%s）' % (tag, CONTACT_BASE.pattern), not ct_mid, J(ct_mid))
+                ct_oth = [e['t'] for e in says if CONTACT_BASE.search(e['t']) and e['t'] not in ct_mid]
+                if ct_oth: log('  【觀察】%s base 那趟 mid 以外有接觸字（玩家選的選項之後她的回應、片子那一段等；BB 07:56：need 4、玩家先動，可以，不判）：%s' % (tag, J(ct_oth)))
             else:
                 R.check('[%s] alt 句「%s」出現' % (tag, cfg['alt_word']), cfg['alt_word'] in joined, '')
                 R.check('[%s] alt：base 句「%s」沒有出現' % (tag, cfg['base_word']), cfg['base_word'] not in joined, '')
