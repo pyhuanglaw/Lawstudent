@@ -746,6 +746,9 @@ LM2_N10b | e7ddae33fee86ab1567ab9f7b4764686cc9c321c | probe | docs/story_plannin
 LM2_N11 | e7ddae33fee86ab1567ab9f7b4764686cc9c321c | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 8 | PARTS=GRAD;SHA=e7ddae33fee86ab1567ab9f7b4764686cc9c321c
 LM2_O1 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=FIRST,HOURS,UI;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
 LM2_O2 | 11161c101f4f4dc27af58177ae18a0ffd2f7cd63 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=REVEAL;SHA=11161c101f4f4dc27af58177ae18a0ffd2f7cd63
+# BB 02:15：鍵上的字不換＝GAME_BUG（P2），LAWWW 修在 f58131631（updateInteract 字變了就重畫）；HOURS 等開／等收／23:48 重跑，新舊對照
+LM2_HOURS_new | f581316311d7b4d1e5800348213b550219c087b1 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=HOURS;SHA=f581316311d7b4d1e5800348213b550219c087b1
+LM2_HOURS_old | e7ddae33fee86ab1567ab9f7b4764686cc9c321c | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=HOURS;SHA=e7ddae33fee86ab1567ab9f7b4764686cc9c321c
 # CC 23:5x：GG3_int_new 第一輪「四角」挑點是 TEST_BUG（只擴散到門口那一排 z≈3）→ 角落改用 E.canStand(0.3)、印擴散範圍；公館三間重跑，汀州路三間也用新挑點補驗四角（BB 判過舊挑點 TEST_BUG）
 GG3_int_new_14_r2 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;SHOPS=antai,xianguo,rongendian;HOURS=14;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8
 TZ4_int_r4 | dbbe05fa5a03f113ef4a0bae36777a153f98fef8 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;SHOPS=taimi,xile,yindehao;HOURS=14;SHA=dbbe05fa5a03f113ef4a0bae36777a153f98fef8
@@ -852,9 +855,10 @@ TE_N01 | 201803df0a593a75e084f5a11718cedb3c512bd3 | probe | docs/story_planning/
 # 作廢（TE3 取代）TE_O04 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_te_probe.py | index.html | 15 | CASES=gf_zq_Y1S2,gf_zq_Y1S2q6,gf_zq_Y3S2;TAG=old;DRAFT_DIR=fixtures/te_drafts;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 # 作廢（TE3 取代）TE_O05 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_te_probe.py | index.html | 15 | CASES=kx_Y2S1,kx_Y3S2tw,kx_Y3S2us;TAG=old;DRAFT_DIR=fixtures/te_drafts;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
 # 暫停（BB 23:27：heart_* 改乾淨存檔＋告白結果要判，探針改完重排）TE_O06 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_te_probe.py | index.html | 15 | CASES=heart_an,heart_yt,heart_sis,heart_zq;TAG=old;DRAFT_DIR=fixtures/te_drafts;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
-# 常備回歸（D143：佇列空、PC 閒；開發分支最新 9da05d8eb；汀州路發布前暖身）
-REG_9da05d8_deploy | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
-REG_9da05d8_p0 | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
-REG_9da05d8_zone | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
-REG_9da05d8_mini | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
-REG_9da05d8_tzgate | 9da05d8ebba1822de6de1490217755d6ca5353af | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=GATE,SHOPS
+# 常備回歸（D143：佇列空、PC 閒；開發分支最新 9da05d8eb；汀州路發布前暖身）；BB 02:15 改用 f58131631（動到所有互動鍵）
+REG_f5813_deploy | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
+REG_f5813_p0 | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+REG_f5813_zone | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+REG_f5813_mini | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+REG_f5813_tzgate | f581316311d7b4d1e5800348213b550219c087b1 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=GATE,SHOPS
+REG_f5813_touch | f581316311d7b4d1e5800348213b550219c087b1 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
