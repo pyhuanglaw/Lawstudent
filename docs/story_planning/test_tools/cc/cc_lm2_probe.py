@@ -221,10 +221,24 @@ def gdiff(a, b):
 
 
 LM_SEEN = set()
+# CC 11-11 03:0x（LM2_N4 r1）：SERIOUS 第一次按算命桌被吳教授撞見（prof，條件：有 LM_MET、沒有 LM_PROF、大一下以後）先搶走——稿沒寫 prof 和 serious 誰先；
+# SERPROF=1：前置加 LM_PROF（已經撞見過），讓第一次就是 serious，驗「不管選哪一類都先演這一組」用聊聊天／問學業與考試
+SERP = {'LM_PROF': True} if os.environ.get('SERPROF') == '1' else {}
 
 
 def judge_diff(tag, df):
-    lm = [d for d in df if d[0].startswith('flags.LM_')]; other = [d for d in df if not d[0].startswith('flags.LM_')]
+    lm = [d for d in df if d[0].startswith('flags.LM_')]
+    # CC 11-11 03:0x（LM2_N6 r1）：遊戲通用的「見過／說過話」記帳（social3d.js S.noticed：seen++；S.talkedTo：talked++、fam 不到 5 補到 5）不算關係變動——
+    # 合成存檔沒有教授的 rel 紀錄，第一次說話會從 None 建出整筆。只放過 seen、talked 往上加，和 None→新建時的 0／fam 5；其他欄位變了照舊 FAIL
+    def _book(d):
+        f = d[0].rsplit('.', 1)[-1]
+        if not d[0].startswith('social.'): return False
+        if f in ('seen', 'talked'): return (d[1] in (None, 'None') and isinstance(d[2], int)) or (isinstance(d[1], int) and isinstance(d[2], int) and d[2] >= d[1])
+        if d[1] in (None, 'None'): return d[2] == 0 or (f == 'fam' and d[2] == 5)
+        return False
+    book = [d for d in df if _book(d)]
+    if book: R.note('%s 通用記帳（見過／說過話，不算關係變動）：%s' % (tag, J([(d[0], d[1], d[2]) for d in book])))
+    other = [d for d in df if not d[0].startswith('flags.LM_') and not _book(d)]
     for d in lm: LM_SEEN.add(d[0][6:])
     R.note('%s 前後差異：LM_ %s；其他 %s' % (tag, J(lm), J([(d[0], str(d[1])[:80], str(d[2])[:80]) for d in other]) if other else '沒有'))
     R.check('%s 錢、成績、關係、戀愛、LM_ 以外的旗標都沒動' % tag, not other, J([d[0] for d in other]))
@@ -905,7 +919,7 @@ def ui_judge(tag, boxes):
 async def part_serious(pg, cdp):
     dd = await days(pg); await names(pg); LM_SEEN.clear()
     d = dd['Y2S1']['day']
-    await ld(pg, cdp, await mk(pg, d, 19.5, 'tingzhou', *LANE, flags={'dating_kexin': True, 'LM_MET': d - 100}), '【前置／捷徑】SERIOUS ①：大二上 %s 19:30、交往中（可昕）、認識過' % dd['Y2S1']['date'])
+    await ld(pg, cdp, await mk(pg, d, 19.5, 'tingzhou', *LANE, flags=dict({'dating_kexin': True, 'LM_MET': d - 100}, **SERP)), '【前置／捷徑】SERIOUS ①：大二上 %s 19:30、交往中（可昕）、認識過' % dd['Y2S1']['date'])
     end = await pg.evaluate("(()=>{ try{ return ROM.end(GAME.G,'kexin'); }catch(e){ return 'ERR '+e.message; } })()")
     R.setup('SERIOUS ①：【捷徑】ROM.end(GAME.G,"kexin")（遊戲自己的分手函式）→ %s' % J(end))
     f = await facts(pg, '[SERIOUS ①]')
@@ -923,7 +937,7 @@ async def part_serious(pg, cdp):
     R.check('[SERIOUS ①] 第一次（選聊聊天）＝lv4；之後不再出 lv4', bool(seq) and seq[0] == 'lv4' and 'lv4' not in seq[1:], J(seq))
     F = (await pg.evaluate(SNAPG))['flags']; R.note('[SERIOUS ①] LM_SER＝%s' % J(F.get('LM_SER')))
     d = dd['Y4S2']['day']
-    await ld(pg, cdp, await mk(pg, d, 19.5, 'tingzhou', *LANE, flags={'dating_kexin': False, 'LM_MET': d - 300, 'GRAD_EXAM_RESULT': 'fail'}), '【前置／捷徑】SERIOUS ②：大四下 %s 19:30、認識過、GRAD_EXAM_RESULT＝fail（研究所筆試沒上）' % dd['Y4S2']['date'])
+    await ld(pg, cdp, await mk(pg, d, 19.5, 'tingzhou', *LANE, flags=dict({'dating_kexin': False, 'LM_MET': d - 300, 'GRAD_EXAM_RESULT': 'fail'}, **SERP)), '【前置／捷徑】SERIOUS ②：大四下 %s 19:30、認識過、GRAD_EXAM_RESULT＝fail（研究所筆試沒上）' % dd['Y4S2']['date'])
     f = await facts(pg, '[SERIOUS ②]')
     R.check('[SERIOUS ②] 前置成立：落榜（LM.flunked）', f.get('flunked') is True, J(f.get('flunked')))
     await to_table(pg, cdp, '[SERIOUS ②]')

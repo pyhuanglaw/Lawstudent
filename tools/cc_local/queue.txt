@@ -761,6 +761,9 @@ G10_O1 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/
 PS2_O1 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=PS2;PSG=lad;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
 PS2_O2 | 65212b697b96a553f1d5340e301d1803c11a3fae | probe | docs/story_planning/test_tools/cc/cc_ss3d_g10_ps2_probe.py | index.html | 15 | PARTS=PS2;PSG=arc,feed,fest,open,tn;SHA=65212b697b96a553f1d5340e301d1803c11a3fae
 # BB 02:33 派工（開發分支 44986e635＝LAWWW2 第三包＋f58131631）：①LM_cam2 ②LM_scene2 ③XG3 ④NM_cam；插在 LM2／SS3D／PS2 後、TE3 前
+# CC 03:0x LM2 r2（44986e635）：N4 第一次被吳教授撞見事件搶走→SERPROF=1 前置加 LM_PROF；N6 通用「見過／說過話」記帳不算關係變動（探針改判）
+LM2_N4_r2 | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=SERIOUS;SERPROF=1;SHA=44986e6357936e7b673dfce68a02bf740c397550
+LM2_N6_r2 | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_lm2_probe.py | index.html | 10 | PARTS=REVEALA;SHA=44986e6357936e7b673dfce68a02bf740c397550
 LM_cam2_new | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=INT;SHOPS=limao;HOURS=20;CAMDIAG2=1;SHA=44986e6357936e7b673dfce68a02bf740c397550
 LM_cam2_old | e7ddae33fee86ab1567ab9f7b4764686cc9c321c | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=INT;SHOPS=limao;HOURS=20;CAMDIAG2=1;SHA=e7ddae33fee86ab1567ab9f7b4764686cc9c321c
 LM_scene2_new | 44986e6357936e7b673dfce68a02bf740c397550 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=LIMAO;LMHOURS=14,20;SHA=44986e6357936e7b673dfce68a02bf740c397550
