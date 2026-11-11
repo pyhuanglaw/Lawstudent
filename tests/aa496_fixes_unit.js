@@ -173,7 +173,10 @@ const BOSS_FAFU=BOSS.find(s=>/法服/.test(s)), BOSS_GT=BOSS.find(s=>/吉他/.te
     for(const [cid,w] of SIX){ const c=COURSES.list.find(x=>x.id===cid), sy=(SYLLABUS.courses[c.redo||c.id]||[]).find(q=>q.w===w), r0=(sy&&sy.react||[]).find(r=>r.who==='classmate_youchen');
       const it=itemOf(cid,w); if(!r0){ res.push([cid,w,'稿裡沒有這一句']); continue; } at(it.day,it.t0+0.2);
       const away=!presentWeek(c.term,w,it.t0), want=(away?'同學':NM)+'：「'+r0.text+'」';
-      res.push([cid,w,away?'不在':'在',CLS.content(it).react===want,CLS.content(it).react].concat(it.built?['（颱風假，自己組的一堂）']:[])); }
+      /* 2026-11-11（STUDY-EXAM-STORY-1102，AA 課堂內容補寫 b05a68786）：那幾週的 react 補到兩三位，遊戲照週次輪流挑一位（classes3d.js pickReact／S.rot）——輪到別人的那一週畫面上不是宥辰那句。
+         改成：宥辰那句經 CLS.reactAs／reactLine 的結果＝want（不在＝「同學」、在＝他的名字），而且畫面上那一句是照遊戲規則算出來的那一位。舊期望：畫面上那一句一定是宥辰那句 */
+      const okR=(sy.react||[]).map(r=>CLS.reactAs(r,it)), mine=CLS.reactLine(CLS.reactAs(r0,it)), shown=CLS.content(it).react, cand=okR.map(r=>CLS.reactLine(r));
+      res.push([cid,w,away?'不在':'在',mine===want&&cand.includes(shown),shown].concat(it.built?['（颱風假，自己組的一堂）']:[])); }
     check('4. 他的 6 句照舊；不在的那一週（債各第 10 週、民訴第 13 週、公司法第 6 週：上午、不是考試前後）說話人改「同學」，在的那三句照舊是他',res.length===6&&res.every(x=>x[3]===true)&&res.filter(x=>x[2]==='不在').length===3,J(res));
     /* 討論課的同學回應（現在的課表裡沒有他的回應句；之後有也照同一個規則）*/
     const disc=async it=>{ at(it.day,it.t0+0.2); H.said=[]; H.picks=[0]; await CLS.discuss(GM,it,{obs:{prompt:'（測試）',options:[{text:'甲'},{text:'先聽'}],replies:[{who:'classmate_youchen',text:'測試的回應。'}]}},null); return H.said.map(s=>s.t); };
