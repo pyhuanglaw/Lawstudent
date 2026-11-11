@@ -318,7 +318,10 @@ const GAME = (function(){
        落在兩張的範圍裡（並排、背對背）取比例上離中心近的。
        射線先打到哪張就是哪張（BB 11-11：118牛排點後排被導到前排、五湖四海 #9 點椅面變「點餐」）。地板先被打到（點的是看得到的地板）、打到的是桌子牆壁：照舊（下面：地板那一點站不住才找 0.45 m 內的椅子）。
        只在射線會穿過某張椅子的範圍時才打模型（點走道不用整個區域做射線測試）。o.hit＝地板那一點（engine3d.js 傳）；沒有就是舊的呼叫（只看地板那一點）*/
-    if(o&&o.ray&&o.hit&&E.rayFirstHit&&seats.length){ const R=o.ray, H=o.hit, tF=Math.hypot(H.x-R.origin.x,H.y-R.origin.y,H.z-R.origin.z), C=TAP_CHAIR;
+    /* 沒給 hit、有 ray＋fy（CC 的 cc_tapseat_reg_probe.py 這樣呼叫：TAP-RAY-SEAT 總圖／宿舍 11-11，探針自己那一次永遠拿到 null，log 和遊戲實際走的不一致）：
+       地板那一點＝射線和 y＝fy 的交點（engine3d.js screenToFloor 沒有走路網格時也是這樣算）。遊戲本身有傳 hit，不受影響 */
+    let HH=o&&o.hit; if(!HH&&o&&o.ray&&typeof o.fy==='number'){ const R0=o.ray; if(R0.direction.y<-1e-6){ const t=(o.fy-R0.origin.y)/R0.direction.y; if(t>0) HH={x:R0.origin.x+R0.direction.x*t,y:o.fy,z:R0.origin.z+R0.direction.z*t}; } }
+    if(o&&o.ray&&HH&&E.rayFirstHit&&seats.length){ const R=o.ray, H=HH, tF=Math.hypot(H.x-R.origin.x,H.y-R.origin.y,H.z-R.origin.z), C=TAP_CHAIR;
       const boxOf=st=>{ const y0=st.y!=null?st.y:(E.heightAt?E.heightAt(st.x,st.z,lv|0):(typeof o.fy==='number'?o.fy:0)), w=Math.max(C.r,C.back); return [st.x-w,y0,st.z-w,st.x+w,y0+C.h+(st.lift||0),st.z+w]; };   /* 先用包住整張椅子（各方向取大的）的盒子篩 */
       const cand=seats.filter(st=>rayHitsBox(R,boxOf(st),tF));
       if(cand.length){ const h=E.rayFirstHit(R,tF-0.03); if(h){ const p=h.point; let bc=1.0001; for(const st of cand){ const b=boxOf(st); if(p.y<b[1]-0.02||p.y>b[4]+0.02) continue; const yw=st.yaw||0, fx=Math.sin(yw), fz=Math.cos(yw), dx=p.x-st.x, dz=p.z-st.z, f=dx*fx+dz*fz, l=Math.abs(dx*fz-dz*fx);   /* f＞0＝椅子前面（人面向的那一邊） */
