@@ -1401,3 +1401,11 @@
 [10:04:18] ==== START FAR5_a  (probe @ 8e33a0df8dfbb5330b1391d9c59164985dc264eb) ====
 [10:04:21] [res] cpu=6% mem=45% (14.4/31.4 GB) chrome_testing=10  START FAR5_a
 [10:04:52] [res] cpu=9% mem=45% (14.1/31.4 GB) chrome_testing=9  END XG_old_joy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f1126484a..0ee7598fc  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:04:58] ==== END   XG_old_joy  exit=0  259s   ====
+[10:05:01] memory 46% before starting FAR5_lm (2 running)
+[10:05:01] ==== START FAR5_lm  (probe @ 8e33a0df8dfbb5330b1391d9c59164985dc264eb) ====
+[10:05:04] [res] cpu=21% mem=41% (14.6/31.4 GB) chrome_testing=4  START FAR5_lm
+[10:05:36] [res] cpu=0% mem=44% (13.9/31.4 GB) chrome_testing=9  END YDH_old
