@@ -1,0 +1,6 @@
+AA_752_night_market.json：企劃線 claude/story-planning 的 docs/story_planning/AA_752_night_market.json（原樣，未改）。
+抓的時候（2026-11-11 UTC）企劃線 HEAD：63b88fbe9bf7ef410549fd1be6ff747fb5df7c07
+這個檔最後一次修改的 commit：b76a518afd282d72fab76e363b80d76b9fa371f1（2026-11-10 23:20:45 UTC「AA_752 夜市十攤：BB_317 修正、補各攤營業時間與阿婆甜湯換季月份」）
+遊戲 src/data/night_market.js 標的來源是 @3259b5f78（企劃線的合併 commit）；CC 比過：stalls（含 hours 字串）、background、hoursNote、seasonNote 和這份逐欄一樣。
+抓法：gh api "repos/pyhuanglaw/Lawstudent/contents/docs/story_planning/AA_752_night_market.json?ref=claude/story-planning" -H "Accept: application/vnd.github.raw"
+用途：cc_nm2_probe.py（NM2 能看能買）逐句對稿；PC 沒有企劃線，探針用 DRAFT_DIR（預設＝探針資料夾/fixtures/nm2）讀這份。
