@@ -53768,6 +53768,31 @@
     "receiver": "BB",
     "ack": "BB"
    }
+  },
+  {
+   "id": "US-NAV-TRAPS-1111",
+   "title": "美國交換那一段場景「擋玩」巡檢（D99 ③、D141：走不到、坐不下、穿模、卡住、黑畫面；含 AA_814 3-1 C 棟廚房、3-2 社區門口）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "美國交換抵達",
+    "mainline": true,
+    "blocks": "",
+    "prereq": "",
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "【11-11 20:3x LAWWW 整合】LAWWW2 28dc66ce64 us_nav_traps_v1.patch（--3way 乾淨）：14 區（us_*＋兩個機場）出生點都站得住、349 個互動點走得到、雲端瀏覽器 14 區正式模型載得到、沒黑畫面、JS 例外 0；3-1、3-2 照真日期各拍一張。找到 2 個進得去出不來：超市街停車場燈桿 (27,−3.5) 和兩台車車頭中間 0.2 m 縫（us3d.js navFix 擋一格）、會所門廳／自習室一格厚的牆在櫃台東頭被四點檢查跨過（us_clubhouse3d.js 補 band）；模型不動。tests/us_nav_traps_1111_unit.js 修改前 3、4 FAIL；美國相關 51 支過。LAWWW 決定：一格厚的牆被四點檢查跨過去是引擎通則，這一版不通改引擎（要跑全部移動找路、發布前風險大），只補巡到的；之後若 BB／CC 再找到同一類再排。BB 判",
+   "xai": {
+    "from": "LAWWW",
+    "to": "LAWWW2",
+    "receiver": "BB",
+    "ack": "LAWWW"
+   }
   }
  ]
 }
