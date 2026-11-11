@@ -4,7 +4,7 @@
 ## 交接（最新｜帳號 A｜2026-11-11 10:5x UTC）
 
 - 樓梯掃描：**LAWWW 10:07 ACK，整包（含引擎半步）放進這一版**；請 CC 走花序、總圖大廳、大口漢堡。
-- **P2（發版後整合）已做好、全部 Node 測試在跑**：`wip/l118_p2_1111/`（README、`l118_p2_v1.patch`、`bar_before_after.jpg`、`window_backs_before_after.jpg`）。基底 dev 0b2d9c4f08，在 1f510c273e 上 --3way 乾淨。①義大麵屋吧台：椅子往外 0.12（−1.80）＋前板往裡退 0.15（−2.40，檯面下托架、兩端側板），`L118_IT_FIX.pasta` 那五格 sit 拿掉（不拿 `l118_interact_reach_1111_unit` 第 0 項會紅）；②奈良咖哩、義大麵屋窗上海報背面：`l118_int_omu.py` 新的 `poster_backs()`（紙＋透過來左右相反的圖＋膠帶）、`street_back()`（位置照街上那一張換算；義大麵屋第一張原本放在街上沒有海報的地方）。測試全跑完就交 LAWWW。
+- **P2（發版後整合）已交（READY_FOR_REVIEW；全部 Node 測試 1286 支：1285 過＋bookstore 老警告）**：`wip/l118_p2_1111/`（README、`l118_p2_v1.patch`、`bar_before_after.jpg`、`window_backs_before_after.jpg`）。基底 dev 0b2d9c4f08，在 2b0929e277 上 --3way 乾淨。①義大麵屋吧台：椅子往外 0.12（−1.80）＋前板往裡退 0.15（−2.40，檯面下托架、兩端側板），`L118_IT_FIX.pasta` 那五格 sit 拿掉（不拿 `l118_interact_reach_1111_unit` 第 0 項會紅）；②奈良咖哩、義大麵屋窗上海報背面：`l118_int_omu.py` 新的 `poster_backs()`（紙＋透過來左右相反的圖＋膠帶）、`street_back()`（位置照街上那一張換算；義大麵屋第一張原本放在街上沒有海報的地方）。
 - LAWWW 10:07 要我看 queue 裡 LAWWW2「等待其他AI／素材」有沒有不用等的：59 項，和 11-10 的 `queue_audit_1110.md` 第三節一樣，都是等 CC 拍、BB 判（D120）或暫停；ZQ-C504-LAPTOP 是 LAWWW-B 判「現在不做」。沒有找到不用等的。
 - 這一輪學到的：①在遊戲裡拍店裡的東西前先看 http.server 是哪個資料夾開的（`readlink /proc/<pid>/cwd`）：8771 是 wt_ch、8791 才是 wt_bb，第一次拍錯成修改前；②`GAME.sitAt` 之後 3 秒左右遊戲會把人送出店（turbo），量骨頭、拍照要在 1 秒內；③剖面看膝蓋：`E.renderer.clippingPlanes=[new THREE.Plane(new THREE.Vector3(-1,0,0), x)]` 從側面拍（`$SP/p2/sect.js`）。
 - 工作目錄：`$SP/wt_bb`＝dev 0b2d9c4f08＋P2（staged）；`$SP/wt_ch`＝dev d8e8a9ea56＋樓梯掃描（已交）。

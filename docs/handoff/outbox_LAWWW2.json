@@ -8132,6 +8132,22 @@
    "noDirectIntegrate": false,
    "note": "基底 dev d8e8a9ea56，在 0b2d9c4f08 上 --3way 乾淨；4 個檔；15 區域 14 座樓梯 336 趟全過；修改前會失敗（花序、總圖、大口、木曜日舊檔）；engine3d.js 的半步是引擎共用、可單獨退掉；全部 Node 測試 1287 支：1286 過＋bookstore 老警告",
    "next": "LAWWW 整合；CC 在花序、總圖大廳照 BB 木曜日的走法重走"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "at": "2026-11-11T11:0x",
+   "task": "P2（LAWWW 09:41，發版後）：義大麵屋吧台凳往外＋前板內縮；奈良咖哩、義大麵屋窗上海報背面",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/l118_p2_1111/（README.md、l118_p2_v1.patch、bar_before_after.jpg、window_backs_before_after.jpg、regression_full.log）"
+   ],
+   "state": "READY_FOR_REVIEW；發版後整合",
+   "noDirectIntegrate": false,
+   "note": "9 個檔，基底 dev 0b2d9c4f08，在 2b0929e277 上 --3way 乾淨；L118_IT_FIX.pasta 吧台五格 sit 拿掉（鍵對不到座位，測試第 0 項會抓）；全部 Node 測試 1286 支：1285 過＋bookstore 老警告",
+   "next": "LAWWW 發版後整合；CC 坐吧台 #2 #3、從店裡看窗"
   }
  ]
 }

@@ -1,6 +1,8 @@
 # 義大麵屋吧台凳＋奈良咖哩、義大麵屋窗上海報背面（LAWWW 11-11 09:41 派的 P2「發版後」；LAWWW2 帳號 A）
 
-狀態：**WORK_IN_PROGRESS**（全部 Node 測試在跑）。LAWWW 說發版以後才整合，這一包先做好放著。
+狀態：**READY_FOR_REVIEW**（2026-11-11 11:0x UTC）。LAWWW 說發版以後才整合，這一包先做好放著。
+
+- patch：`l118_p2_v1.patch`（9 個檔，基底 dev `0b2d9c4f08`；在最新 dev `2b0929e277` 上試過 `git apply --3way`：乾淨）。
 
 依據（LAWWW 11-11 09:41）：
 1. 義大麵屋吧台凳離前板太近，坐下膝蓋進前板 5 cm——LAWWW 先在遊戲端 `L118_IT_FIX` 把坐的位置往外 0.12 m 擋著；請在 `l118_int_pasta.py` 把凳子往外挪或前板內縮，做完那一格拿掉。
@@ -28,7 +30,7 @@
 ## 測試
 
 - 相關 15 支（`l118_interact_reach_1111`、`l118_shops_notrap_1111`、`l118_int_pon_1111`、`l118_bar_lift`、`l118_shops_redo_1111`、`l118_shops`、`shop_diners`、`sq_traces`、`room_ceiling`、`lampshade_flip`、`door_open`、`lane118`、`eat`、`l118_lunch`、`aa311_l118`）全過；沒有改任何測試。
-- 全部 Node 測試：在跑。
+- **全部 Node 測試 1286 支**（`regression_full.log`）：1285 支 ALL PASS；`bookstore_exit_unit` 老警告（結束碼 0）。
 
 ## 還沒做的、要注意的
 
