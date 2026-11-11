@@ -452,7 +452,7 @@ def build_home(c):
     km.crbox(2.25, 3.0, 0.22, 0.93, KZ - 0.055, KZ - 0.025, '#b7bcc0', r=0.01, seg=1); km.crbox(3.03, X1 - 0.1, 0.22, 0.93, KZ - 0.055, KZ - 0.025, '#b7bcc0', r=0.01, seg=1)
     c.vc.cbox(-3.2, 2.2, 0.0, 0.006, KZ + 0.04, KZ + 0.16, '#4a4e52')                                                                   # 煮水餃區前面的排水溝蓋
     for k in range(27): c.vc.cbox(-3.18 + k * 0.2, -3.08 + k * 0.2, 0.006, 0.009, KZ + 0.055, KZ + 0.145, '#2c2f32')
-    c.block(X0, X1, Z0, KZ, 'kitchen')
+    c.block(X0, X1, Z0, KZ, 'dumpling_area')   # 不叫 kitchen：遊戲的備用方塊（模型還沒載好時）把 why 有 kitchen 的畫成 1.9 m 高
     c.counter = dict(x0=wx0, x1=wx1, z0=wz0, z1=wz1, h=0.86, note='煮水餃區的不鏽鋼工作檯（面向客人）')
     c.clerk = dict(x=0.6, z=-3.3, yaw=0.0, note='工作檯後面（煮水餃區），面向客人；老闆娘（AA_772 staff：原巷口家常菜的老闆娘）')
     c.order = dict(x=0.65, z=-1.65, r=0.8, label='點餐（' + NAME + '）', note='工作檯前面（shop118:home）')

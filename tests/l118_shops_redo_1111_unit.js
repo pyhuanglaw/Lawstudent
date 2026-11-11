@@ -163,7 +163,8 @@ for(const id of NINE){ const [oldName,name,type,menu]=WANT[id], s=shop(id)||{men
     check('3-5. 排在 118 巷店裡吃飯的作息、AA_280 的常客：沒有人排在公休日或關門的時段',bad.length===0,bad.map(b=>b.join('｜')).join('\n  ')); }
   // 3-6 室內座位的互動半徑：配置寫了 r 就用（LAWWW2 之後的卡座會寫 r:1.25），沒寫＝0.7（現有九間都沒寫，行為不變）
   { const s3=fs.readFileSync(path.join(ROOT,'src/l118_shops3d.js'),'utf8'); load('src/data/l118_shop_layouts.js',NAMES);
-    const withR=Object.keys(L118_SHOP_LAYOUTS).filter(id=>(L118_SHOP_LAYOUTS[id].seats||[]).some(q=>q.r!=null));
+    const R_REDONE=['home'];   /* 2026-11-11 室內重做（l118_int_home.py）：五湖四海左牆長條座位的四個位子前面是桌子、離走道 1.5 m，寫了 r:1.6（和 ap）；其他還沒重做的照舊沒有 r */
+    const withR=Object.keys(L118_SHOP_LAYOUTS).filter(id=>!R_REDONE.includes(id)&&(L118_SHOP_LAYOUTS[id].seats||[]).some(q=>q.r!=null));
     check('3-6. src/l118_shops3d.js 座位的互動半徑＝s.r||0.7；現有九間的配置都沒有寫 r（還是 0.7）',/radius:s\.r\|\|0\.7,lv:0,prio:0\.3,seat:st/.test(s3)&&!/radius:0\.7,lv:0,prio:0\.3,seat:st/.test(s3)&&withR.length===0,J(withR));
     check('3-6. 大學食堂（cafe2）的桌位不再是「坐下讀書」（念書搬到木曜日）',/const study=false;/.test(s3)&&!/study=id==='cafe2'/.test(s3)); }
   // 3-7 街上的招牌：模型（lane118_street.glb）板面帶的是匯出當時的店名——遊戲畫字的時候換成店家資料的店名、類型（LAWWW2 的新外觀延後）
