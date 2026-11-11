@@ -158,7 +158,10 @@ async def joy_to(pg, cdp, tag, tx, tz, near=0.6, lv=None, max_s=90, straight=Fal
         pm = push_ms if d > 2.5 else max(250, int(push_ms * d / 2.5)); mag = 45 if d > 2.5 else max(16, 45 * d / 2.5)   # r3：近目標也推輕一點（走慢）   # r2（CC 01:2x）：離目標 2.5 m 內推短一點——PC 上每推 0.6 秒走 1 m 多，會在目標兩邊來回晃（FN OLDSPOT、STAIRS 第一輪 TEST_BUG）
         await L.joystick(pg, cdp, sx / m * mag, sy / m * mag, pm); pushes += 1
     s = await D.st(pg)
-    return {'ok': False, 't': round(time.time() - t0, 1), 'pushes': pushes, 'jumps': jumps, 'end': s, 'log': log, 'why': '%d 秒沒走到' % max_s}
+    # BB 01:47：走不到時分清楚是沒路還是探針——從停下的位置問 E.pathTo 到目標（null＝遊戲找不到路）
+    pd = await pg.evaluate("(a=>{ const E=GAME.E,P=E.player,o=P.obj.position; const r=E.pathTo?E.pathTo(o.x,o.z,P.lv|0,a[0],a[1],(a[2]==null?(P.lv|0):a[2])):null; return {from:[+o.x.toFixed(2),+o.z.toFixed(2)], n:r?r.length:null, pts:r?r.slice(0,10).map(p=>Array.isArray(p)?[+(+p[0]).toFixed(2),+(+p[1]).toFixed(2)]:[+(+p.x).toFixed(2),+(+p.z).toFixed(2)]):null, standTarget:E.canStand?!!E.canStand(a[0],a[1],0.3,(a[2]==null?(P.lv|0):a[2])):null}; })", [tx, tz, lv])
+    R.note('%s 走不到 (%.2f,%.2f)：E.pathTo 從停下的位置 %s → %s 點 %s；目標站得住 %s' % (tag, tx, tz, pd['from'], pd['n'], J(pd['pts']), pd['standTarget']))
+    return {'ok': False, 't': round(time.time() - t0, 1), 'pushes': pushes, 'jumps': jumps, 'end': s, 'log': log, 'why': '%d 秒沒走到' % max_s, 'pathDiag': pd}
 
 
 async def enter_door(pg, cdp, tag, door, max_s=120):
