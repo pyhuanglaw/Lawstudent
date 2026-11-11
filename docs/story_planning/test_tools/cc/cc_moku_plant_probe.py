@@ -385,7 +385,10 @@ async def item7(pg, cdp):
                 s1 = await D.st(pg)
                 R.note('%s 走的路：先點地走到樓梯頂 %s（第 1 層）＝%s（%s，停在 %s）→ 再點樓梯底' % (tag, J(STAIR_TOP), '到了' if ok1 else '沒到', why1, J([s1.get('x'), s1.get('z'), s1.get('lv')])))
             await pg.evaluate(TAPREC_JS)
-            bf = await pg.evaluate(BOT_FLOOR_JS, {'bot': list(STAIR_BOT), 'base': await pg.evaluate("GAME.E.heightAt(%f,%f,0)" % (x, z)) if lv == 0 else 0.0})
+            # N1_MOKU_PLANT_7（01679）：一樓地板不是 0（門口 (-3.71, 6.51) 一帶高 0.2），用 0 當地板高找不到點、退回 BB 的 (-3.35, 5.60)＝在樓梯上（高 0.98）。地板高改用門口那一點量
+            base = await pg.evaluate("GAME.E.heightAt(-3.72,6.6,0)")
+            bf = await pg.evaluate(BOT_FLOOR_JS, {'bot': list(STAIR_BOT), 'base': base})
+            if not bf.get('best'): R.check('7. %s 找得到第一階前面的地板（地板高 %s）' % (nm, base), False, J(bf)); continue
             tgt = (bf['best']['x'], bf['best']['z']) if bf.get('best') else STAIR_BOT
             R.note('%s 目標：第一階前面的地板 %s（離 BB 的樓梯底 %s m；地板高 %s、樓梯底那一點高 %s）' % (tag, J(tgt), (bf.get('best') or {}).get('d'), bf.get('base'), bf.get('hBot')))
             ok, why = await walk_segments(pg, cdp, tag, tgt[0], tgt[1], 0, 300 if lv == 1 else 420)
