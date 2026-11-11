@@ -52591,7 +52591,7 @@
     "confirmed": true
    },
    "sha": "42739729b",
-   "next": "【11-11 12:0x LAWWW2 對帳（D148），狀態原本寫錯「待開工」】六間都已做、已整合進開發分支：安泰 gg_antai（8e15235bc、3e39b5c33、42739729b）、汀州鮮果 gg_xianguo（3d4107ca1）、榮恩典 gg_rongendian、泰米 tz_taimi（51a7dfb8d、外觀第 3 版 6c560d699）、洗樂 tz_xile（3042b26e9、57f882bb8）、印得好 tz_yindehao；G09 鐵捲門、G10 通汀州路巷口（bc1954d4b）。BB：汀州路 11-10 21:52 功能 PASS、街景＋五間外觀 ART_APPROVED（三塊招牌第 3 版之後沒判）；六間室內美術還沒判。還沒做：AA_743 互動點名稱逐項對照表（LAWWW2 在做，交 LAWWW／AA 決定要不要改名，不改模型）。｜【11-11 12:1x LAWWW 派 LAWWW2 對帳】狀態寫「待開工」，但 README／開發分支看起來已經有這幾間店的室內——請 LAWWW2 先查（D148：grep 開發分支和自己的分支、FACTS.md），做好的改狀態附 SHA／證據，還沒做的照 AA_742／743（7fd1a70f2）、使用者參考圖做。｜六間不同年代、裝潢、客群；不用真實 LOGO；店名字只做在模型上一次（不和遊戲 UI 重疊）；layout 照 AA 的稿",
+   "next": "【11-11 12:1x LAWWW 核】上面的 SHA 是 LAWWW2 分支（claude/second-ai-env-art）上的；遊戲內容確認在 v9.10.25 候選 0d1eaadc7 裡（git grep：gg_antai／gg_xianguo／gg_rongendian／tz_taimi／tz_xile／tz_yindehao／flower_notes 的區域程式和 *_interior.glb 都在）＝跟這版一起上線。｜【11-11 12:0x LAWWW2 對帳（D148），狀態原本寫錯「待開工」】六間都已做、已整合進開發分支：安泰 gg_antai（8e15235bc、3e39b5c33、42739729b）、汀州鮮果 gg_xianguo（3d4107ca1）、榮恩典 gg_rongendian、泰米 tz_taimi（51a7dfb8d、外觀第 3 版 6c560d699）、洗樂 tz_xile（3042b26e9、57f882bb8）、印得好 tz_yindehao；G09 鐵捲門、G10 通汀州路巷口（bc1954d4b）。BB：汀州路 11-10 21:52 功能 PASS、街景＋五間外觀 ART_APPROVED（三塊招牌第 3 版之後沒判）；六間室內美術還沒判。還沒做：AA_743 互動點名稱逐項對照表（LAWWW2 在做，交 LAWWW／AA 決定要不要改名，不改模型）。｜【11-11 12:1x LAWWW 派 LAWWW2 對帳】狀態寫「待開工」，但 README／開發分支看起來已經有這幾間店的室內——請 LAWWW2 先查（D148：grep 開發分支和自己的分支、FACTS.md），做好的改狀態附 SHA／證據，還沒做的照 AA_742／743（7fd1a70f2）、使用者參考圖做。｜六間不同年代、裝潢、客群；不用真實 LOGO；店名字只做在模型上一次（不和遊戲 UI 重疊）；layout 照 AA 的稿",
    "xai": {
     "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
     "branch": "claude/second-ai-env-art",
@@ -52948,7 +52948,7 @@
     "confirmed": true
    },
    "sha": "1dcf099b8",
-   "next": "【11-11 12:0x LAWWW2 對帳（D148），狀態原本寫錯「待開工」】公館 G11「進入花序」→ flower_notes（1F 賣場、樓梯、2F 花藝教室，兩層導航）。室內 v1 033f083db；外觀 v1；第 2 版（BB 六點）1dcf099b8；二樓樓梯口卡住修好；樓梯下半段擋起來 7d9c46786。BB 01:5x 功能 PASS、美術 v1 沒過 → v2 等 BB 判。｜【11-11 12:1x LAWWW 派 LAWWW2 對帳】狀態寫「待開工」，但 README／開發分支看起來已經有這幾間店的室內——請 LAWWW2 先查（D148：grep 開發分支和自己的分支、FACTS.md），做好的改狀態附 SHA／證據，還沒做的照 AA_742／743（7fd1a70f2）、使用者參考圖做。｜照 RULES_2D_TO_3D；排在汀州路第 2 版後面",
+   "next": "【11-11 12:1x LAWWW 核】上面的 SHA 是 LAWWW2 分支（claude/second-ai-env-art）上的；遊戲內容確認在 v9.10.25 候選 0d1eaadc7 裡（git grep：gg_antai／gg_xianguo／gg_rongendian／tz_taimi／tz_xile／tz_yindehao／flower_notes 的區域程式和 *_interior.glb 都在）＝跟這版一起上線。｜【11-11 12:0x LAWWW2 對帳（D148），狀態原本寫錯「待開工」】公館 G11「進入花序」→ flower_notes（1F 賣場、樓梯、2F 花藝教室，兩層導航）。室內 v1 033f083db；外觀 v1；第 2 版（BB 六點）1dcf099b8；二樓樓梯口卡住修好；樓梯下半段擋起來 7d9c46786。BB 01:5x 功能 PASS、美術 v1 沒過 → v2 等 BB 判。｜【11-11 12:1x LAWWW 派 LAWWW2 對帳】狀態寫「待開工」，但 README／開發分支看起來已經有這幾間店的室內——請 LAWWW2 先查（D148：grep 開發分支和自己的分支、FACTS.md），做好的改狀態附 SHA／證據，還沒做的照 AA_742／743（7fd1a70f2）、使用者參考圖做。｜照 RULES_2D_TO_3D；排在汀州路第 2 版後面",
    "xai": {
     "spec": "X325；docs/handoff/user_specs/FLOWER_NOTES_1110.md 第四～六節；參考圖 docs/handoff/user_specs/flower_notes_ref/",
     "branch": "claude/second-ai-env-art",
