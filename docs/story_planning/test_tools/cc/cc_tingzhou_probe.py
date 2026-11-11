@@ -704,6 +704,45 @@ async def part_g0910(pg, cdp):
         R.check('[G0910 舊存檔 %s (%.1f,21)] 讀得進來、站得住（挪 %.2f m）、推得動' % (g, x, mv), me['zone'] == 'gongguan' and me['free'] is not False and math.hypot(me2['x'] - p0[0], me2['z'] - p0[1]) > 0.3, J([me, me2]))
 
 
+CEILJS = r"""(()=>{ const E=GAME.E, r=E.renderer, c=r.domElement, cam=E.camera; r.render(E.scene,cam); const k=document.createElement('canvas'); k.width=120; k.height=24; const g=k.getContext('2d');
+  g.drawImage(c,0,0,c.width,c.height*0.2,0,0,120,24); const d=g.getImageData(0,0,120,24).data; let R=0,G=0,B=0,bk=0,n=0; for(let i=0;i<d.length;i+=4){ R+=d[i]; G+=d[i+1]; B+=d[i+2]; if(0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]<12) bk++; n++; }
+  let ceil=null; E.scene.traverse(o=>{ if(o.isMesh&&/ceil|天花/i.test(o.name||'')) ceil=ceil||{name:o.name, visible:o.visible}; });
+  return {zone:GAME.G.zone, camY:+cam.position.y.toFixed(3), dist:E.cam.dist!=null?+(+E.cam.dist).toFixed(2):null, distTarget:E.cam.distTarget!=null?+(+E.cam.distTarget).toFixed(2):null, pitch:+(+E.cam.pitch).toFixed(3), indoor:!!E.indoor,
+    top:{rgb:[Math.round(R/n),Math.round(G/n),Math.round(B/n)], black:+(bk/n).toFixed(3)}, ceil}; })()"""
+
+
+async def part_ceil(pg, cdp):
+    """BB 05:47 LM_ceil：用玩家做得到的操作把遊戲鏡頭弄到最低——雙指往外撐推近到最近（engine3d.js 234 行：室內 distTarget 最小 2.2）、單指往上拖把俯角拉到最平（pitch 最小 0.06）；
+    每間室內拍一張，記鏡頭 y、dist／distTarget／pitch、畫面最上面 20% 是天花板、星空（偏藍亮）還是黑。不強制顯示任何東西。y 到不了 3.0 以下就記「做不到」。"""
+    lay = await pg.evaluate("(()=>typeof TZ_SHOPS_LAYOUT==='undefined'?null:Object.fromEntries(Object.entries(TZ_SHOPS_LAYOUT).map(([k,v])=>[k,{zone:v.zone,name:v.name,h:v.h,spawn:v.spawn,outZone:v.outZone||'tingzhou',out:v.out}])))()")
+    for sid in [x for x in (os.environ.get('SHOPS') or 'limao,antai,rongendian,xianguo').split(',') if x and lay and x in lay]:
+        L_ = lay[sid]; tag = '[CEIL %s]' % L_['name']; h = 20.0 if sid == 'limao' else 14.0
+        await at(pg, cdp, L_['outZone'], h, L_['out']['x'], L_['out']['z'], '（%s 門口外面）' % L_['name'])
+        it = next((i for i in await pg.evaluate(ITS) if i.get('tz') == sid or i.get('tzd') == sid), None)
+        if not R.check('%s 街上有入口' % tag, bool(it), ''): continue
+        await tap_it(pg, cdp, it, tag)
+        for _ in range(80):
+            if (await pg.evaluate(ME))['zone'] == L_['zone']: break
+            await pg.wait_for_timeout(250)
+        await pg.wait_for_timeout(1500)
+        c0 = await pg.evaluate(CEILJS); R.note('%s 進門時：%s（天花板高 %s）' % (tag, J(c0), L_.get('h')))
+        vw = await pg.evaluate("[innerWidth, innerHeight]"); cx, cy = vw[0] / 2, vw[1] * 0.4
+        for _ in range(3):   # 雙指往外撐（距離變大＝推近）
+            await cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': [{'x': cx - 30, 'y': cy, 'id': 1}, {'x': cx + 30, 'y': cy, 'id': 2}]})
+            for k in range(1, 11):
+                await cdp.send('Input.dispatchTouchEvent', {'type': 'touchMove', 'touchPoints': [{'x': cx - 30 - 14 * k, 'y': cy, 'id': 1}, {'x': cx + 30 + 14 * k, 'y': cy, 'id': 2}]}); await pg.wait_for_timeout(40)
+            await cdp.send('Input.dispatchTouchEvent', {'type': 'touchEnd', 'touchPoints': []}); await pg.wait_for_timeout(300)
+        for _ in range(3):   # 單指往上拖（dy<0＝俯角變小、鏡頭變低）
+            await L.drag(pg, cdp, cx + 60, vw[1] * 0.55, cx + 60, vw[1] * 0.15, steps=12); await pg.wait_for_timeout(200)
+        await pg.wait_for_timeout(1500)
+        c1 = await pg.evaluate(CEILJS); tb = c1['top']; sky = tb['rgb'][2] > tb['rgb'][0] + 25 and tb['rgb'][2] > tb['rgb'][1] + 8
+        what = '大面積黑' if tb['black'] > 0.3 else ('像星空／天空' if sky else '天花板或牆（看圖）')
+        await pg.screenshot(path=os.path.join(OUT, 'ceil_%s.jpg' % sid), type='jpeg', quality=82)
+        ch = L_.get('h') or 3.0
+        R.note('%s 玩家能做到的最低鏡頭：%s；畫面上方 20%%＝%s；%s' % (tag, J(c1), what, '鏡頭 y %.2f 低於天花板 %.2f' % (c1['camY'], ch) if c1['camY'] < ch else '★做不到：鏡頭 y %.2f 沒有低於天花板 %.2f' % (c1['camY'], ch)))
+        if c1['camY'] < ch: R.check('%s 鏡頭低於天花板時，畫面上方不是星空或大面積黑' % tag, not sky and tb['black'] <= 0.3, J(tb))
+
+
 async def part_doorjoy(pg, cdp):
     """BB 02:33 ③：門口的東西不擋進出——每間（SHOPS）搖桿進店、出店各兩次（照 E.pathTo 中途點推）；walkFallbacks 0"""
     lay = await pg.evaluate("(()=>typeof TZ_SHOPS_LAYOUT==='undefined'?null:Object.fromEntries(Object.entries(TZ_SHOPS_LAYOUT).map(([k,v])=>[k,{zone:v.zone,name:v.name,out:v.out,outZone:v.outZone||'tingzhou'}])))()")
@@ -871,7 +910,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('SCOOT3', part_scoot3), ('SCOOT4', part_scoot4), ('INT', part_int), ('ZQSEAT', part_zqseat), ('GGWALK', part_ggwalk), ('GGEXT', part_ggext), ('LIMAO', part_limao), ('G0910', part_g0910), ('DOORJOY', part_doorjoy)):
+        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('SCOOT3', part_scoot3), ('SCOOT4', part_scoot4), ('INT', part_int), ('ZQSEAT', part_zqseat), ('GGWALK', part_ggwalk), ('GGEXT', part_ggext), ('LIMAO', part_limao), ('G0910', part_g0910), ('DOORJOY', part_doorjoy), ('CEIL', part_ceil)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
