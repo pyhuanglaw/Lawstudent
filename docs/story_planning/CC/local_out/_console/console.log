@@ -1158,3 +1158,12 @@
 [03:28:48] ==== START N1_GG3_more  (probe @ 01679bc0a7580dabd373d2fbfda8542c21e0fc20) ====
 [03:28:50] [res] cpu=47% mem=41% (13.2/31.4 GB) chrome_testing=9  START N1_GG3_more
 [03:29:31] [res] cpu=63% mem=43% (13.8/31.4 GB) chrome_testing=9  END N1_TSR_CLASS_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5bfe390ec..efb0074b6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:29:38] ==== END   N1_TSR_CLASS_r2  exit=1  388s   ====
+[03:29:41] memory 46% before starting N1_AA814 (2 running)
+[03:29:41] ==== START N1_AA814  (probe @ b77af3a4fe6d348ae58337a1ce708442ef9ef458) ====
+[03:29:44] [res] cpu=60% mem=46% (14.5/31.4 GB) chrome_testing=9  START N1_AA814
+[03:31:16] 正在跑：N1_GG3_shops（已跑 3 分／上限 70 分）、N1_GG3_more（已跑 2 分／上限 60 分）、N1_AA814（已跑 1 分／上限 110 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:33:21] [res] cpu=48% mem=45% (14.2/31.4 GB) chrome_testing=10  END N1_GG3_more

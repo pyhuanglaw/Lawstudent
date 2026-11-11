@@ -1,0 +1,201 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg3shops_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N1_GG3_more\out
+CC GG3SHOPS：PARTS CLOSE,TAIMI_INVITE,TAIMI_INVITE_SO；SHA 01679bc0a7580dabd373d2fbfda8542c21e0fc20；DAY 2025-10-08；SHORT True LOOKS True SIT True；Playwright 手機模擬 ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.7s] 版本字樣 版本 v9.10.25；日期 2025-10-08：{"k": "2025-10-08", "d": 22, "wd": 3, "hol": false, "typh": false, "term": "Y1S1", "week": 6, "exam": null}（wd 3＝星期三）
+PASS 頁面有 GG3、GG3_LINES、六間配置  ["antai", "xianguo", "rongendian", "taimi", "xile", "yindehao"]
+PASS 六個區域的 build 都包上 GG3（Z3.ZONES[*]._gg3）  [["gg_antai", true], ["gg_xianguo", true], ["gg_rongendian", true], ["tz_taimi", true], ["tz_xile", true], ["tz_yindehao", true]]
+  [  26.7s] 營業時間（places.js）：{"gg_antai": "週一～六 09:00–22:00、週日 10:00–18:00", "gg_xianguo": "每天 10:00–22:00", "gg_rongendian": "週一～六 09:30–21:30；週日公休", "tz_taimi": "11:00–14:00、17:00–21:00；週一公休", "tz_xile": "24 小時", "tz_yindehao": "週一～五 09:00–22:00、週六 10:00–18:00；週日公休（期末考週和前一週開到 24:00）"}
+PASS 打烊統一 AA_700「我們今天要打烊了。」（五間；洗樂 24 小時沒有）  {"gg_antai": "我們今天要打烊了。", "gg_xianguo": "我們今天要打烊了。", "gg_rongendian": "我們今天要打烊了。", "tz_taimi": "我們今天要打烊了。", "tz_yindehao": "我們今天要打烊了。", "tz_xile": null}
+PASS 泰米 14:00 午休那一句「我們要午休了，五點再開喔。」（666a1546e8）  "我們要午休了，五點再開喔。"
+PASS 頁面上的 GG3_LINES＝受測樹的 src/data/gg3_shops_lines.js（C:\Users\USER\Documents\wt_cc_N1_GG3_more\src\data\gg3_shops_lines.js）
+PASS GG3_LINES 裡沒有 {name}／undefined／暫定字  []
+== CLOSE
+  [前置／捷徑] 【前置／捷徑】讀檔（GAME.applySave；關條件事件、手機自動打開）到 tingzhou 2025-10-08（星期 3）21.75 (5.40,5.75)、錢 1000、晴天、沒有邀約、GG3 旗標全清（今天還沒進過）（印得好 門外，快打烊）
+PASS [CLOSE 印得好 22:00] 前置：21.75 還開著（今天 09:00–22:00）  {"open": true, "win": [[9, 22]], "today": "今天 09:00–22:00", "typh": false, "closed": "印得好 現在沒有開（今天 09:00–22:00）。下次開門：明天 09:00。"}
+PASS [CLOSE 印得好 22:00] 街上有往 tz_yindehao 的店門（進印得好）  {"k": 24, "label": "進印得好", "x": 7.3, "z": 5.75, "r": 1.6, "kind": null, "pt": null, "seatId": null, "seat": null, "to": "tz_yindehao", "spawn": null, "hidden": false, "gg3": null, "look": null}
+PASS [CLOSE 印得好 22:00] 搖桿走到店門、互動鍵是「進印得好」  {"x": 6.18, "z": 5.75, "interact": "進印得好"}
+PASS [CLOSE 印得好 22:00] 互動鍵是「進印得好」  {"x": 6.18, "z": 5.75, "interact": "進印得好"}
+PASS [CLOSE 印得好 22:00] 進店：區域 tz_yindehao（4.7 秒）、站在出生點 (0.00,3.00) 旁 0.00 m（≤0.5）、站得住  {"dlg": true, "typing": false, "full": "（四台電腦有三台有人，每個人都在找自己的檔案在哪一個資料夾。）", "shown": "（四台電腦有三台有人，每個人都在找自己的檔案在哪一個資料夾。）", "name": "", "nb": 0, "btn": [], "ch": null, "phone": false, "zone": "tz_yindehao", "day": 22, "hour": 21.809, "money": 1000, "busy": true, "seat": false, "seatT": null, "seatXZ": null, "x": 0, "z": 3, "lv": 0, "stand": true, "ent": false, "fade": false, "paused": false, "interact": "", "fb": 0}
+    [說] （旁白）：（四台電腦有三台有人，每個人都在找自己的檔案在哪一個資料夾。）
+PASS [CLOSE 印得好 22:00] 進門那一句（一天第一次）是稿上 door 其中一句：[["", "（四台電腦有三台有人，每個人都在找自己的檔案在哪一個資料夾。）"]]  {"got": [["", "（四台電腦有三台有人，每個人都在找自己的檔案在哪一個資料夾。）"]], "door": [["", "（影印機的聲音此起彼落。熱熱的紙味。）"], ["", "（四台電腦有三台有人，每個人都在找自己的檔案在哪一個資料夾。）"], ["店員", "自助在左邊，要裝訂來櫃台。"]]}
+PASS [CLOSE 印得好 22:00] 進門只說一句  [["", "（四台電腦有三台有人，每個人都在找自己的檔案在哪一個資料夾。）"]]
+PASS [CLOSE 印得好 22:00] 進門 畫面上的字沒有 {name}／undefined／null／暫定字（台詞、選項、提示、toast 共 1 則）  []
+PASS [CLOSE 印得好 22:00] 進門 沒有 JS 錯誤（window error、console.error、GG3／EAT／INV 的 warn）  []
+PASS [CLOSE 印得好 22:00] 進店沒有被放到目的地（walkFallbacks 沒增加）
+PASS [黑畫面] gg3_yindehao_entered 不是黑畫面（平均亮度 119.1、變化 48.7）  [119.1, 48.7]
+  [前置／捷徑] [CLOSE 印得好 22:00]【捷徑】人在店裡，時間撥到 21.966（打烊 前約 2 遊戲分鐘；遊戲時間自己走到那一刻，STORY.TICKS 請人出來）
+    [說] 店員：我們今天要打烊了。
+PASS [CLOSE 印得好 22:00] 打烊：店員「我們今天要打烊了。」（照稿，只說一次）  [["店員", "我們今天要打烊了。"]]
+PASS [CLOSE 印得好 22:00] 被請到門外：tingzhou、站在 out (5.40,5.75) 旁 0.00 m（≤0.8）、站得住、不是坐著  {"dlg": false, "typing": false, "full": "我們今天要打烊了。", "shown": "我們今天要打烊了。", "name": "店員", "nb": 0, "btn": [], "ch": null, "phone": false, "zone": "tingzhou", "day": 22, "hour": 22.025, "money": 1000, "busy": false, "seat": false, "seatT": null, "seatXZ": null, "x": 5.4, "z": 5.75, "lv": 0, "stand": true, "ent": false, "fade": false, "paused": false, "interact": "", "fb": 0}
+PASS [CLOSE 印得好 22:00] 打烊 畫面上的字沒有 {name}／undefined／null／暫定字（台詞、選項、提示、toast 共 1 則）  []
+PASS [CLOSE 印得好 22:00] 打烊 沒有 JS 錯誤（window error、console.error、GG3／EAT／INV 的 warn）  []
+PASS [CLOSE 印得好 22:00] 出來以後還走得動（搖桿推 2.27 m）
+PASS [CLOSE 印得好 22:00] 關門以後街上還有店門
+PASS [CLOSE 印得好 22:00] 關門以後搖桿走到店門（互動鍵「進印得好」）  {"x": 7.67, "z": 5.75, "interact": "進印得好"}
+PASS [CLOSE 印得好 22:00] 關門後 互動鍵是「進印得好」  {"x": 7.673, "z": 5.75, "interact": "進印得好"}
+    [說] （旁白）：（鐵捲門拉下來了。門上貼著：「期末週延長營業至 24:00」。）
+    [toast] ["印得好 現在沒有開（今天 09:00–22:00）。下次開門：明天 09:00。", "印得好 現在沒有開（今天 09:00–22:00）。下次開門：明天 09:00。"]
+PASS [CLOSE 印得好 22:00] 關門以後按店門：門口那一句（sign）照稿  [["", "（鐵捲門拉下來了。門上貼著：「期末週延長營業至 24:00」。）"]]
+PASS [CLOSE 印得好 22:00] 關門以後按店門：toast 開放時間（PLACES.closedText「印得好 現在沒有開（今天 09:00–22:00）。下次開門：明天 09:00。」）  ["印得好 現在沒有開（今天 09:00–22:00）。下次開門：明天 09:00。", "印得好 現在沒有開（今天 09:00–22:00）。下次開門：明天 09:00。"]
+PASS [CLOSE 印得好 22:00] 關門以後按店門：沒有進去（還在 tingzhou）  {"dlg": false, "typing": false, "full": "（鐵捲門拉下來了。門上貼著：「期末週延長營業至 24:00」。）", "shown": "（鐵捲門拉下來了。門上貼著：「期末週延長營業至 24:00」。）", "name": "", "nb": 0, "btn": [], "ch": null, "phone": false, "zone": "tingzhou", "day": 22, "hour": 22.061, "money": 1000, "busy": false, "seat": false, "seatT": null, "seatXZ": null, "x": 7.67, "z": 5.75, "lv": 0, "stand": true, "ent": false, "fade": false, "paused": false, "interact": "進印得好", "fb": 0}
+PASS [CLOSE 印得好 22:00] 關門後 畫面上的字沒有 {name}／undefined／null／暫定字（台詞、選項、提示、toast 共 3 則）  []
+PASS [CLOSE 印得好 22:00] 關門後 沒有 JS 錯誤（window error、console.error、GG3／EAT／INV 的 warn）  []
+PASS [CLOSE 印得好 22:00] 按完還走得動（10.64 m）
+  [前置／捷徑] 【前置／捷徑】讀檔（GAME.applySave；關條件事件、手機自動打開）到 tingzhou 2025-10-08（星期 3）13.75 (-5.40,-1.00)、錢 1000、晴天、沒有邀約、GG3 旗標全清（今天還沒進過）（泰米村食 門外，快午休）
+PASS [CLOSE 泰米 14:00 午休] 前置：13.75 還開著（今天 11:00–14:00、17:00–21:00）  {"open": true, "win": [[11, 14], [17, 21]], "today": "今天 11:00–14:00、17:00–21:00", "typh": false, "closed": "泰米村食 現在沒有開（今天 11:00–14:00、17:00–21:00）。下次開門：今天 17:00。"}
+PASS [CLOSE 泰米 14:00 午休] 街上有往 tz_taimi 的店門（進泰米村食）  {"k": 8, "label": "進泰米村食", "x": -7.3, "z": -1, "r": 1.6, "kind": null, "pt": null, "seatId": null, "seat": null, "to": "tz_taimi", "spawn": null, "hidden": false, "gg3": null, "look": null}
+PASS [CLOSE 泰米 14:00 午休] 搖桿走到店門、互動鍵是「進泰米村食」  {"x": -6.18, "z": -1, "interact": "進泰米村食"}
+PASS [CLOSE 泰米 14:00 午休] 互動鍵是「進泰米村食」  {"x": -6.18, "z": -1, "interact": "進泰米村食"}
+PASS [CLOSE 泰米 14:00 午休] 進店：區域 tz_taimi（2.3 秒）、站在出生點 (0.15,3.20) 旁 0.00 m（≤0.5）、站得住  {"dlg": true, "typing": false, "full": "（門一推開，香茅和九層塔的味道。廚房裡鍋子一直在響。）", "shown": "（門一推開，香茅和九層塔的味道。廚房裡鍋子一直在響。）", "name": "", "nb": 0, "btn": [], "ch": null, "phone": false, "zone": "tz_taimi", "day": 22, "hour": 13.822, "money": 1000, "busy": true, "seat": false, "seatT": null, "seatXZ": null, "x": 0.15, "z": 3.2, "lv": 0, "stand": true, "ent": false, "fade": false, "paused": false, "interact": "", "fb": 0}
+    [說] （旁白）：（門一推開，香茅和九層塔的味道。廚房裡鍋子一直在響。）
+PASS [CLOSE 泰米 14:00 午休] 進門那一句（一天第一次）是稿上 door 其中一句：[["", "（門一推開，香茅和九層塔的味道。廚房裡鍋子一直在響。）"]]  {"got": [["", "（門一推開，香茅和九層塔的味道。廚房裡鍋子一直在響。）"]], "door": [["", "（門一推開，香茅和九層塔的味道。廚房裡鍋子一直在響。）"], ["", "（牆上的菜單板有照片，每一道看起來都比實際的大一點。）"], ["老闆娘", "歡迎！幾位？隨便坐！"]]}
+PASS [CLOSE 泰米 14:00 午休] 進門只說一句  [["", "（門一推開，香茅和九層塔的味道。廚房裡鍋子一直在響。）"]]
+PASS [CLOSE 泰米 14:00 午休] 進門 畫面上的字沒有 {name}／undefined／null／暫定字（台詞、選項、提示、toast 共 1 則）  []
+PASS [CLOSE 泰米 14:00 午休] 進門 沒有 JS 錯誤（window error、console.error、GG3／EAT／INV 的 warn）  []
+PASS [CLOSE 泰米 14:00 午休] 進店沒有被放到目的地（walkFallbacks 沒增加）
+PASS [黑畫面] gg3_taimi_entered 不是黑畫面（平均亮度 92.7、變化 50.9）  [92.7, 50.9]
+  [前置／捷徑] [CLOSE 泰米 14:00 午休]【捷徑】人在店裡，時間撥到 13.966（14:00 前約 2 遊戲分鐘；遊戲時間自己走到那一刻，STORY.TICKS 請人出來）
+    [說] 老闆娘：我們要午休了，五點再開喔。
+PASS [CLOSE 泰米 14:00 午休] 14:00 午休：老闆娘「我們要午休了，五點再開喔。」（照稿，只說一次）  [["老闆娘", "我們要午休了，五點再開喔。"]]
+PASS [CLOSE 泰米 14:00 午休] 14:00 不是說打烊那句「我們今天要打烊了。」  [["老闆娘", "我們要午休了，五點再開喔。"]]
+PASS [CLOSE 泰米 14:00 午休] 被請到門外：tingzhou、站在 out (-5.40,-1.00) 旁 0.00 m（≤0.8）、站得住、不是坐著  {"dlg": false, "typing": false, "full": "我們要午休了，五點再開喔。", "shown": "我們要午休了，五點再開喔。", "name": "老闆娘", "nb": 0, "btn": [], "ch": null, "phone": false, "zone": "tingzhou", "day": 22, "hour": 14.024, "money": 1000, "busy": false, "seat": false, "seatT": null, "seatXZ": null, "x": -5.4, "z": -1, "lv": 0, "stand": true, "ent": false, "fade": false, "paused": false, "interact": "", "fb": 0}
+PASS [CLOSE 泰米 14:00 午休] 打烊 畫面上的字沒有 {name}／undefined／null／暫定字（台詞、選項、提示、toast 共 1 則）  []
+PASS [CLOSE 泰米 14:00 午休] 打烊 沒有 JS 錯誤（window error、console.error、GG3／EAT／INV 的 warn）  []
+PASS [CLOSE 泰米 14:00 午休] 出來以後還走得動（搖桿推 2.27 m）
+PASS [CLOSE 泰米 14:00 午休] 關門以後街上還有店門
+PASS [CLOSE 泰米 14:00 午休] 關門以後搖桿走到店門（互動鍵「進泰米村食」）  {"x": -7.67, "z": -1, "interact": "進泰米村食"}
+PASS [CLOSE 泰米 14:00 午休] 關門後 互動鍵是「進泰米村食」  {"x": -7.673, "z": -1, "interact": "進泰米村食"}
+    [說] （旁白）：（門上掛著一塊木牌：「休息中 17:00 開」。）
+    [toast] ["泰米村食 現在沒有開（今天 11:00–14:00、17:00–21:00）。下次開門：今天 17:00。", "泰米村食 現在沒有開（今天 11:00–14:00、17:00–21:00）。下次開門：今天 17:00。"]
+PASS [CLOSE 泰米 14:00 午休] 關門以後按店門：門口那一句（rest）照稿  [["", "（門上掛著一塊木牌：「休息中 17:00 開」。）"]]
+PASS [CLOSE 泰米 14:00 午休] 關門以後按店門：toast 開放時間（PLACES.closedText「泰米村食 現在沒有開（今天 11:00–14:00、17:00–21:00）。下次開門：今天 17:00。」）  ["泰米村食 現在沒有開（今天 11:00–14:00、17:00–21:00）。下次開門：今天 17:00。", "泰米村食 現在沒有開（今天 11:00–14:00、17:00–21:00）。下次開門：今天 17:00。"]
+PASS [CLOSE 泰米 14:00 午休] 關門以後按店門：沒有進去（還在 tingzhou）  {"dlg": false, "typing": false, "full": "（門上掛著一塊木牌：「休息中 17:00 開」。）", "shown": "（門上掛著一塊木牌：「休息中 17:00 開」。）", "name": "", "nb": 0, "btn": [], "ch": null, "phone": false, "zone": "tingzhou", "day": 22, "hour": 14.059, "money": 1000, "busy": false, "seat": false, "seatT": null, "seatXZ": null, "x": -7.67, "z": -1, "lv": 0, "stand": true, "ent": false, "fade": false, "paused": false, "interact": "進泰米村食", "fb": 0}
+PASS [CLOSE 泰米 14:00 午休] 關門後 畫面上的字沒有 {name}／undefined／null／暫定字（台詞、選項、提示、toast 共 3 則）  []
+PASS [CLOSE 泰米 14:00 午休] 關門後 沒有 JS 錯誤（window error、console.error、GG3／EAT／INV 的 warn）  []
+PASS [CLOSE 泰米 14:00 午休] 按完還走得動（10.64 m）
+  [ 123.4s] [CLOSE] 用了 97 秒
+== TAIMI_INVITE
+  [前置／捷徑] 【前置／捷徑】讀檔（GAME.applySave；關條件事件、手機自動打開）到 dorm 2025-10-08（星期 3）10.00、錢 1000、晴天、沒有邀約、GG3 旗標全清（今天還沒進過）（約去泰米：選日子、選人；宿舍）
+  選日子／人（只讀的查詢；試過 []）
+PASS [TAIMI_INVITE] 前置：找得到她會答應的日子和時段（泰米 午餐 11:30～13:30、晚餐 17:30～20:00、週一不排）
+  [前置／捷徑] [TAIMI_INVITE]【前置／捷徑】2025-10-08 heroine_01：她的聯絡方式（原本有）、關係改成第 3 階 {"fam": 46, "trust": 30, "comf": 26, "npcRom": 8}、拿掉 dating_*、升階門檻台詞記成說過 1 句、拿掉 dating_kexin；ARCS 她的故事線今天已演過一拍（中途不換成故事線）；第 3 階
+  [ 134.7s] [TAIMI_INVITE] 地點 {"id": "tz_taimi", "verb": "去泰米村食吃飯", "name": "泰米村食", "minStage": "FAMILIAR", "cats": ["meal"]}；她答應的時段 {"t": "今天 12:30", "h": 12.5, "res": "accept", "why": null, "te": false, "lines": ["好。……我不太能吃辣，可以嗎？"]}；這一次的吃飯場次（STUDYN.act(eat).pick）{"need": 1, "seat": ["你先點。我想一下。", "（她把菜單從頭看到尾，最後點的是第一頁第一個。）"], "mid": ["（她吃得很慢，每一口都先吹一下。）", "我一個人吃飯很快。跟別人吃才會慢。"], "bye": ["第一頁第一個是對的。我運氣不錯。"], "opts": [{"t": "「跟我吃也可以吃快一點。」", "rel": {}, "fx": {"fr": 1}, "reply": ["不要。慢的比較好。"]}, {"t": "「那我也吃慢一點。」", "rel": {}, "fx": {"fr": 2}, "reply": ["（她看了你的盤子一眼。）", "你已經快吃完了。"]}], "k": 1, "kind": "eat"}
+PASS [TAIMI_INVITE] 手機「朋友」有 heroine_01 的「約」  大家照自己的作息在校園裡生活；這裡寫的是「大概在哪」，去了不一定剛好遇到。沈以安☆法律系館A 201 教室（上課，到 12:10）直接過去（約 15 分鐘）資料訊息約阿哲☆法律系館A 201 教室（上課，到 12:10）直接過去（約 15 分鐘）資料訊息約阿凱☆現在沒有固定的行程資料訊息約杜可昕☆在木柵大學資料訊息周教授☆現在沒有固定的行程資料
+    [按] 手機「朋友」→「約」heroine_01
+    [選項] 念書…｜吃飯…｜喝咖啡、喝茶…｜散步…｜運動…｜出去玩…｜算了 → 吃飯…（類別／地點）
+    [選項] 去公館燒臘吃飯｜去 SUNNY SIDE 吃早午餐｜去 Daybreak 吃早午餐｜去洋洋鹹酥雞吃宵夜｜去泰米村食吃飯｜返回 → 去泰米村食吃飯（類別／地點）
+PASS [TAIMI_INVITE] 邀約選單選到「去泰米村食吃飯」  ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去泰米村食吃飯", "返回"]
+    [選項] 今天 11:30｜今天 12:30｜今天 17:30｜今天 18:30｜明天 11:30｜明天 12:30｜明天 17:30｜明天 18:30｜其他日子…｜算了 → 今天 12:30（時間）
+PASS [TAIMI_INVITE] 時間選單有「今天 12:30」  ["今天 11:30", "今天 12:30", "今天 17:30", "今天 18:30", "明天 11:30", "明天 12:30", "明天 17:30", "明天 18:30", "其他日子…", "算了"]
+    [說] 沈以安（手機）：好。……我不太能吃辣，可以嗎？
+    [說] （旁白）：約好 今天 12:30，泰米村食。
+PASS [TAIMI_INVITE] 她答應的那一句＝稿上 invite.acc（heroine_01）「好。……我不太能吃辣，可以嗎？」  [["沈以安（手機）", "好。……我不太能吃辣，可以嗎？"], ["", "約好 今天 12:30，泰米村食。"]]
+PASS [TAIMI_INVITE] 約 畫面上的字沒有 {name}／undefined／null／暫定字（台詞、選項、提示、toast 共 48 則）  []
+PASS [TAIMI_INVITE] 約 沒有 JS 錯誤（window error、console.error、GG3／EAT／INV 的 warn）  []
+PASS [TAIMI_INVITE] 約好了一筆（G.invites：泰米村食 12.5）
+PASS [TAIMI_INVITE] 手機「今天」有「前往」  今天約好的
+12:30　和沈以安約在泰米村食
+按「前往」會先跳到 11:55 出發（11:00 開門）
+前往
+10/8 週三・大一上 第 6 週
+現在 10:03
+今天的時間　上午 ○　下午 ○　晚上 ○
+每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；約好的見面也算一件（約好的照樣能去）；吃飯、聊天不算。
+09:10–12:10 刑法總則（一）
+法律系館A 201・吳老師・已經開始超過 15 分鐘（進去會記缺席）
+去聽後半堂（記缺席）
+13:20–15:10 服務學習（一）
+法律學院圖書館 櫃台・館員・還沒開始
+直接去上課
+法律
+    [按] 手機「今天」前往
+    [區域] dorm（12.25）
+    [區域] tz_taimi（12.25）
+    [選項] 「跟我吃也可以吃快一點。」｜「那我也吃慢一點。」 → 「跟我吃也可以吃快一點。」
+    [說] 沈以安：你先點。我想一下。
+    [說] （旁白）：（她把菜單從頭看到尾，最後點的是第一頁第一個。）
+    [說] （旁白）：（她吃得很慢，每一口都先吹一下。）
+    [說] 沈以安：我一個人吃飯很快。跟別人吃才會慢。
+    [說] 沈以安：不要。慢的比較好。
+    [說] 沈以安：第一頁第一個是對的。我運氣不錯。
+    [toast] ["走了 20 分鐘到泰米村食", "30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）", "30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）"]
+    [字幕] ["（等到該出發去赴約）你在宿舍 房間待到 11:55。", "泰米村食・沈以安・（45 分鐘）", "（下午的時間用完了）你在泰米村食待到 13:10。"]
+  [ 171.3s] [TAIMI_INVITE] 走的路：到了以後自動開始（沒有走過去、沒有按坐下）
+PASS [TAIMI_INVITE] 「前往」到了泰米村食、見面演完（邀約 done；走過的區域 ["dorm", "tz_taimi"]）  {"id": "iv1", "st": "done", "ph": null, "place": "tz_taimi", "zone": "tz_taimi", "h": 12.5, "mid": false, "gz": "tz_taimi"}
+PASS [TAIMI_INVITE] 見面時兩個人有坐下（玩家 player.seat 出現過）
+PASS [TAIMI_INVITE] 今天約在這裡：進店不說進門句  ["你先點。我想一下。", "（她把菜單從頭看到尾，最後點的是第一頁第一個。）", "（她吃得很慢，每一口都先吹一下。）", "我一個人吃飯很快。跟別人吃才會慢。"]
+PASS [TAIMI_INVITE] 吃飯第 1 場：坐下那幾句有出現（["你先點。我想一下。", "（她把菜單從頭看到尾，最後點的是第一頁第一個。）"]）  ["你先點。我想一下。", "（她把菜單從頭看到尾，最後點的是第一頁第一個。）", "（她吃得很慢，每一口都先吹一下。）", "我一個人吃飯很快。跟別人吃才會慢。", "不要。慢的比較好。", "第一頁第一個是對的。我運氣不錯。"]
+  [ 171.3s] [TAIMI_INVITE] 【對照／觀察】泰米開場句 seatOpen 沒出現：這一次 第 1 場（遊戲照第 N 場，第 N 場有自己的坐下時不演 seatOpen：invites3d.js S.meet「o.sat&&!AX」）
+  [ 171.4s] [TAIMI_INVITE] 吃飯場次紀錄 ACTN.eat.heroine_01：{"n": 0, "k": 1, "last": null, "rot": -1} → {"n": 1, "k": 2, "last": 22, "rot": -1}
+PASS [TAIMI_INVITE] 見面 畫面上的字沒有 {name}／undefined／null／暫定字（台詞、選項、提示、toast 共 16 則）  []
+PASS [TAIMI_INVITE] 見面 沒有 JS 錯誤（window error、console.error、GG3／EAT／INV 的 warn）  []
+PASS [TAIMI_INVITE] 演完站得住、不是坐著  {"dlg": false, "typing": false, "full": "第一頁第一個是對的。我運氣不錯。", "shown": "第一頁第一個是對的。我運氣不錯。", "name": "沈以安", "nb": 0, "btn": [], "ch": null, "phone": false, "zone": "tz_taimi", "day": 22, "hour": 13.185, "money": 3000, "busy": false, "seat": false, "seatT": null, "seatXZ": null, "x": 1.05, "z": -0.55, "lv": 0, "stand": true, "ent": false, "fade": false, "paused": false, "interact": "", "fb": 0}
+PASS [TAIMI_INVITE] 店裡有「離開…」回 tingzhou
+PASS [TAIMI_INVITE] 搖桿走到出口、互動鍵是「離開泰米村食」  {"x": 0.262, "z": 4.087, "interact": "離開泰米村食"}
+PASS [TAIMI_INVITE] 互動鍵是「離開泰米村食」  {"x": 0.262, "z": 4.087, "interact": "離開泰米村食"}
+PASS [TAIMI_INVITE] 出店：回到 tingzhou（4.0 秒）、站在門外 out (-5.40,-1.00) 旁 0.00 m（≤0.8；出口的 spawn 差 0.0）、站得住  {"dlg": false, "typing": false, "full": "第一頁第一個是對的。我運氣不錯。", "shown": "第一頁第一個是對的。我運氣不錯。", "name": "沈以安", "nb": 0, "btn": [], "ch": null, "phone": false, "zone": "tingzhou", "day": 22, "hour": 13.23, "money": 3000, "busy": false, "seat": false, "seatT": null, "seatXZ": null, "x": -5.4, "z": -1, "lv": 0, "stand": true, "ent": false, "fade": false, "paused": false, "interact": "", "fb": 0}
+PASS [TAIMI_INVITE] 出來以後搖桿推得動（2.27 m）
+PASS [TAIMI_INVITE] walkFallbacks 沒增加
+  [ 182.8s] [TAIMI_INVITE] 用了 59 秒
+== TAIMI_INVITE_SO
+  [前置／捷徑] 【前置／捷徑】讀檔（GAME.applySave；關條件事件、手機自動打開）到 dorm 2025-10-08（星期 3）10.00、錢 1000、晴天、沒有邀約、GG3 旗標全清（今天還沒進過）（約去泰米：選日子、選人；宿舍）
+  選日子／人（只讀的查詢；試過 []）
+PASS [TAIMI_INVITE_SO] 前置：找得到她會答應的日子和時段（泰米 午餐 11:30～13:30、晚餐 17:30～20:00、週一不排）
+  [前置／捷徑] [TAIMI_INVITE_SO]【前置／捷徑】2025-10-08 heroine_01：她的聯絡方式（原本有）、關係改成第 3 階 {"fam": 46, "trust": 30, "comf": 26, "npcRom": 8}、拿掉 dating_*、升階門檻台詞記成說過 1 句、拿掉 dating_kexin；ARCS 她的故事線今天已演過一拍（中途不換成故事線）；ACTN.eat 今天已算過（演泰米的開場句 seatOpen）；第 3 階
+  [ 190.2s] [TAIMI_INVITE_SO] 地點 {"id": "tz_taimi", "verb": "去泰米村食吃飯", "name": "泰米村食", "minStage": "FAMILIAR", "cats": ["meal"]}；她答應的時段 {"t": "今天 12:30", "h": 12.5, "res": "accept", "why": null, "te": false, "lines": ["好。……我不太能吃辣，可以嗎？"]}；這一次的吃飯場次（STUDYN.act(eat).pick）null
+PASS [TAIMI_INVITE_SO] 手機「朋友」有 heroine_01 的「約」  大家照自己的作息在校園裡生活；這裡寫的是「大概在哪」，去了不一定剛好遇到。沈以安☆法律系館A 201 教室（上課，到 12:10）直接過去（約 15 分鐘）資料訊息約阿哲☆法律系館A 201 教室（上課，到 12:10）直接過去（約 15 分鐘）資料訊息約阿凱☆現在沒有固定的行程資料訊息約杜可昕☆在木柵大學資料訊息周教授☆現在沒有固定的行程資料
+    [按] 手機「朋友」→「約」heroine_01
+    [選項] 念書…｜吃飯…｜喝咖啡、喝茶…｜散步…｜運動…｜出去玩…｜算了 → 吃飯…（類別／地點）
+    [選項] 去公館燒臘吃飯｜去 SUNNY SIDE 吃早午餐｜去 Daybreak 吃早午餐｜去洋洋鹹酥雞吃宵夜｜去泰米村食吃飯｜返回 → 去泰米村食吃飯（類別／地點）
+PASS [TAIMI_INVITE_SO] 邀約選單選到「去泰米村食吃飯」  ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "去洋洋鹹酥雞吃宵夜", "去泰米村食吃飯", "返回"]
+    [選項] 今天 11:30｜今天 12:30｜今天 17:30｜今天 18:30｜明天 11:30｜明天 12:30｜明天 17:30｜明天 18:30｜其他日子…｜算了 → 今天 12:30（時間）
+PASS [TAIMI_INVITE_SO] 時間選單有「今天 12:30」  ["今天 11:30", "今天 12:30", "今天 17:30", "今天 18:30", "明天 11:30", "明天 12:30", "明天 17:30", "明天 18:30", "其他日子…", "算了"]
+    [說] 沈以安（手機）：好。……我不太能吃辣，可以嗎？
+    [說] （旁白）：約好 今天 12:30，泰米村食。
+PASS [TAIMI_INVITE_SO] 她答應的那一句＝稿上 invite.acc（heroine_01）「好。……我不太能吃辣，可以嗎？」  [["沈以安（手機）", "好。……我不太能吃辣，可以嗎？"], ["", "約好 今天 12:30，泰米村食。"]]
+PASS [TAIMI_INVITE_SO] 約 畫面上的字沒有 {name}／undefined／null／暫定字（台詞、選項、提示、toast 共 48 則）  []
+PASS [TAIMI_INVITE_SO] 約 沒有 JS 錯誤（window error、console.error、GG3／EAT／INV 的 warn）  []
+PASS [TAIMI_INVITE_SO] 約好了一筆（G.invites：泰米村食 12.5）
+PASS [TAIMI_INVITE_SO] 手機「今天」有「前往」  今天約好的
+12:30　和沈以安約在泰米村食
+按「前往」會先跳到 11:55 出發（11:00 開門）
+前往
+10/8 週三・大一上 第 6 週
+現在 10:03
+今天的時間　上午 ○　下午 ○　晚上 ○
+每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；約好的見面也算一件（約好的照樣能去）；吃飯、聊天不算。
+09:10–12:10 刑法總則（一）
+法律系館A 201・吳老師・已經開始超過 15 分鐘（進去會記缺席）
+去聽後半堂（記缺席）
+13:20–15:10 服務學習（一）
+法律學院圖書館 櫃台・館員・還沒開始
+直接去上課
+法律
+    [按] 手機「今天」前往
+    [區域] dorm（12.25）
+    [區域] tz_taimi（12.25）
+    [說] （旁白）：（奶茶先上來。她用吸管攪了一下，冰塊撞到杯子。她說：「好甜。……可是好喝。」）
+    [說] （旁白）：你和沈以安在泰米村食吃飯。
+    [說] 沈以安：我每個月跟我媽吃一次飯。
+    [說] 沈以安：她都會先問我，宿舍的規則改了沒有。
+    [說] 沈以安：下次換我挑地方。
+    [toast] ["走了 20 分鐘到泰米村食", "30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）", "30 分鐘後上課：13:20 服務學習（一）（法律學院圖書館 櫃台）"]
+    [字幕] ["（等到該出發去赴約）你在宿舍 房間待到 11:55。", "泰米村食・沈以安・（45 分鐘）", "（下午的時間用完了）你在泰米村食待到 13:10。"]
+  [ 224.2s] [TAIMI_INVITE_SO] 走的路：到了以後自動開始（沒有走過去、沒有按坐下）
+PASS [TAIMI_INVITE_SO] 「前往」到了泰米村食、見面演完（邀約 done；走過的區域 ["dorm", "tz_taimi"]）  {"id": "iv1", "st": "done", "ph": null, "place": "tz_taimi", "zone": "tz_taimi", "h": 12.5, "mid": false, "gz": "tz_taimi"}
+PASS [TAIMI_INVITE_SO] 見面時兩個人有坐下（玩家 player.seat 出現過）
+PASS [TAIMI_INVITE_SO] 今天約在這裡：進店不說進門句  ["（奶茶先上來。她用吸管攪了一下，冰塊撞到杯子。她說：「好甜。……可是好喝。」）", "你和沈以安在泰米村食吃飯。", "我每個月跟我媽吃一次飯。", "她都會先問我，宿舍的規則改了沒有。"]
+PASS [TAIMI_INVITE_SO] 坐下以後演泰米村食的開場句（seatOpen 兩則之一）  ["（奶茶先上來。她用吸管攪了一下，冰塊撞到杯子。她說：「好甜。……可是好喝。」）", "你和沈以安在泰米村食吃飯。", "我每個月跟我媽吃一次飯。", "她都會先問我，宿舍的規則改了沒有。", "下次換我挑地方。"]
+PASS [TAIMI_INVITE_SO] 見面 畫面上的字沒有 {name}／undefined／null／暫定字（台詞、選項、提示、toast 共 11 則）  []
+PASS [TAIMI_INVITE_SO] 見面 沒有 JS 錯誤（window error、console.error、GG3／EAT／INV 的 warn）  []
+PASS [TAIMI_INVITE_SO] 演完站得住、不是坐著  {"dlg": false, "typing": false, "full": "下次換我挑地方。", "shown": "下次換我挑地方。", "name": "沈以安", "nb": 0, "btn": [], "ch": null, "phone": false, "zone": "tz_taimi", "day": 22, "hour": 13.186, "money": 3000, "busy": false, "seat": false, "seatT": null, "seatXZ": null, "x": 1.05, "z": -0.55, "lv": 0, "stand": true, "ent": false, "fade": false, "paused": false, "interact": "", "fb": 0}
+PASS [TAIMI_INVITE_SO] 店裡有「離開…」回 tingzhou
+PASS [TAIMI_INVITE_SO] 搖桿走到出口、互動鍵是「離開泰米村食」  {"x": 0.262, "z": 4.086, "interact": "離開泰米村食"}
+PASS [TAIMI_INVITE_SO] 互動鍵是「離開泰米村食」  {"x": 0.262, "z": 4.086, "interact": "離開泰米村食"}
+PASS [TAIMI_INVITE_SO] 出店：回到 tingzhou（3.8 秒）、站在門外 out (-5.40,-1.00) 旁 0.00 m（≤0.8；出口的 spawn 差 0.0）、站得住  {"dlg": false, "typing": false, "full": "下次換我挑地方。", "shown": "下次換我挑地方。", "name": "沈以安", "nb": 0, "btn": [], "ch": null, "phone": false, "zone": "tingzhou", "day": 22, "hour": 13.23, "money": 3000, "busy": false, "seat": false, "seatT": null, "seatXZ": null, "x": -5.4, "z": -1, "lv": 0, "stand": true, "ent": false, "fade": false, "paused": false, "interact": "", "fb": 0}
+PASS [TAIMI_INVITE_SO] 出來以後搖桿推得動（2.27 m）
+PASS [TAIMI_INVITE_SO] walkFallbacks 沒增加
+  [ 235.3s] [TAIMI_INVITE_SO] 用了 53 秒
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
