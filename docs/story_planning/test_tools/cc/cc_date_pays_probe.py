@@ -318,7 +318,9 @@ async def tap_dlg(pg, cdp, s, screen):
         await scan(pg)
     chk = await pg.evaluate(DLG_TOP_JS)   # 乙 4：點對話框之前確認最上面是對話框、沒有選單（選單一出來，點對話框中間會點到選項：SPLIT r1 出發前的「到時間再說」疑似這樣被點掉）
     if not chk.get('ok'):
-        log('    ！不點對話框：%s' % J(chk)); await pg.wait_for_timeout(300); return s
+        log('    ！不點對話框：%s' % J(chk))
+        if chk.get('top') == 'phone': await L.phone_away(pg, cdp); log('    手機蓋在對話框上：先收手機')
+        await pg.wait_for_timeout(300); return s
     await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450)
     return s
 
