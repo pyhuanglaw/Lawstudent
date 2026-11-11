@@ -685,7 +685,7 @@ const STORY = (function(){
   S.LADDER_GREET_IF={'值班表你看了嗎？':{once:true,test:G=>S.fafuMember(G)},'週四我去做田野。':{test:G=>S.ytEv13(G)&&!!(G.flags&&G.flags.RENT_RENEWED)},
     '我要回台中了，下禮拜見！':{test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!T&&T.week%2===1; }}};   /* 沛珊隔週回台中（AA_372 第 8 項）：週五那句只在單數週說（週末的 presence 在 characters.js）。2026-11-11：那一句重寫成「我要回台中了，下禮拜見！」（AA_753：拿掉「搭客運」），條件照舊跟著新的句子（原本的 key「我要去搭客運回台中了」）*/   /* 語彤大三下招呼③：事件 13、14 演過才說（AA_260 第 4 節第 5 點）*/
   /* AA_375 第 1 項：芷若 6/4 起不上班——大二下的招呼只用不上班的版本（working 那幾句跟著作息自然不出）；這三句說的是她在吧檯、打烊、店裡盤點，不上班的那段也不說 */
-  for(const k of ['（她在吧檯後面抬頭）……嗨。','要打烊了。……你可以坐到我擦完這張桌子。','期末了。我還有一份報告沒寫，店裡也要盤點。']) S.LADDER_GREET_IF[k]={test:G=>!S.zrNoShift(G)};
+  for(const k of ['（她在吧檯後面抬頭）……嗨。','要打烊了。……你可以坐到我擦完這張桌子。','期末了。我還有一份報告沒寫，店裡也要盤點。','（她在吧檯後面抬頭）嗨。','要打烊了。你可以坐到我擦完這張桌子。']) S.LADDER_GREET_IF[k]={test:G=>!S.zrNoShift(G)};   /* 2026-11-11（X324，AA_781 芷若大一下～大二下 rows）：前兩句拿掉刪節號的新字（ladder.js 是新字），條件跟著新字走；舊字的 key 照留（tools/ladder/import_ladder.py AA781：程式寫死的舊字，同一個檔要有新字）*/
   /* AA_255 第 2 節第 5 點：以安讀書會的招呼避開大二下第 8、9、16 週（when 那兩句資料已經分週次；base 這一句也照做）*/
   S.LADDER_GREET_IF['這週讀書會在B館，有空可以來。']={test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !(T&&T.id==='Y2S2'&&[8,9,16].includes(T.week)); }};
   /* AA_378 #11（企劃線 5cd35678；源檔 6e0d1313）：以安大四上期末那句只在 12/18～12/21；讀書會那句跳過第 8～9 週（期中考週）*/
