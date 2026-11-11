@@ -880,7 +880,9 @@ const CHAR = (function(){
     bike:{T:0.9,seat:[0,0.985,-0.31],axle:[0,0.36,-0.02],crank:0.17,pedalX:0.12,grip:[0.25,1.14,0.31],lean:0.85},
     row:{T:3.2,seatY:0.40,zCatch:0.03,zFinish:-0.36,feet:[0.12,0.34,0.43],handle:[0.12,0.50,0.53]},
     stretch:{T:6.0,T2:5.0},
-    swim:{T:1.5,TB:1.8,roll:0.5,kick:0.13,water:-0.14,y:-0.09,blend:2.0} };   /* water：水面比人物原點（池邊的地面）低多少（gym_b1.glb 的 b1_water 在 −0.14）；y：臀部骨頭在水面下多少 */
+    swim:{T:1.5,TB:1.8,roll:0.5,kick:0.13,water:-0.14,y:-0.14,tilt:0.10,blend:2.0} };   /* water：水面比人物原點（池邊的地面）低多少（gym_b1.glb 的 b1_water 在 −0.14）；y：臀部骨頭在水面下多少；tilt：身體頭高腳低的角度（弧度）。
+     2026-11-11 改（POOL-SWIM-LOOK-1110，LAWWW 角色驗收「近看像趴在水上」）：原本 y −0.09、沒有 tilt＝整個人水平、背和臀部浮在水面上，腳一直踢出水面。
+     改成臀部低一點（−0.14）、頭高腳低 0.10 弧度（約 6°）：背和臀部剛好在水面下，頭頂、划回來的手臂出水，腳踢到水面附近（真的自由式也是這樣：頭在水面、臀部略低、腳在水裡踢）*/
   /* 游泳（ART-GYM-POOL-SWIMMERS-1103，LAWWW2 帳號 A 11-10；使用者 11-03「游泳池完全沒人？」）：swim_free 自由式、swim_breast 蛙式。和上面的器材動作同一套（真實骨架、ik2、每個人速度相位不同）：
      先照直立的人擺好手腳（人物座標 +z 前、+y 上），最後整個人轉成趴著（上方 → 前方、臉朝下）、臀部放在人物原點正上方、背在水面（人物原點＝池邊地面的高度，和其他路人一樣；水面 swim.water）。
        自由式：兩手輪流畫大圓（頭上 → 身體下面往後划 → 從水面上回來，划水時手肘彎、回來時手肘高），身體跟著左右滾（roll），腳一個手的循環踢三下（上下 kick m），
@@ -984,7 +986,7 @@ const CHAR = (function(){
         for(const [i,s] of [[0,1],[1,-1]]){ const St=roots[i].clone().add(V(s*0.03*k,-leg,0)), Rc=roots[i].clone().add(V(s*0.22*k,-0.42*k,-0.17*k)), Kk=roots[i].clone().add(V(s*0.36*k,-leg*0.88,-0.04*k));
           const F=r3>0?Kk.clone().lerp(St,r3):(r2>0?Rc.clone().lerp(Kk,r2):St.clone().lerp(Rc,r1)); limb(LEGS[i],F,legPole(i,s,0.7),false); } }
       lean([['leftFoot',1.15],['rightFoot',1.15]]);   /* 腳背打直（腳尖往後：趴著的時候順著身體）*/
-      const hy=Lc(R.hips).y-base; w.rotation.x=Math.PI/2*wt; w.position.set(0,base+(Q.water+Q.y-base)*wt,-hy*wt); h.updateWorldMatrix(true,true); }   /* 趴下：上方轉到前方、臉朝下；臀部在人物原點正上方、背在水面 */
+      const hy=Lc(R.hips).y-base, tl=Q.tilt||0; w.rotation.x=(Math.PI/2-tl)*wt; w.position.set(0,base+(Q.water+Q.y-base-hy*Math.sin(tl))*wt,-hy*Math.cos(tl)*wt); h.updateWorldMatrix(true,true); }   /* 趴下：上方轉到前方、臉朝下（少轉 tilt：頭高腳低）；臀部在人物原點正上方、背在水面下一點（tilt＝0 時和原本一樣）*/
     else if(kind==='gym_stretch'){ const dr=legRootDrop(); place(0.012+SEAT_UP*1.1+dr,0); const [l1,l2]=len(LEGS[0]), leg=(l1+l2)*0.985, ay=0.012+0.05*k;
       const roots=[Lc(R.leftUpperLeg),Lc(R.rightUpperLeg)];
       if(!g.v){   /* 坐姿體前彎：兩腿伸直往前、上身慢慢往前彎再起來，手沿著腿往前伸 */
