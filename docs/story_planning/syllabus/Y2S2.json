@@ -1562,7 +1562,7 @@
       "事實、爭點、判決、理由",
       "IRAC"
      ],
-     "line": "讀一個英美的判決，先寫一頁摘要：事實、爭點、規則、結論。",
+     "line": "讀判決，先寫摘要：事實、爭點、判決、理由。",
      "react": [
       {
        "who": "yu",
@@ -1577,11 +1577,12 @@
       "qid": "LENG25_01"
      },
      "more": [
+      "寫答案，用 IRAC：爭點、規則、適用、結論。",
       "民事訴訟裡，告人的是 plaintiff，被告是 defendant。",
       "被告可以請 lawyer 代理。",
       "plaintiff 要拿出 evidence，support 自己的主張。"
      ],
-     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Civil procedure 用語；IRAC（Issue, Rule, Application, Conclusion）；對應題庫 LENG25_01（B plaintiff）、LENG25_05（A lawyer）、LENG25_19（B support）。已有 ask。"
+     "ref": "AA 11-11 補（STUDY-EXAM-STORY-1102）。Civil procedure 用語；IRAC（Issue, Rule, Application, Conclusion）；對應題庫 LENG25_01（B plaintiff）、LENG25_05（A lawyer）、LENG25_19（B support）。已有 ask。 case brief 與 IRAC 分開（BB_356；line 改正）。"
     },
     {
      "w": 4,
