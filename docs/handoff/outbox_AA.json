@@ -6568,6 +6568,32 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "花序十樣商品（舊兩樣只換 line）、花藝師、looks、gift_holiday 四列 replace"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/story-planning",
+   "sha": "3f1569379",
+   "files": [
+    "docs/story_planning/AA_797_retake_home.json",
+    "docs/story_planning/AA_798_solo_before.json",
+    "docs/story_planning/AA_710_gifts.json",
+    "docs/story_planning/AA_799_pool_story_qishi.json",
+    "docs/story_planning/AA_800_y2b_events.json",
+    "docs/story_planning/AA_720_decide_opened_scenes.json",
+    "docs/story_planning/AA_801_y3_events.json",
+    "docs/story_planning/AA_802_sis_b4_anyt.json",
+    "docs/story_planning/AA_803_y4_postgrad.json",
+    "docs/story_planning/AA_804_food_fav.json",
+    "docs/story_planning/AA_805_aa519.json",
+    "docs/story_planning/AA_715_sport_gym_pool_invites.json"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW held 預先合併分支逐份套／重匯，發版後合；BB／CC 抽測",
+   "next": "X330-RESTORE-1111",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "note": "X324 G 區（A～F 沒包到的 103 個檔）全部做完"
   }
  ],
  "items": [
