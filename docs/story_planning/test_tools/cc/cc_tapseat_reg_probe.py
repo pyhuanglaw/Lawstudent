@@ -178,7 +178,7 @@ async def wait_settle(pg, max_s=60):
     return s, await pg.evaluate(PSTATE), round(time.time() - t0, 1)
 
 
-async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None, floor=False):
+async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None, floor=False, rad=0.35):
     """椅面／地板那一點投影到螢幕，要是遊戲畫面才點；不行就轉鏡頭、再不行就先點地走近。回傳 (pt, 怎麼瞄到的)
     want＝(椅子 x, z)：點椅面時，那個像素射線第一個打到的要是這張椅子（遊戲 tapToSeat 帶 hit 算出來的 rseat＝這張）；被柱子、桌子擋住就換點、轉鏡頭、走近（CC_02 乙 4）"""
     bad0 = lambda q: not q or q.get('off') or not q.get('canvas')
@@ -189,7 +189,7 @@ async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None, floor=False)
         f = (q.get('first') or {}).get('p'); hp = q.get('hit')
         if floor: return (not f) or bool(hp and math.hypot(f[0] - hp[0], f[2] - hp[1]) <= 0.2)
         if not want: return True
-        return bool(f and math.hypot(f[0] - want[0], f[2] - want[1]) <= 0.35 and abs(f[1] - y) <= 0.6)
+        return bool(f and math.hypot(f[0] - want[0], f[2] - want[1]) <= rad and abs(f[1] - y) <= 0.6)
     # floor＝點走道：那個像素射線第一個打到的不能是椅子（階梯教室點後排走道，前排椅子在前面：照規則就是點到椅子，不算「走道被導去椅子」）
     bad = lambda q: bad0(q) or not hits(q)
 
@@ -274,7 +274,8 @@ async def seat_one(pg, cdp, key, Z, k, pick):
     R.note('%s 挑 (%s, %s)「%s」：%s%s；seatApproach %s；椅面高 %s（地板 %s＋0.45＋lift %s）' % (t, s['sx'], s['sz'], s['label'], why, '' if (s['sx'], s['sz']) == first else '（首選有人坐或不存在，用候補）', J(s['ap']), y, base, s.get('lift') or 0))
     sx0, sz0 = Z['start'][0], Z['start'][1]; dd = math.hypot(sx0 - s['sx'], sz0 - s['sz'])
     nb = await pg.evaluate(NEAR_STAND, {'x': s['sx'] + (sx0 - s['sx']) * min(1.0, 4.0 / max(dd, 0.01)), 'z': s['sz'] + (sz0 - s['sz']) * min(1.0, 4.0 / max(dd, 0.01)), 'lv': lv})
-    pt, how = await aim(pg, cdp, s['sx'], y, s['sz'], t, near_pt=nb, lv=lv, want=(s['sx'], s['sz']))
+    rad = 0.5 if any(w in (s.get('label') or '') + nm for w in ('沙發', '長椅')) else 0.35   # BB 19:46：沙發、長椅座位比較深，放寬到 0.5（遊戲 TAP_CHAIR.back）；一般椅子 0.35
+    pt, how = await aim(pg, cdp, s['sx'], y, s['sz'], t, near_pt=nb, lv=lv, want=(s['sx'], s['sz']), rad=rad)
     if not pt and how == 'blocked':
         R.note('%s 從起點、轉鏡頭、走近都看不到這張椅子沒被擋住的地方：不判（玩家也點不到被擋住的那一點）' % t); await shot(pg, '%s_seat%d_blocked' % (key, k)); return 'blocked'
     if not pt:

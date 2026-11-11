@@ -543,6 +543,14 @@ def analyze(tag, cfg, d, ver, who):
         ok = arr is not None and arr <= LIMIT_S and r.get('ret') is True and de is not None and de <= ARRIVE_M and (r.get('at') or [0, 0, -1])[2] == r['lv'] and not tele
         R.check('[%s] %s %.0f 秒（遊戲時間）內自己走到目標點（walkTo 完成、停在 %.1f m 內、同一層、沒有被 E.placeAt 放過去）：%s' % (
             tag, lab, LIMIT_S, ARRIVE_M, '%.1f 秒' % arr if arr is not None else '沒走完'), ok, J({'tele': tele, 'at': r.get('at'), 'ret': r.get('ret')}))
+        # 11-11 雲端修改前第一次跑（LIB）：總圖二樓長桌 → 一樓入口的路線 42～44 m，玩家走路 E.SPD.walk 1.8 m/s、NPC 1.35 m/s（engine3d.js 的 n.walkSpeed||1.35），
+        # 物理上就要 24～32 秒，BB 的 15 秒在總圖一定 FAIL。這一行照路線長度從遊戲常數推（CC_02 乙 8）：路線長／速度×1.5＋2 秒（起身、轉彎、最後一步），分開「路太長」和「卡住」
+        spd = ((ver.get('spd') or {}).get('walk') or 1.8) if key == 'p' else 1.35
+        plen = (r.get('path') or {}).get('len') if isinstance(r.get('path'), dict) else None
+        lim2 = (plen / spd * 1.5 + 2.0) if plen else None
+        R.check('[%s] %s照路線長度的時間內走到（路線 %s m ÷ %.2f m/s ×1.5＋2＝%s 秒；實際 %s）' % (
+            tag, lab, plen, spd, None if lim2 is None else round(lim2, 1), '%.1f 秒' % arr if arr is not None else '沒走完'),
+            lim2 is not None and arr is not None and arr <= lim2 and r.get('ret') is True and not tele, J({'15 秒以內': arr is not None and arr <= LIMIT_S}))
         sl = stalls(smp, key, r.get('t0') or c['t0'], tb)
         R.check('[%s] %s走到以前沒有卡住或原地走（%.0f 秒遊戲時間內移動 < %.2f m 的段落：%d 段）' % (tag, lab, STALL_S, STALL_M, len(sl)), not sl,
                 J([[round(a - c['t0'], 1), round(b - c['t0'], 1), p] for a, b, p in sl[:6]]))
