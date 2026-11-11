@@ -579,7 +579,8 @@ async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
         while time.time() - tw < 90:
             s0 = await st(pg)
             if s0['busy'] or s0['dlg'] or s0['nb']: log('    [走路中斷] 走到長椅途中 busy=%s dlg=%s nb=%s（%.2f）' % (s0['busy'], s0['dlg'], s0['nb'], s0['hour'])); break
-            if await L.go_to(pg, cdp, R, b['x'], b['z'], 0.8, '走到長椅', max_s=6): break
+            if s0['interact'].startswith('坐下等開演'): break   # CC 15:5x（SITFIRST r2：目標是座面、站不上去，停在 0.83 m 外一直「走不到」，其實互動鍵早就是坐下等開演）
+            if await L.go_to(pg, cdp, R, b['x'], b['z'], 1.1, '走到長椅', max_s=6): break
         s0 = await st(pg)
         h0 = await pg.evaluate("+(+GAME.G.hour).toFixed(2)"); her0 = await pg.evaluate(NPC_JS, who)
         if s0['interact'].startswith('坐下等開演'): log('    [按互動鍵] %s（%.2f，她%s）' % (s0['interact'], h0, '已經在' if her0 else '還沒出現')); PATH_SEEN.append(s0['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
