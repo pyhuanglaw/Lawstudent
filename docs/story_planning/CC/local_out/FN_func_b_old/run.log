@@ -1,0 +1,65 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fn_func_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FN_func_b_old\out
+CC FN_func（FLOWER-NOTES-1110）：PARTS BUY,HOURS；SHA fd4dd9aef；SEED 7；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】[BUY] 公館街上：day46 存檔 → gongguan (-40.0, 8.0) 第 46 天 11.00、錢 5000、包包清空、關條件事件
+PASS [BUY] 搖桿走到「進入花序」，按鈕是它（120.4 秒、沒有跳）  {"end": [44.501, 21.175], "btn": "進入花序", "jumps": [], "why": "120 秒沒走到"}
+PASS [BUY] 按「進入花序」到了 flower_notes、站得住  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 11.85}
+PASS [BUY] 這一區（flower_notes）有 gg_flower 互動點
+  [ 176.0s] 到達「[BUY] 走到「買花」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [BUY] 走到「買花」前面，互動按鈕是它  {"at": [1.645, 4.893], "btn": "買花"}
+  [ 176.6s] [BUY] 資料（GIFT_HOLIDAY.shops.gg_flower＋GIFTH.sells）：{"shop": {"name": "公館站口花攤（新）", "shopName": "公館站口花攤", "items": ["g_bouquet", "g_sunflower"], "note": "捷運公館站出口旁的花攤（新的外帶窗口，像帝大紅茶；09:00～21:00）。", "keys": ["name", "items", "note"]}, "sells": [{"id": "g_bouquet", "name": "一束花", "price": 450, "shop": "gg_flower", "cat": null, "catKey": null, "season": false}, {"id": "g_sunflower", "name": "一朵向日葵", "price": 120, "shop": "gg_flower", "cat": null, "catKey": null, "season": false}], "open": true, "hour": 11.88}
+PASS [BUY] 資料裡有這家店、賣東西  {"shop": {"name": "公館站口花攤（新）", "shopName": "公館站口花攤", "items": ["g_bouquet", "g_sunflower"], "note": "捷運公館站出口旁的花攤（新的外帶窗口，像帝大紅茶；09:00～21:00）。", "keys": ["name", "items", "note"]}, "sells": [{"id": "g_bouquet", "name": "一束花", "price": 450, "shop": "gg_flower", "cat": null, "catKey": null, "season": false}, {"id": "g_sunflower", "name": "一朵向日葵", "price": 120, "shop": "gg_flower", "cat": null, "catKey": null, "season": false}], "open": true, "hour": 11.88}
+  [ 177.5s] [BUY] 打開：["選項：一束花　450 元老闆幫你配的，包裝紙是牛皮紙。｜一朵向日葵　120 元一朵，用玻璃紙包著。｜算了"]
+PASS [BUY] 按「買花」出買花清單  {"opts": [{"t": "一束花　450 元老闆幫你配的，包裝紙是牛皮紙。", "dim": false}, {"t": "一朵向日葵　120 元一朵，用玻璃紙包著。", "dim": false}, {"t": "算了", "dim": false}], "trace": ["選項：一束花　450 元老闆幫你配的，包裝紙是牛皮紙。｜一朵向日葵　120 元一朵，用玻璃紙包著。｜算了"]}
+  [ 177.8s] [BUY] 清單（畫面）：["一束花　450 元老闆幫你配的，包裝紙是牛皮紙。", "一朵向日葵　120 元一朵，用玻璃紙包著。", "算了"]
+PASS [BUY] 清單有「一束花」、顯示 450 元＝資料 450 元  {"k": 0, "t": "一束花　450 元老闆幫你配的，包裝紙是牛皮紙。", "dim": false, "price_shown": 450}
+PASS [BUY] 清單有「一朵向日葵」、顯示 120 元＝資料 120 元  {"k": 1, "t": "一朵向日葵　120 元一朵，用玻璃紙包著。", "dim": false, "price_shown": 120}
+PASS [BUY] 清單沒有資料以外的品項  []
+PASS [BUY] 原有商品 g_bouquet 還在清單（BB_312 購物 1）  ["g_bouquet", "g_sunflower"]
+PASS [BUY] 原有商品 g_sunflower 還在清單（BB_312 購物 1）  ["g_bouquet", "g_sunflower"]
+  [ 178.8s] [BUY] 分類（資料沒有分類欄位＝每一樣一類）：{"g_bouquet": ["g_bouquet"], "g_sunflower": ["g_sunflower"]}；要買：["g_bouquet", "g_sunflower"]
+  [ 182.0s] [BUY] 買 g_bouquet：["你買了一束花，放進包包。", "toast：[\"💸 450 元\"]"]
+PASS [BUY] 買「一束花」：錢 5000→4550 少 450＝價格 450、包包多 1 樣  [{"id": "g_bouquet", "shop": "gg_flower", "day": 46}]
+PASS [BUY] 「一束花」進包包、shop＝gg_flower  [{"id": "g_bouquet", "shop": "gg_flower", "day": 46}]
+  [ 185.2s] [BUY] 買 g_sunflower：["你買了一朵向日葵，放進包包。", "toast：[\"💸 450 元\", \"💸 120 元\"]"]
+PASS [BUY] 買「一朵向日葵」：錢 4550→4430 少 120＝價格 120、包包多 1 樣  [{"id": "g_bouquet", "shop": "gg_flower", "day": 46}, {"id": "g_sunflower", "shop": "gg_flower", "day": 46}]
+PASS [BUY] 「一朵向日葵」進包包、shop＝gg_flower  [{"id": "g_sunflower", "shop": "gg_flower", "day": 46}]
+  [ 188.6s] [BUY] 連點兩下：["你買了一朵向日葵，放進包包。", "toast：[\"💸 120 元\"]"]
+PASS [BUY] 連點兩下「一朵向日葵」：只扣一次（少 120、價格 120）、包包只多 1 樣  {"before": {"money": 4430, "bag": [{"id": "g_bouquet", "shop": "gg_flower", "day": 46}, {"id": "g_sunflower", "shop": "gg_flower", "day": 46}], "raw": [{"id": "g_bouquet", "day": 46, "shop": "gg_flower"}, {"id": "g_sunflower", "day": 46, "shop": "gg_flower"}]}, "after": {"money": 4310, "bag": [{"id": "g_bouquet", "shop": "gg_flower", "day": 46}, {"id": "g_sunflower", "shop": "gg_flower", "day": 46}, {"id": "g_sunflower", "shop": "gg_flower", "day": 46}], "raw": [{"id": "g_bouquet", "day": 46, "shop": "gg_flower"}, {"id": "g_sunflower", "day": 46, "shop": "gg_flower"}, {"id": "g_sunflower", "day": 46, "shop": "gg_flower"}]}}
+  [前置／捷徑] [BUY]【前置】錢改成 119（最便宜的「一朵向日葵」120 元 − 1）
+PASS [BUY] 錢不夠時也打得開清單  {"opts": [{"t": "一束花　450 元老闆幫你配的，包裝紙是牛皮紙。", "dim": true}, {"t": "一朵向日葵　120 元一朵，用玻璃紙包著。", "dim": true}, {"t": "算了", "dim": false}], "trace": ["選項：一束花　450 元老闆幫你配的，包裝紙是牛皮紙。｜一朵向日葵　120 元一朵，用玻璃紙包著。｜算了"]}
+  [ 190.7s] [BUY] 錢不夠按「一朵向日葵」（選項灰掉 True）：對話 []、toast ["💸 120 元", "錢不夠"]
+PASS [BUY] 錢不夠按：不扣錢（119→119）、不給東西（包包 3→3 樣）  {"toast": ["💸 120 元", "錢不夠"], "said": []}
+  [前置／捷徑] [BUY]【前置】錢改回 5000
+  [ 194.1s] [BUY] 包包（GIFTH.bag）：[{"id": "g_bouquet", "shop": "gg_flower", "day": 46}, {"id": "g_sunflower", "shop": "gg_flower", "day": 46}, {"id": "g_sunflower", "shop": "gg_flower", "day": 46}]；選單「物品」："包包裡的禮物（3/10）\n節日、她的生日當面見到她，說話的時候可以送。不會過期。\n一束花\n公館站口花攤・450 元\n老闆幫你配的，包裝紙是牛皮紙。\n一朵向日葵\n公館站口花攤・120 元\n一朵，用玻璃紙包著。\n一朵向日葵\n公館站口花攤・120 元\n一朵，用玻璃紙包著。\n她送的\n還沒有。"
+PASS [BUY] 選單「物品」看得到「一束花」
+PASS [BUY] 選單「物品」看得到「一朵向日葵」
+  [ 194.2s] [BUY] GIFTH.shopName(gg_flower)＝"公館站口花攤"（要「花序 Flower Notes」）
+FAIL [BUY] GIFTH.shopName(gg_flower)＝「花序 Flower Notes」  "公館站口花攤"
+  [ 194.2s] [BUY] 包包（選單「物品」）的店名那幾行：["公館站口花攤・450 元", "公館站口花攤・120 元", "公館站口花攤・120 元"]
+FAIL [BUY] 包包裡每一樣的店名那一行（「店名・價錢 元」）都寫「花序 Flower Notes」（這幾支探針的包包裡只有花）  ["公館站口花攤・450 元", "公館站口花攤・120 元", "公館站口花攤・120 元"]
+PASS [BUY] 包包裡每一樣的 shop 都是 gg_flower  [{"id": "g_bouquet", "shop": "gg_flower", "day": 46}, {"id": "g_sunflower", "shop": "gg_flower", "day": 46}, {"id": "g_sunflower", "shop": "gg_flower", "day": 46}]
+  [前置／捷徑] 【前置／捷徑】[HOURS] 公館街上：day46 存檔 → gongguan (-40.0, 8.0) 第 46 天 11.00、錢 5000、包包清空、關條件事件
+PASS [HOURS] 搖桿走到「進入花序」，按鈕是它（18.8 秒、沒有跳）  {"end": [47.411, 20.838], "btn": "進入花序", "jumps": [], "why": null}
+PASS [HOURS] 按「進入花序」到了 flower_notes、站得住  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 11.19}
+PASS [HOURS] 這一區（flower_notes）有 gg_flower 互動點
+  [ 230.4s] 到達「[HOURS] 走到「買花」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [HOURS] 走到「買花」前面，互動按鈕是它  {"at": [1.645, 4.893], "btn": "買花"}
+  [前置／捷徑] [HOURS]【前置】時間改 08.90
+  [ 235.2s] [HOURS] 08:54（8.900；GIFTH.flowerOpen＝False；按的時候遊戲時間 8.91）：出清單 False；畫面上的字逐句（旁白／對話／選項）["旁白：花序 Flower Notes 的包裝收銀櫃檯。"]；toast []；收尾 []
+PASS [HOURS] 08:54 沒有買花清單  {"trace": ["旁白：花序 Flower Notes 的包裝收銀櫃檯。"], "toast": []}
+  [前置／捷徑] [HOURS]【前置】時間改 09.05
+  [ 238.6s] [HOURS] 09:03（9.050；GIFTH.flowerOpen＝True；按的時候遊戲時間 9.06）：出清單 True；畫面上的字逐句（旁白／對話／選項）["選項：一束花　450 元老闆幫你配的，包裝紙是牛皮紙。｜一朵向日葵　120 元一朵，用玻璃紙包著。｜算了"]；toast []；收尾 ["【選】算了"]
+PASS [HOURS] 09:03 有買花清單  {"trace": ["選項：一束花　450 元老闆幫你配的，包裝紙是牛皮紙。｜一朵向日葵　120 元一朵，用玻璃紙包著。｜算了"], "toast": []}
+  [前置／捷徑] [HOURS]【前置】時間改 20.98
+  [ 242.0s] [HOURS] 20:59（20.983；GIFTH.flowerOpen＝True；按的時候遊戲時間 20.99）：出清單 True；畫面上的字逐句（旁白／對話／選項）["選項：一束花　450 元老闆幫你配的，包裝紙是牛皮紙。｜一朵向日葵　120 元一朵，用玻璃紙包著。｜算了"]；toast []；收尾 ["【選】算了"]
+PASS [HOURS] 20:59 有買花清單  {"trace": ["選項：一束花　450 元老闆幫你配的，包裝紙是牛皮紙。｜一朵向日葵　120 元一朵，用玻璃紙包著。｜算了"], "toast": []}
+  [前置／捷徑] [HOURS]【前置】時間改 21.02
+  [ 246.1s] [HOURS] 21:01（21.017；GIFTH.flowerOpen＝False；按的時候遊戲時間 21.02）：出清單 False；畫面上的字逐句（旁白／對話／選項）["旁白：花序 Flower Notes 的包裝收銀櫃檯。"]；toast ["手機｜桌遊團｜Alison：新生盃第一場！！贏了！！"]；收尾 []
+PASS [HOURS] 21:01 沒有買花清單  {"trace": ["旁白：花序 Flower Notes 的包裝收銀櫃檯。"], "toast": ["手機｜桌遊團｜Alison：新生盃第一場！！贏了！！"]}
+  [前置／捷徑] [HOURS]【前置】時間改 06.92（SEED 7 抽的營業時間外）
+  [ 250.3s] [HOURS] 06:55（6.920；GIFTH.flowerOpen＝False；按的時候遊戲時間 6.93）：出清單 False；畫面上的字逐句（旁白／對話／選項）["旁白：花序 Flower Notes 的包裝收銀櫃檯。"]；toast []；收尾 []
+PASS [HOURS] 06:55 沒有買花清單  {"trace": ["旁白：花序 Flower Notes 的包裝收銀櫃檯。"], "toast": []}
+PASS 沒有 JS 例外  []
+FAILED 2: [BUY] GIFTH.shopName(gg_flower)＝「花序 Flower Notes」；[BUY] 包包裡每一樣的店名那一行（「店名・價錢 元」）都寫「花序 Flower Notes」（這幾支探針的包包裡只有花）
