@@ -162,7 +162,7 @@ const VAC=(function(){
           const inv2=R.meetWd!=null?S.reBack(G,id,inv):inv;   /* AA_685 B2 ①：寫了 meetWd 的（語彤）＝她回到臺北的那一天約（C08 大二：她 7/19～7/30 在台東，7/31 回來那天才約）*/
           const RI=S.reInvite(R,inv2,21,G,id);   /* 見面那一天、約的句子、約的那一天（AA_685 B2：語彤排那天以後第一個她有班的週六；其他人＝隔天，照原本）*/
           if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(id,Object.assign({},G,{day:RI.day})); if(!pr.here&&pr.kind!=='home'&&!pr.town) continue;   /* 她那時不在臺灣：不約。town＝寒暑假平日在老家那個城市、約得到（AA_675 1-1：語彤在淡水）＝照臺北約 */
-            const RA=M2.reunionHomeAfter&&M2.reunionHomeAfter[id], ra=RA&&DK(RA.from), rh0=M2.reunionHome&&M2.reunionHome[id], rhv=Array.isArray(rh0)?rh0:(rh0&&rh0[I.key]),
+            const RA0=M2.reunionHomeAfter&&M2.reunionHomeAfter[id], RA=RA0&&[].concat(RA0).filter(e=>e&&DK(e.from)!=null&&rd>=DK(e.from)).sort((a,b)=>DK(a.from)-DK(b.from)).pop(), ra=RA&&DK(RA.from),   /* AA_814 2-1：可以寫好幾段（照 from 由舊到新，取最後一段已經到的）；只有一段的照舊 */ rh0=M2.reunionHome&&M2.reunionHome[id], rhv=Array.isArray(rh0)?rh0:(rh0&&rh0[I.key]),
               RH=RA&&ra!=null&&rd>=ra?RA.lines:(Array.isArray(rhv)?rhv:(rhv&&rhv.lines)), rhH=rhv&&!Array.isArray(rhv)&&rhv.h!=null?rhv.h:21;   /* 沛珊放榜以後：「開學前才回台南」（AA_349 K7）；{I.key: 句子}＝只有那一趟有句子（芷若東京／京都、以安首爾，AA_369 第 7 節第 2 題）；{h, lines}＝那一則的時間（以安首爾 15:00，第 8 節第 4 題）*/
             if(!pr.here&&pr.kind==='home'){ const p0=STORY.presence(id,Object.assign({},G,{day:rd})), hd=(!p0.here&&p0.kind==='home')?rd:inv+1;   /* 回國那天她還在臺北、隔天才回老家（以安 2026 首爾 7/24 回來、她 7/25 回台中）＝她回老家那一天才傳（句子寫「我今天回台中」）*/
               if(RH&&now>=T(hd,rhH)) PHONE.at(G,hd,rhH,RH.map(t=>({th:'p:'+id,from:id,text:t})),tg); continue; } }   /* 寒暑假她在老家：只傳私訊，不排臺北見面（AA_278 第 2 節第 1 點）。
@@ -368,7 +368,7 @@ const VAC=(function(){
   S.gfCan=function(G,id,dest,from,to){ const D=TV(); if(!G.flags['dating_'+id]||!D.gf[id]) return 'none'; const L=typeof DATE!=='undefined'&&DATE.log?DATE.log(G,id):{count:0};
     if(S.datingDays(G,id)<28||(id!=='kexin'&&(L.count|0)<2)) return 'no';
     for(let d=from;d<=to;d++){ if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(id,Object.assign({},G,{day:d})); if(!pr.here&&pr.kind!=='home') return 'no'; } }   /* 回老家的女朋友照樣約得出國（AA_276：約出國）*/
-    const M=Dt().TRIP_MSG, off=M&&M.gf[id]&&M.gf[id].off; if(off){ const a=DK(off[0]), b=DK(off[1]); if(a!=null&&b!=null&&from<b&&to>=a) return 'no'; }
+    const M=Dt().TRIP_MSG, off=M&&M.gf[id]&&M.gf[id].off; if(off){ const a=DK(off[0]), b=DK(off[1]); if(a!=null&&b!=null&&from<b&&to>=a) return 'off'; }   /* AA_814 2-2：她那段時間不能出去（沛珊重考期）＝'off'，說 P.noOff（沒有就照 P.no）*/
     if(id==='heroine_05'&&typeof DATE!=='undefined'&&DATE.SIS_RESULT_DAY){ const r=DK(DATE.SIS_RESULT_DAY); if(r!=null&&from<r) return 'no'; }
     if(D.dest[dest].far&&S.datingDays(G,id)<90) return 'later';
     return 'yes'; };
@@ -391,7 +391,7 @@ const VAC=(function(){
     const who=[{t:'自己去',id:null}]; for(const id in D.gf) if(G.flags['dating_'+id]) who.push({t:'和'+nm(id),id,gf:true}); for(const id in D.friend) if(atLeast(id,'FAMILIAR')&&!S.friendNo(G,id,from,to)) who.push({t:'和'+nm(id),id});
     const b=await GM.choose(who.map(x=>({t:x.t})).concat([{t:'不去了'}])); if(b>=who.length) return false; const W=who[b];
     if(W.gf){ const P=D.gf[W.id], me={name:nm(W.id),charId:W.id}; await GM.say({name:G.name||'祐廷'},'要不要一起出國？'); const r=S.gfCan(G,W.id,dest,from,to);
-      if(r!=='yes'){ await GM.say(me,r==='later'?P.later:P.no); return false; } for(const t of P.yes) await GM.say(me,t);
+      if(r!=='yes'){ for(const t of [].concat(r==='later'?P.later:(r==='off'&&P.noOff?P.noOff:P.no))) await GM.say(me,t); return false; } for(const t of P.yes) await GM.say(me,t);
       if(P.next&&typeof PHONE!=='undefined') PHONE.at(G,G.day+1,21,P.next.map(t=>({th:'p:'+W.id,from:W.id,text:t})),'vac_t13next_'+G.day+'_'+W.id); }
     const V=S.rec(G), T=V.t13||(V.t13=[]), n=T.length+1, rec={n,dest,from,to,with:W.id||null,gf:!!W.gf,season:B.kind}; T.push(rec);
     if(typeof PHONE!=='undefined'){ PHONE.join(G,'home','家人'); PHONE.at(G,G.day,G.hour,D.fam.map(t=>({th:'g:home',from:'mom',name:'媽媽',text:t})),'vac_t13fam_'+n);

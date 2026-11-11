@@ -692,7 +692,7 @@ const USL=(function(){
         if(!dt&&F.MET_LONG&&G.day===d&&past(G,d,17)&&now(G)<T(d,20)&&!PHONE.sent(G,'usl_long_1123r')) PHONE.at(G,d,17,M.long1123r.map(PL),'usl_long_1123r');
         if(!dt&&F.MET_LONG&&PHONE.sent(G,'usl_long_1123r')) plan(G,{id:'usl_thanks_long',ev:'ev_usl_thanks_long',day:d,h:19,late:1,place:'會所',title:'感恩節'}); } }
     /* G7 12/6 21:00 學姊（交往中）*/
-    { const d=D('2028-12-06'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,21)&&!PHONE.sent(G,'usl_sis_1206')) PHONE.at(G,d,21,M.sis1206.map(P5),'usl_sis_1206'); }
+    { const d=D('2028-12-06'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,21)&&!PHONE.sent(G,'usl_sis_1206')) PHONE.at(G,d,21,M.sis1206.map((t,i,L)=>i<L.length-1?P5(t):Object.assign(P5(t),{ask:{id:'usl_sis_1206',until:T(d+1,21),opts:[{t:'舊金山？',say:[P5('……好。我也想那裡。')]},{t:'有海的地方。',say:[P5('那就舊金山。……剩下的，你排。')]}]}})),'usl_sis_1206'); }   /* AA_814 3-6（企劃線 91c6aaf9f）：「你先想」之後讓玩家回（12/7 21:00 以前）；沒回＝照舊，目的地照 r2y4a3d.js 定舊金山 */
     /* AA_291 4-1：每個星期天 台灣 21:00（＝當地 09:00，11/5 以後 08:00），媽媽一則（8/6 起）。AA_450 1-4：照日期那一則（X.mom 的 d；每一則只發一次，原本四句輪流）*/
     /* 旅行（大峽谷 10/7～10/14、舊金山那一週）字卡一天跳一天、跳過星期天的，回來照原本的時間補（BB 逐日劇本 trx_nolong3：10/8、12/17 沒發）；
        「太舊的不補」改成：第一次跑這條規則（抵達，或舊存檔讀進來）的前一天以前的不補（USL_MOM_FROM）*/

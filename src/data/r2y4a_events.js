@@ -37,6 +37,7 @@ const R2Y4A_EVENTS=(function(){
       {if:{flagIs:{US1:'together'}},goto:'t'},
       nar('（下了巴士，她拿了自己的行李就往前走。走了幾步，停下來。）'),
       sis('超市在那邊。……你自己會找吧。'),
+      nar('（她走遠了。你拖著行李，照手機上的地圖，走到 Linden Grove。）'),   /* AA_814 3-3（企劃線 91c6aaf9f）：挽回中抵達，巴士站演完接到社區 */
       {end:true},
       {label:'t'},CG('cg_bus_station_heroine05'),   /* BCG-14：第一句旁白出現，到「走吧，先去超市。」收起（場景換到超市）*/
       nar('（長途巴士在傍晚停下來。她先下車，在行李艙前面等你。頭髮沒有綁。你第一次看到她不綁頭髮。）'),
@@ -104,8 +105,8 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_us_chicago', title:'芝加哥的週末', participants:[S5], location:'any', trigger:'outing', once:true, get background(){ return typeof OUT!=='undefined'&&OUT.bg?OUT.bg('us_bus_chicago'):'dark'; },   /* 11-02 使用者生成：巴士上（原本深色底）*/
     hours:0.25,
     dialogue:[ {if:{custom:LONG},goto:'chi0'},   /* AA_451 1-1：沒見過他的（8/14 迎新、9/8 下課都沒去），11/3 學姊說「我們一起認識他」——在巴士上認識（MET_LONG＋LONG_CHI）；之後的句子照有見過的版本 */
-      nar('（巴士上，坐在你們前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）'),
-      {speaker:'何俊朗',text:'臺灣來的？我聽你們講話聽出來的。'},
+      nar('（巴士上，坐在前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）'),
+      {speaker:'何俊朗',text:'臺灣來的？你手機上的字是繁體。'},   /* AA_814 3-5（企劃線 91c6aaf9f）：沒見過何俊朗的那一支，交往中、挽回中都通（不寫「你們」）*/
       {speaker:'何俊朗',text:'香港。何俊朗。叫我 Long 就好。'},
       me('{name}。'),
       nar('（學姊點了一下頭，報了自己的名字。他轉回去以前，把手機上一家披薩店的地址給你們看。）'),
@@ -226,6 +227,8 @@ const R2Y4A_EVENTS=(function(){
       {label:'a'},{speaker:'何俊朗',text:'我帶你去吃。說好了。'},{goto:'e'},
       {label:'b'},UN(G=>!!G.flags.LONG_CHI,{speaker:'何俊朗',text:'……你又來了。'}),IF(G=>!!G.flags.LONG_CHI,{speaker:'何俊朗',text:'……還好？你學我。'}),nar('（他笑了一下，上了車。）'),{goto:'e'},   /* AA_451 1-1：芝加哥才認識的（LONG_CHI），說「還好」的是他自己 */
       {label:'n'},nar('（天還沒亮。社區門口停著機場巴士。）'),
+      IF(G=>G.flags.US_TRIP_MODE==='bloom',nar('（交換生一個一個把行李推上車。你的機票是二十一號。）')),
+      IF(G=>G.flags.US_TRIP_MODE==='bloom',nar('（巴士開走了。你還要再待五天。）')),   /* AA_814 3-2（企劃線 91c6aaf9f）：布魯明頓版（挽回中）12/16 不搭這班 */
       {label:'e'},{set:{US_LEFT:true}} ] });
   EV.push({ id:'ev_sf1', title:'舊金山', participants:[S5], location:'any', trigger:'manual', once:true, background:'dark',
     dialogue:[ {scene:'舊金山',bg:'trip_hotel_twin'},

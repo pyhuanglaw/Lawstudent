@@ -63,8 +63,8 @@ const ECONFF=(()=>{
     'ev_y0_e12','ev_y0_e21a','ev_y0_e21','ev_y0_e21o','ev_y0_e23','ev_y0_e27','ev_y0_e27b',   /* 休學到寒假 12～17 */
     'ev_y0_cram','ev_y0_cram_h','ev_y0_jan8','ev_y0_jan8_h',   /* AA_308 第 1、2 節（使用者 10-20 選「12 月演出來＋1 月先透露」）：12/13 以前的補習班、1/8 公館吃麵 */
     'ev_y0_kh3','ev_y0_e18b',   /* AA_303（使用者 10-18 逐場確認，取代 AA_300 的 29 場）：1/31～2/2 高雄三天兩夜、4/24 生日；R3 大安森林公園、R7 保齡球再戰拿掉 */
-    'ev_y0_e35','ev_y0_e35h','ev_y0_exam1','ev_y0_exam1h','ev_y0_kh_bus','ev_y0_kh_bus_h','ev_y0_kh_home','ev_y0_kh_home_h','ev_y0_kh_call','ev_y0_kh_call_h','ev_y0_kh_madeup','ev_y0_kh_madeup_h',
-    'ev_y0_e36r','ev_y0_e36rh','ev_y0_e36','ev_y0_e36h','ev_y0_e36n']);   /* 衝刺班到放榜 26～29（23～25 是 RH-C0、RH-C4、RH-L6）*/
+    'ev_y0_e35','ev_y0_e35h','ev_y0_exam1','ev_y0_exam1h','ev_y0_exam2','ev_y0_kh_bus','ev_y0_kh_bus_h','ev_y0_kh_home','ev_y0_kh_home_h','ev_y0_kh_call','ev_y0_kh_call_h','ev_y0_kh_madeup','ev_y0_kh_madeup_h',
+    'ev_y0_e36r','ev_y0_e36rh','ev_y0_e36','ev_y0_e36h','ev_y0_e36n']);   /* AA_814 1-3（企劃線 91c6aaf9f）：ev_y0_exam2（7/12 對答案，「數學我錯一題。」）加回來——exam1 的 after1 本來就把人帶到 7/12 19:00 的家要演這場，原本被擋掉＝晚上停在家裡什麼都沒演 */   /* 衝刺班到放榜 26～29（23～25 是 RH-C0、RH-C4、RH-L6）*/
   S.RH_PLAY=['RH-M0','RH-C0','RH-C2','RH-C3','RH-C4','RH-L6'];   /* AA_308 第 5 節（CRAM-LEAVE-LAUGH-1018，使用者 10-20 選）：衝刺班請假演兩次（6/12 RH-C2 第一次、6/17 RH-C3 睡過頭）再笑（6/24 RH-C4「這個月第六次了」）*/   /* AA_303：2/15 她住進來（RH-M0，src/data/retake_home.js）、6/8 報名、6/24 笑出來、6/28 熱牛奶；RH-L1 洗碗、RH-L5 端午拿掉 */
   S.short=G=>!!G&&G.stage==='econ'&&!S.off()&&!!(G.flags&&G.flags.E01_MORNING)&&!G.flags.ECON_FULL;   /* ECON_FULL：測試用，照 AA_292 的完整版（舊流程的測試）*/
   /* AA_300 第 7 節（Q-AA300-INVITES）：不在 29 場裡的出遊，排它們的私訊、群組邀約整個不傳 */

@@ -2503,7 +2503,7 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'sad',text:'還是不能補交。'},
       {speaker:null,text:'（她用筷子把飯撥到一邊，又放下。）'},
       {choice:[{text:'「妳打算怎麼辦？」',goto:'j8a'},{text:'（等她說下去）',goto:'j8b'}]},
-      {label:'j8a'},{speaker:'kexin',expression:'sad',text:'……還不知道。'},{goto:'j8c'},
+      {label:'j8a'},{speaker:'kexin',expression:'sad',text:'……還不知道。整科就那一份，我只是記錯日子。'},{goto:'j8c'},   /* AA_814 1-1（企劃線 91c6aaf9f，D103）：走 j8a 的玩家當面也聽得到為什麼一定被當 */
       {label:'j8b'},{speaker:'kexin',expression:'sad',text:'整科就那一份。……我一直在想這件事。'},
       {label:'j8c'},{speaker:'player',text:'我十二月去問的那個重考班，簡章還在我桌上。'},
       {speaker:'kexin',expression:'surprised',text:'……你那天傳訊息，我以為你在開玩笑。'},
@@ -2693,6 +2693,11 @@ const STORY_EVENTS=[
       {label:'h3'},{speaker:'kexin',expression:'teasing',text:'你社會考壞過耶。'},{speaker:'player',text:'所以我比較知道哪裡會壞。'},{speaker:'kexin',expression:'smile',text:'……好。'},
       {label:'r_end'},{speaker:'kexin',expression:'smile',text:'所以說好了。每天早上，比誰先坐到桌子前面。'},{speaker:'kexin',expression:'smile',text:'輸的人請早餐。……我不會輸。'},
       {speaker:null,text:'（走回捷運站的路上，每一家花店門口都排著人。今天二月十四日。）'},{speaker:'kexin',expression:'teasing',text:'（看了一眼）……我們情人節來問補習班。'},{speaker:'kexin',expression:'smile',text:'晚餐你請。'},   /* AA_449 1-1：兩個人第一個情人節 */
+      {speaker:'kexin',expression:'thinking',text:'……宿舍月底要退。我本來想，回高雄讀。'},
+      {speaker:'player',text:'我媽說，姊姊的房間空著。'},
+      {speaker:'kexin',expression:'surprised',text:'……你問過了？'},
+      {speaker:'player',text:'上禮拜就問了。'},
+      {speaker:'kexin',expression:'smile',text:'那我明天搬。……輸的人，幫忙扛書。'},   /* AA_814 1-2（企劃線 91c6aaf9f）：她要退宿、住進你家在畫面上說好，接 2/15 RH-M0 行李箱；舊存檔已經演過的不補 */
       {set:{CRAM_ASKED_TOGETHER:true}} ] },
   /* E28 告訴朋友（BB_153 E28 完整稿；AA_154 A20）：3/26（三）21:00 公館的宵夜（2D 出遊，背景 gongguan_luwei），22:00 結束。讀 E19_ASK 三個版本；品妤、阿勳自在 +1（韋綸、唐睿沒有人物資料）*/
   { id:'ev_y0_e28', retired:'AA_224 5-3（LIFE-LINE，2026-10-17）：3/26 宵夜攤作廢；改成 2/13 22:30 經濟系群組（story3d.js）。定義留給已經演過的舊存檔', stage:'econ', title:'告訴朋友', participants:['kexin','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
