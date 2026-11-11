@@ -1,0 +1,76 @@
+{
+ "_meta": {
+  "by": "AA（帳號 A）",
+  "date": "2026-11-11",
+  "task": "DLG-FULL-REVIEW-1110（X324）",
+  "who": "heroine_04",
+  "why": "子晴約會不分地點的短句。accept 兩句、acceptDating（那天的 bug 我留到隔天再修——整份唯一一處 bug）、move 兩句、move3、depart 三句、enough[1]、leaveEarly、noPair 不用改。她沒有 HOME_NO、T7A_YES（只有以安、芷若、沛珊有）。",
+  "for_LAWWW": "old 對開發分支 2e1644aa3 的檔。date_lines.js 是匯入工具產生的，換在它的來源或加一層（同 AA_767、AA_769、AA_773）。REMEMBER_IF 兩列是引擎裡手寫的備用句；D06、D15 那兩格再訪句本來就有 PICK_FLAG 擋（選過才播），我照這個設計把有旗標的那一句寫回「兌現約定」，沒旗標的給一句不提約定的。",
+  "engine_note": "date3d.js 第 340 行：子晴的約一律下午三點以後到（arrive<15 擋掉）。約會稿裡綁「三點才到／三點起床」的句子都拿掉了（不綁時段的通用標準），沒有和這條規則衝突的句子；D28 開頭「我六點半起床的」和這條規則打架，已換。"
+ },
+ "rows": [
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_04.transport[0]",
+   "old": "我本來想在高鐵上寫東西。好吧，那我看窗外。",
+   "new": "我本來想在車上寫東西。好吧，坐你的車，我看窗外。",
+   "note": "只在她偏好的交通被改成開車時播"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_04.cancel[0]",
+   "old": "臨時取消？好啦，下次你請。",
+   "new": "臨時取消？好啦，我回去睡回籠覺。",
+   "note": "「下次你請」是沒有人記的小債（AA_524 Z7）"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_04.cancel[1]",
+   "old": "好。我自己去打。",
+   "new": "好。我自己去打電動，你不要後悔。",
+   "note": "原句看不出打什麼"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_04.flaked[0]",
+   "old": "第二次了。我記下來了。",
+   "new": "那天我設了鬧鐘，還真的起來了，結果你沒來。這種事一次就好。",
+   "note": "原句寫死「第二次」、像記帳。和語彤（班也請了／先跟我說）、芷若（熱可可等到涼掉）不同句型：她抱怨具體的事、講完就停"
+  },
+  {
+   "file": "src/data/date_lines.js",
+   "path": "lines.heroine_04.enough[0]",
+   "old": "好，我電量剩一格。回家。",
+   "new": "好，我今天的份用完了，是開心的那種用完。",
+   "note": "「電量」的梗只留 D01 和 D20 的 dislikeLine"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.MORNING.heroine_04",
+   "old": "昨天我又弄到兩點。……今天你負責叫我。",
+   "new": "昨天我又弄到兩點。你先去吃早餐，幫我留一個甜的。",
+   "note": "拿掉刪節號；「到了叫我／你負責叫我」在約會稿裡已經很多"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.REMEMBER_IF（loc D06、who heroine_04、pid D06.cafe）.no[0].text",
+   "old": "上次也來這裡。",
+   "new": "這家的位子我記得，靠牆那桌插座最近。",
+   "note": "沒選「我請妳。」的人看到的再訪句。有旗標 ZQ_D06_TREAT 的人看到的是改稿檔 zq_D06.json 第 45 格「我說過要請你吃滷味，等一下去，我知道一間。」（拿掉「上次」開頭和「十點以後半價」）"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "S.REMEMBER_IF（loc D15、who heroine_04、pid D15.store）.no[0].text",
+   "old": "上次也來這裡。",
+   "new": "布丁還在同一格，我要拿了。",
+   "note": "沒選「布丁不行。」的人看到的再訪句。有旗標 ZQ_D15_NEXT 的人看到 zq_D15.json 第 43、44 格「說好的布丁，這次我要拿了。」「山上的布丁比較好吃，這是我的理論。」"
+  },
+  {
+   "file": "src/date3d.js",
+   "path": "D26 臺中兩天一夜、對象是子晴時晚上那一句旁白（比照可昕高雄那一條的接法）",
+   "old": "（目前子晴沒有這一句）",
+   "new": "（晚上她回家。你住在車站附近的旅館。）",
+   "note": "BB 11-11 定的過夜條件（BB_339 最後一段，企劃線 c3be900b3）：D26 是她的家鄉，晚上她回家、祐廷住旅館；不寫阿嬤家、不寫爸爸。隔天早上的 S.MORNING 照上面那一列。"
+  }
+ ]
+}
