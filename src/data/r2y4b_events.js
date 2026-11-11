@@ -9,6 +9,7 @@
    58 ev_bar_group_start（2/23）、ev_bar_group_night（麵店）、ev_bar_group_video（視訊）、ev_bar_group_three（6/23）　61 ev_ps_termend_y4s2（6/8 台南；R2Y4B.psDinner）
    AA_346 ev_choice_apart_<id>（2-Y4-54「選一個人」之後其他人各一場分開的談話；R2Y4B.apartScene）
    沒有的字（AA 稿沒寫）不補；CG 只在 CG_REGISTRY 有登錄時放（hasCG 守門）。測試：node tests/r2y4b_events_unit.js */
+/* 2026-11-11（使用者 X327 沛珊重寫）：ev_peishan_open_class 她自己的三句照 AA_762_peishan_events_2.json@1fc9a6658 換（媽媽的句子已在 AA_753 Y4 改）。逐字對稿：tests/peishan_events_1111_unit.js */
 'use strict';
 /* AA_468 第 2 節（AA-B 2026-10-25，企劃線 cd2dc7646；第②級）：律師讀書小組第一輪（k1～k4、y1～y4 各一次）以後換成旁白，每句一次、照順序；週六那幾句只在週六；用完只留收尾那一句。
    台詞照 2-1、2-2 的表一字不改。第幾句在 src/r2y4b3d.js 的 R2Y4B.narrLine。測試：node tests/aa468_evdup2_unit.js
@@ -204,13 +205,13 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'沛珊媽媽',text:'她爸把她的學生證貼在辦公室，貼兩年了。我叫他今天不要來，他會哭。'},
       {if:{custom:()=>hasCG('cg_whiteboard_why_peishan')},cg:'cg_whiteboard_why_peishan'},   /* BCG-05「白板上的為什麼」：媽媽最後一句之後 */
       {speaker:'classmate_peishan',text:'你真的來了！！'},
-      {speaker:'classmate_peishan',text:'……我剛剛手一直在抖。你有看到嗎？'},
+      {speaker:'classmate_peishan',text:'我剛剛手一直在抖，粉筆斷了兩次。你有看到嗎？'},
       {choice:[{text:'「沒有。」',goto:'a'},{text:'「妳媽媽坐最後一排。」',goto:'b'}]},
-      {label:'a'},{speaker:'classmate_peishan',text:'你騙人。……好，我當你沒看到。'},{goto:'send'},
+      {label:'a'},{speaker:'classmate_peishan',text:'你騙人。好，我當你沒看到。'},{goto:'send'},
       {label:'b'},{speaker:'classmate_peishan',text:'……我知道。我一進教室就看到了。'},
       {label:'send'},{advance:toH(17)},
       {speaker:null,text:'（下課以後，她把老師的外套脫掉，陪你坐車到高鐵站。）'},   /* AA_282 3-1；AA_447 1-2：和去台南找她的送行分開寫 */
-      {if:{custom:dating('classmate_peishan')},speaker:'classmate_peishan',text:'你坐最後一排，我一直看到你。……害我講錯一題。'},
+      {if:{custom:dating('classmate_peishan')},speaker:'classmate_peishan',text:'你坐最後一排，我一直看到你，害我講錯一題。這題算你的。'},
       {unless:{custom:dating('classmate_peishan')},speaker:'classmate_peishan',text:'謝謝你來看我上課！到臺北傳給我喔。'},
       {set:{PS_OPEN_CLASS:'went'}} ],
     consequences:{memo:'去台南看沛珊的公開課'},
