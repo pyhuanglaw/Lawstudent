@@ -53189,7 +53189,7 @@
    "id": "GG-G09-G10-SHUTTER-1111",
    "title": "公館 G09、G10 先拉下鐵門（洗樂、印得好已搬到汀州路；USER_WANTS X335）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -53202,13 +53202,13 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "LAWWW2：gongguan_shops 兩格改鐵捲門、拿掉「自助洗衣」「影印・輸出」招牌和看得到的洗衣機／影印機（G08 子晴的凳子、GG_PROP_BLOCKS 照舊規則）；LAWWW：這兩格若有互動點／室內入口／快速前往項目一起拿掉，確認沒有劇情或邀約用到這兩間",
+   "next": "LAWWW 這邊做完：zones3d.js 套件 G09／G10 shut:true（鐵捲門、沒招牌）、G11 招牌字改花序（開發分支，gg_shops3_names_unit）；這兩格在 zones3d.js 沒有互動點、沒有劇情或邀約用到。LAWWW2：正式模型兩格鐵捲門已做、和 BB 退的美術同一包交（基底 e8918a013）。待定：G10 門前的「往汀州路（巷子）」互動點站在鐵門前——要不要把 G10 改成真的巷口，等這兩格之後放什麼再定，這一包不動",
    "xai": {
     "spec": "使用者 11-11 00:0x 選擇題（UA-LAWWW-1110-113）",
     "branch": "claude/second-ai-env-art",
     "acceptance": "BB：兩格是鐵門、走得過去、沒有互動點",
     "receiver": "LAWWW2",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   }
  ]
