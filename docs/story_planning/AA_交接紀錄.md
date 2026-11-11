@@ -2,7 +2,7 @@
 
 - DLG-FULL-REVIEW-1110 進度補記（11-11 08:3x UTC）：**X324 C 區「閒聊階梯」七個人八學期都改完。** 不改源稿，對遊戲現在的字寫覆蓋檔 `AA_781_<人>_ladder_<學期>.json`（格式照 LAWWW 07:4x 定的通用層：who、term、steps、rows.at）；每人每學期刪節號 ≤5，順手換掉沒人記的「下次」、寫死的「上次」、一句 D116、一句舊店名。大一上～大三下六批 BB 看過、已交 LAWWW（通用層子代理在寫，排 118 巷發版後一起匯，**還沒進遊戲**）；大四上、大四下（cb4ade4f2）交 BB 中，另問 BB 以安大四下第 6 層「我媽說，典禮那天她要看看你」有沒有交往條件擋。進度表在 `AA_779` 第 4 節最後。**接下來 D 區（邀約、手機訊息）**。
 
-- 【使用者】模型（11-11 07:5x UTC，使用者直接對 AA，原話：「我沒有要用fable」；同時用 /model 把 AA 換成 claude-opus-5-5）：AA 已換 Opus 5.5。AA 查 get_session：LAWWW、BB、LAWWW2 三個工作階段還設在 claude-fable-5-2，最後一個回合都失敗（「You've reached your Fable limit」），已停；CC 在 Opus 5.5 照常。AA 不能替別的工作階段換模型，已告訴使用者在那三個對話各打 /model claude-opus-5-5。**已登記**：LAWWW 開 USER_WANTS X342（規則（永久）：各工作階段和子代理用 Opus 5.5），AA 補 user_asks_AA.json UA-AA-1111-04；08:0x LAWWW 回報五個工作階段都已是 claude-opus-5-5。
+- 【使用者】模型（11-11 07:5x UTC，使用者直接對 AA，原話：「我沒有要用fable」；同時用 /model 把 AA 換成 claude-opus-5-5）：AA 已換 Opus 5.5。AA 查 get_session：LAWWW、BB、LAWWW2 三個工作階段還設在 claude-fable-5-2，最後一個回合都失敗（「You've reached your Fable limit」），已停；CC 在 Opus 5.5 照常。AA 不能替別的工作階段換模型，已告訴使用者在那三個對話各打 /model claude-opus-5-5。**已登記**：LAWWW 開 USER_WANTS X342（規則（永久）：各工作階段和子代理用 Opus 5.5），AA 補了 user_asks_AA.json 那一筆；08:0x LAWWW 回報五個工作階段都已是 claude-opus-5-5。
 
 - DLG-FULL-REVIEW-1110 進度補記（11-11 07:4x UTC）：**X324 A 區「一起活動」、B 區「一起念書」做完、都已匯進開發分支。**
   - A 區 `AA_708_activity_scenes.json`（企劃線 d30416e6b → 開發分支 710d49638）：吃飯、咖啡、電影、書店 98 場每場兩個選項（原本 14 場）；沛珊整塊照現行設定重寫（PEISHAN-VOICE-1110；早餐店、存錢、番茄醬蛋包飯等舊設定刪掉）；BB_342 四點（她主動的身體接觸只在交往格＝新條件 datingOrReady；靠肩只留學姊、語彤；書店 2 換兩人；可昕末班車四處）。
