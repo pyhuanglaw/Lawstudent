@@ -280,7 +280,8 @@ const L118=(function(){
      她答應的句子照現有的（AA_415 的表、表上沒有就系統的旁白），不另寫。見面（INV.meet）＝在店裡照 S.order 和她一起點餐（scene；ownMeal：時間、吃完那一句由點餐那一段處理）：
      H9 第一次「兩位嗎？窗邊有位子。」＋吃完那句旁白；之後照一般的「幾位？」、沒有旁白（AA_480 第 5 節）。不算正式校外約會（AA_311 H9）。兩個人一起坐下（seatPose）*/
   S.INVITE={id:'pasta118',zone:'l118_pasta',name:(S.shop('pasta')||{}).name||'義大麵屋',verb:'去義大麵屋吃午餐',kind:'meal',minStage:'FAMILIAR',stay:40/60,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',ownMeal:true,
-    days:[1,2,4,5],hours:[11.5,14],times:[12+10/60],
+    /* 哪幾天、幾點照店家資料（L118-SHOPS-REDO-1111：義大麵屋公休改週一，原本寫死週一、二、四、五＝週三休）：平日扣掉公休日、午餐那一段 */
+    days:[1,2,3,4,5].filter(d=>!((S.shop('pasta')||{hours:{closed:[]}}).hours.closed||[]).includes(d)),hours:(((S.shop('pasta')||{}).hours||{}).open||[[11.5,14]])[0].slice(),times:[12+10/60],
     show:(G,id)=>law(G)&&id!=null&&dating(G,id),
     scene:async(GM,iv)=>{ await S.order(GM,'pasta',{with:[iv.who]}); } };
   if(typeof INVITE_DATA!=='undefined'&&Array.isArray(INVITE_DATA.places)&&!INVITE_DATA.places.some(q=>q.id===S.INVITE.id)) INVITE_DATA.places.push(S.INVITE);
