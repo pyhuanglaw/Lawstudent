@@ -1,8 +1,9 @@
 # 118 巷第 1 版 第二批：兩間飲料店照參考圖＋三個小補充＋其餘五間的鄰居店面卡（LAWWW2 帳號 A，2026-11-11）
 
-狀態：**WORK_IN_PROGRESS：相關測試都過了，全部 Node 測試在跑**（結果補在這一行）。預覽是 Blender，不是遊戲截圖（D131）。
+狀態：**READY_FOR_REVIEW**（2026-11-11 06:1x UTC）。預覽是 Blender，不是遊戲截圖（D131）。
+全部 Node 測試 1270 支（`regression_batch2.log`）：和第一批一樣只有那六支基底就紅的（LAWWW 的 118 巷改名，已在 dev `c19d8b763` 修）＋`bookstore_exit_unit` 的警告；沒有新增的失敗。
 
-- patch：`l118_batch2_v1.patch`（24 個檔）。**疊在第一批上面**：先套 `l118_batch1_v1.patch`，再套這一個（基底＝dev `4993c19a6`＋第一批）。
+- patch：`l118_batch2_v1.patch`（24 個檔）。疊在第一批上面（第一批已整合：dev `d6c633adc`）；在 dev `a740616de` 上試過 `git apply --3way`，乾淨。我確認過「4993c19a6＋第一批＋這一個」的樹和跑測試的樹一模一樣。
 - 依據：使用者 11-11 的飲料店參考圖（開發分支 `docs/handoff/user_specs/l118_ref/ext_drink_a／b.webp`、`int_drink_a／b.webp`）；LAWWW 11-11 05:10 的重點（不做走得進去的室內、玻璃門是關著的、菜單價錢照 AA_280、門牌不照抄）；使用者直接貼給我的第二組店內圖（`int2_*.webp`）。
 
 ## 一、兩間飲料店照圖（只動街景 `lane118_street.glb`；位置、導航都沒動）

@@ -7982,7 +7982,7 @@
    "sha": "（這個 commit）",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED＋已整合（LAWWW 11-11 05:56，dev d6c633adc）",
    "task": "L118-SHOPS-REDO-1111 第 1 版第一批：街景九間照使用者參考圖（兩間飲料店文字規格版）＋室內四間 dian／self／korea／tea＋路邊道具＋新測試",
    "files": [
     "docs/art-rebuild/second_ai/wip/l118_redo_1111/（README.md、l118_batch1_v1.patch、regression_full.log、blender_ext_batch1_a/b/c.jpg、blender_int_batch1.jpg、blender_drinks_textspec.jpg）"
@@ -7991,6 +7991,36 @@
    "noDirectIntegrate": false,
    "note": "底 dev 4993c19a6（在 f247bc77f 上 --3way 乾淨）；53 個檔；全部 Node 測試 1270 支：六支失敗是基底的（LAWWW 改名進行中）；改了 LAWWW 的四支測試的期望（檔內註明）",
    "next": "LAWWW 整合、CC 拍、BB 判；第二批（飲料店照圖＋三個小補充＋其餘五間的鄰居店面卡）已做好、在跑全部測試"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "L118-SHOPS-REDO-1111 第 1 版第二批：兩間飲料店照參考圖、三個小補充、其餘五間的鄰居店面卡",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/l118_redo_1111/（README_batch2.md、l118_batch2_v1.patch、regression_batch2.log、blender_ext_batch2_drinks.jpg）"
+   ],
+   "state": "READY_FOR_REVIEW；待整合；場景美術 BB 驗",
+   "noDirectIntegrate": false,
+   "note": "疊在第一批上；在 dev a740616de 上 --3way 乾淨；24 個檔；全部 Node 測試 1270 支沒有新增失敗",
+   "next": "LAWWW 整合、子代理用新的鄰居卡重匯五間、CC 拍、BB 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "（這個 commit）",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "禮貌上師 3D 人物第 4 版（最後一次）：頭髮鬍子改暖灰白、預設表情改成瞇眼笑",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/limao_shangshi_1111/（README.md 最上面一節、limao_shangshi_v4.patch、blender_v4_final_face_body.jpg）"
+   ],
+   "state": "READY_FOR_REVIEW；角色美術 LAWWW 判",
+   "noDirectIntegrate": false,
+   "note": "底 dev f247bc77f；2 個檔；limao_shangshi_model_unit ALL PASS；遊戲畫面沒看過",
+   "next": "LAWWW 整合、CC 同機位重拍、LAWWW 判"
   }
  ]
 }

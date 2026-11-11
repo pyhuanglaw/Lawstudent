@@ -1,5 +1,14 @@
 # LIMAO-SHANGSHI-3D-1111 禮貌生財上師的 3D 人物 第 1 版（LAWWW2 帳號 A，2026-11-11）
 
+## 第 4 版（最後一次；2026-11-11 06:1x UTC）——READY_FOR_REVIEW，角色美術 LAWWW 判
+
+- 依據：使用者 11-11 04:4x「你人物修一修也問BB意見吧／中間 不要弄太久」（每個最多再修一次）→ LAWWW 11-11 05:47 看 CC 的臉部特寫判 PARTIAL：鬍子和鬢角的頭髮在遊戲裡是藍灰色（參考圖是暖的灰白）、表情眼睛下垂沒有笑意。只修這兩樣。
+- patch：`limao_shangshi_v4.patch`（2 個檔：`tools/blender/char_second/limao_shangshi.py`、`assets/models/char/second_ai/bl_limao_shangshi.vrm`；基底 dev `f247bc77f`）。`tests/limao_shangshi_model_unit.js` ALL PASS；沒有另外跑全部測試（只換一顆人物模型，程式沒動）。
+- 預覽 `blender_v4_final_face_body.jpg`（正面、四分之三側、全身；Blender，不是遊戲截圖；眼鏡是遊戲裡另外掛的配件，預覽裡沒有）。
+- ① 顏色：頭髮 (0.62,0.61,0.60) → (0.78,0.73,0.66)、鬍子 (0.80,0.79,0.77) → (0.87,0.82,0.75)、帽子下的捲髮 (0.70,0.69,0.68) → (0.81,0.76,0.69)、眉毛 (0.56,0.54,0.52) → (0.64,0.59,0.52)、配件的陰影色也調暖。目標是 LAWWW 給的 #c9c4bc 一帶；貼圖比目標再暖一點，因為遊戲的天光偏藍。**遊戲裡是不是還偏藍我沒看過**，請 CC 同一個機位重拍。
+- ② 表情：外眼角從往下（EYE_TILT −0.055）改成微微往上（0.035）；烘進基本形的笑：眼睛 Joy 0.55 → 1.0、嘴 Fun 0.7 → 1.0、多加眉毛 Fun 1.0。結果是**閉著眼睛的瞇眼笑**（兩條彎的線）、嘴角上揚、眉毛彎。
+- 還差的（照實寫）：眼睛現在是整個瞇起來的，平常看不到眼珠；眨眼不會有變化。上唇鬍子、皺紋照 LAWWW 說的不強求，沒動。D141／使用者「最多再修一次」：這是最後一次。
+
 # 第 3 版（2026-11-11 01:3x；LAWWW 01:07 驗第 2 版的四點；D141 最後一版）
 
 - patch：**`limao_shangshi_v3.patch`**（3 個檔：模型、腳本、測試；基底 dev `15ed22e70`——第 2 版的檔已經在開發分支；這三個檔在 50887dae6 沒有再變）。
@@ -39,7 +48,7 @@
 
 LAWWW 11-10 23:15 派（X332；使用者 11-10 23:4x 的人物圖：dev `docs/handoff/user_specs/limao_ref/shangshi_character.png`）。角色美術 **LAWWW 驗**（D100a）。
 - patch：`limao_shangshi_v1.patch`（9 個檔；在 dev `57181feb2` 上做的，只動 assets3d.js、character3d.js、LICENSES.md 各一兩行＋新檔，較新的開發分支用 `git apply --3way`）。
-- 圖：`blender_v4_face_body.jpg`（Blender EEVEE，不是遊戲畫面；T 字姿勢；這張沒有戴眼鏡——眼鏡是遊戲裡掛的配件）。
+- 圖：`blender_v4_face_body.jpg（檔名的 v4 是舊的編號：這張其實是第 1 版的圖）`（Blender EEVEE，不是遊戲畫面；T 字姿勢；這張沒有戴眼鏡——眼鏡是遊戲裡掛的配件）。
 
 ## 做了什麼
 | 檔案 | 內容 |
