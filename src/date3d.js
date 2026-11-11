@@ -570,10 +570,10 @@ const DATE=(function(){
   /* AA_525 1-6、2-4（企劃線 6081f725f）：第一次選了哪一個要記下來（PICK_FLAG）；remember 只給選過對應選項的人（REMEMBER_IF：no＝其他人換的那一組；add＝有旗標的多幾句、once＝演過一次記 'paid'）*/
   S.PICK_FLAG=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',t:'「我請妳。」',flag:'ZQ_D06_TREAT'},   /* 「好。下次我請你吃滷味。」→ remember「上次說要請你吃滷味，十點以後半價那間。」*/
     {loc:'D15',who:'heroine_04',pid:'D15.store',t:'「布丁不行。」',flag:'ZQ_D15_NEXT'},   /* 「……欸，好啦。布丁下次。」→ remember「上次的布丁，今天我要。」「……上次說下次的。」*/
-    {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',t:'「我請妳。」',flag:'PS_D05_EGG'}];   /* 「……那下次我請你吃蛋餅。說好了。」*/
+    {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',t:'「我請妳。」',flag:'PS_D05_EGG'}];   /* 「好啊，那下次換我。」（X327 沛珊重寫 2026-11-11：原本「那下次我請你吃蛋餅。說好了。」；旗標名不改）*/
   S.REMEMBER_IF=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',flag:'ZQ_D06_TREAT',no:[{who:'heroine_04',text:'上次也來這裡。'}]},
     {loc:'D15',who:'heroine_04',pid:'D15.store',flag:'ZQ_D15_NEXT',no:[{who:'heroine_04',text:'上次也來這裡。'}]},
-    {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',flag:'PS_D05_EGG',once:true,add:[{who:'narr',text:'（她把一盒蛋餅放到你面前。）'},{who:'classmate_peishan',text:'說好的！'}]}];
+    {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',flag:'PS_D05_EGG',once:true,add:[{who:'narr',text:'（她把一杯熱紅茶推到你面前。）'},{who:'classmate_peishan',text:'說好的，這次換我。'}]}];   /* X327 沛珊重寫（date_rewrite/peishan_D05.json@2883197b6 的 for_LAWWW）：原本是一盒蛋餅、「說好的！」 */
   S.rememberOf=function(G,t,pid,R){ if(!R) return R; const F=(G&&G.flags)||{}, x=S.REMEMBER_IF.find(r=>r.loc===t.locs[0]&&r.who===t.who&&r.pid===pid); if(!x) return R;
     const has=F[x.flag]!=null&&F[x.flag]!==false&&!(x.once&&F[x.flag]==='paid');
     if(x.no) return has?R:Object.assign({},R,{lines:x.no});
@@ -641,9 +641,9 @@ const DATE=(function(){
   S.NIGHT={single:'（晚上住在車站附近的旅館。兩間房，隔著一道牆。）',dating:'（晚上住在一間小民宿。窗外很安靜。）',home:'（晚上她回家。你住在車站附近的旅館。）',rent:'（晚上她回租的地方。你住在車站附近的旅館。）'};   /* 還沒交往／交往中／她在自己家（D26 以安、芷若在臺中的家）／她在租的地方（D28 沛珊大三起在台南）*/
   S.MORNING_NARR='（第二天早上。）';
   S.MORNING={heroine_01:'早餐我查過了。……走路五分鐘。',heroine_02:'我六點就醒了。換地方睡，都這樣。',heroine_03:'……這裡的蛋餅，沒有秀琴姨煎的好吃。',heroine_04:'昨天我又弄到兩點。……今天你負責叫我。',
-    heroine_05:'（保溫瓶已經裝好熱茶）……出發前喝一口。',classmate_peishan:'我四點半就醒了。……習慣了。我在大廳等你。',kexin:'行程表我昨天晚上重寫了。……你看一下第二天。'};
-  S.MORNING_OWN={heroine_01:'我媽多做了一份早餐。……叫我帶給你。',heroine_02:'我出門的時候，我媽問我跟誰。……我說回來再講。',classmate_peishan:'我在樓下。早餐我買好了。'};   /* 以安、芷若（D26 臺中）、沛珊（D28 臺南）；沛珊「四點半起床」照 BB_198 2-3 */
-  S.MORNING_HOME={classmate_peishan:'我在樓下。早餐從我家店裡帶來的。'};   /* 沛珊 D26 臺中、她剛好在台中老家（AA_359 第 3 節、5-1 B2：她家開早餐店，不借 D28 那句）*/
+    heroine_05:'（保溫瓶已經裝好熱茶）……出發前喝一口。',classmate_peishan:'我居然自己醒了，沒有靠鬧鐘。我在大廳等你，快來看奇蹟。',kexin:'行程表我昨天晚上重寫了。……你看一下第二天。'};
+  S.MORNING_OWN={heroine_01:'我媽多做了一份早餐。……叫我帶給你。',heroine_02:'我出門的時候，我媽問我跟誰。……我說回來再講。',classmate_peishan:'我在樓下。早餐我買好了，買太多，你要負責吃。'};   /* 以安、芷若（D26 臺中）、沛珊（D28 臺南）；沛珊三句（MORNING、MORNING_OWN、MORNING_HOME）2026-11-11 照 X327 重寫換（date_rewrite/peishan_D26／D28.json@2883197b6 的 for_LAWWW：新設定早上起不來、家裡是連鎖餐廳） */
+  S.MORNING_HOME={classmate_peishan:'我在樓下。我媽叫我帶水果給你，一大袋，我提得好辛苦。'};   /* 沛珊 D26 臺中、她剛好在台中老家（AA_359 第 3 節、5-1 B2：不借 D28 那句）*/
   S.nightKind=(G,t,own)=>own==='home'?'home':(own==='rent'?'rent':(G.flags&&G.flags['dating_'+t.who]?'dating':'single'));
   S.morningLine=(id,own)=>(own==='home'&&S.MORNING_HOME[id])||(own&&S.MORNING_OWN[id])||S.MORNING[id]||null;
   /* 有時間的三個互動點（AA_359 5-1 B7：台詞寫死了時間，兩天一夜要限制；一日約會不限）：day＝第幾天、at＝那一天的第幾個點（0 起算）才列；until＝演完至少到幾點（接晚上那一句）。
