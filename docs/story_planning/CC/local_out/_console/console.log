@@ -1,11 +1,3 @@
-[07:19:03] skip X294_new (already done on 9202e2fab36b4c6fa6b10487a1e2ac2c113ae464)
-[07:19:03] skip X294_old (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[07:19:03] skip X294S_new (already done on 9202e2fab36b4c6fa6b10487a1e2ac2c113ae464)
-[07:19:03] skip X294S_old (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[07:19:03] skip ROMPRIV_new (already done on 6c7e3918f26db59161d8f284f4fa25ca02be2964)
-[07:19:03] skip ROMPRIV_old (already done on 13e84dc2703a340c1ad3ad7ae56ee3a763cce0d6)
-[07:19:03] skip SVC2_new (already done on a883f36de45740335f9a1ea30d8512d1f5a9c4a9)
-[07:19:03] skip SVC2_old (already done on bc9c1408c0dfb82cbd1fa49d6a64e1d92e94d213)
 [07:19:03] skip X295B_old (already done on 10df264ed291cbef985ed22109443d26535ce790)
 [07:19:03] skip SHADER_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
 [07:19:03] skip SHADER_p0 (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
@@ -1998,3 +1990,11 @@
 [13:30:02] ==== START CLASS12_skip_73_150x5  (probe @ 73faa493f90fc6c90ccc867950bd012cb3d1d72e) ====
 [13:30:05] [res] cpu=2% mem=48% (15.1/31.4 GB) chrome_testing=10  START CLASS12_skip_73_150x5
 [13:30:36] [res] cpu=2% mem=47% (14.6/31.4 GB) chrome_testing=9  END CLASS12_skip_2d9_150x20
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       79369d24a..994b3108a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:30:42] ==== END   CLASS12_skip_2d9_150x20  exit=1  244s   ====
+[13:30:46] memory 47% before starting CLASS12_skip_73_150x20 (2 running)
+[13:30:46] ==== START CLASS12_skip_73_150x20  (probe @ 73faa493f90fc6c90ccc867950bd012cb3d1d72e) ====
+[13:30:49] [res] cpu=3% mem=48% (15.0/31.4 GB) chrome_testing=9  START CLASS12_skip_73_150x20
+[13:32:26] [res] cpu=10% mem=48% (15.1/31.4 GB) chrome_testing=10  END CLASS12_skip_2d9_500x5
