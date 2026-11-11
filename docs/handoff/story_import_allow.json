@@ -7548,12 +7548,18 @@
   },
   {
    "path": "docs/story_planning/AA_812_date_pays_promises.json",
-   "sha": "f1fab0ec6",
+   "sha": "633b7f7d6",
    "status": "approved",
-   "approvedBy": "AA 11-11 12:2x AA_812（DLG-FULL-REVIEW-1110 小項）；LAWWW 11-11 派匯入；子代理代登，待值班 LAWWW 核",
+   "approvedBy": "AA 11-11 12:2x AA_812（DLG-FULL-REVIEW-1110 小項）；LAWWW 11-11 派匯入；子代理代登，待值班 LAWWW 核；633b7f7d6（AA 11-11 12:4x「AA_812 SPLIT 改好」：LAWWW 問的四點）",
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
-   "note": "X324 約會「她請客／平分／懸著的承諾」（AA_812，企劃線 f1fab0ec6）：①SHE_PAYS_add（那個互動點她付全部）、SPLIT（她付一部分＝那個互動點祐廷那一份扣一半，AA 和 LAWWW 定）——tools/date/import_she_pays.py → src/data/she_pays.js（SHE_PAYS_DATA.pays、.split），src/date3d.js 載入時合進 S.SHE_PAYS、S.SPLIT；AA_782 同一個人同一個互動點、字已經被 AA_812 換掉的格＝被取代（superseded）；②path_rows 兩列（子晴 D06.cafe 第一次選項的回覆、語彤 D10.boat remember）——tools/date/import_date_lines.py 寫檔前最後一步照 path 換（AA_812 那一輪，排在 AA_780 後面）；③改稿紀錄 date_rewrite/ 五份（下面五筆）同一步。「不列」那一節（closing／arrive 說的請客）不做。逐格 tests/date_she_pays_812_1111_unit.js"
+   "note": "X324 約會「她請客／平分／懸著的承諾」（AA_812，企劃線 f1fab0ec6）：①SHE_PAYS_add（那個互動點她付全部）、SPLIT（她付一部分＝那個互動點祐廷那一份扣一半，AA 和 LAWWW 定）——tools/date/import_she_pays.py → src/data/she_pays.js（SHE_PAYS_DATA.pays、.split），src/date3d.js 載入時合進 S.SHE_PAYS、S.SPLIT；AA_782 同一個人同一個互動點、字已經被 AA_812 換掉的格＝被取代（superseded）；②path_rows 兩列（子晴 D06.cafe 第一次選項的回覆、語彤 D10.boat remember）——tools/date/import_date_lines.py 寫檔前最後一步照 path 換（AA_812 那一輪，排在 AA_780 後面）；③改稿紀錄 date_rewrite/ 五份（下面五筆）同一步。「不列」那一節（closing／arrive 說的請客）不做。逐格 tests/date_she_pays_812_1111_unit.js",
+   "history": [
+    {
+     "sha": "f1fab0ec6",
+     "note": "被 633b7f7d6 取代（SPLIT：學姊 D22.fish 加「好。你堅持的話。」、D30.stall 拿掉）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/date_rewrite/peishan_D15.json",

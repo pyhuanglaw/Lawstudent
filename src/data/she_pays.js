@@ -1,11 +1,11 @@
-/* 自動產生：tools/date/import_she_pays.py（docs/story_planning/AA_782_she_pays.json@f7a23d408＋docs/story_planning/AA_812_date_pays_promises.json@f1fab0ec6）。不要手改，改企劃 AA_782／AA_812 再重新匯入。
+/* 自動產生：tools/date/import_she_pays.py（docs/story_planning/AA_782_she_pays.json@f7a23d408＋docs/story_planning/AA_812_date_pays_promises.json@633b7f7d6）。不要手改，改企劃 AA_782／AA_812 再重新匯入。
    她請客的格：pays＝{她:{互動點 id:[那一句]}}，src/date3d.js 載入時合進 S.SHE_PAYS（她在那個互動點說了那一句的那一次，祐廷那一份不扣）；
    split＝她付一部分（AA_812 SPLIT），合進 S.SPLIT（那一次祐廷那一份扣一半）；同一個互動點兩種都說了＝最後說的那一句算。
    cells＝AA_782 每一列（格號 n＝date_rewrite.py list 的編號、key＝哪一套、at＝date_lines.js 裡的位置）；superseded＝AA_782 被 AA_812 換了字的列；cells812＝AA_812 每一句（dup＝已經有了、不重複）。
    以安三格在 date3d.js 手寫（AA_780）。測試 tests/date_she_pays_1111_unit.js、tests/date_she_pays_812_1111_unit.js */
 'use strict';
 const SHE_PAYS_DATA={
- "src": "docs/story_planning/AA_782_she_pays.json@f7a23d408＋docs/story_planning/AA_812_date_pays_promises.json@f1fab0ec6",
+ "src": "docs/story_planning/AA_782_she_pays.json@f7a23d408＋docs/story_planning/AA_812_date_pays_promises.json@633b7f7d6",
  "pays": {
   "heroine_05": {
    "D10.snack": [
@@ -194,10 +194,8 @@ const SHE_PAYS_DATA={
   },
   "heroine_05": {
    "D22.fish": [
-    "好。飯我請，飲料你請。"
-   ],
-   "D30.stall": [
-    "好。各付各的，最清楚。"
+    "好。飯我請，飲料你請。",
+    "好。你堅持的話。"
    ]
   },
   "classmate_peishan": {
@@ -461,12 +459,12 @@ const SHE_PAYS_DATA={
   {
    "kind": "split",
    "who": "heroine_05",
-   "loc": "D30",
+   "loc": "D22",
    "n": 50,
-   "key": "D30.stall.first.choice[1]",
-   "pid": "D30.stall",
-   "text": "好。各付各的，最清楚。",
-   "at": "/loc/D30/lines/heroine_05/hotspots/D30.stall/first/choice/1/reply/0/text"
+   "key": "D22.fish.first.choice[1]",
+   "pid": "D22.fish",
+   "text": "好。你堅持的話。",
+   "at": "/loc/D22/lines/heroine_05/hotspots/D22.fish/first/choice/1/reply/0/text"
   },
   {
    "kind": "split",

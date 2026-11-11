@@ -586,7 +586,8 @@ const DATE=(function(){
   S.PICK_FLAG=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',t:'「我請妳。」',flag:'ZQ_D06_TREAT'},   /* 「好。下次我請你吃滷味。」→ remember「我說過要請你吃滷味，等一下去，我知道一間。」（2026-11-11 X324 子晴重寫 date_rewrite/zq_D06.json@02078efc0；原本「上次說要請你吃滷味，十點以後半價那間。」）；2026-11-11 AA_812@f1fab0ec6：回覆改「好。下次我請。」（path_rows）、remember 改「這家我來過兩次了。這次我請，你不要算。」（改稿紀錄 zq_D06.json 第 45 格；那一次她請客 S.SHE_PAYS）——旗標和 REMEMBER_IF 照舊 */
     {loc:'D15',who:'heroine_04',pid:'D15.store',t:'「布丁不行。」',flag:'ZQ_D15_NEXT'},   /* 「欸，好啦。布丁下次。」→ remember「說好的布丁，這次我要拿了。」「山上的布丁比較好吃，這是我的理論。」（2026-11-11 X324 子晴重寫 date_rewrite/zq_D15.json@02078efc0；原本「上次的布丁，今天我要。」「……上次說下次的。」）*/
     {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',t:'「我請妳。」',flag:'PS_D05_EGG'}];   /* 「好啊，那下次換我。」（X327 沛珊重寫 2026-11-11：原本「那下次我請你吃蛋餅。說好了。」；旗標名不改）*/
-  S.REMEMBER_IF=[{loc:'D06',who:'heroine_04',pid:'D06.cafe',flag:'ZQ_D06_TREAT',no:[{who:'heroine_04',text:'這家的位子我記得，靠牆那桌插座最近。'}]},
+  /* 2026-11-11（AA_812@633b7f7d6 _meta.changes，AA 12:4x「子晴 D06.cafe：拿掉 ZQ_D06_TREAT 綁定，所有人聽新句、她請——OK」）：D06.cafe 那一列拿掉＝再訪不分第一次選了什麼，都聽 remember 的新句（她當場請，AA_812 承諾那格）；PICK_FLAG 照記 ZQ_D06_TREAT（不再影響台詞）。舊：沒旗標的人聽「這家的位子我記得，靠牆那桌插座最近。」 */
+  S.REMEMBER_IF=[
     {loc:'D15',who:'heroine_04',pid:'D15.store',flag:'ZQ_D15_NEXT',no:[{who:'heroine_04',text:'布丁還在同一格，我要拿了。'}]},   /* 子晴這兩列沒旗標的備用句：2026-11-11 照 AA_775_zq_date_common.json@02078efc0 換（使用者 X324；原本兩列都是「上次也來這裡。」）*/
     {loc:'D05',who:'classmate_peishan',pid:'D05.cafe',flag:'PS_D05_EGG',once:true,add:[{who:'narr',text:'（她把一杯熱紅茶推到你面前。）'},{who:'classmate_peishan',text:'說好的，這次換我。'}]}];   /* X327 沛珊重寫（date_rewrite/peishan_D05.json@2883197b6 的 for_LAWWW）：原本是一盒蛋餅、「說好的！」 */
   S.rememberOf=function(G,t,pid,R){ if(!R) return R; const F=(G&&G.flags)||{}, x=S.REMEMBER_IF.find(r=>r.loc===t.locs[0]&&r.who===t.who&&r.pid===pid); if(!x) return R;
