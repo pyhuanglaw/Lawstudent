@@ -54,7 +54,7 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ sis('你一個人一戶？有客廳，還有自己的廚房。'),
       sis('我住 C 棟，三個人合租。廚房是共用的，冰箱上貼了一張輪值表。'),
       sis('冷氣開太強會很乾。垃圾星期四收。'),
-      sis('……有事打給我。同一個社區，走路五分鐘。') ] });
+      sis('有事打給我。同一個社區，走路五分鐘。') ] });
   EV.push({ id:'ev_us1_mom', title:'打給媽媽', participants:[], location:'any', trigger:'manual', once:true, background:'blur',   /* 21:30，所有美國路線（AA_291 4-1）*/
     dialogue:[ nar('（行李箱上貼著媽媽的便條：「到了打電話。不管幾點。」）'),
       nar('（你打給媽媽。台灣是早上九點半，她說她剛好醒了。）'),
@@ -94,7 +94,7 @@ const R2Y4A_EVENTS=(function(){
       sis('……被退了。教授說：「妳的論點很清楚，但我讀不到妳。」'),
       nar('（水滾了。她把麵放進去，一人份。）'),
       {choice:[{text:'「我陪妳吃完再走。」',set:{US2_STAYED:true},goto:'a'},{text:'「那我先走了。」',goto:'b'}]},
-      {label:'a'},sis('……隨你。'),nar('（你在窗口外的高腳椅坐下。）'),{goto:'end'},
+      {label:'a'},sis('隨你。'),nar('（你在窗口外的高腳椅坐下。）'),{goto:'end'},
       {label:'b'},sis('嗯。'),{goto:'end'},
       {label:'w'},nar('（你走的時候，她沒有回頭。）'),
       {label:'end'},{set:{US2:'repair'}} ],
@@ -114,7 +114,7 @@ const R2Y4A_EVENTS=(function(){
       nar('（她排了一張行程表，每一格都有時間。第一個景點就遲到二十分鐘：巴士誤點。）'),
       nar('（她看著行程表，然後把它摺起來，放進口袋。）'),
       CG('cg_chicago_heroine05'),   /* BCG-17（何俊朗只畫背影）*/
-      sis('……今天不照表。'),
+      sis('今天不照表。'),
       nar('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）'),   /* AA_345 F10：不寫成他的台詞，一句旁白接學姊那句。沒見過他的在上面巴士上認識了（AA_451 1-1；原本 AA_370 L1 的「同行的人」版不再用）*/
       sis('「還好」是好還是不好？'),
       me('看情況。'),
@@ -208,7 +208,7 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_us_club_dinner', title:'會所晚餐', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'會所・交誼廳',bg:'us_club_lounge'},
       nar('（會所的交誼廳，兩張長桌併在一起。每個人帶來的菜擺成一排，有一半是泡麵做的。）')]
-      .concat(DISH('egg','這是什麼？……好香。'),DISH('noodle','你把最後一包拿出來了？'),DISH('plates','……謝謝。盤子剛好不夠。'),
+      .concat(DISH('egg','這是什麼？……好香。'),DISH('noodle','你把最後一包拿出來了？'),DISH('plates','謝謝。盤子剛好不夠。'),
       [ nar('（學姊坐在長桌的另一頭，最後一個拿起杯子。）'),
         nar('（她舉杯。）'),
         CG('cg_last_dinner_heroine05'),   /* BCG-33（圖不改；標題是 CG 的名字、不是台詞）*/
@@ -246,14 +246,14 @@ const R2Y4A_EVENTS=(function(){
       sis('走得過去嗎。'),
       {choice:[{text:'「走過去就看得到了。」',goto:'a'},{text:'「那我們走到一半就好。」',goto:'b'},{text:'（不說話，牽她的手）',goto:'c'}]},
       {label:'a'},sis('嗯。'),nar('（她先走。走了幾步回頭。）'),sis('你也要走。'),{goto:'e'},
-      {label:'b'},sis('一半。'),nar('（她笑了）'),sis('……好。走到第二根橋塔。'),{goto:'e'},
-      {label:'c'},nar('（她沒有說話，手沒有抽開。走到第二根橋塔，霧散了一點。）'),sis('……另一頭在那裡。'),
+      {label:'b'},sis('一半。'),nar('（她笑了）'),sis('好。走到第二根橋塔。'),{goto:'e'},
+      {label:'c'},nar('（她沒有說話，手沒有抽開。走到第二根橋塔，霧散了一點。）'),sis('另一頭在那裡。'),
       {label:'e'} ] });
   EV.push({ id:'ev_sf3', title:'老書店', participants:[S5], location:'any', trigger:'manual', once:true, background:'dark',
     dialogue:[ {scene:'老書店',bg:'sf_bookstore'},
       nar('（二樓靠窗有一張舊椅子。她拿了一本詩集，坐下來就沒有再站起來。）'),
       sis('這不是法律書。'),
-      sis('……你可以去逛。我在這裡。'),
+      sis('你可以去逛。我在這裡。'),
       {choice:[{text:'「我也坐這裡。」',goto:'a'},{text:'「我去逛一圈再回來。」',goto:'b'}]},
       {label:'a'},nar('（她把詩集翻到一半推過來。）'),sis('你讀左邊，我讀右邊。'),{goto:'e'},
       {label:'b'},nar('（回來的時候她睡著了，詩集蓋在腿上。你沒有叫她。）'),
@@ -430,7 +430,7 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ {scene:'公館燒臘',bg:'noodle_table'},
       nar('（週五的燒臘店，長桌空著。你們坐在角落那張兩人桌。）'),
       bh('（看著菜單）我請。你點貴一點的。'),
-      bh('……最貴的是一百一。我查過了。'),
+      bh('最貴的是一百一。我查過了。'),
       {unless:{custom:PASS},goto:'f'},
       bh('面試的時候，我說完，有一個教授點頭。'),
       bh('我出來以後一直在想，他點頭是什麼意思。'),
@@ -455,13 +455,13 @@ const R2Y4A_EVENTS=(function(){
       {if:{flagIs:{KX_INTERN_CALL:'fail'}},goto:'f'},
       kx('結果出來了吧。你先說。'),
       nar('（你說上了。）'),
-      UN(EXAM,kx('我事務所的實習也上了。那今天宵夜誰請？')),IF(EXAM,kx('……好。這次換你的上了。那今天宵夜誰請？')),
+      UN(EXAM,kx('我事務所的實習也上了。那今天宵夜誰請？')),IF(EXAM,kx('好。這次換你的上了。那今天宵夜誰請？')),
       {choice:[{text:'「我請。」',goto:'a'},{text:'「各付各的。」',goto:'b'}]},
       {label:'a'},kx('好。山下那家。'),{goto:'e'},
-      {label:'b'},kx('……好啦。'),{goto:'e'},
+      {label:'b'},kx('好啦。'),{goto:'e'},
       {label:'f'},kx('你的，先說你的。'),
       nar('（你說沒上。）'),
-      UN(EXAM,kx('……好。二月還有一次。')),   /* 推甄沒上那一通：她不提自己的，隔天 21:00 才傳（那一則記 KX_INTERN）*/
+      UN(EXAM,kx('好。二月還有一次。')),   /* 推甄沒上那一通：她不提自己的，隔天 21:00 才傳（那一則記 KX_INTERN）*/
       IF(EXAM,kx('……好。今天宵夜我請。不准說不要。')),   /* 3/22 筆試也沒上（「二月還有一次」已經不成立）*/
       {end:true},
       {label:'e'},{set:{KX_INTERN:true}} ] });
@@ -506,7 +506,7 @@ const R2Y4A_EVENTS=(function(){
   const K21_PICK=third=>[ {choice:[{text:'「現在可以聊天了？」',goto:'k1'},{text:'「下週同一天？」',goto:'k2'},{text:third,goto:'k3'}]},
     {label:'k1'},kx('可以。……先去吃東西，我餓了。'),{goto:'ke'},
     {label:'k2'},kx('好。寫進表格。'),{goto:'ke'},
-    {label:'k3'},kx('……你整頁都畫了。那等於沒畫。'),
+    {label:'k3'},kx('你整頁都畫了。那等於沒畫。'),
     {label:'ke'},{set:{KX_STUDY_PLAN:'went'}} ];
   const TO16={advance:G=>Math.max(0,16-hh(G))};   /* 讀到 16:00（9/23 14:00～16:00）*/
   /* ---- 2-Y4-13 K21「約讀書，而且真的有讀」（BB_99 9-2、9-0b；裁定第 18 點）：9/23（六）14:00 政大（出遊）／總圖（3D：goto 到閱覽室，這裡的 auto 演）；美國路線＝視訊（當地 09:00）---- */
@@ -534,7 +534,7 @@ const R2Y4A_EVENTS=(function(){
       {choice:[{text:'「妳會很適合。」',goto:'a'},{text:'「兩種都需要。」',goto:'b'},{text:'（點頭，不說話）',goto:'c'}]},
       {label:'a'},kx('你每次都這樣說。……好啦，謝謝。'),{goto:'e'},
       {label:'b'},kx('對。所以邵鈞和我是好朋友。'),{goto:'e'},
-      {label:'c'},nar('（她把筆記收進包包。）'),kx('……走吧，山下那家還開著。'),
+      {label:'c'},nar('（她把筆記收進包包。）'),kx('走吧，山下那家還開著。'),
       {label:'e'},{set:{KX_DIRECTION:true}} ] });
 
   /* ---- 2-Y4-24 可昕「聖誕，讀到打烊」（BB_99 9-9；裁定第 21 點）：12/25（一）19:00 政大山下的咖啡店（沒有底圖＝深色底＋字幕）→ 自強十舍樓下 ---- */
@@ -548,11 +548,11 @@ const R2Y4A_EVENTS=(function(){
       {advance:G=>Math.max(0,22-hh(G))},
       nar('（兩個人讀到店員開始收椅子。走出來，山上的風。）'),
       {scene:'木柵大學・宿舍樓下',bg:'nccu_dorm'},
-      kx('……冷死了。'),
+      kx('冷死了。'),
       kx('聖誕快樂。今天讀了幾頁，不要說。今天不算。'),
       {choice:[{text:'「聖誕快樂。」',goto:'a'},{text:'（把圍巾給她）',goto:'b'}]},
       {label:'a'},kx('嗯。……明天我回高雄。'),{goto:'e'},
-      {label:'b'},kx('……你的圍巾很醜。'),nar('（她還是圍上了。）'),
+      {label:'b'},kx('你的圍巾很醜。'),nar('（她還是圍上了。）'),
       {label:'e'},
       IF(PLAN,nar('（共用的讀書計畫表，12/25 那一格多了一行：「聖誕快樂」。旁邊畫了一隻長頸鹿。）')),   /* 她的禮物（AA_345 F3 定稿）*/
       UN(PLAN,nar('（她給你一張卡片。上面畫了一隻長頸鹿。）')) ],
@@ -574,7 +574,7 @@ const R2Y4A_EVENTS=(function(){
       {choice:[{text:'「走到那個堤防的盡頭。」',goto:'a'},{text:'「找一家沒吃過的。」',goto:'b'},{text:'「坐著就好。」',goto:'c'}]},
       {label:'a'},kx('好。走慢一點，我鞋子穿錯了。'),{goto:'e'},
       {label:'b'},kx('這附近我都吃過。……好，那找一家我也沒吃過的。'),{goto:'e'},
-      {label:'c'},kx('……你很無聊。'),nar('（她還是坐下來了。一個小時，兩個人都沒說話。）'),
+      {label:'c'},kx('你很無聊。'),nar('（她還是坐下來了。一個小時，兩個人都沒說話。）'),
       {label:'e'},
       {advance:G=>Math.max(0,17-hh(G))},   /* 傍晚 */
       {scene:'高雄・左營站',bg:'kh_station'},   /* 傍晚回到左營站：和開頭同一張 kh_station（高鐵、火車共構；BLACK-BG-AUDIT-1018，BB_132 第 100 組）*/
@@ -586,7 +586,7 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ {scene:'電話'},
       nar('（鞭炮聲。）'),   /* AA_327「三句：鞭炮聲、……」；AA_345 F3：「（鞭炮聲。）」可以 */
       kx('新年快樂。'),
-      kx('……我阿嬤在叫我。你也去陪你媽。') ] });
+      kx('我阿嬤在叫我。你也去陪你媽。') ] });
 
   /* ---- 2-Y4-29 情人節，讀書計畫表（BB_99 9-14）：2/14（三）21:00 視訊。天氣和上一次她問的回答（KX_VDAY_WX）一樣＝那一句照差幾年換（AA_345 F5）：
      大三的情人節（r2y3a，2-Y3-24）沒有問天氣＝比上一次有問的那一年：大二（大部分玩家）「跟前年一樣。」、大一「跟大一那年一樣。」（有 [3] 的照 BB_99 原句「跟去年一樣。」）---- */
@@ -598,7 +598,7 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ {scene:'視訊',bg:'video'},
       kx('你那邊天氣怎樣？'),
       {choice:[{text:'「冷。」',set:{_y4Vwx:'cold'}},{text:'「下雨。」',set:{_y4Vwx:'rain'}},{text:'「還好。」',set:{_y4Vwx:'ok'}}]},
-      IF(VSY(3),kx('跟去年一樣。')),IF(VSY(2),kx('跟前年一樣。')),IF(VSY(1),kx('跟大一那年一樣。')),UN(VSAME,kx('……高雄今天二十五度。')),
+      IF(VSY(3),kx('跟去年一樣。')),IF(VSY(2),kx('跟前年一樣。')),IF(VSY(1),kx('跟大一那年一樣。')),UN(VSAME,kx('高雄今天二十五度。')),
       IF(PLAN,kx('情人節禮物。我們那張表，我重排了。')),UN(PLAN,kx('情人節禮物。讀書計畫表。')),
       kx('兩個人的格子排在一起。考完以前，都照這張。'),
       nar('（畫面：每天晚上十點那一格，兩欄都寫著「通話」。）') ],
@@ -658,7 +658,7 @@ const R2Y4A_EVENTS=(function(){
   const AN_FAM=G=>knows(AN,G)&&typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&SOCIAL.STAGES.indexOf(SOCIAL.stage(AN))>=SOCIAL.STAGES.indexOf('FAMILIAR');
   EV.push({ id:'ev_grad_exam', title:'研究所筆試', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
     dialogue:[ IF(AN_FAM,nar('（教學館門口，以安在看考場的配置圖。）')),
-      IF(AN_FAM,an('你在三樓。我在二樓。')),IF(AN_FAM,an('……考完，門口。')),
+      IF(AN_FAM,an('你在三樓。我在二樓。')),IF(AN_FAM,an('考完，門口。')),
       {scene:'考場',bg:'grad_exam_room'},   /* 人已經走進 3D 的共同教學館 3F 考場（tests/rooms_ab3_people_unit.js 7）；考試本身原本用深色底帶過，11-02 BB 跟使用者要了考場的圖（BB_241 第五、六節，企劃線 62395d7da bg_approved/grad_exam_room）*/
       {call:async(G,GM)=>{ if(typeof PG!=='undefined'&&PG.gradQuiz) await PG.gradQuiz(GM,2029); }},   /* D118-B6：研究所筆試改成作答（10 題公法，PG.gradQuiz；GRAD_SCORE_2029、GRAD_EXAM_2029_PASS）*/
       nar('（兩節。第二節最後一題，你寫到鐘響。）'),

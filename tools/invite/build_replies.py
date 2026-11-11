@@ -381,9 +381,22 @@ def overlay_replies(path, text):
     txt = lambda x: x if isinstance(x, str) else (x.get('me') if isinstance(x, dict) else None)
     for x in R:
         w = f'{x["src"]} {x["who"]} {x["at"]}'
+        ms = re.fullmatch(r'(\w+)\.say', x['at'])   # 2026-11-11（AA_783@60c08798a，AA_794 搬來）：表上原文 say 也可以換（整格等於 old 才換）
+        if ms:
+            if ms.group(1) not in idx:
+                die(f'{w}：invite_replies.js 沒有 {ms.group(1)} 這一列')
+            i, r, w2, comma = idx[ms.group(1)]
+            if w2 != x['who']:
+                die(f'{w}：{ms.group(1)} 是 {w2} 的列，不是 {x["who"]}')
+            if r.get('say') != x['old']:
+                die(f'{w}：say 現在是 {json.dumps(r.get("say"), ensure_ascii=False)}，不是稿的 old「{x["old"]}」（對不到，不猜）')
+            r['say'] = x['new']
+            if x['src'] not in r.setdefault('ov', []):
+                r['ov'].append(x['src'])
+            continue
         m = re.fullmatch(r'(\w+)\.lines\[(\d+)\]', x['at'])
         if not m:
-            die(f'{w}：at 要寫 <列 id>.lines[i]')
+            die(f'{w}：at 要寫 <列 id>.lines[i] 或 <列 id>.say')
         if m.group(1) not in idx:
             die(f'{w}：invite_replies.js 沒有 {m.group(1)} 這一列')
         i, r, w2, comma = idx[m.group(1)]
