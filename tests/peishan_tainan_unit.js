@@ -24,6 +24,9 @@ const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js
   'src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js',
   'src/story3d.js','src/classes3d.js','src/data/y2b_events.js','src/y2b3d.js','src/data/free_trips.js','src/freetrip3d.js','src/data/encounters.js','src/data/enc_walk.js','src/encounter3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
+/* 2026-11-11（SHE-FIRST-1110／PEISHAN-VOICE-1110）：芷若、沛珊心意邀約的台詞搬到 src/data/termend_opts.js 的 TERMEND_OPTS.HEART（沒載＝這兩位沒有邀約句、不發）——這支測試只載那一份的 HEART、LINES，
+   其他人的期末飯選項（GF／TABLE／CONFESS／KX／FRIEND）照舊不載（這支測的是沒有選項的原本流程；選項在 tests/termend_opts_1110_unit.js、「她先說」在 tests/te_shefirst_1110_unit.js）*/
+{ const fs_=require('fs'), p_=require('path').join(__dirname,'..','src/data/termend_opts.js'); if(fs_.existsSync(p_)){ require('vm').runInThisContext(fs_.readFileSync(p_,'utf8').replace(/^const TERMEND_OPTS\s*=/m,'globalThis.__TO_ALL='),{filename:'src/data/termend_opts.js'}); globalThis.TERMEND_OPTS={HEART:globalThis.__TO_ALL.HEART||{},LINES:globalThis.__TO_ALL.LINES||{}}; } }
 global.ADV={active:false,preload(){},begin(){ this.active=true; },end(){ this.active=false; },log(){},speaker(){},cg(){ return true; },setBg(){},hide(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
 let said=[], opts=[], picks=[], G=null, caps=[];
@@ -164,13 +167,14 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     const setup=(term,fl)=>{ const w=TERMEND.windowOf(term); fresh(w.from,12,'campus',fl||{}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=40; DATE.log(G,ID).count=4; DATE.log(G,ID).wish=true; return w; };
     let w=setup('Y3S1',{PS_BACK_FIRST:1}); run(w.from,20,21,0.05);
     const m=(G.msgs||[]).find(x=>x.tag==='te_Y3S1_'+ID);
-    check('6. 大三上（重新聯絡上）：心意的邀約照發「期末考完了！吃飯好不好？就我們兩個。我有問題想問你。」', !!m&&m.text==='期末考完了！吃飯好不好？就我們兩個。我有問題想問你。', JSON.stringify((G.msgs||[]).filter(x=>/^te_/.test(x.tag||'')).map(x=>x.tag+':'+x.text)));
+    /* 2026-11-11 改期望（使用者 X327 沛珊重寫 PEISHAN-VOICE-1110＋「她先說」SHE-FIRST-1110，AA_751@33a1769f8）：邀約句拿掉「我有問題想問你。」；飯桌換成兩句＋選項；回家路上她先說（原本：第一句「今天謝謝你來。……你要講什麼嗎？」、先不說→她說「你喜歡我嗎？……因為我喜歡你。」→「好。」）*/
+    check('6. 大三上（重新聯絡上）：心意的邀約照發「期末考完了！吃飯好不好？就我們兩個。」', !!m&&m.text==='期末考完了！吃飯好不好？就我們兩個。', JSON.stringify((G.msgs||[]).filter(x=>/^te_/.test(x.tag||'')).map(x=>x.tag+':'+x.text)));
     PHONE.answer(G,'te_Y3S1_'+ID,0); STORY.phoneRules(GM); const q=OUT.get(G,'te_Y3S1');
     check('6. 地點＝台南・她學校附近的簡餐、高鐵（去台南）約兩小時、回程「搭最後一班高鐵回到臺北。」', !!q&&q.place==='台南・她學校附近的簡餐'&&q.travel==='高鐵（去台南）約兩小時'&&q.travelH===2&&q.back==='搭最後一班高鐵回到臺北。', JSON.stringify(q));
     check('6. 日子：期末考最後一天（週五）起、她回台中以前（第 16 週週日以前）', !!q&&q.day>=w.from+1&&q.day<=w.termTo&&STORY.presence(ID,Object.assign({},G,{day:q.day})).kind==='city', JSON.stringify(q&&[q.day,w.from,w.termTo]));
     G.day=q.day; G.hour=18.5; said=[]; caps=[]; picks=[3,0]; const m0=G.money; await TERMEND.dinner(GM,q);
-    check('6. 飯：深色底＋地點字幕「台南・她學校附近的簡餐」、開場收尾照一對一的簡餐、飯桌一句不變；高鐵 2700', caps.includes('台南・她學校附近的簡餐')&&has('（簡餐店的電視在播新聞。靠窗的兩人座。）')&&has('我這學期問了你幾個問題？……我有數，你猜。')&&G.money===m0-2700, JSON.stringify(caps));
-    check('6. 回家的路：字幕「台南・往她租的地方」（AA_262 第 5 點、AA_260 第 17 項）、第一句「今天謝謝你來。……你要講什麼嗎？」、先不說→她說→「好。」交往', caps.includes('台南・往她租的地方')&&has('今天謝謝你來。……你要講什麼嗎？')&&has('你喜歡我嗎？……因為我喜歡你。')&&G.flags.dating_classmate_peishan===true, JSON.stringify(caps));
+    check('6. 飯：深色底＋地點字幕「台南・她學校附近的簡餐」、開場收尾照一對一的簡餐、飯桌一句不變；高鐵 2700', caps.includes('台南・她學校附近的簡餐')&&has('（簡餐店的電視在播新聞。靠窗的兩人座。）')&&has('你今天話好少。')&&has('平常這個時候，你已經被我鬧到翻白眼了。')&&G.money===m0-2700, JSON.stringify(caps));
+    check('6. 回家的路：字幕「台南・往她租的地方」（AA_262 第 5 點、AA_260 第 17 項）、她先說（「今天謝謝你來。你整個晚上怪怪的…」→ 猜 →「我真的很喜歡你。」）→ 第一個回應＝交往', caps.includes('台南・往她租的地方')&&has('今天謝謝你來。你整個晚上怪怪的，是不是在緊張什麼。')&&has('我真的很喜歡你。')&&has('好。那從現在開始，我鬧你就是合法的了。')&&G.flags.dating_classmate_peishan===true, JSON.stringify(caps));
     check('6. 舊的地點不再出現（舊路書房旁邊的簡餐、溫州街・小公園）', !JSON.stringify(TERMEND.heart(ID,'Y3S1')).includes('舊路書房')&&!JSON.stringify(TERMEND.gf(ID,'Y4S1')).includes('舊路書房')&&TERMEND.heart(ID,'Y4S1').placeName==='台南・她學校附近的簡餐'&&TERMEND.heart(ID,'Y1S2').placeName==='系館附近的簡餐');
     w=setup('Y3S1',{}); run(w.from,20,21,0.05);
     check('6. 還沒重新聯絡上：不發心意邀約（她不先找人）', !(G.msgs||[]).some(x=>(x.tag||'').indexOf(ID)>=0&&/^te_/.test(x.tag||'')));

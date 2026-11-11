@@ -30,9 +30,11 @@ const GFP=['heroine_01','heroine_03','heroine_05','heroine_02','heroine_04'], HP
 (async()=>{
   await sec(1,async()=>{ let out=''; try{ out=cp.execFileSync('python3',['tools/story/import_termend_opts.py','--check'],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); }catch(e){ out=String(e.stderr||e.message); }
     check('1. 匯入工具 --check：src/data/termend_opts.js 和白名單的稿一樣',/^OK /.test(out),out.slice(0,200));
-    check('1. 女朋友版只有五位（沒有沛珊、芯慈）；心意邀約的飯桌選項、說出來的選項只有四位（沒有芷若、沛珊）；可昕六頓',ok0&&J(Object.keys(TOx.GF).sort())===J(GFP.slice().sort())&&J(Object.keys(TOx.TABLE).sort())===J(HP.slice().sort())&&J(Object.keys(TOx.CONFESS).sort())===J(HP.slice().sort())&&J(Object.keys(TOx.KX))===J(['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y5S1']),ok0?J([Object.keys(TOx.GF),Object.keys(TOx.TABLE),Object.keys(TOx.CONFESS),Object.keys(TOx.KX)]):'沒有 TERMEND_OPTS');
+    /* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_751@33a1769f8）：女朋友版多了沛珊（來源 AA_751，不是 AA_749 那一份）——原本期望「只有五位（沒有沛珊）」。芷若、沛珊的心意邀約在 TERMEND_OPTS.HEART（她先說），不在 TABLE／CONFESS */
+    check('1. 女朋友版六位（AA_749 的五位＋AA_751 的沛珊；沒有芯慈）；心意邀約的飯桌選項、說出來的選項只有四位（芷若、沛珊在 HEART）；可昕六頓',ok0&&J(Object.keys(TOx.GF).sort())===J(GFP.concat(['classmate_peishan']).sort())&&J(Object.keys(TOx.TABLE).sort())===J(HP.slice().sort())&&J(Object.keys(TOx.CONFESS).sort())===J(HP.slice().sort())&&J(Object.keys(TOx.KX))===J(['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y5S1']),ok0?J([Object.keys(TOx.GF),Object.keys(TOx.TABLE),Object.keys(TOx.CONFESS),Object.keys(TOx.KX)]):'沒有 TERMEND_OPTS');
     const txt=require('fs').readFileSync(require('path').join(H.ROOT,'src/data/termend_opts.js'),'utf8');
-    check('1. 檔裡沒有沛珊重寫前的句子、沒有不該帶進來的欄位（note、sayMore）',ok0&&!/peishan|蛋餅|"note"|sayMore/.test(txt)); });
+    /* 2026-11-11 改期望（PEISHAN-VOICE-1110／SHE-FIRST-1110）：沛珊重寫好了（AA_751@33a1769f8）、匯進這個檔——原本整個檔不能出現 peishan；現在查的是重寫前的句子一句都沒有 */
+    check('1. 檔裡沒有沛珊重寫前的句子、沒有不該帶進來的欄位（note、sayMore）',ok0&&!/蛋餅|早餐店|我有問題想問你|那我問最後一個問題|我可以問一個奇怪的問題嗎|我有一堆問題想問你|下次再問你問題|"note"|sayMore/.test(txt)); });
 
   await sec(2,async()=>{ if(!ok0){ check('2. 女朋友版五位每一頓都有選項',false,'沒有 TERMEND_OPTS'); return; }
     const bad=[]; let n=0;
@@ -132,29 +134,35 @@ const GFP=['heroine_01','heroine_03','heroine_05','heroine_02','heroine_04'], HP
     const kx=async(term,want,pre)=>{ const G=H.fresh(DAY[term],18); H.rel('kexin',65,50,45); G.flags.dating_kexin=true; if(pre) pre(G); H.said=[]; CH=[]; WANT=want||[]; const l0=love('kexin'); await TERMEND.dinner(GM,{te:{term,who:'kexin',kind:'kexin'}}); return {G,dl:love('kexin')-l0}; };
     const a=await kx('Y2S1',['「我去。妳排哪幾天？」','「好。哪幾天？」']);
     /* 2026-11-10 改期望（AA 11-10 經 LAWWW）：有選項稿的學期 KX_ASK 的二選一不再接在後面；KX_KHH.Y2W 由選項「我去。妳排哪幾天？」記 */
-    check('7. 可昕大二上：開頭兩句 → 三個選項 → 她的回答（+2）；不再接 KX_ASK 的二選一；選「我去。妳排哪幾天？」＝記 KX_KHH.Y2W yes',has('我家附近那個夜市你還沒去過。我已經跟我媽說了。')&&CH.length===1&&CH[0].length===3&&has('你住旅館喔，我家沒有多的房間。有也不給你住。')&&a.dl===2&&a.G.flags.KX_KHH&&a.G.flags.KX_KHH.Y2W==='yes'&&!has('我們期末考完，你寒假來高雄。')&&!has('你自己挑。我那幾天都在。'),J({ch:CH,dl:a.dl,khh:a.G.flags.KX_KHH}));
+    /* 2026-11-11 改期望（AA 改斷句、意思不變；企劃線 bd1a6fda3：芷若、可昕、Alison、阿哲說的字改成一口氣講的寫法，113 處）：開頭兩句併成一句「寒假你來高雄，我家附近那個夜市你還沒去過，我已經跟我媽說了。」、回答「你住旅館喔，我家沒有多的房間，有也不給你住。」
+       （原本「寒假你來高雄。」「我家附近那個夜市你還沒去過。我已經跟我媽說了。」「你住旅館喔，我家沒有多的房間。有也不給你住。」）*/
+    check('7. 可昕大二上：開頭 → 三個選項 → 她的回答（+2）；不再接 KX_ASK 的二選一；選「我去。妳排哪幾天？」＝記 KX_KHH.Y2W yes',has('寒假你來高雄，我家附近那個夜市你還沒去過，我已經跟我媽說了。')&&CH.length===1&&CH[0].length===3&&has('你住旅館喔，我家沒有多的房間，有也不給你住。')&&a.dl===2&&a.G.flags.KX_KHH&&a.G.flags.KX_KHH.Y2W==='yes'&&!has('我們期末考完，你寒假來高雄。')&&!has('你自己挑。我那幾天都在。'),J({ch:CH,dl:a.dl,khh:a.G.flags.KX_KHH}));
     const a2=await kx('Y2S1',['「寒假我可能要打工。」']); /* 2026-11-10 三改期望（AA 回 LAWWW，企劃線 1cf434dee）：每個選項照稿的 set 記——false＝原本的「沒空」（KX_KHH.Y2W no，寒假第 5 天夜市照片那條）*/
     check('7. 選「寒假我可能要打工。」（set KX_KHH false）＝記 KX_KHH.Y2W no；只有一組選項',!!a2.G.flags.KX_KHH&&a2.G.flags.KX_KHH.Y2W==='no'&&CH.length===1,J({ch:CH,khh:a2.G.flags.KX_KHH||null}));
     const a3=await kx('Y2S1',['「妳跟妳媽說什麼？」']); check('7. 選「妳跟妳媽說什麼？」（set KX_KHH true）＝記 KX_KHH.Y2W yes',!!a3.G.flags.KX_KHH&&a3.G.flags.KX_KHH.Y2W==='yes',J(a3.G.flags.KX_KHH||null));
     const s1=await kx('Y3S2',['「那晚上講電話。」']), s2=await kx('Y3S2',['（把她的手機拿過來，在某個週六打上自己的名字。）']), s3=await kx('Y3S2',['「幾天？」'],G=>{ G.flags.EXCHANGE_ROUTE='US'; }), usK=Lx.COND.US(H.G);
-    check('7. 大三下：臺灣路線「那晚上講電話。」＝Y3S no、打上名字＝Y3S yes；美國路線那一組不記',s1.G.flags.KX_KHH.Y3S==='no'&&s2.G.flags.KX_KHH.Y3S==='yes'&&(!usK||!s3.G.flags.KX_KHH),J([s1.G.flags.KX_KHH,s2.G.flags.KX_KHH,s3.G.flags.KX_KHH||null,usK]));
+    /* 2026-11-11 改期望（AA 2026-11-10 23:4x 回 LAWWW）：大三下美國路線那一組三個選項都記 KX_KHH.Y3S yes（他八月才出發，七月「七月你空哪天。」照舊發；匯入工具 KX_US_YES）——原本期望「美國路線那一組不記」。其他學期的美國路線照舊不記 */
+    check('7. 大三下：臺灣路線「那晚上講電話。」＝Y3S no、打上名字＝Y3S yes；美國路線那一組都記 Y3S yes（AA 11-10 23:4x）',s1.G.flags.KX_KHH.Y3S==='no'&&s2.G.flags.KX_KHH.Y3S==='yes'&&(!usK||(!!s3.G.flags.KX_KHH&&s3.G.flags.KX_KHH.Y3S==='yes')),J([s1.G.flags.KX_KHH,s2.G.flags.KX_KHH,s3.G.flags.KX_KHH||null,usK]));
     const y5=[]; for(const t of TOx.KX.Y5S1.opts.map(o=>o.t)){ const r=await kx('Y5S1',[t]); y5.push(r.G.flags.KX_Y5_CALL); } check('7. 大五上三個選項都記 KX_Y5_CALL（sat＝原本「週末一定打。」的值）、不記 KX_KHH',y5.length===3&&y5.every(v=>v==='sat')&&!H.G.flags.KX_KHH,J(y5));
-    check('7. 資料：臺灣路線每個選項都有 khh 或 y5、美國路線那一組沒有；沒有稿上的 set 原樣留著',Object.keys(TOx.KX).every(t=>TOx.KX[t].opts.every(o=>o.set===undefined&&(o.if==='US'?(!o.khh&&!o.y5):(t==='Y5S1'?o.y5==='sat'&&!o.khh:Array.isArray(o.khh)&&['yes','no'].includes(o.khh[1]))))));
+    check('7. 資料：臺灣路線每個選項都有 khh 或 y5、美國路線那一組沒有（大三下例外：三個都是 Y3S yes）；沒有稿上的 set 原樣留著',Object.keys(TOx.KX).every(t=>TOx.KX[t].opts.every(o=>o.set===undefined&&(o.if==='US'?(t==='Y3S2'?(J(o.khh)===J(['Y3S','yes'])&&!o.y5):(!o.khh&&!o.y5)):(t==='Y5S1'?o.y5==='sat'&&!o.khh:Array.isArray(o.khh)&&['yes','no'].includes(o.khh[1]))))));
     const one=[]; for(const t of ['Y2S2','Y3S1','Y3S2','Y4S1','Y5S1']){ await kx(t,[]); if(CH.length!==1||CH[0].length!==3) one.push([t,CH]); } check('7. 大二下～大五上：各一組三個選項、後面沒有二選一',one.length===0,J(one));
-    await kx('Y3S1',['「所以能不能？」']); check('7. 大三上：選項之後接 then「寒假你來高雄。我們都沒去過的地方，我來排。」',idx('寒假你來高雄。我們都沒去過的地方，我來排。')>idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')&&idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')>=0,J(said().slice(0,9)));
+    await kx('Y3S1',['「所以能不能？」']); /* 2026-11-11 改期望（AA 改斷句、意思不變；bd1a6fda3）：then「寒假你來高雄，我們都沒去過的地方，我來排。」（原本「寒假你來高雄。我們都沒去過的地方，我來排。」）*/ check('7. 大三上：選項之後接 then「寒假你來高雄，我們都沒去過的地方，我來排。」',idx('寒假你來高雄，我們都沒去過的地方，我來排。')>idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')&&idx('我房東上個月自己開門進來修冷氣。我就是那天決定寫這個的。')>=0,J(said().slice(0,9)));
     await kx('Y3S2',[]); const tw={say:has('暑假你在臺北，我在高雄。'),g:CH[0].includes('「那晚上講電話。」')&&CH[0].length===3};
-    await kx('Y3S2',[],G=>{ G.flags.EXCHANGE_ROUTE='US'; }); const usOn=Lx.COND.US(H.G), us={say:has('八月你就去美國了。')&&!has('暑假你在臺北，我在高雄。'),g:CH[0].includes('「幾天？」')&&CH[0].length===3};
+    await kx('Y3S2',[],G=>{ G.flags.EXCHANGE_ROUTE='US'; }); const usOn=Lx.COND.US(H.G), us={say:has('八月你就去美國了，我算過了，我們分開最久就是這次。')/* 2026-11-11 改期望（AA 改斷句、意思不變；bd1a6fda3）：原本「八月你就去美國了。」「我算過了。我們分開最久就是這次。」兩句 */&&!has('暑假你在臺北，我在高雄。'),g:CH[0].includes('「幾天？」')&&CH[0].length===3};
     check('7. 大三下：臺灣路線、美國路線各自的開頭和三個選項',tw.say&&tw.g&&(!usOn||(us.say&&us.g)),J({tw,us,usOn,ch:CH[0]}));
     check('7. 美國路線的條件在測試裡有打開',usOn===true,'STORY.route');
     const f=await kx('Y1S2',[]); check('7. 大一下第一次那一頓照現有的（不在稿裡）',!TOx.KX.Y1S2); });
 
   await sec(8,async()=>{ const ps='classmate_peishan', g=Lx.GF[ps];
-    await dinner(ps,'Y1S2','gf'); const a={tbl:has('這學期有幾次我想打給你，後來沒打。怕你在讀書。'),pool:poolOf('Y1S2',ps).filter(has).length,opt3:CH.some(c=>c.length===3)};
-    await dinner(ps,'Y3S1','gf'); const b={tbl:has('台南我還沒找到喜歡的早餐店。')&&has('……我家的比較好吃。不是我偏心。')};
-    check('8. 沛珊女朋友版照現在的字：一句＋話題池（沒有三個選項）；大三上照 termend_lines.js 的兩句',a.tbl&&a.pool>=1&&!a.opt3&&b.tbl&&J(g.tableByTerm.Y4S1)===J(['下學期去國小實習，要穿得像老師。','……你幫我挑。我挑的都太像學生。']),J({a,b}));
-    await dinner('heroine_02','Y1S2','heart'); const z=CH.find(c=>c.includes('（先不說）'));
-    check('8. 芷若心意邀約照現在的字：飯桌句後面沒有選項、說出來＝通用三句',has('（她把吸管套折成很小一塊）……這學期，有幾次下班想傳訊息給你。打好了，沒送出去。')&&CH.length===1&&J(z)===J(Lx.OPTS().concat(['（先不說）'])),J(CH));
-    await dinner(ps,'Y1S2','heart'); const pz=CH.find(c=>c.includes('（先不說）')); check('8. 沛珊心意邀約照現在的字：沒有飯桌選項（只有原本的鉤子二選一）、說出來的三句照原本',!CH.some(c=>c.length===3)&&J(pz)===J(Lx.OPTS().concat(['（先不說）']))&&!!pz&&pz.length===4&&has(Lx.HEART[ps].table),J(CH));
+    /* 2026-11-11 改期望（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_751@33a1769f8）：沛珊女朋友版匯入了（兩句＋三個選項、不接話題池）——原本期望「照現在的字：一句＋話題池、沒有選項；大三上『台南我還沒找到喜歡的早餐店。』」。逐句比對在 tests/peishan_termend_1110_unit.js */
+    await dinner(ps,'Y1S2','gf'); const a={tbl:has('這學期有幾次我想打給你。')&&!has('這學期有幾次我想打給你，後來沒打。怕你在讀書。'),pool:poolOf('Y1S2',ps).filter(has).length,opt3:CH.some(c=>c.length===3)};
+    await dinner(ps,'Y3S1','gf'); const b={tbl:has('台南的人講話好慢。')&&!has('台南我還沒找到喜歡的早餐店。'),opt3:CH.some(c=>c.length===3)};
+    check('8. 沛珊女朋友版（AA_751）：兩句＋三個選項、不接話題池；大三上換成「台南的人講話好慢。」；termend_lines.js 的 tableByTerm 拿掉了',a.tbl&&a.pool===0&&a.opt3&&b.tbl&&b.opt3&&!g.tableByTerm,J({a,b}));
+    /* 2026-11-11 改期望（SHE-FIRST-1110；芷若 AA_748、沛珊 AA_751@33a1769f8）：這兩位的心意邀約重寫好了、改成「她先說」——原本期望「照現在的字：沒有飯桌選項、說出來＝通用三句＋（先不說）」。
+       細節在 tests/te_shefirst_1110_unit.js；這裡只看：有飯桌選項、她說完直接出稿上的回應、沒有「（先不說）」 */
+    await dinner('heroine_02','Y1S2','heart');
+    check('8. 芷若心意邀約（她先說）：飯桌句後面有選項、她寫在杯套上以後直接三個回應、沒有「（先不說）」',has('你坐著。我今天最後一杯做給你。')&&has('不要念出來！')&&CH.length===2&&CH.every(c=>c.length===3)&&!CH.some(c=>c.includes('（先不說）'))&&J(CH[1])===J(TOx.HEART.heroine_02.confessOpts.map(o=>o.t)),J(CH));
+    await dinner(ps,'Y1S2','heart'); check('8. 沛珊心意邀約（她先說）：飯桌兩句＋選項、她說完直接三個回應、沒有「（先不說）」',has('你今天話好少。')&&has('我真的很喜歡你。')&&!CH.some(c=>c.includes('（先不說）'))&&J(CH[CH.length-1])===J(TOx.HEART[ps].confessOpts.map(o=>o.t)),J(CH));
     /* 沒有 TERMEND_OPTS（舊資料）＝全部照原本 */
     const keep=globalThis.TERMEND_OPTS; globalThis.TERMEND_OPTS=null;
     try{ await dinner('heroine_01','Y2S1','gf'); const o={tbl:has('寒假東京那兩個禮拜，時差一個小時。……你那邊比較早，我知道。'),noOpt:!CH.some(c=>c.length===3)};

@@ -31,6 +31,11 @@ BY = ('her', 'me', 'none')
 OPT_KINDS = ('feel', 'notice', 'wonder', 'self', 'joke', 'crit', 'ask')   # 選項的種類（第 1 批 _meta.fields.kind；434d46fbf 起七種）
 FB_SRC = 'docs/story_planning/AA_745_fallback.json'   # 在白名單上才匯
 FB_KINDS = ('feel', 'notice', 'wonder', 'self', 'joke', 'crit')   # ask 沒有 fallback（她沒有專屬回答＝不出那個選項）
+# 沛珊的通用回話（PEISHAN-VOICE-1110，使用者 X327）：AA_751_peishan_termend.json 的 fallback **整組取代** AA_745_fallback.json 的 classmate_peishan。
+# 白名單那一筆 people.fallback 是 true 才換，而且只認 PS_SHA 那一版（使用者糾正「不是看到食物就要評論」以後的稿；更舊的不匯）。沒換的時候 src/movies3d.js 的 fallbackOff 要留著她。
+PS_SRC = 'docs/story_planning/AA_751_peishan_termend.json'
+PS_SHA = '33a1769f8'
+PS = 'classmate_peishan'
 # reBy：那個選項她的句子照「之前另一部片那次選了哪一個」換。稿上的格子名 → 當時第幾個選項；has＝那個選項的字裡要有這一段（核對用，AA 改了選項要重看）
 REBY = {
     'm3007b': {'opt': 2, 'film': 'm2511b', 'who': 'heroine_02',
@@ -397,7 +402,7 @@ def build(batches, fallback=None):
     data = {'src': src, 'again': again, 'need': NEED, 'later': later, 'override': override, 'noQ': sorted(noq), 'pick': pick, 'cond': cond,
             'reBy': build_reby(films)}
     if fallback:   # 在白名單上才有（(path, sha, 內容)）
-        data['src'] = src + [f'{fallback[0]}@{fallback[1]}']
+        data['src'] = src + [f'{fallback[0]}@{fallback[1]}'] + list(fallback[3])
         data['fallback'] = build_fallback(fallback[2])
         miss = [f'{fid}[{i}]' for fid in order for i, o in enumerate(films[fid]['talk']['opts']) if 'kind' not in o]
         for p, v in data['fallback'].items():
@@ -414,7 +419,18 @@ def load_fallback(allow):
     if not any(e.get('path') == FB_SRC for e in allow.get('files', [])):
         return None   # 還沒放進白名單＝不匯（遊戲照原本的規則）
     sha, why = src_sha(allow, FB_SRC)
-    return (FB_SRC, sha, json.loads(git('show', f'{sha}:{FB_SRC}')))
+    d, extra = json.loads(git('show', f'{sha}:{FB_SRC}')), []
+    ps = [e for e in allow.get('files', []) if e.get('path') == PS_SRC and e.get('status') == 'approved' and (e.get('people') or {}).get('fallback') is True]
+    if ps:   # 沛珊：整組換成 AA_751 的（note 以外每個 kind 的句子、順序照稿）
+        psha, _ = src_sha(allow, PS_SRC)
+        if not (str(psha).startswith(PS_SHA) or PS_SHA.startswith(str(psha))):
+            raise SystemExit(f'{PS_SRC}@{psha}：沛珊的稿只認 {PS_SHA}（要換版本先改這支工具的 PS_SHA）')
+        f = dict(json.loads(git('show', f'{psha}:{PS_SRC}')).get('fallback') or {})
+        if not str(f.pop('note', '')).startswith('整組取代 AA_745_fallback.json 的 classmate_peishan') or set(f) != set(FB_KINDS) or PS not in d:
+            raise SystemExit(f'{PS_SRC}：fallback 的欄位改了（要有說明那一句、六種 kind 都要有），先改這支工具')
+        d[PS] = f
+        extra.append(f'{PS_SRC}@{psha}（fallback.{PS} 整組）')
+    return (FB_SRC, sha, d, extra)
 
 
 def load_batches(allow):

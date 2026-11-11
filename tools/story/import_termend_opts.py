@@ -11,13 +11,21 @@
   Alison 大三上第三個選項（note：日本路線不出＝noJP）、柏翰大三下（note：鉤子不念 say＝hookNoSay）。{子晴學姊|一個學姊} 照字留著，播放時照 Q6 二選一。
 - 可昕（企劃線 1cf434dee）：每個選項的 set 取代舊的 KX_ASK 二選一（有選項稿的學期 KX_ASK 不再接在後面）——
   KX_KHH true／false → 選項的 khh＝[那一次寒暑假的 key（Y2W、Y2S、Y3W、Y3S、Y4W）, 'yes'／'no']（和原本二選一記進 G.flags.KX_KHH 的值一樣：yes＝去、no＝沒空）；
-  KX_Y5_CALL true → 選項的 y5＝'sat'（原本「週末一定打。」記的值，src/kx_khh3d.js 只認這個值排「打給可昕」的提醒）。美國路線 optsUS 不能有 set（不記）。
+  KX_Y5_CALL true → 選項的 y5＝'sat'（原本「週末一定打。」記的值，src/kx_khh3d.js 只認這個值排「打給可昕」的提醒）。美國路線 optsUS 不能有 set（不記）；
+  例外：大三下（Y3S2）的 optsUS 三個選項一律記 khh ['Y3S','yes']（KX_US_YES，AA 2026-11-10 23:4x：七月第 3 天「七月你空哪天。」照舊發）。
 - 朋友版 thenIf｛if, lines｝（學姊大三上，1cf434dee）：選項演完（then 之後）照條件多說的；if 只認得 SIS_FU（termend_lines.js 的 SIS_FU）。
 - 鉤子（AA 11-10 回 LAWWW，不在稿上）：子晴女朋友版 Q6 通用格（大一下）——選「（現在玩。）」＝鉤子整個不出（opts 的 hook:'skip'），
   另外兩個＝不念 say、直接出選項（hook:'nosay'）；那一頓記 hookTerm:'Y1S2'（只有大一下的鉤子「要不要玩？」這樣）。以安女朋友版大二下（京都）在 src/termend3d.js 的 S.HOOK_NOSAY。
 
 **只匯入白名單那一筆 `people` 列的人**（gf／table／confess 各一份名單）：沒列的人（重寫中的沛珊、芷若的心意邀約）不寫進 TERMEND_OPTS，
-遊戲照 src/data/termend_lines.js 現在的字、一個字都不動。AA_748 的 HEART（芷若、沛珊重寫）這支工具不讀。
+遊戲照 src/data/termend_lines.js 現在的字、一個字都不動。
+- 「她先說」的告白（SHE-FIRST-1110，LAWWW 2026-11-10 23:26）→ TERMEND_OPTS.HEART[人]＝{mode:'sheFirst', invite, invite2, table, tableOpts, (walk, walkOpts, guess), she,
+  confessOpts[{t, result, yesLead／re, fx}], yes, she2, yes2…}：
+  芷若＝AA_748 的 HEART／tableOpts／confessOpts.heroine_02（白名單 people.heart 列她才匯；atBar：在吧台、不走路；inviteHeart 取代邀約句，星期和時間照 over 的說明換；closeAdd＝inviteNote 的收尾旁白）；
+  沛珊＝docs/story_planning/AA_751_peishan_termend.json 的 HEART（**只認 PS_SHA 那一版**；白名單 people.heart）。播放 src/termend3d.js 的 S.sheFirst。
+- 沛珊其他段（同一份 AA_751，白名單那一筆的 people）：gf → TERMEND_OPTS.GF.classmate_peishan（table＋tableByTerm；大三下「那我留到明天。」的 nextMorning／alt）；
+  friend → TERMEND_OPTS.FRIEND[學期].classmate_peishan（friend_v2 五頓；大三上 hookNoSay）；lines → TERMEND_OPTS.LINES.classmate_peishan（FRIEND.y1s1、手機句；termend_lines.js 照抄同字）；
+  fallback（電影通用回話）在 tools/movie/import_movie_plots.py。AA_749 那幾個檔的白名單列沛珊＝停下來（她只從 AA_751@PS_SHA）。
 稿上有工具不認得的欄位＝停下來（先改這支工具和 src/termend3d.js），不會默默丟掉。
 
 寫給程式的條件（if）：Q6／noQ6（子晴的遊戲）、SNOWQ（美國路線下雪那天）、YOUPAY／noYOUPAY（學姊 11/6「下次你請」）、YT_MET_JOB、
@@ -35,11 +43,18 @@ GF_PATH = 'docs/story_planning/AA_749_termend_gf_v2.json'
 HEART_PATH = 'docs/story_planning/AA_748_termend_heart_v2.json'
 KX_PATH = 'docs/story_planning/AA_749_termend_kx_v2.json'
 FRIEND_PATHS = ['docs/story_planning/AA_749_termend_friend_v2_%s.json' % k for k in ('Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2_Y4S1')]
+PS_PATH = 'docs/story_planning/AA_751_peishan_termend.json'   # 沛珊重寫（使用者 X327，PEISHAN-VOICE-1110）
+PS_SHA = '33a1769f8'   # 沛珊的稿**只認這一版**（LAWWW 2026-11-10：更舊的版本是使用者糾正以前的「看到食物就評論」，不匯）；AA 再改稿＝先改這一行和白名單
+PS = 'classmate_peishan'
 OUT = 'src/data/termend_opts.js'
 TERMS = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y5S1']
 IFS = {'Q6', 'noQ6'}
 FR_IFS = {'ZR_LAST', 'noZR_LAST', 'noUS', 'noJP'}
 KX_KEY = {'Y2S1': 'Y2W', 'Y2S2': 'Y2S', 'Y3S1': 'Y3W', 'Y3S2': 'Y3S', 'Y4S1': 'Y4W'}   # 那一頓問的是哪一次寒暑假（termend_lines.js KX_ASK 的 khh[0]）
+# 明確的例外（AA 2026-11-10 23:4x 回覆 LAWWW）：可昕大三下（Y3S2）美國路線的 optsUS 三個選項都要記 KX_KHH true（＝khh ['Y3S','yes']，和臺灣路線答應的存檔值一樣）——
+# 他八月才出發，七月第 3 天那則「七月你空哪天。」照舊要發（src/kx_khh3d.js）。稿（1cf434dee）的 optsUS 還沒有 set，AA 之後才補：沒寫＝一律補 yes；
+# 之後補上 {KX_KHH: true} 就一致、不衝突，寫別的＝停下來。
+KX_US_YES = {'Y3S2'}
 
 
 def git(*a):
@@ -103,8 +118,13 @@ def opts(a, where, extra=()):
 
 def kx_opts(a, term, where, us=False):
     """可昕的選項：set → khh／y5（存檔值和原本 KX_ASK 二選一記的一樣）；美國路線那一組不記"""
-    O = opts(a, where, extra=() if us else ('set',))
+    O = opts(a, where, extra=('set',) if (not us or term in KX_US_YES) else ())
     if us:
+        if term in KX_US_YES:   # 大三下美國路線：三個選項都記 KX_KHH true（稿沒寫 set＝一律補 yes；稿補上了要一致）
+            for i, (o, r) in enumerate(zip(a, O)):
+                if 'set' in o and o['set'] != {'KX_KHH': True}:
+                    die(f'{where}[{i}].set：大三下美國路線只認得 {{KX_KHH: true}}（AA 2026-11-10 23:4x）（{json.dumps(o["set"], ensure_ascii=False)}）')
+                r['khh'] = [KX_KEY[term], 'yes']
         return O
     for i, (o, r) in enumerate(zip(a, O)):
         s, w = o.get('set'), f'{where}[{i}].set'
@@ -142,7 +162,18 @@ def gf_entry(who, key, e):
         for k in sorted(K, key=lambda k: k == 'summer'):   # 寫學期的先比
             says.append({'if': 'summer' if k == 'summer' else 'term:' + k, 'say': lines(K[k], f'{where}.sayByKind.{k}')})
     says.append({'say': lines(e.get('say'), where + '.say')})
-    r = {'says': says, 'opts': opts(e.get('opts'), where + '.opts')}
+    r = {'says': says, 'opts': opts(e.get('opts'), where + '.opts', extra=('nextMorning', 'alt') if who == PS else ())}
+    if who == PS:   # 沛珊大三下「那我留到明天。」：nextMorning＝跳到隔天早上演那幾行、回臺北；alt＝隔天有不能錯過的事時改出的選項（src/termend3d.js S.gfPrep）
+        for i, (o, q) in enumerate(zip(e['opts'], r['opts'])):
+            w = f'{where}.opts[{i}]'
+            if ('nextMorning' in o) != ('alt' in o):
+                die(f'{w}：nextMorning 和 alt 要一起寫')
+            if 'nextMorning' in o:
+                nm = o['nextMorning']
+                if not isinstance(nm, dict) or set(nm) != {'where', 'lines'} or not isinstance(nm['where'], str) or '（沒有現成背景就用深色底）' not in nm['where']:
+                    die(f'{w}.nextMorning：只認得 {{where（…（沒有現成背景就用深色底）），lines}}')
+                q['nextMorning'] = {'where': IG.read_fix(nm['where'].replace('（沒有現成背景就用深色底）', '')), 'lines': lines(nm['lines'], w + '.nextMorning.lines')}
+                q['alt'] = opt(o['alt'], w + '.alt')
     note = e.get('note', '')
     after = []
     if who == 'heroine_04' and key == 'table':   # AA 11-10：Q6 通用格（大一下）——選「（現在玩。）」鉤子整個不出；另外兩個不念鉤子的 say、直接出選項
@@ -175,10 +206,19 @@ def gf_entry(who, key, e):
     return r
 
 
-def build_gf(src, people):
+def build_gf(src, people, ps=None):
     out = {}
-    for who in people:
-        g = src['GF'].get(who)
+    if PS in people:
+        die(f'{GF_PATH}：沛珊不從這個檔匯入（使用者 X327 重寫；她的女朋友版在 {PS_PATH}）')
+    todo = [(who, src['GF'].get(who)) for who in people]
+    if ps and ps[2].get('gf'):   # 沛珊：AA_751 的 GF（只認 PS_SHA）
+        if ps[2]['gf'] != [PS]:
+            die(f'{PS_PATH}：people.gf 只能是 [{PS}]')
+        g = dict(ps[0].get('GF') or {})
+        if not str(g.pop('invite', '')).startswith('照現有各學期的邀約') or '大三下選項二「那我留到明天」有 nextMorning' not in str(g.pop('note', '')):
+            die(f'{PS_PATH}：GF.invite／GF.note 改了，先改這支工具')
+        todo.append((PS, g))
+    for who, g in todo:
         if not g:
             die(f'GF.{who}：稿上沒有這個人')
         if set(g) - {'table', 'tableByTerm'}:
@@ -247,6 +287,136 @@ def build_confess(src, people):
     return out
 
 
+def conf_opts(a, where):
+    """「她先說」模式的三個回應：{t, result: yes／think, yesLead?（yes）, re?（think）, fx?}"""
+    if not isinstance(a, list) or len(a) < 2:
+        die(f'{where}：至少兩個')
+    O = []
+    for i, o in enumerate(a):
+        w = f'{where}[{i}]'
+        if set(o) - {'t', 'result', 'yesLead', 're', 'fx'}:
+            die(f'{w}：不認得的欄位 {sorted(set(o) - {"t", "result", "yesLead", "re", "fx"})}')
+        if o.get('result') not in ('yes', 'think') or not isinstance(o.get('t'), str) or not o['t'].strip():
+            die(f'{w}：要有 t 和 result（yes／think）')
+        r = {'t': IG.read_fix(o['t']), 'result': o['result']}
+        if o['result'] == 'yes':
+            if 're' in o:
+                die(f'{w}：yes 的選項用 yesLead，不用 re')
+            r['yesLead'] = lines(o.get('yesLead', []), w + '.yesLead', empty=True)
+        else:
+            if 'yesLead' in o:
+                die(f'{w}：think 的選項用 re，不用 yesLead')
+            r['re'] = lines(o.get('re'), w + '.re')
+        f = fx(o.get('fx'), w)
+        if f:
+            r['fx'] = f
+        O.append(r)
+    if sum(1 for o in O if o['result'] == 'think') != 1 or not any(o['result'] == 'yes' for o in O):
+        die(f'{where}：要剛好一個 think、至少一個 yes')
+    return O
+
+
+THINK_MERGED = '（併進 confessOpts 第三個的 re）'
+
+
+def heart_zr(src):
+    """芷若（AA_748 HEART／tableOpts／confessOpts 的 heroine_02）：她先說、在吧台（不走路）、寫在杯套上"""
+    who, where = 'heroine_02', 'HEART.heroine_02'
+    e = (src.get('HEART') or {}).get(who)
+    known = {'why', 'place', 'table', 'she', 'think', 'invite2', 'she2', 'yes2', 'over', 'inviteHeart', 'inviteNote', 'yes', 'yesNote'}
+    if not e or set(e) - known:
+        die(f'{where}：稿上沒有，或有不認得的欄位 {sorted(set(e or {}) - known)}')
+    if e.get('think') != THINK_MERGED:
+        die(f'{where}.think：要是「{THINK_MERGED}」（她先說的模式沒有另外的 think 句）')
+    if '不走到巷口，walk 拿掉，告白在吧台' not in e.get('place', ''):
+        die(f'{where}.place 改了（找不到「不走到巷口，walk 拿掉，告白在吧台」），先改這支工具')
+    m = re.search(r'收尾旁白加一句：(（[^（）]+）)', e.get('inviteNote', ''))
+    if not m or '取代這一場原本的邀約句' not in e['inviteNote']:
+        die(f'{where}.inviteNote 改了，先改這支工具')
+    ov = e.get('over', '')
+    if '用 inviteHeart' not in ov or '禮拜五十點／禮拜四十點' not in ov or '大二下' not in ov or '句子不變' not in ov:
+        die(f'{where}.over 改了，先改這支工具')
+    inv, inv2 = IG.read_fix(e['inviteHeart']), IG.read_fix(e['invite2'])
+    if inv.count('禮拜五') != 1 or not inv.startswith('這禮拜五') or inv2 != '禮拜五九點。老地方。':
+        die(f'{where}：inviteHeart／invite2 改了，先改這支工具（星期、時間照學期換的那幾格）')
+    # over：「星期和時間照那一學期她的班換（禮拜五十點／禮拜四十點）」——大一上～大二上她晚班到 22:00（十點），大三下只排週四到 22:00（禮拜四十點），
+    # 其他（大二下代班）照稿 21:00 的字。大二下的邀約是週五晚上才到、飯在下一個週五（TE-FRI-SAME-NIGHT-1104），照 AA_689 第五節同一格的處理「這禮拜五」→「下禮拜五」。
+    r = {'mode': 'sheFirst', 'atBar': True,
+         'invite': {'gen': inv, 'byTerm': {'Y2S2': inv.replace('這禮拜五', '下禮拜五', 1), 'Y3S2': inv.replace('禮拜五', '禮拜四', 1)}},
+         'invite2': {'gen': inv2, 'byTerm': dict({t: inv2.replace('九點', '十點') for t in ('Y1S1', 'Y1S2', 'Y2S1')}, Y3S2=inv2.replace('禮拜五', '禮拜四').replace('九點', '十點'))},
+         'table': lines(e['table'], where + '.table'), 'she': lines(e['she'], where + '.she'), 'yes': lines(e['yes'], where + '.yes'),
+         'she2': lines(e['she2'], where + '.she2'), 'yes2': lines(e['yes2'], where + '.yes2'), 'closeAdd': IG.read_fix(m.group(1))}
+    t = (src.get('tableOpts') or {}).get(who)
+    if not t or set(t) - {'after', 'opts'} or IG.read_fix(t.get('after', '')) != r['table'][-1]:
+        die(f'tableOpts.{who}：稿上沒有、有不認得的欄位，或 after 不是飯桌的最後一句')
+    r['tableOpts'] = opts(t['opts'], f'tableOpts.{who}.opts')
+    c = (src.get('confessOpts') or {}).get(who)
+    if not c or set(c) - {'mode', 'opts'} or not str(c.get('mode', '')).startswith('她先說'):
+        die(f'confessOpts.{who}：稿上沒有、有不認得的欄位，或 mode 不是「她先說」')
+    r['confessOpts'] = conf_opts(c['opts'], f'confessOpts.{who}.opts')
+    return r
+
+
+def heart_ps(src):
+    """沛珊（AA_751 HEART）：她先說——飯桌兩句＋選項 → 回家路上（三個入口都接到 guess）→ 猜 → 她說 → 三個回應"""
+    where = f'HEART.{PS}'
+    e = src.get('HEART')
+    known = {'place', 'invite', 'decline', 'table', 'tableOpts', 'walk', 'walkOpts', 'guess', 'she', 'confessOpts', 'yes', 'think', 'invite2', 'she2', 'yes2', 'over_Y4S1', 'confessNote'}
+    if not e or set(e) - known:
+        die(f'{where}：稿上沒有，或有不認得的欄位 {sorted(set(e or {}) - known)}')
+    if e.get('think') != THINK_MERGED or not str(e.get('place', '')).startswith('照舊') or not str(e.get('confessNote', '')).startswith('「她先說」的模式'):
+        die(f'{where}：think／place／confessNote 改了，先改這支工具')
+    r = {'mode': 'sheFirst', 'invite': IG.read_fix(e['invite']), 'decline': IG.read_fix(e['decline']), 'invite2': IG.read_fix(e['invite2']),
+         'table': lines(e['table'], where + '.table'), 'tableOpts': opts(e['tableOpts'], where + '.tableOpts'), 'walk': lines(e['walk'], where + '.walk'),
+         'she': lines(e['she'], where + '.she'), 'yes': lines(e['yes'], where + '.yes'), 'she2': lines(e['she2'], where + '.she2'), 'yes2': lines(e['yes2'], where + '.yes2'),
+         'confessOpts': conf_opts(e['confessOpts'], where + '.confessOpts')}
+    wo = e.get('walkOpts')
+    if not isinstance(wo, dict) or set(wo) - {'note', 'opts'} or any(o.get('next') != 'guess' for o in wo.get('opts', [])):
+        die(f'{where}.walkOpts：欄位改了（每個選項都要 next: guess）')
+    r['walkOpts'] = opts(wo['opts'], where + '.walkOpts.opts', extra=('next',))
+    g = e.get('guess')
+    if not isinstance(g, dict) or set(g) - {'say', 'opts', 'note'}:
+        die(f'{where}.guess：欄位改了')
+    GO = opts(g['opts'], where + '.guess.opts', extra=('sheFrom',))
+    for o, q in zip(g['opts'], GO):
+        if 'sheFrom' in o:   # 選了這個：she 從這一句開始（前面的旁白照演、前面她說的句子不重講）
+            sf = IG.read_fix(o['sheFrom'])
+            if r['she'].count(sf) != 1:
+                die(f'{where}.guess：sheFrom「{sf}」不在 she 裡')
+            q['sheFrom'] = sf
+    r['guess'] = {'say': lines(g['say'], where + '.guess.say'), 'opts': GO}
+    y4 = e.get('over_Y4S1')
+    if not isinstance(y4, dict) or set(y4) - {'she', 'answer', 'note'} or not isinstance(y4.get('answer'), list) or len(y4['answer']) != 2:
+        die(f'{where}.over_Y4S1：欄位改了（she＋answer 兩個選項）')
+    r['byTerm'] = {'Y4S1': {'she': lines(y4['she'], where + '.over_Y4S1.she'), 'answer': [IG.read_fix(t) for t in y4['answer']]}}
+    return r
+
+
+def ps_source(allow):
+    """沛珊的稿：白名單有才讀，而且只認 PS_SHA 那一版"""
+    if not any(e.get('path') == PS_PATH and e.get('status') == 'approved' for e in allow.get('files', [])):
+        return None
+    d, sha, P, why = source(PS_PATH, allow)
+    if not (str(sha).startswith(PS_SHA) or PS_SHA.startswith(str(sha))):
+        die(f'{PS_PATH}@{sha}：沛珊的稿只認 {PS_SHA}（使用者 X327 糾正以後的那一版）；要換版本先改這支工具的 PS_SHA')
+    return d, sha, P, why
+
+
+def build_heart(ht, hp, ps):
+    """→ HEART{人:她先說的那一份}。people.heart 列的人才匯；沛珊只從 AA_751@PS_SHA"""
+    out = {}
+    want = hp.get('heart', [])
+    if set(want) - {'heroine_02'}:
+        die(f'{HEART_PATH}：people.heart 只認得 heroine_02（沛珊在 {PS_PATH}）')
+    if 'heroine_02' in want:
+        out['heroine_02'] = heart_zr(ht)
+    if ps and ps[2].get('heart'):
+        if ps[2]['heart'] != [PS]:
+            die(f'{PS_PATH}：people.heart 只能是 [{PS}]')
+        out[PS] = heart_ps(ps[0])
+    return out
+
+
 def build_kx(src):
     out = {}
     if set(src['KX']) - set(TERMS):
@@ -312,7 +482,7 @@ def friend_entry(term, who, e):
         if not isinstance(ti, dict) or set(ti) != {'if', 'lines'} or not str(ti['if']).startswith('SIS_FU'):
             die(f'{where}.thenIf：只認得 {{if: SIS_FU…, lines}}')
         r['thenIf'] = {'if': 'SIS_FU', 'lines': lines(ti['lines'], where + '.thenIf.lines')}
-    if '鉤子不念 say' in note:   # 柏翰大三下：飯桌已經講了補習班，鉤子那一句不念、直接出選項
+    if '鉤子不念 say' in note or (who == PS and '請不念 say、直接出選項' in note):   # 柏翰大三下：飯桌已經講了補習班，鉤子那一句不念、直接出選項；沛珊大三上（去國小看課）同
         r['hookNoSay'] = True
     txt = json.dumps(r, ensure_ascii=False)
     alts = set(re.findall(r'\{[^{}"]*\|[^{}"]*\}', txt))
@@ -333,7 +503,7 @@ def build_friend(allow):
         if not isinstance(want, list):
             die(f'{path}：白名單那一筆的 people 要寫 friend（匯入哪幾個人）')
         if 'classmate_peishan' in want:
-            die(f'{path}：沛珊不匯入（使用者 X327 重寫中）')
+            die(f'{path}：沛珊不從這個檔匯入（使用者 X327 重寫；她的朋友版只認 {PS_PATH}@{PS_SHA}）')
         terms = [k for k in d if k != '_meta']
         if set(terms) - set(TERMS):
             die(f'{path}：不認得的學期 {sorted(set(terms) - set(TERMS))}')
@@ -348,7 +518,35 @@ def build_friend(allow):
             die(f'{path}：白名單列了稿上沒有的人 {sorted(set(want) - used)}')
         srcs.append(f'{path}@{sha}')
         whys.append(why)
+    ps = ps_source(allow)
+    if ps and ps[2].get('friend'):   # 沛珊的朋友版五頓：AA_751 的 friend_v2（只認 PS_SHA），接進已經匯的朋友版
+        if ps[2]['friend'] != [PS]:
+            die(f'{PS_PATH}：people.friend 只能是 [{PS}]')
+        fv = ps[0].get('friend_v2') or {}
+        if not fv or set(fv) - set(TERMS):
+            die(f'{PS_PATH}：friend_v2 沒有，或有不認得的學期')
+        for t, e in fv.items():
+            if PS in out.setdefault(t, {}):
+                die(f'{PS_PATH}：{t} 已經有沛珊')
+            out[t][PS] = friend_entry(t, PS, e)
+            ppl.setdefault(t, []).append(PS)
     return {t: out[t] for t in TERMS if t in out}, srcs, {t: ppl[t] for t in TERMS if t in ppl}, '／'.join(whys)
+
+
+def build_lines(ps):
+    """沛珊的單句（AA_751 FRIEND.y1s1、phone）→ LINES：src/data/termend_lines.js 照抄同樣的字（tests/peishan_termend_1110_unit.js 逐句比）"""
+    if not (ps and ps[2].get('lines') is True):
+        return {}
+    d = ps[0]
+    f, ph = d.get('FRIEND') or {}, d.get('phone') or {}
+    if set(f) != {'y1s1', 'gen', 'no', 'note'} or not f['note'].startswith('只換 y1s1'):
+        die(f'{PS_PATH}：FRIEND 的欄位改了，先改這支工具')
+    if set(ph) != {'NOPE.partner', 'NOPE.knows', 'NOPE.low', 'REPLY（玩家婉拒）', 'ENDED', 'note'}:
+        die(f'{PS_PATH}：phone 的欄位改了，先改這支工具（{sorted(ph)}）')
+    rf = IG.read_fix
+    return {PS: {'FRIEND': {'y1s1': rf(f['y1s1']), 'gen': rf(f['gen']), 'no': rf(f['no'])},
+                 'NOPE': {'partner': rf(ph['NOPE.partner']), 'knows': rf(ph['NOPE.knows']), 'low': rf(ph['NOPE.low'])},
+                 'AUTO_NO': rf(ph['REPLY（玩家婉拒）']), 'ENDED': rf(ph['ENDED'])}}
 
 
 def source(path, allow):
@@ -373,23 +571,30 @@ def main():
     kx, ksha, kp, w3 = source(KX_PATH, allow) if kx_on else ({'KX': {}}, None, {}, f'{KX_PATH}：不在白名單，不匯入')
     kx_on = kx_on and kp.get('kx') is True
     FR, fsrc, fppl, w4 = build_friend(allow)
+    ps = ps_source(allow)
+    psrc, w5 = ([f'{PS_PATH}@{ps[1]}'], ps[3]) if ps else ([], f'{PS_PATH}：不在白名單，不匯入')
+    HT = build_heart(ht, hp, ps)
     data = {'src': {'gf': f'{GF_PATH}@{gsha}', 'heart': f'{HEART_PATH}@{hsha}', 'kx': f'{KX_PATH}@{ksha}' if kx_on else None, 'friend': fsrc},
-            'people': {'gf': gp.get('gf', []), 'table': hp.get('table', []), 'confess': hp.get('confess', []), 'kx': kx_on, 'friend': fppl},
-            'FRIEND': FR,
-            'GF': build_gf(gf, gp.get('gf', [])), 'TABLE': build_table(ht, hp.get('table', [])), 'CONFESS': build_confess(ht, hp.get('confess', [])),
+            'people': {'gf': gp.get('gf', []), 'table': hp.get('table', []), 'confess': hp.get('confess', []), 'kx': kx_on, 'friend': fppl, 'heart': list(HT)},
+            'ps': {k: (ps[2].get(k) or False) for k in ('heart', 'gf', 'friend', 'lines')} if ps else None,
+            'FRIEND': FR, 'HEART': HT, 'LINES': build_lines(ps),
+            'GF': build_gf(gf, gp.get('gf', []), ps), 'TABLE': build_table(ht, hp.get('table', [])), 'CONFESS': build_confess(ht, hp.get('confess', [])),
             'KX': build_kx(kx) if kx_on else {}}
-    js = ('/* 自動產生：tools/story/import_termend_opts.py（' + data['src']['gf'] + '、' + data['src']['heart'] + ('、' + data['src']['kx'] if kx_on else '') + ''.join('、' + x for x in fsrc) + '）。不要手改，改企劃稿再重新匯入。\n'
-          '   期末飯的選項（TERMEND-OPTS-1110，使用者 X324）：女朋友版 GF、心意邀約飯桌句之後 TABLE、祐廷說出來的選項 CONFESS、可昕 KX、朋友版 FRIEND[學期][人]；只有 people 列的人，其他人照 termend_lines.js。播放 src/termend3d.js */\n'
+    if psrc:
+        data['src']['ps'] = psrc[0]
+    js = ('/* 自動產生：tools/story/import_termend_opts.py（' + data['src']['gf'] + '、' + data['src']['heart'] + ('、' + data['src']['kx'] if kx_on else '') + ''.join('、' + x for x in fsrc + psrc) + '）。不要手改，改企劃稿再重新匯入。\n'
+          '   期末飯的選項（TERMEND-OPTS-1110，使用者 X324）：女朋友版 GF、心意邀約飯桌句之後 TABLE、祐廷說出來的選項 CONFESS、可昕 KX、朋友版 FRIEND[學期][人]、「她先說」的告白 HEART[人]（SHE-FIRST-1110）；只有 people 列的人，其他人照 termend_lines.js。播放 src/termend3d.js */\n'
           "'use strict';\nconst TERMEND_OPTS=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''
         if cur != js:
             die(f'{OUT} 和來源不一樣：重新匯入')
-        print('OK', w1, '／', w2, '／', w3, '／', w4)
+        print('OK', w1, '／', w2, '／', w3, '／', w4, '／', w5)
         return
     open(p, 'w', encoding='utf-8').write(js)
     n = sum(1 + len(v['tableByTerm']) for v in data['GF'].values())
+    print('她先說的告白：', '、'.join(HT) or '（沒有）')
     print('寫入', OUT, f'女朋友版 {len(data["GF"])} 人 {n} 頓、飯桌選項 {len(data["TABLE"])} 人、告白選項 {len(data["CONFESS"])} 人、可昕 {len(data["KX"])} 頓、朋友版 ' + '、'.join(f'{t} {len(v)} 人' for t, v in FR.items()))
 
 

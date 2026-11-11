@@ -39,7 +39,8 @@ await sec(3,()=>{
 await sec(4,()=>{
   const LX=TERMEND_LINES, has=t=>SRC.includes(t), TL=RD('src/data/termend_lines.js');
   check('4. B-6 週日宵夜「今天我多夾了一顆貢丸。」已經是新句（「這是成長。」不在）',has("'今天我多夾了一顆貢丸。'")&&!has('這是成長'));
-  check('4. AA_260 第 2 項（芷若第二次「禮拜四十點。……上次那句，你想好了嗎？」）已經做過（AA_377 第 8 項）；第 1 項的 Z13 在 r2y3b_events.js',TERMEND.heart('heroine_02','Y3S2').invite2==='禮拜四十點。……上次那句，你想好了嗎？'&&RD('src/data/r2y3b_events.js').includes('畢業以後我還有幾個班。'));
+  /* 2026-11-11 改期望（使用者 11-10 芷若告白「寫在杯子上」＋「她先說」SHE-FIRST-1110，AA_748@33a1769f8）：第二次的邀約換成「禮拜五九點。老地方。」、大三下照她的班＝「禮拜四十點。老地方。」（原本「禮拜四十點。……上次那句，你想好了嗎？」）*/
+  check('4. AA_260 第 2 項（芷若第二次的邀約大三下是週四十點：「禮拜四十點。老地方。」）已經做過（AA_377 第 8 項）；第 1 項的 Z13 在 r2y3b_events.js',(x=>typeof x==='function'?x({flags:{}}):x)(TERMEND.heart('heroine_02','Y3S2').invite2)==='禮拜四十點。老地方。'&&RD('src/data/r2y3b_events.js').includes('畢業以後我還有幾個班。'));
   check('4. AA_260 第 4 項：GF 芷若大三下是 AA_377 第 7 節「禮拜四十點，等我下班。」（不是「等我收完店」），照留',TERMEND.gf('heroine_02','Y3S2').invite==='禮拜四十點，等我下班。');
   check('4. AA_260 第 7、9、10 項：子晴大三下的邀約是 AA_377 第 10 項的句子，照留',/TM\(G\)==='Y4S1'\|\|TM\(G\)==='Y3S2'\?'欸 你考完了吧 宵夜'/.test(TL)&&LX.FRIEND.heroine_04.genByTerm.Y3S2==='欸 我畢業了欸 宵夜 我請');
   check('4. AA_260 第 15 項（方奕廷下學期末 noBySem S2，AA_369 L1）、第 17 項／AA_262 (b) 第 5 條（沛珊大三起台南 PS_TN）已經做過',LX.FRIEND.npc_fangyt.noBySem.S2==='好。山上收不到訊號，下山再找你。'&&/placeName:'台南・她學校附近的簡餐'/.test(TL));

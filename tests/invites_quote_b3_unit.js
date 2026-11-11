@@ -38,9 +38,21 @@ const LATER=[['src/sis_grad3d.js','這週的時間用完了。下週再問我。
   /* 2026-11-10 TERMEND-OPTS-1110：termend_lines.js 只動程式的寫法（字沒有改）——學姊大四上 XM3 兩句抽成 SIS_XM3（有選項的那一版接在選項後面）、多匯出 GF_MORE／COND */
   ['src/data/termend_lines.js',"G=>XM3(G)?'去年在研究室說的。剛回來一天。':null,G=>XM3(G)?(XM3US(G)?'……我們做到了。':'……我做到了。'):null,G=>SNOWQ","...SIS_XM3,G=>SNOWQ"],
   ['src/data/termend_lines.js',"  const GF={\n","  /* TERMEND-OPTS-1110：學姊大四上 XM3 那兩句（AA_386 3-3）抽出來——有選項的那一版（TERMEND_OPTS，AA_749）接在選項後面（termend3d.js 讀 GF_MORE）；沒有 TERMEND_OPTS 的照舊在 tableByTerm 裡，字沒有動 */\n  const SIS_XM3=[G=>XM3(G)?'去年在研究室說的。剛回來一天。':null,G=>XM3(G)?(XM3US(G)?'……我們做到了。':'……我做到了。'):null];\n  const GF={\n"],
+  /* 2026-11-11（PEISHAN-VOICE-1110，使用者 X327 沛珊重寫；AA_751@33a1769f8）：沛珊的六處——朋友邀約大一上那一句、手機三句（她有交往對象、她知道、玩家婉拒的回覆）、關係結束的婉拒、女朋友版各學期的飯桌句 tableByTerm（搬到 TERMEND_OPTS.GF；通用那一句 table 留著給大四下）*/
+  ['src/data/termend_lines.js',"y1s1:'期末考完了！吃飯好不好？我有一堆問題想問你。'","y1s1:'期末考完了！吃飯好不好？我發現一家，我覺得你會喜歡。'/* PEISHAN-VOICE-1110（AA_751@33a1769f8）：只換這一句；和 TERMEND_OPTS.LINES 同字（tests/peishan_termend_1110_unit.js 逐句比）*/"],
+  ['src/data/termend_lines.js',"classmate_peishan:'期末考完了！這次我有約了，下次再問你問題喔。'","classmate_peishan:'期末考完了！這次我有約了，下次換你請喔。'/* PEISHAN-VOICE-1110（AA_751 phone）*/"],
+  ['src/data/termend_lines.js',"classmate_peishan:'考完了！……我有問題想問你，可是不是現在。'","classmate_peishan:'考完了！這次先不約。你知道為什麼啦。'/* PEISHAN-VOICE-1110（AA_751 phone）*/"],
+  ['src/data/termend_lines.js',"classmate_peishan:'好喔！那我下次再問。'","classmate_peishan:'好喔！那你欠我一頓。'/* PEISHAN-VOICE-1110（AA_751 phone「REPLY（玩家婉拒）」）*/"],
+  ['src/data/termend_lines.js',"classmate_peishan:'謝謝你問。……這次我先不去。'","classmate_peishan:'謝謝你約我。這次我先不去。'/* PEISHAN-VOICE-1110（AA_751 phone）*/"],
+  ['src/data/termend_lines.js',"      tableByTerm:{Y3S1:['台南我還沒找到喜歡的早餐店。','……我家的比較好吃。不是我偏心。'],Y3S2:['你每次下來，都搭最後一班高鐵。','……下次早一點來，我帶你去運河邊。'],Y4S1:['下學期去國小實習，要穿得像老師。','……你幫我挑。我挑的都太像學生。'],Y5S1:['台南的冬天不太冷。','……你下來的時候，不用帶外套。']},\n","      /* PEISHAN-VOICE-1110：飯桌的話（通用一頓＋大三上、大三下、大四上、大五上，都有選項）在 TERMEND_OPTS.GF.classmate_peishan（AA_751@33a1769f8），這裡原本的 tableByTerm 拿掉了。\n         table 那一句留著：只剩大四下 6/8 台南那一頓（r2y4b3d.js psDinner 直接讀這一格；AA_751 沒有寫大四下）和沒有 TERMEND_OPTS 的舊資料會用到——等 AA 寫大四下那一頓再換 */\n"],
   ['src/data/termend_lines.js',"  return {KX_ASK,","  const GF_MORE={heroine_05:{Y4S1:SIS_XM3}}, COND={Q6,SNOWQ,YOUPAY,C10,US:US3,SIS_FU};   /* TERMEND-OPTS-1110：termend_opts.js 的 if 用的條件 */\n  return {GF_MORE,COND,KX_ASK,"]];   /* 2026-11-10 再加：COND 多 SIS_FU（朋友版學姊大三上 thenIf，企劃線 1cf434dee；字沒有改）*/
 const LATER_TXT={'這週的時間用完了。下週再問我。':'這週沒有時間了。下週好不好？'}, lt=t=>LATER_TXT[t]||t;
 const later=(f,s)=>LATER.filter(x=>x[0]===f).reduce((a,x)=>a.split(x[1]).join(x[2]),s);
+/* 2026-11-11（SHE-FIRST-1110／PEISHAN-VOICE-1110；使用者 11-10 芷若告白「寫在杯子上」、X327 沛珊重寫）：termend_lines.js 的 HEART 裡芷若、沛珊那兩段台詞整段搬到 src/data/termend_opts.js（TERMEND_OPTS.HEART，
+   匯入工具照企劃稿 AA_748／AA_751@33a1769f8，逐字比對在 tests/te_shefirst_1110_unit.js）——這一項比「其他地方一字不差」，所以兩邊都先把那兩段拿掉再比：[檔, BASE 那一段的開頭, 現在那一段的開頭, 兩邊共同的結尾（不含）] */
+const MOVED=[['src/data/termend_lines.js',"    heroine_02:{ src:'AA_254 第 4 節'","    /* SHE-FIRST-1110（使用者 2026-11-10 選「寫在杯子上」","    heroine_04:{ src:'AA_254 第 5 節'"],
+  ['src/data/termend_lines.js',"    classmate_peishan:{ src:'AA_254 第 6 節'","    /* PEISHAN-VOICE-1110（使用者 X327：沛珊重寫成有趣、聰明、會接梗）＋SHE-FIRST-1110","  /* 說出來的通用三句＋先不說"]];
+const cutMoved=(f,s,k)=>MOVED.filter(x=>x[0]===f).reduce((a,x)=>{ const i=a.indexOf(x[k]), j=i<0?-1:a.indexOf(x[3],i); if(i<0||j<0||a.indexOf(x[k],i+1)>=0) throw new Error('MOVED 找不到或不只一段：'+x[k]); return a.slice(0,i)+a.slice(j); },s);
 
 if(process.env.QUOTE_B3_PROBE) (async()=>{
   /* ===================== 演出來（子程序）：QUOTE_B3_PROBE=old 讀 BASE 的 CHANGED，=new 讀現在的 ===================== */
@@ -112,7 +124,7 @@ const J=JSON.stringify, sample=L=>L.slice(0,6).join('／')+(L.length>6?'…（�
 const wrappedLits=s=>{ const t=noComments(s), out=[]; let m; LIT.lastIndex=0; while((m=LIT.exec(t))){ if(wrapped(m[1])) out.push({t:m[1],pre:t.slice(Math.max(0,m.index-40),m.index)}); } return out; };
 
 /* 11. termend_lines.js、lane118.js：不改；整句「」的都是選項字 */
-{ for(const f of SAME) check('11. '+f+' 和 '+BASE+' 一字不差（這個檔沒有有名字又整句「」的台詞；之後劇情另外改的字照 LATER）',cur(f)===later(f,gitShow(f)));
+{ for(const f of SAME) check('11. '+f+' 和 '+BASE+' 一字不差（這個檔沒有有名字又整句「」的台詞；之後劇情另外改的字照 LATER；搬到 TERMEND_OPTS.HEART 的那兩段照 MOVED 不比）',cutMoved(f,cur(f),2)===cutMoved(f,later(f,gitShow(f)),1));
   /* TERMEND_LINES 載進來逐格走：選項的格子（t、ok、answer、OPTS、ANSWER、NOT_YET_OPT；函式裡寫在 t:／ok: 後面的字）＝GM.choose 的選項字；其他字串＝說的話、旁白、系統字 */
   const c=vm.createContext({console}); vm.runInContext(cur('src/data/termend_lines.js').replace(/^const TERMEND_LINES\s*=/m,'globalThis.TERMEND_LINES='),c); const TL=c.TERMEND_LINES;
   const OPTK=new Set(['t','ok','answer','OPTS','ANSWER','NOT_YET_OPT']); const spoken=[], opts=new Set(), seen=new Set();
@@ -121,7 +133,7 @@ const wrappedLits=s=>{ const t=noComments(s), out=[]; let m; LIT.lastIndex=0; wh
     if(typeof v==='function'){ const s=noComments(String(v)); let m; LIT.lastIndex=0; while((m=LIT.exec(s))){ if(isOpt||/(\bt|\bok):\s*$/.test(s.slice(Math.max(0,m.index-6),m.index))) opts.add(m[1]); else spoken.push([p+'()',m[1]]); } return; }
     if(typeof v==='object'){ if(seen.has(v)) return; seen.add(v); for(const kk of Object.keys(v)) w(v[kk],Array.isArray(v)?k:kk,p+'.'+kk); } })(TL,'','');
   const T=wrappedLits(cur('src/data/termend_lines.js')), Tbad=T.filter(x=>!opts.has(x.t));
-  check('11. termend_lines.js：原始碼整句「」的 '+T.length+' 個字串都是選項字（OPTS、ANSWER、answer、choice／KX_ASK／C14／C15 opts 的 t、邀約鉤子的 ok）',T.length===56&&Tbad.length===0,sample(Tbad.map(x=>x.t)));
+  check('11. termend_lines.js：原始碼整句「」的 '+T.length+' 個字串都是選項字（OPTS、ANSWER、answer、choice／KX_ASK／C14／C15 opts 的 t、邀約鉤子的 ok）',T.length===54&&Tbad.length===0   /* 2026-11-11：56 → 54（沛珊大四上的兩個選項「從今天開始認識。」「……讓我想一下。」跟著她那一段搬到 TERMEND_OPTS.HEART，字也換了：AA_751 over_Y4S1）*/,sample(Tbad.map(x=>x.t)));
   const sw=spoken.filter(([p,t])=>wrapped(t));
   check('11. TERMEND_LINES 選項以外的字串（'+spoken.length+' 個，含函式裡的）沒有一句外面有「」（說的話本來就不加）',spoken.length>500&&sw.length===0,sample(sw.map(x=>x.join('：'))));
   check('11. 選項照留「」（說出來的三選一、「好。」／「讓我想想。」、邀約鉤子「我也想報。」）',TL.OPTS()[0]==='「我喜歡妳。」'&&J(TL.ANSWER)===J(['「好。」','「讓我想想。」'])&&TL.HOOK.Y1S2.heroine_01.ok==='「我也想報。」');

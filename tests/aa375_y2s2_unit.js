@@ -23,6 +23,9 @@ const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js
   'src/data/encounters.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/noodle_closed3d.js','src/data/y1fill_events.js',
   'src/data/dorm_room_layout.js','src/data/syllabus.js','src/data/exam_bank.js','src/story3d.js','src/classes3d.js','src/data/eat_lines.js','src/eat3d.js','src/data/y2b_events.js','src/y2b3d.js','src/data/group_events.js','src/group3d.js','src/y2r2_3d.js'];
 for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
+/* 2026-11-11（SHE-FIRST-1110／PEISHAN-VOICE-1110）：芷若、沛珊心意邀約的台詞搬到 src/data/termend_opts.js 的 TERMEND_OPTS.HEART（沒載＝這兩位沒有邀約句、不發）——這支測試只載那一份的 HEART、LINES，
+   其他人的期末飯選項（GF／TABLE／CONFESS／KX／FRIEND）照舊不載（這支測的是沒有選項的原本流程；選項在 tests/termend_opts_1110_unit.js、「她先說」在 tests/te_shefirst_1110_unit.js）*/
+{ const fs_=require('fs'), p_=require('path').join(__dirname,'..','src/data/termend_opts.js'); if(fs_.existsSync(p_)){ require('vm').runInThisContext(fs_.readFileSync(p_,'utf8').replace(/^const TERMEND_OPTS\s*=/m,'globalThis.__TO_ALL='),{filename:'src/data/termend_opts.js'}); globalThis.TERMEND_OPTS={HEART:globalThis.__TO_ALL.HEART||{},LINES:globalThis.__TO_ALL.LINES||{}}; } }
 global.ADV={active:false,preload(){},begin(){ this.active=true; },end(){ this.active=false; },log(){},speaker(){},cg(){ return true; },setBg(){},hide(){}}; global.CHAR={setExpr(){},build:()=>mkObj()};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
 let said=[], opts=[], picks=[], G=null;
@@ -84,21 +87,27 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('1. 6/7 深夜「在幹嘛」：不說「下班回來都這個時間」、不說「怎麼跟客人介紹」',got.length>0&&!got.some(t=>/下班|客人/.test(t)),J(got)); }
   // 期末：心意、女朋友、朋友
   { const H=TERMEND.heart('heroine_02','Y2S2'), F=TERMEND.gf('heroine_02','Y2S2'), Fr=TERMEND.friend?TERMEND.friend('heroine_02','Y2S2'):null;
-    check('1. 心意邀約（大二下）：「下禮拜五晚上我有空。……我想吃飯，不想吃店裡的東西。」（AA_689 第五節：原本「這禮拜五」，週五晚上到、飯在下週五）、不在 Café 打烊以後',!!H&&H.invite==='下禮拜五晚上我有空。……我想吃飯，不想吃店裡的東西。'&&H.place!=='cafe',J(H&&[H.invite,H.place]));
+    /* 2026-11-11 改期望（使用者 11-10 芷若告白「寫在杯子上」＋「她先說」SHE-FIRST-1110，AA_748@33a1769f8）：心意邀約整場改在店裡——大二下（她不排班了）＝那天店長請她回來代一天班，一樣在吧台（AA_748 HEART.heroine_02.over）；邀約句換成 inviteHeart，
+       週五晚上才到、飯在下週五＝「下禮拜五…」（照 AA_689 第五節同一格的處理）。原本期望「下禮拜五晚上我有空。……我想吃飯，不想吃店裡的東西。」、不在 Café（公館宵夜）*/
+    check('1. 心意邀約（大二下）：「下禮拜五你來店裡等我下班。先不要吃太飽。」（週五晚上到、飯在下週五）、在店裡（那天回來代班）21:00',!!H&&H.invite==='下禮拜五你來店裡等我下班。先不要吃太飽。'&&H.place==='cafe'&&H.h===21&&H.wd===5,J(H&&[H.invite,H.place,H.h,H.wd]));
     check('1. 交往中期末約會（大二下）：「禮拜五晚上，我們去吃宵夜。……我現在不用上班了。」、公館宵夜',!!F&&F.invite==='禮拜五晚上，我們去吃宵夜。……我現在不用上班了。'&&F.place==='yexiao',J(F&&[F.invite,F.place]));
     check('1. 朋友的期末飯（大二下）：她不顧店了，不在 Café 打烊以後；句子照 AA_369 M2',!!Fr&&Fr.place!=='cafe'&&Fr.genByTerm.Y2S2==='考完了嗎？九月我就走了。……出來吃個東西？',J(Fr&&Fr.place));
-    const all=[H.invite,F.invite,Fr&&Fr.genByTerm.Y2S2];
-    check('1. 大二下期末邀約芷若不說「九點下班」（BB 測試）',all.every(t=>t&&!/九點/.test(t)&&!/等我下班/.test(t)),J(all)); }
+    /* 2026-11-11：心意那一則不在這一項裡了——AA_748 定大二下她那天回來代班、邀約就是「…你來店裡等我下班。」（上一項）；女朋友、朋友那兩則照舊不說「九點」「等我下班」*/
+    const all=[F.invite,Fr&&Fr.genByTerm.Y2S2];
+    check('1. 大二下期末邀約芷若（女朋友、朋友那兩則）不說「九點下班」（BB 測試）',all.every(t=>t&&!/九點/.test(t)&&!/等我下班/.test(t)),J(all)); }
   // ===== LAWWW 補充：6/3 以前「九點」改「十點」、22:00（AA_373 第 6 節第 9 題）=====
   { const ok=[];
     for(const t of ['Y1S1','Y1S2','Y2S1']){ const H=TERMEND.heart('heroine_02',t), F=TERMEND.gf('heroine_02',t); ok.push([t,H.invite,H.invite2,H.h,F.invite,F.h]); }
-    check('補充. 心意邀約大一上～大二上「這禮拜五我十點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。」、第二次「禮拜五十點。……上次那句，你想好了嗎？」、22:00',
-      ok.every(x=>x[1]==='這禮拜五我十點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。'&&x[2]==='禮拜五十點。……上次那句，你想好了嗎？'&&x[3]===22),J(ok));
+    /* 2026-11-11 改期望（使用者 11-10 芷若告白「寫在杯子上」＋「她先說」SHE-FIRST-1110，AA_748@33a1769f8）：邀約句換成 inviteHeart（句子裡沒有幾點）、第二次「禮拜五九點。老地方。」照她的班換成十點；時間照舊 22:00。
+       原本「這禮拜五我十點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。」「禮拜五十點。……上次那句，你想好了嗎？」*/
+    check('補充. 心意邀約大一上～大二上「這禮拜五你來店裡等我下班。先不要吃太飽。」、第二次「禮拜五十點。老地方。」、22:00',
+      ok.every(x=>x[1]==='這禮拜五你來店裡等我下班。先不要吃太飽。'&&x[2]==='禮拜五十點。老地方。'&&x[3]===22),J(ok));
     check('補充. 女朋友的學期末約會大一上～大二上 22:00（邀約那一句 AA_456 1-5 照學期換：大一上「禮拜五十點，等我下班。」照舊、大一下「……今天我留了一塊蛋糕。」、大二上「禮拜五十點。最後一個客人走了，我傳給你。」）',ok.every((x,i)=>x[4]===['禮拜五十點，等我下班。','禮拜五十點，等我下班。……今天我留了一塊蛋糕。','禮拜五十點。最後一個客人走了，我傳給你。'][i]&&x[5]===22),J(ok));
     const Fr=TERMEND_LINES.FRIEND.heroine_02;
     check('補充. 朋友的邀約：大一上「這禮拜五我十點下班。要不要吃宵夜？」；大一上～大二上「下班以後」都是 22:00',Fr.y1s1==='這禮拜五我十點下班。要不要吃宵夜？'&&['Y1S1','Y1S2','Y2S1'].every(t=>Fr.hByTerm&&Fr.hByTerm[t]===22),J([Fr.y1s1,Fr.hByTerm]));
     const H3=TERMEND.heart('heroine_02','Y3S2');
-    check('補充. 大三下回來以後（當時給 AA 的問題，AA_377 第 8 項答了：她只排週三、四）：「這禮拜四我十點下班。……」',H3.invite==='這禮拜四我十點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。'&&H3.wd===4&&H3.h===22,H3.invite); }
+    /* 2026-11-11 改期望（使用者 11-10 芷若告白「寫在杯子上」＋「她先說」SHE-FIRST-1110，AA_748@33a1769f8）：大三下照她的班換成禮拜四（原本「這禮拜四我十點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。」）*/
+    check('補充. 大三下回來以後（當時給 AA 的問題，AA_377 第 8 項答了：她只排週三、四）：「這禮拜四你來店裡等我下班。先不要吃太飽。」',H3.invite==='這禮拜四你來店裡等我下班。先不要吃太飽。'&&H3.wd===4&&H3.h===22,H3.invite); }
   { fresh('2025-12-18',21,'dorm'); const w=TERMEND.windowOf('Y1S1'); R('heroine_02','FAM'); const ok=TERMEND.planDinner(G,w,'heroine_02','friend'); const q=OUT.get(G,'te_Y1S1');
     check('補充. 大一上和芷若的期末飯排在 22:00（她下班以後）',!!ok&&!!q&&q.h===22,J(q&&[q.h,K(q.day)])); }
   { const reNS=(r,d)=>typeof VAC.reNS==='function'?VAC.reNS(r,d):null, Rz=VAC_DATA.TRIP_MSG.reunion.heroine_02, a=reNS(Rz,D('2026-08-26')), b=reNS(Rz,D('2027-01-11')), c=reNS(Rz,D('2027-07-28'));

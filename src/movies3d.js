@@ -217,8 +217,9 @@ const MOVIES=(function(){
      （G.flags.MOVIE_FB＝{人:{kind:已經用了幾句}}，選了才往後數＝同一句不會連續兩次出現；舊存檔沒有＝從第一句）；kind 是 ask（直接問她、講到她）而她沒有專屬的 re＝不出這個選項；
      有專屬的 re 照專屬的；選項自己有她的 fx 照選項的，沒有才用 fallback 那一句的；效果和專屬的一樣走這部片的上限（S.fxFilm：她的戀愛一次最多 +2）。
      talk.nofb（m2907a：三個選項都在回她的問話）＝這部片不套：沒有專屬回答的人不問（問句也不說）。剩不到兩個選項＝不問（保險）。 */
-  /* fallbackOff＝這幾個人不用通用回話（LAWWW 11-10：沛珊的口氣重寫中，使用者 X327／PEISHAN-VOICE-1110；AA 重寫 fallback 以前關著）——她沒有專屬回答的片＝不問（和 fallback 還沒有的時候一樣），有專屬回答的照演 */
-  S.CFG={fallback:true,fallbackOff:['classmate_peishan']};
+  /* fallbackOff＝這幾個人不用通用回話——她沒有專屬回答的片＝不問（和 fallback 還沒有的時候一樣），有專屬回答的照演。
+     2026-11-11：沛珊的通用回話重寫好了（PEISHAN-VOICE-1110，使用者 X327；AA_751@33a1769f8 的 fallback 整組取代，tools/movie/import_movie_plots.py），把她從這裡拿掉（原本 LAWWW 11-10 先關著）；現在沒有人關 */
+  S.CFG={fallback:true,fallbackOff:[]};
   S.fbOn=who=>{ const P=PL(), F=P&&P.fallback; return !!(S.CFG.fallback&&!(S.CFG.fallbackOff||[]).includes(who)&&F&&F[who]&&typeof F[who]==='object'); };
   S.hasRe=(o,who)=>{ const re=(o&&o.re)||{}; return [who,who+'2',who+'3'].some(k=>typeof re[k]==='string'&&re[k].trim()); };
   S.fbN=(G,who,kind)=>{ const R=G&&G.flags&&G.flags.MOVIE_FB, x=R&&typeof R==='object'?R[who]:null; return x&&typeof x==='object'?Math.max(0,x[kind]|0):0; };

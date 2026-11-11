@@ -1,4 +1,4 @@
-/* 自動產生：tools/movie/import_movie_plots.py（docs/story_planning/AA_745_movie_plots_1.json@4e41f0d09、docs/story_planning/AA_745_movie_plots_2.json@4e41f0d09、docs/story_planning/AA_745_movie_plots_3.json@4e41f0d09、docs/story_planning/AA_745_fallback.json@4e41f0d09）。不要手改，改企劃 AA_745 再重新匯入。
+/* 自動產生：tools/movie/import_movie_plots.py（docs/story_planning/AA_745_movie_plots_1.json@4e41f0d09、docs/story_planning/AA_745_movie_plots_2.json@4e41f0d09、docs/story_planning/AA_745_movie_plots_3.json@4e41f0d09、docs/story_planning/AA_745_fallback.json@4e41f0d09、docs/story_planning/AA_751_peishan_termend.json@33a1769f8（fallback.classmate_peishan 整組））。不要手改，改企劃 AA_745 再重新匯入。
    南洋戲院每部片的情節（plot）、大家會記得的那一幕（scene）、散場後聊什麼（talk）、和誰看多出來的（with）——MOVIE-TALK-1110；
    again＝同一部片和同一個人第二次看的旁白；need／later／pick／cond＝稿上的條件、時機、一定挑／不看的片、note 裡的條件（對照表在匯入工具）。播放在 src/movies3d.js */
 'use strict';
@@ -7,7 +7,8 @@ const MOVIE_PLOTS={
   "docs/story_planning/AA_745_movie_plots_1.json@4e41f0d09",
   "docs/story_planning/AA_745_movie_plots_2.json@4e41f0d09",
   "docs/story_planning/AA_745_movie_plots_3.json@4e41f0d09",
-  "docs/story_planning/AA_745_fallback.json@4e41f0d09"
+  "docs/story_planning/AA_745_fallback.json@4e41f0d09",
+  "docs/story_planning/AA_751_peishan_termend.json@33a1769f8（fallback.classmate_peishan 整組）"
  ],
  "again": {
   "comedy": "（這部你們看過了。她還是在同一個地方笑。）",
@@ -771,19 +772,19 @@ const MOVIE_PLOTS={
   "classmate_peishan": {
    "feel": [
     {
-     "re": "對！我也是！我剛剛就想講，可是怕講出來會哭。",
+     "re": "你認真起來我會不習慣。再講一點，我在聽。",
      "fx": {
       "love": 2
      }
     },
     {
-     "re": "你會這樣想，好好喔。",
+     "re": "我想的跟你不一樣。可是我先不講，講了你會被我帶走。",
      "fx": {
       "love": 1
      }
     },
     {
-     "re": "咦，我想的不一樣耶。你為什麼這樣想？",
+     "re": "你會這樣想喔。好，這個我記下來，以後吵架可以用。",
      "fx": {
       "love": 1
      }
@@ -791,19 +792,19 @@ const MOVIE_PLOTS={
    ],
    "notice": [
     {
-     "re": "真的耶！我都沒發現！",
+     "re": "你看得好仔細。你上課要是有這麼專心就好了。",
      "fx": {
       "love": 1
      }
     },
     {
-     "re": "你看得好仔細喔。我只顧著緊張。",
+     "re": "有嗎？我完全沒注意。你下次看到要戳我。",
      "fx": {
       "fr": 1
      }
     },
     {
-     "re": "對對對，我也有看到那個！",
+     "re": "對，我也有看到。我還以為只有我會注意這種小地方。",
      "fx": {
       "love": 1
      }
@@ -811,39 +812,39 @@ const MOVIE_PLOTS={
    ],
    "wonder": [
     {
-     "re": "我也想問這個！那你覺得呢？",
-     "fx": {
-      "fr": 1
-     }
-    },
-    {
-     "re": "我不知道耶……我回去問我同學，她看過兩次。",
-     "fx": {
-      "fr": 1
-     }
-    },
-    {
-     "re": "會不會是我們漏看了？要不要再看一次？",
+     "re": "我也想不通。我們去吃東西，邊吃邊想，吃飽就會通。",
      "fx": {
       "love": 1
+     }
+    },
+    {
+     "re": "你問我？我剛剛有一段在偷看你有沒有哭。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "不知道耶。你想到再跟我講，我想聽你怎麼解。",
+     "fx": {
+      "fr": 1
      }
     }
    ],
    "self": [
     {
-     "re": "真的嗎？然後呢然後呢？",
-     "fx": {
-      "love": 1
-     }
-    },
-    {
-     "re": "你都沒講過！還有嗎？",
+     "re": "你怎麼現在才講。我們認識多久了。",
      "fx": {
       "love": 2
      }
     },
     {
-     "re": "哈哈哈你好好笑。",
+     "re": "等一下，這個我要聽完整版。走，邊走邊講。",
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "re": "好，我聽到了。等一下吃飯你再講細一點。",
      "fx": {
       "love": 1
      }
@@ -851,36 +852,36 @@ const MOVIE_PLOTS={
    ],
    "joke": [
     {
-     "re": "哈哈哈哈你不要鬧啦！",
+     "re": "{name}同學。你很會挑時間。",
      "fx": {
       "fr": 1
      }
     },
     {
-     "re": "你很壞耶。（她笑著打你一下。）",
+     "re": "哈哈哈哈，好啦，這個有好笑。",
      "fx": {
       "love": 1
      }
     },
     {
-     "re": "討厭，我本來很感動的。",
+     "re": "你很壞。可是有好笑，我不想承認。",
      "fx": {
-      "fr": 1
+      "love": 1
      }
     }
    ],
    "crit": [
     {
-     "re": "啊……對不起，是我想看的。"
+     "re": "真的喔？我覺得還可以啊。好啦，你有你的標準。"
     },
     {
-     "re": "沒關係啦，你陪我看我就很開心了。",
+     "re": "你好嚴格。下次你選，選到難看的我要笑你一個禮拜。",
      "fx": {
       "fr": 1
      }
     },
     {
-     "re": "真的喔？我覺得還不錯耶……那我自己偷偷喜歡。"
+     "re": "是我選的片欸，你給我一點面子。至少椅子很好坐吧。"
     }
    ]
   },
