@@ -1,0 +1,21 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_l118a_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118A6_WALL_b\out
+CC L118A：PARTS WALLWALK_korea,WALLWALK_tea；SHA a2dd74af190a174e383642ef8d2043b1d2947370；DAY 2025-10-08；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  24.5s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null, "typhoon": null}（wd 3＝星期三）
+== WALLWALK_korea
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_korea 店裡的進門位置 (2.20,2.75) 2025-10-08 1300 
+PASS [korea] 店內正式模型載入（1.5 秒）
+  [  41.0s] [WALLWALK korea] 牆邊長方形 28 點；貼不到站得住格子（家具、櫃台貼牆）6 點：[[0, -3.8], [-0.95, -3.8], [-1.9, -3.8], [-2.85, -3.8], [-2.85, 3.8], [-1.9, 3.8]]
+PASS [WALLWALK korea] 沿牆一圈每一點都用搖桿走到（22 點）  []
+PASS [WALLWALK korea] 沿牆一圈沒有卡住（4 秒不前進）  []
+PASS [WALLWALK korea] walkFallbacks 沒增加
+== WALLWALK_tea
+  [前置／捷徑] 【前置／捷徑】讀檔到 l118_tea 店裡的進門位置 (-0.50,2.50) 2025-10-08 1300 
+PASS [tea] 店內正式模型載入（1.5 秒）
+  [  71.3s] [WALLWALK tea] 牆邊長方形 18 點；貼不到站得住格子（家具、櫃台貼牆）8 點：[[0.85, 1.52], [0.85, 0.51], [0.85, -0.51], [0.85, -1.52], [0.85, -2.54], [0.85, -3.55], [0, -3.55], [-0.85, -3.55]]
+PASS [WALLWALK tea] 沿牆一圈每一點都用搖桿走到（10 點）  []
+PASS [WALLWALK tea] 沿牆一圈沒有卡住（4 秒不前進）  []
+PASS [WALLWALK tea] walkFallbacks 沒增加
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
