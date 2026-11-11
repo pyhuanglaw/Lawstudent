@@ -1,0 +1,65 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_season_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N1_SEASON_wz\out
+CC SEASON：受測 b77af3a4f；PARTS WALK,DOORS,FPS；ZONES wenzhou；DATES dragon3,0210,1028,0715,0115,0415,exam_stay,exam_moved,1210,cny-3,cny+3,0315,1105；HOURS [14.0, 20.0]；FUNC_DATES cny-3；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.6s] [日期] 照遊戲的 CALENDAR 算：{"dragon3": "2026-06-16", "exam_stay": "2026-06-10", "exam_moved": "2027-06-09"}（端午 2026-06-19）；用的日期：{"dragon3": ["2026-06-16", "端午前三天"], "0210": ["2026-02-10", "情人節前"], "1028": ["2025-10-28", "萬聖節前"], "0715": ["2026-07-15", "夏季"], "0115": ["2026-01-15", "冬季"], "0415": ["2026-04-15", "4/15（洗衣店換季）"], "exam_stay": ["2026-06-10", "期末考週（阿德還在）"], "exam_moved": ["2027-06-09", "期末考週（阿德搬走以後）", {"WZ_COPY_SHOP": "moved"}], "1210": ["2025-12-10", "聖誕"], "cny-3": ["2026-02-13", "除夕前三天"], "cny+3": ["2026-02-19", "初三"], "0315": ["2026-03-15", "3/15（不該有布置）"], "1105": ["2025-11-05", "11/5（不該有布置）"]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2026-02-13（除夕前三天）14.00 時 (-34.0,0.0) （沿街走的起點）
+  [  61.6s] [WALK 溫州街 2026-02-13] 搖桿到 (-10.0,0.0)：True、6.3 秒、推 7 次、跳 []
+  [  68.0s] [WALK 溫州街 2026-02-13] 搖桿到 (15.0,0.0)：True、6.4 秒、推 7 次、跳 []
+  [  74.9s] [WALK 溫州街 2026-02-13] 搖桿到 (40.0,0.0)：True、6.9 秒、推 8 次、跳 []
+  [  78.3s] [WALK 溫州街 2026-02-13] 搖桿到 (52.0,0.0)：True、3.3 秒、推 4 次、跳 []
+PASS [WALK 溫州街 2026-02-13] 搖桿沿街走完，每一段都走到、沒有跳  []
+PASS [WALK 溫州街 2026-02-13] walkFallbacks 0  {"zone": "wenzhou", "day": 150, "h": 14.21, "x": 52.43, "z": 0, "free": true, "stand": true, "fb": 0}
+  [  78.3s] [WALK] 用了 52 秒
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2026-02-13（除夕前三天）14.00 時 (15.0,0.0) （店門進出：先列店門）
+  [  91.8s] [DOORS 溫州街 2026-02-13] 「進…」的店門 7 間：[{"x": -36.5, "z": -9.6, "r": 1.2, "lv": 0, "label": "進去日常失速", "to": "wz_offbeat"}, {"x": 54.2, "z": 0, "r": 2.3, "lv": 0, "label": "進入 2:30 AM", "to": "cafe"}, {"x": 42, "z": -4.6, "r": 1.4, "lv": 0, "label": "進去 SUNNY SIDE", "to": "wz_brunch"}, {"x": -8, "z": 4.6, "r": 1.4, "lv": 0, "label": "進去阿德影印輸出", "to": "wz_print"}, {"x": -20.5, "z": 4.6, "r": 1.4, "lv": 0, "label": "進去一盞", "to": "wz_teahouse"}, {"x": 35, "z": 4.6, "r": 1.4, "lv": 0, "label": "進去林家乾麵", "to": "wz_lin"}, {"x": -4.8, "z": -4.6, "r": 1.4, "lv": 0, "label": "進去小路", "to": "wz_teishoku"}]
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2026-02-13（除夕前三天）14.00 時 (-35.4,-4.0) （店門「進去日常失速」前面的街上）
+PASS [DOORS 溫州街 2026-02-13] #1 進去日常失速 搖桿走到「進去日常失速」，按鈕是它（1.7 秒、沒有跳）  {"end": [-36.667, -9.95], "btn": "進去日常失速", "jumps": [], "why": null}
+PASS [DOORS 溫州街 2026-02-13] #1 進去日常失速 按「進去日常失速」到了 wz_offbeat、站得住  {"zone": "wz_offbeat", "x": -3.9, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.09}
+PASS [DOORS 溫州街 2026-02-13] #1 進去日常失速 店裡有出口回溫州街
+PASS [DOORS 溫州街 2026-02-13] #1 進去日常失速 出店 搖桿走到「離開日常失速」，按鈕是它（4.0 秒、沒有跳）  {"end": [-3.912, 4.054], "btn": "離開日常失速", "jumps": [], "why": null}
+PASS [DOORS 溫州街 2026-02-13] #1 進去日常失速 出店 按「離開日常失速」到了 wenzhou、站得住  {"zone": "wenzhou", "x": -34.8, "z": -9.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+PASS [DOORS 溫州街 2026-02-13] #1 進去日常失速 出店站在 [-34.8, -9.6]、推得動（1.86 m）  {"zone": "wenzhou", "x": -34.8, "z": -9.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2026-02-13（除夕前三天）14.00 時 (54.2,0.0) （店門「進入 2:30 AM」前面的街上）
+PASS [DOORS 溫州街 2026-02-13] #2 進入 2:30 AM 搖桿走到「進入 2:30 AM」，按鈕是它（0.0 秒、沒有跳）  {"end": [54.2, 0], "btn": "進入 2:30 AM", "jumps": [], "why": null}
+PASS [DOORS 溫州街 2026-02-13] #2 進入 2:30 AM 按「進入 2:30 AM」到了 cafe、站得住  {"zone": "cafe", "x": 0, "z": 5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開咖啡廳", "stand": true, "fb": 0, "hour": 14.08}
+PASS [DOORS 溫州街 2026-02-13] #2 進入 2:30 AM 店裡有出口回溫州街
+PASS [DOORS 溫州街 2026-02-13] #2 進入 2:30 AM 出店 搖桿走到「離開咖啡廳」，按鈕是它（0.0 秒、沒有跳）  {"end": [0, 5], "btn": "離開咖啡廳", "jumps": [], "why": null}
+PASS [DOORS 溫州街 2026-02-13] #2 進入 2:30 AM 出店 按「離開咖啡廳」到了 wenzhou、站得住  {"zone": "wenzhou", "x": 51.7, "z": 0, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.11}
+PASS [DOORS 溫州街 2026-02-13] #2 進入 2:30 AM 出店站在 [51.7, 0]、推得動（2.97 m）  {"zone": "wenzhou", "x": 51.7, "z": 0, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.11}
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2026-02-13（除夕前三天）14.00 時 (42.0,0.0) （店門「進去 SUNNY SIDE」前面的街上）
+PASS [DOORS 溫州街 2026-02-13] #3 進去 SUNNY SIDE 搖桿走到「進去 SUNNY SIDE」，按鈕是它（0.9 秒、沒有跳）  {"end": [42, -4.443], "btn": "進去 SUNNY SIDE", "jumps": [], "why": null}
+PASS [DOORS 溫州街 2026-02-13] #3 進去 SUNNY SIDE 按「進去 SUNNY SIDE」到了 wz_brunch、站得住  {"zone": "wz_brunch", "x": 0.4, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開 SUNNY SIDE", "stand": true, "fb": 0, "hour": 14.08}
+PASS [DOORS 溫州街 2026-02-13] #3 進去 SUNNY SIDE 店裡有出口回溫州街
+PASS [DOORS 溫州街 2026-02-13] #3 進去 SUNNY SIDE 出店 搖桿走到「離開 SUNNY SIDE」，按鈕是它（0.0 秒、沒有跳）  {"end": [0.4, 4], "btn": "離開 SUNNY SIDE", "jumps": [], "why": null}
+PASS [DOORS 溫州街 2026-02-13] #3 進去 SUNNY SIDE 出店 按「離開 SUNNY SIDE」到了 wenzhou、站得住  {"zone": "wenzhou", "x": 42, "z": -4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去 SUNNY SIDE", "stand": true, "fb": 0, "hour": 14.11}
+PASS [DOORS 溫州街 2026-02-13] #3 進去 SUNNY SIDE 出店站在 [42, -4.1]、推得動（0.56 m）  {"zone": "wenzhou", "x": 42, "z": -4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去 SUNNY SIDE", "stand": true, "fb": 0, "hour": 14.11}
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2026-02-13（除夕前三天）14.00 時 (-8.0,0.0) （店門「進去阿德影印輸出」前面的街上）
+PASS [DOORS 溫州街 2026-02-13] #4 進去阿德影印輸出 搖桿走到「進去阿德影印輸出」，按鈕是它（1.0 秒、沒有跳）  {"end": [-8, 4.546], "btn": "進去阿德影印輸出", "jumps": [], "why": null}
+PASS [DOORS 溫州街 2026-02-13] #4 進去阿德影印輸出 按「進去阿德影印輸出」到了 wz_print、站得住  {"zone": "wz_print", "x": 0, "z": 3.65, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開影印店", "stand": true, "fb": 0, "hour": 14.08}
+PASS [DOORS 溫州街 2026-02-13] #4 進去阿德影印輸出 店裡有出口回溫州街
+PASS [DOORS 溫州街 2026-02-13] #4 進去阿德影印輸出 出店 搖桿走到「離開影印店」，按鈕是它（0.0 秒、沒有跳）  {"end": [0, 3.65], "btn": "離開影印店", "jumps": [], "why": null}
+PASS [DOORS 溫州街 2026-02-13] #4 進去阿德影印輸出 出店 按「離開影印店」到了 wenzhou、站得住  {"zone": "wenzhou", "x": -8, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去阿德影印輸出", "stand": true, "fb": 0, "hour": 14.11}
+PASS [DOORS 溫州街 2026-02-13] #4 進去阿德影印輸出 出店站在 [-8, 4.1]、推得動（0.56 m）  {"zone": "wenzhou", "x": -8, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去阿德影印輸出", "stand": true, "fb": 0, "hour": 14.11}
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2026-02-13（除夕前三天）14.00 時 (-20.5,0.0) （店門「進去一盞」前面的街上）
+PASS [DOORS 溫州街 2026-02-13] #5 進去一盞 搖桿走到「進去一盞」，按鈕是它（0.9 秒、沒有跳）  {"end": [-20.5, 4.443], "btn": "進去一盞", "jumps": [], "why": null}
+PASS [DOORS 溫州街 2026-02-13] #5 進去一盞 按「進去一盞」到了 wz_teahouse、站得住  {"zone": "wz_teahouse", "x": -3, "z": 9, "y": -0.42, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開一盞", "stand": true, "fb": 0, "hour": 14.08}
+PASS [DOORS 溫州街 2026-02-13] #5 進去一盞 店裡有出口回溫州街
+PASS [DOORS 溫州街 2026-02-13] #5 進去一盞 出店 搖桿走到「離開一盞」，按鈕是它（0.0 秒、沒有跳）  {"end": [-3, 9], "btn": "離開一盞", "jumps": [], "why": null}
+PASS [DOORS 溫州街 2026-02-13] #5 進去一盞 出店 按「離開一盞」到了 wenzhou、站得住  {"zone": "wenzhou", "x": -20.5, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去一盞", "stand": true, "fb": 0, "hour": 14.11}
+PASS [DOORS 溫州街 2026-02-13] #5 進去一盞 出店站在 [-20.5, 4.1]、推得動（0.56 m）  {"zone": "wenzhou", "x": -20.5, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去一盞", "stand": true, "fb": 0, "hour": 14.11}
+  [ 243.4s] [DOORS 溫州街 2026-02-13] #6 進去林家乾麵 那一天 14:00 這間不開（PLACES.windowsOf [[11, 14], [17, 21]]、假日 null）——跳過，不是布置造成
+  [ 243.4s] [DOORS 溫州街 2026-02-13] #7 進去小路 那一天 14:00 這間不開（PLACES.windowsOf [[18, 26]]、假日 null）——跳過，不是布置造成
+PASS [DOORS 溫州街 2026-02-13] walkFallbacks 0（每一間累計）  {"zone": "wenzhou", "day": 150, "h": 14.12, "x": -20.6, "z": 4.65, "free": true, "stand": true, "fb": 0}
+  [ 243.4s] [DOORS] 用了 165 秒
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2026-03-15（3/15（不該有布置））20.00 時 (-10.0,0.0) （FPS 第 1 點）
+  [ 268.6s] [FPS 溫州街 2026-03-15 2000 點1] 畫質 medium、站 [-10, 0] 8 秒：47.8 fps、draw call 167、三角形 259619；看得到的季節組 []（PC GPU，不是 iPhone；舊版同位置對照）
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2026-03-15（3/15（不該有布置））20.00 時 (40.0,0.0) （FPS 第 3 點）
+  [ 293.8s] [FPS 溫州街 2026-03-15 2000 點3] 畫質 medium、站 [40, 0] 8 秒：48.1 fps、draw call 157、三角形 280523；看得到的季節組 []（PC GPU，不是 iPhone；舊版同位置對照）
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2026-02-13（除夕前三天）20.00 時 (-10.0,0.0) （FPS 第 1 點）
+  [ 315.6s] [FPS 溫州街 2026-02-13 2000 點1] 畫質 medium、站 [-10, 0] 8 秒：44.1 fps、draw call 219、三角形 365333；看得到的季節組 ["CNY", "CVSWINTER", "FRUITWINTER", "VDAY"]（PC GPU，不是 iPhone；舊版同位置對照）
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2026-02-13（除夕前三天）20.00 時 (40.0,0.0) （FPS 第 3 點）
+  [ 337.3s] [FPS 溫州街 2026-02-13 2000 點3] 畫質 medium、站 [40, 0] 8 秒：38.6 fps、draw call 184、三角形 343518；看得到的季節組 ["CNY", "CVSWINTER", "FRUITWINTER", "VDAY"]（PC GPU，不是 iPhone；舊版同位置對照）
+  [ 337.3s] [FPS] 用了 94 秒
+PASS 沒有 JS 例外  []
+ALL PASS

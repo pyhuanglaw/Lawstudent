@@ -1181,3 +1181,15 @@
        c3e0e40a2..89a98f22a  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [03:37:18] ==== END   N1_GG3_shops  exit=0  549s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       89a98f22a..8cf620504  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:37:23] ==== END   N1_X324  exit=1  212s   ====
+[03:37:26] memory 37% before starting N1_SEASON_gg (2 running)
+[03:37:26] ==== START N1_SEASON_gg  (probe @ b77af3a4fe6d348ae58337a1ce708442ef9ef458) ====
+[03:37:29] [res] cpu=46% mem=37% (11.9/31.4 GB) chrome_testing=5  START N1_SEASON_gg
+[03:37:29] memory 37% before starting N1_SEASON_wz (2 running)
+[03:37:29] ==== START N1_SEASON_wz  (probe @ b77af3a4fe6d348ae58337a1ce708442ef9ef458) ====
+[03:37:32] [res] cpu=42% mem=39% (11.9/31.4 GB) chrome_testing=5  START N1_SEASON_wz
+[03:41:16] 正在跑：N1_AA814（已跑 11 分／上限 110 分）、N1_SEASON_gg（已跑 3 分／上限 15 分）、N1_SEASON_wz（已跑 3 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:44:06] [res] cpu=72% mem=46% (14.7/31.4 GB) chrome_testing=10  END N1_SEASON_wz
