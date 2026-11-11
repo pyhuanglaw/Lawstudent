@@ -489,13 +489,18 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
     n1 = await GC.logn(pg); t0 = time.time(); free = None; info = {'before': [], 'after': [], 'menus': [], 'burst': None, 'presses': 0, 'stopAt': [], 'resume': []}
     key = L_['item']; bank = await pg.evaluate(BANKQ, sy['ask']['qid']) if sy and sy.get('ask') else None
     callopts = [norm(o) for o in ((sy or {}).get('call') or {}).get('options', [])]
-    async def np_do(k, hs, t_menu):   # BB 06:08 第 2 點：選單出現後停 NORMALPICK ms 照字點；記每一下距選單幾 ms、第幾下成立
-        nlg = await GC.logn(pg); now0 = await pg.evaluate("performance.now()")
+    async def np_do(k, hs, t_menu, n_sk=None, t_sk=None):   # BB 06:08 第 2 點：選單出現後停 NORMALPICK ms 照字點；記每一下距選單幾 ms、第幾下成立
+        nlg = await GC.logn(pg)
+        cs = await pg.evaluate("(()=>[...document.querySelectorAll('#choices button')].map(b=>{ const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; }))()")   # r4（CC 07:1x）：先拿好按鈕座標，時間到直接 CDP 觸控，不再經 tap_head（r3 每一下前多 2～3 次 evaluate，400 ms 實際變 800 ms）
+        now0 = await pg.evaluate("performance.now()")
         if t_menu is not None and now0 - t_menu < NORMALPICK: await pg.wait_for_timeout(int(NORMALPICK - (now0 - t_menu)))
         tries = []; ok_at = None
         for kk in range(6):
-            tt = await pg.evaluate("performance.now()"); await tap_head(pg, cdp, k); await pg.wait_for_timeout(350)
-            pk = [e for e in await GC.logs(pg, nlg) if e['k'] == 'pick']; tries.append(round(tt - t_menu) if t_menu is not None else None)
+            if k < len(cs): await L.touch_tap(cdp, cs[k][0], cs[k][1])
+            else: await tap_head(pg, cdp, k)
+            await pg.wait_for_timeout(350); lg_ = await GC.logs(pg, nlg)
+            dn = [e for e in lg_ if e['k'] == 'down']; tries.append(round(dn[-1]['t'] - t_menu) if (dn and t_menu is not None) else None)   # 頁面自己記的 pointerdown 時間（和選單出現同一個時鐘）
+            pk = [e for e in lg_ if e['k'] == 'pick']
             if pk: ok_at = kk + 1; break
             if not (await GC.ms(pg)).get('ch'): break
             await pg.wait_for_timeout(300)
@@ -504,6 +509,10 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
         else: R.note('%s：只記（%d ms＜900 ms）：第 %s 下才成立——玩家「按了沒反應」%s 次' % (tag, NORMALPICK, ok_at, (ok_at - 1) if ok_at else '（一直沒成立）'))
         if tries and tries[0] is not None and abs(tries[0] - NORMALPICK) > 250: R.note('%s：⚠第 1 下實際在選單出現後 %d ms（目標 %d ms），這一筆的時間不準' % (tag, tries[0], NORMALPICK))
         if not ok_at and (await GC.ms(pg)).get('ch'): await tap_head(pg, cdp, k)
+        if n_sk is not None:   # BB 07:13：時間線（0＝按略過那一刻）：略過按下、每個選單出現、每一下 pointerdown、選到；這個選單出現前有沒有按略過、中間有沒有別的選單先出現
+            lg_ = await GC.logs(pg, n_sk); ch_ = [e for e in lg_ if e['k'] == 'choose']
+            tl = [[round(e['t'] - t_sk), e['k'], (e.get('opts') or [e.get('txt') or e.get('btn') or e.get('tgt')])[0] if e['k'] != 'down' else (e.get('btn') or e.get('tgt'))] for e in lg_ if e['k'] in ('choose', 'pick', 'down')]
+            R.note('%s：np 時間線（ms，0＝按略過）：%s；這個選單出現前有按略過＝是；略過到這個選單之間先出現的別的選單 %d 個（%s）' % (tag, J(tl), max(0, len(ch_) - 1), J([e.get('opts') for e in ch_[:-1]])))
     started = False; burst_done = (not use_skip) or OUTBURST or bool(NORMALPICK); last_menu_t = None; tsit = None; tend = None; out_done = not OUTBURST
     while time.time() - t0 < max_s:
         s = await GC.ms(pg); lg = await GC.logs(pg, n1)
@@ -625,6 +634,8 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
         if s['dlg']:
             free = None
             if use_skip and att and not done and sb.get('vis') and burst_done:
+                n_sk = t_sk = None
+                if NORMALPICK and not info.get('np'): n_sk = await GC.logn(pg); t_sk = await pg.evaluate("performance.now()")
                 await L.touch_tap(cdp, sb['c'][0], sb['c'][1]); info['presses'] += 1
                 if NORMALPICK and not info.get('np'):   # r3（CC 06:4x）：按略過以後在頁面裡等選單出現（MutationObserver），一出來就照時間點——不經過主迴圈（主迴圈一圈要 2 秒，np400 r2 實際都在 2 秒後才點）
                     tm = await pg.evaluate(WAITMENU)
@@ -633,7 +644,7 @@ async def skip_loop(pg, cdp, L_, tag, sy, use_skip=True, max_s=600):
                         if hs:
                             k = 0
                             if bank and (hs[0].startswith('（') or hs == ['對', '錯']): ans = str(bank['answer']); k = next((i for i, h in enumerate(hs) if h.startswith('（' + ans + '）') or h == ans), 0)
-                            info['np'] = True; info['stopAt'].append({'why': 'np', 'opts': hs}); info['menus'].append(['np', hs[k]]); await np_do(k, hs, tm)
+                            info['np'] = True; info['stopAt'].append({'why': 'np', 'opts': hs}); info['menus'].append(['np', hs[k]]); await np_do(k, hs, tm, n_sk, t_sk)
                             last_menu_t = time.time()
                 await pg.wait_for_timeout(300); continue
             await pg.wait_for_timeout(500); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250); continue

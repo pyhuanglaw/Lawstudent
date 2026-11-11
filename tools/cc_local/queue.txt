@@ -24,6 +24,9 @@ CLASS12_skip5b_np400_r2 | 64add9fcfbd75796463e9b99373f6301359ba012 | probe | doc
 # CC 06:4x：r2 的 np 實際都在選單出現約 2 秒後才點（主迴圈太慢），r3 改成按略過後在頁面裡等選單出現就照時間點
 CLASS12_skip5b_np400_r3 | 64add9fcfbd75796463e9b99373f6301359ba012 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;NORMALPICK=400;RERUN=r3;SHA=64add9fcfbd75796463e9b99373f6301359ba012
 CLASS12_skip5b_np1000_r3 | 64add9fcfbd75796463e9b99373f6301359ba012 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;NORMALPICK=1000;RERUN=r3;SHA=64add9fcfbd75796463e9b99373f6301359ba012
+# BB 07:13：略過後 900 ms 只算「按略過以後的第一個選單」；400 剛好踩界線 → 改跑 np350、np450（三堂），log 有時間線（略過按下、每個選單出現、每一下 pointerdown）；r4 按鈕座標先拿好、直接觸控
+CLASS12_skip5b_np350_r4 | 64add9fcfbd75796463e9b99373f6301359ba012 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;NORMALPICK=350;RERUN=r4;SHA=64add9fcfbd75796463e9b99373f6301359ba012
+CLASS12_skip5b_np450_r4 | 64add9fcfbd75796463e9b99373f6301359ba012 | probe | docs/story_planning/test_tools/cc/cc_class12_probe.py | index.html | 12 | PARTS=SKIP;NOSKIP=0;NORMALPICK=450;RERUN=r4;SHA=64add9fcfbd75796463e9b99373f6301359ba012
 # ★BB 06:34 L118A（bc407bfc5＝BB 判 118 巷的版本，今天先回）：街景十一間外觀、九間室內門口往裡／最裡面往門口＋進門第一眼遊戲鏡頭＋近照（含奈良咖哩地板）
 L118A_EXT14 | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 15 | PARTS=EXT14;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
 L118A_INT_a | bc407bfc518c8d6a4260d1a1fa395cb93fc9058b | probe | docs/story_planning/test_tools/cc/cc_l118a_probe.py | index.html | 18 | PARTS=INTFRONT;SHOPS=omu,dian,self,korea,tea;SHA=bc407bfc518c8d6a4260d1a1fa395cb93fc9058b
