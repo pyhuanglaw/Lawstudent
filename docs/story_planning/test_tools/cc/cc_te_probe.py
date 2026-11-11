@@ -849,13 +849,13 @@ async def case_run(pg, cdp, errs, cid):
     elif kind == 'heart': segs, key = heart_expect(who, term, C, info.get('tl'), info.get('say3'), info.get('notYet'))
     else: segs, key = friend_expect(who, term, C)
     if kind in ('heart', 'friend') and key: R.note('%s 期望的備註：%s' % (t, J(key)))
+    if case.get('record'): segs = []; R.note('%s 只記（不對稿）：逐句寫在 te_lines.txt' % t)
     if segs is None:
         R.check('%s 稿上有這一頓（%s）' % (t, J(key)), False, ''); segs = []
     if case.get('want'): segs = [dict(x, want=case['want']) for x in segs]
     ctl = {'cpick': cpick, 'notYet': info.get('notYet'), 'answer': info.get('answer'), 'think': case.get('confess') == 'think', 'want': case.get('want')}
     sf = info.get('sheFirst') if isinstance(info.get('sheFirst'), dict) and info['sheFirst'].get('co') else None
     if sf: ctl.update(sfco=sf['co'], sfwant='think' if case.get('confess') == 'think' else 'yes'); R.note('%s 「她先說」的模式（S.sheFirst）：%s' % (t, J(sf)))
-    if case.get('record'): segs = []; R.note('%s 只記（不對稿）：逐句寫在 te_lines.txt' % t)
     # 舊版（TAG=old）：條件全是 null，期望只拿來比「稿上的選項沒有出現」（每一段的 all）
     res['expect'] = segs
     R.note('%s 期望（稿）：%s' % (t, J([dict([(k, s.get(k)) for k in ('id', 'why', 'say', 'menu')], opts=[o['t'] for o in s.get('opts') or []]) for s in segs])))
