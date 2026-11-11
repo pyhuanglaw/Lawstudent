@@ -1,11 +1,3 @@
-[07:19:03] skip GSHOP_flower_old (already done on 28df8a85c788c354fc606a87e64cb5f4f12c5ff9)
-[07:19:03] skip GUI_new (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[07:19:03] skip GUI_old (already done on fda54d616e57b40c74ca1b6404dccb6ea927e50c)
-[07:19:03] skip GUI_fix (already done on 0ec32e6f6cc85ba9a9ff68a41ce60d8751a6a2da)
-[07:19:03] skip X276_new (already done on 8c050804c22e6e9b846e5d02b868cefc1a858af1)
-[07:19:03] skip X276_old (already done on 3f6dba142276f8cefcc52570f9b659b930d00861)
-[07:19:03] skip WAKE_a_new2 (already done on 8677568a378f133e45179f251f37f9dfa75943e6)
-[07:19:03] skip WAKE_a_old2 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
 [07:19:03] skip WW3B_old_n1930 (already done on 1827999fb488a30bdaccedaa1561697b3266a498)
 [07:19:03] skip WW3T_old_n1930 (already done on 1827999fb488a30bdaccedaa1561697b3266a498)
 [07:19:03] skip WW3B_new_n1930 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
@@ -1998,3 +1990,11 @@
 [13:48:18] [res] cpu=11% mem=50% (15.6/31.4 GB) chrome_testing=9  START CLASS12_skip2_150x10
 [13:49:03] 正在跑：CLASS12_civ_b_r2（已跑 2 分／上限 12 分）、CLASS12_const_c（已跑 1 分／上限 12 分）、CLASS12_skip2_150x10（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:49:42] [res] cpu=5% mem=49% (15.5/31.4 GB) chrome_testing=10  END CLASS12_const_c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6afba897b..bf70527dd  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:49:48] ==== END   CLASS12_const_c  exit=1  144s   ====
+[13:49:57] memory 47% before starting CLASS12_calm (2 running)
+[13:49:57] ==== START CLASS12_calm  (probe @ 2d90b034c88f1d2539fcb9d75eed1e1c4fa49397) ====
+[13:50:00] [res] cpu=5% mem=47% (15.0/31.4 GB) chrome_testing=10  START CLASS12_calm
+[13:52:37] [res] cpu=4% mem=48% (15.2/31.4 GB) chrome_testing=10  END CLASS12_skip2_150x10
