@@ -211,9 +211,11 @@ const TALK=D.reveal.talk.lines;
   check('13. 20:00 進汀州路：上師坐在配置的 seatMaster（坐姿、不走動、不是有名字的同學）、看得到；要的是他自己的模型',!!n&&n===LM.masterNpc&&n.obj.position.x===ST.x&&n.obj.position.z===ST.z&&n.obj.rotation.y===(ST.yaw||0)&&n.pose==='sit'&&n.frozen===true&&n.isExtra===true&&n.obj.visible===true&&built[built.length-1].model===K&&built[built.length-1].id===LM.NPC_ID,n&&JSON.stringify([n.obj.position.x,n.obj.position.z,n.pose,n.obj.visible]));
   const w1=LM.who(GM,'ms');
   check('13. 他在的時候說話的人帶他的 obj、名字照稿（上師）',!!w1&&w1.obj===n.obj&&w1.name===LM.MASTER.name);
-  GM.G.hour=18; zT2.applyTimeOutdoor(18,null); const hid=n.obj.visible; const w2=LM.who(GM,'ms'); GM.G.hour=20; zT2.applyTimeOutdoor(20,null); const back=n.obj.visible;
+  GM.G.hour=18; zT2.applyTimeOutdoor(18,null); const hid=n.obj.visible, hidFlag=n.hidden; n.obj.visible=true;   /* 引擎下一格會照視野把 visible 設回 true：要靠 n.hidden 擋 */ const w2=LM.who(GM,'ms'); GM.G.hour=20; zT2.applyTimeOutdoor(20,null); const back=n.obj.visible, backFlag=n.hidden;
   zT2.tzLimaoAway=true; zT2.applyTimeOutdoor(20,null); const away=n.obj.visible; zT2.tzLimaoAway=false; W.typhoon=true; zT2.applyTimeOutdoor(20,null); const ty=n.obj.visible; W.typhoon=false; zT2.applyTimeOutdoor(20,null);
   check('13. 收攤（18:00）藏起來、說話的人不帶 obj；20:00 再出現；上師不在、颱風＝藏起來',hid===false&&!w2.obj&&back===true&&away===false&&ty===false&&n.obj.visible===true,[hid,back,away,ty].join());
+  /* 2026-11-11（CC 自檢：收攤時段他還畫得出來、每 10 幀有 8～9 幀在）：藏起來要設 n.hidden（engine3d.js 每一格照它算顯示），只設 obj.visible 會被蓋回來 */
+  check('13. 藏起來＝n.hidden true（引擎把 visible 蓋回 true 以後，說話的人照樣不帶 obj）；出現＝n.hidden false；引擎的顯示判斷有看 n.hidden',hidFlag===true&&backFlag===false&&n.hidden===false&&/const vis=!n\.hidden&&/.test(fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8')),[hidFlag,backFlag].join());
   GM.G=newG({hour:18}); E.npcs=[]; const n18=LM.placeMaster(GM);
   check('13. 收攤時進汀州路：人物先放好、藏著（19:00 一到就出現）',!!n18&&n18.obj.visible===false);
   GM.G=newG({hour:20,stage:'econ'}); E.npcs=[]; const ne=LM.placeMaster(GM);

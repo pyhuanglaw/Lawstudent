@@ -105,7 +105,7 @@ const LM=(function(){
 
   /* ---------- 說話 ---------- */
   S.who=function(GM,w){ const G=GM.G; if(w==='narr') return null; if(w==='yt') return {name:(G&&G.name)||'祐廷'};
-    if(w==='ms'){ const n=S.masterNpc, E=GM.E; return n&&n.obj&&n.obj.visible&&E&&E.npcs&&E.npcs.includes(n)?Object.assign({},n,S.MASTER):S.MASTER; }   /* 人物在這個區域、看得到的時候才帶 obj（換區以後舊的那個不用）*/
+    if(w==='ms'){ const n=S.masterNpc, E=GM.E; return n&&n.obj&&!n.hidden&&E&&E.npcs&&E.npcs.includes(n)?Object.assign({},n,S.MASTER):S.MASTER; }   /* 人物在這個區域、看得到的時候才帶 obj（換區以後舊的那個不用）*/
     if(w==='wu'){ const n=GM.npc&&GM.npc[S.WU], nm=typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(S.WU):((typeof CHARACTERS!=='undefined'&&CHARACTERS[S.WU]&&CHARACTERS[S.WU].name)||'吳教授'); return n&&n.obj?n:{name:nm,charId:S.WU}; }
     return null; };
   S.play=async function(GM,lines,from){ for(let i=from|0;i<lines.length;i++){ const l=lines[i]; await GM.say(S.who(GM,l.w),l.t,l.w==='yt'?{me:true}:undefined); } };
@@ -169,7 +169,7 @@ const LM=(function(){
   S.masterSpec=function(){ const xs=typeof STORY!=='undefined'&&STORY.extraSpec; let s=xs?Object.assign({},xs(21)):{};
     s.sex='m'; s.height=1.69; s.skin='#efd0b3'; s.hair=Object.assign({},s.hair,{color:'#b9b6b0'}); s.outfit=Object.assign({},s.outfit,{top:{type:'cardiganOpen',color:'#4a3626',inner:'#3f4a36'},bottom:{type:'slacks',color:'#6b6358'}});
     const k=S.masterModel(); if(k) s.model=k; s.id=S.NPC_ID; s.name=S.MASTER.name; return s; };
-  S.masterShow=function(zone,G){ const n=S.masterNpc; if(!n||!n.obj) return false; const on=!!(G&&S.canTalk(G,zone)); n.obj.visible=on; return on; };
+  S.masterShow=function(zone,G){ const n=S.masterNpc; if(!n||!n.obj) return false; const on=!!(G&&S.canTalk(G,zone)); n.hidden=!on; n.obj.visible=on; return on; };   /* n.hidden：engine3d.js 每一格算顯示時照它（只設 visible 會被下一格蓋回來——CC 11-11：收攤時他還畫得出來、會閃）*/
   S.placeMaster=function(GM){ S.masterNpc=null; const E=GM&&GM.E, zone=E&&E.zone, G=GM&&GM.G, st=S.masterSeat();
     if(!zone||!zone.tzLimao||!st||!G||!D()||!S.term(G)||typeof CHAR==='undefined'||!CHAR.build||!E.addNPC) return null;
     const seat={x:st.x,z:st.z,yaw:st.yaw||0}, o=CHAR.build(S.masterSpec()); o.position.set(seat.x,0,seat.z); o.rotation.y=seat.yaw;
