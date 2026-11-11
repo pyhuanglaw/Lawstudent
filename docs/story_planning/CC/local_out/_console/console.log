@@ -866,3 +866,11 @@
 [08:28:25] worktree add e8918a0135d6e003d5d0486795e6a15917923d17: invalid reference - fetching main and the commit itself
 [08:29:02] 正在跑：TZ5_int_new_r2（已跑 2 分／上限 12 分）、TZ5_int_old_r2（已跑 1 分／上限 12 分）、NM_sync_new（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [08:30:20] [res] cpu=3% mem=48% (15.1/31.4 GB) chrome_testing=10  END TZ5_int_new_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       94b05352f..bc9668003  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:30:27] ==== END   TZ5_int_new_r2  exit=0  207s   ====
+[08:30:36] memory 48% before starting NM_sync_old (2 running)
+[08:30:36] ==== START NM_sync_old  (probe @ 11161c101f4f4dc27af58177ae18a0ffd2f7cd63) ====
+[08:30:40] [res] cpu=3% mem=42% (15.1/31.4 GB) chrome_testing=5  START NM_sync_old
+[08:30:46] [res] cpu=8% mem=41% (13.3/31.4 GB) chrome_testing=5  END TZ5_int_old_r2
