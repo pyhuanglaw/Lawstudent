@@ -1,0 +1,6 @@
+# ACT 2026-11-11 23:19:09 SHA=779ddd65081bf770e9850d948b54ecc21dc4d120 TAG=new PARTS=ZR3_SMOKE PICK3=0 PS_PICK=0
+  稿：AA_708 d30416e6b:docs/story_planning/AA_708_activity_scenes.json（讀不到）、AA_707 1b8e247ec:docs/story_planning/AA_707_study_scenes.json（讀不到）
+  版本字樣：版本 v9.10.24
+== ZR3_SMOKE
+  選日子／地點／時間（只讀的查詢）：試過 [["2025-10-18", "地點（略過的）", []]]
+  [ZR3_SMOKE] 用了 10 秒

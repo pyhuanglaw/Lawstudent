@@ -1,11 +1,3 @@
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       e25a1a938..3bd9ca856  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[14:48:30] ==== END   L118D_H_D  exit=1  163s   ====
-[14:48:39] memory 49% before starting CLASS12_skip5b_np400_r3 (2 running)
-[14:48:39] ==== START CLASS12_skip5b_np400_r3  (probe @ 64add9fcfbd75796463e9b99373f6301359ba012) ====
-[14:48:42] [res] cpu=2% mem=49% (15.6/31.4 GB) chrome_testing=10  START CLASS12_skip5b_np400_r3
-[14:49:04] 正在跑：L118D_H_E（已跑 6 分／上限 15 分）、L118D_H_G（已跑 2 分／上限 15 分）、CLASS12_skip5b_np400_r3（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
 [14:49:16] [res] cpu=8% mem=45% (14.2/31.4 GB) chrome_testing=9  END L118D_H_G
     To https://github.com/pyhuanglaw/Lawstudent.git
        3bd9ca856..ea724121f  claude/cc-local -> claude/cc-local
@@ -1998,3 +1990,11 @@
 [23:18:45] [res] cpu=8% mem=41% (12.9/31.4 GB) chrome_testing=10  START ACT_ZR3_SIT_live
 [23:19:05] 正在跑：STAIR_old_walk10_r2（已跑 18 分／上限 40 分）、ACT_ZR3_SIT_old2（已跑 9 分／上限 9 分）、ACT_ZR3_SIT_live（已跑 0 分／上限 9 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:19:16] [res] cpu=6% mem=40% (12.7/31.4 GB) chrome_testing=9  END ACT_ZR3_SIT_old2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8544e9565..3c14c35c6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:19:22] ==== END   ACT_ZR3_SIT_old2  exit=1  581s  timeout 9 min ====
+[23:19:25] memory 41% before starting ACT_ZR3_SIT_rel (2 running)
+[23:19:25] ==== START ACT_ZR3_SIT_rel  (probe @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
+[23:19:28] [res] cpu=28% mem=42% (13.1/31.4 GB) chrome_testing=9  START ACT_ZR3_SIT_rel
+[23:20:00] [res] cpu=7% mem=40% (12.3/31.4 GB) chrome_testing=9  END ACT_ZR3_SIT_live

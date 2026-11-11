@@ -1,0 +1,25 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_act_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ACT_ZR3_SIT_live\out
+# ACT 2026-11-11 23:19:09 SHA=779ddd65081bf770e9850d948b54ecc21dc4d120 TAG=new PARTS=ZR3_SMOKE PICK3=0 PS_PICK=0
+  稿：AA_708 d30416e6b:docs/story_planning/AA_708_activity_scenes.json（讀不到）、AA_707 1b8e247ec:docs/story_planning/AA_707_study_scenes.json（讀不到）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  版本字樣：版本 v9.10.24
+== ZR3_SMOKE
+  [前置／捷徑] [heroine_02]【前置／捷徑】G.visited.xs_nanyang＝true（去過南洋戲院，約看電影的清單才列；2025-10-18）
+  選日子／地點／時間（只讀的查詢）：試過 [["2025-10-18", "地點（略過的）", []]]
+PASS [ZR3_SMOKE] 找得到能約的日子、地點、她會答應的時間
+  [前置／捷徑] [ZR3_SMOKE] 讀檔（applySave、關條件事件／手機自動打開）：宿舍、2025-10-18（第 32 天，週六）10.00、晴天、錢 3000；heroine_02 的聯絡方式；關係 {"fam": 66, "trust": 50, "comf": 45, "npcRom": 14} → 第 4 階（SOCIAL RELATIONSHIP）；交往中（dating_heroine_02）；canConfess {"ok": false, "why": "stage", "stage": 4}；升階門檻台詞記成說過 1 則；BEATS.last＝今天
+  [前置／捷徑] [ZR3_SMOKE] 次數：ACTN.movie[heroine_02]＝n 2、k 3；旗標 {}；記憶 +[] −[]；拿掉 dating_kexin
+  [  34.3s] [ZR3_SMOKE] 地點 xs_nanyang（去南洋戲院看電影）、時間 今天 14:00、片 {"film": "m2509a", "ok": true, "key": "3", "title": "第十三號月台", "withMid": false, "withKind": null}；alt 條件 "TypeError: STUDYN.ALT.datingOrReady is not a function"；AN_SHOP_PAGE False
+PASS [ZR3_SMOKE] 前置：DATE.stageNum＝4  {"fam": 66, "trust": 50, "aff": 0, "resp": 0, "comf": 45, "rom": 0, "npcRom": 14, "seen": 0, "talked": 0}
+FAIL [ZR3_SMOKE] 探針沒有例外  Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_act_probe.py", line 1073, in main
+    else: await run_part(pg, cdp, errs, part)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_act_probe.py", line 865, in run_part
+    if cfg.get('alt') and kind != 'study': R.check('[%s] 前置：datingOrReady true（交往中）' % tag, s['altOn'] and s['altOn'].get('datingOrReady') is True, J(s['altOn']))
+                                                                                                                   ^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+
+  [ZR3_SMOKE] 用了 10 秒
+FAILED: [ZR3_SMOKE] 探針沒有例外
