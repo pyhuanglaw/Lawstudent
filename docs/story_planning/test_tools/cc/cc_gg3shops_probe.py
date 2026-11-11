@@ -189,7 +189,7 @@ BUILD_OLD_JS = r"""(q=>{ const G=GAME.G, d=G.day; const R=OUT.rec(G); R.length=0
     if(GAME.addNote) GAME.addNote('mx_fm1',STORY.MX_FM1.title,q.body);
     /* BB 19:30（35c4b140c 遷移 G.phone.q）：還沒送到的訊息（含回覆選項）也放一則舊字 */
     if(PHONE.at) PHONE.at(G,d+1,21,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'明天七點，公館的日日定食，別遲到。',ask:{id:'cc_old_ask',opts:[{t:'好，日日定食見。'},{t:'我可能晚一點到日日定食。',post:'我可能晚一點到日日定食。'}]}}],'cc_old_q'); }
-  const snap=JSON.parse(JSON.stringify(GAME.snapshot())); window.__ccOld=snap; const t=JSON.stringify(snap); return {n:t.split('日日定食').length-1, outs:snap.outings.length}; })"""
+  const snap=JSON.parse(JSON.stringify(GAME.snapshot())); if(snap.flags&&typeof snap.flags==='object') delete snap.flags.GG3_REN; window.__ccOld=snap;   /* 舊版本的存檔沒有 GG3_REN（35c4b140c：有這個旗標＝遷移做過了、不再做）*/ const t=JSON.stringify(snap); return {n:t.split('日日定食').length-1, outs:snap.outings.length}; })"""
 APPLY_OLD_JS = r"""(async()=>{ await GAME.applySave(JSON.parse(JSON.stringify(window.__ccOld))); return true; })()"""
 G_OLD_JS = r"""(()=>{ const old='日日定食', hits=[]; const walk=(o,p)=>{ if(hits.length>40) return; if(typeof o==='string'){ if(o.indexOf(old)>=0) hits.push([p,o.slice(0,90)]); return; } if(!o||typeof o!=='object') return; for(const k of Object.keys(o)) walk(o[k],p+'.'+k); };
   walk(GAME.G,'G'); const outs=(GAME.G.outings||[]).map(q=>({id:q.id,place:q.place,title:q.title,state:q.state})); return {hits,outs}; })()"""
