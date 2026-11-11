@@ -1,11 +1,3 @@
-[11:42:09] memory 36% before starting GOCLASS_guard_new (0 running)
-[11:42:09] ==== START GOCLASS_guard_new  (probe @ 1d4db297a4b980e82619dbc41f70e41f108f0596) ====
-[11:42:12] [res] cpu=2% mem=36% (11.5/31.4 GB) chrome_testing=0  START GOCLASS_guard_new
-[11:44:03] 正在跑：GOCLASS_guard_new（已跑 1 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
-[11:49:03] 正在跑：GOCLASS_guard_new（已跑 6 分／上限 18 分）——還沒測完，請不要關 (tests still running - please do not close)
-[11:53:02] [res] cpu=5% mem=37% (11.6/31.4 GB) chrome_testing=0  END GOCLASS_guard_new
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       8ef08bb49..e66f73b8c  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [11:53:10] ==== END   GOCLASS_guard_new  exit=0  654s   ====
 [11:53:13] memory 37% before starting GOCLASS_guard_old (0 running)
@@ -1998,3 +1990,11 @@
 [20:22:04] [res] cpu=2% mem=54% (17.1/31.4 GB) chrome_testing=9  START REL_main12
 [20:24:05] 正在跑：V25_social（已跑 46 分／上限 60 分）、REL_deploy（已跑 4 分／上限 15 分）、REL_main12（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:26:08] [res] cpu=13% mem=53% (16.6/31.4 GB) chrome_testing=10  END REL_deploy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7ba083242..a46520835  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:26:14] ==== END   REL_deploy  exit=0  419s   ====
+[20:26:18] memory 49% before starting REL_live (2 running)
+[20:26:18] ==== START REL_live  (game @ f312c68cc961c70c7d548fe40c2ae42483d517ba) ====
+[20:26:21] [res] cpu=2% mem=49% (15.5/31.4 GB) chrome_testing=10  START REL_live
+[20:27:39] [res] cpu=4% mem=50% (15.8/31.4 GB) chrome_testing=10  END REL_main12
