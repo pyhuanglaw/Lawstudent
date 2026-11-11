@@ -767,7 +767,9 @@ async def part_nosit(pg, cdp, ref):
         await pg.evaluate("(()=>{ GAME.G.weather='rain'; })()"); R.setup('%s【捷徑】天氣變成 %s，改回下雨' % (tag, w))
     due = await pg.evaluate("(()=>{ const iv=MOKS.rainDue(GAME.G); return iv?{place:iv.place,who:iv.who}:null; })()")
     R.note('%s 離開前 MOKS.rainDue＝%s（參考）' % (tag, J(due)))
-    await joy(pg, cdp, tag + ' 下樓到樓梯口', MOK_EXIT[0], MOK_EXIT[1], near=0.6, lv=0, max_s=150)
+    rj = await joy(pg, cdp, tag + ' 下樓到樓梯口', MOK_EXIT[0], MOK_EXIT[1], near=0.6, lv=0, max_s=150)
+    if not rj['ok']:   # CC 13:5x（BB 13:54 P0）：卡住當下記 2.5 m 內 NPC、那幾格站不站得住、找路、截圖，再試兩條路（V25_L118_moku 停在 (−1.823,4.002) lv1 22 秒沒動）
+        await stair_stuck(pg, cdp, tag + ' 下樓', MOK_EXIT)
     i3 = len(LOG)
     if not await press(pg, cdp, tag, '離開木曜日'): return
     await run_dialog(pg, cdp, pick=lambda o: 0, secs=40)
