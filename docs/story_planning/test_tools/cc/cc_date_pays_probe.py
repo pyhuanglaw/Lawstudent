@@ -17,6 +17,11 @@
   SPLIT  以安 heroine_01 D25 宜蘭外澳第一次（一日遊、火車，09:00 出發），點「海邊的咖啡館」，選「「我請。」」→ 她回「謝謝，那蛋糕我點，一人一半。」（AA_812 SPLIT）
          預期：咖啡館祐廷那一份扣一半＝Math.round(150/2)＝75，加上選了請客的 extra 150（date3d.js：請她的那一份照舊）＝225
          （規格裡不開車的 SPLIT 以安只有這一格和 D30（兩天一夜）；D22.fish「一人一半。」不用請客選項、比較乾淨，但開車要先走到望月台停車場按「開車出發」，這支不走路，所以沒選）
+  SPLIT_PURE 以安 D22 石門水庫第一次（開車，15:00 出發），點「活魚料理」，選「「我們都吃。」」（不是請客）→ 她回「一人一半。」（she_pays.js split）
+         預期：活魚料理祐廷那一份扣一半＝Math.round(300/2)＝150，沒有「（請她）」；她那一句＝she_pays.js split 那一句（也在頁面 DATE.SPLIT）
+         開車：【前置／捷徑】讀檔直接放在校園、望月台停車場「開車出發」那一格 10～25 m 外（CARLOT.spot()，能站、找得到路的第一個點），省掉宿舍走到校園那一段；
+         選「現在出發」以後真的點地／搖桿走到車旁邊（L.go_to 一段 6 秒，每段之前先看對話／選單／busy，出現就停下來處理），看到互動鍵「開車出發」才按；
+         走完（回程停回停車場）用搖桿推一下，確認推得動
   BROKE  同 ME 的地點（子晴 D10 第一次），【前置】錢設成「預約檢查過得了（≥ 車資＋門票）、但小於小吃攤一份」，點小吃攤，選「「慢慢吃。」」（不請客，只看自己那一份）
          看：錢不夠時有沒有換成她付（這一份扣得比原價少）或出提示（#toast／對話裡有「錢」「不夠」）；錢在任何時候都不能變負的
 【前置／捷徑】（log 都印 [前置／捷徑]）：讀檔（GAME.applySave、quiet_events）、日期（2025 學年大一上週六裡第一個 DATE.check 過的）、時間 13:18、晴天、錢（BROKE 以外 40000）；
@@ -70,6 +75,9 @@ RUNS = {
     'BROKE': dict(who='heroine_04', loc='D10', visits=0, pid='D10.snack', pick='慢慢吃', kind='broke'),
     # BB 19:09／LAWWW：同一趟第二次錢不夠只有旁白（回程車資也一樣）——【捷徑】第一次「錢不夠」旁白之後把錢設成 DROP_TO（小於回程車資），讓回程車資也不夠
     'BROKE2': dict(who='heroine_04', loc='D10', visits=0, pid='D10.snack', pick='慢慢吃', kind='broke', drop=10),
+    # BB 19:12：純平分——不選請客、她說「一人一半。」、只扣一半。以安 D22.fish first choice[1]「「我們都吃。」」→「一人一半。」（she_pays.js split.heroine_01['D22.fish']）。
+    # D22 要開車：選「現在出發」＝目標改成走到望月台停車場（carlot3d.js toLot），在車旁邊按「開車出發」才真的出發——探針真的點地／搖桿分段走過去（CC_02 乙 5、13）
+    'SPLIT_PURE': dict(who='heroine_01', loc='D22', visits=0, pid='D22.fish', pick='我們都吃', kind='split_pure', car=True),
 }
 NARR = '（你的錢不夠。她先付了。）'   # LAWWW 19:09（AA_812 修正）：第一次旁白＋她一句（七位照 AA 原文），同一趟再不夠只有旁白
 EGG_PID = 'D31.egg'   # LAWWW 19:09 ③：沛珊 D31.egg 不算她請客
@@ -245,6 +253,22 @@ DLG_TOP_JS = r"""(()=>{ const d=document.getElementById('dlg'), ch=document.getE
   const nb=(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).length:0; if(nb) return {ok:false,why:'選單在畫面上',nb:nb};
   const r=d.getBoundingClientRect(); const e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2); return {ok:!!e&&(e===d||d.contains(e)), top:e?(e.id||String(e.className).slice(0,40)||e.tagName):null}; })()"""
 
+LOT_JS = r"""(tid=>{ const G=GAME.G, q=OUT.get?OUT.get(G,'date_'+tid):null; return {walking:!!(q&&typeof CARLOT!=='undefined'&&CARLOT.walking&&CARLOT.walking(G,q)), due:!!(typeof CARLOT!=='undefined'&&CARLOT.due&&CARLOT.due(G)), lot:q?(q.lot||null):null, goal:G.goal||null}; })"""
+
+CAR_START_JS = r"""(()=>{ const E=GAME.E, sp=(typeof CARLOT!=='undefined'&&CARLOT.spot)?CARLOT.spot():null; if(!sp) return {err:'CARLOT.spot() 沒有（不在校園或沒有停車場）'}; const st=sp.stand, out=[];
+  for(const r of [16,20,12,24]) for(let a=0;a<360;a+=30){ const x=+(st.x+r*Math.cos(a*Math.PI/180)).toFixed(2), z=+(st.z+r*Math.sin(a*Math.PI/180)).toFixed(2);
+    const ok=E.canStand?E.canStand(x,z,0.33,0):true; let pl=null; if(ok&&E.pathTo){ const p=E.pathTo(x,z,0,st.x,st.z,0); if(p&&p.length){ pl=0; let px=x,pz=z; for(const q of p){ const qx=q.x!=null?q.x:q[0], qz=q.z!=null?q.z:q[1]; pl+=Math.hypot(qx-px,qz-pz); px=qx; pz=qz; } pl=+pl.toFixed(1); } }
+    out.push({x,z,r,a,ok,pl}); }
+  const pick=out.find(o=>o.ok&&o.pl!=null&&o.pl>=8&&o.pl<=2.2*o.r)||null; return {spot:sp, pick, tried:out.filter(o=>!o.ok||o.pl==null).length, n:out.length}; })()"""
+
+CAR_ST_JS = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, it=document.getElementById('interact'), ch=document.getElementById('choices'), D=GAME.D||{}; const T=(GAME.G.trips||[]).slice(-1)[0]||null;
+  const sp=(typeof CARLOT!=='undefined'&&CARLOT.spot)?CARLOT.spot():null;
+  return {zone:GAME.G.zone, x:+o.x.toFixed(2), z:+o.z.toFixed(2), busy:!!P.busy, path:P.path?P.path.length:0, dlg:!!D.active, nb:(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).length:0,
+    interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim().slice(0,20):'', hour:+(+GAME.G.hour).toFixed(3), trip:T?T.status:null,
+    d:sp?+Math.hypot(o.x-sp.stand.x,o.z-sp.stand.z).toFixed(2):null, stand:sp?sp.stand:null, phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())}; })()"""
+
+IT_TOP_JS = r"""(()=>{ const it=document.getElementById('interact'); if(!it) return {ok:false}; const r=it.getBoundingClientRect(); const e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2); return {ok:!!e&&(e===it||it.contains(e)), top:e?(e.id||String(e.className).slice(0,40)||e.tagName):null, x:r.left+r.width/2, y:r.top+r.height/2}; })()"""
+
 IDLE_JS = r"""(()=>{ const D=GAME.D||{}, E=GAME.E||{}, P=E.player||{}; const f2=v=>v==null?null:+(+v).toFixed(2);
   const ch=document.getElementById('choices'); const B=(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>(b.textContent||'').trim().slice(0,30)):[];
   const T=(GAME.G.trips||[]).slice(-1)[0]||null;
@@ -378,10 +402,11 @@ async def idle_dlg(pg, cdp, screen, max_s=40):
 cdp_of = {}
 
 
-async def base(pg, who, day, hour, money=40000):
+async def base(pg, who, day, hour, money=40000, zone='dorm', pos=None):
     flags = {'introDone': True, 'campusIntro': True, 'classDone': True}
     wd = await pg.evaluate("(d=>{ const x=CALENDAR.dateOf(d); return x?((x.wd%7)+7)%7:0; })", day)
-    stt = {'zone': 'dorm', 'day': day, 'weekday': wd, 'hour': hour, 'weather': 'sunny', 'money': money, 'flags': flags}
+    stt = {'zone': zone, 'day': day, 'weekday': wd, 'hour': hour, 'weather': 'sunny', 'money': money, 'flags': flags}
+    if pos: stt['pos'] = dict(pos)
     await L.load_state(pg, stt, quiet_events=True)
     await pg.wait_for_timeout(2500)
     await L.phone_away(pg, cdp_of[pg])
@@ -480,7 +505,11 @@ async def depart(pg, cdp, dep, screen, tag, max_s=1800):
             if k is None: k = next((i for i, o in enumerate(opts) if o == '出發'), None)
             if k is None:
                 log('  ！等出發時出現別的選單：%s → 不認得，選第一個（記下來）' % J(opts)); k = 0
-            said = opts[k]; await tap_btn(pg, cdp, k); menu.tapped = time.time(); await pg.wait_for_timeout(900); continue
+            said = opts[k]; await tap_btn(pg, cdp, k); menu.tapped = time.time(); await pg.wait_for_timeout(900)
+            if s['trip'] and opts[k] in ('現在出發', '出發'):
+                lot = await pg.evaluate(LOT_JS, s['trip']['id'])
+                if lot.get('walking'): log('  開車：選「%s」以後目標改成走到停車場（CARLOT.walking；%s）' % (opts[k], J(lot))); return said + '（開車：走去停車場）', skipped
+            continue
         if s['nb'] and not s['ch']:
             nb_only = nb_only or time.time()
             if time.time() - nb_only > 2 and await internal_menu(pg, cdp, s, menu, 'depart'): nb_only = None
