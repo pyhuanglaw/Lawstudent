@@ -53436,7 +53436,7 @@
    "id": "SEASON3-LINES-1111",
    "title": "季節布置第三批的文字：六個季節攤販 A1 烤地瓜、A2 愛玉、A3 月餅桌、A4 春聯攤、A5 畢業花束、A6 二手教科書（照 AA_752 夜市稿格式：look、greet、items、buy、closed、hours）＋五項落地布置 B1 阿忠鮮果四季、B2 花序 Flower Notes 門口四季花、B6 下雨天傘架、C2 元宵小燈籠串、C5 中秋文旦堆＋騎樓小烤肉架 各一句「看」",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已實作待整合",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -53449,7 +53449,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-11 09:5x】LAWWW 已把 6 攤 key、位置、日期和 5 項「看」的 key 給 AA（LAWWW2 165778c67 README）；AA 寫一個檔給 SHA，發版後整合。｜【11-11 08:2x】等 LAWWW2 季節第三批交模型（攤販 key：sea_yam、sea_aiyu、sea_mooncake、sea_couplet、sea_bouquet、sea_textbook；B2 key flower_notes_season）和位置，LAWWW 轉給 AA 再寫；v9.10.25 發版後整合。店名照 D147：使用者沒給名字的攤子不取名。買的流程 LAWWW 接 src/night_market3d.js。",
+   "next": "【11-11 09:5x AA 交稿】AA_793_season3_stalls.json（e2ea0ea3c）：六攤 stalls（格式同 AA_752；sea_textbook noVendor:true）、looks 五句（sea_fruit 另有 looksFruit 五種水果）——發版後和 LAWWW2 季節第三批 v2（165778c67）一起整合，攤販買的流程接 night_market3d.js。｜【11-11 09:5x】LAWWW 已把 6 攤 key、位置、日期和 5 項「看」的 key 給 AA（LAWWW2 165778c67 README）；AA 寫一個檔給 SHA，發版後整合。｜【11-11 08:2x】等 LAWWW2 季節第三批交模型（攤販 key：sea_yam、sea_aiyu、sea_mooncake、sea_couplet、sea_bouquet、sea_textbook；B2 key flower_notes_season）和位置，LAWWW 轉給 AA 再寫；v9.10.25 發版後整合。店名照 D147：使用者沒給名字的攤子不取名。買的流程 LAWWW 接 src/night_market3d.js。",
    "pausedReason": null,
    "xai": [
     {
