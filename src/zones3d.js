@@ -2807,14 +2807,14 @@ const Z3 = (function(){
     for(const side of ['W','E']){ const fx=side==='W'?fw:fe, sx=side==='W'?-1:1; const cuts=gaps(side).map(a=>[a.z0,a.z1]).sort((a,b)=>a[0]-b[0]); let cur=z0; const segs=[]; for(const [a,b] of cuts){ if(a>cur) segs.push([cur,a]); cur=b; } if(z1>cur) segs.push([cur,z1]);
       for(const [a,b] of segs){ const w=b-a, cx=fx+sx*6; const m=new THREE.Mesh(new THREE.BoxGeometry(12,13,w),M(side==='W'?'#cfc5b2':'#d6c3a5')); m.position.set(cx,6.5,(a+b)/2); m.userData.l118=true; m.userData.dyn=true; g.add(m); fb.push(m); addCollider(cx,(a+b)/2,12,w,14); } }
     // 店門口（點餐）：店的中間、人行道上
-    for(const sh of ((L&&L.shops)||[])){ const x=sh.side==='W'?fw+0.9:fe-0.9, z=(sh.z0+sh.z1)/2; const nm=(typeof LANE118_SHOPS!=='undefined'&&(LANE118_SHOPS.shops.find(q=>q.id===sh.id)||{}).name)||sh.name;
+    for(const sh of ((L&&L.shops)||[])){ const x=sh.side==='W'?fw+0.9:fe-0.9, z=(sh.z0+sh.z1)/2; const SD=(typeof LANE118_SHOPS!=='undefined'&&LANE118_SHOPS.shops.find(q=>q.id===sh.id))||null, nm=(SD&&SD.name)||sh.name, ty=(SD&&SD.type)||sh.type;   /* 店名、類型照店家資料（L118-SHOPS-REDO-1111：原本類型讀配置）；配置有、資料沒有的店照配置 */
       /* 店走得進去（LANE118-SHOPS-1020，X66；使用者 2026-10-20「店裡可以進去 店員也在裡面」）：有室內配置的店，營業時間按鈕是「進○○」（區域 l118_<id>，src/l118_shops3d.js）；
          沒開的時候照舊是店門口那個按鈕（L118.order 說鐵門拉下來一半） */
       const open118=()=>{ try{ return typeof L118!=='undefined'&&typeof GAME!=='undefined'&&GAME.G?L118.isOpen(sh.id,GAME.G):true; }catch(e){ return true; } };
       if(typeof L118_SHOP_LAYOUTS!=='undefined'&&L118_SHOP_LAYOUTS[sh.id]){ const LL=L118_SHOP_LAYOUTS[sh.id];
-        E.interactables.push({x,z,radius:1.4,prio:1,label:'進'+nm+'（'+sh.type+'）',exit:{to:'l118_'+sh.id,spawn:{x:LL.spawn.x,z:LL.spawn.z,yaw:LL.spawn.yaw}},get hidden(){ return !open118(); }});
-        E.interactables.push({x,z,radius:1.4,prio:1,label:nm+'（'+sh.type+'）',shop118:sh.id,get hidden(){ return open118(); }}); }   /* prio：在門口等的常客不擋店門（BB-C 10-20：好家自助餐門口江明軒站著，按鈕變「和江明軒說話」進不去）；要跟他說話就進店（L118.populateShop 讓他跟進來）*/
-      else E.interactables.push({x,z,radius:1.4,label:nm+'（'+sh.type+'）',shop118:sh.id}); }
+        E.interactables.push({x,z,radius:1.4,prio:1,label:'進'+nm+'（'+ty+'）',exit:{to:'l118_'+sh.id,spawn:{x:LL.spawn.x,z:LL.spawn.z,yaw:LL.spawn.yaw}},get hidden(){ return !open118(); }});
+        E.interactables.push({x,z,radius:1.4,prio:1,label:nm+'（'+ty+'）',shop118:sh.id,get hidden(){ return open118(); }}); }   /* prio：在門口等的常客不擋店門（BB-C 10-20：好家自助餐門口江明軒站著，按鈕變「和江明軒說話」進不去）；要跟他說話就進店（L118.populateShop 讓他跟進來）*/
+      else E.interactables.push({x,z,radius:1.4,label:nm+'（'+ty+'）',shop118:sh.id}); }   /* 沒有室內配置的店（外帶飲料店 drink_a／drink_b）：店門口點餐 */
     E.interactables.push({x:0,z:gz-0.6,radius:2.2,label:(L&&L.backGate.label)||'回到首都帝大（後門）',exit:{to:'campus',spawn:{x:34,z:-125.6,yaw:0}}});   /* 回到霖澤館後面的小廣場（校園那一側的出口在同一個地方）*/
     // 路燈與店家燈光（晚上）
     const pools=[]; for(const z of [-30,-10,10,28]){ const lp=W3.lampPost(); place(g,lp,fe-0.35,z,-Math.PI/2); nav.blockCircle(fe-0.35,z,0.5); const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(fe-1.1,0.03,z); g.add(pool); pools.push(pool); }

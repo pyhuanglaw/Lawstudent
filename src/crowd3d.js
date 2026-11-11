@@ -441,10 +441,12 @@ const CROWD=(function(){
          自助電腦那四張椅子客人可以坐（LAWWW 07:16 決定：等印東西時坐；原本影印店只有站著的客人）——同時最多 2 位照舊（SHOP_KIND.print.cap）。櫃台後面的辦公椅（打工）、阿芃的凳子（npcOnly）不算 */
       if(WZ.print&&WZ.print.spawn){ const LP=WZ.print, st=(LP.stands&&LP.stands.length?LP.stands:[[-1.55,1.95,Math.PI],[1.15,3.25,Math.PI/2],[0.25,1.95,Math.PI]]);
         add('wz_print','print',[LP.spawn.x,LP.spawn.z],S.pairUnits(seatsOf((LP.seats||[]).filter(s=>!s.npcOnly&&!/打工/.test(s.label||'')))).concat(standUnits(st))); } }
-    /* 118 巷九間（L118_SHOP_LAYOUTS，LAWWW2-C）：一一八茶飲（drink）兩張高腳椅＋櫃台前等飲料的一個；慢讀咖啡（cafe）；其他七間吃飯 */
-    if(LS) for(const id of Object.keys(LS)){ const L=LS[id]; if(!L||!L.spawn) continue; const kind=id==='tea'?'drink':(id==='cafe2'?'cafe':'meal');
-      let units=S.pairUnits(seatsOf(L.seats)); if(id==='tea'&&L.order) units=units.concat(standUnits([[L.order.x+0.7,L.order.z+0.1,Math.PI]],'wait'));
-      add('l118_'+id,kind,[L.spawn.x,L.spawn.z],units,{noKeep:id==='tea'}); }
+    /* 118 巷有室內的店（L118_SHOP_LAYOUTS，LAWWW2-C）。哪一種店照店家資料（src/data/lane118_shops.js 的 drink：外帶飲料店＝drink、其他＝吃飯 meal；L118-SHOPS-REDO-1111，使用者 2026-11-11 九間店換類型——
+       原本寫死 tea＝飲料店、cafe2＝咖啡店；現在 tea 是辛亥韓食、cafe2 是大學食堂，都是吃飯的店，118 巷沒有咖啡店了）。飲料店：櫃台前多一個等飲料的；
+       只有兩個位子以下的店（原本的茶飲店那一間：兩張高腳椅）不替玩家留一組空位（noKeep，照座位數算、不照店 id）。沒有載入店家資料（測試）＝都當吃飯的店 */
+    if(LS) for(const id of Object.keys(LS)){ const L=LS[id]; if(!L||!L.spawn) continue; const SD=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)?LANE118_SHOPS.shops.find(q=>q.id===id):null, kind=SD&&SD.drink?'drink':'meal';   /* 和 L118.kindOf 同一個判斷；這裡在載入時就算（lane118.js 比這個檔晚載入），直接讀資料檔 */
+      let units=S.pairUnits(seatsOf(L.seats)); if(kind==='drink'&&L.order) units=units.concat(standUnits([[L.order.x+0.7,L.order.z+0.1,Math.PI]],'wait'));
+      add('l118_'+id,kind,[L.spawn.x,L.spawn.z],units,{noKeep:(L.seats||[]).length<=2}); }
     /* ===== SHOP-CROWD-NEW-1105：後來才進得去的店（使用者 11-05 06:5x：日常失速「店裡都沒人??」）=====
        門口＝各區域真正的進門位置（zones3d／各店 *3d.js 的 IN）；兩層的店 doorLv 0、每一組有自己的 lv；劇情、玩家按鈕的位子不排（各段註解）。
        兩點半 Café 照舊是 story3d.js 的 S.cafeCustomers（不在這裡）；南洋戲院 1 廳不排（只有每排靠走道那一張能坐，看電影是玩家的事件）。*/

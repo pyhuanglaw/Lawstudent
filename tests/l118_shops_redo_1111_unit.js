@@ -63,6 +63,60 @@ for(const id of NINE){ const [oldName,name,type,menu]=WANT[id], s=shop(id)||{men
   check('1-8. 配置的巷子、立面、後門、小巷、機車格沒動',J(LANE118_LAYOUT.lane)===J({x0:-3.4,x1:3.4,z0:-42,z1:34,surface:'asphalt'})&&J(LANE118_LAYOUT.facade)===J({west:-5.2,east:5.2})&&LANE118_LAYOUT.backGate.z===49&&LANE118_LAYOUT.alleys.length===2&&J(LANE118_LAYOUT.scooters.zRanges)===J([[-30,-18],[29,33]])); }
 
 (async()=>{
-  // @@PART2@@
+  // ---------- 第 2 部分：程式（src/lane118.js；只載入店家資料、配置、lane118.js，其他系統都沒有）----------
+  load('src/lane118.js',NAMES);
+  let G=null, said=[], opts=[], picks=[], toasts=[], spawned=[];
+  const GM={get G(){ return G; },npc:{},E:{zone:{seats:[]},npcs:[]},sceneBegin(){},sceneEnd(){},autosave(){},toast(t){ toasts.push(t); },
+    money(d){ G.money+=d; },advance(h){ G.hour+=h; },say:async(who,t)=>{ said.push({who:who?who.name:null,t}); },
+    choose:async o=>{ opts.push(o); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>q.t.includes(want)); return k<0?o.length-1:k; } return want||0; },
+    spawnCharacter(id,x,z,o){ const c={id,x,z,o}; GM.npc[id]=c; spawned.push(c); return c; }};
+  const fresh=(wd,hour,money,l118)=>{ G={day:100,weekday:wd,hour,money,stage:'law',flags:{}}; if(l118) G.l118=l118; said=[]; opts=[]; picks=[]; toasts=[]; spawned=[]; GM.npc={}; return G; };
+  const texts=()=>said.map(s=>s.t);
+  // 2-1 飲料 5 分鐘、其他一餐 40 分鐘：照資料
+  { check('2-1. 哪一種店照資料：drink_a、drink_b＝drink（外帶），九間（含原本是手搖飲的 tea、原本是咖啡的 cafe2）＝meal',L118.kindOf('drink_a')==='drink'&&L118.kindOf('drink_b')==='drink'&&NINE.every(id=>L118.kindOf(id)==='meal')&&L118.isTakeout('drink_a')&&L118.isTakeout('drink_b')&&!L118.isTakeout('tea'));
+    const dt=async(id,wd,h)=>{ fresh(wd,h,5000); picks=[0]; await L118.order(GM,id); return +(G.hour-h).toFixed(4); };
+    const a=await dt('drink_a',3,15), b=await dt('drink_b',3,15), t=await dt('tea',3,12.5), c=await dt('cafe2',3,12.5);
+    check('2-1. 喝不喝咖啡、果茶社點一杯＝5 分鐘；辛亥韓食（tea）、大學食堂（cafe2）＝一餐 40 分鐘',a===+(5/60).toFixed(4)&&b===+(5/60).toFixed(4)&&t===+(40/60).toFixed(4)&&c===+(40/60).toFixed(4),J([a,b,t,c]));
+    check('2-1. src/lane118.js 沒有再用類型的字判斷飲料店（「手搖飲」）',!/type===['"]手搖飲['"]/.test(fs.readFileSync(path.join(ROOT,'src/lane118.js'),'utf8'))); }
+  // 2-2 錢不夠：不扣錢、不變負的、不算來過
+  { fresh(3,12.5,100); picks=['鐵板牛排']; const h0=G.hour; await L118.order(GM,'dian');
+    check('2-2. 錢 100 點鐵板牛排 190：不扣錢（還是 100）、提示「錢不夠」、時間沒過、不算來過、沒有「你點了」',G.money===100&&toasts.includes('錢不夠')&&G.hour===h0&&!(G.l118&&G.l118.n&&G.l118.n.dian)&&!texts().some(t=>/你點了/.test(t)),J([G.money,toasts,texts()]));
+    check('2-2. 錢不夠的那幾樣選單上是灰的（dim）',opts.length===1&&opts[0].slice(0,5).every(o=>o.dim===true));
+    let neg=[]; for(const s of D.shops){ for(let k=0;k<s.menu.length;k++){ for(const m of [0,s.menu[k][1]-1,s.menu[k][1]]){ fresh(3,s.drink?15:12.5,m); if(s.hours.closed.includes(3)) G.weekday=5; picks=[k]; await L118.order(GM,s.id); if(G.money<0||(m<s.menu[k][1]&&G.money!==m)||(m===s.menu[k][1]&&G.money!==0)) neg.push([s.id,s.menu[k][0],m,G.money]); } } }
+    check('2-2. 十一間店每一樣：錢是 0、差一塊、剛好——都不會變負的（不夠＝一塊都不扣、剛好＝扣到 0）',neg.length===0,J(neg)); }
+  // 2-3 大學食堂（秤重）：三個份量 100～160；台詞只有資料裡的句子
+  { let bad=[], lines=[]; const s=shop('cafe2'); for(let k=0;k<s.menu.length;k++){ fresh(3,12.5,1000); picks=[k]; await L118.order(GM,'cafe2'); const paid=1000-G.money; if(paid!==s.menu[k][1]||paid<100||paid>160) bad.push([s.menu[k][0],paid]); lines=lines.concat(said); }
+    check('2-3. 大學食堂點三個份量：扣的錢就是菜單的價錢，都在 100～160',bad.length===0,J(bad));
+    check('2-3. 大學食堂的招呼是資料裡阿姨那一句（「自己夾，夾好拿過來秤。」，AA_280 第 2 節），句子照資料；沒有另外加字',s.greet.text==='自己夾，夾好拿過來秤。'&&lines.some(l=>l.t===s.greet.text)&&lines.every(l=>l.t===s.greet.text||l.t===s.done||s.menu.some(m=>l.t===D.orderLine.replace('{品名}',m[0]))),J(lines.slice(0,3))); }
+  // 2-4 舊存檔：G.l118＝{n,d,last,w,once,rankAt}（改版前的格式、舊菜名）
+  { const old=()=>({n:{dian:9,tea:8,self:8,home:2,cafe2:12},d:{dian:90,tea:91,self:92,home:80,cafe2:93},last:{dian:'椒麻雞飯',tea:'紅茶拿鐵',self:'排骨飯',home:'番茄炒蛋（單點）',cafe2:'美式咖啡',gone_shop:'什麼'},w:{'zhe@noodle2':{n:3,d0:10,d:60},'classmate_xinci@home':{n:2,d0:20,d:70}},once:{H7a:70},rankAt:{term:'Y1S1',week:9}});
+    const g=fresh(3,12.5,5000,old()), keep=J([g.l118.n,g.l118.d,g.l118.once,g.l118.rankAt]);
+    const n1=L118.migrate(g), after1=J(g.l118), n2=L118.migrate(g), after2=J(g.l118);
+    check('2-4. 讀舊存檔：last 不在新菜單的清掉（椒麻雞飯、紅茶拿鐵、番茄炒蛋、美式咖啡、已經沒有的店），還在新菜單的留著（水上便當的排骨飯）',J(g.l118.last)===J({self:'排骨飯'}),J(g.l118.last)+' '+n1);
+    check('2-4. 來了幾次（n、d）、演過的（once）、rankAt 一個都沒動；一起吃的次數（w）每一筆都還在',J([g.l118.n,g.l118.d,g.l118.once,g.l118.rankAt])===keep&&Object.keys(g.l118.w).length===2&&Object.values(g.l118.w).reduce((a,x)=>a+x.n,0)===5,J(g.l118.w));
+    check('2-4. 做第二次什麼都不變（冪等）',n1>0&&n2===0&&after1===after2);
+    const g0=fresh(3,12.5,5000); L118.migrate(g0); const g1=fresh(3,12.5,5000,[]); L118.migrate(g1); const g2=fresh(3,12.5,5000,{n:{dian:1}}); L118.migrate(g2);
+    check('2-4. 沒有 G.l118、G.l118 壞掉、沒有 last 的存檔：不出錯、不多寫東西',g0.l118===undefined&&Array.isArray(g1.l118)&&J(g2.l118)===J({n:{dian:1}}));
+    // 沒做遷移（直接拿舊資料）也不會點到沒有的菜、不印 undefined
+    let bad=[]; for(const id of ['dian','tea','self','home','cafe2']){ fresh(3,12.5,5000,old()); picks=[0,0,0]; await L118.order(GM,id); const T=texts(); if(T.some(t=>/undefined|null|\{上次點的\}|\{品名\}/.test(String(t)))||!T.some(t=>/^（你點了.+。）$/.test(t))) bad.push([id,T]);
+      const it=G.l118.last[id]; if(!shop(id).menu.some(m=>m[0]===it)) bad.push([id,'last',it]); for(const o of opts) for(const q of o) if(/undefined/.test(String(q.t))||(q.hint!=null&&/undefined/.test(String(q.hint)))) bad.push([id,'opt',q]); }
+    check('2-4. 舊存檔（熟客第 8 次以上、上次點的是舊菜）在五間店各點一次：點到的都是新菜單上的、畫面上沒有 undefined／沒換掉的 {…}',bad.length===0,J(bad));
+    check('2-4. 讀檔的遷移有接上（src/game3d.js migrate 叫 L118.migrate）',/L118\.migrate\(s\)/.test(fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'))); }
+  // 2-5 配置裡沒有位置的店：安靜跳過；配置加了那一列就出現
+  { const keepRows=LANE118_LAYOUT.shops.slice(); LANE118_LAYOUT.shops=keepRows.filter(q=>!/^drink_/.test(q.id));
+    let err=null, r={};
+    try{ r.door=L118.door('drink_a'); r.placed=[L118.placed('drink_a'),L118.placed('dian')];
+      fresh(3,12.55,5000); const reg=D.regulars.find(x=>x.shop==='drink_a'); r.reg=!!reg; r.n=L118.populate(GM); r.sp=spawned.map(c=>c.id);
+      G.flags.L118_PICK='100:drink_a'; L118.tick(G); r.lunch=G.flags.L118_LUNCH; r.pick=G.flags.L118_PICK;
+      r.rot=L118.baseRotation(); r.first=L118.firstShop(); }catch(e){ err=e; }
+    check('2-5. drink_a 沒有配置位置：door＝null、placed＝false；常客（學姊買了就走）不站到街上；約好的午餐不排；都不報錯',!err&&r.door===null&&r.placed[0]===false&&r.placed[1]===true&&r.reg&&!r.sp.includes('heroine_05')&&r.lunch===undefined&&r.pick===undefined,err?String(err.stack||err):J(r));
+    check('2-5. 阿哲輪流的店、第一次那一間都是街上有位置的',!!r.rot&&r.rot.length===4&&r.rot.every(x=>LANE118_LAYOUT.shops.some(q=>q.id===x))&&r.first===D.lunch.firstShop,J([r.rot,r.first]));
+    const zsrc=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
+    check('2-5. 街上的店門互動點只照配置的 shops 放（zones3d.js buildLane118），店名、類型讀店家資料',/for\(const sh of \(\(L&&L\.shops\)\|\|\[\]\)\)\{[^\n]*LANE118_SHOPS\.shops\.find\(q=>q\.id===sh\.id\)/.test(zsrc)&&/label:nm\+'（'\+ty\+'）',shop118:sh\.id\}\)/.test(zsrc));
+    // 加了位置：自動出現
+    LANE118_LAYOUT.shops=LANE118_LAYOUT.shops.concat([{id:'drink_a',side:'E',z0:-7,z1:-2,floors:1}]); fresh(3,12.55,5000); const d2=L118.door('drink_a'); const reg=D.regulars.find(x=>x.shop==='drink_a'); const on=L118.regActive(reg,G); L118.populate(GM);
+    check('2-5. 配置加了 drink_a 那一列：店門口有位置（東側、z＝−4.5）；那個時段在的常客站到那一間門口',!!d2&&d2.side==='E'&&d2.z===-4.5&&(!on||spawned.some(c=>c.id==='heroine_05')),J([d2,on,spawned.map(c=>c.id)]));
+    LANE118_LAYOUT.shops=keepRows; }
+  // @@PART3@@
   console.log(fails?('\n有 '+fails+' 項失敗'):'\n全部通過'); process.exit(fails?1:0);
 })();

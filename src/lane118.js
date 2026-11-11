@@ -24,6 +24,14 @@ const L118=(function(){
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const nm=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
   S.shop=id=>(D()&&D().shops.find(s=>s.id===id))||null;
+  /* 這間店是哪一種（L118-SHOPS-REDO-1111：照資料，不照店 id／類型的字）：'drink'＝外帶飲料店（資料的 drink；買了就走、5 分鐘）、'meal'＝吃飯的店（一餐 40 分鐘）。
+     takeout＝沒有內用、沒有室內（資料的 takeout）。src/crowd3d.js 店裡的路人客人、src/seatact3d.js 坐下的小動作也讀這裡 */
+  S.kindOf=id=>{ const s=S.shop(id); return s?(s.drink?'drink':'meal'):null; };
+  S.isDrink=id=>S.kindOf(id)==='drink';
+  S.isTakeout=id=>!!(S.shop(id)||{}).takeout;
+  S.MEAL_H=40/60; S.DRINK_H=5/60;
+  /* 街上有位置的店（src/data/lane118_layout.js 有那一列）：沒有位置的（剛加進資料、位置還沒量的店）不出現在街上——常客不站、約好的午餐不排、阿哲不約那一間，不報錯；配置加了那一列就自動出現 */
+  S.placed=id=>{ const L=LAY(); return !L||!Array.isArray(L.shops)||L.shops.some(q=>q.id===id); };   /* 沒有載入配置（測試）＝不擋 */
   /* 店門口（人行道上，和 zones3d.js 的互動點同一個位置）；side W 的店門朝東（+x） */
   S.door=function(id){ const L=LAY(), s=L&&L.shops.find(q=>q.id===id); if(!s) return null; return {x:s.side==='W'?L.facade.west+0.9:L.facade.east-0.9, z:(s.z0+s.z1)/2, side:s.side, yaw:s.side==='W'?Math.PI/2:-Math.PI/2}; };
   const wdOf=G=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd%7:G.weekday%7;
@@ -103,6 +111,10 @@ const L118=(function(){
   const hasMem=(id,tag)=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,tag);
   const dating=(G,id)=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'); };
   S.rec=function(G){ const R=G.l118&&typeof G.l118==='object'&&!Array.isArray(G.l118)?G.l118:(G.l118={}); for(const k of ['n','d','last','w','once']) if(!R[k]||typeof R[k]!=='object'||Array.isArray(R[k])) R[k]={}; return R; };
+  /* 讀檔時做一次（game3d.js migrate；L118-SHOPS-REDO-1111，使用者 2026-11-11 九間店換菜單）：店 id 不變，來了幾次（n、d）、一起吃的次數（w）、演過的（once）照留；
+     「上次點的」（last）不在那間店現在的菜單裡（或那間店已經不在資料裡）＝清掉那一筆——「老樣子」不會點到已經沒有的菜。做幾次結果都一樣；沒有 G.l118 的存檔不動。回傳清掉幾筆 */
+  S.migrate=function(G){ if(!G||!D()) return 0; const R=G.l118; if(!R||typeof R!=='object'||Array.isArray(R)) return 0; const last=R.last; if(!last||typeof last!=='object'||Array.isArray(last)) return 0; let n=0;
+    for(const id of Object.keys(last)){ const s=S.shop(id); if(!s||!s.menu.some(m=>m[0]===last[id])){ delete last[id]; n++; } } return n; };
   S.visitNo=(G,id)=>{ const R=S.rec(G); return (R.n[id]|0)+(R.d[id]===G.day?0:1); };   /* 今天這一次算第幾次來（今天已經記過＝同一次）*/
   S.visit=function(G,id,item){ const R=S.rec(G); if(R.d[id]!==G.day){ R.n[id]=(R.n[id]|0)+1; R.d[id]=G.day; } R.last[id]=item; };
   S.exam=G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!(T&&T.exam); };
@@ -186,7 +198,7 @@ const L118=(function(){
       if((G.money|0)<price){ GM.toast('錢不夠'); return true; }
       GM.money(-price,'餐費'); await GM.say(null,Dd.orderLine.replace('{品名}',item)); S.visit(G,shopId,item);   /* 熟客的次數、上次點的（AA_311 第 2 節）*/
       const fav=typeof FAV!=='undefined'&&FAV.l118?await FAV.l118(GM,shopId,comp):null;   /* 她們各自喜歡吃的（src/foodfav3d.js，AA_410）：一起來的常客＝也幫她點；一個人來滇香＝老闆娘說語彤的點法。fav＝這一次選對的人 */
-      GM.advance(s.type==='手搖飲'?5/60:40/60); if(typeof EAT!=='undefined') await EAT.ordered(GM,s.name,item);   /* 吃過的、第一次的旁白（AA_329 第 2 節）*/
+      GM.advance(s.drink?S.DRINK_H:S.MEAL_H); if(typeof EAT!=='undefined') await EAT.ordered(GM,s.name,item);   /* 外帶飲料 5 分鐘、其他一餐 40 分鐘：照資料的 drink（L118-SHOPS-REDO-1111；原本看類型是不是「手搖飲」）*/   /* 吃過的、第一次的旁白（AA_329 第 2 節）*/
       const h1=S.h1Due(G,shopId,h0);   /* AA_311 H1：飲料做好、拿到手的時候（一起來的人那一句之後、走回巷口以前）*/
       const h2=S.h2Due(G,shopId,h0), h8=S.h8Due(G,shopId,comp), h4=S.h4Due(G,shopId,comp);   /* H4 在這一次記之前判斷（四間都吃過「以後」的那一次）*/
       for(const id of comp) S.ate(G,id,shopId);
@@ -209,8 +221,13 @@ const L118=(function(){
   /* AA_480 第 4 節（企劃線 be47f6341）：AA_280 第 4 節的輪流排錯了（巷口家常菜週一休）——那一週改好家自助餐（週一到週五都開），阿哲那句換「自助餐 我需要吃菜」。
      資料檔照白名單上的 AA_280 匯入（import_lane118.py --check 對得上），這裡換掉；AA_280 改了重新匯入以後，資料有 self 就照資料 */
   S.LUNCH_FIX={from:'home',to:'self',text:'自助餐 我需要吃菜'};
-  S.baseRotation=()=>((D()&&D().lunch&&D().lunch.rotation)||[]).map(x=>x===S.LUNCH_FIX.from?S.LUNCH_FIX.to:x);
-  S.weeklyText=shop=>{ const W=(D()&&D().lunch&&D().lunch.weekly)||{}; return W[shop]!=null?W[shop]:(shop===S.LUNCH_FIX.to?S.LUNCH_FIX.text:null); };
+  /* L118-SHOPS-REDO-1111：這個換店只在「資料裡那一間週一真的沒開」的時候才換（原本的理由）；AA_280 @93a507e77 的輪流是 korea → dian → tea → home，五湖四海（home）週一有開＝照資料、不換。
+     輪流裡街上還沒有位置的店（S.placed）跳過 */
+  S.lunchFixOn=()=>{ const s=S.shop(S.LUNCH_FIX.from); return !!(s&&s.hours&&s.hours.closed.includes(1)); };
+  S.baseRotation=()=>((D()&&D().lunch&&D().lunch.rotation)||[]).map(x=>S.lunchFixOn()&&x===S.LUNCH_FIX.from?S.LUNCH_FIX.to:x).filter(x=>S.placed(x));
+  S.weeklyText=shop=>{ const W=(D()&&D().lunch&&D().lunch.weekly)||{}; return W[shop]!=null?W[shop]:(S.lunchFixOn()&&shop===S.LUNCH_FIX.to?S.LUNCH_FIX.text:null); };
+  /* 第一次去哪一間：資料的 lunch.firstShop（AA_280 第 4 節「出遊排到…」；原本寫死 noodle2）；資料沒有、或那一間街上沒有位置＝輪流的第一間 */
+  S.firstShop=()=>{ const f=D()&&D().lunch&&D().lunch.firstShop; return f&&S.shop(f)&&S.placed(f)?f:(S.baseRotation()[0]||null); };
   /* 輪流的順序：noodle2 → dian → korea → self；AA_311 H4 選過（ZHE_118_RANK）＝那一間排第一，H4 那一學期從下一週起由它開始（rankAt）、之後的學期第 2 週就是它 */
   S.rotation=function(G){ const R=S.baseRotation(), k=G&&G.flags&&G.flags.ZHE_118_RANK, i=R.indexOf(k); if(i>0){ R.splice(i,1); R.unshift(k); } return R; };
   S.lunchShop=function(T,G){ const R=S.rotation(G); if(!R.length) return null; const b=G&&G.flags&&G.flags.ZHE_118_RANK&&G.l118?G.l118.rankAt:null; const i=b&&b.term===T.id?T.week-b.week:T.week-2; return R[(i%R.length+R.length)%R.length]; };
@@ -225,7 +242,7 @@ const L118=(function(){
     if(typeof DATE!=='undefined'&&DATE.tripAt&&DATE.tripAt(G,G.day,12.25,1)) return;   /* 12:15 那段時間已經約了校外約會：這週不揪（BUG-DATE-OVERLAP-1021；第一次那則順延到下一個週一）*/
     const inG=PHONE.inGroup(G,'noodle_team'), famZhe=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has('zhe','FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage('zhe'))>=SOCIAL.STAGES.indexOf('FAMILIAR');
     if(!inG&&!famZhe) return;
-    const first=!F.L118_FIRST_SENT, shop=first?'noodle2':S.lunchShop(T,G); if(!shop) return; const th=inG?'g:noodle_team':'p:zhe';
+    const first=!F.L118_FIRST_SENT, shop=first?S.firstShop():S.lunchShop(T,G); if(!shop) return; const th=inG?'g:noodle_team':'p:zhe';
     let L=first?Lc.first.slice():[['zhe',S.weeklyText(shop)]];
     const paired=DK('2026-12-19'); if(!first&&inG&&paired!=null&&G.day>=paired) L.push(['yu',Lc.pairedYu]);   /* 阿哲和 Alison 交往以後（大二上 12/19 起）*/
     if(!inG) L=L.filter(([w])=>w==='zhe');

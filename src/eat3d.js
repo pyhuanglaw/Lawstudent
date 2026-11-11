@@ -25,9 +25,12 @@ const EAT=(function(){
   S.SHOPS_X={};
   S.addShop=function(key,o){ S.SHOPS_X[key]=o; return o; };
   const xShop=key=>Object.prototype.hasOwnProperty.call(S.SHOPS_X,key)?S.SHOPS_X[key]:null;
-  S.shopOf=key=>S.FIRST_KEY[key]||(xShop(key)&&xShop(key).shop)||null;   /* 吃過的店名（null＝不是吃的）*/
+  /* 118 巷的店（L118-SHOPS-REDO-1111，使用者 2026-11-11 九間店換店名＋兩間外帶飲料店）：「吃過的」的店名照店家資料（src/data/lane118_shops.js）＝「118 巷・店名」，不用再一間一間寫進 FIRST_KEY。
+     FIRST_KEY 裡九個舊店名留著：舊存檔「吃過的」已經記下的那幾筆（G.eat.ate 的 shop）照舊顯示，不刪玩家的紀錄；新店名的次數從 0 開始（G.eat.n 的 key 是店名）*/
+  const l118Shop=key=>{ const D=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)?LANE118_SHOPS.shops:null; return (D&&D.find(s=>s.name===key))||null; };
+  S.shopOf=key=>S.FIRST_KEY[key]||(l118Shop(key)?'118 巷・'+key:null)||(xShop(key)&&xShop(key).shop)||null;   /* 吃過的店名（null＝不是吃的）*/
   S.NOODLE_TYPE={'六張犁麵舖':true,'阿鳳麵店':true};   /* 「麵店」（第 0 節沒有回收台的店）：兩間麵店都算（AA_336 A2 確認）*/
-  S.isDoor=key=>{ const D=(L()&&L().doorShops)||[]; return !!S.NOODLE_TYPE[key]||!!(xShop(key)&&xShop(key).door)||D.some(k=>k!=='麵店'&&String(key).indexOf(k)>=0); };
+  S.isDoor=key=>{ const D=(L()&&L().doorShops)||[]; return !!S.NOODLE_TYPE[key]||!!((l118Shop(key)||{}).takeout)||   /* 118 巷的外帶飲料店（資料的 takeout）：沒有內用、沒有回收台 */ !!(xShop(key)&&xShop(key).door)||D.some(k=>k!=='麵店'&&String(key).indexOf(k)>=0); };
   S.isFood=key=>!!S.shopOf(key);
   S.rec=function(G){ const R=G.eat&&typeof G.eat==='object'?G.eat:(G.eat={}); for(const k of ['n','last','l5','first','tog']) if(!R[k]||typeof R[k]!=='object'||Array.isArray(R[k])) R[k]={}; if(!Array.isArray(R.ate)) R.ate=[]; return R; };
   const flags=G=>G.flags||{};

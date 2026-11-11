@@ -5,7 +5,7 @@
    座標：x 往東、z 往南（+z＝南：辛亥路、台大後門；−z＝北：和平東路），單位公尺，y 往上。
    真實性：店名全部虛構；不宣稱還原真實巷弄的每一間店。
    2026-11-11（L118-SHOPS-REDO-1111，USER_WANTS X338；使用者規格 docs/handoff/user_specs/L118_SHOPS_REDO_1111.md）：九間店的 id 和位置（side、z0、z1、floors）不變，
-   name、type、menu 照 src/data/lane118_shops.js（AA_280 @6859e114f；tests/l118_shops_redo_1111_unit.js 逐間比對兩個檔一樣）。menu 每一項是「品名、價錢」兩欄——
+   name、type、menu 照 src/data/lane118_shops.js（AA_280 @93a507e77；tests/l118_shops_redo_1111_unit.js 逐間比對兩個檔一樣）。menu 每一項是「品名、價錢」兩欄——
    原本的第三欄（體力）遊戲沒有在讀（吃東西不加體力，DL-02），這次拿掉。兩間外帶飲料店（drink_a 喝不喝咖啡、drink_b 果茶社）還沒有位置，先不放進來：
    位置等 LAWWW2 量好再加一列（加了以後街上的互動點、常客自動出現；沒有室內＝店門口點餐）。
    店門口互動：有室內配置的店（src/data/l118_shop_layouts.js）＝進店；沒有的＝在店門口點餐。 */
