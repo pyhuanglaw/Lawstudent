@@ -176,7 +176,7 @@ SETUP_JS = r"""(q=>{ const G=GAME.G, F=G.flags||(G.flags={}), out={notes:[]}; G.
   for(const g of q.groups||[]){ try{ PHONE.join(G,g[0],g[1]); }catch(e){ out.notes.push('join：'+e); } }
   Object.assign(F, q.flags||{}); for(const k of q.unflags||[]) delete F[k];
   out.stage={}; for(const id of (q.meet||[])){ try{ out.stage[id]=SOCIAL.stage?SOCIAL.stage(id):null; }catch(e){} }
-  out.dating=Object.keys(F).filter(k=>k.indexOf('dating_')===0&&F[k]);
+  out.dating=Object.keys(F).filter(k=>k.indexOf('dating_')===0&&F[k]);   /* dating_kexin：遊戲預設（game3d.js defaults／migrate 沒有就補 true，經濟系開局的存檔都有），照留、照印 */
   return out; })"""
 
 LOAD_JS = r"""(async st=>{ const s=GAME.defaults(st.name||'祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); const rot=document.getElementById('rotate'); if(rot) rot.classList.remove('want'); await GAME.applySave(s); return true; })"""
@@ -916,7 +916,7 @@ async def ask_flow(pg, cdp, P, tag, th, opt_text):
     if not R.check('[%s] 訊息到了（tag %s）' % (P.tag, tag), bool(mine), J(w)): return mine, None, ''
     R.check('[%s] 最後一則是要回的（ask 有兩個選項）' % P.tag, any(m.get('ask') and len(m['ask']['opts']) == 2 for m in mine), J([m.get('ask') for m in mine]))
     op = await wait_auto_phone(pg, P, t_arr, 25)
-    R.check('[%s] 手機自己打開（D103：不用玩家去看）' % P.tag, bool(op), '25 秒內沒開：%s' % J(await pg.evaluate(IDLE_JS)))
+    R.check('[%s] 手機自己打開（D103：不用玩家去看）' % P.tag, bool(op), ('打開的紀錄：%s' % J(op)) if op else ('25 秒內沒開：%s' % J(await pg.evaluate(IDLE_JS))))
     P.hands_off_phone = False
     if op:
         s0 = await st(pg); row = next((t for t in s0['ths'] if t['th'] == th), None)
