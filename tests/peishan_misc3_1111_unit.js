@@ -12,7 +12,11 @@ const cp=require('child_process'), fs=require('fs'), path=require('path'), os=re
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
 const PS='classmate_peishan', BASE='7cfb90cd7', SP='docs/story_planning/', F763=SP+'AA_763_peishan_misc3.json', S763='62460ea75', F326=SP+'BB_326_學姊約會樣板D01到D03_第二意見.md', S326='8abb761bd';
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<28}); }catch(e){ return null; } };
-const read=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
+/* 2026-11-11 之後故意改的檔（不是沛珊重寫的範圍，各自有逐句對稿的測試）：用改之前那一版（9d45ef8b3，沛珊重寫都在裡面、這支測試在那裡全過）比——
+   AA_814（企劃線 91c6aaf9f，tests/aa814_prio_gap_1111_unit.js）改了 events.js（1/8 j8a、2/14 E27b）、vac_activities.js（沛珊重考期回國訊息兩段、noOff）；
+   AA_742 第 ③ 節（tests/gg_shops3_story_1111_unit.js）改了 story3d.js 明軒「公館一百元以內」那一列（日日定食→泰米村食）。讀不到那一版（淺層複本）＝照現在的檔 */
+const LATER_PIN='9d45ef8b3', LATER_FILES=['src/story3d.js'];
+const read=f=>{ if(LATER_FILES.includes(f)){ const t=show(LATER_PIN,f); if(t!=null) return t; } return fs.readFileSync(path.join(H.ROOT,f),'utf8'); };
 const noCom=s=>s.replace(/\/\*[\s\S]*?\*\//g,'');
 const lit=s=>{ const out=[]; noCom(s).replace(/'((?:[^'\\]|\\.)*)'/g,(m,t)=>{ out.push(t); return m; }); return out; };
 const cond=q=>{ const o={}; for(const k in q) if(k!=='t'&&k!=='note') o[k]=q[k]; return o; };
