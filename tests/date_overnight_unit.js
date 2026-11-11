@@ -68,7 +68,12 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
       SP.morning.heroine_05=SISN.morning;
       for(const f of SP.fix52) if(f.who==='heroine_05'&&f.loc==='D31') f.neu=SISN.a31; else if(f.who==='heroine_05'&&f.loc==='D32') f.neu=SISN.a32;
       for(const f of SP.fix53) if(f.who==='heroine_05'&&f.loc==='D26') f.neu=SISN.c26; else if(f.who==='heroine_05'&&f.loc==='D32') f.neu=SISN.c32;
-      for(const f of SP.fix53) if(f.loc==='D31'&&f.who==='classmate_peishan') f.neu=PSN.d31; } }
+      for(const f of SP.fix53) if(f.loc==='D31'&&f.who==='classmate_peishan') f.neu=PSN.d31;
+      /* 2026-11-11（X324 語彤約會台詞重寫，AA 0a2136911）：語彤早上那一句照 AA_767_yt_date_common.json 的 S.MORNING.heroine_03 那一列（原本「……這裡的蛋餅，沒有秀琴姨煎的好吃。」——秀琴姨傍晚才來煮晚餐，沒有幫她煎早餐） */
+      const YTN={morning:'早。旅館的早餐我看過了，有稀飯。我在樓下。'};
+      let ry=''; try{ ry=cp.execSync('git show 0a2136911:docs/story_planning/AA_767_yt_date_common.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+      check('0. 語彤早上那一句（X324 重寫）：新句在企劃線 0a2136911 的 AA_767_yt_date_common.json（S.MORNING.heroine_03 那一列）'+(ry?'':'（這份 checkout 讀不到，略過）'),!ry||JSON.parse(ry).rows.some(r=>r.path==='S.MORNING.heroine_03'&&r.new===YTN.morning),YTN.morning);
+      SP.morning.heroine_03=YTN.morning; } }
   check('0. 讀得到稿 AA_359@'+SPEC_SHA+'：晚上四種、早上旁白、七位一句、住自己家／租的地方三句',!!spec&&Object.keys(SP.night).length===4&&!!SP.narr&&Object.keys(SP.morning).length===7&&Object.keys(SP.own).length===3,J(SP));
   check('0. 晚上那一句（第 2 節）四種逐字：兩間房／民宿／她回家／她回租的地方',!!D().NIGHT&&['single','dating','home','rent'].every(k=>D().NIGHT[k]===SP.night[k]),J([D().NIGHT,SP.night]));
   check('0. 第二天早上的旁白一律「'+SP.narr+'」',!!SP.narr&&D().MORNING_NARR===SP.narr,D().MORNING_NARR);
@@ -100,7 +105,7 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
     said=[]; opts=[]; bgs=[]; picks=['出發','文學館的大廳','海堤的夕陽','安平的老巷','館前的圓環綠地']; const m0=G.money, R0=Object.assign({},SOCIAL.rel('heroine_03')); const r=await OUT.prompt(GM,q); const L=T(), t=DATE.trip(G,tb.trip), Lg=DATE.log(G,'heroine_03');
     const first=((((DATE_LINES.loc.D28||{}).lines||{}).heroine_03||{}).arrive||{}).first, a1=first&&first.lines&&first.lines[0].text;
     check('2. 第一天：到達（「（'+L28.name+'。）」＋第一次的到達那一句）',L.includes('（'+L28.name+'。）')&&!!a1&&L.includes(a1),L.slice(0,4).join(' | '));
-    check('2. 第一天晚上：「'+SP.night.single+'」（兩間房）、不演住宿',L.includes(D().NIGHT&&D().NIGHT.single)&&L.filter(x=>/旅館|民宿/.test(x)).length===1&&t.night==='single',L.join(' | '));
+    check('2. 第一天晚上：「'+SP.night.single+'」（兩間房）、不演住宿',L.includes(D().NIGHT&&D().NIGHT.single)&&L.filter(x=>/旅館|民宿/.test(x)&&x!==SP.morning.heroine_03).length===1&&t.night==='single',L.join(' | '));   /* 2026-11-11（X324 語彤約會台詞重寫，AA_767@0a2136911）：語彤第二天早上那一句新稿是「早。旅館的早餐我看過了，有稀飯。我在樓下。」——提到旅館的早餐、不是演住宿，這一句不算在「只有一句旅館旁白」裡 */
     check('2. 第二天 08:30：「'+SP.narr+'」＋語彤「'+SP.morning.heroine_03+'」',after(L,SP.night.single,SP.narr)&&L[L.indexOf(SP.narr)+1]===SP.morning.heroine_03,L.join(' | '));
     const d2=opts.find(o=>o.includes('差不多了，回去吧'))||[];
     check('2. 第一天最多兩個互動點；第二天只列沒走過的（老巷、圓環），不列文學館；夕陽只在第一天第二個點（AA_359 5-1 B7），第二天不列',d2.includes('館前的圓環綠地')&&d2.includes('安平的老巷')&&!d2.includes('文學館的大廳')&&!d2.includes('海堤的夕陽')&&!opts.some(o=>o.includes('今天先到這裡')&&o.includes('館前的圓環綠地')&&o.length<3),J(opts));

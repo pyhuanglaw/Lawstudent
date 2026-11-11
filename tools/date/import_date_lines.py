@@ -620,6 +620,49 @@ if A594:
         sys.exit(f'AA_594 第 2-14 節應該有 314 列，讀到 {nrow} 列')
     FILES['fix594'] = P594
     print(f'AA_594 第 2-14 節：314 列，換了 {FIXED594} 列（其他是 BB_240 補回原句）')
+# AA_767（DLG-FULL-REVIEW-1110，使用者 X324 語彤約會台詞重寫；白名單上的 commit）：語彤不分地點的短句——稿的 rows 13 列裡 file 是 src/data/date_lines.js 的六列
+# （move 第一句、transport 兩句、cancel、flaked 兩句；accept、acceptDating、move 第二句、move3 不改；另外七列是 src/date3d.js 手寫的那幾格，直接改在那個檔）。
+# **照 path 換**（lines.heroine_03.key[i] 或 [i][j]；「嗯。」整個檔有兩百多處，不能整檔取代）：那一格現在的字要剛好是 old（已經是 new＝跳過），換成 new；兩個都不是＝停下來。
+# 她這幾格的來源是 AA_127 第 8 節、2-7＋AA_630 預約句（patch_text，寫檔前才套）＋AA_694——所以這一層放在寫檔前最後一步（下面 apply767）。白名單沒有 AA_767＝不疊
+A767 = G.approved_files(ALLOW, SP + 'AA_767_')
+R767 = []
+if A767:
+    P767, S767 = next(iter(A767.items()))
+    ok, why = G.allowed(P767, S767, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    d767 = json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S767}:{P767}'], text=True)))
+    if len(d767.get('rows') or []) != 13:
+        sys.exit(f'AA_767@{S767} 的 rows 應該是 13 列，讀到 {len(d767.get("rows") or [])} 列')
+    R767 = [r for r in d767['rows'] if r.get('file') == 'src/data/date_lines.js']
+    if len(R767) != 6 or any(not r['path'].startswith('lines.' + YT + '.') for r in R767) or sum(1 for r in d767['rows'] if r.get('file') == 'src/date3d.js') != 7:
+        sys.exit(f'AA_767@{S767}：date_lines.js 應該是六列（都在 lines.heroine_03 底下）、date3d.js 七列')
+    FILES['fix767'] = P767
+
+
+def apply767(body):
+    """寫檔前最後一步：AA_767 六列照 path 換在整份 JSON 上（回傳新的 JSON 字、換了幾列）"""
+    o = json.loads(body); n = 0
+    for r in R767:
+        toks = re.findall(r'\[\d+\]|[^.\[\]]+', r['path'])
+        cur, par, key = o, None, None
+        for t in toks:
+            k = int(t[1:-1]) if t.startswith('[') else t
+            try:
+                par, key, cur = cur, k, cur[k]
+            except (KeyError, IndexError, TypeError):
+                sys.exit(f'AA_767：路徑 {r["path"]} 找不到（在 {t}）')
+        if not isinstance(cur, str):
+            sys.exit(f'AA_767：{r["path"]} 不是一句台詞')
+        if cur == r['new']: continue
+        if cur != r['old'] and cur != N(r['old']):
+            sys.exit(f'AA_767：{r["path"]} 現在是「{cur}」，不是原句「{r["old"]}」')
+        if N(r['new']) != r['new']:
+            sys.exit(f'AA_767：{r["path"]} 的新句照 AA_694 的規則會被改掉「……」（{r["new"]}），先問 AA')
+        par[key] = r['new']; n += 1
+    return json.dumps(o, ensure_ascii=False), n
+
+
 out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p]}' for p in FILES.values()), 'lines': L, 'prefs': prefs, 'loc': LOC}
 dst = os.path.join(ROOT, 'src', 'data', 'date_lines.js')
 if '--out' in sys.argv:   # 另存比對用（tests/peishan_dates_1111_unit.js：重匯的結果要和現在的檔一樣）
@@ -666,6 +709,9 @@ with open(dst, 'w', encoding='utf8') as fo:
             sys.exit('AA_694：還有沒拿掉的「……」' + json.dumps(c694, ensure_ascii=False))
         body = json.dumps(o694, ensure_ascii=False); FILES['fix694'] = P694
         print(f'AA_694@{S694}：第 3 節 252 列都對到；句首／。！？後／）後的「……」＝{c694}')
+    if R767:
+        body, n767 = apply767(body)
+        print(f'AA_767@{S767}：語彤不分地點的短句 6 列（照 path），換了 {n767} 列')
     fo.write("'use strict';\nconst DATE_LINES=" + body + ';\n')
 print('AA_630：' + '；'.join(LOG630))
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))

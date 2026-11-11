@@ -56,7 +56,9 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   let spec584=''; try{ spec584=require('./alison.js').ndl(cp.execSync('git -c core.quotepath=false show 14154434b:"docs/story_planning/AA_584_學姊改稿_第二批_閒聊階梯與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}));}catch(e){}
   /* 沛珊法圖 firstAt 第二句前面的「（走出法圖）」：AA_595 1-D10（AA 11-02 22:30 定稿，圖書館小聲講），其餘照稿 */
   let spec651=''; try{ spec651=require('./alison.js').ndl(cp.execSync('git -c core.quotepath=false show d07e6d124:"docs/story_planning/AA_651_回LAWWW_1104_02點_單車店小東西_約念書兩句_機場便利店.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}));}catch(e){}   /* AA_651（11-04）改了以安總圖見面那一句：規格改了，認新稿 */
-  const inSpec=t=>{ const x=String(t).replace(/^（走出法圖）/,'').replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x))||(!!spec651&&spec651.includes(x)); };
+  /* 2026-11-11（X324 語彤約會台詞重寫，AA 0a2136911）：語彤校外的 depart 第二、三句、enough 兩句、leaveEarly、noPair 照 AA_767_yt_date_common.json 改：也接受 AA_767 的稿 */
+  let spec767=''; try{ spec767=cp.execSync('git show 0a2136911:docs/story_planning/AA_767_yt_date_common.json',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+  const inSpec=t=>{ const x=String(t).replace(/^（走出法圖）/,'').replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||(!!spec767&&spec767.includes('"new": "'+x+'"'))||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x))||(!!spec651&&spec651.includes(x)); };
   { const bad=[]; const walk=(tag,v)=>{ if(v==null) return; if(typeof v==='function') return walk(tag,v(null,{r:{}})); if(typeof v==='string'){ if(!inSpec(v)) bad.push(tag+':'+v); return; } if(Array.isArray(v)) return v.forEach(x=>walk(tag,x)); if(v.l) return walk(tag,v.l); for(const k in v) walk(tag+'.'+k,v[k]); };
     walk('lawlib',INVITE_DATA.lawlibLines); walk('lake',INVITE_DATA.lakeLines);
     for(const id of ['heroine_01','heroine_03','kexin']) for(const p of ['cafe','library','noodle','wenzhou']) walk('meet.'+id+'.'+p,((REL_LINES[id]||{}).meet||{})[p]);
@@ -77,8 +79,9 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     check('1-3. 以安 enough：學期中兩句輪流（「明天早上有課」：AA_594 第 367 列，原本「明天早上有讀書會」——讀書會在週四晚上）；寒暑假只有另一句',en.some(x=>/明天早上有課/.test(x))&&enW.every(x=>!/明天早上有課/.test(x))&&![...en,...enW].some(x=>/讀書會/.test(x)),J([en,enW]));
     const yt=[0,1].map(()=>DATE.lineFor(G,'heroine_03','enough',t)[0]); const off=D('2026-02-16'); const ytOff=[0,1].map(()=>DATE.lineFor(G,'heroine_03','enough',{day:off})[0]);
     const p0=STORY.presence('heroine_03',Object.assign({},G,{day:off})), shopOff=!(p0.here||p0.kind==='taipei');   /* AA_627 A-347、P-25：那一句改「晚上我要回去，秀琴姨煮了飯。」、條件改看她在不在臺北（不看麵店）*/
-    check('1-3. 語彤 enough：她在臺北＝兩句輪流（「晚上我要回去，秀琴姨煮了飯。」，AA_627 A-347）；不在臺北只有「走累了。回去吧。」',yt.some(x=>/秀琴姨煮了飯/.test(x))&&(!shopOff||ytOff.every(x=>x==='走累了。回去吧。')),J([yt,ytOff,shopOff]));
-    check('1-3. leaveEarly、noPair（以安、語彤）',J(DATE.lineFor(G,'heroine_01','leaveEarly',t))===J(['……這樣就回去了？好。排好的，下次再用。'])&&J(DATE.lineFor(G,'heroine_03','noPair',t))===J(['我不用。……我幫你拍。']));
+    /* 2026-11-11（X324 語彤約會台詞重寫，AA_767_yt_date_common.json@0a2136911）：enough 兩句換成「差不多了。秀琴姨煮了飯，我想回去吃熱的。」「我走不動了。到這裡就好。」、noPair 換成「我不用。我幫你拍，你站過去。」；條件照舊 */
+    check('1-3. 語彤 enough：她在臺北＝兩句輪流（「差不多了。秀琴姨煮了飯，我想回去吃熱的。」，AA_767）；不在臺北只有「我走不動了。到這裡就好。」',yt.some(x=>x==='差不多了。秀琴姨煮了飯，我想回去吃熱的。')&&yt.some(x=>x==='我走不動了。到這裡就好。')&&(!shopOff||ytOff.every(x=>x==='我走不動了。到這裡就好。')),J([yt,ytOff,shopOff]));
+    check('1-3. leaveEarly、noPair（以安、語彤）',J(DATE.lineFor(G,'heroine_01','leaveEarly',t))===J(['……這樣就回去了？好。排好的，下次再用。'])&&J(DATE.lineFor(G,'heroine_03','noPair',t))===J(['我不用。我幫你拍，你站過去。']));
     check('1-3. date_lines.js（匯入工具產生）有的格子照舊用它（子晴的 depart）',J(DATE.lineFor(G,'heroine_04','depart',t))===J([DATE_LINES.lines.heroine_04.depart[0]]));
     const src=fs.readFileSync(path.join(ROOT,'src/date3d.js'),'utf8');
     check('1-3. 走完三個點才說 enough（DATE.scene 原本的位置）',/if\(spots\.length===3&&pts\.length>3\) await S\.speak\(GM,t\.who,'enough',t,\{obj:null\}\)/.test(src)); }

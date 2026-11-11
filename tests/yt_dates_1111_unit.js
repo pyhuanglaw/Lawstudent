@@ -5,6 +5,7 @@
 //   3. 別人的格子（含學姊、沛珊）、預約句、交通偏好和重匯以前（BASE）完全一樣
 //   4. date3d.js：S.LINE_IF 兩組（accept、enough）還對得上；ARRIVE_VAR／REMEMBER_IF／PICK_FLAG 沒有拿語彤的句子當 key；aa524_3d.js y9 的「我請。」還在；S.xiuqin 照留
 //   5. 選項換字 42 格、選項數／tier／喜好不變（D14 夕陽多留一格）；請客的選項同一組
+//   6. AA_767_yt_date_common.json@0a2136911（13 列，照 path 換）：date_lines.js 最上層 lines.heroine_03 六列（工具寫檔前最後一層）、src/date3d.js 七列（S.EXTRA_LINES.heroine_03 六格＋S.MORNING.heroine_03）
 // 稿、BASE 讀 git show；讀不到（淺層複本）＝不比稿，只驗結構。用法：node tests/yt_dates_1111_unit.js
 const H=require('./pg_harness.js');
 const {check}=H; const J=JSON.stringify;
@@ -38,6 +39,7 @@ const D14C=p=>/^lines\/closing\//.test(p);
       check('1. 語彤跳過的列：AA_630 第 2 節整節 209 列（52 列源稿已經是改成的字、157 列那一格新稿重寫了）',+m[2]===209&&cnt('（已經是改成的字（源稿對齊過了））')===52&&cnt('（那一格新稿重寫了）')===157&&cnt('（那一格新稿沒有了）')===0&&(body.match(/AA_630 D-\d{3} /g)||[]).length===209,J([m[1],m[2]]));
       check('1. AA_694 第 3 節跟著跳過的 80 列都是語彤上一版有、新稿換掉的句子；沒有別種跳過（共 289 列）',+m[1]===289&&cnt('（語彤的句子，新稿重寫了）')===80&&(body.match(/AA_694 第 3 節第 \d+ 列 /g)||[]).length===80&&!/AA_359|AA_373|AA_524|AA_525|AA_598/.test(body),String(m[1]));
       check('1. AA_630 每個地點都印「語彤重寫，第 2 節 n 列跳過」（33 個地點、沒有一列套在她的新稿上）；AA_127 預約句那一層照舊',(out.match(/：0 列（語彤重寫，第 2 節 \d+ 列跳過）/g)||[]).length===33&&/src\/data\/date_lines\.js：6 處/.test(out));
+      check('1. AA_767 那一層：六列照 path 換了六列（寫檔前最後一步）',/AA_767@0a2136911：語彤不分地點的短句 6 列（照 path），換了 6 列/.test(out));
       check('1. 學姊跳過的列照舊 81 列、沛珊照舊 11 列；AA_598 逐句表 93 列：34 列源稿已經是新句（寫回源稿的那 34 格）、4 列照舊換、55 列跳過',/學姊重寫（DLG-FULL-REVIEW-1110）跳過的改句 81 列/.test(out)&&/沛珊重寫（PEISHAN-VOICE-1110）跳過的改句 11 列/.test(out)&&/換 4 句、已經是新句 34 句、源稿重寫了跳過 55 句（共 93 列）/.test(out)); }
     const tool=read('tools/date/import_date_lines.py');
     check('1. 工具只對沛珊、學姊、語彤放寬（ps_skip 先看 who；別人的列照舊 sys.exit）；AA_630 第 2 節原句還在＝停下來',/if who not in \(PS, SIS, YT\) or not ps756\(loc, who\):\s+return False/.test(tool)&&tool.includes("YT = 'heroine_03'")&&tool.includes('還是原句')&&tool.includes('不是語彤的格子，不能跟著跳過')); });
@@ -74,7 +76,7 @@ const D14C=p=>/^lines\/closing\//.test(p);
     check('3. 語彤的格子和重匯以前比：900 格不同（含 D14 夕陽多留的那一格 3 項）',d3===900,String(d3)); });
 
   await sec(4,async()=>{ const LI=DATE.LINE_IF[YT]||{}, acc=NOW.lines[YT].accept.map(x=>[].concat(x).join('')), en=DATE.EXTRA_LINES[YT].enough;
-    check('4. S.LINE_IF 語彤兩組還對得上：accept 認「沒有班」（「可以。那天我沒有班。」還在）、enough 認「秀琴姨煮了飯」（那一句還在）',typeof LI.accept==='function'&&typeof LI.enough==='function'&&acc.filter(x=>/公休|沒有班/.test(x)).length===1&&acc.includes('可以。那天我沒有班。')&&en.filter(x=>/幫阿姨|秀琴姨煮了飯/.test(x)).length===1,J([acc,en]));
+    check('4. S.LINE_IF 語彤兩組還對得上：accept 認「沒有班」（「可以。那天我沒有班。」還在）、enough 認「秀琴姨煮了飯」（AA_767 的新句「差不多了。秀琴姨煮了飯，我想回去吃熱的。」留著這幾個字）',typeof LI.accept==='function'&&typeof LI.enough==='function'&&acc.filter(x=>/公休|沒有班/.test(x)).length===1&&acc.includes('可以。那天我沒有班。')&&en.filter(x=>/幫阿姨|秀琴姨煮了飯/.test(x)).length===1&&en[0]==='差不多了。秀琴姨煮了飯，我想回去吃熱的。',J([acc,en]));
     const src=read('src/date3d.js');
     check('4. S.LINE_IF 的條件式沒動（/公休|沒有班/、/幫阿姨|秀琴姨煮了飯/）',src.includes("S.LINE_IF={heroine_03:{accept:(G,t,x)=>!/公休|沒有班/.test(String(x))||(/公休/.test(String(x))?noodleOff(t.day):!ytTea(G,t.day)),enough:(G,t,x)=>!/幫阿姨|秀琴姨煮了飯/.test(String(x))||ytHere(G,t.day!=null?t.day:G.day)},"));
     check('4. ARRIVE_VAR、REMEMBER_IF、PICK_FLAG 都沒有語彤的項目（沒有拿她的句子當 from／key）',![].concat(DATE.ARRIVE_VAR,DATE.REMEMBER_IF,DATE.PICK_FLAG).some(x=>x.who===YT));
@@ -98,5 +100,27 @@ const D14C=p=>/^lines\/closing\//.test(p);
     check('5. 換掉的舊選項字（五個字以上的 '+olds.length+' 個）沒有被 src/*.js 的程式拿來當 key',olds.length>20&&hit.length===0,J(hit));
     const treat=D=>LOCS.reduce((a,k)=>{ const hs=D.loc[k].lines[YT].hotspots||{}; for(const pid in hs) for(const c of ((hs[pid].first||{}).choice||[])) if(DATE.isTreat(c.t)) a.push(pid+c.t); return a; },[]);
     check('5. 請客的選項（DATE.isTreat 看選項的字）和重匯以前同一組',J(treat(NOW))===J(treat(WAS))&&treat(NOW).length>0,J(treat(NOW))); });
+  await sec(6,async()=>{ const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files, e=allow.filter(x=>x.path===SP+'AA_767_yt_date_common.json');
+    check('6. 白名單 AA_767_yt_date_common.json@0a2136911 一筆、approved；date_lines.js 的來源寫著它',e.length===1&&e[0].sha==='0a2136911'&&e[0].status==='approved'&&NOW.source.includes('AA_767_yt_date_common.json@0a2136911'));
+    const LY=NOW.lines[YT];
+    check('6. lines.heroine_03 六格：move 第一句「好，改那天。」、transport「好，坐你的車。」「我平常都坐捷運，在車上要做什麼，我不太知道。」、cancel「沒關係。下次再約。」、flaked「那天我等了一下。」「班也請了。下次不能來，先跟我說。」',LY.move[0]==='好，改那天。'&&J(LY.transport)===J([['好，坐你的車。','我平常都坐捷運，在車上要做什麼，我不太知道。']])&&J(LY.cancel)===J(['沒關係。下次再約。'])&&J(LY.flaked)===J([['那天我等了一下。','班也請了。下次不能來，先跟我說。']]),J(LY));
+    check('6. accept（兩句）、acceptDating、move 第二句、move3 不改',J(LY.accept)===J([['好。','我跟蘇姨說那天不排班。'],'可以。那天我沒有班。'])&&J(LY.acceptDating)===J(['好。蘇姨說，那天她自己顧。'])&&LY.move[1]==='可以。我再跟蘇姨講一次。'&&J(LY.move3)===J([['第三次了。','蘇姨問我到底哪一天。我說我也不知道。']]),J(LY));
+    const EX=DATE.EXTRA_LINES[YT];
+    check('6. date3d.js S.EXTRA_LINES 語彤：depart 第一句照舊「我到了。」、第二、三句、enough 兩句、leaveEarly、noPair 照稿',J(EX)===J({depart:['我到了。','出門了。傘有帶，這次有。','快到了。你先找地方站，我看得到你。'],enough:['差不多了。秀琴姨煮了飯，我想回去吃熱的。','我走不動了。到這裡就好。'],leaveEarly:['就這樣？好。那我回去了。'],noPair:['我不用。我幫你拍，你站過去。']}),J(EX));
+    check('6. date3d.js S.MORNING 語彤：「早。旅館的早餐我看過了，有稀飯。我在樓下。」',DATE.MORNING[YT]==='早。旅館的早餐我看過了，有稀飯。我在樓下。',DATE.MORNING[YT]);
+    const raw=show(SHA,SP+'AA_767_yt_date_common.json'), A=raw?JSON.parse(raw):null, strip=t=>t.replace(/\/\*[\s\S]*?\*\//g,''), lit=t=>strip(t).match(/'(?:[^'\\\n]|\\.)*'/g)||[];
+    const code=read('src/date3d.js');
+    if(A){ const get=(o,pth)=>pth.match(/\[\d+\]|[^.\[\]]+/g).reduce((x,t)=>x==null?x:x[t[0]==='['?+t.slice(1,-1):t],o);
+      const r1=A.rows.filter(r=>r.file==='src/data/date_lines.js'), r2=A.rows.filter(r=>r.file==='src/date3d.js');
+      check('6. 逐字：稿 13 列（date_lines.js 六列、date3d.js 七列）；date_lines.js 六列的 new 在 path 那一格',A.rows.length===13&&r1.length===6&&r2.length===7&&r1.every(r=>get(NOW,r.path)===r.new),J(r1.filter(r=>get(NOW,r.path)!==r.new).map(r=>r.path)));
+      const at=r=>r.path==='S.MORNING.heroine_03'?DATE.MORNING[YT]:get(EX,r.path.replace('S.LINES heroine_03.',''));
+      check('6. 逐字：date3d.js 七列的 new 在 path 那一格；每一句在程式裡（註解不算）剛好一處、old 都不在了',r2.every(r=>at(r)===r.new&&strip(code).split("'"+r.new+"'").length-1===1&&!strip(code).includes("'"+r.old+"'")),J(r2.filter(r=>at(r)!==r.new).map(r=>r.path)));
+      if(WAS){ const a=leaves(WAS.lines[YT],'',{}), b=leaves(LY,'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]).sort();
+        check('6. lines.heroine_03 和重匯以前比：格子一樣多、只有這六格不同（「嗯。」整個檔兩百多處，只換她放鴿子那一格）',J(Object.keys(a))===J(Object.keys(b))&&J(d)===J(['/cancel/0','/flaked/0/0','/flaked/0/1','/move/0','/transport/0/0','/transport/0/1'])&&r1.every(r=>get(WAS,r.path)===r.old),J(d));
+        const cnt=D=>{ const x=JSON.parse(J(D)); delete x.lines[YT]; for(const k in x.loc) for(const part of ['lines','dislikeLine']) if(x.loc[k][part]) delete x.loc[k][part][YT]; return J(x).split('嗯。').length-1; };
+        check('6. 「嗯。」在別人的格子裡的次數和重匯以前一樣（'+cnt(NOW)+' 處；沒有整檔取代）',cnt(NOW)===cnt(WAS)&&cnt(NOW)>50,J([cnt(NOW),cnt(WAS)])); }
+      const ob=show(BASE,'src/date3d.js'); if(ob){ const O=lit(ob), L=lit(code), d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(r2.map(r=>"'"+r.old+"'→'"+r.new+"'"));
+        check('6. date3d.js 的字串和重匯以前（'+BASE+'）逐個比：一樣多，不一樣的剛好是稿上這七列（條件、以安的四格、別人早上那一句沒動）',O.length===L.length&&d.length===7&&d.every(([x,y])=>set.has(x+'→'+y)),J(d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,4))); } }
+    check('6. S.xiuqin 照留：還沒聽過她家裡的事，enough 第一句顯示成「差不多了。煮飯的阿姨煮了飯，我想回去吃熱的。」',DATE.xiuqin({flags:{}},YT,EX.enough[0])==='差不多了。煮飯的阿姨煮了飯，我想回去吃熱的。'&&/S\.xiuqin=\(G,id,s\)=>id==='heroine_03'&&!\(G&&G\.flags&&G\.flags\.YT_FAMILY_HEARD\)&&typeof s==='string'\?s\.replace\(\/秀琴姨\/g,'煮飯的阿姨'\):s;/.test(code)); });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
