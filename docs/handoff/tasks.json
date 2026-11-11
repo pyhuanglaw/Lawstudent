@@ -52591,7 +52591,7 @@
     "confirmed": true
    },
    "sha": "42739729b",
-   "next": "【11-11 12:1x LAWWW 核】上面的 SHA 是 LAWWW2 分支（claude/second-ai-env-art）上的；遊戲內容確認在 v9.10.25 候選 0d1eaadc7 裡（git grep：gg_antai／gg_xianguo／gg_rongendian／tz_taimi／tz_xile／tz_yindehao／flower_notes 的區域程式和 *_interior.glb 都在）＝跟這版一起上線。｜【11-11 12:0x LAWWW2 對帳（D148），狀態原本寫錯「待開工」】六間都已做、已整合進開發分支：安泰 gg_antai（8e15235bc、3e39b5c33、42739729b）、汀州鮮果 gg_xianguo（3d4107ca1）、榮恩典 gg_rongendian、泰米 tz_taimi（51a7dfb8d、外觀第 3 版 6c560d699）、洗樂 tz_xile（3042b26e9、57f882bb8）、印得好 tz_yindehao；G09 鐵捲門、G10 通汀州路巷口（bc1954d4b）。BB：汀州路 11-10 21:52 功能 PASS、街景＋五間外觀 ART_APPROVED（三塊招牌第 3 版之後沒判）；六間室內美術還沒判。還沒做：AA_743 互動點名稱逐項對照表（LAWWW2 在做，交 LAWWW／AA 決定要不要改名，不改模型）。｜【11-11 12:1x LAWWW 派 LAWWW2 對帳】狀態寫「待開工」，但 README／開發分支看起來已經有這幾間店的室內——請 LAWWW2 先查（D148：grep 開發分支和自己的分支、FACTS.md），做好的改狀態附 SHA／證據，還沒做的照 AA_742／743（7fd1a70f2）、使用者參考圖做。｜六間不同年代、裝潢、客群；不用真實 LOGO；店名字只做在模型上一次（不和遊戲 UI 重疊）；layout 照 AA 的稿",
+   "next": "【11-11 12:1x】LAWWW2 AA_743 對照表 d0c2852b7：kind 不改（台詞照對應欄接）；只加資料那幾項（安泰 cabinet、鮮果 boxes、洗樂 guide＋坐著等、印得好兩張圓凳座位、文具 window→畫架）LAWWW2 做 patch、發版後整合；要改模型的第③類＝GG-SHOPS3-ART-V2（暫停，等 BB 判 v1）；店裡的人（老闆娘、女兒、老闆）發版後接 AA_742 台詞時和 AA 一起定。｜【11-11 12:1x LAWWW 核】上面的 SHA 是 LAWWW2 分支（claude/second-ai-env-art）上的；遊戲內容確認在 v9.10.25 候選 0d1eaadc7 裡（git grep：gg_antai／gg_xianguo／gg_rongendian／tz_taimi／tz_xile／tz_yindehao／flower_notes 的區域程式和 *_interior.glb 都在）＝跟這版一起上線。｜【11-11 12:0x LAWWW2 對帳（D148），狀態原本寫錯「待開工」】六間都已做、已整合進開發分支：安泰 gg_antai（8e15235bc、3e39b5c33、42739729b）、汀州鮮果 gg_xianguo（3d4107ca1）、榮恩典 gg_rongendian、泰米 tz_taimi（51a7dfb8d、外觀第 3 版 6c560d699）、洗樂 tz_xile（3042b26e9、57f882bb8）、印得好 tz_yindehao；G09 鐵捲門、G10 通汀州路巷口（bc1954d4b）。BB：汀州路 11-10 21:52 功能 PASS、街景＋五間外觀 ART_APPROVED（三塊招牌第 3 版之後沒判）；六間室內美術還沒判。還沒做：AA_743 互動點名稱逐項對照表（LAWWW2 在做，交 LAWWW／AA 決定要不要改名，不改模型）。｜【11-11 12:1x LAWWW 派 LAWWW2 對帳】狀態寫「待開工」，但 README／開發分支看起來已經有這幾間店的室內——請 LAWWW2 先查（D148：grep 開發分支和自己的分支、FACTS.md），做好的改狀態附 SHA／證據，還沒做的照 AA_742／743（7fd1a70f2）、使用者參考圖做。｜六間不同年代、裝潢、客群；不用真實 LOGO；店名字只做在模型上一次（不和遊戲 UI 重疊）；layout 照 AA 的稿",
    "xai": {
     "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
     "branch": "claude/second-ai-env-art",
@@ -53580,6 +53580,29 @@
    },
    "sha": "42671da70",
    "next": "【11-11 12:0x LAWWW2 交付，發版後整合】claude/second-ai-env-art 42671da70：docs/art-rebuild/second_ai/wip/cafe_bar_cam_1111/cafe_bar_cam_v1.patch（2 檔，dev 4bad2a222 上 --3way 乾淨，和 TAP-RAY-SEAT 一起套也乾淨）。原因是天花板水泥大梁（梁底 2.98 m）；①cafe z.slabs 讓 slabClip 把鏡頭拉到梁下 ②CAFE230_SEETHRU 梁、層架、吊燈網點透空。新測試 cafe_bar_cam_1111_unit：吧檯 256 鏡頭擋 90→0、其他 22 張座位 37→0、站著不動；全部 1288 支 1287 過＋bookstore 老警告。手機沒看；吊燈網點透空等 BB 判。｜【11-11 11:3x LAWWW2】原因：天花板水泥大梁 a23_vc（梁底約 3.2 m），高腳椅俯角 0.38 鏡頭 3.48 m 在梁旁 0.44 m。照 SUNNY／小路 WZ-SEAT-CAMS 做法讓梁等網點透空（attachCafe230）；新測試吧檯 256 個鏡頭擋 90→0、全店其他座位 37→0；跑全部測試＋同機位截圖中。｜【11-11 11:2x BB 回報（STAIR_X 時順便）、LAWWW 派 LAWWW2（場景鏡頭 D108），發版後】搖桿坐「坐吧檯」：中央 [84.8, 0.2]，鏡頭 (−1.3,3.46,0.6) 整片牆。改法照其他店吧檯座位的鏡頭；做完交 patch＋同機位截圖，CC 拍、BB 判。",
+   "xai": []
+  },
+  {
+   "id": "GG-SHOPS3-ART-V2",
+   "title": "公館／汀州路六間室內第 2 版（AA_743 有、模型沒有的）：鮮果吊秤＋收音機、文具祝福卡、洗樂布告欄、印得好等候長椅、泰米調味料架",
+   "owner": "LAWWW2",
+   "status": "暫停",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館、汀州路",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "LAWWW 決定（D141）：已經進遊戲的精修排在還沒進遊戲的後面；六間室內 v1 BB 還沒判",
+   "resumeWhen": "BB 判完六間室內 v1（ART_APPROVED 或退件理由）",
+   "recheckOn": "2026-11-18",
+   "next": "【11-11 12:1x LAWWW 決定】LAWWW2 AA_743 對照表 d0c2852b7 第③類。②只加資料那幾項另做（GG-SHOPS3-ART-1110 下）。",
    "xai": []
   }
  ]
