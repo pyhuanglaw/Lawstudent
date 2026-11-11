@@ -260,7 +260,6 @@ async def part_drink(pg, cdp):
         s = next((q for q in li['shops'] if q['id'] == did), None)
         if not s: R.note('[DRINK] 這一版沒有 %s（舊版正常），跳過' % did); continue
         tag = '[DRINK %s %s]' % (did, s['name']); dirn = 1 if s['side'] == 'W' else -1; fx = li['facade']['west'] if s['side'] == 'W' else li['facade']['east']
-        cz = (s['z0'] + s['z1']) / 2
         its = await pg.evaluate(ITS); it = next((i for i in its if i['shop'] == did), None)
         R.check('%s 店門口有互動點（記位置）' % tag, bool(it), J(it))
         R.note('%s 互動點 %s；立面 x %.1f、店 z %.1f～%.1f；營業 %s' % (tag, J(it), fx, s['z0'], s['z1'], s['open']))
@@ -306,7 +305,7 @@ async def part_lanewalk(pg, cdp):
             for k, cz in enumerate(cps):
                 ok, t, st = await joy_walk(pg, cdp, 0.0, cz, 0.8, 60, '%s 往%s 第 %d 點' % (tag, '北' if dname == 'N' else '南', k + 1), straight=True)
                 allst += st; await L.turn_camera_to(pg, cdp, 0.0, look); await pg.wait_for_timeout(900)
-                await game_shot(pg, fn('walk', dname + str(k + 1), h, 'z%d' % int(cz), False), tag, indoor=False, judge=False)
+                await game_shot(pg, fn('walk', 'lane', h, '%s%d_z%d' % (dname, k + 1, int(cz)), False), tag, indoor=False, judge=False)
                 R.check('%s 往%s走到 z %.0f（%s 秒）' % (tag, '北' if dname == 'N' else '南', cz, t), ok, '')
             ok, t, st = await joy_walk(pg, cdp, 0.0, z_end, 0.8, 60, '%s 走到%s' % (tag, '巷口' if dname == 'N' else '巷底'), straight=True); allst += st
             R.check('%s 走到%s z %.0f（%s 秒）' % (tag, '巷口' if dname == 'N' else '巷底', z_end, t), ok, '')
