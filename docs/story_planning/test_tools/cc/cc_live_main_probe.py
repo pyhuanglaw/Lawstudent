@@ -80,18 +80,23 @@ async def one(p, attempt):
             await pg.wait_for_timeout(1000)
         await pg.wait_for_timeout(2000)
         hasC = await pg.evaluate("(()=>{ const b=document.getElementById('btnContinue'); return !!b&&getComputedStyle(b).display!=='none'; })()")
-        BTN_JS = "(()=>{ const b=document.getElementById('btnContinue'); if(!b) return null; const r=b.getBoundingClientRect(), c=getComputedStyle(b); const e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2); return {dis:!!b.disabled, pe:c.pointerEvents, op:c.opacity, top:e?(e.id||String(e.className).slice(0,40)||e.tagName):null, onBtn:!!(e&&(e===b||b.contains(e))), titleIdle:!!(typeof GAME!=='undefined'&&GAME.titleIdle), running:!!(typeof GAME!=='undefined'&&GAME.running), fade:!!(document.getElementById('fade')&&document.getElementById('fade').classList.contains('on'))}; })()"
-        taps = []
-        if hasC: taps.append(['按', round(time.time() - t0, 1), await pg.evaluate(BTN_JS)]); await L.tap(pg, cdp, '#btnContinue')
-        for k in range(120):
+        BTN_JS = "(()=>{ const b=document.getElementById('btnContinue'), $=id=>document.getElementById(id); const r=b?b.getBoundingClientRect():null, c=b?getComputedStyle(b):null; const e=r?document.elementFromPoint(r.left+r.width/2,r.top+r.height/2):null; const vis=id=>{ const x=$(id); if(!x) return null; const k=getComputedStyle(x); return !x.classList.contains('hide')&&k.display!=='none'&&k.visibility!=='hidden'&&+k.opacity>0; }; return {btn:b?{dis:!!b.disabled, pe:c.pointerEvents, op:c.opacity}:null, top:e?(e.id||String(e.className).slice(0,40)||e.tagName):null, onBtn:!!(b&&e&&(e===b||b.contains(e))), title:$('titleScreen')?$('titleScreen').className:null, loading:vis('loading'), loadMsg:($('loadMsg')||{}).textContent||'', toast:vis('toast')?($('toast').textContent||''):'', charsAll:typeof GAME!=='undefined'?!!GAME.charsAll:null, bytes:typeof ASSETS!=='undefined'&&ASSETS.bytes?ASSETS.bytes.done:null, titleIdle:typeof GAME!=='undefined'?!!GAME.titleIdle:null, running:typeof GAME!=='undefined'?!!GAME.running:null, fade:!!($('fade')&&$('fade').classList.contains('on')), auto:!!localStorage.getItem('fatiao3d_auto')}; })()"
+        taps = []; cerr = []
+        pg.on('console', lambda m: cerr.append('%s: %s' % (m.type, m.text[:200])) if m.type in ('error', 'warning') else None)
+        if hasC: taps.append(['按', 0, await pg.evaluate(BTN_JS)]); await L.tap(pg, cdp, '#btnContinue'); tc = time.time()
+        for k in range(360):   # LAWWW 15:49：延長到 180 秒看會不會自己進去；15／30／60／120 秒只記不按，150 秒還在標題才再按一次
             s3 = await pg.evaluate(ST)
             if not s3['title'] and s3['zone']: break
-            if hasC and k in (30, 60):   # CC 15:5x（LIVE25_main_r2：按「繼續」60 秒還在標題）：15 秒還在標題＝記按鈕狀態、截圖、再按一次（分「按太早」和「按了沒反應」）
-                b = await pg.evaluate(BTN_JS); await pg.screenshot(path=os.path.join(OUT, 'live_cont_stuck_a%d_%d.png' % (attempt, k)))
-                R.note('③ 按「繼續」%d 秒還在標題：按鈕 %s → 再按一次' % (k // 2, J(b))); taps.append(['再按', round(time.time() - t0, 1), b]); await L.tap(pg, cdp, '#btnContinue')
+            if hasC and k in (30, 60, 120, 240, 300):
+                b = await pg.evaluate(BTN_JS); await pg.screenshot(path=os.path.join(OUT, 'live_cont_stuck_a%d_%ds.png' % (attempt, k // 2)))
+                again = k == 300
+                R.note('③ 按「繼續」%d 秒還在標題：%s；console %s%s' % (k // 2, J(b), J(cerr[-5:]), '　→ 再按一次' if again else ''))
+                taps.append(['再按' if again else '記', k // 2, b])
+                if again: await L.tap(pg, cdp, '#btnContinue')
             await pg.wait_for_timeout(500)
+        if hasC: R.note('③ 按「繼續」到進遊戲：%s 秒（180 秒內沒進＝沒有）；console error／warning %s' % (round(time.time() - tc, 1) if not s3['title'] else '沒有', J(cerr[-8:])))
         R.note('③ 按「繼續」的紀錄：%s' % J(taps))
-        if len(taps) > 1: R.check('③ 第一次按「繼續」就讀進遊戲（不用按第二次）', False, J(taps))
+        if hasC: R.check('③ 第一次按「繼續」就讀進遊戲（180 秒內、不用按第二次）', not s3['title'] and not any(t[0] == '再按' for t in taps), J(taps))
         await pg.wait_for_timeout(2500); s3 = await pg.evaluate(ST); await pg.screenshot(path=os.path.join(OUT, 'live_reload_a%d.png' % attempt))
         R.check('③ 重新整理 → 標題「繼續」讀回來（同一天、同一區）', hasC and s3['day'] == s2['day'] and s3['zone'] == s2['zone'], J({'continue': hasC, 'before': s2, 'after': s3}))
         R.note('② 一共 %d 個回應；非 200（含 304 以外、requestfailed）%d 筆：%s' % (nreq[0], len(bad), J(bad[:40])))
