@@ -570,12 +570,17 @@ async def go_meet(pg, cdp, tag, cfg, iv, screen, shots, max_s=900):
     who = cfg['who']
     if SITFIRST:   # CC 15:2x（LAWWW 15:20）：真的測「先到、坐下等她」：她出現（iv.h−0.25）以前就坐在大廳長椅上
         z = iv.get('zone') or 'xs_nanyang'
-        await pg.evaluate("(([h,z])=>{ GAME.G.hour=h; return GAME.enter(z); })", [iv['h'] - 0.5, 'xs_nanyang']); await pg.wait_for_timeout(4000); await close_phone(pg, cdp)
-        R.setup('[%s]【前置／捷徑】時間撥到約好的前 30 分鐘（%.2f）、GAME.enter 直接進南洋戲院大廳（她 iv.h−0.25 才出現）' % (tag, iv['h'] - 0.5))
+        await pg.evaluate("(([h,z])=>{ GAME.G.hour=h; return GAME.enter(z); })", [iv['h'] - 1.0, 'xs_nanyang']); await pg.wait_for_timeout(4000); await close_phone(pg, cdp)
+        R.setup('[%s]【前置／捷徑】時間撥到約好的前 60 分鐘（%.2f）、GAME.enter 直接進南洋戲院大廳（她 iv.h−0.25 才出現；PC 每秒約 0.45 遊戲分鐘，留 45 分鐘走到長椅）' % (tag, iv['h'] - 1.0))
         await pg.evaluate(HOOK_SAY_JS)
         b = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>String(typeof i.label==='function'?i.label():i.label||'').startsWith('坐下等開演')); L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?{x:i.x,z:i.z,n:L.length}:null; })()")
         if not R.check('[%s] SITFIRST：大廳有「坐下等開演」長椅' % tag, bool(b), J(b)): return False
-        await L.go_to(pg, cdp, R, b['x'], b['z'], 0.8, '走到長椅', max_s=90); s0 = await st(pg)
+        tw = time.time()   # CC 15:4x（SITFIRST r1 自己又犯第 13 類：走到長椅用整段 go_to，她在途中到了、約會被盲點演完）：6 秒一段、每段前看 busy／dlg／nb
+        while time.time() - tw < 90:
+            s0 = await st(pg)
+            if s0['busy'] or s0['dlg'] or s0['nb']: log('    [走路中斷] 走到長椅途中 busy=%s dlg=%s nb=%s（%.2f）' % (s0['busy'], s0['dlg'], s0['nb'], s0['hour'])); break
+            if await L.go_to(pg, cdp, R, b['x'], b['z'], 0.8, '走到長椅', max_s=6): break
+        s0 = await st(pg)
         h0 = await pg.evaluate("+(+GAME.G.hour).toFixed(2)"); her0 = await pg.evaluate(NPC_JS, who)
         if s0['interact'].startswith('坐下等開演'): log('    [按互動鍵] %s（%.2f，她%s）' % (s0['interact'], h0, '已經在' if her0 else '還沒出現')); PATH_SEEN.append(s0['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         R.check('[%s] SITFIRST：她出現以前就坐下了（%.2f＜%.2f、她還不在）' % (tag, h0, iv['h'] - 0.25), bool(PATH_SEEN) and h0 < iv['h'] - 0.25 and not her0, J({'h': h0, 'her': her0, 'btn': s0['interact']}))
