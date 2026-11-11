@@ -52912,7 +52912,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "使用者 21:1x「你可以自己決定嗎」＝位置、開工交 LAWWW 定：位置 G11（原泰米村食）；AA 先寫商品文案、店員台詞、畢業／母親節規劃；LAWWW 做商品資料與遷移（店代號 gg_flower、g_bouquet、g_sunflower 不改）；LAWWW2 的外觀、室內模型等使用者兩張正式參考圖；使用者 21:3x 已給兩張參考圖（docs/handoff/user_specs/flower_notes_ref/），LAWWW2 可以開始做模型（FLOWER-NOTES-ART-1110）；【發布前】含花序的版本發布前先問使用者（規格書十五之 9；她的「你可以自己決定嗎」講的是位置和開工，不含發布）；BB 驗收計畫 BB_312（企劃線 b74636eafb），交 SHA 時告訴 BB：原 G11 之前進不去（type none）、舊兩樣價錢不改（g_bouquet 450、g_sunflower 120）",
+   "next": "使用者 21:1x「你可以自己決定嗎」＝位置、開工交 LAWWW 定：位置 G11（原泰米村食）；AA 先寫商品文案、店員台詞、畢業／母親節規劃；LAWWW 做商品資料與遷移（店代號 gg_flower、g_bouquet、g_sunflower 不改）；LAWWW2 的外觀、室內模型等使用者兩張正式參考圖；使用者 21:3x 已給兩張參考圖（docs/handoff/user_specs/flower_notes_ref/），LAWWW2 可以開始做模型（FLOWER-NOTES-ART-1110）；【發布前】含花序的版本發布前先問使用者（規格書十五之 9；她的「你可以自己決定嗎」講的是位置和開工，不含發布）；BB 驗收計畫 BB_312（企劃線 b74636eafb），交 SHA 時告訴 BB：原 G11 之前進不去（type none）、舊兩樣價錢不改（g_bouquet 450、g_sunflower 120）｜11-11 01:5x BB：買花送花、舊存檔、進出門、樓梯椅子 PASS；美術第 1 版外觀室內都沒過（招牌糊、牆灰、花像圓球、二樓沒窗，LAWWW2 做第 2 版）；一樓繞圈 r3 待判。**LAWWW 定：帶著第 1 版美術進下一版**（D141；舊花攤已拿掉），發布說明寫「美術第 1 版」",
    "xai": {
     "spec": "X325，docs/handoff/user_specs/FLOWER_NOTES_1110.md",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -53041,7 +53041,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "模型 b810b809b＋能看能買 ecd4fdd61（src/night_market3d.js、src/data/night_market.js、tools/story/import_night_market.py；AA_752 @3259b5f78）都在開發分支；night_market_unit 23 項等 8 支 ALL PASS，瀏覽器沒跑（BB 排第二批）。各攤時間用 AA 的（執行時蓋過配置；配置檔數字和 tingzhou_unit 第 9 項還是舊時間——請 LAWWW2 下一包把配置改成 AA 的）。沒做：攤主 NPC、坐下吃（甜湯折疊桌）、賣完提早收、EAT「老樣子」紀錄。問 AA：說話人寫「老闆」、s10「阿婆」可不可以｜11-11：BB／CC 看到「模型開著、按下去是收攤」→ 9ecfe0fad 修：營業／收攤照時鐘（TZ3.clockHour），不照引擎傳的光線時間；tz_clock_hour_1111_unit。請 CC 用 28d535073 重驗（冬天日期 17:30、18:30、19:30 三個時間看玉米、套圈圈、禮貌生財）"
+   "next": "模型 b810b809b＋能看能買 ecd4fdd61（src/night_market3d.js、src/data/night_market.js、tools/story/import_night_market.py；AA_752 @3259b5f78）都在開發分支；night_market_unit 23 項等 8 支 ALL PASS，瀏覽器沒跑（BB 排第二批）。各攤時間用 AA 的（執行時蓋過配置；配置檔數字和 tingzhou_unit 第 9 項還是舊時間——請 LAWWW2 下一包把配置改成 AA 的）。沒做：攤主 NPC、坐下吃（甜湯折疊桌）、賣完提早收、EAT「老樣子」紀錄。問 AA：說話人寫「老闆」、s10「阿婆」可不可以｜11-11：BB／CC 看到「模型開著、按下去是收攤」→ 9ecfe0fad 修：營業／收攤照時鐘（TZ3.clockHour），不照引擎傳的光線時間；tz_clock_hour_1111_unit。請 CC 用 28d535073 重驗（冬天日期 17:30、18:30、19:30 三個時間看玉米、套圈圈、禮貌生財）｜11-11 01:5x BB：夜市十攤美術 ART_APPROVED（對過使用者十張圖）；能看能買、開收攤、邊界、換季、舊存檔 PASS——可以進發布。發布說明「這版沒有」：攤主人物、胡椒餅賣完提早收、坐下吃、吃的數值。P2：兩攤鏡頭鑽進棚子（LAWWW2）"
   },
   {
    "id": "PEISHAN-VOICE-1110",
@@ -53228,7 +53228,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "LAWWW 11-11 Node 模擬（f5e1ef4e8，E.canStand flood＋E.simWalk）沒重現：2126 個站得住的點全連通、304 個起點走回門口都成功、右後角 121 點走到離開半徑內。等 CC 的 TRAPDIAG（卡住座標、SHA、目標點）。**確認以前這一間不進發布候選**（BB）。LAWWW2 先對 extraStacks 的箱子模型和阻擋範圍。腳本只在 scratchpad（trap2.js），要留就寫成 tests/",
+   "next": "LAWWW 11-11 Node 模擬（f5e1ef4e8，E.canStand flood＋E.simWalk）沒重現：2126 個站得住的點全連通、304 個起點走回門口都成功、右後角 121 點走到離開半徑內。等 CC 的 TRAPDIAG（卡住座標、SHA、目標點）。**確認以前這一間不進發布候選**（BB）。LAWWW2 先對 extraStacks 的箱子模型和阻擋範圍。腳本只在 scratchpad（trap2.js），要留就寫成 tests/｜LAWWW 定：切候選時還沒結論或沒修好＝候選版關掉 G08「進入汀州鮮果」的門（只能在門口看），修好下一版再開",
    "xai": {
     "spec": "BB 11-11 01:47 判定（BB_255，企劃線 8da731f7c）",
     "branch": "claude/second-ai-env-art",
