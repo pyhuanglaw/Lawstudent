@@ -1,0 +1,112 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_season_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N1_SEASON_gg\out
+CC SEASON：受測 b77af3a4f；PARTS WALK,DOORS,FPS；ZONES gongguan；DATES dragon3,0210,1028,0715,0115,0415,exam_stay,exam_moved,1210,cny-3,cny+3,0315,1105；HOURS [14.0, 20.0]；FUNC_DATES cny-3；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  26.9s] [日期] 照遊戲的 CALENDAR 算：{"dragon3": "2026-06-16", "exam_stay": "2026-06-10", "exam_moved": "2027-06-09"}（端午 2026-06-19）；用的日期：{"dragon3": ["2026-06-16", "端午前三天"], "0210": ["2026-02-10", "情人節前"], "1028": ["2025-10-28", "萬聖節前"], "0715": ["2026-07-15", "夏季"], "0115": ["2026-01-15", "冬季"], "0415": ["2026-04-15", "4/15（洗衣店換季）"], "exam_stay": ["2026-06-10", "期末考週（阿德還在）"], "exam_moved": ["2027-06-09", "期末考週（阿德搬走以後）", {"WZ_COPY_SHOP": "moved"}], "1210": ["2025-12-10", "聖誕"], "cny-3": ["2026-02-13", "除夕前三天"], "cny+3": ["2026-02-19", "初三"], "0315": ["2026-03-15", "3/15（不該有布置）"], "1105": ["2025-11-05", "11/5（不該有布置）"]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (-58.0,14.0) （沿街走的起點）
+  [  59.7s] [WALK 公館 2026-02-13] 搖桿到 (-25.0,14.0)：True、7.4 秒、推 8 次、跳 []
+  [  66.9s] [WALK 公館 2026-02-13] 搖桿到 (5.0,14.0)：True、7.2 秒、推 8 次、跳 []
+  [  74.5s] [WALK 公館 2026-02-13] 搖桿到 (35.0,14.0)：True、7.6 秒、推 9 次、跳 []
+  [  81.4s] [WALK 公館 2026-02-13] 搖桿到 (65.0,14.0)：True、6.8 秒、推 8 次、跳 []
+PASS [WALK 公館 2026-02-13] 搖桿沿街走完，每一段都走到、沒有跳  []
+PASS [WALK 公館 2026-02-13] walkFallbacks 0  {"zone": "gongguan", "day": 150, "h": 14.25, "x": 65.12, "z": 14, "free": true, "stand": true, "fb": 0}
+  [  81.4s] [WALK] 用了 54 秒
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (5.0,14.0) （店門進出：先列店門）
+  [  95.4s] [DOORS 公館 2026-02-13] 「進…」的店門 13 間：[{"x": -63, "z": 21, "r": 2.2, "lv": 0, "label": "進入公館燒臘", "to": "noodle"}, {"x": -54.05, "z": 21, "r": 2.2, "lv": 0, "label": "進入青木茶室", "to": "aoki"}, {"x": -36.4, "z": 21, "r": 2.2, "lv": 0, "label": "進入頁間書屋", "to": "bookstore"}, {"x": -29.4, "z": 21, "r": 2.2, "lv": 0, "label": "進入便利商店", "to": "cvs"}, {"x": -10.6, "z": 21, "r": 2.2, "lv": 0, "label": "進入 洋洋鹹酥雞", "to": "yangyang"}, {"x": 7.93, "z": 21, "r": 2.2, "lv": 0, "label": "進入 afar café", "to": "afar"}, {"x": 53.97, "z": 21, "r": 2.2, "lv": 0, "label": "進入 轉角唱片", "to": "corner_records"}, {"x": 70.94, "z": 21, "r": 2.2, "lv": 0, "label": "進入 Daybreak", "to": "daybreak"}, {"x": -0.3, "z": 21, "r": 2.2, "lv": 0, "label": "進入慢輪單車", "to": "bikeshop"}, {"x": 46.6, "z": 21, "r": 2.2, "lv": 0, "label": "進入花序", "to": "flower_notes"}, {"x": -18.6, "z": 21, "r": 2.2, "lv": 0, "label": "進入安泰藥局", "to": "gg_antai"}, {"x": 19.6, "z": 21, "r": 2.2, "lv": 0, "label": "進入汀州鮮果", "to": "gg_xianguo"}, {"x": 64.1, "z": 21, "r": 2.2, "lv": 0, "label": "進入榮恩典文具社", "to": "gg_rongendian"}]
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (-63.0,14.0) （店門「進入公館燒臘」前面的街上）
+PASS [DOORS 公館 2026-02-13] #1 進入公館燒臘 搖桿走到「進入公館燒臘」，按鈕是它（1.8 秒、沒有跳）  {"end": [-63.096, 21.165], "btn": "進入公館燒臘", "jumps": [], "why": null}
+  [ 130.2s] [DOORS 公館 2026-02-13] #1 進入公館燒臘 第 1 次按「進入公館燒臘」沒有換區域：提示「手機｜可昕：週末來木柵大學？我當導遊。」、按鈕「進入公館燒臘」、{"zone": "gongguan", "x": -63.096, "z": 21.165, "busy": false, "dlg": false}
+  [ 173.4s] [DOORS 公館 2026-02-13] #1 進入公館燒臘 第 2 次按「進入公館燒臘」沒有換區域：提示「手機｜可昕：週末來木柵大學？我當導遊。」、按鈕「進入公館燒臘」、{"zone": "gongguan", "x": -63.096, "z": 21.165, "busy": false, "dlg": false}
+FAIL [DOORS 公館 2026-02-13] #1 進入公館燒臘 按「進入公館燒臘」到了 noodle、站得住  {"zone": "gongguan", "x": -63.096, "z": 21.165, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進入公館燒臘", "stand": true, "fb": 0, "hour": 14.53}
+  [ 179.0s] [DOORS 公館 2026-02-13] #1 進入公館燒臘 沒進去：畫面上的提示「手機｜可昕：週末來木柵大學？我當導遊。」；營業時間 "沒有營業時間表"
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (-54.0,14.0) （店門「進入青木茶室」前面的街上）
+PASS [DOORS 公館 2026-02-13] #2 進入青木茶室 搖桿走到「進入青木茶室」，按鈕是它（1.8 秒、沒有跳）  {"end": [-54.147, 21.165], "btn": "進入青木茶室", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #2 進入青木茶室 按「進入青木茶室」到了 aoki、站得住  {"zone": "aoki", "x": 1.85, "z": 2.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 14.09}
+PASS [DOORS 公館 2026-02-13] #2 進入青木茶室 店裡有出口回公館
+PASS [DOORS 公館 2026-02-13] #2 進入青木茶室 出店 搖桿走到「離開青木茶室」，按鈕是它（0.6 秒、沒有跳）  {"end": [1.85, 2.77], "btn": "離開青木茶室", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #2 進入青木茶室 出店 按「離開青木茶室」到了 gongguan、站得住  {"zone": "gongguan", "x": -54.05, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+PASS [DOORS 公館 2026-02-13] #2 進入青木茶室 出店站在 [-54.05, 18]、推得動（3.18 m）  {"zone": "gongguan", "x": -54.05, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (-36.4,14.0) （店門「進入頁間書屋」前面的街上）
+PASS [DOORS 公館 2026-02-13] #3 進入頁間書屋 搖桿走到「進入頁間書屋」，按鈕是它（2.3 秒、沒有跳）  {"end": [-36.562, 20.996], "btn": "進入頁間書屋", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #3 進入頁間書屋 按「進入頁間書屋」到了 bookstore、站得住  {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 14.09}
+PASS [DOORS 公館 2026-02-13] #3 進入頁間書屋 店裡有出口回公館
+PASS [DOORS 公館 2026-02-13] #3 進入頁間書屋 出店 搖桿走到「離開頁間書屋」，按鈕是它（1.0 秒、沒有跳）  {"end": [-4.607, 4.257], "btn": "離開頁間書屋", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #3 進入頁間書屋 出店 按「離開頁間書屋」到了 gongguan、站得住  {"zone": "gongguan", "x": -38.8, "z": 20.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+PASS [DOORS 公館 2026-02-13] #3 進入頁間書屋 出店站在 [-38.8, 20.2]、推得動（0.49 m）  {"zone": "gongguan", "x": -38.8, "z": 20.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (-29.4,14.0) （店門「進入便利商店」前面的街上）
+PASS [DOORS 公館 2026-02-13] #4 進入便利商店 搖桿走到「進入便利商店」，按鈕是它（3.3 秒、沒有跳）  {"end": [-29.336, 20.699], "btn": "進入便利商店", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #4 進入便利商店 按「進入便利商店」到了 cvs、站得住  {"zone": "cvs", "x": 0.4, "z": 3.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.1}
+PASS [DOORS 公館 2026-02-13] #4 進入便利商店 店裡有出口回公館
+PASS [DOORS 公館 2026-02-13] #4 進入便利商店 出店 搖桿走到「離開日和便利店」，按鈕是它（1.0 秒、沒有跳）  {"end": [0.393, 4.757], "btn": "離開日和便利店", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #4 進入便利商店 出店 按「離開日和便利店」到了 gongguan、站得住  {"zone": "gongguan", "x": -29.4, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.13}
+PASS [DOORS 公館 2026-02-13] #4 進入便利商店 出店站在 [-29.4, 18]、推得動（3.17 m）  {"zone": "gongguan", "x": -29.4, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.13}
+  [ 275.4s] [DOORS 公館 2026-02-13] #5 進入 洋洋鹹酥雞 那一天 14:00 這間不開（PLACES.windowsOf [[17, 25]]、假日 null）——跳過，不是布置造成
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (7.9,14.0) （店門「進入 afar café」前面的街上）
+PASS [DOORS 公館 2026-02-13] #6 進入 afar café 搖桿走到「進入 afar café」，按鈕是它（1.8 秒、沒有跳）  {"end": [7.833, 21.164], "btn": "進入 afar café", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #6 進入 afar café 按「進入 afar café」到了 afar、站得住  {"zone": "afar", "x": 2.575, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.09}
+PASS [DOORS 公館 2026-02-13] #6 進入 afar café 店裡有出口回公館
+PASS [DOORS 公館 2026-02-13] #6 進入 afar café 出店 搖桿走到「離開 afar」，按鈕是它（2.1 秒、沒有跳）  {"end": [2.578, 3.26], "btn": "離開 afar", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #6 進入 afar café 出店 按「離開 afar」到了 gongguan、站得住  {"zone": "gongguan", "x": 7.92, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+PASS [DOORS 公館 2026-02-13] #6 進入 afar café 出店站在 [7.92, 18]、推得動（3.17 m）  {"zone": "gongguan", "x": 7.92, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (54.0,14.0) （店門「進入 轉角唱片」前面的街上）
+PASS [DOORS 公館 2026-02-13] #7 進入 轉角唱片 搖桿走到「進入 轉角唱片」，按鈕是它（1.7 秒、沒有跳）  {"end": [53.873, 21.165], "btn": "進入 轉角唱片", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #7 進入 轉角唱片 按「進入 轉角唱片」到了 corner_records、站得住  {"zone": "corner_records", "x": 1.63, "z": 4.25, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.09}
+PASS [DOORS 公館 2026-02-13] #7 進入 轉角唱片 店裡有出口回公館
+PASS [DOORS 公館 2026-02-13] #7 進入 轉角唱片 出店 搖桿走到「離開轉角唱片」，按鈕是它（21.1 秒、沒有跳）  {"end": [1.631, 4.929], "btn": "離開轉角唱片", "jumps": [], "why": "20 秒沒有前進 0.3 m（卡住）"}
+PASS [DOORS 公館 2026-02-13] #7 進入 轉角唱片 出店 按「離開轉角唱片」到了 gongguan、站得住  {"zone": "gongguan", "x": 53.97, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.25}
+PASS [DOORS 公館 2026-02-13] #7 進入 轉角唱片 出店站在 [53.97, 18]、推得動（3.17 m）  {"zone": "gongguan", "x": 53.97, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.25}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (70.9,14.0) （店門「進入 Daybreak」前面的街上）
+PASS [DOORS 公館 2026-02-13] #8 進入 Daybreak 搖桿走到「進入 Daybreak」，按鈕是它（1.7 秒、沒有跳）  {"end": [70.843, 21.165], "btn": "進入 Daybreak", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #8 進入 Daybreak 按「進入 Daybreak」到了 daybreak、站得住  {"zone": "daybreak", "x": 2.165, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 14.08}
+PASS [DOORS 公館 2026-02-13] #8 進入 Daybreak 店裡有出口回公館
+PASS [DOORS 公館 2026-02-13] #8 進入 Daybreak 出店 搖桿走到「離開 Daybreak」，按鈕是它（2.0 秒、沒有跳）  {"end": [2.169, 3.26], "btn": "離開 Daybreak", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #8 進入 Daybreak 出店 按「離開 Daybreak」到了 gongguan、站得住  {"zone": "gongguan", "x": 70.93, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+PASS [DOORS 公館 2026-02-13] #8 進入 Daybreak 出店站在 [70.93, 18]、推得動（3.17 m）  {"zone": "gongguan", "x": 70.93, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (-0.3,14.0) （店門「進入慢輪單車」前面的街上）
+PASS [DOORS 公館 2026-02-13] #9 進入慢輪單車 搖桿走到「進入慢輪單車」，按鈕是它（1.9 秒、沒有跳）  {"end": [-0.397, 21.166], "btn": "進入慢輪單車", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #9 進入慢輪單車 按「進入慢輪單車」到了 bikeshop、站得住  {"zone": "bikeshop", "x": 0.55, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.09}
+PASS [DOORS 公館 2026-02-13] #9 進入慢輪單車 店裡有出口回公館
+PASS [DOORS 公館 2026-02-13] #9 進入慢輪單車 出店 搖桿走到「離開慢輪單車」，按鈕是它（1.0 秒、沒有跳）  {"end": [0.55, 5.08], "btn": "離開慢輪單車", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #9 進入慢輪單車 出店 按「離開慢輪單車」到了 gongguan、站得住  {"zone": "gongguan", "x": -0.3, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+PASS [DOORS 公館 2026-02-13] #9 進入慢輪單車 出店站在 [-0.3, 18]、推得動（3.17 m）  {"zone": "gongguan", "x": -0.3, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (46.6,14.0) （店門「進入花序」前面的街上）
+PASS [DOORS 公館 2026-02-13] #10 進入花序 搖桿走到「進入花序」，按鈕是它（1.9 秒、沒有跳）  {"end": [46.503, 21.165], "btn": "進入花序", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #10 進入花序 按「進入花序」到了 flower_notes、站得住  {"zone": "flower_notes", "x": 0, "z": 6.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開花序", "stand": true, "fb": 0, "hour": 14.09}
+PASS [DOORS 公館 2026-02-13] #10 進入花序 店裡有出口回公館
+PASS [DOORS 公館 2026-02-13] #10 進入花序 出店 搖桿走到「離開花序」，按鈕是它（0.0 秒、沒有跳）  {"end": [0, 6.1], "btn": "離開花序", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #10 進入花序 出店 按「離開花序」到了 gongguan、站得住  {"zone": "gongguan", "x": 46.6, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+PASS [DOORS 公館 2026-02-13] #10 進入花序 出店站在 [46.6, 18]、推得動（3.17 m）  {"zone": "gongguan", "x": 46.6, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (-18.6,14.0) （店門「進入安泰藥局」前面的街上）
+PASS [DOORS 公館 2026-02-13] #11 進入安泰藥局 搖桿走到「進入安泰藥局」，按鈕是它（1.8 秒、沒有跳）  {"end": [-18.697, 21.166], "btn": "進入安泰藥局", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #11 進入安泰藥局 按「進入安泰藥局」到了 gg_antai、站得住  {"zone": "gg_antai", "x": 0, "z": 3.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.09}
+PASS [DOORS 公館 2026-02-13] #11 進入安泰藥局 店裡有出口回公館
+PASS [DOORS 公館 2026-02-13] #11 進入安泰藥局 出店 搖桿走到「離開安泰藥局」，按鈕是它（1.5 秒、沒有跳）  {"end": [0, 4.27], "btn": "離開安泰藥局", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #11 進入安泰藥局 出店 按「離開安泰藥局」到了 gongguan、站得住  {"zone": "gongguan", "x": -18.6, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+PASS [DOORS 公館 2026-02-13] #11 進入安泰藥局 出店站在 [-18.6, 18]、推得動（3.17 m）  {"zone": "gongguan", "x": -18.6, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (19.5,14.2) （店門「進入汀州鮮果」前面的街上）
+PASS [DOORS 公館 2026-02-13] #12 進入汀州鮮果 搖桿走到「進入汀州鮮果」，按鈕是它（1.9 秒、沒有跳）  {"end": [19.633, 21.142], "btn": "進入汀州鮮果", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #12 進入汀州鮮果 按「進入汀州鮮果」到了 gg_xianguo、站得住  {"zone": "gg_xianguo", "x": 0.3, "z": 3.4, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.09}
+PASS [DOORS 公館 2026-02-13] #12 進入汀州鮮果 店裡有出口回公館
+PASS [DOORS 公館 2026-02-13] #12 進入汀州鮮果 出店 搖桿走到「離開汀州鮮果」，按鈕是它（1.5 秒、沒有跳）  {"end": [0.3, 4.27], "btn": "離開汀州鮮果", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #12 進入汀州鮮果 出店 按「離開汀州鮮果」到了 gongguan、站得住  {"zone": "gongguan", "x": 19.6, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+PASS [DOORS 公館 2026-02-13] #12 進入汀州鮮果 出店站在 [19.6, 18]、推得動（3.17 m）  {"zone": "gongguan", "x": 19.6, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）14.00 時 (64.1,14.0) （店門「進入榮恩典文具社」前面的街上）
+PASS [DOORS 公館 2026-02-13] #13 進入榮恩典文具社 搖桿走到「進入榮恩典文具社」，按鈕是它（1.7 秒、沒有跳）  {"end": [64.003, 21.166], "btn": "進入榮恩典文具社", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #13 進入榮恩典文具社 按「進入榮恩典文具社」到了 gg_rongendian、站得住  {"zone": "gg_rongendian", "x": 0.15, "z": 3.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.09}
+PASS [DOORS 公館 2026-02-13] #13 進入榮恩典文具社 店裡有出口回公館
+PASS [DOORS 公館 2026-02-13] #13 進入榮恩典文具社 出店 搖桿走到「離開榮恩典文具社」，按鈕是它（1.5 秒、沒有跳）  {"end": [0.15, 4.27], "btn": "離開榮恩典文具社", "jumps": [], "why": null}
+PASS [DOORS 公館 2026-02-13] #13 進入榮恩典文具社 出店 按「離開榮恩典文具社」到了 gongguan、站得住  {"zone": "gongguan", "x": 64.1, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+PASS [DOORS 公館 2026-02-13] #13 進入榮恩典文具社 出店站在 [64.1, 18]、推得動（3.17 m）  {"zone": "gongguan", "x": 64.1, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.12}
+PASS [DOORS 公館 2026-02-13] walkFallbacks 0（每一間累計）  {"zone": "gongguan", "day": 150, "h": 14.13, "x": 64.02, "z": 21.17, "free": true, "stand": true, "fb": 0}
+  [ 537.8s] [DOORS] 用了 456 秒
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-03-15（3/15（不該有布置））20.00 時 (-25.0,14.0) （FPS 第 1 點）
+  [ 563.7s] [FPS 公館 2026-03-15 2000 點1] 畫質 medium、站 [-25, 14] 8 秒：59 fps、draw call 129、三角形 287920；看得到的季節組 []（PC GPU，不是 iPhone；舊版同位置對照）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-03-15（3/15（不該有布置））20.00 時 (35.0,14.0) （FPS 第 3 點）
+  [ 589.5s] [FPS 公館 2026-03-15 2000 點3] 畫質 medium、站 [35, 14] 8 秒：59.3 fps、draw call 141、三角形 338382；看得到的季節組 []（PC GPU，不是 iPhone；舊版同位置對照）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）20.00 時 (-25.0,14.0) （FPS 第 1 點）
+  [ 611.8s] [FPS 公館 2026-02-13 2000 點1] 畫質 medium、站 [-25, 14] 8 秒：56.8 fps、draw call 144、三角形 332124；看得到的季節組 ["CNY", "COUPLET", "CVSWINTER", "DRINKWINTER", "VDAY", "YAM"]（PC GPU，不是 iPhone；舊版同位置對照）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2026-02-13（除夕前三天）20.00 時 (35.0,14.0) （FPS 第 3 點）
+  [ 634.3s] [FPS 公館 2026-02-13 2000 點3] 畫質 medium、站 [35, 14] 8 秒：44.7 fps、draw call 197、三角形 475932；看得到的季節組 ["CNY", "COUPLET", "CVSWINTER", "DRINKWINTER", "VDAY", "YAM"]（PC GPU，不是 iPhone；舊版同位置對照）
+  [ 634.3s] [FPS] 用了 96 秒
+PASS 沒有 JS 例外  []
+FAILED 1: [DOORS 公館 2026-02-13] #1 進入公館燒臘 按「進入公館燒臘」到了 noodle、站得住
