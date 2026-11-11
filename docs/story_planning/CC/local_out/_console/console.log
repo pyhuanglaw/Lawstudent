@@ -1,12 +1,3 @@
-[09:58:52] memory 47% before starting XG_fix_tap (2 running)
-[09:58:52] ==== START XG_fix_tap  (probe @ 8e33a0df8dfbb5330b1391d9c59164985dc264eb) ====
-[09:58:55] [res] cpu=8% mem=47% (15.0/31.4 GB) chrome_testing=9  START XG_fix_tap
-[09:58:55] worktree add 8e33a0df8dfbb5330b1391d9c59164985dc264eb: invalid reference - fetching main and the commit itself
-[09:59:02] 正在跑：ART2_xg_r3_f（已跑 5 分／上限 8 分）、ART2_xg_r3_old（已跑 1 分／上限 8 分）、XG_fix_tap（已跑 0 分／上限 8 分）——還沒測完，請不要關 (tests still running - please do not close)
-[09:59:42] [res] cpu=7% mem=44% (13.9/31.4 GB) chrome_testing=9  END ART2_xg_r3_f
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       b83077ddf..87c1bad6a  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [09:59:47] ==== END   ART2_xg_r3_f  exit=0  359s   ====
 [09:59:50] memory 46% before starting XG_fix_joy (2 running)
 [09:59:50] ==== START XG_fix_joy  (probe @ 8e33a0df8dfbb5330b1391d9c59164985dc264eb) ====
@@ -1998,3 +1989,12 @@
 [17:22:17] ==== START L118D_A6_teahome  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
 [17:22:20] [res] cpu=3% mem=47% (14.9/31.4 GB) chrome_testing=8  START L118D_A6_teahome
 [17:23:37] [res] cpu=0% mem=49% (15.5/31.4 GB) chrome_testing=9  END L118A6_SEAT_noodle22
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7f74da97d..df7f5acbc  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:23:42] ==== END   L118A6_SEAT_noodle22  exit=0  148s   ====
+[17:23:46] memory 49% before starting L118A6_WALL_a (2 running)
+[17:23:46] ==== START L118A6_WALL_a  (probe @ a2dd74af190a174e383642ef8d2043b1d2947370) ====
+[17:23:49] [res] cpu=0% mem=49% (15.6/31.4 GB) chrome_testing=10  START L118A6_WALL_a
+[17:24:04] 正在跑：L118A6_SPECIAL（已跑 2 分／上限 25 分）、L118D_A6_teahome（已跑 1 分／上限 25 分）、L118A6_WALL_a（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:25:21] [res] cpu=2% mem=50% (15.9/31.4 GB) chrome_testing=10  END L118A6_SPECIAL
