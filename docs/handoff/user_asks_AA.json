@@ -2109,6 +2109,17 @@
    "task": "L118-LUNCH-INVITE-1111",
    "src": "LAWWW send_message 11-11",
    "checked": "AA 交第一版 AA_771_l118_lunch.json（邀約句、午餐對話、特殊對話與偶遇、到店離店、錢不夠）；BB 第二意見中"
+  },
+  {
+   "id": "UA-AA-1111-02",
+   "at": "2026-11-11 03:4x UTC（使用者對 BB／LAWWW；BB 正式派 AA）",
+   "quote": "上課至少也要播完吧",
+   "kind": "轉述",
+   "status": "進行中",
+   "wants": "X151",
+   "task": "STUDY-EXAM-STORY-1102",
+   "src": "BB send_message 11-11 03:40（副本 LAWWW）；表在開發分支 docs/handoff/notes/class_content_table_1111.md",
+   "checked": "課堂內容補寫：法律必修每堂黑板＋教授講一段＋同學一句＋提問或討論，8 句上下；第一批大一上憲法（上）、刑總（一）、民總 45 格。驗收標準 BB_255 最後一節"
   }
  ]
 }
