@@ -43,7 +43,7 @@ async def press(pg, cdp, tag, n, k):
                 lines.append(ln)
                 if len(lines) == 1: await pg.screenshot(path=os.path.join(OUT, 'look_%s_%d_%02d.png' % (TAG, n, k)))
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
-        if not st['busy'] and j > 1: break
+        if not st['busy'] and j > 12: break   # CC-C 12:4x：花序的「看」是 toast（GM.toast(it.look,4600)）——舊版 1.5 秒就走，toast 還沒換成看的那一句；等滿 6 秒收所有 toast
         await pg.wait_for_timeout(500)
     return lines, toasts
 
@@ -59,6 +59,8 @@ async def main():
             tag = '[%s %s]' % (day, hh)
             s = await D.load_zone(pg, cdp, ZONE, day, float(hh), wait=7000)
             if FLAGS: await pg.evaluate("(f=>{ Object.assign(GAME.G.flags,f); })", FLAGS)
+            hz = await pg.evaluate("(()=>{ try{ if(typeof HINTS!=='undefined'){ HINTS.on=false; if(HINTS._pending) HINTS._pending.length=0; } const t=document.getElementById('toast'); if(t) t.classList.remove('show'); return true; }catch(e){ return String(e); } })()")
+            R.setup('%s 【捷徑】關掉新手提示（HINTS.on=false）：%s——花序的「看」用同一個 toast，提示佔著會蓋掉' % (tag, hz))
             R.setup('%s 【前置／捷徑】讀檔到 %s %s %s（條件事件關掉）；旗標 %s' % (tag, ZONE, day, hh, J(FLAGS)))
             if not R.check('%s 讀到 %s' % (tag, ZONE), s['zone'] == ZONE, J(s)): continue
             pts = await pg.evaluate(PICK, SEL)
