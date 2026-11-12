@@ -18,6 +18,7 @@ const SH831=(function(){
   S.ZONES=['noodle','bookstore','tz_limao','us_market'];
   S.OUT_RE={noodle:/麵店|燒臘/,bookstore:/頁間書屋/};   /* 出遊的地點（文字）對到哪一間：只用來認，不顯示 */
   S.line=z=>{ const d=D()[z]; return d&&d.door?d.door:null; };
+  S.LINE_X={};
   S.has=z=>S.ZONES.includes(z)&&typeof PLACES!=='undefined'&&!!PLACES.hours&&!!PLACES.hours[z];
   S.isOpen=(z,G)=>!S.has(z)||!PLACES.isOpen||PLACES.isOpen(z,hr(G),G.day);
   const zoneOfPlace=p=>{ try{ const P=typeof INV!=='undefined'&&INV.place?INV.place(p):null; return (P&&P.zone)||p; }catch(e){ return p; } };
@@ -31,7 +32,7 @@ const SH831=(function(){
   /* 門口：回傳 true＝處理掉了（沒有進去）*/
   S.door=async function(GM,z){ const G=GM&&GM.G; if(!G||!S.has(z)||S.isOpen(z,G)||S.due(G,z)) return false;
     if(PLACES.typhoonClosed&&PLACES.typhoonClosed(z,G.day)) return false;   /* 颱風假：原本那一句（story3d.js）*/
-    const t=S.line(z);
+    const t=(S.LINE_X[z]&&S.LINE_X[z](G))||S.line(z);   /* LINE_X：這一間這個時刻另外的一句（頁間書屋還沒開門＝AA_853 的 not_open，src/yejian_buy3d.js；沒有＝AA_831 那一句）*/
     if(t){ GM.sceneBegin(); try{ await GM.say(null,t); } finally { GM.sceneEnd(); } }
     if(GM.toast&&PLACES.closedText) GM.toast(PLACES.closedText(z,hr(G),G.day),4500);
     return true; };

@@ -82,7 +82,7 @@ const EAT=(function(){
     let O=opts, same=-1; const last=R.last[key];
     if(T&&n>=4&&last!=null&&o.usual!==false){ const i=names.indexOf(last); if(i>=0&&!(opts[i]&&opts[i].dim)&&!(prices&&prices[i]!=null&&(G.money|0)<prices[i])){ same=i; O=opts.slice(); O.splice(names.length,0,{t:'老樣子',hint:last}); } }
     const k=await GM.choose(O); if(same<0) return k;
-    if(k===names.length){ const t=S.sameLine(T,last); if(t&&!S.staffAway(GM,key)) await GM.say(who(T,G,key),t); return same; }   /* 沒有回答＝不說；阿姨不在店裡（麵店語彤在顧店、阿姨去買東西）＝不說 */
+    if(k===names.length){ S._usual=true;   /* 這一次選的是「老樣子」（公館燒臘：照上次有沒有加滷蛋，src/shaola_order3d.js 叫之前先設 false）*/ const t=S.sameLine(T,last); if(t&&!S.staffAway(GM,key)) await GM.say(who(T,G,key),t); return same; }   /* 沒有回答＝不說；阿姨不在店裡（麵店語彤在顧店、阿姨去買東西）＝不說 */
     return k>names.length?k-1:k; };
   /* 沒有經過 S.choose 就點了（118 巷熟客「老樣子」選「好」，lane118.js）：點餐那一刻照樣記下來，「一起吃」照那一刻判斷 */
   S.atNow=function(G,key){ S._at={key,day:G.day,hour:G.hour}; };

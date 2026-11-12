@@ -2423,6 +2423,7 @@ const Z3 = (function(){
     const law=L.interact.find(q=>q.kind==='shelf_law');
     E.interactables.push({x:law.x,z:law.z,radius:1.0,label:law.label,shop:'book'});   /* 買教科書（story3d.js bookshop，照舊）*/
     ggLooks(E,L,'bookstore');   /* 看看書牆、看新書、點咖啡（AA_653 第 2 節）*/
+    if(typeof YJBUY!=='undefined'&&YJBUY.extraPoints) for(const q of YJBUY.extraPoints(L)) E.interactables.push({x:q.x,z:q.z,radius:0.9,label:q.label,ggs:q.kind});   /* 雜誌、明信片（GG-YEJIAN-SHOP-1112，AA_853）：配置 interact 還沒有這兩個點，位置在 src/yejian_buy3d.js POINTS_X（照配置的家具放；配置補了就用配置的）。買東西的選單、店員的招呼也在那一支 */
     return z; }
   const aoki={ id:'aoki', name:'青木茶室', indoor:true, camDist:3.8, build(E){ const L=GG_L.aoki();
     const z=ggRoom(E,'aoki',L,{label:L.exit.label,warm:true,floor:'#d9d1c3',glb:'bldg.aoki_interior',attach:ggAAattach,seatR:0.8,shop:'aoki',study:true,ap:s=>s.x<-4?[-3.6,1.3]:null});   /* v2c（AA 697ed69cf，LAWWW2 驗收）：吧台西端縮 0.5 m，最裡面四人桌北側兩張走得進去了（原本 noSit 只給路人坐，拿掉）；
@@ -2499,7 +2500,7 @@ const Z3 = (function(){
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
     const kitchen=new THREE.Mesh(new THREE.BoxGeometry(6,1.0,1.2),M('#8f9399',{rough:0.4})); kitchen.position.set(-1,0.5,-3.8); g.add(kitchen); nav.blockRect(-1,-3.8,6,1.2,0,0.15); const pot=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.4,0.5,14),M('#3a3f46',{rough:0.4})); pot.position.set(-2,1.25,-3.8); g.add(pot); z.seats=[]; for(let i=0;i<3;i++){ const x=-3+i*3; desk(g,nav,x,0.5,0,1.4,0.9,'#d9cbb0'); for(const s of [-1,1]){ chair(g,x,0.5+s*0.8,s>0?Math.PI:0,'#c9463d'); z.seats.push({x,z:0.5+s*0.8,yaw:s>0?Math.PI:0}); } E.interactables.push({x,z:1.3,radius:1.1,label:'坐下吃飯',seat:{x,z:1.3,yaw:Math.PI},pairSeat:{x,z:-0.3,yaw:0},eat:'noodle'}); }
     for(let i=0;i<3;i++){ const x=-3+i*3; PROP(g,'prop.bowl',x-0.2,0.77,0.5+0.25); PROP(g,'prop.chopstick',x+0.15,0.78,0.45,0.3); if(i===1) PROP(g,'prop.bowl',x+0.25,0.77,0.5-0.25,2.4); } PROP(g,'prop.bowl',-1.5,1.02,-3.8); PROP(g,'prop.bowl',-0.9,1.02,-3.7,1.2);
-    const mp=W3.signPlane('叉燒飯 100 ・ 燒鴨飯 110 ・ 三寶飯 130 ・ 滷蛋 15',3,0.6,{color:'#3b2a1e',size:44}); mp.position.set(0,2.4,-4.35); g.add(mp); E.interactables.push({x:0,z:4.2,radius:1.5,label:'離開公館燒臘',exit:{to:'gongguan',spawn:{x:-63,z:18,yaw:Math.PI}}});
+    { const bt=typeof SHAOLA!=='undefined'&&SHAOLA.boardText?SHAOLA.boardText():''; if(bt){ const mp=W3.signPlane(bt,6,0.6,{color:'#3b2a1e',size:36}); mp.position.set(0,2.4,-4.35); g.add(mp); } }   /* 價目板從資料排（src/data/yejian_shaola_buy.js，AA_853；GG-SHAOLA-FIX-1112）：原本寫死「叉燒飯 100 ・ 燒鴨飯 110 ・ 三寶飯 130 ・ 滷蛋 15」和稿的價錢不一樣。這是配置沒載入時的備用房間，平常看到的是 shaola_interior.glb 貼圖上的菜單（LAWWW2）*/ E.interactables.push({x:0,z:4.2,radius:1.5,label:'離開公館燒臘',exit:{to:'gongguan',spawn:{x:-63,z:18,yaw:Math.PI}}});
     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.noodle_interior']) ASSETS.loadOne('bldg.noodle_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachNoodleInterior(z,g0,root); }).catch(e=>console.warn('麵店室內正式模型載入失敗，用程序化備用模型',e));
     return z; } };
@@ -2525,6 +2526,7 @@ const Z3 = (function(){
     z.seats=L.seats.map(s=>({x:s.x,z:s.z,yaw:s.yaw,table:s.table,kind:'shop'}));
     for(const t of L.tables){ const s=L.seats.find(q=>q.table===t.n&&q.z>t.z), p=L.seats.find(q=>q.table===t.n&&q.z<t.z); if(!s||!p) continue;
       E.interactables.push({x:s.x,z:s.z,radius:1.0,label:s.label||'坐下吃飯',seat:{x:s.x,z:s.z,yaw:s.yaw},pairSeat:{x:p.x,z:p.z,yaw:p.yaw},eat:'noodle'}); }   /* 面向店裡那一張（背對店門）；noodleScene 走到 (x, z+0.5)＝椅子後面 */
+    if(typeof SHAOLA!=='undefined'&&SHAOLA.on&&SHAOLA.on()) for(const q of (L.interact||[])) if(SHAOLA.LOOK[q.kind]) E.interactables.push({x:q.x,z:q.z,radius:0.9,label:q.label,shaola:q.kind});   /* 「看菜單」「看櫥窗」（GG-SHAOLA-FIX-1112；字＝AA_853 的 menu_look、window_look，src/shaola_order3d.js）：位置、按鈕的字照配置 interact。配置的「點餐」不放——點餐掛在每一桌的「坐下吃飯」*/
     E.interactables.push({x:L.exit.at.x,z:+(L.d/2-0.6).toFixed(2),radius:0.9,label:L.exit.label,exit:{to:'gongguan',spawn:{x:-63,z:18,yaw:P}}});
     nav._cm=null; P3.mergeStatic(fb);
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.shaola_interior']) ASSETS.loadOne('bldg.shaola_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,fb,root); shopViewPane(z,g0,{kind:'noodle',x:0,y:2.1,z:+(L.d/2+0.8).toFixed(2),w:7.0,h:4.4,ry:Math.PI,depth:24});   /* 燒臘的正面玻璃（x −3～3、y 0.14～2.56、z 6.47～7.19）外面 0.1 m 一片視差窗：照片是舊麵店同一個店面（公館 G00）在遊戲裡拍的 noodle_{day,night}（地平線 2.1 m＝舊麵店的窗中心）；WINVIEW-AUDIT-1105 */

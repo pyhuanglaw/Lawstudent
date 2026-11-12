@@ -80,6 +80,7 @@ const lineIdx=(k,t)=>LK[k].day.indexOf(t);
     const f=faces[0]; check('3 看新書：面向斜面書架（新書推薦那一座 (2.4, 2.3)）',!!f&&Math.hypot(f[0]-2.4,f[1]-2.3)<0.05&&facing()[1]>0.9,J([f,facing().map(r2)]));
     check('3 看新書：一句、稿上的；拿一本去坐（閱讀桌／沙發），pose read',said.length===1&&LK.new_books.day.includes(said[0][1])&&menus.length===1&&[1,2,4].includes(tableOf(menus[0].seat))&&menus[0].pose==='read',J([said,menus.map(m=>[tableOf(m.seat),m.pose])])); }
   // ---- 4 點咖啡 ----
+  /* 2026-11-12（GG-YEJIAN-SHOP-1112）：這支只載 src/ggshops_sys3d.js、沒載 src/yejian_buy3d.js——頁間咖啡吧在這裡是 AA_653 的備用菜單（美式 90、拿鐵 110、紅茶 80、今日蛋糕 100）。遊戲裡開起來的是 AA_853 的（美式 90、拿鐵 120、當日蛋糕 110），在 tests/yejian_buy_1112_unit.js 查；這裡的期望沒有動；看看書牆、看新書在這裡也是沒有選單的舊樣子（新稿沒載入＝照舊只有看）*/
   { const it=ggIt('cafe_order'); const byName=n=>opts=>opts.findIndex(o=>o.t.startsWith(n+'　'));
     atDoor(); reset(); G.money=5000; G.flags.YJ_CAFE_DAY=null; picks=[byName('拿鐵')]; await GGS.interact(it,GM); const w=walks[0];
     check('4 點咖啡：走到咖啡吧前（走得到、站得住、按鈕範圍內）',!!w&&w.ok&&w.stand&&Math.hypot(w.to[0]-it.x,w.to[1]-it.z)<=0.9,J(w));

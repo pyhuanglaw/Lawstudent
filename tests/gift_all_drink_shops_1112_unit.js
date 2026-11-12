@@ -33,7 +33,7 @@ const rowsOf=a=>a.map(r=>Array.isArray(r)?[r[0],r[1]]:[r.n||r.name,r.p!=null?r.p
 /* 每一間：key（點餐流程傳給 GIFT 的字）、記在 G.carry 的店名、那間店自己的菜單（直接從它的資料讀，不經過 GIFT）、哪幾樣是飲料 */
 const SHOPS=()=>[
   {key:'清葉茶行',rows:AOKI_TAKE,pass:true,drinks:['桂花烏龍奶茶','柚香綠茶','春摘白茶']},   /* pass：story3d.js 的 counter 把自己的菜單傳給 GIFT（不在 GIFT.SHOPS 表上）*/
-  {key:'bookstore.cafe_order',name:'頁間書屋',rows:GGS.MENU['bookstore.cafe_order'].items,drinks:['美式','拿鐵','紅茶']},
+  {key:'bookstore.cafe_order',name:'頁間書屋',rows:GGS.MENU['bookstore.cafe_order'].items,drinks:['美式','拿鐵','紅茶']},   /* 2026-11-12（GG-YEJIAN-SHOP-1112）：這支只載 src/ggshops_sys3d.js、沒載 src/yejian_buy3d.js——頁間咖啡吧在這裡是 AA_653 的備用菜單（美式 90、拿鐵 110、紅茶 80、今日蛋糕 100）。遊戲裡開起來的是 AA_853 的（美式 90、拿鐵 120、當日蛋糕 110），在 tests/yejian_buy_1112_unit.js 查；這裡的期望沒有動（「買一份帶走送人…」的清單跟著菜單：遊戲裡是美式、拿鐵）*/
   {key:'大口漢堡',rows:DKS.L.menu,drinks:['可樂','熱咖啡']},
   {key:'溫州街・半熟',name:'SUNNY SIDE',rows:WZS.BRUNCH,drinks:['美式','拿鐵','伯爵茶']},
   {key:'溫州街・一盞',name:'一盞茶屋',rows:(GIFT_LINES.takeout&&GIFT_LINES.takeout['一盞茶屋']||{items:[]}).items,drinks:['冷泡烏龍（一瓶）','冷泡紅玉（一瓶）']},   /* YIZHAN-TAKEOUT-1112（AA_710 lawww_1112b）：外帶只賣冷泡茶兩樣，菜單在 GIFT_LINES.takeout（稿匯的）；內用的 WZS.TEA 不送 */
