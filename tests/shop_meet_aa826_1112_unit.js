@@ -13,7 +13,7 @@
 // 修改前（a5a4cdfa67）：沒有 src/shopmeet3d.js、資料檔——第 0 節就 FAIL（七間店有店員但進門不說話；店裡遇到同學沒有專屬的第一句）。
 // 用法：node tests/shop_meet_aa826_1112_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process'); const ROOT=path.resolve(__dirname,'..');
-const SHA='f231f0514', DOC='docs/story_planning/AA_826_shop_backfill_1.json', DATA='src/data/shop_meet_lines.js';
+const SHA='ed20b301ab'/* 2026-11-12 STALE-SOURCES-1112 重匯（舊 f231f0514；遊戲裡的字沒變）*/, DOC='docs/story_planning/AA_826_shop_backfill_1.json', DATA='src/data/shop_meet_lines.js';
 process.on('unhandledRejection',()=>{}); global.window=global; global.self=global; const warns=[]; console.warn=(...a)=>{ warns.push(a.map(String).join(' ').slice(0,200)); };
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'||k==='createImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 const el=()=>({getContext:()=>ctx2d,style:{},dataset:{},classList:{add(){},remove(){},toggle(){},contains:()=>false},children:[],childNodes:[],width:1,height:1,appendChild(){},removeChild(){},addEventListener(){},removeEventListener(){},setAttribute(){},getAttribute:()=>null,querySelector:()=>null,querySelectorAll:()=>[],remove(){},getBoundingClientRect:()=>({left:0,top:0,width:1,height:1}),focus(){},blur(){},insertBefore(){}});
