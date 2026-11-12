@@ -67,12 +67,8 @@ const SISB8_EVENTS=(function(){
     { id:'ev_sis_econ_graph', title:'那張圖', participants:[ID], location:'lawlib', trigger:'manual', once:true, background:'blur',
       dialogue:[ Object.assign(N('（她把筆電轉過來，指了指門外。）'),{libOut:true}),   /* libOut（AA_595 1-B29：取代「（她把筆電轉過來。螢幕上是一張曲線圖。）」，搬到走廊；AA 11-02 22:30 定稿）*/
         SIS('你念過經濟。這張圖，我看了二十分鐘。'),
-        {choice:[{text:'（講給她聽：橫軸是什麼、曲線往哪裡移）',if:{custom:G=>!!X()&&X().econFull(G)},goto:'a'},{text:'「我也忘得差不多了。」',goto:'b'}]},
-        {label:'a'},N('（你講了五分鐘。她在筆記本上畫了一次，畫錯，又畫一次。）'),SIS('好。我懂了。……我欠你一杯咖啡。'),Object.assign({set:{SIS_ECON_GRAPH:'taught'}},rel({trust:2})),{end:true},
+        {choice:[{text:'「我也忘得差不多了。」',goto:'b'}]},   /* CANON-NO-ECON-1112（AA-C 11-12 20:05 ⑤）：舊序章那一支（講給她聽、SIS_ECON_GRAPH taught、之後的熱拿鐵）拿掉，只走這一支 */
         {label:'b'},SIS('那一起看。'),N('（你們看了十分鐘，你想起來一半。她自己想通了另一半。）'),Object.assign({set:{SIS_ECON_GRAPH:'together'}},rel({trust:2})) ] },
-    /* ---------- 3-1 教她的那一版：之後第一次在 Café 找她說話 ---------- */
-    { id:'ev_sis_econ_latte', title:'上次的', participants:[ID], location:'cafe', trigger:'manual', once:true, background:'blur',
-      dialogue:[ N('（桌上多一杯熱拿鐵。她說：『上次的。』）'),{set:{SIS_ECON_LATTE:true}} ] },
     /* ---------- 3-2：大二下第 7 週週三 19:30 以後，法圖：她大二的筆記 ---------- */
     { id:'ev_sis_old_notes', title:'她大二的筆記', participants:[ID], location:'lawlib', trigger:'manual', once:true, background:'blur',
       dialogue:[ N('（她從包包拿出一本很舊的活頁夾。）'),
