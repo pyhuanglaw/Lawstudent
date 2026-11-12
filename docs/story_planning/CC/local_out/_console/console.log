@@ -1346,3 +1346,10 @@
 [21:39:07] ==== START SSB_gg_1b  (probe @ c77fa6520d0813478ed4caf063481ebd4b3f6c9e) ====
 [21:39:09] [res] cpu=0% mem=48% (15.1/31.4 GB) chrome_testing=10  START SSB_gg_1b
 [21:41:35] [res] cpu=2% mem=47% (15.0/31.4 GB) chrome_testing=10  END SSB_gg_1b
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4fc0f2c866..33cd1bde38  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:41:45] ==== END   SSB_gg_1b  exit=1  148s   ====
+[21:41:48] solo item SSB_gg_fnexit waits: no new items start until the 2 running item(s) finish
+[21:42:49] 正在跑：SSB_wz1（已跑 18 分／上限 80 分）、SSB_wz2c（已跑 9 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:43:13] [res] cpu=1% mem=40% (12.7/31.4 GB) chrome_testing=5  END SSB_wz2c
