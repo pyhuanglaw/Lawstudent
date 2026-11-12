@@ -472,9 +472,10 @@ await sec('8-2',async()=>{
   const a=await eat('2027-07-06',18.5,true), b=await eat(TD('Y1S1',3,3),12.5,false);
   const a0=HCIRCLE.auntAway; HCIRCLE.auntAway=()=>true; let c; try{ c=await eat('2027-07-06',18.5,true); } finally { HCIRCLE.auntAway=a0; }
   check('8-2 一個人吃麵（乾麵）：阿姨在＝「'+IN+'」（語彤顧店的暑假晚上、平常的中午都是）；阿姨不在（測試強制）也是阿姨在那一句（AA_610／AA_624：語彤不顧店＝沒有「阿姨不在、語彤顧店」，「'+OUTL+'」走不到）；不再寫「老闆娘」',
-    !!IN&&!!OUTL&&a.includes(IN)&&b.includes(IN)&&c.includes(IN)&&!c.includes(OUTL)&&![...a,...b,...c].some(x=>/老闆娘/.test(x)),J({a:a.slice(-1),b:b.slice(-1),c:c.slice(-1)}));
+    /* 2026-11-12（AA_853@f6aa917593 燒臘第 2 點）：阿姨在的那一句（IN）拿掉、只留稿的吃的旁白＝現在要的是「IN、OUTL 都不出現、有吃的旁白」 */
+    !!IN&&!!OUTL&&![...a,...b,...c].some(x=>x===IN||x===OUTL)&&[a,b,c].every(z=>z.some(x=>/叉燒的邊是焦的/.test(x)))&&![...a,...b,...c].some(x=>/老闆娘/.test(x)),J({a:a.slice(-1),b:b.slice(-1),c:c.slice(-1)}));
   fresh(TD('Y1S1',3,3),12.5,'noodle',{},{nar:true}); noodleK(TD('Y1S1',3,3),12.5,false); delete H.G.flags.AA519; H.G.eat={}; H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); const n=said();
-  check('8-2 新的存檔第一次在麵店：第一句提到阿姨的旁白寫「阿姨（阿鳳）」（1-1），之後照原文',n.filter(x=>/阿姨（阿鳳）/.test(x)).length===1&&n.includes(IN),J(n)); });
+  check('8-2 新的存檔第一次在麵店：第一句提到阿姨的旁白寫「阿姨（阿鳳）」（1-1），之後照原文',n.filter(x=>/阿姨（阿鳳）/.test(x)).length===1&&!n.includes(IN),J(n)); });   /* AA_853：IN 那一句拿掉 */
 await sec('8-3',async()=>{
   const S=X().auntEvs(), NAMED=['ev_zhe_long_table','ev_term_last_meal',   /* ev_yutong_landlord：AA_625 第 6 節搬到茶屋、麵店版退場（不再算麵店的 2D 事件）*/'ev_term_last_meal_y1s2','ev_term_last_meal_y2s1','ev_y3_tue_noodle'];
   const bad=[...S].filter(id=>!X().noodleEvs().has(id)||!/阿姨/.test(evText(id)));
