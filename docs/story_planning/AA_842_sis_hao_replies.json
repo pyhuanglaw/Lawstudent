@@ -3,7 +3,8 @@
   "doc": "AA_842 學姊第四批（DLG-FULL-REVIEW-1110）：約會選項回話用「好。／好，」開頭 98/252 句（玩家提什麼她都先說好＝模板；七人裡以安 29 最少、語彤 103 最多）。改 81 句、留 17 句。做法：她答應的時候直接講她要怎麼做，不先說「好」；重複的（一起看不懂、各付各的最清楚、坐你旁邊）各留一處。依 AA_566。",
   "by": "AA-C 2026-11-12",
   "status": "定稿（BB_389 聽過：D13.rail、D31.pier、D29.rail 改；D12.sunset 留「好啊。」）；80 列；**源稿還沒套用**，等 LAWWW 匯完 AA_837／838 再套",
-  "kept": "D01.lawn、D03.demo（跳）、D07.path、D08.penguin、D08.giraffe、D10.bridge、D12.street、D13.drink、D13.bench（看河）、D14.bridge、D19.shrine（我拉妳）、D21.street、D23.seawall、D24.street、D26.museum、D27.rail（坐上去看看）、D28.sunset（坐下來）、D12.sunset"
+  "kept": "D01.lawn、D03.demo（跳）、D07.path、D08.penguin、D08.giraffe、D10.bridge、D12.street、D13.drink、D13.bench（看河）、D14.bridge、D19.shrine（我拉妳）、D21.street、D23.seawall、D24.street、D26.museum、D27.rail（坐上去看看）、D28.sunset（坐下來）、D12.sunset",
+  "late_fix": "11-12 10:4x 照 LAWWW 查到的付錢／承諾對不上再改：D06.cafe 回「下次我請。」（AA_812 再訪有兌現）、D25.cafe「謝謝。我要熱可可。」、D30.stall「謝謝。下不為例。」、D20.trolley「還是覺得。可是我想坐。」、D04.redhouse「二樓好像有市集。上去再說。」"
  },
  "rows": [
   {
@@ -108,7 +109,7 @@
    "point": "D06.cafe",
    "option": "「我請妳。」",
    "old": "好。下次我請。",
-   "new": "那蛋糕我買。一人一半。"
+   "new": "下次我請。"
   },
   {
    "file": "date_system/lines/D06.json",
