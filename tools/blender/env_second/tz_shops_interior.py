@@ -1025,6 +1025,37 @@ if SHOP == 'dongnan':
                 for j in range(2): ccyl(vc(), (px, y + j * (h + 0.004), pz), (px, y + j * (h + 0.004) + h, pz), r, '#c4c8cb', seg=8); ccyl(vc(), (px, y + j * (h + 0.004) + h * 0.12, pz), (px, y + j * (h + 0.004) + h * 0.88, pz), r + 0.002, col if j == 0 else lab if run % 2 else col, seg=8, caps=False)
                 a += 2 * r + 0.01
             a = e + 0.03; run += 1
+    def packs(x0, x1, y, z0, z1, along, k, kind, front=1):
+        """一排包裝好的東西（DONGNAN-GOODS-1112；BB 11-12 ④ FAIL：「商品是彩色方塊」＝店面標準 §12 第 2 點不用球和方塊充數）：一段一段同一種，
+        kind：'noodle' 袋裝泡麵（扁袋、上緣一條封口、正面一條色帶）｜'cup' 杯麵（上寬下窄的杯子＋蓋）｜'snack' 零食大包（鼓鼓的袋子、上面捏起來的封口、色帶）｜
+        'flat' 乾貨（河粉、米紙：薄薄一包立著，上半一塊標籤）。front＝正面朝哪一邊（along='z'：+1 朝 +x、−1 朝 −x；along='x'：朝 +z）。不寫品牌。"""
+        PAL = {'noodle': (('#d8362a', '#f0d040'), ('#e86a1c', '#f6f1e0'), ('#2f8a4a', '#f0b020'), ('#f0b020', '#d8362a'), ('#7a2a8a', '#f0d040'), ('#f4e9c8', '#d8362a')),
+               'cup': (('#f6f1e0', '#d8362a'), ('#d8362a', '#f0d040'), ('#f0b020', '#2f8a4a'), ('#2f8a4a', '#f6f1e0')),
+               'snack': (('#f0b020', '#d8362a'), ('#d8362a', '#f6f1e0'), ('#3a7ac0', '#f0d040'), ('#2f8a4a', '#f0b020'), ('#f4c8d0', '#d8362a'), ('#e86a1c', '#2a1a10')),
+               'flat': (('#f1ead6', '#d8362a'), ('#e8d9a8', '#2f8a4a'), ('#f6f1e0', '#f0b020'), ('#efe2c0', '#3a7ac0'))}[kind]
+        DIM = {'noodle': (0.13, 0.16, 0.045), 'cup': (0.105, 0.1, 0.1), 'snack': (0.17, 0.24, 0.06), 'flat': (0.1, 0.26, 0.03)}[kind]
+        a0, a1 = (z0, z1) if along == 'z' else (x0, x1); a = a0 + 0.04; run = k
+        if along == 'z': fpos = (x1 - 0.03) if front > 0 else (x0 + 0.03)
+        else: fpos = z1 - 0.03; front = 1
+        def bx(d0, d1, ya, yb, p0, p1, col):   # d＝從正面往裡的深度；p＝沿貨架方向
+            lo, hi = sorted((fpos - front * d0, fpos - front * d1))
+            if along == 'z': vc().cbox(lo, hi, y + ya, y + yb, p0, p1, col)
+            else: vc().cbox(p0, p1, y + ya, y + yb, lo, hi, col)
+        while a < a1 - 0.08:
+            col, c2 = PAL[run % len(PAL)]; w, h, t = DIM; h *= RR.uniform(0.94, 1.06); e = min(a1 - 0.03, a + RR.uniform(0.45, 0.8))
+            while a + w <= e:
+                if kind == 'cup':
+                    pc = a + w / 2; cx_, cz_ = ((fpos - front * 0.06, pc) if along == 'z' else (pc, fpos - 0.06))
+                    ccyl(vc(), (cx_, y, cz_), (cx_, y + h, cz_), 0.036, col, seg=6, r2=0.048, caps=False); ccyl(vc(), (cx_, y + h, cz_), (cx_, y + h + 0.008, cz_), 0.05, c2, seg=6); ccyl(vc(), (cx_, y + h * 0.35, cz_), (cx_, y + h * 0.7, cz_), 0.0415, c2, seg=6, r2=0.0455, caps=False)
+                    if RR.random() < 0.35: ccyl(vc(), (cx_, y + h + 0.01, cz_), (cx_, y + 2 * h + 0.01, cz_), 0.036, col, seg=6, r2=0.048, caps=False); ccyl(vc(), (cx_, y + 2 * h + 0.01, cz_), (cx_, y + 2 * h + 0.018, cz_), 0.05, c2, seg=6)   # 疊兩個
+                elif kind == 'noodle':
+                    bx(0.004, t, 0.0, h, a, a + w, col); bx(0.016, 0.03, h, h + 0.012, a - 0.004, a + w + 0.004, col); bx(0.0, 0.004, h * 0.3, h * 0.62, a + 0.008, a + w - 0.008, c2)
+                elif kind == 'snack':
+                    bx(0.006, t, 0.0, h * 0.86, a, a + w, col); bx(0.022, 0.036, h * 0.86, h, a + 0.01, a + w - 0.01, col); bx(0.0, 0.006, h * 0.36, h * 0.6, a + 0.012, a + w - 0.012, c2)
+                else:
+                    bx(0.003, t, 0.0, h, a, a + w, col); bx(0.0, 0.003, h * 0.55, h * 0.86, a + 0.012, a + w - 0.012, c2)
+                a += w + 0.012
+            a = e + 0.035; run += 1
     def wshelf(o, along, face, fill, levels=(0.2, 0.58, 0.96, 1.34, 1.72)):
         """靠牆的貨架：底座、背板、立柱、層板（前緣一條紅色價格條）"""
         x0, x1, z0, z1, h = o['x0'], o['x1'], o['z0'], o['z1'], o['h']
@@ -1039,7 +1070,7 @@ if SHOP == 'dongnan':
             for k in range(n + 1): xx = x0 + (x1 - x0) * k / n; vc().cbox(xx - 0.015, xx + 0.015, 0.0, h + 0.03, z0, z1, POST)
             for i, y in enumerate(levels): vc().cbox(x0, x1, y - 0.022, y, z0, z1, BODY); vc().cbox(x0, x1, y - 0.03, y + 0.004, z1, z1 + 0.004, RED if i % 2 else YEL); fill(i, y)
     # 左牆：泡麵（上面三層：一包一包）、零食大包（下面兩層）
-    wshelf(WS, 'z', 1, lambda i, y: goods(WS['x0'] + 0.05, WS['x1'], y, WS['z0'] + 0.04, WS['z1'] - 0.04, NOOD[i % 4], hmin=(0.2, 0.2, 0.13, 0.13, 0.13)[i], hmax=(0.3, 0.3, 0.2, 0.2, 0.2)[i], step=(0.24, 0.22, 0.15, 0.15, 0.15)[i]))
+    wshelf(WS, 'z', 1, lambda i, y: packs(WS['x0'] + 0.05, WS['x1'], y, WS['z0'] + 0.04, WS['z1'] - 0.04, 'z', i * 3, ('snack', 'snack', 'noodle', 'cup', 'noodle')[i], front=1))
     # 後牆：最下面大鐵罐和紙箱、罐頭、兩層瓶子（魚露、醬油、辣醬）、最上面罐頭；上面黃底紅字店名（概念圖裁的）
     def back_fill(i, y):
         a, b, c, d = BS['x0'] + 0.04, BS['x1'] - 0.04, BS['z0'] + 0.08, BS['z1'] - 0.03
@@ -1050,10 +1081,10 @@ if SHOP == 'dongnan':
     vc().cbox(-2.95, 1.45, 2.22, 2.96, -D / 2, zb, YEL); vc().cbox(-2.97, 1.47, 2.2, 2.22, -D / 2, zb + 0.01, RED); vc().cbox(-2.97, 1.47, 2.96, 2.98, -D / 2, zb + 0.01, RED)
     pic('sign', [(-2.85, 2.26, zb + 0.004), (1.35, 2.26, zb + 0.004), (1.35, 2.93, zb + 0.004), (-2.85, 2.93, zb + 0.004)])
     # 右牆：乾貨（河粉、米紙、香料包：扁扁一包一包立著）
-    wshelf(RS, 'z', -1, lambda i, y: goods(RS['x0'], RS['x1'] - 0.05, y, RS['z0'] + 0.04, RS['z1'] - 0.04, DRY[i % 2], hmin=0.2, hmax=0.3, step=0.09))
+    wshelf(RS, 'z', -1, lambda i, y: packs(RS['x0'], RS['x1'] - 0.05, y, RS['z0'] + 0.04, RS['z1'] - 0.04, 'z', i * 2 + 1, ('flat', 'flat', 'noodle', 'flat', 'cup')[i], front=-1))
     # 中間兩排雙面貨架（泡麵、零食、餅乾）；架頂疊幾箱貨、朝門口那一頭掛一塊特價牌
     for g in J['gondolas']:
-        gondola(g, NOOD, body=BODY)
+        gondola(g, NOOD, body=BODY, fill=lambda xa, xb, y, za, zb, al, i, g=g: packs(xa, xb, y, za, zb, al, i * 2, ('snack', 'noodle', 'cup', 'noodle', 'snack', 'flat')[i % 6], front=(-1 if (xa + xb) / 2 < (g['x0'] + g['x1']) / 2 else 1)))
         for k in range(3): zz = g['z0'] + 0.3 + k * 1.25; vc().cbox(g['x0'] + 0.1, g['x1'] - 0.1, g['h'], g['h'] + 0.26, zz, zz + 0.5, ('#c9a878', '#b89868', '#d2b48a')[k]); vc().cbox(g['x0'] + 0.098, g['x1'] - 0.098, g['h'] + 0.1, g['h'] + 0.16, zz + 0.15, zz + 0.35, RED)
         xm = (g['x0'] + g['x1']) / 2; vc().cbox(xm - 0.32, xm + 0.32, 1.05, 1.45, g['z1'], g['z1'] + 0.012, YEL); vc().cbox(xm - 0.26, xm + 0.26, 1.2, 1.3, g['z1'] + 0.012, g['z1'] + 0.016, RED)
         for k in range(3): vc().cbox(xm - 0.3 + k * 0.21, xm - 0.12 + k * 0.21, 0.0, 0.5 - (k % 2) * 0.12, g['z1'] + 0.02, g['z1'] + 0.3, ('#3a7ac0', '#d8362a', '#2f8a4a')[k])   # 貨架頭：一箱箱的飲料（在阻擋範圍裡——配置的 blocks 比貨架長 0.3）

@@ -1,13 +1,13 @@
 {
  "objects": 15,
  "unique_meshes": 15,
- "tris": 52992,
- "tris_drawn": 52992,
+ "tris": 73172,
+ "tris_drawn": 73172,
  "materials": 11,
  "out": "assets/models/env/second_ai/tz_dongnan_interior.glb",
- "bytes": 4167500,
+ "bytes": 5827488,
  "texres": 512,
- "tris_total": 52992,
+ "tris_total": 73172,
  "walls": [
   "E",
   "N",
