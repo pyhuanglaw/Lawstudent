@@ -311,7 +311,7 @@ const GG3=(function(){
     if(sv.wait){ const P=GM.E&&GM.E.player, was=!!(P&&P.seat); await S.seated(GM,st=>run(!!st||was)); } else await run(false);   /* 手機交給店員的那幾樣：坐著等（有空位的話）*/
     if(sv.item) S.ownAdd(G,k,sv.item,1);
     S.last={items:[sv.n],total:sv.p,spice:{},day:G.day,zone:k};
-    await GM.say(B,pick(X.after)); if(GM.autosave) GM.autosave(); return sv.n; };
+    if(!sv.noAfter) await GM.say(B,pick(X.after));   /* 稿的 counter.after_skip（問門號）：旁白就是結尾，不接 after */ if(GM.autosave) GM.autosave(); return sv.n; };
   S.serviceCounter=async function(GM){ const G=GM.G, k=G.zone, T=D()[k], X=T.grocery, B=W(T.who), SV=X.services, gs=S.handGoods(GM), ids=S.hand(GM), total=gs.reduce((a,g)=>a+g.p,0);
     await GM.say(B,X.ask);
     const opts=SV.map(s=>({t:s.n,hint:s.p+' 元　'+s.min+' 分鐘',dim:(G.money|0)<s.p})); if(gs.length) opts.push({t:S.SYS.buy,hint:handHint(gs),dim:(G.money|0)<total}); opts.push({t:S.SYS.no});

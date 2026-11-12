@@ -45,7 +45,7 @@ SCRIPTS = [
     {'zone': 'tz_dongnan', 'layout': 'dongnan', 'path': 'docs/story_planning/AA_823_tz_dongnan.json', 'sha': '3d0ab9944',
      'counter': 'tz_dongnan_counter',   # looks 裡哪一個是結帳（其他的都是貨架）
      'after_if': {'spicy': ['tz_dn_noodle', 'tz_dn_noodle5', 'tz_dn_sauce']}},   # 稿的 after_spicy_when：「買的東西裡有泡麵（tz_dn_noodle、tz_dn_noodle5）或辣醬（tz_dn_sauce）才出，取代 after」
-    {'zone': 'tz_liantong', 'layout': 'liantong', 'path': 'docs/story_planning/AA_824_tz_liantong.json', 'sha': '2ec610d95', 'kind': 'service',
+    {'zone': 'tz_liantong', 'layout': 'liantong', 'path': 'docs/story_planning/AA_824_tz_liantong.json', 'sha': '2dd4ba0a9', 'kind': 'service',
      'wait': ['check', 'film']},   # 手機交給店員、要等十分鐘的兩樣服務：坐在櫃台前的圓凳上等（演稿的 seat.wait）；問門號方案是站著問，不演
 ]
 CHANGED = []
@@ -182,8 +182,11 @@ def one_service(spec):
         die(f"{W} shop.hours：要是「10:00～21:30」這樣（{shop['hours']}）；一天兩段、公休日先改這支工具")
     staff = keys(doc['staff'], ['who', 'greet', 'closed_line', 'no_money'], W + ' staff', opt=['not_open', 'closed_outside'])
     who = fix(staff['who'], W + ' staff.who')
-    C = keys(doc['counter'], ['id', 'button', 'ask', 'menu', 'after'], W + ' counter')
+    C = keys(doc['counter'], ['id', 'button', 'ask', 'menu', 'after'], W + ' counter', opt=['after_skip'])
     point = C['id']
+    skip = C.get('after_skip') or []   # 做完不說 counter.after 的服務（AA_824：問門號，旁白就是結尾）
+    if not isinstance(skip, list) or [x for x in skip if x not in C['menu']]:
+        die(f'{W} counter.after_skip：要是 menu 裡的服務 id（{skip}）')
     look, labels = {}, {}
     if not isinstance(doc['looks'], dict) or point in doc['looks']:
         die(f'{W} looks：要是物件，而且不能有櫃台（{point}）')
@@ -239,6 +242,8 @@ def one_service(spec):
             given.append(m['item'])
         if sid in waits:
             s['wait'] = True
+        if sid in skip:
+            s['noAfter'] = True
         services.append(s)
     if len({s['n'] for s in services}) != len(services) or sorted(given) != sorted(nobuy):
         die(f'{W} counter.menu：服務的名字重複，或有 buy:false 的東西沒有服務會給（{sorted(nobuy)}／{sorted(given)}）')

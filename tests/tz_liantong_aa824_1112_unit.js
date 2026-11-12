@@ -1,4 +1,4 @@
-// 汀州路・汀州聯通（tz_liantong）的店內文字（TINGZHOU-SHOPS5-1110；AA_824 @ 2ec610d95，分支 claude/magical-albattani-bk7b4n）——不需要瀏覽器（D131）。
+// 汀州路・汀州聯通（tz_liantong）的店內文字（TINGZHOU-SHOPS5-1110；AA_824 @ 2dd4ba0a9，分支 claude/magical-albattani-bk7b4n）——不需要瀏覽器（D131）。
 //   1  資料檔 src/data/tz_grocery_lines.js 逐字對稿（店名、店員的句子、三樣服務的名字／價錢／分鐘／句子、六樣東西、四個「看」和按鈕、坐著等、拿起、掛回去）；匯入工具 --check；白名單
 //   2  營業時間每天 11:00～21:30（places.js）、名字、颱風假關、算汀州路
 //   3  關門時按店門：稿只有 not_open 一句＝開門以前、打烊以後都說那一句＋開放時間；開著不擋；颱風假只寫開放時間
@@ -13,7 +13,7 @@
 //   11 （子程序 A：建出遊戲真正的區域）五個點在配置的位置、按鈕的字照稿、兩張圓凳的按鈕「坐著等」、店員站在配置的位置（0.8, −2.5；開店才有；男性）
 // 修改前（b51659c78c）：資料檔沒有 tz_liantong、GG3 不認得、沒有營業時間、互動點只有暫時的一句——0 就 FAIL。
 // 用法：node tests/tz_liantong_aa824_1112_unit.js
-const Z='tz_liantong', SHA='2ec610d95', DOC='docs/story_planning/AA_824_tz_liantong.json', DATA='src/data/tz_grocery_lines.js', MEAL='src/data/tz_meal_lines.js';
+const Z='tz_liantong', SHA='2dd4ba0a9', DOC='docs/story_planning/AA_824_tz_liantong.json', DATA='src/data/tz_grocery_lines.js', MEAL='src/data/tz_meal_lines.js';
 if(process.argv[2]==='A') partA(); else partB();
 
 function partA(){
@@ -86,7 +86,7 @@ await sec(1,()=>{ let raw=null; try{ raw=cp.execFileSync('git',['show',SHA+':'+D
   if(!raw){ console.log('SKIP 1 讀不到稿 '+SHA+'（淺層複本：git fetch origin claude/magical-albattani-bk7b4n）'); }
   else { const A=JSON.parse(raw), C=A.counter;
     check('1 店名「汀州聯通」、說話的人「店員」、營業時間照稿',T.name===A.shop.name&&T.name==='汀州聯通'&&T.who===A.staff.who&&T.who===WHO&&T.hours===A.shop.hours&&T.hours==='11:00～21:30',J([T.name,T.who,T.hours]));
-    check('1 店員進門三句、打烊、門口關著那一句、錢不夠照稿',J(T.door)===J(A.staff.greet.map(t=>[WHO,t]))&&T.door.length===3&&T.close===A.staff.closed_line&&T.notOpen===A.staff.not_open&&/^（.*）$/.test(T.notOpen)&&!('sign' in T)&&X.short===A.staff.no_money&&X.short===NOMONEY,J([T.door,T.close,T.notOpen,X.short]));
+    check('1 店員進門三句、打烊、門口關著那一句、錢不夠照稿',J(T.door)===J(A.staff.greet.map(t=>[WHO,t]))&&T.door.length===3&&T.close===A.staff.closed_line&&T.notOpen===A.staff.not_open&&/^（.*）$/.test(T.notOpen)&&T.sign===A.staff.closed_outside&&/^（.*）$/.test(T.sign)&&X.short===A.staff.no_money&&X.short===NOMONEY,J([T.door,T.close,T.notOpen,X.short]));
     const sids=Object.keys(C.menu); const L2=l=>typeof l==='string'?[null,l]:[l.who,l.t];
     check('1 櫃台：kind、按鈕「找店員」、「今天要弄什麼？」、做完那一句照稿',X.point===C.id&&X.point==='tz_liantong_counter'&&T.labels[X.point]===C.button&&C.button==='找店員'&&X.ask===C.ask&&X.ask===ASK&&J(X.after)===J([C.after])&&C.after===AFTER,J([X.ask,X.after]));
     check('1 三樣服務：id、名字、價錢、分鐘、每一句（說話的人、字、順序）照稿',J(sids)===J(['check','film','plan'])&&J(X.services.map(s=>[s.id,s.n,s.p,s.min,s.lines,s.item||null]))===J(sids.map(id=>[id,C.menu[id].name,C.menu[id].price,C.menu[id].minutes,C.menu[id].lines.map(L2),C.menu[id].item||null])),J(X.services.map(s=>[s.id,s.n,s.p,s.min])));
@@ -117,9 +117,9 @@ await sec(2,()=>{ const d0=DK('2025-10-05');
 
 // ---- 3 關門時按店門 ----
 await sec(3,async()=>{ const door=async(key,h)=>{ fresh(key,h,'tingzhou'); const r=await STORY.interact({exit:{to:Z},label:'進'+T.name},GM); return {r,said:said(),t:toasts.slice()}; };
-  const NO='（鐵門拉下來。門上貼著一張紙：「維修取件請按電鈴」。電鈴旁邊沒有人。）';
-  for(const h of [21.5,23,2,5.9,6,9,10.98]){ const x=await door('2025-10-07',h);
-    check('3 '+h+' 點按店門（關著）：稿的 not_open 那一句（旁白）、不進去、寫開放時間',x.r===true&&J(x.said)===J([[null,NO]])&&T.notOpen===NO&&!H.entered.length&&x.t.length===1&&/汀州聯通/.test(x.t[0])&&/11:00/.test(x.t[0])&&/21:30/.test(x.t[0]),J([x.said,x.t])); }
+  /* AA_824 @ 2dd4ba0a9（AA-C 11-12 回 LAWWW 七問第 3 點）：補了 staff.closed_outside——打烊以後（到清晨 6 點）說這一句，開門以前（6 點到 11 點）才是 not_open */
+  for(const h of [21.5,23,2,5.9,6,9,10.98]){ const x=await door('2025-10-07',h); const late=h>=21.5||h<6, NO=late?T.sign:T.notOpen;
+    check('3 '+h+' 點按店門（關著）：'+(late?'打烊以後＝稿的 closed_outside':'開門以前＝稿的 not_open')+' 那一句（旁白）、不進去、寫開放時間',x.r===true&&J(x.said)===J([[null,NO]])&&!!T.sign&&T.sign!==T.notOpen&&!H.entered.length&&x.t.length===1&&/汀州聯通/.test(x.t[0])&&/11:00/.test(x.t[0])&&/21:30/.test(x.t[0]),J([x.said,x.t])); }
   for(const h of [11,15,21.4]){ const x=await door('2025-10-07',h); check('3 '+h+' 點開著：不擋',!x.said.length&&!x.t.length,J(x)); }
   { const TC=PLACES.typhoonClosed; PLACES.typhoonClosed=z=>PLACES.typhoonShops.includes(z);
     try{ const x=await door('2025-10-07',12); check('3 颱風假（稿上沒有那一句）：不說話、只寫「颱風假」',x.r===true&&!x.said.length&&/颱風假/.test(x.t[0]||''),J(x)); } finally { PLACES.typhoonClosed=TC; } }
@@ -166,8 +166,8 @@ await sec(7,async()=>{
     await counter('貼保護貼'); check('7 再貼一次：再扣 350、「物品」還是一份（不寫 ×2）',G.money===4300&&G.flags.GG3_OWN.tz_liantong.tz_lt_film===1&&!/×/.test(GG3.ownHTML(G)),J([G.money,G.flags.GG3_OWN]));
     const back=JSON.parse(JSON.stringify(G)); check('7 存檔（JSON）再讀回來：保護貼還在',GG3.ownHTML(back)===GG3.ownHTML(G)&&GG3.ownHTML(back)!==''); }
   { const G=fresh('2025-10-07',12,Z); const h0=G.hour; let ok=true; const out=[];
-    for(let i=0;i<3;i++){ const r=await counter('問門號方案'); out.push(said()); ok=ok&&r==='問門號方案'&&J(said())===J([[WHO,ASK]].concat(PLAN,[[WHO,AFTER]])); }
-    check('7 問門號方案：稿的兩句、after；0 元、一次 5 分鐘；可以一直問（連問三次每次一樣、時間 +15 分鐘）；站著、不演 seat.wait、沒有東西',ok&&G.money===5000&&!spent.length&&near(G.hour-h0,15/60)&&!sits.length&&!fades&&!out.some(s=>s.some(l=>l[1]===WAIT))&&!('GG3_OWN' in G.flags),J([out[2],G.hour-h0,sits.length])); }
+    for(let i=0;i<3;i++){ const r=await counter('問門號方案'); out.push(said()); ok=ok&&r==='問門號方案'&&J(said())===J([[WHO,ASK]].concat(PLAN)); }   /* 稿的 counter.after_skip:["plan"]（2dd4ba0a9）：問門號不接 counter.after，旁白就是結尾 */
+    check('7 問門號方案：稿的兩句、不說 after（counter.after_skip）；0 元、一次 5 分鐘；可以一直問（連問三次每次一樣、時間 +15 分鐘）；站著、不演 seat.wait、沒有東西',ok&&G.money===5000&&!spent.length&&near(G.hour-h0,15/60)&&!sits.length&&!fades&&!out.some(s=>s.some(l=>l[1]===WAIT))&&!('GG3_OWN' in G.flags),J([out[2],G.hour-h0,sits.length])); }
   { const G=fresh('2025-10-07',12,Z); G.money=349; E.interactables=[]; const h0=G.hour; const o0=GM.choose; let seen=null; GM.choose=async o=>{ seen=o; return o0(o); }; let r; try{ r=await counter('貼保護貼'); } finally { GM.choose=o0; }
     check('7 錢不夠（349 元貼 350）：稿的 no_money 旁白、不扣錢、時間不動、沒有貼的句子、沒有 after、沒有保護貼；選項是灰的',r==='short'&&J(said())===J([[WHO,ASK],[null,NOMONEY]])&&G.money===349&&!spent.length&&near(G.hour,h0)&&!('GG3_OWN' in G.flags)&&seen[1].dim===true&&!seen[0].dim&&!seen[2].dim&&!toasts.length,J([r,said(),G.money]));
     const r2=await counter('檢測手機'); check('7 沒錢也可以檢測手機（0 元）',r2==='檢測手機'&&G.money===349&&H.has(CHECK[1][1]),J([r2,G.money]));
