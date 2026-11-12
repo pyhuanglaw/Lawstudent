@@ -88,7 +88,7 @@ OFFBEAT_XS = dict(arcade=False, dep=0.3, glass=(-4.55, 5.25), glass_h=3.1, int='
 # ---------------- 公館（--set gongguan）：照 zones3d.js gongguan 區塊的 shops（位置、寬度、樓層、牆、顏色、招牌、柱子），改那邊要一起改這裡 ----------------
 if SET == 'gongguan':
     GH = 4.2                # 公館的騎樓店面一樓高 4.2 m（groundH）
-    _SHOPS = [dict(n='阿鳳麵店', c='#c9463d', w=10, type='noodle', it='noodle', sub='乾麵・餛飩湯・小菜', v='阿鳳麵店', atlas='gg_afeng_h', vatlas='gg_afeng_v'), dict(n='青木茶室', c='#2f7d5b', w=8, type='tea', it='tea', sub='茶室・外帶'),
+    _SHOPS = [dict(n='公館燒臘', c='#c9463d', w=10, type='noodle', it='noodle', sub='叉燒・燒鴨・油雞', v='公館燒臘'), dict(n='青木茶室', c='#2f7d5b', w=8, type='tea', it='tea', sub='茶室・外帶'),
               dict(n='頁間書屋', c='#3b5a8c', w=12, type='book', it='books', sub='書店・咖啡'), dict(n='日和便利店', c='#3a6fb0', w=10, type='cvs', it='cvs', band='#e0a030'),
               dict(n='安泰藥局', c='#f5f5f2', sc='#1f5a3a', w=8, type='none', it='cvs'), dict(n='洋洋鹹酥雞', c='#e0b24a', sc='#3b2a1e', w=8, type='none', it='luwei'),
               dict(n='慢輪單車', c='#b5532c', w=9, type='bike', it='bike', sub='維修・保養・二手單車'), dict(n='Afar café', c='#3e4c42', w=9, type='none', it='cafe'),
@@ -168,14 +168,12 @@ if SET == 'gongguan':
     # 使用者 2026-11-10 的外觀參考圖（GG-SHOPS3-ART-1110：G04 安泰藥局、G08 汀州鮮果、G13 榮恩典文具社，docs/art-rebuild/second_ai/ref/gg_shops6_1110/；FLOWER-NOTES-ART-1110：G11 花序，docs/handoff/user_specs/flower_notes_ref/exterior.png）。
     # 貼圖 gg_shops6_tex.py → xs_front_tex.py 的 QG。招牌只有騎樓外面那一塊（參考圖的位置），放大到店面寬（street_fit）。公館的騎樓線照舊（一樓玻璃退 3 m）
     GG_XS.update({
-        'G04': dict(dep=3.0, wallc='#f1f1ec', frame='alu', street='ggantai_sign', street_fit=8.6, street_lit=True,   # 安泰藥局：白色舊燈箱、深綠字、藥罐圖示；鋁框玻璃自動門、玻璃上一條綠線、店內白光貨架和藥師櫃台
+        'G04': dict(dep=3.0, real=True, back=10.1, wallc='#f1f1ec', frame='alu', street='ggantai_sign', street_fit=8.6, street_lit=True,   # 安泰藥局：白色舊燈箱、深綠字、藥罐圖示；鋁框玻璃自動門、玻璃上一條綠線、店內白光貨架和藥師櫃台
                     cards=[('ggantai_int', -4.15, 4.15, 0.1, 2.8, 0.8, [-2.1, -0.75, 0.75, 2.1])]),
-        'G08': dict(dep=3.0, back=2.35, wallc='#eef0ec', frame='alu', street='ggfruit_sign', street_fit=7.4, street_lit=True, keep=('stool_r', 'outlet'),   # 汀州鮮果：橘黃燈箱、深咖啡色手寫字；整面開著的水果行（綠色塑膠籃、木箱、吊著的香蕉、吊秤、黃燈泡）
+        'G08': dict(dep=3.0, real=True, back=10.1, wallc='#eef0ec', frame='alu', street='ggfruit_sign', street_fit=7.4, street_lit=True, keep=('stool_r', 'outlet'),   # 汀州鮮果：橘黃燈箱、深咖啡色手寫字；整面開著的水果行（綠色塑膠籃、木箱、吊著的香蕉、吊秤、黃燈泡）
                     cards=[('ggfruit_shop', -3.65, 3.65, 0.0, 3.0, 2.3)], open=('ggfruit_shop',),   # 第 3 版（BB 11-11 01:47，D141 最後一版）：照片卡從店面線後 0.8 m 退到 2.3 m 當背景，開口到照片中間排真的水果箱（前排六箱在地上、第二排六箱墊高 0.34 m、最裡面靠兩邊四箱墊高 0.62 m；中間 2.4 m 留給進門）；一樓牆體跟著往後退（back＝2.35）
-                    props=[('fruit', 'banana', -3.2, -0.38), ('fruit', 'orange', -2.4, -0.38), ('fruit', 'apple', -1.6, -0.38), ('fruit', 'melon', 1.6, -0.38), ('fruit', 'guava', 2.4, -0.38), ('fruit', 'pine', 3.2, -0.38),
-                           ('fruit', 'tomato', -3.2, -1.05, 0.34), ('fruit', 'guava', -2.4, -1.05, 0.34), ('fruit', 'orange', -1.6, -1.05, 0.34), ('fruit', 'orange', 1.6, -1.05, 0.34), ('fruit', 'apple', 2.4, -1.05, 0.34), ('fruit', 'tomato', 3.2, -1.05, 0.34),
-                           ('fruit', 'apple', -3.2, -1.72, 0.62), ('fruit', 'orange', -2.4, -1.72, 0.62), ('fruit', 'guava', 2.4, -1.72, 0.62), ('fruit', 'tomato', 3.2, -1.72, 0.62)]),
-        'G13': dict(dep=3.0, wallc='#efe9dc', frame='alu', street='ggrong_sign', street_fit=7.2, street_lit=True,   # 榮恩典文具社：米色招牌、黑字、鉛筆畫筆圖示、四色線；鋁框玻璃、木層架塞滿
+                    props=[]),   # SHOP-REAL-INSIDE 公館第一批（11-12）：玻璃／開口後面是遊戲放的室內模型（gg_xianguo_interior，自己有水果箱），街景模型不再排水果箱、不放照片卡
+        'G13': dict(dep=3.0, real=True, back=10.1, wallc='#efe9dc', frame='alu', street='ggrong_sign', street_fit=7.2, street_lit=True,   # 榮恩典文具社：米色招牌、黑字、鉛筆畫筆圖示、四色線；鋁框玻璃、木層架塞滿
                     cards=[('ggrong_int', -4.15, 4.15, 0.1, 2.85, 0.8, [-2.2, -0.6, 0.9, 2.4])]),
         # GG-G09-G10-SHUTTER-1111（X335，使用者 11-11 選「先拉下鐵門」）：洗樂、印得好搬到汀州路以後，公館這兩格是拉下鐵捲門的空店面；之後放什麼店由使用者決定（D147），不放別的
         'G09': dict(dep=3.0, wallc='#d9d6cc', shut=True),

@@ -62,8 +62,9 @@ for(const id of ids){ const L=ALL[id], N=L.name;
   if(Y){ const PS=Y.paperStack; check('印得好 11. trapFix 那一塊在模型有一疊影印紙箱和垃圾桶（配置 paperStack，四個角都在 blocks 裡；模型腳本讀同一個範圍）',!!PS&&[[PS.x0,PS.z0],[PS.x1,PS.z0],[PS.x0,PS.z1],[PS.x1,PS.z1]].every(c=>inBlk(Y,c[0],c[1]))&&/J\.get\('paperStack'\)/.test(py),JSON.stringify(PS)); }
   const i8=st.indexOf("'G08': dict("), j8=st.indexOf("'G13': dict(",i8), g8=i8>=0&&j8>i8?st.slice(i8,j8):'', nf=(g8.match(/\('fruit', '/g)||[]).length; let fp=[]; try{ fp=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gongguan_shops.props.json'),'utf8')); }catch(e){}
   const fpl=(Array.isArray(fp)?fp:(fp.props||fp.list||[])).filter(q=>/ggfruit/.test(q.tag||''));
-  check('汀州鮮果外觀 第 3 版（BB 11-11 01:47）：照片卡退到店面線後 2.3 m、一樓牆體跟著退（back）、開口到照片中間至少 12 箱真的水果（橘子、蘋果、芭樂、番茄＋原本的鳳梨、香蕉、西瓜）；水果箱在店面線裡面、不寫腳印（騎樓的導航不變）',
-    /back=2\.35/.test(g8)&&/\('ggfruit_shop', -3\.65, 3\.65, 0\.0, 3\.0, 2\.3\)/.test(g8)&&nf>=12&&/kind in \('orange', 'apple', 'guava', 'tomato'\)/.test(kit)&&fpl.length===0,'箱 '+nf+' 腳印 '+fpl.length); }
+  { const z3=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');   /* SHOP-REAL-INSIDE 公館第一批（LAWWW2-C 11-12；使用者：店外看到的要和走進去的室內一樣、不要 2D 圖貼在外面）：第 3 版的照片卡＋前排水果箱換成「開口後面放走進去的那一顆室內模型」 */
+  check('汀州鮮果外觀 第 4 版（11-12）：不放照片卡和街景模型自己的水果箱（real），一樓牆體退到室內深度後面（back 10.1），遊戲在開口後面放 gg_xianguo 的室內模型（GG_SHOP_REAL）；騎樓不寫腳印',
+    /real=True, back=10\.1/.test(g8)&&nf===0&&/mk\('G08','gg_xianguo','bldg\.gg_xianguo_interior',19\.6,8,10,3\.3\)/.test(z3)&&/shopInsideReal\(E,g,zone,GG_SHOP_REAL\)/.test(z3)&&fpl.length===0,'箱 '+nf+' 腳印 '+fpl.length); } }
 /* 禮貌生財的書房（X332）：平常鎖著、解鎖以後走得進去 */
 if(ALL.limao){ const L=ALL.limao, SD=L.study, z=loadZone(L.zone), SP=[L.spawn.x,L.spawn.z,0], in0=[-0.6,SD.z1-0.8,0];
   const dIt=E.interactables.find(i=>i.kind===SD.door.kind), n0=E.interactables.length;

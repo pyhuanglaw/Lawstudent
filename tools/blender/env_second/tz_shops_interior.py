@@ -1056,6 +1056,36 @@ if SHOP == 'dongnan':
                     bx(0.003, t, 0.0, h, a, a + w, col); bx(0.0, 0.003, h * 0.55, h * 0.86, a + 0.012, a + w - 0.012, c2)
                 a += w + 0.012
             a = e + 0.035; run += 1
+    def carton(x0, x1, y0, y1, z0, z1, col='#c9a878', band=None):
+        """紙箱（DONGNAN-GOODS-1112 第 2 包；BB 11-12：還剩兩處純色方塊）：牛皮紙色箱身、頂面和兩個端面中間一條封箱膠帶、四個側面一條色帶、箱蓋的接縫"""
+        vc().cbox(x0, x1, y0, y1, z0, z1, col); xm, zm, t = (x0 + x1) / 2, (z0 + z1) / 2, 0.003; tape = '#e6d6a6'
+        if (x1 - x0) >= (z1 - z0):
+            vc().cbox(x0 - t, x1 + t, y1, y1 + t, zm - 0.028, zm + 0.028, tape)
+            for (a_, b_) in ((x0 - t, x0), (x1, x1 + t)): vc().cbox(a_, b_, y1 - 0.07, y1 + t, zm - 0.028, zm + 0.028, tape)
+        else:
+            vc().cbox(xm - 0.028, xm + 0.028, y1, y1 + t, z0 - t, z1 + t, tape)
+            for (a_, b_) in ((z0 - t, z0), (z1, z1 + t)): vc().cbox(xm - 0.028, xm + 0.028, y1 - 0.07, y1 + t, a_, b_, tape)
+        if band:
+            ya, yb = y0 + (y1 - y0) * 0.3, y0 + (y1 - y0) * 0.62
+            vc().cbox(x0 - t, x1 + t, ya, yb, z0 + 0.02, z1 - 0.02, band); vc().cbox(x0 + 0.02, x1 - 0.02, ya, yb, z0 - t, z1 + t, band)
+    def crate(x0, x1, y0, y1, z0, z1, col, caps='#f6f1e0'):
+        """塑膠飲料籃：底、四圈邊條、四角柱、側面的直格線（格子之間是空的，看得到裡面的瓶子）、裡面一格一格的瓶蓋"""
+        t = 0.014; dark = '#2a2d31'
+        vc().cbox(x0, x1, y0, y0 + 0.02, z0, z1, col)
+        for (ya, yb) in ((y0, y0 + 0.05), (y1 - 0.05, y1), ((y0 + y1) / 2 - 0.018, (y0 + y1) / 2 + 0.018)):
+            vc().cbox(x0, x1, ya, yb, z0, z0 + t, col); vc().cbox(x0, x1, ya, yb, z1 - t, z1, col); vc().cbox(x0, x0 + t, ya, yb, z0, z1, col); vc().cbox(x1 - t, x1, ya, yb, z0, z1, col)
+        nx, nz = max(2, round((x1 - x0) / 0.075)), max(2, round((z1 - z0) / 0.075))
+        for k in range(nx + 1):
+            xx = x0 + (x1 - x0 - t) * k / nx
+            for zz in (z0, z1 - t): vc().cbox(xx, xx + t, y0, y1, zz, zz + t, col)
+        for k in range(nz + 1):
+            zz = z0 + (z1 - z0 - t) * k / nz
+            for xx in (x0, x1 - t): vc().cbox(xx, xx + t, y0, y1, zz, zz + t, col)
+        vc().cbox(x0 + t, x1 - t, y0 + 0.02, y1 - 0.09, z0 + t, z1 - t, dark)   # 裡面（瓶身擠在一起，暗的）
+        for i in range(nx):
+            for j in range(nz):
+                px, pz = x0 + (x1 - x0) * (i + 0.5) / nx, z0 + (z1 - z0) * (j + 0.5) / nz
+                ccyl(vc(), (px, y1 - 0.09, pz), (px, y1 - 0.02, pz), 0.02, '#3f2a1a', seg=6, caps=False); ccyl(vc(), (px, y1 - 0.02, pz), (px, y1 - 0.005, pz), 0.016, caps, seg=6)
     def wshelf(o, along, face, fill, levels=(0.2, 0.58, 0.96, 1.34, 1.72)):
         """靠牆的貨架：底座、背板、立柱、層板（前緣一條紅色價格條）"""
         x0, x1, z0, z1, h = o['x0'], o['x1'], o['z0'], o['z1'], o['h']
@@ -1074,7 +1104,15 @@ if SHOP == 'dongnan':
     # 後牆：最下面大鐵罐和紙箱、罐頭、兩層瓶子（魚露、醬油、辣醬）、最上面罐頭；上面黃底紅字店名（概念圖裁的）
     def back_fill(i, y):
         a, b, c, d = BS['x0'] + 0.04, BS['x1'] - 0.04, BS['z0'] + 0.08, BS['z1'] - 0.03
-        if i == 0: goods(a, b, y, c, d, [['#c9a878', '#b89868', '#d8362a', '#f0b020']][0], hmin=0.22, hmax=0.32, along='x', step=0.3)
+        if i == 0:   # 最下面：紙箱（封箱膠帶、色帶）和大鐵罐（食用油、椰奶：罐身一圈標籤、罐蓋）交錯
+            xx = a; k = 0
+            while xx + 0.3 < b:
+                if k % 3 == 2:
+                    for q in range(2): px = xx + 0.09 + q * 0.19; ccyl(vc(), (px, y, (c + d) / 2), (px, y + 0.28, (c + d) / 2), 0.085, '#c4c8cb', seg=10); ccyl(vc(), (px, y + 0.05, (c + d) / 2), (px, y + 0.22, (c + d) / 2), 0.087, (RED, YEL, GRN)[(k + q) % 3], seg=10, caps=False); ccyl(vc(), (px, y + 0.28, (c + d) / 2), (px, y + 0.295, (c + d) / 2), 0.05, '#8a8f98', seg=8)
+                    xx += 0.42
+                else:
+                    w_ = RR.uniform(0.3, 0.38); carton(xx, xx + w_, y, y + RR.uniform(0.22, 0.3), c, d - 0.01, ('#c9a878', '#b89868', '#d2b48a')[k % 3], band=(RED, YEL, GRN, '#3a7ac0')[k % 4]); xx += w_ + 0.03
+                k += 1
         elif i in (1, 4): cans(a, b, y, c, d, 'x', i)
         else: bottles(a, b, y, c, d, 'x', i * 2)
     wshelf(BS, 'x', 1, back_fill); zb = -D / 2 + 0.03
@@ -1085,9 +1123,11 @@ if SHOP == 'dongnan':
     # 中間兩排雙面貨架（泡麵、零食、餅乾）；架頂疊幾箱貨、朝門口那一頭掛一塊特價牌
     for g in J['gondolas']:
         gondola(g, NOOD, body=BODY, fill=lambda xa, xb, y, za, zb, al, i, g=g: packs(xa, xb, y, za, zb, al, i * 2, ('snack', 'noodle', 'cup', 'noodle', 'snack', 'flat')[i % 6], front=(-1 if (xa + xb) / 2 < (g['x0'] + g['x1']) / 2 else 1)))
-        for k in range(3): zz = g['z0'] + 0.3 + k * 1.25; vc().cbox(g['x0'] + 0.1, g['x1'] - 0.1, g['h'], g['h'] + 0.26, zz, zz + 0.5, ('#c9a878', '#b89868', '#d2b48a')[k]); vc().cbox(g['x0'] + 0.098, g['x1'] - 0.098, g['h'] + 0.1, g['h'] + 0.16, zz + 0.15, zz + 0.35, RED)
+        for k in range(3): zz = g['z0'] + 0.3 + k * 1.25; carton(g['x0'] + 0.1, g['x1'] - 0.1, g['h'], g['h'] + 0.26, zz, zz + 0.5, ('#c9a878', '#b89868', '#d2b48a')[k], band=(RED, GRN, '#3a7ac0')[k])
         xm = (g['x0'] + g['x1']) / 2; vc().cbox(xm - 0.32, xm + 0.32, 1.05, 1.45, g['z1'], g['z1'] + 0.012, YEL); vc().cbox(xm - 0.26, xm + 0.26, 1.2, 1.3, g['z1'] + 0.012, g['z1'] + 0.016, RED)
-        for k in range(3): vc().cbox(xm - 0.3 + k * 0.21, xm - 0.12 + k * 0.21, 0.0, 0.5 - (k % 2) * 0.12, g['z1'] + 0.02, g['z1'] + 0.3, ('#3a7ac0', '#d8362a', '#2f8a4a')[k])   # 貨架頭：一箱箱的飲料（在阻擋範圍裡——配置的 blocks 比貨架長 0.3）
+        for k in range(3):
+            cx0, cx1, col = xm - 0.31 + k * 0.215, xm - 0.115 + k * 0.215, ('#3a7ac0', '#d8362a', '#2f8a4a')[k]
+            for j in range(2 - (k % 2)): crate(cx0, cx1, j * 0.25, j * 0.25 + 0.24, g['z1'] + 0.02, g['z1'] + 0.3, col, caps=('#f6f1e0', '#f0b020', '#d8362a')[k])   # 貨架頭：一箱箱的飲料（在阻擋範圍裡——配置的 blocks 比貨架長 0.3）
     # 飲料冰箱（三門玻璃）：黑框、裡面白色層架、一瓶瓶飲料；上面一條墨綠燈箱
     fx0, fx1, fz0, fz1, fh = FG['x0'], FG['x1'], FG['z0'], FG['z1'], FG['h']
     vc().cbox(fx0, fx1, 0.0, 0.2, fz0, fz1, '#2a2d31'); vc().cbox(fx1 - 0.06, fx1, 0.2, fh - 0.16, fz0, fz1, '#f4f5f4'); vc().cbox(fx0, fx1, fh - 0.16, fh, fz0, fz1, GRN)

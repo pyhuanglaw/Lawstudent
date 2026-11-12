@@ -240,9 +240,9 @@
   "top": "txs_wall×txs_vcm 0.6 m² @[-2.8,-2.16,-2.1]"
  },
  "assets/models/env/second_ai/tz_dongnan_interior.glb": {
-  "sha1": "2a65333ea7d9fecebae6739f8aa707cd52cf4d9b",
+  "sha1": "b44e03b39ff3931c776c2c7d07474ab1c5fe12d8",
   "wall": 41.32,
-  "always": 72.47,
+  "always": 79.39,
   "top": "WALL_W×S_vc 16.545 m² @[-3.75,2.15,-1.58]"
  },
  "assets/models/env/second_ai/tz_keju_interior.glb": {

@@ -5,7 +5,8 @@ const ok=(c,m)=>{ console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++; };
 const src=fs.readFileSync(path.join(R,'src/zones3d.js'),'utf8');
 const glb=fs.readFileSync(path.join(R,'assets/models/env/second_ai/gongguan_shops.glb')); const J=JSON.parse(glb.slice(20,20+glb.readUInt32LE(12)).toString('utf8'));
 const ids=String((J.nodes.find(n=>n.name==='NOSHADOW_xs_fronts_lit').extras||{}).xsShops||'').split(',');
-ok(ids.length>=12,'① 街景模型的亮窗有 '+ids.length+' 間：'+ids.join('、'));
+const real=(src.match(/mk\('G\d\d','([a-z_]+)','bldg\.[a-z_]+'/g)||[]).map(t=>/'G\d\d','([a-z_]+)'/.exec(t)[1]);   /* SHOP-REAL-INSIDE 公館第一批（11-12）：安泰、鮮果、榮恩典改成玻璃後面放室內模型（GG_SHOP_REAL），不再有亮窗卡——打烊由 Z3.shopInsideReal 調暗 */
+ok(ids.length+real.length>=12,'① 街景模型的亮窗 '+ids.length+' 間（'+ids.join('、')+'）＋玻璃後面放室內模型的 '+real.length+' 間（'+real.join('、')+'）合計至少 12 間');
 const m=/const GG_LIT_ZONE=(\{[^}]*\});/.exec(src); const MAP=vm.runInNewContext('('+m[1]+')'); const N=+(/const GG_LIT_N=(\d+);/.exec(src)||[])[1];
 ok(N>=ids.length,'② 程式處理的間數 GG_LIT_N＝'+N+' ≥ '+ids.length+'（原本只處理前 8 間：第 9 間以後打烊不會暗）');
 const c={Math}; vm.createContext(c); vm.runInContext(fs.readFileSync(path.join(R,'src/data/places.js'),'utf8').replace(/^const /mg,'var '),c); const P=c.PLACES;
