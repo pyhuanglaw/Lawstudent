@@ -48,7 +48,7 @@ ST5_c_head_cap60_r2 | d80eda726fd3cd9dbd6d1a5e16866e7414da75c7 | probe | docs/st
 X352_CAL3_new | 42c493ca277073a91d87dca7f971f6625a56d6a0 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 20 | TAG=cal3_new;ZONES=xs_dabu;HOURS=14,20.5;PARTS=1,5;SHA=42c493ca277073a91d87dca7f971f6625a56d6a0
 X352_CAL3_old | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 20 | TAG=cal3_old;ZONES=xs_dabu;HOURS=14,20.5;PARTS=1,5;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 # ===== LAWWW-C 07:03（開發分支 5f03f455e2）：①夜市 13 攤顧攤的人（星期六 19:30 近照、15:00 不在）②新生南路六間櫥窗顏色對回室內（⑦b 並排）③打烊後不站店員（8 間）=====
-L5F03_VENDORS | 5f03f455e21a8d4fc38d2cbf07aa3eea05b79501 | probe | docs/story_planning/test_tools/cc/cc_shuiyuan_lane_probe.py | index.html | 30 | TAG=5f03;PARTS=VENDORS;SHA=5f03f455e21a8d4fc38d2cbf07aa3eea05b79501
+L5F03_VENDORS | 830f74a6adf214e8562fca637644eacbeac7dc6e | probe | docs/story_planning/test_tools/cc/cc_shuiyuan_lane_probe.py | index.html | 30 | TAG=830f;PARTS=VENDORS;SHA=830f74a6adf214e8562fca637644eacbeac7dc6e
 L5F03_CLOSED8 | 5f03f455e21a8d4fc38d2cbf07aa3eea05b79501 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=5f03_closed;ZONES=bikeshop,aoki,wz_brunch,wz_print,wz_teahouse,wz_lin,wz_teishoku,us_asian_market;HOURS=23.5,3;PARTS=1;SHA=5f03f455e21a8d4fc38d2cbf07aa3eea05b79501
 # ===== P0 使用者 06:4x（BB-C 06:46）：店外看到的和走進去要一致（⑦b，新加）——大步（BB 改判 FAIL＝校正用）、南洋；X352B 四支還沒開跑的會自動用新版；全店補查 GBF 也會 =====
 X352_CON_dabu | 42c493ca277073a91d87dca7f971f6625a56d6a0 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 20 | TAG=con_dabu;ZONES=xs_dabu;HOURS=14,20.5;PARTS=1,5;SHA=42c493ca277073a91d87dca7f971f6625a56d6a0

@@ -10,7 +10,7 @@ PARTS：
   ALLEYA 原巷 A：從汀州路騎樓 (6.4, 0) 走進 (20, 0) 再走出來；記走得到、出得來。
   SHOTS  14:00、20:30 各四張（拍照鏡頭，先跑 fadeWalls、藏玩家）：巷口往裡、巷中、市場那一面、從公館進來那一頭；每個時間拼一張。
   BUY    20:30：十攤每一攤照玩家走到「看＋店名」、按、選單選第一個買得起的品項（不選「算了」）→ 錢扣多少（比選項上的價錢）、G.flags.GG3_OWN 有沒有多（吃的照設計不進物品，記下來給 BB 判）、對話原文。
-CC_02 清單 2026-11-12：1✓（開攤時間照 NM3.openNow；收攤的記「收攤」不判；套圈圈只週五六日擺照配置） 2✓（攤位、出入口、座標都從 TINGZHOU_LAYOUT／互動點讀） 3✓（十攤照配置順序一攤一攤試） 4✓（按前看互動鍵的字、選單照字選） 5✓（搖桿 joy_path 問 E.pathTo；點地 go_to；走不到附位置和站得住） 6✓（換區域等黑幕結束＋1.5 秒） 7✓ 8n/a（不判台詞；期望座標全從配置讀） 9✓（拍照藏玩家） 10✓（選單照字選、對話抄全文） 11✓ 12✓（記真的進了汀州路、真的站在巷子中線上） 13✓（分段走，每段記走法；VENDORS：LAWWW-C 07:03 夜市顧攤的人近照、收攤不在）
+CC_02 清單 2026-11-12：1✓（開攤時間照 NM3.openNow；收攤的記「收攤」不判；套圈圈只週五六日擺照配置） 2✓（攤位、出入口、座標都從 TINGZHOU_LAYOUT／互動點讀） 3✓（十攤照配置順序一攤一攤試） 4✓（按前看互動鍵的字、選單照字選） 5✓（搖桿 joy_path 問 E.pathTo；點地 go_to；走不到附位置和站得住） 6✓（換區域等黑幕結束＋1.5 秒） 7✓ 8n/a（不判台詞；期望座標全從配置讀） 9✓（拍照藏玩家） 10✓（選單照字選、對話抄全文） 11✓ 12✓（記真的進了汀州路、真的站在巷子中線上） 13✓（分段走，每段記走法；VENDORS：LAWWW-C 07:03 夜市顧攤的人近照、收攤不在；07:33 加 118 巷兩間外帶）
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [PARTS=WALK,ALLEYA,SHOTS,BUY] python3 cc_shuiyuan_lane_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, math, base64
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -180,16 +180,25 @@ KEEPERS = r"""(()=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); return (E.npcs||[]).
 async def part_vendors(pg, cdp, lay):
     """LAWWW-C 07:03 ①：夜市顧攤的人（22f49b7e95 SHOP-STANDARD-BACKFILL：13 攤每攤有人顧、收攤就不在）——星期六 19:30 每攤一張近照（站的位置、朝向給 BB 看）；15:00 收攤確認人不在"""
     global DAY
-    d0 = DAY; DAY = os.environ.get('VDAY') or '2025-11-08'   # 星期六
+    d0 = DAY
+    # （區域, 幾攤, 日子, 開著的鐘點, 沒開的鐘點）；118 巷兩間外帶（LAWWW-C 07:33，830f74a6ad）：星期三 15:00、沒開的時間 09:00／23:30
+    PLAN = [('tingzhou', 10, '2025-11-08', [19.5], [15.0]), ('gongguan', 3, '2025-11-08', [19.5], [15.0]), ('lane118', 2, '2025-11-12', [15.0], [9.0, 23.5])]
     try:
-        for zone, want in (('tingzhou', 10), ('gongguan', 3)):
-            for h in (19.5, 15.0):
-                tag = '[VENDORS %s %.1f]' % (zone, h)
-                await at(pg, cdp, zone, h, None, None, '（星期六）'); await pg.wait_for_timeout(3000)
+        for zone, want, day_, hs_open, hs_closed in PLAN:
+          DAY = day_
+          for h in hs_open + hs_closed:
+                tag = '[VENDORS %s %s %.1f]' % (zone, day_, h)
+                await at(pg, cdp, zone, h, None, None, '（%s）' % day_); await pg.wait_for_timeout(3000)
                 ks = await pg.evaluate(KEEPERS)
                 R.note('%s 顧攤的人 %d 位：%s' % (tag, len(ks), J(ks)))
-                if h < 17:
-                    R.check('%s 收攤時間沒有顧攤的人' % tag, not [k for k in ks if k['vis']], J(ks)); continue
+                if h in hs_closed:
+                    R.check('%s 收攤／沒開的時間看不到顧攤的人' % tag, not [k for k in ks if k['vis']], J(ks))
+                    await pg.evaluate(D.HUD + '(false)')
+                    for k in ks[:3]:
+                        u = await pg.evaluate(SNAP, {'from': [k['x'] + k['fx'] * 2.2, 1.6, k['z'] + k['fz'] * 2.2], 'at': [k['x'], 1.1, k['z']], 'fov': 50})
+                        open(os.path.join(OUT, 'vendor_%s_%s_closed_%02d.jpg' % (zone, k['id'], int(h))), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
+                    await pg.evaluate(D.HUD + '(true)')
+                    continue
                 R.check('%s 每攤有人顧（%d 攤）' % (tag, want), len([k for k in ks if k['vis']]) >= want, J([k['id'] for k in ks]))
                 R.check('%s 顧攤的人站的那一點站得住（不在攤車或牆裡；站在攤位後面可能本來就是攤車的格子，給 BB 看圖）' % tag, all(k['stand'] for k in ks), J([k for k in ks if not k['stand']]))
                 await pg.evaluate(D.HUD + '(false)')
@@ -200,7 +209,7 @@ async def part_vendors(pg, cdp, lay):
                 await pg.evaluate(D.HUD + '(true)')
                 R.note('%s 每攤一張近照（從顧攤的人正前方 2.2 m 拍）：vendor_%s_<攤>.jpg' % (tag, zone))
     finally:
-        DAY = d0
+        DAY = d0   # noqa
 
 
 async def main():
