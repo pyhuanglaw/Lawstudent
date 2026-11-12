@@ -1585,7 +1585,12 @@ const Z3 = (function(){
         const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; if(THREE.SRGBColorSpace) t.colorSpace=THREE.SRGBColorSpace; mat=new THREE.MeshLambertMaterial({map:t,side:THREE.DoubleSide}); mat.name='shopreal_shutter'; }catch(e){ mat=null; }
       if(mat) for(const s of shops){ const cx=s.cx===undefined?s.x:s.cx, cz=s.cz===undefined?s.z:s.cz, nx=Math.sin(s.ry||0), nz=Math.cos(s.ry||0),   /* 朝街的方向＝室內的正面（+z）轉 ry。原本用「室內中心 → 玻璃面中心」：室內不在這一棟正中間的（SUNNY SIDE 偏東 0.62 m）鐵捲門會斜 7°、一頭縮到玻璃後面 */ sr=Array.isArray(s.sx)?s.sx:null, sw=sr?(sr[1]-sr[0]+0.2):(s.sw||(s.w-0.3)), sh=s.sh||3.0, lx=sr?(sr[0]+sr[1])/2:0, ry=s.ry||0, ox=lx*Math.cos(ry), oz=-lx*Math.sin(ry);   /* sx＝[室內 x0, x1]：只蓋門窗那一段（沒給＝整間寬）*/
         const geo=new THREE.PlaneGeometry(sw,sh); const uv=geo.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*sw/0.8,uv.getY(i)*sh/2.0); const m=new THREE.Mesh(geo,mat); m.name='shop_shutter_'+s.id; m.userData.dyn=true;
-        m.position.set(cx+ox+nx*0.06,(s.y||0)+sh/2,cz+oz+nz*0.06); m.rotation.y=Math.atan2(nx,nz); m.visible=!isOpen(s); g.add(m); s.shutter=m; } }
+        m.position.set(cx+ox+nx*0.06,(s.y||0)+sh/2,cz+oz+nz*0.06); m.rotation.y=Math.atan2(nx,nz); m.visible=!isOpen(s);
+        /* SHUTTER-DEPTH-1112（LAWWW2-C；BB：鐵捲門一片平的）：上面的捲箱、底下的底條、兩邊的軌道——掛在那一片下面（一起顯示／藏），整條街共用一個素色金屬材質；捲箱往街上凸 0.2 m、有影子面 */
+        if(THREE.BoxGeometry){ if(!mat.userData.frame){ mat.userData.frame=new THREE.MeshLambertMaterial({color:0x8d9092}); mat.userData.frame.name='shopreal_shutter_frame'; mat.userData.dark=new THREE.MeshLambertMaterial({color:0x5d6062}); mat.userData.dark.name='shopreal_shutter_dark'; }
+          const part=(n,w,h,d,x,y,z,mm)=>{ const q=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mm); q.name='shop_shutter_'+n+'_'+s.id; q.position.set(x,y,z); q.userData.dyn=true; m.add(q); return q; };
+          part('box',sw+0.16,0.3,0.24,0,sh/2-0.15,0.1,mat.userData.frame); part('bar',sw-0.04,0.09,0.07,0,-sh/2+0.045,0.03,mat.userData.dark); part('railL',0.08,sh-0.28,0.08,-sw/2+0.02,-0.14,0.03,mat.userData.dark); part('railR',0.08,sh-0.28,0.08,sw/2-0.02,-0.14,0.03,mat.userData.dark); }
+        g.add(m); s.shutter=m; } }
     const fallback=(s,vis)=>{ const R=zone.shopInLit; if(!R) return; for(const it of R.items) if(it.id===s.id&&it.mesh) it.mesh.visible=vis; };
     const basic=(m,s,cache)=>{ if(!m) return m; let b=cache.get(m); if(b) return b; const map=m.map||m.emissiveMap||null; const col=new THREE.Color(1,1,1);
       if(!map){ if(m.emissive&&(m.emissive.r+m.emissive.g+m.emissive.b)>0.05&&!m.vertexColors) col.copy(m.emissive); else if(m.color) col.copy(m.color); } else if(m.map&&m.color) col.copy(m.color);
