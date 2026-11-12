@@ -104,10 +104,11 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2026-07-13'),8,'dorm',{dating_heroine_05:true}); G.stage='law'; VAC.signup(G,'C08@Y1','yes'); said=[]; picks=[0,0,0,0]; await VAC.outing(GM,OUT.get(G,'vac_C08@Y1')); PHONE.tick(G);
     const S5=(G.msgs||[]).filter(m=>m.th==='p:heroine_05'&&m.ask); check('10. 學姊兩天一則（首爾 12 天：池子 4～5 則）',S5.length>=4&&S5.length<=5,String(S5.length));
     check('10. 回來記 BACK_FROM_C08（3D 第一次遇到的招呼用）',G.flags.BACK_FROM_C08===D('2026-07-24')); }
+  // （DLG-FULL-REVIEW-1110：照 AA_788 換字，企劃線 064c49d61f）
   // 11a. 寒暑假可昕、沛珊在老家：回國當天 21:00 只傳私訊、不排臺北見面（AA_278 第 2 節第 1 點，6bcb154b）
   { fresh(D('2026-07-24'),17.9,'dorm',{dating_kexin:true,dating_classmate_peishan:true}); G.stage='law'; meet('kexin'); meet('classmate_peishan'); VAC.rec(G).reg['C08@Y1']='done'; run(17.9,21.2);
     const K=txt('p:kexin'), P=txt('p:classmate_peishan');
-    check('11a. 可昕在高雄：「回來了？……我在高雄。要來的話，先跟我說幾點的車。」、沒有臺北的重逢',K.includes('kexin:回來了？……我在高雄。要來的話，先跟我說幾點的車。')&&!OUT.get(G,'vac_C08@Y1_re_kexin'),JSON.stringify(K));
+    check('11a. 可昕在高雄：「回來了？我在高雄。要來的話，先跟我說幾點的車。」、沒有臺北的重逢',K.includes('kexin:回來了？我在高雄。要來的話，先跟我說幾點的車。')&&!OUT.get(G,'vac_C08@Y1_re_kexin'),JSON.stringify(K));
     check('11a. 沛珊在台中：「歡迎回來！我在台中，開學前才上去。好想聽你講那邊的事，你要從第一天開始講。」、沒有臺北的重逢',P.includes('classmate_peishan:歡迎回來！我在台中，開學前才上去。好想聽你講那邊的事，你要從第一天開始講。')&&!OUT.get(G,'vac_C08@Y1_re_classmate_peishan'),JSON.stringify(P)); }
   // 11a. AA_349 K7：沛珊放榜以後（大三起）開學是回台南、不是「上去」
   { const I=VAC.inst('T03','Y3'); fresh(I.to,17.9,'dorm',{dating_classmate_peishan:true,PS_BACK_FIRST:1}); G.stage='law'; meet('classmate_peishan'); VAC.rec(G).reg['T03@Y3']='done'; run(17.9,21.2);
@@ -117,7 +118,7 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2026-07-24'),17.9,'dorm',{dating_heroine_01:true,dating_heroine_02:true}); G.stage='law'; meet('heroine_01'); meet('heroine_02'); VAC.rec(G).reg['C08@Y1']='done'; run(17.9,21.2);
     const A=txt('p:heroine_01'), Z=txt('p:heroine_02'), q0=OUT.get(G,'vac_C08@Y1_re_heroine_01');
     check('11. AA_369 M3：以安 7/25 起回台中（重逢那天人在老家）＝不約總圖、不排重逢（7/24 當天不傳；第 7 節第 2 題那句 7/25 她回台中那天才傳，見 tests/aa369_hol_unit.js）',!A.includes('heroine_01:明天下午三點，總圖門口。')&&!q0,JSON.stringify([A,q0]));
-    check('11. 芷若大一暑假在台中：回國當天「回來了？……我 26 號回臺北。」，還沒約',Z.includes('heroine_02:回來了？……我 26 號回臺北。')&&!OUT.get(G,'vac_C08@Y1_re_heroine_02'),JSON.stringify(Z));
+    check('11. 芷若大一暑假在台中：回國當天「回來了？我 26 號才回臺北。」，還沒約',Z.includes('heroine_02:回來了？我 26 號才回臺北。')&&!OUT.get(G,'vac_C08@Y1_re_heroine_02'),JSON.stringify(Z));
     /* 2026-10-31 AA_550 第 4 節第 4 點（ZR-SUMMER-LINES-1031）：8/26 回臺北當天不排班、第一個晚班 8/27——原本 8/25 約、8/26 見，改成 8/26 21:00 約、8/27 22:00 見（台詞照原本）*/
     G.day=D('2026-08-25'); run(20.9,21.2); const q1=OUT.get(G,'vac_C08@Y1_re_heroine_02'); check('11. 芷若 8/25 21:00 還不約（AA_550：8/26 回臺北當天才約）',!q1&&!txt('p:heroine_02').includes('heroine_02:明天我十點下班。'),JSON.stringify(q1));
     G.day=D('2026-08-26'); run(20.9,21.2); const q2=OUT.get(G,'vac_C08@Y1_re_heroine_02'); check('11. 芷若 8/26 21:00「明天我十點下班。」→ 8/27 22:00 Café 重逢（AA_373 第 6 節第 9 題：她晚班到 22:00；AA_550 第 4 節第 4 點：8/27 第一個晚班）',txt('p:heroine_02').includes('heroine_02:明天我十點下班。')&&!!q2&&q2.day===D('2026-08-27')&&q2.h===22);
@@ -166,7 +167,7 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2026-07-01'),10,'dorm',{dating_heroine_01:true}); G.stage='law'; meet('heroine_01'); G.flags.romance={heroine_01:{status:'dating',history:[{ev:'start',day:D('2026-07-01')-10}]}};
     picks=['泰國','3 天',0,'和沈以安']; said=[]; await VAC.plan13(GM); check('14. 交往未滿 28 天：「出國……我們先在臺北多走幾個地方。好不好？」、沒有排',lines().some(t=>t.endsWith('出國……我們先在臺北多走幾個地方。好不好？'))&&!(VAC.rec(G).t13||[]).length,JSON.stringify(lines()));
     G.flags.romance.heroine_01.history[0].day=D('2026-07-01')-40; DATE.log(G,'heroine_01').count=2; picks=['歐洲','7 天',0,'和沈以安']; said=[]; await VAC.plan13(GM);
-    check('14. 歐洲、未滿 90 天：「歐洲……我想去。可是要排十天以上，我們下次。」',lines().some(t=>t.endsWith('我們下次。'))&&!(VAC.rec(G).t13||[]).length,JSON.stringify(lines()));
+    check('14. 歐洲、未滿 90 天：「歐洲……我想去。可是要排十天以上，等我們把時間空出來。」',lines().some(t=>t.endsWith('等我們把時間空出來。'))&&!(VAC.rec(G).t13||[]).length,JSON.stringify(lines()));
     picks=['泰國','3 天',0,'和沈以安']; said=[]; await VAC.plan13(GM); const r=VAC.rec(G).t13[0];
     check('14. 滿 28 天、2 次約會：「要不要一起出國？」→「哪裡？……給我三天，我排一份行程給你看。」、排好',lines().some(t=>t.endsWith('要不要一起出國？'))&&lines().some(t=>t.endsWith('給我三天，我排一份行程給你看。'))&&!!r&&r.with==='heroine_01');
     const c0=DATE.log(G,'heroine_01').count, n0=SOCIAL.rel('heroine_01').npcRom||0; G.day=r.from; G.hour=8; said=[]; await VAC.outing(GM,OUT.get(G,'vac_t13_1')); const L=lines();
@@ -181,7 +182,7 @@ GM.money=function(n){ G.money+=n; };
     G.day=D('2027-07-01'); G.hour=8.5; said=[]; picks=[1]; await VAC.outing(GM,OUT.get(G,'vac_C02@Y2')); const L=lines();
     check('15. 小隊長：第一天「名牌這次多了一行字：「小隊長」」→「第一場我帶，你在旁邊看。」、CAMP_LEADER；晚會、最後一天是日誌',L.some(t=>t.includes('「小隊長」'))&&L.includes('隊輔學弟：好。')&&G.flags.CAMP_LEADER===true&&L.includes('晚會。這次換你站在旁邊數人頭。')&&L.includes('最後一天。卡片比去年多兩張。')&&!L.some(t=>t.startsWith('沛珊')),JSON.stringify(L)); }
   { fresh(D('2027-07-01'),8.5,'dorm',{}); G.stage='law'; VAC.signup(G,'C02@Y2','yes'); said=[]; picks=[1]; await VAC.outing(GM,OUT.get(G,'vac_C02@Y2')); const L=lines();
-    check('15. 大二才第一次參加（換人版）：報到是日誌、晚會照演（選項二「……學長你也還在想喔？」）、最後一天只有卡片那句；沒有芯慈、沛珊',L[0]==='報到。有個學員拖著兩個行李箱，你幫她搬上樓。'&&L.includes('學員：……學長你也還在想喔？')&&L.some(t=>t.includes('謝謝學長第二天下午沒有放棄我們這組'))&&!L.some(t=>/^(沛珊|吳芯慈|芯慈)/.test(t)),JSON.stringify(L)); }
+    check('15. 大二才第一次參加（換人版）：報到是日誌、晚會照演（選項二「學長你也還在想喔？」）、最後一天只有卡片那句；沒有芯慈、沛珊',L[0]==='報到。有個學員拖著兩個行李箱，你幫她搬上樓。'&&L.includes('學員：學長你也還在想喔？')&&L.some(t=>t.includes('謝謝學長第二天下午沒有放棄我們這組'))&&!L.some(t=>/^(沛珊|吳芯慈|芯慈)/.test(t)),JSON.stringify(L)); }
   { fresh(D('2028-07-01'),8.5,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C02@Y1']='done'; VAC.rec(G).reg['C02@Y2']='done'; VAC.signup(G,'C02@Y3','yes'); said=[]; await VAC.outing(GM,OUT.get(G,'vac_C02@Y3')); const L=lines();
     check('15. 第三次：三天都是「第三次以後」的日誌',JSON.stringify(L)===JSON.stringify(['報到。你知道充電線要多帶三條。','晚會。學員問法律系難不難，你這次回答得比較快。','最後一天。你把卡片收進放去年那疊卡片的信封。']),JSON.stringify(L)); }
   { const w5=termDay('Y2S2',5,1); fresh(w5,11.9,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C09@Y1']='done'; run(11.9,12.2); const J=txt('p:npc_jiarui');

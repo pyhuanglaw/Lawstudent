@@ -9846,6 +9846,15 @@
    "task": "DLG-FULL-REVIEW-1110",
    "kind": "json",
    "note": "src/data/events.js 手寫檔：舊字整句剛好一處才換（LAWWW-C 11-12 補匯，tests/aa789_events_1112_unit.js）；不是 overlay 工具讀的檔"
+  },
+  {
+   "path": "docs/story_planning/AA_788_vac_activities.json",
+   "sha": "064c49d61f",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-11（X324 寒暑假活動覆蓋列）；AA-C 2026-11-12 20:14 指出漏匯、請照 at 一格一格補匯",
+   "task": "DLG-FULL-REVIEW-1110",
+   "kind": "json",
+   "note": "src/data/vac_activities.js 手寫檔：照 at 路徑定位那一格（byYear 重複句不整檔替換），30 列"
   }
  ]
 }
