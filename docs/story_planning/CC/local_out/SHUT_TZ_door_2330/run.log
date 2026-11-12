@@ -1,0 +1,35 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_storefront_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHUT_TZ_door_2330\out
+CC 店門口：worktree ?；tingzhou 23.5；TAG tz_door_2330；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-10-18 23.5（條件事件、手機關）
+PASS tz_taimi 街上找得到進店的門
+PASS [黑畫面] door_tz_taimi_tz_door_2330 不是黑畫面（平均亮度 41.1、變化 32.3）  [41.1, 32.3]
+  [  59.6s] [截圖] door_tz_taimi_tz_door_2330：鏡頭 {"eye": [-2.8, 1.6, -1], "look": [-7.3, 1.6, -1], "lens": 18, "vfov": 58.72}、亮度 [41.1, 32.3]
+  [  59.6s] tz_taimi 正對門：門 (-7.3, -1)「進泰米村食」朝外 [1, 0]（shopReal.ry）、鏡頭 [-2.8, 1.6, -1]（站得住=True）
+PASS tz_liantong 街上找得到進店的門
+PASS [黑畫面] door_tz_liantong_tz_door_2330 不是黑畫面（平均亮度 42.8、變化 22.3）  [42.8, 22.3]
+  [  61.3s] [截圖] door_tz_liantong_tz_door_2330：鏡頭 {"eye": [-2.8, 1.6, 10.75], "look": [-7.3, 1.6, 10.75], "lens": 18, "vfov": 58.72}、亮度 [42.8, 22.3]
+  [  61.3s] tz_liantong 正對門：門 (-7.3, 10.75)「進汀州聯通」朝外 [1, 0]（shopReal.ry）、鏡頭 [-2.8, 1.6, 10.75]（站得住=True）
+PASS tz_dongnan 街上找得到進店的門
+PASS [黑畫面] door_tz_dongnan_tz_door_2330 不是黑畫面（平均亮度 38.2、變化 11.1）  [38.2, 11.1]
+  [  63.1s] [截圖] door_tz_dongnan_tz_door_2330：鏡頭 {"eye": [-2.8, 1.6, 16.75], "look": [-7.3, 1.6, 16.75], "lens": 18, "vfov": 58.72}、亮度 [38.2, 11.1]
+  [  63.1s] tz_dongnan 正對門：門 (-7.3, 16.75)「進東南大聯商行」朝外 [1, 0]（shopReal.ry）、鏡頭 [-2.8, 1.6, 16.75]（站得住=True）
+PASS tz_keju 街上找得到進店的門
+PASS [黑畫面] door_tz_keju_tz_door_2330 不是黑畫面（平均亮度 38.2、變化 7.1）  [38.2, 7.1]
+  [  64.9s] [截圖] door_tz_keju_tz_door_2330：鏡頭 {"eye": [-2.8, 1.6, 23.25], "look": [-7.3, 1.6, 23.25], "lens": 18, "vfov": 58.72}、亮度 [38.2, 7.1]
+  [  64.9s] tz_keju 正對門：門 (-7.3, 23.25)「進客居雲南」朝外 [1, 0]（shopReal.ry）、鏡頭 [-2.8, 1.6, 23.25]（站得住=True）
+PASS tz_yuehaochi 街上找得到進店的門
+PASS [黑畫面] door_tz_yuehaochi_tz_door_2330 不是黑畫面（平均亮度 38.2、變化 7.5）  [38.2, 7.5]
+  [  66.5s] [截圖] door_tz_yuehaochi_tz_door_2330：鏡頭 {"eye": [-2.8, 1.6, 29], "look": [-7.3, 1.6, 29], "lens": 18, "vfov": 58.72}、亮度 [38.2, 7.5]
+  [  66.5s] tz_yuehaochi 正對門：門 (-7.3, 29)「進越好吃小館」朝外 [1, 0]（shopReal.ry）、鏡頭 [-2.8, 1.6, 29]（站得住=True）
+PASS tz_xile 街上找得到進店的門
+PASS [黑畫面] door_tz_xile_tz_door_2330 不是黑畫面（平均亮度 49.4、變化 31.9）  [49.4, 31.9]
+  [  68.6s] [截圖] door_tz_xile_tz_door_2330：鏡頭 {"eye": [2.8, 1.6, -5.5], "look": [7.3, 1.6, -5.5], "lens": 18, "vfov": 58.72}、亮度 [49.4, 31.9]
+  [  68.6s] tz_xile 正對門：門 (7.3, -5.5)「進洗樂洗衣坊」朝外 [-1, 0]（shopReal.ry）、鏡頭 [2.8, 1.6, -5.5]（站得住=True）
+PASS tz_yindehao 街上找得到進店的門
+PASS [黑畫面] door_tz_yindehao_tz_door_2330 不是黑畫面（平均亮度 54、變化 37.7）  [54, 37.7]
+  [  70.7s] [截圖] door_tz_yindehao_tz_door_2330：鏡頭 {"eye": [2.8, 1.6, 5.75], "look": [7.3, 1.6, 5.75], "lens": 18, "vfov": 58.72}、亮度 [54, 37.7]
+  [  70.7s] tz_yindehao 正對門：門 (7.3, 5.75)「進印得好」朝外 [-1, 0]（shopReal.ry）、鏡頭 [2.8, 1.6, 5.75]（站得住=True）
+PASS 沒有 JS 例外  []
+ALL PASS
