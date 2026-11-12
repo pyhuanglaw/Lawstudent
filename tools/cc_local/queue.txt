@@ -86,8 +86,8 @@ N1_AA811_A2 | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_plan
 N1_MOKU_PLANT_7c | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_moku_plant_probe.py | index.html | 45 | PARTS=7;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/cc_fn_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
 N1_AA814_H23 | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 40 | PARTS=H23;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
 # LAWWW 20:52：H23b 抓到（ytjob3d.js 閘門把語彤那則拿掉、ask 跟著不見；沒認識語彤時 ask 移到欣慈），修 28d5057e8；#nextClass 59a4efb68。GHA 綠給 SHA 後換 SHA、拿掉 #HOLD新SHA；ab28 那行＝修改前對照
-#HOLD新SHA N1_AA814_H23_fix | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 40 | PARTS=H23;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
-#HOLD新SHA N1_TSR_NEXTCLASS | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 15 | PARTS=DORMHALL;NEXTCLASS=1;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
+#SKIP（改排 BE1E_AA814_H23_new／old） N1_AA814_H23_fix | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 40 | PARTS=H23;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
+#SKIP（改排 BE1E_TSR_NEXTCLASS_new／old） N1_TSR_NEXTCLASS | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 15 | PARTS=DORMHALL;NEXTCLASS=1;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
 # CC 20:5x：JOY 四行 ③ FAIL＝探針（第一推走 2.38 m 觸發 kaiMoveIn，推完在對話中就作廢）；修好重跑線上／779 各一
 JOY_live1_r2 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.25;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 JOY_779_1_r2 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.24;LOCAL=1;SHA=779ddd65081bf770e9850d948b54ecc21dc4d120
@@ -1677,3 +1677,19 @@ JOY_779_2 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planni
 # BB 16:38（LAWWW2 烘焙比對，P3、不進遊戲；排在發布前測試與正式工作之後，只排得下一行就跑第一行）
 #HOLD（BB 18:12：LAWWW2 17:48 定案、不用再跑；要測給固定 SHA） BK2_cpu_s | lawww2 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 30 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 64
 #HOLD（BB 18:12：LAWWW2 17:48 定案、不用再跑；要測給固定 SHA） BK2_cpu_full | lawww2 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_3f_ref.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 1024 --samples 512
+
+# ===== CC-C 11-12 03:5x：BB-C 03:53 放行 LAWWW 正式 SHA be1e5d7256（②③④；①X324 閒聊、⑤US-NAV 探針寫好、雲端過了再補）=====
+# ② AA_814 H23：新 be1e 要過；修改前 ab282014a 要 FAIL（同一版探針再跑一次，和 N1_AA814_H23 對照）
+BE1E_AA814_H23_new | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 40 | PARTS=H23;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+BE1E_AA814_H23_old | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_aa814_probe.py | index.html | 40 | PARTS=H23;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
+# ③ TSR NEXTCLASS：chip 走路後寬度＝文字寬、宿舍長桌椅子點了坐下（新 be1e、舊 ab282014a）
+BE1E_TSR_NEXTCLASS_new | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 15 | PARTS=DORMHALL;NEXTCLASS=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+BE1E_TSR_NEXTCLASS_old | ab282014af7e5c878ad171819465665fcc4ae2a5 | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 15 | PARTS=DORMHALL;NEXTCLASS=1;SHA=ab282014af7e5c878ad171819465665fcc4ae2a5
+# ④ 床快轉 BEDFF／BEDFFC 新 be1e、舊 73faa493f（舊 bedffc_P 已有 CHS2_O_bedffc_P，不重跑）
+BE1E_CHS2_N_bedff_P | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;ORIENTS=P,L;MASHO=P;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+BE1E_CHS2_N_bedff_L | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;ORIENTS=L;MASHO=L;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+BE1E_CHS2_N_bedffc_P | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 10 | PARTS=BEDFFC;MASHO=P;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+BE1E_CHS2_N_bedffc_L | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 10 | PARTS=BEDFFC;MASHO=L;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+BE1E_CHS2_O_bedff_P | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;ORIENTS=P,L;MASHO=P;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+BE1E_CHS2_O_bedff_L | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 15 | PARTS=BEDFF;ORIENTS=L;MASHO=L;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
+BE1E_CHS2_O_bedffc_L | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/story_planning/test_tools/cc/cc_choose_probe.py | index.html | 10 | PARTS=BEDFFC;MASHO=L;SHA=73faa493f90fc6c90ccc867950bd012cb3d1d72e
