@@ -9051,8 +9051,8 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "b4697f5eb9",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "L118-DIAN-CEILING-1112",
    "title": "118 巷九間店跟隨鏡頭 4.2→3.6 m（BB 定：要真的天花板）；place_gate 八項已知未過拿掉、狀態表重產",
@@ -9061,14 +9061,15 @@
     "docs/art-rebuild/second_ai/wip/l118_dian_ceiling_1112/README.md"
    ],
    "remaining": "瀏覽器沒跑（BB 的三個條件）",
-   "next": "LAWWW-C 套 patch；CC 跑 place_gate 九間＋進門＋每張座位"
+   "next": "LAWWW-C 套 patch；CC 跑 place_gate 九間＋進門＋每張座位",
+   "ackNote": "LAWWW-C ab9ab0fbe8（另補 layout.json）"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "3191a4aa2d",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "SHOP-STANDARD-BACKFILL-1112",
    "title": "修 shop_sign_lit v1：汀州路樓上住戶的直立招牌（_t_a／_t_b、_2F）不跟著一樓店關",
@@ -9081,10 +9082,10 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "acdf539bc1",
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "SHOP-STANDARD-BACKFILL-1112",
    "title": "汀州路店面板（xs_fronts_lit，東南、聯通、客居、越好吃的招牌）照營業時間調暗",
@@ -9093,7 +9094,24 @@
     "docs/art-rebuild/second_ai/wip/shop_sign_lit_1112/README.md"
    ],
    "remaining": "瀏覽器沒拍；溫特寶邸沒營業時間",
-   "next": "LAWWW-C 套 patch；CC 拍汀州路 23:30"
+   "next": "LAWWW-C 套 patch；CC 拍汀州路 23:30",
+   "ackNote": "LAWWW-C edf237f404"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-FIRST-APPROACH-1112",
+   "title": "第一次走近店面的長幀：店內建好就 compileAsync（背景編著色器），編好前零件不打開",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_first_approach_1112/shop_compile_async_v1.patch",
+    "docs/art-rebuild/second_ai/wip/shop_first_approach_1112/README.md"
+   ],
+   "remaining": "沒有 prof 數字、瀏覽器沒跑",
+   "next": "LAWWW-C 套 patch；CC FIRST_gg_desk 重跑＋讀 prof"
   }
  ]
 }

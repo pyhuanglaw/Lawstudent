@@ -1,0 +1,52 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 4a7523eb66..00e63205be 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1600,7 +1600,11 @@ const Z3 = (function(){
+     const light=s=>{ const G=typeof GAME!=='undefined'?GAME.G:null, P=typeof PLACES!=='undefined'?PLACES:null; let open=true;
+       if(G&&P&&P.isOpen&&s.place) open=!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day)); const k=open?LIT:0.07; if(k===s.k) return; s.k=k; for(const b of s.mats) b.color.copy(b.userData.base).multiplyScalar(k); };
+     /* 先上傳貼圖、先編譯材質，而且分幀：一幀只上傳一張貼圖（一次全部上傳本身就是一頓），全部上傳完再編譯，然後才算「可以顯示」（s.ready）。 */
+-    const warmQ=[]; const warm=s=>{ s.ready=false; const seen=new Set(); for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } for(const o of s.list) warmQ.push({s,m:o}); warmQ.push({s,hold:true}); warmQ.push({s,done:true}); };   /* 第 2 版：貼圖一幀上傳一張以後，零件也一幀打開一個（不做視錐裁切，一定會畫到）——頂點資料上傳、材質編譯跟著分幀；全部畫過一幀才算可以顯示。原本 compile 一次編譯全部、第一次顯示那一幀上傳整間的頂點資料，就是第一次走近那一頓（CC：150～167 ms）*/
++    const warmQ=[]; const warm=s=>{ s.ready=false; const seen=new Set();
++      /* SHOP-FIRST-APPROACH-1112（LAWWW2-C；BB FIRST_gg_desk_r3：公館燒臘 233 ms、新生南路 150 ms、SUNNY 333 ms，都是第一次走近建店內那一幀）：材質第一次畫時 WebGL 在主執行緒同步編譯、連結著色器——
++         一開始就用 compileAsync 把這一間全部的材質送去編（有 KHR_parallel_shader_compile 的話不卡主執行緒；照場景的燈編，之後畫的時候直接用同一個程式），編好以前零件先不打開（warmRun 看 s.compiling）。
++         compile 只走看得到的物件：暫時打開、呼叫完馬上藏回去（compile 是同步收集材質的） */
++      { const Rn=E.renderer; if(Rn&&Rn.compileAsync&&E.camera&&E.scene&&s.grp&&s.list&&s.list.length){ const v0=s.grp.visible, vs=s.list.map(o=>o.visible); try{ s.grp.visible=true; for(const o of s.list) o.visible=true; const pr=Rn.compileAsync(s.grp,E.camera,E.scene); s.compiling=true; const t0=now(); const fin=()=>{ s.compiling=false; rec(prof.step,'compile',now()-t0,s.id); }; if(pr&&pr.then){ pr.then(fin,fin); if(typeof setTimeout==='function') setTimeout(()=>{ if(s.compiling) fin(); },2500); } else fin();   /* 2.5 秒保險：編不完也照常一幀一個打開（回到原本的做法）*/ }catch(e){ s.compiling=false; } finally{ s.list.forEach((o,i)=>{ o.visible=vs[i]; }); s.grp.visible=v0; } } } for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } for(const o of s.list) warmQ.push({s,m:o}); warmQ.push({s,hold:true}); warmQ.push({s,done:true}); };   /* 第 2 版：貼圖一幀上傳一張以後，零件也一幀打開一個（不做視錐裁切，一定會畫到）——頂點資料上傳、材質編譯跟著分幀；全部畫過一幀才算可以顯示。原本 compile 一次編譯全部、第一次顯示那一幀上傳整間的頂點資料，就是第一次走近那一頓（CC：150～167 ms）*/
+     const warmStep=()=>{ const j=warmQ.shift(); if(!j) return; const Rn=E.renderer; if(j.stage){ stage(j); return; } if(!j.s.built) return;
+       try{ if(j.m){ if(!j.s.grp.visible){ j.s.grp.visible=true; j.s.k=-1; light(j.s); if(j.s.want) fallback(j.s,false); } j.m.visible=true; j.m.frustumCulled=false; } else if(j.t&&Rn&&Rn.initTexture) Rn.initTexture(j.t); }catch(e){}
+       if(j.done){ for(const o of j.s.list) o.frustumCulled=true; j.s.ready=true; show(j.s,!!j.s.want); } };
+@@ -1639,7 +1643,8 @@ const Z3 = (function(){
+     const now=()=>(typeof performance!=='undefined'&&performance.now?performance.now():0), prof={step:{},frame:{},reset(){ this.step={}; this.frame={}; }}, rec=(t,k,ms,id)=>{ const o=t[k]||(t[k]={n:0,max:0,sum:0,who:''}); o.n++; o.sum=Math.round((o.sum+ms)*10)/10; if(ms>o.max){ o.max=Math.round(ms*10)/10; o.who=id||''; } };
+     let lastT=0, lastK=null, lastId='';
+     const kindOf=j=>j.stage?j.stage:(j.t?'tex':(j.m?'mesh':(j.hold?'hold':'done')));
+-    const warmRun=()=>{ let n=urgent()?4:1; while(n-->0&&warmQ.length){ const j=warmQ[0], stop=!!(j.hold||j.done||j.stage==='clone'), k=kindOf(j), id=j.s&&j.s.id, t0=now(); warmStep(); rec(prof.step,k,now()-t0,id); lastK=k; lastId=id; if(stop) break; } };
++    const warmRun=()=>{ let n=urgent()?4:1; while(n-->0&&warmQ.length){ if(warmQ[0].s&&warmQ[0].s.compiling&&(warmQ[0].m||warmQ[0].hold||warmQ[0].done)){ const k=warmQ.findIndex(q=>!(q.s&&q.s.compiling&&(q.m||q.hold||q.done))); if(k<0) break; warmQ.unshift(warmQ.splice(k,1)[0]); }   /* 還在編著色器的那一間：先做別的（別間的貼圖、clone、prep），都沒有就這一幀不做 */
++      const j=warmQ[0], stop=!!(j.hold||j.done||j.stage==='clone'), k=kindOf(j), id=j.s&&j.s.id, t0=now(); warmStep(); rec(prof.step,k,now()-t0,id); lastK=k; lastId=id; if(stop) break; } };
+     zone.update=function(dt,E2){ const t=now(); if(lastT&&lastK){ rec(prof.frame,lastK,t-lastT,lastId); lastK=null; } lastT=t; if(up0) up0.call(this,dt,E2);
+       const ld=shops.find(s=>s.loading), on0=shops.filter(s=>s.on).length; warmRun(); f++;
+       if(f%20===1||(f%5===1&&shops.some(s=>s.dd!==undefined&&s.dd<s.near&&!s.ready))){ const t1=now(); tick(); rec(prof.step,'tick',now()-t1,''); }
+diff --git a/tests/shop_real_inside_1112_unit.js b/tests/shop_real_inside_1112_unit.js
+index dd36b1096d..4d3d2e9d8a 100644
+--- a/tests/shop_real_inside_1112_unit.js
++++ b/tests/shop_real_inside_1112_unit.js
+@@ -101,5 +101,20 @@ ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張
+   ok(!!busy0&&busy0!==S3,'㊳ 人還沒到的時候，先預載的是別間（'+(busy0&&busy0.id)+'）');
+   ok(S3.on&&n<=40,'㊴ 走到第四間前面 3 m：'+n+' 幀以內它就建好、顯示（改之前要先等別間建完、一幀一件，60 幀以上）');
+   st(400); ok(R2.shops.every(q=>q.built&&q.ready)&&R2.shops.filter(q=>q.on).length===1,'㊵ 被放掉的那一間之後照樣排回來建好；只有眼前那一間顯示'); }
++/* SHOP-FIRST-APPROACH-1112：建好以後先 compileAsync 這一間（照場景的燈），編好以前零件不打開；別間的工作照做；renderer 沒有 compileAsync 照舊 */
++{ const g3={children:[],add(o){ this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); o.parent=null; }};
++  let calls=[], res=[]; const RN={compileAsync(sc,cam,tgt){ calls.push({sc,cam,tgt,vis:sc.visible,kids:(sc.children||[]).length}); return {then(f){ res.push(f); }}; }, initTexture(){}};
++  const z3b={update:null}, E3b={zone:z3b,player:{obj:{position:new V3(-100,0,-1)}},renderer:RN,camera:{isCam:1},scene:{isScene:1}};
++  const c3={THREE:{Box3,Vector3:V3,Color,MeshBasicMaterial:Basic},ASSETS:{manifest:{k0:{},k1:{}},loadOne(){ return {then(f){ f({scene:mkScene()}); return {catch(){}}; }}; }},GAME:{G:{hour:14,day:3}},PLACES:{isOpen:()=>true,typhoonClosed:()=>false},console,setTimeout:()=>0};
++  vm.createContext(c3); vm.runInContext(src.slice(a,b)+'; this.fn=shopInsideReal;',c3);
++  const mk=(id,x)=>({id,place:'p'+id,key:'k'+id,w:7.4,d:12,h:3.4,x,z:-10,ry:0,cx:x,cz:-4,ex:3,ez:0});
++  const R3=c3.fn(E3b,g3,z3b,[mk(0,-100),mk(1,60)],{lite:false,shutter:false}); const S0=R3.shops[0], st=n=>{ for(let i=0;i<n;i++) z3b.update(0.016,E3b); };
++  let n=0; while(!S0.built&&n<200){ st(1); n++; }
++  const c0=calls.find(c=>c.sc===S0.grp); st(60); const openWhile=S0.list.filter(o=>o.visible).length;
++  ok(!!c0&&c0.cam===E3b.camera&&c0.tgt===E3b.scene&&c0.vis===true&&S0.grp.visible===false,'㊷ 建好那一間就 compileAsync(那一間, 鏡頭, 整個場景)，呼叫時暫時打開、呼叫完藏回去');
++  ok(S0.compiling===true&&openWhile===0&&!S0.ready,'㊸ 還在編的時候零件一個都不打開、不算可以顯示（'+openWhile+' 個打開）');
++  const S1=R3.shops[1]; ok(S1.built,'㊹ 編的時候別間照樣建（第二間 built '+S1.built+'）');
++  res.forEach(f=>f()); st(200); ok(S0.compiling===false&&S0.ready&&S0.on,'㊺ 編好以後照舊一幀一個打開、顯示（ready '+S0.ready+'、on '+S0.on+'）');
++  ok(R3.prof.step.compile&&R3.prof.step.compile.n>=1,'㊻ prof 多記 compile（編了多久）'); }
+ { const P=Rr.prof; ok(P&&P.step&&P.frame&&typeof P.reset==='function'&&P.step.clone&&P.step.clone.n>=1&&P.step.prep&&P.step.mesh&&P.step.tick&&Object.values(P.step).every(o=>o.max>=0&&o.sum>=0),'㊶ shopReal.prof：每一種工作（clone／prep／tex／mesh／tick…）記次數、最長、合計——CC 在電腦上看哪一步是那 150 ms（'+Object.keys(P.step).join('、')+'）'); }
+ console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);
