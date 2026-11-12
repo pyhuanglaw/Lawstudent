@@ -352,7 +352,7 @@ const GG3=(function(){
   S.closingNow=function(k,G){ if(typhoon(k,G)) return false; const h=hr(G);
     for(const [d,off] of [[G.day,0],[G.day-1,-24]]){ const ws=wins(k,d); if(!ws||!ws.length) continue; if(ws.some(w=>h>=w[1]+off-1e-6&&h<w[1]+off+0.5)) return true; }
     return false; };   /* 每一段營業結束後半小時內（印得好期末延到 24:00＝隔天 0 點）*/
-  S.gen=function(GM,k){ const G=GM.G; if(typhoon(k,G)) return false; return S.closingNow(k,G)||seen[k]===(GM.enterN|0); };
+  S.gen=function(GM,k){ const G=GM.G; if(typhoon(k,G)) return false; if(typeof XSCLOSE!=='undefined'&&XSCLOSE.staffToday&&XSCLOSE.staffToday(G,k)) return false;   /* 那天在這間店打工（越好吃小館做到 21:00，AA_829）＝店裡的人：不說打烊那句（和 XSCLOSE.gen 一樣）*/ return S.closingNow(k,G)||seen[k]===(GM.enterN|0); };
   S.outOf=function(GM,k){ const L=LAY(k), to=L&&L.outZone, IT=(GM&&GM.E&&GM.E.interactables)||[]; const it=IT.find(q=>q&&q.exit&&q.exit.to&&q.exit.to===to)||IT.find(q=>q&&q.exit&&q.exit.to&&q.exit.to!==k);
     if(it) return {to:it.exit.to,spawn:it.exit.spawn?Object.assign({},it.exit.spawn):undefined}; return {to:to||(k.indexOf('gg_')===0?'gongguan':'tingzhou'),spawn:L&&L.out?Object.assign({},L.out):undefined}; };
   S.closeOut=async function(GM){ const G=GM.G, k=G.zone, T=D()[k], P=GM.E&&GM.E.player, gen=S.gen(GM,k)&&!!T.close, h=G.hour, d=G.day;

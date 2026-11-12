@@ -8218,6 +8218,15 @@
    "task": "SHOP-JOBS-1112",
    "kind": "md",
    "note": "X356 新店打工第一批（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n；稿上寫「BB-C 11-12 06:04 第二意見四點全採納。定稿。」）：山嵐書店、南洋戲院的告示、應徵、班表、薪水 784、三段工作（新手／熟練／小選擇）、最後一句旁白、員工票、Alison 改說的那一句——tools/story/import_shop_jobs_aa828.py → src/data/shop_jobs_aa828.js（流程 src/jobs3d.js）；LAWWW 的匯入子代理 2026-11-12 代登，待值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_829_新店打工_花序_越好吃_大口漢堡.md",
+   "sha": "ea5e8f5ae",
+   "status": "approved",
+   "approvedBy": "AA（SHOP-JOBS-1112）",
+   "task": "SHOP-JOBS-1112",
+   "kind": "md",
+   "note": "X356 新店打工第二批（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n；稿上寫「BB-C 11-12 06:56 第二意見三點採納……定稿。」）：花序 Flower Notes、越好吃小館、大口漢堡的告示、應徵、班表、薪水（784／686／大夜班 880）、三段工作（新手／熟練／小選擇）、最後一句旁白、越好吃同學來吃飯多的一句——tools/story/import_shop_jobs_aa829.py → src/data/shop_jobs_aa829.js（流程 src/jobs3d.js）；LAWWW 的匯入子代理 2026-11-12 代登，待值班 LAWWW 核"
   }
  ]
 }

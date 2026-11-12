@@ -97,6 +97,7 @@ const XSCLOSE=(function(){
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['xs_close3d:busy']=()=>{ busy=false; };   /* 讀檔時放開 */
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||GM.titleIdle) return false; if(S.markSeen(GM)) return false;
     const C=S.ZONES[G.zone]; if(!C||busy||!sceneFree(GM)||openOf(C,G)) return false;
+    if(typeof JOBS!=='undefined'&&JOBS.early&&JOBS.early(G,G.zone)) return false;   /* 開店以前就要上班的班（花序週六 09:00，AA_829）：有班的人不請出去 */
     busy=true; S.closeOut(GM).catch(e=>console.warn('XSCLOSE.tick',e)).finally(()=>{ busy=false; }); return true; };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.TICKS)&&!STORY.TICKS.includes(S.tick)) STORY.TICKS.push(S.tick);
   return S;
