@@ -101,6 +101,18 @@ async def part_pe(pg, cdp):
     if not R.check('FAIL_SETUP 檢查：PE 進了體育館、換上運動服（CLS.peWear）', bool(wear) and q['zone'] == 'gym', J({'wear': wear, 'zone': q['zone']})): await pg.screenshot(path=os.path.join(OUT, 'pe_fail.png')); return
     await pg.screenshot(path=os.path.join(OUT, 'pe_game.png'))
     RES['pe'] = {'key': key, 'wear': wear, 'player': await player_shots(pg, cdp, 'pe_yuting')}
+    # 脫下（LAWWW-C CANON_JACKET_MODEL ①）：課照演完、CLS.peWear 變回空、空下來以後再拍一次正面、背面
+    t0 = time.time()
+    while time.time() - t0 < 300:
+        w = await pg.evaluate("(()=>{ try{ return CLS.peWear||null; }catch(e){ return null; } })()")
+        q = await D.st(pg)
+        if not w and not q['dlg'] and not q['choices'] and not q['busy']: break
+        if q['choices']: await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); if(b[0]) b[0].click(); })()"); await pg.wait_for_timeout(800); continue
+        if q['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+        await pg.wait_for_timeout(600)
+    w = await pg.evaluate("(()=>{ try{ return CLS.peWear||null; }catch(e){ return null; } })()")
+    if R.check('FAIL_SETUP 檢查：PE 下課以後運動服脫下（CLS.peWear 空）', not w, J(w)):
+        RES['pe']['after'] = await player_shots(pg, cdp, 'pe_after_yuting')
 
 
 async def part_campus(pg, cdp):
