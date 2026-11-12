@@ -178,7 +178,7 @@ const camYOf=z=>CAM?+(CAM.head+CAM.lift+Math.sin(CAM.pitch)*((Z3.ZONES[z]&&Z3.ZO
 /* ---------- 模型檔：GLB 的 JSON、玻璃材質、牆的疊面 ---------- */
 const glbJson=p=>{ try{ const fd=fs.openSync(path.join(ROOT,p),'r'); const h=Buffer.alloc(20); fs.readSync(fd,h,0,20,0); const n=h.readUInt32LE(12); const b=Buffer.alloc(n); fs.readSync(fd,b,0,n,20); fs.closeSync(fd); return JSON.parse(b.toString('utf8')); }catch(e){ return null; } };
 /* 質感：同一個網格裡「同尺寸的東西一排重複」（合併成一個網格的等大方塊；BB-C 11-12 21:1x 建議）——每個連通塊（三邊 ≥3 cm、兩邊 ≥10 cm）的包圍盒（公分）一樣的 ≥8 個 */
-const REP_SKIP=/CEIL|WALL|light|lamp|joist|glass|trim|frame|tile|floor|stair|step|rail|led|emit|price/i;   /* 牆、天花板、燈、層板條：本來就一樣大，不算 */
+const REP_SKIP=/CEIL|WALL|light|lamp|joist|glass|trim|frame|tile|floor|stair|step|rail|led|emit|price|chair|stool|seat|bench|table|cup|plate|bowl|pothos|plant|leaf|hedge|bulb|pendant|metal|wood|walnut|vc/i;   /* 牆、天花板、燈、層板條本來就一樣大；座位、桌子、杯盤、盆栽、材質共用網格（vc／wood／metal）也不算（BB-C 11-12 21:1x：真的店椅子本來就同款）——只看貨品那類 */
 const glbRepeats=p=>{ try{ const f=fs.readFileSync(path.join(ROOT,p)); const n=f.readUInt32LE(12); const j=JSON.parse(f.slice(20,20+n).toString('utf8')); const b0=20+n+8; const out=[];
   const CT={5121:[1,'readUInt8'],5123:[2,'readUInt16LE'],5125:[4,'readUInt32LE'],5126:[4,'readFloatLE']}, NC={SCALAR:1,VEC2:2,VEC3:3,VEC4:4};
   const rd=i=>{ const a=j.accessors[i], bv=j.bufferViews[a.bufferView]; const [sz,fn]=CT[a.componentType], nc=NC[a.type], st=bv.byteStride||sz*nc, off=b0+(bv.byteOffset||0)+(a.byteOffset||0); const r=new Array(a.count*nc);
@@ -256,8 +256,8 @@ async function checkShop(z){ const nm=nameOf(z), ty=TYPE[z], L=tzLay(z), s118=l1
         if(!pb.baseColorTexture) flat++; const pos=acc[q.attributes&&q.attributes.POSITION], idx=q.indices!=null?acc[q.indices]:null;
         if(pos&&pos.count<=24&&idx&&idx.count===36) box++; } }
     if(!n) set(z,'texture','L2','找不到這一區的室內模型檔（程式拼的道具第一層量不到）');
-    else { const fp=Math.round(flat*100/n), bp=Math.round(box*100/n); rep.sort((a,b)=>b.k-a.k); const warn=fp>=50||bp>=25||rep.length>0;
-      set(z,'texture','L2',(warn?'★ 警告 ':'')+'零件 '+n+' 個：沒貼圖的純色 '+fp+'%、方塊 '+box+' 個（'+bp+'%）'+(rep.length?'；同一網格裡同尺寸重複 '+rep.slice(0,3).map(r=>r.mesh+' '+r.k+' 個 '+r.size).join('、'):'')+(warn?'（純色 ≥50%、方塊 ≥25% 或同尺寸重複 ≥8｜SHOP-REALISM-1112）':'')); } }
+    else { const fp=Math.round(flat*100/n), bp=Math.round(box*100/n); rep.sort((a,b)=>b.k-a.k); const warn=fp>=50||bp>=25, rw=rep.length>0;   /* ★＝純色／方塊、◆＝同尺寸貨品一排重複（BB-C 建議分兩個符號）*/
+      set(z,'texture','L2',(warn?'★ ':'')+(rw?'◆ ':'')+'零件 '+n+' 個：沒貼圖的純色 '+fp+'%、方塊 '+box+' 個（'+bp+'%）'+(rep.length?'；同一網格裡同尺寸重複 '+rep.slice(0,3).map(r=>r.mesh+' '+r.k+' 個 '+r.size).join('、'):'')+(warn||rw?'（★ 純色 ≥50% 或方塊 ≥25%；◆ 貨品同尺寸重複 ≥8｜SHOP-REALISM-1112）':'')); } }
   /* --- 尖峰有客人（吃的、喝的；平日 12:30、18:30）--- */
   if(ty==='eat'||ty==='drink'){ const bad=[]; let n=0; for(const h of [12.5,18.5]){ const ds=DAYS.filter(d=>isOpen(z,d,h)); if(!ds.length) continue; n++; let mx=0; for(const d of ds){ enter(z,d,h); mx=Math.max(mx,anon().length); if(mx) break; } if(!mx) bad.push(PLACES.hhmm(h)+'（看了 '+ds.length+' 個平日）'); }
     if(!n) fail(z,'cust','平日 12:30、18:30 都沒開，量不到尖峰'); else if(bad.length) fail(z,'cust','尖峰沒有任何路人客人：'+bad.join('、')); else pass(z,'cust'); } else na(z,'cust');
