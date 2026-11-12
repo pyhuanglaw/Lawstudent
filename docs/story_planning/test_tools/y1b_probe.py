@@ -7,7 +7,7 @@
   V2-SK07   SK07  2026-05-25（第 14 週週一）20:45：21:00 群組唐睿「給我一個觀眾。一個就好。」、排 5/27（三）19:00 博雅 → 睡兩晚 → 5/27 傍晚 →「出發：唐睿的即興劇」→
                   沒玩過經濟系大一＝只有兩個詞（沒有「長頸鹿的尾巴！」）→ 選「機會成本！」→ 演到活大的自助餐收攤 → 品妤「他說是為了練膽量。我覺得是為了社辦的冷氣。」；記 IMPROV_WORD
   V1-B106-D1D2  D1_D4B  2025-09-30（大一上第 5 週週二，麵店日）18:18 校園：走到大一女舍門口的長椅 → 18:30～19:00 品妤經過（沒見過先介紹）「你又在等人？這次等誰？」；
-                  19:00～19:15 以安（BB_105 D4b）「七點。你們遲到兩分鐘。」【前置：沒在麵店團群組就加進去（集合的條件）】
+                  19:00～19:15 以安（BB_105 D4b）「七點。你們遲到兩分鐘。」【前置：沒在桌遊團群組就加進去（集合的條件）】
             D2_WL  照遊戲的擲骰（STORY.b106d2Due）找大一上第 8 週以後韋綸會出現的平日 → 11:54 校園 → 12:00 他在法學院廣場，走到旁邊：
                   第一次「韋綸！騎車的！」「欸！……喔你現在是法律系的。那也走啦！」；【前置：說過了 WL_SAID_LAW】下一次只有「走啦！」
             D2_SOC 找阿勳或唐睿會在社科院門口的平日 15:18 → 走到旁邊：唐睿（沒旗標）「唐睿。全系最會講話的那個。」「法律系的！」／阿勳「盧正勳。你經濟系那年的室友。……」「你們法律系的課表，是不是也很不合理？」
@@ -341,7 +341,7 @@ async def s_sk07(p, run, base, sid, out):
 # ------------------------------------------------------------------ 女舍門口：D1、D4b、D4、D7、D9
 async def s_d1_d4b(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    js = """(()=>{ const G=GAME.G, was=PHONE.inGroup(G,'noodle_team'); if(!was) PHONE.join(G,'noodle_team','麵店團');
+    js = """(()=>{ const G=GAME.G, was=PHONE.inGroup(G,'noodle_team'); if(!was) PHONE.join(G,'noodle_team','桌遊團');
       return {noodleGroupBefore:was, gather:STORY.fdormGather(G), anTold:STORY.anNameTold(G), metPinyu:!!G.flags.MET_PINYU, pinyuAway:STORY.awayNow('econ_pinyu',G)}; })()"""
     b, pg, cdp, errs, r = await launch(p, run, base, '2025-09-30', 18.3, 'campus', pos={'x': -93, 'z': 47}, js=js, label=sid + '（大一上第 5 週週二麵店日，女舍外的路上）')
     try:

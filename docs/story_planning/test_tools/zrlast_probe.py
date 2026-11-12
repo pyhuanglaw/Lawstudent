@@ -804,7 +804,7 @@ def STUSED(cid, keep):   # [前置] 他／她 AA_402 以前的閒聊句都當作
     return " { const R=G.social.small||(G.social.small={}), r=R[%s]||(R[%s]={day:0,used:[],last:null}), keep=%s; r.used=(SMALLTALK[%s]||[]).map(e=>typeof e==='string'?e:e.t).filter(t=>!keep.includes(t)); r.day=0; }" % (json.dumps(cid), json.dumps(cid), json.dumps(keep, ensure_ascii=False), json.dumps(cid))
 NARRQ = "(t=>(window.__LOG||[]).filter(x=>x.t===t).map(x=>x.n||''))(%s)"
 YTD = NOKX + " LV('heroine_03',65,50,45); SOCIAL.rel('heroine_03').npcRom=60; SOCIAL.rel('heroine_03').rom=60; try{ ROM.start(G,'heroine_03'); }catch(e){} G.flags.dating_heroine_03=true;"
-NOODLE = " PHONE.join(G,'noodle_team','麵店團'); LV('heroine_01',25,10,10); LV('yu',25,10,10); LV('zhe',45,30,20);"
+NOODLE = " PHONE.join(G,'noodle_team','桌遊團'); LV('heroine_01',25,10,10); LV('yu',25,10,10); LV('zhe',45,30,20);"
 R4 = [
   # 27. AA_400 子晴的測試版：看過 Q6＋大三上期末選「做出來給我玩。」（HOOK_ZQ_GAME）或九份偶遇（記憶 ENC_D18_ZQ）；2028-03-07（二）21:00 私訊 → 3/8 12:10 總圖二樓
   #     [前置] 讀檔 3/7 20:54 宿舍、Q6 記成演過；之後照玩家：回訊息、睡到早上、時間照走等「出發」
@@ -916,7 +916,7 @@ R4 = [
   dict(id='R34_YT_NYE3', key='2027-12-31', h=22.8, zone='dorm', flags=dict(TW3), js=YTD, steps=[('until', 24.4)], pref=['接起來', '出發：跨年：宿舍頂樓'],
        want=['（電話。她那邊很安靜。）', '……新年快樂。', '店裡今天提早收。阿姨說跨年沒有人吃麵。', '你那邊好吵。……好，你去看。我掛了。'], cflags=['YT_NYE_CALL_Y3'], eqflags={'YT_NYE_CALL_Y3': True},
        jsok=[('電話排在 1/1 00:01', "(q=>q?CALENDAR.dateOf(q.day).key+' '+(+q.h).toFixed(3)+' '+q.verb:null)(OUT.get(GAME.G,'yt_nye_call_y3'))", '2028-01-01 0.017 接起來')]),
-  #   ③ 阿哲叫「哥」（大二初一 11:00 麵店團群組；ZHE_CALLS_GE 有／沒有）
+  #   ③ 阿哲叫「哥」（大二初一 11:00 桌遊團群組；ZHE_CALLS_GE 有／沒有）
   dict(id='R34_ZHE_GE', key='2027-02-06', h=10.9, zone='dorm', flags=dict(TW3, ZHE_CALLS_GE=True), js=NOODLE, asks={'cny_noodle_y2_reply': '（傳家裡的年夜飯照片）'}, steps=[('until', 11.5)], pref=[],
        wantMsg=['我包到第四十個就被趕出廚房。……你們在幹嘛？', '哥，你家也太多菜！', '左下角那盤是什麼？'], noneMsg=['你家也太多菜！']),
   dict(id='R34_ZHE_NOGE', key='2027-02-06', h=10.9, zone='dorm', flags=dict(TW3), js=NOODLE + " delete G.flags.ZHE_CALLS_GE;", asks={'cny_noodle_y2_reply': '新年快樂。Alison'}, steps=[('until', 11.5)], pref=[],
@@ -932,7 +932,7 @@ R4 = [
 SCENS = SCENS + R4
 # ---------------------------------------------------------------- 清單第 38～42 項（LAWWW-B BB_SIS_B6_1023.md；開發分支 d23380d5e；BB-B 10-23）
 #   38 順手的事（系統）、39 八則（瀏覽器走得完的：SQ01、SQ02、SQ03、SQ08）、40 公園的貓被子晴收養、41 總圖借書、42 跨年認識判斷＋Alison 大二探班
-NGRP = " PHONE.join(G,'noodle_team','麵店團');"   # [前置] 在麵店團群組
+NGRP = " PHONE.join(G,'noodle_team','桌遊團');"   # [前置] 在桌遊團群組
 SQROLL = " SIDEQ.roll=()=>0;"   # 【捷徑】「偶爾」（35%）固定抽中：每一則都要在一次裡出得來（機率本身 tests/aa397_sideq_unit.js 測）
 def EATN(key, n): return " EAT.rec(G).n[%s]=%d;" % (json.dumps(key, ensure_ascii=False), n)   # [前置] 這間店點過 n 次（這一次點完＝第 n+1 次；5 次起店員認得你）
 CATN = " PARK.rec(G).catName='麻糬';"   # [前置] 公園的貓取過名字（麻糬）
@@ -1113,7 +1113,7 @@ PSD = " G.flags.dating_classmate_peishan=true;"   # [前置] 和沛珊交往中�
 PSBASE = " LV('classmate_peishan',55,45,40); LV('yu',45,30,20); LV('zhe',45,30,20);"   # [前置] 認識沛珊（朋友）、Alison、阿哲
 BHK = " LV('classmate_bohan',45,30,20);"   # [前置] 認識柏翰
 BHFORGET = " { const M=G.social&&G.social.mem&&G.social.mem.classmate_bohan; if(M) G.social.mem.classmate_bohan=M.filter(m=>m.tag!=='FIRST_MET'); const r=SOCIAL.rel('classmate_bohan'); r.fam=0; r.trust=0; r.comf=0; }"   # [前置] 不認識柏翰
-PSTOLD = " ROM.learn(G,'zhe','classmate_peishan','present'); ROM.learn(G,'yu','classmate_peishan','present');"   # [前置] 麵店團之前就知道了（別的事件公開過）
+PSTOLD = " ROM.learn(G,'zhe','classmate_peishan','present'); ROM.learn(G,'yu','classmate_peishan','present');"   # [前置] 桌遊團之前就知道了（別的事件公開過）
 PS_EGG = ['（沛珊坐在你旁邊。她把碗裡的滷蛋夾了一半，放到你碗裡。）', '……喔。', '全桌安靜三秒。', '對。你們吃你們的。', '（Alison 在桌子底下踢了阿哲一腳。）']
 PS_BHCOST = ['（柏翰把每個人的麵錢算好，寫在餐巾紙上。）', '一個人一百一十五。阿哲你多一顆蛋，一百二十五。', '……你連這個都算。']
 PS_PUB = ['柏翰幫沛珊把滷蛋切成兩半。', '對，我們在一起了。你們吃你們的。', '上禮拜的事。', '（他把另一半滷蛋推回她碗裡。）']
@@ -1133,7 +1133,7 @@ ZR_GO = ['（廣播叫了她那班飛機。她把行李箱推給櫃台以後，�
 ZR_MOM = '我搭十點的客運回台中。你呢？'
 ZRSTEPS = [('until', 21.3), ('bedpick', '睡到明天早上'), ('until', 10.6, 1200)]
 R6 = [
-  # 48＋44 期中晚餐（大一下第 8 週週三 4/15 19:00 阿鳳麵店長桌；[捷徑] 直接開演 ev_midterm_supper_y1s2——排程是「刑總二期中考完、麵店團群組」那一套，另外測過）
+  # 48＋44 期中晚餐（大一下第 8 週週三 4/15 19:00 阿鳳麵店長桌；[捷徑] 直接開演 ev_midterm_supper_y1s2——排程是「刑總二期中考完、桌遊團群組」那一套，另外測過）
   dict(id='PS48_DT_BH', key='TERMDAY:Y1S2:8:3', h=19.0, zone='noodle', flags=dict(TW3), js=NOKX + PSD + PSBASE + BHK, steps=[('runev', 'ev_midterm_supper_y1s2')], pref=['（繼續吃麵）'],
        want=PS_EGG + PS_BHCOST, order=PS_EGG + PS_BHCOST, none=PS_PUB + [PS_TOLDL]),
   dict(id='PS48_DT_NOBH', key='TERMDAY:Y1S2:8:3', h=19.0, zone='noodle', flags=dict(TW3), js=NOKX + PSD + PSBASE + BHFORGET, steps=[('runev', 'ev_midterm_supper_y1s2')], pref=['（繼續吃麵）'],
@@ -2033,13 +2033,13 @@ R12 = [
   dict(id='AB77_BOOTH_YES', key='2025-11-15', h=10.2, zone='campus', flags=dict(TW3, met_sis=True), js=" LV('heroine_05',25,10,5); G.flags.met_sis=true;" + EVUNDO('ev_sis_festival_booth'),
        steps=[PLACEAT(-17.8, 13.0, '【捷徑】放到法律問答攤前（-17.8,13.0）'), ('until', 11.5, 1500)], pref=[], want=BOOTH[:1],
        jsok=[('對照組：見過學姊＝攤位演了', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_sis_festival_booth)", True)]),
-  # 77-⑤ 可昕：跨年邀約的選項「我想在臺北跟麵店團跨年。」→「好。那你幫我跟阿哲說新年快樂。」；成績公布「……都過了。好，這次才是真的放假。」
+  # 77-⑤ 可昕：跨年邀約的選項「我想在臺北跟桌遊團跨年。」→「好。那你幫我跟阿哲說新年快樂。」；成績公布「……都過了。好，這次才是真的放假。」
   dict(id='AB77_KX_NYE', key='2025-12-24', h=20.8, zone='dorm', flags=dict(TW3, dating_kexin=True), js=" LV('kexin',65,50,45); G.flags.dating_kexin=true;",
        steps=[('until', 21.3, 900),
-              ('chk', '12/24 21:00 可昕私訊、兩個選項', "(m=>m&&m.ask?m.ask.opts.map(o=>o.t):null)((GAME.G.msgs||[]).find(x=>x.text==='跨年要不要來高雄？這邊河邊人比較少。'))", ['好。', '我想在臺北跟麵店團跨年。']),
+              ('chk', '12/24 21:00 可昕私訊、兩個選項', "(m=>m&&m.ask?m.ask.opts.map(o=>o.t):null)((GAME.G.msgs||[]).find(x=>x.text==='跨年要不要來高雄？這邊河邊人比較少。'))", ['好。', '我想在臺北跟桌遊團跨年。']),
               ('jsrun', "(()=>{ const m=(GAME.G.msgs||[]).find(x=>x.text==='跨年要不要來高雄？這邊河邊人比較少。'); if(!m||!m.ask) return false; return PHONE.answer(GAME.G,m.ask.id,1)!=null; })()", '【捷徑】手機回第二個選項（PHONE.answer）'),
               ('wait', GE('好。那你幫我跟阿哲說新年快樂。'), 60, '她回')],
-       jsok=[('回「好。那你幫我跟阿哲說新年快樂。」', GE('好。那你幫我跟阿哲說新年快樂。'), True), ('KX_NYE_PICK＝roof', "GAME.G.flags.KX_NYE_PICK", 'roof'), ('沒有「我答應麵店團要去頂樓了。」', GE('我答應麵店團要去頂樓了。'), False)]),
+       jsok=[('回「好。那你幫我跟阿哲說新年快樂。」', GE('好。那你幫我跟阿哲說新年快樂。'), True), ('KX_NYE_PICK＝roof', "GAME.G.flags.KX_NYE_PICK", 'roof'), ('沒有「我答應桌遊團要去頂樓了。」', GE('我答應桌遊團要去頂樓了。'), False)]),
   dict(id='AB77_KX_GRADES', key='2026-01-23', h=21.0, zone='dorm', flags=dict(TW3, dating_kexin=True), js=" LV('kexin',65,50,45); G.flags.dating_kexin=true;",
        steps=[('runev', 'ev_kexin_grades_open')], pref=[], want=['三、二、一——', '……都過了。好，這次才是真的放假。'], none=['寒假開始']),
   # 77-⑥ 芷若紙杯上的電影：第一次一定有（亂數 0.99 也有）；之後 10%（0.5＝沒有、0.05＝有）
@@ -2498,7 +2498,7 @@ SCENS = SCENS + R20
 # AA_448（c32e36006）：④美國校園「往活動中心」換季日子 10/9、11/1、12/2；⑤何俊朗「冷氣好冷」只到 10/8；⑥12/2 初雪兩場（交往中、挽回中）開頭 bg dark（不是 us_chapel_steps 白天秋景）
 # a7a7a6ed8：⑦學姊大峽谷（台灣路線）最後一段「鳳凰城的機場」bg us_airport（不再黑底）。7770155b4：⑧美國校園／法學院圖書館晚上（截圖給人看）
 AN_JP = ['（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）', '（看了一下手錶）……我上次也說過。你們不用全部都來的。', '上次你也知道我們會來。']
-AN_OLD = ['（桃園機場，出境的門口。麵店團站成一排。）', '（看了一下手錶）你們不用全部都來的。']
+AN_OLD = ['（桃園機場，出境的門口。桌遊團站成一排。）', '（看了一下手錶）你們不用全部都來的。']
 O_NY = {'id': 'y6_an_ny', 'ev': 'ev_an_ny_sendoff', 'day': 0, 'h': 10, 'late': 0.5, 'place': '桃園機場', 'title': '送以安（桃園機場）', 'travel': '捷運約一小時', 'travelH': 1}
 O_COL = {'id': 'y6_an_col', 'ev': 'ev_an_columbia', 'day': 0, 'h': 19, 'late': 0.5, 'place': '阿鳳麵店', 'title': '阿鳳麵店（以安）', 'travel': '捷運＋公車 約 30 分鐘', 'travelH': 0.5}
 ANKN = " LV('heroine_01',75,65,60); LV('zhe',45,30,20); LV('yu',45,30,20);"   # [前置] 認識以安（熟）、阿哲、Alison
@@ -3082,7 +3082,7 @@ R38 += [dict(id='R38_CAP_GUITAR', key='2027-05-27', h=19.0, zone='dorm', flags=d
                    ('guitar_grp1 被擠掉了、PHONE.sent 還記得傳過', "PHONE.sent(GAME.G,'guitar_grp1')&&!GAME.G.msgs.some(m=>m.tag==='guitar_grp1')", True),
                    ('擠掉以後沒有再送一次（PHONE.post／postAt 送 guitar_grp1 的次數）', "window.__GG|0", 0),
                    ('擠掉的 capfill 都記進 cut', "(()=>{ const c=PHONE.rec(GAME.G).cut||[], left=GAME.G.msgs.filter(m=>/^capfill_/.test(m.tag||'')).length; return c.filter(t=>/^capfill_/.test(t)).length===199-left; })()", True)])]
-# ③ AA_456（d853debc1，VAC-READ2-1025）各一輪：麵店團群組、交往中的期末邀約、子晴裂縫② 開頭。日期照遊戲資料算（bbtest/dates456.js 在開發分支跑）：
+# ③ AA_456（d853debc1，VAC-READ2-1025）各一輪：桌遊團群組、交往中的期末邀約、子晴裂縫② 開頭。日期照遊戲資料算（bbtest/dates456.js 在開發分支跑）：
 #    2028 麵店店休 1/19～1/28、初四 1/29；大三寒假海邊 1/3、揪人 12/29（三）；以安大二上期末約會那天 12/26；子晴 2028-08 第一個週三 8/2
 OLD11 = '宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。'
 R38 += [dict(id='R38_456_NYE3', key='2027-12-31', h=20.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP + KNOW2, steps=[('until', 21.4)], pref=['不去了'], asks={'*': ''}, nothree=True,
@@ -3091,7 +3091,7 @@ R38 += [dict(id='R38_456_NYE3', key='2027-12-31', h=20.9, zone='dorm', flags=dic
              wantMsg=['十一點半，頂樓。', '頂樓照開。舍監說十二點半，一分鐘都不能多。', '最後一年了耶', '所以要來'], noneMsg=[OLD11]),
         dict(id='R38_456_NOODLE_A28', key='2028-01-19', h=20.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP, steps=[('until', 21.3)], pref=[], asks={'*': ''}, nothree=True,
              wantMsg=['這週店休，初四開。', '阿姨回老家三天。'], noneMsg=['阿姨說要大掃除。想吃麵的，初四以後。'],
-             jsok=[('tag noodle_closed_a_2028、語彤在麵店團', "(GAME.G.msgs||[]).filter(m=>m.tag==='noodle_closed_a_2028').map(m=>m.th+' '+m.from)", ['g:noodle_team heroine_03', 'g:noodle_team heroine_03'])]),
+             jsok=[('tag noodle_closed_a_2028、語彤在桌遊團', "(GAME.G.msgs||[]).filter(m=>m.tag==='noodle_closed_a_2028').map(m=>m.th+' '+m.from)", ['g:noodle_team heroine_03', 'g:noodle_team heroine_03'])]),
         dict(id='R38_456_NOODLE_D28', key='2028-01-29', h=11.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP, steps=[('until', 12.3)], pref=[], asks={'*': ''}, nothree=True,
              wantMsg=['開了。', '阿姨從老家帶了一箱橘子，吃麵送一顆。'], noneMsg=['阿姨說，今天第一碗加蛋。']),
         dict(id='R38_456_C01_Y3', key='2027-12-29', h=20.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP + KNOW2, steps=[('until', 21.8), ('ffloop', '2028-01-03', 21.3, 160), ('dumplog', 'R38_456_C01_Y3')],
@@ -3193,7 +3193,7 @@ SCENS = SCENS + R40
 NDLQ = "(GAME.G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&/^rt_zhe_ndl_/.test(m.tag||'')).map(m=>CALENDAR.dateOf(m.day).key+' '+m.text)"
 NDL4 = ['麵店 我揪了', '麵店 我先到', '今天阿姨有滷蛋', '你最近都沒來 還好嗎']
 NTD = " G.flags.noodleTableDay=D('2025-09-30');"   # [前置] 阿哲的長桌（哲 1）已經發生過（麵店事件 prereq 要 noodleTableDay）
-MEAL_OLD = ['期末最後一科考完。麵店團一定吃一頓。', '阿姨多送了一盤小菜。', '考完了，吃好一點。']
+MEAL_OLD = ['期末最後一科考完。桌遊團一定吃一頓。', '阿姨多送了一盤小菜。', '考完了，吃好一點。']
 ZRN_OLD = ['（她把手機轉向窗外。很遠的地方有煙火，聲音比畫面慢了一點。）', '我要去睡了。你去吃早餐。']
 JPA = " G.flags.HOME_LIVE_N=3;"   # [前置] 家人群組已經走過 3 個位置＝這個週四輪到第 4 則（熱水器）
 YTF = (" LV('heroine_03',50,40,35); G.contacts=G.contacts||{}; G.contacts.heroine_03=D('2025-09-20');"
@@ -3204,7 +3204,7 @@ R41 = [
     Y1('R41_469_NDL3', '2025-10-02', 17.2, None, js=NEWJS + NGRP + NDL0 + " SOCIAL.remember('zhe','FIRST_MET','');",
        steps=[('until', 17.8), ('ffloop', '2025-10-07', 18.0), ('ffloop', '2025-10-09', 18.0), ('ffloop', '2025-10-14', 18.0), ('ffloop', '2025-10-16', 18.0), ('ffloop', '2025-11-04', 18.0), ('dumplog', 'R41_469_NDL3')],
        pref=['不去了', '先不'], wantMsg=NDL4, msgAt={'你最近都沒來 還好嗎': ('2025-10-14', 17.5, 0.2)},
-       jsok=[('阿哲在麵店團的揪，照順序四則、第四則是「還好嗎」、之後沒有（日子 文字）', NDLQ, lambda x: isinstance(x, list) and [t.split(' ', 1)[1] for t in x] == NDL4),
+       jsok=[('阿哲在桌遊團的揪，照順序四則、第四則是「還好嗎」、之後沒有（日子 文字）', NDLQ, lambda x: isinstance(x, list) and [t.split(' ', 1)[1] for t in x] == NDL4),
              ('ndlMiss＝4（停了）、這學期問過（ndlOkT＝Y1S1）', "[GAME.G.flags.ndlMiss, GAME.G.flags.ndlOkT]", [4, 'Y1S1'])]),
     # AA_467 第 1 節：大一下、大二上的期末最後一頓，進麵店就演，前三句換字（大一上照舊）
     Y1('R41_467_MEAL_Y1S2', '2026-06-12', 17.3, None, js=NEWJS + NTD, steps=[ENTER('noodle'), ('until', 17.8)],
@@ -3267,7 +3267,7 @@ PGJL = "(window.__PGJ||[]).map(j=>j.to+' '+j.h+' '+j.res)"
 def LAND(key, h, tol=0.15, desc=''):
     return ('【讀資料】跳到下一件事停在 %s %.2f%s' % (key, h, '（%s）' % desc if desc else ''), PGJL, lambda L: any(x.split(' ')[0] == key and abs(float(x.split(' ')[1]) - h) <= tol for x in (L or [])))
 TAGM = lambda tag: "(GAME.G.msgs||[]).filter(m=>m.tag===%s).map(m=>m.text)" % json.dumps(tag)
-NGRP = " PHONE.join(G,'noodle_team','麵店團');"
+NGRP = " PHONE.join(G,'noodle_team','桌遊團');"
 HOMEJ = " PHONE.join(G,'home','家人');"
 FAMJ = " PHONE.join(G,'family_law','法律系直屬家族');"
 HOMED = lambda k: "((k)=>(GAME.G.msgs||[]).filter(m=>m.th==='g:home'&&(m.from==='dad'||m.from==='mom')&&CALENDAR.dateOf(m.day).key===k).map(m=>m.text))(%s)" % json.dumps(k)
@@ -3329,15 +3329,15 @@ R43 = [
   dict(id='PGF1_R29', minimal=True, key='2029-09-07', h=14.0, zone='campus', pos=PGPOS, flags=BAR29, js=PGJ + NGRP + DONE('exam_2029'),
        steps=[('pguntil', '2029-09-07', 15.1), ('pguntil', '2029-12-14', 15.0, 2700)], pref=[], asks={'*': ''},
        wantMsg=R1G29 + R2G29, noneMsg=['宵夜。', '國考放榜了。'], msgAt={'一試放榜了。': ('2029-09-07', 15.0, 0.1), '宵夜 洗完來': ('2029-12-14', 15.0, 0.1)},
-       jsok=[('9/7 15:00 麵店團（pg_r1g_2029）', TAGM('pg_r1g_2029'), R1G29), ('12/14 15:00 麵店團（pg_r2g_2029）', TAGM('pg_r2g_2029'), R2G29),
+       jsok=[('9/7 15:00 桌遊團（pg_r1g_2029）', TAGM('pg_r1g_2029'), R1G29), ('12/14 15:00 桌遊團（pg_r2g_2029）', TAGM('pg_r2g_2029'), R2G29),
              ('「（群組安靜了三秒。）」只有一次', "(GAME.G.msgs||[]).filter(m=>m.text==='（群組安靜了三秒。）').length", 1), LAND('2029-09-07', 15.0), LAND('2029-12-14', 15.0)]),
   # 2030：9/6 第三版 → 站著跳（一試放榜、10/1 第一天上班、二試兩天）到 12/13 第四版，後面接阿哲、Alison 照舊
   dict(id='PGF1_R30', minimal=True, key='2030-09-06', h=14.0, zone='campus', pos=PGPOS, flags=BAR30, js=PGJ + NGRP + DONE('exam_2029', 'r1_2029', 'b1', 'b1_2030', 'exam_2030'),
        steps=[('pguntil', '2030-09-06', 15.1), ('pguntil', '2030-12-13', 15.13, 3600)], pref=[], asks={'*': ''},
        wantMsg=R1G30 + R2G30 + ZHE30 + [YU30], noneMsg=['宵夜。', '最後一次宵夜。', '國考放榜了。', '一試放榜了。'],
        msgAt={'一試放榜了 今年換我先講': ('2030-09-06', 15.0, 0.1), '放榜了。最後一次。': ('2030-12-13', 15.0, 0.1)},
-       jsok=[('9/6 15:00 麵店團（pg_r1g_2030）', TAGM('pg_r1g_2030'), R1G30), ('12/13 15:00 麵店團（pg_r2g_2030）', TAGM('pg_r2g_2030'), R2G30),
-             ('12/13 麵店團照順序：放榜兩行 → 阿哲 → Alison', NOODLED('2030-12-13'), lambda L: isinstance(L, list) and in_order(L, R2G30 + ZHE30 + [YU30]) is None),
+       jsok=[('9/6 15:00 桌遊團（pg_r1g_2030）', TAGM('pg_r1g_2030'), R1G30), ('12/13 15:00 桌遊團（pg_r2g_2030）', TAGM('pg_r2g_2030'), R2G30),
+             ('12/13 桌遊團照順序：放榜兩行 → 阿哲 → Alison', NOODLED('2030-12-13'), lambda L: isinstance(L, list) and in_order(L, R2G30 + ZHE30 + [YU30]) is None),
              LAND('2030-09-06', 15.0), LAND('2030-12-13', 15.0)]),
   # ② 中秋：住家裡＝20:00 家人群組一組（爸爸照片＋媽媽一句；2030 三則），停一下；不能有 2025 原句、不能有住外面那一版
   dict(id='PGF2_HOME29', minimal=True, key='2029-09-21', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + HOMEJ + NOKX,
@@ -3419,7 +3419,7 @@ R43 = [
        wantMsg=['畢業快樂。', '生日快樂。', '謝謝。'], noneMsg=['今天畢業，恭喜你。', '今天的典禮，恭喜你。'], countMsg={'畢業快樂。': 1}, msgAt={'畢業快樂。': ('2029-06-02', 12.0, 0.6)}, nothree=True,
        jsok=[('生日那一段：我「生日快樂。」、她只回「謝謝。」', "(GAME.G.msgs||[]).filter(m=>m.tag==='pg_sis_ex_bday_reply').map(m=>(m.from||'')+':'+m.text)", ['player:生日快樂。', 'heroine_05:謝謝。']),
              ('PG_SIS_EX_BDAY＝send', "GAME.G.flags.PG_SIS_EX_BDAY||null", 'send')]),
-  # 以安前任（FRIEND 以上）＋麵店團：12/14 21:00 沒有電話、群組「二試過了。一月面試。」；1/25「司法官上了。」各一則
+  # 以安前任（FRIEND 以上）＋桌遊團：12/14 21:00 沒有電話、群組「二試過了。一月面試。」；1/25「司法官上了。」各一則
   dict(id='PGF10_AN_EX', minimal=True, key='2029-12-14', h=20.5, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + NGRP + " LV('heroine_01',45,30,20);" + AN_EX + NOKX,
        steps=[('pguntil', '2030-01-25', 21.0, 2700)], pref=[], asks={'*': ''}, wantMsg=['二試過了。一月面試。', '司法官上了。'], none=AN_CALL,
        countMsg={'二試過了。一月面試。': 1, '司法官上了。': 1}, msgAt={'二試過了。一月面試。': ('2029-12-14', 21.0, 0.1), '司法官上了。': ('2030-01-25', 21.0, 0.1)},

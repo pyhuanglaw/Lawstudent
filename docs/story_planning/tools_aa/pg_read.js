@@ -34,7 +34,7 @@ const y4=async GM=>{ const G=GM.G; if(typeof HOME!=='undefined'&&HOME.at&&HOME.a
 (async()=>{
   const G=H.fresh('2029-06-02',8,'dorm',Object.assign({PACKED_Y4:PG.gradDay()-1},prof.flags)); FRIENDS.forEach(H.FRIEND); if(prof.date) H.date(prof.date);
   if(pk!=='fd'){ G.flags.FAIL_DELAY_COURSES=[]; try{ CLS.rec(G).grades.Y4S2={sim:'大四下全部通過（模擬前置）'}; }catch(e){} }   /* [前置] 模擬沒去考大四下：不讓它變成被當延畢 */
-  for(const [g,n] of [['noodle_team','麵店團'],['home','家人'],['family_law','法律系直屬家族'],['law_class','法律系（全班）']]) try{ PHONE.join(G,g,n); }catch(e){}
+  for(const [g,n] of [['noodle_team','桌遊團'],['home','家人'],['family_law','法律系直屬家族'],['law_class','法律系（全班）']]) try{ PHONE.join(G,g,n); }catch(e){}
   const seen=new WeakSet(); for(const m of (G.msgs||[])) seen.add(m);
   let si=0, ci=0; const lab=()=>PG.dateLabel?PG.dateLabel(G.day,G.hour):(G.day+' '+G.hour);
   const flush=tag=>{ const said=H.said.slice(si); si=H.said.length; const cards=H.cards.slice(ci); ci=H.cards.length; const nm=(G.msgs||[]).filter(m=>!seen.has(m)); nm.forEach(m=>seen.add(m));

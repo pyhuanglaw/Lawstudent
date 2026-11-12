@@ -142,7 +142,7 @@ async def verify(pg, run, sc):
     results.append({'id': sc['id'], 'ok': not probs, 'probs': probs, 'o': {k: o[k] for k in ('flags', 'mem', 'grp', 'npcs', 'speakers', 'zone', 'money')}, 'lines': o['lines'], 'msgs': o['msgTexts'][-12:]})
     if probs: bad.extend('%s：%s' % (sc['id'], p) for p in probs)
 
-GRP = "PHONE.join(G,'noodle_team','麵店團');"
+GRP = "PHONE.join(G,'noodle_team','桌遊團');"
 SENT = []
 async def jump(pg, run, key, h):
     await pg.evaluate("(([k,h])=>{ const G=GAME.G; G.day=STORY.dayOfKey(k); G.hour=h; G.weekday=CALENDAR.dateOf(G.day).wd%%7; GAME.E.hour=h; if(GAME.updateHUD) GAME.updateHUD(); })(%s)" % json.dumps([key, h]))

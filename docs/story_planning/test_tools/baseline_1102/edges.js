@@ -3,7 +3,7 @@ require(LW+'/tests/alison.js'); const H=require(LW+'/tests/pg_harness.js'); cons
 const grad=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
 (async()=>{
   // E1：報了名、8/4 一試的場景整段錯過（例：在家一直按「休息」）
-  { const G=H.fresh('2029-08-04',7,'dorm',{BAR_REG:true,LAWCLUB_SAT_VISITS:10}); grad(G); PHONE.join(G,'noodle_team','麵店團');
+  { const G=H.fresh('2029-08-04',7,'dorm',{BAR_REG:true,LAWCLUB_SAT_VISITS:10}); grad(G); PHONE.join(G,'noodle_team','桌遊團');
     H.at('2029-08-05',7); PG.pending(G); const d=PG.rec(G).done;
     console.log('E1 exam_2029 done=',d.exam_2029,'BAR_SIT_2029=',G.flags.BAR_SIT_2029,'sits2029=',PG.sits(G,2029),'retaker=',PG.retaker(G),'sits2030=',PG.sits(G,2030));
     H.at('2029-09-07',16); H.tick(); console.log('E1 9/7 群組 msgs:',JSON.stringify(H.msgs('g:noodle_team')),'r1 due?',!!PG.due(G));

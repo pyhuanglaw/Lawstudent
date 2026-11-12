@@ -16,7 +16,7 @@
   LASTNOODLE  第 14 週：12/8 21:00 群組阿哲「期末前最後一次麵店 禮拜四」→ 12/9（四）傍晚進麵店「（期末前最後一次週四麵店。大家都帶了講義，沒有人翻開。）」
   SUM1218     第 15 週：12/18（六）18:20 在宿舍等到 18:30 → 日期卡＋「（期末考前的週末。總圖的位子早上八點就沒了。）」
   TEXTS       【讀資料，不是玩】AA_376 #4、#6～#20 的字和條件（新句在、舊句不在；方奕廷 11/1～11/7 上山；四件初識事件限大一；9/14 語彤麵店 18:30 起）
-【前置】讀使用者存檔改日期、時間、地點、旗標（每個情境寫在 run.setup；大三＝ROOM_Y2、ROOM_Y3 已搬過）；讀檔後在頁面裡設關係、聯絡方式、群組（麵店團）、交往。
+【前置】讀使用者存檔改日期、時間、地點、旗標（每個情境寫在 run.setup；大三＝ROOM_Y2、ROOM_Y3 已搬過）；讀檔後在頁面裡設關係、聯絡方式、群組（桌遊團）、交往。
 進門事件（麵店、教室）、總圖的自動事件要事件系統開著（quiet_events=False）；只看手機、出遊的用 quiet_events。之後照玩家：手機回訊息、床上睡覺、手機「跳過時間」、
 手機「地點」前往、走樓梯間、按門「參加」、說話、選項、時間到了按「出發」「接起來」。Playwright 手機橫向模擬、?turbo（每格最多 0.3 秒），不是 iPhone。
 用法：LW_TESTS=<開發分支>/tests SCEN=YT_THU,... python3 aa376_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>"""
@@ -50,7 +50,7 @@ SETUP = """(([rels,dating,repair,flags,groups,mems])=>{ const G=GAME.G, F=G.flag
   return {stages:Object.fromEntries(ids.map(id=>[id,SOCIAL.stage(id)])), groups:(groups||[]).map(g=>[g[0],!!(PHONE.inGroup&&PHONE.inGroup(G,g[0]))]), route:STORY.route?STORY.route(G):null}; })"""
 NPC = """(id=>{ const n=(GAME.E.npcs||[]).find(x=>x&&(x.charId===id||x.id===id)&&x.obj&&x.obj.visible!==false&&!x.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2),n.lv|0,n.id]:null; })"""
 ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
-NT = ('noodle_team', '麵店團')
+NT = ('noodle_team', '桌遊團')
 OLD_CRIM = ['上週我們談了刑事訴訟的目的', '這兩題會出現在期中。不是威脅，是預告。', '收卷。下週講強制處分。']
 
 
@@ -381,7 +381,7 @@ async def s_tue_noodle(p, run, base, sid, out):
 @guard
 async def s_river(p, run, base, sid, out):
     res = out.setdefault(sid, {}); go = sid == 'RIVER_GO'; RV = '（三對三。你們輸了兩場，贏了一場。阿哲說贏的那一場才算。飲料還是你們請的。）'
-    b, pg, cdp, errs, r = await launch(p, run, base, '2027-09-27', 20.9, 'dorm', rels={'zhe': 'FAMILIAR'}, groups=(NT,), label=sid + '（9/27 週一 20:54 宿舍；在麵店團）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2027-09-27', 20.9, 'dorm', rels={'zhe': 'FAMILIAR'}, groups=(NT,), label=sid + '（9/27 週一 20:54 宿舍；在桌遊團）')
     try:
         await drive(pg, cdp, run, max_s=30, label=sid)
         ok, _ = await wait_for(pg, cdp, run, "PHONE.pending(GAME.G).some(m=>m.ask&&m.ask.id==='y3_river33_ask')", max_s=360, label=sid)
@@ -470,7 +470,7 @@ async def s_sum(p, run, base, sid, out):
 @guard
 async def s_noclass(p, run, base, sid, out):
     res = out.setdefault(sid, {}); W = ['沒課的一週', '我睡了三天']
-    b, pg, cdp, errs, r = await launch(p, run, base, '2027-11-05', 21.85, 'dorm', rels={'yu': 'FAMILIAR'}, groups=(NT,), label=sid + '（11/5 週五 21:51；在麵店團）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2027-11-05', 21.85, 'dorm', rels={'yu': 'FAMILIAR'}, groups=(NT,), label=sid + '（11/5 週五 21:51；在桌遊團）')
     try:
         await drive(pg, cdp, run, max_s=30, label=sid)
         ok, _ = await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>m.th==='g:noodle_team'&&m.text===%s)" % json.dumps(W[1]), max_s=360, label=sid)
@@ -482,7 +482,7 @@ async def s_noclass(p, run, base, sid, out):
 @guard
 async def s_lastnoodle(p, run, base, sid, out):
     res = out.setdefault(sid, {}); L1 = '（期末前最後一次週四麵店。大家都帶了講義，沒有人翻開。）'
-    b, pg, cdp, errs, r = await launch(p, run, base, '2027-12-08', 20.9, 'dorm', rels={'zhe': 'FAMILIAR'}, groups=(NT,), quiet=False, label=sid + '（12/8 週三 20:54 宿舍；在麵店團；事件系統開著）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2027-12-08', 20.9, 'dorm', rels={'zhe': 'FAMILIAR'}, groups=(NT,), quiet=False, label=sid + '（12/8 週三 20:54 宿舍；在桌遊團；事件系統開著）')
     try:
         await drive(pg, cdp, run, max_s=30, label=sid)
         ok, _ = await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>m.th==='g:noodle_team'&&m.text==='期末前最後一次麵店 禮拜四')", max_s=360, label=sid)

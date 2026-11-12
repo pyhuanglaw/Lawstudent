@@ -124,7 +124,7 @@ async def verify(pg, run, sc):
     if probs: bad.extend('%s：%s' % (sc['id'], p) for p in probs)
 TW = {'EXCHANGE_ROUTE': 'TW'}
 AN_FAM = "LV('heroine_01',25,10,10);"
-GRP = "PHONE.join(G,'noodle_team','麵店團');"
+GRP = "PHONE.join(G,'noodle_team','桌遊團');"
 ATT3 = "G.acts=G.acts||{}; G.acts.att=G.acts.att||{}; for(const k of ['2028-09-21','2028-09-28','2028-10-05']) G.acts.att['public_law_group@'+D(k)]=1;"
 SCENS = [
   # 大四上 1B-19（AA_323）：萬才館走廊／群組一則／不在群組
@@ -150,10 +150,10 @@ SCENS = [
   dict(id='Y3S1_1C02_nogroup', key='2027-09-14', h=20.8, zone='dorm', flags=TW, js=AN_FAM + "PHONE.rec(G).groups && delete PHONE.rec(G).groups.noodle_team;", steps=[('until', 21.3)],
        none=['明天中秋，河濱，六點。']),
   # 大二下 1C-01：春假（三選一）
-  dict(id='Y2S2_1C01_noodle', key='2027-03-30', h=20.8, zone='dorm', flags={}, js=GRP + "for(const id of ['zhe','yu','heroine_01','heroine_03','classmate_bohan','classmate_xinci']) LV(id,45,30,10);", steps=[('until', 21.3)], pref=['跟麵店團出去'],
+  dict(id='Y2S2_1C01_noodle', key='2027-03-30', h=20.8, zone='dorm', flags={}, js=GRP + "for(const id of ['zhe','yu','heroine_01','heroine_03','classmate_bohan','classmate_xinci']) LV(id,45,30,10);", steps=[('until', 21.3)], pref=['跟桌遊團出去'],
        wantMsg=['語彤說行程她排', '……田野課的。我想自己去看一次。'], cflags=['SPRING_Y2'], eqflags={'SPRING_Y2': 'noodle'}),
   dict(id='Y2S2_1C01_nogroup', key='2027-03-30', h=20.8, zone='dorm', flags={'dating_kexin': False}, js="PHONE.rec(G).groups && delete PHONE.rec(G).groups.noodle_team;", steps=[('until', 21.4)],
-       none=['語彤說行程她排', '跟麵店團出去'], cflags=['SPRING_Y2'], eqflags={'SPRING_Y2': '(undefined)'}),
+       none=['語彤說行程她排', '跟桌遊團出去'], cflags=['SPRING_Y2'], eqflags={'SPRING_Y2': '(undefined)'}),
 ]
 async def sleep_bed(pg, cdp, run):
     sn = await pg.evaluate(SNAP)
