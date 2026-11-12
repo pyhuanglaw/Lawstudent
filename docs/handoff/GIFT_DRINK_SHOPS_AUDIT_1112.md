@@ -19,7 +19,7 @@
 | 2 | 2:30 AM | `story3d.js` counter | 照舊：美式咖啡 100、拿鐵 120、熱可可 110 | — | 有 | 有（不變） |
 | 3 | 日和便利店的咖啡機 | `ggshops_sys3d.js` GGS.buy `cvs.coffee` | 同一間便利商店：出第 1 列那一份（記「便利商店」，芷若對便利商店拿鐵的意見照樣會出） | — | 沒有 | 有 |
 | 4 | 青木茶室的外帶窗口（存檔 key 照舊「清葉茶行」） | `story3d.js` counter（counter 把自己的菜單傳給 `GIFT.shopOpt(G,shop,items)`；不在 `GIFT.SHOPS` 表上） | 桂花烏龍奶茶 70、柚香綠茶 60、春摘白茶 65 | — | 沒有 | 有 |
-| 5 | 頁間書屋的咖啡吧 | `ggshops_sys3d.js` GGS.buy `bookstore.cafe_order` | 美式 90、拿鐵 110、紅茶 80 | 今日蛋糕 | 沒有 | 有 |
+| 5 | 頁間書屋的咖啡吧 | `ggshops_sys3d.js` GGS.buy `bookstore.cafe_order`（菜單＝AA_853＠f6aa917593 的四樣，`yejian_buy3d.js` 接；2026-11-12 AA `lawww_1112` 第 6 點：紅茶 80 加回來） | 美式 90、拿鐵 120、紅茶 80（原本 AA_653：拿鐵 110） | 當日蛋糕 110（原本：今日蛋糕 100） | 沒有 | 有 |
 | 6 | 大口漢堡（櫃檯、自助點餐機） | `dakou_sys3d.js` DKS.order | 可樂 35、熱咖啡 45 | 套餐、雞塊、薯條、蘋果派、豬肉滿福堡 | 沒有 | 有 |
 | 7 | SUNNY SIDE（key「溫州街・半熟」） | `wzshops3d.js` buy() | 美式 120、拿鐵 150、伯爵茶 140 | 法式吐司、班尼迪克蛋、法式火腿起司三明治 | 沒有 | 有 |
 | 8 | 帝大紅茶 | `wzshops3d.js` order364 `tea` | 紅茶、奶茶、檸檬紅茶（中、大）六樣 | — | 沒有 | 有 |

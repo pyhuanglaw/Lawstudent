@@ -9625,12 +9625,18 @@
   },
   {
    "path": "docs/story_planning/AA_853_yejian_shaola_buy.json",
-   "sha": "7f7394acc",
+   "sha": "f6aa917593",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（BB_397 第五節聽過）；LAWWW 的匯入子代理代登，待值班 LAWWW 核",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_397 第五節聽過）；LAWWW 的匯入子代理代登，待值班 LAWWW 核；f6aa917593（AA-C 11-12 回 LAWWW：稿加 lawww_1112 十點、書牆的 look 改字）",
    "task": "GG-SHAOLA-FIX-1112、GG-YEJIAN-SHOP-1112",
    "kind": "json",
-   "note": "公館燒臘點餐（六樣＋加滷蛋、阿姨的話、每樣吃的旁白、記帳 tab_pay／tab_refuse）＋頁間書屋買東西（書牆、新書推薦、雜誌、明信片、咖啡吧的「看」和品項價錢、店員招呼、錢不夠；分支 claude/magical-albattani-bk7b4n）：tools/story/import_yejian_shaola.py → src/data/yejian_shaola_buy.js（YEJIAN_SHAOLA_BUY）。品名、價錢、句子一字照稿；演出 src/shaola_order3d.js、src/yejian_buy3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+   "note": "公館燒臘點餐（六樣＋加滷蛋、阿姨的話、每樣吃的旁白、記帳 tab_pay／tab_refuse）＋頁間書屋買東西（書牆、新書推薦、雜誌、明信片、咖啡吧的「看」和品項價錢、店員招呼、錢不夠；分支 claude/magical-albattani-bk7b4n）：tools/story/import_yejian_shaola.py → src/data/yejian_shaola_buy.js（YEJIAN_SHAOLA_BUY）。品名、價錢、句子一字照稿；演出 src/shaola_order3d.js、src/yejian_buy3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核；2026-11-12 改到 f6aa917593（書牆的 look 改成「照類別分，可是每一格裡沒有順序」；lawww_1112：咖啡吧紅茶 80 加回來共四樣、新書／雜誌／明信片錢不夠共用一句、說話人用現有的阿姨／老闆、2D 下課吃飯扣 105）",
+   "history": [
+    {
+     "sha": "7f7394acc",
+     "note": "被 f6aa917593 取代（書牆的 look 改成「照類別分，可是每一格裡沒有順序」；lawww_1112：咖啡吧紅茶 80 加回來共四樣、新書／雜誌／明信片錢不夠共用一句、說話人用現有的阿姨／老闆、2D 下課吃飯扣 105）"
+    }
+   ]
   }
  ]
 }

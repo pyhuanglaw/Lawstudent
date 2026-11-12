@@ -1,4 +1,6 @@
-// 公館燒臘點餐（GG-SHAOLA-FIX-1112；店面標準 §12 第 3、4 點；AA_853 @ 7f7394acc，分支 claude/magical-albattani-bk7b4n）——不需要瀏覽器（D131）。
+// 公館燒臘點餐（GG-SHAOLA-FIX-1112；店面標準 §12 第 3、4 點；AA_853 @ f6aa917593，分支 claude/magical-albattani-bk7b4n）——不需要瀏覽器（D131）。
+// 2026-11-12 AA 回 LAWWW 的答案（稿的 lawww_1112 燒臘五點；上一版 7f7394acc）：說話人用現有的「阿姨」、順序照現在的、系統字可以＝都不用改；2D 下課吃飯改扣 105（src/classes3d.js）。
+//   第 2 點（「叉燒飯剛上桌。阿姨多切了兩片叉燒。」拿掉）那一句在 src/story3d.js noodleScene，這一批沒有動那個檔（另一條線在改），第 2 項的期望照舊、等值班 LAWWW 接。
 //   1  資料檔 src/data/yejian_shaola_buy.js 的燒臘那一半逐字對稿（六樣價錢、加滷蛋、阿姨的話、每一樣吃的旁白、看菜單、看櫥窗）；匯入工具 --check；白名單
 //   2  點餐掛在「坐下吃飯」：阿姨 greet → 六樣「品名　N 元」＋「先不吃」→ 加滷蛋那一層 → 扣錢 → order_done → 坐下、+30 分鐘 → call → 吃的旁白；吃過的、熟客次數照記
 //   3  加滷蛋 +15；例湯單點 20（沒有加滷蛋那一層、不叫）；六樣各有自己的旁白；先不吃＝不扣錢、不坐
@@ -18,7 +20,7 @@
 //   20:30 排得出客人的日子 27 天裡只有 11 天。這支整份紅（第 0 項就停）。
 // 用法：node tests/shaola_order_1112_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process'); const ROOT=path.resolve(__dirname,'..');
-const SHA='7f7394acc', DOC='docs/story_planning/AA_853_yejian_shaola_buy.json', DATA='src/data/yejian_shaola_buy.js', MOD='src/shaola_order3d.js';
+const SHA='f6aa917593', PREV_SHA='7f7394acc', DOC='docs/story_planning/AA_853_yejian_shaola_buy.json', DATA='src/data/yejian_shaola_buy.js', MOD='src/shaola_order3d.js';
 const J=x=>JSON.stringify(x);
 const src=f=>fs.readFileSync(path.join(ROOT,f),'utf8'), has=f=>fs.existsSync(path.join(ROOT,f));
 const strip=s=>s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/(^|[^:'"\\])\/\/[^\n]*/g,'$1');
@@ -115,7 +117,10 @@ const lines=r=>r.said.map(s=>s[1]), by=(r,t)=>(r.said.find(s=>s[1]===t)||[])[0];
     const ck=cp.spawnSync('python3',['tools/story/import_yejian_shaola.py','--check'],{cwd:ROOT,encoding:'utf8'});
     if(ck.error) console.log('SKIP 1 沒有 python3（匯入工具 --check）'); else check('1 匯入工具 --check：資料檔＝稿匯出來的（走 import_guard 白名單）',ck.status===0,(ck.stdout+ck.stderr).trim().slice(0,200)); }
   const A=JSON.parse(src('docs/handoff/story_import_allow.json')).files.filter(e=>e.path===DOC);
-  check('1 白名單：AA_853 一筆 approved、sha＝'+SHA+'、有 approvedBy；資料檔的來源寫同一版',A.length===1&&A[0].status==='approved'&&A[0].sha===SHA&&!!A[0].approvedBy&&YEJIAN_SHAOLA_BUY.src===DOC+'@'+SHA,J(A));
+  check('1 白名單：AA_853 一筆 approved、sha＝'+SHA+'、有 approvedBy、上一版 '+PREV_SHA+' 在 history；資料檔的來源寫同一版',A.length===1&&A[0].status==='approved'&&A[0].sha===SHA&&!!A[0].approvedBy&&(A[0].history||[]).some(h=>h.sha===PREV_SHA)&&YEJIAN_SHAOLA_BUY.src===DOC+'@'+SHA,J(A));   /* 2026-11-12（AA_853@f6aa917593，稿的 lawww_1112）：舊期望 sha＝7f7394acc */
+  /* 2026-11-12（AA_853@f6aa917593，稿的 lawww_1112）燒臘第 4 點「2D 下課吃飯『一盤叉燒飯加一顆滷蛋』改扣 105」＝叉燒飯 90＋加滷蛋 15。修改前：src/classes3d.js 的 MEALS 寫 100 */
+  { const cs=fs.readFileSync(path.join(ROOT,'src/classes3d.js'),'utf8'), m=/\{t:'公館燒臘',price:(\d+),line:'公館燒臘，一盤叉燒飯加一顆滷蛋。'/.exec(cs);
+    check('1 2D 下課吃飯（src/classes3d.js MEALS）公館燒臘那一餐扣 105＝稿的叉燒飯＋加滷蛋',!!m&&+m[1]===105&&P('叉燒飯')+EGG.p===105,m&&m[1]); }
   check('1 價錢照稿：叉燒飯 90、油雞飯 90、燒鴨飯 100、雙拼飯 110、三寶飯 130、例湯 20、加滷蛋 15',J(D.menu.map(m=>m.p))==='[90,90,100,110,130,20]'&&EGG.p===15&&EGG.n==='加滷蛋'); }
 
 /* ===== 2 點一份 ===== */

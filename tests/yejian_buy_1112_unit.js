@@ -1,4 +1,6 @@
-// 頁間書屋買東西（GG-YEJIAN-SHOP-1112；店面標準 §12 第 3、4 點；AA_853 @ 7f7394acc，分支 claude/magical-albattani-bk7b4n）——不需要瀏覽器（D131）。
+// 頁間書屋買東西（GG-YEJIAN-SHOP-1112；店面標準 §12 第 3、4 點；AA_853 @ f6aa917593，分支 claude/magical-albattani-bk7b4n）——不需要瀏覽器（D131）。
+// 2026-11-12 AA 回 LAWWW 的十點（稿的 lawww_1112；上一版 7f7394acc）：咖啡吧四樣（紅茶 80 加回來）、書牆的 look 改字、新書／雜誌／明信片錢不夠共用稿的一句、招呼的說話人用現有的「老闆」、
+//   雜誌和明信片的位置只讀配置（src/data/yejian_layout.js；src/yejian_buy3d.js 暫放的座標拿掉）。改到的期望都在那一條旁邊註明舊期望。
 // 照 index.html 的順序把整個遊戲載進 Node、建出真的頁間書屋（導航格、互動點），用假的 GM 跑真的 GGS.interact（src/ggshops_sys3d.js）＋ src/yejian_buy3d.js。
 //   1  資料檔 src/data/yejian_shaola_buy.js 的頁間那一半逐字對稿（店員五句、五個點的看／品名／價錢／種類／買了的旁白、錢不夠）；匯入工具 --check；白名單
 //   2  互動點：配置現有的「看看書牆」「看新書」「點咖啡」＋新加的「看雜誌」「看明信片」——站得住、從門口走得到、最近的按鈕是自己、不佔路人站的點；買教科書的點照舊
@@ -6,9 +8,9 @@
 //        不用了＝照舊拿一本去位子上翻；「一本也沒拿」那一句＝不出選單、不拿書
 //   4  新書推薦、明信片＝禮物：進「包包裡的禮物」（一般禮物：八位收到都是一般的那一格）；不進「買禮物…」那一張清單；包包滿了拿不了、不扣錢
 //   5  雜誌：看 → 過期雜誌 50 → 進「物品」；沒買不拿去坐；明信片：面向窗
-//   6  錢不夠：書牆＝稿的那一句旁白；其他點＝「錢不夠」；都不扣錢、不給東西；錢不會變負的
-//   7  招呼：同一天第二次不說、隔天又說；買過三次（咖啡吧點的也算）＝greet_regular；店裡沒有店員（打烊）＝不說、只看不賣
-//   8  咖啡吧：菜單＝稿的三樣（美式 90、拿鐵 120、當日蛋糕 110）；點了＝店員 order →（那天第一次 AA_653 那一句）→ 磨豆機那一句；飲料坐下喝、蛋糕坐下；「買一份帶走送人…」的清單跟著這份菜單
+//   6  錢不夠：書牆＝稿的那一句旁白；新書、雜誌、明信片＝稿共用的那一句（no_money2）；都不扣錢、不給東西；錢不會變負的
+//   7  招呼（老闆說）：同一天第二次不說、隔天又說；買過三次（咖啡吧點的也算）＝greet_regular；店裡沒有人（打烊）＝不說、只看不賣
+//   8  咖啡吧：菜單＝稿的四樣（美式 90、拿鐵 120、當日蛋糕 110、紅茶 80）；點了＝店員 order →（那天第一次 AA_653 那一句）→ 磨豆機那一句；飲料坐下喝、蛋糕坐下；「買一份帶走送人…」的清單跟著這份菜單
 //   9  還沒開門（10:00 以前）按店門＝稿的 not_open；打烊以後照舊 AA_831 那一句；開著＝照常進去。打烊請出去那一句＝稿的 closed_line
 //   10 存檔：只多 YJ_GREET、YJ_BUY_N；買的東西在 GG3_OWN、GIFTH.bag；JSON 來回不變；舊存檔沒有這些欄位照常（「物品」是空的、第一次照樣招呼）
 //   11 index.html 載入順序；這支程式不寫台詞；node --check
@@ -16,7 +18,7 @@
 // 沒載入新稿的樣子（只載 ggshops_sys3d.js＝照舊只有看）：tests/yejian_actions_1110_unit.js、tests/aa653_shops_unit.js 照舊在查。
 // 用法：node tests/yejian_buy_1112_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process'); const ROOT=path.resolve(__dirname,'..');
-const SHA='7f7394acc', DOC='docs/story_planning/AA_853_yejian_shaola_buy.json', DATA='src/data/yejian_shaola_buy.js', MOD='src/yejian_buy3d.js';
+const SHA='f6aa917593', PREV_SHA='7f7394acc', DOC='docs/story_planning/AA_853_yejian_shaola_buy.json', DATA='src/data/yejian_shaola_buy.js', MOD='src/yejian_buy3d.js';
 const J=x=>JSON.stringify(x), src=f=>fs.readFileSync(path.join(ROOT,f),'utf8'), has=f=>fs.existsSync(path.join(ROOT,f)), r2=v=>+(+v).toFixed(2);
 let fails=0; const out=console.log, check=(n,ok,info)=>{ out((ok?'PASS ':'FAIL ')+n+(info&&!ok?'　'+String(info).slice(0,900):'')); if(!ok) fails++; };
 if(!has(DATA)||!has(MOD)){ out('FAIL 0 沒有 '+DATA+'／'+MOD+'（修改前：頁間書屋的書牆、新書只有看，買不到書）'); out('FAILED 1'); process.exit(1); }
@@ -30,7 +32,7 @@ process.on('unhandledRejection',e=>{ out('FAIL unhandledRejection '+(e&&e.stack|
 const HTML=src('index.html'), SRCS=[...HTML.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]); const warn0=console.warn; console.warn=()=>{};
 for(const f of SRCS){ try{ vm.runInThisContext(src(f).replace(/^const (\w+)\s*=/mg,'globalThis.$1='),{filename:f}); }catch(e){} }
 if(typeof YJBUY==='undefined'||!YJBUY.on()||typeof GGS==='undefined'){ out('FAIL 0 載不到 YJBUY／資料／GGS'); out('FAILED 1'); process.exit(1); }
-const D=YEJIAN_SHAOLA_BUY.bookstore, T=D.staff, L=YEJIAN_LAYOUT, PT=k=>D.points.find(p=>p.kind===k), OPT=(n,p)=>n+'　'+p+' 元', CLERK=T.who;
+const D=YEJIAN_SHAOLA_BUY.bookstore, T=D.staff, L=YEJIAN_LAYOUT, PT=k=>D.points.find(p=>p.kind===k), OPT=(n,p)=>n+'　'+p+' 元', CLERK=T.who, BOSS='老闆';   /* 2026-11-12（AA_853@f6aa917593，稿的 lawww_1112）第 10 點：招呼那兩句算現有的「老闆」說的（XSCLOSE.whoOf('bookstore')）；CLERK＝稿的 who，咖啡吧 order 那一句照舊 */
 const DK=k=>STORY.dayOfKey(k), WED=DK('2026-10-14');
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 let G=null; const GMo={};
@@ -61,21 +63,27 @@ const bag=()=>((G.flags.GIFTH||{}).bag||[]).map(b=>b.id);
 /* ===== 1 資料 ===== */
 { let raw=null; try{ raw=cp.execFileSync('git',['show',SHA+':'+DOC],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
   if(!raw) out('SKIP 1 讀不到稿 '+SHA+'（淺層複本：git fetch origin claude/magical-albattani-bk7b4n）');
-  else { const R=JSON.parse(raw).bookstore, bad=[], KIND={'書牆':'shelf_browse','新書推薦':'new_books','雜誌':'magazines','明信片':'postcards','咖啡吧':'cafe_order'};
+  else { const RAW=JSON.parse(raw), R=RAW.bookstore, ANS=(RAW.lawww_1112||{})['頁間']||{}, bad=[], KIND={'書牆':'shelf_browse','新書推薦':'new_books','雜誌':'magazines','明信片':'postcards','咖啡吧':'cafe_order'};
     if(D.name!==R.name) bad.push('name'); if(D.no_money!==R.no_money) bad.push('no_money');
     for(const k of ['greet','greet_regular','closed_line','not_open']) if(T[k]!==R.staff[k]) bad.push('staff.'+k); if(R.staff.who.indexOf(T.who)!==0||T.who!=='店員') bad.push('who');
     if(J(D.points.map(p=>p.label))!==J(Object.keys(R.points))) bad.push('points 的順序');
     for(const [lab,rp] of Object.entries(R.points)){ const p=D.points.find(q=>q.label===lab); if(!p||p.kind!==KIND[lab]){ bad.push(lab+' kind'); continue; }
       if((p.look||null)!==(rp.look||null)) bad.push(lab+' look'); if((p.order||null)!==(rp.order||null)) bad.push(lab+' order');
-      if(J(p.goods.map(g=>[g.n,g.p,g.kind].concat(g.line?[g.line]:[])))!==J(rp.buy)) bad.push(lab+' buy'); }
-    check('1 店員四句、五個點的看／order／品名／價錢／種類／旁白、錢不夠逐字對稿（九樣）',!bad.length&&D.points.reduce((a,p)=>a+p.goods.length,0)===9,bad.join('、'));
+      /* 2026-11-12（AA_853@f6aa917593，稿的 lawww_1112）第 6 點「紅茶 80 加回來，一共四樣」：稿的 buy 陣列還是三樣，咖啡吧多的那一樣從答案的字來（接在最後）。舊期望：每個點的 goods＝稿的 buy、一共九樣 */
+      const add=lab==='咖啡吧'&&/紅茶 80 加回來，一共四樣/.test(ANS['6']||'')&&!rp.buy.some(b=>b[0]==='紅茶')?[['紅茶',80,'eat']]:[];
+      if(J(p.goods.map(g=>[g.n,g.p,g.kind].concat(g.line?[g.line]:[])))!==J(rp.buy.concat(add))) bad.push(lab+' buy'); }
+    check('1 店員四句、五個點的看／order／品名／價錢／種類／旁白、錢不夠逐字對稿（十樣：稿的 buy 九樣＋答案第 6 點加回來的紅茶 80）',!bad.length&&D.points.reduce((a,p)=>a+p.goods.length,0)===10&&J(PT('cafe_order').goods.map(g=>[g.n,g.p]))===J([['美式',90],['拿鐵',120],['當日蛋糕',110],['紅茶',80]]),bad.join('、'));
+    check('1 書牆的 look＝稿的新字（答案第 7 點「照類別分，可是每一格裡沒有順序」）；新書、雜誌、明信片錢不夠共用的那一句＝答案第 8 點「」裡的字',
+      PT('shelf_browse').look===R.points['書牆'].look&&PT('shelf_browse').look.includes('照類別分，可是每一格裡沒有順序')&&(ANS['7']||'').includes('照類別分，可是每一格裡沒有順序')
+      &&!!D.no_money2&&J(D.no_money2.at)===J(['new_books','magazines','postcards'])&&ANS['8']==='新書、雜誌、明信片錢不夠共用一句：「'+D.no_money2.text+'」'&&D.no_money2.text!==D.no_money,J(D.no_money2));
+    check('1 答案第 10 點「打烊句說話人用現有的「老闆」；招呼那兩句也算老闆說的」：現有打烊那一句的說話人＝老闆',(ANS['10']||'').includes('打烊句說話人用現有的「老闆」；招呼那兩句也算老闆說的')&&XSCLOSE.whoOf('bookstore')===BOSS&&YJBUY.greeter().name===BOSS);
     check('1 熟客的次數＝稿 notes「greet_regular：在這裡買過三次以上」',D.regular===3&&R.notes.some(n=>n.startsWith('greet_regular：在這裡買過三次以上')));
     const ck=cp.spawnSync('python3',['tools/story/import_yejian_shaola.py','--check'],{cwd:ROOT,encoding:'utf8'});
     if(ck.error) out('SKIP 1 沒有 python3（匯入工具 --check）'); else check('1 匯入工具 --check：資料檔＝稿匯出來的（走 import_guard 白名單）',ck.status===0,(ck.stdout+ck.stderr).trim().slice(0,200)); }
   const A=JSON.parse(src('docs/handoff/story_import_allow.json')).files.filter(e=>e.path===DOC);
-  check('1 白名單：AA_853 一筆 approved、sha＝'+SHA,A.length===1&&A[0].status==='approved'&&A[0].sha===SHA&&!!A[0].approvedBy);
+  check('1 白名單：AA_853 一筆 approved、sha＝'+SHA+'；上一版 '+PREV_SHA+' 在 history',A.length===1&&A[0].status==='approved'&&A[0].sha===SHA&&!!A[0].approvedBy&&(A[0].history||[]).some(h=>h.sha===PREV_SHA));   /* 2026-11-12（AA_853@f6aa917593，稿的 lawww_1112）：舊期望 sha＝7f7394acc */
   const ids=[].concat(...D.points.map(p=>p.goods.filter(g=>g.kind!=='eat').map(g=>g.id)));
-  check('1 進存檔的東西（own、gift）各有固定的 id、不重複、不和節日禮物的 id 撞；咖啡吧的三樣是 eat',new Set(ids).size===6&&ids.every(i=>/^yj_/.test(i))&&PT('cafe_order').goods.every(g=>g.kind==='eat')&&J(D.points.map(p=>p.goods.map(g=>g.kind).join(',')))===J(['own,own,own','gift','own','gift','eat,eat,eat']),J(ids)); }
+  check('1 進存檔的東西（own、gift）各有固定的 id、不重複、不和節日禮物的 id 撞；咖啡吧的四樣是 eat',new Set(ids).size===6&&ids.every(i=>/^yj_/.test(i))&&PT('cafe_order').goods.every(g=>g.kind==='eat')&&J(D.points.map(p=>p.goods.map(g=>g.kind).join(',')))===J(['own,own,own','gift','own','gift','eat,eat,eat,eat']),J(ids)); }   /* 2026-11-12（AA_853@f6aa917593，稿的 lawww_1112）第 6 點：舊期望咖啡吧三樣（'eat,eat,eat'） */
 
 /* ===== 2 互動點 ===== */
 { start(5000); const DOOR=[L.spawn.x,L.spawn.z], bad=[], pts=['shelf_browse','new_books','magazines','postcards','cafe_order'].map(itOf);
@@ -89,13 +97,18 @@ const bag=()=>((G.flags.GIFTH||{}).bag||[]).map(b=>b.id);
   E.player.obj.position.set(L.spawn.x,0,L.spawn.z);
   check('2 每個點從門口走得到按鈕的範圍、不和別的按鈕疊在一起、不佔路人站的點；新加的兩個點本身站得住、走得到、站在那裡最近的按鈕是它',!bad.length,bad.join('｜'));
   const mg=itOf('magazines'), pc=itOf('postcards'), rack=L.items.find(i=>i.kind==='display_rack'&&i.x<0), wc=L.items.find(i=>i.kind==='window_counter');
+  { /* 2026-11-12（AA_853@f6aa917593，稿的 lawww_1112）：位置只讀配置的 magazines、postcards（LAWWW2 11-12 補的）；src/yejian_buy3d.js 的 POINTS_X 不再放座標，配置沒有那個點＝不放。舊期望：配置沒有的時候用程式裡暫放的座標 */
+    const lm=L.interact.find(i=>i.kind==='magazines'), lp=L.interact.find(i=>i.kind==='postcards');
+    check('2 雜誌、明信片的位置＝配置 interact 的那兩筆；程式裡沒有座標（POINTS_X 只有 kind、face）；配置拿掉那兩筆＝不放這兩個點',!!lm&&!!lp&&!!mg&&!!pc&&mg.x===lm.x&&mg.z===lm.z&&pc.x===lp.x&&pc.z===lp.z
+      &&YJBUY.POINTS_X.every(q=>J(Object.keys(q).sort())===J(['face','kind']))&&YJBUY.extraPoints({interact:L.interact.filter(i=>i.kind!=='magazines'&&i.kind!=='postcards')}).length===0&&YJBUY.extraPoints(L).length===2,J([YJBUY.POINTS_X,YJBUY.extraPoints(L)])); }
   check('2 位置照配置的家具：雜誌在第一座斜面書架（雜誌）北邊 1 m 內；明信片在窗邊長吧台東段前面 1 m 內、最後一張高腳椅東邊',!!mg&&!!pc&&mg.z<rack.z&&Math.abs(mg.x-rack.x)<=rack.w/2&&rack.z-mg.z<1&&pc.z<wc.z&&wc.z-pc.z<1&&pc.x>3.2+0.9&&pc.x<wc.x+wc.w/2,J([mg&&[mg.x,mg.z],pc&&[pc.x,pc.z]])); }
 
 /* ===== 3 書牆 ===== */
 { const P=PT('shelf_browse'), OLD=GGS.LOOK.bookstore.shelf_browse.day.filter(t=>t!==P.look), NO=OLD.find(t=>/一本也沒拿/.test(t)), OK=OLD.find(t=>!/一本也沒拿/.test(t));
   check('3 看的字：稿的 look 和原本三句（AA_653）一起輪，共四句',GGS.LOOK.bookstore.shelf_browse.day.length===4&&OLD.length===3&&GGS.LOOK.bookstore.shelf_browse.day.includes(P.look)&&!!NO&&!!OK);
   start(5000); let r=await press('shelf_browse',['二手小說'],P.look);
-  check('3 那天第一次：店員 greet → 稿的 look → 選單「二手小說　120 元」「二手法律書（舊版）　150 元」「二手詩集　100 元」「不用了」',!!r&&J(r.said.slice(0,2))===J([[CLERK,T.greet],[null,P.look]])&&J(r.menus)===J([P.goods.map(g=>OPT(g.n,g.p)).concat(['不用了'])])&&P.goods.length===3,J(r&&[r.said,r.menus]));
+  /* 2026-11-12（AA_853@f6aa917593，稿的 lawww_1112）第 10 點：招呼的說話人從稿 who 的「店員」改成現有的「老闆」（第 3、4、7 項同）。舊期望：[CLERK,T.greet] */
+  check('3 那天第一次：老闆 greet → 稿的 look → 選單「二手小說　120 元」「二手法律書（舊版）　150 元」「二手詩集　100 元」「不用了」',!!r&&J(r.said.slice(0,2))===J([[BOSS,T.greet],[null,P.look]])&&J(r.menus)===J([P.goods.map(g=>OPT(g.n,g.p)).concat(['不用了'])])&&P.goods.length===3,J(r&&[r.said,r.menus]));
   check('3 買二手小說：扣 120、時間 +9 分鐘、那一樣的旁白、進「物品」；不再拿書去坐',!!r&&r.dm===-120&&r.dh===0.15&&J(r.said[2])===J([null,P.goods[0].line])&&r.said.length===3&&own('yj_novel')===1&&!r.sits.length&&G.flags.YJ_BUY_N===1,J(r&&[r.dm,r.dh,r.said,r.sits,G.flags]));
   check('3 走過去、面向書牆（照舊）：走到的點站得住、面向書牆那一面',!!r&&r.walks.length===1&&r.walks[0][2]===true&&r.faces.length===1&&r.faces[0][1]<-4,J(r&&[r.walks,r.faces]));
   r=await press('shelf_browse',['二手小說'],OK); const o2=own('yj_novel'); r=await press('shelf_browse',['二手法律書'],OK);
@@ -109,7 +122,7 @@ const bag=()=>((G.flags.GIFTH||{}).bag||[]).map(b=>b.id);
 /* ===== 4 禮物：新書推薦、明信片 ===== */
 { const P=PT('new_books'), g=P.goods[0], C=PT('postcards'), c=C.goods[0]; start(5000); const list0=J(GIFT_HOLIDAY.shops.bookstore.items);
   let r=await press('new_books',[g.n],P.look);
-  check('4 新書推薦：greet → 看 → 「店員推薦的新書　320 元」→ 扣 320、小卡那一句、放進包包裡的禮物（不在「物品」那一格）',!!r&&r.dm===-320&&J(r.said)===J([[CLERK,T.greet],[null,P.look],[null,g.line]])&&J(bag())===J(['yj_newbook'])&&own('yj_newbook')===0&&G.flags.GIFTH.bag[0].shop==='bookstore',J(r&&[r.dm,r.said,G.flags]));
+  check('4 新書推薦：greet → 看 → 「店員推薦的新書　320 元」→ 扣 320、小卡那一句、放進包包裡的禮物（不在「物品」那一格）',!!r&&r.dm===-320&&J(r.said)===J([[BOSS,T.greet],[null,P.look],[null,g.line]])&&J(bag())===J(['yj_newbook'])&&own('yj_newbook')===0&&G.flags.GIFTH.bag[0].shop==='bookstore',J(r&&[r.dm,r.said,G.flags]));
   r=await press('postcards',[c.n],C.look);
   check('4 明信片 30：看 → 買 → 那一句旁白、放進包包；面向窗（南）；沒買不拿去坐',!!r&&r.dm===-30&&J(r.said)===J([[null,C.look],[null,c.line]])&&J(bag())===J(['yj_newbook','yj_postcard'])&&r.faces.length===1&&r.faces[0][1]>4&&!r.sits.length,J(r&&[r.dm,r.said,r.faces,bag()]));
   check('4 一般禮物（不是節日禮物）：八位收到都是一般的那一格（ok）；包包那一格列得到品名、店名；節日那天送得出去',GIFTH.PEOPLE.every(p=>GIFTH.cat(p,'yj_newbook')==='ok'&&GIFTH.cat(p,'yj_postcard')==='ok')&&/店員推薦的新書/.test(GIFTH.bagHTML(G))&&/明信片/.test(GIFTH.bagHTML(G))&&GIFTH.givable(G,'heroine_01').some(x=>x.id==='yj_newbook')&&GIFTH.shopName('bookstore')===D.name);
@@ -125,29 +138,31 @@ const bag=()=>((G.flags.GIFTH||{}).bag||[]).map(b=>b.id);
 /* ===== 6 錢不夠 ===== */
 { start(10,{flags:{YJ_GREET:WED}}); const P=PT('shelf_browse'); let r=await press('shelf_browse',['二手小說'],P.look);
   check('6 書牆錢不夠（身上 10）：品項是灰的、選了＝稿的那一句旁白；不扣錢、沒有東西、不算買過',!!r&&r.dm===0&&r.menus[0][0]===OPT('二手小說',120)+'（灰）'&&J(r.said)===J([[null,P.look],[null,D.no_money]])&&own('yj_novel')===0&&!G.flags.YJ_BUY_N&&!r.sits.length,J(r&&[r.menus,r.said,G.flags]));
-  const bad=[]; for(const k of ['new_books','magazines','postcards']){ const q=PT(k); r=await press(k,[q.goods[0].n],q.look); if(!r||r.dm!==0||J(r.toasts)!==J(['錢不夠'])||r.said.some(s=>s[1]===D.no_money)||G.money<0) bad.push(k+J(r&&[r.dm,r.toasts])); }
-  check('6 新書、雜誌、明信片錢不夠：提示「錢不夠」（書牆那一句寫的是書牆的空位，不拿來用）；不扣錢',!bad.length&&!bag().length&&!G.flags.GG3_OWN,bad.join('｜'));
+  const bad=[]; for(const k of ['new_books','magazines','postcards']){ const q=PT(k); r=await press(k,[q.goods[0].n],q.look); if(!r||r.dm!==0||r.toasts.length||J(r.said[r.said.length-1])!==J([null,D.no_money2.text])||r.said.some(s=>s[1]===D.no_money)||G.money<0) bad.push(k+J(r&&[r.dm,r.toasts,r.said])); }
+  /* 2026-11-12（AA_853@f6aa917593，稿的 lawww_1112）第 8 點：這三個點錢不夠共用稿的一句旁白。舊期望：提示「錢不夠」（J(r.toasts)===J(['錢不夠'])）、沒有旁白 */
+  check('6 新書、雜誌、明信片錢不夠：稿共用的那一句旁白「（你看了一下價錢，把它放回去。）」（書牆那一句寫的是書牆的空位，不拿來用）；沒有提示、不扣錢',!bad.length&&D.no_money2.text==='（你看了一下價錢，把它放回去。）'&&!bag().length&&!G.flags.GG3_OWN,bad.join('｜'));
   start(0,{flags:{YJ_GREET:WED}}); for(const k of ['shelf_browse','new_books','magazines','postcards','cafe_order']) for(let i=0;i<4;i++){ reset(); picks=[i]; rq=[0.3]; await GGS.interact(itOf(k),GM); }
   check('6 身上 0 元每個點每一樣都按一輪：錢還是 0、什麼都沒拿到',G.money===0&&!G.flags.GG3_OWN&&!bag().length&&!G.flags.YJ_BUY_N,J([G.money,G.flags])); }
 
 /* ===== 7 招呼 ===== */
-{ start(5000); const P=PT('magazines'); let r=await press('magazines',['不用了'],P.look); const a=r.said[0], d1=G.flags.YJ_GREET; r=await press('postcards',['不用了']); const b=r.said.some(s=>s[0]===CLERK);
-  G.day+=1; G.weekday=(G.weekday+1)%7; r=await press('magazines',['不用了'],P.look); const c=J(r.said[0])===J([CLERK,T.greet]);
-  check('7 招呼一天一次：第一次按＝店員 greet、同一天換一個點不再說、隔天又說',J(a)===J([CLERK,T.greet])&&d1===WED&&!b&&c,J([a,b,c]));
+{ start(5000); const P=PT('magazines'); let r=await press('magazines',['不用了'],P.look); const a=r.said[0], d1=G.flags.YJ_GREET; r=await press('postcards',['不用了']); const b=r.said.some(s=>s[0]===BOSS);
+  G.day+=1; G.weekday=(G.weekday+1)%7; r=await press('magazines',['不用了'],P.look); const c=J(r.said[0])===J([BOSS,T.greet]);
+  check('7 招呼一天一次：第一次按＝老闆 greet、同一天換一個點不再說、隔天又說',J(a)===J([BOSS,T.greet])&&d1===WED&&!b&&c,J([a,b,c]));
   start(5000); await press('magazines',['過期雜誌']); await press('postcards',['明信片']); const n2=G.flags.YJ_BUY_N; reset(); picks=['拿鐵']; await GGS.interact(itOf('cafe_order'),GM); const n3=G.flags.YJ_BUY_N; G.day+=1; G.weekday=(G.weekday+1)%7; r=await press('shelf_browse',['不用了']);
-  check('7 買過三次（咖啡吧點的也算）以後的那一天：招呼換成 greet_regular',n2===2&&n3===3&&J(r.said[0])===J([CLERK,T.greet_regular]),J([n2,n3,r.said[0]]));
+  check('7 買過三次（咖啡吧點的也算）以後的那一天：招呼換成 greet_regular',n2===2&&n3===3&&J(r.said[0])===J([BOSS,T.greet_regular]),J([n2,n3,r.said[0]]));
   start(5000,{hour:22.5}); r=await press('magazines',['過期雜誌'],P.look);
-  check('7 店裡沒有店員（打烊以後 22:30、沒有約沒有班）：不招呼、只有看、不出選單',!!r&&J(r.said)===J([[null,P.look]])&&!r.menus.length&&r.dm===0&&!SH831.staffed('bookstore',G),J(r&&[r.said,r.menus])); }
+  check('7 店裡沒有人（打烊以後 22:30、沒有約沒有班）：不招呼、只有看、不出選單',!!r&&J(r.said)===J([[null,P.look]])&&!r.menus.length&&r.dm===0&&!SH831.staffed('bookstore',G),J(r&&[r.said,r.menus])); }
 
 /* ===== 8 咖啡吧 ===== */
 { const C=PT('cafe_order'), M=GGS.MENU['bookstore.cafe_order']; start(5000);
-  check('8 菜單＝稿的三樣：美式 90、拿鐵 120、當日蛋糕 110（原本 AA_653 的拿鐵 110、紅茶 80、今日蛋糕 100 換掉了）',J(M.items)===J([['美式',90],['拿鐵',120],['當日蛋糕',110]])&&J(M.items)===J(C.goods.map(g=>[g.n,g.p])));
+  /* 2026-11-12（AA_853@f6aa917593，稿的 lawww_1112）第 6 點：紅茶 80 加回來，一共四樣。舊期望：三樣（美式 90、拿鐵 120、當日蛋糕 110），沒有紅茶 */
+  check('8 菜單＝稿的四樣：美式 90、拿鐵 120、當日蛋糕 110、紅茶 80（原本 AA_653 的拿鐵 110、今日蛋糕 100 換掉了；紅茶 80 照舊）',J(M.items)===J([['美式',90],['拿鐵',120],['當日蛋糕',110],['紅茶',80]])&&J(M.items)===J(C.goods.map(g=>[g.n,g.p])));
   reset(); picks=['拿鐵']; rq=[0.1]; await GGS.interact(itOf('cafe_order'),GM);
-  check('8 點拿鐵：選單三樣「品名　N 元」；扣 120；店員 order →（那天第一次）AA_653 那一句 → 磨豆機那一句；走到位子坐下喝',menus[0].slice(0,3).join()===C.goods.map(g=>OPT(g.n,g.p)).join()&&G.money===4880&&J(said.slice(0,2))===J([[CLERK,C.order],[CLERK,M.first[1]]])&&said.length===3&&said[2][0]===null&&sits.length===1&&sits[0].act==='drink',J([menus,said,sits,G.money]));
+  check('8 點拿鐵：選單四樣「品名　N 元」；扣 120；店員 order →（那天第一次）AA_653 那一句 → 磨豆機那一句；走到位子坐下喝',C.goods.length===4&&menus[0].slice(0,4).join()===C.goods.map(g=>OPT(g.n,g.p)).join()&&G.money===4880&&J(said.slice(0,2))===J([[CLERK,C.order],[CLERK,M.first[1]]])&&said.length===3&&said[2][0]===null&&sits.length===1&&sits[0].act==='drink',J([menus,said,sits,G.money]));
   reset(); picks=['當日蛋糕']; await GGS.interact(itOf('cafe_order'),GM);
   check('8 當日蛋糕 110：同一天第二次只有 order 和磨豆機那一句；坐下（不是喝的）',G.money===4770&&J(said.map(s=>s[0]))===J([CLERK,null])&&said[0][1]===C.order&&sits.length===1&&sits[0].act==='sit',J([said,sits,G.money]));
   const sh=GIFT.SHOPS&&GIFT.SHOPS['bookstore.cafe_order'], rows=sh?sh.rows(G):[];
-  check('8 「買一份帶走送人…」的清單跟著這份菜單（飲料＝美式、拿鐵；沒有紅茶了）',!!sh&&J(rows)===J(M.items)&&J(rows.map(r=>r[0]).filter(n=>GIFT.isDrinkName(n)))===J(['美式','拿鐵']),J(rows));
+  check('8 「買一份帶走送人…」的清單跟著這份菜單（飲料＝美式、拿鐵、紅茶）',!!sh&&J(rows)===J(M.items)&&J(rows.map(r=>r[0]).filter(n=>GIFT.isDrinkName(n)))===J(['美式','拿鐵','紅茶']),J(rows));   /* 2026-11-12（AA_853@f6aa917593，稿的 lawww_1112）第 6 點：紅茶加回來。舊期望：飲料＝美式、拿鐵（沒有紅茶） */
   check('8 咖啡吧不招呼（招呼是看書的那四個點）、不進「物品」',!G.flags.YJ_GREET&&!G.flags.GG3_OWN&&G.flags.YJ_BUY_N===2,J(G.flags)); }
 
 /* ===== 9 門口、打烊 ===== */
