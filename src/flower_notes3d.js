@@ -83,7 +83,7 @@ const FN3=(function(){
     IT.push({x:EX.x,z:EX.z,radius:EX.r,lv:0,label:EX.label,exit:{to:EX.to,spawn:{x:S.GG.cx,z:S.GG.outZ,yaw:Math.PI}}});
     IT.push({x:C.buyAt.x,z:C.buyAt.z,radius:C.buyAt.r,lv:0,label:'買花',kind:'gg_flower',fnCounter:true});   /* 買花接好了（FLOWER-NOTES-1110，src/flower_notes_sys3d.js：花藝師、十樣商品、營業時間）；原本暫用的「看」那一句拿掉，櫃檯的「看」照 AA_792 在包裝那一頭（FNS.lookPoints） */
     for(const q of L.seats1) IT.push({x:q.x,z:q.z,radius:0.7,lv:1,label:'坐下',fnSeat:q.id,seat:{x:q.x,z:q.z,yaw:q.yaw,lv:1,table:'fn_t'+q.table}});
-    zone.fnLooks=L.looks;   /* 各區的「看」（永生花、鮮花花束、冷藏花櫃、展示台、黑板、示範桌）：位置在配置；句子 AA_792、互動點由 src/flower_notes_sys3d.js 加（中央展示台稿沒有句子＝不放） */
+    zone.fnLooks=L.looks;   /* 各區的「看」（永生花、鮮花花束、冷藏花櫃、展示台、黑板、示範桌）：位置在配置；句子 AA_792、互動點由 src/flower_notes_sys3d.js 加（中央展示台：AA_792 4021747069 補了句子＝放） */
     zone.fnClerk=Object.assign({},C.clerk);
     // 正式模型
     zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.flower_notes_interior']){ ASSETS.loadOne('bldg.flower_notes_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); }).catch(e=>console.warn('花序室內正式模型載入失敗，用程序化備用模型',e)); }

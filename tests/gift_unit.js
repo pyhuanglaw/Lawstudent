@@ -17,7 +17,10 @@
 //      匯入工具：位置對不到、那一組沒提到那一樣、句子改了、item 寫法不認得、kexinSugar／早餐那一句改了 → 停下來
 //  12. 早餐＝豆漿、米漿、飯糰、三明治（AA_728 notes；不加早餐店）：送她豆漿算早餐（同一天再送飯糰＝no）；以安的豆漿、沛珊的米漿 AA_710 寫在飲料（她最喜歡的）＝對她算飲料
 //  13. 挑反應的順序 fav＞opinion＞ctx＞yes；opinion、ctx 沒寫 rel＝用她這時候 yes 那一格的 rel
-//  朋友六位（AA_728 people）：tests/gift_friends_unit.js
+//  14. STALE-SOURCES-1112（AA_710 86619c1195，X350「所有飲料店賣的飲料都可以買一份帶走送人」新增八格 opinion）：品名綁各店菜單上的飲料（在哪一間買的都算、舊存檔沒記店名也算）、
+//      「一盞茶屋的茶（任何一樣）」＝照店（shopAny；舊存檔沒記店名＝不算；一盞現在還不能買來送人＝匯入工具印提醒）；
+//      匯入工具：品名對不到 → 一次列完再停；沒有那間店 → 停；店的菜單讀不到 → 停（不放行）
+//  朋友（AA_728 people）：tests/gift_friends_unit.js
 // 用法：node tests/gift_unit.js
 const H=require('./pg_harness.js');
 const {check,GM}=H;
@@ -37,10 +40,14 @@ const same=(a,b)=>J(a)===J(b);
   /* 0 資料 */
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_gifts.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     const src=ok1?GIFT_LINES.src:'';
-    check('0. src/data/gift_lines.js 和白名單上的 AA_710 一致（import_gifts.py --check；31c1c4e2c＝X324 G 區改句首「……」，AA 11-11 10:30；舊期望第二版 be775af69）',ok1&&ok2&&ok&&/@31c1c4e2c$/.test(src),out.trim().slice(0,200)+' '+src); }
+    /* 2026-11-12 STALE-SOURCES-1112：舊期望 @31c1c4e2c（X324 G 區）；AA-C 11-12 04:18 改了源稿（86619c1195，X350 新增八格 opinion），白名單換版 */
+    check('0. src/data/gift_lines.js 和白名單上的 AA_710 一致（import_gifts.py --check；86619c1195＝X350 新增八格 opinion，AA-C 11-12 04:18；舊期望 31c1c4e2c）',ok1&&ok2&&ok&&/@86619c1195$/.test(src),out.trim().slice(0,200)+' '+src); }
   if(!ok1||!ok2){ H.done(); return; }
   const LN=GIFT_LINES.people;
   const ITEMN=Object.keys(GIFT.TEMP);
+  /* 各店菜單上的飲料（tools/story/gift_shop_menus.js：載入各店的資料和點餐程式問 GIFT.menu；匯入工具用的同一份）*/
+  let MENUS={shops:{},unreadable:['沒跑'],loadErr:[]}; try{ MENUS=JSON.parse(cp.execFileSync('node',[path.join(H.ROOT,'tools/story/gift_shop_menus.js')],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim().split('\n').pop()); }catch(e){ MENUS.loadErr.push(String(e).slice(0,160)); }
+  const shopsOf=n=>Object.keys(MENUS.shops).filter(s=>MENUS.shops[s].includes(n));
   const catOf=n=>{ for(const it of GIFT.ITEMS) for(const o of it.opt||[['','']]) if(it.n+o[1]===n) return it.cat; return null; };
   const kindOf=(id,n)=>((LN[id]&&LN[id].sec)||{})[n]||catOf(n);   /* 這一樣對她算哪一種（以安的豆漿、沛珊的米漿寫在飲料）*/
   { const bad=[];
@@ -49,9 +56,11 @@ const same=(a,b)=>J(a)===J(b);
       if(!E.yes.some(y=>y.dating)) bad.push(id+'.'+c+' 沒有交往中那一格');
       for(const y of E.yes){ if(!Array.isArray(y.pool)||!y.pool.length||!same(y.lines,y.pool[0].lines)) bad.push(id+'.'+c+' yes lines≠pool[0]'); }
       if(!E.no.length||!E.no.every(g=>g.lines&&g.lines.length)) bad.push(id+'.'+c+' no');
-      for(const e of [E.fav].concat(E.opinion||[]).filter(Boolean)) if(!ITEMN.includes(e.n)||kindOf(id,e.n)!==c) bad.push(id+'.'+c+' 品項 '+e.item+'→'+e.n);
+      /* 舊期望：fav／opinion 的品項都在 S.ITEMS。86619c1195（X350）起 opinion 也可以是某一間可以買來送人的店菜單上的飲料（只能寫在 drink）、或整間店（shopAny，只能寫在 drink）；fav 照舊只能是 S.ITEMS */
+      for(const e of [E.fav].concat(E.opinion||[]).filter(Boolean)){ const inItems=ITEMN.includes(e.n)&&kindOf(id,e.n)===c, onMenu=e!==E.fav&&c==='drink'&&!e.shopAny&&!!e.n&&shopsOf(e.n).length>0, byShop=e!==E.fav&&c==='drink'&&typeof e.shopAny==='string'&&!!e.shopAny&&e.n===undefined;
+        if(!inItems&&!onMenu&&!byShop) bad.push(id+'.'+c+' 品項 '+e.item+'→'+e.n); }
       for(const k in E.ctx||{}) if(!GIFT.CTX.includes(k)) bad.push(id+'.'+c+' ctx '+k); }
-    check('0. 七位都有飲料、早餐：need 1、交往中那一格、pool（lines＝第一組）、no；fav／opinion 的品項都是遊戲買得到的',!bad.length,bad.join('；'));
+    check('0. 七位都有飲料、早餐：need 1、交往中那一格、pool（lines＝第一組）、no；fav／opinion 的品項都是遊戲買得到的（S.ITEMS、各店菜單上的飲料，或整間店）',!bad.length&&!MENUS.unreadable.length&&!MENUS.loadErr.length,bad.join('；')+J([MENUS.unreadable,MENUS.loadErr]));
     check('0. 七位都有最喜歡的（fav；以安豆漿、語彤鮮奶茶（2026-11-11 AA_772 第 95 列：品項「紅茶拿鐵」改名「鮮奶茶」，舊期望 紅茶拿鐵）、沛珊米漿是第二版新的）',IDS.every(id=>LN[id].drink.fav)&&LN.heroine_01.drink.fav.n==='豆漿'&&LN.heroine_03.drink.fav.n==='鮮奶茶'&&LN.classmate_peishan.drink.fav.n==='米漿',J(IDS.map(id=>(LN[id].drink.fav||{}).n)));
     const py=(code)=>{ try{ cp.execFileSync('python3',['-c',code],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); return 'ran'; }catch(e){ return String(e.stderr||''); } };
     const pre="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','be775af69:'+M.PATH]).decode());I=M.game_items();m2=json.loads(subprocess.check_output(['git','show','7ac7380ff:'+M.PATH2]).decode())['_meta'];";
@@ -72,7 +81,7 @@ const same=(a,b)=>J(a)===J(b);
     check('1. 最多 3 樣：第 4 樣灰掉',G.carry.length===3&&GIFT.shopOpt(G,'便利商店').dim===true,J(G.carry));
     G.day+=1; check('1. 隔天：帶著的東西沒了',GIFT.carry(G).length===0); }
   /* 送的共用：直接放進手上（買在 1 測過）*/
-  const mk=(G,n,shop)=>{ G.carry=[]; const c={n,cat:catOf(n),day:G.day,shop:shop||'便利商店'}; G.carry.push(c); return c; };
+  const mk=(G,n,shop)=>{ G.carry=[]; const c={n,cat:catOf(n)||'drink',day:G.day,shop:shop||'便利商店'}; G.carry.push(c); return c; };   /* 各店菜單上的飲料（不在 S.ITEMS）＝drink */
   const split=ls=>[].concat(...ls.map(t=>{ const s=GIFT.text(H.G,t), m=/^(（[^）]*）)(.+)$/.exec(s); return m?[m[1],m[2]]:[s]; }));
   const give=async(G,id,n,shop)=>{ const c=mk(G,n,shop); H.said=[]; const r=await GIFT.give(GM,who(id),id,c); const s=said(); return {r,s:r==='no'?s:s.slice(1),first:s[0],pick:GIFT.lastPick,c}; };
   const E_=(id,c)=>LN[id][c];
@@ -122,7 +131,8 @@ const same=(a,b)=>J(a)===J(b);
     check('4. 七位：第一次送到她最喜歡的＝fav、記 REMEMBERED_HER、好感照 fav；隔幾天再送對不是 fav',!bad.length,bad.join('；')); }
   /* 5 opinion */
   { const bad=[];
-    for(const id of IDS) for(const c of ['drink','breakfast']) for(const o of E_(id,c).opinion||[]){ const G=fresh(); const g=await give(G,id,o.n,o.shop||'便利商店');
+    /* 舊寫法：give(G,id,o.n,o.shop||'便利商店')。86619c1195 起：各店菜單上的品名＝在賣它的那一間買；整間店（shopAny）＝在那間店買的一樣她沒有別的意見的東西（無糖綠茶）*/
+    for(const id of IDS) for(const c of ['drink','breakfast']) for(const o of E_(id,c).opinion||[]){ const G=fresh(); const g=o.shopAny?await give(G,id,'無糖綠茶',o.shopAny):await give(G,id,o.n,o.shop||(ITEMN.includes(o.n)?'便利商店':shopsOf(o.n)[0]));
       if(g.r!=='opinion'||!same(g.s,split(o.pool[0].lines))) bad.push(id+' '+o.item+' '+g.r+' '+J(g.s)); }
     check('5. 每一樣她有意見的（opinion）：送了就是那幾句',!bad.length,bad.join('；'));
     { const G=fresh(); const a=await give(G,'heroine_02','拿鐵','便利商店'); G.day+=2; const b=await give(G,'heroine_02','拿鐵','兩點半 Café');
@@ -262,5 +272,40 @@ const same=(a,b)=>J(a)===J(b);
     { const G3=fresh(); stageOf.heroine_01=2; await give(G3,'heroine_01','無糖綠茶'); G3.day+=1; const r0=Object.assign({},SOCIAL.rel('heroine_01')); const h=await give(G3,'heroine_01','無糖綠茶'); const r1=SOCIAL.rel('heroine_01'); const y=E_('heroine_01','drink').yes.find(q=>!q.dating&&q.need===1);
       if(h.r!=='again'||r1.fam-r0.fam!==(y.rel.fam|0)||r1.comf-r0.comf!==(y.rel.comf|0)) bad.push('以安 again '+h.r); }
     check('13. opinion、ctx 稿裡沒寫 rel：好感照她這時候 yes 那一格（階段 2＝need 1、階段 4＝need 4，npcRom 朋友以上才算）',!bad.length,bad.join('；')); }
+  /* 14 STALE-SOURCES-1112：AA_710 86619c1195 新增八格（品名綁各店菜單、整間店）*/
+  { const NEW=[['heroine_01','檸檬綠茶'],['heroine_02','珍珠奶茶'],['heroine_03','冬瓜茶'],['heroine_04','檸檬多多'],['heroine_05','紅茶'],['classmate_peishan','葡萄柚多多'],['kexin','百香果綠茶']];
+    const A710=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show','86619c1195:docs/story_planning/AA_710_gifts.json'],{encoding:'utf8'}));
+    const bad=[]; let n=0;
+    for(const [id,nm] of NEW){ const o=(E_(id,'drink').opinion||[]).find(x=>x.n===nm), src=(A710[id].drink.opinion||[]).find(x=>x.item===nm);
+      if(!o||!src||o.shop||o.ns||o.shopAny||!same(o.pool.map(g=>g.lines),[src.lines])){ bad.push(id+' '+nm+' 資料 '+J(o)); continue; }
+      const at=shopsOf(nm); if(!at.length) bad.push(nm+' 不在任何一間店的菜單');
+      for(const shop of at.concat([undefined])){ const G=fresh(); stageOf[id]=2; G.carry=[]; const c={n:nm,cat:'drink',day:G.day}; if(shop) c.shop=shop; G.carry.push(c); H.said=[]; let r=null; try{ r=await GIFT.give(GM,who(id),id,c); }catch(e){ r='例外 '+e; } n++;
+        if(r!=='opinion'||!same(said().slice(1),split(src.lines))||G.carry.length) bad.push(id+' '+nm+'＠'+shop+' '+r+' '+J(said())); } }
+    check('14. 新增七格（以安檸檬綠茶、芷若珍珠奶茶、語彤冬瓜茶、子晴檸檬多多、學姊紅茶、沛珊葡萄柚多多、可昕百香果綠茶）：句子＝稿 86619c1195 那幾句；在賣它的每一間店買的都算、舊存檔沒記店名的也算（'+n+' 次）',!bad.length&&n>=16&&same(shopsOf('紅茶').sort(),['喝不喝咖啡','洋洋鹹酥雞','頁間書屋'].sort()),bad.join('；')+' '+J(shopsOf('紅茶')));
+    /* 品名要一字不差：帝大紅茶的「紅茶（中）」不是「紅茶」；別人收到那一樣＝一般句子 */
+    { const G=fresh(); stageOf.heroine_05=2; const a=await give(G,'heroine_05','紅茶（中）','帝大紅茶'); const G2=fresh(); stageOf.heroine_01=2; const b=await give(G2,'heroine_01','珍珠奶茶','喝不喝咖啡');
+      check('14. 品名一字不差才算：學姊收到帝大紅茶的「紅茶（中）」不是那一格；以安收到珍珠奶茶（芷若的那一樣）＝一般句子',a.r!=='opinion'&&b.r==='yes',J([a.r,b.r])); }
+    /* 整間店 */
+    const oy=(E_('heroine_03','drink').opinion||[]).find(x=>x.shopAny), sy=A710.heroine_03.drink.opinion.find(x=>x.item==='一盞茶屋的茶（任何一樣）');
+    { const G=fresh(); stageOf.heroine_03=2; const a=await give(G,'heroine_03','無糖綠茶','一盞茶屋'); const G2=fresh(); stageOf.heroine_03=2; const b=await give(G2,'heroine_03','無糖綠茶','便利商店');
+      const G3=fresh(); stageOf.heroine_03=2; G3.carry=[{n:'無糖綠茶',cat:'drink',day:G3.day}]; H.said=[]; let c=null; try{ c=await GIFT.give(GM,who('heroine_03'),'heroine_03',G3.carry[0]); }catch(e){ c='例外 '+e; }
+      const G4=fresh(); stageOf.heroine_03=2; const d=await give(G4,'heroine_03','凍頂烏龍（附一碟茶點）','一盞茶屋'); const G5=fresh(); stageOf.heroine_03=3; const f=await give(G5,'heroine_03','鮮奶茶','一盞茶屋');
+      check('14. 語彤「一盞茶屋的茶（任何一樣）」＝照店（shopAny）：一盞茶屋買的任何一樣＝那兩句（稿 86619c1195）；同一樣在便利商店買的不是；舊存檔沒記店名的不是、不丟例外；她最喜歡的（鮮奶茶）還是 fav 先',
+        !!oy&&!!sy&&oy.shopAny==='一盞茶屋'&&oy.item===sy.item&&oy.n===undefined&&same(oy.pool.map(g=>g.lines),[sy.lines])&&a.r==='opinion'&&same(a.s,split(sy.lines))&&d.r==='opinion'&&same(d.s,split(sy.lines))&&b.r==='yes'&&c==='yes'&&f.r==='fav',J([oy,a.r,a.s,b.r,c,d.r,f.r])); }
+    /* 一盞現在還不能買來送人（盤點表第 2 節；AA_710 _meta 寫「也開」——等 LAWWW、AA 定）：匯入工具照匯、印提醒，不默默放行 */
+    { let out=''; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_gifts.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); }catch(e){ out=String(e.stderr||e.message); }
+      const G=fresh(), sells=!!GIFT.shopOpt(G,'溫州街・一盞')||Object.keys(MENUS.shops).includes('一盞茶屋');
+      check('14. 一盞茶屋現在不能買來送人 → import_gifts.py 印「[提醒] …一盞茶屋 現在不能買來送人，這一格送不到」（哪天 GIFT.SHOPS 加了這間、記的店名是「一盞茶屋」，提醒就沒了）',sells?!/\[提醒\]/.test(out):/\[提醒\] heroine_03\.drink\.opinion\[\d\]\.item「一盞茶屋的茶（任何一樣）」：一盞茶屋 現在不能買來送人/.test(out),out.trim().split('\n').pop().slice(0,160)); }
+    /* 匯入工具的把關 */
+    const P14="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','86619c1195:'+M.PATH]).decode());m2=json.loads(subprocess.check_output(['git','show','bb3bdad7df:'+M.PATH2]).decode())['_meta'];I=M.game_items();";
+    const e0=py2(P14+"M.build(d,'x',I,m2,M.shop_menus(),[])");
+    const e1=py2(P14+"d['heroine_01']['drink']['opinion'][-1]['item']='檸檬綠';d['kexin']['drink']['opinion'][-1]['item']='火龍果冰沙';M.build(d,'x',I,m2,M.shop_menus(),[])");
+    const e2=py2(P14+"[o for o in d['heroine_03']['drink']['opinion'] if '任何一樣' in o['item']][0]['item']='兩盞茶屋的茶（任何一樣）';M.build(d,'x',I,m2,M.shop_menus(),[])");
+    const e3=py2(P14+"M.MENUS_JS='tools/story/no_such_file.js';M.build(d,'x',I,m2,M.shop_menus(),[])");
+    const e4=py2(P14+"d['heroine_01']['breakfast'].setdefault('opinion',[]).append({'item':'檸檬綠茶','lines':['x']});M.build(d,'x',I,m2,M.shop_menus(),[])");
+    const e5=py2(P14+"M.build(d,'x',I,m2)");
+    const e6=py2(P14+"p=[];d['heroine_03']['drink']['opinion'].append({'item':'果茶社的茶（任何一樣）','lines':['x']});r,_=M.build(d,'x',I,m2,M.shop_menus(),p);o=r['people']['heroine_03']['drink']['opinion'][-1];assert o.get('shopAny')=='果茶社' and 'n' not in o and len(p)==1,(o,p)");
+    check('14. 匯入工具：原稿（附各店菜單）通過；兩個品名對不到 → 兩個都列出來再停（交給 AA）；沒有那間店 → 停；菜單讀不到 → 停（不放行）；各店的飲料寫在早餐 → 停；不給菜單（舊的呼叫法）＝照舊只認 S.ITEMS、停下來；可以買來送人的店（果茶社）的整間店寫法＝shopAny、沒有提醒',
+      e0==='ran'&&/有 2 個品名對不到/.test(e1)&&/「檸檬綠」/.test(e1)&&/「火龍果冰沙」/.test(e1)&&/沒有「兩盞茶屋」這間可以買來送人的店/.test(e2)&&/跑不起來/.test(e3)&&/不能寫在 breakfast/.test(e4)&&/遊戲沒有這個品項/.test(e5)&&e6==='ran',[e0,e1,e2,e3,e4,e5,e6].map(s=>s.trim().split('\n').pop().slice(0,90)).join(' | ')); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });
