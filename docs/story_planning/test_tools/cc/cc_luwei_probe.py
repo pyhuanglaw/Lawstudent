@@ -48,7 +48,7 @@ ST = r"""(()=>{ const d=document.getElementById('dlg'); return {dlg:!!(d&&d.offs
 
 async def snaps(pg, tag, info):
     a = info['AT']; x, z = a['x'], a['z']
-    views = (('front', [x, 1.6, z + 4.2], [x, 1.0, z]), ('side', [x + 4.5, 1.8, z + 1.5], [x, 1.0, z]), ('top', [x, 9.0, z + 0.01], [x, 0, z]))
+    views = (('front', [x, 1.6, z + 4.2], [x, 1.0, z]), ('side', [x + 4.5, 1.8, z + 1.5], [x, 1.0, z]), ('side2', [x - 4.5, 1.8, z + 1.5], [x, 1.0, z]), ('top', [x, 9.0, z + 0.01], [x, 0, z]))   # side2：LAWWW-C 12:37「20:00 兩側」
     for nm, frm, at in views:
         u = await pg.evaluate(SNAP, {'from': frm, 'at': at, 'up': [0, 0, -1] if nm == 'top' else None})
         if u: open(os.path.join(OUT, 'lw_%s_%s.jpg' % (tag, nm)), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
