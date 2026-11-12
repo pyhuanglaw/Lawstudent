@@ -1,6 +1,20 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
+
+## 進度（2026-11-12 04:5x UTC；LAWWW2-C）
+
+- 已交（都 DELIVERED LAWWW-C，等 ACK／整合）：
+  - 汀州路室內：東南大聯商行 `1948e2c15`、汀州聯通 `83e6ec3c3`（`wip/tz_shops5_1112/`）；越好吃、客居雲南已整合（dev `4786cb89c`、`bd08f5788`）。**溫特寶邸還沒做**（概念圖看過：古著店、深木框、假人模特、吊衣桿）。
+  - 兩個「閃」：`e6fdba625`（`wip/shop_flicker_1112/`；118 巷喝不喝咖啡＋果茶社後牆、日常失速兩面牆和外殼疊面；只挪頂點，新工具 `glb_shift_plane.py`）。瀏覽器沒跑。
+- 正在做：**SHOP-WINDOW-3D-1112（使用者 11-12 直接要求：新生南路、公館同批店面櫥窗是一張圖 → 要像 118 巷有立體感）**。
+  - 清單和做法已傳 LAWWW-C（04:5x，等 ACK）：A 新生南路七間、B 公館同批、C 汀州路。
+  - 查到的結構（xinsheng_street.glb）：每間玻璃後 0.8 m 一張卡，全部合在 `wz_xs_fronts` 一個網格（不能用節點藏，要從 GLB 把那幾個三角形拿掉）；卡後面 5 cm 是外殼的一樓牆（`wz_wall_tile`，一間一片）。大步球鞋：玻璃 x＝−16.49、卡 x＝−17.3、外殼牆 x＝−17.35（z −20.4～−12.4、y 0～4.2）。
+  - 打算：`offbeat_storefront.py` 那套（室內 GLB 拿掉臨街牆、燈光烘成一張自發光貼圖、減面）做每間的櫥窗店內；街景 GLB 用工具拿掉卡和那片外殼牆；遊戲端一張表把櫥窗店內擺到玻璃後面。雲端重建不了整條街（缺 Poly Haven 貼圖），所以用改 GLB 的方式。
+  - 交付前掃 `tools/glb_coplanar.py`，確認和外殼沒有疊面。
+- 排在後面：L118-CLOSED-LOOKS-OPEN-1112（P2：118 巷店沒開時看起來還開著）→ 溫特寶邸室內 → ECON-NAV-TRAPS 瀏覽器巡一遍＋交件 → 木曜日二樓平台可點面（MOKU-TAP-STAIR）→ VAC 巡檢。
+- 記帳還沒補：outbox（今天六件交付）、user_asks（11-12 使用者訊息）、`TODO_SHORTCUTS.md`（各件「先將就的」都只寫在各自 README）。
+
 ## ✅ 值班登記（2026-11-12 03:17 UTC；帳號 C LAWWW2-C；使用者：「上一個帳號來不及交班使用量就到了上限，你現在接班，我也會通知其他AI」）
 
 - 值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜分支 `claude/focused-cray-c9uwvw`｜接班基準 `ab925827d`（快轉上一任 `claude/second-ai-env-art`，617 個 commit，沒有衝突）。`duty_LAWWW2.json`＝C、on、userOk。
