@@ -17,8 +17,8 @@
    3 吃飯時間在店裡遇得到同學（S.sched；STORY.SCHED_X 的最後一個＝別的作息全部優先）：
      誰：118 巷課後午餐那八位同班同學（L118_LUNCH_DATA.who）＋118 巷的熟客（LANE118_SHOPS.regulars 裡的人）——都是 AA 已經寫過「會在 118 巷吃飯」的人，不加新的人。
      什麼時候：法律系那幾年、學期中（大一上第 2 週起）、不是考試週（照店內偶遇 AA_632 的規則：考試週不排）、不是颱風假；午餐 11:45～13:30、晚餐 17:45～19:30。
-       每個人每一餐：平日午餐六成、平日晚餐四成半、週末三成的機會出現在某一間店（S.CFG；亂數＝日期＋餐＋人，同一天存讀檔、進出結果一樣），待 36～54 分鐘。
-     哪一間：七成是 118 巷的九間餐廳（照他在 L118_LUNCH_DATA.who 的 prefs 加權；沒寫的人九間平均），三成是其他吃飯的店（S.CFG.other：汀州路的泰米村食、越好吃小館、客居雲南、
+       每個人每一餐：平日午餐七成半、平日晚餐六成、週末四成的機會出現在某一間店（S.CFG；再乘上 AA_771 那個人的 weight：芯慈 0.7、宥辰 0.4；只在熟客表裡的人從他成為熟客的那一學期起，S.since；亂數＝日期＋餐＋人，同一天存讀檔、進出結果一樣），待 36～54 分鐘。
+     哪一間：八成是 118 巷的九間餐廳（照他在 L118_LUNCH_DATA.who 的 prefs 加權；沒寫的人九間平均），兩成是其他吃飯的店（S.CFG.other：汀州路的泰米村食、越好吃小館、客居雲南、
        大口漢堡、林家乾麵、SUNNY SIDE／Daybreak（午餐）、洋洋鹹酥雞（晚餐））；那個時段沒開的照順序換下一間。一間店同一餐最多兩位（S.CFG.perShop）。
      **原本的作息優先**（和 SHOPNPC 同一把尺）：他這個時間原本有事（上課、社課、打工、約好的、在別的店……）＝這一餐不出現；只有作息表裡單純「在某一區走走」和沒有作息的空檔才算空。
        那一天跟玩家有約（SHOPNPC.planDay）、那個時段是他 118 巷熟客的時段（照舊站在店門口，lane118.js）、阿哲約的午餐／當面約的 118 巷午餐成行的那一天中午（照那一場）＝不排。
@@ -65,8 +65,8 @@ const SHOPLIFE=(function(){
   S.attachSeats=function(E){ const z=E&&E.zone; if(!z||!z.shopLayout||Array.isArray(z.seats)) return 0; z.seats=(E.interactables||[]).filter(i=>i&&i.tzSeat&&i.seat).map(i=>i.seat); return z.seats.length; };
 
   /* ---------- 3 吃飯時間遇得到同學 ---------- */
-  S.CFG={ slots:[{id:'lunch',from:11.75,to:13.5,p:0.6,pEnd:0.3},{id:'dinner',from:17.75,to:19.5,p:0.45,pEnd:0.3}],   /* p＝平日、pEnd＝週末和國定假日 */
-    lane118:0.7,   /* 去 118 巷的比例（使用者：118 巷就是要很容易遇到同學）*/
+  S.CFG={ slots:[{id:'lunch',from:11.75,to:13.5,p:0.75,pEnd:0.4},{id:'dinner',from:17.75,to:19.5,p:0.6,pEnd:0.4}],   /* p＝平日、pEnd＝週末和國定假日 */
+    lane118:0.8,   /* 去 118 巷的比例（使用者：118 巷就是要很容易遇到同學）*/
     other:{lunch:['tz_taimi','tz_yuehaochi','tz_keju','xs_dakou','wz_lin','daybreak','wz_brunch'],dinner:['tz_taimi','tz_yuehaochi','tz_keju','xs_dakou','wz_lin','yangyang']},
     perShop:2, start:0.5, stay:[0.6,0.9], weekMin:2, weekMinTerms:['Y1S1'] };
   S.TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
@@ -74,6 +74,9 @@ const SHOPLIFE=(function(){
   const L8=()=>typeof LANE118_SHOPS!=='undefined'&&LANE118_SHOPS?LANE118_SHOPS:{shops:[],regulars:[]};
   /* 會出現的人（都是現有資料裡的人）*/
   S.people=function(){ const out=Object.keys(LD()); for(const r of L8().regulars||[]) if(r&&r.id&&!out.includes(r.id)) out.push(r.id); return out.filter(id=>typeof CHARACTERS==='undefined'||!!CHARACTERS[id]); };
+  /* 從什麼時候開始算：午餐那八位＝大一上第 2 週起（S.dayOk）；只在熟客表裡的人（語彤、書瑀）＝他最早那一列熟客開始的學期、週次（AA_280 第 3 節；在那以前他還不是 118 巷的常客）*/
+  S.since=function(id,day){ if(LD()[id]) return true; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(day):null; if(!T) return false; const i=S.TERMS.indexOf(T.id); let ok=false;
+    for(const r of L8().regulars||[]){ if(r.id!==id) continue; const i0=S.TERMS.indexOf(r.term); if(i0<0) continue; if(i>i0||(i===i0&&T.week>=(r.week|0))) ok=true; } return ok; };
   /* 118 巷有室內、不是外帶的餐廳（區域 l118_<id> 在、路人客人那一套有它）*/
   S.laneShops=function(){ return (L8().shops||[]).filter(s=>s&&!s.takeout&&!s.drink&&S.zoneOk('l118_'+s.id)).map(s=>s.id); };
   S.zoneOk=z=>(typeof Z3==='undefined'||!Z3.ZONES||!!Z3.ZONES[z])&&(typeof CROWD==='undefined'||!CROWD.SHOP_ZONES||!!CROWD.SHOP_ZONES[z]);
@@ -90,7 +93,7 @@ const SHOPLIFE=(function(){
   S.plan=function(day,slotId){ const key=day+'|'+slotId; if(planMemo.has(key)) return planMemo.get(key); const C=S.CFG, slot=C.slots.find(s=>s.id===slotId), out=[]; if(!slot){ return out; }
     const wk=typeof CALENDAR!=='undefined'&&(CALENDAR.weekend(day)||CALENDAR.holiday(day)), lane=S.laneShops(), W=LD(), cnt={};
     const ppl=S.people().map(id=>({id,k:hash('shopmeal-order|'+day+'|'+slotId+'|'+id)})).sort((a,b)=>a.k-b.k||(a.id<b.id?-1:1));
-    for(const {id} of ppl){ const r=prng(hash('shopmeal|'+day+'|'+slotId+'|'+id)); if(r()>=(wk?slot.pEnd:slot.p)) continue;
+    for(const {id} of ppl){ if(!S.since(id,day)) continue; const r=prng(hash('shopmeal|'+day+'|'+slotId+'|'+id)); if(r()>=(wk?slot.pEnd:slot.p)*Math.min(1,(W[id]&&typeof W[id].weight==='number')?W[id].weight:1)) continue;   /* who.weight（AA_771）：芯慈 0.7、宥辰 0.4（考前才出現）＝出現的機會照比例少 */
       const t0=+(slot.from+r()*C.start).toFixed(3), t1=+Math.min(slot.to,t0+C.stay[0]+r()*(C.stay[1]-C.stay[0])).toFixed(3);
       const inLane=r()<C.lane118, prefs=(W[id]&&W[id].prefs)||{};
       const order=(list,wOf)=>{ const L=list.map(z=>({z,w:Math.max(0.01,wOf(z))})), o=[]; while(L.length){ let tot=0; for(const q of L) tot+=q.w; let x=r()*tot, i=0; for(;i<L.length-1;i++){ x-=L[i].w; if(x<0) break; } o.push(L.splice(i,1)[0].z); } return o; };

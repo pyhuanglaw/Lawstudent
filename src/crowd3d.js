@@ -392,7 +392,8 @@ const CROWD=(function(){
     if(z==='bookstore') return [[11,21]]; if(z==='cvs'||z==='xs_dakou') return [[0,24]]; if(z==='aoki') return [[11,21]];   /* 青木茶室（GG-SHOPS-REDO-1104）：稿上沒有營業時間，門整天開著；客人只排 11:00～21:00 */
     if(typeof PLACES!=='undefined'&&PLACES.windowsOf){ if(PLACES.typhoonClosed&&PLACES.typhoonClosed(z,G.day)) return []; const ws=PLACES.windowsOf(z,G.day); if(ws) return ws.map(w=>[w[0],Math.min(24,w[1])]);
       const o=PLACES.hours&&PLACES.hours[z]; if(o&&!o.rules&&typeof o.open==='number'&&typeof o.close==='number'){ const out=[]; if(o.close>24) out.push([0,o.close-24]); out.push([o.open,Math.min(24,o.close)]); return out; }   /* 每天一樣的 open／close（日常失速 13:00～01:00：跨午夜那一段算在隔天的 0:00～1:00）*/
-      if(!o) return def.kind==='meal'?[[11,14],[17,21]]:[[11,21]];   /* places.js 沒有寫營業時間的店（門整天開著；SHOP-LIFE-AUDIT-1112：客居雲南）：照麵店、書店的做法，客人只排吃飯的時段／白天到晚上 */
+      if(!o) return def.kind==='meal'?[[11,14],[17,21]]:[[11,21]];
+      if(!o.rules&&typeof o.open!=='number') return [[0,24]];   /* 只寫了「24 小時」的店（洗樂洗衣坊）*/   /* places.js 沒有寫營業時間的店（門整天開著；SHOP-LIFE-AUDIT-1112：客居雲南）：照麵店、書店的做法，客人只排吃飯的時段／白天到晚上 */
       return []; }
     return []; };
   /* 有人跟著你、今天約好在這間店（邀約的地點）：客人少一半（劇情、約會的那一桌旁邊不要太擠）*/
