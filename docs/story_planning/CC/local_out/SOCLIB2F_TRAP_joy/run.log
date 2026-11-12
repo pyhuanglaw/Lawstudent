@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_route_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SOCLIB2F_TRAP_joy\out
+CC 照玩家走路線：TAG trap_joy；SHA 341436a25e；soclib_2f 2025-10-14 14.0；ROUTE ['joyto:-3.48,-3.01', 'burst:a', 'joyto:-3.79,-5.07', 'burst:b', 'exit:']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 soclib_2f 2025-10-14 14.0（出生點）（條件事件關掉）
+PASS 讀到 soclib_2f  {"zone": "soclib_2f", "x": -6.4, "z": -8.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.04}
+  [  59.1s] [00 start]  區域 soclib_2f lv0 (-6.4, -8.4) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-9.93, 3.06, -8.4] 到頭 3.78 m、被 [] 擋；互動鍵「聽一句」
+  [  61.7s] [01 joyto:-3.48,-3.01] 【卡住偵測】取樣 5 筆（每 0.5 秒）；連續 ≥5 秒沒位移 0 次 []
+  [  63.0s] [01 joyto] {"ok": true, "why": null, "t": 2.4, "pushes": 2} 區域 soclib_2f lv0 (-3.44, -3.44) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-4.08, 1.74, -3.44] 到頭 0.63 m、被 [{"name": "L0_vc<L0_root>", "d": 0.18}, {"name": "<>", "d": 0.18}, {"name": "L0_bamboo<L0_root>", "d": 0.2}] 擋；互動鍵「聽一句」
+  [  67.1s] [02 burst]  區域 soclib_2f lv0 (-3.44, -3.44) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-4.08, 1.74, -3.44] 到頭 0.63 m、被 [{"name": "L0_vc<L0_root>", "d": 0.18}, {"name": "<>", "d": 0.18}, {"name": "L0_bamboo<L0_root>", "d": 0.2}] 擋；互動鍵「聽一句」
+  [  76.9s] [03 joyto:-3.79,-5.07] 【卡住偵測】取樣 18 筆（每 0.5 秒）；連續 ≥5 秒沒位移 0 次 []
+  [  78.5s] [03 joyto] {"ok": true, "why": null, "t": 9.7, "pushes": 14} 區域 soclib_2f lv0 (-4.12, -5.32) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-7.65, 3.06, -5.32] 到頭 3.83 m、被 [] 擋；互動鍵「聽一句」
+  [  84.4s] [04 burst]  區域 soclib_2f lv0 (-4.12, -5.32) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-7.65, 3.06, -5.32] 到頭 3.83 m、被 [] 擋；互動鍵「聽一句」
+PASS [05 exit:] 找得到往  的出口  [["回閱覽室", "soclib"]]
+PASS [05 exit:] 有「回閱覽室」  [{"label": "回閱覽室", "x": -7.6, "z": -8.4, "r": 0.9, "lv": 0, "to": "soclib"}]
+  [  84.5s] [05 exit:] 「回閱覽室」在 (-7.6, -8.4) 半徑 0.9；走到範圍裡站得住的 {"x": -7.25, "z": -8.05, "d": 4.144776068610625}
+PASS [05 exit:] 「回閱覽室」範圍裡有站得住的地方  {"label": "回閱覽室", "x": -7.6, "z": -8.4, "r": 0.9, "lv": 0, "to": "soclib"}
+  [  91.5s] 到達「[05 exit:] 回閱覽室」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+PASS [05 exit:] 走到那裡，互動按鈕是「回閱覽室」  {"x": -7.061, "z": -7.886, "lv": 0, "interact": "回閱覽室"}
+PASS [05 exit:] 按下去到了 soclib（站得住、沒有被放到目的地）  {"zone": "soclib", "x": 13.4, "z": 8.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.27}
+  [ 106.7s] [05 exit:] 【卡住偵測】取樣 19 筆（每 0.5 秒）；連續 ≥5 秒沒位移 0 次 []
+  [ 107.6s] [05 exit] 出口「回閱覽室」→ soclib 區域 soclib lv0 (13.4, 8.8) y=0 站得住=True 坐著=False pose=idle；鏡頭 [17.67, 3.35, 8.8] 到頭 4.57 m、被 [] 擋；互動鍵「回閱覽室」
+PASS 沒有 JS 例外  []
+ALL PASS
