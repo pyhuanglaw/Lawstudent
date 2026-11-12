@@ -123,6 +123,9 @@ for (a, b, y0, y1) in cuts:
     x = b
 ws.box(x, W / 2, 0, H, zS, zS + T)
 FRAME = '#3a2416' if SHOP in ('taimi', 'limao', 'yuehaochi', 'keju') else '#c4c8cb'
+# SHOP-INTERIOR-VIEW-1112（BB 11-12：進門後跟隨鏡頭在正面牆外面，牆淡出了，窗框、門框、布簾還留在半空擋住畫面）：正面牆上的零件（窗框、窗台、門框、布簾、玻璃、玻璃上的色帶）
+#   放進 WALL_Sfix_*（名字含 WALL_＝遊戲 attachRoomGLB 跟著牆一起淡出；dir、at 照正面牆），不再留在一般的 S_vc
+PRE = 'WALL_Sfix:'
 for (a, b) in FR['windows']:
     mesh('glass').quad([(a, sill, zS + 0.08), (b, sill, zS + 0.08), (b, head, zS + 0.08), (a, head, zS + 0.08)])
     for xx in (a, (a + b) / 2, b): vc().cbox(xx - 0.03, xx + 0.03, sill, head, zS + 0.04, zS + 0.12, FRAME)
@@ -151,6 +154,7 @@ def table_set(x, y, z):
     for i in range(3): ccyl(vm(), (x - 0.12 + (i - 1) * 0.02, y + 0.1, z), (x - 0.12 + (i - 1) * 0.03, y + 0.2, z + (i - 1) * 0.01), 0.004, '#d8dadc', seg=4)
     vc().cbox(x + 0.02, x + 0.2, y, y + 0.09, z - 0.07, z + 0.07, '#b8905a'); vc().cbox(x + 0.07, x + 0.15, y + 0.09, y + 0.13, z - 0.03, z + 0.03, '#f6f4ee')
     ccyl(vc(), (x - 0.02, y, z + 0.12), (x - 0.02, y + 0.07, z + 0.12), 0.025, '#b8402a', seg=8)
+PRE = ''
 def pendant(x, z, y=2.25):
     """藤編吊燈：電線、藤編燈罩（鏤空感用深淺兩色的橫條）、裡面的燈泡"""
     ccyl(vc(), (x, y + 0.3, z), (x, H, z), 0.006, '#2b2b2b', seg=4)
@@ -188,7 +192,16 @@ if SHOP == 'taimi':
     for i in range(28): xx = CT['x0'] + 0.05 + i * (CT['x1'] - CT['x0'] - 0.1) / 27; vc().cbox(xx - 0.012, xx + 0.012, 0.12, CT['h'] - 0.06, CT['z1'], CT['z1'] + 0.012, '#7a5636')
     cx = J['clerk']['x']; vc().cbox(cx + 0.5, cx + 0.95, CT['h'] + 0.1, CT['h'] + 0.42, CT['z0'] + 0.15, CT['z0'] + 0.19, '#1f2023'); ccyl(vc(), (cx + 0.72, CT['h'], CT['z0'] + 0.17), (cx + 0.72, CT['h'] + 0.12, CT['z0'] + 0.17), 0.03, '#1f2023', seg=6)
     clathe(vc(), [(0.0, 0.0), (0.07, 0.0), (0.09, 0.12), (0.0, 0.12)], CT['x0'] + 0.5, CT['h'], (CT['z0'] + CT['z1']) / 2, '#f4f1ea', seg=10)   # 蘭花盆
-    for i in range(7): blob(CT['x0'] + 0.5 + RR.uniform(-0.14, 0.14), CT['h'] + 0.3 + RR.uniform(0, 0.25), (CT['z0'] + CT['z1']) / 2 + RR.uniform(-0.08, 0.08), 0.045, RR.choice(('#c94a8a', '#d96aa0', '#b83a7a')))
+    # 蘭花（SHOP-INTERIOR-VIEW-1112，使用者 11-12 截圖「一堆紫紅色球」：第 1 版是七顆洋紅色的球浮在盆子上面，沒有莖和葉，看起來像缺材質）：
+    #   兩支彎彎的綠色花梗、基部三片厚葉子、花是小小扁扁的淺粉色（中心深一點），沿著花梗排
+    ox, oy, oz = CT['x0'] + 0.5, CT['h'] + 0.12, (CT['z0'] + CT['z1']) / 2
+    for k in range(3): a_ = k * 2.1 + 0.4; vc().poly([(ox, oy, oz), (ox + math.cos(a_) * 0.2 - math.sin(a_) * 0.045, oy + 0.05, oz + math.sin(a_) * 0.2 + math.cos(a_) * 0.045), (ox + math.cos(a_) * 0.26, oy + 0.02, oz + math.sin(a_) * 0.26), (ox + math.cos(a_) * 0.2 + math.sin(a_) * 0.045, oy + 0.05, oz + math.sin(a_) * 0.2 - math.cos(a_) * 0.045)], '#3f6a34'); vc().poly([(ox, oy, oz), (ox + math.cos(a_) * 0.2 + math.sin(a_) * 0.045, oy + 0.05, oz + math.sin(a_) * 0.2 - math.cos(a_) * 0.045), (ox + math.cos(a_) * 0.26, oy + 0.02, oz + math.sin(a_) * 0.26), (ox + math.cos(a_) * 0.2 - math.sin(a_) * 0.045, oy + 0.05, oz + math.sin(a_) * 0.2 + math.cos(a_) * 0.045)], '#35592c')
+    for (sx_, n_) in ((-1, 4), (1, 3)):
+        pts = [(ox, oy, oz), (ox + sx_ * 0.02, oy + 0.2, oz), (ox + sx_ * 0.07, oy + 0.34, oz + 0.01), (ox + sx_ * 0.15, oy + 0.4, oz + 0.02)]
+        for p0, p1 in zip(pts, pts[1:]): ccyl(vc(), p0, p1, 0.005, '#5a7a3a', seg=4)
+        for i in range(n_):
+            t = 0.45 + i * 0.55 / n_; fx = ox + sx_ * (0.03 + 0.13 * t * t); fy = oy + 0.22 + 0.19 * t - 0.03 * (t > 0.8); fz = oz + 0.02 + (i % 2) * 0.012
+            blob(fx, fy, fz, 0.026, ('#f0c6da', '#e8b4cf')[i % 2], sy=0.55); blob(fx, fy, fz + 0.012, 0.009, '#b8508a')
     for i in range(6): ccyl(vc(), (CT['x1'] - 0.3 - i * 0.12, CT['h'], CT['z1'] - 0.15), (CT['x1'] - 0.3 - i * 0.12, CT['h'] + 0.16 + (i % 2) * 0.04, CT['z1'] - 0.15), 0.03, ('#7a2a1a', '#c9a23a', '#3a5a2a', '#e8e0c8', '#a8401a', '#5a3a22')[i], seg=8)
     # 開放式廚房：後牆不鏽鋼、爐台、層架上的鍋、排煙罩；出餐口上面的紅格紋布棚
     zk0, zk1 = KT['z0'], KT['z1']
@@ -518,7 +531,9 @@ if SHOP == 'antai':
         ccyl(vc(), (q['x'], 0.44, q['z']), (q['x'], 0.5, q['z']), 0.17, '#1f2023', seg=16)
         for k in range(4): a = k * PI / 2 + PI / 4; ccyl(vm(), (q['x'] + math.cos(a) * 0.08, 0.44, q['z'] + math.sin(a) * 0.08), (q['x'] + math.cos(a) * 0.16, 0.0, q['z'] + math.sin(a) * 0.16), 0.012, '#c4c8cb', seg=6)
     # 玻璃上的一條綠線（照外觀）、門邊的盆栽；天花板
+    PRE = 'WALL_Sfix:'
     for (a, b) in FR['windows']: vc().cbox(a, b, 1.05, 1.11, zS + 0.06, zS + 0.07, '#2f8a5a')
+    PRE = ''
     clathe(vc(), [(0.0, 0.0), (0.17, 0.0), (0.2, 0.38), (0.0, 0.38)], -3.4, 0.0, 4.2, '#f4f1ea', seg=12); fern(-3.4, 0.75, 4.2, r=0.34, n=18)
     tubes((-3.6, -1.2, 1.2, 3.6))
 
@@ -1100,7 +1115,9 @@ if SHOP == 'dongnan':
     PEN = [RED, YEL, '#2f8a4a', '#3a7ac0', '#e86a1c']
     for k in range(22): xx = -3.3 + k * 0.3; yy = 2.78 - 0.1 * math.sin(k / 21 * PI); vc().poly([(xx, yy, 1.9), (xx + 0.22, yy, 1.9), (xx + 0.11, yy - 0.24, 1.9)], PEN[k % 5]); vc().poly([(xx + 0.22, yy, 1.899), (xx, yy, 1.899), (xx + 0.11, yy - 0.24, 1.899)], PEN[k % 5])
     ccyl(vc(), (-W / 2 + 0.01, 2.55, 3.75), (-W / 2 + 0.04, 2.55, 3.75), 0.16, '#2a2d31', seg=16); ccyl(vc(), (-W / 2 + 0.04, 2.55, 3.75), (-W / 2 + 0.045, 2.55, 3.75), 0.14, '#f6f5f0', seg=16)
+    PRE = 'WALL_Sfix:'
     for (a, b) in FR['windows']: vc().cbox(a, b, 2.45, 2.7, zS + 0.06, zS + 0.07, GRN)   # 玻璃上緣一條墨綠（外面雨棚的顏色）
+    PRE = ''
     tubes((-3.3, -1.0, 1.3, 3.5), x0=-1.75, x1=1.75)
 
 
@@ -1184,13 +1201,15 @@ if SHOP == 'liantong':
     for q in J['seats']:
         ccyl(vc(), (q['x'], 0.44, q['z']), (q['x'], 0.5, q['z']), 0.17, DK, seg=16); ccyl(vm(), (q['x'], 0.03, q['z']), (q['x'], 0.44, q['z']), 0.025, ALU, seg=8); ccyl(vm(), (q['x'], 0.0, q['z']), (q['x'], 0.03, q['z']), 0.2, ALU, seg=16); ccyl(vm(), (q['x'], 0.16, q['z']), (q['x'], 0.175, q['z']), 0.13, ALU, seg=12, caps=False)
     # 玻璃上的藍色腰帶、門邊牆上的維修圖示牌、天花板
+    PRE = 'WALL_Sfix:'
     for (a, b) in FR['windows']: vc().cbox(a, b, 0.35, 0.5, zS + 0.06, zS + 0.07, BLUE); vc().cbox(a, b, 2.42, 2.6, zS + 0.06, zS + 0.07, BLUE)
+    PRE = ''
     tubes((-2.4, 0.0, 2.3), x0=-1.0, x1=1.0)
 
 
 # ---------- 完成 ----------
 for side, (m, d) in WALLS.items(): m.finish(root, props={'dir': d})
-for key, mm in MM.items(): mm.finish(root, uv=key.split(':')[-1] not in ('vc', 'vcm', 'light', 'glass'), smooth=key.split(':')[-1] in ('vc', 'vcm'))
+for key, mm in MM.items(): mm.finish(root, props=({'dir': [0, 0, -1], 'at': [0.0, H / 2, D / 2]} if key.startswith('WALL_Sfix:') else None), uv=key.split(':')[-1] not in ('vc', 'vcm', 'light', 'glass'), smooth=key.split(':')[-1] in ('vc', 'vcm'))
 if SQ:
     m = Mesh('S_pics', M['pics']); lay = m.bm.loops.layers.uv.new('UVMap')
     for key, pts in SQ:

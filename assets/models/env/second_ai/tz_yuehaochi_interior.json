@@ -1,11 +1,11 @@
 {
- "objects": 16,
- "unique_meshes": 16,
+ "objects": 17,
+ "unique_meshes": 17,
  "tris": 19512,
  "tris_drawn": 19512,
  "materials": 11,
  "out": "assets/models/env/second_ai/tz_yuehaochi_interior.glb",
- "bytes": 1164992,
+ "bytes": 1165900,
  "texres": 512,
  "tris_total": 19512,
  "walls": [

@@ -1,11 +1,11 @@
 {
- "objects": 13,
- "unique_meshes": 13,
+ "objects": 14,
+ "unique_meshes": 14,
  "tris": 29958,
  "tris_drawn": 29958,
  "materials": 11,
  "out": "assets/models/env/second_ai/gg_antai_interior.glb",
- "bytes": 2323896,
+ "bytes": 2324804,
  "texres": 512,
  "tris_total": 29958,
  "walls": [

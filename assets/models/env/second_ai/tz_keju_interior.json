@@ -1,11 +1,11 @@
 {
- "objects": 16,
- "unique_meshes": 16,
+ "objects": 17,
+ "unique_meshes": 17,
  "tris": 15742,
  "tris_drawn": 15742,
  "materials": 11,
  "out": "assets/models/env/second_ai/tz_keju_interior.glb",
- "bytes": 967324,
+ "bytes": 968208,
  "texres": 512,
  "tris_total": 15742,
  "walls": [

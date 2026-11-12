@@ -13,6 +13,13 @@ const TZS3=(function(){
     if(L.partition){ const P=L.partition, d=P.door||[P.x1,P.x1]; out.push([(P.x0+P.x1)/2,P.z-0.05,P.x1-P.x0,0.3]); out.push([(P.x0+P.x1)/2,(-L.d/2+P.z)/2,P.x1-P.x0,P.z+L.d/2]); }   /* 隔牆後面整塊不能進去 */
     for(const t of L.tables||[]) out.push([t.x,t.z,t.w,t.d]); for(const b of L.blocks||[]) out.push(b); for(const p of (L.decor&&L.decor.plants)||[]) out.push([p[0],p[1],0.5,0.5]);
     return out; };
+  /* SHOP-INTERIOR-VIEW-1112（使用者 11-12 進泰米村食：「窗景呢」——兩扇大窗、門的玻璃外面是一片藍，這一批店從來沒有放窗景）：
+     正面玻璃外 0.3 m 一片視差窗（Z3.shopViewPane＋W3.windowMat；新生南路各店同一套）。照片 assets/models/env/views/<區域>_{day,night}.webp＝
+     Blender 用汀州路／公館的正式模型，站在這間店的玻璃中心往街上拍（docs/art-rebuild/second_ai/wip/shop_views_1112/render.sh）。
+     公館三間（安泰、汀州鮮果、榮恩典）：Blender 拍不到遊戲程式畫的校門、圍牆、行道樹，先用同一條店面街在遊戲裡拍的照片（配置的 view：cvs／noodle／bookstore，兩層景深），位置差幾十公尺。
+     景深 viewDepth（配置可以寫）：對面店面的距離。一間只放一片（蓋住整面正面牆：窗、門、敞開的店面都看得到同一面景）*/
+  S.pane=function(L){ return {kind:L.view||L.zone,x:0,y:1.6,z:+(L.d/2+0.5).toFixed(2),w:+(L.w+1.2).toFixed(2),h:3.2,ry:Math.PI,depth:L.viewDepth||14}; };
+  S.viewPane=function(z,g0,L){ if(z.viewPanes||typeof Z3==='undefined'||!Z3.shopViewPane) return null; return Z3.shopViewPane(z,g0,S.pane(L)); };
   S.studyOpen=function(L){ return false; };   /* LAWWW 接：書房解鎖了沒（存檔旗標 L.study.flag）；預設鎖著 */
   S.build=function(E,L){
     const z=Z3.room(E,{w:L.w,d:L.d,h:L.h,cell:0.2,windows:false,warm:!!L.warm,wallColor:L.wallColor||'#efe6d6',floorTex:W3.stoneTex(L.floor||'#d8d3c8'),spawn:Object.assign({},L.spawn)});
@@ -42,7 +49,7 @@ const TZS3=(function(){
         nav._cm=null; z.applyStudyModel(); };
       if(S.studyOpen(L)) z.setStudy(true); }
     z.shopClerk=L.clerk?Object.assign({},L.clerk):null; z.shopLayout=L;
-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest[L.asset]) ASSETS.loadOne(L.asset).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.name=L.zone+'_glb'; g0.add(root); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true; if(z.applyStudyModel) z.applyStudyModel(); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest[L.asset]) ASSETS.loadOne(L.asset).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.name=L.zone+'_glb'; g0.add(root); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true; S.viewPane(z,g0,L); if(z.applyStudyModel) z.applyStudyModel(); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));
     return z; };
   /* 公館的三間（配置有 gg＝棟號）：店門前（騎樓裡）多一個「進入＋店名」的互動點；出來站的 x 照實際的樓房位置更新。包住 gongguan 的 build（不改 zones3d.js；和花序 flower_notes3d.js 同一個做法） */
   S.hookOut=function(){ const byZone={}; for(const id of Object.keys(ALL())){ const L=ALL()[id]; if(L.gg&&L.door) (byZone[L.outZone]=byZone[L.outZone]||[]).push(L); }

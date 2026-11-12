@@ -1,11 +1,11 @@
 {
- "objects": 14,
- "unique_meshes": 14,
+ "objects": 15,
+ "unique_meshes": 15,
  "tris": 34774,
  "tris_drawn": 34774,
  "materials": 11,
  "out": "assets/models/env/second_ai/gg_rongendian_interior.glb",
- "bytes": 2724168,
+ "bytes": 2725072,
  "texres": 512,
  "tris_total": 34774,
  "walls": [
