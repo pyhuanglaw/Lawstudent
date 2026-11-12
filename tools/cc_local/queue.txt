@@ -14,6 +14,8 @@
 # ===== CC-C 11-12 03:4x：be1e5d7256（LAWWW-C 修 GHA 那一版，含 28d5057e8／59a4efb68）基本回歸，電腦空著先跑；BB-C 03:30 那四項探針改好接著排 =====
 # BB-C 03:30 第 1 項：木曜日第 7 項起點改成一樓出口旁邊最低的點（雲端 be1e 量：第 0 層只有進門那段樓梯間、沒有平地板）
 BE1E_MOKU_PLANT_7 | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_moku_plant_probe.py | index.html | 45 | PARTS=7;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/cc_fn_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+# BB-C 03:30 第 2 項：吧檯高腳椅點不到＝繞著椅子 8 方向×2 距離換位置再點（雲端 be1e ALL PASS：繞到 1.3 m、0° 點得到、坐對那一張）
+BE1E_TSR_CAFEBAR | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 20 | PARTS=CAFE;ONLY_SEATS=2;N_FLOOR=0;N_BETWEEN=0;N_TABLE=0;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 BE1E_p0 | be1e5d725634580ee25313a7bbd14f941687bfde | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 BE1E_reach | be1e5d725634580ee25313a7bbd14f941687bfde | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
 BE1E_zone | be1e5d725634580ee25313a7bbd14f941687bfde | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0

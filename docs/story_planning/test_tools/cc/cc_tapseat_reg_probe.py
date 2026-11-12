@@ -211,11 +211,27 @@ async def aim(pg, cdp, x, y, z, tag, near_pt=None, lv=0, want=None, floor=False,
         await L.go_to(pg, cdp, R, near_pt[0], near_pt[1], 0.6, '%s（走近）' % tag, max_s=150, lv=lv); await D.settle(pg)
         if (await D.st(pg))['seat']: R.note('%s 走近時坐下了（不應該）' % tag); return None, '走近時坐下'
         await L.turn_camera_to(pg, cdp, x, z); pt, how = await try_pts('走近＋轉鏡頭')
+    if bad0(pt) and want and AROUND:   # BB-C 11-12 03:30：高腳椅（Café 吧檯）從起點、轉鏡頭、走近都在 HUD 底下／畫面外——像玩家繞著椅子換位置看：8 個方向 × 1.3／2.2 m，到了轉鏡頭再試；任何一個看得到的位置點得到就算數
+        tried = []
+        for rr in (1.3, 2.2):
+            for kk in range(8):
+                ang = kk * math.pi / 4; qx, qz = x + rr * math.cos(ang), z + rr * math.sin(ang)
+                if not await pg.evaluate("(([x,z,lv])=>GAME.E.canStand(x,z,0.3,lv))", [qx, qz, lv]): continue
+                tried.append([round(qx, 2), round(qz, 2)])
+                await L.go_to(pg, cdp, R, qx, qz, 0.4, '%s（繞到 %.1f m、%d°）' % (tag, rr, kk * 45), max_s=90, lv=lv); await D.settle(pg)
+                if (await D.st(pg))['seat']: R.note('%s 繞的時候坐下了（不應該）' % tag); return None, '繞的時候坐下'
+                await L.turn_camera_to(pg, cdp, x, z); pt, how = await try_pts('繞到 %.1f m、%d° 轉鏡頭' % (rr, kk * 45))
+                if not bad(pt): break
+            if not bad(pt): break
+        R.note('%s 繞著椅子試了 %d 個站得住的位置：%s' % (tag, len(tried), '點得到（%s）' % how if not bad(pt) else '都點不到 %s' % J(tried)))
     if bad0(pt): return None, how
     if bad(pt):   # 畫面上點得到，但每一個點射線都先打到別的東西（柱子、桌子、別張椅子）
         R.note('%s %s：射線先打到 %s、遊戲會導去 %s（椅子 %s）' % (tag, '這塊地板每一個點前面都有椅子擋著' if floor else '這張椅子每一個點都被擋住', J(pt.get('first')), J(pt.get('redirect')), J(pt.get('rseat'))))
         return None, 'blocked'
     return pt, how
+
+
+AROUND = os.environ.get('AROUND', '1') != '0'   # BB-C 11-12：點不到的椅子繞著換位置再試（AROUND=0 關掉＝舊做法）
 
 
 def find_seat(seats, xz):
