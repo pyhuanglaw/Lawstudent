@@ -135,6 +135,8 @@ INVITE_TZ_keju | 9aaa31edb9e6cfed31271cce28ec7041d37b0306 | probe | docs/story_p
 DORM203_NOODLE | 9aaa31edb9e6cfed31271cce28ec7041d37b0306 | probe | docs/story_planning/test_tools/cc/cc_aa_scenes_probe.py | index.html | 12 | PARTS=SUPPER;SUPPER_DAY=2025-10-15;SHA=9aaa31edb9e6cfed31271cce28ec7041d37b0306
 # BB-C 12:38 第 4 項 YIZHAN_TAKE：一盞外帶冷泡茶（不當班買、當班買＋當場送語彤）
 YIZHAN_TAKE | 9aaa31edb9e6cfed31271cce28ec7041d37b0306 | probe | docs/story_planning/test_tools/cc/cc_yizhan_take_probe.py | index.html | 15 | SHA=9aaa31edb9e6cfed31271cce28ec7041d37b0306
+# BB-C 12:38 第 9 項 US_CART：美國兩間超市（貨架拿進推車→結帳、錢不夠、自助結帳、竹葉月餅）
+US_CART | 9aaa31edb9e6cfed31271cce28ec7041d37b0306 | probe | docs/story_planning/test_tools/cc/cc_us_cart_probe.py | index.html | 30 | CASES=CLERK,SELF,POOR,ASIA;DAY=2027-09-14;SHA=9aaa31edb9e6cfed31271cce28ec7041d37b0306
 # BB-C 12:31（SSB_gg3c 洋洋：點餐 picked 空、錢沒扣）：照玩家按「看炸物櫃」→ 選第一樣 → 確認，記每個選單每一行、錢前後
 YY_ORDER | 762104842ae5c75400e4c380d1e4d746d0998376 | probe | docs/story_planning/test_tools/cc/cc_interact_probe.py | index.html | 10 | TAG=yy_order;ZONE=yangyang;LABEL=炸物櫃;CASES=2025-10-22@18;PICK=點好了,確定,結帳,好;SHA=762104842ae5c75400e4c380d1e4d746d0998376
 # BB-C 11:27：SHIFT_SHOTS 重拍（031d 以後，上班中不跳手機橫幅；修了截圖時機、下班後 0.5 秒連拍 4 秒、鏡頭位置＋俯視）、YUE_MEAL 改新版；LAWWW-C 11:37 南洋鏡頭修正 52870df0ad → 改排 18a3666452（含）；LAWWW-C 11:40：18a3 含已還原的鏡頭修改＝對照組：SHIFT_SHOTS_72fc＝沒改鏡頭、SHIFT_SHOTS_18a3＝上班時鏡頭轉到客人那一邊
