@@ -307,7 +307,7 @@ await sec('3-7',async()=>{
   check('3-7. 2028-04-23 21:00「明天我生日。今年你不用想了，我想好了。」後面多「……蛋糕你挑。只有這個你挑。」（KX_CAKE_YOU）；沒有照舊',A[0]==='明天我生日。今年你不用想了，我想好了。'&&A[1]==='……蛋糕你挑。只有這個你挑。'&&A.length===4&&B.length===3&&!B.includes('……蛋糕你挑。只有這個你挑。'),J([A,B]));
   const y2=async(v,t)=>{ fresh('2027-04-24',19,Object.assign({dating_kexin:true},t?{KX_TASSEL_PROMISE:1}:{})); H.FRIEND(KX); const e=ev('ev_kexin_birthday_y2'); e.beforeOuting(H.G,GM,{bdV:v}); H.said=[]; await EVENTS.run(e); return said(); };
   const C=await y2('shop',true), Dd=await y2('gg',true), E2=await y2('class',false);
-  check('3-7. 大二生日到木柵大學的版本（KX_TASSEL_PROMISE）開頭「（木柵大學門口的流蘇開了。白白的一整片。）」；公館的版本、沒說好的＝沒有',C[0]==='（木柵大學門口的流蘇開了。白白的一整片。）'&&!Dd.includes('（木柵大學門口的流蘇開了。白白的一整片。）')&&!E2.includes('（木柵大學門口的流蘇開了。白白的一整片。）'),J([C[0],Dd[0],E2[0]]));
+  check('3-7. 大二生日：流蘇那一句拿掉（KX_TASSEL_PROMISE 不再讀；每一版都沒有）（CANON-NO-ECON-1112 第四批：照 AA_889 換字）',![C,Dd,E2].some(L=>L.some(t=>/流蘇/.test(t))),J([C[0],Dd[0],E2[0]]));
 });
 await sec('3-8',async()=>{
   check('3-8 K-10. 寒暑假送上車（交往中）「開學我就上去了。台北見。」',HOMETOWN_LINES[KX].send.dating[0]==='開學我就上去了。台北見。');

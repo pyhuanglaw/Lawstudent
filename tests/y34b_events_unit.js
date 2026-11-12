@@ -173,7 +173,7 @@ const date=id=>H.date(id);
   fresh('2028-05-01',20,'dorm'); date('kexin'); at('2028-05-01',21); phone(); const m19=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y3_kx19');
   check('1B-16 5/1 21:00 可昕兩則、「去。」「那天不行。」', JSON.stringify(th('p:kexin'))===JSON.stringify(['我的期末報告被選去發表。禮拜三下午三點。','你要來的話，坐最後一排。'])&&!!m19&&m19.ask.opts.map(o=>o.t).join('|')==='去。|那天不行。');
   answer('y3_kx19',0); phone(); at('2028-05-03',14.2); await goOut('y3_kx19',[1]);
-  check('K1 去了：最後一排、停半秒、CG；「你坐最後一排。我看得到。」；KX_PRESENT came', has('（木柵大學的小教室。你坐在最後一排。她講到一半看了你一眼，停了半秒，接著講完。）')&&has('你坐最後一排。我看得到。……講得還好嗎？')&&has('因為你真的坐最後一排。')&&H.cgs.includes('cg_last_row_kexin')&&H.G.flags.KX_PRESENT==='came');
+  check('K1 去了：最後一排、停半秒、CG；「你坐最後一排。我看得到。」；KX_PRESENT came（CANON-NO-ECON-1112 第四批：照 AA_889 換字）', has('（系館的小教室。你坐在最後一排。她講到一半看了你一眼，停了半秒，接著講完。）')&&has('你坐最後一排。我看得到。……講得還好嗎？')&&has('因為你真的坐最後一排。')&&H.cgs.includes('cg_last_row_kexin')&&H.G.flags.KX_PRESENT==='came');
   { fresh('2028-05-03',16,'dorm',{},'JP'); date('kexin'); at('2028-05-03',17); phone(); const a=th('p:kexin').includes('報告講完了。……好累。'); at('2028-05-03',18); phone(); check('K2 日本路線：照片＋「報告講完了。……好累。」（沒收到「坐最後一排」的邀約，AA_377 第 13 項；人在日本＝臺灣 17:00＝當地 18:00，AA_341 J-S13）；KX_PRESENT photo', !a&&th('p:kexin').includes('報告講完了。……好累。')&&!th('p:kexin').some(t=>/最後一排/.test(t))&&H.G.flags.KX_PRESENT==='photo'); }
   /* ===== 1B-17 ===== */
   /* AA_337 第 6 節：群組「收到。」後面不掛選項；「生日快樂」改成玩家在學姊的私訊用 MSG-2 的話題，回覆照她回訊息的時間（12:10／17:05／22:30）*/
@@ -341,9 +341,9 @@ const date=id=>H.date(id);
     at('2028-12-24',19); H.G.zone='noodle'; check('1B-20 回來以後第一次去麵店：阿姨', S.a23AuntDue(H.G)); await run('ev_noodle_23rd_missed'); check('1B-20 「你錯過了，明年再來。」', has('你錯過了，明年再來。')&&!S.a23AuntDue(H.G)); }
   /* ===== 1B-21 ===== */
   fresh('2028-10-18',20,'dorm',{Y4_PATH:'bar'}); date('kexin'); at('2028-10-18',21); phone(); const m23=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y4_kx23');
-  check('1B-21 10/18 21:00 三則＋「去。」「改天。」', th('p:kexin').join('|')==='你的那條路，現在走到哪了？不用現在說。|我的也想跟你說。|週五晚上七點，木柵大學。我們走一段路，各自說。'&&!!m23&&m23.ask.opts.map(o=>o.t).join('|')==='去。|改天。');
+  check('1B-21 10/18 21:00 三則＋「去。」「改天。」（CANON-NO-ECON-1112 第四批：照 AA_896 換字）', th('p:kexin').join('|')==='你的那條路，現在走到哪了？不用現在說。|我的也想跟你說。|週五晚上七點，系館門口。我們走一段路，各自說。'&&!!m23&&m23.ask.opts.map(o=>o.t).join('|')==='去。|改天。');
   answer('y4_kx23',0); phone(); at('2028-10-20',18.2); await goOut('y4_kx23',[0]);
-  check('P1 交往中、Y4_PATH bar：「我要考律師。從現在開始準備。」→「好。那我們各自準備。」「……晚上十點還是要通話喔。」；KX_PATHS told', has('我要考律師。從現在開始準備。')&&has('好。那我們各自準備。')&&has('……晚上十點還是要通話喔。')&&H.G.flags.KX_PATHS==='told'&&H.opts[0][0]==='（照實說自己的選擇）');
+  check('P1 交往中、Y4_PATH bar：「我要考國考。從現在開始準備。」→「好。那我們各自準備。」「……晚上十點還是要通話喔。」；KX_PATHS told（CANON-NO-ECON-1112 第四批：照 AA_889 換字）', has('（系館門口。她先說她的：準備國考。）')&&has('我要考國考。從現在開始準備。')&&has('好。那我們各自準備。')&&has('……晚上十點還是要通話喔。')&&H.G.flags.KX_PATHS==='told'&&H.opts[0][0]==='（照實說自己的選擇）');
   { fresh('2028-10-18',21,'dorm',{Y4_PATH:'undecided'}); date('kexin'); phone(); answer('y4_kx23',1); phone(); const q2=OUT.get(H.G,'y4_kx23b');
     check('1B-21 改天：「好。那週六下午三點，同一個地方。」（AA_337 第 5 題；「這次我等你」不在這裡）→ 10/21 15:00', th('p:kexin').includes('好。那週六下午三點，同一個地方。')&&!th('p:kexin').includes('週六下午三點。這次我等你。')&&!!q2&&q2.h===15&&q2.day===D('2028-10-21'));
     at('2028-10-21',16); OUT.tick(GM); at('2028-10-21',21); phone(); check('P2 兩次都沒到：21:00 電話', S.kx23CallDue(H.G)); await run('ev_kexin_own_paths_call');

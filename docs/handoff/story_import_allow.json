@@ -9594,6 +9594,15 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "宿營第一天自由時間打牌：「你數學幾級分？」之後那一段（兩個選項都記 ZHE_CALLS_GE、結尾兩句；分支 claude/magical-albattani-bk7b4n）：手寫進 src/data/camp_y1.js 的 ev_camp_d1_free，一字照稿；「一起拿掉的」三樣照稿拿掉（遊覽車那一段最後一句、夜談的定義、迎新自我介紹第三個選項那一支）。逐字對稿：tests/canon_opening_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_889_src對照表_y2r2.md",
+   "sha": "1af2aa94ff",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "src/y2r2_3d.js（可昕大二那一組）照列換字＋第 4 節 y34b3d.js 兩場；手寫進程式，一字照稿（第四批，LAWWW 的子代理）"
   }
  ]
 }
