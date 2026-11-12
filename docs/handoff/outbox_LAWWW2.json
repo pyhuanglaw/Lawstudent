@@ -8780,6 +8780,38 @@
    "next": "LAWWW-C 套 patch、CC 量記憶體和首次靠近的幀",
    "ackNote": "LAWWW-C 11-12 11:42Z 整合 6827c36a3b",
    "title": "SHOP-REAL-INSIDE 公館第四批：花序 G11 換真的室內＋kx"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "sha": "(本 commit)",
+   "task": "SHOP-REAL-INSIDE-1112",
+   "title": "溫州街第二包：林家乾麵換真的室內＋WZ-SUNNY-DOOR-1112 SUNNY SIDE 店外的門對齊室內",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/wz_real_inside_1112/wz_lin_sunnydoor_v1.patch",
+    "docs/art-rebuild/second_ai/wip/wz_real_inside_1112/README.md"
+   ],
+   "remaining": "林家打烊後攤車還在鐵捲門外；劇情寫死 SUNNY SIDE 門口 (42,…) 的站位沒搜",
+   "next": "LAWWW-C 套 patch、CC 拍兩間店外／店內、BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "sha": "(本 commit)",
+   "task": "L118-IT-REACH-1111",
+   "title": "118 巷店內按鈕的值搬回配置（tools/lane118/it_fix.py），遊戲程式的覆寫表清空",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/l118_it_reach_1112/l118_it_reach_v1.patch",
+    "docs/art-rebuild/second_ai/wip/l118_it_reach_1112/README.md"
+   ],
+   "remaining": "沒有在瀏覽器重驗（數值和線上版一樣）",
+   "next": "LAWWW-C 套 patch；CC 回歸 118牛排、辛亥韓食坐下"
   }
  ]
 }
