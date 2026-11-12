@@ -13,7 +13,7 @@
 量表（每一站都記）：renderer.info.memory（geometries、textures）、programs 數、scene 物件總數（traverse）、E.npcs、E.extras、E.colliders、E.interactables 長度、
   performance.memory.usedJSHeapSize、每幀會跑的掛鉤（STORY.TICKS、E.lampGlows、E.ticks／GM.ticks／E.onTick 有就記）、ASSETS 的 clone 數（有就記）、GM.enterN。
 輸出：longplay_<TAG>.json（每站量表、兩次 10 秒的統計、profiler 前 20）＋ run.log 總表＋ avenue_<TAG>_*.png。
-CC_02 清單 2026-11-12：1✓（存檔、區域、時間都照 LAWWW-C 給的；條件事件關掉有寫） 2✓（區域代號從遊戲讀：出口的 to、GAME.enter 後讀 GAME.G.zone；飲料店從 118 巷出口名字有「茶／飲」的挑） 3✓（飲料店照出口順序試第一個；沒有就記跳過） 4✓（按門前看互動鍵的字＝D.use_exit） 5✓（走路用 D.use_exit：範圍裡站得住的點、分段、走不到附診斷） 6✓（換區域後等 2.5 秒、跑前看 runHold） 7✓（probe_lint、讀不到就 .get()） 8n/a（不判快慢：數字交 LAWWW；50 ms 門檻沿用 BB 04:23） 9✓（椰影大道兩張：遊戲鏡頭照原樣、另一台相機藏玩家） 10n/a（條件事件關掉、不走劇情選單） 11✓（SHA 40 碼由佇列給） 12✓（每站記「真的到了」zone、跑了幾 m） 13✓（每一站記走門還是捷徑、跳過的原因）
+CC_02 清單 2026-11-12：1✓（第四輪加 scene 頂層子節點前後對照；存檔、區域、時間都照 LAWWW-C 給的；條件事件關掉有寫） 2✓（區域代號從遊戲讀：出口的 to、GAME.enter 後讀 GAME.G.zone；飲料店從 118 巷出口名字有「茶／飲」的挑） 3✓（飲料店照出口順序試第一個；沒有就記跳過） 4✓（按門前看互動鍵的字＝D.use_exit） 5✓（走路用 D.use_exit：範圍裡站得住的點、分段、走不到附診斷） 6✓（換區域後等 2.5 秒、跑前看 runHold） 7✓（probe_lint、讀不到就 .get()） 8n/a（不判快慢：數字交 LAWWW；50 ms 門檻沿用 BB 04:23） 9✓（椰影大道兩張：遊戲鏡頭照原樣、另一台相機藏玩家） 10n/a（條件事件關掉、不走劇情選單） 11✓（SHA 40 碼由佇列給） 12✓（每站記「真的到了」zone、跑了幾 m） 13✓（每一站記走門還是捷徑、跳過的原因）
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [VIEW=2308x1064 DSF=1 HOUR=17.58 RUN_S=10 HOP_S=5 ROUTE=a,b,…] python3 cc_longplay_stutter_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, statistics, gzip, base64
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -66,6 +66,7 @@ AVE_JS = r"""(a=>{ const E=GAME.E, V=new THREE.Vector3(), B=new THREE.Box3(), ou
   return {n:out.length, objs:out.slice(0,60), grid_x_z_navfree_can025_can03:grid, colliders:cols.slice(0,10), colliders_total:(E.colliders||[]).length}; })"""
 SNAP_JS = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(60, c.width/c.height, 0.05, 600); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const pv=E.player.obj.visible; E.player.obj.visible=false; try{ r.render(E.scene,cam); } finally { E.player.obj.visible=pv; } return c.toDataURL('image/png'); })"""
+TOPS_JS = r"""(()=>{ const out=[]; for(const c of GAME.E.scene.children){ let n=0; c.traverse(()=>n++); out.push([(c.name||'')+'|'+c.type+(c.userData&&c.userData.kind?'|'+c.userData.kind:''), n]); } return out; })()"""
 GAMECAM = "(()=>{ const E=GAME.E, r=E.renderer; r.render(E.scene,E.camera); return r.domElement.toDataURL('image/png'); })()"
 
 
@@ -165,7 +166,7 @@ async def main():
         R.setup('【前置／捷徑】讀使用者存檔 %s（day %s），只改區域 wenzhou、%.2f 時；條件事件、手機自動打開關掉（STORY.TICKS 照跑）' % (FIX, sv0.get('day'), HOUR))
         if not R.check('① 讀到溫州街', s['zone'] == 'wenzhou', J(s)): await b.close(); sys.exit(1)
         await pg.wait_for_timeout(2000)
-        res['base_metrics'] = await metrics(); res['base_heap_gc'] = await gc_heap()
+        res['base_metrics'] = await metrics(); res['base_heap_gc'] = await gc_heap(); res['base_tops'] = await pg.evaluate(TOPS_JS)
         res['base_run'], _ = await run_for(RUN_S, '① 基準 溫州街')
         res['base_metrics_after'] = await metrics()
         R.note('① 基準量表 %s；GC 後 heap %s MB' % (J(res['base_metrics']), res['base_heap_gc']))
@@ -207,7 +208,16 @@ async def main():
             R.setup('③ 【捷徑】最後一站不是溫州街，用 GAME.enter 回溫州街')
         R.check('③ 回到溫州街', (await D.st(pg))['zone'] == 'wenzhou', '')
         await pg.wait_for_timeout(2000)
-        res['end_metrics'] = await metrics(); res['end_heap_gc'] = await gc_heap()
+        res['end_metrics'] = await metrics(); res['end_heap_gc'] = await gc_heap(); res['end_tops'] = await pg.evaluate(TOPS_JS)
+        # LAWWW-C 06:23：多出來的物件是誰——scene 頂層每個子節點（名字|型別）底下的物件數，第 0 站（溫州街）對 18 站走完（溫州街）
+        def agg(t):
+            d = {}
+            for k, n in t: d[k] = d.get(k, 0) + n
+            return d
+        a0, a1 = agg(res['base_tops']), agg(res['end_tops'])
+        diff = sorted([[k, a0.get(k, 0), a1.get(k, 0)] for k in set(a0) | set(a1) if a0.get(k, 0) != a1.get(k, 0)], key=lambda x: -abs(x[2] - x[1]))
+        res['tops_diff'] = diff
+        R.note('③ scene 頂層子節點 %d → %d 個；物件數有變的（名字|型別、第 0 站、走完）：%s' % (len(res['base_tops']), len(res['end_tops']), J(diff[:40])))
         res['end_run'], prof = await run_for(RUN_S, '③ 換 %d 次區域以後 溫州街' % len(res['hops']), profile=True)
         res['end_metrics_after'] = await metrics()
         if prof:

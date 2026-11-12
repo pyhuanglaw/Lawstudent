@@ -11,7 +11,7 @@
   另外記遊戲自己的 dt（GAME.E.lastDt／E.dt 有就記）、JS 長任務（PerformanceObserver longtask，有就記）。
 輸出：stutter_<TAG>.json（每段每幀原始資料）＋run.log 總表。判定只有「探針有跑完、量到東西」；數字給 LAWWW 判。
 （第二輪 LAWWW-C 04:42：VIEW／DSF／HOUR；跑步前後記 E.q、renderer 像素比、畫布、render.calls／triangles、programs；每幀記畫質有沒有變；跑不遠就記停的位置和附近 collider）
-CC_02 清單 2026-11-12：1✓ 2✓（座標：椰林大道從 zones3d.js 路面 x 0、z −242～−46；其他場景照出生點＋最長直線） 3n/a（BB 指定三個場景，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓（門檻 50 ms＝BB 04:23 給的） 9n/a（不截圖判畫面） 10✓ 11✓ 12✓（記「真的有在跑」：runHold、speed、位移） 13✓
+CC_02 清單 2026-11-12：1✓ 2✓（第四輪加 EXTRA_ARGS／CHANNEL：只改瀏覽器啟動，量法不變；座標：椰林大道從 zones3d.js 路面 x 0、z −242～−46；其他場景照出生點＋最長直線） 3n/a（BB 指定三個場景，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓（門檻 50 ms＝BB 04:23 給的） 9n/a（不截圖判畫面） 10✓ 11✓ 12✓（記「真的有在跑」：runHold、speed、位移） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [ZONES=wenzhou,campus,gongguan] [RUN_S=10] [VIEW=2308x1064 DSF=1|1.25|1.5|2 HOUR=17.58] python3 cc_run_stutter_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, statistics
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -89,7 +89,11 @@ async def main():
         if VIEW:
             w, h = [int(v) for v in VIEW.lower().split('x')]
             kw = {'executable_path': '/opt/pw-browsers/chromium'} if os.path.exists('/opt/pw-browsers/chromium') else {}   # 雲端才用（電腦那台 gpu_wrap 處理瀏覽器和 GPU 參數）
-            b = await p.chromium.launch(args=L.ARGS, **kw)
+            # 第四輪（LAWWW-C 06:23）：EXTRA_ARGS（+ 分隔，例 --force_low_power_gpu、--disable-gpu）、CHANNEL=chrome（本機裝的一般 Chrome，Playwright 開新的空白設定檔，不碰使用者的資料）
+            xa = [x for x in (os.environ.get('EXTRA_ARGS') or '').split('+') if x]
+            if os.environ.get('CHANNEL'): kw.pop('executable_path', None); kw['channel'] = os.environ['CHANNEL']
+            b = await p.chromium.launch(args=L.ARGS + xa, **kw)
+            R.setup('【前置】瀏覽器：channel %s；加的參數 %s；CC_GPU=%s CC_HEADLESS=%s（gpu_wrap 在 CC_GPU=1 時另外加 d3d11 參數）' % (kw.get('channel') or 'Playwright Chromium', xa, os.environ.get('CC_GPU', '1'), os.environ.get('CC_HEADLESS')))
             ctx = await b.new_context(viewport={'width': w, 'height': h}, device_scale_factor=DSF, has_touch=True, is_mobile=False)
             pg = await ctx.new_page(); cdp = await ctx.new_cdp_session(pg); errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
             R.setup('【前置／捷徑】桌機視窗 %dx%d、deviceScaleFactor %s、has_touch 開、is_mobile 關（LAWWW-C 04:42：使用者是電腦 Chrome 大視窗＋觸控版面）' % (w, h, DSF))
