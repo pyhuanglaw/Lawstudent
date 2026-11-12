@@ -101,7 +101,7 @@ const cafe=async(p)=>{ G.day=d17; G.hour=15.5; G.zone='cafe'; said=[]; opts=[]; 
   fresh(d18,9,'dorm',{EXCHANGE_ROUTE:'US',EXCH_APPLIED_DAY:d18-30}); check('9. 舊選單選過、沒有 EXCH_RULE 的舊存檔：不播', !STORY.routeNarrDue(G));
   // 8. F8
   fresh(d16,21.2,'dorm',{COLD_WEEK_PRESENT:['heroine_01','zhe'],EXPO_COUNTRY:'日本'}); R('heroine_01','FAM'); SOCIAL.remember('heroine_01','KNOWS_ECON_YEAR',''); runPhone(d16,21.2,21.3); await cafe([0]); const L8=lines();
-  check('8. F8 說明會（2-0）、感冒週以安在場的回聲、經濟系那一年', L8[0]==='（說明會那天，你坐在日本那一區。）'&&L8.includes('沈以安：你上個月感冒的時候說，你想用法律做什麼。')&&!L8.includes('沈以安：阿哲說你那週講了一句很帥的話。他不告訴我是什麼。')&&L8.includes('沈以安：你換過一次方向。這次也是你自己選。'), JSON.stringify(L8.slice(0,9)));
+  check('8. F8 說明會（2-0）、感冒週以安在場的回聲、經濟系那一年', L8[0]==='（說明會那天，你坐在日本那一區。）'&&L8.includes('沈以安：你上個月感冒的時候說，你想用法律做什麼。')&&!L8.includes('沈以安：阿哲說你那週講了一句很帥的話。他不告訴我是什麼。')&&!L8.includes('沈以安：你換過一次方向。這次也是你自己選。'), JSON.stringify(L8.slice(0,9)));   /* （CANON-NO-ECON-1112 第四批：照 AA_901 第 10 項）KNOWS_ECON_YEAR 拿掉，這一句不再說；舊期望：includes */
   fresh(d16,21.2,'dorm',{COLD_WEEK_PRESENT:['zhe']}); R('heroine_01','FAM'); runPhone(d16,21.2,21.3); await cafe([0]); check('8. 阿哲在場、以安不在：「阿哲說你那週講了一句很帥的話。他不告訴我是什麼。」', lines().includes('沈以安：阿哲說你那週講了一句很帥的話。他不告訴我是什麼。')&&!lines().some(x=>/你換過一次方向/.test(x)));
   // 9. 接線
   { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');

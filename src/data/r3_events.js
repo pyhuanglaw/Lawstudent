@@ -2,7 +2,7 @@
    這裡是用事件系統演的段落（3D 場景裡碰到的、出遊的 2D 場面）；手機、時間窗、鬧鐘、人物放到場景裡、包住別人的函式在 src/r3_3d.js。
    3-02 ev_kai_sunday_supper（events.js）裡 12/6 那一晚換成 F2：本檔最下面把 F2 那一段接進去（不改 events.js 那一行；對不到就不接，tests/r3_events_unit.js 會失敗）
    3-04 ev_fangyt_6am（3/13 06:00 椰林大道，方奕廷站著、阿凱坐在長椅上）　3-05 ev_zhiruo_latte_contest（5/7 Café 拉花比賽）＋ev_cafe_barista_zhiruo 投她的兩週內「這次有脖子了」
-   3-08 ev_sk12_soclib_table（12/20～12/23 社科圖）、ev_sk12_lawlib_hint（同一週晚上先進法圖的旁白）　3-15 ev_ziqing_3am_call（選了直接打電話）
+   3-08 ev_sk12_soclib_table、ev_sk12_lawlib_hint（AA_893 第 3 節整場拿掉，CANON-NO-ECON-1112）　3-15 ev_ziqing_3am_call（選了直接打電話）
    3-11 ev_sis_plan_us（美國路線 10/18 會所）、ev_sis_plan_lab（研究室）、ev_sis_exam_note（2/3 考場門口）　3-13 ev_fangyt_chiayi（1/27 嘉義）
    3-14 ev_sis_y4_desks（每週三研究室）、ev_sis_y4_father（3/17 公館）、ev_sis_y4_dayoff_river／_tea（4/28）
    測試：node tests/r3_events_unit.js */

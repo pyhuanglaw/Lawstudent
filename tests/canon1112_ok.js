@@ -11,6 +11,12 @@ const NEW = {
     '我室友問我你是誰。我說是同學。……她不信。', '（她把手機蓋起來，沒有回室友。）', '高雄有一間九分的。這間七分，已經很高了。', '公館的咖啡廳好多。我在高雄家附近只有兩間。',
     '「高雄那兩間妳都去過？」', '臺北的電影院好大。我家附近那間只有三個廳。', '……我還不想回宿舍。', '我室友生日快到了，我想送她一本書。你幫我挑。'],
   AA_892: ['📷（大口漢堡二樓的長桌。阿哲比 YA，可昕低頭在寫講義，沒有看鏡頭。）'],
+  AA_905: ['今天我想找一本小說。不是課本。', '你吃一口我的。換你的給我一口。'],
+  AA_893: ['她和室友在電影院門口排隊。', '你也來看這部？……那我們兩個是不是要假裝不認識我室友。', '（她笑了一下，跟室友走了。）', '她和室友坐在河邊等夕陽。', '……好，不用解釋了。（轉頭對室友）我先走，他來了。',
+    '（她室友揮揮手，自己往捷運站走了。）', '她和室友坐在河邊的台階上，一人一根烤玉米。', '我們讀完書出來走走，我室友說想吃玉米。', '她和室友坐在茶館的窗邊，兩個人盯著一壺茶。', '我們在等茶涼。我室友說三分鐘，我說兩分鐘。',
+    '我們讀完書上來的。你也是？', '碧潭那天我室友說，你吃玉米的樣子很認真。', '我室友說我們很吵。我們明明都沒講話。', '我室友說她不想當電燈泡。她剛剛真的用了這個詞。', '這棟比我們學校所有的樓都老。……我猜的，沒查。',
+    '茶館老闆認得我。他問我今天怎麼沒帶書。', '從這裡看得到臺北。那一片燈，我們學校大概在那裡。', '天鵝船要兩個人踩。我室友踩到一半就不踩了。', '我搭車回學校了。送我到捷運站就好。……到月台也可以。', '我回宿舍了。今天的電影你最喜歡哪一幕？傳給我。',
+    '我回宿舍了。到了傳訊息給你。', '河邊。上次可昕和她室友坐在這裡等夕陽。', '電影院門口。上次可昕和她室友在這裡排隊。', '茶館的窗邊。上次可昕和她室友在這裡等茶涼。', '河邊的台階。上次可昕和她室友坐在這裡吃玉米。'],
 };
 /* invites.js（手寫檔）照 AA_894 第 4 節換的句子：舊 → 新（舊字用跳脫寫，D158）；拿整份資料和舊 commit 逐句比的測試用 pair() 認這幾句、drop() 認拿掉的那兩格 */
 const PAIRS=[["\u597d\u3002\u6211\u5f9e\u6728\u67f5\u904e\u53bb\u56db\u5341\u5206\u9418\uff0c\u4f60\u5148\u9ede\uff0c\u6211\u5230\u4e86\u5c31\u5403\u3002","\u597d\u3002\u4f60\u5148\u53bb\u5360\u4f4d\u5b50\uff0c\u6211\u4e0b\u8ab2\u5c31\u5230\u3002"],["\u6930\u5f71\u5927\u9053\uff1f\u5f9e\u6728\u67f5\u5927\u5b78\u904e\u53bb\u8981\u56db\u5341\u5206\u9418\u3002","\u6930\u5f71\u5927\u9053\uff1f\u597d\uff0c\u65e9\u4e0a\u516d\u9ede\u534a\u3002"],["\u63db\u4f60\u4f86\u6728\u67f5\u5927\u5b78\u6253\u3002\u4f60\u8981\u4e0a\u5c71\u3002","\u4e0b\u4e00\u5c40\u63db\u6211\u767c\u7403\u3002\u4f60\u4e0d\u8981\u8dd1\u3002"],["\u6620\u6708\u6e56\uff1f\u4f60\u5011\u5b78\u6821\u7684\u6e56\uff1f\u597d\uff0c\u6211\u53bb\u770b\u770b\u6709\u591a\u5927\u3002","\u6620\u6708\u6e56\uff1f\u597d\u3002\u6211\u6bcf\u5929\u7d93\u904e\uff0c\u6c92\u6709\u597d\u597d\u770b\u904e\u3002"],["\u597d\u3002\u6211\u5f9e\u6728\u67f5\u904e\u53bb\uff0c\u4f60\u8ca0\u8cac\u665a\u9910\u3002","\u597d\u3002\u4f60\u8ca0\u8cac\u665a\u9910\u3002"],["\u597d\u554a\u3002\u6211\u65e9\u4e00\u9ede\u5f9e\u6728\u67f5\u51fa\u767c\u3002","\u597d\u554a\u3002\u6211\u4e0b\u8ab2\u76f4\u63a5\u904e\u53bb\u3002"],["\u597d\u3002\u5341\u9ede\u4ee5\u524d\uff0c\u6211\u9084\u8981\u56de\u6728\u67f5\u3002","\u597d\u3002\u5341\u9ede\u4ee5\u524d\uff0c\u6211\u9084\u8981\u56de\u53bb\u5ff5\u66f8\u3002"],["\uff08\u5c0f\u8072\uff09\u4f60\u5011\u7684\u7e3d\u5716\u597d\u5927\u3002","\uff08\u5c0f\u8072\uff09\u7e3d\u5716\u665a\u4e0a\u4eba\u597d\u5c11\u3002"],["\u6211\u56de\u6728\u67f5\u4e86\u3002\u4eca\u5929\u8b1d\u8b1d\u4f60\u3002","\u6211\u56de\u5bbf\u820d\u4e86\u3002\u4eca\u5929\u8b1d\u8b1d\u4f60\u3002"]];
@@ -21,4 +27,6 @@ const drop=L=>{ let out=L; for(const [arr,key,val] of GONE){ const pre=arr+'.'; 
     out=out.filter(e=>!(e[0].startsWith(pre)&&+e[0].slice(pre.length).split('.')[0]===k)).map(e=>{ if(!e[0].startsWith(pre)) return e; const rest=e[0].slice(pre.length).split('.'), i=+rest[0]; if(!(i>k)) return e; rest[0]=String(i-1); return [pre+rest.join('.')].concat(e.slice(1)); }); }
   return out; };
 const ALL = new Set([].concat(...Object.values(NEW)));
-module.exports = { NEW, ALL, PAIRS, pair, drop, ok: t => ALL.has(String(t).replace(/^「|」$/g, '')) || ALL.has(String(t)) };
+/* AA_787（X324 E 區偶遇覆蓋列，企劃線 b508188fb5；CANON-NO-ECON-1112 第四批四照 at 一格一格換進 encounters.js、enc_walk.js，可昕的列沒有）：拿整份資料和舊 commit 逐句比的測試用 a787(舊,新) 認這幾格 */
+let A787=null; const a787=(a,b)=>{ if(A787===null){ A787=[]; try{ const d=JSON.parse(require('child_process').execFileSync('git',['-C',require('path').join(__dirname,'..'),'show','b508188fb5:docs/story_planning/AA_787_encounters.json'],{encoding:'utf8',stdio:['ignore','pipe','ignore']})); A787=d.files.flatMap(f=>f.rows); }catch(e){} } return A787.some(r=>r.old===a&&r.new===b); };
+module.exports = { NEW, ALL, PAIRS, pair, drop, a787, ok: t => ALL.has(String(t).replace(/^「|」$/g, '')) || ALL.has(String(t)) };

@@ -114,7 +114,7 @@ const span=(t0,t1,st)=>{ st=st||0.05; for(let t=t0;t<=t1+1e-9;t+=st){ const d=Ma
   /* ===================== 第 3 組（15）她的專業核心不是跟祐廷學的（第②級）===================== */
   await sec('15',async()=>{
     { freshK('2029-07-01',20,'cafe',{}); SOCIAL.remember('classmate_peishan','MIRROR_PEISHAN',''); const L=PG.epiLine(H.G,'classmate_peishan');
-      check('15-1. 沛珊尾聲（有 MIRROR_PEISHAN）：「我跟學生講重考的事，講的是我自己那一年。……你那時候也說過你重考過。」', JSON.stringify(L)===JSON.stringify([['classmate_peishan','我跟學生講重考的事，講的是我自己那一年。……你那時候也說過你重考過。']]), JSON.stringify(L));
+      check('15-1. 沛珊尾聲：就算舊存檔有 MIRROR_PEISHAN，也不走那一支（CANON-NO-ECON-1112 第四批：照 AA_901 第 10 項拿掉 P.mirror；舊期望：講她重考那一年的那一句）', L.length>0&&L.every(x=>x[0]==='classmate_peishan')&&!/MIRROR_PEISHAN/.test(require('fs').readFileSync(require('path').join(__dirname,'..','src/postgrad3d.js'),'utf8')), JSON.stringify(L));
       check('15-1. 「你教我的那句，我現在教給我的學生」不在 postgrad_lines.js', !fs.readFileSync(path.join(H.ROOT,'src/data/postgrad_lines.js'),'utf8').includes('你教我的那句')); }
     { freshK('2029-07-01',20,'cafe',{}); H.G.flags.dating_classmate_peishan=true; const L0=PG.epiLine(H.G,'classmate_peishan'); H.G.flags.PS_WAITED=true; const L1=PG.epiLine(H.G,'classmate_peishan');
       check('15-1b. 沛珊尾聲和祐廷那一版：有 PS_WAITED（BB_165 5-1，台南那一天）多一句「我現在上課，學生問問題，我都會先等一下。」；沒有就照舊',JSON.stringify(L1)===JSON.stringify(L0.concat([['classmate_peishan','我現在上課，學生問問題，我都會先等一下。']]))&&!L0.some(x=>x[1].includes('先等一下')),JSON.stringify([L0,L1])); }

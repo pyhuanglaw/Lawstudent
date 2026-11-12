@@ -202,7 +202,7 @@ const run=async()=>{
       check('9 約去 afar 答應：七位各自那一句',!bad.length,J(bad.map(id=>[id,(INV.personal(G,id,A,G.day+1,15.5,{res:'accept'})||{}).lines])));
       const o=INV.personal(G,'zhe',A,G.day+1,15.5,{res:'accept'}); check('9 約去 afar 答應：沒列的人（阿哲）＝一般那句「好啊。那間的手沖很好喝。」',o&&J(o.lines)===J(['好啊。那間的手沖很好喝。']),J(o&&o.lines));   /* 有名字說的不加外面的「」（TEXT-QUOTE-UNIFY-1108 第三批，GG2.ACC0）*/
       const no=INV.personal(G,'zhe',A,G.day+1,15.5,{res:'decline',why:'rel'}); check('9 不答應：不套答應句',!(no&&no.lines&&['好啊。那間的手沖很好喝。','「好啊。那間的手沖很好喝。」'].includes(no.lines[0]))); }
-    if(D){ const ACC={heroine_01:'好。不要遲到。',heroine_02:'好……我想坐窗邊。',heroine_03:'Daybreak？好。我想吃法式吐司。',heroine_04:'Daybreak？……好。我會起來。',heroine_05:'好。那天我空下來。',classmate_peishan:'好啊！那家的卡座好可愛。',kexin:'好啊。我早一點從木柵出發。'};
+    if(D){ const ACC={heroine_01:'好。不要遲到。',heroine_02:'好……我想坐窗邊。',heroine_03:'Daybreak？好。我想吃法式吐司。',heroine_04:'Daybreak？……好。我會起來。',heroine_05:'好。那天我空下來。',classmate_peishan:'好啊！那家的卡座好可愛。',kexin:'好啊。我下課直接過去。'};   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）*/
       const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,D,G.day+1,10,{res:'accept'}); return !(o&&J(o.lines)===J([OE.fwd('invites',id,ACC[id])])); });
       check('9 約去 Daybreak 答應：七位各自那一句',!bad.length,J(bad));
       const o=INV.personal(G,'zhe',D,G.day+1,10,{res:'accept'}); check('9 約去 Daybreak 答應：沒列的人＝一般那句「好啊。早上嗎？我爬得起來。」',o&&J(o.lines)===J(['好啊。早上嗎？我爬得起來。']),J(o&&o.lines)); }
@@ -220,7 +220,7 @@ const run=async()=>{
       for(const k of ['afar','daybreak']){ const L=GG2.L[k]; L.door.forEach(T); T(L.ask); T(L.short); L.after.forEach(a=>T(a[1])); (L.eat||[]).forEach(T); Object.values(L.look).forEach(a=>a.forEach(T)); Object.values(L.seat).forEach(T); T(L.sign); T(GG2.ACC0[k]);
         Object.values(INVITE_DATA[k+'Acc']||{}).forEach(T); [].concat(...INVITE_DATA.seatOpen[k]).forEach(T); }
       T(INV.place('daybreak').lateNote({hour:15}));
-      const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>!OE.inDoc('invites',null,t,t=>doc.indexOf(t)>=0||doc.indexOf(strip(t))>=0));
+      const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>!OE.inDoc('invites',null,t,t=>doc.indexOf(t)>=0||doc.indexOf(strip(t))>=0)&&!require('./canon1112_ok.js').ok(t));   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）*/
       check('10 台詞逐字在 AA_652 裡（'+out.length+' 句：進門、點餐、錢不夠、點完、吃完、看、坐下、打烊、木牌、答應、開場句、14:00 以後）',!bad.length&&out.length>=50,J(bad));
       const menu=k=>GG2.L[k].menu.every(([n,p])=>doc.indexOf(n+' '+p)>=0); check('10 選單品項、價錢照稿',menu('afar')&&menu('daybreak')); } }
 };

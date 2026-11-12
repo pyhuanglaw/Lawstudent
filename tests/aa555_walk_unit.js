@@ -69,6 +69,7 @@ const uq=t=>/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;   /* invites.js 一起
 const splitVar=t=>{ const m=/^有 `([A-Z_]+)`：(「[^」]*」)／沒有：(「[^」]*」)$/.exec(t); return (m?[m[2],m[3]]:[t]).map(uq); };   /* Alison 大四上總圖：有 YU_ALONE／沒有 兩個版本 */
 check('0. 稿讀得到（AA_118、AA_555、AA_185 @56c11668d）；模組都載得到',A118.length>10000&&A555.length>4000&&!!AN185&&!loadErr.length,loadErr.join('　')||'git fetch 企劃線（56c11668d）');
 check('0. 同行聊天：AA_118 六人各 24 句、AA_555 的改稿每一列都對到原句（芯慈 1-4 整張 24 列）',Object.keys(W118).length===6&&Object.values(W118).every(L=>L.length===24)&&!UNMATCHED.length&&EXP.classmate_xinci&&EXP.classmate_xinci.length===24,J({n:Object.fromEntries(Object.entries(W118).map(([k,v])=>[k,v.length])),UNMATCHED}));
+/* （CANON-NO-ECON-1112 第四批：照 AA_894 第 4 節拿掉）芯慈 w118_xc_10 那一列（讀 SK10_DONE、提到舊序章那位）整列拿掉：之後的檢查不算那一列（23 句）*/ { const n0=EXP.classmate_xinci.length; EXP.classmate_xinci=EXP.classmate_xinci.filter(r=>!/\u963f\u52f3/.test(r.text)); check('0. 芯慈拿掉的那一列剛好一列',n0-EXP.classmate_xinci.length===1); }
 const WALK=(typeof INVITE_DATA!=='undefined'&&INVITE_DATA.walk118)||null;
 
 /* ================= 1 同行聊天：逐字 ================= */
@@ -80,7 +81,7 @@ sec('1',()=>{
     const norm=a=>a.slice().sort().join('｜'), es=exp.map(norm).sort(), gs=got.map(norm).sort();
     check('1. '+id+'：24 句（一句一個 one；有版本的算一句）逐字＝稿',J(es)===J(gs),J({少:es.filter(x=>!gs.includes(x)),多:gs.filter(x=>!es.includes(x))}));
     const inWalk=Object.values((INVITE_DATA.people[id]||{}).walk||{}).flatMap(v=>[].concat(v)).filter(e=>e&&e.one);
-    check('1. '+id+'：每一句都真的放進 people.'+id+'.walk（目的地或 any）',inWalk.length===((WALK||{})[id]||[]).length&&inWalk.length>=24,J(inWalk.length)); }
+    check('1. '+id+'：每一句都真的放進 people.'+id+'.walk（目的地或 any）',inWalk.length===((WALK||{})[id]||[]).length&&inWalk.length>=(id==='classmate_xinci'?23:24)/* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）芯慈拿掉一列 */,J(inWalk.length)); }
   const all=CH.flatMap(id=>Object.values(gameText(id)).flat());
   check('1. AA_555 刪掉的原句（芯慈 8 句＋各人換掉的）都不在：「我最怕例外」「以安又是第一」「第一名」「恭喜，妳本來就可以」「雙主修改成輔系了」、模擬法庭、三件事、芷若說英國、阿嬤又來問那棵樹',
     !all.some(t=>/我最怕例外|以安又是第一|第一名|妳本來就可以|雙主修改成輔系|模擬法庭|三件事|芷若說英國|芷若那邊下雨|那棵樹|平均七十一|法服第一次值班|我不能接阿姨的案子/.test(t))&&DEL555.length>=7&&DEL555.every(q=>!all.some(t=>t.includes(q))),J(all.filter(t=>/最怕例外|第一名|模擬法庭|三件事/.test(t))));

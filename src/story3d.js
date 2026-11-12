@@ -3141,7 +3141,7 @@ const STORY = (function(){
   /* 為什麼念法律（D60）：AA_587 第 7-2 節 S4 起第二天不再問（whyLawChosen 拿掉），新玩家 whyLaw＝null（讀它的地方都處理 null：events.js 學伴第 3 題、y34b3d.js 大四下事件 20）；
      舊存檔的 whyLaw（ok／hero／family／unknown）保留原值不遷移 */
   const ME=G=>({name:G.name});   /* ME：祐廷自己說的話（對話框寫名字；不改他坐著的姿勢）*/
-  S.whyLawKey=F=>{ const v=F&&F.whyLaw; return v==null?null:({hero:'help',ok:'own',family:'own',unknown:'own'})[v]||v; };   /* 以後要讀 whyLaw 用這個（AA_120 7-5）：舊存檔的 hero 當 help，ok／family／unknown 當 own；沒聊過是 null */
+  S.whyLawKey=F=>{ const v=F&&F.whyLaw; return v==null?null:({hero:'help',ok:'own',family:'own',unknown:'own',econ:'own'})[v]||v; };   /* econ→own：CANON-NO-ECON-1112 第四批（AA_905，那個答案拿掉）*/   /* 以後要讀 whyLaw 用這個（AA_120 7-5）：舊存檔的 hero 當 help，ok／family／unknown 當 own；沒聊過是 null */
   // ---------- 咖啡廳 ----------
   async function cafeScene(GM){ const G=GM.G, F=G.flags, E=GM.E, P=E.player; const an=GM.npc.an; if(!an) return; GM.sceneBegin(); GM.letterbox(true); an.beh='idle'; const table={x:4.5,z:-2.5}; await Promise.all([GM.walkTo(P,table.x-0.6,table.z+1.6),GM.walkTo(an,table.x-0.6,table.z-1.6)]); GM.sitAt(P,{x:table.x,z:table.z+0.8,yaw:Math.PI}); GM.sitAt(an,{x:table.x,z:table.z-0.8,yaw:0}); G.money-=120; GM.updateHUD(); await GM.sleep(400); GM.advance(0.3);
     GM.cine('two',P.obj,an.obj,{flip:true}); ADV.begin({background:'blur',right:'heroine_01'}); await GM.say(null,'窗邊的雙人桌。她把筆電打開，又把它闔上。'); await GM.say(an,'先不寫。我想先問你一件事。',{expr:'normal'}); GM.cine('ots',P.obj,an.obj); await GM.say(an,'那個賣家——少打一個零的那個。你覺得法律應該保護他嗎？他自己粗心欸。'); const hasNote=GM.hasNote('law_88'); const i=await GM.choose([{t:'應該。交易要有誠信，但也不能讓人因為一個手誤就賠十倍。',key:'A'},{t:'不應該。錯誤是自己造成的，後果就自己承擔。',key:'B'},{t:'看情況。八十八條說「無過失」才能撤銷——少打一個零可能就是有過失。',key:'C',hint:hasNote?'你的筆記裡有':'需要讀過 §88',dim:!hasNote}]); let key=['A','B','C'][i]; if(key==='C'&&!hasNote){ await GM.say(null,'你想引條文，但想不起來是哪一條。'); key='A'; }
@@ -3625,7 +3625,6 @@ const STORY = (function(){
       await GM.say(an,'台灣也有這一條。可是條文只寫了怎麼規定，我想看的是那邊的人為什麼照做。'); await GM.say(an,'那個要去那裡看。');
       await GM.say(an,dating?'你的呢？':'你的呢？你還沒填。很少見，你平常都很快。');
       const P=Array.isArray(F.COLD_WEEK_PRESENT)?F.COLD_WEEK_PRESENT:[]; if(P.includes('heroine_01')) await GM.say(an,'你上個月感冒的時候說，你想用法律做什麼。'); else if(P.includes('zhe')) await GM.say(an,'阿哲說你那週講了一句很帥的話。他不告訴我是什麼。');   /* 1A-04 第 5 節的回聲 */
-      if(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR')) await GM.say(an,'你換過一次方向。這次也是你自己選。');
       if(r==='JP'){ await GM.say(null,S.AN15_FORM.JP); await GM.say(an,'寫好了？'); await GM.say(an,'我們同一所。我查過了，宿舍在同一區。'); await GM.say(an,'下禮拜要補語言成績，你的考了嗎？');
         const k=await GM.choose([{t:'「考了。」'},{t:'「還沒。」'}]); F.AN15_ANSWER=k===1?'not_yet':'tested'; await GM.say(an,k===1?'……下禮拜。不准賴。':'好。那我們明天早上一起交。'); }   /* A 版：和以安交往中 */
       else if(r==='US'){ await GM.say(null,S.AN15_FORM.US);

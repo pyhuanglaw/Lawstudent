@@ -90,9 +90,9 @@ const YL='assets/portraits/yule/campus/';
   check('5. 西門町：予樂說話時台上是她的立繪、可昕變暗',!!i1&&yuleOnStage(i1)&&['left','right'].some(q=>i1.st[q].id==='kexin'&&i1.st[q].dim),JSON.stringify(i1&&i1.st));
   said.length=0; G.trip={walk:0}; ADV.begin({background:'dark'}); pick=[0]; const r2=await ENC.meet(GM,row13,{t:'dating'}); ADV.end();
   const i2=line(row13.lines.datingAfter.text);
-  check('5. 淡水交往中（'+r2+'）：「'+row13.lines.datingAfter.text+'」對話框「予樂」、台上是她的立繪',!!i2&&i2.name==='予樂'&&i2.charId==='yule'&&yuleOnStage(i2),JSON.stringify(i2));
+  check('5. 淡水交往中（'+r2+'）：「'+row13.lines.datingAfter.text+'」是旁白（沒有名字、沒有立繪）',!!i2&&row13.lines.datingAfter.who===null&&!i2.name&&!i2.charId,JSON.stringify(i2));   /* （CANON-NO-ECON-1112 第四批：照 AA_893 換字）淡水那一句改成旁白；舊期望：對話框「予樂」、台上是她的立繪 */
   const esrc=fs.readFileSync(path.join(ROOT,'src/encounter3d.js'),'utf8');
-  check('5. encounter3d.js：intro、datingAfter 都經過 sayer（不再只給名字）',/ESAY\(GM,S\.sayer\(q\.speaker\)/.test(esrc)&&/ESAY\(GM,S\.sayer\(a\.who\)/.test(esrc)&&!/name:q\.speaker==='yule'\?'予樂'/.test(esrc));
+  check('5. encounter3d.js：intro、datingAfter 都經過 sayer（不再只給名字）',/ESAY\(GM,S\.sayer\(q\.speaker\)/.test(esrc)&&/S\.sayer\(a\.who\)/.test(esrc)/* （CANON-NO-ECON-1112 第四批：照 AA_893 換字）who 是 null＝旁白 */&&!/name:q\.speaker==='yule'\?'予樂'/.test(esrc));
 
   // 6. 沒有 charId 的說話者：ADV.speaker('player')
   const gsrc=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');

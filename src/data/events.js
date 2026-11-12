@@ -54,7 +54,8 @@ const REVISIT_Y1_OPTS=[
 const REVISIT_Y1_SHOWN=G=>REVISIT_Y1_OPTS.filter(o=>o.ok(G)).slice(0,3).map(o=>o.k);
 /* 迎新的第 3 題（AA_177 第 9 節）：第二天 whyLaw 的鍵（舊存檔的 hero→help、ok／family／unknown→own：STORY.whyLawKey）*/
 const WHY_KEY=G=>typeof STORY!=='undefined'&&STORY.whyLawKey?STORY.whyLawKey(G.flags):null;
-const MENTOR_WHY_TEXT={curious:'小時候遇到事情就去翻民法。翻得到，看不懂。',econ:'我先念了一個多月經濟。還是想念這個。',help:'想幫身邊的人把事情弄清楚。',own:'還在找怎麼說。但這是我自己選的。'};
+/* （CANON-NO-ECON-1112 第四批：照 AA_905）舊序章那一個答案（鍵 econ）拿掉；舊存檔 whyLaw 是 econ 的，STORY.whyLawKey 當 own；MENTOR_WHY 已經是 econ 的，查不到字＝不說那一句、不寫筆記 */
+const MENTOR_WHY_TEXT={curious:'小時候遇到事情就去翻民法。翻得到，看不懂。',help:'想幫身邊的人把事情弄清楚。',own:'還在找怎麼說。但這是我自己選的。'};
 /* 學姊 W5（BB_96 2-6）：法服讀書會去過 3 次以上、還沒演過（兩個版本共用一次）；後半段兩個版本相同 */
 const W5_OK=G=>{ const A=G.acts&&G.acts.att||{}; const n=Object.keys(A).filter(k=>k.indexOf('lawclub_study@')===0).length; const D=G.events&&G.events.done||{}; return n>=3&&!D.ev_sis_sticky_notes&&!D.ev_sis_sticky_notes_late; };
 const W5_REST=[ {speaker:null,text:'會後你回法律系館B拿忘記的東西，看到她一個人坐著，在每份書狀上貼便條。'},
@@ -812,7 +813,7 @@ const STORY_EVENTS=[
       {label:'i3'},{speaker:'kexin',expression:'smile',text:'杜可昕。木柵大學法律。我們以前是經濟系的同學。……後來一起重考。'},
       {if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'known'},
       {speaker:'zhe',expression:'surprised',text:'等一下。經濟系？重考？'},{speaker:'player',text:'……嗯。念了一個多月。'},
-      {set:{ECON_PAST_SHARED:'full'}},{if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_01',G)},mem:[{npc:'heroine_01',tag:'KNOWS_ECON_YEAR',note:'中秋烤肉：可昕說了你們以前是經濟系的同學'}]},{goto:'joke'},
+      {set:{ECON_PAST_SHARED:'full'}},{goto:'joke'},
       {label:'known'},{speaker:'zhe',expression:'laugh',text:'喔——就是那一年。'},
       {label:'joke'},{speaker:null,text:'之後阿哲和她比冷笑話。'},
       {choice:[{text:'（阿哲贏）',set:{KX_JOKE:'zhe'},goto:'zw'},{text:'（可昕贏）',set:{KX_JOKE:'kexin'},goto:'kw'}]},
@@ -2368,7 +2369,7 @@ const STORY_EVENTS=[
     consequences:{flags:{MIDAUTUMN_Y2:true},memo:'大二的中秋烤肉（河濱）'} },
   /* D3 迎新（大二版，小隊輔；AA_143 1-3、AA_177 第 6、9 節；AA_310 第 2 節改到開學前）：9/6（日）14:00 社科院旁的草地（2D 出遊；AA_177 第 9 節：先做 2D，三個背景配三題，3D 帶隊之後再做）。
      邀約：9/4（五）21:00 系學會在「法律系（全班）」群組（law_class）；沒去＝9/6 21:30 同一個群組一張照片。開頭旁白用 AA 寫的照片說明。
-     三題：前兩題各兩個選項、都是好答案（只記 MENTOR_STYLE）；第 3 題「為什麼念法律？」四個短版，第二天選的那一句（whyLaw）排第一，四個都可以選；記 MENTOR_WHY、筆記「我認識的人：迎新的學弟妹」。
+     三題：前兩題各兩個選項、都是好答案（只記 MENTOR_STYLE）；第 3 題「為什麼念法律？」三個短版（AA_905：舊序章那一個答案拿掉，CANON-NO-ECON-1112 第四批），第二天選的那一句（whyLaw）排第一，四個都可以選；記 MENTOR_WHY、筆記「我認識的人：迎新的學弟妹」。
      收尾：阿哲（另一隊的小隊輔）在傅鐘下喊口號（沒有傅鐘的 2D 背景：椰林大道）。*/
   { id:'ev_y2_welcome', title:'迎新（小隊輔）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     dialogue:[ {scene:'社科院旁的草地',bg:'ntu_soc'},{speaker:null,text:'（一群新生圍成一圈，手上拿著名牌。）'},
@@ -2378,11 +2379,9 @@ const STORY_EVENTS=[
       {scene:'法律系館A前',bg:'ntu_linze'},
       {speaker:'新生',text:'為什麼念法律？'},
       {choice:[{text:'「小時候遇到事情就去翻民法。翻得到，看不懂。」',if:{custom:G=>WHY_KEY(G)==='curious'},set:{MENTOR_WHY:'curious'},goto:'why'},
-        {text:'「我先念了一個多月經濟。還是想念這個。」',if:{custom:G=>WHY_KEY(G)==='econ'},set:{MENTOR_WHY:'econ'},goto:'why'},
         {text:'「想幫身邊的人把事情弄清楚。」',if:{custom:G=>WHY_KEY(G)==='help'},set:{MENTOR_WHY:'help'},goto:'why'},
         {text:'「還在找怎麼說。但這是我自己選的。」',if:{custom:G=>WHY_KEY(G)==='own'},set:{MENTOR_WHY:'own'},goto:'why'},
         {text:'「小時候遇到事情就去翻民法。翻得到，看不懂。」',unless:{custom:G=>WHY_KEY(G)==='curious'},set:{MENTOR_WHY:'curious'},goto:'why'},
-        {text:'「我先念了一個多月經濟。還是想念這個。」',unless:{custom:G=>WHY_KEY(G)==='econ'},set:{MENTOR_WHY:'econ'},goto:'why'},
         {text:'「想幫身邊的人把事情弄清楚。」',unless:{custom:G=>WHY_KEY(G)==='help'},set:{MENTOR_WHY:'help'},goto:'why'},
         {text:'「還在找怎麼說。但這是我自己選的。」',unless:{custom:G=>WHY_KEY(G)==='own'},set:{MENTOR_WHY:'own'},goto:'why'}]},
       {label:'why'},{speaker:'新生',text:'……學長，那我還有四年可以想。'},
@@ -2422,7 +2421,7 @@ const STORY_EVENTS=[
         {if:DH('heroine_04'),speaker:'heroine_04',expression:'neutral',text:'……今天晚上講給你聽。不是改天。'},{if:DH('heroine_04'),stamp:['ZQ_LAB_DH_DAY']},{mem:[{npc:'heroine_04',tag:'LAB_LETTER',note:'叫她接爸爸的電話'}]},{set:{LAB_LETTER_DAD:true}},
       {label:'end'} ] },
   /* 沛珊 P3 我要重考（BB_97 4-2，BB-B 定稿；CG BCG-16）：大二上第 5 週平日 12–13 下課時，霖澤館走廊（備案：校園的霖澤館前）、前置 P2 或 P2b、和她有點熟以上、只一次。
-     她走過來（spawn）。開頭照 NOT_FOR_ME；有 SIS_ANSWERED_WHY 多一句；第三個選項記 MIRROR_PEISHAN（AA_886 第 2 節：「要考的話，我陪妳念。」、她的回覆合成一版、不留約定）。三個選項都不改變她的決定 */
+     她走過來（spawn）。開頭照 NOT_FOR_ME；有 SIS_ANSWERED_WHY 多一句；第三個選項不記標籤（MIRROR_PEISHAN 照 AA_901 第 10 項拿掉，CANON-NO-ECON-1112 第四批；AA_886 第 2 節：「要考的話，我陪妳念。」、她的回覆合成一版、不留約定）。三個選項都不改變她的決定 */
   /* P3「我要重考」只對交往中的玩家（AA_281 第 4 節 B-5，使用者 10-18：她什麼都不說；交往中的才知道）*/
   { id:'ev_peishan_decision', title:'我要重考', participants:['classmate_peishan'], location:['linze','campus'], trigger:'auto', term:['Y2S1'], weeks:[5], weekday:[1,2,3,4,5], time:[12,13], once:true, background:'blur',
     spawn:{npc:'classmate_peishan',dist:2.2},
@@ -2439,7 +2438,6 @@ const STORY_EVENTS=[
       {label:'a'},{speaker:null,text:'她點頭。'},{speaker:'classmate_peishan',expression:'neutral',text:'嗯。考試這件事不難。'},{speaker:'classmate_peishan',expression:'thinking',text:'難的是回家，跟我爸媽講。'},{goto:'end'},   /* AA_428 §2 第 8 點：#a 現行版有後來的來源（AA_313 6-4 換掉 SC4 原句「難的是星期六回家，站在那張榜單前面。」）＝照現行；SC4 #23 的改稿「嗯。考試我不怕。」「我比較怕星期六回家要怎麼開口。」不換 */
       {label:'b'},{speaker:'classmate_peishan',expression:'neutral',text:'我爸會不講話。我媽會一直問我以後要做什麼。'},{speaker:'classmate_peishan',expression:'smile',text:'我會說我想當老師。她應該會再問三次。'},{goto:'end'},
       {label:'c'},{speaker:'classmate_peishan',expression:'neutral',text:'……你自己的書念完了嗎？'},{speaker:null,text:'（她笑了。）'},{speaker:'classmate_peishan',expression:'smile',text:'好。那你先把你的念完。'},
-      {mem:[{npc:'classmate_peishan',tag:'MIRROR_PEISHAN',note:'大二她說要換一條路的那天，你說要陪她念'}]},
       {label:'end'} ],
     consequences:{flags:{PEISHAN_RETAKE:true},memo:'沛珊說她要重考，去念教育'} },
   /* 學姊 W7「妳自己相信這個題目嗎」（BB_97 2-2，BB-B 定稿；位置照 AA_146／AA_140 G08 統一在霖澤館）：大二上第 6～9 週平日 15–17，經過霖澤館（教授研究室走廊，2D「研究室門口」背景還沒有＝深色底）；
@@ -3155,7 +3153,7 @@ const STORY_EVENTS_V11=[
   { id:'ev_xinci_double', title:'雙主修', participants:['classmate_xinci'], location:'library', trigger:'interact', priority:6, once:true, term:['Y1S2'], weeks:[6,7], prereq:{memory:[{npc:'classmate_xinci',tag:'FIRST_MET'}]}, background:'blur',   /* AA_120 7-1 第 3 項：大一下第 6～7 週（2026-03-30～04-12），期中前；債總週四、經原週五。AA_185 3-11：不需要慈 1（借筆記）——認識她就有（祐廷大一下都在重修經原）；沒有慈 1 的玩家第一句換成「……你也在重修經原？」*/
     dialogue:[ {speaker:null,text:'（她在便利貼上寫：『出去一下？』你們走到樓梯間。）',libOut:true},   /* libOut（AA_595 1-B14：取代「（總圖裡，她壓低聲音。）」；AA 11-02 22:30 定稿）*/
       /* AA_209 附錄A §2：開頭一句旁白，其他的（小聲）×11 拿掉 */{if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},speaker:'classmate_xinci',expression:'tired',text:'經濟的期中考，跟債總的小考同一週。兩科我都還沒念完……我可能要放棄一科。'},{unless:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},speaker:'classmate_xinci',expression:'surprised',text:'你也有修經原喔？我在後面看到你。'}/* AA_209 附錄A §2 */,{choice:[{text:'「放經濟。妳民法比較強。」',consequences:{rel:{classmate_xinci:{trust:4,resp:2}},mem:[{npc:'classmate_xinci',tag:'IMPORTANT_CONVERSATION',note:'你建議她放經濟'}]}},{text:'「兩科都考，考爛也是經驗。」',consequences:{rel:{classmate_xinci:{fam:3,comf:2}},mem:[{npc:'classmate_xinci',tag:'IMPORTANT_CONVERSATION',note:'你說兩科都考'}]}},{text:'「妳為什麼要雙主修？」',consequences:{rel:{classmate_xinci:{trust:5,fam:3}},mem:[{npc:'classmate_xinci',tag:'TALKED_FAMILY',note:'雙主修財金是她自己要的'}]},goto:'why'},{text:'「經濟那科我陪妳看。」',goto:'econ'}]},{goto:'end'},{label:'why'},{speaker:'classmate_xinci',expression:'smile',text:'我喜歡財金。看財報比看小說好看。'},{speaker:'classmate_xinci',expression:'neutral',text:'……我爸媽都是律師。他們說，念我喜歡的就好。'},   /* AA_547 第 2 節（原本「我爸說法律系畢業沒有第二專長會餓死。他是會計師。」）*/{goto:'end'},
-      /* 交接包 v2 第 3 節（慈 2 的新選項）：祐廷也在重修經原（下），所有玩家都有；「第三章」不寫是個體還是總體；以安不在場，KNOWS_ECON_YEAR 不變 */
+      /* 交接包 v2 第 3 節（慈 2 的新選項）：祐廷也在重修經原（下），所有玩家都有；「第三章」不寫是個體還是總體；以安不在場 */
       {label:'econ'},{if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'ec_full'},{if:{flagIs:{ECON_PAST_SHARED:'half'}},goto:'ec_half'},
       {speaker:'classmate_xinci',expression:'surprised',text:'……你怎麼這麼熟？'},   /* P4B_SEEN 那一句（設它的事件 CANON-NO-ECON-1112 第三批拿掉）跟著拿掉 */
       {choice:[{text:'「念過。一個多月。」',goto:'ec_told'},{text:'「自學過一點。」',goto:'ec_self'},{text:'「第三章我也還在念。」',goto:'ec_not'}]},

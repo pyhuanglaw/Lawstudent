@@ -253,9 +253,20 @@ CANON892 = [
 CANON892_THEME = {'kexin': '火爆、聰明、不甜；不爽會講，講完不一定馬上過。首都帝大法律系，和祐廷同班。想做的是讓人聽懂自己的處境，律師或司法官還沒定（`AA_873`）。不出假設題；不放固定口頭禪或道具。'}
 
 
-def canon892(data):
+# CANON-NO-ECON-1112 第四批四（AA_901 第 5、6 項，AA-C 定稿；BB_434）：以安 beat 6 第三個選項的回覆和 cite、beat 8「改過一次」那個選項換字、拿掉 tell。
+# 疊在 CANON892 之後（beat 6 第三個選項的字是 AA_892 換過的那一版）；格式同 CANON892，對不到舊字就停。
+CANON901_PATH = 'docs/story_planning/AA_901_第四批二留下的十一件.md'
+CANON901 = [
+    ('heroine_01', 6, ('reply', 2, 1), '不想待的地方？我好像沒有想過，我有沒有那種地方。', '從來沒自己選過……我好像也是。'),
+    ('heroine_01', 6, ('cite', 'PL_SWITCH_STAY', 0), '我想了一個禮拜，你說的「不想待的地方」。……我沒有。我好像真的喜歡這裡。', '我想了一個禮拜，你說的『從來沒自己選過』。……研究所那一組，我想自己選。'),
+    ('heroine_01', 8, ('opt', 1), '選錯也可以再改。我就改過一次。', '選錯也可以再改。改的時候比較難，可是改得了。'),
+    ('heroine_01', 8, ('reply', 1, 1), '可是你真的改過。所以你說的，我信。', '……可是你說得很確定。我先信你。'),
+]
+
+
+def canon892(data, rows=None, label='AA_892 第 1 節', path=None):
     bad = []
-    for hid, n, f, old, new in CANON892:
+    for hid, n, f, old, new in (CANON892 if rows is None else rows):
         b = next((x for x in data['people'].get(hid, {}).get('beats', []) if x['n'] == n), None)
         if b is None:
             bad.append(f'{hid}[{n}]：沒有這一拍'); continue
@@ -285,12 +296,13 @@ def canon892(data):
             if len(L) <= f[2] or L[f[2]] != old:
                 bad.append(f'{hid}[{n}].cite.{f[1]}[{f[2]}]：舊字對不到'); continue
             L[f[2]] = new
-    for hid, t in CANON892_THEME.items():
-        if hid in data['people']:
-            data['people'][hid]['theme'] = t
+    if rows is None:
+        for hid, t in CANON892_THEME.items():
+            if hid in data['people']:
+                data['people'][hid]['theme'] = t
     if bad:
-        raise SystemExit('AA_892 第 1 節（CANON-NO-ECON-1112）：\n  ' + '\n  '.join(bad))
-    data['canon'] = CANON892_PATH
+        raise SystemExit(label + '（CANON-NO-ECON-1112）：\n  ' + '\n  '.join(bad))
+    data['canon'] = CANON892_PATH if path is None else data['canon'] + '、' + path
 
 
 def main():
@@ -306,6 +318,7 @@ def main():
     data = build(json.loads(git('show', f'{sha}:{PATH}')), sha)
     overlay_peishan(data, allow)
     canon892(data)
+    canon892(data, CANON901, 'AA_901 第 5、6 項', CANON901_PATH)
     js = ('/* 自動產生：tools/story/import_arcs.py（' + data['src'] + (('；沛珊整段照 ' + data['overlay']) if data.get('overlay') else '') + (('；照 ' + data['canon'] + ' 換字') if data.get('canon') else '') + '）。不要手改，改企劃 AA_712 再重新匯入。\n'
           '   女主角自己的故事線（8 拍；規則 BB_305；播放 src/arcs3d.js）*/\n'
           "'use strict';\nconst HEROINE_ARCS=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')

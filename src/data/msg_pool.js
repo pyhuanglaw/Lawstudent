@@ -355,7 +355,7 @@ const MSG_POOL={
    {"topic": "chat", "tier": "A", "variant": "放假、在家", "msgs": ["在家。", "（照片：窗外一條很普通的街）", "這裡什麼都沒有，很好念書。"], "tags": [], "ask": null, "src": "BB_178 5 在幹嘛 放假、在家", "tierMin": true, "variantNote": "她家不寫在哪裡，`BB_104`；寒假 1/2～2/19、暑假兩週；兩則輪流", "c892": "AA_892@bb1fc10e54"},
    {"topic": "chat", "tier": "A", "variant": "放假、在家", "msgs": ["在家。", "（長頸鹿貼圖）"], "tags": [], "ask": null, "src": "BB_178 5 在幹嘛 放假、在家", "tierMin": true, "variantNote": "她家不寫在哪裡，`BB_104`；寒假 1/2～2/19、暑假兩週；兩則輪流", "c892": "AA_892@bb1fc10e54"},
    {"topic": "chat", "tier": "L", "variant": "深夜", "msgs": ["在寫報告。", "寫到第三頁了。"], "tags": [], "ask": null, "src": "BB_178 5 在幹嘛 深夜", "tierMin": true, "variantNote": "兩則輪流"},
-   {"topic": "chat", "tier": "L", "variant": "深夜", "msgs": ["睡不著。", "在滑山下那家店的菜單。"], "tags": [], "ask": null, "src": "BB_178 5 在幹嘛 深夜", "tierMin": true, "variantNote": "兩則輪流"},
+   {"topic": "chat", "tier": "L", "variant": "深夜", "msgs": ["睡不著。", "在滑公館一家沒去過的店的菜單。"], "tags": [], "ask": null, "src": "BB_178 5 在幹嘛 深夜", "tierMin": true, "variantNote": "兩則輪流", "c901": "AA_901@13b99d5da8"},
    {"topic": "chat", "tier": "L", "variant": "祐廷在國外", "msgs": ["我這邊要睡了。", "你那邊應該才剛開始。"], "tags": ["美國路線"], "ask": null, "src": "BB_178 5 在幹嘛 祐廷在國外", "tierMin": true, "variantNote": "只在她那邊 23:30 以後"},
    {"topic": "chat", "tier": "L", "variant": "祐廷在國外", "msgs": ["我這邊十二點了。", "你那邊一點了，快去睡。"], "tags": ["日本路線"], "ask": null, "src": "BB_178 5 在幹嘛 祐廷在國外", "tierMin": true, "variantNote": "只在她那邊 23:30 以後"}
   ]},

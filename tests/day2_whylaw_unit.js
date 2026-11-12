@@ -100,7 +100,7 @@ const memNote=(id,tag)=>{ const m=(G.social&&G.social.mem&&G.social.mem[id]||[])
     const talk0=EVENTS.onInteract; EVENTS.onInteract=()=>false; said=[];
     const an={id:'an',charId:'heroine_01',name:'小安',obj:{position:{x:1,z:1}}}; GM.npc.an=an; await D2.talkAn(GM,an); EVENTS.onInteract=talk0; const L=lines();
     check('7-1 whyLaw='+old+'：下午之後第一次找以安，照舊講報告（「不能賠十倍」），不再追問「家裡那件事」',L.some(t=>/不能賠十倍/.test(t))&&!L.some(t=>/家裡那件事/.test(t))&&G.flags.anAfter===true,JSON.stringify(L)); }
-  check('7-1 whyLawKey：新 key 原樣、沒聊過是 null',KEYS.every(k=>STORY.whyLawKey({whyLaw:k})===k)&&STORY.whyLawKey({})===null&&STORY.whyLawKey(null)===null);
+  check('7-1 whyLawKey：新 key 原樣（econ 當 own：CANON-NO-ECON-1112 第四批照 AA_905；舊期望 econ 原樣）、沒聊過是 null',KEYS.every(k=>STORY.whyLawKey({whyLaw:k})===(k==='econ'?'own':k))&&STORY.whyLawKey({})===null&&STORY.whyLawKey(null)===null);
   // 7-2 第二天之前存的：讀進來以後第二天照新版演
   { fresh({plan:undefined,companion:undefined,walkCk:undefined,classDone:false}); G.day=1; G.hour=22.5; G.zone='dorm'; const snap=JSON.parse(JSON.stringify(G)); G=snap; SOCIAL.bind(G); EVENTS.bind(GM);
     check('7-2 第二天之前的舊存檔：還沒有 whyLaw',G.flags.whyLaw===undefined&&STORY.whyLawKey(G.flags)===null);

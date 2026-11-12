@@ -20,8 +20,9 @@ const ob=show(BASE,'src/data/heroine_arcs.js'), OLD=ob?loadArcs(ob):null;
 /* 2026-11-12 STALE-SOURCES-1112：AA_712 重匯到 abb9609116（上一任 AA 11-11 整理其他六位的台詞），其他人改和重匯那個 commit（224c231f3c）比；舊期望：和 BASE 一樣 */
 const ob2=show('224c231f3c','src/data/heroine_arcs.js'), OLD2=ob2?loadArcs(ob2):OLD;
 const P=CUR.people[PS];
+/* （CANON-NO-ECON-1112 第四批：照 AA_901 換字）以安 beat 6／8 那一層（CANON901）接在 CANON892 後面一起疊 */
 /* CANON-NO-ECON-1112 第四批：照 AA_892 換字（tools/story/import_arcs.py 的 CANON892 那一層）——比對的稿和舊版先疊上同一層再比 */
-const C892=(()=>{ try{ return JSON.parse(cp.execFileSync('python3',['-c','import sys,json; sys.path.insert(0,"tools/story"); import import_arcs as m; print(json.dumps({"rows":m.CANON892,"theme":m.CANON892_THEME},ensure_ascii=False))'],{cwd:H.ROOT,encoding:'utf8'})); }catch(e){ return {rows:[],theme:{}}; } })();
+const C892=(()=>{ try{ return JSON.parse(cp.execFileSync('python3',['-c','import sys,json; sys.path.insert(0,"tools/story"); import import_arcs as m; print(json.dumps({"rows":m.CANON892+getattr(m,"CANON901",[]),"theme":m.CANON892_THEME},ensure_ascii=False))'],{cwd:H.ROOT,encoding:'utf8'})); }catch(e){ return {rows:[],theme:{}}; } })();
 const ap892=(hid,person)=>{ if(!person) return person; const v=JSON.parse(J(person)); for(const [h,n,f,old,nw] of C892.rows){ if(h!==hid) continue; const b=v.beats.find(x=>x.n===n); if(!b) continue;
     if(f[0]==='lines'||f[0]==='ask'){ if(b[f[0]][f[1]]===old) b[f[0]][f[1]]=nw; } else if(f[0]==='topic'){ if(b.topic===old) b.topic=nw; }
     else if(f[0]==='opt'){ const o=b.opts[f[1]]; if(o&&o.t===old){ if(nw!=null) o.t=nw; delete o.tell; } } else if(f[0]==='reply'){ const o=b.opts[f[1]]; if(o.reply[f[2]]===old) o.reply[f[2]]=nw; }

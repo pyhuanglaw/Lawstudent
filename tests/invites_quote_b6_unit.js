@@ -40,7 +40,7 @@ A731.push(...require('./peishan_rewrite_1111.js').PAIRS);   /* 2026-11-11（X327
 A731.push(...['invites','invite_replies'].flatMap(f=>require('./overlay_expect.js').rows(f).map(r=>[r.old,r.new])));
 /* 同一格先被前面的稿（AA_731、AA_772 fix）換過、再被覆蓋層換一次（例：子晴 daybreak「早上？……十點以後可以。」→ AA_731「Daybreak？……好。我會起來。」→ AA_784「Daybreak？好。我會起來。」）：OVS＝把覆蓋層的舊字整句換成新字，接在前面那一步後面 */
 const OVR=['invites','invite_replies'].flatMap(f=>require('./overlay_expect.js').rows(f)).sort((x,y)=>y.old.length-x.old.length), OVS=t=>typeof t==='string'?OVR.reduce((x,r)=>x.split(r.old).join(r.new),t):t;
-const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; if(require('./kx_rewrite_1112.js').pair(a,b)) return true;   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：invites.js 可昕羽球答應句、第一次到總圖那一句（在函式原始碼裡）、bbpack_events.js 一句照新稿算。舊期望：這三句和 BASE 一字不差 */ if(!A731._772){ A731._772=true; A731.push(...require('./l118_redo772_expect.js').rows); }   /* 2026-11-11：AA_772 的 fix 列（白名單上的版本）照新稿算 */ const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&(s(b)===n||OVS(n)===s(b))||(a.includes(o)&&(a.split(o).join(n)===b||OVS(a.split(o).join(n))===b)))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
+const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; if(require('./kx_rewrite_1112.js').pair(a,b)||require('./canon1112_ok.js').pair(a,b)) return true;   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：invites.js 可昕羽球答應句、第一次到總圖那一句（在函式原始碼裡）、bbpack_events.js 一句照新稿算。舊期望：這三句和 BASE 一字不差 */ if(!A731._772){ A731._772=true; A731.push(...require('./l118_redo772_expect.js').rows); }   /* 2026-11-11：AA_772 的 fix 列（白名單上的版本）照新稿算 */ const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&(s(b)===n||OVS(n)===s(b))||(a.includes(o)&&(a.split(o).join(n)===b||OVS(a.split(o).join(n))===b)))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
 const CHANGED=['src/data/invites.js','src/invites3d.js','src/libquiet3d.js','src/y2r2_3d.js','src/data/bbpack_events.js','src/data/zrzq_events.js','src/data/encounters.js','src/legal3d.js'];
 /* CANON-NO-ECON-1112 第四批：照 AA_889～AA_897、AA_873～AA_885 換字的場次不比（逐字對稿在各自的測試）*/
 const CHG4=['ev_kexin_good_class','ev_kexin_quiz_y2','ev_kexin_xmas_y2','ev_kexin_birthday_y2','ev_kexin_birthday_y2_call','ev_kexin_summer_plan','ev_kexin_summer_plan_call','ev_kexin_presentation','ev_kexin_own_paths'];
@@ -182,6 +182,8 @@ const lits=(s,re)=>{ const t=noComments(s), o=[]; let m; re=re||LIT; re.lastInde
 const runProbe=m=>{ let o=''; try{ o=cp.execFileSync(process.execPath,[__filename],{env:Object.assign({},process.env,{QUOTE_B6_PROBE:m}),encoding:'utf8',maxBuffer:1<<29,stdio:['pipe','pipe','pipe']}); }catch(e){ o=String(e.stdout||''); }
   const line=o.split('\n').find(l=>l.startsWith('@@B6@@')); return line?JSON.parse(line.slice(6)):{errs:['子程序沒有結果：'+o.slice(-300)]}; };
 const O=runProbe('old'), N=runProbe('new');
+/* CANON-NO-ECON-1112 第四批（AA_894 第 4 節）：invites.js 拿掉的兩格（子晴問換方向、芯慈 w118_xc_10），舊資料先拿掉同一格再比（tests/canon1112_ok.js drop）；換了字的幾句照 pair 算 */
+{ const C4=require('./canon1112_ok.js'); if(O.data&&O.data.inv) O.data.inv=C4.drop(O.data.inv); if(O.inputs) O.inputs=C4.drop(O.inputs); }
 
 /* ---------- 27. 分類 ---------- */
 { const nine=N.nine||[], nineO=O.nine||[];
@@ -312,7 +314,7 @@ if(process.env.L118_B6_DEBUG){ const r=cmp772((O.data||{}).inv||[],(N.data||{}).
       B=reId(B).filter(x=>!CHG.has(x[0].split('.')[1])); const have=new Set(B.map(x=>x[0].split('.')[1])); A=reId(A).filter(x=>have.has(x[0].split('.')[1])); }
     if(k==='inv'){ const isWant=(a,b)=>kindOf(a,b)==='act'&&want.some(x=>x[1]===a&&x[2]===b); const r=cmp772(A,B,(a,b)=>aa731(a[1],b[1])||isWant(a[1],b[1])); bad.push(...r.bad); for(const [a,b] of r.pairs) if(a[1]!==b[1]&&isWant(a[1],b[1])) hit.push(b[0]); }   /* 2026-11-11：INVITE_DATA 改用地點 id 對、照 AA_772／AA_721 逐格驗（上面 cmp772）*/
     else if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
-    else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(aa731(a[1],b[1])) return; if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]);
+    else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(aa731(a[1],b[1])) return; if(k==='enc'&&(require('./canon1112_ok.js').a787(a[1],b[1])||require('./canon1112_ok.js').ok(b[1])||(/\.datingAfter\.who$/.test(a[0])&&b[1]==='null'))) return;   /* （CANON-NO-ECON-1112 第四批：照 AA_787／AA_893 換字）偶遇那幾格 */ if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]);
       else if(k==='ev'&&wrapped(a[1])&&unq(a[1])===b[1]&&SEVEN.includes(a[1])) hit7.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
     /* 第七批（tests/invites_quote_b7_unit.js）：STORY_EVENTS 有名字、整句「…」的拿掉外面那一對——這裡看得到的是上面 SEVEN 那 6 句，只認這 6 句、只差外面那一對、一句一次；其他資料（inv、enc、zrzq）沒有 */
     const w7=k==='ev'?SEVEN:[];

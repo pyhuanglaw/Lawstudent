@@ -99,7 +99,7 @@ const ENC=(function(){
     const i=await GM.choose(ops); if(i===1||i<0||i>=ops.length) return 'pass';   /* 不打擾：一定可以、沒有任何後果、不留記錄 */
     for(const t of S.linesFor(row,tr.t)){ if(t&&typeof t==='object'){ if(t.ifFlag&&!(G.flags&&G.flags[t.ifFlag])) continue; if(t.narr){ await ESAY(GM,null,t.narr); continue; } if(t.who){ await ESAY(GM,S.sayer(t.who)||{name:t.who},t.t); continue; } } await ESAY(GM,who,t); }   /* {narr:'（…）'}＝旁白（AA_313 5-6 芯慈松菸）；{who,t}＝旁邊的人說的（立繪照 S.sayer；AA_675 2-4 礁溪的 Alison）；ifFlag＝有那個旗標才有這一句 */
     if(row.setFlag&&G.flags) G.flags[row.setFlag]=true;   /* 演完記的旗標（AA_675 2-4：礁溪 KNOWS_SIS_ALISON）*/
-    if(tr.t==='dating'&&row.lines&&row.lines.datingAfter){ const a=row.lines.datingAfter; await ESAY(GM,S.sayer(a.who)||{name:a.who},a.text); }
+    if(tr.t==='dating'&&row.lines&&row.lines.datingAfter){ const a=row.lines.datingAfter; await ESAY(GM,a.who?(S.sayer(a.who)||{name:a.who}):null,a.text); }   /* who:null＝旁白（CANON-NO-ECON-1112 第四批：AA_893 淡水那一句改成旁白）*/
     if(row.extra&&((G.flags&&G.flags[row.extra.if])||(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(row.who,row.extra.if)))) await ESAY(GM,{name:row.extra.name},row.extra.text);   /* extra：有那個旗標或記憶才多一句（BB_213：沛珊有 WZ_PS_KIDS 的話，綁馬尾的小女生也在）*/
     if(typeof SOCIAL!=='undefined'){ if(SOCIAL.activity) SOCIAL.activity(row.who,'chat');
       if(row.memo&&(!row.memoIf||row.memoIf===tr.t)&&SOCIAL.has&&!SOCIAL.has(row.who,row.memo)&&SOCIAL.remember) SOCIAL.remember(row.who,row.memo,S.memoNote(row));
