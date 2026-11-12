@@ -51,6 +51,9 @@ SHUT_TZ_2330 | 7e404a6220426e12d59906d50497b7eee61280c4 | probe | docs/story_pla
 DN_FPS_7e40 | 7e404a6220426e12d59906d50497b7eee61280c4 | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | SOLO=1;TAG=dn_7e40;VIEW=2308x1064;DSF=1;HOUR=14;ZONES=tz_dongnan;RUN_S=5;SHA=7e404a6220426e12d59906d50497b7eee61280c4
 # BB-C 10:23：新生南路三間閃 UNKNOWN（藏人以後還翻 4～7 格）→ 每個翻動格子切成條圖（同一格 12 張並排、時間戳），BB 分陰影跳／窗外車人／疊面閃
 FLK_STRIPS | 1e239a985edd3a229ed5766d579afb8344d56d24 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=flkstrip;ZONES=xs_dakou,xs_tongxian,xs_xsports;HOURS=14;PARTS=6;STRIPS=1;SHA=1e239a985edd3a229ed5766d579afb8344d56d24
+# BB-C 10:26 慢輪（SSB_gg3a）補：(a) 19:00「③櫃檯：找車行老闆」全黑——用遊戲鏡頭走到櫃台按一次（14:00、19:00 對照；讀碼：那個互動點 14:00 在 (2,−2.3)、19:00 移到 (0.2,0.55)）(c) 閃的條圖
+G3A_COUNTER | e879d9b076627591b6f42e959a4b77a821b3f774 | probe | docs/story_planning/test_tools/cc/cc_interact_probe.py | index.html | 15 | TAG=bikeshop_counter;ZONE=bikeshop;LABEL=找車行老闆;CASES=2025-10-22@14+2025-10-22@19;SHA=e879d9b076627591b6f42e959a4b77a821b3f774
+G3A_STRIPS | e879d9b076627591b6f42e959a4b77a821b3f774 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 25 | TAG=g3astrip;ZONES=bikeshop;HOURS=14,19;PARTS=6;STRIPS=1;SHA=e879d9b076627591b6f42e959a4b77a821b3f774
 # LAWWW-C 08:30 HELP-GUIDE-1110（1ca8b70aac，P1，使用者 X268）：說明頁直／橫＋第一次提示 8 種＋設定開關＋舊存檔不連跳＋劇情中不出（結果給 BB）
 HELP_GUIDE_a | 1ca8b70aac5125afdaf5e955430403f85252d659 | probe | docs/story_planning/test_tools/cc/cc_help_guide_probe.py | index.html | 30 | PARTS=HELP,NEW,OLD,DLG;SHA=1ca8b70aac5125afdaf5e955430403f85252d659
 HELP_GUIDE_b | 1ca8b70aac5125afdaf5e955430403f85252d659 | probe | docs/story_planning/test_tools/cc/cc_help_guide_probe.py | index.html | 35 | PARTS=FLOW,SET;SHA=1ca8b70aac5125afdaf5e955430403f85252d659
@@ -94,6 +97,11 @@ SSB_l118a | b4706662f3a882d5bfd7c72aca65c845754dde8a | probe | docs/story_planni
 SSB_l118b | b4706662f3a882d5bfd7c72aca65c845754dde8a | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 80 | TAG=ssb_l118b;ZONES=l118_pasta,l118_korea,l118_omu,l118_noodle2;HOURS=14,20.5;SHA=b4706662f3a882d5bfd7c72aca65c845754dde8a
 SSB_tz | b4706662f3a882d5bfd7c72aca65c845754dde8a | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 100 | TAG=ssb_tz;ZONES=tz_taimi,tz_yuehaochi,tz_dongnan,tz_liantong,tz_yindehao,tz_xile,tz_keju,tz_limao;HOURS=14,20.5;SHA=b4706662f3a882d5bfd7c72aca65c845754dde8a
 SSB_us | b4706662f3a882d5bfd7c72aca65c845754dde8a | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=ssb_us;ZONES=us_asian_market,us_market;HOURS=14,20.5;SHA=b4706662f3a882d5bfd7c72aca65c845754dde8a
+# BB-C 10:29：①HELP 新手提示至少 6 秒、期間來的通知排後面（e879d9b076）：記「花錢」和緊接在後那則各顯示幾秒 ②季節攤 AA_793 重匯（5b54ca9f8b）：花序門口的花四季、當季水果箱只念當季那句、畢業花束攤稱呼
+HELP_GUIDE_b4 | e879d9b076627591b6f42e959a4b77a821b3f774 | probe | docs/story_planning/test_tools/cc/cc_help_guide_probe.py | index.html | 25 | PARTS=FLOW;FLOW_H=7.5;SHA=e879d9b076627591b6f42e959a4b77a821b3f774
+SEASON_FN | 5b54ca9f8bd83286bec44f1b645d7ca3a83d972d | probe | docs/story_planning/test_tools/cc/cc_interact_probe.py | index.html | 20 | TAG=fn_season;ZONE=gongguan;LABEL=看門口的花;CASES=2026-03-01@14+2026-05-07@14+2026-06-10@14+2026-12-10@14;SHA=5b54ca9f8bd83286bec44f1b645d7ca3a83d972d
+SEASON_FRUIT | 5b54ca9f8bd83286bec44f1b645d7ca3a83d972d | probe | docs/story_planning/test_tools/cc/cc_interact_probe.py | index.html | 20 | TAG=fruit_season;ZONE=wenzhou;LABEL=看當季的水果;CASES=2026-04-20@14+2026-07-10@14+2026-09-10@14+2027-01-10@14;SHA=5b54ca9f8bd83286bec44f1b645d7ca3a83d972d
+SEASON_BOUQUET | 5b54ca9f8bd83286bec44f1b645d7ca3a83d972d | probe | docs/story_planning/test_tools/cc/cc_interact_probe.py | index.html | 15 | TAG=bouquet;ZONE=gongguan;LABEL=看畢業花束;CASES=2026-06-10@14;SHA=5b54ca9f8bd83286bec44f1b645d7ca3a83d972d
 # BB-C 09:12：學姊來越好吃，大二上、大二下各掃一次（朋友以上 SIS、交往中 SISD）；全部掃不到就照實寫
 YUE_SIS_Y2 | 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d | probe | docs/story_planning/test_tools/cc/cc_yue_meal_probe.py | index.html | 25 | CASES=SIS,SISD;TERMS=Y2S1,Y2S2;SHA=5685a3019fb4aa0bf44c7fdd660037f8859cfb2d
 # ===== P0 LAWWW-C 06:51（BUG-RUN-STUTTER-1112 第五輪）：使用者外接螢幕 300 Hz（[0,0] 1280×720、scale 2）、內建 60 Hz（[-1098,0]）；有視窗放在外接螢幕（WINPOS 40,40），SOLO，最前面 =====
