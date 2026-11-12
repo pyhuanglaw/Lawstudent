@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_campus_view_shot_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LT_CLERK_2bfe\out
+CC 校園定點截圖：worktree ?；TAG lt_clerk_2bfe；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到存檔 tests/fixtures/user_save_day51b_1110.json
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_liantong 14.00 時、站 (-0.7, -2.5)；鏡頭直接擺 yaw 1.5708 rad、距離 3.0
+  [  44.3s] lt_clerk_sideL：{"yaw": 1.571, "dist": 3, "cam": [1.24, 2.76, -1.2], "player": [-1.55, 0, -1.2], "zone": "tz_liantong", "hour": 14.04}
+FAIL lt_clerk_sideL 在 tz_liantong、玩家在 (-0.7, -2.5) 0.6 m 內  {"yaw": 1.571, "dist": 3, "cam": [1.24, 2.76, -1.2], "player": [-1.55, 0, -1.2], "zone": "tz_liantong", "hour": 14.04}
+  [  45.0s] lt_clerk_sideL 另一台相機：玩家位置高 1.0 m → (0.8, 1.0, -2.5) fov 60.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_liantong 14.00 時、站 (2.3, -2.5)；鏡頭直接擺 yaw -1.5708 rad、距離 3.0
+  [  61.3s] lt_clerk_sideR：{"yaw": -1.571, "dist": 3, "cam": [-1.74, 2.76, -1.2], "player": [1.05, 0, -1.2], "zone": "tz_liantong", "hour": 14.04}
+FAIL lt_clerk_sideR 在 tz_liantong、玩家在 (2.3, -2.5) 0.6 m 內  {"yaw": -1.571, "dist": 3, "cam": [-1.74, 2.76, -1.2], "player": [1.05, 0, -1.2], "zone": "tz_liantong", "hour": 14.04}
+  [  62.0s] lt_clerk_sideR 另一台相機：玩家位置高 1.0 m → (0.8, 1.0, -2.5) fov 60.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_liantong 14.00 時、站 (0.8, -0.5)；鏡頭直接擺 yaw 3.1416 rad、距離 3.0
+  [  77.8s] lt_clerk_front：{"yaw": 3.142, "dist": 3, "cam": [0.8, 2.76, -3.29], "player": [0.8, 0, -0.5], "zone": "tz_liantong", "hour": 14.04}
+PASS lt_clerk_front 在 tz_liantong、玩家在 (0.8, -0.5) 0.6 m 內  {"yaw": 3.142, "dist": 3, "cam": [0.8, 2.76, -3.29], "player": [0.8, 0, -0.5], "zone": "tz_liantong", "hour": 14.04}
+  [  78.4s] lt_clerk_front 另一台相機：玩家位置高 1.0 m → (0.8, 1.0, -2.5) fov 60.0
+PASS 沒有 JS 例外  []
+FAILED 2: lt_clerk_sideL 在 tz_liantong、玩家在 (-0.7, -2.5) 0.6 m 內；lt_clerk_sideR 在 tz_liantong、玩家在 (2.3, -2.5) 0.6 m 內

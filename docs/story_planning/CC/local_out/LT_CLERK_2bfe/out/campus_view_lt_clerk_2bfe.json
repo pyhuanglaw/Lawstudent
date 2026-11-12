@@ -1,0 +1,50 @@
+{
+ "lt_clerk_sideL": {
+  "yaw": 1.571,
+  "dist": 3,
+  "cam": [
+   1.24,
+   2.76,
+   -1.2
+  ],
+  "player": [
+   -1.55,
+   0,
+   -1.2
+  ],
+  "zone": "tz_liantong",
+  "hour": 14.04
+ },
+ "lt_clerk_sideR": {
+  "yaw": -1.571,
+  "dist": 3,
+  "cam": [
+   -1.74,
+   2.76,
+   -1.2
+  ],
+  "player": [
+   1.05,
+   0,
+   -1.2
+  ],
+  "zone": "tz_liantong",
+  "hour": 14.04
+ },
+ "lt_clerk_front": {
+  "yaw": 3.142,
+  "dist": 3,
+  "cam": [
+   0.8,
+   2.76,
+   -3.29
+  ],
+  "player": [
+   0.8,
+   0,
+   -0.5
+  ],
+  "zone": "tz_liantong",
+  "hour": 14.04
+ }
+}
