@@ -101,5 +101,20 @@ ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張�
   ok(!!busy0&&busy0!==S3,'㊳ 人還沒到的時候，先預載的是別間（'+(busy0&&busy0.id)+'）');
   ok(S3.on&&n<=40,'㊴ 走到第四間前面 3 m：'+n+' 幀以內它就建好、顯示（改之前要先等別間建完、一幀一件，60 幀以上）');
   st(400); ok(R2.shops.every(q=>q.built&&q.ready)&&R2.shops.filter(q=>q.on).length===1,'㊵ 被放掉的那一間之後照樣排回來建好；只有眼前那一間顯示'); }
+/* SHOP-FIRST-APPROACH-1112：建好以後先 compileAsync 這一間（照場景的燈），編好以前零件不打開；別間的工作照做；renderer 沒有 compileAsync 照舊 */
+{ const g3={children:[],add(o){ this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); o.parent=null; }};
+  let calls=[], res=[]; const RN={compileAsync(sc,cam,tgt){ calls.push({sc,cam,tgt,vis:sc.visible,kids:(sc.children||[]).length}); return {then(f){ res.push(f); }}; }, initTexture(){}};
+  const z3b={update:null}, E3b={zone:z3b,player:{obj:{position:new V3(-100,0,-1)}},renderer:RN,camera:{isCam:1},scene:{isScene:1}};
+  const c3={THREE:{Box3,Vector3:V3,Color,MeshBasicMaterial:Basic},ASSETS:{manifest:{k0:{},k1:{}},loadOne(){ return {then(f){ f({scene:mkScene()}); return {catch(){}}; }}; }},GAME:{G:{hour:14,day:3}},PLACES:{isOpen:()=>true,typhoonClosed:()=>false},console,setTimeout:()=>0};
+  vm.createContext(c3); vm.runInContext(src.slice(a,b)+'; this.fn=shopInsideReal;',c3);
+  const mk=(id,x)=>({id,place:'p'+id,key:'k'+id,w:7.4,d:12,h:3.4,x,z:-10,ry:0,cx:x,cz:-4,ex:3,ez:0});
+  const R3=c3.fn(E3b,g3,z3b,[mk(0,-100),mk(1,60)],{lite:false,shutter:false}); const S0=R3.shops[0], st=n=>{ for(let i=0;i<n;i++) z3b.update(0.016,E3b); };
+  let n=0; while(!S0.built&&n<200){ st(1); n++; }
+  const c0=calls.find(c=>c.sc===S0.grp); st(60); const openWhile=S0.list.filter(o=>o.visible).length;
+  ok(!!c0&&c0.cam===E3b.camera&&c0.tgt===E3b.scene&&c0.vis===true&&S0.grp.visible===false,'㊷ 建好那一間就 compileAsync(那一間, 鏡頭, 整個場景)，呼叫時暫時打開、呼叫完藏回去');
+  ok(S0.compiling===true&&openWhile===0&&!S0.ready,'㊸ 還在編的時候零件一個都不打開、不算可以顯示（'+openWhile+' 個打開）');
+  const S1=R3.shops[1]; ok(S1.built,'㊹ 編的時候別間照樣建（第二間 built '+S1.built+'）');
+  res.forEach(f=>f()); st(200); ok(S0.compiling===false&&S0.ready&&S0.on,'㊺ 編好以後照舊一幀一個打開、顯示（ready '+S0.ready+'、on '+S0.on+'）');
+  ok(R3.prof.step.compile&&R3.prof.step.compile.n>=1,'㊻ prof 多記 compile（編了多久）'); }
 { const P=Rr.prof; ok(P&&P.step&&P.frame&&typeof P.reset==='function'&&P.step.clone&&P.step.clone.n>=1&&P.step.prep&&P.step.mesh&&P.step.tick&&Object.values(P.step).every(o=>o.max>=0&&o.sum>=0),'㊶ shopReal.prof：每一種工作（clone／prep／tex／mesh／tick…）記次數、最長、合計——CC 在電腦上看哪一步是那 150 ms（'+Object.keys(P.step).join('、')+'）'); }
 console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);

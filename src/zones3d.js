@@ -1600,7 +1600,11 @@ const Z3 = (function(){
     const light=s=>{ const G=typeof GAME!=='undefined'?GAME.G:null, P=typeof PLACES!=='undefined'?PLACES:null; let open=true;
       if(G&&P&&P.isOpen&&s.place) open=!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day)); const k=open?LIT:0.07; if(k===s.k) return; s.k=k; for(const b of s.mats) b.color.copy(b.userData.base).multiplyScalar(k); };
     /* 先上傳貼圖、先編譯材質，而且分幀：一幀只上傳一張貼圖（一次全部上傳本身就是一頓），全部上傳完再編譯，然後才算「可以顯示」（s.ready）。 */
-    const warmQ=[]; const warm=s=>{ s.ready=false; const seen=new Set(); for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } for(const o of s.list) warmQ.push({s,m:o}); warmQ.push({s,hold:true}); warmQ.push({s,done:true}); };   /* 第 2 版：貼圖一幀上傳一張以後，零件也一幀打開一個（不做視錐裁切，一定會畫到）——頂點資料上傳、材質編譯跟著分幀；全部畫過一幀才算可以顯示。原本 compile 一次編譯全部、第一次顯示那一幀上傳整間的頂點資料，就是第一次走近那一頓（CC：150～167 ms）*/
+    const warmQ=[]; const warm=s=>{ s.ready=false; const seen=new Set();
+      /* SHOP-FIRST-APPROACH-1112（LAWWW2-C；BB FIRST_gg_desk_r3：公館燒臘 233 ms、新生南路 150 ms、SUNNY 333 ms，都是第一次走近建店內那一幀）：材質第一次畫時 WebGL 在主執行緒同步編譯、連結著色器——
+         一開始就用 compileAsync 把這一間全部的材質送去編（有 KHR_parallel_shader_compile 的話不卡主執行緒；照場景的燈編，之後畫的時候直接用同一個程式），編好以前零件先不打開（warmRun 看 s.compiling）。
+         compile 只走看得到的物件：暫時打開、呼叫完馬上藏回去（compile 是同步收集材質的） */
+      { const Rn=E.renderer; if(Rn&&Rn.compileAsync&&E.camera&&E.scene&&s.grp&&s.list&&s.list.length){ const v0=s.grp.visible, vs=s.list.map(o=>o.visible); try{ s.grp.visible=true; for(const o of s.list) o.visible=true; const pr=Rn.compileAsync(s.grp,E.camera,E.scene); s.compiling=true; const t0=now(); const fin=()=>{ s.compiling=false; rec(prof.step,'compile',now()-t0,s.id); }; if(pr&&pr.then){ pr.then(fin,fin); if(typeof setTimeout==='function') setTimeout(()=>{ if(s.compiling) fin(); },2500); } else fin();   /* 2.5 秒保險：編不完也照常一幀一個打開（回到原本的做法）*/ }catch(e){ s.compiling=false; } finally{ s.list.forEach((o,i)=>{ o.visible=vs[i]; }); s.grp.visible=v0; } } } for(const b of s.mats) if(b.map&&b.map.image&&!seen.has(b.map)){ seen.add(b.map); warmQ.push({s,t:b.map}); } for(const o of s.list) warmQ.push({s,m:o}); warmQ.push({s,hold:true}); warmQ.push({s,done:true}); };   /* 第 2 版：貼圖一幀上傳一張以後，零件也一幀打開一個（不做視錐裁切，一定會畫到）——頂點資料上傳、材質編譯跟著分幀；全部畫過一幀才算可以顯示。原本 compile 一次編譯全部、第一次顯示那一幀上傳整間的頂點資料，就是第一次走近那一頓（CC：150～167 ms）*/
     const warmStep=()=>{ const j=warmQ.shift(); if(!j) return; const Rn=E.renderer; if(j.stage){ stage(j); return; } if(!j.s.built) return;
       try{ if(j.m){ if(!j.s.grp.visible){ j.s.grp.visible=true; j.s.k=-1; light(j.s); if(j.s.want) fallback(j.s,false); } j.m.visible=true; j.m.frustumCulled=false; } else if(j.t&&Rn&&Rn.initTexture) Rn.initTexture(j.t); }catch(e){}
       if(j.done){ for(const o of j.s.list) o.frustumCulled=true; j.s.ready=true; show(j.s,!!j.s.want); } };
@@ -1639,7 +1643,8 @@ const Z3 = (function(){
     const now=()=>(typeof performance!=='undefined'&&performance.now?performance.now():0), prof={step:{},frame:{},reset(){ this.step={}; this.frame={}; }}, rec=(t,k,ms,id)=>{ const o=t[k]||(t[k]={n:0,max:0,sum:0,who:''}); o.n++; o.sum=Math.round((o.sum+ms)*10)/10; if(ms>o.max){ o.max=Math.round(ms*10)/10; o.who=id||''; } };
     let lastT=0, lastK=null, lastId='';
     const kindOf=j=>j.stage?j.stage:(j.t?'tex':(j.m?'mesh':(j.hold?'hold':'done')));
-    const warmRun=()=>{ let n=urgent()?4:1; while(n-->0&&warmQ.length){ const j=warmQ[0], stop=!!(j.hold||j.done||j.stage==='clone'), k=kindOf(j), id=j.s&&j.s.id, t0=now(); warmStep(); rec(prof.step,k,now()-t0,id); lastK=k; lastId=id; if(stop) break; } };
+    const warmRun=()=>{ let n=urgent()?4:1; while(n-->0&&warmQ.length){ if(warmQ[0].s&&warmQ[0].s.compiling&&(warmQ[0].m||warmQ[0].hold||warmQ[0].done)){ const k=warmQ.findIndex(q=>!(q.s&&q.s.compiling&&(q.m||q.hold||q.done))); if(k<0) break; warmQ.unshift(warmQ.splice(k,1)[0]); }   /* 還在編著色器的那一間：先做別的（別間的貼圖、clone、prep），都沒有就這一幀不做 */
+      const j=warmQ[0], stop=!!(j.hold||j.done||j.stage==='clone'), k=kindOf(j), id=j.s&&j.s.id, t0=now(); warmStep(); rec(prof.step,k,now()-t0,id); lastK=k; lastId=id; if(stop) break; } };
     zone.update=function(dt,E2){ const t=now(); if(lastT&&lastK){ rec(prof.frame,lastK,t-lastT,lastId); lastK=null; } lastT=t; if(up0) up0.call(this,dt,E2);
       const ld=shops.find(s=>s.loading), on0=shops.filter(s=>s.on).length; warmRun(); f++;
       if(f%20===1||(f%5===1&&shops.some(s=>s.dd!==undefined&&s.dd<s.near&&!s.ready))){ const t1=now(); tick(); rec(prof.step,'tick',now()-t1,''); }

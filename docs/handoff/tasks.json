@@ -56438,7 +56438,7 @@
    "id": "SHOP-FIRST-APPROACH-1112",
    "title": "第一次走近有真的室內的店面會卡一下：公館燒臘門前最長一幀 233 ms（>50 ms 21 次）、新生南路 150 ms、SUNNY 333 ms（走近時第一次建室內那一幀；進店預熱沒有解決）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -56452,7 +56452,7 @@
    },
    "source": "BB-C 11-12 18:03 UTC（FIRST_gg_desk_r3＠a57b6ec8ab）",
    "authorized": "D108",
-   "next": "【LAWWW-C 11-12 18:0x UTC】轉 LAWWW2（DELIVERED）；CC 帶 GAME.E.zone.shopReal.prof（ea55a1fa70 起）跑公館、新生南路、SUNNY 三條街，數字給 LAWWW2 找是哪一步慢（load／tex／mesh／clone／prep）。",
+   "next": "【LAWWW-C 11-12 18:1x UTC】LAWWW2 ae408f8302 shop_compile_async_v1：店內建好（還藏著）那一刻 renderer.compileAsync（有 KHR_parallel_shader_compile 就背景編），編好以前零件不打開、2.5 秒保險；prof 多記 step.compile。三條街一起生效。Node 11 支 exit 0。CC 重跑 FIRST_gg_desk／新生南路／SUNNY 帶 prof（step.compile／mesh、frame.mesh／load、step.tex 的 max、who）→ 如果長幀在 load 或 tex，LAWWW2 照數字再改。｜【LAWWW-C 11-12 18:0x UTC】轉 LAWWW2（DELIVERED）；CC 帶 GAME.E.zone.shopReal.prof（ea55a1fa70 起）跑公館、新生南路、SUNNY 三條街，數字給 LAWWW2 找是哪一步慢（load／tex／mesh／clone／prep）。",
    "xai": {
     "from": "BB",
     "to": "LAWWW2",
@@ -56460,7 +56460,7 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "BB_255；cc-local FIRST_*",
     "acceptance": "三條街第一次走近最長一幀 ≤ 50 ms（或 BB 定的門檻）、CC 在使用者電腦量",
-    "ack": "DELIVERED"
+    "ack": "ACTIONED"
    }
   }
  ]
