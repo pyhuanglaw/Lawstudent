@@ -54640,6 +54640,34 @@
    },
    "source": "使用者 11-12 對 LAWWW-C",
    "authorized": "使用者直接要求"
+  },
+  {
+   "id": "BAR-GROUP-3D-1112",
+   "title": "大口漢堡二樓三場（ev_bar_group_start／three／out，41 句）現在是黑底：改在 3D 的大口漢堡二樓演（BB-C BLACK-BG-AUDIT BB_380）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "LAWWW-C 11-12 決定：大口一二樓已有 3D 室內，改在 3D 店裡演（人坐在二樓、對話框壓在 3D 上），不另外跟使用者要 2D。人物站位、坐哪一桌先問 AA（D79）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 對 LAWWW-C",
+   "authorized": "使用者直接要求"
   }
  ]
 }

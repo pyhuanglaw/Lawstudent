@@ -364,7 +364,7 @@ const R2Y3A_EVENTS=(function(){
      法庭裡全是旁白（旁聽不說話）。LEGAL_REVIEW_REQUIRED：同 ev_an_admin_court，旁白只寫「行政法院」，不寫哪一級、不寫案由 ---------- */
   const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
   const ADMIN_TOGETHER={ id:'ev_an_admin_court_together', title:'行政法院的旁聽席', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'行政法院・旁聽席'},
+    dialogue:[ {scene:'行政法院・旁聽席',bg:'court_gallery'},
       {speaker:null,text:'（行政法院的旁聽席只有三排。你們坐在最後一排。）'},
       {speaker:null,text:'（左邊是一個人和他的律師，右邊是機關的兩個代理人。法官進來，大家站起來，再坐下。）'},
       {if:{custom:()=>hasCG('cg_admin_court_heroine01')},cg:'cg_admin_court_heroine01'},   /* CG-29 */
