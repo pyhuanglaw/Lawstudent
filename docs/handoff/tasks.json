@@ -55812,6 +55812,27 @@
     "ack": "ACK",
     "acceptance": "BB 瀏覽器判 PASS"
    }
+  },
+  {
+   "id": "HUD-LANDSCAPE-COMPACT-1112",
+   "title": "手機橫向：左上角四條（時間、目標、下一堂、導引）不要擋掉半個畫面",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "一開始玩",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 12:1x UTC】index.html 加橫向、畫面高 500 px 以下的排法：各自照字長、短的同一列、目標一行；雲端瀏覽器 844×340 量 134→56 px。CC 在手機大小（橫向 844×390、740×340、直向不變）拍主畫面、有導引和沒導引各一張，BB 判",
+   "source": "使用者 2026-11-12 12:0x 原話＋截圖（UA-LAWWW-1112-31，X363）",
+   "authorized": true
   }
  ]
 }
