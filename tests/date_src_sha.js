@@ -6,7 +6,8 @@
 //   4. node tests/an_dates_1111_unit.js（和 zq／zr／yt／kx／sis／peishan_dates_1111、date_overnight、date_wish、date_lines_* 這幾支）
 // 工具（import_date_lines.py）裡的 *_PREV 是各輪「重寫以前的那一版」，不用跟著換。
 module.exports={
-  ALLOW_SHA:'b22e4d1277',      // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 AA-C AA_834 以安第三批定稿：約會到達句 26 格＋D09 closing 一格，只動以安 27 格；連同 AA_832 的 32 格見 AN_1112、tests/an_dates_1112_unit.js；上一版 b84e779563＝AN_1112_SHA）
+  ALLOW_SHA:'a573a50dca',      // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 AA-C AA_837 學姊第一批＋AA_838 學姊第二批定稿，BB_385／BB_386 第二意見採納：「今天不X」同梗回話與到達句 33 格＋D01 交往到達加一套輪流、remember「上次…」45 格，只動學姊，見 SIS_1112、SIS_1112_ADD、tests/sis_dates_1112_unit.js；上一版 b22e4d1277＝SIS_1112_PREV）
+  SIS_1112_PREV:'b22e4d1277',  // 學姊續改以前的那一版（2026-11-12 08:1x AA-C：以安 D16 車上那句停頓移到句中，只動那一格；再上一版 6d503411c1。以下是這一列原本寫在 ALLOW_SHA 的說明：2026-11-12 AA-C AA_834 以安第三批定稿：約會到達句 26 格＋D09 closing 一格，只動以安 27 格；連同 AA_832 的 32 格見 AN_1112、tests/an_dates_1112_unit.js；上一版 b84e779563＝AN_1112_SHA）
   AN_1112_SHA:'b84e779563',    // 以安續改第一批的那一版（2026-11-12 AA-C AA_832 定稿：約會三連短句 31 格＋D21「退色→褪色」一格，只動以安 32 格；上一版 74e0421b8＝KX_1112_FIX_SHA）
   KX_1112_FIX_SHA:'74e0421b8', // 可昕續改後續的那一版（2026-11-12 06:57 AA-C「回 LAWWW」：D23 海堤可昕那一句的停頓改寫法，只動這一格，見 KX_1112 那一列的 was；上一版 07d50af2f7＝KX_1112_SHA）
   KX_1112_SHA:'07d50af2f7',    // 可昕續改的那一版（2026-11-12 AA-C 交 X324 可昕續改：AA_819 三連短句 26 句＋AA_822 remember 開頭的「上次」46 句，只動可昕 72 格，見 KX_1112；上一版 52c3ee258＝KX_1112_PREV）
@@ -254,6 +255,94 @@ module.exports={
     {loc:'D26',doc:'AA_834',path:'arrive/dating/0/lines/0/text',old:'今天我帶路。不對，{name}，你帶。我想被帶。',new:'我帶路。不對，{name}，你帶。我想看你會把我帶去哪裡。'},
     {loc:'D27',doc:'AA_834',path:'arrive/dating/0/lines/0/text',old:'今天去哪裡都可以。你決定，我不查。',new:'去哪裡都可以。我想走有樹的那一邊，比較涼。'},
   ],
+  /* 2026-11-12 a573a50dca（DLG-FULL-REVIEW-1110／X324 學姊續改第一、二批，AA-C AA_837＋AA_838 定稿；BB_385、BB_386 第二意見採納）：源稿只動學姊（heroine_05）——
+     AA_837_sis_today_gag.json 的 33 列（「今天不X／今天只X」同一個梗的回話和到達句）、AA_838_sis_remember_last.json 的 45 列（remember 格「上次…」開頭），一共 78 格、沒有同一格；
+     另外 AA_837 的 _meta.added：D01 交往到達（arrive.dating）多一套輪流的（SIS_1112_ADD；不是換字，是陣列多一個元素）。
+     path 是 Dxx.json 裡 lines.heroine_05 底下的位置（遊戲檔＝/loc/Dxx/lines/heroine_05/＋path）；old＝上一版 b22e4d1277 的字、new＝稿的字。稿的列沒有 path（只有 file、who、old、new），path 是拿兩版源稿逐格比出來的。
+     78 格遊戲和稿一字不差（沒有被 AA_694 規則改到的格子＝沒有 game 欄）。逐格驗在 tests/sis_dates_1112_unit.js；別支「和源稿一字不差」「和重匯以前比」的測試用 un812／src248 還原 */
+  SIS_1112:[
+    {loc:'D01',doc:'AA_837',path:'arrive/dating/0/lines/0/text',old:'林{name}，今天走慢一點。',new:'（她把手伸過來）走吧。'},
+    {loc:'D02',doc:'AA_837',path:'hotspots/D02.garden/first/choice/1/reply/0/text',old:'好。今天不審查。',new:'你的標準真低。好，算它過。'},
+    {loc:'D04',doc:'AA_837',path:'arrive/dating/0/lines/0/text',old:'林{name}，今天不講學校的事。',new:'林{name}，爆米花買大的。我會吃你的。'},
+    {loc:'D04',doc:'AA_837',path:'hotspots/D04.redhouse/first/choice/0/reply/0/text',old:'習慣了。今天就查到這裡。',new:'習慣了。裡面有什麼，我沒查。'},
+    {loc:'D04',doc:'AA_837',path:'hotspots/D04.snack/first/choice/0/reply/0/text',old:'我一直都這樣。今天慢一點好了。',new:'我一直都這樣。（她吹了兩下，還是吃了）'},
+    {loc:'D05',doc:'AA_837',path:'hotspots/D05.cafe/first/choice/0/reply/0/text',old:'喝得完。今天不趕。',new:'喝得完。我又不用趕回去。'},
+    {loc:'D08',doc:'AA_837',path:'arrive/dating/0/lines/0/text',old:'林{name}，今天只聊動物。',new:'林{name}，先看企鵝。其他照你的。'},
+    {loc:'D08',doc:'AA_837',path:'hotspots/D08.penguin/first/choice/1/reply/0/text',old:'看到了。我不管。今天不管。',new:'看到了。牠不歸我排班。'},
+    {loc:'D09',doc:'AA_837',path:'hotspots/D09.gondola/first/choice/1/reply/0/text',old:'嗯。我很少慢下來。今天是被纜車逼的。',new:'嗯。反正它也快不了。'},
+    {loc:'D10',doc:'AA_837',path:'hotspots/D10.bridge/first/choice/1/reply/0/text',old:'今天試試看。',new:'好。你走前面。'},
+    {loc:'D10',doc:'AA_837',path:'hotspots/D10.snack/first/lines/1/text',old:'今天試一次。',new:'位子你挑。'},
+    {loc:'D12',doc:'AA_837',path:'arrive/dating/0/lines/0/text',old:'（她把計畫本收進包包最裡面）林{name}，今天沒有計畫。',new:'林{name}，奶奶以前買的那家蜜餞還在。我要買一包。'},
+    {loc:'D13',doc:'AA_837',path:'arrive/dating/0/lines/0/text',old:'今天我們走到哪就算哪。',new:'林{name}，這次沒有集合時間。'},
+    {loc:'D13',doc:'AA_837',path:'arrive/normal/1/lines/0/text',old:'今天沒帶電腦。',new:'大一那次沒吃到阿給。集合時間到了。'},
+    {loc:'D13',doc:'AA_837',path:'arrive/normal/2/lines/0/text',old:'今天我什麼都沒排，就是來這裡。',new:'你說淡水，我沒問要做什麼就來了。'},
+    {loc:'D14',doc:'AA_837',path:'arrive/dating/0/lines/0/text',old:'林{name}，今天只看海。',new:'林{name}，你走靠海那邊。幫我擋風。'},
+    {loc:'D17',doc:'AA_837',path:'hotspots/D17.mushroom/first/choice/0/reply/0/text',old:'我知道。今天就很慢。',new:'我知道。我已經在這塊石頭前面站五分鐘了。'},
+    {loc:'D18',doc:'AA_837',path:'arrive/dating/0/lines/0/text',old:'林{name}，今天走你想走的那一邊。',new:'林{name}，芋圓你排隊，我找位子。'},
+    {loc:'D18',doc:'AA_837',path:'arrive/normal/2/lines/0/text',old:'我今天沒有帶計畫本。',new:'階梯很多。我走慢的時候，你等我一下。'},
+    {loc:'D18',doc:'AA_837',path:'hotspots/D18.snack/first/choice/0/reply/0/text',old:'吃。只是不常。今天可以。',new:'吃，只是不常。湯匙給我。'},
+    {loc:'D20',doc:'AA_837',path:'hotspots/D20.trolley/first/choice/1/reply/0/text',old:'還是覺得。可是今天可以浪費。',new:'還是覺得。票我買，兩張。'},
+    {loc:'D22',doc:'AA_837',path:'hotspots/D22.maple/first/choice/0/reply/0/text',old:'好。今天的時間是多的。',new:'好。我想聽踩到葉子的聲音。'},
+    {loc:'D23',doc:'AA_837',path:'arrive/normal/1/lines/0/text',old:'筆電沒帶。',new:'我早餐沒吃。留給這裡。'},
+    {loc:'D23',doc:'AA_837',path:'arrive/normal/2/lines/0/text',old:'今天什麼都沒排。來看海。',new:'漁港的味道比我想的重。我可以。'},
+    {loc:'D23',doc:'AA_837',path:'hotspots/D23.seawall/first/choice/0/reply/0/text',old:'嗯。一直在忙。今天不忙。',new:'嗯。平常這個時間我在圖書館，沒有窗戶。'},
+    {loc:'D24',doc:'AA_837',path:'arrive/dating/0/lines/0/text',old:'林{name}，今天只泡腳。別的不排。',new:'林{name}，毛巾我帶了兩條。你的是藍的。'},
+    {loc:'D24',doc:'AA_837',path:'hotspots/D24.station/first/lines/1/text',old:'好，我收起來了。今天不查。',new:'（她把手機收進口袋）不查了。'},
+    {loc:'D24',doc:'AA_837',path:'hotspots/D24.street/first/choice/0/reply/0/text',old:'好。今天不算熱量。',new:'好，三樣。第四樣你吃。'},
+    {loc:'D25',doc:'AA_837',path:'arrive/dating/0/lines/0/text',old:'林{name}，今天待到最後一班車。',new:'林{name}，最後一班車的時間我查好了。不急。'},
+    {loc:'D26',doc:'AA_837',path:'hotspots/D26.path/first/choice/0/reply/0/text',old:'被你看出來了。今天只看樹。',new:'被你看出來了。好，看樹。'},
+    {loc:'D26',doc:'AA_837',path:'hotspots/D26.village/first/choice/0/reply/0/text',old:'家裡到圖書館。對，今天換一條。',new:'圖書館那一條。地磚我都認得。'},
+    {loc:'D29',doc:'AA_837',path:'hotspots/D29.sculpture/first/choice/0/reply/0/text',old:'習慣。今天不算。',new:'習慣。算不出來，太大了。'},
+    {loc:'D30',doc:'AA_837',path:'arrive/dating/0/lines/0/text',old:'林{name}，今天不用趕。你想去哪裡就去哪裡。',new:'林{name}，腳踏車我很久沒騎了。你騎前面。'},
+    {loc:'D01',doc:'AA_838',path:'hotspots/D01.wall/remember/lines/0/text',old:'上次那張，我設成鎖定畫面了。（她把手機蓋起來）',new:'那張牆的照片，我設成鎖定畫面了。（她把手機蓋起來）'},
+    {loc:'D02',doc:'AA_838',path:'hotspots/D02.corridor/remember/lines/0/text',old:'上次說到勞基法，是一九八四年。我回去確認了，怕自己講錯。',new:'勞基法是一九八四年。我回去確認了，怕自己講錯。'},
+    {loc:'D03',doc:'AA_838',path:'hotspots/D03.demo/remember/lines/0/text',old:'上次那個遊戲我回去下載了。卡在第三關，卡了一個禮拜。',new:'那個遊戲我回去下載了。卡在第三關，卡了一個禮拜。'},
+    {loc:'D03',doc:'AA_838',path:'hotspots/D03.gacha/remember/lines/0/text',old:'上次那隻貓，你還留著嗎？',new:'那隻貓，你還留著嗎？'},
+    {loc:'D04',doc:'AA_838',path:'hotspots/D04.redhouse/remember/lines/0/text',old:'上次那個攤位的老闆，還記得我買過書籤。',new:'那個攤位的老闆，還記得我買過書籤。'},
+    {loc:'D04',doc:'AA_838',path:'hotspots/D04.snack/remember/lines/0/text',old:'上次那家，我跟同學說了，他們也要去。',new:'這家我跟同學說了，他們也要來。'},
+    {loc:'D04',doc:'AA_838',path:'hotspots/D04.street/remember/lines/0/text',old:'上次那個街頭藝人今天也在，換了一首。',new:'那個街頭藝人還在，換了一首。'},
+    {loc:'D05',doc:'AA_838',path:'hotspots/D05.board/remember/lines/0/text',old:'上次記下來的那部，我們看了。行事曆上打了勾。',new:'記下來的那部，我們看了。行事曆上打了勾。'},
+    {loc:'D05',doc:'AA_838',path:'hotspots/D05.garden/remember/lines/0/text',old:'上次在這裡坐到天黑。',new:'坐到天黑的那張椅子，有人了。'},
+    {loc:'D05',doc:'AA_838',path:'hotspots/D05.shop/remember/lines/0/text',old:'上次寄給自己的明信片，到了。字寫得很亂。',new:'寄給自己的那張明信片到了。字寫得很亂。'},
+    {loc:'D06',doc:'AA_838',path:'hotspots/D06.gallery/remember/lines/0/text',old:'上次那幅站得很直的人，換位置了。',new:'那幅站得很直的人，換位置了。'},
+    {loc:'D07',doc:'AA_838',path:'hotspots/D07.cell/remember/lines/0/text',old:'上次說要重新教。我把以前寫給學弟妹的那份講義改了，寄回社辦。',new:'以前寫給學弟妹的那份講義，我改了，寄回社辦了。'},
+    {loc:'D07',doc:'AA_838',path:'hotspots/D07.wall/remember/lines/0/text',old:'上次那個說「沒有做錯事」的人，我回去查了。查得到的很少。',new:'那個說「沒有做錯事」的人，我回去查了。查得到的很少。'},
+    {loc:'D09',doc:'AA_838',path:'hotspots/D09.tea/remember/lines/0/text',old:'上次在這裡喝的茶，我回去買了一個小茶壺。',new:'我回去買了一個小茶壺。泡得沒有這裡好。'},
+    {loc:'D10',doc:'AA_838',path:'hotspots/D10.walk/remember/lines/0/text',old:'上次那個放風箏的人，今天沒來。',new:'放風箏的那個人沒來。'},
+    {loc:'D11',doc:'AA_838',path:'hotspots/D11.valley/remember/lines/0/text',old:'上次回去，頭髮的硫磺味兩天才散。',new:'頭髮的硫磺味，回去兩天才散。'},
+    {loc:'D12',doc:'AA_838',path:'hotspots/D12.pier/remember/lines/0/text',old:'上次說站十分鐘，結果站了半小時。',new:'河還是這麼寬。我想再站一下。'},
+    {loc:'D12',doc:'AA_838',path:'hotspots/D12.street/remember/lines/0/text',old:'上次那間店的老闆，今天跟我點頭了。',new:'那間店的老闆跟我點頭了。'},
+    {loc:'D12',doc:'AA_838',path:'hotspots/D12.sunset/remember/lines/0/text',old:'上次拍的那張，我傳給奶奶了。她說她以前也在這裡看過。',new:'在這裡拍的那張，我傳給奶奶了。她說她以前也在這裡看過。'},
+    {loc:'D12',doc:'AA_838',path:'hotspots/D12.tea/remember/lines/0/text',old:'上次那罐我每天喝一杯，同學都來偷喝。',new:'那罐茶我每天喝一杯，同學都來偷喝。'},
+    {loc:'D13',doc:'AA_838',path:'hotspots/D13.photo/remember/lines/0/text',old:'上次那張夕陽，我設成桌布了。',new:'那張照片，我奶奶問我是誰拍的。'},
+    {loc:'D14',doc:'AA_838',path:'hotspots/D14.boardwalk/remember/lines/0/text',old:'上次那個慢跑的人，今天也在跑。',new:'那個慢跑的人還在跑。'},
+    {loc:'D15',doc:'AA_838',path:'hotspots/D15.car/remember/lines/0/text',old:'上次那首歌，我回去加進歌單了。讀書的時候不聽。',new:'那首歌我加進歌單了。讀書的時候不聽。'},
+    {loc:'D15',doc:'AA_838',path:'hotspots/D15.rail/remember/lines/0/text',old:'上次你說B館在那一片。我回去對過地圖，不是。',new:'你說B館在那一片。我回去對過地圖，不是。'},
+    {loc:'D17',doc:'AA_838',path:'hotspots/D17.platform/remember/lines/0/text',old:'上次在這裡站了很久。回去以後，我跟學弟妹講了這裡的石頭。',new:'這裡的石頭，我回去跟學弟妹講了。'},
+    {loc:'D18',doc:'AA_838',path:'hotspots/D18.shop/remember/lines/0/text',old:'上次的陶杯我放在書桌上，每天都用。',new:'那個陶杯我放在書桌上，每天都用。'},
+    {loc:'D19',doc:'AA_838',path:'hotspots/D19.houses/remember/lines/0/text',old:'上次說的休假，我查了。很少。',new:'那時候的休假，我查了。很少。'},
+    {loc:'D19',doc:'AA_838',path:'hotspots/D19.museum/remember/lines/0/text',old:'上次看的那張薪資單，我回去查了那時候的工時。好長。',new:'那張薪資單，我回去查了那時候的工時。好長。'},
+    {loc:'D19',doc:'AA_838',path:'hotspots/D19.view/remember/lines/0/text',old:'上次那條線，我後來跟助教講了。他說他沒去過。',new:'海上那條線，我後來跟助教講了。他說他沒去過。'},
+    {loc:'D20',doc:'AA_838',path:'hotspots/D20.street/remember/lines/0/text',old:'上次說街變短了。我回去翻了照片，一樣長。',new:'我回去翻了照片。街沒有變短，一樣長。'},
+    {loc:'D21',doc:'AA_838',path:'hotspots/D21.bridge/remember/lines/0/text',old:'上次坐這裡我差點睡著。這次不會。大概。',new:'這個位子很危險。我坐下去就想睡。'},
+    {loc:'D21',doc:'AA_838',path:'hotspots/D21.dye/remember/lines/0/text',old:'上次的手套破了一個洞。我手指藍了一個禮拜，沒有人問。',new:'那雙手套破了一個洞。我手指藍了一個禮拜，沒有人問。'},
+    {loc:'D23',doc:'AA_838',path:'hotspots/D23.boats/remember/lines/0/text',old:'上次問他們一次出去多久。我後來知道了，有的一趟好幾個月。',new:'他們出去一趟多久，我後來知道了。有的好幾個月。'},
+    {loc:'D24',doc:'AA_838',path:'hotspots/D24.park/remember/lines/0/text',old:'上次在這裡待到天黑。',new:'這座橋，天黑以後應該比較好看。'},
+    {loc:'D26',doc:'AA_838',path:'hotspots/D26.path/remember/lines/0/text',old:'上次說都市計畫。我回去真的查了。今天不講。',new:'都市計畫我回去真的查了。你想聽再說。'},
+    {loc:'D26',doc:'AA_838',path:'hotspots/D26.plaza/remember/lines/0/text',old:'上次你放的風箏飛很高，我拍了。',new:'你放的那個風箏飛很高，我拍了。'},
+    {loc:'D26',doc:'AA_838',path:'hotspots/D26.village/remember/lines/0/text',old:'上次買的那張卡片，還夾在書裡。還沒想到要寫什麼。',new:'那張卡片還夾在書裡。還沒想到要寫什麼。'},
+    {loc:'D27',doc:'AA_838',path:'hotspots/D27.shop/remember/lines/0/text',old:'上次你挑的筆筒在我桌上。來的人都會問。',new:'你挑的筆筒在我桌上。來的人都會問。'},
+    {loc:'D28',doc:'AA_838',path:'hotspots/D28.museum/remember/lines/0/text',old:'上次那份手稿旁邊的說明，我抄下來了。寫得很好。',new:'那份手稿旁邊的說明，我抄下來了。寫得很好。'},
+    {loc:'D28',doc:'AA_838',path:'hotspots/D28.sunset/remember/lines/0/text',old:'上次看完夕陽，我回旅館早早就睡了。睡得很好。',new:'這裡的夕陽，比我記得的還大。'},
+    {loc:'D29',doc:'AA_838',path:'hotspots/D29.warehouse/remember/lines/0/text',old:'上次那面看不懂的牆，換成別的作品了。',new:'那面看不懂的牆，換成別的作品了。'},
+    {loc:'D30',doc:'AA_838',path:'hotspots/D30.pebble/remember/lines/0/text',old:'上次那顆很圓的石頭，今天找不到了。',new:'那顆很圓的石頭找不到了。'},
+    {loc:'D30',doc:'AA_838',path:'hotspots/D30.stars/remember/lines/0/text',old:'上次我看到一半睡著了。今天不會。',new:'這次我帶了外套當枕頭。睡著也沒關係。'},
+    {loc:'D33',doc:'AA_838',path:'hotspots/D33.bridge/remember/lines/0/text',old:'上次在這裡，我們也站了很久。',new:'這座天橋，我們每次都站很久。'},
+    {loc:'D33',doc:'AA_838',path:'hotspots/D33.lobby/remember/lines/0/text',old:'上次那部，我後來又想了一下。還是我猜的那個結局比較好。',new:'那部的結局，我還是覺得我猜的比較好。'},
+  ],
+  SIS_1112_ADD:[
+    {loc:'D01',doc:'AA_837',path:'arrive/dating',index:1,set:{tier:'any',lines:[{who:'heroine_05',text:'林{name}，市集你自己逛。我在展覽那邊等你。'}]}},
+  ],
 };
 /* 「和重匯以前比」用：回傳一份複本，把 AA_780 換的那三格（FLAKED_780）還原成各人自己那一輪的字。x＝整份 DATE_LINES（或 strip 過、少了幾個人的）；只有那一格現在剛好是 AA_780 的 new 才還原（不是＝不動，照舊會紅）；
    重匯以前的那一份（那一格還是 old）丟進來不會變 */
@@ -267,8 +356,10 @@ module.exports.want780=r=>{ const x=module.exports.FLAKED_780.find(y=>y.path===r
    noFx 回傳拿掉所有 fx 的複本；un812 也一起拿掉（un812＝回到 248c8e390 那一層）。fx 本身和源稿逐格比在 tests/date_fx_x324_1111_unit.js
    2026-11-12 起（AA 07d50af2f7，X324 可昕續改 KX_1112）：un812 也把可昕那 72 格還原成 52c3ee258 的字（只有那一格現在剛好是新字才還原）；
    src248(k,json)＝源稿 Dxx.json（ALLOW_SHA 那一版）拿掉 fx、可昕那 72 格還原＝回到 248c8e390 的字（別人那幾輪「和源稿／上一版逐格比」用；舊寫法 noFx(JSON.parse(t))）
-   2026-11-12 起（AA b84e779563＋6d503411c1，X324 以安續改第一、三批 AN_1112）：un812、src248 也把以安那 59 格還原成 74e0421b8（＝248c8e390）的字（同上，只有那一格現在剛好是新字才還原） */
+   2026-11-12 起（AA b84e779563＋6d503411c1，X324 以安續改第一、三批 AN_1112）：un812、src248 也把以安那 59 格還原成 74e0421b8（＝248c8e390）的字（同上，只有那一格現在剛好是新字才還原）
+   2026-11-12 起（AA a573a50dca，X324 學姊續改第一、二批 SIS_1112）：un812、src248 也把學姊那 78 格還原成 b22e4d1277（＝248c8e390）的字，D01 交往到達多的那一套（SIS_1112_ADD）拿掉（只有那個位置剛好是那一套才拿掉）——unSis */
+module.exports.unSis=(L,who)=>{ if(!L) return; const walk=p=>{ let o=L; for(const t of p) o=o==null?o:o[t]; return o; }; for(const r of module.exports.SIS_1112){ if(who&&r.loc!==who) continue; const k=r.path.split('/'), o=walk(k.slice(0,-1)), last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; } for(const r of module.exports.SIS_1112_ADD){ if(who&&r.loc!==who) continue; const a=walk(r.path.split('/')); if(Array.isArray(a)&&a.length===r.index+1&&JSON.stringify(a[r.index])===JSON.stringify(r.set)) a.pop(); } };   /* L＝某個地點的 lines.heroine_05；who＝地點（只還原那個地點的列）*/
 module.exports.noFx=x=>JSON.parse(JSON.stringify(x,(k,v)=>k==='fx'?undefined:v));
-module.exports.un812=x=>{ const y=module.exports.noFx(x); for(const r of module.exports.KX_1112){ let o=y; const k=['loc',r.loc,'lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; } for(const r of module.exports.AN_1112){ let o=y; const k=['loc',r.loc,'lines','heroine_01',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; }   /* 2026-11-12 b84e779563：以安 AA_832 那 32 格、AA_834 那 27 格也還原（AN_1112）*/ for(const r of module.exports.CELLS_812){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
+module.exports.un812=x=>{ const y=module.exports.noFx(x); for(const r of module.exports.KX_1112){ let o=y; const k=['loc',r.loc,'lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; } for(const r of module.exports.AN_1112){ let o=y; const k=['loc',r.loc,'lines','heroine_01',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===(r.game||r.new)) o[last]=r.old; }   /* 2026-11-12 b84e779563：以安 AA_832 那 32 格、AA_834 那 27 格也還原（AN_1112）*/ if(y&&y.loc) for(const k of Object.keys(y.loc)) module.exports.unSis(y.loc[k]&&y.loc[k].lines&&y.loc[k].lines.heroine_05,k);   /* 2026-11-12 a573a50dca：學姊 AA_837＋AA_838 那 78 格、D01 多的一套也還原（SIS_1112）*/ for(const r of module.exports.CELLS_812){ const k=r.p.split('/').slice(1); let o=y; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } return y; };
 module.exports.cell812=(x,r)=>{ let o=x; for(const t of r.p.split('/').slice(1)) o=o==null?o:o[t]; return o; };
-module.exports.src248=(loc,x)=>{ const y=module.exports.noFx(x); for(const r of module.exports.KX_1112){ if(r.loc!==loc) continue; let o=y; const k=['lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } for(const r of module.exports.AN_1112){ if(r.loc!==loc) continue; let o=y; const k=['lines','heroine_01',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; }   /* 2026-11-12 b84e779563：以安 AA_832 那 32 格也還原（AN_1112）*/ return y; };
+module.exports.src248=(loc,x)=>{ const y=module.exports.noFx(x); for(const r of module.exports.KX_1112){ if(r.loc!==loc) continue; let o=y; const k=['lines','kexin',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; } for(const r of module.exports.AN_1112){ if(r.loc!==loc) continue; let o=y; const k=['lines','heroine_01',...r.path.split('/')]; for(const t of k.slice(0,-1)) o=o==null?o:o[t]; const last=k[k.length-1]; if(o&&o[last]===r.new) o[last]=r.old; }   /* 2026-11-12 b84e779563：以安 AA_832 那 32 格也還原（AN_1112）*/ module.exports.unSis(y&&y.lines&&y.lines.heroine_05,loc);   /* 2026-11-12 a573a50dca：學姊 78 格、D01 多的一套也還原（SIS_1112）*/ return y; };
