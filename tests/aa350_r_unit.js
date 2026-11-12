@@ -28,31 +28,7 @@ const fresh=(day,hour,zone,flags)=>{ G={v:3,stage:'law',day,hour,zone,weekday:wd
 const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
 const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 (async()=>{
-  /* ===================== R2 ev_sk03_lunch 的活大那一條 ===================== */
-  const F2=termDay('Y1S2',2,5), F13=termDay('Y1S2',13,5), F11=termDay('Y1S2',11,5), W11T=termDay('Y1S2',11,4), F12=termDay('Y1S2',12,5);
-  const base={P4D_ANSWER:'retake',ECON_HALLWAY_DAY:F2,MET_XUN:true,MET_PINYU:true};
-  const R2N='（學活二樓，靠窗那一桌。阿勳已經坐在那裡了。）';   /* AA_350 9-1 缺的字（2026-11-01 補）：R2 開頭多一句旁白，原本第一句變第二句（R2-1～R2-3 照新稿改查 L[0] 旁白＋L[1]；沒見過阿勳那一版在 tests/aa350_t_unit.js）*/
-  const econIt=()=>CLS.dayItems(G).find(q=>q.c&&q.c.id==='econ_principles_2');
-  /* 那個週五沒去經原下：h 點在下課選單選「先去吃飯」→ 選 meal（'活大'／'公館燒臘'）*/
-  const huoda=async(day,h,flags,meal,attended)=>{ fresh(day,h,'putong',Object.assign({},base,flags)); if(attended){ const it=econIt(); if(it) CLS.rec(G).done[it.key]=1; } const m0=G.money; said=[]; opts=[]; caps=[]; const r=await CLS.lunchBreak(GM,meal||'學活');   /* LUNCH-NO-ASK-1110：不問吃哪家，指定那一家 */ return {r,L:lines(),opts:opts.slice(),paid:m0-G.money,caps:caps.slice()}; };
-  check('R2-0. 第 11、12、13 週週五是有經原下的日子（不是放假、不是期中考：第 8、9 週期中考不能翹、也不演；第 10 週週五 5/1 放假）',[F13,F11,F12].every(d=>{ fresh(d,12.2,'putong',base); const it=econIt(); return !!it&&!it.exam; }));
-  { const x0=await (async()=>{ fresh(F13,12.3,'putong',Object.assign({},base,{SK03_FIRST:true,SK03_N:0})); said=[]; opts=[]; caps=[]; await CLS.lunchBreak(GM); return {L:lines(),opts:opts.slice()}; })();
-    check('R2-1b. 不指定（LUNCH-NO-ASK-1110 直接挑）：學活事件還沒演＝自動去學活、演 ev_sk03_lunch、不問',x0.opts.length===0&&x0.L[1]==='阿勳：……你今天沒來上課。坐。',JSON.stringify(x0)); }
-  { const x=await huoda(F13,12.3,{SK03_FIRST:true,SK03_N:0});
-    check('R2-1. 第 13 週週五沒去經原下、12:18 選「學活」：第一句「阿勳：……你今天沒來上課。坐。」，沒有走廊那兩句、不出「一起去／今天不行」，接平常的週五（1-2）',
-      x.r===true&&x.L[0]===R2N&&x.L[1]==='阿勳：……你今天沒來上課。坐。'&&!x.L.some(t=>/走不走|你要來就來/.test(t))&&x.opts.length===0&&!x.opts.flat().some(t=>/一起去|今天不行/.test(t))&&x.L.some(t=>t.includes('永遠在講統計')),JSON.stringify([x.L,x.opts]));
-    check('R2-1. 記的跟「一起去」一樣：SK03_LAST、SK03_ASKED、SK03_INV1、SK03_N +1、習慣 meal:xiaofu:fri；快轉到 13:00「午休結束。」；付了學活的錢（90 元）；記 SK03_HUODA',
-      G.flags.SK03_LAST===F13&&G.flags.SK03_ASKED===F13&&G.flags.SK03_INV1===true&&G.flags.SK03_N===1&&EVENTS.habitCount({key:'meal:xiaofu:fri'})===1&&Math.abs(G.hour-13)<1e-6&&x.caps.includes('午休結束。')&&x.paid===90&&G.flags.SK03_HUODA===F13,JSON.stringify([G.flags.SK03_LAST,G.flags.SK03_ASKED,G.flags.SK03_N,G.hour,x.caps,x.paid])); }
-  { const x=await huoda(F13,12.3,{});
-    check('R2-2. 第一次去（沒有 SK03_FIRST）：學活那一句以後接 1-1（「週五的學活。阿勳占了靠窗的四人桌…」「重考生？你看起來很有覺悟。」）',x.L[0]===R2N&&x.L[1]==='阿勳：……你今天沒來上課。坐。'&&x.L.includes('週五的學活。阿勳占了靠窗的四人桌，品妤已經在吃了。')&&x.L.includes('品妤：重考生？你看起來很有覺悟。')&&G.flags.SK03_FIRST===true,JSON.stringify(x.L)); }
-  { const x=await huoda(F11,12.3,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true});
-    check('R2-3. 第 11 週週五（10-3 一起讀到閉館的隔天）沒去經原下、去學活：照樣還債（「昨天那題的。還債。」）、沒有走廊那句「昨天那題我想通了。」',x.L[0]===R2N&&x.L[1]==='阿勳：……你今天沒來上課。坐。'&&x.L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&!x.L.includes('阿勳：昨天那題我想通了。')&&G.flags.XUN_REPAID===true,JSON.stringify(x.L)); }
-  { const a=await huoda(F13,12.3,{SK03_FIRST:true},'學活',true), b=await huoda(F13,13.1,{SK03_FIRST:true}), c=await huoda(F13,12.3,{SK03_FIRST:true},'公館燒臘'), d=await huoda(F13,12.3,{SK03_FIRST:true,SK03_ASKED:F13}), e=await huoda(F13+1,12.3,{SK03_FIRST:true}), f=await huoda(F13,11.9,{SK03_FIRST:true});
-    const plain=x=>x.r===true&&x.L.length===1&&/自助餐|乾麵|叉燒飯/.test(x.L[0]);   /* 一般的吃飯：吃飯那一段換到店裡、那一句旁白用 ADV 說（BUG-EAT-AFTER-CLASS-SCENE-1103，原本是字幕、人留在教室）；ev_sk03_lunch 那一條不是這樣 */
-    check('R2-4. 不演的（照一般的吃飯）：去上了經原下、13:06、11:54、選阿鳳麵店、那天已經演過、週六',plain(a)&&plain(b)&&plain(c)&&plain(d)&&plain(e)&&plain(f),JSON.stringify([a,b,c,d,e,f].map(x=>[x.L.length,x.caps]))); }
-  { fresh(F13,12.17,'putong',Object.assign({},base,{SK03_FIRST:true})); picks=['一起去']; said=[]; opts=[]; await CLS.afterClassEvent(GM,{c:{id:'econ_principles_2'}}); const L=lines();
-    check('R2-5. 走廊那一條照舊（防回歸）：「學活。走不走？」＋「一起去／今天不行」',L[0]==='阿勳：學活。走不走？'&&JSON.stringify(opts[0])==='["「一起去」","「今天不行」"]'&&!L.includes('阿勳：……你今天沒來上課。坐。'),JSON.stringify([L,opts])); }
-
+  /* R2 ev_sk03_lunch 的學活那一條（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   /* ===================== R5 法學研究第 11 週引用大四上那一題 ===================== */
   { const wk=((SYLLABUS.courses||{}).legal_research||[]).find(w=>w.w===11), rc=wk&&wk.obs&&wk.obs.recall||[], r4=rc.find(x=>x.record==='B_Y4S1_public_judgment_sem_w3'), r1=rc.find(x=>x.record==='B_Y1S1_const_1_w11'), it={c:{id:'legal_research'},week:11};
     check('R5-0. 課表：法學研究第 11 週的回想引用大一憲法第 11 週、大四上公法判決研討第 3 週；大四上那一筆沒有 missed',!!r4&&!!r1&&!r4.missed);

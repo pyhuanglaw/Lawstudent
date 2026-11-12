@@ -89,8 +89,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('3／BB-2. 第 1～6 週約會選單：不出現「她現在有交往的對象」',W.every(x=>x.date.why!=='她現在有交往的對象'&&x.will.why!=='partner'),J(W.map(x=>x.date.why||'ok')));
     check('3. 對照：第 8 週（4/15 期中晚餐公開以後）照舊兩個都出現',w8.meal===MEAL&&w8.date.why==='她現在有交往的對象'&&w8.will.why==='partner',J([w8.meal,w8.date,w8.will])); }
   // ===== 第 4 項：芯慈那段 =====
-  { const T=evText('ev_sk03_lunch');
-    check('4. SK03 芯慈「你們認識？」的選項：「我們當過室友。」（沒有「我們一起住過一年。」）',T.includes('「我們當過室友。」')&&!T.some(t=>/住過一年/.test(t)),J(T.filter(t=>/室友|住過/.test(t)))); }
+  /* 4. SK03 芯慈那段（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   // ===== 第 5 項：Alison 烏來 4/18 =====
   { const at=(k,h)=>{ fresh(D(k),h,'gongguan',{}); R('yu','FAM'); return {e:STORY.schedEnt(CHARACTERS.yu,G),w:STORY.whereIs(GM,'yu')}; };
     const a=at('2026-04-04',12), b=at('2026-04-18',12), c=at(K(termDay('Y1S1',6,6)),12), d=at(K(termDay('Y2S1',6,6)),12);
@@ -186,8 +185,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   { const dp=(STORY.DAILY_PHONE||[]).find(x=>x.id==='y1s2_bohan_closed'), T=dp?dp.items(G).map(x=>x.from+':'+x.text):[];
     check('19. 桌遊團手機小事：22:10 柏翰「總圖十點關。」「我被趕出來了。」、阿哲「你根本住那裡吧」',!!dp&&Math.abs(dp.h()-(22+10/60))<1e-9&&J(T)===J(['classmate_bohan:總圖十點關。','classmate_bohan:我被趕出來了。','zhe:你根本住那裡吧']),J([dp&&dp.h(),T])); }
   // ===== 第 23 項：活大 =====
-  { fresh(termDay('Y1S2',5,5),12.75,'campus',{}); const z=STORY.schedEnt(CHARACTERS.econ_zhengxun,G), p=STORY.schedEnt(CHARACTERS.econ_pinyu,G);
-    check('23. 阿勳、品妤大一下週五中午：人物線索「在學活吃午餐」（小松已拆）',!!z&&z.away==='在學活吃午餐'&&!!p&&p.away==='在學活吃午餐',J([z&&z.away,p&&p.away])); }
+  /* 23. 舊序章人物大一下週五中午的作息（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   // ===== 第 24 項：沛珊 P2「這半年」=====
   { const dbt=async day=>{ fresh(day,15,'library',{}); R('classmate_peishan','FAM'); picks=['妳呢']; said=[]; await EVENTS.run(ev('ev_peishan_doubt')); return lines(); };
     const a=await dbt(termDay('Y1S1',8,3)), b=await dbt(termDay('Y1S2',3,3));
