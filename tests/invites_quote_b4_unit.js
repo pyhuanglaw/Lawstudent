@@ -165,7 +165,7 @@ const deepSame=(a,b,bad,p)=>{ if(typeof a==='string'&&typeof b==='string'){ if(a
   if(a===null||b===null||typeof a!=='object'||typeof b!=='object'){ if(a!==b) bad.push(p+'：'+J(a)+' → '+J(b)); return 0; }
   const ka=Object.keys(a), kb=Object.keys(b); if(J(ka)!==J(kb)){ bad.push(p+'：欄位不同'); return 0; } let n=0; for(const k of ka) n+=deepSame(a[k],b[k],bad,p+'.'+k); return n; };
 { const bad=[]; /* （CANON-NO-ECON-1112 第四批：照 AA_886 換字）芯慈雙主修三個版本只留第一句、拿掉條件——BASE 那兩句不比、第一句的 unless 拿掉；句數 149→147 */
-  { const X=ST.old.classmate_xinci; if(Array.isArray(X)){ ST.old.classmate_xinci=X.filter(e=>!(e&&typeof e==='object'&&/自學過一點經濟|念過經濟系，我只問/.test(e.t))).map(e=>{ if(e&&typeof e==='object'&&/^「?雙主修要多修好多學分/.test(e.t)&&e.unless){ const o=Object.assign({},e); delete o.unless; return o; } return e; }); } }
+  { const X=ST.old.classmate_xinci; if(Array.isArray(X)){ ST.old.classmate_xinci=X.filter(e=>!(e&&typeof e==='object'&&/自學過一點|我只問一件事/.test(e.t))).map(e=>{ if(e&&typeof e==='object'&&/^「?雙主修要多修好多學分/.test(e.t)&&e.unless){ const o=Object.assign({},e); delete o.unless; return o; } return e; }); } }
   const n=deepSame(ST.old,ST.now,bad,'SMALLTALK');
   check('16. SMALLTALK 和 '+BASE+' 逐句比：'+n+' 句只差外面的「」，條件（if、term、week、location、once、prio…）一字不差',n===147&&bad.length===0,sample(bad));
   for(const k of PSK){ const b2=[]; const m=deepSame(PS.old[k],PS.now[k],b2,k); const W={POOL_STORY:49,POOL_STORY_B2:52,POOL_STORY_B3:46,POOL_STORY_B4:33}[k], W5={POOL_STORY:0,POOL_STORY_B2:1,POOL_STORY_B3:3,POOL_STORY_B4:0}[k], h5=B5HIT.filter(p=>p.startsWith(k+'.'));
