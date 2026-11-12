@@ -11,6 +11,15 @@
 # ===== P0 BB 07:41（X341「118巷店面做好就可以先推出新版」，BB_343）：118 巷排最前面 =====
 # 第 1 段 L118A 功能（SEAT 五湖四海、大學食堂、118牛排先）
 # ★P0 BB 15:27：v9.10.25 線上驗證（main dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c＝PR #36，遊戲檔＝f312c）；Pages 部署成功才拿掉 HOLD（BB 叫放或 CC 看到 Pages run 43048364768 成功）
+# ===== CC-C 11-12 03:4x：be1e5d7256（LAWWW-C 修 GHA 那一版，含 28d5057e8／59a4efb68）基本回歸，電腦空著先跑；BB-C 03:30 那四項探針改好接著排 =====
+BE1E_p0 | be1e5d725634580ee25313a7bbd14f941687bfde | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+BE1E_reach | be1e5d725634580ee25313a7bbd14f941687bfde | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+BE1E_zone | be1e5d725634580ee25313a7bbd14f941687bfde | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+BE1E_touch | be1e5d725634580ee25313a7bbd14f941687bfde | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
+BE1E_v7 | be1e5d725634580ee25313a7bbd14f941687bfde | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
+BE1E_mini | be1e5d725634580ee25313a7bbd14f941687bfde | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+BE1E_classreal | be1e5d725634580ee25313a7bbd14f941687bfde | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
+BE1E_main12 | be1e5d725634580ee25313a7bbd14f941687bfde | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 LIVE25_deploy | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | game | tests/deploy_check.py | index.html | 15 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html 9.10.25;CC_HEADLESS=0
 LIVE25_main | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_live_main_probe.py | index.html | 25 | EXPECT=v9.10.25;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 # CC 15:4x：LIVE25_deploy 1 個 503（ggshops_sys3d.js，部署完 1 分鐘內）、LIVE25_main ③ 搖桿只動 0.1 m（緊接著開場對話開始）——各重跑一次分偶發／真的
