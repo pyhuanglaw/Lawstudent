@@ -13,7 +13,7 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -114,6 +114,15 @@ DEPTH_JS = r"""(a=>{ const E=GAME.E, c=E.renderer.domElement; const cam=new THRE
   const nc={}; for(const x of hitName) nc[x]=(nc[x]||0)+1; const top=Object.entries(nc).sort((p,q)=>q[1]-p[1]).slice(0,8);
   return {n:ds.length, face:+face.toFixed(2), deep:+deep.toFixed(3), behind_n:bh.length, behind_spread:sp, hit_names:top, p10:+s[Math.floor(s.length*0.1)].toFixed(2), p50:+s[Math.floor(s.length*0.5)].toFixed(2), p90:+s[Math.floor(s.length*0.9)].toFixed(2)}; })"""
 UI_JS = r"""(()=>{ const out=[]; for(const el of document.querySelectorAll('body *')){ if(!el.id&&!(el.className&&String(el.className).match(/panel|sheet|menu|shop|toast|modal|pop/i))) continue; const cs=getComputedStyle(el); if(cs.display==='none'||cs.visibility==='hidden'||el.offsetParent===null&&cs.position!=='fixed') continue; const t=(el.innerText||'').trim(); if(!t) continue; const r=el.getBoundingClientRect(); if(r.width<40||r.height<20) continue; out.push([el.id||String(el.className).slice(0,30), t.replace(/\s+/g,' ').slice(0,120)]); if(out.length>=8) break; } return out; })()"""
+GLASSRECT_JS = r"""(a=>{ const E=GAME.E, c=E.renderer.domElement; const cam=new THREE.PerspectiveCamera(60, c.width/c.height, 0.05, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true); cam.updateProjectionMatrix();
+  const ex=new Set(); const P=E.player&&E.player.obj; if(P) P.traverse(o=>ex.add(o)); for(const n of (E.npcs||[])) if(n.obj) n.obj.traverse(o=>ex.add(o)); for(const x of (E.extras||[])) if(x.obj) x.obj.traverse(o=>ex.add(o));
+  const isG=o=>{ const m=Array.isArray(o.material)?o.material[0]:o.material, nm=((o.name||'')+' '+(m&&m.name||'')); return /glass|玻璃/i.test(nm)||(m&&m.transparent&&m.opacity<0.9&&m.opacity>0.02); };
+  const rc=new THREE.Raycaster(), xs=[], ys=[]; const NX=48, NY=27;
+  for(let i=0;i<NX;i++) for(let j=0;j<NY;j++){ const u=(i+0.5)/NX, v=(j+0.5)/NY; rc.setFromCamera(new THREE.Vector2(2*u-1,1-2*v),cam); rc.far=30;
+    const h=rc.intersectObjects(E.scene.children,true).find(x=>!ex.has(x.object)&&x.object.visible!==false); if(h&&isG(h.object)){ xs.push(u); ys.push(v); } }
+  if(xs.length<12) return {n:xs.length};
+  const q=(A,p)=>{ const s=A.slice().sort((x,y)=>x-y); return s[Math.min(s.length-1,Math.max(0,Math.floor(s.length*p)))]; };
+  return {n:xs.length, rect:[+q(xs,0.05).toFixed(3), +q(ys,0.05).toFixed(3), +q(xs,0.95).toFixed(3), +q(ys,0.95).toFixed(3)]}; })"""
 MEANS_JS = r"""(async a=>{ const im=await new Promise(res=>{ const q=new Image(); q.onload=()=>res(q); q.src=a.u; }); const W=240, H=Math.round(240*im.height/im.width);
   const k=document.createElement('canvas'); k.width=W; k.height=H; const g=k.getContext('2d'); g.drawImage(im,0,0,W,H); const d=g.getImageData(0,0,W,H).data; const out={};
   for(const n in a.regs){ const [x0,y0,x1,y1]=a.regs[n]; let r=0,gg=0,b=0,c=0; for(let y=Math.max(0,Math.floor(y0*H));y<Math.min(H,Math.ceil(y1*H));y++) for(let x=Math.max(0,Math.floor(x0*W));x<Math.min(W,Math.ceil(x1*W));x++){ const o=(y*W+x)*4; r+=d[o]; gg+=d[o+1]; b+=d[o+2]; c++; }
@@ -293,8 +302,11 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         pd = await pg.evaluate(CROPDIFF_JS, {'us': [s4l['u'], s4['u'], s4r['u']]}); a4 = await pg.evaluate(ANA_JS, {'u': s4['u']})
         # 判法改射線（PC GATE_CAL：左右移 1.5 m 連平面圖的畫面也整個變，像素差不能分立體）：從店外鏡頭往門面打 24×16 條，略過玻璃、半透明、人；
         # 門面距離＝最常見的距離（0.25 m 一格），門面後面 0.8 m 以上還打得到東西的比例＝deep；平面圖／貼在玻璃後面的卡片 deep≈0
+        # 窗的範圍：從店外鏡頭打 48×27 條，第一個打到玻璃（名字 glass／玻璃或半透明）的格子＝窗；整條街的玻璃合成一塊網格時 bbox 投影不準（南洋 r1 地板框落到騎樓）
+        _gr = await pg.evaluate(GLASSRECT_JS, {'from': list(base), 'at': list(tgt)})
         _rr = [r for r in (s4.get('rects') or []) if (r[2] - r[0]) * (r[3] - r[1]) < 0.6]
-        _win = max(_rr, key=lambda r: (r[2] - r[0]) * (r[3] - r[1])) if _rr else [0.2, 0.33, 0.78, 0.8, 'fixed']
+        _win = (_gr['rect'] + ['raycast_glass']) if _gr.get('rect') else (max(_rr, key=lambda r: (r[2] - r[0]) * (r[3] - r[1])) if _rr else [0.2, 0.33, 0.78, 0.8, 'fixed'])
+        row['m']['glass_rect'] = _gr
         rays = await pg.evaluate(DEPTH_JS, {'from': list(base), 'at': list(tgt), 'rect': [max(0, _win[0]), max(0, _win[1]), min(1, _win[2]), min(1, _win[3])]})
         # BB-C 06:26（X352 SHOP-WINDOW-3D）：店外也連拍——遊戲鏡頭在門外，邊轉 5 秒（同 BURST_JS），看櫥窗裡有沒有閃
         try:
@@ -312,10 +324,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         # ⑦b 店外看到的和走進去一致（使用者 06:4x：「大步球鞋店外面看進去牆壁是灰色 可是人在店裡面居然墻壁是木頭的……你應該審查所有的店面會不會有一樣的問題」；BB-C 06:46）
         #   店外中間那張：最大那塊窗（從店外投影的窗玻璃框）上半＝牆、下半＝地板 的平均色；進門全景：畫面中上（x 0.2～0.8、y 0.15～0.45）＝牆、下面（x 0.25～0.75、y 0.8～0.97）＝地板
         #   色差＝RGB 距離；兩個都 ≤ CON_LO＝PASS、任一 ≥ CON_HI＝FAIL（★）、中間＝UNKNOWN（暫定門檻，等大步 FAIL 那一間校正）
-        rr = [r for r in (s4.get('rects') or []) if (r[2] - r[0]) * (r[3] - r[1]) < 0.6]
         if s1:
-            # 店門口附近的窗投影得到＝用它；投影不到或大到蓋住半個畫面＝用固定的框（店外鏡頭固定在門外 2.5 m 往門裡 2 m 看：窗大約在畫面 x 0.2～0.78、y 0.33～0.8；X352_CON 大步那張量的）
-            big = max(rr, key=lambda r: (r[2] - r[0]) * (r[3] - r[1])) if rr else [0.2, 0.33, 0.78, 0.8, 'fixed']
+            # 窗的範圍用上面射線找到的（_win：raycast_glass ＞ 門口附近的窗投影 ＞ 固定框）；地板框不會低於窗的下框（BB-C 07:51：南洋 r1 地板框落在騎樓地面）
+            big = _win
             x0, y0, x1, y1 = big[:4]; w_, h_ = x1 - x0, y1 - y0
             regs = {'out_wall': [x0 + w_ * 0.1, y0 + h_ * 0.08, x1 - w_ * 0.1, y0 + h_ * 0.5], 'out_floor': [x0 + w_ * 0.1, y0 + h_ * 0.62, x1 - w_ * 0.1, y1 - h_ * 0.04],
                     'in_wall': [0.15, 0.3, 0.85, 0.6], 'in_floor': [0.25, 0.8, 0.75, 0.97]}   # 牆往下移（r1 框到天花板的燈）

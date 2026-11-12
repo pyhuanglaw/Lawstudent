@@ -18,6 +18,9 @@ XS_REAL_consist_r2 | fcbc3aab3117c1fec2c1c833b3d44813684e18fd | probe | docs/sto
 XS_REAL_cal_old | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 15 | TAG=real_cal_old;ZONES=xs_dabu,xs_shanlan;HOURS=14;PARTS=1,5;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 # LAWWW-C 07:36：南洋門口重做（木框玻璃門後面放大廳模型，fcbc3aab31）——14:00 店外正對／左／右＋進門（拼圖、consist 並排）、23:30 打烊；門口右邊黑剪影給 BB 看圖
 XS_NANYANG_real | fcbc3aab3117c1fec2c1c833b3d44813684e18fd | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 25 | TAG=nanyang_real;ZONES=xs_nanyang;HOURS=14,23.5;PARTS=1,5;SHA=fcbc3aab3117c1fec2c1c833b3d44813684e18fd
+# ⑦b r3（BB-C 07:51：南洋地板框落在騎樓＝TEST_BUG）：窗範圍改用射線找玻璃，框不出窗外；新版七間＋dc3d 舊大步、山嵐（校正：照片卡片差在地板）
+XS_REAL_consist_r3 | fcbc3aab3117c1fec2c1c833b3d44813684e18fd | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 50 | TAG=real_r3;ZONES=xs_dabu,xs_haopai,xs_xsports,xs_shanlan,xs_tongxian,xs_dakou,xs_nanyang;HOURS=14;PARTS=1,5;SHA=fcbc3aab3117c1fec2c1c833b3d44813684e18fd
+XS_REAL_cal_old_r3 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 15 | TAG=real_cal_old_r3;ZONES=xs_dabu,xs_shanlan;HOURS=14;PARTS=1,5;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
 # BB-C 07:19（X352B 判完後三件，排在 ⑦b 並排後面）：①出不來重現（有視窗）②閃圈格子＋藏人再拍 ③店員卡家具／客人面壁近照
 BB0719_exit | 42c493ca277073a91d87dca7f971f6625a56d6a0 | probe | docs/story_planning/test_tools/cc/cc_exit_repro_probe.py | index.html | 25 | SOLO=1;PROBE_HEADED=1;TAG=exit;CASES=xs_shanlan@14,xs_shanlan@20.5,xs_haopai@14;SHA=42c493ca277073a91d87dca7f971f6625a56d6a0
 BB0719_flk_1b | 42c493ca277073a91d87dca7f971f6625a56d6a0 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=flk1b;ZONES=xs_xsports,xs_tongxian,xs_dakou,xs_haopai,xs_nanyang;HOURS=14;PARTS=1,2,3,4,5,6;SHA=42c493ca277073a91d87dca7f971f6625a56d6a0
