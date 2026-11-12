@@ -2,7 +2,7 @@
  "_meta": {
   "doc": "AA_917 約會收尾「下次…」（DLG-FULL-REVIEW-1110；沛珊 AA_913 同一個問題）：第一批可昕、子晴",
   "by": "AA-C 2026-11-12 21:2x",
-  "status": "待 BB 第二意見（D153）",
+  "status": "定稿（BB_443 採用；三句不寫死誰挑地點、三句 P3 照改）",
   "what": "約會收尾（closing）用「下次…」開頭、後面不會發生的：可昕 17、子晴 16（以安 12、芷若 13、語彤 8、學姊 15 下一批）。改成講今天、講眼前、講她自己。可昕那幾句同時是「我查／我排／我知道幾點」的排表口氣（UA-AA-1112-15），一起拿掉。"
  },
  "rows": [
@@ -11,7 +11,7 @@
    "who": "kexin",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次來，換你排路線。",
-   "new": "腳好痠。這條路線你選得不錯，我只說一次。"
+   "new": "腳好痠。這條路線不錯，我只說一次。"
   },
   {
    "src": "date_system/lines/D02.json",
@@ -39,14 +39,14 @@
    "who": "kexin",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次換你買票。我要坐一樣的位置，你記一下。",
-   "new": "爆米花我吃了大半。你都在看電影，沒發現。"
+   "new": "兩個小時過得好快。我還不想站起來。"
   },
   {
    "src": "date_system/lines/D06.json",
    "who": "heroine_04",
    "where": "closing/dating/0/lines/0/text",
    "old": "下次換你決定去哪。",
-   "new": "你決定的地方，比我想的好。這個我承認。"
+   "new": "這裡比我想的好。這個我承認。"
   },
   {
    "src": "date_system/lines/D06.json",
@@ -74,7 +74,7 @@
    "who": "kexin",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次來要趕餵食的時間。我知道幾點，先不告訴你。",
-   "new": "餵食的時間我們錯過了。牠們看起來還是很開心。"
+   "new": "長頸鹿一直不理我們。很有個性，我喜歡。"
   },
   {
    "src": "date_system/lines/D09.json",
@@ -144,7 +144,7 @@
    "who": "kexin",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次挑平日。假日的人把我的耐心用完了。",
-   "new": "人好多。我的耐心剩一點點，留給你。"
+   "new": "今天人有點多。我的耐心剩一點點，留給你。"
   },
   {
    "src": "date_system/lines/D18.json",
@@ -165,7 +165,7 @@
    "who": "heroine_04",
    "where": "closing/dating/0/lines/0/text",
    "old": "下次換我找地方，給我一點時間查。",
-   "new": "這裡是你找的。我會記住這條路。"
+   "new": "這條路我會記住。"
   },
   {
    "src": "date_system/lines/D21.json",

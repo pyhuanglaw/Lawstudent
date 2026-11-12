@@ -123,7 +123,7 @@
    "who": "heroine_05",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次你排，我不看行程。",
-   "new": "今天的行程我沒看。跟著你走，比較輕鬆。"
+   "new": "今天的行程我沒看。走到哪算哪，比較輕鬆。"
   },
   {
    "src": "date_system/lines/D13.json",
@@ -137,7 +137,7 @@
    "who": "heroine_02",
    "where": "closing/dating/0/lines/0/text",
    "old": "下次再來，換你約我。",
-   "new": "今天是你約的。這句我要寫在杯子上。"
+   "new": "今天這一句我要寫在杯子上：好開心。"
   },
   {
    "src": "date_system/lines/D14.json",
@@ -207,7 +207,7 @@
    "who": "heroine_05",
    "where": "closing/dating/0/lines/0/text",
    "old": "下次換我帶你走。我會先查好。",
-   "new": "今天你帶的路，我都記住了。"
+   "new": "今天走的路，我都記住了。"
   },
   {
    "src": "date_system/lines/D22.json",
@@ -333,7 +333,7 @@
    "who": "heroine_02",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次換你挑片，我都看。",
-   "new": "你挑的片，我很喜歡。結尾那段我差點哭。"
+   "new": "這部片我很喜歡。結尾那段我差點哭。"
   }
  ]
 }
