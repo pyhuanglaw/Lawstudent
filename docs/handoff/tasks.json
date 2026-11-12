@@ -55140,7 +55140,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 76 筆（LAWWW2 8b38e054）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（LAWWW2 outbox：LAWWW 已 git apply（teach3d.js＋teach_doors_unit.js））；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 76 筆（LAWWW2 8b38e054）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55170,7 +55170,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 193 筆（LAWWW2 984f24dc1）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（LAWWW-C 套進 562a5ead9（v9.10.12 rc2）、BB-C 驗過）；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 193 筆（LAWWW2 984f24dc1）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55200,7 +55200,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 284 筆（LAWWW2 8200806e2）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（79da20245e、c744017d37（電線桿後來再挪到 −16.0））；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 284 筆（LAWWW2 8200806e2）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55230,7 +55230,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 330 筆（LAWWW2 fd585f991）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（outbox 狀態已驗收（BB_255））；LAWWW2 outbox 寫已驗收，總表先留已整合待測試，請 BB 確認後改｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 330 筆（LAWWW2 fd585f991）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55260,7 +55260,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 332 筆（LAWWW2 aad8d3839）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（outbox 狀態已驗收）；LAWWW2 outbox 寫已驗收，總表先留已整合待測試，請 BB 確認後改｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 332 筆（LAWWW2 aad8d3839）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55290,7 +55290,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 333 筆（LAWWW2 e6f83d010）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（outbox 狀態已驗收）；LAWWW2 outbox 寫已驗收，總表先留已整合待測試，請 BB 確認後改｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 333 筆（LAWWW2 e6f83d010）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55320,7 +55320,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 335、337、341 筆（LAWWW2 7e11170d7、70097274a、134c01b93）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（LAWWW-B 整合三批（outbox））；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 335、337、341 筆（LAWWW2 7e11170d7、70097274a、134c01b93）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55336,8 +55336,8 @@
   {
    "id": "LM-MEM-BATCH-AUDIT",
    "title": "#204 記憶體不夠的 12 間：分批版盤點（只讀，不改檔）",
-   "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "owner": "LAWWW",
+   "status": "待開工",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -55350,7 +55350,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 336 筆（LAWWW2 a81a8c837）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：這一筆是只讀的盤點（記憶體不夠烘光照的 12 間怎麼分批），沒有要整合的檔；LAWWW2 等 LAWWW 選哪幾間先做。下一步：我讀盤點表、選批次回 LAWWW2（P3，不擋玩）｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 336 筆（LAWWW2 a81a8c837）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55380,7 +55380,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 377 筆（LAWWW2 4ec912641）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（交付的 3 個檔和開發分支一字不差）；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 377 筆（LAWWW2 4ec912641）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55410,7 +55410,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 382 筆（LAWWW2 058d6bdd2）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（交付的 3 個檔和開發分支一字不差）；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 382 筆（LAWWW2 058d6bdd2）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55440,7 +55440,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 385 筆（LAWWW2 dfd5ee2b8）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（outbox：BB 16:0x FIXED（CC 第二輪 8a98ff1e0））；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 385 筆（LAWWW2 dfd5ee2b8）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55470,7 +55470,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 390 筆（LAWWW2 d4f05712e）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（80bac7af53）；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 390 筆（LAWWW2 d4f05712e）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55500,7 +55500,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 398 筆（LAWWW2 525dc11eb）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（f6947aff3）；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 398 筆（LAWWW2 525dc11eb）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55530,7 +55530,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 411 筆（LAWWW2 3d4107ca1）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（LAWWW 11-11 02:32 已整合（outbox））；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 411 筆（LAWWW2 3d4107ca1）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55560,7 +55560,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 413 筆（LAWWW2 535ce76a5）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（LAWWW 11-11 03:11 已整合（outbox））；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 413 筆（LAWWW2 535ce76a5）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55590,7 +55590,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 414 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（696cf6036／b394363fe）；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 414 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55620,7 +55620,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 416 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（LAWWW 11-11 04:16 已整合（outbox））；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 416 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55650,7 +55650,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 418 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（LAWWW 11-11 05:01 已整合（outbox））；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 418 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55667,7 +55667,7 @@
    "id": "L118-IT-REACH-1111",
    "title": "L118-IT-REACH-1111：118牛排、辛亥韓食的座位按鈕位置從 L118_IT_FIX 搬回 lane118_shops.py（LAWWW 08:48）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已實作待整合",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -55680,7 +55680,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 426 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：遊戲端的互動鍵覆寫表（L118_IT_FIX，a2dd74af19）在線上；LAWWW2 把值搬回 lane118_shops.py 的那一包（l118_itfix_v1.patch）**還沒整合**——當時約定 LAWWW 給最後的值、LAWWW2 用 it_fix() 重跑。下一步：我把 src/l118_shops3d.js 現在的 L118_IT_FIX 整張給 LAWWW2 重跑，不擋玩（P3）｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 426 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
@@ -55710,7 +55710,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 429 筆（LAWWW2 988dfcbe2）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "next": "【LAWWW-C 11-12 12:0x UTC】查過：在開發分支（l118_p2_v1.patch 在開發分支反向套得上＝已經在裡面）；等 BB 驗｜【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 429 筆（LAWWW2 988dfcbe2）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；（已查）；BB 還沒驗",
    "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
    "authorized": true,
    "xai": {
