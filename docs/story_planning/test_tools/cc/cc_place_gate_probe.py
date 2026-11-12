@@ -13,7 +13,7 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -92,7 +92,10 @@ BURST_JS = r"""(async a=>{ const E=GAME.E, r=E.renderer, c=r.domElement, W=64, H
   for(let f=0;f<25;f++){ E.cam.yaw=y0+f*0.01; await new Promise(res=>setTimeout(res,200)); r.render(E.scene,E.camera); g.drawImage(c,0,0,W,H); const d=g.getImageData(0,0,W,H).data; const v=[];
     for(let by=0;by<B;by++) for(let bx=0;bx<B;bx++){ let s=0,n=0; for(let y=by*bh;y<(by+1)*bh;y++) for(let x=bx*bw;x<(bx+1)*bw;x++){ const o=(y*W+x)*4; s+=0.299*d[o]+0.587*d[o+1]+0.114*d[o+2]; n++; } v.push(s/n); } seq.push(v); }
   E.cam.yaw=y0; let flick=0; const per=[]; for(let i=0;i<B*B;i++){ let flips=0, prev=0; for(let f=1;f<seq.length;f++){ const dd=seq[f][i]-seq[f-1][i]; if(Math.abs(dd)>12){ const sg=Math.sign(dd); if(prev&&sg!==prev) flips++; prev=sg; } } per.push(flips); if(flips>=3) flick++; }
-  return {blocks_flipping:flick, max_flips:Math.max(...per)}; })"""
+  let img=null; if(a.overlay){ r.render(E.scene,E.camera); const ow=640, oh=Math.round(640*c.height/c.width), q=document.createElement('canvas'); q.width=ow; q.height=oh; const qg=q.getContext('2d'); qg.drawImage(c,0,0,ow,oh);
+    const sx=ow/B, sy=oh/B; qg.lineWidth=3; qg.font='bold 14px sans-serif'; for(let i=0;i<B*B;i++){ if(per[i]<3) continue; const bx=i%B, by=Math.floor(i/B); qg.strokeStyle='#ff2d55'; qg.strokeRect(bx*sx+2,by*sy+2,sx-4,sy-4); qg.fillStyle='#ff2d55'; qg.fillText(String(per[i]),bx*sx+6,by*sy+18); }
+    img=q.toDataURL('image/jpeg',0.85); }
+  return {blocks_flipping:flick, max_flips:Math.max(...per), per, img}; })"""
 SHEET_JS = r"""(async a=>{ const ims=await Promise.all(a.urls.map(u=>new Promise(res=>{ if(!u) return res(null); const q=new Image(); q.onload=()=>res(q); q.onerror=()=>res(null); q.src=u; })));
   const w=420, h=236, cols=4, rows=Math.ceil(ims.length/cols), k=document.createElement('canvas'); k.width=w*cols; k.height=h*rows+56; const g=k.getContext('2d'); g.fillStyle='#000'; g.fillRect(0,0,k.width,k.height);
   g.fillStyle='#fff'; g.font='bold 18px sans-serif'; g.fillText(a.title,8,22); g.font='13px sans-serif'; g.fillStyle='#ffd24d'; g.fillText(a.verdict,8,46);
@@ -202,6 +205,16 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     # ① 人
     ppl = await pg.evaluate(PEOPLE_JS, rm['counter']); row['m']['people'] = ppl
     row['v']['1_clerk'] = 'PASS' if ppl['clerk'] > 0 else ('FAIL' if rm['counter'] else 'UNKNOWN')
+    # BB-C 07:19 ③：站進家具的店員、面壁的客人（0.45 m 內）各一張近照（從他正前方 1.8 m、0.9 m 高看腳和櫃台）
+    for kind_, lst_ in (('furn', ppl.get('clerk_in_furniture') or []), ('wall', ppl.get('face_wall') or [])):
+        for j_, q_ in enumerate(lst_[:4]):
+            try:
+                ry = await pg.evaluate("((a)=>{ const n=(GAME.E.npcs||[]).find(n=>n&&n.obj&&Math.abs(n.obj.position.x-a[0])<0.02&&Math.abs(n.obj.position.z-a[1])<0.02); return n?n.obj.rotation.y:null; })", [q_[1], q_[2]])
+                if ry is None: continue
+                fx, fz = math.sin(ry), math.cos(ry)
+                u_ = await snap(pg, (q_[1] + fx * 1.8, 1.3, q_[2] + fz * 1.8), (q_[1], 0.7, q_[2]), 55)
+                open(os.path.join(OUT, 'close_%s_%s_%s_%d.png' % (kind_, zid, hh, j_ + 1)), 'wb').write(base64.b64decode(u_['u'].split(',', 1)[1]))
+            except Exception: pass
     row['v']['1b_people_pos'] = 'FAIL' if (ppl.get('clerk_in_furniture') or ppl.get('face_wall')) else ('PASS' if ppl['total'] else 'UNKNOWN')
     await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(400)
     s1 = await snap(pg, (ex + ux * 1.0, 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8), 66)
@@ -241,7 +254,13 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     if '6' in PARTS:
         z1 = await pg.evaluate(ZF_JS, {'from': [ex + ux * 1.0, 1.6, ez + uz * 1.0], 'at': [cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8]})
         z2 = await pg.evaluate(ZF_JS, {'from': [cx, 1.6, cz], 'at': [ex - ux * 2.0, 1.8, ez - uz * 2.0]})
-        bu = await pg.evaluate(BURST_JS, {})
+        bu = await pg.evaluate(BURST_JS, {'overlay': True})
+        await pg.evaluate(HIDE_PEOPLE + '(true)'); bu2 = await pg.evaluate(BURST_JS, {'overlay': True}); await pg.evaluate(HIDE_PEOPLE + '(false)')
+        # BB-C 07:19 ②：翻動的格子圈在截圖上（數字＝翻幾次）；另外把人都藏起來再連拍一次＝分得出是人在走還是真的閃
+        for nm_, x_ in (('', bu), ('_nopeople', bu2)):
+            if x_.get('img'): open(os.path.join(OUT, 'burst_%s_%s%s.jpg' % (zid, hh, nm_)), 'wb').write(base64.b64decode(x_['img'].split(',', 1)[1]))
+            x_.pop('img', None)
+        row['m']['burst_nopeople'] = {'blocks_flipping': bu2.get('blocks_flipping'), 'max_flips': bu2.get('max_flips')}
         zmax = max(z1['median'], z2['median']); row['m']['flicker'] = {'zf_entry': z1, 'zf_window': z2, 'burst': bu}
         # 校正 r2：0.05° 成對差在正常和已知會閃的店都在 0.2～1.1%（鋸齒），分不出來＝只當參考；改看連拍：同一格畫面亮度來回翻 ≥3 次的格子數
         #   0 格＝PASS；1～2 格＝UNKNOWN（交 BB 看連拍）；≥ BURST_FAIL 格＝FAIL（暫定，等有已知會閃的室內再校正）
@@ -273,7 +292,13 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         # 門面距離＝最常見的距離（0.25 m 一格），門面後面 0.8 m 以上還打得到東西的比例＝deep；平面圖／貼在玻璃後面的卡片 deep≈0
         rays = await pg.evaluate(DEPTH_JS, {'from': list(base), 'at': list(tgt)})
         # BB-C 06:26（X352 SHOP-WINDOW-3D）：店外也連拍——遊戲鏡頭在門外，邊轉 5 秒（同 BURST_JS），看櫥窗裡有沒有閃
-        try: row['m']['outside_burst'] = await pg.evaluate(BURST_JS, {})
+        try:
+            ob = await pg.evaluate(BURST_JS, {'overlay': True})
+            await pg.evaluate(HIDE_PEOPLE + '(true)'); ob2 = await pg.evaluate(BURST_JS, {'overlay': True}); await pg.evaluate(HIDE_PEOPLE + '(false)')
+            for nm_, x_ in (('', ob), ('_nopeople', ob2)):
+                if x_.get('img'): open(os.path.join(OUT, 'burst_out_%s_%s%s.jpg' % (zid, hh, nm_)), 'wb').write(base64.b64decode(x_['img'].split(',', 1)[1]))
+                x_.pop('img', None); x_.pop('per', None)
+            row['m']['outside_burst'] = ob; row['m']['outside_burst_nopeople'] = ob2
         except Exception as e: row['m']['outside_burst'] = {'error': repr(e)[:120]}
         row['m']['parallax'] = {'pixel_diff_info_only': pd, 'rays': rays}; row['m']['outside_magenta'] = a4['magenta_pct']
         # X352 r2：大步舊版（照片卡片放在門面後面）和新版（立體店內）deep 一樣＝deep 分不出卡片；改看門面後面打到的深度分散（p90−p10）
