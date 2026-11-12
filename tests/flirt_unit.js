@@ -28,5 +28,7 @@ const stageOf={}; const DS=DATE.stageNum; DATE.stageNum=id=>stageOf[id]!=null?st
     const res=await FLIRT.run(GM,who,id); const e=T[k], r1=SOCIAL.rel(id);
     check('2. 太早說（階段 1、need '+e.need+'）＝early、好感照 early 那一格',res==='early'&&said().includes(e.early.lines[0])&&Object.keys(e.early.rel).every(k2=>((r1[k2]||0)-(r0[k2]||0))===Math.max(-(r0[k2]||0),e.early.rel[k2])),J({res,said:said(),rel:e.early.rel})); }
   { const G=H.fresh('2025-10-15',15,'campus'); delete G.flags.FLIRT; let err=null; try{ FLIRT.talkOpts(G,'heroine_02'); }catch(x){ err=x; } check('5. 舊存檔不丟例外',!err,String(err)); }
+  { const G=H.fresh('2025-10-15',15,'campus'); const KX=FLIRT_LINES.people.kexin||[], gone=KX.filter(e=>e.gone);   /* CANON-NO-ECON-1112（AA_897）：AA 拿掉的那兩句留位置、不給選 */
+    check('6. 可昕：AA_897 拿掉的兩句標 gone、不在可以選的句子裡；其他人的句子沒有 gone',gone.length===2&&!FLIRT.left(G,'kexin').some(([e])=>e.gone)&&FLIRT.left(G,'kexin').length===KX.length-2&&Object.keys(FLIRT_LINES.people).filter(k=>k!=='kexin').every(k=>!FLIRT_LINES.people[k].some(e=>e.gone)),J(gone.map(e=>e.need))); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

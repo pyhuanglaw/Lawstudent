@@ -8202,12 +8202,18 @@
   },
   {
    "path": "docs/story_planning/AA_711_flirt.json",
-   "sha": "09e3a8d03",
+   "sha": "a9465983f0",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 04:10「AA_709、AA_711 都推了」）",
+   "approvedBy": "AA-B D109（11-07 04:10「AA_709、AA_711 都推了」）；a9465983f0：AA_897 第 2 節（CANON-NO-ECON-1112）拿掉可昕「（室友）叫我司機」那一個選項（AA_920 ⑩ 確認）",
    "task": "GIFT-FLIRT-1107",
    "kind": "json",
-   "note": "七位各 5 則（need 3～5、ok／early）；tools/story/import_flirt.py → src/data/flirt_lines.js"
+   "note": "七位各 5 則（need 3～5、ok／early）；tools/story/import_flirt.py → src/data/flirt_lines.js",
+   "history": [
+    {
+     "sha": "09e3a8d03",
+     "approvedBy": "AA-B D109（11-07 04:10「AA_709、AA_711 都推了」）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_712_heroine_arcs.json",

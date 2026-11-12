@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_flirt.py（docs/story_planning/AA_711_flirt.json@09e3a8d03）。不要手改，改企劃 AA_711 再重新匯入。
+/* 自動產生：tools/story/import_flirt.py（docs/story_planning/AA_711_flirt.json@a9465983f0）。不要手改，改企劃 AA_711 再重新匯入。
    說點不一樣的（GIFT-FLIRT-1107；播放 src/flirt3d.js）*/
 'use strict';
 const FLIRT_LINES={
- "src": "docs/story_planning/AA_711_flirt.json@09e3a8d03",
+ "src": "docs/story_planning/AA_711_flirt.json@a9465983f0",
  "people": {
   "heroine_01": [
    {
@@ -650,7 +650,7 @@ const FLIRT_LINES={
    },
    {
     "need": 3,
-    "t": "予樂叫我司機，我不介意。",
+    "t": "（CANON-NO-ECON-1112：這一句拿掉，AA_897）",
     "ok": {
      "lines": [
       "你不要鼓勵她。……可是她會很高興。"
@@ -665,7 +665,8 @@ const FLIRT_LINES={
       "你不要理她。"
      ],
      "rel": {}
-    }
+    },
+    "gone": true
    },
    {
     "need": 4,
@@ -709,7 +710,7 @@ const FLIRT_LINES={
    },
    {
     "need": 5,
-    "t": "重考那年，有妳傳的「還沒睡？」，我才撐下去的。",
+    "t": "（CANON-NO-ECON-1112：這一句拿掉，AA_897）",
     "ok": {
      "lines": [
       "你幹嘛突然說這個。",
@@ -727,7 +728,8 @@ const FLIRT_LINES={
      "rel": {
       "comf": -1
      }
-    }
+    },
+    "gone": true
    }
   ]
  }
