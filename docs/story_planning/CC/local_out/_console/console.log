@@ -146,3 +146,12 @@
 [14:21:13] [res] cpu=6% mem=35% (10.9/31.4 GB) chrome_testing=0  START GATE_CAL_flk_1cd2
 [14:22:48] 正在跑：GATE_CAL_bd86_r2（已跑 1 分／上限 30 分）、GATE_CAL_dc3d_xs_r2（已跑 1 分／上限 40 分）、GATE_CAL_flk_1cd2（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [14:24:01] [res] cpu=43% mem=48% (15.1/31.4 GB) chrome_testing=9  END GATE_CAL_flk_1cd2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2846c4a1a..ea393aab6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:24:09] ==== END   GATE_CAL_flk_1cd2  exit=1  171s   ====
+[14:24:12] memory 49% before starting GATE_CAL_flk_head (2 running)
+[14:24:12] ==== START GATE_CAL_flk_head  (probe @ c4e07078078a77df3fcc7cdfa5bf481992a0f8fc) ====
+[14:24:15] [res] cpu=27% mem=50% (15.7/31.4 GB) chrome_testing=9  START GATE_CAL_flk_head
+[14:24:15] worktree add c4e07078078a77df3fcc7cdfa5bf481992a0f8fc: invalid reference - fetching main and the commit itself
+[14:24:59] [res] cpu=45% mem=39% (12.1/31.4 GB) chrome_testing=4  END GATE_CAL_dc3d_xs_r2
