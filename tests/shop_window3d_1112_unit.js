@@ -16,7 +16,7 @@ for(const id of DONE){ const ni=J.nodes.findIndex(n=>n.name==='sk_in_'+id||n.nam
 ok(!J.nodes.some(n=>/^GLOW_shopin/.test(n.name||'')),'⑥ 立體店內不放 GLOW_shopin（整條街一個光暈網格，打烊關不掉）');
 /* 景深卡：做好的店不再用那一張參考圖（xs_fronts 的 <店>_int 那一格）——看 wz_street.py 的設定和 wz_shopkit.py 的分支 */
 const kit=fs.readFileSync(path.join(R,'tools/blender/env_second/wz_shopkit.py'),'utf8');
-ok(/XS_IN3D = \{[^}]*'dabu'/.test(kit)&&/in3d = bool\(c\.get\('int'\)\) and SET == 'xinsheng' and xs_inside3d/.test(kit),'⑦ wz_shopkit.py：XS_IN3D 有 dabu，xs_front 有立體店內就不放景深卡');
+ok(/XS_IN3D = \{[^}]*'dabu'/.test(kit)&&/in3d = bool\(c\.get\('int'\)\) and SET (== 'xinsheng'|in \('xinsheng', 'tingzhou'\)) and xs_inside3d/.test(kit),'⑦ wz_shopkit.py：XS_IN3D 有 dabu，xs_front 有立體店內就不放景深卡');
 /* 遊戲端：Z3.shopInsideLit 打烊調暗 */
 const src=fs.readFileSync(path.join(R,'src/zones3d.js'),'utf8'); const a=src.indexOf('  function shopInsideLit('); let d=0,b=-1; for(let i=src.indexOf('{',a);i<src.length;i++){ if(src[i]==='{') d++; else if(src[i]==='}'){ d--; if(d===0){ b=i+1; break; } } }
 ok(a>0&&b>a,'⑧ zones3d.js 有 shopInsideLit'); ok(/shopInsideLit,/.test(src.slice(src.lastIndexOf('return {B1C'))),'⑨ Z3 匯出 shopInsideLit');

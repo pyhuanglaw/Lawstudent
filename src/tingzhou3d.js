@@ -113,7 +113,8 @@ const TZ3=(function(){
     const FG=L.fromGongguan, zone={group:g,nav,spawn:{x:FG.x,z:FG.z,yaw:FG.yaw},lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.tingzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       const tzR=c.scene.clone(true); Z3.attachWenzhouModel(E,g,tzR,'tzfb','tingzhou_street_glb'); zone.tzFormal=true;
-      if(Z3.ggShopLit) Z3.ggShopLit(tzR,zone,S.SHOP_LIT_PLACE,{glow:false});   /* TZ-FRONT-LIT-1112（LAWWW2-C；店面標準 §12 第 1 點）：店面板（xs_fronts_lit：招牌字、玻璃後面的亮光，extras.xsShops＝tzxile,tztai,tzwen,tzlian,tzdong,tzkeju,tzyue,limao）照營業時間調暗——東南大聯、聯通、科舉、越好吃的招牌就在這一塊（不是 SIGN_FACE 板面），原本整晚亮。光暈由 shopRealGlow 管（glow:false）*/
+      if(Z3.ggShopLit) Z3.ggShopLit(tzR,zone,S.SHOP_LIT_PLACE,{glow:false});
+      if(Z3.shopInsideLit) Z3.shopInsideLit(tzR,zone,S.SHOP_IN_PLACE);   /* SHOP-WINDOW-3D-1112（LAWWW2-C）：溫特寶邸玻璃後面的立體店內（街景模型的 sk_in_wente）照營業時間調暗，做法同新生南路六間 */   /* TZ-FRONT-LIT-1112（LAWWW2-C；店面標準 §12 第 1 點）：店面板（xs_fronts_lit：招牌字、玻璃後面的亮光，extras.xsShops＝tzxile,tztai,tzwen,tzlian,tzdong,tzkeju,tzyue,limao）照營業時間調暗——東南大聯、聯通、科舉、越好吃的招牌就在這一塊（不是 SIGN_FACE 板面），原本整晚亮。光暈由 shopRealGlow 管（glow:false）*/
       if(Z3.shopInsideReal) Z3.shopInsideReal(E,g,zone,S.shopReal()); if(Z3.shopRealGlow) Z3.shopRealGlow(g,'tingzhou_street_glb',zone,S.shopReal());   /* SHOP-REAL-INSIDE-1112：走得進去的店，玻璃後面放那一間的室內模型（BB_379：汀州路泰米村食、東南大聯、汀州聯通店外是照片貼圖、和店內不一樣）*/
       }).catch(e=>console.warn('汀州路正式模型載入失敗，用方塊立面',e));
     // 路邊的機車、腳踏車（第 3 版；使用者 11-10 21:5x：「路邊新加的機車……長得幾乎一樣莫名其妙」；BB：兩側從頭排到尾、同樣間距、同樣角度，像複製貼上的一道牆）：
@@ -172,6 +173,7 @@ const TZ3=(function(){
      玻璃離立面多遠（S.REAL_DEP）＝街景模型 wz_street.py TZ_ARC 的 dep：有騎樓的三間 3.0 m，沒有騎樓的四間 3.2＋0.3＝3.5 m（整棟退到店面線）。 */
   S.REAL_DEP={taimi:3.0,xile:3.0,yindehao:3.0,liantong:3.5,dongnan:3.5,keju:3.5,yuehaochi:3.5};   /* TZ-SHUTTER-POS-1112（BB 11-12：這四間 23:30 的鐵捲門在騎樓外緣，蓋住招牌、機車）：沒有騎樓的四間整棟退到店面線（立面再往裡 arcade 3.2 m，wz_street.py TZ_XS 那一段的 pos），玻璃在那裡再退 0.3＝離立面 3.5 m。原本寫 0.3＝店內模型和鐵捲門都往街上多出 3.2 m */
   S.REAL_SX={liantong:[-1.95,1.95,2.8],dongnan:[-3.45,3.45,2.62],keju:[-2.4,1.45,2.7],yuehaochi:[-2.35,1.3,2.8]};   /* 鐵捲門只蓋玻璃那一段、高到玻璃上緣（wz_street.py TZ_XS 的 glass、glass_h）：不蓋住上面的招牌板（y 2.95 起）和旁邊的照片菜單 */
+  S.SHOP_IN_PLACE={wente:'tz_wente'};   /* 街景模型裡立體店內的網格 sk_in_<店> → 地點（營業時間）；tz_wente 還沒有營業時間＝一直算開著，places.js 補上以後就會跟著打烊變暗 */
   S.SHOP_LIT_PLACE={tzxile:'tz_xile',tztai:'tz_taimi',tzlian:'tz_liantong',tzdong:'tz_dongnan',tzkeju:'tz_keju',tzyue:'tz_yuehaochi',limao:'tz_limao'};   /* 店面板 uv1 店編號 → 地點（溫特寶邸 tzwen 還沒有營業時間＝照舊亮）*/
   S.shopReal=function(){ const T=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:null, Z=typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT:null, out=[]; if(!T||!Z) return out;
     for(const q of T.shops){ const L=Z[q.id], dep=S.REAL_DEP[q.id]; if(!L||dep===undefined||!/^tz_/.test(L.zone||'')) continue; const w=q.side==='W', gx=w?T.facade.west-dep:T.facade.east+dep, cz=(q.z0+q.z1)/2;
