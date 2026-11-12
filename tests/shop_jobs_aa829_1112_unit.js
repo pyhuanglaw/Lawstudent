@@ -241,18 +241,27 @@ await sec(10,async()=>{
     HOME.suite=h0.suite; let went=0; HOME.pgHome=()=>true; HOME.at=()=>false; HOME.go=async()=>{ went++; }; fresh(fri,26,'xs_dakou'); H.entered=[]; sleeps.length=0; await JOBS.nightSleep(GM,fri);
     check('10. 住家裡：回家（家裡的那一套接手），不進宿舍',JOBS.liveAt(H.G)==='home'&&went===1&&!H.entered.includes('dorm')&&sleeps.length===0,J([went,H.entered,sleeps]));
   } finally { HOME.suite=h0.suite; HOME.pgHome=h0.pg; HOME.go=h0.go; HOME.at=h0.at; }
-  /* 第 5 節第 7 點：越好吃上班那兩天同學來吃飯——點餐那一段後面：照平常的 meal_hello 一句＋「（你幫他點了餐。）」；每人一次 */
-  if(typeof SHOPMEET==='undefined'||typeof SHOP_MEET_LINES==='undefined'){ console.log('（跳過：沒有 SHOPMEET／SHOP_MEET_LINES）'); }
-  else { const MXI='classmate_mingxuan', hd0=SHOPMEET.helloDue, ML=SHOP_MEET_LINES.mealHello[MXI].base; const tue=TD('Y1S2',4,2); fresh(tue,16,'dorm'); hire('yue',[2,4]); let here=[MXI]; let askedAt=[];
-    try{ SHOPMEET.helloDue=(G,id)=>{ askedAt.push([G.zone,G.hour]); const r=G.flags.SHOP_MEAL_HI&&G.flags.SHOP_MEAL_HI[id]; return here.includes(id)&&!(Array.isArray(r)&&r[0]===G.day)?'dinner':null; };
-      await shift('yue',tue,['「再跟客人確認一次。」','「喊『小心燙』。」','「先補豆芽和九層塔。」']); const T=H.said.map(s=>s.t);
-      check('10. 越好吃：點餐那一段（旁白＋選了的那一句）後面＝他照平常的 meal_hello 一句、再「（你幫他點了餐。）」，然後才是端湯',J(T.slice(0,5))===J([Y9.segs[0].nov,'（客人說對。旁邊那桌已經在舉手了。）',ML[0],'（你幫他點了餐。）',Y9.segs[1].nov])&&H.said[2].who!==null&&H.said[3].who===null&&T.length===9,J(L()));
-      check('10. 問的時候人在店裡、是點餐的時候（17:30）；記 G.jobs.yue.mealHi、他那一餐算打過招呼',askedAt.every(a=>a[0]==='tz_yuehaochi'&&Math.abs(a[1]-17.5)<1e-6)&&J(JOBS.job(H.G,'yue').mealHi)===J([MXI])&&H.G.flags.SHOP_MEAL_HI[MXI][0]===tue,J(askedAt.slice(0,2))+J(JOBS.job(H.G,'yue').mealHi));
-      await shift('yue',tue+2,['「直接報給廚房。」']); check('10. 每人一次：下一班他又來＝不再加（meal_hello 也不在班上說）',H.said.length===7&&!said('（你幫他點了餐。）')&&!said(ML[1]),J(L()));
-      here=[MXI,'zhe']; await shift('yue',tue+7); check('10. 另一個同學第一次來＝他的一句＋那一句旁白',said(SHOP_MEET_LINES.mealHello.zhe.base[0])&&H.said.filter(s=>s.t==='（你幫他點了餐。）').length===1&&J(JOBS.job(H.G,'yue').mealHi)===J([MXI,'zhe']),J(L()));
-      here=[]; fresh(tue,16,'dorm'); hire('yue',[2,4]); await shift('yue',tue); check('10. 沒有同學來：照原本的七句',H.said.length===7&&!said('（你幫他點了餐。）'));
-      here=[MXI]; fresh(tue,16,'dorm'); hire('flower',[6,7]); await shift('flower',TD('Y1S2',4,7)); check('10. 別間店（花序）不會有這一段',H.said.length===7&&!said('（你幫他點了餐。）'));
-    } finally { SHOPMEET.helloDue=hd0; } }
+  /* 越好吃上班時同學來吃飯——點餐那一段後面。AA_828 第 5 節第 6 點（企劃線 d8afcca6ed）：不用 meal_hello，改 SHOP_JOBS_AA828.yueMeal 那一組；照人各記一次（第二次只有旁白）；阿哲、可昕各自一句；「他／她」照對方性別。
+     舊期望（AA_829 第 5 節第 7 點，34f35eb15a）：照平常的 meal_hello 一句＋「（你幫他點了餐。）」、同一個人第二次來什麼都沒有——照 AA_828 第 5 節改了。 */
+  const Y8=typeof SHOP_JOBS_AA828!=='undefined'&&SHOP_JOBS_AA828?SHOP_JOBS_AA828.yueMeal:null;
+  if(!Y8||typeof JOBS.yueMealRun!=='function'){ check('10. 有 SHOP_JOBS_AA828.yueMeal、JOBS.yueMealRun',false); }
+  else { const MXI='classmate_mingxuan', XC='classmate_xinci', mh0=JOBS.mealHere, ML=(typeof SHOP_MEET_LINES!=='undefined'&&SHOP_MEET_LINES.mealHello[MXI]||{base:[]}).base; const tue=TD('Y1S2',4,2); fresh(tue,16,'dorm'); hire('yue',[2,4]); let here=[MXI]; let askedAt=[];
+    const nm=id=>SOCIAL.displayName(id), P3=['「再跟客人確認一次。」','「喊『小心燙』。」','「先補豆芽和九層塔。」'];
+    try{ JOBS.mealHere=(G,id)=>{ askedAt.push([G.zone,G.hour]); return here.includes(id)?'dinner':null; };
+      check('10. 會來的人：meal_hello 那一群＋有自己句子的阿哲、可昕',JOBS.yueMealIds().includes(MXI)&&JOBS.yueMealIds().includes('zhe')&&JOBS.yueMealIds().includes('kexin')&&CHARACTERS.zhe.name==='阿哲'&&CHARACTERS.kexin.nickname==='可昕'&&JOBS.yueOwn(CHARACTERS[MXI])===null,J(JOBS.yueMealIds()));
+      await shift('yue',tue,P3); const T=H.said.map(s=>[s.who,s.t]);
+      check('10. 越好吃：點餐那一段後面＝旁白（門口的鈴……）→ 他「你在這裡打工喔？」→ 祐廷「對。要吃什麼？」→「（你幫他點了餐。）」，然後才是端湯；不說 meal_hello',J(T.slice(0,7))===J([[null,Y9.segs[0].nov],[null,'（客人說對。旁邊那桌已經在舉手了。）'],[null,'（門口的鈴響了。進來的人看到你穿著圍裙，停了一下。）'],[nm(MXI),'你在這裡打工喔？'],[H.G.name,'對。要吃什麼？'],[null,'（你幫他點了餐。）'],[null,Y9.segs[1].nov]])&&T.length===11&&!ML.some(t=>said(t)),J(T.slice(0,7)));
+      check('10. 問的時候人在店裡、是點餐的時候（17:30）；記 G.jobs.yue.mealHi、他那一餐算打過招呼（不動 meal_hello 輪到第幾句）',askedAt.length>0&&askedAt.every(a=>a[0]==='tz_yuehaochi'&&Math.abs(a[1]-17.5)<1e-6)&&J(JOBS.job(H.G,'yue').mealHi)===J([MXI])&&J(H.G.flags.SHOP_MEAL_HI[MXI])===J([tue,'dinner',0]),J(askedAt.slice(0,2))+J(JOBS.job(H.G,'yue').mealHi)+J(H.G.flags.SHOP_MEAL_HI));
+      await shift('yue',tue+2,['「直接報給廚房。」']); check('10. 同一個人第二次來＝只出旁白「（你幫他點了餐。）」，不再問（舊期望：什麼都沒有）',H.said.length===8&&H.said[2].who===null&&H.said[2].t==='（你幫他點了餐。）'&&!said('你在這裡打工喔？')&&!said(Y8.narr)&&!said(Y8.me),J(L()));
+      here=['zhe']; await shift('yue',tue+7,P3); check('10. 阿哲第一次來：他自己的那一句「欸！你在這裡打工？那我可以多加肉嗎？」（不說通用的）',saidBy(nm('zhe'),'欸！你在這裡打工？那我可以多加肉嗎？')&&!said('你在這裡打工喔？')&&said(Y8.narr)&&saidBy(H.G.name,'對。要吃什麼？')&&said('（你幫他點了餐。）')&&J(JOBS.job(H.G,'yue').mealHi)===J([MXI,'zhe']),J(L()));
+      here=['kexin',XC]; await shift('yue',tue+9,P3); const T3=H.said.map(s=>[s.who,s.t]);
+      check('10. 可昕第一次來：「你在這裡打工？……排幾點到幾點？」；女生＝「（你幫她點了餐。）」；芯慈（女生、沒有自己的句子）＝通用句＋「她」',saidBy(nm('kexin'),'你在這裡打工？……排幾點到幾點？')&&saidBy(nm(XC),'你在這裡打工喔？')&&H.said.filter(s=>s.t==='（你幫她點了餐。）'&&s.who===null).length===2&&!said('（你幫他點了餐。）')&&H.said.filter(s=>s.t===Y8.narr).length===2&&JOBS.job(H.G,'yue').mealHi.length===4,J(T3.slice(2,10)));
+      here=['kexin']; await shift('yue',tue+14); check('10. 可昕第二次來＝只有「（你幫她點了餐。）」',H.said.length===8&&H.said[2].t==='（你幫她點了餐。）'&&!said('你在這裡打工？……排幾點到幾點？'),J(L()));
+      here=[]; fresh(tue,16,'dorm'); hire('yue',[2,4]); await shift('yue',tue); check('10. 沒有同學來：照原本的七句',H.said.length===7&&!said('（你幫他點了餐。）')&&!said(Y8.narr));
+      here=[MXI]; fresh(tue,16,'dorm'); hire('yue',[2],{mealHi:[MXI]}); await shift('yue',tue); check('10. 舊存檔（舊規則下他已經來過、記在 mealHi）：只出旁白、不壞',H.said.length===8&&H.said[2].t==='（你幫他點了餐。）');
+      here=[MXI]; fresh(tue,16,'dorm'); hire('flower',[6,7]); await shift('flower',TD('Y1S2',4,7)); check('10. 別間店（花序）不會有這一段',H.said.length===7&&!said('（你幫他點了餐。）')&&!said(Y8.narr));
+    } finally { JOBS.mealHere=mh0; }
+    fresh(tue,17.5,'tz_yuehaochi'); check('10. JOBS.mealHere（沒有換掉的）：沒有排進這間店吃飯的人＝null、不丟例外',JOBS.mealHere(H.G,MXI)===null||typeof JOBS.mealHere(H.G,MXI)==='string'); }
   const g2=JSON.parse(J(H.G)); check('10. 存檔 JSON 來回不壞',J(g2.jobs)===J(H.G.jobs)); });
 
 console.log(H.fails?'FAILED '+H.fails:'ALL PASS'); process.exit(H.fails?1:0);

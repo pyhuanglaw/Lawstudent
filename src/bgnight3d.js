@@ -66,7 +66,10 @@ const BGN=(function(){
     return {days:[5],from:S.H0,to:S.H1,zone:null,act:'out',away:L.away,note:'AA_623 桌遊夜'}; };
   /* 那一晚玩家沒空（AA_828 第 3 節＋第 4 節第 1、2 點，SHOP-JOBS-1112）：那一晚有打工的班和桌遊夜重疊（JOBS.bgnBusy：南洋戲院週五晚場、便利商店週五夜班……所有打工都一樣）——
      明軒照樣約、群組的回覆照舊；**不用玩家回**（沒有可以回的選項），系統自動當沒空、不排出遊；先答應了才排到班的（答應以後才應徵）＝那一晚的出遊取消，不要兩個都演。
-     2026-11-12 以前：玩家只有「這次不行。」可以回（明軒回「好，兩個禮拜後還有。」）——AA 第 4 節第 1 點改成不用回 */
+     2026-11-12 以前：玩家只有「這次不行。」可以回（明軒回「好，兩個禮拜後還有。」）——AA 第 4 節第 1 點改成不用回。
+     AA_828 第 5 節第 4 點（d8afcca6ed）：系統自動當沒空時，祐廷自動回一句「這次不行，我有班。」、明軒照舊回「好，兩個禮拜後還有。」（字在 SHOP_JOBS_AA828.bgnBusy，匯入）——玩家不用操作。
+     排在那一串的最後（大家的回覆之後）；還沒進群組的那一次（明軒私訊約）一樣回在私訊裡（稿寫「群組裡」，私訊比照——不然明軒那兩句沒有人回） */
+  S.busyReply=()=>{ const B=typeof SHOP_JOBS_AA828!=='undefined'&&SHOP_JOBS_AA828&&SHOP_JOBS_AA828.bgnBusy; return B&&B.me&&B.re?B:null; };
   S.busy=(G,d)=>{ try{ return typeof JOBS!=='undefined'&&!!JOBS.bgnBusy&&!!JOBS.bgnBusy(G,d); }catch(e){ return false; } };
   /* 手機：當天 12:00 明軒約 */
   S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined'||!hasCal()) return; const F=G.flags, d=G.day, busy=S.isNight(d)&&S.busy(G,d);
@@ -81,6 +84,7 @@ const BGN=(function(){
         if(knows('classmate_bohan',G)&&!F.BGN_BH){ items.push(R('classmate_bohan',L.bh),R(MX,L.bhMx)); F.BGN_BH=d; }
         if(knows('classmate_xinci',G)) items.push(R('classmate_xinci',L.xc[n%L.xc.length]));
         if(knows('classmate_peishan',G)&&S.psOn(d)) items.push(R('classmate_peishan',L.ps),R(MX,L.psMx)); }
+      if(busy){ const B=S.busyReply(); if(B) items.push({th,from:'player',who:null,text:B.me,dt:2/60},{th,from:MX,text:B.re,dt:2/60}); }   /* 有班：祐廷自動回、明軒照舊回 */
       F.BGN_INV_N=n+1; PHONE.at(G,d,h,items,'bgn_inv_'+d); }
     if(F.BGN_GO===d&&typeof OUT!=='undefined'&&!OUT.get(G,'bgn_'+d)&&G.day*24+G.hour<d*24+S.H0+0.5)
       OUT.plan(G,{id:'bgn_'+d,ev:S.EV,day:d,h:S.H0,late:0.5,place:S.PLACE,title:'桌遊夜（日常失速）',travel:'走過去約 15 分鐘',travelH:0.25}); };
