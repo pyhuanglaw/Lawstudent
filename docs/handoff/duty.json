@@ -13,12 +13,12 @@
   "C",
   "D"
  ],
- "onDuty": "C",
- "previous": "A",
+ "onDuty": null,
+ "previous": "C",
  "accountState": {
   "A": "off",
   "B": "off",
-  "C": "on",
+  "C": "off",
   "D": "unused"
  },
  "roles": {
@@ -26,16 +26,18 @@
    "account": "C",
    "session": "session_01Me1thu8Zn934H58kWKNfuF",
    "branch": "claude/adoring-meitner-mqzst8",
-   "sha": "4e248bb5",
+   "sha": "d8268b3e",
    "sinceSha": "4e248bb5",
    "since": "2026-11-12T03:13Z",
-   "state": "on",
+   "state": "handed-off",
    "prev": {
     "account": "A",
     "session": "session_01Eds6msqpsuzNEw98sdw8JX",
     "branch": "claude/confident-ritchie-8rwh7t",
     "sha": "702ff44e"
-   }
+   },
+   "handedOffAt": "2026-11-12T22:23Z",
+   "handoffSnapshot": "docs/handoff/snapshots/2026-11-12T2223Z_C_LAWWW.json"
   },
   "LAWWW2": {
    "account": "C",
@@ -107,8 +109,10 @@
    "LAWWW2": {
     "file": "2026-11-12T2212Z_C_LAWWW2.json",
     "ref": "origin/claude/focused-cray-c9uwvw"
-   }
-  }
+   },
+   "LAWWW": "docs/handoff/snapshots/2026-11-12T2223Z_C_LAWWW.json"
+  },
+  "closed": true
  },
  "history": [
   {
@@ -1232,7 +1236,7 @@
    "resolved": false
   }
  ],
- "seq": 143,
+ "seq": 144,
  "chain": [
   {
    "seq": 1,
@@ -2234,15 +2238,14 @@
    "account": "C",
    "role": "LAWWW2",
    "event": "sync"
+  },
+  {
+   "seq": 144,
+   "at": "2026-11-12T22:23Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "handoff"
   }
  ],
- "pending": {
-  "from": "C",
-  "rolesHandedOff": [
-   "AA",
-   "BB",
-   "CC",
-   "LAWWW2"
-  ]
- }
+ "pending": null
 }
