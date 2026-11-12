@@ -1,4 +1,5 @@
 """CC（帳號 A）11-10：TINGZHOU_V1（汀州路商圈第 1 版，X321／X322；BB 20:45；開發分支 7a625da3c）。Playwright（PC GPU）≠ iPhone。
+CC_02 清單 2026-11-12：1✓ 2✓（座位、期望數從 TZ_SHOPS_LAYOUT 讀＋BB 數字） 3✓（sit_all 每張都試、有人坐的跳過並記） 4✓ 5✓ 6✓ 7✓ 8✓ 9✓（拍照鏡頭先跑 fadeWalls、藏玩家） 10✓ 11✓ 12✓ 13✓（CC-C 11-12 只加 PARTS=INT 的 SEATS=1；其他部分是帳號 A 寫的，這次沒改）
 對照的程式（7a625da3c）：src/data/tingzhou_layout.js（路 x −5～5、騎樓 3.2 m、立面 x ±5、店面 x ±8.2；walk z −40～40；巷 A 東側 z −2.5～2.5；fromGongguan (27,0)；
   toGongguan (28.6,0) r1.4 → 公館 (37.1,18)；shops 西側 W／東側 E）、src/tingzhou3d.js（店的互動：label「看＋店名」或「進＋店名」、look 原文；公館 G10 門口「往汀州路（巷子）」tzGate）。
 PARTS：
@@ -388,6 +389,17 @@ async def part_int(pg, cdp):
                 okf = await walk_pt(bfs['far'][0], bfs['far'][1], '%s 走到離出口最遠的站得住點 %s（%.1f m）' % (tag, bfs['far'], bfs['farD']))
                 R.check('%s 走到離出口最遠的站得住點 %s' % (tag, bfs['far']), okf, '')
             R.check('%s 店裡走一圈（四個角落都走得到、沒有隱形牆）' % tag, not miss, J({'pts': pts, 'miss': miss}))
+            if os.environ.get('SEATS') == '1':   # CC-C 11-12（BB-C 03:56 ⑥ TINGZHOU-SHOPS5：「5 桌 16 座都坐得下、不卡」）：每張位子照玩家點椅子走過去、按坐下、起身、推得動（D.sit_all，同 cc_d141_lib）
+                nlay = await pg.evaluate("(s=>{ const L=TZ_SHOPS_LAYOUT[s]; return {seats:(L.seats||[]).length, tables:(L.tables||[]).length}; })", sid)
+                its_s = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>i.seat&&!i.hidden).length)()")
+                R.note('%s 配置 TZ_SHOPS_LAYOUT.%s：%s；店裡能坐的互動點 %d 個' % (tag, sid, J(nlay), its_s))
+                exp = {'yuehaochi': (16, 5)}.get(sid)   # 期望：LAWWW2 tz_shops_layout.js note「16 個座位」、BB-C 03:56「5 桌 16 座」
+                if exp: R.check('%s 配置是 %d 座、%d 桌（BB-C 03:56）；店裡能坐的互動點也是 %d 個' % (tag, exp[0], exp[1], exp[0]), nlay['seats'] == exp[0] and nlay['tables'] == exp[1] and its_s == exp[0], J([nlay, its_s]))
+                rs = await D.sit_all(pg, cdp, tag, 'tz_%s_%s_seat' % (sid, hh))
+                bad = [x for x in rs if isinstance(x, list) and len(x) > 1 and x[1] not in ('ok', 'occupied')]
+                occ = [x for x in rs if isinstance(x, list) and len(x) > 1 and x[1] == 'occupied']
+                R.note('%s 坐位結果：%s' % (tag, J(rs)))
+                R.check('%s 每一張都坐得下（有人坐的跳過 %d 張；坐不下 %d 張）' % (tag, len(occ), len(bad)), not bad and len(occ) <= len(rs) // 2, J(bad[:4]))
             await pg.evaluate("window.__TZ=[]")
             sp = L_['spawn']
             V = [('門口往裡', (sp['x'], 1.6, D_ / 2 - 0.3), (0.0, 1.3, -D_ / 2 + 1.0), 62),
