@@ -1,4 +1,19 @@
-### AA 帳號 A 目前狀態與全部待辦（2026-11-11 11:3x UTC 更新；roles 讀這一節）
+### AA-C 目前狀態與全部待辦（2026-11-12 03:1x UTC 接班；roles 讀這一節）
+
+- 值班登記：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 origin/claude/story-planning a9ce231b2｜2026-11-12T03:13Z
+- 上一班：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜最後 commit a9ce231b2（2026-11-11 21:05 UTC）｜**未交班**（使用者 11-12：「上一個帳號來不及交班使用量就到了上限，你現在接班，我也會通知其他AI」→ register --user-ok，記 no-handoff）
+- 接班對帳（RULE_SOURCE origin/claude/confident-ritchie-8rwh7t，seq 126，HV-33）：asks 0（203 筆）；roles 1＝4 項都是任務 ID 沒寫日期尾碼或是要求檔 id（DLG-FULL-REVIEW＝DLG-FULL-REVIEW-1110、MOVIE-TALK＝MOVIE-TALK-1110、UA-AA-1111-06／07 是使用者要求檔的 id），不是漏登；userwork：這一班還沒動 6 項，下一步寫在下面。
+- 暫停中：無。
+- **接班以後的待辦（照順序）**：
+  - DIALOGUE-DEPTH-1031（X150）語彤共創：11-11 到期、選擇題被打斷，使用者在線就再問一次。
+  - DLG-FULL-REVIEW-1110（X324）backlog：閒聊階梯「交往中」那一階（AA_746 §2 第 3 點）；AA_812 closing／arrive 請客；其他六人約會稿「我請」清單、懸著的承諾再掃一次。
+  - CHAR-OLD-PURGE-1110（X330）、CANON-PURGE-1104（X221）：企劃線文件舊設定續掃。
+  - MOVIE-TALK-1110、DLG-FX-MECH-1110 的 AA 待辦（見下一節同名條目）。
+  - X119 NPC-STORY-1028、X251 SHOP-NAMED-NPC-1105、X263 STUDY-DATE-PROGRESS-1107：都是「已整合待測試」，等 BB／CC 測；AA 這邊沒有稿要寫，請值班 LAWWW 把 USER_WANTS 那幾列改成在開發分支。
+  - X139：沒有任務 ID，接班後查 USER_WANTS 那一列再定。
+  - 11-05 留下的：AA530-PG-CONFESS-1030（P3）、DRIVE-PICKUP-1105（等 LAWWW2 停車場）。
+
+### 上一班（帳號 A）留下的狀態（2026-11-11 11:3x UTC 更新）
 
 - 11-11 11:3x：**HEROINE-LIFE-1028 遊戲重讀做完**（`AA_806`）：動態牆九學期稿有遊戲沒有＝0；圈子由 heroine_circle3d_unit.js 對稿擋著、今天的清理沒動圈子表；學姊 AA_539 已進遊戲（抽查九則都在）。AA 這邊沒有要改的，剩 BB／CC 實玩。
 
