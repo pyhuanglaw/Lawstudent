@@ -55833,6 +55833,36 @@
    "next": "【LAWWW-C 11-12 12:1x UTC】index.html 加橫向、畫面高 500 px 以下的排法：各自照字長、短的同一列、目標一行；雲端瀏覽器 844×340 量 134→56 px。CC 在手機大小（橫向 844×390、740×340、直向不變）拍主畫面、有導引和沒導引各一張，BB 判",
    "source": "使用者 2026-11-12 12:0x 原話＋截圖（UA-LAWWW-1112-31，X363）",
    "authorized": true
+  },
+  {
+   "id": "CANON-NO-ECON-1112",
+   "title": "【下一版必須】拿掉經濟系那一年（人物、事件、場景）、重考劇情、政大（木柵大學）的東西；杜可昕改成首都帝大法律系的同學、不是女朋友",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新遊戲開始",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 12:1x UTC】使用者原話已記（UA-LAWWW-1112-32、X364）。立即停：經濟系流程的新工作（D99 第一優先取消）、可昕交往線的新稿和匯入。先做：盤點範圍清單（程式、資料、場景、測試、存檔旗標）；問使用者兩題（舊存檔怎麼接、可昕之後能不能追）；通知 AA／BB／LAWWW2／CC。刪之前先在開發分支留標記 commit，舊存檔要有遷移（D20）",
+   "source": "使用者 2026-11-12 12:1x 原話（UA-LAWWW-1112-32）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW",
+    "to": "AA",
+    "receiver": "AA",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "spec": "使用者原話",
+    "ack": "SENT",
+    "acceptance": "BB 瀏覽器判：新遊戲直接從法律系大一開始、找不到經濟系／重考／政大的任何內容、可昕在法律系出現且不是女朋友、舊存檔讀得進來"
+   }
   }
  ]
 }
