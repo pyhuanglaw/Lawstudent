@@ -54612,6 +54612,34 @@
    },
    "source": "使用者 11-12 對 LAWWW-C",
    "authorized": "使用者直接要求"
+  },
+  {
+   "id": "RULES-SYNC-1112",
+   "title": "P0 規則包同步（D157）：每條分支啟動時載入的 CLAUDE.md、hook 要和 RULE_SOURCE 一樣；rules_sync.py＋hook＋duty register 擋（X362）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "11-12 查到 AA、BB、LAWWW2、CC 四條分支的 CLAUDE.md 都是舊版、完全沒有 hook。工具已寫（tools/handoff/rules_sync.py --check／--apply／--hook）；已通知四個職位當回合 --apply＋commit＋push；LAWWW 收到四個 ACK 後用 git 比對四條分支的 CLAUDE.md 和 RULE_SOURCE 一樣才算完成；之後每次改規則當回合通知",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 對 LAWWW-C",
+   "authorized": "使用者直接要求"
   }
  ]
 }

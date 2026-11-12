@@ -6,9 +6,11 @@
 > 3. 讀 **RULE_SOURCE 上的** `CLAUDE.md`（本檔）和**自己職位的** `docs/rules/ROLE_<LAWWW|LAWWW2|AA|BB|CC>.md`，再看 `docs/AI_SESSION_HANDOFF.md` 第 13 節（自己上次值班以後新增的 HV）。
 > 4. 照本檔 §4 的接班步驟做完、`duty register` 登記，才開始一般工作。
 >
+> **你啟動時看到的這份 CLAUDE.md 可能是舊的**（D157）：工作階段自動載入的是**自己分支**根目錄的 CLAUDE.md 和 hook，不是 RULE_SOURCE 的。所以第 3 步之前先跑 `python3 tools/handoff/rules_sync.py --apply`（沒有這支就 `git checkout origin/<RULE_SOURCE> -- tools/handoff` 再跑）、commit＋push——把 CLAUDE.md、`docs/rules/`、hook、`tools/handoff/`、FACTS.md 換成 RULE_SOURCE 的版本。之後每則使用者訊息 hook 都會比一次，舊了會提醒；`duty register` 遇到舊的規則包不給登記。值班 LAWWW 每次改規則，當回合通知同帳號各職位跑 `--apply`。
+>
 > 不准照舊對話、舊版 CLAUDE.md、啟動時載入的檔案假設「只有 A、B」或假設上一任是誰；上一任只看 `docs/handoff/duty.json` 的登記鏈。不叫醒休班帳號。
 
-**每一條規則只放一個地方**（使用者 2026-11-10 選擇題）：共同規則在本檔；各職位自己的做法在 `docs/rules/ROLE_<職位>.md`。D 編號是標籤，`grep -rn "D84" CLAUDE.md docs/rules` 找得到原本那一條。已經被取代的舊規則直接刪掉（git 歷史留著），不另外封存。下一個新決策用 **D156**。
+**每一條規則只放一個地方**（使用者 2026-11-10 選擇題）：共同規則在本檔；各職位自己的做法在 `docs/rules/ROLE_<職位>.md`。D 編號是標籤，`grep -rn "D84" CLAUDE.md docs/rules` 找得到原本那一條。已經被取代的舊規則直接刪掉（git 歷史留著），不另外封存。下一個新決策用 **D158**。
 
 ---
 
@@ -214,6 +216,7 @@
 3. **Git 安全**：確認分支與 worktree → `git status` → 只加這次要存、自己負責的檔（**不 `git add .`**）→ 看得懂的 commit 訊息 → push 自己的遠端分支 → 核對 SHA。不 force push、不為了保存合併 main、不覆寫其他 AI 的工作、不提交密鑰或授權不明的素材、沒有使用者確認不重寫 Git 歷史（D66）。雲端工作階段只能 push 系統指定的分支；被擋的操作不反覆重試。
 4. **所有有效成果都要保存、整合、驗證**（D88）：WIP 分支不當唯一備份；休班帳號的分支不因為很久沒更新就刪；分支整理由 LAWWW 做（ROLE_LAWWW）。
 5. **測試在哪跑**（D131、D139）：瀏覽器測試（探針、流程、截圖、線上版）一律排使用者電腦（CC 的佇列）；電腦不能用時功能類丟 GitHub Actions，效能、顏色等電腦；**全部 Node 單元測試以 GitHub Actions 的 `node-unit-auto` 為準**（推到 `claude/**`、改到 src／tests／lib／assets／index.html 就自動跑），雲端只跑這次改到的那幾支。寫程式的人跑幾秒的 Node 單元測試照舊；測試的範圍與判定歸 BB（細節 ROLE_BB、ROLE_CC）。
+5a. **使用者的電腦不能空轉**（D156，使用者 2026-11-12 對 CC-C：「你該測試的都已經測試完了嗎？因為我的電腦又沒有在跑……雲端跑的速度比電腦慢很多……為什麼有的 AI 還要自己跑測試」）：每個職位每個工作節點都可以看 cc-local 最後一筆 result 的時間。佇列有能跑的項目、電腦卻 15 分鐘以上沒有新 commit＝電腦停了，**當下告訴使用者**；佇列沒有能跑的項目、電腦空轉 10 分鐘以上＝CC 沒排工作，CC 立刻補排。**任何人不准為了在雲端先驗、或等別人回覆，讓電腦等**：瀏覽器測試直接排電腦，雲端瀏覽器只在電腦離線時當備援；Node 交 GitHub Actions `node-unit-auto`。
 6. Playwright 手機模擬≠iPhone 實機；Node 通過≠可玩；分清楚寫。
 7. **進得去的地方都要過「地點關卡」才算驗收**（D154，使用者 2026-11-12：「電腦讓你跑測試就是我不想要連很基本的東西都要自己跟你講」）：每一間店、每個室內、每條街在 `ART_APPROVED`、已驗收、發布以前，機器先查店員、客人、窗景、天花板、純色塊、門、店外看進去立不立體、進得去出得來、買得到東西——三層（Node 資料檢查 → 瀏覽器機器人固定四個鏡頭 → BB 看圖判）寫在 `docs/rules/ROLE_BB.md` 2.6；任何一層沒跑＝沒驗。發現新的「一眼看得出來」的問題，當天加進檢查，不是只修那一間。
 
