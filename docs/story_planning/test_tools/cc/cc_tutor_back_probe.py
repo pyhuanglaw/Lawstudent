@@ -6,7 +6,10 @@
      照玩家：打開手機 →「訊息」→ 明軒那一串 → 截圖（剛打開看得到選項嗎：按鈕在不在對話框的可視範圍、要不要往回捲、有沒有被蓋到）→ 看不到就捲到它再截一張 →
      按「我現在可以接家教了。」→ 截圖 → 記明軒回的那句、TUTOR_RE_ANS／TUTOR_STOP／TUTOR_TERM_Y2S1 → 再跑一次手機檢查 → 記有沒有排下一堂家教（G.outings 裡 tutor 的那幾筆）。
 CC_02 清單 2026-11-12：1✓（日子從遊戲讀：CALENDAR.termDays 大一下、大二上開學日） 2✓（明軒那一串、選項從畫面的 data-th／data-ask 找） 3✓（同一個存檔往後，不重讀） 4✓（選項照字找「我現在可以接家教了。」） 5n/a（手機操作，不走路） 6✓（每一步等 1～1.6 秒） 7✓ 8n/a（不判，給 BB） 9n/a（手機截圖不藏東西） 10✓（條件事件關掉） 11✓ 12✓（兩次打開手機同樣欄位） 13✓（讀檔、旗標、跳日子標【捷徑】）
-用法：LW_TESTS=<wt>/tests SHA=<sha> python3 cc_tutor_back_probe.py <url> <out>"""
+三種起點（CASES，BB-C 11:51 照 AA_828 §10，同一支）：NO＝①按「不了」（上面這條）；EXPIRE＝開學那一則完全不回、讓它過期（第 4 題：一樣要出選項）；
+  SKIP3＝開學那一則回「來」，然後【捷徑】記成連續三週沒去先停（G.flags.TUTOR_STOP＝大一下開學後第 30 天；第 6 題：不算回「不了」，下學期明軒要先問一次＝tutor_re_Y2S1，不是直接掛選項）。
+  三種都記：選項／再問那一則是不是明軒那一串「最新一則」（第 5 題）。每一種重新讀檔。
+用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=NO,EXPIRE,SKIP3] python3 cc_tutor_back_probe.py <url> <out>"""
 import os, sys, json, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
@@ -19,6 +22,7 @@ SHA = (os.environ.get('SHA') or '')[:10]
 R = L.Run('tutor_back', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 MX = 'p:classmate_mingxuan'
+CASES = [c for c in (os.environ.get('CASES') or 'NO,EXPIRE,SKIP3').split(',') if c]
 TERMS = r"""(()=>{ const a=CALENDAR.termDays('Y1S1'), b=CALENDAR.termDays('Y1S2'), c=CALENDAR.termDays('Y2S1'); const k=d=>CALENDAR.dateOf(d).key; return {y1s1:a, y1s2:b, y2s1:c, k1:k(b.from), k2:k(c.from)}; })()"""
 PREP = r"""(a=>{ const G=GAME.G, F=G.flags; F.JOB_TUTOR=true; F.tutorFromDay=a.from; if(!G.contacts) G.contacts={}; if(G.contacts.classmate_mingxuan==null) G.contacts.classmate_mingxuan=2;
   G.hour=12.05; try{ JOBS.phone(G); }catch(e){ return 'ERR '+String(e).slice(0,120); } return {start:JOBS.tutorStartTerm?JOBS.tutorStartTerm(G):null}; })"""
@@ -46,59 +50,82 @@ async def close_phone(pg, cdp):
         await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(800)
 
 
+async def one(pg, cdp, T, case, res):
+    tag = '[%s]' % case
+    await pg.goto(URL); await L.wait_loaded(pg)
+    await D.load_zone(pg, cdp, 'dorm', T['k1'], 11.9, wait=5000)
+    pr = await pg.evaluate(PREP, {'from': T['y1s1']['from'] + 40})
+    R.setup('%s ①【前置／捷徑】讀檔到宿舍 %s（大一下開學第一天）11:54；旗標 JOB_TUTOR、tutorFromDay＝大一上第 40 天；12:05 跑一次 JOBS.phone → %s' % (tag, T['k1'], J(pr)))
+    m1 = await pg.evaluate(MSGS, MX); R.note('%s ① 明軒那一串：%s' % (tag, J(m1)))
+    if not R.check('%s ① 開學那一則（tutor_term_Y1S2）有來' % tag, any(m['ask'] and m['ask']['id'] == 'tutor_term_Y1S2' for m in m1), J(m1)): return
+    if case in ('NO', 'SKIP3'):
+        ok = await open_thread(pg, cdp); v = await pg.evaluate(VIEW); await pg.screenshot(path=os.path.join(OUT, 'tutor_%s_1_term_ask.png' % case))
+        asks = [a for a in v.get('asks', []) if not a['dis']]
+        R.note('%s ① 打開明軒那一串（點到 %s）：選項 %s' % (tag, ok, J(asks)))
+        if not R.check('%s ① 看得到兩個選項' % tag, len(asks) >= 2, J(v.get('asks'))): return
+        k = 1 if case == 'NO' else 0
+        R.note('%s ① 按「%s」' % (tag, asks[k]['t']))
+        await L.tap(pg, cdp, '#phoneBody [data-ask=%s]' % J(asks[k]['v'])); await pg.wait_for_timeout(1600)
+        await pg.screenshot(path=os.path.join(OUT, 'tutor_%s_2_answered.png' % case))
+        await close_phone(pg, cdp)
+    else:
+        R.note('%s ① 開學那一則不回（讓它過期）' % tag)
+    if case == 'SKIP3':
+        await pg.evaluate("(a=>{ GAME.G.flags.TUTOR_STOP=a; })", T['y1s2']['from'] + 30)
+        R.setup('%s ①b【捷徑】記成連續三週沒去先停：G.flags.TUTOR_STOP＝大一下開學後第 30 天（沒有 TUTOR_RE_NO）' % tag)
+    t1 = await pg.evaluate(TUT); R.note('%s ① 之後旗標：%s' % (tag, J(t1['flags'])))
+    await pg.evaluate("(a=>{ const G=GAME.G; G.day=a.d; G.weekday=CALENDAR.dateOf(a.d).wd%7; G.hour=12.5; try{ JOBS.phone(G); }catch(e){} })", {'d': T['y2s1']['from']})
+    await pg.wait_for_timeout(1500)
+    R.setup('%s ②【捷徑】日子直接跳到 %s（大二上開學第一天）12:30、跑一次 JOBS.phone' % (tag, T['k2']))
+    t2 = await pg.evaluate(TUT); m2 = await pg.evaluate(MSGS, MX)
+    hang = [m for m in m2 if m['ask'] and str(m['ask']['id']).startswith('tutor_back_')]
+    reask = [m for m in m2 if m['ask'] and str(m['ask']['id']).startswith('tutor_re_')]
+    last = len(m2) - 1
+    R.note('%s ② tutorBackDue=%s；旗標 %s；明軒那一串（%d 則）：%s' % (tag, t2['due'], J(t2['flags']), len(m2), J(m2)))
+    R.note('%s ② 「接家教」選項掛在：%s；再問那一則：%s' % (tag, J([{'第幾則': m['i'] + 1, '共幾則': len(m2), 'text': m['text'], 'ask': m['ask']} for m in hang]), J([{'第幾則': m['i'] + 1, 'text': m['text'], 'ask': m['ask']} for m in reask])))
+    rec = {'t1': t1, 't2': t2, 'msgs': m2}
+    res[case] = rec
+    if case == 'SKIP3':
+        R.check('%s ② 不直接掛「我現在可以接家教了。」（不算回不了）' % tag, not any(any('我現在可以接家教了' in o for o in m['ask']['opts']) for m in hang), J(hang))
+        R.check('%s ② 明軒先問一次（tutor_re_Y2S1）、而且是最新一則' % tag, any(m['ask']['id'] == 'tutor_re_Y2S1' and m['i'] == last for m in reask), J(reask))
+        ok = await open_thread(pg, cdp); v2 = await pg.evaluate(VIEW); await pg.screenshot(path=os.path.join(OUT, 'tutor_%s_3_reask_open.png' % case))
+        R.note('%s ② 打開明軒那一串：%s' % (tag, J(v2))); rec['view'] = v2
+        await close_phone(pg, cdp); return
+    R.check('%s ② 明軒那一串多一個「我現在可以接家教了。」的選項' % tag, any(any('我現在可以接家教了' in o for o in m['ask']['opts']) for m in hang), J(hang))
+    R.check('%s ② 選項掛在最新一則底下（第 5 題）' % tag, any(m['i'] == last for m in hang), J([[m['i'] + 1, len(m2)] for m in hang]))
+    ok = await open_thread(pg, cdp); v2 = await pg.evaluate(VIEW); await pg.screenshot(path=os.path.join(OUT, 'tutor_%s_3_back_open.png' % case))
+    R.note('%s ② 剛打開明軒那一串（點到 %s）：捲動 %s/%s（看得到 %s、在最下面 %s）；選項 %s' % (tag, ok, v2.get('scrollTop'), v2.get('scrollHeight'), v2.get('clientHeight'), v2.get('atBottom'), J(v2.get('asks'))))
+    want = next((a for a in v2.get('asks', []) if '我現在可以接家教了' in a['t']), None); rec['view'] = v2
+    R.check('%s ② 剛打開就看得到選項（在可視範圍、沒被蓋到、按得到）' % tag, bool(want) and want['inView'] and want['onTop'] and not want['dis'], J(want))
+    if want and not (want['inView'] and want['onTop']):
+        await pg.evaluate("(v=>{ const b=document.querySelector('#phoneBody [data-ask=\"'+v+'\"]'); if(b) b.scrollIntoView({block:'center'}); })", want['v']); await pg.wait_for_timeout(800)
+        v3 = await pg.evaluate(VIEW); await pg.screenshot(path=os.path.join(OUT, 'tutor_%s_4_back_scrolled.png' % case))
+        R.note('%s ② 要捲過去才看得到：捲到 %s；選項 %s' % (tag, v3.get('scrollTop'), J(v3.get('asks')))); want = next((a for a in v3.get('asks', []) if '我現在可以接家教了' in a['t']), want)
+    if want:
+        await L.tap(pg, cdp, '#phoneBody [data-ask=%s]' % J(want['v'])); await pg.wait_for_timeout(1600)
+        await pg.screenshot(path=os.path.join(OUT, 'tutor_%s_5_back_answered.png' % case))
+        m3 = await pg.evaluate(MSGS, MX); t3 = await pg.evaluate(TUT)
+        R.note('%s ② 回了以後明軒那一串最後三則：%s；旗標 %s' % (tag, J(m3[-3:]), J(t3['flags'])))
+        await close_phone(pg, cdp)
+        await pg.evaluate("(()=>{ try{ JOBS.phone(GAME.G); }catch(e){} })()"); await pg.wait_for_timeout(800)
+        t4 = await pg.evaluate(TUT)
+        R.note('%s ② 再跑一次手機檢查：旗標 %s；家教出遊 %s' % (tag, J(t4['flags']), J(t4['outings'])))
+        R.check('%s ② 回了以後接回來（TUTOR_STOP 清掉或這學期記 go）' % tag, t4['flags'].get('TUTOR_STOP') is None or t4['flags'].get('TUTOR_TERM_Y2S1') == 'go', J(t4['flags']))
+        R.check('%s ② 排了下一堂（G.outings 有還沒上的家教）' % tag, any(o['state'] == 'planned' for o in t4['outings']), J(t4['outings']))
+        rec['after'] = {'msgs': m3[-3:], 'tut': t4}
+
+
 async def main():
-    print('CC 家教回不了以後再接：SHA %s' % (SHA or '?'), flush=True)
+    print('CC 家教回不了以後再接：SHA %s；CASES %s' % (SHA or '?', CASES), flush=True)
     res = {'sha': SHA}
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=False)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
         T = await pg.evaluate(TERMS); res['terms'] = T
-        s = await D.load_zone(pg, cdp, 'dorm', T['k1'], 11.9, wait=5000)
-        pr = await pg.evaluate(PREP, {'from': T['y1s1']['from'] + 40})
-        R.setup('①【前置／捷徑】讀檔到宿舍 %s（大一下開學第一天）11:54；旗標 JOB_TUTOR、tutorFromDay＝大一上第 40 天；12:05 跑一次 JOBS.phone → %s' % (T['k1'], J(pr)))
-        m1 = await pg.evaluate(MSGS, MX); R.note('① 明軒那一串：%s' % J(m1))
-        if not R.check('① 開學那一則（tutor_term_Y1S2）有來', any(m['ask'] and m['ask']['id'] == 'tutor_term_Y1S2' for m in m1), J(m1)): await b.close(); sys.exit(1)
-        ok = await open_thread(pg, cdp); v = await pg.evaluate(VIEW); await pg.screenshot(path=os.path.join(OUT, 'tutor_1_term_ask.png'))
-        R.note('① 打開明軒那一串（點到 %s）：%s' % (ok, J(v)))
-        asks = [a for a in v.get('asks', []) if not a['dis']]
-        if not R.check('① 看得到兩個選項', len(asks) >= 2, J(v.get('asks'))): await b.close(); sys.exit(1)
-        R.note('① 按第二個「%s」（不了）' % asks[1]['t'])
-        await L.tap(pg, cdp, '#phoneBody [data-ask=%s]' % J(asks[1]['v'])); await pg.wait_for_timeout(1600)
-        await pg.screenshot(path=os.path.join(OUT, 'tutor_2_said_no.png'))
-        t1 = await pg.evaluate(TUT); R.note('① 回了以後：%s' % J(t1))
-        R.check('① TUTOR_TERM_Y1S2＝stop', t1['flags'].get('TUTOR_TERM_Y1S2') == 'stop', J(t1['flags']))
-        await close_phone(pg, cdp)
-        # ② 下一個學期開學
-        await pg.evaluate("(a=>{ const G=GAME.G; G.day=a.d; G.weekday=CALENDAR.dateOf(a.d).wd%7; G.hour=12.5; try{ JOBS.phone(G); }catch(e){} })", {'d': T['y2s1']['from']})
-        await pg.wait_for_timeout(1500)
-        R.setup('②【捷徑】日子直接跳到 %s（大二上開學第一天）12:30、跑一次 JOBS.phone' % T['k2'])
-        t2 = await pg.evaluate(TUT); m2 = await pg.evaluate(MSGS, MX)
-        hang = [m for m in m2 if m['ask'] and str(m['ask']['id']).startswith('tutor_back_')]
-        R.note('② tutorBackDue=%s；旗標 %s；明軒那一串（%d 則）：%s' % (t2['due'], J(t2['flags']), len(m2), J(m2)))
-        R.note('② 選項掛在：%s' % J([{'第幾則': m['i'] + 1, '共幾則': len(m2), 'from': m['from'], 'text': m['text'], 'ask': m['ask']} for m in hang]))
-        R.check('② 明軒那一串多一個「我現在可以接家教了。」的選項', any(any('我現在可以接家教了' in o for o in m['ask']['opts']) for m in hang), J(hang))
-        ok = await open_thread(pg, cdp); v2 = await pg.evaluate(VIEW); await pg.screenshot(path=os.path.join(OUT, 'tutor_3_back_open.png'))
-        R.note('② 剛打開明軒那一串（點到 %s）：捲動 %s/%s（看得到 %s、在最下面 %s）；選項 %s' % (ok, v2.get('scrollTop'), v2.get('scrollHeight'), v2.get('clientHeight'), v2.get('atBottom'), J(v2.get('asks'))))
-        want = next((a for a in v2.get('asks', []) if '我現在可以接家教了' in a['t']), None)
-        res['open_view'] = v2
-        R.check('② 剛打開就看得到選項（在可視範圍、沒被蓋到、按得到）', bool(want) and want['inView'] and want['onTop'] and not want['dis'], J(want))
-        if want and not (want['inView'] and want['onTop']):
-            await pg.evaluate("(v=>{ const b=document.querySelector('#phoneBody [data-ask=\"'+v+'\"]'); if(b) b.scrollIntoView({block:'center'}); })", want['v']); await pg.wait_for_timeout(800)
-            v3 = await pg.evaluate(VIEW); await pg.screenshot(path=os.path.join(OUT, 'tutor_4_back_scrolled.png'))
-            R.note('② 要捲過去才看得到：捲到 %s；選項 %s' % (v3.get('scrollTop'), J(v3.get('asks')))); want = next((a for a in v3.get('asks', []) if '我現在可以接家教了' in a['t']), want)
-        if want:
-            await L.tap(pg, cdp, '#phoneBody [data-ask=%s]' % J(want['v'])); await pg.wait_for_timeout(1600)
-            await pg.screenshot(path=os.path.join(OUT, 'tutor_5_back_answered.png'))
-            m3 = await pg.evaluate(MSGS, MX); t3 = await pg.evaluate(TUT)
-            R.note('② 回了以後明軒那一串最後三則：%s；旗標 %s' % (J(m3[-3:]), J(t3['flags'])))
-            await close_phone(pg, cdp)
-            await pg.evaluate("(()=>{ try{ JOBS.phone(GAME.G); }catch(e){} })()"); await pg.wait_for_timeout(800)
-            t4 = await pg.evaluate(TUT)
-            R.note('② 再跑一次手機檢查：旗標 %s；家教出遊 %s' % (J(t4['flags']), J(t4['outings'])))
-            R.check('② 回了以後接回來（TUTOR_STOP 清掉或這學期記 go）', t4['flags'].get('TUTOR_STOP') is None or t4['flags'].get('TUTOR_TERM_Y2S1') == 'go', J(t4['flags']))
-            R.check('② 排了下一堂（G.outings 有還沒上的家教）', any(o['state'] == 'planned' for o in t4['outings']), J(t4['outings']))
-            res['after'] = {'msgs': m3[-3:], 'tut': t4}
+        for c in CASES:
+            try: await one(pg, cdp, T, c, res)
+            except Exception as e: R.check('[%s] 沒有探針例外' % c, False, str(e)[:200])
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     open(os.path.join(OUT, 'tutor_back.json'), 'w', encoding='utf-8').write(J(res))
