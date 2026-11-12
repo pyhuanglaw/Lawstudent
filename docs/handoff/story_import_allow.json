@@ -7172,6 +7172,15 @@
    "note": "X326 夜市十攤＋背景三攤的看、買：tools/story/import_night_market.py → src/data/night_market.js（NIGHT_MARKET）。店名、品名、價錢、台詞一字照稿；演出 src/night_market3d.js。算命不在夜市（另一間店「禮貌生財」，稿 AA_750，不在這一筆）。"
   },
   {
+   "path": "docs/story_planning/AA_793_season3_stalls.json",
+   "sha": "e2ea0ea3c",
+   "status": "approved",
+   "approvedBy": "AA（SEASON3-LINES-1111）",
+   "task": "SEASON3-LINES-1111",
+   "kind": "json",
+   "note": "季節攤販六攤的看、買＋季節落地布置五項的看：tools/story/import_season_stalls.py → src/data/season_stalls.js（SEASON_STALLS）。名字、品名、價錢、台詞一字照稿；演出 src/season_stalls3d.js（買的流程用 src/night_market3d.js 的）。"
+  },
+  {
    "path": "docs/story_planning/AA_750_limao.json",
    "sha": "93f731790",
    "status": "approved",
