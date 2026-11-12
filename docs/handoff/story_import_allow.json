@@ -43,9 +43,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y1s2.json",
-   "sha": "759e5c000",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 9～11 列；另外和舊版只差 RENAME-1030 地名",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：語彤「我會來。」的回覆（AA_898：原本「來之前…」換「要來跟我說一聲」，AA 087c105f13）、以安 note 清字。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "ROM-1017",
    "history": [
     {
@@ -59,6 +59,10 @@
     {
      "sha": "25e89f6e",
      "approvedBy": "（2026-11-02 換成 759e5c000 以前的版本；AA_580 以安改稿第二批）"
+    },
+    {
+     "sha": "759e5c000",
+     "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 9～11 列；另外和舊版只差 RENAME-1030 地名"
     }
    ],
    "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
@@ -160,9 +164,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y4s2.json",
-   "sha": "759e5c000",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 29～31 列；另外和舊版只差 RENAME-1030 地名",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：語彤「我週末去喝。」的回覆（AA_898，AA 087c105f13）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "AA263-Y4S2",
    "note": "AA-C：週次上限 15（典禮 6/2）、GRAD_DONE 暫名、語彤延畢一年",
    "history": [
@@ -177,6 +181,10 @@
     {
      "sha": "49ed7e6a",
      "approvedBy": "（2026-11-02 換成 759e5c000 以前的版本；AA_580 以安改稿第二批）"
+    },
+    {
+     "sha": "759e5c000",
+     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 29～31 列；另外和舊版只差 RENAME-1030 地名"
     }
    ]
   },
@@ -216,9 +224,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y1s2.json",
-   "sha": "152f8fe16f",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_862，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊 note 照 AA_899 換說法。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "ROM-1017",
    "history": [
     {
@@ -248,15 +256,19 @@
     {
      "sha": "3b7e2268",
      "approvedBy": "AA-C 2026-10-17 04:18Z 交付 DL-AA-3b7e2268（AA_209 第 7 節：可昕 17 處逐項核對；只限這個檔）"
+    },
+    {
+     "sha": "152f8fe16f",
+     "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_862，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history"
     }
    ],
    "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s1.json",
-   "sha": "63da3f441e",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_863（＋第 1 層對齊暑假打工 63da3f441e），直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊三句照 AA_899（BB_433 採用）換說法（再考一次、先不念了）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "AB65-3-Y2S1-L",
    "history": [
     {
@@ -282,6 +294,10 @@
     {
      "sha": "72ea87f5",
      "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    },
+    {
+     "sha": "63da3f441e",
+     "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_863（＋第 1 層對齊暑假打工 63da3f441e），直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history"
     }
    ],
    "note": "BB-C 13:27：九個檔用 408398d7"
@@ -336,9 +352,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s2.json",
-   "sha": "644d27d59e",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_866，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊「我說我考了兩次。」（AA_899）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7；ab9d70fe0：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入",
    "history": [
@@ -365,6 +381,10 @@
     {
      "sha": "5ef4e291",
      "note": "AA_475 以前"
+    },
+    {
+     "sha": "644d27d59e",
+     "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_866，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history"
     }
    ]
   },
@@ -396,9 +416,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s2.json",
-   "sha": "b63373c83d",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_868，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：沛珊「為什麼又考一次」（AA_899）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "BB210-Y4S2",
    "note": "skipIf GRAD_DONE（暫名，畢業典禮那天設）；PS8_FAR_AHEAD 中文名改（BB_143）",
    "history": [
@@ -425,6 +445,10 @@
     {
      "sha": "408398d7",
      "approvedBy": "BB-C（2026-10-17 13:27 已審表）"
+    },
+    {
+     "sha": "b63373c83d",
+     "approvedBy": "AA-C 2026-11-12 定稿（CANON-NO-ECON-1112／D158：可昕整組換成 AA_868，直接換進企劃線 ladder 源稿；舊的 AA_781_kx 覆蓋刪掉）；匯入：LAWWW-C 子代理（第三批 C4）；舊版本在 history"
     }
    ]
   },
@@ -6594,9 +6618,9 @@
   },
   {
    "path": "docs/story_planning/syllabus/Y1S1.json",
-   "sha": "80ed4ea06",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA 2026-11-11 定稿 d501078a3（D109；d3a22505b 之後只搬刑總（一）第 13 週 more 兩句到第 7 週）；BB 法律審 BB_332（憲法上）、BB_333（刑總一，含 11-11 追加段＝適用 d501078a3，企劃線 fea8c4008）、BB_334（民總）通過；80ed4ea06（AA 11-11 16:25「期中考那句改好」：沒有期中考（D118／AA_581）——Y4S2 海商法第 1 週改「前半學期／後半學期」、JP 日文上下第 7 週改小考、Y1S1／Y1S2 國文英文體育的 lines 池子四句「期中」改「期末」；單純換字，AA：不用 BB 再審）",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_888／AA_891 定稿）：經濟學原理（上）：名稱拿掉重修標記、retake 拿掉、prof_label「魏宏仁老師（社科院）」、review 欄清字（AA_888 第 4 節、AA_891 第 3 節；AA 0feb844b5c）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "STUDY-EXAM-STORY-1102",
    "kind": "data",
    "note": "課堂內容補寫大一上三科（const_1、crim_gen1、civ_general；X337「上課至少也要播完」的內容面）：more（教授接著講的句子）、react、tpl B／C、ask（crim_gen1 第 13 週 CRIM45_33）。tools/syllabus/import_syllabus.py claude/story-planning@d3a22505b 重匯。LAWWW 2026-11-11 登記",
@@ -6617,14 +6641,18 @@
     {
      "sha": "d501078a3",
      "approvedBy": "AA 2026-11-11 定稿 d501078a3（D109；d3a22505b 之後只搬刑總（一）第 13 週 more 兩句到第 7 週）；BB 法律審 BB_332（憲法上）、BB_333（刑總一，含 11-11 追加段＝適用 d501078a3，企劃線 fea8c4008）、BB_334（民總）通過"
+    },
+    {
+     "sha": "80ed4ea06",
+     "approvedBy": "AA 2026-11-11 定稿 d501078a3（D109；d3a22505b 之後只搬刑總（一）第 13 週 more 兩句到第 7 週）；BB 法律審 BB_332（憲法上）、BB_333（刑總一，含 11-11 追加段＝適用 d501078a3，企劃線 fea8c4008）、BB_334（民總）通過；80ed4ea06（AA 11-11 16:25「期中考那句改好」：沒有期中考（D118／AA_581）——Y4S2 海商法第 1 週改「前半學期／後半學期」、JP 日文上下第 7 週改小考、Y1S1／Y1S2 國文英文體育的 lines 池子四句「期中」改「期末」；單純換字，AA：不用 BB 再審）"
     }
    ]
   },
   {
    "path": "docs/story_planning/syllabus/Y1S2.json",
-   "sha": "80ed4ea06",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA 11-11 12:4x「大一下法律三科課堂內容都可匯：e5c4031ff」（STUDY-EXAM-STORY-1102 第二批；D100b 稿就是定稿）；法律審 BB_344 刑總二、BB_345 債總一、BB_346 憲法下 PASS（建議已改進 e5c4031ff）；50e653270（AA 11-11 12:4x「大一下五科最終 SHA」：加通識天文 ge_y1s2、經濟學重修，BB_347 事實 PASS）；1165b5514（AA 11-11 13:04「全部審過」：第 1 週 special 拿掉）；b1e00c45e（AA 11-11 13:11「全部審過」：Y2S1 通識流行音樂 BB_352）；b05a68786（AA 11-11 14:15「b05a68786：全部審過」：Y2S2 五科（BB_353～357，法學英文照使用者 13:4x 對 AA 的要求改版、BB_356 末段再審）、Y3S1 四科（BB_358～361）、Y3S2 民訴甲下、保險、票據（BB_362～364）；Y3S2 勞動法原樣）；1b83a6ec9（AA 11-11 14:22「Y1S2～Y3S2 全部審過」：Y3S2 勞動法 BB_365；Y3S1 證交 w14 照 BB 更正）；96eb06e4f（AA 11-11 14:47「課堂內容 全部審過 96eb06e4f」：Y4S1 七科（強制執行、法律倫理、智財、勞動社會法、財稅、刑事判決研討、公法判決研討；BB_366～371））；80ed4ea06（AA 11-11 16:25「期中考那句改好」：沒有期中考（D118／AA_581）——Y4S2 海商法第 1 週改「前半學期／後半學期」、JP 日文上下第 7 週改小考、Y1S1／Y1S2 國文英文體育的 lines 池子四句「期中」改「期末」；單純換字，AA：不用 BB 再審）",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_888／AA_891 定稿）：經濟學原理（下）：同上，拿掉舊序章的比較（AA 0feb844b5c）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "STUDY-EXAM-STORY-1102",
    "kind": "data",
    "note": "大一下 crim_gen2、oblig_gen1、const_2 13 週（同大一上 d3a22505b 做法：board、line 不動，加 more、react 補到兩位、新加 call，每週 ref）；tools/syllabus/import_syllabus.py",
@@ -6656,14 +6684,18 @@
     {
      "sha": "96eb06e4f",
      "approvedBy": "AA 11-11 12:4x「大一下法律三科課堂內容都可匯：e5c4031ff」（STUDY-EXAM-STORY-1102 第二批；D100b 稿就是定稿）；法律審 BB_344 刑總二、BB_345 債總一、BB_346 憲法下 PASS（建議已改進 e5c4031ff）；50e653270（AA 11-11 12:4x「大一下五科最終 SHA」：加通識天文 ge_y1s2、經濟學重修，BB_"
+    },
+    {
+     "sha": "80ed4ea06",
+     "approvedBy": "AA 11-11 12:4x「大一下法律三科課堂內容都可匯：e5c4031ff」（STUDY-EXAM-STORY-1102 第二批；D100b 稿就是定稿）；法律審 BB_344 刑總二、BB_345 債總一、BB_346 憲法下 PASS（建議已改進 e5c4031ff）；50e653270（AA 11-11 12:4x「大一下五科最終 SHA」：加通識天文 ge_y1s2、經濟學重修，BB_347 事實 PASS）；1165b5514（AA 11-11 13:04「全部審過」：第 1 週 special 拿掉）；b1e00c45e（AA 11-11 13:11「全部審過」：Y2S1 通識流行音樂 BB_352）；b05a68786（AA 11-11 14:15「b05a68786：全部審過」：Y2S2 五科（BB_353～357，法學英文照使用者 13:4x 對 AA 的要求改版、BB_356 末段再審）、Y3S1 四科（BB_358～361）、Y3S2 民訴甲下、保險、票據（BB_362～364）；Y3S2 勞動法原樣）；1b83a6ec9（AA 11-11 14:22「Y1S2～Y3S2 全部審過」：Y3S2 勞動法 BB_365；Y3S1 證交 w14 照 BB 更正）；96eb06e4f（AA 11-11 14:47「課堂內容 全部審過 96eb06e4f」：Y4S1 七科（強制執行、法律倫理、智財、勞動社會法、財稅、刑事判決研討、公法判決研討；BB_366～371））；80ed4ea06（AA 11-11 16:25「期中考那句改好」：沒有期中考（D118／AA_581）——Y4S2 海商法第 1 週改「前半學期／後半學期」、JP 日文上下第 7 週改小考、Y1S1／Y1S2 國文英文體育的 lines 池子四句「期中」改「期末」；單純換字，AA：不用 BB 再審）"
     }
    ]
   },
   {
    "path": "docs/story_planning/syllabus/Y2S1.json",
-   "sha": "96eb06e4f",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）；1165b5514（AA 11-11 13:04「Y2S1 法律四科全部審過」：刑分 BB_348、物權 BB_349、債總二 BB_350、行政法 BB_351；STUDY-EXAM-STORY-1102；通識流行音樂原樣）；b1e00c45e（AA 11-11 13:11「全部審過」：Y2S1 通識流行音樂 BB_352）；b05a68786（AA 11-11 14:15「b05a68786：全部審過」：Y2S2 五科（BB_353～357，法學英文照使用者 13:4x 對 AA 的要求改版、BB_356 末段再審）、Y3S1 四科（BB_358～361）、Y3S2 民訴甲下、保險、票據（BB_362～364）；Y3S2 勞動法原樣）；1b83a6ec9（AA 11-11 14:22「Y1S2～Y3S2 全部審過」：Y3S2 勞動法 BB_365；Y3S1 證交 w14 照 BB 更正）；96eb06e4f（AA 11-11 14:47「課堂內容 全部審過 96eb06e4f」：Y4S1 七科（強制執行、法律倫理、智財、勞動社會法、財稅、刑事判決研討、公法判決研討；BB_366～371））",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_888／AA_891 定稿）：property 第 3 週 obs 的 recall（讀舊序章那一年的旗標）拿掉（AA_891 第 3 節；AA 0feb844b5c）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "AA588-AA581-TAIL-1102",
    "kind": "data",
    "note": "AA_588 第 3 節：_src/y2s1.py:138、:309 第 7 週黑板「下週、下下週：前七週整理＋案例作業」、:95 柏翰缺課訊息「期末考範圍表更新了。」（AA_581 第 66 列），AA 用 build.py 重產。tools/syllabus/import_syllabus.py claude/story-planning@1edea905f 重匯；匯入工具讀學期檔前比對：要讀的那一版內容要和這裡 approved 的一樣。子代理 2026-11-02 代登（分支 worktree-agent-a56503a4cb939863c），給值班 LAWWW 核",
@@ -6691,6 +6723,10 @@
     {
      "sha": "1b83a6ec9",
      "note": "被 96eb06e4f 取代（加 Y4S1）"
+    },
+    {
+     "sha": "96eb06e4f",
+     "approvedBy": "AA 2026-11-02 定稿（D109；AA_588 第 3 節「源稿已改（下次重匯不會蓋回去）」）；1165b5514（AA 11-11 13:04「Y2S1 法律四科全部審過」：刑分 BB_348、物權 BB_349、債總二 BB_350、行政法 BB_351；STUDY-EXAM-STORY-1102；通識流行音樂原樣）；b1e00c45e（AA 11-11 13:11「全部審過」：Y2S1 通識流行音樂 BB_352）；b05a68786（AA 11-11 14:15「b05a68786：全部審過」：Y2S2 五科（BB_353～357，法學英文照使用者 13:4x 對 AA 的要求改版、BB_356 末段再審）、Y3S1 四科（BB_358～361）、Y3S2 民訴甲下、保險、票據（BB_362～364）；Y3S2 勞動法原樣）；1b83a6ec9（AA 11-11 14:22「Y1S2～Y3S2 全部審過」：Y3S2 勞動法 BB_365；Y3S1 證交 w14 照 BB 更正）；96eb06e4f（AA 11-11 14:47「課堂內容 全部審過 96eb06e4f」：Y4S1 七科（強制執行、法律倫理、智財、勞動社會法、財稅、刑事判決研討、公法判決研討；BB_366～371））"
     }
    ]
   },
@@ -8508,21 +8544,33 @@
   },
   {
    "path": "docs/story_planning/AA_753_peishan_ladder_Y3.json",
-   "sha": "188061108",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA（D109、D149；BB_321 的修正已改）；LAWWW 2026-11-11 指定只認 188061108",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：AA 8a7de39f0c：沛珊覆寫三句跟 AA_899 同一個說法（再考一次、考了兩次、先不念了）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
-   "note": "X327 沛珊大三上 P5-L1～P5-L8、大三下 P6-L1～P6-L8＋招呼 base：只換 lines、choices（{t, re, fx}）和 greet.base；when 只拿掉稿上說的三則（大三上「你吃早餐了嗎？……我家開早餐店，習慣問。」、大三下「期中。我的考卷上，畫了一個笑臉。……我自己畫的。」「你吃早餐了嗎？」），其他 when、id、if、順序、rel、context、friendOnly、mem、P5-L6 的 extraIf 不動——tools/ladder/import_ladder.py 的 PS753_MORE → src/data/ladder.js。面板字（src/social3d.js）：PS5_BOOK_COVER、PS5_EARLY_RISER、PS6_WALL、PS6_NO_WEIRD"
+   "note": "X327 沛珊大三上 P5-L1～P5-L8、大三下 P6-L1～P6-L8＋招呼 base：只換 lines、choices（{t, re, fx}）和 greet.base；when 只拿掉稿上說的三則（大三上「你吃早餐了嗎？……我家開早餐店，習慣問。」、大三下「期中。我的考卷上，畫了一個笑臉。……我自己畫的。」「你吃早餐了嗎？」），其他 when、id、if、順序、rel、context、friendOnly、mem、P5-L6 的 extraIf 不動——tools/ladder/import_ladder.py 的 PS753_MORE → src/data/ladder.js。面板字（src/social3d.js）：PS5_BOOK_COVER、PS5_EARLY_RISER、PS6_WALL、PS6_NO_WEIRD",
+   "history": [
+    {
+     "sha": "188061108",
+     "approvedBy": "AA（D109、D149；BB_321 的修正已改）；LAWWW 2026-11-11 指定只認 188061108"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_753_peishan_ladder_Y4.json",
-   "sha": "465382f83",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA（D109、D149；BB_322 的修正已改）；LAWWW 2026-11-11 指定只認 465382f83",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_899 定稿、BB_433 採用）：大四下「我們班有人問我，為什麼又考一次來念教育。」（AA_899 表上和 AA_753 同一句）。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
-   "note": "X327 沛珊大四上 P7-L1～P7-L8、大四下 P8-L1～P8-L8＋招呼 base：只換 lines、choices（{t, re, fx}）和 greet.base，when、id、if、順序、rel、context、friendOnly、mem 不動；P8-L2 加 skipIf ev_peishan_open_class（稿的 event_open_class.ladder）——tools/ladder/import_ladder.py 的 PS753_MORE → src/data/ladder.js。同一個檔的 event_open_class（4/14 公開課媽媽的旁白＋四句）：src/data/r2y4b_events.js 手改、逐句照稿（tests/peishan_ladder_1111_unit.js 對稿）；CG BCG-05 新圖到以前不放。面板字（src/social3d.js）：PS7_MOM_WAITS、PS7_MY_EGGS"
+   "note": "X327 沛珊大四上 P7-L1～P7-L8、大四下 P8-L1～P8-L8＋招呼 base：只換 lines、choices（{t, re, fx}）和 greet.base，when、id、if、順序、rel、context、friendOnly、mem 不動；P8-L2 加 skipIf ev_peishan_open_class（稿的 event_open_class.ladder）——tools/ladder/import_ladder.py 的 PS753_MORE → src/data/ladder.js。同一個檔的 event_open_class（4/14 公開課媽媽的旁白＋四句）：src/data/r2y4b_events.js 手改、逐句照稿（tests/peishan_ladder_1111_unit.js 對稿）；CG BCG-05 新圖到以前不放。面板字（src/social3d.js）：PS7_MOM_WAITS、PS7_MY_EGGS",
+   "history": [
+    {
+     "sha": "465382f83",
+     "approvedBy": "AA（D109、D149；BB_322 的修正已改）；LAWWW 2026-11-11 指定只認 465382f83"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_755_peishan_arc.json",
@@ -8622,12 +8670,18 @@
   },
   {
    "path": "docs/story_planning/AA_753_peishan_ladder_linesIf.json",
-   "sha": "b59a8f9de",
+   "sha": "3f6c7d3bb9",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-11 補稿（D100b 稿就是定稿；使用者 X327 沛珊重寫）；LAWWW 2026-11-11 指定匯這一版",
+   "approvedBy": "AA-C 2026-11-12（CANON-NO-ECON-1112 第四批；AA_898／AA_899 定稿、BB_433 採用）：AA 8a7de39f0c：沛珊覆寫跟 AA_899 同一個說法。LAWWW-C 的子代理代登（讀的版本 3f6c7d3bb9），待值班 LAWWW 核",
    "task": "PEISHAN-VOICE-1110",
    "kind": "json",
-   "note": "X327 沛珊閒聊階梯五套 linesIf：P2-L3（SAW_HER_TEACH）、P3-L3／L4／L6／L8（演過 ev_peishan_decision）各一套 lines（兩句）＋choices（{t, re, fx}），條件照舊——tools/ladder/import_ladder.py 的 PS753_LINESIF_FILE 疊在那一層的 linesIf 上（取代先前留著的舊兩句、舊選項）→ src/data/ladder.js。P2-L3.mainLineFix 只是說明：那一句在 AA_753_peishan_ladder_Y1S2_Y2S1.json@b59a8f9de 已經改好"
+   "note": "X327 沛珊閒聊階梯五套 linesIf：P2-L3（SAW_HER_TEACH）、P3-L3／L4／L6／L8（演過 ev_peishan_decision）各一套 lines（兩句）＋choices（{t, re, fx}），條件照舊——tools/ladder/import_ladder.py 的 PS753_LINESIF_FILE 疊在那一層的 linesIf 上（取代先前留著的舊兩句、舊選項）→ src/data/ladder.js。P2-L3.mainLineFix 只是說明：那一句在 AA_753_peishan_ladder_Y1S2_Y2S1.json@b59a8f9de 已經改好",
+   "history": [
+    {
+     "sha": "b59a8f9de",
+     "approvedBy": "AA（帳號 A）2026-11-11 補稿（D100b 稿就是定稿；使用者 X327 沛珊重寫）；LAWWW 2026-11-11 指定匯這一版"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_763_peishan_misc3.json",
@@ -9639,6 +9693,87 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "social3d.js 去向、記憶標籤（ECON_NIGHT、HEARD_ECON_NIGHT、XUN_PATH 拿掉；KNOWS_ECON_YEAR、MIRROR_PEISHAN 還有地方在設，暫留）、KX_BDAY2_CAKE；msg_replies／activity_scenes 照 tools/story/canon1112_rows.py 疊在稿上重匯（訊息本身在 bbpack3d／y2b3d／r3_3d 一起換）；第 4 節 invites.js 沒做（那幾格在 AA_784 覆蓋層上，要 AA 出覆蓋層格式的列）；assets3d.js、WN_COMMON 沒動（第四批，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_895_可昕追求路線補字與開局九題.md",
+   "sha": "a425c0dcb6",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_430）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "可昕追求路線（CANON-NO-ECON-1112 第四批）：第 2 節學期末心意邀約、朋友的期末邀約、知情那一句 → src/data/termend_lines.js（HEART.kexin、FRIEND.kexin、NOPE.knows.kexin、PLACE.dumpling_gate；女朋友版照舊走 KX，AA_897）；第 3 節四拍台詞版＋③b → src/data/events.js（ev_kx_dress／hand_in／hand／angry／angry_sorry／y1s1_end）；第 1 節①② → src/story3d.js（S.LAW_WEEK12、DAY1_NARR）、③ → src/data/camp_y1.js；第 4 節層級、作息 → src/data/characters.js（大二暑假七月在臺北那一段還沒接）。對稿：tests/canon_batch4_1112_unit.js、tests/canon_opening_1112_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_891_src對照表_heard_invite_syllabus.md",
+   "sha": "c519068608",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_426）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 2 節可昕邀約回覆：tools/invite/build_replies.py canon891（kx1～kx19 搬進 law、17 列換字、kx25b 換 say）→ src/data/invite_replies.js；第 3 節課堂內容照源稿 3f6c7d3bb9 重匯（tools/syllabus/import_syllabus.py）。第 1 節 heard_lines 第三批已做"
+  },
+  {
+   "path": "docs/story_planning/AA_883_迎新自我介紹_新稿.md",
+   "sha": "db44bb9ab1",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_422）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "迎新自我介紹三個選項（ev_welcome_y1s1，src/data/events.js）；older／econ／why_h 拿掉"
+  },
+  {
+   "path": "docs/story_planning/AA_884_阿哲叫哥_來源統一.md",
+   "sha": "db44bb9ab1",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_422）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "中秋烤肉「你學測數學幾級？」兩個選項（ev_mid_autumn_bbq）、人物頁阿哲那一行（src/whois3d.js）、events.js 註解"
+  },
+  {
+   "path": "docs/story_planning/AA_886_src對照表_events.md",
+   "sha": "a87c7ddbc8",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_424）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 2 節照列換字七處（src/data/events.js：跨年阿哲、ev_zq_ask_kai、ev_peishan_decision 選項三和回覆、芯慈閒聊只留第一句、ev_b106d2_yutong、ev_grad_debate 姊姊）。第 1 節整場拿掉第三批已做"
+  },
+  {
+   "path": "docs/story_planning/AA_887_src對照表_story3d.md",
+   "sha": "db44bb9ab1",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12（第 2 節照列換字）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "src/story3d.js：ROOM_ITEMS 四件、分開以後那三句拿掉、週年地點（後門那家湯餃）與摩天輪回覆、春假接人、春假照片一則共用、生日排程（映月湖）、橘子那一句；src/zones3d.js 大一相簿的節點跟著換"
+  },
+  {
+   "path": "docs/story_planning/AA_888_src對照表_characters.md",
+   "sha": "60c0bf0087",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "src/data/characters.js：可昕 career_goal、prof_wei 的 department 社會科學院、note；src/data/courses.js：經濟學原理上下 profName「魏宏仁老師（社科院）」。可昕 tagByPY 照現行設定總表第 2 節那一列（法律系・一年級…），沒有改成稿上的「首都帝大法律系・…」（兩份不一致，列給 AA）"
+  },
+  {
+   "path": "docs/story_planning/AA_898_src對照表_誤判兩字.md",
+   "sha": "7fbab93ec0",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12（AA 定，不送 BB：只換一個動詞）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 1 節七句「傳」→「發」（invites.js、multirel_lines.js、r2y4b_events.js、msg_pool.js、msg2_pool.js、movie_plots.js；ladder.js 那一句由重匯帶進來），msg 產生器照 tools/story/canon898.py 換；第 2 節註解"
+  },
+  {
+   "path": "docs/story_planning/AA_899_沛珊再考句子改字_送BB.md",
+   "sha": "22f572ef08",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_433 七句都採用）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "閒聊階梯沛珊四句（重匯 ladder_bb_*、AA_753 覆寫 3f6c7d3bb9）、可昕取消約會那一句（tools/date/import_date_lines.py → date_lines.js lines.kexin.cancel[1]）；約會心願沛珊兩句：遊戲裡那一格照 AA_757 覆寫層，沒有用到 wish_bb.json 那兩句，這一批沒有重匯"
   }
  ]
 }

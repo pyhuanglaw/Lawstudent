@@ -195,7 +195,7 @@ if P255 in A255:
 dst = os.path.join(ROOT, 'src', 'data', 'syllabus.js')
 with open(dst, 'w', encoding='utf8') as f:
     f.write('/* 普通課堂內容（BB 撰寫；AA_104 第 1 節的 syllabus 格式）。產生器：tools/syllabus/import_syllabus.py（不要手改，改企劃分支的 JSON 再匯入）。\n'
-            '   來源：' + out['source'] + '。法律系八學期＋日文＋舊序章那一段（遊戲裡還沒有那一年的課，先放著）。heroine_06 等新人物的句子在遊戲裡略過（人物設定還沒確認）。\n'
+            '   來源：' + out['source'] + '。法律系八學期＋日文（舊序章那一年的課、課表裡舊序章人物的幾句 CANON-NO-ECON-1112 拿掉：源稿已經沒有，AA_891 第 3 節）。heroine_06 等新人物的句子在遊戲裡略過（人物設定還沒確認）。\n'
             '   reviewed：法律審查（BB_115）那一週的項目全部通過、或那一週沒有項目，才顯示 BB 的內容；其他週只用寫主題的一般句子（AA_122 第 0a 節）。AA_585 的第 8、9 週照 BB_231 的法律審（60 週全部 PASS）。' + drop_note + ' */\n')
     f.write('const SYLLABUS=' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
 nweeks = sum(len(v) for v in out['courses'].values())

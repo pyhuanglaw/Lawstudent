@@ -57,7 +57,7 @@ const STORY = (function(){
   S.LAW_START_RECAP_HEAD=['你從小就想念首都帝大法律。','放榜那天，你把榜單看了三次，才敢傳給家裡。','八月，宿舍的通知寄來了：203 室，四個人一間。','媽媽在你的行李箱裡多塞了兩條毛巾，還有一包你說不用帶的泡麵。','班上的人，你一個都不認識。'];
   S.LAW_START_RECAP=S.LAW_START_RECAP_HEAD.concat(['九月，開學。']);   /* 不演宿營、直接開學的那一版（?start0）*/
   S.LAW_START_RECAP_W1=S.LAW_START_RECAP_HEAD.concat(['八月二十二日，新生宿營的遊覽車停在校門口。']);   /* 從宿營開始的新局 */
-  S.LAW_WEEK12=[];   /* CANON-1112：原本四句都在講舊序章（AA_858 沒有新字）＝先不演，列給 AA */
+  S.LAW_WEEK12=['開學第一週，你走進法律系館A。','選課、新生活動、第一次點名。每個隊伍都很長。','班上的人，你還叫不出幾個名字。'];   /* CANON-NO-ECON-1112 第四批（AA_895 第 1 節①，企劃線 a425c0dcb）：開學第一週的旁白換成這三句（原本四句在講舊序章）*/
   S.recap=async function(GM,lines,o){ o=o||{}; if(!lines||!lines.length) return; GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'dark'}); for(const t of lines) await GM.say(null,t); } finally { if(!o.keep&&typeof ADV!=='undefined'&&ADV.end) ADV.end(); GM.sceneEnd(); } };   /* keep：播完先不收黑底（接著轉場，不讓 3D 畫面閃一下）*/
   /* 坐下就開始的事件（trigger:'seat'、seatRoom＝座位所在的區（layout 的 groups id，例：博雅的 'study'）；game3d.js 的座位選單在坐下以後、選單出來以前呼叫）*/
   S.onSeat=async function(GM,seat){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!seat) return false; const G=GM.G;
@@ -326,7 +326,7 @@ const STORY = (function(){
     const tp=!!(c&&c.presence&&S.presence(c.id,G).kind==='taipei');   /* 在臺北、不在台大（BB_163）：只用標了 taipei 的那幾筆作息（taipei:'both'＝兩種時候都用）、不跟課表 */
     if(!tp){ const cc=S.classmateClass(c,G); if(cc) return cc; }   /* 同班同學：必修課的時間在那間教室（使用者 2026-10-15：以安也是大一，課要跟我一樣） */
     const hr=h(G), wd=G.weekday; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hol=!!(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(G.day));
-    const hit=ent=>{ if(!((ent.termDays&&T&&ent.termDays[T.id])||ent.days).includes(wd)) return false; if(ent.holOff&&hol) return false;   /* termDays：某一學期換星期（以安 D09 大四上 11/12 週日，AA_509 0-2 第 9 點）；holOff：國定假日、春節不在（寒暑假照常，子晴的工作室）*/ let A=null; if(ent.activity&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list){ const a=ACTIVITIES.list.find(x=>x.id===ent.activity); if(!a||!ACTIVITIES.on(a,G.day,G)) return false; A=a; } else if(ent.actHours) return false;   /* actHours：時間照那個活動的 t0～t1（學姊在社團博覽會：日期、時間都讀 activities.js，SIS-EXPO-PRESENCE-1027）*/   /* activity：那個活動當天有開才在（學姊的法服讀書會：第 5 週起；使用者 2026-10-15 第 3 週去，學姊站在那裡、沒有活動）*/ if((ent.act==='class'||ent.noHoliday)&&(!T||hol)) return false; if(ent.noExam&&T&&T.exam) return false; if(ent.ndlDay&&!S.noodleDay(G.day)) return false;   /* ndlDay：只在麵店日（AA_542 第 5 節；朋友在麵店的作息）*/   /* noExam：考試週不在（桌遊團考試週不去麵店，AA-B 10-30 14:25 回 A；和 S.noodleDay 同一個 term.exam）*/ { const wk=(ent.termWeeks&&T&&ent.termWeeks[T.id])||ent.weeks; if(wk&&(!T||!wk.includes(T.week))) return false; }   /* termWeeks＝某一學期改用別的週次（AA_373 #5：Alison 烏來大一下改第 8 週 4/18）*/ if(ent.dates&&!S.inDates(G,ent.dates)) return false; if(ent.notDates&&S.inDates(G,ent.notDates)) return false;   /* notDates：這幾段日子不在（含頭尾；芷若 2027-06-04～09-02 不上班，AA_375 第 1 項）*/ if(ent.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return false;   /* dates：日期區間（含頭尾）；vacation：只在寒暑假（AA_271 自由出行第三批的偶遇）*/ if(ent.if&&!(typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(ent.if))) return false; const to=ent.actHours&&A?A.t1:ent.to, from=ent.actHours&&A?A.t0:ent.from;   /* if：條件成立才在（AA_155：阿勳、品妤 P4d 之後才在走廊；寫法和閒聊階梯的 if 一樣）*/   /* weeks：學期的第幾週才有（子晴的吉他社：第 5～7、10～16 週）*/ return to<=24?(hr>=from&&hr<to):(hr>=from||hr<to-24); };
+    const hit=ent=>{ if(!((ent.termDays&&T&&ent.termDays[T.id])||ent.days).includes(wd)) return false; if(ent.holOff&&hol) return false;   /* termDays：某一學期換星期（以安 D09 大四上 11/12 週日，AA_509 0-2 第 9 點）；holOff：國定假日、春節不在（寒暑假照常，子晴的工作室）*/ let A=null; if(ent.activity&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list){ const a=ACTIVITIES.list.find(x=>x.id===ent.activity); if(!a||!ACTIVITIES.on(a,G.day,G)) return false; A=a; } else if(ent.actHours) return false;   /* actHours：時間照那個活動的 t0～t1（學姊在社團博覽會：日期、時間都讀 activities.js，SIS-EXPO-PRESENCE-1027）*/   /* activity：那個活動當天有開才在（學姊的法服讀書會：第 5 週起；使用者 2026-10-15 第 3 週去，學姊站在那裡、沒有活動）*/ if((ent.act==='class'||ent.noHoliday)&&(!T||hol)) return false; if(ent.noExam&&T&&T.exam) return false; if(ent.examOnly&&!(T&&T.exam)) return false;   /* examOnly：只在考試週（可昕考試週在總圖念到閉館，AA_895 第 4 節）*/ if(ent.ndlDay&&!S.noodleDay(G.day)) return false;   /* ndlDay：只在麵店日（AA_542 第 5 節；朋友在麵店的作息）*/   /* noExam：考試週不在（桌遊團考試週不去麵店，AA-B 10-30 14:25 回 A；和 S.noodleDay 同一個 term.exam）*/ { const wk=(ent.termWeeks&&T&&ent.termWeeks[T.id])||ent.weeks; if(wk&&(!T||!wk.includes(T.week))) return false; }   /* termWeeks＝某一學期改用別的週次（AA_373 #5：Alison 烏來大一下改第 8 週 4/18）*/ if(ent.dates&&!S.inDates(G,ent.dates)) return false; if(ent.notDates&&S.inDates(G,ent.notDates)) return false;   /* notDates：這幾段日子不在（含頭尾；芷若 2027-06-04～09-02 不上班，AA_375 第 1 項）*/ if(ent.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return false;   /* dates：日期區間（含頭尾）；vacation：只在寒暑假（AA_271 自由出行第三批的偶遇）*/ if(ent.if&&!(typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(ent.if))) return false; const to=ent.actHours&&A?A.t1:ent.to, from=ent.actHours&&A?A.t0:ent.from;   /* if：條件成立才在（AA_155：阿勳、品妤 P4d 之後才在走廊；寫法和閒聊階梯的 if 一樣）*/   /* weeks：學期的第幾週才有（子晴的吉他社：第 5～7、10～16 週）*/ return to<=24?(hr>=from&&hr<to):(hr>=from||hr<to-24); };
     if(S.SCHED_X&&S.SCHED_X.length&&c&&c.id){ for(const f of S.SCHED_X){ try{ const e=f(c,G); if(e) return e; }catch(err){ console.warn('STORY.SCHED_X',err); } } }
     const L=(c.daily_schedule||[]).filter(ent=>tp?!!ent.taipei:ent.taipei!==true); for(const ent of L) if(ent.pri&&hit(ent)) return actEnt(ent);   /* pri：比有 terms 的作息還優先（學姊在社團博覽會）*/
     if(S.SCHED_WITH&&c&&c.id){ const w=S.SCHED_WITH(c,G,hit,L,T); if(w) return w; }   /* 女主角的圈子（src/hcircle3d.js，HEROINE-CIRCLE3D-1028）：她的作息那一筆帶 with、那一列成立的時候，同伴自己的作息不在那一區＝跟著她（上課、約好的時間、出遊、pri 照舊優先）*/
@@ -1403,7 +1403,7 @@ const STORY = (function(){
   /* ---------- 交接包 v1：第一天的旁白、可昕的第一則訊息、家族群組、房間物件、手機的規則 ---------- */
   const DAY1_NARR_W1=['明天下午是民法總則的第一堂。','周老師開學前就把案例放上課程網站了：網拍上標價 1,000 元的相機。課綱第一週那一格寫著：「請先讀案例，上課會點人。」','你下午把它印出來，到現在還放在桌上，一個字都沒畫。'];   /* 選 1 的局（AA_195 4-1，AA-B 2026-10-16）*/
   const DAY1_NARR_W1_LATE=['你回到宿舍的時候已經很晚了。','明天下午是民法總則的第一堂。印好的案例還在桌上，課綱寫上課會點人。'];   /* AA_195 4-1 短版（AA-B 7b2d057f）*/
-  const DAY1_NARR=['以前遇到事情，你會去翻民法。翻得到條文，卻不知道條文和條文怎麼接起來，也不知道怎麼用在一件真的事情上。','這次不一樣。這次有人要教你怎麼讀。'];   /* CANON-1112：原本的第三句在講舊序章（稿沒有新字）＝拿掉，列給 AA */   /* AA_12 0-3 第 1 點、0-2 */
+  const DAY1_NARR=['以前遇到事情，你會去翻民法。翻得到條文，卻不知道條文和條文怎麼接起來，也不知道怎麼用在一件真的事情上。','這次不一樣。這次有人要教你怎麼讀。','上舖的阿哲已經睡著了。你把鬧鐘調早了十分鐘。'];   /* CANON-NO-ECON-1112 第四批（AA_895 第 1 節②）：第三句換成這一句（原本在講舊序章）*/   /* AA_12 0-3 第 1 點、0-2 */
   /* 手機上的一段對話，在劇情裡演（開場是過場，不打開手機面板）：對話框的名字寫「可昕（手機）」，回覆用一般的選項；演完的內容同時寫進手機的對話串（之後打開手機看得到）*/
   async function phoneScene(GM,th,lines,ask){ const G=GM.G; let last=null;
     for(const l of lines){ last=PHONE.post(G,Object.assign({th},l)); await GM.say({name:PHONE.who(l)+'（手機）'},l.text); }
@@ -1867,7 +1867,7 @@ const STORY = (function(){
         if(h(G)>=6&&!F.kxBdayCal){ F.kxBdayCal=1; if(GM.toast) GM.toast('行事曆：可昕生日',5200); }
         if(!PHONE.sent(G,'kx_bday_draft')) PHONE.at(G,bd,Math.max(6,h(G)),[{th:'p:kexin',from:'player',who:null,text:'（草稿）',
           ask:{until:bd*24+24,opts:[{t:'生日快樂。',set:{KX_BDAY_MSG:true},say:[{from:'kexin',text:'謝謝。今天換你說一件好笑的事給我聽。'}]/* AA_459 第 5 節：「收到。」是學姊在家族群組的招牌，可昕不用 */}]}}],'kx_bday_draft');
-        if(typeof OUT!=='undefined'&&!OUT.get(G,'kx_bday_y1s2')) OUT.plan(G,{id:'kx_bday_y1s2',ev:'ev_kexin_birthday_y1s2',day:bd,h:18.75,place:'木柵大學',title:'可昕的生日：開車去木柵大學',travel:'開車約 30 分鐘',travelH:0.5}); }
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'kx_bday_y1s2')) OUT.plan(G,{id:'kx_bday_y1s2',ev:'ev_kexin_birthday_y1s2',day:bd,h:18.75,place:'映月湖',title:'可昕的生日',travel:'走路',travelH:0.1}); }   /* AA_887 第 2 節（AA_874 B 版；CANON-NO-ECON-1112 第四批）：只排給交往中的玩家 */
       if(bd&&F.dating_kexin&&G.day>bd&&G.day<=bd+7&&!(F.KX_BDAY&&F.KX_BDAY[1])){ const v=F.KX_BDAY_VISIT?'visit':(F.KX_BDAY_MSG?'message':'none'); F.KX_BDAY=Object.assign({},F.KX_BDAY||{},{1:v});
         if(v==='none') PHONE.at(G,bd+1,8,[{th:'p:kexin',from:'kexin',text:'我等了一天。'}],'kx_bday_none'); } }
     /* 颱風假 T1b「照常上課的喜劇」（BB_110 第 2 節、交付清單 B3）：颱風假（calendar.js 的 TYPHOON：第 7 週週一，憲法（上）那天）前一晚 20:30 新聞通知「明天停止上班上課。」、21:00 張教授的信（通知），
@@ -2384,12 +2384,13 @@ const STORY = (function(){
     const k=(O[i]||O[O.length-1]).k; if(k==='later'){ F.springAskAt=(G.day+1)*24+G.hour; return k; } S.springChoose(GM,k); return k; };
   /* 選了以後：可昕的回覆與照片（BB_96 9-5）、可昕那一趟的出遊、桌遊團的照片（沒去的玩家；草稿：以安的行程表第二版、阿哲「下次你要來。」）。
      桌遊團那一趟（4/3～4/4）的事件 ev_noodle_trip_spring_y1 在 events.js（AA_355 第 3 節：已經有了；找不到事件才不排）。silent：沒選就過了 4/2（可昕不回） */
+  S.KX_SPRING_PHOTO=['📷（宿舍交誼廳，一碗泡麵）','室友說她今天代替你。她吃得比你多。'];   /* AA_887 第 1 節（CANON-NO-ECON-1112 第四批）：交往中、沒一起去旅行的玩家收到的那一則（桌遊團、留宿舍兩條共用）*/
   S.springChoose=function(GM,k,o){ o=o||{}; const G=GM.G, F=G.flags, D=S.springDays(), kx=!!F.dating_kexin, grp=PHONE.inGroup(G,'noodle_team'); F.SPRING_Y1=k;
     const KX=(day,h,L,tag)=>PHONE.at(G,day,h,L.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag);
-    if(k==='kexin'&&typeof OUT!=='undefined') OUT.plan(G,{id:'kx_trip_y1s2',ev:'ev_kexin_trip_spring_y1',day:D.d0,h:7+40/60,place:'木柵大學校門口',title:'春假：開車旅行',travel:'開車到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});   /* AA_147 第 1 節 #1：祐廷開車、可昕坐副駕駛——07:00 從宿舍回家取車（+30 分）→ 07:40 政大校門接她 → 08:00 出發；回程送她回政大、車開回家（+30 分）*/
-    if(k==='noodle'){ if(kx){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那我們暑假再去，我先選地方。','你們去哪裡，照片要傳給我。'],'kx_spring_reply'); KX(D.d0,21.5,['📷（她和予樂的宵夜）','予樂說她今天代替你。她吃得比你多。'],'kx_spring_photo'); F.KX_TRIP_DEFERRED='summer'; }
+    if(k==='kexin'&&typeof OUT!=='undefined') OUT.plan(G,{id:'kx_trip_y1s2',ev:'ev_kexin_trip_spring_y1',day:D.d0,h:7+40/60,place:'女生宿舍樓下',title:'春假：開車旅行',travel:'開車到女生宿舍樓下接她',travelH:40/60,back:'送她回宿舍，再把車開回家。'});   /* AA_887 第 2 節（CANON-NO-ECON-1112 第四批）；travel 稿上是「先回家開車，再到宿舍樓下接她」，照 AA_599（使用者：不寫取車過程）拿掉取車那一段，列給 AA */   /* AA_147 第 1 節 #1：祐廷開車、可昕坐副駕駛——07:00 從宿舍回家取車（+30 分）→ 07:40 政大校門接她 → 08:00 出發；回程送她回政大、車開回家（+30 分）*/
+    if(k==='noodle'){ if(kx){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那我們暑假再去，我先選地方。','你們去哪裡，照片要傳給我。'],'kx_spring_reply'); KX(D.d0,21.5,S.KX_SPRING_PHOTO,'kx_spring_photo'); F.KX_TRIP_DEFERRED='summer'; }
       if(typeof OUT!=='undefined'&&typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>e.id==='ev_noodle_trip_spring_y1')) OUT.plan(G,{id:'ndl_trip_y1s2',ev:'ev_noodle_trip_spring_y1',day:D.d0,h:8,place:'台北車站',title:'春假・小旅行',travel:'',travelH:0.5,back:'回到台北。'}); }
-    if(k==='dorm'&&kx){ if(!o.silent) KX(G.day,G.hour+0.1,['留在宿舍？……好。那暑假我們去遠一點。'],'kx_spring_reply'); KX(D.d0+1,16,['📷（木柵大學山上的階梯）','山上都沒人，我自己爬上去了。'],'kx_spring_photo');/* AA_209 附錄B §2 */ F.KX_TRIP_DEFERRED='summer'; }
+    if(k==='dorm'&&kx){ if(!o.silent) KX(G.day,G.hour+0.1,['留在宿舍？……好。那暑假我們去遠一點。'],'kx_spring_reply'); KX(D.d0+1,16,S.KX_SPRING_PHOTO,'kx_spring_photo');/* AA_887 第 1 節：桌遊團、留宿舍兩條共用一則 */ F.KX_TRIP_DEFERRED='summer'; }
     if(!o.silent){ const me=(th,t)=>({th,from:'player',who:null,text:t}), ng='g:noodle_team';   /* 選完以後祐廷自動傳一句（AA 71186c7）*/
       if(k==='noodle'&&grp) PHONE.at(G,G.day,G.hour+0.05,[me(ng,'我去。'),{th:ng,from:'heroine_01',text:'收到。行程表多一個人。'}],'spring_pick_msg');
       if(k==='kexin'){ PHONE.at(G,G.day,G.hour+0.05,[me('p:kexin','好。我們去。')].concat(grp?[me(ng,'我這次有約了。'),{th:ng,from:'zhe',text:'……喔～'}]:[]),'spring_pick_msg'); }
@@ -2563,7 +2564,7 @@ const STORY = (function(){
     if(!cand.length) return; let pick=cand[0];
     F.dpPick={id:pick.id,day:G.day}; }   /* 會出現好幾次的（Kevin 的影片）：同一則至少隔 7 天（gap：阿凱的照片隔 28 天）*/   /* 會出現好幾次的（Kevin 的影片）：同一則至少隔 7 天（gap：阿凱的照片隔 28 天）*/
   /* 宿舍房間的物件（交接包 v1 第 1 節「房間物件」，AA_12 0-2、0-3）：點了看一句旁白。可昕的物件分開以後的旁白（AA_185 3-4）在 S.roomItemList */
-  const ROOM_ITEMS=[['書架上的舊《民法》','以前翻過。看得到字，看不懂意思。'],['經濟學原理','念了一個多月的課本。前六章有畫線，後面是新的。'],['寫滿的筆記本','重考那段時間的筆記。一半是你的字，一半是她的。'],['摩天輪的票根（夾在桌墊下）','摩天輪的票根。兩個人開始交往的那一天。'],['手機相簿的一張照片','河堤邊停著幾台腳踏車。那一群人。你休學以後，他們還是會叫你。']];   /* AA_224 第 2 組：課本、照片（筆記本、票根不改）*/
+  const ROOM_ITEMS=[['書架上的舊《民法》','以前翻過。看得到字，看不懂意思。'],['高中的課本','搬宿舍的時候順手帶上來的。一本都還沒翻。'],['學測前的筆記本','數學那一本最厚。'],['手機相簿的一張照片','宿營那天的合照。203 的四個人擠在最前面。']];   /* AA_887 第 2 節（企劃線 db44bb9ab；CANON-NO-ECON-1112 第四批）：課本、筆記本、照片換字，摩天輪的票根拿掉（四件；舊存檔 ROOM_Y2_ITEMS 的 y1_3 現在是照片、y1_4 沒有了＝不列）*/
   S.ROOM_ITEMS=ROOM_ITEMS;
   /* 跟著劇情多出來的東西（放在固定的那幾樣後面）：明軒送的三色螢光筆（聖誕交換禮物 XMAS_HL3；BB_95 3-6b，BB 2026-10-14 寫的旁白）*/
   /* 阿凱的泡麵評鑑表（BB_120 1-7c）：大一同房時，他書桌上方牆上貼的一張紙；口味用通稱。朋友的門檻台詞（F-K2「泡麵第一名是這個 你可以知道了」）那天起第一名填上了，
@@ -2676,7 +2677,7 @@ const STORY = (function(){
   S.kaiSheet=function(G){ const up=((G&&G.social&&G.social.relUp)||{}).kai|0;
     return up>=3?['「第一名：沙茶 9.5」'+KAI_SHEET,'（多了一欄「{name}」，裡面是他替你填的分數。最下面一行：「不準的話自己改」）']:['「第一名：不能說（怕被搶）」'+KAI_SHEET]; };
   S.roomItemList=function(G){ const F=(G&&G.flags)||{}, L=ROOM_ITEMS.slice(); if(F.ROOM_Y2) L[0]=['書架上的舊《民法》','現在知道，要先問是誰、向誰、依據什麼、要什麼。'];   /* AA_12 0-3 第 2 點：每一年拿起來的旁白不同（大二）*/
-    if(F.EX_kexin&&!F.dating_kexin){ L[2]=['寫滿的筆記本','她在第一頁寫的那一句，你沒有擦掉。']; L[3]=['摩天輪的票根（夾在桌墊下）','票根的日期，還是那一天。']; L[4]=['手機相簿的一張照片',['你翻到一半，又闔上了。','……照片裡的河，還是一樣寬。']]; }   /* 和可昕分開以後（AA_185 3-4：不寫責怪、不寫後悔）；「收拾」收進紙箱的那一段：AA_182 第 2 節已交，跟收拾的時刻三選一一起接（任務 V6-S4，還沒做）*/
+    /* 和可昕分開以後的那三句（AA_185 3-4：筆記本、票根、照片）：AA_887 第 2 節——那三件不是她的了（票根拿掉、筆記本和照片換成祐廷自己的），跟著拿掉 */   /* 和可昕分開以後（AA_185 3-4：不寫責怪、不寫後悔）；「收拾」收進紙箱的那一段：AA_182 第 2 節已交，跟收拾的時刻三選一一起接（任務 V6-S4，還沒做）*/
     if(F.XMAS_HL3) L.push(['桌上的三色螢光筆',F.GREEN_HIGHLIGHTER?'明軒送的三色螢光筆，和上次那支綠的放在一起。他說他用不到。':'明軒送的三色螢光筆。他說他用不到。']);
     if(G&&S.kaiRoommate(G)) L.push(['阿凱的泡麵評鑑表',S.kaiSheet(G)]);
     if(typeof SOCIAL!=='undefined'){ if(SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')) L.push(['三張連號的票根',['三張連號的票根，你留著中間那張。','另外兩張在他們那裡。……應該吧。']]);   /* 電影票根（BB_96 3-5c）：同一個存檔只會有一種 */
@@ -2689,7 +2690,8 @@ const STORY = (function(){
   /* DORM-DESK-ITEMS-3D-1103（使用者 11-03「不應該還有這些選項? 不然也是在書桌上?? 書桌牆面可以貼東西? 擺書」）：選單上的每一件在房間裡都看得到——
      3D（zones3d.js loadDeskItems → dorm_desk_items.glb 的 ITEM_desk_<key>）照這裡回傳的 key 開關；key 由 S.roomItemList 的標籤換算，選單和 3D 永遠是同一份條件（不另外寫一套）。
      沒有 3D 的標籤（事件包 ROOM_EXTRA 加的）不回傳。*/
-  const ROOM_ITEM_KEY={'書架上的舊《民法》':'civil','經濟學原理':'econ','寫滿的筆記本':'notebook','摩天輪的票根（夾在桌墊下）':'ferris','手機相簿的一張照片':'phone','桌上的三色螢光筆':'highlighters',
+  const ROOM_ITEM_KEY={'書架上的舊《民法》':'civil','高中的課本':'econ','學測前的筆記本':'notebook','手機相簿的一張照片':'phone',   /* AA_887：課本、筆記本換名字，3D 照舊用原本那兩件模型（key 不變）；票根拿掉 */
+   '桌上的三色螢光筆':'highlighters',
     '阿凱的泡麵評鑑表':'kai_sheet','三張連號的票根':'film3','電影票根':'film1','她的週年卡片':'anniv'};
   S.roomItemKeyOf=function(G,label){ const F=(G&&G.flags)||{}; let k=ROOM_ITEM_KEY[label]; if(!k&&label==='旅行的照片'){ const T=F.KX_TRIP&&F.KX_TRIP.Y1S2; if(T) k='trip_'+T; } return k||null; };
   S.roomItemKeys=function(G){ const K=[]; for(const r of S.roomItemList(G)){ const k=S.roomItemKeyOf(G,r[0]); if(k&&!K.includes(k)) K.push(k); } return K; };
@@ -3063,8 +3065,8 @@ const STORY = (function(){
   S.kxAnnivMissed=function(G,n,day){ const tag=n===1?'kx_anniv_photo':'kx_anniv_photo'+n, K=t=>({th:'p:kexin',from:'kexin',text:t});
     if(n===6){ if(typeof PHONE!=='undefined') PHONE.at(G,day,22,[K('卡片你留著。……明年一起給我。')],'kx_anniv_miss6'); return; }   /* AA_472 第 3 節：第六年卡片在祐廷手上——沒有 21:00 的電話（電話裡「卡片我寫好了。我自己帶回去。」對不上）、沒有隔天卡片的照片，改成她 22:00 私訊一句 */
     if(typeof PHONE!=='undefined') PHONE.at(G,day+1,12,[K('📷（一張卡片）'),K('週年快樂。下次你準備。')],tag); };
-  const KX_ANNIV_PLACE={wheel:['摩天輪','週年：摩天輪','開車約 40 分鐘',2/3],shop:['木柵大學・山下的小吃街','週年：木柵大學山下，我們的店','開車約 30 分鐘',0.5],river:['河堤','週年：河堤','騎車約 15 分鐘',0.25]};
-  function kxAnnivPlaceOpts(F,K,key){ return [{t:'摩天輪。',set:{[key]:'wheel'},say:[K('……回到最高點。好。')]},{t:'木柵大學山下，我們的店。',set:{[key]:'shop'},say:[K('老闆會以為今天很普通。我們不要告訴他。')]},
+  const KX_ANNIV_PLACE={wheel:['摩天輪','週年：摩天輪','開車約 40 分鐘',2/3],shop:['學校後門・湯餃店','週年：後門那家湯餃','走路',0.1]/* AA_887 第 2 節 */,river:['河堤','週年：河堤','騎車約 15 分鐘',0.25]};
+  function kxAnnivPlaceOpts(F,K,key){ return [{t:'摩天輪。',set:{[key]:'wheel'},say:[K('好。坐到最上面那一格。')]},{t:'後門那家湯餃。',set:{[key]:'shop'},say:[K('老闆會以為今天很普通。我們不要告訴他。')]},
     {t:'河堤。',set:{[key]:'river'},say:[K(F.KX_NYE&&F.KX_NYE[1]==='river'?'好。這次不看煙火，看河。':'好。河堤晚上風大，穿外套。')]}/* AA_209 附錄B §2：跨年去河堤的（KX_NYE[1]==='river'）照舊，其他玩家換這句 */]; }
   /* 第四年他在美國（那一天在國外）＝視訊 */
   S.kxAnnivVideo=function(G,n){ const an=S.dayOfKey(S.KX_ANNIV_DAYS[n]); return n===4&&an!=null&&S.routeAbroadRoute(G)==='US'&&S.abroad(Object.assign({},G,{day:an})); };
@@ -3551,7 +3553,7 @@ const STORY = (function(){
   S.coldWeekKexin=async function(GM){ const G=GM.G, F=G.flags; if(!S.coldKexinDue(G)) return false; F.KX_COLD_WEEK_SEEN=G.day; cwDone(G,'ev_cold_week_kexin'); const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y3_cold_kexin'):null; if(q&&q.state==='planned') q.state='done';
     GM.sceneBegin(); try{ if(G.zone!=='dorm_hall'){ await GM.fade(true); if(GM.enter) await GM.enter('dorm_hall',Object.assign({},CW_LOUNGE)); await GM.fade(false); }
       const kx=cwWho('kexin'); if(typeof ADV!=='undefined'){ ADV.preload(['kexin']); ADV.begin({background:'blur',right:{charId:'kexin',expression:'neutral'}}); }
-      if(F.KX_COLD_WEEK==='told'){ await GM.say(kx,'我考完了。你還活著，很好。'); await GM.say(kx,'（把一袋橘子放在交誼廳的矮桌上）予樂說感冒要吃橘子。我不知道有沒有根據。'); if(!F.COLD_WEEK_ASKER) await cwAsk(GM,'kexin','kexin'); }   /* 10/24 那晚沒有人問：由她問 */
+      if(F.KX_COLD_WEEK==='told'){ await GM.say(kx,'我考完了。你還活著，很好。'); await GM.say(kx,'（把一袋橘子放在交誼廳的矮桌上）我室友說感冒要吃橘子。我不知道有沒有根據。'); if(!F.COLD_WEEK_ASKER) await cwAsk(GM,'kexin','kexin'); }   /* 10/24 那晚沒有人問：由她問 */
       else { await GM.say(kx,'（把一袋橘子放在交誼廳的矮桌上）'); await GM.say(kx,'下次要說。我想在。'); }   /* 沒被告知：不問「那一句」 */
       if(typeof SOCIAL!=='undefined') SOCIAL.remember('kexin','HELPED','感冒那晚');
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); } if(GM.autosave) GM.autosave(); return true; };

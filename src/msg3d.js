@@ -31,7 +31,7 @@ const MSG=(function(){
     heroine_02:{free:[5,30],sleep:1,wake:9,wakeLine:['昨天太晚看到了。']},   /* 上班時間由作息判斷；祐廷交往中改 15:10 回（replyAt 另外處理）*/
     heroine_04:{free:[1,10],sleep:3,wake:14,wakeLine:['早','剛看到'],fastFrom:22,fastTo:24},   /* 22～24 點最活躍、下午兩點才醒 */
     heroine_05:{slots:[12+10/60,17+5/60,22.5],wakeLine:['抱歉，昨天十點半就睡了。']},   /* 很準時：12:10、17:05、22:30；22:30 以後隔天 12:10 */
-    kai:{free:[1,10],sleep:5,wake:13,wakeLine:['剛醒']},   /* 凌晨兩點到四點最活躍；一點以前傳的，一點才回 */
+    kai:{free:[1,10],sleep:5,wake:13,wakeLine:['剛醒']},   /* 凌晨兩點到四點最活躍；一點以前發的，一點才回 */
     classmate_mingxuan:{free:[1,10],sleep:1.5,wake:9,wakeLine:['昨天睡死 哈哈'],win:[{days:[2,4,6],from:19,to:21+5/60}]},   /* 二四六 19～21 家教，21:05 一次回 */
     npc_fangyt:{free:[10,60]}, kevin:{free:[1,5]}
   };

@@ -184,7 +184,7 @@ const INVITE_DATA={
       rule:(G,c,I)=>{ if(c.pid==='brunch'&&c.r.res==='accept'&&c.h<12){ const h2=12+10/60; return {res:'resched',why:'sleep',lines:c.face?['早上不行，我在睡覺。']:['早上 不行 我在睡'],alt:I.freeAt(G,'kai',c.P,c.day,h2)?{day:c.day,h:h2}:null}; }   /* BB_158 第 6 節：半熟早上改 12:10 */
         if(c.pid!=='library'||c.r.res!=='accept') return null; const ex=!!(c.term&&[7,8,9,15,16].includes(c.term.week));   /* BB_172 K9（AA_209 第 4 節）*/   /* 朋友以上：考前一週、考試週答應 */
         if(c.band==='R'&&ex) return null; return {res:'decline',why:'sleepy',lines:c.face?['總圖我會睡著。','考前一週我會去，真的。']:['總圖我會睡著','考前一週我會去 真的']}; } },   /* K8、K9 當面版（BB_172 10-1 第 17、8 點；週次 [7,8,9,15,16] 已經照改）*/
-    classmate_mingxuan:{ walk:{any:[['我家教那個學生問我，念法律是不是要背很多東西。','我跟他說，要背，背完還要會用。'],['我爸之前傳訊息問我『籃球的三分線是畫在哪裡』。','他在看我們比賽的直播。……到現在還是看不懂。'],['這條路我每個禮拜都走好幾次，去家教都走這邊。']]},   /* BB_172 M2（10-1 第 16 點）、M3（10-1 第 7 點）、M4 */   /* 明軒（5-4）：二、四、六晚上 19–21 家教（個人規則）；Café 的「只能待一小時」朋友以後不說（BB_120 1-6）*/
+    classmate_mingxuan:{ walk:{any:[['我家教那個學生問我，念法律是不是要背很多東西。','我跟他說，要背，背完還要會用。'],['我爸之前發訊息問我『籃球的三分線是畫在哪裡』。','他在看我們比賽的直播。……到現在還是看不懂。'],['這條路我每個禮拜都走好幾次，去家教都走這邊。']]},   /* BB_172 M2（10-1 第 16 點）、M3（10-1 第 7 點）、M4 */   /* 明軒（5-4）：二、四、六晚上 19–21 家教（個人規則）；Café 的「只能待一小時」朋友以後不說（BB_120 1-6）*/
       acc:{brunch:{phone:['早午餐？哈哈 CP 值不高喔 你請的話就可以'],face:['早午餐？CP 值不高喔。你請的話，我就去。']},teahouse:{phone:['一盞？哈哈 我很少喝茶 我爸喝 好啊'],face:['一盞？我很少喝茶，我爸才喝。好啊。']},
         cafe:{A:['好。但我只能待一小時。']},noodle:['走啊，阿鳳便宜又大碗。'],wenzhou:['可以啊。走一走也好，我最近都坐著。']},   /* BB_172 M5、M6（手機／當面，10-1 第 17 點）、M8、M9（10-2 第 1 點）*/
       rule:(G,c,I)=>{ const tut=[2,4,6].includes(c.wd)&&c.h+c.P.stay>19&&c.h<21; if(c.r.res!=='accept'||!tut) return null;
@@ -224,7 +224,7 @@ const INVITE_DATA={
         if(c.pid==='wenzhou'&&tutor) return {res:'resched',why:'work',act:'work',lines:['課輔班下課，剛好在溫州街。……七點，門口等我。'],alt:at(19)};
         return null; } },   /* rule：BB_158 第 4 節，大二下重考那一學期半熟、一盞都婉拒（SYS-21 起她那學期休學、presence 先回 away：照樣換成她自己的這一句）*/   /* 沛珊（6-4）*/
     kexin:{ rule:(G,c,I)=>c.pid==='lawlib'&&c.r&&(c.r.res==='accept'||c.r.res==='resched')?INVITE_DATA.toSlow(G,'kexin',c,I,['法圖？我是外校的，進不去吧。','……木曜日好不好？那裡不用證件。']):null,   /* AA_535b 2-1：她是外校的，法圖進不去，改約慢讀 */
-      acc:{brunch:{A:['SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。'],R:['好啊，我先查一下菜單。']},teahouse:{R:['一盞。安靜的地方。我可能一個小時都不講話喔。']},
+      acc:{brunch:{A:['SUNNY SIDE？好。那家要排，我早一點出門。'],R:['好啊，我先查一下菜單。']},teahouse:{R:['一盞。安靜的地方。我可能一個小時都不講話喔。']},
         pasta118:['好。我從木柵過去四十分鐘，你先點，我到了就吃。'],teahouse_ceremony:['茶席。我要穿裙子嗎？','我穿。'],   /* AA_535b 4-2（企劃線 b3e5bca3b）：茶席那句接茶席現場她「坐下來，又站起來，把裙子拉好再坐」（wzlines3d.js CEREMONY_LINES）*/
         /* AA_417 3-2（她是政大的學生：羽球場由祐廷用台大的帳號預約）；政大那幾年的句子，經濟系那一年不用 */
         gym_badminton:G=>(G.stage||'law')==='law'?{A:['首都帝大的球場？好。……先說，我高中打過。'],R:['好，我從山上下來，拍子你負責借。']}:null,

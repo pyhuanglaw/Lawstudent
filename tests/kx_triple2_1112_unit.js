@@ -38,7 +38,7 @@ for(const f of [...new Set(K.PAIRS.map(x=>x[0]))]){ const now=lits(read(f)), ECO
     /* AA_839 學姊事件刪節號 17 列（edb1a1a5c，2026-11-12） */ '……社長沒有人改。','……你學得很快。','……好燙。','……不用。我自己來。','……那還來得及。我六月才畢業。','……這個問題最近有人問我第三次了。','……還可以。','……還有——','……我知道。家聚你都沒來，今天來了就好。','……我們也先回去。明天再說。','……坐吧。我剛好想要一個不是法服的人。','……我不知道。','……我要回家了。你也早點回去。','……可是好像真的這麼簡單。','……對。他跳過了。我第一次讀的時候沒看出來，是許老師指出來的。','……順序對了。','……你翹課？'],'src/data/r2y3a_events.js':['……不是。飯要涼了。']}[f]||[];
   /* 2026-11-12（CANON-1112：舊序章拿掉／可昕開局不認識）：events.js（8/30 那一場和迎新那一支拿掉、可昕在法律系的八個新事件）之後故意改了——
      和匯入以前比字串常值的這一項用改之前那一版（6c2ecfc0af，這支測試在那裡全過）；上面每一列「新句剛好一次、舊句沒有了」照舊查現在的檔。舊期望：直接拿現在的檔比。讀不到那一版＝照現在的檔 */
-  const canonWas=['src/data/events.js'].includes(f)?show('6c2ecfc0af',f):(['src/data/bbpack_events.js','src/data/r2y3a_events.js'].includes(f)?show('cfc0fd04bf',f):null)/* CANON-NO-ECON-1112 第三批：bbpack（B 拿掉舊序章朋友那幾場）、r2y3a（A 拿掉可昕九場）用拿掉以前那一版比 */, nowCmp=canonWas?lits(canonWas):now;
+  const canonWas=['src/data/events.js'].includes(f)?show('6c2ecfc0af',f):(['src/data/bbpack_events.js','src/data/r2y3a_events.js'].includes(f)?show('cfc0fd04bf',f):(f==='src/data/invites.js'?show('41a071f78d',f)/* （CANON-NO-ECON-1112 第四批：照 AA_891／AA_894 換字）invites.js 可昕 brunch 換了一句：用換以前那一版比 */:null))/* CANON-NO-ECON-1112 第三批：bbpack（B 拿掉舊序章朋友那幾場）、r2y3a（A 拿掉可昕九場）用拿掉以前那一版比 */, nowCmp=canonWas?lits(canonWas):now;
   if(was){ const [gone,came]=bagDiff(lits(was),nowCmp); const wantGone=rows.map(x=>x[1]).concat(LATER).sort(), wantCame=rows.map(x=>x[2]).concat(LATER.map(t=>t.slice(2))).sort(); check('2. '+f+' 的字串常值和匯入以前（'+BASE+'）比：只差稿上的 '+rows.length+' 列（＋AA_833、AA_839 的 '+LATER.length+' 列）',(f==='src/data/events.js'?wantGone.every(x=>gone.includes(x)):J(gone)===J(wantGone))&&J(came)===J(wantCame),J([gone.slice(0,3),came.slice(0,3)])); }
   else console.log('（跳過：讀不到 '+BASE+' 的 '+f+'）'); }
 
@@ -51,7 +51,7 @@ for(const f of [...new Set(K.PAIRS.map(x=>x[0]))]){ const now=lits(read(f)), ECO
   } else console.log('（跳過：讀不到源稿 AA_745_movie_plots_2.json，企劃線沒 fetch）');
   const now=lits(read(MOV.file)), was=show(BASE,MOV.file);
   check('3. movie_plots.js：新句剛好一次、舊句沒有了；來源寫著 AA_745_movie_plots_2.json@'+K.SHA,cnt(now,MOV.new)===1&&cnt(now,MOV.old)===0&&now.includes(MOV.src+'@'+K.SHA),J([cnt(now,MOV.new),cnt(now,MOV.old)]));
-  if(was){ const [gone,came]=bagDiff(lits(was),now); check('3. movie_plots.js 的字串常值和匯入以前（'+BASE+'）比：只差這一句和來源的 @sha',J(gone)===J([MOV.src+'@'+MOV.prev,MOV.old].sort())&&J(came)===J([MOV.src+'@'+K.SHA,MOV.new].sort()),J([gone,came])); }
+  if(was){ const [gone,came]=bagDiff(lits(was),lits(require('./canon898_1112.js').back(read(MOV.file))))/* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）芷若出發那天的 when 欄先換回舊句再比 */; check('3. movie_plots.js 的字串常值和匯入以前（'+BASE+'）比：只差這一句和來源的 @sha',J(gone)===J([MOV.src+'@'+MOV.prev,MOV.old].sort())&&J(came)===J([MOV.src+'@'+K.SHA,MOV.new].sort()),J([gone,came])); }
   try{ const M=new Function(read(MOV.file)+';return MOVIE_PLOTS;')(); const re=M.films.m2609a.later&&J(M.films.m2609a); check('3. 那一句在 MOVIE_PLOTS.films.m2609a（可昕）裡',J(M.films.m2609a).includes(J(MOV.new))&&!J(M).includes(J(MOV.old)),String(re).slice(0,80)); }catch(e){ check('3. movie_plots.js 載得起來',false,String(e&&e.message)); } }
 
 // CANON-NO-ECON-1112：經濟系那一年拿掉（第 4 項 重跑 apply_line_rows.py（空跑）：稿的第 0 列對不到（那一場拿掉了），工具照設計停下來）

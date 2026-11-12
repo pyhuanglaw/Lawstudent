@@ -124,7 +124,7 @@ const D2=STORY._day2||{};
   { const V=evText('ev_kexin_video_study'); check('6. 可昕視訊一起讀書那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!V.length);
     const N=evText('ev_kexin_tour_nccu'); check('7. 可昕 K1 導遊那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!N.length);
     /* 9. SK01 阿勳那一句（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
-    const B=evText('ev_mid_autumn_bbq'); check('10. 中秋烤肉阿哲：「欸，明軒說你比我們大一屆？」（宿營時明軒問過「你幾年次的」）；「等一下。經濟系？重考？」照留',B.includes('欸，明軒說你比我們大一屆？')&&!B.some(t=>/你幾年次的/.test(t))&&B.includes('等一下。經濟系？重考？'));
+    const B=evText('ev_mid_autumn_bbq'); check('10. 中秋烤肉阿哲：「欸，你學測數學幾級？」（AA_884 第 1 節；原本「明軒說你比我們大一屆？」）',B.includes('欸，你學測數學幾級？')&&!B.some(t=>/你幾年次的|大一屆/.test(t)));   /* （CANON-NO-ECON-1112 第四批：照 AA_884 換字）可昕那一段（K3）不在這一批 */
     /* 11. 可昕 K2 來首都帝大（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
     const A=evText('ev_almost_late'); check('14. 週二快遲到：「等一下還有課。你看了一眼手機，……」（大一上週二沒有 10:20 的課）',J(A)===J(['等一下還有課。你看了一眼手機，開始用走的假裝自己沒有在跑。']),J(A));
     const S=ev('ev_bohan_score').dialogue.find(l=>l&&l.consequences&&l.consequences.contact==='classmate_bohan');
@@ -139,7 +139,7 @@ const D2=STORY._day2||{};
     check('18. 以安 A-L9：「你報告哪一週最多？期中週我有三份要交。」（AA_580 第 6 列，取消期中考 AA_578；原本「你期中哪一週最多？期中考那週我有三科。」）',!!L9&&J(L9.lines)===J(['你報告哪一週最多？期中週我有三份要交。']),J(L9&&L9.lines));
     const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_372_/.test(e.path));
     const lad=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path==='docs/story_planning/ladder/ladder_aa.json');
-    check('13/18／第 6 節. 那兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（白名單 approved；2026-11-02 AA_580 換成 759e5c000、7fca0df5 在 history；ladder.js 的來源寫 759e5c000、不再寫 AA_372@ 疊句；LADDER-IMPORT-AA657-1104：ladder_aa_y3s1 換到 AA_657 的 65a1b2fe9 以後 759e5c000 剩 7 檔）；AA_372 本身的白名單換到 7fca0df5（第 6 節），之後第 7 節週末回台中（da55ec2b→965815f5，7fca0df5 在 history）',lad.length===1&&lad[0].sha==='759e5c000'&&(lad[0].history||[]).some(h=>h.sha==='7fca0df5')&&lad[0].status==='approved'&&allow.length===1&&allow[0].sha==='965815f5'&&allow[0].status==='approved'&&(allow[0].history||[]).some(h=>h.sha==='7fca0df5'&&h.task==='AA372-Y1S1-FIX-1021')&&/759e5c000（7 檔）/.test(LADDER.source)&&/65a1b2fe9（1 檔）/.test(LADDER.source)&&!/AA_372@/.test(LADDER.source),J([lad.map(e=>e.sha),allow.map(e=>e.sha)])+' '+LADDER.source.slice(-60)); }
+    check('13/18／第 6 節. 那兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（白名單 approved；2026-11-02 AA_580 換成 759e5c000、7fca0df5 在 history；ladder.js 的來源寫 759e5c000、不再寫 AA_372@ 疊句；LADDER-IMPORT-AA657-1104：ladder_aa_y3s1 換到 AA_657 的 65a1b2fe9 以後 759e5c000 剩 7 檔）；AA_372 本身的白名單換到 7fca0df5（第 6 節），之後第 7 節週末回台中（da55ec2b→965815f5，7fca0df5 在 history）',lad.length===1&&lad[0].sha==='759e5c000'&&(lad[0].history||[]).some(h=>h.sha==='7fca0df5')&&lad[0].status==='approved'&&allow.length===1&&allow[0].sha==='965815f5'&&allow[0].status==='approved'&&(allow[0].history||[]).some(h=>h.sha==='7fca0df5'&&h.task==='AA372-Y1S1-FIX-1021')&&/759e5c000（5 檔）/.test(LADDER.source)/* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）ladder_aa_y1s2、y4s2 換到 3f6c7d3bb9，759e5c000 剩 5 檔 */&&/65a1b2fe9（1 檔）/.test(LADDER.source)&&!/AA_372@/.test(LADDER.source),J([lad.map(e=>e.sha),allow.map(e=>e.sha)])+' '+LADDER.source.slice(-60)); }
   // ===== 第 8 項：以安、沛珊說回台中的週末 =====
   { const pr=(id,k)=>STORY.presence(id,Object.assign({},G,{day:D(k)}));
     fresh(D('2025-09-26'),18,'campus',{introDone:true,classDone:true,afternoonDone:true}); R('heroine_01','FAM'); R('classmate_peishan','FAM');

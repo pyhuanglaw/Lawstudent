@@ -216,6 +216,15 @@ def same(a, b):
     return isinstance(a, list) and isinstance(b, list) and [unq(x) for x in a] == [unq(x) for x in b]
 
 
+# CANON-NO-ECON-1112 第四批（AA_891 第 2 節，企劃線 c51906860）：可昕那幾列的新字（canon891 用；invites.js 那一格已經照 AA_894 換成同一句新字的「現有」列，find_existing 也認）
+CANON891_NEW = {'kx1': '總圖？好。上課你都坐我後面，這次換你坐前面。', 'kx3': '吃飯？人多一點的話，好。', 'kx7': '好。我帶民總，你帶刑總。交換痛苦。',
+                'kx8': '九點前。我答應室友一起吃宵夜。', 'kx12': '只有我們兩個？……好。我室友問的話，我說實話。', 'kx17': '我下午有選修，四點下課。',
+                'kx18': '報告還沒寫完。明天？', 'kx19': '今天陪我室友。明天？', 'kx20': '好。幾點？我先把這一章念完。', 'kx21': 'Café？好。我要坐你平常坐的那張。',
+                'kx22': '總圖？好。我睡著的話，叫醒我。', 'kx23': '公館燒臘？好。我要點你每次都點的那盤。', 'kx25': 'SUNNY SIDE？好。那家要排，我早一點出門。',
+                'kx30': '好。這次不要再遲到。', 'kx32': '好。我室友問我為什麼答應。我說，因為是 Café。', 'kx34': '好。不要問我為什麼又答應。',
+                'kx35': '好。九點我要回宿舍。……九點半。'}
+
+
 def find_existing(who, pid_tags, lines, via, raw):
     """「現有」的列對到 INVITE_DATA：回傳 (ex, band)；對不上就停止"""
     p = DATA.get(who) or {}
@@ -237,6 +246,11 @@ def find_existing(who, pid_tags, lines, via, raw):
     if isinstance(acc, dict):
         for b in ('A', 'R'):
             if same(acc.get(b), flat):
+                return 'acc', b
+    if who == 'kexin' and isinstance(acc, dict) and len(flat) == 1:   # AA_891 kx25／AA_894：invites.js 可昕那一格已經是新字（AA_415 表上是舊字），最後 canon891 換成同一句
+        for b in ('A', 'R'):
+            v = acc.get(b)
+            if isinstance(v, list) and len(v) == 1 and v[0] in CANON891_NEW.values():
                 return 'acc', b
     die(f'{who}：現有的 {flat} 在 INVITE_DATA.people.{who} 的 acc／first（{pid}）找不到')
 
@@ -431,8 +445,42 @@ def overlay_replies(path, text):
     return '\n'.join(L)
 
 
+def canon891(path, text):
+    """CANON-NO-ECON-1112 第四批（AA_891 第 2 節，企劃線 c51906860 定稿 BB_426）：可昕的邀約回覆——kx1～kx19 從 y0 搬進 law（她現在從認識開始，階段 1～6），
+    表上那幾列的字照換（lines 只有一句的列整句換；say 跟著換成「」包起來的同一句）；kx25b 只換 say。放在覆蓋層之後（舊的覆蓋層是 AA_783，不再重匯）。"""
+    NEW = CANON891_NEW
+    SAY_ONLY = {'kx25b': '「好啊，我先查一下菜單。」'}
+    MOVE = {'kx%d' % i for i in range(1, 20)}
+    L = text.split('\n'); who = None; seen = set()
+    for i, ln in enumerate(L):
+        m = re.match(r'^ "(\w+)":\[$', ln)
+        if m:
+            who = m.group(1); continue
+        m = re.match(r'^  (\{.*\})(,?)$', ln)
+        if not m or who != 'kexin':
+            continue
+        r = json.loads(m.group(1)); rid = r['id']
+        if rid in NEW:
+            if len(r['lines']) != 1 or not isinstance(r['lines'][0], str):
+                die(f'AA_891：{rid} 不是只有一句（{r["lines"]}），不猜')
+            r['lines'] = [NEW[rid]]; r['say'] = '「' + NEW[rid] + '」'; seen.add(rid)
+        if rid in SAY_ONLY:
+            r['say'] = SAY_ONLY[rid]; seen.add(rid)
+        if rid in MOVE:
+            if r.get('sec') != 'y0':
+                die(f'AA_891：{rid} 的 sec 不是 y0（{r.get("sec")}）')
+            r['sec'] = 'law'; seen.add(rid)
+        L[i] = '  ' + json.dumps(r, ensure_ascii=False, separators=(',', ':')) + m.group(2)
+    miss = (set(NEW) | set(SAY_ONLY) | MOVE) - seen
+    if miss:
+        die('AA_891：對不到的列 ' + '、'.join(sorted(miss)))
+    print(f'{path}：AA_891 可昕 {len(NEW)} 列換字、kx1～kx19 搬進 law')
+    return '\n'.join(L)
+
+
 _TEXT = strip_quotes(OUT, _TEXT)
 _TEXT = overlay_replies(OUT, _TEXT)
+_TEXT = canon891(OUT, _TEXT)
 _p = os.path.join(ROOT, OUT)
 if not os.path.exists(_p) or open(_p, encoding='utf-8').read() != _TEXT:
     _tmp = _p + '.tmp%d' % os.getpid()

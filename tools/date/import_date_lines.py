@@ -1044,6 +1044,13 @@ if ZQ_STALE:   # X324 子晴重寫：同下（芷若那一條）
     sys.exit(f'子晴重寫（DLG-FULL-REVIEW-1110）：疊在上面的改句有 {len(ZQ_STALE)} 列原句還在源稿裡、和改成不一樣（源稿沒對齊，沒寫檔）：\n' + '\n'.join(f'  {l} {loc}「{o}」→「{n}」' for l, loc, o, n in ZQ_STALE))
 if ZR_STALE:   # X324 芷若重寫：原句還在源稿裡的列——源稿沒對齊成遊戲現在的字，不猜（要問 AA：是漏了寫回、還是那一格不重寫要照舊疊）
     sys.exit(f'芷若重寫（DLG-FULL-REVIEW-1110）：疊在上面的改句有 {len(ZR_STALE)} 列原句還在源稿裡、和改成不一樣（源稿沒對齊，沒寫檔）：\n' + '\n'.join(f'  {l} {loc}「{o}」→「{n}」' for l, loc, o, n in ZR_STALE))
+# CANON-NO-ECON-1112 第四批（AA_899 表最後一列，企劃線 22f572ef08 定稿、BB_433 採用）：可昕取消約會的第二句「好。我去找（室友的名字）吃宵夜。」→「好。我去找我室友吃宵夜。」
+# （室友沒有名字，照總表 ★ 節）。源稿那一格還是舊字＝寫檔前照換；已經是新字＝不動；兩個都不是＝停下來（不猜）
+_K899 = (L.get('kexin') or {}).get('cancel')
+if isinstance(_K899, list) and len(_K899) > 1 and _K899[1] != '好。我去找我室友吃宵夜。':
+    if not (_K899[1].startswith('好。我去找') and _K899[1].endswith('吃宵夜。') and len(_K899[1]) == len('好。我去找') + 2 + len('吃宵夜。')):
+        sys.exit(f'AA_899：可昕 cancel[1] 現在是 {_K899[1]!r}，不是稿上的舊句（不猜）')
+    _K899[1] = '好。我去找我室友吃宵夜。'
 out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p]}' for p in FILES.values()), 'lines': L, 'prefs': prefs, 'loc': LOC}
 dst = os.path.join(ROOT, 'src', 'data', 'date_lines.js')
 if '--out' in sys.argv:   # 另存比對用（tests/peishan_dates_1111_unit.js：重匯的結果要和現在的檔一樣）

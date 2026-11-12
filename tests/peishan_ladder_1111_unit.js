@@ -18,8 +18,8 @@ const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:
 /* 一份稿：檔名、只認的 SHA、學期 → [招呼模式, 要拿掉的 when] */
 const FILES=[
   {f:'AA_753_peishan_ladder_Y1S2_Y2S1.json',sha:'b59a8f9de',terms:{Y1S2:['full',['我在客運上背了一路，才背到第三章。']],Y2S1:['full',['我背到第三章，還有四章。']]}},
-  {f:'AA_753_peishan_ladder_Y3.json',sha:'188061108',terms:{Y3S1:['base',['你吃早餐了嗎？……我家開早餐店，習慣問。']],Y3S2:['base',['期中。我的考卷上，畫了一個笑臉。……我自己畫的。','你吃早餐了嗎？']]}},
-  {f:'AA_753_peishan_ladder_Y4.json',sha:'465382f83',terms:{Y4S1:['base',[]],Y4S2:['base',[]]},skipIf:{'P8-L2':{events:['ev_peishan_open_class']}}},
+  {f:'AA_753_peishan_ladder_Y3.json',sha:'3f6c7d3bb9'/* （CANON-NO-ECON-1112 第四批：照 AA_899 換字）*/,terms:{Y3S1:['base',['你吃早餐了嗎？……我家開早餐店，習慣問。']],Y3S2:['base',['期中。我的考卷上，畫了一個笑臉。……我自己畫的。','你吃早餐了嗎？']]}},
+  {f:'AA_753_peishan_ladder_Y4.json',sha:'3f6c7d3bb9',terms:{Y4S1:['base',[]],Y4S2:['base',[]]},skipIf:{'P8-L2':{events:['ev_peishan_open_class']}}},
 ];
 const LINESIF=['P2-L3','P3-L3','P3-L4','P3-L6','P3-L8'];
 const X_CROSS='（她帶著一排小孩過馬路，對你點頭）等一下！我在上班！', X_BACK='我剛從課輔班回來。你看我的手，都是紅筆。';
@@ -30,7 +30,7 @@ const AA763={Y3S1:{'期中。我們系要考試。……我現在知道出題的
     '早。我八點的課，七點就到了。':'早。八點的課我還是修了，不要問我為什麼。'}};   /* 2026-11-11（X327 沛珊重寫；AA 回覆 LAWWW）：大四下那一則同字的早上招呼也換字（AA_763 只列了大四上那一則；字是 AA 給的，tools/ladder/import_ladder.py 的 PS_Y4S2_GREET）——只換字、條件不動 */
 /* 2026-11-11（X327 沛珊重寫，AA 補稿 b59a8f9de）：AA_753_peishan_ladder_Y1S2_Y2S1.json 改認 b59a8f9de（和 c5094495d 只差 P2-L3 主句第一句「一個禮拜兩天。」→「每個禮拜三。」）；
    五套 linesIf 照 AA_753_peishan_ladder_linesIf.json@b59a8f9de（原本第 4 節驗的是「舊的兩句照舊留著、帶重寫以前的選項」，AA 補稿以後改成逐字對稿）*/
-const LI_F='AA_753_peishan_ladder_linesIf.json', LI_SHA='b59a8f9de', LI=(()=>{ const raw=show(LI_SHA,'docs/story_planning/'+LI_F); return raw?JSON.parse(raw):null; })();
+const LI_F='AA_753_peishan_ladder_linesIf.json', LI_SHA='3f6c7d3bb9'/* （CANON-NO-ECON-1112 第四批：照 AA_899 換字）*/, LI=(()=>{ const raw=show(LI_SHA,'docs/story_planning/'+LI_F); return raw?JSON.parse(raw):null; })();
 const str=x=>typeof x==='string'?x:(x&&x.narr)||null;
 const cond=q=>{ const o={}; for(const k in q) if(k!=='t'&&k!=='note') o[k]=q[k]; return o; };
 for(const F of FILES){ const raw=show(F.sha,'docs/story_planning/'+F.f); F.A=raw?JSON.parse(raw):null; }

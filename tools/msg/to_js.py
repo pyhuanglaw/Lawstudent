@@ -93,8 +93,8 @@ print('wrote', os.path.normpath(DST), sum(len(p['replies']) for _, p in ppl), 'r
 # AA_630／AA_627 表 B（語彤台詞改寫，YT-REWRITE-1103）：寫完再照白名單上的逐句表換一次（整句相同才換；tools/story/aa630.py）
 import sys as _sys, os as _os
 _R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
-import aa630 as _aa630, import_guard as _ig
-_t0 = open(DST, encoding='utf-8').read(); _t1 = _aa630.patch_text(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/msg_pool.js', _t0)   # 改寫到 DST（MSG_JS_OUT 也一樣）；表對的是遊戲檔名
+import aa630 as _aa630, import_guard as _ig, canon898 as _c898   # canon898：CANON-NO-ECON-1112 第四批 AA_898（「傳」換「發」的那幾句）
+_t0 = open(DST, encoding='utf-8').read(); _t1 = _c898.patch_text('src/data/msg_pool.js', _aa630.patch_text(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/msg_pool.js', _t0))   # 改寫到 DST（MSG_JS_OUT 也一樣）；表對的是遊戲檔名
 if _t1 != _t0: open(DST, 'w', encoding='utf-8').write(_t1)
 # 2026-11-11（X324 D 區）：覆蓋層（白名單 overlay:true 的稿裡 file 是 msg_pool 的列：AA_785…；tools/msg/msg_overlay.py）——最後一步（AA_630、PS755／PS763 以後），只換 at 那一格；換過的那一則多一格 ov
 _sys.path.insert(0, HERE); import msg_overlay as _MOV; _MOV.apply_file(DST, 'msg_pool', _R0)

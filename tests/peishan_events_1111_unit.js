@@ -37,7 +37,7 @@ const BAR_NEW=["{if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !(
 const barBack=(f,s)=>{ if(f!=='src/data/r2y4b_events.js') return s; const ok=BAR_NEW.every(x=>s.split(x).length===2); check('2. '+f+'：熱可可分兩版那兩列各剛好一處（AA_836 文末）',ok); if(!ok) return s;
   const a=s.indexOf(BAR_NEW[0]), b=s.indexOf(BAR_NEW[1]); const mid=s.slice(a+BAR_NEW[0].length,b); check('2. '+f+'：那兩列中間只有註解和空白',noCom(mid).trim()===''&&b>a,mid.slice(0,80)); return s.slice(0,a)+BAR_OLD+s.slice(b+BAR_NEW[1].length); };
 const canonCut=(f,s)=>{ if(f!=='src/data/r2y4b_events.js'||!s) return s; const a=s.indexOf('  /* ---------- 2-Y4-40 '), b=s.indexOf('  /* ---------- 2-Y4-43 '); return a>=0&&b>a?s.slice(0,a)+s.slice(b):s; };   /* 讀書會的最後一晚那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）：BASE 那一段不比 */
-const fileCheck=(tag,f,rows0,total)=>{ const cur=barBack(f,read(f)), L=lit(cur), n=t=>L.filter(x=>x===t).length, rows=rows0.map(r=>Object.assign({},r,{new:LR.fwdS(r.new,f)}));
+const fileCheck=(tag,f,rows0,total)=>{ const cur=barBack(f,require('./canon898_1112.js').back(read(f)))/* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）學姊「班次，回去前發給你。」先換回舊句再比 */, L=lit(cur), n=t=>L.filter(x=>x===t).length, rows=rows0.map(r=>Object.assign({},r,{new:LR.fwdS(r.new,f)}));
   const bad=rows.filter(r=>n(r.new)!==r.count||n(r.old)!==0);
   check(tag+' '+f+'：'+rows.length+' 列的 new 各剛好 count 處（共 '+total+' 處）、old 不在了',rows.reduce((a,r)=>a+r.count,0)===total&&bad.length===0,J(bad.map(r=>[r.old,n(r.old),r.new,n(r.new)]).slice(0,4)));
   const ob=canonCut(f,show(BASE,f)); if(!ob){ console.log('（讀不到 '+BASE+' 的 '+f+'：不比重寫以前）'); return; }

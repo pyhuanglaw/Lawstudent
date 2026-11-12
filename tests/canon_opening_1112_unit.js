@@ -29,6 +29,7 @@ GM.toast=()=>{}; GM.caption=()=>{}; GM.studySession=async()=>{}; GM.spawnNPC=()=
 const DOCREPO=process.env.CANON_DOCREPO||H.ROOT, SP='docs/story_planning/', SHA='077a6e501d', TABLE_SHA='f6aa917593';
 const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:DOCREPO,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<28}); }catch(e){ return null; } };
 const A858=show(SHA,SP+'AA_858_法律系開局回顧字卡.md'), A856=show(SHA,SP+'AA_856_可昕在法律系_認識與大一上.md'), A859=show(SHA,SP+'AA_859_宿營打牌_學測那段.md'), TABLE=show(TABLE_SHA,SP+'00_現行設定總表.md');
+const A895=show('a425c0dcb6',SP+'AA_895_可昕追求路線補字與開局九題.md');   /* （CANON-NO-ECON-1112 第四批：照 AA_895 換字）四拍改成台詞版、多 ③b */
 const docs=!!(A858&&A856&&A859);
 if(!docs) console.log('（讀不到企劃線 '+SHA+' 的稿：逐字對稿那幾項不比，只驗結構）');
 const sec=async(n,f)=>{ const t0=Date.now(); try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } if(process.env.CANON_TIME) console.log('（第 '+n+' 節 '+((Date.now()-t0)/1000).toFixed(1)+' 秒）'); };
@@ -69,7 +70,7 @@ const sayOf=l=>{ const m=/^(可昕|阿哲|祐廷|芯慈)：(.*)$/.exec(l); retur
       check('1. 稿讀得到五句＋最後一句兩版',five.length===5&&!!w1&&!!d1,J([five.length,w1,d1]));
       check('1. S.LAW_START_RECAP_W1（從宿營開始）逐字等於 AA_858',J(W)===J(five.concat([w1])),J(W));
       check('1. S.LAW_START_RECAP（直接開學）逐字等於 AA_858',J(R)===J(five.concat([d1])),J(R)); }
-    check('1. S.LAW_WEEK12 原本四句在講舊序章、稿沒有新字＝不演（空的）',Array.isArray(STORY.LAW_WEEK12)&&STORY.LAW_WEEK12.length===0);
+    check('1. S.LAW_WEEK12＝AA_895 第 1 節①的三句（原本四句在講舊序章）',JSON.stringify(STORY.LAW_WEEK12)===JSON.stringify(['開學第一週，你走進法律系館A。','選課、新生活動、第一次點名。每個隊伍都很長。','班上的人，你還叫不出幾個名字。']));   /* （CANON-NO-ECON-1112 第四批：照 AA_895 換字）*/
     H.fresh('2025-08-22',8,'dorm',{}); H.said=[]; await STORY.recap(GM,W); check('1. 播出來的六句就是那六句',J(saidT())===J(W)); });
 
   await sec('2',async()=>{
@@ -118,7 +119,7 @@ const sayOf=l=>{ const m=/^(可昕|阿哲|祐廷|芯慈)：(.*)$/.exec(l); retur
     check('4. 一起拿掉的：夜談的定義不在了',!ev('ev_camp_d2_talk'));
     check('4. 一起拿掉的：遊覽車那一段最後沒有「去年來過」那一句（條件 PLAYED_Y0 的列不在了）',!(ev('ev_camp_d1_bus').dialogue||[]).some(l=>l.if&&(l.if.flags||[]).includes('PLAYED_Y0')));
     const w=ev('ev_welcome_y1s1'), ch=(w.dialogue.find(l=>l.choice)||{}).choice||[];
-    check('4. 一起拿掉的：迎新自我介紹剩兩個選項、沒有 econ 那一支',ch.length===2&&!w.dialogue.some(l=>l.label==='econ'||l.label==='why_h')&&!ch.some(c=>c.goto==='econ'),J(ch.map(c=>c.text))); });
+    check('4. 一起拿掉的：迎新自我介紹照 AA_883 三個選項、沒有 econ 那一支',ch.length===3&&ch[1].text==='「我叫{name}。從小就想念這裡。」'&&!w.dialogue.some(l=>l.label==='econ'||l.label==='why_h')&&!ch.some(c=>c.goto==='econ'),J(ch.map(c=>c.text))); });
 
   await sec('5',async()=>{
     const B=docs?quoteBlocks(A856).map(b=>b.map(sayOf)):null;   /* 0＝開頭三句、1＝選項一、2＝選項二、3＝保底、4＝教室外面那一句 */
@@ -181,7 +182,7 @@ const sayOf=l=>{ const m=/^(可昕|阿哲|祐廷|芯慈)：(.*)$/.exec(l); retur
     G=fresh(TD('Y1S1',6,3),9,'classroom',MET); INV.addContact(G,KX); it=reqOn(G,G.day,'crim_gen1');   /* 第 6 週週一 10/6 是中秋節（放假），用週三的刑總 */
     check('7②. 第 6 週的必修：課堂中那一半會演（kxHandDue；CLS.IN_CLASS 有掛、快轉會停）',STORY.kxHandDue(G,it)&&CLS.IN_CLASS.some(f=>f.kx&&f.due(G,it)));
     await attend(it,['不會。']); let L=saidT();
-    { const a=L.indexOf('老師問了一個問題，全班沒有人出聲。'), b=L.indexOf('這個我不確定。我回去查。'), c=L.indexOf('我剛剛是不是很丟臉？'), d=L.indexOf('那下次你也舉手。不要每次都我。');
+    { const a=L.indexOf('（老師問了一個問題，全班沒有人出聲。）'),   /* （CANON-NO-ECON-1112 第四批：照 AA_895 換字）*/ b=L.indexOf('這個我不確定。我回去查。'), c=L.indexOf('我剛剛是不是很丟臉？'), d=L.indexOf('那下次你也舉手。不要每次都我。');
       check('7②. 上那一堂：課堂中三句 → 下課她問 → 選「不會。…」她回，順序對，記 KX_HAND',a>=0&&b>a&&c>b&&d>c&&G.flags.KX_HAND===true&&G.flags.KX_HAND_DAY===G.day,J([a,b,c,d])); }
     { const it2=reqOn(G,TD('Y1S1',6,4),'civ_general'); at(TD('Y1S1',6,4),13.2); check('7②. 演過了：同一週下一堂必修不再演',!STORY.kxHandDue(G,it2)); }
     G=fresh(TD('Y1S1',6,3),9,'classroom',MET); INV.addContact(G,KX); it=reqOn(G,G.day,'crim_gen1'); await attend(it,['有一點。']); check('7②. 選「有一點。」：她的回話',saidT().includes('（她瞪你）你可以不要這麼誠實。……好啦，謝謝。'));
@@ -201,11 +202,11 @@ const sayOf=l=>{ const m=/^(可昕|阿哲|祐廷|芯慈)：(.*)$/.exec(l); retur
     G=fresh(keyOf(last.day),last.h+0.2,'campus',MET); await play('ev_kx_y1s1_end',['還沒想。']); check('7④. 選「還沒想。」：她的回話',saidT().slice(-1)[0]==='想去哪就去。不要到開學才後悔。'&&G.flags.KX_Y1S1_END==='unsure'); });
 
   await sec('8',async()=>{
-    const ids=['ev_kx_meet_class','ev_kx_meet_hall','ev_kx_first_out','ev_kx_dress','ev_kx_hand_in','ev_kx_hand','ev_kx_angry','ev_kx_y1s1_end'];
-    const texts=[]; for(const id of ids){ const e=ev(id); for(const l of e.dialogue){ if(l.text!==undefined) texts.push([id,l.text]); for(const c of (l.choice||[])) texts.push([id,c.text]); } check('8. '+id+' 沒有標題（不自己取名字）、說話的人只有她和旁白',e.title===''&&e.dialogue.every(l=>l.text===undefined||l.speaker===null||l.speaker===KX)); }
+    const ids=['ev_kx_meet_class','ev_kx_meet_hall','ev_kx_first_out','ev_kx_dress','ev_kx_hand_in','ev_kx_hand','ev_kx_angry','ev_kx_angry_sorry','ev_kx_y1s1_end'], EXTRA_SP=['男同學','那個同學'];   /* （CANON-NO-ECON-1112 第四批：照 AA_895 換字）AA_895 第 3 節：「男同學」「那個同學」沒有名字、立繪 */
+    const texts=[]; for(const id of ids){ const e=ev(id); for(const l of e.dialogue){ if(l.text!==undefined) texts.push([id,l.text]); for(const c of (l.choice||[])) texts.push([id,c.text]); } check('8. '+id+' 沒有標題（不自己取名字）、說話的人只有她和旁白',e.title===''&&e.dialogue.every(l=>l.text===undefined||l.speaker===null||l.speaker===KX||EXTRA_SP.includes(l.speaker))); }
     check('8. 八個事件一共 '+texts.length+' 句（含選項）',texts.length>=45,String(texts.length));
-    if(docs){ const N=norm(A856), inDoc=t=>{ const x=norm(String(t).replace(/\{name\}/g,'祐廷')); return N.includes(x)||N.includes(x.replace(/^（([\s\S]*)）$/,'$1')); };
-      const bad=texts.filter(([id,t])=>!inDoc(t)); check('8. 每一句、每個選項都在 AA_856@'+SHA+' 裡（拿掉「」以後逐字；{name}＝祐廷）',bad.length===0,J(bad.slice(0,5))); } });
+    if(docs){ const N=norm(A856)+'\n'+norm(A895||''), inDoc=t=>{ const x=norm(String(t).replace(/\{name\}/g,'祐廷')); return N.includes(x)||N.includes(x.replace(/^（([\s\S]*)）$/,'$1')); };
+      const bad=texts.filter(([id,t])=>!inDoc(t)); check('8. 每一句、每個選項都在 AA_856@'+SHA+'（四拍：AA_895@a425c0dcb6）裡（拿掉「」以後逐字；{name}＝祐廷）',bad.length===0,J(bad.slice(0,5))); } });
 
   await sec('9',async()=>{
     const c=CHARACTERS[KX];

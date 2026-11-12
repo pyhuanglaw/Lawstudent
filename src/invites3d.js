@@ -54,6 +54,7 @@ const INV=(function(){
   S.booked=(G,id)=>(G.invites||[]).filter(iv=>iv.who===id&&(iv.state==='accepted'||iv.state==='going')&&(iv.day>G.day||(iv.day===G.day&&iv.h+((S.place(iv.place)||{}).stay||1)>G.hour%24))).sort((a,b)=>a.day-b.day||a.h-b.h)[0]||null;
   S.whyNot=function(G,id,o){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return '不能約'; const pr=c.gender==='f'?'她':'他', W=D().why||{};   /* o.face：當面約（不用聯絡方式，AA_124 1-7；INVITE-MENU-1030 當面也能約校外：DATE.canAsk 傳進來）*/
     if(!D().layers.includes(c.social_layer)) return '';   /* 教授、店員這些本來就不在約的名單：不寫原因、也不顯示按鈕 */
+    if(kxGF(G,id)) return '';   /* CANON-NO-ECON-1112 第四批：可昕改成和其他女主角同一層（AA_895 第 4 節）以後，交往中照舊一定約得到（原本 G 層在上一行就回空字串）*/
     const pres=(typeof STORY!=='undefined'&&STORY.presence)?STORY.presence(id,G):{here:true};
     if(!pres.here&&pres.kind==='unreachable') return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):pr)+'沒有回覆。';   /* 沛珊消失期（BB_205 第 3 節）*/
     const tc=!pres.here&&(pres.kind==='home'||pres.kind==='trip')&&t7a(G,id);   /* AA_350 T7a：以安、芷若、沛珊在台中＝約打開（只列 D26）；還沒到約校外的程度照舊寫「回台中了，不在臺北。」。AA_372 第 7 節：週末回台中（trip）也一樣 */
@@ -219,7 +220,8 @@ const INV=(function(){
       return a; };
     const COND=S.REPLY_COND||{}, alts={};
     const apart=!!(G.flags&&G.flags['EX_'+id])&&!(G.flags&&G.flags['dating_'+id]===true);   /* 可昕「（分開以後）」的列 */
-    const ok=row=>row.k===kind&&!row.off&&(!row.sec||row.sec===sec)&&(!row.apart||apart)&&(row.tags||[]).every(tagOk)&&(!row.cond||(!!COND[row.cond]&&!!COND[row.cond](G,id,c)))&&whenOk(row.when)
+    /* CANON-NO-ECON-1112 第四批（AA_891 第 2 節）：kx1～kx19（認識到告白前，階段 1～6）搬進 law 以後，分開以後照舊只用「（分開以後）」那幾列答應（原本那些列在 y0、分開以後本來就用不到）；改天的列（階段 1～7）照用 */
+    const ok=row=>row.k===kind&&!row.off&&(!row.sec||row.sec===sec)&&(!row.apart||apart)&&!(apart&&row.sec&&!row.apart&&row.st[1]<7)&&(row.tags||[]).every(tagOk)&&(!row.cond||(!!COND[row.cond]&&!!COND[row.cond](G,id,c)))&&whenOk(row.when)
       &&(kind!=='resched'||!row.at||(alts[row.id]=altFor(row))!=null);
     const inSt=(row,k)=>k>=row.st[0]&&k<=row.st[1];
     const P0=all.filter(row=>inSt(row,n)&&ok(row)); if(!P0.length) return {governs:true};   /* 這一階沒有合的句子：答應照原本的 acc／first（或旁白），改天、婉拒用旁白 */

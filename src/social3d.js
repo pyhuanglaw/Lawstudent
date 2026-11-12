@@ -96,7 +96,7 @@ const SOCIAL = (function(){
      BB-C 10-20（6a931b8e，使用者 9/25 存檔）：還沒認識以安，按鈕卻寫「和沈以安說話」——那份存檔的以安是 ACQUAINTANCE（說過話：talkAn 不管認識了沒都記 talkedTo），
      原本只有 UNKNOWN、RECOGNIZABLE 才藏名字。改成只看認識了沒（AA_313 第 4 節第 10 點：她得先自我介紹「……同班的，你不記得？」）*/
   const LEGACY_MET={heroine_01:'met_an',heroine_05:'met_sis'};
-  S.metD=function(id){ if(S.has(id,'FIRST_MET')) return true; const F=G&&G.flags; return !!(F&&(F['met_'+id]||(LEGACY_MET[id]&&F[LEGACY_MET[id]]))); };
+  S.metD=function(id){ if(S.has(id,'FIRST_MET')) return true; const F=G&&G.flags; if(id==='kexin'&&F&&(F.KX_MET===undefined||(typeof STORY!=='undefined'&&STORY.kxKnown&&STORY.kxKnown(G)))) return true;   /* CANON-NO-ECON-1112 第四批：可昕改成 D 層（AA_895 第 4 節）——舊存檔（沒有 KX_MET 欄位）、認識了、交往中或交往過都算認識（原本 G 層不看這個）*/ return !!(F&&(F['met_'+id]||(LEGACY_MET[id]&&F[LEGACY_MET[id]]))); };
   S.meet=function(id,where){ if(S.ytLocked(id)) return; if(!S.has(id,'FIRST_MET')){ S.remember(id,'FIRST_MET',where||''); G.social.reveal[id]=G.social.reveal[id]==='UNKNOWN'?'ACQUAINTANCE':G.social.reveal[id]; if(G.flags) G.flags['met_'+id]=true; } S.talkedTo(id); };
   // ---- 教授 ----
   S.prof=function(id){ const P=G.social.prof; if(!P[id]) P[id]={perf:0,part:0,office:0,research:0,rep:0,notes:[]}; return P[id]; };

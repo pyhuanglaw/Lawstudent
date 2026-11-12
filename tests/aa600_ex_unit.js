@@ -188,7 +188,7 @@ await sec('N',async()=>{
   check('N2. 除夕 y29：照片只在開頭一次，最後只留「厲害吧。」',RAW('src/data/sis_b10_events.js').includes("{label:'e29'},SIS('厲害吧。')")&&(RAW('src/data/sis_b10_events.js').match(/一盤水餃/g)||[]).length===1);
   { const G=fresh('2028-03-01',20); G.flags.SIS_REBUILD=D('2028-01-01'); H.CLOSE(SIS); at('2027-12-01',12); date(SIS); at('2027-12-20',12); ROM.end(G,SIS,'apart_talk'); at('2028-03-01',20); date(SIS);
     const y=CONFESS_LINES.heroine_05.yes(G); check('N4. 重新開始的答應（restartYes）放回：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」「這次，我選你。」',J(y)===J(['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。']),J(y)); }
-  check('N5. multirel 學姊 Byes「我還是喜歡你。這個我不想騙自己。」放回',/Byes:\[ '我想過了。','我還是喜歡你。這個我不想騙自己。','……你去見她那天，出門前傳一句給我就好。' \]/.test(RAW('src/data/multirel_lines.js')));
+  check('N5. multirel 學姊 Byes「我還是喜歡你。這個我不想騙自己。」放回',/Byes:\[ '我想過了。','我還是喜歡你。這個我不想騙自己。','……你去見她那天，出門前發一句給我就好。' \]/.test(RAW('src/data/multirel_lines.js')));
   { const h=TERMEND.heart(SIS,'Y2S2'), inv=x=>typeof x==='function'?x(H.G):x; check('N6. termend 學姊 yes2＝yes、invite2＝第一次的邀約（不提上次）',!!h&&J(h.yes2)===J(h.yes)&&inv(h.invite2)===inv(h.invite)&&!/上次|同一家/.test(inv(h.invite2)),J({y2:h&&h.yes2,i2:h&&inv(h.invite2)})); }
   check('N7. 大峽谷「十二月二十三號，晚上八點落地。你來接我。」照留',RAW('src/data/r2y4b_events.js').includes("text:'十二月二十三號，晚上八點落地。你來接我。'"));
   { const G=fresh('2028-03-01',20); H.CLOSE(SIS); date(SIS); G.name='祐廷'; const m=PHONE.post(G,{th:'p:'+SIS,from:SIS,text:'{name}，到了嗎。'}); ROM.end(G,SIS,'apart_talk');

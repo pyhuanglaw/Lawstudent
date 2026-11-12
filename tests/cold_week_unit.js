@@ -77,7 +77,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   check('2. C2 21:30 外送粥＋「我考完就過去。你先活著。」（手機）', L2.includes('（外送的粥送到宿舍門口。）')&&L2.includes('可昕（手機）：我考完就過去。你先活著。'), JSON.stringify(L2.slice(0,4)));
   check('2. C2 沒有人來：3-5「（沒有人敲門。你吃了一顆退燒藥，睡到隔天中午。）」→ 睡到 10/25 12:00', L2.includes('（沒有人敲門。你吃了一顆退燒藥，睡到隔天中午。）')&&G.day===d25&&Math.abs(G.hour-12)<0.01&&!entered.includes('dorm_hall'), G.day+' '+G.hour);
   G.day=d26; G.hour=18.5; G.zone='dorm'; check('2. C2 10/26 18:30 在宿舍：可昕來（直接演）', STORY.coldKexinDue(G)); said=[]; opts=[]; picks=[0]; await STORY.coldWeekKexin(GM); const L2b=lines();
-  check('2. C2 10/26 逐字、10/24 沒人問＝她問（3-4 的兩句）、回答後「好。那你先把粥吃完。」', L2b[0]==='杜可昕：我考完了。你還活著，很好。'&&L2b[1]==='杜可昕：（把一袋橘子放在交誼廳的矮桌上）予樂說感冒要吃橘子。我不知道有沒有根據。'&&L2b[2]==='杜可昕：你每次都在幫別人查。'&&L2b[3]==='杜可昕：你自己呢？你想用法律做什麼？'&&L2b.includes('杜可昕：好。那你先把粥吃完。')&&G.flags.COLD_WEEK_ASKER==='kexin'&&G.zone==='dorm_hall', JSON.stringify(L2b));
+  /* （CANON-NO-ECON-1112 第四批：照 AA_887 換字）橘子那一句「我室友說…」*/ check('2. C2 10/26 逐字、10/24 沒人問＝她問（3-4 的兩句）、回答後「好。那你先把粥吃完。」', L2b[0]==='杜可昕：我考完了。你還活著，很好。'&&L2b[1]==='杜可昕：（把一袋橘子放在交誼廳的矮桌上）我室友說感冒要吃橘子。我不知道有沒有根據。'&&L2b[2]==='杜可昕：你每次都在幫別人查。'&&L2b[3]==='杜可昕：你自己呢？你想用法律做什麼？'&&L2b.includes('杜可昕：好。那你先把粥吃完。')&&G.flags.COLD_WEEK_ASKER==='kexin'&&G.zone==='dorm_hall', JSON.stringify(L2b));
   check('2. C2 可昕問過了：麵店版不演', !STORY.coldNoodleOn(G));
   // 在外面：出遊 must 帶回宿舍
   fresh(d26,18,'campus',{COLD_WEEK:'night',COLD_WEEK_TOLD:'kexin',KX_COLD_WEEK:'told',COLD_WEEK_NIGHT:d24}); date('kexin'); STORY.coldWeekTick(GM); const qk=OUT.get(G,'y3_cold_kexin');

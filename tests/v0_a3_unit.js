@@ -39,7 +39,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* 法律系開局 */
   { fresh(1,21.2,'dorm',{}); G.flags={dating_kexin:true}; said=[]; const E0=GM.E; GM.E=Object.assign({},E,{player:{busy:false},endCinematic(){},setWeather(){}}); GM.titleIdle=true; GM.hideHUD=()=>{}; let entered=null; const en=GM.enter; GM.enter=async(z)=>{ entered=z; G.zone=z; };
     await STORY.newGame(GM); GM.enter=en; GM.E=E0; const L=said.map(s=>s.t);
-    check('法律系開局（?start0）：先放回顧字卡（AA_858：五句＋「直接開學」那一句，共 6 句），然後進宿舍（現有的第一天）——CANON-1112：舊序章拿掉／可昕開局不認識：原本期望④ 10 句＋③ 4 句共 14 句；③（S.LAW_WEEK12）四句在講舊序章、稿沒有新字，不演了',L[0]==='你從小就想念首都帝大法律。'&&L[5]===STORY.LAW_START_RECAP[5]&&L.length===6&&STORY.LAW_WEEK12.length===0&&entered==='dorm'&&G.day===1&&G.stage==='law',JSON.stringify({n:L.length,first:L[0],entered,day:G.day}));
+    check('法律系開局（?start0）：先放回顧字卡（AA_858：五句＋「直接開學」那一句，共 6 句；再接開學第一週三句，AA_895 第 1 節①——（CANON-NO-ECON-1112 第四批：照 AA_895 換字）），然後進宿舍（現有的第一天）——CANON-1112：舊序章拿掉／可昕開局不認識：原本期望④ 10 句＋③ 4 句共 14 句；③（S.LAW_WEEK12）四句在講舊序章、稿沒有新字，不演了',L[0]==='你從小就想念首都帝大法律。'&&L[5]===STORY.LAW_START_RECAP[5]&&L.length===9&&JSON.stringify(L.slice(6))===JSON.stringify(['開學第一週，你走進法律系館A。','選課、新生活動、第一次點名。每個隊伍都很長。','班上的人，你還叫不出幾個名字。'])&&entered==='dorm'&&G.day===1&&G.stage==='law',JSON.stringify({n:L.length,first:L[0],entered,day:G.day}));
     check('法律系開局：記下看過摘要（舊存檔另外處理）',G.flags.LAW_RECAP_SEEN===true); }
   // CANON-NO-ECON-1112：經濟系那一年拿掉（經濟系開局（newGameEcon））
   /* 事件的階段 */

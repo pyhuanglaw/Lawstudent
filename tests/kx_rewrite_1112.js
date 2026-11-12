@@ -13,6 +13,9 @@ const PAIRS=[
   ['src/data/r2y4a_events.js','……好。今天宵夜我請。不准說不要。','……好。今天宵夜我請，不准說不要。'],
   ['src/data/bbpack_events.js','我來找品妤。……順便找你。順序不要問。','我來找品妤，順便找你。順序不要問。']];
 /* a＝舊 commit 的值、b＝現在的值：整句就是某一列的 old→new，或 a 是函式原始碼／一串字、裡面那一句換成新字以後＝b */
-const pair=(a,b)=>typeof a==='string'&&typeof b==='string'&&a!==b&&PAIRS.some(([,o,n])=>(a===o&&b===n)||(a.includes(o)&&a.split(o).join(n)===b));
+/* CANON-NO-ECON-1112 第四批（AA_891 kx25／AA_894 invites.js）：可昕 brunch A 那一格換成 kx25 的新字——舊字寫著外校，不抄進測試；照「舊的是 SUNNY SIDE 開頭、新的是 AA_891 那一句」認 */
+const C891=require('./canon891_1112.js'), brunch=(a,b)=>/^「?SUNNY SIDE？/.test(a)&&b.replace(/^「|」$/g,'')===C891.BRUNCH&&a!==b;
+const C898=require('./canon898_1112.js');   /* CANON-NO-ECON-1112 第四批（AA_898）：「傳」換「發」那幾句也照新字算 */
+const pair=(a,b)=>typeof a==='string'&&typeof b==='string'&&a!==b&&(brunch(a,b)||C898.pair(a,b)||PAIRS.some(([,o,n])=>(a===o&&b===n)||(a.includes(o)&&a.split(o).join(n)===b)));
 const news=f=>PAIRS.filter(x=>!f||x[0]===f).map(x=>x[2]);
 module.exports={SHA,DOC,PAIRS,pair,news};
