@@ -7,8 +7,9 @@
 //   遊戲裡帶 aa523 的那兩句改對 AA_523 第 6 節 6-6 那一列（一字不差），其他每一句照舊對 AA_379；檢查沒有拿掉
 require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js'); const cp=require('child_process'); const {check,GM}=H;
+const {fwd:FWD789}=require('./aa789_fwd.js');   /* AA_789／788 換過的句子：稿換成新字再比 */
 let doc=''; try{ doc=cp.execSync('git show 992b58da:"docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
-let doc523=''; try{ doc523=cp.execSync('git show 0d7b5388b:"docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"',{cwd:process.env.AA523_DOCREPO||H.ROOT,encoding:'utf8'}); }catch(e){ doc523=''; }
+let doc523=''; try{ doc523=cp.execSync('git show 0d7b5388b:"docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"',{cwd:process.env.AA523_DOCREPO||H.ROOT,encoding:'utf8'}); }catch(e){ doc523=''; } doc=FWD789(doc); doc523=FWD789(doc523);
 const row66=(doc523.split('\n').find(l=>l.startsWith('| 6-6 |'))||'');   /* AA_523 第 6 節 6-6 那一列 */
 const ev=id=>STORY_EVENTS.find(e=>e.id===id), E=ev('ev_sis_w1_late'), J=JSON.stringify;
 const setup=(key,h,zone,flags)=>{ const G=H.fresh(key,h,zone,Object.assign({},flags||{})); return G; };

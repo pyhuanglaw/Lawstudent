@@ -20,7 +20,7 @@ const spring=ent('2027-04-13',10), y1sum=ent('2026-07-28',10);
 check('2. 別的時候不變：大二下學期中的週二白天照舊總圖',spring==='library',J({spring}));
 check('2. 大一暑假週二照舊總圖（只改大二暑假）',y1sum==='library',J(y1sum));
 const src=fs.readFileSync(path.join(ROOT,'src/data/vac_activities.js'),'utf8');
-check('3. C17 可昕視訊：「……全台灣的律師都在講這句吧。」（不是全台北）',src.includes("text:'……全台灣的律師都在講這句吧。'")&&!src.includes('全台北的律師'));
+check('3. C17 可昕視訊：「全台灣的律師都在講這句吧。」（不是全台北）',src.includes("text:'全台灣的律師都在講這句吧。'")&&!src.includes('全台北的律師'));
 { const L=fs.readFileSync(path.join(ROOT,'src/data/ladder.js'),'utf8'); const m=L.match(/const LADDER=(\{.*\});\n/); const LD=m?JSON.parse(m[1]):null;
   const st=LD&&((LD.byTerm.Y2S2||{}).heroine_04||{steps:[]}).steps.find(x=>x.id==='Q4-L1');
   /* 2026-11-11（X324，AA_781_zq_ladder_Y2S2.json@d898cded5 rows Q4-L1）：第二句拿掉刪節號——舊期望「……然後手癢，想把它做大。」；AA_506 要的「想把它做大」（不說第二關）照比 */

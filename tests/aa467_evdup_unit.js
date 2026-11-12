@@ -44,7 +44,7 @@ const play=async(id,picks,flags)=>{ H.fresh('2027-01-20',19,'noodle',Object.assi
     const k0=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01','heroine_03'].includes(id);
     let y21; try{ y21=await play('ev_term_last_meal_y2s1',[],{YU_ZHE_TOLD:'msg'}); } finally{ STORY.knows=k0; }
     check('1. 大二上 ev_term_last_meal_y2s1 前三句：「（大二上最後一科考完。長桌的位子，…）」（AA_467）＋AA_519 1-3「（桌上多了一碟小黃瓜。沒有人點。）」阿姨「吃完再走。」（不下雨的那一版）',in519()&&J(y21.slice(0,3))===J(W1('ev_term_last_meal_y2s1'))&&H.said[2].who==='阿姨'&&(T1.ev_term_last_meal_y2s1||[])[2]==='吃好一點。',J(y21));
-    check('1. 大二上後面三句照舊：（Alison 和阿哲坐在一起。）、（以安在手帳上寫：「大二上：完成」。）、語彤「考完了。……今天什麼都不想讀。」',J(y21.slice(3))===J(['（Alison 和阿哲坐在一起。）','（以安在手帳上寫：「大二上：完成」。）','考完了。……今天什麼都不想讀。']),J(y21.slice(3)));
+    check('1. 大二上後面三句照舊：（Alison 和阿哲坐在一起。）、（以安在手帳上寫：「大二上：完成」。）、語彤「考完了。今天什麼都不想讀。」',J(y21.slice(3))===J(['（Alison 和阿哲坐在一起。）','（以安在手帳上寫：「大二上：完成」。）','考完了。今天什麼都不想讀。']),J(y21.slice(3)));
     const all=[...y11.slice(-3),...y12,...y21.slice(0,3)];
     check('1. 三個學期的開場九句沒有一句一樣（原本前三句一字不差三次）',new Set(all).size===9,J(all));
   });

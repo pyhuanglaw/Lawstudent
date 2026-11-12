@@ -66,7 +66,7 @@ const J=x=>JSON.stringify(x);
   { const r=await fly('C08@Y2','2027-07-13',()=>{ VAC.rec(H.G).reg['C08@Y1']='done'; });
     check('H2. C08 第二次（第二次沒有「出發」那一場）：大廳不演、登機以後也不演；字卡照出',!!r.q&&r.h.said.length===0&&!r.a.said.some(t=>/報到櫃台前/.test(t))&&J(r.a.cards[0])===J(['飛往韓國','首爾'+W+'約 2 小時半']),J([r.h.said,r.a.said.slice(0,2)])); }
   { const r=R['T02@Y2'], L=r.h.said, i=L.indexOf('（早上五點的機場。方奕廷的背包上掛著一個水壺，已經裝滿了。）');
-    check('H3. T02：大廳裡水壺旁白後面接方奕廷「山上這幾天有霧。」「……霧裡的樹比較好看。」（照順序）；登機以後不再演',i===0&&/山上這幾天有霧。$/.test(L[1]||'')&&/……霧裡的樹比較好看。$/.test(L[2]||'')&&/^方奕廷：/.test(L[1]||'')&&L.length===3&&!r.a.said.some(t=>/水壺|霧裡的樹/.test(t)),J(L)); }
+    check('H3. T02：大廳裡水壺旁白後面接方奕廷「山上這幾天有霧。」「霧裡的樹比較好看。」（照順序）；登機以後不再演',i===0&&/山上這幾天有霧。$/.test(L[1]||'')&&/霧裡的樹比較好看。$/.test(L[2]||'')&&/^方奕廷：/.test(L[1]||'')&&L.length===3&&!r.a.said.some(t=>/水壺|霧裡的樹/.test(t)),J(L)); }
   { const r=R['T03@Y3'], L=r.h.said;
     check('H4. T03：進大廳演一次——子晴「我在飛機上要睡覺。到了再叫我。」、阿凱「遊戲展第一天要排隊。……我查過了，九點開門。」，不用選項；登機以後不再演',L.length===2&&/^高子晴：我在飛機上要睡覺。到了再叫我。$/.test(L[0])&&/^阿凱：遊戲展第一天要排隊。……我查過了，九點開門。$/.test(L[1])&&J(r.h.bgs)===J(['blur'])&&!r.a.said.some(t=>/九點開門/.test(t)),J([L,r.h.bgs]));
     hall(); const t0=H.said.length; tick(); tick(); check('H4. 在大廳走動（每一格 airTick）不會再演',H.said.length===t0); }

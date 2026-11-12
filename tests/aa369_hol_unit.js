@@ -231,7 +231,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     const yt=(yk,k0)=>{ fresh(D(k0),7,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); VAC.tripMsgs(G,VAC.inst('C11',yk)); return byDay('p:heroine_03'); };
     const y3=yt('Y3','2028-01-17'), y2=yt('Y2','2027-01-17');
     const BIZ=/今天店裡很忙|收店了|沒什麼客人|不是你的 是客人的|一碗加蛋的乾麵|修鞋的阿伯|店裡的蛋用得比較少|今天也有開|麵店的鍋子|蘇姨說幫你留一杯|一壺泡好的烏龍|前院的貓碗|蘇姨問你什麼時候回來/;   /* AA_685 A6-4 的新字也算講店裡 */
-    const S1='茶屋過年休息。我回淡水了，睡到十點。……我媽說我很難得。', S2='我媽的診所休三天。她說要帶我去看海。', S3='今天在家包水餃。我包的都站不起來。', NEU=['你那邊在吃什麼','……晚安'];
+    const S1='茶屋過年休息。我回淡水了，睡到十點。……我媽說我很難得。', S2='我媽的診所休三天。她說要帶我去看海。', S3='今天在家包水餃。我包的都站不起來。', NEU=['你那邊在吃什麼','晚安'];
     const shutK=Object.keys(y3).filter(k=>NOODLE_CLOSED.closed(G,D(k))), all3=[].concat(...Object.values(y3));
     const WKP=[].concat(...((VAC_DATA.TRIP_MSG.gf.heroine_03.offWd||{}).pool||[])).concat(NEU);   /* AA_686 第 3b 項（企劃線 1df3c189e）：平日輪流的多三則（今天在淡水…） */
     /* AA_687 第 7 項（企劃線 d41750385，AA-C 定 D109）：其他店休的日子原本只用不講店裡的那兩則，改用平日那一組（新的三則＋那兩則，不管星期幾；本身的測試在 tests/aa687_fix4_unit.js）*/

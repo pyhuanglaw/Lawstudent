@@ -54,8 +54,8 @@ const NEW=[
   '（她把一杯飲料推到你面前。）','包飲料。說好的。','（你掉下去兩次，第三次過了。）','過了。……第三關我還沒做。',
   '（資工系館的電腦教室。螢幕上，一隻貓站在一座橋上。）','第三關。橋是新的。','（你在橋的一半掉下去。）','……第三關太難了。我回去改。',
   '（她把筆電轉過來。這次不是那隻貓。）','新的東西。還沒有名字。','（你玩了二十分鐘。她一句話都沒說，在旁邊記筆記。）','……好。我知道哪裡要改了。',
-  '……真的？那第二關做好，你再幫我玩。','你測過的那一關，我改完了。','第二關做好了。你先玩，我還沒給別人看。','……成發那天來。我只彈一次。',
-  '（她把筆電轉過來，推到你面前。）','說好的。玩。','那座橋，我回去要畫一次。','……謝謝。','謝謝。','好啦。謝謝。','好。謝謝。','好！謝謝！','上次也來這裡。',
+  '真的？那第二關做好，你再幫我玩。','你測過的那一關，我改完了。','第二關做好了。你先玩，我還沒給別人看。','……成發那天來。我只彈一次。',
+  '（她把筆電轉過來，推到你面前。）','說好的。玩。','那座橋，我回去要畫一次。','謝謝。','謝謝。','好啦。謝謝。','好。謝謝。','好！謝謝！','上次也來這裡。',
   '上次你說的那件事。','……我想好了。好！','上次你說的那件事，我還在想。……我沒有忘喔。',
   '（她帶你走了一條窄窄的巷子，兩邊都是透天厝。）','國中三年我每天在這條路上用跑的，因為都快遲到。','那時候覺得好遠。現在走起來好近。',
   '（她從包包拿出三張卡片。）','課輔班的！她們畫的你。……長得不太像。',
@@ -137,7 +137,7 @@ await sec('1-2',async()=>{
   const r1=STORY.ladReply(st,st.choices[1],G,ZQ); const no=G.flags.ZQ_SAW_THIRD; const r0=STORY.ladReply(st,st.choices[0],G,ZQ);
   check('1-2. 閒聊階梯 Q2-L4 選「我會注意到。」＝記 ZQ_SAW_THIRD（回覆照舊）；選另一個不記',st&&st.choices[0].t==='「我會注意到。」'&&no==null&&G.flags.ZQ_SAW_THIRD===G.day&&r0===st.choices[0].reply&&r1===st.choices[1].reply,J({no,v:G.flags.ZQ_SAW_THIRD}));
   const q6=ev('ev_ziqing_secret_game'), q6t=(q6&&q6.dialogue||[]).map(x=>x.text);
-  check('1-2. Q6 沒交往：「……真的？那第二關做好，你再幫我玩。」',q6t.includes('……真的？那第二關做好，你再幫我玩。'));
+  check('1-2. Q6 沒交往：「真的？那第二關做好，你再幫我玩。」',q6t.includes('真的？那第二關做好，你再幫我玩。'));
   fresh('2026-12-20',20,{}); H.G.events.done.ev_ziqing_secret_game=true;
   check('1-2. 期末飯（GF 子晴，看過 Q6）：「你測過的那一關，我改完了。」（拿掉「下學期再給你玩」）；後面的鉤子「要不要玩？」照舊接 zq_play',TERMEND_LINES.GF[ZQ].table(H.G)==='你測過的那一關，我改完了。'&&TERMEND_LINES.HOOK.Y1S2[ZQ].act.c15==='zq_play'&&TERMEND_LINES.HOOK.Y1S2[ZQ].say==='要不要玩？');
   const pick=G=>{ const v=REL_LINES[ZQ].up.FRIEND; for(const x of v) if(!x.if||x.if(G)) return x.l[0]; return null; };
@@ -152,8 +152,8 @@ await sec('1-4',async()=>{
     if(withMsg) H.G.msgs.push({th:'p:'+ZQ,from:ZQ,text:'試玩一下 回來給你玩',tag:'vac_tm_'+I.key+'_heroine_04_p'+(D('2026-08-26')),day:D('2026-08-26'),h:0.67});
     H.said=[]; await VAC.outing(GM,{id:'vac_'+I.key+'_re_'+ZQ,day:H.G.day,h:22,vac:{key:I.key,k:'re',who:ZQ}}); return said(); };
   const A=await run(true,true), B=await run(false,true), C=await run(true,false);
-  check('1-4. 回國的重逢宵夜（看過 Q6、這一趟收過「試玩一下 回來給你玩」）：最後多「（她把筆電轉過來，推到你面前。）」「說好的。玩。」',!!I&&A.slice(-2).join('|')==='（她把筆電轉過來，推到你面前。）|說好的。玩。'&&A.includes('……走，吃東西。'),J(A));
-  check('1-4. 沒收過那一則、沒看過 Q6＝照舊',!B.includes('說好的。玩。')&&!C.includes('說好的。玩。')&&B.includes('……走，吃東西。'),J([B.slice(-2),C.slice(-2)])); });
+  check('1-4. 回國的重逢宵夜（看過 Q6、這一趟收過「試玩一下 回來給你玩」）：最後多「（她把筆電轉過來，推到你面前。）」「說好的。玩。」',!!I&&A.slice(-2).join('|')==='（她把筆電轉過來，推到你面前。）|說好的。玩。'&&A.includes('走，吃東西。'),J(A));
+  check('1-4. 沒收過那一則、沒看過 Q6＝照舊',!B.includes('說好的。玩。')&&!C.includes('說好的。玩。')&&B.includes('走，吃東西。'),J([B.slice(-2),C.slice(-2)])); });
 await sec('1-5',()=>{ const E5=(DATE_WISH.events[ZQ].closing.ending||[]).find(e=>e.note==='交往中（Q12 以前）'), t=E5&&E5.lines.map(x=>x.text);
   check('1-5. 心願約會（子晴）交往中 Q12 以前的結尾：「那座橋，我回去要畫一次。」（tools/date/import_wish.py 疊的，來源寫 AA_525）',J(t)===J(['那座橋，我回去要畫一次。'])&&DATE_WISH.source.includes('AA_525'),J(t)); });
 await sec('1-6',async()=>{

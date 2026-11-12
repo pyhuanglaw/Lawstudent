@@ -77,8 +77,8 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   { const X=ev('ev_library_door_phone'), go=async k=>{ fresh(10,18,'campus',{}); said=[]; picks=[k]; await EVENTS.run(X); return lines(); };
     let L=await go(2);
     check('4-4. 語彤總圖門口：「你看了一下手機，告訴她時間。」是旁白（不是祐廷說）',L.includes('你看了一下手機，告訴她時間。')&&!L.some(t=>/^祐廷：/.test(t)),J(L));
-    check('4-4. 選「（點個頭就走）」：直接結束、沒有自我介紹、不記 FIRST_MET（之後還能在別的地方第一次認識她）',!L.some(t=>/陳語彤。……你是法律系的吧/.test(t))&&!SOCIAL.has('heroine_03','FIRST_MET'),J(L));
-    L=await go(0); check('4-4. 選「要不要先進去等？」：她自我介紹、記 FIRST_MET',L.some(t=>/陳語彤。……你是法律系的吧。你們系的人走路都很快。/.test(t))&&SOCIAL.has('heroine_03','FIRST_MET'),J(L)); }
+    check('4-4. 選「（點個頭就走）」：直接結束、沒有自我介紹、不記 FIRST_MET（之後還能在別的地方第一次認識她）',!L.some(t=>/陳語彤。你是法律系的吧/.test(t))&&!SOCIAL.has('heroine_03','FIRST_MET'),J(L));
+    L=await go(0); check('4-4. 選「要不要先進去等？」：她自我介紹、記 FIRST_MET',L.some(t=>/陳語彤。你是法律系的吧。你們系的人走路都很快。/.test(t))&&SOCIAL.has('heroine_03','FIRST_MET'),J(L)); }
   check('4-4. 雨天總圖門口：最後一行旁白「（她會記得今天。）」刪掉',!evTexts('ev_rain_library_door').includes('（她會記得今天。）'));
   check('4-4. ev_yutong_thanks 的選項「妳可以講。講完就算了。」（不是「我不會跟別人說」）',choiceTexts('ev_yutong_thanks').includes('「妳可以講。講完就算了。」')&&!choiceTexts('ev_yutong_thanks').some(t=>/我不會跟別人說/.test(t)),J(choiceTexts('ev_yutong_thanks')));
   // 雙主修筆試（4-4）：va11_exam_yt 改 6/18 18:00；收過的人期末飯她只說成績單那句
