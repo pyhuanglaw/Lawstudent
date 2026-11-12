@@ -1,0 +1,369 @@
+{
+ "_meta": {
+  "doc": "AA_844 沛珊第一批（DLG-FULL-REVIEW-1110）：約會選項回話「好」開頭 57/252 句。她的問題不在「好」本身（「好！你踩，我負責方向。」是她），在七句「好。謝謝。」、四句只有「好。」、五句「一人一 X」——有趣、會接梗的人（X327）在這十幾格什麼都沒說。這些重寫；另外 23 句拿掉「好」；留 14 句。",
+  "by": "AA-C 2026-11-12",
+  "status": "待 BB 第二意見（D153）；**源稿還沒套用**",
+  "kept": [
+   "D01.wall「那拍牆。」",
+   "D09.tea「買一點帶回去？」",
+   "D10.boat「那今天就坐。」",
+   "D12.street「我們問老闆。」",
+   "D13.drink「點跟我一樣的？」",
+   "D13.photo「拍我們的影子？」",
+   "D19.museum「不知道，可是摸一下。」",
+   "D23.market「問問看。」",
+   "D24.footbath「泡到腳紅。」",
+   "D24.street「先吃再說。」",
+   "D26.museum「看全部。」",
+   "D29.harbor「我們查查看。」",
+   "D32.trail「我拉妳。」",
+   "D32.stall「那就不要忍。」"
+  ]
+ },
+ "rows": [
+  {
+   "file": "date_system/lines/D03.json",
+   "who": "classmate_peishan",
+   "point": "D03.window",
+   "option": "「休息夠了再下去。」",
+   "old": "好。你的飲料借我喝一口，我的喝完了。",
+   "new": "你的飲料借我喝一口，我的喝完了。"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "classmate_peishan",
+   "point": "D05.cafe",
+   "option": "「我請妳。」",
+   "old": "好啊，那下次換我。",
+   "new": "那蛋糕我出。我要挑名字最長的。"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "classmate_peishan",
+   "point": "D05.board",
+   "option": "「不用，直接看。」",
+   "old": "好。看不懂的話，你要負責講給我聽。",
+   "new": "看不懂的話，你要負責講給我聽。"
+  },
+  {
+   "file": "date_system/lines/D07.json",
+   "who": "classmate_peishan",
+   "point": "D07.cell",
+   "option": "「我們先出去。」",
+   "old": "好。謝謝。",
+   "new": "嗯，謝謝。我剛剛一直在數門。"
+  },
+  {
+   "file": "date_system/lines/D08.json",
+   "who": "classmate_peishan",
+   "point": "D08.train",
+   "option": "「一人一邊。」",
+   "old": "好。各看各的，看到什麼要報告。",
+   "new": "各看各的，看到什麼要報告。"
+  },
+  {
+   "file": "date_system/lines/D09.json",
+   "who": "classmate_peishan",
+   "point": "D09.gondola",
+   "option": "「等它再動。」",
+   "old": "好，等。那你要一直講話，不然我會開始往下看。",
+   "new": "等。那你要一直講話，不然我會開始往下看。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "classmate_peishan",
+   "point": "D10.walk",
+   "option": "「走走看就知道。」",
+   "old": "好。走累了要講，不要硬撐。",
+   "new": "走累了要講，不要硬撐。"
+  },
+  {
+   "file": "date_system/lines/D11.json",
+   "who": "classmate_peishan",
+   "point": "D11.library",
+   "option": "「我們坐一下。」",
+   "old": "好。我今天沒帶書，那我去借一本，剛好。",
+   "new": "我今天沒帶書，那我去借一本，剛好。"
+  },
+  {
+   "file": "date_system/lines/D11.json",
+   "who": "classmate_peishan",
+   "point": "D11.footbath",
+   "option": "「下次帶他們來。」",
+   "old": "好。可是我爸很難約，店裡他一天不去就不放心。",
+   "new": "我爸很難約，店裡他一天不去就不放心。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "classmate_peishan",
+   "point": "D13.bench",
+   "option": "「坐久一點。」",
+   "old": "好，我試試看。我很少坐著不滑手機。",
+   "new": "我試試看。我很少坐著不滑手機。"
+  },
+  {
+   "file": "date_system/lines/D14.json",
+   "who": "classmate_peishan",
+   "point": "D14.sunset",
+   "option": "「下次帶他們來。」",
+   "old": "好。他們來了一定會說，早知道年輕的時候多出來走。",
+   "new": "他們來了一定會說，早知道年輕的時候多出來走。"
+  },
+  {
+   "file": "date_system/lines/D15.json",
+   "who": "classmate_peishan",
+   "point": "D15.car",
+   "option": "「聽廣播也可以。」",
+   "old": "好。山上的廣播聽起來好像比較遠。",
+   "new": "山上的廣播聽起來好像比較遠。"
+  },
+  {
+   "file": "date_system/lines/D15.json",
+   "who": "classmate_peishan",
+   "point": "D15.store",
+   "option": "「我請妳。」",
+   "old": "好啊。那下山以後的宵夜算我的。",
+   "new": "那下山以後的宵夜算我的。"
+  },
+  {
+   "file": "date_system/lines/D15.json",
+   "who": "classmate_peishan",
+   "point": "D15.store",
+   "option": "「關東煮呢？」",
+   "old": "好。一人一碗，湯我要加滿。",
+   "new": "一人一碗，湯我要加滿。"
+  },
+  {
+   "file": "date_system/lines/D17.json",
+   "who": "classmate_peishan",
+   "point": "D17.platform",
+   "option": "「我們站遠一點。」",
+   "old": "好。謝謝。",
+   "new": "謝謝。我剛剛已經在想鞋子濕了要怎麼回家。"
+  },
+  {
+   "file": "date_system/lines/D17.json",
+   "who": "classmate_peishan",
+   "point": "D17.trail",
+   "option": "「走走看就知道。」",
+   "old": "好。那你知道也不要先講。",
+   "new": "那你知道也不要先講。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "classmate_peishan",
+   "point": "D18.snack",
+   "option": "「帶他來吃。」",
+   "old": "好。他來了一定會跑去看人家廚房，然後被趕出來。",
+   "new": "他來了一定會跑去看人家廚房，然後被趕出來。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "classmate_peishan",
+   "point": "D18.steps",
+   "option": "「我們慢慢走。」",
+   "old": "好。我本來就走很慢，你今天才發現嗎。",
+   "new": "我本來就走很慢，你今天才發現嗎。"
+  },
+  {
+   "file": "date_system/lines/D20.json",
+   "who": "classmate_peishan",
+   "point": "D20.street",
+   "option": "「我們都吃一點。」",
+   "old": "好。一人一口，這樣可以吃比較多種。",
+   "new": "一人一口，這樣可以吃比較多種。"
+  },
+  {
+   "file": "date_system/lines/D21.json",
+   "who": "classmate_peishan",
+   "point": "D21.bridge",
+   "option": "「在這裡拍照？」",
+   "old": "好。你數到三再拍，不要偷拍。",
+   "new": "你數到三再拍，不要偷拍。"
+  },
+  {
+   "file": "date_system/lines/D21.json",
+   "who": "classmate_peishan",
+   "point": "D21.bridge",
+   "option": "「休息一下。」",
+   "old": "好。謝謝。",
+   "new": "謝謝。我從剛剛就想坐，只是不好意思先講。"
+  },
+  {
+   "file": "date_system/lines/D22.json",
+   "who": "classmate_peishan",
+   "point": "D22.maple",
+   "option": "「撿一片？」",
+   "old": "好。我要撿最紅的那片，在那邊，你幫我看著不要被別人撿走。",
+   "new": "我要撿最紅的那片，在那邊，你幫我看著不要被別人撿走。"
+  },
+  {
+   "file": "date_system/lines/D22.json",
+   "who": "classmate_peishan",
+   "point": "D22.maple",
+   "option": "「走慢一點。」",
+   "old": "好。",
+   "new": "你看，走慢才看得到那片最紅的。"
+  },
+  {
+   "file": "date_system/lines/D22.json",
+   "who": "classmate_peishan",
+   "point": "D22.lake",
+   "option": "「坐一下。」",
+   "old": "好。謝謝。",
+   "new": "坐。這裡安靜到我不敢吃餅乾。"
+  },
+  {
+   "file": "date_system/lines/D22.json",
+   "who": "classmate_peishan",
+   "point": "D22.fish",
+   "option": "「我們都吃一點。」",
+   "old": "好。一人一點。",
+   "new": "一人一點。魚頭給你，我不敢看牠。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "classmate_peishan",
+   "point": "D23.cook",
+   "option": "「交給老闆。」",
+   "old": "好。我要站在旁邊看他怎麼煮。",
+   "new": "我要站在旁邊看他怎麼煮。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "classmate_peishan",
+   "point": "D23.seawall",
+   "option": "「坐一下。」",
+   "old": "好。謝謝。",
+   "new": "坐。我負責看海，你負責看我有沒有曬黑。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "classmate_peishan",
+   "point": "D23.seawall",
+   "option": "「拍一張？」",
+   "old": "好。你拍我跟夕陽。夕陽比較上相。",
+   "new": "你拍我跟夕陽。夕陽比較上相。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "classmate_peishan",
+   "point": "D26.path",
+   "option": "「走一段就好。」",
+   "old": "好。",
+   "new": "走到我說餓為止。大概十分鐘。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "classmate_peishan",
+   "point": "D26.village",
+   "option": "「買一個東西。」",
+   "old": "好。我要找一個沒有用、可是很可愛的東西。",
+   "new": "我要找一個沒有用、可是很可愛的東西。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "classmate_peishan",
+   "point": "D26.plaza",
+   "option": "「看別人放。」",
+   "old": "好。",
+   "new": "看別人放就好。這樣掛在樹上的不會是我的。"
+  },
+  {
+   "file": "date_system/lines/D27.json",
+   "who": "classmate_peishan",
+   "point": "D27.shop",
+   "option": "「買小的。」",
+   "old": "好。小的就好。",
+   "new": "小的。小到我媽不會問這要放哪。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "classmate_peishan",
+   "point": "D28.circle",
+   "option": "「坐一下。」",
+   "old": "好。謝謝。",
+   "new": "坐。臺南的樹蔭不坐很浪費。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "classmate_peishan",
+   "point": "D28.alley",
+   "option": "「我們走進去。」",
+   "old": "好。",
+   "new": "走。我要找門口花最多的那一戶。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "classmate_peishan",
+   "point": "D28.sunset",
+   "option": "「坐下來看。」",
+   "old": "好。謝謝。",
+   "new": "坐到天黑。你剛剛沒有說不行。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "classmate_peishan",
+   "point": "D28.sunset",
+   "option": "「拍一張？」",
+   "old": "好。可是你也要入鏡。",
+   "new": "可是你也要入鏡。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "classmate_peishan",
+   "point": "D29.warehouse",
+   "option": "「看展吧。」",
+   "old": "好。我會看很久。",
+   "new": "我會看很久。你可以先去買飲料。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "classmate_peishan",
+   "point": "D30.bike",
+   "option": "「騎慢一點也好。」",
+   "old": "好。可以看比較久的海。",
+   "new": "可以看比較久的海。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "classmate_peishan",
+   "point": "D30.stars",
+   "option": "「許個願。」",
+   "old": "好。不告訴你。",
+   "new": "許好了。不告訴你。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "classmate_peishan",
+   "point": "D30.stall",
+   "option": "「那就站著等。」",
+   "old": "好。你陪我站，站到它好。",
+   "new": "你陪我站，站到它好。"
+  },
+  {
+   "file": "date_system/lines/D31.json",
+   "who": "classmate_peishan",
+   "point": "D31.pier",
+   "option": "「會一點點。」",
+   "old": "好。我抓著你的袖子。",
+   "new": "那我抓著你的袖子。"
+  },
+  {
+   "file": "date_system/lines/D31.json",
+   "who": "classmate_peishan",
+   "point": "D31.egg",
+   "option": "「先吃。」",
+   "old": "好！一人一顆。",
+   "new": "一顆不夠。我排了這麼久，要兩顆。"
+  },
+  {
+   "file": "date_system/lines/D32.json",
+   "who": "classmate_peishan",
+   "point": "D32.stall",
+   "option": "「先喝。」",
+   "old": "好！一人一碗。",
+   "new": "先喝。燙到不要笑我。"
+  }
+ ]
+}
