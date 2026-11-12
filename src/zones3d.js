@@ -2444,9 +2444,14 @@ const Z3 = (function(){
      · case：店內炸物櫃前面、點餐和看菜單中間（x 0.2 那條走道：炸物櫃 z 1.0～4.7）；kitchen：隔間（白磁磚腰牆＋玻璃，z −2.5～1.0）前面、四人桌二和三中間的走道 */
   const GG2_KIND={yangyang:{order_street:null,drink:'fridge',selfserve:'self'}}, GG2_LABEL={yangyang:{fridge:'看冷飲櫃'}};
   const GG2_ADD={yangyang:[{kind:'case',x:0.2,z:2.5,label:'看炸物櫃'},{kind:'kitchen',x:0.2,z:-0.5,label:'看廚房'}]};
+  /* 洋洋：沿著店內炸物櫃那一條走道（x 0.2）的三個「看」（炸物櫃、菜單、廚房）就在四人桌一、二西側那三張椅子的旁邊（0.75 m）——
+     玩家站在椅子旁邊（坐下前走到的那一點 x 0.37）離「看」0.26～0.53 m、離椅子 0.55 m，按鈕永遠是「看炸物櫃／看菜單／看廚房」，不是「坐下吃」
+     （BB 2026-11-12 FAIL：(0.92, 2.3) 那張旁邊的互動鍵是「看炸物櫃」）。點椅子走過去的有 tapPref 照椅子算；推搖桿走過去的沒有。
+     改：這三個「看」讓 0.4 m（engine3d.js nearestInteractable 的 prio：比遠近時當成遠 0.4 m）——站在椅子旁邊是「坐下吃」，貼著炸物櫃、菜單那一點站才是「看」。點餐（order）、自助區、冷飲櫃不動。 */
+  const GG2_PRIO={yangyang:{case:-0.4,menu:-0.4,kitchen:-0.4}};
   function gg2Items(E,k,L){ const KM=GG2_KIND[k]||{}, LB=GG2_LABEL[k]||{};
     for(const q of (L.interact||[]).concat(GG2_ADD[k]||[])){ const kind=Object.prototype.hasOwnProperty.call(KM,q.kind)?KM[q.kind]:q.kind; if(!kind||q.outside) continue; const mv=(GG2_MOVE[k]||{})[kind]||q;
-      E.interactables.push(Object.assign({x:mv.x,z:mv.z,radius:0.9,label:LB[kind]||q.label,gg2:k,kind:kind},q.genre?{genre:q.genre}:{})); } }   /* genre：轉角唱片翻的是哪一箱（corner_browse）*/
+      E.interactables.push(Object.assign({x:mv.x,z:mv.z,radius:0.9,label:LB[kind]||q.label,gg2:k,kind:kind},q.genre?{genre:q.genre}:{},(GG2_PRIO[k]||{})[kind]!=null?{prio:GG2_PRIO[k][kind]}:{})); } }   /* genre：轉角唱片翻的是哪一箱（corner_browse）*/
   const afar={ id:'afar', name:'afar café', indoor:true, camDist:3.8, build(E){ const L=GG_L.afar();
     const z=ggRoom(E,'afar',L,{label:L.exit.label,warm:true,floor:'#d6d4cf',glb:'bldg.afar_interior',attach:ggAAattach,study:true,shop:'afar',noSit:s=>s.seatH===0.45});   /* 卡座（西牆，table 4、5 的 seatH 0.45 兩張）：卡座前緣（x −4.6）到小圓桌（x −4.46）只有 0.14 m、南北兩頭是牆和隔牆，人走不到——這一版玩家不能坐（路人照坐），配置要 LAWWW2／AA 調 */ gg2Items(E,'afar',L); z.nav.blockRect(-2.8,2.15,0.4,0.5,0,0); z.nav._cm=null; return z; } };   /* ISLAND-SWEEP-1105（LAWWW2-C，LAWWW-C 06:26 要擋）：靠窗長凳西端、吧台南端、西牆層架中間的小縫（x −2.9～−2.7、z 2.0～2.3）站得住 9 點、四周都站不住，跑步一步 0.4 m 跳得進去——擋起來（AA 的配置不動）*/
   const daybreak={ id:'daybreak', name:'Daybreak', indoor:true, camDist:3.8, build(E){ const L=GG_L.daybreak();
