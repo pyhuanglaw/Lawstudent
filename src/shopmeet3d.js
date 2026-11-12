@@ -1,4 +1,4 @@
-/* ===== 店員的進門招呼、吃飯時間在店裡遇到同學的第一句（SHOP-LIFE-AA826-1112；USER_WANTS X356 的後續；AA_826 企劃線 90fb5fa77）=====
+/* ===== 店員的進門招呼、吃飯時間在店裡遇到同學的第一句（SHOP-LIFE-AA826-1112；USER_WANTS X356 的後續；AA_826 企劃線 f231f0514）=====
    字：src/data/shop_meet_lines.js（SHOP_MEET_LINES，tools/shops/import_shop_meet.py 從 AA_826_shop_backfill_1.json 匯入）和花序原本的 src/data/flower_notes_text.js（AA_792 staff.greet）。
    **這支不寫任何一句台詞。** 人怎麼排進店裡在 src/shoplife3d.js（那一支照規定不能有台詞，所以說話的部分放這裡）；index.html 裡排在 shoplife3d.js 前面（它後面不能再放別的模組，別的測試鎖住了）。
 
@@ -10,7 +10,8 @@
        花序的三句和櫃檯買花前那一句是同一組（FNS.greet 輪流）：進門說了一句，到櫃檯就是下一句，不會連著聽到同一句。
 
    2 吃飯時間在店裡遇到同學的第一句（S.mealHello，STORY.PRE_TALK）——AA_826 meal_hello：
-     誰：SHOPLIFE.sched 排進店裡吃飯的人（作息那一筆有 shopMeal、區域＝玩家現在這間店）；稿有句子的九位（以安、學姊、語彤、沛珊、柏翰、明軒、芯慈、阿哲、Alison）。宥辰稿沒有句子＝不說，照原本的閒聊。
+     誰：SHOPLIFE.sched 排進店裡吃飯的人（作息那一筆有 shopMeal、區域＝玩家現在這間店）；稿有句子的十位（以安、學姊、語彤、沛珊、柏翰、明軒、芯慈、阿哲、Alison、宥辰——宥辰 f231f0514 補的）。
+     分手後的前任、還沒回到朋友（SHOPLIFE.exBlock；AA_826 meal_hello.note）＝SHOPLIFE 本來就不排她進店裡，這裡再擋一次（她照別的作息剛好在店裡也不說這一句）。
      條件：朋友以上（SOCIAL.stage ≥ FRIEND；稿 note：「朋友以上才出；還不認識的不出」）。還不認識的走 story3d.js 原本的認識那一場，輪不到 PRE_TALK。
      說哪一句：每人兩句輪流；學姊交往中（G.flags.dating_heroine_05）用 heroine_05_dating 那一組。（）包起來的那一句是旁白。說完照原本的「和他說話」繼續（PRE_TALK 後面那一串）。
      一次見面只說一次：記在 G.flags.SHOP_MEAL_HI＝{人物: [那天, 哪一餐, 說過幾次]}；同一天同一餐再點他＝不再說。舊存檔沒有＝都還沒說過。
@@ -55,7 +56,7 @@ const SHOPMEET=(function(){
     return e&&e.shopMeal&&e.zone===G.zone?e.shopMeal:null; };
   S.friendUp=function(id){ if(typeof SOCIAL==='undefined'||!SOCIAL.stage||!Array.isArray(SOCIAL.STAGES)) return false; return SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf(S.MIN_STAGE); };
   S.helloSet=function(G,id){ const D=X(), H=D&&D.mealHello&&D.mealHello[id]; if(!H) return null; return (H.dating&&G.flags&&G.flags['dating_'+id])?H.dating:H.base; };
-  S.helloDue=function(G,id){ if(!G||!S.helloSet(G,id)) return null; const slot=S.mealSlot(G,id); if(!slot||!S.friendUp(id)) return null; const r=G.flags&&G.flags.SHOP_MEAL_HI, v=r&&typeof r==='object'?r[id]:null;
+  S.helloDue=function(G,id){ if(!G||!S.helloSet(G,id)) return null; if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.exBlock&&SHOPLIFE.exBlock(G,id)) return null;   /* 分手後的前任：不說（AA_826 meal_hello.note）*/ const slot=S.mealSlot(G,id); if(!slot||!S.friendUp(id)) return null; const r=G.flags&&G.flags.SHOP_MEAL_HI, v=r&&typeof r==='object'?r[id]:null;
     if(Array.isArray(v)&&v[0]===G.day&&v[1]===slot) return null; return slot; };
   S.mealHello=async function(GM,who,id){ const G=GM&&GM.G, slot=S.helloDue(G,id); if(!slot) return false; const L=S.helloSet(G,id), r=obj(F_(G),'SHOP_MEAL_HI'), n=Array.isArray(r[id])?(r[id][2]|0):0, t=L[n%L.length];
     r[id]=[G.day,slot,n+1]; await GM.say(narr(t)?null:who,t); return true; };

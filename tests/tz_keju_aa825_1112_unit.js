@@ -1,6 +1,7 @@
-// 汀州路・客居雲南（tz_keju）的店內文字（SHOP-LIFE-AA826-1112；AA_825，企劃線 90fb5fa77）——不需要瀏覽器（D131）。做法照 tests/tz_yuehaochi_aa821_1112_unit.js。
-//   1  資料檔 src/data/tz_meal_lines.js 逐字對稿（店名、老闆娘的句子、六樣菜的名字／價錢／吃的兩句、點餐、兩個「看」的按鈕和句子、坐下）；匯入工具 --check；白名單
-//      稿的 looks 對配置的點：menu＝tz_keju_menu、wall＝tz_keju_batik；table（看桌上）配置沒有點＝不接（那一句不在資料檔裡）
+// 汀州路・客居雲南（tz_keju）的店內文字（SHOP-LIFE-AA826-1112、SHOP-AA826B-1112；AA_825，企劃線 f231f0514）——不需要瀏覽器（D131）。做法照 tests/tz_yuehaochi_aa821_1112_unit.js。
+//   1  資料檔 src/data/tz_meal_lines.js 逐字對稿（店名、老闆娘的句子、六樣菜的名字／價錢／吃的兩句、點餐、四個「看」的按鈕和句子、坐下）；匯入工具 --check；白名單
+//      稿的 looks 對配置的點：menu＝tz_keju_menu；tz_keju_batik（看牆上）、tz_keju_tea（看茶餅櫃）、tz_keju_kitchen（看廚房）稿直接寫配置的 kind；配置的每一個互動點都有字
+//      （2026-11-12 SHOP-AA826B-1112 改期望——舊期望：wall＝tz_keju_batik、table 不接、茶餅櫃和廚房沒有字。AA_825 _meta.lawww_1112：table 拿掉、wall 改掛 tz_keju_batik、補兩句）
 //   2  營業時間每天 11:00～21:00、中午不休息（places.js）、名字、颱風假關、算汀州路
 //   3  關門時按店門：打烊以後＝稿的 closed_outside＋開放時間、不進去；開門以前（06～11）＝稿的 not_open＋開放時間；開著不擋
 //   4  進門：一天第一次老闆娘一句（三句）、同一天再進來不說
@@ -8,12 +9,12 @@
 //   6  點餐：「想吃什麼？」→ 六樣（稿的名字、價錢）→ 扣錢、點完一句、吃的兩句、吃 30 分鐘、坐下那一句、吃過的登記
 //      點好幾樣只演一樣的「吃」（稿的順序由上到下，不管先點哪一樣）；有點過橋米線＝order.after_guoqiao；沒點＝after 兩句隨機
 //   7  錢不夠＝稿的那一句旁白、不扣錢、時間不動；「不用了」＝不扣錢
-//   8  「看」：稿有句子的兩個點按了就是稿的那一句、按鈕的字照稿；茶餅櫃、廚房稿沒有句子＝GG3 不接（照 tz_shops3d.js 原本的）；坐下（每一桌）＝稿的那一句
+//   8  「看」：四個點（菜單、牆上、茶餅櫃、廚房）按了就是稿的那一句、按鈕的字照稿；沒有 GG3 不接的點；坐下（每一桌）＝稿的那一句
 //   9  越好吃小館、泰米村食照舊；node --check
 //   10 （子程序 A：建出遊戲真正的區域）點餐和兩個「看」在配置的位置、按鈕的字照稿、16 個座位補成 zone.seats、老闆娘站在配置的位置（開店才有）
 // 修改前（a5a4cdfa67）：資料檔沒有 tz_keju、GG3 不認得、沒有營業時間、「點餐」按下去只有暫時的「（客居雲南）」——第 0 節就 FAIL。
 // 用法：node tests/tz_keju_aa825_1112_unit.js
-const Z='tz_keju', SHA='90fb5fa77', DOC='docs/story_planning/AA_825_tz_keju.json', DATA='src/data/tz_meal_lines.js';
+const Z='tz_keju', SHA='f231f0514', DOC='docs/story_planning/AA_825_tz_keju.json', DATA='src/data/tz_meal_lines.js';
 if(process.argv[2]==='A') partA(); else partB();
 
 function partA(){
@@ -36,7 +37,7 @@ if(T&&Z3.ZONES[Z]){ const L=TZ_SHOPS_LAYOUT.keju, z=loadZone(Z), IT=E.interactab
   for(const p of L.points){ const it=by(p.id); if(!it){ bad.push(p.id+' 沒有'); continue; } if(Math.abs(it.x-p.x)>1e-6||Math.abs(it.z-p.z)>1e-6) bad.push(p.kind+' 位置不對');
     if(T.labels[p.kind]){ if(it.gg3!==Z) bad.push(p.kind+' 沒接上'); if(it.label!==T.labels[p.kind]) bad.push(p.kind+' 按鈕「'+it.label+'」≠稿「'+T.labels[p.kind]+'」'); }
     else { if(it.gg3) bad.push(p.kind+' 稿沒有句子卻接上了'); if(it.label!==p.label) bad.push(p.kind+' 按鈕被改了'); } }
-  check('10 配置的五個點都在配置的位置；稿有句子的三個（點餐、看菜單、看牆上）接上、按鈕的字照稿；另外兩個（茶餅櫃、廚房）照配置',!bad.length&&L.points.length===5,J(bad));
+  check('10 配置的五個點都在配置的位置；五個都有稿的字（點餐、看菜單、看茶餅櫃、看廚房、看牆上）＝都接上、按鈕的字照稿',!bad.length&&L.points.length===5&&L.points.every(p=>!!T.labels[p.kind]&&by(p.id)&&by(p.id).gg3===Z),J(bad));
   check('10 按鈕的字：點餐、看菜單、看茶餅櫃、看廚房、看牆上',J(L.points.map(p=>by(p.id).label))===J(['點餐','看菜單','看茶餅櫃','看廚房','看牆上']),J(L.points.map(p=>by(p.id).label)));
   check('10 16 個座位補成 zone.seats（桌子 keju_t1～t5）',Array.isArray(z.seats)&&z.seats.length===16&&z.seats.every(s=>/^keju_t[1-5]$/.test(s.table)&&IT.some(i=>i.seat===s)),J(z.seats&&z.seats.length));
   check('10 離開的門還在（回汀州路）',IT.some(i=>i.exit&&i.exit.to==='tingzhou'));
@@ -87,8 +88,10 @@ await sec(1,()=>{ let raw=null; try{ raw=cp.execFileSync('git',['show',SHA+':'+D
     check('1 點餐：想吃什麼、點完兩句、按鈕的字照稿；kind＝配置的 tz_keju_order（稿沒有 id）',A.order.id===undefined&&M.point==='tz_keju_order'&&LY.points.some(p=>p.kind===M.point)&&M.ask===A.order.ask&&J(M.after)===J(A.order.after)&&M.after.length===2&&T.labels[M.point]===A.order.button,J([M.ask,M.after]));
     check('1 有點過橋米線那一句（order.after_guoqiao）照稿、對到過橋米線；沒有「只點某一樣」「沒點某一樣」的句子',typeof A.order.after_guoqiao==='string'&&J(M.afterHas)===J({ids:[GQ],line:A.order.after_guoqiao})&&M.afterOnly===null&&M.afterNo===null,J([M.afterHas,M.afterOnly,M.afterNo]));
     check('1 只演一樣的順序＝稿的 items 由上到下（稿 _meta：「順序照 items 由上到下」；六樣各在一組）',A._meta.rules.some(t=>/順序照 items 由上到下/.test(t))&&J(M.eatFirst)===J(ids.map(id=>[id])),J(M.eatFirst));
-    check('1 兩個「看」（菜單、牆上）：句子、按鈕的字照稿，對到配置的點',J(T.look)===J({tz_keju_menu:[A.looks.menu.t],tz_keju_batik:[A.looks.wall.t]})&&T.labels.tz_keju_menu===A.looks.menu.button&&T.labels.tz_keju_batik===A.looks.wall.button&&Object.keys(T.labels).length===3&&Object.keys(T.look).every(k=>LY.points.some(p=>p.kind===k)),J([T.look,T.labels]));
-    check('1 稿的「看桌上」（looks.table）配置沒有點＝不接：那一句、那個按鈕的字不在資料檔裡',J(Object.keys(A.looks))===J(['menu','wall','table'])&&!J(T).includes(A.looks.table.t)&&!J(T).includes(A.looks.table.button)&&!LY.points.some(p=>/table/.test(p.kind)));
+    const KK=['tz_keju_batik','tz_keju_tea','tz_keju_kitchen'];
+    check('1 四個「看」（菜單、牆上、茶餅櫃、廚房）：句子、按鈕的字照稿，對到配置的點',J(Object.keys(A.looks))===J(['menu'].concat(KK))&&J(T.look)===J(Object.assign({tz_keju_menu:[A.looks.menu.t]},...KK.map(k=>({[k]:[A.looks[k].t]}))))&&T.labels.tz_keju_menu===A.looks.menu.button&&KK.every(k=>T.labels[k]===A.looks[k].button)&&Object.keys(T.labels).length===5&&Object.keys(T.look).every(k=>LY.points.some(p=>p.kind===k)),J([T.look,T.labels]));
+    check('1 按鈕的字：看菜單、看牆上、看茶餅櫃、看廚房（稿）；稿沒有「看桌上」了（looks.table 拿掉）、資料檔也沒有',J(['tz_keju_menu'].concat(KK).map(k=>T.labels[k]))===J(['看菜單','看牆上','看茶餅櫃','看廚房'])&&!('table' in A.looks)&&!('wall' in A.looks)&&!/看桌上/.test(J(T))&&!LY.points.some(p=>/table/.test(p.kind)),J(T.labels));
+    check('1 配置的每一個互動點（kind 是 tz_keju_ 開頭）都有字：點餐＋四個「看」',LY.points.every(p=>!!T.labels[p.kind]&&(p.kind===M.point||(T.look[p.kind]||[]).length===1))&&LY.points.length===5,J(LY.points.map(p=>p.kind)));
     check('1 坐下那一句照稿',J(T.seat)===J({sit:A.seat.sit}));
     /* 資料檔裡每一個字串都原封不動在稿裡（程式用的 id、配置的 id／kind 除外）*/
     const SKIP=new Set(['layout','id','point']), all=[]; const walk=(x,k)=>{ if(typeof x==='string'){ if(!SKIP.has(k)) all.push(x); } else if(Array.isArray(x)) x.forEach(v=>walk(v,k)); else if(x&&typeof x==='object') for(const kk of Object.keys(x)){ if(k==='labels'||k==='look') continue; walk(x[kk],kk); } };
@@ -96,7 +99,7 @@ await sec(1,()=>{ let raw=null; try{ raw=cp.execFileSync('git',['show',SHA+':'+D
     const src=[]; const w2=x=>{ if(typeof x==='string') src.push(x); else if(Array.isArray(x)) x.forEach(w2); else if(x&&typeof x==='object') for(const kk of Object.keys(x)){ src.push(kk); w2(x[kk]); } }; w2(Object.assign({},A,{_meta:null}));
     const bad=all.filter(t=>!src.includes(t)); check('1 資料檔每一個字串都是稿裡完整的一句（'+all.length+' 個；沒有自己寫的字）',!bad.length&&all.length>=35,J(bad.slice(0,6))); }
   let ck=null; try{ ck=cp.spawnSync('python3',['tools/shops/import_tz_meals.py','--check'],{cwd:ROOT,encoding:'utf8'}); }catch(e){}
-  if(!ck||ck.error) console.log('SKIP 1 沒有 python3（匯入工具 --check）'); else if(!raw) console.log('SKIP 1 匯入工具 --check（讀不到企劃線）'); else check('1 匯入工具 --check：資料檔＝稿匯出來的（走 import_guard 白名單）；印出不接的那一句',ck.status===0&&/不接：tz_keju looks\.table/.test(ck.stdout),(ck.stdout+ck.stderr).trim().slice(0,200));
+  if(!ck||ck.error) console.log('SKIP 1 沒有 python3（匯入工具 --check）'); else if(!raw) console.log('SKIP 1 匯入工具 --check（讀不到企劃線）'); else check('1 匯入工具 --check：資料檔＝稿匯出來的（走 import_guard 白名單）；沒有不接的句子',ck.status===0&&!/不接：/.test(ck.stdout),(ck.stdout+ck.stderr).trim().slice(0,200));
   const allow=JSON.parse(rd('docs/handoff/story_import_allow.json')).files; check('1 劇情匯入白名單有 AA_825（'+SHA+'、approved）',allow.filter(e=>e.path===DOC).length===1&&allow.some(e=>e.path===DOC&&e.sha===SHA&&e.status==='approved'&&!!e.approvedBy));
   check('1 資料檔記了來源（sha、稿）',J(TZ_MEAL_LINES._src[Z])===J({sha:SHA,doc:DOC})); });
 
@@ -166,7 +169,9 @@ await sec(8,async()=>{ const got={}, un=[];
     fresh('2025-10-07',12,Z); const r=await STORY.interact({tzPoint:p.id,kind:p.kind,label:p.label,look:'（客居雲南）'},GM); got[p.kind]=r===true?said():null; }
   check('8 看菜單＝稿的那一句旁白',J(got.tz_keju_menu)===J([[null,'（護貝的菜單，照片有點褪色。過橋米線那一格旁邊用紅筆寫了「招牌」，寫了兩次。）']]),J(got.tz_keju_menu));
   check('8 看牆上（配置的扎染布那一點）＝稿的那一句旁白',J(got.tz_keju_batik)===J([[null,'（牆上掛著一塊藍白的紮染布，旁邊一張山的照片，山頂有雪。）']]),J(got.tz_keju_batik));
-  check('8 點餐接到 GG3.mealOrder；茶餅櫃、廚房稿沒有句子＝GG3 不接（不自己寫字；回報給 AA）',GG3.ACT.tz_keju_order===GG3.mealOrder&&J(un)===J(['tz_keju_tea','tz_keju_kitchen'])&&J(LY.points.map(p=>p.kind))===J(['tz_keju_order','tz_keju_menu','tz_keju_tea','tz_keju_kitchen','tz_keju_batik']),J(un));
+  check('8 看茶餅櫃＝稿的那一句旁白',J(got.tz_keju_tea)===J([[null,'（玻璃櫃裡一餅一餅圓圓的茶，用白紙包著，紙上蓋了紅色的章。最上面那一餅拆開了，缺了一角。）']]),J(got.tz_keju_tea));
+  check('8 看廚房＝稿的那一句旁白',J(got.tz_keju_kitchen)===J([[null,'（廚房門口掛著半截布簾。裡面一口大鍋的湯一直滾，旁邊疊著一落大碗，每個都比臉大。）']]),J(got.tz_keju_kitchen));
+  check('8 點餐接到 GG3.mealOrder；沒有 GG3 不接的點（2026-11-12 改期望——舊期望：茶餅櫃、廚房稿沒有句子＝不接）',GG3.ACT.tz_keju_order===GG3.mealOrder&&J(un)===J([])&&J(LY.points.map(p=>p.kind))===J(['tz_keju_order','tz_keju_menu','tz_keju_tea','tz_keju_kitchen','tz_keju_batik']),J(un));
   { const out=[]; for(const t of [1,2,3,4,5]){ fresh('2025-10-07',12,Z); await STORY.onSeat(GM,{x:0,z:0,yaw:0,table:'keju_t'+t}); out.push(said()); }
     check('8 坐下（STORY.onSeat；五張桌子都一樣）：稿的那一句',out.every(s=>J(s)===J([[null,'（木頭的桌椅，桌面擦得很乾淨。隔壁桌的湯還在冒煙。）']]))&&T.seat.sit===out[0][0][1],J(out)); } });
 

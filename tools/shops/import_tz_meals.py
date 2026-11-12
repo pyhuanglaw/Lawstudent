@@ -11,8 +11,9 @@ src/data/places.js 加名字、營業時間、颱風假（和 tz_taimi 一樣）
 稿的格式（AA_821）：
   shop {id, name, hours, note}　staff {who, greet[], closed_line, closed_outside, no_money, not_open?}
   items {<id>: {name, price, eat[]}}　order {id, button, ask, after[], after_<x>_only?, after_no_<x>?, after_<x>?}　looks {<kind>: {button, t}}　seat {sit}
-客居雲南（AA_825）寫稿的時候互動點還沒出來（稿 _meta：「點位出來再對 id」）：order 沒有 id、looks 的 key 是 menu／wall／table。對到配置的 kind 寫在 SCRIPTS 那一列：
-  order_kind＝點餐的 kind；look_map＝{稿的 key: 配置的 kind 或 None}（None＝配置沒有這個點，這一句不接；匯入時印出來，回報給 AA、LAWWW2）。稿的每一個 key 都要在 look_map 裡，kind 要真的在配置檔裡。
+客居雲南（AA_825）：order 沒有 id（SCRIPTS 的 order_kind＝點餐的 kind）；looks 的 key 除了 menu（look_map 對到 tz_keju_menu）都直接寫配置的 kind（f231f0514 起：tz_keju_batik、tz_keju_tea、tz_keju_kitchen）。
+  look_map＝{稿的 key: 配置的 kind 或 None}（None＝配置沒有這個點，這一句不接、匯入時印出來）；look_map 沒有的 key＝本身就是 kind，不在配置裡＝停下來。
+  all_points＝配置的每一個互動點（kind 是 <區域>_ 開頭的；座位另外用 seat.sit）都要有字（少一個＝停下來）。
 資料檔的格式（照 GG3_LINES 的寫法，src/gg3shops3d.js 直接讀）：
   name、who、layout、hours（稿的字串；真的檢查的時間在 places.js）、door＝[[說話的人, 字]…]（稿的 greet：一天第一次進門說一句，和泰米村食的「進門」一樣）、
   close（closed_line：打烊時人還在店裡）、sign（closed_outside：打烊以後到門口）、notOpen（not_open：開門以前到門口；稿有才有）、look {kind: [字]}、labels {kind: 按鈕的字}、seat {sit}、
@@ -35,10 +36,11 @@ OUT = 'src/data/tz_meal_lines.js'
 SCRIPTS = [
     {'zone': 'tz_yuehaochi', 'layout': 'yuehaochi', 'path': 'docs/story_planning/AA_821_tz_yuehaochi.json', 'sha': '7917d4289',
      'eat_first': ['pho', 'roll', 'banhmi', 'coffee']},   # 一次點好幾樣只演一樣的「吃」：照這個順序挑（AA_821 _meta.lawww_1112 ②：河粉 > 春捲 > 法國麵包 > 咖啡；字＝菜的 id 裡的那一段）
-    {'zone': 'tz_keju', 'layout': 'keju', 'path': 'docs/story_planning/AA_825_tz_keju.json', 'sha': '90fb5fa77',
+    {'zone': 'tz_keju', 'layout': 'keju', 'path': 'docs/story_planning/AA_825_tz_keju.json', 'sha': 'f231f0514',   # SHOP-AA826B-1112：looks 的 key 改成配置的 kind（舊 90fb5fa77 要 look_map 對照）
      'eat_first': ['guoqiao', 'migan', 'wandou', 'bao', 'muer', 'tea'],   # AA_825 _meta：「一次點多樣只播一樣的 eat（順序照 items 由上到下）」
      'order_kind': 'tz_keju_order',   # 稿的 order 沒有 id：配置（src/data/tz_shops_layout.js keju.points）的點餐點
-     'look_map': {'menu': 'tz_keju_menu', 'wall': 'tz_keju_batik', 'table': None}},   # 稿的 looks → 配置的 kind：wall（紮染布、雪山照片）＝「看牆上的扎染布」那一點；table（桌上的辣油、醋、酸菜）配置沒有點＝不接
+     'look_map': {'menu': 'tz_keju_menu'},   # 稿的 looks 只剩 menu 這個 key 不是配置的 kind；tz_keju_batik／tz_keju_tea／tz_keju_kitchen 稿直接寫 kind（look_map 沒有的 key＝本身就是 kind）
+     'all_points': True},   # 配置的每一個互動點（點餐、看）都要有字：少一個＝停下來
 ]
 SKIPPED = []
 LAYOUT = 'src/data/tz_shops_layout.js'
@@ -175,18 +177,20 @@ def one(spec):
     for kind, v in looks.items():
         keys(v, ['button', 't'], f'{W} looks.{kind}')
         if lmap is not None:
-            if kind not in lmap:
-                die(f'{W} looks.{kind}：SCRIPTS 的 look_map 沒有這個 key（稿加了「看」：先對配置的點）')
-            if lmap[kind] is None:
+            if kind in lmap and lmap[kind] is None:
                 SKIPPED.append(f'{W} looks.{kind}（{v["button"]}）：配置沒有這個點，這一句不接')
                 continue
-            kind = lmap[kind]
+            kind = lmap.get(kind, kind)   # look_map 沒有的 key＝本身就是配置的 kind（不在配置裡下面會停）
         if kind not in kinds:
             die(f'{W} looks：kind {kind} 不在配置裡（{kinds}）')
         if kind in labels:
             die(f'{W} looks.{kind}：和點餐的 kind 重複')
         look[kind] = [narr(v['t'], f'{W} looks.{kind}.t')]
         labels[kind] = fix(v['button'], f'{W} looks.{kind}.button')
+    if spec.get('all_points'):
+        miss = [k for k in kinds if k.startswith(W + '_') and k not in labels]   # 互動點的 kind＝<區域>_…；座位（two／four）用 seat.sit
+        if miss:
+            die(f'{W}：配置的互動點 {miss} 稿沒有字（all_points：每一個點都要有）')
     seat = keys(doc['seat'], ['sit'], W + ' seat')
     out = {'name': fix(shop['name'], W + ' shop.name'), 'who': who, 'layout': spec['layout'], 'hours': shop['hours'],
             'door': [[who, t] for t in strs(staff['greet'], W + ' staff.greet')],

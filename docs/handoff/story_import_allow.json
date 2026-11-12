@@ -7883,9 +7883,9 @@
   },
   {
    "path": "docs/story_planning/AA_742_公館六間店_設定與台詞.md",
-   "sha": "90fb5fa77",
+   "sha": "f231f0514",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109）；90fb5fa77（SHOP-LIFE-AA826-1112：AA_826 lawww_answers 第 7 點「AA_742 午休作廢在 e24b6cec7 改的，重匯用企劃線最新即可」——泰米村食 11:00～21:00 不午休）",
+   "approvedBy": "AA 定稿（D109）；f231f0514（SHOP-AA826B-1112：泰米村食「14:00～17:00 到門口」的木牌那一句稿上劃掉、寫「11-12 作廢」（X349）；資料檔的字不變）",
    "task": "GG-SHOPS3-STORY-1110",
    "kind": "md",
    "note": "公館三間（安泰藥局、汀州鮮果、榮恩典文具社）＋汀州路三間（洗樂洗衣坊、印得好、泰米村食）的店家設定、商品價錢、進門、說話、情境、看、打烊、關門、約去泰米村食；③ 日日定食改成泰米村食（tools/shops/import_gg3_shops.py → src/data/gg3_shops_lines.js；流程 src/gg3shops3d.js；③ 手動照抄在 src/sis_grad3d.js、src/story3d.js；tests/gg_shops3_story_1111_unit.js 逐句對照）",
@@ -7897,14 +7897,18 @@
     {
      "sha": "8f6650289",
      "approvedBy": "AA 定稿（D109）；LAWWW 接線 GG-SHOPS3-STORY-1110；8f6650289（AA 11-11 16:18 回 LAWWW 七格：打烊照 AA_700 統一「我們今天要打烊了。」、泰米 14:00 午休句、泰米開放式廚房、柔軟精旁白）"
+    },
+    {
+     "sha": "90fb5fa77",
+     "approvedBy": "AA 定稿（D109）；90fb5fa77（SHOP-LIFE-AA826-1112：AA_826 lawww_answers 第 7 點「AA_742 午休作廢在 e24b6cec7 改的，重匯用企劃線最新即可」——泰米村食 11:00～21:00 不午休）"
     }
    ]
   },
   {
    "path": "docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md",
-   "sha": "90fb5fa77",
+   "sha": "f231f0514",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109）；90fb5fa77（和 AA_742 同一版一起讀；SHOP-LIFE-AA826-1112）",
+   "approvedBy": "AA 定稿（D109）；f231f0514（內容和 90fb5fa77 一樣，和 AA_742 同一版一起讀；SHOP-AA826B-1112）",
    "task": "GG-SHOPS3-STORY-1110",
    "kind": "md",
    "note": "以這份為準：AA_742 的 kind 對照 LAWWW2 的配置、第 2 節新加／改寫的「看」、要改模型的句子不接、騎樓 sale／rack 不接、汀州鮮果老闆娘那一句換老闆說、印得好老闆那一句換店員說、榮恩典女兒週末不接（tools/shops/import_gg3_shops.py）",
@@ -7916,6 +7920,10 @@
     {
      "sha": "8f6650289",
      "approvedBy": "AA 定稿（D109）；LAWWW 接線 GG-SHOPS3-STORY-1110；8f6650289（內容和 75f5de658 一樣，和 AA_742 同一版一起讀）"
+    },
+    {
+     "sha": "90fb5fa77",
+     "approvedBy": "AA 定稿（D109）；90fb5fa77（和 AA_742 同一版一起讀；SHOP-LIFE-AA826-1112）"
     }
    ]
   },
@@ -7965,21 +7973,33 @@
   },
   {
    "path": "docs/story_planning/AA_825_tz_keju.json",
-   "sha": "90fb5fa77",
+   "sha": "f231f0514",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（D109；稿 _meta：BB-C 11-12 05:26 第二意見「可以定稿」）",
+   "approvedBy": "AA-C 2026-11-12 定稿（D109；稿 _meta：BB-C 11-12 05:26 第二意見「可以定稿」；f231f0514：_meta.lawww_1112 回 LAWWW-C——looks.table 拿掉、wall 改掛 tz_keju_batik、補 tz_keju_tea／tz_keju_kitchen 兩句）",
    "task": "SHOP-LIFE-AA826-1112",
    "kind": "json",
-   "note": "汀州路・客居雲南（tz_keju）店內文字：老闆娘進門三句、打烊、開門以前、打烊以後、錢不夠、六樣菜（名字、價錢、吃的兩句）、點餐（想吃什麼、點完兩句、有點過橋米線那一句）、看菜單／看牆上（按鈕的字和句子）、坐下；looks.table 配置沒有點＝不接（tools/shops/import_tz_meals.py → src/data/tz_meal_lines.js；流程 src/gg3shops3d.js；tests/tz_keju_aa825_1112_unit.js 逐字對稿）"
+   "note": "汀州路・客居雲南（tz_keju）店內文字：老闆娘進門三句、打烊、開門以前、打烊以後、錢不夠、六樣菜（名字、價錢、吃的兩句）、點餐（想吃什麼、點完兩句、有點過橋米線那一句）、看菜單／看牆上／看茶餅櫃／看廚房（按鈕的字和句子；配置的每一個互動點都有字）、坐下（tools/shops/import_tz_meals.py → src/data/tz_meal_lines.js；流程 src/gg3shops3d.js；tests/tz_keju_aa825_1112_unit.js 逐字對稿）",
+   "history": [
+    {
+     "sha": "90fb5fa77",
+     "approvedBy": "AA-C 2026-11-12 定稿（D109；稿 _meta：BB-C 11-12 05:26 第二意見「可以定稿」）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_826_shop_backfill_1.json",
-   "sha": "90fb5fa77",
+   "sha": "f231f0514",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（D109；稿 _meta：BB-C 11-12 05:26 第二意見、「定稿」）",
+   "approvedBy": "AA-C 2026-11-12 定稿（D109；稿 _meta：BB-C 11-12 05:26 第二意見、「定稿」；f231f0514：lawww_answers 第 8 點——補宥辰、語彤／明軒／阿哲改成不分店的句子，「BB-C 06:02 看過：都 OK……定稿。」）",
    "task": "SHOP-LIFE-AA826-1112",
    "kind": "json",
-   "note": "店面盤點回覆：staff_greet（山嵐書店、大步球鞋、好拍運動、新生運動廣場店員進門招呼各三句，一天一次、輪流）、meal_hello（吃飯時間在店裡遇到同學的第一句：九位各兩句＋學姊交往中兩句）；lawww_answers 第 4 點（名單加學姊 0.6、語彤 0.4；同一個人一天最多遇到一次）在 src/shoplife3d.js（tools/shops/import_shop_meet.py → src/data/shop_meet_lines.js；流程 src/shopmeet3d.js；tests/shop_meet_aa826_1112_unit.js 逐字對稿）"
+   "note": "店面盤點回覆：staff_greet（山嵐書店、大步球鞋、好拍運動、新生運動廣場店員進門招呼各三句，一天一次、輪流）、meal_hello（吃飯時間在店裡遇到同學的第一句：十位各兩句＋學姊交往中兩句；note：分手後的前任不排進店裡遇到，回到朋友以後照舊）；lawww_answers 第 4 點（名單加學姊 0.6、語彤 0.4；同一個人一天最多遇到一次）、前任不排（SHOPLIFE.exBlock）在 src/shoplife3d.js（tools/shops/import_shop_meet.py → src/data/shop_meet_lines.js；流程 src/shopmeet3d.js；tests/shop_meet_aa826_1112_unit.js 逐字對稿）",
+   "history": [
+    {
+     "sha": "90fb5fa77",
+     "approvedBy": "AA-C 2026-11-12 定稿（D109；稿 _meta：BB-C 11-12 05:26 第二意見、「定稿」）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_820_flower_class.json",

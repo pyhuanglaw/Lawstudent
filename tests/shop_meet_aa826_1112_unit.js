@@ -1,19 +1,19 @@
-// SHOP-LIFE-AA826-1112：店員的進門招呼、吃飯時間在店裡遇到同學的第一句（AA_826 企劃線 90fb5fa77；src/shopmeet3d.js、src/data/shop_meet_lines.js）——不需要瀏覽器（D131）。
+// SHOP-LIFE-AA826-1112：店員的進門招呼、吃飯時間在店裡遇到同學的第一句（AA_826 企劃線 f231f0514（SHOP-AA826B-1112：補宥辰、語彤／明軒／阿哲改句、前任不排）；src/shopmeet3d.js、src/data/shop_meet_lines.js）——不需要瀏覽器（D131）。
 // 做法照 tests/shop_life_audit_1112_unit.js：在 Node 照 index.html 的順序把整個遊戲的程式全部載入，建出真正的店（Z3.ZONES[id].build）、叫真的 STORY.populate（店員、同學都是遊戲自己放的），
 //   只把 GM.say／choose 換成記錄用的。
-//   1  資料檔逐字對稿（四間店各三句、說話的人；九位各兩句、學姊交往中兩句）；匯入工具 --check；白名單；index.html 的順序；src/shopmeet3d.js、src/shoplife3d.js 沒有自己寫的中文句子
+//   1  資料檔逐字對稿（四間店各三句、說話的人；十位各兩句、學姊交往中兩句）；匯入工具 --check；白名單；index.html 的順序；src/shopmeet3d.js、src/shoplife3d.js 沒有自己寫的中文句子
 //   2  山嵐書店、大步球鞋、好拍運動、新生運動廣場：走進去（店開著、店員站在店裡）＝店員說稿的那一句；同一天再進來不說；隔天說下一句（三句輪流）；
 //      打烊以後、店裡沒有店員、別的場景在演、約在這間店的那一趟＝不說
 //   3  花序：走進去＝花藝師說 AA_792 staff.greet 的一句（一天一次）；到櫃檯買花前那一句是下一句（不連著同一句）
 //   4  越好吃小館、客居雲南：走進去、老闆娘站在店裡、GG3.tick 說稿的進門句（一天一次；原本那一套，這裡確認真的會說）
 //   5  吃飯時間在店裡遇到同學（SHOPLIFE 排進去的人）：朋友以上＝他的第一句是稿的那一句（STORY.PRE_TALK）；同一餐再點他不再說；下一次見面說另一句（兩句輪流）；
-//      不到朋友＝不說；不是 SHOPLIFE 排的（他照原本的作息在店裡）＝不說；宥辰（稿沒有句子）＝不說；學姊交往中＝交往中的那一組、括號那一句是旁白
+//      不到朋友＝不說；不是 SHOPLIFE 排的（他照原本的作息在店裡）＝不說；宥辰（f231f0514 補了兩句）照稿；分手後的前任＝不排、不說，回到朋友以後照舊；學姊交往中＝交往中的那一組、括號那一句是旁白
 //   6  真的「和他說話」（STORY.talkCharacter）：第一句＝稿的那一句，後面照原本的閒聊繼續
 //   7  存檔：只多 G.flags.SHOP_GREET、SHOP_MEAL_HI；沒有這兩個旗標的舊存檔＝從第一句開始、不出錯
 // 修改前（a5a4cdfa67）：沒有 src/shopmeet3d.js、資料檔——第 0 節就 FAIL（七間店有店員但進門不說話；店裡遇到同學沒有專屬的第一句）。
 // 用法：node tests/shop_meet_aa826_1112_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process'); const ROOT=path.resolve(__dirname,'..');
-const SHA='90fb5fa77', DOC='docs/story_planning/AA_826_shop_backfill_1.json', DATA='src/data/shop_meet_lines.js';
+const SHA='f231f0514', DOC='docs/story_planning/AA_826_shop_backfill_1.json', DATA='src/data/shop_meet_lines.js';
 process.on('unhandledRejection',()=>{}); global.window=global; global.self=global; const warns=[]; console.warn=(...a)=>{ warns.push(a.map(String).join(' ').slice(0,200)); };
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'||k==='createImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 const el=()=>({getContext:()=>ctx2d,style:{},dataset:{},classList:{add(){},remove(){},toggle(){},contains:()=>false},children:[],childNodes:[],width:1,height:1,appendChild(){},removeChild(){},addEventListener(){},removeEventListener(){},setAttribute(){},getAttribute:()=>null,querySelector:()=>null,querySelectorAll:()=>[],remove(){},getBoundingClientRect:()=>({left:0,top:0,width:1,height:1}),focus(){},blur(){},insertBefore(){}});
@@ -64,13 +64,18 @@ await sec(1,()=>{ let raw=null; try{ raw=cp.execFileSync('git',['show',SHA+':'+D
     check('1 店員進門招呼：四間店（山嵐、大步、好拍、新生運動廣場）各三句、說話的人照稿（好拍是老闆）',J(Object.keys(D.staffGreet))===J(Object.values(ZONE_OF))&&Object.keys(ZONE_OF).every(k=>J(D.staffGreet[ZONE_OF[k]])===J({who:A.staff_greet[k].who,lines:A.staff_greet[k].greet})&&A.staff_greet[k].greet.length===3)&&D.staffGreet.xs_haopai.who==='老闆'&&D.staffGreet.xs_shanlan.who==='店員',J(D.staffGreet).slice(0,200));
     check('1 抽看原句：山嵐「歡迎，慢慢看。」、大步「可以拿下來看，沒關係。」、好拍「看拍子還是穿線？」、運動廣場「系服要整隊一起訂喔。」',D.staffGreet.xs_shanlan.lines[0]==='歡迎，慢慢看。'&&D.staffGreet.xs_dabu.lines[2]==='可以拿下來看，沒關係。'&&D.staffGreet.xs_haopai.lines[0]==='看拍子還是穿線？'&&D.staffGreet.xs_xsports.lines[2]==='系服要整隊一起訂喔。');
     const ids=Object.keys(A.meal_hello).filter(k=>k!=='note'&&k!=='when'&&!/_dating$/.test(k));
-    check('1 遇到同學的第一句：九位各兩句照稿（以安、學姊、語彤、沛珊、柏翰、明軒、芯慈、阿哲、Alison），都是遊戲裡的人物 id',ids.length===9&&J(Object.keys(D.mealHello))===J(ids)&&ids.every(id=>!!CHARACTERS[id]&&J(D.mealHello[id].base)===J(A.meal_hello[id])&&A.meal_hello[id].length===2),J(ids));
+    /* 2026-11-12 SHOP-AA826B-1112 改期望——舊期望：九位（宥辰沒有句子）、語彤第二句「我在等外帶。」、明軒第一句「欸，一個人喔？這家加飯不用錢。」、阿哲第一句「欸你也來！我跟你講，點那個辣的。」。
+       AA_826 lawww_answers 第 8 點：補宥辰；語彤／明軒／阿哲改成不分店的句子（這幾句不分店，哪一間都通）。*/
+    check('1 遇到同學的第一句：十位各兩句照稿（以安、學姊、語彤、沛珊、柏翰、明軒、芯慈、阿哲、Alison、宥辰），都是遊戲裡的人物 id',ids.length===10&&ids.includes('classmate_youchen')&&J(Object.keys(D.mealHello))===J(ids)&&ids.every(id=>!!CHARACTERS[id]&&J(D.mealHello[id].base)===J(A.meal_hello[id])&&A.meal_hello[id].length===2),J(ids));
     check('1 學姊交往中那一組（heroine_05_dating）照稿；其他人沒有交往中的那一組',J(D.mealHello.heroine_05.dating)===J(A.meal_hello.heroine_05_dating)&&J(D.mealHello.heroine_05.dating)===J(['你吃了沒。','（她把旁邊的椅子拉開一點。）'])&&ids.filter(id=>D.mealHello[id].dating).length===1);
     check('1 抽看原句：以安「你也來吃這家。我剛點，還沒來。」、柏翰「你也吃這家？我很常來。」、Alison「我姊說這家不錯，我來驗證。」；學姊的句子沒有「學弟」',D.mealHello.heroine_01.base[0]==='你也來吃這家。我剛點，還沒來。'&&D.mealHello.classmate_bohan.base[1]==='你也吃這家？我很常來。'&&D.mealHello.yu.base[1]==='我姊說這家不錯，我來驗證。'&&!/學弟/.test(J(D.mealHello.heroine_05)));
+    check('1 改過的句子照稿：宥辰兩句（「欸，你也來。我剛起床，這算早餐。」「這間放的歌還可以。你有推薦吃什麼嗎？」）、語彤第二句「我快吃完了。你慢慢吃。」、明軒第一句「欸，一個人喔？」、阿哲第一句「欸你也來！我都快吃完了你才來。」；舊的三句不在資料檔裡',
+      J(D.mealHello.classmate_youchen)===J({base:['欸，你也來。我剛起床，這算早餐。','這間放的歌還可以。你有推薦吃什麼嗎？']})&&J(D.mealHello.classmate_youchen.base)===J(A.meal_hello.classmate_youchen)&&D.mealHello.heroine_03.base[1]==='我快吃完了。你慢慢吃。'&&D.mealHello.heroine_03.base[0]==='嗯。你也在。'&&D.mealHello.classmate_mingxuan.base[0]==='欸，一個人喔？'&&D.mealHello.zhe.base[0]==='欸你也來！我都快吃完了你才來。'&&!/等外帶|加飯不用錢|點那個辣的/.test(J(D.mealHello)),J([D.mealHello.classmate_youchen,D.mealHello.heroine_03,D.mealHello.classmate_mingxuan.base[0],D.mealHello.zhe.base[0]]));
+    check('1 稿的 note 寫了前任不排（「分手後的前任不排進店裡遇到」「回到朋友（挽回或和好的旗標）以後照舊」）',/分手後的前任不排進店裡遇到/.test(A.meal_hello.note)&&/回到朋友（挽回或和好的旗標）以後照舊/.test(A.meal_hello.note));
     /* 資料檔每一句都原封不動在稿裡 */
     const all=[]; for(const z in D.staffGreet){ all.push(D.staffGreet[z].who); all.push(...D.staffGreet[z].lines); } for(const id in D.mealHello){ all.push(...D.mealHello[id].base); if(D.mealHello[id].dating) all.push(...D.mealHello[id].dating); }
     const src=[]; const w2=x=>{ if(typeof x==='string') src.push(x); else if(Array.isArray(x)) x.forEach(w2); else if(x&&typeof x==='object') for(const k of Object.keys(x)) w2(x[k]); }; w2(A.staff_greet); w2(Object.assign({},A.meal_hello,{note:null,when:null}));
-    check('1 資料檔每一個字串都是稿裡完整的一句（'+all.length+' 個；沒有自己寫的字）',all.length===36&&all.every(t=>src.includes(t)),J(all.filter(t=>!src.includes(t)).slice(0,4)));
+    check('1 資料檔每一個字串都是稿裡完整的一句（'+all.length+' 個；沒有自己寫的字）',all.length===38&&all.every(t=>src.includes(t)),J(all.filter(t=>!src.includes(t)).slice(0,4)));
     const ck=cp.spawnSync('python3',['tools/shops/import_shop_meet.py','--check'],{cwd:ROOT,encoding:'utf8'});
     if(ck.error) console.log('SKIP 1 沒有 python3（匯入工具 --check）'); else check('1 匯入工具 --check：資料檔＝稿匯出來的（走 import_guard 白名單）',ck.status===0,(ck.stdout+ck.stderr).trim().slice(0,200)); }
   const allow=JSON.parse(rd('docs/handoff/story_import_allow.json')).files;
@@ -129,7 +134,7 @@ await sec(5,async()=>{ G.flags.YT_MET_JOB=true; G.invites=[]; const who=id=>({na
     const m3=findMeal(id,m2.d+1); let s3=null; if(m3){ delete G.flags.SHOP_MEAL_MET; said=[]; enter(m3.p.zone,m3.d,m3.h); await SHOPMEET.mealHello(GM,who(id),id); s3=said.slice(); }
     if(!(r1===true&&J(s1)===J([[SOCIAL.displayName(id),L[0]]]))) bad.push(id+' 第一次 '+J(s1)); if(r1b||s1b.length) bad.push(id+' 同一餐又說了'); if(!(r2===true&&J(s2)===J([[SOCIAL.displayName(id),L[1]]]))) bad.push(id+' 第二次 '+J(s2));
     if(m3&&J(s3)!==J([[SOCIAL.displayName(id),L[0]]])) bad.push(id+' 第三次沒有輪回第一句 '+J(s3)); info.push(SOCIAL.displayName(id)+'@'+m1.p.zone.replace('l118_','')); }
-  check('5 九位：SHOPLIFE 排進店裡、朋友以上＝第一句是稿的那一句（說話的人是他）；同一餐再點不再說；下一次見面是另一句、再下一次輪回第一句',!bad.length&&info.length===9,bad.slice(0,4).join('；')||info.join('、'));
+  check('5 十位：SHOPLIFE 排進店裡、朋友以上＝第一句是稿的那一句（說話的人是他）；同一餐再點不再說；下一次見面是另一句、再下一次輪回第一句',!bad.length&&info.length===10,bad.slice(0,4).join('；')||info.join('、'));
   /* 不到朋友 */
   { const id='classmate_bohan'; delete G.flags.SHOP_MEAL_HI; const r=SOCIAL.rel(id); r.fam=30; r.trust=30; const m=findMeal(id); said=[]; enter(m.p.zone,m.d,m.h); const a=SOCIAL.stage(id)==='FAMILIAR'&&!(await SHOPMEET.mealHello(GM,who(id),id))&&!said.length&&!G.flags.SHOP_MEAL_HI;
     r.fam=40; r.trust=25; const b=SOCIAL.stage(id)==='FRIEND'&&(await SHOPMEET.mealHello(GM,who(id),id))===true&&said.length===1;
@@ -138,9 +143,23 @@ await sec(5,async()=>{ G.flags.YT_MET_JOB=true; G.invites=[]; const who=id=>({na
   { const id='classmate_bohan'; friend(id); delete G.flags.SHOP_MEAL_HI; const m=findMeal(id); enter(m.p.zone,m.d,m.h); said=[]; const h0=G.hour; G.hour=m.p.t1+1.5; const e=STORY.schedEnt(CHARACTERS[id],G); const a=!(e&&e.shopMeal)&&!(await SHOPMEET.mealHello(GM,who(id),id));
     G.hour=h0; const z0=G.zone; G.zone='campus'; const b=!(await SHOPMEET.mealHello(GM,who(id),id)); G.zone=z0;
     check('5 他不是照「吃飯時間在店裡」那一筆在這裡（時間過了／玩家不在那間店）＝不說',a&&b&&!said.length,J([a,b,said])); }
-  /* 宥辰：稿沒有句子 */
-  { const id='classmate_youchen'; friend(id); const r=SOCIAL.rel(id); r.fam=50; r.trust=40; delete G.flags.SHOP_MEAL_HI; const m=findMeal(id); let a=!D.mealHello[id]; if(m){ enter(m.p.zone,m.d,m.h); said=[]; a=a&&!(await SHOPMEET.mealHello(GM,who(id),id))&&!said.length; }
-    check('5 宥辰（名單上有、AA_826 沒有他的句子）＝不說，照原本的閒聊',a&&SHOPLIFE.people().includes(id),m?'排得到：'+m.p.zone:'這段時間排不到'); }
+  /* 宥辰：f231f0514 補了兩句（2026-11-12 改期望——舊期望：稿沒有他的句子＝不說）*/
+  { const id='classmate_youchen'; friend(id); delete G.flags.SHOP_MEAL_HI; delete G.flags.SHOP_MEAL_MET; const m=findMeal(id); let a=false; if(m){ enter(m.p.zone,m.d,m.h); said=[]; a=(await SHOPMEET.mealHello(GM,who(id),id))===true&&J(said)===J([[SOCIAL.displayName(id),'欸，你也來。我剛起床，這算早餐。']]); }
+    check('5 宥辰（名單上有、weight 0.4）：排進店裡、朋友以上＝說稿的第一句「欸，你也來。我剛起床，這算早餐。」',a&&SHOPLIFE.people().includes(id),m?J(said):'這段時間排不到'); }
+  /* 分手後的前任（AA_826 meal_hello.note）：SHOPLIFE 不排、這一句也不說；回到朋友（以安＝MREL.rb 做完）以後照舊 */
+  { const id='heroine_01', F=G.flags, rom0=F.romance?JSON.stringify(F.romance):null, mr0=F.MREL?JSON.stringify(F.MREL):null; friend(id); delete F.SHOP_MEAL_HI; delete F.SHOP_MEAL_MET; delete F['dating_'+id]; delete F['EX_'+id];
+    const m=findMeal(id); enter(m.p.zone,m.d,m.h); const e0=STORY.schedEnt(CHARACTERS[id],G), in0=named().some(q=>q.charId===id);
+    F['EX_'+id]=true; ROM.get(G,id).status='ex'; ROM.get(G,id).history.push({ev:'end',at:'Y1S1',day:m.d-3,how:'apart_talk'});
+    enter(m.p.zone,m.d,m.h); said=[]; const e1=STORY.schedEnt(CHARACTERS[id],G), in1=named().some(q=>q.charId===id), blk=SHOPLIFE.exBlock(G,id), h1=await SHOPMEET.mealHello(GM,who(id),id), s1=said.slice(), hi1=!!(F.SHOP_MEAL_HI&&F.SHOP_MEAL_HI[id]);
+    const gx=Object.assign({},G,{hour:m.h}), why=SHOPLIFE.why(gx,CHARACTERS[id],m.p);
+    const r=MREL.rb(G,id); r.step='done'; r.done=m.d;   /* 「重新開始」那一場做完＝回到朋友 */
+    enter(m.p.zone,m.d,m.h); said=[]; const e2=STORY.schedEnt(CHARACTERS[id],G), in2=named().some(q=>q.charId===id), h2=await SHOPMEET.mealHello(GM,who(id),id), s2=said.slice();
+    check('5 以安分手以後（EX_、還沒和好）：這一餐不排進店裡（作息沒有那一筆、店裡沒有她、why＝ex）、第一句不說、不記',!!(e0&&e0.shopMeal)&&in0&&blk===true&&!(e1&&e1.shopMeal)&&!in1&&why==='ex'&&h1===false&&!s1.length&&!hi1,J([!!(e0&&e0.shopMeal),in0,blk,e1&&e1.zone,in1,why,h1,s1,hi1]));
+    check('5 以安回到朋友（MREL.rb 的 step＝done；EX_ 還在、沒有重新交往）：同一餐照舊排進店裡、照舊說第一句',!SHOPLIFE.exBlock(G,id)&&!!(e2&&e2.shopMeal)&&in2&&h2===true&&J(s2)===J([[SOCIAL.displayName(id),D.mealHello[id].base[0]]])&&F['EX_'+id]===true,J([e2&&e2.zone,in2,h2,s2]));
+    delete F['EX_'+id]; delete F.SHOP_MEAL_HI; delete F.SHOP_MEAL_MET; if(rom0) F.romance=JSON.parse(rom0); else delete F.romance; if(mr0) F.MREL=JSON.parse(mr0); else delete F.MREL; }
+  /* 她照別的作息剛好在店裡（不是 SHOPLIFE 排的）本來就不說；helloDue 自己也擋前任 */
+  { const id='classmate_peishan', F=G.flags; friend(id); delete F.SHOP_MEAL_HI; delete F.SHOP_MEAL_MET; const m=findMeal(id); enter(m.p.zone,m.d,m.h); const a=!!SHOPMEET.helloDue(G,id); const ex0=SHOPLIFE.exBlock; SHOPLIFE.exBlock=(g,x)=>x===id; const sl=SHOPMEET.mealSlot; SHOPMEET.mealSlot=()=>m.p.slot; const b=SHOPMEET.helloDue(G,id); SHOPMEET.mealSlot=sl; SHOPLIFE.exBlock=ex0;
+    check('5 SHOPMEET.helloDue 自己也看 SHOPLIFE.exBlock（就算作息那一筆還在，前任也不說）',a&&b===null,J([a,b])); }
   /* 學姊交往中 */
   { const id='heroine_05'; friend(id); delete G.flags.SHOP_MEAL_HI; delete G.flags.SHOP_MEAL_MET; G.flags['dating_'+id]=true; const L=D.mealHello[id].dating; const m1=findMeal(id), nm=SOCIAL.displayName(id);
     enter(m1.p.zone,m1.d,m1.h); said=[]; await SHOPMEET.mealHello(GM,who(id),id); const s1=said.slice(); const m2=findMeal(id,m1.d+1); delete G.flags.SHOP_MEAL_MET; enter(m2.p.zone,m2.d,m2.h); said=[]; await SHOPMEET.mealHello(GM,who(id),id); const s2=said.slice();

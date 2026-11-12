@@ -23,7 +23,7 @@ import import_guard as IG
 
 OUT = 'src/data/shop_meet_lines.js'
 PATH = 'docs/story_planning/AA_826_shop_backfill_1.json'
-SHA = '90fb5fa77'
+SHA = 'f231f0514'   # SHOP-AA826B-1112：補宥辰、語彤／明軒／阿哲改成不分店的句子（舊 90fb5fa77）
 ZONE_OF = {'shanlan': 'xs_shanlan', 'dabu': 'xs_dabu', 'haopai': 'xs_haopai', 'xsports': 'xs_xsports'}   # 稿的店 → 區域 id
 CHANGED = []
 

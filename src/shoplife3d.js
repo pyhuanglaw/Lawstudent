@@ -27,6 +27,13 @@
        **同一個人同一天最多在店裡遇到一次**（S.CFG.oncePerDay；AA_826 lawww_answers 第 4 點 ②「同一個人同一天最多在店裡遇到一次（午餐遇到，晚餐就不排）」）：
          玩家在店裡遇到他了（S.markMet，每 0.5 秒：玩家在那間店、他照這裡排的那一餐也在店裡）＝記 G.flags.SHOP_MEAL_MET＝{人物: [那天, 哪一餐]}；同一天別的那一餐他就不排（S.why 回 'once'）。
          遇到的那一餐照舊（他不會因為被遇到就消失）。沒遇到的人午餐、晚餐照原本的機會各算各的（118 巷晚餐一樣容易遇到人）。
+       **分手後的前任不排**（S.exBlock；SHOP-AA826B-1112，AA_826 meal_hello.note @ f231f0514：「分手後的前任不排進店裡遇到（學姊、以安分手後不會主動找祐廷；其他人也一樣，
+         免得一句普通招呼演在分手隔天）；回到朋友（挽回或和好的旗標）以後照舊。」）：
+         前任＝ROM.exOf（romance3d.js：沒在交往，而且 EX_<她>，或 status 是 ex／paused／friend_after_catch——和 V6EX.noContact「前任不主動約」同一把尺，只是這裡七位都算、不只以安和學姊）。
+         回到朋友（S.reconciled，讀現有的旗標，這裡不記東西）：以安、語彤＝「重新開始」那一場做完（MREL.rb(G,她).step==='done'，multirel3d.js AA_434 第 4 節）；
+           學姊＝這一次分開以後「她要的時間」演過（SISB4.rebuild(G).done，G.flags.SIS_REBUILD；HASK 收不收她的邀約也看這一個）；重新交往＝ROM.exOf 本來就不算前任。
+           其他人（沛珊、芯慈、芷若、子晴、可昕）現在沒有「和好」的旗標＝分手以後到重新交往以前都不排；之後 AA 給了旗標加在 S.reconciled。
+         S.why 回 'ex'。沒排進店裡＝SHOPMEET 的第一句（meal_hello）也不會說（那邊另外再擋一次）。
      怎麼出現：作息那一筆（zone＝那間店、act eat、seatAt＝配置的座位）→ 照現有的 populateSchedule 坐在店裡吃飯；手機「找人」、地圖也看得到他在那間店。
      遇到以後＝他先說一句（AA_826 meal_hello，在 src/shopmeet3d.js：這個檔照規定不放台詞），再照現有的「和他說話」（閒聊階梯）；這裡不演任何東西、不加數值。
      店員的進門招呼（AA_826 staff_greet、花序 AA_792）也在 src/shopmeet3d.js；越好吃小館、客居雲南的在 src/gg3shops3d.js。
@@ -118,10 +125,18 @@ const SHOPLIFE=(function(){
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['shoplife3d:guard']=()=>{ guard=false; };
   S.base=function(c,G){ if(typeof STORY==='undefined'||!STORY.schedEnt||!c) return null; const g=guard; guard=true; try{ return STORY.schedEnt(c,G); }catch(e){ return null; } finally { guard=g; } };
   const soft=(c,b)=>typeof SHOPNPC!=='undefined'&&SHOPNPC.soft?SHOPNPC.soft(c,b):false;   /* 作息表裡單純「在某一區走走」＝空檔（同一把尺）*/
+  /* 分手以後有沒有回到朋友（挽回／和好；只讀現有的旗標）*/
+  S.reconciled=function(G,id){ if(!G||!G.flags) return false;
+    if(typeof MREL!=='undefined'&&MREL.rb){ let r=null; try{ r=MREL.rb(G,id); }catch(e){ r=null; } if(r&&r.step==='done') return true; }   /* 以安、語彤：「重新開始」那一場做完 */
+    if(id==='heroine_05'&&typeof SISB4!=='undefined'&&SISB4.rebuild){ let rb=null; try{ rb=SISB4.rebuild(G); }catch(e){ rb=null; } if(rb&&rb.done) return true; }   /* 學姊：「她要的時間」演過 */
+    return false; };
+  /* 分手後的前任、還沒回到朋友＝不排進店裡 */
+  S.exBlock=function(G,id){ if(!G||!G.flags||typeof ROM==='undefined'||!ROM.exOf||!ROM.exOf(G,id)) return false; return !S.reconciled(G,id); };
   /* 為什麼不排（null＝排）：測試、盤點表用 */
   S.why=function(G,c,p){ const id=c.id, F=G.flags||{};
     if(S.CFG.oncePerDay){ const m=S.metSlot(G,id); if(m&&m!==p.slot) return 'once'; }   /* 今天別的那一餐已經在店裡遇到他了（AA_826）*/
     if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(id,G); if(pr&&pr.here===false) return 'presence'; }   /* 不在臺北（回老家、出國、交換、畢業以後；AA_826 meal_hello.note）*/
+    if(S.exBlock(G,id)) return 'ex';   /* 分手後的前任、還沒回到朋友（AA_826 meal_hello.note @ f231f0514）*/
     if(id==='heroine_03'&&!F.YT_MET_JOB) return 'unmet';   /* 語彤：一盞茶屋當同事以前不出現（AA_610；STORY.schedEnt 同一條規則——那邊會直接把她的作息拿掉，這裡先說原因）*/
     if(typeof SHOPNPC!=='undefined'&&SHOPNPC.planDay&&SHOPNPC.planDay(G,id,G.day|0)) return 'plan';   /* 那一天跟玩家有約 */
     if(p.slot==='lunch'){ const L=F.L118_LUNCH; if(L&&L.day===G.day&&Array.isArray(L.with)&&L.with.includes(id)) return 'zhe_lunch';   /* 阿哲約的午餐 */

@@ -13,6 +13,7 @@
 //   6b SHOP-LIFE-AA826-1112（AA_826 lawww_answers 第 4 點，AA 11-12）：名單加學姊（weight 0.6）、語彤（weight 0.4；認識以前不出現）；不在臺北的日子不排（學姊在美國那學期、回老家、出國）；
 //      同一個人同一天最多在店裡遇到一次（午餐在店裡遇到了，晚餐就不排；沒遇到的不受影響）。修改前（a5a4cdfa67）：沒有 S.EXTRA／S.weight／S.markMet＝這一節 FAIL。
 //      6 的「晚餐九成」改成八成：學姊原本是熟客表帶進來的（weight 1），AA 定 0.6 以後大一上平日晚餐 118 巷有同學的日子從 44/48 變 40/48（午餐照舊九成以上）。
+//   6c SHOP-AA826B-1112（AA_826 meal_hello.note @ f231f0514）：分手後的前任不排進店裡（SHOPLIFE.exBlock＝ROM.exOf 而且還沒回到朋友）；回到朋友（以安、語彤 MREL.rb done；學姊 SISB4.rebuild().done）以後照舊
 //   7  真的走進去看得到：名單上的人，那個時間走進那間店＝他坐在店裡的座位上（有名字的人物，不是路人）；汀州路的新店也遇得到
 //   8  盤點表每一間店都有一列（盤點以後新加的店印 WARN 提醒，不擋）
 // 修改前（開發分支 371fd882b2）：沒有 SHOPLIFE＝第 1 節就 FAIL、後面不跑。改之前用同一套做法量到的（盤點表第 1 節）：花序、客居雲南、越好吃小館、山嵐、大步、好拍、新生運動廣場開著沒有店員；
@@ -196,6 +197,30 @@ const LANE=SHOPLIFE.laneShops().map(s=>'l118_'+s);
         for(const p of who) if(STORY.presence(p.id,g).here===false) badP.push(p.id+' '+CALENDAR.dateOf(d).key);
         for(const p of SHOPLIFE.plan(d,slot)) if(STORY.presence(p.id,g).here===false){ nAway++; if(SHOPLIFE.why(Object.assign({},g,{hour:(p.t0+p.t1)/2}),CHARACTERS[p.id],p)!=='presence') badP.push(p.id+' '+CALENDAR.dateOf(d).key+' 原因不是 presence'); } } }
     check('6b 四年抽樣（每三天）：排進店裡的 '+nSeen+' 人次那一天都在臺北；名單抽到但人不在臺北的 '+nAway+' 次都沒有排（回老家、出國、交換、畢業、沛珊離開以後）',!badP.length&&nSeen>300&&nAway>=10,badP.slice(0,5).join('；'));
+    /* 6c 分手後的前任不排（SHOP-AA826B-1112；AA_826 meal_hello.note @ f231f0514）；回到朋友（挽回／和好的旗標）以後照舊。修改前（5852b69ebd）：沒有 SHOPLIFE.exBlock＝這一節 FAIL */
+    { const gOf=(d,h,fn)=>{ const g=G0(); g.flags=JSON.parse(JSON.stringify(G.flags)); g.flags.YT_MET_JOB=true; g.day=d; g.weekday=CALENDAR.dateOf(d).wd%7; g.hour=h; if(fn) fn(g); return g; };
+      const first=id=>{ for(const d of TERM_DAYS){ const g=gOf(d,12.5); if(!SHOPLIFE.dayOk(g,d)) continue; for(const sl of ['lunch','dinner']){ const p=SHOPLIFE.who(Object.assign(g,{hour:sl==='lunch'?12.5:18.5}),sl).find(q=>q.id===id); if(p) return {d,p,h:(p.t0+p.t1)/2}; } } return null; };
+      const brk=(id,how,st)=>g=>{ const R=ROM.get(g,id); if(st!=='paused'&&st!=='friend_after_catch') g.flags['EX_'+id]=true; g.flags['dating_'+id]=false; R.status=st||'ex'; R.history.push({ev:'end',at:'Y1S1',day:g.day-10,how:how||'apart_talk'}); };
+      const out=[], bad=[];
+      for(const id of ['heroine_01','heroine_03','heroine_05','classmate_peishan','classmate_xinci']){ const c=CHARACTERS[id], m=first(id); if(!m){ bad.push(id+' 排不到'); continue; }
+        const g0=gOf(m.d,m.h), a0=!!SHOPLIFE.sched(c,g0)&&!SHOPLIFE.exBlock(g0,id);
+        const g1=gOf(m.d,m.h,brk(id)), e1=STORY.schedEnt(c,g1), a1=SHOPLIFE.exBlock(g1,id)&&!SHOPLIFE.sched(c,g1)&&SHOPLIFE.why(g1,c,m.p)==='ex'&&!(e1&&e1.shopMeal)&&!SHOPLIFE.who(gOf(m.d,m.p.slot==='lunch'?12.5:18.5,brk(id)),m.p.slot).some(q=>q.id===id);
+        const g2=gOf(m.d,m.h,g=>{ brk(id)(g); delete g.flags['EX_'+id]; ROM.get(g,id).status='dating'; g.flags['dating_'+id]=true; }), a2=!SHOPLIFE.exBlock(g2,id);   /* 重新交往＝不是前任 */
+        if(!(a0&&a1&&a2)) bad.push(id+' '+J([a0,a1,a2])); out.push(id); }
+      check('6c 分手後的前任（EX_＋status ex；以安、語彤、學姊、沛珊、芯慈）：原本排得到的那一餐不排（S.why＝ex、作息沒有那一筆、S.who 沒有她）；沒分手＝照排；重新交往＝不算前任',!bad.length&&out.length===5,bad.join('；'));
+      /* 回到朋友：以安、語彤＝MREL.rb 的 step done；學姊＝SIS_REBUILD 在這一次分開以後 */
+      { const r=[]; for(const id of ['heroine_01','heroine_03']){ const c=CHARACTERS[id], m=first(id); const g=gOf(m.d,m.h,brk(id)); const rb=MREL.rb(g,id), b0=!!rb&&rb.step!=='done'&&SHOPLIFE.exBlock(g,id); rb.step='done'; rb.done=g.day; const e=STORY.schedEnt(c,g);
+          r.push(b0&&!SHOPLIFE.exBlock(g,id)&&!!SHOPLIFE.sched(c,g)&&!!(e&&e.shopMeal)&&g.flags['EX_'+id]===true); }
+        { const id='heroine_05', c=CHARACTERS[id], m=first(id); const g=gOf(m.d,m.h,brk(id)); const b0=SHOPLIFE.exBlock(g,id)&&SISB4.brokeUp(g)&&!SISB4.rebuild(g).done; g.flags.SIS_REBUILD=g.day-2; const b1=SISB4.rebuild(g).done===true&&!SHOPLIFE.exBlock(g,id)&&!!SHOPLIFE.sched(c,g);
+          g.flags.SIS_REBUILD=g.day-30; const b2=SHOPLIFE.exBlock(g,id);   /* 上一次分開的「她要的時間」不算這一次的 */ r.push(b0&&b1&&b2); }
+        check('6c 回到朋友以後照舊排（EX_ 還在、沒有重新交往）：以安、語彤＝「重新開始」做完（MREL.rb step＝done）；學姊＝這一次分開以後「她要的時間」演過（SISB4.rebuild().done；上一次分開的不算）',r.every(Boolean)&&r.length===3,J(r)); }
+      /* 被發現（caught）、等你說清楚（paused）、被發現退回朋友（friend_after_catch）也是前任那一把尺（ROM.exOf）；沒有和好的旗標的人＝到重新交往以前都不排 */
+      { const id='heroine_01', c=CHARACTERS[id], m=first(id); const gC=gOf(m.d,m.h,brk(id,'caught')), gP=gOf(m.d,m.h,brk(id,'apart_talk','paused')), gF=gOf(m.d,m.h,brk(id,'caught','friend_after_catch'));
+        const ps='classmate_peishan', mp=first(ps), gS=gOf(mp.d,mp.h,brk(ps)); gS.flags.SIS_REBUILD=gS.day-2;
+        check('6c 被發現分開（MREL.rb 不走「重新開始」）、paused、friend_after_catch 都不排；沛珊（沒有和好的旗標）分手以後不排',[gC,gP,gF].every(g=>SHOPLIFE.exBlock(g,id)&&!SHOPLIFE.sched(c,g))&&SHOPLIFE.exBlock(gS,ps)&&!SHOPLIFE.sched(CHARACTERS[ps],gS)&&!SHOPLIFE.reconciled(gS,ps),J([gC,gP,gF].map(g=>SHOPLIFE.exBlock(g,id)))); }
+      /* 別人不受影響、不動存檔 */
+      { const id='heroine_01', m=first(id), sl=m.p.slot, h=sl==='lunch'?12.5:18.5, f0=J(G.flags); const A=SHOPLIFE.who(gOf(m.d,h),sl).filter(p=>p.id!==id).map(p=>p.id), B=SHOPLIFE.who(gOf(m.d,h,brk(id)),sl).map(p=>p.id); SHOPLIFE.exBlock(G,id); SHOPLIFE.exBlock(G,'classmate_bohan');
+        check('6c 以安是前任的那一餐：其他人照原本的名單；沒有分手的存檔問 exBlock 不動 G.flags',J(A)===J(B)&&J(G.flags)===f0&&SHOPLIFE.exBlock(G,'classmate_bohan')===false,J([A,B])); } }
     /* 一天最多遇到一次：找一個午餐、晚餐都排到的人 */
     let hit=null; for(const d of TERM_DAYS){ const g=G0(); g.day=d; g.weekday=CALENDAR.dateOf(d).wd%7; if(!SHOPLIFE.dayOk(g,d)) continue; const a=SHOPLIFE.who(Object.assign(g,{hour:12.5}),'lunch'), b=SHOPLIFE.who(Object.assign(g,{hour:18.5}),'dinner'); const x=a.find(p=>b.some(q=>q.id===p.id)); if(x){ hit={d,lunch:x,dinner:b.find(q=>q.id===x.id)}; break; } }
     if(!hit) check('6b 找得到午餐、晚餐都排到的人',false);

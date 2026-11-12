@@ -41,8 +41,8 @@
      坐下＝稿只有一句（seat.sit）就每一桌都說那一句；互動點按鈕的字照稿（labels，S.attach 換掉配置的字）。約去吃這一批不做、沒有公休、颱風假照通用的（只寫開放時間）（AA 11-12）。
      客居雲南 tz_keju（SHOP-LIFE-AA826-1112；AA_825 企劃線 90fb5fa77）：同一套、同一個資料檔。11:00～21:00 中午不休息；六樣菜、一次點好幾樣只演第一樣的「吃」（eatFirst＝稿的順序，由上到下）；
      點完那一句：有點過橋米線＝afterHas（稿的 order.after_guoqiao「好，過橋米線。等一下湯很燙，不要直接喝。」），其他＝after 兩句隨機；沒有 afterOnly＝點什麼都算一餐、吃 30 分鐘。
-     稿的 looks 對配置的點（匯入工具 SCRIPTS 的 look_map）：menu＝tz_keju_menu、wall＝tz_keju_batik（按鈕的字照稿「看牆上」）；table（看桌上）配置沒有點＝不接；
-     配置的 tz_keju_tea（看茶餅櫃）、tz_keju_kitchen（看廚房）稿沒有句子＝照 tz_shops3d.js 原本的（只有店名那一句），回報給 AA。老闆娘＝路人底模 64（偶數＝女性）。
+     稿的 looks 對配置的點（SHOP-AA826B-1112，AA_825 @ f231f0514）：menu＝tz_keju_menu（匯入工具 SCRIPTS 的 look_map）；tz_keju_batik（看牆上）、tz_keju_tea（看茶餅櫃）、tz_keju_kitchen（看廚房）稿直接寫配置的 kind。
+     配置的五個互動點都有稿的字（匯入工具 all_points：少一個＝停下來）；稿原本的「看桌上」（looks.table）AA 拿掉了。老闆娘＝路人底模 64（偶數＝女性）。
      下一間：AA 交同樣格式的稿、匯入工具加一列、places.js 加名字和時間就好，這支不用改。
    - 汀州路的雜貨店（TINGZHOU-SHOPS5-1110；東南大聯商行 tz_dongnan，AA_823 @ 3d0ab9944）：字在 src/data/tz_grocery_lines.js（TZ_GROCERY_LINES，tools/shops/import_tz_grocery.py 匯入）。
      有載到那個檔＝S.addGroceries 把每一間加進 S.ZONES／S.LAYID／台詞表，進門、打烊、門口（開門以前＝notOpen、打烊以後＝sign）、店員、按鈕的字都走上面同一套；沒有座位。這裡只多：
