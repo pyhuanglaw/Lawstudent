@@ -2973,21 +2973,35 @@ const Z3 = (function(){
      compileAsync 本身會走到藏起來的物件：先把它們的 material 暫時拿掉，編完馬上放回去——溫州街有三個藏起來的套件零件 material 是 TK 的 paint 描述（不是 THREE.Material），編下去會丟例外。
      等的時候主迴圈照樣每一格 E.render：畫面是黑的，先不畫（E.renderSkip 暫時回 true，做完還原），不然那一格會停下來等還沒編好的 shader，平行編譯就白做了。
      只在電腦上做（使用者回報的是電腦；ASSETS.texCap 是空的＝不是手機）。*/
+  /* 只是「這一刻的鏡頭看不到」才藏起來的東西（BUG-RUN-STUTTER-1112，使用者「跑步會頓」；CC 在使用者電腦量：東南大聯店內一開跑，renderer 的 programs 多 16 支——
+     路人 VRM 的材質（眼睛、臉、毛衣、裙子＋外框）＋VIEWPANE（窗景片）＋店內牆 tzs_vc；站著、走路沒有超過 50 ms 的幀）：
+       · 路人、同學：引擎每一格照鏡頭的視錐設 obj.visible（engine3d.js updateNPC），進店那一刻在鏡頭外的人＝false；
+       · 淡出的牆（鏡頭和房間中間的那一面：E.hideFaded 設 visible=false）、跟著那面牆藏的窗景片和窗框（zone.winParts：fadeWalls 設 visible）；
+       · 先生好、還沒進場的客人（crowd3d.js 的 E.preObjs，掛在場景裡不顯示）。
+     prewarm、warmup 原本都只編「看得到的」——這些一個都沒編到，鏡頭一轉（開跑）第一次畫到才編 shader、傳貼圖＝那一頓。
+     這裡列出來，prewarm 在黑畫面裡一起編、一起傳貼圖，warmup 之後每一輪掃到也編（之後才走進來、還在鏡頭外的人）。
+     n.hidden（故意藏的人：收攤的老闆、還沒出發的課輔班）、被正式模型取代的備用模型不在這裡：照舊不編。 */
+  function revealList(E){ const out=[], z=E&&E.zone; if(!E) return out;
+    for(const n of E.npcs||[]) if(n&&n.obj&&!n.hidden&&n.obj.visible===false) out.push(n.obj);
+    for(const o of E.preObjs||[]) if(o&&o.parent&&o.visible===false) out.push(o);
+    if(z){ for(const w of z.walls||[]) if(w&&w.isObject3D&&w.visible===false) out.push(w); for(const wp of z.winParts||[]) if(wp&&wp.obj&&wp.obj.visible===false) out.push(wp.obj); }
+    return out; }
   async function prewarm(E,opts){ opts=opts||{}; const R=E.renderer; if(!R||!R.compileAsync||!E.scene||!E.camera) return null;
     const q=(typeof location!=='undefined'&&location.search)||''; if(/[?&]noprewarm\b/.test(q)||(typeof ASSETS!=='undefined'&&ASSETS.texCap&&!/[?&]prewarm\b/.test(q))) return null;   /* 只在電腦上做（同 prefetchNext）：手機照原本的做法——SwiftShader 手機模擬量到一次黑畫面拉長到 13.6 秒（淡入的計時器被很長的格子擠到後面）；沒有真機數字以前手機不動。?prewarm 手機模擬也做（量測用）、?noprewarm 關掉 */
     const qc=+((q.match(/[?&]prewarmcap=(\d+)/)||[])[1]||0); if(qc) opts=Object.assign({},opts,{cap:qc});   /* 量測用：?prewarmcap=毫秒 改黑畫面最多等多久 */
     const skip0=E.renderSkip; E.renderSkip=()=>true; try{ return await prewarmRun(E,R,opts); } finally{ E.renderSkip=skip0; } }
   async function prewarmRun(E,R,opts){
     const t0=performance.now(), cap=opts.cap||2000, left=()=>cap-(performance.now()-t0), tick=()=>new Promise(r=>setTimeout(r,0));
-    const out={ms:0,attachMs:0,compileMs:0,texMs:0,textures:0,mpix:0,skipped:0,timedOut:false};
+    const out={ms:0,attachMs:0,compileMs:0,texMs:0,textures:0,mpix:0,skipped:0,revealed:0,timedOut:false};
     await tick(); out.attachMs=performance.now()-t0;
-    const shown=new Set(); E.scene.traverseVisible(o=>{ if(o.material) shown.add(o); });
+    const shown=new Set(), rev=revealList(E); for(const o of rev) o.visible=true;   /* 鏡頭外的人、淡出的牆、窗景片、先生好的客人：算看得到的（上面 revealList）*/
+    try{ E.scene.traverseVisible(o=>{ if(o.material) shown.add(o); }); } finally { for(const o of rev) o.visible=false; }
     const isMat=m=>Array.isArray(m)?m.every(x=>x&&x.isMaterial):!!(m&&m.isMaterial), off=[];
     const tc=performance.now(); let job;
     try{ E.scene.traverse(o=>{ if(o.material&&(!shown.has(o)||!isMat(o.material))){ off.push([o,o.material]); o.material=null; } }); job=R.compileAsync(E.scene,E.camera); }
     catch(e){ console.warn('prewarm compile',e); job=Promise.resolve(); }
     finally{ for(const [o,m] of off) o.material=m; }
-    out.skipped=off.length; let to=null; const ok=await Promise.race([job.then(()=>true,()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,left())); })]); clearTimeout(to);
+    out.skipped=off.length; out.revealed=rev.length; let to=null; const ok=await Promise.race([job.then(()=>true,()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,left())); })]); clearTimeout(to);
     out.compileMs=performance.now()-tc; if(!ok) out.timedOut=true;
     /* 編譯結果先讀一次（X14，LAWWW2-C 2026-10-27）：沒有平行編譯時 isReady() 一律是 true，compileAsync 馬上就好，真正的等待留到淡入第一格（three.js 第一次畫到時讀編譯結果：onFirstUse）——
        SwiftShader 電腦模式量到公館→溫州街第一次淡入那一格 10.3 秒，其中 3.9 秒在等編譯結果。黑畫面時在 cap 之內先讀（program.getUniforms）；讀不完的照舊第一格讀 */
@@ -3033,12 +3047,12 @@ const Z3 = (function(){
     const out={zone:zone&&zone.def&&zone.def.id,objects:0,programs:0,textures:0,mpix:0,depth:false,depthPrograms:0,ticks:0,parallel:par,done:false,ms:0}; E.lastWarmup=out;
     const t0=performance.now(), gap=opts.gap||250, budget=opts.budget||12, maxProg=opts.maxProg||(par?8:1), idleScans=opts.idleScans||8;
     const nprog=()=>(R.info.programs||[]).length, mats=o=>Array.isArray(o.material)?o.material:[o.material], isMat=m=>!!(m&&m.isMaterial);
-    const tried=new WeakSet(), need=m=>!tried.has(m)&&!R.properties.get(m).currentProgram, shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; };   /* tried：試過的材質不再排（編不起來的不會一直重排）*/
+    let rv=new Set(); const tried=new WeakSet(), need=m=>!tried.has(m)&&!R.properties.get(m).currentProgram, shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible&&!rv.has(p)) return false; return true; };   /* rv＝這一刻鏡頭看不到才藏起來的（revealList：鏡頭外的人、淡出的牆、窗景片、先生好的客人）：照樣編（BUG-RUN-STUTTER-1112）；R.compile 不看 visible */   /* tried：試過的材質不再排（編不起來的不會一直重排）*/
     let queue=[], idle=0; const loose=new WeakSet(), settled=new WeakSet();
     const settle=()=>{ let n=0; for(const pg of (R.info.programs||[])){ if(settled.has(pg)) continue; if(par&&pg.isReady&&!pg.isReady()) continue;
         try{ pg.getUniforms(); }catch(e){ console.warn('warmup settle',e); } settled.add(pg); n++; if(n>=maxProg) break; } out.settled=(out.settled|0)+n; return n; };
     const unsettled=()=>(R.info.programs||[]).some(pg=>!settled.has(pg));   /* 不在場景裡的（路人底模、遠距離版本）：沒有 parent 也要編 */
-    const scan=()=>{ queue=[]; E.scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)||!o.material) return; const ms=mats(o); if(!ms.every(isMat)||!ms.some(need)) return;
+    const scan=()=>{ queue=[]; rv=new Set(revealList(E)); out.revealed=rv.size; E.scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)||!o.material) return; const ms=mats(o); if(!ms.every(isMat)||!ms.some(need)) return;
       if(o.name==='npc_far'?!shown(o.parent):!shown(o)) return; let lit=false; o.traverse(c=>{ if(c.isLight) lit=true; }); if(!lit) queue.push(o); }); queue.push(...extras()); };   /* 子樹裡有燈的不編：compile 會把那盞燈多算一次，編出來的 key 對不上 */
     const extras=()=>{ const out_=[], A=typeof ASSETS!=='undefined'&&ASSETS.cache; if(!A) return out_;
       for(const k in A){ const c=A[k]; if(!c||!c.tpl||!c.tpl.vrm) continue; const sc=c.tpl.vrm.scene;
@@ -3070,5 +3084,5 @@ const Z3 = (function(){
       out.push({id:q.id,place:q.place,w:+(hw*2).toFixed(3),h,center:[q.cx,h/2,q.cz],normal:[+nx.toFixed(4),0,+nz.toFixed(4)],
         corners:[[q.cx-sx,0,q.cz-sz],[q.cx+sx,0,q.cz+sz],[q.cx+sx,h,q.cz+sz],[q.cx-sx,h,q.cz-sz]].map(c=>c.map(v=>+v.toFixed(3)))}); }
     return out; }
-  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,shopWindowRects,shopShutters,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,shopWindowRects,shopShutters,revealList,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();
