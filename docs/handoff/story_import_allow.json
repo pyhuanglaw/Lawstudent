@@ -7963,6 +7963,15 @@
    "task": "FLOWER-CLASS-1112",
    "kind": "json",
    "note": "X346 花序 Flower Notes 二樓花藝課：報名、下課兩句（signup.done，7917d4289 加）、三門課、三樣成品（不能買）、送她的反應、一起上課、第一次上課／學姊三場／其他六位幾天以後的一句——tools/flower/import_flower_class.py → src/data/flower_class.js（播放 src/flower_class3d.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_823_tz_dongnan.json",
+   "sha": "6f1308ee5",
+   "status": "approved",
+   "approvedBy": "AA（TINGZHOU-SHOPS5-1110）",
+   "task": "TINGZHOU-SHOPS5-1110",
+   "kind": "json",
+   "note": "汀州路・東南大聯商行（tz_dongnan）店內文字（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n）：老闆進門三句、打烊、開門以前／打烊以後門口、錢不夠、十樣東西（名字、價錢、在哪個貨架、一句說明）、四個貨架的「看」、結帳（就這些嗎、買完兩句、手上沒東西、買了泡麵或辣醬那一句）——tools/shops/import_tz_grocery.py → src/data/tz_grocery_lines.js（流程 src/gg3shops3d.js）"
   }
  ]
 }
