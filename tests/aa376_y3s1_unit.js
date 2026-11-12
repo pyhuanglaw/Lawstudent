@@ -106,9 +106,7 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
   });
   // ===== 5. K5-L3／K17 =====
   await sec('5',async()=>{
-    const KX='kexin', w14=STORY.termDay('Y3S1',14,5); fresh(w14,21,'dorm'); date(KX); ladAt(KX,'Y3S1','K5-L3');
-    const s0=STORY.ladNext(G,KX,'video'); G.events.done.ev_kexin_tutor_practice=1; ladAt(KX,'Y3S1','K5-L3'); const s1=STORY.ladNext(G,KX,'video');
-    check('5. K17 還沒演：視訊推進 K5-L3；K17（12/9）演過以後 K5-L3 直接算過（不再宣布一次）',!!s0&&s0.id==='K5-L3'&&(!s1||s1.id!=='K5-L3')&&ladKey(KX,'Y3S1')>idxOf(KX,'Y3S1','K5-L3'),J([s0&&s0.id,s1&&s1.id,ladKey(KX,'Y3S1')]));
+    const KX='kexin'; check('5. K5-L3 演過 K17 就算過的條件（CANON-NO-ECON-1112 第三批：這一項拿掉）',!(Y3FILL.LAD&&Y3FILL.LAD.skip&&Y3FILL.LAD.skip['K5-L3']));
     fresh('2027-12-09',21.75,'dorm'); date(KX); SOCIAL.remember(KX,'KX5_HYPO_SENIOR','K5-L3'); await play('ev_kexin_tutor_practice'); const a=all();
     fresh('2027-12-09',21.75,'dorm'); date(KX); await play('ev_kexin_tutor_practice'); const b=all();
     check('5. 聽過 K5-L3（KX5_HYPO_SENIOR）：K17 第一句「民總讀書會，我先講一次給你聽。」，那通視訊只宣布一次（BB 第 4 點）',a[0]==='民總讀書會，我先講一次給你聽。'&&!a.some(t=>/我開始帶大一的民總讀書會了/.test(t))&&a.filter(t=>/民總讀書會/.test(t)).length===1,J(a.slice(0,2)));
@@ -116,10 +114,7 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
   });
   // ===== 6. K5-L2 要 KX_SHORT_MEET =====
   await sec('6',async()=>{
-    const KX='kexin'; fresh('2027-09-29',19,'any'); date(KX); ladAt(KX,'Y3S1','K5-L2'); const s0=STORY.ladNext(G,KX,'meet'), k0=ladKey(KX,'Y3S1');
-    fresh('2027-09-29',19,'any'); date(KX); G.flags.KX_SHORT_MEET=true; ladAt(KX,'Y3S1','K5-L2'); const s1=STORY.ladNext(G,KX,'meet');
-    fresh('2027-09-20',19,'any'); date(KX); ladAt(KX,'Y3S1','K5-L2'); STORY.ladNext(G,KX,'meet'); const k2=ladKey(KX,'Y3S1');
-    check('6. K15 沒有三十分鐘的見面（沒有 KX_SHORT_MEET）：K5-L2「三十分鐘的見面…」算過；有的照播；9/22 以前還不判斷',(!s0||s0.id!=='K5-L2')&&k0>idxOf(KX,'Y3S1','K5-L2')&&!!s1&&s1.id==='K5-L2'&&k2===idxOf(KX,'Y3S1','K5-L2'),J([s0&&s0.id,k0,s1&&s1.id,k2]));
+    check('6. K5-L2 要 KX_SHORT_MEET 的條件（CANON-NO-ECON-1112 第三批：這一項拿掉）',!(Y3FILL.LAD&&Y3FILL.LAD.skip&&Y3FILL.LAD.skip['K5-L2']));
   });
   // ===== 7. 開學第一頓 =====
   await sec('7',async()=>{
@@ -167,10 +162,7 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
   });
   // ===== 12、13. K15 =====
   await sec('12',async()=>{
-    fresh('2027-09-22',18,'gongguan'); date('kexin'); await play('ev_kexin_30min',[0,0]);
-    check('12. K15 選項「刑訴老師昨天點了後面三排。」（刑訴在週二、五）',(opts[1]||[]).includes('「刑訴老師昨天點了後面三排。」')&&!(opts[1]||[]).includes('「刑訴老師點了後面三排。」'),J(opts));
-    fresh('2027-09-22',16.9,'dorm'); date('kexin'); runPhone('2027-09-22',16.9,17.1,0.1);
-    check('13. K15 手機「我七點要回學校。六點公館，吃三十分鐘，夠嗎？」',txt('p:kexin').includes('kexin:我七點要回學校。六點公館，吃三十分鐘，夠嗎？'),J(txt('p:kexin')));
+    check('12、13. K15 三十分鐘的晚餐（事件、手機）（CANON-NO-ECON-1112 第三批：這一項拿掉）',!STORY_EVENTS.some(e=>e.id==='ev_kexin_30min'));
   });
   // ===== 14、17. 感冒週 =====
   await sec('14',async()=>{

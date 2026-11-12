@@ -176,11 +176,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     to('2027-03-15',20.9); STORY.neededRules(GM); PHONE.tick(G); const s0=N.shown.mx_seat; to('2027-03-15',21.05); STORY.neededRules(GM); PHONE.tick(G);
     const m=TH('p:classmate_mingxuan'); check('10. 3/15（一）21:00 發（學校信 3/15 09:00 才公告）：「交換說明會週四中午 ……」，回得了',s0==null&&N.shown.mx_seat===D('2027-03-15')&&m.length>0&&/交換說明會週四中午/.test(m[0].text)&&!!m[m.length-1].ask,J(m.map(x=>x.text))); }
   // ===== 第 11 項：可昕 K4-L2 =====
-  { const s=lad('Y2S2','kexin','K4-L2'); check('11. 可昕 K4-L2 週次第 5 週起 [5,16]',!!s&&J(s.week)===J([5,16]),J(s&&s.week));
-    fresh('2027-03-23',21,'dorm'); dateWith('kexin'); const H=STORY.LADDER_HOLD['K4-L2'], SK=STORY.LADDER_SKIP['K4-L2'];
-    const a=[!!H&&H(G),!!SK&&SK(G)]; G.flags.KX_CIRCLES_GO=true; const b=[H&&H(G),SK&&SK(G)]; to('2027-03-27',12); const c=[H&&H(G),SK&&SK(G)]; G.events.done.ev_kexin_two_circles=1; const d=[H&&H(G),SK&&SK(G)];
-    fresh('2027-03-23',21,'dorm'); dateWith('kexin'); G.flags.KX_CIRCLES_GO=false; const e=[H&&H(G),SK&&SK(G)];
-    check('11. 只給 3/25 那場去了的玩家：還沒回＝先不說；答應＝說；3/25 過了沒去＝跳過；去了＝說；回了「那天不行」＝跳過',!!H&&!!SK&&J(a)===J([false,false])&&J(b)===J([true,false])&&c[1]===true&&J(d)===J([true,false])&&e[1]===true,J([a,b,c,d,e])); }
+  { check('11. 可昕 K4-L2 的週次、3/25 那一場的條件（CANON-NO-ECON-1112 第三批：這一項拿掉）',!STORY.LADDER_HOLD['K4-L2']&&!STORY.LADDER_SKIP['K4-L2']); }
   // ===== 第 12 項：芷若 Z4-L4 =====
   { const s=lad('Y2S2','heroine_02','Z4-L4'); check('12. 芷若 Z4-L4 第 11 週以後跳過（同子晴 Q4-L4：週次 [3,11]、skipAfterWeek 11）',!!s&&J(s.week)===J([3,11])&&s.skipAfterWeek===11,J(s&&[s.week,s.skipAfterWeek])); }
   // ===== 第 13 項：子晴說演唱會 =====
@@ -193,10 +189,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     fresh(SD.trip,11,'dorm'); R('classmate_bohan','FAM'); R('heroine_01','FAM'); const c=sched('classmate_bohan'), d=sched('heroine_01');
     check('14. 對照：沒有這一趟（沒收到桌遊團的邀約）照原本的作息',!!c&&c.away==='在北投讀書'&&!!d&&d.away==='在美術館',J([c&&c.away,d&&d.away])); }
   // ===== 第 15 項：可昕見桌遊團 =====
-  { fresh('2027-03-25',18,'noodle'); dateWith('kexin'); for(const id of ['zhe','yu','classmate_bohan','heroine_01']) R(id,'FAM'); const L=await play('ev_kexin_two_circles',[0,0]);
-    const i=L.indexOf('我們八點讀書會。……很高興認識妳。'), j=L.indexOf('（拉著柏翰站起來）可昕下次見！');
-    check('15. 以安「我們八點讀書會。……很高興認識妳。」接 Alison「（拉著柏翰站起來）可昕下次見！」',i>=0&&j===i+1&&!L.includes('我八點讀書會。……很高興認識妳。'),J(L.slice(-6)));
-    check('15. 20:30 群組「麵店分店」不算 Alison、柏翰',J(G.flags.NOODLE_BRANCH_MEMBERS)===J(['kexin','yule','zhe']),J(G.flags.NOODLE_BRANCH_MEMBERS)); }
+  { check('15. 可昕見桌遊團（兩邊的朋友）那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!STORY_EVENTS.some(e=>e.id==='ev_kexin_two_circles')); }
   // ===== 第 16 項：語彤第 8～9 週 =====
   { fresh('2027-04-13',18,'dorm'); const a=sched('heroine_03'); to('2027-04-20',18); const b=sched('heroine_03'); to('2027-03-30',18); const c=sched('heroine_03');
     to('2027-04-17',14); const w8=sched('heroine_03'); to('2027-04-25',14); const w9=sched('heroine_03'); to('2027-04-10',14); const w7=sched('heroine_03');
