@@ -15,6 +15,8 @@
  *                               那一晚玩家不睡（不按床、選單選「再撐一下」），看 04:00 以後會不會照常被送回去睡（STORY.forceHome 真的把日期換到隔天），結束時 _forcing 有沒有清掉
  *     環境變數 RPS_TRACK_OPENING=1：開局（newGame、法律系宿營 S.campY1）還沒演完就檢查「時間只往前」——--from～--to 之間的日子才算（例：--from 2025-08-20 --to 2025-08-26）
  *     --stay-up YYYY-MM-DD      情境（T1_FIX ①的原因）：那天晚上玩家不睡（不改存檔），凌晨被 forceHome 送回去睡以後，馬上看自動存檔裡有沒有 _forcing=true（舊版會存進去）
+ *     --start-save <存檔.json>  （SAVE-LZ-1104，BB_384 存檔 B）不開新遊戲：開機後把這份存檔放進自動存檔、按標題的「繼續」從那裡玩（只配 --seed 單一種子）
+ *     --save-out <檔>           結束時（到 --to、卡住放棄、步數上限都算）先 GM.autosave(true) 再把自動存檔原文寫到這個檔；印大小（字元數）
  *   結束碼：全部 PASS＝0，有 FAIL＝1。跑到一半要讓出 CPU：在 --out 資料夾放一個 STOP 檔，還沒開始的種子會直接回報「略過」。
  *
  * 做法（和 tests/pg_harness.js 不一樣：pg_harness 的假 GM 沒有 enter、quickGo、seatMenu、手機、存讀檔，隨機玩家要的這些都得自己再寫一份，所以改成跑真的 game3d.js）：
@@ -52,7 +54,7 @@ function parseArgs(argv){
   for(let i=0;i<argv.length;i++){ const a=argv[i], nx=()=>argv[++i];
     if(a==='--seeds') o.seeds=+nx(); else if(a==='--seed-list') o.seedList=nx().split(',').map(Number).filter(x=>Number.isFinite(x)); else if(a==='--seed') o.seed=+nx(); else if(a==='--from') o.from=nx(); else if(a==='--to') o.to=nx();
     else if(a==='--root') o.root=path.resolve(nx()); else if(a==='--max-steps') o.maxSteps=+nx(); else if(a==='--track') o.track=nx(); else if(a==='--jobs') o.jobs=+nx();
-    else if(a==='--child') o.child=true; else if(a==='-v'||a==='--verbose') o.verbose=true; else if(a==='--json') o.json=nx(); else if(a==='--hang-ms') o.hangMs=+nx(); else if(a==='--out') o.out=nx(); else if(a==='--procedural') o.procedural=true; else if(a==='--old-forcing') o.oldForcing=nx(); else if(a==='--stay-up') o.stayUp=nx();
+    else if(a==='--child') o.child=true; else if(a==='-v'||a==='--verbose') o.verbose=true; else if(a==='--json') o.json=nx(); else if(a==='--hang-ms') o.hangMs=+nx(); else if(a==='--out') o.out=nx(); else if(a==='--procedural') o.procedural=true; else if(a==='--old-forcing') o.oldForcing=nx(); else if(a==='--stay-up') o.stayUp=nx(); else if(a==='--start-save') o.startSave=path.resolve(nx()); else if(a==='--save-out') o.saveOut=path.resolve(nx());
     else if(a==='-h'||a==='--help') o.help=true; else throw new Error('不認得的參數：'+a); }
   const TR={law:{from:'2025-08-29',to:'2026-06-30'},econ:{from:'2024-08-23',to:'2025-08-28'}};
   if(!TR[o.track]) throw new Error('--track 只有 law、econ');
@@ -381,9 +383,15 @@ async function child(o){
   const dayOfKey=k=>{ if(W.STORY&&W.STORY.dayOfKey) return W.STORY.dayOfKey(k); const t=RealDate.UTC(...k.split('-').map((x,i)=>i===1?x-1:+x)); return Math.round((t-RealDate.UTC(2025,8,17))/864e5)+1; };
   const D_FROM=dayOfKey(o.from), D_TO=dayOfKey(o.to);
   /* ---------- 開新遊戲：按標題畫面的按鈕 ---------- */
-  act('按標題畫面「'+(o.track==='econ'?'從經濟系開始':'從法律系開始')+'」');
+  let ngDone=false;
+  if(o.startSave){   /* --start-save：把存檔放進自動存檔 → 標題「繼續」（玩家讀檔接著玩的同一條路）*/
+    let sv; try{ sv=JSON.parse(fs.readFileSync(o.startSave,'utf8')); }catch(e){ fail('BOOT','TEST_BUG','--start-save 讀不到或不是 JSON',String(e)); return finish(); }
+    LS.setItem((T&&T.KEY_AUTO)||'fatiao3d_auto',JSON.stringify(sv)); act('讀存檔 '+path.basename(o.startSave)+'（'+dayKey(sv.day)+' '+fmtH(sv.hour)+' '+sv.zone+'）→ 標題「繼續」');
+    const bc=getById('btnContinue'); if(!bc||typeof bc.onclick!=='function'){ fail('BOOT','TEST_BUG','標題畫面的「繼續」沒有掛 onclick',''); return finish(); }
+    Promise.resolve().then(()=>bc.onclick(mkEv('click',bc))).then(()=>{ ngDone=true; },e=>{ ngDone=true; onExc(e,'標題「繼續」（--start-save）'); }); }
+  else { act('按標題畫面「'+(o.track==='econ'?'從經濟系開始':'從法律系開始')+'」');
   const btn=getById(o.track==='econ'?'btnNew':'btnNewLaw'); if(!btn||typeof btn.onclick!=='function'){ fail('BOOT','TEST_BUG','標題畫面的按鈕沒有掛 onclick（bindUI 沒跑？）',o.track); return finish(); }
-  let ngDone=false; Promise.resolve().then(()=>btn.onclick(mkEv('click',btn))).then(()=>{ ngDone=true; },e=>{ ngDone=true; onExc(e,'開新遊戲（STORY.newGame）'); });
+  Promise.resolve().then(()=>btn.onclick(mkEv('click',btn))).then(()=>{ ngDone=true; },e=>{ ngDone=true; onExc(e,'開新遊戲（STORY.newGame）'); }); }
   let track=null;   // 時間只往前：{abs}（開局演完才開始；讀檔重設）
 
   /* ---------- 玩家的「個性」（每個種子不一樣）---------- */
@@ -587,6 +595,7 @@ async function child(o){
   return finish();
 
   function finish(){ R.steps=R.step; R.frames=R.frame; if(GM&&GM.G) R.reached=dayKey(GM.G.day);
+    if(o.saveOut){ try{ if(GM&&GM.G&&GM.autosave) GM.autosave(true); const raw=LS.getItem((T&&T.KEY_AUTO)||'fatiao3d_auto'); if(raw){ fs.writeFileSync(o.saveOut,raw); RC.log('--save-out：'+o.saveOut+'　'+raw.length+' 字元（'+(GM&&GM.G?dayKey(GM.G.day):'?')+'）'); } else RC.log('--save-out：沒有自動存檔'); }catch(e){ RC.log('--save-out 寫不出來：'+e); } }
     const missTop=[...missing.entries()].sort((a,b)=>b[1]-a[1]).slice(0,15).map(([k,n])=>k+'×'+n);
     const out={seed:R.seed,scen:SCEN?{mode:o.oldForcing?'old-forcing':'stay-up',day:SCEN,savedTrue:SC.savedTrue,res:SC.res,pass:R.scenPass||null,calls:SC.calls,sent:SC.sent,log:SC.log}:undefined,ok:R.ok&&R.fails.length===0,reached:R.reached,steps:R.steps,frames:R.frames,vms:VC.now,pages:R.pages,fails:R.fails,notes:[...R.notes.values()],missingE:missTop,persona,sayStack:SAY_STACK,chooseStack:CHOOSE_STACK,
       g:GM&&GM.G?{attended:(()=>{ try{ return Object.keys(W.CLS.rec(GM.G).done||{}).length; }catch(e){ return null; } })(),day:GM.G.day,date:dayKey(GM.G.day),evDone:GM.G.events&&GM.G.events.count,money:GM.G.money,stage:GM.G.stage,contacts:Object.keys(GM.G.contacts||{}).length,invites:(GM.G.invites||[]).length,invDone:(GM.G.invites||[]).filter(v=>v.state==='done').length,goingSeen:goingSeen.size,msgs:(GM.G.msgs||[]).length}:null};
