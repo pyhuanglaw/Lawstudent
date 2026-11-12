@@ -52853,7 +52853,7 @@
    "id": "TINGZHOU-SHOPS5-1110",
    "title": "汀州路五間正式店名店（X322）：越好吃小館、客居雲南、東南大聯商行、汀州聯通、溫特寶邸——這一版外觀＋街上看得到的店內；要不要進得去、台詞之後排（LAWWW 決定、AA 寫）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52866,7 +52866,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12】越好吃小館接字已合併 4263eec337（AA_821：進門、點餐六樣、錢不夠、四個看、坐下、打烊；tests/tz_yuehaochi_aa821_1112_unit.js ALL PASS）；東南大聯商行室內 v1 已進（等 AA 五個互動點的字）；客居雲南等 AA 字｜【11-12 04:1x LAWWW-C】AA_821 越好吃小館定稿（65e38a5de）→ 子代理在做（分支 tz-yuehaochi-1112，基準 9dedfa2088，檢查點 wip_backup/tz_yuehaochi_1112.bundle）；回來當回合合併｜【11-12 04:1x LAWWW-C】客居雲南室內第 1 版已整合（LAWWW2 28c3682f8 tz5_keju_v1.patch；區域 tz_keju、16 座；順便修越好吃的菜單貼圖）；互動點要 AA 的字：tz_keju_order（過橋米線、米干、涼拌、普洱茶）、tz_keju_menu、tz_keju_tea、tz_keju_kitchen、tz_keju_batik；下一間東南大聯商行｜【11-12 04:0x LAWWW-C】越好吃小館室內第 1 版已整合（LAWWW2 3928cdfc1 tz5_yuehaochi_v1.patch；區域 tz_yuehaochi，汀州路店門「進越好吃小館」；tz_shops／tingzhou 五支 Node 過；瀏覽器沒跑→BB 排 CC）；互動點要 AA 的字：tz_yue_order（河粉、春捲、法國麵包、越南咖啡的選單和價錢）、tz_yue_menu、tz_yue_herbs、tz_yue_kitchen、tz_yue_hats、店員；下一間客居雲南｜【11-12 LAWWW-C】使用者 03:5x「你們自己決定」→ LAWWW 定：LAWWW2 第 2 版外觀（騎樓混合：五間照概念圖直接臨人行道、其他老公寓保留騎樓）→ 接著五間室內（一間一間交、最多 3 版 D141；店內字、商品找 AA；店名不改 D147）→ LAWWW 接區域入口、地圖、快速前往 → BB 判｜外觀進遊戲、使用者看過再決定要不要做室內（D141：先進遊戲）",
+   "next": "【LAWWW-C 11-12 07:3x】五間的字都合併了（越好吃 AA_821、東南大聯 AA_823、汀州聯通 AA_824、客居雲南 AA_825／826；溫特寶邸室內暫停＝LAWWW2），沒有還在跑的工作；等 BB／CC 瀏覽器驗。以下是歷史紀錄｜【LAWWW-C 11-12】越好吃小館接字已合併 4263eec337（AA_821：進門、點餐六樣、錢不夠、四個看、坐下、打烊；tests/tz_yuehaochi_aa821_1112_unit.js ALL PASS）；東南大聯商行室內 v1 已進（等 AA 五個互動點的字）；客居雲南等 AA 字｜【11-12 04:1x LAWWW-C】AA_821 越好吃小館定稿（65e38a5de）→ 當時派出、已合併（分支 tz-yuehaochi-1112，基準 9dedfa2088，檢查點 wip_backup/tz_yuehaochi_1112.bundle）；回來當回合合併｜【11-12 04:1x LAWWW-C】客居雲南室內第 1 版已整合（LAWWW2 28c3682f8 tz5_keju_v1.patch；區域 tz_keju、16 座；順便修越好吃的菜單貼圖）；互動點要 AA 的字：tz_keju_order（過橋米線、米干、涼拌、普洱茶）、tz_keju_menu、tz_keju_tea、tz_keju_kitchen、tz_keju_batik；下一間東南大聯商行｜【11-12 04:0x LAWWW-C】越好吃小館室內第 1 版已整合（LAWWW2 3928cdfc1 tz5_yuehaochi_v1.patch；區域 tz_yuehaochi，汀州路店門「進越好吃小館」；tz_shops／tingzhou 五支 Node 過；瀏覽器沒跑→BB 排 CC）；互動點要 AA 的字：tz_yue_order（河粉、春捲、法國麵包、越南咖啡的選單和價錢）、tz_yue_menu、tz_yue_herbs、tz_yue_kitchen、tz_yue_hats、店員；下一間客居雲南｜【11-12 LAWWW-C】使用者 03:5x「你們自己決定」→ LAWWW 定：LAWWW2 第 2 版外觀（騎樓混合：五間照概念圖直接臨人行道、其他老公寓保留騎樓）→ 接著五間室內（一間一間交、最多 3 版 D141；店內字、商品找 AA；店名不改 D147）→ LAWWW 接區域入口、地圖、快速前往 → BB 判｜外觀進遊戲、使用者看過再決定要不要做室內（D141：先進遊戲）",
    "xai": {
     "spec": "X322",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -54253,7 +54253,7 @@
    "id": "L118-CLOSED-LOOKS-OPEN-1112",
    "title": "118 巷的店沒開的時候畫面還是開著的（使用者截圖：水上便當燈亮、沒有鐵門，按了才說「鐵門拉下來一半」）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -54265,8 +54265,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "sha": "",
-   "next": "沒開（公休日、打烊後）時店面要看得出來：鐵門拉下來一半、燈暗（照打烊那一句的畫面）；營業時間已改成不午休（L118-HOURS-1112），所以只剩公休日和晚上會遇到",
+   "sha": "bf2b8a224a",
+   "next": "【LAWWW-C 11-12 07:1x】程式部分做了：沒開的時候店裡不站店員（18 間，bf2b8a224a，src/shoplife3d.js S.closeClerks）。剩「鐵門、燈暗」的外觀＝LAWWW2｜沒開（公休日、打烊後）時店面要看得出來：鐵門拉下來一半、燈暗（照打烊那一句的畫面）；營業時間已改成不午休（L118-HOURS-1112），所以只剩公休日和晚上會遇到",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -54545,8 +54545,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "sha": "",
-   "next": "【LAWWW-C 11-12】現況表已產生（SHOP_STANDARD_STATUS.md）。已知未過 141 項：櫥窗 2D 21 間（SHOP-WINDOW-3D）、打烊看不出來＋關門店員還在 27（L118-CLOSED-LOOKS-OPEN）、天花板 19＋窗景 11（SHOP-INTERIOR-VIEW）、客居雲南 7（SHOP-LIFE-AA826，子代理在接）、其他 56：沒營業時間／打烊對應 4 間、手機快速前往沒有 8 間、颱風天照開 14 間、美國兩間買不到東西、禮貌生財三點沒字、越好吃／東南大聯飲料沒有買來送人、16 攤沒人顧——LAWWW 逐項補｜使用者 11-12：「甚至你要去檢查以前已經建好的這些店面……除了夜市的攤販以外都要符合」。①SHOP-LIFE-AUDIT-1112 子代理的盤點表（店員、客人、同學、打工、買東西）交件後擴成七點全表 SHOP_STANDARD_STATUS.md ②第 1、2 點（立體櫥窗、天花板、窗景、閃、純色塊、打烊看得出來）要 CC 逐間拍、BB 判、LAWWW2 修 ③第 3～5 點程式補（LAWWW）④第 6 點缺字清單給 AA ⑤沒過的各開任務",
+   "sha": "d6cb73755a",
+   "next": "【LAWWW-C 11-12 07:3x】已知未過 128→73（d6cb73755a）：夜市 13 攤有人顧（22f49b7e95）、打烊後店員不站店裡 18 間（bf2b8a224a）、14 間颱風假不開（cfcbc17e75）、6 間進快速前往＋大地圖（64c7fa228f）、三間飲料可送人（d6cb73755a）。剩：公館燒臘／頁間書屋／禮貌生財／草原超市沒營業時間與打烊（要 AA 定時間）、美國兩間買不到東西＋字（AA）、禮貌生財三點沒字（AA）、118 巷兩間外帶＋阿忠鮮果顧攤的人（等 LAWWW2 給站位）、美國兩間快速前往｜【LAWWW-C 11-12】現況表已產生（SHOP_STANDARD_STATUS.md）。已知未過 141 項：櫥窗 2D 21 間（SHOP-WINDOW-3D）、打烊看不出來＋關門店員還在 27（L118-CLOSED-LOOKS-OPEN）、天花板 19＋窗景 11（SHOP-INTERIOR-VIEW）、客居雲南 7（SHOP-LIFE-AA826，子代理在接）、其他 56：沒營業時間／打烊對應 4 間、手機快速前往沒有 8 間、颱風天照開 14 間、美國兩間買不到東西、禮貌生財三點沒字、越好吃／東南大聯飲料沒有買來送人、16 攤沒人顧——LAWWW 逐項補｜使用者 11-12：「甚至你要去檢查以前已經建好的這些店面……除了夜市的攤販以外都要符合」。①SHOP-LIFE-AUDIT-1112 子代理的盤點表（店員、客人、同學、打工、買東西）交件後擴成七點全表 SHOP_STANDARD_STATUS.md ②第 1、2 點（立體櫥窗、天花板、窗景、閃、純色塊、打烊看得出來）要 CC 逐間拍、BB 判、LAWWW2 修 ③第 3～5 點程式補（LAWWW）④第 6 點缺字清單給 AA ⑤沒過的各開任務",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -54573,8 +54573,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "sha": "",
-   "next": "【LAWWW-C 11-12】第一批已合併（稿 be3b9c9e4）：山嵐書店（大一上第 4 週起；週三晚／週日午）、南洋戲院（大一下起；週五晚／週六午）——看告示→應徵→選班表→一班三段＋小選擇→784 元；南洋滿 3 班一週一次員工票（記成看過）；週五晚場有班那天桌遊夜只能回「這次不行。」；Alison 改說一句。tests/shop_jobs_aa828_1112_unit.js 79 項 ALL PASS；瀏覽器沒跑→BB／CC。子代理的 13 個假設和 7 個問題已轉 AA。下一批：花序、越好吃、大口漢堡（AA 寫）｜AA-C 11-12 05:11 提的名單（其他新店不開）；AA 先寫山嵐書店和南洋戲院。稿到了 LAWWW 接進 src/jobs3d.js（G.jobs）。使用者 11-12：「而且不是還要可以打工嗎」",
+   "sha": "142664dba8",
+   "next": "【LAWWW-C 11-12 07:3x】第二批已合併 142664dba8（AA_829@ea5e8f5ae：花序＝上過花藝課才有小卡、週六 09–13／週日 13–17；越好吃＝大一下起、週二四 17:30–21:00、686；大口漢堡＝大一下起、三選二、大夜班 880；所有打工的班時間重疊的灰掉）。tests/shop_jobs_aa829_1112_unit.js ALL PASS；瀏覽器沒跑。還沒做：越好吃上班那兩天同學來吃飯多的一句（資料已匯、流程沒接）；AA_828 第 4 節七個答案（企劃線 74e0421b8）還沒接；樣板字（聯絡人名、地點字、按鈕）和七個問題已轉 AA｜【LAWWW-C 11-12】第一批已合併（稿 be3b9c9e4）：山嵐書店（大一上第 4 週起；週三晚／週日午）、南洋戲院（大一下起；週五晚／週六午）——看告示→應徵→選班表→一班三段＋小選擇→784 元；南洋滿 3 班一週一次員工票（記成看過）；週五晚場有班那天桌遊夜只能回「這次不行。」；Alison 改說一句。tests/shop_jobs_aa828_1112_unit.js 79 項 ALL PASS；瀏覽器沒跑→BB／CC。子代理的 13 個假設和 7 個問題已轉 AA。下一批：花序、越好吃、大口漢堡（AA 寫）｜AA-C 11-12 05:11 提的名單（其他新店不開）；AA 先寫山嵐書店和南洋戲院。稿到了 LAWWW 接進 src/jobs3d.js（G.jobs）。使用者 11-12：「而且不是還要可以打工嗎」",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
