@@ -273,16 +273,16 @@ await sec(3,async()=>{
   /* 可昕（說溜嘴、當晚、變體、說謊）*/
   fresh('2026-09-10',12,'campus',{dating_kexin:true}); H.CLOSE(PS); ROM.start(H.G,PS); learn('yu',PS,'present');
   setT('2026-09-24',10); { const t={trip:DATE.newTripId(H.G),who:PS,locs:['D04'],day:H.G.day,depart:10,back:16,transport:'mrt',departed:true,status:'done',spots:['x']}; H.G.trips.push(t); DATE.complete(H.G,t); }
-  setT('2026-09-26',19); await X().afterEvent(GM,{id:'ev_kexin_two_circles',participants:[KX]});
+  setT('2026-09-26',19); H.G.flags.KX_MET_NOODLE_TEAM=true; await X().afterEvent(GM,{id:'ev_y2_midautumn',participants:[KX]});   /* 原本用 1B-07 兩邊的朋友那一場（CANON-NO-ECON-1112 第三批拿掉），改用大二中秋 */
   check('3. 說溜嘴（Alison 版，祐廷和沛珊實際去過 D 地點）：「欸可昕，沛珊說祐廷上禮拜帶她去西門町電影院，妳們有一起去嗎？」「……什麼？」（Alison 看了你一眼，又看可昕。）「……我是不是講錯話了。」',
-    seq(['欸可昕，沛珊說祐廷上禮拜帶她去西門町電影院，妳們有一起去嗎？','……什麼？','（Alison 看了你一眼，又看可昕。）','……我是不是講錯話了。'])&&(X().relAt(H.G,KX,PS)||{}).source==='slip:yu@ev_kexin_two_circles',J(T()));
+    seq(['欸可昕，沛珊說祐廷上禮拜帶她去西門町電影院，妳們有一起去嗎？','……什麼？','（Alison 看了你一眼，又看可昕。）','……我是不是講錯話了。'])&&(X().relAt(H.G,KX,PS)||{}).source==='slip:yu@ev_y2_midautumn',J(T()));
   H.said=[]; H.G.hour=21.6; H.G.zone='dorm'; d=X().dueAuto(H.G); check('3. 可昕當晚 21:30 以後：演',!!d&&d.x===KX);
   H.picks=['沒有，那是誤會']; await play(d);
   check('3. 可昕當晚（電話）「你現在在哪？」「宿舍。」「我現在過去。」→「Alison 今天說的，是真的嗎？」「……嗯。」接「什麼時候？」',seq(['你現在在哪？','宿舍。','我現在過去。','Alison 今天說的，是真的嗎？','……嗯。','什麼時候？','……我真的不知道要說什麼。']),J(T()));
   check('3. 可昕最近一次（前幾天還一起吃飯）＝「你前幾天還跟我去吃飯欸？」只在有的時候',!H.has('你前幾天還跟我去吃飯欸？'));
   check('3. 「沒有，那是誤會。」→「誤會？」「好。」（她沒有再問，走了。）＝YT_LIED.kexin.classmate_peishan、3 天後 5-2b',seq(['誤會？','好。','（她沒有再問，走了。）'])&&H.G.flags.YT_LIED[KX][PS]===true&&X().st(H.G,KX).exposeAt===H.G.day+3);
   check('3. 可昕的五個選項；「是我的錯。我沒有跟妳講。」那一格照 AA_422 3-2',J(H.opts[0])===J(['「是我的錯。我沒有跟妳講。」','「我跟她是……後來才開始的。」','「我還是很喜歡妳。」','（不說話）','「沒有，那是誤會。」']));
-  fresh('2026-09-10',12,'campus',{dating_kexin:true}); H.CLOSE(PS); ROM.start(H.G,PS); learn('zhe',PS,'present'); setT('2026-09-26',19); await X().afterEvent(GM,{id:'ev_kexin_two_circles',participants:[KX]});
+  fresh('2026-09-10',12,'campus',{dating_kexin:true}); H.CLOSE(PS); ROM.start(H.G,PS); learn('zhe',PS,'present'); setT('2026-09-26',19); H.G.flags.KX_MET_NOODLE_TEAM=true; await X().afterEvent(GM,{id:'ev_y2_midautumn',participants:[KX]});
   check('3. 說溜嘴（阿哲版，沒有地點也可以）：「祐廷最近很忙吧，又要顧妳又要顧沛珊。」（桌上安靜了一下。阿哲看到可昕的臉。）「……欸，我以為妳知道。」',seq(['祐廷最近很忙吧，又要顧妳又要顧沛珊。','（桌上安靜了一下。阿哲看到可昕的臉。）','……欸，我以為妳知道。']));
   H.said=[]; H.G.hour=22; H.G.zone='dorm'; H.picks=['是我的錯']; await play(X().dueAuto(H.G));
   check('3. 可昕「阿哲今天說的，是真的嗎？」；「是我的錯。我沒有跟妳講。」→「你沒有跟我講的何止這個。」（她深呼吸。）「……我最氣的是我自己。我一點都沒發現。」',seq(['阿哲今天說的，是真的嗎？','你沒有跟我講的何止這個。','（她深呼吸。）','……我最氣的是我自己。我一點都沒發現。']));

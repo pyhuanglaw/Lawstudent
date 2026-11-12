@@ -414,7 +414,7 @@ await sec('6',async()=>{
   const FY=qs(part('- **方奕廷**','- **予樂**',S6)).slice(1), S=[]; for(const k of ['2025-10-07','2026-10-07','2027-10-07','2028-10-07']){ fresh(k,15,'campus'); H.FAMILIAR('npc_fangyt'); S.push(small('npc_fangyt')); }
   check('6 方奕廷：大一、大二、大三各一句（每學期一次；大一那句照 DIALOGUE-DEPTH-1031 AA_560 C7「第一次一個人上山」），大四以後不說（2028-07 起在嘉義）；舊的「森林系的野外實習，下週去溪頭。」不在',FY.length===3&&J(S.slice(0,3))===J(FY.map(t=>t.replace('第一次上山','第一次一個人上山')))&&!FY.includes(String(S[3]).replace(/^「|」$/g,''))&&!J(SMALLTALK.npc_fangyt).includes('森林系的野外實習'),J({FY,S}));
   const YL=one(/第二場改成：「([^」]+)」/,S6), L=evLines('ev_kexin_two_circles'), y=L.find(x=>x.t===YL);
-  check('6 予樂：兩邊的朋友（第二場）三句改成「'+YL+'」（YL_IMPRESSION 三種都說這一句）；電影夜那一場（y2r2_3d.js）照舊',!!y&&y.who==='予樂'&&J(y.l.if)===J({flagIs:{YL_IMPRESSION:['funny','honest','polite']}})&&!L.some(x=>/這是很(好笑|老實|客氣)的司機。/.test(x.t))&&SRC('src/y2r2_3d.js').includes('這是很好笑的司機。'),J(y&&y.l)); });
+  check('6 外校室友：兩邊的朋友、電影夜那兩場（CANON-NO-ECON-1112 第三批：這一項拿掉）',!L.length&&!STORY_EVENTS.some(e=>e.id==='ev_kexin_film_night')); });
 
 /* ===================== 7 第 7 節給 BB 的六項 ===================== */
 await sec('7',async()=>{
