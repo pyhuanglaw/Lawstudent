@@ -38,14 +38,14 @@
    }
   },
   "LAWWW2": {
-   "account": "A",
-   "session": "session_01AC1WVgJSmoJK1uRsPK2Zn1",
-   "branch": "claude/second-ai-env-art",
-   "sha": "8f4382b7",
-   "since": "2026-11-10T08:11Z",
+   "account": "C",
+   "session": "session_015BuNi47yLUt5PviELapMNj",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "619b3bc3",
+   "since": "2026-11-12T03:17Z",
    "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
-   "sinceSha": "9b3c9b62",
+   "sinceSha": "ab925827",
    "handedOffAt": "2026-11-10T01:40Z",
    "handoffSnapshot": "docs/handoff/snapshots/2026-11-10T0140Z_B_LAWWW2.json"
   },
@@ -808,6 +808,20 @@
     }
    },
    "until": "2026-11-12T03:14Z"
+  },
+  {
+   "account": "A",
+   "role": "LAWWW2",
+   "roles": {
+    "LAWWW2": {
+     "session": "session_01AC1WVgJSmoJK1uRsPK2Zn1",
+     "branch": "claude/second-ai-env-art",
+     "sha": "8f4382b7",
+     "state": "on",
+     "handedOffAt": "2026-11-10T01:40Z"
+    }
+   },
+   "until": "2026-11-12T03:18Z"
   }
  ],
  "anomalies": [
@@ -1190,7 +1204,7 @@
    "resolved": false
   }
  ],
- "seq": 128,
+ "seq": 129,
  "chain": [
   {
    "seq": 1,
@@ -2086,6 +2100,13 @@
    "at": "2026-11-12T03:14Z",
    "account": "C",
    "role": "AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 129,
+   "at": "2026-11-12T03:18Z",
+   "account": "C",
+   "role": "LAWWW2",
    "event": "sync"
   }
  ],
