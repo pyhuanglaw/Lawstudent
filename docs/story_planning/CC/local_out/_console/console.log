@@ -1030,3 +1030,11 @@
 [20:20:02] [res] cpu=2% mem=35% (11.3/31.4 GB) chrome_testing=0  START HUD_LAND_live
 [20:20:24] worktree add f701afca024758d5dcc8d6b48a1db906f108ae05: invalid reference - fetching main and the commit itself
 [20:21:52] [res] cpu=5% mem=42% (13.4/31.4 GB) chrome_testing=8  END SHIFT_BANNER_1f30
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2b2b6e7ed..b3fdc8232  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:21:59] ==== END   SHIFT_BANNER_1f30  exit=0  113s   ====
+[20:22:03] memory 45% before starting YUE_SIS_18a3 (2 running)
+[20:22:03] ==== START YUE_SIS_18a3  (probe @ 18a36664526d8ad28835fb924acb5438bd2ba2da) ====
+[20:22:06] [res] cpu=0% mem=45% (14.1/31.4 GB) chrome_testing=8  START YUE_SIS_18a3
+[20:22:39] [res] cpu=12% mem=45% (14.2/31.4 GB) chrome_testing=8  END HUD_LAND_f701

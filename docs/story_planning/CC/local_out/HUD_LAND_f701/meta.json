@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "HUD_LAND_f701",
+  "sha": "f701afca024758d5dcc8d6b48a1db906f108ae05",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_hud_land_probe.py",
+  "env": "TAG=new;SHA=f701afca024758d5dcc8d6b48a1db906f108ae05",
+  "machine": "MSI",
+  "start": "2026-11-12T20:19:59",
+  "end": "2026-11-12T20:22:39",
+  "seconds": 161,
+  "exit": 1,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 14,
+    "mem": 52,
+    "used_gb": 16.1,
+    "chrome_testing": 8
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
