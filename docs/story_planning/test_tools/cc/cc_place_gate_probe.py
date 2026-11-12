@@ -13,7 +13,7 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -30,7 +30,7 @@ HOURS = [float(h) for h in (os.environ.get('HOURS') or '14,20.5').split(',') if 
 PARTS = set((os.environ.get('PARTS') or '1,2,3,4,5,6,7').split(','))
 PAR_LO, PAR_HI = float(os.environ.get('PAR_LO') or '0.05'), float(os.environ.get('PAR_HI') or '0.15')   # 射線：門面後面還有東西的比例
 SPR_LO, SPR_HI = float(os.environ.get('SPR_LO') or '0.3'), float(os.environ.get('SPR_HI') or '0.8')   # ⑤ 門面後面打到的深度分散 p90−p10（m，暫定，等大步新舊 r3 校正）
-CON_LO, CON_HI = float(os.environ.get('CON_LO') or '30'), float(os.environ.get('CON_HI') or '55')   # ⑦b 店外 vs 進門 牆／地板平均色 RGB 距離（暫定）
+CON_LO, CON_HI = float(os.environ.get('CON_LO') or '8'), float(os.environ.get('CON_HI') or '18')   # ⑦b 店外 vs 進門 牆／地板平均色的 Lab Δab（色調＋飽和度，不看亮度；暫定，等 dc3d 大步灰牆 vs 木牆校正）
 WIN_LO, WIN_HI = float(os.environ.get('WIN_LO') or '40'), float(os.environ.get('WIN_HI') or '55')   # 窗：最大那塊和中間色差 ≤16 的比例（%）
 ZF_LO, ZF_HI = float(os.environ.get('ZF_LO') or '0.3'), float(os.environ.get('ZF_HI') or '1.5')   # 只當參考（校正 r2）
 BURST_FAIL = int(os.environ.get('BURST_FAIL') or '3')
@@ -106,7 +106,7 @@ DEPTH_JS = r"""(a=>{ const E=GAME.E, c=E.renderer.domElement; const cam=new THRE
   const ex=new Set(); const P=E.player&&E.player.obj; if(P) P.traverse(o=>ex.add(o)); for(const n of (E.npcs||[])) if(n.obj) n.obj.traverse(o=>ex.add(o)); for(const x of (E.extras||[])) if(x.obj) x.obj.traverse(o=>ex.add(o));
   const skip=o=>{ if(ex.has(o)||o.visible===false) return true; const m=Array.isArray(o.material)?o.material[0]:o.material, nm=((o.name||'')+' '+(m&&m.name||'')); if(/glass|玻璃/i.test(nm)) return true; if(m&&m.transparent&&m.opacity<0.9) return true; return false; };   /* X352 r1：原本連名字有 window 的都略過＝新的立體櫥窗（SHOP-WINDOW-3D）整個被跳過，新舊數字一樣；只略過玻璃、半透明 */
   const hitName=[];
-  const rc=new THREE.Raycaster(); const ds=[]; for(let i=0;i<24;i++) for(let j=0;j<16;j++){ const nx=-0.6+1.2*i/23, ny=-0.5+1.0*j/15; rc.setFromCamera(new THREE.Vector2(nx,ny),cam); rc.far=60;
+  const rc=new THREE.Raycaster(); const ds=[]; const RX=a.rect||[0.2,0.25,0.8,0.75]; for(let i=0;i<24;i++) for(let j=0;j<16;j++){ const u=RX[0]+(RX[2]-RX[0])*(0.05+0.9*i/23), v=RX[1]+(RX[3]-RX[1])*(0.05+0.9*j/15), nx=2*u-1, ny=1-2*v;   /* XS_REAL r1：只打櫥窗那一塊（原本 ±0.6／±0.5 大半打在街上，好幾間數字一樣）*/ rc.setFromCamera(new THREE.Vector2(nx,ny),cam); rc.far=60;
     const h=rc.intersectObjects(E.scene.children,true).find(x=>!skip(x.object)); if(h){ ds.push(h.distance); if(h.distance>0) hitName.push(String(h.object.name||(h.object.parent&&h.object.parent.name)||'').slice(0,30)); } }
   if(!ds.length) return {n:0}; const bk=new Map(); for(const d of ds){ const k=Math.round(d*4); bk.set(k,(bk.get(k)||0)+1); } let mk=0, mv=0; for(const [k,v] of bk) if(v>mv){ mv=v; mk=k; } const face=mk/4;
   const deep=ds.filter(d=>d>face+0.8).length/ds.length; const s=ds.slice().sort((x,y)=>x-y);
@@ -218,6 +218,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     row['v']['1b_people_pos'] = 'FAIL' if (ppl.get('clerk_in_furniture') or ppl.get('face_wall')) else ('PASS' if ppl['total'] else 'UNKNOWN')
     await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(400)
     s1 = await snap(pg, (ex + ux * 1.0, 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8), 66)
+    await pg.evaluate(HIDE_PEOPLE + '(true)')   # ⑦b 比色用：同一個鏡頭藏人（XS_REAL r1：進門那張玩家的頭擋在畫面上）
+    s1h = await snap(pg, (ex + ux * 1.0, 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8), 66)
+    await pg.evaluate(HIDE_PEOPLE + '(false)')
     await pg.evaluate(HIDE_PEOPLE + '(true)')   # PC GATE_CAL_1cd2：人站在窗前，泰米夜窗深藍只算到 42.9%＝誤判 PASS
     s2 = await snap(pg, (cx, 1.6, cz), (ex - ux * 2.0, 1.8, ez - uz * 2.0), 60, win=True)
     await pg.evaluate(HIDE_PEOPLE + '(false)')
@@ -290,7 +293,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         pd = await pg.evaluate(CROPDIFF_JS, {'us': [s4l['u'], s4['u'], s4r['u']]}); a4 = await pg.evaluate(ANA_JS, {'u': s4['u']})
         # 判法改射線（PC GATE_CAL：左右移 1.5 m 連平面圖的畫面也整個變，像素差不能分立體）：從店外鏡頭往門面打 24×16 條，略過玻璃、半透明、人；
         # 門面距離＝最常見的距離（0.25 m 一格），門面後面 0.8 m 以上還打得到東西的比例＝deep；平面圖／貼在玻璃後面的卡片 deep≈0
-        rays = await pg.evaluate(DEPTH_JS, {'from': list(base), 'at': list(tgt)})
+        _rr = [r for r in (s4.get('rects') or []) if (r[2] - r[0]) * (r[3] - r[1]) < 0.6]
+        _win = max(_rr, key=lambda r: (r[2] - r[0]) * (r[3] - r[1])) if _rr else [0.2, 0.33, 0.78, 0.8, 'fixed']
+        rays = await pg.evaluate(DEPTH_JS, {'from': list(base), 'at': list(tgt), 'rect': [max(0, _win[0]), max(0, _win[1]), min(1, _win[2]), min(1, _win[3])]})
         # BB-C 06:26（X352 SHOP-WINDOW-3D）：店外也連拍——遊戲鏡頭在門外，邊轉 5 秒（同 BURST_JS），看櫥窗裡有沒有閃
         try:
             ob = await pg.evaluate(BURST_JS, {'overlay': True})
@@ -313,15 +318,26 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
             big = max(rr, key=lambda r: (r[2] - r[0]) * (r[3] - r[1])) if rr else [0.2, 0.33, 0.78, 0.8, 'fixed']
             x0, y0, x1, y1 = big[:4]; w_, h_ = x1 - x0, y1 - y0
             regs = {'out_wall': [x0 + w_ * 0.1, y0 + h_ * 0.08, x1 - w_ * 0.1, y0 + h_ * 0.5], 'out_floor': [x0 + w_ * 0.1, y0 + h_ * 0.62, x1 - w_ * 0.1, y1 - h_ * 0.04],
-                    'in_wall': [0.2, 0.15, 0.8, 0.45], 'in_floor': [0.25, 0.8, 0.75, 0.97]}
+                    'in_wall': [0.15, 0.3, 0.85, 0.6], 'in_floor': [0.25, 0.8, 0.75, 0.97]}   # 牆往下移（r1 框到天花板的燈）
             mo = await pg.evaluate(MEANS_JS, {'u': s4['u'], 'regs': {k: v for k, v in regs.items() if k.startswith('out')}})
-            mi = await pg.evaluate(MEANS_JS, {'u': s1['u'], 'regs': {k: v for k, v in regs.items() if k.startswith('in')}})
+            mi = await pg.evaluate(MEANS_JS, {'u': s1h['u'], 'regs': {k: v for k, v in regs.items() if k.startswith('in')}})
+            # 比色改看色調和飽和度（Lab 的 a、b；不看亮度 L）：木頭 vs 灰是色調差，店裡燈亮暗不算（XS_REAL r1：RGB 距離被亮度、天花板燈灌大）
+            def lab(c):
+                def lin(v):
+                    v = v / 255.0
+                    return v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4
+                r_, g_, b_ = [lin(v) for v in c]
+                X = (0.4124 * r_ + 0.3576 * g_ + 0.1805 * b_) / 0.95047; Y = 0.2126 * r_ + 0.7152 * g_ + 0.0722 * b_; Z = (0.0193 * r_ + 0.1192 * g_ + 0.9505 * b_) / 1.08883
+                f = lambda t: t ** (1 / 3) if t > 0.008856 else 7.787 * t + 16 / 116
+                return (116 * f(Y) - 16, 500 * (f(X) - f(Y)), 200 * (f(Y) - f(Z)))
+            dab = lambda a, b: round(math.hypot(lab(a)[1] - lab(b)[1], lab(a)[2] - lab(b)[2]), 1)
             dist = lambda a, b: round(math.sqrt(sum((a[i] - b[i]) ** 2 for i in range(3))), 1)
-            dw, df = dist(mo['out_wall'], mi['in_wall']), dist(mo['out_floor'], mi['in_floor'])
-            row['m']['consistent'] = {'out': mo, 'in': mi, 'd_wall': dw, 'd_floor': df, 'win_rect': [round(v, 3) for v in big[:4]], 'rect_from': big[4] if len(big) > 4 else '', 'regs': {k: [round(v, 3) for v in r] for k, r in regs.items()}}
+            dw, df = dab(mo['out_wall'], mi['in_wall']), dab(mo['out_floor'], mi['in_floor'])
+            rgb_w, rgb_f = dist(mo['out_wall'], mi['in_wall']), dist(mo['out_floor'], mi['in_floor'])
+            row['m']['consistent'] = {'out': mo, 'in': mi, 'd_wall': dw, 'd_floor': df, 'rgb_wall': rgb_w, 'rgb_floor': rgb_f, 'metric': 'Lab Δab', 'win_rect': [round(v, 3) for v in big[:4]], 'rect_from': big[4] if len(big) > 4 else '', 'regs': {k: [round(v, 3) for v in r] for k, r in regs.items()}}
             row['v']['7b_consistent'] = 'FAIL' if max(dw, df) >= CON_HI else ('PASS' if max(dw, df) <= CON_LO else 'UNKNOWN')
-            pair = await pg.evaluate(PAIR_JS, {'a': s4['u'], 'b': s1['u'], 'ra': [regs['out_wall'], regs['out_floor']], 'rb': [regs['in_wall'], regs['in_floor']],
-                                               'title': '%s %s 店外（左）vs 進門（右）  牆 Δ%.0f  地板 Δ%.0f  %s' % (rm['name'], hh, dw, df, '★不一致' if row['v']['7b_consistent'] == 'FAIL' else row['v']['7b_consistent'])})
+            pair = await pg.evaluate(PAIR_JS, {'a': s4['u'], 'b': s1h['u'], 'ra': [regs['out_wall'], regs['out_floor']], 'rb': [regs['in_wall'], regs['in_floor']],
+                                               'title': '%s %s 店外（左）vs 進門（右，藏人）  牆 Δab %.0f  地板 Δab %.0f  %s' % (rm['name'], hh, dw, df, '★不一致' if row['v']['7b_consistent'] == 'FAIL' else row['v']['7b_consistent'])})
             open(os.path.join(OUT, 'consist_%s_%s.jpg' % (zid, hh)), 'wb').write(base64.b64decode(pair.split(',', 1)[1]))
         else:
             row['v']['7b_consistent'] = 'UNKNOWN'; row['m']['consistent'] = {'why': '店外看不到窗玻璃的網格（投影不到）或沒有進門那張'}
