@@ -1,0 +1,418 @@
+{
+ "_meta": {
+  "doc": "AA_904 芷若第一批（DLG-FULL-REVIEW-1110 第四位）：約會「再去一次」那一格（remember）",
+  "by": "AA-C 2026-11-12 20:1x",
+  "task": "DLG-FULL-REVIEW-1110",
+  "what": "132 句裡「這次X，上次Y」對比約 40、「上次…」開頭約 37。眼前的東西直接講；真的好玩的對比留（D03 耳機、D05 什麼都不說、D07 最後一排／那條路、D11 霧、D15 五顆星、D17 五個浪、D20 水聲、D24 換我睡、D26、D28 夕陽、D29 破紀錄、D30 星星、D31 纜車睜眼）。另外拆掉重複：「還留著」五處留兩處、奶泡剛好兩處（D05、D15）分開寫。",
+  "status": "待 BB 第二意見（D153）",
+  "count": 58
+ },
+ "rows": [
+  {
+   "src": "date_system/lines/D01.json",
+   "who": "heroine_02",
+   "where": "D01.expo.remember",
+   "old": "上次那張黑白照片換掉了，有點失落。",
+   "new": "那張黑白照片換掉了，有點失落。"
+  },
+  {
+   "src": "date_system/lines/D01.json",
+   "who": "heroine_02",
+   "where": "D01.market.remember",
+   "old": "上次那個攤位不在了，攤位也會搬家。",
+   "new": "那個攤位不在了。攤位也會搬家喔。"
+  },
+  {
+   "src": "date_system/lines/D01.json",
+   "who": "heroine_02",
+   "where": "D01.lawn.remember",
+   "old": "上次坐這裡你一直在看風箏，這次也是。",
+   "new": "你又在看風箏了。"
+  },
+  {
+   "src": "date_system/lines/D02.json",
+   "who": "heroine_02",
+   "where": "D02.pond.remember",
+   "old": "上次那隻白鷺鷥換了一隻，也可能是同一隻。",
+   "new": "白鷺鷥換了一隻。也可能是同一隻，我分不出來。"
+  },
+  {
+   "src": "date_system/lines/D02.json",
+   "who": "heroine_02",
+   "where": "D02.corridor.remember",
+   "old": "上次那一格一格的光，角度不一樣了。我有偷偷再跳一次。",
+   "new": "光的角度不一樣了。我剛剛有偷偷再跳一次格子。"
+  },
+  {
+   "src": "date_system/lines/D02.json",
+   "who": "heroine_02",
+   "where": "D02.garden.remember",
+   "old": "上次那個剪樹籬的人沒來，樹籬長了一點點。",
+   "new": "剪樹籬的人今天沒來，樹籬長了一點點。"
+  },
+  {
+   "src": "date_system/lines/D02.json",
+   "who": "heroine_02",
+   "where": "D02.books.remember",
+   "old": "上次推薦你的那本，你看完了嗎？沒關係，慢慢看。",
+   "new": "推薦你的那本，你看完了嗎？沒關係，慢慢看。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "heroine_02",
+   "where": "D03.demo.remember",
+   "old": "上次那台撞牆的遊戲，我回家查了，是學生做的。",
+   "new": "那台撞牆的遊戲，我回家查了，是學生做的。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "heroine_02",
+   "where": "D03.gacha.remember",
+   "old": "上次那個咖啡扭蛋，被客人誇了。我說是朋友轉的。",
+   "new": "轉到的那個咖啡扭蛋，被客人誇了。我說是朋友轉的。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "heroine_02",
+   "where": "D03.window.remember",
+   "old": "上次那個等紅燈的人不在。當然不在。",
+   "new": "那個等紅燈的人不在了。當然不在啦。"
+  },
+  {
+   "src": "date_system/lines/D04.json",
+   "who": "heroine_02",
+   "where": "D04.lobby.remember",
+   "old": "上次那部，我後來又自己來看了一次。",
+   "new": "那部片我後來又自己來看了一次。"
+  },
+  {
+   "src": "date_system/lines/D04.json",
+   "who": "heroine_02",
+   "where": "D04.street.remember",
+   "old": "上次那個拍街拍的人又在。",
+   "new": "拍街拍的那個人又在！"
+  },
+  {
+   "src": "date_system/lines/D04.json",
+   "who": "heroine_02",
+   "where": "D04.redhouse.remember",
+   "old": "上次那張明信片，我寄給我媽了。",
+   "new": "那張明信片，我寄給我媽了。"
+  },
+  {
+   "src": "date_system/lines/D04.json",
+   "who": "heroine_02",
+   "where": "D04.snack.remember",
+   "old": "上次那家的老闆，還記得你不要香菜。",
+   "new": "老闆還記得你不要香菜。你被記住了。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "heroine_02",
+   "where": "D05.cafe.remember",
+   "old": "上次的奶泡打太久，這次剛好。他們有在進步。",
+   "new": "奶泡剛剛好耶。他們有在進步。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "heroine_02",
+   "where": "D05.shop.remember",
+   "old": "上次那排電影書換了位置，我一進來就發現了。",
+   "new": "電影書那排換位置了，我一進來就發現了。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "heroine_02",
+   "where": "D05.board.remember",
+   "old": "上次圈的那部，那天我排到班，這次一定要去。",
+   "new": "圈的那部，那天我排到班。這次一定要去。"
+  },
+  {
+   "src": "date_system/lines/D06.json",
+   "who": "heroine_02",
+   "where": "D06.gallery.remember",
+   "old": "上次那幅等很久的臉換掉了。新的這幅在笑，比較不累。",
+   "new": "那幅等很久的臉換掉了。新的這幅在笑，比較不累。"
+  },
+  {
+   "src": "date_system/lines/D06.json",
+   "who": "heroine_02",
+   "where": "D06.frame.remember",
+   "old": "上次你站框裡那張，我還留著。",
+   "new": "你站在框裡那張，我拿來當手機桌布一個禮拜。"
+  },
+  {
+   "src": "date_system/lines/D06.json",
+   "who": "heroine_02",
+   "where": "D06.cafe.remember",
+   "old": "上次說烘太深，這次好像換豆子了。",
+   "new": "豆子好像換了。沒有那麼焦了。"
+  },
+  {
+   "src": "date_system/lines/D06.json",
+   "who": "heroine_02",
+   "where": "D06.lawn.remember",
+   "old": "上次草有點濕，這次是乾的。",
+   "new": "草是乾的，可以直接坐。"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "heroine_02",
+   "where": "D07.cell.remember",
+   "old": "這次想走完，上次我走到一半就想出去。",
+   "new": "這一條我想走完。走到一半想出去的話，你拉我。"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "heroine_02",
+   "where": "D07.wall.remember",
+   "old": "上次抄下來的那段還在我手機裡，沒有刪。",
+   "new": "抄下來的那段還在我手機裡，沒有刪。"
+  },
+  {
+   "src": "date_system/lines/D09.json",
+   "who": "heroine_02",
+   "where": "D09.tea.remember",
+   "old": "這次換鐵觀音好不好？上次那壺是高山烏龍。",
+   "new": "換鐵觀音好不好？高山烏龍已經喝過了。"
+  },
+  {
+   "src": "date_system/lines/D10.json",
+   "who": "heroine_02",
+   "where": "D10.boat.remember",
+   "old": "上次踩完我腳痠了兩天，上樓梯都用扶的。",
+   "new": "踩完那次我腳痠了兩天，上樓梯都用扶的。今天你踩多一點。"
+  },
+  {
+   "src": "date_system/lines/D13.json",
+   "who": "heroine_02",
+   "where": "D13.bench.remember",
+   "old": "這次換我坐左邊，上次是你。",
+   "new": "我坐左邊，換你坐右邊。"
+  },
+  {
+   "src": "date_system/lines/D13.json",
+   "who": "heroine_02",
+   "where": "D13.photo.remember",
+   "old": "上次拍的那張，你還留著嗎？我留著。",
+   "new": "再拍一張好不好？跟之前那張排在一起。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "heroine_02",
+   "where": "D14.ferry.remember",
+   "old": "這次換左邊坐，看到的房子跟上次不一樣。",
+   "new": "坐左邊看到的房子，跟右邊完全不一樣。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "heroine_02",
+   "where": "D14.sunset.remember",
+   "old": "這次早點來是對的，上次太陽下去好快。",
+   "new": "早點來是對的，太陽還很高。"
+  },
+  {
+   "src": "date_system/lines/D15.json",
+   "who": "heroine_02",
+   "where": "D15.store.remember",
+   "old": "這次的奶泡剛好。是這台機器進步了，還是店員換人了？",
+   "new": "店員換人了。奶泡還是剛好，所以是機器的功勞。"
+  },
+  {
+   "src": "date_system/lines/D16.json",
+   "who": "heroine_02",
+   "where": "D16.beach.remember",
+   "old": "這次鞋子我自己拿，上次讓你拿了一路，有點不好意思。",
+   "new": "鞋子我自己拿，你不要搶。"
+  },
+  {
+   "src": "date_system/lines/D17.json",
+   "who": "heroine_02",
+   "where": "D17.queen.remember",
+   "old": "這次也從背面看。背面沒有人排隊，很划算。",
+   "new": "我們從背面看。背面沒有人排隊，很划算。"
+  },
+  {
+   "src": "date_system/lines/D17.json",
+   "who": "heroine_02",
+   "where": "D17.trail.remember",
+   "old": "這次我帶了兩瓶水，上次走到一半就喝光了。",
+   "new": "我帶了兩瓶水。一瓶是你的，不要再跟我分。"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "heroine_02",
+   "where": "D18.teahouse.remember",
+   "old": "這次那扇窗被別人坐走了，沒關係，這扇也看得到海。",
+   "new": "那扇窗被別人坐走了。沒關係，這扇也看得到海。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "heroine_02",
+   "where": "D19.houses.remember",
+   "old": "這次也坐走廊看院子好不好，上次那個位子我很喜歡。",
+   "new": "坐走廊看院子好不好？那個位子我很喜歡。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "heroine_02",
+   "where": "D19.shrine.remember",
+   "old": "這次有進步，走到頂還講得出話，上次我喘到不行。",
+   "new": "我走到頂還講得出話耶！有進步吧。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "heroine_02",
+   "where": "D20.street.remember",
+   "old": "你拿著香腸的那張照片我還留著，你笑得很餓。",
+   "new": "你拿著香腸的那張照片，你笑得很餓。我每次看都想吃。"
+  },
+  {
+   "src": "date_system/lines/D20.json",
+   "who": "heroine_02",
+   "where": "D20.trolley.remember",
+   "old": "這次換後面坐，看得到你的後腦勺，上次坐前面什麼都沒看到。",
+   "new": "我們坐後面好不好？看得到整條路。"
+  },
+  {
+   "src": "date_system/lines/D21.json",
+   "who": "heroine_02",
+   "where": "D21.dye.remember",
+   "old": "上次給你的那條，你還有在用嗎？有就好。",
+   "new": "給你的那條，你還有在用嗎？有就好。"
+  },
+  {
+   "src": "date_system/lines/D22.json",
+   "who": "heroine_02",
+   "where": "D22.dam.remember",
+   "old": "這次我敢靠欄杆近一點了，上次離了三步。",
+   "new": "我敢靠欄杆近一點了。差不多一步。"
+  },
+  {
+   "src": "date_system/lines/D22.json",
+   "who": "heroine_02",
+   "where": "D22.maple.remember",
+   "old": "這次走到底好不好，上次走到一半就回頭了。",
+   "new": "這條走到底好不好？我想看最裡面那棵。"
+  },
+  {
+   "src": "date_system/lines/D22.json",
+   "who": "heroine_02",
+   "where": "D22.fish.remember",
+   "old": "這次青菜我自己點了，上次是你幫我點的。",
+   "new": "青菜我自己點。我現在會看菜單了。"
+  },
+  {
+   "src": "date_system/lines/D23.json",
+   "who": "heroine_02",
+   "where": "D23.cook.remember",
+   "old": "這次我坐你旁邊好不好，對面太遠了。",
+   "new": "我坐你旁邊好不好，對面太遠了。"
+  },
+  {
+   "src": "date_system/lines/D23.json",
+   "who": "heroine_02",
+   "where": "D23.seawall.remember",
+   "old": "這次我拍了一張，上次沒拍，回去有點後悔。",
+   "new": "我要拍一張。沒拍的話回去會後悔，我知道。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "heroine_02",
+   "where": "D24.footbath.remember",
+   "old": "這次我沒有喊燙，有進步吧。",
+   "new": "我沒有喊燙喔，你有聽到嗎。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "heroine_02",
+   "where": "D24.street.remember",
+   "old": "這次也要最普通的那個，我很專一。",
+   "new": "我要最普通的那個。我很專一。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "heroine_02",
+   "where": "D24.park.remember",
+   "old": "這次我先把眼鏡擦好了，上次整路都是霧。",
+   "new": "眼鏡我先擦好了，不會整路都是霧。"
+  },
+  {
+   "src": "date_system/lines/D25.json",
+   "who": "heroine_02",
+   "where": "D25.shore.remember",
+   "old": "這次我穿涼鞋，上次鞋尖濕了一整天。",
+   "new": "我穿涼鞋來了。鞋尖不會再濕一整天。"
+  },
+  {
+   "src": "date_system/lines/D25.json",
+   "who": "heroine_02",
+   "where": "D25.cafe.remember",
+   "old": "這次的拉花是愛心，上次是葉子。不是針對我們啦。",
+   "new": "拉花是愛心耶。不是針對我們啦。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "heroine_02",
+   "where": "D27.shop.remember",
+   "old": "上次買的木書籤被老闆借走了，到現在還沒還。",
+   "new": "買的那個木書籤被老闆借走了，到現在還沒還。"
+  },
+  {
+   "src": "date_system/lines/D28.json",
+   "who": "heroine_02",
+   "where": "D28.alley.remember",
+   "old": "這條巷子的貓換了一隻，上次那隻比較胖。",
+   "new": "巷子的貓換了一隻。之前那隻比較胖。"
+  },
+  {
+   "src": "date_system/lines/D29.json",
+   "who": "heroine_02",
+   "where": "D29.sculpture.remember",
+   "old": "那張比例很好笑的照片，我還留著。",
+   "new": "那張比例很好笑的照片，我傳到群組了。大家笑了一整晚。"
+  },
+  {
+   "src": "date_system/lines/D29.json",
+   "who": "heroine_02",
+   "where": "D29.harbor.remember",
+   "old": "這次船比較少，上次停得滿滿的。",
+   "new": "船好少。都出海了吧。"
+  },
+  {
+   "src": "date_system/lines/D30.json",
+   "who": "heroine_02",
+   "where": "D30.bike.remember",
+   "old": "這次我也要停下來看海，上次停的那個彎我還記得。",
+   "new": "我也要停下來看海。那個彎我還記得。"
+  },
+  {
+   "src": "date_system/lines/D31.json",
+   "who": "heroine_02",
+   "where": "D31.trail.remember",
+   "old": "這次我把整條棧道走完了，上次走到一半就去吃茶葉蛋。",
+   "new": "整條棧道我要走完，茶葉蛋最後再吃。"
+  },
+  {
+   "src": "date_system/lines/D31.json",
+   "who": "heroine_02",
+   "where": "D31.pier.remember",
+   "old": "這次換你坐靠窗，上次是我。",
+   "new": "換你坐靠窗。"
+  },
+  {
+   "src": "date_system/lines/D32.json",
+   "who": "heroine_02",
+   "where": "D32.trail.remember",
+   "old": "這次我撐到上面了，上次在這個彎就停下來喘。",
+   "new": "我撐到上面了！沒有停下來喘！"
+  },
+  {
+   "src": "date_system/lines/D32.json",
+   "who": "heroine_02",
+   "where": "D32.cloud.remember",
+   "old": "上次拍的那張還是白白的，這次不拍了，用記的。",
+   "new": "拍了也是白白的。這次不拍，用記的。"
+  }
+ ]
+}
