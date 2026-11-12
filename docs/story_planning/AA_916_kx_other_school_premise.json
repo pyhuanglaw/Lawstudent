@@ -2,7 +2,7 @@
  "_meta": {
   "doc": "AA_916 可昕：沒有禁字、但前提還是外校的句子（CHAR-OLD-PURGE-1110／CANON-NO-ECON-1112）",
   "by": "AA-C 2026-11-12 21:3x",
-  "status": "待 BB 第二意見（D153）",
+  "status": "定稿（BB_442 採用；映月湖兩句照 BB P3 改成她本來就在這間學校）",
   "what": "拿「你們學校／山上／下山／你們系」掃開發分支 c 可昕的字：11 句玩家看得到、canon_scan 抓不到（沒有禁字）、src 對照表也沒列（AA_886～897 只列有禁字的）。另一句「坐滿三個小時才划算」是記帳個性（UA-AA-1112-15）。",
   "skip": "events.js 1445／1447（學期末飯 REVISIT，AA_901 補 6 整段拿掉）、2219（跨年視訊，AA_872 拿掉）、vac_activities 383（大二暑假可昕的視訊，已告訴 LAWWW）、encounters 109（AA_893 可昕偶遇）、msg2_pool／feed（AA_881、AA_885 整份重寫）、msg_replies「山上的貓認得我了。」（那則私訊在 AA_881 已換掉，回覆列跟著沒用）——這些不用另外改。",
   "apply": "old＝開發分支現在的字；有源稿的我改源稿（見 plan_src），沒有的照 file／old／new 直接改 src。"
@@ -56,7 +56,7 @@
    "file": "src/data/invites.js",
    "where": "映月湖 可昕 firstAt[1]",
    "old": "比我們學校的大一點。……一點點。",
-   "new": "比我想的小。……可是很好看。",
+   "new": "第一次坐下來看。以前都只有經過。",
    "src_count": 1,
    "plan_src": []
   },
@@ -64,7 +64,7 @@
    "file": "src/data/invites.js",
    "where": "映月湖 可昕 walk",
    "old": "你們學校晚上的路燈比較亮。我們山上比較黑。",
-   "new": "湖邊晚上的路燈好亮。我以前以為這裡會很暗。",
+   "new": "湖邊晚上的路燈好亮。我以前都不敢一個人走這邊。",
    "src_count": 1,
    "plan_src": []
   },
