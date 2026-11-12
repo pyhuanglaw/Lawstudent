@@ -43,7 +43,7 @@ const D8=typeof SHOP_JOBS_AA828!=='undefined'?SHOP_JOBS_AA828:null, has=typeof J
 await sec(0,async()=>{
   check('0. 載得到：SHOP_JOBS_AA828；JOBS 有 shanlan、cinema；區域 xs_shanlan、xs_nanyang',has&&JOBS.ZONE_KEY.xs_shanlan==='shanlan'&&JOBS.ZONE_KEY.xs_nanyang==='cinema',J(typeof JOBS!=='undefined'?JOBS.KEYS:null));
   const a=ORDER.indexOf('src/data/wz_jobs.js'), b=ORDER.indexOf('src/data/shop_jobs_aa828.js'), c=ORDER.indexOf('src/jobs3d.js');
-  check('0. index.html：shop_jobs_aa828.js 在 wz_jobs.js 之後、jobs3d.js 之前',a>=0&&b>a&&c>b,J([a,b,c]));
+  check('0. index.html：shop_jobs_aa828.js 在 jobs3d.js 之前（jobs3d.js 載入時就要讀得到；wz_jobs.js、jobs3d.js 照舊相鄰，tests/aa420_jobs_unit.js）',b>=0&&c>b&&c===a+1,J([a,b,c]));
   const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')), e=allow.files.filter(x=>x.path===DOC);
   check('0. 白名單：AA_828@'+SHA+' approved（一筆）',e.length===1&&e[0].status==='approved'&&e[0].sha===SHA&&!!e[0].approvedBy,J(e));
   check('0. 資料寫明來源那一版',!!D8&&D8.src===DOC+'@'+SHA,D8&&D8.src);
