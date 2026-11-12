@@ -757,7 +757,7 @@ const DATE=(function(){
      做法：S.playSet 播到這一句（第 5 個參數 pid＝正在演的互動點；S.spotLine、S.playOpts 才傳）記 t.shePaid＝互動點 id；S.scene、S.dayRound 在 S.spotLine 演完的當下 S.takeShePaid 看一次、清掉，
      是那個互動點才不扣（只是那一趟行程物件上的暫時欄位，演完就拿掉，不是存檔的新欄位；S.spotLine 一開始也清一次）。沒有旁白、沒有提示；選單上的「160 元」照舊；快速約會不演台詞＝照扣；
      祐廷選請客的選項另外扣的那一份（S.isTreat／extra）照舊。測試 tests/date_she_pays_1111_unit.js */
-  S.SHE_PAYS={heroine_01:{'D06.cafe':['這家的蛋糕我記得，檸檬的那個。這次我請。'],'D13.drink':['這杯我請。不要跟我搶。'],'D18.teahouse':['這壺茶多少錢？好，不貴。我請。']}};
+  S.SHE_PAYS={heroine_01:{'D06.cafe':['這家的蛋糕我記得，檸檬的那個。這次我請。'],'D13.drink':['這杯我請。不要跟我搶。'],'D18.teahouse':['這壺茶多少錢？好，不貴，這壺我請。']}};   /* 2026-11-12（AA_832@b84e779563，X324 以安續改第一批）：D18.teahouse normal 第三套那一句 AA 改了字（原本「這壺茶多少錢？好，不貴。我請。」）——同一格（AA_780 _meta.she_pays 的 D18#41）、還是她請，這裡跟著換成新句，不然茶樓那一次會照扣 */
   /* AA_782（企劃線 f7a23d408；X324）：其他人的請客格——學姊七格、沛珊兩格、可昕一格——不手寫：tools/date/import_she_pays.py 從稿產生 src/data/she_pays.js（SHE_PAYS_DATA.pays，同一個格式），
      這裡合進來（index.html 在 date3d.js 前面載）；稿的每一列匯入工具已經對過 date_lines.js 那一格逐字、格號、她那個互動點底下剛好一處 */
   if(typeof SHE_PAYS_DATA!=='undefined'&&SHE_PAYS_DATA&&SHE_PAYS_DATA.pays) for(const id in SHE_PAYS_DATA.pays) for(const pid in SHE_PAYS_DATA.pays[id]){ const o=S.SHE_PAYS[id]||(S.SHE_PAYS[id]={}); o[pid]=(o[pid]||[]).concat(SHE_PAYS_DATA.pays[id][pid].filter(x=>!(o[pid]||[]).includes(x))); }

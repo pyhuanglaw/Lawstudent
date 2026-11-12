@@ -42,7 +42,7 @@ const nameOf=id=>(CHARACTERS.find?CHARACTERS.find(c=>c.id===id):(CHARACTERS[id]|
 const paid=(r,name)=>r.ch.filter(([l])=>l===name).map(([,d])=>-d);
 const week=()=>{ H.G.day+=7; };   /* 同一個星期幾（週六），下週再去 */
 const PT=pid=>DATE.points(pid.slice(0,3)).find(p=>p.id===pid);
-const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請。','D13.drink':'這杯我請。不要跟我搶。','D18.teahouse':'這壺茶多少錢？好，不貴。我請。'};
+const SAY={'D06.cafe':'這家的蛋糕我記得，檸檬的那個。這次我請。','D13.drink':'這杯我請。不要跟我搶。','D18.teahouse':'這壺茶多少錢？好，不貴，這壺我請。'};   /* 2026-11-12（AA_832@b84e779563）：D18.teahouse 那一句 AA 改了字（同一格、還是她請），S.SHE_PAYS 跟著換。舊期望：'這壺茶多少錢？好，不貴。我請。' */
 
 (async()=>{
   await sec(1,async()=>{ const SPY=DATE.SHE_PAYS;
