@@ -1250,10 +1250,11 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
     # 窗：景深卡＋窗台、兩側、上緣的內牆＋玻璃＋框
     for cd in c.get('cards', []):
         key, x0, x1, y0, y1, d = cd[:6]; mull = cd[6] if len(cd) > 6 else []; tr = cd[7] if len(cd) > 7 else None; zc = gz - d
-        _xq(xf, key, x0, x1, y0, y1, zc, tiles=1)
-        xf.box(acc(SK['f_terrazzo']) if y0 < 0.2 else cream, x0, x1, y0 - 0.04, y0, zc, gz)
-        for xx in (x0, x1): xf.box(cream, xx - 0.02, xx + 0.02, y0, y1, zc, gz - 0.01)
-        xf.box(cream, x0, x1, y1, y1 + 0.04, zc, gz - 0.01)
+        if not c.get('real'):   # real（SHOP-REAL-INSIDE-1112）：不放景深卡和窗洞的內牆——玻璃後面由遊戲放走進去的那一顆室內模型（Z3.shopInsideReal）
+            _xq(xf, key, x0, x1, y0, y1, zc, tiles=1)
+            xf.box(acc(SK['f_terrazzo']) if y0 < 0.2 else cream, x0, x1, y0 - 0.04, y0, zc, gz)
+            for xx in (x0, x1): xf.box(cream, xx - 0.02, xx + 0.02, y0, y1, zc, gz - 0.01)
+            xf.box(cream, x0, x1, y1, y1 + 0.04, zc, gz - 0.01)
         if key in c.get('open', ()):   # 開放式的櫃台開口（洋洋鹹酥雞的炸物櫃台）：沒有玻璃、沒有窗框，檯面在 ledges
             if c.get('lit', True): CL.glow(root, 'gg_xs_in', *xf.p((x0 + x1) / 2, (y0 + y1) / 2, zc + 0.3), color='rgba(255,236,200,1)', size=min(3.5, x1 - x0), day=0.0, night=0.6)
             continue

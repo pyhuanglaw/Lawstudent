@@ -11,7 +11,7 @@ class Box3{ copy(o){ this.c=o.c; return this; } applyMatrix4(){ return this; } g
 let disposed=0; class Basic{ constructor(o){ Object.assign(this,o); this.color=new Color(); this.userData={}; } dispose(){ disposed++; } }
 const mesh=(name,c,mat)=>({name,isMesh:true,visible:true,geometry:{boundingBox:{c}},material:mat,matrixWorld:{},children:[],parent:null});
 const mkScene=()=>{ const wood={name:'wood',map:{id:1},color:new Color(1,1,1)}, vc={name:'vc',vertexColors:true,color:new Color(1,1,1)}, led={name:'led',emissive:new Color(1,0.8,0.6),color:new Color(0,0,0)};
-  const kids=[mesh('floor',[0,0,0],wood),mesh('WALL_left_wood',[-3.6,1.5,0],wood),mesh('WALL_front_front_glass',[0,1.5,6],vc),mesh('dabu_sun',[1,0.01,4],wood),mesh('nightboard',[20,2,0],wood),mesh('shelf',[2,1,-3],vc),mesh('lamp',[0,3.2,0],led)];
+  const kids=[mesh('floor',[0,0,0],wood),mesh('WALL_left_wood',[-3.6,1.5,0],wood),mesh('WALL_front_front_glass',[0,1.5,6],vc),mesh('dabu_sun',[1,0.01,4],wood),mesh('nightboard',[20,2,0],wood),mesh('shelf',[2,1,-3],vc),mesh('lamp',[0,3.2,0],led),Object.assign(mesh('WALL_S',[0,1.7,6.1],wood),{userData:{dir:[0,0,-1]}}),Object.assign(mesh('WALL_E',[3.6,1.7,0],wood),{userData:{dir:[-1,0,0]}})];
   const r={name:'Scene',children:kids,parent:null,userData:{},position:new V3(),rotation:{y:0,set(){ this.y=0; }},updateMatrixWorld(){},traverse(f){ f(this); kids.forEach(f); },clone(){ return mkScene(); }}; kids.forEach(k=>k.parent=r); return r; };
 let loads=0; const g={children:[],add(o){ this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); o.parent=null; }};
 const zone={update:null,shopInLit:{items:[{id:'dabu',mesh:{visible:true}}]}}; const E={zone,player:{obj:{position:new V3(-12,0,60)}}};
@@ -26,6 +26,7 @@ const grp=g.children[0]; const vis=n=>grp.children.find(q=>q.name===n).visible;
 ok(grp.position.x===-22.52&&grp.position.z===-16.7&&grp.rotation.y===Math.PI/2,'⑤ 放在店面玻璃後面（室內的正面 z＝d/2 轉到朝街）');
 ok(vis('floor')&&vis('WALL_left_wood')&&vis('shelf')&&vis('lamp'),'⑥ 地板、側牆、貨架、燈都在');
 ok(!vis('WALL_front_front_glass')&&!vis('dabu_sun')&&!vis('nightboard'),'⑦ 室內自己的正面牆、陽光斑、範圍外的板子不放');
+ok(!vis('WALL_S')&&vis('WALL_E'),'⑦b 名字不是 WALL_front 的正面牆照自訂屬性 dir [0,0,−1] 藏（汀州路的 WALL_S）；側牆 dir [−1,0,0] 留著');
 const fl=grp.children.find(q=>q.name==='floor'), wl=grp.children.find(q=>q.name==='WALL_left_wood'), sh=grp.children.find(q=>q.name==='shelf'), lp=grp.children.find(q=>q.name==='lamp');
 ok(fl.material instanceof Basic&&fl.material.map&&fl.material.map.id===1&&fl.material===wl.material,'⑧ 材質換成不受場景光的，貼圖是室內那一張（同一個來源材質共用一份）');
 ok(sh.material.vertexColors===true&&Math.abs(lp.material.color.g-0.8*0.86)<1e-6,'⑨ 頂點色照舊；發光的燈用發光色');
@@ -48,4 +49,16 @@ for(const q of REAL){ const L=lay[q.id][2](c2[lay[q.id][0]]), sp=XL.shops.find(z
 const ws=fs.readFileSync(path.join(R,'tools/blender/env_second/wz_street.py'),'utf8');
 for(const q of REAL){ const mm=new RegExp("'"+q.id+"': dict\\(int=(?:'[a-z_]+'|None, real=True), back=([0-9.]+)").exec(ws); ok(mm&&+mm[1]>=Math.min(q.d,16)+0.1-1e-9,'⑳ wz_street.py '+q.id+' 的牆往裡挖 '+(mm&&mm[1])+' m（室內深 '+q.d+'）'); }
 ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張參考圖（nanyang_front）');
+/* 汀州路：七間走得進去的店 */
+{ const c3={Math,console,THREE:{},Z3:{},ASSETS:{manifest:{}},window:{}}; vm.createContext(c3);
+  for(const f of ['tingzhou_layout.js','tz_shops_layout.js']) vm.runInContext(fs.readFileSync(path.join(R,'src/data',f),'utf8').replace(/^const /mg,'var '),c3);
+  const tz=fs.readFileSync(path.join(R,'src/tingzhou3d.js'),'utf8'); ok(/Z3\.shopInsideReal\(E,g,zone,S\.shopReal\(\)\)/.test(tz),'㉒ tingzhou3d.js 接上');
+  const m1=/S\.REAL_DEP=(\{[^}]*\});/.exec(tz), m2=/S\.shopReal=function\(\)\{([\s\S]*?)return out; \};/.exec(tz);
+  const list=vm.runInContext('(function(){ const S={REAL_DEP:'+m1[1]+'}; '+m2[1]+' return out; })()',c3);
+  ok(list.length===7,'㉓ 汀州路 7 間：'+list.map(q=>q.id).join('、'));
+  const T=c3.TINGZHOU_LAYOUT, Z=c3.TZ_SHOPS_LAYOUT;
+  for(const q of list){ const sp=T.shops.find(z=>z.id===q.id), L=Z[q.id], w=sp.side==='W';
+    ok(Math.abs(L.w-(sp.z1-sp.z0))<=0.6&&q.w===L.w&&q.d===L.d&&q.key===L.asset&&q.place===L.zone,'㉔ '+q.id+'：室內 '+L.w+'×'+L.d+' 對著街上那一間（寬 '+(sp.z1-sp.z0)+'）、模型 '+q.key);
+    ok(w?(q.ry===Math.PI/2&&q.x<T.facade.west):(q.ry===-Math.PI/2&&q.x>T.facade.east),'㉕ '+q.id+'：'+(w?'西側朝東':'東側朝西')+'，放在立面後面');
+    const mm=new RegExp("'"+q.id+"': dict\\((?:arcade=False, )?dep=([0-9.]+), real=True, back=([0-9.]+)").exec(ws); ok(mm&&+mm[2]>=q.d+0.1-1e-9&&Math.abs(+mm[1]-Math.abs(q.cx-(w?T.facade.west:T.facade.east)))<1e-9,'㉖ wz_street.py '+q.id+'：real、牆挖 '+(mm&&mm[2])+' m、玻璃離立面 '+(mm&&mm[1])+' m 和遊戲的設定一樣'); } }
 console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);

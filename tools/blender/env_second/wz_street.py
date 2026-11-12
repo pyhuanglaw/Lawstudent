@@ -389,27 +389,27 @@ if SET == 'tingzhou':
     TZ_XS = {
         'wente': dict(arcade=False, dep=0.3, glass=(-2.45, 2.45), glass_h=2.75, int='tzwen_int', pane=1.65, transom=2.45, lit=True,   # 溫特寶邸：深色木作櫥窗＋木門；黑底米金字招牌；三盞燈
                       panel=dict(x0=-2.62, x1=2.62, y0=2.95, y1=3.72, color='#26221f', text=[('tzwen_sign', -2.5, 2.5, 2.99, 3.67)]), lamps=[(-1.7, 3.5), (0.0, 3.5), (1.7, 3.5)], frame='#3a2a20'),
-        'liantong': dict(arcade=False, dep=0.3, glass=(-1.95, 1.95), glass_h=2.75, int='tzlian_int', pane=1.3, transom=2.45, lit=True,   # 汀州聯通：鋁框玻璃、白光、手機殼牆
+        'liantong': dict(arcade=False, dep=0.3, real=True, back=7.1, glass=(-1.95, 1.95), glass_h=2.75, int='tzlian_int', pane=1.3, transom=2.45, lit=True,   # 汀州聯通：鋁框玻璃、白光、手機殼牆
                          panel=dict(x0=-2.15, x1=2.15, y0=2.95, y1=3.78, color='#1f3f9a', text=[('tzlian_sign', -2.1, 2.1, 3.0, 3.74)]), frame='#c9ccd0', vsigns=[('tzlian_vsign', 2.05, 4.3, 7.6, 0.85)]),
-        'dongnan': dict(arcade=False, dep=0.3, glass=(-3.45, 3.45), glass_h=2.6, int='tzdong_shop', pane=3.45, transom=2.6, lit=True,   # 東南大聯商行：整面開著、貨架塞滿；墨綠帆布雨棚；黃底紅字招牌
+        'dongnan': dict(arcade=False, dep=0.3, real=True, back=9.1, glass=(-3.45, 3.45), glass_h=2.6, int='tzdong_shop', pane=3.45, transom=2.6, lit=True,   # 東南大聯商行：整面開著、貨架塞滿；墨綠帆布雨棚；黃底紅字招牌
                         awning=dict(x0=-3.6, x1=3.6, y0=2.92, y1=2.62, d=1.0, color='#2f5d50'),
                         panel=dict(x0=-3.55, x1=3.55, y0=2.95, y1=3.88, color='#f2c230', text=[('tzdong_sign', -3.45, 3.45, 2.96, 3.87)])),
-        'keju': dict(arcade=False, dep=0.3, glass=(-2.4, 1.45), glass_h=2.7, int='tzkeju_int', pane=1.9, transom=2.7, lit=True,   # 客居雲南：黑框玻璃、藤編吊燈、木桌；酒紅帆布雨棚；右邊照片菜單
+        'keju': dict(arcade=False, dep=0.3, real=True, back=9.1, glass=(-2.4, 1.45), glass_h=2.7, int='tzkeju_int', pane=1.9, transom=2.7, lit=True,   # 客居雲南：黑框玻璃、藤編吊燈、木桌；酒紅帆布雨棚；右邊照片菜單
                      awning=dict(x0=-2.55, x1=1.6, y0=2.95, y1=2.68, d=0.9, color='#7a2a2a'),
                      panel=dict(x0=-2.62, x1=2.62, y0=2.98, y1=3.86, color='#f1e3c4', text=[('tzkeju_sign', -2.6, 2.6, 2.99, 3.85), ('tzkeju_menu', 1.75, 2.35, 0.8, 2.3)]), vsigns=[('tzkeju_vsign', -2.55, 4.3, 7.9, 0.95)]),
-        'yuehaochi': dict(arcade=False, dep=0.3, glass=(-2.35, 1.3), glass_h=2.8, int='tzyue_int', pane=1.8, transom=2.5, lit=True,   # 越好吃小館：深色木框玻璃門窗、藤編吊燈、木桌椅；右邊照片菜單
+        'yuehaochi': dict(arcade=False, dep=0.3, real=True, back=9.1, glass=(-2.35, 1.3), glass_h=2.8, int='tzyue_int', pane=1.8, transom=2.5, lit=True,   # 越好吃小館：深色木框玻璃門窗、藤編吊燈、木桌椅；右邊照片菜單
                           panel=dict(x0=-2.4, x1=2.4, y0=2.95, y1=3.88, color='#8a2a26', text=[('tzyue_sign', -2.35, 2.35, 2.96, 3.87), ('tzyue_menu', 1.55, 2.3, 0.7, 2.45)]), frame='#3a2a20', vsigns=[('tzyue_vsign', -2.8, 4.3, 7.9, 0.95)]),
     }
     # 第 2 版：三間有規格的店照使用者 11-10 21:1x 的外觀參考圖（docs/art-rebuild/second_ai/ref/gg_shops6_1110/concept/）。三張圖都有騎樓：保留騎樓，店面用參考圖裁的景深卡（wz_shopkit.gg_front）
     # 第 3 版（BB 第 2 版判定）：一間店只留一塊招牌（參考圖只有一塊：騎樓外面那一塊），招牌板放大到整個店面寬（street_fit）
     TZ_ARC = {
-        'taimi': dict(dep=3.0, wallc='#4a2f1c', frame='#3a2416', street='tztai_sign', street_fit=7.4,   # 泰米村食：深木色店面、米白字招牌＋三盞射燈；左大窗（藤編吊燈、木桌椅）、窗下一排菜色照片；中間米色布簾的門；右窗（吧台、層架）
+        'taimi': dict(dep=3.0, real=True, back=10.1, wallc='#4a2f1c', frame='#3a2416', street='tztai_sign', street_fit=7.4,   # 泰米村食：深木色店面、米白字招牌＋三盞射燈；左大窗（藤編吊燈、木桌椅）、窗下一排菜色照片；中間米色布簾的門；右窗（吧台、層架）
                       cards=[('tztai_winl', -3.6, -0.5, 0.95, 2.75, 0.8, [-2.05]), ('tztai_door', -0.4, 0.7, 0.0, 2.75, 0.8), ('tztai_winr', 0.85, 3.55, 0.95, 2.65, 0.8, [2.2])], open=('tztai_door',),
                       decals=[('tztai_menu', -3.6, -0.5, 0.2, 0.86, 0.03)],
                       props=[('pot', -3.75, 0.35, 'broad'), ('pot', 1.1, 0.4, 'fern')]),
-        'xile': dict(dep=3.0, wallc='#f2f2ee', frame='alu', street='tzxile_sign', street_fit=5.6, street_lit=True, keep=('bench',),   # 洗樂洗衣坊：淺天藍燈箱；鋁框大玻璃，左一排洗衣機、中間折衣桌、右邊上下疊的烘衣機；騎樓木長椅、盆栽
+        'xile': dict(dep=3.0, real=True, back=9.1, wallc='#f2f2ee', frame='alu', street='tzxile_sign', street_fit=5.6, street_lit=True, keep=('bench',),   # 洗樂洗衣坊：淺天藍燈箱；鋁框大玻璃，左一排洗衣機、中間折衣桌、右邊上下疊的烘衣機；騎樓木長椅、盆栽
                      cards=[('tzxile_int', -2.65, 2.65, 0.12, 2.7, 0.8, [-1.3, 0.1, 1.05])], props=[('pot', -2.45, 0.4, 'broad')]),
-        'yindehao': dict(dep=3.0, wallc='#e8e6e0', frame='alu', street='tzyin_sign', street_fit=6.1, street_lit=True,   # 印得好：深灰藍招牌；左窗（輸出樣張、色票、窗台的裝訂樣本）、中間玻璃雙開門（影印機、櫃台）、右窗（海報、門外的樣本架）
+        'yindehao': dict(dep=3.0, real=True, back=10.1, wallc='#e8e6e0', frame='alu', street='tzyin_sign', street_fit=6.1, street_lit=True,   # 印得好：深灰藍招牌；左窗（輸出樣張、色票、窗台的裝訂樣本）、中間玻璃雙開門（影印機、櫃台）、右窗（海報、門外的樣本架）
                          cards=[('tzyin_winl', -2.95, -0.8, 0.12, 2.7, 0.8), ('tzyin_door', -0.7, 0.75, 0.0, 2.7, 0.8, [0.02]), ('tzyin_winr', 0.85, 2.95, 0.12, 2.7, 0.8)],
                          ),
         # 禮貌生財（X332；使用者 11-11 的外觀圖）：巷 A 後段南側靠公館那一端，一樓退成騎樓（規格：傳統騎樓柱、騎樓下的算命桌）。深色木框格子窗（左）、深色木框的門開著（右）、

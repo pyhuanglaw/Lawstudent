@@ -112,7 +112,9 @@ const TZ3=(function(){
       if(zone.tzStallMat) zone.tzStallMat.emissiveIntensity=0.25+0.85*k; if(zone.tzGlowMat) zone.tzGlowMat.emissiveIntensity=0.4+1.4*k; zone.tzStallsOn=on; };
     const FG=L.fromGongguan, zone={group:g,nav,spawn:{x:FG.x,z:FG.z,yaw:FG.yaw},lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.tingzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
-      Z3.attachWenzhouModel(E,g,c.scene.clone(true),'tzfb','tingzhou_street_glb'); zone.tzFormal=true; }).catch(e=>console.warn('汀州路正式模型載入失敗，用方塊立面',e));
+      Z3.attachWenzhouModel(E,g,c.scene.clone(true),'tzfb','tingzhou_street_glb'); zone.tzFormal=true;
+      if(Z3.shopInsideReal) Z3.shopInsideReal(E,g,zone,S.shopReal());   /* SHOP-REAL-INSIDE-1112：走得進去的店，玻璃後面放那一間的室內模型（BB_379：汀州路泰米村食、東南大聯、汀州聯通店外是照片貼圖、和店內不一樣）*/
+      }).catch(e=>console.warn('汀州路正式模型載入失敗，用方塊立面',e));
     // 路邊的機車、腳踏車（第 3 版；使用者 11-10 21:5x：「路邊新加的機車……長得幾乎一樣莫名其妙」；BB：兩側從頭排到尾、同樣間距、同樣角度，像複製貼上的一道牆）：
     //   一小群一小群停（三到六台），群和群之間空一到三格，有的路段整段沒車；同一群斜的方向差不多、每台再歪一點；有的車頭朝外；五群裡一群是腳踏車（淑女車、公共單車、登山車…混著）。
     //   店門口、巷 A 口、斑馬線、攤位前不停。機車用公館、溫州街同一套模型（十二款，各自的配色，照位置挑）；腳踏車用校園那一套（W3.bikeAny）。
@@ -164,5 +166,13 @@ const TZ3=(function(){
   if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.tingzhou_street']) ASSETS.manifest['bldg.tingzhou_street']={url:'assets/models/env/second_ai/tingzhou_street.glb',type:'building',lazy:true,source:'LAWWW2 tools/blender/env_second/wz_street.py --set tingzhou（汀州路三段一段街的樓房、騎樓、店面；五間店面的貼圖從使用者 11-10 的概念圖裁出來：tz_fronts_tex.py）',license:'本作'};
   if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.tingzhou_stalls']) ASSETS.manifest['bldg.tingzhou_stalls']={url:'assets/models/env/second_ai/tingzhou_stalls.glb',type:'building',lazy:true,source:'LAWWW2 tools/blender/env_second/nm_stalls.py（夜市十攤＋背景三攤，各有營業、收攤兩個樣子；招牌、菜單從使用者 11-10 的十張參考圖裁：nm_stalls_tex.py）',license:'本作'};
   if(typeof Z3!=='undefined'&&Z3.ZONES&&LAY()){ Z3.ZONES.tingzhou={id:'tingzhou',name:'汀州路',indoor:false,cityLight:0.95,size:[LAY().nav.w,LAY().nav.d],camDist:5.6,build(E){ return S.build(E); }}; S.hookGongguan(); }
+  /* SHOP-REAL-INSIDE-1112：汀州路走得進去的店（TZ_SHOPS_LAYOUT 裡 zone 是 tz_ 開頭、街上有這一間的）→ Z3.shopInsideReal 的清單。
+     室內的原點在店的中心、正面是 +z。西側的店朝東（轉 π/2）、東側的店朝西（轉 −π/2）；正面那一面（z＝d/2）貼在店面玻璃後面 2 cm。
+     玻璃離立面多遠（S.REAL_DEP）＝街景模型 wz_street.py TZ_ARC 的 dep：有騎樓的三間 3.0 m，沒有騎樓的四間 0.3 m。 */
+  S.REAL_DEP={taimi:3.0,xile:3.0,yindehao:3.0,liantong:0.3,dongnan:0.3,keju:0.3,yuehaochi:0.3};
+  S.shopReal=function(){ const T=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:null, Z=typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT:null, out=[]; if(!T||!Z) return out;
+    for(const q of T.shops){ const L=Z[q.id], dep=S.REAL_DEP[q.id]; if(!L||dep===undefined||!/^tz_/.test(L.zone||'')) continue; const w=q.side==='W', gx=w?T.facade.west-dep:T.facade.east+dep, cz=(q.z0+q.z1)/2;
+      out.push({id:q.id,place:L.zone,key:L.asset,w:L.w,d:L.d,h:L.h,x:w?gx-0.02-L.d/2:gx+0.02+L.d/2,z:cz,ry:w?Math.PI/2:-Math.PI/2,cx:gx,cz,ex:0,ez:L.w/2}); }
+    return out; };
   return S;
 })();

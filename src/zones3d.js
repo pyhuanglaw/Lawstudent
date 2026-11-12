@@ -1582,7 +1582,8 @@ const Z3 = (function(){
       ASSETS.loadOne(s.key).then(c=>{ s.loading=false; if(!c||!c.scene||E.zone!==zone||s.on) return; const r=c.scene.clone(true); r.name='shop_real_'+s.id; r.userData.dyn=true; r.position.set(0,0,0); r.rotation.set(0,0,0); r.updateMatrixWorld(true);
         const cache=new Map(); let n=0;
         r.traverse(o=>{ if(o.isLight){ o.visible=false; return; } if(!o.isMesh||!o.geometry) return; let nm=''; for(let q=o;q&&q!==r;q=q.parent) nm=(q.name||'')+'/'+nm;
-          if(HIDE.test(nm)){ o.visible=false; return; } if(!o.geometry.boundingBox) o.geometry.computeBoundingBox(); B.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld).getCenter(C);
+          if(HIDE.test(nm)){ o.visible=false; return; } { let dv=null; for(let q=o;q&&q!==r&&!dv;q=q.parent) dv=q.userData&&q.userData.dir; if(Array.isArray(dv)&&dv[2]<-0.9&&Math.abs(dv[0])<0.1){ o.visible=false; return; } }   /* 正面牆：模型自訂屬性 dir＝[0,0,−1]（牆淡出用的「這面牆朝室內的方向」；汀州路的店叫 WALL_S、WALL_Sfix_*，名字對不上 WALL_front）*/
+          if(!o.geometry.boundingBox) o.geometry.computeBoundingBox(); B.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld).getCenter(C);
           if(Math.abs(C.x)>s.w/2+0.4||Math.abs(C.z)>s.d/2+0.4||C.y>s.h+0.6||C.y<-0.5){ o.visible=false; return; }
           o.castShadow=false; o.receiveShadow=false; o.material=Array.isArray(o.material)?o.material.map(m=>basic(m,s,cache)):basic(o.material,s,cache); n++; });
         r.position.set(s.x,s.y||0,s.z); r.rotation.y=s.ry||0; g.add(r); s.grp=r; s.on=true; s.meshes=n; s.k=-1; light(s); fallback(s,false); }).catch(e=>{ s.loading=false; console.warn('店內模型（從街上看）載入失敗，用簡化的店內：'+s.id,e); }); };
