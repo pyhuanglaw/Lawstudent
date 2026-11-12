@@ -46,7 +46,7 @@ const keysOf=()=>STORY.roomItemKeys(G), labels=()=>STORY.roomItemList(G).map(r=>
   fresh(d1,20,'dorm',{KX_ANNIV:[0,'missed']}); K=keysOf(); check('6. 沒去週年（missed）→ 沒有卡片',!K.includes('anniv'),JSON.stringify(K));
   fresh(d1,20,'dorm'); SOCIAL.remember('heroine_02','WATCHED_FILM',''); K=keysOf(); check('7. 和芷若看過電影 → 一張票根 film1',K.includes('film1')&&!K.includes('film3'),JSON.stringify(K));
   fresh(d1,20,'dorm'); SOCIAL.remember('heroine_02','WATCHED_FILM_GROUP',''); K=keysOf(); check('8. 三個人一起看 → 三張連號 film3',K.includes('film3')&&!K.includes('film1'),JSON.stringify(K));
-  fresh(d1,20,'dorm',{ECON_JACKET:'wear'}); K=keysOf(); check('9. 系外套照舊在選單上（key jacket，3D 由 dorm_room4 的 JACKET_ 管）',K.includes('jacket'),JSON.stringify(K));
+  fresh(d1,20,'dorm',{ECON_JACKET:'wear'}); K=keysOf(); check('9. 舊存檔有 ECON_JACKET 也不再有那件外套（CANON-NO-ECON-1112 第三批：這一項拿掉）',!K.includes('jacket'),JSON.stringify(K));
   { fresh(d1,20,'dorm'); const kai=STORY.kaiRoommate&&STORY.kaiRoommate(G); K=keysOf(); check('10. 阿凱同房 → 阿凱的泡麵評鑑表（選單有＝key 有）',K.includes('kai_sheet')===labels().includes('阿凱的泡麵評鑑表'),JSON.stringify({kai,K})); }
   // 每一個標籤（有 3D 的）都換成 key：選單上看得到、房間裡卻沒有的情形
   { const MAP=['書架上的舊《民法》','經濟學原理','寫滿的筆記本','摩天輪的票根（夾在桌墊下）','手機相簿的一張照片','桌上的三色螢光筆','阿凱的泡麵評鑑表','三張連號的票根','電影票根','她的週年卡片','經濟系的系外套','旅行的照片'];

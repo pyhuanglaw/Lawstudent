@@ -20,7 +20,35 @@ import numpy as np
 from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vroid_build as VB
-import jacket_econ as JE
+
+# weld、raster：原本從 tools/jacket_econ.py import（那支 CANON-NO-ECON-1112 第三批拿掉），兩個函式原樣搬到這裡
+def weld(P, eps=2e-4):
+    _, wid = np.unique(np.round(P / eps).astype(np.int64), axis=0, return_inverse=True)
+    return wid.reshape(-1)
+
+
+def raster(UVt, At, size):
+    """三角形畫到貼圖空間，每個像素內插頂點的屬性 At（三角形數×3×K：3D 位置、法向、離開口的距離）；後畫的蓋前面的。邊緣多畫一點點，接縫不露底色。"""
+    W, H = size; K = At.shape[2]; AA = np.zeros((H, W, K)); M = np.zeros((H, W), bool)
+    for uv, A in zip(UVt, At):
+        uv = uv * [W, H]; x0, y0 = np.floor(uv.min(0)).astype(int) - 1; x1, y1 = np.ceil(uv.max(0)).astype(int) + 1
+        x0, y0 = max(x0, 0), max(y0, 0); x1, y1 = min(x1, W - 1), min(y1, H - 1)
+        if x1 < x0 or y1 < y0: continue
+        gx, gy = np.meshgrid(np.arange(x0, x1 + 1) + 0.5, np.arange(y0, y1 + 1) + 0.5)
+        (ax, ay), (bx, by), (cx, cy) = uv; d = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
+        if abs(d) < 1e-12: continue
+        l0 = ((by - cy) * (gx - cx) + (cx - bx) * (gy - cy)) / d; l1 = ((cy - ay) * (gx - cx) + (ax - cx) * (gy - cy)) / d; l2 = 1 - l0 - l1
+        ins = (l0 >= -0.04) & (l1 >= -0.04) & (l2 >= -0.04)
+        if not ins.any(): continue
+        L = np.stack([l0[ins], l1[ins], l2[ins]], 1)
+        yy, xx = (gy[ins] - 0.5).astype(int), (gx[ins] - 0.5).astype(int)
+        AA[yy, xx] = L @ A; M[yy, xx] = True
+    return AA, M
+
+
+class JE:
+    weld = staticmethod(weld)
+    raster = staticmethod(raster)
 
 TOP, SHORTS = 'GYM_TOP', 'GYM_SHORTS'
 MAT_TOP, MAT_SHORTS = 'G00_Tops_GymTee_CLOTH', 'G00_Bottoms_GymShorts_CLOTH'
