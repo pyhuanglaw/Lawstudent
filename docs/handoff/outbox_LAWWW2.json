@@ -8816,7 +8816,7 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "834a56cfc9",
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "state": "已交付",
@@ -8829,6 +8829,22 @@
    ],
    "remaining": "白天聯通、越好吃、客居三間的店內畫面雲端沒拍到（模型沒載完）",
    "next": "LAWWW-C 套 patch、CC 拍四間 14:00／23:30、BB 重判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-OUT-IN-AUDIT-1112",
+   "title": "MOKU-STAIR-VOID-1112 木曜日樓梯間兩側露白底：牆外加暗色的殼",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/moku_stair_void_1112/moku_stair_void_v1.patch",
+    "docs/art-rebuild/second_ai/wip/moku_stair_void_1112/README.md"
+   ],
+   "remaining": "沒有在電腦／手機上拍",
+   "next": "LAWWW-C 套 patch、CC 拍樓梯間"
   }
  ]
 }

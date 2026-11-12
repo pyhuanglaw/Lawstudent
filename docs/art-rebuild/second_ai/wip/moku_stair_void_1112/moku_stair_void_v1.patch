@@ -1,0 +1,26 @@
+diff --git a/src/mokuyobi3d.js b/src/mokuyobi3d.js
+index 9ff339bb12..7a52c9731b 100644
+--- a/src/mokuyobi3d.js
++++ b/src/mokuyobi3d.js
+@@ -67,6 +67,7 @@ const MOK3=(function(){
+     // 一樓：樓梯間
+     const g0=new THREE.Group(); g0.name='L0'; g0.userData.dyn=true; const fb0=new THREE.Group(); fb0.name='fallback0'; fb0.userData.dyn=true; g0.add(fb0); stairFallback(L,fb0);
+     const root=new THREE.Group(); root.add(g0); root.add(g1); z.group=root;
++    if(Z3.roomBackdrop){ const bd=Z3.roomBackdrop(root,L.w,L.d,Y1+L.h,7,0,0); if(bd) bd.name='mok_backdrop'; }   /* MOKU-STAIR-VOID-1112（LAWWW2 自查 11-12）：一樓樓梯間只有 1.2 m 寬，跟隨鏡頭一定在牆外——兩邊露出牆外面米白的空底和一截天空。兩層樓外面包一圈暗色的殼（和 202、多功能教室一樣；二樓臨街窗有窗景板 mok_window_view，在殼裡面）*/
+     const {nav0,st}=buildNav(L,z.nav);
+     z.levels=[nav0,z.nav]; z.levelGroups=[{group:g0,y:0},{group:g1,y:Y1}]; z.nav=nav0; z.spawn=Object.assign({},IN); z.bounds={w:L.w,d:L.d}; z.camMaxY=L.h-0.15;
+     z.cornerSlip=true;   /* MOKU-PLANT-CORNER-1111：玩家推進家具外角（植物東南角往樓梯斜推）時往旁邊讓開、繞過去（engine3d.js stepEntity 的 cornerSlip；只有開了的區域）*/
+diff --git a/tests/moku_stair_void_1112_unit.js b/tests/moku_stair_void_1112_unit.js
+new file mode 100644
+index 0000000000..301cb1cbf6
+--- /dev/null
++++ b/tests/moku_stair_void_1112_unit.js
+@@ -0,0 +1,8 @@
++// MOKU-STAIR-VOID-1112（LAWWW2-C 自查 11-12）：木曜日一樓樓梯間只有 1.2 m 寬，跟隨鏡頭一定在牆外——兩邊露出牆外米白的空底和天空。
++// 兩層樓外面包一圈暗色的殼（Z3.roomBackdrop；和霖澤館 202、萬才館多功能教室一樣）。修改前 FAIL（沒有殼）。
++const fs=require('fs'), path=require('path'); const R=path.join(__dirname,'..'); let fail=0; const ok=(c,m)=>{ console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++; };
++const s=fs.readFileSync(path.join(R,'src/mokuyobi3d.js'),'utf8'), z=fs.readFileSync(path.join(R,'src/zones3d.js'),'utf8');
++ok(/Z3\.roomBackdrop\(root,L\.w,L\.d,Y1\+L\.h,7,0,0\)/.test(s),'① 木曜日：整個區域（一樓樓梯間＋二樓店內，高 Y1＋h）外面 7 m 一圈暗色的殼');
++ok(/function roomBackdrop\(g,W,D,H,m,cx,cz\)/.test(z)&&/side:THREE\.BackSide,fog:false/.test(z)&&/roomBackdrop[,}]/.test(z.slice(z.lastIndexOf('return {'))),'② Z3.roomBackdrop 有匯出：只從裡面看得到、不吃霧');
++ok(/mok_window_view/.test(z),'③ 二樓臨街窗有窗景板（mok_window_view，在殼的裡面）——窗外不會變成暗色');
++console.log(fail?'FAILED '+fail:'ALL PASS'); process.exit(fail?1:0);
