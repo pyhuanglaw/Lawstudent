@@ -5,7 +5,7 @@
    - STORY.TICKS：在學期間的摘要日（11/3、12/18）：那一天 18:30 以後第一個空檔出日期卡，下面那一行是旁白（同寒暑假的摘要日 18:30，holff3d.js；在學期間沒有快轉＝不跳時間）。
      只出一次（G.flags.Y3_SUMS）；那一天已經過了（睡過去、在外面過夜）就不補；人在國外不出。
    - 閒聊階梯的條件（AA_376；匯入的 ladder.js 不手改，登記在 story3d.js 的表，同 r2y4a3d.js）：
-     LADDER_SKIP K5-L3（K17 演過＝算過）、K5-L2（9/22 K15 沒有三十分鐘的見面 KX_SHORT_MEET＝算過）、Y5-L6（到過續約現場 YT_EV14 'there'＝算過）、Y5-L7（事件 13 以後＝算過）；
+     LADDER_SKIP（可昕 K5-L3、K5-L2 那兩條：CANON-NO-ECON-1112 第三批拿掉）、Y5-L6（到過續約現場 YT_EV14 'there'＝算過）、Y5-L7（事件 13 以後＝算過）；
      LADDER_HOLD Y5-L1（事件 12、9/14 第一次上台以後）；LADDER_WEEK_IF A5-L1 第 2 週起、Y5-L7 第 14～15 週；
      LADDER_CHOICE_IF 以安 A5-L8、語彤 Y5-L8 日本路線的選項（字疊在 ladder.js，tools/ladder/import_ladder.py）。
    存檔：G.flags 的 Y3_RIVER33（'go'／'no'／'went'）、Y3_PLG_TOPIC（'yes'／'notyet'）、Y3_PLG_LEAD（那一天）、Y3_SUMS（{日期:出了的那一天}）；訊息照 PHONE 的 tag。
@@ -66,8 +66,6 @@ const Y3FILL=(function(){
   S.ytThuFree=G=>typeof STORY!=='undefined'&&!!STORY.ytThuFree&&STORY.ytThuFree(G);
   S.LAD={
     skip:{
-      'K5-L3':G=>done(G,'ev_kexin_tutor_practice'),   /* #5：K17（12/9 視訊）已經宣布過民總讀書會 */
-      'K5-L2':G=>!(G.flags&&G.flags.KX_SHORT_MEET)&&after(G,'2027-09-23'),   /* #6：要在 K15（9/22 三十分鐘的晚餐）之後；沒有那一次見面的算過 */
       'Y5-L6':G=>!!(G.flags&&G.flags.YT_EV14==='there'),   /* #10：到過續約現場的不再聽一次轉述 */
       'Y5-L7':G=>S.ytThuFree(G) },   /* #10：事件 13（12/16）以前才說（以後就算過，不卡住後面那一層）*/
     hold:{ 'Y5-L1':G=>done(G,'ev_yt_umbrella_y3')||after(G,'2027-09-14',17.5) },   /* #11：事件 12（9/14 第一次上台）之後 */

@@ -23,9 +23,7 @@ const AA525=(function(){
   const privLead=async(GM,k,x,sub)=>{ if(typeof PRIVTALK!=='undefined'&&PRIVTALK.lead) await PRIVTALK.lead(GM,k,x,sub); };
 
   /* ---------------- 閒聊階梯選了哪一個 ---------------- */
-  S.LAD=[{who:'heroine_04',step:'Q2-L4',t:'「我會注意到。」',f:'ZQ_SAW_THIRD'},
-    {who:'kexin',step:'K4-L5',t:'「下次換我挑。」',f:'KX_CAKE_YOU'},
-    {who:'kexin',step:'K2-L6',t:'「明年我們一起看。」',f:'KX_TASSEL_PROMISE'}];
+  S.LAD=[{who:'heroine_04',step:'Q2-L4',t:'「我會注意到。」',f:'ZQ_SAW_THIRD'}];   /* 可昕 K4-L5、K2-L6 那兩條：CANON-NO-ECON-1112 第三批可昕閒聊整組換新稿，選項字不在了，拿掉 */
   S.onLad=function(G,st,ch,id){ if(!G||!G.flags||!st||!ch) return false; const x=S.LAD.find(r=>r.who===id&&r.step===st.id&&r.t===ch.t); if(!x) return false; if(G.flags[x.f]==null) G.flags[x.f]=G.day; return true; };
   if(typeof STORY.ladReply==='function'&&!STORY._aa525Lad){ const r0=STORY.ladReply;
     STORY.ladReply=function(st,ch,G,id){ try{ S.onLad(G,st,ch,id); }catch(e){ console.warn('AA525 lad',e); } return r0.apply(this,arguments); }; STORY._aa525Lad=true; }

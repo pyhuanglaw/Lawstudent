@@ -543,18 +543,9 @@ const STORY = (function(){
     'Y3-L5':G=>!!(G.events&&G.events.done&&G.events.done.ev_yu_together)||G.day>=S.dayOfKey('2026-12-19'),
     /* 語彤大三下（AA_260 第 4 節第 5 點）：Y6-L1、L7 假設事件 13（12/16 週四空出來）演過、Y6-L5 假設事件 14（請了工讀生、續約 RENT_RENEWED）演過；兩件做好以前不開 */
     'Y6-L1':G=>S.ytEv13(G),'Y6-L7':G=>S.ytEv13(G),'Y6-L5':G=>!!(G.flags&&G.flags.RENT_RENEWED)};
-  /* AA_375 第 11 項：可昕 K4-L2（兩邊的朋友見面）第 5 週起（週次在 tools/ladder/import_ladder.py 疊；3/21 邀約之後），只給 3/25 那場去了的玩家——
-     答應了（KX_CIRCLES_GO）才說（見面以前是 lines、見過是 linesIf）；回了「那天不行」、3/25 過了沒去（沒有 ev_kexin_two_circles）、沒收到邀約＝這一層直接算過 */
   /* AA_378 #1（企劃線 5cd35678）：以安 A7-L2「今年生日不是中秋。」只在她生日 2028-09-15（五）當天聊；那天沒聊到就不出（之後直接算過）*/
   S.LADDER_HOLD['A7-L2']=G=>G.day===S.dayOfKey('2028-09-15');
   S.LADDER_SKIP['A7-L2']=G=>G.day>S.dayOfKey('2028-09-15');
-  /* AA_529 6-1：可昕 K0b-L1「你房間那張書桌，你坐左邊，我坐右邊……國界」是她住進來第一天的話——只在 2/15～3/15 出，過了就算過（後面的層照順序）。
-     30 分鐘版原本第一次輪到它是 4/24 生日那天（ladder.js 照匯入的不手改，日期條件放程式，同 A7-L2）*/
-  S.K0B_L1=['2025-02-15','2025-03-15'];
-  S.LADDER_HOLD['K0b-L1']=G=>{ const a=S.dayOfKey(S.K0B_L1[0]), b=S.dayOfKey(S.K0B_L1[1]); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
-  S.LADDER_SKIP['K0b-L1']=G=>{ const b=S.dayOfKey(S.K0B_L1[1]); return b!=null&&G.day>b; };
-  S.LADDER_HOLD['K4-L2']=G=>!!(G.flags&&G.flags.KX_CIRCLES_GO===true)||!!(G.events&&G.events.done&&G.events.done.ev_kexin_two_circles);
-  S.LADDER_SKIP['K4-L2']=G=>{ if(G.events&&G.events.done&&G.events.done.ev_kexin_two_circles) return false; if(G.flags&&G.flags.KX_CIRCLES_GO===false) return true; const d=S.dayOfKey('2027-03-25'); return d!=null&&G.day>d; };
   /* 語彤事件 13（AA_259：2027-12-16 第 15 週）：事件做好時設 YT_EV13（暫名）。她的作息照日期換（事件演不演，週四都不再顧店）*/
   S.ytEv13=G=>!!(G&&G.flags&&G.flags.YT_EV13);
   S.ytThuFree=G=>!!(G&&G.flags&&G.flags.YT_EV13)||(G&&G.day>=S.dayOfKey('2027-12-16'));
@@ -565,7 +556,7 @@ const STORY = (function(){
     'A2-L6':{'「妳們和好了？」':{events:['ev_an_yu_argument']}},'A-L11':{'「我可以去嗎？」':{notEvents:['ev_public_law_group']}},
     'A3-L3':{'「三條是哪三條？」':{notFlags:['PLG_RULES_SEEN']}},'A5-L5':{'「妳那天講的，我聽過了。」':{flags:['AN15_SEEN']}}};   /* A5-L5 選項②：11/17 在 Café 演過 1A-05 才有（AA_315 1A-02 第 6 節第 5 點）*/   /* AA_238 5-5（25e89f6e）：讀書會改到大一上，「我可以去嗎？」改掛以安 A-L11（去過公法讀書會的不出現），A2-L6 只留「妳們和好了？」（看過吵架的才有）；AA_259：A5-L6 改稿後沒有「妳們和好了？」；AA_211（0ba8d336）：A3-L3「三條是哪三條？」看過規則（PLG_RULES_SEEN）的不出現 */
   /* 選項的回覆依條件換（AA_211 第 4 節，0ba8d336）：可昕 K3-L7 選項①——沒去系上的電影夜（ev_kexin_film_night，BB_97 9-6，大二還沒做）＝「真的嗎？那下次我坐你旁邊看。」*/
-  S.LADDER_REPLY_IF={'K3-L7':{'「我看電影很認真。」':[{unless:{events:['ev_kexin_film_night']},reply:'真的嗎？那下次我坐你旁邊看。'}]},
+  S.LADDER_REPLY_IF={   /* 可昕 K3-L7（電影夜）那一條：CANON-NO-ECON-1112 第三批可昕閒聊整組換新稿，拿掉 */
     'A4-L5':{'「妳跟我講話好像也是。」':[{if:{flags:['dating_heroine_01']},reply:'真的？跟你講話本來就不用敬語啊。'}]},   /* 2026-11-11（X324，AA 回 LAWWW 原話指定）：拿掉刪節號——舊字「真的？……跟你講話本來就不用敬語啊。」；K3-L7、A4-L7 照留 */
     'A4-L7':{'「讀書會可以先交給 Alison。」':[{if:{flags:['dating_heroine_01']},reply:'嗯。……還有你，半年見不到。'}]},
     /* AA_580 第 7 節第 10 點（企劃線 759e5c000；AA 審查「交 LAWWW 和疊句一起改，建議值照第 7 節」）：大三上 A5-L2 送過柚子的玩家（linesIf，AN_BDAY_POMELO）已經聽過「那天的柚子……太酸。」，
@@ -605,7 +596,9 @@ const STORY = (function(){
     if(has('classDay')&&!S.classDayOf(G.day)) return false; if(has('playerNoClass')&&!(S.classDayOf(G.day)&&S.playerFreeToday(G))) return false; if(has('nextClassDay')&&!S.classDayOf(G.day+1)) return false; return true; };
   S.greetAdd=function(G,id){ const C=GCD(), A=(C&&C.add&&C.add[id])||[]; if(!A.length||typeof CALENDAR==='undefined') return []; const wd=(CALENDAR.dateOf(G.day).wd|0)%7, k=CALENDAR.kind?CALENDAR.kind(G.day):'term';
     return A.filter(e=>e.kind==='weekend'?(wd===0||wd===6):(k==='holiday'||k==='break')).map(e=>e.t); };
-  S.ladGreet=function(G,id){ const D=S.ladData(G,id), L=D&&D.L; if(!L||!L.greet) return null; const so=ladRec(G), u=so.greetUsed[id]&&so.greetUsed[id].day===G.day?so.greetUsed[id]:(so.greetUsed[id]={day:G.day,list:[],last:(so.greetUsed[id]||{}).last}); const g=L.greet;
+  /* greetIf（CANON-NO-ECON-1112 第三批，AA_861～868 可昕）：那個人整組短招呼的條件——flags 全部有值才說（可昕：KX_MET，第一次見面以前不打招呼）*/
+  S.greetIfOk=function(G,L){ const c=L&&L.greetIf; if(!c) return true; const F=(G&&G.flags)||{}; return !Array.isArray(c.flags)||c.flags.every(f=>!!F[f]); };
+  S.ladGreet=function(G,id){ const D=S.ladData(G,id), L=D&&D.L; if(!L||!L.greet||!S.greetIfOk(G,L)) return null; const so=ladRec(G), u=so.greetUsed[id]&&so.greetUsed[id].day===G.day?so.greetUsed[id]:(so.greetUsed[id]={day:G.day,list:[],last:(so.greetUsed[id]||{}).last}); const g=L.greet;
     const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(!ladGreetOk(G,w.t)||!S.greetDayOk(G,id,w.t)) continue; if(datingQuiet(G,w,id,g,'greet')) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; ladGreetUsed(G,w.t); return w.t; } }
     const B=(g.base||[]).filter(t=>ladGreetOk(G,t)&&S.greetDayOk(G,id,t)).concat(S.greetAdd(G,id).filter(t=>ladGreetOk(G,t))); if(!B.length) return null;   /* base 也看 LADDER_GREET_IF（條件不到的那一句跳過）*/ const n=(((G.day*7+(so.ladder[D.key]|0)+u.list.length)%B.length)+B.length)%B.length; let t=B[n]; if(t===u.last&&B.length>1) t=B[(n+1)%B.length]; u.list.push(t); u.last=t; return t; };
   /* 播一層：她說的話 → 玩家的回答（最多 2）→ 她的收尾；rel、mem 照資料；推進一層（今天不再推進）*/
