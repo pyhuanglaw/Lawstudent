@@ -1,10 +1,15 @@
-# GG-CLOSED-SIGN-1112（SHOP-STANDARD-BACKFILL-1112；店面標準 §12 第 1 點「打烊看得出來關了」）
+# SHOP-CLOSED-SIGN-1112（SHOP-STANDARD-BACKFILL-1112；店面標準 §12 第 1 點「打烊看得出來關了」）
 
-- 問題：公館十三間店的櫥窗改成真的店內以後沒有窗卡；招牌、店內、門口的光暈原本靠窗卡的範圍認是哪一間 → 只剩還有窗卡的五間分得到，其他店打烊了招牌還亮。
-- 改法（`src/zones3d.js`）：`ggShopLit(root,zone,real)` 多收真的店內清單（`GG_SHOP_REAL`）：那幾間各佔一格（窗卡已經有那個地點的共用同一格），光暈照那一棟的寬分；`upd` 照 `PLACES.isOpen`＋颱風。不傳清單＝照舊。共 13 格（著色器上限 16）。
-- patch：`gg_closed_sign_v1.patch`（對開發分支 `apply --check` 過；和 `nav_notch_traps_v1.patch` 改 zones3d.js 不同段）。
-- 測試（Node，模擬）：新 `tests/gg_closed_sign_1112_unit.js` ALL PASS（讀真的 `gongguan_shops.glb` 的光暈位置：13 間每間 2～7 個、62 盞騎樓燈不分）；`gg_glow_shoplit`、`gg_lit12_1112`、`gg_real_inside_1112`、`gg_shoplit_reentry`、`gg_shops2_1104`、`place_gate` ALL PASS。
-- 沒做：瀏覽器。請 CC 拍公館 23:30 一張（招牌應該暗、騎樓燈亮）。
+- 問題：打烊的店，招牌、店內、門口的光暈還亮。
+  - 公館：十三間店櫥窗改成真的店內以後沒有窗卡，光暈認不出是哪一間，只剩五間會熄。
+  - 溫州街、汀州路、新生南路：本來就沒有「照店熄光暈」。
+- 改法：
+  - `src/zones3d.js` `ggShopLit(root,zone,real)`：多收 `GG_SHOP_REAL`，那幾間各佔一格、光暈照那一棟的寬分（13 格，上限 16）。
+  - `src/zones3d.js` 新 `Z3.shopRealGlow(g,模型名,zone,清單)`：各街共用——光暈照位置分給那一間（室內範圍＋店門前後 4 m），沒開就不畫；只收店自己的燈，騎樓燈、住家門燈、壁燈、路燈不動；最多 32 間。溫州街（`Z3.wzShopReal` 匯出）、`src/tingzhou3d.js`、`src/xinsheng3d.js` 各叫一次。
+- patch：`shop_closed_sign_v2.patch`（含原本的公館 v1；對開發分支 b7b7285f69 `apply --check` 過）。
+- 測試（Node，模擬）：新 `tests/gg_closed_sign_1112_unit.js`（公館 13 間每間 2～7 個、62 盞騎樓燈不分）、`tests/shop_closed_sign_1112_unit.js`（溫州街 15 個光暈 4 間、汀州路 13 個 7 間、新生南路 1 個）ALL PASS；`gg_glow_shoplit`、`gg_lit12_1112`、`gg_real_inside_1112`、`gg_shoplit_reentry`、`gg_shops2_1104`、`shop_real_inside_1112`、`xinsheng_unit`、`place_gate` ALL PASS。
+- 沒做：瀏覽器。請 CC 拍 23:30 公館、汀州路、溫州街各一張（招牌暗、騎樓燈和路燈亮）。
 - 先將就的：
-  - 溫州街、新生南路、汀州路沒有這套「照店熄光暈」，打烊了招牌一樣還亮——下一包把這段改成各街共用（照 shopInsideReal 的清單）。
-  - 鐵捲門還是一片平的（下一包加捲箱、底條）。
+  - 溫州街只有四間（OFFBEAT、林家乾麵、小路、SUNNY SIDE）會熄；其他店（阿德、一盞、木曜日、2:30 AM、日常失速、紅茶、冰菓室…）不在「真的店內」清單，招牌還亮——下一包給溫州街一張「哪一棟是哪一間」的表。
+  - 118 巷另一套（L118-CLOSED-LOOKS-OPEN-1112）。
+  - 鐵捲門還是一片平的。

@@ -8898,8 +8898,8 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "0ddcff1c0d",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "ECON-NAV-TRAPS-1111",
    "title": "共用場景的小縫與沙發走近點（原任務取消，請另開 NAV-NOTCH-CAMPUS-1112／NAV-NOTCH-WENZHOU-1112／NAV-NOTCH-SOCLIB-1112／SOCLIB2F-SOFA-AP-1112）",
@@ -8908,13 +8908,14 @@
     "docs/art-rebuild/second_ai/wip/nav_notch_traps_1112/README.md"
    ],
    "remaining": "瀏覽器沒走",
-   "next": "LAWWW-C 開任務、套 patch；CC 走溫州街那一格、社科院二樓沙發"
+   "next": "LAWWW-C 開任務、套 patch；CC 走溫州街那一格、社科院二樓沙發",
+   "ackNote": "LAWWW-C 整合 ba78f68798"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "e91358ffd3",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "state": "已交付",
    "noDirectIntegrate": false,
    "task": "SHOP-STANDARD-BACKFILL-1112",
@@ -8924,7 +8925,24 @@
     "docs/art-rebuild/second_ai/wip/gg_closed_sign_1112/README.md"
    ],
    "remaining": "瀏覽器沒拍；溫州街、新生南路、汀州路還沒有",
-   "next": "LAWWW-C 套 patch；CC 拍公館 23:30"
+   "next": "LAWWW-C 套 patch；CC 拍公館 23:30",
+   "ackNote": "被 shop_closed_sign_v2 取代"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "title": "打烊的店招牌、店內、門口光暈一起熄：公館十三間＋溫州街四間、汀州路七間、新生南路（v2，取代 v1）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_closed_sign_1112/shop_closed_sign_v2.patch",
+    "docs/art-rebuild/second_ai/wip/gg_closed_sign_1112/README.md"
+   ],
+   "remaining": "瀏覽器沒拍；溫州街其他店、118 巷還沒有",
+   "next": "LAWWW-C 套 v2（不要套 v1）；CC 拍 23:30 三條街"
   }
  ]
 }
