@@ -68,9 +68,9 @@ async def buy(pg, cdp, tag, info, res, pick='0', spice='0', walk=True):
         if st['choices']:
             menus.append(st['choices']); await pg.screenshot(path=os.path.join(OUT, 'lw_buy_%s_menu_%02d.png' % (res['_k'], len(menus))))
             ts = [c['t'] for c in st['choices']]
-            if len(menus) == 1: i = (ts.index('老樣子') if '老樣子' in ts else 0) if pick == 'usual' else (0 if pick == 'poor' else int(pick))
+            if len(menus) == 1: i = next((n for n, t_ in enumerate(ts) if t_.startswith('老樣子')), 0) if pick == 'usual' else (0 if pick == 'poor' else int(pick))   # 選單字是「老樣子＋上次的夾法＋辣度」（LUWEI_72fc：全等比對選錯）
             else: i = int(spice) if len(menus) == 2 else 0
-            if pick == 'usual' and len(menus) == 1 and '老樣子' not in ts: R.note('%s 選單沒有「老樣子」：%s' % (tag, J(ts)))
+            if pick == 'usual' and len(menus) == 1 and not any(t_.startswith('老樣子') for t_ in ts): R.note('%s 選單沒有「老樣子」：%s' % (tag, J(ts)))
             i = min(i, len(st['choices']) - 1)
             lines.append('▶ ' + st['choices'][i]['t'])
             await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(800); continue
