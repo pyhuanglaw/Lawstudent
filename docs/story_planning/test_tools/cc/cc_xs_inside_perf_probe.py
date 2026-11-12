@@ -38,6 +38,16 @@ MET = r"""(()=>{ const E=GAME.E, i=E.renderer.info; let objs=0; E.scene.traverse
 SHOPREAL_JS = r"""(()=>{ const z=GAME.E.zone, R=z&&z.shopReal; if(!R) return null; const sh=R.shops||[]; return {lite:!!R.lite, warmQ:Array.isArray(R.warmQ)?R.warmQ.length:(R.warmQ??null), shops:sh.map(s=>({id:s.id||s.zone||s.key||null, built:!!s.built, ready:s.ready===undefined?null:!!s.ready, on:!!s.on, meshes:s.meshes??null}))}; })()"""
 REC_ON = r"""(()=>{ window.__xp={t:[]}; window.__xpOn=true; let last=null; const f=t=>{ if(!window.__xpOn) return; if(last!=null) window.__xp.t.push(+(t-last).toFixed(2)); last=t; requestAnimationFrame(f); }; requestAnimationFrame(f); return true; })()"""
 REC_OFF = "(()=>{ window.__xpOn=false; return window.__xp.t; })()"
+# LAWWW-C 10:44 ③：汀州路站著也有 83～117 ms → 站 10 秒那一段記每一幀的時間＋事件（生人 E.addNPC、CHAR.build、加進場景、素材載好、shopReal 狀態變化），長幀列出前 30 ms 到幀結束的事件
+EV_ON = r"""(()=>{ const E=GAME.E; window.__xe={f:[], ev:[]}; window.__xeOn=true; const ev=(k,l)=>{ if(window.__xeOn) window.__xe.ev.push([+performance.now().toFixed(1), k, String(l||'').slice(0,40)]); };
+  if(!window.__xeW){ window.__xeW=true;
+    try{ const a0=E.addNPC; if(a0) E.addNPC=function(o){ ev('addNPC',(o&&(o.name||o.charId||o.id))||''); return a0.apply(this,arguments); }; }catch(e){}
+    try{ if(typeof CHAR!=='undefined'&&CHAR.build){ const b0=CHAR.build; CHAR.build=function(sp){ ev('CHAR.build',(sp&&(sp.id||sp.name))||''); return b0.apply(this,arguments); }; } }catch(e){}
+    try{ const sc=E.scene, s0=sc.add; sc.add=function(o){ ev('scene.add',(o&&o.name)||''); return s0.apply(this,arguments); }; }catch(e){}
+    try{ if(typeof ASSETS!=='undefined'&&ASSETS.loadOne){ const l0=ASSETS.loadOne; ASSETS.loadOne=function(k){ const r=l0.apply(this,arguments); try{ if(r&&r.then) r.then(()=>ev('asset',k)); }catch(e){} return r; }; } }catch(e){}
+    let rd={}; setInterval(()=>{ try{ const R=E.zone&&E.zone.shopReal; if(!R||!R.shops) return; for(const q of R.shops){ const k=q.id+':'+(q.ready?1:0)+(q.built?1:0)+(q.on?1:0); if(!rd[k]){ rd[k]=1; ev('shopReal',k); } } }catch(e){} },50); }
+  let last=null; const f=t=>{ if(!window.__xeOn) return; if(last!=null) window.__xe.f.push([+t.toFixed(1), +(t-last).toFixed(1)]); last=t; requestAnimationFrame(f); }; requestAnimationFrame(f); return true; })()"""
+EV_OFF = """(()=>{ window.__xeOn=false; const X=window.__xe; const out=[]; for(const [t,dt] of X.f){ if(dt>50) out.push({t, ms:dt, events:X.ev.filter(e=>e[0]>=t-dt-30&&e[0]<=t+5).slice(0,12)}); } return {long:out.slice(0,12), n_events:X.ev.length, kinds:X.ev.reduce((a,e)=>{ a[e[1]]=(a[e[1]]||0)+1; return a; },{})}; })()"""
 
 
 def fstats(t):
@@ -87,7 +97,9 @@ async def main():
         s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, x=far['x'], z=far['z'], wait=300)
         # LAWWW-C 08:19 ②：進區域以後站著不動 10 秒（預載一間一間做、貼圖一幀上傳一張）——這 10 秒最長一幀、>50 ms 次數；前後 tex／geoms／heap；③ zone.shopReal.shops 每一間 built／ready／on
         m_pre0 = await pg.evaluate(MET); sr0 = await pg.evaluate(SHOPREAL_JS)
-        await pg.evaluate(REC_ON); await pg.wait_for_timeout(10000); t_pre = await pg.evaluate(REC_OFF)
+        await pg.evaluate(REC_ON); await pg.evaluate(EV_ON); await pg.wait_for_timeout(10000); t_pre = await pg.evaluate(REC_OFF); evs = await pg.evaluate(EV_OFF)
+        res['preload_events'] = evs
+        R.note('②b 站 10 秒的長幀當下事件（前 30 ms 到幀結束）：%s；這 10 秒事件總數 %s %s' % (J(evs['long']), evs['n_events'], J(evs['kinds'])))
         await gc(); m_pre1 = await pg.evaluate(MET); sr1 = await pg.evaluate(SHOPREAL_JS)
         res['preload'] = {'frames': fstats(t_pre), 'm_start': m_pre0, 'm_10s': m_pre1, 'shopReal_start': sr0, 'shopReal_10s': sr1}
         R.note('② 進區域後站 10 秒：每幀 %s；tex %s→%s、geoms %s→%s、heap %s→%s' % (J(fstats(t_pre)), m_pre0['tex'], m_pre1['tex'], m_pre0['geoms'], m_pre1['geoms'], m_pre0['heapMB'], m_pre1['heapMB']))
