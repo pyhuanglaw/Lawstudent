@@ -37,8 +37,8 @@ E.player.obj.position.z=24; step(21); ok(s.on,'⑭ 走到離店面 37 m：還沒
 E.player.obj.position.z=40; step(21); ok(!s.on&&g.children.length===0&&disposed===3&&zone.shopInLit.items[0].mesh.visible===true,'⑮ 走遠：拿掉、材質釋放（'+disposed+' 個）、簡化的店內放回來');
 E.player.obj.position.z=-16; step(41); ok(s.on&&loads===2,'⑯ 再走回來：重新接上');
 /* 一般模式（電腦）：進區域就先做好、不顯示；走近只開顯示（CC 11-12：第一次走近最長一幀 233 ms） */
-{ loads=0; let inits=0, compiles=0; const g2={children:[],add(o){ this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); }};
-  const z2={update:null,shopInLit:{items:[{id:'dabu',mesh:{visible:true}},{id:'haopai',mesh:{visible:true}}]}}; const E2={zone:z2,q:{level:'high'},camera:{},scene:{},renderer:{initTexture(){ inits++; },compile(){ compiles++; }},player:{obj:{position:new V3(-12,0,60)}}};
+{ loads=0; let inits=0, compiles=0; const cobj=[]; const g2={children:[],add(o){ this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); }};
+  const z2={update:null,shopInLit:{items:[{id:'dabu',mesh:{visible:true}},{id:'haopai',mesh:{visible:true}}]}}; const E2={zone:z2,q:{level:'high'},camera:{},scene:{},renderer:{initTexture(){ inits++; },compile(o){ compiles++; cobj.push(o); }},player:{obj:{position:new V3(-12,0,60)}}};
   ctx.ASSETS.manifest['bldg.xs_haopai']={}; ctx.GAME.G.hour=14;
   const R2=ctx.fn(E2,g2,z2,[{id:'dabu',place:'xs_dabu',key:'bldg.xs_dabu',w:7.4,d:12,h:3.4,x:-22.52,z:-16.7,ry:Math.PI/2,cx:-16.5,cz:-16.7,ex:0,ez:3.7},{id:'haopai',place:'xs_haopai',key:'bldg.xs_haopai',w:4.4,d:14,h:3.4,x:-23.52,z:-23.2,ry:Math.PI/2,cx:-16.5,cz:-23.2,ex:0,ez:2.2}],{lite:false});
   const st=n=>{ for(let i=0;i<n;i++) z2.update(0.016,E2); }; const [a1,a2]=R2.shops;
@@ -48,7 +48,7 @@ E.player.obj.position.z=-16; step(41); ok(s.on&&loads===2,'⑯ 再走回來：�
   ok(!a2.built,'㉙ 一次只做一間（分幀）');
   ok(inits===0&&!a1.ready,'㉘a 貼圖不在做好的那一幀一次上傳（那樣本身就是一頓）'); st(1); ok(inits===1&&compiles===0,'㉘b 一幀上傳一張貼圖'); st(3);
   { const vis0=a1.list.filter(o=>o.visible).length; st(1); const vis1=a1.list.filter(o=>o.visible).length; ok(!a1.ready&&vis1-vis0<=1&&a1.list.every(o=>!o.visible||o.frustumCulled===false),'㉘c 第 2 版：零件一幀打開一個、先不做視錐裁切（一定畫得到：頂點資料、材質跟著分幀上傳）');
-    st(a1.list.length+3); ok(inits>=1&&compiles===0&&a1.ready&&a1.list.every(o=>o.visible&&o.frustumCulled===true)&&g2.children[0].visible===false,'㉘ 貼圖（initTexture '+inits+' 次）、零件都畫過一幀以後才算可以顯示，視錐裁切還原；玩家在遠處＝關掉顯示。不再一次 compile 整間'); }
+    st(a1.list.length+3); ok(inits>=1&&!cobj.includes(a1.grp)&&cobj.every(x=>!x||!x.children||!x.children.length||x.isMesh)&&a1.ready&&a1.list.every(o=>o.visible&&o.frustumCulled===true)&&g2.children[0].visible===false,'㉘ 貼圖（initTexture '+inits+' 次）、零件都畫過一幀以後才算可以顯示，視錐裁切還原；玩家在遠處＝關掉顯示。不再一次 compile 整間（一次只編一個網格的材質）'); }
   { const E3={zone:{update:null},q:{level:'medium'},renderer:{},player:{obj:{position:new V3(0,0,0)}}}; const R3=ctx.fn(E3,{children:[],add(){},remove(){}},E3.zone,[{id:'x',key:'none',w:1,d:1,h:1,x:0,z:0}]); const E4={zone:{update:null},q:{level:'low'},renderer:{},player:{obj:{position:new V3(0,0,0)}}}; const R4=ctx.fn(E4,{children:[],add(){},remove(){}},E4.zone,[{id:'x',key:'none',w:1,d:1,h:1,x:0,z:0}]);
     ok(R3.lite===false&&R4.lite===true,'㉞ 預設畫質 medium 也預載（CC 11-12：電腦上進區域 10 秒每一間還是 built:false）；只有 low 或觸控裝置才省資源'); }
   st(21); ok(a2.built&&loads===2&&!a2.on,'㉚ 下一拍做第二間');
@@ -103,18 +103,20 @@ ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張�
   st(400); ok(R2.shops.every(q=>q.built&&q.ready)&&R2.shops.filter(q=>q.on).length===1,'㊵ 被放掉的那一間之後照樣排回來建好；只有眼前那一間顯示'); }
 /* SHOP-FIRST-APPROACH-1112：建好以後先 compileAsync 這一間（照場景的燈），編好以前零件不打開；別間的工作照做；renderer 沒有 compileAsync 照舊 */
 { const g3={children:[],add(o){ this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); o.parent=null; }};
-  let calls=[], res=[]; const RN={compileAsync(sc,cam,tgt){ calls.push({sc,cam,tgt,vis:sc.visible,kids:(sc.children||[]).length}); return {then(f){ res.push(f); }}; }, initTexture(){}};
+  let calls=[], res=[], comp=[], fr=0; const RN={compile(o,cam,tgt){ comp.push({o,cam,tgt,fr}); }, compileAsync(sc,cam,tgt){ calls.push({sc,cam,tgt,fr}); return {then(f){ res.push(f); }}; }, initTexture(){}};
   const z3b={update:null}, E3b={zone:z3b,player:{obj:{position:new V3(-100,0,-1)}},renderer:RN,camera:{isCam:1},scene:{isScene:1}};
   const c3={THREE:{Box3,Vector3:V3,Color,MeshBasicMaterial:Basic},ASSETS:{manifest:{k0:{},k1:{}},loadOne(){ return {then(f){ f({scene:mkScene()}); return {catch(){}}; }}; }},GAME:{G:{hour:14,day:3}},PLACES:{isOpen:()=>true,typhoonClosed:()=>false},console,setTimeout:()=>0};
   vm.createContext(c3); vm.runInContext(src.slice(a,b)+'; this.fn=shopInsideReal;',c3);
   const mk=(id,x)=>({id,place:'p'+id,key:'k'+id,w:7.4,d:12,h:3.4,x,z:-10,ry:0,cx:x,cz:-4,ex:3,ez:0});
-  const R3=c3.fn(E3b,g3,z3b,[mk(0,-100),mk(1,60)],{lite:false,shutter:false}); const S0=R3.shops[0], st=n=>{ for(let i=0;i<n;i++) z3b.update(0.016,E3b); };
+  const R3=c3.fn(E3b,g3,z3b,[mk(0,-100),mk(1,60)],{lite:false,shutter:false}); const S0=R3.shops[0], st=n=>{ for(let i=0;i<n;i++){ fr++; z3b.update(0.016,E3b); } };
   let n=0; while(!S0.built&&n<200){ st(1); n++; }
-  const c0=calls.find(c=>c.sc===S0.grp); st(60); const openWhile=S0.list.filter(o=>o.visible).length;
-  ok(!!c0&&c0.cam===E3b.camera&&c0.tgt===E3b.scene&&c0.vis===true&&S0.grp.visible===false,'㊷ 建好那一間就 compileAsync(那一間, 鏡頭, 整個場景)，呼叫時暫時打開、呼叫完藏回去');
+  st(80); const openWhile=S0.list.filter(o=>o.visible).length; const mine=comp.filter(c=>{ let q=c.o; while(q){ if(q===S0.grp) return true; q=q.parent; } return false; }); const perFr={}; mine.forEach(c=>{ perFr[c.fr]=(perFr[c.fr]||0)+1; }); const c0=calls.find(c=>c.sc===S0.grp);
+  const mats=new Set(); S0.list.forEach(o=>(o.traverse?o.traverse.bind(o):(f=>f(o)))(m=>{ if(m.material) mats.add([].concat(m.material).map(x=>x.uuid||x.id).join('|')); }));
+  ok(mine.length>0&&mine.length===mats.size&&mine.every(c=>c.cam===E3b.camera&&c.tgt===E3b.scene)&&Math.max(...Object.values(perFr))===1,'㊷ 建好那一間：一幀只編一個材質（Rn.compile(網格, 鏡頭, 整個場景)；同一組材質只編一次：'+mine.length+' 次／'+mats.size+' 組，一幀最多 '+Math.max(...Object.values(perFr))+' 個）');
+  ok(!!c0&&c0.cam===E3b.camera&&c0.tgt===E3b.scene&&c0.fr>=Math.max(...mine.map(c=>c.fr)),'㊷b 全部送出以後才 compileAsync 整間等 isReady');
   ok(S0.compiling===true&&openWhile===0&&!S0.ready,'㊸ 還在編的時候零件一個都不打開、不算可以顯示（'+openWhile+' 個打開）');
   const S1=R3.shops[1]; ok(S1.built,'㊹ 編的時候別間照樣建（第二間 built '+S1.built+'）');
   res.forEach(f=>f()); st(200); ok(S0.compiling===false&&S0.ready&&S0.on,'㊺ 編好以後照舊一幀一個打開、顯示（ready '+S0.ready+'、on '+S0.on+'）');
-  ok(R3.prof.step.compile&&R3.prof.step.compile.n>=1,'㊻ prof 多記 compile（編了多久）'); }
+  ok(R3.prof.step.compile&&R3.prof.step.compile.n>=1&&R3.prof.step.compileWait&&R3.prof.step.compileWait.n>=1,'㊻ prof 記 compile（每一個材質主執行緒花多久）、compileWait（送出到全部 isReady 多久）'); }
 { const P=Rr.prof; ok(P&&P.step&&P.frame&&typeof P.reset==='function'&&P.step.clone&&P.step.clone.n>=1&&P.step.prep&&P.step.mesh&&P.step.tick&&Object.values(P.step).every(o=>o.max>=0&&o.sum>=0),'㊶ shopReal.prof：每一種工作（clone／prep／tex／mesh／tick…）記次數、最長、合計——CC 在電腦上看哪一步是那 150 ms（'+Object.keys(P.step).join('、')+'）'); }
 console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);
