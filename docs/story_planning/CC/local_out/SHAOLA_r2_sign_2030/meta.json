@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "SHAOLA_r2_sign_2030",
+  "sha": "9f331db43858fe6c58021a3419820c81efeb7bb4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_storefront_probe.py",
+  "env": "TAG=shaola_sign_2030;STREET=gongguan;SHOPS=noodle;HOUR=20.5;SIGN=1;SHA=9f331db43858fe6c58021a3419820c81efeb7bb4",
+  "machine": "MSI",
+  "start": "2026-11-13T01:09:00",
+  "end": "2026-11-13T01:10:53",
+  "seconds": 113,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 70,
+    "mem": 54,
+    "used_gb": 17.7,
+    "chrome_testing": 12
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
