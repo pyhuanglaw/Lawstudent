@@ -56,6 +56,23 @@ def prep(sv0, k, plan):
     return sv
 
 
+OVERLAY = r"""(()=>[...document.querySelectorAll('body *')].filter(e=>{ if(!e.offsetParent&&getComputedStyle(e).position!=='fixed') return false; const cs=getComputedStyle(e), r=e.getBoundingClientRect(); return r.width>innerWidth*0.6&&r.height>innerHeight*0.6&&+cs.opacity>0.05&&cs.visibility!=='hidden'&&cs.display!=='none'&&e.tagName!=='CANVAS'&&(cs.backgroundColor!=='rgba(0, 0, 0, 0)'||cs.backgroundImage!=='none'); })
+  .slice(0,6).map(e=>({id:e.id||'', cls:String(e.className||'').slice(0,40), op:getComputedStyle(e).opacity, bg:getComputedStyle(e).backgroundColor})))()"""
+
+
+async def grab(pg, k, nm, sn):
+    """拍在當下（舊版在迴圈結束後才拍，兩張其實是同一刻；CC-C 11:3x 修）：遊戲鏡頭＋以祐廷為中心的俯視＋鏡頭位置（南洋：BB-C 11:27 看鏡頭卡在哪）"""
+    await pg.screenshot(path=os.path.join(OUT, 'shift_%s_%s_game.png' % (k, nm)))
+    if not sn: return
+    u = await pg.evaluate(TOP, {'x': sn['player']['x'], 'y': 0, 'z': sn['player']['z']})
+    if u: open(os.path.join(OUT, 'shift_%s_%s_top.jpg' % (k, nm)), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
+    cam = await pg.evaluate("(()=>{ const c=GAME.E.camera, p=new THREE.Vector3(); c.getWorldPosition(p); const d=new THREE.Vector3(); c.getWorldDirection(d); return {x:+p.x.toFixed(2),y:+p.y.toFixed(2),z:+p.z.toFixed(2),dir:[+d.x.toFixed(2),+d.y.toFixed(2),+d.z.toFixed(2)]}; })()")
+    R.note('[%s] %s 鏡頭位置 %s（俯視以祐廷為中心）' % (k, nm, json.dumps(cam, ensure_ascii=False)))
+    if nm == 'first':
+        u = await pg.evaluate(TOP, {'x': cam['x'], 'y': 0, 'z': cam['z']})
+        if u: open(os.path.join(OUT, 'shift_%s_%s_top_cam.jpg' % (k, nm)), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
+
+
 async def main():
     print('CC 上班中各一張：SHA %s；KEYS %s；TERM %s' % (SHA or '?', KEYS, TERM), flush=True)
     sv0 = json.load(open(fix_path(FIX), encoding='utf-8'))
@@ -79,17 +96,14 @@ async def main():
                 while time.time() - t0 < 150 and len(shots) < 2:
                     s = await L.state(pg)
                     if s['dlg'] and not shots:
-                        sn = await pg.evaluate(SNAPJS, {}); shots.append(('first', sn))
+                        sn = await pg.evaluate(SNAPJS, {}); shots.append(('first', sn)); await grab(pg, k, 'first', sn)
                     if s['choices']:
                         await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); if(b[0]) b[0].click(); })()"); chose = True; await pg.wait_for_timeout(900)
-                        sn = await pg.evaluate(SNAPJS, {}); shots.append(('after_choice', sn)); continue
+                        sn = await pg.evaluate(SNAPJS, {}); shots.append(('after_choice', sn)); await grab(pg, k, 'after_choice', sn); continue
                     if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
                     await pg.wait_for_timeout(700)
                 for nm, sn in shots:
                     if not sn: continue
-                    await pg.screenshot(path=os.path.join(OUT, 'shift_%s_%s_game.png' % (k, nm)))
-                    u = await pg.evaluate(TOP, {'x': sn['player']['x'], 'y': 0, 'z': sn['player']['z']})
-                    if u: open(os.path.join(OUT, 'shift_%s_%s_top.jpg' % (k, nm)), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
                     R.note('%s %s：祐廷 %s；圍裙網格 %s；最近的互動點 %s；1 m 內家具 %s；店裡的人 %s；當下那一句「%s」' % (tag, nm, J(sn['player']), J(sn['apron']), J(sn['nearIts']), J(sn['furn1m']), J(sn['people']), sn['dlg'][:40]))
                 # 下班以後（BB-C 10:55）：書包還原、人有沒有被推走
                 t1 = time.time()
@@ -98,7 +112,14 @@ async def main():
                     if s['choices']: await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); if(b[0]) b[0].click(); })()"); await pg.wait_for_timeout(800); continue
                     if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
                     await pg.wait_for_timeout(700)
-                await pg.wait_for_timeout(2500); after = await pg.evaluate(SNAPJS, {})
+                # BB-C 11:27：下班以後每 0.5 秒拍一張、連 4 秒（分轉場黑幕還是真的黑）：亮度＋蓋在畫面上的黑幕元素
+                for j in range(9):
+                    png = await pg.screenshot(path=os.path.join(OUT, 'shift_%s_after_burst_%02d.png' % (k, j)))
+                    lm = await D.lum_browser(pg, png)
+                    ov = await pg.evaluate(OVERLAY)
+                    R.note('%s 下班後 %.1f 秒：亮度 %s；畫面上蓋著的元素 %s' % (tag, j * 0.5, J(lm), J(ov)))
+                    await pg.wait_for_timeout(500)
+                after = await pg.evaluate(SNAPJS, {})
                 if after:
                     shots.append(('after_shift', after)); await pg.screenshot(path=os.path.join(OUT, 'shift_%s_after_shift_game.png' % k))
                     R.note('%s 下班以後：祐廷 %s；書包 %s；鏡頭到頭之間被 %s 擋' % (tag, J(after['player']), J(after['bag']), J(after['camOcclusion'])))

@@ -5,7 +5,8 @@
   在 G.outings 放一筆「到了」的出遊（和 OUT.go 到了以後一樣：state done、goto＝barGoto）→ 呼叫 R2Y4B.barPlay（遊戲到了以後呼叫的同一支）→
   每一句：遊戲鏡頭截圖＋記每個人（祐廷、可昕、語彤）的位置、朝向、姿勢、坐姿高度（腳底 y、頭頂 y）、座位、鏡頭到每個人頭部的射線被哪些 mesh 擋住；開頭、結尾各拍一張俯視（另一台相機）。
 CC_02 清單 2026-11-12：1✓（日期時間照 r2y4b3d.js 排的那三場） 2✓（座位照 R2Y4B.barSeats 從遊戲找） 3✓（每場重新讀檔） 4✓（選項選第 1 個、全部記下） 5n/a（到了以後的演出，走路那段是 OUT.go，本支不測） 6✓（讀檔等 7 秒、一句一句點） 7✓ 8n/a（不判，給 BB） 9n/a（不藏人：要看座位） 10✓（條件事件關掉） 11✓ 12✓（三場同樣欄位） 13✓（讀檔、旗標、出遊紀錄是捷徑，標【前置／捷徑】）
-用法：LW_TESTS=<wt>/tests SHA=<sha> [SCENES=start,out,three] python3 cc_bar_group_probe.py <url> <out>"""
+另外（OLD=1，預設）：舊存檔「已排沒出發、沒有 goto」→ barUpgrade 補上；「2D 演過」站在二樓桌旁 8 秒不重演。
+用法：LW_TESTS=<wt>/tests SHA=<sha> [SCENES=start,out,three] [OLD=1] python3 cc_bar_group_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
@@ -16,6 +17,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = (os.environ.get('SHA') or '')[:10]
 ALL = {'start': ('2029-02-23', 21.5, 'ev_bar_group_start', 'y4_bar_group_start'), 'out': ('2029-02-26', 21.0, 'ev_bar_group_out', 'y4_bar_out_cc'), 'three': ('2029-06-23', 19.0, 'ev_bar_group_three', 'y4_bar_three')}
+OLDS = (os.environ.get('OLD') or '1') == '1'   # BB-C 11:23：舊存檔兩種
 SCENES = [s for s in (os.environ.get('SCENES') or 'start,out,three').split(',') if s in ALL]
 R = L.Run('bar_group', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -60,7 +62,8 @@ async def scene(pg, cdp, key, res):
     await top(pg, 'bar_%s_top_before.jpg' % key, pre['seats'])
     h0 = await pg.evaluate("+GAME.G.hour")
     await pg.evaluate("(()=>{ window.__barR=undefined; R2Y4B.barPlay(GAME, window.__barQ).then(r=>{ window.__barR=r; }).catch(e=>{ window.__barR='ERR '+String(e).slice(0,120); }); })()")
-    await pg.wait_for_timeout(1500)
+    for j in range(8):   # BB-C 11:23：清路人、坐好那一下閃不閃（每 0.25 秒一張、2 秒）
+        await pg.screenshot(path=os.path.join(OUT, 'bar_%s_stage_%02d.png' % (key, j))); await pg.wait_for_timeout(250)
     lines, steps, menus = [], [], []
     for k in range(120):
         st = await pg.evaluate(ST)
@@ -89,6 +92,41 @@ async def scene(pg, cdp, key, res):
     R.check('%s 有台詞' % tag, len(lines) > 0, '')
 
 
+OLD = r"""(a=>{ const G=GAME.G, F=G.flags; Object.assign(F,{Y4_PATH:'bar',BAR_GROUP_KIND:'three',BAR_STUDY_GROUP:['kexin','yutong'],BAR_GROUP_START:'three',dating_kexin:true}); G.events=G.events||{}; G.events.done=G.events.done||{};
+  if(!Array.isArray(G.outings)) G.outings=[]; const out={};
+  if(a.kind==='planned'){ delete G.events.done.ev_bar_group_start; const q={id:'y4_bar_group_start',ev:'ev_bar_group_start',day:G.day,h:21.5,late:0.5,place:'大口漢堡',title:'律師讀書小組（大口漢堡）',travel:'走過去約 15 分鐘',travelH:0.25,state:'planned'};
+    G.outings=G.outings.filter(x=>x&&x.id!==q.id); G.outings.push(q); out.before=JSON.parse(JSON.stringify(q)); out.n=R2Y4B.barUpgrade(G); out.after=JSON.parse(JSON.stringify(q)); }
+  else { G.events.done.ev_bar_group_start=1; const q={id:'y4_bar_group_start',ev:'ev_bar_group_start',day:G.day,h:21.5,place:'大口漢堡',state:'done',goto:R2Y4B.barGoto()};
+    G.outings=G.outings.filter(x=>x&&x.id!==q.id); G.outings.push(q); window.__barQ=q; out.pending=!!R2Y4B.barPending(G); }
+  return out; })"""
+
+
+async def old_cases(pg, cdp):
+    """BB-C 11:23：舊存檔「已排、還沒出發、沒有 goto」補上 goto；「2D 演過」的到二樓那張桌子旁邊不重演"""
+    day = '2029-02-23'
+    await pg.goto(URL); await L.wait_loaded(pg)
+    g = await pg.evaluate("R2Y4B.barGoto()")
+    await D.load_zone(pg, cdp, 'campus', day, 20.0, wait=5000)
+    o = await pg.evaluate(OLD, {'kind': 'planned'})
+    R.setup('[舊存檔 已排沒出發] 【前置／捷徑】讀檔到 campus %s 20:00、G.outings 放一筆舊格式（沒有 goto）的 ev_bar_group_start → 呼叫 R2Y4B.barUpgrade' % day)
+    R.note('[舊存檔 已排沒出發] 補之前 %s；補了 %s 筆；補之後 %s' % (J(o['before']), o['n'], J(o['after'])))
+    R.check('[舊存檔 已排沒出發] 補上 goto（xs_dakou 二樓）、拿掉 back', bool(o['after'].get('goto')) and o['after']['goto'].get('zone') == 'xs_dakou' and 'back' not in o['after'], J(o['after']))
+    await pg.goto(URL); await L.wait_loaded(pg)
+    await D.load_zone(pg, cdp, 'xs_dakou', day, 21.6, x=g['x'], z=g['z'], yaw=g['yaw'], lv=1, wait=5000)
+    o = await pg.evaluate(OLD, {'kind': 'done2d'})
+    R.setup('[舊存檔 2D 演過] 【前置／捷徑】讀檔到 xs_dakou 二樓長桌旁 %s 21:36、ev_bar_group_start 記成演過、出遊 done 沒有 bar3d' % day)
+    t0 = await pg.evaluate("(GAME.G.events.done||{}).ev_bar_group_start|0")
+    said = []
+    for j in range(10):
+        st = await pg.evaluate(ST)
+        if st['dlg'] and (not said or said[-1] != st['t']): said.append(st['who'] + '｜' + st['t']); await pg.screenshot(path=os.path.join(OUT, 'bar_old_done2d_%02d.png' % len(said))); await L.tap(pg, cdp, '#dlg')
+        await pg.wait_for_timeout(800)
+    t1 = await pg.evaluate("(GAME.G.events.done||{}).ev_bar_group_start|0")
+    await pg.screenshot(path=os.path.join(OUT, 'bar_old_done2d_end.png'))
+    R.note('[舊存檔 2D 演過] barPending=%s；站在桌旁 8 秒內的對話 %s；ev_bar_group_start 次數 %s → %s' % (o['pending'], J(said), t0, t1))
+    R.check('[舊存檔 2D 演過] 不重演（barPending 沒有、次數沒變）', not o['pending'] and t1 == t0, J([o, said]))
+
+
 async def main():
     print('CC 大口二樓讀書小組：SHA %s；SCENES %s' % (SHA or '?', SCENES), flush=True)
     res = {'sha': SHA}
@@ -99,6 +137,9 @@ async def main():
         for key in SCENES:
             try: await scene(pg, cdp, key, res)
             except Exception as e: R.check('[%s] 沒有探針例外' % key, False, str(e)[:200])
+        if OLDS:
+            try: await old_cases(pg, cdp)
+            except Exception as e: R.check('[舊存檔] 沒有探針例外', False, str(e)[:200])
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     open(os.path.join(OUT, 'bar_group.json'), 'w', encoding='utf-8').write(J(res))

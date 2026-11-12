@@ -2,10 +2,10 @@
 做法：每個時段（TIMES，預設 18.5／22.5／0.5／14）：【前置／捷徑】讀檔到 gongguan 那天那個時間（條件事件關掉、站在攤子前 5 m）→ 等模型 8 秒 →
   記 LW3.state、攤車（GLB 有沒有載到、visible、位置、轉向）、老闆（stallKeeper 的人：位置、visible、朝向、離 keeperSpot 多遠）、
   攤車外框壓到的其他東西（同區域的 mesh 外框交疊、互動點、人 2 m 內）、導航擋了幾格 → 拍遊戲鏡頭＋正面、側面、俯視三張（另一台相機、藏玩家）。
-  BUY 那個時段（預設 18.5）另外：真的走到「看…」互動點（go_to）→ 按 → 一句一句點、選第 PICK 個夾法（預設 0）、辣度第 SPICE 個（預設 0）→
-  記每句、每個選單（截圖）、錢前後、時間前後（應該過 5 分鐘）、LW3.lastOrder、G.eat。
+  每個時段都真的走到「看…」互動點（go_to）按：BUYS 那幾個時段照 BUYS 的順序買（BB-C 11:23：四種夾法各一次、辣度輪流、第 5 次選「老樣子」看熟客句、錢不夠一次）；
+  其他時段按一次記那一句（在收、還沒推出來）。每一次記每句、每個選單（截圖）、錢前後、時間前後（應該過 5 分鐘）、LW3.lastOrder、G.eat。
 CC_02 清單 2026-11-12：1✓（時段照 LAWWW-C：18:30 開、22:30 半價、0:30 在收、14:00 沒擺） 2✓（攤子、老闆照 LW3 的旗標從遊戲找，座標只用 LW3.AT 算鏡頭） 3✓（每個時段重新讀檔） 4✓（選項照序號、全部記下） 5✓（買那次 go_to 走過去按） 6✓（等模型 8 秒、一句一句點） 7✓ 8n/a（不判，給 BB） 9n/a（照片不藏人：要看老闆） 10✓（條件事件關掉） 11✓ 12✓（四個時段同樣欄位） 13✓（讀檔捷徑標）
-用法：LW_TESTS=<wt>/tests SHA=<sha> [DAY=2025-10-14] [TIMES=18.5,22.5,0.5,14] [BUY=18.5] [PICK=0] [SPICE=0] python3 cc_luwei_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests SHA=<sha> [DAY=2025-10-14] [TIMES=18.5,22.5,0.5,14] [BUYS=18.5@0:0+1:1+2:2+3:0+usual+poor;22.5@1:2] python3 cc_luwei_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
@@ -16,7 +16,10 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = (os.environ.get('SHA') or '')[:10]; DAY = os.environ.get('DAY') or '2025-10-14'
 TIMES = [float(x) for x in (os.environ.get('TIMES') or '18.5,22.5,0.5,14').split(',') if x]
-BUY = float(os.environ.get('BUY') or 18.5); PICK = int(os.environ.get('PICK') or 0); SPICE = int(os.environ.get('SPICE') or 0)
+BUYS = {}   # 時段 → [(夾法序號或 'usual'／'poor', 辣度序號)]
+for seg in (os.environ.get('BUYS') or '18.5@0:0+1:1+2:2+3:0+usual+poor;22.5@1:2').split(';'):
+    if '@' not in seg: continue
+    hh, lst = seg.split('@', 1); BUYS[float(hh)] = [tuple((x.split(':') + ['0'])[:2]) for x in lst.split('+') if x]
 R = L.Run('luwei', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 INFO = r"""(()=>{ const E=GAME.E, G=GAME.G; if(typeof LW3==='undefined') return {noLW3:true, zone:G.zone};
@@ -51,10 +54,11 @@ async def snaps(pg, tag, info):
         if u: open(os.path.join(OUT, 'lw_%s_%s.jpg' % (tag, nm)), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
 
 
-async def buy(pg, cdp, tag, info, res):
+async def buy(pg, cdp, tag, info, res, pick='0', spice='0', walk=True):
     it = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(q=>q.lwStall); return i?{x:i.x,z:i.z,label:i.label,hidden:!!i.hidden}:null; })()")
     if not R.check('%s 找得到滷味攤互動點' % tag, bool(it), ''): return
-    await L.go_to(pg, cdp, R, it['x'], it['z'], 0.7, it['label'], max_s=90)
+    if walk: await L.go_to(pg, cdp, R, it['x'], it['z'], 0.7, it['label'], max_s=90)
+    if pick == 'poor': await pg.evaluate("(()=>{ GAME.G.money=10; })()"); R.setup('%s 【捷徑】錢改成 10 元（看錢不夠那一句）' % tag)
     st = await pg.evaluate(ST); R.note('%s 互動鍵「%s」（互動點 %s）' % (tag, st['interact'], J(it)))
     m0 = await pg.evaluate("GAME.G.money|0"); h0 = await pg.evaluate("+GAME.G.hour")
     await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
@@ -62,29 +66,34 @@ async def buy(pg, cdp, tag, info, res):
     for k in range(80):
         st = await pg.evaluate(ST)
         if st['choices']:
-            menus.append(st['choices']); await pg.screenshot(path=os.path.join(OUT, 'lw_buy_menu_%02d.png' % len(menus)))
-            i = PICK if len(menus) == 1 else (SPICE if len(menus) == 2 else 0); i = min(i, len(st['choices']) - 1)
+            menus.append(st['choices']); await pg.screenshot(path=os.path.join(OUT, 'lw_buy_%s_menu_%02d.png' % (res['_k'], len(menus))))
+            ts = [c['t'] for c in st['choices']]
+            if len(menus) == 1: i = (ts.index('老樣子') if '老樣子' in ts else 0) if pick == 'usual' else (0 if pick == 'poor' else int(pick))
+            else: i = int(spice) if len(menus) == 2 else 0
+            if pick == 'usual' and len(menus) == 1 and '老樣子' not in ts: R.note('%s 選單沒有「老樣子」：%s' % (tag, J(ts)))
+            i = min(i, len(st['choices']) - 1)
             lines.append('▶ ' + st['choices'][i]['t'])
             await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(800); continue
         if st['dlg']:
             ln = st['who'] + '｜' + st['t']
             if not lines or lines[-1] != ln:
-                lines.append(ln); await pg.screenshot(path=os.path.join(OUT, 'lw_buy_line_%02d.png' % len(lines)))
+                lines.append(ln); await pg.screenshot(path=os.path.join(OUT, 'lw_buy_%s_line_%02d.png' % (res['_k'], len(lines))))
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
         if not st['busy']: break
         await pg.wait_for_timeout(600)
     m1 = await pg.evaluate("GAME.G.money|0"); h1 = await pg.evaluate("+GAME.G.hour")
     lo = await pg.evaluate("(()=>({last:LW3.lastOrder||null, eat:GAME.G.eat?{n:GAME.G.eat.n, last:GAME.G.eat.last, lwSpice:GAME.G.eat.lwSpice, first:GAME.G.eat.first}:null}))()")
-    await pg.screenshot(path=os.path.join(OUT, 'lw_buy_end.png'))
-    res['buy'] = {'lines': lines, 'menus': menus, 'money': [m0, m1], 'hour': [h0, h1], 'order': lo}
+    await pg.screenshot(path=os.path.join(OUT, 'lw_buy_%s_end.png' % res['_k']))
+    res.setdefault('buys', []).append({'tag': tag, 'pick': pick, 'spice': spice, 'lines': lines, 'menus': menus, 'money': [m0, m1], 'hour': [h0, h1], 'order': lo})
     R.note('%s 整段（%d 句、%d 個選單）：%s' % (tag, len(lines), len(menus), J(lines)))
     R.note('%s 選單：%s' % (tag, J(menus)))
     R.note('%s 錢 %s → %s（差 %s）；時間 %.3f → %.3f（過 %.1f 分鐘）；%s' % (tag, m0, m1, m1 - m0, h0, h1, (h1 - h0) * 60, J(lo)))
-    R.check('%s 買得到（錢有扣、時間有過）' % tag, m1 < m0 and h1 > h0, '')
+    if pick == 'poor': R.check('%s 錢不夠：沒扣錢' % tag, m1 == m0, '')
+    elif info.get('state') == 'open': R.check('%s 買得到（錢有扣、時間有過）' % tag, m1 < m0 and h1 > h0, '')
 
 
 async def main():
-    print('CC 滷味攤：SHA %s；%s；TIMES %s；BUY %s' % (SHA or '?', DAY, TIMES, BUY), flush=True)
+    print('CC 滷味攤：SHA %s；%s；TIMES %s；BUYS %s' % (SHA or '?', DAY, TIMES, BUYS), flush=True)
     res = {'sha': SHA, 'times': {}}
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
@@ -106,7 +115,11 @@ async def main():
             q = info.get('q') or {}
             R.check('%s 攤車在不在跟狀態一致（%s）' % (tag, info.get('state')), bool(q.get('modelVis')) == pres if q.get('hasModel') else not pres, J(q))
             R.check('%s 老闆在不在跟狀態一致' % tag, any(k['vis'] and not k['hidden'] for k in info.get('keepers') or []) == pres, J(info.get('keepers')))
-            if abs(h - BUY) < 1e-6: await buy(pg, cdp, tag, info, res)
+            plan = next((v for k2, v in BUYS.items() if abs(k2 - h) < 1e-6), None) or [('0', '0')]
+            for j, (pk, sp) in enumerate(plan):
+                res['_k'] = '%s_%d_%s' % (ft, j, pk)
+                await buy(pg, cdp, '%s 第 %d 次（%s／辣度 %s）' % (tag, j + 1, pk, sp), info, res, pk, sp, walk=(j == 0))
+                await pg.wait_for_timeout(800)
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     open(os.path.join(OUT, 'luwei.json'), 'w', encoding='utf-8').write(J(res))
