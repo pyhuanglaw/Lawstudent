@@ -3,7 +3,13 @@
 
 
 
-## 進度（2026-11-12 19:3x UTC；LAWWW2-C）——以這一節為準
+## 進度（2026-11-12 19:5x UTC；LAWWW2-C）——以這一節為準
+
+- 交（DELIVERED LAWWW-C，等 ACK）：**SHOP-WINDOW-3D-1112 溫特寶邸** 7b35dea9e1（wip/tz_wente_win3d_1112：立體店內 sk_in_wente、shopInsideLit 接線、README 室內對齊基準；汀州路 30 支 ALL PASS）。先將就：tz_wente 沒營業時間、不能進去、只有 Blender 圖。
+- RONG-SIGN-1112 → LAWWW-C 已整合 873d9e7105（outbox 已改 ACK）。
+- 下一項：禮貌生財真店內（還沒開始）。工作樹 `$SP/wt_tz5` 有溫特寶邸那一包的未 commit 改動（已存 patch）。
+
+## 進度（2026-11-12 19:3x UTC；LAWWW2-C）——舊
 
 - 交、已整合（LAWWW-C ACK＋ACTIONED）：D158 模型清理 ①③ e83488f007（→209b33be09）、② 4fb95b7335（→75e3486b89，含祐廷坐姿 bt 0.0634）；SHOP-FIRST-APPROACH 第二包（一幀編一個材質）＋L118-SEAT-FIX 第一包（118牛排 #1／#10 走近點、大學食堂窗邊按鈕 0.95）15f17bdf30（→6279e713c0）。
 - 等 CC 重跑（LAWWW-C 已排）：FIRST_gg_desk／FIRST_xs_desk（看最長一幀、step.compile.max）；L118_CAM36_a／b（座位探針加記點擊點和物件名字）。等的時候做下面那一包。
