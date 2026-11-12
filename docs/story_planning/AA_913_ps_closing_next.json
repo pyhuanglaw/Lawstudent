@@ -3,7 +3,7 @@
   "doc": "AA_913 沛珊第一批（DLG-FULL-REVIEW-1110 第七位）：約會收尾（closing）「下次…」",
   "by": "AA-C 2026-11-12 20:5x",
   "task": "DLG-FULL-REVIEW-1110",
-  "status": "待 BB 第二意見（D153）",
+  "status": "定稿（BB_438 採用；交往中「去哪都跟你」三句留一句，另兩句換講地點；三句景色句加她的小笑點）",
   "what": "沛珊約會的收尾句 38 句用「下次…」開頭（每個地點 closing.normal 第二句幾乎都是），同時是模板、也是說了沒發生的承諾（台詞寫作規則：不留沒有下文的「下次」）。改成講今天、講眼前、講她自己；留 D01 第一次「下次還要來。」（第一次約會一句輕的）；D15 第一次那句改成「今天好開心。你有開心嗎？」。她的個性照 PEISHAN-VOICE-1110：有趣、會接梗、溫柔、說真心話不扭捏。　另外 4 句「今天…，下次…」的尾巴也是同一種承諾，一起改。",
   "count": 42
  },
@@ -69,7 +69,7 @@
    "who": "classmate_peishan",
    "where": "closing/dating/0/lines/0/text",
    "old": "下次你約我，去哪我都好。",
-   "new": "今天去哪我都好。只要你在旁邊。"
+   "new": "長頸鹿一直盯著你看。我吃醋了，對一隻長頸鹿。"
   },
   {
    "src": "date_system/lines/D09.json",
@@ -97,7 +97,7 @@
    "who": "classmate_peishan",
    "where": "closing/dating/0/lines/0/text",
    "old": "下次換你想去哪，我都跟。",
-   "new": "你想去哪，我都跟。今天也是。"
+   "new": "你剛剛拍我那張，傳給我。不好看就刪掉，不准留。"
   },
   {
    "src": "date_system/lines/D11.json",
@@ -125,7 +125,7 @@
    "who": "classmate_peishan",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次我想早一點來，看海一路變顏色。",
-   "new": "海一路在變顏色。我一直回頭看。"
+   "new": "海一路在變顏色。我回頭回到脖子痠。"
   },
   {
    "src": "date_system/lines/D15.json",
@@ -188,7 +188,7 @@
    "who": "classmate_peishan",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次夏天來。可以下水。",
-   "new": "海水好冰。我腳伸進去一下就縮回來了。"
+   "new": "海水好冰。我腳伸進去，靈魂先縮回來了。"
   },
   {
    "src": "date_system/lines/D26.json",
@@ -230,7 +230,7 @@
    "who": "classmate_peishan",
    "where": "closing/normal/1/lines/0/text",
    "old": "下次我想晚上來，聽說港邊晚上燈都會亮。",
-   "new": "港邊的燈要亮了。我們剛好看到第一盞。"
+   "new": "港邊的燈要亮了。第一盞是我先看到的，記下來。"
   },
   {
    "src": "date_system/lines/D30.json",
