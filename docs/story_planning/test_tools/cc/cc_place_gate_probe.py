@@ -13,7 +13,7 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗加「細節比例」、店外改射線深度（PC GATE_CAL 1cd2／bd86 校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字） 13✓
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗加「細節比例」、店外改射線深度（PC GATE_CAL 1cd2／bd86 校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 EDGE_LO=3 EDGE_HI=8 ZF_LO=0.3 ZF_HI=1.5] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -43,8 +43,15 @@ ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,
   const seat=IT.filter(i=>i.seat)[0]||null;
   return {n, box:n?[f(x0),f(x1),f(z0),f(z1)]:null, c:n?[f((x0+x1)/2),f((z0+z1)/2)]:null, exit:ex?{x:f(ex.x),z:f(ex.z),label:lab(ex),to:ex.exit.to||null,spawn:ex.exit.spawn||null}:null,
     counter:ct?{x:f(ct.x),z:f(ct.z),label:lab(ct)}:null, seat:seat?{x:f(seat.seat.x),z:f(seat.seat.z),label:lab(seat)}:null, name:(E.zone&&E.zone.name)||GAME.G.zone}; })()"""
-PEOPLE_JS = r"""(a=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); const P=(E.npcs||[]).filter(n=>n&&n.obj&&n.obj.visible!==false).map(n=>({id:n.charId||n.id||'', x:f(n.obj.position.x), z:f(n.obj.position.z)}));
-  const clerk=a?P.filter(p=>Math.hypot(p.x-a.x,p.z-a.z)<2):[]; return {total:P.length, clerk:clerk.length, customers:P.length-clerk.length, people:P.slice(0,10)}; })"""
+PEOPLE_JS = r"""(a=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); const ex=new Set(); for(const n of (E.npcs||[])) if(n.obj) n.obj.traverse(o=>ex.add(o)); if(E.player&&E.player.obj) E.player.obj.traverse(o=>ex.add(o));
+  const rc=new THREE.Raycaster(); const face=n=>{ const ry=n.obj.rotation.y, o=n.obj.position; rc.set(new THREE.Vector3(o.x,o.y+1.5,o.z), new THREE.Vector3(Math.sin(ry),0,Math.cos(ry))); rc.far=3;
+    const h=rc.intersectObjects(E.scene.children,true).find(x=>!ex.has(x.object)&&x.object.visible!==false); return h?f(h.distance):null; };
+  const P=(E.npcs||[]).filter(n=>n&&n.obj&&n.obj.visible!==false).map(n=>({id:n.charId||n.id||'', x:f(n.obj.position.x), z:f(n.obj.position.z), clerkFlag:!!n.clerk, pose:n.pose||null, seat:!!n.seat,
+    stand:E.canStand?!!E.canStand(n.obj.position.x,n.obj.position.z,0.2,n.lv|0):null, face_m:face(n)}));
+  const clerk=a?P.filter(p=>Math.hypot(p.x-a.x,p.z-a.z)<2||p.clerkFlag):P.filter(p=>p.clerkFlag); const cust=P.filter(p=>!clerk.includes(p));
+  /* BB-C 05:26 ③：店員有沒有站進櫃檯／貨架裡（站的那一點站不住＝在家具裡；坐著的不算）；新加的客人是不是臉對空牆（頭的高度往正前方 0.45 m 內就撞到東西）*/
+  const inFurn=P.filter(p=>!p.seat&&p.stand===false), wall=cust.filter(p=>p.face_m!=null&&p.face_m<0.45);
+  return {total:P.length, clerk:clerk.length, customers:cust.length, clerk_in_furniture:inFurn.map(p=>[p.id,p.x,p.z]), face_wall:wall.map(p=>[p.id,p.x,p.z,p.face_m]), people:P.slice(0,12)}; })"""
 # 拍照：另一台相機（先跑 fadeWalls，同 cc_tingzhou_probe）；同時回傳窗玻璃網格投影到畫面上的框（0～1）
 SNAPX = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||60, c.width/c.height, 0.05, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true); cam.updateProjectionMatrix();
   const z=E.zone, P=E.player&&E.player.obj; if(z&&z.fadeWalls){ try{ z.fadeWalls(cam,P?P.position:cam.position); if(E.hideFaded) E.hideFaded(); }catch(e){} }
@@ -178,6 +185,7 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     # ① 人
     ppl = await pg.evaluate(PEOPLE_JS, rm['counter']); row['m']['people'] = ppl
     row['v']['1_clerk'] = 'PASS' if ppl['clerk'] > 0 else ('FAIL' if rm['counter'] else 'UNKNOWN')
+    row['v']['1b_people_pos'] = 'FAIL' if (ppl.get('clerk_in_furniture') or ppl.get('face_wall')) else ('PASS' if ppl['total'] else 'UNKNOWN')
     await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(400)
     s1 = await snap(pg, (ex + ux * 1.0, 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8), 66)
     await pg.evaluate(HIDE_PEOPLE + '(true)')   # PC GATE_CAL_1cd2：人站在窗前，泰米夜窗深藍只算到 42.9%＝誤判 PASS
@@ -262,8 +270,8 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     R.note('%s 【機器判】%s；證據 %s' % (tag, verdict, J({k: row['m'].get(k) for k in ('people', 'ceiling', 'parallax', 'solid')})))
     R.note('%s 窗 %s；閃 %s；做得到 %s' % (tag, J(row['m'].get('window')), J({k: (v.get('median') if isinstance(v, dict) and 'median' in v else v) for k, v in (row['m'].get('flicker') or {}).items()}), J(fn)[:600]))
     for k, v in sorted(row['v'].items()):
-        if v == 'FAIL': R.check('%s %s 機器判 FAIL' % (tag, k), False, J(row['m'].get({'1_clerk': 'people', '2_window': 'window', '3_ceiling': 'ceiling', '4_solid': 'solid', '5_parallax': 'parallax', '6_flicker': 'flicker', '7_func': 'func', '7_console': 'console'}.get(k, k)))[:400])
-        elif v == 'UNKNOWN': R.check('%s %s 機器判不出來＝UNKNOWN（交 BB 看圖；不能當 PASS）' % (tag, k), False, J(row['m'].get({'1_clerk': 'people', '2_window': 'window', '3_ceiling': 'ceiling', '4_solid': 'solid', '5_parallax': 'parallax', '6_flicker': 'flicker', '7_func': 'func'}.get(k, k)))[:400])
+        if v == 'FAIL': R.check('%s %s 機器判 FAIL' % (tag, k), False, J(row['m'].get({'1_clerk': 'people', '1b_people_pos': 'people', '2_window': 'window', '3_ceiling': 'ceiling', '4_solid': 'solid', '5_parallax': 'parallax', '6_flicker': 'flicker', '7_func': 'func', '7_console': 'console'}.get(k, k)))[:400])
+        elif v == 'UNKNOWN': R.check('%s %s 機器判不出來＝UNKNOWN（交 BB 看圖；不能當 PASS）' % (tag, k), False, J(row['m'].get({'1_clerk': 'people', '1b_people_pos': 'people', '2_window': 'window', '3_ceiling': 'ceiling', '4_solid': 'solid', '5_parallax': 'parallax', '6_flicker': 'flicker', '7_func': 'func'}.get(k, k)))[:400])
     rows.append(row)
 
 
