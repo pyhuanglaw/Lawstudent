@@ -15,7 +15,7 @@ P('# 第 15 週以後的條件（16 週制影響清單：程式部分）');
 P('');
 P('> 自動產生：`node tools/handoff/late_week_scan.js`（'+new Date().toISOString().slice(0,16).replace('T',' ')+' UTC）。給 AA-B 的八學期影響清單引用（AA_195 2-1）。');
 P('> 現況：每學期 18 週，期中第 8～9 週、期末第 17～18 週（`calendar.js` 的 `termOf`）。真實臺大 16 週：114-1 期末考 12/15～19、寒假 12/22 起（AA_195 1-2）。');
-P('> 只列法律系的學期（Y1S1～Y4S2）；經濟系那一年（Y0）不在這次的範圍。');
+P('> 只列法律系的學期（Y1S1～Y4S2）；舊序章那一段（Y0）不在這次的範圍。');
 P('');
 // 1. 事件：weeks／minWeek
 const evW=[]; for(const e of ev){ const ws=(e.weeks||[]).filter(w=>w>=15); const terms=(e.term||[]).filter(LAW); const termOk=!e.term||terms.length; if(termOk&&(ws.length||(e.minWeek>=15))) evW.push(e); }
