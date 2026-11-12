@@ -388,6 +388,7 @@ const CROWD=(function(){
   const typhoon=(zone,G)=>typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&!!CALENDAR.typhoon(G.day)&&zone!=='cvs'&&zone!=='xs_dakou';   /* 24 小時的店（便利商店、大口漢堡）颱風天照開 */
   S.shopWindows=function(def,G){ if(typhoon(def.zone,G)) return []; const z=def.zone;
     if(/^l118_/.test(z)){ const id=z.slice(5), s=typeof L118!=='undefined'&&L118.shop?L118.shop(id):null; if(!s||!s.hours) return []; return s.hours.open.filter(([a,b])=>L118.isOpen(id,Object.assign({},G,{hour:(a+b)/2}))).map(w=>w.slice()); }
+    if((z==='noodle'||z==='bookstore')&&typeof PLACES!=='undefined'&&PLACES.hours&&PLACES.hours[z]&&PLACES.windowsOf&&!PLACES.windowsOf(z,G.day)) return [];   /* 公休日沒有客人（AA_831：公館燒臘週一）*/
     if(z==='noodle') return typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G)?[]:[[11,14],[17,21]];
     if(z==='bookstore') return [[11,21]]; if(z==='cvs'||z==='xs_dakou') return [[0,24]]; if(z==='aoki') return [[11,21]];   /* 青木茶室（GG-SHOPS-REDO-1104）：稿上沒有營業時間，門整天開著；客人只排 11:00～21:00 */
     if(typeof PLACES!=='undefined'&&PLACES.windowsOf){ if(PLACES.typhoonClosed&&PLACES.typhoonClosed(z,G.day)) return []; const ws=PLACES.windowsOf(z,G.day); if(ws) return ws.map(w=>[w[0],Math.min(24,w[1])]);

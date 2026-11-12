@@ -385,6 +385,7 @@ const USL=(function(){
     if(label==='窗外'){ const K={snow:'2028-12-02',bare:'2028-11-01',autumn:'2028-10-01',summer:'2028-08-02'}, sk=typeof US3!=='undefined'&&US3.usSeasonKey?US3.usSeasonKey():null;   /* 窗外那句跟窗景圖同一個季節（us3d.js usSeasonKey：秋天 10/9 起；BB-B 10-24：10/1～10/8 字黃圖綠）*/
       const w=sk&&K[sk]?R.win.find(q=>q[0]===K[sk]):R.win.find(q=>G.day>=D(q[0])); if(!w) return null; return G.visited&&G.visited.linze_5f?[w[1],R.winLab]:[w[1]]; } return null; };
   S.interact=async function(it,GM){ const G=GM.G; if(!it||!G||!S.here(G)) return false;
+    if(it.exit&&it.exit.to==='us_market'&&typeof SH831!=='undefined'&&await SH831.door(GM,'us_market')) return true;   /* 草原超市 08:00～22:00（AA_831；src/shop_hours831_3d.js）：關著＝門口一句旁白＋開放時間；劇情帶進去的不經過這裡 */
     if(it.exit&&it.exit.to==='us_asian_market'&&typeof PLACES!=='undefined'&&PLACES.isOpen&&!PLACES.isOpen('us_asian_market',hh(G),G.day)){ GM.toast(PLACES.closedText('us_asian_market',hh(G),G.day),4500); return true; }   /* AA_370 L9：竹葉亞洲超市照台詞（「亞洲超市九點關。」「週日公休」）09:00～21:00、週日公休（src/data/places.js）；US1 抵達那晚是劇情帶進去的，不經過這裡 */
     if(it.uslClass){ const c=S.openItem(G); if(c){ await S.attend(GM,c); return true; } return false; }
     if(it.uslLake){ await S.lake(GM); return true; }

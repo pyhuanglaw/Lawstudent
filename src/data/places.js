@@ -58,6 +58,12 @@ const PLACES={
     xs_haopai:{shop:true,rules:{week:[null,[12,21],[12,21],[12,21],[12,21],[12,21],[12,21]]},text:'週一～週六 12:00–21:00；週日公休'},
     xs_xsports:{shop:true,rules:{week:[[11,22],[11,22],[11,22],[11,22],[11,22],[11,22],[11,22]]},text:'每天 11:00–22:00'},   /* 新生運動廣場（兩層；AA_620 第 1 節；區域 xs_xsports＝src/xsports3d.js，XS-SPORTS-V1-1105）*/
     us_asian_market:{shop:true,rules:{week:[null,[10,21],[10,21],[10,21],[10,21],[10,21],[10,21]]},text:'週一～週六 10:00–21:00；週日公休'},
+    /* 店面標準補字第一批（AA_831，企劃線 b84e779563；SHOP-STANDARD-BACKFILL-1112）：這四間原本整天開。稿的表＝src/data/shop_hours_aa831.js（tests/shop_hours_aa831_1112_unit.js 對這裡）；
+       關著的時候門口那一句、有約有班照常進去＝src/shop_hours831_3d.js；打烊人在店裡＝src/xs_close3d.js。公館燒臘過年店休另外算（src/noodle_closed3d.js）。草原超市在美國，沒有颱風假 */
+    noodle:{shop:true,rules:{week:[[11,21.5],null,[11,21.5],[11,21.5],[11,21.5],[11,21.5],[11,21.5]]},text:'週二～週日 11:00–21:30；週一公休'},
+    bookstore:{shop:true,rules:{week:[[11,21.5],[11,21.5],[11,21.5],[11,21.5],[11,21.5],[11,21.5],[11,21.5]]},text:'每天 11:00–21:30'},
+    tz_limao:{shop:true,rules:{week:[[14,21],null,[14,21],[14,21],[14,21],[14,21],[14,21]]},text:'週二～週日 14:00–21:00；週一公休'},
+    us_market:{shop:true,rules:{week:[[8,22],[8,22],[8,22],[8,22],[8,22],[8,22],[8,22]]},text:'每天 08:00–22:00'},
     /* 公館三間＋汀州路三間的室內（GG-SHOPS3-SYS-1110；AA_742 開頭的表，企劃線 75f5de658；區域＝src/tz_shops3d.js，台詞與打烊＝src/gg3shops3d.js）；颱風天都關（typhoonShops，洗樂照 AA_742「一律關比較穩」）。
        印得好：期末考週和前一週延到 24:00（finalsClose；溫州街阿德影印的 examClose 是期中、期末都延，這間只有期末）；洗樂 24 小時（只寫說明，和便利商店一樣）*/
     gg_antai:{shop:true,rules:{week:[[10,18],[9,22],[9,22],[9,22],[9,22],[9,22],[9,22]]},text:'週一～六 09:00–22:00、週日 10:00–18:00'},

@@ -34,6 +34,7 @@ await sec(0,()=>{ check('0. 程式載得到（xs_close3d.js 和各家打烊系�
   check('0. index.html 載入 xs_close3d.js（在各家系統後面）',html.indexOf('src/xs_close3d.js')>html.indexOf('src/guitar3d.js')&&html.indexOf('src/guitar3d.js')>0);
   const want={xs_shanlan:'店員',xs_nanyang:'店員',xs_nanyang_hall:'店員',xs_dabu:'店員',xs_haopai:'老闆',xs_xsports:'店員',cafe:'店員',wz_brunch:'店員',wz_print:'老闆',wz_teahouse:'店員',wz_lin:'老闆',wz_teishoku:'老闆',bikeshop:'老闆',us_asian_market:'店員',
     l118_dian:'老闆娘',l118_self:'店員',l118_tea:'店員',l118_home:'老闆娘',l118_cafe2:'店員',l118_pasta:'老闆',l118_korea:'老闆',l118_omu:'店員',l118_noodle2:'老闆',
+    noodle:'店員',bookstore:'店員',us_market:'店員',tz_limao:null,   /* AA_831 的四間（SHOP-STANDARD-BACKFILL-1112；禮貌生財店裡沒有人＝不說那一句，細節在 tests/shop_hours_aa831_1112_unit.js）*/
     afar:'店員',daybreak:'店員',aoki:'店員',wz_offbeat:'店員',wz_mokuyobi:'老闆',xs_tongxian:'老闆',yangyang:'老闆',corner_records:'店員'};   /* 洋洋鹹酥雞（YANGYANG-IN-1107）：自己的打烊系統（gg2shops3d.js），說話的人老闆、字照 AA_700（AA_724 第 7 節 bf5c3e6c6）；細節在 tests/yangyang_shop_unit.js */
   const bad=Object.keys(want).filter(z=>X.whoOf(z)!==want[z]);
   check('0. 表上 '+Object.keys(want).length+' 個區域、說話的人（店員／老闆）',!bad.length&&Object.keys(X.ZONES).length+Object.keys(X.PLACE_OF).length===Object.keys(want).length,J(bad.map(z=>[z,X.whoOf(z)])));
@@ -46,13 +47,13 @@ const at=(d,h)=>h>=24?[d+1,h-24]:[d,h];
 const exitIT=z=>{ const C=X.ZONES[z]; return C.out?[]:[{x:0,z:0,radius:1,label:'出口',exit:{to:C.to||'us_market_street',spawn:{x:9,z:8,yaw:1}}}]; };
 const tickWait=async()=>{ const r=X.tick(GM); await sleep(5); return r; };
 await sec(1,async()=>{ const rows=[]; let ok=0;
-  for(const z of Object.keys(X.ZONES)){ const p=pick(z); if(!p){ rows.push([z,'找不到有開的那一天']); continue; } const C=X.ZONES[z];
+  for(const z of Object.keys(X.ZONES)){ if(X.ZONES[z].mute) continue;   /* 禮貌生財：不說那一句（tests/shop_hours_aa831_1112_unit.js 第 3 節）*/ const p=pick(z); if(!p){ rows.push([z,'找不到有開的那一天']); continue; } const C=X.ZONES[z];
     const [d0,h0]=at(p.d,p.a+0.2); fresh(d0,h0,z); GM.enterN=100; E.interactables=exitIT(z); E.player.seat={x:0,z:0};
     const r0=await tickWait(); const [d1,h1]=at(p.d,p.c+0.1); H.G.day=d1; H.G.hour=h1;
     const r1=await tickWait(); const out=C.out?C.out():{x:9,z:8,yaw:1}, to=C.out?(C.to||'xinsheng'):(C.to||'us_market_street');
     const good=r0===false&&r1===true&&J(said())===J([[C.who,LINE]])&&H.entered.length===1&&H.entered[0]===to&&stood===1&&!toasts.length&&H.cards.length===0;
     if(good) ok++; else rows.push([z,{r0,r1,said:said(),entered:H.entered,toasts:toasts.slice(),stood,out}]); }
-  check('1. 每一間（'+Object.keys(X.ZONES).length+'）開著的時候進來、最後一段營業結束：剛好一句（'+LINE+'，店員／老闆照表）、站起來、走到門口外面、沒有別的字',!rows.length,J(rows)); });
+  check('1. 每一間（'+Object.keys(X.ZONES).filter(z=>!X.ZONES[z].mute).length+'）開著的時候進來、最後一段營業結束：剛好一句（'+LINE+'，店員／老闆照表）、站起來、走到門口外面、沒有別的字',!rows.length,J(rows)); });
 await sec(1.1,async()=>{ /* 走到哪：表上的 out（新生南路店門外、118 巷店門口）；有 spawn 的照它 */
   const pos=[]; const orig=GM.enter; GM.enter=async(z,s)=>{ pos.push([z,s]); H.G.zone=z; };
   try{ for(const z of ['xs_haopai','l118_dian','wz_lin']){ const p=pick(z); fresh(...at(p.d,p.a+0.2),z); GM.enterN=110; E.interactables=exitIT(z); await tickWait(); const [d1,h1]=at(p.d,p.c+0.1); H.G.day=d1; H.G.hour=h1; await tickWait(); } }
@@ -83,8 +84,8 @@ await sec(3,async()=>{ /* 2026-11-12（SHOP-LIFE-AUDIT-1112）改期望——舊
   try{ fresh(p.d,10,'wz_brunch'); GM.enterN=304; E.interactables=exitIT('wz_brunch'); const r5=await tickWait();
     check('3. 颱風天（店整天沒開）還在店裡：不說，走出去、寫颱風假',r5===true&&!H.said.length&&toasts.length===1&&/颱風/.test(toasts[0]),J([said(),toasts])); }
   finally{ PLACES.typhoonClosed=TC; } });
-await sec(4,async()=>{ const res=[]; for(const [z,h] of [['cvs',3],['xs_dakou',4],['library_hall',23],['noodle',23]]){ fresh(BASE,h,z); GM.enterN=400; const r=await tickWait(); res.push(r===false&&!H.said.length&&!H.entered.length); }
-  check('4. 24 小時的店（日和便利店 03:00、大口漢堡 04:00）、不是店（總圖 23:00）、沒有營業時間的店（阿鳳麵店）：沒有這一句、不請你出去',res.every(Boolean)&&!X.ZONES.cvs&&!X.ZONES.xs_dakou&&!X.PLACE_OF.cvs,J(res)); });
+await sec(4,async()=>{ const res=[]; for(const [z,h] of [['cvs',3],['xs_dakou',4],['library_hall',23]]){ fresh(BASE,h,z); GM.enterN=400; const r=await tickWait(); res.push(r===false&&!H.said.length&&!H.entered.length); }
+  check('4. 24 小時的店（日和便利店 03:00、大口漢堡 04:00）、不是店（總圖 23:00）：沒有這一句、不請你出去',res.every(Boolean)&&!X.ZONES.cvs&&!X.ZONES.xs_dakou&&!X.PLACE_OF.cvs,J(res)); });
 await sec(5,async()=>{ const rows=[];
   const sys=[['afar',()=>GG2.closeOut(GM),'gongguan'],['daybreak',()=>GG2.closeOut(GM),'gongguan'],['aoki',()=>GGS.closeOut(GM),'gongguan'],['wz_offbeat',()=>OFFB.closeOut(GM),'wenzhou'],['wz_mokuyobi',()=>MOKS.closeOut(GM),'wenzhou'],['xs_tongxian',()=>GUITAR.closeOut(GM),'xinsheng'],['yangyang',()=>GG2.closeOut(GM),'gongguan'],['corner_records',()=>GG2.closeOut(GM),'gongguan']];   /* 轉角唱片（CORNER-IN-1107）*/   /* 洋洋鹹酥雞（YANGYANG-IN-1107；01:00 打烊＝隔天 01:06）*/
   for(const [z,fn,to] of sys){ const place=X.PLACE_OF[z]; let d=BASE, ws; for(;d<BASE+14;d++){ ws=X.windows(place,d); if(ws&&ws.length) break; } const c=Math.max(...ws.map(w=>w[1]));

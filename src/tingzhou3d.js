@@ -99,14 +99,16 @@ const TZ3=(function(){
     // 禮貌生財（X332）：巷 A 後段南側靠公館那一端，一樓退成騎樓——騎樓裡走得進去；兩根柱子、算命桌（連兩張椅子、盆栽）擋住；門前留通道
     const LM=L.limao; let lm=null; if(LM){ const T=LM.table; open(LM.x0+0.25,A.z1-0.5,LM.x1-0.25,LM.z+LM.dep-0.5); for(const p of LM.pillars) nav.blockRect(p[0],p[1],0.7,0.7,0);
       nav.blockRect(T.x,T.z,T.w+0.2,T.d+1.5,0); for(const p of (LM.plants||[[T.x+0.95,T.z+0.55]])) nav.blockRect(p[0],p[1],0.5,0.5,0);   /* 盆栽：第 2 版兩盆（配置 limao.plants） */ lm={open:false,masterAway:false,table:T,door:null,nodes:{}}; }
-    S.limaoOpen=function(h,L2){ const q=(L2||LAY()).limao; return !!q&&h>=q.from&&h<q.to; };
+    S.limaoOpen=function(h,L2){ const q=(L2||LAY()).limao; if(!q) return false;
+      if(typeof PLACES!=='undefined'&&PLACES.isOpen&&PLACES.hours&&PLACES.hours[q.zone]){ const G=typeof GAME!=='undefined'&&GAME?GAME.G:null; return PLACES.isOpen(q.zone,((h%24)+24)%24,G?G.day:undefined); }   /* 營業時間照 places.js（AA_831：14:00～21:00、週一公休；SHOP-STANDARD-BACKFILL-1112，LAWWW）；沒有那一份＝配置的 from／to */
+      return h>=q.from&&h<q.to; };
     nav._cm=null;
     const zoneTime=(h,E2)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E2&&E2.hemi) E2.hemi.intensity+=0.7*k; for(const p of pools) if(p.material) p.material.opacity=0.55*k; 
       const hc=S.clockHour(h,E2);   /* 營業／收攤照時鐘（LAWWW 2026-11-11：引擎傳進來的 h 是光線用的時間——冬天 17:30 的 h 是 19.2，模型會比能買的時間早開一個多小時；CC 看到「模型開著、按下去是收攤那一句」）；燈和夜色照舊用 h */
       let on=false; const off=zone.tzStallOff||{}; for(const q of stalls){ const o=!zone.tzStallsClosed&&!off[q.id]&&S.stallOpen(hc,q,L); q.isOpen=o; on=on||o; if(q.open) q.open.visible=o; if(q.closed) q.closed.visible=!o; }
       if(lm){ const o=S.limaoOpen(hc,L)&&!zone.tzLimaoOff, N=lm.nodes, room=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[LM.zone]; lm.open=o; lm.masterAway=o&&!!zone.tzLimaoAway;
         if(N.LIMAO_TABLE_open) N.LIMAO_TABLE_open.visible=o; if(N.LIMAO_TABLE_closed) N.LIMAO_TABLE_closed.visible=!o; if(N.LIMAO_SHOPLIGHT) N.LIMAO_SHOPLIGHT.visible=o;
-        if(lm.door){ const d=lm.door; if(o&&room){ d.label='進'+LM.name; d.exit={to:LM.zone}; delete d.look; } else { d.label='看'+LM.name; delete d.exit; d.look=o?LM.name+'。':LM.name+'。門關著，裡面沒有開燈。'; } } }   /* 關著的那一句是暫定的（AA 可以改） */
+        if(lm.door){ const d=lm.door; if(o&&room){ d.label='進'+LM.name; d.exit={to:LM.zone}; delete d.look; } else { d.label='看'+LM.name; delete d.exit; d.look=o?LM.name+'。':((typeof SH831!=='undefined'&&SH831.line&&SH831.line(LM.zone))||LM.name+'。門關著，裡面沒有開燈。'); } } }   /* 關著的那一句＝AA_831（src/data/shop_hours_aa831.js）；資料沒載到才是原本暫定的那一句 */
       if(zone.tzStallMat) zone.tzStallMat.emissiveIntensity=0.25+0.85*k; if(zone.tzGlowMat) zone.tzGlowMat.emissiveIntensity=0.4+1.4*k; zone.tzStallsOn=on; };
     const FG=L.fromGongguan, zone={group:g,nav,spawn:{x:FG.x,z:FG.z,yaw:FG.yaw},lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.tingzhou_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.tingzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;

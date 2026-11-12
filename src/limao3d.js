@@ -97,7 +97,9 @@ const LM=(function(){
 
   /* ---------- 營業 ---------- */
   S.typhoon=G=>{ try{ return !!(CAL()&&CAL().typhoon&&CAL().typhoon(G.day)); }catch(e){ return false; } };
-  S.openAt=function(G){ const L=LAY(); if(!L||!G) return false; const h=S.hour(G); return h>=L.from&&h<L.to&&!S.typhoon(G); };
+  S.openAt=function(G){ const L=LAY(); if(!L||!G) return false; const h=S.hour(G);
+    if(typeof PLACES!=='undefined'&&PLACES.isOpen&&PLACES.hours&&PLACES.hours.tz_limao) return PLACES.isOpen('tz_limao',h,G.day);   /* AA_831：14:00～21:00、週一公休（places.js；颱風假也在裡面）；和街上的模型（tingzhou3d.js S.limaoOpen）同一份 */
+    return h>=L.from&&h<L.to&&!S.typhoon(G); };
   S.sync=function(zone,G){ if(zone&&G) zone.tzLimaoOff=S.typhoon(G); };
   /* 現在能不能在桌前找他：店開著、他在、祐廷是法律系學生（稿的句子都是法律系的；經濟系那一年沒有稿）*/
   S.canTalk=function(G,zone){ if(!D()||!G||!S.term(G)) return false; if(zone&&(zone.tzLimaoOff||zone.tzLimaoAway)) return false; return S.openAt(G); };
