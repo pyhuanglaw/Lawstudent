@@ -176,3 +176,17 @@
 [14:26:40] [res] cpu=9% mem=34% (10.8/31.4 GB) chrome_testing=0  START ST4_a_ccgpu
 [14:27:48] 正在跑：ST4_a_ccgpu（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [14:28:25] [res] cpu=10% mem=35% (11.1/31.4 GB) chrome_testing=0  END ST4_a_ccgpu
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       fe70d9bd7..114057206  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:28:30] ==== END   ST4_a_ccgpu  exit=0  108s   ====
+[14:28:39] memory 35% before starting X352_DABU_new (0 running)
+[14:28:39] memory 35% before starting X352_DABU_old (1 running)
+[14:28:39] ==== START X352_DABU_new  (probe @ 207a8216d90c98f979b857f258e496209c2499a8) ====
+[14:28:39] solo item ST4_a2_pwdefault waits: no new items start until the 2 running item(s) finish
+[14:28:39] ==== START X352_DABU_old  (probe @ dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c) ====
+[14:28:42] [res] cpu=7% mem=35% (11.2/31.4 GB) chrome_testing=0  START X352_DABU_old
+[14:28:42] [res] cpu=7% mem=35% (11.2/31.4 GB) chrome_testing=0  START X352_DABU_new
+[14:29:00] worktree add 207a8216d90c98f979b857f258e496209c2499a8: invalid reference - fetching main and the commit itself
+[14:32:48] 正在跑：X352_DABU_new（已跑 4 分／上限 40 分）、X352_DABU_old（已跑 4 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:36:50] [res] cpu=20% mem=41% (13.1/31.4 GB) chrome_testing=5  END X352_DABU_old
