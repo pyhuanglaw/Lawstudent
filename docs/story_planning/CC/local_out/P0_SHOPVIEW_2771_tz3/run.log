@@ -1,0 +1,33 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shop_view_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\P0_SHOPVIEW_2771_tz3\out
+CC SHOP-INTERIOR-VIEW：SHA 27710fb9673ec113f5cdf8f532dd0f66dfeb4b37；SHOPS taimi,dongnan,liantong；HOURS [14.0, 20.5]；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS [taimi] 有 TZ_SHOPS_LAYOUT.taimi
+  [前置／捷徑] [泰米村食 tz_taimi 1400] 【前置／捷徑】讀檔進店 tz_taimi 2025-10-22 14.00 時 spawn (0.15, 3.20)
+  [前置／捷徑] [泰米村食 tz_taimi 1400] 【前置／捷徑】讀檔到門外 tingzhou (-5.40, -1.00)
+  [  62.9s] [泰米村食 tz_taimi 1400] 店員 [{"id": "", "name": "", "x": 1.3, "z": -3.45, "seat": false}]、客人 0、門 [{"label": "離開泰米村食", "x": 0.15, "z": 4.55}]；每張（洋紅%／中央標準差／上半中間平均色）：{"5_game": [0, 45, [125, 103, 77]], "1_entry": [0, 64.5, [199, 181, 156]], "2_window": [0, 56.4, [189, 177, 157]], "3_counter": [0, 43.1, [126, 117, 100]], "4_outside": [0, 43.7, [73, 51, 23]]}
+PASS [泰米村食 tz_taimi 1400] 拍到 5 張  ["5_game", "1_entry", "2_window", "3_counter", "4_outside"]
+  [前置／捷徑] [泰米村食 tz_taimi 2030] 【前置／捷徑】讀檔進店 tz_taimi 2025-10-22 20.50 時 spawn (0.15, 3.20)
+  [前置／捷徑] [泰米村食 tz_taimi 2030] 【前置／捷徑】讀檔到門外 tingzhou (-5.40, -1.00)
+  [  90.0s] [泰米村食 tz_taimi 2030] 店員 [{"id": "", "name": "", "x": 1.3, "z": -3.45, "seat": false}]、客人 0、門 [{"label": "離開泰米村食", "x": 0.15, "z": 4.55}]；每張（洋紅%／中央標準差／上半中間平均色）：{"5_game": [0, 32.3, [118, 76, 32]], "1_entry": [0, 58.7, [201, 160, 118]], "2_window": [0, 53.4, [179, 152, 122]], "3_counter": [0, 34.5, [130, 91, 44]], "4_outside": [0, 43.7, [67, 45, 21]]}
+PASS [泰米村食 tz_taimi 2030] 拍到 5 張  ["5_game", "1_entry", "2_window", "3_counter", "4_outside"]
+PASS [dongnan] 有 TZ_SHOPS_LAYOUT.dongnan
+  [前置／捷徑] [東南大聯商行 tz_dongnan 1400] 【前置／捷徑】讀檔進店 tz_dongnan 2025-10-22 14.00 時 spawn (0.00, 2.90)
+  [前置／捷徑] [東南大聯商行 tz_dongnan 1400] 【前置／捷徑】讀檔到門外 tingzhou (-5.40, 16.75)
+  [ 116.5s] [東南大聯商行 tz_dongnan 1400] 店員 [{"id": "", "name": "", "x": 2.5, "z": 3.3, "seat": false}]、客人 0、門 [{"label": "離開東南大聯商行", "x": 0, "z": 4.05}]；每張（洋紅%／中央標準差／上半中間平均色）：{"5_game": [0, 57.4, [149, 124, 91]], "1_entry": [0, 61, [188, 176, 157]], "2_window": [0, 51.4, [184, 174, 156]], "3_counter": [0, 54.2, [161, 146, 122]], "4_outside": [0, 43.5, [131, 102, 60]]}
+PASS [東南大聯商行 tz_dongnan 1400] 拍到 5 張  ["5_game", "1_entry", "2_window", "3_counter", "4_outside"]
+  [前置／捷徑] [東南大聯商行 tz_dongnan 2030] 【前置／捷徑】讀檔進店 tz_dongnan 2025-10-22 20.50 時 spawn (0.00, 2.90)
+  [前置／捷徑] [東南大聯商行 tz_dongnan 2030] 【前置／捷徑】讀檔到門外 tingzhou (-5.40, 16.75)
+  [ 141.7s] [東南大聯商行 tz_dongnan 2030] 店員 [{"id": "", "name": "", "x": 2.5, "z": 3.3, "seat": false}]、客人 0、門 [{"label": "離開東南大聯商行", "x": 0, "z": 4.05}]；每張（洋紅%／中央標準差／上半中間平均色）：{"5_game": [0, 55, [152, 122, 86]], "1_entry": [0, 66.4, [196, 181, 161]], "2_window": [0.03, 60.5, [178, 167, 148]], "3_counter": [0, 55, [164, 147, 121]], "4_outside": [0, 42.3, [123, 91, 46]]}
+PASS [東南大聯商行 tz_dongnan 2030] 拍到 5 張  ["5_game", "1_entry", "2_window", "3_counter", "4_outside"]
+PASS [liantong] 有 TZ_SHOPS_LAYOUT.liantong
+  [前置／捷徑] [汀州聯通 tz_liantong 1400] 【前置／捷徑】讀檔進店 tz_liantong 2025-10-22 14.00 時 spawn (1.15, 1.85)
+  [前置／捷徑] [汀州聯通 tz_liantong 1400] 【前置／捷徑】讀檔到門外 tingzhou (-5.40, 10.75)
+  [ 165.6s] [汀州聯通 tz_liantong 1400] 店員 [{"id": "", "name": "", "x": 0.8, "z": -2.5, "seat": false}]、客人 0、門 [{"label": "離開汀州聯通", "x": 1.15, "z": 3.05}]；每張（洋紅%／中央標準差／上半中間平均色）：{"5_game": [0, 54.3, [160, 156, 152]], "1_entry": [0, 62.6, [188, 182, 173]], "2_window": [0, 53, [187, 183, 180]], "3_counter": [0, 58, [145, 143, 143]], "4_outside": [0, 39.3, [100, 100, 98]]}
+PASS [汀州聯通 tz_liantong 1400] 拍到 5 張  ["5_game", "1_entry", "2_window", "3_counter", "4_outside"]
+  [前置／捷徑] [汀州聯通 tz_liantong 2030] 【前置／捷徑】讀檔進店 tz_liantong 2025-10-22 20.50 時 spawn (1.15, 1.85)
+  [前置／捷徑] [汀州聯通 tz_liantong 2030] 【前置／捷徑】讀檔到門外 tingzhou (-5.40, 10.75)
+  [ 190.4s] [汀州聯通 tz_liantong 2030] 店員 [{"id": "", "name": "", "x": 0.8, "z": -2.5, "seat": false}]、客人 0、門 [{"label": "離開汀州聯通", "x": 1.15, "z": 3.05}]；每張（洋紅%／中央標準差／上半中間平均色）：{"5_game": [0, 61.7, [178, 168, 159]], "1_entry": [0, 68.7, [203, 194, 183]], "2_window": [0, 60.5, [194, 186, 177]], "3_counter": [0, 61.6, [174, 168, 163]], "4_outside": [0, 42.8, [88, 82, 76]]}
+PASS [汀州聯通 tz_liantong 2030] 拍到 5 張  ["5_game", "1_entry", "2_window", "3_counter", "4_outside"]
+PASS 沒有 JS 例外  []
+ALL PASS
