@@ -24302,6 +24302,13 @@
    "branch": "claude/funny-albattani-iawshm",
    "coveredBy": "DLV-1110-L2-WALLBASE3",
    "reason": "#204 第三批 WIP 那一步；同一批由交件 134c01b93 交、faf1b75a4 整合；LAWWW-B 11-10 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "b711530d",
+   "kind": "not_delivery",
+   "role": "BB",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "reason": "BB-C 把自己分支上別人檔案的舊副本同步成負責分支最新版、清掉舊名；不是交付，沒有要整合的東西；LAWWW-C 11-12 incr 分類（D94）"
   }
  ],
  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"

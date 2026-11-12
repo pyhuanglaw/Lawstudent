@@ -55122,6 +55122,696 @@
     "ack": "DELIVERED",
     "acceptance": "BB 照 §12 第 1 點（⑦b）判 PASS"
    }
+  },
+  {
+   "id": "ART-02-GONGTONG-1021",
+   "title": "共同教學館教室（LAWWW2 outbox 第 76 筆）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 76 筆（LAWWW2 8b38e054）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 76 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "WZ-SHRINE-TRAP-1028",
+   "title": "溫州街公園土地公走不到（outbox 第 193 筆）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 193 筆（LAWWW2 984f24dc1）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 193 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "ADE-PROPS-1104",
+   "title": "阿德影印門口電線桿、機車（outbox 第 284 筆）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 284 筆（LAWWW2 8200806e2）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 284 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "BACKFACE-HAOPAI-1109",
+   "title": "BACKFACE-HAOPAI-1109：好拍右牆洞洞板翻正＋自己的光照（BB-B 選 (b)）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 330 筆（LAWWW2 fd585f991）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 330 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "WZ5-SKYTINT-REBAKE",
+   "title": "#196 溫州街五間白天光照照 --skytint 重烘（SUNNY SIDE、小路、木曜日、日常失速、阿德）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 332 筆（LAWWW2 aad8d3839）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 332 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "US-APT-BATHDOOR-SPLIT",
+   "title": "#204 美國公寓 WALL_bath_n_door 兩片開著的門板拆成兩個節點（LAWWW-B 18:37 派）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 333 筆（LAWWW2 e6f83d010）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 333 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "LM-FILL-COVERED",
+   "title": "#204 外牆腳黑線：宿舍四人房、205、萬才一樓、大口一樓、茶屋補光照貼圖（lm_fill_covered；LAWWW-B 19:42 派 1～4）（共 3 筆交付）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 335、337、341 筆（LAWWW2 7e11170d7、70097274a、134c01b93）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 335 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "LM-MEM-BATCH-AUDIT",
+   "title": "#204 記憶體不夠的 12 間：分批版盤點（只讀，不改檔）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 336 筆（LAWWW2 a81a8c837）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 336 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "XS-BRICK-WALK-1110",
+   "title": "XS-BRICK-WALK-1110 新生南路紅磚人行道磚紋（X246）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 377 筆（LAWWW2 4ec912641）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 377 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "LAKE-WILLOW-V2-1110",
+   "title": "映月湖垂柳第 2 版（BB_255 P3 從上面看像枯樹）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 382 筆（LAWWW2 058d6bdd2）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 382 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "US-NIGHTVIEW-1110",
+   "title": "US-NIGHTVIEW-1110 BB US_ART 第一批三項 P2（公寓臥室、超市結帳區窗外的日夜；圖書館服務台）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 385 筆（LAWWW2 dfd5ee2b8）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 385 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "GG-LANE-SIGN-1110",
+   "title": "GG-LANE-SIGN-1110 公館巷口告示牌的字被切掉（BB P3）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 390 筆（LAWWW2 d4f05712e）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 390 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "TZ-SCOOTERS-1110",
+   "title": "汀州路路邊機車（使用者 11-10 21:5x「長得幾乎一樣莫名其妙」；BB 收回街景 ART_APPROVED）：一群一群停、有空位、角度不一、有腳踏車",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 398 筆（LAWWW2 525dc11eb）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 398 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "ART-PACK3-1111",
+   "title": "ART-PACK3-1111 美術第三包：禮貌生財場景第 2 版＋室內隔牆鏡頭（P1）、汀州鮮果／印得好 trapFix 的地方放箱子、汀州鮮果外觀第 3 版、夜市棚子可透視和燈泡",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 411 筆（LAWWW2 3d4107ca1）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 411 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "ART-PACK4-1111",
+   "title": "ART-PACK4-1111 美術第四包：SCOOTER-ACC-1111 機車配件三款（擋風鏡、腳踏板的袋子、蓋座墊的雨衣）＋XS-TONGXIAN-SIGN-1111 同弦樂器招牌（BB P2）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 413 筆（LAWWW2 535ce76a5）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 413 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "ART-PACK5-1111",
+   "title": "ART-PACK5-1111 第五包：TZS-CEIL-1111 七間室內天花板（禮貌生財鏡頭整片米色的真正原因，P0）＋FN-STAIRTOP-POCKET-1111 花序二樓樓梯口＋NM-STALL-SEETHRU-1111 攤位全部可透視、手機殼攤背面",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 414 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 414 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "ART-PACK6-1111",
+   "title": "ART-PACK6-1111 第六包：TZ-ALLEY-CAMCOL-1111 汀州路巷 A 深處兩側的鏡頭碰撞盒（一個地球那張整面牆）＋XS-SCOOTERS-1111 新生南路路邊機車（我漏接的）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 416 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 416 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "ART-PACK7-1111",
+   "title": "ART-PACK7-1111 第七包：算命桌桌燈籤筒挪開（BB 看完人物後唯一要動的）、節日的燈在遊戲裡變白光、公館 G01 燈籠埋進招牌、新生南路配件車三款各指定一台",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 418 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 418 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "L118-IT-REACH-1111",
+   "title": "L118-IT-REACH-1111：118牛排、辛亥韓食的座位按鈕位置從 L118_IT_FIX 搬回 lane118_shops.py（LAWWW 08:48）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 426 筆（LAWWW2 （這個 commit））在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 426 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "L118-P2-1111",
+   "title": "P2（LAWWW 09:41，發版後）：義大麵屋吧台凳往外＋前板內縮；奈良咖哩、義大麵屋窗上海報背面",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 429 筆（LAWWW2 988dfcbe2）在總表沒有任務。前幾班交付、當時由值班 LAWWW 接；是不是全部在開發分支【待查】——查完補 sha，沒進的改回已實作待整合；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 429 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "DONGNAN-GOODS-1112",
+   "title": "DONGNAN-GOODS-1112 第 2 包（飲料籃、紙箱、大鐵罐）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": "14e53d6bf8",
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 446 筆（LAWWW2 2635709d4）在總表沒有任務。已在開發分支 14e53d6bf8；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 446 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "LIANTONG-SCREEN-1112",
+   "title": "LIANTONG-SCREEN-1112 聯通櫃台螢幕搬到右端",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": "444df1a2e3",
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 450 筆（LAWWW2 b48477997）在總表沒有任務。已在開發分支 444df1a2e3；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 450 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "LUWEI-STALL-3D-1112",
+   "title": "LUWEI-STALL-3D-1112 宵夜滷味攤驗收＋只有攤車的版本",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到那個地方",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": "de8d72d279",
+   "next": "【LAWWW-C 11-12 11:5x UTC】補開：LAWWW2 outbox 第 453 筆（LAWWW2 7c374c3d0）在總表沒有任務。已在開發分支 de8d72d279；BB 還沒驗",
+   "source": "LAWWW2 outbox（claude/focused-cray-c9uwvw 2b1df4ec6b）",
+   "authorized": true,
+   "xai": {
+    "from": "LAWWW2",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "outbox_LAWWW2 第 453 筆",
+    "ack": "ACK",
+    "acceptance": "BB 瀏覽器判 PASS"
+   }
   }
  ]
 }
