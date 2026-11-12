@@ -1553,7 +1553,7 @@ const Z3 = (function(){
      照 PLACES.isOpen 把顏色乘數設成 1（營業）或 0.07（打烊：店裡關燈，只看得到輪廓）；颱風停業也算打烊。map＝{模型裡的店 id: 地點 id}；沒列的店不動（一直亮著）。
      每 30 幀看一次（和 ggShopLit 一樣掛在 zone.update）。回傳 {items:[{id,place,mesh,mat,k}],upd}，也記在 zone.shopInLit（測試、CC 在瀏覽器看）。 */
   function shopInsideLit(root,zone,map){ const items=[]; if(!root||!zone||!map) return null;
-    root.traverse(o=>{ if(!o.isMesh||!o.material||Array.isArray(o.material)) return; let id=null; for(let q=o;q&&!id;q=q.parent){ const m=/^sk_in_(.+)$/.exec(q.name||''); if(m){ id=map[m[1]]?m[1]:(map[m[1].replace(/_\d+$/,'')]?m[1].replace(/_\d+$/,''):null); if(!id) return; } if(q===root) break; }
+    root.traverse(o=>{ if(!o.isMesh||!o.material||Array.isArray(o.material)) return; let id=null; for(let q=o;q&&!id;q=q.parent){ const m=/^sk_in_(.+)$/.exec(q.name||''); if(m){ const k=m[1].replace(/_\d+$/,'').replace(/_wz_in_shop$/,'').replace(/_\d+$/,''); id=map[m[1]]?m[1]:(map[k]?k:null); if(!id) return; }   /* 模型裡的名字：sk_in_<店>_wz_in_shop（合併後帶材質名）、GLTFLoader 可能再加 _1 */ if(q===root) break; }
       if(!id) return; const mat=o.material.clone(); mat.name=(o.material.name||'wz_in_shop'); mat.userData=Object.assign({},o.material.userData,{shopIn:id}); o.material=mat; items.push({id,place:map[id],mesh:o,mat,k:1}); });
     if(!items.length) return null;
     const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; const P=typeof PLACES!=='undefined'?PLACES:null;

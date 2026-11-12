@@ -1,11 +1,11 @@
 {
- "objects": 182,
- "unique_meshes": 30,
- "tris": 26099,
- "tris_drawn": 37143,
- "materials": 157,
+ "objects": 187,
+ "unique_meshes": 35,
+ "tris": 53119,
+ "tris_drawn": 64163,
+ "materials": 156,
  "out": "assets/models/env/second_ai/xinsheng_street.glb",
- "bytes": 2692200,
+ "bytes": 4753772,
  "texres": 512,
  "buildings": [
   "W00",
