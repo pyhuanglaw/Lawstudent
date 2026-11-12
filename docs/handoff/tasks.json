@@ -56599,7 +56599,14 @@
    "priority": "P1",
    "status": "進行中",
    "src": "AA-C 11-12 22:02（表外，LAWWW-C 開）",
-   "next": "【LAWWW-C 11-12 22:0x】AA 分三類：別系／家教學生／美國交換的期中（留）、期中週／學期中講時段（留）、法律系期中考（換）；寫成 AA_923，交件後 LAWWW 匯入、BB 測。"
+   "next": "【LAWWW-C 11-12 22:1x 交班】AA_923 定稿 96c3a668eb（BB_449）；src 手改列與 ladder／約會 D09／syllabus 重匯併在 CANON 第五批（docs/handoff/canon_b5_1112/README.md），還沒進開發分支。｜【LAWWW-C 11-12 22:0x】AA 分三類：別系／家教學生／美國交換的期中（留）、期中週／學期中講時段（留）、法律系期中考（換）；寫成 AA_923，交件後 LAWWW 匯入、BB 測。",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_923（企劃線 96c3a668eb，BB_449 照用）",
+    "acceptance": "AA_923 進開發分支＋BB 瀏覽器",
+    "ack": "ACK"
+   }
   }
  ]
 }
