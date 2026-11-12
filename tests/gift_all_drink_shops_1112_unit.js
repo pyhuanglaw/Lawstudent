@@ -17,7 +17,7 @@ const fs=require('fs'), path=require('path'), vm=require('vm');
 const rd=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8');
 global.Z3=global.Z3||{ZONES:{}};
 const loadErr=[];
-for(const f of ['src/data/lane118_shops.js','src/data/night_market.js','src/data/season_stalls.js','src/data/gg3_shops_lines.js','src/data/eat_lines.js','src/eat3d.js','src/data/gift_lines.js','src/gift3d.js',
+for(const f of ['src/data/lane118_shops.js','src/data/night_market.js','src/data/season_stalls.js','src/data/gg3_shops_lines.js','src/data/tz_meal_lines.js','src/data/tz_grocery_lines.js','src/data/eat_lines.js','src/eat3d.js','src/data/gift_lines.js','src/gift3d.js',
   'src/ggshops_sys3d.js','src/dakou_sys3d.js','src/offbeat_sys3d.js','src/mokuyobi_sys3d.js','src/gg2shops3d.js','src/gg3shops3d.js','src/wzshops3d.js','src/night_market3d.js','src/season_stalls3d.js','src/gym3d.js','src/lane118.js']){
   try{ let s=rd(f); s=s.replace(/^const (\w+)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); }catch(e){ if(!(f==='src/gym3d.js'&&typeof GY3!=='undefined')) loadErr.push(f+'：'+String(e).slice(0,160)); } }
 const J=x=>JSON.stringify(x), same=(a,b)=>J(a)===J(b);
@@ -44,6 +44,7 @@ const SHOPS=()=>[
   {key:'Daybreak',rows:GG2.L.daybreak.menu,drinks:['拿鐵']},
   {key:'洋洋鹹酥雞',rows:[].concat(...GG2.L.yangyang.menu.map(c=>c[1])),drinks:['紅茶','可樂']},
   {key:'泰米村食',rows:GG3_LINES.tz_taimi.menu,drinks:['泰式奶茶']},
+  {key:'越好吃小館',rows:GG3_LINES.tz_yuehaochi.meal.menu,drinks:['越南冰咖啡']},{key:'客居雲南',rows:GG3_LINES.tz_keju.meal.menu,drinks:['冰普洱茶']},{key:'東南大聯商行',rows:GG3_LINES.tz_dongnan.grocery.goods.filter(g=>!g.noBuy),drinks:['瓶裝泰式奶茶']},   /* SHOP-STANDARD-BACKFILL-1112 */
   {key:'沈三盃黑糖鮮奶',rows:NIGHT_MARKET.stalls.s01.items,drinks:['黑糖珍珠鮮奶','黑糖鮮奶','黑糖珍珠奶茶','黑糖鮮奶茶','黑糖珍珠鮮奶（熱）']},
   {key:'節節高甘蔗汁',rows:NIGHT_MARKET.stalls.s09.items,drinks:['甘蔗汁・中杯','甘蔗汁・大杯']},
   {key:'體育館販賣機',rows:GY3.VEND,drinks:['運動飲料','無糖綠茶','罐裝咖啡']},

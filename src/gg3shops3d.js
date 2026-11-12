@@ -256,7 +256,8 @@ const GG3=(function(){
     const bk=[], tot=()=>bk.reduce((a,q)=>a+q.p,0);
     for(;;){ const its=M.menu.filter(it=>!bk.includes(it));   /* 一樣最多一份 */
       const opts=its.map(it=>({t:it.n+'　'+it.p+' 元'})); if(bk.length) opts.push({t:S.SYS.done,hint:bk.map(q=>q.n).join('、')+'　共 '+tot()+' 元'}); opts.push({t:S.SYS.no});
-      const c=await GM.choose(opts);
+      const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,T.name):null; if(gO) opts.push(gO);   /* 買一份帶走送人（店面標準 §12 第 4 點；放在最後，原本的選項位置不動）*/
+      const c=await GM.choose(opts); if(gO&&c===opts.length-1){ await GIFT.buy(GM,T.name); continue; }
       if(c>=0&&c<its.length){ bk.push(its[c]); continue; }
       if(!(bk.length&&c===its.length)) return null; break; }
     const names=bk.map(q=>q.n), total=tot();
@@ -291,7 +292,8 @@ const GG3=(function(){
   S.groceryShelf=async function(GM,kind){ const k=GM.G.zone, T=D()[k], X=T.grocery, ids=S.hand(GM), took=[]; const t=S.look(k,kind); if(t) await GM.say(null,t);
     for(;;){ const its=X.goods.filter(g=>g.at===kind&&!g.noBuy&&!ids.includes(g.id)); if(!its.length) break;   /* 一樣最多一份；這個貨架的都拿了＝不再問 */
       const hs=S.handGoods(GM), no={t:S.SYS.no}; if(hs.length) no.hint=handHint(hs);
-      const c=await GM.choose(its.map(g=>({t:g.n+'　'+g.p+' 元',hint:g.line})).concat([no])); if(!(c>=0&&c<its.length)) break;
+      const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(GM.G,T.name,X.goods.filter(g=>g.at===kind&&!g.noBuy)):null;   /* 這個貨架有飲料＝可以買一份帶走送人（櫃檯另外結，照 GIFT.buy 當場付）*/
+      const c=await GM.choose(its.map(g=>({t:g.n+'　'+g.p+' 元',hint:g.line})).concat(gO?[no,gO]:[no])); if(gO&&c===its.length+1){ await GIFT.buy(GM,T.name,X.goods.filter(g=>g.at===kind&&!g.noBuy)); continue; } if(!(c>=0&&c<its.length)) break;
       ids.push(its[c].id); took.push(its[c].n); if(X.pick) await GM.say(null,X.pick); }   /* 拿起一樣：稿的 pick 那一句旁白 */
     return took.length?took.join('、'):(t||null); };
   S.groceryPay=async function(GM){ const G=GM.G, k=G.zone, T=D()[k], X=T.grocery, B=W(T.who), gs=S.handGoods(GM), ids=S.hand(GM);

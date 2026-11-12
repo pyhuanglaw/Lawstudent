@@ -57,7 +57,6 @@ const KNOWN_FAIL=[].concat(
   KF(T_BACK,'quick','us_asian_market us_market'),
   KF(T_BACK,'buy','us_asian_market us_market'), KF(T_BACK,'nomoney','us_asian_market us_market'),
   KF(T_BACK,'text','tz_limao us_asian_market us_market'),
-  KF(T_BACK,'gift','tz_yuehaochi tz_dongnan tz_keju'),
   KF(T_BACK,'tend','stall:lane118:drink_a stall:lane118:drink_b stall:wenzhou:fruit'),   /* 夜市 13 攤 2026-11-12 已放人（src/shoplife3d.js S.placeTenders）；這三個要 LAWWW2 給站的位置 */
   []);
 

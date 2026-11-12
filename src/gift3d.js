@@ -66,6 +66,8 @@ const GIFT=(function(){
     'Daybreak':{rows:()=>{ const s=g_('GG2'); return s?s.L.daybreak.menu:[]; }},
     '洋洋鹹酥雞':{rows:()=>{ const s=g_('GG2'); return s?[].concat(...s.L.yangyang.menu.map(c=>c[1])):[]; },drink:r=>g_('GG2').L.yangyang.drinks.includes(r[0])},
     '泰米村食':{rows:G=>{ const s=g_('GG3'), D=g_('GG3_LINES'); return s&&D&&D.tz_taimi?D.tz_taimi.menu.map(it=>({n:it.n,p:s.taimiPrice(it,G),desc:it.desc})):[]; },drink:r=>g_('GG3').TAIMI_CAT(r.n)==='drink',temp:r=>/冰的/.test(r.desc||'')?'cold':(/熱的/.test(r.desc||'')?'hot':null)},
+    '越好吃小館':{rows:()=>{ const D=g_('GG3_LINES'); return D&&D.tz_yuehaochi&&D.tz_yuehaochi.meal?D.tz_yuehaochi.meal.menu:[]; }}, '客居雲南':{rows:()=>{ const D=g_('GG3_LINES'); return D&&D.tz_keju&&D.tz_keju.meal?D.tz_keju.meal.menu:[]; }},
+    '東南大聯商行':{rows:()=>{ const D=g_('GG3_LINES'); return D&&D.tz_dongnan&&D.tz_dongnan.grocery?D.tz_dongnan.grocery.goods.filter(g=>!g.noBuy):[]; }},   /* 汀州路三間（SHOP-STANDARD-BACKFILL-1112）*/
     '沈三盃黑糖鮮奶':{rows:nmStall('s01')}, '節節高甘蔗汁':{rows:nmStall('s09')},   /* 夜市（night_market3d.js NM3.serve；季節攤販同一支，沒有賣飲料的）*/
     '體育館販賣機':{rows:()=>{ const s=g_('GY3'); return (s&&s.VEND)||[]; },opt:false} };
   /* 118 巷：資料寫 drink 的店（喝不喝咖啡、果茶社…；以後新增的也算），整份菜單都是飲料 */
