@@ -598,8 +598,9 @@
    "at": "2026-11-12T03:5x",
    "quote": "麵店團不是已經改成桌遊團了嗎 ??github上所有麵店團都刪掉 改成桌遊團",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "task": "NOODLE-NAME-PURGE-1112",
+   "wants": "X347",
    "src": "使用者直接對 BB-C；選擇題回「照四步做」",
    "note": "遊戲畫面早已是桌遊團（X182，11-03）；剩程式註解、文件。BB 文件 35 個已改（BB-C 11-12）；src 註解交 LAWWW、企劃線交 AA；舊存檔轉換清單 S.NDL_OLD_NAMES 不改（改了舊存檔轉不過來）；內部代號 noodle_team 照 D115 不改。FACTS.md 加一行交 LAWWW。"
   }
