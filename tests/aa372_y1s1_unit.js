@@ -129,7 +129,7 @@ const D2=STORY._day2||{};
     const A=evText('ev_almost_late'); check('14. 週二快遲到：「等一下還有課。你看了一眼手機，……」（大一上週二沒有 10:20 的課）',J(A)===J(['等一下還有課。你看了一眼手機，開始用走的假裝自己沒有在跑。']),J(A));
     const S=ev('ev_bohan_score').dialogue.find(l=>l&&l.consequences&&l.consequences.contact==='classmate_bohan');
     check('16. 柏翰期中放榜的最後一句：「考古題我晚上傳給你。」（8/29 起同寢，不再要聯絡方式那句），沒有聯絡方式的照樣加',!!S&&S.text==='考古題我晚上傳給你。',S&&S.text);
-    const T=evText('ev_typhoon_noodles_y1'); check('17. 颱風夜柏翰：「（在讀張教授寄來的講義）……第二十頁了。」（10/12 群組說第十二頁）',T.includes('（在讀張教授寄來的講義）……第二十頁了。')&&!T.some(t=>/第十二頁了/.test(t))); }
+    const T=evText('ev_typhoon_noodles_y1'); check('17. 颱風夜柏翰：「（在讀張教授寄來的講義）第二十頁了。」（10/12 群組說第十二頁；AA_789 拿掉「……」）',T.includes('（在讀張教授寄來的講義）第二十頁了。')&&!T.some(t=>/第十二頁了/.test(t))); }
   // ===== 第 15 項：9/4 晚上麵店阿哲 =====
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
     check('15. 9/4 晚上麵店阿哲：「所以下午你跟小安去哪了？我在球場看到你們兩個一起走。」（總圖那條路不是往校門）',src.includes("'所以下午你跟小安去哪了？我在球場看到你們兩個一起走。'")&&!src.includes('我在球場看到你們往校門走')); }

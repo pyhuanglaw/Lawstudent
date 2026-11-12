@@ -1685,11 +1685,17 @@
   },
   {
    "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",
-   "sha": "759e5c000",
+   "sha": "20d1023d20",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 18:06 UTC 交付 X67 台詞，D100 台詞歸 AA）；724d7703 末尾補 AA_336 第 A 節的指引（第 0～5 節和 c11945d0 相同）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：1-1 三句＋第 300 行 E1；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：1-5 交往中祐廷叫她「貝貝。」、第 5 節 E3",
+   "approvedBy": "AA-C 定稿（2026-10-20 18:06 UTC 交付 X67 台詞，D100 台詞歸 AA）；724d7703 末尾補 AA_336 第 A 節的指引（第 0～5 節和 c11945d0 相同）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：1-1 三句＋第 300 行 E1；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：1-5 交往中祐廷叫她「貝貝。」、第 5 節 E3；20d1023d20：AA_329 第 1-7 節可昕同系版（CANON-NO-ECON-1112，AA-C 2026-11-12 21:14 交；BB_441 採用）：together.kexin 補 ACQ／FAM／FRI、dating 換句，exFriend／exLow 照舊",
    "task": "EAT-EFFECT-1020",
-   "note": "tools/eat/import_eat_lines.py → src/data/eat_lines.js"
+   "note": "tools/eat/import_eat_lines.py → src/data/eat_lines.js",
+   "history": [
+    {
+     "sha": "759e5c000",
+     "approvedBy": "AA-C 定稿（2026-10-20 18:06 UTC 交付 X67 台詞，D100 台詞歸 AA）；724d7703 末尾補 AA_336 第 A 節的指引（第 0～5 節和 c11945d0 相同）；b10d0567f：AA_576 "
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_336_回LAWWW_X67吃東西四題_1B1C實作十三題.md",

@@ -43,7 +43,7 @@ const has=t=>said.some(s=>s.t===t), idx=t=>said.findIndex(s=>s.t===t);
 const EL=typeof EAT_LINES!=='undefined'?EAT_LINES:{together:{},first:{},staff:{},doorShops:[]};
 const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
 (async()=>{
-  check('0. 有 EAT（src/eat3d.js）、EAT_LINES（AA_329 企劃 759e5c000＋AA_336 第 A 節，企劃 724d7703）', typeof EAT!=='undefined'&&typeof EAT_LINES!=='undefined'&&/AA_329（企劃 759e5c000）/.test(EAT_LINES.source||'')&&/AA_336/.test(EAT_LINES.source||''), EAT_LINES&&EAT_LINES.source);
+  check('0. 有 EAT（src/eat3d.js）、EAT_LINES（AA_329 企劃 20d1023d20＋AA_336 第 A 節，企劃 724d7703）', typeof EAT!=='undefined'&&typeof EAT_LINES!=='undefined'&&/AA_329（企劃 20d1023d20）/.test(EAT_LINES.source||'')&&/AA_336/.test(EAT_LINES.source||''), EAT_LINES&&EAT_LINES.source);
   // ---------- E1 ----------
   /* 2026-11-11（L118-SHOPS-REDO-1111，使用者 X338：118 巷九間店改版；AA_772）改期望——測的行為不變，場景的店換成新資料（店 id、店名、品名、價錢都從 LANE118_SHOPS、作息表讀，不寫死）：
      舊期望：E1／E8 在滇香小館（l118_dian；以安週二中午的作息）、E3 在好家自助餐（l118_self；學姊週二傍晚）、E4 好家自助餐、E6／A1／A2 六張犁麵舖（牛肉麵 150）和蛋包飯研究所。
