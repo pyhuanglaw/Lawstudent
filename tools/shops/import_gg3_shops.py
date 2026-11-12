@@ -24,7 +24,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import import_guard as IG
 
-SHA = '90fb5fa77'   # 2026-11-12 SHOP-LIFE-AA826-1112：泰米午休作廢（AA e24b6cec7；AA_826 lawww_answers 第 7 點）；舊 8f6650289（11-11 AA 回七格）、75f5de658
+SHA = 'f231f0514'   # 2026-11-12 SHOP-AA826B-1112：泰米「14:00～17:00 到門口」的木牌那一句稿上劃掉（資料檔的字不變）；舊 90fb5fa77（SHOP-LIFE-AA826-1112：泰米午休作廢，AA e24b6cec7；AA_826 lawww_answers 第 7 點）、8f6650289（11-11 AA 回七格）、75f5de658
 P742 = 'docs/story_planning/AA_742_公館六間店_設定與台詞.md'
 P813 = 'docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md'
 OUT = 'src/data/gg3_shops_lines.js'
@@ -248,6 +248,12 @@ def closing(S, W, keys, title='打烊', struck=(), unused=()):
             if '取消' not in b[i + 1:]:
                 die(f'{W} {title}：「{k}」劃掉了卻沒有寫取消')
             seen_struck.add(m.group(1))
+            continue
+        mw = re.match(r'^~~(.+?)：.*~~\s*(.*)$', b)   # 整項（含句子）劃掉：~~情況：（句子）~~ **作廢**（原因）
+        if mw and mw.group(1) in struck:
+            if '作廢' not in mw.group(2) and '取消' not in mw.group(2):
+                die(f'{W} {title}：「{mw.group(1)}」劃掉了卻沒有寫作廢／取消')
+            seen_struck.add(mw.group(1))
             continue
         if k in unused:
             continue
@@ -564,8 +570,8 @@ def taimi(S):
         if k not in SK:
             die(f'{W} 坐下：不認得「{k}」')
         seat[SK[k]] = narr(after_colon(b, W), W + ' 坐下')[1]
-    # 90fb5fa77（AA e24b6cec7，X349）：午休取消——「午休（14:00）」那一句稿上劃掉了；「14:00～17:00 到門口」的木牌稿上還留著，但店下午不關了（places.js 11:00～21:00 一段），永遠輪不到＝不接（回報 AA）
-    close, sign = closing(S, W, {'打烊（21:00）': 'close', '21:00 以後到門口': 'sign', '週一到門口': 'off'}, title='打烊、休息、關門', struck=('午休（14:00）',), unused=('14:00～17:00 到門口',))
+    # 90fb5fa77（AA e24b6cec7，X349）：午休取消——「午休（14:00）」那一句稿上劃掉了；f231f0514（SHOP-AA826B-1112）：「14:00～17:00 到門口」的木牌那一句稿上也整項劃掉、寫「11-12 作廢」＝兩項都要是劃掉的，沒劃掉＝停下來
+    close, sign = closing(S, W, {'打烊（21:00）': 'close', '21:00 以後到門口': 'sign', '週一到門口': 'off'}, title='打烊、休息、關門', struck=('午休（14:00）', '14:00～17:00 到門口'))
     acc, acc0 = {}, None
     for r in want(8, table(sec(S, '約去吃', W)), W + ' 約去吃'):
         if r[0] not in PEOPLE:

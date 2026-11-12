@@ -52,8 +52,6 @@ const KNOWN_FAIL=[].concat(
   KF(T_VIEW,'view','afar daybreak yangyang corner_records aoki wz_brunch wz_teahouse wz_mokuyobi wz_offbeat us_asian_market us_market'),
   /* 沒開的時候店裡還站著店員（玩家進不去；從店外的窗戶看進去會像開著）*/
   KF(T_CLOSED,'closedClerk','cafe bikeshop aoki wz_brunch wz_print wz_teahouse wz_lin wz_teishoku us_asian_market l118_dian l118_self l118_tea l118_home l118_cafe2 l118_pasta l118_korea l118_omu l118_noodle2'),
-  /* 客居雲南：菜單、點餐、營業時間、每個互動點的字都還沒有（AA_825）*/
-  KF(T_BACK,'text','tz_keju'),   /* AA_825 接了以後剩兩個點沒有字：tz_keju_tea（看茶餅櫃）、tz_keju_kitchen（看廚房）——已問 AA */
   /* 其他（補查出來的）*/
   KF(T_BACK,'name','tz_limao'),
   KF(T_BACK,'hours','noodle bookstore tz_limao us_market'),

@@ -52,7 +52,7 @@ const H=require('./pg_harness.js'); const {check,GM,E}=H;
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=H.ROOT, rd=p=>fs.readFileSync(path.join(ROOT,p),'utf8'), J=JSON.stringify;
 console.warn=()=>{};
-const SHA='90fb5fa77',   /* 2026-11-12 SHOP-LIFE-AA826-1112：泰米午休作廢（AA e24b6cec7；AA_826 lawww_answers 第 7 點）；舊 8f6650289（11-11 AA 回七格：打烊照 AA_700 統一、廚房、柔軟精）、75f5de658 */ P742='docs/story_planning/AA_742_公館六間店_設定與台詞.md', P813='docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md';
+const SHA='f231f0514',   /* 2026-11-12 SHOP-AA826B-1112：泰米「14:00～17:00 到門口」的木牌那一句稿上也劃掉了（資料檔的字不變）；舊 90fb5fa77——2026-11-12 SHOP-LIFE-AA826-1112：泰米午休作廢（AA e24b6cec7；AA_826 lawww_answers 第 7 點）；舊 8f6650289（11-11 AA 回七格：打烊照 AA_700 統一、廚房、柔軟精）、75f5de658 */ P742='docs/story_planning/AA_742_公館六間店_設定與台詞.md', P813='docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md';
 const loadErr=[];
 for(const f of ['src/data/tz_shops_layout.js','src/data/eat_lines.js','src/eat3d.js','src/data/gg3_shops_lines.js','src/gg3shops3d.js']){
   if(!fs.existsSync(path.join(ROOT,f))){ loadErr.push(f+'（沒有這個檔）'); continue; }
