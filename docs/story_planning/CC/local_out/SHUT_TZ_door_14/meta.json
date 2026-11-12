@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "SHUT_TZ_door_14",
+  "sha": "6b2834fae8e8c70218c5e6dcd1c2dedc07950d64",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_storefront_probe.py",
+  "env": "TAG=tz_door_14;STREET=tingzhou;HOUR=14;DOOR=1;SHOPS=tz_taimi,tz_liantong,tz_dongnan,tz_keju,tz_yuehaochi,tz_xile,tz_yindehao;SHA=6b2834fae8e8c70218c5e6dcd1c2dedc07950d64",
+  "machine": "MSI",
+  "start": "2026-11-12T19:55:38",
+  "end": "2026-11-12T19:57:28",
+  "seconds": 110,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 39,
+    "mem": 51,
+    "used_gb": 16.2,
+    "chrome_testing": 14
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
