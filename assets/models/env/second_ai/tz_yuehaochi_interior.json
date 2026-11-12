@@ -1,0 +1,18 @@
+{
+ "objects": 16,
+ "unique_meshes": 16,
+ "tris": 19512,
+ "tris_drawn": 19512,
+ "materials": 11,
+ "out": "assets/models/env/second_ai/tz_yuehaochi_interior.glb",
+ "bytes": 1166464,
+ "texres": 512,
+ "tris_total": 19512,
+ "walls": [
+  "E",
+  "N",
+  "S",
+  "W"
+ ],
+ "note": "GG-SHOPS3-ART-1110 越好吃小館 室內"
+}

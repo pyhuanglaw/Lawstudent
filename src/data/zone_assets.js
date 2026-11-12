@@ -62,6 +62,7 @@ const ZONE_ASSETS={
   "tingzhou":["bldg.tingzhou_street","bldg.tingzhou_stalls","bldg.wz_scooter"],
   "tz_limao":["bldg.tz_limao_interior"],
   "tz_taimi":["bldg.tz_taimi_interior"],
+  "tz_yuehaochi":["bldg.tz_yuehaochi_interior"],
   "tz_xile":["bldg.tz_xile_interior"],
   "tz_yindehao":["bldg.tz_yindehao_interior"],
   "us_apartment":["bldg.us_apartment"],
