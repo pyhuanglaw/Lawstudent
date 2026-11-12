@@ -11,7 +11,7 @@
   "not": [
    "考試週（期中、期末那兩週）只在 cafe、cvs 出現（讀書、宵夜的人），其他店不排",
    "那天和她有約會、或她在約會中",
-   "她在國外、休學、回老家（照 characters.js presence）",
+   "她在國外、離開學校那段時間、回老家（照 characters.js presence）",
    "劇情事件演出中（S.storyBusy）",
    "前任：照 ex 那一句，沒有寫的用 ENCOUNTERS.NOD",
    "可昕不在這一批（她多半不在台北）",
