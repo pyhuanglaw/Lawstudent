@@ -1281,6 +1281,17 @@ if SET == 'wenzhou' and OFFBEAT_XS.get('int3d') and os.path.exists(STOREFRONT):
     _gs.scale = (1, 1, 0.99)   # 抬 1 cm、高度縮 1%：店內地板（0）和街面、天花板（3.4）和樓上量體的底面不在同一個平面（會閃）
     for _o in _new:
         if _o.parent is None: _o.parent = _gs; _o.matrix_parent_inverse.identity()
+    # WZ-OFFBEAT-WINDOW-FLICKER-1112（使用者 11-12「日常失速從店外面看進去會一直閃」）：店內的西牆（室內 z＝−5.0）、北牆（室內 x＝−5.5）和這一棟外殼牆的內面在同一個平面（36＋33 m²）。
+    #   店內這兩面牆（連同貼著牆的地板、天花板邊）往店裡挪 8 mm（挪 2 cm 會撞到離牆 2 cm 的掛板）。已交的 wenzhou_street.glb 用 glb_shift_plane.py 挪了同樣的量，沒有重建；下面這一段是重建時用的，還沒有實際跑過重建
+    import mathutils as _mu
+    for _o in _new:
+        if _o.type != 'MESH': continue
+        _mw = _o.matrix_world.copy(); _mi = _mw.inverted()
+        for _v in _o.data.vertices:
+            _w = _mw @ _v.co; _hit = False
+            if abs(_w.x + 5.5) < 5e-4: _w.x += 0.008; _hit = True       # 室內 x＝−5.5 → 往 +x
+            if abs(_w.y - 5.0) < 5e-4: _w.y -= 0.008; _hit = True       # 室內 z＝−5.0（Blender y＝+5.0）→ 往 +z
+            if _hit: _v.co = _mi @ _w
     print('storefront', len(_new), flush=True)
 
 if "goods_finish" in globals(): goods_finish()   # 店裡的商品（wz_shopkit.goods；2026-10-23）：整條街一個網格、一張貼圖

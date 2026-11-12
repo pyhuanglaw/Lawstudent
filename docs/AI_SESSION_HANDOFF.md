@@ -108,6 +108,8 @@
 
 | 時間（UTC） | 職位 | 帳號 | 規則版本／RULE_SOURCE commit | 已讀 D90 | 沒處理的使用者指示 | 正在跑的長工作 | turn_check | 來源 |
 |---|---|---|---|---|---|---|---|---|
+| 2026-11-12 03:1x | AA | C | HV-33／RULE_SOURCE `claude/adoring-meitner-mqzst8`（接班時是 confident-ritchie seq 126） | 是（CLAUDE.md 共同規則＋ROLE_AA＋00_台詞寫作規則） | 無（今天的都登記在 user_asks_AA UA-AA-1112-01～11） | 無 | — | AA-C 11-12 04:55 訊息，LAWWW-C 代登 |
+| 2026-11-12 03:1x | LAWWW | C | HV-34／RULE_SOURCE 改為 `claude/adoring-meitner-mqzst8` | 是（含 D152、D153） | 有：使用者 11-12 連續回報 X352～X358（都在 tasks.json，進行中） | 子代理（SHOP-LIFE-AUDIT-1112、汀州聯通接字）在背景 | 這一班有超過 10 分鐘的回合（使用者連續插話＋合併子代理；改法：合併、登記拆成各自的短回合） | LAWWW-C |
 | 2026-11-04 12:1x | LAWWW | B | HV-24／`e52a77030`→`9f4d237e2`（RULE_SOURCE 改為 `claude/modest-rubin-2lyp7g`） | 是（含 D118～D133、HV-22～HV-24） | 有一件正在做：使用者要接班後跟其他 AI 試著傳訊息（12:18 對 AA-B、BB-B、LAWWW2-B、CC-B 各傳一則，都 DELIVERED，等 ACK） | 沒有 | 沒跑（接班中） | LAWWW-B 自己登記；每小時保險喚醒 trig_017NNfTyMTM1X5Bv9sFBGmBv 已建（D129） |
 | 2026-11-02 03:3x | LAWWW | A | HV-21／`02898d56c`（RULE_SOURCE 改為 `claude/confident-ritchie-8rwh7t`） | 是（含 D111～D117、HV-19～HV-21） | 有一件正在做：使用者要先測通訊、整理其他職位留下沒做的事和每個階段每個任務的預估時間 | 沒有 | 沒跑（接班中） | LAWWW 自己登記 |
 | 2026-10-23 06:5x | LAWWW | B（LAWWW-B） | HV-18／`719cca3bc`（RULE_SOURCE `claude/confident-ritchie-8rwh7t`，接班後改為 `claude/modest-rubin-2lyp7g`） | 是（含 D92、D94～D96、D99～D101、HV-17、HV-18；duty register seq 24） | 沒有（使用者這次只要求同步、接續、確認通訊） | 沒有 | 252 回合、34 個超過上限（多數是 10-16～10-17 的舊回合） | 本工作階段 |

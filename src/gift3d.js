@@ -36,23 +36,75 @@ const GIFT=(function(){
     {n:'美式咖啡',cat:'drink',p:45,cafe:100,temp:'hot',opt:[['熱的',''],['冰的','（冰的）',0,'cold']]},{n:'拿鐵',cat:'drink',p:55,cafe:120,temp:'hot'},{n:'熱可可',cat:'drink',p:50,cafe:110,temp:'hot',opt:[['就這樣',''],['加一份濃縮','（加一份濃縮）',20]]}];
   /* 完整品項名（名字＋再選一次加的字）→ 冷熱、種類 */
   S.TEMP={}; S.CAT={}; for(const it of S.ITEMS) for(const o of it.opt||[['','']]){ S.TEMP[it.n+o[1]]=o[3]||it.temp||null; S.CAT[it.n+o[1]]=it.cat; }
-  /* 118 巷的外帶飲料店（GIFT-L118-DRINK-1112，使用者 2026-11-12：「買飲料送給可攻略的對象到底是要怎麼觸發 我去飲料店還是只能自己喝啊」）：
-     那一間菜單上和這裡同名的品項（例：喝不喝咖啡的鮮奶茶、美式咖啡、拿鐵）可以買一份帶走送人，價錢照那一間的菜單；菜單上其他的（冬瓜茶、果茶…）AA 還沒寫收到的反應＝先不能送 */
-  S.l118Price=(shop,it)=>{ const D=typeof LANE118_SHOPS!=='undefined'?LANE118_SHOPS:null, q=D&&D.shops.find(x=>x.drink&&x.name===shop), m=q&&q.menu.find(r=>r[0]===it.n); return m?m[1]:null; };
-  S.sells=(shop,it)=>shop==='便利商店'||(shop==='兩點半 Café'&&it.cafe!=null)||S.l118Price(shop,it)!=null;   /* 便利商店全部；2:30 AM 只有咖啡、熱可可（店名 key 照 story3d.js counter）。蛋餅、蘿蔔糕：沒有早餐店（AA-B 11-08：不加）*/
+  /* ===== 每一間有賣飲料的店都可以「買一份帶走送人…」（GIFT-ALL-DRINK-SHOPS-1112；使用者 2026-11-12：「你現在應該要認真審查游戲裡面有哪些有賣飲料的店都可以送不是嗎
+     不是我跟你說哎這家為什麼不行你才加這一家」；盤點表 docs/handoff/GIFT_DRINK_SHOPS_AUDIT_1112.md）=====
+     做法：那間店自己的菜單裡是飲料的品項，照那間店的價錢賣；品名照菜單一字不改。收到的反應用她那一格飲料的一般句子（gift_lines.js 的 yes／no／ctx 不綁品項；
+     fav／opinion／only 綁的是別的品項名＝對不上、不會出現）。和 S.ITEMS 同名的（拿鐵、美式咖啡、鮮奶茶…）照 S.ITEMS 的種類、冷熱、再選一次，價錢照那間店。
+     便利商店、2:30 AM 照舊（legacy：只賣 S.ITEMS、原本的價錢）。新的台詞一句都沒有；選項、提示、「你買了…」都是原本的字。
+     哪些算飲料：那間店的資料自己有分的照它的（118 巷 shops 的 drink、洋洋的 drinks、泰米的 TAIMI_CAT）；沒有分的照品名對下面這兩張表（只有這一處，要改改這裡）*/
+  S.DRINK_WORDS=['茶','咖啡','拿鐵','美式','濃縮','卡布奇諾','摩卡','手沖','可可','鮮奶','牛奶','豆漿','米漿','果汁','甘蔗汁','多多','可樂','汽水','氣泡','運動飲料','可爾必思','冰沙','奶昔'];
+  /* 品名裡有上面的字、但不是拿在手上喝的一杯：吃的、湯、冰品、甜點、內用的一壺茶、禮盒、酒 */
+  S.NOT_DRINK_WORDS=['茶葉蛋','茶葉','茶點','茶碗蒸','蛋糕','糕','餅','塔','派','布丁','吐司','三明治','套餐','飯','麵','湯','鍋','愛玉','仙草','（一壺）','禮盒','酒'];
+  S.isDrinkName=n=>{ n=String(n||''); return !/冰$/.test(n)&&!S.NOT_DRINK_WORDS.some(w=>n.includes(w))&&S.DRINK_WORDS.some(w=>n.includes(w)); };   /* 「冰」結尾＝剉冰、芒果冰（冰品）*/
+  const g_=k=>{ try{ return (0,eval)('typeof '+k+"!=='undefined'?"+k+':null'); }catch(e){ return null; } };   /* 別的檔的全域（const 宣告的不在 globalThis 上）；沒載入＝null */
+  const nmStall=id=>()=>{ const D=g_('NIGHT_MARKET'), st=D&&D.stalls&&D.stalls[id]; return st?st.items:[]; };
+  /* 有賣飲料、可以買來送人的店。key＝那一支點餐的程式傳進來的字（店名或它自己的 key）；name＝記在 G.carry 的店名（沒寫＝key）；
+     rows(G)＝那間店現在的菜單（陣列 [品名, 價錢…] 或物件 {n|name|t, p|price}）；drink(列)＝那間店自己的資料怎麼分（沒寫＝照品名）；temp(列)＝資料有寫冷熱的；
+     opt:false＝同名品項不出「再選一次」（販賣機沒有去冰）；alias＝就是另一間（日和便利店的咖啡機＝便利商店）；legacy＝照舊只賣 S.ITEMS */
+  const isCafe=shop=>shop==='兩點半 Café';   /* 2:30 AM 的店名 key（照 story3d.js counter）*/
+  S.isLegacy=shop=>shop==='便利商店'||isCafe(shop);   /* 便利商店、2:30 AM：照舊（下面的表不列）*/
+  S.SHOPS={
+    'cvs.coffee':{alias:'便利商店'},   /* 日和便利店的咖啡機（ggshops_sys3d.js）：同一間便利商店，出原本那一份 */
+    'bookstore.cafe_order':{name:'頁間書屋',rows:()=>{ const s=g_('GGS'); return s?s.MENU['bookstore.cafe_order'].items:[]; }},
+    '大口漢堡':{rows:G=>{ const s=g_('DKS'); return s?s.menu(G):[]; }},
+    '溫州街・半熟':{name:'SUNNY SIDE',rows:()=>{ const s=g_('WZS'); return s?s.BRUNCH:[]; }},
+    '帝大紅茶':{rows:G=>{ const s=g_('WZS'); return s?s.menu364('tea',G):[]; }},
+    '阿忠鮮果':{rows:G=>{ const s=g_('WZS'); return s?s.fruitMenu(G):[]; }},
+    '日常失速':{rows:()=>{ const s=g_('OFFB'); return s?s.L.menu:[]; }},
+    '木曜日':{rows:()=>{ const s=g_('MOKS'); return s?s.L.menu:[]; }},
+    'afar café':{rows:()=>{ const s=g_('GG2'); return s?s.L.afar.menu:[]; }},
+    'Daybreak':{rows:()=>{ const s=g_('GG2'); return s?s.L.daybreak.menu:[]; }},
+    '洋洋鹹酥雞':{rows:()=>{ const s=g_('GG2'); return s?[].concat(...s.L.yangyang.menu.map(c=>c[1])):[]; },drink:r=>g_('GG2').L.yangyang.drinks.includes(r[0])},
+    '泰米村食':{rows:G=>{ const s=g_('GG3'), D=g_('GG3_LINES'); return s&&D&&D.tz_taimi?D.tz_taimi.menu.map(it=>({n:it.n,p:s.taimiPrice(it,G),desc:it.desc})):[]; },drink:r=>g_('GG3').TAIMI_CAT(r.n)==='drink',temp:r=>/冰的/.test(r.desc||'')?'cold':(/熱的/.test(r.desc||'')?'hot':null)},
+    '沈三盃黑糖鮮奶':{rows:nmStall('s01')}, '節節高甘蔗汁':{rows:nmStall('s09')},   /* 夜市（night_market3d.js NM3.serve；季節攤販同一支，沒有賣飲料的）*/
+    '體育館販賣機':{rows:()=>{ const s=g_('GY3'); return (s&&s.VEND)||[]; },opt:false} };
+  /* 118 巷：資料寫 drink 的店（喝不喝咖啡、果茶社…；以後新增的也算），整份菜單都是飲料 */
+  const l118=shop=>{ const D=g_('LANE118_SHOPS'); return (D&&D.shops.find(x=>x.drink&&x.name===shop))||null; };
+  /* rows＝那一支點餐的程式自己把菜單傳過來（story3d.js 的 counter：青木茶室的外帶窗口，店名 key 照 counter；表上沒有的店才用）*/
+  S.shopDef=function(shop,rows){ let d=Object.prototype.hasOwnProperty.call(S.SHOPS,shop)?S.SHOPS[shop]:null, name=shop; if(d&&d.alias){ name=d.alias; d=null; } if(!d&&S.isLegacy(name)) d={legacy:true};
+    if(!d){ const q=l118(shop); if(q) d={rows:()=>q.menu,drink:()=>true}; }
+    if(!d&&Array.isArray(rows)&&rows.length) d={rows:()=>rows.filter(r=>!(Array.isArray(r)&&typeof r[3]==='function'))};   /* counter 的菜單：貓罐頭、開學用品（第四格是函式）不算 */
+    return d?Object.assign({},d,{name:d.name||name}):null; };
+  const rowN=r=>Array.isArray(r)?r[0]:(r&&(r.n||r.name||r.t)), rowP=r=>Array.isArray(r)?r[1]:(r&&(r.p!=null?r.p:r.price));
+  /* 這間店現在可以買來送人的：[{n, cat, p, temp, opt}]（legacy＝S.ITEMS 照舊；其他＝菜單上是飲料的，照菜單的順序）*/
+  S.menu=function(G,shop,rows){ const d=S.shopDef(shop,rows); if(!d) return [];
+    if(d.legacy) return S.ITEMS.filter(it=>!isCafe(d.name)||it.cafe!=null).map(it=>Object.assign({},it,{p:isCafe(d.name)&&it.cafe!=null?it.cafe:it.p}));   /* 便利商店全部；2:30 AM 只有咖啡、熱可可。蛋餅、蘿蔔糕：沒有早餐店（AA-B 11-08：不加）*/
+    let R=[]; try{ R=d.rows(G||{})||[]; }catch(e){ R=[]; } const out=[];
+    for(const r of R){ const n=rowN(r), p=rowP(r); if(!n||!(p>0)||out.some(x=>x.n===n)) continue; let ok=false; try{ ok=d.drink?!!d.drink(r):S.isDrinkName(n); }catch(e){ ok=false; } if(!ok) continue;
+      const it=S.ITEMS.find(x=>x.n===n&&x.cat==='drink'); let t=null; try{ t=d.temp?d.temp(r):null; }catch(e){}
+      out.push(it?{n,cat:it.cat,p,temp:it.temp||null,opt:d.opt===false?null:it.opt}:{n,cat:'drink',p,temp:t||S.nameTemp(n)}); }
+    return out; };
+  /* 冷熱：S.ITEMS 有的照它（含再選一次的）；沒有的＝那間店的資料有寫的 → 品名本身有「冰」「熱」字的 → 不算冷也不算熱（不從品名猜）*/
+  S.nameTemp=n=>/冰/.test(n)?'cold':(/熱/.test(n)?'hot':null);
+  S.tempOf=function(c){ if(!c||!c.n) return null; if(Object.prototype.hasOwnProperty.call(S.TEMP,c.n)) return S.TEMP[c.n];
+    for(const k in S.SHOPS){ const d=S.SHOPS[k]; if(d.temp&&(d.name||k)===c.shop){ try{ const r=(d.rows({})||[]).find(x=>rowN(x)===c.n); if(r){ const t=d.temp(r); if(t) return t; } }catch(e){} } }
+    return S.nameTemp(c.n); };
+  /* 118 巷那一間菜單上這一樣的價錢（GIFT-L118-DRINK-1112 的寫法，留著給舊的測試、別的檔用）*/
+  S.l118Price=(shop,it)=>{ const q=l118(shop), m=q&&q.menu.find(r=>r[0]===it.n); return m?m[1]:null; };
+  S.sells=(shop,it)=>S.menu(null,shop).some(x=>x.n===it.n);
   S.MAX=3;
   S.SHOP_OPT='買一份帶走送人…';
   const F=G=>{ const f=G.flags||(G.flags={}); const g=f.GIFT&&typeof f.GIFT==='object'?f.GIFT:(f.GIFT={}); for(const k of ['day','fav','n','last','pool','rel']) if(!g[k]||typeof g[k]!=='object') g[k]={}; return g; };
   S.carry=G=>{ if(!Array.isArray(G.carry)) G.carry=[]; G.carry=G.carry.filter(x=>x&&x.n&&x.day===G.day); return G.carry; };   /* 隔天就沒了 */
-  S.price=(it,shop)=>{ const lp=S.l118Price(shop,it); return lp!=null?lp:(shop==='兩點半 Café'&&it.cafe!=null?it.cafe:it.p); };
-  S.shopOpt=function(G,shop){ if(!S.ITEMS.some(it=>S.sells(shop,it))||!Object.keys(L()).length) return null; const full=S.carry(G).length>=S.MAX; return {t:S.SHOP_OPT,hint:full?'手上已經拿了 '+S.MAX+' 樣':'飲料、早餐，帶在身上，見面的時候送人',dim:full}; };
+  S.price=(it,shop)=>{ const m=S.menu(null,shop).find(x=>x.n===it.n); return m?m.p:(isCafe(shop)&&it.cafe!=null?it.cafe:it.p); };
+  S.shopOpt=function(G,shop,rows){ if(!S.menu(G,shop,rows).length||!Object.keys(L()).length) return null; const full=S.carry(G).length>=S.MAX; return {t:S.SHOP_OPT,hint:full?'手上已經拿了 '+S.MAX+' 樣':'飲料、早餐，帶在身上，見面的時候送人',dim:full}; };
   /* 買：品項 → 再選一次（有的話）→ 扣錢、帶著（記在哪一家買的：芷若對便利商店的拿鐵有意見）*/
-  S.buy=async function(GM,shop){ const G=GM.G; if(!S.ITEMS.some(it=>S.sells(shop,it))) return null; if(S.carry(G).length>=S.MAX){ GM.toast&&GM.toast('手上已經拿了 '+S.MAX+' 樣了'); return null; }
-    const L2=S.ITEMS.filter(it=>S.sells(shop,it)), opts=L2.map(it=>({t:it.n+'　'+S.price(it,shop)+' 元',dim:G.money<S.price(it,shop)})); opts.push({t:'算了'});
-    const i=await GM.choose(opts); const it=L2[i]; if(!it) return null; let name=it.n, p=S.price(it,shop);
+  S.buy=async function(GM,shop,rows){ const G=GM.G, d=S.shopDef(shop,rows), L2=S.menu(G,shop,rows); if(!L2.length) return null; if(S.carry(G).length>=S.MAX){ GM.toast&&GM.toast('手上已經拿了 '+S.MAX+' 樣了'); return null; }
+    const opts=L2.map(it=>({t:it.n+'　'+it.p+' 元',dim:G.money<it.p})); opts.push({t:'算了'});
+    const i=await GM.choose(opts); const it=L2[i]; if(!it) return null; let name=it.n, p=it.p;
     if(it.opt){ const k=await GM.choose(it.opt.map(o=>({t:o[0]+(o[2]?'（+'+o[2]+' 元）':'')}))); const o=it.opt[k]||it.opt[0]; name+=o[1]; p+=o[2]|0; }
     if(G.money<p){ GM.toast&&GM.toast('錢不夠'); return null; }
-    GM.money(-p); const c={n:name,cat:it.cat,day:G.day,shop}; S.carry(G).push(c); await GM.say(null,'你買了'+name+'，帶在身上。'); return c; };
+    GM.money(-p); const c={n:name,cat:it.cat,day:G.day,shop:d.name}; S.carry(G).push(c); await GM.say(null,'你買了'+name+'，帶在身上。'); return c; };
   const stage=id=>typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):1;
   const dating=(G,id)=>{ const f=(G&&G.flags)||{}, R=f.romance||{}; return f['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'); };
   const month=G=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day).m:0;
@@ -79,7 +131,7 @@ const GIFT=(function(){
   const ctxOn=(G,R,key,c,cat,k)=>{ if(k==='again'){ const l=R.last[key]; return !!l&&l.d===G.day-1&&l.n===c.n; }
     if(k==='exam') return examWeek(G);
     if(k==='night') return cat==='breakfast'&&(+G.hour||0)>=17;
-    const m=month(G), t=S.TEMP[c.n]; if(k==='winterCold') return (m===12||m<=2)&&m>0&&t==='cold'; if(k==='summerHot') return m>=6&&m<=8&&t==='hot'; return false; };
+    const m=month(G), t=S.tempOf(c); if(k==='winterCold') return (m===12||m<=2)&&m>0&&t==='cold'; if(k==='summerHot') return m>=6&&m<=8&&t==='hot'; return false; };
   /* 朋友（AA_728）：{kind:'no'|'yes', lines, rel（今天還沒算過才有）, k, i, cat, friend:true} */
   /* 送東西只給可攻略的對象（使用者 11-08 15:2x「送飲料只需要給可攻略的對象」「飲料改完再發布」；X266、GIFT-ROMANCE-ONLY-1108）：
      七位女主角（AA_710，GIFT_LINES.people）照舊；朋友六位（AA_728）只留可以攻略的——芯慈（AA_728「芯慈可以攻略也照朋友版」；AA-B 15:33「芯慈留」）；阿哲、阿凱、Alison、柏翰、明軒不會出現「送他／她○○」（AA_728 稿那五位標 unused）。

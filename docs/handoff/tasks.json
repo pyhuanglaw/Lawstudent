@@ -52866,7 +52866,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-12 04:1x LAWWW-C】AA_821 越好吃小館定稿（65e38a5de）→ 子代理在做（分支 tz-yuehaochi-1112，基準 9dedfa2088，檢查點 wip_backup/tz_yuehaochi_1112.bundle）；回來當回合合併｜【11-12 04:1x LAWWW-C】客居雲南室內第 1 版已整合（LAWWW2 28c3682f8 tz5_keju_v1.patch；區域 tz_keju、16 座；順便修越好吃的菜單貼圖）；互動點要 AA 的字：tz_keju_order（過橋米線、米干、涼拌、普洱茶）、tz_keju_menu、tz_keju_tea、tz_keju_kitchen、tz_keju_batik；下一間東南大聯商行｜【11-12 04:0x LAWWW-C】越好吃小館室內第 1 版已整合（LAWWW2 3928cdfc1 tz5_yuehaochi_v1.patch；區域 tz_yuehaochi，汀州路店門「進越好吃小館」；tz_shops／tingzhou 五支 Node 過；瀏覽器沒跑→BB 排 CC）；互動點要 AA 的字：tz_yue_order（河粉、春捲、法國麵包、越南咖啡的選單和價錢）、tz_yue_menu、tz_yue_herbs、tz_yue_kitchen、tz_yue_hats、店員；下一間客居雲南｜【11-12 LAWWW-C】使用者 03:5x「你們自己決定」→ LAWWW 定：LAWWW2 第 2 版外觀（騎樓混合：五間照概念圖直接臨人行道、其他老公寓保留騎樓）→ 接著五間室內（一間一間交、最多 3 版 D141；店內字、商品找 AA；店名不改 D147）→ LAWWW 接區域入口、地圖、快速前往 → BB 判｜外觀進遊戲、使用者看過再決定要不要做室內（D141：先進遊戲）",
+   "next": "【LAWWW-C 11-12】越好吃小館接字已合併 4263eec337（AA_821：進門、點餐六樣、錢不夠、四個看、坐下、打烊；tests/tz_yuehaochi_aa821_1112_unit.js ALL PASS）；東南大聯商行室內 v1 已進（等 AA 五個互動點的字）；客居雲南等 AA 字｜【11-12 04:1x LAWWW-C】AA_821 越好吃小館定稿（65e38a5de）→ 子代理在做（分支 tz-yuehaochi-1112，基準 9dedfa2088，檢查點 wip_backup/tz_yuehaochi_1112.bundle）；回來當回合合併｜【11-12 04:1x LAWWW-C】客居雲南室內第 1 版已整合（LAWWW2 28c3682f8 tz5_keju_v1.patch；區域 tz_keju、16 座；順便修越好吃的菜單貼圖）；互動點要 AA 的字：tz_keju_order（過橋米線、米干、涼拌、普洱茶）、tz_keju_menu、tz_keju_tea、tz_keju_kitchen、tz_keju_batik；下一間東南大聯商行｜【11-12 04:0x LAWWW-C】越好吃小館室內第 1 版已整合（LAWWW2 3928cdfc1 tz5_yuehaochi_v1.patch；區域 tz_yuehaochi，汀州路店門「進越好吃小館」；tz_shops／tingzhou 五支 Node 過；瀏覽器沒跑→BB 排 CC）；互動點要 AA 的字：tz_yue_order（河粉、春捲、法國麵包、越南咖啡的選單和價錢）、tz_yue_menu、tz_yue_herbs、tz_yue_kitchen、tz_yue_hats、店員；下一間客居雲南｜【11-12 LAWWW-C】使用者 03:5x「你們自己決定」→ LAWWW 定：LAWWW2 第 2 版外觀（騎樓混合：五間照概念圖直接臨人行道、其他老公寓保留騎樓）→ 接著五間室內（一間一間交、最多 3 版 D141；店內字、商品找 AA；店名不改 D147）→ LAWWW 接區域入口、地圖、快速前往 → BB 判｜外觀進遊戲、使用者看過再決定要不要做室內（D141：先進遊戲）",
    "xai": {
     "spec": "X322",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -54066,9 +54066,9 @@
    "title": "花序 Flower Notes 二樓花藝課：可以上課、有劇情、做出成品送女友（X346）",
    "area": "SHOP",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【11-12 04:1x LAWWW-C】AA_820 定稿（企劃線 65e38a5de；BB_376 第二意見採納）→ 子代理在做（worktree 分支 flower-class-1112，基準 9dedfa2088，檢查點 wip_backup/flower_class_1112.bundle）；回來當回合合併｜【11-12 LAWWW-C】①已請 AA-C 寫：上課流程的劇情與台詞（花藝師上課、黑板三種課：基礎花束、花型設計、季節花藝）、做出來的成品（名字、說明）、送給女友／其他人的反應、要不要能約她一起上課；②LAWWW：上課流程（二樓示範長桌報名、扣錢、占一個時段、得到成品進送禮的東西裡、可以送）——等 AA 的規格，先看 GIFTH 送禮和 studyslot／活動占時段怎麼接；③BB 測。二樓模型已在（flower_notes3d.js，現在只有「看」）；花序 AA_792 文字接線另一件（FLOWER-NOTES-1110，11-12 已合併）",
+   "next": "【LAWWW-C 11-12】子代理交件已合併 4263eec337：花序二樓「報名花藝課」、三門課（900／1200／1500）、成品進禮物包、平日也能當面送、一起上課、學姊三場；tests/flower_class_aa820_1112_unit.js ALL PASS（72 項）；瀏覽器沒跑→BB／CC。七個問題已轉 AA｜【11-12 04:1x LAWWW-C】AA_820 定稿（企劃線 65e38a5de；BB_376 第二意見採納）→ 子代理在做（worktree 分支 flower-class-1112，基準 9dedfa2088，檢查點 wip_backup/flower_class_1112.bundle）；回來當回合合併｜【11-12 LAWWW-C】①已請 AA-C 寫：上課流程的劇情與台詞（花藝師上課、黑板三種課：基礎花束、花型設計、季節花藝）、做出來的成品（名字、說明）、送給女友／其他人的反應、要不要能約她一起上課；②LAWWW：上課流程（二樓示範長桌報名、扣錢、占一個時段、得到成品進送禮的東西裡、可以送）——等 AA 的規格，先看 GIFTH 送禮和 studyslot／活動占時段怎麼接；③BB 測。二樓模型已在（flower_notes3d.js，現在只有「看」）；花序 AA_792 文字接線另一件（FLOWER-NOTES-1110，11-12 已合併）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -54225,7 +54225,7 @@
    "id": "L118-DRINK-WALL-FLICKER-1112",
    "title": "118 巷喝不喝咖啡店面：牆壁一直在閃（疊面閃爍；使用者截圖：櫃檯後面的石紋牆、杯架那一面）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -54238,7 +54238,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "使用者 11-12 實玩「飲料店牆壁一直在閃」；LAWWW2 查 lane118 街景／l118 店面 GLB 那一面是不是兩片面疊在一起，其他幾間一起掃",
+   "next": "【LAWWW-C 11-12】LAWWW2-C e6fdba625 patch 已整合：原因＝兩片牆疊在同一平面（喝不喝咖啡、果茶社後牆；日常失速西牆北牆×外殼內面），挪頂點 0.8～1.2 cm；tests/shop_flicker_1112_unit.js ALL PASS；瀏覽器要 CC 在使用者電腦走動、轉鏡頭確認不閃｜使用者 11-12 實玩「飲料店牆壁一直在閃」；LAWWW2 查 lane118 街景／l118 店面 GLB 那一面是不是兩片面疊在一起，其他幾間一起掃",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -54281,7 +54281,7 @@
    "id": "GIFT-ALL-DRINK-SHOPS-1112",
    "title": "全遊戲賣飲料的店都可以「買一份帶走送人」：LAWWW 自己盤點、一次接完（X350）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -54294,7 +54294,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【11-12 04:2x LAWWW-C】使用者：「你現在應該要認真審查游戲裡面有哪些有賣飲料的店都可以送……你應該要自己決定啊」。查證：每個人收到飲料的反應是「飲料」這一類的通用句（只有最愛、有意見那幾樣綁品項），所以新品項不用新台詞就能送——上一則跟 AA 說「要寫才送得出去」是錯的，已更正。子代理在做（分支 gift-all-drinks-1112，檢查點 wip_backup/gift_all_drinks_1112.bundle）：盤點表 docs/handoff/GIFT_DRINK_SHOPS_AUDIT_1112.md、gift3d.js 通用機制、每一個點餐流程接上、tests/gift_all_drink_shops_1112_unit.js；回來當回合合併",
+   "next": "【LAWWW-C 11-12】子代理交件已合併：再開 17 間店（青木茶室外帶窗、頁間書屋、大口漢堡、SUNNY SIDE、帝大紅茶、阿忠鮮果、日常失速、木曜日、afar、Daybreak、洋洋鹹酥雞、泰米村食、夜市黑糖鮮奶和甘蔗汁、體育館販賣機、118 巷喝不喝咖啡全品項、果茶社），各用自己的菜單和價錢；不開：小路（酒）、一盞和青木內用（壺茶）、甜湯冰品、湯；清單 docs/handoff/GIFT_DRINK_SHOPS_AUDIT_1112.md；tests/gift_all_drink_shops_1112_unit.js ALL PASS（46 項）；瀏覽器沒跑→BB｜【11-12 04:2x LAWWW-C】使用者：「你現在應該要認真審查游戲裡面有哪些有賣飲料的店都可以送……你應該要自己決定啊」。查證：每個人收到飲料的反應是「飲料」這一類的通用句（只有最愛、有意見那幾樣綁品項），所以新品項不用新台詞就能送——上一則跟 AA 說「要寫才送得出去」是錯的，已更正。子代理在做（分支 gift-all-drinks-1112，檢查點 wip_backup/gift_all_drinks_1112.bundle）：盤點表 docs/handoff/GIFT_DRINK_SHOPS_AUDIT_1112.md、gift3d.js 通用機制、每一個點餐流程接上、tests/gift_all_drink_shops_1112_unit.js；回來當回合合併",
    "xai": {
     "receiver": "BB",
     "branch": "claude/adoring-meitner-mqzst8",
@@ -54337,7 +54337,7 @@
    "id": "WZ-OFFBEAT-WINDOW-FLICKER-1112",
    "title": "溫州街「日常失速」：從店外面往裡看會一直閃（使用者截圖：整面落地窗裡的室內；立體感使用者說還好）（X353）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -54350,7 +54350,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "使用者 11-12（線上版 v9.10.25）：「日常失速還好，但從店外面看進去會一直閃」。LAWWW2：查街景那一包的室內和玻璃／牆是不是疊面（z-fighting）、透明排序、或室內和街景兩份重疊；和 L118-DRINK-WALL-FLICKER-1112 一起查，同一種原因就一起修。之後 SHOP-WINDOW-3D-1112 新做的櫥窗室內也要先確認不閃才交",
+   "next": "【LAWWW-C 11-12】LAWWW2-C e6fdba625 patch 已整合：原因＝兩片牆疊在同一平面（喝不喝咖啡、果茶社後牆；日常失速西牆北牆×外殼內面），挪頂點 0.8～1.2 cm；tests/shop_flicker_1112_unit.js ALL PASS；瀏覽器要 CC 在使用者電腦走動、轉鏡頭確認不閃｜使用者 11-12（線上版 v9.10.25）：「日常失速還好，但從店外面看進去會一直閃」。LAWWW2：查街景那一包的室內和玻璃／牆是不是疊面（z-fighting）、透明排序、或室內和街景兩份重疊；和 L118-DRINK-WALL-FLICKER-1112 一起查，同一種原因就一起修。之後 SHOP-WINDOW-3D-1112 新做的櫥窗室內也要先確認不閃才交",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -54434,7 +54434,63 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "使用者 11-12：「泰米沒有店員」（截圖）「你應該要檢查現在店裡面有沒有店員這件事情吧，而且不是還要可以打工嗎，而且我不是跟你說118巷就是要很容易遇到同學嘛，那現在店裡甚至都沒有人，我新增的這些店面外觀內部做好了然後呢，你覺得就這樣嗎」「你要每一家店都看他有沒有店員、有沒有安排客人在裡面、有沒有讓我巧遇同學的機會、有沒有打工，不是嗎，要我一個一個講嗎」。做法：①子代理把遊戲裡每一間能進去的店列成表 docs/handoff/SHOP_LIFE_AUDIT_1112.md（店員／路人客人／有名字的同學會不會來／打工／買東西或點餐／營業時間／從街上看是不是立體）②程式就能補的當批補（店員、客人、同學的行程表把新店排進去）③要新台詞的（打工、店員招呼）列給 AA、要模型的列給 LAWWW2 ④以後新店的整合清單寫進 ROLE_LAWWW（新店接進遊戲＝這幾項都要有）",
+   "next": "使用者 11-12：「泰米沒有店員」（截圖）「你應該要檢查現在店裡面有沒有店員這件事情吧，而且不是還要可以打工嗎，而且我不是跟你說118巷就是要很容易遇到同學嘛，那現在店裡甚至都沒有人，我新增的這些店面外觀內部做好了然後呢，你覺得就這樣嗎」「你要每一家店都看他有沒有店員、有沒有安排客人在裡面、有沒有讓我巧遇同學的機會、有沒有打工，不是嗎，要我一個一個講嗎」。做法：①子代理把遊戲裡每一間能進去的店列成表 docs/handoff/SHOP_LIFE_AUDIT_1112.md（店員／路人客人／有名字的同學會不會來／打工／買東西或點餐／營業時間／從街上看是不是立體）②程式就能補的當批補（店員、客人、同學的行程表把新店排進去）③要新台詞的（打工、店員招呼）列給 AA、要模型的列給 LAWWW2 ④以後新店的整合清單寫進 ROLE_LAWWW（新店接進遊戲＝這幾項都要有）｜使用者 11-12 追加：「夜市攤販也沒有店員」——夜市／路邊攤（NIGHT-MARKET、season_stalls、公館阿婆甜湯、甘蔗汁等）每一攤都要有顧攤的人，併進盤點",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 對 LAWWW-C",
+   "authorized": "使用者直接要求"
+  },
+  {
+   "id": "SHOP-INTERIOR-VIEW-1112",
+   "title": "店裡往外看沒有窗景（泰米村食：窗戶是一片深藍、門也是藍色平面；地上還有一堆紫紅色球）——所有新店室內逐間檢查窗景和看得出來的問題（X357）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "使用者 11-12（附截圖，泰米村食店內）：「窗景呢 我現在才看第一家 都給你電腦測試 你看不出來???」。LAWWW2：①泰米村食：窗外接窗景（照 assets/models/env/views/ 那套＋Z3.shopViewPane／W3.windowMat，汀州路的景）、門不要整片藍、地上紫紅色球（植物缺材質？）修掉 ②同一批全部新店室內（汀州路 tz_*、公館 gg_* 新三間、118 巷、新生南路、溫州街新店）逐間開進去看：窗景有沒有、有沒有缺材質的純色塊、門對不對 ③BB／CC：每一間新店進去拍三張（進門看全景、往窗外看、櫃檯）＋店外看進去一張，照清單（店員、客人、窗景、純色塊、門）判；以後新店驗收固定有這幾張，沒拍不算 ART_APPROVED",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 對 LAWWW-C",
+   "authorized": "使用者直接要求"
+  },
+  {
+   "id": "SHUIYUAN-MARKET-LANE-1112",
+   "title": "水源市場做成一棟建築；攤販移到市場旁邊的巷子（羅斯福路和汀州路中間）；公館走到汀州路改走這條巷子；每一攤要有顧攤的人（X358）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "使用者 11-12（附截圖：攤販擺在掛「水源市場」招牌的騎樓前）：「夜市攤販也沒有店員阿 而且水源市場是一棟建築!!! 公館有很多攤販的地方就是水源市場那一棟的旁邊 羅斯福路跟汀州路中間阿」「你現在公館走到汀州路就應該是這一條，改道水源市場旁邊的巷子才合理，那條通道要有這些攤販」。①LAWWW2：水源市場做成一棟樓（外觀原創、不照抄，D136）；公館↔汀州路的連接改成市場旁邊的巷子，攤販（公館阿婆甜湯、節節高甘蔗汁等現有攤）排在巷子兩側；導航、碰撞、進出點一起改 ②LAWWW：公館↔汀州路的出入口、快速前往、NPC 路線跟著改；每一攤站一個顧攤的人（併 SHOP-LIFE-AUDIT-1112，先在現有位置補人，不等搬家）③攤名照現有的不動（D147）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",

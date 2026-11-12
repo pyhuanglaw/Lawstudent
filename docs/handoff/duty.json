@@ -41,7 +41,7 @@
    "account": "C",
    "session": "session_015BuNi47yLUt5PviELapMNj",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "2ea3de6a",
+   "sha": "f7077d9b",
    "since": "2026-11-12T03:17Z",
    "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
@@ -53,7 +53,7 @@
    "account": "C",
    "session": "session_019evvieJUJD23EGf4nyLPgo",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "4ce5eeb9",
+   "sha": "3d0ab994",
    "since": "2026-11-12T03:13Z",
    "state": "on",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
@@ -65,7 +65,7 @@
    "account": "C",
    "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "96cd192d",
+   "sha": "c28462f7",
    "since": "2026-11-12T03:14Z",
    "state": "on",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
@@ -74,14 +74,14 @@
    "handoffSnapshot": "docs/handoff/snapshots/2026-11-10T0134Z_B_BB.json"
   },
   "CC": {
-   "account": "A",
-   "session": "session_01TdESzxBpdGoPhdkPD2ENce",
+   "account": "C",
+   "session": "session_01S1Gk9V6WCgJmkoo3wxHxhv",
    "branch": "claude/cc-testing",
-   "sha": "31da440c",
-   "since": "2026-11-10T08:18Z",
+   "sha": "51ba4fff",
+   "since": "2026-11-12T04:43Z",
    "state": "on",
    "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
-   "sinceSha": "8d9218ea",
+   "sinceSha": "bc372563",
    "handedOffAt": "2026-11-10T01:34Z",
    "handoffSnapshot": null,
    "note": "CC-C 11:1x 只在 CC_00 寫了交班紀錄（41f993657），沒跑 duty handoff、沒存快照；LAWWW-C 11:4x 照交班紀錄手動標 handed-off（異常，HV-20 第①點：下一任 CC 交班一定要跑 duty handoff）"
@@ -822,6 +822,20 @@
     }
    },
    "until": "2026-11-12T03:18Z"
+  },
+  {
+   "account": "A",
+   "role": "CC",
+   "roles": {
+    "CC": {
+     "session": "session_01TdESzxBpdGoPhdkPD2ENce",
+     "branch": "claude/cc-testing",
+     "sha": "31da440c",
+     "state": "on",
+     "handedOffAt": "2026-11-10T01:34Z"
+    }
+   },
+   "until": "2026-11-12T04:45Z"
   }
  ],
  "anomalies": [
@@ -1204,7 +1218,7 @@
    "resolved": false
   }
  ],
- "seq": 130,
+ "seq": 132,
  "chain": [
   {
    "seq": 1,
@@ -2114,6 +2128,20 @@
    "at": "2026-11-12T03:27Z",
    "account": "C",
    "role": "LAWWW2,AA",
+   "event": "sync"
+  },
+  {
+   "seq": 131,
+   "at": "2026-11-12T04:41Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 132,
+   "at": "2026-11-12T04:45Z",
+   "account": "C",
+   "role": "AA,CC",
    "event": "sync"
   }
  ],

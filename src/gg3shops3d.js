@@ -30,7 +30,26 @@
    - 店員站的位置（zone.shopClerk）：開店時放一個路人模型站著（STORY.populate 之後；洗樂沒有店員）。區域的座位補成 zone.seats（約會一起坐、帶位用）。
    - 舊存檔：已經排好的行程地點、標題「公館・日日定食」「公館的日日定食」→「汀州路・泰米村食」「汀州路的泰米村食」（S.migrate，game3d.js 的 migrate 叫；AA_742 第 ③ 節）。
    - 舊存檔：手機訊息、筆記裡的「日日定食」也換（明軒清單筆記整份換成現在的；BB 11-11 19:25，只做一次＝G.flags.GG3_REN）。
-   存檔只多 G.flags 的 GG3_DOOR、GG3_SIT、GG3_GIFT、GG3_WRAP、GG3_TALK、GG3_SEEN、GG3_WASH、GG3_WASH_DAY、GG3_REN；舊存檔沒有＝都還沒發生，不用遷移。
+   - 汀州路的小館（TINGZHOU-SHOPS5-1110；越好吃小館 tz_yuehaochi，AA_821 企劃線 7917d4289）：字在 src/data/tz_meal_lines.js（TZ_MEAL_LINES，tools/shops/import_tz_meals.py 匯入，一間一份 JSON）。
+     有載到那個檔＝S.addMeals 把每一間加進 S.ZONES／S.LAYID／台詞表，進門、打烊、門口、看、店員、座位都走上面同一套（和泰米村食一樣）；這裡只多：
+     點餐（S.mealOrder）＝「要吃什麼？」→ 菜單（稿的名字、價錢；一樣最多點一份，可以點好幾樣）→ 點好了 → 錢不夠＝稿的那一句旁白、不扣錢 → 扣錢 → 點完一句（只點 afterOnly 那一樣＝那一句；
+     有 afterNo（稿的 after_no_pho）而且沒有點那幾樣（河粉）＝afterNo 那一句；其他＝after 隨機一句——「香草自己夾喔」只在有點河粉時說）
+     → 吃過的登記 EAT（店名「汀州路・○○」）→ 坐到最近的空位（自己帶位也說坐下那一句）→「吃」的第一句 → 吃 30 分鐘（和泰米一樣）→ 第二句；
+     一次點好幾樣只演一樣的「吃」（S.mealPick：照 eatFirst 的組別 河粉 > 春捲 > 法國麵包 > 咖啡，同一組先點的那一樣；沒有 eatFirst＝第一樣）；
+     只點 afterOnly 那一樣（咖啡）＝15 分鐘（S.HRS.mealDrink）、不算一餐（不登記 EAT）；
+     開門以前（清晨 6 點到開門）按店門＝notOpen（稿的 staff.not_open）那一句旁白＋開放時間，不用打烊的 sign（以上 AA 11-12 回 LAWWW-C 七問，稿 _meta.lawww_1112）；
+     坐下＝稿只有一句（seat.sit）就每一桌都說那一句；互動點按鈕的字照稿（labels，S.attach 換掉配置的字）。約去吃這一批不做、沒有公休、颱風假照通用的（只寫開放時間）（AA 11-12）。
+     下一間（客居雲南 tz_keju）：AA 交同樣格式的稿、匯入工具加一列、places.js 加名字和時間就好，這支不用改。
+   - 汀州路的雜貨店（TINGZHOU-SHOPS5-1110；東南大聯商行 tz_dongnan，AA_823 @ 3d0ab9944）：字在 src/data/tz_grocery_lines.js（TZ_GROCERY_LINES，tools/shops/import_tz_grocery.py 匯入）。
+     有載到那個檔＝S.addGroceries 把每一間加進 S.ZONES／S.LAYID／台詞表，進門、打烊、門口（開門以前＝notOpen、打烊以後＝sign）、店員、按鈕的字都走上面同一套；沒有座位。這裡只多：
+     貨架（S.groceryShelf；四個點）＝稿的「看」那一句旁白 → 這個貨架的東西（稿的名字＋價錢；那一樣的一句說明當選項的提示，和泰米村食的菜單說明一樣）→ 選了＝稿的 pick 那一句旁白（每拿一樣說一次）、拿在手上（一樣最多一份、可以拿好幾樣；
+     拿過的不再列；「不用了」的提示寫手上有什麼、共幾元）。手上的東西不進存檔（S.hand：只記這一趟進店；走出去、讀檔＝沒有了）。
+     結帳（S.groceryPay）＝手上沒有東西：稿的 empty 旁白；有：老闆「就這些嗎？」→「買」（提示：東西、共幾元）／「不用了」（＝不買，稿的 counter.cancel 那一句旁白、東西放回去、不扣錢）
+     → 錢不夠＝稿的 no_money 旁白（東西放回架上、不扣錢）→ 扣錢、時間 +S.HRS.buy → 老闆一句：買的東西裡有 afterIf.ids（泡麵、五包裝、辣醬）＝after_spicy 那一句，其他＝after 隨機一句。
+     買的東西進「物品」（AA 11-12 回 LAWWW-C 第 ⑦ 點；使用者 X277、X291）：記在 G.flags.GG3_OWN＝{區域:{東西的 id:幾份}}（S.own、S.ownAdd；同一樣隔一趟再買＝份數加一）；
+     選單「物品」分頁（game3d.js openMenu：GIFTH.renderBag 後面接 S.ownHTML）一間店一格——店名（稿）、底下一行一樣（稿的名字，兩份以上寫 ×n；順序照稿）。這一版沒有用途（不能用、不能吃、不能送）。
+     舊存檔沒有 GG3_OWN＝什麼都沒買過（S.own 讀的時候不寫存檔；資料壞掉、稿裡沒有的 id＝不列）。一趟一樣一份、老闆是男的（S.CLERK_I 奇數）、每天 10:00～21:30 沒有公休、颱風假照通用的（AA 11-12 ④⑤⑥ 確認）。
+   存檔只多 G.flags 的 GG3_OWN（上面雜貨店買的東西）、GG3_DOOR、GG3_SIT、GG3_GIFT、GG3_WRAP、GG3_TALK、GG3_SEEN、GG3_WASH、GG3_WASH_DAY、GG3_REN；舊存檔沒有＝都還沒發生，不用遷移。
    測試：node tests/gg_shops3_story_1111_unit.js */
 'use strict';
 const GG3=(function(){
@@ -39,17 +58,29 @@ const GG3=(function(){
   S.ZONES=['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_xile','tz_yindehao'];
   S.LAYID={gg_antai:'antai',gg_xianguo:'xianguo',gg_rongendian:'rongendian',tz_taimi:'taimi',tz_xile:'xile',tz_yindehao:'yindehao'};
   const LAY=k=>typeof TZ_SHOPS_LAYOUT!=='undefined'&&TZ_SHOPS_LAYOUT?TZ_SHOPS_LAYOUT[S.LAYID[k]]||null:null;
-  S.HRS={buy:0.15,taimiEat:0.5};   /* 買東西（照 ggshops_sys3d.js、story3d.js 的 counter：0.15 小時）；泰米吃 30 分鐘（AA_742）*/
+  S.HRS={buy:0.15,taimiEat:0.5,mealEat:0.5,mealDrink:0.25};   /* 買東西（照 ggshops_sys3d.js、story3d.js 的 counter：0.15 小時）；泰米吃 30 分鐘（AA_742）*/
   S.EAT_KEY='泰米村食'; S.EAT_SHOP='汀州路・泰米村食';
   S.SEASON={'暖暖包（十片）':[11,12,1,2]};   /* AA_742：「只有十一月到二月才擺出來。」*/
   S.TAIMI_KEY={'打拋豬肉飯':'打拋','泰式椒麻雞飯':'椒麻雞','綠咖哩雞肉飯':'綠咖哩','泰式紅咖哩飯':'紅咖哩','泰式炒河粉':'炒河粉','泰式酸辣湯':'酸辣湯','泰式奶茶':'奶茶'};   /* 句子提到哪一道＝那一道有點才說 */
   S.TAIMI_CAT=n=>/湯$/.test(n)?'soup':(/茶$/.test(n)?'drink':'main');   /* 主餐＋湯＋飲料（AA_742）*/
   S.RONG_PEN=['原子筆（一枝）','三色筆','自動鉛筆','螢光筆（五色一組）'];   /* 「老闆把你買的筆一枝一枝在試寫紙上畫過」＝買了這幾樣才說 */
-  S.CLERK_I={gg_antai:60,gg_xianguo:61,tz_taimi:62,gg_rongendian:63,tz_yindehao:65};   /* 店員的路人模型（STORY.extraSpec：偶數＝女性、奇數＝男性；藥師、老闆娘是女的，鮮果、榮恩典老闆是男的）*/
+  S.CLERK_I={gg_antai:60,gg_xianguo:61,tz_taimi:62,gg_rongendian:63,tz_yindehao:65,tz_yuehaochi:66,tz_dongnan:67};   /* 店員的路人模型（STORY.extraSpec：偶數＝女性、奇數＝男性；藥師、老闆娘是女的，鮮果、榮恩典、東南大聯的老闆是男的）*/
   S.RENAME=[['公館・日日定食','汀州路・泰米村食'],['公館的日日定食','汀州路的泰米村食'],['日日定食','泰米村食']];   /* AA_742 第 ③ 節：舊存檔的行程地點 */
   /* 系統字（稿上沒有；回報給 AA）*/
   S.SYS={no:'不用了',buy:'買',done:'點好了',noCut:'不用切',short:'錢不夠',bought:'買了',washed:'今天洗過了。'};
   S.rand=()=>Math.random();
+  /* 汀州路的小館（TZ_MEAL_LINES：一間一份稿）：加進同一套（區域、配置 id、台詞表）；沒有載到那個檔＝照舊六間 */
+  S.MEALS=[];
+  S.addMeals=function(){ const M=typeof TZ_MEAL_LINES!=='undefined'?TZ_MEAL_LINES:null, L=D(); if(!M||!L) return 0; let n=0;
+    for(const k of Object.keys(M)){ const T=M[k]; if(k.charAt(0)==='_'||!T||!T.meal||S.ZONES.includes(k)) continue; L[k]=T; S.ZONES.push(k); S.LAYID[k]=T.layout; S.MEALS.push(k); n++; }
+    return n; };
+  S.addMeals();
+  /* 汀州路的雜貨店（TZ_GROCERY_LINES：一間一份稿）：一樣加進同一套；沒有載到那個檔＝不加 */
+  S.GROCERS=[];
+  S.addGroceries=function(){ const M=typeof TZ_GROCERY_LINES!=='undefined'?TZ_GROCERY_LINES:null, L=D(); if(!M||!L) return 0; let n=0;
+    for(const k of Object.keys(M)){ const T=M[k]; if(k.charAt(0)==='_'||!T||!T.grocery||S.ZONES.includes(k)) continue; L[k]=T; S.ZONES.push(k); S.LAYID[k]=T.layout; S.GROCERS.push(k); n++; }
+    return n; };
+  S.addGroceries();
 
   /* ---------- 共用 ---------- */
   const hr=G=>((((+G.hour||0)%24)+24)%24);
@@ -81,7 +112,7 @@ const GG3=(function(){
     if(!best){ await fn(null); return false; } if(GM.fade) await GM.fade(true); GM.sitAt(P,best); if(GM.fade) await GM.fade(false);
     try{ await fn(best); } finally { if(GM.standUp) GM.standUp(P); } return true; };
   S.tableKind=function(k,seat){ const L=LAY(k); if(!L||!seat) return null; const m=/_t(\d+)$/.exec(String(seat.table||'')); if(!m) return null; const t=(L.tables||[]).find(q=>q.id===+m[1]); return t?t.kind:null; };
-  S.seatLine=(k,seat)=>{ const T=D()&&D()[k]; if(!T||!T.seat) return null; const kd=S.tableKind(k,seat); return kd&&T.seat[kd]?T.seat[kd]:null; };
+  S.seatLine=(k,seat)=>{ const T=D()&&D()[k]; if(!T||!T.seat) return null; const kd=S.tableKind(k,seat); return kd&&T.seat[kd]?T.seat[kd]:(seat&&T.seat.sit?T.seat.sit:null); };   /* 稿只有一句（seat.sit，汀州路的小館）＝每一桌都是那一句 */
   S.onSeat=async function(GM,seat){ const G=GM&&GM.G; if(!G||!S.ZONES.includes(G.zone)) return false; const t=S.seatLine(G.zone,seat); if(!t) return false; await GM.say(null,t); return true; };
 
   /* ---------- 看（每一個點的句子；同一句不連續出）---------- */
@@ -188,8 +219,8 @@ const GG3=(function(){
   S.taimiOrder=async function(GM){ const G=GM.G, X=D().tz_taimi, B=W(X.who); await GM.say(B,X.ask);
     const bk=[], spice={}, tot=()=>bk.reduce((a,q)=>a+q.p,0);
     for(;;){ const taken=bk.map(q=>S.TAIMI_CAT(q.n)), its=X.menu.filter(it=>!taken.includes(S.TAIMI_CAT(it.n)));
-      const opts=its.map(it=>({t:it.n+'　'+S.taimiPrice(it,G)+' 元',hint:it.desc})); if(bk.length) opts.push({t:S.SYS.done,hint:bk.map(q=>q.n).join('、')+'　共 '+tot()+' 元'}); opts.push({t:S.SYS.no});
-      const c=await GM.choose(opts);
+      const opts=its.map(it=>({t:it.n+'　'+S.taimiPrice(it,G)+' 元',hint:it.desc})); if(bk.length) opts.push({t:S.SYS.done,hint:bk.map(q=>q.n).join('、')+'　共 '+tot()+' 元'}); opts.push({t:S.SYS.no}); const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,S.EAT_KEY):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */
+      const c=await GM.choose(opts); if(gO&&c===opts.length-1){ await GIFT.buy(GM,S.EAT_KEY); continue; }
       if(c>=0&&c<its.length){ const it=its[c]; bk.push({n:it.n,p:S.taimiPrice(it,G)});
         if(S.TAIMI_CAT(it.n)==='main'&&!X.spicy.skip.includes(it.n)){ await GM.say(B,X.spicy.ask); const k=await GM.choose(X.spicy.opts.map(t=>({t}))); const o=X.spicy.opts[k>=0&&k<X.spicy.opts.length?k:0]; spice[it.n]=o;
           if(o===X.spicy.more.opt) await GM.say(B,X.spicy.more.line); }   /* 辣度：點主餐時問一次（只是口味）*/
@@ -205,11 +236,68 @@ const GG3=(function(){
       const ok=X.eat.filter(t=>S.needs(t,names)&&Object.keys(S.TAIMI_KEY).some(n=>t.includes(S.TAIMI_KEY[n]))); if(ok.length) await GM.say(null,pick(ok)); });   /* 吃 30 分鐘；吃的旁白照點的菜挑 */
     if(GM.autosave) GM.autosave(); return names.join('、'); };
 
+  /* ---------- 汀州路的小館（TZ_MEAL_LINES；越好吃小館）：點餐 ---------- */
+  /* 點的那幾樣裡演哪一樣的「吃」：eatFirst 的組別照順序，第一組有點到的、先點的那一樣；沒有 eatFirst＝先點的 */
+  S.mealPick=function(M,bk){ for(const g of (M.eatFirst||[])){ const q=bk.find(x=>g.includes(x.id)); if(q) return q; } return bk[0]; };
+  S.mealOrder=async function(GM){ const G=GM.G, k=G.zone, T=D()[k], M=T.meal, B=W(T.who); await GM.say(B,M.ask);
+    const bk=[], tot=()=>bk.reduce((a,q)=>a+q.p,0);
+    for(;;){ const its=M.menu.filter(it=>!bk.includes(it));   /* 一樣最多一份 */
+      const opts=its.map(it=>({t:it.n+'　'+it.p+' 元'})); if(bk.length) opts.push({t:S.SYS.done,hint:bk.map(q=>q.n).join('、')+'　共 '+tot()+' 元'}); opts.push({t:S.SYS.no});
+      const c=await GM.choose(opts);
+      if(c>=0&&c<its.length){ bk.push(its[c]); continue; }
+      if(!(bk.length&&c===its.length)) return null; break; }
+    const names=bk.map(q=>q.n), total=tot();
+    if((G.money|0)<total){ await GM.say(null,M.short); return 'short'; }   /* 錢不夠：稿的那一句旁白，不扣錢 */
+    GM.money(-total,T.name); S.last={items:names,total,spice:{},day:G.day,zone:k};
+    const only=!!M.afterOnly&&bk.length===1&&bk[0].id===M.afterOnly.id, noX=!!M.afterNo&&!bk.some(q=>M.afterNo.ids.includes(q.id));
+    await GM.say(B,only?M.afterOnly.line:(noX?M.afterNo.line:pick(M.after)));   /* 沒點河粉＝after_no_pho（「香草自己夾喔」只在有點河粉時說）*/
+    if(!only&&typeof EAT!=='undefined'&&EAT.ordered){ try{ if(EAT.addShop&&!(EAT.SHOPS_X&&EAT.SHOPS_X[T.name])) EAT.addShop(T.name,{shop:'汀州路・'+T.name,staff:{who:T.who,line5:null,same:null,alt:null},first:null,door:false}); await EAT.ordered(GM,T.name,names.join('、')); }catch(e){ console.warn('EAT.ordered',e); } }
+    const was=!!(GM.E&&GM.E.player&&GM.E.player.seat);
+    await S.seated(GM,async st=>{ if(st&&!was) await S.onSeat(GM,st);
+      const q=S.mealPick(M,bk);   /* 點好幾樣只演一樣的「吃」*/
+      if(q.eat[0]) await GM.say(null,q.eat[0]);   /* 端上來 */
+      if(GM.fade) await GM.fade(true); GM.advance(only?S.HRS.mealDrink:S.HRS.mealEat); if(GM.fade) await GM.fade(false);
+      for(const t of q.eat.slice(1)) await GM.say(null,t); });   /* 吃 30 分鐘（和泰米村食一樣；只點咖啡 15 分鐘）、吃完 */
+    if(GM.autosave) GM.autosave(); return names.join('、'); };
+
+  /* ---------- 汀州路的雜貨店（TZ_GROCERY_LINES；東南大聯商行）：到貨架拿、到櫃檯結帳 ---------- */
+  /* 手上的東西：只記這一趟進店（區域＋GM.enterN）；不進存檔。走出去、讀檔（LOADLOCKS）＝沒有了 */
+  let hand={k:null,n:-1,ids:[]};
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['gg3shops3d:hand']=()=>{ hand={k:null,n:-1,ids:[]}; };
+  S.hand=function(GM){ const k=GM.G.zone, n=GM.enterN|0; if(hand.k!==k||hand.n!==n) hand={k,n,ids:[]}; return hand.ids; };
+  S.handGoods=function(GM){ const X=D()[GM.G.zone].grocery, ids=S.hand(GM); return ids.map(id=>X.goods.find(g=>g.id===id)).filter(Boolean); };
+  const handHint=gs=>gs.map(g=>g.n).join('、')+'　共 '+gs.reduce((a,g)=>a+g.p,0)+' 元';
+  /* 買回來的東西（「物品」；X277、X291）：G.flags.GG3_OWN＝{區域:{id:幾份}}。S.own 只讀（舊存檔、壞掉的資料＝空的，不寫存檔）；S.ownAdd 買了才寫 */
+  const isObj=o=>!!o&&typeof o==='object'&&!Array.isArray(o);
+  S.own=function(G){ const R=G&&G.flags&&G.flags.GG3_OWN, L=D(), out=[]; if(!isObj(R)||!L) return out;
+    for(const k of S.GROCERS){ const T=L[k], r=R[k]; if(!T||!T.grocery||!isObj(r)) continue; const items=T.grocery.goods.filter(g=>(r[g.id]|0)>0).map(g=>({id:g.id,n:g.n,count:r[g.id]|0})); if(items.length) out.push({zone:k,shop:T.name,items}); }
+    return out; };
+  S.ownAdd=function(G,k,id){ const f=G.flags||(G.flags={}); if(!isObj(f.GG3_OWN)) f.GG3_OWN={}; if(!isObj(f.GG3_OWN[k])) f.GG3_OWN[k]={}; const r=f.GG3_OWN[k]; r[id]=Math.max(0,r[id]|0)+1; return r[id]; };
+  const escH=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
+  S.ownHTML=function(G){ return S.own(G).map(o=>'<div class="item"><b>'+escH(o.shop)+'</b>'+o.items.map(i=>'<div>· '+escH(i.n)+(i.count>1?' ×'+i.count:'')+'</div>').join('')+'</div>').join(''); };
+  S.groceryShelf=async function(GM,kind){ const k=GM.G.zone, T=D()[k], X=T.grocery, ids=S.hand(GM), took=[]; const t=S.look(k,kind); if(t) await GM.say(null,t);
+    for(;;){ const its=X.goods.filter(g=>g.at===kind&&!ids.includes(g.id)); if(!its.length) break;   /* 一樣最多一份；這個貨架的都拿了＝不再問 */
+      const hs=S.handGoods(GM), no={t:S.SYS.no}; if(hs.length) no.hint=handHint(hs);
+      const c=await GM.choose(its.map(g=>({t:g.n+'　'+g.p+' 元',hint:g.line})).concat([no])); if(!(c>=0&&c<its.length)) break;
+      ids.push(its[c].id); took.push(its[c].n); if(X.pick) await GM.say(null,X.pick); }   /* 拿起一樣：稿的 pick 那一句旁白 */
+    return took.length?took.join('、'):(t||null); };
+  S.groceryPay=async function(GM){ const G=GM.G, k=G.zone, T=D()[k], X=T.grocery, B=W(T.who), gs=S.handGoods(GM), ids=S.hand(GM);
+    if(!gs.length){ await GM.say(null,X.empty); return 'empty'; }
+    const total=gs.reduce((a,g)=>a+g.p,0); await GM.say(B,X.ask);
+    const c=await GM.choose([{t:S.SYS.buy,hint:handHint(gs),dim:(G.money|0)<total},{t:S.SYS.no}]);
+    if(c!==0){ ids.length=0; if(X.cancel) await GM.say(null,X.cancel); return null; }   /* 不用了：東西放回去（稿的 cancel 那一句旁白）*/
+    if((G.money|0)<total){ ids.length=0; await GM.say(null,X.short); return 'short'; }   /* 錢不夠：稿的那一句旁白（東西放回架上），不扣錢 */
+    GM.money(-total,T.name); if(GM.advance) GM.advance(S.HRS.buy); for(const g of gs) S.ownAdd(G,k,g.id); S.last={items:gs.map(g=>g.n),total,spice:{},day:G.day,zone:k};
+    const sp=!!X.afterIf&&gs.some(g=>X.afterIf.ids.includes(g.id)); ids.length=0;
+    await GM.say(B,sp?X.afterIf.line:pick(X.after));   /* 買了泡麵或辣醬＝after_spicy（取代 after）*/
+    if(GM.autosave) GM.autosave(); return gs.map(g=>g.n).join('、'); };
+
   /* ---------- 店門：關門 ---------- */
   S.doorLine=function(k,G){ const T=D()&&D()[k]; if(!T) return null; if(typhoon(k,G)) return T.typhoon?{t:T.typhoon,why:'typhoon'}:null;
     const ws=wins(k,G.day); if(ws===undefined) return null; if(!ws||!ws.length) return T.off?{t:T.off,why:'off'}:null;   /* 今天公休 */
     const h=hr(G), last=ws[ws.length-1][1]; if((h>=last-1e-6||h<6)&&T.sign) return {t:T.sign,why:'sign'};   /* 打烊以後（到清晨） */
     if(T.rest&&ws.length>1&&h>=ws[0][1]-1e-6&&h<ws[ws.length-1][0]) return {t:T.rest,why:'rest'};   /* 泰米中午休息 */
+    if(T.notOpen&&h<ws[0][0]) return {t:T.notOpen,why:'notopen'};   /* 開門以前（清晨 6 點以後；稿有 not_open 的店才說）*/
     return null; };
   S.door=async function(GM,k){ const G=GM.G, L=S.doorLine(k,G), txt=typeof PLACES!=='undefined'&&PLACES.closedText?PLACES.closedText(k,G.hour,G.day):'';
     if(L){ GM.sceneBegin(); try{ await GM.say(null,L.t); } finally { GM.sceneEnd(); } }
@@ -248,6 +336,8 @@ const GG3=(function(){
   /* ---------- 互動 ---------- */
   S.ACT={gg_antai_counter:S.antaiTalk,gg_antai_shelf:S.antaiShelf,gg_antai_bp:S.antaiBp,gg_fruit_counter:S.fruitBuy,gg_rong_counter:S.rongBuy,gg_rong_cart:S.rongCart,
     tz_xile_wash:S.wash,tz_xile_change:S.change,tz_yin_counter:S.yinCounter,tz_taimi_order:S.taimiOrder};
+  for(const k of S.MEALS) S.ACT[D()[k].meal.point]=S.mealOrder;   /* 汀州路的小館：點餐的 kind 照稿（order.id）*/
+  for(const k of S.GROCERS){ const X=D()[k].grocery; S.ACT[X.point]=S.groceryPay; for(const g of X.goods) if(!S.ACT[g.at]){ const kind=g.at; S.ACT[kind]=GM=>S.groceryShelf(GM,kind); } }   /* 汀州路的雜貨店：結帳、有東西的貨架 */
   S.handles=(k,kind)=>!!kind&&!!D()&&!!D()[k]&&(!!S.ACT[kind]||!!(D()[k].look&&D()[k].look[kind]));
   S.interact=async function(GM,it){ const G=GM.G, k=G.zone, kind=it.kind; let r=null; GM.sceneBegin();
     try{ if(kind==='tz_xile_wash') r=await S.wash(GM,{deferOut:true}); else if(S.ACT[kind]) r=await S.ACT[kind](GM); else { r=S.look(k,kind); if(r) await GM.say(null,r); } } finally { GM.sceneEnd(); }
@@ -256,7 +346,9 @@ const GG3=(function(){
 
   /* ---------- 區域：座位補成 zone.seats、標記接好的互動點 ---------- */
   S.attach=function(E,z,k){ if(!z||!E) return z; const IT=E.interactables||[]; if(!Array.isArray(z.seats)) z.seats=IT.filter(i=>i&&i.tzSeat&&i.seat).map(i=>i.seat);
-    for(const it of IT) if(it&&it.tzPoint&&S.handles(k,it.kind)) it.gg3=k; return z; };
+    const LB=D()&&D()[k]&&D()[k].labels;
+    for(const it of IT) if(it&&it.tzPoint&&S.handles(k,it.kind)){ it.gg3=k; if(LB&&LB[it.kind]) it.label=LB[it.kind]; }   /* 按鈕的字照稿（汀州路的小館：稿有 button）*/
+    return z; };
   S.hookZones=function(){ if(typeof Z3==='undefined'||!Z3.ZONES) return 0; let n=0;
     for(const k of S.ZONES){ const zd=Z3.ZONES[k]; if(!zd||zd._gg3) continue; const b0=zd.build; zd.build=function(E){ const z=b0.apply(this,arguments); try{ S.attach(E,z,k); }catch(e){ console.warn('GG3.attach',e); } return z; }; zd._gg3=true; n++; }
     return n; };

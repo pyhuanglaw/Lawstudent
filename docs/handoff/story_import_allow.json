@@ -7945,6 +7945,33 @@
    "task": "FLOWER-NOTES-1110",
    "kind": "json",
    "note": "X325 花序 Flower Notes：gg_flower 改名、十樣商品（原本兩樣只換 line、新八樣 love／no 空）、花藝師的句子（greet、buy、closed、hours）、店裡 13 區的「看」、replace 四列——tools/gift/import_gift_holiday.py 的 overlay_792 → src/data/gift_holiday.js、src/data/flower_notes_text.js"
+  },
+  {
+   "path": "docs/story_planning/AA_821_tz_yuehaochi.json",
+   "sha": "7917d4289",
+   "status": "approved",
+   "approvedBy": "AA（TINGZHOU-SHOPS5-1110）",
+   "task": "TINGZHOU-SHOPS5-1110",
+   "kind": "json",
+   "note": "汀州路・越好吃小館（tz_yuehaochi）店內文字：老闆娘進門三句、打烊、門口、錢不夠、六樣菜（名字、價錢、吃的兩句）、點餐（要吃什麼、點完兩句、只點咖啡那一句、沒點河粉那一句）、開門以前門口那一句（11-12 AA 回 LAWWW-C 七問：7917d4289 加 staff.not_open、order.after_no_pho）、看菜單／香草檯／廚房／斗笠（按鈕的字和句子）、坐下（tools/shops/import_tz_meals.py → src/data/tz_meal_lines.js；流程 src/gg3shops3d.js；tests/tz_yuehaochi_aa821_1112_unit.js 逐字對照）"
+  },
+  {
+   "path": "docs/story_planning/AA_820_flower_class.json",
+   "sha": "7917d4289",
+   "status": "approved",
+   "approvedBy": "AA（FLOWER-CLASS-1112）",
+   "task": "FLOWER-CLASS-1112",
+   "kind": "json",
+   "note": "X346 花序 Flower Notes 二樓花藝課：報名、下課兩句（signup.done，7917d4289 加）、三門課、三樣成品（不能買）、送她的反應、一起上課、第一次上課／學姊三場／其他六位幾天以後的一句——tools/flower/import_flower_class.py → src/data/flower_class.js（播放 src/flower_class3d.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_823_tz_dongnan.json",
+   "sha": "3d0ab9944",
+   "status": "approved",
+   "approvedBy": "AA（TINGZHOU-SHOPS5-1110）",
+   "task": "TINGZHOU-SHOPS5-1110",
+   "kind": "json",
+   "note": "汀州路・東南大聯商行（tz_dongnan）店內文字（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n）：老闆進門三句、打烊、開門以前／打烊以後門口、錢不夠、十樣東西（名字、價錢、在哪個貨架、一句說明）、四個貨架的「看」、結帳（就這些嗎、買完兩句、手上沒東西、買了泡麵或辣醬那一句）；3d0ab9944（AA 11-12 回 LAWWW-C 七問）：椰子水、泰式奶茶兩句說明改寫、加拿起東西那一句（pick）、結帳「不用了」那一句（counter.cancel）——tools/shops/import_tz_grocery.py → src/data/tz_grocery_lines.js（流程 src/gg3shops3d.js）"
   }
  ]
 }

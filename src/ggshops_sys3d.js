@@ -71,7 +71,8 @@ const GGS=(function(){
     const IT=M.night&&M.nightAt&&inWin(hr(G),M.nightAt)?M.items.filter(m=>M.night.includes(m[0])):M.items;   /* 熱食櫃晚上只剩茶葉蛋、肉包（稿上晚上那一句）*/
     const hO=key==='aoki.order'&&typeof GIFTH!=='undefined'&&GIFTH.shopOpt?GIFTH.shopOpt(G,'aoki'):null;   /* 青木茶室的買禮物（GIFT-HOLIDAY-1110，src/gifthol3d.js）*/
     const opts=IT.map(m=>Object.assign({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]},M.hint&&M.hint[m[2]]?{hint:M.hint[m[2]]}:{})).concat(hO?[hO]:[],[{t:'不用了'}]);
-    const i=await GM.choose(opts); if(hO&&i===IT.length){ await GIFTH.pick(GM,hO); return 'gift'; } if(i==null||i<0||i>=IT.length) return null;
+    const gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,key):null; if(gO) opts.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */
+    const i=await GM.choose(opts); if(gO&&i===opts.length-1){ await GIFT.buy(GM,key); return 'gift'; } if(hO&&i===IT.length){ await GIFTH.pick(GM,hO); return 'gift'; } if(i==null||i<0||i>=IT.length) return null;
     const [nm,p,tag]=IT[i];
     if((G.money|0)<p){ if(M.poor&&tag!=='cold') await sayL(GM,[M.poor]); else GM.toast('錢不夠'); return 'poor'; }
     GM.money(-p); if(GM.advance) GM.advance(0.15);

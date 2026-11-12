@@ -90,7 +90,7 @@ const GY3=(function(){
       let cand=JOIN.filter(l=>!r.seen.includes(l)); if(!cand.length){ r.seen=[]; cand=JOIN.slice(); } const l=cand[Math.floor(Math.random()*cand.length)]; r.seen.push(l); await GM.say(null,l);
       if((r.fit|0)>=50){ r.strongN=((r.strongN|0)+1)%3; if(r.strongN===0) await GM.say(null,'以前追不到的球，你現在追得到了。'); } await upNote(GM); }   /* 結實以上：三次裡一次 */
     else if(i===1){ GM.advance(1/3); r.sportDay=G.day; r.serveN=((r.serveN|0)+1)%SERVE.length; await GM.say(null,SERVE[r.serveN]); } }
-  async function vending(GM){ const G=GM.G, r=rec(G), sport=r.sportDay===G.day; const i=await GM.choose(VEND.map(v=>({t:v[0]+'　'+v[1]+' 元',dim:G.money<v[1]})).concat([{t:'不用了'}]));
+  async function vending(GM){ const G=GM.G, r=rec(G), sport=r.sportDay===G.day; const vo=VEND.map(v=>({t:v[0]+'　'+v[1]+' 元',dim:G.money<v[1]})).concat([{t:'不用了'}]), gO=typeof GIFT!=='undefined'&&GIFT.shopOpt?GIFT.shopOpt(G,'體育館販賣機'):null; if(gO) vo.push(gO);   /* 買一份帶走送人（GIFT-ALL-DRINK-SHOPS-1112，src/gift3d.js GIFT.SHOPS）：放在最後，原本的選項位置不動 */ const i=await GM.choose(vo); if(gO&&i===VEND.length+1){ await GIFT.buy(GM,'體育館販賣機'); return; }
     if(i>=VEND.length) return; const v=VEND[i]; if(G.money<v[1]){ GM.toast('錢不夠'); return; } GM.money(-v[1]); await GM.say(null,i===0&&sport?'運動完的那一罐，總是喝得特別快。':v[2]); }   /* 只是一句旁白，不放進背包 */
   async function fountain(GM){ const G=GM.G, r=rec(G); if(r.drinkDay===G.day) return; r.drinkDay=G.day; await GM.say(null,r.sportDay===G.day?'你喝了很久。後面排隊的人在等你。':'你按下按鈕，彎腰喝了幾口。'); }   /* 一天第二次以後不再說話 */
   async function scene(GM,f){ GM.sceneBegin(); try{ await f(GM); } finally { GM.sceneEnd(); } }
