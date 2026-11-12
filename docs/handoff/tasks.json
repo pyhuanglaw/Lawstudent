@@ -56296,7 +56296,7 @@
     "acceptance": "CC route 探針（點地、搖桿各一次＋從一樓上樓一次）卡住 0 次；BB 判 PASS",
     "ack": "ACTIONED"
    },
-   "sha": "PENDING"
+   "sha": "0bf847e0fd"
   },
   {
    "id": "FLOWER-2F-TAPNAV-1112",
