@@ -81,18 +81,18 @@ const YL='assets/portraits/yule/campus/';
 
   // 5. 偶遇：西門町 D04 一起走（intro 的 speaker 'yule'）、淡水 D13 交往中（datingAfter 的 who '予樂'）
   check('5. ENC.sayer：yule、「予樂」→ {name:予樂, charId:yule}；綁馬尾的小女生只有名字；kexin → charId kexin',typeof ENC.sayer==='function'&&JSON.stringify(ENC.sayer('yule'))===JSON.stringify({name:'予樂',charId:'yule'})&&JSON.stringify(ENC.sayer('予樂'))===JSON.stringify({name:'予樂',charId:'yule'})&&JSON.stringify(ENC.sayer('綁馬尾的小女生'))===JSON.stringify({name:'綁馬尾的小女生'})&&ENC.sayer('kexin').charId==='kexin');
-  const intro=(ENC_WALK.intro||[]).filter(q=>q.speaker==='yule'||q.speaker==='予樂'), after=(ENCOUNTERS.rows||[]).filter(r=>r.lines&&r.lines.datingAfter), sid=x=>typeof ENC.sayer==='function'?ENC.sayer(x).charId:null;
-  check('5. 資料裡予樂的同行句（intro '+intro.length+' 句）、datingAfter（'+after.length+' 句）都對到 yule',intro.length>=3&&intro.every(q=>sid(q.speaker)==='yule')&&after.length>=1&&after.filter(r=>/予樂/.test(r.lines.datingAfter.who)).every(r=>sid(r.lines.datingAfter.who)==='yule'));
+  const intro=(ENC_WALK.intro||[]).filter(q=>q.who==='kexin'), after=(ENCOUNTERS.rows||[]).filter(r=>r.lines&&r.lines.datingAfter), sid=x=>typeof ENC.sayer==='function'?ENC.sayer(x).charId:null;
+  check('5. 可昕同行的 intro（'+intro.length+' 句）都是旁白、datingAfter（'+after.length+' 句）都對到 yule',intro.length>=3&&intro.every(q=>q.speaker===null)/* （CANON-NO-ECON-1112 第五批：照 AA_919 第 1 節，室友不上畫面、改旁白）*/&&after.length>=1&&after.filter(r=>/予樂/.test(r.lines.datingAfter.who)).every(r=>sid(r.lines.datingAfter.who)==='yule'));
   const row04=ENCOUNTERS.rows.find(r=>r.who==='kexin'&&r.spot==='D04'), row13=ENCOUNTERS.rows.find(r=>r.who==='kexin'&&r.spot==='D13'), t04=(ENC_WALK.intro||[]).find(q=>q.who==='kexin'&&q.spot==='D04');
   said.length=0; ADV.begin({background:'dark'}); pick=[2]; const r1=await ENC.meet(GM,row04,{t:'dating'}); ADV.end();
   const i1=t04&&line(t04.line);
-  check('5. 西門町一起走（'+r1+'）：予樂「'+(t04&&t04.line)+'」對話框「予樂」、charId yule',r1==='join'&&!!i1&&i1.name==='予樂'&&i1.charId==='yule',JSON.stringify(said.map(x=>x.name+'：'+x.text)));
-  check('5. 西門町：予樂說話時台上是她的立繪、可昕變暗',!!i1&&yuleOnStage(i1)&&['left','right'].some(q=>i1.st[q].id==='kexin'&&i1.st[q].dim),JSON.stringify(i1&&i1.st));
+  check('5. 西門町一起走（'+r1+'）：「'+(t04&&t04.line)+'」是旁白（沒有名字、沒有立繪）'/* （CANON-NO-ECON-1112 第五批：照 AA_919 第 1 節，室友不上畫面、改旁白）*/,r1==='join'&&!!i1&&!i1.name&&!i1.charId,JSON.stringify(said.map(x=>x.name+'：'+x.text)));
+  check('5. 西門町：旁白時台上沒有予樂的立繪'/* （CANON-NO-ECON-1112 第五批：照 AA_919 第 1 節，室友不上畫面、改旁白）*/,!!i1&&!yuleOnStage(i1),JSON.stringify(i1&&i1.st));
   said.length=0; G.trip={walk:0}; ADV.begin({background:'dark'}); pick=[0]; const r2=await ENC.meet(GM,row13,{t:'dating'}); ADV.end();
   const i2=line(row13.lines.datingAfter.text);
   check('5. 淡水交往中（'+r2+'）：「'+row13.lines.datingAfter.text+'」是旁白（沒有名字、沒有立繪）',!!i2&&row13.lines.datingAfter.who===null&&!i2.name&&!i2.charId,JSON.stringify(i2));   /* （CANON-NO-ECON-1112 第四批：照 AA_893 換字）淡水那一句改成旁白；舊期望：對話框「予樂」、台上是她的立繪 */
   const esrc=fs.readFileSync(path.join(ROOT,'src/encounter3d.js'),'utf8');
-  check('5. encounter3d.js：intro、datingAfter 都經過 sayer（不再只給名字）',/ESAY\(GM,S\.sayer\(q\.speaker\)/.test(esrc)&&/S\.sayer\(a\.who\)/.test(esrc)/* （CANON-NO-ECON-1112 第四批：照 AA_893 換字）who 是 null＝旁白 */&&!/name:q\.speaker==='yule'\?'予樂'/.test(esrc));
+  check('5. encounter3d.js：intro、datingAfter 都經過 sayer（不再只給名字）',/S\.sayer\(q\.speaker\)/.test(esrc)&&/S\.sayer\(a\.who\)/.test(esrc)/* （CANON-NO-ECON-1112 第四批：照 AA_893 換字）who 是 null＝旁白 */&&!/name:q\.speaker==='yule'\?'予樂'/.test(esrc));
 
   // 6. 沒有 charId 的說話者：ADV.speaker('player')
   const gsrc=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');

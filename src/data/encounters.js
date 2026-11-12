@@ -105,7 +105,7 @@ const ENCOUNTERS={
     {who:'classmate_xinci',spot:'D18',why:'她和高中同學在一間茶樓的窗邊，兩個人在對一份旅遊的帳。',days:[0],from:14,to:20,terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[10],stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:'ENC_D18_XC',away:'在九份',
       lines:{all:['{name}？我們在找一部劇的拍攝地點。','要同一個角度，連光都要一樣。我們已經找兩個小時了。']},src:'AA_162 8、8-1、8-5'},
     {who:'kexin',spot:'D09',why:'她和室友坐在茶館的窗邊，兩個人盯著一壺茶。',days:[0],from:15,to:19,terms:null,weeks:[7],stageMin:null,kexin:true,busy:'short',join:'dating',memo:'ENC_D09_KX',memoIf:'dating',
-      lines:{dating:['我們在等茶涼。我室友說三分鐘，我說兩分鐘。','你來當裁判。你說，誰對？']},
+      lines:{dating:['我們在等茶涼。我室友說可以喝了，我說還太燙。','你喝一口。你說，誰對？']},
       ex:{kx_b:['嗨。我們在喝茶。','我們讀完書上來的。你也是？'],kx_c:['好久不見。這裡的茶，還是一樣苦。','我們要下山了。你慢慢走。']},src:'BB_150 1、2-1（予樂讓位：enc_walk intro）'},
     {who:'heroine_04',spot:'D18',why:'她坐在石階上，平板上畫著九份的燈籠。',days:[0],from:16,to:20,terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],weeks:[13],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D18_ZQ',away:'在九份',
       lines:{acq:['你怎麼也在九份。','我在畫燈籠。……畫好玩的。'],friend:['你來得剛好。站到那個燈籠下面，我要比一下大小。','好。燈籠比我想的還小。'],dating:['欸不是，你也來九份？我又沒有打卡。','好啦，我畫累了。陪我去吃芋圓。']},src:'BB_150 1、2-2'},
@@ -129,7 +129,7 @@ const ENCOUNTERS={
     ENC_D12_ZQ:{who:'heroine_04',lines:['大稻埕那天我在改的那關，後來改簡單了。']},
     ENC_D06_SIS:{who:'heroine_05',lines:['上次在美術館遇到你。那個展下個月就撤了。']},
     ENC_D12_PS:{who:'classmate_peishan',lines:['上次那本繪本，課輔班的小孩很喜歡。'],linesIfNot:{memory:'SAW_HER_TEACH',lines:['上次那本繪本，我送給鄰居的小孩了。']}},
-    ENC_D13_KX:{who:'kexin',phone:['淡水那天，邵鈞回去一直問你是誰。']},
+    ENC_D13_KX:{who:'kexin',phone:['淡水那天，我室友回去一直問你是誰。']},
     ENC_D06_AN:{who:'heroine_01',lines:['上次在美術館。……你後來有看完那一區嗎？']},
     ENC_D12_YT:{who:'heroine_03',phone:['📷（迪化街的騎樓下，一雙正在包貨的手）','上次那張。']},
     ENC_D04_ZHE:{who:'zhe',lines:['哥，上次西門那家，下次叫大家一起去。']},
@@ -154,7 +154,7 @@ const ENCOUNTERS={
     ENC_D25_ZHE:{who:'zhe',lines:['哥，上次外澳那個浪，我回去背痛三天。下次還要去。']},
     ENC_D09_BH:{who:'classmate_bohan',lines:['貓空那天回來，我腿痠了兩天。……下次找不用爬的地方。']},   /* AA_389 第 3 點（企劃線 345234b3）：兩句合成一句、拿掉祕密感（AA_193 第 3 組），不分 ENC_D06_BH */
     ENC_D18_XC:{who:'classmate_xinci',lines:['我們後來找到那個角度了。光差一點，不過還是拍了。']},
-    ENC_D09_KX:{who:'kexin',phone:['貓空那天，兩分四十秒是對的。邵鈞到現在還在講。']},
+    ENC_D09_KX:{who:'kexin',phone:['貓空那天的茶，我室友到現在還說她是對的。']},
     ENC_D18_ZQ:{who:'heroine_04',lines:['九份那些燈籠，我做成一關了。下次給你玩。']},
     ENC_D24_SIS:{who:'heroine_05',lines:['礁溪那天以後，我媽問了你好幾次。我跟她說你很好。'],linesIfFlag:{flag:'KNOWS_SIS_ALISON',lines:['Alison 回家講了一整晚。']}},   /* AA_611 第 1 節第 2 列（企劃線 3f85566f4）：知道 Alison 是她妹妹（KNOWS_SIS_ALISON，新版礁溪演過才有）＝換這一句；舊存檔看過舊版的照舊 */
     ENC_D20_PS:{who:'classmate_peishan',lines:['烏來那天回去，有個小孩寫作文寫到你。']},

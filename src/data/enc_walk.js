@@ -1329,22 +1329,22 @@ const ENC_WALK={
   {
    "who": "kexin",
    "spot": "D04",
-   "speaker": "yule",
-   "line": "我去買東西。……很久。"
+   "speaker": null,
+   "line": "（她室友說要去買東西，會買很久。）"
   },
   {
    "batch": 2,
    "who": "kexin",
    "spot": "D09",
-   "speaker": "yule",
-   "line": "邵鈞，我們去另一邊看夕陽。"
+   "speaker": null,
+   "line": "（她室友說要去另一邊看夕陽，先走了。）"
   },
  {
   "batch": 3,
   "who": "kexin",
   "spot": "D10",
-  "speaker": "yule",
-  "line": "我先回去了。可昕，玉米你自己吃完。"
+  "speaker": null,
+  "line": "（她室友先回去了，走之前把玉米塞給她。）"
  }
  ],
  "revisit": [

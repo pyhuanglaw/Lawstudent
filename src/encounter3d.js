@@ -107,7 +107,7 @@ const ENC=(function(){
     R.encLog.push({day:G.day,h:+(G.hour%24).toFixed(2),spot:row.spot,who:row.who,tier:tr.t}); if(R.encLog.length>30) R.encLog.splice(0,R.encLog.length-30);
     { const wk=weekKey(G), k=row.who+'@'+row.spot, W8=R.encWeeks||(R.encWeeks={}); const L=W8[k]||(W8[k]=[]); if(!L.includes(wk)) L.push(wk); (R.encLast||(R.encLast={}))[k]=G.day; }   /* 不同週遇到幾次（小支線）、最後一次在這裡打招呼（重訪）*/
     await S.side(GM,row,tr,who);
-    if(i===2&&join){ for(const q of (W().intro||[])) if(q.who===row.who&&q.spot===row.spot) await ESAY(GM,S.sayer(q.speaker)||{name:q.speaker},q.line);
+    if(i===2&&join){ for(const q of (W().intro||[])) if(q.who===row.who&&q.spot===row.spot) await ESAY(GM,q.speaker?(S.sayer(q.speaker)||{name:q.speaker}):null,q.line);   /* speaker null＝旁白（AA_919 第 1 節：室友不上畫面）*/
       if(G.trip) G.trip.with={who:row.who,tier:tr.t}; return 'join'; }
     return 'greet'; };
   /* ---------- 第三批（DL-08，AA_160 第 6 節定案；台詞 src/data/enc_walk.js＝aa_walk_v1＋bb_walk_v1）----------
