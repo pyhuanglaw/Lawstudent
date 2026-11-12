@@ -56364,7 +56364,7 @@
    "id": "SOCLIB2F-EXIT-TAP-1112",
    "title": "社科院圖書館二樓從東北邊點地去「回閱覽室」停在 (−7.2～−7.5,−6.3)（從另一側點得到出口）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -56387,7 +56387,10 @@
     "spec": "BB_255",
     "acceptance": "點地從東北邊走到出口、CC route 探針 PASS",
     "ack": "DELIVERED"
-   }
+   },
+   "reason": "不是遊戲的問題：出口在一樓、正上方是二樓樓板，二樓東北邊看不到，探針點到二樓地板；真的玩家會先點樓梯。BB 判撤掉、不要新功能；CC 改探針（不同層先點樓梯）。",
+   "authorizedBy": "BB-C 11-12 18:04 UTC（測試判定歸 BB，D100）",
+   "replacedBy": "（無：探針問題，CC 改探針）"
   },
   {
    "id": "WZ-SUNNY-TAPNAV-1112",
