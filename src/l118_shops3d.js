@@ -64,6 +64,10 @@ const L118S=(function(){
       const z=Z3.room(E,{w:W,d:D,h:H,windows:false,warm:true,wallColor:'#efe8dc',floorTex:W3.stoneTex('#c8bba6'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
       const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
       for(const w of z.walls) w.visible=false; z.walls.length=0;
+      /* L118-DIAN-CEILING-1112（LAWWW2-C；BB 17:4x、CC L118_SEAT_dian_tea：118 牛排抬頭是藍天白雲、進門全景左上角露天）：跟隨鏡頭 4.2 m（cam_dist）時鏡頭高約 3.3 m，比天花板（3.2）高，
+         ceilHide 把天花板藏起來（從上面看進房間）；牆也只到 3.2，鏡頭往上、往遠處就看到天空。房間外 7 m 加一圈暗色的殼（Z3.roomBackdrop，教室、木曜日同一個做法）：天花板藏起來時上面是暗的、不是天空。
+         窗都有窗景板（l118_window_view，在殼裡面）；九間都加（鏡頭 4.2 m 的八間都會高過天花板，巷口茶飲 3.6 m 不會、加了也看不到）*/
+      if(Z3.roomBackdrop){ const bd=Z3.roomBackdrop(g0,Bd.x1-Bd.x0,Bd.z1-Bd.z0,H,7,(Bd.x0+Bd.x1)/2,(Bd.z0+Bd.z1)/2); if(bd) bd.name='l118_backdrop'; }
       const nav=new E3.NavGrid(Bd.x1-Bd.x0,Bd.z1-Bd.z0,0.4,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
       for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.4),Math.max(b.z1-b.z0,0.4),0,0);
       nav._cm=null; z.nav=nav; z.bounds={w:W,d:D};
