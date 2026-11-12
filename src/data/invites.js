@@ -20,9 +20,10 @@ const INVITE_DATA={
     {id:'gym_badminton',zone:'gym',   name:'新體育館羽球場', verb:'去新體育館打羽球',     kind:'sport',  minStage:'FAMILIAR',     stay:1,    memory:'SPORT_BADMINTON', sitAct:'wait', sport:true, hoursBy:{wk:[12,21],we:[9,17]}},
     {id:'run_avenue',  zone:'campus', name:'椰影大道',       verb:'去椰影大道晨跑',       kind:'sport',  minStage:'FRIEND',       stay:1,    memory:'SPORT_RUN',       sitAct:'wait', sport:true, hours:[6.5,7.5], times:[6.5], noRain:true, meetAt:[-36.8,6,-Math.PI/2]}
   ],
-  /* 開場就有聯絡方式的（AA_124 1-7 第 3 點，2026-10-14）：阿哲（現有設定：已經熟）、阿凱（室友）、可昕（經濟系那一年就在一起）、學姊（直屬：開學前的家族群組，BB_70 3-1）。
+  /* 開場就有聯絡方式的（AA_124 1-7 第 3 點，2026-10-14）：阿哲（現有設定：已經熟）、阿凱（室友）、學姊（直屬：開學前的家族群組，BB_70 3-1）。
+     可昕不在這張表上了（CANON-1112；AA_856 第三版）：開局不認識，第一次見面互加手機才有（G.contacts.kexin）；交往中、交往過的舊存檔照舊算有（invites3d.js INV.hasContact）。
      其他人在劇情裡拿到（事件的後果 contact:'人物 id'，內容由 AA、BB 寫）；錯過了，到「有點熟」以後聊天多一個「交換聯絡方式」（下面的 exchange，story3d.js talkCharacter） */
-  contacts0:['zhe','kai','kexin','heroine_05'],
+  contacts0:['zhe','kai','heroine_05'],
   /* 約不了的原因（AA_125 第 1 節的表＋AA_124 1-7 第 4 點，AA 決定）：手機「朋友」、約人時選地點的說明。{pr}＝她／他；不寫數字 */
   why:{
     stranger:'你們只打過招呼。先在學校多聊幾次。',

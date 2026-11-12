@@ -560,7 +560,7 @@ const DATE=(function(){
     if(!played&&!(Array.isArray(g.lines)&&g.lines.length)) return played;   /* 前面沒有任何一句、這一組自己也沒有句子＝不憑空出選項 */
     const r=await S.playSet(GM,id,{lines:Array.isArray(g.lines)?g.lines:[],choice:g.choice},t,key); return r&&r.pick?r:played; };
   const LL=(id,loc)=>((((LN().loc||{})[loc]||{}).lines||{})[id])||null;
-  const brokeUp=(G,id)=>id==='kexin'&&!(G.flags&&G.flags.dating_kexin);
+  const brokeUp=(G,id)=>id==='kexin'&&!(G.flags&&G.flags.dating_kexin)&&(typeof STORY==='undefined'||!STORY.kxEx||STORY.kxEx(G));   /* CANON-1112：開局不是女朋友——「沒在交往」不再等於「分開了」，交往過（STORY.kxEx）才算 */
   /* 到達那一句的另一版（AA_359 5-3，企劃線 fb5156ab）：照情況換掉第一次那一組裡的幾句（同一個位置），其他句不動 */
   S.ARRIVE_VAR=[{loc:'D28',who:'classmate_peishan',when:(G,t)=>((S.whereOn(G,'classmate_peishan',t.day)||{}).own==='rent'),from:['臺南！太陽好大。','我爸媽說，好好玩，店裡不用擔心。'],to:['歡迎來臺南！今天我帶路。','我住這裡，太陽還是曬不習慣。']},   /* 沛珊大三起住臺南（PS_TN）：她帶路；原句留給還沒搬去的時候 */
     {loc:'D32',who:'kexin',when:(G,t,o)=>!!(o&&o.combo),from:['清境。要開三個多小時，我負責讓你不要睡著。'],to:['清境。從日月潭上來一個半小時，我本來要睡，結果一路在看路。']}];   /* to：AA 2026-11-11 04:09 回 LAWWW 第 4 題（可昕重寫後的新字；祐廷在開車，所以是她沒睡）；舊：「清境。從日月潭上來，一個半小時。我查過了。」 */   /* D31＋D32 同一趟：從日月潭上來（B8）；只去清境的照原句。
