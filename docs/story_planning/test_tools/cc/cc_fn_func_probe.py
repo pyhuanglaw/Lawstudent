@@ -314,7 +314,7 @@ async def part_hours(pg, cdp):
         tg = '%s %s（%s）' % (tag, _hm(h), {'before': '開門前', 'after': '打烊後', 'seed': 'SEED %d 抽的營業時間外' % SEED, 'open': '營業中對照'}[why])
         await g11_street(pg, cdp, tg, h, dz=4.0)
         door, exs = await F.find_door(pg, await F.g11(pg))
-        if not R.check('%s 公館有「進入花序」' % tg, bool(door), J(exs)): continue
+        if not R.check('%s 公館有「進入花序」' % tg, bool(door), J(door) if door else J(exs)): continue
         r = await F.joy_to(pg, cdp, tg, door['x'], door['z'], near=0.9, lv=0, max_s=90, btn=door['label'], stop_on_event=True)
         s = await D.st(pg)
         if not R.check('%s 搖桿走到門口，互動鍵是「%s」（%s 秒、路：搖桿照 pathTo）' % (tg, door['label'], r['t']), s['interact'].startswith(door['label']), J({'end': [s['x'], s['z']], 'btn': s['interact'], 'why': r.get('why'), 'event': r.get('event')})):

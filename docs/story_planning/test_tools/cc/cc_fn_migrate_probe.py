@@ -176,7 +176,7 @@ async def into_g11(pg, cdp, tag, k, bag0=None):
         h0 = await pg.evaluate("+GAME.G.hour"); await pg.evaluate("(()=>{ GAME.G.hour=14; GAME.E.hour=14; })()")
         R.setup('%s【前置】按門的時候 %.2f 不在營業時間：時間改 14:00（營業時間另外由 cc_fn_func_probe HOURS 測）' % (tg, h0))
     door, exs = await F.find_door(pg, await F.g11(pg))
-    if not R.check('%s 公館有「進入花序」' % tg, bool(door) and door['to'] == 'flower_notes', J(exs)): return
+    if not R.check('%s 公館有「進入花序」' % tg, bool(door) and door['to'] == 'flower_notes', J(door) if door else J(exs)): return
     fb0 = (await D.st(pg))['fb']
     r = await F.joy_to(pg, cdp, tg, door['x'], door['z'], near=0.9, lv=0, max_s=120, btn=door['label'], stop_on_event=True)
     s = await D.st(pg)

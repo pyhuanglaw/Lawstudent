@@ -25,7 +25,7 @@ CASES（每一個都從 day46 存檔起：2025-11-01 週六，存檔本來就和
   選單的字＝稿的選項字（{物} 換成品名）；扣的錢＝稿的價錢（一起上＝兩份）；advance＝稿的時數；成品＝稿的 makes；旗標；選項 fx＝稿（SOCIAL.applyFx 收到的）。
   每一 case 結束：沒有 JS 例外、GAME.walkFallbacks 沒增加、沒有對話框／選單開著；每一個等待迴圈 60 秒沒進展就記狀態＋截圖停下來。
 走的路（每一行 log 有寫）：一樓門口搖桿上樓（COURSES 第 1 週）／讀檔在二樓樓梯口；她照作息在 3D（掃到的區域）／GAME.spawnCharacter；說話＝走到她旁邊按「和○○說話」。
-CC_02 清單 2026-11-12：1✓ 2✓ 3✓ 4✓ 5✓ 6✓ 7✓ 8✓ 9n/a（只存失敗、卡住時的畫面給人看，不用截圖判斷） 10✓ 11✓ 12✓ 13✓
+CC_02 清單 2026-11-12：1✓（第二版：存檔的打工班表清空——第一版沒列到「祐廷自己週六有班」這個前提） 2✓ 3✓ 4✓ 5✓ 6✓ 7✓ 8✓ 9n/a（只存失敗、卡住時的畫面給人看，不用截圖判斷） 10✓（第二版：不認識的提醒選單選「晚一點」，不照第一個「出發」） 11✓ 12✓ 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=new|old [CASES=COURSES,POOR,CLOSED,SIS,S2,GIFT] [WHO=heroine_01,…] [VERS=dating,friend] [DESC=direct|busy|none] [S2DESCS=busy,none]
       [PICK=0|1（s1／s2／s3 的選項照稿第幾個）] [GIFTWHERE=scan|spawn] python3 cc_flower_class_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, math, copy, re, subprocess
@@ -179,7 +179,13 @@ FREE_JS = r"""(a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekda
 
 
 def day46():
-    s = json.load(open(SAVE, encoding='utf-8')); return copy.deepcopy(dict(s.get('G', s)))
+    """day46 存檔＋【前置】打工班表清空：存檔週六 13:00～17:00 有一盞茶屋的班（jobs.tea.day＝[6]、outings 裡 job_tea_46 planned）——第一輪讀檔就跳「出發：一盞的班」、
+    探針照第一個選了，人被帶去茶屋（CC_02 乙 1／10）。這支不測打工：jobs.*.day＝[]（src/jobs3d.js scheduled：不在 day 裡＝那天沒班）、拿掉還沒上的那一班"""
+    s = json.load(open(SAVE, encoding='utf-8')); g = copy.deepcopy(dict(s.get('G', s)))
+    for j in (g.get('jobs') or {}).values():
+        if isinstance(j, dict): j['day'] = []
+    g['outings'] = [o for o in (g.get('outings') or []) if not (isinstance(o, dict) and o.get('job') and o.get('state') == 'planned')]
+    return g
 
 
 def set_dating(st, only):
@@ -207,7 +213,7 @@ async def load(pg, cdp, st, tag, why):
     try: await L.load_state(pg, st, quiet_events=True, quiet_phone=True)
     except TypeError: await L.load_state(pg, st, quiet_events=True)
     await pg.wait_for_timeout(5000); await L.close_panels(pg, cdp)
-    R.setup('%s %s（GAME.applySave；關條件事件 EVENTS.onEnter／tick、手機自動打開——這支只測花藝課；網址加 ?tapguard）' % (tag, why))
+    R.setup('%s %s（打工班表清空；GAME.applySave；關條件事件 EVENTS.onEnter／tick、手機自動打開——這支只測花藝課；網址加 ?tapguard）' % (tag, why))
     pre = await drive(pg, cdp, tag + ' 讀檔以後先有的', lambda ch, ctx: (None, ''), max_s=40)
     if pre['lines'] or pre['picks']: R.note('%s 讀檔以後先有的對話／選單（照字收掉，不算）：%s' % (tag, J({'lines': pre['lines'][-6:], 'picks': pre['picks']})))
     await pg.evaluate(HOOK_JS)
@@ -233,7 +239,7 @@ def pos2f(x, z, yaw=math.pi):
 def fallback_pick(ch):
     """不認識的選單：照字選「算了／就這樣／先不用／離開」那一類；沒有就第一個沒灰的（記一行）"""
     o = ch['opts']
-    for w in ('就這樣', '算了', '先不用', '不用了', '離開', '先這樣', '下次'):
+    for w in ('就這樣', '算了', '晚一點', '先不用', '不用了', '離開', '先這樣', '下次'):   # 「晚一點」：提醒類的選單不要照第一個「出發」被帶走（第一輪 TEST_BUG）
         for i, x in enumerate(o):
             if x['t'].startswith(w): return i
     return next((i for i, x in enumerate(o) if not x['dim']), 0)
