@@ -80,7 +80,8 @@
     "列": 1
    }
   },
-  "what2": "2026-11-11 加配角（阿哲、Alison、柏翰、芯慈、阿凱、明軒、方奕廷）和 libStudy 共用句（和 AA_707 一起念書第 1 場同一句的照 AA_707 的新字）。頂層表（walk118、slowreadLines、lawlibLines、lakeLines、*Acc）和 people.* 同句的路徑問題等 LAWWW 回（08:5x 問的）。"
+  "what2": "2026-11-11 加配角（阿哲、Alison、柏翰、芯慈、阿凱、明軒、方奕廷）和 libStudy 共用句（和 AA_707 一起念書第 1 場同一句的照 AA_707 的新字）。頂層表（walk118、slowreadLines、lawlibLines、lakeLines、*Acc）和 people.* 同句的路徑問題等 LAWWW 回（08:5x 問的）。",
+  "canon_1112_rows": "CANON-NO-ECON-1112（AA-C 11-12 19:4x）：可昕羽球 end[0]、總圖 bye 兩列移出本覆寫層（舊字不留在 old 欄）；這兩格照 AA_894 第 4 節直接改 src：「下一局換我發球。你不要跑。」「我回宿舍了。今天謝謝你。」"
  },
  "files": [
   {
@@ -538,12 +539,6 @@
      "note": "拿掉刪節號"
     },
     {
-     "at": "people.kexin.sport.gym_badminton.end[0]",
-     "old": "下次在外校大學打。……你要上山。",
-     "new": "換你來外校大學打。你要上山。",
-     "note": "換句（見 _meta）"
-    },
-    {
      "at": "people.kexin.firstAt.brunch[0]",
      "old": "蛋可以選熟度欸。……我要半熟。",
      "new": "蛋可以選熟度欸。我要半熟。",
@@ -854,12 +849,6 @@
      "old": "下次我帶零食。……啊，圖書館不能吃。",
      "new": "我今天讀了十頁，畫了十頁。效率很平均。",
      "note": "照 AA_707 沛珊第 1 場"
-    },
-    {
-     "at": "libStudy.first.kexin.bye",
-     "old": "我要趕車回外校了。……今天謝謝你。",
-     "new": "我回外校了。今天謝謝你。",
-     "note": "照 AA_707 可昕第 1 場"
     },
     {
      "at": "libStudy.mid[1][0]",

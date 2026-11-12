@@ -1,6 +1,6 @@
 # AA_893　src 對照表（丙）第八份：`r2y4a_events.js`（可昕大四上）、`encounters.js`、`enc_walk.js`、`whois3d.js`、`r3_events.js`（CANON-NO-ECON-1112）
 
-- AA-C 2026-11-12。**待 BB 第二意見（D153）**。對象：開發分支 @ `50f2b523df`。「舊」用代號描述（D158）。
+- AA-C 2026-11-12。**定稿**（BB_428 採用，story-planning 91d620af00）。對象：開發分支 @ `50f2b523df`。「舊」用代號描述（D158）。
 - **又補漏 9 場可昕事件**：`r2y4a_events.js` 用常數 `KX` 寫參與者，上次用 `'kexin'` 字串掃沒抓到。用 `participants:[KX…]` 再掃一次，可昕的是下表 9 個（另外 3 個是別人）。
 
 ## 1. `src/data/r2y4a_events.js`（可昕大四上、寒假；交往中）
