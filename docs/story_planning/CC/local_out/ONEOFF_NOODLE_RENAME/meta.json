@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "ONEOFF_NOODLE_RENAME",
+  "sha": "be1e5d725634580ee25313a7bbd14f941687bfde",
+  "kind": "py",
+  "script": "tools/cc_local/oneoff_noodle_rename.py",
+  "env": "NOTE=oneoff",
+  "machine": "MSI",
+  "start": "2026-11-12T12:20:07",
+  "end": "2026-11-12T12:22:38",
+  "seconds": 151,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "res_peak": {
+    "cpu": 68,
+    "mem": 52,
+    "used_gb": 16.4,
+    "chrome_testing": 5
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}

@@ -1,0 +1,108 @@
+{
+ "root": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out",
+ "dry": false,
+ "changed": [
+  [
+   "summary.md",
+   4
+  ],
+  [
+   "30_b1base/run.log",
+   3
+  ],
+  [
+   "30_b1base/out/sv_retake_saveload_first.json",
+   2
+  ],
+  [
+   "30_b1base/out/sv_retake_saveload_slot1.json",
+   1
+  ],
+  [
+   "30_b1base/out/sv_retake_saveload_slot2.json",
+   1
+  ],
+  [
+   "30_b1base/out/sv_retake_skip_first.json",
+   2
+  ],
+  [
+   "30_b1base/out/transcript_retake_saveload.json",
+   3
+  ],
+  [
+   "30_b1base/out/transcript_retake_skip.json",
+   1
+  ],
+  [
+   "AA814_old/run.log",
+   5
+  ],
+  [
+   "BE1E_AA814_H23_new/run.log",
+   3
+  ],
+  [
+   "BE1E_AA814_H23_old/run.log",
+   4
+  ],
+  [
+   "N1_AA814/run.log",
+   4
+  ],
+  [
+   "N1_AA814_H23/run.log",
+   4
+  ],
+  [
+   "N1_node/out/node_units.json",
+   18
+  ],
+  [
+   "P5_ui/run.log",
+   2
+  ],
+  [
+   "X_P2_bar_a/out/prefix_judge2033.json",
+   1
+  ],
+  [
+   "X_P2_bar_a/out/prefix_trainee.json",
+   1
+  ],
+  [
+   "X_P2_bar_b/out/prefix_missed1.json",
+   1
+  ],
+  [
+   "X_P2_epi/out/prefix_epi_social.json",
+   1
+  ],
+  [
+   "X_P5_ui/run.log",
+   2
+  ],
+  [
+   "Y_P2_bar_a/out/prefix_judge2033.json",
+   1
+  ],
+  [
+   "Y_P2_bar_a/out/prefix_trainee.json",
+   1
+  ],
+  [
+   "Y_P5_ui/run.log",
+   2
+  ]
+ ],
+ "skipped_binary_ext": 20532,
+ "errors": [],
+ "commit": {
+  "rc": 0,
+  "out": "",
+  "work": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal"
+ },
+ "files": 23,
+ "occurrences": 67,
+ "left_after": 0
+}
