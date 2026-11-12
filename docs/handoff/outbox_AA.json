@@ -6828,17 +6828,112 @@
   {
    "task": "TINGZHOU-AREA-1110",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "",
+   "sha": "9f7d19dc7",
    "files": [
     "docs/story_planning/AA_821_tz_yuehaochi.json"
    ],
-   "state": "WIP",
+   "state": "已交付",
    "at": "2026-11-12T04:1x",
    "receiver": "LAWWW",
    "ack": "未派",
    "noDirectIntegrate": true,
    "remaining": "等 BB 第二意見；其他四間等 LAWWW2 互動點清單",
-   "next": "BB 看完定稿給 LAWWW SHA"
+   "next": "BB 看完定稿給 LAWWW SHA",
+   "closedBy": "AA_821 定稿，見後面同任務那一筆"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "07d50af2f",
+   "files": [
+    "docs/story_planning/AA_822_kx_remember_last.json",
+    "docs/story_planning/AA_827_kx_triple_short_2.json",
+    "docs/story_planning/AA_781_kx_ladder_Y0S1.json",
+    "docs/story_planning/AA_781_kx_ladder_Y0S2.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "可昕五批都在開發分支 1cb322fc6；BB 排 CC 抽看"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6d503411c",
+   "files": [
+    "docs/story_planning/AA_832_an_triple_short.json",
+    "docs/story_planning/AA_833_an_events_ellipsis.json",
+    "docs/story_planning/AA_834_an_arrive.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "AA_833 已進 41837baa3d；AA_832、AA_834 等 LAWWW 重匯 date_lines"
+  },
+  {
+   "task": "TINGZHOU-AREA-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "9f7d19dc7",
+   "files": [
+    "docs/story_planning/AA_821_tz_yuehaochi.json",
+    "docs/story_planning/AA_823_tz_dongnan.json",
+    "docs/story_planning/AA_824_tz_liantong.json",
+    "docs/story_planning/AA_825_tz_keju.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "溫特寶邸等互動點清單"
+  },
+  {
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "8e41821f4",
+   "files": [
+    "docs/story_planning/AA_826_shop_backfill_1.json",
+    "docs/story_planning/AA_831_店面標準補字_營業時間.md"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "禮貌生財三個看點、美國超市的字還沒寫"
+  },
+  {
+   "task": "SHOP-JOBS-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "d8afcca6e",
+   "files": [
+    "docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md",
+    "docs/story_planning/AA_829_新店打工_花序_越好吃_大口漢堡.md"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "瀏覽器還沒跑（BB／CC）"
+  },
+  {
+   "task": "FLOWER-CLASS-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "7917d4289",
+   "files": [
+    "docs/story_planning/AA_820_flower_class.json"
+   ],
+   "state": "已整合",
+   "at": "2026-11-12",
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "noDirectIntegrate": false,
+   "next": "開發分支 6f1308ee5a；BB 測"
   }
  ],
  "items": [
