@@ -41,7 +41,7 @@
    "account": "C",
    "session": "session_015BuNi47yLUt5PviELapMNj",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "0950ee6d",
+   "sha": "f1145b33",
    "since": "2026-11-12T03:17Z",
    "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
@@ -53,48 +53,58 @@
    "account": "C",
    "session": "session_019evvieJUJD23EGf4nyLPgo",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "de74b839",
-   "since": "2026-11-12T03:13Z",
-   "state": "on",
+   "sha": "54cb72d3",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": "a9ce231b",
-   "handedOffAt": "2026-11-10T01:34Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-11-10T0134Z_B_AA.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-11-12T22:09Z",
+   "handoffSnapshot": "2026-11-12T2209Z_C_AA.json"
   },
   "BB": {
    "account": "C",
    "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "3558b5ea",
-   "since": "2026-11-12T03:14Z",
-   "state": "on",
+   "sha": "27e1c293",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": "a9ce231b",
-   "handedOffAt": "2026-11-10T01:34Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-11-10T0134Z_B_BB.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-11-12T22:08Z",
+   "handoffSnapshot": "2026-11-12T2208Z_C_BB.json"
   },
   "CC": {
    "account": "C",
    "session": "session_01S1Gk9V6WCgJmkoo3wxHxhv",
    "branch": "claude/cc-testing",
-   "sha": "845d3bac",
-   "since": "2026-11-12T04:43Z",
-   "state": "on",
+   "sha": "2175b051",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
-   "sinceSha": "bc372563",
-   "handedOffAt": "2026-11-10T01:34Z",
-   "handoffSnapshot": null,
+   "sinceSha": null,
+   "handedOffAt": "2026-11-12T22:09Z",
+   "handoffSnapshot": "2026-11-12T2209Z_C_CC.json",
    "note": "CC-C 11:1x 只在 CC_00 寫了交班紀錄（41f993657），沒跑 duty handoff、沒存快照；LAWWW-C 11:4x 照交班紀錄手動標 handed-off（異常，HV-20 第①點：下一任 CC 交班一定要跑 duty handoff）"
   }
  },
  "lastHandoff": {
-  "from": "B",
-  "at": "2026-11-10T04:10Z",
+  "from": "C",
+  "at": "2026-11-12T22:12Z",
   "kind": "handoff",
   "snapshots": {
-   "LAWWW": "2026-11-10T0410Z_B_LAWWW.json"
-  },
-  "closed": true
+   "AA": {
+    "file": "2026-11-12T2209Z_C_AA.json",
+    "ref": "origin/claude/magical-albattani-bk7b4n"
+   },
+   "BB": {
+    "file": "2026-11-12T2208Z_C_BB.json",
+    "ref": "origin/claude/wonderful-mayer-7fm9g6"
+   },
+   "CC": {
+    "file": "2026-11-12T2209Z_C_CC.json",
+    "ref": "origin/claude/cc-testing"
+   }
+  }
  },
  "history": [
   {
@@ -1218,7 +1228,7 @@
    "resolved": false
   }
  ],
- "seq": 141,
+ "seq": 142,
  "chain": [
   {
    "seq": 1,
@@ -2206,7 +2216,21 @@
    "account": "C",
    "role": "LAWWW2,AA,BB,CC",
    "event": "sync"
+  },
+  {
+   "seq": 142,
+   "at": "2026-11-12T22:12Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
   }
  ],
- "pending": null
+ "pending": {
+  "from": "C",
+  "rolesHandedOff": [
+   "AA",
+   "BB",
+   "CC"
+  ]
+ }
 }
