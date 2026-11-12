@@ -21,6 +21,7 @@ FAR = float(os.environ.get('FAR') or '45'); TRIPS = int(os.environ.get('TRIPS') 
 R = L.Run('xsperf_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 DAY = os.environ.get('DAY') or '2025-10-22'
+DESKTOP = (os.environ.get('DESKTOP') or '0') == '1'   # LAWWW-C 10:20：lite＝畫質 low 或觸控裝置；探針是手機模擬（has_touch）→ DESKTOP=1 在遊戲載入前把觸控偵測藏起來（maxTouchPoints 0、拿掉 ontouchstart），量「電腦」那一種；觸控事件照樣送得到
 ZONE = os.environ.get('ZONE') or 'xinsheng'   # LAWWW-C 07:55：汀州路（tingzhou）同一套量法
 HOUR = float(os.environ.get('HOUR') or '14')
 
@@ -46,15 +47,20 @@ def fstats(t):
 
 
 async def main():
-    print('CC SHOP-REAL-INSIDE 效能：TAG %s；SHA %s；PAIR %s；Windows＋GPU ≠ 使用者那台' % (TAG, SHA or '?', PAIR), flush=True)
+    print('CC SHOP-REAL-INSIDE 效能：TAG %s；SHA %s；PAIR %s；DESKTOP=%s；Windows＋GPU ≠ 使用者那台' % (TAG, SHA or '?', PAIR, DESKTOP), flush=True)
     res = {'tag': TAG, 'sha': SHA, 'pair': PAIR}
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        if DESKTOP:
+            await pg.add_init_script("(()=>{ try{ Object.defineProperty(Navigator.prototype,'maxTouchPoints',{get:()=>0,configurable:true}); }catch(e){} for(const o of [window, Window.prototype, Document.prototype, HTMLElement.prototype]){ try{ delete o.ontouchstart; }catch(e){} } })()")
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
         s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=8000)
         R.setup('【前置／捷徑】讀檔到 %s %s %.2f（條件事件關掉）' % (ZONE, DAY, HOUR))
         if not R.check('讀到 %s' % ZONE, s['zone'] == ZONE, J(s)): await b.close(); sys.exit(1)
+        envq = await pg.evaluate("(()=>{ const z=GAME.E.zone, R=z&&z.shopReal; return {maxTouchPoints:navigator.maxTouchPoints, ontouchstart:('ontouchstart' in window), q:GAME.E.q&&GAME.E.q.level, lite:R?!!R.lite:null, desktop:%s}; })()" % ('true' if DESKTOP else 'false'))
+        res['env'] = envq
+        R.note('觸控偵測與畫質（LAWWW-C 10:20：lite＝low 或觸控）：%s' % J(envq))
 
         async def gc():
             try: await cdp.send('HeapProfiler.enable'); await cdp.send('HeapProfiler.collectGarbage'); await pg.wait_for_timeout(400)
