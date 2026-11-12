@@ -7945,6 +7945,15 @@
    "task": "FLOWER-NOTES-1110",
    "kind": "json",
    "note": "X325 花序 Flower Notes：gg_flower 改名、十樣商品（原本兩樣只換 line、新八樣 love／no 空）、花藝師的句子（greet、buy、closed、hours）、店裡 13 區的「看」、replace 四列——tools/gift/import_gift_holiday.py 的 overlay_792 → src/data/gift_holiday.js、src/data/flower_notes_text.js"
+  },
+  {
+   "path": "docs/story_planning/AA_820_flower_class.json",
+   "sha": "65e38a5de",
+   "status": "approved",
+   "approvedBy": "AA（FLOWER-CLASS-1112）",
+   "task": "FLOWER-CLASS-1112",
+   "kind": "json",
+   "note": "X346 花序 Flower Notes 二樓花藝課：報名、三門課、三樣成品（不能買）、送她的反應、一起上課、第一次上課／學姊三場／其他六位幾天以後的一句——tools/flower/import_flower_class.py → src/data/flower_class.js（播放 src/flower_class3d.js）"
   }
  ]
 }
