@@ -78,13 +78,13 @@ NEARBY_JS = r"""(a=>GAME.E.interactables.filter(i=>!i.hidden&&Math.hypot(i.x-a.x
 # 互動範圍裡挑站得住的點：照 engine3d.js nearestInteractable 的規則（d<radius||1.8、d−prio 最小；同層、不藏）找「最近的就是它」的格子；只用來挑走到哪裡，判的是畫面上的互動鍵
 SPOT_JS = r"""(a=>{ const E=GAME.E, its=E.interactables.filter(i=>!i.hidden&&!(E.levels&&i.lv!==undefined&&(i.lv|0)!==0));
   const me=its.find(i=>a.kind==='stall'?i.seasonStall===a.key:(i.seasonLook===a.key)); if(!me) return {err:'沒有那個互動點'};
-  const R=me.radius||1.8, cand=[]; let tried=0, stand=0, nearStand=null;
-  for(let x=me.x-R-1.5; x<=me.x+R+1.5+1e-6; x+=0.05) for(let z=me.z-R-1.5; z<=me.z+R+1.5+1e-6; z+=0.05){ const d=Math.hypot(x-me.x,z-me.z); if(d>R+1.5) continue; const ok=E.canStand(x,z,0.3,0); if(ok&&(nearStand==null||d<nearStand)) nearStand=d;
+  const R=me.radius||1.8, cand=[]; let tried=0, stand=0, nearStand=null, nearPt=null;
+  for(let x=me.x-R-1.5; x<=me.x+R+1.5+1e-6; x+=0.05) for(let z=me.z-R-1.5; z<=me.z+R+1.5+1e-6; z+=0.05){ const d=Math.hypot(x-me.x,z-me.z); if(d>R+1.5) continue; const ok=E.canStand(x,z,0.3,0); if(ok&&(nearStand==null||d<nearStand)){ nearStand=d; nearPt={x:+x.toFixed(2),z:+z.toFixed(2)}; }
     if(d>=R-0.02) continue; tried++; if(!ok) continue; stand++;   /* 遊戲：d<radius 才出按鈕（engine3d.js nearestInteractable）；留 2 cm */
     let best=null, bd=1e9, sec=1e9; for(const it of its){ if(it.seat&&it.seat.taken) continue; const dd=Math.hypot(it.x-x,it.z-z); if(dd<(it.radius||1.8)){ const s=dd-(it.prio||0); if(s<bd){ sec=bd; bd=s; best=it; } else if(s<sec) sec=s; } }
     if(best!==me) continue; cand.push({x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2),margin:+Math.min(9,sec-bd).toFixed(2),edge:d>R-0.15}); }
   cand.sort((p,q)=>((q.margin>=0.3)-(p.margin>=0.3))||(p.edge-q.edge)||(p.d-q.d));   /* 先挑離別的互動點遠、不在範圍邊上（0.15 m 內）的；只有邊上站得住也照試（玩家停偏一點就沒按鈕＝記下來）*/
-  return {me:{x:me.x,z:me.z,r:R,label:me.label}, tried, stand, n:cand.length, nearestStand:nearStand==null?null:+nearStand.toFixed(2), best:cand[0]||null}; })"""
+  return {me:{x:me.x,z:me.z,r:R,label:me.label}, tried, stand, n:cand.length, nearestStand:nearStand==null?null:+nearStand.toFixed(2), nearPt, best:cand[0]||null}; })"""
 # 起點：離站位 4～7 m、站得住、pathTo 有路而且不繞（≤ 直線 1.8 倍）、不在任何季節互動點範圍裡；先試「往外」（攤子 → 客人那一面）的方向
 START_JS = r"""(a=>{ const E=GAME.E, out=[], why={stand:0,path:0,detour:0,inR:0}; const base=Math.atan2(a.ox,a.oz);
   for(const dist of [5,6,4,7]) for(let k=0;k<24;k++){ const ang=base+(k%2?1:-1)*Math.ceil(k/2)*Math.PI/12, x=a.x+Math.sin(ang)*dist, z=a.z+Math.cos(ang)*dist;
@@ -389,6 +389,28 @@ async def stall_out(pg, cdp, q, errs, dd):
     R.check('%s 沒有 JS 例外' % tag, len(errs) == e0, J(errs[e0:e0 + 3]))
 
 
+async def try_reach(pg, cdp, tag, q, sp):
+    """範圍裡站不住（找不到站位）時像玩家一樣試：點地走到最近站得住的點，再用搖桿往看的位置推 4 次；記最近到多近、互動鍵是什麼（CC_02 乙 5：走不到要附診斷）"""
+    np_ = sp['nearPt']; R.note('%s 【診斷】範圍（半徑 %s m）裡站不住；最近站得住的點 %s 離看的位置 %s m：走過去、再往看的位置推' % (tag, sp['me']['r'], J(np_), sp.get('nearestStand')))
+    stop = lambda s: s['interact'].startswith(q['label']) or s['dlg'] or bool(s['choices']) or s['busy']
+    for _ in range(int(120 / SEG_S)):
+        s = await D.st(pg)
+        if stop({'interact': s['interact'], 'dlg': s['dlg'], 'choices': s['choices'], 'busy': s['busy']}) or math.hypot(s['x'] - np_['x'], s['z'] - np_['z']) <= 0.35: break
+        await L.go_to(pg, cdp, R, np_['x'], np_['z'], 0.3, tag + '（最近站得住的點）', max_s=SEG_S, stop=stop)
+    best = None; labels = set()
+    for k in range(4):
+        s = await D.st(pg); d = math.hypot(s['x'] - q['x'], s['z'] - q['z']); labels.add(s['interact'])
+        best = d if best is None or d < best else best
+        if s['interact'].startswith(q['label']): break
+        yaw = await pg.evaluate("GAME.E.cam.yaw"); fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw)
+        ux, uz = (q['x'] - s['x']) / max(d, 0.01), (q['z'] - s['z']) / max(d, 0.01)
+        await L.joystick(pg, cdp, 30 * (ux * rx + uz * rz), -30 * (ux * fx + uz * fz), 1200); await pg.wait_for_timeout(500)
+    s = await D.st(pg); d = math.hypot(s['x'] - q['x'], s['z'] - q['z']); best = min(best, d); labels.add(s['interact'])
+    R.note('%s 【診斷】推完停在 %s；離看的位置最近 %.2f m（半徑 %s）；途中互動鍵 %s' % (tag, J([s['x'], s['z']]), best, sp['me']['r'], J(sorted(labels))))
+    await D.shot(pg, 'season3_%s_look_%s_reach' % (TAG, q['id']), judge_black=False)
+    R.check('%s 玩家走得到看的範圍：互動鍵出現「%s」（D141 走不到）' % (tag, q['label']), s['interact'].startswith(q['label']) or q['label'] in ''.join(labels), J({'at': [s['x'], s['z']], 'closest': round(best, 2), 'labels': sorted(labels)}))
+
+
 def look_expect(lid, code):
     looks, fruit = look_text(); first = looks.get(lid)
     if not first: return None, '稿 looks 沒有 %s' % lid
@@ -426,7 +448,10 @@ async def look_one(pg, cdp, lid, errs, parts):
             R.check('%s 有「%s」的互動點（在 season_deco.js 的位置）' % (tag, q['label']), len(its) == 1 and its[0]['label'] == q['label'] and its[0]['x'] == q['x'] and its[0]['z'] == q['z'], J(its))
             R.check('%s 模型節點 SEASON_%s_on 顯示、有網格' % (tag, code), bool(nd and nd.get('node') and nd.get('visible') and nd.get('meshes')), J(nd))
             sp = await pg.evaluate(SPOT_JS, {'kind': 'look', 'key': lid}) if its else {'err': '沒有互動點'}
-            if R.check('%s 看的範圍裡有站得住、最近的就是它的點' % tag, bool(sp.get('best')), J(sp)):
+            if sp.get('best'): R.check('%s 看的範圍裡有站得住、最近的就是它的點（離看的位置 < 半徑；engine3d.js nearestInteractable d<radius）' % tag, True, J(sp))
+            elif sp.get('nearPt'): R.note('%s 看的範圍裡沒有站得住的點（%s）：改像玩家一樣走到最近的地方再推（判在下面那一行）' % (tag, J(sp))); await try_reach(pg, cdp, tag, q, sp)
+            else: R.check('%s 看的範圍附近有站得住的點' % tag, False, J(sp))
+            if sp.get('best'):
                 dx, dz = sp['best']['x'] - q['x'], sp['best']['z'] - q['z']; m = math.hypot(dx, dz) or 1
                 sts = await pg.evaluate(START_JS, {'x': sp['best']['x'], 'z': sp['best']['z'], 'ox': dx / m, 'oz': dz / m})
                 if R.check('%s 4～7 m 外有站得住、有路的起點' % tag, bool(sts.get('starts')), J(sts)):
