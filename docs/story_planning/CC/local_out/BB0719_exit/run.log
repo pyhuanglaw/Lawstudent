@@ -1,0 +1,26 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_exit_repro_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BB0719_exit\out
+CC 出不來重現：TAG exit；SHA 42c493ca277073a91d87dca7f971f6625a56d6a0；CASES [['xs_shanlan', '14'], ['xs_shanlan', '20.5'], ['xs_haopai', '14']]；有視窗=1
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [xs_shanlan 14.0] 【前置／捷徑】讀檔到 xs_shanlan 2025-10-22 14.0（出生點；條件事件關掉）
+PASS [xs_shanlan 14.0] 讀到 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+PASS [xs_shanlan 14.0] 有出口互動點  [{"label": "離開山嵐書店", "to": "xinsheng", "x": 0.8, "z": 8.65, "r": 1, "lv": 0, "d": 1.15}]
+  [  36.6s] [xs_shanlan 14.0] 出口 {"label": "離開山嵐書店", "to": "xinsheng", "x": 0.8, "z": 8.65, "r": 1, "lv": 0, "d": 1.15}
+  [  40.2s] 到達「[xs_shanlan 14.0] 第一次 走到出口（停在 0.6 m 內）」附近（0.37 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [  49.6s] [xs_shanlan 14.0] 第一次 停在 0.6 m 內：離出口 0.37 m（半徑 1）、互動鍵「離開山嵐書店」、按了=True → zone xinsheng；console []
+PASS [xs_shanlan 14.0] 走到門口按「離開」出得去（出得去）  [{"near": 0.6, "before": {"pos": [0.75, 8.28], "dist": 0.37, "radius": 1, "interact": "離開山嵐書店", "nearest": {"label": "離開山嵐書店", "exit": true}}, "tapped": true, "zone_after": "xinsheng", "console": []}]
+  [前置／捷徑] [xs_shanlan 20.5] 【前置／捷徑】讀檔到 xs_shanlan 2025-10-22 20.5（出生點；條件事件關掉）
+PASS [xs_shanlan 20.5] 讀到 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.51}
+PASS [xs_shanlan 20.5] 有出口互動點  [{"label": "離開山嵐書店", "to": "xinsheng", "x": 0.8, "z": 8.65, "r": 1, "lv": 0, "d": 1.15}]
+  [  59.9s] [xs_shanlan 20.5] 出口 {"label": "離開山嵐書店", "to": "xinsheng", "x": 0.8, "z": 8.65, "r": 1, "lv": 0, "d": 1.15}
+  [  63.4s] 到達「[xs_shanlan 20.5] 第一次 走到出口（停在 0.6 m 內）」附近（0.37 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  69.0s] [xs_shanlan 20.5] 第一次 停在 0.6 m 內：離出口 0.38 m（半徑 1）、互動鍵「離開山嵐書店」、按了=True → zone xinsheng；console []
+PASS [xs_shanlan 20.5] 走到門口按「離開」出得去（出得去）  [{"near": 0.6, "before": {"pos": [0.75, 8.276], "dist": 0.38, "radius": 1, "interact": "離開山嵐書店", "nearest": {"label": "離開山嵐書店", "exit": true}}, "tapped": true, "zone_after": "xinsheng", "console": []}]
+  [前置／捷徑] [xs_haopai 14.0] 【前置／捷徑】讀檔到 xs_haopai 2025-10-22 14.0（出生點；條件事件關掉）
+PASS [xs_haopai 14.0] 讀到 xs_haopai  {"zone": "xs_haopai", "x": 0, "z": 5.4, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+PASS [xs_haopai 14.0] 有出口互動點  [{"label": "離開好拍運動", "to": "xinsheng", "x": 0, "z": 6.6, "r": 1, "lv": 0, "d": 1.2}]
+  [  85.9s] [xs_haopai 14.0] 出口 {"label": "離開好拍運動", "to": "xinsheng", "x": 0, "z": 6.6, "r": 1, "lv": 0, "d": 1.2}
+  [  89.3s] 到達「[xs_haopai 14.0] 第一次 走到出口（停在 0.6 m 內）」附近（0.59 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  94.1s] [xs_haopai 14.0] 第一次 停在 0.6 m 內：離出口 0.6 m（半徑 1）、互動鍵「離開好拍運動」、按了=True → zone xinsheng；console []
+PASS [xs_haopai 14.0] 走到門口按「離開」出得去（出得去）  [{"near": 0.6, "before": {"pos": [0.036, 6.005], "dist": 0.6, "radius": 1, "interact": "離開好拍運動", "nearest": {"label": "離開好拍運動", "exit": true}}, "tapped": true, "zone_after": "xinsheng", "console": []}]
+ALL PASS

@@ -589,3 +589,11 @@
 [17:35:31] [res] cpu=21% mem=33% (10.4/31.4 GB) chrome_testing=0  START TZ_REAL_perf_old
 [17:37:49] 正在跑：TZ_REAL_perf_old（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:38:57] [res] cpu=10% mem=34% (10.7/31.4 GB) chrome_testing=0  END TZ_REAL_perf_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b58eafab2..d0f9549cd  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:39:05] ==== END   TZ_REAL_perf_old  exit=0  208s   ====
+[17:39:08] memory 34% before starting BB0719_exit (0 running)
+[17:39:08] ==== START BB0719_exit  (probe @ 42c493ca277073a91d87dca7f971f6625a56d6a0) ====
+[17:39:11] [res] cpu=4% mem=34% (10.8/31.4 GB) chrome_testing=0  START BB0719_exit
+[17:41:17] [res] cpu=1% mem=32% (10.2/31.4 GB) chrome_testing=0  END BB0719_exit
