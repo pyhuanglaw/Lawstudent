@@ -116,6 +116,8 @@ DN_PROGRAMS | 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64 | probe | docs/story_plan
 # LAWWW-C 12:07 P1 插隊（使用者 11-12「手機上玩 左上角的那幾個都快擋住一半」；f701afca02 只改 CSS）：橫向 844×390、740×340、932×430＋直向 390×844，溫州街 9/26 16:16，導引那一條有／沒有各一張；線上版 v9.10.25 當修改前
 HUD_LAND_f701 | f701afca024758d5dcc8d6b48a1db906f108ae05 | probe | docs/story_planning/test_tools/cc/cc_hud_land_probe.py | index.html | 10 | TAG=new;SHA=f701afca024758d5dcc8d6b48a1db906f108ae05
 HUD_LAND_live | f701afca024758d5dcc8d6b48a1db906f108ae05 | probe | docs/story_planning/test_tools/cc/cc_hud_land_probe.py | index.html | 10 | TAG=live;LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;SHA=f701afca024758d5dcc8d6b48a1db906f108ae05
+# BB-C 12:27：TUTOR_BACK r1 三種都卡在開學那一則沒來＝探針只呼叫 JOBS.phone 沒 PHONE.tick（訊息還在手機佇列）；修了重跑
+TUTOR_BACK_r2 | 762104842ae5c75400e4c380d1e4d746d0998376 | probe | docs/story_planning/test_tools/cc/cc_tutor_back_probe.py | index.html | 25 | SHA=762104842ae5c75400e4c380d1e4d746d0998376
 # BB-C 11:27：SHIFT_SHOTS 重拍（031d 以後，上班中不跳手機橫幅；修了截圖時機、下班後 0.5 秒連拍 4 秒、鏡頭位置＋俯視）、YUE_MEAL 改新版；LAWWW-C 11:37 南洋鏡頭修正 52870df0ad → 改排 18a3666452（含）；LAWWW-C 11:40：18a3 含已還原的鏡頭修改＝對照組：SHIFT_SHOTS_72fc＝沒改鏡頭、SHIFT_SHOTS_18a3＝上班時鏡頭轉到客人那一邊
 SHIFT_SHOTS_72fc | 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3 | probe | docs/story_planning/test_tools/cc/cc_shift_shots_probe.py | index.html | 25 | SHA=72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3
 SHIFT_SHOTS_18a3 | 18a36664526d8ad28835fb924acb5438bd2ba2da | probe | docs/story_planning/test_tools/cc/cc_shift_shots_probe.py | index.html | 25 | SHA=18a36664526d8ad28835fb924acb5438bd2ba2da
