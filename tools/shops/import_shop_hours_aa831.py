@@ -70,7 +70,12 @@ def main():
     ok, why = IG.allowed(PATH, sha, allow)
     if not ok:
         raise SystemExit(why)
-    data = {'src': f'{PATH}@{sha}', 'shops': build(git('show', f'{sha}:{PATH}'))}
+    md = git('show', f'{sha}:{PATH}')
+    data = {'src': f'{PATH}@{sha}', 'shops': build(md)}
+    # 第二版：禮貌生財打烊時人在店裡，上師說一句再走出去（「上師：「…」」那一行；沒有＝不匯、照舊安靜走出去）
+    m = re.search(r'^- \*\*禮貌生財打烊時人在店裡\*\*.*?(上師)：「([^」]+)」', md, re.M)
+    if m:
+        data['limaoClose'] = {'who': m.group(1), 'line': IG.read_fix(m.group(2))}
     js = ('/* 自動產生：tools/shops/import_shop_hours_aa831.py（' + data['src'] + '）。不要手改，改企劃 AA_831 再重新匯入。\n'
           '   四間店的營業時間、公休、關著的時候到門口的那一句旁白——src/shop_hours831_3d.js 讀；真的檢查的時間在 src/data/places.js；逐字對稿 tests/shop_hours_aa831_1112_unit.js */\n'
           "'use strict';\nconst SHOP_HOURS_AA831=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')

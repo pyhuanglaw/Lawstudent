@@ -8380,12 +8380,18 @@
   },
   {
    "path": "docs/story_planning/AA_831_店面標準補字_營業時間.md",
-   "sha": "b84e779563",
+   "sha": "8e41821f4a",
    "status": "approved",
-   "approvedBy": "AA（SHOP-STANDARD-BACKFILL-1112）",
+   "approvedBy": "AA（SHOP-STANDARD-BACKFILL-1112）；8e41821f4a＝AA-C 2026-11-12 07:43 第二版（LAWWW-C 核）",
    "task": "SHOP-STANDARD-BACKFILL-1112",
    "kind": "md",
-   "note": "店面標準補字第一批（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n；稿上寫「BB_381 第二意見採納……定稿。」）：公館燒臘、頁間書屋、禮貌生財、草原超市（美國）的營業時間、公休、關著的時候到門口的那一句旁白——tools/shops/import_shop_hours_aa831.py → src/data/shop_hours_aa831.js（流程 src/shop_hours831_3d.js；時間 src/data/places.js）；LAWWW 的匯入子代理 2026-11-12 代登，待值班 LAWWW 核"
+   "note": "店面標準補字第一批（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n；稿上寫「BB_381 第二意見採納……定稿。」）：公館燒臘、頁間書屋、禮貌生財、草原超市（美國）的營業時間、公休、關著的時候到門口的那一句旁白——tools/shops/import_shop_hours_aa831.py → src/data/shop_hours_aa831.js（流程 src/shop_hours831_3d.js；時間 src/data/places.js）；LAWWW 的匯入子代理 2026-11-12 代登，待值班 LAWWW 核",
+   "history": [
+    {
+     "sha": "b84e779563",
+     "note": "被 8e41821f4a 取代（第二版：公館燒臘 11:00～23:00 不公休、頁間書屋 10:00 開、禮貌生財照原本 19:00～23:30 每天、誰說打烊那一句、上師一句）"
+    }
+   ]
   }
  ]
 }

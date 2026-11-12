@@ -13,7 +13,7 @@ const XSCLOSE=(function(){
   const S={};
   S.LINE='我們今天要打烊了。';   /* AA_700 原句 */
   S.CLERK='店員'; S.BOSS='老闆'; S.BOSSLADY='老闆娘';   /* 老闆娘顧的店（118 巷滇香、家常菜）說話人寫「老闆娘」，字一樣（AA-C 11-05 08:10）*/
-  S.say=function(GM,who){ return GM.say({name:who||S.CLERK},S.LINE); };
+  S.say=function(GM,who,line){ return GM.say({name:who||S.CLERK},line||S.LINE); };   /* line：那一間自己的打烊句（禮貌生財的上師，AA_831 第二版）*/
   const PL=()=>typeof PLACES!=='undefined'?PLACES:null;
   const hr=G=>(((+G.hour)||0)%24+24)%24;
   const XS=(place,who,out)=>({place,who,to:'xinsheng',out});
@@ -48,7 +48,8 @@ const XSCLOSE=(function(){
     bikeshop:{place:'bikeshop',who:S.BOSS,to:'gongguan'},
     us_asian_market:{place:'us_asian_market',who:S.CLERK},
     /* AA_831 的四間（SHOP-STANDARD-BACKFILL-1112；src/shop_hours831_3d.js）：那天在店裡有約、有班（SH831.due）＝不請出去。禮貌生財店裡沒有人（上師在騎樓的算命桌）＝mute：不說那一句，只走出去、寫開放時間 */
-    noodle:sh('noodle',S.CLERK,'gongguan'), bookstore:sh('bookstore',S.CLERK,'gongguan'), us_market:sh('us_market',S.CLERK), tz_limao:Object.assign(sh('tz_limao',null,'tingzhou'),{mute:true}),
+    noodle:sh('noodle',S.BOSSLADY,'gongguan'), bookstore:sh('bookstore',S.BOSS,'gongguan'), us_market:sh('us_market',S.CLERK),   /* AA_831 第二版：燒臘＝老闆娘、頁間書屋＝老闆、草原超市＝店員 */
+    tz_limao:Object.assign(sh('tz_limao',null,'tingzhou'),(()=>{ const D=typeof SHOP_HOURS_AA831!=='undefined'?SHOP_HOURS_AA831.limaoClose:null; return D&&D.who&&D.line?{who:D.who,line:D.line}:{mute:true}; })()),   /* 禮貌生財：上師說稿的那一句再走出去（稿沒匯到＝照舊安靜走出去）*/
     l118_dian:l118('dian',S.BOSSLADY), l118_self:l118('self',S.CLERK), l118_tea:l118('tea',S.CLERK), l118_home:l118('home',S.BOSSLADY), l118_cafe2:l118('cafe2',S.CLERK),
     l118_pasta:l118('pasta',S.BOSS), l118_korea:l118('korea',S.BOSS), l118_omu:l118('omu',S.CLERK), l118_noodle2:l118('noodle2',S.BOSS) };
   /* 自己有打烊系統的店（這裡只記「進來的時候開著」，給 S.gen 用）；說話的人在各自的檔案（S.WHO 只是對照，測試用）*/
@@ -92,7 +93,7 @@ const XSCLOSE=(function(){
     return {to:C.to||'xinsheng',spawn:undefined}; };
   S.outSpawn=z=>{ const C=S.ZONES[z], s=C&&C.out&&C.out(); return s?Object.assign({},s):null; };
   S.closeOut=async function(GM){ const G=GM.G, z=G.zone, C=S.ZONES[z], P=GM.E&&GM.E.player, gen=S.gen(GM,z), txt=gen?'':S.closedText(z,G), o=S.outOf(GM,z);
-    GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(gen) await S.say(GM,C.who); } finally { GM.sceneEnd(); }
+    GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(gen) await S.say(GM,C.who,C.line); } finally { GM.sceneEnd(); }
     await GM.enter(o.to,o.spawn);
     if(txt&&GM.toast) GM.toast(txt,5000);
     return gen?'close':'out'; };

@@ -1,5 +1,5 @@
 /* ===== 四間店的營業時間：關著的時候到門口的那一句（AA_831，企劃線 b84e779563；SHOP-STANDARD-BACKFILL-1112，CLAUDE.md §12 第 5 點）=====
-   公館燒臘（noodle）11:00～21:30、週一公休；頁間書屋（bookstore）每天 11:00～21:30；禮貌生財（tz_limao）14:00～21:00、週一公休；草原超市（us_market）每天 08:00～22:00。
+   （AA_831 第二版 8e41821f4a）公館燒臘（noodle）每天 11:00～23:00；頁間書屋（bookstore）每天 10:00～21:30；禮貌生財（tz_limao）每天 19:00～23:30；草原超市（us_market）每天 08:00～22:00。
    - 字：src/data/shop_hours_aa831.js（SHOP_HOURS_AA831，tools/shops/import_shop_hours_aa831.py 匯入）——這裡不寫任何給玩家看的字。
    - 時間：src/data/places.js 的 PLACES.hours（手機地點、大地圖、邀約、客人、店員都讀同一份）。
    - 門口（S.door）：關著（還沒開、打烊以後、公休）按「進入」＝稿的那一句旁白＋開放時間（PLACES.closedText），不進去。
