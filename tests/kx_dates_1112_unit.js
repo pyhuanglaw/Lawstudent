@@ -15,7 +15,7 @@
 'use strict';
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify;
-const C=require('./date_src_sha.js'), SP='docs/story_planning/', KX='kexin', BASE='d6e6a6f215', KS=C.KX_1112_FIX_SHA;   /* 2026-11-12（AA_832 以安第一批，白名單換 b84e779563）：這一支的「源稿」固定讀可昕續改後續那一版 KS＝74e0421b8（之後 ALLOW_SHA 只多以安 32 格，見第 7 項）。舊寫法：源稿都讀 C.ALLOW_SHA */   /* BASE＝匯入以前的開發分支（claude/adoring-meitner-mqzst8） */
+const C=require('./date_src_sha.js'), SP='docs/story_planning/', KX='kexin', BASE='d6e6a6f215', KS=C.KX_1112_FIX_SHA;   /* 2026-11-12（AA_832 以安第一批，白名單換 b84e779563、同一天 AA_834 再換 6d503411c1）：這一支的「源稿」固定讀可昕續改後續那一版 KS＝74e0421b8（之後 ALLOW_SHA 只多以安 59 格，見第 5 項）。舊寫法：源稿都讀 C.ALLOW_SHA */   /* BASE＝匯入以前的開發分支（claude/adoring-meitner-mqzst8） */
 let fails=0; const check=(n,ok,d)=>{ if(ok) console.log('PASS '+n); else { fails++; console.log('FAIL '+n+(d!==undefined?'　'+d:'')); } };
 const read=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
 const show=(sha,f)=>{ try{ return cp.execFileSync('git',['-C',ROOT,'show',sha+':'+f],{encoding:'utf8',maxBuffer:64<<20,stdio:['ignore','pipe','ignore']}); }catch(e){ return null; } };
@@ -28,7 +28,7 @@ const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.KX_1112;
 // 1
 const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
 { const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&(e[0].history||[]).some(h=>h.sha===C.KX_1112_PREV)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；上一版 '+C.KX_1112_PREV+' 在 history',C.ALLOW_SHA==='b84e779563'&&KS==='74e0421b8'&&C.KX_1112_SHA==='07d50af2f7'&&C.KX_1112_PREV==='52c3ee258'&&bad.length===0&&LOCS.every(k=>{ const h=allow.find(x=>x.path===SP+'date_system/lines/'+k+'.json').history||[]; return h.some(x=>x.sha===C.KX_1112_SHA)&&h.some(x=>x.sha===KS); }),J(bad));   /* 2026-11-12 再換 b84e779563（AA_832）：74e0421b8 也要在 history。舊期望：C.ALLOW_SHA==='74e0421b8' */
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；上一版 '+C.KX_1112_PREV+' 在 history',C.ALLOW_SHA==='6d503411c1'&&KS==='74e0421b8'&&C.KX_1112_SHA==='07d50af2f7'&&C.KX_1112_PREV==='52c3ee258'&&bad.length===0&&LOCS.every(k=>{ const h=allow.find(x=>x.path===SP+'date_system/lines/'+k+'.json').history||[]; return h.some(x=>x.sha===C.KX_1112_SHA)&&h.some(x=>x.sha===KS); }),J(bad));   /* 2026-11-12 再換 b84e779563（AA_832）：74e0421b8 也要在 history。舊期望：C.ALLOW_SHA==='74e0421b8'；同一天再換 6d503411c1（AA_834），舊期望 'b84e779563' */
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 2
@@ -62,7 +62,7 @@ const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
 // 5
 { const wt=show(BASE,'src/data/date_lines.js');
   if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source') diff.push(p);
-    const AN=C.AN_1112.map(r=>'/loc/'+r.loc+'/lines/heroine_01/'+r.path); { const all=diff.slice(); diff.length=0; for(const p of all) if(!AN.includes(p)) diff.push(p); check('5. 之後 AA_832（b84e779563）以安那 32 格也換了字（date_src_sha.js AN_1112；逐格在 tests/an_dates_1112_unit.js）——這裡先拿掉再比',AN.length===32&&AN.every(p=>all.includes(p)),J(AN.filter(p=>!all.includes(p)))); }   /* 2026-11-12：舊期望是整份只差可昕 72 格 */
+    const AN=C.AN_1112.map(r=>'/loc/'+r.loc+'/lines/heroine_01/'+r.path); { const all=diff.slice(); diff.length=0; for(const p of all) if(!AN.includes(p)) diff.push(p); check('5. 之後 AA_832（b84e779563）、AA_834（6d503411c1）以安那 59 格也換了字（date_src_sha.js AN_1112；逐格在 tests/an_dates_1112_unit.js）——這裡先拿掉再比',AN.length===59&&AN.every(p=>all.includes(p)),J(AN.filter(p=>!all.includes(p)))); }   /* 2026-11-12：舊期望是整份只差可昕 72 格 */
     const want=R.map(r=>'/loc/'+r.loc+'/lines/'+KX+'/'+r.path).sort();
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 72 格不同（別人、fx、短句、交通偏好零差異）',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 72 格重匯以前＝稿的 old',R.every(r=>a['/loc/'+r.loc+'/lines/'+KX+'/'+r.path]===r.old));
