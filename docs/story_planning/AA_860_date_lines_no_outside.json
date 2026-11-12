@@ -1,0 +1,234 @@
+{
+ "_meta": {
+  "doc": "AA_860 CANON-NO-ECON-1112／D158：約會稿裡提到外校、外校室友、舊序章科系的句子（可昕 41 句、選項 3 句、沛珊 1 句）。外校室友改成沒有名字的「我室友」（她現在住首都帝大女舍）；外校的地景換成高雄老家、宿舍、系館；三個選項先換成不提科系的字（那三格在 AA_857 會整格重寫）。old 欄依 D158 只留代號版。",
+  "by": "AA-C 2026-11-12",
+  "status": "待 BB 第二意見（D153）；已套源稿"
+ },
+ "rows": [
+  {
+   "file": "docs/story_planning/date_system/lines/D01.json",
+   "old_code": "舊序章說這裡適合約會。我說我們只是來散步。她不信。",
+   "new": "我室友說這裡適合約會。我說我們只是來散步。她不信。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D02.json",
+   "old_code": "舊序章叫我拍這裡的照片給她，你幫我拍。",
+   "new": "我室友叫我拍這裡的照片給她，你幫我拍。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D02.json",
+   "old_code": "下次你來外校，每次都我過來不公平。",
+   "new": "下次換你選地方。每次都我想，不公平。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D02.json",
+   "old_code": "「妳舊序章的魂回來了。」",
+   "new": "「妳又認真起來了。」"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D03.json",
+   "old_code": "舊序章說這裡的扭蛋有長頸鹿，我要確認。",
+   "new": "我室友說這裡的扭蛋有長頸鹿，我要確認。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D04.json",
+   "old_code": "舊序章問我去哪，我說看電影，她一直傳貼圖。",
+   "new": "我室友問我去哪，我說看電影，她一直傳貼圖。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D04.json",
+   "old_code": "這家芒果比外校山下那家好吃。我不會跟那家老闆講。",
+   "new": "這家芒果比高雄我家巷口那家好吃。我不會跟那家老闆講。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D05.json",
+   "old_code": "舊序章說這部很悶，我想自己判斷。",
+   "new": "我室友說這部很悶，我想自己判斷。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D06.json",
+   "old_code": "舊序章說美術館約會很文青。我說我是來吹冷氣的。",
+   "new": "我室友說美術館約會很文青。我說我是來吹冷氣的。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D06.json",
+   "old_code": "「舊序章的習慣。」",
+   "new": "「妳的習慣。」"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D06.json",
+   "old_code": "如果掛在外校大學，旁邊應該會多一張使用規定。",
+   "new": "如果掛在我們系館，旁邊應該會多一張使用規定。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D06.json",
+   "old_code": "這裡的風比外校大學山上小。",
+   "new": "這裡的風比宿舍頂樓小。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D07.json",
+   "old_code": "舊序章問我去哪。我說，去一個要安靜的地方。",
+   "new": "我室友問我去哪。我說，去一個要安靜的地方。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D08.json",
+   "old_code": "舊序章說我來動物園只看一種動物。她說對了。",
+   "new": "我室友說我來動物園只看一種動物。她說對了。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D09.json",
+   "old_code": "那邊是外校大學嗎？我們等一下會不會從它頭上過去？",
+   "new": "那邊是動物園嗎？我們等一下會不會從長頸鹿頭上過去？"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D09.json",
+   "old_code": "舊序章說貓空是我們的後院。我說是後山。我們吵了十分鐘。",
+   "new": "我室友說貓空是我們的後院。我說是後山。我們吵了十分鐘。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D09.json",
+   "old_code": "（纜車經過外校大學的上空）那邊是我的教室。",
+   "new": "（纜車越過山稜）下面那一片都是茶園。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D09.json",
+   "old_code": "（夜景）首都帝大在那邊，外校大學在這邊。",
+   "new": "（夜景）首都帝大在那邊。從這裡看好小。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D11.json",
+   "old_code": "上次泡完，我那天晚上睡得好好。舊序章說我打呼。",
+   "new": "上次泡完，我那天晚上睡得好好。我室友說我打呼。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D13.json",
+   "old_code": "外校大學的溪比較小，醉夢溪，名字比較好聽。",
+   "new": "高雄的愛河比這條窄，名字比較好聽。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D13.json",
+   "old_code": "這張傳給舊序章，她一定說又是你。",
+   "new": "這張傳給我室友，她一定說又是你。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D15.json",
+   "old_code": "（她扶著欄杆）那一片是首都帝大吧。那一片是外校大學。",
+   "new": "（她扶著欄杆）那一片是首都帝大吧。旁邊那一片我不認得。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D15.json",
+   "old_code": "外校大學那邊比較暗，山比較多。",
+   "new": "靠山那邊比較暗。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D15.json",
+   "old_code": "我要放舊序章推薦的歌。",
+   "new": "我要放我室友推薦的歌。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D15.json",
+   "old_code": "那首歌，舊序章問我好不好用。我說很好用。",
+   "new": "那首歌，我室友問我好不好用。我說很好用。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D16.json",
+   "old_code": "幫我找一個完整的貝殼。要給舊序章的。",
+   "new": "幫我找一個完整的貝殼。要給我室友的。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D16.json",
+   "old_code": "貝殼舊序章放在她桌上了。",
+   "new": "貝殼我室友放在她桌上了。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D17.json",
+   "old_code": "舊序章問我去哪。我說野柳，她說好老派。",
+   "new": "我室友問我去哪。我說野柳，她說好老派。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D18.json",
+   "old_code": "舊序章說九份很擠。她說對了。跟緊一點。",
+   "new": "我室友說九份很擠。她說對了。跟緊一點。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D20.json",
+   "old_code": "拍一張給舊序章。她會說好老。",
+   "new": "拍一張給我室友。她會說好老。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D20.json",
+   "old_code": "上次拍給舊序章的那張，她說好老。我說對。",
+   "new": "上次拍給我室友的那張，她說好老。我說對。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D21.json",
+   "old_code": "牛角麵包我買兩個，一個帶回去給舊序章，一個給你。",
+   "new": "牛角麵包我買兩個，一個帶回去給我室友，一個給你。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D21.json",
+   "old_code": "上次給舊序章的牛角，她說好吃。我說是你挑的。",
+   "new": "上次給我室友的牛角，她說好吃。我說是你挑的。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D22.json",
+   "old_code": "舊序章說我們去水庫好老，我說水庫很重要。",
+   "new": "我室友說我們去水庫好老，我說水庫很重要。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D23.json",
+   "old_code": "舊序章叫我帶魚丸回去。她只吃魚丸。",
+   "new": "我室友叫我帶魚丸回去。她只吃魚丸。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D24.json",
+   "old_code": "舊序章說礁溪要吃蔥餅。她傳了三家給我。",
+   "new": "我室友說礁溪要吃蔥餅。她傳了三家給我。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D25.json",
+   "old_code": "你去學，我在這裡看。拍下來給舊序章看。",
+   "new": "你去學，我在這裡看。拍下來給我室友看。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D26.json",
+   "old_code": "舊序章說臺中的太陽餅要買。她要三盒。",
+   "new": "我室友說臺中的太陽餅要買。她要三盒。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D27.json",
+   "old_code": "舊序章叫我帶方塊酥。她指定口味，我背起來了。",
+   "new": "我室友叫我帶方塊酥。她指定口味，我背起來了。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D28.json",
+   "old_code": "舊序章說臺南要吃蝦捲、豆花、牛肉湯。我列成清單了。",
+   "new": "我室友說臺南要吃蝦捲、豆花、牛肉湯。我列成清單了。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D29.json",
+   "old_code": "「妳舊序章的魂。」",
+   "new": "「妳又來了。」"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D31.json",
+   "old_code": "舊序章說日月潭要買紅茶。她已經傳了三次。",
+   "new": "我室友說日月潭要買紅茶。她已經傳了三次。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D32.json",
+   "old_code": "那隻叫舊序章，很吵的那隻。",
+   "new": "那隻很吵的，像我室友。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D32.json",
+   "old_code": "叫舊序章的那隻羊，還是很吵。",
+   "new": "像我室友的那隻羊，還是很吵。"
+  },
+  {
+   "file": "docs/story_planning/date_system/lines/D33.json",
+   "old_code": "舊序章問我去哪。我說信義區，她叫我拍照。",
+   "new": "我室友問我去哪。我說信義區，她叫我拍照。"
+  }
+ ]
+}
