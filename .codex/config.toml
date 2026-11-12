@@ -1,0 +1,22 @@
+# Project-local roles. Multi-agent is already enabled by the installed runtime.
+# No model, global preference, feature flag, or credential override is needed.
+
+[agents.LAWWW]
+description = "Lawstudent integrator and dispatcher; sole central handoff writer after valid duty registration."
+config_file = "agents/LAWWW.toml"
+
+[agents.LAWWW2]
+description = "Lawstudent 3D art and scene-code specialist under D108."
+config_file = "agents/LAWWW2.toml"
+
+[agents.AA]
+description = "Lawstudent story, dialogue, legal classroom content and question author."
+config_file = "agents/AA.toml"
+
+[agents.BB]
+description = "Lawstudent QA owner, final test verdicts, scene-art approval and 2D image requirements."
+config_file = "agents/BB.toml"
+
+[agents.CC]
+description = "Lawstudent test execution assistant; probes, raw evidence and preliminary assessment for BB."
+config_file = "agents/CC.toml"
