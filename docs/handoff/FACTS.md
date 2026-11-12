@@ -70,3 +70,6 @@
 - （11-11 12:5x）AA 的逐行改稿 {file,line,old,new} 用 `tools/story/apply_line_rows.py <稿>@<sha> [--apply] [--skip-generated]` 套（held 預先合併分支）；檔頭寫「自動產生」的檔不套，要改源稿重匯。比舊稿的測試用 `tests/line_rows_expect.js`（toOld／fwd／fixFile／toOldS／fwdS／fwdDeep）。
 - 店裡買的雜貨（不是禮物）記在 `G.flags.GG3_OWN={區域:{東西 id:份數}}`，選單「物品」分頁用 `GG3.ownHTML` 顯示（東南大聯商行 11-12 起；之後的雜貨、配件店照這個接，不要另開欄位）。
 - **店面標準**在 `CLAUDE.md` §12（D155）：店員、客人、窗景、天花板、立體櫥窗、買東西、打烊、字……新增、修改、以前建好的店都要符合；驗收照 `docs/rules/ROLE_BB.md` 2.6 地點關卡；每間店的現況在 `docs/handoff/SHOP_STANDARD_STATUS.md`。
+- （11-12 08:0x LAWWW-C）**雲端容器的磁碟只有幾 GB 可用**（`df` 的 Avail 看起來很小就是真的）：①`tools/handoff/branch_audit.py --write` 會一次 fetch 所有分支，這台裝不下——先看 `df -h /home/user`，不到 6 GB 就不要跑（交給下一個新容器）。②被中斷的 fetch 會在 `.git/objects/pack/` 留 `tmp_pack_*`（今天兩個共 4.4 GB）；`git count-objects -vH` 的 garbage 那一行看得到，確認沒有 fetch 在跑（`pgrep -af "git fetch"`）就可以刪。③子代理的 worktree 一個約 1.4 GB，同時最多開兩個；合併完當回合 `git worktree remove`。④scratchpad 裡幾週前的舊目錄可以刪。
+- （11-12 08:0x LAWWW-C）**GitHub Actions 的 `node-unit-auto` 每次 push 會取消上一輪**（全套要跑好幾分鐘）：幾分鐘推一次＝全套永遠跑不完（11-12 下午連續 7 輪 cancelled，兩支紅的測試半小時沒人發現）。要拿全套結果：推完**等那一輪跑完**再推下一筆（`mcp__github__actions_list` list_workflow_runs 看 conclusion），小改動先存本機、併成一批推。
+- （11-12 LAWWW-C）BB 第三層（看圖）判定放 `docs/handoff/place_gate_bb.json`（BB 在自己分支更新 → 告訴 LAWWW SHA → LAWWW 合進開發分支、跑 `node tests/place_gate_unit.js --write`）；`SHOP_STANDARD_STATUS.md` 第 7 欄讀它。
