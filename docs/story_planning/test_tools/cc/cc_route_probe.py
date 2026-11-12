@@ -217,8 +217,11 @@ async def main():
                                 gx, gz = (pick['x'], pick['z']) if pick and pick.get('x') is not None else (a[0], a[1])
                                 hit = await L.tap_ground(pg, cdp, gx, gz, lv=lv_); n_ += 1
                                 log_.append({'n': n_, 'pl': [round(p[0], 2), round(p[1], 2)], 'goal': [round(gx, 2), round(gz, 2)], 'seg': bool(pick and pick.get('seg')), 'screen': hit and [round(hit.get('sx', -1)), round(hit.get('sy', -1))], 'proj': pick and pick.get('sy')})
+                                await pg.wait_for_timeout(600)   # 11-13 LAWWW-C：點地找不到路的提示（「那邊過不去。」）有沒有跳
+                                log_[-1]['toast'] = await pg.evaluate("(()=>{ const t=document.getElementById('toast'); return t&&t.offsetParent?(t.textContent||'').trim().slice(0,40):''; })()")
+                                if log_[-1]['toast'] and n_ <= 3: await pg.screenshot(path=os.path.join(OUT, 'tap_toast_%s_%d.png' % (TAG, n_)))
                                 if not hit: await L.turn_camera_to(pg, cdp, gx, gz)
-                                await pg.wait_for_timeout(2000)
+                                await pg.wait_for_timeout(1400)
                             return {'ok': False, 'taps': n_, 'log': log_[-12:]}
                         out['tap'], out['stuck'] = await watched(pg, _taps(), t)
                     await D.settle(pg); out['s'] = await record(pg, k, kind, J(out.get('joy') or out.get('tap')))
