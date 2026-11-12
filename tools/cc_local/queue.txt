@@ -114,6 +114,8 @@ SHIFT_SHOTS_72fc | 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3 | probe | docs/story
 SHIFT_SHOTS_18a3 | 18a36664526d8ad28835fb924acb5438bd2ba2da | probe | docs/story_planning/test_tools/cc/cc_shift_shots_probe.py | index.html | 25 | SHA=18a36664526d8ad28835fb924acb5438bd2ba2da
 # LAWWW-C 11:34／BB-C 11:35（ebfb849c03 打工第六輪 AA_828 §9）：學姊來越好吃（認識就來、開學第一個有班的晚餐）——她是不是從門口走進來坐下、那句出來時 3D 有沒有她；SIS＝朋友、SISD＝交往中
 YUE_SIS_18a3 | 18a36664526d8ad28835fb924acb5438bd2ba2da | probe | docs/story_planning/test_tools/cc/cc_yue_meal_probe.py | index.html | 30 | CASES=SIS,SISD;TERMS=Y1S2,Y2S1;SHA=18a36664526d8ad28835fb924acb5438bd2ba2da
+# LAWWW-C 11:34／BB-C 11:35（AA_828 §9 第 2 點）：家教開學那一則回「不了」→ 下一個學期開學明軒那一串多「我現在可以接家教了。」——掛在哪一則、要不要往回捲、按得到、回了有沒有排下一堂
+TUTOR_BACK | 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64 | probe | docs/story_planning/test_tools/cc/cc_tutor_back_probe.py | index.html | 10 | SHA=6b2834fae8e8c70218c5e6dcd1c2dedc07950d64
 YUE_MEAL_72fc | 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3 | probe | docs/story_planning/test_tools/cc/cc_yue_meal_probe.py | index.html | 20 | CASES=KX;SHA=72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3
 # de8d 五項改 72fc1ffc88（LAWWW-C 11:28）：①大口二樓三場＋清路人連拍＋舊存檔兩種 ②滷味攤四時段、18:30 四種夾法＋老樣子＋錢不夠、22:30 半價 ③花序進門＋14 個看 ④禮貌生財三點平常／LM_KNOWN ⑤學姊紅茶
 BAR_GROUP_72fc | 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3 | probe | docs/story_planning/test_tools/cc/cc_bar_group_probe.py | index.html | 25 | SHA=72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3
