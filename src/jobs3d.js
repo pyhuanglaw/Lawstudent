@@ -742,11 +742,15 @@ const JOBS=(function(){
      現在：S.tutorBackSpot＝明軒那一串裡他傳的最新一則（不算置頂、旁白、約你的那一則）。那一則本來有別的選項：
        還開著（還回得了）、或已經回過的＝不蓋掉，往前找他最新的一則「沒有選項、或選項過期沒回」的（過期沒回的那一組換成這一個——同原本的後備做法；原本那一組收在 ask.was，選項移走的時候放回去）。一則都找不到＝先不掛，等他有訊息。
      明軒之後又傳新訊息＝選項跟著移到新的最新一則（舊那一則的拿掉、原本過期的那一組放回去；ask 的 id、期限照舊）；一次只掛一個（多的拿掉）。S.tutorPhone 每次都看。
-     存檔：沒有新旗標（照舊在那一則訊息的 ask 上；多 ask.was＝被換掉的那一組過期的選項，沒有＝原本沒有選項）。舊存檔（第六輪掛在上面的）讀進來，下一次 S.tutorPhone 就移到最新一則。*/
+     存檔：沒有新旗標（照舊在那一則訊息的 ask 上；多 ask.was＝被換掉的那一組過期的選項，沒有＝原本沒有選項）。舊存檔（第六輪掛在上面的）讀進來，下一次 S.tutorPhone 就移到最新一則。
+     AA_828 第 11 節第 1、2 點（企劃線 f6aa917593；2026-11-12 第七輪合併後）：「掛在明軒那一串**最底下**（不管最後一則是誰的泡泡）」——S.tutorBackSpot 不再只看明軒傳的：
+       那一串最底下的那一則泡泡（明軒的、祐廷自己傳的都算；照舊不算置頂、旁白、約你的那一則——那一則有自己的按鈕）。最底下那一則有別的還開著的選項、或已經回過的選項＝不蓋，
+       往上找最近一則「沒有選項、或選項過期沒回」的（第 2 點：「選項留在更前面那一則，到下一則普通訊息再移」）。明軒或祐廷之後又有新訊息＝跟著移到新的最底（S.tutorPhone 每次都看）。
+       原本（第 10 節第 5 點的做法）：祐廷自己的泡泡不掛，最後一則是祐廷傳的時候選項在他上面那一則明軒的訊息上。*/
   const backMine=(G,m)=>!!(m&&m.ask&&/^tutor_back_/.test(String(m.ask.id))&&PHONE.askOpen(G,m));
   const backOff=m=>{ const w=m.ask&&m.ask.was; if(m.ask) delete m.ask.was; if(w) m.ask=w; else delete m.ask; };
   S.tutorBackOpen=G=>typeof PHONE!=='undefined'&&Array.isArray(G.msgs)&&G.msgs.some(m=>backMine(G,m));
-  S.tutorBackSpot=function(G,cur){ const th='p:'+MX; for(let i=G.msgs.length-1;i>=0;i--){ const m=G.msgs[i]; if(!m||PHONE.th(m)!==th||m.from!==MX||m.pin||m.narr||m.iv) continue;   /* iv＝約你的那一則（有自己的按鈕）*/
+  S.tutorBackSpot=function(G,cur){ const th='p:'+MX; for(let i=G.msgs.length-1;i>=0;i--){ const m=G.msgs[i]; if(!m||PHONE.th(m)!==th||m.pin||m.narr||m.iv) continue;   /* 誰的泡泡都算（第 11 節第 1 點；原本多一個條件 m.from!==MX＝只看明軒傳的）；iv＝約你的那一則（有自己的按鈕）*/
       if(m===cur||!m.ask||(m.ans==null&&!PHONE.askOpen(G,m))) return m; } return null; };
   S.tutorBack=function(G){ const B=S.tutorBackCfg(), U=TU(); if(!B||!U||typeof PHONE==='undefined'||!PHONE.askOpen||!Array.isArray(G.msgs)||!S.tutorBackDue(G)) return false;
     const O=G.msgs.filter(m=>backMine(G,m)), cur=O[0]||null; for(const m of O.slice(1)) backOff(m);   /* 一次只掛一個 */

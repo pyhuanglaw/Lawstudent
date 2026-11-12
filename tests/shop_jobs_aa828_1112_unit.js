@@ -44,7 +44,7 @@ const msgs=th=>(H.G.msgs||[]).filter(m=>!th||m.th===th);
 const answer=(tag,i)=>{ const m=(H.G.msgs||[]).find(x=>x.tag===tag&&x.ask); if(!m) return false; return PHONE.answer(H.G,m.ask.id,i)!=null; };
 const tick=()=>{ for(let i=0;i<3;i++){ STORY.phoneRules(GM); PHONE.tick(H.G); } };
 const noGift=O=>O.filter(t=>!/買禮物/.test(t));   /* 售票口的買禮物（GIFT-HOLIDAY-1110）那一項看日子有沒有：不在這裡比 */
-const DOC='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA='33e9522155'/* 舊期望 3e9cd7d9d4：第 1～9 節一樣，多第 10 節（第七輪；資料不變）；更舊 1e539b8eb9：第 1～8 節一樣，多第 9 節（第六輪）*/, NEW8='新來的？二樓我比較熟，找不到可以問我。';   /* NEW8＝稿上還在（第 4、6 節）、第 8 節說不演的那一句：只用來對稿，遊戲的資料沒有。舊：1d6055568c（第 1～7 節一樣；多第 8 節）、d8afcca6ed（第 1～5 節一樣；多第 6、7 節）、b84e779563（第 1～4 節一樣；多第 5 節）、be3b9c9e4（第 1～3 節一樣；多第 4 節）*/
+const DOC='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA='f6aa917593'/* 舊期望 33e9522155：第 1～10 節一樣，多第 11 節（第七輪合併後三題；資料不變）；更舊 3e9cd7d9d4：第 1～9 節一樣，多第 10 節（第七輪；資料不變）；更舊 1e539b8eb9：第 1～8 節一樣，多第 9 節（第六輪）*/, NEW8='新來的？二樓我比較熟，找不到可以問我。';   /* NEW8＝稿上還在（第 4、6 節）、第 8 節說不演的那一句：只用來對稿，遊戲的資料沒有。舊：1d6055568c（第 1～7 節一樣；多第 8 節）、d8afcca6ed（第 1～5 節一樣；多第 6、7 節）、b84e779563（第 1～4 節一樣；多第 5 節）、be3b9c9e4（第 1～3 節一樣；多第 4 節）*/
 const D8=typeof SHOP_JOBS_AA828!=='undefined'?SHOP_JOBS_AA828:null, has=typeof JOBS!=='undefined'&&!!D8&&JOBS.KEYS.includes('shanlan')&&JOBS.KEYS.includes('cinema');
 
 (async()=>{

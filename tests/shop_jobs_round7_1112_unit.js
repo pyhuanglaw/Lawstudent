@@ -1,4 +1,6 @@
 // SHOP-JOBS-1112 第七輪（2026-11-12；USER_WANTS X356）：AA_828 第 10 節「回 LAWWW-C 第六輪合併後六題」（企劃線 33e9522155）。不需要瀏覽器。
+// 第七輪合併後（同一天；AA_828 第 11 節「回 LAWWW-C 第七輪合併後三題」，企劃線 f6aa917593）：第 1 點——家教那個選項掛在明軒那一串**最底下**那一則，不管最後一則是誰的泡泡（祐廷自己傳的也算）；
+//   第 2、3 點照現在的。第 5 項 e 的期望跟著改（註明舊期望）、多 h～j 三組；白名單、資料的來源換 f6aa917593。
 //   六題裡只有兩點改流程（其餘四點＝照第六輪，tests/shop_jobs_round6_1112_unit.js 照舊驗）：
 //   1 學姊「你在這裡。幾點下班？」每學期說一次（每學期她第一次來那天）；同學期第二次來（交往中）只有進店坐下＋旁白。其他同學照舊每人一生一次。
 //     存檔多 G.jobs.yue.mealHiT＝{人物: 上一次說的那個學期}；舊存檔 mealHi 裡已經有學姊＝當作讀進來那時候的學期說過。
@@ -34,7 +36,7 @@ const desk=z=>{ H.E.interactables=[]; return JOBS.addDesk(GM,z); };
 const ask=async(it,picks)=>{ H.said=[]; H.opts=[]; dims.length=0; toasts.length=0; H.picks=picks.slice(); await STORY.interact(it,GM); };
 
 const D8=typeof SHOP_JOBS_AA828!=='undefined'?SHOP_JOBS_AA828:null;
-const DOC8='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', NOW8='33e9522155', OLD8='3e9cd7d9d4';   /* NOW8＝第 10 節那一版；OLD8＝上一版（第 9 節）*/
+const DOC8='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', NOW8='33e9522155', OLD8='3e9cd7d9d4', CUR8='f6aa917593';   /* NOW8＝第 10 節那一版；OLD8＝上一版（第 9 節）；CUR8＝白名單現在的版本（多第 11 節）*/
 const friend=id=>{ const r=SOCIAL.rel(id); r.fam=40; r.trust=25; };
 /* 假的 3D：座位、門口、生人（照 game3d.js spawnCharacter 回傳的樣子：charId、obj、seat）；STORY.refreshSchedule 是真的 */
 const YUE=typeof TZ_SHOPS_LAYOUT!=='undefined'&&TZ_SHOPS_LAYOUT.yuehaochi?TZ_SHOPS_LAYOUT.yuehaochi:{seats:[{x:-2.6,z:2.25,yaw:0},{x:-2,z:2.25,yaw:0}],spawn:{x:0.75,z:2.9},clerk:{x:1,z:-3.4,yaw:0}};
@@ -75,10 +77,11 @@ const scan=(flags,o)=>{ o=o||{}; const out={}, why={}; let seen={};
 /* ================= 0 白名單、資料、對稿 ================= */
 await sec('0',async()=>{
   const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')), e=allow.files.filter(x=>x.path===DOC8);
-  check('0. 白名單：AA_828@'+NOW8+' approved（一筆）；上一版 '+OLD8+' 在 history；approvedBy 有「第 10 節回六題」（修改前：白名單還是 '+OLD8+'）',e.length===1&&e[0].status==='approved'&&e[0].sha===NOW8&&(e[0].history||[]).some(h=>h.sha===OLD8)&&/AA-C 11-12 11:4x：第 10 節回六題/.test(e[0].approvedBy||''),J(e.map(x=>x.sha)));
-  check('0. 資料寫明來源那一版',!!D8&&D8.src===DOC8+'@'+NOW8,D8&&D8.src);
+  /* 2026-11-12 第七輪合併後（AA_828 第 11 節，企劃線 f6aa917593）：白名單再換 CUR8。舊期望：e[0].sha===NOW8（33e9522155）、資料來源 @NOW8 */
+  check('0. 白名單：AA_828@'+CUR8+' approved（一筆）；第 10 節那一版 '+NOW8+'、上一版 '+OLD8+' 在 history；approvedBy 有「第 10 節回六題」（修改前：白名單還是 '+OLD8+'）',e.length===1&&e[0].status==='approved'&&e[0].sha===CUR8&&(e[0].history||[]).some(h=>h.sha===NOW8)&&(e[0].history||[]).some(h=>h.sha===OLD8)&&/AA-C 11-12 11:4x：第 10 節回六題/.test(e[0].approvedBy||''),J(e.map(x=>x.sha)));
+  check('0. 資料寫明來源那一版',!!D8&&D8.src===DOC8+'@'+CUR8,D8&&D8.src);
   let ck=''; try{ ck=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_shop_jobs_aa828.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); }catch(err){ ck='ERR '+String(err.stderr||err.message||err).slice(0,300); }
-  if(/讀不到|fatal|invalid object|CalledProcessError/i.test(ck)) console.log('（跳過：匯入工具讀不到 '+NOW8+'，企劃線沒 fetch）'); else check('0. tools/story/import_shop_jobs_aa828.py --check：資料和稿一致',/^OK/.test(ck),ck.slice(0,120));
+  if(/讀不到|fatal|invalid object|CalledProcessError/i.test(ck)) console.log('（跳過：匯入工具讀不到 '+CUR8+'，企劃線沒 fetch）'); else check('0. tools/story/import_shop_jobs_aa828.py --check：資料和稿一致',/^OK/.test(ck),ck.slice(0,120));
   const B=D8.reapply.tutorBack, Z=D8.yueMeal.sis;
   check('0. 資料沒有變（第 10 節只有說明）：yueMeal.sis、reapply.tutorBack、學姊那一句照第六輪',J(Z)===J({who:'學姊',met:'met_sis',inTaiwan:true,slot:'dinner',termMax:1,datingMax:2,gapWeeks:3})&&J(B)===J({opt:'我現在可以接家教了。',re:'好，剛好還有一個學生。時間我傳給你。',expired:true})&&D8.yueMeal.own['學姊']==='你在這裡。幾點下班？',J([Z,B]));
   const raw=sha=>{ try{ return (cp.__worldEf||cp.execFileSync).call(cp,'git',['-C',H.ROOT,'show',sha+':'+DOC8],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(err){ return null; } }, r1=raw(NOW8), r0=raw(OLD8);   /* 原文（不經 tests/alison.js 換字）*/
@@ -90,6 +93,14 @@ await sec('0',async()=>{
       &&q.includes('4. 開學那一則「這學期還來嗎」沒回、過期的，也給「'+B.opt+'」：可以。')&&q.includes('6. 「先停」（連續三週沒去）不算回「不了」，下學期明軒照舊先問一次：維持。'));
     if(r0){ const p0=r0.replace(/\n+$/,''); check('0. 第 1～9 節和上一版（'+OLD8+'）一字不差：只多第 10 節',r1.startsWith(p0)&&r1.slice(p0.length).trim().startsWith('## 10. 回 LAWWW')); } }
   else console.log('（跳過：讀不到稿 '+NOW8+'）');
+  { const r2=raw(CUR8);
+    if(r2){ const q=r2.slice(r2.indexOf('## 11. 回 LAWWW'));
+      check('0. 稿第 11 節三點逐句在：第 1 點（掛最底下、不管最後一則是誰的泡泡）、第 2 點（最新一則是回過的選項＝留在更前面那一則）、第 3 點（學姊那一句）',r2.includes('## 11. 回 LAWWW')
+        &&q.includes('1. 家教那個回覆選項掛在明軒那一串**最底下**（不管最後一則是誰的泡泡）。')
+        &&q.includes('2. 明軒最新一則是已經回過的選項時，選項留在更前面那一則，到他下一則普通訊息再移：可以')
+        &&q.includes('3. 學姊這學期第一次來時祐廷沒在上班、那句沒演到，同學期第二次來剛好在上班就說那一句：可以。'));
+      if(r1){ const p1=r1.replace(/\n+$/,''); check('0. 第 1～10 節和第 10 節那一版（'+NOW8+'）一字不差：只多第 11 節',r2.startsWith(p1)&&r2.slice(p1.length).trim().startsWith('## 11. 回 LAWWW')); } }
+    else console.log('（跳過：讀不到稿 '+CUR8+'）'); }
   const strip=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/\/\*[\s\S]*?\*\//g,''), code=strip('src/jobs3d.js')+strip('src/shoplife3d.js');
   check('0. 那三句只在匯入的資料裡，程式不自己寫字（D79）',!!B&&!code.includes(B.opt)&&!code.includes(B.re)&&!code.includes(D8.yueMeal.own['學姊']));
 });
@@ -203,10 +214,24 @@ await sec('5',async()=>{
     check('5. 再問的那一則沒回過期：先掛在那一則（他最新的一則）；他又傳訊息＝移走、那一則還原成過期的「來／不了」；不會因此再問一次',o.length===1&&re.text===U.termAsk&&o2.length===1&&o2[0].text===T1&&!!re.ask&&re.ask.id==='tutor_re_Y2S1'&&!PHONE.askOpen(H.G,re)&&again===0,J([o.map(m=>m.text),o2.map(m=>m.text),re.ask&&re.ask.id,again])); }
   /* e 祐廷自己傳的、置頂、旁白、約你的那一則：不掛 */
   { fresh(s1-20,13,'dorm',saidNo()); post(T0); at(s1,13); me(TM); run(); const o=open();
-    check('5. 最新一則是祐廷自己傳的：掛在明軒最新的那一則（不掛在自己的訊息上）',o.length===1&&o[0].text===T0&&o[0].from===MX,J(o.map(m=>m.text)));
+    /* 2026-11-12 第七輪合併後（AA_828 第 11 節，企劃線 f6aa917593）第 1 點「掛在明軒那一串最底下（不管最後一則是誰的泡泡）」。舊期望：掛在明軒最新的那一則（o[0].text===T0、from 明軒），不掛在自己的訊息上 */
+    check('5. 最底下那一則是祐廷自己傳的：就掛在那一則（第 11 節第 1 點；修改前：掛在他上面那一則明軒的訊息）',o.length===1&&o[0].text===TM&&o[0].from==='player'&&o[0]===mx()[mx().length-1]&&!mx().find(m=>m.text===T0).ask&&PHONE.threads(H.G).find(t=>t.th===TH).pending===1,J(o.map(m=>m.text)));
     at(s1+1,10); post('（測試用：置頂）',{pin:true}); post('（測試用：旁白）',{narr:true}); const iv=post('（測試用：約你）'); iv.iv='sj7_iv'; run();
-    check('5. 之後的置頂、旁白、約你的那一則（有自己的按鈕）都不掛：留在原地',open().length===1&&open()[0].text===T0,J(open().map(m=>m.text)));
-    at(s1+2,10); post(T1); run(); check('5. 再來一則普通訊息：移過去',open().length===1&&open()[0].text===T1); }
+    check('5. 之後的置頂、旁白、約你的那一則（有自己的按鈕）都不掛：留在原地（舊期望：原地＝明軒那一則 T0）',open().length===1&&open()[0].text===TM,J(open().map(m=>m.text)));
+    at(s1+2,10); post(T1); run(); check('5. 再來一則普通訊息：移過去',open().length===1&&open()[0].text===T1);
+    /* h 明軒、祐廷輪流傳：每次都在最底下那一則 */
+    at(s1+3,10); const m2=me(TM+'2'); run(); const oa=open(); at(s1+4,10); post(T2); run(); const ob=open(); at(s1+5,10); const m3=me(TM+'3'); run(); run(); const oc=open();
+    check('5. 之後祐廷又傳一則＝移到他那一則；明軒再傳＝移到明軒的；祐廷再傳＝再移（每次都是那一串最底下那一則、一次只掛一個、id 不變）',oa.length===1&&oa[0]===m2&&ob.length===1&&ob[0].text===T2&&oc.length===1&&oc[0]===m3&&oc[0]===mx()[mx().length-1]&&!m2.ask&&mx().filter(m=>m.ask&&/^tutor_back_/.test(m.ask.id)).length===1,J([oa.map(m=>m.text),ob.map(m=>m.text),oc.map(m=>m.text)]));
+    const sv=JSON.parse(J(H.G)); H.G=sv; SOCIAL.bind(H.G); run(); const od=open(), n0=mx().length, r=PHONE.answer(H.G,od[0].ask.id,0); run(); const L=mx().slice(n0).map(q=>[q.from,q.text]);
+    check('5. 掛在祐廷自己那一則上：存讀檔以後照樣回得了（祐廷那一句 → 明軒回的那一句）、回了以後不再掛',od.length===1&&od[0].from==='player'&&!!r&&J(L)===J([['player',B.opt],[MX,B.re]])&&H.G.flags.TUTOR_STOP==null&&open().length===0,J(L)); }
+  /* i 最底下是祐廷的泡泡、上面明軒那一則有別的還開著的選項：掛祐廷那一則，不動那一組 */
+  { fresh(s1-20,13,'dorm',saidNo()); post(T0); at(s1,13); const q=post(TQ,{ask:{id:'sj7_other2',opts:[{t:'（測試：甲）',post:false},{t:'（測試：乙）',post:false}]}}); const mm=me(TM); run(); const o=open();
+    check('5. 最底下是祐廷的泡泡、它上面明軒那一則有別的還開著的選項：掛在祐廷那一則，那一組照舊回得了',o.length===1&&o[0]===mm&&q.ask.id==='sj7_other2'&&PHONE.askOpen(H.G,q)&&!q.ask.was,J(o.map(m=>m.text))); }
+  /* j 最底下那一則有別的還開著的選項（明軒的）、再上面是祐廷的泡泡：往上找最近一則沒有開著選項的＝祐廷那一則 */
+  { fresh(s1-20,13,'dorm',saidNo()); post(T0); at(s1,13); const mm=me(TM); const q=post(TQ,{ask:{id:'sj7_other3',opts:[{t:'（測試：甲）',post:false}]}}); run(); const o=open();
+    check('5. 最底下那一則有別的還開著的選項：不蓋——往上找最近一則沒有開著選項的（這裡＝祐廷那一則，不是更上面明軒的）',o.length===1&&o[0]===mm&&PHONE.askOpen(H.G,q)&&q.ask.id==='sj7_other3'&&!mx().find(m=>m.text===T0).ask,J(o.map(m=>m.text)));
+    PHONE.answer(H.G,'sj7_other3',0); run(); check('5. 那一組回了以後（最底下那一則是回過的選項；第 11 節第 2 點）：留在更前面那一則；之後有新訊息再移到最底',open().length===1&&open()[0]===mm&&q.ans===0&&q.ask.id==='sj7_other3');
+    at(s1+1,10); post(T1); run(); check('5. 明軒下一則普通訊息：移過去',open().length===1&&open()[0].text===T1&&!mm.ask); }
   /* f 找不到可以掛的 */
   { fresh(s1,13,'dorm',saidNo()); H.G.msgs=[]; const q=post(TQ,{ask:{id:'sj7_only',opts:[{t:'（測試：甲）',post:false}]}}); let threw=false; try{ run(); }catch(e){ threw=true; }
     const none=open().length===0&&q.ask.id==='sj7_only'; post(T1); run();

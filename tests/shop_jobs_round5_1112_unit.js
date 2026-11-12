@@ -35,7 +35,7 @@ const desk=z=>{ H.E.interactables=[]; return JOBS.addDesk(GM,z); };
 const ask=async(it,picks)=>{ H.said=[]; H.opts=[]; dims.length=0; toasts.length=0; H.picks=picks.slice(); await STORY.interact(it,GM); };
 
 const D8=typeof SHOP_JOBS_AA828!=='undefined'?SHOP_JOBS_AA828:null;
-const DOC8='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA8='33e9522155', PREV8='3e9cd7d9d4';   /* 第七輪改期望：舊 SHA8 3e9cd7d9d4（第 1～9 節一樣；多第 10 節，資料不變）、上一版在 history 的舊期望 1e539b8eb9——白名單換版本｜第六輪改期望：舊 SHA8 1e539b8eb9（第 1～8 節一樣；多第 9 節）、上一版在 history 的舊期望 1d6055568c——白名單換版本 */
+const DOC8='docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md', SHA8='f6aa917593', PREV8='33e9522155';   /* 2026-11-12 第七輪合併後（AA_828 第 11 節，企劃線 f6aa917593）改期望：舊 SHA8 33e9522155（第 1～10 節一樣；多第 11 節，資料不變）、上一版在 history 的舊期望 3e9cd7d9d4——白名單換版本｜第七輪改期望：舊 SHA8 3e9cd7d9d4（第 1～9 節一樣；多第 10 節，資料不變）、上一版在 history 的舊期望 1e539b8eb9——白名單換版本｜第六輪改期望：舊 SHA8 1e539b8eb9（第 1～8 節一樣；多第 9 節）、上一版在 history 的舊期望 1d6055568c——白名單換版本 */
 const friend=id=>{ const r=SOCIAL.rel(id); r.fam=40; r.trust=25; };
 /* 假的 3D：座位、門口、生人（照 game3d.js spawnCharacter 回傳的樣子：charId、obj、seat）；STORY.refreshSchedule 是真的 */
 const YUE=typeof TZ_SHOPS_LAYOUT!=='undefined'&&TZ_SHOPS_LAYOUT.yuehaochi?TZ_SHOPS_LAYOUT.yuehaochi:{seats:[{x:-2.6,z:2.25,yaw:0},{x:-2,z:2.25,yaw:0}],spawn:{x:0.75,z:2.9},clerk:{x:1,z:-3.4,yaw:0}};
