@@ -7,6 +7,8 @@
     press:<字>[><選項字>]    同 go，但按下去以後先每 0.5 秒截一張、共 4 秒（看演出當下：躺上床、搭電梯），再點對話
     sit:<字>                 走到標籤含那個字的座位（D.sit_all only＝那一張：點椅子、看按鈕、坐下、位置高度、起身推得動）
     walk:<x>,<z>[,<lv>]      go_to 那一點
+    tapto:<x>,<z>[,<lv>]     只用點地走到那一點（一直點那一點的地面，點不到就轉鏡頭，最多 45 次）
+    joyto:<x>,<z>[,<lv>]     只用搖桿走到那一點（cc_fn_lib.joy_to）
     look:<yaw>               鏡頭轉到那個方向（E.cam.yaw）再截一張（看牆、天花板）
     wait:<秒>
     burst:<名字>             站著不動每 0.25 秒截一張、共 2 秒（看閃）
@@ -20,6 +22,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
 import playlib as L
 import cc_d141_lib as D
+import cc_fn_lib as F
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
@@ -27,7 +30,7 @@ SHA = (os.environ.get('SHA') or '')[:10]; TAG = os.environ.get('TAG') or 'x'
 ZONE = os.environ.get('ZONE') or 'dorm'; DAY = os.environ.get('DAY') or '2025-10-14'; HOUR = float(os.environ.get('HOUR') or 14)
 X = os.environ.get('X'); Z = os.environ.get('Z'); LV = int(os.environ.get('LV') or 0)
 ROUTE = [s for s in (os.environ.get('ROUTE') or '').split('+') if s]
-R = L.Run('route_' + TAG, OUT); D.setup(R, OUT)
+R = L.Run('route_' + TAG, OUT); D.setup(R, OUT); F.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 STATE = r"""(()=>{ const E=GAME.E, G=GAME.G, P=E.player, o=P.obj, r2=v=>+(+v).toFixed(2); const cam=E.camera, cp=new THREE.Vector3(); cam.getWorldPosition(cp);
   const B=new THREE.Box3().setFromObject(o), head=new THREE.Vector3((B.min.x+B.max.x)/2, B.max.y-0.12, (B.min.z+B.max.z)/2), dir=head.clone().sub(cp), dist=dir.length(); dir.normalize();
@@ -139,6 +142,23 @@ async def main():
                     a = [float(v) for v in arg.split(',')]
                     _, out['stuck'] = await watched(pg, L.go_to(pg, cdp, R, a[0], a[1], 0.5, step, max_s=120, lv=int(a[2]) if len(a) > 2 else None), t); await D.settle(pg)
                     out['s'] = await record(pg, k, 'walk')
+                elif kind in ('tapto', 'joyto'):   # 11-12 BB-C 15:28：只用點地／只用搖桿走到那一點（tapto：一直點那一點的地面，點不到就轉鏡頭；joyto：fn_lib.joy_to 搖桿）
+                    a = [float(v) for v in arg.split(',')]; lv_ = int(a[2]) if len(a) > 2 else None
+                    if kind == 'joyto':
+                        r_, out['stuck'] = await watched(pg, F.joy_to(pg, cdp, t, a[0], a[1], near=0.6, lv=lv_, max_s=90), t)
+                        out['joy'] = {k: r_.get(k) for k in ('ok', 'why', 't', 'pushes')} if isinstance(r_, dict) else r_
+                    else:
+                        async def _taps():
+                            n_ = 0
+                            for _ in range(45):
+                                p = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.z,GAME.E.player.lv|0]; })()")
+                                if ((p[0] - a[0]) ** 2 + (p[1] - a[1]) ** 2) ** 0.5 < 0.6 and (lv_ is None or p[2] == lv_): return {'ok': True, 'taps': n_}
+                                hit = await L.tap_ground(pg, cdp, a[0], a[1], lv=lv_); n_ += 1
+                                if not hit: await L.turn_camera_to(pg, cdp, a[0], a[1])
+                                await pg.wait_for_timeout(2000)
+                            return {'ok': False, 'taps': n_}
+                        out['tap'], out['stuck'] = await watched(pg, _taps(), t)
+                    await D.settle(pg); out['s'] = await record(pg, k, kind, J(out.get('joy') or out.get('tap')))
                 elif kind == 'look':
                     await pg.evaluate("(y=>{ GAME.E.cam.yaw=y; })", float(arg)); await pg.wait_for_timeout(700)
                     out['s'] = await record(pg, k, 'look', 'yaw=%s' % arg)
