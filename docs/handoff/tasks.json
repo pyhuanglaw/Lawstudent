@@ -54276,6 +54276,34 @@
    },
    "source": "使用者 11-12 04:1x～04:3x 實玩回報（對 LAWWW-C）",
    "authorized": "使用者直接回報"
+  },
+  {
+   "id": "GIFT-ALL-DRINK-SHOPS-1112",
+   "title": "全遊戲賣飲料的店都可以「買一份帶走送人」：LAWWW 自己盤點、一次接完（X350）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "【11-12 04:2x LAWWW-C】使用者：「你現在應該要認真審查游戲裡面有哪些有賣飲料的店都可以送……你應該要自己決定啊」。查證：每個人收到飲料的反應是「飲料」這一類的通用句（只有最愛、有意見那幾樣綁品項），所以新品項不用新台詞就能送——上一則跟 AA 說「要寫才送得出去」是錯的，已更正。子代理在做（分支 gift-all-drinks-1112，檢查點 wip_backup/gift_all_drinks_1112.bundle）：盤點表 docs/handoff/GIFT_DRINK_SHOPS_AUDIT_1112.md、gift3d.js 通用機制、每一個點餐流程接上、tests/gift_all_drink_shops_1112_unit.js；回來當回合合併",
+   "xai": {
+    "receiver": "BB",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "spec": "使用者截圖（LAWWW-C 對話）",
+    "acceptance": "瀏覽器實玩",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 04:1x～04:3x 實玩回報（對 LAWWW-C）",
+   "authorized": "使用者直接回報"
   }
  ]
 }
