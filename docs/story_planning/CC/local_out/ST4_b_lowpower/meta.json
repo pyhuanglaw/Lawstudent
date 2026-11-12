@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "ST4_b_lowpower",
+  "sha": "dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_run_stutter_probe.py",
+  "env": "SOLO=1;TAG=st4_b_lowpower;VIEW=2308x1064;DSF=1;HOUR=17.58;ZONES=wenzhou;RUN_S=10;CC_GPU=0;EXTRA_ARGS=--force_low_power_gpu;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c",
+  "machine": "MSI",
+  "start": "2026-11-12T14:40:04",
+  "end": "2026-11-12T14:42:09",
+  "seconds": 125,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 28,
+    "mem": 47,
+    "used_gb": 14.9,
+    "chrome_testing": 5
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001638) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
