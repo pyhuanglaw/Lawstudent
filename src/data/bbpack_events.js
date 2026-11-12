@@ -501,7 +501,7 @@ const BBPACK_EVENTS=(function(){
      到經濟系那群畢業（2028-06）；品妤那天不在學校就不演、留到下一個來台大的日子；整個遊戲一次。演完照常在約好的時間見面（這兩句不算見面）*/
   EV.push({ id:'ev_kx_pinyu_soc', title:'', participants:['kexin'], location:'campus', trigger:'auto', near:SOC, once:true, background:'blur',
     prereq:{flags:['dating_kexin'],custom:G=>{ const b=B(); return !!b&&b.l389Due(G); }},
-    dialogue:[ say('kexin','我來找品妤。……順便找你。順序不要問。'),
+    dialogue:[ say('kexin','我來找品妤，順便找你。順序不要問。'),
       UN({flags:['MET_PINYU']},say('品妤','曾品妤。經濟系，可昕以前的室友。')),{set:{MET_PINYU:true}},
       say('品妤','她先找我的。我有證人。') ] });
 

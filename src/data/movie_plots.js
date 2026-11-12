@@ -1,11 +1,11 @@
-/* 自動產生：tools/movie/import_movie_plots.py（docs/story_planning/AA_745_movie_plots_1.json@4e41f0d09、docs/story_planning/AA_745_movie_plots_2.json@4e41f0d09、docs/story_planning/AA_745_movie_plots_3.json@4e41f0d09、docs/story_planning/AA_745_fallback.json@4e41f0d09、docs/story_planning/AA_751_peishan_termend.json@768b9a131（fallback.classmate_peishan 整組））。不要手改，改企劃 AA_745 再重新匯入。
+/* 自動產生：tools/movie/import_movie_plots.py（docs/story_planning/AA_745_movie_plots_1.json@4e41f0d09、docs/story_planning/AA_745_movie_plots_2.json@07d50af2f7、docs/story_planning/AA_745_movie_plots_3.json@4e41f0d09、docs/story_planning/AA_745_fallback.json@4e41f0d09、docs/story_planning/AA_751_peishan_termend.json@768b9a131（fallback.classmate_peishan 整組））。不要手改，改企劃 AA_745 再重新匯入。
    南洋戲院每部片的情節（plot）、大家會記得的那一幕（scene）、散場後聊什麼（talk）、和誰看多出來的（with）——MOVIE-TALK-1110；
    again＝同一部片和同一個人第二次看的旁白；need／later／pick／cond＝稿上的條件、時機、一定挑／不看的片、note 裡的條件（對照表在匯入工具）。播放在 src/movies3d.js */
 'use strict';
 const MOVIE_PLOTS={
  "src": [
   "docs/story_planning/AA_745_movie_plots_1.json@4e41f0d09",
-  "docs/story_planning/AA_745_movie_plots_2.json@4e41f0d09",
+  "docs/story_planning/AA_745_movie_plots_2.json@07d50af2f7",
   "docs/story_planning/AA_745_movie_plots_3.json@4e41f0d09",
   "docs/story_planning/AA_745_fallback.json@4e41f0d09",
   "docs/story_planning/AA_751_peishan_termend.json@768b9a131（fallback.classmate_peishan 整組）"
@@ -2393,7 +2393,7 @@ const MOVIE_PLOTS={
       {
        "t": "「我幫妳找判決。」",
        "say": [
-        "好。你哪天有空。帶電腦。"
+        "好，你哪天有空？記得帶電腦。"
        ],
        "fx": {
         "love": 2

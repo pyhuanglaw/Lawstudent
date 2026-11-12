@@ -159,7 +159,7 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   const KX=INVITE_DATA.people.kexin, SRL=INVITE_DATA.slowreadLines, H8L='118 巷那間牛排的老闆娘人很好。我去問過她開店的事。';
   const PS_TU='那時候我在課輔班。……木曜日開到十點，改天晚上好不好？', PS_SH='那時候我在書店。……木曜日開到十點，改天晚上好不好？';
   { fresh(TD('Y1S2',5,6),9); const lawG=G, FA4=['cafe','library','noodle','wenzhou'].map(p=>KX.firstAt[p](lawG));
-    const all=[].concat(KX.acc.pasta118,KX.acc.teahouse_ceremony,...FA4,[H8L,PS_TU,PS_SH]), bad=all.filter(t=>!in4(t));
+    const all=[].concat(KX.acc.pasta118,KX.acc.teahouse_ceremony,...FA4,[H8L,PS_TU,PS_SH]), bad=all.filter(t=>!in4(t)&&!require('./kx_rewrite_1112.js').news('src/data/invites.js').includes(t));   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7，invites.js:237）：可昕第一次到總圖那一句換字（原本「好大。……我會迷路。你走前面。」，AA_535b 4-2）——這一句對 AA_827（tests/kx_triple2_1112_unit.js），不在 AA_535b */
     check('4. 稿第 4 節：語彤 walk 的 H8 句、可昕六處、沛珊兩句都在 b3e5bca3b 第 4 節（一字照稿）',!!S4T&&bad.length===0&&all.length===14,J([all.length,bad])); }
   // 4-1 語彤慢讀的 walk
   { const d=TD('Y2S1',6,1); fresh(d,10); know('heroine_03',S6);
