@@ -56,42 +56,36 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('A 回覆：祐廷那一句、對方的回覆接在後面；旗標、記憶寫進去',r&&L.slice(-2).join('/')==='好/讚'&&PHONE.thread(G,'g:g1').slice(-2)[0].from==='player'&&G.flags.QQ===1&&SOCIAL.has('zhe','HELPED'),JSON.stringify(L.slice(-3)));
     check('A 回過不能再回、不在「待回覆」',PHONE.answer(G,m.ask.id,1)===null&&!PHONE.pending(G).includes(m)); }
   /* ---------- B 新遊戲第一天 ---------- */
-  const d0=defaults('祐廷'); check('B 新遊戲預設和可昕交往中（dating_kexin）',d0.flags.dating_kexin===true);
+  const d0=defaults('祐廷'); check('B 新遊戲預設沒有和可昕交往、還沒認識（dating_kexin false、KX_MET false；CANON-1112：舊序章拿掉／可昕開局不認識，原本期望 dating_kexin true）',d0.flags.dating_kexin===false&&d0.flags.KX_MET===false);
   fresh(1,21.2,'dorm',d0.flags); picks=['講了兩個小時']; await STORY.onEnter('dorm',GM);
   { const L=lines(), i=L.findIndex(t=>/書桌上放著明天民法總則/.test(t));
-    const NARR=['以前遇到事情，你會去翻民法。翻得到條文，卻不知道條文和條文怎麼接起來，也不知道怎麼用在一件真的事情上。','這次不一樣。這次有人要教你怎麼讀。','休學到重考的那幾個月，你不是一個人過的。'];
-    check('B 案例那一句之後是三句旁白（AA_12 原文、順序）',i>=0&&JSON.stringify(L.slice(i+1,i+4))===JSON.stringify(NARR),JSON.stringify(L.slice(i+1,i+4)));
-    const KXL=['今天讀到哪了？','我們老師今天講的案例，好像跟你們的是同一個。','兩個老師講的不一樣。……我好奇你們的怎麼講。','……不用回答。我只是想知道你讀到哪了。'];   /* AA_295 */
-    check('B 接著是可昕的四則訊息（對話框名字「可昕（手機）」）',JSON.stringify(L.slice(i+4,i+8))===JSON.stringify(KXL)&&said[i+4].who==='可昕（手機）',JSON.stringify(said.slice(i+4,i+8)));
-    const o=opts.find(q=>q.some(t=>/讀到一半/.test(t)))||[];
-    check('B 三個回覆（BB_95 9-0 原文）',JSON.stringify(o)===JSON.stringify(['讀到一半。案例比想像的長。','我們老師講了兩個小時。','讀到一半，在想妳。']),JSON.stringify(o));
-    check('B 她的回答＋「晚安。不要讀到太晚。」',L[i+8]==='……我們也是。我只記得他的領帶。'&&L[i+9]==='晚安。不要讀到太晚。',JSON.stringify(L.slice(i+8,i+10)));
-    const T=KX('p:kexin'); check('B 手機裡有整段（四則＋祐廷的回覆＋她的兩句）、回過了',T.length===7&&T[4].from==='player'&&T[4].text==='我們老師講了兩個小時。'&&T[3].ans===1,JSON.stringify(T.map(q=>q.text)));
-    check('B 旗標 KX_FIRST_MSG、交往中、有她的聯絡方式（不會跳「加了聯絡方式」的訊息）',G.flags.KX_FIRST_MSG===true&&G.flags.dating_kexin===true&&INV.hasContact(G,'kexin')&&!G.msgs.some(q=>/加了.*可昕/.test(q.text)));
-    check('B 交往中＝關係階段 RELATIONSHIP',SOCIAL.stage('kexin')==='RELATIONSHIP',SOCIAL.stage('kexin'));
+    const NARR=['以前遇到事情，你會去翻民法。翻得到條文，卻不知道條文和條文怎麼接起來，也不知道怎麼用在一件真的事情上。','這次不一樣。這次有人要教你怎麼讀。'];
+    check('B 案例那一句之後是兩句旁白（AA_12 原文、順序；CANON-1112：舊序章拿掉／可昕開局不認識——原本的第三句在講舊序章，拿掉了）',i>=0&&JSON.stringify(L.slice(i+1,i+3))===JSON.stringify(NARR),JSON.stringify(L.slice(i+1,i+4)));
+    /* CANON-1112：舊序章拿掉／可昕開局不認識：原本接著六項（她的四則訊息、三個回覆、她的回答、手機裡整段、KX_FIRST_MSG＋交往中＋聯絡方式、關係階段 RELATIONSHIP）——開局她以女朋友身分傳的第一則訊息整段拿掉了，改成確認都沒有 */
+    check('B 第一天晚上沒有她的訊息、對話框沒有「可昕（手機）」',KX('p:kexin').length===0&&!said.some(x=>x.who==='可昕（手機）')&&!opts.some(q=>q.some(t=>/讀到一半/.test(t))),JSON.stringify(KX('p:kexin').map(q=>q.text)));
+    check('B 開局不是交往中、沒有她的聯絡方式、不認識',G.flags.dating_kexin===false&&!G.flags.KX_FIRST_MSG&&!INV.hasContact(G,'kexin')&&SOCIAL.stage('kexin')==='STRANGER',SOCIAL.stage('kexin'));
     const F=KX('g:family_law'); const pin=F.find(q=>q.pin);
     check('B 家族群組「法律系直屬家族」：Kevin 開學前的置頂（AA_218 L512 原文）',PHONE.inGroup(G,'family_law')&&PHONE.title(G,'g:family_law')==='法律系直屬家族'&&pin&&pin.from==='kevin'&&pin.text==='學弟妹好～我是 Kevin，大二。先講幾件事：開學前先不要買二手書，等學長姐的；民總很重要；有問題就問，先自己查一下也可以。'&&pin.day<1,JSON.stringify(pin));
     let kq=null;
     check('B Kevin「第三週了，家族的學弟妹還活著嗎？要考古題的舉手」（BB_95 e627d747：Kevin 不是直屬）可以回（（舉手）／活著。）；學姊沒有發言（17-12）',(kq=F.find(q=>q.from==='kevin'&&!q.pin))&&kq.text==='第三週了，家族的學弟妹還活著嗎？要考古題的舉手'&&JSON.stringify(kq.ask.opts.map(x=>x.t))===JSON.stringify(['（舉手）','活著。'])&&!F.some(q=>q.from==='heroine_05'));
     check('B 第一天就在手機上看到學姊（不需要見面：沒有因此「認識」她）',!SOCIAL.has('heroine_05','FIRST_MET'));
-    check('B 有通知（toast）',toasts.some(t=>/可昕/.test(t))&&toasts.some(t=>/法律系直屬家族/.test(t)),JSON.stringify(toasts));
+    check('B 有通知（toast）：家族群組；沒有她的（CANON-1112：舊序章拿掉／可昕開局不認識）',!toasts.some(t=>/可昕/.test(t))&&toasts.some(t=>/法律系直屬家族/.test(t)),JSON.stringify(toasts));
     /* C 家族群組回覆 */
     const before=G.flags.FAM_GROUP_REPLIED; PHONE.answer(G,kq.ask.id,0);
     check('C 回「（舉手）」：FAM_GROUP_REPLIED、Kevin「很好，有一個活的。」',before===undefined&&G.flags.FAM_GROUP_REPLIED===true&&KX('g:family_law').slice(-1)[0].text==='很好，有一個活的。');
     /* D 重進宿舍、再呼叫：不重播 */
-    const n0=G.msgs.length; said=[]; await STORY.onEnter('dorm',GM); const r2=await STORY._v1.kexinFirstMsg(GM,'night');
-    check('D 重進宿舍、再呼叫：不重播（訊息數不變、沒有再演）',G.msgs.length===n0&&r2===false&&!lines().some(t=>/今天讀到哪了/.test(t))); }
+    const n0=G.msgs.length; said=[]; await STORY.onEnter('dorm',GM);
+    check('D 重進宿舍：不重播（訊息數不變；CANON-1112：舊序章拿掉／可昕開局不認識——原本還直接再呼叫一次第一則訊息那支函式，函式拿掉了）',G.msgs.length===n0&&!(STORY._v1&&STORY._v1.kexinFirstMsg)&&!lines().some(t=>/今天讀到哪了/.test(t))); }
   { fresh(1,21.2,'dorm',defaults('祐廷').flags); picks=['讀到一半。']; await STORY.onEnter('dorm',GM);
     check('C 不回家族群組：沒有 FAM_GROUP_REPLIED',G.flags.FAM_GROUP_REPLIED===undefined&&PHONE.pending(G).some(q=>q.from==='kevin')); }
   /* ---------- E 舊存檔 ---------- */
   { const old={v:3,name:'祐廷',day:4,weekday:6,hour:22,zone:'dorm',flags:{introDone:true,classDone:true,readCase:'full'},events:{done:{},last:{},count:0},rel:{},social:null};
     const s=migrate(JSON.parse(JSON.stringify(old)));
-    check('E 舊存檔讀檔：交往中、有她的聯絡方式；家族群組不補',s.flags.dating_kexin===true&&s.contacts&&s.contacts.kexin===0&&!s.flags.FAM_GROUP_SENT);
+    check('E 舊存檔讀檔：沒有交往旗標的不再補成交往中（CANON-1112：舊序章拿掉／可昕開局不認識，原本期望補成 true＋聯絡方式）；已經是交往中的照舊、補聯絡方式；家族群組不補',s.flags.dating_kexin===undefined&&!(s.contacts&&s.contacts.kexin!=null)&&!s.flags.FAM_GROUP_SENT&&(s2=>s2.flags.dating_kexin===true&&s2.contacts.kexin===0)(migrate({v:3,name:'x',rel:{},flags:{dating_kexin:true}})));
     check('E 已經設過的不動（之後分開設成 false，讀檔不會又變回交往中）',migrate({v:3,name:'x',rel:{},flags:{dating_kexin:false}}).flags.dating_kexin===false);
-    fresh(4,22,'dorm',s.flags); G.contacts=s.contacts; await STORY.sleepNow(GM); const L=lines();
-    const i=L.indexOf('休學到重考的那幾個月，你不是一個人過的。');
-    check('E 第三天以後的早上：補一次（旁白＋早上版第一句「早安。今天讀到哪了？」）',G.day===5&&i>=0&&L[i+1]==='早安。今天讀到哪了？',JSON.stringify(L.slice(0,8)));
-    check('E 早上版最後一句「去上課吧。下課再跟我說你讀到哪了。」、中間相同',L.includes('去上課吧。下課再跟我說你讀到哪了。')&&L.includes('兩個老師講的不一樣。……我好奇你們的怎麼講。')&&!L.includes('晚安。不要讀到太晚。'));
+    fresh(4,22,'dorm',Object.assign({},s.flags,{dating_kexin:true})); G.contacts={kexin:0}; await STORY.sleepNow(GM); const L=lines();
+    /* CANON-1112：舊序章拿掉／可昕開局不認識：原本兩項（第三天以後的早上補一次第一則訊息的早上版、早上版最後一句）拿掉——那一段整個不在了；交往中的舊存檔睡醒也不會再收到 */
+    check('E 交往中的舊存檔第三天以後的早上：不再補那一則（沒有那句旁白、沒有「今天讀到哪了」）',G.day===5&&!L.some(t=>/今天讀到哪了|你不是一個人過的/.test(t)),JSON.stringify(L.slice(0,8)));
     check('E 家族群組沒有補發',!PHONE.inGroup(G,'family_law'));
     said=[]; await STORY.sleepNow(GM); check('E 只補一次（再睡一次不會再出現）',!lines().some(t=>/今天讀到哪了/.test(t)));
     fresh(4,22,'dorm',{introDone:true,KX_FIRST_MSG:true,dating_kexin:true}); await STORY.sleepNow(GM); check('E 看過的（有 KX_FIRST_MSG）不補',!lines().some(t=>/今天讀到哪了/.test(t)));

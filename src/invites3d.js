@@ -34,7 +34,7 @@ const INV=(function(){
   S.msgAt=function(G,who,text,day,h){ S.rec(G); const m={day,h:+(h%24).toFixed(2),who:who||null,text,iv:null}; let i=G.msgs.length; while(i>0&&(G.msgs[i-1].day>day||(G.msgs[i-1].day===day&&G.msgs[i-1].h>m.h))) i--;
     G.msgs.splice(i,0,m); trim(G); };
   /* 聯絡方式 */
-  const kxOld=G=>{ const F=(G&&G.flags)||{}; return F.dating_kexin===true||!!F.EX_kexin||!!F.KX_MET||F.KX_ENDED!=null||F.KX_ENDED_ON!=null; };   /* 可昕（CANON-1112）：不再是開場就有；認識了（KX_MET）、交往中或交往過（舊存檔沒有 G.contacts.kexin 的也算）才有 */
+  const kxOld=G=>{ const F=G&&G.flags; if(!F||F.KX_MET===undefined) return true; return F.dating_kexin===true||!!F.EX_kexin||!!F.KX_MET||F.KX_ENDED!=null||F.KX_ENDED_ON!=null; };   /* 可昕（CANON-1112）：新設定的局（存檔有 KX_MET 這個欄位）不再是開場就有——認識了（KX_MET）、交往中或交往過才有；舊存檔（沒有這個欄位）照舊一直有 */
   S.hasContact=(G,id)=>D().contacts0.includes(id)||(id==='kexin'&&kxOld(G))||!!(G.contacts&&G.contacts[id]!=null);
   S.addContact=function(G,id){ S.rec(G); if(S.hasContact(G,id)) return false; G.contacts[id]=G.day; S.msg(G,id,'加了'+nameOf(id)+'的聯絡方式。'); return true; };
   /* 可以約的人：認識、對的分類、這學期在學校 */

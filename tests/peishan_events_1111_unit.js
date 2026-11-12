@@ -15,7 +15,11 @@ const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:
    AA_814（企劃線 91c6aaf9f，tests/aa814_prio_gap_1111_unit.js）改了 events.js（1/8 j8a、2/14 E27b）、vac_activities.js（沛珊重考期回國訊息兩段、noOff）；
    AA_742 第 ③ 節（tests/gg_shops3_story_1111_unit.js）改了 story3d.js 明軒「公館一百元以內」那一列（日日定食→泰米村食）。讀不到那一版（淺層複本）＝照現在的檔 */
 const LATER_PIN='9d45ef8b3', LATER_FILES=['src/data/events.js','src/data/vac_activities.js'];
-const read=f=>{ if(LATER_FILES.includes(f)){ const t=show(LATER_PIN,f); if(t!=null) return t; } return fs.readFileSync(path.join(H.ROOT,f),'utf8'); };
+/* 2026-11-12（CANON-1112：舊序章拿掉／可昕開局不認識）：camp_y1.js 照 AA_859 改了打牌那一段、拿掉夜談的定義和幾句舊序章的字（tests/canon_opening_1112_unit.js 逐字對稿）——不是沛珊重寫的範圍。
+   和 BASE 逐個比（字串數、骨架）用改之前那一版（6c2ecfc0af，這支測試在那裡全過）；現在的檔另外查沛珊那四列還在、各一處（第 2 節最後一項）。
+   舊期望：camp_y1.js 現在的檔直接和 BASE 比，一樣多、只差稿上 4 列。讀不到那一版（淺層複本）＝照現在的檔 */
+const CANON_PIN='6c2ecfc0af', CANON_FILES=['src/data/camp_y1.js'];
+const read=f=>{ if(LATER_FILES.includes(f)){ const t=show(LATER_PIN,f); if(t!=null) return t; } if(CANON_FILES.includes(f)){ const t=show(CANON_PIN,f); if(t!=null) return t; } return fs.readFileSync(path.join(H.ROOT,f),'utf8'); };
 const noCom=s=>s.replace(/\/\*[\s\S]*?\*\//g,'');
 const lit=s=>{ const out=[]; noCom(s).replace(/'((?:[^'\\]|\\.)*)'/g,(m,t)=>{ out.push(t); return m; }); return out; };
 const strs=(o,out)=>{ if(typeof o==='string') out.push(o); else if(Array.isArray(o)) o.forEach(x=>strs(x,out)); else if(o&&typeof o==='object') Object.values(o).forEach(x=>strs(x,out)); return out; };
@@ -62,14 +66,16 @@ const fileCheck=(tag,f,rows0,total)=>{ const cur=barBack(f,read(f)), L=lit(cur),
     for(const f of FILES) check('2. '+f+' 寫了來源 AA_762_peishan_events_2.json@'+D2.sha,read(f).includes('AA_762_peishan_events_2.json@'+D2.sha));
     if(!D2.A) return; const A=D2.A;
     check('2. 稿：四個檔 4／10／5／3＝22 列，每列 count 1',J(A.files.map(x=>x.file))===J(FILES)&&J(A.files.map(x=>x.rows.length))===J(CNT)&&A.files.every(x=>x.rows.every(r=>r.count===1)));
-    A.files.forEach((x,i)=>fileCheck('2.',x.file,x.rows,CNT[i])); });
+    A.files.forEach((x,i)=>fileCheck('2.',x.file,x.rows,CNT[i]));
+    { const f='src/data/camp_y1.js', L=lit(fs.readFileSync(path.join(H.ROOT,f),'utf8')), rows=A.files.find(x=>x.file===f).rows, bad=rows.filter(r=>L.filter(t=>t===LR.fwdS(r.new,f)).length!==r.count||L.includes(r.old));
+      check('2. '+f+'（現在的檔，CANON-1112：舊序章拿掉／可昕開局不認識 以後）：沛珊那 4 列的 new 還在、各 count 處，old 不在',rows.length===4&&bad.length===0,J(bad.map(r=>r.new))); } });
 
   await sec(3,async()=>{ const va=noCom(read('src/data/vac_activities.js'));
     check('3. vac_activities.js（註解以外）沒有「我沒出過國」「把護照握得很緊」「我第一次出國耶」',!/我沒出過國|把護照握得很緊|我第一次出國耶/.test(va));
     const m=/classmate_peishan:\{arr:\[([^\]]*)\],mid:\[([^\]]*)\],firstOnly:true,yes:\[([^\]]*)\],last:'([^']*)'/.exec(va);
     check('3. 和她出國那一組：arr、mid、firstOnly:true、yes、last 的結構照舊；last＝「我第一次沒有跟爸媽出國耶。好好玩，比跟他們好玩。」、mid（傳到家裡的群組）不動',!!m&&m[4]==='我第一次沒有跟爸媽出國耶。好好玩，比跟他們好玩。'&&m[2].includes('（她每走一條街就拍一張照片，傳到家裡的群組。）')&&m[1].includes('（過海關的時候，她排錯隊，自己笑著又排回來。）'),m&&m[4]);
     const v3=read('src/vac3d.js'); check('3. vac3d.js：firstOnly 的判斷照舊（第一次和她出國才說 last），註解引的是新句',v3.includes("gfOnce=!!(GF&&GF.firstOnly&&V.t13.some(r=>r!==rec&&r.done&&r.gf&&r.with===rec.with))")&&v3.includes('我第一次沒有跟爸媽出國耶'));
-    const fire=typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.find(e=>e.id==='ev_camp_d2_fire'); const cy=noCom(read('src/data/camp_y1.js'));
+    const fire=typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.find(e=>e.id==='ev_camp_d2_fire'); const cy=noCom(fs.readFileSync(path.join(H.ROOT,'src/data/camp_y1.js'),'utf8'));   /* 現在的檔（不是 CANON_PIN 那一版）*/
     check('3. 宿營營火（ev_camp_d2_fire）：第一句「嗨！我是不是錯過很多？我是遲到一天半的那個沛珊。」',cy.includes("'嗨！我是不是錯過很多？我是遲到一天半的那個沛珊。'")&&cy.includes('ev_camp_d2_fire')&&(!fire||strs(fire,[]).includes('嗨！我是不是錯過很多？我是遲到一天半的那個沛珊。'))); });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

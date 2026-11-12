@@ -183,7 +183,7 @@ sec('6',()=>{ const TUE=TD(11,2), WED=TUE+1, THU=TUE+2;
   check('6. 「妳先睡，明天再做。」→「你不懂。……算了，我自己來。」＋旁白「（她已讀，沒有再傳。）」（不是她說的）',J(L.map(x=>x.text))===J(['妳先睡，明天再做。','你不懂。……算了，我自己來。','（她已讀，沒有再傳。）'])&&!L[2].from&&L[1].from==='kexin'&&H.G.flags.KX_RPT==='sleep');
   if(typeof MSG!=='undefined'&&MSG.replyAt){ const no=(id)=>{ const hd=R().hold; R().hold={}; const r=MSG.replyAt(H.G,id); R().hold=hd; return r; };
     at(TUE,23.5); const r1=MSG.replyAt(H.G,'kexin'), r1n=no('kexin'), r4=MSG.replyAt(H.G,'heroine_01'), r4n=no('heroine_01'); at(WED,9); const r2=MSG.replyAt(H.G,'kexin'); at(WED,13); const r3=MSG.replyAt(H.G,'kexin'), r3n=no('kexin');
-    check('6. 隔天中午才回下一則：週二 23:30、週三 09:00 傳訊息給她＝週三 12:00 才回（原本 '+J(r1n)+'）；週三 13:00 以後照平常；別人（以安）不受影響',T(r1.day,r1.h)===T(WED,12)&&T(r1n.day,r1n.h)<T(WED,12)&&T(r2.day,r2.h)===T(WED,12)&&J(r3)===J(r3n)&&J(r4)===J(r4n),J({r1,r2,r3,r4})); }
+    check('6. 隔天中午才回下一則：週二 23:30、週三 09:00 傳訊息給她＝週三 12:00 才回（原本 '+J(r1n)+'）；週三 13:00 以後照平常；別人（以安）不受影響',T(r1.day,r1.h)===T(WED,12)&&T(r1n.day,r1n.h)<T(WED,12)&&T(r2.day,r2.h)>=T(WED,12)&&T(r2.day,r2.h)<=T(WED,13)/* CANON-1112：舊序章拿掉／可昕開局不認識：她現在同班、週三早上在上刑總（到 12:10），09:00 傳的那一則下課才回（12:40）；原本期望剛好 12:00 */&&J(r3)===J(r3n)&&J(r4)===J(r4n),J({r1,r2,r3,r4})); }
   else check('6. 隔天中午才回下一則（MSG.replyAt）',false,'msg3d.js 沒有載到');
   walk(THU,18.1); check('6. 先睡：週四那一則也有',th('kexin').some(x=>x.tag==='aa503_kx_rpt2'));
   ({m,L}=go(null)); at(WED,0.1); check('6. 過了午夜就不能回',!!m&&!PHONE.askOpen(H.G,m)); walk(THU,18.1); check('6. 沒回：週四那一則也有（她的事照日期發生）',th('kexin').some(x=>x.tag==='aa503_kx_rpt2'));

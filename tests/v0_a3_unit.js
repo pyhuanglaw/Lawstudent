@@ -30,7 +30,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 (async()=>{
-  check('有 STORY.opening、newGameEcon、LAW_START_RECAP',typeof STORY.opening==='function'&&STORY.LAW_START_RECAP.length===10);
+  check('有 STORY.opening、newGameEcon、LAW_START_RECAP',typeof STORY.opening==='function'&&STORY.LAW_START_RECAP.length===6);   /* CANON-1112：舊序章拿掉／可昕開局不認識：回顧字卡照 AA_858 換成五句＋最後一句（原本 10 句）*/
   const gsrc=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); check('新遊戲的預設存檔 stage:\'law\'（migrate 用 defaults 補，舊存檔＝法律系）',/function defaults\(name\)\{ return \{v:SAVE_VER,stage:'law'/.test(gsrc)&&/for\(const k in d\)\{ if\(s\[k\]===undefined\|\|s\[k\]===null\) s\[k\]=d\[k\]; \}/.test(gsrc));
   // CANON-NO-ECON-1112：經濟系那一年拿掉（標題畫面經濟系開局的按鈕、2024-09-01 的天數）
   /* opening */
@@ -39,7 +39,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* 法律系開局 */
   { fresh(1,21.2,'dorm',{}); G.flags={dating_kexin:true}; said=[]; const E0=GM.E; GM.E=Object.assign({},E,{player:{busy:false},endCinematic(){},setWeather(){}}); GM.titleIdle=true; GM.hideHUD=()=>{}; let entered=null; const en=GM.enter; GM.enter=async(z)=>{ entered=z; G.zone=z; };
     await STORY.newGame(GM); GM.enter=en; GM.E=E0; const L=said.map(s=>s.t);
-    check('法律系開局：先放④（10 句，AA_224 第 2 組）再放③（4 句），然後進宿舍（現有的第一天）',L[0]==='你從小就想念首都帝大法律。'&&L[9]==='九月，你回到同一個校園，換了一個系。'&&L[10]==='開學第一週，你走進法律系館A。沒有人知道你來過這個校園。'&&L.length===14&&entered==='dorm'&&G.day===1&&G.stage==='law',JSON.stringify({n:L.length,first:L[0],entered,day:G.day}));
+    check('法律系開局（?start0）：先放回顧字卡（AA_858：五句＋「直接開學」那一句，共 6 句），然後進宿舍（現有的第一天）——CANON-1112：舊序章拿掉／可昕開局不認識：原本期望④ 10 句＋③ 4 句共 14 句；③（S.LAW_WEEK12）四句在講舊序章、稿沒有新字，不演了',L[0]==='你從小就想念首都帝大法律。'&&L[5]===STORY.LAW_START_RECAP[5]&&L.length===6&&STORY.LAW_WEEK12.length===0&&entered==='dorm'&&G.day===1&&G.stage==='law',JSON.stringify({n:L.length,first:L[0],entered,day:G.day}));
     check('法律系開局：記下看過摘要（舊存檔另外處理）',G.flags.LAW_RECAP_SEEN===true); }
   // CANON-NO-ECON-1112：經濟系那一年拿掉（經濟系開局（newGameEcon））
   /* 事件的階段 */

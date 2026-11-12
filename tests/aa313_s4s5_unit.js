@@ -143,9 +143,8 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   { const W=ev('ev_welcome_y1s1'), go=async(k,known)=>{ fresh(D('2025-08-31'),9,'campus',{}); onlyKnow(known); said=[]; picks=[k,0]; try{ await EVENTS.run(W); } finally { knowReset(); } return lines(); };
     let L=await go(1,[]); const g1=!!G.flags.ZHE_CALLS_GE;
     check('5-3. 迎新選「我比大家大一歲。」：記 ZHE_CALLS_GE；還不認識阿哲＝「旁邊一個男生：那我們叫你哥？」',g1&&L.includes('旁邊一個男生：那我們叫你哥？')&&!L.some(t=>/^阿哲：/.test(t)),J(L));
-    L=await go(2,[]); const g2=!!G.flags.ZHE_CALLS_GE&&G.flags.ECON_PAST_SHARED==='full';
-    check('5-3、5-4. 迎新選「念過經濟系」：記 ZHE_CALLS_GE、ECON_PAST_SHARED；不認識的「旁邊一個男生：哥！」「前面一個女生：欸，為什麼重考？」',g2&&L.includes('旁邊一個男生：哥！')&&L.includes('前面一個女生：欸，為什麼重考？')&&!L.some(t=>/^(阿哲|Alison)：/.test(t)),J(L));
-    L=await go(2,['zhe','yu']); check('5-3、5-4. 都認識：照舊是阿哲、Alison',L.includes('阿哲：哥！')&&L.includes('Alison：欸，為什麼重考？'),J(L)); }
+    /* CANON-1112：舊序章拿掉／可昕開局不認識（AA_859「一起拿掉的」）：迎新第三個選項和它後面那一支（「哥！」、補問那一句）拿掉了——原本兩項（不認識的說話人、都認識的說話人）改成確認選單只剩兩個 */
+    { const ch=(W.dialogue.find(l=>l.choice)||{choice:[]}).choice; check('5-3、5-4. 迎新自我介紹只剩兩個選項、沒有第三個選項那一支',ch.length===2&&!W.dialogue.some(l=>l.label==='econ'||l.label==='why_h'),J(ch.map(c=>c.text))); } }
   // 柏翰（5-1 第 13 點、5-5）：值班分大二、大三起；大二第一次值班的開場；聽到分開以後第一次說話
   { const MEM={lawclub:true,CLUB_lawclub_study:true}, shift=async(term,w,flags)=>{ fresh(STORY.termDay(term,w,6),9,'wancai',Object.assign({},MEM,flags||{})); G.stage='law'; R('classmate_bohan','FAM'); R('heroine_05','FAM'); picks=['從頭講','先走']; said=[]; await STORY.fafuShift(GM); return lines().filter(t=>/柏翰：/.test(t)); };
     const a=await shift('Y2S1',11), b=await shift('Y2S1',13,{FAFU_BH_HELLO:1}), c=await shift('Y3S1',3,{FAFU_BH_HELLO:1});   /* D118-B5b（2026-11-04）：大二上第 7 週六 10/24 是 AA_604 法服固定場次第 1 場（坐圓桌＝那一場），一般值班改用第 11、13 週 */

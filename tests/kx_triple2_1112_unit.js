@@ -35,7 +35,10 @@ for(const f of [...new Set(K.PAIRS.map(x=>x[0]))]){ const now=lits(read(f)), ECO
   /* 之後又進來的改句（同一個檔、別的稿）：AA_833 以安事件刪節號 10 列（41837baa3d，2026-11-12）——這裡一起算進「應該差的」 */
   const LATER={'src/data/events.js':['……對那個被限制的人呢？','……好，算一點。','……我們走吧。我不想在這裡待太久。','……好啦，我自己也記不住十二條。','……看到很多人不是壞人，只是沒有人幫他們把話講清楚。',
     /* AA_839 學姊事件刪節號 17 列（edb1a1a5c，2026-11-12） */ '……社長沒有人改。','……你學得很快。','……好燙。','……不用。我自己來。','……那還來得及。我六月才畢業。','……這個問題最近有人問我第三次了。','……還可以。','……還有——','……我知道。家聚你都沒來，今天來了就好。','……我們也先回去。明天再說。','……坐吧。我剛好想要一個不是法服的人。','……我不知道。','……我要回家了。你也早點回去。','……可是好像真的這麼簡單。','……對。他跳過了。我第一次讀的時候沒看出來，是許老師指出來的。','……順序對了。','……你翹課？'],'src/data/r2y3a_events.js':['……不是。飯要涼了。']}[f]||[];
-  if(was){ const [gone,came]=bagDiff(lits(was),now); const wantGone=rows.map(x=>x[1]).concat(LATER).sort(), wantCame=rows.map(x=>x[2]).concat(LATER.map(t=>t.slice(2))).sort(); check('2. '+f+' 的字串常值和匯入以前（'+BASE+'）比：只差稿上的 '+rows.length+' 列（＋AA_833、AA_839 的 '+LATER.length+' 列）',(f==='src/data/events.js'?wantGone.every(x=>gone.includes(x)):J(gone)===J(wantGone))&&J(came)===J(wantCame),J([gone.slice(0,3),came.slice(0,3)])); }
+  /* 2026-11-12（CANON-1112：舊序章拿掉／可昕開局不認識）：events.js（8/30 那一場和迎新那一支拿掉、可昕在法律系的八個新事件）、invites.js（開場就有聯絡方式的名單少了 'kexin'）之後故意改了——
+     和匯入以前比字串常值的這一項用改之前那一版（6c2ecfc0af，這支測試在那裡全過）；上面每一列「新句剛好一次、舊句沒有了」照舊查現在的檔。舊期望：直接拿現在的檔比。讀不到那一版＝照現在的檔 */
+  const canonWas=['src/data/events.js','src/data/invites.js'].includes(f)?show('6c2ecfc0af',f):null, nowCmp=canonWas?lits(canonWas):now;
+  if(was){ const [gone,came]=bagDiff(lits(was),nowCmp); const wantGone=rows.map(x=>x[1]).concat(LATER).sort(), wantCame=rows.map(x=>x[2]).concat(LATER.map(t=>t.slice(2))).sort(); check('2. '+f+' 的字串常值和匯入以前（'+BASE+'）比：只差稿上的 '+rows.length+' 列（＋AA_833、AA_839 的 '+LATER.length+' 列）',(f==='src/data/events.js'?wantGone.every(x=>gone.includes(x)):J(gone)===J(wantGone))&&J(came)===J(wantCame),J([gone.slice(0,3),came.slice(0,3)])); }
   else console.log('（跳過：讀不到 '+BASE+' 的 '+f+'）'); }
 
 // 3

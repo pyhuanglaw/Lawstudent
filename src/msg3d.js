@@ -121,7 +121,7 @@ const MSG=(function(){
     if(!sisAdded&&!hasContact(G,id)) return {ok:false,why:S.noContactWhy(G,id),noContact:true};   /* 原因照約人那一句（INVITE_DATA.why：再熟一點／可以當面問，PHONE-UNIFY-1030）*/
     if(!sisAdded&&!met(G,id)) return {ok:false,why:'還沒見過面'};
     const pr=presence(G,id); if(pr&&pr.here===false&&pr.kind==='after') return {ok:false,why:'聯絡不上'};   /* PHONE-LIST-CLEAN-1103（使用者 11-03「朋友『聯絡不上』不對」）：開學前（presence before＝還沒到學校）見過、有聯絡方式的朋友照樣傳得了訊息；原本開學前一律「聯絡不上」*/
-    if(id==='kexin'){ if(G.flags&&G.flags.dating_kexin===true) return {ok:true}; if(typeof STORY==='undefined'||!STORY.kxEx||STORY.kxEx(G)) return {ok:false,why:'分開以後不開'}; return {ok:true,mate:true}; }   /* CANON-1112：同班同學、還沒交往（mate）＝在聯絡人裡，但現在沒有可以傳的話題（她的話題都是交往中寫的，AA 換字以前 S.topics 回空的）*/
+    if(id==='kexin'){ if(G.flags&&G.flags.dating_kexin===true) return {ok:true}; if(typeof STORY!=='undefined'&&STORY.kxMate&&STORY.kxMate(G)) return {ok:true,mate:true}; return {ok:false,why:'分開以後不開'}; }   /* CANON-1112：同班同學、還沒交往（mate）＝在聯絡人裡，但現在沒有可以傳的話題（她的話題都是交往中寫的，AA 換字以前 S.topics 回空的）*/
     if(id==='heroine_02'&&S.inUK(G,id)){ const row=S.ukRow(G,id); return row==='none'?{ok:false,why:'她在英國，只寄明信片'}:{ok:true,mode:'uk',uk:row}; }   /* 大三上交換、大四英國念研究所：照交情（AA_276 第 2 節、BB_178 1-E；原本一律只寄明信片）。回台中（presence home）照常傳 */
     /* 子晴：原本要演過 Q6（ev_ziqing_secret_game）才開——2026-10-30 使用者「很多女生腳色都不能在訊息頁面傳訊息!!!!!!講很多次了 請統一」：七位女生見過、有聯絡方式就開（PHONE-UNIFY-1030）。
        Q6 以前不出講到她的遊戲的句子（S.zqSpoil：還不知道她在做遊戲）*/

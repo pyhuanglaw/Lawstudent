@@ -9499,6 +9499,33 @@
    "task": "GG-SHAOLA-FIX-1112、GG-YEJIAN-SHOP-1112",
    "kind": "json",
    "note": "公館燒臘點餐（六樣＋加滷蛋、阿姨的話、每樣吃的旁白、記帳 tab_pay／tab_refuse）＋頁間書屋買東西（書牆、新書推薦、雜誌、明信片、咖啡吧的「看」和品項價錢、店員招呼、錢不夠；分支 claude/magical-albattani-bk7b4n）：tools/story/import_yejian_shaola.py → src/data/yejian_shaola_buy.js（YEJIAN_SHAOLA_BUY）。品名、價錢、句子一字照稿；演出 src/shaola_order3d.js、src/yejian_buy3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_856_可昕在法律系_認識與大一上.md",
+   "sha": "077a6e501d",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_400／BB_402 聽過）；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "可昕在首都帝大法律系：開局不認識、第一次見面（課堂版兩個選項、順延版一句、保底版）、教室外面那一句、大一上四拍（第三版；分支 claude/magical-albattani-bk7b4n）。手寫進 src/data/events.js（ev_kx_meet_class、ev_kx_meet_hall、ev_kx_first_out、ev_kx_dress、ev_kx_hand_in、ev_kx_hand、ev_kx_angry、ev_kx_y1s1_end），句子一字照稿（第 3 節的旁白＝表格「內容」欄的原句，稿寫祐廷的地方用 {name}）；條件在 src/story3d.js（S.kxKnown／kxClassMeet…）、src/classes3d.js。逐字對稿：tests/canon_opening_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_858_法律系開局回顧字卡.md",
+   "sha": "077a6e501d",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_400／BB_402 聽過）；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "法律系開局的回顧字卡（五句＋最後一句兩版；分支 claude/magical-albattani-bk7b4n）：手寫進 src/story3d.js 的 S.LAW_START_RECAP／S.LAW_START_RECAP_W1，一字照稿。逐字對稿：tests/canon_opening_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_859_宿營打牌_學測那段.md",
+   "sha": "077a6e501d",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_400／BB_402 聽過）；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "宿營第一天自由時間打牌：「你數學幾級分？」之後那一段（兩個選項都記 ZHE_CALLS_GE、結尾兩句；分支 claude/magical-albattani-bk7b4n）：手寫進 src/data/camp_y1.js 的 ev_camp_d1_free，一字照稿；「一起拿掉的」三樣照稿拿掉（遊覽車那一段最後一句、夜談的定義、迎新自我介紹第三個選項那一支）。逐字對稿：tests/canon_opening_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
   }
  ]
 }

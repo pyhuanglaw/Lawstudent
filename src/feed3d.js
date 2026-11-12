@@ -153,7 +153,7 @@ const FEED=(function(){
   /* AA_723（企劃線 d8570a14b peishan.posts.rule；AA723-CONFESS-PS-1107）：沛珊沒交往的線（STORY.psNewLine）2026-12-18～2028-12-28 她的動態一則都不發（AA_506～509 §6-3 的 ps1d～ps3g）、
      她先傳的動態私訊也不傳；記成 x:psSilent＝過了就過了，2028-12-29 重聚以後從當時那一則開始照原本的（不補貼）。沉默期回她以前的動態（留言、私訊）她不回（STORY.psSilent）。交往中照原本 */
   S.psOff=(G,day)=>{ if(typeof STORY==='undefined'||!STORY.psNewLine||!STORY.dayOfKey||!STORY.PS_SIL||!STORY.psNewLine(G)) return false; const a=STORY.dayOfKey(STORY.PS_SIL[0]), b=STORY.dayOfKey(STORY.PS_SIL[1]); return a!=null&&b!=null&&day>=a&&day<b; };
-  S.kxMate=G=>!dating(G,'kexin')&&!(typeof STORY!=='undefined'&&STORY.kxEx&&STORY.kxEx(G));   /* CANON-1112（AA_856 第 4 節）：同班同學、沒交往過——她的動態牆貼文和私訊都是以女朋友為前提寫的，AA 換成同學版以前不出 */
+  S.kxMate=G=>typeof STORY!=='undefined'&&!!STORY.kxMate&&STORY.kxMate(G);   /* CANON-1112（AA_856 第 4 節）：同班同學、沒交往過——她的動態牆貼文和私訊都是以女朋友為前提寫的，AA 換成同學版以前不出 */
   S.blocked=function(G,p,w){ if(!hasContact(G,p.who)) return 'contact'; if(p.who==='kexin'&&S.kxMate(G)) return 'contact'; if(p.who==='kexin'&&S.kxCool(G)) return 'cool';
     if(p.who==='classmate_peishan'&&S.psOff(G,w.day)) return 'psSilent';
     if(!S.stageOk(G,p.who,p.st)&&!(p.stIf&&S.WENT[p.stIf]&&S.WENT[p.stIf](G))) return 'stage';   /* stIf：那個 WENT 成立就不看階段（語彤 8/22「陪她去的玩家也看得到」）*/

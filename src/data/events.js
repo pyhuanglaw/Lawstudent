@@ -3073,7 +3073,7 @@ const STORY_EVENTS=[
       {label:'met'},{set:{KX_MET:true,KX_MET_HOW:'class'}} ],
     consequences:{contact:'kexin',stamp:['KX_MET_DAY']} },
   { id:'ev_kx_meet_hall', title:'', participants:['kexin'], location:'linze', trigger:'enter', once:true, background:'blur',
-    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.kxKnown&&!STORY.kxKnown(G)&&!!STORY.termDay&&G.day>=STORY.termDay('Y1S1',5,1)},
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.kxMeetOpen&&STORY.kxMeetOpen(G)&&!!STORY.termDay&&G.day>=STORY.termDay('Y1S1',5,1)},
     dialogue:[
       {speaker:null,text:'（有人從後面叫你。是班上坐前排的那個女生，你沒跟她講過話。）'},
       {speaker:'kexin',text:'欸，你是我們班的吧。你都坐很後面。'},

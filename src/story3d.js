@@ -300,10 +300,15 @@ const STORY = (function(){
      課堂的掛勾：S.kxClassDue（學期中的快轉停在那一堂前面，semff3d.js）、S.kxClassMeet（CLS.attend 叫：ph 'open'＝開始上課、教授第一句之前；'pre'＝坐下以後、還沒上課）、
      S.kxHandDue／S.kxHandIn（第 6 週課堂中那一半，CLS.IN_CLASS）。字都在 events.js，這裡只有條件 */
   S.kxKnown=G=>{ const F=(G&&G.flags)||{}; return !!(F.KX_MET||F.dating_kexin===true||F.EX_kexin||(G&&G.contacts&&G.contacts.kexin!=null)); };
+  /* 新設定的局＝存檔裡有 KX_MET 這個欄位（新遊戲的 defaults 給 false；CANON-1112 以前的存檔沒有這個欄位）。舊存檔不遷移（使用者 11-12）：沒有這個欄位的照舊的規則走——
+     她一直有聯絡方式、沒在交往＝分開了、不會演第一次見面；只有新設定的局才有「同班同學、還沒交往」（S.kxMate）這個狀態 */
+  S.kxNew=G=>!!(G&&G.flags&&G.flags.KX_MET!==undefined);
+  S.kxMate=G=>S.kxNew(G)&&G.flags.dating_kexin!==true&&!S.kxEx(G);
   S.kxEx=G=>{ const F=(G&&G.flags)||{}, R=F.romance&&F.romance.kexin; return !!(F.EX_kexin||F.KX_ENDED!=null||F.KX_ENDED_ON!=null||(R&&R.status&&R.status!=='none'&&R.status!=='dating')); };   /* 交往過、已經分開（date3d.js、msg3d.js、feed3d.js：「沒在交往」不再等於「分開了」）*/
   const kxReq=it=>!!(it&&it.c&&it.c.kind==='required'&&!it.c.retake&&!it.exam);   /* 法律系的必修（不算考試那一堂）*/
   const kxEvDone=(G,id)=>!!(G&&G.events&&G.events.done&&G.events.done[id]);
-  S.kxMeetDue=function(G,it){ if(!G||(G.stage||'law')!=='law'||S.kxKnown(G)||!kxReq(it)||kxEvDone(G,'ev_kx_meet_class')) return false; return !(typeof CLS!=='undefined'&&CLS.storyClass&&CLS.storyClass(G,it)); };   /* 主線第二天的民總是劇情課（不走 CLS.attend）：不算 */
+  S.kxMeetOpen=G=>!!G&&(G.stage||'law')==='law'&&S.kxNew(G)&&!S.kxKnown(G);   /* 還沒認識、等第一次見面（新設定的局才有）*/
+  S.kxMeetDue=function(G,it){ if(!S.kxMeetOpen(G)||!kxReq(it)||kxEvDone(G,'ev_kx_meet_class')) return false; return !(typeof CLS!=='undefined'&&CLS.storyClass&&CLS.storyClass(G,it)); };   /* 主線第二天的民總是劇情課（不走 CLS.attend）：不算 */
   /* 這一堂是不是這學期第一堂必修（是＝老師開場那一版；前面有必修沒上到＝順延的那一版）*/
   S.kxMeetFirst=function(G,it){ if(typeof CLS==='undefined'||!CLS.dayItems||typeof CALENDAR==='undefined') return true; const t=CALENDAR.termOf(it.day); if(!t) return true;
     for(let d=it.day-((t.week|0)+1)*7;d<=it.day;d++){ const tt=CALENDAR.termOf(d); if(!tt||tt.id!==t.id) continue; for(const x of CLS.dayItems(G,d)){ if(kxReq(x)&&(d<it.day||x.t0<it.t0)) return false; } } return true; };
