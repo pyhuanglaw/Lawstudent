@@ -78,6 +78,7 @@ const PLACES={
     tz_xile:{text:'24 小時'},
     tz_yuehaochi:{shop:true,rules:{week:[[11,21],[11,21],[11,21],[11,21],[11,21],[11,21],[11,21]]},text:'每天 11:00–21:00'},   /* 越好吃小館（TINGZHOU-SHOPS5-1110；AA_821「11:00～21:00」，企劃線 65e38a5de；沒有寫公休＝每天；台詞 src/data/tz_meal_lines.js）*/
     tz_keju:{shop:true,rules:{week:[[11,21],[11,21],[11,21],[11,21],[11,21],[11,21],[11,21]]},text:'每天 11:00–21:00'},   /* 客居雲南（SHOP-LIFE-AA826-1112；AA_825「11:00～21:00」@ 90fb5fa77，中午不休息（稿 _meta：X349）；沒有寫公休＝每天；颱風假照汀州路其他幾間（關）；台詞 src/data/tz_meal_lines.js）*/
+    tz_wente:{shop:true,rules:{week:[[12,21],[13,21],[13,21],null,[13,21],[13,21],[12,21]]},text:'13:00–21:00（週末 12:00 開）；週三公休'},   /* 溫特寶邸（汀州路古著店，進不去、只從街上看；AA_902 @ 210d502060）：週三公休、颱風天關（typhoonShops）；打烊＝店面板調暗（tingzhou3d.js SHOP_LIT_PLACE tzwen）*/
     tz_dongnan:{shop:true,rules:{week:[[10,21.5],[10,21.5],[10,21.5],[10,21.5],[10,21.5],[10,21.5],[10,21.5]]},text:'每天 10:00–21:30'},   /* 東南大聯商行（TINGZHOU-SHOPS5-1110；AA_823「10:00～21:30」@ 3d0ab9944；沒有公休＝每天、颱風假照通用的（AA 11-12 回 LAWWW-C 第 ⑥ 點確認）；台詞 src/data/tz_grocery_lines.js）*/
     tz_liantong:{shop:true,rules:{week:[[11,21.5],[11,21.5],[11,21.5],[11,21.5],[11,21.5],[11,21.5],[11,21.5]]},text:'每天 11:00–21:30'},   /* 汀州聯通（TINGZHOU-SHOPS5-1110；AA_824「11:00～21:30」@ 2ec610d95；稿沒有寫公休＝每天、颱風假照通用的（和東南大聯商行一樣）；台詞 src/data/tz_grocery_lines.js）*/
     tz_yindehao:{shop:true,rules:{week:[null,[9,22],[9,22],[9,22],[9,22],[9,22],[10,18]],finalsClose:24},text:'週一～五 09:00–22:00、週六 10:00–18:00；週日公休（期末考週和前一週開到 24:00）'} },
@@ -108,7 +109,7 @@ const PLACES={
   /* 颱風假店家不開（AA_160 3-4 D，AA-B 2026-10-16：颱風假不能搭捷運、店家不開、不能打工、不能回家）；便利商店照開 */
   /* 期末考週或期末考的前一週（同一個學期；印得好的 finalsClose、src/gg3shops3d.js 的「裝訂期末報告」）*/
   finalsNear(day){ if(typeof CALENDAR==='undefined'||!CALENDAR.termOf) return false; const t=CALENDAR.termOf(day); if(!t) return false; if(t.exam==='final') return true; const n=CALENDAR.termOf(day+7); return !!n&&n.id===t.id&&n.exam==='final'; },
-  typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_fruit','wz_books','wz_mokuyobi','wz_offbeat','afar','daybreak','aoki','xs_tongxian','yangyang','corner_records',
+  typhoonShops:['tz_wente','cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_fruit','wz_books','wz_mokuyobi','wz_offbeat','afar','daybreak','aoki','xs_tongxian','yangyang','corner_records',
     'gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_xile','tz_yindehao','tz_yuehaochi','tz_dongnan','tz_liantong','tz_keju',
     'xs_nanyang','xs_shanlan','xs_dabu','xs_haopai','xs_xsports','flower_notes','tz_limao','l118_dian','l118_self','l118_tea','l118_home','l118_cafe2','l118_korea','l118_noodle2'],   /* 店面標準 §12 第 5 點（SHOP-STANDARD-BACKFILL-1112）：颱風假一律不開；門口那一句＝PLACES.closedText 現有的 */   /* 公館三間＋汀州路三間（GG-SHOPS3-SYS-1110；洗樂 24 小時也照 AA_742「一律關比較穩」）*/
   typhoonClosed(zone,day){ if(!PLACES.typhoonShops.includes(zone)) return false; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G)?GAME.G.day:null; return day!=null&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(day); },
