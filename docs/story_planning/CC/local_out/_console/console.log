@@ -557,3 +557,10 @@
 [17:16:34] [res] cpu=4% mem=47% (14.8/31.4 GB) chrome_testing=10  START ZN_SHANLAN_r2
 [17:17:49] 正在跑：HELP_GUIDE_b2（已跑 6 分／上限 25 分）、HELP_GUIDE_new2（已跑 6 分／上限 25 分）、ZN_SHANLAN_r2（已跑 1 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:18:34] [res] cpu=15% mem=45% (14.2/31.4 GB) chrome_testing=10  END ZN_SHANLAN_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f958aa115..3a7abef1a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:18:41] ==== END   ZN_SHANLAN_r2  exit=1  123s   ====
+[17:18:51] solo item TZ_REAL_perf_night waits: no new items start until the 2 running item(s) finish
+[17:22:49] 正在跑：HELP_GUIDE_b2（已跑 11 分／上限 25 分）、HELP_GUIDE_new2（已跑 11 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:27:38] [res] cpu=6% mem=38% (12.1/31.4 GB) chrome_testing=5  END HELP_GUIDE_b2
