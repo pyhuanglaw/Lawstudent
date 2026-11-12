@@ -8551,13 +8551,13 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "bc13aee92",
    "receiver": "LAWWW",
-   "ack": "DELIVERED（11-12 10:4xZ），未 ACK",
+   "ack": "ACK（開發分支 4b838d190 已含）",
    "task": "SHOP-REAL-INSIDE-1112 公館第三批：燒臘 G00 換真的室內＋省資源模式第一次走近分幀",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/gg_batch3_v1.patch",
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "remaining": "燒臘打烊後招牌還亮；花序 G11 沒換；手機那一下的毫秒數沒量",
    "next": "LAWWW-C 套 patch、CC 量、BB 判"
@@ -8575,6 +8575,35 @@
    "noDirectIntegrate": false,
    "remaining": "遊戲內沒拍",
    "next": "LAWWW-C 套 patch、CC 拍"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "47c0afb2e",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED（11-12 11:2xZ），未 ACK",
+   "task": "SHOP-REAL-INSIDE-1112 溫州街三間（日常失速、SUNNY SIDE、小路）＋shopInsideReal 兩個修正",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/wz_real_inside_1112/wz_real3_v1.patch",
+    "docs/art-rebuild/second_ai/wip/wz_real_inside_1112/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "remaining": "SUNNY SIDE 街上的門和店內的門位置不一致（等 BB 決定）；店面比室內寬的玻璃後面是實牆；記憶體沒量",
+   "next": "LAWWW-C 套 patch、CC 量、BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "ae992ccfe",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED（11-12）",
+   "task": "SHOP-OUT-IN-AUDIT-1112 溫州街八間自查＋阿忠鮮果／夜市站位檢查",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_out_in_audit_1112/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": true,
+   "remaining": "阿忠鮮果營業中沒有老闆（LAWWW closed3d.js）；林家乾麵仍是簡化版",
+   "next": "—"
   }
  ]
 }
