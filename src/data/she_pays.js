@@ -52,7 +52,7 @@ const SHE_PAYS_DATA={
     "上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。這次船票我請。"
    ],
    "D12.pier": [
-    "好。盡頭有一個賣咖啡的貨櫃，我請你。"
+    "盡頭有一個賣咖啡的貨櫃，我請你。"
    ],
    "D15.store": [
     "謝謝，那關東煮我請。"
@@ -192,8 +192,8 @@ const SHE_PAYS_DATA={
   },
   "heroine_05": {
    "D22.fish": [
-    "好。飯我請，飲料你請。",
-    "好。你堅持的話。"
+    "飯我請，飲料你請。",
+    "你堅持的話。"
    ]
   },
   "classmate_peishan": {
@@ -254,8 +254,10 @@ const SHE_PAYS_DATA={
    "n": 39,
    "key": "D12.pier.first.choice[1]",
    "pid": "D12.pier",
-   "text": "好。盡頭有一個賣咖啡的貨櫃，我請你。",
-   "at": "/loc/D12/lines/heroine_03/hotspots/D12.pier/first/choice/1/reply/0/text"
+   "text": "盡頭有一個賣咖啡的貨櫃，我請你。",
+   "at": "/loc/D12/lines/heroine_03/hotspots/D12.pier/first/choice/1/reply/0/text",
+   "was": "好。盡頭有一個賣咖啡的貨櫃，我請你。",
+   "by": "AA_843_yt_hao_replies.json@41f77eab53"
   },
   {
    "kind": "pays",
@@ -451,8 +453,10 @@ const SHE_PAYS_DATA={
    "n": 48,
    "key": "D22.fish.first.choice[0]",
    "pid": "D22.fish",
-   "text": "好。飯我請，飲料你請。",
-   "at": "/loc/D22/lines/heroine_05/hotspots/D22.fish/first/choice/0/reply/0/text"
+   "text": "飯我請，飲料你請。",
+   "at": "/loc/D22/lines/heroine_05/hotspots/D22.fish/first/choice/0/reply/0/text",
+   "was": "好。飯我請，飲料你請。",
+   "by": "AA_842_sis_hao_replies.json@41f77eab53"
   },
   {
    "kind": "split",
@@ -461,8 +465,10 @@ const SHE_PAYS_DATA={
    "n": 50,
    "key": "D22.fish.first.choice[1]",
    "pid": "D22.fish",
-   "text": "好。你堅持的話。",
-   "at": "/loc/D22/lines/heroine_05/hotspots/D22.fish/first/choice/1/reply/0/text"
+   "text": "你堅持的話。",
+   "at": "/loc/D22/lines/heroine_05/hotspots/D22.fish/first/choice/1/reply/0/text",
+   "was": "好。你堅持的話。",
+   "by": "AA_842_sis_hao_replies.json@41f77eab53"
   },
   {
    "kind": "split",

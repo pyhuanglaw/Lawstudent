@@ -15,6 +15,7 @@ tools/date/import_date_lines.py 疊進去，先跑那一支）：每一句在她
 - 以安的格可以列（AA_780 手寫的三格在 date3d.js；同一句＝不重複，跳過）。
 - AA_782 的列：同一個人同一個互動點 AA_812 也列了、這一句不在 AA_812 的清單裡、而且遊戲裡已經沒有這一句＝被 AA_812 取代（superseded，AA 改了字：學姊 D06.cafe、沛珊 D21.street）；
   這一句還在遊戲裡＝不知道要不要拿掉，停下來。AA_812 和 AA_782 同一句＝不重複。
+- AA_812 的句子後來在源稿被 AA 換了字（REWORD；2026-11-12「好」開頭回話三句）：AA_812 那一句不在遊戲裡了才換成現在的字，cells812 那一列多 was（原本 AA_812 寫的）、by（哪一份稿）。
 輸出：pays（AA_782 留下的＋AA_812 新的）、split（AA_812）、cells（AA_782 留下的列，格式照舊）、superseded（被取代的 AA_782 列）、cells812（AA_812 每一句：pays／split、位置、格號、跟誰重複）。
 用法：python3 tools/date/import_she_pays.py [--check] [--out 檔名]"""
 import json, os, re, subprocess, sys
@@ -31,6 +32,12 @@ P812 = 'docs/story_planning/AA_812_date_pays_promises.json'
 # AA 決定拿掉的 AA_782 列（不算她請客）：(她, key) → 誰、為什麼。遊戲裡那一句照樣說，只是那一份照常扣
 DROP = {('classmate_peishan', 'D31.egg.normal#2'): 'AA 11-11 18:58 回 LAWWW（BB 18:56 疑點②）：照 AA_812（較新）「只多買一顆蛋的不算」——「你要不要再一顆？我請你。」不是她付整份'}
 D3 = 'src/date3d.js'
+# AA_812 的句子後來在源稿被 AA 換了字的（那一格重寫、AA_812 還沒跟著改）：(她, 互動點, AA_812 寫的那一句) → (現在的字, 哪一份稿)。
+# 只有「AA_812 那一句已經不在她那個互動點底下」才換（還在＝照 AA_812，不換；兩句都在、兩句都不在＝where() 停下來）。換了的格在 cells812 多一欄 was。AA 把 AA_812 改成新字以後這幾列就用不到、可以拿掉。
+# 2026-11-12 DLG-FULL-REVIEW-1110／X324「好」開頭回話（企劃線 41f77eab53；tests/date_src_sha.js 的 HAO_1112）：AA 只拿掉開頭的「好。」
+REWORD = {('heroine_03', 'D12.pier', '好。盡頭有一個賣咖啡的貨櫃，我請你。'): ('盡頭有一個賣咖啡的貨櫃，我請你。', 'AA_843_yt_hao_replies.json@41f77eab53'),
+          ('heroine_05', 'D22.fish', '好。飯我請，飲料你請。'): ('飯我請，飲料你請。', 'AA_842_sis_hao_replies.json@41f77eab53'),
+          ('heroine_05', 'D22.fish', '好。你堅持的話。'): ('你堅持的話。', 'AA_842_sis_hao_replies.json@41f77eab53')}
 
 
 def git(*a):
@@ -202,10 +209,21 @@ def read812(src, sha, DL):
                 w = f'{w0} {part}.{who}.{pid}'
                 if not isinstance(L, list) or not L or not all(isinstance(x, str) and x for x in L) or len(set(L)) != len(L):
                     raise SystemExit(f'{w}：要是有字的句子陣列（同一句不能列兩次）')
+                now = []
                 for text in L:
+                    was = None
+                    if (who, pid, text) in REWORD:   # 源稿後來換了字（見 REWORD）：AA_812 那一句不在了才換
+                        H = (((((DL.get('loc') or {}).get(pid[:3]) or {}).get('lines') or {}).get(who) or {}).get('hotspots') or {}).get(pid) or {}
+                        if not any(v == text for _, v in leaves(H)):
+                            was, text = text, REWORD[(who, pid, text)][0]
                     at, key, n = where(DL, who, pid, text, w)
-                    cells.append({'kind': 'pays' if part == 'SHE_PAYS_add' else 'split', 'who': who, 'loc': pid[:3], 'n': n, 'key': key, 'pid': pid, 'text': text, 'at': at})
-                out[part][(who, pid)] = list(L)
+                    c = {'kind': 'pays' if part == 'SHE_PAYS_add' else 'split', 'who': who, 'loc': pid[:3], 'n': n, 'key': key, 'pid': pid, 'text': text, 'at': at}
+                    if was:
+                        c['was'] = was; c['by'] = REWORD[(who, pid, was)][1]
+                    cells.append(c); now.append(text)
+                if len(set(now)) != len(now):
+                    raise SystemExit(f'{w}：換字以後同一句列了兩次 {now}')
+                out[part][(who, pid)] = now
     both = [c for c in cells if c['kind'] == 'split' and c['text'] in out['SHE_PAYS_add'].get((c['who'], c['pid']), [])]
     if both:
         raise SystemExit(f'{w0}：同一句同時在 SHE_PAYS_add 和 SPLIT：' + json.dumps([(c['who'], c['pid'], c['text']) for c in both], ensure_ascii=False))
@@ -254,6 +272,9 @@ def main():
         data['cells812'] = cells812
         print(f'AA_812@{sha812}：她付全部 {sum(1 for c in cells812 if c["kind"] == "pays")} 句（{len(pay812)} 個互動點；和 AA_782／date3d.js 重複 {sum(1 for c in cells812 if c.get("dup"))} 句）、平分 {sum(1 for c in cells812 if c["kind"] == "split")} 句（{len(split812)} 個互動點）；'
               f'AA_782 被取代 {len(data["superseded"])} 列：' + '、'.join(f'{x["who"]} {x["key"]}「{x["text"]}」' for x in data['superseded']))
+        rw = [c for c in cells812 if c.get('was')]
+        if rw:
+            print(f'AA_812 的句子源稿後來換了字、跟著換 {len(rw)} 句（REWORD）：' + '、'.join(f'{c["who"]} {c["key"]}「{c["was"]}」→「{c["text"]}」（{c["by"]}）' for c in rw))
         if both:
             print('同一個互動點兩邊都有（不同的句子；演的時候最後說的那一句算）：' + '、'.join(f'{w} {p}' for w, p in both))
     js = ('/* 自動產生：tools/date/import_she_pays.py（' + data['src'] + '）。不要手改，改企劃 AA_782／AA_812 再重新匯入。\n'

@@ -37,7 +37,7 @@ const ADV2=global.ADV; ADV2.active=false;
   fresh(day,9,'dorm',{}); G.money=5000;
   let r=await go('heroine_02',['飲料攤','「我幫妳點？」','河邊欄杆',0,'長椅',0,'差不多了']);
   check('1. 第一次：抵達句「第一次」那套（「淡水好像很多電影來拍過。」）',r.L.some(x=>/淡水好像很多電影來拍過。/.test(x)),r.L.join(' | '));
-  check('1. 飲料攤第一次：那一套＋選擇「我幫妳點？」→「好。不要太甜。」；註記不顯示、記 TASTE＝player',r.L.some(x=>/我點最普通的那個/.test(x))&&r.L.some(x=>/好。不要太甜。/.test(x))&&!r.L.some(x=>/記 `?TASTE/.test(x))&&DATE.mem(G,'heroine_02','D13').taste==='player',r.L.join(' | '));
+  check('1. 飲料攤第一次：那一套＋選擇「我幫妳點？」→「不要太甜。」（2026-11-12 AA_845 拿掉開頭的「好。」）；註記不顯示、記 TASTE＝player',r.L.some(x=>/我點最普通的那個/.test(x))&&r.L.some(x=>/：不要太甜。$/.test(x))&&!r.L.some(x=>/好。不要太甜。/.test(x))&&!r.L.some(x=>/記 `?TASTE/.test(x))&&DATE.mem(G,'heroine_02','D13').taste==='player',r.L.join(' | '));   /* 2026-11-12（X324「好」開頭回話 AA_845@41f77eab53，date_src_sha.js HAO_1112）：AA 改了這句回話。舊期望：r.L.some(x=>/好。不要太甜。/.test(x)) */
   /* 2026-11-11（X324 芷若約會台詞重寫，AA_773_zr_date_common.json@e8a33995c）：芷若「差不多了」兩句換字——「今天夠了。很好玩，是我的腳先投降。」「差不多了。現在很像散場，燈要亮了的那種。」（原本「今天夠了。不是不好玩。」「天黑了。散場的感覺。」） */
   check('1. 第三個互動點之後她說「差不多了」那一句（BB_128 3-6）',r.L.some(x=>/今天夠了。很好玩，是我的腳先投降。|差不多了。現在很像散場，燈要亮了的那種。/.test(x)),r.L.join(' | '));
   /* 2026-11-11（X324 芷若約會台詞重寫，AA a29a8aba0）：芷若 D13 第一次的收尾新稿「我的腳說它走夠了。」「可是我還不想回去。再繞一圈？」（原本「太陽快下去了。」……） */
