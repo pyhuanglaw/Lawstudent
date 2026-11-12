@@ -53555,14 +53555,21 @@
    "sha": "9fbf615efe",
    "next": "【11-12 04:0x LAWWW-C】子代理 season3-lines-1112（5fd3a61e96）合併 9fbf615efe：六攤能看能買（沿用夜市 NM3.serve）、五項布置的「看」、sea_fruit 照季節加水果那一句；tests/season3_lines_1112_unit.js 17 項＋夜市、季節相關 11 支過；瀏覽器沒跑→BB。**五件問 AA**：說話人（阿伯／阿姨／店員／老闆是照夜市先例填的）、布置的按鈕字（用 LAWWW2 原本藏著的）、sea_fruit 兩句都演對不對、攤名「春聯年貨」和招牌「春聯・年貨」、flower_notes_season 一次列四季｜【11-12 03:5x LAWWW-C】派子代理（worktree，基準 42a854dee9，分支 season3-lines-1112；檢查點 wip_backup/season3_lines_1112.bundle）：AA_793 進白名單、匯入、六攤能看能買（沿用夜市機制）、五項布置的「看」、tests/season3_lines_1112_unit.js。回來當回合合併（D148）｜【11-11 09:5x AA 交稿】AA_793_season3_stalls.json（e2ea0ea3c）：六攤 stalls（格式同 AA_752；sea_textbook noVendor:true）、looks 五句（sea_fruit 另有 looksFruit 五種水果）——發版後和 LAWWW2 季節第三批 v2（165778c67）一起整合，攤販買的流程接 night_market3d.js。｜【11-11 09:5x】LAWWW 已把 6 攤 key、位置、日期和 5 項「看」的 key 給 AA（LAWWW2 165778c67 README）；AA 寫一個檔給 SHA，發版後整合。｜【11-11 08:2x】等 LAWWW2 季節第三批交模型（攤販 key：sea_yam、sea_aiyu、sea_mooncake、sea_couplet、sea_bouquet、sea_textbook；B2 key flower_notes_season）和位置，LAWWW 轉給 AA 再寫；v9.10.25 發版後整合。店名照 D147：使用者沒給名字的攤子不取名。買的流程 LAWWW 接 src/night_market3d.js。",
    "pausedReason": null,
-   "xai": [
-    {
-     "from": "LAWWW",
-     "to": "AA",
-     "what": "預告（08:1x）",
-     "state": "ACK"
-    }
-   ]
+   "xai": {
+    "log": [
+     {
+      "from": "LAWWW",
+      "to": "AA",
+      "what": "預告（08:1x）",
+      "state": "ACK"
+     }
+    ],
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "（LAWWW-C 11-12 稽核補登）季節布置第三批的文字：六個季節攤販 A1 烤地瓜、A2 愛玉、A3 月餅桌、A4 春聯攤、A5 畢業花束、A6 二手教科書（照 AA_752 夜市稿格式：look、greet、items、buy、closed、hours）＋五項落地布置 B",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判",
+    "ack": "ACTIONED"
+   }
   },
   {
    "id": "STAIR-LEVEL-AUDIT-1111",
@@ -53582,14 +53589,21 @@
    },
    "sha": null,
    "next": "【11-11 11:2x BB】0d1eaadc7 PC：花序、總圖大廳、大口漢堡上下全 5/5 FIXED（舊版大口跑步 10 fps 上樓卡 4/5）；木曜日走路 30/30。剩木曜日跑步 10 fps、四棟上下、stairdown。｜【11-11 10:1x】LAWWW 整合（花序、總圖大廳下樓留上層、大口漢堡低幀率樓梯頂；引擎半步）——進 v9.10.25；等 CC 照木曜日的走法在花序、總圖大廳、大口跑。｜【11-11 09:4x LAWWW 派】做法照 tests/mokuyobi_stair_top_1111_unit.js、src/mokuyobi3d.js buildNav 那一行；patch＋測試一起交。",
-   "xai": [
-    {
-     "from": "LAWWW",
-     "to": "LAWWW2",
-     "what": "派工 09:4x",
-     "state": "SENT"
-    }
-   ]
+   "xai": {
+    "log": [
+     {
+      "from": "LAWWW",
+      "to": "LAWWW2",
+      "what": "派工 09:4x",
+      "state": "SENT"
+     }
+    ],
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）全區多樓層樓梯掃描：上層導航格延伸到樓梯下半段（木曜日下樓卡住的原因 2c962ad66）、樓梯頂底換層會不會卡——Node 掃所有有 z.levels 的區域、找到的照木曜日的修法修",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判",
+    "ack": "ACTIONED"
+   }
   },
   {
    "id": "L118-PASTA-BAR-POSTERS-1111",
@@ -53609,7 +53623,13 @@
    },
    "sha": "988dfcbe2",
    "next": "【11-11 15:5x LAWWW 對帳（LAWWW2 15:46 queue 對帳，D148；SHA 都查過在開發分支裡）】stack4 ①進 c170218dd｜【11-11 10:5x LAWWW2 交付，發版後整合】claude/second-ai-env-art 988dfcbe2（outbox f30abd2e2）：docs/art-rebuild/second_ai/wip/l118_p2_1111/l118_p2_v1.patch（9 檔；dev 2b0929e27 上 git apply --3way 乾淨）。吧台凳外移 0.12＋前板內退 0.15（膝蓋離前板 1→16 cm），L118_IT_FIX.pasta 吧台五格 sit 拿掉；奈良咖哩／義大麵屋窗上海報背面＝紙背＋透光反向淡圖＋膠帶，義大麵屋第一張移到 x 1.41～2.19。相關 15 支過、全部 1286 支 1285 過＋bookstore 老警告。沒在瀏覽器坐過。｜【11-11 09:4x LAWWW 派，發版後】l118_int_pasta.py 凳子外挪或前板內縮（做完 LAWWW 拿掉 L118_IT_FIX 的 sit）；海報背面給貼圖或從裡面看不到。",
-   "xai": []
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）義大麵屋吧台凳離前板太近（膝蓋進前板 5 cm，遊戲端先用 L118_IT_FIX sit 往外 0.12 m 擋著）＋奈良咖哩、義大麵屋店內往外看窗上海報背面是米白方塊",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判",
+    "ack": "ACTIONED"
+   }
   },
   {
    "id": "TAP-RAY-SEAT-1111",
@@ -53629,7 +53649,13 @@
    },
    "sha": "c170218dd",
    "next": "【11-11 20:5x BB】TSR_LIB_ab PASS（3／3）＝總圖可以結；宿舍長桌那張等 #nextClass 新 SHA 重點｜【11-11 20:2x LAWWW 判＋修】CC N1_TSR_DORM_ab：宿舍長桌椅子點了開手機＝#nextClass 吃掉（elementFromPoint＝canvas，但 pointer／touch／click target 都是 #nextClass；Chromium 觸控吸附 y 128→119）。chip 文字「今天的課都結束了」8 個字、框卻 506 px（#hud 直排 flex 預設 stretch，跟著 #goal 撐到 60vw）——LAWWW 判版面問題（框不該比字寬；#hud 裡只有它能點）。修：index.html #nextClass align-self:flex-start；tests/nextclass_chip_width_1111_unit.js 修改前 FAIL。CC 瀏覽器量寬度、DORM 長桌重點｜【11-11 20:0x LAWWW 正式交 BB＋CC】開發分支 287c009cb（程式＝fe347b5e8），GHA node-unit-auto run 43088888267 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 19:4x LAWWW 整合】LAWWW2 34aacc4d62 tap_seat_libdorm_v1.patch（--3way 乾淨）：game3d.js tapToSeat 沒給 hit、有 ray＋fy＝自己算射線和 y＝fy 的交點（遊戲本身有傳 hit，行為不變；探針讀數和遊戲一致）；tests/tap_seat_libdorm_1111_unit.js（總圖 10＋44 張、宿舍 6 張近遠鏡頭、CC log 那幾下、BB 四個走道點）修改前 ①② FAIL、修改後 ALL PASS；點椅子相關 50 支過。CC 探針已改（575fd2a9fa），r3 給 BB 判｜【11-11 19:0x BB（CC PC b77af3a4f）】TSR_LIB「點椅面沒出坐下讀書」、TSR_DORM「長桌椅子點椅面 nobtn」＝總圖、宿舍點椅面不生效（Café 過、走道 5/5 不被帶去是好的）。LAWWW 查：射線判椅子所有區域都開著；tap_seat_ray_real 沒測總圖／宿舍點椅面＝漏區。派回 LAWWW2：真區域＋GLB 查每張椅面（桌面先擋、模型不在 zone.group、y／lift 對不上），修到點得到、走道 TSR 條件不退，帶修改前 FAIL 的測試。不擋線上版｜【11-11 18:2x LAWWW 正式交 BB＋CC】開發分支 b77af3a4fe6d348ae58337a1ce708442ef9ef458，GHA node-unit-auto run 43073570765 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 15:4x LAWWW 整合】stack4（c8ca5c0b4 四包疊好，②點畫面判椅子 cef36c9c7）合進開發分支 c170218dd；tap_seat_ray_1111、tap_seat_ray_real_1111 Node 過；GHA 全部跑中。BB：點椅面（俯角淺）走去坐、點走道不被帶去椅子（TSR 那條）｜【11-11 11:3x LAWWW2 交付，發版後整合】claude/second-ai-env-art cef36c9c7：docs/art-rebuild/second_ai/wip/tap_ray_seat_1111/tap_ray_seat_v1.patch（4 檔，dev d75a274b2 上 --3way 乾淨）。E.rayFirstHit（區域群組第一個打到的；淡出牆、透明玻璃、不畫的、noTapHit 不算）；tapToSeat 先用椅子盒子篩、穿過才打模型，打到的點在椅子範圍＝那一張，射線判在前；沒有 useRay。新測試 tap_seat_ray_real_1111_unit：BB 四個走道點（總圖 25／12、宿舍 20、Café 28 個鏡頭）全 null；五湖四海 #9 八方向 215 個都導去 #9；118 巷每張椅子 6720 次，射線先打到的 4726 次都導去那張。Playwright 總圖二樓驗過。沒做：人不擋。全部 1288 支 1287 過＋bookstore 老警告。整合後 CC 照 BB 那 13 張點。｜【11-11 10:5x LAWWW 派給 LAWWW2（場景互動＝D108 場景程式），發版後交 patch】｜【11-11 10:3x】發版後做：game3d.js tapToSeat 的 useRay 分支改成用 E.ray 打椅子 mesh（或椅子包圍盒且比地板近）；測試 tests/tap_seat_ray_1111_unit.js 加 BB 的四個走道點（總圖 (−8.5,5)、(−11,6.5)，宿舍 (11.5,3)，Café (1.5,−0.5)）必須 null；做完 engine3d 再傳 useRay。",
-   "xai": []
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）點椅面判椅子重做：用畫面上實際打到的物體（射線第一個打到的面在椅子上、高度在椅面到椅背之間）才導去椅子；0d7922555 的「射線高度 0.3～0.75 m 離椅中心 0.32 m 內」會把走道點擦過的椅子算進去（BB TSR 擋發布，0",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判",
+    "ack": "ACTIONED"
+   }
   },
   {
    "id": "X330-RESTORE-1111",
@@ -53677,7 +53703,13 @@
    },
    "sha": "c170218dd",
    "next": "【11-11 18:2x LAWWW 正式交 BB＋CC】開發分支 b77af3a4fe6d348ae58337a1ce708442ef9ef458，GHA node-unit-auto run 43073570765 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 15:4x LAWWW 整合】stack4 ③（42671da70）合進 c170218dd；cafe_bar_cam_1111 Node 過。BB：Café 吧檯坐下看得到自己和吧台｜【11-11 12:0x LAWWW2 交付，發版後整合】claude/second-ai-env-art 42671da70：docs/art-rebuild/second_ai/wip/cafe_bar_cam_1111/cafe_bar_cam_v1.patch（2 檔，dev 4bad2a222 上 --3way 乾淨，和 TAP-RAY-SEAT 一起套也乾淨）。原因是天花板水泥大梁（梁底 2.98 m）；①cafe z.slabs 讓 slabClip 把鏡頭拉到梁下 ②CAFE230_SEETHRU 梁、層架、吊燈網點透空。新測試 cafe_bar_cam_1111_unit：吧檯 256 鏡頭擋 90→0、其他 22 張座位 37→0、站著不動；全部 1288 支 1287 過＋bookstore 老警告。手機沒看；吊燈網點透空等 BB 判。｜【11-11 11:3x LAWWW2】原因：天花板水泥大梁 a23_vc（梁底約 3.2 m），高腳椅俯角 0.38 鏡頭 3.48 m 在梁旁 0.44 m。照 SUNNY／小路 WZ-SEAT-CAMS 做法讓梁等網點透空（attachCafe230）；新測試吧檯 256 個鏡頭擋 90→0、全店其他座位 37→0；跑全部測試＋同機位截圖中。｜【11-11 11:2x BB 回報（STAIR_X 時順便）、LAWWW 派 LAWWW2（場景鏡頭 D108），發版後】搖桿坐「坐吧檯」：中央 [84.8, 0.2]，鏡頭 (−1.3,3.46,0.6) 整片牆。改法照其他店吧檯座位的鏡頭；做完交 patch＋同機位截圖，CC 拍、BB 判。",
-   "xai": []
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）Café（兩點半）吧檯高腳椅坐下後鏡頭整片是牆（線上 779 就有）：坐吧檯看不到自己和吧台——座位鏡頭往後拉或改俯角",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判",
+    "ack": "ACTIONED"
+   }
   },
   {
    "id": "GG-SHOPS3-ART-V2",
@@ -53700,7 +53732,13 @@
    "resumeWhen": "BB 判完六間室內 v1（ART_APPROVED 或退件理由）",
    "recheckOn": "2026-11-18",
    "next": "【11-11 12:0x AA_813】劇情不需要這幾樣（D99 凍結）——等 BB 判 v1 時若也不要求，就改取消。｜【11-11 12:1x LAWWW 決定】LAWWW2 AA_743 對照表 d0c2852b7 第③類。②只加資料那幾項另做（GG-SHOPS3-ART-1110 下）。",
-   "xai": []
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）公館／汀州路六間室內第 2 版（AA_743 有、模型沒有的）：鮮果吊秤＋收音機、文具祝福卡、洗樂布告欄、印得好等候長椅、泰米調味料架",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判",
+    "ack": "未派"
+   }
   },
   {
    "id": "MOKU-PLANT-CORNER-1111",
@@ -53720,7 +53758,13 @@
    },
    "sha": "c170218dd",
    "next": "【11-11 20:1x BB】N1_MOKU_PLANT_7 30fps 兩格＝TEST_BUG（探針退回樓梯上的點，stair:true＝點樓梯就上樓是規則），7b 用 ab282014a 重跑；10fps 兩格 PASS｜【11-11 18:2x LAWWW 正式交 BB＋CC】開發分支 b77af3a4fe6d348ae58337a1ce708442ef9ef458，GHA node-unit-auto run 43073570765 全綠；瀏覽器照 BB 判準排（CC）｜【11-11 15:4x LAWWW 整合】LAWWW2 947322b33 moku_plant_corner_v1.patch 合進 c170218dd（buildNav 補三塊阻擋＋只開木曜日的 cornerSlip）；mokuyobi_plant_corner_1111 七項 Node 過。BB：NOSIT／STAIR＋木曜日二樓小縫走不進去、往樓梯斜走不頂住｜【11-11 14:3x BB V25_STAIR_run10 抓到孤島；LAWWW 決定 v9.10.25 照發（線上本來就有、這版沒變壞），發版後第一個修＝P0；派 LAWWW2 現在先做 patch】補縫或縮那兩個擋格（衣帽架、植物），跑 nav_islands.py 確認木曜日兩層沒有小孤島；加測試：(−2.54, 3.33)、(−2.49, 3.04)、(−1.82, 4.00) 往樓梯推 3 秒內離開；這版又把念書搬到木曜日、人會變多。｜【11-11 14:2x BB／CC 抓到、LAWWW Node 重現，發版後】約念書起身後走約 5 m 停在盆栽角，探針朝路線前方推 22 秒不動（f312c／0d1e 共 8 趟卡 2 趟）。Node：(−1.82,4.00) 16 個方向各推 1 秒，225°（走 30 fps）、202°（跑 10 fps）不動，其他 14 個方向都動＝不是困住、是轉角斜推頂住。改法二選一：mokuyobi_layout 盆栽擋格 0.5→0.4（LAWWW2，D108 場景）或 engine3d.js stepEntity 全部失敗時試 ±30°／±60° 轉向（引擎，影響全遊戲，要全量測試）。做完加測試：那一點往樓梯方向推 3 秒內離開。",
-   "xai": []
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）木曜日二樓：①衣帽架 [−2.7, 2.75, 0.4, 0.4] 和落地植物 [−2.15, 3.75, 0.5, 0.5] 中間的縫有「只有一格站得住」的小孤島，(−2.54, 3.33) lv1 掉進去 40 秒出不去（D141 卡住",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判",
+    "ack": "ACTIONED"
+   }
   },
   {
    "id": "PHONE-GO-PROMPT-1111",
@@ -53770,7 +53814,11 @@
    "xai": {
     "from": "LAWWW",
     "to": "AA",
-    "ack": ""
+    "ack": "ACTIONED",
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "（LAWWW-C 11-12 稽核補登）三個優先項目（D99）的劇情斷點對帳：照遊戲實際內容（開發分支的 src、src/data）走一遍，找出玩家會卡住、缺一句、前後不接、只有手機交代（D103）的地方——①經濟系完整流程（AA_269 第 6 節驗收清單：新遊戲→宿營→在學→",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判"
    }
   },
   {
@@ -53845,7 +53893,11 @@
     "from": "使用者",
     "to": "LAWWW2",
     "receiver": "BB",
-    "ack": "LAWWW"
+    "ack": "ACTIONED",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）公館 G10 改成真的巷口（一樓打開成通道，「往汀州路（巷子）」看得到巷子通進去；G09 照舊鐵捲門；G10 之後不能再放店）（使用者 11-11 01:1x 選擇題「改成真的巷口」）",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判",
+    "ackNote": "原本寫「LAWWW」（不是規定的值，稽核改）"
    }
   },
   {
@@ -53896,7 +53948,11 @@
     "from": "LAWWW",
     "to": "LAWWW2",
     "receiver": "BB",
-    "ack": "LAWWW"
+    "ack": "ACTIONED",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）美國交換那一段場景「擋玩」巡檢（D99 ③、D141：走不到、坐不下、穿模、卡住、黑畫面；含 AA_814 3-1 C 棟廚房、3-2 社區門口）",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判",
+    "ackNote": "原本寫「LAWWW」（不是規定的值，稽核改）"
    }
   },
   {
@@ -53924,7 +53980,12 @@
    "xai": {
     "from": "LAWWW2",
     "to": "LAWWW",
-    "ack": "LAWWW"
+    "ack": "SENT",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）換區出生點落在出口範圍內（D108）全遊戲 28 處：進店一出現就是「離開」、出店一出現就是「再進去」、戶外換區（LAWWW2 d260d660da wip/spawn_exit_audit_1111/）",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判",
+    "ackNote": "原本寫「LAWWW」（不是規定的值，稽核改）"
    }
   },
   {
@@ -53949,7 +54010,10 @@
     "from": "LAWWW",
     "to": "LAWWW2",
     "receiver": "BB",
-    "ack": ""
+    "ack": "SENT",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）經濟系那一年（D99 ①：新遊戲→宿營→在學→10/17 休學→在家→重考→放榜→進法律系）會用到的場景「擋玩」巡檢（D141：走不到、坐不下、穿模、卡住、黑畫面），做法照 US-NAV-TRAPS-1111",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判"
    }
   },
   {
@@ -53974,7 +54038,10 @@
     "from": "LAWWW",
     "to": "LAWWW2",
     "receiver": "BB",
-    "ack": ""
+    "ack": "SENT",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）寒暑假系統（D99 ②）會用到的場景「擋玩」巡檢：回家、出遊、旅行目的地、約會地點（D141 擋玩），做法照 US-NAV-TRAPS-1111",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判"
    }
   },
   {
@@ -53998,7 +54065,12 @@
    "xai": {
     "from": "AA",
     "to": "LAWWW",
-    "ack": "LAWWW"
+    "ack": "SENT",
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "（LAWWW-C 11-12 稽核補登）閒聊階梯「交往中」那一階（AA_746 §2 第 3 點；dating 陣列）七位 × 八學期 × 2 層新台詞（現在只有可昕大一上）",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判",
+    "ackNote": "原本寫「LAWWW」（不是規定的值，稽核改）"
    }
   },
   {
@@ -54703,17 +54775,23 @@
     "week": 1,
     "earliest": "進新生南路",
     "mainline": false,
-    "blocks": [],
-    "prereq": [],
+    "blocks": false,
+    "prereq": false,
     "parallel": true,
-    "confirmed": true
+    "confirmed": true,
+    "blocksNote": [],
+    "prereqNote": []
    },
    "sha": "fcbc3aab31",
    "next": "【LAWWW-C 11-12 07:4x】新生南路五間 f8a00372bb、南洋 fcbc3aab31 已進開發分支。BB 看圖：六間 ⑦b（店外＝店內）PASS；CC XS_REAL_perf：兩間同時載入 60 fps、calls 179→377，走遠降回、三趟不再漲；**第一次走近最長一幀 233 ms＝BB 判 FAIL（門檻 ≤50 ms）**→ LAWWW2 改成進區域預先載入／分幀掛上、手機只接最近一間，修好 CC 重量。南洋四角度等 CC 拍、BB 判；黑剪影 LAWWW2 加底亮度。汀州路泰米／東南大聯／汀州聯通 BB 判 ⑦a FAIL→照這個做法；東南大聯商品彩色方塊 ④ FAIL→換商品模型。溫州街、公館、日常失速、木曜日 LAWWW2 逐間拍並排自查（118 巷九間自查一致）",
    "xai": {
     "from": "BB（BB_379）、使用者 11-12 對 BB",
     "to": "LAWWW2",
-    "ack": "ACTIONED"
+    "ack": "ACTIONED",
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "（LAWWW-C 11-12 稽核補登）使用者 2026-11-12 對 BB-C：「大步球鞋店外面看進去牆壁是灰色 可是人在店裡面居然墻壁是木頭的……你應該審查所有的店面會不會有一樣的問題」（UA-BB-1112-03；USER_WANTS X352）",
+    "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判"
    },
    "source": "使用者 2026-11-12 對 BB-C：「大步球鞋店外面看進去牆壁是灰色 可是人在店裡面居然墻壁是木頭的……你應該審查所有的店面會不會有一樣的問題」（UA-BB-1112-03；USER_WANTS X352）",
    "authorized": true

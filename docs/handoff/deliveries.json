@@ -17121,8 +17121,9 @@
    "msg": "ACTIONED",
    "what": "SEATFIG-LOD1-HAIR-1104（BB-C P3；CC SITAMB_CLOUD_1104 ⑧）：坐著的替身遠處版（_lod1）頭頂不再是一塊方的——脖子以上照 LOD0 不減，400→800 面；網格名字不變，遊戲程式不用改",
    "task": "SEATFIG-LOD1-HAIR-1104",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 18:4x 換檔（seated_figures.glb／.json／seated_figures.py＋README）；seated_figures、seated_figures_lod、desk_furniture ALL PASS；CC 用 ⑧ 同一個鏡頭重拍"
+   "integration": "已驗收",
+   "note": "LAWWW-C 18:4x 換檔（seated_figures.glb／.json／seated_figures.py＋README）；seated_figures、seated_figures_lod、desk_furniture ALL PASS；CC 用 ⑧ 同一個鏡頭重拍",
+   "integrationNote": "LAWWW-C 11-12 稽核：對應任務已驗收（證據在 tasks.json 那一張的 evidence）"
   },
   {
    "id": "DL-LAWWW2-69e953668",
@@ -17615,8 +17616,9 @@
    "msg": "ACTIONED",
    "what": "穿裙子的路人坐下不穿模（8 個 VRM＋lod 加 skirt_sit morph、character3d.js 4 行）",
    "task": "SKIRT-BENCH-CLIP-1105",
-   "integration": "已整合待測試",
-   "note": "資產 123a5c464；LAWWW-B 05:2x 接進開發"
+   "integration": "已驗收",
+   "note": "資產 123a5c464；LAWWW-B 05:2x 接進開發",
+   "integrationNote": "LAWWW-C 11-12 稽核：對應任務已驗收（證據在 tasks.json 那一張的 evidence）"
   },
   {
    "id": "DL-LAWWW2-33bc9fe48",
@@ -17628,8 +17630,9 @@
    "msg": "ACK",
    "what": "有名字角色的裙子坐下不穿模（沛珊、芯慈、予樂、秀琴、秀琴圍裙）",
    "task": "SKIRT-BENCH-CLIP-1105",
-   "integration": "已整合待測試",
-   "note": "未整合的兩包會動 gym3d.js、fit3d.js、character3d.js，等 GYM-FIT 器材子代理交件再一起合"
+   "integration": "已驗收",
+   "note": "未整合的兩包會動 gym3d.js、fit3d.js、character3d.js，等 GYM-FIT 器材子代理交件再一起合",
+   "integrationNote": "LAWWW-C 11-12 稽核：對應任務已驗收（證據在 tasks.json 那一張的 evidence）"
   },
   {
    "id": "DL-LAWWW2-e92e8c517",
@@ -17951,9 +17954,10 @@
    "msg": "ACK",
    "what": "新生南路往北那一段",
    "task": "XS-NORTH-ROAD-1107",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "fa79dd7bc；BB 功能 PASS、兩點 P3 交 LAWWW2",
-   "ack": "ACK"
+   "ack": "ACK",
+   "integrationNote": "LAWWW-C 11-12 稽核：對應任務已驗收（證據在 tasks.json 那一張的 evidence）"
   },
   {
    "id": "DLV-1107-LAWWW2-HAIRA",
