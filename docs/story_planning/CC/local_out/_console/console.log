@@ -636,3 +636,18 @@
 [01:40:27] ==== END   XS_TONGXIAN_mon14  exit=0  98s   ====
 [01:40:54] solo item DN_PROGRAMS_3414 waits: no new items start until the 2 running item(s) finish
 [01:41:32] [res] cpu=8% mem=38% (12.2/31.4 GB) chrome_testing=4  END LUWEI_3414
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       078f73a963..c15d5ab368  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:41:44] ==== END   LUWEI_3414  exit=0  122s   ====
+[01:41:47] solo item DN_PROGRAMS_3414 waits: no new items start until the 1 running item(s) finish
+[01:41:51] 正在跑：YY_SEATS_3414（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:46:51] 正在跑：YY_SEATS_3414（已跑 6 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:46:58] memory 40% before starting SOFA_SOCLIB2F_r3 (1 running)
+[01:46:58] memory 40% before starting SOCLIB1F_TRAP_tap (2 running)
+[01:46:58] ==== START SOFA_SOCLIB2F_r3  (probe @ a57b6ec8ab549a16ff15a53c38edcba63429f019) ====
+[01:46:58] ==== START SOCLIB1F_TRAP_tap  (probe @ a57b6ec8ab549a16ff15a53c38edcba63429f019) ====
+[01:47:01] [res] cpu=10% mem=40% (12.8/31.4 GB) chrome_testing=5  START SOFA_SOCLIB2F_r3
+[01:47:01] [res] cpu=10% mem=40% (12.8/31.4 GB) chrome_testing=5  START SOCLIB1F_TRAP_tap
+[01:47:01] worktree add a57b6ec8ab549a16ff15a53c38edcba63429f019: invalid reference - fetching main and the commit itself
+[01:51:40] [res] cpu=8% mem=45% (14.2/31.4 GB) chrome_testing=10  END YY_SEATS_3414
