@@ -1,11 +1,11 @@
 """CC-C 11-13：L118_CLOSED_LOOK（LAWWW-C 03:25；BB 照 §12 第 1 點判：打烊看得出來關了）。只拍、只記，判定歸 BB。
 118 巷每一間有名字的店（LANE118_LAYOUT.shops 有 name 的，九間＋兩間飲料）：
-  ① 公休日白天：從 2025-10-20 起往後 14 天找第一個 PLACES.isOpen(店, 14 點) 是 false 的日子（颱風天不算）
-  ② 營業日打烊：2025-10-22 從 21:30 起每 15 分鐘找第一個 isOpen 是 false 的時間（找不到就 23:30）
+  ① 公休日白天：從 2025-10-20 起往後 14 天找第一個 L118.isOpen(店, 14 點) 是 false 的日子（颱風天不算；118 巷的營業時間在 L118，不在 PLACES）
+  ② 營業日打烊：2025-10-22 從 21:30 起每 15 分鐘找第一個 L118.isOpen 是 false 的時間（找不到就 23:30）
   每一個時段【前置／捷徑】讀檔到 118 巷那間店門口（PLACES.l118Door），拍兩張：
     街景角度（門的朝外方向退 5 m、高 1.7 m、看門上 2.5 m；兩個時段同一個鏡頭）、門口近照（退 2 m、高 1.6 m、看門）；
   另記 zone.shopReal 這間的 on／built／shutter、場景裡亮著的燈數。
-CC_02 清單 2026-11-13：1✓（公休日、打烊時間都照 PLACES.isOpen 找，不寫死） 2✓（店的清單從 LANE118_LAYOUT 讀、門從 PLACES.l118Door 讀） 3✓（每一間都拍，不挑） 4n/a（不點按鈕） 5n/a（讀檔到門口，不走路：只看外觀） 6✓（讀檔後等 4 秒、截圖前 render） 7✓（lint、node 驗 JS） 8n/a（不判數字） 9✓（藏玩家和 HUD） 10n/a（條件事件關掉、只看店面） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：店的清單不是空的、每間都找得到門和關店的時段） 13n/a（不走路）
+CC_02 清單 2026-11-13：1✓（公休日、打烊時間都照 L118.isOpen 找，不寫死） 2✓（店的清單從 LANE118_LAYOUT 讀、門從 PLACES.l118Door 讀） 3✓（每一間都拍，不挑） 4n/a（不點按鈕） 5n/a（讀檔到門口，不走路：只看外觀） 6✓（讀檔後等 4 秒、截圖前 render） 7✓（lint、node 驗 JS） 8n/a（不判數字） 9✓（藏玩家和 HUD） 10n/a（條件事件關掉、只看店面） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：店的清單不是空的、每間都找得到門和關店的時段） 13n/a（不走路）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [FROM=2025-10-20 NIGHT_DAY=2025-10-22] python3 cc_l118_closed_probe.py <url> <out>"""
 import os, sys, json, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -24,10 +24,10 @@ PLAN = r"""((a)=>{ const Lay=typeof LANE118_LAYOUT!=='undefined'?LANE118_LAYOUT:
   const d0=STORY.dayOfKey(a.from), dn=STORY.dayOfKey(a.night), out=[];
   const tz=(z,d)=>{ try{ return !!(PLACES.typhoonClosed&&PLACES.typhoonClosed(z,d)); }catch(e){ return false; } };
   for(const q of Lay.shops.filter(q=>q.name)){ const z=q.zone||('l118_'+q.id); let door=null; try{ door=PLACES.l118Door(q.id); }catch(e){}
-    const open=(h,d)=>{ try{ return !!PLACES.isOpen(z,h,d); }catch(e){ return null; } };
+    const open=(h,d)=>{ try{ return !!L118.isOpen(q.id, Object.assign({}, GAME.G, {day:d, hour:h})); }catch(e){ return null; } };   /* 11-13 LAWWW-C：118 巷的營業時間在 L118.isOpen（lane118_shops.js），PLACES.isOpen 對 l118_ 永遠 true */
     let off=null; for(let d=d0; d<d0+14; d++){ if(open(14,d)===false&&!tz(z,d)){ off=CALENDAR.dateOf(d).key; break; } }
     let shut=null; for(let h=21.5; h<=23.51; h+=0.25){ if(open(h,dn)===false){ shut=+h.toFixed(2); break; } }
-    out.push({id:q.id, z, name:q.name, side:q.side||null, door:door?{x:door.x, z:door.z}:null, off, shut:shut??23.5, open14:open(14,dn), text:(PLACES.text&&PLACES.text(z))||null}); }
+    out.push({id:q.id, z, name:q.name, side:q.side||null, door:door?{x:door.x, z:door.z}:null, off, shut:shut??23.5, open14:open(14,dn), text:(()=>{ try{ const sh=L118.shop(q.id); return sh&&(sh.hoursText||sh.text||sh.hours)||null; }catch(e){ return null; } })()}); }
   return {shops:out, facade:Lay.facade||null}; })"""
 SHOPINFO = r"""((z)=>{ const E=GAME.E, S=E.zone&&E.zone.shopReal, s=S&&(S.shops||[]).find(q=>q.place===z||q.id===z); let lit=0; E.scene.traverse(o=>{ if(o.isLight&&o.visible&&o.intensity>0) lit++; });
   return {shopReal:s?{on:!!s.on, built:!!s.built, shutter:s.shutter?s.shutter.visible:null}:null, lights:lit, hour:+(+GAME.G.hour).toFixed(2)}; })"""
