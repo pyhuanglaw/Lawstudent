@@ -1320,3 +1320,12 @@
 [21:23:59] [res] cpu=17% mem=34% (10.7/31.4 GB) chrome_testing=0  START SSB_wz2a
 [21:27:49] 正在跑：SSB_wz1（已跑 3 分／上限 80 分）、SSB_wz2a（已跑 3 分／上限 25 分）、SSB_wz2b（已跑 3 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:32:17] [res] cpu=0% mem=47% (14.8/31.4 GB) chrome_testing=10  END SSB_wz2b
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       fe4ee5fad3..8f5791fca2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:32:42] ==== END   SSB_wz2b  exit=1  501s   ====
+[21:32:49] 正在跑：SSB_wz1（已跑 8 分／上限 80 分）、SSB_wz2a（已跑 8 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:32:55] memory 48% before starting SSB_wz2c (2 running)
+[21:32:55] ==== START SSB_wz2c  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
+[21:32:58] [res] cpu=1% mem=48% (15.2/31.4 GB) chrome_testing=10  START SSB_wz2c
+[21:34:29] [res] cpu=1% mem=47% (14.7/31.4 GB) chrome_testing=10  END SSB_wz2a
