@@ -1,0 +1,64 @@
+diff --git a/src/engine3d.js b/src/engine3d.js
+index ee9b083fd5..cae57555a5 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -239,8 +239,20 @@ const E3 = (function(){
+   E.screenToGround=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); const hit=new THREE.Vector3(); if(E.ray.ray.intersectPlane(E.groundPlane,hit)) return hit; return null; };
+   // 點地面（v9.4）：多樓層／有高度的區域，先打「看得到的地板」（zone.walkMeshes，userData.walkLv＝第幾層）；打不到就用玩家那一層的基本地板高度的平面
+   E.screenToFloor=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); E.ray.near=0; E.ray.far=Infinity; const P=E.player; const wm=E.zone&&E.zone.walkMeshes;
+-    if(wm&&wm.length){ const vis=wm.filter(m=>{ for(let o=m;o;o=o.parent){ if(!o.visible) return false; } return true; }); const hits=E.ray.intersectObjects(vis,false); if(hits.length){ const h=hits[0]; return {x:h.point.x,z:h.point.z,y:h.point.y,lv:h.object.userData.walkLv|0,obj:h.object}; } }
++    if(wm&&wm.length){ const vis=wm.filter(m=>{ for(let o=m;o;o=o.parent){ if(!o.visible) return false; } return true; }); const hits=E.ray.intersectObjects(vis,false); if(hits.length){ const h=E.tapThroughEdge(hits,vis)||hits[0]; return {x:h.point.x,z:h.point.z,y:h.point.y,lv:h.object.userData.walkLv|0,obj:h.object}; } }
+     const lv=P?P.lv|0:0, n=navOf(lv); const fy=n?n.y0:0; const pl=new THREE.Plane(UP,-fy); const hit=new THREE.Vector3(); if(E.ray.ray.intersectPlane(pl,hit)) return {x:hit.x,z:hit.z,y:fy,lv}; return null; };
++  /* FLOWER-2F-TAPNAV-1112（LAWWW2-C；CC SSB_gg2_r2：花序二樓起身後點一樓門口「離開花序」，點 13～16 次人都停在二樓欄杆前 (−0.76,−0.07)）：
++     從二樓往挑高看下去，射線先打到二樓樓板最外緣那一條，找路只能走到欄杆前、永遠下不了樓（樓板邊緣後面就是一樓）。
++     第一個打到的點離樓板邊緣不到 0.5 m（沿射線再往前 0.5 m 就沒有那一層的地板）、射線後面打到別層的地板、而且那一點正上方沒有那一層的樓板＝改用後面那一點。
++     二樓點桌子、靠牆（往前 0.5 m 還是二樓地板）照舊是二樓，不會被送下樓；樓梯照舊（stairEnds）*/
++  const _upRay=new THREE.Raycaster(), _down=new THREE.Vector3(0,-1,0);
++  const _covered=(ms,x,z,y)=>{ _upRay.set(new THREE.Vector3(x,y+1.5,z),_down); _upRay.near=0; _upRay.far=2.0; return _upRay.intersectObjects(ms,false).length>0; };
++  E.tapThroughEdge=function(hits,vis){ const h=hits[0]; if(!E.canStand||hits.length<2||!h||h.object.userData.stairEnds) return null; const lv0=h.object.userData.walkLv|0;
++    const same=vis.filter(m=>(m.userData.walkLv|0)===lv0&&!m.userData.stairEnds), dx=hits[1].point.x-h.point.x, dz=hits[1].point.z-h.point.z, dl=Math.hypot(dx,dz);   /* 射線的水平方向（後面那一點減第一點）*/ if(dl<1e-3) return null;
++    if(_covered(same,h.point.x+dx/dl*0.5,h.point.z+dz/dl*0.5,h.point.y)) return null;   /* 往前 0.5 m 還是這一層的地板＝不是樓板邊緣 */
++    for(let i=1;i<hits.length;i++){ const q=hits[i], lv=q.object.userData.walkLv|0; if(q.object.userData.stairEnds) return null; if(lv===lv0) continue;   /* 中間先打到樓梯（樓梯井旁邊）＝照舊，不穿過樓梯 */   /* 那一點本身站不住（門口觸發點）也可以：找路會走到最近站得住的地方 */
++      if(_covered(same,q.point.x,q.point.z,h.point.y)) continue; return q; }
++    return null; };
+   E.screenRay=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); return E.ray; };
+   /* 畫面上那一點射線第一個打到的東西（TAP-RAY-SEAT-1111，LAWWW2 11-11；game3d.js tapToSeat 判「點到哪張椅子」用）：只打區域的模型（E.zone.group，人不算），
+      不算：自己或上層 visible=false 的（淡出的牆 hideFaded、藏起來的備用模型、別層）、材質不畫的（visible=false、colorWrite=false）、半透明的（玻璃：opacity<0.5）、userData.noTapHit。
+diff --git a/tests/flower_2f_tapnav_1112_unit.js b/tests/flower_2f_tapnav_1112_unit.js
+new file mode 100644
+index 0000000000..d09fd03e8d
+--- /dev/null
++++ b/tests/flower_2f_tapnav_1112_unit.js
+@@ -0,0 +1,32 @@
++/* FLOWER-2F-TAPNAV-1112（LAWWW2-C；CC SSB_gg2_r2 run.log：花序二樓起身後點一樓「離開花序」(0,6.6)，點 13～16 次人都停在二樓欄杆前 (−0.76,−0.07)）
++   原因：從二樓看下去，射線先打到二樓樓板最外緣（欄杆內 0.3 m，站不住），找路只能走到欄杆前。改法：E.tapThroughEdge（engine3d.js screenToFloor）。
++   1 從二樓欄杆前、起身的位置看一樓門口：點下去的目標是一樓（lv 0）、而且從那裡找得到路走到門口
++   2 二樓一般的地板照舊是二樓；二樓靠牆站不住的地方（正下方被二樓樓板蓋住）照舊是二樓，不會被送下樓
++   3 一樓點一樓照舊；樓梯照舊（stairEnds）
++   修改前（開發分支 6230a4123e）：1 FAIL。模擬（D131）。用法：node tests/flower_2f_tapnav_1112_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){}, querySelector:()=>null, querySelectorAll:()=>[], body:{appendChild(){},classList:{add(){},remove(){}}} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch')); const clog=console.log; console.warn=()=>{}; console.error=()=>{};
++const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); const all=[...html.matchAll(/src="([^"?]+)/g)].map(m=>m[1]);
++const loadErr=[]; for(const f of all){ if(/three-vrm|character3d|props3d/.test(f)) continue; if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,'globalThis.$1='); try{ vm.runInThisContext(src,{filename:f}); }catch(e){ loadErr.push(f+'：'+e.message.slice(0,50)); } }
++if(typeof ASSETS!=='undefined') ASSETS.loadOne=()=>new Promise(()=>{});
++
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; const R=0.32;
++function build(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.exits=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); z.id=id; E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; if(E.fitSeatRadius) E.fitSeatRadius();   /* 遊戲載入區域時做的（座位按鈕範圍碰不到站得住的地方就放大）*/ E.player={obj:{position:new THREE.Vector3(0,0,0)},lv:0,radius:R}; return z; }
++
++let fails=0; const check=(name,ok,info)=>{ clog((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const z=build('flower_notes'); z.group.updateMatrixWorld(true); const wm=z.walkMeshes; const rc=new THREE.Raycaster();
++const tap=(cam,tgt)=>{ const o=new THREE.Vector3(...cam), d=new THREE.Vector3(...tgt).sub(o).normalize(); rc.set(o,d); rc.near=0; rc.far=Infinity; const hits=rc.intersectObjects(wm,false); if(!hits.length) return null; const h=(E.tapThroughEdge&&E.tapThroughEdge(hits,wm))||hits[0]; return {x:h.point.x,z:h.point.z,lv:h.object.userData.walkLv|0,first:hits[0].object.userData.walkLv|0,fz:hits[0].point.z}; };
++check('0. 有 E.tapThroughEdge',typeof E.tapThroughEdge==='function');
++const ex=E.interactables.find(i=>/離開/.test(i.label||'')); const bad=[]; let n=0;
++for(const pl of [[-0.76,-0.07],[-1.27,-4.49],[0.4,-0.2],[-2,-0.15]]) for(const back of [3.2,4.0]) for(const up of [2.0,2.6]){ const cam=[pl[0],3.9+up,pl[1]-back]; for(const tg of [[ex.x,0,ex.z],[0,0,5.5],[-1,0,4]]){ const r=tap(cam,tg); if(!r) continue; if(r.first!==1||r.fz<0.5-0.5) continue; n++; const okLv=r.lv===0, p=okLv&&E.pathTo(pl[0],pl[1],1,r.x,r.z,0); if(!okLv||!p||!p.length) bad.push(pl+' cam '+cam.map(v=>v.toFixed(1))+' → '+tg+' 得到 lv'+r.lv+' ('+r.x.toFixed(2)+','+r.z.toFixed(2)+')'); } }
++check('1. 從二樓看一樓（'+n+' 次射線先打到二樓樓板外緣 0.5 m 內）：目標改成一樓、找得到路',n>0&&!bad.length,bad.slice(0,4).join('；'));
++const b2=[]; for(const [cam,tg] of [[[0,6.5,-6],[0,3.9,-3]],[[-1,6.5,-3],[-1.5,3.9,-5]],[[0,6.5,-2],[-4.6,3.9,-4]],[[0,6.5,-2],[4.6,3.9,-6.6]],[[0,6.5,-2],[-4.65,3.9,-6.7]],[[-0.8,6.5,-3.5],[-0.8,3.9,-0.5]]]){ const r=tap(cam,tg); if(!r||r.lv!==1) b2.push(tg+' → '+(r?'lv'+r.lv:'沒打到')); }
++check('2. 二樓地板、桌子、靠牆、離欄杆 1 m 的地方照舊是二樓',!b2.length,b2.join('；'));
++const b3=[]; for(const [cam,tg] of [[[0,2.6,6],[0,0,3]],[[1,2.6,5],[-3,0,2]]]){ const r=tap(cam,tg); if(!r||r.lv!==0) b3.push(tg+' → '+(r?'lv'+r.lv:'沒打到')); }
++check('3. 一樓點一樓照舊',!b3.length,b3.join('；'));
++clog(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
