@@ -1105,3 +1105,9 @@
 [20:31:15] ==== START LM_FRONT_72fc  (probe @ 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3) ====
 [20:31:18] [res] cpu=2% mem=46% (14.6/31.4 GB) chrome_testing=8  START LM_FRONT_72fc
 [20:32:42] [res] cpu=11% mem=40% (14.4/31.4 GB) chrome_testing=5  END TUTOR_BACK_r2
+[20:32:49] 正在跑：TUTOR_BACK_r2（已跑 3 分／上限 25 分）、FN_LOOKS_72fc（已跑 3 分／上限 30 分）、LM_FRONT_72fc（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:32:50] [res] cpu=12% mem=40% (12.6/31.4 GB) chrome_testing=5  END LM_FRONT_72fc
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       34c0887bf..ea6ca553b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:32:53] ==== END   TUTOR_BACK_r2  exit=1  192s   ====
