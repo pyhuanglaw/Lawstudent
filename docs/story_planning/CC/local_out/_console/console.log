@@ -660,3 +660,13 @@
 [18:32:49] 正在跑：SSB_gg1（已跑 51 分／上限 80 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:37:49] 正在跑：SSB_gg1（已跑 56 分／上限 80 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:42:06] [res] cpu=5% mem=32% (10.3/31.4 GB) chrome_testing=0  END SSB_gg1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c28671a49..e39387c10  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:42:22] ==== END   SSB_gg1  exit=1  3640s   ====
+[18:42:32] memory 33% before starting XS_PERF_7e40_desk (0 running)
+[18:42:32] ==== START XS_PERF_7e40_desk  (probe @ 7e404a6220426e12d59906d50497b7eee61280c4) ====
+[18:42:35] [res] cpu=3% mem=33% (10.5/31.4 GB) chrome_testing=0  START XS_PERF_7e40_desk
+[18:42:35] worktree add 7e404a6220426e12d59906d50497b7eee61280c4: invalid reference - fetching main and the commit itself
+[18:42:49] 正在跑：XS_PERF_7e40_desk（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:46:54] [res] cpu=6% mem=33% (10.4/31.4 GB) chrome_testing=0  END XS_PERF_7e40_desk
