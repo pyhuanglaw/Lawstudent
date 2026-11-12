@@ -30,7 +30,7 @@ const isYearStep=id=>/^(reg|exam|r1|e2a|e2b|r2)_(\d{4})$/.exec(id);
 
 /* plan：{2030:k, 2031:k, …, reg:{2032:'no'|'miss'}}。setup(G)：額外的【前置】。start：[日期, 時] */
 async function sim(plan,o){ o=o||{}; const st=o.start||['2030-08-02',22];
-  const G=o.G||H.fresh(st[0],st[1],'dorm',Object.assign({},RETAKER,o.flags||{})); if(!o.G){ graduated(G); FRIENDS.forEach(H.FRIEND); PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人'); }
+  const G=o.G||H.fresh(st[0],st[1],'dorm',Object.assign({},RETAKER,o.flags||{})); if(!o.G){ graduated(G); FRIENDS.forEach(H.FRIEND); PHONE.join(G,'noodle_team','桌遊團'); PHONE.join(G,'home','家人'); }
   if(o.setup) o.setup(G);
   warns.length=0; rej.length=0; const log=[]; let it=0, err=null, mono=true, stuck=null;
   const orun=PG.runStep;
@@ -137,17 +137,17 @@ const printYear=(R,y)=>{ for(const x of R.log.filter(x=>new RegExp('_'+y+'$').te
   console.log('\n== 5. 舊存檔 ==');
   const reload=G=>{ const s=JSON.parse(JSON.stringify(G)); H.G=s; SOCIAL.bind(s); EVENTS.bind(GM); INV.rec(s); return s; };   /* 讀檔：序列化再讀回 */
   { /* 5a：舊規則下 2030 一試 3 題就保底進律師二試、12/13 錄取的存檔，2031-03-01 讀進來 */
-    const G0=H.fresh('2031-03-01',10,'dorm',Object.assign({},RETAKER,{BAR_SIT_2030:true,BAR_SCORE_2030:3,BAR_STAGE_2030:'lawyer',BAR_YEAR:2030,FIRST_DAY_SEEN:true})); graduated(G0); FRIENDS.forEach(H.FRIEND); PHONE.join(G0,'noodle_team','麵店團');
+    const G0=H.fresh('2031-03-01',10,'dorm',Object.assign({},RETAKER,{BAR_SIT_2030:true,BAR_SCORE_2030:3,BAR_STAGE_2030:'lawyer',BAR_YEAR:2030,FIRST_DAY_SEEN:true})); graduated(G0); FRIENDS.forEach(H.FRIEND); PHONE.join(G0,'noodle_team','桌遊團');
     for(const k of ['first','exam_2030','r1_2030','e2a_2030','e2b_2030','r2_2030']) PG.rec(G0).done[k]=1;
     const G=reload(G0); const R=await sim({2031:20,2032:20,2033:20},{G}); okRun('5a. 舊存檔 BAR_YEAR 2030（3 題保底錄取）',R);
     check('5a. 讀進來不收回：BAR_YEAR 仍 2030、BAR_STAGE_2030 仍 lawyer；不問 2031 報名；尾聲沒有 LATE 那幾句',G.flags.BAR_YEAR===2030&&G.flags.BAR_STAGE_2030==='lawyer'&&!R.ids.some(i=>/_203[123]$/.test(i))&&!said(R).some(t=>t===LT.epi?.none||t===LT.epi?.stop),R.ids.join(' → ')); }
   { /* 5b：舊規則下 9/6 已放榜（3 題記成 lawyer），還沒考二試，2030-10-01 讀進來 */
-    const G0=H.fresh('2030-09-20',10,'dorm',Object.assign({},RETAKER,{BAR_SIT_2030:true,BAR_SCORE_2030:3,BAR_STAGE_2030:'lawyer'})); graduated(G0); FRIENDS.forEach(H.FRIEND); PHONE.join(G0,'noodle_team','麵店團');
+    const G0=H.fresh('2030-09-20',10,'dorm',Object.assign({},RETAKER,{BAR_SIT_2030:true,BAR_SCORE_2030:3,BAR_STAGE_2030:'lawyer'})); graduated(G0); FRIENDS.forEach(H.FRIEND); PHONE.join(G0,'noodle_team','桌遊團');
     for(const k of ['exam_2030','r1_2030']) PG.rec(G0).done[k]=1;
     const G=reload(G0); const R=await sim({2031:20},{G}); okRun('5b. 舊存檔：已放榜 lawyer、未考二試',R);
     check('5b. 已放榜的不收回：10/19 照考律師二試、12/13 錄取、BAR_YEAR 2030',['e2a_2030','e2b_2030','r2_2030'].every(i=>R.ids.includes(i))&&G.flags.BAR_YEAR===2030,R.ids.join(' → ')); }
   { /* 5c：2030 一試考完（6 題）、還沒放榜，2030-08-20 讀進來 → 照新門檻 */
-    const G0=H.fresh('2030-08-20',10,'dorm',Object.assign({},RETAKER,{BAR_SIT_2030:true,BAR_SCORE_2030:6})); graduated(G0); FRIENDS.forEach(H.FRIEND); PHONE.join(G0,'noodle_team','麵店團');
+    const G0=H.fresh('2030-08-20',10,'dorm',Object.assign({},RETAKER,{BAR_SIT_2030:true,BAR_SCORE_2030:6})); graduated(G0); FRIENDS.forEach(H.FRIEND); PHONE.join(G0,'noodle_team','桌遊團');
     PG.rec(G0).done.exam_2030=1; PG.rec(G0).exam={2030:{qs:[],ans:[]}};
     const G=reload(G0); const R=await sim({2031:2,2032:2,2033:2},{G}); okRun('5c. 舊存檔：一試考完未放榜（6 題）',R);
     const x=step(R,'r1_2030');

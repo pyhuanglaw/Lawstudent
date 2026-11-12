@@ -1,4 +1,5 @@
 """CC（帳號 A）11-02：下一版 int/next1102（正式 SHA 673ef2185）三個畫面的瀏覽器探針（BB 14:02，LAWWW 建議優先看）。
+【CC_02 清單：未過】CC-C 11-12 只把「麵店團」改字成「桌遊團」（使用者 P0 NOODLE-NAME-PURGE-1112；PHONE.join 群組名、說明文字），邏輯沒改。這支還沒照 CC_02 丁逐條過 13 點：排電腦前要先過清單、寫清單行、雲端重跑。
 不是 iPhone：Playwright 手機模擬（is_mobile、觸控；SwiftShader 1～4 fps）。每個 case 的每個方向（直向 390×844、橫向 844×390）各開一個新的瀏覽器。
 URL 照給的跑；TURBO=1（預設）＝自動加 ?turbo（只加快對話等待、走路瞬間到；遊戲時間 dt 上限 0.3 秒＝等時間比較快）——三個 case 要看的畫面（對話框、字幕、黑板貼圖、
 觀念卡對話框）都不受 turbo 影響；報告照樣標示。
@@ -9,7 +10,7 @@ URL 照給的跑；TURBO=1（預設）＝自動加 ?turbo（只加快對話等�
     term ['Y1S2']、weeks [8]、weekday [3]（2026-04-15 週三＝STORY.termDay('Y1S2',8,3)）、time [17,20.5]、once、background 'blur'、prereq PS_BH
     （STORY.knows('classmate_peishan') 且沒有 dating_classmate_peishan）。台詞 6 句：「柏翰幫沛珊把滷蛋切成兩半。」「……喔。」「全桌安靜三秒。」
     「對，我們在一起了。你們吃你們的。」「上禮拜的事。」「（他把另一半滷蛋推回她碗裡。）」。consequences memo（沛珊和柏翰在麵店說了（4/15））。
-    story3d.js phoneRules（4/15、4/16，law 階段、在麵店團群組 noodle_team、認識沛珊、沒和她交往）：4/15 20:30 以前＝PHONE.at(max(17,現在)) 群組兩則
+    story3d.js phoneRules（4/15、4/16，law 階段、在桌遊團群組 noodle_team、認識沛珊、沒和她交往）：4/15 20:30 以前＝PHONE.at(max(17,現在)) 群組兩則
     （柏翰「今天晚上麵店，有空的來。」沛珊「我會到。」，tag psbh_0415_ask）；4/15 20:30 以後或 4/16、事件沒演＝missedPhoto：20:30 阿哲三則
     （📷 切成兩半的滷蛋／柏翰幫沛珊切的／……他們在一起了，tag zhe_supper_mid2_egg）＋ SOCIAL.remember(沛珊,'HEARD_ABOUT')。
     whois3d.js psBh 讀 events.last.ev_psbh_public_0415。
@@ -158,7 +159,7 @@ async def wait_free(pg, cdp, max_s=60):
 # ================================================================ (a) noodle
 SETUP_PS = r"""(()=>{ const G=GAME.G; G.contacts=G.contacts||{}; const day0=STORY.dayOfKey('2025-09-24');
   for(const [id,v] of [['classmate_peishan',[45,30,10]],['classmate_bohan',[45,30,10]],['zhe',[65,50,45]]]){ const R=SOCIAL.rel(id); R.fam=v[0]; R.trust=v[1]; R.comf=v[2]; SOCIAL.remember(id,'FIRST_MET',''); if(G.contacts[id]==null) G.contacts[id]=day0; }
-  if(!PHONE.inGroup(G,'noodle_team')) PHONE.join(G,'noodle_team','麵店團');
+  if(!PHONE.inGroup(G,'noodle_team')) PHONE.join(G,'noodle_team','桌遊團');
   const ev=STORY_EVENTS.find(e=>e.id==='__ID__'); const d=STORY.termDay('Y1S2',8,3);
   return {knowsPS:STORY.knows('classmate_peishan',G),knowsBH:STORY.knows('classmate_bohan',G),knowsZhe:STORY.knows('zhe',G),group:PHONE.inGroup(G,'noodle_team'),dating:!!G.flags.dating_classmate_peishan,
     psbh:!!(ev&&ev.prereq&&ev.prereq.custom(G)),termDay:d,key:CALENDAR.dateOf(d).key,ev:ev?{location:ev.location,trigger:ev.trigger,term:ev.term,weeks:ev.weeks,weekday:ev.weekday,time:ev.time,once:ev.once,lines:ev.dialogue.length}:null}; })()""".replace('__ID__', EVID)
@@ -183,7 +184,7 @@ async def noodle_pass(p, run, sub, orient):
         su = await pg.evaluate(SETUP_PS); rec['setup'] = su
         snap = await P.snapshot(pg); await load(pg, cdp, snap)
         await P.events_on(pg)
-        run.setup('[前置] %s：最小存檔 %s（%s 第 %s 週 週三）%s %s；【捷徑】認識沛珊、柏翰、阿哲（SOCIAL FIRST_MET）、加入麵店團群組 → 快照重讀；條件事件打開（只關手機自動打開）；URL %s'
+        run.setup('[前置] %s：最小存檔 %s（%s 第 %s 週 週三）%s %s；【捷徑】認識沛珊、柏翰、阿哲（SOCIAL FIRST_MET）、加入桌遊團群組 → 快照重讀；條件事件打開（只關手機自動打開）；URL %s'
                   % (tag, d['key'], d['term'], d['week'], P_hm(h), zone, URL))
         run.check('%s：前置成立（4/15＝termDay(Y1S2,8,3)、PS_BH 成立、在群組、沒交往）' % tag, su['key'] == '2026-04-15' and su['psbh'] and su['group'] and not su['dating'], J(su))
         z = await pg.evaluate("GAME.G.zone"); rec['zone0'] = z
@@ -230,7 +231,7 @@ async def noodle_pass(p, run, sub, orient):
             okh = await P.wait_hour(pg, cdp, 17.02, max_s=ENVI('EV_MAX', 300))
             ns = await pg.evaluate(NSTATE); rec['at17'] = ns
             ask = [m for m in ns['msgs'] if m['tag'] == 'psbh_0415_ask']
-            run.check('%s：17:00 麵店團群組兩則（柏翰「今天晚上麵店，有空的來。」沛珊「我會到。」）' % tag, okh and len(ask) == 2 and ask[0]['text'] == '今天晚上麵店，有空的來。' and ask[1]['text'] == '我會到。', J(ns))
+            run.check('%s：17:00 桌遊團群組兩則（柏翰「今天晚上麵店，有空的來。」沛珊「我會到。」）' % tag, okh and len(ask) == 2 and ask[0]['text'] == '今天晚上麵店，有空的來。' and ask[1]['text'] == '我會到。', J(ns))
             th = await P.phone_thread(pg, cdp, 'g:noodle_team'); rec['thread17'] = th['text'][-600:]
             rec['shots']['group17'] = await run.shot(pg, tag + '_group17'); await L.close_panels(pg, cdp)
             await P.jump(pg, cdp, run, ['Y1S2', 8, 3], 20 + 27 / 60, 'dorm', note='（沒去麵店，等 20:30）'); await P.events_on(pg)
@@ -579,7 +580,7 @@ async def psbhbg_pass(p, run, orient):
         await pg.evaluate("localStorage.clear()"); await P.init(pg); await pg.evaluate(HOOK)
         st, d = await state_at(pg, ['Y1S2', 8, 3], 16 + 59 / 60, 'noodle'); await load(pg, cdp, st)
         su = await pg.evaluate(SETUP_PS); snap = await P.snapshot(pg); await load(pg, cdp, snap); await P.events_on(pg)
-        run.setup('[前置] %s：最小存檔 %s 16:59 麵店；【捷徑】認識沛珊、柏翰、阿哲、加入麵店團群組 → 快照重讀；條件事件打開；URL %s' % (tag, d['key'], URL))
+        run.setup('[前置] %s：最小存檔 %s 16:59 麵店；【捷徑】認識沛珊、柏翰、阿哲、加入桌遊團群組 → 快照重讀；條件事件打開；URL %s' % (tag, d['key'], URL))
         run.check('%s：前置成立' % tag, su['key'] == '2026-04-15' and su['psbh'], J(su))
         r = await play(pg, cdp, run, tag, shot_if=lambda t, i: ('line1' if t == PS_LINES[0] else ('line4' if t == PS_LINES[3] else None)), max_s=ENVI('EV_MAX', 300))
         R = await pg.evaluate(PL, 0); rec['log'] = R; rec['play'] = r
