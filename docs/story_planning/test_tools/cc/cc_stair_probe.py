@@ -7,6 +7,7 @@ PC 重現三次：L118D_H_B REG_YT、H_C REG_XC、H_B_r2 REG_YT 都停在 (−3.
     下：搖桿走回同一條線的平台 (x, TOP_Z) lv1，再直線推回樓梯底 (x, 5.6) lv0。
     每一段記：成功（換到該層、到點）、秒數、推幾次、停下的座標／y／lv；20 秒沒前進 0.3 m＝卡住 → 截圖＋診斷（同 cc_l118d_h_probe 的 STUCK_JS：2.5 m 內 NPC、往北幾格第 0／1 層站不站得住與高度、找路、E.unstick 次數）
     → 脫困：往下退 1 m 再走一次（記上不上得去）；還是不行就【捷徑】放回樓梯底，下一趟。
+  SAMPLE＝1（CC-C 11-12，BB-C 14:40）：上下樓那一段每 0.25 秒記 x/z/y/層/站不站得住/鏡頭到頭被什麼擋，每秒截一張；一次跳 >1.2 m 記成「像被傳送」。
   RUN＝1：觸控按「跑」（#btnRun 切成跑步）；FPSCAP＝10：包 requestAnimationFrame 限 10 fps（【前置／捷徑】只改幀率）。
 判定：每一段 PASS／FAIL；結尾印每條線「上 n/TRIPS、下 n/TRIPS、卡住的座標」總表。舊版（線上 779ddd650）也照跑，分辨本來就有還是這一版才有。
 PUSH（CC-C 11-12，BB-C 03:30）：straight 直線推／diag 稍微斜推（搖桿固定往樓梯方向偏 DIAG_DEG＝12° 推，不重新對準；12° 是 CC 對「稍微斜推」的解讀）／tap 點樓梯面（每次點前面 2 m、快到才點目標）。
@@ -222,8 +223,50 @@ async def diag_seg(pg, cdp, tag, x, tz, lv):
     return r
 
 
+SAMPLE = os.environ.get('SAMPLE') == '1'   # 11-12 BB-C 14:40：每 0.25 秒記高度、層、站不站得住、鏡頭到頭有沒有被擋；每秒截一張（連拍）
+SAMPLE_JS = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj, r2=v=>+(+v).toFixed(2); const cam=E.camera, cp=new THREE.Vector3(); cam.getWorldPosition(cp);
+  const B=new THREE.Box3().setFromObject(o), head=new THREE.Vector3((B.min.x+B.max.x)/2, B.max.y-0.12, (B.min.z+B.max.z)/2), dir=head.clone().sub(cp), dist=dir.length(); dir.normalize();
+  const rc=new THREE.Raycaster(cp,dir,0.02,Math.max(0.05,dist-0.2)); rc.camera=cam; const own=new Set(); o.traverse(x=>own.add(x));
+  const hit=rc.intersectObjects(E.scene.children,true).filter(h=>h.object.isMesh&&h.object.visible!==false&&!own.has(h.object)&&!(h.object.material&&h.object.material.transparent&&h.object.material.opacity<0.3)).slice(0,2).map(h=>String(h.object.name||h.object.parent&&h.object.parent.name||'?').slice(0,30));
+  let st=null; try{ st=E.canStand?!!E.canStand(o.position.x,o.position.z,0.2,P.lv|0):null; }catch(e){}
+  return {t:+performance.now().toFixed(0), x:r2(o.position.x), z:r2(o.position.z), y:r2(o.position.y), lv:P.lv|0, stand:st, run:!!P.running, block:hit}; })()"""
+
+
+async def sampled(pg, coro, tag):
+    """coro 跑的同時每 0.25 秒取樣、每 1 秒截圖；回傳 (coro 的結果, 取樣)"""
+    out = []; stop = [False]
+    async def loop():
+        k = 0
+        while not stop[0]:
+            try:
+                out.append(await pg.evaluate(SAMPLE_JS))
+                if k % 4 == 0 and k < 160: await pg.screenshot(path=os.path.join(OUT, 'stair_%s_%03d.png' % (tag, k // 4)))
+            except Exception:
+                pass
+            k += 1; await asyncio.sleep(0.25)
+    task = asyncio.ensure_future(loop())
+    try: r = await coro
+    finally:
+        stop[0] = True; await task
+    jumps = [[a, b] for a, b in zip(out, out[1:]) if ((a['x'] - b['x']) ** 2 + (a['z'] - b['z']) ** 2) ** 0.5 > 1.2]
+    blocked = [q for q in out if q['block']]
+    R.note('%s 【取樣】%d 筆；高度 %s → %s（最低 %s、最高 %s）；站不住 %d 筆；鏡頭被擋 %d 筆 %s；一次跳超過 1.2 m（像被傳送）%d 次 %s' % (
+        tag, len(out), out[0]['y'] if out else None, out[-1]['y'] if out else None, min([q['y'] for q in out] or [None]), max([q['y'] for q in out] or [None]),
+        len([q for q in out if q['stand'] is False]), len(blocked), J([[q['x'], q['z'], q['y'], q['block']] for q in blocked[:4]]), len(jumps), J(jumps[:2])))
+    R.note('%s 【取樣明細】%s' % (tag, J([[q['x'], q['z'], q['y'], q['lv'], q['stand'], len(q['block'])] for q in out])))
+    return r, out
+
+
 async def push_seg(pg, cdp, tag, x, tz, lv):
     """上樓／下樓那一段照 PUSH 的推法"""
+    if SAMPLE:
+        t2 = tag.replace(' ', '_').replace('（', '_').replace('）', '').replace('[', '').replace(']', '')[:40]
+        r, _ = await sampled(pg, _push_seg(pg, cdp, tag, x, tz, lv), t2)
+        return r
+    return await _push_seg(pg, cdp, tag, x, tz, lv)
+
+
+async def _push_seg(pg, cdp, tag, x, tz, lv):
     if PUSH == 'tap': return await tap_seg(pg, cdp, tag + '（點地）', x, tz, lv)
     if PUSH == 'diag': return await diag_seg(pg, cdp, tag, x, tz, lv)
     return await seg(pg, cdp, tag, x, tz, lv, True)
