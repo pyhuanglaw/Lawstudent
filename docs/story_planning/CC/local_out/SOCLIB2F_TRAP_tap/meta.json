@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "SOCLIB2F_TRAP_tap",
+  "sha": "341436a25ed53942df4059d634d953a93e6ed988",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_route_probe.py",
+  "env": "TAG=trap_tap;ZONE=soclib_2f;HOUR=14;ROUTE=tapto:-3.48,-3.01+burst:a+tapto:-3.79,-5.07+burst:b+exit:;SHA=341436a25ed53942df4059d634d953a93e6ed988",
+  "machine": "MSI",
+  "start": "2026-11-13T01:29:40",
+  "end": "2026-11-13T01:33:13",
+  "seconds": 213,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 27,
+    "mem": 54,
+    "used_gb": 17.0,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
