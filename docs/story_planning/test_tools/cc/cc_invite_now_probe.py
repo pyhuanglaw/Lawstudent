@@ -21,10 +21,12 @@ ZONE = os.environ.get('ZONE') or 'library_hall'; WHO = os.environ.get('WHO') or 
 DAY = os.environ.get('DAY') or '2025-10-14'; HOUR = float(os.environ.get('HOUR') or 15)
 PICKS = [x for x in (os.environ.get('PICKS') or '約>現在一起過去').split('>') if x]
 ROUTE = [x for x in (os.environ.get('ROUTE') or '').split('+') if x]
+REL = int(os.environ.get('REL') or 0)   # BB-C 12:38 INVITE_TZ：汀州路兩間要有點熟以上（FAMILIAR）——【捷徑】SOCIAL.adjust 加 fam
 QUICK = os.environ.get('QUICK') or ''   # W1R D4（BB-C 12:00）：走完 ROUTE 以後改用手機「地點」快速前往這一區（直接到達），看她有沒有一起到、站哪、在不在牆裡
 R = L.Run('invite_now_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 PLACE_HER = r"""(a=>{ const G=GAME.G, E=GAME.E; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
+  if(a.rel&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ try{ SOCIAL.adjust(a.who,{fam:a.rel,trust:Math.round(a.rel*0.7),comf:Math.round(a.rel*0.7),seen:20,talked:20}); }catch(e){} }
   let n=GAME.npc&&GAME.npc[a.who]; if(n) return {had:true, x:+n.obj.position.x.toFixed(2), z:+n.obj.position.z.toFixed(2), seat:!!n.seat};
   const P=E.player.obj.position, S=(E.zone&&E.zone.seats||[]).filter(s=>(s.lv|0)===(E.player.lv|0)).sort((p,q)=>Math.hypot(p.x-P.x,p.z-P.z)-Math.hypot(q.x-P.x,q.z-P.z));
   const s=S.find(s=>Math.hypot(s.x-P.x,s.z-P.z)>1.5)||null;
@@ -58,7 +60,8 @@ async def main():
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
         s = await D.load_zone(pg, cdp, ZONE, DAY, HOUR, wait=7000)
         if not R.check('讀到 %s' % ZONE, s['zone'] == ZONE, J(s)): await b.close(); sys.exit(1)
-        her = await pg.evaluate(PLACE_HER, {'who': WHO}); res['her0'] = her
+        her = await pg.evaluate(PLACE_HER, {'who': WHO, 'rel': REL}); res['her0'] = her
+        if REL: R.setup('【捷徑】關係加 fam %d（約這間要有點熟以上）；現在階段 %s' % (REL, await pg.evaluate("(w=>{ try{ return SOCIAL.stage(w); }catch(e){ return null; } })", WHO)))
         R.setup('【前置／捷徑】讀檔到 %s %s %.1f（條件事件關掉）；%s：%s' % (ZONE, DAY, HOUR, WHO, '本來就在' if her and her.get('had') else '放在最近的座位坐著（spawnCharacter）%s' % J(her)))
         if not R.check('她在場', bool(her), ''): await b.close(); sys.exit(1)
         await L.go_to(pg, cdp, R, her['x'], her['z'], 1.1, WHO, max_s=60); await D.settle(pg)
