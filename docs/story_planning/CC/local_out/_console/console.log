@@ -1176,3 +1176,14 @@
 [05:49:11] ==== START SSB_tz_a  (probe @ df0db366936e400caf6b6f59478f810b7ed84fe5) ====
 [05:49:15] [res] cpu=1% mem=46% (14.9/31.4 GB) chrome_testing=9  START SSB_tz_a
 [05:50:09] [res] cpu=73% mem=50% (15.7/31.4 GB) chrome_testing=9  END TZ_DOOR_2330_edf2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7cc031f0a6..58f25b6d2e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:50:17] ==== END   TZ_DOOR_2330_edf2  exit=0  138s   ====
+[05:50:21] memory 49% before starting SSB_tz_b (2 running)
+[05:50:21] ==== START SSB_tz_b  (probe @ df0db366936e400caf6b6f59478f810b7ed84fe5) ====
+[05:50:24] [res] cpu=49% mem=49% (15.5/31.4 GB) chrome_testing=9  START SSB_tz_b
+[05:51:52] 正在跑：YY_SEATS_edf2（已跑 5 分／上限 40 分）、SSB_tz_a（已跑 2 分／上限 90 分）、SSB_tz_b（已跑 1 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:56:52] 正在跑：YY_SEATS_edf2（已跑 10 分／上限 40 分）、SSB_tz_a（已跑 7 分／上限 90 分）、SSB_tz_b（已跑 6 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:01:52] 正在跑：YY_SEATS_edf2（已跑 15 分／上限 40 分）、SSB_tz_a（已跑 12 分／上限 90 分）、SSB_tz_b（已跑 11 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:02:47] [res] cpu=58% mem=51% (16.4/31.4 GB) chrome_testing=10  END YY_SEATS_edf2
