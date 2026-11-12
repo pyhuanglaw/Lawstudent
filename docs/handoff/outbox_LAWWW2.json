@@ -8520,13 +8520,13 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "2a54a63f5",
    "receiver": "LAWWW",
-   "ack": "DELIVERED（11-12 10:32Z），未 ACK",
+   "ack": "ACK（開發分支 14e53d6bf）",
    "task": "SHOP-REAL-INSIDE-1112 公館第二批八間（青木、頁間、日和、洋洋、慢輪、Afar、轉角、Daybreak）＋鐵捲門只蓋門窗",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/gg_batch2_v1.patch",
     "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "remaining": "十一間預載的記憶體沒量；洋洋開放式櫃台可能有重疊面",
    "next": "LAWWW-C 套 patch、CC 量、BB 判"
@@ -8546,6 +8546,35 @@
    "noDirectIntegrate": false,
    "remaining": "溫州街還沒查",
    "next": "溫州街逐間自查"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "bc13aee92",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED（11-12 10:4xZ），未 ACK",
+   "task": "SHOP-REAL-INSIDE-1112 公館第三批：燒臘 G00 換真的室內＋省資源模式第一次走近分幀",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/gg_batch3_v1.patch",
+    "docs/art-rebuild/second_ai/wip/gg_real_inside_1112/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "remaining": "燒臘打烊後招牌還亮；花序 G11 沒換；手機那一下的毫秒數沒量",
+   "next": "LAWWW-C 套 patch、CC 量、BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "b48477997",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED（11-12 10:4xZ），未 ACK",
+   "task": "LIANTONG-SCREEN-1112 聯通櫃台螢幕搬到右端",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/dongnan_goods_1112/liantong_screen_v1.patch"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "remaining": "遊戲內沒拍",
+   "next": "LAWWW-C 套 patch、CC 拍"
   }
  ]
 }
