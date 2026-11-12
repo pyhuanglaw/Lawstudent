@@ -66,7 +66,8 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   /* 2026-11-11（X324 D 區，AA_784_invites.json）：invites.js 照覆蓋層拿掉刪節號——下面對稿時，覆蓋層換上去的新字、它的舊字在稿上也算（tests/overlay_expect.js 的 inDoc）；期望值包 FT（舊期望＝FT 裡面的字）*/
   const OE=require('./overlay_expect.js'), FT=(who,s)=>OE.fwdText('invites',who,s);
   const inSpec0=t=>{ const x=String(t).replace(/^（走出法圖）/,'').replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||(!!spec767&&spec767.includes('"new": "'+x+'"'))||(!!spec780&&spec780.includes('"new": "'+x+'"'))||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x))||(!!spec651&&spec651.includes(x)); };
-  const inSpec=t=>OE.inDoc('invites',null,t,inSpec0);
+  let spec897=''; try{ spec897=cp.execSync('git show 90780d4661:"docs/story_planning/AA_897_src對照表_收尾.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}   /* （CANON-NO-ECON-1112 第四批：照 AA_885、AA_897 換字）*/
+  const inSpec=t=>(!!spec897&&spec897.includes('「'+t+'」'))||OE.inDoc('invites',null,t,inSpec0);
   { const bad=[]; const walk=(tag,v)=>{ if(v==null) return; if(typeof v==='function') return walk(tag,v(null,{r:{}})); if(typeof v==='string'){ if(!inSpec(v)) bad.push(tag+':'+v); return; } if(Array.isArray(v)) return v.forEach(x=>walk(tag,x)); if(v.l) return walk(tag,v.l); for(const k in v) walk(tag+'.'+k,v[k]); };
     walk('lawlib',INVITE_DATA.lawlibLines); walk('lake',INVITE_DATA.lakeLines);
     for(const id of ['heroine_01','heroine_03','kexin']) for(const p of ['cafe','library','noodle','wenzhou']) walk('meet.'+id+'.'+p,((REL_LINES[id]||{}).meet||{})[p]);
@@ -79,7 +80,7 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     check('1-1. 以安、語彤、可昕的 meet（cafe／library／noodle／wenzhou；A／F／R；「—」的格子不寫＝沒有）照階段',r.length===0,J(r));
     check('1-1. 散步只有朋友以上、語彤 Café 認識階段婉拒＝沒有那一格',!REL_LINES.heroine_01.meet.wenzhou.A&&!REL_LINES.heroine_01.meet.wenzhou.F&&!REL_LINES.heroine_03.meet.cafe.A&&!REL_LINES.kexin.meet.wenzhou.F);
     const b=[]; for(const [rel,lv] of [[{fam:5},'base'],[S4,'FAM'],[S6,'FRI']]){ Object.assign(SOCIAL.rel('kexin'),{fam:0,trust:0,comf:0,npcRom:0,rom:0},rel); b.push([SOCIAL.friendLevel('kexin'),J(SOCIAL.byeLine('kexin'))]); }
-    check('1-2. 可昕的 bye：base「我回木柵了。到了傳你。」、FRIEND「下次換你來。」、CLOSE_FRIEND 那一句；沒有 up',J(REL_LINES.kexin.bye)===J({base:['我回木柵了。到了傳你。'],FRIEND:['下次換你來。'],CLOSE_FRIEND:['走了。……送到路口就好，不用送到捷運站。']})&&!REL_LINES.kexin.up&&b.every(x=>x[1]&&x[1]!=='null'),J(b)); }
+    check('1-2. 可昕的 bye：base「我回宿舍了。到了傳你。」、FRIEND「走了。」（AA_897 第 2 節）、CLOSE_FRIEND 那一句；沒有 up',J(REL_LINES.kexin.bye)===J({base:['我回宿舍了。到了傳你。'],FRIEND:['走了。'],CLOSE_FRIEND:['走了。……送到路口就好，不用送到捷運站。']})&&!REL_LINES.kexin.up&&b.every(x=>x[1]&&x[1]!=='null'),J(b)); }   /* （CANON-NO-ECON-1112 第四批：照 AA_885、AA_897 換字）*/
   { const sum=TD('Y1S2',4,6), win=D('2026-02-07'); fresh(sum,10); const t={day:sum};
     const dep=[0,1,2,3].map(()=>J(DATE.lineFor(G,'heroine_01','depart',t)));
     check('1-3. 以安 depart 三則輪流',J(dep)===J(DATE.EXTRA_LINES.heroine_01.depart.concat([DATE.EXTRA_LINES.heroine_01.depart[0]]).map(x=>J([x]))),J(dep));

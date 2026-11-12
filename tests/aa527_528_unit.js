@@ -149,8 +149,9 @@ const docRe=(n,re)=>re.test(docOf(n));
     const g=[on('2028-03-17'),on('2028-06-09'),on('2028-06-16'),on('2028-06-23'),on('2028-06-30'),on('2028-07-28'),on('2028-08-04')].map(a=>a.includes('c508_5_2')?'Y':(a.includes('c519_2_3')?'O':'-'));
     check('2-5. 學姊＋陳助教週五 18:30（c508_5_2）：演到 7/28；6/16 是口試那一列、6/23 不演、8/4 不演',J(g)===J(['Y','Y','O','-','Y','Y','-']),J(g));
     check('2-5. 晨希大四下的錄音：2029-05-12（六）22:00（成發那天）',SRC('pool_more3d.js').indexOf("DK('2029-05-12'),22,[L[CX].recY4b]")>=0&&SRC('pool_more3d.js').indexOf('2029-05-13')<0&&inDoc('AA_514','2029-05-12（六）22:00'));
-    const kx=KX_MOOT3_LINES.opts?J(KX_MOOT3_LINES):J(KX_MOOT3_LINES), t='（山下小吃街的麵店。她吃得很快，一句話都沒說，吃完才抬頭。）';
-    check('2-5. 可昕模擬法庭後去吃：旁白「（山下小吃街的麵店。……）」（對齊字幕）；底圖的判斷跟著換',kx.indexOf(t)>=0&&kx.indexOf('政大後門')<0&&KXMOOT3.FOOD_RE.test(t)&&inDoc('AA_514',t));
+    const kx=KX_MOOT3_LINES.opts?J(KX_MOOT3_LINES):J(KX_MOOT3_LINES), t='（後門那家湯餃。她吃得很快，一句話都沒說，吃完才抬頭。）';   /* （CANON-NO-ECON-1112 第四批：照 AA_885、AA_897 換字）*/
+    let d885=''; try{ d885=require('child_process').execSync('git show 2df00329ab:"docs/story_planning/AA_885_可昕動態牆_照列換字.md"',{cwd:require('path').resolve(__dirname,'..'),encoding:'utf8',maxBuffer:1<<24}); }catch(e){}
+    check('2-5. 可昕模擬法庭後去吃：旁白「（後門那家湯餃。……）」（AA_885 附錄換字；對齊字幕）；底圖的判斷跟著換',kx.indexOf(t)>=0&&KXMOOT3.FOOD_RE.test(t)&&d885.indexOf(t)>=0);   /* （CANON-NO-ECON-1112 第四批：照 AA_885、AA_897 換字）*/
     const R=row('c504_1_1'), tm=k=>{ fresh(k,18.3,'campus'); return HCIRCLE.timeOk(R,H.G); };
     check('2-5. 以安＋Alison（c504_1_1）：5/11、5/13（第 12 週、還沒吵架）照稿成立；5/18 不成立（一個人那一列）',tm('2026-05-11')&&tm('2026-05-13')&&!tm('2026-05-18')&&tm('2026-04-29'),J([tm('2026-05-11'),tm('2026-05-13'),tm('2026-05-18')])); });
 
