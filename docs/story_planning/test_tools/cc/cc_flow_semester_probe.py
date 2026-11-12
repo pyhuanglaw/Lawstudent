@@ -22,7 +22,13 @@ DAYS＝玩家「自己過完」的天數（那一天有空下來、做了晚上�
 環境變數：DAYS（112）、UNTIL（不設）、STUCK_S（不設＝量幀率：每秒 5 格以上 300、以下 900）、TRIP_MAX（一趟上課，1800）、DAY_MAX_S（一天的真實秒數上限，7200）、
   LOOP_N（6）、SAVE_CHECK（1；0＝不做每天的存讀檔）、SHOT_EVERY（7）、ROUTE（tw；makeup 還沒做＝FAIL）、START（law／econ，預設 law）、LW_TESTS（playlib 的資料夾，預設 repo 的 tests/）、SHA。
 用法：python3 cc_flow_semester_probe.py '<URL>/index.html' <輸出資料夾>（不要加 ?turbo）。最後一行 ALL PASS／FAILED: ...，exit 0／1。
-不是 iPhone：Playwright 手機橫向模擬（is_mobile、觸控）。"""
+不是 iPhone：Playwright 手機橫向模擬（is_mobile、觸控）。
+CANON（CC-C 11-13，BB-C 01:59＋02:34，BB_399 §4；新遊戲開局、可昕第一次見面）：CANON=1 打開下面這些
+  KX_PICK＝見面那個選單要選的字開頭（「會／「看跟誰）；SKIPREQ=1＝還沒認識她、日期在 HALL_FROM 以前的必修都不去（手機「今天」不按那一堂）；
+  HALL_FROM＝這天起第一次空下來就用手機「地點」去法律系館A（linze），看第 5 週保底版；EXPECT_HOW＝class／hall（最後檢查 KX_MET_HOW）。
+  每一句可昕的台詞、每個新事件開始各截一張（各最多 40 張）；見面那一刻記當下的課；結束時記 KX_MET／KX_MET_HOW／KX_MET_DAY、聯絡人、
+  手機訊息裡含「外校」「導遊」「我們的日子」的每一則（只記、不判，A 部分還沒合）、見面以前她講過的話（應該 0）。社科院人數、南洋下班不在這支（另排）。
+CC_02 清單 2026-11-13：1✓（新遊戲預設狀態，不設旗標；只有 KX_PICK／SKIPREQ 是玩家的選擇） 2✓（課的種類從 CLS.dayItems 讀、事件 id 從 EVENTS.run 記） 3n/a（照日子順序玩，沒有挑候選） 4✓（選項照字 startswith、手機照 data-go） 5✓（走路 go_to、快速前往照玩家） 6✓（每一步等空下來 1.6 秒再動） 7✓（lint、node 驗 JS；evaluate 都包 try） 8n/a（不量數字，台詞與旗標照記） 9✓（每張截圖是遊戲畫面原樣，不藏人：要看人在不在） 10✓（插進來的劇情照演、選項照字） 11✓（SHA 40 碼、ENV 沒有「|」） 12✓（FAIL_SETUP 檢查：真的演到見面那一場、真的去了法律系館A） 13✓（照日子一天一天過，卡住偵測照舊）"""
 import os, sys, json, asyncio, re, time, traceback
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
@@ -39,6 +45,38 @@ TRIP_MAX = ENVI('TRIP_MAX', 1800); DAY_MAX_S = ENVI('DAY_MAX_S', 7200); LOOP_N =
 SAVE_CHECK = ENVI('SAVE_CHECK', 1); SHOT_EVERY = ENVI('SHOT_EVERY', 7)
 ROUTE = os.environ.get('ROUTE', 'tw').strip() or 'tw'; START = os.environ.get('START', 'law').strip() or 'law'
 STUCK_S = int(os.environ['STUCK_S']) if os.environ.get('STUCK_S') else None
+CANON = os.environ.get('CANON') == '1'; KX_PICK = os.environ.get('KX_PICK') or ''; SKIPREQ = os.environ.get('SKIPREQ') == '1'
+HALL_FROM = os.environ.get('HALL_FROM') or ''; EXPECT_HOW = os.environ.get('EXPECT_HOW') or ''
+CUR_TRIP = [None]; KXLOG = {'shots': 0, 'ev_shots': 0, 'seen': set(), 'before_met': [], 'at_meet': None, 'skipped': [], 'hall': None}
+KX_STATE = r"""(()=>{ const G=GAME.G, F=G.flags||{}; let cls=null; try{ cls=CLS.dayItems(G).map(x=>[x.key,x.c&&x.c.name,x.c&&x.c.kind,CLS.status(G,x)]); }catch(e){}
+  return {met:!!F.KX_MET, how:F.KX_MET_HOW||null, day:F.KX_MET_DAY??null, later:!!F.KX_MEET_LATER, contact:!!((G.contacts||{}).kexin||(Array.isArray(G.contacts)&&G.contacts.includes('kexin'))),
+    key:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(2), zone:G.zone, cls}; })()"""
+KX_MSGS = r"""(()=>{ const G=GAME.G; return (G.msgs||[]).filter(m=>/外校|導遊|我們的日子/.test(String(m.text||''))||m.who==='kexin'||m.th==='p:kexin').map(m=>({day:m.day, key:(()=>{ try{ return CALENDAR.dateOf(m.day).key; }catch(e){ return null; } })(), h:m.h, who:m.who||m.from||'', th:m.th||'', text:String(m.text||'').slice(0,80)})).slice(0,60); })()"""
+
+
+async def canon_watch(pg, run, s):
+    """CANON：可昕講話、新事件開始各截一張；見面以前她講過的話記下來"""
+    try:
+        if not s.get('dlg'): return
+        nm = await pg.evaluate("(()=>{ try{ const D=GAME.D; return D&&D.active&&D.who?(D.who.charId||D.who.id||null):null; }catch(e){ return null; } })()")   # 還沒認識時名字顯示「不認識的女生」：看 charId
+        is_kx = nm == 'kexin' or (s.get('name') or '').startswith('杜可昕') or (s.get('name') or '') == '可昕'
+        if is_kx and s.get('txt'):
+            sig = s['txt'][:30]
+            if sig not in KXLOG['seen']:
+                KXLOG['seen'].add(sig); k = await pg.evaluate(KX_STATE)
+                if not k['met'] and not KXLOG['at_meet']:
+                    KXLOG['at_meet'] = dict(k, trip=CUR_TRIP[0], first_line=s['txt'][:60]); run.note('可昕第一次講話：%s' % J(KXLOG['at_meet']))
+                if KXLOG['shots'] < 40: KXLOG['shots'] += 1; await run.shot(pg, 'kx_%02d_%s' % (KXLOG['shots'], k['key']))
+                run.note('可昕：「%s」（%s %s %s；KX_MET=%s）' % (s['txt'][:60], k['key'], hm(k['h']), k['zone'], k['met']))
+    except Exception as e: run.note('canon_watch 失敗 %r' % e)
+
+
+async def canon_ev_shots(pg, run, rows):
+    for r_ in rows:
+        if r_.get('k') == 'ev' and KXLOG['ev_shots'] < 40:
+            KXLOG['ev_shots'] += 1
+            try: await run.shot(pg, 'ev_%02d_%s' % (KXLOG['ev_shots'], (r_.get('t') or '')[:28]))
+            except Exception: pass
 SHORTCUTS = []
 REMINDS = {}   # (來源, day, h, 文字) → 紀錄
 ROWBUF = []   # 重新整理以前先把當天的紀錄收起來
@@ -211,7 +249,7 @@ async def bed(pg, cdp, run, drv, prefixes, tag):
 
 async def trip(pg, cdp, run, drv, key, stuck_s):
     """手機「今天」→ 那一堂的「直接去上課」→ 照演到上完、空下來"""
-    out = {'key': key, 'ok': False}
+    out = {'key': key, 'ok': False}; CUR_TRIP[0] = key
     await P.phone_tab(pg, cdp, 'today'); sel = '#phoneBody [data-go="%s"]' % key
     out['btn'] = await pg.evaluate("(s=>{ const e=document.querySelector(s); return e?(e.textContent||'').trim():null; })", sel)
     if not out['btn']: await L.close_panels(pg, cdp); run.note('手機「今天」沒有 %s 的按鈕' % key); return out
@@ -388,7 +426,10 @@ async def main():
                     if st['gl']: tried.discard(st['gl'][0])
                     continue
                 # ---- 對話、選項、手機 ----
-                if await drv.handle(s): continue
+                if CANON:
+                    await canon_watch(pg, run, s)
+                    newr = await pg.evaluate(TAKE); ROWBUF.extend(newr); await canon_ev_shots(pg, run, newr)
+                if await drv.handle(s, (KX_PICK,) if KX_PICK else ()): continue
                 if not is_free(s): await pg.wait_for_timeout(800); continue
                 if not first_free:
                     first_free = True; run.note('第一次空下來：%s' % J({k: st[k] for k in ('key', 'h', 'zone', 'term', 'week', 'stage')})); await run.shot(pg, 'first_free_%s' % st['key'])
@@ -398,6 +439,14 @@ async def main():
                 st = await pg.evaluate(STATE)
                 # ---- 有課：手機「今天」直接去上課 ----
                 gl = [k for k in st['gl'] if k not in tried]
+                if CANON and SKIPREQ and gl and (not HALL_FROM or st['key'] < HALL_FROM):
+                    kinds = await pg.evaluate("(ks=>ks.map(k=>{ try{ const it=CLS.dayItems(GAME.G).find(x=>x.key===k); return it&&it.c?it.c.kind:null; }catch(e){ return null; } }))", gl)
+                    met = await pg.evaluate("!!(GAME.G.flags||{}).KX_MET")
+                    for k_, kd in zip(list(gl), kinds):
+                        if kd == 'required' and not met: tried.add(k_); gl.remove(k_); KXLOG['skipped'].append([st['key'], k_]); run.note('SKIPREQ：%s 不去必修 %s' % (st['key'], k_))
+                if CANON and HALL_FROM and st['key'] >= HALL_FROM and KXLOG['hall'] is None and not await pg.evaluate("!!(GAME.G.flags||{}).KX_MET"):
+                    ok = await quick_go(pg, cdp, run, 'linze'); KXLOG['hall'] = {'key': st['key'], 'h': hm(st['h']), 'ok': ok}
+                    run.note('HALL_FROM：%s %s 手機「地點」去法律系館A：%s' % (st['key'], hm(st['h']), ok)); await run.shot(pg, 'hall_%s' % st['key']); since = time.time(); continue
                 if gl:
                     tried.add(gl[0]); row.setdefault('trips', []).append(await trip(pg, cdp, run, drv, gl[0], stuck_s)); since = time.time(); continue
                 # ---- 在家（臺北的家）：照選單（第一個）；沒有選單就等 ----
@@ -448,6 +497,14 @@ async def main():
                 run.check('「%s」提醒都在該學期第一個期末考日之前 1～8 天（考前一週）' % REMIND_KEY, not bad,
                           '不對的：' + J([[x['src'], x['at'], x['h'], '第一個期末考 %s' % x['first_final'], '差 %s 天' % x['gap']] for x in bad]))
         except Exception as e: run.check('期末提醒檢查跑得完', False, repr(e)[:300])
+        if CANON:
+            try:
+                k = await pg.evaluate(KX_STATE); msgs = await pg.evaluate(KX_MSGS)
+                summary['canon'] = {'end': k, 'at_meet': KXLOG['at_meet'], 'skipped': KXLOG['skipped'], 'hall': KXLOG['hall'], 'msgs': msgs, 'kx_shots': KXLOG['shots']}
+                run.note('CANON 結束：%s；見面那一刻 %s；手機相關訊息 %s' % (J(k), J(KXLOG['at_meet']), J(msgs)))
+                run.check('FAIL_SETUP 檢查：真的演到可昕見面（KX_MET）%s' % (('、方式 ' + EXPECT_HOW) if EXPECT_HOW else ''), k['met'] and (not EXPECT_HOW or k['how'] == EXPECT_HOW), J(k))
+                run.check('見面以後手機聯絡人有她', (not k['met']) or k['contact'], J(k))
+            except Exception as e: run.check('CANON 結束檢查跑得完', False, repr(e)[:300])
         run.note('console error %d 則（只記不判）：%s' % (len(cons), J(cons[:5])))
         try: await run.shot(pg, 'end')
         except Exception: pass

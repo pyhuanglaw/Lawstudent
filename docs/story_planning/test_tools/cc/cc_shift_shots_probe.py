@@ -4,7 +4,7 @@
   班開始前 12 分鐘讀檔進店（條件事件關掉）→ 進店班的時間到了遊戲自己開班（jobs3d.js S.shiftNow；沒開＝【捷徑】JOBS.runShift 同一個函式）→
   對話照第一個選項點，在「第一段工作旁白」和「第一個選項選完」兩個時候各記一次：祐廷的位置、面向、姿勢、身上有沒有圍裙類的網格（名字含 apron／圍裙）、離櫃台／工作點多遠、
   1 m 內家具、店裡其他人；拍遊戲鏡頭＋俯視。
-CC_02 清單 2026-11-12：1✓（班表從遊戲資料讀：SHOP_JOBS_AA828／AA829 的 sched） 2✓（店的區域從 JOBS.X3 讀） 3✓（每間重新讀檔） 4✓（對話用 #dlg、#choices） 5n/a（讀檔進店） 6✓（讀檔等 6 秒） 7✓ 8n/a（不判，圖和位置給 BB） 9✓（俯視相機不藏人） 10✓（條件事件關掉；開班不是條件事件） 11✓ 12✓（兩個時間點各記位置、家具、人；BB-C 10:55 加書包網格看不看得到、鏡頭到頭之間被什麼擋、下班以後再記一次） 13✓（改存檔、捷徑都標）
+CC_02 清單 2026-11-13：1✓（班表從遊戲資料讀：SHOP_JOBS_AA828／AA829 的 sched） 2✓（店的區域從 JOBS.X3 讀） 3✓（每間重新讀檔） 4✓（對話用 #dlg、#choices） 5n/a（讀檔進店） 6✓（讀檔等 6 秒） 7✓ 8n/a（不判，圖和位置給 BB） 9✓（俯視相機不藏人） 10✓（條件事件關掉；開班不是條件事件） 11✓ 12✓（兩個時間點各記位置、家具、人；BB-C 10:55 加書包網格看不看得到、鏡頭到頭之間被什麼擋、下班以後再記一次） 13✓（改存檔、捷徑都標）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [KEYS=shanlan,cinema,flower,yue,dakou] [TERM=Y1S2] [FIX=…] python3 cc_shift_shots_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, base64
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -96,7 +96,7 @@ async def main():
             tag = '[%s]' % k
             try:
                 plan = await pg.evaluate(PLAN, {'k': k, 'term': TERM})
-                if not R.check('%s 找得到班表和日子' % tag, 'day' in plan, J(plan)): continue
+                if not R.check('FAIL_SETUP 檢查：%s 找得到班表和日子' % tag, 'day' in plan, J(plan)): continue
                 r = await pg.evaluate(APPLY, prep(sv0, k, plan))
                 R.setup('%s 【前置／捷徑】讀檔改成 %s 有 %s 的班（%s 週%s %.2f～%.2f），班開始前 12 分鐘進店（條件事件關掉）' % (tag, TERM, plan['name'], plan['key'], plan['wd'], plan['t0'], plan['t1']))
                 await pg.wait_for_timeout(6000)
@@ -124,12 +124,15 @@ async def main():
                     if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
                     await pg.wait_for_timeout(700)
                 # BB-C 11:27：下班以後每 0.5 秒拍一張、連 4 秒（分轉場黑幕還是真的黑）：亮度＋蓋在畫面上的黑幕元素
+                m0 = await pg.evaluate("(GAME.G.msgs||[]).length")   # 11-13 BB-C（CANON_SIDE ⑥）：下班後 5 秒內新進的手機訊息全文（「外校」「我們的日子」那兩則還在不在）
                 for j in range(9):
                     png = await pg.screenshot(path=os.path.join(OUT, 'shift_%s_after_burst_%02d.png' % (k, j)))
                     lm = await D.lum_browser(pg, png)
                     ov = await pg.evaluate(OVERLAY); tt = await pg.evaluate(TOAST1)
                     R.note('%s 下班後 %.1f 秒：亮度 %s；畫面上蓋著的元素 %s；#toast %s' % (tag, j * 0.5, J(lm), J(ov), J(tt)))
                     await pg.wait_for_timeout(500)
+                newm = await pg.evaluate("(n=>(GAME.G.msgs||[]).slice(n).map(m=>({who:m.who||m.from||'', th:m.th||'', h:m.h, text:String(m.text||'')})))", m0)
+                R.note('%s 下班後 5 秒內新進的手機訊息 %d 則：%s' % (tag, len(newm), J(newm)))
                 after = await pg.evaluate(SNAPJS, {})
                 if after:
                     shots.append(('after_shift', after)); await pg.screenshot(path=os.path.join(OUT, 'shift_%s_after_shift_game.png' % k))
