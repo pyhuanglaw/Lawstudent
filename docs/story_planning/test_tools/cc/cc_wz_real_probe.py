@@ -1,7 +1,7 @@
 """CC-C 11-12：溫州街三間店外＝店內（SHOP-REAL-INSIDE-1112 溫州街：日常失速 wz_offbeat、SUNNY SIDE wz_brunch、小路 wz_teishoku；LAWWW-C 11:28 72fc1ffc88 交排，範圍照 BB）。結果給 BB 判。Playwright（PC GPU）≠ iPhone。
 每個時間（HOURS，預設 14、22）：
   ① 【前置／捷徑】讀檔到 wenzhou，等 10 秒（預載）→ 記 zone.shopReal（lite、每間 built／ready／on、位置、朝向）。
-  ② 每一間：【捷徑】把祐廷放到那間店面前 3 m（讓「走近才顯示」打開）等 3 秒 → 另一台相機拍：全景（店面前 16 m、高 5 m）、從街上往裡看（店面前 5 m、高 1.6 m、看室內中間）；記那間 on／built。
+  ② 每一間：【捷徑】把祐廷放到那間店面前 3 m（讓「走近才顯示」打開）等 3 秒 → 另一台相機拍：全景（店面前 16 m、高 5 m）、從街上往裡看（店面前 5 m、高 1.6 m、看室內中間）；遊戲鏡頭 E.cam.yaw 也轉向店面（r2：r1 的 street_game 拍到的是街）；記那間 on／built。
   ③ 每一間：【前置／捷徑】讀檔進那間（區域出生點）→ 遊戲鏡頭截圖＋另一台相機從門口往裡看（門口互動點往室內 1 m、和②同一個方向）＝「走進去同方向」。
   ④ SUNNY SIDE 的門：街上的門（wenzhou 裡 exit.to＝wz_brunch 的互動點）前 4 m 拍一張；店內的門（wz_brunch 裡 exit.to＝wenzhou）往門看 4 m 拍一張（BB-C 11:28：這版的不一致先記）。
 CC_02 清單 2026-11-12：1✓（14:00 開、22:00 照 LAWWW） 2✓（店的位置、朝向從 zone.shopReal 讀，門從出口互動點讀） 3✓（每個時間、每一間重新讀檔） 4n/a（不按按鈕） 5n/a（拍照：祐廷放到店前是捷徑，走路的效能另一支 cc_xs_inside_perf_probe） 6✓（預載等 10 秒、每間等 3 秒） 7✓ 8n/a（不判，給 BB） 9✓（全景、往裡看那幾張藏路人和祐廷：要看店） 10✓（條件事件關掉） 11✓ 12✓（三間同樣欄位） 13✓（讀檔、放位置捷徑標）
@@ -58,7 +58,7 @@ async def main():
             for sh in real['shops']:
                 if sh.get('place') not in SHOPS: continue
                 cx, cz, nx, nz, fx, fz = front(sh); pid = sh['place']
-                await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); P.rotation.y=a.yaw; })", {'x': fx + nx * 3, 'z': fz + nz * 3, 'yaw': math.atan2(-nx, -nz)})
+                await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); P.rotation.y=a.yaw; if(GAME.E.cam) GAME.E.cam.yaw=a.cy; })", {'x': fx + nx * 3, 'z': fz + nz * 3, 'yaw': math.atan2(-nx, -nz), 'cy': math.atan2(nx, nz)})
                 await pg.wait_for_timeout(3000)
                 st = next((q for q in (await pg.evaluate(REAL))['shops'] if q['id'] == sh['id']), {})
                 await pg.screenshot(path=os.path.join(OUT, 'wz_%s_%s_street_game.png' % (ht, pid)))
