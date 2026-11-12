@@ -52740,7 +52740,7 @@
    "id": "MOVIE-REMIND-LATE-1110",
    "title": "約會提醒：人已經到約好的地方（例：南洋戲院大廳→1 廳）或對話在演，不再跳「提醒：…約在…」（BB 11-10 18:15 P3）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -52753,7 +52753,8 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 稽核：待查】原本標「已驗收」但找不到驗收證據（紀錄只寫「BB 下一輪看電影流程順便看」）——改回已整合待測試，請 BB／CC 補驗｜BB 下一輪看電影流程順便看"
+   "next": "【LAWWW-C 11-12 08:1x】BB 回覆其實驗過、給了證據位置，改回已驗收（我 07:5x 稽核時找不到證據才改成待測試）｜【LAWWW-C 11-12 稽核：待查】原本標「已驗收」但找不到驗收證據（紀錄只寫「BB 下一輪看電影流程順便看」）——改回已整合待測試，請 BB／CC 補驗｜BB 下一輪看電影流程順便看",
+   "evidence": "BB_255 第 3712 行（11-10 20:2x，v9.10.24 候選 fe5fa4a79／CC 6cb062151c：「到大廳、1 廳以後不再跳提醒」PASS）——BB-C 11-12 08:07 回覆（BB 分支 claude/wonderful-mayer-7fm9g6）"
   },
   {
    "id": "TINGZHOU-AREA-1110",
@@ -53109,7 +53110,7 @@
    "id": "US-FINAL-PROF-PASS-1110",
    "title": "美國期末報告選 b：「教授經過你旁邊，說了一句：Good choice.」先等她走到旁邊再出（BB 11-10 21:38 P3）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y4S1",
@@ -53122,7 +53123,8 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 稽核：待查】原本標「已驗收」但找不到驗收證據（紀錄只寫「CC 只重跑 FINAL」）——改回已整合待測試，請 BB／CC 補驗｜CC 只重跑 FINAL"
+   "next": "【LAWWW-C 11-12 08:1x】BB 回覆其實驗過、給了證據位置，改回已驗收（我 07:5x 稽核時找不到證據才改成待測試）｜【LAWWW-C 11-12 稽核：待查】原本標「已驗收」但找不到驗收證據（紀錄只寫「CC 只重跑 FINAL」）——改回已整合待測試，請 BB／CC 補驗｜CC 只重跑 FINAL",
+   "evidence": "BB_255 第 3886 行（USCLS_r3＠8f1374ba0：教授說 Good choice 時離玩家 1.23 m、演完回 us_campus＝FIXED；BB commit d03c5d9147）——BB-C 11-12 08:07 回覆"
   },
   {
    "id": "NIGHT-MARKET-1110",
@@ -54794,6 +54796,36 @@
     "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判"
    },
    "source": "使用者 2026-11-12 對 BB-C：「大步球鞋店外面看進去牆壁是灰色 可是人在店裡面居然墻壁是木頭的……你應該審查所有的店面會不會有一樣的問題」（UA-BB-1112-03；USER_WANTS X352）",
+   "authorized": true
+  },
+  {
+   "id": "PLACE-GATE-WINDOW-RECT-1112",
+   "title": "地點關卡第二層 ⑦b（店外＝店內）讓機器自己量：每間店給櫥窗四角座標（各店 layout 或 places 加 window:{x0,x1,y0,y1,z}，從店門位置推），CC 探針照座標裁框（現在整條街玻璃是同一塊網格，框會混到隔壁店，只能 BB 看並排圖）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "Y1S1W01",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "BB-C 11-12 08:08 提（不擋任何東西）；先做新生南路六間＋南洋，再汀州路七間",
+   "xai": {
+    "from": "BB",
+    "to": "LAWWW",
+    "receiver": "CC",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "spec": "BB-C 11-12 08:08 訊息；ROLE_BB 2.6 第二層",
+    "acceptance": "CC 探針用座標裁出每間店自己的櫥窗、和進門同方向的畫面比色差，不再混到隔壁店",
+    "ack": "ACK"
+   },
+   "source": "BB-C 2026-11-12 08:08（D154 地點關卡）",
    "authorized": true
   }
  ]
