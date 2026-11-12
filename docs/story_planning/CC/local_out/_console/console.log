@@ -443,3 +443,17 @@
 [16:32:48] 正在跑：TZ_REAL_consist（已跑 0 分／上限 60 分）、TZ_CASE_257e（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:32:56] worktree add 257e05a852adb29ec5851db99cebfa24b8f967cc: invalid reference - fetching main and the commit itself
 [16:35:03] [res] cpu=4% mem=38% (12.2/31.4 GB) chrome_testing=4  END TZ_CASE_257e
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       27b6b2126..60a40156a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:35:09] ==== END   TZ_CASE_257e  exit=0  151s   ====
+[16:35:17] solo item XS_REAL_perf_r2 waits: no new items start until the 1 running item(s) finish
+[16:37:48] 正在跑：TZ_REAL_consist（已跑 5 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:40:27] memory 41% before starting GG_LIT_new (1 running)
+[16:40:27] memory 41% before starting GG_LIT_old (2 running)
+[16:40:27] ==== START GG_LIT_new  (probe @ bc559a032df71bba8d53bb766f9d547e06ee30d9) ====
+[16:40:27] ==== START GG_LIT_old  (probe @ 5f03f455e21a8d4fc38d2cbf07aa3eea05b79501) ====
+[16:40:30] [res] cpu=1% mem=41% (13.1/31.4 GB) chrome_testing=4  START GG_LIT_old
+[16:40:30] [res] cpu=1% mem=41% (13.1/31.4 GB) chrome_testing=4  START GG_LIT_new
+[16:40:54] worktree add bc559a032df71bba8d53bb766f9d547e06ee30d9: invalid reference - fetching main and the commit itself
+[16:41:59] [res] cpu=9% mem=48% (15.2/31.4 GB) chrome_testing=8  END GG_LIT_old
