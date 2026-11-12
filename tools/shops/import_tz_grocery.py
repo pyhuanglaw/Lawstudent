@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""TINGZHOU-SHOPS5-1110：汀州路的雜貨店（東南大聯商行 tz_dongnan）的店內文字，
+"""TINGZHOU-SHOPS5-1110：汀州路的雜貨店（東南大聯商行 tz_dongnan）、手機通訊行（汀州聯通 tz_liantong）的店內文字，
 從 AA 的稿（一間一份 JSON）匯進 src/data/tz_grocery_lines.js（TZ_GROCERY_LINES）。流程在 src/gg3shops3d.js（S.addGroceries、S.groceryShelf、S.groceryPay），這支只搬字。
 
 和 tools/shops/import_tz_meals.py 同一個做法（小館那一支的稿有座位、「吃」的句子；雜貨店沒有座位、是「到貨架拿、到櫃檯結帳」，所以另外一支）：
@@ -20,7 +20,18 @@
            而且每一個 id 都要出現在稿的 after_<x>_when 那一句說明裡，不然停下來）、empty（手上沒有東西去結帳）、cancel（不用了）、pick（拿起一樣）、short（no_money）、
            goods [{id, n, p, at（貨架的 kind）, line}]（順序照稿）}
 
-測試：node tests/tz_dongnan_aa823_1112_unit.js（逐字對稿）。
+**第二種稿：櫃台有服務的店（SCRIPTS 那一列寫 'kind': 'service'；汀州聯通 tz_liantong，AA_824）**——東西一樣到貨架（掛牆、配件櫃）拿、到櫃台買，另外櫃台可以選服務：
+  shop {id, name, hours, note}　staff {who, greet[], closed_line, no_money, not_open?, closed_outside?}
+  counter {id, button, ask, menu {<服務 id>: {name, price（0 以上）, minutes, lines[字串＝旁白｜{who, t}], item?（做完得到的東西，要是 items 裡 buy:false 的那一樣、價錢一樣）}}, after}
+  items {<id>: {name, price, where, line, buy?（false＝不能從貨架買，只有做完服務得到；where 要是櫃台）}}
+  looks {<kind>: {button, t}}（全部都是「看」；有東西的那幾個同時是貨架）　seat {button, sit, wait}　pick　cancel（最上層）
+  資料檔：和雜貨店同一個格式（S.addGroceries、S.groceryShelf、S.own 直接用），差別只有：
+    seat {sit, wait, button}（坐下那一句、做服務坐著等的那一句、座位按鈕的字）；稿沒有 closed_outside＝資料檔沒有 sign（門口關著的時候都說 notOpen 那一句，src/gg3shops3d.js S.doorLine）；
+    grocery.after＝[counter.after]、afterIf／empty＝null、cancel＝最上層的 cancel、goods 裡 buy:false 的那一樣多 noBuy:true、
+    grocery.services＝[{id, n, p, min, lines [[說話的人｜null, 字]…], item?, wait?（SCRIPTS 的 wait 有寫這個服務 id＝手機交給店員、坐在圓凳上等：演 seat.wait）}]（順序照稿）。
+  流程：src/gg3shops3d.js 的 S.serviceCounter。
+
+測試：node tests/tz_dongnan_aa823_1112_unit.js、node tests/tz_liantong_aa824_1112_unit.js（逐字對稿）。
 用法：python3 tools/shops/import_tz_grocery.py [--check]（--check：只比對，資料檔和稿匯出來的不一樣＝結束碼 1）"""
 import json, os, re, subprocess, sys
 
@@ -34,6 +45,8 @@ SCRIPTS = [
     {'zone': 'tz_dongnan', 'layout': 'dongnan', 'path': 'docs/story_planning/AA_823_tz_dongnan.json', 'sha': '3d0ab9944',
      'counter': 'tz_dongnan_counter',   # looks 裡哪一個是結帳（其他的都是貨架）
      'after_if': {'spicy': ['tz_dn_noodle', 'tz_dn_noodle5', 'tz_dn_sauce']}},   # 稿的 after_spicy_when：「買的東西裡有泡麵（tz_dn_noodle、tz_dn_noodle5）或辣醬（tz_dn_sauce）才出，取代 after」
+    {'zone': 'tz_liantong', 'layout': 'liantong', 'path': 'docs/story_planning/AA_824_tz_liantong.json', 'sha': '2ec610d95', 'kind': 'service',
+     'wait': ['check', 'film']},   # 手機交給店員、要等十分鐘的兩樣服務：坐在櫃台前的圓凳上等（演稿的 seat.wait）；問門號方案是站著問，不演
 ]
 CHANGED = []
 
@@ -145,21 +158,121 @@ def one(spec):
     return out
 
 
+def money(v, where, zero=False):
+    if not isinstance(v, int) or isinstance(v, bool) or v < (0 if zero else 1):
+        die(f'{where}：要是{"0 以上的" if zero else "正"}整數')
+    return v
+
+
+def one_service(spec):
+    """櫃台有服務的店（AA_824 的格式；說明在開頭）。"""
+    W = spec['zone']
+    ok, why = IG.allowed(spec['path'], spec['sha'], IG.load(ROOT))
+    if not ok:
+        die(why)
+    try:
+        doc = json.loads(git('show', f"{spec['sha']}:{spec['path']}"))
+    except subprocess.CalledProcessError:
+        die(f"讀不到 {spec['sha']}:{spec['path']}（淺層複本：git fetch origin claude/magical-albattani-bk7b4n 或企劃線）")
+    keys(doc, ['shop', 'staff', 'counter', 'items', 'looks', 'seat', 'pick', 'cancel'], W, opt=['_meta'])
+    shop = keys(doc['shop'], ['id', 'name', 'hours'], W + ' shop', opt=['note'])
+    if shop['id'] != W:
+        die(f"{W}：稿的 shop.id 是 {shop['id']}")
+    if not re.match(r'^\d{1,2}:\d{2}～\d{1,2}:\d{2}$', shop['hours']):
+        die(f"{W} shop.hours：要是「10:00～21:30」這樣（{shop['hours']}）；一天兩段、公休日先改這支工具")
+    staff = keys(doc['staff'], ['who', 'greet', 'closed_line', 'no_money'], W + ' staff', opt=['not_open', 'closed_outside'])
+    who = fix(staff['who'], W + ' staff.who')
+    C = keys(doc['counter'], ['id', 'button', 'ask', 'menu', 'after'], W + ' counter')
+    point = C['id']
+    look, labels = {}, {}
+    if not isinstance(doc['looks'], dict) or point in doc['looks']:
+        die(f'{W} looks：要是物件，而且不能有櫃台（{point}）')
+    for kind, v in doc['looks'].items():
+        keys(v, ['button', 't'], f'{W} looks.{kind}')
+        look[kind] = [narr(v['t'], f'{W} looks.{kind}.t')]
+        labels[kind] = fix(v['button'], f'{W} looks.{kind}.button')
+    labels[point] = fix(C['button'], W + ' counter.button')
+    items = doc['items']
+    if not isinstance(items, dict) or not items:
+        die(W + ' items：要有東西')
+    goods, nobuy = [], {}
+    for iid, it in items.items():
+        keys(it, ['name', 'price', 'where', 'line'], f'{W} items.{iid}', opt=['buy'])
+        g = {'id': iid, 'n': fix(it['name'], f'{W} items.{iid}.name'), 'p': money(it['price'], f'{W} items.{iid}.price'), 'at': it['where'], 'line': fix(it['line'], f'{W} items.{iid}.line')}
+        if 'buy' in it:
+            if it['buy'] is not False or it['where'] != point:
+                die(f'{W} items.{iid}：buy 只認得 false，而且 where 要是櫃台 {point}')
+            g['noBuy'] = True
+            nobuy[iid] = g
+        elif it['where'] not in look:
+            die(f"{W} items.{iid}.where：{it['where']} 不是 looks 裡的貨架")
+        goods.append(g)
+    if len({g['n'] for g in goods}) != len(goods):
+        die(W + ' items：名字重複')
+    menu = C['menu']
+    if not isinstance(menu, dict) or not menu:
+        die(W + ' counter.menu：要有服務')
+    waits = spec.get('wait') or []
+    if [x for x in waits if x not in menu]:
+        die(f'{W} SCRIPTS 的 wait：{waits} 有稿上沒有的服務')
+    services, given = [], []
+    for sid, m in menu.items():
+        keys(m, ['name', 'price', 'minutes', 'lines'], f'{W} counter.menu.{sid}', opt=['item'])
+        if not isinstance(m['lines'], list) or not m['lines']:
+            die(f'{W} counter.menu.{sid}.lines：至少一句')
+        lines = []
+        for i, l in enumerate(m['lines']):
+            where = f'{W} counter.menu.{sid}.lines[{i}]'
+            if isinstance(l, dict):
+                keys(l, ['who', 't'], where)
+                if l['who'] != staff['who']:
+                    die(f"{where}：說話的人只認得 {staff['who']}（{l['who']}）")
+                lines.append([who, fix(l['t'], where)])
+            else:
+                lines.append([None, narr(l, where)])
+        s = {'id': sid, 'n': fix(m['name'], f'{W} counter.menu.{sid}.name'), 'p': money(m['price'], f'{W} counter.menu.{sid}.price', zero=True),
+             'min': money(m['minutes'], f'{W} counter.menu.{sid}.minutes'), 'lines': lines}
+        if 'item' in m:
+            if m['item'] not in nobuy or nobuy[m['item']]['p'] != s['p'] or m['item'] in given:
+                die(f"{W} counter.menu.{sid}.item：{m['item']} 要是 items 裡 buy:false 的那一樣、價錢一樣、只給一種服務")
+            s['item'] = m['item']
+            given.append(m['item'])
+        if sid in waits:
+            s['wait'] = True
+        services.append(s)
+    if len({s['n'] for s in services}) != len(services) or sorted(given) != sorted(nobuy):
+        die(f'{W} counter.menu：服務的名字重複，或有 buy:false 的東西沒有服務會給（{sorted(nobuy)}／{sorted(given)}）')
+    seat = keys(doc['seat'], ['button', 'sit', 'wait'], W + ' seat')
+    out = {'name': fix(shop['name'], W + ' shop.name'), 'who': who, 'layout': spec['layout'], 'hours': shop['hours'],
+           'door': [[who, t] for t in strs(staff['greet'], W + ' staff.greet')],
+           'close': fix(staff['closed_line'], W + ' staff.closed_line')}
+    if 'closed_outside' in staff:
+        out['sign'] = narr(staff['closed_outside'], W + ' staff.closed_outside')
+    out.update({'look': look, 'labels': labels,
+                'seat': {'sit': narr(seat['sit'], W + ' seat.sit'), 'wait': narr(seat['wait'], W + ' seat.wait'), 'button': fix(seat['button'], W + ' seat.button')},
+                'grocery': {'point': point, 'ask': fix(C['ask'], W + ' counter.ask'), 'after': [fix(C['after'], W + ' counter.after')], 'afterIf': None, 'empty': None,
+                            'cancel': narr(doc['cancel'], W + ' cancel'), 'pick': narr(doc['pick'], W + ' pick'), 'short': narr(staff['no_money'], W + ' staff.no_money'),
+                            'goods': goods, 'services': services}})
+    if 'not_open' in staff:
+        out['notOpen'] = narr(staff['not_open'], W + ' staff.not_open')
+    return out
+
+
 def build():
     out = {}
     for spec in SCRIPTS:
         if spec['zone'] in out:
             die(f"SCRIPTS：{spec['zone']} 重複")
-        out[spec['zone']] = one(spec)
+        out[spec['zone']] = one_service(spec) if spec.get('kind') == 'service' else one(spec)
     return out
 
 
 def render(data):
     src = '、'.join(f"{s['sha']} 的 {s['path']}" for s in SCRIPTS)
-    head = ('/* ===== 汀州路雜貨店的店內文字（TINGZHOU-SHOPS5-1110）——自動產生，不要手改 =====\n'
+    head = ('/* ===== 汀州路雜貨店、手機通訊行的店內文字（TINGZHOU-SHOPS5-1110）——自動產生，不要手改 =====\n'
             f'   來源：AA 的稿 {src}（AA 定稿 D109；白名單 docs/handoff/story_import_allow.json）。\n'
             '   產生：python3 tools/shops/import_tz_grocery.py（字一字照稿；door＝[說話的人, 字]；格式說明在那支工具開頭）。\n'
-            '   流程在 src/gg3shops3d.js（S.addGroceries、S.groceryShelf、S.groceryPay；買的東西記在 G.flags.GG3_OWN、選單「物品」看得到）；測試 node tests/tz_dongnan_aa823_1112_unit.js（逐字對稿）。 */\n')
+            '   流程在 src/gg3shops3d.js（S.addGroceries、S.groceryShelf、S.groceryPay、櫃台有服務的店 S.serviceCounter；買的東西記在 G.flags.GG3_OWN、選單「物品」看得到）；測試 node tests/tz_dongnan_aa823_1112_unit.js、node tests/tz_liantong_aa824_1112_unit.js（逐字對稿）。 */\n')
     body = 'const TZ_GROCERY_LINES={\n' + ',\n'.join(f'  {json.dumps(k)}:{json.dumps(v, ensure_ascii=False, separators=(",", ":"))}' for k, v in data.items()) + '\n};\n'
     body += 'TZ_GROCERY_LINES._src=' + json.dumps({s['zone']: {'sha': s['sha'], 'doc': s['path']} for s in SCRIPTS}, ensure_ascii=False, separators=(',', ':')) + ';\n'
     return head + "'use strict';\n" + body

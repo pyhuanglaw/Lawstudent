@@ -7972,6 +7972,15 @@
    "task": "TINGZHOU-SHOPS5-1110",
    "kind": "json",
    "note": "汀州路・東南大聯商行（tz_dongnan）店內文字（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n）：老闆進門三句、打烊、開門以前／打烊以後門口、錢不夠、十樣東西（名字、價錢、在哪個貨架、一句說明）、四個貨架的「看」、結帳（就這些嗎、買完兩句、手上沒東西、買了泡麵或辣醬那一句）；3d0ab9944（AA 11-12 回 LAWWW-C 七問）：椰子水、泰式奶茶兩句說明改寫、加拿起東西那一句（pick）、結帳「不用了」那一句（counter.cancel）——tools/shops/import_tz_grocery.py → src/data/tz_grocery_lines.js（流程 src/gg3shops3d.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_824_tz_liantong.json",
+   "sha": "2ec610d95",
+   "status": "approved",
+   "approvedBy": "AA（TINGZHOU-SHOPS5-1110）",
+   "task": "TINGZHOU-SHOPS5-1110",
+   "kind": "json",
+   "note": "汀州路・汀州聯通（tz_liantong）店內文字（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n）：店員進門三句、打烊、門口關著那一句、錢不夠、櫃台「今天要弄什麼？」三樣服務（檢測手機、貼保護貼、問門號方案：價錢、分鐘、句子）、五樣可以買的配件＋保護貼（已貼，只有貼了才有）、四個「看」、坐著等（坐下、等）、拿起、掛回去——tools/shops/import_tz_grocery.py → src/data/tz_grocery_lines.js（流程 src/gg3shops3d.js S.serviceCounter）"
   }
  ]
 }
