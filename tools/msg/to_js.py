@@ -73,7 +73,28 @@ def canon892(people):
     kx['rules']['otherText'] = ['開放：互加手機以後 A／R／L 三層；分開以後照 AA_881（AA_892 第 3 節）。'] + list(kx['rules'].get('otherText') or [])[1:]
 
 
+# CANON-NO-ECON-1112 第四批四（AA_901 第 7 項，AA-C 定稿；BB_434 P3）：可昕「深夜」那一則的第二句換地點。整則 msgs 一樣才換，對不到就停；換過的那一則多一格 c901＝稿的來源（tests/msg_chat_unit.js F 項改比稿）。
+C901_SRC = 'AA_901@13b99d5da8'
+C901 = [(['睡不著。', U892(r'\u5728\u6ed1\u5c71\u4e0b\u90a3\u5bb6\u5e97\u7684\u83dc\u55ae\u3002')], ['睡不著。', '在滑公館一家沒去過的店的菜單。'])]
+
+
+def canon901(people):
+    kx = people.get('kexin')
+    if not kx:
+        return
+    bad = []
+    for old, new in C901:
+        hit = [e for e in kx['replies'] if e.get('msgs') == old]
+        if len(hit) != 1:
+            bad.append('/'.join(old) + '：對到 %d 則' % len(hit)); continue
+        hit[0]['msgs'] = list(new)
+        hit[0]['c901'] = C901_SRC
+    if bad:
+        raise SystemExit('AA_901 第 7 項（CANON-NO-ECON-1112）：\n  ' + '\n  '.join(bad))
+
+
 canon892(d['people'])
+canon901(d['people'])
 src = d['source']
 L = ['/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 ' + '、'.join(k + '@' + v for k, v in src.items()) + '）。',
      '   產生器 tools/msg/build_pool.py → tools/msg/to_js.py（每一句照抄原文；tests/msg_chat_unit.js 第 F 項逐字比對 git 上的原文）。不要手改句子：改企劃、改產生器、重跑。',

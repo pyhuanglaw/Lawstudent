@@ -1,4 +1,4 @@
-/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@abb9609116；沛珊整段照 docs/story_planning/AA_755_peishan_arc.json@6b5507f8a；照 docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md 換字）。不要手改，改企劃 AA_712 再重新匯入。
+/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@abb9609116；沛珊整段照 docs/story_planning/AA_755_peishan_arc.json@6b5507f8a；照 docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md、docs/story_planning/AA_901_第四批二留下的十一件.md 換字）。不要手改，改企劃 AA_712 再重新匯入。
    女主角自己的故事線（8 拍；規則 BB_305；播放 src/arcs3d.js）*/
 'use strict';
 const HEROINE_ARCS={
@@ -342,14 +342,14 @@ const HEROINE_ARCS={
        },
        "reply": [
         "（她安靜了很久。）",
-        "不想待的地方？我好像沒有想過，我有沒有那種地方。"
+        "從來沒自己選過……我好像也是。"
        ],
        "ansId": "PL_SWITCH_STAY"
       }
      ],
      "cite": {
       "PL_SWITCH_STAY": [
-       "我想了一個禮拜，你說的「不想待的地方」。……我沒有。我好像真的喜歡這裡。"
+       "我想了一個禮拜，你說的『從來沒自己選過』。……研究所那一組，我想自己選。"
       ]
      }
     },
@@ -438,17 +438,16 @@ const HEROINE_ARCS={
        "ansId": "PL_TRUST_HER"
       },
       {
-       "t": "選錯也可以再改。我就改過一次。",
+       "t": "選錯也可以再改。改的時候比較難，可是改得了。",
        "rel": {
         "trust": 3,
         "npcRom": 1
        },
        "reply": [
         "你說得很輕鬆。",
-        "可是你真的改過。所以你說的，我信。"
+        "……可是你說得很確定。我先信你。"
        ],
-       "ansId": "PL_CAN_CHANGE",
-       "tell": "econ"
+       "ansId": "PL_CAN_CHANGE"
       },
       {
        "t": "我陪妳想。一組一組想。",
@@ -2955,5 +2954,5 @@ const HEROINE_ARCS={
   }
  },
  "overlay": "docs/story_planning/AA_755_peishan_arc.json@6b5507f8a",
- "canon": "docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md"
+ "canon": "docs/story_planning/AA_892_src對照表_arcs_r2y4b_msgpool.md、docs/story_planning/AA_901_第四批二留下的十一件.md"
 };
