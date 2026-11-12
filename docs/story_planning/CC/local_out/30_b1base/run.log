@@ -1,11 +1,11 @@
 [gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b1_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\30_b1base\out
 ==== CASE retake_skip（SHA a3b1bd647，http://127.0.0.1:8810/index.html?turbo）====
 PASS retake_skip：遊戲載入
-  [前置／捷徑] [前置] retake_skip：最小存檔 2030-08-04 07:00 公館（重考生、HOME_AFTER gongguan；exam_2030 沒演＝一試時間窗 8/3 08:00～8/4 06:00 已過、沒去考。【捷徑】理由：遊戲沒有「不去考」的選項，見檔頭）；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發、加入麵店團、傾向 A（F.LAWCLUB_SAT_VISITS=10;）→ {"lean": {"A": 10, "B": 0, "C": 0, "top": "A"}, "pgOn": true, "delayed": false, "retaker": true, "sits2029": true, "sits2030": true, "stage2029": "none", "zone": "gongguan", "day": "2030-08-04", "h": 7.009066000000003, "home": false}
+  [前置／捷徑] [前置] retake_skip：最小存檔 2030-08-04 07:00 公館（重考生、HOME_AFTER gongguan；exam_2030 沒演＝一試時間窗 8/3 08:00～8/4 06:00 已過、沒去考。【捷徑】理由：遊戲沒有「不去考」的選項，見檔頭）；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發、加入桌遊團、傾向 A（F.LAWCLUB_SAT_VISITS=10;）→ {"lean": {"A": 10, "B": 0, "C": 0, "top": "A"}, "pgOn": true, "delayed": false, "retaker": true, "sits2029": true, "sits2030": true, "stage2029": "none", "zone": "gongguan", "day": "2030-08-04", "h": 7.009066000000003, "home": false}
 PASS retake_skip：前置成立：畢業後篇（PG.on）、重考生（PG.retaker）、2030 會考（PG.sits 2030）、沒有延畢  {"flags": {"BAR_REG": true, "BAR_SIT_2029": true, "BAR_SCORE_2029": 5, "BAR_STAGE_2029": "none", "RETAKE_STYLE": "home", "GRADUATED": 1355, "MOVED_OUT": 1381, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": []}, "done": {"grad": 1, "exam_2029": 1, "r1_2029": 1, "b1": "missed", "b1_2030": "missed", "exam_2030": "missed", "r2y4b_rt_1020": "missed", "r2y4b_rt_1214": "missed", "r2y4b_rt_0109": "missed", "r2y4b_rt_0308": "missed", "r2y4b_rt_reg": "missed"}, "exam2030": "missed", "path": "A_none", "lean": {"A": 10, "B": 0, "C": 0, "top": "A"}, "pgOn": true, "retaker": true, "sits2030": true, "pendingExam": true, "epiCond": false, "due": null, "nextStop": 43599, "nextStopKey": "2030-09-06 15.00", "pending": ["first"], "title": false, "home": false, "clock": {"key": "2030-08-04", "h": 7.25, "zone": "gongguan"}, "nmsg": 3, "wf": 0}
   [  35.1s] retake_skip：讀檔後 exam_2030＝missed、pendingExam＝True、epi cond＝False、nextStop＝2030-09-06 15.00、pending＝["first"]
   [  57.6s] retake_skip：第一份工作（手機群組）畫面文字：‹ 訊息
-麵店團
+桌遊團
 8/3 07:30
 阿哲：出發
 8/3 07:31
@@ -48,7 +48,7 @@ PASS retake_saveload：重新整理後遊戲載入
   [前置／捷徑] retake_saveload：重新整理 → 標題「讀取／匯入存檔」→ 欄位 2「讀取」（欄位 2 9 月 6 日 15:00 · 公館 · 祐廷 2026/11/3 下午12:39:20 存檔 讀取）→ 讀進來 {"clock": {"key": "2030-09-06", "h": 15.009, "zone": "gongguan"}, "exam2030": "missed", "flags": {"BAR_REG": true, "BAR_SIT_2029": true, "BAR_SCORE_2029": 5, "BAR_STAGE_2029": "none", "RETAKE_STYLE": "home", "GRADUATED": 1355, "MOVED_OUT": 1381, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": []}, "pendingExam": true, "epiCond": false}
 PASS retake_saveload ②：讀欄位 2 以後 exam_2030 仍是 missed、沒有 BAR_SIT_2030、日期和存檔時一樣  {"slot": {"day": "2030-09-06", "h": 15.009, "zone": "gongguan", "home": false, "exam2030": "missed", "r1_2030": null, "first": null, "epi": null, "BAR_SIT_2029": true, "BAR_STAGE_2029": "none", "BAR_SIT_2030": null, "BAR_YEAR": null, "FIRST_DAY_SEEN": null, "EPILOGUE_DONE": null, "savedAt": 1793680760550}, "loaded": {"flags": {"BAR_REG": true, "BAR_SIT_2029": true, "BAR_SCORE_2029": 5, "BAR_STAGE_2029": "none", "RETAKE_STYLE": "home", "GRADUATED": 1355, "MOVED_OUT": 1381, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": []}, "done": {"grad": 1, "exam_2029": 1, "r1_2029": 1, "b1": "missed", "b1_2030": "missed", "r2y4b_rt_1020": "missed", "r2y4b_rt_1214": "missed", "r2y4b_rt_0109": "missed", "r2y4b_rt_0308": "missed", "r2y4b_rt_reg": "missed", "exam_2030": "missed"}, "exam2030": "missed", "path": "A_none", "lean": {"A": 10, "B": 0, "C": 0, "top": "A"}, "pgOn": true, "retaker": true, "sits2030": true, "pendingExam": true, "epiCond": false, "due": null, "nextStop": 44205, "nextStopKey": "2030-10-01 21.00", "pending": ["first"], "title": false, "home": false, "clock": {"key": "2030-09-06", "h": 15.009, "zone": "gongguan"}, "nmsg": 6, "wf": 0}}
   [4329.3s] retake_saveload_seg3：第一份工作（手機群組）畫面文字：‹ 訊息
-麵店團
+桌遊團
 8/3 07:30
 阿哲：出發
 8/3 07:31
