@@ -239,8 +239,20 @@ const E3 = (function(){
   E.screenToGround=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); const hit=new THREE.Vector3(); if(E.ray.ray.intersectPlane(E.groundPlane,hit)) return hit; return null; };
   // 點地面（v9.4）：多樓層／有高度的區域，先打「看得到的地板」（zone.walkMeshes，userData.walkLv＝第幾層）；打不到就用玩家那一層的基本地板高度的平面
   E.screenToFloor=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); E.ray.near=0; E.ray.far=Infinity; const P=E.player; const wm=E.zone&&E.zone.walkMeshes;
-    if(wm&&wm.length){ const vis=wm.filter(m=>{ for(let o=m;o;o=o.parent){ if(!o.visible) return false; } return true; }); const hits=E.ray.intersectObjects(vis,false); if(hits.length){ const h=hits[0]; return {x:h.point.x,z:h.point.z,y:h.point.y,lv:h.object.userData.walkLv|0,obj:h.object}; } }
+    if(wm&&wm.length){ const vis=wm.filter(m=>{ for(let o=m;o;o=o.parent){ if(!o.visible) return false; } return true; }); const hits=E.ray.intersectObjects(vis,false); if(hits.length){ const h=E.tapThroughEdge(hits,vis)||hits[0]; return {x:h.point.x,z:h.point.z,y:h.point.y,lv:h.object.userData.walkLv|0,obj:h.object}; } }
     const lv=P?P.lv|0:0, n=navOf(lv); const fy=n?n.y0:0; const pl=new THREE.Plane(UP,-fy); const hit=new THREE.Vector3(); if(E.ray.ray.intersectPlane(pl,hit)) return {x:hit.x,z:hit.z,y:fy,lv}; return null; };
+  /* FLOWER-2F-TAPNAV-1112（LAWWW2-C；CC SSB_gg2_r2：花序二樓起身後點一樓門口「離開花序」，點 13～16 次人都停在二樓欄杆前 (−0.76,−0.07)）：
+     從二樓往挑高看下去，射線先打到二樓樓板最外緣那一條，找路只能走到欄杆前、永遠下不了樓（樓板邊緣後面就是一樓）。
+     第一個打到的點離樓板邊緣不到 0.5 m（沿射線再往前 0.5 m 就沒有那一層的地板）、射線後面打到別層的地板、而且那一點正上方沒有那一層的樓板＝改用後面那一點。
+     二樓點桌子、靠牆（往前 0.5 m 還是二樓地板）照舊是二樓，不會被送下樓；樓梯照舊（stairEnds）*/
+  const _upRay=new THREE.Raycaster(), _down=new THREE.Vector3(0,-1,0);
+  const _covered=(ms,x,z,y)=>{ _upRay.set(new THREE.Vector3(x,y+1.5,z),_down); _upRay.near=0; _upRay.far=2.0; return _upRay.intersectObjects(ms,false).length>0; };
+  E.tapThroughEdge=function(hits,vis){ const h=hits[0]; if(!E.canStand||hits.length<2||!h||h.object.userData.stairEnds) return null; const lv0=h.object.userData.walkLv|0;
+    const same=vis.filter(m=>(m.userData.walkLv|0)===lv0&&!m.userData.stairEnds), dx=hits[1].point.x-h.point.x, dz=hits[1].point.z-h.point.z, dl=Math.hypot(dx,dz);   /* 射線的水平方向（後面那一點減第一點）*/ if(dl<1e-3) return null;
+    if(_covered(same,h.point.x+dx/dl*0.5,h.point.z+dz/dl*0.5,h.point.y)) return null;   /* 往前 0.5 m 還是這一層的地板＝不是樓板邊緣 */
+    for(let i=1;i<hits.length;i++){ const q=hits[i], lv=q.object.userData.walkLv|0; if(q.object.userData.stairEnds) return null; if(lv===lv0) continue;   /* 中間先打到樓梯（樓梯井旁邊）＝照舊，不穿過樓梯 */   /* 那一點本身站不住（門口觸發點）也可以：找路會走到最近站得住的地方 */
+      if(_covered(same,q.point.x,q.point.z,h.point.y)) continue; return q; }
+    return null; };
   E.screenRay=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); return E.ray; };
   /* 畫面上那一點射線第一個打到的東西（TAP-RAY-SEAT-1111，LAWWW2 11-11；game3d.js tapToSeat 判「點到哪張椅子」用）：只打區域的模型（E.zone.group，人不算），
      不算：自己或上層 visible=false 的（淡出的牆 hideFaded、藏起來的備用模型、別層）、材質不畫的（visible=false、colorWrite=false）、半透明的（玻璃：opacity<0.5）、userData.noTapHit。

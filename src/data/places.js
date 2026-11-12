@@ -39,7 +39,11 @@ const PLACES={
     /* 溫州書屋（原本的巷口書房；AA_658 第 5 節，企劃線 6ee7ea3a5）：不能進去，週二～週日 10:00–20:00、週一公休、颱風天關；櫥窗那一句照這裡換（src/wzshops3d.js S.booksLook）*/
     wz_books:{shop:true,rules:{week:[[10,20],null,[10,20],[10,20],[10,20],[10,20],[10,20]]},text:'10:00–20:00；週一公休'},
     wz_tea:{shop:true,rules:{week:[[10,22],[10,22],[10,22],[10,22],[10,22],[10,22],[10,22]]},text:'每天 10:00–22:00'},
-    wz_ice:{shop:true,rules:{week:[[12,21],null,[12,21],[12,21],[12,21],[12,21],[12,21]],months:[5,6,7,8,9]},text:'5～9 月 12:00–21:00；週一公休'},
+    /* 夏日冰菓室（AA-C 11-12 15:23 回 LAWWW：全年營業、冬天不休；5～10 月 12:00–22:00、11～4 月 12:00–20:00；週二公休。冬天照現有菜單，不加品項）。取代 AA_164 1-2 的「只開 5～9 月」。
+       rules.alt＝{months, week}：這幾個月改用另一張週表 */
+    wz_ice:{shop:true,rules:{week:[[12,22],[12,22],null,[12,22],[12,22],[12,22],[12,22]],alt:{months:[11,12,1,2,3,4],week:[[12,20],[12,20],null,[12,20],[12,20],[12,20],[12,20]]}},text:'5～10 月 12:00–22:00、11～4 月 12:00–20:00；週二公休'},
+    /* 阿忠鮮果（溫州街騎樓水果攤，src/wzshops3d.js S.AA413.fruit；AA-C 11-12 15:23：每天 10:00–21:00、週一公休＝水果市場休市補貨；颱風天照其他店）*/
+    wz_fruit:{shop:true,rules:{week:[[10,21],null,[10,21],[10,21],[10,21],[10,21],[10,21]]},text:'10:00–21:00；週一公休'},
     /* 木曜日（AA_617 第 3 節，使用者 11-03 同意；區域 wz_mokuyobi，溫州街 B4 二樓）：13:00–22:00、週二公休；颱風天關（typhoonShops）。打烊時人還在店裡＝src/mokuyobi_sys3d.js 請你出來 */
     wz_mokuyobi:{shop:true,rules:{week:[[13,22],[13,22],null,[13,22],[13,22],[13,22],[13,22]]},text:'13:00–22:00；週二公休'},
     /* 日常失速（AA_617 第 3 節；區域 wz_offbeat，溫州街轉角 W2 一樓）：每天 13:00–01:00（跨午夜照兩點半 Café 的 open／close）；颱風天關；打烊人在店裡＝src/offbeat_sys3d.js 請你出來 */
@@ -93,7 +97,8 @@ const PLACES={
   windowsOf(zone,day){ const o=PLACES.hours[zone]; if(!o||!o.rules) return undefined; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G&&GAME.G.day)||1;
     if(!o.rules.week){ const w=PLACES.windowOf(zone,day); return w?[w]:null; }
     if(!PLACES.inSeason(zone,day)) return null;
-    const w=typeof CALENDAR==='undefined'?(o.rules.week[1]||o.rules.week[3]):o.rules.week[CALENDAR.dateOf(day).wd%7]; if(!w) return null;
+    const WK=(o.rules.alt&&typeof CALENDAR!=='undefined'&&o.rules.alt.months.includes(CALENDAR.dateOf(day).m))?o.rules.alt.week:o.rules.week;   /* rules.alt：這幾個月換一張週表（夏日冰菓室冬天）*/
+    const w=typeof CALENDAR==='undefined'?(WK[1]||WK[3]):WK[CALENDAR.dateOf(day).wd%7]; if(!w) return null;
     const ws=(typeof w[0]==='number'?[w]:w).map(x=>x.slice());
     if(o.rules.examClose&&typeof CALENDAR!=='undefined'){ const t=CALENDAR.termOf(day); if(t&&t.exam) ws[ws.length-1]=[ws[ws.length-1][0],o.rules.examClose]; }   /* 影印店考試週開到 24:00 */
     if(o.rules.finalsClose&&typeof CALENDAR!=='undefined'&&PLACES.finalsNear(day)) ws[ws.length-1]=[ws[ws.length-1][0],o.rules.finalsClose];   /* 印得好：期末考週和前一週開到 24:00（AA_742）*/
@@ -103,7 +108,7 @@ const PLACES={
   /* 颱風假店家不開（AA_160 3-4 D，AA-B 2026-10-16：颱風假不能搭捷運、店家不開、不能打工、不能回家）；便利商店照開 */
   /* 期末考週或期末考的前一週（同一個學期；印得好的 finalsClose、src/gg3shops3d.js 的「裝訂期末報告」）*/
   finalsNear(day){ if(typeof CALENDAR==='undefined'||!CALENDAR.termOf) return false; const t=CALENDAR.termOf(day); if(!t) return false; if(t.exam==='final') return true; const n=CALENDAR.termOf(day+7); return !!n&&n.id===t.id&&n.exam==='final'; },
-  typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_books','wz_mokuyobi','wz_offbeat','afar','daybreak','aoki','xs_tongxian','yangyang','corner_records',
+  typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_fruit','wz_books','wz_mokuyobi','wz_offbeat','afar','daybreak','aoki','xs_tongxian','yangyang','corner_records',
     'gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_xile','tz_yindehao','tz_yuehaochi','tz_dongnan','tz_liantong','tz_keju',
     'xs_nanyang','xs_shanlan','xs_dabu','xs_haopai','xs_xsports','flower_notes','tz_limao','l118_dian','l118_self','l118_tea','l118_home','l118_cafe2','l118_korea','l118_noodle2'],   /* 店面標準 §12 第 5 點（SHOP-STANDARD-BACKFILL-1112）：颱風假一律不開；門口那一句＝PLACES.closedText 現有的 */   /* 公館三間＋汀州路三間（GG-SHOPS3-SYS-1110；洗樂 24 小時也照 AA_742「一律關比較穩」）*/
   typhoonClosed(zone,day){ if(!PLACES.typhoonShops.includes(zone)) return false; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G)?GAME.G.day:null; return day!=null&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(day); },

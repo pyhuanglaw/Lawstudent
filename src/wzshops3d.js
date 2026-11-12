@@ -220,7 +220,8 @@ const WZS=(()=>{
         7:'（社區通知：颱風天請收好陽台的衣服。）',8:'（社區通知：颱風天請收好陽台的衣服。）'},
       at:{x:-18.6,z:-3.8},boardAt:{x:-16.65,z:-3.8}} };   /* 布告欄：B2 門右邊的玻璃上（wz_shopkit cork_board，世界 x −17.1～−16.2）*/
   S.fruitMenu=G=>{ const m=month(G); return S.AA413.fruit.menu.filter(x=>!x[2]||x[2](m)); };
-  S.fruitOpen=G=>{ const h=((hr(G)%24)+24)%24, o=S.AA413.fruit.open; return h>=o[0]&&h<o[1]; };
+  S.fruitOpen=G=>{ const h=((hr(G)%24)+24)%24; if(typeof PLACES!=='undefined'&&PLACES.hours&&PLACES.hours.wz_fruit&&PLACES.isOpen) return PLACES.isOpen('wz_fruit',h,G&&G.day);   /* AA-C 11-12：10:00–21:00、週一公休、颱風天不開（places.js wz_fruit）*/
+    const o=S.AA413.fruit.open; return h>=o[0]&&h<o[1]; };
   S.boardLine=G=>S.AA413.laundry.board[month(G)]||'';
   S.items413=function(){ const A=S.AA413; return [
     {x:A.cvs.enter.x,z:A.cvs.enter.z,radius:1.2,label:'進入日和便利店',wzShop:'cvs413',kind:'enter'},
