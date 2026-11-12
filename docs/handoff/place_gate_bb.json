@@ -7,15 +7,142 @@
   "src": "docs/story_planning/BB_379_地點關卡驗收表.md（BB 分支 claude/wonderful-mayer-7fm9g6）"
  },
  "shops": [
-  {"zone": "tz_taimi", "sha": "27710fb967", "verdict": "部分", "fail": ["②客人 0"], "pending": ["⑦a", "⑦b"], "at": "2026-11-12T05:4x", "ref": "BB_379 11-12 05:4x"},
-  {"zone": "tz_dongnan", "sha": "27710fb967", "verdict": "部分", "fail": ["②客人 0"], "pending": ["⑦a", "⑦b"], "note": "商品彩色方塊＝意見（D141 不擋）", "at": "2026-11-12T05:4x", "ref": "BB_379 11-12 05:4x"},
-  {"zone": "tz_liantong", "sha": "27710fb967", "verdict": "部分", "fail": ["②客人 0"], "pending": ["⑦a", "⑦b"], "at": "2026-11-12T05:4x", "ref": "BB_379 11-12 05:4x"},
-  {"zone": "xs_dabu", "sha": "207a8216d9", "verdict": "FAIL", "fail": ["⑦b 櫥窗灰白牆 vs 店內淺木牆木地板（使用者 11-12 06:4x 指出）"], "pending": ["SHOP-REAL-INSIDE f8a00372bb 重判"], "at": "2026-11-12T06:5x", "ref": "BB_379 更正"},
-  {"zone": "xs_haopai", "sha": "42c493ca27", "verdict": "FAIL", "fail": ["⑦b 櫥窗白牆展示盒 vs 店內米色洞洞板球拍牆", "14:00 按離開還在店裡（待重現）"], "pending": ["SHOP-REAL-INSIDE 重判", "閃", "1b"], "at": "2026-11-12T07:2x", "ref": "BB_379 第 2 包"},
-  {"zone": "xs_xsports", "sha": "42c493ca27", "verdict": "部分", "fail": [], "pending": ["閃", "22:00 是否已打烊"], "at": "2026-11-12T07:2x", "ref": "BB_379 第 2 包"},
-  {"zone": "xs_shanlan", "sha": "42c493ca27", "verdict": "FAIL", "fail": ["14:00、20:30 按離開還在店裡（待重現）", "②14:00 客人 0"], "pending": [], "at": "2026-11-12T07:2x", "ref": "BB_379 第 2 包"},
-  {"zone": "xs_tongxian", "sha": "42c493ca27", "verdict": "部分", "fail": [], "pending": ["閃"], "note": "③沒有對外窗、門上霧玻璃＝例外", "at": "2026-11-12T07:2x", "ref": "BB_379 第 2 包"},
-  {"zone": "xs_dakou", "sha": "42c493ca27", "verdict": "部分", "fail": [], "pending": ["閃", "1b 店員卡櫃台／客人面壁近照"], "at": "2026-11-12T07:2x", "ref": "BB_379 第 2 包"},
-  {"zone": "xs_nanyang", "sha": "42c493ca27", "verdict": "FAIL", "fail": ["⑦a 門面三角度一樣＝照片貼圖", "⑦b 店外暗綠褐 vs 店內紅地毯橘牆"], "pending": ["1b"], "at": "2026-11-12T07:2x", "ref": "BB_379 第 2 包"}
+  {
+   "zone": "tz_taimi",
+   "sha": "98ec5b0f66",
+   "verdict": "FAIL",
+   "fail": [
+    "⑦a 店外三個角度櫥窗內容一模一樣＝店內照片貼圖",
+    "⑦b 店外看到滿牆藤蔓盆栽、暖黃木頭；店內是米色素牆、沒有植物"
+   ],
+   "pending": [
+    "閃（機器 UNKNOWN）"
+   ],
+   "note": "①店員 3、②客人 2、③窗景、⑥天花板 PASS",
+   "at": "2026-11-12T07:3x",
+   "ref": "BB_379 11-12 07:3x"
+  },
+  {
+   "zone": "tz_dongnan",
+   "sha": "98ec5b0f66",
+   "verdict": "FAIL",
+   "fail": [
+    "⑦a 店外三個角度貨架一模一樣＝照片貼圖",
+    "⑦b 店外是真實的零食包裝貨架；店內是紅藍黃粉的方塊",
+    "④ 店內商品用彩色方塊充數（D155 §12 第 2 點；我 05:4x 寫成 D141 意見＝判錯，更正）"
+   ],
+   "pending": [
+    "閃（機器 UNKNOWN）"
+   ],
+   "note": "①店員 1、②客人 2、③窗景、⑥天花板 PASS",
+   "at": "2026-11-12T07:3x",
+   "ref": "BB_379 11-12 07:3x"
+  },
+  {
+   "zone": "tz_liantong",
+   "sha": "98ec5b0f66",
+   "verdict": "FAIL",
+   "fail": [
+    "⑦a 店外三個角度一模一樣＝照片貼圖"
+   ],
+   "pending": [
+    "④ 牆上手機殼是薄的彩色長方塊，疑似方塊充數，要近照",
+    "閃（機器 UNKNOWN）"
+   ],
+   "note": "⑦b 顏色對得上（白牆藍條）；①店員 1、②客人 1、③窗景、⑥天花板 PASS",
+   "at": "2026-11-12T07:3x",
+   "ref": "BB_379 11-12 07:3x"
+  },
+  {
+   "zone": "xs_dabu",
+   "sha": "207a8216d9",
+   "verdict": "FAIL",
+   "fail": [
+    "⑦b 櫥窗灰白牆 vs 店內淺木牆木地板（使用者 11-12 06:4x 指出）"
+   ],
+   "pending": [
+    "SHOP-REAL-INSIDE f8a00372bb 重判"
+   ],
+   "at": "2026-11-12T06:5x",
+   "ref": "BB_379 更正"
+  },
+  {
+   "zone": "xs_haopai",
+   "sha": "42c493ca27",
+   "verdict": "FAIL",
+   "fail": [
+    "⑦b 櫥窗白牆展示盒 vs 店內米色洞洞板球拍牆",
+    "14:00 按離開還在店裡（待重現）"
+   ],
+   "pending": [
+    "SHOP-REAL-INSIDE 重判",
+    "閃",
+    "1b"
+   ],
+   "at": "2026-11-12T07:2x",
+   "ref": "BB_379 第 2 包"
+  },
+  {
+   "zone": "xs_xsports",
+   "sha": "42c493ca27",
+   "verdict": "部分",
+   "fail": [],
+   "pending": [
+    "閃",
+    "22:00 是否已打烊"
+   ],
+   "at": "2026-11-12T07:2x",
+   "ref": "BB_379 第 2 包"
+  },
+  {
+   "zone": "xs_shanlan",
+   "sha": "42c493ca27",
+   "verdict": "FAIL",
+   "fail": [
+    "14:00、20:30 按離開還在店裡（待重現）",
+    "②14:00 客人 0"
+   ],
+   "pending": [],
+   "at": "2026-11-12T07:2x",
+   "ref": "BB_379 第 2 包"
+  },
+  {
+   "zone": "xs_tongxian",
+   "sha": "42c493ca27",
+   "verdict": "部分",
+   "fail": [],
+   "pending": [
+    "閃"
+   ],
+   "note": "③沒有對外窗、門上霧玻璃＝例外",
+   "at": "2026-11-12T07:2x",
+   "ref": "BB_379 第 2 包"
+  },
+  {
+   "zone": "xs_dakou",
+   "sha": "42c493ca27",
+   "verdict": "部分",
+   "fail": [],
+   "pending": [
+    "閃",
+    "1b 店員卡櫃台／客人面壁近照"
+   ],
+   "at": "2026-11-12T07:2x",
+   "ref": "BB_379 第 2 包"
+  },
+  {
+   "zone": "xs_nanyang",
+   "sha": "42c493ca27",
+   "verdict": "FAIL",
+   "fail": [
+    "⑦a 門面三角度一樣＝照片貼圖",
+    "⑦b 店外暗綠褐 vs 店內紅地毯橘牆"
+   ],
+   "pending": [
+    "1b"
+   ],
+   "at": "2026-11-12T07:2x",
+   "ref": "BB_379 第 2 包"
+  }
  ]
 }

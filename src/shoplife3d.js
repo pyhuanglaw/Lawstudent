@@ -79,6 +79,14 @@ const SHOPLIFE=(function(){
       const sp=Object.assign({},STORY.extraSpec(40+hash('tend|'+zoneId+'|'+q.id)%50)); sp.bag=null; const o=CHAR.build(sp); if(!o) continue; o.position.set(c.x,0,c.z); o.rotation.y=c.yaw||0; o.visible=q.isOpen!==false;
       E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,stallKeeper:q.id,_stall:q}); k++; }
     return k; };
+  /* 118 巷兩間外帶（沒有室內）的櫃台後面有人（站位 LAWWW2-C 2026-11-12 照街景模型量的，還沒在畫面上驗）；沒開（L118.isOpen）就不在 */
+  S.L118_TENDER={drink_a:{x:6.05,z:-3.6,yaw:-P/2},drink_b:{x:-6.05,z:-6.9,yaw:P/2}};
+  S.placeL118Tenders=function(zoneId,GM){ const E=GM&&GM.E; if(zoneId!=='lane118'||!E||!E.addNPC||typeof CHAR==='undefined'||!CHAR.build||typeof STORY==='undefined'||!STORY.extraSpec) return 0; let k=0;
+    for(const id of Object.keys(S.L118_TENDER)){ if((E.npcs||[]).some(n=>n&&n.stallKeeper===id)) continue; const c=S.L118_TENDER[id];
+      const sp=Object.assign({},STORY.extraSpec(40+hash('tend|lane118|'+id)%50)); sp.bag=null; const o=CHAR.build(sp); if(!o) continue; o.position.set(c.x,0,c.z); o.rotation.y=c.yaw;
+      const q={get isOpen(){ try{ return typeof L118==='undefined'||!L118.isOpen||!GM.G||!!L118.isOpen(id,GM.G); }catch(e){ return true; } }}; o.visible=q.isOpen!==false;
+      E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,stallKeeper:id,_stall:q}); k++; }
+    return k; };
   S.tendSync=function(GM){ const E=GM&&GM.E; if(!E||!E.npcs) return; for(const n of E.npcs) if(n&&n.stallKeeper!=null&&n._stall&&n.obj) n.obj.visible=n._stall.isOpen!==false; };
   /* 沒開的時候店裡不站店員（店面標準 §12 第 1 點「打烊看得出來關了」，L118-CLOSED-LOOKS-OPEN-1112）：進區域的時候、之後每 0.5 秒對一次；
      只拿掉店員（n.clerk、不是登場人物；登場人物照自己的作息）；店再開的時候下一次進店會照原本的做法放回來。*/
@@ -215,7 +223,7 @@ const SHOPLIFE=(function(){
       STORY.populate=function(zoneId,GM){ try{ if(GM&&GM.E) S.attachSeats(GM.E); }catch(e){ console.warn('SHOPLIFE.attachSeats',e); }
         const r=p0.apply(this,arguments);
         try{ S.placeClerk(zoneId,GM); }catch(e){ console.warn('SHOPLIFE.placeClerk',e); }
-        try{ S.placeTenders(zoneId,GM); S.tendSync(GM); S.closeClerks(zoneId,GM); }catch(e){ console.warn('SHOPLIFE.placeTenders',e); }
+        try{ S.placeTenders(zoneId,GM); S.placeL118Tenders(zoneId,GM); S.tendSync(GM); S.closeClerks(zoneId,GM); }catch(e){ console.warn('SHOPLIFE.placeTenders',e); }
         return r; }; }
     return true; };
   S._reset=()=>{ guard=false; depth=0; planMemo.clear(); entMemo.clear(); };
