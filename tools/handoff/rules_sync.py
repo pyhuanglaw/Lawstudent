@@ -136,7 +136,7 @@ def main():
         json.dump(have, open(sp, 'w'), ensure_ascii=False, indent=2)
         open(sp, 'a').write('\n')
         git('add', '.claude/settings.json')
-    print(f'規則包已換成 origin/{rs} 的版本（{len(df)} 個檔）。接著：git commit -m "規則包同步 RULE_SOURCE {rs}" 再 push；hook 要重開工作階段或開 /hooks 才生效。')
+    print(f'規則包已換成 origin/{rs} 的版本（{len(df)} 個檔）。接著：git commit -m "規則包同步 RULE_SOURCE {rs}" 再 push；hook 要重開工作階段才生效（/hooks 只有終端機版 Claude Code 能用，網頁／App 版不能）。')
     return 0
 
 
