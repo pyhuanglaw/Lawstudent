@@ -1,7 +1,7 @@
 /* ===== 每一間店都要有人（SHOP-LIFE-AUDIT-1112，USER_WANTS X356；使用者 2026-11-12：「泰米沒有店員」「你要每一家店都看他有沒有店員、有沒有安排客人在裡面、
    有沒有讓我巧遇同學的機會、有沒有打工」「118 巷就是要很容易遇到同學，現在店裡甚至都沒有人」）=====
    盤點表：docs/handoff/SHOP_LIFE_AUDIT_1112.md。**這個檔沒有任何一句台詞**（玩家看得到的字一個都沒有加）；要新句子的列在盤點表「要 AA 寫的」。
-   三件事（index.html 裡排在所有會放店員、會加作息的模組後面——bbpack_events.js 前面；包住 STORY.populate、永遠排在 STORY.SCHED_X 的最後一個）：
+   三件事（index.html 裡排在所有會放店員、會加作息的模組後面——campus_l123_3d.js 前面（它和 bbpack 那幾支的順序別的測試鎖住了）；包住 STORY.populate、永遠排在 STORY.SCHED_X 的最後一個）：
 
    1 店員（S.placeClerk）：換到一間店（STORY.populate 全部做完以後）、店開著（PLACES.isOpen；沒寫營業時間的店＝整天）、店裡還沒有任何店員（n.clerk；別的模組放的優先）、
      找得到店員站的位置（S.clerkSpot）＝放一個路人底模站在那裡（不說話、不放按鈕；結帳照原本的互動點）。位置都讀配置，不另外寫座標：

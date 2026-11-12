@@ -34,8 +34,8 @@ for(const f of FILES){ if(/three-vrm|lz-string/.test(f)) continue; let src;
   try{ vm.runInThisContext(src,{filename:f}); }catch(e){ loadErr.push(f+'：'+String(e&&e.message||e).slice(0,160)); } }
 check('1 index.html 的程式全部載得進來（'+FILES.length+' 支）',!loadErr.length&&typeof GAME!=='undefined'&&typeof GAME._test==='function'&&typeof STORY!=='undefined'&&typeof CROWD!=='undefined',loadErr.slice(0,5).join(' | '));
 { const at=f=>FILES.indexOf(f), me=at('src/shoplife3d.js'), before=['src/crowd3d.js','src/shopenc3d.js','src/gg3shops3d.js','src/shopnpc3d.js','src/flower_notes_sys3d.js','src/xsshop_sys3d.js','src/limao3d.js','src/tz_shops3d.js'].filter(f=>at(f)>=0);
-  /* 會放店員的模組都要在它前面（它包在他們的 STORY.populate 外面：別人放了店員就不再放）。它後面只有 BB 補的事件包那幾支（index.html 的順序別的測試有規定：bbpack3d.js 要緊接 GAME.boot()）*/
-  const after=FILES.slice(me+1).filter(f=>!/^src\/(data\/bbpack_events|bbpack3d|data\/sup497_lines|sup497_3d|aa524_3d|onetap3d)\.js$/.test(f));
+  /* 會放店員的模組都要在它前面（它包在他們的 STORY.populate 外面：別人放了店員就不再放）。它後面只有校園的電梯那一支、BB 補的事件包那幾支（index.html 的順序別的測試有規定：campus_l123_3d.js 要緊接 bbpack_events.js、bbpack3d.js 要緊接 GAME.boot()）*/
+  const after=FILES.slice(me+1).filter(f=>!/^src\/(campus_l123_3d|data\/bbpack_events|bbpack3d|data\/sup497_lines|sup497_3d|aa524_3d|onetap3d)\.js$/.test(f));
   check('1 SHOPLIFE 載入了：排在所有會放店員的模組後面（index.html；後面只剩 BB 的事件包、一鍵那幾支）',typeof SHOPLIFE!=='undefined'&&me>=0&&before.every(f=>at(f)<me)&&!after.length,after.join(' ')||('第 '+(me+1)+'／'+FILES.length+' 支')); }
 if(typeof SHOPLIFE==='undefined'||typeof GAME==='undefined'||!GAME._test){ console.log('FAILED '+fails); process.exit(1); }
 { const code=fs.readFileSync(path.join(ROOT,'src/shoplife3d.js'),'utf8').replace(/\/\*[\s\S]*?\*\//g,'');   /* 拿掉註解以後 */
