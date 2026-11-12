@@ -71,6 +71,7 @@ async def talk(pg, cdp, want):
     return lines
 
 
+PATHSCAN = [float(v) for v in os.environ.get('PATHSCAN').split(',')] if os.environ.get('PATHSCAN') else None   # x0,z0,x1,z1,step
 STUCKSHOT = (os.environ.get('STUCKSHOT') or '0') == '1'   # 11-13 BB-C：卡住 4 秒當下截圖（遊戲鏡頭＋正上方往下看）＋列 1.2 m 內的網格，看是什麼擋住
 NEAR_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, mine=new Set(); E.player.obj.traverse(o=>mine.add(o)); const out=[]; const b=new THREE.Box3(), v=new THREE.Vector3();
   E.scene.traverse(o=>{ if(!o.isMesh||mine.has(o)||o.visible===false) return; try{ b.setFromObject(o); }catch(e){ return; } if(b.isEmpty()) return;
@@ -139,6 +140,16 @@ async def main():
         R.setup('【前置／捷徑】讀檔到 %s %s %.1f%s（條件事件關掉）' % (ZONE, DAY, HOUR, (' (%s, %s) lv%d' % (X, Z, LV)) if X is not None else '（出生點）'))
         if not R.check('讀到 %s' % ZONE, s['zone'] == ZONE, J(s)): await b.close(); sys.exit(1)
         if STUCKSHOT: R.note('screenToFloor 記錄：%s' % (await pg.evaluate(S2F_HOOK)))
+        if PATHSCAN:   # 11-13 LAWWW-C：E.pathTo 起點到終點的回傳；再從起點往終點每 STEP m 試一次，記第一個回 null 的點（nav 格子斷在哪）
+            ps = await pg.evaluate("""((a)=>{ const E=GAME.E, [x0,z0,x1,z1,st]=a, lv=E.player.lv|0, out={full:null, steps:[], firstNull:null};
+              const pp=r=>r?{n:r.length, head:r.slice(0,3), tail:r.slice(-3)}:null;
+              try{ out.full=pp(E.pathTo(x0,z0,lv,x1,z1,lv)); }catch(e){ out.full='ERR '+String(e).slice(0,80); }
+              const L=Math.hypot(x1-x0,z1-z0), n=Math.max(1,Math.ceil(L/st));
+              for(let i=1;i<=n;i++){ const t=Math.min(1,i*st/L), x=x0+(x1-x0)*t, z=z0+(z1-z0)*t; let r=null; try{ r=E.pathTo(x0,z0,lv,x,z,lv); }catch(e){}
+                const free=E.nav&&E.nav.free?!!E.nav.free(x,z):null, stand=E.canStand?!!E.canStand(x,z,0.3,lv):null;
+                out.steps.push([+x.toFixed(2),+z.toFixed(2),r?r.length:null,free,stand]); if(!r&&out.firstNull===null) out.firstNull=[+x.toFixed(2),+z.toFixed(2)]; }
+              return out; })""", PATHSCAN)
+            R.note('E.pathTo 掃描 %s：%s' % (PATHSCAN, J(ps)))
         res['steps'].append({'k': 0, 'kind': 'start', 's': await record(pg, 0, 'start')})
         for k, step in enumerate(ROUTE, 1):
             kind, _, arg = step.partition(':'); t = '[%02d %s]' % (k, step); out = {'k': k, 'step': step}
