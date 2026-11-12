@@ -122,15 +122,15 @@ await sec(3,async()=>{
   const kd=async(key,fl)=>{ fresh('2026-09-10',12,'dorm',Object.assign({dating_kexin:true,KX_MET_NOODLE_TEAM:true},fl||{})); H.CLOSE(PS); ROM.start(H.G,PS); setT(key,19); learn(KX,PS,'slip:zhe@x'); H.G.hour=21.6; H.picks=['是我的錯']; await play(due()); clr(); };
   await kd('2026-10-05');
   setT('2026-10-07',16.9); check('3. 發現後第 2 天 17:00 以前沒有',!due()); H.G.hour=17.1; await play(due());
-  check('3. 《本來想傳給你》前半（AA_227 5-3）＋她傳「（照片）」「……你不要回。」',seq(['（木柵大學，下課。系館前面有一隻貓躺在機車坐墊上，睡得四腳朝天。）','（她拍了一張，打開和你的對話。打了「你看」。）','（她停住，把字刪掉。）','（走到山下的時候，她又打開對話，把照片傳出去。）']));
+  check('3. 《本來想傳給你》前半（AA_227 5-3）＋她傳「（照片）」「……你不要回。」',seq(['（法律系館，下課。系館前面有一隻貓躺在機車坐墊上，睡得四腳朝天。）','（她拍了一張，打開和你的對話。打了「你看」。）','（她停住，把字刪掉。）','（走到山下的時候，她又打開對話，把照片傳出去。）']));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   PHONE.tick(H.G); check('3. 手機：「（照片）」「……你不要回。」（可以回）',J(msgs('p:'+KX).slice(-2))===J(['（照片）','……你不要回。']));
   PHONE.answer(H.G,'mrel_kx_photo_'+STORY.dayOfKey('2026-10-05'),0); X().phone(H.G,GM); H.G.hour=17.4; X().phone(H.G,GM); PHONE.tick(H.G);
   check('3. 回了：10 分鐘後「明天晚上，公館。你出來。」、隔天 19:00 公館',msgs('p:'+KX).includes('明天晚上，公館。你出來。')&&!!OUT.get(H.G,'mrel_kexin_back_'+STORY.dayOfKey('2026-10-08')));
   setT('2026-10-08',19); clr(); await runOut('mrel_kexin_back_'+H.G.day);
   check('3. 後半（原文）「我真的很討厭你。」……「我真的快被你氣死。」（交往不到一年＝不哭：她把吸管咬扁了。）',seq(['我真的很討厭你。','我知道。','你不知道。','（她安靜了一會兒。）','我本來想說不要再見你了。','……','可是我今天看到一個東西，又想傳給你。','我真的快被你氣死。','（她把吸管咬扁了。）']),J(T()));
   H.G.events.done.ev_y0_e37=1; clr(); H.picks=['我不想失去妳']; let a=X().meetAction(H.G,KX,'out'); await a.run(GM);
-  check('3. 下一次見面《我們以前不是這樣的》＋經歷過的事（經濟系版演過導遊）＋「我不想失去妳。」→「那你早幹嘛去了。」（她瞪你，眼睛紅了）「……我也不想。」',
-    seq(['我那天真的氣到不想再看到你。','嗯。','可是我回去想一想，又覺得很不甘心。','什麼不甘心？','我們好不容易才走到現在欸。','你第一次來木柵大學，我說我是導遊，結果我們兩個一起迷路。','你知道嗎？','我知道。','你不要一直說你知道。','你如果真的知道，怎麼會這樣？','那你早幹嘛去了。','（她瞪你，眼睛紅了）','……我也不想。']),J(T()));
+  check('3. 下一次見面《我們以前不是這樣的》＋經歷過的事（e37 那一條照 AA_897 拿掉）＋「我不想失去妳。」→「那你早幹嘛去了。」（她瞪你，眼睛紅了）「……我也不想。」',   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
+    seq(['我那天真的氣到不想再看到你。','嗯。','可是我回去想一想，又覺得很不甘心。','什麼不甘心？','我們好不容易才走到現在欸。','你知道嗎？','我知道。','你不要一直說你知道。','你如果真的知道，怎麼會這樣？','那你早幹嘛去了。','（她瞪你，眼睛紅了）','……我也不想。']),J(T()));
   await kd('2026-10-05'); Object.assign(st(KX),{done:{self:1,back:1}}); DATE.rec(H.G);
   { const t={trip:DATE.newTripId(H.G),who:KX,locs:['D07'],day:H.G.day,depart:13,back:18,transport:'mrt',status:'going',departed:true}; H.G.trips.push(t); H.G.hour=14; const r=await DATE.scene(GM,{dateTrip:t.trip});
     check('3. 和可昕的正式約會開頭演《我們以前不是這樣的》，講完照常約會（不取消）',H.said[0].t==='我那天真的氣到不想再看到你。'&&r.counted===true&&t.status==='done'); }
@@ -139,7 +139,7 @@ await sec(3,async()=>{
   H.G.events.done={}; H.G.flags.E35_PLAN='sea'; check('3. 經歷過的事：E35 海邊（AA_425：只讀 E35_PLAN）＝「考完那個禮拜六你來高雄，我們去海邊。我真的帶了西瓜，結果沒人帶刀。」',mem(H.G)==='考完那個禮拜六你來高雄，我們去海邊。我真的帶了西瓜，結果沒人帶刀。');
   H.G.flags.E35_PLAN=null; H.G.flags.K7_GIFT='ticket'; H.G.flags.KX_ANNIV={1:'wheel'}; check('3. 只玩過法律系、K7 週年送了票根＝「週年那天你送的摩天輪票根的影本，我還放在桌上。」',mem(H.G)==='週年那天你送的在一起那頓飯的發票，我還放在桌上。');   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）*/
   H.G.flags.K7_GIFT=null; check('3. 都沒有＝只說「我們好不容易才走到現在欸。」；沒有 K10 兩校互考「你還欠我」那一列（AA_423 3-1）',mem(H.G)===null&&!JSON.stringify(MULTIREL_LINES.REPAIR.kexin).includes('還欠我'));
-  H.G.events.done.ev_y0_e10=1; check('3. 經濟系版都沒有＝「我們一起休學、一起在你家那張桌子念書念了半年。」',mem(H.G)==='我們一起休學、一起在你家那張桌子念書念了半年。');
+  H.G.events.done.ev_y0_e10=1; check('3. ev_y0_e10 那一條（econ）照 AA_897 拿掉＝還是 null',mem(H.G)===null);   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   setRom(KX,82); setT('2026-10-09',22.1); let d=due(); check('3. 隔天晚上她的戀愛 ≥ 80、沒說謊：她打來（5-5）',!!d&&d.k==='hug');
   clr(); H.picks=['因為我也喜歡上別人']; await play(d);
   check('3. 「你在哪？」「宿舍。」「我在你們宿舍樓下。下來。」→ 5-4 的選項 →（她突然抱住你。）「你不要以為我這樣就不生氣了。」……「你真的很煩。」＝KX_HUGGED',
@@ -164,7 +164,7 @@ await sec(3,async()=>{
   setT('2026-10-09',19); clr(); await runOut('mrel_kexin_back_'+H.G.day);
   check('3. 說過「那是誤會」：3 天後見面先 5-2b「你上次跟我說是誤會。」「我去確認了。」「你還要講什麼？」……「我真的不知道你在想什麼。」再後半',seq(['你上次跟我說是誤會。','我去確認了。','你還要講什麼？','我真的不知道你在想什麼。','我真的很討厭你。']),J(T()));
   await kd('2026-10-05'); st(KX).n=2; st(KX).selfAt=(H.G.day+2)*24+17; setT('2026-10-07',17.1); clr(); await play(due());
-  check('3. 第二次冷靜前半（AA_227 8-3）：「（木柵大學的貓又在機車坐墊上睡覺。）」……；她傳「你看」',seq(['（木柵大學的貓又在機車坐墊上睡覺。）','（她拍了，打開對話，打了「你看」。）','（這次她沒有刪。她把手機蓋在桌上，等了一整節課，才翻過來看你回了沒。）'])&&(PHONE.tick(H.G),msgs('p:'+KX).slice(-1)[0]==='你看'));
+  check('3. 第二次冷靜前半（AA_227 8-3）：「（系館前那隻貓又在機車坐墊上睡覺。）」……；她傳「你看」',seq(['（系館前那隻貓又在機車坐墊上睡覺。）','（她拍了，打開對話，打了「你看」。）','（這次她沒有刪。她把手機蓋在桌上，等了一整節課，才翻過來看你回了沒。）'])&&(PHONE.tick(H.G),msgs('p:'+KX).slice(-1)[0]==='你看'));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   PHONE.answer(H.G,'mrel_kx_photo_'+STORY.dayOfKey('2026-10-05'),0); X().phone(H.G,GM); H.G.hour=17.4; X().phone(H.G,GM); setT('2026-10-08',19); clr(); await runOut('mrel_kexin_back_'+H.G.day);
   check('3. 第二次後半（AA_425 2-7）：（她坐下以後，一直沒有看你。）接「我真的很討厭你。」；沒有「這次是真的。」',seq(['（她坐下以後，一直沒有看你。）','我真的很討厭你。'])&&!H.has('這次是真的。')&&!H.has('我上次說討厭你。'));
 });

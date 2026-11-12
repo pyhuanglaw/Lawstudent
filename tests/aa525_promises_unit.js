@@ -262,7 +262,7 @@ await sec('3-2',async()=>{
   H.G.flags.KX_ANNIV={4:'missed'}; const ok2=USL.sumOk(H.G,s); H.G.flags.KX_ANNIV={4:'video'}; H.G.flags.dating_kexin=false; const ok3=USL.sumOk(H.G,s);
   check('3-2. 美國生活的日期旁白 2028-10-25 18:00「（信箱裡有一張臺灣寄來的卡片。第一頁寫著：第四年。）」：交往中、KX_ANNIV[4] video 才有',!!s&&s.h===18&&USL.sumLine(H.G,s)==='（信箱裡有一張臺灣寄來的卡片。第一頁寫著：第四年。）'&&ok1&&due1&&!ok2&&!ok3,J({ok1,due1,ok2,ok3}));
   const A=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US',KX_ANNIV:{4:'video'}},[0]);
-  check('3-2. 大四上期末飯（美國路線、KX_ANNIV[4] video）：飯桌最後「摩天輪。說好的。」＋旁白，在收尾旁白之前',seq(['摩天輪。說好的。','（吃完飯，你們去搭了摩天輪。轉到最高的時候，她靠著窗，沒有說話。）','（她送你到停車場，站著等你倒車出去。）']),J(A.slice(-4)));
+  check('3-2. 大四上期末飯（美國路線、KX_ANNIV[4] video）：飯桌最後「摩天輪。說好的。」＋旁白，在收尾旁白之前',seq(['摩天輪。說好的。','（吃完飯，你們去搭了摩天輪。轉到最高的時候，她靠著窗，沒有說話。）','（她陪你走回宿舍區，在路口停下來。）']),J(A.slice(-4)));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   const B=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'TW',KX_ANNIV:{4:'video'}},[0]), C=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US',KX_ANNIV:{4:'missed'}},[0]);
   check('3-2. 臺灣路線、沒接視訊＝沒有摩天輪',!B.includes('摩天輪。說好的。')&&!C.includes('摩天輪。說好的。'));
 });
@@ -330,7 +330,7 @@ await sec('3-10',async()=>{
   const mk=sentMsg=>dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US'},[0]).then(x=>x);
   fresh('2029-01-17',18,{dating_kexin:true,EXCHANGE_ROUTE:'US'}); H.FRIEND(KX); PHONE.at(H.G,D('2028-12-14'),7.5,[{th:'p:kexin',from:'kexin',text:'你說了四年的麵。……今天少你一碗。'},{th:'p:kexin',from:'kexin',text:'23 號回來，第一碗我請。'}],'y4_a23_us_kx'); tick();
   H.said=[]; H.opts=[]; H.picks=[0]; await TERMEND.kexinDinner(GM,{term:'Y4S1',kind:'kexin'}); const A=said();
-  check('3-10. 大四上期末飯（美國路線、交往中、收過「23 號回來，第一碗我請。」）：飯桌一開始「第一碗。說好我請。」「（她先去付了錢。）」',A[0]==='（山下那家店，她點了兩人份，沒有問你。）'&&seq(['第一碗。說好我請。','（她先去付了錢。）','大四了，考完期末就剩一個學期。'])   /* 2026-11-11 改期望（AA 改斷句、意思不變；bd1a6fda3）：原本「大四了。考完期末，就剩一個學期。」 */   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版） */,J(A.slice(0,5)));
+  check('3-10. 大四上期末飯（美國路線、交往中、收過「23 號回來，第一碗我請。」）：飯桌一開始「第一碗。說好我請。」「（她先去付了錢。）」',A[0]==='（後門那家店，她點了兩人份，沒有問你。）'&&seq(['第一碗。說好我請。','（她先去付了錢。）','大四了，考完期末就剩一個學期。'])   /* 2026-11-11 改期望（AA 改斷句、意思不變；bd1a6fda3）：原本「大四了。考完期末，就剩一個學期。」 */   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版） */,J(A.slice(0,5)));   /* （CANON-NO-ECON-1112 第四批：照 AA_897 換字）*/
   const B=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US'},[0]);
   check('3-10. 沒收過那兩則＝沒有',!B.includes('第一碗。說好我請。'));
 });
