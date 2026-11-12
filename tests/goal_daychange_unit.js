@@ -16,16 +16,17 @@ const mk=new Function('GM','CLS','CALENDAR','$','HOME','Z3','getG',
   'let G; '+m[0].replace(/\n  GM\.updateHUD=updateHUD;$/,'')+'; return ()=>{ G=getG(); updateHUD(); };');
 const hud=()=>mk(GM,CLS,CALENDAR,$,undefined,{ZONES:{}},()=>H.G);
 (async()=>{
-  { const G=H.fresh('2024-09-02',8,'dorm'); G.stage='econ'; const up=hud(); up(); CLS.setGoal(GM); const g0=G.goal;
-    G.day=H.D('2024-09-12'); G.hour=21; up(); const want=CLS.goalFor(G).text;
-    check('1. 課表的目標：9/2 早上設的，跳到 9/12 21:00 以後換成 9/12 的',g0!==want&&G.goal===want&&CLS.isClsGoal(G),JSON.stringify({g0,now:G.goal,want})); }
-  { const G=H.fresh('2024-09-01',22,'dorm'); G.stage='econ'; const up=hud(); up(); const s0=els.nextClass&&els.nextClass.textContent;
-    G.day=H.D('2024-09-02'); G.hour=8; up(); const s1=els.nextClass&&els.nextClass.textContent;
-    check('2. 下一堂那一列：9/1 晚上「放假中」，跳到 9/2 早上換掉',s0==='放假中'&&s1!=='放假中'&&!!s1,JSON.stringify({s0,s1})); }
-  { const G=H.fresh('2024-09-02',8,'dorm'); G.stage='econ'; const up=hud(); up(); GM.setGoal('去宿營集合',null);
-    G.day=H.D('2024-09-12'); G.hour=21; up();
+  // CANON-NO-ECON-1112：經濟系那一年拿掉（原本用經濟系大一上開學（2024-09-01～09-12、stage econ）當場景；測的是換日重排目標，跟哪一年無關，日期改成法律系大一下開學（2026-02-22～03-05））
+  { const G=H.fresh('2026-02-23',8,'dorm'); const up=hud(); up(); CLS.setGoal(GM); const g0=G.goal;
+    G.day=H.D('2026-03-05'); G.hour=21; up(); const want=CLS.goalFor(G).text;
+    check('1. 課表的目標：2/23 早上設的，跳到 3/5 21:00 以後換成 3/5 的',g0!==want&&G.goal===want&&CLS.isClsGoal(G),JSON.stringify({g0,now:G.goal,want})); }
+  { const G=H.fresh('2026-02-22',22,'dorm'); const up=hud(); up(); const s0=els.nextClass&&els.nextClass.textContent;
+    G.day=H.D('2026-02-23'); G.hour=8; up(); const s1=els.nextClass&&els.nextClass.textContent;
+    check('2. 下一堂那一列：2/22 晚上「放假中」，跳到 2/23 早上換掉',s0==='放假中'&&s1!=='放假中'&&!!s1,JSON.stringify({s0,s1})); }
+  { const G=H.fresh('2026-02-23',8,'dorm'); const up=hud(); up(); GM.setGoal('去宿營集合',null);
+    G.day=H.D('2026-03-05'); G.hour=21; up();
     check('3. 劇情自己設的目標（不是課表的）不動',G.goal==='去宿營集合',G.goal); }
-  { const G=H.fresh('2024-09-02',8,'dorm'); G.stage='econ'; const up=hud(); up(); CLS.setGoal(GM); let n=0; const r0=CLS.refreshGoal; CLS.refreshGoal=g=>{ n++; return r0(g); };
+  { const G=H.fresh('2026-02-23',8,'dorm'); const up=hud(); up(); CLS.setGoal(GM); let n=0; const r0=CLS.refreshGoal; CLS.refreshGoal=g=>{ n++; return r0(g); };
     G.hour=13; up(); G.hour=15; up(); CLS.refreshGoal=r0;
     check('4. 同一天只動時間＝不在這裡重排（照舊由 CLS.tick 每 15 分鐘排）',n===0,String(n)); }
   H.done();

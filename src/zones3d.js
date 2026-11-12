@@ -774,7 +774,7 @@ const Z3 = (function(){
   /* 校園擺帳篷的日子（同一排帳篷）：大一的社團博覽會（activities.js club_expo_y1s1 的日子）、大一校慶 2025-11-15（BB_95 3-7，法服的法律問答攤）；
      大二的社團博覽會 9/12（AA_170，祐廷站在攤位後面；AA_485 3-2 從 9/16～9/17 搬到開學第一週的週六）、各年校慶：大二 2026-11-14、大三 2027-11-13、大四 2028-11-11（AA_177 第 7、10 節；「每年 11/15」只留給大一）；
      經濟系那一年的社團博覽會 9/18～9/20（BB_104 E07、AA_154）、校慶園遊會 11/9（E17）*/
-  const FAIR_DAYS=['2025-11-15','2026-09-12','2026-11-14','2027-11-13','2028-11-11'], FAIR_DAYS_ECON=['2024-09-18','2024-09-19','2024-09-20','2024-11-09'];   /* 大二的社團博覽會 2026-09-12（六）一天（CLUBFAIR-REAL-1027，AA_485 3-2：原本 9/16、9/17）*/
+  const FAIR_DAYS=['2025-11-15','2026-09-12','2026-11-14','2027-11-13','2028-11-11'];   /* 大二的社團博覽會 2026-09-12（六）一天（CLUBFAIR-REAL-1027，AA_485 3-2：原本 9/16、9/17）*/
   function fairDayKey(key,econ,expo){ return FAIR_DAYS.includes(key)||EXPO_DAYS.includes(key)||(expo||[]).includes(key); }
   function isFairDay(){ try{ const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list&&ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'); const G=typeof GAME!=='undefined'&&GAME.G; if(!A||!G||typeof CALENDAR==='undefined') return false;
     return fairDayKey(CALENDAR.dateOf(G.day).key,false,ACTIVITIES.on(A,G.day,G)?[CALENDAR.dateOf(G.day).key]:[]); }catch(e){ console.warn('isFairDay',e); return false; } }   /* 大一的社博照 ACTIVITIES.on（新局 9/6、舊局 9/30～10/1：CLUBFAIR-REAL-1027）*/

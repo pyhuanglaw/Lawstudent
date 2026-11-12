@@ -7,6 +7,7 @@ const load=(f,names)=>{ let s=fs.readFileSync(path.join(ROOT,f),'utf8'); for(con
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info&&!ok?'　'+info:'')); if(!ok) fails++; };
 load('src/data/dorm_layout.js',['DORM_LAYOUT']); load('src/dorm3d.js',['DM3']); load('src/onetap3d.js',['ONETAP']);
 const W=(stage,flags)=>ONETAP.where({stage,flags:flags||{},day:30,hour:22}).name;
-const got={econ:W('econ'),y1:W('law'),y2:W('law',{ROOM_Y2:true}),y3:W('law',{ROOM_Y3:true}),y4:W('law',{ROOM_Y4:true})};
-check('經濟系 412、大一 203、大二 312、大三 507、大四 409',JSON.stringify(got)===JSON.stringify({econ:'宿舍 412',y1:'宿舍 203',y2:'宿舍 312',y3:'宿舍 507',y4:'宿舍 409'}),JSON.stringify(got));
+// CANON-NO-ECON-1112：經濟系那一年拿掉（經濟系 412 那一格）
+const got={y1:W('law'),y2:W('law',{ROOM_Y2:true}),y3:W('law',{ROOM_Y3:true}),y4:W('law',{ROOM_Y4:true})};
+check('經濟系 412、大一 203、大二 312、大三 507、大四 409',JSON.stringify(got)===JSON.stringify({y1:'宿舍 203',y2:'宿舍 312',y3:'宿舍 507',y4:'宿舍 409'}),JSON.stringify(got));
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

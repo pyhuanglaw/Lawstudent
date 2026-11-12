@@ -59,7 +59,8 @@ st=mkStore(); put('fatiao3d_backup',{day:50,savedAt:100}); put('fatiao3d_backup_
 const BL=ctx.backupList().map(([k])=>k);
 check('5. backupList：全部 fatiao3d_backup*（不含自動存檔、壞掉的），新的在上面',JSON.stringify(BL)===JSON.stringify(['fatiao3d_backup_new_300','fatiao3d_backup','fatiao3d_backup_y0end']),JSON.stringify(BL));
 // 6.
-const btns=['btnNew','btnNewLaw','btnNewEcon'].map(id=>new RegExp("\\$\\('"+id+"'\\)\\.onclick=async\\(\\)=>\\{ A3\\.start\\(\\); await waitChars\\(\\); if\\(!backupBeforeNew\\(\\)\\) return; if\\(G\\) newGameAbort\\(\\);").test(SRC));
+// CANON-NO-ECON-1112：經濟系那一年拿掉（btnNewEcon 拿掉，剩兩個按鈕）
+const btns=['btnNew','btnNewLaw'].map(id=>new RegExp("\\$\\('"+id+"'\\)\\.onclick=async\\(\\)=>\\{ A3\\.start\\(\\); await waitChars\\(\\); if\\(!backupBeforeNew\\(\\)\\) return; if\\(G\\) newGameAbort\\(\\);").test(SRC));
 check('6. 三個開新遊戲按鈕都先 backupBeforeNew（不要就 return）再 newGameAbort',btns.every(Boolean),JSON.stringify(btns));
 // 7.
 check('7. 存檔頁：#saveBackups 一區列出 backupList()，只有讀取（mk 的 onSave 是 null）',/bx\.id='saveBackups'/.test(SRC)&&/const L=backupList\(\);/.test(SRC)&&/mk\(nm,b,null,\(\)=>loadFrom\(b\),bx,/.test(SRC));

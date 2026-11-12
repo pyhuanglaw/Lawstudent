@@ -202,7 +202,8 @@ const N=runProbe('new',J({mig:migIn}));
      剩下的就是照留的這 16 個：大一女舍門口四句（沒名字：S.overhear＝GM.say(null,…)）、路人分科系五句（CROWD.deptSteps 拆開播，說的話本來就不帶「」）、選項七個（choice 的 text）*/
   const KNOWN_LEFT=['crowd3d.js：（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……沒有電梯啦，我爬上來的。五樓。」','crowd3d.js：（提著兩袋宵夜的人）「鹹酥雞到了，誰下來拿？」','crowd3d.js：（在門口講電話）「沒有啦，我只是想打給你。」','crowd3d.js：（抱著一疊書的人）「總圖還有位子嗎？……那我去社科圖。」',
     'data/crowd_depts.js：（他邊走邊講電話）「板子放在你桌上了。……那顆電容是新的，這次不要再燒掉。」','data/crowd_depts.js：（他盯著手機）「又錯一筆測資。……到底是哪一筆。」','data/crowd_depts.js：（她講電話）「阿嬤那邊我禮拜四再去一次。她上次說要教我摺紙鶴。」','data/crowd_depts.js：（她在柱子上貼傳單：「徵求受試者，心理系實驗」。）「……膠帶又用完了。」','data/crowd_depts.js：（他對著一棵樹念台詞）「……你為什麼不早說？——不對，這一句要更小聲。」',
-    'data/events.js：「謝謝學姊。」（拿了書狀就走）','data/events.js：（替她答）「她想知道法律外面還有什麼。」','data/events.js：（繼續演品妤）「你想說什麼？」','data/r2y4a_events.js：（再問一次）「妳還好嗎？」','data/r2y4a_events.js：（指著法律系館B）「先記得這棟就好。」','data/r2y4a_events.js：（收下）「謝謝阿嬤。」','y2r2_3d.js：（裝不知道）「恭喜！」'];
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（照留清單裡「（繼續演品妤）「你想說什麼？」」是經濟系那一年事件的選項，拿掉（清單 16→15））
+    'data/events.js：「謝謝學姊。」（拿了書狀就走）','data/events.js：（替她答）「她想知道法律外面還有什麼。」','data/r2y4a_events.js：（再問一次）「妳還好嗎？」','data/r2y4a_events.js：（指著法律系館B）「先記得這棟就好。」','data/r2y4a_events.js：（收下）「謝謝阿嬤。」','y2r2_3d.js：（裝不知道）「恭喜！」'];
   const others=[]; (function walk(d){ for(const f of fs.readdirSync(path.join(ROOT,d))){ const p=d+'/'+f; if(fs.statSync(path.join(ROOT,p)).isDirectory()) walk(p); else if(/\.js$/.test(f)&&!SYS.includes(p)) for(const t of lits(cur(p))) if(actQ(t)||sayQ(t)) others.push(p+'：'+t); } })('src');
   console.log('（21. 不在這一批、還有（動作）「…」或「…」（動作）的字串 '+others.length+' 個：'+others.map(x=>x.replace(/^src\//,'')).join('／')+'）');
   const OL=others.map(x=>x.replace(/^src\//,'')).sort(), KL=KNOWN_LEFT.slice().sort();

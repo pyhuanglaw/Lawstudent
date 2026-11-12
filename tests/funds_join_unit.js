@@ -16,9 +16,8 @@ const J=typeof STORY.fundsJoin==='function'?STORY.fundsJoin:null;
 { const a={amount:5000,m:5,text:'家裡匯來這個月的生活費：5,000 元'}, b={amount:5000,m:6,text:'家裡匯來這個月的生活費：5,000 元'};
   const one=J?J(null,a):null, two=J?J(J(null,a),b):null;
   check('1. 一個月＝原本那句；兩個月合成一則寫總數「家裡匯來 5、6 月的生活費：10,000 元」',!!J&&one.text===a.text&&one.amount===5000&&two.amount===10000&&two.text==='家裡匯來 5、6 月的生活費：10,000 元',JSON.stringify({one,two})); }
-{ const day=STORY.dayOfKey('2025-04-20'), G={day,hour:12,stage:'econ',flags:{fundsV2:1,allowanceMonth:4,Y0_MOVED_OUT:true}};
-  let mo=null, sum=0; for(const k of ['2025-05-01','2025-06-01']){ G.day=STORY.dayOfKey(k); const f=STORY.monthlyFunds(G); if(f){ sum+=f.amount; mo=J?J(mo,f):f; } }
-  check('2. 經濟系搬回家以後一次跨 5/1、6/1：錢加 10,000、提示也寫 10,000',sum===10000&&!!mo&&mo.amount===10000&&/10,000 元/.test(mo.text),JSON.stringify({sum,mo})); }
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 2 項 經濟系搬回家以後一次跨 5/1、6/1）
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 3 項：home3d.js 的休學在家快轉（y0Jump）和 econff3d.js 拿掉，剩 home3d.js 一處、jp3d.js、us_life3d.js）
 { const bad=[], ok=[]; for(const f of ['src/home3d.js','src/jp3d.js','src/us_life3d.js']){ const s=fs.readFileSync(path.join(ROOT,f),'utf8'); const n=(s.match(/STORY\.fundsJoin\(mo,f\)/g)||[]).length; if(/monthlyFunds\(G\);\s*if\(f\)\{[^}]*\bmo=f;/.test(s)) bad.push(f); else ok.push(f+':'+n); }
-  check('3. 五個快轉迴圈（home3d.js 兩處、econff3d.js、jp3d.js、us_life3d.js）都用 fundsJoin',!bad.length&&ok.join(',')==='src/home3d.js:2,src/econff3d.js:1,src/jp3d.js:1,src/us_life3d.js:1',JSON.stringify({bad,ok})); }
+  check('3. 五個快轉迴圈（home3d.js 兩處、econff3d.js、jp3d.js、us_life3d.js）都用 fundsJoin',!bad.length&&ok.join(',')==='src/home3d.js:1,src/jp3d.js:1,src/us_life3d.js:1',JSON.stringify({bad,ok})); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

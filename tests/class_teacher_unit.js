@@ -73,7 +73,8 @@ function judge(z,it,n){ const P=n.obj.position, seats=roomSeats(z,it); if(!seats
 function stayIn(cid){ const c=COURSES.list.find(q=>q.id===cid), fc=firstClass(c), zid=roomOf(c).zone; const G=gameFor(c,fc.it.day,fc.it.t0-0.7); enter(zid); const GM=mkGM(G);
   STORY.populate(zid,GM); CLS.syncRoom(GM); const before=teacherOf(GM,fc.it);
   G.hour=fc.it.t0-0.48; STORY.refreshSchedule(GM); CLS.syncRoom(GM); const n=teacherOf(GM,fc.it); return {c,fc,G,GM,before,n,zid}; }
-for(const cid of ['ge_film_y1s1','chinese_y1','english_y1','property','legal_english','securities','const_1','law_intro']){ const {c,fc,G,GM,before,n,zid}=stayIn(cid); const z=E.zone;
+// CANON-NO-ECON-1112：經濟系那一年拿掉（law_intro（法學緒論）是經濟系大一下的課，從清單拿掉）
+for(const cid of ['ge_film_y1s1','chinese_y1','english_y1','property','legal_english','securities','const_1']){ const {c,fc,G,GM,before,n,zid}=stayIn(cid); const z=E.zone;
   const sp=n&&(n.tSpot||(fc.it.room.room?(z.teacherSpots||{})[fc.it.room.room]:z.teacherSpot)), P=n&&n.obj.position, far=n&&sp?Math.hypot(P.x-sp.x,P.z-sp.z):0;
   let walk=null; if(n&&sp&&n.path&&n.path.length) walk=E.simWalk(P.x,P.z,sp.x,sp.z,{lv0:n.lv|0,lv1:sp.lv|0,dt:1/30,speed:1.25});
   let why=''; if(before) why='開始前 42 分鐘就已經在講台（應該還沒來）'; else if(!n) why='上課時間到了講台前沒有老師'; else if(!sp) why='沒有記講台的位置'; else if(far<1.5) why='在講台上冒出來（離講台 '+far.toFixed(1)+' m）'; else if(!n.path||!n.path.length) why='沒有在走'; else if(!walk||!walk.ok) why='走不到講台 '+JSON.stringify(walk).slice(0,80);
