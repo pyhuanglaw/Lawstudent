@@ -1,0 +1,11 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_storefront_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ_SIGN_offbeat_2330\out
+CC 店門口：worktree ?；wenzhou 23.5；TAG wz_sign_offbeat_2330；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2025-10-18 23.5（條件事件、手機關）
+  [前置／捷徑] wz_offbeat 【捷徑】祐廷放到店面前 3 m [-29.5, -13.5] 等 3 秒
+PASS [黑畫面] across_wz_offbeat_wz_sign_offbeat_2330 不是黑畫面（平均亮度 57.4、變化 41）  [57.4, 41]
+  [  67.9s] [截圖] across_wz_offbeat_wz_sign_offbeat_2330：鏡頭 {"eye": [-24.5, 1.7, -13.5], "look": [-32.5, 2, -13.5], "lens": 24, "vfov": 45.75}、亮度 [57.4, 41]
+  [  67.9s] wz_offbeat 對面正拍：店面 [-32.5, -13.5] 朝 [1, 0]、鏡頭退 8 m；營業中=True、鐵捲門顯示=False、室內 on=True built=True
+PASS 沒有 JS 例外  []
+ALL PASS
