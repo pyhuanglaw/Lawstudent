@@ -1231,3 +1231,12 @@
 [20:55:21] ==== START DORM203_NOODLE  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
 [20:55:24] [res] cpu=0% mem=40% (12.2/31.4 GB) chrome_testing=5  START DORM203_NOODLE
 [20:57:26] [res] cpu=1% mem=47% (14.9/31.4 GB) chrome_testing=10  END DORM203_NOODLE
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c032d7eef3..595b807237  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:57:32] ==== END   DORM203_NOODLE  exit=1  124s   ====
+[20:57:35] memory 47% before starting YIZHAN_TAKE (2 running)
+[20:57:35] ==== START YIZHAN_TAKE  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
+[20:57:38] [res] cpu=0% mem=47% (15.0/31.4 GB) chrome_testing=10  START YIZHAN_TAKE
+[20:57:49] 正在跑：LIN_REAL（已跑 6 分／上限 40 分）、INVITE_TZ_keju（已跑 2 分／上限 20 分）、YIZHAN_TAKE（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:58:10] [res] cpu=5% mem=46% (14.4/31.4 GB) chrome_testing=9  END INVITE_TZ_keju
