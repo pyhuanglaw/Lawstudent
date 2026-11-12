@@ -65,12 +65,16 @@ await sec(2,async()=>{ const z='xs_shanlan', p=pick(z); fresh(...at(p.d,p.a+0.2)
   check('2. 坐地板轉暗那一段（場景忙）：不打斷；場景結束（打烊後 1.5 小時）才出那一句、走出去',r1===false&&s1===0&&r2===false&&r3===true&&J(said())===J([['店員',LINE]])&&H.entered[0]==='xinsheng',J([r1,r2,r3,said()]));
   const z2='wz_teishoku', p2=pick(z2); fresh(...at(p2.d,p2.a+0.2),z2); GM.enterN=201; E.interactables=exitIT(z2); await tickWait(); E.player.busy=true; const [d1,h1]=at(p2.d,p2.c+0.2); H.G.day=d1; H.G.hour=h1; await tickWait(); H.G.hour=h1+1; E.player.busy=false; const r4=await tickWait();
   check('2. 過了半夜才關的店（小路 02:00）：等到 03:12 才出那一句也一樣',r4===true&&J(said())===J([['老闆',LINE]]),J([r4,said()])); });
-await sec(3,async()=>{ let d=BASE; while(!(winsOf('wz_lin',d)||[]).length||(winsOf('wz_lin',d)||[]).length<2) d++;
+await sec(3,async()=>{ /* 2026-11-12（SHOP-LIFE-AUDIT-1112）改期望——舊期望：林家乾麵（11–14、17–21）、118 巷滇香小館中午休息，14:00 被請出去（不說那一句、寫開放時間）。
+     現在這兩間的營業時間都併成一段（林家乾麵 11:00–21:00，使用者 11-12；118 巷九間 L118-SHOPS-REDO-1111 改版後都是一段），遊戲裡沒有中午休息的店了：
+     14:00 待在店裡＝什麼都不發生（不請出去、不說話）。「中午休息＝只請你出去」那條規則（xs_close3d.js S.gen）還在，之後有兩段營業的店會照它走。*/
+  let d=BASE; while(!(winsOf('wz_lin',d)||[]).length) d++;
+  check('3. 林家乾麵的營業時間是一段（11:00–21:00；沒有中午休息）',J(winsOf('wz_lin',d))===J([[11,21]]),J(winsOf('wz_lin',d)));
   fresh(d,12,'wz_lin'); GM.enterN=300; E.interactables=exitIT('wz_lin'); await tickWait(); H.G.hour=14.1; const r=await tickWait();
-  check('3. 林家乾麵中午休息（14:00，17:00 再開）：不說那一句，只請你出去、寫開放時間',r===true&&!H.said.length&&H.entered[0]==='wenzhou'&&toasts.length===1&&/林家乾麵/.test(toasts[0]),J([said(),toasts,H.entered]));
+  check('3. 林家乾麵 14:00 待在店裡：不請出去、不說話（沒有中午休息了）',r!==true&&!H.said.length&&!H.entered.length&&!toasts.length,J([r,said(),toasts,H.entered]));
   let d2=BASE; while(!(winsOf('l118_dian',d2)||[]).length) d2++;
   fresh(d2,12,'l118_dian'); GM.enterN=301; await tickWait(); H.G.hour=14.1; const r2=await tickWait();
-  check('3. 118 巷滇香小館中午休息：不說、走出去到巷子（118 巷沒有開放時間那一句）',r2===true&&!H.said.length&&H.entered[0]==='lane118'&&!toasts.length,J([said(),toasts,H.entered]));
+  check('3. 118 巷 118牛排 14:00 待在店裡：不請出去、不說話（一段營業 11:30～21:30）',r2!==true&&!H.said.length&&!H.entered.length&&!toasts.length,J([r2,said(),toasts,H.entered]));
   const p=pick('wz_brunch'); fresh(p.d,p.c+2,'wz_brunch'); GM.enterN=302; E.interactables=exitIT('wz_brunch'); const r3=await tickWait();
   check('3. 讀檔回到打烊以後（這一趟沒看過開著、過了那一刻）：不說，走出去、寫開放時間',r3===true&&!H.said.length&&H.entered[0]==='wenzhou'&&toasts.length===1&&/SUNNY SIDE/.test(toasts[0]),J([said(),toasts]));
   const p4=pick('wz_teahouse'); fresh(p4.d,p4.c+0.1,'wz_teahouse'); GM.enterN=303; E.interactables=exitIT('wz_teahouse'); const r4=await tickWait();

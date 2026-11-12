@@ -392,10 +392,12 @@ const CROWD=(function(){
     if(z==='bookstore') return [[11,21]]; if(z==='cvs'||z==='xs_dakou') return [[0,24]]; if(z==='aoki') return [[11,21]];   /* 青木茶室（GG-SHOPS-REDO-1104）：稿上沒有營業時間，門整天開著；客人只排 11:00～21:00 */
     if(typeof PLACES!=='undefined'&&PLACES.windowsOf){ if(PLACES.typhoonClosed&&PLACES.typhoonClosed(z,G.day)) return []; const ws=PLACES.windowsOf(z,G.day); if(ws) return ws.map(w=>[w[0],Math.min(24,w[1])]);
       const o=PLACES.hours&&PLACES.hours[z]; if(o&&!o.rules&&typeof o.open==='number'&&typeof o.close==='number'){ const out=[]; if(o.close>24) out.push([0,o.close-24]); out.push([o.open,Math.min(24,o.close)]); return out; }   /* 每天一樣的 open／close（日常失速 13:00～01:00：跨午夜那一段算在隔天的 0:00～1:00）*/
+      if(!o) return def.kind==='meal'?[[11,14],[17,21]]:[[11,21]];
+      if(!o.rules&&typeof o.open!=='number') return [[0,24]];   /* 只寫了「24 小時」的店（洗樂洗衣坊）*/   /* places.js 沒有寫營業時間的店（門整天開著；SHOP-LIFE-AUDIT-1112：客居雲南）：照麵店、書店的做法，客人只排吃飯的時段／白天到晚上 */
       return []; }
     return []; };
   /* 有人跟著你、今天約好在這間店（邀約的地點）：客人少一半（劇情、約會的那一桌旁邊不要太擠）*/
-  const INV_PLACE={noodle:'noodle',wz_brunch:'brunch',wz_teahouse:'teahouse',wz_mokuyobi:'mokuyobi',wz_offbeat:'offbeat'};
+  const INV_PLACE={tz_taimi:'tz_taimi',noodle:'noodle',wz_brunch:'brunch',wz_teahouse:'teahouse',wz_mokuyobi:'mokuyobi',wz_offbeat:'offbeat'};
   S.shopCalm=function(G,zone){ const F=G.flags||{}; if(F.companion) return true; const p=INV_PLACE[zone]; return !!p&&(G.invites||[]).some(iv=>iv&&iv.day===G.day&&iv.accepted&&!iv.done&&(iv.place===p||(zone==='wz_mokuyobi'&&iv.place==='slowread'))); };   /* 木曜日有兩個邀約地點：mokuyobi（坐坐）、slowread（念書；AA_772 從慢讀咖啡搬來）*/
   /* 位子分組：面對面的兩張（同一張桌子）、吧台相鄰的兩張；剩下的一個人一組。seats＝[{x,z,yaw,table,bar}] */
   S.pairUnits=function(seats){ const used=new Set(), out=[]; const dyaw=(a,b)=>Math.abs(Math.atan2(Math.sin(a-b),Math.cos(a-b)));
@@ -484,6 +486,26 @@ const CROWD=(function(){
     /* 新生運動廣場（兩層）：一樓試穿椅只有一張、二樓圓凳是店員的，不排；一樓球架、衣架、水壺架、東邊鞋牆、夾層下貨架，二樓系隊球衣牆、衣架前站著 */
     const XP=typeof XINSHENG_SPORTS_LAYOUT!=='undefined'?XINSHENG_SPORTS_LAYOUT:null;
     if(XP) add('xs_xsports','shop',[XP.front.door.x,+(XP.d/2-1.6).toFixed(2)],standUnits([[-3.15,6.6,-P/2],[-1.9,3.2,P/2],[1.75,2.6,-P/2],[5.85,3.0,P/2],[-0.1,-3.5,-P/2],[-2.6,-2.9,P,1],[-6.0,-1.0,-P/2,1]]),{noKeep:true,doorLv:0});
+    /* ===== SHOP-LIFE-AUDIT-1112（使用者 11-12：「你要每一家店都看他有沒有店員、有沒有安排客人在裡面」；盤點表 docs/handoff/SHOP_LIFE_AUDIT_1112.md）=====
+       盤點出來一個路人客人都沒有的店（都排在最後面：前面每一間的 ix 不變＝原本那些店的客人長相不變）：
+       汀州路吃飯的店（配置 TZ_SHOPS_LAYOUT 有 tables 的：泰米村食、越好吃小館、客居雲南……之後新加的同一類自動算進來）＝配置的座位、吃飯的店的時段（meal）；
+       印得好（自助電腦兩張椅子＋影印機前、櫃台前）、洗樂洗衣坊（三張「坐著等」的塑膠椅＋洗衣機、烘衣機前）＝影印店的時段、同時最多 2 位（print 的 cap：洗樂三張椅子一定留一張給玩家）；
+       安泰藥局、汀州鮮果、榮恩典文具社、東南大聯商行、汀州聯通、花序（一樓）、慢輪單車＝站在貨架、展示前面看（shop：同時最多 4 位）。
+       站的點是在 Node 建出真正的區域量的（站得住、走得到、前面 0.75 m 是家具或牆、離每一個按鈕 0.95 m 以上、離出口 1.6 m 以上；tests/shop_life_audit_1112_unit.js 每一點都再驗一次）。
+       禮貌生財不排（上師的命理館，不是一般的店）。人數上限照舊（S.SHOP_CAP 10、各種店的 cap），沒有新增任何一句話。*/
+    { const TZL=typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT:null;
+      const tzSeats=L=>seatsOf((L.seats||[]).map(q=>Object.assign({},q,{table:L.id+'_t'+q.table})));   /* 區域的座位（tz_shops3d.js）table＝'<店>_t<桌號>' */
+      const STAND={ yindehao:[[-2.0,-0.5,-P/2],[0.5,-0.75,P/2]], xile:[[-1.75,0.5,-P/2],[1.5,-1.5,P/2]],
+        antai:[[-1.0,-1.0,-P/2],[0.75,0.0,P/2],[3.25,-1.5,-P/2],[-3.5,1.5,-P/2]], xianguo:[[-2.25,3.0,-P/2],[0.25,-0.25,P],[1.75,-0.5,P]], rongendian:[[-3.5,-1.75,-P/2],[-1.0,-1.5,-P/2],[2.0,0.0,0],[3.25,1.0,P/2]],
+        dongnan:[[-3.0,-0.75,-P/2],[-0.5,-2.25,-P/2],[0.75,-3.75,P],[1.75,-1.5,-P/2]], liantong:[[-1.5,1.25,-P/2],[-1.5,-1.0,P]] };   /* 東南大聯商行、汀州聯通（開發分支 11-12 才進來的兩間）；汀州聯通櫃台前的兩張圓凳留給玩家，只排站著看的 */
+      const KIND={yindehao:'print',xile:'print',antai:'shop',xianguo:'shop',rongendian:'shop',dongnan:'shop',liantong:'shop'};
+      if(TZL) for(const id of Object.keys(TZL)){ const L=TZL[id]; if(!L||!L.zone||!L.spawn||out.some(d=>d.zone===L.zone)) continue;
+        if(Array.isArray(L.tables)&&L.tables.length&&L.counter&&(L.seats||[]).length>=8) add(L.zone,'meal',[L.spawn.x,L.spawn.z],S.pairUnits(tzSeats(L)));   /* 吃飯的店：有桌子、有櫃台、八個位子以上 */
+        else if(KIND[id]) add(L.zone,KIND[id],[L.spawn.x,L.spawn.z],(KIND[id]==='print'?S.pairUnits(tzSeats(L)):[]).concat(standUnits(STAND[id]||[])),{noKeep:true}); }
+      const FN=typeof FLOWER_NOTES_LAYOUT!=='undefined'?FLOWER_NOTES_LAYOUT:null;
+      if(FN&&FN.spawn) add('flower_notes','shop',[FN.spawn.x,FN.spawn.z],standUnits([[-4.0,2.5,-P/2],[-2.5,2.75,P/2],[0.75,4.75,P]]),{noKeep:true,doorLv:0});
+      const BK=typeof BIKE_LAYOUT!=='undefined'&&BIKE_LAYOUT.bike?BIKE_LAYOUT.bike:null;
+      if(BK&&BK.spawn) add('bikeshop','shop',[BK.spawn.x,BK.spawn.z],standUnits([[-3.25,-0.5,P],[1.75,0.25,P/2],[0.5,-1.25,-P/2]]),{noKeep:true}); }
     return out; };
   S.SHOPS=S.shopDefs(); S.SHOP_ZONES={}; for(const d of S.SHOPS) S.SHOP_ZONES[d.zone]=d;
   /* 這一天這間店每一組位子的客人（一天算一次，照日期＋店＋組當種子）：一組空著的時候，照那個時刻的比例 L 決定接下來 D 小時有沒有人（有＝來坐 D 小時），

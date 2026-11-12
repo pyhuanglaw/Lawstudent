@@ -97,7 +97,7 @@ const nextWd=(from,w)=>{ for(let d=D(from);d<D(from)+30;d++) if(wdOf(d)===w&&!CA
     check('4 小路 18:00～02:00（週一）：11:30、13:00、17:59 進不去；18:00、23:30、00:59、01:59 進得去；02:00 進不去（G.hour 25.98／26，也認得先 %24 的 1.98／2）',J(r)===J([false,false,false,true,true,true,true,false,true,false]),J(r));
     check('4 公休日照舊週二（整天、過了午夜也不開）；週三照常（學姊七夕 2026-08-19 週三 19:00）',!P.isOpen(z,19,TUE)&&!P.isOpen(z,25,TUE)&&P.isOpen(z,19,WED)&&P.isOpen(z,19,D('2026-08-19'))&&wdOf(D('2026-08-19'))===3&&P.isOpen(z,25,MON));
     check('4 颱風假不開（2025-10-13）；說明「18:00–02:00；週二公休」、今天「今天 18:00–02:00」',CALENDAR.typhoon(D('2025-10-13'))&&!P.isOpen(z,19,D('2025-10-13'))&&P.hours[z].text==='18:00–02:00；週二公休'&&P.todayText(z,MON)==='今天 18:00–02:00',P.todayText(z,MON));
-    check('4 其他有 rules 的店照舊：林家（一天兩段、週一休）、影印店考試週 24:00、法圖',P.isOpen('wz_lin',12,TUE)&&!P.isOpen('wz_lin',15,TUE)&&!P.isOpen('wz_lin',12,MON)&&!P.isOpen('wz_lin',1,TUE)&&P.hhmm(24)==='24:00'&&P.hhmm(26)==='02:00'&&P.hhmm(21.75)==='21:45');
+    check('4 其他有 rules 的店照舊：林家（週一休；2026-11-12 改期望：一段 11:00–21:00，15:00 開著——舊期望一天兩段、15:00 關）、影印店考試週 24:00、法圖',P.isOpen('wz_lin',12,TUE)&&P.isOpen('wz_lin',15,TUE)&&!P.isOpen('wz_lin',12,MON)&&!P.isOpen('wz_lin',1,TUE)&&P.hhmm(24)==='24:00'&&P.hhmm(26)==='02:00'&&P.hhmm(21.75)==='21:45');
     const door=async(day,h)=>{ fresh(day,h,'wenzhou'); const r=await STORY.interact({exit:{to:'wz_teishoku',spawn:{x:0,z:0}},label:'進去小路'},GM); return [r,said.map(s=>s.t),entered.slice()]; };
     const d1=await door(MON,12.5), d2=await door(TUE,19), d3=await door(D('2025-10-13'),19), d4=await door(MON,19);
     check('4 中午走到門口：（小路的布簾收起來了。門上的木牌寫著「18:00～02:00」。）——不進去',d1[0]===true&&J(d1[1])===J(['（小路的布簾收起來了。門上的木牌寫著「18:00～02:00」。）'])&&!d1[2].length,J(d1));
