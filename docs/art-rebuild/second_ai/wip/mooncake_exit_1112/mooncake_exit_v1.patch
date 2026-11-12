@@ -1,0 +1,85 @@
+diff --git a/assets/models/env/second_ai/season_gongguan.glb b/assets/models/env/second_ai/season_gongguan.glb
+index 1f3cfaa33f1d537446709c278d7391fceb048fa9..a11add4a638e19e6ebd1cf9e8e73b3eb3c152221 100644
+GIT binary patch
+delta 210
+zcmZ9?D-MEi0KnnD_!hwj;u8wVfQ&I`@Bofxv8jRN+!$_3wixsToB?glz_mPrKa-o`
+zYv21Gr;k|Kg{y@mgc$3l2%pMQHf<|D2GJ=D;{74A=Ie>)c(&`fU)$G4&Lrc%c+TuM
+yG<ABr_{r5za*&Wm0Y#KhMg>*WAfpZiDjH~_g*G&FpreZ(`WRq{QRXK`dj0@=Kt_T9
+
+delta 151
+zcmWN=y%B;i0D#dLL6I0xK>R_sU<NAgXxPEVGL4NXD0G6%0CpY)YcYb~yL<iD%!ASQ
+zM_WlD#GKtk`O}RWpK6k09hINXy0>);N-pWq=Zb3v+%Tl#mYNY`?zm^dlo=1qdE|*_
+LURX@lU5D2nbi+Lh
+
+diff --git a/assets/models/env/second_ai/season_gongguan.json b/assets/models/env/second_ai/season_gongguan.json
+index e6c41d5f8..0815fcc1a 100644
+--- a/assets/models/env/second_ai/season_gongguan.json
++++ b/assets/models/env/second_ai/season_gongguan.json
+@@ -5,7 +5,7 @@
+  "tris_drawn": 28382,
+  "materials": 3,
+  "out": "assets/models/env/second_ai/season_gongguan.glb",
+- "bytes": 1905904,
++ "bytes": 1905960,
+  "texres": 1024,
+  "set": "gongguan",
+  "doors": 11,
+@@ -106,16 +106,16 @@
+   ],
+   "YAM": [
+    [
+-    -63.6,
+-    -62.4,
++    -61.0,
++    -59.8,
+     17.65,
+     18.3
+    ]
+   ],
+   "MOONCAKE": [
+    [
+-    -31.4,
+-    -30.0,
++    -33.6,
++    -32.2,
+     18.15,
+     18.75
+    ]
+diff --git a/src/data/season_deco.js b/src/data/season_deco.js
+index 23bb7320e..c53ded850 100644
+--- a/src/data/season_deco.js
++++ b/src/data/season_deco.js
+@@ -16,8 +16,8 @@ const SEASON_DECO = {
+       "looks": {"FRUITSPRING": [{"id": "sea_fruit", "x": 33.2, "z": -4.3, "r": 1.0, "label": "看當季的水果", "hidden": true}], "FRUITSUMMER": [{"id": "sea_fruit", "x": 33.2, "z": -4.3, "r": 1.0, "label": "看當季的水果", "hidden": true}], "FRUITAUTUMN": [{"id": "sea_fruit", "x": 33.2, "z": -4.3, "r": 1.0, "label": "看當季的水果", "hidden": true}], "FRUITWINTER": [{"id": "sea_fruit", "x": 33.2, "z": -4.3, "r": 1.0, "label": "看當季的水果", "hidden": true}],
+         "MOON": [{"id": "sea_moon_pomelo", "x": 37.0, "z": -4.3, "r": 1.0, "label": "看文旦禮盒", "hidden": true}], "LANTERN": [{"id": "sea_lantern", "x": 26.0, "z": 12.4, "r": 1.6, "label": "看燈籠", "hidden": true}]}},
+     "gongguan": {"asset": "bldg.season_gongguan", "glb": "assets/models/env/second_ai/season_gongguan.glb", "codes": ["CNY", "XMAS", "DRAGON", "VDAY", "HALLOWEEN", "CVSWINTER", "CVSSUMMER", "DRINKSUMMER", "DRINKWINTER", "FNSPRING", "FNMAY", "FNJUNE", "FNXMAS", "MOONBBQ", "RAIN", "YAM", "MOONCAKE", "COUPLET", "BOUQUET"],
+-      "blocks": {"MOONBBQ": [[25.5, 27.5, 20.5, 21.5]], "YAM": [[-64.0, -62.0, 17.0, 19.0]], "MOONCAKE": [[-32.0, -29.5, 17.5, 19.5]], "COUPLET": [[-39.0, -36.0, 15.5, 17.0]], "BOUQUET": [[7.5, 9.5, -45.0, -42.5]]},
+-      "stalls": [{"key": "sea_yam", "code": "YAM", "sign": "烤地瓜", "clerk": {"x": -63.0, "z": 18.62, "face": [-63.0, 16.0]}, "at": {"x": -63.0, "z": 16.4, "r": 1.0}, "foot": [-63.6, -62.4, 17.65, 18.3], "note": "公館燒臘前面、騎樓柱子外的人行廣場（往溫州街的那一頭）"}, {"key": "sea_mooncake", "code": "MOONCAKE", "sign": "中秋禮盒", "clerk": {"x": -30.7, "z": 19.1, "face": [-30.7, 16.5]}, "at": {"x": -30.7, "z": 17.0, "r": 1.0}, "foot": [-31.4, -30.0, 18.15, 18.75], "note": "日和便利店（G03）前面、騎樓外的人行廣場：臨時的桌子"}, {"key": "sea_couplet", "code": "COUPLET", "sign": "春聯・年貨", "clerk": {"x": -37.5, "z": 15.85, "face": [-37.5, 18.0]}, "at": {"x": -37.5, "z": 17.45, "r": 1.0}, "foot": [-38.6, -36.4, 16.2, 16.72], "note": "頁間書屋（G02）前面的人行廣場：一排掛著的春聯＋一張桌子；攤販站在廣場那一邊、面向騎樓"}, {"key": "sea_bouquet", "code": "BOUQUET", "sign": "畢業花束", "clerk": {"x": 8.25, "z": -44.45, "face": [8.25, -42.0]}, "at": {"x": 8.25, "z": -42.05, "r": 1.0}, "foot": [7.85, 9.15, -43.95, -43.3], "note": "校門東邊的出入口旁、靠校園圍牆（公館這一側）"}],
++      "blocks": {"MOONBBQ": [[25.5, 27.5, 20.5, 21.5]], "YAM": [[-61.4, -59.4, 17.0, 19.0]], "MOONCAKE": [[-34.2, -31.7, 17.5, 19.5]], "COUPLET": [[-39.0, -36.0, 15.5, 17.0]], "BOUQUET": [[7.5, 9.5, -45.0, -42.5]]},
++      "stalls": [{"key": "sea_yam", "code": "YAM", "sign": "烤地瓜", "clerk": {"x": -60.4, "z": 18.62, "face": [-60.4, 16.0]}, "at": {"x": -60.4, "z": 16.4, "r": 1.0}, "foot": [-61.0, -59.8, 17.65, 18.3], "note": "公館燒臘前面偏東、騎樓柱子外的人行廣場（MOONCAKE-EXIT-1112：原本在 x −63，擋格正好蓋住公館燒臘出來的落點 (−63, 18)；往東挪 2.6 m）"}, {"key": "sea_mooncake", "code": "MOONCAKE", "sign": "中秋禮盒", "clerk": {"x": -32.9, "z": 19.1, "face": [-32.9, 16.5]}, "at": {"x": -32.9, "z": 17.0, "r": 1.0}, "foot": [-33.6, -32.2, 18.15, 18.75], "note": "日和便利店（G03）前面偏西、騎樓外的人行廣場：臨時的桌子（MOONCAKE-EXIT-1112：原本在 x −31.4～−30.0，擋格離便利店出口落點 (−29.4, 18) 只有 0.1 m，BB／CC reachability gongguan FAIL；往西挪 2.2 m）"}, {"key": "sea_couplet", "code": "COUPLET", "sign": "春聯・年貨", "clerk": {"x": -37.5, "z": 15.85, "face": [-37.5, 18.0]}, "at": {"x": -37.5, "z": 17.45, "r": 1.0}, "foot": [-38.6, -36.4, 16.2, 16.72], "note": "頁間書屋（G02）前面的人行廣場：一排掛著的春聯＋一張桌子；攤販站在廣場那一邊、面向騎樓"}, {"key": "sea_bouquet", "code": "BOUQUET", "sign": "畢業花束", "clerk": {"x": 8.25, "z": -44.45, "face": [8.25, -42.0]}, "at": {"x": 8.25, "z": -42.05, "r": 1.0}, "foot": [7.85, 9.15, -43.95, -43.3], "note": "校門東邊的出入口旁、靠校園圍牆（公館這一側）"}],
+       "looks": {"FNSPRING": [{"id": "flower_notes_season", "x": 44.0, "z": 20.8, "r": 1.2, "label": "看門口的花", "hidden": true}], "FNMAY": [{"id": "flower_notes_season", "x": 44.0, "z": 20.8, "r": 1.2, "label": "看門口的花", "hidden": true}], "FNJUNE": [{"id": "flower_notes_season", "x": 44.0, "z": 20.8, "r": 1.2, "label": "看門口的花", "hidden": true}], "FNXMAS": [{"id": "flower_notes_season", "x": 44.0, "z": 20.8, "r": 1.2, "label": "看門口的花", "hidden": true}],
+         "MOONBBQ": [{"id": "sea_moon_bbq", "x": 26.5, "z": 20.3, "r": 1.2, "label": "看騎樓的烤肉", "hidden": true}]}}
+   },
+diff --git a/tests/season_exit_clear_1112_unit.js b/tests/season_exit_clear_1112_unit.js
+new file mode 100644
+index 000000000..ec147f6cf
+--- /dev/null
++++ b/tests/season_exit_clear_1112_unit.js
+@@ -0,0 +1,17 @@
++// MOONCAKE-EXIT-1112（BB-C／CC 11-12：reachability_all gongguan FAIL——中秋前兩週白天，從日和便利店「離開」到公館的落點 (−29.4, 18) 站不住；
++//   季節攤販 MOONCAKE 的導航擋格 x −32～−29.5 離落點只有 0.1 m，人物半徑 0.45）。LAWWW2-C 2026-11-12。
++// 檢查（不用瀏覽器、不用引擎）：各區的季節擋格（src/data/season_deco.js 的 blocks）離「從別的區域進到這一區的落點」（src/*.js、src/data/*.js 裡 to:'<區>',spawn:{x,z}）至少 0.75 m。
++// 修改前（MOONCAKE 在 x −32～−29.5）：FAIL；往西挪 2.2 m 以後 ALL PASS。用法：node tests/season_exit_clear_1112_unit.js
++const fs=require('fs'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'　'+info:'')); if(!ok) fails++; };
++const sd=fs.readFileSync(path.join(ROOT,'src/data/season_deco.js'),'utf8'); const J=JSON.parse(sd.slice(sd.indexOf('{',sd.indexOf('=')),sd.lastIndexOf('}')+1));
++const zones=J.zones||J; const files=[]; for(const d of ['src','src/data']) for(const f of fs.readdirSync(path.join(ROOT,d))) if(/\.js$/.test(f)) files.push(path.join(ROOT,d,f));
++const spawns={}; const re=/to:\s*'(\w+)'\s*,\s*spawn:\s*\{\s*x:\s*(-?[\d.]+)\s*,\s*z:\s*(-?[\d.]+)/g;
++for(const f of files){ const t=fs.readFileSync(f,'utf8'); let m; while((m=re.exec(t))) (spawns[m[1]]=spawns[m[1]]||[]).push([+m[2],+m[3],path.basename(f)]); }
++let nb=0, np=0; const bad=[];
++for(const zn of Object.keys(zones)){ const B=zones[zn]&&zones[zn].blocks; if(!B) continue; const P=spawns[zn]||[]; np+=P.length;
++  for(const code of Object.keys(B)) for(const r of B[code]){ nb++; for(const p of P){ const dx=Math.max(r[0]-p[0],0,p[0]-r[1]), dz=Math.max(r[2]-p[1],0,p[1]-r[3]), d=Math.hypot(dx,dz); if(d<0.75) bad.push([zn,code,r,p,+d.toFixed(2)]); } } }
++check('1. 讀得到季節擋格和各區的落點',nb>=5&&np>=5,'擋格 '+nb+'、落點 '+np+'（公館 '+(spawns.gongguan||[]).length+'）');
++check('2. 便利店出來的落點 (−29.4, 18) 在清單裡',(spawns.gongguan||[]).some(p=>Math.abs(p[0]+29.4)<0.01&&Math.abs(p[1]-18)<0.01));
++check('3. 每一塊季節擋格離每一個落點至少 0.75 m（人物半徑 0.45＋0.3）',bad.length===0,JSON.stringify(bad).slice(0,300));
++console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
