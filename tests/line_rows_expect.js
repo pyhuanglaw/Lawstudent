@@ -8,7 +8,7 @@ const ROOT=path.join(__dirname,'..');
 const DOCS=[['docs/story_planning/AA_794_zr_boss.json','60c08798a'],['docs/story_planning/AA_799_pool_story_qishi.json','5f34638b5'],['docs/story_planning/AA_800_y2b_events.json','e7dfbbe61'],
   ['docs/story_planning/AA_801_y3_events.json','6086bea73'],['docs/story_planning/AA_802_sis_b4_anyt.json','f2a55c1e7'],['docs/story_planning/AA_803_y4_postgrad.json','7c0cc967a'],
   ['docs/story_planning/AA_804_food_fav.json','8eab5a25c'],['docs/story_planning/AA_805_aa519.json','3f1569379'],
-  ['docs/story_planning/AA_807_us_term_reread.json','551786903'],['docs/story_planning/AA_808_peishan_tilde.json','0806059b7'],['docs/story_planning/AA_810_peishan_open_class_mom.json','333cd2863']];
+  ['docs/story_planning/AA_807_us_term_reread.json','551786903'],['docs/story_planning/AA_808_peishan_tilde.json','0806059b7'],['docs/story_planning/AA_810_peishan_open_class_mom.json','333cd2863'],['docs/story_planning/AA_840_sis_us_arcs_ellipsis.json','02264217e']/* 2026-11-12 學姊美國那段句首刪節號 9 列 */];
 const gen=f=>{ try{ return fs.readFileSync(path.join(ROOT,f),'utf8').slice(0,400).includes('自動產生'); }catch(e){ return true; } };
 let rows=[]; for(const [doc,sha] of DOCS){ try{ const d=JSON.parse(cp.execSync('git -C "'+ROOT+'" show '+sha+':'+doc,{encoding:'utf8',stdio:['ignore','pipe','ignore']})); rows=rows.concat((d.rows||d).filter(r=>!gen(r.file)).map(r=>Object.assign({doc,sha},r))); }catch(e){} }
 const unq=t=>typeof t==='string'&&/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;

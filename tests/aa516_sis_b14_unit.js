@@ -100,7 +100,7 @@ const SHA='ca08e848c', DOCF='docs/story_planning/AA_516_學姊第十四批_她�
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA516_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) return ''; const j=b?S.indexOf(b,i+1):-1; return S.slice(i,j<0?S.length:j); };
 const S1=part('## 1. 修正','## 2. '), BODY=part('## 2. ','## 6. ');   /* 第 1 節（表）、第 2～5 節（台詞）*/
-const A591=require('./aa591_doc.js'), G591=s=>A591.MAP[s]||s;   /* AA_591（學姊改稿第四批，6b35748c7，使用者 11-02 確認）：稿上的句子照 AA_591 的表換成遊戲現在的字 */
+const A591=require('./aa591_doc.js'), A840=["……這樣可以嗎。","……白天打。我會醒著。","……我切一半給你看。另一半留到星期二。","……好。停一次，不算輸。","……還沒。我又要下去一次。","……那不一樣。這邊是一整片。","……好。在車上開。你開車，我拍你。","……結果一個字都沒寫。","……我寄了一片回去。應該快到了。"]/* 2026-11-12 AA_840（02264217e）：這九句遊戲拿掉句首「……」，稿 AA_516 還帶著 */, G591=s=>{ const t=A591.MAP[s]||s; return A840.includes(t)?t.slice(2):t; };   /* AA_591（學姊改稿第四批，6b35748c7，使用者 11-02 確認）：稿上的句子照 AA_591 的表換成遊戲現在的字 */
 const qtext=s=>G591(/^（/.test(s)?s:s.slice(s.indexOf('：')+1));   /* 「> 學姊：…」→ 那一句；「> （…）」→ 旁白整句 */
 const QUOTES=BODY.split('\n').map(l=>/^\s*>\s*(.+)$/.exec(l)).filter(Boolean).map(m=>qtext(m[1].trim()));
 const OPTRE=/^- (「[^」]+」|（[^）]+）)→(.*)$/;

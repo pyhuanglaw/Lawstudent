@@ -42,7 +42,8 @@ await sec(1,async()=>{ check('1. 讀得到稿（企劃線 e81a1afe1 的 AA_392�
   const A516={'二十三號早上到。':'二十三號晚上八點落地。','機場的班次我傳給你了。':'班次，回去前傳給你。'};   /* AA_516 第 1 節 1-1（企劃線 a9b87c588）：g6 這兩句改了（和 12/23 20:30 的接機對齊）*/
   const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，6b35748c7）第 94、95 列等：稿上的句子照 AA_591 的表換 */
   const A591x={'……不公平。':'不公平。'};   /* AA_591 第 95 列（原句到處都有，不在 MAP）：只有視訊 g3b 這一句 */
-  const lines2=lines.map(l=>A516[l]||A591.MAP[l]||A591x[l]||l);
+  const A840=["……這樣可以嗎。","……白天打。我會醒著。","……我切一半給你看。另一半留到星期二。","……好。停一次，不算輸。","……還沒。我又要下去一次。","……那不一樣。這邊是一整片。","……好。在車上開。你開車，我拍你。","……結果一個字都沒寫。","……我寄了一片回去。應該快到了。"];   /* 2026-11-12 AA_840（02264217e）：遊戲拿掉句首「……」 */
+  const lines2=lines.map(l=>A516[l]||A591.MAP[l]||A591x[l]||l).map(l=>A840.includes(l)?l.slice(2):l);
   check('1. 六組視訊的台詞（書瑀說的）和稿一字不差都在（g6 兩句照 AA_516 1-1 改過的）',lines2.length>=20&&lines2.every(l=>txt.includes(l)||txt.includes(l.replace(/^照片你看到了吧。$/,'照片你看到了吧。')))&&Object.keys(A516).every(l=>lines.includes(l)&&!txt.includes(l)),J(lines2.filter(l=>!txt.includes(l))));
   check('1. 用完以後的旁白和稿一字不差',!!narr&&txt.includes(narr)&&S.SA_VG_NARR===narr,narr);
   /* 臺灣路線、7/29 就交往：8/6～12/17 每週日 10:00 */
