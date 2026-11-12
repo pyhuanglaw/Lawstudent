@@ -1,0 +1,54 @@
+diff --git a/src/engine3d.js b/src/engine3d.js
+index 23b1e313d6..44aff953d5 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -283,7 +283,12 @@ const E3 = (function(){
+            原本只走到點的那一點：從一樓看不到二樓的地板，只點得到前面幾階，上一層樓要點十幾次（萬才館 14 次、霖澤館 16 次）*/
+         const se=hit.obj&&hit.obj.userData.stairEnds; if(se){ const e2=se[hit.y>=P.obj.position.y-0.05?1:0]; tx=e2.x; tz=e2.z; tlv=e2.lv; }
+         let pref=null; if(!se&&E.tapRedirect){ const r=E.tapRedirect(tx,tz,tlv==null?(P.lv|0):tlv,{ray:E.ray.ray,fy:hit.y,hit:{x:hit.x,y:hit.y,z:hit.z}}); if(r){ tx=r[0]; tz=r[1]; if(r[2]!=null) tlv=r[2]; if(r[3]) pref=r[3]; } }   /* r[3]＝點到的那張椅子（畫面上那一點實際打到的椅子，見 game3d.js tapToSeat；hit＝地板那一點：比它近才算打到椅子，TAP-RAY-SEAT-1111）：tapPref 用椅子的位置，不用射線落在地板的那一點（BB 11-11：俯角淺時點椅面，地板落點在椅子後面 1.3 m，按鈕變「點餐」）*/   /* 點在椅子上＝走到那張椅子坐下前站的位置（game3d.js；2026-10-14 v9.6 回歸：點椅子那一格不能站，找路改去最近能站的地方，人走到 2 m 外別張椅子旁邊）*/
+-        E.moveTo(P,tx,tz,null,tlv); P.tapPref={x:pref?pref.x:hit.x,z:pref?pref.z:hit.z,lv:tlv==null?(P.lv|0):tlv,zone:E.zone&&E.zone.id};   /* 點的那個位置：走到以後，範圍重疊的互動以離點的位置最近的為準（nearestInteractable；BB-C 10-28 main_day12：點床走過去，停在床底下紙箱那一側，按鈕是紙箱不是睡覺）*/ P.run=Math.hypot(tx-P.obj.position.x,tz-P.obj.position.z)>16||input.runToggle; if(E.onTapGround) E.onTapGround(Object.assign({},hit,{x:tx,z:tz,lv:tlv})); } } }
++        if(!E.moveTo(P,tx,tz,null,tlv)){   /* WZ-SUNNY-TAPNAV-1112（LAWWW2-C；CC WZ_TAP_28：點了遠處，找不到路，人完全不動也沒提示）：找不到路時改走到這條線上最近走得到的地方（從點的位置往回、每 0.5 m 試一次），還是不行就提示 */
++          const x0=P.obj.position.x, z0=P.obj.position.z, L=Math.hypot(tx-x0,tz-z0); let got=false; E.tapNoPath=(E.tapNoPath||0)+1;
++          for(let d=0.5;d<L-0.3&&!got;d+=0.5){ const k=(L-d)/L; got=E.moveTo(P,x0+(tx-x0)*k,z0+(tz-z0)*k,null,tlv); }
++          if(!got&&E.toast) E.toast('那邊走不過去');
++        }
++        P.tapPref={x:pref?pref.x:hit.x,z:pref?pref.z:hit.z,lv:tlv==null?(P.lv|0):tlv,zone:E.zone&&E.zone.id};   /* 點的那個位置：走到以後，範圍重疊的互動以離點的位置最近的為準（nearestInteractable；BB-C 10-28 main_day12：點床走過去，停在床底下紙箱那一側，按鈕是紙箱不是睡覺）*/ P.run=Math.hypot(tx-P.obj.position.x,tz-P.obj.position.z)>16||input.runToggle; if(E.onTapGround) E.onTapGround(Object.assign({},hit,{x:tx,z:tz,lv:tlv})); } } }
+     // 直接操控
+     let mv=tmpV.set(0,0,0); if(!P.busy&&E.cam.mode==='follow'){ if(input.keys['w']||input.keys['arrowup']) mv.z-=1; if(input.keys['s']||input.keys['arrowdown']) mv.z+=1; if(input.keys['a']||input.keys['arrowleft']) mv.x-=1; if(input.keys['d']||input.keys['arrowright']) mv.x+=1; if(input.joy.active){ mv.x+=input.joy.x; mv.z+=input.joy.y; } }
+     const spdWalk=E.SPD.walk, spdRun=E.SPD.run; let moving=false;
+diff --git a/tests/tap_nopath_1112_unit.js b/tests/tap_nopath_1112_unit.js
+new file mode 100644
+index 0000000000..7b3f199ea4
+--- /dev/null
++++ b/tests/tap_nopath_1112_unit.js
+@@ -0,0 +1,17 @@
++// WZ-SUNNY-TAPNAV-1112（LAWWW2-C 2026-11-12）：點地面找不到路時（E.moveTo 回 false），改走到點的位置和玩家之間、最近走得到的地方；都不行就提示「那邊走不過去」
++// CC WZ_TAP_28：溫州街 (−35,−1.6) 點 (45,−1.6)，path 一直是 null、人 94 秒沒動也沒提示。Node 裡那兩點之間導航是通的（這支 2. 也確認），所以遊戲裡回 null 的原因還要 CC 記 E.pathTo 的回傳；這一包先處理「找不到路就不動」。
++const fs=require('fs'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
++let fails=0; const ok=(c,m,x)=>{ console.log((c?'PASS ':'FAIL ')+m+(x?'　'+x:'')); if(!c) fails++; };
++const src=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
++const m=/if\(!E\.moveTo\(P,tx,tz,null,tlv\)\)\{([\s\S]*?)\n        \}/.exec(src);
++ok(!!m,'1. engine3d.js 點地面：E.moveTo 回 false 時有後備');
++if(m){ // 拿那一段跑：假的 moveTo——離玩家 ≤ 30 m 的點才走得到
++  const run=(P,tx,tz,reach)=>{ const calls=[], toasts=[]; const E={moveTo:(p,x,z)=>{ calls.push([x,z]); const ok=Math.hypot(x-p.obj.position.x,z-p.obj.position.z)<=reach; if(ok) p.path=[[x,z]]; return ok; },toast:t=>toasts.push(t)};
++    new Function('E','P','tx','tz','tlv',m[1])(E,P,tx,tz,0); return {calls,toasts,path:P.path}; };
++  const P={obj:{position:{x:-35,z:-1.6}},path:null}; const r=run(P,45,-1.6,30);
++  ok(r.path&&r.path.length&&Math.abs(r.path[0][0]-(-5))<0.6&&!r.toasts.length,'1a. 點 80 m 外、只有 30 m 內走得到：改走到這條線上最遠走得到的地方（約 x −5）、不提示',JSON.stringify(r.path));
++  const P2={obj:{position:{x:0,z:0}},path:null}; const r2=run(P2,10,0,0);
++  ok(!r2.path&&r2.toasts.length===1,'1b. 一點都走不到：提示「'+(r2.toasts[0]||'')+'」');
++}
++const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); ok(/E\.toast=\(t,ms\)=>toast\(t,ms\)/.test(g3),'2. game3d.js 把 toast 給 engine（E.toast）');
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/src/game3d.js b/src/game3d.js
+index cc4d81c46c..3a5289fa2b 100644
+--- a/src/game3d.js
++++ b/src/game3d.js
+@@ -927,7 +927,7 @@ const GAME = (function(){
+     const userClosePhone=()=>{ if(G&&PHONE.mustOpen&&PHONE.mustOpen(G,phoneThread||undefined)){ const m=PHONE.pending(G).find(q=>q.ask.must&&(!phoneThread||PHONE.th(q)===phoneThread)); toast(m&&PHONE.title?'先回覆'+PHONE.title(G,PHONE.th(m))+'。':'先回覆。'); return; }   /* 說是誰在等（BB-B 11-01 n40_cardsdiag2：只有「先回覆。」一閃，玩家不知道要回哪一串）*/ closePhone(); };   /* 一定要回的訊息（ask.must）沒回之前，玩家按關閉不會關 */
+     if($('btnPhone')){ $('btnPhone').onclick=()=>{ if(phoneOpen) userClosePhone(); else openPhone(); }; $('btnPhoneClose').onclick=userClosePhone; document.querySelectorAll('#phoneTabs button').forEach(b=>b.onclick=()=>{ if(b.disabled) return; phoneTab=b.dataset.ptab; phoneThread=null; phonePerson=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; }); if($('nextClass')) $('nextClass').onclick=()=>openPhone('today'); } $('interact').onclick=()=>doInteract(); $('btnRun').onclick=()=>{ E.player.runHold=!E.player.runHold; E.input.runToggle=E.player.runHold; $('btnRun').classList.toggle('on',E.player.runHold); }; $('btnCenter').onclick=()=>E.recenter(); if(typeof BIKE!=='undefined') BIKE.bindUI(GM);
+     $('dlg').addEventListener('pointerup',e=>{ e.stopPropagation(); dlgAdvance(); }); addEventListener('keydown',e=>{ if(e.key===' '||e.key==='Enter'){ if(dlgAdvance()) e.preventDefault(); else if(nearIt&&!menuOpen) doInteract(); } if(e.key==='Escape'){ if(menuOpen) closeMenu(); else if(!D.active) openMenu('notes'); } });
+-    E.onTap=(tp)=>{ if(D.active){ dlgAdvance(); return true; } return false; }; E.tapRedirect=tapToSeat;
++    E.onTap=(tp)=>{ if(D.active){ dlgAdvance(); return true; } return false; }; E.tapRedirect=tapToSeat; E.toast=(t,ms)=>toast(t,ms);   /* WZ-SUNNY-TAPNAV-1112：點了走不到的地方，engine3d.js 提示用 */
+     E.rideMode=n=>typeof STORY!=='undefined'&&STORY.rideMode?STORY.rideMode(n):'ride'; E.onRide=(n,on)=>{ if(typeof STORY!=='undefined'&&STORY.onRide) STORY.onRide(GM,n,on); };   /* 載妹墊（AA_137 第 5 節）*/
+     E.onGreet=(n)=>{ if(!D.active&&!E.player.busy) caption('',n.name+'朝你揮了揮手。',1800); };
+     $('setQuality').onchange=e=>{ S.quality=e.target.value; saveSettings(); applySettings(); }; $('setJoy').onchange=e=>{ S.joystick=e.target.checked; saveSettings(); applySettings(); }; if($('setWakeMenu')) $('setWakeMenu').onchange=e=>{ S.wakeMenu=e.target.checked; saveSettings(); }; if($('setClassRemind')) $('setClassRemind').onchange=e=>{ S.classRemind=e.target.checked; saveSettings(); }; if($('setHints')) $('setHints').onchange=e=>{ S.hints=e.target.checked; saveSettings(); }; if($('setGuide')) $('setGuide').onchange=e=>{ S.guide=e.target.checked; saveSettings(); if(typeof GUIDE!=='undefined') GUIDE.zoneChanged(); }; if($('btnBigMap')) $('btnBigMap').onclick=()=>{ closeMenu(); if(typeof GUIDE!=='undefined') GUIDE.openMap(); }; $('setVol').oninput=e=>{ S.volume=parseFloat(e.target.value); saveSettings(); A3.setVolume(S.volume); }; $('setSpeed').onchange=e=>{ S.textSpeed=parseInt(e.target.value); saveSettings(); }; $('setFps').onchange=e=>{ S.fps=e.target.checked; saveSettings(); applySettings(); }; $('setMdbg').onchange=e=>{ S.mdbg=e.target.checked; saveSettings(); applySettings(); }; $('setGlb').onchange=e=>{ S.glbChar=e.target.checked; CHAR.useModels=S.glbChar; saveSettings(); toast('下次載入時生效'); };
