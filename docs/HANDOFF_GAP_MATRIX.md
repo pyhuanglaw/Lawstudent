@@ -6,6 +6,18 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
+### LAWWW-C 值班中的進度快照｜2026-11-12 08:1x UTC（還沒交班；這一節平時更新，交班只補差異）
+
+- **線上**還是 v9.10.25（main dc3d33941）。今天的東西都在開發分支 `claude/adoring-meitner-mqzst8`（08:1x 頂端 `1ec4613b04`），**沒有發布**。
+- **A 本班成果（都在開發分支、Node 相關測試過、瀏覽器大多還沒驗）**：規則 D152～D157（等的時候要做事的 hook、地點關卡、店面標準 §12、電腦不能空轉、規則包同步）；地點關卡 `tests/place_gate_unit.js`（已知未過 128→61）＋現況表＋BB 第三層判定檔 `docs/handoff/place_gate_bb.json`；60 fps 上限；店員／客人／118 巷同學；夜市 13 攤＋118 巷兩間外帶顧攤的人；打烊後店員不站店裡；14 間颱風假不開；6 間進快速前往；三間飲料可送人；四間店營業時間（AA_831 第二版）；打工五間（AA_828／829，三輪）；可昕、以安改句（AA_819～834）；LAWWW2 的店外＝室內模型（新生南路 5＋南洋＋汀州路 7）、水源市場巷子、林家乾麵街景。
+- **B 全部未完成（任務 ID）**：BUG-RUN-STUTTER-1112（P0，原因假設＝300 Hz 螢幕＋沒上限；使用者：筆電 60 Hz 不頓、300 Hz 一直接著；CC ST5 r2 還沒驗到）；SHOP-REAL-INSIDE-1112（第一次走近 233 ms＝BB FAIL，LAWWW2 改預載；汀州路七間等 CC／BB；東南大聯商品換模型；溫州街、公館、禮貌生財、溫特寶邸還沒接）；SHOP-STANDARD-BACKFILL-1112（剩 8：美國兩間買不到東西＋字、禮貌生財三點字＝AA；阿忠鮮果顧攤＝LAWWW2 站位；燒臘打烊窗變暗＝LAWWW2）；L118-CLOSED-LOOKS-OPEN-1112（外觀＝LAWWW2）；SHOP-INTERIOR-VIEW-1112、SHOP-WINDOW-3D-1112（LAWWW2）；SHOP-JOBS-1112（第四輪子代理在做：宋知寧山嵐線＋AA_828 第 6、7 節）；DLG-FULL-REVIEW-1110（以安後續批次＝AA 寫）；BAR-GROUP-3D-1112；DATE-CHOICES-1110；MOVIE-REMIND-LATE-1110、US-FINAL-PROF-PASS-1110（稽核改回待測試）；BRANCH-AUDIT（這台磁碟不夠，見 FACTS）。
+- **下一班第一件事**：BUG-RUN-STUTTER-1112 → SHOP-REAL-INSIDE-1112 → SHOP-JOBS-1112（合併第四輪）→ SHOP-STANDARD-BACKFILL-1112。
+- **C 正在做的**：子代理 `worktree-agent-a68ee22a0035c1ef4`（SHOP-JOBS 第四輪，基準 1ec4613b04）——回來當回合合併；容器重開先跑 `check_handoff.py loose`。
+- **D 規則**：D152～D157（CLAUDE.md、ROLE_*、AI_SESSION_HANDOFF HV-34～37）；下一個 D158。node-unit-auto 改成 cancel-in-progress:false（83d9e6374e）。
+- **E 跨 AI**：BB 判定走 place_gate_bb.json；CC 佇列（使用者電腦）：ST5 r2、XS_REAL_perf_old、TZ_REAL_*、L5F03_*、L2C82_ALL、L77DE_ALL（8cd94d440d）、南洋四角度；AA 待回：D16 刪節號、D18 她請確認；LAWWW2 待交：預載修頓、東南大聯商品、站位、自查溫州街／公館。
+- **F 測試與問題**：**11-12 下午 GHA 全套 Node 連 7 輪被取消，a8979a56a2 那一輪 08:00 起在跑、還沒出結果——在它（或之後一輪）綠以前，開發分支「全部 Node 過」沒有證據**；iPhone 實機今天完全沒驗；`check`、`asks`、`loose` 08:0x 都 OK；`roles`、`userwork`、`incr` 這一段還沒重跑。
+- **G 東西放在哪**：見 `docs/handoff/FACTS.md` 最後三條（磁碟、GHA、BB 判定檔）；scratchpad 的 numpy 環境 blenv 已刪（重建：`python3 -m venv` ＋ `pip install numpy`，地點關卡 `--coplanar` 才需要）。
+
 ### 帳號 A 沒有交班（用量到上限）→ 帳號 C 接班｜LAWWW-C（`session_01Me1thu8Zn934H58kWKNfuF`）｜2026-11-12 03:1x UTC 接班紀錄（HANDOFF-C-1112；**帳號 A 沒留交班快照**，下面是 LAWWW-C 從 commit、tasks.json 和使用者傳的帳號 A 最後對話截圖整理的）
 
 - **帳號 A 停在哪**：線上 v9.10.25（11-11，main dc3d33941）；發布後整合一路做到 `4e248bb55e`（11-11 21:05，X324 最後一塊＝閒聊階梯選項 fx 694 個，AA_816）。沒有只在它機器上的成果（commit 都在、已快轉合併）。
