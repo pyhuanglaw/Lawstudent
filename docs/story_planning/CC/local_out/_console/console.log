@@ -1543,3 +1543,15 @@
 [22:42:36] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
 [22:42:49] 正在跑：SSB_gg1_r2（已跑 10 分／上限 90 分）、SSB_gg2_r2（已跑 10 分／上限 70 分）、SSB_gg3a_r2（已跑 10 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:44:24] [res] cpu=7% mem=46% (14.6/31.4 GB) chrome_testing=10  END SSB_gg3a_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e5b43950d2..977a11c97c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:44:37] ==== END   SSB_gg3a_r2  exit=1  731s   ====
+[22:47:49] 正在跑：SSB_gg1_r2（已跑 15 分／上限 90 分）、SSB_gg2_r2（已跑 15 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:52:49] 正在跑：SSB_gg1_r2（已跑 20 分／上限 90 分）、SSB_gg2_r2（已跑 20 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:57:49] 正在跑：SSB_gg1_r2（已跑 25 分／上限 90 分）、SSB_gg2_r2（已跑 25 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:02:49] 正在跑：SSB_gg1_r2（已跑 30 分／上限 90 分）、SSB_gg2_r2（已跑 30 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:07:49] 正在跑：SSB_gg1_r2（已跑 35 分／上限 90 分）、SSB_gg2_r2（已跑 35 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:12:50] 正在跑：SSB_gg1_r2（已跑 40 分／上限 90 分）、SSB_gg2_r2（已跑 40 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:17:50] 正在跑：SSB_gg1_r2（已跑 45 分／上限 90 分）、SSB_gg2_r2（已跑 45 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:21:57] [res] cpu=6% mem=41% (13.0/31.4 GB) chrome_testing=5  END SSB_gg2_r2
