@@ -52,7 +52,7 @@ async def main():
                     st = await pg.evaluate(ST)
                     if st['choices']:
                         menus.append(st['choices']); await pg.screenshot(path=os.path.join(OUT, 'menu_%s_%d_%s_%02d.png' % (TAG, n, sub, len(menus))))
-                        if len(menus) == 1 and first_pick is not None: i = min(first_pick, len(st['choices']) - 1)
+                        if len(menus) == 1 and first_pick is not None: i = min(first_pick, len(st['choices']) - 1)   # lint-ok：序號超出範圍才夾到最後一個（EACH 第一層），不是找不到預設按最後
                         else: i = next((j for w in PICK for j, t in enumerate(st['choices']) if w in t), 0)
                         lines.append('▶ ' + st['choices'][i])
                         await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(800); continue

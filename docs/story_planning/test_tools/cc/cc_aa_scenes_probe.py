@@ -76,7 +76,7 @@ async def part_ev(pg, cdp, res):
         day, h = EVDAY.get(ev, (info.get('day') or '2026-10-14', (info.get('time') or [19])[0]))
         zone = next((z for z in info['loc'] if z), 'campus')
         s = await D.load_zone(pg, cdp, zone, day, float(h), wait=6000)
-        await pg.evaluate("(a=>{ const G=GAME.G; G.flags=G.flags||{}; for(const id of a.P){ G.flags['met_'+id]=true; if(!G.contacts) G.contacts={}; if(G.contacts[id]==null) G.contacts[id]=2; if(a.gf) G.flags['dating_'+id]=true; } })", {'P': info['participants'], 'gf': ev.endswith('_gf')})   # _gf 那一場＝交往中的版本
+        await pg.evaluate("(a=>{ const G=GAME.G; G.flags=G.flags||{}; for(const id of a.P){ G.flags['met_'+id]=true; try{ SOCIAL.meet(id,G.zone); }catch(e){}  if(!G.contacts) G.contacts={}; if(G.contacts[id]==null) G.contacts[id]=2; if(a.gf) G.flags['dating_'+id]=true; } })", {'P': info['participants'], 'gf': ev.endswith('_gf')})   # _gf 那一場＝交往中的版本
         R.setup('%s 【前置／捷徑】讀檔到 %s %s %.2f（location 第一個、條件事件關掉）、認識參與的人 → 【捷徑】EVENTS.run（不等觸發條件）：%s' % (tag, zone, day, float(h), J({k: info[k] for k in ('title', 'trigger', 'background', 'participants', 'n')})))
         await pg.evaluate("(id=>{ const e=STORY_EVENTS.find(x=>x.id===id); window.__evDone=false; EVENTS.run(e).then(()=>{ window.__evDone=true; }).catch(x=>{ window.__evDone='ERR '+String(x).slice(0,100); }); })", ev)
         await pg.wait_for_timeout(1200)
@@ -92,7 +92,7 @@ async def part_arc(pg, cdp, res):
         tag = '[ARC %s 第 %d 拍]' % (who, BEAT)
         await pg.goto(URL); await L.wait_loaded(pg)
         await D.load_zone(pg, cdp, 'campus', '2025-10-14', 15.0, wait=6000)
-        b = await pg.evaluate("(a=>{ const T=HEROINE_ARCS.people[a.who]; if(!T) return null; const b=T.beats.find(x=>x.n===a.n); if(!b) return null; const G=GAME.G; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;\
+        b = await pg.evaluate("(a=>{ const T=HEROINE_ARCS.people[a.who]; if(!T) return null; const b=T.beats.find(x=>x.n===a.n); if(!b) return null; const G=GAME.G; G.flags['met_'+a.who]=true; try{ SOCIAL.meet(a.who,G.zone); }catch(e){}  if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;\
             const P=GAME.E.player.obj, yaw=P.rotation.y; if(GAME.npc&&GAME.npc[a.who]&&GAME.removeNPC) GAME.removeNPC(a.who); const n=GAME.spawnCharacter(a.who,P.position.x+Math.sin(yaw)*1.4,P.position.z+Math.cos(yaw)*1.4,{yaw:yaw+Math.PI,pose:'idle'}); if(n) n.frozen=true;\
             const r=ARCS.resolve(G,a.who,b); window.__arcDone=false; ARCS.run(GAME,{name:(CHARACTERS[a.who]||{}).name,obj:n&&n.obj,charId:a.who},a.who,r).then(()=>{ window.__arcDone=true; }).catch(x=>{ window.__arcDone='ERR '+String(x).slice(0,100); });\
             return {n:b.n, need:b.need, topic:b.topic||null, lines:b.lines, ask:b.ask, opts:(b.opts||[]).map(o=>o.t), spawned:!!n}; })", {'who': who, 'n': BEAT})
@@ -105,7 +105,7 @@ async def part_arc(pg, cdp, res):
         res.setdefault('arc', {})[who] = {'beat': b, 'lines': lines, 'r': r}
 
 
-GIFT_PREP = r"""(a=>{ const G=GAME.G, X=GIFT_HOLIDAY; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
+GIFT_PREP = r"""(a=>{ const G=GAME.G, X=GIFT_HOLIDAY; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; try{ SOCIAL.meet(a.who,G.zone); }catch(e){}  if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
   const ids=Object.keys(X.items); const love=ids.find(g=>(X.items[g].love||[]).includes(a.who)&&!X.items[g].made&&!(X.items[g].only&&!X.items[g].only.includes(a.who)));
   const ok=ids.find(g=>!(X.items[g].love||[]).includes(a.who)&&!(X.items[g].no||[]).includes(a.who)&&!X.items[g].made&&!X.items[g].only);
   try{ GIFTH.bag(G); }catch(e){}   /* 先讀一次，讓遊戲把 G.flags.GIFTH 建好（gifthol3d.js 的 F(G)）*/
@@ -149,7 +149,7 @@ async def part_gift(pg, cdp, res):
         res.setdefault('gift', {})[who + '@' + day] = {'prep': g, 'picked': picked, 'lines': lines, 'after': after}
 
 
-DATE_PREP = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
+DATE_PREP = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; try{ SOCIAL.meet(a.who,G.zone); }catch(e){}  if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
   try{ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(a.who,{fam:60,trust:50,comf:50,aff:30}); }catch(e){}
   const r=DATE.book(G,{who:a.who,locs:[a.loc],day:G.day,by:'player'}); const q=(G.outings||[]).find(x=>x&&x.dateTrip===r.trip)||null;
   return {book:r.ok?{trip:r.trip, depart:r.depart, back:r.back, kind:r.kind, transport:r.transport, fare:r.fare}:r, out:q?{id:q.id, h:q.h, travelH:q.travelH, title:q.title}:null, money:G.money|0}; })"""

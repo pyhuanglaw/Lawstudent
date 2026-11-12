@@ -77,7 +77,8 @@ async def main():
                 i = next((n for n, t in enumerate(st['choices']) if want and want in t), None)
                 if i is None:
                     R.note('選單沒有含「%s」的：%s' % (want, J(st['choices']))); await pg.screenshot(path=os.path.join(OUT, 'inv_%s_menu_miss.png' % TAG))
-                    i = len(st['choices']) - 1
+                    R.check('FAIL_SETUP 檢查：選單有含「%s」的選項' % want, False, J(st['choices']))
+                    i = next((n for n, t in enumerate(st['choices']) if any(w in t for w in ('算了', '先不要', '離開', '不用'))), 0)
                 else: k += 1
                 picked.append([st['choices'], st['choices'][i]]); await pg.screenshot(path=os.path.join(OUT, 'inv_%s_menu_%02d.png' % (TAG, len(picked))))
                 await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(900)

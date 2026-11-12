@@ -11,6 +11,8 @@
   探針清單（CC_02 丁，使用者 2026-11-12 要求、強制）：指定檔名的 cc_*.py 探針（＝剛新寫或改過的那幾支），檔頭要有一行
        「CC_02 清單 YYYY-MM-DD：1✓ 2✓ 3n/a（原因） … 13✓」——1～13 每一點都要有 ✓ 或 n/a（原因）；少一點、n/a 沒寫原因＝FAIL。
        不給參數全掃時不查這一項（舊探針很多還沒有清單），只要一改、一指定就要補。
+  已知錯誤（CC_02 乙，2026-11-13）：指定的探針另外查今天犯過的寫法（PHONE.tick 傳 true、Raycaster 沒設 camera、只設 met_ 旗標、選單預設按最後一個）；
+       清單日期 2026-11-13 以後的探針一定要有 FAIL_SETUP 前置自檢。那一行寫 lint-ok：原因 可以放行。
 結果：每個問題一行「FAIL 檔案:行 說明」，最後 ALL PASS／FAILED n；exit 0／1。
 """
 import ast, os, re, subprocess, sys, py_compile
@@ -92,6 +94,29 @@ CHK_LINE = re.compile(r'CC_02 清單 (\d{4}-\d{2}-\d{2})：(.*)')
 CHK_ITEM = re.compile(r'(?<![0-9])(1[0-3]|[1-9])(✓|n/a（[^）]+）)')
 
 
+# CC_02 乙（使用者 2026-11-13：「探針自己寫錯 可以避免這個發生這麼多次嗎」）：今天已經犯過、機器擋得住的寫法。那一行寫「lint-ok：原因」可以放行。
+KNOWN = [
+    (re.compile(r"PHONE\.tick\(\s*G\s*,\s*true\s*\)"), 'PHONE.tick 第二個參數要傳函式（傳 true＝notify is not a function，TUTOR_BACK r2）'),
+    (re.compile(r"len\(\s*\w+\[\s*'choices'\s*\]\s*\)\s*-\s*1"), '選單找不到要的選項就按最後一個＝按到「先不吃／算了」（燒臘、INVITE）；找不到要記下來、照字選，不要預設最後一個'),
+]
+def check_known(path, out):
+    src = open(path, encoding='utf-8').read(); lines = src.splitlines()
+    for i, ln in enumerate(lines, 1):
+        if 'lint-ok' in ln: continue
+        for rx, why in KNOWN:
+            if rx.search(ln): out.append('%s:%d：%s' % (path, i, why))
+    if 'new THREE.Raycaster(' in src and not re.search(r"\.camera\s*=|setFromCamera\(", src):
+        out.append('%s：用了 THREE.Raycaster 卻沒設 camera（場景有 Sprite 時 null.matrixWorld 當掉，SUNNY_DOOR_walk r1）' % path)
+    if re.search(r"flags\[\s*'met_'|'met_'\s*\+", src) and 'SOCIAL.meet(' not in src and 'lint-ok' not in src:
+        out.append('%s：只設 met_ 旗標當作「認識她」——遊戲看的是 SOCIAL 的 FIRST_MET，要用 SOCIAL.meet（INVITE_TZ r1 跑出第一次見面）' % path)
+    m = None
+    for ln in lines[:80]:
+        m = CHK_LINE.search(ln)
+        if m: break
+    if m and m.group(1) >= '2026-11-13' and 'FAIL_SETUP' not in src:
+        out.append('%s：2026-11-13 起的新探針要有前置自檢——讀檔、捷徑做完先用遊戲自己的判斷確認（店有開、真的認識、找到的就是指定那個、鏡頭朝著要拍的東西），不成立就記「FAIL_SETUP」並停，不要跑完整支' % path)
+
+
 def check_checklist(path, out):
     """CC_02 丁：新寫／修改的探針，檔頭要有一行逐條過的 13 點清單（使用者 2026-11-12：「你要自己寫規則讓以後不會再做這種事」）"""
     src = open(path, encoding='utf-8').read()
@@ -132,6 +157,7 @@ def main(args):
         (check_py if p.endswith('.py') else check_js)(p, out)
         if args and os.path.isfile(p) and p.endswith('.py') and os.path.basename(p).startswith('cc_') and 'test_tools' in os.path.abspath(p) and not os.path.basename(p).endswith('_lib.py'):
             check_checklist(p, out)   # CC_02 丁：指定的探針檔（剛改的）要有 13 點清單
+            check_known(p, out)   # CC_02 乙：已經犯過的寫法（2026-11-13）
     for line in out:
         print('FAIL ' + (line[len(ROOT) + 1:] if line.startswith(ROOT + '/') else line))
     try:
