@@ -9,7 +9,9 @@ PC 重現三次：L118D_H_B REG_YT、H_C REG_XC、H_B_r2 REG_YT 都停在 (−3.
     → 脫困：往下退 1 m 再走一次（記上不上得去）；還是不行就【捷徑】放回樓梯底，下一趟。
   RUN＝1：觸控按「跑」（#btnRun 切成跑步）；FPSCAP＝10：包 requestAnimationFrame 限 10 fps（【前置／捷徑】只改幀率）。
 判定：每一段 PASS／FAIL；結尾印每條線「上 n/TRIPS、下 n/TRIPS、卡住的座標」總表。舊版（線上 779ddd650）也照跑，分辨本來就有還是這一版才有。
-用法：LW_TESTS=<wt>/tests SHA=<sha> RUN=0|1 FPSCAP=0|10 python3 cc_stair_probe.py <url> <out>"""
+PUSH（CC-C 11-12，BB-C 03:30）：straight 直線推／diag 稍微斜推（目標往樓梯中線偏 0.5 m；樓梯 x −4.5～−3、中線 −3.75＝be1e 雲端量 11-12）／tap 點樓梯面（每次點前面 2 m、快到才點目標）。
+CC_02 清單 2026-11-12：1✓ 2✓ 3n/a（BB 指定固定三條線、每條線一趟，不挑候選） 4✓ 5✓ 6n/a（不測時刻，只測走路；讀檔 15:00 木曜日有開） 7✓ 8✓ 9n/a（卡住截圖本來就要看到人，不藏玩家） 10✓ 11✓ 12✓ 13✓
+用法：LW_TESTS=<wt>/tests SHA=<sha> RUN=0|1 FPSCAP=0|10 [PUSH=straight|diag|tap] python3 cc_stair_probe.py <url> <out>"""
 import os, sys, json, time, math, asyncio, datetime
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import importlib.util
@@ -142,6 +144,8 @@ async def tap_seg(pg, cdp, tag, tx, tz, lv):
     while time.time() - t0 < 45:
         e = await D.st(pg)
         if math.hypot(e['x'] - tx, e['z'] - tz) <= 0.5 and e['lv'] == lv: break
+        if e.get('dlg') or e.get('choices'):   # CC_02 乙 13：途中有對話／選單就停下來記，不盲點（讀檔時已關條件事件，照理不會有）
+            R.note('%s 點地途中出現對話／選單：%s——停下來，不判' % (tag, J({k: e.get(k) for k in ('dlg', 'choices', 'interact')}))); break
         if last is None or math.hypot(e['x'] - last[0], e['z'] - last[1]) >= 0.3: last = (e['x'], e['z']); still0 = time.time()
         worst = max(worst, time.time() - still0)
         if taps == 0 or time.time() - still0 > 2.5 or (aim and math.hypot(e['x'] - aim[0], e['z'] - aim[1]) < 0.6):
@@ -152,6 +156,8 @@ async def tap_seg(pg, cdp, tag, tx, tz, lv):
             pt = await L.tap_ground(pg, cdp, ax, az, lv=alv)
             if not pt: await L.turn_camera_to(pg, cdp, ax, az); pt = await L.tap_ground(pg, cdp, ax, az, lv=alv)
             aim = (ax, az)
+            if pt and await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):   # CC_02 乙 4：點下去打開了手機＝點到 HUD 旁邊，不算點到遊戲畫面，收起來
+                R.note('%s 這一下打開了手機（點到 HUD 旁邊）：收起來，不算' % tag); await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(500); pt = None
             if pt: taps += 1; still0 = time.time()
             else: miss += 1
         await pg.wait_for_timeout(300)
