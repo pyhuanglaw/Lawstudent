@@ -380,7 +380,7 @@ const date=id=>H.date(id);
   fresh('2029-05-02',20,'dorm',{whyLaw:'econ'}); H.FRIEND('heroine_01'); at('2029-05-02',21); phone();
   check('1B-24 5/2 21:00 以安「明天下午四點有空嗎？」「兩點半，窗邊。想找人聊天。」', th('p:heroine_01').join('|')==='明天下午四點有空嗎？|兩點半，窗邊。想找人聊天。');
   at('2029-05-03',16); H.G.zone='cafe'; check('1B-24 16:00 在 Café＝演', S.an20Due(H.G)); H.picks=[2]; await run('ev_an_your_turn');
-  check('A1 「換妳問我。」＋第二天 econ：「我念過一個多月經濟……」→「你四年前也是這樣講。」；IMPORTANT_CONVERSATION', has('以安，妳為什麼念法律？')&&has('我想把那種地圖畫好。')&&has('我念過一個多月經濟，才知道我想念的是這個。')&&has('你四年前也是這樣講。')&&SOCIAL.has('heroine_01','IMPORTANT_CONVERSATION')&&H.G.flags.AN_YOUR_TURN===true);
+  check('A1 「換妳問我。」＋第二天 econ（舊存檔，照 own：CANON-NO-ECON-1112 第四批照 AA_905）：「……我還在想。可是我想念完。」→「你四年前也是這樣講。」；IMPORTANT_CONVERSATION', has('以安，妳為什麼念法律？')&&has('我想把那種地圖畫好。')&&has('……我還在想。可是我想念完。')&&!has('我念過一個多月經濟，才知道我想念的是這個。')&&has('你四年前也是這樣講。')&&SOCIAL.has('heroine_01','IMPORTANT_CONVERSATION')&&H.G.flags.AN_YOUR_TURN===true);
   { fresh('2029-05-03',16,'cafe'); H.FRIEND('heroine_01'); date('heroine_01'); H.picks=[2]; await run('ev_an_your_turn');
     check('A3 和以安交往：「第一個問我的，是你。」（AA_589 第 58 列）；沒聊過＝「……也沒有人問過我。」「那你畢業以前要告訴我。」', has('第一個問我的，是你。')&&has('……也沒有人問過我。讓我想一下。')&&has('好。那你畢業以前要告訴我。')); }
   { fresh('2029-05-03',18,'noodle'); H.FRIEND('heroine_01'); date('kexin'); check('A2 和可昕交往：5/3 18:00 麵店長桌（Café 不演）', S.an20Mode(H.G)==='noodle'&&S.an20Due(H.G)); await run('ev_an_your_turn_noodle'); check('A2 麵店版一樣的回答', has('以安，妳為什麼念法律？')); }

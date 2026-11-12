@@ -49,7 +49,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('2. 沒交往：不演（AA_281 第 4 節 B-5：她什麼都不說，只有交往中的知道）',!tick());
   G.flags.dating_classmate_peishan=true;
   picks=['我陪妳念']/* （CANON-NO-ECON-1112 第四批：照 AA_886 換字）*/; tick(); await wait(); L=norm(lines());
-  check('2. 霖澤館 12:00～13:00：NOT_FOR_ME 開頭＋SIS_ANSWERED_WHY 那句＋三句；第三個選項「要考的話，我陪妳念。」→「好。那你先把你的念完。」（AA_886 第 2 節）、MIRROR_PEISHAN（SIS_ANSWERED_WHY 那句照 BB_167 SC4 #23「學姊那時候說她還在想。……我好像想好了。」，AB65-3）',L[0]==='你記得我說過框的事嗎？……我想了一年。'&&L[1]==='學姊那時候說她還在想。……我好像想好了。'&&L[2]==='我決定了。我要重考。去念教育。'&&L[L.length-1]==='好。那你先把你的念完。'&&SOCIAL.has('classmate_peishan','MIRROR_PEISHAN')&&G.flags.PEISHAN_RETAKE,JSON.stringify(L));
+  check('2. 霖澤館 12:00～13:00：NOT_FOR_ME 開頭＋SIS_ANSWERED_WHY 那句＋三句；第三個選項「要考的話，我陪妳念。」→「好。那你先把你的念完。」（AA_886 第 2 節）、MIRROR_PEISHAN（SIS_ANSWERED_WHY 那句照 BB_167 SC4 #23「學姊那時候說她還在想。……我好像想好了。」，AB65-3）',L[0]==='你記得我說過框的事嗎？……我想了一年。'&&L[1]==='學姊那時候說她還在想。……我好像想好了。'&&L[2]==='我決定了。我要重考。去念教育。'&&L[L.length-1]==='好。那你先把你的念完。'&&!SOCIAL.has('classmate_peishan','MIRROR_PEISHAN')/* （CANON-NO-ECON-1112 第四批：照 AA_901 第 10 項）不再記 MIRROR_PEISHAN；舊期望 has */&&G.flags.PEISHAN_RETAKE,JSON.stringify(L));
   fresh(tue5,12.2,'campus',{dating_classmate_peishan:true}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',...LV.FAM); G.events.done.ev_peishan_doubt=1; at(80,0); check('2. 校園遠處不演',!tick());
   at(34,-95); picks=['妳想去就去']; tick(); await wait(); L=norm(lines());
   check('2. 備案：霖澤館前 25 m 內；沒有 NOT_FOR_ME 的開頭（AB65-3：AA_211 附錄 B E5「我想了很久，到底要不要繼續念法律。」）；「妳想去就去。」',L[0]==='我想了很久，到底要不要繼續念法律。'&&L[1]==='我決定了。我要重考。去念教育。'&&L[L.length-1]==='難的是回家，跟我爸媽講。',JSON.stringify(L));
