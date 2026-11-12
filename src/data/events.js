@@ -758,17 +758,9 @@ const STORY_EVENTS=[
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'Alison 自我介紹講了三分鐘她的三個社團。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)&&STORY.knows('classmate_bohan',G)},speaker:'classmate_bohan',expression:'neutral',text:'（小聲）她剛剛講了四個。'},
       {speaker:null,text:'輪到你。'},
-      {choice:[{text:'「我叫{name}，臺北人。」',goto:'game'},{text:'「我比大家大一歲。」',goto:'older'},{text:'「我二十歲。念過經濟系，一個多月。」',goto:'econ'}]},
+      {choice:[{text:'「我叫{name}，臺北人。」',goto:'game'},{text:'「我比大家大一歲。」',goto:'older'}]},   /* CANON-1112（AA_859「一起拿掉的」）：第三個選項和它後面那一支（全場「喔——」、補問那一句、兩種回答）拿掉；AA 的迎新新稿到了再接。「大一歲」那個選項 AA_859 沒寫到，先留著、列給 AA */
       /* AA_313 5-3、5-4：說了「哥」就記 ZHE_CALLS_GE（之後阿哲照這個叫）；還不認識阿哲、Alison 的（8/31 迎新在宿營、開學以前）說話的人寫「旁邊一個男生」「前面一個女生」*/
       {label:'older'},{if:EV_KNOWS('zhe'),speaker:'zhe',expression:'laugh',text:'那我們叫你哥？'},{unless:EV_KNOWS('zhe'),speaker:'旁邊一個男生',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{set:{ZHE_CALLS_GE:true}},{goto:'game'},
-      {label:'econ'},{set:{ECON_PAST_SHARED:'full',ZHE_CALLS_GE:true}},{if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','FIRST_MET')},mem:[{npc:'heroine_01',tag:'KNOWS_ECON_YEAR',note:'迎新的自我介紹：你說念過經濟系'}]},
-      {speaker:null,text:'全場「喔——」。'},{if:EV_KNOWS('zhe'),speaker:'zhe',expression:'laugh',text:'哥！'},{unless:EV_KNOWS('zhe'),speaker:'旁邊一個男生',text:'哥！'},
-      /* 「為什麼重考？」（AA_224 2-c；AA-C 2026-10-17 Q3）：宿營夜談沒問過的（WHY_RETAKE_ASKED），Alison 補問一次；選「大一歲」不問 */
-      {if:{flags:['WHY_RETAKE_ASKED']},goto:'game'},
-      {if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'欸，為什麼重考？'},{unless:EV_KNOWS('yu'),speaker:'前面一個女生',text:'欸，為什麼重考？'},{set:{WHY_RETAKE_ASKED:true}},
-      {if:{flagIs:{E24C_REASON:'honest'}},goto:'why_h'},
-      {speaker:'player',text:'本來就想念法律。第一次沒考上。'},{if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'好，懂了。'},{unless:EV_KNOWS('yu'),speaker:'前面一個女生',text:'好，懂了。'},{goto:'game'},
-      {label:'why_h'},{speaker:'player',text:'第一次社會考壞了，差四分。先去念了一個多月的經濟。'},{if:EV_KNOWS('zhe'),speaker:'zhe',expression:'neutral',text:'差四分喔……那真的很煩。'},{unless:EV_KNOWS('zhe'),speaker:'旁邊一個男生',text:'差四分喔……那真的很煩。'},
       {label:'game'},{speaker:null,text:'大地遊戲，你和沛珊同一組。最後一關：用一句話說為什麼念法律。'},
       {speaker:'classmate_peishan',expression:'neutral',text:'我可以問一個奇怪的問題嗎。……如果答不出來，可以算過關嗎？'},
       {choice:[{text:'（替她答）「她想知道法律外面還有什麼。」',goto:'answer'},{text:'「我也還在找。」',goto:'search'}]},
