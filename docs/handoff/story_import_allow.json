@@ -8102,13 +8102,17 @@
   },
   {
    "path": "docs/story_planning/AA_730_nanyang_movies.json",
-   "sha": "7c2de85b6",
+   "sha": "a9465983f0",
    "status": "approved",
    "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
    "task": "MOVIE-REAL-1110",
    "kind": "json",
-   "note": "X274 南洋戲院片單：2024-09～2030-08 每兩個月兩部（72 部）、選片 sceneFilm、大廳黑板、燈暗那一句、一個人看的三句——tools/movie/import_nanyang_movies.py → src/data/nanyang_movies.js（48c0428ab：m2507a 片名改《颱風來以前》，id 不變）；7c2de85b6：m2811a 片名改《一個人的舉重社》、m2809a／m2907b／m2711a 一句話改、m2809a 拿掉書店標籤（AA_745 第二版同一個 commit）",
+   "note": "X274 南洋戲院片單：2024-09～2030-08 每兩個月兩部（72 部）、選片 sceneFilm、大廳黑板、燈暗那一句、一個人看的三句——tools/movie/import_nanyang_movies.py → src/data/nanyang_movies.js（48c0428ab：m2507a 片名改《颱風來以前》，id 不變）；7c2de85b6：m2811a 片名改《一個人的舉重社》、m2809a／m2907b／m2711a 一句話改、m2809a 拿掉書店標籤（AA_745 第二版同一個 commit）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）",
    "history": [
+    {
+     "sha": "7c2de85b6",
+     "approvedBy": "AA 定稿（D109），LAWWW 11-10 接"
+    },
     {
      "sha": "48c0428ab",
      "approvedBy": "AA（D109）"
@@ -8121,13 +8125,17 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_1.json",
-   "sha": "4e41f0d09",
+   "sha": "a9465983f0",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 1 批：m2409a～m2607b 24 部（情節、場景、散場三選項含效果、13 組片×人）；14536ff5e：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 1 批：m2409a～m2607b 24 部（情節、場景、散場三選項含效果、13 組片×人）；14536ff5e：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）",
    "history": [
+    {
+     "sha": "4e41f0d09",
+     "approvedBy": "AA（D109）"
+    },
     {
      "sha": "b189e6bdb",
      "approvedBy": "AA（D109）"
@@ -8144,13 +8152,17 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_2.json",
-   "sha": "07d50af2f7",
+   "sha": "a9465983f0",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 2 批：m2609a～m2807b 24 部（15 組片×人）；77f5d0463：第二版（照 BB_308：pick、可昕排球段拿掉；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；07d50af2f7：AA_827 可昕第五批（X324 續改，AA-C 11-12 定稿、BB-C 第二意見）：m2609a 可昕一句「好。你哪天有空。帶電腦。」→「好，你哪天有空？記得帶電腦。」（和 4e41f0d09 只差這一句；11-12 重匯）",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 2 批：m2609a～m2807b 24 部（15 組片×人）；77f5d0463：第二版（照 BB_308：pick、可昕排球段拿掉；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；07d50af2f7：AA_827 可昕第五批（X324 續改，AA-C 11-12 定稿、BB-C 第二意見）：m2609a 可昕一句「好。你哪天有空。帶電腦。」→「好，你哪天有空？記得帶電腦。」（和 4e41f0d09 只差這一句；11-12 重匯）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）",
    "history": [
+    {
+     "sha": "07d50af2f7",
+     "approvedBy": "AA（D109）"
+    },
     {
      "sha": "4e41f0d09",
      "approvedBy": "AA（D109）"
@@ -8171,13 +8183,17 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_3.json",
-   "sha": "4e41f0d09",
+   "sha": "a9465983f0",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 3 批：m2809a～m3007b 24 部（72 部寫完）；7c2de85b6：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 3 批：m2809a～m3007b 24 部（72 部寫完）；7c2de85b6：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）；4e41f0d09：kind 七種（feel／notice／wonder／self／joke／crit／ask）、talk.nofb、qOther、optsOther（BB_313；LAWWW 11-10 重匯）；a9465983f0：CANON-NO-ECON-1112 第四批（AA_897 第 1 節）電影裡講考生的句子改字（第二次考試的考生、考第四年的；AA-C 同步進源稿，BB_431），舊序章那一年的說明欄換代號（LAWWW 的子代理重匯）",
    "history": [
+    {
+     "sha": "4e41f0d09",
+     "approvedBy": "AA（D109）"
+    },
     {
      "sha": "b189e6bdb",
      "approvedBy": "AA（D109）"
@@ -9629,7 +9645,7 @@
    "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
-   "note": "r2y3b3d.js K18 邀約與照片、y2b_events.js 子晴畢業專題選項、r2y4a3d.js K21／K22／聖誕排程、y34b3d.js K19／K23 排程（第 2 節「可昕第一次考壞」那一行跟著 AA_873 ②，這一批沒做）（第四批，LAWWW 的子代理）"
+   "note": "r2y3b3d.js K18 邀約與照片、y2b_events.js 子晴畢業專題選項、r2y4a3d.js K21／K22／聖誕排程、y34b3d.js K19／K23 排程（第四批，LAWWW 的子代理）；第 2 節「可昕第一次考壞」那一行跟著 AA_873 ② 做了（第四批第三份，events.js ev_kexin_bad_exam）"
   },
   {
    "path": "docs/story_planning/AA_894_src對照表_social_msg_invites_scenes.md",
