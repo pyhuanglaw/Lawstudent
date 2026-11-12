@@ -19,8 +19,8 @@ R = L.Run('fruit_owner', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 OWNER = r"""(()=>{ const E=GAME.E, G=GAME.G; const L=(E.npcs||[]).filter(n=>n&&n.fruitOwner); const all=(E.npcs||[]).filter(n=>n&&n.obj&&Math.hypot(n.obj.position.x-34.9,n.obj.position.z+6.15)<4);
   const f=n=>({name:n.name||'', id:n.charId||n.id||'', x:n.obj?+n.obj.position.x.toFixed(2):null, z:n.obj?+n.obj.position.z.toFixed(2):null, vis:n.obj?n.obj.visible!==false:null, hidden:!!n.hidden, pose:n.pose||null, fruitOwner:!!n.fruitOwner, d:n.obj?+Math.hypot(n.obj.position.x-34.9,n.obj.position.z+6.15).toFixed(2):null});
-  let open=null; try{ open=typeof PLACES!=='undefined'&&PLACES.isOpen?PLACES.isOpen('wz_fruit',(+G.hour)%24,G.day):null; }catch(e){}
-  return {zone:G.zone, h:+(+G.hour).toFixed(2), owners:L.map(f), near4m:all.map(f), hasFn:!!(typeof CLOSED!=='undefined'&&CLOSED.fruitOwner), open, npcs:(E.npcs||[]).length}; })()"""
+  let open=null, want=null; try{ open=typeof WZS!=='undefined'&&WZS.fruitOpen?!!WZS.fruitOpen(G):null; }catch(e){ open=String(e).slice(0,60); } try{ want=typeof CLOSED!=='undefined'&&CLOSED.fruitOwnerWant?!!CLOSED.fruitOwnerWant(G):null; }catch(e){ want=String(e).slice(0,60); }
+  return {zone:G.zone, h:+(+G.hour).toFixed(2), owners:L.map(f), near4m:all.map(f), hasFn:!!(typeof CLOSED!=='undefined'&&CLOSED.fruitOwner), open, want, npcs:(E.npcs||[]).length}; })()"""
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(55, c.width/c.height, 0.05, 300); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const P=E.player&&E.player.obj, pv=P?P.visible:null; if(P) P.visible=false; let url; try{ r.render(E.scene,cam); url=c.toDataURL('image/jpeg',0.9); } finally { if(P) P.visible=pv; } return url; })"""
 
@@ -32,7 +32,7 @@ async def record(pg, tag, res):
     for nm, frm in (('zplus', [34.9, 1.6, -2.2]), ('zminus', [34.9, 1.6, -10.1])):
         u = await pg.evaluate(SNAP, {'from': frm, 'at': [34.9, 1.1, -6.15]})
         if u: open(os.path.join(OUT, 'fruit_%s_%s.jpg' % (tag, nm)), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
-    R.note('[%s] %s %.2f：fruitOwner %s；攤子 4 m 內的人 %s；CLOSED.fruitOwner 存在=%s；PLACES.isOpen(wz_fruit)=%s；npc 共 %s' % (tag, o['zone'], o['h'], J(o['owners']), J(o['near4m']), o['hasFn'], o['open'], o['npcs']))
+    R.note('[%s] %s %.2f：fruitOwner %s；攤子 4 m 內的人 %s；CLOSED.fruitOwner 存在=%s；WZS.fruitOpen=%s；CLOSED.fruitOwnerWant=%s；npc 共 %s' % (tag, o['zone'], o['h'], J(o['owners']), J(o['near4m']), o['hasFn'], o['open'], o.get('want'), o['npcs']))
     R.check('[%s] 營業中攤子後面有老闆（E.npcs 有 fruitOwner、看得到）' % tag, any(x['vis'] and not x['hidden'] for x in o['owners']), J(o['owners']))
 
 
