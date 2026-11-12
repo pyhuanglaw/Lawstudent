@@ -7385,6 +7385,23 @@
    "ack": "",
    "noDirectIntegrate": false,
    "next": "AA_7xx／8xx 企劃原稿換成代號、canon_scan 乾淨；舊覆寫檔 _meta 加 canon_1112「不要再從本檔重匯」。AA_897 定稿，第 1 節電影四句改字不放例外（movie_plots.js 1404／4577／4600、nanyang_movies.js 295、movie_plots.js 2898 的 when 欄）。"
+  },
+  {
+   "task": "CANON-NO-ECON-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_898_src對照表_誤判兩字.md",
+    "docs/story_planning/00_現行設定總表.md",
+    "docs/story_planning/00_人物口氣表.md",
+    "docs/story_planning/voice_canon/"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T18:5x",
+   "receiver": "LAWWW",
+   "ack": "",
+   "noDirectIntegrate": false,
+   "next": "AA_898：「前」「傳」相連誤判 7 句改字＋註解清單；總表、口氣表、voice_canon 已清成現行（d40711706、315329e00、fcc91f0ea）"
   }
  ],
  "items": [
