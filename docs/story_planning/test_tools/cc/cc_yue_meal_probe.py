@@ -82,6 +82,7 @@ def prep(sv0, who, day=None, wd=None, h=None, dating=False):
     rel = sv.setdefault('social', {}).setdefault('rel', {})
     r0 = rel.get(who) or {}
     r0.update({'fam': max(r0.get('fam', 0), 90), 'trust': max(r0.get('trust', 0), 70), 'comf': max(r0.get('comf', 0), 70), 'seen': max(r0.get('seen', 0), 30), 'talked': max(r0.get('talked', 0), 30), '_migrated': True})
+    if who == 'heroine_05': F['met_sis'] = True   # AA_828 第 9 節（ebfb849c03）：學姊來越好吃只要認識她（yueMeal.sis.met＝met_sis）
     if dating:
         F['dating_' + who] = True; r0['rom'] = max(r0.get('rom', 0), 80); r0['aff'] = max(r0.get('aff', 0), 60)
     rel[who] = r0
