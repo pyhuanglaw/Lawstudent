@@ -1,0 +1,672 @@
+{
+ "_meta": {
+  "doc": "AA_846 子晴第一批（DLG-FULL-REVIEW-1110）：約會選項回話「好」開頭 94/249 句。她的句子本來就有她的吐槽，問題只是前面都多一個「好」；14 句幾乎沒內容或撞句（「好。謝謝。」「好。」「好，樹下可以。」兩處、「好，救命。」兩處…）重寫。改 81 句，留 13 句。D06「下次我請你吃滷味」（沒下文）改成當天的宵夜，接 AA_841 滷味攤十點後半價。",
+  "by": "AA-C 2026-11-12",
+  "status": "待 BB 第二意見（D153）；**源稿還沒套用**",
+  "kept": [
+   "D01.expo|我幫妳找感應器。",
+   "D01.lawn|我們去室內。",
+   "D02.pond|牠可能喜歡那塊石頭。",
+   "D02.garden|我們去陰的地方。",
+   "D09.gondola|往下看很漂亮。",
+   "D13.drink|我也全糖。",
+   "D13.rail|（陪她看）",
+   "D24.street|好，分工。",
+   "D29.harbor|先去吃冰。",
+   "D30.bike|比賽？",
+   "D31.trail|再走一點。",
+   "D32.meadow|去摸羊。",
+   "D32.trail|慢慢走。"
+  ]
+ },
+ "rows": [
+  {
+   "file": "date_system/lines/D01.json",
+   "who": "heroine_04",
+   "point": "D01.expo",
+   "option": "「先玩再拆。」",
+   "old": "好，先玩，等一下再找。",
+   "new": "先玩，等一下再找。"
+  },
+  {
+   "file": "date_system/lines/D01.json",
+   "who": "heroine_04",
+   "point": "D01.lawn",
+   "option": "「去樹下？」",
+   "old": "好，樹下可以，你很會找位子。",
+   "new": "樹下可以，你很會找位子。"
+  },
+  {
+   "file": "date_system/lines/D01.json",
+   "who": "heroine_04",
+   "point": "D01.wall",
+   "option": "「我們一起拍。」",
+   "old": "好，再一張，剛剛我眨眼了。",
+   "new": "再一張，剛剛我眨眼了。"
+  },
+  {
+   "file": "date_system/lines/D02.json",
+   "who": "heroine_04",
+   "point": "D02.corridor",
+   "option": "「我先玩。」",
+   "old": "好，你先，我看你卡在哪裡。",
+   "new": "你先，我看你卡在哪裡。"
+  },
+  {
+   "file": "date_system/lines/D02.json",
+   "who": "heroine_04",
+   "point": "D02.corridor",
+   "option": "「妳玩，我看。」",
+   "old": "好，你幫我看時間，我會忘記。",
+   "new": "你幫我看時間，我會忘記。"
+  },
+  {
+   "file": "date_system/lines/D04.json",
+   "who": "heroine_04",
+   "point": "D04.street",
+   "option": "「我幫妳夾。」",
+   "old": "好。你按，我跟你說什麼時候放。",
+   "new": "你按，我跟你說什麼時候放。"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "heroine_04",
+   "point": "D05.cafe",
+   "option": "「先點東西。」",
+   "old": "好，我要最甜的那一個。",
+   "new": "我要最甜的那一個。"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "heroine_04",
+   "point": "D05.garden",
+   "option": "「坐一下再走？」",
+   "old": "好，你陪我數樹上有幾種聲音。",
+   "new": "你陪我數樹上有幾種聲音。"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "heroine_04",
+   "point": "D05.board",
+   "option": "「那就看這部。」",
+   "old": "好，如果很難看，你要負責。",
+   "new": "如果很難看，你要負責。"
+  },
+  {
+   "file": "date_system/lines/D06.json",
+   "who": "heroine_04",
+   "point": "D06.cafe",
+   "option": "「我請妳。」",
+   "old": "好。下次我請你吃滷味。",
+   "new": "那宵夜我請。滷味，十點以後半價。"
+  },
+  {
+   "file": "date_system/lines/D06.json",
+   "who": "heroine_04",
+   "point": "D06.lawn",
+   "option": "「去樹下。」",
+   "old": "好，樹下可以。",
+   "new": "樹下。我的眼睛還在開機。"
+  },
+  {
+   "file": "date_system/lines/D07.json",
+   "who": "heroine_04",
+   "point": "D07.cell",
+   "option": "「先出去吧。」",
+   "old": "好。謝謝。",
+   "new": "嗯。出去以後，我想先看一下天空。"
+  },
+  {
+   "file": "date_system/lines/D07.json",
+   "who": "heroine_04",
+   "point": "D07.wall",
+   "option": "「妳要不要坐一下？」",
+   "old": "好。",
+   "new": "坐一下。我要想一下剛剛那件事。"
+  },
+  {
+   "file": "date_system/lines/D09.json",
+   "who": "heroine_04",
+   "point": "D09.tea",
+   "option": "「慢一點也好。」",
+   "old": "好。四十秒。我數。",
+   "new": "四十秒。我數。"
+  },
+  {
+   "file": "date_system/lines/D09.json",
+   "who": "heroine_04",
+   "point": "D09.path",
+   "option": "「我走外面。」",
+   "old": "好。你掉下去我會拉你，大概。",
+   "new": "你掉下去我會拉你，大概。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "heroine_04",
+   "point": "D10.boat",
+   "option": "「一起踩。」",
+   "old": "好。可是你出比較多力。",
+   "new": "可是你出比較多力。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "heroine_04",
+   "point": "D10.walk",
+   "option": "「我們走快一點。」",
+   "old": "好。前面那棵樹下。",
+   "new": "前面那棵樹下。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "heroine_04",
+   "point": "D10.snack",
+   "option": "「慢慢吃。」",
+   "old": "好。可是我真的好餓。",
+   "new": "可是我真的好餓。"
+  },
+  {
+   "file": "date_system/lines/D11.json",
+   "who": "heroine_04",
+   "point": "D11.museum",
+   "option": "「好，一起錄。」",
+   "old": "好。你踩，我錄。",
+   "new": "你踩，我錄。"
+  },
+  {
+   "file": "date_system/lines/D11.json",
+   "who": "heroine_04",
+   "point": "D11.library",
+   "option": "「坐一下就好。」",
+   "old": "好，十分鐘。我來看這個屋頂是怎麼撐住的。",
+   "new": "十分鐘。我來看這個屋頂是怎麼撐住的。"
+  },
+  {
+   "file": "date_system/lines/D11.json",
+   "who": "heroine_04",
+   "point": "D11.footbath",
+   "option": "「泡久一點。」",
+   "old": "好。我不想站起來了。",
+   "new": "我不想站起來了。"
+  },
+  {
+   "file": "date_system/lines/D12.json",
+   "who": "heroine_04",
+   "point": "D12.sunset",
+   "option": "「再坐一下。」",
+   "old": "好。等它整顆下去再走。",
+   "new": "等它整顆下去再走。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "heroine_04",
+   "point": "D13.photo",
+   "option": "「拍妳。」",
+   "old": "好，不要拍到我在喝飲料。",
+   "new": "不要拍到我在喝飲料。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "heroine_04",
+   "point": "D13.photo",
+   "option": "「一起拍？」（第 6 階以上）",
+   "old": "好，請路人拍背影。",
+   "new": "請路人拍背影。"
+  },
+  {
+   "file": "date_system/lines/D14.json",
+   "who": "heroine_04",
+   "point": "D14.boardwalk",
+   "option": "「那邊有在賣。」",
+   "old": "好。你幫我挑。",
+   "new": "你幫我挑。"
+  },
+  {
+   "file": "date_system/lines/D14.json",
+   "who": "heroine_04",
+   "point": "D14.boardwalk",
+   "option": "「我們走快一點。」",
+   "old": "好。走到那個遮陽棚。",
+   "new": "走到那個遮陽棚。"
+  },
+  {
+   "file": "date_system/lines/D14.json",
+   "who": "heroine_04",
+   "point": "D14.ferry",
+   "option": "「抓著我。」",
+   "old": "好。船停了就放。",
+   "new": "船停了就放。"
+  },
+  {
+   "file": "date_system/lines/D15.json",
+   "who": "heroine_04",
+   "point": "D15.car",
+   "option": "「換一首？」",
+   "old": "好。下一首是選單畫面的，很平靜。",
+   "new": "下一首是選單畫面的，很平靜。"
+  },
+  {
+   "file": "date_system/lines/D15.json",
+   "who": "heroine_04",
+   "point": "D15.store",
+   "option": "「全部我請。」",
+   "old": "好，我記下來。",
+   "new": "我記下來了。"
+  },
+  {
+   "file": "date_system/lines/D16.json",
+   "who": "heroine_04",
+   "point": "D16.beach",
+   "option": "「去樹下。」",
+   "old": "好，救命。",
+   "new": "樹下。現在。"
+  },
+  {
+   "file": "date_system/lines/D16.json",
+   "who": "heroine_04",
+   "point": "D16.lighthouse",
+   "option": "「我幫妳拍。」",
+   "old": "好，角度低一點，燈塔要整個進來。",
+   "new": "角度低一點，燈塔要整個進來。"
+  },
+  {
+   "file": "date_system/lines/D16.json",
+   "who": "heroine_04",
+   "point": "D16.rest",
+   "option": "「我只要一包。」",
+   "old": "好，剩下的我吃。",
+   "new": "剩下的我吃。"
+  },
+  {
+   "file": "date_system/lines/D17.json",
+   "who": "heroine_04",
+   "point": "D17.queen",
+   "option": "「它撐很久了。」",
+   "old": "好。它很強。我尊敬它。",
+   "new": "它很強。我尊敬它。"
+  },
+  {
+   "file": "date_system/lines/D17.json",
+   "who": "heroine_04",
+   "point": "D17.platform",
+   "option": "「小心腳下。」",
+   "old": "好。我看路。",
+   "new": "我看路。洞裡那個東西也在看我。"
+  },
+  {
+   "file": "date_system/lines/D17.json",
+   "who": "heroine_04",
+   "point": "D17.trail",
+   "option": "「我幫妳寫。」",
+   "old": "好。你寫客氣一點，我寫的會被丟掉。",
+   "new": "你寫客氣一點，我寫的會被丟掉。"
+  },
+  {
+   "file": "date_system/lines/D17.json",
+   "who": "heroine_04",
+   "point": "D17.trail",
+   "option": "「走快一點。」",
+   "old": "好。快到盡頭。",
+   "new": "快到盡頭。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "heroine_04",
+   "point": "D18.snack",
+   "option": "「我也大碗。」",
+   "old": "好，你懂了。",
+   "new": "你懂了。大碗才是一碗。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "heroine_04",
+   "point": "D18.steps",
+   "option": "「我拍妳。」",
+   "old": "好，不要拍到我在喘氣。",
+   "new": "不要拍到我在喘氣。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "heroine_04",
+   "point": "D18.teahouse",
+   "option": "「看海就好。」",
+   "old": "好。我看海。你看我看海。",
+   "new": "我看海。你看我看海。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "heroine_04",
+   "point": "D18.shop",
+   "option": "「我買給妳。」",
+   "old": "好，我會掛在吉他袋上。",
+   "new": "我會掛在吉他袋上。"
+  },
+  {
+   "file": "date_system/lines/D19.json",
+   "who": "heroine_04",
+   "point": "D19.houses",
+   "option": "「坐一下。」",
+   "old": "好。我腳好痠。",
+   "new": "我腳好痠。"
+  },
+  {
+   "file": "date_system/lines/D19.json",
+   "who": "heroine_04",
+   "point": "D19.houses",
+   "option": "「進去看看。」",
+   "old": "好。我看榻榻米。",
+   "new": "我看榻榻米。"
+  },
+  {
+   "file": "date_system/lines/D19.json",
+   "who": "heroine_04",
+   "point": "D19.shrine",
+   "option": "「我拉妳。」",
+   "old": "好。我只是鞋子不好走。",
+   "new": "我只是鞋子不好走。"
+  },
+  {
+   "file": "date_system/lines/D19.json",
+   "who": "heroine_04",
+   "point": "D19.shrine",
+   "option": "「慢慢走。」",
+   "old": "好。一步一步。",
+   "new": "一步一步。我在存體力打王。"
+  },
+  {
+   "file": "date_system/lines/D20.json",
+   "who": "heroine_04",
+   "point": "D20.street",
+   "option": "「買一根就走。」",
+   "old": "好。快速通關。",
+   "new": "快速通關。"
+  },
+  {
+   "file": "date_system/lines/D21.json",
+   "who": "heroine_04",
+   "point": "D21.street",
+   "option": "「可以買麵包。」",
+   "old": "好，我要兩個。",
+   "new": "我要兩個。"
+  },
+  {
+   "file": "date_system/lines/D21.json",
+   "who": "heroine_04",
+   "point": "D21.street",
+   "option": "「這裡沒有裝備。」",
+   "old": "好，那我看看就好。",
+   "new": "那我看看就好。這條街不賣給冒險者。"
+  },
+  {
+   "file": "date_system/lines/D21.json",
+   "who": "heroine_04",
+   "point": "D21.bridge",
+   "option": "「在橋上坐一下。」",
+   "old": "好。腳伸出去晃，不會掉吧。",
+   "new": "腳伸出去晃，不會掉吧。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "heroine_04",
+   "point": "D23.cook",
+   "option": "「交給老闆吧。」",
+   "old": "好，我只負責吃。",
+   "new": "我只負責吃。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "heroine_04",
+   "point": "D23.seawall",
+   "option": "「看完再走。」",
+   "old": "好，我本來就不想走。",
+   "new": "我本來就不想走。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "heroine_04",
+   "point": "D24.footbath",
+   "option": "「我來了。」",
+   "old": "好，我們比賽誰撐比較久。",
+   "new": "我們比賽誰撐比較久。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "heroine_04",
+   "point": "D24.street",
+   "option": "「一起排。」",
+   "old": "好，可是你要負責拿。",
+   "new": "可是你要負責拿。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "heroine_04",
+   "point": "D24.park",
+   "option": "「走過橋看看。」",
+   "old": "好。橋好短，三秒就過了。",
+   "new": "橋好短，三秒就過了。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "heroine_04",
+   "point": "D24.station",
+   "option": "「坐一下。」",
+   "old": "好。長椅好硬。",
+   "new": "長椅好硬。"
+  },
+  {
+   "file": "date_system/lines/D25.json",
+   "who": "heroine_04",
+   "point": "D25.station",
+   "option": "「坐一下。」",
+   "old": "好，這張椅子有人刻字。",
+   "new": "這張椅子有人刻字。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "heroine_04",
+   "point": "D26.path",
+   "option": "「中間有很多椅子。」",
+   "old": "好，每一張都要坐。",
+   "new": "每一張都要坐。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "heroine_04",
+   "point": "D26.path",
+   "option": "「走一段就好。」",
+   "old": "好。我的體力只有一段。",
+   "new": "我的體力只有一段。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "heroine_04",
+   "point": "D26.museum",
+   "option": "「進去看。」",
+   "old": "好，我要看數位藝術那區。",
+   "new": "我要看數位藝術那區。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "heroine_04",
+   "point": "D26.village",
+   "option": "「買一個東西。」",
+   "old": "好，我買一個貼紙。",
+   "new": "貼紙就好。筆電上還有一格空的。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "heroine_04",
+   "point": "D26.plaza",
+   "option": "「我們坐角落。」",
+   "old": "好，角落比較不吵。",
+   "new": "角落。離小孩三十公尺以上。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "heroine_04",
+   "point": "D26.plaza",
+   "option": "「看泡泡。」",
+   "old": "好。泡泡可以。",
+   "new": "泡泡可以。泡泡不會尖叫。"
+  },
+  {
+   "file": "date_system/lines/D27.json",
+   "who": "heroine_04",
+   "point": "D27.veranda",
+   "option": "「坐一下。」",
+   "old": "好，這個木頭坐起來是溫的。",
+   "new": "這個木頭坐起來是溫的。"
+  },
+  {
+   "file": "date_system/lines/D27.json",
+   "who": "heroine_04",
+   "point": "D27.veranda",
+   "option": "「妳想進去看？」",
+   "old": "好。我想看屋頂的梁是怎麼接的。",
+   "new": "我想看屋頂的梁是怎麼接的。"
+  },
+  {
+   "file": "date_system/lines/D27.json",
+   "who": "heroine_04",
+   "point": "D27.rail",
+   "option": "「坐上去。」",
+   "old": "好。我坐駕駛座。沒有駕駛座。好吧。",
+   "new": "我坐駕駛座。沒有駕駛座。好吧。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "heroine_04",
+   "point": "D28.museum",
+   "option": "「看建築就好。」",
+   "old": "好，圓頂好漂亮，我拍一下。",
+   "new": "圓頂好漂亮，我拍一下。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "heroine_04",
+   "point": "D28.circle",
+   "option": "「坐一下。」",
+   "old": "好。樹下。快點。",
+   "new": "樹下。快點。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "heroine_04",
+   "point": "D28.alley",
+   "option": "「先吃蝦捲？」",
+   "old": "好，吃完再拍。",
+   "new": "吃完再拍。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "heroine_04",
+   "point": "D28.alley",
+   "option": "「慢慢走。」",
+   "old": "好，這裡的牆是歪的，你看。",
+   "new": "這裡的牆是歪的，你看。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "heroine_04",
+   "point": "D28.sunset",
+   "option": "「看完再走。」",
+   "old": "好，看完再去吃東西。",
+   "new": "看完再去吃東西。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "heroine_04",
+   "point": "D29.warehouse",
+   "option": "「看展吧。」",
+   "old": "好，可是我要先把屋頂看完。",
+   "new": "可是我要先把屋頂看完。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "heroine_04",
+   "point": "D29.sculpture",
+   "option": "「拍一張。」",
+   "old": "好，你站在它旁邊，當作比例尺。",
+   "new": "你站在它旁邊，當作比例尺。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "heroine_04",
+   "point": "D29.harbor",
+   "option": "「看到它吊東西再走？」",
+   "old": "好，我賭十分鐘內會吊一個。",
+   "new": "我賭十分鐘內會吊一個。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "heroine_04",
+   "point": "D29.rail",
+   "option": "「走軌道？」",
+   "old": "好，你走那一條，我走這一條，看誰先掉。",
+   "new": "你走那一條，我走這一條，看誰先掉。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "heroine_04",
+   "point": "D30.pebble",
+   "option": "「撿一顆。」",
+   "old": "好，我要最扁的，拿來打水漂。",
+   "new": "我要最扁的，拿來打水漂。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "heroine_04",
+   "point": "D30.stall",
+   "option": "「我請。」",
+   "old": "好，謝謝。",
+   "new": "謝謝。兩串都你請喔，我沒有說一串。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "heroine_04",
+   "point": "D30.stall",
+   "option": "「一人一串。」",
+   "old": "好，可是我要先挑。",
+   "new": "可是我要先挑。"
+  },
+  {
+   "file": "date_system/lines/D31.json",
+   "who": "heroine_04",
+   "point": "D31.trail",
+   "option": "「好，那棵樹。」",
+   "old": "好，你不逼我，很好。",
+   "new": "你不逼我，很好。"
+  },
+  {
+   "file": "date_system/lines/D31.json",
+   "who": "heroine_04",
+   "point": "D31.egg",
+   "option": "「三顆。」",
+   "old": "好！謝謝！",
+   "new": "三顆！你是好人。"
+  },
+  {
+   "file": "date_system/lines/D32.json",
+   "who": "heroine_04",
+   "point": "D32.meadow",
+   "option": "「遠遠看。」",
+   "old": "好，牠們比較適合遠景。",
+   "new": "牠們比較適合遠景。"
+  },
+  {
+   "file": "date_system/lines/D32.json",
+   "who": "heroine_04",
+   "point": "D32.trail",
+   "option": "「我拉妳。」",
+   "old": "好。不要放手。",
+   "new": "不要放手。"
+  },
+  {
+   "file": "date_system/lines/D32.json",
+   "who": "heroine_04",
+   "point": "D32.stall",
+   "option": "「我請。」",
+   "old": "好，那甜湯我請你。",
+   "new": "那甜湯我請你。"
+  }
+ ]
+}

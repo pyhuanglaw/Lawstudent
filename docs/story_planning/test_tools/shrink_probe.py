@@ -1,8 +1,8 @@
-"""BB-B 10-30（NOODLE-TEAM-SHRINK-1030；AA_542 麵店團縮小成背景，使用者 X144；開發分支 9597ffa34；LAWWW-B 15:48 P1）：照 AA_542 第 8、9 節在瀏覽器玩。
+"""BB-B 10-30（NOODLE-TEAM-SHRINK-1030；AA_542 <舊名>縮小成背景，使用者 X144；開發分支 9597ffa34；LAWWW-B 15:48 P1）：照 AA_542 第 8、9 節在瀏覽器玩。
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader）。【前置】使用者 9/25 存檔改日子、時間、區域；【捷徑】另外標。
 MODE=a：
   A 民總下課阿哲約吃麵 → 選「好。」→ 18:30 出遊「第一次併桌」（七句）→ 21:00 群組「法一吃飯」＋阿哲兩則「吃飯用」「誰要吃什麼就喊」
-  C 玩家看得到的地方沒有「麵店團」（手機訊息、群組名、手機「訊息」「朋友」兩頁、說過的話、找人那一行）
+  C 玩家看得到的地方沒有「<舊名>」（手機訊息、群組名、手機「訊息」「朋友」兩頁、說過的話、找人那一行）
   D 麵店日：大一上到大二下每個上課週剛好兩天、至少一天二／四；考試週、國定假日沒有；讀兩次一樣；四人作息 18:00 在麵店＝麵店日
   E2 舊存檔（【前置】使用者存檔加一個舊版的「麵店團」群組＋舊的兩則規矩）讀進來：名字換成當學年的、規矩換新句；大二下讀進來＝「法二吃飯」、不補發改名
 MODE=b：
@@ -127,7 +127,7 @@ async def scan_old(pg, cdp, run, tag, lines):
     wt = await pg.evaluate("(ids=>ids.map(id=>{ try{ return [id, typeof GAME.whereText==='function'?GAME.whereText(id):(typeof STORY.whereText==='function'?STORY.whereText(id):null)]; }catch(e){ return [id,'err:'+e.message]; } }))", FRIENDS)
     said = [l for l in lines if OLD in l[1] or OLD in (l[0] or '')]
     run.note('%s 找人那一行：%s' % (tag, J(wt)))
-    run.check('%s：玩家看得到的地方沒有「麵店團」（手機訊息、群組名、「訊息」「朋友」兩頁、說過的話、找人那一行）' % tag,
+    run.check('%s：玩家看得到的地方沒有「<舊名>」（手機訊息、群組名、「訊息」「朋友」兩頁、說過的話、找人那一行）' % tag,
               not hits and OLD not in t1 and OLD not in t2 and not said and not any(OLD in str(x[1]) for x in wt),
               J({'data': hits[:4], 'msgTab': OLD in t1, 'friendsTab': OLD in t2, 'said': said[:3], 'where': [x for x in wt if OLD in str(x[1])]}))
 
