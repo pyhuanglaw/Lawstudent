@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_storefront_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHAOLA_r2_sign_2215\out
+CC 店門口：worktree ?；gongguan 22.25；TAG shaola_sign_2215；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-10-18 22.25（條件事件、手機關）
+PASS noodle 街上找得到進店的門
+  [前置／捷徑] noodle 【捷徑】祐廷放到門前 3 m 等 3 秒；室內 {"on": true, "built": true, "shutter": false}
+PASS [黑畫面] door_noodle_shaola_sign_2215 不是黑畫面（平均亮度 67.8、變化 49.9）  [67.8, 49.9]
+  [  65.7s] [截圖] door_noodle_shaola_sign_2215：鏡頭 {"eye": [-63, 1.6, 16.5], "look": [-63, 1.6, 21], "lens": 18, "vfov": 58.72}、亮度 [67.8, 49.9]
+  [  65.7s] noodle 正對門：門 (-63, 21)「進入公館燒臘」朝外 [0, -1]（shopReal.ry）、鏡頭 [-63, 1.6, 16.5]（站得住=True）
+PASS [黑畫面] sign_noodle_shaola_sign_2215 不是黑畫面（平均亮度 58.1、變化 44.8）  [58.1, 44.8]
+  [  67.9s] [截圖] sign_noodle_shaola_sign_2215：鏡頭 {"eye": [-63, 1.7, 11], "look": [-63, 3.3, 21], "lens": 24, "vfov": 45.75}、亮度 [58.1, 44.8]
+  [  67.9s] noodle 招牌：鏡頭 [-63, 1.7, 11] 看 [-63, 3.3, 21]（退 10 m，站得住=True）；場景燈 {"lights": 3, "on": 3, "hour": 22.4}
+PASS 沒有 JS 例外  []
+ALL PASS
