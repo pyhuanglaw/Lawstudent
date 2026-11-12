@@ -1560,6 +1560,38 @@ const Z3 = (function(){
       for(const it of items){ let open=true; if(G&&P&&P.isOpen){ open=!!P.isOpen(it.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(it.place,G.day)); } const k=open?1:0.07; if(k!==it.k||it.mat.color.r!==k){ it.k=k; it.mat.color.setRGB(k,k,k); } } };
     let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0) upd(); }; upd();
     const R={items,upd}; zone.shopInLit=R; return R; }
+  /* SHOP-REAL-INSIDE-1112（LAWWW2-C；使用者 11-12 對 BB：「大步球鞋店外面看進去牆壁是灰色，可是人在店裡面居然牆壁是木頭的」→ §12 第 1 點「從店外看到的牆、地板、擺設、燈色要和走進去的室內一樣」）：
+     玻璃後面直接放**那一間店走進去的室內模型**（同一顆 GLB、同一批貼圖），不另外做一套——擺設、材質一定一樣。
+     list＝[{id, place 地點（營業時間）, key 室內模型的 ASSETS 鍵, x,z 室內原點在這一區的位置, ry 轉向（室內的正面 +z 轉到朝街）, w,d,h 室內的寬、深、高, near／far 幾公尺內接上／超過就拿掉}]。
+     · 只接玩家附近的店（near 內才載入、far 外拿掉並釋放材質）：一間室內十幾個材質，整條街全接手機吃不消。
+     · 室內模型自己的正面牆（WALL_front*：街景模型已經有店面的玻璃和框）、陽光斑、窗景卡、光暈不放；範圍外的零件（夜景板之類）不放。
+     · 材質換成不受場景光的（MeshBasicMaterial，貼圖／頂點色照舊）：街上的太陽照不進店裡，店是被自己的燈照亮的；亮度 0.86，打烊（PLACES.isOpen 假、颱風停業）0.07。
+     · 接上以後把街景模型裡那一間的簡化店內（sk_in_<店>，載入前的備用）藏起來；拿掉就放回來。
+     回傳 {shops, tick}，也記在 zone.shopReal（測試、CC 在瀏覽器看：shops[i].on 接上了沒、meshes 幾個零件、k 亮度）。 */
+  function shopInsideReal(E,g,zone,list){ if(!E||!g||!zone||!Array.isArray(list)||!list.length) return null;
+    const HIDE=/(^|\/)(WALL_front|GLOW_)|sun|VIEW_|_view(_|$)/i, B=new THREE.Box3(), C=new THREE.Vector3(), LIT=0.86;
+    const shops=list.map(q=>Object.assign({near:26,far:40,on:false,loading:false,grp:null,mats:[],meshes:0,k:-1},q));
+    const fallback=(s,vis)=>{ const R=zone.shopInLit; if(!R) return; for(const it of R.items) if(it.id===s.id&&it.mesh) it.mesh.visible=vis; };
+    const basic=(m,s,cache)=>{ if(!m) return m; let b=cache.get(m); if(b) return b; const map=m.map||m.emissiveMap||null; const col=new THREE.Color(1,1,1);
+      if(!map){ if(m.emissive&&(m.emissive.r+m.emissive.g+m.emissive.b)>0.05&&!m.vertexColors) col.copy(m.emissive); else if(m.color) col.copy(m.color); } else if(m.map&&m.color) col.copy(m.color);
+      b=new THREE.MeshBasicMaterial({map,vertexColors:!!m.vertexColors,transparent:!!m.transparent,opacity:m.opacity===undefined?1:m.opacity,alphaTest:m.alphaTest||0,side:m.side,depthWrite:m.depthWrite!==false});
+      b.name='shopreal_'+(m.name||''); b.userData.base=col; b.color.copy(col); cache.set(m,b); s.mats.push(b); return b; };
+    const light=s=>{ const G=typeof GAME!=='undefined'?GAME.G:null, P=typeof PLACES!=='undefined'?PLACES:null; let open=true;
+      if(G&&P&&P.isOpen&&s.place) open=!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day)); const k=open?LIT:0.07; if(k===s.k) return; s.k=k; for(const b of s.mats) b.color.copy(b.userData.base).multiplyScalar(k); };
+    const attach=s=>{ if(s.on||s.loading||typeof ASSETS==='undefined'||!ASSETS.manifest[s.key]) return; s.loading=true;
+      ASSETS.loadOne(s.key).then(c=>{ s.loading=false; if(!c||!c.scene||E.zone!==zone||s.on) return; const r=c.scene.clone(true); r.name='shop_real_'+s.id; r.userData.dyn=true; r.position.set(0,0,0); r.rotation.set(0,0,0); r.updateMatrixWorld(true);
+        const cache=new Map(); let n=0;
+        r.traverse(o=>{ if(o.isLight){ o.visible=false; return; } if(!o.isMesh||!o.geometry) return; let nm=''; for(let q=o;q&&q!==r;q=q.parent) nm=(q.name||'')+'/'+nm;
+          if(HIDE.test(nm)){ o.visible=false; return; } if(!o.geometry.boundingBox) o.geometry.computeBoundingBox(); B.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld).getCenter(C);
+          if(Math.abs(C.x)>s.w/2+0.4||Math.abs(C.z)>s.d/2+0.4||C.y>s.h+0.6||C.y<-0.5){ o.visible=false; return; }
+          o.castShadow=false; o.receiveShadow=false; o.material=Array.isArray(o.material)?o.material.map(m=>basic(m,s,cache)):basic(o.material,s,cache); n++; });
+        r.position.set(s.x,s.y||0,s.z); r.rotation.y=s.ry||0; g.add(r); s.grp=r; s.on=true; s.meshes=n; s.k=-1; light(s); fallback(s,false); }).catch(e=>{ s.loading=false; console.warn('店內模型（從街上看）載入失敗，用簡化的店內：'+s.id,e); }); };
+    const detach=s=>{ if(!s.on) return; if(s.grp&&s.grp.parent) s.grp.parent.remove(s.grp); for(const b of s.mats) b.dispose(); s.mats=[]; s.grp=null; s.on=false; s.meshes=0; fallback(s,true); };
+    const tick=()=>{ const p=E.player&&E.player.obj?E.player.obj.position:null; if(!p) return;
+      for(const s of shops){ const dx=Math.max(0,Math.abs(p.x-(s.cx===undefined?s.x:s.cx))-(s.ex||0)), dz=Math.max(0,Math.abs(p.z-(s.cz===undefined?s.z:s.cz))-(s.ez||0)), dd=Math.hypot(dx,dz);
+        if(!s.on&&dd<s.near) attach(s); else if(s.on&&dd>s.far) detach(s); if(s.on) light(s); } };
+    let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%20===0) tick(); }; tick();
+    const R={shops,tick,detach}; zone.shopReal=R; return R; }
   const ggLitWired=new WeakMap();   /* 接過窗卡打烊調暗的材質 → {lit, U, mine, compiled, rewrap, entries}（第二次進公館沿用，見 ggShopLit 裡的註解）*/
   function ggShopLit(root,zone){ let mesh=null; root.traverse(o=>{ if(!mesh&&o.isMesh&&/xs_fronts_lit/.test(o.name||'')) mesh=o; if(!mesh&&o.name==='NOSHADOW_xs_fronts_lit') o.traverse(q=>{ if(!mesh&&q.isMesh) mesh=q; }); }); if(!mesh||!mesh.material||!mesh.geometry||!mesh.geometry.attributes.uv1) return null;
     let ex=null; root.traverse(o=>{ if(!ex&&o.userData&&o.userData.xsShops) ex=o.userData.xsShops; }); const ids=String(ex||'ggtea,ggbook,ggcvs,ggyy,ggbike,ggafar,ggcorner,ggdb').split(',');
@@ -2976,5 +3008,5 @@ const Z3 = (function(){
         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
-  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+  return {B1C,wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,shopInsideLit,shopInsideReal,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,attachWzScooters,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();

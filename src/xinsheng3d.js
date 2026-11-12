@@ -18,6 +18,12 @@ const XS3=(function(){
   S.noArcade=function(L){ const R=L.road, WL=L.wenzhouLane, taken=S.arcadeShops(L).map(q=>[q.z0,q.z1]).concat([[WL.z0,WL.z1]]).sort((a,b)=>a[0]-b[0]); const out=[]; let cur=R.z0;
     for(const [a,b] of taken){ if(a>cur+0.05) out.push([cur,a]); cur=Math.max(cur,b); } if(R.z1>cur+0.05) out.push([cur,R.z1]); return out; };
   S.SHOP_IN_PLACE={dabu:'xs_dabu',haopai:'xs_haopai',shanlan:'xs_shanlan',tongxian:'xs_tongxian',xsports:'xs_xsports',dakou:'xs_dakou'};   /* SHOP-WINDOW-3D-1112：街景模型裡立體店內的網格 sk_in_<店> → 地點（營業時間）；Z3.shopInsideLit 用 */
+  /* SHOP-REAL-INSIDE-1112：玻璃後面放各店走進去的室內模型（Z3.shopInsideReal）。室內的原點在店的中心、正面是 +z（各店 *_layout.js：w 寬、d 深、h 高）；
+     新生南路西側的店朝東（+x）：轉 π/2，正面那一面（z＝d/2）貼在店面玻璃（x −16.5）後面 2 cm。cz＝這一間在街上的中心（xinsheng_layout shops 的 z0、z1）；ez＝半個店面寬（離店面多遠才算遠）。
+     同弦樂器的店在二樓，一樓櫥窗是街景模型自己的（不是室內），不在這裡。 */
+  S.SHOP_REAL=(()=>{ const GX=-16.5, mk=(id,place,key,cz,w,d,h)=>({id,place,key,w,d,h,x:GX-0.02-d/2,z:cz,ry:Math.PI/2,cx:GX,cz,ex:0,ez:w/2});
+    return [mk('dabu','xs_dabu','bldg.xs_dabu',-16.7,7.4,12,3.4), mk('haopai','xs_haopai','bldg.xs_haopai',-23.2,4.4,14,3.4), mk('xsports','xs_xsports','bldg.xs_xsports',-33,14,16,3.4),
+            mk('shanlan','xs_shanlan','bldg.xs_shanlan',10.2,14,18,3.95), mk('dakou','xs_dakou','bldg.xs_dakou_1f',40.4,12,16,3.6)]; })();
   S.NO_ARCADE_REC=0.2;
   /* XS-FARVIEW-1105：街的兩頭（走不到的遠景）。數字和 tools/blender/env_second/wz_street.py --set xinsheng_far 的 XSF 同一組，改一邊要一起改（tests/xs_farview_unit.js 比對 GLB）*/
   S.FAR={zN:-178,zS:178,armN:[-100,-84],armS:[74,90],armRoad:2};   // 沒有騎樓的那幾段：一樓牆在立面（facade.upper）往裡 0.2 m（wz_street.py 住家／鐵捲門的 rec）
@@ -199,7 +205,8 @@ const XS3=(function(){
         ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; zone.xsScooterGLB=Z3.attachWzScooters(g,scG,scList,c.scene,'xs_scooters_glb'); }).catch(e=>console.warn('新生南路機車模型載入失敗，用套件的機車',e)); } }
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xinsheng_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.xinsheng_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       const xsR=c.scene.clone(true); Z3.attachWenzhouModel(E,g,xsR,'xsfb','xinsheng_street_glb');
-      if(Z3.shopInsideLit) Z3.shopInsideLit(xsR,zone,S.SHOP_IN_PLACE);   /* SHOP-WINDOW-3D-1112：立體店內（sk_in_<店>）打烊就關燈 */
+      if(Z3.shopInsideLit) Z3.shopInsideLit(xsR,zone,S.SHOP_IN_PLACE);
+      if(Z3.shopInsideReal) Z3.shopInsideReal(E,g,zone,S.SHOP_REAL);   /* SHOP-REAL-INSIDE-1112：附近的店換成真的室內模型（簡化的 sk_in_<店> 只當載入前的備用）*/   /* SHOP-WINDOW-3D-1112：立體店內（sk_in_<店>）打烊就關燈 */
       }).catch(e=>console.warn('新生南路正式模型載入失敗，用方塊立面',e));
     /* XS-FARVIEW-1105：街兩頭的樓房（正式模型，遠景：不投影）；接上以後這一區不畫引擎的城市剪影圓筒（engine3d.js 讀 zone.noSkylineCity；圓筒在校園那一側正好落在校園裡）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xinsheng_far']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.xinsheng_far').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;

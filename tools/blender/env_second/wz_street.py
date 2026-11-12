@@ -281,17 +281,17 @@ if SET in ('lane118', 'nccu_food', 'xinsheng', 'xinsheng_far'):
     # up：二樓以上的整排窗（f＝第幾層，1＝二樓；solid＝整片外牆貼圖）；vsigns：(key, x, y0, y1, 突出)；decals：(key, x0, x1, y0, y1, 離店面)。GH＝4.2、FH＝3.2
     _G = LJ['groundH']
     XS_FRONTS = {
-        'dabu': dict(int='dabu_int', back=3.1, frame='#d8d8d4', signs=[('dabu_sign', -3.5, 3.5, 3.0, 3.8, 'front')], mullions=[1.2]),
-        'haopai': dict(int='haopai_int', back=3.1, frame='#cfd6d6', signs=[('haopai_sign', -2.05, 2.05, 3.05, 3.8, 'front')], glass=(-2.0, 2.0)),
-        'shanlan': dict(int='shanlan_int', back=3.1, int_tiles=1, frame='#2a2a28', glass_h=3.15, mullions=[-2.6, 2.6], signs=[('shanlan_sign', -1.0, 2.9, _G - 0.1, _G + 0.82, 'street')], sign_back='#4a3426',
+        'dabu': dict(int='dabu_int', back=12.1, frame='#d8d8d4', signs=[('dabu_sign', -3.5, 3.5, 3.0, 3.8, 'front')], mullions=[1.2]),
+        'haopai': dict(int='haopai_int', back=14.1, frame='#cfd6d6', signs=[('haopai_sign', -2.05, 2.05, 3.05, 3.8, 'front')], glass=(-2.0, 2.0)),
+        'shanlan': dict(int='shanlan_int', back=16.3, int_tiles=1, frame='#2a2a28', glass_h=3.15, mullions=[-2.6, 2.6], signs=[('shanlan_sign', -1.0, 2.9, _G - 0.1, _G + 0.82, 'street')], sign_back='#4a3426',
                         up=[dict(f=1, x0=-6.8, x1=6.8, y0=_G + 0.25, y1=_G + 2.85, tex='shanlan_up', tiles=1, pane=1.6)]),
         'tongxian': dict(int='tongxian_int', back=3.1, glass=(-3.0, 0.55), frame='#cfd6d6', stair=dict(x0=1.45, x1=2.95, depth=4.4), signs=[('tongxian_sign', -2.9, 0.3, _G + 0.7, _G + 1.6, 'street')], sign_back='#5a3a22',
                          decals=[('tongxian_guitar', 0.72, 1.08, 1.1, 2.0, 0.04), ('tongxian_plaque', 1.15, 1.38, 1.4, 2.1, 0.04)],
                          up=[dict(f=1, x0=0.4, x1=3.0, y0=_G + 0.35, y1=_G + 2.6, tex='tongxian_up', tiles=1, pane=1.3),
                              dict(f=1, x0=-3.0, x1=0.3, y0=_G + 0.35, y1=_G + 2.6, tex=None, blank=True)]),   # 二樓招牌後面：原本那扇鐵窗拿掉（招牌蓋在窗上很怪）
-        'xsports': dict(int='xsports_int', back=3.1, frame='#cfd6d6', mullions=[-2.2, 2.2], signs=[('xsports_sign', -6.6, 6.6, _G - 0.72, _G + 0.92, 'street')],
+        'xsports': dict(int='xsports_int', back=16.1, frame='#cfd6d6', mullions=[-2.2, 2.2], signs=[('xsports_sign', -6.6, 6.6, _G - 0.72, _G + 0.92, 'street')],
                         vsigns=[('xsports_v', 6.55, _G + 1.2, _G + 5.0, 0.95)], up=[dict(f=1, x0=-6.6, x1=6.6, y0=_G + 1.15, y1=_G + 2.85, tex='xsports_up', pane=1.1)]),
-        'dakou': dict(int='dakou_int', back=3.1, frame='#2a2f3a', lit=True, mullions=[-3.4, 0.0, 3.4], signs=[('dakou_sign', -6.6, 6.6, _G - 0.7, _G + 0.72, 'street')], sign_back='#1f3a6b',
+        'dakou': dict(int='dakou_int', back=16.1, frame='#2a2f3a', lit=True, mullions=[-3.4, 0.0, 3.4], signs=[('dakou_sign', -6.6, 6.6, _G - 0.7, _G + 0.72, 'street')], sign_back='#1f3a6b',
                       vsigns=[('dakou_v', 6.6, _G + 0.9, _G + 4.4, 1.2)], up=[dict(f=1, x0=-6.6, x1=6.6, y0=_G + 0.95, y1=_G + 2.9, tex='dakou_up', pane=1.6)]),
         'nanyang': dict(int=None, band='stone', signs=[('nanyang_sign', -0.8, 1.6, _G - 1.25, _G - 0.42, 'hang')], sign_back='#3a2a22',
                         decals=[('nanyang_front', -4.3, 4.3, 0.0, 3.75, 0.02), ('nanyang_poster', -7.0, -5.3, 0.35, 3.55, 0.05), ('nanyang_poster', 5.3, 7.0, 0.35, 3.55, 0.05)],
@@ -1049,7 +1049,8 @@ def apartment(spec):
         r0 = 3.0 if gt == 'arcade' else 0.0
         # 公館的騎樓：店與店之間的壁柱貼和柱子一樣的磁磚（磨石子在騎樓裡近看是一大片斑點，像髒汙；溫州街照舊）
         pm = acc(M['pillar']) if (gt == 'arcade' and SET == 'gongguan') else gw
-        for sx in (-1, 1): xf.box(pm, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0, GH, -rec, -r0)
+        _prec = min(rec, spec['xs'].get('dep', 3.5) + 0.85) if spec.get('xs') else rec   # SHOP-REAL-INSIDE-1112：牆挖到整間店那麼深的（放真的室內模型），兩側的柱面只做到玻璃後 0.85 m——做滿的話是店裡沿著側牆的兩道深色牆，擋住室內的牆和貨架
+        for sx in (-1, 1): xf.box(pm, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0, GH, -_prec, -r0)
     else:                                                                                          # 住家／鐵捲門：牆腳的磨石子護牆
         # 鐵捲門、住家鐵門的地方不做護牆：原本護牆整條橫過去，門片／捲門片正好在護牆正面的同一個平面上，下面 0.9 m 一直閃（BUG-WZFLICKER）
         gaps = [(-W / 2 + 0.4, W / 2 - 0.4)] if gt == 'shutter' else ([(-W * 0.2 - 0.72, -W * 0.2 + 0.72)] if not spec.get('sf') else [])
