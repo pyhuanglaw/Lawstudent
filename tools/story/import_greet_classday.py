@@ -76,6 +76,8 @@ def main():
     for tag in TAGS:
         for e in src.get(tag, []):
             who, t = e['who'], e['t']
+            if who not in have:   # 那個人在 ladder.js 已經沒有招呼（舊序章那一年的階梯：CANON-NO-ECON-1112 第三批拿掉）＝不匯
+                continue
             rn = RENAMED.get((who, t)) or ()
             rn = [x for x in ((rn,) if isinstance(rn, str) else rn) if x in have.get(who, set())]   # 換了字的新句（在 ladder.js 的才算；一句舊句可以對好幾句）
             if t in have.get(who, set()):   # 舊句（別的學期還在用）還在：舊句、新句都只在上課日說
