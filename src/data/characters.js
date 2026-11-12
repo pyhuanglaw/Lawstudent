@@ -191,7 +191,7 @@ const CHARACTERS = {
        大二暑假七月平日在臺北事務所那一段（AA_895 第 4 節的例外）還沒接：遊戲裡沒有事務所的場景、presence 也還是寒暑假在高雄。
      social_layer：'D'（和其他女主角同一層，AA_895 第 4 節；她沒交往時的邀約答應句＝invite_replies.js 的 kx1～kx19，AA_891）。手機上的名字是「可昕」（phoneName）。 */
   kexin:{ id:'kexin', tagByPY:[null,'法律系・一年級','法律系・二年級','法律系・三年級','法律系・四年級'], name:'杜可昕', nickname:'可昕', phoneName:'可昕', gender:'f', char3d:{spec:{id:'kexin',height:1.64,build:'slim',sex:'f',skin:'#f6dcc9',hair:{color:'#2a1d16',style:'softMid'},face:{iris:'#3a2a22',brow:'soft',lash:true,glasses:false},outfit:{top:{type:'knit',color:'#e9e2d3',inner:'#ffffff'},bottom:{type:'skirtMid',color:'#3b3f4a'},shoes:{type:'canvas',color:'#f4f1ea',sole:'#ffffff'},bag:'tote',bagColor:'#d9d3c6'},posture:{sway:0.015}},model:'char.kexin',height:1.64}, portrait:'kexin',   /* 3D＝LAWWW2 照參考圖做的 char.kexin（2026-10-18 使用者：醉月湖看到的可昕是男的——原本沒有 char3d，掉到路人 extraSpec(7)＝男生）*/ presence:{home:'高雄',homeAfter:['2028-12-25'],from:'Y1S1'},   /* 寒暑假在高雄老家（AA_276 第 1 節）；大四寒假 12/25 留在臺北、12/26 才回（AA_327 2-Y4-24）；from：大一上起在學校 */ department:'法律系', year:1, social_layer:'D', visual_tier:2,
-    personality:'比較火爆、聰明；不溫柔也不甜；不爽會講、講完不一定馬上過；很重視打扮；對朋友很好；有自己的自尊與主見，在感情裡也會主動', career_goal:'律師（從來沒有想過司法官）', social_style:'輕快、反應快；認真的時候句子會突然變短',
+    personality:'比較火爆、聰明；不溫柔也不甜；不爽會講、講完不一定馬上過；很重視打扮；對朋友很好；有自己的自尊與主見，在感情裡也會主動', career_goal:'還沒決定律師或司法官；想做的是讓拿著看不懂的紙的人聽懂自己的處境'/* AA_888 第 2 節（企劃線 60c0bf008；CANON-NO-ECON-1112 第四批）：原本「律師（從來沒有想過司法官）」和 AA_873 衝突 */, social_style:'輕快、反應快；認真的時候句子會突然變短',
     daily_schedule:[{days:[1,2,3,4,5,6],from:9,to:21.5,zone:'library',act:'read',terms:['Y4S2'],noHoliday:true,note:'AA_895 第 4 節：大四下（國考前）週一～六 9:00～21:30 總圖'},
       {days:[1,2,3,4,5],from:18.5,to:22,zone:'library',act:'read',examOnly:true,noHoliday:true,note:'AA_895 第 4 節：考試週念到閉館（22:00）'},
       {days:[1,2,3,4,5],from:18.5,to:21.5,zone:'library',act:'read',noHoliday:true,note:'AA_895 第 4 節：學期中週一～五 18:30～21:30 總圖念書'},
@@ -208,9 +208,9 @@ const CHARACTERS = {
   prof_wu:{ id:'prof_wu', name:'吳教授', fullname:'吳承翰', gender:'m', social_layer:'E', visual_tier:1, course:'刑法總則、刑法分則', weekday:3, time:[9.17,12.17], field:'刑法', teaching_style:'很重視學說；會為一個概念講兩週', exam_style:'題目很短，答案很長', temperament:'熱情、健忘', char3d:{spec:'prof'}, portrait:'prof_wu' },
   /* 魏教授（AA_159；經濟學原理的老師，只有聲音和講台上的遠景、不用立繪，AA_145 §5）：social_layer 照其他教授寫 E（story3d.js 的作息走課表：CLS.profWhere；上課時站在博雅 101 的講台）；office:false＝下課後不去萬才館。
      外觀照 BB_201 第 8 節（細框眼鏡另外一個 GLB；AA_159 的「不戴眼鏡」是更早的版本）。 */
-  prof_wei:{ id:'prof_wei', name:'魏教授', fullname:'魏宏仁', alias:['魏教授'], gender:'m', department:'經濟系', role:'professor', social_layer:'E', visual_tier:0, office:false, course:'經濟學原理',
+  prof_wei:{ id:'prof_wei', name:'魏教授', fullname:'魏宏仁', alias:['魏教授'], gender:'m', department:'社會科學院'/* AA_888 第 4 節（CANON-NO-ECON-1112 第四批）：開課單位寫社科院 */, role:'professor', social_layer:'E', visual_tier:0, office:false, course:'經濟學原理',
     personality:'經濟學原理的老師。說話慢、愛反問，喜歡用一個數字說一件事；記得前排同學的名字。',
-    note:'照課表的教授聲音（syllabus/_src/y0s1.py）；法律系大一下的「經濟學原理」老師可以是同一位（BB_104 L88）。（不顯示）',
+    note:'照課表的教授聲音；法律系大一上、下的「經濟學原理」老師（社科院，AA_888 第 4 節）。（不顯示）',
     look:'五十多歲，灰黑短髮，白襯衫外面套深藍色毛衣背心，袖子捲到手肘，手上永遠拿著一支白板筆',
     char3d:{spec:'prof',model:'char.prof_wei',height:1.72}, portrait:null, daily_schedule:[] },
   prof_huang:{ id:'prof_huang', name:'黃教授', fullname:'黃素芬', gender:'f', social_layer:'E', visual_tier:1, course:'目前沒有開課', weekday:5, time:[13.33,15.17], lobby:'linze', field:'基礎法學', teaching_style:'談法律與社會、電影、新聞', exam_style:'報告為主', temperament:'溫和、鼓勵', char3d:{spec:'prof'}, portrait:'prof_huang' },
