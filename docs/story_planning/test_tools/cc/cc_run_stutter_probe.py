@@ -92,6 +92,8 @@ async def main():
             # 第四輪（LAWWW-C 06:23）：EXTRA_ARGS（+ 分隔，例 --force_low_power_gpu、--disable-gpu）、CHANNEL=chrome（本機裝的一般 Chrome，Playwright 開新的空白設定檔，不碰使用者的資料）
             xa = [x for x in (os.environ.get('EXTRA_ARGS') or '').split('+') if x]
             if os.environ.get('CHANNEL'): kw.pop('executable_path', None); kw['channel'] = os.environ['CHANNEL']
+            # BB-C 06:47 選 B：只有 PROBE_HEADED=1 的那兩項自己開視窗（runner 的 config HEADLESS=1 不動；gpu_wrap 在 launch 當下讀 CC_HEADLESS）
+            if os.environ.get('PROBE_HEADED') == '1': os.environ['CC_HEADLESS'] = '0'; kw['headless'] = False
             b = await p.chromium.launch(args=L.ARGS + xa, **kw)
             R.setup('【前置】瀏覽器：channel %s；加的參數 %s；CC_GPU=%s CC_HEADLESS=%s（gpu_wrap 在 CC_GPU=1 時另外加 d3d11 參數）' % (kw.get('channel') or 'Playwright Chromium', xa, os.environ.get('CC_GPU', '1'), os.environ.get('CC_HEADLESS')))
             ctx = await b.new_context(viewport={'width': w, 'height': h}, device_scale_factor=DSF, has_touch=True, is_mobile=False)
