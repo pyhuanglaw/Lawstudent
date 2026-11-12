@@ -6,7 +6,8 @@
 //   4. node tests/an_dates_1111_unit.js（和 zq／zr／yt／kx／sis／peishan_dates_1111、date_overnight、date_wish、date_lines_* 這幾支）
 // 工具（import_date_lines.py）裡的 *_PREV 是各輪「重寫以前的那一版」，不用跟著換。
 module.exports={
-  ALLOW_SHA:'07d50af2f7',      // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 AA-C 交 X324 可昕續改：AA_819 三連短句 26 句＋AA_822 remember 開頭的「上次」46 句，只動可昕 72 格，見 KX_1112；上一版 52c3ee258＝KX_1112_PREV）
+  ALLOW_SHA:'74e0421b8',       // date_system/lines/D01～D33.json：白名單現在的版本（2026-11-12 06:57 AA-C「回 LAWWW」：D23 海堤可昕那一句的停頓改寫法，只動這一格，見 KX_1112 那一列的 was；上一版 07d50af2f7＝KX_1112_SHA）
+  KX_1112_SHA:'07d50af2f7',    // 可昕續改的那一版（2026-11-12 AA-C 交 X324 可昕續改：AA_819 三連短句 26 句＋AA_822 remember 開頭的「上次」46 句，只動可昕 72 格，見 KX_1112；上一版 52c3ee258＝KX_1112_PREV）
   KX_1112_PREV:'52c3ee258',    // 可昕續改以前的那一版（2026-11-11 19:03 AA 交 X324 選項效果：1,765 個選項加 fx；把 fx 拿掉和 248c8e390 一字不差）
   FX_PREV:'248c8e390',         // 加 fx 以前的那一版（2026-11-11 以安重寫 bd1ce5be0 匯入以後，AA 照 LAWWW 的匯入回報再改以安 14 格，見 AN_FIX14；別人的格子和 bd1ce5be0 一樣）
   ZR_PREV:'f9c1a2b80',         // 芷若重寫以前的那一版（＝可昕重寫的那一版）
@@ -160,7 +161,7 @@ module.exports={
     {loc:'D22',doc:'AA_819',path:'hotspots/D22.dam/normal/2/lines/0/text',old:'外套幫我拿。不是，幫我穿。我手在拿手機。',new:'外套幫我拿一下。不是啦，是幫我穿上，我手在拿手機。'},
     {loc:'D22',doc:'AA_822',path:'hotspots/D22.maple/remember/lines/0/text',old:'上次那個問題我查到了。算了，你也不想知道。',new:'那個問題我查到了。算了，你也不想知道。'},
     {loc:'D22',doc:'AA_822',path:'hotspots/D22.fish/remember/lines/0/text',old:'上次那碗湯，我回去想了三天。',new:'那碗湯，我回去想了三天。'},
-    {loc:'D23',doc:'AA_819',path:'hotspots/D23.seawall/first/choice/1/reply/0/text',old:'好。我計時。不計了。',new:'好，我來計時。……算了，今天不計了。',game:'好，我來計時。算了，今天不計了。'},
+    {loc:'D23',doc:'AA_819',path:'hotspots/D23.seawall/first/choice/1/reply/0/text',old:'好。我計時。不計了。',new:'好，我來計時……算了，今天不計了。',was:'好，我來計時。……算了，今天不計了。'},   /* 2026-11-12 74e0421b8：AA 把停頓改成句子中間的「……」（AA_694 的規則不拿），遊戲＝稿。was＝07d50af2f7 和 AA_819_kx_triple_short.json 上的寫法（那時候遊戲是「好，我來計時。算了，今天不計了。」）*/
     {loc:'D23',doc:'AA_819',path:'hotspots/D23.seawall/normal/1/lines/0/text',old:'天上有飛機。好多人要出國。我們不用。',new:'天上有飛機，好多人要出國。我們今天不用去那麼遠。'},
     {loc:'D24',doc:'AA_819',path:'hotspots/D24.footbath/first/choice/1/reply/0/text',old:'好。二十分鐘。我設了計時。',new:'好，就泡二十分鐘，我設好計時了。'},
     {loc:'D24',doc:'AA_819',path:'hotspots/D24.footbath/normal/2/lines/0/text',old:'毛巾給我。你沒帶？好，用我的。',new:'毛巾給我。你沒帶？好啦，先用我這條。'},

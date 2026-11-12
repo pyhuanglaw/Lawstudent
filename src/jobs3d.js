@@ -34,7 +34,11 @@ const JOBS=(function(){
      - 南洋：滿 3 班以後買票的選單多「拿員工票（站著看）」（S.staffTicket*；src/nanyang_sys3d.js、src/aa614_3d.js）；週五晚場那一天的桌遊夜照沒空（S.bgnBusy；src/bgnight3d.js 的 BGN.busy）；
        Alison 上班遇到他改說一句（S.alisonCo；src/shopnpc3d.js）。
      存檔：照舊 G.jobs.<shanlan|cinema>（多 endN、tkWk、tkN、aliCo，沒有＝0／沒拿過／沒說過）、G.jobs._meta.n.shanlan、G.flags.NY_TICKET_STAFF（拿員工票那一天）；舊存檔沒有這些＝沒應徵過。
-     測試：node tests/shop_jobs_aa828_1112_unit.js */
+     測試：node tests/shop_jobs_aa828_1112_unit.js
+     AA_828 第 4 節（AA 回七問，企劃線 b84e779563；2026-11-12）：①桌遊夜沒空＝不用玩家回（src/bgnight3d.js：那一晚明軒照樣約、沒有可以回的選項、不排出遊）②所有打工的班蓋到桌遊夜都算沒空（S.bgnBusy：便利商店週五夜班也是）
+       ③南洋也從下週一起（nextWeek）④寒暑假兩間都不排班、開學自動恢復（照舊：D().brk 沒有這兩間＝這個假先停；S.scheduled 開學就照班表）⑤辭職以後隔一個學期可以再應徵（S.canReapply：下一個學期開學起告示又看得到；reapply）
+       ⑥拿員工票多一句（S.staffTicketTakeLine；src/nanyang_sys3d.js）⑦山嵐上班遇到宋知寧（S.znCo：第一次在山嵐上班、她也在的那一班，上架那一段後面，一次；有／沒有 SHOP_ZN_MET 兩種；她只到大二下）。
+       存檔多：G.jobs._meta.znCo（宋知寧那一句說過的那一天）、G.jobs.<k>.re（第幾次再應徵）；沒有＝沒說過／沒有再應徵過。 */
   /* ---------- 新店打工第二批（AA_829，企劃線 ea5e8f5ae；SHOP-JOBS-1112）：花序 Flower Notes（flower，區域 flower_notes）、越好吃小館（yue，區域 tz_yuehaochi）、大口漢堡（dakou，區域 xs_dakou）----------
      字在 src/data/shop_jobs_aa829.js（tools/story/import_shop_jobs_aa829.py 產生）；整套照第一批（S.apply3、S.runShiftX）。多的：
      - 告示那個按鈕的字照稿（X.look：「看小卡」「看告示」「看立牌」）。位置：花序＝二樓示範長桌西端旁邊；越好吃＝櫃檯西端旁邊；大口漢堡＝一樓櫃檯西端旁邊（都不動模型）。
@@ -44,18 +48,21 @@ const JOBS=(function(){
        大口漢堡 週一、週四 18:00～22:00、週六 22:00～隔天 02:00（大夜班 880 元＝payWd；下班照便利商店夜班 S.nightSleep、隔天 10:00 以前的班自動請假）——三選二（S.pickDays 兩步的那一種，和阿德影印一樣）。
      - 班表衝突（AA_829 第 4 節；所有打工都一樣，家教也算）：選班表的時候，和已經排的班時間重疊的那一班灰掉（S.busyWith；選了灰的＝再選一次，稿沒有寫說明的字）。
      - 最後一句旁白：同一個名字的班（大口漢堡週一、週四的晚班）輪同一組（endKey）。越好吃做到 21:00＝打烊：照「那天在這間店打工的人不說打烊那句」（XSCLOSE.staffToday；src/gg3shops3d.js 的 S.gen）。
-     - 還沒接（見交付報告）：越好吃上班那兩天同學來吃飯多的一句（資料有 mealExtra；一班是一段演出，同學進店的那一套 src/shopmeet3d.js 這時候不跑）。
-     存檔：照舊 G.jobs.<flower|yue|dakou>；舊存檔沒有＝沒應徵過。測試：node tests/shop_jobs_aa829_1112_unit.js */
+     - 越好吃上班那兩天同學來吃飯（AA_829 第 2 節＋第 5 節第 7 點）：「點餐」那一段後面，SHOPLIFE 這時候排進店裡吃飯、朋友以上的同學（SHOPMEET.helloDue）照平常的 meal_hello 一句，後面多一句旁白 mealExtra；每人一次（G.jobs.yue.mealHi＝[人物]）。
+     AA_829 第 5 節（AA 回七點，企劃線 34f35eb15a；2026-11-12）：①選到灰掉的班＝一句旁白（資料 busyLine）再回選單 ②大口漢堡最多兩班、可以只選一班（照舊）③值班經理男、花藝師和老闆娘女（資料 gender）
+       ④大夜班下班回祐廷現在住的地方睡到 10:00、不寫地點（S.nightSleep；便利商店夜班一樣）⑤家教算已排的班（S.busyWith 照舊）⑥大夜班隔天 10:00 以前的班選班的時候就灰掉（S.busyWith；兩邊都擋：先有大夜班再選早班、先有早班再選大夜班）。
+       舊存檔已經兩個都排了的：照舊那天自動請假（S.excused 的 night）。
+     存檔：照舊 G.jobs.<flower|yue|dakou>（yue 多 mealHi）；舊存檔沒有＝沒應徵過。測試：node tests/shop_jobs_aa829_1112_unit.js */
   let A3c; const A3=()=>{ if(A3c!==undefined) return A3c; const a=typeof SHOP_JOBS_AA828!=='undefined'&&SHOP_JOBS_AA828&&SHOP_JOBS_AA828.jobs, b=typeof SHOP_JOBS_AA829!=='undefined'&&SHOP_JOBS_AA829&&SHOP_JOBS_AA829.jobs; return (A3c=a||b?Object.assign({},a||{},b||{}):null); };
   S.X3={ shanlan:{name:'山嵐書店',short:'山嵐書店',zone:'xs_shanlan',bossId:'shanlan_boss',contact:'山嵐書店的店長',title:'山嵐書店的班',travel:'走過去約 15 分鐘',place:'新生南路・山嵐書店',
-      desk:{x:3.9,z:0.4,lv:0,label:'櫃檯旁邊的告示'},fromWeek:['Y1S1',4],nextWeek:true},
+      desk:{x:3.9,z:0.4,lv:0,label:'櫃檯旁邊的告示'},fromWeek:['Y1S1',4],nextWeek:true,reapply:true},
     cinema:{name:'南洋戲院',short:'南洋戲院',zone:'xs_nanyang',bossId:'cinema_boss',contact:'南洋戲院的經理',title:'南洋戲院的班',travel:'走過去約 15 分鐘',place:'新生南路・南洋戲院',
-      desk:{x:-2.0,z:4.2,lv:0,label:'售票口旁邊的告示'},from:'Y1S2'},
-    flower:{name:'花序 Flower Notes',short:'花序',zone:'flower_notes',bossId:'flower_boss',gender:'f',contact:'花序的花藝師',title:'花序的班',travel:'走過去約 15 分鐘',place:'公館・花序 Flower Notes',   /* gender：稿「她比了一個『五』」*/
+      desk:{x:-2.0,z:4.2,lv:0,label:'售票口旁邊的告示'},from:'Y1S2',nextWeek:true,reapply:true},   /* nextWeek、reapply：AA_828 第 4 節第 3、5 點 */
+    flower:{name:'花序 Flower Notes',short:'花序',zone:'flower_notes',bossId:'flower_boss',contact:'花序的花藝師',title:'花序的班',travel:'走過去約 15 分鐘',place:'公館・花序 Flower Notes',   /* 男女在資料（gender；AA_829 第 5 節第 3 點）*/
       desk:{x:-3.2,z:-5.2,lv:1,r:0.8},exact:true,need:G=>{ const r=G&&G.flags&&G.flags.FC; return !!r&&typeof r==='object'&&((r.cnt|0)>0||r.last!=null); }},
-    yue:{name:'越好吃小館',short:'越好吃小館',zone:'tz_yuehaochi',bossId:'yue_boss',gender:'f',contact:'越好吃小館的老闆娘',title:'越好吃小館的班',travel:'走過去約 15 分鐘',place:'汀州路・越好吃小館',
+    yue:{name:'越好吃小館',short:'越好吃小館',zone:'tz_yuehaochi',bossId:'yue_boss',contact:'越好吃小館的老闆娘',title:'越好吃小館的班',travel:'走過去約 15 分鐘',place:'汀州路・越好吃小館',
       desk:{x:-1.2,z:-2.3,lv:0,r:0.7},from:'Y1S2',exact:true},
-    dakou:{name:'大口漢堡',short:'大口漢堡',zone:'xs_dakou',bossId:'dakou_boss',contact:'大口漢堡的值班經理',title:'大口漢堡的班',travel:'走過去約 15 分鐘',place:'新生南路・大口漢堡',   /* 值班經理是男是女稿沒有寫：不設 gender（聯絡人照原本的預設）*/
+    dakou:{name:'大口漢堡',short:'大口漢堡',zone:'xs_dakou',bossId:'dakou_boss',contact:'大口漢堡的值班經理',title:'大口漢堡的班',travel:'走過去約 15 分鐘',place:'新生南路・大口漢堡',
       desk:{x:-4.2,z:-3.0,lv:0,r:0.9},from:'Y1S2',exact:true} };
   S.mergeX3=function(W){ const A=A3(); if(!W||!A||W._x3) return W; W._x3=true; W.apply3=W.apply3||{};
     for(const k in S.X3){ const a=A[k]; if(!a) continue; const hours={}, payWd={}, endKey={}, first={}; for(const q of a.sched){ hours[q.wd]=[q.t0,q.t1]; if(q.pay!=null) payWd[q.wd]=q.pay;
@@ -159,14 +166,17 @@ const JOBS=(function(){
     for(const o of S.KEYS){ if(o===k||!S.active(G,o)) continue; const D0=fix(S.job(G,o)).day;
       if(D0.includes(wd)){ const b=S.hrsWd(o,wd); if(S.overlap(a[0],a[1],b[0],b[1])) return o; }
       if(D0.includes(prev)){ const b=S.hrsWd(o,prev); if(b[1]>24&&S.overlap(a[0],a[1],b[0]-24,b[1]-24)) return o; }
-      if(a[1]>24&&D0.includes(next)){ const b=S.hrsWd(o,next); if(S.overlap(a[0]-24,a[1]-24,b[0],b[1])) return o; } }
+      if(a[1]>24&&D0.includes(next)){ const b=S.hrsWd(o,next); if(S.overlap(a[0]-24,a[1]-24,b[0],b[1])) return o; }
+      if(a[0]<10&&D0.includes(prev)&&S.hrsWd(o,prev)[1]>24) return o;   /* AA_829 第 5 節第 6 點：前一晚有過了午夜的班（大夜班、便利商店夜班）＝隔天 10:00 以前的班選的時候就灰掉 */
+      if(a[1]>24&&D0.includes(next)&&S.hrsWd(o,next)[0]<10) return o; }   /* 反過來：隔天早上已經有 10:00 以前的班＝這個大夜班灰掉 */
     if(S.tutorOn(G)&&((G.flags||{}).TUTOR_WD===4?4:2)===wd&&S.overlap(a[0],a[1],19,21)) return 'tutor';
     return null; };
+  S.busyLine=()=>(typeof SHOP_JOBS_AA829!=='undefined'&&SHOP_JOBS_AA829&&SHOP_JOBS_AA829.busyLine)||null;   /* 「（這個時段你已經有班了。）」（字在資料）*/
   /* 選班表：兩天以內的店＝各一天／兩天一起；三天的店（阿德影印週二～四、大口漢堡三選二）＝先挑一天，還有名額可以再加一天。和已經排的班重疊的那一班灰掉（選了＝再選一次）*/
   S.pickDays=async function(GM,k){ const G=GM.G, s=shop(k), cap=S.cap(G,k); if(cap<=0){ if(GM.toast) GM.toast('一週最多兩班（所有打工加起來）',3200); return null; }
     const ok=s.days.filter(wd=>s.classOk||!S.classOn(G,k,wd));   /* 事務所：撞到必修課照樣可以選（AA_433 第 3 節）*/ if(!ok.length){ if(GM.toast) GM.toast('那個時段都有課',3000); return null; }
     const hintOf=wd=>{ const h=S.hrsWd(k,wd); return hm(h[0])+'～'+hm(h[1]); }, clash=wd=>!!S.busyWith(G,k,wd);
-    const ask=async O=>{ for(let g=0;g<12;g++){ const i=await GM.choose(O.map(o=>Object.assign({t:o.t,hint:o.hint},o.dim?{dim:true}:{}))); const o=O[i]; if(o&&o.dim) continue; return o||null; } return null; };
+    const ask=async O=>{ for(let g=0;g<12;g++){ const i=await GM.choose(O.map(o=>Object.assign({t:o.t,hint:o.hint},o.dim?{dim:true}:{}))); const o=O[i]; if(o&&o.dim){ const bl=S.busyLine(); if(bl) await say(GM,null,bl); continue; }   /* AA_829 第 5 節第 1 點：一句旁白、再回選單 */ return o||null; } return null; };
     if(k!=='copy'&&ok.length<=2){ const O=ok.map(wd=>({t:WD[wd],hint:hintOf(wd),days:[wd],dim:clash(wd)})); if(cap>=2&&ok.length===2) O.push({t:WD[ok[0]]+'和'+WD[ok[1]],hint:'一週兩班',days:ok.slice(),dim:clash(ok[0])||clash(ok[1])}); O.push({t:'先不要'});
       const o=await ask(O); return o&&o.days?o.days:null; }
     const O=ok.map(wd=>({t:WD[wd],hint:hintOf(wd),days:[wd],dim:clash(wd)})).concat([{t:'先不要'}]); const o=await ask(O); if(!o||!o.days) return null; const first=o.days[0];
@@ -177,7 +187,8 @@ const JOBS=(function(){
     if(k==='copy'&&days.includes(4)&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'public_law_group')) return D().clash.copy; return null; };
   /* 應徵（或出國回來重選班表）：選班表 → 撞時段那一句 → 記下來 */
   S.apply=async function(GM,k,o){ o=o||{}; const G=GM.G, J=S.rec(G); const days=await S.pickDays(GM,k); if(!days) return false;
-    let j=J[k]; if(!j||j.gone) j=J[k]={since:G.day,from:now(G),day:[],shifts:0,skill:0,missedRun:0,quit:null,gone:null,missPend:false,missN:0,worked:[],chk:G.day-1,wk:{},brk:{},ot:{}};
+    let j=J[k]; if(!j||j.gone){ const old=j; j=J[k]={since:G.day,from:now(G),day:[],shifts:0,skill:0,missedRun:0,quit:null,gone:null,missPend:false,missN:0,worked:[],chk:G.day-1,wk:{},brk:{},ot:{}};
+      if(old){ j.re=(old.re|0)+1; for(const f of ['aliCo','endN','mealHi']) if(old[f]!=null) j[f]=old[f]; } }   /* 辭職以後再應徵（AA_828 第 4 節第 5 點）：重新算班數；只說一次的那幾樣（Alison 那一句、同學來吃飯那一句）、最後一句輪到哪裡照舊記著 */
     fix(j); j.day=days; j.since=o.since!=null?o.since:G.day; j.from=o.since!=null?T(o.since,0):now(G);   /* o.since：「下週開始」（補習班、事務所的面試）*/ j.back=false; j.away=false; j.chk=Math.max(j.chk|0,G.day-1); j.missedRun=0; j.missPend=false;
     const c=S.clashLine(G,k,days); if(c) await say(GM,c[0],c[1]);
     if(GM.toast) GM.toast('班表：'+shop(k).short+'　'+S.schedText(k,days),3600);
@@ -294,6 +305,7 @@ const JOBS=(function(){
       for(let i=0;i<X.segs.length;i++){ const sg=X.segs[i]; await say(GM,null,(j.skill|0)>=5?sg.exp:sg.nov);
         const c=await GM.choose(sg.ch.map(o=>({t:o[0]}))), o=sg.ch[c]||sg.ch[0]; const alt=o[2]&&k==='cafe'&&E.done.includes('cafe3'); await say(GM,null,alt?o[2]:o[1]);   /* Café 掃地：「忘記的筆」演過以後換一句 */
         if(wth&&i===X.withAfter){ await say(GM,null,X.withLines[(j.withN|0)%X.withLines.length]); j.withN=(j.withN|0)+1; }
+        try{ await S.segAfter(GM,k,j,i,d); }catch(e){ console.warn('JOBS.segAfter',e); }   /* 山嵐：宋知寧（AA_828 第 4 節第 7 點）；越好吃：同學來吃飯（AA_829 第 5 節第 7 點）*/
         if(i<X.segs.length-1) GM.advance(seg); }
       if(ev&&ev.at!=='start') await playEv();
       if(ev&&ev.id==='cvs2') G.flags.JOB_CVS=d;   /* 颱風天店長留了兩碗：大四颱風夜（T4a）的回聲讀它 */
@@ -313,12 +325,35 @@ const JOBS=(function(){
     if(H0[1]>24) await S.nightSleep(GM,d);
     if(Array.isArray(s.closeOut)&&s.closeOut.includes(wdOf(d))) await S.closeOut(GM,k);
     if(GM.autosave) GM.autosave(); return true; };
+  /* 一班裡某一段工作後面多的（字都在資料）：
+     山嵐書店（AA_828 第 4 節第 7 點）：祐廷第一次在山嵐上班、宋知寧也在的那一班，「上架」那一段後面（一次；G.jobs._meta.znCo＝那一天，辭職再應徵也不再說）——有 SHOP_ZN_MET＝三句（中間一句旁白）、沒有＝一句。
+       她在不在（S.znCoOn）：稿只寫「她在山嵐二樓打工」「她的學期只到大二下，之後不出」，沒有寫她排哪幾天——這裡照「到大二下學期結束為止、祐廷的班她都在」做（遊戲裡原本她週六下午才在書店，祐廷的班是週三、週日；已列給 AA 確認）。
+       名字：認識過＝照遊戲原本顯示的（SHOPENC 的「知寧」）；不認識＝照稿「宋知寧」。
+     越好吃小館（AA_829 第 2 節＋第 5 節第 7 點）：「點餐」那一段後面，這時候排進店裡吃飯的同學（SHOPMEET.helloDue：朋友以上、今天這一餐還沒說過）照平常的 meal_hello 一句＋旁白 mealExtra；每人一次（j.mealHi）*/
+  const TERM_ZH={'大一上':'Y1S1','大一下':'Y1S2','大二上':'Y2S1','大二下':'Y2S2','大三上':'Y3S1','大三下':'Y3S2','大四上':'Y4S1','大四下':'Y4S2'};
+  S.znCo=()=>{ const A=S.ap3('shanlan'); return (A&&A.co)||null; };
+  S.znCoOn=function(G,d){ const C=S.znCo(); if(!C||!hasCal()||!CALENDAR.termDays) return false; const r=CALENDAR.termDays(TERM_ZH[C.until]); return !!r&&d<=r.to&&!!S.termAt(G,d); };
+  S.znCoDue=function(G,d){ return !!S.znCo()&&S.rec(G)._meta.znCo==null&&S.znCoOn(G,d); };
+  S.znCoLines=function(G){ const C=S.znCo(); if(!C) return []; const met=!!(G.flags&&G.flags[C.flag]); let nm=C.who;
+    if(met&&typeof SHOPENC!=='undefined'&&SHOPENC.npOf&&SHOPENC.ZN){ try{ const P=SHOPENC.npOf(G,SHOPENC.ZN); if(P&&P.name) nm=P.name; }catch(e){} }
+    return (met?C.met:C.new).map(x=>[x[0]==null?null:nm,x[1]]); };
+  S.mealIds=()=>typeof SHOP_MEET_LINES!=='undefined'&&SHOP_MEET_LINES&&SHOP_MEET_LINES.mealHello?Object.keys(SHOP_MEET_LINES.mealHello):[];
+  S.segAfter=async function(GM,k,j,i,d){ const G=GM.G, A=S.ap3(k), sg=A&&A.segs&&A.segs[i]; if(!sg) return false; let any=false;
+    if(k==='shanlan'&&A.co&&sg.name===A.co.seg&&S.znCoDue(G,d)){ S.rec(G)._meta.znCo=d; await S.play(GM,S.znCoLines(G)); any=true; }
+    if(A.mealExtra&&A.mealAfter&&sg.name===A.mealAfter&&typeof SHOPMEET!=='undefined'&&SHOPMEET.helloDue&&SHOPMEET.mealHello&&G.zone===shop(k).zone){ const M=Array.isArray(j.mealHi)?j.mealHi:(j.mealHi=[]);
+      for(const id of S.mealIds()){ if(M.includes(id)||!SHOPMEET.helloDue(G,id)) continue; if(await SHOPMEET.mealHello(GM,whoOf(G,id),id)){ await say(GM,null,A.mealExtra); M.push(id); any=true; } } }
+    return any; };
   /* 做到打烊的班（AA_828 第 3 節：山嵐書店晚班 22:00）：下班那一句演完，人直接站在店門口外面（位置照 XSCLOSE.outOf＝打烊走出去的那一點）；人不在店裡、店還開著就不動 */
   S.closeOut=async function(GM,k){ const G=GM.G, z=shop(k).zone; if(!z||G.zone!==z||typeof XSCLOSE==='undefined'||!XSCLOSE.outOf||!GM.enter) return false;
     if(XSCLOSE.placeOpen&&XSCLOSE.placeOpen(z,G)) return false; const o=XSCLOSE.outOf(GM,z); await GM.enter(o.to,o.spawn); return true; };
   /* 夜班（週五 22:00～02:00）：下班回宿舍睡到隔天 10:00（AA_433 第 1 節「隔天 10:00 以前祐廷在宿舍睡覺，不排別的」；隔天早上的班 S.excused 自動請假）*/
+  /* AA_829 第 5 節第 4 點：回祐廷現在住的地方（看當時住哪）睡到 10:00，旁白不寫地點；便利商店夜班比照。住哪照 STORY.forceHome 那一套分：
+     住家裡（放假回家住、畢業後退宿住家裡：HOME.breakMode／baseMode／pgHome）＝回家（HOME.go，家裡的那一套接手，不另外睡）；公館的套房（HOME.suite，沒有 3D）＝直接睡，STORY.sleepNow 醒來就在套房（公館）；其他＝宿舍 */
+  S.liveAt=function(G){ const H=typeof HOME!=='undefined'?HOME:null; try{ if(H&&((H.breakMode&&H.breakMode(G))||(H.baseMode&&H.baseMode(G))||(H.pgHome&&H.pgHome(G)))) return 'home'; if(H&&H.suite&&H.suite(G)) return 'suite'; }catch(e){} return 'dorm'; };
   S.nightSleep=async function(GM,d){ const G=GM.G; G.flags.JOB_NIGHT=d; if(typeof STORY==='undefined'||!STORY.sleepNow) return false; if(GM.E&&GM.E.player&&GM.E.player.busy) return false;
-    G.flags.companion=null; if(G.zone!=='dorm'&&GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await STORY.sleepNow(GM,10); return true; };
+    G.flags.companion=null; const at=S.liveAt(G);
+    if(at==='home'&&HOME.go){ if(!(HOME.at&&HOME.at(G))) await HOME.go(GM); return true; }
+    if(at==='dorm'&&G.zone!=='dorm'&&GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await STORY.sleepNow(GM,10); return true; };
   /* 客人：Café 點過第 3 次、書店來過第 2 次以後，結帳時老闆開口（AA_431；次數照 EAT 的「店員認得你」那個計數：src/eat3d.js 的 G.eat.n）*/
   S.EAT_KEY={'兩點半 Café':'cafe','舊路書房':'books','公館的便利商店':'cvs'};
   S.zrHere=G=>{ try{ return typeof STORY!=='undefined'&&!!STORY.ladWorking&&STORY.ladWorking(G,'heroine_02')&&typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&SOCIAL.STAGES.indexOf(SOCIAL.stage('heroine_02'))>=SOCIAL.STAGES.indexOf('FAMILIAR'); }catch(e){ return false; } };
@@ -380,8 +415,11 @@ const JOBS=(function(){
   S.staffTicketTake=function(G){ const j=S.job(G,'cinema'); if(!j) return false; G.flags=G.flags||{}; j.tkWk=weekOf(G.day); j.tkN=(j.tkN|0)+1; G.flags.NY_TICKET=G.day|0; G.flags.NY_TICKET_STAFF=G.day|0; return true; };
   S.staffTicketToday=G=>!!G&&!!G.flags&&G.flags.NY_TICKET_STAFF===(G.day|0)&&G.flags.NY_TICKET===(G.day|0);
   S.staffTicketLine=G=>{ const T=S.staffTicket(); return T&&S.staffTicketToday(G)?T.line:null; };
-  /* 週五 18:00～22:00 上班的那一週，桌遊夜（隔週五 20:00，AA_623）照沒空：那一天排了戲院的班（S.due：沒有被考試、颱風請掉）、而且班的時間蓋到 20:00 */
-  S.bgnBusy=function(G,d){ if(!S.active(G,'cinema')||!hasCal()) return false; if(!S.due(G,'cinema',d)) return false; const h=S.hrs('cinema',d); return h[0]<=20&&h[1]>20; };
+  S.staffTicketTakeLine=()=>{ const T=S.staffTicket(); return T&&Array.isArray(T.take)&&T.take[1]?{who:{name:T.take[0]},text:T.take[1]}:null; };   /* AA_828 第 4 節第 6 點：拿員工票那一下售票員多一句（買票照舊沒有台詞）*/
+  /* 桌遊夜（隔週五 20:00～23:30，AA_623）那一晚有打工的班＝沒空（AA_828 第 3 節＋第 4 節第 2 點「所有打工的班都一樣」）：那一天排了班（S.due：沒有被考試、颱風請掉）、班的時間和桌遊夜重疊——
+     南洋戲院週五晚場 18:00～22:00、便利商店週五夜班 22:00～02:00 都算。原本只看戲院、班蓋到 20:00 */
+  S.bgnBusy=function(G,d){ if(!G||!hasCal()||!law(G)) return false; const B=typeof BGN!=='undefined'?BGN:null, h0=B&&B.H0!=null?B.H0:20, h1=B&&B.H1!=null?B.H1:23.5;
+    for(const k of S.KEYS){ if(!S.active(G,k)||!S.due(G,k,d)) continue; const h=S.hrs(k,d); if(S.overlap(h[0],h[1],h0,h1)) return true; } return false; };
   /* AA_615 的同學（Alison）上班遇到自己也在這裡打工的祐廷：改說一句（一次；G.jobs.cinema.aliCo＝那一天）*/
   S.alisonCo=G=>{ const A=S.ap3('cinema'), j=S.job(G,'cinema'); return A&&A.alison&&j&&!j.gone&&j.aliCo==null?A.alison:null; };
   S.alisonCoDone=G=>{ const j=S.job(G,'cinema'); if(j) j.aliCo=G.day|0; };
@@ -461,8 +499,11 @@ const JOBS=(function(){
     return false; };
 
   // ---------- 店裡的按鈕（STORY.populate）----------
-  S.deskLabel=(G,k)=>{ if(!S.job(G,k)){ if(k==='copy') return '跟阿德說想打工'; if(S.ap3(k)) return S.ap3(k).look||'看告示'; return '應徵：'+D().notice[k]; } if(S.shiftNow(G,k)) return '開始上班'; return '找'+shop(k).boss; };
-  S.deskHidden=(G,k)=>{ if(!G||!law(G)) return true; const j=S.job(G,k); if(!j) return !S.eligible(G,k)||(k==='copy'&&!S.rec(G)._meta.asked.copy); return !!j.gone&&!j.pendLeave; };
+  S.deskLabel=(G,k)=>{ if(!S.job(G,k)||S.canReapply(G,k)){ if(k==='copy') return '跟阿德說想打工'; if(S.ap3(k)) return S.ap3(k).look||'看告示'; return '應徵：'+D().notice[k]; } if(S.shiftNow(G,k)) return '開始上班'; return '找'+shop(k).boss; };
+  /* 辭職以後可以再應徵（AA_828 第 4 節第 5 點：隔一個學期＝下一個學期開學起告示又看得到；山嵐書店、南洋戲院 reapply）：辭職（不是畢業）那一天以後的第一個開學日起 */
+  S.reapplyDay=function(G,j){ if(!j||j.gone!=='quit'||j.quit==null||!hasCal()||!CALENDAR.termDays) return null; let best=null; for(const id of ['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2','Y5S1']){ const r=CALENDAR.termDays(id); if(r&&r.from>j.quit&&(best==null||r.from<best)) best=r.from; } return best; };
+  S.canReapply=function(G,k){ if(!G||!S.ap3(k)||!shop(k).reapply) return false; const j=S.job(G,k); if(!j||j.pendLeave) return false; const d=S.reapplyDay(G,j); return d!=null&&G.day>=d&&S.eligible(G,k); };
+  S.deskHidden=(G,k)=>{ if(!G||!law(G)) return true; const j=S.job(G,k); if(j&&S.canReapply(G,k)) return false; if(!j) return !S.eligible(G,k)||(k==='copy'&&!S.rec(G)._meta.asked.copy); return !!j.gone&&!j.pendLeave; };
   S.addDesk=function(GM,zoneId){ const k=S.ZONE_KEY[zoneId], E=GM&&GM.E; if(!k||!E||!Array.isArray(E.interactables)) return null; const s=shop(k), Gf=()=>GM.G;
     const SI=typeof Z3!=='undefined'&&Z3.SHOP_IN&&Z3.SHOP_IN[zoneId], dk=(SI&&SI.gg&&SI.job)||s.desk;   /* 頁間書屋、日和便利店的新室內（GG-SHOPS-REDO-1104）：告示的位置照 SHOP_IN.job */
     const it={x:dk.x,z:dk.z,lv:dk.lv|0,radius:dk.r||1.0,wzJob:k,get label(){ return S.deskLabel(Gf(),k); },get hidden(){ return S.deskHidden(Gf(),k); }}; E.interactables.push(it); return it; };
@@ -474,7 +515,7 @@ const JOBS=(function(){
     await say(GM,A.boss,A.ask); if(A.visitN!=null) await say(GM,A.boss,(M.n[k]|0)>=A.visitN?A.many:A.few);
     return S.apply(GM,k,shop(k).nextWeek?{since:monNext(G.day)}:null); };
   S.desk=async function(GM,k){ const G=GM.G, j=S.job(G,k);
-    if(!j&&S.ap3(k)){ GM.sceneBegin(); try{ await S.apply3(GM,k); } finally { GM.sceneEnd(); } return true; }
+    if((!j||S.canReapply(G,k))&&S.ap3(k)){ GM.sceneBegin(); try{ await S.apply3(GM,k); } finally { GM.sceneEnd(); } return true; }
     if(!j){ GM.sceneBegin(); try{ await S.apply(GM,k); } finally { GM.sceneEnd(); } return true; }
     if(j.pendLeave){ GM.sceneBegin(); try{ await S.leave(GM,k,j.gone||'quit'); } finally { GM.sceneEnd(); } return true; }
     if(j.gone) return true;

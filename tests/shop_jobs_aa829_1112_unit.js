@@ -37,7 +37,7 @@ const sleeps=[]; if(typeof STORY!=='undefined') STORY.sleepNow=async(gm,h)=>{ sl
 const shift=async(k,d,picks)=>{ const h0=JOBS.hrs(k,d)[0]; at(d,h0-0.1,ZONE[k]); H.said=[]; H.opts=[]; H.entered=[]; H.picks=(picks||[]).slice(); toasts.length=0; sleeps.length=0; const m0=H.G.money; await JOBS.runShift(GM,k); return H.G.money-m0; };
 const desk=z=>{ H.E.interactables=[]; return JOBS.addDesk(GM,z); };
 const ask=async(it,picks)=>{ H.said=[]; H.opts=[]; dims.length=0; toasts.length=0; H.picks=picks.slice(); await STORY.interact(it,GM); };
-const DOC='docs/story_planning/AA_829_新店打工_花序_越好吃_大口漢堡.md', SHA='ea5e8f5ae';
+const DOC='docs/story_planning/AA_829_新店打工_花序_越好吃_大口漢堡.md', SHA='34f35eb15a';   /* 舊：ea5e8f5ae（第 1～4 節一樣；多第 5 節「回 LAWWW-C」）*/
 const D9=typeof SHOP_JOBS_AA829!=='undefined'?SHOP_JOBS_AA829:null, has=typeof JOBS!=='undefined'&&!!D9&&['flower','yue','dakou'].every(k=>JOBS.KEYS.includes(k))&&typeof JOBS.busyWith==='function';
 
 (async()=>{
@@ -60,7 +60,9 @@ await sec(0,async()=>{
     for(const w in A.end) for(const t of A.end[w]) inDoc(t);
     if(!new RegExp('小時 '+A.pay+' 元').test(doc)) miss.push('薪水 '+A.pay); }
   inDoc(D9.jobs.yue.mealExtra); if(!doc.includes('大夜班 880 元')) miss.push('大夜班 880');
-  check('0. 逐句對稿：'+n+' 句都在 AA_829@'+SHA+' 上（一字不差）',n===44&&miss.length===0,n+' '+J(miss));
+  inDoc('選到灰掉的班：出一句旁白「'+D9.busyLine+'」再回選單。'); inDoc('越好吃「'+D9.jobs.yue.mealExtra+'」插在「'+D9.jobs.yue.mealAfter+'」那一段後面。');   /* 第 5 節第 1、7 點 */
+  check('0. 第 5 節：灰掉的班那一句「（這個時段你已經有班了。）」；越好吃那一句插在「點餐」後面；值班經理男、花藝師和老闆娘女',D9.busyLine==='（這個時段你已經有班了。）'&&D9.jobs.yue.mealAfter==='點餐'&&D9.jobs.yue.segs[0].name==='點餐'&&doc.includes('3. 值班經理男；花藝師、老闆娘女。')&&D9.jobs.dakou.gender==='m'&&D9.jobs.flower.gender==='f'&&D9.jobs.yue.gender==='f'&&(typeof PORTRAIT_ONLY==='undefined'||(PORTRAIT_ONLY.dakou_boss.gender==='m'&&PORTRAIT_ONLY.flower_boss.gender==='f'&&PORTRAIT_ONLY.yue_boss.gender==='f')),J([D9.busyLine,D9.jobs.yue.mealAfter,D9.jobs.dakou.gender]));
+  check('0. 逐句對稿：'+n+' 句都在 AA_829@'+SHA+' 上（一字不差）',n===46&&miss.length===0,n+' '+J(miss));   /* 舊：44（多第 5 節兩處）*/
   /* 反過來：稿上三節的三段工作表、最後一句旁白，遊戲資料都有（沒有漏句）*/
   const body=doc.slice(doc.indexOf('## 1. 花序'),doc.indexOf('## 4. 給 LAWWW')), all=J(D9.jobs), lost=[];
   for(const row of body.split('\n').filter(l=>/^\| /.test(l)&&!/^\| (段|---)/.test(l))) for(const m of row.matchAll(/（[^（）]+?。）|「[^「」]+?。」/g)) if(!all.includes(J(m[0]).slice(1,-1))) lost.push(m[0]);
@@ -156,7 +158,7 @@ await sec(4,async()=>{ const d0=TD('Y1S2',3,2); fresh(d0,15,'xs_dakou'); let it=
 
 await sec(5,async()=>{ const d0=TD('Y1S2',3,2);
   fresh(d0,15,'xs_dakou'); hire('yue',[4]); let it=desk('xs_dakou'); await ask(it,['「問店員。」','週四','週一']);
-  check('5. 已經排了越好吃週四（17:30～21:00）：大口漢堡的週四（18:00～22:00）灰掉；選了灰的＝再選一次、沒有多的字',JOBS.busyWith(H.G,'dakou',4)==='yue'&&J(dims[1])===J(['週四'])&&J(dims[2])===J(['週四'])&&J(H.opts[1])===J(H.opts[2])&&J(JOBS.job(H.G,'dakou').day)===J([1])&&H.said.length===2&&!toasts.some(t=>!/^班表：/.test(t)),J(dims)+J(H.opts)+J(toasts));
+  check('5. 已經排了越好吃週四（17:30～21:00）：大口漢堡的週四（18:00～22:00）灰掉；選了灰的＝一句旁白「（這個時段你已經有班了。）」再回選單（AA_829 第 5 節第 1 點；舊期望：沒有多的字）',JOBS.busyWith(H.G,'dakou',4)==='yue'&&J(dims[1])===J(['週四'])&&J(dims[2])===J(['週四'])&&J(H.opts[1])===J(H.opts[2])&&J(JOBS.job(H.G,'dakou').day)===J([1])&&H.said.length===3&&H.said[2].who===null&&H.said[2].t==='（這個時段你已經有班了。）'&&!toasts.some(t=>!/^班表：/.test(t)),J(dims)+J(H.opts)+J(toasts));
   check('5. 週一、週六不灰',!JOBS.busyWith(H.G,'dakou',1)&&!JOBS.busyWith(H.G,'dakou',6));
   fresh(d0,15,'tz_yuehaochi'); hire('dakou',[4]); it=desk('tz_yuehaochi'); await ask(it,['「問老闆娘。」','週二']);
   check('5. 反過來（先排大口漢堡週四）：越好吃的週四灰掉（已經有一班＝本來就沒有「兩天」那一項）；週二可以',J(dims[1])===J(['週四'])&&J(H.opts[1])===J(['週二','週四','先不要'])&&J(JOBS.job(H.G,'yue').day)===J([2]),J(dims));
@@ -169,7 +171,13 @@ await sec(5,async()=>{ const d0=TD('Y1S2',3,2);
   fresh(d0,15,'tz_yuehaochi',{JOB_TUTOR:true,TUTOR_WD:2,tutorFromDay:d0-10}); const tu=JOBS.tutorOn(H.G);
   check('5. 有家教（週二 19:00～21:00）：越好吃的週二灰掉、週四不灰',tu&&JOBS.busyWith(H.G,'yue',2)==='tutor'&&!JOBS.busyWith(H.G,'yue',4),String(tu));
   /* 過了午夜的班：便利商店週五 22:00～02:00 不撞週六早上；大口漢堡週六大夜班不撞便利商店週五夜班 */
-  fresh(d0,15,'xs_dakou'); hire('cvs',[5]); check('5. 不重疊的不灰：便利商店週五夜班（到週六 02:00）和大口漢堡週六 22:00、花序週六 09:00',!JOBS.busyWith(H.G,'dakou',6)&&!JOBS.busyWith(H.G,'flower',6));
+  /* 2026-11-12（AA_829 第 5 節第 6 點）：大夜班隔天 10:00 以前的班選班的時候就灰掉。舊期望：便利商店週五夜班和花序週六 09:00 不灰（當天才自動請假）*/
+  fresh(d0,15,'xs_dakou'); hire('cvs',[5]); check('5. 便利商店週五夜班（到週六 02:00）：大口漢堡週六 22:00 不灰；花序週六 09:00（隔天 10:00 以前）灰掉、週日 13:00 不灰',!JOBS.busyWith(H.G,'dakou',6)&&JOBS.busyWith(H.G,'flower',6)==='cvs'&&!JOBS.busyWith(H.G,'flower',7));
+  H.G.flags.FC={n:{},gave:{},after:{},cnt:1,last:d0-3}; at(d0,15,'flower_notes'); it=desk('flower_notes'); await ask(it,['「問花藝師。」','週六','週日']);
+  check('5. 選班的時候就灰掉：花序的週六灰、選了＝那一句旁白再回選單；改選週日',dims.some(x=>x.includes('週六'))&&said('（這個時段你已經有班了。）')&&J(JOBS.job(H.G,'flower').day)===J([7]),J(dims)+J(L()));
+  fresh(d0,15,'xs_dakou'); hire('dakou',[6]); check('5. 大口漢堡週六大夜班：早午餐週日 07:30 灰掉；花序週日 13:00、越好吃週二不灰',JOBS.busyWith(H.G,'brunch',7)==='dakou'&&!JOBS.busyWith(H.G,'flower',7)&&!JOBS.busyWith(H.G,'yue',2)&&!JOBS.busyWith(H.G,'brunch',6));
+  fresh(d0,15,'xs_dakou'); hire('brunch',[7]); it=desk('xs_dakou'); await ask(it,['「問店員。」','週六','週一']);
+  check('5. 反過來（先有早午餐週日 07:30）：大口漢堡的週六大夜班灰掉；選了＝那一句旁白；可以只選一班（週一；第 5 節第 2 點）',JOBS.busyWith(H.G,'dakou',6)==='brunch'&&dims[1].includes('週六')&&said('（這個時段你已經有班了。）')&&J(JOBS.job(H.G,'dakou').day)===J([1]),J(dims)+J(JOBS.job(H.G,'dakou')&&JOBS.job(H.G,'dakou').day));
   fresh(d0,15,'xs_dakou'); hire('cafe',[6]); check('5. 兩點半 Café 週六下午和花序週六 09:00～13:00 照實際的時間比',JOBS.busyWith(H.G,'flower',6)===(JOBS.hrsWd('cafe',6)[0]<13?'cafe':null));
   fresh(d0,15,'xs_dakou'); hire('yue',[4],{gone:'quit'}); check('5. 辭掉的工作不算',!JOBS.busyWith(H.G,'dakou',4)); });
 
@@ -220,6 +228,32 @@ await sec(9,async()=>{ const d=TD('Y2S1',3,6); const G=fresh(d,8.9,'flower_notes
   check('9. 舊存檔只有早午餐的班：照常（早午餐還在、新的三份沒有）',err===''&&JOBS.active(G,'brunch')&&!JOBS.job(G,'dakou')&&JOBS.used(G)===1,err);
   const it=desk('xs_dakou'); await ask(it,['「問店員。」','週一']); await shift('dakou',d+2);
   const g2=JSON.parse(J(G)); check('9. 新的欄位存檔 JSON 來回不壞（G.jobs.dakou：endN、班數；沒有新的最上層欄位）',J(g2.jobs)===J(G.jobs)&&g2.jobs.dakou.shifts===1&&g2.jobs.dakou.endN['1']===1&&!('shopJobs' in g2),J(g2.jobs.dakou)); });
+
+await sec(10,async()=>{
+  /* 第 5 節第 4 點：大夜班下班回祐廷現在住的地方睡到 10:00（旁白不寫地點）；便利商店夜班比照 */
+  const sat=TD('Y1S2',6,6); fresh(sat,21,'dorm'); hire('dakou',[6]); await shift('dakou',sat);
+  check('10. 住宿舍：大夜班下班回宿舍、睡到 10:00；沒有寫地點的旁白（最後一句是大夜班那一句）',JOBS.liveAt(H.G)==='dorm'&&J(H.entered)===J(['dorm'])&&J(sleeps)===J([10])&&H.said[H.said.length-1].t===K9.end['6'][0]&&!H.said.some(s=>/宿舍|套房|回到/.test(s.t)),J(H.entered)+J(sleeps));
+  const h0={suite:HOME.suite,pg:HOME.pgHome,go:HOME.go,at:HOME.at}; try{
+    fresh(sat,21,'dorm'); hire('dakou',[6]); HOME.suite=()=>true; await shift('dakou',sat);
+    check('10. 住公館的套房：不走回宿舍，直接睡到 10:00（醒來在哪裡照 STORY.sleepNow：套房＝公館）',JOBS.liveAt(H.G)==='suite'&&!H.entered.includes('dorm')&&J(sleeps)===J([10]),J(H.entered)+J(sleeps));
+    HOME.suite=h0.suite; const fri=TD('Y1S2',6,5); fresh(fri,21,'cvs'); hire('cvs',[5]); HOME.suite=()=>true; H.entered=[]; sleeps.length=0; await JOBS.nightSleep(GM,fri);
+    check('10. 便利商店夜班比照（同一支 JOBS.nightSleep）',!H.entered.includes('dorm')&&J(sleeps)===J([10])&&H.G.flags.JOB_NIGHT===fri);
+    HOME.suite=h0.suite; let went=0; HOME.pgHome=()=>true; HOME.at=()=>false; HOME.go=async()=>{ went++; }; fresh(fri,26,'xs_dakou'); H.entered=[]; sleeps.length=0; await JOBS.nightSleep(GM,fri);
+    check('10. 住家裡：回家（家裡的那一套接手），不進宿舍',JOBS.liveAt(H.G)==='home'&&went===1&&!H.entered.includes('dorm')&&sleeps.length===0,J([went,H.entered,sleeps]));
+  } finally { HOME.suite=h0.suite; HOME.pgHome=h0.pg; HOME.go=h0.go; HOME.at=h0.at; }
+  /* 第 5 節第 7 點：越好吃上班那兩天同學來吃飯——點餐那一段後面：照平常的 meal_hello 一句＋「（你幫他點了餐。）」；每人一次 */
+  if(typeof SHOPMEET==='undefined'||typeof SHOP_MEET_LINES==='undefined'){ console.log('（跳過：沒有 SHOPMEET／SHOP_MEET_LINES）'); }
+  else { const MXI='classmate_mingxuan', hd0=SHOPMEET.helloDue, ML=SHOP_MEET_LINES.mealHello[MXI].base; const tue=TD('Y1S2',4,2); fresh(tue,16,'dorm'); hire('yue',[2,4]); let here=[MXI]; let askedAt=[];
+    try{ SHOPMEET.helloDue=(G,id)=>{ askedAt.push([G.zone,G.hour]); const r=G.flags.SHOP_MEAL_HI&&G.flags.SHOP_MEAL_HI[id]; return here.includes(id)&&!(Array.isArray(r)&&r[0]===G.day)?'dinner':null; };
+      await shift('yue',tue,['「再跟客人確認一次。」','「喊『小心燙』。」','「先補豆芽和九層塔。」']); const T=H.said.map(s=>s.t);
+      check('10. 越好吃：點餐那一段（旁白＋選了的那一句）後面＝他照平常的 meal_hello 一句、再「（你幫他點了餐。）」，然後才是端湯',J(T.slice(0,5))===J([Y9.segs[0].nov,'（客人說對。旁邊那桌已經在舉手了。）',ML[0],'（你幫他點了餐。）',Y9.segs[1].nov])&&H.said[2].who!==null&&H.said[3].who===null&&T.length===9,J(L()));
+      check('10. 問的時候人在店裡、是點餐的時候（17:30）；記 G.jobs.yue.mealHi、他那一餐算打過招呼',askedAt.every(a=>a[0]==='tz_yuehaochi'&&Math.abs(a[1]-17.5)<1e-6)&&J(JOBS.job(H.G,'yue').mealHi)===J([MXI])&&H.G.flags.SHOP_MEAL_HI[MXI][0]===tue,J(askedAt.slice(0,2))+J(JOBS.job(H.G,'yue').mealHi));
+      await shift('yue',tue+2,['「直接報給廚房。」']); check('10. 每人一次：下一班他又來＝不再加（meal_hello 也不在班上說）',H.said.length===7&&!said('（你幫他點了餐。）')&&!said(ML[1]),J(L()));
+      here=[MXI,'zhe']; await shift('yue',tue+7); check('10. 另一個同學第一次來＝他的一句＋那一句旁白',said(SHOP_MEET_LINES.mealHello.zhe.base[0])&&H.said.filter(s=>s.t==='（你幫他點了餐。）').length===1&&J(JOBS.job(H.G,'yue').mealHi)===J([MXI,'zhe']),J(L()));
+      here=[]; fresh(tue,16,'dorm'); hire('yue',[2,4]); await shift('yue',tue); check('10. 沒有同學來：照原本的七句',H.said.length===7&&!said('（你幫他點了餐。）'));
+      here=[MXI]; fresh(tue,16,'dorm'); hire('flower',[6,7]); await shift('flower',TD('Y1S2',4,7)); check('10. 別間店（花序）不會有這一段',H.said.length===7&&!said('（你幫他點了餐。）'));
+    } finally { SHOPMEET.helloDue=hd0; } }
+  const g2=JSON.parse(J(H.G)); check('10. 存檔 JSON 來回不壞',J(g2.jobs)===J(H.G.jobs)); });
 
 console.log(H.fails?'FAILED '+H.fails:'ALL PASS'); process.exit(H.fails?1:0);
 })();

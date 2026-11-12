@@ -4,7 +4,9 @@
   jobs.shanlan／jobs.cinema：notice（告示的字）、askOpt／laterOpt（看告示以後的兩個選項）、boss（說話的人）、gender、ask（開口那一句）、
     visitN／many／few（山嵐：來過幾次以上的兩句）、later（「再想想。」的回話）、sched（班表：週幾、幾點到幾點、班的名字、是不是做到打烊）、pay（一班的薪水）、
     segs（三段工作：新手／熟練／兩個小選擇和各自的下一句）、end（最後一句旁白：{週幾:[輪流]} 或 {all:[輪流]}）；
-  jobs.cinema 另外有 ticket（after＝滿幾班、opt＝選項的字、line＝看完多的一句）、alison（同學上班遇到他改說的那一句）。
+  jobs.cinema 另外有 ticket（after＝滿幾班、opt＝選項的字、line＝看完多的一句、take＝拿員工票那一下多的一句 [說話的人, 字]——第 4 節第 6 點）、alison（同學上班遇到他改說的那一句）。
+  jobs.shanlan 另外有 co（第 4 節第 7 點：上班遇到宋知寧——who、seg＝哪一段後面、flag＝看哪一個旗標、met／new＝有／沒有那個旗標的那幾句 [說話的人或 null＝旁白, 字]、until＝她到哪一個學期）。
+第 4 節「回 LAWWW 七問」其他幾點是規則（給實作看的），不進資料。
 規則的字（第 3 節「給 LAWWW」、每一節的說明）是給實作看的，不進遊戲（流程在 src/jobs3d.js）。台詞一字不改；有名字說的話拿掉外面那一對「」（對話框已經寫了是誰說的）；
 選項、旁白照稿。白名單照 import_guard；讀稿照 read_fix。
 用法：python3 tools/story/import_shop_jobs_aa828.py [--ref <commit>] [--check]"""
@@ -101,6 +103,26 @@ def build(md):
     jobs['cinema']['ticket'] = {'after': int(t.group(1)), 'opt': fx(t.group(2)), 'line': fx(t.group(3))}
     a = need(re.search(r'那位同學上班遇到他，改說：「(.+?)」（一次）', c), 'cinema.同學改說')
     jobs['cinema']['alison'] = fx(a.group(1))
+    q = section(md, '## 4. 回 LAWWW')
+    k = need(re.search(r'^6\. .*拿員工票多一句：(\S+?)：「(.+?)」\s*$', q, re.M), '第 4 節第 6 點（拿員工票多一句）')
+    jobs['cinema']['ticket']['take'] = [fx(k.group(1)), fx(k.group(2))]
+    z = need(re.search(r'^7\. 上班時遇到認識的人：(\S+?)在山嵐二樓打工——祐廷第一次在山嵐上班、她也在的那一班，(\S+?)那一段後面多一句（一次）：'
+                       r'有 ([A-Z_]+)（[^）]*）→ (.+?)／沒有 \3 → (.+?)她的學期只到(大[一二三四][上下])，之後不出。', q, re.M), '第 4 節第 7 點（宋知寧）')
+    who, seg = fx(z.group(1)), fx(z.group(2))
+    if seg not in [g['name'] for g in jobs['shanlan']['segs']]:
+        raise SystemExit(f'第 4 節第 7 點：山嵐的三段工作沒有「{seg}」那一段')
+
+    def said(t, w):
+        """「<誰>：「…」（…）「…」」→ [[誰, 字] 或 [None, （旁白）]…]；有對不上的字＝停"""
+        t = t.strip()
+        if not t.startswith(who + '：'):
+            raise SystemExit(f'{w}：要是「{who}：「…」」開頭')
+        t = t[len(who) + 1:]
+        parts = re.findall(r'「[^「」]+」|（[^（）]+）', t)
+        if not parts or ''.join(parts) != t:
+            raise SystemExit(f'{w}：有「」和（）以外的字（{t}）')
+        return [[who, fx(x[1:-1])] if x[0] == '「' else [None, fx(x)] for x in parts]
+    jobs['shanlan']['co'] = {'who': who, 'seg': seg, 'flag': z.group(3), 'met': said(z.group(4), '第 7 點（認識過）'), 'new': said(z.group(5), '第 7 點（不認識）'), 'until': z.group(6)}
     return jobs
 
 
@@ -115,7 +137,7 @@ def main():
         raise SystemExit(why)
     data = {'src': f'{PATH}@{sha}', 'jobs': build(git('show', f'{sha}:{PATH}'))}
     js = ('/* 自動產生：tools/story/import_shop_jobs_aa828.py（' + data['src'] + '）。不要手改，改企劃 AA_828 再重新匯入。\n'
-          '   新店打工第一批：山嵐書店（shanlan）、南洋戲院（cinema）的告示、應徵、班表、三段工作、最後一句、員工票——src/jobs3d.js 讀；逐句對稿 tests/shop_jobs_aa828_1112_unit.js */\n'
+          '   新店打工第一批：山嵐書店（shanlan）、南洋戲院（cinema）的告示、應徵、班表、三段工作、最後一句、員工票、上班遇到宋知寧——src/jobs3d.js 讀；逐句對稿 tests/shop_jobs_aa828_1112_unit.js */\n'
           "'use strict';\nconst SHOP_JOBS_AA828=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:

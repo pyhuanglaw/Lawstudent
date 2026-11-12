@@ -1,8 +1,9 @@
-/* 自動產生：tools/story/import_shop_jobs_aa829.py（docs/story_planning/AA_829_新店打工_花序_越好吃_大口漢堡.md@ea5e8f5ae）。不要手改，改企劃 AA_829 再重新匯入。
+/* 自動產生：tools/story/import_shop_jobs_aa829.py（docs/story_planning/AA_829_新店打工_花序_越好吃_大口漢堡.md@34f35eb15a）。不要手改，改企劃 AA_829 再重新匯入。
    新店打工第二批：花序 Flower Notes（flower）、越好吃小館（yue）、大口漢堡（dakou）的告示、應徵、班表、薪水、三段工作、最後一句——src/jobs3d.js 讀；逐句對稿 tests/shop_jobs_aa829_1112_unit.js */
 'use strict';
 const SHOP_JOBS_AA829={
- "src": "docs/story_planning/AA_829_新店打工_花序_越好吃_大口漢堡.md@ea5e8f5ae",
+ "src": "docs/story_planning/AA_829_新店打工_花序_越好吃_大口漢堡.md@34f35eb15a",
+ "busyLine": "（這個時段你已經有班了。）",
  "jobs": {
   "flower": {
    "look": "看小卡",
@@ -81,7 +82,8 @@ const SHOP_JOBS_AA829={
      "（下班的時候，花藝師把一枝賣相不好的玫瑰給你。花瓣邊邊有一點黑，還是很香。）",
      "（你的手指又是綠的。這次洗了兩次才洗掉。）"
     ]
-   }
+   },
+   "gender": "f"
   },
   "yue": {
    "look": "看告示",
@@ -161,7 +163,9 @@ const SHOP_JOBS_AA829={
      "（九點。你身上都是湯的味道，手指有檸檬味。）"
     ]
    },
-   "mealExtra": "（你幫他點了餐。）"
+   "mealExtra": "（你幫他點了餐。）",
+   "gender": "f",
+   "mealAfter": "點餐"
   },
   "dakou": {
    "look": "看立牌",
@@ -256,7 +260,8 @@ const SHOP_JOBS_AA829={
      "（兩點。二樓還有三個人在讀書。你下班的時候，他們頭都沒有抬。）",
      "（兩點，換班的人來了。外面的路是空的，只有這一間的招牌還亮著。）"
     ]
-   }
+   },
+   "gender": "m"
   }
  }
 };

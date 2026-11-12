@@ -56,7 +56,7 @@ const NYS=(function(){
     const hO=typeof GIFTH!=='undefined'&&GIFTH.shopOpt?GIFTH.shopOpt(G,'xs_nanyang'):null;   /* 售票口的買禮物（GIFT-HOLIDAY-1110，src/gifthol3d.js）*/
     const sO=S.staffOpt(G);   /* 員工票：排在「買票」下面 */
     const short=(G.money|0)<S.PRICE; const O=[{t:S.LABEL+'　'+S.PRICE+' 元',dim:short}].concat(sO?[sO]:[],hO?[hO]:[],[{t:S.NONE}]); const i=await GM.choose(O);
-    if(sO&&O[i]===sO){ JOBS.staffTicketTake(G); if(GM.autosave) GM.autosave(); return 'staff'; }
+    if(sO&&O[i]===sO){ JOBS.staffTicketTake(G); { const tl=JOBS.staffTicketTakeLine?JOBS.staffTicketTakeLine():null; if(tl) await GM.say(tl.who,tl.text); }   /* AA_828 第 4 節第 6 點：售票員一句（字在資料）*/ if(GM.autosave) GM.autosave(); return 'staff'; }
     if(hO&&O[i]===hO){ await GIFTH.pick(GM,hO); return 'gift'; }
     if(i!==0) return null;
     if((G.money|0)<S.PRICE){ GM.toast('錢不夠'); return 'short'; }
