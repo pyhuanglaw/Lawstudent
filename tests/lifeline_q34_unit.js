@@ -38,19 +38,12 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   const J=x=>JSON.stringify(x);
   const LONG='祐廷：第一次社會考壞了，差四分。先去念了一個多月的經濟。', SHORT='祐廷：本來就想念法律。第一次沒考上。';
   /* ---------- Q3 ---------- */
-  /* AA_608 10-5／10-6：夜談 retired，學測／哥／為什麼重考移到第一天自由時間打牌（ev_camp_d1_free），由阿哲問 */
+  /* CANON-1112：舊序章拿掉／可昕開局不認識——Q3 原本九項（打牌選第二個選項的五種回答、選第一個選項不問、迎新第三個選項的三種）拿掉：
+     宿營打牌那一段照 AA_859 換了（沒有那四個分支）、迎新第三個選項那一支拿掉了。改成確認這兩處都不再有人問那一句、不記 WHY_RETAKE_ASKED */
   const talk=async(flags,pick)=>{ fresh(D('2025-08-22'),19.5,'dorm',Object.assign({introDone:true},flags)); picks=[0,pick]; await EVENTS.run(ev('ev_camp_d1_free')); return lines(); };
-  { const L=await talk({E24C_REASON:'honest'},'念過一個多月經濟系'); const i=L.indexOf('阿哲：為什麼重考？');
-    check('Q3 打牌 econ＋honest（AA_608 10-5）：阿哲「為什麼重考？」→ 長句 → 阿哲「差四分喔……那真的很煩。」；記 WHY_RETAKE_ASKED',i>0&&L[i+1]===LONG&&L[i+2]==='阿哲：差四分喔……那真的很煩。'&&G.flags.WHY_RETAKE_ASKED===true&&!L.includes('阿哲：好，懂了。'),J(L.slice(i-1,i+4))); }
-  for(const r of ['short','later',undefined,'understand']){ const L=await talk(r?{E24C_REASON:r}:{},'念過一個多月經濟系'); const i=L.indexOf('阿哲：為什麼重考？');
-    check('Q3 打牌 econ＋'+(r||'只玩法律系')+'：短句 → 阿哲「好，懂了。」',i>0&&L[i+1]===SHORT&&L[i+2]==='阿哲：好，懂了。'&&!L.some(t=>t.includes('差四分')),J(L.slice(i,i+3))); }
-  { const L=await talk({},'「嗯。」'); check('Q3 打牌選「嗯。」［old］：不問、不記',!L.some(t=>t.includes('為什麼重考'))&&!G.flags.WHY_RETAKE_ASKED); }
+  for(const p of [0,1]){ const L=await talk({E24C_REASON:'honest'},p); check('Q3 打牌選第 '+(p+1)+' 個選項：沒有人問那一句、不記 WHY_RETAKE_ASKED；照樣記 ZHE_CALLS_GE',L.length>8&&!L.some(t=>/為什麼/.test(t))&&!G.flags.WHY_RETAKE_ASKED&&G.flags.ZHE_CALLS_GE===true,J(L.slice(-4))); }
   const welcome=async(flags,pick)=>{ fresh(D('2025-09-03'),15,'campus',Object.assign({introDone:true},flags)); picks=[pick,0]; await EVENTS.run(ev('ev_welcome_y1s1')); return lines(); };
-  { const L=await welcome({},'念過經濟系'); const i=L.findIndex(t=>/：欸，為什麼重考？$/.test(t));
-    check('Q3 迎新 econ（夜談沒問過）：Alison「欸，為什麼重考？」→ 短句 →「好，懂了。」（Alison）→ 大地遊戲',i>0&&L[i].split('：')[0]===L[i+2].split('：')[0]&&L[i+1]===SHORT&&/：好，懂了。$/.test(L[i+2])&&L[i+3].startsWith('大地遊戲')&&G.flags.WHY_RETAKE_ASKED===true,J(L.slice(i-1,i+4))); }
-  { const L=await welcome({E24C_REASON:'honest'},'念過經濟系'); const i=L.findIndex(t=>/：欸，為什麼重考？$/.test(t));
-    check('Q3 迎新 econ＋honest：長句 → 阿哲「差四分喔……那真的很煩。」',i>0&&L[i+1]===LONG&&L[i+2]==='阿哲：差四分喔……那真的很煩。',J(L.slice(i,i+3))); }
-  { const L=await welcome({WHY_RETAKE_ASKED:true},'念過經濟系'); check('Q3 夜談問過：迎新選 econ 不再問',!L.some(t=>t.includes('為什麼重考'))&&L.some(t=>t.startsWith('大地遊戲'))); }
+  { const L=await welcome({},'臺北人'); check('Q3 迎新選第一個選項：不問、直接接大地遊戲',!L.some(t=>/欸，為什麼/.test(t))&&L.some(t=>t.startsWith('大地遊戲'))&&!G.flags.WHY_RETAKE_ASKED); }
   { const L=await welcome({},'大一歲'); check('Q3 迎新選「大一歲」：不問',!L.some(t=>t.includes('為什麼重考'))&&!G.flags.WHY_RETAKE_ASKED); }
   /* ---------- Q4 ---------- */
   const A=n=>D(['','2025-10-17','2026-10-17','2027-10-17','2028-10-17'][n]);

@@ -35,7 +35,7 @@ const INV=(function(){
     G.msgs.splice(i,0,m); trim(G); };
   /* 聯絡方式 */
   const kxOld=G=>{ const F=G&&G.flags; if(!F||F.KX_MET===undefined) return true; return F.dating_kexin===true||!!F.EX_kexin||!!F.KX_MET||F.KX_ENDED!=null||F.KX_ENDED_ON!=null; };   /* 可昕（CANON-1112）：新設定的局（存檔有 KX_MET 這個欄位）不再是開場就有——認識了（KX_MET）、交往中或交往過才有；舊存檔（沒有這個欄位）照舊一直有 */
-  S.hasContact=(G,id)=>D().contacts0.includes(id)||(id==='kexin'&&kxOld(G))||!!(G.contacts&&G.contacts[id]!=null);
+  S.hasContact=(G,id)=>(id==='kexin'?kxOld(G):D().contacts0.includes(id))||!!(G.contacts&&G.contacts[id]!=null);   /* contacts0 還列著 kexin：新設定的局不照它 */
   S.addContact=function(G,id){ S.rec(G); if(S.hasContact(G,id)) return false; G.contacts[id]=G.day; S.msg(G,id,'加了'+nameOf(id)+'的聯絡方式。'); return true; };
   /* 可以約的人：認識、對的分類、這學期在學校 */
   const hvOk=(G,id)=>typeof HV!=='undefined'&&typeof HOMETOWN_LINES!=='undefined'&&!!HV.offer(G,id);   /* 寒暑假在高雄／台中：可以約「我去高雄找妳？」（AA_276 第 1-1 節）*/
