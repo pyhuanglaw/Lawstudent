@@ -1,0 +1,13 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_aa_scenes_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DORM203_NOODLE\out
+CC AA 重匯抽演：SHA 9aaa31edb9；PARTS ['SUPPER']；EVS ['ev_sis_w1', 'ev_sis_family_dinner', 'ev_grad_debate', 'ev_sis_video', 'ev_sis_video_gf', 'ev_us_canyon']；ARCS ['heroine_01', 'heroine_05', 'heroine_03'] 第 1 拍
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [SUPPER Y1S1 2025-10-15] 【前置／捷徑】讀檔到宿舍 203 2025-10-15 21:45、物品放一袋東南大聯泡麵（五包裝）：遊戲自己的條件 TZIS.due=False（室友都在 False、學期內 False、室友在場景 [False, False, True]）
+FAIL [SUPPER Y1S1 2025-10-15] 條件成立（TZIS.due：泡麵、21 點後、203、室友都在）  {"due": false, "allIn": false, "packs": 1, "era": false, "ev": true, "mates": [false, false, true]}
+  [前置／捷徑] [SUPPER Y1S1 2025-10-15] 【捷徑】EVENTS.run 那一場（不等自動觸發）
+  [  64.6s] [SUPPER Y1S1 2025-10-15] 共 6 句、0 個選單：["｜（你把那一袋泡麵放在桌上。包裝上的字沒有人看", "阿哲｜三根是多辣？", "柏翰｜煮了就知道。熱水我去裝。", "阿凱｜我先講，我只吃半包。", "｜（十分鐘以後，四個人都在找水喝。阿凱", "阿哲｜明天再煮一包。"]
+  [  64.6s] [SUPPER Y1S1 2025-10-15] 每句的底／地點字幕／在場的人：[{"cap": "203 泡麵宵夜", "bg": {"op": "1", "img": "none", "color": "rgba(10, 12, 18, 0.38)"}, "people": ["kai"], "zone": "dorm"}, {"cap": "203 泡麵宵夜", "bg": {"op": "1", "img": "none", "color": "rgba(10, 12, 18, 0.38)"}, "people": ["kai"], "zone": "dorm"}, {"cap": "203 泡麵宵夜", "bg": {"op": "1", "img": "none", "color": "rgba(10, 12, 18, 0.38)"}, "people": ["kai"], "zone": "dorm"}, {"cap": "203 泡麵宵夜", "bg": {"op": "1", "img": "none", "color": "rgba(10, 12, 18, 0.38)"}, "people": ["kai"], "zone": "dorm"}, {"cap": "203 泡麵宵夜", "bg": {"op": "1", "img": "none", "color": "rgba(10, 12, 18, 0.38)"}, "people": ["kai"], "zone": "dorm"}, {"cap": "203 泡麵宵夜", "bg": {"op": "1", "img": "none", "color": "rgba(10, 12, 18, 0.38)"}, "people": ["kai"], "zone": "dorm"}]
+  [  64.6s] [SUPPER Y1S1 2025-10-15] 演完：泡麵剩 0（應該從 1 變 0）；{"packs": 0, "r": true}
+PASS [SUPPER Y1S1 2025-10-15] 演得完、泡麵用掉一袋  {"packs": 0, "r": true}
+PASS 沒有 JS 例外  []
+FAILED 1: [SUPPER Y1S1 2025-10-15] 條件成立（TZIS.due：泡麵、21 點後、203、室友都在）
