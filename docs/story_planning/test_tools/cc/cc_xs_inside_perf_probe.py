@@ -117,7 +117,10 @@ async def main():
         res['trips'] = []
         for k in range(TRIPS):
             tr = {'k': k + 1}
+            pr0 = await pg.evaluate("(()=>{ try{ const P=GAME.E.zone.shopReal.prof; if(P&&P.reset){ P.reset(); return true; } }catch(e){} return false; })()")   # 11-12 LAWWW-C 14:47：LAWWW2 的 shopReal.prof（step／frame 各格 n、max、sum、who）
             tr['walk_in'] = await walk('②／④ 第 %d 趟走到中間點' % (k + 1), mid['x'], mid['z'])
+            tr['prof'] = await pg.evaluate("(()=>{ try{ const P=GAME.E.zone.shopReal.prof; return P?JSON.parse(JSON.stringify(P)):null; }catch(e){ return 'ERR '+String(e).slice(0,80); } })()")
+            R.note('第 %d 趟走近：shopReal.prof（走之前 reset=%s）%s' % (k + 1, pr0, J(tr['prof'])))
             tr['mid'] = await stand('① 第 %d 趟中間點（兩間室內都載入）' % (k + 1)); tr['shopReal_mid'] = await pg.evaluate(SHOPREAL_JS)
             if k == 0: R.note('③ 第 1 趟中間點 zone.shopReal %s' % J(tr['shopReal_mid']))
             tr['walk_out'] = await walk('③／④ 第 %d 趟走回遠點' % (k + 1), far['x'], far['z'])

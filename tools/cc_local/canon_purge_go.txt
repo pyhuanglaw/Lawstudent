@@ -1,0 +1,2 @@
+CANON-NO-ECON-1112（D158）cc-local 一次清舊結果的開關：LAWWW-C 11-12 14:44、BB-C 11-12 14:40 同意。
+這個檔在、local_out/CANON_PURGED.txt 還沒有＝PC runner 合併 cc-testing 以後跑一次 tools/cc_local/canon_purge.py。
