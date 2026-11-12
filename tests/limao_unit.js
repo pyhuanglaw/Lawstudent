@@ -15,7 +15,7 @@
    12 存檔：整個流程下來存檔只多 G.flags 的 LM_MET／LM_PROF／LM_KNOWN／LM_STUDY／LM_HINT／LM_SER；沒有 flags 的舊存檔不出錯；錢、關係沒有動
    修改前（開發分支 11161c101：沒有 limao.js、limao3d.js）：0 就 FAIL。用法：node tests/limao_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
-const ROOT=path.resolve(__dirname,'..'), SHA='93f731790'   /* 2026-11-11 改期望：AA 回七題後補 closed 兩句、入口 A 標題、信改木盒（原 227db1c9e）*/, SRC='docs/story_planning/AA_750_limao.json', SPEC='docs/handoff/user_specs/LIMAO_SHENGCAI_1110.md';
+const ROOT=path.resolve(__dirname,'..'), SHA='0ec5f3751a'/* 2026-11-12：補前半命理館三個互動點 front_room（舊 93f731790）*/   /* 2026-11-11 改期望：AA 回七題後補 closed 兩句、入口 A 標題、信改木盒（原 227db1c9e）*/, SRC='docs/story_planning/AA_750_limao.json', SPEC='docs/handoff/user_specs/LIMAO_SHENGCAI_1110.md';
 global.window=global; global.self=global;
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
@@ -239,5 +239,11 @@ const TALK=D.reveal.talk.lines;
     check('13. 同一個互動點的字跟著鐘點換（18:54「'+LM.LABEL_LOOK+'」→ 19:03「'+LM.LABEL+'」→ 23:36「'+LM.LABEL_LOOK+'」）；互動鍵字變了就重畫',a===LM.LABEL_LOOK&&b===LM.LABEL&&c===LM.LABEL_LOOK&&/if\(it!==nearIt\|\|lb!==nearLb\)\{ \$\('interactLabel'\)\.textContent=lb; nearLb=lb; \}/.test(g3),[a,b,c].join()); }
   check('13. 讀檔的鎖有登記（limao3d:masterLoading）',typeof (globalThis.LOADLOCKS||{})['limao3d:masterLoading']==='function'); }
 
+{ /* 2026-11-12 front_room：三個點平常念 narr、有 LM_KNOWN 念 known；配置的點 books／cabinet／scroll 都接得到 */
+  const FR=LIMAO.front_room&&LIMAO.front_room.look||[]; const ok3=FR.length===3&&['書櫃','玻璃櫃','掛畫'].every(a=>FR.some(q=>q.at===a&&q.narr&&q.known&&q.narr!==q.known));
+  const A=Object.values(LM.FRONT_AT);
+  check('F. 前半命理館三個互動點（書櫃、玻璃櫃、掛畫）：稿各有平常、知道以後兩句；沒有 LM_KNOWN 念平常那句、有了念知道以後那句',ok3&&A.length===3&&A.every(a=>LM.frontNarr({flags:{}},a)===FR.find(q=>q.at===a).narr&&LM.frontNarr({flags:{LM_KNOWN:1}},a)===FR.find(q=>q.at===a).known));
+  const lay=require('fs').readFileSync(require('path').join(ROOT,'src/data/tz_shops_layout.js'),'utf8');
+  check('F. 配置有這三個點（books、cabinet、scroll）',Object.keys(LM.FRONT_AT).every(id=>new RegExp('"id": "'+id+'"').test(lay))); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 測試本身出錯 '+(e&&e.stack||e)); process.exit(1); });

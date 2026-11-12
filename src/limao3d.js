@@ -140,6 +140,10 @@ const LM=(function(){
     } finally { S.end(GM); } };
 
   /* ---------- 店裡：書房的門、書房裡的東西 ---------- */
+  /* 前半命理館三個互動點（AA_750 front_room，2026-11-12）：配置的點 books／cabinet／scroll；平常念 narr，有 LM_KNOWN 以後念 known；只有旁白 */
+  S.FRONT_AT={books:'書櫃',cabinet:'玻璃櫃',scroll:'掛畫'};
+  S.frontNarr=function(G,at){ const d=D(), e=d&&d.front_room&&d.front_room.look.find(q=>q.at===at); if(!e) return null; return G&&G.flags&&G.flags.LM_KNOWN?e.known:e.narr; };
+  S.frontLook=async function(GM,it,at){ const t=S.frontNarr(GM.G,at); if(!t) return null; await S.narr(GM,[t]); return at; };
   S.lookNarr=function(at){ const d=D(), e=d&&d.study_room.look.find(q=>q.at===at); return e?e.narr:null; };
   S.narr=async function(GM,texts){ if(GM.sceneBegin) GM.sceneBegin(); try{ for(const t of texts) await GM.say(null,t); } finally { if(GM.sceneEnd) GM.sceneEnd(); } };
   S.studyDoor=async function(GM,zone,it){ const G=GM.G, d=D();
@@ -150,6 +154,7 @@ const LM=(function(){
   S.decorate=function(E,zone){ if(!E||!zone||!D()) return 0; const IT=E.interactables||[]; let n=0;
     for(const it of IT){ if(!it||it._lm) continue; const id=it.tzPoint;
       if(id==='study_door'){ it._lm=true; it.onInteract=()=>{ const GM=GMof(); return GM?S.studyDoor(GM,zone,it):null; }; n++; }
+      else if(S.FRONT_AT[id]&&S.frontNarr(null,S.FRONT_AT[id])){ const at=S.FRONT_AT[id]; it._lm=true; it.onInteract=()=>{ const GM=GMof(); return GM?S.frontLook(GM,it,at):null; }; n++; }
       else if(S.LOOK_AT[id]&&S.lookNarr(S.LOOK_AT[id])){ const at=S.LOOK_AT[id]; it._lm=true; it.onInteract=()=>{ const GM=GMof(); return GM?S.studyLook(GM,it,at):null; }; n++; } }
     const has=IT.some(q=>q&&q.tzPoint===S.LETTERS.id);
     if(zone.studyOpen&&!has&&S.lookNarr(S.LOOK_AT[S.LETTERS.id])){ const P=S.LETTERS, at=S.LOOK_AT[P.id], it={x:P.x,z:P.z,radius:P.r,label:'看'+at,tzPoint:P.id,lmAdded:true,_lm:true}; it.onInteract=()=>{ const GM=GMof(); return GM?S.studyLook(GM,it,at):null; }; IT.push(it); n++; }

@@ -93,7 +93,7 @@ def group(e, where, ids):
 
 
 def build(d):
-    keys(d, '最上層', ('_meta', 'menu', 'first', 'pool', 'prof', 'reveal', 'study_room'), ('closed',))
+    keys(d, '最上層', ('_meta', 'menu', 'first', 'pool', 'prof', 'reveal', 'study_room'), ('closed', 'front_room'))
     if not isinstance(d['menu'], list) or set(d['menu']) != set(MENU_POOL) or len(d['menu']) != len(MENU_POOL) or d['menu'][-1] != '離開':
         die(f'menu 改了（{d["menu"]}）：先改這支工具的 MENU_POOL 和 src/limao3d.js')
     menu = []
@@ -153,6 +153,14 @@ def build(d):
     out.update({'prof': prof, 'reveal': reveal, 'study_room': {'when': txt(SR['when'], 'study_room.when'), 'look': look}})
     if 'note' in SR:
         out['study_room']['note'] = SR['note']
+    if 'front_room' in d:   # 前半命理館三個互動點（AA 2026-11-12，SHOP-STANDARD-BACKFILL-1112）：每點 narr（平常）＋known（有 LM_KNOWN 以後）
+        FR = d['front_room']
+        keys(FR, 'front_room', ('when', 'look'), ('note',))
+        fl = []
+        for i, e in enumerate(FR['look']):
+            keys(e, f'front_room.look[{i}]', ('at', 'narr', 'known'))
+            fl.append({k: txt(e[k], f'front_room.look[{i}].{k}') for k in ('at', 'narr', 'known')})
+        out['front_room'] = {'look': fl}
     if closed:
         out['closed'] = closed
     out['rules'] = list(d['_meta'].get('rules', []))

@@ -1,9 +1,9 @@
-/* 自動產生：tools/story/import_limao.py（docs/story_planning/AA_750_limao.json@93f731790）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_limao.py（docs/story_planning/AA_750_limao.json@0ec5f3751a）。不要手改，改企劃稿再重新匯入。
    禮貌生財上師的話（LIMAO-SHOP-1110，使用者 X332）：台詞一字照 AA_750；w＝說話的人（yt 祐廷、ms 上師、wu 吳教授、narr 旁白），o:true＝使用者原句。
    when 是稿的字（條件怎麼判斷、怎麼演：src/limao3d.js） */
 'use strict';
 const LIMAO={
- "src": "docs/story_planning/AA_750_limao.json@93f731790",
+ "src": "docs/story_planning/AA_750_limao.json@0ec5f3751a",
  "menu": [
   {
    "t": "聊聊天",
@@ -723,6 +723,25 @@ const LIMAO={
    }
   ],
   "note": "書房裡點東西只有旁白，沒有事件。四個點的位置請 LAWWW2 照模型放；少做幾個也可以。"
+ },
+ "front_room": {
+  "look": [
+   {
+    "at": "書櫃",
+    "narr": "（紫微、八字、手相、一本翻到脫頁的農民曆。最下面一層的書，書背全部朝裡面放。）",
+    "known": "（最下面那一層，書背還是朝裡面。跟書房那面牆上的，應該是同一批。）"
+   },
+   {
+    "at": "玻璃櫃",
+    "narr": "（羅盤、龜殼、三枚磨亮的銅錢。角落有一個茶葉罐，標籤寫：「客人喝的」。旁邊那罐沒有標籤。）",
+    "known": "（沒有標籤的那一罐少了一半。有標籤的那罐，看起來沒有人動過。）"
+   },
+   {
+    "at": "掛畫",
+    "narr": "（一幅字，四個大字：「禮貌生財」。落款的地方是空的，沒有名字，也沒有印章。）",
+    "known": "（「禮貌生財」。這幾個字的筆畫，跟書房那疊便條紙上的「買茶葉」是同一個人寫的。）"
+   }
+  ]
  },
  "closed": {
   "shut": "（算命桌蓋著紅灰色的帆布，椅子折起來靠在牆邊。店裡沒有開燈。）",

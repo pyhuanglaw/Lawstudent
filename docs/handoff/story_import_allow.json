@@ -8136,12 +8136,18 @@
   },
   {
    "path": "docs/story_planning/AA_750_limao.json",
-   "sha": "93f731790",
+   "sha": "0ec5f3751a",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-10 交稿（D100b 稿就是定稿；使用者 X332「開始做，聊天免費」）；11-11 AA 回七題後補 closed 兩句、入口 A 標題、信改木盒（93f731790）",
+   "approvedBy": "AA（帳號 A）2026-11-10 交稿（D100b 稿就是定稿；使用者 X332「開始做，聊天免費」）；11-11 AA 回七題後補 closed 兩句、入口 A 標題、信改木盒（93f731790）；0ec5f3751a：AA-C 11-12 10:56 交付（定稿，BB_396 聽過）：front_room.look 三筆（書櫃、玻璃櫃、掛畫）",
    "task": "LIMAO-SHOP-1110",
    "kind": "json",
-   "note": "X332 禮貌生財上師：初次見面、四類聊天池、教授偶遇、身分揭曉、書房四個看的點：tools/story/import_limao.py → src/data/limao.js（LIMAO）。台詞一字照稿（orig:true＝使用者原句）；演出 src/limao3d.js。"
+   "note": "X332 禮貌生財上師：初次見面、四類聊天池、教授偶遇、身分揭曉、書房四個看的點：tools/story/import_limao.py → src/data/limao.js（LIMAO）。台詞一字照稿（orig:true＝使用者原句）；演出 src/limao3d.js。",
+   "history": [
+    {
+     "sha": "93f731790",
+     "note": "被 0ec5f3751a 取代（AA-C 11-12 10:56 交付（定稿，BB_396 聽過）：front_room.look 三筆（書櫃、玻璃櫃、掛畫））"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_757_peishan_wish_hometown.json",

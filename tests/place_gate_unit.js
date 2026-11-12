@@ -55,7 +55,7 @@ const KNOWN_FAIL=[].concat(
   /* 沒開的時候店裡還站著店員（玩家進不去；從店外的窗戶看進去會像開著）*/
   /* 其他（補查出來的）*/
   KF(T_BACK,'buy','us_asian_market us_market'), KF(T_BACK,'nomoney','us_asian_market us_market'),
-  KF(T_BACK,'text','tz_limao us_asian_market us_market'),
+  KF(T_BACK,'text','us_asian_market us_market'),
   KF(T_BACK,'tend','stall:wenzhou:fruit'),   /* 夜市 13 攤、118 巷兩間外帶 2026-11-12 已放人（src/shoplife3d.js）；阿忠鮮果等 LAWWW2 量站位 */
   []);
 
