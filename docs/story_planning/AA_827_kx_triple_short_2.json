@@ -5,7 +5,7 @@
   "task": "DLG-FULL-REVIEW-1110",
   "base": "開發分支 4e248bb55 的行號",
   "what": "統計標給可昕的 22 則裡：3 則是玩家的話、1 則是別人的、4 則其實不是三連（中間有停頓）；可昕自己的改 8 則，留 6 則（跨年兩通電話「我掛了」、分開以後「我自己付」、生日「第三個明年說」、「嗯。我講完了。早點睡。」、「好。明天。明天一定。」——這幾句短是因為那個場面）。msg_replies 那一則是私訊原文（回覆選項逐字對），不動。",
-  "note": "generated:true 的列是匯入產生的檔，請 LAWWW 告訴我源稿在哪一份，我改源稿。"
+  "note": "movie_plots 那一列是匯入產生的檔：源稿 AA_745_movie_plots_2.json 已改，重匯即可。其他七列用 apply_line_rows。"
  },
  "rows": [
   {
@@ -31,7 +31,8 @@
    "line": 2396,
    "old": "好。你哪天有空。帶電腦。",
    "new": "好，你哪天有空？記得帶電腦。",
-   "generated": true
+   "generated": true,
+   "src_fixed": "docs/story_planning/AA_745_movie_plots_2.json（源稿已改，重匯即可，不用套這一列）"
   },
   {
    "file": "src/data/r2y3a_events.js",
