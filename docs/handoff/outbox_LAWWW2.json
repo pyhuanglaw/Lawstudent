@@ -9214,6 +9214,23 @@
    ],
    "remaining": "瀏覽器沒跑；鄰居店（非 118 巷十一間）照舊一直亮",
    "next": "LAWWW-C 套 patch；CC 拍 118 巷公休日＋21:30 同角度；BB 判 §12 第 1 點"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "RONG-SIGN-1112",
+   "title": "【表外】榮恩典文具社招牌重畫（近看馬賽克）：只換 gongguan_shops.glb 裡 gg_fronts_atlas 招牌那一塊＋gg_shops6_tex.py rong_sign()",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/rong_sign_1112/rong_sign_v1.patch",
+    "docs/art-rebuild/second_ai/wip/rong_sign_1112/README.md",
+    "docs/art-rebuild/second_ai/wip/rong_sign_1112/rong_sign_before_after.webp"
+   ],
+   "remaining": "瀏覽器沒跑；解析度仍受大貼圖限制",
+   "next": "LAWWW-C 開任務、套 patch；CC 近拍；BB 判"
   }
  ]
 }
