@@ -5088,6 +5088,16 @@
    "wants": "X352",
    "task": "SHOP-WINDOW-3D-1112",
    "note": "使用者對 BB-C 說的，BB-C 06:46 轉給 LAWWW-C（原話在 user_asks_BB UA-BB-1112-03）"
+  },
+  {
+   "id": "UA-LAWWW-1112-29",
+   "at": "2026-11-12T06:5xZ",
+   "quote": "（貼上 chrome://gpu 全文＋附檔 about-gpu-2026-11-12T06-50-19-796Z.txt）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X354",
+   "task": "BUG-RUN-STUTTER-1112",
+   "note": "使用者照 LAWWW-C 的請求給的診斷資料：WebGL 在 RX 6600M；外接螢幕 300 Hz、內建 60 Hz"
   }
  ]
 }
