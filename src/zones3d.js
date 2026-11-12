@@ -1300,7 +1300,7 @@ const Z3 = (function(){
     { const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(zone,dt,E2); copyTick(); mktTick(); if(typeof WZCAT!=='undefined') WZCAT.update(dt,E2); }; } copyTick(); mktTick();   /* WZCAT：公園的貓走動（src/wzcat3d.js，J13）*/
     // 兩點半 Café 的 Blender 正式模型（第二個 AI：tools/blender/env_second/cafe_exterior.py）：載入後接到套件建築上；失敗或 ?nobldg 時維持套件外觀
     // 主巷兩側公寓的 Blender 正式模型（第二個 AI：tools/blender/env_second/wz_street.py）：載入後藏起套件外觀；失敗或 ?nobldg 時維持套件
-    if(wzGLB) ASSETS.loadOne('bldg.wenzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzApt','wenzhou_street_glb'); propBlocks(nav,WZ_PROP_BLOCKS); propReStand(E,nav); wzParkSeason(root); root.traverse(o=>{ if(/^COPY_(CORNER_SHUT|CORNER_OPEN|A1_SHUT|A1_RENEW)$/.test(o.name)) copyNodes.push(o); }); copyKey=null; copyTick(); })   /* 季節節點：夏日冰菓室冬天休息（SEASON_ICECLOSED）*/.catch(e=>console.warn('溫州街公寓正式模型載入失敗，用套件的外觀',e));
+    if(wzGLB) ASSETS.loadOne('bldg.wenzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzApt','wenzhou_street_glb'); shopInsideLit(root,zone,{B7:'wz_brunch',B3:'wz_teishoku'}); shopInsideReal(E,g,zone,wzShopReal()); propBlocks(nav,WZ_PROP_BLOCKS); propReStand(E,nav); wzParkSeason(root); root.traverse(o=>{ if(/^COPY_(CORNER_SHUT|CORNER_OPEN|A1_SHUT|A1_RENEW)$/.test(o.name)) copyNodes.push(o); }); copyKey=null; copyTick(); })   /* 季節節點：夏日冰菓室冬天休息（SEASON_ICECLOSED）*/.catch(e=>console.warn('溫州街公寓正式模型載入失敗，用套件的外觀',e));
     if(scGLB){ P3.mergeStatic(scG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,scG,scList,c.scene); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
     if(pkGLB) ASSETS.loadOne('bldg.wz_park').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzPark','wz_park_glb'); wzParkSeason(root); for(const o of g.children) if(o.userData.wzParkFb) o.visible=false; }).catch(e=>console.warn('小公園正式模型載入失敗，用套件的外觀',e));
     if(prGLB) ASSETS.loadOne('bldg.wz_props').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'wzProp','wz_props_glb'); }).catch(e=>console.warn('溫州街街道細節正式模型載入失敗，用套件的外觀',e));
@@ -1570,7 +1570,7 @@ const Z3 = (function(){
      · 接上以後把街景模型裡那一間的簡化店內（sk_in_<店>，載入前的備用）藏起來；拿掉就放回來。
      回傳 {shops, tick, lite}，也記在 zone.shopReal（測試、CC 在瀏覽器看：shops[i].built 做好了沒、on 顯示中、meshes 幾個零件、k 亮度）。 */
   function shopInsideReal(E,g,zone,list,opt){ if(!E||!g||!zone||!Array.isArray(list)||!list.length) return null;
-    const HIDE=/(^|\/)(WALL_front|GLOW_)|sun|VIEW_|_view(_|$)/i, B=new THREE.Box3(), C=new THREE.Vector3(), LIT=0.86;
+    const HIDE=/(^|\/)(WALL_front|GLOW_)|(^|\/|_)sun(_|\/|$)|sunpatch|sunlight|VIEW_|_view(_|$)/i,   /* 11-12：原本寫 /sun/，SUNNY SIDE 的根節點 sunnyside_interior 整間被當成陽光斑藏掉 */ _hideNote=0, B=new THREE.Box3(), C=new THREE.Vector3(), LIT=0.86;
     const shops=list.map(q=>Object.assign({near:26,far:40,on:false,built:false,loading:false,grp:null,mats:[],meshes:0,k:-1},q));
     /* 兩種接法（CC 11-12 在使用者電腦量：兩間同時接 60 fps 沒掉，但第一次走近最長一幀 233 ms——那一下在載入、上傳貼圖、編譯材質）：
        · 一般（電腦）：進這一區就一間一間先做好（每 20 幀做一間：載入、換材質、貼圖先上傳、材質先編譯），掛在場景裡但不顯示；走近只是打開顯示，走遠關掉，不釋放。
@@ -1579,12 +1579,12 @@ const Z3 = (function(){
     const lite=opt&&opt.lite!==undefined?!!opt.lite:(!!(E.q&&E.q.level==='low')||(typeof window!=='undefined'&&('ontouchstart' in window||(window.navigator&&window.navigator.maxTouchPoints>0))));
     /* 打烊拉下鐵捲門（11-12 第 2 版；BB FAIL：汀州鮮果 23:30 打烊後水果攤還擺在門口、沒有鐵門——§12 第 1 點「打烊看得出來關了（燈暗、鐵門或門關上）」）：
        每一間在店面玻璃外 6 cm 放一片鐵捲門（橫條浪板，整條街共用一張貼圖、一個材質），營業中藏起來、打烊（PLACES.isOpen 假、颱風停業）才顯示；一直掛著，不跟室內模型一起載入。
-       寬＝s.sx 那一段（門窗的範圍，室內座標）或 s.sw（都沒給＝室內寬 −0.3）、高＝s.sh（沒給 3.0）；朝街的方向＝室內中心 → 玻璃面中心。opt.shutter===false 不做。 */
+       寬＝s.sx 那一段（門窗的範圍，室內座標）或 s.sw（都沒給＝室內寬 −0.3）、高＝s.sh（沒給 3.0）；朝街的方向＝室內正面轉 ry。opt.shutter===false 不做。 */
     const isOpen=s=>{ const G=typeof GAME!=='undefined'?GAME.G:null, P=typeof PLACES!=='undefined'?PLACES:null; return !(G&&P&&P.isOpen&&s.place)||(!!P.isOpen(s.place,(+G.hour)%24,G.day)&&!(P.typhoonClosed&&P.typhoonClosed(s.place,G.day))); };
     if(!(opt&&opt.shutter===false)&&typeof document!=='undefined'&&THREE.CanvasTexture&&THREE.PlaneGeometry){ let mat=null;
       try{ const c=document.createElement('canvas'); c.width=64; c.height=256; const x=c.getContext('2d'); for(let i=0;i<16;i++){ const y=i*16, gr=x.createLinearGradient(0,y,0,y+16); gr.addColorStop(0,'#9a9c9e'); gr.addColorStop(0.45,'#c9cbcc'); gr.addColorStop(0.8,'#a9abad'); gr.addColorStop(1,'#6f7173'); x.fillStyle=gr; x.fillRect(0,y,64,16); }
         const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; if(THREE.SRGBColorSpace) t.colorSpace=THREE.SRGBColorSpace; mat=new THREE.MeshLambertMaterial({map:t,side:THREE.DoubleSide}); mat.name='shopreal_shutter'; }catch(e){ mat=null; }
-      if(mat) for(const s of shops){ const cx=s.cx===undefined?s.x:s.cx, cz=s.cz===undefined?s.z:s.cz, dx=cx-s.x, dz=cz-s.z, L=Math.hypot(dx,dz)||1, nx=dx/L, nz=dz/L, sr=Array.isArray(s.sx)?s.sx:null, sw=sr?(sr[1]-sr[0]+0.2):(s.sw||(s.w-0.3)), sh=s.sh||3.0, lx=sr?(sr[0]+sr[1])/2:0, ry=s.ry||0, ox=lx*Math.cos(ry), oz=-lx*Math.sin(ry);   /* sx＝[室內 x0, x1]：只蓋門窗那一段（沒給＝整間寬）*/
+      if(mat) for(const s of shops){ const cx=s.cx===undefined?s.x:s.cx, cz=s.cz===undefined?s.z:s.cz, nx=Math.sin(s.ry||0), nz=Math.cos(s.ry||0),   /* 朝街的方向＝室內的正面（+z）轉 ry。原本用「室內中心 → 玻璃面中心」：室內不在這一棟正中間的（SUNNY SIDE 偏東 0.62 m）鐵捲門會斜 7°、一頭縮到玻璃後面 */ sr=Array.isArray(s.sx)?s.sx:null, sw=sr?(sr[1]-sr[0]+0.2):(s.sw||(s.w-0.3)), sh=s.sh||3.0, lx=sr?(sr[0]+sr[1])/2:0, ry=s.ry||0, ox=lx*Math.cos(ry), oz=-lx*Math.sin(ry);   /* sx＝[室內 x0, x1]：只蓋門窗那一段（沒給＝整間寬）*/
         const geo=new THREE.PlaneGeometry(sw,sh); const uv=geo.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*sw/0.8,uv.getY(i)*sh/2.0); const m=new THREE.Mesh(geo,mat); m.name='shop_shutter_'+s.id; m.userData.dyn=true;
         m.position.set(cx+ox+nx*0.06,(s.y||0)+sh/2,cz+oz+nz*0.06); m.rotation.y=Math.atan2(nx,nz); m.visible=!isOpen(s); g.add(m); s.shutter=m; } }
     const fallback=(s,vis)=>{ const R=zone.shopInLit; if(!R) return; for(const it of R.items) if(it.id===s.id&&it.mesh) it.mesh.visible=vis; };
@@ -1626,6 +1626,13 @@ const Z3 = (function(){
       for(const s of shops){ if(s.on) light(s); if(s.shutter) s.shutter.visible=!isOpen(s); } };
     let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); warmStep(); if((f++)%20===0) tick(); }; tick();
     const R={shops,tick,detach,lite,warmQ}; zone.shopReal=R; return R; }
+  /* SHOP-REAL-INSIDE 溫州街（LAWWW2-C 11-12 自查 shop_out_in_audit_1112：日常失速店外是一份烘光的店內、顏色偏粉，和走進去的黃牆、綠白方格地板不一樣）：
+     日常失速（W2，正面朝東的橫巷 +x、玻璃面 x −37.5；室內 11×10×3.4，室內 x → 溫州街 z＝−13.5−x）放走進去的那一顆（bldg.wz_offbeat_interior，載入時已登錄）。室內原點＝街景腳本的 (−42.2,−13.5)（wz_street.py W2：本地 z＝室內 z−5、立面在 x −37.2；玻璃退 0.3 m 在室內前緣裡面）。北側的窗沒有鐵捲門（只做正面） */
+  const wzShopReal=()=>{ const out=[{id:'W2',place:'wz_offbeat',key:'bldg.wz_offbeat_interior',w:11,d:10,h:3.4,x:-42.2,z:-13.5,ry:Math.PI/2,cx:-37.5,cz:-13.5,ex:0,ez:5.5,sx:[-4.55,5.25],sh:3.15}];
+    /* SUNNY SIDE（B7，x 40～48、朝南 +z、玻璃面 z −5.9；室內 6.4×10×3.2，右牆貼著東側的落地窗：室內中心在這一棟中心往東 0.65−0.03）、小路（B3，x −9.6～4；室內 8×8×2.9 在這一棟正中間）：
+       街景模型的簡化店內（暗褐色的牆／窗後一整面碗盤架）和走進去的不一樣（自查 11-12）。鍵用 wzGlbKey（和進店用的同一顆）；sx＝店面玻璃的範圍（以 cx 為準），鐵捲門蓋整面玻璃 */
+    const Ly=typeof WZ_SHOPS_LAYOUT!=='undefined'?WZ_SHOPS_LAYOUT:null, add=(id,k,place,cx,dx,sx)=>{ const L=Ly&&Ly[k]; if(!L||!L.glb||!L.w||!L.d) return; out.push({id,place,key:wzGlbKey(k,L),w:L.w,d:L.d,h:L.h||3,x:cx+dx,z:-5.92-L.d/2,ry:0,cx,cz:-5.9,ex:L.w/2,ez:0,sx,sh:2.7}); };
+    add('B7','brunch','wz_brunch',44,0.62,[-3.7,3.7]); add('B3','teishoku','wz_teishoku',-2.8,0,[-6.5,6.5]); return out; };
   const GG_SHOP_REAL=(()=>{ const mk=(id,place,key,cx,w,d,h,sx)=>({id,place,key,w,d,h,x:cx,z:22.02+d/2,ry:Math.PI,cx,cz:22,ex:w/2,ez:0,sx,sh:2.95});   /* sx＝門窗的範圍（鐵捲門只蓋這一段；照 wz_street.py GG_XS 的 cards＋door）*/ return [mk('G04','gg_antai','bldg.gg_antai_interior',-18.6,9,10,3.3,[-4.15,4.15]),mk('G08','gg_xianguo','bldg.gg_xianguo_interior',19.6,8,10,3.3,[-3.65,3.65]),mk('G13','gg_rongendian','bldg.gg_rongendian_interior',64.1,9,10,3.3,[-4.15,4.15]),
       /* 第二批（11-12）：青木茶室、頁間書屋、日和便利店、洋洋鹹酥雞、慢輪單車、Afar、轉角唱片、Daybreak——室內配置的門窗本來就照這一排外觀做的（各店 layout 的 front），寬深高照各自的配置檔 */
       mk('G01','aoki','bldg.aoki_interior',-52.2,9.2,7,3.6,[-1.93,4.24]),mk('G02','bookstore','bldg.yejian_interior',-41.0,12,10,3.8,[-5.15,5.6]),mk('G03','cvs','bldg.cvs_interior_v2',-28.8,11.2,11,3.3,[-5.3,2.93]),mk('G05','yangyang','bldg.yangyang_interior',-9.4,9.2,11,3.3,[-4.3,3.5]),

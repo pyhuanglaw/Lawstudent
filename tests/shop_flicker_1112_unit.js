@@ -22,10 +22,12 @@ const count=(P,mat,ax,v,box)=>{ let n=0; for(const p of P) if(p.mat===mat) for(c
   const b=count(P,'cafe_vc_wz_matte',0,-8.15,[-8.2,-8.1,-0.1,3.2,-9,-6]), b2=count(P,'cafe_vc_wz_matte',0,-8.138,[-8.2,-8.1,-0.1,3.2,-9,-6]), t=count(P,'wz_in_shop',0,-8.15,[-8.2,-8.1,-0.1,3.2,-9,-6]);
   check('2. 118 巷果茶社：米白後牆不在店內後牆（x＝−8.15）那個平面上，往店裡挪了 1.2 cm；頂點色的後牆還在',b===0&&b2>0&&t>0,'米白 x=-8.15:'+b+' x=-8.138:'+b2+' 頂點色:'+t); }
 { const P=load('assets/models/env/second_ai/wenzhou_street.glb'), BOX=[-48,-36,-1,5,-20,-7];
-  const a=count(P,'offbeat_storefront',0,-47.2,BOX), a2=count(P,'offbeat_storefront',0,-47.192,BOX), w=count(P,'wz_wall_tile',0,-47.2,BOX);
-  check('3. 溫州街日常失速：立體店內的西牆不在外殼牆內面（x＝−47.2）那個平面上，往店裡挪了 8 mm；外殼牆還在',a===0&&a2>0&&w>0,'店內 x=-47.2:'+a+' x=-47.192:'+a2+' 外殼:'+w);
-  const b=count(P,'offbeat_storefront',2,-8.0,BOX), b2=count(P,'offbeat_storefront',2,-8.008,BOX), w2=count(P,'wz_wall_tile',2,-8.0,BOX);
-  check('4. 溫州街日常失速：立體店內的北牆不在外殼牆內面（z＝−8.0）那個平面上，往店裡挪了 8 mm；外殼牆還在',b===0&&b2>0&&w2>0,'店內 z=-8.0:'+b+' z=-8.008:'+b2+' 外殼:'+w2); }
+  /* SHOP-REAL-INSIDE 溫州街（LAWWW2-C 11-12）：街景模型不再嵌烘光的店內（遊戲放走進去的那一顆，Z3.shopInsideReal）。室內模型的西牆在 x −47.2、北牆在 z −19／南牆在 z −8：
+     這一棟外殼牆的內面不能在同一個平面（會閃）——西邊的牆體退到 x −47.4；南邊另外補的外牆在室內牆外面 2 cm 以上。 */
+  const emb=count(P,'offbeat_storefront',0,-47.192,BOX)+count(P,'offbeat_storefront',0,-47.2,BOX), w=count(P,'wz_wall_tile',0,-47.2,BOX), wb=count(P,'wz_wall_tile',0,-47.4,BOX);
+  check('3. 溫州街日常失速：街景模型不嵌店內了；外殼牆不在室內西牆（x＝−47.2）那個平面上，退到 x＝−47.4',emb===0&&w===0&&wb>0,'嵌的店內:'+emb+' 外殼 x=-47.2:'+w+' x=-47.4:'+wb);
+  const SK=[-47.5,-37.1,-1,3.5,-20,-7], w3=count(P,'wz_wall_tile',2,-7.85,SK)+count(P,'wz_wall_tile',2,-7.8,SK), w4=count(P,'wz_wall_tile',2,-7.86,SK);
+  check('4. 溫州街日常失速：一樓南側補了一片外牆（z −7.85～−7.8），在室內南牆（z −8.0～−7.86，厚 14 cm）外面、不在它外面那個平面上',w3>=8&&w4===0,'外牆 z=-7.85／-7.8:'+w3+' z=-7.86:'+w4); }
 { const s=fs.readFileSync(path.join(__dirname,'..','tools/blender/env_second/wz_shopkit.py'),'utf8'), t=fs.readFileSync(path.join(__dirname,'..','tools/blender/env_second/wz_street.py'),'utf8');
   check('5. 建模腳本也改了（重建不會又疊回去）：_drink 的後牆 zb−0.038～zb+0.012；wz_street.py 匯入日常失速店內後挪那兩面牆',/2\.95, zb - 0\.038, zb \+ 0\.012\)/.test(s)&&/WZ-OFFBEAT-WINDOW-FLICKER-1112/.test(t)); }
 console.log(fail?'FAILED: '+fail:'ALL PASS'); process.exit(fail?1:0);
