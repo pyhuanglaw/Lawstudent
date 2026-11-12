@@ -1296,3 +1296,12 @@
 [21:16:45] [res] cpu=5% mem=32% (10.1/31.4 GB) chrome_testing=0  START WZ_PERF_f3e1_touch
 [21:17:49] 正在跑：WZ_PERF_f3e1_touch（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:18:14] [res] cpu=0% mem=31% (11.0/31.4 GB) chrome_testing=0  END WZ_PERF_f3e1_touch
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0b4ed8d6ff..664820d229  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:18:19] ==== END   WZ_PERF_f3e1_touch  exit=1  92s   ====
+[21:18:29] memory 32% before starting WZ_PERF_f3e1_desk_b3 (0 running)
+[21:18:29] ==== START WZ_PERF_f3e1_desk_b3  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
+[21:18:32] [res] cpu=6% mem=32% (10.2/31.4 GB) chrome_testing=0  START WZ_PERF_f3e1_desk_b3
+[21:22:49] 正在跑：WZ_PERF_f3e1_desk_b3（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:23:48] [res] cpu=5% mem=33% (10.5/31.4 GB) chrome_testing=0  END WZ_PERF_f3e1_desk_b3

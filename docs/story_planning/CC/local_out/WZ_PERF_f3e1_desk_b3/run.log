@@ -1,0 +1,40 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_xs_inside_perf_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ_PERF_f3e1_desk_b3\out
+CC SHOP-REAL-INSIDE 效能：TAG wz_72fc_desk_b3；SHA 9aaa31edb9e6cfed31271cce28ec7041d37b0306；PAIR ['wz_teishoku', 'wz_brunch']；DESKTOP=True；Windows＋GPU ≠ 使用者那台
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2025-10-22 14.00（條件事件關掉）
+PASS 讀到 wenzhou  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.05}
+  [  56.0s] 觸控偵測與畫質（LAWWW-C 10:20：lite＝low 或觸控）：{"maxTouchPoints": 0, "ontouchstart": true, "q": "medium", "lite": true, "desktop": true}
+PASS wenzhou 有 wz_teishoku、wz_brunch 兩個門  [{"label": "往新生南路", "to": "xinsheng", "x": -33.4, "z": -28.4}, {"label": "進去日常失速", "to": "wz_offbeat", "x": -36.5, "z": -9.6}, {"label": "進入 2:30 AM", "to": "cafe", "x": 54.2, "z": 0}, {"label": "上二樓（木曜日）", "to": "wz_mokuyobi", "x": 7.4, "z": -4.55}, {"label": "進去 SUNNY SIDE", "to": "wz_brunch", "x": 45, "z": -4.6}, {"label": "進去阿德影印輸出", "to": "wz_print", "x": -8, "z": 4.6}, {"label": "進去一盞", "to": "wz_teahouse", "x": -20.5, "z": 4.6}, {"label": "進去林家乾麵", "to": "wz_lin", "x": 35, "z": 4.6}, {"label": "進去小路", "to": "wz_teishoku", "x": -4.8, "z": -4.6}]
+PASS 找得到中間點和遠點（≥45 m）  {"mid": {"x": 20.1, "z": -4.6}, "far": {"x": 31.58, "z": 23.12, "d": 30}}
+  [  56.1s] 門 [{"label": "進去小路", "to": "wz_teishoku", "x": -4.8, "z": -4.6}, {"label": "進去 SUNNY SIDE", "to": "wz_brunch", "x": 45, "z": -4.6}]；中間點 {"x": 20.1, "z": -4.6}；遠點 {"x": 31.58, "z": 23.12, "d": 30}（離中間點 30 m）
+  [前置／捷徑] 【前置／捷徑】先讀檔站到遠點
+  [  71.9s] ②b 站 10 秒的長幀當下事件（前 30 ms 到幀結束）：[{"t": 60969.1, "ms": 99.9, "events": [[60881.9, "CHAR.build", "x821"], [60967.6, "scene.add", "human"]]}, {"t": 62485.8, "ms": 100, "events": [[62389.6, "CHAR.build", "x26"]]}]；這 10 秒事件總數 7 {"CHAR.build": 2, "scene.add": 1, "shopReal": 4}
+  [  72.6s] ② 進區域後站 10 秒：每幀 {"n": 581, "fps": 57.8, "p50": 16.7, "p95": 16.8, "max": 100, "gt50": 2}；tex 161→163、geoms 213→228、heap 631.3→631.3
+  [  72.6s] ③ zone.shopReal：剛進來 {"lite": true, "warmQ": 0, "shops": [{"id": "W2", "built": false, "ready": null, "on": false, "meshes": 0}, {"id": "B7", "built": false, "ready": null, "on": false, "meshes": 0}, {"id": "B3", "built": false, "ready": null, "on": false, "meshes": 0}, {"id": "A4", "built": true, "ready": true, "on": true, "meshes": 21}]}；10 秒後 {"lite": true, "warmQ": 0, "shops": [{"id": "W2", "built": false, "ready": null, "on": false, "meshes": 0}, {"id": "B7", "built": false, "ready": null, "on": false, "meshes": 0}, {"id": "B3", "built": false, "ready": null, "on": false, "meshes": 0}, {"id": "A4", "built": true, "ready": true, "on": true, "meshes": 21}]}
+  [ 163.7s] ③b 全部 built：進區域後 101.2 秒、1/4 間 built；heap 631.3 MB、geometries 228、textures 163、programs 118（剛進來 heap 631.3、geoms 213、tex 161）
+  [ 170.4s] ① 遠點（基準） 站 5 秒：{"n": 295, "fps": 59.0, "p50": 16.7, "p95": 16.8, "max": 33.4, "gt50": 0}；{"calls": 171, "tris": 292197, "tex": 163, "geoms": 228, "programs": 118, "objs": 3099, "heapMB": 631.3}
+  [ 180.6s] 到達「②／④ 第 1 趟走到中間點」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [ 180.7s] ②／④ 第 1 趟走到中間點（10.3 秒，到了=True，位置 20.194,-4.374）每幀：{"n": 408, "fps": 39.8, "p50": 16.7, "p95": 33.4, "max": 166.7, "gt50": 4}
+  [ 186.3s] ① 第 1 趟中間點（兩間室內都載入） 站 5 秒：{"n": 223, "fps": 44.6, "p50": 16.7, "p95": 33.4, "max": 50, "gt50": 0}；{"calls": 200, "tris": 337253, "tex": 305, "geoms": 365, "programs": 118, "objs": 3099, "heapMB": 631.3}
+  [ 186.4s] ③ 第 1 趟中間點 zone.shopReal {"lite": true, "warmQ": 0, "shops": [{"id": "W2", "built": false, "ready": null, "on": false, "meshes": 0}, {"id": "B7", "built": false, "ready": null, "on": false, "meshes": 0}, {"id": "B3", "built": false, "ready": null, "on": false, "meshes": 0}, {"id": "A4", "built": true, "ready": true, "on": true, "meshes": 21}]}
+  [ 200.7s] 到達「③／④ 第 1 趟走回遠點」附近（0.24 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [ 200.7s] ③／④ 第 1 趟走回遠點（14.3 秒，到了=True，位置 31.487,22.895）每幀：{"n": 660, "fps": 46.1, "p50": 16.7, "p95": 33.4, "max": 50.1, "gt50": 2}
+  [ 207.8s] ③ 第 1 趟回到遠點 站 5 秒：{"n": 298, "fps": 59.6, "p50": 16.7, "p95": 16.8, "max": 33.3, "gt50": 0}；{"calls": 171, "tris": 292197, "tex": 330, "geoms": 386, "programs": 118, "objs": 3099, "heapMB": 631.3}
+  [ 217.8s] 到達「②／④ 第 2 趟走到中間點」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [ 217.8s] ②／④ 第 2 趟走到中間點（10.0 秒，到了=True，位置 20.179,-4.408）每幀：{"n": 451, "fps": 45.6, "p50": 16.7, "p95": 33.4, "max": 50, "gt50": 0}
+  [ 223.4s] ① 第 2 趟中間點（兩間室內都載入） 站 5 秒：{"n": 239, "fps": 47.6, "p50": 16.7, "p95": 33.4, "max": 33.5, "gt50": 0}；{"calls": 203, "tris": 337863, "tex": 356, "geoms": 410, "programs": 118, "objs": 3099, "heapMB": 631.3}
+  [ 237.9s] 到達「③／④ 第 2 趟走回遠點」附近（0.25 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [ 237.9s] ③／④ 第 2 趟走回遠點（14.4 秒，到了=True，位置 31.485,22.89）每幀：{"n": 655, "fps": 45.5, "p50": 16.7, "p95": 33.4, "max": 50, "gt50": 0}
+  [ 245.1s] ③ 第 2 趟回到遠點 站 5 秒：{"n": 297, "fps": 59.4, "p50": 16.7, "p95": 16.8, "max": 33.4, "gt50": 0}；{"calls": 171, "tris": 292197, "tex": 356, "geoms": 410, "programs": 118, "objs": 3099, "heapMB": 631.3}
+  [ 255.1s] 到達「②／④ 第 3 趟走到中間點」附近（0.10 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [ 255.1s] ②／④ 第 3 趟走到中間點（10.0 秒，到了=True，位置 20.137,-4.51）每幀：{"n": 407, "fps": 40.7, "p50": 16.7, "p95": 33.4, "max": 66.6, "gt50": 2}
+  [ 260.8s] ① 第 3 趟中間點（兩間室內都載入） 站 5 秒：{"n": 236, "fps": 47.0, "p50": 16.7, "p95": 33.4, "max": 33.4, "gt50": 0}；{"calls": 207, "tris": 338173, "tex": 356, "geoms": 410, "programs": 118, "objs": 3099, "heapMB": 631.3}
+  [ 275.2s] 到達「③／④ 第 3 趟走回遠點」附近（0.26 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [ 275.2s] ③／④ 第 3 趟走回遠點（14.4 秒，到了=True，位置 31.482,22.883）每幀：{"n": 686, "fps": 47.6, "p50": 16.7, "p95": 33.4, "max": 50.1, "gt50": 2}
+  [ 282.4s] ③ 第 3 趟回到遠點 站 5 秒：{"n": 289, "fps": 57.8, "p50": 16.7, "p95": 16.8, "max": 33.4, "gt50": 0}；{"calls": 173, "tris": 292549, "tex": 379, "geoms": 423, "programs": 118, "objs": 3099, "heapMB": 631.3}
+  [ 282.4s] 【預載】進區域 10 秒最長一幀 100 ms、>50 ms 2 次；常駐 tex 163、geoms 228
+  [ 282.4s] 【總表】第一次走近最長一幀 166.7 ms（>50 ms 4 次）；中間點 fps 44.6、calls 200、tris 337253、tex 305；遠點基準 tex 163 → 第一趟回遠點 tex 330；三趟回遠點 heap [631.3, 631.3, 631.3]、tex [330, 356, 379]、objs [3099, 3099, 3099]
+PASS 三趟都真的走到中間點、走回遠點  [[true, true], [true, true], [true, true]]
+PASS 沒有 JS 例外  []
+ALL PASS
