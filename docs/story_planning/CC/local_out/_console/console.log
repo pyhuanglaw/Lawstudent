@@ -781,3 +781,9 @@
 [19:17:08] ==== START DN_GOODS2_close  (probe @ 7e404a6220426e12d59906d50497b7eee61280c4) ====
 [19:17:11] [res] cpu=3% mem=50% (15.9/31.4 GB) chrome_testing=9  START DN_GOODS2_close
 [19:17:43] [res] cpu=4% mem=40% (12.5/31.4 GB) chrome_testing=4  END FRUIT_OWNER
+[19:17:49] 正在跑：SHIFT_SHOTS_eba1（已跑 5 分／上限 25 分）、FRUIT_OWNER（已跑 3 分／上限 15 分）、DN_GOODS2_close（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:17:49] [res] cpu=12% mem=40% (12.8/31.4 GB) chrome_testing=4  END SHIFT_SHOTS_eba1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b2a7952de..060b6d220  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:17:52] ==== END   FRUIT_OWNER  exit=1  194s   ====
