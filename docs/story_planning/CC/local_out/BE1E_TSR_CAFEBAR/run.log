@@ -1,0 +1,33 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tapseat_reg_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BE1E_TSR_CAFEBAR\out
+CC TAPSEAT_REG：PARTS CAFE；SHA be1e5d725634580ee25313a7bbd14f941687bfde；DAY 2025-10-08；Playwright 手機模擬 ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  28.4s] 日期 2025-10-08：{"day": 22, "wd": 3, "key": "2025-10-08", "hol": null}（wd 3＝星期三）；tapToSeat 有沒有射線判斷（0d7922555 起）：True
+== CAFE
+  [  28.4s] ===== CAFE：2:30 AM（兩點半 Café）（zone cafe）SHA be1e5d725634580ee25313a7bbd14f941687bfde =====
+  [前置／捷徑] 【前置／捷徑】讀檔到 cafe（2:30 AM（兩點半 Café））(0.00, 4.60) 第 0 層 2025-10-08 15.00：進門的位置（區域出生點，往吧檯看）；點椅子 2（吧檯高腳椅）
+  [  44.0s] [CAFE 椅子 2 吧檯高腳椅] 挑 (-1.3, -3.3)「坐吧檯」：吧檯高腳椅（座面 0.72＝lift 0.25；俯角最淺、椅面高）；seatApproach [-1.3, -2.7]；椅面高 0.7（地板 0＋0.45＋lift 0.25）
+  [  45.1s] [CAFE 椅子 2 吧檯高腳椅] 從起點看，那一點在畫面外或被按鈕蓋住（{"sx": 371, "sy": 79.9, "canvas": false, "el": "c", "hit": [-1.66, -6.59, 0, 0], "redirect": [-1.3, -2.7], "rseat": [-1.3, -3.3], "first": {"obj": "a23_vc", "mat": "a23_vc", "p": [-1.28, 0.74, -3.13]}, "dist": 12.13, "pitch": 11.9}）：用手指滑轉鏡頭
+  [  48.8s] [CAFE 椅子 2 吧檯高腳椅] 轉了鏡頭還點不到（{"sx": 396.6, "sy": 79.2, "canvas": false, "el": "c", "hit": [-1.75, -6.59, 0, 0], "redirect": [-1.3, -2.7], "rseat": [-1.3, -3.3], "first": {"obj": "a23_vc", "mat": "a23_vc", "p": [-1.28, 0.74, -3.13]}, "dist": 12.16, "pitch": 11.9}）：先點地走到 [-0.85, 0.65]（往起點那邊離目標約 4 m、站得住的點）
+  [ 107.3s] 到達「[CAFE 椅子 2 吧檯高腳椅]（走近）」附近（0.19 m）：點地面 17 次、轉鏡頭 1 次、搖桿 1 次，58 秒
+  [ 116.0s] 到達「[CAFE 椅子 2 吧檯高腳椅]（繞到 1.3 m、0°）」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 119.0s] [CAFE 椅子 2 吧檯高腳椅] 繞著椅子試了 1 個站得住的位置：點得到（繞到 1.3 m、0° 轉鏡頭）
+  [ 119.1s] [CAFE 椅子 2 吧檯高腳椅] 點的當下（LAWWW 19:46）：elementFromPoint(421.5, 190.5)＝c；#nextClass {"hide": false, "r": [10, 92, 132, 120], "text": "今天的課都結束了"}
+  [ 119.1s] [CAFE 椅子 2 吧檯高腳椅] 點椅面（繞到 1.3 m、0° 轉鏡頭）螢幕 (421.5, 190.5)、離鏡頭 4.35 m、視線俯角 26.4°：地板落點 [-2.7, -3.51, 0, 0]、射線先打到 {"obj": "a23_vc", "mat": "a23_vc", "p": [-1.19, 0.76, -3.28]}、tapRedirect 導去 [-0.75, -3.3]（椅子 [-1.3, -3.3]）
+  [ 121.7s] [CAFE 椅子 2 吧檯高腳椅] 走到 (-0.561, -3.251)（2.3 秒；離 seatApproach 0.92 m；tapPref [-1.3, -3.3]）：互動鍵「坐吧檯」、最近的互動 {"label": "坐吧檯", "seat": [-1.3, -3.3], "exit": null}
+PASS [CAFE 椅子 2 吧檯高腳椅] 點椅面走過去，互動鍵是「坐吧檯」而且就是這一張  {"interact": "坐吧檯", "near": {"label": "坐吧檯", "seat": [-1.3, -3.3], "exit": null}, "at": [-0.561, -3.251], "redirect": [-0.75, -3.3]}
+PASS [CAFE 椅子 2 吧檯高腳椅] 按下去坐到這一張（座位差 0.0 ≤0.15 m）  {"sat": [-1.3, -3.3], "want": [-1.3, -3.3]}
+PASS [CAFE 椅子 2 吧檯高腳椅] walkFallbacks 沒增加
+  [ 124.3s] [CAFE 椅子 2 吧檯高腳椅] 【坐下後的遊戲鏡頭】tsr_be1e5d7_CAFE_seat2_sitcam.png（【捷徑】選單暫時收起）：畫面中央 60% 亮度／標準差 [74.3, 55.8]；鏡頭 {"cam": [0.74, 2.63, -2.99], "player": [-1.3, 0.25, -3.3], "dist": 3.15}
+  [前置／捷徑] 【前置／捷徑】讀檔到 cafe（2:30 AM（兩點半 Café））(0.00, 4.60) 第 0 層 2025-10-08 15.00：進門的位置（區域出生點，往吧檯看）；搖桿走到椅子 2 按「坐下」
+  [ 134.9s] [CAFE 椅子 2 搖桿] 搖桿走到 seatApproach [-1.3, -2.7]：到了、停在 (-1.301, -2.653)、互動鍵「坐吧檯」
+  [ 137.2s] [CAFE 椅子 2 搖桿] 【坐下後的遊戲鏡頭】tsr_be1e5d7_CAFE_seat2_joysit.png（【捷徑】選單暫時收起）：畫面中央 60% 亮度／標準差 [58.9, 52.8]；鏡頭 {"cam": [-1.3, 2.63, -1.24], "player": [-1.3, 0.25, -3.3], "dist": 3.15}
+PASS 沒有 JS 例外（pageerror）  []
+==================== 總表（SHA be1e5d725634580ee25313a7bbd14f941687bfde，2025-10-08 15:00 類；FLOOR_NEAR 0.6 m）
+【CAFE】2:30 AM（兩點半 Café）
+PASS [CAFE] 不判（被擋住、點不到、HUD 蓋住）的不超過一半：0／1（LAWWW2 19:15：全部不判不能當成過）  []
+  椅面 1 張：ok 1｜吧檯高腳椅＝ok
+  走道 0 下：PASS 0、FAIL 0、其他 0｜
+  兩張椅子中間（只記）：（沒跑）
+  桌面（只記）：（沒跑）
+ALL PASS
