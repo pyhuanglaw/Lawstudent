@@ -37,6 +37,9 @@ G2DF5_WZ_touch | 2df53f7b5660676aed976eb99e7147f46ccfee29 | game | tests/touch_f
 G2DF5_reach | 2df53f7b5660676aed976eb99e7147f46ccfee29 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url}
 # 公館燒臘實際點一次餐（Node 只按得出「坐。」）
 G2DF5_NOODLE | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 20 | TAG=g2df5_noodle;ZONES=noodle;HOURS=12.5;PARTS=1,7;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+# ===== BB-C 05:59（使用者直接要的 X358 SHUIYUAN-MARKET-LANE-1112 v1，開發分支 ba6cbce8b1，排在全店補查前面）：水源市場旁的巷子 =====
+X358_SHUIYUAN | ba6cbce8b1f09e8415611d48177a3dac43af1bbd | probe | docs/story_planning/test_tools/cc/cc_shuiyuan_lane_probe.py | index.html | 60 | TAG=ba6c;PARTS=WALK,ALLEYA,SHOTS,BUY;SHA=ba6cbce8b1f09e8415611d48177a3dac43af1bbd
+X358_reach_gg | ba6cbce8b1f09e8415611d48177a3dac43af1bbd | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones gongguan,tingzhou
 # D155 全店補查第二層（公館→溫州街→118 巷→新生南路→汀州路，白天 14:00＋晚上 20:30；含疑似疊面的走動連拍）
 GBF_gg1 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_gg1;ZONES=cvs,noodle,bookstore,bikeshop;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
 GBF_gg2 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_gg2;ZONES=afar,daybreak,yangyang,corner_records;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
