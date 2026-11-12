@@ -9181,6 +9181,22 @@
    "remaining": "P3：辛亥韓食 #6／點椅子停錯張；cafe2 #13 走到店外原因（要 CC 記點擊打到哪裡）",
    "next": "LAWWW-C 套 patch；CC 重跑 L118_CAM36_a／b",
    "ackNote": "LAWWW-C 19:10 整合 6279e713c0；CC 重跑 FIRST_*、L118_CAM36_a／b"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "L118-SEAT-FIX-1112",
+   "title": "補件：大學食堂窗邊兩張加走近點（第一包只改 r＝0.95，l118_int_home_cafe2 2.、l118_shops_redo 3-6. 在開發分支會紅）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/l118_seat_fix_1112/l118_seat_fix_v1b.patch",
+    "docs/art-rebuild/second_ai/wip/l118_seat_fix_1112/README.md"
+   ],
+   "remaining": "",
+   "next": "LAWWW-C 套 patch"
   }
  ]
 }
