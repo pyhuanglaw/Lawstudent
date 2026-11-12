@@ -49,6 +49,8 @@ GBF_xs1 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning
 GBF_xs2 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 60 | TAG=gbf_xs2;ZONES=xs_haopai,xs_xsports,xs_dakou;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
 GBF_tz1 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_tz1;ZONES=tz_taimi,tz_yuehaochi,tz_dongnan,tz_liantong;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
 GBF_tz2 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=gbf_tz2;ZONES=tz_yindehao,tz_xile,tz_keju,tz_limao;HOURS=14,20.5;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
+# BB-C 05:26 ③（SHOP-LIFE-AUDIT-1112／X356）：118 巷 12:15、18:15 照 SHOPLIFE.who 走進有同學的店、走近、和他說話（排在全店補查後面，BB-C 05:45）
+L118_MEET_2df5 | 2df53f7b5660676aed976eb99e7147f46ccfee29 | probe | docs/story_planning/test_tools/cc/cc_l118_meet_probe.py | index.html | 40 | TAG=2df5;HOURS=12.25,18.25;MAXSHOP=3;SHA=2df53f7b5660676aed976eb99e7147f46ccfee29
 
 # 原本在雲端驗的十項（探針都 probe_lint PASS；第一次在電腦跑，TEST_BUG 由 CC 修了重排）
 C1112_FLK_new | bd8643003a363ecd3e9bb87fa59d839f6d22475a | probe | docs/story_planning/test_tools/cc/cc_shop_flicker_probe.py | index.html | 25 | TAG=new;SPOTS=L118_A,L118_B,WZ_W,WZ_N;SHA=bd8643003a363ecd3e9bb87fa59d839f6d22475a
