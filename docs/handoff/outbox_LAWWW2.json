@@ -8845,6 +8845,22 @@
    ],
    "remaining": "沒有在電腦／手機上拍",
    "next": "LAWWW-C 套 patch、CC 拍樓梯間"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "GG-SHAOLA-FIX-1112",
+   "title": "AA_853：公館燒臘店內菜單貼圖照新稿＋頁間書屋配置補雜誌、明信片兩個互動點",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/aa853_menu_points_1112/aa853_menu_points_v1.patch",
+    "docs/art-rebuild/second_ai/wip/aa853_menu_points_1112/README.md"
+   ],
+   "remaining": "沒在遊戲裡拍；頁間書屋咖啡吧黑板和 AA_853 有兩處出入，等 AA 定",
+   "next": "LAWWW-C 套 patch；AA 定黑板"
   }
  ]
 }
