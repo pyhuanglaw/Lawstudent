@@ -19,6 +19,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = (os.environ.get('SHA') or '')[:10]; DAY = os.environ.get('DAY') or '2025-10-15'; DAY2 = os.environ.get('DAY2') or '2025-10-16'
 HOUR = float(os.environ.get('HOUR') or 18.5)
+OPP_HOURS = [float(x) for x in (os.environ.get('OPP_HOURS') or '12.5,20.25,18.5,19.5').split(',') if x]   # 11-12 BB-C 14:31：先找 12:30、20:15「有客人、對面空」的桌
 PARTS = [x.strip().upper() for x in (os.environ.get('PARTS') or 'EAT,OPP,TAB').split(',') if x.strip()]
 R = L.Run('shaola', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -99,7 +100,7 @@ async def part_eat(pg, cdp, res, menu):
 
 async def part_opp(pg, cdp, res):
     tag = '[OPP]'
-    for h in (HOUR, 12.5, 19.5):
+    for h in OPP_HOURS:
         s = await load(pg, cdp, DAY, h)
         seats = await pg.evaluate(SEATS); occ = [q for q in seats if q['occ'] and q['pair'] and not q['pairOcc']]
         both = [q for q in seats if q['occ'] and q['pairOcc']]

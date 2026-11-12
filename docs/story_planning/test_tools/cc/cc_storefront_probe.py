@@ -16,7 +16,8 @@ URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHOPS = [s for s in (os.environ.get('SHOPS') or 'wz_brunch,wz_teishoku,wz_mokuyobi,wz_offbeat,wz_print').split(',') if s]
 STREET = os.environ.get('STREET') or 'wenzhou'; HOUR = float(os.environ.get('HOUR') or 14); TAG = os.environ.get('TAG') or 'x'
 R = L.Run('storefront_' + TAG, OUT); D.setup(R, OUT)
-DOOR = (os.environ.get('DOOR') or '0') == '1'   # BB-C 11:44：正對門——門（出口互動點）朝外的方向，鏡頭在門前 4.5 m
+SIGN = (os.environ.get('SIGN') or '0') == '1'; SIGN_H = float(os.environ.get('SIGN_H') or 3.3)   # 11-12：DOOR 之後再退到對面往上拍招牌（BB-C 14:31 燒臘）
+DOOR = (os.environ.get('DOOR') or '0') == '1' or SIGN   # BB-C 11:44：正對門——門（出口互動點）朝外的方向，鏡頭在門前 4.5 m
 FIND_DOOR = r"""(a=>{ const E=GAME.E; const it=E.interactables.find(i=>i.exit&&i.exit.to===a.z&&!i.hidden); if(!it) return null; const lv=it.lv|0, r2=v=>+(+v).toFixed(2); let n=null, how='';
   const S=E.zone&&E.zone.shopReal, s=S&&(S.shops||[]).find(q=>q.place===a.z); if(s){ n=[Math.sin(s.ry||0),Math.cos(s.ry||0)]; how='shopReal.ry'; }
   if(!n){ let best=null; for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]){ const out=[2,3,4.5].filter(r=>E.canStand(it.x+dx*r,it.z+dz*r,0.3,lv)).length, back=E.canStand(it.x-dx*1.2,it.z-dz*1.2,0.3,lv)?1:0; const sc=out*2-back; if(!best||sc>best.sc) best={sc,dx,dz}; } n=[best.dx,best.dz]; how='nav 四方向（外面站得住、背後是牆）'; }
@@ -59,7 +60,18 @@ async def main():
                 R.setup('%s 【捷徑】祐廷放到門前 3 m 等 3 秒；室內 %s' % (z, json.dumps(sr, ensure_ascii=False)))
                 c = await D.user_shot(pg, cdp, 'door_%s_%s' % (z, TAG), {'eye': f['eye'], 'look': f['look'], 'lens': 18}, hide_player=True)
                 R.note('%s 正對門：門 (%s, %s)「%s」朝外 %s（%s）、鏡頭 %s（站得住=%s）' % (z, f['x'], f['z'], f['label'], f['n'], f['how'], f['eye'], f['standEye']))
-                res.append({'zone': z, 'door': f, 'cam': c}); continue
+                res.append({'zone': z, 'door': f, 'cam': c})
+                if SIGN:   # 11-12 BB-C 14:31：招牌——退到對面（10／8／6.5／5 m 取第一個站得住的）、高 1.7 m、往上看門上方 SIGN_H m
+                    g = None
+                    for d in (10, 8, 6.5, 5):
+                        g = await pg.evaluate(FIND_DOOR, {'z': z, 'd': d})
+                        if g and g.get('standEye'): break
+                    eye = [g['eye'][0], 1.7, g['eye'][2]]; look = [g['x'], SIGN_H, g['z']]
+                    c2 = await D.user_shot(pg, cdp, 'sign_%s_%s' % (z, TAG), {'eye': eye, 'look': look, 'lens': 24}, hide_player=True)
+                    lit = await pg.evaluate("(()=>{ let n=0, on=0; GAME.E.scene.traverse(o=>{ if(o.isLight&&o.visible){ n++; if(o.intensity>0) on++; } }); return {lights:n, on, hour:+(+GAME.G.hour).toFixed(2)}; })()")
+                    R.note('%s 招牌：鏡頭 %s 看 %s（退 %s m，站得住=%s）；場景燈 %s' % (z, eye, look, d, g.get('standEye'), json.dumps(lit, ensure_ascii=False)))
+                    res[-1]['sign'] = {'eye': eye, 'look': look, 'd': d, 'cam': c2, 'lit': lit}
+                continue
             f = await pg.evaluate(FIND, z); R.note('%s 出口：%s' % (z, json.dumps(f, ensure_ascii=False)))
             if not R.check('%s 街上找得到進店的出口、外面站得住' % z, bool(f and f.get('eye')), ''): res.append({'zone': z, 'skip': f}); continue
             c = await D.user_shot(pg, cdp, 'front_%s_%s' % (z, TAG), {'eye': f['eye'], 'look': f['look'], 'lens': 18}, hide_player=True)

@@ -676,6 +676,28 @@ GENERIC_RULES = [
 GENERIC_LEFT = re.compile(r'claude-\d+/[^/\s]+/[0-9a-f-]{36}/scratchpad|-home-(?!<)|(?i:(?:\\|/)(?:Users|home)(?:\\\\|\\|/)(?!<USER>)[^/\\\s"\'<>%]+)')
 
 
+def canon_rewrite(paths):
+    """D158（LAWWW-C 11-12 14:31 同意 (a)）：要推的文字檔，舊序章、外校的字換成代號（tools/cc_local/canon_codes.py）。出錯只寫一行警告、照舊推。"""
+    try:
+        import canon_codes
+    except Exception as e:
+        log('canon_codes 載入失敗（照舊推）：%r' % e); return 0
+    n = 0
+    for p in paths:
+        try:
+            if not p.lower().endswith(TEXT_EXT) and not p.lower().endswith('.md'): continue
+            with open(p, 'rb') as fh: raw = fh.read()
+            s = raw.decode('utf-8')
+            t, k = canon_codes.to_codes(s)
+            if k:
+                with open(p, 'wb') as fh: fh.write(t.encode('utf-8'))
+                n += k
+        except Exception:
+            continue
+    if n: log('D158：推送前把 %d 處舊序章／外校的字換成代號' % n)
+    return n
+
+
 def scrub_generic(s):
     for rx, fn in GENERIC_RULES:
         s = rx.sub(fn, s)
@@ -1059,6 +1081,7 @@ class Runner(object):
         self.update_heads()
         log('dev head = %s   lawww2 head = %s' % (self.head, self.lawww2 or '(not fetched)'))
         os.makedirs(self.out_root, exist_ok=True)
+        self.canon_purge_once()
         self.startup_flush()
 
     def fetch_lawww2(self, quiet=True):
@@ -1085,8 +1108,27 @@ class Runner(object):
             if rc != 0:
                 log('merge of cc-testing failed - keep the current queue')
                 git('-C', self.work, 'merge', '--abort', quiet=True)
+            self.canon_purge_once()
             self.sync_results_branch('refresh')
             self.update_heads()
+
+    def canon_purge_once(self):
+        """D158／CANON-NO-ECON-1112（LAWWW-C 11-12 14:31 同意 (b)）：tools/cc_local/canon_purge_go.txt 在（LAWWW、BB 看過演練數字才放）、
+        local_out/CANON_PURGED.txt 還沒有＝跑一次 canon_purge.py（一般 commit，不改寫歷史；下一筆結果照常推）。出錯只寫一行、照舊跑佇列。"""
+        try:
+            go = os.path.join(self.work, 'tools', 'cc_local', 'canon_purge_go.txt')
+            mk = os.path.join(self.out_root, 'CANON_PURGED.txt')
+            if not os.path.exists(go) or os.path.exists(mk):
+                return
+            log('D158：一次清 cc-local 舊結果裡舊序章、外校的字（canon_purge.py）')
+            r = subprocess.run([sys.executable, os.path.join(self.work, 'tools', 'cc_local', 'canon_purge.py'), self.work, '--apply', '--commit'],
+                               capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=3600)
+            for ln in (r.stdout or '').strip().splitlines()[-4:]:
+                log('  ' + ln)
+            if r.returncode != 0:
+                log('  canon_purge 結束碼 %d：%s' % (r.returncode, (r.stderr or '').strip()[-300:]))
+        except Exception as e:
+            log('canon_purge 沒跑成（照舊跑佇列）：%r' % e)
 
     def startup_flush(self):
         """啟動時（BB-C 15:18）：
@@ -1856,6 +1898,7 @@ class Runner(object):
                         fh.write('\n'.join(tnotes) + '\n')
                     if nf not in add:
                         add.append(nf)
+            canon_rewrite([f for f in add if f not in traces] + [sum_file])   # D158／CANON-NO-ECON-1112：推上去以前，文字檔裡舊序章、外校的字換成代號
             # 先把索引清空（不動檔案）：舊 runner 中斷時可能留下已 git add 但沒 commit 的檔（BB 20:21：R8_y4s2rt／02_mk12），不能被這一筆帶進去
             git('-C', self.work, 'reset', '-q', quiet=True)
             forced = [f for f in add if f in traces]   # 只有 CC_AUTORETRY 的 trace.zip 用 -f（.gitignore 的 *.zip 會擋掉它，BB 05:15）

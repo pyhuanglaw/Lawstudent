@@ -1,0 +1,5 @@
+# CANON-NO-ECON-1112（D158）：cc-local 上「整個資料夾只測舊序章」的結果，canon_purge.py 整個刪（一般 commit，不改寫歷史）。
+# 判法：meta.json 的 ID／ENV 全部是舊序章的案例（混了一般案例的資料夾不在這裡，只換字）。CC-C 11-12 從雲端複本 c4f6f93c50 產生。
+MOVEOUT_r2
+PE644-CARD
+PE644-ECON
