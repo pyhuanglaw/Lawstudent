@@ -1,0 +1,31 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_run_stutter_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\P0_STUTTER_v91021\out
+CC RUN-STUTTER：TAG v91021；SHA aa0f3bcd30eea217ec732963851ea5f3b35e8d97；ZONES wenzhou,campus,gongguan；跑 10 秒；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  24.2s] WebGL：ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
+  [前置／捷徑] [溫州街] 【前置／捷徑】讀檔到 wenzhou 2025-10-22 14:00
+PASS [溫州街] 讀到 wenzhou  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.02}
+  [  54.0s] [溫州街] 跑的方向 [-1, -0.0]（直線站得住 60 m）
+  [  59.1s] [溫州街] ① 站著 5 秒：{"frames": 155, "secs": 5.0, "fps": 30.8, "gt50": 3, "gt33": 11, "max_ms": 66.7, "p50": 33.3, "p95": 50, "p99": 50.1, "dist_m": 0.0, "move_med_m": 0, "zero_move_frames": 154, "freeze_then_jump": 0, "fj_examples": [], "longtasks": 4, "longtask_max": 53, "runHold_frames": 0, "poses": {"idle": 155}}
+  [  72.2s] [溫州街] ② 跑步 10 秒：{"frames": 431, "secs": 12.02, "fps": 35.8, "gt50": 10, "gt33": 21, "max_ms": 116.7, "p50": 33.3, "p95": 33.4, "p99": 100, "dist_m": 72.95, "move_med_m": 0.2064, "zero_move_frames": 8, "freeze_then_jump": 0, "fj_examples": [], "longtasks": 8, "longtask_max": 112, "runHold_frames": 431, "poses": {"idle": 9, "run": 422}}
+PASS [溫州街] ② 真的在跑（按了「跑」runHold=True、跑了 73.0 m）  {"dist_m": 72.95, "runHold_frames": 431, "poses": {"idle": 9, "run": 422}}
+  [  84.9s] [溫州街] ③ 走路 10 秒（反方向走回來）：{"frames": 525, "secs": 11.95, "fps": 43.9, "gt50": 0, "gt33": 5, "max_ms": 50, "p50": 16.7, "p95": 33.4, "p99": 33.4, "dist_m": 73.16, "move_med_m": 0.1036, "zero_move_frames": 8, "freeze_then_jump": 0, "fj_examples": [], "longtasks": 0, "longtask_max": 0, "runHold_frames": 0, "poses": {"idle": 9, "run": 516}}
+  [  84.9s] [溫州街] 【總表】站著 fps 30.8／>50ms 3；跑步 fps 35.8／>50ms 10／最長 116.7 ms／凍住再一大跳 0 次；走路 fps 43.9／>50ms 0／凍住再一大跳 0 次
+  [前置／捷徑] [校園椰林大道（往北）] 【前置／捷徑】讀檔到 campus 2025-10-22 14:00 (2.0, -100.0)
+PASS [校園椰林大道（往北）] 讀到 campus  {"zone": "campus", "x": 2, "z": -100, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [ 106.7s] [校園椰林大道（往北）] 跑的方向 [0.0, -1.0]（直線站得住 None m）
+  [ 111.8s] [校園椰林大道（往北）] ① 站著 5 秒：{"frames": 156, "secs": 5.03, "fps": 30.8, "gt50": 1, "gt33": 8, "max_ms": 50.1, "p50": 33.3, "p95": 49.9, "p99": 50, "dist_m": 0.0, "move_med_m": 0, "zero_move_frames": 155, "freeze_then_jump": 0, "fj_examples": [], "longtasks": 2, "longtask_max": 53, "runHold_frames": 0, "poses": {"idle": 156}}
+  [ 124.8s] [校園椰林大道（往北）] ② 跑步 10 秒：{"frames": 363, "secs": 12.05, "fps": 30.0, "gt50": 6, "gt33": 32, "max_ms": 50.1, "p50": 33.3, "p95": 50, "p99": 50.1, "dist_m": 23.87, "move_med_m": 0.2065, "zero_move_frames": 247, "freeze_then_jump": 0, "fj_examples": [], "longtasks": 2, "longtask_max": 52, "runHold_frames": 363, "poses": {"idle": 8, "run": 355}}
+PASS [校園椰林大道（往北）] ② 真的在跑（按了「跑」runHold=True、跑了 23.9 m）  {"dist_m": 23.87, "runHold_frames": 363, "poses": {"idle": 8, "run": 355}}
+  [ 137.8s] [校園椰林大道（往北）] ③ 走路 10 秒（反方向走回來）：{"frames": 359, "secs": 12.1, "fps": 29.6, "gt50": 5, "gt33": 42, "max_ms": 116.7, "p50": 33.3, "p95": 50, "p99": 50.1, "dist_m": 30.38, "move_med_m": 0.2065, "zero_move_frames": 205, "freeze_then_jump": 0, "fj_examples": [], "longtasks": 6, "longtask_max": 53, "runHold_frames": 0, "poses": {"idle": 9, "run": 350}}
+  [ 137.8s] [校園椰林大道（往北）] 【總表】站著 fps 30.8／>50ms 1；跑步 fps 30.0／>50ms 6／最長 50.1 ms／凍住再一大跳 0 次；走路 fps 29.6／>50ms 5／凍住再一大跳 0 次
+  [前置／捷徑] [公館] 【前置／捷徑】讀檔到 gongguan 2025-10-22 14:00
+PASS [公館] 讀到 gongguan  {"zone": "gongguan", "x": 0, "z": -30, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.08}
+  [ 158.8s] [公館] 跑的方向 [0.9239, 0.3827]（直線站得住 60 m）
+  [ 163.9s] [公館] ① 站著 5 秒：{"frames": 222, "secs": 5.0, "fps": 44.2, "gt50": 0, "gt33": 3, "max_ms": 50, "p50": 16.7, "p95": 33.4, "p99": 33.5, "dist_m": 0.0, "move_med_m": 0, "zero_move_frames": 221, "freeze_then_jump": 0, "fj_examples": [], "longtasks": 0, "longtask_max": 0, "runHold_frames": 0, "poses": {"idle": 222}}
+  [ 176.5s] [公館] ② 跑步 10 秒：{"frames": 580, "secs": 11.83, "fps": 48.9, "gt50": 3, "gt33": 9, "max_ms": 116.7, "p50": 16.7, "p95": 33.4, "p99": 50, "dist_m": 72.23, "move_med_m": 0.1036, "zero_move_frames": 8, "freeze_then_jump": 0, "fj_examples": [], "longtasks": 2, "longtask_max": 110, "runHold_frames": 580, "poses": {"idle": 9, "run": 571}}
+PASS [公館] ② 真的在跑（按了「跑」runHold=True、跑了 72.2 m）  {"dist_m": 72.23, "runHold_frames": 580, "poses": {"idle": 9, "run": 571}}
+  [ 189.2s] [公館] ③ 走路 10 秒（反方向走回來）：{"frames": 547, "secs": 11.78, "fps": 46.3, "gt50": 1, "gt33": 2, "max_ms": 66.6, "p50": 16.7, "p95": 33.4, "p99": 33.4, "dist_m": 71.81, "move_med_m": 0.1036, "zero_move_frames": 8, "freeze_then_jump": 0, "fj_examples": [], "longtasks": 1, "longtask_max": 67, "runHold_frames": 0, "poses": {"idle": 9, "run": 538}}
+  [ 189.2s] [公館] 【總表】站著 fps 44.2／>50ms 0；跑步 fps 48.9／>50ms 3／最長 116.7 ms／凍住再一大跳 0 次；走路 fps 46.3／>50ms 1／凍住再一大跳 0 次
+PASS 沒有 JS 例外  []
+ALL PASS
