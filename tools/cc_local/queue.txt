@@ -51,6 +51,9 @@ SHUT_TZ_2330 | 7e404a6220426e12d59906d50497b7eee61280c4 | probe | docs/story_pla
 DN_FPS_7e40 | 7e404a6220426e12d59906d50497b7eee61280c4 | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | SOLO=1;TAG=dn_7e40;VIEW=2308x1064;DSF=1;HOUR=14;ZONES=tz_dongnan;RUN_S=5;SHA=7e404a6220426e12d59906d50497b7eee61280c4
 # BB-C 10:23：新生南路三間閃 UNKNOWN（藏人以後還翻 4～7 格）→ 每個翻動格子切成條圖（同一格 12 張並排、時間戳），BB 分陰影跳／窗外車人／疊面閃
 FLK_STRIPS | 1e239a985edd3a229ed5766d579afb8344d56d24 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=flkstrip;ZONES=xs_dakou,xs_tongxian,xs_xsports;HOURS=14;PARTS=6;STRIPS=1;SHA=1e239a985edd3a229ed5766d579afb8344d56d24
+# BB-C 10:26 慢輪（SSB_gg3a）補：(a) 19:00「③櫃檯：找車行老闆」全黑——用遊戲鏡頭走到櫃台按一次（14:00、19:00 對照；讀碼：那個互動點 14:00 在 (2,−2.3)、19:00 移到 (0.2,0.55)）(c) 閃的條圖
+G3A_COUNTER | e879d9b076627591b6f42e959a4b77a821b3f774 | probe | docs/story_planning/test_tools/cc/cc_interact_probe.py | index.html | 15 | TAG=bikeshop_counter;ZONE=bikeshop;LABEL=找車行老闆;CASES=2025-10-22@14+2025-10-22@19;SHA=e879d9b076627591b6f42e959a4b77a821b3f774
+G3A_STRIPS | e879d9b076627591b6f42e959a4b77a821b3f774 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 25 | TAG=g3astrip;ZONES=bikeshop;HOURS=14,19;PARTS=6;STRIPS=1;SHA=e879d9b076627591b6f42e959a4b77a821b3f774
 # LAWWW-C 08:30 HELP-GUIDE-1110（1ca8b70aac，P1，使用者 X268）：說明頁直／橫＋第一次提示 8 種＋設定開關＋舊存檔不連跳＋劇情中不出（結果給 BB）
 HELP_GUIDE_a | 1ca8b70aac5125afdaf5e955430403f85252d659 | probe | docs/story_planning/test_tools/cc/cc_help_guide_probe.py | index.html | 30 | PARTS=HELP,NEW,OLD,DLG;SHA=1ca8b70aac5125afdaf5e955430403f85252d659
 HELP_GUIDE_b | 1ca8b70aac5125afdaf5e955430403f85252d659 | probe | docs/story_planning/test_tools/cc/cc_help_guide_probe.py | index.html | 35 | PARTS=FLOW,SET;SHA=1ca8b70aac5125afdaf5e955430403f85252d659
