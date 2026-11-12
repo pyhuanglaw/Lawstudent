@@ -90,7 +90,7 @@ const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1'
     said=[]; picks=[L.indexOf(it),L.length]; await STORY._v1.roomItems(GM); check('D 點了看內容（旁白一句）',said.length===1&&said[0].who===null&&/^「第一名：不能說/.test(said[0].t),JSON.stringify(said));
     SOCIAL.markUp('kai',3); const it2=STORY.roomItemList(G).find(r=>r[0]==='阿凱的泡麵評鑑表');
     check('D 朋友的門檻台詞（F-K2）那天起：第一名「沙茶 9.5」、多一欄你的名字、「不準的話自己改」',JSON.stringify(it2[1])===JSON.stringify(['「第一名：沙茶 9.5」「紅燒牛肉 8.5」「蔥燒排骨 8」「麻辣 7.5（太辣扣分）」「海鮮 6（有一隻蝦）」','（多了一欄「{name}」，裡面是他替你填的分數。最下面一行：「不準的話自己改」）']),JSON.stringify(it2));
-    said=[]; picks=[5,6,6]; await STORY._v1.roomItems(GM); const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
+    said=[]; picks=[4,5,5]/* （CANON-NO-ECON-1112 第四批：照 AA_887 換字）大一房間物件少了票根，泡麵評鑑表往前一格 */; await STORY._v1.roomItems(GM); const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
     check('D 你的名字：roomItems 原樣交給 GM.say，遊戲的 say 會把 {name} 換成玩家的名字',said[1]&&said[1].t.indexOf('「{name}」')>=0&&/function subst\(t\)\{ return t\.replace\(\/\\\{name\\\}\/g,G\.name\); \}/.test(g3)&&/D\.full=subst\(text\)/.test(g3));
     const y2=termDay('Y2S1',5,2); G.day=y2; check('D 大二起分開住：房間裡沒有評鑑表',!!y2&&!STORY.roomItemList(G).some(r=>r[0]==='阿凱的泡麵評鑑表'),'第 '+y2+' 天');
     check('D 大二起：手機小事「表更新了」＋照片（只在大二以後的學期、四次、至少隔四週）',D('kai_sheet').term(CALENDAR.termOf(y2))&&!D('kai_sheet').term(CALENDAR.termOf(W5TUE))&&D('kai_sheet').max()===4&&D('kai_sheet').gap===28&&txt('kai_sheet').map(s=>s.split('｜')[1]).join('/')==='表更新了/📷（泡麵評鑑表）');

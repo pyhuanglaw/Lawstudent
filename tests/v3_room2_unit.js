@@ -40,14 +40,14 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(d6+1,20,'dorm',{}); G.stage='law'; check('1b. 9/7 roomY2Late 不動（留給拆箱）',STORY.roomY2Late(G)===false&&!G.flags.ROOM_Y2);
   // 2. 什麼都沒經歷過的玩家
   let L=STORY.roomY2Items(G), ks=L.map(r=>r[0]);
-  check('2. 最少：民總課本、阿凱的泡麵＋大一房間的五件（沒有票根、彈片、報告、值班表、黃金葛、螢光筆、便利貼）',JSON.stringify(ks)===JSON.stringify(['civ','noodle','y1_0','y1_1','y1_2','y1_3','y1_4']),JSON.stringify(ks));
-  check('2. 舊《民法》用大二那句',JSON.stringify(L[2][2])===JSON.stringify(['現在知道，要先問是誰、向誰、依據什麼、要什麼。'])&&L[3][2][0]==='念了一個多月的課本。前六章有畫線，後面是新的。',JSON.stringify(L[2]));
+  check('2. 最少：民總課本、阿凱的泡麵＋大一房間的四件（沒有票根、彈片、報告、值班表、黃金葛、螢光筆、便利貼）',JSON.stringify(ks)===JSON.stringify(['civ','noodle','y1_0','y1_1','y1_2','y1_3'])/* （CANON-NO-ECON-1112 第四批：照 AA_887 換字）大一房間物件四件、課本換字 */,JSON.stringify(ks));
+  check('2. 舊《民法》用大二那句',JSON.stringify(L[2][2])===JSON.stringify(['現在知道，要先問是誰、向誰、依據什麼、要什麼。'])&&L[3][2][0]==='搬宿舍的時候順手帶上來的。一本都還沒翻。'/* （CANON-NO-ECON-1112 第四批：照 AA_887 換字）大一房間物件四件、課本換字 */,JSON.stringify(L[2]));
   check('2. 泡麵的便條',L[1][2][0]==='紙箱裡夾著一張便條：「宵夜基金。過期前吃完。——凱」');
   // 3. 經歷過全部的玩家
   SOCIAL.remember('heroine_02','WATCHED_FILM',''); ACTIVITIES.markAttended(G,ACTIVITIES.list.find(a=>a.id==='club_guitar')); G.events.done.ev_an_report_feedback=1; G.flags.cafeView='B'; G.flags.LAWCLUB_SAT_VISITS=2;
   G.flags.POTHOS=true; G.flags.pothosWaterN=3; G.flags.GREEN_HIGHLIGHTER=true; SOCIAL.remember('classmate_xinci','LENT_NOTES','');
   L=STORY.roomY2Items(G); ks=L.map(r=>r[0]); const tx=k=>JSON.stringify((L.find(r=>r[0]===k)||[])[2]);
-  check('3. 全部：票根、彈片、課本、報告、泡麵、值班表、黃金葛、螢光筆、便利貼＋五件',JSON.stringify(ks)===JSON.stringify(['film','pick','civ','report','noodle','duty','pothos','green','sticky','y1_0','y1_1','y1_2','y1_3','y1_4']),JSON.stringify(ks));
+  check('3. 全部：票根、彈片、課本、報告、泡麵、值班表、黃金葛、螢光筆、便利貼＋四件',JSON.stringify(ks)===JSON.stringify(['film','pick','civ','report','noodle','duty','pothos','green','sticky','y1_0','y1_1','y1_2','y1_3'])/* （CANON-NO-ECON-1112 第四批：照 AA_887 換字）大一房間物件四件、課本換字 */,JSON.stringify(ks));
   check('3. 票根「票根上的日期，是星期六早上十點。」',tx('film')===JSON.stringify(['票根上的日期，是星期六早上十點。']));
   check('3. 報告影本照 cafeView B＋「不是寫給你的，可是你留著。」',tx('report')===JSON.stringify(['『反方意見比正方精彩。』','不是寫給你的，可是你留著。']));
   check('3. 黃金葛澆過水「比去年長了一點。」',tx('pothos')===JSON.stringify(['比去年長了一點。']));

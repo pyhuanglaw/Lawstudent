@@ -29,5 +29,5 @@ const BOX=[(-0.90-0.22)/2,(-0.705-0.185)/2];   /* 紙箱那一塊的中心＝zon
   check('5. 兩條搬家的路（宿舍、家裡）都在進房間之前設 ROOM_Y2_MOVING',/G\.flags\.ROOM_Y2_MOVING=true; if\(GM\.enter\)/.test(st.slice(a,b))&&/G\.flags\.ROOM_Y2_MOVING=true; if\(GM\.enter\)/.test(hm));
   const u=st.slice(b,st.indexOf('async function roomItems'));
   check('5. 拆箱：先封好的紙箱、拿一件出現一件（ROOM_Y2_ITEMS）、拆完換壓平的紙箱、清掉 ROOM_Y2_MOVING',/F\.ROOM_Y2_ITEMS=shown/.test(u)&&/vis\(\{shown:\[\],boxes:'closed'\}\)/.test(u)&&/shown\.push\(r\[0\]\); vis\(\{shown:shown\.slice\(\)\}\)/.test(u)&&/delete F\.ROOM_Y2_MOVING; vis\(\{boxes:'open'\}\)/.test(u));
-  check('5. 大一的摩天輪票根 y1_3、河堤相簿 y1_4 對到 ITEM_y1_ferris、ITEM_y1_album（ROOM_ITEMS 的順序）',/y1_3'\?'ITEM_y1_ferris'/.test(zs)&&/y1_4'\?'ITEM_y1_album'/.test(zs)&&/摩天輪的票根/.test(JSON.stringify(st.match(/const ROOM_ITEMS=\[.*\];/)[0].split('],[')[3]))&&/河堤/.test(st.match(/const ROOM_ITEMS=\[.*\];/)[0].split('],[')[4])); }
+  check('5. 大一的相簿 y1_3（舊存檔的 y1_4 也是）對到 ITEM_y1_album；票根拿掉（ROOM_ITEMS 四件，第 4 件是手機相簿）',/\(id==='y1_3'\|\|id==='y1_4'\)\?'ITEM_y1_album'/.test(zs)&&!/ITEM_y1_ferris'/.test(zs.replace(/\/\*[\s\S]*?\*\//g,''))&&/手機相簿/.test(st.match(/const ROOM_ITEMS=\[.*\];/)[0].split('],[')[3])&&st.match(/const ROOM_ITEMS=\[.*\];/)[0].split('],[').length===4); }   /* （CANON-NO-ECON-1112 第四批：照 AA_887 換字） */
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

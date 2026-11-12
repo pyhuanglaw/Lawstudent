@@ -34,7 +34,7 @@ const keepOn=(day,h)=>{ G.day=day; G.hour=h; G.weekday=wdOf(day); };
   check('2. 4/24 是大一下第 9 週週五',CALENDAR.dateOf(BD).key.endsWith('04-24'));
   fresh(BD,5.5,'dorm',{dating_kexin:true}); toasts=[]; run(5.5,6.2); const d=G.msgs.find(m=>m.tag==='kx_bday_draft');
   check('3. 早上行事曆「可昕生日」、草稿「生日快樂。」',toasts.includes('行事曆：可昕生日')&&!!d&&JSON.stringify(d.ask.opts.map(o=>o.t))==='["生日快樂。"]',JSON.stringify(toasts));
-  const q=OUT.get(G,'kx_bday_y1s2'); check('4. 18:45 出遊提示「可昕的生日：開車去木柵大學」',!!q&&q.title==='可昕的生日：開車去木柵大學'&&q.ev==='ev_kexin_birthday_y1s2');
+  const q=OUT.get(G,'kx_bday_y1s2'); check('4. 18:45 出遊提示「可昕的生日」（AA_887；映月湖、走路）',!!q&&q.title==='可昕的生日'&&q.place==='映月湖'/* （CANON-NO-ECON-1112 第四批：照 AA_887 換字）*/&&q.ev==='ev_kexin_birthday_y1s2');
   fresh(BD,6,'dorm',{dating_kexin:true}); run(6,23.95); keepOn(BD+1,7); run(7,8.2); keepOn(BD+2,8); run(8,9);
   check('5. 都沒做＝隔天早上「我等了一天。」只一次、KX_BDAY {1:"none"}',G.msgs.filter(m=>m.tag==='kx_bday_none').length===1&&G.flags.KX_BDAY[1]==='none');
   const go=async(flags,pick)=>{ fresh(BD,18.2,'dorm',Object.assign({dating_kexin:true},flags||{})); run(18.2,18.3); const q3=OUT.get(G,'kx_bday_y1s2'); picks=[pick]; said=[]; opts=[]; let cgs=[]; global.ADV.cg=id=>{ cgs.push(id); return true; }; await OUT.go(GM,q3); return {L:lines(),O:opts[0]||[],cgs}; };

@@ -50,9 +50,8 @@ GM.money=function(n){ G.money+=n; };
   { const d=D('2027-03-23'); fresh(d,20,'campus'); PHONE.join(G,'noodle_team','桌遊團'); run(20,21.3); const T=txt('g:noodle_team');
     check('3-3. 大二下 3/23 21:00 桌遊團排春假：七則（句子照 AA_255 附錄 A 群組列，芯慈已讀沒回），阿哲 @祐廷、Alison @語彤，沒有人 @ 沛珊、沛珊沒有回',T.length===7&&T[0]==='zhe:春假四天，要不要去哪'&&T.includes('zhe:@祐廷')&&T.includes('yu:@語彤 妳可以嗎')&&!T.some(t=>/沛珊/.test(t))&&!T.some(t=>/^classmate_peishan:/.test(t))&&T[6]==='zhe:好啦那下週再排',JSON.stringify(T)); }   /* 寫死的句子跟著 AA_255 第 4 節第 3 點換（AA255-Y2S2；原本八則、第一句「春假四天！要不要去哪裡？」）*/
   // 3-4
-  { fresh(400,10,'dorm',{EX_kexin:true,dating_kexin:false}); const L=STORY.roomItemList(G); const f=n=>L.find(x=>x[0].startsWith(n));
-    check('3-4. 和可昕分開以後：票根「票根的日期，還是那一天。」、筆記「她在第一頁寫的那一句，你沒有擦掉。」、相簿「你翻到一半，又闔上了。……照片裡的河，還是一樣寬。」',f('摩天輪')[1]==='票根的日期，還是那一天。'&&f('寫滿的筆記本')[1]==='她在第一頁寫的那一句，你沒有擦掉。'&&JSON.stringify(f('手機相簿')[1])===JSON.stringify(['你翻到一半，又闔上了。','……照片裡的河，還是一樣寬。']));
-    fresh(400,10,'dorm',{dating_kexin:true}); const L2=STORY.roomItemList(G); check('3-4. 還在交往：照原本',L2.find(x=>x[0].startsWith('摩天輪'))[1]==='摩天輪的票根。兩個人開始交往的那一天。'); }
+  { fresh(400,10,'dorm',{EX_kexin:true,dating_kexin:false}); const L=STORY.roomItemList(G); fresh(400,10,'dorm',{dating_kexin:true}); const L2=STORY.roomItemList(G);   /* （CANON-NO-ECON-1112 第四批：照 AA_887 換字）大一房間物件換成祐廷自己的四件、票根拿掉；分開以後那三句跟著拿掉 */
+    check('3-4. 和可昕分開以後：大一房間的四件和交往中一樣（AA_887：分開以後的三句拿掉；沒有票根）',JSON.stringify(L.slice(0,4))===JSON.stringify(L2.slice(0,4))&&!L.some(x=>/票根（夾在桌墊下）|寫滿的筆記本/.test(x[0]))&&L[2][0]==='學測前的筆記本'&&L[3][1]==='宿營那天的合照。203 的四個人擠在最前面。',JSON.stringify(L.slice(0,4))); }
   // 3-8
   { const S8=ev('ev_midterm_supper_y1s2'); check('3-8. 大一下考完的晚餐：「（阿姨的手好了，今天端麵的還是語彤。）」「（今天端麵的是一個沒見過的女生。）」兩句拿掉（AA_679 第 1 列：她不在燒臘店端麵），場景之後接 Alison「今天不講考試。誰講誰請。」',!S8.dialogue.some(l=>l&&/端麵/.test(String(l.text||'')))&&S8.dialogue[1].text==='今天不講考試。誰講誰請。'); }
   // 3-11
