@@ -9648,6 +9648,87 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "宿營第一天自由時間打牌：「你數學幾級分？」之後那一段（兩個選項都記 ZHE_CALLS_GE、結尾兩句；分支 claude/magical-albattani-bk7b4n）：手寫進 src/data/camp_y1.js 的 ev_camp_d1_free，一字照稿；「一起拿掉的」三樣照稿拿掉（遊覽車那一段最後一句、夜談的定義、迎新自我介紹第三個選項那一支）。逐字對稿：tests/canon_opening_1112_unit.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_895_可昕追求路線補字與開局九題.md",
+   "sha": "a425c0dcb6",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_430）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "可昕追求路線（CANON-NO-ECON-1112 第四批）：第 2 節學期末心意邀約、朋友的期末邀約、知情那一句 → src/data/termend_lines.js（HEART.kexin、FRIEND.kexin、NOPE.knows.kexin、PLACE.dumpling_gate；女朋友版照舊走 KX，AA_897）；第 3 節四拍台詞版＋③b → src/data/events.js（ev_kx_dress／hand_in／hand／angry／angry_sorry／y1s1_end）；第 1 節①② → src/story3d.js（S.LAW_WEEK12、DAY1_NARR）、③ → src/data/camp_y1.js；第 4 節層級、作息 → src/data/characters.js（大二暑假七月在臺北那一段還沒接）。對稿：tests/canon_batch4_1112_unit.js、tests/canon_opening_1112_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_891_src對照表_heard_invite_syllabus.md",
+   "sha": "c519068608",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_426）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 2 節可昕邀約回覆：tools/invite/build_replies.py canon891（kx1～kx19 搬進 law、17 列換字、kx25b 換 say）→ src/data/invite_replies.js；第 3 節課堂內容照源稿 3f6c7d3bb9 重匯（tools/syllabus/import_syllabus.py）。第 1 節 heard_lines 第三批已做"
+  },
+  {
+   "path": "docs/story_planning/AA_883_迎新自我介紹_新稿.md",
+   "sha": "db44bb9ab1",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_422）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "迎新自我介紹三個選項（ev_welcome_y1s1，src/data/events.js）；older／econ／why_h 拿掉"
+  },
+  {
+   "path": "docs/story_planning/AA_884_阿哲叫哥_來源統一.md",
+   "sha": "db44bb9ab1",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_422）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "中秋烤肉「你學測數學幾級？」兩個選項（ev_mid_autumn_bbq）、人物頁阿哲那一行（src/whois3d.js）、events.js 註解"
+  },
+  {
+   "path": "docs/story_planning/AA_886_src對照表_events.md",
+   "sha": "a87c7ddbc8",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_424）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 2 節照列換字七處（src/data/events.js：跨年阿哲、ev_zq_ask_kai、ev_peishan_decision 選項三和回覆、芯慈閒聊只留第一句、ev_b106d2_yutong、ev_grad_debate 姊姊）。第 1 節整場拿掉第三批已做"
+  },
+  {
+   "path": "docs/story_planning/AA_887_src對照表_story3d.md",
+   "sha": "db44bb9ab1",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12（第 2 節照列換字）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "src/story3d.js：ROOM_ITEMS 四件、分開以後那三句拿掉、週年地點（後門那家湯餃）與摩天輪回覆、春假接人、春假照片一則共用、生日排程（映月湖）、橘子那一句；src/zones3d.js 大一相簿的節點跟著換"
+  },
+  {
+   "path": "docs/story_planning/AA_888_src對照表_characters.md",
+   "sha": "60c0bf0087",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "src/data/characters.js：可昕 career_goal、prof_wei 的 department 社會科學院、note；src/data/courses.js：經濟學原理上下 profName「魏宏仁老師（社科院）」。可昕 tagByPY 照現行設定總表第 2 節那一列（法律系・一年級…），沒有改成稿上的「首都帝大法律系・…」（兩份不一致，列給 AA）"
+  },
+  {
+   "path": "docs/story_planning/AA_898_src對照表_誤判兩字.md",
+   "sha": "7fbab93ec0",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12（AA 定，不送 BB：只換一個動詞）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "第 1 節七句「傳」→「發」（invites.js、multirel_lines.js、r2y4b_events.js、msg_pool.js、msg2_pool.js、movie_plots.js；ladder.js 那一句由重匯帶進來），msg 產生器照 tools/story/canon898.py 換；第 2 節註解"
+  },
+  {
+   "path": "docs/story_planning/AA_899_沛珊再考句子改字_送BB.md",
+   "sha": "22f572ef08",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿（BB_433 七句都採用）；LAWWW-C 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "閒聊階梯沛珊四句（重匯 ladder_bb_*、AA_753 覆寫 3f6c7d3bb9）、可昕取消約會那一句（tools/date/import_date_lines.py → date_lines.js lines.kexin.cancel[1]）；約會心願沛珊兩句：遊戲裡那一格照 AA_757 覆寫層，沒有用到 wish_bb.json 那兩句，這一批沒有重匯"
   }
  ]
 }
