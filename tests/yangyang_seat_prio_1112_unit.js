@@ -40,7 +40,7 @@ function seatApproach(seat,P){ const yaw=seat.yaw||0, fx=Math.sin(yaw), fz=Math.
 const walk=(a,b)=>[1/30,0.1].every(dt=>E.simWalk(a[0],a[1],b[0],b[1],{dt}).ok);
 const nearAt=(x,zz,tp)=>{ E.player.obj.position.set(x,0,zz); E.player.tapPref=tp?{x:tp.x,z:tp.z,lv:0,zone:z.id}:null; const n=E.nearestInteractable(); E.player.tapPref=null; return n; };
 /* 1 每一張椅子 */
-{ check('1 玩家坐得到的座位 20 張（配置 22 張，四人桌四南側兩張只給路人）',seats.length===20,String(seats.length));
+{ check('1 玩家坐得到的座位 19 張（配置 21 張，四人桌四南側兩張只給路人；(0.92, 2.3) 11-12 BB 裁定拿掉）',seats.length===19,String(seats.length));
   const noAp=[], noWalk=[], wrong=[], wrongTap=[];
   for(const it of seats){ const s=it.seat, ap=seatApproach(s,{x:sp.x,z:sp.z}); if(!ap){ noAp.push([s.x,s.z]); continue; }
     if(!walk([sp.x,sp.z],ap)) noWalk.push([s.x,s.z,ap.map(r2)]);
@@ -50,12 +50,12 @@ const nearAt=(x,zz,tp)=>{ E.player.obj.position.set(x,0,zz); E.player.tapPref=tp
   check('1 站在那一點（推搖桿走過去，沒有 tapPref）最近的互動就是這一張「坐下吃」——修改前：(0.92,2.3)「看炸物櫃」、(0.92,1.2)「看菜單」、(0.92,0)「看廚房」',!wrong.length,J(wrong));
   check('1 點椅子走過去的（tapPref）也是這一張',!wrongTap.length,J(wrongTap));
   const W=seats.find(q=>q.seat.x===0.92&&q.seat.z===2.3);
-  check('1 BB 點名的那一張 (0.92, 2.3)：站在椅子旁邊 (0.37, 2.3)、(0.45, 2.2)、椅子後面 (0.9, 1.9) 都是「坐下吃」',!!W&&[[0.37,2.3],[0.45,2.2],[0.9,1.9]].every(p=>E.canStand(p[0],p[1],0.3,0)&&nearAt(p[0],p[1],null)===W),J([[0.37,2.3],[0.45,2.2],[0.9,1.9]].map(p=>(nearAt(p[0],p[1],null)||{}).label))); }
+  check('1 BB 點名的那一張 (0.92, 2.3)：11-12 BB 裁定（BB_255 245f1e5174）從座位拿掉——不在座位清單裡（修改前：在、點了走不過去）',!seatAt(0.92,2.3)); }
 /* 1b 點椅子旁邊的地板走過去（tapPref＝點的那一點，不是椅子）：雲端瀏覽器照 CC 的 sit_all 跑到的兩個落點 */
 { const seatAt=(x,zz)=>seats.find(q=>q.seat.x===x&&q.seat.z===zz), K=others.find(q=>q.kind==='kitchen'), C=others.find(q=>q.kind==='case');
   const a=nearAt(0.534,-0.217,{x:0.534,z:-0.217}), b=nearAt(0.423,2.181,{x:0.423,z:2.181});
   check('1b 點 (0.92, 0) 旁邊的地板 (0.53, −0.22) 走到那裡：按鈕是那張「坐下吃」——修改前：「看廚房」（點的那一點離「看」0.43 m、離椅子 0.45 m；engine3d.js 比「離點的位置多近」時沒算讓位）',a===seatAt(0.92,0),a&&a.label);
-  check('1b 點 (0.92, 2.3) 旁邊的地板 (0.42, 2.18) 走到那裡：按鈕是那張「坐下吃」——修改前：「看炸物櫃」',b===seatAt(0.92,2.3),b&&b.label);
+  check('1b 點 (0.92, 2.3) 旁邊的地板 (0.42, 2.18) 走到那裡：不會出現那張的「坐下吃」（已拿掉）',!b||b.label!=='坐下吃'||(Math.abs(b.x-0.92)>0.01||Math.abs(b.z-2.3)>0.01),b&&b.label);
   check('1b 點在「看廚房」「看炸物櫃」那一點上走過去：還是「看…」',nearAt(0.2,-0.5,{x:0.2,z:-0.5})===K&&nearAt(0.22,2.5,{x:0.2,z:2.5})===C,J([(nearAt(0.2,-0.5,{x:0.2,z:-0.5})||{}).label,(nearAt(0.22,2.5,{x:0.2,z:2.5})||{}).label]));
   check('1b engine3d.js：比離點的位置時只把負的 prio 算進來（正的照舊：店門 prio 1 不會搶走旁邊的椅子）',/dtp=dt-Math\.min\(0,it\.prio\|\|0\)/.test(rd('src/engine3d.js'))); }
 /* 2 其他互動點都還按得到 */

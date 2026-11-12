@@ -80,7 +80,7 @@ if(R){ const z=R.z, its=R.its;
   check(`1 區域建得起來、尺寸照配置 ${L.w}×${L.d}×${L.h}、名字「洋洋鹹酥雞」、SHOP_IN.gg`,z.bounds.w===L.w&&z.bounds.d===L.d&&Z3.ZONES.yangyang.name==='洋洋鹹酥雞'&&z.gg==='yangyang'&&IN.gg===true,J(z.bounds));
   const man=ASSETS.manifest['bldg.yangyang_interior']; check('1 正式模型登錄 bldg.yangyang_interior＝配置的 glb（檔案在、building、v1c＋LAWWW2-B 11-07 光照＋窗景卡 3,690,084 B）',!!man&&man.url===L.glb&&fs.existsSync(path.join(ROOT,L.glb))&&man.type==='building'&&fs.statSync(path.join(ROOT,L.glb)).size===3690084,J(man&&man.url));
   const onSeat=b=>L.seats.some(s=>Math.abs(b[0]-s.x)<0.05&&Math.abs(b[1]-s.z)<0.05), BL=L.blocks.filter(b=>!onSeat(b)), blk=BL.filter(b=>E.canStand(b[0],b[1],0.05,0));
-  check(`1 配置的導航阻擋 ${BL.length} 個都擋住（中心站不住；椅子本身不擋）`,BL.length===12&&!blk.length,BL.length+' '+J(blk));
+  check(`1 配置的導航阻擋 ${BL.length} 個都擋住（中心站不住；椅子本身不擋）`,BL.length===13&&!blk.length,BL.length+' '+J(blk));
   const sp=z.spawn, isl=islands([sp.x,sp.z],-L.w/2,L.w/2,-L.d/2,L.d/2);
   check('1 沒有走進去出不來的小孤島（0.1 m 取樣、半徑 0.32）',isl.lost===0&&isl.tot>2000,'站得住 '+isl.tot+' 點、連不到 '+isl.lost+' 點 '+J(isl.pts));
   const ex=its.find(q=>q.exit&&q.exit.to==='gongguan');
@@ -90,9 +90,9 @@ if(R){ const z=R.z, its=R.its;
   if(ex){ const tp=touchable(ex,[sp.x,sp.z]); check('3 出口按得到、從進門的地方走得到',!!tp,J(tp));
     const out=ex.exit.spawn; check(`3 出來回公館 (${out.x}, ${out.z}) 站得住、不在公館任何出口的範圍（＋0.2 m）裡、就在店門前`,gNav.clear(out.x,out.z,0.3)&&!inExit(gIts,out,0.2).length&&Math.abs(out.x+10.6)<0.02&&ex.exit.to==='gongguan',J([out,inExit(gIts,out,0.2)])); }
   const seats=its.filter(q=>q.seat), npc=(z.seats||[]).filter(q=>q.npcOnly).map(q=>[q.x,q.z]);
-  check('4 座位 22 張（照配置：四人桌 4、兩人桌 3）；四人桌四南側兩張（−3.18／−2.62, −4.9）只給路人坐、不出「坐下」',z.seats.length===22&&L.seats.length===22&&seats.length===20&&J(npc)===J([[-3.18,-4.9],[-2.62,-4.9]]),seats.length+'／'+z.seats.length+' '+J(npc));
+  check('4 座位 21 張（照配置：四人桌 4、兩人桌 3；(0.92, 2.3) 11-12 BB 裁定拿掉）；四人桌四南側兩張（−3.18／−2.62, −4.9）只給路人坐、不出「坐下」',z.seats.length===21&&L.seats.length===21&&seats.length===19&&J(npc)===J([[-3.18,-4.9],[-2.62,-4.9]]),seats.length+'／'+z.seats.length+' '+J(npc));
   const bad=[]; for(const it of seats){ if(!touchable(it,[sp.x,sp.z])) bad.push([it.seat.x,it.seat.z]); }
-  check('4 玩家坐得到的 20 張每一張都按得到、從進門的地方走得到',!bad.length,J(bad));
+  check('4 玩家坐得到的 19 張每一張都按得到、從進門的地方走得到',!bad.length,J(bad));
   /* 坐下前走到的點（game3d.js seatApproach 的八個候選：前 0.5、後 0.6、兩側 0.55、後 0.7／0.75、前 0.8、後 0.9）：至少一個站得住（半徑 0.3）、在「坐下」的範圍裡、從進門的地方找得到路
      （DAYBREAK-SEAT-AP-1105：八個都站不住＝走到站不住的備用點）*/
   const noAp=[]; for(const it of seats){ const s=it.seat, fx=Math.sin(s.yaw||0), fz=Math.cos(s.yaw||0), reach=(it.radius||1.8)-0.05;
@@ -109,7 +109,7 @@ if(R){ const z=R.z, its=R.its;
   const lay=k=>L.interact.find(q=>q.kind===k), ord=gi.find(q=>q.kind==='order'), fr=gi.find(q=>q.kind==='fridge'), sf=gi.find(q=>q.kind==='self');
   check('5 點炸物、看菜單、冷飲櫃、自助區的位置照配置（店內炸物櫃前、冷飲櫃前、右牆自助區）',!!ord&&ord.x===lay('order').x&&ord.z===lay('order').z&&!!fr&&fr.x===lay('drink').x&&fr.z===lay('drink').z&&!!sf&&sf.x===lay('selfserve').x&&sf.z===lay('selfserve').z);
   for(const [k,c] of [['clerk',IN.clerk],['clerk2',IN.clerk2]]) check(`6 ${k==='clerk'?'老闆':'第二個店員'}站的地方（SHOP_IN.${k} ${J(c)}＝配置）在店裡、櫃台後面（站不住）`,!!c&&c.x===L[k].x&&c.z===L[k].z&&Math.abs(c.x)<L.w/2&&Math.abs(c.z)<L.d/2&&!E.canStand(c.x,c.z,0.3,0));
-  const def=CROWD.SHOP_ZONES.yangyang; check('6 路人（CROWD）坐配置的 22 個座位（吃飯的店；時段照宵夜 snack）',!!def&&def.kind==='meal'&&[].concat(...def.units.map(u=>u.seats||[])).length===22&&def.units.every(u=>u.sk==='snack')&&!!CROWD.SHOP_KIND.snack,J(def&&[def.kind,def.units.length]));
+  const def=CROWD.SHOP_ZONES.yangyang; check('6 路人（CROWD）坐配置的 21 個座位（吃飯的店；時段照宵夜 snack）',!!def&&def.kind==='meal'&&[].concat(...def.units.map(u=>u.seats||[])).length===21&&def.units.every(u=>u.sk==='snack')&&!!CROWD.SHOP_KIND.snack,J(def&&[def.kind,def.units.length]));
   if(def){ const wins=CROWD.shopWindows(def,{day:30,hour:19}); check('6 路人只在營業時間（17:00 起；跨午夜那一段只排到 24:00）',J(wins)===J([[17,24]]),J(wins)); }
 }
 // ---- 6 其他接線 ----
@@ -216,10 +216,10 @@ const run=async()=>{
     check('8 看的東西五種（AA_724 第 5 節的 id）：case 2、menu 2、self 2、fridge 1、kitchen 1',J(Object.keys(Y.look).sort())===J(['case','fridge','kitchen','menu','self'])&&J(['case','menu','self','fridge','kitchen'].map(k=>Y.look[k].length))===J([2,2,2,1,1]));
     for(const k of ['fridge','kitchen','menu','self']){ H.said=[]; await GG2.interact(GM,{gg2:'yangyang',kind:k}); check(`8 按「${k}」：說稿上那一句（旁白）`,H.said.length===1&&Y.look[k].includes(H.said[0].t)&&H.said[0].who===null,J(said())); }
     const c={}; for(const s of YANGYANG_LAYOUT.shop.seats){ const t=GG2.seatKind('yangyang',s)||'none'; c[t]=(c[t]|0)+1; }
-    check('8 坐下句照位子：四人桌 16、兩人桌 6',J(c)===J({four:16,two:6}),J(c));
-    H.G.zone='yangyang'; H.said=[]; await STORY.onSeat(GM,{x:0.92,z:2.3,yaw:0}); check('8 在四人桌坐下（STORY.onSeat）：四人桌那一句',J(said())===J([Y.seat.four]),J(said()));
+    check('8 坐下句照位子：四人桌 15、兩人桌 6（(0.92, 2.3) 11-12 拿掉）',J(c)===J({four:15,two:6}),J(c));
+    H.G.zone='yangyang'; H.said=[]; await STORY.onSeat(GM,{x:0.92,z:1.2,yaw:0}); check('8 在四人桌坐下（STORY.onSeat）：四人桌那一句',J(said())===J([Y.seat.four]),J(said()));
     H.said=[]; await STORY.onSeat(GM,{x:3.5,z:-1.15,yaw:0}); check('8 在兩人桌坐下：兩人桌那一句',J(said())===J([Y.seat.two]),J(said()));
-    H.G.zone='afar'; H.said=[]; await STORY.onSeat(GM,{x:0.92,z:2.3,yaw:0}); check('8 別的店坐下：不說洋洋的句子',!H.has(Y.seat.four)&&!H.has(Y.seat.two)); }
+    H.G.zone='afar'; H.said=[]; await STORY.onSeat(GM,{x:0.92,z:1.2,yaw:0}); check('8 別的店坐下：不說洋洋的句子',!H.has(Y.seat.four)&&!H.has(Y.seat.two)); }
   // ---- 9 約會地點 ----
   { const G=fresh('2025-10-15',12,'campus'), P=INV.place('yangyang'), DB=INV.place('daybreak'), d=G.day;
     check('9 約會地點 yangyang（吃飯那一類、有點熟以上、去洋洋鹹酥雞）',!!P&&P.zone==='yangyang'&&P.kind==='meal'&&P.minStage==='FAMILIAR'&&J(INV.catsOf(P))===J(['meal'])&&P.name==='洋洋鹹酥雞',J(P&&[P.kind,P.minStage,INV.catsOf(P)]));
