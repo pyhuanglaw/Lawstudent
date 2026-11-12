@@ -8948,9 +8948,9 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "be6f913538",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "state": "已交付",
    "noDirectIntegrate": false,
    "task": "SHOP-STANDARD-BACKFILL-1112",
@@ -8961,6 +8961,22 @@
    ],
    "remaining": "瀏覽器沒拍；洗衣店、鮮果、2:30 AM 沒處理",
    "next": "LAWWW-C 套 patch；CC 拍溫州街 23:30"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "title": "打烊鐵捲門加捲箱、底條、兩邊軌道（不再是一片平的）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_closed_sign_1112/shutter_depth_v1.patch",
+    "docs/art-rebuild/second_ai/wip/gg_closed_sign_1112/README.md"
+   ],
+   "remaining": "畫面沒看過",
+   "next": "LAWWW-C 套 patch；CC 拍打烊的店近照"
   }
  ]
 }
