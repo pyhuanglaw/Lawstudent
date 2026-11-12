@@ -1,0 +1,12 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_storefront_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SUNNY_DOOR_front\out
+CC 店門口：worktree ?；wenzhou 14.0；TAG sunny_door；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2025-10-18 14.0（條件事件、手機關）
+PASS wz_brunch 街上找得到進店的門
+  [前置／捷徑] wz_brunch 【捷徑】祐廷放到門前 3 m 等 3 秒；室內 {"on": true, "built": true, "shutter": false}
+PASS [黑畫面] door_wz_brunch_sunny_door 不是黑畫面（平均亮度 114.1、變化 59.4）  [114.1, 59.4]
+  [  66.4s] [截圖] door_wz_brunch_sunny_door：鏡頭 {"eye": [45, 1.6, -0.1], "look": [45, 1.6, -4.6], "lens": 18, "vfov": 58.72}、亮度 [114.1, 59.4]
+  [  66.4s] wz_brunch 正對門：門 (45, -4.6)「進去 SUNNY SIDE」朝外 [0, 1]（shopReal.ry）、鏡頭 [45, 1.6, -0.1]（站得住=True）
+PASS 沒有 JS 例外  []
+ALL PASS

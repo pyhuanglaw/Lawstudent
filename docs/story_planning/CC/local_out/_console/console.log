@@ -1174,3 +1174,11 @@
 [20:44:23] [res] cpu=3% mem=48% (15.1/31.4 GB) chrome_testing=8  START FN_LOOKS_r2
 [20:47:49] 正在跑：WZ_REAL_consist_72fc（已跑 10 分／上限 40 分）、LUWEI_f3e1（已跑 8 分／上限 35 分）、FN_LOOKS_r2（已跑 3 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:47:52] [res] cpu=2% mem=45% (14.2/31.4 GB) chrome_testing=9  END LUWEI_f3e1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       378af37871..e524ce732d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:48:04] ==== END   LUWEI_f3e1  exit=1  487s   ====
+[20:48:15] memory 45% before starting SUNNY_DOOR_front (2 running)
+[20:48:15] ==== START SUNNY_DOOR_front  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
+[20:48:18] [res] cpu=2% mem=45% (14.4/31.4 GB) chrome_testing=9  START SUNNY_DOOR_front
+[20:50:00] [res] cpu=0% mem=46% (14.6/31.4 GB) chrome_testing=9  END SUNNY_DOOR_front
