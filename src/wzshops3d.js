@@ -167,7 +167,7 @@ const WZS=(()=>{
     const last=E_.rec?(E_.rec(G).last[D.key]||null):null; return typeof D.known==='function'?D.known(G,last):D.known; };
   /* 溫州街騎樓的按鈕（zones3d.js 建溫州街時加）：茶飲「買一杯飲料」；冰菓室 5～9 月「買一碗冰」、10～4 月「看夏日冰菓室」（hidden 照現在的遊戲月份）。
      「看」和溫州街其他「看櫥窗」一樣是 look（game3d.js 的字幕；騎著腳踏車不用下車）*/
-  S.windowItems=function(){ const W=S.WINDOW, ice=()=>{ const G=typeof GAME!=='undefined'&&GAME.G; return !G||S.inSeason('ice',G); };
+  S.windowItems=function(){ const W=S.WINDOW, ice=()=>{ const G=typeof GAME!=='undefined'&&GAME.G; return !G||(S.inSeason('ice',G)&&S.isOpen364('ice',G)); };   /* 公休、打烊＝「看夏日冰菓室」（鐵捲門那一句），營業中＝「買一碗冰」*/
     return [{x:W.tea.x,z:W.tea.z,radius:1.4,label:'買一杯飲料',wzShop:'tea',kind:'window'},
       {x:W.ice.x,z:W.ice.z,radius:1.4,label:'買一碗冰',wzShop:'ice',kind:'window',get hidden(){ return !ice(); }},
       {x:W.ice.shutter.x,z:W.ice.shutter.z,radius:1.4,label:'看夏日冰菓室',look:S.AA364.ice.shutter,get hidden(){ return ice(); }},
