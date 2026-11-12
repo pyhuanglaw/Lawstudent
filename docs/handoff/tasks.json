@@ -54850,7 +54850,7 @@
    "id": "RULES-SYNC-1112",
    "title": "P0 規則包同步（D157）：每條分支啟動時載入的 CLAUDE.md、hook 要和 RULE_SOURCE 一樣；rules_sync.py＋hook＋duty register 擋（X362）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -54863,7 +54863,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】LAWWW2、AA、BB 分支的規則包已經和 RULE_SOURCE 一樣（舊紀錄「LAWWW2 被擋」過時）；CC 分支差一個 commit（0819f69b9f），請 CC 再跑一次；企劃線還是舊的｜【LAWWW-C 11-12 06:0x】CC（05c0f2374d）、BB（b7c066af5）、AA（e12df9acb→3b0e9242d）已同步，git 比對過 CC；LAWWW2 的工作階段跑 --apply 被權限檢查擋下（理由「自我修改」：換 CLAUDE.md 和 hook），什麼都沒改——不繞過，已告訴使用者請他決定（在 LAWWW2 的視窗允許那個指令）；在那之前 LAWWW2 用 git show 讀 RULE_SOURCE。hook 要各工作階段重開或開 /hooks 才生效（要使用者動手）｜11-12 查到 AA、BB、LAWWW2、CC 四條分支的 CLAUDE.md 都是舊版、完全沒有 hook。工具已寫（tools/handoff/rules_sync.py --check／--apply／--hook）；已通知四個職位當回合 --apply＋commit＋push；LAWWW 收到四個 ACK 後用 git 比對四條分支的 CLAUDE.md 和 RULE_SOURCE 一樣才算完成；之後每次改規則當回合通知",
+   "next": "【LAWWW-C 11-12 19:2x UTC】完成：git 比對 CLAUDE.md、docs/rules、.claude/settings.json、rules_sync／user_ask_reminder／idle_guard 六樣，cc-testing、focused-cray（LAWWW2）、magical-albattani（AA）、wonderful-mayer（BB）四條和 RULE_SOURCE @209b33be09 完全一樣。企劃線 claude/story-planning 還是舊的（差 10 檔）：這一班沒有職位在那條寫；下一個在那條寫的工作階段啟動時 hook 會提醒、duty register 會擋，照 CLAUDE.md 開頭跑 rules_sync --apply。｜【LAWWW-C 11-12 08:4x 稽核（對線上版 dc3d33941 與開發分支逐項查）】LAWWW2、AA、BB 分支的規則包已經和 RULE_SOURCE 一樣（舊紀錄「LAWWW2 被擋」過時）；CC 分支差一個 commit（0819f69b9f），請 CC 再跑一次；企劃線還是舊的｜【LAWWW-C 11-12 06:0x】CC（05c0f2374d）、BB（b7c066af5）、AA（e12df9acb→3b0e9242d）已同步，git 比對過 CC；LAWWW2 的工作階段跑 --apply 被權限檢查擋下（理由「自我修改」：換 CLAUDE.md 和 hook），什麼都沒改——不繞過，已告訴使用者請他決定（在 LAWWW2 的視窗允許那個指令）；在那之前 LAWWW2 用 git show 讀 RULE_SOURCE。hook 要各工作階段重開或開 /hooks 才生效（要使用者動手）｜11-12 查到 AA、BB、LAWWW2、CC 四條分支的 CLAUDE.md 都是舊版、完全沒有 hook。工具已寫（tools/handoff/rules_sync.py --check／--apply／--hook）；已通知四個職位當回合 --apply＋commit＋push；LAWWW 收到四個 ACK 後用 git 比對四條分支的 CLAUDE.md 和 RULE_SOURCE 一樣才算完成；之後每次改規則當回合通知",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -54872,7 +54872,8 @@
     "ack": "SENT"
    },
    "source": "使用者 11-12 對 LAWWW-C",
-   "authorized": "使用者直接要求"
+   "authorized": "使用者直接要求",
+   "evidence": "git diff --stat origin/claude/adoring-meitner-mqzst8 origin/claude/{cc-testing,focused-cray-c9uwvw,magical-albattani-bk7b4n,wonderful-mayer-7fm9g6} -- CLAUDE.md docs/rules .claude/settings.json tools/handoff/{rules_sync,user_ask_reminder,idle_guard}.py ＝ 空（LAWWW-C 11-12 19:2x UTC）"
   },
   {
    "id": "BAR-GROUP-3D-1112",
