@@ -6767,6 +6767,78 @@
    "next": "X324 最後一塊：閒聊階梯 694 個選項 fx；手機回覆本來就有 rel／npcRom 不另加；交往中一階記 backlog｜11-12 補：帳號 A 最後對話＝已匯進開發分支、694 個全對上，等 BB 抽測",
    "sha": "7732e123e",
    "state": "已整合"
+  },
+  {
+   "task": "DLG-FULL-REVIEW-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "5701f3313",
+   "files": [
+    "docs/story_planning/AA_818_kx_events_ellipsis.json",
+    "docs/story_planning/AA_819_kx_triple_short.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T04:0x",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "LAWWW apply_line_rows（AA_818 70 列）、重匯 date_lines／ladder（AA_819）；Y0S1／Y0S2 兩句 LAWWW 定怎麼收；BB_375 第三節排 CC 測"
+  },
+  {
+   "task": "FLOWER-CLASS-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "58c5c2c1b",
+   "files": [
+    "docs/story_planning/AA_820_flower_class.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T04:0x",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 做機制＋接稿（BB_376 第二意見已採納）"
+  },
+  {
+   "task": "SEASON3-LINES-1111",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "58c5c2c1b",
+   "files": [
+    "docs/story_planning/AA_793_season3_stalls.json"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T04:0x",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "LAWWW 照 _meta.lawww_1112 五點改"
+  },
+  {
+   "task": "NOODLE-NAME-PURGE-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "23e13d523",
+   "files": [
+    "docs/story_planning/（AA 的檔 225 個）"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T04:0x",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false,
+   "next": "BB grep 驗；LAWWW 重匯匯入源稿"
+  },
+  {
+   "task": "TINGZHOU-AREA-1110",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "",
+   "files": [
+    "docs/story_planning/AA_821_tz_yuehaochi.json"
+   ],
+   "state": "WIP",
+   "at": "2026-11-12T04:1x",
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "noDirectIntegrate": true,
+   "remaining": "等 BB 第二意見；其他四間等 LAWWW2 互動點清單",
+   "next": "BB 看完定稿給 LAWWW SHA"
   }
  ],
  "items": [
