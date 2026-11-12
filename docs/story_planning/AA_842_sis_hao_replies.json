@@ -2,8 +2,8 @@
  "_meta": {
   "doc": "AA_842 學姊第四批（DLG-FULL-REVIEW-1110）：約會選項回話用「好。／好，」開頭 98/252 句（玩家提什麼她都先說好＝模板；七人裡以安 29 最少、語彤 103 最多）。改 81 句、留 17 句。做法：她答應的時候直接講她要怎麼做，不先說「好」；重複的（一起看不懂、各付各的最清楚、坐你旁邊）各留一處。依 AA_566。",
   "by": "AA-C 2026-11-12",
-  "status": "待 BB 第二意見（D153）；**還沒改 date_system/lines 源稿**（LAWWW 在匯 AA_837／838，匯完才套用）",
-  "kept": "D01.lawn、D03.demo（跳）、D07.path、D08.penguin、D08.giraffe、D10.bridge、D12.street、D13.drink、D13.bench（看河）、D14.bridge、D19.shrine（我拉妳）、D21.street、D23.seawall、D24.street、D26.museum、D27.rail（坐上去看看）、D28.sunset（坐下來）"
+  "status": "定稿（BB_389 聽過：D13.rail、D31.pier、D29.rail 改；D12.sunset 留「好啊。」）；80 列；**源稿還沒套用**，等 LAWWW 匯完 AA_837／838 再套",
+  "kept": "D01.lawn、D03.demo（跳）、D07.path、D08.penguin、D08.giraffe、D10.bridge、D12.street、D13.drink、D13.bench（看河）、D14.bridge、D19.shrine（我拉妳）、D21.street、D23.seawall、D24.street、D26.museum、D27.rail（坐上去看看）、D28.sunset（坐下來）、D12.sunset"
  },
  "rows": [
   {
@@ -191,20 +191,12 @@
    "new": "十分鐘。"
   },
   {
-   "file": "date_system/lines/D12.json",
-   "who": "heroine_05",
-   "point": "D12.sunset",
-   "option": "「以後常來。」",
-   "old": "好啊。我說好，可是不一定做得到。",
-   "new": "我說好，可是不一定做得到。"
-  },
-  {
    "file": "date_system/lines/D13.json",
    "who": "heroine_05",
    "point": "D13.rail",
    "option": "「下次坐船過去？」",
    "old": "好啊，下次。",
-   "new": "坐船要多久？我會暈。"
+   "new": "坐船要多久？二十分鐘以內可以。"
   },
   {
    "file": "date_system/lines/D13.json",
@@ -548,7 +540,7 @@
    "point": "D29.rail",
    "option": "「坐在草地上。」",
    "old": "好。草是乾的。",
-   "new": "草是乾的。我檢查過了。"
+   "new": "草是乾的。坐吧。"
   },
   {
    "file": "date_system/lines/D30.json",
@@ -612,7 +604,7 @@
    "point": "D31.pier",
    "option": "「坐船吧。」",
    "old": "好。我坐中間。比較不晃。",
-   "new": "我坐中間，比較不晃。"
+   "new": "我坐中間。你坐靠水那邊。"
   },
   {
    "file": "date_system/lines/D31.json",
