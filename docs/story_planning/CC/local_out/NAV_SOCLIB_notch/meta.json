@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "NAV_SOCLIB_notch",
+  "sha": "dec3622d75d7fcc98143c5e7f960872ae41cfef0",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_route_probe.py",
+  "env": "TAG=nav_soclib;ZONE=soclib;HOUR=14;ROUTE=walk:10.2,-7.0+burst:in+exit:;SHA=dec3622d75d7fcc98143c5e7f960872ae41cfef0",
+  "machine": "MSI",
+  "start": "2026-11-12T23:36:51",
+  "end": "2026-11-12T23:41:58",
+  "seconds": 307,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 27,
+    "mem": 54,
+    "used_gb": 17.1,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
