@@ -1256,3 +1256,12 @@
 [20:59:25] ==== START WZ_REAL_f3e1  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
 [20:59:28] [res] cpu=9% mem=49% (15.3/31.4 GB) chrome_testing=9  START WZ_REAL_f3e1
 [21:00:18] [res] cpu=18% mem=45% (14.2/31.4 GB) chrome_testing=9  END LIN_REAL
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a662fe785c..66a454f11a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:00:27] ==== END   LIN_REAL  exit=1  542s   ====
+[21:00:30] memory 46% before starting WZ_REAL_consist_f3e1 (2 running)
+[21:00:30] ==== START WZ_REAL_consist_f3e1  (probe @ 9aaa31edb9e6cfed31271cce28ec7041d37b0306) ====
+[21:00:33] [res] cpu=16% mem=46% (14.7/31.4 GB) chrome_testing=9  START WZ_REAL_consist_f3e1
+[21:02:49] 正在跑：US_CART（已跑 4 分／上限 30 分）、WZ_REAL_f3e1（已跑 3 分／上限 25 分）、WZ_REAL_consist_f3e1（已跑 2 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:04:50] [res] cpu=4% mem=45% (14.2/31.4 GB) chrome_testing=9  END WZ_REAL_f3e1
