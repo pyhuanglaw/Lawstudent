@@ -13,7 +13,7 @@
   ⑦ 做得到：點餐／買一樣（選單照字選第一個能點的、再「點好了」；錢有扣或說了話）、坐下（第一張位子，D.sit_all）、走到「離開…」按了換區域；主控台 console.error＋pageerror 0。
   每間每個時間一張拼圖 gate_<區域>_<時間>.jpg（標★的是機器判 FAIL／UNKNOWN 的項目）＋ gate.json。
 【前置／捷徑】load_zone 讀檔進店（區域出生點）／門外（出口的 spawn）；5 秒連拍的轉鏡頭直接設 E.cam.yaw（只為了看閃）。Windows＋GPU（Playwright 有視窗）≠ iPhone。
-CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
+CC_02 清單 2026-11-12：1✓（營業時間：讀檔進不去＝記「沒開」跳過，不判） 2✓（房間、門、櫃檯、窗網格全從遊戲當下讀） 3✓（點餐選單照順序試第一個能點的；位子取第一張） 4✓（選單照字、按互動鍵前看字） 5✓（go_to 分段、到了看互動鍵） 6✓（等 ASSETS 載完再拍） 7✓ 8✓（門檻：80%／30%／0.5% 是規則原文或 CC 訂的參考值；天花板以往上拍天空≥30% 為準（bd86 東南大聯校正）；窗改「最大那塊和中間色差 ≤16 的比例」、店外改射線深度、閃改看連拍（PC GATE_CAL 1cd2／bd86／2771 兩輪校正，探針錯誤記 CC_02 乙8）；視差、閃的門檻先在有問題的版本校正，判不出來＝UNKNOWN） 9✓（拍照鏡頭先跑 fadeWalls；進門、櫃檯照不藏玩家；②窗、⑤店外藏玩家與路人） 10✓ 11✓ 12✓（每項記證據數字；⑥連拍圈翻動格子＋藏人再拍、①b 近照（BB-C 07:19）；⑦b 店外窗內 vs 進門全景 牆／地板平均色（使用者 06:4x）；⑤射線只略過玻璃／半透明、記打到的網格名字（X352 r1 修）、判法改門面後深度分散（X352 r2）；⑦b 店外窗框只取門口 4.5 m 內、投影不到用固定框（X352_CON r1）；⑦b 進門那張藏人、牆框下移、改 Lab Δab，⑤ 射線只打櫥窗那一塊（XS_REAL r1）；窗範圍改用射線找玻璃（南洋 r1）、有 Z3.shopWindowRects 用店自己的櫥窗四角（LAWWW-C 08:23）；⑤加店外連拍 outside_burst（只記）；①b 店員站進家具、客人臉對牆＝BB-C 05:26 ③） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONES=tz_taimi,… [HOURS=14,20.5] [PARTS=1,2,3,4,5,6,7] [PAR_LO=0.05 PAR_HI=0.15 WIN_LO=40 WIN_HI=55 BURST_FAIL=3] python3 cc_place_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -123,6 +123,12 @@ GLASSRECT_JS = r"""(a=>{ const E=GAME.E, c=E.renderer.domElement; const cam=new 
   if(xs.length<12) return {n:xs.length};
   const q=(A,p)=>{ const s=A.slice().sort((x,y)=>x-y); return s[Math.min(s.length-1,Math.max(0,Math.floor(s.length*p)))]; };
   return {n:xs.length, rect:[+q(xs,0.05).toFixed(3), +q(ys,0.05).toFixed(3), +q(xs,0.95).toFixed(3), +q(ys,0.95).toFixed(3)]}; })"""
+WINRECT_JS = r"""(a=>{ if(typeof Z3==='undefined'||!Z3.shopWindowRects) return {why:'沒有 Z3.shopWindowRects'}; let L=null; try{ L=Z3.shopWindowRects(GAME.E.zone); }catch(e){ return {why:String(e).slice(0,80)}; }
+  const w=(L||[]).find(q=>q&&(q.place===a.zid||q.id===a.zid)); if(!w) return {why:'這一區沒有這間店的櫥窗資料', n:(L||[]).length};
+  const c=GAME.E.renderer.domElement, cam=new THREE.PerspectiveCamera(60, c.width/c.height, 0.05, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true); cam.updateProjectionMatrix();
+  const pts=w.corners.map(p=>{ const v=new THREE.Vector3(p[0],p[1],p[2]).project(cam); return [(v.x+1)/2,(1-v.y)/2,v.z]; }).filter(p=>p[2]<1&&p[2]>-1);
+  if(pts.length<3) return {why:'櫥窗四角不在畫面裡', w};
+  const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]); return {rect:[Math.max(0,Math.min(...xs)),Math.max(0,Math.min(...ys)),Math.min(1,Math.max(...xs)),Math.min(1,Math.max(...ys))].map(v=>+v.toFixed(3)), id:w.id, place:w.place}; })"""
 MEANS_JS = r"""(async a=>{ const im=await new Promise(res=>{ const q=new Image(); q.onload=()=>res(q); q.src=a.u; }); const W=240, H=Math.round(240*im.height/im.width);
   const k=document.createElement('canvas'); k.width=W; k.height=H; const g=k.getContext('2d'); g.drawImage(im,0,0,W,H); const d=g.getImageData(0,0,W,H).data; const out={};
   for(const n in a.regs){ const [x0,y0,x1,y1]=a.regs[n]; let r=0,gg=0,b=0,c=0; for(let y=Math.max(0,Math.floor(y0*H));y<Math.min(H,Math.ceil(y1*H));y++) for(let x=Math.max(0,Math.floor(x0*W));x<Math.min(W,Math.ceil(x1*W));x++){ const o=(y*W+x)*4; r+=d[o]; gg+=d[o+1]; b+=d[o+2]; c++; }
@@ -305,7 +311,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         # 窗的範圍：從店外鏡頭打 48×27 條，第一個打到玻璃（名字 glass／玻璃或半透明）的格子＝窗；整條街的玻璃合成一塊網格時 bbox 投影不準（南洋 r1 地板框落到騎樓）
         _gr = await pg.evaluate(GLASSRECT_JS, {'from': list(base), 'at': list(tgt)})
         _rr = [r for r in (s4.get('rects') or []) if (r[2] - r[0]) * (r[3] - r[1]) < 0.6]
-        _win = (_gr['rect'] + ['raycast_glass']) if _gr.get('rect') else (max(_rr, key=lambda r: (r[2] - r[0]) * (r[3] - r[1])) if _rr else [0.2, 0.33, 0.78, 0.8, 'fixed'])
+        _wr = await pg.evaluate(WINRECT_JS, {'from': list(base), 'at': list(tgt), 'zid': zid}); row['m']['win_rect_data'] = _wr
+        # 有 Z3.shopWindowRects（PLACE-GATE-WINDOW-RECT-1112，LAWWW-C 08:23）＝用這間店自己的櫥窗四角投影，不會混到隔壁；沒有才用射線找玻璃
+        _win = (_wr['rect'] + ['shopWindowRects']) if _wr.get('rect') else (_gr['rect'] + ['raycast_glass']) if _gr.get('rect') else (max(_rr, key=lambda r: (r[2] - r[0]) * (r[3] - r[1])) if _rr else [0.2, 0.33, 0.78, 0.8, 'fixed'])
         row['m']['glass_rect'] = _gr
         rays = await pg.evaluate(DEPTH_JS, {'from': list(base), 'at': list(tgt), 'rect': [max(0, _win[0]), max(0, _win[1]), min(1, _win[2]), min(1, _win[3])]})
         # BB-C 06:26（X352 SHOP-WINDOW-3D）：店外也連拍——遊戲鏡頭在門外，邊轉 5 秒（同 BURST_JS），看櫥窗裡有沒有閃
