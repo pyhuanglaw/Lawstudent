@@ -11,7 +11,7 @@
   另外記遊戲自己的 dt（GAME.E.lastDt／E.dt 有就記）、JS 長任務（PerformanceObserver longtask，有就記）。
 輸出：stutter_<TAG>.json（每段每幀原始資料）＋run.log 總表。判定只有「探針有跑完、量到東西」；數字給 LAWWW 判。
 （第二輪 LAWWW-C 04:42：VIEW／DSF／HOUR；跑步前後記 E.q、renderer 像素比、畫布、render.calls／triangles、programs；每幀記畫質有沒有變；跑不遠就記停的位置和附近 collider）
-CC_02 清單 2026-11-12：1✓ 2✓（第五輪加 WINPOS、renderer.render 間隔、螢幕資訊；r2 加 NO_VIEWPORT、headless 判斷、閒置 rAF 間隔；第四輪加 EXTRA_ARGS／CHANNEL：只改瀏覽器啟動，量法不變；座標：椰林大道從 zones3d.js 路面 x 0、z −242～−46；其他場景照出生點＋最長直線） 3n/a（BB 指定三個場景，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓（門檻 50 ms＝BB 04:23 給的） 9n/a（不截圖判畫面） 10✓ 11✓ 12✓（記「真的有在跑」：runHold、speed、位移） 13✓
+CC_02 清單 2026-11-12：1✓ 2✓（第五輪加 WINPOS、renderer.render 間隔、螢幕資訊；r2 加 NO_VIEWPORT、headless 判斷、閒置 rAF 間隔、GAME.frameInfo()；第四輪加 EXTRA_ARGS／CHANNEL：只改瀏覽器啟動，量法不變；座標：椰林大道從 zones3d.js 路面 x 0、z −242～−46；其他場景照出生點＋最長直線） 3n/a（BB 指定三個場景，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓（門檻 50 ms＝BB 04:23 給的） 9n/a（不截圖判畫面） 10✓ 11✓ 12✓（記「真的有在跑」：runHold、speed、位移） 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [ZONES=wenzhou,campus,gongguan] [RUN_S=10] [VIEW=2308x1064 DSF=1|1.25|1.5|2 HOUR=17.58] python3 cc_run_stutter_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, statistics
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -124,7 +124,7 @@ async def main():
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
         res['renderer'] = await pg.evaluate("(()=>{ try{ const g=GAME.E.renderer.getContext(); const x=g.getExtension('WEBGL_debug_renderer_info'); return x?g.getParameter(x.UNMASKED_RENDERER_WEBGL):g.getParameter(g.RENDERER); }catch(e){ return String(e); } })()")
         R.note('WebGL：%s' % res['renderer'])
-        res['screen'] = await pg.evaluate("(async()=>{ const t=[]; await new Promise(r=>{ let n=0, l=performance.now(); const f=x=>{ t.push(x-l); l=x; if(++n<121) requestAnimationFrame(f); else r(); }; requestAnimationFrame(f); }); t.shift(); t.sort((a,b)=>a-b);   return {screenX:window.screenX, screenY:window.screenY, sw:screen.width, sh:screen.height, availLeft:screen.availLeft, iw:innerWidth, ih:innerHeight, dpr:window.devicePixelRatio, headless:/Headless/.test(navigator.userAgent), ua:navigator.userAgent.slice(0,120), raf_idle_p50_ms:+t[t.length>>1].toFixed(2), fpsCap:(typeof GAME!=='undefined'&&GAME.fpsCap!=null)?GAME.fpsCap:null, url:location.search}; })()")
+        res['screen'] = await pg.evaluate("(async()=>{ const t=[]; await new Promise(r=>{ let n=0, l=performance.now(); const f=x=>{ t.push(x-l); l=x; if(++n<121) requestAnimationFrame(f); else r(); }; requestAnimationFrame(f); }); t.shift(); t.sort((a,b)=>a-b);   return {screenX:window.screenX, screenY:window.screenY, sw:screen.width, sh:screen.height, availLeft:screen.availLeft, iw:innerWidth, ih:innerHeight, dpr:window.devicePixelRatio, headless:/Headless/.test(navigator.userAgent), ua:navigator.userAgent.slice(0,120), raf_idle_p50_ms:+t[t.length>>1].toFixed(2), fpsCap:(typeof GAME!=='undefined'&&GAME.fpsCap!=null)?GAME.fpsCap:null, frameInfo:(typeof GAME!=='undefined'&&GAME.frameInfo)?GAME.frameInfo():null, url:location.search}; })()")
         R.note('視窗在螢幕上的位置、螢幕大小、dpr、遊戲的 fpsCap：%s' % J(res['screen']))
         for zid in ZONES:
             P = PLACE.get(zid, {'x': None, 'z': None, 'dir': None, 'name': zid}); tag = '[%s]' % P['name']
@@ -149,6 +149,8 @@ async def main():
             zres['info_before'] = await pg.evaluate(INFO_JS)
             zres['run'], raw_run = await seg(pg, cdp, tag, '② 跑步 %.0f 秒' % RUN_S, lambda: push(int(RUN_S * 1000)))
             zres['info_after'] = await pg.evaluate(INFO_JS)
+            zres['frameInfo_after'] = await pg.evaluate("(typeof GAME!=='undefined'&&GAME.frameInfo)?GAME.frameInfo():null")   # LAWWW-C 08:13：{cap,div,hz}，hz＝遊戲量到的螢幕更新率
+            R.note('%s 跑完 GAME.frameInfo() %s' % (tag, J(zres['frameInfo_after'])))
             chg = []; prev = None
             for fr in raw_run['f']:
                 key = tuple(fr[8:13]) if len(fr) > 12 else None
