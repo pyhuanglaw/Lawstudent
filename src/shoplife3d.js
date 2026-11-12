@@ -80,6 +80,10 @@ const SHOPLIFE=(function(){
       E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,stallKeeper:q.id,_stall:q}); k++; }
     return k; };
   S.tendSync=function(GM){ const E=GM&&GM.E; if(!E||!E.npcs) return; for(const n of E.npcs) if(n&&n.stallKeeper!=null&&n._stall&&n.obj) n.obj.visible=n._stall.isOpen!==false; };
+  /* 沒開的時候店裡不站店員（店面標準 §12 第 1 點「打烊看得出來關了」，L118-CLOSED-LOOKS-OPEN-1112）：進區域的時候、之後每 0.5 秒對一次；
+     只拿掉沒有名字的店員（有名字的人照自己的作息）；店再開的時候下一次進店會照原本的做法放回來。*/
+  S.closeClerks=function(zoneId,GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G||!E.npcs||!E.removeNPC||!zoneId||S.isOpen(zoneId,G)) return 0; let k=0;
+    for(const n of E.npcs.slice()) if(n&&n.clerk&&!n.charId&&!n.name){ E.removeNPC(n); k++; } return k; };
   /* 別的模組後來在同一格又放了一位＝拿掉這裡放的 */
   S.dedupClerk=function(GM){ const E=GM&&GM.E; if(!E||!E.npcs) return 0; const mine=E.npcs.filter(n=>n&&n.shopLifeClerk); let k=0;
     for(const m of mine){ const p=m.obj.position; if(E.npcs.some(n=>n&&n!==m&&n.clerk&&!n.shopLifeClerk&&(n.lv|0)===(m.lv|0)&&Math.hypot(n.obj.position.x-p.x,n.obj.position.z-p.z)<0.6)){ if(E.removeNPC) E.removeNPC(m); k++; } }
@@ -200,7 +204,7 @@ const SHOPLIFE=(function(){
       def('push',function(){ for(const f of arguments){ const w=wrapFn(f), j2=AP.indexOf.call(X,S.sched); if(j2>=0&&f!==S.sched) X.splice(j2,0,w); else AP.push.call(X,w); } return X.length; }); }   /* 之後才加的：包好、插在這裡的前面 */
     return k; };
   /* ---------- 掛上去 ---------- */
-  S.tick=function(GM){ try{ S.dedupClerk(GM); S.tendSync(GM); S.wrapOthers(); S.markMet(GM); }catch(e){ console.warn('SHOPLIFE.tick',e); } return false; };   /* wrapOthers：之後才載入的模組加的作息也包起來 */
+  S.tick=function(GM){ try{ S.dedupClerk(GM); S.tendSync(GM); if(GM&&GM.G) S.closeClerks(GM.G.zone,GM); S.wrapOthers(); S.markMet(GM); }catch(e){ console.warn('SHOPLIFE.tick',e); } return false; };   /* wrapOthers：之後才載入的模組加的作息也包起來 */
   S.install=function(){ if(typeof STORY==='undefined') return false;
     if(Array.isArray(STORY.SCHED_X)&&!STORY._shopLifeSched){ STORY.SCHED_X.push(S.sched); STORY._shopLifeSched=true; }
     S.wrapOthers();
@@ -209,7 +213,7 @@ const SHOPLIFE=(function(){
       STORY.populate=function(zoneId,GM){ try{ if(GM&&GM.E) S.attachSeats(GM.E); }catch(e){ console.warn('SHOPLIFE.attachSeats',e); }
         const r=p0.apply(this,arguments);
         try{ S.placeClerk(zoneId,GM); }catch(e){ console.warn('SHOPLIFE.placeClerk',e); }
-        try{ S.placeTenders(zoneId,GM); S.tendSync(GM); }catch(e){ console.warn('SHOPLIFE.placeTenders',e); }
+        try{ S.placeTenders(zoneId,GM); S.tendSync(GM); S.closeClerks(zoneId,GM); }catch(e){ console.warn('SHOPLIFE.placeTenders',e); }
         return r; }; }
     return true; };
   S._reset=()=>{ guard=false; depth=0; planMemo.clear(); entMemo.clear(); };
