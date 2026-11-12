@@ -38,7 +38,12 @@ const SS3=(function(){
       const it=E.interactables.find(i=>i.seasonLook===q.id&&i.x===q.x&&i.z===q.z);   /* SD3 已經放了（hidden 拿掉以後）＝只接上按了以後的事 */
       if(it){ if(!it.onInteract) it.onInteract=on; } else E.interactables.push({x:q.x,z:q.z,radius:q.r||1.0,label:q.label,seasonLook:q.id,onInteract:on});
       n++; }
+    /* 花序門口的花：四段季節布置以外的日子也有「看門口的花」，念稿的 plain 那一句（AA_793@a82fe117b；位置、按鈕字照 season_deco.js 那一筆）*/
+    { const P=S.plainLook(zone); if(P){ E.interactables.push({x:P.x,z:P.z,radius:P.r||1.0,label:P.label,seasonLook:P.id,plain:true,onInteract:async()=>{ const GM=GMof(); if(!GM) return null; await GM.say(null,P.text); return 'look'; }}); n++; } }
     return n; };
+  S.PLAIN_ID='flower_notes_season';
+  S.plainLook=function(zone){ const d=D(), t=d&&d.looks[S.PLAIN_ID], text=t&&typeof t==='object'?t.plain:null; if(!text||!zone) return null; if((zone.seasonLooks||[]).some(q=>q.id===S.PLAIN_ID)) return null;
+    const dc=DECO(); if(!dc||!dc.zones) return null; for(const zid in dc.zones){ const L=dc.zones[zid].looks||{}; for(const c in L){ const q=(L[c]||[]).find(x=>x.id===S.PLAIN_ID); if(q){ if(zone.id&&zone.id!==zid) return null; return {id:q.id,x:q.x,z:q.z,r:q.r,label:q.label,text}; } } } return null; };
   S.hook=function(){ const d=DECO(); if(!d||!D()||typeof Z3==='undefined'||!Z3.ZONES) return 0; let n=0;
     for(const zid of Object.keys(d.zones)){ const zd=Z3.ZONES[zid]; if(!zd||zd._ss3) continue; const b0=zd.build;
       zd.build=function(E){ const z=b0.call(this,E); try{ S.attach(E,z); }catch(e){ console.warn('SS3.attach',zid,e); } return z; }; zd._ss3=true; n++; }

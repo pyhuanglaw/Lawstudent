@@ -13,7 +13,7 @@
    9  不改存檔：買完、看完以後存檔沒有多欄位
    修改前（42a854dee9：沒有 season_stalls.js、season_stalls3d.js、import_season_stalls.py）：0 就 FAIL。用法：node tests/season3_lines_1112_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
-const ROOT=path.resolve(__dirname,'..'), SHA='f06354493'/* 2026-11-12 重匯（舊 e2ea0ea3c）：花序門口的花照季節各一句、水果箱只演當季一句、花束攤老闆娘 */, SRC='docs/story_planning/AA_793_season3_stalls.json';
+const ROOT=path.resolve(__dirname,'..'), SHA='a82fe117b'/* 2026-11-12 重匯（舊 e2ea0ea3c）：花序門口的花照季節各一句、水果箱只演當季一句、花束攤老闆娘 */, SRC='docs/story_planning/AA_793_season3_stalls.json';
 global.window=global;
 process.on('unhandledRejection',()=>{});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
@@ -122,7 +122,7 @@ const WHO={sea_yam:'阿伯',sea_aiyu:'阿姨',sea_mooncake:'店員',sea_couplet:
         const r=await SS3.interact(X.GM,z,q); if(r!==null||X.log.length||X.menus.length||X.G.money!==1000) bad.push(q.key+' '+why+'硬叫還是演了'); } }
     let plain=null; for(let d=30;d<=1500;d++){ if(/-03-25$/.test(CALENDAR.dateOf(d).key)){ plain=d; break; } }
     const X=game(1000,plain,12,0), a=enter('wenzhou',X), b=enter('gongguan',X);
-    check('7. 沒擺的日子、時段外（模型沒顯示）：那一攤沒有互動點，硬叫也不演、不扣錢；平常日（3/25 中午）兩個區域一個季節的互動點都沒有',!bad.length&&plain!=null&&!a.E.interactables.length&&!b.E.interactables.length,bad.slice(0,6).join(' | ')+' '+plain+' '+JSON.stringify(a.E.interactables.concat(b.E.interactables).map(i=>i.label))); }
+    check('7. 沒擺的日子、時段外（模型沒顯示）：那一攤沒有互動點，硬叫也不演、不扣錢；平常日（3/25 中午）溫州街沒有季節的互動點、公館只有花序門口「看門口的花」（平常那一句）',!bad.length&&plain!=null&&!a.E.interactables.length&&b.E.interactables.length===1&&b.E.interactables[0].plain===true&&b.E.interactables[0].label==='看門口的花'/* 2026-11-12 改期望（AA_793@a82fe117b）：四段季節布置以外的日子公館多一個「看門口的花」，念 plain 那一句；舊期望：一個都沒有 */,bad.slice(0,6).join(' | ')+' '+plain+' '+JSON.stringify(a.E.interactables.concat(b.E.interactables).map(i=>i.label))); }
 
   /* 8 落地布置的看 */
   { const bad=[]; let n=0;
