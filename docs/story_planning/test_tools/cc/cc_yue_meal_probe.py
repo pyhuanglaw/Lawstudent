@@ -49,8 +49,8 @@ PEOPLE = r"""((a)=>{ const E=GAME.E, G=GAME.G, P=E.player&&E.player.obj; const p
   if(me&&pp){ const dx=me.x-pp.x, dz=me.z-pp.z; rel={d:+Math.hypot(dx,dz).toFixed(2), dx:+dx.toFixed(2), dz:+dz.toFixed(2)};
     const n=(E.npcs||[]).find(q=>q&&(q.charId||q.id)===a.who), o=n.obj, ex=new Set(); o.traverse(q=>ex.add(q)); if(P) P.traverse(q=>ex.add(q)); const bx=new THREE.Box3();
     E.scene.traverse(q=>{ if(!q.isMesh||ex.has(q)||q.visible===false||!q.geometry) return; if(!q.geometry.boundingBox) q.geometry.computeBoundingBox(); bx.copy(q.geometry.boundingBox).applyMatrix4(q.matrixWorld);
-      const sx=bx.max.x-bx.min.x, sz=bx.max.z-bx.min.z, sy=bx.max.y-bx.min.y; if(sx>8||sz>8||sy<0.15||bx.max.y<o.position.y+0.1||bx.min.y>o.position.y+2.2) return;
-      const d=Math.hypot(Math.max(bx.min.x-o.position.x,0,o.position.x-bx.max.x), Math.max(bx.min.z-o.position.z,0,o.position.z-bx.max.z)); if(d<=1.0) furn.push({name:q.name||(q.parent&&q.parent.name)||'?', d:+d.toFixed(2)}); });
+      const sx=bx.max.x-bx.min.x, sz=bx.max.z-bx.min.z, sy=bx.max.y-bx.min.y; if(sy<0.15||bx.max.y<o.position.y+0.1||bx.min.y>o.position.y+2.2) return;
+      const d=Math.hypot(Math.max(bx.min.x-o.position.x,0,o.position.x-bx.max.x), Math.max(bx.min.z-o.position.z,0,o.position.z-bx.max.z)); if(d===0&&sx>3&&sz>3) return; if(d<=1.0) furn.push({name:q.name||(q.parent&&q.parent.name)||'?', d:+d.toFixed(2)}); });
     furn.sort((x,y)=>x.d-y.d); furn=furn.slice(0,8); }
   return {zone:G.zone, hour:+(+G.hour).toFixed(2), player:pp, people:L, her:me||null, rel, furn1m:furn, dlg:(document.getElementById('dlgText')||{}).textContent||''}; })"""
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov, c.width/c.height, 0.05, 300); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
