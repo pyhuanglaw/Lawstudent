@@ -164,6 +164,7 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
         # 照玩家「點椅子」（BB-C 11-05 08:40；遊戲 tapRedirect 走到 seatApproach、tapPref 讓那一張的「坐下」優先＝TAP-SEAT-REACH-1105）：先走到附近看得到椅子，再點椅子本身
         await L.go_to(pg, cdp, R, tgt[0], tgt[1], 1.3, '%s（走到椅子附近）' % t, max_s=max_walk, lv=s['slv']); await settle(pg)
         tapped = None
+        await pg.screenshot(path=os.path.join(OUT, '%s_tap%02d_before.png' % (shot_prefix, k + 1)))   # 11-12 LIN_REAL ⑦：點之前的畫面，配合 log 的螢幕座標看點到哪
         for _ in range(4):
             tapped = await L.tap_ground(pg, cdp, s['sx'], s['sz'], lv=s['slv'])
             if tapped: break
