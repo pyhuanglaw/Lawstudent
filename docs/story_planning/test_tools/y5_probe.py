@@ -5,7 +5,7 @@
   2 tag      2029-12-21：資料頁 以安「台大法研所・碩一」、可昕「律師（職前訓練）」
   3 makeup   美國、Y5_DAYS=work、2029-09-10 08:30 公館：今天頁「9/10 週一・大五上 第 2 週」＋補修那一堂＋「直接去上課」→ 字卡、蔡老師一句、12:10 下課
   4 jumpUS / jumpJP  9/2 晚上站著不動：9/3 三選一（旁白美國／日本不同）→ 之後跳日期的字卡句子（美國第一次「週一、週三補修兩門課……」）
-  5 moonGo / moonNo  臺灣路線、麵店團、9/20 20:50：21:00 群組三則 → 回「去。」→ 9/22 18:00 河濱；回「這次不行。」→ 9/22 22:00 群組照片
+  5 moonGo / moonNo  臺灣路線、桌遊團、9/20 20:50：21:00 群組三則 → 回「去。」→ 9/22 18:00 河濱；回「這次不行。」→ 9/22 22:00 群組照片
   6 kx5TW / kx5JP  和可昕交往、10/10 20:50：21:00 兩則 → 選「河堤。」→ 10/17 出遊，第二句延畢和沒延畢不同
   7 regMiss  日本、2030-05-10 20:50 在家：一直「在家休息一下」到 5/12 以後（不回答）→ 8/3 不進考場；另外存檔、讀檔一次看 BAR_REG_2030 會不會被改成有報名（子代理讀碼懷疑 PG.migrate）
   8 gfDinner 日本、和以安交往、2029-12-19 20:00：20:15「你實習結束了吧。……今天我訂位子。」→「好。」→ 12/21 吃飯，飯桌是大五上那一句
@@ -224,7 +224,7 @@ async def s_jump(pg, cdp, run, base, route):
 # ---------- 5 中秋 ----------
 async def s_moon(pg, cdp, run, base, go):
     tag = 'moonGo' if go else 'moonNo'
-    sc = dict(id=tag, key='2029-09-20', h=20.83, zone='gongguan', pos={'x': 0, 'z': -30}, flags=dict(TW), js="PHONE.join(G,'noodle_team','麵店團');")
+    sc = dict(id=tag, key='2029-09-20', h=20.83, zone='gongguan', pos={'x': 0, 'z': -30}, flags=dict(TW), js="PHONE.join(G,'noodle_team','桌遊團');")
     await load_y5(pg, run, base, sc)
     asks = [("m=>m.ask&&m.ask.id==='pg_moon29'", '去。' if go else '這次不行。')]
     await idle_until(pg, cdp, run, "(()=>!PHONE.pending(GAME.G).some(m=>m.ask&&m.ask.id==='pg_moon29')&&(GAME.G.msgs||[]).some(m=>m.tag==='pg_moon29'||(m.ask&&m.ask.id==='pg_moon29')))()", secs=300, asks=asks, note='中秋群組訊息、回覆')

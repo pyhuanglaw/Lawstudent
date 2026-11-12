@@ -1,5 +1,5 @@
 """BB：寒暑假快轉（BB_HOLFF_ROOMS_1021 第一節；AA_340 第 6 節）。
-[前置] 使用者 9/25 存檔改到每個假期的成績公布日 08:30、宿舍；麵店團、認識麵店團的人、以安 FAMILIAR；沒在交往、沒報名活動；大三、大四台灣路線，大四 Y4_PATH=bar。
+[前置] 使用者 9/25 存檔改到每個假期的成績公布日 08:30、宿舍；桌遊團、認識桌遊團的人、以安 FAMILIAR；沒在交往、沒報名活動；大三、大四台灣路線，大四 Y4_PATH=bar。
 照玩家：宿舍的床（在家是家裡的選單）→「快轉」→「到下一個有事的日子」一直按；手機跳出來（關閉鍵寫「跳過」）就按跳過；中間的劇情對話點過去、選項選第一個。
 每一站記：日期時間、在哪（宿舍／臺北的家）、旁白／對話、手機有沒有自己打開（2026-10-22 起：每一張日期卡 GAME.titleCard 都記一站——按「跳過」以後同一次快轉接著跳到的站原本記不到；手機跳出來記待回覆的 id、tag＋截圖）。Playwright 手機橫向模擬、?turbo，不是 iPhone。"""
 import os, sys, json, asyncio, time
@@ -81,8 +81,8 @@ async def main():
             if bk == 'Y4W': F['Y4_PATH'] = 'bar'
             G.pop('home', None)
             await L.load_state(pg, G); await pg.wait_for_timeout(5000); await pg.evaluate(HOOK); await pg.evaluate("window.__LOG=[]")
-            await pg.evaluate("(()=>{ const G=GAME.G; PHONE.join(G,'noodle_team','麵店團'); const LV=(id,f,t,c)=>{ const r=SOCIAL.rel(id); r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); }; for(const id of ['zhe','yu','heroine_03','classmate_bohan','classmate_xinci']) LV(id,45,30,10); LV('heroine_01',25,10,10); if(G.flags.romance) for(const k in G.flags.romance){ if(G.flags.romance[k]&&G.flags.romance[k].status==='dating') G.flags.romance[k].status='none'; } })()")
-            sn = await pg.evaluate(SNAP); run.setup('[前置] %s：成績公布日 %s 08:30 宿舍（麵店團、以安 FAMILIAR、沒交往%s）' % (bk, sn['key'], '、台灣路線' if bk[:2] in ('Y3', 'Y4') else ''))
+            await pg.evaluate("(()=>{ const G=GAME.G; PHONE.join(G,'noodle_team','桌遊團'); const LV=(id,f,t,c)=>{ const r=SOCIAL.rel(id); r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); }; for(const id of ['zhe','yu','heroine_03','classmate_bohan','classmate_xinci']) LV(id,45,30,10); LV('heroine_01',25,10,10); if(G.flags.romance) for(const k in G.flags.romance){ if(G.flags.romance[k]&&G.flags.romance[k].status==='dating') G.flags.romance[k].status='none'; } })()")
+            sn = await pg.evaluate(SNAP); run.setup('[前置] %s：成績公布日 %s 08:30 宿舍（桌遊團、以安 FAMILIAR、沒交往%s）' % (bk, sn['key'], '、台灣路線' if bk[:2] in ('Y3', 'Y4') else ''))
             say('   開始：%s' % json.dumps(sn, ensure_ascii=False))
             for i in range(40):
                 r = await step(pg, cdp, run, stops, bk)

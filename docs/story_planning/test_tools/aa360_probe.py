@@ -132,7 +132,7 @@ async def verify(pg, run, sc):
     if probs: bad.extend('%s：%s' % (sc['id'], p) for p in probs)
 TW = {'EXCHANGE_ROUTE': 'TW'}
 AN_FAM = "LV('heroine_01',25,10,10);"
-GRP = "PHONE.join(G,'noodle_team','麵店團');"
+GRP = "PHONE.join(G,'noodle_team','桌遊團');"
 ATT3 = "G.acts=G.acts||{}; G.acts.att=G.acts.att||{}; for(const k of ['2028-09-21','2028-09-28','2028-10-05']) G.acts.att['public_law_group@'+D(k)]=1;"
 async def talk(pg, cdp, run, who):
     """走到那個人旁邊、按「和○○說話」（真的操作），演完"""

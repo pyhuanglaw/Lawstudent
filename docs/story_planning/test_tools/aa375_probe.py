@@ -12,19 +12,19 @@ AA_375 第 6 節：①6/4 以後進 Café 吧檯不是芷若、約她回「今�
   TERM_GF_EARLY 6/10 晚上不會先傳（原本 6/10 20:30 起；第 6 項）
   ZR_TEN      AA_373 第 6 節第 9 題：交往中大二上期末 12/24 20:15「禮拜五十點，等我下班。」（不是九點）
   ZQ_DAD      5/16（日）21:00「這週的訊息」子晴「欸跟你說」「我爸下週要來台北」…；5/9 那一組沒有（BB 測試④、第 3 項）
-  SPRING_CAR  4/1（四）20:00 在麵店團群組、認識六個人（語彤、柏翰比較熟）：春假選單「跟麵店團出去」→ 睡到 4/4 → 時間到「出發」→ 車上三個人（語彤、柏翰、阿哲）、
+  SPRING_CAR  4/1（四）20:00 在桌遊團群組、認識六個人（語彤、柏翰比較熟）：春假選單「跟桌遊團出去」→ 睡到 4/4 → 時間到「出發」→ 車上三個人（語彤、柏翰、阿哲）、
               「（車子坐不下。剩下的人搭火車，下午在那邊會合。）」、市場只有車上的人說話、海邊會合以後小語、芯慈照樣有句子、回程「後座三個人都睡著了」（BB 測試⑤、第 5 項）
   NOODLE_THU  2/25（四）17:50 不開 quiet_events 進麵店＝「（大二下第一次的週四麵店。阿姨說，過年胖了的人自己知道。）」（第 4 節 AA_342）
   NOODLE_SPRING 4/8（四）進麵店＝「（春假回來的第一個週四。長桌的人，每個人都在講自己這幾天去了哪裡。）」
   SUM_0306    3/6（六）08:00 以後第一次空下來＝「（大二下的第二週。你終於記住了這學期的課表：週二要跑萬才館。）」
   SUM_0520    5/20（四）＝「（五月。宿舍走廊開始有人在討論暑假要去哪裡。）」
   MSG_BH      3/12（五）21:00 柏翰「債各第一章的筆記，我做了表格。」「要的話傳給你。」→「要。」→「（照片：一張表格，欄位比內容多）」
-  MSG_GRP     4/21（三）22:00 麵店團群組：小語「期中考完了」「我要吃三碗麵」、阿哲「我請一碗」
+  MSG_GRP     4/21（三）22:00 桌遊團群組：小語「期中考完了」「我要吃三碗麵」、阿哲「我請一碗」
   MSG_KAI     5/21（五）22:00 阿凱「暑假你回家還是留宿舍」（還沒想。／回家吧。）→「還沒想。」→「我也是。」
   ZQ_0604     6/4（五）22:00 子晴四則（沒看過 Q6）→「沒事就好。」→「嗯」「……其實有一點事 改天講」（第 4 節 AA_255）
   EXPO_Y2     3/18（四）12:00 走進博雅教學館、101 坐下「聽演講：交換學生甄選說明會」→ 散場柏翰「交換要成績多少？」以安「簡章第三頁有寫，我等一下傳給你。」柏翰「好。」；沒有「我查過了。你夠。」（第 4 節 AA_255）
   DATA        【讀資料，不是玩】心意邀約、朋友的期末飯（大二下）芷若的句子不說九點；大一上～大二上心意邀約「十點」、22:00（AA_373 6-9）
-【前置】讀使用者存檔（舊局 9/25）改日期、時間、地點（每個情境寫在 run.setup）；設那幾個人的關係（認識、熟悉度、聯絡方式）、麵店團群組、交往中；
+【前置】讀使用者存檔（舊局 9/25）改日期、時間、地點（每個情境寫在 run.setup）；設那幾個人的關係（認識、熟悉度、聯絡方式）、桌遊團群組、交往中；
 quiet_events 只在不需要自動事件的情境開。之後照玩家：手機回訊息、床上睡覺、手機「跳過時間」「地點」、走過去、按吧檯、坐下、選項、時間到「出發」。
 Playwright 手機橫向模擬、?turbo，不是 iPhone。小語改名 Alison（AA_380）還沒實作：照現在的名字，對話串用 id。
 用法：LW_TESTS=<開發分支>/tests SCEN=CAFE_0607,... python3 aa375_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>"""
@@ -436,12 +436,12 @@ SP_END = '（回程，後座三個人都睡著了。你一個人開到臺北，�
 
 async def s_spring(p, run, base, sid, out):
     res = out.setdefault(sid, {}); team = (('heroine_03', 'FRI'), ('classmate_bohan', 'FRI'), ('zhe', 'FAM'), ('heroine_01', 'FAM'), ('yu', 'FAM'), ('classmate_xinci', 'FAM'))
-    b, pg, cdp, errs = await launch(p, run, base, '2027-04-01', 20.0, 'dorm', rels=team, groups=(('noodle_team', '麵店團'),), label=sid + '（麵店團群組；語彤、柏翰朋友，其他四個熟悉；4/1＝回覆期限那天才看到 3/30 的邀約）')
+    b, pg, cdp, errs = await launch(p, run, base, '2027-04-01', 20.0, 'dorm', rels=team, groups=(('noodle_team', '桌遊團'),), label=sid + '（桌遊團群組；語彤、柏翰朋友，其他四個熟悉；4/1＝回覆期限那天才看到 3/30 的邀約）')
     try:
-        picks = ['春假：跟麵店團出去', '出發：春假', '（下去踩水）']
+        picks = ['春假：跟桌遊團出去', '出發：春假', '（下去踩水）']
         ok, ch = await wait_for(pg, cdp, run, "(OUT.rec(GAME.G)||[]).some(q=>q.id==='ndl_trip_y2s2')", max_s=240, picks=picks, label=sid)
         q = await pg.evaluate("(OUT.rec(GAME.G)||[]).filter(q=>q.id==='ndl_trip_y2s2').map(q=>({d:CALENDAR.dateOf(q.day).key,h:q.h,state:q.state}))"); res['plan'] = q; res['menu'] = ch
-        run.check('SPRING_CAR：春假選單選「跟麵店團出去」→ 排 4/4 08:00（先回家取車）', ok and bool(q) and q[0]['d'] == '2027-04-04', json.dumps({'plan': q, 'menu': [c['opts'] for c in ch][:2]}, ensure_ascii=False)[:400])
+        run.check('SPRING_CAR：春假選單選「跟桌遊團出去」→ 排 4/4 08:00（先回家取車）', ok and bool(q) and q[0]['d'] == '2027-04-04', json.dumps({'plan': q, 'menu': [c['opts'] for c in ch][:2]}, ensure_ascii=False)[:400])
         for _ in range(4):
             st = await pg.evaluate(STATE)
             if st['key'] >= '2027-04-04': break
@@ -451,7 +451,7 @@ async def s_spring(p, run, base, sid, out):
         await drive(pg, cdp, run, picks=picks, max_s=40, label=sid)
         log = (await pg.evaluate("window.__LOG||[]"))[n0:]; T = texts(log); res['log'] = log; car = await pg.evaluate("GAME.G.flags.SPRING_Y2_CAR||null"); res['car'] = car
         await run.shot(pg, '%s_after' % sid)
-        run.check('SPRING_CAR：4/4 時間到「出發：春假：開車載麵店團」→ 演完', ok2 and any(any(o.startswith('出發：春假') for o in c['opts']) for c in ch2), json.dumps([c['opts'] for c in ch2][:3], ensure_ascii=False)[:300])
+        run.check('SPRING_CAR：4/4 時間到「出發：春假：開車載桌遊團」→ 演完', ok2 and any(any(o.startswith('出發：春假') for o in c['opts']) for c in ch2), json.dumps([c['opts'] for c in ch2][:3], ensure_ascii=False)[:300])
         run.check('SPRING_CAR：車上三個人＝照熟悉度（語彤、柏翰、阿哲）（BB 測試⑤）', isinstance(car, list) and len(car) == 3 and car[:2] == ['heroine_03', 'classmate_bohan'] and 'zhe' in car, json.dumps(car))
         mk = T[:T.index('（第二站是海邊。四月的風還有點冷。）')] if '（第二站是海邊。四月的風還有點冷。）' in T else T
         adj = all(x in T for x in SP_START) and T.index(SP_START[1]) == T.index(SP_START[0]) + 1
@@ -466,7 +466,7 @@ async def s_spring(p, run, base, sid, out):
 async def s_noodle(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     key, line = {'NOODLE_THU': ('2027-02-25', '（大二下第一次的週四麵店。阿姨說，過年胖了的人自己知道。）'), 'NOODLE_SPRING': ('2027-04-08', '（春假回來的第一個週四。長桌的人，每個人都在講自己這幾天去了哪裡。）')}[sid]
-    b, pg, cdp, errs = await launch(p, run, base, key, 17.85, 'dorm', rels=(('zhe', 'FAM'), ('heroine_03', 'FAM')), groups=(('noodle_team', '麵店團'),), quiet=False, label=sid + '（麵店團群組；不開 quiet_events：進麵店的事件要跑）')
+    b, pg, cdp, errs = await launch(p, run, base, key, 17.85, 'dorm', rels=(('zhe', 'FAM'), ('heroine_03', 'FAM')), groups=(('noodle_team', '桌遊團'),), quiet=False, label=sid + '（桌遊團群組；不開 quiet_events：進麵店的事件要跑）')
     try:
         await drive(pg, cdp, run, max_s=90, label=sid); n0 = len(await pg.evaluate("window.__LOG||[]"))
         ok = await quick_go(pg, cdp, 'noodle'); st = await pg.evaluate(STATE); res['arrive'] = st
@@ -510,11 +510,11 @@ async def s_msgs(p, run, base, sid, out):
             await ask_and_answer(pg, cdp, run, sid, 'p:heroine_04', 'y2_zq_dad_msg', ['我爸上禮拜來過', '搭計程車來 搭計程車回去', '他問我最近在忙什麼 我說寫程式', '……我跟芷若去河堤走了一圈 沒事'],
                                  ['沒事就好。', '要不要出來走走？'], '沒事就好。', ['嗯', '……其實有一點事 改天講'], res)
         else:   # MSG_GRP
-            b, pg, cdp, errs = await launch(p, run, base, '2027-04-21', 21.85, 'dorm', rels=(('yu', 'FAM'), ('zhe', 'FAM')), groups=(('noodle_team', '麵店團'),), label=sid)
+            b, pg, cdp, errs = await launch(p, run, base, '2027-04-21', 21.85, 'dorm', rels=(('yu', 'FAM'), ('zhe', 'FAM')), groups=(('noodle_team', '桌遊團'),), label=sid)
             await drive(pg, cdp, run, max_s=30, label=sid)
             ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=22.1", max_s=420, label=sid)
             M = await msgs(pg, 'g:noodle_team'); got = [(m['from'], m['text']) for m in M if m['d'] == '2027-04-21']; res['grp'] = got
-            run.check('MSG_GRP：4/21（三）22:00 麵店團群組 小語「期中考完了」「我要吃三碗麵」、阿哲「我請一碗」（AA_342 第 2-2 節）', ok and got[-3:] == [('yu', '期中考完了'), ('yu', '我要吃三碗麵'), ('zhe', '我請一碗')], json.dumps(got, ensure_ascii=False))
+            run.check('MSG_GRP：4/21（三）22:00 桌遊團群組 小語「期中考完了」「我要吃三碗麵」、阿哲「我請一碗」（AA_342 第 2-2 節）', ok and got[-3:] == [('yu', '期中考完了'), ('yu', '我要吃三碗麵'), ('zhe', '我請一碗')], json.dumps(got, ensure_ascii=False))
         res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
     except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
     try: await close(b)

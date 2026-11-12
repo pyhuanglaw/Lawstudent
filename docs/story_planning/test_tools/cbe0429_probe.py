@@ -49,7 +49,7 @@ MODE：
   libdesk   AA_407 R1（dfe02e51d）：[前置] 大二上第 12 週週五 10:00 總圖大廳（【捷徑】方奕廷有點熟）→ 走到「服務台」：沒有「借《臺灣原生植物圖鑑》」（控制組）
             → [前置] 同一份進度跳到第 12 週週日 20:50 宿舍 → 21:00「這週的訊息」→ 方奕廷那一則點「總圖五樓最裡面。」→ [前置] 跳到隔天 10:00 總圖大廳 → 服務台多「借《臺灣原生植物圖鑑》」→ 館員「那本只能在館內看。」→ 再到服務台：那一項沒了。
   y2end     Y2END＝lastmeal,famdinner（預設全部）
-            lastmeal  AA_143 2-7：[前置] 最小存檔 2027-06-01（【捷徑】麵店團成立 noodleTableDay、加入法一吃飯、頁面裡讀 CLS.lastExamEnd）→ [前置] 跳到最後一科考完那天 16:50 宿舍 → 17:00 阿哲「考完了 七點，麵店」→ 手機「地點」→ 阿鳳麵店
+            lastmeal  AA_143 2-7：[前置] 最小存檔 2027-06-01（【捷徑】桌遊團成立 noodleTableDay、加入法一吃飯、頁面裡讀 CLS.lastExamEnd）→ [前置] 跳到最後一科考完那天 16:50 宿舍 → 17:00 阿哲「考完了 七點，麵店」→ 手機「地點」→ 阿鳳麵店
                       → 旁白「（大二下最後一科考完。）」、阿姨「明年你們大三了。……我記得你們大一的樣子。」
             famdinner AA_258 6-1：[前置] 2027-03-09 20:50 宿舍（【捷徑】加入家族群組、學姊有點熟）→ 21:00 家族群組 Kevin 兩則＋學姊「好。」→ [前置] 同一份進度跳到 3/12 18:10 宿舍（學期中快轉不會為了別區的事件停：見報告）
                       → 提示「今天 19:00 家族聚餐（公館）」→ 手機「地點」→ 公館 → 18:30 以後旁白、Kevin 學長、學姊「……坐。我坐下來你們再坐。」、旁白。
@@ -1138,7 +1138,7 @@ FAM_EV = [('', '（長桌的一頭坐著四個大一的學弟妹。學姊進門�
 async def y2_lastmeal(pg, cdp, run):
     nd = (await P.day_of(pg, '2025-10-02'))['d']
     st, d = await state_at(pg, '2027-06-01', 10.0, 'dorm', flags={'noodleTableDay': nd})
-    r = await load(pg, cdp, run, st, 'lastmeal：最小存檔 2027-06-01 10:00 宿舍（大二下）；麵店團成立（noodleTableDay＝2025-10-02）',
+    r = await load(pg, cdp, run, st, 'lastmeal：最小存檔 2027-06-01 10:00 宿舍（大二下）；桌遊團成立（noodleTableDay＝2025-10-02）',
                    js="NOKX(); LV('zhe',45,30,10); const g=JOIN('noodle_team','法一吃飯'); const e=CLS.lastExamEnd(G,'Y2S2','final'); return {grp:g, e:e?{day:e.day,key:CALENDAR.dateOf(e.day).key,h:e.h}:null};")
     e = r and r.get('e')
     run.check('lastmeal：大二下有最後一科期末考（CLS.lastExamEnd，讀）', bool(e), J(r))

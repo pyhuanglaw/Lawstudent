@@ -1,5 +1,5 @@
 """BB（帳號 A）2026-10-21：AA369-HOL-FIX-1021（開發分支 8202e9b0 起；AA_369 第 6 節 BB 測試）瀏覽器驗收。框架照 us_life_probe.py。
-  H1＋H4 2027 香港行（VA10）：7/20 麵店團群組以安「我那幾天在京都。你們去，拍照給我。」、排行程的兩句是柏翰；回「我也去。」→ 8/25～8/28 香港 → 交往中的以安 8/27 私訊京都車站；
+  H1＋H4 2027 香港行（VA10）：7/20 桌遊團群組以安「我那幾天在京都。你們去，拍照給我。」、排行程的兩句是柏翰；回「我也去。」→ 8/25～8/28 香港 → 交往中的以安 8/27 私訊京都車站；
           出國那幾天同行的人（阿哲、小語、柏翰）不傳訊息給你。
   H2 2028 白色情人節（台灣路線、和以安交往、2/14 沒送過）：沒有「我在臺中」、沒有說出「理由欄」。
   H5 2028 暑假以安在日本（3/25～8/5）：主動傳「在幹嘛」不回「在台中」；阿凱暑假不說「宜蘭」。
@@ -145,7 +145,7 @@ async def verify(pg, run, sc):
     results.append({'id': sc['id'], 'ok': not probs, 'probs': probs, 'o': {k: o[k] for k in ('flags', 'mem', 'grp', 'npcs', 'speakers', 'zone', 'money')}, 'lines': o['lines'], 'msgs': o['msgTexts'][-12:]})
     if probs: bad.extend('%s：%s' % (sc['id'], p) for p in probs)
 
-GRP = "PHONE.join(G,'noodle_team','麵店團');"
+GRP = "PHONE.join(G,'noodle_team','桌遊團');"
 SENT = []
 async def jump(pg, run, key, h):
     await pg.evaluate("(([k,h])=>{ const G=GAME.G; G.day=STORY.dayOfKey(k); G.hour=h; G.weekday=CALENDAR.dateOf(G.day).wd%%7; GAME.E.hour=h; if(GAME.updateHUD) GAME.updateHUD(); })(%s)" % json.dumps([key, h]))

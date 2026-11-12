@@ -11,7 +11,7 @@
 MODE：
   y1xmas   AA_204 1-4（d09caf0fe）。XM＝an_single,an_dating,yt_single_yes,yt_single_no,yt_dating,noshow（預設全部）。
             每一個：[前置] 最小存檔 XM_DAY（預設 2025-12-23，大一寒假第二天）10:00 宿舍；【捷徑】她第 5 階（熟 45／信任 30／自在 20／她的戀愛 35；交往中＝熟 65／信任 50／自在 45／戀愛 60＋dating）、
-              聯絡方式、加入「麵店團」群組（PHONE.join；阿哲 12/22 21:00 的揪團＝讀檔後照遊戲規則補收、排 xmas_y1）。
+              聯絡方式、加入「桌遊團」群組（PHONE.join；阿哲 12/22 21:00 的揪團＝讀檔後照遊戲規則補收、排 xmas_y1）。
             → 手機「朋友」→ 她「約」→「約她過節：聖誕節」→「晚上場（18:00～21:30）」：PASS＝晚上場沒灰掉、小字「聖誕交換禮物散場以後」、不另外選地點、
               「約好 12/24（三），聖誕交換禮物散場以後。」、沒有排邀約／另外的出遊（G.fest.bk 記 grp xmas_y1）。
             → 12/24 晚上：XM_JUMP＝auto（預設：第一個用床「快轉 → 到下一個有事的日子」走過去，其他的 [前置] 同一份進度跳到 12/24 17:50 宿舍）／1（全部跳）／0（全部快轉）
@@ -437,16 +437,16 @@ async def xm_case(pg, cdp, run, case, jump_it):
     key = os.environ.get('XM_DAY', '2025-12-23'); h0 = ENVF('XM_H', 10.0)
     st, d = await state_at(pg, key, h0, 'dorm')
     lv = "const rel=LV(id,65,50,45,{npcRom:60,rom:35}); DT(id);" if dating else "const rel=LV(id,45,30,20,{npcRom:35,rom:10});"
-    body = ("NOKX(); const id=%s; %s PHONE.join(G,'noodle_team','麵店團'); "
+    body = ("NOKX(); const id=%s; %s PHONE.join(G,'noodle_team','桌遊團'); "
             "return {id, rel, dating:!!F['dating_'+id], grp:PHONE.inGroup(G,'noodle_team'), here:(typeof XMAS_HERE==='function')?XMAS_HERE(G):null, "
             "elig:FEST.eligible(G,id,'xmas',2025), fo:FEST.flowOpt(G,id,null,false)};") % (J(cid), lv)
     r = await load(pg, cdp, run, st, '%s：最小存檔 %s（大一寒假）%.2f 宿舍' % (tag, key, h0), js=body)
-    run.check('%s：【捷徑】%s %s（FEST.eligible 聖誕 2025）、在麵店團、群戲在場的人有她（XMAS_HERE）' % (tag, cid, '交往中' if dating else '第 5 階'),
+    run.check('%s：【捷徑】%s %s（FEST.eligible 聖誕 2025）、在桌遊團、群戲在場的人有她（XMAS_HERE）' % (tag, cid, '交往中' if dating else '第 5 階'),
               bool(r) and r.get('elig') is True and r.get('grp') is True and cid in (r.get('here') or []) and (r.get('dating') is True) == dating, J(r))
     n0 = await pl_len(pg)
     ok_q = await play(pg, cdp, run, XQ_PLANNED, max_s=120, ff=False, tag=tag + '_plan', picks=STAY)
     ask = await pg.evaluate(MSG_OF, 'xmas_ask'); q = await pg.evaluate(OUTQ, 'xmas_y1')
-    run.check('%s：讀檔後遊戲照規則補收阿哲在麵店團的揪團「%s」、排進行程 xmas_y1 12/24 18:30 阿鳳麵店' % (tag, XMAS_ASK),
+    run.check('%s：讀檔後遊戲照規則補收阿哲在桌遊團的揪團「%s」、排進行程 xmas_y1 12/24 18:30 阿鳳麵店' % (tag, XMAS_ASK),
               ok_q and [m['text'] for m in ask] == [XMAS_ASK] and bool(q) and q['day'] == '2025-12-24' and abs(q['h'] - 18.5) < 1e-6, J({'ask': ask, 'q': q}))
     if not q: return
     # ---- 約她：手機「朋友」→ 她「約」→「約她過節：聖誕節」→「晚上場」

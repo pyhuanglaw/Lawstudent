@@ -8,8 +8,8 @@ SCEN=C16｜C17｜C18（一次跑一段；佇列依序跑）。
   C17：①沒有英檢：第 4 週公告後一句旁白、沒有報名選項、行事曆沒有報名鈕；②有英檢：報名「（交履歷）」→ 第 12 週週三 19:00 面試（事務所、捷運 30 分）→ 第 14 週錄取（媽媽「有錢可以領喔？」）
        → 6/21 起八週（第一週照天過，成績公布以後快轉）四場：第一天、第一次被改、跟開庭、最後一天；8/13 18:00 以後津貼 196×8×40＝62,720 一次入帳。
   C18（大一暑假）：第 6 週公告 → 「（報名）」→ 第 11 週週三 19:00 面試 → 第 13 週錄取（行前說明會日期）→ 第 15 週週三 12:20 說明會（第一次多三行：思穎）
-       → 成績公布日快轉到 7/20 出發 → 7/21 法院、7/23 座談、7/27 最後一晚 → 7/28 回來；麵店團出發／回來那幾句；8/4 20:00 思穎的訊息。
-[前置] 使用者 9/25 存檔改日期（同 holff：ROOM 旗標、麵店團、全班群組、熟人、沒交往、沒報名別的活動）；C17②的英檢成績＝G.vac.score 放一筆 C04（托福 84，2026-09-01）。
+       → 成績公布日快轉到 7/20 出發 → 7/21 法院、7/23 座談、7/27 最後一晚 → 7/28 回來；桌遊團出發／回來那幾句；8/4 20:00 思穎的訊息。
+[前置] 使用者 9/25 存檔改日期（同 holff：ROOM 旗標、桌遊團、全班群組、熟人、沒交往、沒報名別的活動）；C17②的英檢成績＝G.vac.score 放一筆 C04（托福 84，2026-09-01）。
 [捷徑] 學期中改 G.day／G.hour 跳到公告、出發提示、錄取公布前 1～5 分鐘；暑假開始前跳到 6/20 晚上（C16、C17）或成績公布日早上（C18）。Playwright 手機橫向模擬、?turbo，不是 iPhone。
 用法：SCEN=C16 LW_TESTS=<開發分支>/tests python3 vac_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>"""
 import os, sys, json, asyncio, time
@@ -216,7 +216,7 @@ async def setup(pg, base, day, h, extra=None, vac=None):
     G.pop('home', None)
     if vac is not None: G['vac'] = vac
     await L.load_state(pg, G); await pg.wait_for_timeout(6000); await pg.evaluate(HOOK)
-    await pg.evaluate("(()=>{ const G=GAME.G; PHONE.join(G,'law_class','法律系（全班）'); PHONE.join(G,'noodle_team','麵店團'); const LV=(id,f,t,c)=>{ const r=SOCIAL.rel(id); r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); }; for(const id of ['zhe','yu','heroine_03','classmate_bohan','classmate_xinci']) LV(id,45,30,10); LV('heroine_01',25,10,10); if(G.flags.romance) for(const k in G.flags.romance){ if(G.flags.romance[k]&&G.flags.romance[k].status==='dating') G.flags.romance[k].status='none'; } })()")
+    await pg.evaluate("(()=>{ const G=GAME.G; PHONE.join(G,'law_class','法律系（全班）'); PHONE.join(G,'noodle_team','桌遊團'); const LV=(id,f,t,c)=>{ const r=SOCIAL.rel(id); r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); }; for(const id of ['zhe','yu','heroine_03','classmate_bohan','classmate_xinci']) LV(id,45,30,10); LV('heroine_01',25,10,10); if(G.flags.romance) for(const k in G.flags.romance){ if(G.flags.romance[k]&&G.flags.romance[k].status==='dating') G.flags.romance[k].status='none'; } })()")
     await pg.evaluate("(()=>{ window.__LOG.length=0; window.__BG.length=0; window.__TC.length=0; window.__TOAST.length=0; })()")
     return await pg.evaluate(SNAP)
 
@@ -258,7 +258,7 @@ async def main():
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         if SCEN == 'C16':
             K = 'C16@Y2'
-            sn = await setup(pg, base, await tday(pg, 'Y2S2', 10, 1), 11.9); run.setup('[前置] 9/25 存檔改到大二下第 10 週週一 11:54 宿舍（麵店團、全班群組、沒交往、沒報名別的）')
+            sn = await setup(pg, base, await tday(pg, 'Y2S2', 10, 1), 11.9); run.setup('[前置] 9/25 存檔改到大二下第 10 週週一 11:54 宿舍（桌遊團、全班群組、沒交往、沒報名別的）')
             await signup_flow(pg, cdp, run, K, 'Y2S2', 10, '【暑期實習】法律扶助基金會台北分會，暑假兩週（80 小時），名額有限。第 12 週週五前交申請表。', '（交申請表）')
             plan = await pg.evaluate("(()=>OUT.rec(GAME.G).filter(q=>q.vac&&q.vac.key==='C16@Y2').map(q=>[q.id,CALENDAR.dateOf(q.day).key,q.h,q.title,q.place]))()")
             say('   排進行事曆：%s' % json.dumps(plan, ensure_ascii=False))
@@ -365,7 +365,7 @@ async def main():
             run.check('C18：背景 classroom_small、intl_sg_court、intl_sg_campus、intl_sg_hawker 都是正式圖', all(('assets/bg/%s.webp' % k) in allBG and hs.get('assets/bg/%s.webp' % k) == 200 for k in ('classroom_small', 'intl_sg_court', 'intl_sg_campus', 'intl_sg_hawker')), json.dumps(sorted(set(allBG)), ensure_ascii=False)[:300])
             for tag, want in (('vac_dep_C18@Y1', ['新加坡很熱喔', '聽說口香糖不能帶']), ('vac_back_C18@Y1', ['伴手禮咧'])):
                 M = await msgs_tagged(pg, tag); say('   %s：%s' % (tag, json.dumps(M, ensure_ascii=False)))
-                run.check('C18：麵店團 %s %s' % ('出發那天' if 'dep' in tag else '回來那天', '／'.join(want)), all(any(m['text'] == x for m in M) for x in want), json.dumps(M, ensure_ascii=False)[:300])
+                run.check('C18：桌遊團 %s %s' % ('出發那天' if 'dep' in tag else '回來那天', '／'.join(want)), all(any(m['text'] == x for m in M) for x in want), json.dumps(M, ensure_ascii=False)[:300])
             M = [m for m in await pg.evaluate("(GAME.G.msgs||[]).filter(m=>m.th==='p:npc_siying').map(m=>({tag:m.tag,text:m.text,ask:m.ask?m.ask.opts.map(o=>o.t):null}))")]
             say('   思穎的訊息：%s' % json.dumps(M, ensure_ascii=False))
             run.check('C18：回國一週後（8/4 20:00）思穎「報告我那段寫完了。三頁，都是吃的。」，兩個回覆', any(m['text'] == '報告我那段寫完了。三頁，都是吃的。' and m['ask'] == ['我的也寫完了。', '還沒。'] for m in M), json.dumps(M, ensure_ascii=False)[:300])

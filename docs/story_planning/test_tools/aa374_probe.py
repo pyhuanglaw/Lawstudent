@@ -14,12 +14,12 @@ AA_374 第 5 節的 BB 測試：①大二上晚上進 312 看到阿哲、柏翰�
   WHERE_THU   10/8（四）14:00 手機「朋友」：同學不在霖澤館 201「上課」（大二上週四下午沒課；第 19 項）
   PS_SPLIT    沒有和沛珊交往：第 6 週週一 10/12 12:15 走進霖澤館、走到沛珊旁邊＝走廊那一件（沒看過 P3＝「跟你說一下，我跟柏翰分開了。」「我們都還好，讀書會照常。」；第 18 項）
   PS_DATING   和沛珊交往中：同一個時間、同一個地方站在她旁邊＝不演（第 11 項、BB 測試③）
-  PS_GROUP    沒交往、沒遇到走廊那一件：10/16（五）21:00 麵店團群組 BB_97 版四則（第 18 項）
+  PS_GROUP    沒交往、沒遇到走廊那一件：10/16（五）21:00 桌遊團群組 BB_97 版四則（第 18 項）
   PS_GROUP_DATING 交往中：10/16 21:00 群組不發（BB 測試③）
   PS_NOTES_IN 12/17（四）22:00「這學期的題目和筆記，我放在萬才館櫃子的第二格。」→ 當晚回「收到。」→ 她回「……謝謝你接住。」（第 17 項、BB 測試⑤）
   PS_NOTES_LATE 沒交往、當晚不回、睡到 12/18：回不了（期限到 12/17 23:59）、她沒有回（BB 測試⑤）
   PS_NOTES_DATING 交往中、當晚不回、睡到 12/18 早上才回：她照樣回「……謝謝你接住。」（例外；BB 測試⑤）
-【前置】讀使用者存檔（舊局 9/25）改日期、時間、地點（每個情境寫在 run.setup）；設那幾個人的關係（認識 FIRST_MET、熟悉度、聯絡方式）、麵店團群組、法服／系籃社團、
+【前置】讀使用者存檔（舊局 9/25）改日期、時間、地點（每個情境寫在 run.setup）；設那幾個人的關係（認識 FIRST_MET、熟悉度、聯絡方式）、桌遊團群組、法服／系籃社團、
 讀書會旗標（STUDYGROUP_LEADER、ev_peishan_handover 演過）；大二的房間 ROOM_Y2 照日期（9/6 以後）。quiet_events 只在不需要自動事件的情境開。之後照玩家：手機回訊息、
 床上睡覺、手機「地點」前往、走過去、按門、選項。Playwright 手機橫向模擬、?turbo，不是 iPhone。【讀資料】的項目另外標。
 用法：LW_TESTS=<開發分支>/tests SCEN=DORM312,... python3 aa374_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>"""
@@ -401,7 +401,7 @@ async def s_ps_split(p, run, base, sid, out):
 async def s_ps_group(p, run, base, sid, out):
     res = out.setdefault(sid, {}); dating = sid == 'PS_GROUP_DATING'
     b, pg, cdp, errs = await launch(p, run, base, '2026-10-16', 20.85, 'dorm', rels=(('classmate_peishan', 'FRI'), ('zhe', 'FAM'), ('yu', 'FAM')), dating=(('classmate_peishan',) if dating else ()),
-                                    groups=(('noodle_team', '麵店團'),), label=sid + '（第 6 週週五；沒遇到走廊那一件；%s）' % ('和沛珊交往中' if dating else '沒交往'))
+                                    groups=(('noodle_team', '桌遊團'),), label=sid + '（第 6 週週五；沒遇到走廊那一件；%s）' % ('和沛珊交往中' if dating else '沒交往'))
     try:
         await drive(pg, cdp, run, max_s=30, label=sid)
         ok, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=21.2", max_s=420, label=sid)
@@ -410,7 +410,7 @@ async def s_ps_group(p, run, base, sid, out):
         if dating:
             run.check('PS_GROUP_DATING：交往中＝10/16 21:00 群組沒有「我和柏翰分開了」（BB 測試③）', ok and not any('分開了' in t for _, t in got), json.dumps(got, ensure_ascii=False))
         else:
-            run.check('PS_GROUP：沒遇到走廊那一件＝10/16 21:00 麵店團群組 BB_97 版四則（沛珊三則、阿哲「……收到。」；沒有「你們吃你們的」）', ok and got == PS_GRP, json.dumps(got, ensure_ascii=False))
+            run.check('PS_GROUP：沒遇到走廊那一件＝10/16 21:00 桌遊團群組 BB_97 版四則（沛珊三則、阿哲「……收到。」；沒有「你們吃你們的」）', ok and got == PS_GRP, json.dumps(got, ensure_ascii=False))
         res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
     except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
     await close(b)
