@@ -429,3 +429,17 @@
 [16:30:50] ==== START DN_GOODS_fps  (probe @ 68d40a513ee22e140bbabc69c294c3ce9a254fb3) ====
 [16:30:52] [res] cpu=8% mem=32% (10.3/31.4 GB) chrome_testing=0  START DN_GOODS_fps
 [16:32:23] [res] cpu=2% mem=32% (10.3/31.4 GB) chrome_testing=0  END DN_GOODS_fps
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b444ea529..27b6b2126  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:32:29] ==== END   DN_GOODS_fps  exit=0  94s   ====
+[16:32:32] memory 33% before starting TZ_REAL_consist (0 running)
+[16:32:32] memory 33% before starting TZ_CASE_257e (1 running)
+[16:32:32] ==== START TZ_REAL_consist  (probe @ 68d40a513ee22e140bbabc69c294c3ce9a254fb3) ====
+[16:32:32] solo item XS_REAL_perf_r2 waits: no new items start until the 2 running item(s) finish
+[16:32:32] ==== START TZ_CASE_257e  (probe @ 257e05a852adb29ec5851db99cebfa24b8f967cc) ====
+[16:32:35] [res] cpu=15% mem=33% (10.4/31.4 GB) chrome_testing=0  START TZ_REAL_consist
+[16:32:35] [res] cpu=2% mem=33% (10.4/31.4 GB) chrome_testing=0  START TZ_CASE_257e
+[16:32:48] 正在跑：TZ_REAL_consist（已跑 0 分／上限 60 分）、TZ_CASE_257e（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:32:56] worktree add 257e05a852adb29ec5851db99cebfa24b8f967cc: invalid reference - fetching main and the commit itself
+[16:35:03] [res] cpu=4% mem=38% (12.2/31.4 GB) chrome_testing=4  END TZ_CASE_257e
