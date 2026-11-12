@@ -2193,6 +2193,27 @@
    "checked": "法學英文 w2 appellant／appellee、w3 lawsuit、sue、judgment、w4 offer、acceptance、mutual consent、w5 tort、liability、w6 prosecutor、verdict、w7 brief、memo（plaintiff、appeal 原本就在 w2、w3）",
    "wants": "X343",
    "note": "11-11 16:0x LAWWW 匯進開發分支（held c170218dd、大四下＋日文 9d45ef8b3），等發布"
+  },
+  {
+   "id": "UA-AA-1112-01",
+   "at": "2026-11-12 03:0x UTC",
+   "quote": "上一個帳號來不及交班使用量就到了上限，你現在接班，我也會通知其他AI",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "DIALOGUE-DEPTH-1031",
+   "src": "使用者直接對 AA-C",
+   "note": "AA-C 接班：duty register --user-ok（ceaa12b75）；task 欄借掛（接班本身沒有任務 ID）"
+  },
+  {
+   "id": "UA-AA-1112-02",
+   "at": "2026-11-12 03:3x UTC",
+   "quote": "再等等",
+   "kind": "選擇題答案",
+   "status": "暫停",
+   "task": "DIALOGUE-DEPTH-1031",
+   "wants": "X150",
+   "src": "使用者直接對 AA-C（選擇題：語彤共創現在要怎麼做；選項 AA 自己定／現在開始共創／再等等）",
+   "note": "暫停五欄：誰決定＝使用者；為什麼＝還不要共創；負責人＝AA；恢復條件＝使用者說要共創；下次檢查日＝2026-11-19。這段時間語彤的台詞只做全遊戲共通的清理。"
   }
  ]
 }
