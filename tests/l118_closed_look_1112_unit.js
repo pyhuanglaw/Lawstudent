@@ -1,5 +1,5 @@
 // L118-CLOSED-LOOKS-OPEN-1112（LAWWW2-C；使用者截圖：水上便當沒開的時候燈亮、沒有鐵門）：118 巷的店沒開時鐵捲門拉下來一半、店裡的燈和招牌調暗。不需要瀏覽器。
-//  1 十一間店（九間走得進去＋兩間外帶飲料）各一片鐵捲門，掛在捲門箱下面：朝街、在玻璃前、底 1.25 m、頂 2.9 m、寬＝店寬 − 0.6
+//  1 十一間店（九間走得進去＋兩間外帶飲料）各一片鐵捲門，掛在捲門箱下面：朝街、在玻璃前、底 0.02 m（拉到地）、頂 2.9 m、寬＝店寬 − 0.6
 //  2 開店時藏起來、沒開（L118.isOpen 假）時出現；每秒更新
 //  3 店裡的燈（光暈）照 shopRealGlow 分給各店（模型有光暈網格時）；照 L118.isOpen（PLACES 沒有 118 巷的營業時間）
 //  4 玻璃後面的淺店內（wz_in_*，整條街一個網格）：照頂點落在哪一間調暗（著色器乘 uL118Lit），沒開 0.12
@@ -28,8 +28,8 @@ if(typeof Z3.l118ClosedLook==='function'){
   const sh=(r&&r.shutters)||[];
   const ok1=sh.length===LJ.shops.length&&LJ.shops.every((q,i)=>{ const m=sh[i]; const p=m.geometry.parameters, W=q.z1-q.z0, sx=q.side==='W'?-1:1, n=new THREE.Vector3(0,0,1).applyEuler(m.rotation);
     const yb=m.position.y-p.height/2, yt=m.position.y+p.height/2, glass=(q.side==='W'?LJ.facade.west:LJ.facade.east)+sx*(/^drink/.test(q.id)?0.3:0.9);
-    return Math.abs(p.width-(W-0.6))<1e-6&&Math.abs(m.position.z-(q.z0+q.z1)/2)<1e-6&&Math.abs(yb-1.25)<1e-6&&Math.abs(yt-2.9)<1e-6&&Math.sign(n.x)===-sx&&Math.abs(m.position.x)<Math.abs(glass); });
-  check('1 每一間一片鐵捲門，朝街、在玻璃前、底 1.25 頂 2.9、寬＝店寬 − 0.6（'+sh.length+' 片／'+LJ.shops.length+' 間）',ok1);
+    return Math.abs(p.width-(W-0.6))<1e-6&&Math.abs(m.position.z-(q.z0+q.z1)/2)<1e-6&&Math.abs(yb-0.02)<1e-6&&Math.abs(yt-2.9)<1e-6&&Math.sign(n.x)===-sx&&Math.abs(m.position.x)<Math.abs(glass); });
+  check('1 每一間一片鐵捲門，朝街、在玻璃前、底 0.02（拉到地，L118-SHUTTER-FULL-1112）頂 2.9、寬＝店寬 − 0.6（'+sh.length+' 片／'+LJ.shops.length+' 間）',ok1);
   const allHidden=sh.every(m=>!m.visible); open.self=false; open.dian=false; zone.update(1.2,{}); const vis=sh.filter(m=>m.visible).map(m=>m.name.replace('l118_shutter_',''));
   open={}; zone.update(1.2,{}); const after=sh.filter(m=>m.visible).length;
   check('2 營業中全部藏著；水上便當、118牛排沒開＝那兩片出現；又開了＝藏回去',allHidden&&vis.sort().join()==='dian,self'&&after===0,JSON.stringify(vis));

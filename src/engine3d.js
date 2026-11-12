@@ -381,7 +381,7 @@ const E3 = (function(){
   // 把人物放到某一層的 (x,z)，高度照地板（劇情、讀檔、坐下、電梯用）
   E.placeAt=function(ent,x,z,lv){ if(lv!==undefined&&lv!==null) setLv(ent,lv|0); const o=ent.obj.position; o.x=x; o.z=z; const n=navOf(ent.lv|0); o.y=n?n.heightAt(x,z):0; };
   // 找路（多層區域用各層一起找；單層照舊）
-  E.TAP_NOPATH_TEXT='';   /* WZ-SUNNY-TAPNAV-1112：點地找不到路、也走不到附近時的提示字（AA 寫，D79）；還沒給＝不提示 */
+  E.TAP_NOPATH_TEXT='那邊過不去。';   /* WZ-SUNNY-TAPNAV-1112：點地找不到路、也走不到附近時的提示字（AA-C 11-12 20:55 給；系統短字，不加括號、不寫說話人）*/
   E.pathTo=function(x0,z0,l0,x1,z1,l1){ if(E.levels) return gridPath(E.levels,x0,z0,l0|0,x1,z1,l1|0); return E.nav?E.nav.path(x0,z0,x1,z1):[[x1,z1]]; };
   // 測試用（tests/reachability_all.py）：用和玩家完全一樣的找路（nav.path）＋移動碰撞（stepEntity）模擬從 (x0,z0) 走到 (x1,z1)；
   // 不畫面、不動到真正的玩家。連續 4 秒（模擬時間）沒有前進 0.25 m 就算卡住，回傳卡住的位置

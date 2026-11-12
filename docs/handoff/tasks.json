@@ -54516,7 +54516,7 @@
    "title": "118 巷打烊的鐵捲門只拉到一半高，下半截露出暗玻璃和櫃台：拉到地",
    "owner": "LAWWW2",
    "priority": "P3",
-   "status": "待開工",
+   "status": "已整合待測試",
    "source": "BB-C 11-12 20:12 UTC（BB_379 c5b3d1e553）",
    "authorized": "D108、§12 第 1 點",
    "first": {
@@ -54538,7 +54538,7 @@
     "acceptance": "118 巷 11 間打烊／公休鐵捲門拉到地，看不到下半截玻璃和櫃台",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 11-12 20:1x】已轉 LAWWW2（P3，排在溫特寶邸 v2、SHOP-FIRST-APPROACH 之後）。"
+   "next": "【LAWWW-C 11-12 20:5x UTC】LAWWW2 c33f7444a7 已整合（門片底 1.25→0.02 m；l118_closed_look 等 4 支 exit 0）。等 CC 重拍 L118_CLOSED_LOOK、BB 判。｜【LAWWW-C 11-12 20:1x】已轉 LAWWW2（P3，排在溫特寶邸 v2、SHOP-FIRST-APPROACH 之後）。"
   },
   {
    "id": "GIFT-ALL-DRINK-SHOPS-1112",

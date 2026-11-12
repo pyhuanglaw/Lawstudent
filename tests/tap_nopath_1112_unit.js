@@ -14,5 +14,5 @@ if(m){ // 拿那一段跑：假的 moveTo——離玩家 ≤ 30 m 的點才走�
   ok(!r2.path&&r2.toasts.length===1,'1b. 一點都走不到：提示「'+(r2.toasts[0]||'')+'」');
 }
 const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); ok(/E\.toast=\(t,ms\)=>toast\(t,ms\)/.test(g3),'2. game3d.js 把 toast 給 engine（E.toast）');
-ok(/E\.TAP_NOPATH_TEXT=''/.test(fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8'))&&!/那邊走不過去/.test(fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8')),'3. 提示字等 AA：engine 預設空字串、程式裡沒有自己編的字');
+ok(/E\.TAP_NOPATH_TEXT='那邊過不去。'/.test(fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8'))&&!/那邊走不過去/.test(fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8')),'3. 提示字照 AA-C 11-12 20:55：「那邊過不去。」');
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -1771,7 +1771,7 @@ const Z3 = (function(){
        底到 1.25 m（和沒開時那一句「鐵門拉下來一半」一樣），寬＝店面開口（店寬 − 0.6）。每秒看一次開不開。 */
   function l118ClosedLook(E,g,zone,L,fw,fe){ if(!g||!zone||!L||!Array.isArray(L.shops)||!THREE.PlaneGeometry) return null;
     const isOpen=id=>{ try{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G) return true; if(typeof L118!=='undefined'&&L118.isOpen) return !!L118.isOpen(id,G); return typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen('l118_'+id,G.hour,G.day); }catch(e){ return true; } };
-    const GH=L.groundH||3.6, ih=GH-0.9, yTop=ih+0.2, yBot=1.25, sh=yTop-yBot, list=[], doors=[];
+    const GH=L.groundH||3.6, ih=GH-0.9, yTop=ih+0.2, yBot=0.02, sh=yTop-yBot, list=[], doors=[];   /* L118-SHUTTER-FULL-1112（BB_379：只拉到一半，下半截露出暗玻璃和櫃台）：拉到地（離地 2 cm，不和地面疊面）*/
     for(const q of L.shops){ const W=q.z1-q.z0, sx=q.side==='W'?-1:1, fx=q.side==='W'?fw:fe, z=(q.z0+q.z1)/2;
       list.push({place:'l118_'+q.id,x:fx+sx*4,z,w:W,d:8,ry:Math.PI/2,cx:fx+sx*4,cz:z});
       const R=/^drink/.test(q.id)?0.3:0.9, iw=W-0.6, x=fx+sx*(R-0.2); doors.push({id:q.id,x,z,iw,sx}); }
