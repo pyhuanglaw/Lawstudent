@@ -2,7 +2,7 @@
  "_meta": {
   "doc": "AA_838 學姊第二批（DLG-FULL-REVIEW-1110）：約會 remember 格「上次…」開頭 78 句裡改 45 句。做法照 AA_822／BB_377：眼前的東西直接講；「上次…這次…」有對比的留；重複的梗（坐到天黑兩處、差點睡著三處、設成桌布兩處、看完夕陽回去兩處、說十分鐘兩處）各留一處。",
   "by": "AA-C 2026-11-12",
-  "status": "待 BB 第二意見（D153）",
+  "status": "定稿（BB_386 聽過：D13、D12、D24 照改）",
   "apply": "已直接改 date_system/lines/Dxx.json；LAWWW 重新匯入即可"
  },
  "rows": [
@@ -118,7 +118,7 @@
    "file": "date_system/lines/D12.json",
    "who": "heroine_05",
    "old": "上次說站十分鐘，結果站了半小時。",
-   "new": "這次我不說站幾分鐘了。"
+   "new": "河還是這麼寬。我想再站一下。"
   },
   {
    "file": "date_system/lines/D12.json",
@@ -130,7 +130,7 @@
    "file": "date_system/lines/D13.json",
    "who": "heroine_05",
    "old": "上次那張夕陽，我設成桌布了。",
-   "new": "那張夕陽，我妹問我是誰拍的。"
+   "new": "那張照片，我奶奶問我是誰拍的。"
   },
   {
    "file": "date_system/lines/D14.json",
@@ -208,7 +208,7 @@
    "file": "date_system/lines/D24.json",
    "who": "heroine_05",
    "old": "上次在這裡待到天黑。",
-   "new": "這座橋，天黑以後比較好看。我記得。"
+   "new": "這座橋，天黑以後應該比較好看。"
   },
   {
    "file": "date_system/lines/D26.json",
