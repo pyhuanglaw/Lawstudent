@@ -54444,6 +54444,34 @@
    },
    "source": "使用者 11-12 對 LAWWW-C",
    "authorized": "使用者直接要求"
+  },
+  {
+   "id": "SHOP-INTERIOR-VIEW-1112",
+   "title": "店裡往外看沒有窗景（泰米村食：窗戶是一片深藍、門也是藍色平面；地上還有一堆紫紅色球）——所有新店室內逐間檢查窗景和看得出來的問題（X357）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "使用者 11-12（附截圖，泰米村食店內）：「窗景呢 我現在才看第一家 都給你電腦測試 你看不出來???」。LAWWW2：①泰米村食：窗外接窗景（照 assets/models/env/views/ 那套＋Z3.shopViewPane／W3.windowMat，汀州路的景）、門不要整片藍、地上紫紅色球（植物缺材質？）修掉 ②同一批全部新店室內（汀州路 tz_*、公館 gg_* 新三間、118 巷、新生南路、溫州街新店）逐間開進去看：窗景有沒有、有沒有缺材質的純色塊、門對不對 ③BB／CC：每一間新店進去拍三張（進門看全景、往窗外看、櫃檯）＋店外看進去一張，照清單（店員、客人、窗景、純色塊、門）判；以後新店驗收固定有這幾張，沒拍不算 ART_APPROVED",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 對 LAWWW-C",
+   "authorized": "使用者直接要求"
   }
  ]
 }
