@@ -33,7 +33,8 @@ async def talk(pg, cdp, tag, prefix, prefs):
         st = await pg.evaluate(ST)
         if st['choices']:
             i = next((n for p_ in prefs for n, t in enumerate(st['choices']) if p_ in t), None)
-            if i is None: i = next((n for n, t in enumerate(st['choices']) if any(w in t for w in ('算了', '再見', '離開', '沒事'))), len(st['choices']) - 1)
+            if i is None: i = next((n for n, t in enumerate(st['choices']) if any(w in t for w in ('算了', '再見', '離開', '沒事'))), None)
+            if i is None: R.note('選單沒有想要的、也沒有退出的選項：%s → 選第一個' % J(st['choices'])); i = 0
             menus.append(st['choices']); lines.append('▶ ' + st['choices'][i]); await pg.screenshot(path=os.path.join(OUT, '%s_menu_%02d.png' % (prefix, len(menus))))
             await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(900); continue
         if st['dlg']:
