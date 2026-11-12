@@ -30,6 +30,17 @@ TAG = os.environ.get('TAG') or 'x'
 ZONES = [z for z in (os.environ.get('ZONES') or 'tz_taimi').split(',') if z]
 HOURS = [float(h) for h in (os.environ.get('HOURS') or '14,20.5').split(',') if h]
 PARTS = set((os.environ.get('PARTS') or '1,2,3,4,5,6,7').split(','))
+# 11-13 BB-C／LAWWW-C（ab9ab0fbe8 L118 cam_dist 3.6）：ENTERCAM=1＝從門外照玩家走到門口按進去，進門那一下（0／0.4／1／2 秒）鏡頭到頭之間有沒有被擋；
+#   ALLSEATS=1＝⑦ 每一張位子都坐（不只第一張），坐下以後鏡頭到頭之間有沒有被擋（牆、門框）。都只記＋截圖，判定歸 BB。
+ENTERCAM = (os.environ.get('ENTERCAM') or '0') == '1'; ALLSEATS = (os.environ.get('ALLSEATS') or '0') == '1'
+OCC_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj, cam=E.camera; const rc=new THREE.Raycaster(); rc.camera=cam;
+  const head=new THREE.Vector3(P.position.x,P.position.y+1.5,P.position.z), from=cam.getWorldPosition(new THREE.Vector3()), dir=head.clone().sub(from); const dist=dir.length(); rc.set(from, dir.normalize()); rc.far=Math.max(0,dist-0.35);
+  const mine=new Set(); P.traverse(o=>mine.add(o)); const skip=o=>{ if(mine.has(o)||o.visible===false||o.isSprite) return true; const m=o.material; if(!m) return false; const ms=Array.isArray(m)?m:[m];
+    return ms.every(x=>x.transparent&&x.opacity<0.6) || /glass|window|窗/i.test((o.name||'')+' '+ms.map(x=>x.name||'').join(' ')); };
+  let vis=true; for(let q=P; q; q=q.parent) if(q.visible===false) vis=false;
+  const h=rc.intersectObjects(E.scene.children,true).find(x=>!skip(x.object)&&x.object.isMesh);
+  const r2=v=>+(+v).toFixed(2); return {cam:[r2(from.x),r2(from.y),r2(from.z)], head:[r2(head.x),r2(head.y),r2(head.z)], camDist:r2(dist), hit:h?{name:h.object.name||(h.object.parent&&h.object.parent.name)||'?', d:r2(h.distance)}:null, zone:G_zone()};
+  function G_zone(){ try{ return GAME.G.zone; }catch(e){ return null; } } })()"""
 PAN = (os.environ.get('PAN') or '0') == '1'   # BB-C 11:38：預設連拍鏡頭完全固定；PAN=1＝舊做法（每格轉 0.01 rad）
 STRIPS = (os.environ.get('STRIPS') or '0') == '1'   # BB-C 10:23：每個翻動的格子切成條圖（同一格 12 張並排、每張時間戳），分陰影跳／窗外車人／疊面閃
 PAR_LO, PAR_HI = float(os.environ.get('PAR_LO') or '0.05'), float(os.environ.get('PAR_HI') or '0.15')   # 射線：門面後面還有東西的比例
@@ -206,8 +217,15 @@ async def do_func(pg, cdp, tag, rm, zid):
     else:
         res['order'] = {'verdict': 'UNKNOWN', 'why': '沒有點餐／結帳類的互動點（這間可能不賣東西：交 BB 看）'}
     if rm['seat']:
-        rs = await D.sit_all(pg, cdp, tag + ' ⑦', 'gate_%s_%s_seat' % (TAG, zid), only=[(rm['seat']['x'], rm['seat']['z'])])
+        occs = []
+
+        async def _occ(k, s_, t_):
+            o = await pg.evaluate(OCC_JS); occs.append({'seat': [s_['sx'], s_['sz']], 'occ': o}); R.note('%s 坐下鏡頭：%s' % (t_, J(o)))
+        rs = await D.sit_all(pg, cdp, tag + ' ⑦', 'gate_%s_%s_seat' % (TAG, zid), only=None if ALLSEATS else [(rm['seat']['x'], rm['seat']['z'])], on_seated=_occ if ALLSEATS else None)
         res['sit'] = {'res': rs, 'verdict': 'PASS' if rs and rs[0][1] in ('ok', 'occupied') else 'FAIL'}
+        if ALLSEATS:
+            blk = [o for o in occs if o['occ'].get('hit')]
+            res['sit_cam'] = {'n': len(occs), 'blocked': blk, 'all': occs, 'verdict': 'UNKNOWN' if blk else ('PASS' if occs else 'UNKNOWN')}
     else:
         res['sit'] = {'verdict': 'n/a', 'why': '沒有位子'}
     ex = rm['exit']; ok_out = False
@@ -227,6 +245,37 @@ async def do_func(pg, cdp, tag, rm, zid):
         await L.tap(pg, cdp, '#interact'); s = await D.wait_zone(pg, cdp, ex['to'] or '', 20); ok_out = s['zone'] != zid
     res['out'] = {'verdict': 'PASS' if ok_out else 'FAIL', 'zone_after': (await D.st(pg))['zone']}
     return res
+
+
+async def enter_cam(pg, cdp, tag, rm, zid, h):
+    sp = rm['exit']['spawn']; oz = rm['exit']['to']
+    await D.load_zone(pg, cdp, oz, DAY, h, x=sp['x'], z=sp['z'], yaw=sp.get('yaw', 0.0), wait=8000)
+    R.setup('%s 【前置／捷徑】讀檔到門外 %s (%.2f, %.2f)，接著照玩家走到門口按進去' % (tag, oz, sp['x'], sp['z']))
+    await pg.evaluate(SETTLED); await pg.wait_for_timeout(1500)
+    door = await pg.evaluate("(z=>{ const i=GAME.E.interactables.find(i=>i.exit&&i.exit.to===z&&!i.hidden); return i?{label:i.label, x:+i.x.toFixed(2), z:+i.z.toFixed(2), r:i.radius||1, lv:i.lv|0}:null; })", zid)
+    if not R.check('FAIL_SETUP 檢查：%s 門外找得到進 %s 的門' % (tag, zid), bool(door), ''): return {'verdict': 'UNKNOWN', 'why': 'no door'}
+    tgt = await D.standable_near(pg, door['x'], door['z'], door['r'] * 0.6, door['lv'])
+    q = await D.st(pg)
+    if not q['interact'].startswith(door['label'][:3]):
+        await L.go_to(pg, cdp, R, (tgt or door)['x'], (tgt or door)['z'], 0.3, '%s 進門：走到「%s」' % (tag, door['label']), max_s=60, lv=door['lv']); q = await D.settle(pg)
+    out = {'door': door, 'shots': []}
+    if q['zone'] != zid:
+        if not R.check('FAIL_SETUP 檢查：%s 門口按鈕是「%s」' % (tag, door['label']), q['interact'].startswith(door['label'][:3]), J(q)): out['verdict'] = 'UNKNOWN'; return out
+        await L.tap(pg, cdp, '#interact')
+    t0 = time.time()
+    while time.time() - t0 < 20:
+        if (await pg.evaluate("GAME.G.zone")) == zid: break
+        await pg.wait_for_timeout(100)
+    t1 = time.time(); out['load_s'] = round(t1 - t0, 2)
+    for k, at in enumerate((0, 0.4, 1.0, 2.0)):
+        dt = at - (time.time() - t1)
+        if dt > 0: await pg.wait_for_timeout(int(dt * 1000))
+        o = await pg.evaluate(OCC_JS); o['t'] = round(time.time() - t1, 2)
+        await pg.screenshot(path=os.path.join(OUT, 'enter_%s_%s_%d.png' % (TAG, zid, k))); out['shots'].append(o)
+    blk = [o for o in out['shots'] if o.get('hit')]
+    out['verdict'] = 'UNKNOWN' if blk else 'PASS'
+    if blk: R.check('%s 進門那一下鏡頭到頭之間被擋（交 BB 看 enter_*.png）' % tag, False, J(blk))
+    return out
 
 
 async def gate_zone(pg, cdp, zid, h, rows, cons):
@@ -427,6 +476,10 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         if v == 'FAIL': R.check('%s %s 機器判 FAIL' % (tag, k), False, J(row['m'].get({'1_clerk': 'people', '1b_people_pos': 'people', '7b_consistent': 'consistent', '2_window': 'window', '3_ceiling': 'ceiling', '4_solid': 'solid', '5_parallax': 'parallax', '6_flicker': 'flicker', '7_func': 'func', '7_console': 'console'}.get(k, k)))[:400])
         elif v == 'UNKNOWN': R.check('%s %s 機器判不出來＝UNKNOWN（交 BB 看圖；不能當 PASS）' % (tag, k), False, J(row['m'].get({'1_clerk': 'people', '1b_people_pos': 'people', '7b_consistent': 'consistent', '2_window': 'window', '3_ceiling': 'ceiling', '4_solid': 'solid', '5_parallax': 'parallax', '6_flicker': 'flicker', '7_func': 'func'}.get(k, k)))[:400])
         elif v == 'INVALID': R.check('%s %s＝INVALID（連拍鏡頭漂 >5 mm，這次不能判；不算 FAIL，要重拍）' % (tag, k), False, J(row['m'].get('cam_drift_mm')))
+    if ENTERCAM and rm.get('exit') and rm['exit'].get('spawn') and rm['exit'].get('to'):
+        try: row['m']['enter'] = await enter_cam(pg, cdp, tag, rm, zid, h)
+        except Exception as e: row['m']['enter'] = {'error': repr(e)[:200]}
+        R.note('%s 進門那一下：%s' % (tag, J(row['m']['enter'])))
     rows.append(row)
 
 
