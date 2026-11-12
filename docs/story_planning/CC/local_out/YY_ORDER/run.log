@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_interact_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YY_ORDER\out
+CC 互動點：TAG yy_order；SHA 762104842a；ZONE yangyang；LABEL 炸物櫃；CASES [['2025-10-22', '18']]
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [2025-10-22 18] 【前置／捷徑】讀檔到 yangyang 2025-10-22 18（條件事件關掉）
+PASS [2025-10-22 18] 讀到 yangyang  {"zone": "yangyang", "x": 1.2, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 18.01}
+PASS [2025-10-22 18] 找得到「炸物櫃」  ["坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "坐下吃", "離開洋洋鹹酥雞", "點炸物（店內）", "看菜單", "看冷飲櫃", "自助區（餐具、醬料、水）", "看炸物櫃", "看廚房"]
+  [  46.9s] 到達「看炸物櫃」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [  47.0s] [2025-10-22 18] 互動鍵「看炸物櫃」（互動點 {"x": 0.2, "z": 2.5, "lv": 0, "label": "看炸物櫃", "hidden": false}）
+  [  49.4s] [2025-10-22 18] 錢 22000 → 22000（+0）
+  [  49.8s] [2025-10-22 18] 整段（1 句、0 個選單）：["｜（玻璃櫃裡排得滿滿的：雞皮、甜不辣、花枝丸、杏鮑菇。最上面一排的魷魚只剩兩串"]
+  [  49.8s] [2025-10-22 18] 選單：[]
+PASS [2025-10-22 18] 按了有字出來
+PASS 沒有 JS 例外  []
+ALL PASS

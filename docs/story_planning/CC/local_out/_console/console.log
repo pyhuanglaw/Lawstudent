@@ -1111,3 +1111,14 @@
        34c0887bf..ea6ca553b  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [20:32:53] ==== END   TUTOR_BACK_r2  exit=1  192s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ea6ca553b..8c17efd65  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:33:01] ==== END   LM_FRONT_72fc  exit=0  95s   ====
+[20:33:11] memory 40% before starting YY_ORDER (2 running)
+[20:33:11] ==== START YY_ORDER  (probe @ 762104842ae5c75400e4c380d1e4d746d0998376) ====
+[20:33:14] [res] cpu=17% mem=40% (12.7/31.4 GB) chrome_testing=5  START YY_ORDER
+[20:33:14] memory 40% before starting LM_FRONT_KNOWN_72fc (2 running)
+[20:33:14] ==== START LM_FRONT_KNOWN_72fc  (probe @ 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3) ====
+[20:33:17] [res] cpu=2% mem=42% (12.7/31.4 GB) chrome_testing=5  START LM_FRONT_KNOWN_72fc
+[20:34:39] [res] cpu=4% mem=46% (14.7/31.4 GB) chrome_testing=9  END YY_ORDER
