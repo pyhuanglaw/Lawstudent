@@ -28,7 +28,7 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   const all=J(SISB8_EVENTS)+J(SISB8_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB8_LINES).flat().filter(x=>typeof x==='string'));
   /* 「債總一定要周老師那班嗎？」「不一定。可是你會想上他的課。」：AA 2026-11-02 20:26 定稿（LAWWW 轉給 aa591 子代理；企劃線還沒有稿）*/
   const A590=require('./aa590_doc.js');   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A590.has(t)&&!require('./aa593_doc.js').has(t)&&!require('./libq_out_lines.js').added(t)&&!['「債總一定要周老師那班嗎？」','不一定。可是你會想上他的課。'].includes(t)&&!['兩點半 Café','公館・自助餐','霖澤館・研究室','我大一的時候，我的學姊也請過我。'].includes(t));   /* 「我大一的時候，我的學姊也請過我。」：AA_470 4-3（企劃線 5f54b6545）換掉的那一句 */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A590.has(t)&&!require('./aa593_doc.js').has(t)&&!require('./libq_out_lines.js').added(t)&&!['「債總一定要周老師那班嗎？」','不一定。可是你會想上他的課。'].includes(t)&&t!=='你大一修過經濟學。這張圖，我看了二十分鐘。'/* AA_901 補 8（企劃線 13b99d5da8）：學姊那張圖換開頭（CANON-NO-ECON-1112）*/&&!['兩點半 Café','公館・自助餐','霖澤館・研究室','我大一的時候，我的學姊也請過我。'].includes(t));   /* 「我大一的時候，我的學姊也請過我。」：AA_470 4-3（企劃線 5f54b6545）換掉的那一句 */
   check('0. 每一句台詞、選項都在稿裡（一字不差；AA_593 第 19～23 列改的五則在 AA_593 的表上，企劃線 6cbb0b4ab）',!!doc&&!notIn.length,J(notIn));
   check('0. SISY23.preTalk 包了這一層（_sisb8），前面幾層的記號還在',!!SISY23.preTalk._sisb8&&!!SISY23.preTalk._sisb4&&!!SISY23.preTalk._sisjp); });
 /* ---- 1 ---- */

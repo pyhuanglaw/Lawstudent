@@ -66,7 +66,7 @@ const SISB8_EVENTS=(function(){
     /* ---------- 3-1：大二下第 3 週週三 19:30 以後，法圖：那張圖（她論文讀到經濟學的論文；祐廷念過一個多月經濟）---------- */
     { id:'ev_sis_econ_graph', title:'那張圖', participants:[ID], location:'lawlib', trigger:'manual', once:true, background:'blur',
       dialogue:[ Object.assign(N('（她把筆電轉過來，指了指門外。）'),{libOut:true}),   /* libOut（AA_595 1-B29：取代「（她把筆電轉過來。螢幕上是一張曲線圖。）」，搬到走廊；AA 11-02 22:30 定稿）*/
-        SIS('你念過經濟。這張圖，我看了二十分鐘。'),
+        SIS('你大一修過經濟學。這張圖，我看了二十分鐘。'),   /* AA_901 補 8（企劃線 13b99d5da8）：開頭換這一句（法律系大一修經濟學原理） */
         {choice:[{text:'「我也忘得差不多了。」',goto:'b'}]},   /* CANON-NO-ECON-1112（AA-C 11-12 20:05 ⑤）：舊序章那一支（講給她聽、SIS_ECON_GRAPH taught、之後的熱拿鐵）拿掉，只走這一支 */
         {label:'b'},SIS('那一起看。'),N('（你們看了十分鐘，你想起來一半。她自己想通了另一半。）'),Object.assign({set:{SIS_ECON_GRAPH:'together'}},rel({trust:2})) ] },
     /* ---------- 3-2：大二下第 7 週週三 19:30 以後，法圖：她大二的筆記 ---------- */
