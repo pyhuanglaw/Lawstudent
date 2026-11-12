@@ -54332,6 +54332,34 @@
    },
    "source": "使用者 11-12 04:4x 對 LAWWW-C",
    "authorized": "使用者直接要求"
+  },
+  {
+   "id": "WZ-OFFBEAT-WINDOW-FLICKER-1112",
+   "title": "溫州街「日常失速」：從店外面往裡看會一直閃（使用者截圖：整面落地窗裡的室內；立體感使用者說還好）（X353）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "",
+   "next": "使用者 11-12（線上版 v9.10.25）：「日常失速還好，但從店外面看進去會一直閃」。LAWWW2：查街景那一包的室內和玻璃／牆是不是疊面（z-fighting）、透明排序、或室內和街景兩份重疊；和 L118-DRINK-WALL-FLICKER-1112 一起查，同一種原因就一起修。之後 SHOP-WINDOW-3D-1112 新做的櫥窗室內也要先確認不閃才交",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者截圖（LAWWW-C 對話 11-12）",
+    "acceptance": "修改前後同角度截圖、BB 判",
+    "ack": "SENT"
+   },
+   "source": "使用者 11-12 對 LAWWW-C",
+   "authorized": "使用者直接回報"
   }
  ]
 }
