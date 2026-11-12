@@ -1196,3 +1196,12 @@
 [06:03:10] [res] cpu=22% mem=49% (15.6/31.4 GB) chrome_testing=10  START WZ_ICE_r2
 [06:03:10] worktree add d3bd4a0a738b7bd5f74dc8e54bdb81ef3bb3b610: invalid reference - fetching main and the commit itself
 [06:05:53] [res] cpu=29% mem=53% (16.7/31.4 GB) chrome_testing=10  END WZ_ICE_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b3dc3f4d20..e2c2c0c398  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:06:01] ==== END   WZ_ICE_r2  exit=1  166s   ====
+[06:06:05] memory 53% before starting WZ_FRUIT_r2_look (2 running)
+[06:06:05] ==== START WZ_FRUIT_r2_look  (probe @ d3bd4a0a738b7bd5f74dc8e54bdb81ef3bb3b610) ====
+[06:06:08] [res] cpu=26% mem=53% (16.9/31.4 GB) chrome_testing=10  START WZ_FRUIT_r2_look
+[06:06:52] 正在跑：SSB_tz_a（已跑 17 分／上限 90 分）、SSB_tz_b（已跑 16 分／上限 75 分）、WZ_FRUIT_r2_look（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:08:27] [res] cpu=51% mem=52% (16.3/31.4 GB) chrome_testing=10  END WZ_FRUIT_r2_look
