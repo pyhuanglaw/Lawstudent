@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tutor_back_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TUTOR_BACK\out
+CC 家教回不了以後再接：SHA 6b2834fae8；CASES ['NO', 'EXPIRE', 'SKIP3']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [NO] ①【前置／捷徑】讀檔到宿舍 2026-02-23（大一下開學第一天）11:54；旗標 JOB_TUTOR、tutorFromDay＝大一上第 40 天；12:05 跑一次 JOBS.phone → {"start": "Y1S1"}
+  [  52.3s] [NO] ① 明軒那一串：[]
+FAIL [NO] ① 開學那一則（tutor_term_Y1S2）有來  []
+  [前置／捷徑] [EXPIRE] ①【前置／捷徑】讀檔到宿舍 2026-02-23（大一下開學第一天）11:54；旗標 JOB_TUTOR、tutorFromDay＝大一上第 40 天；12:05 跑一次 JOBS.phone → {"start": "Y1S1"}
+  [  74.6s] [EXPIRE] ① 明軒那一串：[]
+FAIL [EXPIRE] ① 開學那一則（tutor_term_Y1S2）有來  []
+  [前置／捷徑] [SKIP3] ①【前置／捷徑】讀檔到宿舍 2026-02-23（大一下開學第一天）11:54；旗標 JOB_TUTOR、tutorFromDay＝大一上第 40 天；12:05 跑一次 JOBS.phone → {"start": "Y1S1"}
+  [  98.3s] [SKIP3] ① 明軒那一串：[]
+FAIL [SKIP3] ① 開學那一則（tutor_term_Y1S2）有來  []
+PASS 沒有 JS 例外  []
+FAILED 3: [NO] ① 開學那一則（tutor_term_Y1S2）有來；[EXPIRE] ① 開學那一則（tutor_term_Y1S2）有來；[SKIP3] ① 開學那一則（tutor_term_Y1S2）有來
