@@ -80,7 +80,7 @@ NEAR_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, mine=new Set(); E.
   out.sort((a,b)=>a.d-b.d); const r2=v=>+(+v).toFixed(2), pl=E.player;
   const ppl=[].concat((E.npcs||[]).map(n=>['npc',n]),(E.extras||[]).map(n=>['extra',n])).map(([k,n])=>{ const o=n&&(n.obj||n.mesh||n.group); const p=o&&o.position; return p?{k, id:n.id||n.charId||n.name||'', x:r2(p.x), z:r2(p.z), d:r2(Math.hypot(p.x-P.x,p.z-P.z))}:null; }).filter(q=>q&&q.d<=3);
   return {at:[r2(P.x),r2(P.z)], lv:pl.lv|0, path:Array.isArray(pl.path)?pl.path.slice(0,12).map(q=>Array.isArray(q)?q.map(r2):[r2(q.x),r2(q.z)]):(pl.path??null), pathIdx:pl.pathIdx??pl.pi??null, target:pl.target?(pl.target.isVector3?[r2(pl.target.x),r2(pl.target.z)]:pl.target):null,
-    lastS2F:window.__ccS2F||null, people3m:ppl, near:out.slice(0,15)}; })()"""
+    lastS2F:window.__ccS2F||null, tapNoPath:(E.tapNoPath!==undefined?E.tapNoPath:null), people3m:ppl, near:out.slice(0,15)}; })()"""
 # 11-13 LAWWW-C：記每一次點地 E.screenToFloor 的回傳（卡住那一刻給 LAWWW2）
 S2F_HOOK = r"""(()=>{ const E=GAME.E; if(!E.__ccS2Fw&&E.screenToFloor){ const f0=E.screenToFloor; E.__ccS2Fw=true; E.screenToFloor=function(x,y){ const r=f0.apply(this,arguments); try{ window.__ccS2F={x:+(+x).toFixed(0), y:+(+y).toFixed(0), t:+performance.now().toFixed(0), r:r?(r.isVector3?[+r.x.toFixed(2),+r.y.toFixed(2),+r.z.toFixed(2)]:JSON.parse(JSON.stringify(r,(k,v)=>(v&&v.isVector3)?[+v.x.toFixed(2),+v.y.toFixed(2),+v.z.toFixed(2)]:(v&&v.isObject3D)?(v.name||'obj'):v))):r}; }catch(e){} return r; }; } return !!E.__ccS2Fw; })()"""
 
@@ -124,6 +124,8 @@ async def watched(pg, coro, tag):
         if pts[j][0] - pts[i][0] >= 5 and j < len(pts) - 1: stuck.append({'at': pts[i][1:4], 'zone': pts[i][4], 'from_s': pts[i][0], 'secs': round(pts[j][0] - pts[i][0], 1)})
         i = j + 1
     R.note('%s 【卡住偵測】取樣 %d 筆（每 0.5 秒）；連續 ≥5 秒沒位移 %d 次 %s' % (tag, len(pts), len(stuck), J(stuck)))
+    if STUCKSHOT:   # 11-13 LAWWW-C：E.tapNoPath 計數（找不到路改走最近可達點）＋最後停的位置
+        R.note('%s 走完：E.tapNoPath=%s；最後停在 %s' % (tag, await pg.evaluate("(GAME.E.tapNoPath!==undefined?GAME.E.tapNoPath:null)"), J(pts[-1] if pts else None)))
     return r, stuck
 
 
