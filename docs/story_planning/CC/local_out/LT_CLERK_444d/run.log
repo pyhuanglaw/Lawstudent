@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_campus_view_shot_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LT_CLERK_444d\out
+CC 校園定點截圖：worktree ?；TAG lt_clerk_444d；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到存檔 tests/fixtures/user_save_day51b_1110.json
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_liantong 14.00 時、站 (0.8, -0.5)；鏡頭直接擺 yaw 3.1416 rad、距離 3.0
+  [  46.5s] lt_clerk_front：{"yaw": 3.142, "dist": 3, "cam": [0.8, 2.76, -3.29], "player": [0.8, 0, -0.5], "zone": "tz_liantong", "hour": 14.04}
+PASS lt_clerk_front 在 tz_liantong、玩家在 (0.8, -0.5) 0.6 m 內  {"yaw": 3.142, "dist": 3, "cam": [0.8, 2.76, -3.29], "player": [0.8, 0, -0.5], "zone": "tz_liantong", "hour": 14.04}
+  [  47.2s] lt_clerk_front 另一台相機：玩家位置高 1.4 m → (0.8, 1.2, -2.5) fov 55.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 tz_liantong 14.00 時、站 (0.8, -0.5)；鏡頭直接擺 yaw 3.1416 rad、距離 3.0
+  [  63.7s] lt_clerk_front_low：{"yaw": 3.142, "dist": 3, "cam": [0.8, 2.76, -3.29], "player": [0.8, 0, -0.5], "zone": "tz_liantong", "hour": 14.04}
+PASS lt_clerk_front_low 在 tz_liantong、玩家在 (0.8, -0.5) 0.6 m 內  {"yaw": 3.142, "dist": 3, "cam": [0.8, 2.76, -3.29], "player": [0.8, 0, -0.5], "zone": "tz_liantong", "hour": 14.04}
+  [  64.4s] lt_clerk_front_low 另一台相機：玩家位置高 1.0 m → (0.8, 1.0, -2.5) fov 60.0
+PASS 沒有 JS 例外  []
+ALL PASS

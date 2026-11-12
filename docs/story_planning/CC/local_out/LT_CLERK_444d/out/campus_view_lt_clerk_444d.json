@@ -1,0 +1,34 @@
+{
+ "lt_clerk_front": {
+  "yaw": 3.142,
+  "dist": 3,
+  "cam": [
+   0.8,
+   2.76,
+   -3.29
+  ],
+  "player": [
+   0.8,
+   0,
+   -0.5
+  ],
+  "zone": "tz_liantong",
+  "hour": 14.04
+ },
+ "lt_clerk_front_low": {
+  "yaw": 3.142,
+  "dist": 3,
+  "cam": [
+   0.8,
+   2.76,
+   -3.29
+  ],
+  "player": [
+   0.8,
+   0,
+   -0.5
+  ],
+  "zone": "tz_liantong",
+  "hour": 14.04
+ }
+}
