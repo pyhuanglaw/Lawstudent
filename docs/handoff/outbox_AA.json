@@ -7481,6 +7481,22 @@
    "noDirectIntegrate": false,
    "next": "第五批照 5359a86fb1 匯入",
    "unfinished": ""
+  },
+  {
+   "task": "MIDTERM-LINES-1112",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6dbfe10d7e",
+   "files": [
+    "docs/story_planning/AA_923_期中考台詞_D118.md",
+    "AA_861～868、ladder_bb*.json、D09、syllabus Y1S2"
+   ],
+   "state": "已交付",
+   "at": "2026-11-12T22:1x",
+   "receiver": "LAWWW",
+   "ack": "LAWWW-C ACK（3a9ca72976）；BB 待回",
+   "noDirectIntegrate": false,
+   "next": "源稿第五批用 6dbfe10d7e；src 手改等 BB 照用",
+   "unfinished": "BB 第二眼"
   }
  ],
  "items": [
