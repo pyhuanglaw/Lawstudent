@@ -1,5 +1,5 @@
-// AA_140 G01（2026-10-16）：可昕的生日 4/24（BB_96 9-7b）——大一下第 9 週週五；做法同 12/3：行事曆「可昕生日」、草稿「生日快樂。」、18:00 出遊、都沒做＝隔天「我等了一天。」（一次）；
-// 「我帶了另一個。」只給 12/3 去過政大的玩家；BCG-45 三個選項都會到；記 KX_BDAY:{1:…}。修改前沒有這個事件（第 1 項失敗）。用法：node tests/v2_g01_unit.js
+// 可昕大一下的生日 4/24（CANON-NO-ECON-1112 第四批：照 AA_874 兩版——交往中映月湖、還沒交往系館請一杯；原本 AA_140 G01 的外校那一版整場換掉）。
+// 修改前：只有舊的那一版（第 4 項以後失敗）。用法：node tests/v2_g01_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
