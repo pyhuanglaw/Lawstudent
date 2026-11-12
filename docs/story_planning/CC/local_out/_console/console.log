@@ -319,3 +319,12 @@
 [15:31:19] [res] cpu=5% mem=34% (10.7/31.4 GB) chrome_testing=0  START XS_REAL_perf
 [15:32:48] 正在跑：XS_REAL_perf（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:35:05] [res] cpu=1% mem=35% (11.1/31.4 GB) chrome_testing=0  END XS_REAL_perf
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4535adb37..1a23f3336  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:35:13] ==== END   XS_REAL_perf  exit=0  229s   ====
+[15:35:22] memory 33% before starting XS_REAL_perf_old (0 running)
+[15:35:22] ==== START XS_REAL_perf_old  (probe @ 5f03f455e21a8d4fc38d2cbf07aa3eea05b79501) ====
+[15:35:25] [res] cpu=5% mem=33% (10.4/31.4 GB) chrome_testing=0  START XS_REAL_perf_old
+[15:37:48] 正在跑：XS_REAL_perf_old（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:39:12] [res] cpu=3% mem=34% (10.9/31.4 GB) chrome_testing=0  END XS_REAL_perf_old
