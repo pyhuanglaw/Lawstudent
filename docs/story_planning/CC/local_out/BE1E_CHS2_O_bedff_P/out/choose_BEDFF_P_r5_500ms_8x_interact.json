@@ -1,0 +1,239 @@
+{
+ "tag": "BEDFF_P_r5_500ms_8x_interact",
+ "spec": {
+  "rate": 500,
+  "n": 8,
+  "start": "interact",
+  "point": "L1:快轉",
+  "xy": [
+   195.0,
+   730.5
+  ],
+  "firstAt": [
+   318.0,
+   754.0
+  ]
+ },
+ "pace": 595,
+ "preTaps": [],
+ "taps": [
+  {
+   "n": 1,
+   "ms": 32,
+   "burst": 1,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：interact）",
+   "sinceMenu": null
+  },
+  {
+   "n": 2,
+   "ms": 666,
+   "burst": 2,
+   "menu": "小睡 30 分鐘",
+   "menuAll": [
+    "小睡 30 分鐘",
+    "小睡 1 小時",
+    "小睡 2 小時",
+    "睡到傍晚（不設鬧鐘）"
+   ],
+   "hit": "快轉",
+   "sinceMenu": 539.5
+  },
+  {
+   "n": 3,
+   "ms": 1267,
+   "burst": 3,
+   "menu": "到下一個有事的時候",
+   "menuAll": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "hit": "過一週",
+   "sinceMenu": 561.3
+  },
+  {
+   "n": 4,
+   "ms": 2088,
+   "burst": 4,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：fade）",
+   "sinceMenu": null
+  },
+  {
+   "n": 5,
+   "ms": 2683,
+   "burst": 5,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：fade）",
+   "sinceMenu": null
+  },
+  {
+   "n": 6,
+   "ms": 3265,
+   "burst": 6,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：fade）",
+   "sinceMenu": null
+  },
+  {
+   "n": 7,
+   "ms": 3849,
+   "burst": 7,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：fade）",
+   "sinceMenu": null
+  },
+  {
+   "n": 8,
+   "ms": 4416,
+   "burst": 8,
+   "menu": null,
+   "menuAll": null,
+   "hit": "（畫面上沒有選單：fade）",
+   "sinceMenu": null
+  }
+ ],
+ "picks": [
+  {
+   "picked": "快轉",
+   "menu": [
+    "小睡 30 分鐘",
+    "小睡 1 小時",
+    "小睡 2 小時",
+    "睡到傍晚（不設鬧鐘）",
+    "快轉",
+    "再撐一下"
+   ],
+   "downDt": 540,
+   "burst": 2,
+   "burstBeforeMenu": false,
+   "v350": false,
+   "vburst": false,
+   "expired": false,
+   "irr": false,
+   "ours": true
+  },
+  {
+   "picked": "過一週",
+   "menu": [
+    "到下一個有事的時候",
+    "過一週",
+    "不用了"
+   ],
+   "downDt": 561,
+   "burst": 3,
+   "burstBeforeMenu": false,
+   "v350": false,
+   "vburst": false,
+   "expired": false,
+   "irr": true,
+   "ours": true
+  }
+ ],
+ "bursts": [
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "menus": [
+  [
+   "小睡 30 分鐘",
+   "小睡 1 小時",
+   "小睡 2 小時",
+   "睡到傍晚（不設鬧鐘）",
+   "快轉",
+   "再撐一下"
+  ],
+  [
+   "到下一個有事的時候",
+   "過一週",
+   "不用了"
+  ]
+ ],
+ "diff": [
+  [
+   "cls.note.rem_58:english_y1:am",
+   null,
+   1
+  ],
+  [
+   "cls.note.sel_Y1S1",
+   null,
+   1
+  ],
+  [
+   "day",
+   57,
+   58
+  ],
+  [
+   "flags.FEED.dm.zr_exch",
+   null,
+   "x:contact"
+  ],
+  [
+   "flags.allowanceMonth",
+   null,
+   11
+  ],
+  [
+   "flags.clsGoal",
+   "今天的課：09:10 刑法總則（一）、13:20 服務學習（一）。自由活動：去圖書館、公館，或找人聊天",
+   "今天的課：09:10 大一英文（上）、13:20 民法總則。上課、讀書或自由活動都可以"
+  ],
+  [
+   "flags.dpDay",
+   57,
+   58
+  ],
+  [
+   "flags.dpPick",
+   null,
+   "{\"id\": \"a118_y1s1_an_notice\", \"day\": 58}"
+  ],
+  [
+   "flags.nightKai",
+   null,
+   false
+  ],
+  [
+   "hour",
+   15.034,
+   8.85
+  ],
+  [
+   "money",
+   30000,
+   60000
+  ]
+ ],
+ "end": {
+  "dlg": false,
+  "ch": 0,
+  "busy": false,
+  "path": false,
+  "seat": false,
+  "fade": false,
+  "phone": false,
+  "paused": false,
+  "zone": "dorm",
+  "h": 8.851,
+  "day": 58,
+  "dtext": "",
+  "dlgC": null,
+  "nd": 6,
+  "typing": false
+ },
+ "shot": "07_BEDFF_P_r5_500ms_8x_interact_end.png"
+}
