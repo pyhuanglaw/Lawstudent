@@ -22,8 +22,8 @@ python3 docs/art-rebuild/second_ai/wip/canon_chars_1112/apply_canon_chars.py
 | 檔 | 改什麼 |
 |---|---|
 | `src/assets3d.js` | manifest 拿掉 `char.econ_*` 五行 |
-| `src/character3d.js` | `C.SIT_FIT` 拿掉五格、`C.MODEL_PROPS` 拿掉三格（安全帽、美食地圖筆記本、保溫瓶） |
-| `tools/anim/sit_fit.json` | 拿掉五格（坐姿量測的來源表） |
+| `src/character3d.js` | `C.SIT_FIT` 拿掉五格、`C.MODEL_PROPS` 拿掉三格（安全帽、美食地圖筆記本、保溫瓶）；**祐廷那一格 bt 0.0709 → 0.0634**（見下） |
+| `tools/anim/sit_fit.json` | 拿掉五格（坐姿量測的來源表）；祐廷的 bt／b／B 同上 |
 | `LICENSES.md` | 拿掉只講這五個人模型或立繪的 6 列 |
 | `src/data/portrait_manifest.js` | 用 `tools/gen_portrait_manifest.py` 照實際存在的立繪重產（少五格） |
 
@@ -33,5 +33,11 @@ python3 docs/art-rebuild/second_ai/wip/canon_chars_1112/apply_canon_chars.py
 - 宿營兩張 2D 背景、宿營 CG：等 AA／LAWWW 定（清單 `wip/canon_cleanup_1112/README.md` 第八節）。
 - 測試裡寫著這五個 id 的劇情測試（aa440、aa459、exam_lib_crowd、invites_quote_b5、ladder_aa781）和 `tests/fixtures`、`tests/repro_*`、`wip_backup` 的舊存檔：是劇情／存檔的事，歸 LAWWW；`docs/handoff/user_shots/` 的使用者截圖也不是我的。
 
-## 測試
-（見下方「結果」）
+## 順手修 ① 的副作用：祐廷坐下高了 1.2 cm
+① 拿掉外套網格以後，`tests/sit_height_unit.js` ①「褲子的人大腿底部在椅面下 1.5 cm、上 0.5 cm 以內」祐廷 +1.2 cm FAIL——原本量到的「大腿底部」其實是外套下襬。重跑 `node tools/anim/sit_fit_survey.js 輸出.json --js 表.js char.yuting`：bt 0.0709 → 0.0634（ul、fe、膝蓋、腳踝都沒變），腳本一起改。**開發分支現在（含 ①）這一項應該是紅的**，套這包就好。
+
+## 測試（在 6e3fdd3c89＋本腳本上）
+- 引用 manifest、SIT_FIT、MODEL_PROPS、立繪清單、LICENSES、sit_fit.json、這五個 id 的 **260 支測試：260 支過**（第一輪 259，唯一 FAIL 就是上面祐廷那一項，改了以後 `sit_height_unit` ALL PASS）；`tests/sit*.js` 6 支 ALL PASS。
+- `node --check` src/character3d.js、src/assets3d.js 過。
+- 腳本、README 用 `canon_scan` 字表掃 0。
+- **沒測**：瀏覽器（這五個人已經沒有劇情會叫出來；祐廷坐下的高度請 CC 下次拍坐姿時順便看）。

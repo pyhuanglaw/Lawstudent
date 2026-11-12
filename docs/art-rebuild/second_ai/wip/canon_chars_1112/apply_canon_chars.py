@@ -40,10 +40,15 @@ def c3(s):
     s, b = re.subn(r"'char\.econ_(%s)':\[(?:[^\[\]{}]|\{[^{}]*\})*\],?" % ALT, '', s)
     return s, a + b
 edit('src/character3d.js', c3, 8)
+# 祐廷：① 拿掉外套網格以後，坐姿大腿底部的最低點變成真的大腿（tools/anim/sit_fit_survey.js char.yuting 重量：bt 0.0709 → 0.0634）
+W['src/character3d.js'], _n = W['src/character3d.js'].replace("'vroid_yuting.vrm':[0.5417,0.0709]", "'vroid_yuting.vrm':[0.5417,0.0634]"), W['src/character3d.js'].count("'vroid_yuting.vrm':[0.5417,0.0709]")
+if _n != 1: sys.exit('src/character3d.js：祐廷的坐姿值預期 1 處，實際 %d 處' % _n)
 # tools/anim/sit_fit.json：五格
 def sf(s):
     j = json.loads(s); ks = [k for k in j if re.fullmatch(r'bl_econ_(%s)\.vrm' % ALT, k)]
     for k in ks: del j[k]
+    y = j.get('vroid_yuting.vrm')
+    if y and y.get('bt') == 0.0709: y.update(bt=0.0634, b=0.0634, B=0.0634)
     ind = 1 if s.startswith('{\n ') and not s.startswith('{\n  ') else 2
     return json.dumps(j, ensure_ascii=False, indent=ind) + ('\n' if s.endswith('\n') else ''), len(ks)
 edit('tools/anim/sit_fit.json', sf, 5)
