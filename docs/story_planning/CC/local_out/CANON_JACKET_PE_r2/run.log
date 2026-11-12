@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon_side_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON_JACKET_PE_r2\out
+CC CANON_SIDE：SHA 209b33be094f08e62eb8531e9462c17c02db5eea；PARTS ['PE']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  41.2s] PE 掃體育課：{"hit": {"key": "2025-09-22", "t0": 15.5, "ik": "6:pe_y1s1:pm2"}, "sample": [["2025-09-18", ["civ_general"]], ["2025-09-19", ["econ_principles_1"]], ["2025-09-22", ["const_1", "pe_y1s1"]]]}
+PASS FAIL_SETUP 檢查：PE 9/1～10/27 找得到有體育課的一天  {"hit": {"key": "2025-09-22", "t0": 15.5, "ik": "6:pe_y1s1:pm2"}, "sample": [["2025-09-18", ["civ_general"]], ["2025-09-19", ["econ_principles_1"]], ["2025-09-22", ["const_1", "pe_y1s1"]]]}
+  [前置／捷徑] PE【前置／捷徑】讀檔到 2025-09-22 14.50 宿舍（體育 15.5 前 1 小時）
+PASS FAIL_SETUP 檢查：PE 讀檔那一天有體育課  {"key": "2025-09-22", "t0": 15.5, "ik": "6:pe_y1s1:pm2"}
+PASS FAIL_SETUP 檢查：PE 手機「今天」有體育的「直接去上課」  6:pe_y1s1:pm2
+PASS FAIL_SETUP 檢查：PE 進了體育館、換上運動服（CLS.peWear）  {"wear": "6:pe_y1s1:pm2", "zone": "gym"}
+PASS [黑畫面] pe_yuting_front 不是黑畫面（平均亮度 118.9、變化 52.2）  [118.9, 52.2]
+  [  77.6s] [截圖] pe_yuting_front：鏡頭 {"eye": [-0.0, 1.5, -5], "look": [0, 1.1, -2.6], "lens": 35, "vfov": 32.27}、亮度 [118.9, 52.2]
+PASS [黑畫面] pe_yuting_back 不是黑畫面（平均亮度 97.1、變化 58.6）  [97.1, 58.6]
+  [  79.8s] [截圖] pe_yuting_back：鏡頭 {"eye": [0, 1.5, -0.2], "look": [0, 1.1, -2.6], "lens": 35, "vfov": 32.27}、亮度 [97.1, 58.6]
+  [  79.8s] pe_yuting 祐廷 {"x": 0, "y": 0, "z": -2.6, "yaw": 3.142, "lv": 0, "zone": "gym"}
+PASS FAIL_SETUP 檢查：PE 下課以後運動服脫下（CLS.peWear 空）  null
+PASS [黑畫面] pe_after_yuting_front 不是黑畫面（平均亮度 116.7、變化 52）  [116.7, 52]
+  [  87.0s] [截圖] pe_after_yuting_front：鏡頭 {"eye": [-0.0, 1.5, -5], "look": [0, 1.1, -2.6], "lens": 35, "vfov": 32.27}、亮度 [116.7, 52]
+PASS [黑畫面] pe_after_yuting_back 不是黑畫面（平均亮度 115.7、變化 55.5）  [115.7, 55.5]
+  [  89.1s] [截圖] pe_after_yuting_back：鏡頭 {"eye": [0, 1.5, -0.2], "look": [0, 1.1, -2.6], "lens": 35, "vfov": 32.27}、亮度 [115.7, 55.5]
+  [  89.1s] pe_after_yuting 祐廷 {"x": 0, "y": 0, "z": -2.6, "yaw": 3.142, "lv": 0, "zone": "gym"}
+PASS 沒有 JS 例外  []
+ALL PASS
