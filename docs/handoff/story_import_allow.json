@@ -8209,6 +8209,15 @@
    "task": "TINGZHOU-SHOPS5-1110",
    "kind": "json",
    "note": "汀州路・汀州聯通（tz_liantong）店內文字（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n）：店員進門三句、打烊、門口關著那一句、錢不夠、櫃台「今天要弄什麼？」三樣服務（檢測手機、貼保護貼、問門號方案：價錢、分鐘、句子）、五樣可以買的配件＋保護貼（已貼，只有貼了才有）、四個「看」、坐著等（坐下、等）、拿起、掛回去——tools/shops/import_tz_grocery.py → src/data/tz_grocery_lines.js（流程 src/gg3shops3d.js S.serviceCounter）"
+  },
+  {
+   "path": "docs/story_planning/AA_828_新店打工_山嵐書店_南洋戲院.md",
+   "sha": "be3b9c9e4",
+   "status": "approved",
+   "approvedBy": "AA（SHOP-JOBS-1112）",
+   "task": "SHOP-JOBS-1112",
+   "kind": "md",
+   "note": "X356 新店打工第一批（AA-C 11-12 定稿，分支 claude/magical-albattani-bk7b4n；稿上寫「BB-C 11-12 06:04 第二意見四點全採納。定稿。」）：山嵐書店、南洋戲院的告示、應徵、班表、薪水 784、三段工作（新手／熟練／小選擇）、最後一句旁白、員工票、Alison 改說的那一句——tools/story/import_shop_jobs_aa828.py → src/data/shop_jobs_aa828.js（流程 src/jobs3d.js）；LAWWW 的匯入子代理 2026-11-12 代登，待值班 LAWWW 核"
   }
  ]
 }

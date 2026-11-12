@@ -170,17 +170,21 @@ const SHOPNPC=(function(){
   S.ny=G=>{ const F=F_(G); let r=F.NY_ALISON; if(!r||typeof r!=='object') r=F.NY_ALISON={first:null,terms:{},sis:{}}; if(!r.terms) r.terms={}; if(!r.sis) r.sis={}; return r; };
   S.popcorn=G=>!!G&&!!G.flags&&G.flags.NY_POPCORN===(G.day|0);
   S.alisonDue=function(GM){ const G=GM&&GM.G; if(!G||G.zone!=='xs_nanyang'||econ(G)||!knows(S.YU,G)) return false; const T=termOf(G.day); if(!T) return false;
-    const r=(G.flags||{}).NY_ALISON; if(r&&r.terms&&r.terms[T.id]!=null) return false;
+    const r=(G.flags||{}).NY_ALISON; if(r&&r.terms&&r.terms[T.id]!=null&&!S.alisonCo(G)) return false;   /* 自己也在這裡打工以後那一句（AA_828）：這學期遇過了也說（一次）*/
     const e=typeof CHARACTERS!=='undefined'&&CHARACTERS.yu&&typeof STORY!=='undefined'&&STORY.schedEnt?STORY.schedEnt(CHARACTERS.yu,G):null; if(!e||e.zone!=='xs_nanyang') return false;
     const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(S.YU):null; return !!n&&!n.leaving&&near(GM,n,S.ALISON_R); };
   /* 這一次演哪一段：'first'｜'sis'｜第幾句（0～2）*/
-  S.alisonPick=function(G){ const r=(G.flags||{}).NY_ALISON, T=termOf(G.day); if(!r||r.first==null) return 'first';
+  /* AA_828 第 2 節（SHOP-JOBS-1112）：祐廷自己也在南洋戲院打工以後，她上班遇到他改說一句（一次；字和記錄在 JOBS.alisonCo／alisonCoDone）——取代送爆米花那一段（之後照「之後再遇到」那幾句）*/
+  S.alisonCo=G=>{ try{ return typeof JOBS!=='undefined'&&JOBS.alisonCo?JOBS.alisonCo(G):null; }catch(e){ return null; } };
+  S.alisonPick=function(G){ if(S.alisonCo(G)) return 'co'; const r=(G.flags||{}).NY_ALISON, T=termOf(G.day); if(!r||r.first==null) return 'first';
     const F=G.flags||{}; if(F.KNOWS_SIS_ALISON&&T&&!(r.sis&&r.sis[T.id]!=null)&&hash('nysis|'+G.day)%2===0) return 'sis';
     return hash('nyagain|'+G.day)%(D().alison.again||[1]).length; };
-  S.alisonLines=function(G,pick){ const A=D().alison||{}; if(pick==='first') return A.first.map(l=>Object.assign({},l)); if(pick==='sis') return [{speaker:S.YU,text:A.sis}]; const nr=A.againNarr&&A.againNarr[pick]; return (nr?[{speaker:null,text:nr}]:[]).concat([{speaker:S.YU,text:A.again[pick]}]); };
+  S.alisonLines=function(G,pick){ const A=D().alison||{}; if(pick==='co') return [{speaker:S.YU,text:S.alisonCo(G)}]; if(pick==='first') return A.first.map(l=>Object.assign({},l)); if(pick==='sis') return [{speaker:S.YU,text:A.sis}]; const nr=A.againNarr&&A.againNarr[pick]; return (nr?[{speaker:null,text:nr}]:[]).concat([{speaker:S.YU,text:A.again[pick]}]); };
   S.alison=async function(GM){ const G=GM.G, T=termOf(G.day), r=S.ny(G), pick=S.alisonPick(G);
+    const lines=S.alisonLines(G,pick);
     r.terms[T.id]=G.day|0; if(pick==='first') r.first=G.day|0; if(pick==='sis') r.sis[T.id]=G.day|0;
-    GM.sceneBegin({adv:{charId:S.YU,expression:'neutral'}}); try{ await EVENTS.runLines(S.alisonLines(G,pick),{id:'shopnpc_alison',participants:[S.YU]}); } finally { GM.sceneEnd(); }
+    if(pick==='co'){ if(r.first==null) r.first=G.day|0; JOBS.alisonCoDone(G); }   /* 爆米花不請了：第一次那一段不再演 */
+    GM.sceneBegin({adv:{charId:S.YU,expression:'neutral'}}); try{ await EVENTS.runLines(lines,{id:'shopnpc_alison',participants:[S.YU]}); } finally { GM.sceneEnd(); }
     if(pick==='first') F_(G).NY_POPCORN=G.day|0;
     if(GM.autosave) GM.autosave(); return true; };
 

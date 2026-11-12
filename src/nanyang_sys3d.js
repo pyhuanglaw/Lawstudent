@@ -36,6 +36,10 @@ const NYS=(function(){
     return E.addNPC({obj:o,lv:0,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,clerk:true,nyClerk:true}); };
   /* ---------- 買票 ---------- */
   S.hasTicket=G=>!!G&&!!G.flags&&G.flags.NY_TICKET===(G.day|0);
+  /* 員工票（AA_828 第 2 節，SHOP-JOBS-1112；規則在 src/jobs3d.js 的 JOBS.staffTicket*）：在這裡打工滿 3 班以後選單多一項「拿員工票（站著看）」——不用錢、一週一次、不能帶人。
+     拿了＝今天有票（NY_TICKET）＋G.flags.NY_TICKET_STAFF＝那一天。約會看電影照買票：S.paidTicket（員工票不算，src/invites3d.js 讀）*/
+  S.staffOpt=G=>{ const J=typeof JOBS!=='undefined'?JOBS:null; if(!J||!J.staffTicketOk||!J.staffTicketOk(G)) return null; const T=J.staffTicket(); return T?{t:T.opt,nyStaff:true}:null; };
+  S.paidTicket=G=>S.hasTicket(G)&&G.flags.NY_TICKET_STAFF!==(G.day|0);
   const curG=()=>typeof GAME!=='undefined'&&GAME&&GAME.G?GAME.G:null;
   /* hidden：今天買過票＝藏起來；別的程式另外設 hidden（it.hidden=true）照樣藏（setter 記下來，不會因為沒有 setter 丟例外）*/
   const hideIfBought=it=>{ let own=false; Object.defineProperty(it,'hidden',{configurable:true,enumerable:true,get(){ const G=curG(); return own||(!!G&&S.hasTicket(G)); },set(v){ own=!!v; }}); return it; };
@@ -50,8 +54,10 @@ const NYS=(function(){
     if(!S.isOpen(G)){ const P=PL(); if(GM.toast&&P&&P.closedText) GM.toast(P.closedText(S.ZL,G.hour,G.day),4500); return 'closed'; }
     if(S.hasTicket(G)) return 'have';
     const hO=typeof GIFTH!=='undefined'&&GIFTH.shopOpt?GIFTH.shopOpt(G,'xs_nanyang'):null;   /* 售票口的買禮物（GIFT-HOLIDAY-1110，src/gifthol3d.js）*/
-    const short=(G.money|0)<S.PRICE; const i=await GM.choose([{t:S.LABEL+'　'+S.PRICE+' 元',dim:short}].concat(hO?[hO]:[],[{t:S.NONE}]));
-    if(hO&&i===1){ await GIFTH.pick(GM,hO); return 'gift'; }
+    const sO=S.staffOpt(G);   /* 員工票：排在「買票」下面 */
+    const short=(G.money|0)<S.PRICE; const O=[{t:S.LABEL+'　'+S.PRICE+' 元',dim:short}].concat(sO?[sO]:[],hO?[hO]:[],[{t:S.NONE}]); const i=await GM.choose(O);
+    if(sO&&O[i]===sO){ JOBS.staffTicketTake(G); if(GM.autosave) GM.autosave(); return 'staff'; }
+    if(hO&&O[i]===hO){ await GIFTH.pick(GM,hO); return 'gift'; }
     if(i!==0) return null;
     if((G.money|0)<S.PRICE){ GM.toast('錢不夠'); return 'short'; }
     GM.money(-S.PRICE); G.flags.NY_TICKET=G.day|0;
