@@ -99,7 +99,7 @@ await sec('0',async()=>{
   if(!MD) return;
   const strs=[]; const walk=(o,p)=>{ if(typeof o==='string'){ strs.push([p,o]); return; } if(Array.isArray(o)){ o.forEach((x,i)=>walk(x,p+'['+i+']')); return; } if(o&&typeof o==='object') for(const k of Object.keys(o)){ if(['src','place','terms','side'].includes(k)) continue; walk(o[k],p+'.'+k); } };
   walk(L,'L'); const miss=strs.filter(([,t])=>!MD.includes(t));
-  check('0. examlib_lines.js 每一句都在 AA_669 裡、一字不差（'+strs.length+' 句）',strs.length>120&&!miss.length,J(miss.slice(0,6)));
+  check('0. examlib_lines.js 每一句都在 AA_669 裡、一字不差（'+strs.length+' 句；第 5 節舊序章那一年的句子（CANON-NO-ECON-1112 第三批：這一項拿掉））',strs.length>100&&!miss.length,J(miss.slice(0,6)));
   /* 表上的人、欄位 */
   const S3=['heroine_01','classmate_bohan','classmate_xinci','zhe','yu','classmate_mingxuan','heroine_03','heroine_04','heroine_02','heroine_05','classmate_peishan'];
   const T41=['heroine_01','classmate_bohan','classmate_xinci','zhe','yu','classmate_mingxuan','heroine_03','heroine_04','heroine_05','classmate_peishan'];
@@ -107,8 +107,7 @@ await sec('0',async()=>{
   check('0. 第 3 節十一位（每人兩句；阿勳以外）、交往中六位的動作、pool 四句',S3.every(id=>L.people[id]&&L.people[id].lines.length===2)&&['heroine_01','heroine_04','heroine_03','heroine_05','classmate_peishan','heroine_02'].every(id=>!!L.people[id].dating)&&L.pool.length===4);
   check('0. 第 4-1 節十位（答應、到了以後、沒到、不行四欄都有；芷若沒有）',T41.every(id=>{ const h=L.people[id].hold; return h&&h.yes.length&&h.at.length&&h.miss.length&&h.no.length; })&&!L.people.heroine_02.hold);
   check('0. 第 4-2 節四位（前一天的訊息、到的時間、到了以後、沒占到）',T42.every(id=>{ const a=L.people[id].ask; return a&&a.msg.length&&typeof a.h==='number'&&a.at.length&&a.miss.length; })&&Object.keys(L.people).filter(id=>L.people[id].ask).length===4);
-  check('0. 第 1 節六句（第 6 句閉館前）、第 2 節提示與選項（招手照人換她／他）、第 5 節三位',L.atmos.length===5&&!!L.atmosClose&&!!L.full.say&&!!L.full.again&&!!L.full.other&&!!L.full.dorm&&!!L.full.home&&EXLIB.waveText('heroine_01')==='（看到她在對你招手）'&&EXLIB.waveText('zhe')==='（看到他在對你招手）'&&!!L.full.lucky&&!!L.full.none
-    &&['econ_pinyu','econ_zhengxun','econ_weilun'].every(id=>L.econ[id]&&L.econ[id].lines.length&&L.econ[id].hold.yes.length));
+  check('0. 第 1 節六句（第 6 句閉館前）、第 2 節提示與選項（招手照人換她／他）（第 5 節（CANON-NO-ECON-1112 第三批：這一項拿掉））',L.atmos.length===5&&!!L.atmosClose&&!!L.full.say&&!!L.full.again&&!!L.full.other&&!!L.full.dorm&&!!L.full.home&&EXLIB.waveText('heroine_01')==='（看到她在對你招手）'&&EXLIB.waveText('zhe')==='（看到他在對你招手）'&&!!L.full.lucky&&!!L.full.none);
   check('0. 拿到遊戲真正的座位（子程序建出六間）',['library_hall','library','library_b1','soclib','lawlib','linze_4f'].every(z=>(SEATS[z]||[]).length>10),J(Object.keys(SEATS).map(z=>z+':'+SEATS[z].length)));
 });
 
@@ -367,7 +366,7 @@ await sec('7',async()=>{
 /* ======================= 8 第 5 節：經濟系那一年（不用做：AA_669 第 5 節 11-04 17:2x 改；AA-C 11-04 20:56 確認 S.on 對 econ 回 false、資料留著）======================= */
 await sec('8',async()=>{
   // CANON-NO-ECON-1112：經濟系那一年拿掉（第 8 項 經濟系那一年沒有（S.on false、作息不換、社科圖不滿、占位子話題不出））
-  check('8. 第 5 節的資料留著（品妤、阿勳、韋綸的句子照稿）',['econ_pinyu','econ_zhengxun','econ_weilun'].every(id=>L.econ[id]&&L.econ[id].lines.length)&&J(L.econ.econ_pinyu.hold.yes)===J(['可以。早餐幫我帶，三十五塊以內。'])&&L.econ.econ_weilun.hold.at[0].startsWith('（小聲）八點二十。'));
+  /* 8. 第 5 節的資料（CANON-NO-ECON-1112 第三批：這一項拿掉） */
 });
 
 /* ======================= 9 不扣關係、不改成績 ======================= */
@@ -440,15 +439,14 @@ await sec('12',async()=>{
   /* 第 6 節的三句：照稿一字不差（git show 468a1d0b9） */
   let MD=''; try{ MD=cp.execFileSync('git',['show','6a4b6ba22:docs/story_planning/AA_669_期末考前的圖書館_位子很滿_請朋友占位子_社科圖二樓.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
   const s6=(MD.split(/^## 6\./m)[1]||'').split(/^## 7\./m)[0], narr=(s6.match(/^\s*-\s*(（二樓比一樓[^\n]*）)\s*$/m)||[])[1], ytL=(s6.match(/^\s*-\s*語彤：(.+?)\s*$/m)||[])[1], xuL=(s6.match(/^\s*-\s*阿勳：(.+?)\s*$/m)||[])[1];
-  const yesOldYT=L.people.heroine_03&&L.people.heroine_03.hold&&L.people.heroine_03.hold.yesOld, yesOldXU=L.econ.econ_zhengxun&&L.econ.econ_zhengxun.hold&&L.econ.econ_zhengxun.hold.yesOld;
-  check('12. 第 6 節的三句照稿一字不差：第一次坐下的旁白、語彤「嗯。／二樓靠窗，你的老位子。」（兩則）、阿勳「嗯。你那個位子。七點五十。」',!!narr&&L.seat2f===narr&&!!ytL&&J(yesOldYT)===J(ytL.split('／'))&&!!xuL&&J(yesOldXU)===J(xuL.split('／')),J([L.seat2f,yesOldYT,yesOldXU]));
+  const yesOldYT=L.people.heroine_03&&L.people.heroine_03.hold&&L.people.heroine_03.hold.yesOld;
+  check('12. 第 6 節的三句照稿一字不差：第一次坐下的旁白、語彤「嗯。／二樓靠窗，你的老位子。」（兩則）（阿勳那一句（CANON-NO-ECON-1112 第三批：這一項拿掉））',!!narr&&L.seat2f===narr&&!!ytL&&J(yesOldYT)===J(ytL.split('／')),J([L.seat2f,yesOldYT]));
   if(!SL2ok||!S2.length) return;
   const oldOf=ss=>ss.find(q=>q.old), prefOf=ss=>{ const o=oldOf(ss); return ss.find(q=>q.kind==='window'&&Math.abs(q.x-o.x)<0.05&&q.z-o.z>0.45&&q.z-o.z<1.2); };
   /* ---- 語彤、阿勳去二樓 ---- */
   fresh('2025-12-02',10); let s=zone('soclib_2f',1,3.0,5.0); const yt=STORY.schedEnt(CHARACTERS.heroine_03,H.G), pf=prefOf(s);
   check('12. 語彤（heroine_03，表上 soc2f）期末那一段讀書的時段在社科圖二樓（soclib_2f），坐靠窗那排、老位子南邊那一個',!!yt&&yt.zone==='soclib_2f'&&!!yt.exlib&&!!yt.seatAt&&!!pf&&Math.hypot(yt.seatAt[0]-pf.x,yt.seatAt[1]-pf.z)<0.01&&yt.seatAt[2]===1,J(yt));
-  fresh('2024-12-02',10,'campus'); H.G.stage='econ'; const xu=STORY.schedEnt(CHARACTERS.econ_zhengxun,H.G);
-  check('12. 經濟系那一年沒有（第 0 節，AA_669 第 5 節不用做）：阿勳不換到社科圖二樓',!(xu&&xu.exlib),J(xu&&[xu.zone,xu.exlib]));
+  /* 12. 舊序章那一年阿勳不換到社科圖二樓（CANON-NO-ECON-1112 第三批：這一項拿掉） */
   /* ---- 二樓「滿」只算自習室；安靜的地方只有自習室 ---- */
   fresh('2025-12-02',10.5); s=zone('soclib_2f',1,3.0,5.0); EXLIB.syncSeats(GM,true); const held=s.filter(q=>q.exHeld);
   check('12. 平日 10:30（二樓 09:00 就滿）：自習室的長桌、靠窗 49 位都「有人了」；討論室的 12 位不算（第 6 節：討論室不是自習室）',held.length===49&&held.every(q=>q.kind==='study'||q.kind==='window'),J([held.length,s.filter(q=>q.kind==='discuss'&&q.exHeld).length]));

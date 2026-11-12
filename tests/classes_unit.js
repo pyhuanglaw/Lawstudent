@@ -33,7 +33,7 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
   G.courses={electives:{Y1S2_ls:'none'}}; const ex2=CLS.termCourses(G,'Y1S2').map(c=>c.name); check('舊的選修紀錄 Y1S2_ls 還在也不影響：課表沒有法律與社會（下），經濟學原理（下）還在',!ex2.includes('法律與社會（下）')&&ex2.includes('經濟學原理（下）'),ex2.join('、'));
   const jp=CLS.termCourses(G,'Y2S1').find(c=>c.id==='japanese_1'), jp2=CLS.termCourses(G,'Y2S2').find(c=>c.id==='japanese_2');
   check('日文上、下：大二上、下週一下午一，共同教學館（使用者 2026-10-13 遊戲安排）',jp&&jp2&&jp.slots[0].wd===1&&jp.slots[0].block==='pm1'&&CLS.roomName(jp).startsWith('共同教學館')&&CLS.roomName(jp2).startsWith('共同教學館'));
-  const ep=['econ_principles_1','econ_principles_2'].map(id=>COURSES.list.find(c=>c.id===id)); check('重修經濟學原理（上下）：必修、retake、週五上午',ep.every(c=>c&&c.kind==='required'&&c.retake&&c.slots[0].wd===5&&c.slots[0].block==='am'));
+  const ep=['econ_principles_1','econ_principles_2'].map(id=>COURSES.list.find(c=>c.id===id)); check('經濟學原理（上下）：必修、週五上午；不是重修（retake 拿掉，CANON-NO-ECON-1112 第三批）',ep.every(c=>c&&c.kind==='required'&&!c.retake&&c.slots[0].wd===5&&c.slots[0].block==='am'));
   const sem=CLS.termCourses(G,'Y4S1').filter(c=>c.choice&&c.choice.group==='Y4S1_sem').map(c=>c.id); check('大四上判決研討二選一：預設刑事',sem.length===1&&sem[0]==='crim_judgment_sem',sem.join(',')); }
 // ---------- 日曆上的課 ----------
 { const names=(day)=>CLS.dayItems(mkG(day,8)).map(it=>CLS.hhmm(it.t0)+' '+it.c.name).join('、');

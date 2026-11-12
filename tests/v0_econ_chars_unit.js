@@ -15,21 +15,21 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 const asrc=fs.readFileSync(path.join(ROOT,'src/assets3d.js'),'utf8'), csrc=fs.readFileSync(path.join(ROOT,'src/character3d.js'),'utf8'), psrc=fs.readFileSync(path.join(ROOT,'src/props3d.js'),'utf8');
 const urlOf=k=>{ const m=asrc.match(new RegExp("'"+k.replace('.','\\.')+"':\\s*\\{url:'([^']+)'")); return m&&m[1]; };
 // 1
-for(const [id,key] of [['econ_weilun','char.econ_weilun'],['econ_jiahao','char.econ_jiahao'],['econ_tangrui','char.econ_tangrui'],['prof_wei','char.prof_wei']]){ const u=urlOf(key), c=CHARACTERS[id];
+for(const [id,key] of [['prof_wei','char.prof_wei']]){   /* 其他三位（舊序章人物）（CANON-NO-ECON-1112 第三批：這一項拿掉） */ const u=urlOf(key), c=CHARACTERS[id];
   check('1. '+id+'：manifest '+key+'、檔案在、CHARACTERS.char3d.model',!!u&&fs.existsSync(path.join(ROOT,u))&&!!c&&c.char3d&&c.char3d.model===key,u); }
 // 2
 for(const k of ['prop.glasses_wei','prop.helmet_bike']){ const u=urlOf(k); check('2. '+k+' 的 GLB 在',!!u&&fs.existsSync(path.join(ROOT,u)),u); }
 check('2. MODEL_PROPS：魏教授 glasses_wei、韋綸 backpack＋helmet',/'char\.prof_wei':\[\{name:'glasses',glb:'prop\.glasses_wei'\}\]/.test(csrc)&&/'char\.econ_weilun':\['backpack',\{name:'helmet'/.test(csrc));
 check('2. props3d 有 helmet（upperChest）',/helmet:\{bone:'upperChest',make:helmet/.test(psrc));
 // 6
-{ const u=urlOf('char.econ_pinyu'), c=CHARACTERS.econ_pinyu; check('6. econ_pinyu：manifest char.econ_pinyu、檔案在、CHARACTERS.char3d.model',!!u&&fs.existsSync(path.join(ROOT,u))&&!!c&&c.char3d&&c.char3d.model==='char.econ_pinyu'&&c.char3d.height===1.58,u);
+{ /* 6. 舊序章人物的模型（CANON-NO-ECON-1112 第三批：這一項拿掉）；配件的 GLB 照查 */
   for(const k of ['prop.notebook_foodmap','prop.thermos_black','prop.calc_engineering']){ const v=urlOf(k); check('6. '+k+' 的 GLB 在',!!v&&fs.existsSync(path.join(ROOT,v)),v); }
   check('6. MODEL_PROPS：家豪 foodmap、品妤平常只拿 thermos',/'char\.econ_jiahao':\['foodmap'\]/.test(csrc)&&/'char\.econ_pinyu':\['thermos'\]/.test(csrc));
   check('6. props3d：foodmap、calc 掛左前臂，thermos 掛右前臂（不是手）',/foodmap:\{bone:'leftLowerArm'/.test(psrc)&&/calc:\{bone:'leftLowerArm'/.test(psrc)&&/thermos:\{bone:'rightLowerArm'/.test(psrc));
   const lic=fs.readFileSync(path.join(ROOT,'LICENSES.md'),'utf8'); check('6. LICENSES 有品妤、筆記本、計算機和保溫瓶',['bl_econ_pinyu.vrm','notebook_foodmap.glb','thermos_black','calc_engineering'].every(x=>lic.includes(x))); }
 // 3
 const alias={}; for(const id in CHARACTERS) for(const a of (CHARACTERS[id].alias||[])) alias[a]=id;
-check('3. 稱呼對到 id：韋綸、家豪學長、唐睿、魏教授',alias['韋綸']==='econ_weilun'&&alias['家豪學長']==='econ_jiahao'&&alias['唐睿']==='econ_tangrui'&&alias['魏教授']==='prof_wei',JSON.stringify([alias['韋綸'],alias['家豪學長'],alias['唐睿'],alias['魏教授']]));
+check('3. 稱呼對到 id：魏教授（其他三位（CANON-NO-ECON-1112 第三批：這一項拿掉））',alias['魏教授']==='prof_wei',JSON.stringify([alias['韋綸'],alias['家豪學長'],alias['唐睿'],alias['魏教授']]));
 check('3. 立繪：econ_weilun、econ_jiahao、econ_tangrui 的 campus/neutral',['econ_weilun','econ_jiahao','econ_tangrui'].every(id=>PORTRAIT_FILES[id]&&PORTRAIT_FILES[id].campus&&PORTRAIT_FILES[id].campus.includes('neutral')&&fs.existsSync(path.join(ROOT,'assets/portraits',id,'campus/neutral.webp'))));
 // CANON-NO-ECON-1112：經濟系那一年拿掉（第 3 項「講話的名字魏老師」那一半（經原的課拿掉了））
 check('3. 魏教授不用立繪（AA_145 §5）、講話的名字「魏老師」',CHARACTERS.prof_wei.portrait===null);
