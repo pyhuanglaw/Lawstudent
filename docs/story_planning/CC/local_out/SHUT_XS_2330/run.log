@@ -1,0 +1,35 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_storefront_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHUT_XS_2330\out
+CC 店門口：worktree ?；xinsheng 23.5；TAG xs2330；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 xinsheng 2025-10-18 23.5（條件事件、手機關）
+  [  56.1s] xs_dabu 出口：{"label": "進大步球鞋（球鞋）", "x": -15.6, "z": -16.7, "a": 0, "eye": [-15.6, 1.6, -12.2], "look": [-15.6, 1.3, -16.7]}
+PASS xs_dabu 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_xs_dabu_xs2330 不是黑畫面（平均亮度 42.7、變化 28.6）  [42.7, 28.6]
+  [  58.1s] [截圖] front_xs_dabu_xs2330：鏡頭 {"eye": [-15.6, 1.6, -12.2], "look": [-15.6, 1.3, -16.7], "lens": 18, "vfov": 58.72}、亮度 [42.7, 28.6]
+  [  58.1s] xs_haopai 出口：{"label": "進好拍運動（球拍專賣）", "x": -15.6, "z": -23.2, "a": 0, "eye": [-15.6, 1.6, -18.7], "look": [-15.6, 1.3, -23.2]}
+PASS xs_haopai 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_xs_haopai_xs2330 不是黑畫面（平均亮度 43.6、變化 29）  [43.6, 29]
+  [  60.0s] [截圖] front_xs_haopai_xs2330：鏡頭 {"eye": [-15.6, 1.6, -18.7], "look": [-15.6, 1.3, -23.2], "lens": 18, "vfov": 58.72}、亮度 [43.6, 29]
+  [  60.0s] xs_xsports 出口：{"label": "進新生運動廣場（運動用品）", "x": -15.6, "z": -33, "a": 0, "eye": [-15.6, 1.6, -28.5], "look": [-15.6, 1.3, -33]}
+PASS xs_xsports 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_xs_xsports_xs2330 不是黑畫面（平均亮度 45.5、變化 28）  [45.5, 28]
+  [  62.0s] [截圖] front_xs_xsports_xs2330：鏡頭 {"eye": [-15.6, 1.6, -28.5], "look": [-15.6, 1.3, -33], "lens": 18, "vfov": 58.72}、亮度 [45.5, 28]
+  [  62.0s] xs_shanlan 出口：{"label": "進山嵐書店（書店）", "x": -15.6, "z": 10.2, "a": 0, "eye": [-15.6, 1.6, 14.7], "look": [-15.6, 1.3, 10.2]}
+PASS xs_shanlan 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_xs_shanlan_xs2330 不是黑畫面（平均亮度 46.1、變化 30）  [46.1, 30]
+  [  63.9s] [截圖] front_xs_shanlan_xs2330：鏡頭 {"eye": [-15.6, 1.6, 14.7], "look": [-15.6, 1.3, 10.2], "lens": 18, "vfov": 58.72}、亮度 [46.1, 30]
+  [  63.9s] xs_tongxian 出口：{"label": "進同弦樂器（吉他行）", "x": -15.6, "z": -7.2, "a": 0, "eye": [-15.6, 1.6, -2.7], "look": [-15.6, 1.3, -7.2]}
+PASS xs_tongxian 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_xs_tongxian_xs2330 不是黑畫面（平均亮度 40.7、變化 30.9）  [40.7, 30.9]
+  [  65.8s] [截圖] front_xs_tongxian_xs2330：鏡頭 {"eye": [-15.6, 1.6, -2.7], "look": [-15.6, 1.3, -7.2], "lens": 18, "vfov": 58.72}、亮度 [40.7, 30.9]
+  [  65.8s] xs_dakou 出口：{"label": "進大口漢堡（速食）", "x": -15.6, "z": 40.4, "a": 0, "eye": [-15.6, 1.6, 44.9], "look": [-15.6, 1.3, 40.4]}
+PASS xs_dakou 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_xs_dakou_xs2330 不是黑畫面（平均亮度 62.6、變化 43.1）  [62.6, 43.1]
+  [  67.6s] [截圖] front_xs_dakou_xs2330：鏡頭 {"eye": [-15.6, 1.6, 44.9], "look": [-15.6, 1.3, 40.4], "lens": 18, "vfov": 58.72}、亮度 [62.6, 43.1]
+  [  67.6s] xs_nanyang 出口：{"label": "進南洋戲院（二輪戲院）", "x": -15.6, "z": 25.3, "a": 0, "eye": [-15.6, 1.6, 29.8], "look": [-15.6, 1.3, 25.3]}
+PASS xs_nanyang 街上找得到進店的出口、外面站得住
+PASS [黑畫面] front_xs_nanyang_xs2330 不是黑畫面（平均亮度 47.5、變化 32.4）  [47.5, 32.4]
+  [  69.4s] [截圖] front_xs_nanyang_xs2330：鏡頭 {"eye": [-15.6, 1.6, 29.8], "look": [-15.6, 1.3, 25.3], "lens": 18, "vfov": 58.72}、亮度 [47.5, 32.4]
+PASS 沒有 JS 例外  []
+ALL PASS
