@@ -1,0 +1,51 @@
+diff --git a/src/l118_shops3d.js b/src/l118_shops3d.js
+index e3c0fc55f2..c52ba1bee4 100644
+--- a/src/l118_shops3d.js
++++ b/src/l118_shops3d.js
+@@ -64,6 +64,10 @@ const L118S=(function(){
+       const z=Z3.room(E,{w:W,d:D,h:H,windows:false,warm:true,wallColor:'#efe8dc',floorTex:W3.stoneTex('#c8bba6'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
+       const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
+       for(const w of z.walls) w.visible=false; z.walls.length=0;
++      /* L118-DIAN-CEILING-1112（LAWWW2-C；BB 17:4x、CC L118_SEAT_dian_tea：118 牛排抬頭是藍天白雲、進門全景左上角露天）：跟隨鏡頭 4.2 m（cam_dist）時鏡頭高約 3.3 m，比天花板（3.2）高，
++         ceilHide 把天花板藏起來（從上面看進房間）；牆也只到 3.2，鏡頭往上、往遠處就看到天空。房間外 7 m 加一圈暗色的殼（Z3.roomBackdrop，教室、木曜日同一個做法）：天花板藏起來時上面是暗的、不是天空。
++         窗都有窗景板（l118_window_view，在殼裡面）；九間都加（鏡頭 4.2 m 的八間都會高過天花板，巷口茶飲 3.6 m 不會、加了也看不到）*/
++      if(Z3.roomBackdrop){ const bd=Z3.roomBackdrop(g0,Bd.x1-Bd.x0,Bd.z1-Bd.z0,H,7,(Bd.x0+Bd.x1)/2,(Bd.z0+Bd.z1)/2); if(bd) bd.name='l118_backdrop'; }
+       const nav=new E3.NavGrid(Bd.x1-Bd.x0,Bd.z1-Bd.z0,0.4,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
+       for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.4),Math.max(b.z1-b.z0,0.4),0,0);
+       nav._cm=null; z.nav=nav; z.bounds={w:W,d:D};
+diff --git a/tests/l118_backdrop_1112_unit.js b/tests/l118_backdrop_1112_unit.js
+new file mode 100644
+index 0000000000..d52fd2766b
+--- /dev/null
++++ b/tests/l118_backdrop_1112_unit.js
+@@ -0,0 +1,30 @@
++/* L118-DIAN-CEILING-1112（LAWWW2-C；BB 17:4x、CC L118_SEAT_dian_tea gate_l118_dian_1215：118 牛排抬頭藍天白雲、進門全景左上角露天）
++   原因：跟隨鏡頭 4.2 m 時鏡頭高過天花板（3.2 m），ceilHide 把天花板藏起來，牆也只到 3.2 m——往上看、往遠看都是天空。改法：src/l118_shops3d.js 每間加 Z3.roomBackdrop 暗色的殼。
++   1 九間 118 巷的店都有 l118_backdrop（BackSide、不受霧）
++   2 殼把房間和鏡頭可能到的地方整個包住：房間四角往外 4.4 m（跟隨距離）、高到 1.45＋4.4 m 都在殼裡面
++   3 殼不擋窗景板（l118 的窗景在玻璃外 0.42 m，殼離牆 ≥ 5 m）
++   修改前（開發分支 9e3fcbe123）：1 FAIL。模擬（D131）。用法：node tests/l118_backdrop_1112_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){}, querySelector:()=>null, querySelectorAll:()=>[], body:{appendChild(){},classList:{add(){},remove(){}}} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch')); const clog=console.log; console.warn=()=>{}; console.error=()=>{};
++const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); const all=[...html.matchAll(/src="([^"?]+)/g)].map(m=>m[1]);
++const loadErr=[]; for(const f of all){ if(/three-vrm|character3d|props3d/.test(f)) continue; if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,'globalThis.$1='); try{ vm.runInThisContext(src,{filename:f}); }catch(e){ loadErr.push(f+'：'+e.message.slice(0,50)); } }
++if(typeof ASSETS!=='undefined') ASSETS.loadOne=()=>new Promise(()=>{});
++
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; const R=0.32;
++function build(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.exits=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); z.id=id; E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; if(E.fitSeatRadius) E.fitSeatRadius();   /* 遊戲載入區域時做的（座位按鈕範圍碰不到站得住的地方就放大）*/ E.player={obj:{position:new THREE.Vector3(0,0,0)},lv:0,radius:R}; return z; }
++
++let fails=0; const check=(name,ok,info)=>{ clog((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const ids=Object.keys(L118_SHOP_LAYOUTS); const miss=[], out=[];
++for(const k of ids){ const zid='l118_'+k; if(!Z3.ZONES[zid]){ miss.push(zid+'(沒有區域)'); continue; } const z=build(zid); let bd=null; z.group.traverse(o=>{ if(o.name==='l118_backdrop') bd=o; });
++  if(!bd||bd.material.side!==THREE.BackSide||bd.material.fog!==false){ miss.push(zid); continue; }
++  bd.geometry.computeBoundingBox(); const bb=bd.geometry.boundingBox.clone().applyMatrix4(bd.matrixWorld); const B=L118_SHOP_LAYOUTS[k].bounds;
++  for(const [x,zz] of [[B.x0-4.4,B.z0-4.4],[B.x1+4.4,B.z1+4.4]]) for(const y of [0.2,1.45+4.4]) if(!bb.containsPoint(new THREE.Vector3(x,y,zz))) out.push(zid+' ('+x.toFixed(1)+','+y.toFixed(1)+','+zz.toFixed(1)+')');
++  if(Math.min(B.x0-bb.min.x,bb.max.x-B.x1,B.z0-bb.min.z,bb.max.z-B.z1)<5) out.push(zid+' 殼離牆不到 5 m'); }
++check('1. 九間 118 巷的店都有暗色的殼（l118_backdrop）',!miss.length&&ids.length>=9,ids.length+' 間；沒有的：'+miss.join('、'));
++check('2/3. 殼包住鏡頭可能到的地方、離牆 ≥ 5 m（不擋窗景板）',!out.length,out.slice(0,6).join('；'));
++clog(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
