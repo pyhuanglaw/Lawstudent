@@ -19,7 +19,7 @@
      什麼時候：法律系那幾年、學期中（大一上第 2 週起）、不是考試週（照店內偶遇 AA_632 的規則：考試週不排）、不是颱風假；午餐 11:45～13:30、晚餐 17:45～19:30。
        每個人每一餐：平日午餐七成半、平日晚餐六成、週末四成的機會出現在某一間店（S.CFG；再乘上 AA_771 那個人的 weight：芯慈 0.7、宥辰 0.4；只在熟客表裡的人從他成為熟客的那一學期起，S.since；亂數＝日期＋餐＋人，同一天存讀檔、進出結果一樣），待 36～54 分鐘。
      哪一間：八成是 118 巷的九間餐廳（照他在 L118_LUNCH_DATA.who 的 prefs 加權；沒寫的人九間平均），兩成是其他吃飯的店（S.CFG.other：汀州路的泰米村食、越好吃小館、客居雲南、
-       大口漢堡、林家乾麵、SUNNY SIDE／Daybreak（午餐）、洋洋鹹酥雞（晚餐））；那個時段沒開的照順序換下一間。一間店同一餐最多兩位（S.CFG.perShop）。
+       大口漢堡、林家乾麵、SUNNY SIDE／Daybreak（午餐）、洋洋鹹酥雞、小路（晚餐））；那個時段沒開的照順序換下一間。一間店同一餐最多兩位（S.CFG.perShop）。
      **原本的作息優先**（和 SHOPNPC 同一把尺）：他這個時間原本有事（上課、社課、打工、約好的、在別的店……）＝這一餐不出現；只有作息表裡單純「在某一區走走」和沒有作息的空檔才算空。
        那一天跟玩家有約（SHOPNPC.planDay）、那個時段是他 118 巷熟客的時段（照舊站在店門口，lane118.js）、阿哲約的午餐／當面約的 118 巷午餐成行的那一天中午（照那一場）＝不排。
        人不在臺北、休學、畢業照 presence（schedFor 先看）；語彤認識以前不在（STORY.schedEnt 的規則）。
@@ -67,7 +67,7 @@ const SHOPLIFE=(function(){
   /* ---------- 3 吃飯時間遇得到同學 ---------- */
   S.CFG={ slots:[{id:'lunch',from:11.75,to:13.5,p:0.75,pEnd:0.4},{id:'dinner',from:17.75,to:19.5,p:0.6,pEnd:0.4}],   /* p＝平日、pEnd＝週末和國定假日 */
     lane118:0.8,   /* 去 118 巷的比例（使用者：118 巷就是要很容易遇到同學）*/
-    other:{lunch:['tz_taimi','tz_yuehaochi','tz_keju','xs_dakou','wz_lin','daybreak','wz_brunch'],dinner:['tz_taimi','tz_yuehaochi','tz_keju','xs_dakou','wz_lin','yangyang']},
+    other:{lunch:['tz_taimi','tz_yuehaochi','tz_keju','xs_dakou','wz_lin','daybreak','wz_brunch'],dinner:['tz_taimi','tz_yuehaochi','tz_keju','xs_dakou','wz_lin','yangyang','wz_teishoku']},
     perShop:2, start:0.5, stay:[0.6,0.9], weekMin:2, weekMinTerms:['Y1S1'] };
   S.TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
   const LD=()=>typeof L118_LUNCH_DATA!=='undefined'&&L118_LUNCH_DATA&&L118_LUNCH_DATA.who?L118_LUNCH_DATA.who:{};
