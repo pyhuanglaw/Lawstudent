@@ -598,3 +598,11 @@
 [01:36:25] [res] cpu=5% mem=41% (12.6/31.4 GB) chrome_testing=5  START YUE_MEAL_3414
 [01:36:51] 正在跑：SOFA_SOCLIB2F_r2（已跑 7 分／上限 40 分）、HUD_PORTRAIT_3414（已跑 0 分／上限 10 分）、YUE_MEAL_3414（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [01:37:18] [res] cpu=1% mem=43% (13.4/31.4 GB) chrome_testing=8  END SOFA_SOCLIB2F_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1b8c182f7f..0a9e6e0568  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:37:26] ==== END   SOFA_SOCLIB2F_r2  exit=1  458s   ====
+[01:37:29] memory 44% before starting XS_TONGXIAN_2330 (2 running)
+[01:37:29] ==== START XS_TONGXIAN_2330  (probe @ 341436a25ed53942df4059d634d953a93e6ed988) ====
+[01:37:32] [res] cpu=18% mem=45% (13.9/31.4 GB) chrome_testing=8  START XS_TONGXIAN_2330
+[01:38:05] [res] cpu=9% mem=45% (14.2/31.4 GB) chrome_testing=9  END HUD_PORTRAIT_3414
