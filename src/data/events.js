@@ -6,6 +6,7 @@
 /* 2026-11-11（使用者 X327 沛珊重寫）：沛珊在這個檔的十場事件 18 列（20 處）照 AA_761_peishan_events_1.json@dbfc596a5 換——ev_ps_w1_room、ev_ps_w1_notes、ev_peishan_why_plg（已停用的 ev_studygroup_wed 同一句一起換）、ev_peishan_why_answer_plg、
    ev_peishan_doubt、ev_peishan_bohan_w4、ev_peishan_table_bench（對話＋after 寫進手機那一句）、ev_peishan_table_mail、ev_peishan_tutoring、ev_peishan_handover。只換她的句子；選項、條件、旗標、數值不動。逐字對稿：tests/peishan_events_1111_unit.js */
 /* 群戲「只有認識的人在場」（交接包 v1 交付清單第 0 節第 1 點）：if:EV_KNOWS('id')／if:EV_KNOWS('a','b')＝都認識了（STORY.knows：FIRST_MET；Alison met_yu；阿哲開場就熟）*/
+const KX_BDAY_DRINK=60;   /* AA_874 A 版：一杯飲料的錢（LAWWW 定）*/
 let KX_END_C=null;   /* ev_kx_y1s1_end：期末最後一科考完的時間（算一次）*/
 /* 可昕自己的線（AA_873）：朋友以上（min：FAMILIAR／FRIEND）或交往中、今天在臺北（寒暑假回高雄不算）；不讀 dating_kexin 以外的交往狀態 */
 const KX_LINE_OK=(G,min)=>{ if(!G||(G.stage||'law')!=='law'||typeof STORY==='undefined') return false; if(STORY.kxKnown&&!STORY.kxKnown(G)) return false;
@@ -1665,32 +1666,63 @@ const STORY_EVENTS=[
   /* 可昕 K4 第一次視訊一起讀書（BB_95 9-5）：第 16 週週二 20:00 她問（story3d.js 的 phoneRules）；「好，九點開。」＝當天 21:00 視訊（出遊：接起來）。
      開始前先選讀哪一科（和自學一樣算進期末準備：兩個小時＝兩次）；每半小時她出一題假設題（照順序，玩笑，不給結論），回她＝「你分心了。很好。」、
      不回＝「你今天好認真。我有點寂寞。……繼續。」（各自第一次才說，不重複）。沒接、今天先不要＝23:00 她傳書桌的照片（outingMissed）。記 VIDEO_STUDY（AA_112 第 6 節：和見面一樣算數）*/
-  /* 第一份報告交出去的晚上（BB_95 9-6 改版；2026-10-15 BB-B：可昕生日改 4/24，這一晚不再是生日；AA_140 G01）：12/3（第 14 週週三）。id 不改（舊存檔）。
-     前一晚她傳「明天交第一份期末報告……」；當天她的對話串多一則「祐廷的草稿」（「交出去了嗎？」23:59 前可以傳）；18:00 出遊提示「開車去政大」（story3d.js 的 phoneRules）。
-     這是去的那一段：校門 → 山下的小吃街。「問予樂的。」只有見過予樂（K1b）才有；予樂見過：「好，我先走。司機，載好她。」；沒見過：她看了祐廷一眼才說「好，我先走。」。
-     K1、K1b 都去過、K1 讓她點（K1_ORDER:'let_her'）＝第三次去，老闆記得點法。BCG-28（cg_birthday_kexin，十二月、冬裝，圖照用）放在「……你怎麼知道我幾點下課？」。
-     記 KX_DEC3_VISIT（phoneRules 換成 KX_DEC3:{1:'visit'}）。遊戲裡 12/3 不再出現「生日」兩個字 */
-  /* 可昕的生日（BB_96 9-7b；2026-10-15 BB-B：生日改 4/24，AA_137 第 1 節；AA_140 G01）：大一下第 9 週週五 4/24（期中考週）。做法和 12/3 同一套（story3d.js phoneRules）：
-     早上行事曆「可昕生日」；草稿「生日快樂。」（23:59 前）；18:00 出遊提示；都沒做＝隔天早上只有「我等了一天。」。這是去的那一段（校門 → 山下那一家）。
-     「我帶了另一個。」只給 12/3 去過政大的玩家（KX_DEC3[1]:'visit'）。BCG-45 放在蠟燭點著、她用手圍住火的那一拍：三個選項都會到這一拍（選三，她說完「規定」還是讓你點）。
-     經濟系那年送過空白筆記本的（E18B_GIFT:'notebook'）她多一句。「我們的店」第三次以上、K1 讓她點的：老闆的那一句。記 KX_BDAY_VISIT（phoneRules 換成 KX_BDAY:{1:'visit'}）*/
-  { id:'ev_kexin_birthday_y1s2', title:'她的生日', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
-    dialogue:[ {scene:'木柵大學・校門口',bg:'nccu_gate'},
-      {speaker:null,text:'四月底的木柵大學，校門口那排流蘇開成白色的。風一吹，白色的花掉了一地。'},   /* AA_209 附錄B §2 */
-      {speaker:null,text:'她站在校門口，手上一個便利商店的小蛋糕，蓋子上插著一根還沒點的蠟燭。'},
-      {speaker:'kexin',expression:'smile',text:'予樂買的。她說「蠟燭要給司機點」，然後就跑了。'},
-      {speaker:'kexin',expression:'smile',text:'（把打火機遞給你）風很大。你點，我擋。'},
-      {choice:[{text:'（點蠟燭，她用手圍住火）',goto:'a'},{text:'「我帶了另一個。」',if:{custom:G=>!!(G.flags.KX_DEC3&&G.flags.KX_DEC3[1]==='visit')},goto:'b'},{text:'「先上車，車裡沒風。」',goto:'c'}]},
-      {label:'a'},{cg:'cg_birthday_tassel_kexin'},{speaker:null,text:'火點著了。她的手被照得很亮。'},{speaker:'kexin',expression:'smile',text:'好。現在許願。'},{goto:'wish'},
-      {label:'b'},{speaker:'kexin',expression:'laugh',text:'兩個蛋糕？……好，我都會吃完。'},/* AA_209 附錄B §2 */{cg:'cg_birthday_tassel_kexin'},{goto:'wish'},
-      {label:'c'},{speaker:'kexin',expression:'teasing',text:'不行。在外面點。……車裡會有蠟燭的味道。'},{cg:'cg_birthday_tassel_kexin'},   /* AA_313 第 2 節第 26 列：不用規則裝可愛（原本「……這是規定。……我剛剛訂的規定。」）*/
-      {label:'wish'},
-      {speaker:'kexin',expression:'smile',text:'願望許好了。說出來就不準了。……走，下山。'},   /* AA_209 附錄B §2（原本兩句的三段條列換成這一句）；AA_313 第 2 節第 26 列：「今天你點餐。」和 12/3 同一句，換「……走，下山。」*/
-      {if:{flagIs:{E18B_GIFT:'notebook'}},speaker:'kexin',expression:'smile',text:'那本筆記本，寫到第十二頁了。'},
-      {scene:'木柵大學・山下的小吃街',bg:'nccu_food'},
-      {if:{flags:['E18A_DOUHUA']},speaker:'kexin',expression:'smile',text:'你第一次跟我單獨吃的，是豆花。'},{if:{flags:['E18A_DOUHUA']},speaker:'kexin',expression:'teasing',text:'……今天不准點豆花。'},   /* 經濟系那年 12/3 單獨吃過豆花（BB_96 9-7b，BB-B a48d7f8a；第一句是 BB_104 8b-11a）。BB_161 ⑮：換到山下那一家的背景以後才說 */
-      {if:{flagIs:{K1_ORDER:'let_her'},custom:G=>(G.flags.NCCU_FOOD_N|0)>=3},speaker:'老闆',text:'生日喔？今天的蔥多放一點。'} ],   /* BB_161 ⑯：實際在山下那一家吃過的次數（含今天；events3d.js 的 NCCU_FOOD_N，舊存檔照完成的事件補算）*/
-    consequences:{flags:{KX_BDAY_VISIT:true},memo:'可昕的生日（木柵大學，4/24）'} },
+  /* 第一份報告交出去的晚上（12/3）：CANON-NO-ECON-1112 第三批拿掉；12/3 那個選項和讀它的條件（生日那場的「我帶了另一個。」）照 AA_900 第 5 節一起拿掉。
+     可昕大一下的生日 4/24（CANON-NO-ECON-1112 第四批；企劃線 AA_874 定稿，BB_417）：兩版只會看到一版——
+     · B 版（交往中）：ev_kexin_birthday_y1s2（id 留著）。4/24 白天她私訊「晚上八點，映月湖。不要吃太飽。」→ 照約會邀約流程 20:00 映月湖（story3d.js phoneRules）。記 KX_BDAY_Y1 'night'、KX_BDAY_VISIT（舊旗標，讀它的地方照舊）。
+       沒赴約：不補場；之後第一次遇到她那一句（ev_kexin_birthday_y1s2_next）。
+     · A 版（還沒交往、熟悉以上）：ev_kexin_birthday_y1s2_drink，4/24 下午走進法律系館遇到她 → 校門口的飲料攤（不寫店名，D147）。祐廷付一杯（60 元，LAWWW 定）；錢不夠她自己付、記 'self'、不欠、之後不提。
+       聽過 KX2_BDAY_TOLD（她先講過生日）的開頭不一樣。沒遇到她：不出這一場；之後第一次遇到她那一句（ev_kexin_birthday_y1s2_late）。
+     兩張舊 CG（冬裝那張、外校校門口的花那張）不掛；新場景的 CG 列給 BB（AA_874 最後一節），不擋。*/
+  { id:'ev_kexin_birthday_y1s2', title:'她的生日', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+    dialogue:[ {scene:'映月湖',bg:'zuiyue_night'},
+      {speaker:null,text:'（晚上的映月湖邊。她提著一個小紙盒。）'},
+      {speaker:'kexin',expression:'smile',text:'室友下午幫我過了。蛋糕我留了一塊，最大的那塊。'},
+      {speaker:'kexin',expression:'teasing',text:'我跟她們說要留給一個人。她們叫了很久。'},
+      {speaker:null,text:'（她把紙盒打開。裡面的蛋糕有一點歪了。）'},
+      {choice:[{text:'（拿出準備好的蠟燭）',goto:'a'},{text:'「沒有蠟燭怎麼辦？」',goto:'b'}]},
+      {label:'a'},{speaker:'kexin',expression:'surprised',text:'你有帶蠟燭？……只有一根喔。好，一根就一根。'},{speaker:null,text:'（火點著了。她的臉被照得很亮。）'},{speaker:'kexin',expression:'smile',text:'我許好了。不能問。'},{goto:'cake'},
+      {label:'b'},{speaker:'kexin',expression:'neutral',text:'用手機的燈。'},{speaker:null,text:'（她把手機的手電筒打開，立在蛋糕旁邊。）'},{speaker:'kexin',expression:'smile',text:'好醜。可是可以。我許好了。'},
+      {label:'cake'},
+      {speaker:null,text:'（她把蛋糕切成兩半。只有一支叉子，她吃一口，遞給你。）'},
+      {speaker:'kexin',expression:'neutral',text:'以前生日都在高雄，我媽會煮一桌。今年第一次不在家。'},
+      {speaker:'kexin',expression:'smile',text:'有人陪我吃這一塊，就沒有那麼像在外地。'},
+      {speaker:null,text:'（湖面上有風。她把外套的領子拉高一點。）'},
+      {speaker:'kexin',expression:'smile',text:'明天八點有課。再坐十分鐘。'} ],
+    consequences:{flags:{KX_BDAY_VISIT:true,KX_BDAY_Y1:'night'},memo:'可昕的生日（4/24）'} },
+  { id:'ev_kexin_birthday_y1s2_drink', title:'', participants:['kexin'], location:'linze', trigger:'enter', term:['Y1S2'], time:[12,18], once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.termDay&&G.day===STORY.termDay('Y1S2',9,5)&&G.flags.dating_kexin!==true&&KX_LINE_OK(G,'FAMILIAR')},
+    dialogue:[
+      {speaker:null,text:'（系館門口。她今天兩邊都戴了耳環。）'},
+      {if:{memory:[{npc:'kexin',tag:'KX2_BDAY_TOLD'}]},goto:'told'},
+      {speaker:'kexin',text:'今天我生日。你不知道很正常，我沒講過。'},
+      {speaker:'kexin',text:'現在你知道了。請我喝一杯。'},{goto:'drink'},
+      {label:'told'},{speaker:'kexin',text:'今天幾號？'},
+      {choice:[{text:'「二十四。生日快樂。」',goto:'t1'},{text:'「……幾號？」',goto:'t2'}]},
+      {label:'t1'},{speaker:'kexin',text:'……你有記住。好。那一杯呢？'},{goto:'drink'},
+      {label:'t2'},{speaker:'kexin',text:'二十四。我講過，記不記得住是你的事。現在是你的事了。走，去買。'},
+      {label:'drink'},
+      {speaker:null,text:'（飲料攤前面。她看菜單看了很久。）'},
+      {speaker:'kexin',text:'我要最貴的那杯。'},
+      {speaker:'kexin',text:'開玩笑的。紅茶拿鐵，半糖。'},
+      {call:(G,GM)=>{ if((G.money|0)>=KX_BDAY_DRINK){ if(GM&&GM.money) GM.money(-KX_BDAY_DRINK); else G.money-=KX_BDAY_DRINK; G.flags.KX_BDAY_Y1='drink'; } else G.flags.KX_BDAY_Y1='self'; }},   /* 一杯飲料 60 元；錢不夠她自己付（不欠、之後不提）*/
+      {if:{flagIs:{KX_BDAY_Y1:'self'}},speaker:'kexin',text:'你沒錢喔？……好，這杯我請我自己。'},
+      {speaker:null,text:'（她接過去，喝了一口。）'},
+      {speaker:'kexin',text:'今天我收到我媽的訊息、室友的卡片，還有這杯。'},
+      {speaker:'kexin',text:'在臺北的第一個生日。我本來以為會很無聊。'},
+      {choice:[{text:'「妳今天兩邊都戴了。」',goto:'e'},{text:'「許願了嗎？」',goto:'w'}]},
+      {label:'e'},{speaker:'kexin',text:'生日才戴一對。平常一邊就夠了。你有發現，加分。'},{goto:'z'},
+      {label:'w'},{speaker:'kexin',text:'還沒。晚上室友說要幫我點蠟燭，到時候再許。現在先喝。'},
+      {label:'z'},
+      {speaker:null,text:'（她喝到剩一半，把杯子舉起來看了一下。）'},
+      {speaker:'kexin',text:'這杯我會記得。走了，我還有課。'} ] },
+  /* A 版沒遇到她（4/24 那天這一場沒演）：隔天起第一次和她說話，她只說一句，不扣好感 */
+  { id:'ev_kexin_birthday_y1s2_late', title:'', participants:['kexin'], location:'any', trigger:'interact', priority:9, term:['Y1S2'], once:true, background:'blur',
+    prereq:{custom:G=>{ const bd=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y1S2',9,5):null; return bd!=null&&G.day>bd&&G.day<=bd+7&&G.flags.dating_kexin!==true&&!(G.events&&G.events.done&&G.events.done.ev_kexin_birthday_y1s2_drink)&&KX_LINE_OK(G,'FAMILIAR'); }},
+    dialogue:[ {speaker:'kexin',text:'昨天我生日。沒事，只是講一下。'} ] },
+  /* B 版沒赴約：不補場；隔天起第一次和她說話，她說這一句（AA_874 B 版最後；那一天的短招呼只用「嗨。」那一半沒做，見交接）*/
+  { id:'ev_kexin_birthday_y1s2_next', title:'', participants:['kexin'], location:'any', trigger:'interact', priority:9, term:['Y1S2'], once:true, background:'blur',
+    prereq:{custom:G=>{ const bd=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y1S2',9,5):null; return bd!=null&&G.day>bd&&G.day<=bd+7&&G.flags.dating_kexin===true&&G.flags.KX_BDAY_Y1_NOSHOW===bd; }},
+    dialogue:[ {speaker:'kexin',text:'昨天那塊蛋糕我自己吃掉了，最大那塊。我有一點不高興。講完了。'} ] },
   /* 期末成績：寒假第一天晚上和可昕視訊一起打開（BB_95 9-8）。等的玩家：她數完以後成績單接著出來；先看的玩家：照樣一起打開。沒接（錯過、今天先不要）：成績隔天早上照常出來 */
   { id:'ev_kexin_grades_open', title:'一起打開', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'視訊',bg:'video'},

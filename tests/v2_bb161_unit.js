@@ -72,10 +72,7 @@ GM.money=function(n){ G.money+=n; };
   // ⑭ 她自己的事件那一週不排固定格
   { check('⑭ 大一下每週的「我們的日子」（CANON-NO-ECON-1112 第三批：這一項拿掉）',!EV('ev_kexin_our_day')&&!EV('ev_kexin_our_day_wk')); }
   // ⑮⑯ 生日：豆花那兩句在山下那一家；老闆那句數實際吃過的次數
-  { const b=EV('ev_kexin_birthday_y1s2').dialogue, is=b.findIndex(l=>l.bg==='nccu_food'), id=b.findIndex(l=>l.text==='你第一次跟我單獨吃的，是豆花。');
-    check('⑮ 豆花那兩句在換到山下那一家的背景以後',is>0&&id>is);
-    const boss=b.find(l=>l.speaker==='老闆'); fresh(30,19,'campus',{K1_ORDER:'let_her',NCCU_FOOD_N:3}); check('⑯ 老闆那句：K1 讓她點＋實際吃過 3 次以上（含今天）',EVENTS.cond(boss.if));
-    G.flags.NCCU_FOOD_N=2; check('⑯ 2 次＝沒有',!EVENTS.cond(boss.if));
+  { const b=EV('ev_kexin_birthday_y1s2').dialogue; check('⑮⑯ 生日那一場換成映月湖（CANON-NO-ECON-1112 第四批：照 AA_874 B 版換字；山下那一家、豆花、老闆那句拿掉）',!b.some(l=>l.bg==='nccu_food'||l.speaker==='老闆'||/豆花/.test(l.text||'')));
     fresh(30,19,'campus',{}); check('⑯ 舊存檔照完成的事件補算的那幾場（CANON-NO-ECON-1112 第三批：這一項拿掉）',STORY.nccuFoodLegacy(G)===0); }
   /* ⑱ SK03（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   // 第 3 節：法律審查標記

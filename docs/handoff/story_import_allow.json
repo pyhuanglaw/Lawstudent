@@ -9666,6 +9666,15 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "六拍手寫進程式一字照稿：①⑥ 新事件、②③④ 沿用 id 整場換（events.js 可昕自己的線；原本的邀約、視訊、電話拿掉）、⑤ ev_kexin_k20 換字（r2y3b_events.js）並放寬到朋友以上（r2y3b3d.js）；⑤ 的日子照 AA_900 第 4 節（大三下 5/12），不是表上的大三上第 13 週。逐字對稿 tests/kx_line_873_unit.js、y2b_events_unit.js、r2y3a_events_unit.js、r2y3b_events_unit.js（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_874_可昕大一下生日_兩版.md",
+   "sha": "0050081594",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "兩版手寫進程式一字照稿：B 版 ev_kexin_birthday_y1s2（id 留著，映月湖 20:00，白天她私訊約；story3d.js phoneRules）、A 版 ev_kexin_birthday_y1s2_drink（4/24 下午系館，飲料 60 元，錢不夠記 self）、兩版沒遇到的隔天那一句；B 版沒赴約那一天的短招呼只用「嗨。」沒做。逐字對稿 tests/v2_g01_unit.js（第四批第三份，LAWWW 的子代理）"
   }
  ]
 }

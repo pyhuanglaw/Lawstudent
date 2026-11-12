@@ -1859,17 +1859,18 @@ const STORY = (function(){
     /* 情人節（BB_96 9-1，寒假，各自在家）：2/14 20:00 她打視訊來（出遊系統「接起來」；在家也會問，home3d.js）；沒接＝窗戶的照片（outingMissed）*/
     { const vd=S.dayOfKey('2026-02-14'); if(vd&&F.dating_kexin&&G.day>=vd-7&&G.day<=vd&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_vday1')) OUT.plan(G,{id:'kx_vday1',ev:'ev_kexin_valentine_y1',day:vd,h:20,place:'視訊',title:'可昕的視訊：情人節',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'}); }
     /* 可昕的視訊一起讀書（期末考週）、第一份報告交出去的晚上（12/3，開車去外校）：CANON-NO-ECON-1112 第三批拿掉 */
-    /* 可昕的生日（BB_96 9-7b；4/24 大一下第 9 週週五；AA_140 G01）：早上行事曆「可昕生日」（祐廷自己記的）；草稿「生日快樂。」（23:59 前，她回「謝謝。今天換你說一件好笑的事給我聽。」；AA_459 第 5 節原本是「收到。」）；
-       18:00 出遊提示（ev_kexin_birthday_y1s2）。過了那一天：去過＝visit、只傳訊息＝message、都沒做＝none＋隔天早上她只傳「我等了一天。」（一次，之後照常）。KX_BDAY:{1:…}（BB_107：每年一筆；大一的記在這一天）。
-       之後幾年的 4/24：大二下第 9 週、大三下第 11 週、大四下第 10 週（AA_140 G01），跟著 v3～v5 做 */
+    /* 可昕的生日（4/24 大一下第 9 週週五）：CANON-NO-ECON-1112 第四批照 AA_874 B 版（交往中）——早上行事曆「可昕生日」、草稿「生日快樂。」照舊；
+       12:00 她私訊「晚上八點，映月湖。不要吃太飽。」→ 20:00 映月湖（ev_kexin_birthday_y1s2，走路約 10 分鐘）。過了那一天：去過＝visit、只傳訊息＝message、都沒做＝none（KX_BDAY:{1:…}）；
+       沒赴約＝不補場、不再傳「我等了一天。」，之後第一次遇到她那一句（events.js ev_kexin_birthday_y1s2_next，KX_BDAY_Y1_NOSHOW）。A 版（還沒交往）在 events.js（系館遇到）。 */
     { const bd=termDay('Y1S2',9,5);
       if(bd&&F.dating_kexin&&G.day===bd){
         if(h(G)>=6&&!F.kxBdayCal){ F.kxBdayCal=1; if(GM.toast) GM.toast('行事曆：可昕生日',5200); }
         if(!PHONE.sent(G,'kx_bday_draft')) PHONE.at(G,bd,Math.max(6,h(G)),[{th:'p:kexin',from:'player',who:null,text:'（草稿）',
           ask:{until:bd*24+24,opts:[{t:'生日快樂。',set:{KX_BDAY_MSG:true},say:[{from:'kexin',text:'謝謝。今天換你說一件好笑的事給我聽。'}]/* AA_459 第 5 節：「收到。」是學姊在家族群組的招牌，可昕不用 */}]}}],'kx_bday_draft');
-        if(typeof OUT!=='undefined'&&!OUT.get(G,'kx_bday_y1s2')) OUT.plan(G,{id:'kx_bday_y1s2',ev:'ev_kexin_birthday_y1s2',day:bd,h:18.75,place:'木柵大學',title:'可昕的生日：開車去木柵大學',travel:'開車約 30 分鐘',travelH:0.5}); }
+        if(h(G)<20&&!PHONE.sent(G,'kx_bday_y1s2_ask')) PHONE.at(G,bd,Math.max(12,h(G)),[{th:'p:kexin',from:'kexin',text:'晚上八點，映月湖。不要吃太飽。'}],'kx_bday_y1s2_ask');
+        if(typeof OUT!=='undefined'&&PHONE.sent(G,'kx_bday_y1s2_ask')&&!OUT.get(G,'kx_bday_y1s2')&&G.day*24+h(G)<bd*24+20.25) OUT.plan(G,{id:'kx_bday_y1s2',ev:'ev_kexin_birthday_y1s2',day:bd,h:20,late:0.25,place:'映月湖',title:'可昕的生日：映月湖',travel:'走路 約 10 分鐘',travelH:1/6}); }
       if(bd&&F.dating_kexin&&G.day>bd&&G.day<=bd+7&&!(F.KX_BDAY&&F.KX_BDAY[1])){ const v=F.KX_BDAY_VISIT?'visit':(F.KX_BDAY_MSG?'message':'none'); F.KX_BDAY=Object.assign({},F.KX_BDAY||{},{1:v});
-        if(v==='none') PHONE.at(G,bd+1,8,[{th:'p:kexin',from:'kexin',text:'我等了一天。'}],'kx_bday_none'); } }
+        if(v!=='visit') F.KX_BDAY_Y1_NOSHOW=bd; } }
     /* 颱風假 T1b「照常上課的喜劇」（BB_110 第 2 節、交付清單 B3）：颱風假（calendar.js 的 TYPHOON：第 7 週週一，憲法（上）那天）前一晚 20:30 新聞通知「明天停止上班上課。」、21:00 張教授的信（通知），
        21:20 起桌遊團群組（那天以前就在群組裡的玩家）：阿哲、Alison、柏翰、阿哲；最後一則可以回三種（到颱風假當天 24:00）。睡著、跳過時間的玩家照原本的時間補收（PHONE.at）。
        AA 角色的台詞（阿哲、Alison、柏翰）照 BB_110，AA 可以改 */
