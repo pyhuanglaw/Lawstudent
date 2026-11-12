@@ -181,6 +181,7 @@ const SHOPLIFE=(function(){
   S.metSlot=function(G,id){ const M=G&&G.flags&&G.flags.SHOP_MEAL_MET, v=M&&typeof M==='object'?M[id]:null; return Array.isArray(v)&&v[0]===dayHour(G).day?v[1]:null; };
   /* 每 0.5 秒：玩家在店裡、這裡排進這間店吃飯的人也真的在（E.npcs 有他）＝記「今天這一餐遇到了」*/
   S.markMet=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!S.CFG.oncePerDay||!Array.isArray(E.npcs)) return 0; const t=dayHour(G); let k=0;
+    if(S.yueDateCfg()){ for(const n of E.npcs){ const id=n&&n.charId; if(!id||!S.yueDateIs(id)) continue; let p=null; try{ p=S.yueDate(G,id); }catch(e){ p=null; } if(p&&p.zone===G.zone) S.yueDateMark(G,id); } }   /* 可昕來越好吃（一學期最多兩次）：玩家在店裡看到她＝算一次 */
     for(const slot of S.CFG.slots){ if(t.h<slot.from||t.h>=slot.to) continue; if(!S.dayOk(G,t.day)) return 0;
       for(const p of S.plan(t.day,slot.id)){ if(p.zone!==G.zone||t.h<p.t0||t.h>=p.t1||S.metSlot(G,p.id)) continue; if(!E.npcs.some(n=>n&&n.charId===p.id)) continue;
         const F=G.flags||(G.flags={}); if(!F.SHOP_MEAL_MET||typeof F.SHOP_MEAL_MET!=='object'||Array.isArray(F.SHOP_MEAL_MET)) F.SHOP_MEAL_MET={}; F.SHOP_MEAL_MET[p.id]=[t.day,slot.id]; k++; } }
@@ -188,7 +189,27 @@ const SHOPLIFE=(function(){
   const entMemo=new Map();
   S.seatAt=function(zone,id,day){ const def=typeof CROWD!=='undefined'&&CROWD.SHOP_ZONES?CROWD.SHOP_ZONES[zone]:null, seats=[]; if(def) for(const u of def.units) for(const s of u.seats||[]) seats.push(s);
     if(!seats.length) return null; const s=seats[hash('shopmeal-seat|'+zone+'|'+id+'|'+day)%seats.length]; return [s.x,s.z,s.lv|0]; };
-  S.sched=function(c,G){ if(guard||depth>0||!c||!c.id||!G||typeof CALENDAR==='undefined') return null;   /* depth>0＝別的模組正在算「他原本的作息」（見 S.wrapOthers）：這裡加的不算原本的 */ const p=S.planNow(G,c.id); if(!p) return null; if(S.why(G,c,p)) return null;
+  /* 可昕來越好吃找祐廷（AA_828 第 7 節第 2 點，企劃線 1d6055568c；規則在資料 SHOP_JOBS_AA828.yueMeal.dating＝{who, slot:'dinner', termMax:2}）：
+     「交往中才把可昕排進越好吃晚餐的名單（她來公館找他），一學期最多兩次；沒交往不排。」——她不在平常那一份名單裡（S.people），只有這一種：
+       交往中（G.flags.dating_<她>，和 SHOPMEET.helloSet 同一個）、那一天祐廷在越好吃有班（JOBS.due，沒有被考試、颱風請掉）而且班蓋到晚餐時段（稿沒有寫哪幾天：她是來找他的＝他有班的那幾天）、
+       照晚餐原本的機會（S.CFG 的 p／pEnd，亂數＝日期＋人：同一天存讀檔、進出結果一樣）、到店和離開的時間照名單同一個算法；
+       這個學期已經來過兩次（G.flags.SHOP_YUE_DATE＝{人|學期:[哪幾天]}；S.yueDateMark：祐廷上班幫她點了餐、或玩家在店裡看到她＝算一次）＝不再來。
+     其他照名單的人：原本有作息、那天有約、不在臺北都不排（S.why）。舊存檔沒有 SHOP_YUE_DATE＝還沒來過。*/
+  S.yueDateCfg=function(){ const Y=typeof SHOP_JOBS_AA828!=='undefined'&&SHOP_JOBS_AA828&&SHOP_JOBS_AA828.yueMeal, d=Y&&Y.dating; return d&&d.who&&d.slot&&d.termMax>0?d:null; };
+  S.yueDateIs=function(id){ const d=S.yueDateCfg(), c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; return !!d&&!!c&&[c.name,c.nickname,c.phoneName].includes(d.who); };
+  S.yueDateDays=function(G,id,tid){ const R=G&&G.flags&&G.flags.SHOP_YUE_DATE, v=R&&typeof R==='object'?R[id+'|'+tid]:null; return Array.isArray(v)?v:[]; };
+  S.yueDateZone=function(){ if(typeof JOBS==='undefined'||!JOBS.ZONE_KEY) return null; for(const z of Object.keys(JOBS.ZONE_KEY)) if(JOBS.ZONE_KEY[z]==='yue') return z; return null; };
+  S.yueDate=function(G,id){ const d=S.yueDateCfg(); if(!d||!G||!G.flags||!S.yueDateIs(id)||!G.flags['dating_'+id]) return null;
+    const t=dayHour(G), slot=S.CFG.slots.find(q=>q.id===d.slot); if(!slot||t.h<slot.from||t.h>=slot.to||!S.dayOk(G,t.day)) return null;
+    const zone=S.yueDateZone(); if(!zone||typeof JOBS==='undefined'||!JOBS.active||!JOBS.due||!JOBS.hrs) return null;
+    let on=false; try{ if(JOBS.active(G,'yue')&&JOBS.due(G,'yue',t.day)){ const h=JOBS.hrs('yue',t.day); on=!!h&&h[0]<slot.to&&h[1]>slot.from; } }catch(e){ on=false; } if(!on) return null;
+    const T=CALENDAR.termOf(t.day), seen=S.yueDateDays(G,id,T.id); if(!seen.includes(t.day)&&seen.length>=d.termMax) return null;
+    const r=prng(hash('shopmeal-yuedate|'+t.day+'|'+id)), wk=CALENDAR.weekend(t.day)||CALENDAR.holiday(t.day); if(r()>=(wk?slot.pEnd:slot.p)) return null;
+    const t0=+(slot.from+r()*S.CFG.start).toFixed(3), t1=+Math.min(slot.to,t0+S.CFG.stay[0]+r()*(S.CFG.stay[1]-S.CFG.stay[0])).toFixed(3);
+    if(t.h<t0||t.h>=t1||!S.shopOpen(zone,t.day,t0,t1)) return null; return {id,zone,t0,t1,slot:slot.id,yueDate:true}; };
+  S.yueDateMark=function(G,id){ if(!G||!S.yueDateIs(id)||typeof CALENDAR==='undefined') return false; const t=dayHour(G), T=CALENDAR.termOf(t.day); if(!T) return false; const F=G.flags||(G.flags={});
+    if(!F.SHOP_YUE_DATE||typeof F.SHOP_YUE_DATE!=='object'||Array.isArray(F.SHOP_YUE_DATE)) F.SHOP_YUE_DATE={}; const k=id+'|'+T.id, L=Array.isArray(F.SHOP_YUE_DATE[k])?F.SHOP_YUE_DATE[k]:(F.SHOP_YUE_DATE[k]=[]); if(L.includes(t.day)) return false; L.push(t.day); return true; };
+  S.sched=function(c,G){ if(guard||depth>0||!c||!c.id||!G||typeof CALENDAR==='undefined') return null;   /* depth>0＝別的模組正在算「他原本的作息」（見 S.wrapOthers）：這裡加的不算原本的 */ const p=S.planNow(G,c.id)||S.yueDate(G,c.id); if(!p) return null; if(S.why(G,c,p)) return null;
     const key=p.id+'|'+(G.day|0)+'|'+p.slot; let e=entMemo.get(key);
     if(!e){ const sa=S.seatAt(p.zone,p.id,G.day|0); if(!sa) return null; const wd=G.weekday!=null?G.weekday:wdOf(G.day);
       e={days:[wd],from:p.t0,to:p.t1,zone:p.zone,act:'eat',seatAt:sa,noPair:true,shopMeal:p.slot,note:'SHOP-LIFE-AUDIT-1112 吃飯時間在店裡（第一句在 src/shopmeet3d.js）'}; if(entMemo.size>300) entMemo.clear(); entMemo.set(key,e); }

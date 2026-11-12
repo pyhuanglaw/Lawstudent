@@ -261,7 +261,50 @@ await sec(10,async()=>{
       here=[MXI]; fresh(tue,16,'dorm'); hire('yue',[2],{mealHi:[MXI]}); await shift('yue',tue); check('10. 舊存檔（舊規則下他已經來過、記在 mealHi）：只出旁白、不壞',H.said.length===8&&H.said[2].t==='（你幫他點了餐。）');
       here=[MXI]; fresh(tue,16,'dorm'); hire('flower',[6,7]); await shift('flower',TD('Y1S2',4,7)); check('10. 別間店（花序）不會有這一段',H.said.length===7&&!said('（你幫他點了餐。）')&&!said(Y8.narr));
     } finally { JOBS.mealHere=mh0; }
-    fresh(tue,17.5,'tz_yuehaochi'); check('10. JOBS.mealHere（沒有換掉的）：沒有排進這間店吃飯的人＝null、不丟例外',JOBS.mealHere(H.G,MXI)===null||typeof JOBS.mealHere(H.G,MXI)==='string'); }
+    fresh(tue,17.5,'tz_yuehaochi'); check('10. JOBS.mealHere（沒有換掉的）：沒有排進這間店吃飯的人＝null、不丟例外',JOBS.mealHere(H.G,MXI)===null||typeof JOBS.mealHere(H.G,MXI)==='string');
+    /* 2026-11-12 補的洞：上班的整段對話時間停在開始那一刻（17:30），晚餐的名單 17:45 才開始——原本只問「現在」，真的名單下永遠沒有人來（上面那幾項都是換掉 JOBS.mealHere 才演得到）。
+       現在問「這一班裡」（JOBS.mealHere 的 span：這一刻沒有就往後看到下班）。用真的名單找一個這一班會來越好吃的人驗 */
+    { let found=null; const R0=CALENDAR.termDays('Y1S2'); for(let d=R0.from;d<=R0.to&&!found;d++){ if(![2,4].includes(CALENDAR.dateOf(d).wd)||!SHOPLIFE.dayOk({stage:'law',flags:{}},d)) continue; const q=SHOPLIFE.plan(d,'dinner').find(x=>x.zone==='tz_yuehaochi'); if(q) found=[d,q]; }
+      if(!found) console.log('（跳過：這個學期的名單沒有人排到越好吃的晚餐）');
+      else { const [d,q]=found; fresh(d,16,'dorm'); hire('yue',[2,4]); if(typeof SOCIAL!=='undefined'&&SOCIAL.rec){ try{ const r=SOCIAL.rec(q.id); if(r){ r.fam=80; r.trust=60; r.comf=60; } }catch(e){} }
+        at(d,17.5,'tz_yuehaochi'); const fr=SHOPMEET.friendUp(q.id), free=!SHOPLIFE.why(Object.assign({},H.G,{hour:(q.t0+q.t1)/2}),CHARACTERS[q.id],q);
+        if(!fr||!free) console.log('（跳過：名單上那個人這個存檔還不是朋友／那一餐原本有事，'+q.id+'）');
+        else { const a=JOBS.mealHere(H.G,q.id); at(d,17.5,'dorm'); const b=JOBS.mealHere(H.G,q.id); at(d,17.5,'tz_yuehaochi'); H.G.jobs.yue.gone='quit'; const c=JOBS.mealHere(H.G,q.id); H.G.jobs.yue.gone=null;
+          check('10. 真的名單：17:30 開始上班、他 '+q.t0+' 才到——這一班裡會來＝算（修改前：null）；人不在店裡不算；沒在這裡上班＝只看這一刻',a==='dinner'&&b===null&&c===null,J([a,b,c,q])); } } }
+    /* ===== AA_828 第 7 節第 2、3 點（企劃線 1d6055568c；2026-11-12）=====
+       第 3 點：女主角來吃飯也說通用句；學姊例外「你在這裡。幾點下班？」（AA 說這一句還在 BB 審）*/
+    { const SIS='heroine_05', AN='heroine_01'; let here2=[SIS,AN]; JOBS.mealHere=(G,id)=>here2.includes(id)?'dinner':null;
+      try{ check('10. 學姊有自己的一句；其他四位女主角沒有（＝通用句）；學姊在會來的人裡',JOBS.yueOwn(CHARACTERS[SIS])==='你在這裡。幾點下班？'&&['heroine_01','heroine_02','heroine_03','heroine_04'].every(id=>JOBS.yueOwn(CHARACTERS[id])===null)&&JOBS.yueMealIds().includes(SIS)&&Y8.own['學姊']==='你在這裡。幾點下班？',J(Y8.own));
+        here2=[SIS]; fresh(tue,16,'dorm'); hire('yue',[2,4]); await shift('yue',tue,P3);
+        check('10. 學姊來吃飯：她「你在這裡。幾點下班？」（不說通用句）→ 祐廷「對。要吃什麼？」→「（你幫她點了餐。）」',saidBy(nm(SIS),'你在這裡。幾點下班？')&&!said('你在這裡打工喔？')&&said(Y8.narr)&&saidBy(H.G.name,'對。要吃什麼？')&&H.said.filter(s=>s.t==='（你幫她點了餐。）').length===1&&H.said.length===11,J(L()));
+        here2=[AN]; await shift('yue',tue+2,P3); check('10. 以安（女主角、沒有自己的句子）＝通用句「你在這裡打工喔？」',saidBy(nm(AN),'你在這裡打工喔？')&&!said('你在這裡。幾點下班？')&&said('（你幫她點了餐。）'),J(L()));
+        here2=[SIS]; await shift('yue',tue+7); check('10. 學姊第二次來＝只有旁白',H.said.length===8&&H.said[2].t==='（你幫她點了餐。）'&&!said('你在這裡。幾點下班？'),J(L()));
+      } finally { JOBS.mealHere=mh0; } }
+    /* 第 2 點：可昕——交往中才排進越好吃晚餐的名單（她來公館找他），一學期最多兩次；沒交往不排。這一段不換掉 JOBS.mealHere：照真的名單（SHOPLIFE）跑 */
+    { const KX='kexin', R=CALENDAR.termDays('Y1S2'), has2=typeof SHOPLIFE!=='undefined'&&typeof SHOPLIFE.yueDate==='function';
+      check('10. 有 SHOPLIFE.yueDate／yueDateMark；規則在資料（who 可昕、晚餐、一學期最多 2 次）',has2&&J(SHOPLIFE.yueDateCfg())===J({who:'可昕',slot:'dinner',termMax:2})&&SHOPLIFE.yueDateIs(KX)&&!SHOPLIFE.yueDateIs('zhe')&&SHOPLIFE.yueDateZone()==='tz_yuehaochi'&&!SHOPLIFE.people().includes(KX));
+      if(has2){ const scan=(r)=>{ const out=[]; for(let d=r.from;d<=r.to;d++) for(let h=17.75;h<19.5;h+=0.05){ at(d,h,'tz_yuehaochi'); const p=SHOPLIFE.yueDate(H.G,KX); if(p){ out.push({d,h:+h.toFixed(2),p}); break; } } return out; };
+        fresh(tue,16,'dorm'); hire('yue',[2,4]); const none=scan(R);
+        check('10. 沒交往：整個學期都不排',none.length===0,J(none.map(x=>x.d)));
+        fresh(tue,16,'dorm',{dating_kexin:true}); const nojob=scan(R);
+        check('10. 交往中、但祐廷沒在越好吃打工：不排（她是來找他的）',nojob.length===0,J(nojob.map(x=>x.d)));
+        fresh(tue,16,'dorm',{dating_kexin:true}); hire('yue',[2,4]); const hit=scan(R);
+        check('10. 交往中、有越好吃的班：學期裡有幾天她會來（'+hit.length+' 天）、都是他有班的那幾天（週二、週四）的晚餐時段、在越好吃',hit.length>=3&&hit.every(x=>[2,4].includes(CALENDAR.dateOf(x.d).wd)&&x.p.zone==='tz_yuehaochi'&&x.p.slot==='dinner'&&x.p.t0>=17.75&&x.p.t1<=19.5&&JOBS.due(H.G,'yue',x.d)),J(hit.map(x=>x.d)));
+        { const x=hit[0]; at(x.d,x.h,'tz_yuehaochi'); const e=STORY.schedEnt(CHARACTERS[KX],H.G), a=SHOPLIFE.yueDate(H.G,KX), b=SHOPLIFE.yueDate(H.G,KX);
+          check('10. 那一刻她的作息＝在越好吃吃飯（shopMeal dinner；populateSchedule 照它坐在店裡）；同一天再問結果一樣',!!e&&e.zone==='tz_yuehaochi'&&e.act==='eat'&&e.shopMeal==='dinner'&&Array.isArray(e.seatAt)&&J(a)===J(b),J(e));
+          at(x.d,12.2,'tz_yuehaochi'); check('10. 只有晚餐：中午不排',SHOPLIFE.yueDate(H.G,KX)===null); }
+        /* 真的上班：第一次她的那一句、第二次只有旁白、第三次不來 */
+        fresh(hit[0].d,16,'dorm',{dating_kexin:true}); hire('yue',[2,4]); await shift('yue',hit[0].d,P3);
+        check('10. 她來的那一天上班（不換掉名單）：點餐那一段後面可昕「你在這裡打工？……排幾點到幾點？」→ 祐廷 →「（你幫她點了餐。）」；記這個學期來過一次',saidBy(nm(KX),'你在這裡打工？……排幾點到幾點？')&&said(Y8.narr)&&said('（你幫她點了餐。）')&&J(H.G.flags.SHOP_YUE_DATE)===J({['kexin|Y1S2']:[hit[0].d]}),J(L())+J(H.G.flags.SHOP_YUE_DATE));
+        await shift('yue',hit[1].d,P3);
+        check('10. 第二次來＝只有旁白；記兩次',!said('你在這裡打工？……排幾點到幾點？')&&said('（你幫她點了餐。）')&&J(H.G.flags.SHOP_YUE_DATE['kexin|Y1S2'])===J([hit[0].d,hit[1].d]),J(L())+J(H.G.flags.SHOP_YUE_DATE));
+        const rest=scan({from:hit[1].d+1,to:R.to}); await shift('yue',hit[2].d,P3);
+        check('10. 一學期最多兩次：之後這個學期不再來（第三個原本會來的日子上班沒有她）',rest.length===0&&H.said.length===7&&!said('（你幫她點了餐。）'),J(rest.map(x=>x.d))+J(L()));
+        { at(hit[1].d,hit[1].h,'tz_yuehaochi'); check('10. 來過的那兩天照舊算她在（同一天存讀檔結果一樣）',!!SHOPLIFE.yueDate(H.G,KX)); }
+        { const R2=CALENDAR.termDays('Y2S1'); H.G.jobs.yue.day=[2,4]; const nx=scan(R2); check('10. 下一個學期重新算（又可以來）',nx.length>=1,J(nx.map(x=>x.d))); }
+        { fresh(hit[0].d,16,'dorm',{dating_kexin:true}); hire('yue',[2,4]); H.G.flags.EX_kexin=true; H.G.flags.dating_kexin=false; at(hit[0].d,hit[0].h,'tz_yuehaochi'); check('10. 分手了（沒在交往）：不排',SHOPLIFE.yueDate(H.G,KX)===null); }
+        { fresh(hit[0].d,16,'dorm',{dating_kexin:true}); hire('yue',[2,4]); at(hit[0].d,hit[0].h,'tz_yuehaochi'); H.G.flags.SHOP_YUE_DATE='壞掉的值'; let err=null, p=null; try{ p=SHOPLIFE.yueDate(H.G,KX); SHOPLIFE.yueDateMark(H.G,KX); }catch(e){ err=e; }
+          check('10. 存檔的 SHOP_YUE_DATE 壞掉／沒有：不丟例外、當成還沒來過',!err&&!!p&&J(H.G.flags.SHOP_YUE_DATE)===J({['kexin|Y1S2']:[hit[0].d]}),String(err)); } } } }
   const g2=JSON.parse(J(H.G)); check('10. 存檔 JSON 來回不壞',J(g2.jobs)===J(H.G.jobs)); });
 
 console.log(H.fails?'FAILED '+H.fails:'ALL PASS'); process.exit(H.fails?1:0);
