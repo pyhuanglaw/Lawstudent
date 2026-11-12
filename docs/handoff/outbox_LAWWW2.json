@@ -9065,9 +9065,9 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "3191a4aa2d",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "state": "已交付",
    "noDirectIntegrate": false,
    "task": "SHOP-STANDARD-BACKFILL-1112",
@@ -9078,6 +9078,22 @@
    ],
    "remaining": "東南大聯、聯通、科舉、越好吃沒有自己的招牌板面",
    "next": "LAWWW-C 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "title": "汀州路店面板（xs_fronts_lit，東南、聯通、客居、越好吃的招牌）照營業時間調暗",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_sign_lit_1112/tz_front_lit_v1.patch",
+    "docs/art-rebuild/second_ai/wip/shop_sign_lit_1112/README.md"
+   ],
+   "remaining": "瀏覽器沒拍；溫特寶邸沒營業時間",
+   "next": "LAWWW-C 套 patch；CC 拍汀州路 23:30"
   }
  ]
 }
