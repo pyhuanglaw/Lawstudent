@@ -7382,7 +7382,7 @@
    "state": "已交付",
    "at": "2026-11-12T18:1x",
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACK（LAWWW-C 18:15，import_syllabus e05b2b85d3，第三／四批重匯）",
    "noDirectIntegrate": false,
    "next": "AA_7xx／8xx 企劃原稿換成代號、canon_scan 乾淨；舊覆寫檔 _meta 加 canon_1112「不要再從本檔重匯」。AA_897 定稿，第 1 節電影四句改字不放例外（movie_plots.js 1404／4577／4600、nanyang_movies.js 295、movie_plots.js 2898 的 when 欄）。"
   },
@@ -7399,7 +7399,7 @@
    "state": "已交付",
    "at": "2026-11-12T18:5x",
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACK（LAWWW-C 18:15，import_syllabus e05b2b85d3，第三／四批重匯）",
    "noDirectIntegrate": false,
    "next": "AA_898：「前」「傳」相連誤判 7 句改字＋註解清單；總表、口氣表、voice_canon 已清成現行（d40711706、315329e00、fcc91f0ea）"
   },
@@ -7418,7 +7418,7 @@
    "state": "已交付",
    "at": "2026-11-12T19:2x",
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACK（LAWWW-C 18:15，import_syllabus e05b2b85d3，第三／四批重匯）",
    "noDirectIntegrate": false,
    "next": "源稿對齊 AA_888／891／893；AA_899 等 BB；LAWWW 拿掉 import_syllabus.py 的 Y0S1、Y0S2 後重匯 syllabus、ladder、wish、bb_walk"
   }
