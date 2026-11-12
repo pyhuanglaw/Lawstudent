@@ -13,11 +13,13 @@ const CLUBBOARD=(function(){
     return B.rows.filter(r=>{ const a=ACTIVITIES.list.find(x=>x.id===r.act); return !!a&&Array.isArray(a.term)&&a.term.includes(T); }); };
   S.expoLine=function(G){ const B=D(); if(!B||!G||typeof STORY==='undefined'||!STORY.dayOfKey) return null; const d=STORY.dayOfKey(B.expoDate); return d!=null&&G.day<d?B.expo:null; };
   S.cardLines=r=>[r.club+'｜'+r.when, '怎麼加入：'+r.join+'　「'+r.say+'」'];
-  S.look=async function(GM){ const B=D(), G=GM&&GM.G; if(!B||!G) return false; const R=S.rows(G), ex=S.expoLine(G);
+  S.look=async function(GM,opt){ const B=D(), G=GM&&GM.G; if(!B||!G) return false; const R=S.rows(G), ex=S.expoLine(G);
     if(GM.sceneBegin) GM.sceneBegin();
-    try{ await GM.say(null,B.intro); if(ex) await GM.say(null,ex);
+    try{ /* 開頭：這面牆原本的隨機一句（AA_648；AA_701 第 3 節第 2 點）；沒有那一組才用通用開頭 */
+      const i0=opt&&typeof opt.intro==='function'?opt.intro(G):null; await GM.say(null,i0||B.intro); if(ex) await GM.say(null,ex);
       const seen=new Set();
       while(R.length){ const k=await GM.choose(R.map((r,i)=>({t:r.club,dim:seen.has(i)})).concat([{t:'不看了'}])); if(!(k>=0&&k<R.length)) break; seen.add(k); for(const t of S.cardLines(R[k])) await GM.say(null,t); if(seen.size>=R.length) break; }
+      if(!R.length&&B.none) await GM.say(null,B.none);   /* 一張都沒有的學期（AA_701 第 3 節第 1 點）*/
       await GM.say(null,B.last);
     } finally { if(GM.sceneEnd) GM.sceneEnd(); }
     return true; };

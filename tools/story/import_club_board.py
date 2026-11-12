@@ -20,13 +20,14 @@ def main():
     m = re.search(r'^- 開頭：(.+)$', s1, re.M); intro = m and m.group(1).strip()
     m = re.search(r'^- 最後一行：(.+)$', s1, re.M); last = m and m.group(1).strip()
     m = re.search(r'開學前多一行：(（最上面一張：.+?）)\s*$', s1, re.M); expo = m and m.group(1).strip()
+    m = re.search(r'一張都沒有的學期.*?多一句：(（.+?）)\s*$', md, re.M); none = m and m.group(1).strip()   # 第 3 節第 1 點（943f66532）
     rows = []
     for l in s1.split('\n'):
         c = [x.strip() for x in l.strip().strip('|').split('|')]
         if l.strip().startswith('|') and len(c) == 4 and c[0] in CLUB:
             rows.append({'act': CLUB[c[0]], 'club': c[0], 'when': c[1], 'join': c[2], 'say': c[3]})
-    if not intro or not last or not expo or len(rows) != 5: die(f'稿的格式變了：intro={bool(intro)} last={bool(last)} expo={bool(expo)} rows={len(rows)}')
-    data = {'src': f'{PATH}@{sha}', 'intro': intro, 'expo': expo, 'expoDate': '2025-09-06', 'rows': rows, 'last': last}
+    if not intro or not last or not expo or not none or len(rows) != 5: die(f'稿的格式變了：intro={bool(intro)} last={bool(last)} expo={bool(expo)} rows={len(rows)}')
+    data = {'src': f'{PATH}@{sha}', 'intro': intro, 'expo': expo, 'expoDate': '2025-09-06', 'rows': rows, 'none': none, 'last': last}
     txt = ('/* 自動產生：tools/story/import_club_board.py（' + data['src'] + '）。不要手改，改企劃 AA_701 再重新匯入。\n'
            '   社團布告欄「看看」（CLUB-BOARD-INFO-1105、X237；播放 src/clubboard3d.js）*/\n\'use strict\';\nconst CLUB_BOARD=' + json.dumps(data, ensure_ascii=False, indent=1)
            + ';\nif(typeof module!==\'undefined\') module.exports=CLUB_BOARD;\n')

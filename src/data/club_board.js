@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_club_board.py（docs/story_planning/AA_701_社團布告欄_活動時間與怎麼加入.md@4f5f78fd23）。不要手改，改企劃 AA_701 再重新匯入。
+/* 自動產生：tools/story/import_club_board.py（docs/story_planning/AA_701_社團布告欄_活動時間與怎麼加入.md@943f66532）。不要手改，改企劃 AA_701 再重新匯入。
    社團布告欄「看看」（CLUB-BOARD-INFO-1105、X237；播放 src/clubboard3d.js）*/
 'use strict';
 const CLUB_BOARD={
- "src": "docs/story_planning/AA_701_社團布告欄_活動時間與怎麼加入.md@4f5f78fd23",
+ "src": "docs/story_planning/AA_701_社團布告欄_活動時間與怎麼加入.md@943f66532",
  "intro": "（海報牆上貼著各社團的公告，你一張一張看。）",
  "expo": "（最上面一張：社團博覽會，9/6（六）10:00～16:00，椰影大道。）",
  "expoDate": "2025-09-06",
@@ -43,6 +43,7 @@ const CLUB_BOARD={
    "say": "第一次站旁邊聽就好。"
   }
  ],
+ "none": "（公告大多是給新生看的。你大一看過的那幾張，換了新的顏色。）",
  "last": "（還有熱舞社、合唱團、攝影社、桌遊社、羽球社、服務隊的傳單。開學第一週的社團博覽會，每一個社團都有擺攤。）"
 };
 if(typeof module!=='undefined') module.exports=CLUB_BOARD;

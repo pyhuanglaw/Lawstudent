@@ -1574,8 +1574,8 @@ const Z3 = (function(){
     const shops=list.map(q=>Object.assign({near:26,far:40,on:false,built:false,loading:false,grp:null,mats:[],meshes:0,k:-1},q));
     /* 兩種接法（CC 11-12 在使用者電腦量：兩間同時接 60 fps 沒掉，但第一次走近最長一幀 233 ms——那一下在載入、上傳貼圖、編譯材質）：
        · 一般（電腦）：進這一區就一間一間先做好（每 20 幀做一間：載入、換材質、貼圖先上傳、材質先編譯），掛在場景裡但不顯示；走近只是打開顯示，走遠關掉，不釋放。
-       · 省資源 lite（畫質 low／medium 或觸控裝置；opt.lite 可以指定）：只接最近的一間，走近才載入、其他的拿掉並釋放。 */
-    const lite=opt&&opt.lite!==undefined?!!opt.lite:(!!(E.q&&E.q.level&&E.q.level!=='high')||(typeof window!=='undefined'&&('ontouchstart' in window||(window.navigator&&window.navigator.maxTouchPoints>0))));
+       · 省資源 lite（畫質 low 或觸控裝置；opt.lite 可以指定；medium 的電腦走上面那一種）：只接最近的一間，走近才載入、其他的拿掉並釋放。 */
+    const lite=opt&&opt.lite!==undefined?!!opt.lite:(!!(E.q&&E.q.level==='low')/* 2026-11-12 CC 量到電腦預設畫質 medium 也被當省資源＝預載沒排（warmQ 0）、第一次走近照樣頓：改成只有 low 或觸控裝置才省資源 */||(typeof window!=='undefined'&&('ontouchstart' in window||(window.navigator&&window.navigator.maxTouchPoints>0))));
     const fallback=(s,vis)=>{ const R=zone.shopInLit; if(!R) return; for(const it of R.items) if(it.id===s.id&&it.mesh) it.mesh.visible=vis; };
     const basic=(m,s,cache)=>{ if(!m) return m; let b=cache.get(m); if(b) return b; const map=m.map||m.emissiveMap||null; const col=new THREE.Color(1,1,1);
       if(!map){ if(m.emissive&&(m.emissive.r+m.emissive.g+m.emissive.b)>0.05&&!m.vertexColors) col.copy(m.emissive); else if(m.color) col.copy(m.color); } else if(m.map&&m.color) col.copy(m.color);

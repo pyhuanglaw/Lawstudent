@@ -8955,12 +8955,18 @@
   },
   {
    "path": "docs/story_planning/AA_701_社團布告欄_活動時間與怎麼加入.md",
-   "sha": "4f5f78fd23",
+   "sha": "943f66532",
    "status": "approved",
    "approvedBy": "AA-C 定（D109，稿上寫明）；使用者 11-05 06:5x 原話（X237）；LAWWW-C 11-12 接",
    "task": "CLUB-BOARD-INFO-1105",
    "kind": "md",
-   "note": "社團布告欄：五個社團的活動時間、地點、怎麼加入——tools/story/import_club_board.py → src/data/club_board.js；src/clubboard3d.js 播放；第 2 節法服兩句手改 club_fair.js、activities.js"
+   "note": "社團布告欄：五個社團的活動時間、地點、怎麼加入——tools/story/import_club_board.py → src/data/club_board.js；src/clubboard3d.js 播放；第 2 節法服兩句手改 club_fair.js、activities.js",
+   "history": [
+    {
+     "sha": "4f5f78fd23",
+     "note": "被 943f66532 取代（第 3 節：沒有活動的學期多一句、開頭用 AA_648 隨機句、兩句舊說法）"
+    }
+   ]
   }
  ]
 }

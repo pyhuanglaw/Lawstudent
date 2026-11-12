@@ -28,9 +28,10 @@ global.STORY={dayOfKey:dayOf};
     check('3. 選單＝這學期的每一張＋「不看了」',J(a.menus[0])===J(want('Y1S1').concat(['不看了'])),J(a.menus[0])); }
   { const a=await run(dY1S1,[0,1,2,3,4]); check('3. 五張都看完自動收尾（不用再按「不看了」）、最後一行只出一次',a.menus.length===5&&a.said.filter(t=>t===CLUB_BOARD.last).length===1&&a.said.length===1+10+1,J([a.menus.length,a.said.length])); }
   { const G0=mk(dY1S1); const A0=ACTIVITIES.list; const save=A0.map(a=>a.term); for(const r of CLUB_BOARD.rows) ACTIVITIES.list.find(a=>a.id===r.act).term=['X']; const a=await run(dY1S1,[]); A0.forEach((x,i)=>x.term=save[i]);
-    check('3. 五張這學期都沒有活動：只出開頭和最後一行、沒有選單',J(a.said)===J([CLUB_BOARD.intro,CLUB_BOARD.last])&&a.menus.length===0,J(a.said)); }
+    check('3. 五張這學期都沒有活動：開頭 → 「公告大多是給新生看的…」→ 最後一行、沒有選單（AA_701 第 3 節第 1 點）',J(a.said)===J([CLUB_BOARD.intro,CLUB_BOARD.none,CLUB_BOARD.last])&&a.menus.length===0&&/新生/.test(CLUB_BOARD.none),J(a.said)); }
+  { const said=[]; const GM={G:mk(dY1S1),say:async(w,t)=>{ said.push(t); },choose:async()=>5,sceneBegin(){},sceneEnd(){}}; await CLUBBOARD.look(GM,{intro:()=>'（牆上原本的一句）'}); check('3. 呼叫的人給 intro（日常失速＝AA_648 隨機一句）就用它當開頭，不用通用開頭',said[0]==='（牆上原本的一句）'&&!said.includes(CLUB_BOARD.intro)); }
   const off=fs.readFileSync(path.join(ROOT,'src/offbeat_sys3d.js'),'utf8'), idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
-  check('4. 日常失速東牆「看社團佈告欄」（offLook clubs）接 CLUBBOARD.look；index.html 在 offbeat_sys3d.js 以前載入 club_board.js、clubboard3d.js',/it\.offLook==='clubs'[^\n]*CLUBBOARD\.look\(GM\)/.test(off)&&idx.indexOf('src/data/club_board.js')>0&&idx.indexOf('src/clubboard3d.js')>idx.indexOf('src/data/club_board.js')&&idx.indexOf('src/clubboard3d.js')<idx.indexOf('src/offbeat_sys3d.js'));
+  check('4. 日常失速東牆「看社團佈告欄」（offLook clubs）接 CLUBBOARD.look；index.html 在 offbeat_sys3d.js 以前載入 club_board.js、clubboard3d.js',/it\.offLook==='clubs'[^\n]*CLUBBOARD\.look\(GM,\{intro:g=>S\.look\(g,'clubs'\)\}\)/.test(off)&&idx.indexOf('src/data/club_board.js')>0&&idx.indexOf('src/clubboard3d.js')>idx.indexOf('src/data/club_board.js')&&idx.indexOf('src/clubboard3d.js')<idx.indexOf('src/offbeat_sys3d.js'));
   const cf=fs.readFileSync(path.join(ROOT,'src/data/club_fair.js'),'utf8'), ac=fs.readFileSync(path.join(ROOT,'src/data/activities.js'),'utf8');
   check('5. AA_701 第 2 節：法服攤 after、lawclub_study.whenText 換成新句（不再寫隔週週六）',cf.includes("'有民眾預約才開，前一天晚上群組會講。第一次站旁邊聽就好。'")&&!cf.includes('隔週週六九點')&&ac.includes("whenText:'有預約的週六上午，法律系館B一樓（前一天晚上群組通知）'"));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
