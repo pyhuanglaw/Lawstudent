@@ -56378,7 +56378,7 @@
    },
    "source": "BB-C 11-12（BB_255）",
    "authorized": "D108、D154",
-   "next": "【LAWWW-C 11-12 18:0x UTC】轉 LAWWW2（DELIVERED）。",
+   "next": "【LAWWW-C 11-12 18:0x UTC】LAWWW2 查完：不是擋路——出口在一樓、正上方是二樓樓板，從二樓東北邊點那一點射線先打到二樓地板；真的玩家會先點樓梯；simWalk 全 ok。轉 BB 判撤成探針問題或要新功能（二樓點一樓出口按鈕直接走下樓）。｜【LAWWW-C 11-12 18:0x UTC】轉 LAWWW2（DELIVERED）。",
    "xai": {
     "from": "BB",
     "to": "LAWWW2",
@@ -56415,6 +56415,35 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "BB_255",
     "acceptance": "點地走到 SUNNY 門口不卡；CC route 探針 PASS",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "SHOP-FIRST-APPROACH-1112",
+   "title": "第一次走近有真的室內的店面會卡一下：公館燒臘門前最長一幀 233 ms（>50 ms 21 次）、新生南路 150 ms、SUNNY 333 ms（走近時第一次建室內那一幀；進店預熱沒有解決）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新遊戲開始",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-12 18:03 UTC（FIRST_gg_desk_r3＠a57b6ec8ab）",
+   "authorized": "D108",
+   "next": "【LAWWW-C 11-12 18:0x UTC】轉 LAWWW2（DELIVERED）；CC 帶 GAME.E.zone.shopReal.prof（ea55a1fa70 起）跑公館、新生南路、SUNNY 三條街，數字給 LAWWW2 找是哪一步慢（load／tex／mesh／clone／prep）。",
+   "xai": {
+    "from": "BB",
+    "to": "LAWWW2",
+    "receiver": "LAWWW2",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "BB_255；cc-local FIRST_*",
+    "acceptance": "三條街第一次走近最長一幀 ≤ 50 ms（或 BB 定的門檻）、CC 在使用者電腦量",
     "ack": "DELIVERED"
    }
   }
