@@ -35,7 +35,7 @@ const L118=(function(){
   /* 店門口（人行道上，和 zones3d.js 的互動點同一個位置）；side W 的店門朝東（+x） */
   S.door=function(id){ const L=LAY(), s=L&&L.shops.find(q=>q.id===id); if(!s) return null; return {x:s.side==='W'?L.facade.west+0.9:L.facade.east-0.9, z:(s.z0+s.z1)/2, side:s.side, yaw:s.side==='W'?Math.PI/2:-Math.PI/2}; };
   const wdOf=G=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd%7:G.weekday%7;
-  S.isOpen=function(id,G){ const s=S.shop(id); if(!s) return false; if(typeof SIDEQ!=='undefined'&&SIDEQ.closedNote&&SIDEQ.closedNote(G,id)) return false;   /* 六張犁麵舖老闆開刀公休（AA_397 SQ05）*/ const h=G.hour%24; if(s.hours.closed.includes(wdOf(G))) return false; return s.hours.open.some(([a,b])=>h>=a&&h<b); };
+  S.isOpen=function(id,G){ const s=S.shop(id); if(!s) return false; if(typeof PLACES!=='undefined'&&PLACES.typhoonClosed&&PLACES.typhoonClosed('l118_'+id,G.day)) return false;   /* 颱風假不開（店面標準 §12 第 5 點；PLACES.typhoonShops）*/ if(typeof SIDEQ!=='undefined'&&SIDEQ.closedNote&&SIDEQ.closedNote(G,id)) return false;   /* 六張犁麵舖老闆開刀公休（AA_397 SQ05）*/ const h=G.hour%24; if(s.hours.closed.includes(wdOf(G))) return false; return s.hours.open.some(([a,b])=>h>=a&&h<b); };
   /* 這學期第幾週（寒暑假＝null）*/
   const termNow=G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return T&&T.week>=1?T:null; };
   S.regActive=function(r,G){ if(!G||(G.stage||'law')!=='law') return false; const T=termNow(G); if(!T||T.week>15) return false;

@@ -96,7 +96,8 @@ const PLACES={
   /* 期末考週或期末考的前一週（同一個學期；印得好的 finalsClose、src/gg3shops3d.js 的「裝訂期末報告」）*/
   finalsNear(day){ if(typeof CALENDAR==='undefined'||!CALENDAR.termOf) return false; const t=CALENDAR.termOf(day); if(!t) return false; if(t.exam==='final') return true; const n=CALENDAR.termOf(day+7); return !!n&&n.id===t.id&&n.exam==='final'; },
   typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_books','wz_mokuyobi','wz_offbeat','afar','daybreak','aoki','xs_tongxian','yangyang','corner_records',
-    'gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_xile','tz_yindehao','tz_yuehaochi','tz_dongnan','tz_liantong','tz_keju'],   /* 公館三間＋汀州路三間（GG-SHOPS3-SYS-1110；洗樂 24 小時也照 AA_742「一律關比較穩」）*/
+    'gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_xile','tz_yindehao','tz_yuehaochi','tz_dongnan','tz_liantong','tz_keju',
+    'xs_nanyang','xs_shanlan','xs_dabu','xs_haopai','xs_xsports','flower_notes','tz_limao','l118_dian','l118_self','l118_tea','l118_home','l118_cafe2','l118_korea','l118_noodle2'],   /* 店面標準 §12 第 5 點（SHOP-STANDARD-BACKFILL-1112）：颱風假一律不開；門口那一句＝PLACES.closedText 現有的 */   /* 公館三間＋汀州路三間（GG-SHOPS3-SYS-1110；洗樂 24 小時也照 AA_742「一律關比較穩」）*/
   typhoonClosed(zone,day){ if(!PLACES.typhoonShops.includes(zone)) return false; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G)?GAME.G.day:null; return day!=null&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(day); },
   isOpen(zone,h,day){ if(PLACES.typhoonClosed(zone,day)) return false; const o=PLACES.hours[zone]; if(!o) return true; if(h<0||h>=24) h=((h%24)+24)%24; if(o.rules){ const inW=(ws,x)=>!!ws&&ws.some(w=>x>=w[0]-1e-6&&x<w[1]-1e-6); const ws=PLACES.windowsOf(zone,day); if(inW(ws,h)) return true;
       /* 過午夜的那一段（late：[18,26]＝開到 02:00，小路 AA_655）：遊戲過了午夜還是同一天（G.hour 25，或呼叫的人先 %24 成 1）＝照這一天晚上那一段算（和 cafe 的 close>24 同一個想法）*/

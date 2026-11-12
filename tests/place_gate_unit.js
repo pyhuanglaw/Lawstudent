@@ -56,7 +56,6 @@ const KNOWN_FAIL=[].concat(
   KF(T_BACK,'hours','noodle bookstore tz_limao us_market'),
   KF(T_BACK,'closeOut','noodle bookstore tz_limao us_market'),
   KF(T_BACK,'quick','bikeshop gg_antai gg_xianguo gg_rongendian flower_notes tz_limao us_asian_market us_market'),
-  KF(T_BACK,'typhoon','xs_nanyang xs_shanlan xs_dabu xs_haopai xs_xsports flower_notes l118_dian l118_self l118_tea l118_home l118_cafe2 l118_korea l118_noodle2 tz_limao'),
   KF(T_BACK,'buy','us_asian_market us_market'), KF(T_BACK,'nomoney','us_asian_market us_market'),
   KF(T_BACK,'text','tz_limao us_asian_market us_market'),
   KF(T_BACK,'gift','tz_yuehaochi tz_dongnan tz_keju'),
