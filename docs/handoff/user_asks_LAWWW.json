@@ -3528,7 +3528,7 @@
    "at": "2026-11-10T00:3xZ",
    "quote": "遊戲中應該要有說明?簡單說明如何約人一天可以做幾件事情這些??",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X268",
    "task": "HELP-GUIDE-1110",
    "src": "使用者對 LAWWW-B"
@@ -3538,7 +3538,7 @@
    "at": "2026-11-10T00:3xZ",
    "quote": "（選擇題「說明做法」）說明頁＋第一次提示（建議）",
    "kind": "選擇題答案",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X268",
    "task": "HELP-GUIDE-1110",
    "src": "使用者對 LAWWW-B，AskUserQuestion"
