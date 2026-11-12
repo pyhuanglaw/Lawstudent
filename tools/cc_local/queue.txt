@@ -1886,4 +1886,4 @@ BE1E_USNAV_old | fe347b5e8ce9daba6502044c2cb89e60f3035a2a | probe | docs/story_p
 # NOODLE-NAME-PURGE-1112（使用者選「也改掉」、BB-C 04:16）：一次性維護工作（不是測試）——cc-local 的 local_out 文字檔舊群組名換「桌遊團」，自己 commit 改到的檔，runner 照常推；排在 be1e 五件後面
 ONEOFF_NOODLE_RENAME | be1e5d725634580ee25313a7bbd14f941687bfde | py | tools/cc_local/oneoff_noodle_rename.py | index.html | 10 | NOTE=oneoff
 # BB-C 08:28 SAVE-LZ-1104（BB_384）存檔 B：random_play_sim 從 A（day54_1110）讀檔接著玩到 2029-05-31（大四下），結束寫自動存檔 save_b.json（CC 下載後做成 fixture，再排瀏覽器量測）
-SAVE_LZ_growB | ed70b6d3589dc2731171347afa6d623f2b0339ca | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 120 | XARGS=--seed 1 --start-save tests/fixtures/user_save_day54_1110.json --to 2029-05-31 --max-steps 40000000 --save-out {out}/save_b.json
+SAVE_LZ_growB | ed70b6d3589dc2731171347afa6d623f2b0339ca | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 120 | XARGS=--seed 1 --root . --start-save tests/fixtures/user_save_day54_1110.json --to 2029-05-31 --max-steps 40000000 --save-out {out}/save_b.json
