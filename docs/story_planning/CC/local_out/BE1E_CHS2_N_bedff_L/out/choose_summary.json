@@ -1,0 +1,82 @@
+{
+ "summary": {
+  "BEDFF": [
+   {
+    "tag": "BEDFF_L_r1_150ms_20x_menu",
+    "picked": [
+     [
+      "快轉",
+      861,
+      ""
+     ],
+     [
+      "不用了",
+      4212,
+      ""
+     ]
+    ],
+    "diffN": 1
+   },
+   {
+    "tag": "BEDFF_L_r2_500ms_8x_menu",
+    "picked": [
+     [
+      "快轉",
+      845,
+      ""
+     ],
+     [
+      "不用了",
+      560,
+      ""
+     ]
+    ],
+    "diffN": 1
+   },
+   {
+    "tag": "BEDFF_L_r3_150ms_40x_menu",
+    "picked": [
+     [
+      "快轉",
+      837,
+      ""
+     ],
+     [
+      "不用了",
+      4204,
+      ""
+     ]
+    ],
+    "diffN": 1
+   },
+   {
+    "tag": "BEDFF_L_r4_150ms_20x_interact",
+    "picked": [
+     [
+      "快轉",
+      4171,
+      ""
+     ]
+    ],
+    "diffN": 1
+   },
+   {
+    "tag": "BEDFF_L_r5_500ms_8x_interact",
+    "picked": [
+     [
+      "快轉",
+      561,
+      ""
+     ],
+     [
+      "不用了",
+      562,
+      ""
+     ]
+    ],
+    "diffN": 1
+   }
+  ]
+ },
+ "unreached": []
+}
