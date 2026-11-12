@@ -9,6 +9,9 @@
 # X352 r2：r1 射線把名字有 window 的網格都略過＝新立體櫥窗被跳過、新舊 deep 一樣（TEST_BUG，已修）；只重跑①⑤（店外三張＋射線＋連拍）
 X352_DABU_new_r2 | 207a8216d90c98f979b857f258e496209c2499a8 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 20 | TAG=x352_new_r2;ZONES=xs_dabu;HOURS=14,22;PARTS=1,5;SHA=207a8216d90c98f979b857f258e496209c2499a8
 X352_DABU_old_r2 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 20 | TAG=x352_old_r2;ZONES=xs_dabu;HOURS=14,22;PARTS=1,5;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+# ===== P0 使用者 06:4x（BB-C 06:46）：店外看到的和走進去要一致（⑦b，新加）——大步（BB 改判 FAIL＝校正用）、南洋；X352B 四支還沒開跑的會自動用新版；全店補查 GBF 也會 =====
+X352_CON_dabu | 42c493ca277073a91d87dca7f971f6625a56d6a0 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 20 | TAG=con_dabu;ZONES=xs_dabu;HOURS=14,20.5;PARTS=1,5;SHA=42c493ca277073a91d87dca7f971f6625a56d6a0
+X352_CON_nanyang | 42c493ca277073a91d87dca7f971f6625a56d6a0 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=con_nanyang;ZONES=xs_nanyang;HOURS=14,20.5;SHA=42c493ca277073a91d87dca7f971f6625a56d6a0
 # ===== P0 BB-C 06:45（使用者點名 X352 SHOP-WINDOW-3D-1112 第 2 包：好拍、新生運動廣場、山嵐、同弦、大口，開發分支 42c493ca27）最前面；dc3d 舊版同機位對照；新生南路效能新舊（三角形 26k→53k，給 LAWWW）=====
 X352B_new_a | 42c493ca277073a91d87dca7f971f6625a56d6a0 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 60 | TAG=x352b_new_a;ZONES=xs_haopai,xs_xsports,xs_shanlan;HOURS=14,20.5,22;SHA=42c493ca277073a91d87dca7f971f6625a56d6a0
 X352B_new_b | 42c493ca277073a91d87dca7f971f6625a56d6a0 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 60 | TAG=x352b_new_b;ZONES=xs_tongxian,xs_dakou;HOURS=14,20.5,22;SHA=42c493ca277073a91d87dca7f971f6625a56d6a0
