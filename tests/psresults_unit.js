@@ -56,7 +56,8 @@ await sec(4,async()=>{ setup(12.4); await EVENTS.run(ev());
 
 await sec(5,()=>{ setup(10.1,{dating:false}); step(10.1); check('5. 沒交往：10:00 沒有她的訊息、沒有排出遊',!H.msgs('p:'+ID).length&&!OUT.get(H.G,'ps_results'));
   H.fresh('2027-08-05',10.1,'campus',{PS_KEPT:true}); H.G.flags['dating_'+ID]=true; X().phone(H.G); PHONE.tick(H.G); check('5. 前一天：沒有',!H.msgs('p:'+ID).length);
-  setup(9); H.G.stage='econ'; X().phone(H.G); H.G.hour=10.2; X().phone(H.G); PHONE.tick(H.G); check('5. 不是法律系的局：沒有',!H.msgs('p:'+ID).length); });
+   // CANON-NO-ECON-1112：經濟系那一年拿掉（第 5 項 不是法律系的局）
+   });
 
 H.done();
 })();

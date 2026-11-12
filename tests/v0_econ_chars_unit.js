@@ -31,15 +31,11 @@ check('2. props3d 有 helmet（upperChest）',/helmet:\{bone:'upperChest',make:h
 const alias={}; for(const id in CHARACTERS) for(const a of (CHARACTERS[id].alias||[])) alias[a]=id;
 check('3. 稱呼對到 id：韋綸、家豪學長、唐睿、魏教授',alias['韋綸']==='econ_weilun'&&alias['家豪學長']==='econ_jiahao'&&alias['唐睿']==='econ_tangrui'&&alias['魏教授']==='prof_wei',JSON.stringify([alias['韋綸'],alias['家豪學長'],alias['唐睿'],alias['魏教授']]));
 check('3. 立繪：econ_weilun、econ_jiahao、econ_tangrui 的 campus/neutral',['econ_weilun','econ_jiahao','econ_tangrui'].every(id=>PORTRAIT_FILES[id]&&PORTRAIT_FILES[id].campus&&PORTRAIT_FILES[id].campus.includes('neutral')&&fs.existsSync(path.join(ROOT,'assets/portraits',id,'campus/neutral.webp'))));
-check('3. 魏教授不用立繪（AA_145 §5）、講話的名字「魏老師」',CHARACTERS.prof_wei.portrait===null&&CLS.profName(COURSES.list.find(c=>c.id==='econ_principles_y0'))==='魏老師');
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 3 項「講話的名字魏老師」那一半（經原的課拿掉了））
+check('3. 魏教授不用立繪（AA_145 §5）、講話的名字「魏老師」',CHARACTERS.prof_wei.portrait===null);
 // 4
 const mkG=(day,hour)=>({day,hour,stage:'econ',flags:{},weekday:CALENDAR.dateOf(day).wd%7,zone:'campus'});
-let it=null; for(let d=-400;d<0&&!it;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!=='Y0S1'||t.week!==3) continue; it=CLS.dayItems(mkG(d,8),d).find(x=>x.c.id==='econ_principles_y0'&&!x.exam)||null; }
-check('4. 經原（上）、（下）的老師是 prof_wei',COURSES.list.filter(c=>/^econ_principles_y0/.test(c.id)).every(c=>c.prof==='prof_wei'));
-if(it){ const w=CLS.profWhere(mkG(it.day,it.t0+0.5),'prof_wei'); check('4. 第 3 週上課中：博雅 101',!!w&&w.zone==='boya'&&w.act==='class'&&w.room==='101',JSON.stringify(w));
-  const w2=CLS.profWhere(mkG(it.day,it.t1+0.3),'prof_wei'); check('4. 下課後不去萬才館（office:false）',w2===null,JSON.stringify(w2));
-  CHARACTERS.prof_wei.office=undefined; const w3=CLS.profWhere(mkG(it.day,it.t1+0.3),'prof_wei'); CHARACTERS.prof_wei.office=false; check('4. （對照：沒有 office:false 的教授照舊去萬才館）',!!w3&&w3.zone==='wancai',JSON.stringify(w3)); }
-else check('4. 找到經原第 3 週',false);
+// CANON-NO-ECON-1112：經濟系那一年拿掉（第 4 項 經原的老師 prof_wei 上課、下課在哪（課拿掉了））
 // 5：照 teach3d.js 的算法
 const tsrc=fs.readFileSync(path.join(ROOT,'src/teach3d.js'),'utf8');
 check('5. teach3d.js 算 teacherSpots（講台在南邊的階梯教室）',/zone\.teacherSpots=\{\}/.test(tsrc)&&/r\.stage!=='S'/.test(tsrc));

@@ -84,7 +84,8 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   // 6. 409（zones3d.js）
   { const z=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
     check('6. 房號 409、窗景（搬的途中也是）', /if\(F\.ROOM_Y4\|\|F\.ROOM_Y4_MOVING\) return '409';/.test(z)&&/return \(F\.ROOM_Y4\|\|F\.ROOM_Y4_MOVING\)\?'dorm_room409'/.test(z));
-    check('6. 409 照舊擺大二的東西（y2Room）、搬的途中和收拾好了＝紙箱封著、留在紙箱的那一件不拿出來', /const y2Room=!econ&&\['312','507','409'\]\.includes\(dormSetKey\(G0\)\);/.test(z)&&/if\(F\.ROOM_Y4_MOVING\|\|F\.PACKED_Y4\) return \{shown:\[\],boxes:'closed'\};/.test(z)&&/\.filter\(id=>id!==F\.BOX_KEPT_Y4\)/.test(z)); }
+    // CANON-NO-ECON-1112：經濟系那一年拿掉（程式裡 !econ&& 拿掉了，比對的字跟著拿掉）
+    check('6. 409 照舊擺大二的東西（y2Room）、搬的途中和收拾好了＝紙箱封著、留在紙箱的那一件不拿出來', /const y2Room=\['312','507','409'\]\.includes\(dormSetKey\(G0\)\);/.test(z)&&/if\(F\.ROOM_Y4_MOVING\|\|F\.PACKED_Y4\) return \{shown:\[\],boxes:'closed'\};/.test(z)&&/\.filter\(id=>id!==F\.BOX_KEPT_Y4\)/.test(z)); }
   // 7. 收拾
   const d61=D('2029-06-01'); const P=(flags)=>fresh(d61,20,'dorm',Object.assign({ROOM_Y4:d3,ROOM_Y4_ITEMS:['form','land'],BOX_KEPT_Y4:'zq_usb',FAMILY_LAND_Y3:'list'},flags||{}));
   P(); G.hour=19.9; check('7. 6/1 19:54 還不到；20:00 到了', !STORY.packDue(G)&&(G.hour=20,STORY.packDue(G))&&CALENDAR.dateOf(d61).wd===5);
