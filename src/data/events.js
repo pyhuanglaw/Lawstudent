@@ -1775,50 +1775,52 @@ const STORY_EVENTS=[
      第 5 週起第一次（K7 有準備東西的玩家）：字幕之後先說「你送的那個，我放在書桌上。」（只一次）。撞到別的出遊、選了別的＝「好，這週換一天。」；單純略過沒有台詞 */
   /* K7 準備的東西（AA-B 2026-10-16 裁定）：3/21（六）21:00 系統提示一次、四選一、記 K7_GIFT；那時在睡覺或跳過的，3/22 起床時再問；3/22 18:00 前都沒選＝什麼都沒準備（她照「你人來了就好。」，不扣分；AA_209 附錄B §2） */
   { id:'ev_k7_gift_prep', title:'週年的準備', participants:[], location:'any', trigger:'auto', once:true, background:'blur',
-    prereq:{custom:G=>{ if(!G.flags.dating_kexin||!G.flags.KX_ANNIV_PLACE||G.flags.K7_GIFT!=null||typeof STORY==='undefined'||!STORY.dayOfKey) return false; const a1=STORY.dayOfKey(STORY.KX_ANNIV_DAY); return a1!=null&&((G.day===a1-1&&G.hour>=21)||(G.day===a1&&G.hour<18.5)); }},
-    dialogue:[ {if:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey(STORY.KX_ANNIV_DAY)-1},speaker:null,text:'明天是週年。你準備的東西：'},{if:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey(STORY.KX_ANNIV_DAY)},speaker:null,text:'今天是週年。你準備的東西：'},
-      {choice:[{text:'摩天輪票根的影本，背面寫那天的日期',set:{K7_GIFT:'ticket'}},{text:'一本空白的行事曆，第一頁寫今天的日期',set:{K7_GIFT:'planner'}},{text:'山下那家的酸辣湯餃（外帶）',unless:{flagIs:{KX_ANNIV_PLACE:'shop'}},set:{K7_GIFT:'dumpling'}},{text:'什麼都沒準備',set:{K7_GIFT:'none'}}]} ] },   /* AA_313 第 2 節第 10 列：地點選政大山下＝湯餃那個選項不出（在同一家收到同一家的外帶）*/
+    prereq:{custom:G=>{ if(!G.flags.dating_kexin||!G.flags.KX_ANNIV_PLACE||G.flags.K7_GIFT!=null||typeof STORY==='undefined'||!STORY.kxAnnivDay) return false; const a1=STORY.kxAnnivDay(G,1); return a1!=null&&((G.day===a1-1&&G.hour>=21)||(G.day===a1&&G.hour<18.5)); }},
+    dialogue:[ {if:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.kxAnnivDay(G,1)-1},speaker:null,text:'明天是週年。你準備的東西：'},{if:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.kxAnnivDay(G,1)},speaker:null,text:'今天是週年。你準備的東西：'},
+      /* CANON-NO-ECON-1112 第四批（AA_879 第 3 節）：值照舊、意思換——ticket＝在一起那頓飯的發票（只有第一年）、planner＝一副耳環、dumpling＝後門那家的湯餃 */
+      {choice:[{text:'在一起那頓飯的發票，背面寫了那天的日期',set:{K7_GIFT:'ticket'}},{text:'一副耳環',set:{K7_GIFT:'planner'}},{text:'後門那家的酸辣湯餃（外帶）',unless:{flagIs:{KX_ANNIV_PLACE:'shop'}},set:{K7_GIFT:'dumpling'}},{text:'什麼都沒準備',set:{K7_GIFT:'none'}}]} ] },   /* AA_313 第 2 節第 10 列：地點選政大山下＝湯餃那個選項不出（在同一家收到同一家的外帶）*/
   /* 9-4 K7 交往週年（2026-03-22）：出門前選準備的東西（K7_GIFT，AA-B 確認中的提案：出發前選）→ 她收到的反應 → 她的卡片第一頁的假設題 → 旁白。記 KX_ANNIV {1:place}。不做 CG。
      沒去（婉拒、沒到）：KX_ANNIV {1:'missed'}，卡片的照片「週年快樂。下次你準備。」隔天中午（AA_313 第 2 節第 10 列；當晚的電話 CANON-NO-ECON-1112 第三批拿掉）。卡片之後變成宿舍的房間物件「她的週年卡片」（AA-B 2026-10-16：說明用卡片第一頁那句，story3d.js roomItemList）*/
   { id:'ev_kexin_anniversary_y1', title:'週年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
-    beforeOuting:(G)=>{ if(G.flags.K7_GIFT==null) G.flags.K7_GIFT='none'; },   /* AA-B 2026-10-16：準備的東西在前一晚 21:00 選（ev_k7_gift_prep）；18:00 前都沒選＝什麼都沒準備 */
+    beforeOuting:(G,GM,q)=>{ if(G.flags.K7_GIFT==null) G.flags.K7_GIFT='none'; G.flags._kxEarly=!!(q&&q.early); },   /* AA-B 2026-10-16：準備的東西在前一晚 21:00 選（ev_k7_gift_prep）；18:00 前都沒選＝什麼都沒準備。_kxEarly：提前到學期最後一天（AA_879 第 1 節）*/
     outingMissed:(G,GM,q)=>{ G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{1:'missed'}); if(typeof STORY!=='undefined'&&STORY.kxAnnivMissed) STORY.kxAnnivMissed(G,1,q&&q.day!=null?q.day:G.day); },   /* AA_313 第 2 節第 10 列：當晚 21:00 她打來（2-3 A）、卡片的照片改到隔天中午（story3d.js S.kxAnnivMissed）*/
-    dialogue:[ {if:{flagIs:{KX_ANNIV_PLACE:'wheel'}},scene:'摩天輪',bg:'ferris_wheel'},{if:{flagIs:{KX_ANNIV_PLACE:'shop'}},scene:'木柵大學・山下的小吃街',bg:'nccu_food'},{if:{flagIs:{KX_ANNIV_PLACE:'river'}},scene:'河堤',bg:'riverside'},
+    /* CANON-NO-ECON-1112 第四批：照 AA_879（定稿）重寫——地點 shop＝學校後門・湯餃店（深色底＋字幕）、發票、耳環、卡片第一頁換整組（在一起是那頓飯回去的路上）*/
+    dialogue:[ {if:{flagIs:{KX_ANNIV_PLACE:'wheel'}},scene:'摩天輪',bg:'ferris_wheel'},{if:{flagIs:{KX_ANNIV_PLACE:'shop'}},scene:'學校後門・湯餃店',bg:'dark'},{if:{flagIs:{KX_ANNIV_PLACE:'river'}},scene:'河堤',bg:'riverside'},
+      {if:{flags:['_kxEarly']},speaker:'kexin',expression:'neutral',text:'提早過。那天我在高雄，這個我不想用視訊。'},
       {if:{flagIs:{K7_GIFT:'ticket'}},goto:'g1'},{if:{flagIs:{K7_GIFT:'planner'}},goto:'g2'},{if:{flagIs:{K7_GIFT:'dumpling'}},goto:'g3'},{goto:'g4'},
-      {label:'g1'},{speaker:null,text:'（她把票根翻到背面，看了那個日期很久。）'},{speaker:'kexin',expression:'surprised',text:'原本那張呢？'},{speaker:'player',text:'夾在我書桌的桌墊下面。'},{speaker:'kexin',expression:'smile',text:'（笑了）好。那這張我收。'},{goto:'card'},   /* AA_306 附（可昕不出假設題）；AA_313 第 2 節第 10 列：票根在宿舍桌墊下（房間物件），原本「在我皮夾裡。」*/
-      {label:'g2'},{speaker:'kexin',expression:'smile',text:'這本我要用完。'},{goto:'card'},
+      {label:'g1'},{speaker:null,text:'（她把發票翻到背面，看了那個日期很久。）'},{speaker:'kexin',expression:'surprised',text:'你留這個？'},{speaker:'player',text:'夾在我書桌的桌墊下面，夾了一年。'},{speaker:'kexin',expression:'neutral',text:'你有對過獎嗎？'},{speaker:'player',text:'沒有。'},{speaker:'kexin',expression:'smile',text:'（笑了）很好。中了也不要去換。這張歸我。'},{goto:'card'},
+      {label:'g2'},{speaker:null,text:'（她當場把原本那一邊拆下來，換上去。）'},{speaker:'kexin',expression:'smile',text:'好看嗎？不用回答，我知道。'},{goto:'card'},
       {label:'g3'},{speaker:'kexin',expression:'surprised',text:'這是禮物？'},{speaker:'player',text:'是。'},{speaker:'kexin',expression:'laugh',text:'這是我收過最燙的禮物。'},{goto:'card'},
       {label:'g4'},{speaker:'kexin',expression:'smile',text:'你人來了就好。'},{speaker:null,text:'（她把卡片推過來）'},   /* AA_209 附錄B §2 */
-      {label:'card'},{speaker:'kexin',expression:'teasing',text:'（把卡片翻到第一頁）那天在最高的地方，你說在一起吧。我說好。'},{speaker:'kexin',expression:'teasing',text:'那今天，是第幾圈？'},
-      {choice:[{text:'「第一圈。」',goto:'c1'},{text:'「第三百六十五圈。」',goto:'c2'},{text:'「不用算。」',goto:'c3'}]},
-      {label:'c1'},{speaker:'kexin',expression:'smile',text:'那我們還在最高點。'},{goto:'end'},
-      {label:'c2'},{speaker:'kexin',expression:'surprised',text:'你算過？'},{speaker:'player',text:'猜的。'},{speaker:'kexin',expression:'laugh',text:'猜得很準。'},{goto:'end'},
-      {label:'c3'},{speaker:'kexin',expression:'smile',text:'好。那就一直轉。'},
+      {label:'card'},{speaker:'kexin',expression:'smile',text:'（把卡片翻到第一頁）那天吃完飯，回去的路上，我們說好在一起。我還記得是哪一盞路燈。'},{speaker:'kexin',expression:'teasing',text:'一年了。你有沒有後悔過？'},
+      {choice:[{text:'「沒有。」',goto:'c1'},{text:'「有一次。妳罵我那次。」',goto:'c2'},{text:'（握住她的手）',goto:'c3'}]},
+      {label:'c1'},{speaker:'kexin',expression:'smile',text:'回答太快。可是我收。'},{goto:'end'},
+      {label:'c2'},{speaker:'kexin',expression:'surprised',text:'哪一次？我罵很多次。'},{speaker:'kexin',expression:'smile',text:'……好。那次我也記得。我後來有去找你。'},{goto:'end'},
+      {label:'c3'},{speaker:null,text:'（她沒有說話。手握緊了一點。）'},
       {label:'end'},{speaker:null,text:'後面幾頁，她說：『回去再看。』'} ],
-    after:G=>{ G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{1:G.flags.KX_ANNIV_PLACE||'shop'}); } },
+    after:G=>{ G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{1:G.flags.KX_ANNIV_PLACE||'shop'}); delete G.flags._kxEarly; } },
   /* K7 第二～四年（AA_224 2-c，AA-C ff3f2a4b；排程 story3d.js）：結構同第一年。準備的東西：前一晚 21:00 起、當天 18:30 前選，四選一照第一年，記 K7_GIFT_n（STORY.kxAnnivGiftYear 算第幾年）*/
   { id:'ev_k7_gift_prep_n', title:'週年的準備', participants:[], location:'any', trigger:'auto', background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.kxAnnivGiftYear&&STORY.kxAnnivGiftYear(G)>0},
     dialogue:[ {if:{custom:G=>STORY.kxAnnivGiftYear(G,true)>0},speaker:null,text:'明天是週年。你準備的東西：'},{unless:{custom:G=>STORY.kxAnnivGiftYear(G,true)>0},speaker:null,text:'今天是週年。你準備的東西：'},
-      {choice:[{text:'摩天輪票根的影本，背面寫那天的日期',set:{_K7G:'ticket'}},{text:'一本空白的行事曆，第一頁寫「我們的日子」',set:{_K7G:'planner'}},{text:'山下那家的酸辣湯餃（外帶）',unless:{custom:G=>{ const n=STORY.kxAnnivGiftYear(G); return !!n&&G.flags['KX_ANNIV_PLACE_'+n]==='shop'; }},set:{_K7G:'dumpling'}},{text:'什麼都沒準備',set:{_K7G:'none'}}]} ],   /* AA_313 第 2 節第 10 列：那一年地點是政大山下＝湯餃不出 */
+      {choice:[/* AA_879 第 3 節：發票只有第一年 */{text:'一副耳環',set:{_K7G:'planner'}},{text:'後門那家的酸辣湯餃（外帶）',unless:{custom:G=>{ const n=STORY.kxAnnivGiftYear(G); return !!n&&G.flags['KX_ANNIV_PLACE_'+n]==='shop'; }},set:{_K7G:'dumpling'}},{text:'什麼都沒準備',set:{_K7G:'none'}}]} ],   /* AA_313 第 2 節第 10 列：那一年地點是政大山下＝湯餃不出 */
     after:G=>{ const n=STORY.kxAnnivGiftYear(G); if(n) G.flags['K7_GIFT_'+n]=G.flags._K7G||'none'; delete G.flags._K7G; } },
   /* K7 第二～四年的週年：地點（q.ap）、第幾年（q.year）由排程帶進來；她收到的反應照第一年；卡片換句：第二年「第二年。」、第三年「第三年。」（AA_259 (b) 第 5 點：原本「第三年。我們好像…」）、第四年「第四年。」（選項同第三年）、第五年「第五年。……明年的卡片，換你寫。」（自己的一組選項，AA_363 T1）、第六年卡片在祐廷手上（y6，AA_472 第 3 節；排程 story3d.js 的 n===6）。
      卡片第一頁「那天在最高的地方，你說在一起吧。我說好。」（AA_303 第 2 節 9）只在第一年。記 KX_ANNIV {n:地點}；沒去＝卡片的照片（同第一年），KX_ANNIV {n:'missed'} */
   { id:'ev_kexin_anniversary_yn', title:'週年', participants:['kexin'], location:'any', trigger:'outing', background:'dark', hours:2.5,
-    beforeOuting:(G,GM,q)=>{ const F=G.flags, n=(q&&q.year)||2; F._kxAY=n; F._kxAP=(q&&q.ap)||F['KX_ANNIV_PLACE_'+n]||'shop'; if(F['K7_GIFT_'+n]==null) F['K7_GIFT_'+n]='none'; F._kxAG=F['K7_GIFT_'+n];
+    beforeOuting:(G,GM,q)=>{ const F=G.flags, n=(q&&q.year)||2; F._kxAY=n; F._kxEarly=!!(q&&q.early); F._kxAP=(q&&q.ap)||F['KX_ANNIV_PLACE_'+n]||'shop'; if(F['K7_GIFT_'+n]==null) F['K7_GIFT_'+n]='none'; F._kxAG=F['K7_GIFT_'+n];
       const pg=n-1===1?F.K7_GIFT:F['K7_GIFT_'+(n-1)], pr=F.KX_ANNIV&&F.KX_ANNIV[n-1]; F._kxAGR=['ticket','planner','dumpling'].includes(F._kxAG)&&pg===F._kxAG&&!!pr&&pr!=='missed'&&pr!=='video'; },   /* AA_313 第 2 節第 36 列：和前一年送一樣的（前一年有見到面、她收到了）＝換句 */
     outingMissed:(G,GM,q)=>{ const n=(q&&q.year)||2; G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{[n]:'missed'}); if(typeof STORY!=='undefined'&&STORY.kxAnnivMissed) STORY.kxAnnivMissed(G,n,q&&q.day!=null?q.day:G.day); },   /* AA_313 第 2 節第 36 列：同第一年（2-3 A）*/
-    dialogue:[ {if:{flagIs:{_kxAP:'wheel'}},scene:'摩天輪',bg:'ferris_wheel'},{if:{flagIs:{_kxAP:'shop'}},scene:'木柵大學・山下的小吃街',bg:'nccu_food'},{if:{flagIs:{_kxAP:'river'}},scene:'河堤',bg:'riverside'},
-      /* 第五年（AA_357 3-2，2029-10-17）：地點之後兩句；第二句延畢（交換路線）和不延畢不同 */
-      {if:{flagIs:{_kxAY:5}},speaker:'kexin',expression:'smile',text:'五年。我們認識的時候，你還在經濟系。'},
-      {if:{flagIs:{_kxAY:5},custom:G=>typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&!!STORY.routeAbroadRoute(G)},speaker:'kexin',expression:'smile',text:'……你一月拿證書。我們兩個，同一年開始。'},
-      {if:{flagIs:{_kxAY:5},custom:G=>!(typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&!!STORY.routeAbroadRoute(G))},speaker:'kexin',expression:'smile',text:'我十二月放榜。你八月考。……我們兩個，同一年開始。'},
+    dialogue:[ {if:{flagIs:{_kxAP:'wheel'}},scene:'摩天輪',bg:'ferris_wheel'},{if:{flagIs:{_kxAP:'shop'}},scene:'學校後門・湯餃店',bg:'dark'},{if:{flagIs:{_kxAP:'river'}},scene:'河堤',bg:'riverside'},   /* AA_879 第 2 節 */
+      {if:{flags:['_kxEarly']},speaker:'kexin',expression:'neutral',text:'提早過。那天我在高雄，這個我不想用視訊。'},
+      /* 第五年：地點之後只留一句（AA_879 第 4 節：寫死的年份、放榜、證書月份拿掉）*/
+      {if:{flagIs:{_kxAY:5}},speaker:'kexin',expression:'smile',text:'五年。'},
       /* 第六年（AA_472 第 3 節，企劃線 1ebcf530e；2030-10-17）：地點之後一句；第五年選了「寫什麼？」（KX_ANNIV5_WHAT）的換一句 */
       {if:{flagIs:{_kxAY:6}},unless:{flags:['KX_ANNIV5_WHAT']},speaker:'kexin',expression:'smile',text:'六年。……今年是你寫。'},
       {if:{flagIs:{_kxAY:6},flags:['KX_ANNIV5_WHAT']},speaker:'kexin',expression:'smile',text:'六年。……你想好要寫什麼了嗎？'},
       {if:{flagIs:{_kxAG:'ticket'}},goto:'g1'},{if:{flagIs:{_kxAG:'planner'}},goto:'g2'},{if:{flagIs:{_kxAG:'dumpling'}},goto:'g3'},{goto:'g4'},
-      {label:'g1'},{speaker:null,text:'（她把票根翻到背面，看了那個日期很久。）'},{if:{flags:['_kxAGR']},speaker:'kexin',expression:'smile',text:'……又一張。去年那張我還留著。'},{if:{flags:['_kxAGR']},goto:'card'},{speaker:'kexin',expression:'surprised',text:'原本那張呢？'},{speaker:'player',text:'夾在我書桌的桌墊下面。'},{speaker:'kexin',expression:'smile',text:'（笑了）好。那這張我收。'},{goto:'card'},   /* AA_306 附（可昕不出假設題）；AA_313 第 2 節第 10 列：票根在宿舍桌墊下（房間物件），原本「在我皮夾裡。」*/
-      {label:'g2'},{if:{flags:['_kxAGR']},speaker:'kexin',expression:'smile',text:'……去年那本我用完了。'},{unless:{flags:['_kxAGR']},speaker:'kexin',expression:'smile',text:'……這本我要用完。'},{goto:'card'},
+      {label:'g1'},{speaker:null,text:'（她把發票翻到背面，看了那個日期很久。）'},{speaker:'kexin',expression:'surprised',text:'你留這個？'},{speaker:'player',text:'夾在我書桌的桌墊下面，夾了一年。'},{speaker:'kexin',expression:'neutral',text:'你有對過獎嗎？'},{speaker:'player',text:'沒有。'},{speaker:'kexin',expression:'smile',text:'（笑了）很好。中了也不要去換。這張歸我。'},{goto:'card'},   /* AA_879：發票只有第一年（這裡給舊存檔第二年以後還記著 ticket 的）*/
+      {label:'g2'},{if:{flags:['_kxAGR']},speaker:'kexin',expression:'teasing',text:'又是耳環。我本來一年只買一副，現在一年有兩副了。'},{if:{flags:['_kxAGR']},goto:'card'},{speaker:null,text:'（她當場把原本那一邊拆下來，換上去。）'},{speaker:'kexin',expression:'smile',text:'好看嗎？不用回答，我知道。'},{goto:'card'},   /* AA_879 第 3 節：耳環（第一次／前一年也送）*/
       {label:'g3'},{if:{flags:['_kxAGR']},speaker:'kexin',expression:'smile',text:'又是這個。……好，我吃。'},{if:{flags:['_kxAGR']},goto:'card'},{speaker:'kexin',expression:'surprised',text:'這是禮物？'},{speaker:'player',text:'是。'},{speaker:'kexin',expression:'laugh',text:'這是我收過最燙的禮物。'},{goto:'card'},
       {label:'g4'},{speaker:'kexin',expression:'smile',text:'你人來了就好。'},{unless:{flagIs:{_kxAY:6}},speaker:null,text:'（她把卡片推過來）'},   /* 第六年卡片在祐廷手上（卡片那一段換成 y6）：這一句不出 */
       {label:'card'},{if:{flagIs:{_kxAY:3}},goto:'y3'},{if:{flagIs:{_kxAY:4}},goto:'y4'},{if:{flagIs:{_kxAY:5}},goto:'y5'},{if:{flagIs:{_kxAY:6}},goto:'y6'},   /* 第五年：AA_363 T1（卡片第一頁一句＋自己的一組選項）；第六年：AA_472 第 3 節（卡片是祐廷寫的，不加選項）*/
@@ -1835,12 +1837,12 @@ const STORY_EVENTS=[
       {label:'d3'},{speaker:null,text:'（她看著你收好，嘴角動了一下。）'},{goto:'end'},
       {label:'y3'},{speaker:'kexin',expression:'smile',text:'（把卡片翻到第一頁）第三年。'},{goto:'b0'},   /* AA_259 (b) 第 5 點 K13（AA_312 第 3 節 B-7）：第三年的卡片句、b0 選項與回覆 */
       /* 第四年（AA_378 #10，企劃線 5cd35678；照 BB_209 第 4 節、AA_224 2-c）：自己一組選項；原本接第三年那組（「會啊。」「轉到頭暈怎麼辦？」回的是第三年「會一直轉下去」）*/
-      {label:'y4'},{unless:{flags:['KX_CARD_MINE']},speaker:'kexin',expression:'smile',text:'（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。'},
+      {label:'y4'},{unless:{flags:['KX_CARD_MINE']},speaker:'kexin',expression:'smile',text:'（把卡片翻到第一頁）第四年。'},   /* AA_879 第 4 節：不寫死畢業 */
       /* AA_525 3-4（K-5，企劃線 6081f725f）：第三年說「明年換我寫。」（KX_CARD_MINE）的，第四年（臺灣、日本路線；美國路線第四年是視訊，不改）換這三句，後面接現有的三個選項 */
-      {if:{flags:['KX_CARD_MINE']},speaker:null,text:'（這一次，第一張卡片是你寫的。你把它推過去。）'},{if:{flags:['KX_CARD_MINE']},speaker:'kexin',expression:'smile',text:'（翻開，讀完）……你的字。'},{if:{flags:['KX_CARD_MINE']},speaker:'kexin',expression:'smile',text:'第四年。……明年這一天，我們都畢業了。'},
+      {if:{flags:['KX_CARD_MINE']},speaker:null,text:'（這一次，第一張卡片是你寫的。你把它推過去。）'},{if:{flags:['KX_CARD_MINE']},speaker:'kexin',expression:'smile',text:'（翻開，讀完）……你的字。'},{if:{flags:['KX_CARD_MINE']},speaker:'kexin',expression:'smile',text:'第四年。'},
       {choice:[{text:'「明年也一起過。」',goto:'c1'},{text:'「時間好快。」',goto:'c2'},{text:'（不說話，看著她）',goto:'c3'}]},
-      {label:'c1'},{speaker:'kexin',expression:'smile',text:'好。寫進表格。'},{goto:'end'},
-      {label:'c2'},{speaker:'kexin',expression:'smile',text:'對啊。四年前你還不知道木柵大學怎麼走。'},{goto:'end'},
+      {label:'c1'},{speaker:'kexin',expression:'smile',text:'好。你講的。'},{goto:'end'},
+      {label:'c2'},{speaker:'kexin',expression:'smile',text:'對啊。那時候在教室，是我先跟你講話的。你不要忘記。'},{goto:'end'},
       {label:'c3'},{speaker:'kexin',expression:'teasing',text:'幹嘛一直看。'},{goto:'end'},
       {label:'b0'},{choice:[{text:'「明年換我寫。」',goto:'b1'},{text:'「每年都寫這麼多？」',goto:'b2'},{text:'（不說話，看著她）',goto:'b3'}]},
       {label:'b1'},{speaker:'kexin',expression:'smile',text:'好。要手寫喔。'},{set:{KX_CARD_MINE:true}},{goto:'end'},   /* AA_525 3-4（K-5）：記 KX_CARD_MINE＝第四年的第一張卡片是祐廷寫的 */
@@ -1851,13 +1853,15 @@ const STORY_EVENTS=[
       {label:'y6'},{speaker:null,text:'（這一次，卡片在你的外套口袋裡。你把它推過去。）'},{speaker:null,text:'（她翻開第一頁，看了很久。從包包拿出一支紅筆。）'},
       {speaker:'kexin',expression:'teasing',text:'（圈了一個字）……這個字寫錯了。'},{speaker:'kexin',expression:'smile',text:'留著。不要改。'},{speaker:null,text:'（她把卡片收進包包最裡面那一層。）'},
       {label:'fin'} ],
-    after:G=>{ const F=G.flags, n=F._kxAY||2; F.KX_ANNIV=Object.assign({},F.KX_ANNIV||{},{[n]:F._kxAP||'shop'}); delete F._kxAY; delete F._kxAP; delete F._kxAG; delete F._kxAGR; } },
+    after:G=>{ const F=G.flags, n=F._kxAY||2; F.KX_ANNIV=Object.assign({},F.KX_ANNIV||{},{[n]:F._kxAP||'shop'}); delete F._kxAY; delete F._kxAP; delete F._kxAG; delete F._kxAGR; delete F._kxEarly; } },
   /* K7 第四年他在美國（交換路線 US、那天在國外；STORY.kxAnnivVideo）：她那邊晚上九點、他那邊早上，視訊（AA_224 2-c）。不選地點與禮物。記 KX_ANNIV {4:'video'}；沒接＝{4:'missed'} */
-  { id:'ev_kexin_anniversary_video', title:'週年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-    outingMissed:(G)=>{ G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{4:'missed'}); },
+  /* AA_879 第 1 節：祐廷那天在國外（交換）的那一年都用這一場（原本只有第四年美國）；第幾年由排程帶進來（q.year），沒有＝4。once 拿掉（不同年可以各一次）*/
+  { id:'ev_kexin_anniversary_video', title:'週年', participants:['kexin'], location:'any', trigger:'outing', background:'dark', hours:0.5,
+    beforeOuting:(G,GM,q)=>{ G.flags._kxAVY=(q&&q.year)||4; },
+    outingMissed:(G,GM,q)=>{ G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{[(q&&q.year)||4]:'missed'}); },
     dialogue:[ {scene:'視訊',bg:'video'},
       {speaker:'kexin',expression:'smile',text:'週年快樂。你那邊是早上吧。'},{speaker:'kexin',expression:'neutral',text:'卡片我寄了，下禮拜才會到。'},{speaker:'kexin',expression:'smile',text:'……你回來我們再去一次摩天輪。'} ],
-    after:G=>{ G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{4:'video'}); } },
+    after:G=>{ const n=G.flags._kxAVY||4; G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{[n]:'video'}); delete G.flags._kxAVY; } },
   { id:'ev_dorm_late_kai', title:'半夜', participants:['kai'], location:'dorm', trigger:'enter', time:[23.5,26], term:['Y1S1','Y1S2'], cooldown_days:2, random_weight:0.7, background:'blur', prereq:{flags:['introDone']},   /* BB_170 第 21 列：day_min 3 → introDone 以後；AA_209 第 4 節第 11 點：「什麼 bug？」那一段只播一次（KAI_BUG_TOLD），之後只剩另外兩個選項。AA_502 第 6 節第 8 點：23:30 以後（原本 23:00） */
     dialogue:[ {if:{flags:['DORM_FOUR'],custom:G=>KAI_LATE_BEDS(G)==='both'},speaker:null,text:'（阿哲和柏翰都上床了。柏翰戴著耳塞。）'},{if:{flags:['DORM_FOUR'],custom:G=>KAI_LATE_BEDS(G)==='zhe'},speaker:null,text:'（阿哲已經上床了。柏翰的床還是空的。）'},   /* AA_502 第 6 節第 8 點：照誰在床上（都不在＝不說；AA 沒寫只有柏翰的＝不說）；原本一律「（阿哲已經睡了，柏翰戴著耳塞。）」*/{if:{custom:KAI_LATE_BUG},speaker:'kai',expression:'neutral',text:'（頭沒回）欸，你回來了。我這個 bug 追到第三小時。'},{unless:{custom:KAI_LATE_BUG},speaker:'kai',expression:'neutral',text:'在等編譯，你先洗澡。'},   /* 四人房（AA_208 2-4）*/{choice:[{text:'「去睡啦。」',consequences:{rel:{kai:{fam:1,comf:1}}}},{text:'「什麼 bug？」',unless:{flags:['KAI_BUG_TOLD']},consequences:{rel:{kai:{fam:2,trust:1}},flags:{KAI_BUG_TOLD:true}},goto:'bug'},{text:'（戴上耳機）',consequences:{}}]},{goto:'end'},{label:'bug'},{speaker:'kai',expression:'tired',text:'一個值應該是 0 結果是 undefined。……你們法律系有這種東西嗎？'},{speaker:'player',text:'有。叫「法無明文」。'},{speaker:'kai',expression:'laugh',text:'（他笑了一聲，轉回去打字）好啦，你贏。'},{label:'end'} ] },
   /* VA-07 柏翰的週四總圖（AA_241 第 5 節，AA 定稿）：大一暑假第一次在週四的總圖和柏翰說話（ACQUAINTANCE 以上）演一次；「一起讀？」記 BOHAN_SUMMER_THU。

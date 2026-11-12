@@ -9711,6 +9711,15 @@
    "task": "CANON-NO-ECON-1112",
    "kind": "md",
    "note": "四場照列換字一字照稿（r2y3b_events.js K18、大三生日當面／國外兩版；r2y4b_events.js 大四春假、大四生日改女生宿舍樓下＋兩列、kxAway 拿掉）；KX_WISH3 那兩句訊息的字要貼給 AA（AA_880 #43）（第四批第三份，LAWWW 的子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_879_可昕週年_重寫.md",
+   "sha": "ed09dcf1a5",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-11-12 定稿；LAWWW 的子代理代登，待值班 LAWWW 核",
+   "task": "CANON-NO-ECON-1112",
+   "kind": "md",
+   "note": "週年整場照稿重寫（events.js ev_kexin_anniversary_y1／_yn、ev_k7_gift_prep／_n、視訊那一場改照 q.year）；日子照在一起那一天算、放假她在高雄＝提前到學期最後一天＋她那一句、那天在國外＝視訊（story3d.js S.kxAnnivAt／kxAnnivVideo）；邀約那一句的星期幾、第六年的「X號」照算出來的那一天填（第四年週末時「……平日也要過。」不出）；沒去那一則加一句；房間物件「她的週年卡片」說明換新的第一頁；multirel3d.js K7 禮物名照新意思（第四批第三份，LAWWW 的子代理）"
   }
  ]
 }

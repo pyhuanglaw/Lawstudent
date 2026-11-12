@@ -61,5 +61,18 @@ const J=JSON.stringify;
     fresh(key,23.5,'dorm',{dating_kexin:true,KX_NYE:{[y]:'video'}}); STORY.kxNye(GM); G.day=D(key)+1; G.hour=0.3; STORY.kxNye(GM); PHONE.tick(G);
     check('AA_878 #19～21. 大'+['','','二','三','四'][y]+'沒去高雄：零點她傳一則「'+t+'」；沒有視訊', (G.msgs||[]).some(m=>m.th==='p:kexin'&&m.text===t)&&!(G.outings||[]).some(q=>/視訊/.test(q.place||'')), J((G.msgs||[]).filter(m=>m.th==='p:kexin').map(m=>m.text))); }
   check('AA_878 #19～21. 三場高雄跨年的 kxAway 拿掉', [2,3,4].every(y=>!ev('ev_kx_nye_river_y'+y).kxAway));
+  /* ===== AA_879 週年（在一起那一天、提前、沒去那一則、地點）===== */
+  { fresh('2027-01-10',9,'dorm',{KX_MET:true,dating_kexin:true,confessed:{kexin:D('2026-01-20')}}); const A=STORY.kxAnnivAt(G,1), last=CALENDAR.termDays('Y2S1').to;
+    check('AA_879 第 1 節. 週年＝在一起那天的同月同日；那天放假、她在高雄＝提前到學期最後一天（early）', !!A&&A.early===true&&A.day===last, J([A,last]));
+    fresh('2027-01-10',9,'dorm',{KX_MET:true,dating_kexin:true,confessed:{kexin:D('2026-05-20')}}); const B=STORY.kxAnnivAt(G,1);
+    check('AA_879 第 1 節. 那天還在學期中＝當天、不提前', !!B&&B.early===false&&B.day===D('2027-05-20'), J(B));
+    fresh('2025-10-10',9,'dorm',{dating_kexin:true}); check('AA_879. 舊存檔（沒有在一起那一天）照原本的 10/17', STORY.kxAnnivDay(G,1)===D('2025-10-17')); }
+  { const B=D('2027-05-20'); fresh('2027-05-13',20.9,'dorm',{KX_MET:true,dating_kexin:true,confessed:{kexin:D('2026-05-20')}}); STORY.phoneRules(GM); G.hour=21.1; STORY.phoneRules(GM); PHONE.tick(G);
+    const m=(G.msgs||[]).filter(x=>x.tag==='kx_anniv_ask').map(x=>x.text);
+    check('AA_879. 邀約那一句的星期幾照算出來的那一天（2027-05-20 是禮拜'+STORY.wdName(B)+'）；地點三選一的第二個是「後門那家湯餃。」', m[0]==='下禮拜'+STORY.wdName(B)+'是我們的週年。'&&J(((G.msgs||[]).find(x=>x.tag==='kx_anniv_ask'&&x.ask)||{ask:{opts:[]}}).ask.opts.map(o=>o.t))===J(['摩天輪。','後門那家湯餃。','河堤。']), J(m)); }
+  { const e=ev('ev_kexin_anniversary_y1'); fresh('2026-12-31',18,'dorm',{dating_kexin:true,KX_ANNIV_PLACE:'shop',K7_GIFT:'none'}); said=[]; opts=[]; picks=[0]; await e.beforeOuting(G,GM,{early:true}); await EVENTS.run(e);
+    check('AA_879. 提前的那一年開場多「提早過。那天我在高雄，這個我不想用視訊。」；地點湯餃店（深色底＋字幕）', all()[0]==='提早過。那天我在高雄，這個我不想用視訊。'&&e.dialogue.some(l=>l.scene==='學校後門・湯餃店'&&l.bg==='dark'), J(all().slice(0,2)));
+    fresh('2026-12-31',18,'dorm',{dating_kexin:true}); STORY.kxAnnivMissed(G,1,D('2026-12-31')); G.day=D('2027-01-01'); G.hour=12.1; PHONE.tick(G);
+    check('AA_879. 沒去：隔天中午卡片的照片＋「卡片我寫了。你沒來，先給你看第一頁。」；記那一天（AA_876 讀）', J((G.msgs||[]).filter(x=>x.tag==='kx_anniv_photo').map(x=>x.text))===J(['📷（一張卡片）','卡片我寫了。你沒來，先給你看第一頁。','週年快樂。下次你準備。'])&&G.flags.KX_ANNIV_MISSED_DAY===D('2026-12-31')); }
   if(fails){ console.log('FAILED '+fails); process.exit(1); } console.log('ALL PASS');
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

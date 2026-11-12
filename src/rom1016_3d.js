@@ -106,7 +106,7 @@ const ROM1016=(function(){
      給了以後房間才有第一年那張卡片（AA_438 第 2 節；第二年以後沒去的也一樣當面給，房間只有第一年那張）。記 KX_CARD_GIVEN {n: 那一天} */
   S.GIVE=['你那天沒來。我還在氣。','卡片還是給你。後面的，回去再看。'];   /* BB_165 第 9 節（a54ec2b4a）*/
   S.cardDue=function(G){ const F=G&&G.flags; if(!F||!F.dating_kexin||!F.KX_ANNIV||typeof STORY==='undefined'||!STORY.KX_ANNIV_DAYS) return 0; const Gv=F.KX_CARD_GIVEN||{};
-    for(const n of [1,2,3,4,5]){ if(F.KX_ANNIV[n]!=='missed'||Gv[n]) continue; const an=DK(STORY.KX_ANNIV_DAYS[n]); if(an!=null&&G.day>an) return n; } return 0; };
+    for(const n of [1,2,3,4,5]){ if(F.KX_ANNIV[n]!=='missed'||Gv[n]) continue; const an=STORY.kxAnnivDay?STORY.kxAnnivDay(G,n):DK(STORY.KX_ANNIV_DAYS[n]); if(an!=null&&G.day>an) return n; } return 0; };   /* AA_879：週年照在一起那一天算 */
   S.cardGive=async function(GM){ const G=GM.G, n=S.cardDue(G); if(!n) return false; const me={name:nm('kexin'),charId:'kexin'};
     G.flags.KX_CARD_GIVEN=Object.assign({},G.flags.KX_CARD_GIVEN||{},{[n]:G.day}); for(const t of S.GIVE) await GM.say(me,t); return true; };
   /* 當面：和她的出遊（視訊不算）、在 3D 裡跟她說話 */

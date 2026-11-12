@@ -168,13 +168,13 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     const ask=K.find(m=>m.ask); if(ask) PHONE.answer(G,ask.ask.id,2); STORY.phoneRules(GM); const q=OUT.get(G,'kx_anniv5'); H.at('2029-10-17',18); H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); const r0=Object.assign({},SOCIAL.rel('kexin')); if(q) await OUT.go(GM,q); return {G,K:K.map(m=>m.text),q,L:H.said.map(x=>x.t),O:H.opts.slice(),r0,r1:Object.assign({},SOCIAL.rel('kexin'))}; };
   { const a=await kx5({EXCHANGE_ROUTE:'TW'}), b=await kx5({EXCHANGE_ROUTE:'JP'});
     check('G5. 3-2 可昕第五年：10/10 21:00「下禮拜三。第五年。」「……地點你選。我那天下午有空。」（地點選單照第 2～4 年）；10/17 地點之後兩句，延畢「……你一月拿證書。……」、不延畢「我十二月放榜。你八月考。……」',
-      JSON.stringify(a.K)===JSON.stringify(['下禮拜三。第五年。','……地點你選。我那天下午有空。'])&&!!a.q&&a.q.day===D('2029-10-17')&&a.L.includes('五年。我們認識的時候，你還在經濟系。')&&a.L.includes('我十二月放榜。你八月考。……我們兩個，同一年開始。')&&!a.L.includes('……你一月拿證書。我們兩個，同一年開始。')
-      &&b.L.includes('……你一月拿證書。我們兩個，同一年開始。')&&!b.L.includes('我十二月放榜。你八月考。……我們兩個，同一年開始。')&&a.L.indexOf('五年。我們認識的時候，你還在經濟系。')<a.L.indexOf('我十二月放榜。你八月考。……我們兩個，同一年開始。')&&a.G.flags.KX_ANNIV&&a.G.flags.KX_ANNIV[5]==='river',JSON.stringify([a.K,a.L,b.L])); }
+      JSON.stringify(a.K)===JSON.stringify(['下禮拜三。第五年。','……地點你選。我那天下午有空。'])&&!!a.q&&a.q.day===D('2029-10-17')&&a.L[0]==='五年。'&&b.L[0]==='五年。'&&!a.L.concat(b.L).some(t=>/放榜|證書|同一年開始/.test(t))   /* （CANON-NO-ECON-1112 第四批：照 AA_879 第 4 節換字）地點之後只留「五年。」，延畢、不延畢一樣 */
+      &&a.G.flags.KX_ANNIV&&a.G.flags.KX_ANNIV[5]==='river',JSON.stringify([a.K,a.L,b.L])); }   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）*/
   /* AA_363 T1：第五年的卡片第一頁「（把卡片翻到第一頁）第五年。……明年的卡片，換你寫。」（smile）＋自己的一組選項（不用第三、四年那一組），之後照舊「後面幾頁，她說：『回去再看。』」*/
   { const P1='（把卡片翻到第一頁）第五年。……明年的卡片，換你寫。', END='後面幾頁，她說：『回去再看。』', R=['你說的喔。……錯字我會圈起來。','你自己想。……你想五年了吧。','（她看著你收好，嘴角動了一下。）'];
     const runs=[]; for(const k of [0,1,2]) runs.push(await kx5({EXCHANGE_ROUTE:k===1?'JP':'TW'},[k]));
     const ok=runs.every((r,k)=>{ const i=r.L.indexOf(P1); return i>0&&r.L[i+1]===R[k]&&r.L[i+2]===END&&r.L.length===i+3&&R.every((x,j)=>j===k||!r.L.includes(x))&&JSON.stringify(r.O[0])===JSON.stringify(['「好。」','「寫什麼？」','（把卡片收進外套口袋）'])
-      &&r.L.indexOf('你人來了就好。')<i&&r.L.indexOf('五年。我們認識的時候，你還在經濟系。')<i&&r.G.flags.KX_ANNIV[5]==='river'; });
+      &&r.L.indexOf('你人來了就好。')<i&&r.L.indexOf('五年。')<i&&r.G.flags.KX_ANNIV[5]==='river'; });   /* （CANON-NO-ECON-1112 第四批：照 AA_879 換字）*/
     const EV=STORY_EVENTS.find(e=>e.id==='ev_kexin_anniversary_yn'), ex=t=>{ const l=EV.dialogue.find(x=>x.text===t); return l?l.speaker+'/'+(l.expression||''):null; }, ch=EV.dialogue.find(x=>x.choice&&x.choice.some(c=>c.text==='「寫什麼？」'));
     const exprOk=ex(P1)==='kexin/smile'&&ex(R[0])==='kexin/teasing'&&ex(R[1])==='kexin/laugh'&&ex(R[2])==='null/'&&!!ch&&ch.choice.every(c=>Object.keys(c).sort().join()==='goto,text');
     check('G5. AA_363 T1 可昕第五年：卡片第一頁「第五年。……明年的卡片，換你寫。」（smile）→「好。」「寫什麼？」「（把卡片收進外套口袋）」→「你說的喔。……錯字我會圈起來。」（teasing）／「你自己想。……你想五年了吧。」（laugh）／「（她看著你收好，嘴角動了一下。）」→「後面幾頁，她說：『回去再看。』」；不出第三、四年那一組；數值、旗標照第二～四年（選項不加數值，KX_ANNIV {5}）（修改前 FAIL）',
