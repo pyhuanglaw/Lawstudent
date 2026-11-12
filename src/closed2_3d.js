@@ -202,15 +202,7 @@ const CLOSED2=(function(){
   S.sq02Stage=async function(GM){ const G=GM.G, sp=S.spots('wancai_semb',G), me=S.mirror(sp.companion), cl=S.mirror(sp.client), L=LAY('wancai_semb'); if(!me||!cl||!sp.volunteer) return null;
     const st=await S.stageRoom(GM,'wancai_semb',Object.assign({},L.spawn)); S.extra(GM,'rab3_semb_vol',XS(84),sp.volunteer,true); S.extra(GM,'rab3_sq02_clerk',XS(88),cl,true); sitMe(GM,me);
     S.staged={room:'wancai_semb',id:'ev_sq02_fafu'}; return {restore:async()=>{ if(S.staged&&S.staged.id==='ev_sq02_fafu') S.staged=null; S.drop(GM,'rab3_sq02_'); await st.restore(); }}; };
-  /* 第 10 節　SK07：博雅 203 */
-  S.SHOW_CAST=['econ_tangrui','econ_pinyu','zhe'];
-  S.b203Stage=async function(GM){ const G=GM.G, sp=S.spots('boya_203',G), L=LAY('boya_203'); if(!sp.me||!sp.tang||!sp.pinyu||!sp.zhe) return null;
-    const st=await S.stageRoom(GM,'boya_203',Object.assign({},L.spawn)); S.placeShow(GM);
-    S.standChar(GM,'econ_tangrui',sp.tang); S.seatChar(GM,'econ_pinyu',sp.pinyu); S.seatChar(GM,'zhe',sp.zhe); sitMe(GM,sp.me);
-    S.staged={room:'boya_203',id:'ev_sk07_improv'};
-    return {restore:async()=>{ if(S.staged&&S.staged.id==='ev_sk07_improv') S.staged=null; if(st.same){ S.dropChars(GM,S.SHOW_CAST); S.drop(GM,'rab3_b203_'); } await st.restore(); }}; };   /* 散場：人已經在 203 的，大家離開 */
   S.outStage=async function(GM,q,ev){ if(!q||!ev||!GM||!GM.G) return null;
-    if(ev.id==='ev_sk07_improv'&&S.roomOpen('boya_203',GM.G)&&S.canStage(GM,'boya_203')) return S.b203Stage(GM);
     if(ev.id==='ev_sq02_fafu'&&S.roomSet('wancai_semb',GM.G)!=='interview'&&S.canStage(GM,'wancai_semb')) return S.sq02Stage(GM);
     const v=q.vac; if(ev.id==='ev_vac_key'&&v&&/^C10@/.test(String(v.key))&&(v.k==='pre0'||v.k==='post')&&S.canStage(GM,'linze_office')) return S.officeStage(GM,'c10');
     return null; };

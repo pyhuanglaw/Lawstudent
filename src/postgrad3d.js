@@ -642,9 +642,6 @@ const PG=(function(){
   S.lastLine=G=>{ const p=S.path(G), F=G.flags||{}, J=L().JUDGE; if(p==='J_pros'&&F.JUDGE_YEAR!=null&&F.JUDGE_YEAR<=2031&&J&&J.prosServing) return J.prosServing; return L().EPI.last[p]; };   /* AA_582 (m)：法官／檢察官照 S.path */
   S.EPI_ORDER=['zhe','yu','classmate_bohan','classmate_xinci','heroine_01','heroine_03','heroine_05','heroine_02','heroine_04','kai','classmate_mingxuan','classmate_youchen','classmate_peishan','npc_fangyt','kexin'];   /* 宥辰：AA_497 1-6 五年後那一句（有點熟以上才在桌上，同其他人）*/
   S.epiPresent=(G,id)=>id==='kai'||(id==='kexin'?S.dating(G,'kexin'):S.atTable(G,id));   /* 只有認識的人在場；阿凱是室友 */
-  S.econLine=function(G){ const F=G.flags, E=L().EPI.econ; if(!(F.PLAYED_Y0||F.MET_XUN||has('econ_zhengxun','FIRST_MET'))) return null;
-    if(F.ECON_PAST_SHARED==='full'||F.ECON_PAST_SHARED==='half'){ const nights=!!(G.events&&G.events.done&&Object.keys(G.events.done).some(k=>/^ev_sk05_vending/.test(k))); return {line:nights?E.full:E.noNights,far:false}; }   /* 那幾個晚上＝SK05 三閃，販賣機見 */
-    return {line:E.none,far:true}; };
   S.EX_NO_CONTACT=true;   /* AA_600（企劃線 031414cad）：前任的學姊不主動傳（B9 畢業中午那一則）、生日快樂已讀不回（B10）*/
   S.EX_ORDER=['heroine_01','heroine_03','heroine_02','heroine_04','heroine_05','classmate_peishan','kexin'];
   S.exLines=function(G,id,econFar){ const E=L().EPI, X=E.ex, me=x=>x.map(t=>[id,t]);
@@ -690,8 +687,7 @@ const PG=(function(){
       await S.play(GM,E.enter);
       for(const id of S.EPI_ORDER) if(S.epiPresent(G,id)){ const ln=S.epiLine(G,id); if(ln) await S.play(GM,ln); }   /* 同一桌的先 */
       const yt=S.ytEnd(G); if(!yt.end&&!S.isEx(G,'heroine_03')&&S.at(G,'heroine_03','ACQUAINTANCE')) await GM.say(null,E.yt.away);   /* 語彤不到 FRIEND：店的另一頭 */
-      const ec=S.econLine(G); if(ec) await GM.say(S.who(G,'econ_zhengxun'),ec.line);   /* 經濟系那桌 */
-      for(const id of S.EX_ORDER) if(S.isEx(G,id)){ const ln=S.exLines(G,id,!!(ec&&ec.far)); if(ln) await S.play(GM,ln); }   /* 前任：店的另一頭，起身經過時 */
+      for(const id of S.EX_ORDER) if(S.isEx(G,id)){ const ln=S.exLines(G,id,false);   /* 第二個參數原本看舊序章人物那一桌（CANON-NO-ECON-1112 第三批拿掉）*/ if(ln) await S.play(GM,ln); }   /* 前任：店的另一頭，起身經過時 */
       if(A&&A.cg) A.cg(S.epiCg(G));   /* ③ CG-10 */
       for(const f of S.EPI_AFTER_CG) await f(GM);   /* 事件包的掛勾（AA_327 2-Y4-54：空著的座位那一句；src/r2y4b3d.js）*/
       const al=S.epiAlways(G); if(al) await GM.say(S.who(G,al.id),al.t);   /* ④ */

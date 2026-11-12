@@ -1,7 +1,7 @@
 /* ===== 第 2 輪之二（大三）後半：AA_326 2-Y3-26～2-Y3-54（AA-C 定稿 e284d601，第②級；台詞照原文、不改字）=====
    這裡是用事件系統演的段落（出遊、在場景裡碰到的、電話、視訊）；手機、時間窗、出發選單、寒暑假的停留日、學期末專屬版在 src/r2y3b3d.js（R2Y3B）。
    2-Y3-26 ev_y3s2_first_meal　27 ev_y3s2_228　28 ev_an_azalea_y3　29 ev_yu_club_money　30 ev_kexin_k18（＋ev_kexin_k18_call）
-   2-Y3-31 ev_xun_path　33 ev_yu_alone_breakfast（＋_call）　34 ev_an_konbini　35 ev_liheng_japan　36 ev_y3s2_roof_toast　37 ev_an_sakura_riverbank
+   33 ev_yu_alone_breakfast（＋_call）　34 ev_an_konbini　35 ev_liheng_japan　36 ev_y3s2_roof_toast　37 ev_an_sakura_riverbank
    2-Y3-38 ev_far_call_jp（美國版 ev_far_call_us：AA_412 第 2 節）　39 ev_yu_alone_movie（傅鐘／麵店／視訊）　40 ev_zhiruo_third_row　41 ev_kexin_birthday_y3　42 ev_xinci_first_place（＋_video）
    2-Y3-43 ev_an_town_notice（＋ev_an_town_notice_repair）　44 ev_kexin_k20（＋_call）　45 ev_fangyt_tickets（電話）、ev_zhiruo_f3_cafe
    2-Y3-51 ev_x1_moveout_us　52 ev_an_abroad_video、ev_an_tanabata、ev_an_airport_y3、ev_an_notebook　53 ev_an_white_day、ev_an_far_video
@@ -118,23 +118,6 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'player',text:'……還在家。'},
       {speaker:'kexin',expression:'annoyed',text:'……我叫予樂了。'},
       {speaker:null,text:'（她掛掉了。）'} ] };
-
-  /* ---------- 2-Y3-31 SK13 阿勳的那條路：3/22（三）15:00～16:30 社科院的小教室（3/14 21:00 他私訊、回「我去。」才排；沒去＝16:40 照片）---------- */
-  const XUN={ id:'ev_xun_path', title:'阿勳的那條路', participants:['econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'社科院的小教室',bg:'soc_classroom'},
-      {speaker:null,text:'（社科院的小教室，坐了不到十個人。阿勳站在投影幕旁邊，手上拿著一張寫滿字的紙。）'},
-      {speaker:null,text:'（你坐在最後一排。前二十分鐘，你聽懂了三張投影片。）'},
-      {choice:[{text:'舉手問：「你怎麼確定那個數字是原因，不是巧合？」',set:{XUN_PATH_Q:'ask'},goto:'a'},{text:'散場後問他：「累不累？」',set:{XUN_PATH_Q:'tired'},goto:'b'},{text:'不問，報告結束時第一個鼓掌',set:{XUN_PATH_Q:'clap'},goto:'c'}]},
-      {label:'a'},{speaker:'econ_zhengxun',text:'（愣了一下）……我沒想過。'},{goto:'end'},
-      {label:'b'},{speaker:'econ_zhengxun',text:'累。可是我喜歡。'},{goto:'end'},
-      {label:'c'},{speaker:null,text:'（他看了你一眼，把那張紙摺起來。）'},   /* 新寫 */
-      {label:'end'},
-      {speaker:'econ_zhengxun',text:'你留下來的話，現在應該坐我旁邊。'},
-      {speaker:'econ_zhengxun',text:'不過你現在的樣子比較好看。'},
-      {if:{flags:['XUN_WARM']},speaker:'econ_zhengxun',text:'算出來那一下，還是很爽。'},
-      {mem:[{npc:'econ_zhengxun',tag:'XUN_PATH',note:'聽了他的研究發表'}]} ],
-    consequences:{memo:'阿勳的研究發表（社科院）'},
-    outingMissed:G=>{ const x=X(); if(x) x.xunPhoto(G); } };
 
   /* ---------- 2-Y3-33 語 4「一個人的晚上」：第 3～6 週平日 9:30～12:00 傅鐘旁的長椅（經過就演）；沒遇到＝4/2（日）21:00 她打來（日本路線＝視訊）---------- */
   const YU4_TAIL=[ {speaker:'yu',text:'我算過了，我兩年沒有一個晚上是一個人。有社團，有阿哲，有燒臘店。'},
@@ -592,7 +575,7 @@ const R2Y3B_EVENTS=(function(){
     after:G=>{ const x=X(); if(x) x.q15NoReply(G); },
     outingMissed:G=>{ const x=X(); if(x) x.q15NoReplyDm(G); } };
 
-  const ALL=[FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,FAR_US,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,K20_CALL,F3,F3_CAFE,X1US,AB_VIDEO,TANABATA,AN_AIRPORT,AN_NOTEBOOK,WHITE,FAR_VIDEO,SLIPS,SLIPS_BAR,SLIPS_OWNER,EXE_CALL,NOREPLY_CALL];
+  const ALL=[FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,FAR_US,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,K20_CALL,F3,F3_CAFE,X1US,AB_VIDEO,TANABATA,AN_AIRPORT,AN_NOTEBOOK,WHITE,FAR_VIDEO,SLIPS,SLIPS_BAR,SLIPS_OWNER,EXE_CALL,NOREPLY_CALL];
   ALL.AB=AB;   /* 以安在日本的訊息池、視訊、七夕的五段（r2y3b3d.js 用）*/
   ALL.Z13=Z13; ALL.Z13_TXT=Z13_TXT; ALL.Q15=Q15;   /* 學期末專屬版（r2y3b3d.js 包住 TERMEND）*/
   return ALL;

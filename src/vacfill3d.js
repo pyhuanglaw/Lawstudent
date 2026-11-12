@@ -49,7 +49,7 @@ const VACFILL=(function(){
   const AN='heroine_01', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', KX='kexin';
   const NG='g:noodle_team', EG='g:econ_friends', HG='g:home';
   /* 手機上顯示的名字：家人不在 CHARACTERS（phone3d.js FAM_NM）；經濟系那一群照稿的叫法（同 story3d.js 的經濟系群組）*/
-  const NAME={mom:'媽媽',dad:'爸爸',sister:'姊姊',econ_pinyu:'品妤',econ_tangrui:'唐睿',econ_zhengxun:'阿勳',econ_weilun:'韋綸'};
+  const NAME={mom:'媽媽',dad:'爸爸',sister:'姊姊'};
   const item=(th,from,text)=>{ if(from==null) return {th,who:null,text}; const o={th,from,text}; if(NAME[from]) o.name=NAME[from]; return o; };   /* from null＝對話串裡的一行旁白（同 r2y4a3d.js 姊姊那一行）*/
   const one=(who,arr)=>arr.map(t=>[who,t]);
   const contactOf=(G,id)=>{ if(typeof CHARACTERS==='undefined'||!CHARACTERS[id]||typeof INV==='undefined'||!INV.rec) return; INV.rec(G); if(G.contacts&&G.contacts[id]==null) G.contacts[id]=G.day; };
