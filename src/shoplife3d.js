@@ -68,6 +68,18 @@ const SHOPLIFE=(function(){
     const sp=Object.assign({},STORY.extraSpec(S.CLERK_I[zoneId]||(60+hash('clerk|'+zoneId)%30))); sp.bag=null;   /* 站櫃台不背包（照同弦 guitar3d.js）*/
     const o=CHAR.build(sp); if(!o) return null; o.position.set(c.x,0,c.z); o.rotation.y=c.yaw||0;
     return E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,clerk:true,shopLifeClerk:zoneId,lv:c.lv|0}); };
+  /* 夜市攤販每一攤有人顧（店面標準 §12 第 3 點，SHOP-STANDARD-BACKFILL-1112；使用者 2026-11-12「夜市攤販也沒有店員阿」）：
+     站在攤體後半（客人那一面的反方向）、面向客人；不說話（沒有名字、點不到）；那一攤收攤（q.isOpen＝false：時間、星期、颱風）就不在（S.tendSync，每 0.5 秒對一次）。*/
+  S.tenderSpot=function(q,L){ const b=(typeof TZ3!=='undefined'&&TZ3.stallBlock)?TZ3.stallBlock(q,L):{d:1.5,back:0.25}, sn=Math.sin(q.yaw), c=Math.cos(q.yaw), e=(b.back||0)+b.d/2-0.3;
+    return {x:+(q.x-sn*e).toFixed(2),z:+(q.z-c*e).toFixed(2),yaw:q.yaw}; };
+  S.placeTenders=function(zoneId,GM){ const E=GM&&GM.E, z=E&&E.zone; if(!z||!E.addNPC||typeof CHAR==='undefined'||!CHAR.build||typeof STORY==='undefined'||!STORY.extraSpec) return 0;
+    const list=(z.tzStalls||[]).concat(z.ggStalls||[]); if(!list.length) return 0; const L=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:undefined; let k=0;
+    for(const q of list){ if(!q||q.id==null||(E.npcs||[]).some(n=>n&&n.stallKeeper===q.id)) continue; const c=S.tenderSpot(q,L);
+      if((E.npcs||[]).some(n=>n&&(n.clerk||n.vendor)&&Math.hypot(n.obj.position.x-c.x,n.obj.position.z-c.z)<1.2)) continue;   /* 別的模組已經放了人 */
+      const sp=Object.assign({},STORY.extraSpec(40+hash('tend|'+zoneId+'|'+q.id)%50)); sp.bag=null; const o=CHAR.build(sp); if(!o) continue; o.position.set(c.x,0,c.z); o.rotation.y=c.yaw||0; o.visible=q.isOpen!==false;
+      E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,stallKeeper:q.id,_stall:q}); k++; }
+    return k; };
+  S.tendSync=function(GM){ const E=GM&&GM.E; if(!E||!E.npcs) return; for(const n of E.npcs) if(n&&n.stallKeeper!=null&&n._stall&&n.obj) n.obj.visible=n._stall.isOpen!==false; };
   /* 別的模組後來在同一格又放了一位＝拿掉這裡放的 */
   S.dedupClerk=function(GM){ const E=GM&&GM.E; if(!E||!E.npcs) return 0; const mine=E.npcs.filter(n=>n&&n.shopLifeClerk); let k=0;
     for(const m of mine){ const p=m.obj.position; if(E.npcs.some(n=>n&&n!==m&&n.clerk&&!n.shopLifeClerk&&(n.lv|0)===(m.lv|0)&&Math.hypot(n.obj.position.x-p.x,n.obj.position.z-p.z)<0.6)){ if(E.removeNPC) E.removeNPC(m); k++; } }
@@ -188,7 +200,7 @@ const SHOPLIFE=(function(){
       def('push',function(){ for(const f of arguments){ const w=wrapFn(f), j2=AP.indexOf.call(X,S.sched); if(j2>=0&&f!==S.sched) X.splice(j2,0,w); else AP.push.call(X,w); } return X.length; }); }   /* 之後才加的：包好、插在這裡的前面 */
     return k; };
   /* ---------- 掛上去 ---------- */
-  S.tick=function(GM){ try{ S.dedupClerk(GM); S.wrapOthers(); S.markMet(GM); }catch(e){ console.warn('SHOPLIFE.tick',e); } return false; };   /* wrapOthers：之後才載入的模組加的作息也包起來 */
+  S.tick=function(GM){ try{ S.dedupClerk(GM); S.tendSync(GM); S.wrapOthers(); S.markMet(GM); }catch(e){ console.warn('SHOPLIFE.tick',e); } return false; };   /* wrapOthers：之後才載入的模組加的作息也包起來 */
   S.install=function(){ if(typeof STORY==='undefined') return false;
     if(Array.isArray(STORY.SCHED_X)&&!STORY._shopLifeSched){ STORY.SCHED_X.push(S.sched); STORY._shopLifeSched=true; }
     S.wrapOthers();
@@ -197,6 +209,7 @@ const SHOPLIFE=(function(){
       STORY.populate=function(zoneId,GM){ try{ if(GM&&GM.E) S.attachSeats(GM.E); }catch(e){ console.warn('SHOPLIFE.attachSeats',e); }
         const r=p0.apply(this,arguments);
         try{ S.placeClerk(zoneId,GM); }catch(e){ console.warn('SHOPLIFE.placeClerk',e); }
+        try{ S.placeTenders(zoneId,GM); S.tendSync(GM); }catch(e){ console.warn('SHOPLIFE.placeTenders',e); }
         return r; }; }
     return true; };
   S._reset=()=>{ guard=false; depth=0; planMemo.clear(); entMemo.clear(); };

@@ -61,7 +61,7 @@ const KNOWN_FAIL=[].concat(
   KF(T_BACK,'buy','us_asian_market us_market'), KF(T_BACK,'nomoney','us_asian_market us_market'),
   KF(T_BACK,'text','tz_limao us_asian_market us_market'),
   KF(T_BACK,'gift','tz_yuehaochi tz_dongnan tz_keju'),
-  KF(T_BACK,'tend','stall:tingzhou:st_eggcake stall:tingzhou:st_scallion stall:tingzhou:st_ball stall:tingzhou:st_pepper stall:tingzhou:st_corn stall:tingzhou:st_stinky stall:tingzhou:st_cane stall:tingzhou:st_jelly stall:tingzhou:st_socks stall:tingzhou:st_ring stall:gongguan:st_milk stall:gongguan:st_wheelcake stall:gongguan:st_phonecase stall:lane118:drink_a stall:lane118:drink_b stall:wenzhou:fruit'),
+  KF(T_BACK,'tend','stall:lane118:drink_a stall:lane118:drink_b stall:wenzhou:fruit'),   /* 夜市 13 攤 2026-11-12 已放人（src/shoplife3d.js S.placeTenders）；這三個要 LAWWW2 給站的位置 */
   []);
 
 /* 店的種類（決定查不查「尖峰有客人」）：eat＝吃飯的、drink＝咖啡店茶店、shop＝賣東西的、service＝服務。新加的店沒有寫在這裡＝FAIL（要人決定它是哪一種）*/
