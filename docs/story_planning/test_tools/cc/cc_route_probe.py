@@ -10,6 +10,7 @@
     look:<yaw>               鏡頭轉到那個方向（E.cam.yaw）再截一張（看牆、天花板）
     wait:<秒>
     burst:<名字>             站著不動每 0.25 秒截一張、共 2 秒（看閃）
+    study:<字>,<次數>        W1R D5：走到標籤含那個字的座位（例：坐下讀書）按 → 坐下以後選單選「讀書…」那一個，重複 <次數> 次；每次記時間前後、#caption／#toast 的字、目標列，截圖（看時段用完跳下一時段、字幕）
 CC_02 清單 2026-11-12：1✓（日子時間照佇列：平日白天或晚上） 2✓（出口、互動點、座位照 exit.to／標籤從遊戲找） 3✓（每一支一次讀檔、照順序走） 4✓（選項照字） 5✓（go_to／use_exit 走過去，照玩家） 6✓（每一步 settle、換區等 2.5 秒） 7✓ 8n/a（不判，給 BB） 9n/a（不藏人：照原樣） 10✓（條件事件關掉） 11✓ 12✓（每一步同樣欄位） 13✓（讀檔捷徑標）
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> ZONE=dorm [X= Z= LV=] [DAY=2025-10-14] [HOUR=14] ROUTE=exit:dorm_hall+go:樓梯+... python3 cc_route_probe.py <url> <out>"""
 import os, sys, json, asyncio
@@ -114,6 +115,33 @@ async def main():
                     out['s'] = await record(pg, k, 'look', 'yaw=%s' % arg)
                 elif kind == 'wait':
                     await pg.wait_for_timeout(int(float(arg) * 1000)); out['s'] = await record(pg, k, 'wait')
+                elif kind == 'study':
+                    txt, _, nn = arg.partition(','); nn = int(nn or 4)
+                    f = await pg.evaluate(FIND, {'t': txt, 'seat': False})
+                    if not R.check('%s 找得到「%s」' % (t, txt), bool(f), J(await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden).map(i=>[i.label,i.lv|0])"))): res['steps'].append(out); break
+                    await L.go_to(pg, cdp, R, f['x'], f['z'], 0.5, f['label'], max_s=120, lv=f['lv']); await D.settle(pg)
+                    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+                    rounds = []
+                    for r_ in range(nn):
+                        h0 = await pg.evaluate("+GAME.G.hour"); picked = None; seen = []
+                        for j in range(40):
+                            st = await pg.evaluate(DLG)
+                            if st['choices']:
+                                i = next((n_ for n_, x in enumerate(st['choices']) if x.startswith('讀書') or '讀書' in x), None)
+                                if i is None or picked: i = next((n_ for n_, x in enumerate(st['choices']) if any(w in x for w in ('繼續', '好', '讀'))), 0) if not picked else next((n_ for n_, x in enumerate(st['choices']) if any(w in x for w in ('繼續', '好'))), 0)
+                                picked = picked or st['choices'][i]; seen.append(st['choices'])
+                                await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(1200)
+                                if picked and j > 0: break
+                                continue
+                            if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+                            if picked: break
+                            await pg.wait_for_timeout(500)
+                        await pg.wait_for_timeout(1500)
+                        cap = await pg.evaluate("(()=>({h:+(+GAME.G.hour).toFixed(2), day:GAME.G.day, cap:(document.getElementById('caption')||{}).textContent||'', toast:(document.getElementById('toast')||{}).textContent||'', goal:(document.getElementById('goal')||document.querySelector('.goal')||{}).textContent||'', seat:!!GAME.E.player.seat, study:(GAME.G.stats||{}).study}))()")
+                        await pg.screenshot(path=os.path.join(OUT, 'route_%s_%02d_study_%d.png' % (TAG, k, r_ + 1)))
+                        rounds.append({'h0': h0, 'picked': picked, 'menus': seen, 'after': cap})
+                        R.note('%s 第 %d 次：選「%s」；時間 %.2f → %s；字幕「%s」；toast「%s」；目標列「%s」；還坐著 %s；stats.study %s' % (t, r_ + 1, picked, h0, cap['h'], cap['cap'], cap['toast'], cap['goal'][:80], cap['seat'], cap['study']))
+                    out['study'] = rounds; out['s'] = await record(pg, k, 'study')
                 elif kind == 'burst':
                     for j in range(8):
                         await pg.screenshot(path=os.path.join(OUT, 'route_%s_%02d_burst_%s_%d.png' % (TAG, k, arg, j))); await pg.wait_for_timeout(250)
