@@ -1697,3 +1697,6 @@ BE1E_CHS2_O_bedffc_L | 73faa493f90fc6c90ccc867950bd012cb3d1d72e | probe | docs/s
 BE1E_STAIR10_tap | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_stair_probe.py | index.html | 20 | PUSH=tap;FPSCAP=10;RUN=0;X_LIST=-3.75;TRIPS=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 BE1E_STAIR10_straight | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_stair_probe.py | index.html | 20 | PUSH=straight;FPSCAP=10;RUN=0;X_LIST=-3.75;TRIPS=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 BE1E_STAIR10_diag | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_stair_probe.py | index.html | 20 | PUSH=diag;FPSCAP=10;RUN=0;X_LIST=-3.75;TRIPS=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+# ⑤ BB-C 03:30 第 4 項 ZR3 SITFIRST 第二版（長椅依距離試、有人坐的跳過；be1e 雲端 ALL PASS）：新 be1e、舊 7266e7a29
+BE1E_ZR3_SITFIRST_new | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 12 | PARTS=ZR3_SMOKE;SITFIRST=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+BE1E_ZR3_SITFIRST_old | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 12 | PARTS=ZR3_SMOKE;SITFIRST=1;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
