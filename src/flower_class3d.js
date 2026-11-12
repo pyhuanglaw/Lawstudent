@@ -1,10 +1,12 @@
 /* ===== 花序 Flower Notes 二樓花藝課（FLOWER-CLASS-1112，USER_WANTS X346）=====
    使用者 11-12：「花店二樓可以上課要有劇情 做東西給女友?」「花藝課程你要寫劇情」「學姐才是這個游戲真正的女主角」
-   字：AA_820（企劃線 65e38a5de，AA 定稿）——src/data/flower_class.js（FLOWER_CLASS，tools/flower/import_flower_class.py 產生）。這裡不寫句子；
+   字：AA_820（企劃線 7917d4289，AA 定稿；11-12 AA 回 LAWWW-C 七問：下課補 signup.done，其他六問＝照現在的做法）——src/data/flower_class.js（FLOWER_CLASS，tools/flower/import_flower_class.py 產生）。這裡不寫句子；
      選單的字用稿的（signup.button、menu_title、課名、together.invite_button）和原本就有的（送禮系統的「送她禮物…」「算了」「包包已經放了 10 樣了」、價錢的「○○　900 元」）。
    規格（docs/handoff/user_specs/FLOWER_NOTES_1110.md 第六節、AA_820 rules）：不做小遊戲、不做材料合成；報名 → 轉暗 → 演一段 → 拿到成品。
    - 報名：二樓示範長桌旁邊的互動點（S.AT，按鈕＝signup.button）。花藝師 staff_ask → 這個月的課（三門：課名、價錢；提示＝做出來的成品）→ 付稿上的價錢 → 轉暗、演那一門課的 lines
-       （同一門課第二次起只演 again 那一句）→ 時間往後稿上的時數（GM.advance）→ 成品放進送禮系統的包包（G.flags.GIFTH.bag，shop gg_flower）。
+       （同一門課第二次起只演 again 那一句）→ 時間往後稿上的時數（GM.advance）→ 成品放進送禮系統的包包（G.flags.GIFTH.bag，shop gg_flower）
+       → 轉亮以後演 signup.done 兩句（花藝師一句＋旁白，{物}＝成品名；三門課共用、每一次都演）→ 原本的提示「○○（包包 n/10）」。
+       一起上課不演 signup.done：成品不進包包（稿沒有說一起上課也演；旁白寫的是把成品放進紙袋）。
        一個禮拜（週一到週日）一次，自己上、一起上共用：上過＝花藝師 week_limit。錢不夠＝no_money（不扣）。包包滿了＝原本那一句提示（不扣）。
        營業時間照花序（FNS.open，10:00～21:00）；下課會超過打烊的那一門課灰掉，三門都排不進去＝closed 那一句。
    - 成品三樣（g_fc_*）：只能上課做——不在 GIFT_HOLIDAY.shops.gg_flower.items（買花清單沒有）；載入時加進 GIFT_HOLIDAY.items（made:true、only＝稿有反應的七位、沒有價錢）。
@@ -97,7 +99,9 @@ const FCLASS=(function(){
     await GM.fade(true);
     try{ if(pid) await S.together(GM,pid); else await S.solo(GM,key); }
     finally{ GM.advance(c.hours); await GM.fade(false); }
-    if(!pid){ const B=GH().rec(G).bag; B.push({id:c.makes,day:G.day,shop:S.SHOP}); GM.toast&&GM.toast(X().items[c.makes].name+'（包包 '+GH().bag(G).length+'/'+GH().MAX+'）'); }
+    if(!pid){ const B=GH().rec(G).bag; B.push({id:c.makes,day:G.day,shop:S.SHOP});
+      if(T.done) await play(GM,T.done,{narr:true,thing:X().items[c.makes].name});   /* 下課：成品放進包包時（自己上；三門課共用）*/
+      GM.toast&&GM.toast(X().items[c.makes].name+'（包包 '+GH().bag(G).length+'/'+GH().MAX+'）'); }
     if(GM.autosave) GM.autosave(); return 'done'; };
 
   /* ---------- 報名（示範長桌）---------- */

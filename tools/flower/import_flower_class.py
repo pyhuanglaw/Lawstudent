@@ -84,6 +84,7 @@ def validate(d):
             stop(f'沒有 {k}')
     for k in ('button', 'menu_title', 'staff_ask', 'no_money', 'week_limit', 'closed'):
         s_ok(d['signup'].get(k), 'signup.' + k)
+    lines_ok(d['signup'].get('done'), 'signup.done', [STAFF])   # 下課（自己上、成品放進包包時）：三門課共用，{物}＝成品名
     if list(d['classes']) != ['basic', 'design', 'season']:
         stop('classes：要是 basic、design、season')
     made = []
