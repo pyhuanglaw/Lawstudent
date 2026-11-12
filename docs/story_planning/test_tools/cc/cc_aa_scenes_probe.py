@@ -11,7 +11,8 @@ CC_02 清單 2026-11-12：1✓（日子照事件的 term／time 給的區間） 
       照玩家走到她旁邊按互動 → 選「送她禮物…」→ 選 love 那一樣 → 一句一句記（open 句、item 句、herGive 回禮）→ 截圖。預設學姊、以安聖誕、語彤情人節。
   DATE＝學姊約會（AA_837／838，src/date3d.js）：DATES 每一個地點【前置／捷徑】讀檔到宿舍 DATE_DAY（週六）08:00、和學姊熟（met、關係高）→【捷徑】DATE.book（約會選單選完以後呼叫的同一支）排那一天 →
       照玩家：時間到等「出發」（DATE.prompt）按下去 → 約會場景一句一句點（每個互動點的選項選第 1 個）→ 記每句、底圖、地點字幕、錢前後、回到哪。預設 D01、D02、D04。
-用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=EV,ARC,GIFT,DATE] [DATES=D01,D02,D04] [DATE_WHO=heroine_05] [DATE_DAY=2025-10-18] [GIFTS=heroine_05@2025-12-24+…] [EVS=ev_a,ev_b] [EVDAY=ev_a@2028-10-05@19+…] [ARCS=heroine_01,heroine_05] [BEAT=1] python3 cc_aa_scenes_probe.py <url> <out>"""
+  SUPPER＝203 泡麵宵夜（AA_851，src/tz_invite_supper3d.js）：【前置／捷徑】讀檔到宿舍 SUPPER_DAY 21:45、物品放一袋東南大聯泡麵 → 先記遊戲自己的條件 TZIS.due（泡麵、21 點後、203、室友都在）成不成立 →【捷徑】EVENTS.run 那一場 → 每句截圖 → 泡麵有沒有用掉一袋。
+用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=EV,ARC,GIFT,DATE,SUPPER] [DATES=D01,D02,D04] [DATE_WHO=heroine_05] [DATE_DAY=2025-10-18] [GIFTS=heroine_05@2025-12-24+…] [EVS=ev_a,ev_b] [EVDAY=ev_a@2028-10-05@19+…] [ARCS=heroine_01,heroine_05] [BEAT=1] python3 cc_aa_scenes_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
@@ -22,6 +23,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 SHA = (os.environ.get('SHA') or '')[:10]
 PARTS = set((os.environ.get('PARTS') or 'EV,ARC,GIFT').split(','))
+SUPPER_DAY = os.environ.get('SUPPER_DAY') or '2025-10-15'   # 週三晚上（室友照作息在房間）
 DATES = [x for x in (os.environ.get('DATES') or 'D01,D02,D04').split(',') if x]; DATE_WHO = os.environ.get('DATE_WHO') or 'heroine_05'; DATE_DAY = os.environ.get('DATE_DAY') or '2025-10-18'
 GIFTS = [x.split('@') for x in (os.environ.get('GIFTS') or 'heroine_05@2025-12-24+heroine_01@2025-12-24+heroine_03@2026-02-14').split('+') if '@' in x]   # 誰@哪一天（節日）
 EVS = [x for x in (os.environ.get('EVS') or 'ev_sis_w1,ev_sis_family_dinner,ev_grad_debate,ev_sis_video,ev_sis_video_gf,ev_us_canyon').split(',') if x]
@@ -188,6 +190,29 @@ async def part_date(pg, cdp, res):
         res.setdefault('date', {})[loc] = {'book': b, 'picked': picked, 'lines': lines, 'after': af}
 
 
+SUPPER_PREP = r"""(a=>{ const G=GAME.G; G.flags=G.flags||{}; const O=G.flags.GG3_OWN=G.flags.GG3_OWN||{}; const d=TZ_INVITE_SUPPER.supper; (O[d.shop]=O[d.shop]||{})[d.item]=a.packs;
+  const due=TZIS.due(G,GAME,a.term), ev=STORY_EVENTS.find(e=>e.id===TZIS.evId(a.term)); let allIn=null; try{ allIn=DORM203.allIn(G,TZIS.MATES,G.day,G.hour); }catch(e){ allIn=String(e).slice(0,60); }
+  return {due, allIn, packs:TZIS.packs(G), era:DORM203.era?DORM203.era(G):null, ev:!!ev, mates:TZIS.MATES.map(id=>!!(GAME.npc&&GAME.npc[id]))}; })"""
+
+
+async def part_supper(pg, cdp, res):
+    for term, day in (('Y1S1', SUPPER_DAY),):
+        tag = '[SUPPER %s %s]' % (term, day)
+        await pg.goto(URL); await L.wait_loaded(pg)
+        await D.load_zone(pg, cdp, 'dorm', day, 21.75, wait=8000)
+        pr = await pg.evaluate(SUPPER_PREP, {'term': term, 'packs': 1})
+        R.setup('%s 【前置／捷徑】讀檔到宿舍 203 %s 21:45、物品放一袋東南大聯泡麵（五包裝）：遊戲自己的條件 TZIS.due=%s（室友都在 %s、學期內 %s、室友在場景 %s）' % (tag, day, pr['due'], pr['allIn'], pr['era'], pr['mates']))
+        R.check('%s 條件成立（TZIS.due：泡麵、21 點後、203、室友都在）' % tag, pr['due'] is True, J(pr))
+        await pg.evaluate("(t=>{ window.__evDone=false; EVENTS.run(STORY_EVENTS.find(e=>e.id===TZIS.evId(t))).then(()=>{ window.__evDone=true; }).catch(x=>{ window.__evDone='ERR '+String(x).slice(0,100); }); })", term)
+        R.setup('%s 【捷徑】EVENTS.run 那一場（不等自動觸發）' % tag)
+        await pg.wait_for_timeout(1200)
+        lines = await drive(pg, cdp, tag, 'supper_%s' % term, "window.__evDone!==false&&!(typeof EVENTS!=='undefined'&&EVENTS.running)")
+        af = await pg.evaluate("(()=>({packs:TZIS.packs(GAME.G), r:window.__evDone}))()")
+        R.note('%s 演完：泡麵剩 %s（應該從 1 變 0）；%s' % (tag, af['packs'], J(af)))
+        R.check('%s 演得完、泡麵用掉一袋' % tag, len(lines) > 0 and af['packs'] == 0, J(af))
+        res.setdefault('supper', {})[term] = {'prep': pr, 'lines': lines, 'after': af}
+
+
 async def main():
     print('CC AA 重匯抽演：SHA %s；PARTS %s；EVS %s；ARCS %s 第 %d 拍' % (SHA or '?', sorted(PARTS), EVS, ARCS, BEAT), flush=True)
     res = {'sha': SHA}
@@ -201,6 +226,9 @@ async def main():
         if 'ARC' in PARTS:
             try: await part_arc(pg, cdp, res)
             except Exception as e: R.check('[ARC] 沒有探針例外', False, str(e)[:200])
+        if 'SUPPER' in PARTS:
+            try: await part_supper(pg, cdp, res)
+            except Exception as e: R.check('[SUPPER] 沒有探針例外', False, str(e)[:200])
         if 'DATE' in PARTS:
             try: await part_date(pg, cdp, res)
             except Exception as e: R.check('[DATE] 沒有探針例外', False, str(e)[:200])
