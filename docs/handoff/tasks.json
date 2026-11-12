@@ -56515,7 +56515,7 @@
    },
    "source": "BB-C 11-12 18:03 UTC（FIRST_gg_desk_r3＠a57b6ec8ab）",
    "authorized": "D108",
-   "next": "【BB-C 11-12 21:2x（BB_379）】r4 仍 FAIL：公館 183 ms、新生南路 167 ms；最長一步都是 step.compile（G06 211.8、dabu 193.4，其他 ≤16 ms）＝第一次建店時現編 shader；BB 建議進街區後閒置時預先 compile 店的材質。已轉 LAWWW2（LAWWW-C 18:57 UTC）。｜【LAWWW-C 11-12 18:1x UTC】LAWWW2 ae408f8302 shop_compile_async_v1：店內建好（還藏著）那一刻 renderer.compileAsync（有 KHR_parallel_shader_compile 就背景編），編好以前零件不打開、2.5 秒保險；prof 多記 step.compile。三條街一起生效。Node 11 支 exit 0。CC 重跑 FIRST_gg_desk／新生南路／SUNNY 帶 prof（step.compile／mesh、frame.mesh／load、step.tex 的 max、who）→ 如果長幀在 load 或 tex，LAWWW2 照數字再改。｜【LAWWW-C 11-12 18:0x UTC】轉 LAWWW2（DELIVERED）；CC 帶 GAME.E.zone.shopReal.prof（ea55a1fa70 起）跑公館、新生南路、SUNNY 三條街，數字給 LAWWW2 找是哪一步慢（load／tex／mesh／clone／prep）。",
+   "next": "【BB-C 11-12 20:29 UTC】r6（53ca）仍 FAIL：公館 183、新生南路 150 ms；最長那一幀前 30 ms 沒有記錄到的事件＝GPU 端第一次畫（貼圖上傳／program link）或 GC；66 ms 幀對得到 GLB 載入。建議 initTexture 預上傳、畫面外先渲一次、GLB 解析放閒置。已轉 LAWWW2（溫特寶邸樣板之後）。｜【BB-C 11-12 21:2x（BB_379）】r4 仍 FAIL：公館 183 ms、新生南路 167 ms；最長一步都是 step.compile（G06 211.8、dabu 193.4，其他 ≤16 ms）＝第一次建店時現編 shader；BB 建議進街區後閒置時預先 compile 店的材質。已轉 LAWWW2（LAWWW-C 18:57 UTC）。｜【LAWWW-C 11-12 18:1x UTC】LAWWW2 ae408f8302 shop_compile_async_v1：店內建好（還藏著）那一刻 renderer.compileAsync（有 KHR_parallel_shader_compile 就背景編），編好以前零件不打開、2.5 秒保險；prof 多記 step.compile。三條街一起生效。Node 11 支 exit 0。CC 重跑 FIRST_gg_desk／新生南路／SUNNY 帶 prof（step.compile／mesh、frame.mesh／load、step.tex 的 max、who）→ 如果長幀在 load 或 tex，LAWWW2 照數字再改。｜【LAWWW-C 11-12 18:0x UTC】轉 LAWWW2（DELIVERED）；CC 帶 GAME.E.zone.shopReal.prof（ea55a1fa70 起）跑公館、新生南路、SUNNY 三條街，數字給 LAWWW2 找是哪一步慢（load／tex／mesh／clone／prep）。",
    "xai": {
     "from": "BB",
     "to": "LAWWW2",
@@ -56544,7 +56544,7 @@
    },
    "source": "BB-C 11-12 18:37 UTC（BB_379；CC L118_CAM36_a）",
    "authorized": "D108、§12 第 4 點",
-   "next": "【BB-C 11-12 21:2x（BB_379）】新增 cafe2 #13 點椅子人走到店外 (−3.9,−10.8)＝P2；另有一批點椅子停錯張（P3）。LAWWW2 一起修。｜【LAWWW-C 11-12 18:3x UTC】轉 LAWWW2（DELIVERED）。",
+   "next": "【BB-C 11-12 20:29 UTC】r2（7d69704cdf）：118牛排 #1、cafe2 #13 修好；剩點椅子停錯張 P3：辛亥韓食 #1/#5/#6/#11/#12、118牛排 #15、cafe2 #3/#5/#6、pasta #2/#6。｜【BB-C 11-12 21:2x（BB_379）】新增 cafe2 #13 點椅子人走到店外 (−3.9,−10.8)＝P2；另有一批點椅子停錯張（P3）。LAWWW2 一起修。｜【LAWWW-C 11-12 18:3x UTC】轉 LAWWW2（DELIVERED）。",
    "xai": {
     "from": "BB",
     "to": "LAWWW2",
