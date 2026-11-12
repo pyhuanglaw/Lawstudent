@@ -1,0 +1,686 @@
+{
+ "_meta": {
+  "doc": "AA_847 可昕第一批之三（DLG-FULL-REVIEW-1110）：約會選項回話「好」開頭 94/252 句。除了「好」，她還有第二個模板：「妳又在算。」→「好，不算…」八處（不算、不上課、不分析、不計時）。留三處，其餘改成她嘴硬一下才收（「算一下又不用錢。好啦，逛。」）。23 句重寫、其餘拿掉「好」；改 83 句、留 11 句。",
+  "by": "AA-C 2026-11-12",
+  "status": "待 BB 第二意見（D153）；**源稿還沒套用**",
+  "kept": [
+   "D03.window|休息就不要記了。",
+   "D05.garden|那我們小聲一點。",
+   "D05.shop|買吧。",
+   "D09.tea|照規矩來。",
+   "D10.bridge|一起過。",
+   "D11.footbath|慢慢放進去。",
+   "D12.street|我們開同一間。",
+   "D13.drink|選一杯。",
+   "D18.steps|我拉妳。",
+   "D22.dam|今天不上課。",
+   "D23.seawall|我們等它下去。"
+  ]
+ },
+ "rows": [
+  {
+   "file": "date_system/lines/D01.json",
+   "who": "kexin",
+   "point": "D01.expo",
+   "option": "「我不想當規則。」",
+   "old": "好，那我來訂。看展的時候手機收起來。",
+   "new": "那我來訂。看展的時候手機收起來。"
+  },
+  {
+   "file": "date_system/lines/D01.json",
+   "who": "kexin",
+   "point": "D01.market",
+   "option": "「那我買另一隻。」",
+   "old": "好。你留著。等我想戴的時候跟你借。",
+   "new": "你留著。等我想戴的時候跟你借。"
+  },
+  {
+   "file": "date_system/lines/D02.json",
+   "who": "kexin",
+   "point": "D02.corridor",
+   "option": "「我們看完它。」",
+   "old": "好。從頭看，一張都不能少。",
+   "new": "從頭看，一張都不能少。"
+  },
+  {
+   "file": "date_system/lines/D02.json",
+   "who": "kexin",
+   "point": "D02.garden",
+   "option": "「那走兩圈。」",
+   "old": "好，第二圈你走外面。",
+   "new": "第二圈你走外面。"
+  },
+  {
+   "file": "date_system/lines/D04.json",
+   "who": "kexin",
+   "point": "D04.street",
+   "option": "「六號。」",
+   "old": "好，那回去也走六號。",
+   "new": "那回去也走六號。"
+  },
+  {
+   "file": "date_system/lines/D04.json",
+   "who": "kexin",
+   "point": "D04.snack",
+   "option": "「慢慢吃啦。」",
+   "old": "好。可是它會融化，融化不是我的錯。",
+   "new": "可是它會融化，融化不是我的錯。"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "kexin",
+   "point": "D05.cafe",
+   "option": "「標準流程很好。」",
+   "old": "好。那下一步是散步。我排好了。",
+   "new": "那下一步是散步。我排好了。"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "kexin",
+   "point": "D05.shop",
+   "option": "「借我看。」",
+   "old": "好。可是要還，我會記。你知道我會記。",
+   "new": "可是要還，我會記。你知道我會記。"
+  },
+  {
+   "file": "date_system/lines/D06.json",
+   "who": "kexin",
+   "point": "D06.lawn",
+   "option": "「坐地上就好。」",
+   "old": "好。我這條褲子是白的，你先坐，我坐你外套上。",
+   "new": "我這條褲子是白的，你先坐，我坐你外套上。"
+  },
+  {
+   "file": "date_system/lines/D06.json",
+   "who": "kexin",
+   "point": "D06.lawn",
+   "option": "「下次帶。」",
+   "old": "好，我帶墊子，你負責天氣好。",
+   "new": "我帶墊子，你負責天氣好。"
+  },
+  {
+   "file": "date_system/lines/D08.json",
+   "who": "kexin",
+   "point": "D08.train",
+   "option": "「那就坐兩圈。」",
+   "old": "好。可是要再排一次隊欸。算了，一圈就一圈。",
+   "new": "可是要再排一次隊欸。算了，一圈就一圈。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "kexin",
+   "point": "D10.bridge",
+   "option": "「女士優先。」",
+   "old": "好，可是你要在對面等我。",
+   "new": "可是你要在對面等我。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "kexin",
+   "point": "D10.boat",
+   "option": "「我踩快一點。」",
+   "old": "好，我負責計時。",
+   "new": "我負責計時。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "kexin",
+   "point": "D10.boat",
+   "option": "「慢慢踩。」",
+   "old": "好，不計時。反正也踩不快。",
+   "new": "不計時。反正也踩不快。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "kexin",
+   "point": "D10.walk",
+   "option": "「走完去吃晚餐。」",
+   "old": "好。你說的，不能反悔。",
+   "new": "你說的，不能反悔。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "kexin",
+   "point": "D10.snack",
+   "option": "「我去排。」",
+   "old": "好，我去找位子。",
+   "new": "我去找位子。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "kexin",
+   "point": "D10.snack",
+   "option": "「一起排。」",
+   "old": "好。排太久我會生氣喔。",
+   "new": "排太久我會生氣喔。"
+  },
+  {
+   "file": "date_system/lines/D11.json",
+   "who": "kexin",
+   "point": "D11.library",
+   "option": "「那坐久一點。」",
+   "old": "好，我坐窗邊，你坐我對面。",
+   "new": "我坐窗邊，你坐我對面。"
+  },
+  {
+   "file": "date_system/lines/D12.json",
+   "who": "kexin",
+   "point": "D12.tea",
+   "option": "「三分鐘很快啦。」",
+   "old": "好，我們數。",
+   "new": "我們數。一。你數太快了。"
+  },
+  {
+   "file": "date_system/lines/D12.json",
+   "who": "kexin",
+   "point": "D12.pier",
+   "option": "「下次坐船去。」",
+   "old": "好，我查船班。",
+   "new": "我現在查船班。查好了，傳給你。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "kexin",
+   "point": "D13.drink",
+   "option": "「兩杯，我喝一杯。」",
+   "old": "好，分工。",
+   "new": "分工。你那杯我也要喝一口。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "kexin",
+   "point": "D13.drink",
+   "option": "「我請。」",
+   "old": "好，謝謝。下一杯我請。",
+   "new": "謝謝。下一杯我請。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "kexin",
+   "point": "D13.bench",
+   "option": "「我走慢一點。」",
+   "old": "好。其實是我穿錯鞋。",
+   "new": "其實是我穿錯鞋。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "kexin",
+   "point": "D13.bench",
+   "option": "「要喝我的嗎？」",
+   "old": "好，一口。",
+   "new": "一口。這口有點大，不算。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "kexin",
+   "point": "D13.photo",
+   "option": "「我也拍十張。」",
+   "old": "好，成交。",
+   "new": "成交。醜的我有權刪。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "kexin",
+   "point": "D13.photo",
+   "option": "「合照？」",
+   "old": "好。不好意思，可以幫我們拍背影嗎？",
+   "new": "不好意思，可以幫我們拍背影嗎？"
+  },
+  {
+   "file": "date_system/lines/D14.json",
+   "who": "kexin",
+   "point": "D14.bridge",
+   "option": "「好，只拍橋。」",
+   "old": "好，你幫我拿包包。",
+   "new": "你幫我拿包包。"
+  },
+  {
+   "file": "date_system/lines/D14.json",
+   "who": "kexin",
+   "point": "D14.sunset",
+   "option": "「那我們再坐一下。」",
+   "old": "好，坐到天全黑。外套給我。",
+   "new": "坐到天全黑。外套給我。"
+  },
+  {
+   "file": "date_system/lines/D15.json",
+   "who": "kexin",
+   "point": "D15.car",
+   "option": "「換我的歌。」",
+   "old": "好。我想知道你平常聽什麼。",
+   "new": "我想知道你平常聽什麼。"
+  },
+  {
+   "file": "date_system/lines/D15.json",
+   "who": "kexin",
+   "point": "D15.store",
+   "option": "「我請妳。」",
+   "old": "好。我記在「被請」那一欄。",
+   "new": "我記在「被請」那一欄。"
+  },
+  {
+   "file": "date_system/lines/D16.json",
+   "who": "kexin",
+   "point": "D16.drive",
+   "option": "「我們現在就聽。」",
+   "old": "好，第三首，這首你給我專心聽。",
+   "new": "第三首，這首你給我專心聽。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "kexin",
+   "point": "D18.steps",
+   "option": "「慢慢走。」",
+   "old": "好。反正上面也不會跑掉。",
+   "new": "反正上面也不會跑掉。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "kexin",
+   "point": "D18.shop",
+   "option": "「我買給妳。」",
+   "old": "好，這是紀念。",
+   "new": "這是紀念。"
+  },
+  {
+   "file": "date_system/lines/D19.json",
+   "who": "kexin",
+   "point": "D19.museum",
+   "option": "「我們一起摸。」",
+   "old": "好，一起的好運要平分。",
+   "new": "一起的好運要平分。"
+  },
+  {
+   "file": "date_system/lines/D19.json",
+   "who": "kexin",
+   "point": "D19.museum",
+   "option": "「妳想算吧。」",
+   "old": "好，我想。可是不算。",
+   "new": "想。可是算出來我會心痛。"
+  },
+  {
+   "file": "date_system/lines/D19.json",
+   "who": "kexin",
+   "point": "D19.shrine",
+   "option": "「慢慢走。」",
+   "old": "好。你走我後面，我看不到你就不會急。",
+   "new": "你走我後面，我看不到你就不會急。"
+  },
+  {
+   "file": "date_system/lines/D20.json",
+   "who": "kexin",
+   "point": "D20.street",
+   "option": "「排最長的那家。」",
+   "old": "好，排了才知道。",
+   "new": "排了才知道。"
+  },
+  {
+   "file": "date_system/lines/D20.json",
+   "who": "kexin",
+   "point": "D20.street",
+   "option": "「隨便一家。」",
+   "old": "好，那就這家。",
+   "new": "那就這家。理由是它離我最近。"
+  },
+  {
+   "file": "date_system/lines/D20.json",
+   "who": "kexin",
+   "point": "D20.trolley",
+   "option": "「妳又在算。」",
+   "old": "好，不算，坐車。",
+   "new": "每分鐘多少我不說。好啦，上車。"
+  },
+  {
+   "file": "date_system/lines/D20.json",
+   "who": "kexin",
+   "point": "D20.falls",
+   "option": "「我們看久一點。」",
+   "old": "好。它又不會停。",
+   "new": "它又不會停。"
+  },
+  {
+   "file": "date_system/lines/D21.json",
+   "who": "kexin",
+   "point": "D21.dye",
+   "option": "「試試看。」",
+   "old": "好，實驗。",
+   "new": "實驗。變因是你手比較大。"
+  },
+  {
+   "file": "date_system/lines/D21.json",
+   "who": "kexin",
+   "point": "D21.bridge",
+   "option": "「我們休息一下。」",
+   "old": "好。我也想坐，只是不想先講。",
+   "new": "我也想坐，只是不想先講。"
+  },
+  {
+   "file": "date_system/lines/D22.json",
+   "who": "kexin",
+   "point": "D22.maple",
+   "option": "「我們走就好。」",
+   "old": "好，不查了。",
+   "new": "不查了。"
+  },
+  {
+   "file": "date_system/lines/D22.json",
+   "who": "kexin",
+   "point": "D22.lake",
+   "option": "「下次去別的湖。」",
+   "old": "好，你記得喔。",
+   "new": "你記得喔。我會提醒你，三次。"
+  },
+  {
+   "file": "date_system/lines/D22.json",
+   "who": "kexin",
+   "point": "D22.fish",
+   "option": "「妳又在算。」",
+   "old": "好，不算了，吃。",
+   "new": "我在幫你省錢欸。好啦，吃。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "kexin",
+   "point": "D23.market",
+   "option": "「不要殺價。」",
+   "old": "好，不殺。",
+   "new": "不殺。我只是問問看能不能算便宜一點。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "kexin",
+   "point": "D23.cook",
+   "option": "「我去占。」",
+   "old": "好，靠窗的。",
+   "new": "靠窗的。沒有靠窗就靠冷氣。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "kexin",
+   "point": "D23.cook",
+   "option": "「一起上去。」",
+   "old": "好，東西你拿。",
+   "new": "東西你拿。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "kexin",
+   "point": "D23.boats",
+   "option": "「我們也等一下。」",
+   "old": "好，看他們卸貨。",
+   "new": "看他們卸貨。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "kexin",
+   "point": "D24.footbath",
+   "option": "「泡久一點。」",
+   "old": "好，就泡二十分鐘，我設好計時了。",
+   "new": "就泡二十分鐘，我設好計時了。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "kexin",
+   "point": "D24.street",
+   "option": "「我請妳。」",
+   "old": "好，這次讓你請，下一攤換我來。",
+   "new": "這次讓你請，下一攤換我來。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "kexin",
+   "point": "D24.park",
+   "option": "「走過橋。」",
+   "old": "好。走慢一點，地板濕的。",
+   "new": "走慢一點，地板濕的。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "kexin",
+   "point": "D24.station",
+   "option": "「坐一下。」",
+   "old": "好。這十五分鐘是自由時間。",
+   "new": "這十五分鐘是自由時間。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "kexin",
+   "point": "D26.path",
+   "option": "「走完它。」",
+   "old": "好，走完再說幾分鐘。",
+   "new": "走完再說幾分鐘。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "kexin",
+   "point": "D26.path",
+   "option": "「走一半就好。」",
+   "old": "好。剩下的下次。",
+   "new": "走一半。剩下那一半我看地圖就好。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "kexin",
+   "point": "D26.village",
+   "option": "「不要算。」",
+   "old": "好，不算，逛。",
+   "new": "算一下又不用錢。好啦，逛。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "kexin",
+   "point": "D26.plaza",
+   "option": "「我們也放？」",
+   "old": "好，我去買，你顧位子。",
+   "new": "我去買，你顧位子。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "kexin",
+   "point": "D26.plaza",
+   "option": "「看就好。」",
+   "old": "好，我先坐。",
+   "new": "我先坐。風箏線打結的那個人比較好看。"
+  },
+  {
+   "file": "date_system/lines/D27.json",
+   "who": "kexin",
+   "point": "D27.shop",
+   "option": "「買一個小的。」",
+   "old": "好，買小的就好，這樣合理。",
+   "new": "買小的就好，這樣合理。"
+  },
+  {
+   "file": "date_system/lines/D27.json",
+   "who": "kexin",
+   "point": "D27.tree",
+   "option": "「在那邊。」",
+   "old": "好，我去看。",
+   "new": "我去看。我猜錯了，不告訴你我猜什麼。"
+  },
+  {
+   "file": "date_system/lines/D27.json",
+   "who": "kexin",
+   "point": "D27.rail",
+   "option": "「妳又在上課。」",
+   "old": "好，今天不上課，我們去坐車廂。",
+   "new": "下課。去坐車廂。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "kexin",
+   "point": "D28.museum",
+   "option": "「進去看。」",
+   "old": "好。裡面有冷氣，快。",
+   "new": "裡面有冷氣，快。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "kexin",
+   "point": "D28.circle",
+   "option": "「妳又在分析。」",
+   "old": "好，今天不分析，去樹下坐著就好。",
+   "new": "職業病。去樹下，我請你喝東西賠罪。"
+  },
+  {
+   "file": "date_system/lines/D28.json",
+   "who": "kexin",
+   "point": "D28.sunset",
+   "option": "「坐下來。」",
+   "old": "好。",
+   "new": "（她往旁邊挪了一點）坐這裡。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "kexin",
+   "point": "D29.sculpture",
+   "option": "「拍一張。」",
+   "old": "好。你往後退，退到那棵樹。好，拍。",
+   "new": "你往後退，退到那棵樹。好，拍。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "kexin",
+   "point": "D29.sculpture",
+   "option": "「躲影子。」",
+   "old": "好，高雄的影子要搶。",
+   "new": "高雄的影子要搶。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "kexin",
+   "point": "D29.harbor",
+   "option": "「算到一半就好。」",
+   "old": "好，只算一半。",
+   "new": "一半。剩下的留給下次回來。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "kexin",
+   "point": "D29.harbor",
+   "option": "「看船。」",
+   "old": "好。那艘要出去了，你看它轉彎。",
+   "new": "那艘要出去了，你看它轉彎。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "kexin",
+   "point": "D29.rail",
+   "option": "「走在上面？」",
+   "old": "好。你在旁邊扶我，掉下去算你的。",
+   "new": "你在旁邊扶我，掉下去算你的。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "kexin",
+   "point": "D29.rail",
+   "option": "「坐在草地上。」",
+   "old": "好。我帶了墊子，從家裡拿的。",
+   "new": "我帶了墊子，從家裡拿的。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "kexin",
+   "point": "D30.pebble",
+   "option": "「我扶妳。」",
+   "old": "好，不准笑我走路的樣子。",
+   "new": "不准笑我走路的樣子。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "kexin",
+   "point": "D30.pebble",
+   "option": "「找一顆最圓的。」",
+   "old": "好，找到了，拍完放回去。",
+   "new": "找到了，拍完放回去。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "kexin",
+   "point": "D30.bike",
+   "option": "「騎完全程。」",
+   "old": "好，可是要停下來看海三次。",
+   "new": "可是要停下來看海三次。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "kexin",
+   "point": "D30.bike",
+   "option": "「一半就好。」",
+   "old": "好，剩下的時間看海。",
+   "new": "剩下的時間看海。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "kexin",
+   "point": "D30.stars",
+   "option": "「就看著就好。」",
+   "old": "好。睡著我會把你搖醒。",
+   "new": "睡著我會把你搖醒。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "kexin",
+   "point": "D30.stall",
+   "option": "「我請。」",
+   "old": "好，那飲料我來。",
+   "new": "那飲料我來。"
+  },
+  {
+   "file": "date_system/lines/D31.json",
+   "who": "kexin",
+   "point": "D31.trail",
+   "option": "「走一段。」",
+   "old": "好。走到有椅子的地方就停。",
+   "new": "走到有椅子的地方就停。"
+  },
+  {
+   "file": "date_system/lines/D31.json",
+   "who": "kexin",
+   "point": "D31.pier",
+   "option": "「不要算了。」",
+   "old": "好，不算。",
+   "new": "再五秒。算完了，不告訴你。"
+  },
+  {
+   "file": "date_system/lines/D31.json",
+   "who": "kexin",
+   "point": "D31.egg",
+   "option": "「我請。」",
+   "old": "好，那紅茶我請。",
+   "new": "那紅茶我請。"
+  },
+  {
+   "file": "date_system/lines/D32.json",
+   "who": "kexin",
+   "point": "D32.meadow",
+   "option": "「遠遠看。」",
+   "old": "好，遠景的效益比較高。",
+   "new": "遠景的效益比較高。"
+  },
+  {
+   "file": "date_system/lines/D32.json",
+   "who": "kexin",
+   "point": "D32.trail",
+   "option": "「慢慢走。」",
+   "old": "好，不算時間。",
+   "new": "慢慢走。上坡不列入紀錄。"
+  },
+  {
+   "file": "date_system/lines/D32.json",
+   "who": "kexin",
+   "point": "D32.cloud",
+   "option": "「看就好。」",
+   "old": "好。這個不用講話。",
+   "new": "這個不用講話。"
+  },
+  {
+   "file": "date_system/lines/D32.json",
+   "who": "kexin",
+   "point": "D32.stall",
+   "option": "「買一顆？」",
+   "old": "好。帶回去，我要看宿舍的人的表情。",
+   "new": "帶回去，我要看宿舍的人的表情。"
+  }
+ ]
+}
