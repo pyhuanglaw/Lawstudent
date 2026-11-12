@@ -8870,17 +8870,17 @@
    "state": "已交付",
    "noDirectIntegrate": false,
    "task": "SHOP-REAL-INSIDE-1112",
-   "title": "SHOPREAL-NEAR-FIRST：第一次走到店前店內模型還沒建（SUNNY SIDE FAIL）——眼前那一間插隊、加快",
+   "title": "SHOPREAL-NEAR-FIRST：第一次走到店前店內模型還沒建（SUNNY SIDE FAIL）——眼前那一間插隊、加快；v2 加 shopReal.prof（哪一步慢）",
    "files": [
-    "docs/art-rebuild/second_ai/wip/shopreal_near_first_1112/shopreal_near_first_v1.patch",
+    "docs/art-rebuild/second_ai/wip/shopreal_near_first_1112/shopreal_near_first_v2.patch",
     "docs/art-rebuild/second_ai/wip/shopreal_near_first_1112/README.md"
    ],
-   "remaining": "一幀 4 件的最長一幀沒量",
+   "remaining": "長幀是哪一步要 CC 在電腦上讀 prof；一幀 4 件的最長一幀沒量",
    "next": "LAWWW-C 套 patch；CC 在電腦量第一次走近的最長一幀、重跑 SUNNY SIDE"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "a7a5d485ea",
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "state": "已交付",
