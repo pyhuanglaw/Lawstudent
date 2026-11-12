@@ -72,27 +72,33 @@
    "at": "2026-10-18T14:1x",
    "quote": "烤肉沒接到cg（附截圖：舊序章人物丁「（拿起手機）不要動。……好，再一張。」）",
    "kind": "原話",
-   "status": "暫停",
+   "status": "已取消",
    "wants": "X43",
-   "task": "CG-ECON-BBQ-1018"
+   "task": "CG-ECON-BBQ-1018",
+   "statusBefore1112": "暫停",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1018-09",
    "at": "2026-10-18T14:1x",
    "quote": "系烤 CG：生一張新的（建議）",
    "kind": "選擇題答案",
-   "status": "暫停",
+   "status": "已取消",
    "wants": "X43",
-   "task": "CG-ECON-BBQ-1018"
+   "task": "CG-ECON-BBQ-1018",
+   "statusBefore1112": "暫停",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1018-10",
    "at": "2026-10-18T14:2x",
    "quote": "咖啡店拉花 店員 好像是藍色衣服舊序章同學",
    "kind": "原話",
-   "status": "在遊戲裡",
+   "status": "已取消",
    "wants": "X44",
-   "task": "BUG-LATTE-CLERK-1018"
+   "task": "BUG-LATTE-CLERK-1018",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1018-11",
@@ -119,27 +125,33 @@
    "at": "2026-10-18T14:3x",
    "quote": "Cg先記錄需要哪些 之後的帳號再補",
    "kind": "原話",
-   "status": "暫停",
+   "status": "已取消",
    "wants": "X43",
-   "task": "CG-ECON-BBQ-1018"
+   "task": "CG-ECON-BBQ-1018",
+   "statusBefore1112": "暫停",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1018-14",
    "at": "2026-10-18T14:3x",
    "quote": "我舊序章離校的時候打給以昕說在捷運上，結果打完電話跳回遊戲，我人在咖啡店",
    "kind": "原話",
-   "status": "在遊戲裡",
+   "status": "已取消",
    "wants": "X46",
-   "task": "BUG-E30-PLACE-1018"
+   "task": "BUG-E30-PLACE-1018",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1018-15",
    "at": "2026-10-18T14:3x",
    "quote": "舊序章離校電話後：回臺北的家跟媽媽說",
    "kind": "選擇題答案",
-   "status": "在遊戲裡",
+   "status": "已取消",
    "wants": "X46",
-   "task": "E30-MOM-1018"
+   "task": "E30-MOM-1018",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1018-16",
@@ -173,9 +185,11 @@
    "at": "2026-10-18T14:4x",
    "quote": "咖啡店的店員你放到舊序章人物丙",
    "kind": "原話",
-   "status": "在遊戲裡",
+   "status": "已取消",
    "wants": "X44",
-   "task": "BUG-LATTE-CLERK-1018"
+   "task": "BUG-LATTE-CLERK-1018",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1018-20",
@@ -236,18 +250,22 @@
    "at": "2026-10-18T15:0x",
    "quote": "然後跨年玩去高雄就討論休息了，好突然／討論舊序章離校",
    "kind": "原話",
-   "status": "在遊戲裡",
+   "status": "已取消",
    "wants": "X54",
-   "task": "KH-RETAKE-PACING-1018"
+   "task": "KH-RETAKE-PACING-1018",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1018-27",
    "at": "2026-10-18T15:0x",
    "quote": "12月去補習班的劇情也沒有演出了 可是在高雄討論舊序章考試的時候 可昕說你12月就想舊序章考試了吧",
    "kind": "原話",
-   "status": "在遊戲裡",
+   "status": "已取消",
    "wants": "X55",
-   "task": "CRAM-DEC-SCENE-1018"
+   "task": "CRAM-DEC-SCENE-1018",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1018-28",
@@ -613,8 +631,10 @@
    "at": "2026-10-20T13:0x",
    "quote": "幫語昕搬進宿舍的功能也沒有",
    "kind": "原話",
-   "status": "在遊戲裡",
-   "wants": "X81"
+   "status": "已取消",
+   "wants": "X81",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1020-69",
@@ -622,9 +642,11 @@
    "quote": "（LAWWW-C 解讀）「語昕」是可昕：8/30 開車載可昕搬去外校宿舍（E37）沒有出現",
    "kind": "AI解讀",
    "confirmed": true,
-   "status": "在遊戲裡",
+   "status": "已取消",
    "wants": "X81",
-   "note": "使用者 13:4x 確認：「我講錯了 是可昕」（UA-LAWWW-1020-71）"
+   "note": "使用者 13:4x 確認：「我講錯了 是可昕」（UA-LAWWW-1020-71）",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1020-70",
@@ -641,10 +663,12 @@
    "at": "2026-10-20T13:4x",
    "quote": "我講錯了 是可昕",
    "kind": "原話",
-   "status": "在遊戲裡",
+   "status": "已取消",
    "wants": "X81",
    "task": "BUG-E37-MOVEIN-1020",
-   "note": "確認「幫語昕搬進宿舍」是可昕：8/30 開車載她搬去外校宿舍（E37）沒有出現"
+   "note": "確認「幫語昕搬進宿舍」是可昕：8/30 開車載她搬去外校宿舍（E37）沒有出現",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1020-72",
@@ -1586,27 +1610,33 @@
    "at": "2026-10-30T05:1x",
    "quote": "去舊序章辦拿東西 怎麼說我轉系 我是舊序章考試欸",
    "kind": "原話",
-   "status": "在遊戲裡",
+   "status": "已取消",
    "wants": "X140",
-   "task": "SK02-LINE-JACKET-1030"
+   "task": "SK02-LINE-JACKET-1030",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1030-19",
    "at": "2026-10-30T05:1x",
    "quote": "我選了穿去霖澤上課 結果我的衣服在遊戲裡面也沒換",
    "kind": "原話",
-   "status": "在遊戲裡",
+   "status": "已取消",
    "wants": "X140",
-   "task": "SK02-LINE-JACKET-1030"
+   "task": "SK02-LINE-JACKET-1030",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1030-20",
    "at": "2026-10-30T05:1x",
    "quote": "舊序章以前的同學 要能夠在社科院圖書館遇到吧",
    "kind": "原話",
-   "status": "在遊戲裡",
+   "status": "已取消",
    "wants": "X141",
-   "task": "ECON-FRIENDS-SOCLIB-1030"
+   "task": "ECON-FRIENDS-SOCLIB-1030",
+   "statusBefore1112": "在遊戲裡",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1030-21",
@@ -2266,9 +2296,11 @@
    "at": "2026-11-03T08:4x",
    "quote": "可昕去外校宿舍前為什麼會自己住我家啦 有夠奇怪 他應該當天才搭高鐵上台北 直接我去接他就好",
    "kind": "原話",
-   "status": "在開發分支",
+   "status": "已取消",
    "wants": "X164",
-   "task": "STORY-KX-NCCU-MOVEIN-1103"
+   "task": "STORY-KX-NCCU-MOVEIN-1103",
+   "statusBefore1112": "在開發分支",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1103-23",
@@ -3818,10 +3850,12 @@
    "at": "2026-11-10T02:1xZ",
    "quote": "可以不要一直提到舊序章 或舊序章考試嗎? 對話 而且舊序章那一段明明有女友怎麼會一個人?（附以安「你會一個人去一間店嗎？」選項截圖）",
    "kind": "原話",
-   "status": "在開發分支",
+   "status": "已取消",
    "wants": "X287",
    "task": "DLG-NO-ECON-REPEAT-1110",
-   "src": "使用者對 LAWWW-B（試玩回報）"
+   "src": "使用者對 LAWWW-B（試玩回報）",
+   "statusBefore1112": "在開發分支",
+   "cancelReason": "使用者 11-12 取消舊序章整段（UA-LAWWW-1112-32；併進 X364／CANON-NO-ECON-1112）"
   },
   {
    "id": "UA-LAWWW-1110-31",

@@ -1293,8 +1293,8 @@
    "title": "外校・校園裡的路 nccu_campus",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景圖（nccu_campus）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜夜晚主圖已接進 S.BG（K1b 外校散步）；傍晚變體 v8 交了再看要不要分時段",
+   "status": "取消／被取代",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景圖（nccu_campus）＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜夜晚主圖已接進 S.BG（K1b 外校散步）；傍晚變體 v8 交了再看要不要分時段",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -1317,9 +1317,9 @@
    },
    "sha": "6e5a02b6",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：等待其他AI／素材）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "ART-12",
@@ -1761,8 +1761,8 @@
    "title": "E22b、E23、E24b、E24c 走向法律（E24C_REASON）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c）：A-部分——已演的部分有 PASS（任務自己寫「瀏覽器待 flow_v0_home」：L932-934（c6348e60）flow_v0_home ALL PASS，E23、E24c 有演；E24b 見 L3072（c6fef17e1）。E22b 沒逐條點名（建議結案時順手對台詞紀錄））；剩下的留著｜AA-C 2026-10-17 20:59：E22b、E23 照遊戲裡現在的版本（AA_224 3-7、5-1，最後一版 996b0d8d），暫停關掉；瀏覽器待 flow_v0_home",
+   "status": "取消／被取代",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c）：A-部分——已演的部分有 PASS（任務自己寫「瀏覽器待 flow_v0_home」：L932-934（c6348e60）flow_v0_home ALL PASS，E23、E24c 有演；E24b 見 L3072（c6fef17e1）。E22b 沒逐條點名（建議結案時順手對台詞紀錄））；剩下的留著｜AA-C 2026-10-17 20:59：E22b、E23 照遊戲裡現在的版本（AA_224 3-7、5-1，最後一版 996b0d8d），暫停關掉；瀏覽器待 flow_v0_home",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1777,8 +1777,9 @@
    "source": "交接包_v0、BB_104／105／110／112",
    "authorized": "D79",
    "pausedFrom": "已整合待測試",
-   "pausedReason": null,
-   "resumeWhen": null
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "V0-B1",
@@ -1908,8 +1909,8 @@
    "title": "BB_102 Y0 課堂內容",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "2026-10-16 LAWWW-B 對帳：BB_102 的 Y0 課堂內容在 src/data/syllabus.js（econ_principles_y0、acct_y0、ge_y0s1 每週內容，其他課台詞池；courses.js 第 34 行）；舊序章離校以後 Y0S2 不排課；剩瀏覽器上一次經原、會計（#25）",
+   "status": "取消／被取代",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜2026-10-16 LAWWW-B 對帳：BB_102 的 Y0 課堂內容在 src/data/syllabus.js（econ_principles_y0、acct_y0、ge_y0s1 每週內容，其他課台詞池；courses.js 第 34 行）；舊序章離校以後 Y0S2 不排課；剩瀏覽器上一次經原、會計（#25）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1922,7 +1923,10 @@
     "confirmed": true
    },
    "source": "交接包_v0、BB_104／105／110／112",
-   "authorized": "D79"
+   "authorized": "D79",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "V0-E1",
@@ -11260,8 +11264,8 @@
    "title": "events.js 字幕「外校・宿舍樓下」和 S.BG label「外校・宿舍」不一致",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ 統一字樣",
+   "status": "取消／被取代",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-21 稽核 B2】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ 統一字樣",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -11283,7 +11287,10 @@
      "note": "字幕已統一"
     }
    ],
-   "evidence": "src/outings3d.js:14 OUT.BG nccu_dorm 的 label 已是「外校・宿舍樓下」，和事件字幕一致（events.js:682、y2b_events.js:27、r2y4a_events.js 等）；events.js:2600 搬家那場用「外校・宿舍」是進宿舍（nccu_dorm_day）"
+   "evidence": "src/outings3d.js:14 OUT.BG nccu_dorm 的 label 已是「外校・宿舍樓下」，和事件字幕一致（events.js:682、y2b_events.js:27、r2y4a_events.js 等）；events.js:2600 搬家那場用「外校・宿舍」是進宿舍（nccu_dorm_day）",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "SYS-19",
@@ -11341,8 +11348,8 @@
    "title": "可昕線外校地點字幕：圖書館→自強十舍樓下長椅、外校河堤→外校主要校園的路、大家的河堤→riverside、小教室→通用教室（AA_112 442b98cb、AA_140 裁定 H ef96df49）",
    "area": "SCN",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ 企劃衝突已解決（AA-B 標 void 的是企劃面）；程式只改地點字幕、台詞不動；跟著可昕大一下（V2-B9）和大二～大四做",
+   "status": "取消／被取代",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-21 稽核 B2】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ 企劃衝突已解決（AA-B 標 void 的是企劃面）；程式只改地點字幕、台詞不動；跟著可昕大一下（V2-B9）和大二～大四做",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -11364,7 +11371,10 @@
      "note": "外校地點字幕已照替代規則"
     }
    ],
-   "evidence": "src 已沒有「外校・圖書館」「外校・河堤」字幕；改用 nccu_dorm「外校・宿舍樓下」、nccu_campus「外校・校園裡的路」（outings3d.js:14）、大家的河堤＝公館的河濱（group3d.js:74）；小教室用通用 classroom_small＋「外校」字幕（y2r2_3d.js:93、y34b3d.js:519），台詞未動（AA_112 檔首、AA_140 H）"
+   "evidence": "src 已沒有「外校・圖書館」「外校・河堤」字幕；改用 nccu_dorm「外校・宿舍樓下」、nccu_campus「外校・校園裡的路」（outings3d.js:14）、大家的河堤＝公館的河濱（group3d.js:74）；小教室用通用 classroom_small＋「外校」字幕（y2r2_3d.js:93、y34b3d.js:519），台詞未動（AA_112 檔首、AA_140 H）",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "V3-L1",
@@ -13349,8 +13359,8 @@
    "title": "舊序章那一段祐廷的宿舍房間（第 0 間）：沿用 203 的模型，換房號、窗景，室友舊序章人物甲的床（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；舊序章 412 房間窗景＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜窗景 dorm_room412_day／_night 已接（zones3d.js dorm：舊序章 view＝dorm_room412；v0_dorm_props_unit 第 4 項）；門牌 412 原本就有（dorm3d.js homeOf）。等瀏覽器看舊序章 412 白天、晚上的窗外",
+   "status": "取消／被取代",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；舊序章 412 房間窗景＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜窗景 dorm_room412_day／_night 已接（zones3d.js dorm：舊序章 view＝dorm_room412；v0_dorm_props_unit 第 4 項）；門牌 412 原本就有（dorm3d.js homeOf）。等瀏覽器看舊序章 412 白天、晚上的窗外",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -13375,9 +13385,9 @@
     "639f0188"
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：等待其他AI／素材）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "WIP-02-BIKE",
@@ -14183,8 +14193,8 @@
    "title": "v0 閒聊階梯 ladder_bb_y0s1／y0s2.json（BB-B 82b61711、f70b4e87、19ee72d5；AA 核對）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "已匯入（BB-B 6227de53 補了 BB_146 第 3 節的記憶名稱表；匯入來源 claude/elegant-brown-fcos7n 16bd2c03）：Y0S1、Y0S2 可昕、舊序章人物丁、舊序章人物丙、舊序章人物甲、舊序章人物乙各 8 層；第 2 級：舊序章開局後實際聊一次",
+   "status": "取消／被取代",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜已匯入（BB-B 6227de53 補了 BB_146 第 3 節的記憶名稱表；匯入來源 claude/elegant-brown-fcos7n 16bd2c03）：Y0S1、Y0S2 可昕、舊序章人物丁、舊序章人物丙、舊序章人物甲、舊序章人物乙各 8 層；第 2 級：舊序章開局後實際聊一次",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -14197,7 +14207,10 @@
     "confirmed": false
    },
    "source": "AA-B 06:08、06:15",
-   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "V0-KXPHONE",
@@ -14295,8 +14308,8 @@
    "title": "v0 宿舍 412 的房間道具：三個紙箱（床上／床尾兩箱）、舊序章人物甲的筆電與計算紙、床下的保齡球球袋、書架上的《經濟學原理》",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；舊序章 412 房間道具＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜v0_dorm_props.glb 已接（E01 四個時間點的紙箱、舊序章人物甲的書桌與保齡球袋；ROOMMATE_KAI 藏起來）；筆電朝向等 LAWWW2-B 截圖確認",
+   "status": "取消／被取代",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；舊序章 412 房間道具＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜v0_dorm_props.glb 已接（E01 四個時間點的紙箱、舊序章人物甲的書桌與保齡球袋；ROOMMATE_KAI 藏起來）；筆電朝向等 LAWWW2-B 截圖確認",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -14318,9 +14331,9 @@
     "ack": "ACTIONED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：等待其他AI／素材）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "V2-G50S2",
@@ -19169,9 +19182,9 @@
    "title": "AA_243 16 週裁定（AA_240 可行性 → 事件週次、累積門檻、撞期強制觸發）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P0",
-   "next": "【LAWWW-C 11:5x】AA_243 §4-1（AA-C 19f77bd4）逐項做完：G1 事件上限第 15 週（芷若 Z4 [11…15]、明軒家教 [3…15]、events 1108 [10…15]、沛珊課輔 [5…15]、芯慈第二名作息與事件 [12…15]、柏翰讀書會 [6…15]、子晴秘密 [11…15]、以安報告晚分組 [6…15]、方奕廷 Z6 [13…15]、柏翰小組 ≤15）；G2 Z2 week===16；G3 節日改日期（舊序章 E20 12/25、E21a 12/31、大一聖誕 12/22／12/24、跨年 12/31、大一下成績日 gradeDay）；G5 主線 4 每週訊息第 1～16 週（最後一個週日 6/13；needed_msgs 窗口照比例往前）；#17 以安讀書會作息 Y1S1 10～15、Y1S2 2～7、10、12～15；#18 偶遇單雙週拿掉 17～19；#21 舊序章人物甲 [2…16]；#59 A3-L6／Y3-L5 [14,18]；#61 期末短招呼 14～16；#62 Z9 第 15 週週四；#68 以安期末前總圖改第 15 週、#69 可昕視訊讀書照留第 16 週（期末相關）；G6 註解。單元測試 264＋5 個照新週次改完全過。還沒：瀏覽器回歸（下次 RC）；AA_240 交回後補這張表沒有的。",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 11:5x】AA_243 §4-1（AA-C 19f77bd4）逐項做完：G1 事件上限第 15 週（芷若 Z4 [11…15]、明軒家教 [3…15]、events 1108 [10…15]、沛珊課輔 [5…15]、芯慈第二名作息與事件 [12…15]、柏翰讀書會 [6…15]、子晴秘密 [11…15]、以安報告晚分組 [6…15]、方奕廷 Z6 [13…15]、柏翰小組 ≤15）；G2 Z2 week===16；G3 節日改日期（舊序章 E20 12/25、E21a 12/31、大一聖誕 12/22／12/24、跨年 12/31、大一下成績日 gradeDay）；G5 主線 4 每週訊息第 1～16 週（最後一個週日 6/13；needed_msgs 窗口照比例往前）；#17 以安讀書會作息 Y1S1 10～15、Y1S2 2～7、10、12～15；#18 偶遇單雙週拿掉 17～19；#21 舊序章人物甲 [2…16]；#59 A3-L6／Y3-L5 [14,18]；#61 期末短招呼 14～16；#62 Z9 第 15 週週四；#68 以安期末前總圖改第 15 週、#69 可昕視訊讀書照留第 16 週（期末相關）；G6 註解。單元測試 264＋5 個照新週次改完全過。還沒：瀏覽器回歸（下次 RC）；AA_240 交回後補這張表沒有的。",
    "first": {
     "term": "Y0S1",
     "week": 16,
@@ -19190,7 +19203,10 @@
     "acceptance": "每學期七件驗收（AA_197 1-7）",
     "receiver": "LAWWW",
     "ack": "ACTIONED"
-   }
+   },
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "VAC-C08-12",
@@ -20304,7 +20320,7 @@
   },
   {
    "id": "ART-JIAHAO-JOY",
-   "status": "暫停",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -20318,7 +20334,7 @@
    },
    "title": "舊序章人物戊晚上近照嘴邊暗影（Joy 0.35 露出口腔被壓暗）：試 0.28",
    "owner": "LAWWW2",
-   "next": "LAWWW2 有空時（BB-C：遊戲距離看不出來）",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜LAWWW2 有空時（BB-C：遊戲距離看不出來）",
    "source": "BB-C D59 驗收 20e63582",
    "xai": {
     "spec": "BB-C 15:49 第 2 點",
@@ -20327,8 +20343,9 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "pausedReason": "D99 人物凍結；0.35 不在 VRM 裡（Joy 綁 100，遊戲 smile＝happy 0.7），BB-C 也說遊戲距離看不出來（LAWWW2-B 11-01）",
-   "resumeWhen": "使用者解凍人物美術時"
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：暫停）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "ANIM-BENCH-SIT",
@@ -20679,9 +20696,9 @@
    "title": "舊序章 7/25 成績公布那天的 2D 底圖：客運車廂（白天）、高雄客運站出口（白天）、客運站外面的便利商店（晚上）",
    "area": "V0",
    "owner": "BB",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景四張＝場景美術；L94 排了「在遊戲裡看」但沒有結果——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【2026-10-18 02:4x LAWWW-C】BB-C 23612343 四張接進遊戲：OUT.BG 加 kh_bus_day／kh_bus_station／kh_store_night／kh_river_night；ev_y0_kh_bus 三個 scene 加 bg；愛河邊跨年深夜換 kh_river_night（大一 ev_nye_river＋大二～大四 ev_kx_nye_river_y2～y4，同一個地點、同一個時段；原本暫用河濱 riverside）。BB-C 在遊戲裡看。｜23:5x 使用者：2D 背景由 BB 跟使用者要（D100），從 LAWWW2 改派 BB；23:1x 派給 LAWWW2-C（機場＋亞洲超市 patch 交付以後先做這三張）；現在用深色底＋地點字幕（events.js ev_y0_kh_bus*）；有圖就加進 OUT.BG（outings3d.js）並在事件的 scene 行加 bg",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景四張＝場景美術；L94 排了「在遊戲裡看」但沒有結果——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【2026-10-18 02:4x LAWWW-C】BB-C 23612343 四張接進遊戲：OUT.BG 加 kh_bus_day／kh_bus_station／kh_store_night／kh_river_night；ev_y0_kh_bus 三個 scene 加 bg；愛河邊跨年深夜換 kh_river_night（大一 ev_nye_river＋大二～大四 ev_kx_nye_river_y2～y4，同一個地點、同一個時段；原本暫用河濱 riverside）。BB-C 在遊戲裡看。｜23:5x 使用者：2D 背景由 BB 跟使用者要（D100），從 LAWWW2 改派 BB；23:1x 派給 LAWWW2-C（機場＋亞洲超市 patch 交付以後先做這三張）；現在用深色底＋地點字幕（events.js ev_y0_kh_bus*）；有圖就加進 OUT.BG（outings3d.js）並在事件的 scene 行加 bg",
    "first": {
     "term": "Y0S2",
     "week": 0,
@@ -20694,8 +20711,6 @@
    },
    "source": "AA_272 第 5 節（AA-C c8baae2b）",
    "authorized": "AA 定稿；D99 第一優先（舊序章完整流程）的背景",
-   "pausedReason": null,
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "xai": {
     "spec": "AA_272 第 4 節 4-2、4-3",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -20704,7 +20719,9 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：等待其他AI／素材）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "QA-SCREEN-1017",
@@ -22110,7 +22127,7 @@
    "title": "舊序章遇得到小語（她那年還沒進台大，X12）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -22124,7 +22141,10 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "使用者 10-18 存檔（day -370）：舊序章就 met_yu、lawclub。修：story3d.js 小語兩處、阿哲週四霖澤館前的舊 spawn 加 !S.isEcon；萬才館法服公告舊序章只看得到、不入社（不記 lawclub、不加筆記）。待 BB-C 瀏覽器（舊序章平日 8:30 校園、晚上溫州街沒有小語）｜【06:1x 追加，AA-C 讀程式】舊序章那一段：法律系第二天民總 classScene、201 的以安／阿哲／小語不生；芷若、子晴、方奕廷只當背景不能搭話（game3d.js spawnCharacter ECON_BG；芷若當 Café 店員照舊點餐）"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜使用者 10-18 存檔（day -370）：舊序章就 met_yu、lawclub。修：story3d.js 小語兩處、阿哲週四霖澤館前的舊 spawn 加 !S.isEcon；萬才館法服公告舊序章只看得到、不入社（不記 lawclub、不加筆記）。待 BB-C 瀏覽器（舊序章平日 8:30 校園、晚上溫州街沒有小語）｜【06:1x 追加，AA-C 讀程式】舊序章那一段：法律系第二天民總 classScene、201 的以安／阿哲／小語不生；芷若、子晴、方奕廷只當背景不能搭話（game3d.js spawnCharacter ECON_BG；芷若當 Café 店員照舊點餐）",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "ART-YU-3D-1018",
@@ -22524,7 +22544,7 @@
    "title": "AA_293：可昕交往前六段過場 T1～T6、可昕不加社團、劇社拿掉（刪 ev_y0_c1、ev_y0_e18）、E08 兩句旁白、10/15 她留下來 KX_STAYED、E10 邀約 23:45",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -22538,7 +22558,10 @@
    },
    "source": "AA-C 81d42881（AA_293、AA_292、ladder_bb_y0s1.json；DL-AA-81d42881）",
    "authorized": "使用者選擇題（AA_293 第 1 節）＋D102",
-   "next": "events.js：E07 三句（不加社團）、T1～T6（ev_y0_kt1～kt6，trigger econff，演完 STORY.ladMark 記 K0 層）、E08 兩句旁白、gather 結尾她留下來（KX_STAYED）、E14 搬 9/13＋兩句、E12 結尾保齡球說破（KX_BOWLING_TOLD）、c1／e18 retired；story3d.js：E07 沒去私訊、y0_kx_laugh、E10 去了聚會 23:45、C1／E18 邀約關掉、保齡球邀約 9/12 全班群組；econff3d.js 步驟加 t1～t6、b1、拿掉 n20、照時間排。階梯白名單 6 檔改 9fecc202（Y0S1 因 KX0_EGG、KX0_SHOP 沒有記憶中文名稱先保留舊版，已請 AA 補表）。測試換：econ_ff、v0_e07、v0_e14、v0_gather、v0_c1、v0_e18、lifeline_g3。待 BB-C 瀏覽器"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜events.js：E07 三句（不加社團）、T1～T6（ev_y0_kt1～kt6，trigger econff，演完 STORY.ladMark 記 K0 層）、E08 兩句旁白、gather 結尾她留下來（KX_STAYED）、E14 搬 9/13＋兩句、E12 結尾保齡球說破（KX_BOWLING_TOLD）、c1／e18 retired；story3d.js：E07 沒去私訊、y0_kx_laugh、E10 去了聚會 23:45、C1／E18 邀約關掉、保齡球邀約 9/12 全班群組；econff3d.js 步驟加 t1～t6、b1、拿掉 n20、照時間排。階梯白名單 6 檔改 9fecc202（Y0S1 因 KX0_EGG、KX0_SHOP 沒有記憶中文名稱先保留舊版，已請 AA 補表）。測試換：econ_ff、v0_e07、v0_e14、v0_gather、v0_c1、v0_e18、lifeline_g3。待 BB-C 瀏覽器",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "AA294-SKIPCLASS-1018",
@@ -22631,7 +22654,7 @@
    "title": "舊序章那一段可昕的位置顯示「在外校」（使用者 10-18：「杜可昕顯示在外校 三小啦」）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -22645,7 +22668,10 @@
    },
    "source": "使用者 2026-10-18 06:4x",
    "authorized": "使用者回報",
-   "next": "story3d.js whereIs：舊序章那一段可昕沒有行程時顯示「在台大」（2025-02 起舊序章離校＝「在家裡」），不用 characters.js 的 school:'外校'。待 BB-C 看大地圖「認識的人」"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜story3d.js whereIs：舊序章那一段可昕沒有行程時顯示「在台大」（2025-02 起舊序章離校＝「在家裡」），不用 characters.js 的 school:'外校'。待 BB-C 看大地圖「認識的人」",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "ECON-FF-PHASE2-1018",
@@ -22697,7 +22723,7 @@
    "title": "舊序章退宿以後手機「地點」還能快速前往宿舍、不知道怎麼回家（使用者 10-18 存檔 day-314：11/6 E12 以後 20:31 在 412 房間）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -22711,14 +22737,17 @@
    },
    "source": "使用者 2026-10-18 06:4x（存檔 9df1402c-fatiao3d_save_day-314.json）",
    "authorized": "使用者回報",
-   "next": "game3d.js PLACE_LIST：HOME.baseMode（退宿以後）不列宿舍、宿舍走廊；回家＝手機「地點」最上面「回臺北的家」（v9.10.1）、或校門口的「回臺北的家」（v9.10 就有）。事件接事件第二階段（ECON-FF-PHASE2-1018）做好以後，舊序章離校在家期間演完自動回家。待 BB-C 瀏覽器"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜game3d.js PLACE_LIST：HOME.baseMode（退宿以後）不列宿舍、宿舍走廊；回家＝手機「地點」最上面「回臺北的家」（v9.10.1）、或校門口的「回臺北的家」（v9.10 就有）。事件接事件第二階段（ECON-FF-PHASE2-1018）做好以後，舊序章離校在家期間演完自動回家。待 BB-C 瀏覽器",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "BUG-KXFIRST-0830",
    "title": "舊序章玩上來的人 8/30 早上又收到可昕「第一則訊息」（假設題、去上課吧）：toLaw 重設 KX_FIRST_MSG；週六暑假台詞時機不對",
    "area": "v1",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -22732,7 +22761,7 @@
    },
    "source": "BB-C 2026-10-18 06:25",
    "authorized": "bug 修正（台詞要留的話 AA 寫）",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ PLAYED_Y0 不重設 KX_FIRST_MSG；要不要留一則等 AA-C（BB-C 已同步）",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-21 稽核 B2】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ PLAYED_Y0 不重設 KX_FIRST_MSG；要不要留一則等 AA-C（BB-C 已同步）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -22741,7 +22770,10 @@
      "note": "舊序章路線不再重收第一則訊息"
     }
    ],
-   "evidence": "src/story3d.js:87 舊序章玩上來、和可昕交往中＝KX_FIRST_MSG 設 true，不再補可昕「第一則訊息」（6c36a07b，2026-10-18）；開學前一晚的 kexinEve 也看 KX_FIRST_MSG（story3d.js:1113-1114）"
+   "evidence": "src/story3d.js:87 舊序章玩上來、和可昕交往中＝KX_FIRST_MSG 設 true，不再補可昕「第一則訊息」（6c36a07b，2026-10-18）；開學前一晚的 kexinEve 也看 KX_FIRST_MSG（story3d.js:1113-1114）",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "UX-MRT-FAR-1018",
@@ -22822,7 +22854,7 @@
    "title": "舊序章 10/19→8/29 縮圖總表的畫面問題（BB-C 1b706548 econ_home_1018，261 格）：在家選單後面是校園、宿營白天星空、豆花店後半空白、7/25 家裡空白、Kevin 用女生立繪、校門口空白等",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -22836,7 +22868,7 @@
    },
    "source": "BB-C 2026-10-18 06:41（claude/wonderful-mayer-7fm9g6 @ 1b706548，docs/story_planning/test_shots/econ_home_1018/README.md）",
    "authorized": "bug 修正",
-   "next": "【LAWWW（帳號 A）2026-10-21 22:5x UTC】BB 重拍（e7dc26c2）：n031 豆花店 FIXED；n093 全黑、n180 日期字疊按鈕這一輪沒出現；n212 遊覽車 PARTIAL（那句在校門口深色底上演，出座位選項那一刻背景已換車內、對話框還留著那句，P3）；n255 NOT FIXED 缺圖 ntu_gate（BB_220 ③）。另照 BB 決定（D110）7/10 看考場 RH-O6 接 exam_hs_classroom（import_retake_home.py 匯入時套用；tests/retake_bg_unit.js） ｜ 【LAWWW（帳號 A）17:4x】n255 校門口＝camp_y1.js 兩處 bg:'dark'（沒有臺大校門口的 2D 背景，等圖，併 AA299-IMAGES-1018）；n212 遊覽車那句現在在 dark 背景上（車內是下一句以後）；n031 豆花店（ev_y0_e18a 第二段 bg gongguan_douhua 有圖）、n093 全黑、n180 日期字疊按鈕要用新版重拍才知道還在不在→ BB-TEST-0830-ECONHOME-1021 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：派 BB 用同一支腳本重拍 econ_home 縮圖總表（BB-C 1b706548 的 261 格）確認剩下五格；缺圖的列給 BB 跟使用者要 ｜ n123 在家選單背景、n233/n238 宿營白天背景、n255 校門口、n031 豆花店後半、n186 家裡、n252 Kevin 立繪；可能：n093 全黑、n212 遊覽車、n180 日期字疊按鈕。缺圖的列給 BB-C 跟使用者要。和事件接事件第二階段一起看（舊序章離校在家換成事件模式，n123 那類選單會收起來）",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW（帳號 A）2026-10-21 22:5x UTC】BB 重拍（e7dc26c2）：n031 豆花店 FIXED；n093 全黑、n180 日期字疊按鈕這一輪沒出現；n212 遊覽車 PARTIAL（那句在校門口深色底上演，出座位選項那一刻背景已換車內、對話框還留著那句，P3）；n255 NOT FIXED 缺圖 ntu_gate（BB_220 ③）。另照 BB 決定（D110）7/10 看考場 RH-O6 接 exam_hs_classroom（import_retake_home.py 匯入時套用；tests/retake_bg_unit.js） ｜ 【LAWWW（帳號 A）17:4x】n255 校門口＝camp_y1.js 兩處 bg:'dark'（沒有臺大校門口的 2D 背景，等圖，併 AA299-IMAGES-1018）；n212 遊覽車那句現在在 dark 背景上（車內是下一句以後）；n031 豆花店（ev_y0_e18a 第二段 bg gongguan_douhua 有圖）、n093 全黑、n180 日期字疊按鈕要用新版重拍才知道還在不在→ BB-TEST-0830-ECONHOME-1021 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：派 BB 用同一支腳本重拍 econ_home 縮圖總表（BB-C 1b706548 的 261 格）確認剩下五格；缺圖的列給 BB 跟使用者要 ｜ n123 在家選單背景、n233/n238 宿營白天背景、n255 校門口、n031 豆花店後半、n186 家裡、n252 Kevin 立繪；可能：n093 全黑、n212 遊覽車、n180 日期字疊按鈕。缺圖的列給 BB-C 跟使用者要。和事件接事件第二階段一起看（舊序章離校在家換成事件模式，n123 那類選單會收起來）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -22845,8 +22877,9 @@
      "note": "大部分畫面問題已修，剩五格要重拍確認"
     }
    ],
-   "pausedReason": "剩 n255 臺大校門口缺圖 ntu_gate（BB_220 ③，BB 向使用者要）",
-   "resumeWhen": "ntu_gate 圖到了（BB 交 LAWWW）"
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：等待其他AI／素材）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "BUG-ADV-LINGER-1018",
@@ -22876,7 +22909,7 @@
    "title": "舊序章跨年 E21a：放假中大家在總圖念書、選項「書會等我」（使用者 10-18：「跨年不是考完了嗎，為什麼舊序章人物丁在總圖念書」「跨年說書會等我是什麼弱智對話」）",
    "area": "v0",
    "owner": "AA",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -22890,14 +22923,17 @@
    },
    "source": "使用者 2026-10-18 06:5x",
    "authorized": "使用者回報（台詞歸 AA，D100）",
-   "next": "已轉 AA-C：16 週制 12/20 期末就結束，12/31 寒假；請 AA 改集合地點與台詞、拿掉「書會等我」選項，交白名單或直接改",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜已轉 AA-C：16 週制 12/20 期末就結束，12/31 寒假；請 AA 改集合地點與台詞、拿掉「書會等我」選項，交白名單或直接改",
    "xai": {
     "receiver": "AA",
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-18 原話",
     "acceptance": "跨年不在總圖念書、沒有「書會等我」；events.js ev_y0_e21a 改好",
     "ack": "ACTIONED"
-   }
+   },
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "UX-START-CHOICE-1018",
@@ -22926,7 +22962,7 @@
    "title": "除夕電話選項「那妳呢？跟家裡說了嗎？」看不懂（使用者 10-18：「可昕還沒舊序章離校，說什麼啊？我問她講了嗎，她要講什麼？」）",
    "area": "v0",
    "owner": "AA",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -22940,21 +22976,24 @@
    },
    "source": "使用者 2026-10-18 06:5x",
    "authorized": "使用者回報（台詞歸 AA）",
-   "next": "已轉 AA-C：指的是 1/11 她說「我在想要不要舊序章離校」；選項太含糊，請 AA 改得看得懂",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜已轉 AA-C：指的是 1/11 她說「我在想要不要舊序章離校」；選項太含糊，請 AA 改得看得懂",
    "xai": {
     "receiver": "AA",
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-18 原話",
     "acceptance": "選項和回覆看得出是在問她想舊序章離校的事有沒有跟家裡說",
     "ack": "ACTIONED"
-   }
+   },
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "Q-E27-WHY-1018",
    "title": "水餃店 E27 沒說可昕為什麼舊序章離校（使用者 10-18：「水餃店事件根本沒說明可昕為什麼舊序章離校！！！！！」）",
    "area": "v0",
    "owner": "AA",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -22968,14 +23007,17 @@
    },
    "source": "使用者 2026-10-18 07:0x",
    "authorized": "使用者回報（台詞歸 AA）",
-   "next": "理由只在 1/3、1/6、1/11 三則手機訊息；已轉 AA-C 在 E27 讓她當面講。LAWWW：事件接事件模式下那三則自動打開手機（ECON-FF-PHASE2）",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜理由只在 1/3、1/6、1/11 三則手機訊息；已轉 AA-C 在 E27 讓她當面講。LAWWW：事件接事件模式下那三則自動打開手機（ECON-FF-PHASE2）",
    "xai": {
     "receiver": "AA",
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-18 原話；AA_272 第 9 節",
     "acceptance": "E27 裡可昕當面說出舊序章離校原因",
     "ack": "ACTIONED"
-   }
+   },
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "UX-HOME-SAVE-1018",
@@ -23055,7 +23097,7 @@
    "title": "舊序章考試期在家選單「約可昕出門」不知道去哪，選了以後按什麼都跳「會錯過 10 點」（使用者 10-18）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -23069,14 +23111,17 @@
    },
    "source": "使用者 2026-10-18 07:1x",
    "authorized": "使用者回報",
-   "next": "home3d.js：選項寫地點（STORY.rPlayEv 的地方）＋「現在就出發」（她 10:00 才有空就跳到 10:00）；選了直接出發、演完回家，不再留一個 10:00 的出遊讓其他選項一直跳「會錯過」。待 BB-C 舊序章考試期在家點一次"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜home3d.js：選項寫地點（STORY.rPlayEv 的地方）＋「現在就出發」（她 10:00 才有空就跳到 10:00）；選了直接出發、演完回家，不再留一個 10:00 的出遊讓其他選項一直跳「會錯過」。待 BB-C 舊序章考試期在家點一次",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "UX-Y0-NO-NTU-1018",
    "title": "舊序章離校在家不能自己去台大（使用者 10-18：「一個舊序章離校的人根本不會想再踏入台大，為什麼要保留這個選項」「舊序章考試中不要讓我去台大」「尤其可昕也舊序章離校，之後更不應該」）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -23090,7 +23135,10 @@
    },
    "source": "使用者 2026-10-18 07:1x",
    "authorized": "使用者直接要求",
-   "next": "home3d.js 在家選單拿掉「去學校」；game3d.js PLACE_LIST 在 HOME.baseMode 時不列台大校園裡的地方（NTU_ZONES）。劇情地點在台大的事件轉 AA（Q-Y0-NTU-1018）。待 BB-C"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜home3d.js 在家選單拿掉「去學校」；game3d.js PLACE_LIST 在 HOME.baseMode 時不列台大校園裡的地方（NTU_ZONES）。劇情地點在台大的事件轉 AA（Q-Y0-NTU-1018）。待 BB-C",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "Q-Y0-NTU-1018",
@@ -23496,7 +23544,7 @@
    "title": "衝刺班教室背景請使用者生成（使用者 10-18：「衝刺班大家隔一個位置坐，抽屜都是書，桌上也是書的圖，大家都在念書」）",
    "area": "v0",
    "owner": "BB",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y0S2",
@@ -23510,7 +23558,7 @@
    },
    "source": "使用者 2026-10-18 07:5x",
    "authorized": "使用者直接要求（D104、D97）",
-   "next": "【LAWWW-C 11-05 04:0x】BB-C 04:0x 把 7 張（cram_class、teishoku_dusk、第 113 組五張吉他店）提示詞給使用者，使用者回「我現在沒有要生圖」→ 暫停（UA-BB-1105-NO-IMG-NOW）；恢復：使用者說要生圖或傳圖；下次檢查 11-12 或下一次發布前；不催，遊戲照用深色底／3D 畫面，不擋發布｜【LAWWW-C 2026-10-21 稽核 C】等圖：BB 確認提示詞已給使用者（D97 純場景），圖到了放 bg_approved/cram_class 交 LAWWW 換（RH-C 系列） ｜ BB 寫提示詞給使用者 → bg_approved/cram_class → LAWWW 換（RH-C 系列、ev_y0_cram_class 的 bg）",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 11-05 04:0x】BB-C 04:0x 把 7 張（cram_class、teishoku_dusk、第 113 組五張吉他店）提示詞給使用者，使用者回「我現在沒有要生圖」→ 暫停（UA-BB-1105-NO-IMG-NOW）；恢復：使用者說要生圖或傳圖；下次檢查 11-12 或下一次發布前；不催，遊戲照用深色底／3D 畫面，不擋發布｜【LAWWW-C 2026-10-21 稽核 C】等圖：BB 確認提示詞已給使用者（D97 純場景），圖到了放 bg_approved/cram_class 交 LAWWW 換（RH-C 系列） ｜ BB 寫提示詞給使用者 → bg_approved/cram_class → LAWWW 換（RH-C 系列、ev_y0_cram_class 的 bg）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -23526,7 +23574,6 @@
      "note": "等使用者生圖"
     }
    ],
-   "resumeWhen": "使用者照 BB 給的提示詞（D97）生成衝刺班新圖，BB 檢查通過放 bg_approved/cram_class 交 LAWWW 換",
    "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
    "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停",
    "waitUser": {
@@ -23570,7 +23617,10 @@
       "why": "BB 的要圖項目；BB-C 11-12 03:14 已接班，由 BB 自己問"
      }
     ]
-   }
+   },
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：等待其他AI／素材）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "BUG-ECON-AWAY-LAW-1018",
@@ -23743,7 +23793,7 @@
    "title": "10/17 15:30 辦完舊序章離校：y0_kx_leave 十則私訊改成演出來的電話（AA_296；ev_y0_e30 演完直接接）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -23757,7 +23807,10 @@
    },
    "source": "AA-C 1636a700（AA_296、DL-AA-1636a700）",
    "authorized": "D103（重要的事不能只用手機說）",
-   "next": "events.js ev_y0_e30 最後接 15:30 演出來的電話（AA 原句、「……蛤？」、掛掉旁白）；story3d y0_kx_leave 私訊拿掉（舊存檔收到的照留）；lifeline_g1、v0_e30 改。BB 測"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜events.js ev_y0_e30 最後接 15:30 演出來的電話（AA 原句、「……蛤？」、掛掉旁白）；story3d y0_kx_leave 私訊拿掉（舊存檔收到的照留）；lifeline_g1、v0_e30 改。BB 測",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "BUG-DATE-0831-1018",
@@ -23888,7 +23941,7 @@
    "title": "AA_303：使用者逐場確認可昕的劇情（舊序章那一段）：停點改 27 場、新增高雄三天兩夜與 2/15 她住進來、多場台詞換",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -23902,14 +23955,17 @@
    },
    "source": "AA-C 8aa33db0（AA_303、DL-AA-8aa33db0）",
    "authorized": "使用者七批選擇題",
-   "next": "【12:2x：retake_home（RH-M0 2/15、C0／C4／L6）5ac83dbc、E27 遲到電話 a60f111e 都接了；AA_303 全部整合】第 1 節停點、第 3 節日期卡、第 17 場 2/13（96cf3d97）；第 15 場高雄背景 kh_dome／kh_lotus_bench（f2f358aa）；第 2 節其他十場（子代理 85eea326，合併 0a8ccfdd，單元測試 299 支全過）。等 AA：retake_home 改 C0／C4／L6、加 RH-M0（2/15）；E27 遲到電話「我在水餃店了」要改句；換完還對不上的 6 處（見 AA304-QA2-1018）"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【12:2x：retake_home（RH-M0 2/15、C0／C4／L6）5ac83dbc、E27 遲到電話 a60f111e 都接了；AA_303 全部整合】第 1 節停點、第 3 節日期卡、第 17 場 2/13（96cf3d97）；第 15 場高雄背景 kh_dome／kh_lotus_bench（f2f358aa）；第 2 節其他十場（子代理 85eea326，合併 0a8ccfdd，單元測試 299 支全過）。等 AA：retake_home 改 C0／C4／L6、加 RH-M0（2/15）；E27 遲到電話「我在水餃店了」要改句；換完還對不上的 6 處（見 AA304-QA2-1018）",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "AA304-QA2-1018",
    "title": "AA_304：QA 劇本第二份（10/17→8/13）審閱 18 列，給 LAWWW 12 列",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -23923,14 +23979,17 @@
    },
    "source": "AA-C 8fcc2c7e（AA_304、DL-AA-8fcc2c7e）",
    "authorized": "使用者「照這份」、AA 定稿（D100）",
-   "next": "【12:2x a60f111e：AA_307 給 LAWWW 的句子都接了（2/13 遲到電話、8/30 開車與催促電話與結尾、7/25「早上那樣」、E06、E12 18:30 手機版、E35、E21o、K7）；5ac83dbc：retake_home 93f356cc（RH-M0、C0／C4／L6、6/24「她」、讀書在書桌）】5bf15ccb：第 1、2、10、12、16 列。4e5d4bec：第 3 列（11/6 17:20 約、17:45 醉月湖、她剛上完體育課）、第 13～15 列（7/25 在家版 07:30 開頭、客運版半小時＋一個人走了一整天、22:30 和好改電話 ev_y0_kh_madeup）、第 17、18 列（8/13）。第 11 列（6/24「她」）在 retake_home RH-C4，等 AA 交 retake_home 一起。第 8、9 列等使用者（AA 問）。另外 AA_303 換完還對不上的 6 處已問 AA（8/30 外校校門／公車／催促電話、7/25 客運版「下午那樣」、E06 修車訊息、E12 18:15 手機版舊台詞、E35「我在樓下等你」、E21o 字幕）"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【12:2x a60f111e：AA_307 給 LAWWW 的句子都接了（2/13 遲到電話、8/30 開車與催促電話與結尾、7/25「早上那樣」、E06、E12 18:30 手機版、E35、E21o、K7）；5ac83dbc：retake_home 93f356cc（RH-M0、C0／C4／L6、6/24「她」、讀書在書桌）】5bf15ccb：第 1、2、10、12、16 列。4e5d4bec：第 3 列（11/6 17:20 約、17:45 醉月湖、她剛上完體育課）、第 13～15 列（7/25 在家版 07:30 開頭、客運版半小時＋一個人走了一整天、22:30 和好改電話 ev_y0_kh_madeup）、第 17、18 列（8/13）。第 11 列（6/24「她」）在 retake_home RH-C4，等 AA 交 retake_home 一起。第 8、9 列等使用者（AA 問）。另外 AA_303 換完還對不上的 6 處已問 AA（8/30 外校校門／公車／催促電話、7/25 客運版「下午那樣」、E06 修車訊息、E12 18:15 手機版舊台詞、E35「我在樓下等你」、E21o 字幕）",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "AA305-OTHERS-1018",
    "title": "AA_305：其他人物逐場確認（舊序章那一段）：舊序章離校只告訴可昕、10/29 小福舊序章人物丙問、宿舍住到 10/31、舊序章人物甲不講冷笑話、系烤柚子帽、宿營夜遊、保齡球約戰、跨年舊序章人物丙擋人、2/13 群組",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -23944,7 +24003,7 @@
    },
    "source": "AA-C 1ab0a39f（AA_305、DL-AA-1ab0a39f）",
    "authorized": "使用者四批選擇題",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 驗收）｜ 【LAWWW-C 2026-10-21 10:0x UTC】AA-C 清查：已經從事件包做進開發分支，等 BB 驗收 ｜ bd64f560（df01b3a2）：第 5～7、10 節＋階梯（舊序章離校只告訴可昕、10/29 小福 ev_y0_xiaofu、退宿 10/31、便利貼在最後一箱、日期卡）；另外 10/23 soc_door 那步拿掉（窗口改 11/1～11/15）、E30_WAITED 不記。419b1298（c5e8695a 合併）：第 1～4、8、9 節台詞（宿營夜遊、9/1 被子、保齡球約戰、系烤柚子帽、跨年舊序章人物丙擋人、2/13 群組、舊序章人物甲不講冷笑話）。等 AA：12/31 兩句同開頭、旁白括號統一、法律系兩句像冷笑話、Y0S2 舊序章人物甲冷笑話招呼",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 驗收）｜ 【LAWWW-C 2026-10-21 10:0x UTC】AA-C 清查：已經從事件包做進開發分支，等 BB 驗收 ｜ bd64f560（df01b3a2）：第 5～7、10 節＋階梯（舊序章離校只告訴可昕、10/29 小福 ev_y0_xiaofu、退宿 10/31、便利貼在最後一箱、日期卡）；另外 10/23 soc_door 那步拿掉（窗口改 11/1～11/15）、E30_WAITED 不記。419b1298（c5e8695a 合併）：第 1～4、8、9 節台詞（宿營夜遊、9/1 被子、保齡球約戰、系烤柚子帽、跨年舊序章人物丙擋人、2/13 群組、舊序章人物甲不講冷笑話）。等 AA：12/31 兩句同開頭、旁白括號統一、法律系兩句像冷笑話、Y0S2 舊序章人物甲冷笑話招呼",
    "evidence": "bd64f560（df01b3a2）第 5～7、10 節＋階梯、419b1298（c5e8695a）第 1～4、8、9 節台詞；AA 後續句 e362b41a（12/31 開頭、法律系舊序章人物甲兩句）隨 v9.10.1 上線；AA-C 10-21 清查（企劃線 32be8cae）：「等 AA」已過時；總表 10:0x 改已整合待測試；AA_307 第 13～16 列已答，開發分支都有（下週小考／統計課坐第一排那個／今天讀到哪了？……我是說你／舊序章人物丙擋人），舊句 0 處（AA-C 10-21 清查）",
    "audit": [
     {
@@ -23953,7 +24012,10 @@
      "evidence": "bd64f560（df01b3a2）第 5～7、10 節＋階梯、419b1298（c5e8695a）第 1～4、8、9 節台詞；AA 後續句 e362b41a（12/31 開頭、法律系舊序章人物甲兩句）隨 v9.10.1 上線；AA-C 10-21 清查（企劃線 32be8cae）：「等 AA」已過時；總表 10:0x 改已整合待測試",
      "note": "可結案（待 BB 驗）"
     }
-   ]
+   ],
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "BUG-0830-EMPTYSTOP-1018",
@@ -24339,7 +24401,7 @@
    "title": "高雄三天兩夜兩張、衝刺班一張 CG 不要人物，改純場景（只有這三張；其他有人物的 CG 照原本要人物）",
    "area": "ART",
    "owner": "BB",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y0S2",
@@ -24353,7 +24415,7 @@
    },
    "source": "使用者 10-18 10:1x 對 BB（BB_00 287、311 行；BB_132 第 87 組）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接指示（前半）；後半待使用者確認",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；高雄兩張純場景 CG＝場景圖（使用者看）——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】線上就有：main src/data/events.js:2224-2228 ev_y0_kh3 背景 kh_dome、kh_lotus_bench（純場景）；衝刺班那張使用者取消（X37） ｜ 使用者 14:0x 選「只有這三張」：BB 擴大成「以後都先改純場景」作廢；下一班 BB 照純場景寫這三張的提示詞向使用者要；I09 節日 CG、I10 抓包 CG 照原本要人物",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；高雄兩張純場景 CG＝場景圖（使用者看）——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】線上就有：main src/data/events.js:2224-2228 ev_y0_kh3 背景 kh_dome、kh_lotus_bench（純場景）；衝刺班那張使用者取消（X37） ｜ 使用者 14:0x 選「只有這三張」：BB 擴大成「以後都先改純場景」作廢；下一班 BB 照純場景寫這三張的提示詞向使用者要；I09 節日 CG、I10 抓包 CG 照原本要人物",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -24362,9 +24424,9 @@
     "ack": "未派"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：等待其他AI／素材）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "CHAR-TEMPLATE",
@@ -24487,7 +24549,7 @@
    "title": "舊序章中秋系烤（E08，9/21 河濱）沒有 CG：生一張新的（舊序章人物甲戴柚子帽生火、舊序章人物丁拿手機拍），放在舊序章人物丁「（拿起手機）不要動。……好，再一張。」那一句",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -24501,7 +24563,7 @@
    },
    "source": "使用者 2026-10-18 14:1x：「烤肉沒接到cg」（附截圖）→ 選擇題選「生一張新的（建議）」",
    "authorized": "使用者直接選",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等圖：BB 把提示詞（D97：有人物單獨一輪、附舊序章人物甲、舊序章人物丁立繪）排進給使用者的 CG 清單；圖到了 LAWWW 照 next 三步接（存檔、CG_REGISTRY、ev_y0_e08 那一句前加 cg） ｜ 使用者 2026-10-18 14:3x：「Cg先記錄需要哪些 之後的帳號再補」——先記在清單（BLACK_BG_AUDIT 第 4 節），不催使用者；之後帳號補。LAWWW-C 14:1x 已給使用者提示詞（D97：有人物單獨一輪、附參考圖：舊序章人物甲、舊序章人物丁立繪＋法律系河濱 CG 當畫風參考）；收到圖：存 assets/cg/econ/cg_econ_bbq_pomelo.webp、adv3d.js CG_REGISTRY 加 cg_econ_bbq_pomelo、events.js ev_y0_e08 在那一句前加 {cg:'cg_econ_bbq_pomelo'}；法律系那張 CG-14 照舊只給法律系",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-21 稽核 C】等圖：BB 把提示詞（D97：有人物單獨一輪、附舊序章人物甲、舊序章人物丁立繪）排進給使用者的 CG 清單；圖到了 LAWWW 照 next 三步接（存檔、CG_REGISTRY、ev_y0_e08 那一句前加 cg） ｜ 使用者 2026-10-18 14:3x：「Cg先記錄需要哪些 之後的帳號再補」——先記在清單（BLACK_BG_AUDIT 第 4 節），不催使用者；之後帳號補。LAWWW-C 14:1x 已給使用者提示詞（D97：有人物單獨一輪、附參考圖：舊序章人物甲、舊序章人物丁立繪＋法律系河濱 CG 當畫風參考）；收到圖：存 assets/cg/econ/cg_econ_bbq_pomelo.webp、adv3d.js CG_REGISTRY 加 cg_econ_bbq_pomelo、events.js ev_y0_e08 在那一句前加 {cg:'cg_econ_bbq_pomelo'}；法律系那張 CG-14 照舊只給法律系",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -24510,9 +24572,11 @@
      "note": "使用者自己說之後再補"
     }
    ],
-   "resumeWhen": "使用者生成這張 CG（BB 照 D97 寫提示詞、向使用者要），BB 檢查通過交 LAWWW 接在舊序章人物丁「（拿起手機）不要動。」那一句",
    "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
-   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等使用者的圖"
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等使用者的圖",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：等待其他AI／素材）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "BUG-ADV-OVERLAP-1018",
@@ -24540,7 +24604,7 @@
    "title": "舊序章 10/12 長頸鹿拉花：店員看起來像穿藍色衣服的舊序章同學（照劇情應該是芷若站櫃台，名字只顯示「店員」）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -24554,7 +24618,10 @@
    },
    "source": "使用者 2026-10-18 14:2x：「咖啡店拉花 店員 好像是藍色衣服舊序章同學」；14:4x 補充：「咖啡店的店員你放到舊序章人物丙」",
    "authorized": "一般 bug",
-   "next": "真正原因（14:4x）：店員沒有立繪，店員說話時畫面留著上一句舊序章人物丙（「這是馬。」）的立繪、名字寫「店員」→ 看起來舊序章人物丙是店員。修法：店員兩句改 speaker heroine_02＋name:\"店員\"（events3d.js 支援 l.name），不記 FIRST_MET；3D 吧檯的一般店員也藏起來（hideClerks＋engine3d n.hidden，瀏覽器實演確認）。等 v9.10.2"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜真正原因（14:4x）：店員沒有立繪，店員說話時畫面留著上一句舊序章人物丙（「這是馬。」）的立繪、名字寫「店員」→ 看起來舊序章人物丙是店員。修法：店員兩句改 speaker heroine_02＋name:\"店員\"（events3d.js 支援 l.name），不記 FIRST_MET；3D 吧檯的一般店員也藏起來（hideClerks＋engine3d n.hidden，瀏覽器實演確認）。等 v9.10.2",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "BLACK-BG-AUDIT-1018",
@@ -24589,7 +24656,7 @@
    "title": "10/17 辦舊序章離校：捷運上打給可昕，講完跳回原本站的地方（咖啡店）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -24603,7 +24670,10 @@
    },
    "source": "使用者 2026-10-18 14:3x：「我舊序章離校的時候打給以昕說在捷運上，結果打完電話跳回遊戲，我人在咖啡店」",
    "authorized": "一般 bug",
-   "next": "修好（暫時）：econff3d.js 第 27 步 chain、events.js E30 after：電話講完黑幕直接接下一步（10/29 小福），不回 3D；使用者選「回臺北的家跟媽媽說」，那段台詞等 AA（E30-MOM-1018）"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜修好（暫時）：econff3d.js 第 27 步 chain、events.js E30 after：電話講完黑幕直接接下一步（10/29 小福），不回 3D；使用者選「回臺北的家跟媽媽說」，那段台詞等 AA（E30-MOM-1018）",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "E30-MOM-1018",
@@ -24876,7 +24946,7 @@
    "title": "舊序章黑畫面第一批四張純場景（使用者生）：以前的補習班櫃台、公館桌遊店、晚上的捷運車廂、晚上的路邊（講電話）",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -24890,7 +24960,7 @@
    },
    "source": "使用者 2026-10-18 15:3x：「又是黑畫面，可以叫我給cg」（截圖：一起去問補習班）",
    "authorized": "使用者直接指示",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；舊序章四張純場景背景＝場景圖（使用者看）——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 13:5x UTC】BB-C 第 94 組（e10b683a）接進：boardgame_gg、phone_street_night 到了＝四張都到（cram_counter、mrt_night 是第 93 組）；BB 畫面驗收 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：cram_counter、mrt_night 到了（E27b 2/14、E30 下午電話不再黑底）；還差 boardgame_gg、phone_street_night ｜ 【LAWWW-C 2026-10-21 稽核 C】等圖：BB 追使用者生這四張（提示詞 15:3x 已給）；收到放 assets/bg 後跑 node tools/story/black_bg_audit.js ｜ 15:3x 已給四張提示詞（D97 純場景一次四份、不附圖）。程式已接好：outings3d.js BG cram_counter／boardgame_gg／mrt_night／phone_street_night → assets/bg/<代號>.webp，檔案放進去就顯示（沒放＝深色底）。另外：在家的電話改用家裡的背景（events3d.js，不用新圖）。收到圖：存 assets/bg/、跑 node tools/story/black_bg_audit.js --md docs/handoff/BLACK_BG_AUDIT_1018.md",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；舊序章四張純場景背景＝場景圖（使用者看）——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 13:5x UTC】BB-C 第 94 組（e10b683a）接進：boardgame_gg、phone_street_night 到了＝四張都到（cram_counter、mrt_night 是第 93 組）；BB 畫面驗收 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：cram_counter、mrt_night 到了（E27b 2/14、E30 下午電話不再黑底）；還差 boardgame_gg、phone_street_night ｜ 【LAWWW-C 2026-10-21 稽核 C】等圖：BB 追使用者生這四張（提示詞 15:3x 已給）；收到放 assets/bg 後跑 node tools/story/black_bg_audit.js ｜ 15:3x 已給四張提示詞（D97 純場景一次四份、不附圖）。程式已接好：outings3d.js BG cram_counter／boardgame_gg／mrt_night／phone_street_night → assets/bg/<代號>.webp，檔案放進去就顯示（沒放＝深色底）。另外：在家的電話改用家裡的背景（events3d.js，不用新圖）。收到圖：存 assets/bg/、跑 node tools/story/black_bg_audit.js --md docs/handoff/BLACK_BG_AUDIT_1018.md",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -24900,9 +24970,9 @@
     }
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：等待其他AI／素材）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "SKIP-MSG-POP-1018",
@@ -24970,7 +25040,7 @@
    "title": "7/25 成績：收到成績簡訊的當下補習班落點還沒出來（見面一兩個小時後才出來）；客運版可昕不知道成績卻說「騙人，我看得到表」",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -24984,14 +25054,17 @@
    },
    "source": "使用者 2026-10-18 15:4x：「收到成績簡訊的當下補習班落點還沒出出來啦 等我們見面大概一兩個小時才出來」「而且畫面是我還在客運上 他不知道我的成績怎麼會說騙人我看得到表」",
    "authorized": "使用者直接指示",
-   "next": "【14:3x】AA-C 補：在家版「我的還好。」→「……『還好』是幾分。傳給我。」；客運版「（她走了。你在早餐店外面站了很久。）」 ｜ 【10-20 14:0x 開發分支】客運版：車上沒有落點表、「我的還好。」→「……好。等你到了再說。」、08:00 到站 → 早餐店 → 10:00 落點表 →「你從看到表到現在，都沒有看我。」；在家版 07:30 沒有落點、10:00 三句；lifeline_g6 寫死的照改。在家版「你騙人。我看得到表。」等 AA 換一句（已問 AA-C） ｜ LAWWW：AA_308 第 7 節客運版、在家版落點時間（lifeline_g6 寫死的改） ｜ 舊：下一班 AA 改 7/25 兩個版本（在家、客運）的台詞順序：落點在見面以後才出來；客運版那句改掉",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【14:3x】AA-C 補：在家版「我的還好。」→「……『還好』是幾分。傳給我。」；客運版「（她走了。你在早餐店外面站了很久。）」 ｜ 【10-20 14:0x 開發分支】客運版：車上沒有落點表、「我的還好。」→「……好。等你到了再說。」、08:00 到站 → 早餐店 → 10:00 落點表 →「你從看到表到現在，都沒有看我。」；在家版 07:30 沒有落點、10:00 三句；lifeline_g6 寫死的照改。在家版「你騙人。我看得到表。」等 AA 換一句（已問 AA-C） ｜ LAWWW：AA_308 第 7 節客運版、在家版落點時間（lifeline_g6 寫死的改） ｜ 舊：下一班 AA 改 7/25 兩個版本（在家、客運）的台詞順序：落點在見面以後才出來；客運版那句改掉",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-18 原話；events.js 7/25 成績（ev_y0_kh_*）",
     "acceptance": "落點出現在見面之後；客運版沒有「看得到表」的矛盾",
     "ack": "未派"
-   }
+   },
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "BUG-KH-HOMEFLASH-1018",
@@ -42752,10 +42825,10 @@
    "id": "STORY-KX-NCCU-MOVEIN-1103",
    "title": "可昕去外校宿舍前不該自己住在祐廷家；應該是當天搭高鐵上台北、祐廷去接她",
    "owner": "AA",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P1",
    "note": "使用者 11-03 08:4x（UA-LAWWW-1103-22；X164）：「可昕去外校宿舍前為什麼會自己住我家啦 有夠奇怪 他應該當天才搭高鐵上台北 直接我去接他就好」",
-   "next": "AA_607（企劃 2f0e87b16）已實作 8f4fcdd84（v0_e37、x81_law_e37 含舊存檔）→ BB 在 PC 看 8/30 接可昕",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜AA_607（企劃 2f0e87b16）已實作 8f4fcdd84（v0_e37、x81_law_e37 含舊存檔）→ BB 在 PC 看 8/30 接可昕",
    "xai": {
     "spec": "使用者 11-03 原話",
     "branch": "claude/story-planning",
@@ -42763,7 +42836,10 @@
     "receiver": "LAWWW",
     "ack": "SENT",
     "owner": "AA"
-   }
+   },
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "first": {
@@ -49528,7 +49604,7 @@
    "id": "BUG-ONETAP-DORM203-1107",
    "title": "src/onetap3d.js:38「回去睡覺」把「宿舍 203」寫死（舊序章是 412）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -49540,14 +49616,17 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 13:2x LAWWW-B】BB-B PASS（onetap_dorm_room_unit，6da721819）；CC 試玩第 5 件 FIXED。 ｜ 【11-07 13:3x LAWWW-B】33197ea4e：DM3.homeOf 的房號；tests/onetap_dorm_room_unit.js。BB 測。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
-   "sha": "33197ea4e"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【11-07 13:2x LAWWW-B】BB-B PASS（onetap_dorm_room_unit，6da721819）；CC 試玩第 5 件 FIXED。 ｜ 【11-07 13:3x LAWWW-B】33197ea4e：DM3.homeOf 的房號；tests/onetap_dorm_room_unit.js。BB 測。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "sha": "33197ea4e",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "BUG-LAW830-ATTEND-CARRY-1107",
    "title": "法律系 8/30 課表帶著舊序章的出席「缺 4 次」、標題寫「大一上（下學期）」",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -49559,14 +49638,17 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 14:5x LAWWW-B】BB-B Node PASS（attend_preterm，3957b071e）；瀏覽器下一輪。 ｜ 【11-07 13:5x LAWWW-B】修好 1af0ecb4c：CLS.rollStat 學期還沒開始＝0 次（原本 4 個點名週全算點過）、標題（下學期）→（還沒開學）；tests/attend_preterm_unit.js（修改前 2 FAIL）。BB 測 8/28→8/30 那一段的課表。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
-   "sha": "1af0ecb4c"
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【11-07 14:5x LAWWW-B】BB-B Node PASS（attend_preterm，3957b071e）；瀏覽器下一輪。 ｜ 【11-07 13:5x LAWWW-B】修好 1af0ecb4c：CLS.rollStat 學期還沒開始＝0 次（原本 4 個點名週全算點過）、標題（下學期）→（還沒開學）；tests/attend_preterm_unit.js（修改前 2 FAIL）。BB 測 8/28→8/30 那一段的課表。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "sha": "1af0ecb4c",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "Y0-920-GONGGUAN-GAP-1107",
    "title": "9/20 可昕說「走，去公館」，下一格就在宿舍，中間缺一句",
    "owner": "AA",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -49578,7 +49660,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 16:0x LAWWW-B】AA_726 e05_after 三句接在 E05「走，去公館。」之後（3b942474b）；BB-B 15:51 PASS（瀏覽器）。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【11-07 16:0x LAWWW-B】AA_726 e05_after 三句接在 E05「走，去公館。」之後（3b942474b）；BB-B 15:51 PASS（瀏覽器）。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
    "xai": {
     "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
     "branch": "claude/cool-heisenberg-o8kuqx",
@@ -49587,7 +49669,10 @@
     "ack": "SENT",
     "owner": "AA"
    },
-   "sha": "3b942474b"
+   "sha": "3b942474b",
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "Y0-E05-BIKE-LOCATION-1107",
@@ -50996,7 +51081,7 @@
    "id": "DLG-NO-ECON-REPEAT-1110",
    "title": "玩家選項、台詞不要一直提舊序章、舊序章考試；舊序章那一段有可昕，不寫「一個人」",
    "owner": "AA",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -51008,7 +51093,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 17:3x】AA 256bcdc42（AA_736）匯入：heroine_arcs、arc_invites、activity_scenes 白名單換 256bcdc42、重新匯入；含語彤第 2 場不指定店；heroine_arcs_unit／kx_movie_day 期待照新稿改；相關 12 支全過。不進 v9.10.24，下一版。 ｜ 【11-10 02:1x LAWWW-B】使用者 X287，截圖 docs/handoff/user_shots/1110_an_econ_alone.webp（以安 arcs：「會。念舊序章那一個多月，我一個人吃遍公館。」）。AA 掃 heroine_arcs、ladder、activity_scenes、invites 等玩家選項與祐廷的話：提到舊序章、舊序章考試的減少（同一場最多一個、整體大幅少）；和「舊序章那一段和可昕交往」矛盾的改掉。改完給 commit，LAWWW 重新匯入。",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【LAWWW 11-10 17:3x】AA 256bcdc42（AA_736）匯入：heroine_arcs、arc_invites、activity_scenes 白名單換 256bcdc42、重新匯入；含語彤第 2 場不指定店；heroine_arcs_unit／kx_movie_day 期待照新稿改；相關 12 支全過。不進 v9.10.24，下一版。 ｜ 【11-10 02:1x LAWWW-B】使用者 X287，截圖 docs/handoff/user_shots/1110_an_econ_alone.webp（以安 arcs：「會。念舊序章那一個多月，我一個人吃遍公館。」）。AA 掃 heroine_arcs、ladder、activity_scenes、invites 等玩家選項與祐廷的話：提到舊序章、舊序章考試的減少（同一場最多一個、整體大幅少）；和「舊序章那一段和可昕交往」矛盾的改掉。改完給 commit，LAWWW 重新匯入。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -51019,7 +51104,10 @@
    },
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": "256bcdc42",
-   "test": null
+   "test": null,
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：已整合待測試）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "BGN-AFTER-HOME-1110",
@@ -54020,7 +54108,7 @@
    "id": "ECON-NAV-TRAPS-1111",
    "title": "舊序章那一段（D99 ①：新遊戲→宿營→在學→10/17 舊序章離校→在家→舊序章考試→放榜→進法律系）會用到的場景「擋玩」巡檢（D141：走不到、坐不下、穿模、卡住、黑畫面），做法照 US-NAV-TRAPS-1111",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -54033,7 +54121,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【11-11 20:2x LAWWW 派】照美國那一包的方法（Node 出生點、互動點走得到、小孤島推進去出得來；雲端瀏覽器正式模型、黑畫面、JS 例外），區域照舊序章流程用到的（宿營河濱、舊序章上課的教室、宿舍、補習班、高雄家、外校…以 AA_269 第 6 節的事件為準），找到的用 patch 交",
+   "next": "【LAWWW-C 11-12 結案】取消：這一筆只和舊序章／外校有關，內容已經或即將從遊戲拿掉（CANON-NO-ECON-1112）。｜【11-11 20:2x LAWWW 派】照美國那一包的方法（Node 出生點、互動點走得到、小孤島推進去出得來；雲端瀏覽器正式模型、黑畫面、JS 例外），區域照舊序章流程用到的（宿營河濱、舊序章上課的教室、宿舍、補習班、高雄家、外校…以 AA_269 第 6 節的事件為準），找到的用 patch 交",
    "xai": {
     "from": "LAWWW",
     "to": "LAWWW2",
@@ -54042,7 +54130,10 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "（LAWWW-C 11-12 稽核補登）舊序章那一段（D99 ①：新遊戲→宿營→在學→10/17 舊序章離校→在家→舊序章考試→放榜→進法律系）會用到的場景「擋玩」巡檢（D141：走不到、坐不下、穿模、卡住、黑畫面），做法照 US-NAV-TRAPS-1111",
     "acceptance": "（LAWWW-C 11-12 稽核補登）照任務標題做到、相關 Node 測試通過；看得到的改動由 BB 在瀏覽器判"
-   }
+   },
+   "reason": "使用者 11-12 取消舊序章整段和外校（原狀態：進行中）",
+   "authorizedBy": "使用者 2026-11-12（UA-LAWWW-1112-32）",
+   "replacedBy": "CANON-NO-ECON-1112"
   },
   {
    "id": "VAC-NAV-TRAPS-1111",
