@@ -41,7 +41,7 @@ const canonCut=(f,s)=>{ if(f!=='src/data/r2y4b_events.js'||!s) return s; const a
 /* CANON-NO-ECON-1112 第四批（AA_880 #46、#47；AA_897 第 2 節）：可昕大四春假開車旅行（從女生宿舍樓下出發）、大四生日（帶到女生宿舍樓下）兩場整場換過、rom1016 週年那本的 p4 那一頁拿掉——兩邊都切掉不比（逐字對稿在 tests/r2y4b_events_unit.js、tests/kx_line_873_unit.js）*/
 const cut4=(f,s)=>{ if(!s) return s; if(f==='src/data/rom1016_events.js') return s.split('\n').filter(l=>!/^    (p4:'2025\.2\.2|\/\* p4（2025\.2\.2)/.test(l)).join('\n'); if(f!=='src/data/r2y4b_events.js') return s; const cut=(x,A,B)=>{ const a=x.indexOf(A), b=a>=0?x.indexOf(B,a):-1; return a>=0&&b>a?x.slice(0,a)+x.slice(b):x; };
   return cut(cut(cut(cut(s,'  kexin:{','  yutong:{'),'  /* ---------- 2-Y4-58 律師讀書小組','  /* ---------- 2-Y4-61 '),"  { id:'ev_kexin_trip_spring_y4'",'  /* ---------- 2-Y4-36 '),'  /* ---------- 2-Y4-38 ','  /* ---------- 2-Y4-39 '); };
-const fileCheck=(tag,f,rows0,total)=>{ const cur=cut4(f,barBack(f,read(f))), L=lit(cur), n=t=>L.filter(x=>x===t).length, rows=rows0.map(r=>Object.assign({},r,{new:LR.fwdS(r.new,f)}));
+const fileCheck=(tag,f,rows0,total)=>{ const cur=cut4(f,barBack(f,require('./canon898_1112.js').back(read(f))))/* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）學姊「班次，回去前發給你。」先換回舊句再比 */  /* （CANON-NO-ECON-1112 第四批合併：兩邊都算） */, L=lit(cur), n=t=>L.filter(x=>x===t).length, rows=rows0.map(r=>Object.assign({},r,{new:LR.fwdS(r.new,f)}));
   const bad=rows.filter(r=>n(r.new)!==r.count||n(r.old)!==0);
   check(tag+' '+f+'：'+rows.length+' 列的 new 各剛好 count 處（共 '+total+' 處）、old 不在了',rows.reduce((a,r)=>a+r.count,0)===total&&bad.length===0,J(bad.map(r=>[r.old,n(r.old),r.new,n(r.new)]).slice(0,4)));
   const ob=cut4(f,canonCut(f,show(BASE,f))); if(!ob){ console.log('（讀不到 '+BASE+' 的 '+f+'：不比重寫以前）'); return; }
