@@ -36,4 +36,15 @@ check('2. 南洋有指定站位（on、off 都有 x、z、yaw、lv）',!!FX&&['o
   check('12. 其他店下班：站回原本的位置',w.P.obj.position.x===0.5&&w.P.obj.position.z===5.5); }
 { const w=world('wenzhou',()=>true);
   check('13. 人不在南洋（別的區域）：不用指定站位',(()=>{ const sp=S.workSpot(w.GM,'cinema'); return !sp||sp.x!==FX.on.x||sp.z!==FX.on.z; })()); }
+{ /* 11-12 BB 再判：上班期間鏡頭釘在客人那側、和頭同高；人面向客人（+x）；下班放開 */
+  const calls=[]; global.THREE={Vector3:function(x,y,z){ this.x=x; this.y=y; this.z=z; }};
+  const w=world('xs_nanyang',()=>true); w.GM.E.cam={mode:'follow'}; w.GM.E.cinematic=(p,l)=>{ calls.push(['cine',p,l]); w.GM.E.cam.mode='cinematic'; }; w.GM.E.endCinematic=()=>{ calls.push(['end']); w.GM.E.cam.mode='follow'; };
+  S.workOn(w.GM,'cinema');
+  check('14. 南洋上班：人面向客人（yaw＝π/2，+x）',Math.abs(w.P.obj.rotation.y-Math.PI/2)<1e-9,w.P.obj.rotation.y);
+  const c=calls[0]; check('15. 上班：鏡頭釘在 (−1.2,1.6,0.8) 看 (−4.0,1.45,0.8)（在人的 +x 側、和頭同高、2.8 m）',!!c&&c[0]==='cine'&&c[1].x===-1.2&&c[1].y===1.6&&c[1].z===0.8&&c[2].x===-4.0&&c[2].y===1.45,JSON.stringify(calls));
+  w.GM.E.cam.mode='follow'; const re=S.workCam(w.GM); check('16. 劇情演完拉回跟隨鏡頭以後：再釘回去',re===true&&calls.filter(x=>x[0]==='cine').length===2);
+  const re2=S.workCam(w.GM); check('17. 鏡頭已經是劇情／釘著的：不搶',re2===false);
+  S.workOff(w.GM); check('18. 下班：放開鏡頭（endCinematic）',calls.some(x=>x[0]==='end')&&w.GM.E.cam.mode==='follow');
+  const w2=world('tz_yuehaochi',()=>true); w2.GM.E.cam={mode:'follow'}; let n2=0; w2.GM.E.cinematic=()=>{ n2++; }; S.workOn(w2.GM,'yue');
+  check('19. 其他店上班：不釘鏡頭',n2===0); }
 console.log(`\n結果：${fail?'FAIL':'ALL PASS'}（${pass}/${pass+fail}）`); process.exit(fail?1:0);

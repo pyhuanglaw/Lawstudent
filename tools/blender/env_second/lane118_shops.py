@@ -513,7 +513,7 @@ def finish(c):
     street = dict(side=sh['side'], door=dict(x=round(fx + (0.9 if Wst else -0.9), 3), z=cz, note='118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）'),
                   spawn_out=dict(x=round(fx + (1.3 if Wst else -1.3), 3), z=round(cz + 1.7, 3), yaw=0.0, note='出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）'))
     lay = dict(version=1, zone=f'l118_{c.sid}', shop=c.sid, name=c.T['name'], type=c.T['sub'], src='AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）',
-               bounds=dict(x0=c.X0, x1=c.X1, z0=c.Z0, z1=c.Z1), h=H, cam_dist=c.S.get('cam', 4.2), door=c.door, spawn=c.spawn, exits=c.exits, street=street,
+               bounds=dict(x0=c.X0, x1=c.X1, z0=c.Z0, z1=c.Z1), h=H, cam_dist=c.S.get('cam', 3.6), door=c.door, spawn=c.spawn, exits=c.exits, street=street,
                counter=c.counter, clerk=c.clerk, order=c.order, seats=c.seats, interact=c.inter, blocks=c.blocks)
     if getattr(c, 'cook', None): lay['cook'] = c.cook   # 第二個店員的站位（清州刀削麵門口削麵的師傅；AA_772）——選用欄位，沒有的店不寫
     sys.path.insert(0, os.path.join(L.ROOT, 'tools', 'lane118')); import it_fix; _st = it_fix.apply(c.sid, lay)   # L118-IT-REACH-1111：按鈕位置、走近點、半徑照 tools/lane118/it_fix.py（BB 在使用者電腦驗過的值；原本是遊戲程式裡的覆寫表）

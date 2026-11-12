@@ -323,7 +323,12 @@ const JOBS=(function(){
   /* 2026-11-12 BB FAIL（SHIFT_SHOTS_72fc／_18a3）：南洋戲院「店員旁邊 0.9 m」剛好在爆米花機、紙桶後面，跟隨鏡頭只看得到頭頂（或卡進護牆板）。
      這一間改用指定站位（S.WORK_FIX；座標 LAWWW2-C 11-12 照 nanyang_interior.py、nanyang_layout.js 給）：on＝飲料櫃北邊的空檯面後面、沿著櫃台看向店員那一頭；
      櫃台後面在導航上整條是擋住的（店員也站在裡面）＝直接放、不看 E.canStand。off＝下班站回中間走道、面向櫃台（原位背後是紅龍柱，鏡頭會被擋）；站不住就照原本的位置。*/
-  S.WORK_FIX={cinema:{on:{x:-4.0,z:0.8,yaw:Math.PI,lv:0},off:{x:0,z:-1.5,yaw:-Math.PI/2,lv:0}}};
+  /* 2026-11-12 BB 再判 FAIL（BB_255 6fab23bca7）：站位對了，但跟隨鏡頭從高處往下拍，上三分之一是櫃台頂、祐廷背對只露頭頂 → 上班期間人面向客人（yaw +x）、鏡頭釘在客人那側和頭同高（cam：LAWWW2-C 11-12 用 nanyang_lobby.glb 全部三角形做射線檢查，鏡頭到頭／胸／腰／左右肩都沒被擋；A 正面 2.8 m）。
+     劇情一段演完（endCinematic 拉回跟隨鏡頭）以後 S.tick 再釘回去（S.workCam）；下班（workOff）放開。*/
+  S.WORK_FIX={cinema:{on:{x:-4.0,z:0.8,yaw:Math.PI/2,lv:0},off:{x:0,z:-1.5,yaw:-Math.PI/2,lv:0},cam:{pos:[-1.2,1.6,0.8],look:[-4.0,1.45,0.8]}}};
+  S.workCam=function(GM){ const E=GM&&GM.E, P=E&&E.player, W=P&&P.jobWork, FX=W&&S.WORK_FIX[W.k], C=FX&&FX.cam; if(!C||!E.cinematic||typeof THREE==='undefined'||!THREE.Vector3) return false;
+    if(E.cam&&E.cam.mode==='cinematic') return false;   /* 劇情鏡頭正在用（或已經釘著）＝不搶 */
+    try{ E.cinematic(new THREE.Vector3(C.pos[0],C.pos[1],C.pos[2]),new THREE.Vector3(C.look[0],C.look[1],C.look[2])); W.cam=true; return true; }catch(e){ console.warn('JOBS.workCam',e); return false; } };
   S.workSpot=function(GM,k){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G) return null; const FX=S.WORK_FIX[k]; if(FX&&FX.on&&G.zone===shop(k).zone) return Object.assign({},FX.on); let c=null; const cl=(E.npcs||[]).find(n=>n&&n.clerk&&n.obj&&n.obj.visible!==false);
     if(cl) c={x:cl.obj.position.x,z:cl.obj.position.z,yaw:cl.obj.rotation.y||0,lv:cl.lv|0}; else if(typeof SHOPLIFE!=='undefined'&&SHOPLIFE.clerkSpot){ try{ c=SHOPLIFE.clerkSpot(G.zone,E); }catch(e){ c=null; } }
     if(!c) return null; const rx=Math.cos(c.yaw), rz=-Math.sin(c.yaw), can=(x,z)=>!E.canStand||E.canStand(x,z,0.32,c.lv|0), solid=can(c.x,c.z);
@@ -335,8 +340,10 @@ const JOBS=(function(){
     if(typeof CHAR!=='undefined'&&CHAR.carryOff){ try{ W.carry=CHAR.carryOff(P.obj); }catch(e){ console.warn('JOBS.workOn',e); } }
     let sp=null; try{ sp=S.workSpot(GM,k); }catch(e){ sp=null; }
     if(sp&&E.placeAt){ W.from={x:P.obj.position.x,z:P.obj.position.z,yaw:P.obj.rotation.y,lv:P.lv|0}; E.placeAt(P,sp.x,sp.z,sp.lv|0); P.obj.rotation.y=sp.yaw; }
+    S.workCam(GM);
     return true; };
   S.workOff=function(GM,stay){ const E=GM&&GM.E, P=E&&E.player, W=P&&P.jobWork; if(!W) return false; P.jobWork=null;
+    if(W.cam&&E.endCinematic&&E.cam&&E.cam.mode==='cinematic'){ try{ E.endCinematic(); }catch(e){ console.warn('JOBS.workOff cam',e); } }
     if(W.carry){ try{ W.carry(P.obj); }catch(e){ console.warn('JOBS.workOff',e); } }
     if(!stay&&W.from&&E.placeAt&&P.obj){ const FX=S.WORK_FIX[W.k], o=FX&&FX.off&&(!E.canStand||E.canStand(FX.off.x,FX.off.z,0.32,FX.off.lv|0))?FX.off:W.from; E.placeAt(P,o.x,o.z,o.lv|0); P.obj.rotation.y=o.yaw; }
     return true; };
@@ -682,7 +689,7 @@ const JOBS=(function(){
   // ---------- 每一格（STORY.TICKS）----------
   let lastZone=null, planT=-1;
   S.busy=GM=>{ const E=GM.E; return S.running||(GM.D&&GM.D.active)||(typeof ADV!=='undefined'&&ADV.active)||!!(E&&E.player&&E.player.busy)||(typeof EVENTS!=='undefined'&&!!EVENTS.running); };
-  S.tick=function(GM){ const G=GM&&GM.G; try{ S.workHeal(GM); }catch(e){ console.warn('JOBS.workHeal',e); } if(G&&G.zone==='linze'){ try{ S.posterSync(GM); }catch(e){ console.warn('JOBS.poster',e); } } if(!G||!law(G)||!hasCal()) return false;
+  S.tick=function(GM){ const G=GM&&GM.G; try{ S.workHeal(GM); }catch(e){ console.warn('JOBS.workHeal',e); } if(S.running&&GM&&GM.E&&GM.E.player&&GM.E.player.jobWork&&!(typeof ADV!=='undefined'&&ADV.active)){ try{ S.workCam(GM); }catch(e){} } if(G&&G.zone==='linze'){ try{ S.posterSync(GM); }catch(e){ console.warn('JOBS.poster',e); } } if(!G||!law(G)||!hasCal()) return false;
     const t=Math.floor(now(G)*4); if(t!==planT){ planT=t; try{ S.track(G); S.plan(G); }catch(e){ console.warn('JOBS.plan',e); } }
     const k=S.ZONE_KEY[G.zone]; const entered=G.zone!==lastZone; lastZone=G.zone;
     if(entered&&k&&S.ap3(k)&&S.ap3(k).visitN!=null){ const N=S.rec(G)._meta.n; N[k]=(N[k]|0)+1; }   /* 來過山嵐書店幾次（AA_828：3 次以上店長換一句）*/
