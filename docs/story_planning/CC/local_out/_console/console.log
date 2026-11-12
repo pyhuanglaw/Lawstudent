@@ -549,3 +549,19 @@
 [01:22:34] [res] cpu=41% mem=36% (12.0/31.4 GB) chrome_testing=0  START FIRST_sunny_desk_r2
 [01:26:51] 正在跑：FIRST_sunny_desk_r2（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [01:29:21] [res] cpu=14% mem=33% (10.6/31.4 GB) chrome_testing=0  END FIRST_sunny_desk_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1e3b9ffec5..c7eba8c032  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:29:37] ==== END   FIRST_sunny_desk_r2  exit=1  410s   ====
+[01:29:40] memory 34% before starting SOFA_SOCLIB2F_r2 (0 running)
+[01:29:40] memory 34% before starting SOCLIB_UP_r2 (1 running)
+[01:29:40] ==== START SOFA_SOCLIB2F_r2  (probe @ 341436a25ed53942df4059d634d953a93e6ed988) ====
+[01:29:40] memory 34% before starting SOCLIB2F_TRAP_tap (2 running)
+[01:29:40] ==== START SOCLIB_UP_r2  (probe @ 341436a25ed53942df4059d634d953a93e6ed988) ====
+[01:29:40] ==== START SOCLIB2F_TRAP_tap  (probe @ 341436a25ed53942df4059d634d953a93e6ed988) ====
+[01:29:43] [res] cpu=0% mem=34% (10.8/31.4 GB) chrome_testing=0  START SOCLIB_UP_r2
+[01:29:43] [res] cpu=0% mem=34% (10.8/31.4 GB) chrome_testing=0  START SOCLIB2F_TRAP_tap
+[01:29:43] [res] cpu=0% mem=34% (10.8/31.4 GB) chrome_testing=0  START SOFA_SOCLIB2F_r2
+[01:29:43] worktree add 341436a25ed53942df4059d634d953a93e6ed988: invalid reference - fetching main and the commit itself
+[01:31:51] 正在跑：SOFA_SOCLIB2F_r2（已跑 2 分／上限 40 分）、SOCLIB_UP_r2（已跑 2 分／上限 20 分）、SOCLIB2F_TRAP_tap（已跑 2 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:32:47] [res] cpu=10% mem=46% (14.5/31.4 GB) chrome_testing=10  END SOCLIB_UP_r2
