@@ -1353,3 +1353,19 @@
 [21:41:48] solo item SSB_gg_fnexit waits: no new items start until the 2 running item(s) finish
 [21:42:49] 正在跑：SSB_wz1（已跑 18 分／上限 80 分）、SSB_wz2c（已跑 9 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:43:13] [res] cpu=1% mem=40% (12.7/31.4 GB) chrome_testing=5  END SSB_wz2c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       33cd1bde38..718516fb88  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:43:23] ==== END   SSB_wz2c  exit=1  618s   ====
+[21:43:26] solo item SSB_gg_fnexit waits: no new items start until the 1 running item(s) finish
+[21:47:49] 正在跑：SSB_wz1（已跑 23 分／上限 80 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:48:37] memory 42% before starting SHAOLA_425_order (1 running)
+[21:48:37] memory 42% before starting SHAOLA_425_gate (2 running)
+[21:48:37] ==== START SHAOLA_425_order  (probe @ 425ce265d597b72e3f23264e54a4a38af5f65f94) ====
+[21:48:37] ==== START SHAOLA_425_gate  (probe @ 425ce265d597b72e3f23264e54a4a38af5f65f94) ====
+[21:48:40] [res] cpu=3% mem=42% (13.2/31.4 GB) chrome_testing=5  START SHAOLA_425_order
+[21:48:40] [res] cpu=2% mem=42% (13.2/31.4 GB) chrome_testing=5  START SHAOLA_425_gate
+[21:48:40] worktree add 425ce265d597b72e3f23264e54a4a38af5f65f94: invalid reference - fetching main and the commit itself
+[21:52:49] 正在跑：SSB_wz1（已跑 28 分／上限 80 分）、SHAOLA_425_order（已跑 4 分／上限 45 分）、SHAOLA_425_gate（已跑 4 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:57:49] 正在跑：SSB_wz1（已跑 33 分／上限 80 分）、SHAOLA_425_order（已跑 9 分／上限 45 分）、SHAOLA_425_gate（已跑 9 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:59:07] [res] cpu=0% mem=49% (15.4/31.4 GB) chrome_testing=10  END SHAOLA_425_order
