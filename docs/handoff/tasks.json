@@ -53895,6 +53895,29 @@
     "to": "LAWWW",
     "ack": "LAWWW"
    }
+  },
+  {
+   "id": "HANDOFF-C-1112",
+   "title": "帳號 C 接班（11-12；帳號 A 來不及交班、用量到上限）",
+   "area": "HANDOFF",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "接班十四步：讀 ROLE_LAWWW、FACTS、帳號 A 的交接紀錄；check 異常、roles 12 項、loose 舊本機分支、userwork 逐條；接班確認",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 11-12 03:0x 對 LAWWW-C",
+   "authorized": "使用者直接要求",
+   "evidence": "",
+   "sha": ""
   }
  ]
 }
