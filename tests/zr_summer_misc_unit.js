@@ -93,7 +93,7 @@ const queued=th=>[].concat(...(PHONE.rec(H.G).q||[]).map(q=>(q.items||[]).filter
     const w26=[11.5,13,19.5,21].map(h=>shift('2026-08-26',h)), w27=shift('2026-08-27',19.5), w28=[shift('2026-08-28',11.5),shift('2026-08-28',19.5)];
     check('A4. 作息：2026-08-26（三）回臺北那天沒有 Café 的班（早班、晚班都沒有）；8/27（四）19:00 晚班、8/28（五）早班晚班照常',w26.every(x=>x!=='cafe/barista')&&w27==='cafe/barista'&&w28.every(x=>x==='cafe/barista'),J({w26,w27,w28}));
     setup('2026-07-24',17.9,{flags:{dating_heroine_02:true}}); SOCIAL.remember(ZR,'FIRST_MET',''); VAC.rec(H.G).reg['C08@Y1']='done'; runPhone(17.9,21.2);
-    check('A4. 7/24 回國當天：「回來了？……我 26 號回臺北。」，還沒約',txt('p:'+ZR).includes('回來了？……我 26 號回臺北。')&&!OUT.get(H.G,'vac_C08@Y1_re_heroine_02'));
+    check('A4. 7/24 回國當天：「回來了？我 26 號才回臺北。」，還沒約',txt('p:'+ZR).includes('回來了？我 26 號才回臺北。')&&!OUT.get(H.G,'vac_C08@Y1_re_heroine_02'));
     at('2026-08-25',20.9); runPhone(20.9,21.2); const q1=OUT.get(H.G,'vac_C08@Y1_re_heroine_02');
     check('A4. 8/25 21:00 不約（她還在台中）',!q1&&!txt('p:'+ZR).includes('明天我十點下班。'),J(q1));
     at('2026-08-26',20.9); runPhone(20.9,21.2); const q2=OUT.get(H.G,'vac_C08@Y1_re_heroine_02');

@@ -53,7 +53,7 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
     for(const z of ['library','wancai','campus']){ fresh(D4-2,15,z,{}); said=[]; await STORY._v1.talkSis(GM,sisN);
       check('9/4 以前（'+z+'）：只有「（她在看手機，沒有抬頭。）」，不算對話、不記關係（AA-C 2026-10-18 SIS-W1 第 ① 點）',JSON.stringify(lines())===JSON.stringify(['（她在看手機，沒有抬頭。）'])&&!G.flags.met_sis&&!SOCIAL.has('heroine_05','FIRST_MET')&&!((SOCIAL.rel('heroine_05').talked|0)>0),JSON.stringify(lines())); } }
   /* 社博・法服的攤位（AA_218 17-3；AA-C 09:50：做過 W1＝主版本、沒做過＝合併版）*/
-  const expo=ev('ev_sis_club_expo'), COMMON=['喔，學弟，她是我們前任社長。','以前的事了。我現在大四，在準備研究所。','隔週的禮拜六有法律服務，民眾會來問問題。會累。可是有一些事情，只有在那裡才會知道。','（你直接拿起報名表寫了名字。）','這麼快？……好啊，歡迎。'];
+  const expo=ev('ev_sis_club_expo'), COMMON=['喔，學弟，她是我們前任社長。','以前的事了。我現在大四，在準備研究所。','隔週的禮拜六有法律服務，民眾會來問問題。會累。可是有一些事情，只有在那裡才會知道。','（你直接拿起報名表寫了名字。）','這麼快？好啊，歡迎。'];
   { fresh(STORY.dayOfKey('2025-09-30'),12,'campus',{SIS_W1:true,met_sis:true}); SOCIAL.meet('heroine_05','campus'); relCalls=[]; await EVENTS.run(expo); const L=lines();
     check('社博主版本（做過 W1）：「學弟？」（AA_313 6-4：FAMILIAR 以前不叫名字）「這我直屬學弟，我來跟他講。」→ 學長「前任社長」→ 她大四、法律服務 → 寫報名表；記 SIS_CLUB_EXPO、加入法服；不再加 +3',JSON.stringify(L)===JSON.stringify(['（椰影大道上一整排帳篷。你走到法服的攤位前。）','學弟，要不要聽一下？我們是法律服務社——','（站在帳篷前面那個綁馬尾的人轉過來，看到你。）','學弟？','這我直屬學弟，我來跟他講。'].concat(COMMON))&&G.flags.SIS_CLUB_EXPO===true&&G.flags.lawclub===true&&!relCalls.some(([id])=>id==='sis')&&EVENTS.check(expo)===false,JSON.stringify(L)); }
   { fresh(STORY.dayOfKey('2025-09-30'),12,'campus',{}); relCalls=[]; await EVENTS.run(expo); const L=lines();
@@ -65,7 +65,7 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
     check('Q1 第 4 週（第 6 天起）才觸發',a===false&&b===true&&CALENDAR.termOf(6).week===4,JSON.stringify({a,b,week:CALENDAR.termOf(6).week})); }
   /* ---------- Z2 ---------- */
   { const e=ev('ev_zhiruo_ge_group'); const fri=dayOfWeek(4,5); fresh(fri,12.3,'putong',{dating_kexin:true}); picks=['網拍']; await EVENTS.run(e); const L=lines();
-    check('Z2 「網拍標錯價」之後芷若的兩句，再接收尾（AA_207 §2、附錄：「標錯價喔？……原來你們上課會講這個。」、收尾「好，那我把你拉進群組，報告的事群組講。」；開場沒見過的版本「不好意思，你是法律系的嗎？剛剛點名有聽到。」）',L[0]==='不好意思，你是法律系的嗎？剛剛點名有聽到。'&&L.includes('標錯價喔？我看過那種新聞。原來你們上課會講這個。')&&L.includes('……好，這個可以拍成短片。我剪片。你負責講。')&&L[L.length-1]==='好，那我把你拉進群組，報告的事群組講。',JSON.stringify(L));
+    check('Z2 「網拍標錯價」之後芷若的兩句，再接收尾（AA_207 §2、附錄：「標錯價喔？……原來你們上課會講這個。」、收尾「好，那我把你拉進群組，報告的事群組講。」；開場沒見過的版本「不好意思，你是法律系的嗎？剛剛點名有聽到。」）',L[0]==='不好意思，你是法律系的嗎？剛剛點名有聽到。'&&L.includes('標錯價喔？我看過那種新聞。原來你們上課會講這個。')&&L.includes('好，這個可以拍成短片。我剪片。你負責講。')&&L[L.length-1]==='好，那我把你拉進群組，報告的事群組講。',JSON.stringify(L));
     STORY.phoneRules(GM); G.hour+=0.3; PHONE.tick(G); const T=PHONE.thread(G,'g:ge_econ');
     check('Z2 加入小組群組，她的第一則「我負責剪片。不要叫我上台。」',PHONE.inGroup(G,'ge_econ')&&T.length===1&&T[0].from==='heroine_02'&&T[0].text==='我負責剪片。不要叫我上台。',JSON.stringify(T.map(m=>m.text)));
     fresh(fri,12.3,'putong'); picks=['報告很爛']; await EVENTS.run(e); check('Z2 另一個加入的選項：沒有「網拍」那兩句、照樣加入',!lines().some(t=>/標錯價喔/.test(t))&&G.flags.ge_group_zhiruo===true&&G.flags.geGroupDay===fri);
@@ -89,7 +89,7 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
   /* ---------- Q2 ---------- */
   { const e=ev('ev_ziqing_club'); const mon=dayOfWeek(5,1);
     for(const inv of [true,false]){ fresh(mon,19.2,'wancai',inv?{guitar_invite:true}:{}); await EVENTS.run(e); const L=lines();
-      const want=inv?'你是阿凱的室友？法律系那個？':'新人？……法律系的？坐那邊，零食自己拿。', other=inv?'新人？……法律系的？坐那邊，零食自己拿。':'你是阿凱的室友？法律系那個？';   /* AA_207 §5（BB_167 SC3 第 21 列）：第一次見面不用「欸不是」 */
+      const want=inv?'你是阿凱的室友？法律系那個？':'新人？法律系的？坐那邊，零食自己拿。', other=inv?'新人？法律系的？坐那邊，零食自己拿。':'你是阿凱的室友？法律系那個？';   /* AA_207 §5（BB_167 SC3 第 21 列）：第一次見面不用「欸不是」 */
       check('Q2 '+(inv?'有':'沒有')+' guitar_invite：開場只有「'+want.slice(0,8)+'…」那一種，接自我介紹和「今天系上有程式比賽，一半的人跑去了，所以人很少。」（AA_207 附錄 §2）',L[0]===want&&!L.includes(other)&&L[1]==='我高子晴，資工系的。先講好：我們社團沒有人會彈，都是來吃東西的。'&&L[2]==='今天系上有程式比賽，一半的人跑去了，所以人很少。',JSON.stringify(L.slice(0,3))); }
     STORY.phoneRules(GM); G.hour=21.6; PHONE.tick(G); const T=PHONE.thread(G,'g:guitar');
     check('Q2 第一次去的晚上：進吉他社群組，她的第一則「新人自己報名字，不要讓我問。」（AA_573 拿掉「這不是問句」）',PHONE.inGroup(G,'guitar')&&T.length===1&&T[0].text==='新人自己報名字，不要讓我問。');

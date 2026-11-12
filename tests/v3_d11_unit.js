@@ -48,7 +48,7 @@ GM.money=function(n){ G.money+=n; };
   fresh(d19,21,'dorm'); G.flags.met_yu=true; run(21,22.2); const dm=txt('p:yu'), yc=OUT.get(G,'y2_yu_call');
   check('4. 都沒去、認識 Alison：22:00 她打電話來（接起來／先不接；AA_313 5-1 第 4 點，原本私訊三則）',!dm.length&&!!yc&&yc.ev==='ev_yu_together_call'&&yc.day===d19&&yc.h===22&&yc.verb==='接起來'&&yc.no==='先不接',JSON.stringify([dm,yc]));
   { said=[]; picks=[0]; await EVENTS.run(ev('ev_yu_together_call')); const Lc=L0();
-    check('4. 電話照稿（AA_313 5-1 第 4 點）：「（電話。她那邊很吵，有人在唱歌。）」「欸欸欸你今天怎麼沒來！」「……跟你說一件事。我跟阿哲在一起了。」「你不要笑。我聽得到。」→「恭喜。」→「謝謝！！……阿哲在旁邊，他叫你明天來燒臘店。」；YU_ZHE_TOLD＝call',JSON.stringify(Lc)===JSON.stringify(['（電話。她那邊很吵，有人在唱歌。）','Alison：欸欸欸你今天怎麼沒來！','Alison：……跟你說一件事。我跟阿哲在一起了。','Alison：你不要笑。我聽得到。','Alison：謝謝！！……阿哲在旁邊，他叫你明天來燒臘店。'])&&G.flags.YU_ZHE_TOLD==='call',JSON.stringify(Lc));
+    check('4. 電話照稿（AA_313 5-1 第 4 點）：「（電話。她那邊很吵，有人在唱歌。）」「欸欸欸你今天怎麼沒來！」「……跟你說一件事。我跟阿哲在一起了。」「你不要笑。我聽得到。」→「恭喜。」→「謝謝！！阿哲在旁邊，一直要搶電話。」；YU_ZHE_TOLD＝call',JSON.stringify(Lc)===JSON.stringify(['（電話。她那邊很吵，有人在唱歌。）','Alison：欸欸欸你今天怎麼沒來！','Alison：……跟你說一件事。我跟阿哲在一起了。','Alison：你不要笑。我聽得到。','Alison：謝謝！！阿哲在旁邊，一直要搶電話。'])&&G.flags.YU_ZHE_TOLD==='call',JSON.stringify(Lc));
     said=[]; picks=[1]; G.events.done.ev_yu_together_call=0; await EVENTS.run(ev('ev_yu_together_call')); check('4. 選「我早就知道了。」→「騙人。……你真的知道？」',L0()[L0().length-1]==='Alison：騙人。……你真的知道？',JSON.stringify(L0())); }
   fresh(d19,21,'dorm'); PHONE.join(G,'noodle_team','桌遊團'); const k1=STORY.knows; STORY.knows=id=>id==='zhe'; run(21,22.2); STORY.knows=k1;
   check('4. 都沒去、不認識 Alison、在桌遊團：22:00 阿哲的照片',txt('g:noodle_team').includes('zhe:📷（燒臘店的長桌。Alison 比了一個 YA。）'),JSON.stringify(txt('g:noodle_team')));

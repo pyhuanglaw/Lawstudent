@@ -64,8 +64,8 @@ GM.money=function(n){ G.money+=n; };
   { fresh(d12,19.5,'noodle',{}); const e=STORY.schedEnt(CHARACTERS.zhe,G); check('3. 那天晚上阿哲不在麵店（在籃球場練球）',e&&e.zone==null&&e.away==='在籃球場練球',JSON.stringify(e)); }
   // 4. 三種幫法
   const Z=ev('ev_zhe_court_y2'); const court=async(pick)=>{ fresh(d12,21,'campus',{}); R('zhe',...LV.FRI); said=[]; opts=[]; picks=[pick]; await EVENTS.run(Z); return L0(); };
-  let c=await court(0); check('4. 「我筆記借你。」→「你的筆記？……字好醜。」「他還是收下了。」；記 LENT_NOTES_Y2',c.slice(0,3).join('｜')==='阿哲：（籃球場，一個人投籃）教授說，期末再沒過，我就要重修。｜阿哲：重修的時間跟練球撞。｜阿哲：（投進）……沒事啦。'&&c.includes('阿哲：你的筆記？……字好醜。')&&c.includes('他還是收下了。')&&G.flags.LENT_NOTES_Y2===true&&SOCIAL.has('zhe','LENT_NOTES_Y2'),JSON.stringify(c));
-  c=await court(1); check('4. 「我陪你念。念完再去吃麵。」→「你要陪我念？」「他停了一下。」「……好。我請。」；記 STUDIED_WITH_ZHE',c.includes('阿哲：你要陪我念？')&&c.includes('他停了一下。')&&c.includes('阿哲：……好。我請。')&&SOCIAL.has('zhe','STUDIED_WITH_ZHE')&&G.flags.ZHE2==='study');
+  let c=await court(0); check('4. 「我筆記借你。」→「你的筆記？……字好醜。」「他還是收下了。」；記 LENT_NOTES_Y2',c.slice(0,3).join('｜')==='阿哲：（籃球場，一個人投籃）教授說，期末再沒過，我就要重修。｜阿哲：重修的時間跟練球撞。｜阿哲：（投進）沒事啦。'&&c.includes('阿哲：你的筆記？……字好醜。')&&c.includes('他還是收下了。')&&G.flags.LENT_NOTES_Y2===true&&SOCIAL.has('zhe','LENT_NOTES_Y2'),JSON.stringify(c));
+  c=await court(1); check('4. 「我陪你念。念完再去吃麵。」→「你要陪我念？」「他停了一下。」「好。我請。」；記 STUDIED_WITH_ZHE',c.includes('阿哲：你要陪我念？')&&c.includes('他停了一下。')&&c.includes('阿哲：好。我請。')&&SOCIAL.has('zhe','STUDIED_WITH_ZHE')&&G.flags.ZHE2==='study');
   c=await court(2); check('4. 「這個你要自己來。」→「嗯。我知道。」「他又投了一球。」「……你講話跟我爸一樣。」；沒有記憶、不扣分',c.includes('阿哲：嗯。我知道。')&&c.includes('他又投了一球。')&&c.includes('阿哲：……你講話跟我爸一樣。')&&G.flags.ZHE2==='self'&&!G.flags.LENT_NOTES_Y2);
   // 5. 不回
   const K=ev('ev_zhe_court_skip'); const sk=(day,flags)=>{ fresh(day,18,'noodle',flags); GM.npc.zhe={obj:{position:{x:0,y:0,z:0}},lv:0}; E.npcs=[GM.npc.zhe]; return EVENTS.check(K); };

@@ -54,7 +54,7 @@ GM.money=function(n){ G.money+=n; };
   const play=async(flags,pick)=>{ fresh(termDay('Y2S1',10,2),20.8,'noodle',flags); R('heroine_03',...LV.FRI); meet('heroine_03'); said=[]; opts=[]; picks=[pick]; await EVENTS.run(Y10); return {L:linesN(),O:opts[0]||[]}; };
   let r=await play({},'為什麼不說');
   check('3. 一般版：「大一期中考那週，你有沒有發現我不在圖書館？」→ 顧店、社會學理論 → 「後來那科是我考最好的一科。很好笑。」',r.L[0]==='語彤：大一期中考那週，你有沒有發現我不在圖書館？'&&r.L[1]==='語彤：阿姨扭到手。我每天顧店到打烊，在櫃台念社會學理論。客人都在看我念書。'&&r.L[2]==='語彤：後來那科是我考最好的一科。很好笑。',JSON.stringify(r.L));
-  check('3. 大一下期中沒去過總圖：只有「妳那時候為什麼不說？」；選了＝「說了你要來幫我顧店嗎？」「……可以啊。」「你連蔥都不會切。」',r.O.length===1&&r.O[0]==='「妳那時候為什麼不說？」'&&r.L.slice(3).join('｜')==='語彤：說了你要來幫我顧店嗎？｜祐廷：……可以啊。｜語彤：你連蔥都不會切。',JSON.stringify(r));
+  check('3. 大一下期中沒去過總圖：只有「妳那時候為什麼不說？」；選了＝「說了你要來幫我顧店嗎？」「可以啊。」「你連蔥都不會切。」',r.O.length===1&&r.O[0]==='「妳那時候為什麼不說？」'&&r.L.slice(3).join('｜')==='語彤：說了你要來幫我顧店嗎？｜祐廷：可以啊。｜語彤：你連蔥都不會切。',JSON.stringify(r));
   r=await play({yutong_hospital:true,Y1_MID_LIB:180},'位子空著');
   check('3. 阿姨講過扭到手（yutong_hospital）：第一句「你那週來過麵店，阿姨跟你講了吧。」；去過總圖：多一個「我那週有注意到妳的位子空著。」→「……你有注意到。」、記住',r.L[0]==='語彤：你那週來過麵店，阿姨跟你講了吧。'&&r.O.length===2&&r.L.includes('語彤：……你有注意到。')&&SOCIAL.has('heroine_03','NOTICED_EMPTY_SEAT'),JSON.stringify(r));
   // 舊存檔：習慣記錄

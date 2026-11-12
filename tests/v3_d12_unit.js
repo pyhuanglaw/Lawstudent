@@ -115,6 +115,6 @@ GM.money=function(n){ G.money+=n; };
     run(17.2,21.8,0.3); check('4. 21:30 還沒去＝「（空碗疊成一座塔。）」',txt('g:noodle_team').includes('zhe:📷（空碗疊成一座塔。）'));
     const M=ev('ev_term_last_meal_y2s1'); fresh(e.day,19,'noodle',{noodleTableDay:3,YU_ZHE_TOLD:'msg'}); G.hour=Math.max(19,e.h+0.1); const ok=EVENTS.check(M); meet('heroine_01'); meet('heroine_03'); const k1=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01','heroine_03'].includes(id); said=[]; await EVENTS.run(M); STORY.knows=k1; L=lines();
     const W519=(G.weather==='rain'||G.weather==='typhoon')?'阿姨：吃完再走。外面在下雨。':'阿姨：吃完再走。';
-    check('4. 期末最後一頓（大二上）：（桌上多了一碟小黃瓜。沒有人點。）阿姨「吃完再走。」（AA_519 1-3；AA_467 第 1 節原本換成「吃好一點。」）；Alison 和阿哲坐一起；以安「大二上：完成」；語彤「考完了。……今天什麼都不想讀。」（AA_648 第 5 節取代「今天我是客人」）（AB65-3：AA_211 附錄 A 語彤一列）',ok&&L.includes('（桌上多了一碟小黃瓜。沒有人點。）')&&L.includes(W519)&&!L.some(t=>/吃好一點/.test(t))&&L.includes('（Alison 和阿哲坐在一起。）')&&L.includes('（以安在手帳上寫：「大二上：完成」。）')&&L.some(t=>/語彤：考完了。……今天什麼都不想讀。$/.test(t))&&!L.some(t=>/不用端/.test(t)),JSON.stringify(L)); }
+    check('4. 期末最後一頓（大二上）：（桌上多了一碟小黃瓜。沒有人點。）阿姨「吃完再走。」（AA_519 1-3；AA_467 第 1 節原本換成「吃好一點。」）；Alison 和阿哲坐一起；以安「大二上：完成」；語彤「考完了。今天什麼都不想讀。」（AA_648 第 5 節取代「今天我是客人」）（AB65-3：AA_211 附錄 A 語彤一列）',ok&&L.includes('（桌上多了一碟小黃瓜。沒有人點。）')&&L.includes(W519)&&!L.some(t=>/吃好一點/.test(t))&&L.includes('（Alison 和阿哲坐在一起。）')&&L.includes('（以安在手帳上寫：「大二上：完成」。）')&&L.some(t=>/語彤：考完了。今天什麼都不想讀。$/.test(t))&&!L.some(t=>/不用端/.test(t)),JSON.stringify(L)); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

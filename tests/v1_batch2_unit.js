@@ -105,7 +105,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     setup(); picks=['我不知道']; await EVENTS.run(e); const L=lines(), o=opts[0]||[];
     check('G 三個選項（AA_11 原文）',JSON.stringify(o)===JSON.stringify(['「我不知道。我才大一。但我知道誰會知道。」','「這種人通常只是嚇人。」','「我覺得不能用吧……」']),JSON.stringify(o));
     check('G 不出法律題目（沒有 legal 那一行、沒有問）',legalAsked===0&&!e.dialogue.some(l=>l.legal));
-    check('G 最後一句「今天的麵不用錢。……阿姨問的話，我就說你洗了碗。」（沒有「不要跟阿姨說是我說的」）',L[L.length-1]==='今天的麵不用錢。……阿姨問的話，我就說你洗了碗。'&&!L.some(t=>/不要跟阿姨說/.test(t)));
+    check('G 最後一句「今天的麵不用錢。阿姨問的話，我就說你洗了碗。」（沒有「不要跟阿姨說是我說的」）',L[L.length-1]==='今天的麵不用錢。阿姨問的話，我就說你洗了碗。'&&!L.some(t=>/不要跟阿姨說/.test(t)));
     STORY.phoneRules(GM); const q=KX('p:heroine_05');
     check('G 選「我知道誰會知道」：祐廷傳給學姊兩則（AA 2026-10-14 的原文，不用括號說明），學姊的回覆排在當晚 22:30',JSON.stringify(q.map(m=>m.from+'：'+m.text))===JSON.stringify(['player：學姊，想請問一件事。麵店的阿姨被客人說吃壞肚子，要賠三萬。','player：客人還錄了跟阿姨吵架的聲音，說要告。這種事可以去法服問嗎？'])&&G.phone.q.some(x=>x.tag==='sis_yutong'&&x.day===80&&Math.abs(x.h-22.5)<1e-6),JSON.stringify(q.map(m=>m.text)));
     check('G 語彤第二句拆成兩句（AA：一句 40 字以內）',L.includes('上週有客人說他在我們店吃壞肚子，要我阿姨賠三萬。')&&L.includes('他還錄了跟我阿姨吵架的聲音，說要拿去告。')&&L.every(t=>[...t].length<=40),JSON.stringify(L.filter(t=>[...t].length>40)));

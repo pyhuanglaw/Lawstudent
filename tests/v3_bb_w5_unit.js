@@ -39,7 +39,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(mon3,19,'wancai',{}); G.stage='law'; meet('heroine_04'); R('heroine_04',...LV.FAM);
   let e=CLS.clubEvent(G,GA); check('1. 第 3 週社課、有點熟：先演 Q7',!!e&&e.id==='ev_ziqing_lab_letter',e&&e.id);
   picks=['接妳爸']; said=[]; await EVENTS.run(e); let L=norm(lines());
-  check('1. 逐字＋「接妳爸的電話。」→「不要。」旁白「她把手機調成靜音。」「……改天講給你聽。」、LAB_LETTER',L[0]==='（把手機蓋在桌上）教授寄信。叫我進他的實驗室。'&&L[4]==='……好，這題我不會。你是法律系的，你幫我判。'&&L[5]==='不要。'&&L[6]==='她把手機調成靜音。'&&L[7]==='……改天講給你聽。'&&SOCIAL.has('heroine_04','LAB_LETTER')&&G.flags.LAB_LETTER_DAD,JSON.stringify(L));
+  check('1. 逐字＋「接妳爸的電話。」→「不要。」旁白「她把手機調成靜音。」「……改天講給你聽。」、LAB_LETTER',L[0]==='（把手機蓋在桌上）教授寄信。叫我進他的實驗室。'&&L[4]==='好，這題我不會。你是法律系的，你幫我判。'&&L[5]==='不要。'&&L[6]==='她把手機調成靜音。'&&L[7]==='……改天講給你聽。'&&SOCIAL.has('heroine_04','LAB_LETTER')&&G.flags.LAB_LETTER_DAD,JSON.stringify(L));
   fresh(mon3,19,'wancai',{}); G.stage='law'; meet('heroine_04'); R('heroine_04',...LV.ACQ); check('1. 只是認識不演',!CLS.clubEvent(G,GA));
   fresh(termDay('Y2S1',4,1),19,'wancai',{}); G.stage='law'; meet('heroine_04'); R('heroine_04',...LV.FAM); check('1. 第 4 週不演',!CLS.clubEvent(G,GA));
   // P3

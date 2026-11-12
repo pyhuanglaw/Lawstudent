@@ -69,7 +69,7 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     { fresh(DK('2025-09-08'),23.5,'dorm',{LAW_START_DAY:-18,MAIN_D1:-13}); check('K1 還沒 introDone 沒有',!EVENTS.sleepEvent()); }
     /* sleepNow 裡演 */
     fresh(DK('2025-09-08'),23.5,'dorm',W1); withKai(); picks=['我明天第一堂有課']; await STORY.sleepNow(GM,7.5);
-    const L=lines(); check('K1 睡覺時演：旁白（BB_95 原文）→ 選項 → 阿凱「（頭沒回）……喔。」',L[0]==='凌晨三點。阿凱的螢幕很亮，鍵盤很吵。你明天第一堂就有課。'&&L[1]==='（頭沒回）……喔。'&&JSON.stringify(opts[0])===JSON.stringify(['「阿凱，我明天第一堂有課。」','（翻身，用棉被蓋住頭）','（戴耳塞）']),JSON.stringify({L,o:opts[0]}));
+    const L=lines(); check('K1 睡覺時演：旁白（BB_95 原文）→ 選項 → 阿凱「（頭沒回）喔。」',L[0]==='凌晨三點。阿凱的螢幕很亮，鍵盤很吵。你明天第一堂就有課。'&&L[1]==='（頭沒回）喔。'&&JSON.stringify(opts[0])===JSON.stringify(['「阿凱，我明天第一堂有課。」','（翻身，用棉被蓋住頭）','（戴耳塞）']),JSON.stringify({L,o:opts[0]}));
     check('K1 畫面是凌晨三點（標題 03:00），演完照常醒在隔天早上（9/9 07:30）',titles[0]==='03:00'&&G.day===DK('2025-09-09')&&Math.abs(G.hour-7.5)<0.01,JSON.stringify({titles,day:G.day,hour:G.hour}));
     check('K1 記下選了什麼、哪一晚（kaiScreenChoice 0、kaiScreenDay 9/8）；只一次',G.flags.kaiScreenChoice===0&&G.flags.kaiScreenDay===DK('2025-09-08')&&(G.hour=23,!EVENTS.sleepEvent()));
     /* 說了 → 隔天晚上換鍵盤 */
