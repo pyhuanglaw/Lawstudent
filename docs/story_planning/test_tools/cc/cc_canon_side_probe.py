@@ -79,10 +79,16 @@ async def part_open(pg, cdp):
 
 
 async def part_pe(pg, cdp):
+    # 11-13 PC CANON_JACKET_MODEL：9/1 讀檔以後 dayItems 沒有體育＝探針只看一天。改成先掃 9/1～10/27 每一天（CLS.dayItems(G, day)），挑第一個有體育的日子再讀檔
     await D.load_zone(pg, cdp, 'dorm', '2025-09-01', 13.0, wait=8000)
-    R.setup('PE【前置／捷徑】讀檔到 2025-09-01（週一）13:00 宿舍')
+    scan = await pg.evaluate("(()=>{ const G=GAME.G, d0=STORY.dayOfKey('2025-09-01'), out={hit:null, sample:[]}; for(let d=d0; d<d0+57; d++){ let its=[]; try{ its=CLS.dayItems(G,d)||[]; }catch(e){ out.err=String(e).slice(0,80); break; } if(out.sample.length<4&&its.length) out.sample.push([CALENDAR.dateOf(d).key, its.map(x=>x.c&&x.c.id)]); const it=its.find(x=>x.c&&String(x.c.id||'').startsWith('pe_')); if(it){ out.hit={key:CALENDAR.dateOf(d).key, t0:it.t0, ik:it.key}; break; } } return out; })()")
+    R.note('PE 掃體育課：%s' % J(scan))
+    if not R.check('FAIL_SETUP 檢查：PE 9/1～10/27 找得到有體育課的一天', bool(scan.get('hit')), J(scan)): return
+    hit = scan['hit']
+    await D.load_zone(pg, cdp, 'dorm', hit['key'], max(8.0, float(hit['t0']) - 1.0), wait=8000)
+    R.setup('PE【前置／捷徑】讀檔到 %s %.2f 宿舍（體育 %s 前 1 小時）' % (hit['key'], max(8.0, float(hit['t0']) - 1.0), hit['t0']))
     key = await pg.evaluate("(()=>{ try{ const it=CLS.dayItems(GAME.G).find(x=>x.c&&String(x.c.id||'').startsWith('pe_')); return it?it.key:null; }catch(e){ return null; } })()")
-    if not R.check('FAIL_SETUP 檢查：PE 這一天有體育課', bool(key), ''): return
+    if not R.check('FAIL_SETUP 檢查：PE 讀檔那一天有體育課', bool(key), J(hit)): return
     await L.close_panels(pg, cdp)
     await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
     await L.tap(pg, cdp, '#phoneTabs button[data-ptab="today"]'); await pg.wait_for_timeout(900)
