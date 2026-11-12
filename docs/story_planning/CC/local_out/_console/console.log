@@ -1038,3 +1038,12 @@
 [20:22:03] ==== START YUE_SIS_18a3  (probe @ 18a36664526d8ad28835fb924acb5438bd2ba2da) ====
 [20:22:06] [res] cpu=0% mem=45% (14.1/31.4 GB) chrome_testing=8  START YUE_SIS_18a3
 [20:22:39] [res] cpu=12% mem=45% (14.2/31.4 GB) chrome_testing=8  END HUD_LAND_f701
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b3fdc8232..e10bfcce9  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:22:46] ==== END   HUD_LAND_f701  exit=1  161s   ====
+[20:22:49] 正在跑：HUD_LAND_live（已跑 2 分／上限 10 分）、YUE_SIS_18a3（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:22:49] memory 46% before starting TUTOR_BACK (2 running)
+[20:22:49] ==== START TUTOR_BACK  (probe @ 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64) ====
+[20:22:52] [res] cpu=6% mem=47% (14.5/31.4 GB) chrome_testing=8  START TUTOR_BACK
+[20:23:26] [res] cpu=4% mem=44% (13.8/31.4 GB) chrome_testing=9  END HUD_LAND_live
