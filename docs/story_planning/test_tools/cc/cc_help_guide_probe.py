@@ -11,7 +11,7 @@ PARTS（逗號分隔，預設全部）：
   SET   同 FLOW 的讀檔 → 4 秒內到選單「設定」把「提示」關掉（真的點）→ 開手機、存檔、等 60 秒：一則都不能出、HINT_SEEN 不能記 → 打開 → 60 秒內還沒看過的要出。結束時設定改回打開。
   OLD   讀 OLD_FIX（預設 day51_1110，沒有 HINT_SEEN 的舊存檔，已經玩了一陣子）→ 開手機、存檔、等 100 秒：基本幾種都不能出；最多考試、沒錢各一次。
   DLG   同 FLOW 的讀檔 → 馬上開一段對話【捷徑 GAME.say，遊戲自己的對話框】停 15 秒：對話中不能出 → 按掉 → 15 秒內 free 要出。
-CC_02 清單 2026-11-12：1✓（讀檔時間＝存檔原本的；快上課用遊戲的跳過時間） 2✓（提示字從 HELP_TEXT.hints 讀，對照用字不寫死） 3✓（一次做一件、等 45 秒間隔） 4✓（按鈕照 id：#btnPhone、#btnMenu、data-tab、#setHints；存檔欄位按鈕照字找） 5n/a（不走路） 6✓（讀檔後等 FIRST_MS 4 秒、tick 每 30 格） 7✓ 8✓（門檻是 LAWWW 給的：每種一次、不重複、關掉不出、舊存檔不連跳、劇情中不出；顯示秒數只記不判） 9n/a（截圖要看提示條，不藏東西） 10✓（條件事件關掉，免得劇情把提示擋住） 11✓ 12✓（每一則記種類、遊戲時間、真實時間、顯示秒數、截圖檔名） 13✓（捷徑都標【捷徑】寫是哪個遊戲函式；r2：FLOW 從 7:30 開始〔r1 9:05 已在上課沒有快上課可跳〕、NEW 15 分鐘〔r1 6 分鐘還在宿營〕）
+CC_02 清單 2026-11-12：1✓（讀檔時間＝存檔原本的；快上課用遊戲的跳過時間） 2✓（提示字從 HELP_TEXT.hints 讀，對照用字不寫死） 3✓（一次做一件、等 45 秒間隔） 4✓（按鈕照 id：#btnPhone、#btnMenu、data-tab、#setHints；存檔欄位按鈕照字找） 5n/a（不走路） 6✓（讀檔後等 FIRST_MS 4 秒、tick 每 30 格） 7✓ 8✓（門檻是 LAWWW 給的：每種一次、不重複、關掉不出、舊存檔不連跳、劇情中不出；顯示秒數只記不判） 9n/a（截圖要看提示條，不藏東西） 10✓（條件事件關掉，免得劇情把提示擋住） 11✓ 12✓（每一則記種類、遊戲時間、真實時間、顯示秒數、截圖檔名） 13✓（捷徑都標【捷徑】寫是哪個遊戲函式；r3：NEW 收起自動打開的手機、FLOW 做一件等那一則出來再做下一件、顯示秒數記被誰換掉；r2：FLOW 從 7:30 開始〔r1 9:05 已在上課沒有快上課可跳〕、NEW 15 分鐘〔r1 6 分鐘還在宿營〕）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=HELP,NEW,FLOW,SET,OLD,DLG] [FIX=tests/fixtures/user_save_day36_1105.json] [OLD_FIX=…day51_1110.json] [NEW_MIN=15] [FLOW_MIN=14] [FLOW_H=7.5] python3 cc_help_guide_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -46,7 +46,7 @@ APPLY = r"""(async(s)=>{ document.getElementById('titleScreen').classList.add('h
 HOOK = r"""(()=>{ const H=(typeof HELP_TEXT!=='undefined'&&HELP_TEXT.hints)||{}; const byTxt={}; for(const k in H) byTxt[H[k]]=k; window.__hk={log:[], seg:[], byTxt};
   if(!window.__hkW){ const t0=GAME.toast; GAME.toast=function(t,ms){ try{ const k=window.__hk.byTxt[String(t)]; window.__hk.log.push({t:performance.now(), k:k||null, txt:String(t).slice(0,60), day:GAME.G&&GAME.G.day, h:GAME.G&&+(+GAME.G.hour).toFixed(2), ms:ms||null}); }catch(e){} return t0.apply(this,arguments); }; window.__hkW=true;
     let cur=null; setInterval(()=>{ const el=document.getElementById('toast'); const vis=el&&!el.classList.contains('hide')&&getComputedStyle(el).display!=='none'&&getComputedStyle(el).opacity!=='0'; const tx=vis?(el.textContent||''):''; const now=performance.now();
-      if(!cur||cur.tx!==tx){ if(cur&&cur.tx) window.__hk.seg.push({tx:cur.tx.slice(0,60), k:window.__hk.byTxt[cur.tx]||null, s:+((now-cur.t)/1000).toFixed(1)}); cur={tx, t:now}; } },100); }
+      if(!cur||cur.tx!==tx){ if(cur&&cur.tx) window.__hk.seg.push({tx:cur.tx.slice(0,60), k:window.__hk.byTxt[cur.tx]||null, s:+((now-cur.t)/1000).toFixed(1), next:tx.slice(0,40)}); cur={tx, t:now}; } },100); }
   return Object.keys(H); })()"""
 STATE = r"""(()=>{ const G=GAME.G; return {log:window.__hk?window.__hk.log.filter(x=>x.k):[], seg:window.__hk?window.__hk.seg.filter(x=>x.k):[], pend:(typeof HINTS!=='undefined'&&HINTS._pending)?HINTS._pending():[],
   seen:JSON.stringify((G&&G.flags&&G.flags.HINT_SEEN)||null), now:performance.now(), day:G&&G.day, h:G&&+(+G.hour).toFixed(2), busy:(typeof HINTS!=='undefined')?HINTS.busy(GAME):null, on:(typeof HINTS!=='undefined')?HINTS.on(GAME):null}; })()"""
@@ -158,16 +158,19 @@ async def part_new(pg, cdp, res):
     await pg.evaluate(HOOK)
     R.setup('[NEW] 標題畫面按「從法律系開始」（真的開新遊戲），對話照第一個選項一路按，最多 %.0f 分鐘' % NEW_MIN)
     await pg.click('#btnNewLaw')
-    t_end = time.time() + NEW_MIN * 60; got = None; steps = 0
+    t_end = time.time() + NEW_MIN * 60; got = None; steps = 0; phone_closed = 0
     while time.time() < t_end:
         s = await st(pg)
         ks = [e['k'] for e in s['log']]
         if 'free' in ks: got = s; break
+        # HELP_GUIDE_new2：宿營那一晚有要回的訊息，遊戲自動打開手機（D103）→ 玩家看完會收起來；探針沒收＝卡在 day −18 22:40
+        if await pg.evaluate("(()=>{ const b=document.getElementById('btnPhoneClose'); return !!(b&&b.offsetParent); })()"):
+            await pg.evaluate("(()=>{ document.getElementById('btnPhoneClose').click(); })()"); phone_closed += 1; await pg.wait_for_timeout(800)
         await L.advance_dialogs(pg, cdp, R, lambda q: not q['dlg'] and not q['choices'], max_steps=15)
         steps += 1; await pg.wait_for_timeout(1500)
     s = await st(pg); ks = [e['k'] for e in s['log']]
     await snap(pg, 'new_end')
-    R.note('[NEW] 按了 %d 次；出過的提示 %s；遊戲時間 day %s %s；HINT_SEEN %s' % (steps, ks, s['day'], s['h'], s['seen']))
+    R.note('[NEW] 按了 %d 次（收起自動打開的手機 %d 次）；出過的提示 %s；遊戲時間 day %s %s；HINT_SEEN %s' % (steps, phone_closed, ks, s['day'], s['h'], s['seen']))
     R.check('[NEW] 開新遊戲到可以自由活動，「free」那一則出來（%.0f 分鐘內）' % NEW_MIN, 'free' in ks, J(s['log'][:5]))
     R.check('[NEW] free 之前沒有別的提示先出', not ks or ks[0] == 'free', J(ks))
     res['NEW'] = {'steps': steps, 'log': s['log'], 'seg': s['seg'], 'seen': s['seen']}
@@ -177,7 +180,7 @@ async def part_flow(pg, cdp, res):
     await pg.goto(URL); await L.wait_loaded(pg)
     r = await load_fix(pg, cdp, FIX, True, FLOW_H)
     R.setup('[FLOW] 【前置／捷徑】讀檔 %s 改到 %.1f（day %s %s %s）＋HINT_SEEN 設成 {}＝一則都還沒看過' % (FIX, FLOW_H, r['day'], r['hour'], r['zone']))
-    log = []; done = {}; t0 = time.time(); last_shown = time.time()
+    log = []; done = {}; t0 = time.time(); last_shown = time.time(); waiting = None; waited_at = 0
     order = ['phone', 'slot', 'cls', 'buy', 'save']
     while time.time() - t0 < FLOW_MIN * 60:
         new = await watch(pg, 2, 'flow', seen_log=log)
@@ -185,8 +188,11 @@ async def part_flow(pg, cdp, res):
         s = await st(pg); ks = {e['k'] for e in s['log']}
         if all(k in ks for k in TARGET): break
         if time.time() - last_shown < 40 or s['pend']: continue
+        if waiting and waiting not in ks and time.time() - waited_at < 70: continue   # HELP_GUIDE_b2：做完快上課馬上又去花錢，buy 排在前面先出、等到 cls 的時候課已經開始了
+        waiting = None
         nxt = next((k for k in order if k not in ks and done.get(k, 0) < (3 if k == 'cls' else 1)), None)
         if not nxt: continue
+        waiting = nxt; waited_at = time.time()
         done[nxt] = done.get(nxt, 0) + 1
         if nxt == 'phone':
             R.note('[FLOW] 開手機（真的按 #btnPhone）'); await do_phone(pg, cdp, 'flow')
