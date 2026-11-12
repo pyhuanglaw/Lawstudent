@@ -354,6 +354,8 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
             row['v']['7b_consistent'] = 'UNKNOWN'; row['m']['consistent'] = {'why': '店外看不到窗玻璃的網格（投影不到）或沒有進門那張'}
     elif '5' in PARTS:
         row['v']['5_parallax'] = 'UNKNOWN'; row['m']['parallax'] = {'why': '出口沒有 spawn／to'}
+    if '5' in PARTS and '7b_consistent' not in row['v']:   # BB-C 08:08：每間一定要有 consist 並排圖；沒有＝那間 ⑦b 沒驗，要看得出來
+        row['v']['7b_consistent'] = 'UNKNOWN'; row['m'].setdefault('consistent', {'why': '沒有店外鏡頭（出口沒有 spawn／to）或店外那一段中斷＝⑦b 沒驗、沒有並排圖'})
     errs = cons[c0:]; row['m']['console'] = errs[:5]
     row['v']['7_console'] = 'PASS' if not errs else 'FAIL'
     # 拼圖
