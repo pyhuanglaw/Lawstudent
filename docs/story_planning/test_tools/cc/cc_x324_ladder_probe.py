@@ -13,9 +13,9 @@ CASES：
   a 那一層真的演了（選單的選項字＝ladder 那一層，前置檢查 ladNext 回傳那一層 id）
   b 選了稿上那個選項（照字點）
   c SOCIAL.applyFx 收到的 fx＝稿（AA_816）那一格（新版）；回傳的差值＝{fam,trust,comf:fr; npcRom:love（romOk 才有）}
-  d 關係值選前→演完：fam 的變化方向和稿的 fr 一樣（可昕那 3 個：fam 要變少）
+  d 選單出現以後 SOCIAL.adjust 有稿上 fx 那一筆，而且關係值實際的變化＝那段時間每一筆 adjust 的加總（同一層還有別的加減，不能只看 fam 淨變化）
   舊版：c、d 預期 FAIL（D34）。另外每一 case：沒有 JS 例外、最後沒有對話框／選單開著、沒有 60 秒沒進展。
-CC_02 清單 2026-11-12：1✓ 2✓ 3✓ 4✓ 5✓ 6✓ 7✓ 8✓ 9n/a（只存 JSON 和最後一張畫面，不判截圖） 10✓ 11✓ 12✓ 13✓
+CC_02 清單 2026-11-12：1✓ 2✓ 3✓ 4✓ 5✓ 6✓（第二版：量之前把她的回話點完） 7✓ 8✓（第二版：d 改成 adjust 加總＝實際變化；第一版只看 fam 淨變化是量錯） 9n/a（只存 JSON 和最後一張畫面，不判截圖） 10✓ 11✓ 12✓ 13✓
 用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=new|old [CASES=FIVE,KX] [WHO=heroine_01,…] [LAYERS=1|2] [PICK=first|love] python3 cc_x324_ladder_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, copy, math
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -41,14 +41,16 @@ STUCK_S = 60
 KX = [('Y1S2', 'K2-L7', '「那就不要排了。」', 'meet'), ('Y2S2', 'K4-L6', '「法官要慢一點。」', 'video'), ('Y3S1', 'K5-L6', '「不用緊張啦。」', 'meet')]   # AA_816 裡可昕 fr −1 的 3 個（BB-C 03:53「可昕扣友情那 3 個」）
 RESULT = {'tag': TAG, 'sha': SHA, 'url': URL, 'rows': []}
 
-HOOK_JS = r"""(()=>{ window.__DL=window.__DL||[]; window.__FX=window.__FX||[]; if(GAME.__x324h) return 'already'; GAME.__x324h=1;
+HOOK_JS = r"""(()=>{ window.__DL=window.__DL||[]; window.__FX=window.__FX||[]; window.__ADJ=window.__ADJ||[]; if(GAME.__x324h) return 'already'; GAME.__x324h=1;
   const P=(k,v)=>{ try{ window.__DL.push({k, v, h:+(+GAME.G.hour).toFixed(3), z:GAME.G.zone}); }catch(e){} };
   const s0=GAME.say; if(typeof s0==='function') GAME.say=function(a,b){ P('say', ((a&&a.name)||(typeof a==='string'?a:''))+'｜'+String(b==null?'':b)); return s0.apply(this,arguments); };
   const h0=GAME.choose; if(typeof h0==='function') GAME.choose=function(o){ let t=[]; try{ t=(o||[]).map(x=>x&&x.t); }catch(e){} P('choose', t); return h0.apply(this,arguments); };
   if(typeof SOCIAL!=='undefined'&&SOCIAL.applyFx){ const f0=SOCIAL.applyFx; SOCIAL.applyFx=function(G,id,fx){ const r=f0.apply(this,arguments); try{ window.__FX.push({id, fx:fx==null?null:JSON.parse(JSON.stringify(fx)), ret:r==null?null:JSON.parse(JSON.stringify(r)), n:window.__DL.length}); }catch(e){} return r; }; }
+  if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ const a0=SOCIAL.adjust; SOCIAL.adjust=function(id,d){ try{ window.__ADJ.push({id, d:JSON.parse(JSON.stringify(d||{})), n:window.__DL.length}); }catch(e){} return a0.apply(this,arguments); }; }
   return 'hooked'; })()"""
-RESET_JS = "(()=>{ window.__DL=[]; window.__FX=[]; return true; })()"
-LOG_JS = "(()=>({dl:window.__DL||[], fx:window.__FX||[]}))()"
+RESET_JS = "(()=>{ window.__DL=[]; window.__FX=[]; window.__ADJ=[]; return true; })()"
+LOG_JS = "(()=>({dl:window.__DL||[], fx:window.__FX||[], adj:window.__ADJ||[]}))()"
+ADJMARK_JS = "(()=>(window.__ADJ||[]).length)()"
 REL_JS = "(w=>{ const r=SOCIAL.rel(w)||{}; return {fam:r.fam, trust:r.trust, comf:r.comf, npcRom:r.npcRom, rom:r.rom}; })"
 ROMOK_JS = "(w=>{ try{ return !!SOCIAL.romOk(w); }catch(e){ return null; } })"
 SNAP_JS = "(()=>JSON.parse(JSON.stringify(GAME.G)))()"
@@ -121,7 +123,7 @@ async def drive(pg, cdp, tag, who, want, done, max_s=300):
         elif time.time() - last > STUCK_S: stuck = True; R.note('%s %d 秒沒有進展：%s' % (tag, STUCK_S, J(q))); break
         if q['choices']:
             o = await pe.opts(pg); ts = [x['t'] for x in o]; k = None
-            if want and want in ts: k = ts.index(want); rb = await pg.evaluate(REL_JS, who)
+            if want and want in ts: k = ts.index(want); rb = await pg.evaluate(REL_JS, who); rb['_adj'] = await pg.evaluate(ADJMARK_JS)
             else:
                 for i, x in enumerate(o):
                     if x['t'].startswith('就這樣') and not x['dim']: k = i; break
@@ -170,6 +172,12 @@ def choose_opt(choices, term, who, sid):
 
 
 async def judge(pg, cdp, tag, who, row, dr, want, fx_doc, errs, e0):
+    for _ in range(20):   # 選了以後她的回話可能晚一點才出來（be1e 雲端第一次：回話跑到下一個 case 讀檔時才點掉）＝先把對話點完再量
+        q0 = await L.state(pg)
+        if q0['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+        if q0['choices']: break
+        await pg.wait_for_timeout(500)
+        if not (await L.state(pg))['dlg']: break
     lg = await pg.evaluate(LOG_JS); q = await L.state(pg); ra = await pg.evaluate(REL_JS, who); romok = await pg.evaluate(ROMOK_JS, who)
     row.update({'drive': dr, 'fx_calls': [x for x in lg['fx'] if x['id'] == who], 'rel_after': ra, 'romOk': romok, 'errs': errs[e0:], 'end': {k: q[k] for k in ('zone', 'dlg', 'choices', 'busy', 'hour')}})
     row['lines'] = [e['v'] for e in lg['dl'] if e['k'] in ('say', 'choose')][-14:]
@@ -187,11 +195,20 @@ async def judge(pg, cdp, tag, who, row, dr, want, fx_doc, errs, e0):
     R.note('%s 稿 AA_816 %s/%s/%s「%s」fx %s；SOCIAL.applyFx 收到 %s；romOk %s；期望回傳 %s' % (tag, row['term'], who, row['step'], want, J(fx_doc), J(row['fx_calls']), romok, J(exp_ret)))
     R.check('%s c 選了以後 SOCIAL.applyFx 收到稿上的 fx %s' % (tag, J(fx_doc)), bool(fx_doc) and len(calls) >= 1, J(row['fx_calls']))
     if exp_ret: R.check('%s c 回傳的差值＝%s（照 applyFx：fr→fam／trust／comf，love→npcRom）' % (tag, J(exp_ret)), any(c['ret'] == exp_ret for c in calls) or (not exp_ret and calls), J([c['ret'] for c in calls]))
-    rb = (dr or {}).get('rel_at_menu') or row.get('rel_before') or {}
-    if fx_doc and fx_doc.get('fr') and rb.get('fam') is not None and ra.get('fam') is not None:
-        fr = int(fx_doc['fr']); dfam = ra['fam'] - rb['fam']
-        if fr < 0: R.check('%s d 友情扣下去：fam %s → %s（選單出現時 → 演完；稿 fr %d）' % (tag, rb['fam'], ra['fam'], fr), dfam < 0, J({'before': rb, 'after': ra}))
-        else: R.note('%s d fam %s → %s（選單出現時 → 演完；稿 fr %+d；同一層的 rel、選項 rel 也會算進去，只記錄）' % (tag, rb['fam'], ra['fam'], fr))
+    rb = (dr or {}).get('rel_at_menu') or {}
+    if fx_doc and rb.get('fam') is not None and ra.get('fam') is not None:
+        # d（CC-C 11-12 第二版）：同一層還有別的加減（說話 +fam、這一層的 rel comf+2…），淨變化不等於稿的 fr（第一版只看 fam 有沒有變少＝CC_02 乙 8 量錯）。
+        #   改成：選單出現以後 SOCIAL.adjust 的每一筆加起來＝關係值實際的變化（fx 那一筆真的落到最後的數字上），而且裡面有 fx 那一筆（fr→fam、trust、comf 各 fr）
+        adj = [a for a in lg['adj'][int(rb.get('_adj') or 0):] if a['id'] == who]; tot = {}
+        for a in adj:
+            for k2, v in (a['d'] or {}).items():
+                if isinstance(v, (int, float)): tot[k2] = tot.get(k2, 0) + v
+        fr = int(fx_doc.get('fr') or 0); has_fx = (not fr) or any((a['d'] or {}).get('fam') == fr and (a['d'] or {}).get('trust') == fr and (a['d'] or {}).get('comf') == fr for a in adj)
+        diff = {k2: round((ra.get(k2) or 0) - (rb.get(k2) or 0), 3) for k2 in ('fam', 'trust', 'comf', 'npcRom') if ra.get(k2) is not None and rb.get(k2) is not None}
+        exp_tot = {k2: tot.get(k2, 0) for k2 in diff}
+        R.note('%s d 選單出現以後 SOCIAL.adjust：%s；加總 %s；實際變化 %s（數值有上下限，碰到邊會差）' % (tag, J(adj), J(tot), J(diff)))
+        R.check('%s d 稿上的 fx 那一筆有進 SOCIAL.adjust%s' % (tag, '（fam、trust、comf 各 %+d）' % fr if fr else ''), has_fx, J(adj))
+        R.check('%s d 關係值實際的變化＝選單以後每一筆 adjust 的加總（fx 有落到最後的數字上）' % tag, all(abs(diff[k2] - exp_tot[k2]) < 0.01 for k2 in diff), J({'diff': diff, 'sum': exp_tot}))
     R.check('%s 流程走完（沒有 %d 秒沒進展）' % (tag, STUCK_S), bool(dr) and dr['done'] and not dr['stuck'], J(dr and {k: dr[k] for k in ('stuck', 'done', 'secs')}))
     R.check('%s 最後沒有對話框、選單開著' % tag, not q['dlg'] and not q['choices'], J(row['end']))
     R.check('%s 沒有 JS 例外' % tag, not row['errs'], J(row['errs'][:3]))
