@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@256bcdc42；沛珊整段照 docs/story_planning/AA_755_peishan_arc.json@6b5507f8a）。不要手改，改企劃 AA_712 再重新匯入。
+/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@abb9609116；沛珊整段照 docs/story_planning/AA_755_peishan_arc.json@6b5507f8a）。不要手改，改企劃 AA_712 再重新匯入。
    女主角自己的故事線（8 拍；規則 BB_305；播放 src/arcs3d.js）*/
 'use strict';
 const HEROINE_ARCS={
- "src": "docs/story_planning/AA_712_heroine_arcs.json@256bcdc42",
+ "src": "docs/story_planning/AA_712_heroine_arcs.json@abb9609116",
  "people": {
   "heroine_01": {
    "theme": "她什麼都照規則、照計畫，卻不知道自己喜歡什麼；從「一個人不敢進那間店」開始，慢慢學會為自己選。",
@@ -27,7 +27,7 @@ const HEROINE_ARCS={
         "comf": 1
        },
        "reply": [
-        "半夜……一個人？",
+        "一個人？",
         "（她想了一下，好像在想那是什麼樣子。）"
        ],
        "ansId": "PL_RETAKE_NIGHT"
@@ -38,7 +38,7 @@ const HEROINE_ARCS={
         "fam": 1
        },
        "reply": [
-        "那我們很像。……這樣好像不太好。"
+        "那我們很像。這樣好像不太好。"
        ],
        "ansId": "PL_RULE"
       },
@@ -49,7 +49,7 @@ const HEROINE_ARCS={
         "npcRom": 1
        },
        "reply": [
-        "……那你現在回去讀。",
+        "那你現在回去讀。",
         "（她說完，沒有讓你走。）"
        ],
        "ansId": "PL_NOW"
@@ -84,7 +84,7 @@ const HEROINE_ARCS={
         "comf": 2
        },
        "reply": [
-        "就只是想看看……那你最近進去的是哪一間？我要寫下來。"
+        "就只是想看看？那你最近進去的是哪一間？我要寫下來。"
        ],
        "ansId": "PL_ECON_SOLO"
       },
@@ -113,7 +113,7 @@ const HEROINE_ARCS={
      ],
      "cite": {
       "PL_ECON_SOLO": [
-       "你說的那間，我去了。一個人。……你說得對，很好吃。"
+       "你說的那間，我去了。一個人。你說得對，很好吃。"
       ],
       "PL_WANT": [
        "我今天又經過那間店。想去就是理由。……可是我還是沒進去。"
@@ -139,7 +139,7 @@ const HEROINE_ARCS={
         "comf": 1
        },
        "reply": [
-        "照計畫排……我現在就是這樣。",
+        "照計畫排。我現在就是這樣。",
         "你有興趣的，是哪一門？"
        ],
        "ansId": "PL_ECON_PICK"
@@ -206,8 +206,8 @@ const HEROINE_ARCS={
         "trust": 2
        },
        "reply": [
-        "記帳……那你小時候是不是也要記零用錢？",
-        "……我也是。"
+        "記帳？那你小時候是不是也要記零用錢？",
+        "我也是。"
        ],
        "ansId": "PL_MOM_BOOK",
        "tell": "mom"
@@ -288,7 +288,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "那我們兩個都說謊。",
-        "……好。這樣比較公平。"
+        "好。這樣比較公平。"
        ],
        "ansId": "PL_SECRET"
       }
@@ -344,7 +344,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "（她安靜了很久。）",
-        "不想待的地方……我好像沒有想過，我有沒有那種地方。"
+        "不想待的地方？我好像沒有想過，我有沒有那種地方。"
        ],
        "ansId": "PL_SWITCH_STAY",
        "tell": "econ"
@@ -553,7 +553,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "你姊姊是編輯？",
-        "……她一定也會看那三秒。我想認識她。"
+        "她一定也會看那三秒。我想認識她。"
        ],
        "ansId": "PL_SIS_EDITOR",
        "tell": "sister"
@@ -611,7 +611,7 @@ const HEROINE_ARCS={
         "npcRom": 1
        },
        "reply": [
-        "一年一次……那你們過年一定很熱鬧。",
+        "一年一次？那你們過年一定很熱鬧。",
         "還是很安靜？",
         "（你沒有馬上回答。她就沒有再問。）"
        ],
@@ -792,7 +792,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "你要陪我查？那很多英文喔。",
-        "……好。那就一起查。"
+        "好。那就一起查。"
        ],
        "ansId": "PL_SCHOLAR"
       },
@@ -851,7 +851,7 @@ const HEROINE_ARCS={
         "npcRom": 1
        },
        "reply": [
-        "影印店……一張紙，印很多份。",
+        "影印店？一張紙，印很多份。",
         "我想做的就是這個。把一個東西，給很多人看。"
        ],
        "ansId": "PL_SHOP"
@@ -863,7 +863,7 @@ const HEROINE_ARCS={
         "npcRom": 1
        },
        "reply": [
-        "直接說……好。",
+        "直接說。好。",
         "第一句就寫「我想做電影」。"
        ],
        "ansId": "PL_DIRECT"
@@ -907,7 +907,7 @@ const HEROINE_ARCS={
         "npcRom": 2
        },
        "reply": [
-        "十點半……英國那時候是下午。",
+        "十點半？英國那時候是下午。",
         "好。下午也可以。"
        ],
        "ansId": "PL_CALL"
@@ -920,7 +920,6 @@ const HEROINE_ARCS={
         "npcRom": 1
        },
        "reply": [
-        "一年兩次……",
         "那如果我去了，我們也可以這樣嗎？"
        ],
        "ansId": "PL_SIS_FAR",
@@ -972,7 +971,7 @@ const HEROINE_ARCS={
         "trust": 2
        },
        "reply": [
-        "……你看到什麼？",
+        "你看到什麼？",
         "（你說看到大家都很確定自己要什麼。她想了一下。）",
         "我也看到一樣的。所以我來念社會。"
        ],
@@ -985,7 +984,7 @@ const HEROINE_ARCS={
         "npcRom": 2
        },
        "reply": [
-        "……你這樣說，我會不知道眼睛要放哪裡。"
+        "你這樣說，我會不知道眼睛要放哪裡。"
        ],
        "ansId": "YT_PL_WATCH_HER"
       }
@@ -1016,7 +1015,6 @@ const HEROINE_ARCS={
         "npcRom": 1
        },
        "reply": [
-        "從小就想……",
         "我很少遇到從小就知道自己要什麼的人。我有點想知道那是什麼感覺。"
        ],
        "ansId": "YT_PL_ALWAYS_LAW"
@@ -1028,7 +1026,7 @@ const HEROINE_ARCS={
         "comf": 1
        },
        "reply": [
-        "想懂人……那你來對地方了。法律系每天都在處理人的事。"
+        "想懂人？那你來對地方了。法律系每天都在處理人的事。"
        ],
        "ansId": "YT_PL_PEOPLE"
       },
@@ -1064,7 +1062,7 @@ const HEROINE_ARCS={
         "comf": 1
        },
        "reply": [
-        "一整天……你那時候一定很孤單。",
+        "一整天？你那時候一定很孤單。",
         "（她說完，把茶杯往你那邊推了一點。）"
        ],
        "ansId": "YT_PL_SCHEDULE"
@@ -1116,7 +1114,7 @@ const HEROINE_ARCS={
         "comf": 1
        },
        "reply": [
-        "你說逃……可是你是往前跑的。",
+        "你說逃？可是你是往前跑的。",
         "我也想往前跑。不是往外跑。"
        ],
        "ansId": "YT_PL_ESCAPE",
@@ -1184,7 +1182,7 @@ const HEROINE_ARCS={
         "trust": 2
        },
        "reply": [
-        "一個字都不能錯……那很像在泡茶。",
+        "一個字都不能錯？那很像在泡茶。",
         "我想試試看讀一本。"
        ],
        "ansId": "YT_PL_SIS_BOOK",
@@ -1225,7 +1223,6 @@ const HEROINE_ARCS={
         "comf": 1
        },
        "reply": [
-        "想清楚就好……",
         "我媽不會說這句。可是我想讓她說。"
        ],
        "ansId": "YT_PL_MOM_OK",
@@ -1250,7 +1247,7 @@ const HEROINE_ARCS={
         "npcRom": 2
        },
        "reply": [
-        "勇敢……我那時候手在抖。",
+        "勇敢？我那時候手在抖。",
         "可是你說勇敢，那就算勇敢。"
        ],
        "ansId": "YT_PL_BRAVE"
@@ -1278,7 +1275,7 @@ const HEROINE_ARCS={
         "npcRom": 2
        },
        "reply": [
-        "櫃台後面……那你也看了很多人。",
+        "櫃台後面？那你也看了很多人。",
         "（她說完，很輕地碰了一下你的手。）"
        ],
        "ansId": "YT_PL_COUNTER",
@@ -1332,7 +1329,6 @@ const HEROINE_ARCS={
         "npcRom": 1
        },
        "reply": [
-        "你也會怕……",
         "（她深呼吸了一下。）",
         "好。那我也要怕著怕著，把它做完。"
        ],
@@ -1344,7 +1340,6 @@ const HEROINE_ARCS={
         "trust": 3
        },
        "reply": [
-        "不知道對不對，可是不後悔……",
         "我想要這個。"
        ],
        "ansId": "YT_PL_NO_REGRET",
@@ -1390,7 +1385,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "翹去圖書館？你很怪耶。",
-        "……好，那我少翹一堂。只有一堂。"
+        "好，那我少翹一堂。只有一堂。"
        ],
        "ansId": "ZQ_PL_ECON_FAIL"
       },
@@ -1400,7 +1395,6 @@ const HEROINE_ARCS={
         "trust": 2
        },
        "reply": [
-        "捨不得浪費……",
         "你這樣說，我有點想去上下一堂了。有點。"
        ],
        "ansId": "ZQ_PL_NOSKIP"
@@ -1437,7 +1431,6 @@ const HEROINE_ARCS={
         "comf": 1
        },
        "reply": [
-        "紙箱城堡……",
         "這個可以放進遊戲。貓最喜歡紙箱。"
        ],
        "ansId": "ZQ_PL_BOXES",
@@ -1451,7 +1444,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "你有姊姊？她玩什麼？",
-        "……那個我也玩過。你姊姊品味很好。"
+        "那個我也玩過。你姊姊品味很好。"
        ],
        "ansId": "ZQ_PL_SIS_GAME",
        "tell": "sister"
@@ -1543,7 +1536,6 @@ const HEROINE_ARCS={
         "trust": 3
        },
        "reply": [
-        "一樣的問題……",
         "我爸也是。我覺得他們是同一個人。"
        ],
        "ansId": "ZQ_PL_DAD_SAME",
@@ -1598,7 +1590,7 @@ const HEROINE_ARCS={
         "npcRom": 1
        },
        "reply": [
-        "收進箱子裡……那你隔天為什麼拿出來？",
+        "收進箱子裡？那你隔天為什麼拿出來？",
         "（你說因為箱子太小，放不下那些書。她笑了，這次笑得出來。）"
        ],
        "ansId": "ZQ_PL_BOX"
@@ -1609,7 +1601,6 @@ const HEROINE_ARCS={
         "trust": 2
        },
        "reply": [
-        "說出口……",
         "那我先跟你說：我不放棄。我只是放慢一點。"
        ],
        "ansId": "ZQ_PL_QUIT_OK",
@@ -1623,7 +1614,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "你一個人不算。",
-        "……好啦，算。"
+        "好啦，算。"
        ],
        "ansId": "ZQ_PL_I_PLAY"
       }
@@ -1650,7 +1641,7 @@ const HEROINE_ARCS={
         "npcRom": 1
        },
        "reply": [
-        "看店……那你也沒有週日。",
+        "看店？那你也沒有週日。",
         "那以後的週日，我們打球。"
        ],
        "ansId": "ZQ_PL_SUNDAY_SHOP",
@@ -1703,7 +1694,7 @@ const HEROINE_ARCS={
         "npcRom": 2
        },
        "reply": [
-        "……好。我幫你做一間。",
+        "好。我幫你做一間。",
         "鐵門要拉起來的那種。"
        ],
        "ansId": "ZQ_PL_SHOP_OPEN",
@@ -1719,7 +1710,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "台南太遠了，地圖會很大。",
-        "……我會做。慢慢做。"
+        "我會做。慢慢做。"
        ],
        "ansId": "ZQ_PL_TAINAN",
        "tell": "sister"
@@ -1770,7 +1761,6 @@ const HEROINE_ARCS={
         "comf": 1
        },
        "reply": [
-        "想清楚就好……",
         "我想清楚了。"
        ],
        "ansId": "ZQ_PL_MOM_SAY",
@@ -1783,7 +1773,7 @@ const HEROINE_ARCS={
         "npcRom": 2
        },
        "reply": [
-        "……酷？",
+        "酷？",
         "你不要這樣說。我會真的覺得做不到也沒關係。"
        ],
        "ansId": "ZQ_PL_COOL"
@@ -1816,7 +1806,6 @@ const HEROINE_ARCS={
         "comf": 1
        },
        "reply": [
-        "最後一排靠窗……",
         "那種位子坐久了，會有感情。我懂。"
        ],
        "ansId": "SIS_PL_SEAT"
@@ -1829,7 +1818,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "那你慢慢找。",
-        "……旁邊這個，可以先借你。"
+        "旁邊這個，可以先借你。"
        ],
        "ansId": "SIS_PL_NOSEAT"
       },
@@ -1943,7 +1932,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "我讀到閉館。",
-        "……閉館以後呢？閉館以後可以。"
+        "閉館以後呢？閉館以後可以。"
        ],
        "ansId": "SIS_PL_BIKE"
       }
@@ -1979,7 +1968,7 @@ const HEROINE_ARCS={
        "reply": [
         "什麼都沒說？",
         "（你說箱子裡只有一張紙條，寫著「吃飯」。學姊安靜了一下。）",
-        "……我妹也會這樣。"
+        "我妹也會這樣。"
        ],
        "ansId": "SIS_PL_SISFIGHT",
        "tell": "sister"
@@ -1990,7 +1979,6 @@ const HEROINE_ARCS={
         "trust": 2
        },
        "reply": [
-        "很安靜……",
         "我家也會很安靜，如果我妹不吵的話。……我今天回家吃飯。"
        ],
        "ansId": "SIS_PL_QUIET",
@@ -2038,7 +2026,6 @@ const HEROINE_ARCS={
         "npcRom": 1
        },
        "reply": [
-        "你家的店……",
         "那你懂我說的。我們都看過店收起來的樣子。"
        ],
        "ansId": "SIS_PL_SHOP",
@@ -2051,7 +2038,6 @@ const HEROINE_ARCS={
         "comf": 1
        },
        "reply": [
-        "每天都在想……",
         "那你想到了，要跟我說。我也還在想。"
        ],
        "ansId": "SIS_PL_HELP",
@@ -2091,7 +2077,7 @@ const HEROINE_ARCS={
        "reply": [
         "撕了？撕完有比較好嗎？",
         "（你說有。她從考古題上撕下錯的那一頁，摺成一小塊。）",
-        "……好像有。"
+        "好像有。"
        ],
        "ansId": "SIS_PL_TEAR"
       },
@@ -2102,7 +2088,6 @@ const HEROINE_ARCS={
         "trust": 1
        },
        "reply": [
-        "記帳的客人……",
         "你媽講的一定很無聊。我現在好想聽。"
        ],
        "ansId": "SIS_PL_MOM_CALL",
@@ -2145,8 +2130,7 @@ const HEROINE_ARCS={
         "trust": 1
        },
        "reply": [
-        "河堤……",
-        "下次我帶棉花糖，你帶腳踏車。"
+        "河堤晚上很適合烤棉花糖。你騎車來的話，可以載我一段。"
        ],
        "ansId": "SIS_PL_RIVER"
       },
@@ -2157,7 +2141,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "你媽煮什麼？",
-        "……聽起來很好吃。"
+        "聽起來很好吃。"
        ],
        "ansId": "SIS_PL_MOM_FOOD",
        "tell": "mom"
@@ -2170,7 +2154,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "第二支？你會吃不完。",
-        "……好。你吃不完，我幫你。"
+        "好。你吃不完，我幫你。"
        ],
        "ansId": "SIS_PL_CANDY"
       }
@@ -2674,7 +2658,7 @@ const HEROINE_ARCS={
      "lines": [
       "你昨天十一點以後就沒回我。",
       "我不是要你一直回。我是要你說一聲你要睡了。",
-      "……很難嗎？"
+      "很難嗎？"
      ],
      "ask": [
       "你昨天在幹嘛？"
@@ -2701,7 +2685,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "睡著了。",
-        "……好。我也常睡著。可是我會先說晚安。"
+        "好。我也常睡著。可是我會先說晚安。"
        ],
        "ansId": "KX_PL_SLEPT"
       },
@@ -2764,7 +2748,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "我知道。",
-        "……可是你這樣說，我今天心情比較好。"
+        "可是你這樣說，我今天心情比較好。"
        ],
        "ansId": "KX_PL_PRETTY"
       }
@@ -2854,7 +2838,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "你回答得太快了。",
-        "……可是我想聽的就是這個。"
+        "可是我想聽的就是這個。"
        ],
        "ansId": "KX_PL_NO"
       },
@@ -2866,7 +2850,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "每週？你不要說了做不到。",
-        "……好。說到就要做到。"
+        "好。說到就要做到。"
        ],
        "ansId": "KX_PL_WEEKLY"
       }
@@ -2894,7 +2878,7 @@ const HEROINE_ARCS={
         "npcRom": 2
        },
        "reply": [
-        "……你媽還在問？",
+        "你媽還在問？",
         "（她轉過去看窗外，很久才轉回來。）",
         "那一年不浪費。好。"
        ],
@@ -2921,7 +2905,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "我在講的是心情。",
-        "……好啦，臉也不老。"
+        "好啦，臉也不老。"
        ],
        "ansId": "KX_PL_NOTOLD"
       }
@@ -3000,7 +2984,7 @@ const HEROINE_ARCS={
         "npcRom": 1
        },
        "reply": [
-        "……每天？",
+        "每天？",
         "（她看著你，表情慢慢鬆下來。）",
         "我現在就是這樣。"
        ],
@@ -3014,7 +2998,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "（過了很久，她把頭靠在你肩膀上。）",
-        "……五分鐘就好。"
+        "五分鐘就好。"
        ],
        "ansId": "KX_PL_SILENT"
       },
@@ -3025,7 +3009,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "你媽說的？",
-        "……好。那你請。"
+        "好。那你請。"
        ],
        "ansId": "KX_PL_EAT",
        "tell": "mom"
@@ -3067,7 +3051,7 @@ const HEROINE_ARCS={
        },
        "reply": [
         "你要換？",
-        "……好。我就知道你會換。"
+        "好。我就知道你會換。"
        ],
        "ansId": "KX_PL_SWAP"
       },

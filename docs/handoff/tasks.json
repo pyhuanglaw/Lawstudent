@@ -54828,6 +54828,36 @@
    },
    "source": "BB-C 2026-11-12 08:08（D154 地點關卡）",
    "authorized": true
+  },
+  {
+   "id": "STALE-SOURCES-1112",
+   "title": "源稿改了、遊戲還是舊字：AA 改過企劃線源稿但沒人重新匯入的（AA-C 11-12 08:35 發現 AA_712 故事線、AA_732～734 節日禮物；工具 tools/story/check_stale_sources.py 查出 JSON 源稿約 20 份比遊戲新）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "Y1S1W01",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 09:0x】已重匯：AA_732@1ce262f616、AA_733／734@88cfb1c74f → gift_holiday.js；AA_712@abb9609116 → heroine_arcs.js；AA_839@edb1a1a5c 學姊事件 17 列（＋sis_grad3d.js:152 同一場的複本）。還沒處理、等 AA 逐份回「要重匯／只是改名或文件整理」：AA_710_gifts、AA_728_gifts_friends、AA_755_peishan_arc、AA_755_peishan_feed_misc、AA_771_l118_lunch、AA_792_flower_notes、AA_793_season3_stalls、AA_826_shop_backfill_1、ladder 六檔（aa_y3s1／y3s2／y4s1、bb_y1s2／y2s1／y2s2）、free_trip aa_walk／bb_walk、wish_bb。之後：把 check_stale_sources.py 接進發布前檢查（.md 源稿 200 多份大多是改名、清舊字造成的差異，要先想怎麼濾）",
+   "source": "AA-C 2026-11-12 08:35、08:36 訊息（D101 做好沒進遊戲）",
+   "authorized": true,
+   "xai": {
+    "from": "AA",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA-C 11-12 08:35／08:36 訊息",
+    "acceptance": "check_stale_sources.py 列出的 JSON 源稿每一份不是已重匯、就是 AA 寫明不用匯",
+    "ack": "ACK"
+   }
   }
  ]
 }

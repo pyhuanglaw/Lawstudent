@@ -43,7 +43,7 @@ GM.money=function(n){ G.money+=n; };
   const play8=async(pick,xu)=>{ fresh(thu,20,'cafe'); meet('heroine_05'); R('heroine_05',...LV.FRI); if(xu) SOCIAL.remember('heroine_05','HEARD_PROF_XU',''); said=[]; opts=[]; picks=[pick]; const cg=[]; const c0=ADV.cg; ADV.cg=id=>{ cg.push(id); }; try{ await EVENTS.run(W8); } finally { ADV.cg=c0; } return {L:L0(),O:opts[0]||[],cg}; };
   let r=await play8(0,true);
   check('2. 開場旁白、「你怎麼會在這。」；有 HEARD_PROF_XU＝「我改了七次。許老師說得對。」；四個選項',r.L[0]==='（吧檯旁的單人座。研究計畫攤開，紅筆劃了半頁。保溫瓶是空的。）'&&r.L[1]==='學姊：你怎麼會在這。'&&r.L.includes('學姊：我改了七次。許老師說得對。')&&r.O.length===4,JSON.stringify(r));
-  check('2. 「那妳想做什麼？」→「……我不知道。」「說『不知道』的感覺，還不錯。」；SHARED_SECRET、信任 +9',r.L.includes('學姊：……我不知道。')&&r.L.includes('學姊：說『不知道』的感覺，還不錯。')&&SOCIAL.has('heroine_05','SHARED_SECRET')&&SOCIAL.rel('heroine_05').trust>=LV.FRI[1]+9);
+  check('2. 「那妳想做什麼？」→「我不知道。」「說『不知道』的感覺，還不錯。」；SHARED_SECRET、信任 +9',r.L.includes('學姊：我不知道。')&&r.L.includes('學姊：說『不知道』的感覺，還不錯。')&&SOCIAL.has('heroine_05','SHARED_SECRET')&&SOCIAL.rel('heroine_05').trust>=LV.FRI[1]+9);
   check('2. 結尾兩句「明天我還是會列三件事。」「今天，先列到二。」',r.L.slice(-2).join('｜')==='學姊：明天我還是會列三件事。｜學姊：今天，先列到二。');
   r=await play8(3,false);
   check('3. 沒有 HEARD_PROF_XU：「我改了七次。今天被問了一句話，我答不出來。」；熱水：「……是熱水。」祐廷「嗯。」「好。今天就喝這個。」；HELPED、HOT_WATER',r.L.includes('學姊：我改了七次。今天被問了一句話，我答不出來。')&&!r.L.some(t=>/許老師/.test(t))&&r.L.includes('學姊：……是熱水。')&&r.L.includes('祐廷：嗯。')&&r.L.includes('學姊：好。今天就喝這個。')&&G.flags.HOT_WATER===true&&SOCIAL.has('heroine_05','HELPED'),JSON.stringify(r.L));
@@ -51,7 +51,7 @@ GM.money=function(n){ G.money+=n; };
   const reg=typeof CG_REGISTRY!=='undefined'?CG_REGISTRY:null; const src=fs2.readFileSync(path.join(ROOT,'src/adv3d.js'),'utf8');
   check('4. 必要 CG「熱水」（BCG-01）：四個選項都有 {cg} 那一行、登記在 CG_REGISTRY、圖檔在',W8.dialogue.filter(l=>l.cg==='cg_hot_water_heroine05').length===1&&W8.dialogue.findIndex(l=>l.cg)>W8.dialogue.findIndex(l=>l.label==='d')&&/cg_hot_water_heroine05:\{file:'assets\/cg\/heroine_05\/cg_hot_water\.webp'/.test(src)&&fs2.existsSync(path.join(ROOT,'assets/cg/heroine_05/cg_hot_water.webp')));
   r=await play8(1,true); const r2=await play8(2,true);
-  check('4. 「學姊，妳只是累了。」→「我只是累了。這句話我以前不讓自己說。」；「今天不要改了。」→「我剛剛就這樣說了。」「……我要回家了。你也早點回去。」（不寫兩個人的夜路）',r.L.includes('學姊：我只是累了。這句話我以前不讓自己說。')&&r2.L.includes('學姊：我剛剛就這樣說了。')&&r2.L.includes('學姊：……我要回家了。你也早點回去。')&&SOCIAL.has('heroine_05','TOLD_HER_STOP'));
+  check('4. 「學姊，妳只是累了。」→「我只是累了。這句話我以前不讓自己說。」；「今天不要改了。」→「我剛剛就這樣說了。」「我要回家了。你也早點回去。」（不寫兩個人的夜路）',r.L.includes('學姊：我只是累了。這句話我以前不讓自己說。')&&r2.L.includes('學姊：我剛剛就這樣說了。')&&r2.L.includes('學姊：我要回家了。你也早點回去。')&&SOCIAL.has('heroine_05','TOLD_HER_STOP'));
   check('4. 不崩潰、不哭、不寫「不想念法律」；表情沒有 sad、annoyed',!W8.dialogue.some(l=>/不想念法律|哭/.test(l.text||''))&&!W8.dialogue.some(l=>['sad','annoyed'].includes(l.expression)));
   // 5. sisW8
   fresh(termDay('Y2S1',12,5),10,'campus'); const a=STORY.sisW8(G); G.events.done.ev_sis_collapse=1; const b=STORY.sisW8(G); fresh(termDay('Y2S1',13,1),10,'campus'); const c=STORY.sisW8(G);

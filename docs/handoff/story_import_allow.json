@@ -6939,9 +6939,9 @@
   },
   {
    "path": "docs/story_planning/AA_712_heroine_arcs.json",
-   "sha": "256bcdc42",
+   "sha": "abb9609116",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109）256bcdc42：AA_736 經濟系、重考少提（每位最多一處、同一場最多一個，37 處；和可昕交往矛盾的拿掉；X287）＋8a246c40f 語彤第 2 場不指定店；AA 11-10 17:07 交 LAWWW",
+   "approvedBy": "AA 定稿（D109）256bcdc42：AA_736 經濟系、重考少提（每位最多一處、同一場最多一個，37 處；和可昕交往矛盾的拿掉；X287）＋8a246c40f 語彤第 2 場不指定店；AA 11-10 17:07 交 LAWWW；abb9609116：AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109）",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "七位各 8 拍（BB_305 欄位）；tools/story/import_arcs.py → src/data/heroine_arcs.js；src/arcs3d.js 播放",
@@ -6953,6 +6953,10 @@
     {
      "sha": "026a2dd34",
      "approvedBy": "AA-B D109（11-07 06:00「AA_712 修三處我妹多一個空白」）"
+    },
+    {
+     "sha": "256bcdc42",
+     "note": "被 abb9609116 取代（AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109））"
     }
    ]
   },
@@ -7317,9 +7321,9 @@
   },
   {
    "path": "docs/story_planning/AA_732_gift_holiday_1.json",
-   "sha": "5acf44bbc",
+   "sha": "1ce262f616",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
+   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接；1ce262f616：AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109）",
    "task": "GIFT-HOLIDAY-1110",
    "kind": "json",
    "note": "節日送禮第一批：規則、14 家店 57 樣（含 special 兩樣）、third、學姊反應——tools/gift/import_gift_holiday.py → src/data/gift_holiday.js；1edb14888 改過 fc9ff6d3d（g_cvs_choco 的 no 加可昕）；30c4cbd45 rules 第 12 條：love 加她的戀愛 +2 從認識就算（X281／ROM-PRIVATE-DATE-1110 優先，AA 11-10 09:48 回 LAWWW）；d1bf75f6f rules 最後一條補四問（法圖小聲、芷若吧檯、學姊生日茶葉）",
@@ -7339,26 +7343,42 @@
     {
      "sha": "d1bf75f6f",
      "note": "被 5acf44bbc 取代（芷若兩點半店員事件也能送、學姊生日只有遞茶葉算送過）"
+    },
+    {
+     "sha": "5acf44bbc",
+     "note": "被 1ce262f616 取代（AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109））"
     }
    ]
   },
   {
    "path": "docs/story_planning/AA_733_gift_holiday_2.json",
-   "sha": "1edb14888",
+   "sha": "88cfb1c74f",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
+   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接；88cfb1c74f：AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109）",
    "task": "GIFT-HOLIDAY-1110",
    "kind": "json",
-   "note": "節日送禮第二批：以安、芷若、語彤、子晴、沛珊、可昕、芯慈的開場與反應——tools/gift/import_gift_holiday.py"
+   "note": "節日送禮第二批：以安、芷若、語彤、子晴、沛珊、可昕、芯慈的開場與反應——tools/gift/import_gift_holiday.py",
+   "history": [
+    {
+     "sha": "1edb14888",
+     "note": "被 88cfb1c74f 取代（AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109））"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_734_gift_holiday_3.json",
-   "sha": "246ef6735",
+   "sha": "88cfb1c74f",
    "status": "approved",
-   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
+   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接；88cfb1c74f：AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109）",
    "task": "GIFT-HOLIDAY-1110",
    "kind": "json",
-   "note": "節日送禮第三批：她們送祐廷的（gate、how、people）、山嵐文具區學姊四場（stationery）——tools/gift/import_gift_holiday.py"
+   "note": "節日送禮第三批：她們送祐廷的（gate、how、people）、山嵐文具區學姊四場（stationery）——tools/gift/import_gift_holiday.py",
+   "history": [
+    {
+     "sha": "246ef6735",
+     "note": "被 88cfb1c74f 取代（AA-C 11-12 08:35 通知重匯（上一任 AA 11-11 09:0x 308fdc131／6ca9b3e4d／abb960911 整理台詞，D109））"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_738_溫州街新路線_小安台詞.md",

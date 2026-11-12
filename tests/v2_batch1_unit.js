@@ -82,7 +82,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       let L=await play(0);
       check('學姊 W4：旁白兩句（AA_261：「她在寫考古題」）；三個選項（原文）',L[0]==='她在寫考古題，左手拿著保溫瓶，喝了一口。又喝了一口。'&&L[1]==='保溫瓶是空的。她已經對著空瓶喝了三次。'&&JSON.stringify(opts[0])==='["「學姊，妳的保溫瓶是空的。」","（去 Café 買一杯黑咖啡，放在她桌上）","（什麼都不說）"]',JSON.stringify([L.slice(0,2),opts[0]]));
       check('學姊 W4 選 1：「……喔。」「我早上九點裝的。我以為我還沒喝完。」（她笑出來。）「這件事很蠢。你看到了，就算了。」、NOTICED_HER',L.some(t=>/……喔。$/.test(t))&&L.some(t=>/我早上九點裝的。我以為我還沒喝完。$/.test(t))&&L.includes('（她笑出來。）')&&L.some(t=>/這件事很蠢。你看到了，就算了。$/.test(t))&&SOCIAL.has('heroine_05','NOTICED_HER')&&!L.some(t=>/不要跟/.test(t)),JSON.stringify(L.slice(2)));
-      L=await play(1); check('學姊 W4 選 2：「……你翹課？」你「下課了。」「……好。」（她把咖啡倒進保溫瓶。）、HELPED',L.some(t=>/……你翹課？$/.test(t))&&L.includes('祐廷：下課了。')&&L.includes('（她把咖啡倒進保溫瓶。）')&&SOCIAL.has('heroine_05','HELPED'),JSON.stringify(L.slice(2)));
+      L=await play(1); check('學姊 W4 選 2：「你翹課？」你「下課了。」「……好。」（她把咖啡倒進保溫瓶。）、HELPED',L.some(t=>/你翹課？$/.test(t))&&L.includes('祐廷：下課了。')&&L.includes('（她把咖啡倒進保溫瓶。）')&&SOCIAL.has('heroine_05','HELPED'),JSON.stringify(L.slice(2)));
       L=await play(2); check('學姊 W4 選 3：她自己發現去裝水；「你看到了吧。」你「……沒有。」「說謊的時候，不要看別的地方。」、NOTICED_HER',L.includes('（她自己發現，起身去裝水。）')&&L.some(t=>/你看到了吧。$/.test(t))&&L.includes('祐廷：……沒有。')&&L.some(t=>/說謊的時候，不要看別的地方。$/.test(t))&&SOCIAL.has('heroine_05','NOTICED_HER'),JSON.stringify(L.slice(2)));
       check('學姊 W4：只一次',!EVENTS.check(e)); } }
   /* ---------- 子晴 Q4 比賽那天（BB_96 4-1 改寫）---------- */

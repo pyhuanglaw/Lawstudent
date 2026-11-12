@@ -16,7 +16,7 @@ let doc=''; try{ doc=cp.execSync('git show 720f32472:"docs/story_planning/AA_403
   check('1. 選另外兩個（diff／unsure）＝沒有；沒演過 ev_grad_debate＝沒有',!at('2026-04-13','diff','2026-04-10')&&!at('2026-04-13','unsure','2026-04-10')&&!at('2026-04-13','no',null));
   const end=CALENDAR.termDays('Y2S1'); check('1. 大二上結束以後＝沒有',at(CALENDAR.dateOf(end.to).key,'no','2026-04-10')&&!at(CALENDAR.dateOf(end.to+1).key,'no','2026-04-10'));
   at('2026-04-13','no','2026-04-10'); const r0=Object.assign({},SOCIAL.rel(ID)); H.said=[]; H.opts=[]; H.picks=[0]; await EVENTS.run(ev); const r1=SOCIAL.rel(ID); const L=H.said.map(x=>x.t);
-  check('2. 「先講他想保護什麼…」→「（你講了八分鐘。…）」「……順序對了。」…「好。文章你留著。」；W3_TAUGHT order、記憶；尊重 +4、熟悉 +2',L.includes('上次說好的。這一段，你講給我聽。')&&L.includes('……順序對了。')&&L.includes('好。文章你留著。')&&H.G.flags.W3_TAUGHT==='order'&&SOCIAL.has(ID,'W3_TAUGHT')&&r1.resp-r0.resp===4&&r1.fam-r0.fam===2&&!L.includes('（她把文章推過來的時候，手指在你的鉛筆字上停了一下。）'),J({L,d:[r1.resp-r0.resp,r1.fam-r0.fam]}));
+  check('2. 「先講他想保護什麼…」→「（你講了八分鐘。…）」「順序對了。」…「好。文章你留著。」；W3_TAUGHT order、記憶；尊重 +4、熟悉 +2',L.includes('上次說好的。這一段，你講給我聽。')&&L.includes('順序對了。')&&L.includes('好。文章你留著。')&&H.G.flags.W3_TAUGHT==='order'&&SOCIAL.has(ID,'W3_TAUGHT')&&r1.resp-r0.resp===4&&r1.fam-r0.fam===2&&!L.includes('（她把文章推過來的時候，手指在你的鉛筆字上停了一下。）'),J({L,d:[r1.resp-r0.resp,r1.fam-r0.fam]}));
   at('2026-04-13','no','2026-04-10',{dating_heroine_05:true}); H.said=[]; H.picks=[1]; await EVENTS.run(ev); const L2=H.said.map(x=>x.t);
   check('2. 「直接講他跳過的那一步。」→「快。」…；direct；交往中多「（她把文章推過來的時候…）」',L2.includes('快。')&&H.G.flags.W3_TAUGHT==='direct'&&L2[L2.length-1]==='（她把文章推過來的時候，手指在你的鉛筆字上停了一下。）',J(L2));
   check('3. 人物頁記憶名稱 W3_TAUGHT、ZQ_TESTBUILD',!!SOCIAL.MEMORY_LABEL.W3_TAUGHT&&!!SOCIAL.MEMORY_LABEL.ZQ_TESTBUILD);

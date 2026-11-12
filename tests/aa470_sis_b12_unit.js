@@ -296,10 +296,10 @@ await sec(10,async()=>{
 /* ---- 11 5-1 ---- */
 await sec(11,async()=>{ const T51=[['ev_sis_family_dinner','2025-12-05',18.3,['一分鐘也是遲到。','學姊好，我是{n}。我是妳的直屬。','我知道。群組裡那個名字。','她坐下，從包包拿出一個資料夾。']],
     ['ev_family_xmas_y1','2025-12-22',18.5,['（學姊坐在你對面。她的碗裡只有白飯和青菜。）','學姊好，我是{n}。','我知道。直屬送直屬，我準備的是你的。','她二月要考試，不吃辣，不吃肉丸。不要問。']],
-    ['ev_family_dinner','2026-03-20',18.5,['學姊好，我是{n}。','……我知道。家聚你都沒來，今天來了就好。','（看菜單三十秒）我要辣的。今天我請。']],
-    ['ev_sis_results_dinner_y1','2026-03-27',19,['學姊好，我是{n}。','……我知道。家聚你都沒來，今天來了就好。','你們真的不用請我。']]];
+    ['ev_family_dinner','2026-03-20',18.5,['學姊好，我是{n}。','我知道。家聚你都沒來，今天來了就好。','（看菜單三十秒）我要辣的。今天我請。']],
+    ['ev_sis_results_dinner_y1','2026-03-27',19,['學姊好，我是{n}。','我知道。家聚你都沒來，今天來了就好。','你們真的不用請我。']]];
   const rows=S51.split('\n').filter(l=>/^\|/.test(l.trim())&&/：/.test(l)).map(l=>quotes(l).map(q=>q.t));
-  check('11. 稿 5-1 的表讀得到（三列有台詞；3/27 那一列「同 3/20」）',rows.length===3&&/3\/27[^\n]*同 3\/20/.test(S51)&&J(rows[0])===J(['學姊好，我是{name}。我是妳的直屬。','我知道。群組裡那個名字。'])&&J(rows[1])===J(['學姊好，我是{name}。','我知道。直屬送直屬，我準備的是你的。'])&&J(rows[2])===J(['學姊好，我是{name}。','……我知道。家聚你都沒來，今天來了就好。']),J(rows));
+  check('11. 稿 5-1 的表讀得到（三列有台詞；3/27 那一列「同 3/20」）',rows.length===3&&/3\/27[^\n]*同 3\/20/.test(S51)&&J(rows[0])===J(['學姊好，我是{name}。我是妳的直屬。','我知道。群組裡那個名字。'])&&J(rows[1])===J(['學姊好，我是{name}。','我知道。直屬送直屬，我準備的是你的。'])&&/* 稿（AA_470）這一列還是「……我知道。」；遊戲 2026-11-12 照 AA_839 拿掉句首刪節號 */J(rows[2])===J(['學姊好，我是{name}。','……我知道。家聚你都沒來，今天來了就好。']),J(rows));
   for(const [id,key,h,want] of T51){ const w=want.map(t=>t.replace('{n}',nm()));
     fresh(key,h,'none',{},{zone:id==='ev_sis_family_dinner'?'gongguan':'dorm'}); await runEv(id,[0,0]);
     check('11. '+id+'（'+key+'）沒有 SIS_W1：兩句自我介紹在對的地方；演完記 met_sis、SIS_W1；W1、晚到版不再演',seq(w)&&H.G.flags.met_sis===true&&H.G.flags.SIS_W1===true&&!EVENTS.cond(STORY_EVENTS.find(e=>e.id==='ev_sis_w1').prereq)&&!EVENTS.cond(STORY_EVENTS.find(e=>e.id==='ev_sis_w1_late').prereq),J(said()));
