@@ -54057,6 +54057,29 @@
     "acceptance": "CC 遊戲內截圖、BB 判",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "FLOWER-CLASS-1112",
+   "title": "花序 Flower Notes 二樓花藝課：可以上課、有劇情、做出成品送女友（X346）",
+   "area": "SHOP",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "【11-12 LAWWW-C】①已請 AA-C 寫：上課流程的劇情與台詞（花藝師上課、黑板三種課：基礎花束、花型設計、季節花藝）、做出來的成品（名字、說明）、送給女友／其他人的反應、要不要能約她一起上課；②LAWWW：上課流程（二樓示範長桌報名、扣錢、占一個時段、得到成品進送禮的東西裡、可以送）——等 AA 的規格，先看 GIFTH 送禮和 studyslot／活動占時段怎麼接；③BB 測。二樓模型已在（flower_notes3d.js，現在只有「看」）；花序 AA_792 文字接線另一件（FLOWER-NOTES-1110，子代理在做）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次上花序二樓",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 11-12 04:0x 對 LAWWW-C",
+   "authorized": "使用者直接要求",
+   "evidence": "",
+   "sha": ""
   }
  ]
 }
