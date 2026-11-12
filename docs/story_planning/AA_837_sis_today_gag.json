@@ -1,0 +1,217 @@
+{
+ "_meta": {
+  "doc": "AA_837 學姊第一批（DLG-FULL-REVIEW-1110）：約會「今天不 X／今天只 X」同一個梗的回話和到達句，逐格對玩家選項和地點重寫。依 AA_566。",
+  "by": "AA-C 2026-11-12",
+  "status": "待 BB 第二意見（D153）",
+  "kept": [
+   "D01.lawn「好。今天不做事。」（照玩家選項回）",
+   "D02.pond「算了，我今天下班。」",
+   "D14.sunset「明天我不在這裡。所以今天要看完。」",
+   "D16.beach「不行，今天不讀。」",
+   "D01 到達 high「…那次我睡掉了。今天不會。」",
+   "交往到達留 D07、D22（和收尾「我今天沒有想山下的事」成對）、D23、D27",
+   "沒帶筆電留 D08、D27、D30"
+  ],
+  "apply": "已直接改 date_system/lines/Dxx.json（生成檔的來源）；LAWWW 重新匯入即可"
+ },
+ "rows": [
+  {
+   "file": "date_system/lines/D02.json",
+   "who": "heroine_05",
+   "old": "好。今天不審查。",
+   "new": "你的標準真低。好，算它過。"
+  },
+  {
+   "file": "date_system/lines/D04.json",
+   "who": "heroine_05",
+   "old": "習慣了。今天就查到這裡。",
+   "new": "習慣了。裡面有什麼，我沒查。"
+  },
+  {
+   "file": "date_system/lines/D04.json",
+   "who": "heroine_05",
+   "old": "我一直都這樣。今天慢一點好了。",
+   "new": "我一直都這樣。（她吹了兩下，還是吃了）"
+  },
+  {
+   "file": "date_system/lines/D05.json",
+   "who": "heroine_05",
+   "old": "喝得完。今天不趕。",
+   "new": "喝得完。我又不用趕回去。"
+  },
+  {
+   "file": "date_system/lines/D08.json",
+   "who": "heroine_05",
+   "old": "看到了。我不管。今天不管。",
+   "new": "看到了。牠不歸我排班。"
+  },
+  {
+   "file": "date_system/lines/D09.json",
+   "who": "heroine_05",
+   "old": "嗯。我很少慢下來。今天是被纜車逼的。",
+   "new": "嗯。反正它也快不了。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "heroine_05",
+   "old": "今天試試看。",
+   "new": "好。你走前面。"
+  },
+  {
+   "file": "date_system/lines/D10.json",
+   "who": "heroine_05",
+   "old": "今天試一次。",
+   "new": "位子你挑。"
+  },
+  {
+   "file": "date_system/lines/D17.json",
+   "who": "heroine_05",
+   "old": "我知道。今天就很慢。",
+   "new": "我知道。我已經在這塊石頭前面站五分鐘了。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "heroine_05",
+   "old": "吃。只是不常。今天可以。",
+   "new": "吃，只是不常。湯匙給我。"
+  },
+  {
+   "file": "date_system/lines/D20.json",
+   "who": "heroine_05",
+   "old": "還是覺得。可是今天可以浪費。",
+   "new": "還是覺得。票我買，兩張。"
+  },
+  {
+   "file": "date_system/lines/D22.json",
+   "who": "heroine_05",
+   "old": "好。今天的時間是多的。",
+   "new": "好。我想聽踩到葉子的聲音。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "heroine_05",
+   "old": "嗯。一直在忙。今天不忙。",
+   "new": "嗯。平常這個時間我在圖書館，沒有窗戶。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "heroine_05",
+   "old": "好。今天不算熱量。",
+   "new": "好，三樣。第四樣你吃。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "heroine_05",
+   "old": "好，我收起來了。今天不查。",
+   "new": "好，我收起來了。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "heroine_05",
+   "old": "被你看出來了。今天只看樹。",
+   "new": "被你看出來了。好，看樹。"
+  },
+  {
+   "file": "date_system/lines/D26.json",
+   "who": "heroine_05",
+   "old": "家裡到圖書館。對，今天換一條。",
+   "new": "家裡到圖書館。十二分鐘。"
+  },
+  {
+   "file": "date_system/lines/D29.json",
+   "who": "heroine_05",
+   "old": "習慣。今天不算。",
+   "new": "習慣。算不出來，太大了。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "heroine_05",
+   "old": "今天沒帶電腦。",
+   "new": "大一那次沒吃到阿給。集合時間到了。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "heroine_05",
+   "old": "今天我什麼都沒排，就是來這裡。",
+   "new": "你說淡水，我沒問要做什麼就來了。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "heroine_05",
+   "old": "我今天沒有帶計畫本。",
+   "new": "階梯很多。我走慢的時候，你等我一下。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "heroine_05",
+   "old": "筆電沒帶。",
+   "new": "我早餐沒吃。留給這裡。"
+  },
+  {
+   "file": "date_system/lines/D23.json",
+   "who": "heroine_05",
+   "old": "今天什麼都沒排。來看海。",
+   "new": "漁港的味道比我想的重。我可以。"
+  },
+  {
+   "file": "date_system/lines/D01.json",
+   "who": "heroine_05",
+   "old": "林{name}，今天走慢一點。",
+   "new": "（她把手伸過來）走吧。"
+  },
+  {
+   "file": "date_system/lines/D04.json",
+   "who": "heroine_05",
+   "old": "林{name}，今天不講學校的事。",
+   "new": "林{name}，爆米花買大的。我會吃你的。"
+  },
+  {
+   "file": "date_system/lines/D08.json",
+   "who": "heroine_05",
+   "old": "林{name}，今天只聊動物。",
+   "new": "林{name}，先看企鵝。其他照你的。"
+  },
+  {
+   "file": "date_system/lines/D12.json",
+   "who": "heroine_05",
+   "old": "（她把計畫本收進包包最裡面）林{name}，今天沒有計畫。",
+   "new": "林{name}，奶奶以前買的那家蜜餞還在。我要買一包。"
+  },
+  {
+   "file": "date_system/lines/D13.json",
+   "who": "heroine_05",
+   "old": "今天我們走到哪就算哪。",
+   "new": "林{name}，這次沒有集合時間。"
+  },
+  {
+   "file": "date_system/lines/D14.json",
+   "who": "heroine_05",
+   "old": "林{name}，今天只看海。",
+   "new": "林{name}，外套借我。風比我查的大。"
+  },
+  {
+   "file": "date_system/lines/D18.json",
+   "who": "heroine_05",
+   "old": "林{name}，今天走你想走的那一邊。",
+   "new": "林{name}，芋圓你排隊，我找位子。"
+  },
+  {
+   "file": "date_system/lines/D24.json",
+   "who": "heroine_05",
+   "old": "林{name}，今天只泡腳。別的不排。",
+   "new": "林{name}，毛巾我帶了兩條。你的是藍的。"
+  },
+  {
+   "file": "date_system/lines/D25.json",
+   "who": "heroine_05",
+   "old": "林{name}，今天待到最後一班車。",
+   "new": "林{name}，最後一班車的時間我查好了。不急。"
+  },
+  {
+   "file": "date_system/lines/D30.json",
+   "who": "heroine_05",
+   "old": "林{name}，今天不用趕。你想去哪裡就去哪裡。",
+   "new": "林{name}，腳踏車我很久沒騎了。你騎前面。"
+  }
+ ]
+}
