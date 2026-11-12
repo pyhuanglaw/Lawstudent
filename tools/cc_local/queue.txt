@@ -13,6 +13,13 @@
 # ★P0 BB 15:27：v9.10.25 線上驗證（main dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c＝PR #36，遊戲檔＝f312c）；Pages 部署成功才拿掉 HOLD（BB 叫放或 CC 看到 Pages run 43048364768 成功）
 # ===== CC-C 11-12 03:4x：be1e5d7256（LAWWW-C 修 GHA 那一版，含 28d5057e8／59a4efb68）基本回歸，電腦空著先跑；BB-C 03:30 那四項探針改好接著排 =====
 # BB-C 03:30 第 1 項：木曜日第 7 項起點改成一樓出口旁邊最低的點（雲端 be1e 量：第 0 層只有進門那段樓梯間、沒有平地板）
+# ===== P0 CC-C 11-12 04:3x（BB-C 04:23，使用者在線上 v9.10.25 回報）：最前面跑 =====
+# A BUG-RUN-STUTTER-1112：跑步一頓一頓——v9.10.21 aa0f3bcd3、v9.10.25 dc3d33941（線上）各一次；溫州街、椰林大道、公館：站 5 秒／跑 10 秒／走 10 秒每幀時間差（雲端 be1e 驗過流程）
+P0_STUTTER_v91021 | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91021;RUN_S=10;SHA=aa0f3bcd30eea217ec732963851ea5f3b35e8d97
+P0_STUTTER_v91025 | dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c | probe | docs/story_planning/test_tools/cc/cc_run_stutter_probe.py | index.html | 15 | TAG=v91025;RUN_S=10;SHA=dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c
+# B SHOP-INTERIOR-VIEW-1112：泰米村食先跑（14:00、20:30；1cd2116ee1；雲端 14:00 驗過流程、五張都拍到），BB 看了再跑全部
+P0_SHOPVIEW_taimi | 1cd2116ee178d78a8e30408943f38e38052648c3 | probe | docs/story_planning/test_tools/cc/cc_shop_view_probe.py | index.html | 10 | SHOPS=taimi;HOURS=14,20.5;SHA=1cd2116ee178d78a8e30408943f38e38052648c3
+
 BE1E_MOKU_PLANT_7 | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_moku_plant_probe.py | index.html | 45 | PARTS=7;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/cc_fn_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 # BB-C 03:30 第 2 項：吧檯高腳椅點不到＝繞著椅子 8 方向×2 距離換位置再點（雲端 be1e ALL PASS：繞到 1.3 m、0° 點得到、坐對那一張）
 BE1E_TSR_CAFEBAR | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_tapseat_reg_probe.py | index.html | 20 | PARTS=CAFE;ONLY_SEATS=2;N_FLOOR=0;N_BETWEEN=0;N_TABLE=0;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
@@ -1700,5 +1707,8 @@ BE1E_STAIR10_diag | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/stor
 # ⑤ BB-C 03:30 第 4 項 ZR3 SITFIRST 第二版（長椅依距離試、有人坐的跳過；be1e 雲端 ALL PASS）：新 be1e、舊 7266e7a29
 BE1E_ZR3_SITFIRST_new | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 12 | PARTS=ZR3_SMOKE;SITFIRST=1;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
 BE1E_ZR3_SITFIRST_old | 7266e7a29351d4d186cae82d82042271a95a67d4 | probe | docs/story_planning/test_tools/cc/cc_act_probe.py | index.html | 12 | PARTS=ZR3_SMOKE;SITFIRST=1;SHA=7266e7a29351d4d186cae82d82042271a95a67d4
+# ⑤ US-NAV-TRAPS-1111（判準 BB-C 03:53 核准；be1e 雲端 REPS=1 ALL PASS）：新 be1e、舊 fe347b5e8c（D34：修改前也 0 次卡住＝瀏覽器重現不了，照 BB 算新版 PASS）
+BE1E_USNAV_new | be1e5d725634580ee25313a7bbd14f941687bfde | probe | docs/story_planning/test_tools/cc/cc_us_nav_traps_probe.py | index.html | 45 | TAG=new;REPS=5;SHA=be1e5d725634580ee25313a7bbd14f941687bfde
+BE1E_USNAV_old | fe347b5e8ce9daba6502044c2cb89e60f3035a2a | probe | docs/story_planning/test_tools/cc/cc_us_nav_traps_probe.py | index.html | 45 | TAG=old;REPS=5;SHA=fe347b5e8ce9daba6502044c2cb89e60f3035a2a
 # NOODLE-NAME-PURGE-1112（使用者選「也改掉」、BB-C 04:16）：一次性維護工作（不是測試）——cc-local 的 local_out 文字檔舊群組名換「桌遊團」，自己 commit 改到的檔，runner 照常推；排在 be1e 五件後面
 ONEOFF_NOODLE_RENAME | be1e5d725634580ee25313a7bbd14f941687bfde | py | tools/cc_local/oneoff_noodle_rename.py | index.html | 10 | NOTE=oneoff
