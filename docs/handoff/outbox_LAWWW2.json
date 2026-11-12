@@ -9266,6 +9266,22 @@
    "remaining": "沒在電腦量過；長幀若是 GC 這一步無效",
    "next": "LAWWW-C 套 patch；CC FIRST_gg_desk／FIRST_xs_desk 各跑一般＋?noshoppre；BB 判",
    "ackNote": "LAWWW-C 20:38Z：已整合 0b32cab5cc（21 支 exit 0）；CC 排一般／?noshoppre 比對"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "L118-SEAT-FIX-1112",
+   "title": "r3：點被桌子擋住的椅子（射線先打到桌子、地板點＝椅子中心且站得住）→ 地板點離椅子 0.25 m 內也算點到那張",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/l118_seat_fix_r3_1112/l118_seat_fix_r3.patch",
+    "docs/art-rebuild/second_ai/wip/l118_seat_fix_r3_1112/README.md"
+   ],
+   "remaining": "cafe2 #3 走近點在範圍邊上那一類沒動；瀏覽器沒跑",
+   "next": "LAWWW-C 套 patch；CC 重跑 L118_CAM36_a/b；BB 判"
   }
  ]
 }
