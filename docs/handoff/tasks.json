@@ -52983,7 +52983,7 @@
    "id": "FLOWER-NOTES-1110",
    "title": "公館花攤（晨露花舖）升級成雙層精品花藝店「花序 Flower Notes」（X325）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52996,7 +52996,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-12 03:5x LAWWW-C】AA_792（8475a3b85）還沒進遊戲（白名單沒有）——派子代理（worktree，基準 42a854dee9，分支 flower-notes-1112；檢查點 wip_backup/flower_notes_1112.bundle）：十樣商品、花藝師 greet／buy／closed／10:00～21:00、13 處「看」、replace 四列、tests/flower_notes_aa792_1112_unit.js。回來當回合合併｜【11-11 09:5x AA 交稿】AA_792_flower_notes.json（8475a3b85）：shop gg_flower 改名花序 Flower Notes、10 樣 items（舊兩樣代號價錢 love／no 照舊只換 line；新八樣 love／no 空，X325 不替角色設定新的花卉喜好）、花藝師 greet／closed／hours 10:00～21:00／buy、looks 照 flower_notes_layout.js 的 kind 各一句、replace 四列（gift_holiday.js shops.gg_flower 那幾格）、AA_747 A5 晨露花舖→花序。二樓教室只有「看」（要上課流程另開任務）。**v9.10.25 後整合**。｜使用者 21:1x「你可以自己決定嗎」＝位置、開工交 LAWWW 定：位置 G11（原泰米村食）；AA 先寫商品文案、店員台詞、畢業／母親節規劃；LAWWW 做商品資料與遷移（店代號 gg_flower、g_bouquet、g_sunflower 不改）；LAWWW2 的外觀、室內模型等使用者兩張正式參考圖；使用者 21:3x 已給兩張參考圖（docs/handoff/user_specs/flower_notes_ref/），LAWWW2 可以開始做模型（FLOWER-NOTES-ART-1110）；【發布前】含花序的版本發布前先問使用者（規格書十五之 9；她的「你可以自己決定嗎」講的是位置和開工，不含發布）；BB 驗收計畫 BB_312（企劃線 b74636eafb），交 SHA 時告訴 BB：原 G11 之前進不去（type none）、舊兩樣價錢不改（g_bouquet 450、g_sunflower 120）｜11-11 01:5x BB：買花送花、舊存檔、進出門、樓梯椅子 PASS；美術第 1 版外觀室內都沒過（招牌糊、牆灰、花像圓球、二樓沒窗，LAWWW2 做第 2 版）；一樓繞圈 r3 待判。**LAWWW 定：帶著第 1 版美術進下一版**（D141；舊花攤已拿掉），發布說明寫「美術第 1 版」｜11-11 02:1x BB：一樓繞圈 r3 全過，花序功能面結案（美術第 2 版 LAWWW2 排在後面）",
+   "next": "【11-12 04:2x LAWWW-C】子代理 flower-notes-1112（fb55a1917）已合併：AA_792 進白名單、匯入（import_gift_holiday.py overlay_792＋src/data/flower_notes_text.js）；一樓櫃檯買花＝花藝師招呼一句→十樣商品→扣錢進包包→那一樣的 buy 句；八樣新的可以送（love／no 空＝照 ok 反應）；營業 10:00～21:00、打烊時門口演 closed 那一句；13 處「看」；舊存檔的一束花、向日葵照用。tests/flower_notes_aa792_1112_unit.js（基準版 FAILED 4）＋花序、送禮、公館店相關 12 支過；瀏覽器沒跑→BB（驗收計畫 BB_312）。**問 AA 六件**：中央展示台沒有「看」的句子、八個新「看」點按鈕先用通用的「看看」、21:00 還在店裡用 AA_700 通用打烊句（花藝師說）、開門前 06:00～10:00 也顯示「今日已打烊」、八樣新花收到時用各人通用的 ok 句、颱風天要不要休。二樓上課另一件 FLOWER-CLASS-1112｜【11-12 03:5x LAWWW-C】AA_792（8475a3b85）還沒進遊戲（白名單沒有）——派子代理（worktree，基準 42a854dee9，分支 flower-notes-1112；檢查點 wip_backup/flower_notes_1112.bundle）：十樣商品、花藝師 greet／buy／closed／10:00～21:00、13 處「看」、replace 四列、tests/flower_notes_aa792_1112_unit.js。回來當回合合併｜【11-11 09:5x AA 交稿】AA_792_flower_notes.json（8475a3b85）：shop gg_flower 改名花序 Flower Notes、10 樣 items（舊兩樣代號價錢 love／no 照舊只換 line；新八樣 love／no 空，X325 不替角色設定新的花卉喜好）、花藝師 greet／closed／hours 10:00～21:00／buy、looks 照 flower_notes_layout.js 的 kind 各一句、replace 四列（gift_holiday.js shops.gg_flower 那幾格）、AA_747 A5 晨露花舖→花序。二樓教室只有「看」（要上課流程另開任務）。**v9.10.25 後整合**。｜使用者 21:1x「你可以自己決定嗎」＝位置、開工交 LAWWW 定：位置 G11（原泰米村食）；AA 先寫商品文案、店員台詞、畢業／母親節規劃；LAWWW 做商品資料與遷移（店代號 gg_flower、g_bouquet、g_sunflower 不改）；LAWWW2 的外觀、室內模型等使用者兩張正式參考圖；使用者 21:3x 已給兩張參考圖（docs/handoff/user_specs/flower_notes_ref/），LAWWW2 可以開始做模型（FLOWER-NOTES-ART-1110）；【發布前】含花序的版本發布前先問使用者（規格書十五之 9；她的「你可以自己決定嗎」講的是位置和開工，不含發布）；BB 驗收計畫 BB_312（企劃線 b74636eafb），交 SHA 時告訴 BB：原 G11 之前進不去（type none）、舊兩樣價錢不改（g_bouquet 450、g_sunflower 120）｜11-11 01:5x BB：買花送花、舊存檔、進出門、樓梯椅子 PASS；美術第 1 版外觀室內都沒過（招牌糊、牆灰、花像圓球、二樓沒窗，LAWWW2 做第 2 版）；一樓繞圈 r3 待判。**LAWWW 定：帶著第 1 版美術進下一版**（D141；舊花攤已拿掉），發布說明寫「美術第 1 版」｜11-11 02:1x BB：一樓繞圈 r3 全過，花序功能面結案（美術第 2 版 LAWWW2 排在後面）",
    "xai": {
     "spec": "X325，docs/handoff/user_specs/FLOWER_NOTES_1110.md",
     "branch": "claude/confident-ritchie-8rwh7t",
