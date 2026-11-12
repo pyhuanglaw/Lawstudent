@@ -9,7 +9,7 @@
 //   7  大一上四拍：條件（第 3、6、10 週、期末最後一科考完那天）、旗標；每一句都在稿裡
 //   8  新加的九個事件每一句、每個選項都在 AA_856 裡（拿掉「」以後逐字比；稿寫「祐廷」的地方遊戲用 {name}）
 //   9  人物資料：法律系、同屆、不在外校；年級標籤等於設定總表那一列
-//  10  舊的法律系存檔（dating_kexin true）讀進來照舊：算認識、算交往中、不會再演第一次見面、手機規則照跑不報錯
+//  10  舊的法律系存檔（dating_kexin true）讀進來照舊：算認識、算交往中、不會再演第一次見面、手機規則照跑不報錯；新規則只給新設定的局（存檔有 KX_MET 這個欄位）
 // 修改前（claude/adoring-meitner-mqzst8 @6c2ecfc0af，git archive 那一版放進這支測試真的跑過）與修改後的數字見這個 commit 的訊息。
 // 用法：node tests/canon_opening_1112_unit.js（稿用 git show 讀；在沒有 .git 的目錄跑時設環境變數 CANON_DOCREPO＝這個 repo 的目錄；讀不到稿＝逐字對稿那幾項標「沒比」，其餘照測）
 require('./alison.js');
@@ -130,7 +130,7 @@ const sayOf=l=>{ const m=/^(可昕|阿哲|祐廷|芯慈)：(.*)$/.exec(l); retur
     let L=saidT(); const k0=L.indexOf('（老師說：先跟前後左右的同學認識一下，兩分鐘。教室一下子吵起來。）');
     check('5. 上 9/1 的憲法：開頭演第一次見面（老師那一句在教授講課以前）',k0>=0&&k0<=1,J(L.slice(0,4)));   /* 最前面最多只有「你在座位上等」那一句 */
     if(docs) check('5. 選「會。」：逐字等於 AA_856 第 2 節（開頭三句＋選項一那五句）',J(L.slice(k0,k0+8))===J(B[0].concat(B[1])),J(L.slice(k0,k0+8)));
-    check('5. 見面以後：KX_MET、KX_MET_DAY、FIRST_MET、有聯絡方式',G.flags.KX_MET===true&&G.flags.KX_MET_DAY===G.day&&G.flags.KX_MET_HOW==='class'&&SOCIAL.has(KX,'FIRST_MET')&&INV.hasContact(G,KX));
+    check('5. 見面以後：KX_MET、KX_MET_DAY、FIRST_MET、有聯絡方式（G.contacts 記今天）',G.flags.KX_MET===true&&G.flags.KX_MET_DAY===G.day&&G.flags.KX_MET_HOW==='class'&&SOCIAL.has(KX,'FIRST_MET')&&INV.hasContact(G,KX)&&G.contacts[KX]===G.day,J([(G.contacts||{})[KX]]));
     check('5. 見面以後才進朋友清單、手機聯絡人',knownIds(G).includes(KX)&&MSG.contactRows(G,knownIds(G)).some(r=>r.id===KX));
     check('5. 還沒交往：沒有可以傳的話題（她的話題是交往中寫的，等 AA 換字）、動態牆她的貼文照樣不出',MSG.topics(G,KX).length===0&&(typeof FEED==='undefined'||FEED.blocked(G,{who:KX},{day:G.day})==='contact'));
     check('5. 見面以後還是沒有交往',G.flags.dating_kexin===false&&!ROM.partners(G).includes(KX));
@@ -160,7 +160,7 @@ const sayOf=l=>{ const m=/^(可昕|阿哲|祐廷|芯慈)：(.*)$/.exec(l); retur
     G.zone='campus'; check('6. 不在法律系館A 不演',!EVENTS.check(e)); G.zone='linze';
     await play('ev_kx_meet_hall'); const L=saidT();
     if(docs){ const B=quoteBlocks(A856).map(b=>b.map(sayOf)); check('6. 保底版逐字等於 AA_856（三句）',J(L)===J(B[3]),J(L)); }
-    check('6. 保底版最後一樣：KX_MET、聯絡方式、進朋友清單',G.flags.KX_MET===true&&G.flags.KX_MET_HOW==='hall'&&INV.hasContact(G,KX)&&knownIds(G).includes(KX));
+    check('6. 保底版最後一樣：KX_MET、聯絡方式（G.contacts 記今天）、進朋友清單',G.flags.KX_MET===true&&G.flags.KX_MET_HOW==='hall'&&INV.hasContact(G,KX)&&G.contacts[KX]===G.day&&knownIds(G).includes(KX));
     check('6. 認識了：保底不再演、課堂版也不演',!EVENTS.check(e)&&!STORY.kxMeetDue(G,reqOn(G,TD('Y1S1',5,3),'crim_gen1')));
     /* 教室外面那一句：課堂版認識的、另一天早上 */
     const o=ev('ev_kx_first_out'); G=fresh(TD('Y1S1',2,2),8.5,'linze',{KX_MET:true,KX_MET_HOW:'class',KX_MET_DAY:TD('Y1S1',1,1)}); INV.addContact(G,KX);
@@ -230,7 +230,10 @@ const sayOf=l=>{ const m=/^(可昕|阿哲|祐廷|芯慈)：(.*)$/.exec(l); retur
     /* 交往過、分開了的舊存檔：照舊是「分開以後」 */
     const G3=H.fresh('2026-10-06',9,'dorm',{dating_kexin:false,EX_kexin:true}); G3.contacts={kexin:0}; ROM.rec(G3);
     check('10. 分開了的舊存檔：kxEx、傳訊息照舊不開',STORY.kxEx(G3)&&STORY.kxKnown(G3)&&MSG.open(G3,KX).ok===false);
-    const G4=fresh('2025-09-08',9,'dorm',{KX_MET:true}); check('10. 新遊戲認識了、沒交往過：不算分開（kxEx false）',!STORY.kxEx(G4)); });
+    const G4=fresh('2025-09-08',9,'dorm',{KX_MET:true}); check('10. 新遊戲認識了、沒交往過：不算分開（kxEx false）、是「同班同學、還沒交往」（kxMate）',!STORY.kxEx(G4)&&STORY.kxMate(G4)&&STORY.kxNew(G4));
+    /* 沒有 KX_MET 這個欄位的存檔＝這一批以前的存檔（不遷移）：照舊的規則走 */
+    const G5=H.fresh('2025-09-01',9,'classroom',{LAW_START_DAY:STORY.LAW_D0,MAIN_D1:STORY.MAIN_D1_NEW}); G5.contacts={}; const it5=reqOn(G5,G5.day,'const_1');
+    check('10. 沒有 KX_MET 欄位、也沒有交往旗標的舊存檔：不算新設定的局——照舊有她的聯絡方式、不演第一次見面（課堂版、保底版）、不是 kxMate',!STORY.kxNew(G5)&&INV.hasContact(G5,KX)&&!STORY.kxMeetOpen(G5)&&!!it5&&!STORY.kxMeetDue(G5,it5)&&!STORY.kxMate(G5)&&!EVENTS.check(ev('ev_kx_meet_hall'))); });
 
   H.done();
 })();
