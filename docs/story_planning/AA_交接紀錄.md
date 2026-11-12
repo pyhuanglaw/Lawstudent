@@ -16,6 +16,9 @@
   - 【使用者】NOODLE-NAME-PURGE-1112（11-12 對 BB-C、04:3x 對 AA-C 確認）：「github上所有麵店團都刪掉 改成桌遊團」——企劃線 AA 的檔 307 個還沒改，改完傳 BB-C SHA。
   - **做法（使用者 11-12 04:0x：「這三件事情既然記錄都有可是為什麼你好像并不知道」，UA-AA-1112-09）**：寫任何碰到既有系統的新劇情（送禮、買東西、物品清單、約會、打工、節日）以前，先 `git show origin/<RULE_SOURCE>:docs/handoff/USER_WANTS.md | grep <關鍵字>`，**不分 owner**——接班只讀歸 AA 的列會漏（這次漏的是 X277 各店有東西買／節日最多送兩人、生日除外；X291 物品欄，owner LAWWW）。花藝課成品平常就能送（使用者確認）。
   - 11-12 04:0x：AA_820 花藝課定稿（BB_376 採納八處）已交 LAWWW 58c5c2c1b；AA_821 越好吃小館已寫（b7ebab33f），送 BB 中；AA_793 回 LAWWW 五問。
+  - **11-12 04:5x 接班欠的步驟補做**：duty find＝RULE_SOURCE claude/adoring-meitner-mqzst8（seq 132，值班 C）；roles 0；check_orphans：沒用到的素材 0、停住的看板 0、白名單待接 0；asks 14 項狀態不一樣→改了 13 項（X139 四筆在遊戲裡、X324 六筆改回進行中、X350），剩 UA-AA-1112-02（語彤共創暫停）等 LAWWW 把 USER_WANTS X150 改成暫停；loose 2 項＝本機舊分支 aa-push（10 月推開發分支用的本機分支，內容都在遠端，不是沒保存的成果）、企劃線沒有 tasks.json（工具要 --ref）。
+  - 11-12 已交 LAWWW 的定稿（都在企劃線 2ec610d95 以前）：AA_818／819／822＋AA_781 Y0S1／Y0S2（可昕四批）、AA_820 花藝課、AA_821 越好吃小館、AA_823 東南大聯商行、AA_824 汀州聯通、AA_710 飲料八格、AA_792／793 的回覆、AA_280 營業時間。汀州路還欠：客居雲南、溫特寶邸（等 LAWWW 互動點清單）；東南大聯買的泡麵零食在宿舍當宵夜（backlog）；越好吃等汀州路吃飯的店加進邀約地點（backlog）；X356 每家店店員／客人／巧遇同學／打工的缺字清單等 LAWWW。
+  - 可昕還欠：其他檔三連短句 22 則（events 7、invites、movie、r2y3a…），做完重量。
   - DLG-FULL-REVIEW-1110（X324）backlog：閒聊階梯「交往中」那一階（AA_746 §2 第 3 點）；AA_812 closing／arrive 請客；其他六人約會稿「我請」清單、懸著的承諾再掃一次。
   - CHAR-OLD-PURGE-1110（X330）、CANON-PURGE-1104（X221）：企劃線文件舊設定續掃。
   - MOVIE-TALK-1110、DLG-FX-MECH-1110 的 AA 待辦（見下一節同名條目）。
