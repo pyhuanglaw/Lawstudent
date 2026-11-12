@@ -985,3 +985,12 @@
 [20:10:10] [res] cpu=0% mem=41% (13.0/31.4 GB) chrome_testing=5  START SHUT_XS_door_14_r2
 [20:10:10] worktree add 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2: invalid reference - fetching main and the commit itself
 [20:12:17] [res] cpu=1% mem=48% (15.3/31.4 GB) chrome_testing=9  END SHUT_XS_door_2330_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5ed713f3b..829b627fe  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:12:29] ==== END   SHUT_XS_door_2330_r2  exit=0  129s   ====
+[20:12:37] memory 40% before starting SHUT_TZ_door_14_r2 (2 running)
+[20:12:37] ==== START SHUT_TZ_door_14_r2  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
+[20:12:40] [res] cpu=6% mem=40% (12.6/31.4 GB) chrome_testing=5  START SHUT_TZ_door_14_r2
+[20:12:45] [res] cpu=1% mem=41% (12.7/31.4 GB) chrome_testing=5  END SHUT_XS_door_14_r2
+[20:12:49] 正在跑：SSB_gg3c（已跑 13 分／上限 25 分）、SHUT_XS_door_14_r2（已跑 2 分／上限 10 分）、SHUT_TZ_door_14_r2（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
