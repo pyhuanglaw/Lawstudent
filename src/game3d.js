@@ -641,7 +641,13 @@ const GAME = (function(){
     if(add){ L.push({at:new Date().toISOString().slice(0,16),v:(($('verLabel')||{}).textContent||'').replace(/^版本\s*/,''),day:G&&G.day,hour:G&&+(+G.hour).toFixed(2),zone:G&&G.zone,depth:D.busyDepth,by:D.busyWho.slice(0,4),cover:D.coverWho||null,ff:typeof ECONFF!=='undefined'?!!ECONFF.busy:null,evr:typeof EVENTS!=='undefined'?EVENTS.running||null:null}); L=L.slice(-5); try{ localStorage.setItem('fatiao3d_stuck',JSON.stringify(L)); }catch(e){} }
     return L; }
   GM.stuckLog=stuckLog;
-  function frame(now){ requestAnimationFrame(frame); if(!GM.running) return; const realDt=(now-last)/1000||0.016; let dt=Math.min(GM.turbo?0.3:0.1,realDt); last=now; if(E.paused||document.hidden) return; E.update(dt); if(typeof BIKE!=='undefined') BIKE.tick(GM,dt); updateWalks(dt); dlgTick(dt); staleCheck(realDt); if((GM._upT=(GM._upT||0)-realDt)<0){ GM._upT=1.5; GM.upgradeModels(); GM.dedupAnon(false); }
+  /* 幀率上限（BUG-RUN-STUTTER-1112）：使用者的外接螢幕是 300 Hz（chrome://gpu：Refresh Rate 300），requestAnimationFrame 每 3.3 ms 叫一次——遊戲一幀要十幾二十毫秒，
+     不設上限就是「能多快就多快」，每一幀在螢幕上停留的時間忽長忽短（3.3 ms 的不定倍數），看起來一頓一頓；CC 的測試瀏覽器是無視窗 60 Hz，所以三輪都量不到。
+     做法：最多每秒 GM.fpsCap 幀（預設 60）——還沒到下一幀的時間就跳過這次 rAF（不更新、不畫）；60 Hz 的螢幕每次 rAF 都過（和以前一樣）。
+     用「排定的下一幀時間」累加（不是「距離上一幀多久」），在 120／144／240／300 Hz 上都落在固定的那幾個垂直同步上。網址 ?fps=N 改上限、?fps=0 不設上限（對照用）。測試 tests/fps_cap_1112_unit.js */
+  GM.fpsCap=(()=>{ try{ const m=/[?&]fps=(\d+)/.exec(location.search||''); if(m) return +m[1]; }catch(e){} return 60; })();
+  let nextAt=0; GM.frameDue=function(now){ const cap=GM.fpsCap; if(!(cap>0)) return true; const iv=1000/cap; if(now<nextAt-1) return false;   /* 1 ms 容許：60 Hz 的 rAF 間隔在 16.6～16.7 ms 之間抖動，不能因此隔一幀才畫 */ nextAt=nextAt+iv>now?nextAt+iv:now+iv;   /* 照排定的時間累加；落後了（卡頓、切回分頁）就從現在重新排，不連續補畫 */ return true; };
+  function frame(now){ requestAnimationFrame(frame); if(!GM.running) return; if(!GM.frameDue(now)) return; const realDt=(now-last)/1000||0.016; let dt=Math.min(GM.turbo?0.3:0.1,realDt); last=now; if(E.paused||document.hidden) return; E.update(dt); if(typeof BIKE!=='undefined') BIKE.tick(GM,dt); updateWalks(dt); dlgTick(dt); staleCheck(realDt); if((GM._upT=(GM._upT||0)-realDt)<0){ GM._upT=1.5; GM.upgradeModels(); GM.dedupAnon(false); }
     // 時間流動（自由行動時）
     if(!E.player.busy&&!D.active){ G.hour+=dt*GM.hourRate; E.hour=G.hour; if(E.frame%3===0) actTrack(); }
     if(!GM.titleIdle&&STORY.routeWatch) STORY.routeWatch(G);   /* 交換路線（1A-02）：每一格都看，不管忙不忙——上課坐著、劇情裡、睡覺時 S.tick 不跑，時間跨過截止以後的第一格就照那一刻定（BB-C 10-20）*/
