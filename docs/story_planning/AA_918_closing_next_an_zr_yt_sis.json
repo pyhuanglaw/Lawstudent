@@ -1,0 +1,339 @@
+{
+ "_meta": {
+  "doc": "AA_918 約會收尾「下次…」第二批：以安、芷若、語彤、學姊",
+  "by": "AA-C 2026-11-12 21:3x",
+  "status": "待 BB 第二意見（D153）",
+  "what": "同 AA_917；留以安 D01 第一次「下次還要來。」（第一次約會一句輕的，跟沛珊 D01 一樣）。學姊 D16「回去我請你喝咖啡」是當天就兌現的，不算懸著。"
+ },
+ "rows": [
+  {
+   "src": "date_system/lines/D01.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次來，應該又換了一個展。",
+   "new": "展換得好快。我每次來都像第一次。"
+  },
+  {
+   "src": "date_system/lines/D02.json",
+   "who": "heroine_03",
+   "where": "closing/first/lines/1/text",
+   "old": "下次帶書，池子旁邊那張椅子都沒有人坐。",
+   "new": "池子旁邊那張椅子都沒有人坐。我坐了一下，很安靜。"
+  },
+  {
+   "src": "date_system/lines/D02.json",
+   "who": "heroine_05",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次換你約我。地點不要先告訴我。",
+   "new": "你一路都沒有問要去哪。我很喜歡這一點。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次換我帶你去安靜的地方。",
+   "new": "好吵喔。可是跟你一起吵，我不討厭。"
+  },
+  {
+   "src": "date_system/lines/D03.json",
+   "who": "heroine_05",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次還來。第三關我還沒過。",
+   "new": "第三關我還沒過。今天先放過它。"
+  },
+  {
+   "src": "date_system/lines/D04.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次你選片，我盡量不挑。",
+   "new": "散場燈亮的那一下，我最喜歡。"
+  },
+  {
+   "src": "date_system/lines/D04.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次你選片。不要太長的。",
+   "new": "這部有點長。可是我沒有睡著，你可以作證。"
+  },
+  {
+   "src": "date_system/lines/D05.json",
+   "who": "heroine_01",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次換我選片。可能會選有法庭的。",
+   "new": "散場的時候，我還在想那個證人說的話。"
+  },
+  {
+   "src": "date_system/lines/D06.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次換展的時候再來。",
+   "new": "這一檔展我會記很久。最後那張我拍下來了。"
+  },
+  {
+   "src": "date_system/lines/D07.json",
+   "who": "heroine_01",
+   "where": "closing/normal/2/lines/0/text",
+   "old": "下次來，我想看另一邊的展覽室。",
+   "new": "另一邊的展覽室沒開。我們看的這一邊，就夠我想很久了。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "heroine_01",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想看夜行館，這次沒走到。",
+   "new": "企鵝那區我站了好久。牠們排隊的樣子很守規矩。"
+  },
+  {
+   "src": "date_system/lines/D08.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次來，我想看夜行動物館。",
+   "new": "長頸鹿那區我站最久。牠們吃東西好慢。"
+  },
+  {
+   "src": "date_system/lines/D09.json",
+   "who": "heroine_03",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次走另一條步道，牌子上說有一棵老樹。",
+   "new": "牌子上說有一棵老樹，我們走的這條沒有。可是有風。"
+  },
+  {
+   "src": "date_system/lines/D10.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次來，我要搶到那艘黃色的天鵝船。",
+   "new": "黃色那艘天鵝船被搶走了。我們這艘也很好踩。"
+  },
+  {
+   "src": "date_system/lines/D10.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次晚一點來，我想看橋上的燈。",
+   "new": "橋上的燈亮了。剛好。"
+  },
+  {
+   "src": "date_system/lines/D12.json",
+   "who": "heroine_03",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次來，換你拿相機。我想知道你會拍什麼。",
+   "new": "你今天拿相機拍了什麼？給我看一張就好。"
+  },
+  {
+   "src": "date_system/lines/D13.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次你排，我不看行程。",
+   "new": "今天的行程我沒看。跟著你走，比較輕鬆。"
+  },
+  {
+   "src": "date_system/lines/D13.json",
+   "who": "heroine_01",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次換你查日落。我想知道你會不會查錯。",
+   "new": "日落比我查的時間早了三分鐘。我記下來了。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "heroine_02",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次再來，換你約我。",
+   "new": "今天是你約的。這句我要寫在杯子上。"
+  },
+  {
+   "src": "date_system/lines/D14.json",
+   "who": "heroine_03",
+   "where": "closing/normal/0/lines/0/text",
+   "old": "下次去老街那邊的河邊。那裡才是我看的地方。",
+   "new": "河邊的風好大。我小時候都在老街那邊的河邊看。"
+  },
+  {
+   "src": "date_system/lines/D15.json",
+   "who": "heroine_01",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次早一點來。日落也想看。",
+   "new": "太陽下去得好快。我還沒準備好。"
+  },
+  {
+   "src": "date_system/lines/D16.json",
+   "who": "heroine_03",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次往另一邊開，東北角我沒去過。",
+   "new": "往這邊開，海一直在右邊。我一直看。"
+  },
+  {
+   "src": "date_system/lines/D16.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次換我開。要先借到車。",
+   "new": "今天你開了一整天。回去我請你喝咖啡。"
+  },
+  {
+   "src": "date_system/lines/D17.json",
+   "who": "heroine_01",
+   "where": "closing/first/lines/1/text",
+   "old": "下次穿運動鞋。",
+   "new": "我穿錯鞋了。腳很痛，可是很值得。"
+  },
+  {
+   "src": "date_system/lines/D18.json",
+   "who": "heroine_01",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想住一晚。聽說人少的時候很不一樣。",
+   "new": "人少的時候這裡一定更安靜。現在這樣也好。"
+  },
+  {
+   "src": "date_system/lines/D19.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次，我想早一點來。看山醒過來。",
+   "new": "山在晚上安靜下來了。我比較喜歡這個時候。"
+  },
+  {
+   "src": "date_system/lines/D21.json",
+   "who": "heroine_01",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次早上來。人比較少，可以看久一點。",
+   "new": "我們看了好久。我很久沒有這樣慢慢看東西了。"
+  },
+  {
+   "src": "date_system/lines/D21.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想染一條大一點的，圍巾那種。",
+   "new": "我染的那條，顏色比我想的深。我很喜歡。"
+  },
+  {
+   "src": "date_system/lines/D21.json",
+   "who": "heroine_05",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次換我帶你走。我會先查好。",
+   "new": "今天你帶的路，我都記住了。"
+  },
+  {
+   "src": "date_system/lines/D22.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次住一晚，看湖上的日出。",
+   "new": "湖上起霧了。我們剛好看到。"
+  },
+  {
+   "src": "date_system/lines/D23.json",
+   "who": "heroine_03",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我要更早來，看船進港。",
+   "new": "船進港的時候好吵。我喜歡這種吵。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "heroine_01",
+   "where": "closing/dating/0/lines/0/text",
+   "old": "下次再來。{name}，你有空嗎？",
+   "new": "{name}，今天謝謝你。我很開心，我想讓你知道。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "heroine_03",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次冬天。",
+   "new": "這裡冬天應該更冷。今天剛剛好。"
+  },
+  {
+   "src": "date_system/lines/D24.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次早一點出門。下午才到，太趕了。",
+   "new": "下午才到，有點趕。可是溫泉沒有趕。"
+  },
+  {
+   "src": "date_system/lines/D25.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次早一點來。",
+   "new": "海比我記得的藍。"
+  },
+  {
+   "src": "date_system/lines/D26.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次，我想帶你看我家附近的那間老戲院。它可能已經關了。",
+   "new": "我家附近有一間老戲院。不知道還在不在，我等一下查。"
+  },
+  {
+   "src": "date_system/lines/D26.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次來這裡，什麼都不排。",
+   "new": "今天什麼都沒做。我好久沒有這樣了。"
+  },
+  {
+   "src": "date_system/lines/D27.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想坐那班小火車上山。",
+   "new": "小火車一直在叫。我覺得它在跟我們打招呼。"
+  },
+  {
+   "src": "date_system/lines/D28.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想住久一點，住到店家認得我們。",
+   "new": "巷子裡的店家都在門口聊天。我想多待一下。"
+  },
+  {
+   "src": "date_system/lines/D28.json",
+   "who": "heroine_03",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次來，我要把沒吃到的那幾樣補完。",
+   "new": "我吃太飽了。剩下那幾樣，讓它們等別人。"
+  },
+  {
+   "src": "date_system/lines/D28.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次早一點訂票。這次差點沒位子。",
+   "new": "位子差點沒訂到。坐到的時候我鬆了一口氣。"
+  },
+  {
+   "src": "date_system/lines/D29.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次，我想坐船去旗津。",
+   "new": "港邊的船開來開去。我想知道每一艘要去哪。"
+  },
+  {
+   "src": "date_system/lines/D31.json",
+   "who": "heroine_01",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次我想在湖邊住久一點。每個時間的湖應該都不一樣。",
+   "new": "湖一直在變顏色。我一直看，捨不得走。"
+  },
+  {
+   "src": "date_system/lines/D31.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次坐最早的那班船。",
+   "new": "船上的風很冷。你的外套借我。"
+  },
+  {
+   "src": "date_system/lines/D32.json",
+   "who": "heroine_01",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次來，我什麼都不排。看雲就好。",
+   "new": "我什麼都沒排，就只是看雲。原來這樣也可以。"
+  },
+  {
+   "src": "date_system/lines/D32.json",
+   "who": "heroine_05",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次你不用開這麼久。我們搭車來。",
+   "new": "你開了好久。我在副駕駛座都沒睡，你有看到。"
+  },
+  {
+   "src": "date_system/lines/D33.json",
+   "who": "heroine_02",
+   "where": "closing/normal/1/lines/0/text",
+   "old": "下次換你挑片，我都看。",
+   "new": "你挑的片，我很喜歡。結尾那段我差點哭。"
+  }
+ ]
+}
