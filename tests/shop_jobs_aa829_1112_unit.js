@@ -33,6 +33,9 @@ const fresh=(d,h,zone,flags)=>{ const G=H.fresh(key(d),h,zone||'dorm',flags); to
 const said=t=>H.said.some(s=>s.t===t), saidBy=(w,t)=>H.said.some(s=>s.t===t&&s.who===w), L=()=>H.lines();
 const hire=(k,days,o)=>{ const J0=JOBS.rec(H.G); J0[k]=Object.assign({since:H.G.day-1,from:(H.G.day-1)*24,day:days,shifts:0,skill:0,missedRun:0,quit:null,gone:null,missPend:false,missN:0,worked:[],chk:H.G.day-1,wk:{},brk:{},ot:{}},o||{}); return J0[k]; };
 const ZONE={flower:'flower_notes',yue:'tz_yuehaochi',dakou:'xs_dakou',shanlan:'xs_shanlan'};
+/* 2026-11-12 第五輪：來吃飯的人要真的在店裡才演（JOBS.mealBring）。這一支沒有 3D（GM.spawnCharacter 是空的）、只驗台詞的順序＝這裡當作人都帶得進來；
+   人在不在店裡、帶不進來就不演，在 tests/shop_jobs_round5_1112_unit.js A1 驗（那邊的 STORY.refreshSchedule 是真的）。期望值沒有改。*/
+if(typeof JOBS!=='undefined'&&JOBS.mealBring) JOBS.mealBring=()=>true;
 const sleeps=[]; if(typeof STORY!=='undefined') STORY.sleepNow=async(gm,h)=>{ sleeps.push(h); H.G.day+=1; H.G.hour=h; };   /* 大夜班下班（S.nightSleep）：只記有沒有叫、睡到幾點 */
 const shift=async(k,d,picks)=>{ const h0=JOBS.hrs(k,d)[0]; at(d,h0-0.1,ZONE[k]); H.said=[]; H.opts=[]; H.entered=[]; H.picks=(picks||[]).slice(); toasts.length=0; sleeps.length=0; const m0=H.G.money; await JOBS.runShift(GM,k); return H.G.money-m0; };
 const desk=z=>{ H.E.interactables=[]; return JOBS.addDesk(GM,z); };
