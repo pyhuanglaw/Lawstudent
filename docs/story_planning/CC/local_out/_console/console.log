@@ -758,3 +758,14 @@
 [02:21:51] 正在跑：L118_CAM36_a（已跑 14 分／上限 60 分）、L118_CAM36_b（已跑 14 分／上限 60 分）、L118_CAM36_c（已跑 10 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [02:26:51] 正在跑：L118_CAM36_a（已跑 19 分／上限 60 分）、L118_CAM36_b（已跑 19 分／上限 60 分）、L118_CAM36_c（已跑 15 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [02:29:21] [res] cpu=7% mem=45% (14.3/31.4 GB) chrome_testing=10  END L118_CAM36_a
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b097f7e279..e6d79a70b3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[02:29:35] ==== END   L118_CAM36_a  exit=1  1291s   ====
+[02:29:38] memory 46% before starting TUTOR_BACK_r6 (2 running)
+[02:29:38] ==== START TUTOR_BACK_r6  (probe @ df0db366936e400caf6b6f59478f810b7ed84fe5) ====
+[02:29:41] [res] cpu=3% mem=46% (14.6/31.4 GB) chrome_testing=10  START TUTOR_BACK_r6
+[02:29:41] worktree add df0db366936e400caf6b6f59478f810b7ed84fe5: invalid reference - fetching main and the commit itself
+[02:31:51] 正在跑：L118_CAM36_b（已跑 24 分／上限 60 分）、L118_CAM36_c（已跑 20 分／上限 60 分）、TUTOR_BACK_r6（已跑 2 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[02:33:51] [res] cpu=1% mem=45% (14.3/31.4 GB) chrome_testing=10  END TUTOR_BACK_r6
+[02:33:51] D158：推送前把 6 處舊序章／外校的字換成代號
