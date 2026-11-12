@@ -55,32 +55,33 @@
   },
   {
    "zone": "xs_dabu",
-   "sha": "207a8216d9",
-   "verdict": "FAIL",
-   "fail": [
-    "⑦b 櫥窗灰白牆 vs 店內淺木牆木地板（使用者 11-12 06:4x 指出）"
-   ],
+   "sha": "f8a00372bb",
+   "verdict": "部分",
+   "fail": [],
    "pending": [
-    "SHOP-REAL-INSIDE f8a00372bb 重判"
-   ],
-   "at": "2026-11-12T06:5x",
-   "ref": "BB_379 更正"
-  },
-  {
-   "zone": "xs_haopai",
-   "sha": "42c493ca27",
-   "verdict": "FAIL",
-   "fail": [
-    "⑦b 櫥窗白牆展示盒 vs 店內米色洞洞板球拍牆",
-    "14:00 按離開還在店裡（待重現）"
-   ],
-   "pending": [
-    "SHOP-REAL-INSIDE 重判",
+    "⑦a 新 ⑤ 算法 r2",
     "閃",
     "1b"
    ],
-   "at": "2026-11-12T07:2x",
-   "ref": "BB_379 第 2 包"
+   "note": "⑦b PASS（SHOP-REAL-INSIDE：店外看到鞋牆、木地板、米色牆＝店內）；①③④⑥ 207a 已 PASS",
+   "at": "2026-11-12T07:4x",
+   "ref": "BB_379 11-12 07:4x"
+  },
+  {
+   "zone": "xs_haopai",
+   "sha": "f8a00372bb",
+   "verdict": "部分",
+   "fail": [
+    "14:00 按離開還在店裡（待 BB0719_exit 重現；42c4 版）"
+   ],
+   "pending": [
+    "⑦a 新 ⑤ 算法 r2",
+    "閃",
+    "1b"
+   ],
+   "note": "⑦b PASS（店外看到洞洞板牆、球拍牆、穿線機＝店內）",
+   "at": "2026-11-12T07:4x",
+   "ref": "BB_379 11-12 07:4x"
   },
   {
    "zone": "xs_xsports",
@@ -92,7 +93,8 @@
     "22:00 是否已打烊"
    ],
    "at": "2026-11-12T07:2x",
-   "ref": "BB_379 第 2 包"
+   "ref": "BB_379 第 2 包",
+   "note": "f8a0 SHOP-REAL-INSIDE ⑦b 仍 PASS（07:4x 看圖）"
   },
   {
    "zone": "xs_shanlan",
@@ -104,7 +106,8 @@
    ],
    "pending": [],
    "at": "2026-11-12T07:2x",
-   "ref": "BB_379 第 2 包"
+   "ref": "BB_379 第 2 包",
+   "note": "f8a0 SHOP-REAL-INSIDE ⑦b 仍 PASS（07:4x 看圖）"
   },
   {
    "zone": "xs_tongxian",
@@ -114,7 +117,7 @@
    "pending": [
     "閃"
    ],
-   "note": "③沒有對外窗、門上霧玻璃＝例外",
+   "note": "③沒有對外窗、門上霧玻璃＝例外；f8a0 SHOP-REAL-INSIDE ⑦b 仍 PASS（07:4x 看圖）",
    "at": "2026-11-12T07:2x",
    "ref": "BB_379 第 2 包"
   },
@@ -128,7 +131,8 @@
     "1b 店員卡櫃台／客人面壁近照"
    ],
    "at": "2026-11-12T07:2x",
-   "ref": "BB_379 第 2 包"
+   "ref": "BB_379 第 2 包",
+   "note": "f8a0 SHOP-REAL-INSIDE ⑦b 仍 PASS（07:4x 看圖）"
   },
   {
    "zone": "xs_nanyang",
