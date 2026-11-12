@@ -1160,3 +1160,11 @@
 [05:46:48] [res] cpu=8% mem=47% (14.9/31.4 GB) chrome_testing=9  START TZ_SIGN_2330_edf2
 [05:46:52] 正在跑：YUE_MEAL_ab9a（已跑 3 分／上限 25 分）、YY_SEATS_edf2（已跑 0 分／上限 40 分）、TZ_SIGN_2330_edf2（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [05:47:41] [res] cpu=16% mem=47% (14.9/31.4 GB) chrome_testing=9  END YUE_MEAL_ab9a
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f6cb3c6730..49c9223a89  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:47:48] ==== END   YUE_MEAL_ab9a  exit=1  242s   ====
+[05:47:51] memory 48% before starting TZ_DOOR_2330_edf2 (2 running)
+[05:47:51] ==== START TZ_DOOR_2330_edf2  (probe @ df0db366936e400caf6b6f59478f810b7ed84fe5) ====
+[05:47:54] [res] cpu=7% mem=48% (15.2/31.4 GB) chrome_testing=9  START TZ_DOOR_2330_edf2
+[05:49:00] [res] cpu=16% mem=46% (14.6/31.4 GB) chrome_testing=9  END TZ_SIGN_2330_edf2
