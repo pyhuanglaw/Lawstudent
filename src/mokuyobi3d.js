@@ -67,6 +67,7 @@ const MOK3=(function(){
     // 一樓：樓梯間
     const g0=new THREE.Group(); g0.name='L0'; g0.userData.dyn=true; const fb0=new THREE.Group(); fb0.name='fallback0'; fb0.userData.dyn=true; g0.add(fb0); stairFallback(L,fb0);
     const root=new THREE.Group(); root.add(g0); root.add(g1); z.group=root;
+    if(Z3.roomBackdrop){ const bd=Z3.roomBackdrop(root,L.w,L.d,Y1+L.h,7,0,0); if(bd) bd.name='mok_backdrop'; }   /* MOKU-STAIR-VOID-1112（LAWWW2 自查 11-12）：一樓樓梯間只有 1.2 m 寬，跟隨鏡頭一定在牆外——兩邊露出牆外面米白的空底和一截天空。兩層樓外面包一圈暗色的殼（和 202、多功能教室一樣；二樓臨街窗有窗景板 mok_window_view，在殼裡面）*/
     const {nav0,st}=buildNav(L,z.nav);
     z.levels=[nav0,z.nav]; z.levelGroups=[{group:g0,y:0},{group:g1,y:Y1}]; z.nav=nav0; z.spawn=Object.assign({},IN); z.bounds={w:L.w,d:L.d}; z.camMaxY=L.h-0.15;
     z.cornerSlip=true;   /* MOKU-PLANT-CORNER-1111：玩家推進家具外角（植物東南角往樓梯斜推）時往旁邊讓開、繞過去（engine3d.js stepEntity 的 cornerSlip；只有開了的區域）*/

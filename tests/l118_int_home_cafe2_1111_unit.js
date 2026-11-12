@@ -30,7 +30,7 @@ for(const id of Object.keys(WANT)){ const L=J(id), W=WANT[id], B=L.bounds, inB=q
   const four=Object.values(byT).filter(a=>a.length>=4);
   check(id+' 2. 座位 '+W.seats+' 個、都在界內；至少一張四人桌（同一個 table 四個位子，離桌子中心 1.1 m 內）', L.seats.length===W.seats&&L.seats.every(inB)&&four.length>=1&&four.every(a=>a.every(s=>Math.hypot(s.x-s.table[0],s.z-s.table[1])<1.1)), L.seats.length+' 個；四人桌 '+four.length+' 張');
   const far=L.seats.filter(s=>s.r&&s.r>0.7);
-  check(id+' 2. 靠牆離走道遠的座位（r＞0.7）都有 ap，ap 在 r 的範圍裡', far.every(s=>s.ap&&Math.hypot(s.ap[0]-s.x,s.ap[1]-s.z)<=s.r-0.05), far.length+' 個');
+  check(id+' 2. 靠牆離走道遠的座位（r＞0.7）都有 ap，ap 在 r 的範圍裡', far.every(s=>s.ap&&Math.hypot(s.ap[0]-(s.i?s.i[0]:s.x),s.ap[1]-(s.i?s.i[1]:s.z))<=s.r-0.05), far.length+' 個');   /* L118-IT-REACH-1111 收尾（11-12）：配置寫了按鈕位置 i 的，半徑從按鈕量（不是從椅子）*/
   // 3
   const C=L.counter, o=L.order;
   check(id+' 3. 店員、點餐在界內；點餐在櫃台前面（櫃台的南邊 1.2 m 內）；店員在櫃台後面', inB(L.clerk)&&inB(o)&&o.z>C.z1&&o.z-C.z1<1.2&&o.x>=C.x0-0.2&&o.x<=C.x1+0.2&&L.clerk.z<C.z0, JSON.stringify([L.clerk,o,C]));

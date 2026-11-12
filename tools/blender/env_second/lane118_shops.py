@@ -516,6 +516,8 @@ def finish(c):
                bounds=dict(x0=c.X0, x1=c.X1, z0=c.Z0, z1=c.Z1), h=H, cam_dist=c.S.get('cam', 4.2), door=c.door, spawn=c.spawn, exits=c.exits, street=street,
                counter=c.counter, clerk=c.clerk, order=c.order, seats=c.seats, interact=c.inter, blocks=c.blocks)
     if getattr(c, 'cook', None): lay['cook'] = c.cook   # 第二個店員的站位（清州刀削麵門口削麵的師傅；AA_772）——選用欄位，沒有的店不寫
+    sys.path.insert(0, os.path.join(L.ROOT, 'tools', 'lane118')); import it_fix; _st = it_fix.apply(c.sid, lay)   # L118-IT-REACH-1111：按鈕位置、走近點、半徑照 tools/lane118/it_fix.py（BB 在使用者電腦驗過的值；原本是遊戲程式裡的覆寫表）
+    if _st: print('IT_FIX 對不到配置：' + '、'.join(_st))
     prob = navcheck(c, lay); lay['navcheck'] = dict(cell=0.4, inset=0.25, problems=prob)
     L.write_json(os.path.join(OUTDIR, f'l118_{c.sid}.layout.json'), lay)
     L.write_json(out[:-4] + '.json', dict(st if isinstance(st, dict) else {}, tris_total=tris, layout=f'l118_{c.sid}.layout.json', seats=len(c.seats)))

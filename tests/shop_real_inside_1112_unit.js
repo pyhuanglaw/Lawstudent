@@ -73,13 +73,15 @@ ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張�
   for(const f of ['tingzhou_layout.js','tz_shops_layout.js']) vm.runInContext(fs.readFileSync(path.join(R,'src/data',f),'utf8').replace(/^const /mg,'var '),c3);
   const tz=fs.readFileSync(path.join(R,'src/tingzhou3d.js'),'utf8'); ok(/Z3\.shopInsideReal\(E,g,zone,S\.shopReal\(\)\)/.test(tz),'㉒ tingzhou3d.js 接上');
   const m1=/S\.REAL_DEP=(\{[^}]*\});/.exec(tz), m2=/S\.shopReal=function\(\)\{([\s\S]*?)return out; \};/.exec(tz);
-  const list=vm.runInContext('(function(){ const S={REAL_DEP:'+m1[1]+'}; '+m2[1]+' return out; })()',c3);
+  const m3=/S\.REAL_SX=(\{[^}]*\});/.exec(tz); const list=vm.runInContext('(function(){ const S={REAL_DEP:'+m1[1]+',REAL_SX:'+(m3?m3[1]:'{}')+'}; '+m2[1]+' return out; })()',c3);
+  { const by=Object.fromEntries(list.map(q=>[q.id,q])); ok(['liantong','dongnan','keju','yuehaochi'].every(id=>Math.abs(by[id].cx-(c3.TINGZHOU_LAYOUT.facade.west-c3.TINGZHOU_LAYOUT.facade.arcade-0.3))<1e-9&&Array.isArray(by[id].sx)&&by[id].sh<=2.9)&&['taimi','xile','yindehao'].every(id=>Math.abs(Math.abs(by[id].cx)-(Math.abs(c3.TINGZHOU_LAYOUT.facade.west)+3.0))<1e-9),'㉓b TZ-SHUTTER-POS-1112：沒有騎樓的四間玻璃在店面線後 0.3 m（x '+(c3.TINGZHOU_LAYOUT.facade.west-c3.TINGZHOU_LAYOUT.facade.arcade-0.3)+'），鐵捲門只蓋玻璃那一段、不高過招牌板'); }
   ok(list.length===7,'㉓ 汀州路 7 間：'+list.map(q=>q.id).join('、'));
   const T=c3.TINGZHOU_LAYOUT, Z=c3.TZ_SHOPS_LAYOUT;
   for(const q of list){ const sp=T.shops.find(z=>z.id===q.id), L=Z[q.id], w=sp.side==='W';
     ok(Math.abs(L.w-(sp.z1-sp.z0))<=0.6&&q.w===L.w&&q.d===L.d&&q.key===L.asset&&q.place===L.zone,'㉔ '+q.id+'：室內 '+L.w+'×'+L.d+' 對著街上那一間（寬 '+(sp.z1-sp.z0)+'）、模型 '+q.key);
     ok(w?(q.ry===Math.PI/2&&q.x<T.facade.west):(q.ry===-Math.PI/2&&q.x>T.facade.east),'㉕ '+q.id+'：'+(w?'西側朝東':'東側朝西')+'，放在立面後面');
-    const mm=new RegExp("'"+q.id+"': dict\\((?:arcade=False, )?dep=([0-9.]+), real=True, back=([0-9.]+)").exec(ws); ok(mm&&+mm[2]>=q.d+0.1-1e-9&&Math.abs(+mm[1]-Math.abs(q.cx-(w?T.facade.west:T.facade.east)))<1e-9,'㉖ wz_street.py '+q.id+'：real、牆挖 '+(mm&&mm[2])+' m、玻璃離立面 '+(mm&&mm[1])+' m 和遊戲的設定一樣'); } }
+    const mm=new RegExp("'"+q.id+"': dict\\((arcade=False, )?dep=([0-9.]+), real=True, back=([0-9.]+)").exec(ws); if(mm){ const noArc=!!mm[1]; mm[1]=String(+mm[2]+(noArc?T.facade.arcade:0)); mm[2]=mm[3]; }   /* TZ-SHUTTER-POS-1112：沒有騎樓的店整棟退 arcade（3.2 m）到店面線，玻璃離立面＝arcade＋dep（原本這一項只比 dep，四間都少 3.2 m 也過） */
+    ok(mm&&+mm[2]>=q.d+0.1-1e-9&&Math.abs(+mm[1]-Math.abs(q.cx-(w?T.facade.west:T.facade.east)))<1e-9,'㉖ wz_street.py '+q.id+'：real、牆挖 '+(mm&&mm[2])+' m、玻璃離立面 '+(mm&&mm[1])+' m 和遊戲的設定一樣'); } }
 { const z3=fs.readFileSync(path.join(__dirname,'..','src/zones3d.js'),'utf8');
   ok(/shop_shutter_'\+s\.id/.test(z3)&&/s\.shutter\.visible=!isOpen\(s\)/.test(z3)&&/m\.visible=!isOpen\(s\)/.test(z3),'㉟ 打烊拉下鐵捲門：每一間在玻璃外放一片（shop_shutter_<店>），營業中藏、打烊顯示，每一拍照營業時間更新（BB 11-12：鮮果打烊沒有鐵門）'); }
 { const z3=fs.readFileSync(path.join(__dirname,'..','src/zones3d.js'),'utf8');

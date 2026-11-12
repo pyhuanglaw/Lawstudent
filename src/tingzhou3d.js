@@ -168,11 +168,12 @@ const TZ3=(function(){
   if(typeof Z3!=='undefined'&&Z3.ZONES&&LAY()){ Z3.ZONES.tingzhou={id:'tingzhou',name:'汀州路',indoor:false,cityLight:0.95,size:[LAY().nav.w,LAY().nav.d],camDist:5.6,build(E){ return S.build(E); }}; S.hookGongguan(); }
   /* SHOP-REAL-INSIDE-1112：汀州路走得進去的店（TZ_SHOPS_LAYOUT 裡 zone 是 tz_ 開頭、街上有這一間的）→ Z3.shopInsideReal 的清單。
      室內的原點在店的中心、正面是 +z。西側的店朝東（轉 π/2）、東側的店朝西（轉 −π/2）；正面那一面（z＝d/2）貼在店面玻璃後面 2 cm。
-     玻璃離立面多遠（S.REAL_DEP）＝街景模型 wz_street.py TZ_ARC 的 dep：有騎樓的三間 3.0 m，沒有騎樓的四間 0.3 m。 */
-  S.REAL_DEP={taimi:3.0,xile:3.0,yindehao:3.0,liantong:0.3,dongnan:0.3,keju:0.3,yuehaochi:0.3};
+     玻璃離立面多遠（S.REAL_DEP）＝街景模型 wz_street.py TZ_ARC 的 dep：有騎樓的三間 3.0 m，沒有騎樓的四間 3.2＋0.3＝3.5 m（整棟退到店面線）。 */
+  S.REAL_DEP={taimi:3.0,xile:3.0,yindehao:3.0,liantong:3.5,dongnan:3.5,keju:3.5,yuehaochi:3.5};   /* TZ-SHUTTER-POS-1112（BB 11-12：這四間 23:30 的鐵捲門在騎樓外緣，蓋住招牌、機車）：沒有騎樓的四間整棟退到店面線（立面再往裡 arcade 3.2 m，wz_street.py TZ_XS 那一段的 pos），玻璃在那裡再退 0.3＝離立面 3.5 m。原本寫 0.3＝店內模型和鐵捲門都往街上多出 3.2 m */
+  S.REAL_SX={liantong:[-1.95,1.95,2.8],dongnan:[-3.45,3.45,2.62],keju:[-2.4,1.45,2.7],yuehaochi:[-2.35,1.3,2.8]};   /* 鐵捲門只蓋玻璃那一段、高到玻璃上緣（wz_street.py TZ_XS 的 glass、glass_h）：不蓋住上面的招牌板（y 2.95 起）和旁邊的照片菜單 */
   S.shopReal=function(){ const T=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:null, Z=typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT:null, out=[]; if(!T||!Z) return out;
     for(const q of T.shops){ const L=Z[q.id], dep=S.REAL_DEP[q.id]; if(!L||dep===undefined||!/^tz_/.test(L.zone||'')) continue; const w=q.side==='W', gx=w?T.facade.west-dep:T.facade.east+dep, cz=(q.z0+q.z1)/2;
-      out.push({id:q.id,place:L.zone,key:L.asset,w:L.w,d:L.d,h:L.h,x:w?gx-0.02-L.d/2:gx+0.02+L.d/2,z:cz,ry:w?Math.PI/2:-Math.PI/2,cx:gx,cz,ex:0,ez:L.w/2}); }
+      out.push(Object.assign({id:q.id,place:L.zone,key:L.asset,w:L.w,d:L.d,h:L.h,x:w?gx-0.02-L.d/2:gx+0.02+L.d/2,z:cz,ry:w?Math.PI/2:-Math.PI/2,cx:gx,cz,ex:0,ez:L.w/2},S.REAL_SX[q.id]?{sx:S.REAL_SX[q.id].slice(0,2),sh:S.REAL_SX[q.id][2]}:{})); }
     return out; };
   return S;
 })();
