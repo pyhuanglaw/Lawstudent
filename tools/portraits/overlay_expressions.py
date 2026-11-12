@@ -112,7 +112,7 @@ def main():
     bg = np.asarray(sheet).astype(float)[4, 4]
     eye_box = cf['eye']                                    # 格子裡「眼睛＋（眼鏡）＋鼻子」那一塊（九格大致同位置；每格自己對齊）
     search = cf['search']                                  # 全身圖頭部附近
-    BOX = [(a.single, (0, 0, sheet.width, sheet.height))] if a.single else cf.get('boxes')                                  # 表情不是 3×3 九格、而是幾個頭各自的框（予樂：全身旁邊直排三個頭）：[(檔名, (x0,y0,x1,y1)), …]，框要一樣大
+    BOX = [(a.single, (0, 0, sheet.width, sheet.height))] if a.single else cf.get('boxes')                                  # 表情不是 3×3 九格、而是幾個頭各自的框（外校室友：全身旁邊直排三個頭）：[(檔名, (x0,y0,x1,y1)), …]，框要一樣大
     NM = [n for n, _ in BOX] if BOX else NAMES
     if BOX: CW, CH = BOX[0][1][2] - BOX[0][1][0], BOX[0][1][3] - BOX[0][1][1]
     getcell = (lambda i: sheet.crop(BOX[i][1])) if BOX else (lambda i: cell(sheet, i))
@@ -158,7 +158,7 @@ def main():
         from scipy import ndimage
         band = ndimage.binary_dilation(al < 0.1, iterations=cf.get('band', 4 if CLEAN else 3)) & (al > 0)
         sat = cr.max(axis=2) - cr.min(axis=2); lum = cr @ np.array([0.299, 0.587, 0.114])
-        al = np.where(band & (sat < 28) & (lum > cf.get('speck_lum', 115)), 0, al)   # 予樂：淺棕色的亂髮（飽和度高）外面一圈灰白細毛 → 帶寬 6、亮度門檻 95
+        al = np.where(band & (sat < 28) & (lum > cf.get('speck_lum', 115)), 0, al)   # 外校室友：淺棕色的亂髮（飽和度高）外面一圈灰白細毛 → 帶寬 6、亮度門檻 95
         if CLEAN:                                                         # AI 圖在頭髮外面畫了一圈比灰底還亮的光暈（亮、沒有顏色）：和外面連在一起的那一片全部當背景（眼白被睫毛、皮膚包著，不會連到外面）
             lt = (lum > 140) & (sat < 30); ext = al < 0.1
             lb, _n = ndimage.label(lt | ext); touch = np.unique(lb[ext]); al = np.where(lt & np.isin(lb, touch[touch > 0]), 0, al)

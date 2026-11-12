@@ -37,18 +37,18 @@ SRC = {
     'prof_zhou': ('R:prof_zhou.webp', (28, 452, 342, 1262)),
     'prof_lin': ('R:prof_lin.webp', (10, 276, 162, 788)),
     'prof_huang': ('R:prof_huang.webp', (33, 393, 322, 1133)),
-    # 經濟系大一、政大的予樂（BB_131 第 1 節也列了，遊戲 id 由 LAWWW-B 決定；先用檔名）
+    # 舊序章大一、外校的外校室友（BB_131 第 1 節也列了，遊戲 id 由 LAWWW-B 決定；先用檔名）
     'weilun': ('R:weilun.webp', (52, 460, 308, 1084)),
     'pinyu': ('R:pinyu.webp', (10, 323, 172, 768)),
     'xun': ('R:xun.webp', (52, 503, 302, 1142)),
     'tangrui': ('R:tangrui.webp', (10, 348, 180, 814)),
     'jiahao': ('R:jiahao.webp', (48, 548, 302, 1208)),
-    'yule': ('D:yule_portrait_sheet.webp', (40, 10, 530, 1475)),   # BB-B 2026-10-16 c383df3b（D59 通過）：予樂的正式立繪表（左邊全身、右邊三個頭）；原本 art_reference/yule.webp (18,368,180,810) 的版本不再用
+    'yule': ('D:yule_portrait_sheet.webp', (40, 10, 530, 1475)),   # BB-B 2026-10-16 c383df3b（D59 通過）：外校室友的正式立繪表（左邊全身、右邊三個頭）；原本 art_reference/yule.webp (18,368,180,810) 的版本不再用
 }
 CW, CH, TOP, FILL = 600, 1000, 0.04, 0.94
 MATTING = {'heroine_05', 'heroine_01', 'heroine_03', 'heroine_04'}                                 # 學姊約會圖：白襯衫和灰底只差 7，一般去背會在髮絲邊留一圈淺灰；alpha matting（pymatting）髮絲乾淨、衣領完整
 PATCH_HOLES = {'heroine_05'}                                     # 學姊約會圖姿勢①：衣領的白色被挖掉
-HOLES = {'pinyu'}                                                   # BB-B 2026-10-16 D59 退件：曾品妤耳朵高度的白邊、兩腿中間的灰底
+HOLES = {'pinyu'}                                                   # BB-B 2026-10-16 D59 退件：曾舊序章人物丁耳朵高度的白邊、兩腿中間的灰底
 
 
 def key_holes(c0, al, bgc, shoe=0.92):

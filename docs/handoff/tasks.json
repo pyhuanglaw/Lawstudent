@@ -55852,7 +55852,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW-C 11-12 14:5x UTC】開發分支 canon_scan：514 檔、5,055 處（src 159／2,246、tests 323／2,589、tools 28、docs 2＝白名單 json 的稿路徑）。本輪：紀錄／文件／美術工具 133 檔換代號（tools/handoff/canon_clean.py）、wip_backup 刪 178 個已合併的 bundle、使用者答「沛珊的留著」（工具列例外）。子代理三個在跑：批次 B（AA_858 新開場、AA_856 可昕開局不認識＋第一堂必修見面、AA_859 宿營那段）、BB 六件修正、AA 答案重匯（含 AA_860 約會稿拿掉外校句子）。**下一批（批次 C）要做**：①法律系時期還引用舊序章人物／外校的場景（AA 給「整場拿掉／換人」的表）；②舊序章的系外套那一件（祐廷 VRM 的外套網格、tools/jacket 那支、tests、劇情選項——整個拿掉，要 LAWWW2 重出 VRM 或把網格藏死）；③tools 底下產生器裡的字（rename 對照表要改成編碼存）；④白名單 11 筆稿路徑（等 AA 的「舊路徑→新路徑／已刪」表）；⑤tests 裡 323 檔的字（跟著台詞換）；⑥素材刪檔（等 LAWWW2 的 patch：舊序章人物模型／立繪、外校五張、宿營 CG；兩張宿營背景改名沿用）；⑦檔名和識別字（--latin）最後做｜【LAWWW-C 11-12 13:5x UTC】第一批程式合併 2289c984aa（子代理：只在舊序章才跑的模組、事件 96 個、過場、課、訊息、測試 73 支整塊拿掉；src＋index.html＋tools 少 2,808 行；子代理全套 1,279 支只剩兩支舊紅、都已另外修好）；合併後全套在背景重跑。計畫表和剩餘清單（1,848 行）放在工作階段 scratchpad、不進 repo（D158）。使用者另一個答案（經 AA）：可昕沒有記帳這種個性（UA-LAWWW-1112-40）。AA 定稿：AA_858 開局回顧五句、AA_856 可昕第一次見面（開學第一週有去上的第一堂必修開頭；保底第 5 週）、AA_859 宿營打牌那段——下一批子代理做。各分支清字進度：BB 名下 0、CC 路徑 0、LAWWW2 美術文件 0、AA 第一批後 990 檔 20,992 處。待問使用者：沛珊大二上那條線算不算在內。開發分支現況 canon_scan 見下一筆｜【LAWWW-C 11-12 13:4x UTC】main 的 README 已換（PR #37，b3e86d9141，使用者選擇題同意另開分支；掃過 0 處）。四個職位已通知 D158。開發分支現況 743 檔、10,795 處。tests/v0_a3_unit.js 因為第一步改了標題按鈕而紅——它整支在測舊序章，等 Batch A 子代理刪｜【LAWWW-C 11-12 13:0x UTC】使用者五題答案都有了：可昕之後可以追；舊存檔不留；國考落榜再考留著；Git 歷史不重寫、公開前換新倉庫；紀錄改用代號。已做：標題只留法律系開局＋舊序章存檔提示（d6f4070fb6）、README（b2f0688477）、規則 D158／HV-38、檢查工具 tools/handoff/canon_scan.py（開發分支現況：746 檔、10,842 處——src 169 檔、tests 400、docs 88、tools 75、wip_backup 9、根目錄 3）。進行中：子代理 Batch A（只在舊序章才跑的程式整塊拿掉）。AA：AA_854／855 清單、設定總表已改（可昕＝法律系同屆、祐廷應屆）、在寫可昕第一次出場。LAWWW2 素材清單 8c9cc4cc37。BB 驗收點 BB_399。接下來：main 的 README 單獨開 PR；docs／tests／tools 的字分批清（這個欄位更早的紀錄也要改寫成代號）；各職位清自己的分支；識別字和檔名（--latin）最後一批",
+   "next": "【LAWWW-C 11-12 15:1x UTC】AA 交 AA_861（可昕大一上閒聊八層定稿，企劃線 967dd0447：整組取代 ladder_bb.json 她的 K-L1～K-L8 和 AA_781 的 Y1S1 覆蓋；條件讀熟悉階段、第 1 層要 KX_MET、不讀交往旗標）；AA_862 大一下八層等 BB（會拿掉記憶 tag KX2_23_CALLS、KX2_FEWER_IFS、KX2_TASSEL、KX2_PLAN_SHEET、KX2_SUMMER，新 tag 只有 KX2_BDAY_TOLD——讀這些的地方要跟著改）→ 都排批次 C。AA 給了白名單 17 筆的處理表（備忘在 scratchpad CANON_BATCH_C_notes.md）｜【LAWWW-C 11-12 14:5x UTC】開發分支 canon_scan：514 檔、5,055 處（src 159／2,246、tests 323／2,589、tools 28、docs 2＝白名單 json 的稿路徑）。本輪：紀錄／文件／美術工具 133 檔換代號（tools/handoff/canon_clean.py）、wip_backup 刪 178 個已合併的 bundle、使用者答「沛珊的留著」（工具列例外）。子代理三個在跑：批次 B（AA_858 新開場、AA_856 可昕開局不認識＋第一堂必修見面、AA_859 宿營那段）、BB 六件修正、AA 答案重匯（含 AA_860 約會稿拿掉外校句子）。**下一批（批次 C）要做**：①法律系時期還引用舊序章人物／外校的場景（AA 給「整場拿掉／換人」的表）；②舊序章的系外套那一件（祐廷 VRM 的外套網格、tools/jacket 那支、tests、劇情選項——整個拿掉，要 LAWWW2 重出 VRM 或把網格藏死）；③tools 底下產生器裡的字（rename 對照表要改成編碼存）；④白名單 11 筆稿路徑（等 AA 的「舊路徑→新路徑／已刪」表）；⑤tests 裡 323 檔的字（跟著台詞換）；⑥素材刪檔（等 LAWWW2 的 patch：舊序章人物模型／立繪、外校五張、宿營 CG；兩張宿營背景改名沿用）；⑦檔名和識別字（--latin）最後做｜【LAWWW-C 11-12 13:5x UTC】第一批程式合併 2289c984aa（子代理：只在舊序章才跑的模組、事件 96 個、過場、課、訊息、測試 73 支整塊拿掉；src＋index.html＋tools 少 2,808 行；子代理全套 1,279 支只剩兩支舊紅、都已另外修好）；合併後全套在背景重跑。計畫表和剩餘清單（1,848 行）放在工作階段 scratchpad、不進 repo（D158）。使用者另一個答案（經 AA）：可昕沒有記帳這種個性（UA-LAWWW-1112-40）。AA 定稿：AA_858 開局回顧五句、AA_856 可昕第一次見面（開學第一週有去上的第一堂必修開頭；保底第 5 週）、AA_859 宿營打牌那段——下一批子代理做。各分支清字進度：BB 名下 0、CC 路徑 0、LAWWW2 美術文件 0、AA 第一批後 990 檔 20,992 處。待問使用者：沛珊大二上那條線算不算在內。開發分支現況 canon_scan 見下一筆｜【LAWWW-C 11-12 13:4x UTC】main 的 README 已換（PR #37，b3e86d9141，使用者選擇題同意另開分支；掃過 0 處）。四個職位已通知 D158。開發分支現況 743 檔、10,795 處。tests/v0_a3_unit.js 因為第一步改了標題按鈕而紅——它整支在測舊序章，等 Batch A 子代理刪｜【LAWWW-C 11-12 13:0x UTC】使用者五題答案都有了：可昕之後可以追；舊存檔不留；國考落榜再考留著；Git 歷史不重寫、公開前換新倉庫；紀錄改用代號。已做：標題只留法律系開局＋舊序章存檔提示（d6f4070fb6）、README（b2f0688477）、規則 D158／HV-38、檢查工具 tools/handoff/canon_scan.py（開發分支現況：746 檔、10,842 處——src 169 檔、tests 400、docs 88、tools 75、wip_backup 9、根目錄 3）。進行中：子代理 Batch A（只在舊序章才跑的程式整塊拿掉）。AA：AA_854／855 清單、設定總表已改（可昕＝法律系同屆、祐廷應屆）、在寫可昕第一次出場。LAWWW2 素材清單 8c9cc4cc37。BB 驗收點 BB_399。接下來：main 的 README 單獨開 PR；docs／tests／tools 的字分批清（這個欄位更早的紀錄也要改寫成代號）；各職位清自己的分支；識別字和檔名（--latin）最後一批",
    "source": "使用者 2026-11-12 12:1x～13:0x（UA-LAWWW-1112-32～38；原話依 D158 不留字）",
    "authorized": true,
    "xai": {
@@ -55983,6 +55983,36 @@
     "spec": "BB_404",
     "ack": "ACK",
     "acceptance": "BB 瀏覽器判 PASS"
+   }
+  },
+  {
+   "id": "BUG-EXIT-PROMPT-STALE-1112",
+   "title": "進店那一刻還在對話、人站在出口範圍內：對話結束後不動的話互動鍵是空的，走一步才出現「離開…」（花序；其他店門口也可能）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進花序",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【LAWWW-C 11-12 15:1x UTC】BB（SSB_gg_fnexit，c77fa6520d）：不會卡死；通用修法＝對話結束時重算一次互動點。game3d.js 現在有兩個子代理在改別的段落，等它們合併以後我自己改",
+   "source": "BB-C 2026-11-12 14:45 訊息",
+   "authorized": true,
+   "xai": {
+    "from": "BB",
+    "to": "LAWWW",
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "BB_379",
+    "ack": "ACK",
+    "acceptance": "BB：對話結束不用移動就看得到離開的按鈕"
    }
   }
  ]

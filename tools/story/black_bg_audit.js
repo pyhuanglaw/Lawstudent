@@ -37,7 +37,7 @@ for(const e of (typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[])){ if(e.retire
     if(e.trigger==='outing'&&!img0&&(b0||'blur')!=='dark'&&!(f&&f.scene!==undefined)) wrong.push({id:e.id,title:e.title||'',stage:e.stage||'law',bg:b0||'blur',first:text(f)}); } }
 if(typeof RETAKE_HOME!=='undefined'&&(!stage||stage==='econ')){ for(const e of [].concat(RETAKE_HOME.long||[],RETAKE_HOME.short||[])){ if(!e) continue; const d=[{scene:e.place||'',bg:e.bg===false?false:(e.bg||'home_living')}].concat((e.lines||[]).map(x=>Array.isArray(x)?{speaker:x[0],text:x[1]}:x)); scan('RH:'+e.id,e.title||e.id,'econ',e.date||e.kind||'',e.bg===false?'dark':'blur',d); } }
 const byKey={}; for(const r of rows){ const k=r.key+'｜'+r.why; (byKey[k]=byKey[k]||[]).push(r); }
-const out=[]; out.push('# 黑畫面盤點（tools/story/black_bg_audit.js 自動產生）','',`> 產生：${new Date().toISOString().slice(0,16)}Z；範圍：${stage||'全部'}的 STORY_EVENTS＋重考期在家。玩家看到深色底（沒有圖）的段落 ${rows.length} 段、共 ${rows.reduce((a,r)=>a+r.lines,0)} 句。`,'> 依「背景代號」分組：同一個代號補一張圖，就補好那一組的全部段落。電話（「電話」場景）深色底可能是故意的，BB 和使用者決定要不要補。','');
+const out=[]; out.push('# 黑畫面盤點（tools/story/black_bg_audit.js 自動產生）','',`> 產生：${new Date().toISOString().slice(0,16)}Z；範圍：${stage||'全部'}的 STORY_EVENTS＋舊序章考試期在家。玩家看到深色底（沒有圖）的段落 ${rows.length} 段、共 ${rows.reduce((a,r)=>a+r.lines,0)} 句。`,'> 依「背景代號」分組：同一個代號補一張圖，就補好那一組的全部段落。電話（「電話」場景）深色底可能是故意的，BB 和使用者決定要不要補。','');
 const groups=Object.entries(byKey).sort((a,b)=>b[1].reduce((s,r)=>s+r.lines,0)-a[1].reduce((s,r)=>s+r.lines,0));
 out.push('## 1. 要補的圖（依影響句數排）','','| 背景代號 | 原因 | 地點 | 用到的事件 | 句數 |','|---|---|---|---|---|');
 for(const [k,rs] of groups){ const [key,why]=k.split('｜'); const labels=[...new Set(rs.map(r=>r.scene))].join('、'); out.push(`| \`${key}\` | ${why} | ${labels} | ${[...new Set(rs.map(r=>r.id))].join('、')} | ${rs.reduce((s,r)=>s+r.lines,0)} |`); }
@@ -46,7 +46,7 @@ for(const r of rows) out.push(`| ${r.id} | ${r.title} | ${r.stage} | ${r.when} |
 out.push('','## 3. 不是黑畫面、但地點不對（出遊事件開頭用 3D 模糊底：看到的是玩家出發的地方）','','| 事件 | 標題 | 路線 | 底色 | 第一句 |','|---|---|---|---|---|');
 for(const r of wrong) out.push(`| ${r.id} | ${r.title} | ${r.stage} | ${r.bg} | ${r.first||''} |`);
 out.push('','## 4. 使用者實玩回報（工具抓不到：有背景圖，但不是那個地方）','','| 回報 | 事件 | 現在的背景 | 要補的圖 |','|---|---|---|---|',
-  '| 2026-10-18 14:2x「桌遊也沒畫面」 | ev_y0_gather（10/15 經濟系的聚會：桌遊 19:00～22:00 → 夜市） | `gongguan`（公館街景）整段共用 | 公館的桌遊店室內（六個人一桌、桌上有牌）；之後夜市那段要不要另一張，問使用者 |',
+  '| 2026-10-18 14:2x「桌遊也沒畫面」 | ev_y0_gather（10/15 舊序章的聚會：桌遊 19:00～22:00 → 夜市） | `gongguan`（公館街景）整段共用 | 公館的桌遊店室內（六個人一桌、桌上有牌）；之後夜市那段要不要另一張，問使用者 |',
   '| 2026-10-18 14:1x「烤肉沒接到cg」 | ev_y0_e08（9/21 中秋系烤） | `riverside`＋沒有 CG | CG-ECON-BBQ-1018（提示詞已給使用者） |');
 out.push('','## 5. 改在 3D 演的段落（資料的深色底只是區域沒載入時的備用，不算黑畫面）','','| 事件 | 標題 | 場景 | 3D 區域 | 句數 | 第一句 |','|---|---|---|---|---|---|');
 for(const r of staged) out.push(`| ${r.id} | ${r.title} | ${r.scene} | \`${r.zone}\` | ${r.lines} | ${r.first||''} |`);
