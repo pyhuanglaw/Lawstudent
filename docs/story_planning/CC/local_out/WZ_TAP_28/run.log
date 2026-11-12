@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_route_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ_TAP_28\out
+CC 照玩家走路線：TAG wz_tap_28；SHA df0db36693；wenzhou 2025-10-14 14.0；ROUTE ['tapto:45,-1.6,0', 'burst:end']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2025-10-14 14.0 (-35, -1.6) lv0（條件事件關掉）
+PASS 讀到 wenzhou  {"zone": "wenzhou", "x": -35, "z": -1.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.05}
+  [  56.1s] screenToFloor 記錄：True
+  [  57.0s] [00 start]  區域 wenzhou lv0 (-35, -1.6) y=0 站得住=True 坐著=False pose=idle；鏡頭 [-35, 2.78, -6.67] 到頭 5.17 m、被 [] 擋；互動鍵「互動」
+  [  62.6s] [01 tapto:45,-1.6,0] 【卡住截圖】stuck_wz_tap_28_1_game.png／_top.png；1.2 m 內的網格 {"at": [-35, -1.6], "lv": 0, "path": null, "pathIdx": null, "target": null, "lastS2F": {"x": 422, "y": 49, "t": 60717, "r": {"x": 45.000000000000256, "z": -1.6000000000000278, "y": 0, "lv": 0}}, "people3m": [], "near": []}
+  [ 154.3s] [01 tapto:45,-1.6,0] 【卡住偵測】取樣 182 筆（每 0.5 秒）；連續 ≥5 秒沒位移 1 次 [{"at": [-35, -1.6, 0], "zone": "wenzhou", "from_s": 0.0, "secs": 94.7}]
+  [ 161.2s] [01 tapto] {"ok": false, "taps": 45} 區域 wenzhou lv0 (16.97, -1.6) y=0 站得住=True 坐著=False pose=run；鏡頭 [10.53, 2.78, -1.6] 到頭 6.55 m、被 [] 擋；互動鍵「互動」
+  [ 166.8s] [02 burst]  區域 wenzhou lv0 (44.77, -1.6) y=0 站得住=True 坐著=False pose=idle；鏡頭 [39.69, 2.78, -1.6] 到頭 5.17 m、被 [] 擋；互動鍵「互動」
+PASS 沒有 JS 例外  []
+ALL PASS
