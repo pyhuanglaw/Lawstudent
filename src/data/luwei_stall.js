@@ -1,9 +1,9 @@
-/* 自動產生：tools/story/import_luwei_stall.py（docs/story_planning/AA_841_luwei_stall.json@1f5d6efed）。不要手改，改企劃稿再重新匯入。
-   公館宵夜滷味攤的點餐（EAT-EFFECT-1020，使用者 X67）：夾法、價錢、台詞一字照 AA_841；sign、open、typhoonOff、half（幾點到幾點、半價）、spice.regular／reply 是從稿上的字讀出來的。
+/* 自動產生：tools/story/import_luwei_stall.py（docs/story_planning/AA_841_luwei_stall.json@33e952215）。不要手改，改企劃稿再重新匯入。
+   公館宵夜滷味攤的點餐（EAT-EFFECT-1020，使用者 X67）：夾法、價錢、台詞一字照 AA_841；sign、open、prep、dayButton、typhoonOff、half（幾點到幾點、半價）、spice.regular／reply／regularBy／replyBy、afterNext 是從稿上的字讀出來的。
    怎麼演：src/luwei3d.js */
 'use strict';
 const LUWEI_STALL={
- "src": "docs/story_planning/AA_841_luwei_stall.json@1f5d6efed",
+ "src": "docs/story_planning/AA_841_luwei_stall.json@33e952215",
  "sign": "滷味",
  "who": "老闆",
  "hours": "每天 18:00～24:00；颱風天不出攤。這個時間蓋得到現有的 20:30 考完宵夜和週五 22～24。",
@@ -11,6 +11,11 @@ const LUWEI_STALL={
   "from": 18.0,
   "to": 24.0
  },
+ "prep": {
+  "from": 17.0,
+  "to": 18.0
+ },
+ "dayButton": false,
  "typhoonOff": true,
  "menu": [
   {
@@ -53,7 +58,9 @@ const LUWEI_STALL={
    "小辣": "一樣小辣？",
    "中辣": "一樣中辣？"
   },
+  "regularBy": "keeper",
   "reply": "好。一樣。",
+  "replyBy": "keeper",
   "note": "記住上一次選的。熟客句照選的換：不要辣＝現有的「一樣不要辣？」；小辣＝「一樣小辣？」；中辣＝「一樣中辣？」。回話都是現有的「好。一樣。」"
  },
  "lines": {
@@ -67,10 +74,20 @@ const LUWEI_STALL={
   "typhoon": "（平常擺攤的位置是空的。）"
  },
  "after": "吃完的旁白用現有那句（eat_lines.js「宵夜（公館滷味攤）」），不加新的。",
+ "afterNext": [
+  "（袋子很燙。你換了一隻手拿。）",
+  "（王子麵吸飽了湯。你先把麵吃完。）"
+ ],
  "rules": [
   "站著等、拿了在攤子旁邊吃或邊走邊吃，沒有座位。",
   "吃的效果照 EAT-EFFECT-1020 其他宵夜同一套，AA 不另外定數字。",
   "和人一起來（outingFirst、邀約）照現有的走，只是多了可以選份量和辣度。"
  ],
+ "lawww_1112": {
+  "b_after": "吃完的旁白：第一次用現有那句（夾太多、老闆看了一眼）；之後輪流兩句——「（袋子很燙。你換了一隻手拿。）」「（王子麵吸飽了湯。你先把麵吃完。）」",
+  "c": "「鍋子蓋起來了」0:00～1:00、之後到 18:00「攤子還沒推出來」：可以。",
+  "d": "按鈕「看滷味」、吃過的記「滷味」不記夾法：可以。熟客句「一樣不要辣？」和「好。一樣。」都是老闆說的（11:4x 更正：我先前說「好。一樣。」是祐廷回的，錯了——eat_lines 其他店的 same 是店員確認的話，例如公館燒臘「好啦。不用講。」；LAWWW 原本的做法是對的）。",
+  "e": "白天人行道上不放按鈕、也不擺攤；not_open 那句只留給 17:00～18:00 攤子在擺、還沒開賣的時候，做不到這一段就整句不用。"
+ },
  "status": "定稿（BB_388 聽過：選項改成夾多少、十點後半價）"
 };

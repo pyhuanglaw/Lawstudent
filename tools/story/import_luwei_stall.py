@@ -7,6 +7,7 @@
 - lines：greet、take、wait、done、no_money、not_open、closed、typhoon
 - half_price：when（幾點到幾點、半價以後各是多少）、line（接在 greet 後面的一句）、why
 - _meta：name（招牌寫什麼）、who（誰顧攤）、hours（每天幾點到幾點、颱風天）；after、rules 照抄（紀錄）
+- lawww_1112（AA-C 11-12 回 LAWWW 合併後的五問，企劃線 44ed07c50、33e952215 更正 d）：b_after（吃完的旁白：第一次現有那句、之後輪流兩句）、c、d（熟客句誰說、回話誰說）、e（白天不放按鈕不擺攤；not_open 只留給 17:00～18:00）
 
 **夾法、價錢、台詞一字照稿**（只過 import_guard.read_fix 的換名；這份稿目前一個字都不會被換，換到了會印出來）。
 這支工具另外算幾樣給程式用的（從稿上的字讀出來，不是另外定的）：
@@ -14,6 +15,9 @@
 - open＝{from, to}（鐘點，從 _meta.hours「每天 18:00～24:00」讀）；typhoonOff（_meta.hours 有「颱風天不出攤」）
 - half＝{from, to, prices[]}（從 half_price.when「22:00～24:00 全部半價（四捨五入到 5 元：30／45／60／25）」讀；prices 和「原價的一半四捨五入到 5 元」對過，不一樣＝停）
 - spice.regular＝{辣度: 熟客句}、spice.reply（從 spice.note 的「」讀：「不要辣＝…「一樣不要辣？」」「小辣＝「一樣小辣？」」…「回話都是現有的「好。一樣。」」）
+- afterNext＝[兩句]（lawww_1112.b_after「之後輪流兩句——」後面的「」；第一次照舊是 eat_lines.js 現有那句，不在這裡）
+- spice.regularBy＝'keeper'、spice.replyBy＝'keeper'（lawww_1112.d，企劃線 33e952215 更正：「熟客句「…」和「…」都是老闆說的」，引的兩句要和上面讀到的一樣；44ed07c50 那一版寫「祐廷回的」，AA 更正了）
+- prep＝{from, to}（lawww_1112.e「not_open 那句只留給 17:00～18:00 攤子在擺、還沒開賣的時候」；to 要等於開賣時間）、dayButton＝False（e「白天人行道上不放按鈕、也不擺攤」）
 稿上有工具不認得的欄位、寫法換了＝停下來（先改這支工具和 src/luwei3d.js），不會默默丟掉。
 
 怎麼演：src/luwei3d.js。測試 tests/luwei_stall_unit.js。
@@ -69,7 +73,7 @@ def half5(p):
 
 
 def build(d):
-    if set(d) != {'_meta', 'menu', 'spice', 'lines', 'after', 'rules', 'half_price'}:
+    if set(d) != {'_meta', 'menu', 'spice', 'lines', 'after', 'rules', 'half_price', 'lawww_1112'}:
         die(f'最上層的欄位改了（{sorted(d)}）')
     M = d['_meta']
     if set(M) != {'doc', 'by', 'checked', 'name', 'who', 'hours', 'status'}:
@@ -135,11 +139,32 @@ def build(d):
     lines = {k: txt(L[k], 'lines.' + k) for k in LINE_KEYS}
     if not isinstance(d['rules'], list):
         die('rules 要是陣列')
-    return {'sign': sign, 'who': who, 'hours': M['hours'], 'open': op, 'typhoonOff': typhoon_off,
+    # AA 回 LAWWW 的五問（lawww_1112）
+    W = d['lawww_1112']
+    if set(W) != {'b_after', 'c', 'd', 'e'}:
+        die(f'lawww_1112 的欄位改了（{sorted(W)}）')
+    m = re.fullmatch(r'吃完的旁白：第一次用現有那句（[^（）]*）；之後輪流兩句——「([^「」]+)」「([^「」]+)」', W['b_after'])
+    if not m:
+        die(f'lawww_1112.b_after：不認得的寫法（{W["b_after"]}）')
+    after_next = [txt(m.group(1), 'lawww_1112.b_after[0]'), txt(m.group(2), 'lawww_1112.b_after[1]')]
+    m = re.search(r'熟客句「([^「」]+)」和「([^「」]+)」都是老闆說的', W['d'])   # 33e952215 AA 更正：兩句都是老闆說的（44ed07c50 寫「是祐廷回的」，AA 自己說錯了）
+    if not m:
+        die(f'lawww_1112.d：找不到「熟客句「…」和「…」都是老闆說的」（{W["d"]}）')
+    if m.group(1) not in reg.values() or m.group(2) != reply:
+        die(f'lawww_1112.d 引的兩句（{m.group(1)}／{m.group(2)}）和 spice.note 的熟客句、回話對不上')
+    if '白天人行道上不放按鈕、也不擺攤' not in W['e']:
+        die(f'lawww_1112.e：原本寫「白天人行道上不放按鈕、也不擺攤」，寫法換了，先改這支工具（{W["e"]}）')
+    m = re.search(r'not_open 那句只留給 (\d{1,2}:\d{2})～(\d{1,2}:\d{2}) 攤子在擺、還沒開賣的時候', W['e'])
+    if not m:
+        die(f'lawww_1112.e：找不到 not_open 留給幾點到幾點（{W["e"]}）')
+    prep = span(m.group(1), m.group(2), 'lawww_1112.e')
+    if prep['to'] != op['from']:
+        die(f'lawww_1112.e：攤子在擺的那一段（到 {prep["to"]}）沒有接到開賣時間（{op["from"]}）')
+    return {'sign': sign, 'who': who, 'hours': M['hours'], 'open': op, 'prep': prep, 'dayButton': False, 'typhoonOff': typhoon_off,
             'menu': menu,
             'half': {'from': hs['from'], 'to': hs['to'], 'line': txt(H['line'], 'half_price.line'), 'when': H['when'], 'why': H['why']},
-            'spice': {'ask': txt(S['ask'], 'spice.ask'), 'options': opts, 'regular': reg, 'reply': reply, 'note': S['note']},
-            'lines': lines, 'after': d['after'], 'rules': d['rules'], 'status': M['status']}
+            'spice': {'ask': txt(S['ask'], 'spice.ask'), 'options': opts, 'regular': reg, 'regularBy': 'keeper', 'reply': reply, 'replyBy': 'keeper', 'note': S['note']},
+            'lines': lines, 'after': d['after'], 'afterNext': after_next, 'rules': d['rules'], 'lawww_1112': W, 'status': M['status']}
 
 
 def main():
@@ -154,7 +179,7 @@ def main():
     data = {'src': f'{PATH}@{sha}'}
     data.update(build(json.loads(git('show', f'{sha}:{PATH}'))))
     js = ('/* 自動產生：tools/story/import_luwei_stall.py（' + data['src'] + '）。不要手改，改企劃稿再重新匯入。\n'
-          '   公館宵夜滷味攤的點餐（EAT-EFFECT-1020，使用者 X67）：夾法、價錢、台詞一字照 AA_841；sign、open、typhoonOff、half（幾點到幾點、半價）、spice.regular／reply 是從稿上的字讀出來的。\n'
+          '   公館宵夜滷味攤的點餐（EAT-EFFECT-1020，使用者 X67）：夾法、價錢、台詞一字照 AA_841；sign、open、prep、dayButton、typhoonOff、half（幾點到幾點、半價）、spice.regular／reply／regularBy／replyBy、afterNext 是從稿上的字讀出來的。\n'
           '   怎麼演：src/luwei3d.js */\n'
           "'use strict';\nconst LUWEI_STALL=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
     p = os.path.join(ROOT, OUT)
@@ -166,7 +191,7 @@ def main():
         return
     open(p, 'w', encoding='utf-8').write(js)
     print('寫入', OUT, f'夾法 {len(data["menu"])}、辣度 {len(data["spice"]["options"])}、台詞 {len(data["lines"])}＋半價 1；'
-          f'營業 {data["open"]["from"]}～{data["open"]["to"]}、半價 {data["half"]["from"]}～{data["half"]["to"]}；{why}')
+          f'吃完輪流的旁白 {len(data["afterNext"])}；擺攤 {data["prep"]["from"]}～{data["prep"]["to"]}、營業 {data["open"]["from"]}～{data["open"]["to"]}、半價 {data["half"]["from"]}～{data["half"]["to"]}；{why}')
     for c in CHANGED:
         print('  換名（import_guard.read_fix）', c)
 

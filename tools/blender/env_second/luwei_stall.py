@@ -172,17 +172,23 @@ _vs = [sg.bm.verts.new(g2b(*p)) for p in ((sx1, sy0, szz), (sx0, sy0, szz), (sx0
 _f = sg.bm.faces.new(_vs); _uv = sg.bm.loops.layers.uv.verify()
 for _lp, _t in zip(_f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): _lp[_uv].uv = _t   # 從 −z（面向南）看，東（sx1）在左邊＝貼圖的左邊
 sd.box(sx0 - 0.02, sx0, GY + GH, sy1, szz, szz + 0.02); sd.box(sx1, sx1 + 0.02, GY + GH, sy1, szz, szz + 0.02)
+sd.box(sx0, sx1, sy0, sy1, szz + 0.004, szz + 0.02)   # 價目板的背板（LUWEI-STALL-3D-1112：原本只有一片面，從背面——擺進公館以後是馬路那一側——看到左右相反的字）
 
+# --cart-only（LUWEI-STALL-3D-1112，LAWWW2-C；LAWWW 把這一攤擺進公館人行道，AA_841 的稿寫這一攤沒有座位）：只出攤車（含招牌、燈泡、湯鍋、疊著的備用凳），
+#   不放折疊桌、五張圓凳和桌上的兩碗滷味、飲料、考卷、筆記（那一桌是拍 2D 背景「考完的晚餐」用的）
+CART_ONLY = '--cart-only' in sys.argv
 # ---------------- 折疊桌（攤車 +x 側，中心 (2.25, 0, −0.35)，長邊沿 x）＋紅色塑膠圓凳 5 張 ----------------
 TX, TZ, TW, TDp, TH = 2.25, -0.35, 1.2, 0.6, 0.72
-tb = Mesh('luwei_table', M['wood']); tb.box(TX - TW / 2, TX + TW / 2, TH - 0.025, TH, TZ - TDp / 2, TZ + TDp / 2)
-for sx in (-1, 1):                                                                   # 銀色鐵腳（X 形摺腳）
-    x = TX + sx * (TW / 2 - 0.12)
-    st.cyl((x, 0.0, TZ - TDp / 2 + 0.04), (x, TH - 0.025, TZ + TDp / 2 - 0.04), 0.012, seg=6)
-    st.cyl((x, 0.0, TZ + TDp / 2 - 0.04), (x, TH - 0.025, TZ - TDp / 2 + 0.04), 0.012, seg=6)
-    st.cyl((x, 0.01, TZ - TDp / 2 + 0.04), (x, 0.01, TZ + TDp / 2 - 0.04), 0.01, seg=6)
-st.box(TX - TW / 2 + 0.02, TX + TW / 2 - 0.02, TH - 0.07, TH - 0.025, TZ - TDp / 2 + 0.01, TZ - TDp / 2 + 0.02)
-st.box(TX - TW / 2 + 0.02, TX + TW / 2 - 0.02, TH - 0.07, TH - 0.025, TZ + TDp / 2 - 0.02, TZ + TDp / 2 - 0.01)
+tb = Mesh('luwei_table', M['wood'])
+if not CART_ONLY:
+    tb.box(TX - TW / 2, TX + TW / 2, TH - 0.025, TH, TZ - TDp / 2, TZ + TDp / 2)
+    for sx in (-1, 1):                                                                   # 銀色鐵腳（X 形摺腳）
+        x = TX + sx * (TW / 2 - 0.12)
+        st.cyl((x, 0.0, TZ - TDp / 2 + 0.04), (x, TH - 0.025, TZ + TDp / 2 - 0.04), 0.012, seg=6)
+        st.cyl((x, 0.0, TZ + TDp / 2 - 0.04), (x, TH - 0.025, TZ - TDp / 2 + 0.04), 0.012, seg=6)
+        st.cyl((x, 0.01, TZ - TDp / 2 + 0.04), (x, 0.01, TZ + TDp / 2 - 0.04), 0.01, seg=6)
+    st.box(TX - TW / 2 + 0.02, TX + TW / 2 - 0.02, TH - 0.07, TH - 0.025, TZ - TDp / 2 + 0.01, TZ - TDp / 2 + 0.02)
+    st.box(TX - TW / 2 + 0.02, TX + TW / 2 - 0.02, TH - 0.07, TH - 0.025, TZ + TDp / 2 - 0.02, TZ + TDp / 2 - 0.01)
 
 
 def stool(cx, cz):
@@ -196,35 +202,36 @@ def stool(cx, cz):
     rd.cyl((cx, 0.12, cz), (cx, 0.135, cz), 0.16, seg=20, r2=0.165)                   # 腳中間的環
 
 
-for (sx, sz) in ((TX - 0.45, TZ - 0.55), (TX + 0.1, TZ - 0.6), (TX + 0.75, TZ - 0.1), (TX - 0.35, TZ + 0.5), (TX + 0.3, TZ + 0.55)): stool(sx, sz)
+for (sx, sz) in (() if CART_ONLY else ((TX - 0.45, TZ - 0.55), (TX + 0.1, TZ - 0.6), (TX + 0.75, TZ - 0.1), (TX - 0.35, TZ + 0.5), (TX + 0.3, TZ + 0.55))): stool(sx, sz)
 for k in range(3): stool(-1.05 + 0.0, 0.25) if k == 0 else None                       # 攤車旁邊疊著的備用凳（一張，上面再疊兩張）
 for k in range(1, 3):
     seat = L.lathe([(0.0, 0.44), (0.15, 0.44), (0.16, 0.435), (0.16, 0.41), (0.145, 0.40), (0.135, 0.42), (0.0, 0.425)], seg=24)
     rd.add_bm(seat, Matrix.Translation(g2b(-1.05, 0.06 * k, 0.25))); seat.free()
 
-# 桌上：兩碗滷味（紙碗套透明塑膠袋）、竹筷、兩杯手搖飲、考卷兩張、一本筆記
-bw = Mesh('luwei_bowl', L.flat('luwei_paper_bowl', '#f3efe6', rough=0.6)); bag = Mesh('luwei_bag', M['bag'])
-for (bx, bz) in ((TX - 0.3, TZ - 0.08), (TX + 0.12, TZ + 0.1)):
-    b = L.lathe([(0.0, 0.0), (0.06, 0.0), (0.085, 0.07), (0.08, 0.07), (0.055, 0.008), (0.0, 0.008)], seg=20); bw.add_bm(b, Matrix.Translation(g2b(bx, TH, bz))); b.free()
-    food_items(bx - 0.06, bx + 0.06, TH + 0.04, bz - 0.06, bz + 0.06, 'cube', '#6b4a2e'); food_items(bx - 0.06, bx + 0.06, TH + 0.05, bz - 0.06, bz + 0.06, 'leaf', '#3f8a33')
-    g = L.lathe([(0.0, 0.0), (0.095, 0.0), (0.1, 0.09), (0.07, 0.13), (0.03, 0.15), (0.0, 0.15)], seg=16); bag.add_bm(g, Matrix.Translation(g2b(bx + 0.02, TH, bz))); g.free()
-    st_ = Mesh('luwei_chop_' + str(bx), M['chop']); st_.box(bx + 0.11, bx + 0.12, TH, TH + 0.008, bz - 0.11, bz + 0.11); st_.finish(root, uv=False)
-cp = Mesh('luwei_cup', M['cup']); tea = Mesh('luwei_tea', M['tea'])
-for (cx, cz) in ((TX + 0.42, TZ - 0.15), (TX - 0.52, TZ + 0.17)):
-    c = L.lathe([(0.0, 0.0), (0.035, 0.0), (0.045, 0.16), (0.0, 0.16)], seg=16); cp.add_bm(c, Matrix.Translation(g2b(cx, TH, cz))); c.free()
-    t = L.lathe([(0.0, 0.005), (0.033, 0.005), (0.041, 0.12), (0.0, 0.12)], seg=16); tea.add_bm(t, Matrix.Translation(g2b(cx, TH, cz))); t.free()
-    wire.cyl((cx + 0.01, TH + 0.12, cz), (cx + 0.02, TH + 0.24, cz + 0.01), 0.004, seg=5)   # 吸管（黑）
-pp = Mesh('luwei_paper', M['paper'])
-for (px, pz, a) in ((TX - 0.05, TZ - 0.12, 0.25), (TX + 0.3, TZ + 0.12, -0.4)):
-    w, h = 0.21, 0.297; c, s_ = math.cos(a), math.sin(a); pts = []
-    for (u, v) in ((-w / 2, -h / 2), (w / 2, -h / 2), (w / 2, h / 2), (-w / 2, h / 2)): pts.append((px + u * c - v * s_, TH + 0.002, pz + u * s_ + v * c))
-    vs = [pp.bm.verts.new(g2b(*p)) for p in pts]; f = pp.bm.faces.new(vs); uvl = pp.bm.loops.layers.uv.verify()
-    for lp, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uvl].uv = uv
-nb = Mesh('luwei_note', L.flat('luwei_notebook', '#2f5d8a', rough=0.6)); nb.box(TX - 0.58, TX - 0.36, TH, TH + 0.012, TZ - 0.27, TZ - 0.03)
+if not CART_ONLY:
+    # 桌上：兩碗滷味（紙碗套透明塑膠袋）、竹筷、兩杯手搖飲、考卷兩張、一本筆記
+    bw = Mesh('luwei_bowl', L.flat('luwei_paper_bowl', '#f3efe6', rough=0.6)); bag = Mesh('luwei_bag', M['bag'])
+    for (bx, bz) in ((TX - 0.3, TZ - 0.08), (TX + 0.12, TZ + 0.1)):
+        b = L.lathe([(0.0, 0.0), (0.06, 0.0), (0.085, 0.07), (0.08, 0.07), (0.055, 0.008), (0.0, 0.008)], seg=20); bw.add_bm(b, Matrix.Translation(g2b(bx, TH, bz))); b.free()
+        food_items(bx - 0.06, bx + 0.06, TH + 0.04, bz - 0.06, bz + 0.06, 'cube', '#6b4a2e'); food_items(bx - 0.06, bx + 0.06, TH + 0.05, bz - 0.06, bz + 0.06, 'leaf', '#3f8a33')
+        g = L.lathe([(0.0, 0.0), (0.095, 0.0), (0.1, 0.09), (0.07, 0.13), (0.03, 0.15), (0.0, 0.15)], seg=16); bag.add_bm(g, Matrix.Translation(g2b(bx + 0.02, TH, bz))); g.free()
+        st_ = Mesh('luwei_chop_' + str(bx), M['chop']); st_.box(bx + 0.11, bx + 0.12, TH, TH + 0.008, bz - 0.11, bz + 0.11); st_.finish(root, uv=False)
+    cp = Mesh('luwei_cup', M['cup']); tea = Mesh('luwei_tea', M['tea'])
+    for (cx, cz) in ((TX + 0.42, TZ - 0.15), (TX - 0.52, TZ + 0.17)):
+        c = L.lathe([(0.0, 0.0), (0.035, 0.0), (0.045, 0.16), (0.0, 0.16)], seg=16); cp.add_bm(c, Matrix.Translation(g2b(cx, TH, cz))); c.free()
+        t = L.lathe([(0.0, 0.005), (0.033, 0.005), (0.041, 0.12), (0.0, 0.12)], seg=16); tea.add_bm(t, Matrix.Translation(g2b(cx, TH, cz))); t.free()
+        wire.cyl((cx + 0.01, TH + 0.12, cz), (cx + 0.02, TH + 0.24, cz + 0.01), 0.004, seg=5)   # 吸管（黑）
+    pp = Mesh('luwei_paper', M['paper'])
+    for (px, pz, a) in ((TX - 0.05, TZ - 0.12, 0.25), (TX + 0.3, TZ + 0.12, -0.4)):
+        w, h = 0.21, 0.297; c, s_ = math.cos(a), math.sin(a); pts = []
+        for (u, v) in ((-w / 2, -h / 2), (w / 2, -h / 2), (w / 2, h / 2), (-w / 2, h / 2)): pts.append((px + u * c - v * s_, TH + 0.002, pz + u * s_ + v * c))
+        vs = [pp.bm.verts.new(g2b(*p)) for p in pts]; f = pp.bm.faces.new(vs); uvl = pp.bm.loops.layers.uv.verify()
+        for lp, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uvl].uv = uv
+    nb = Mesh('luwei_note', L.flat('luwei_notebook', '#2f5d8a', rough=0.6)); nb.box(TX - 0.58, TX - 0.36, TH, TH + 0.012, TZ - 0.27, TZ - 0.03)
 
-for m_ in (st, sd, gl, rd, M_scale, soup, bl, sh_, wire, tb, bw, bag, cp, tea, nb): m_.finish(root, uv=m_ in (tb,), smooth=m_ in (bl, sh_, bag, cp, tea, bw, soup))
+for m_ in ((st, sd, gl, rd, M_scale, soup, bl, sh_, wire) if CART_ONLY else (st, sd, gl, rd, M_scale, soup, bl, sh_, wire, tb, bw, bag, cp, tea, nb)): m_.finish(root, uv=(not CART_ONLY and m_ is tb), smooth=(m_ in (bl, sh_, soup) if CART_ONLY else m_ in (bl, sh_, bag, cp, tea, bw, soup)))
 sg.finish(root, uv=False)
-pp.finish(root, uv=False)
+if not CART_ONLY: pp.finish(root, uv=False)
 food.finish(root, uv=False)
 st_ = L.export(OUT, gpu_instances=False)
 L.write_json(OUT.replace('.glb', '.json'), {'glb': os.path.relpath(OUT, L.ROOT), 'bytes': st_['bytes'], 'tris': st_.get('tris'),

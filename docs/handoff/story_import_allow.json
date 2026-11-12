@@ -9299,12 +9299,22 @@
   },
   {
    "path": "docs/story_planning/AA_841_luwei_stall.json",
-   "sha": "1f5d6efed",
+   "sha": "33e952215",
    "status": "approved",
-   "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_388 聽過：選項改成夾多少、十點後半價）」；D100b）",
+   "approvedBy": "AA-C 2026-11-12 定稿＋回 LAWWW 合併後五問（lawww_1112）；33e952215＝AA 更正 d：「好。一樣。」是老闆說的（D100b）",
    "task": "EAT-EFFECT-1020",
    "kind": "json",
-   "note": "X67 公館宵夜滷味攤的點餐（四種夾法、22:00 後半價、辣度三選、熟客句照辣度換、每天 18:00～24:00、颱風天不出攤；分支 claude/magical-albattani-bk7b4n）：tools/story/import_luwei_stall.py → src/data/luwei_stall.js（LUWEI_STALL）。夾法、價錢、台詞一字照稿；演出 src/luwei3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核"
+   "note": "X67 公館宵夜滷味攤的點餐（四種夾法、22:00 後半價、辣度三選、熟客句照辣度換、每天 18:00～24:00、颱風天不出攤；分支 claude/magical-albattani-bk7b4n）：tools/story/import_luwei_stall.py → src/data/luwei_stall.js（LUWEI_STALL）。夾法、價錢、台詞一字照稿；演出 src/luwei3d.js。LAWWW 的子代理 2026-11-12 代登，待值班 LAWWW 核｜2026-11-12 換 44ed07c50：多 lawww_1112（b_after 輪流兩句、d 回話是祐廷、e not_open 只留 17:00～18:00）。｜2026-11-12 換 33e952215：lawww_1112.d 更正——熟客句和「好。一樣。」都是老闆說的（44ed07c50 寫「祐廷回的」，AA 更正）。",
+   "history": [
+    {
+     "sha": "1f5d6efed",
+     "approvedBy": "AA-C 2026-11-12 定稿（稿的 _meta.status：「定稿（BB_388 聽過：選項改成夾多少、十點後半價）」；D100b）"
+    },
+    {
+     "sha": "44ed07c50",
+     "approvedBy": "AA-C 2026-11-12 定稿＋回 LAWWW 合併後五問（lawww_1112：吃完旁白輪流、熟客句誰說、白天不放按鈕；D100b）"
+    }
+   ]
   }
  ]
 }
