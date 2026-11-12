@@ -3290,15 +3290,11 @@ const STORY = (function(){
     const P=KX_ANNIV_PLACE[S.kxAnniv6Place(G)]||KX_ANNIV_PLACE.shop, tr=typeof OUT!=='undefined'&&OUT.trip?OUT.trip(G,{travelH:P[3],travel:P[2]}):{travelH:P[3]}, t=an*24+18.5-(+tr.travelH||0)-0.25;   /* 同 OUT.due（人在家＝至少 30 分鐘）*/
     return t>now?t:null; };
   /* 週年的地點（第一年的三個選項與她的回覆；第三、四年照用，AA_224 2-c）：key＝記在哪個旗標 */
-  /* 週年沒去（沒選地點、沒出發；AA_313 第 2 節第 10、36 列＋2-3 A）：當天 21:00 她打來（ev_kexin_anniv_missed_call；21:45 以後才發現的就不打）；
+  /* 週年沒去（沒選地點、沒出發；AA_313 第 2 節第 10、36 列＋2-3 A）：（CANON-NO-ECON-1112 第三批：當晚她打來的電話拿掉）
      原本當晚的照片「週年快樂。下次你準備。」改到隔天中午（AA：當作她自己消了一點）。tag 照舊（第一年 kx_anniv_photo、第 n 年 kx_anniv_photo＋n）*/
   S.kxAnnivMissed=function(G,n,day){ const tag=n===1?'kx_anniv_photo':'kx_anniv_photo'+n, K=t=>({th:'p:kexin',from:'kexin',text:t});
     if(n===6){ if(typeof PHONE!=='undefined') PHONE.at(G,day,22,[K('卡片你留著。……明年一起給我。')],'kx_anniv_miss6'); return; }   /* AA_472 第 3 節：第六年卡片在祐廷手上——沒有 21:00 的電話（電話裡「卡片我寫好了。我自己帶回去。」對不上）、沒有隔天卡片的照片，改成她 22:00 私訊一句 */
-    if(typeof OUT!=='undefined'&&!OUT.get(G,'kx_anniv_call'+n)&&G.day*24+G.hour<day*24+21.75) OUT.plan(G,{id:'kx_anniv_call'+n,ev:'ev_kexin_anniv_missed_call',day,h:21,place:'電話',title:'可昕打電話來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'電話掛了。'});
     if(typeof PHONE!=='undefined') PHONE.at(G,day+1,12,[K('📷（一張卡片）'),K('週年快樂。下次你準備。')],tag); };
-  /* 答應去高雄跨年卻沒出發（AA_313 第 2 節第 15、37 列，2-3 B）：00:05 她打來（ev_kexin_nye_missed_call）；y＝第幾年、nye＝12/31 那一天 */
-  S.kxNyeMissedCall=function(G,y,nye){ if(typeof OUT==='undefined'||OUT.get(G,'kx_nye_call_y'+y)||G.day*24+G.hour>=(nye+1)*24+5/60+0.75) return;
-    OUT.plan(G,{id:'kx_nye_call_y'+y,ev:'ev_kexin_nye_missed_call',day:nye+1,h:5/60,place:'電話',title:'可昕打電話來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'電話掛了。'}); };
   const KX_ANNIV_PLACE={wheel:['摩天輪','週年：摩天輪','開車約 40 分鐘',2/3],shop:['木柵大學・山下的小吃街','週年：木柵大學山下，我們的店','開車約 30 分鐘',0.5],river:['河堤','週年：河堤','騎車約 15 分鐘',0.25]};
   function kxAnnivPlaceOpts(F,K,key){ return [{t:'摩天輪。',set:{[key]:'wheel'},say:[K('……回到最高點。好。')]},{t:'木柵大學山下，我們的店。',set:{[key]:'shop'},say:[K('老闆會以為今天很普通。我們不要告訴他。')]},
     {t:'河堤。',set:{[key]:'river'},say:[K(F.KX_NYE&&F.KX_NYE[1]==='river'?'好。這次不看煙火，看河。':'好。河堤晚上風大，穿外套。')]}/* AA_209 附錄B §2：跨年去河堤的（KX_NYE[1]==='river'）照舊，其他玩家換這句 */]; }
@@ -4270,9 +4266,8 @@ const STORY = (function(){
       if(G.day===nye&&hh>=21&&!K[y]) K[y]='video';   /* 12/31 21:00 以前沒回她：當作選視訊 */
       if(G.day!==nye&&!(G.day===nye+1&&hh<1)) continue;
       if(K[y]==='river'&&!OUT.get(G,'kx_nye_y'+y)&&G.day===nye&&hh<23.75) OUT.plan(G,{id:'kx_nye_y'+y,ev:'ev_kx_nye_river_y'+y,day:nye,h:23.5,late:0.25,place:'高雄・愛河邊',title:'去高雄跨年（高鐵約一個半小時）',travel:'高鐵約一個半小時',travelH:1.5,back:'回到臺北。'});
-      const kq=OUT.get(G,'kx_nye_y'+y); if(K[y]==='river'&&kq&&kq.state==='missed'){ K[y]='missed'; S.kxNyeMissedCall(G,y,nye); PHONE.at(G,nye+1,9,[{th,from:'kexin',text:'愛河的煙火，我一個人看了。'},{th,from:'kexin',text:'……新年快樂。'}],'kx_nye_miss_y'+y); }   /* AA_313 第 2 節第 37 列（2-3 B）：00:05 她打來；這兩句改到隔天早上（原本 00:00）*/
-      const roofV=(OUT.get(G,'nye_y'+y)||{}).state==='planned'&&hh<23.75;   /* 要上頂樓的：視訊接在頂樓那一場裡（大二～大四）*/
-      if(K[y]==='video'&&!roofV&&F['NYE_Y'+y]!=='roof'&&!OUT.get(G,'kx_nye_video_y'+y)&&G.day===nye&&hh>=23) OUT.plan(G,{id:'kx_nye_video_y'+y,ev:'ev_kx_nye_video_y'+y,day:nye,h:23+59/60,late:0.2,place:'視訊',title:'可昕打視訊來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊掛了。'}); } };
+      const kq=OUT.get(G,'kx_nye_y'+y); if(K[y]==='river'&&kq&&kq.state==='missed'){ K[y]='missed'; PHONE.at(G,nye+1,9,[{th,from:'kexin',text:'愛河的煙火，我一個人看了。'},{th,from:'kexin',text:'……新年快樂。'}],'kx_nye_miss_y'+y); }   /* AA_313 第 2 節第 37 列（2-3 B）：這兩句在隔天早上（00:05 她打來的電話：CANON-NO-ECON-1112 第三批拿掉）*/
+    } };   /* 留在臺北的那一年 23:59 的視訊：CANON-NO-ECON-1112 第三批拿掉 */
   /* 跨年大二（AA_210 第 1 節＋第 5 節，881ed505）：12/31 21:00 桌遊團群組五句（以安不認識＝柏翰那句開頭）→ 23:30 頂樓（出遊選單）；00:05 群組（阿哲的照片、Alison；拍了照的多一張）；
      芯慈群組、以安沒上頂樓的私訊、語彤的私訊（交往中改 00:01 電話）；1/2 阿哲回高雄。可昕交往中選了去高雄（KX_NYE[2]＝'river'）就不排頂樓 */
   S.nyeY2=function(GM){ const G=GM.G, F=G.flags, nye=S.dayOfKey('2026-12-31'); if(nye==null||G.day<nye||G.day>nye+2||typeof PHONE==='undefined'||typeof OUT==='undefined') return;
