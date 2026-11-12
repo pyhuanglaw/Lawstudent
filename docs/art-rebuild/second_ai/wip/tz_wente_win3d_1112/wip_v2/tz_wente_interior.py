@@ -407,9 +407,9 @@ while x < -0.15:   # 上層（左半邊）：一疊疊毛衣、帽子、木盒�
         for j in range(rr.randint(4, 8)):
             bw = rr.uniform(0.025, 0.045); bh = rr.uniform(0.18, 0.26); box('book_%d_%d' % (int(x * 100), j), x, x + bw, BACK - 0.26, BACK - 0.06, 2.18, 2.18 + bh, mat_col('book' + str(j % 5), ('#6a2a22', '#2a3a5a', '#3a4a2a', '#8a7a5a', '#4a2a3a')[j % 5], rough=0.6), bev=0.003); x += bw + 0.003
         x += 0.12
-ph_place('decorative_book_set_01', (1.05, BACK - 0.17, 2.18), size=0.24, axis=2)   # Poly Haven 舊書一整排（CC0）
-ph_place('vintage_suitcase', (-1.2, BACK - 0.17, 2.55), size=0.32, axis=2)   # Poly Haven 古董皮箱一組（CC0）
-ph_place('mantel_clock_01', (1.6, BACK - 0.2, 2.55), size=0.42, axis=0)
+ph_place('decorative_book_set_01', (1.05, BACK - 0.17, 2.18), size=0.24, axis=2, decimate=0.15)   # Poly Haven 舊書一整排（CC0）
+ph_place('vintage_suitcase', (-1.2, BACK - 0.17, 2.55), size=0.32, axis=2, decimate=0.3)   # Poly Haven 古董皮箱一組（CC0）
+ph_place('mantel_clock_01', (1.6, BACK - 0.2, 2.55), size=0.42, axis=0, decimate=0.1)
 x = -0.2
 while x < 1.2:   # 第二層（右半邊：木盒、相框）：皮箱、木盒、相框（小一點、靠後）
     k = rr.random()
@@ -446,12 +446,12 @@ for k, y in enumerate((0.0, 0.42, 0.84)):
 RX = W / 2
 rail_of_clothes('right', -0.55, 1.05, RX - 0.3, 1.75, along='Y', seed=3, lmin=0.7, lmax=1.05)
 for y in (-0.55, 1.05): tube('right_post_%d' % int(y * 100), [(RX - 0.3, y, 1.75), (RX, y, 1.75)], [0.01, 0.01], BRASS, seg=8)
-ph_place('ornate_mirror_01', (RX - 0.03, 1.47, 0.5), rz=math.pi / 2, size=1.25, axis=2)   # Poly Haven 雕花鏡（CC0）
+ph_place('ornate_mirror_01', (RX - 0.03, 1.47, 0.5), rz=math.pi / 2, size=1.25, axis=2, decimate=0.3)   # Poly Haven 雕花鏡（CC0）
 # 櫃台：木頭前面板、檯面、收銀機、舊收音機、小盆栽
 box('counter', 0.95, 2.35, BACK - 0.95, BACK - 0.45, 0.0, 0.92, WOOD_D, bev=0.012)
 box('counter_top', 0.92, 2.38, BACK - 0.98, BACK - 0.42, 0.92, 0.96, WOOD, bev=0.01)
 for k in range(4): box('counter_panel_%d' % k, 1.0 + k * 0.34, 1.28 + k * 0.34, BACK - 0.955, BACK - 0.95, 0.12, 0.8, WOOD, bev=0.008)
-ph_place('CashRegister_01', (1.85, BACK - 0.7, 0.96), size=0.36, axis=2)   # Poly Haven 古董收銀機（CC0）
+ph_place('CashRegister_01', (1.85, BACK - 0.7, 0.96), size=0.36, axis=2, decimate=0.4)   # Poly Haven 古董收銀機（CC0）
 ph_place('potted_plant_02', (1.15, BACK - 0.68, 0.96), rz=0.6, size=0.5, axis=2, decimate=0.12)
 ph_place('potted_plant_02', (0.35, FRONT + 0.35, 0.0), rz=2.0, size=1.05, axis=2, decimate=0.12)   # 櫥窗和門中間落地一盆（概念圖門口的盆栽）
 
@@ -586,7 +586,7 @@ def setup_cycles(samples):
     sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = samples
     try: sc.cycles.use_denoising = True
     except Exception: pass
-    sc.cycles.max_bounces = 4
+    sc.cycles.max_bounces = 3
     w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; w.node_tree.nodes['Background'].inputs['Strength'].default_value = 0.02
     sc.view_settings.view_transform = 'Standard'
 
@@ -625,11 +625,16 @@ bk.use_pass_glossy = False; bk.use_pass_transmission = False; bk.margin = 6; bk.
 print('bake start', len(meshes), 'objects', RES, SAMPLES, flush=True)
 bpy.ops.object.bake(type='COMBINED')
 print('bake done', flush=True)
+# 降噪：烘焙沒有內建降噪，用一次 3×3 中值濾波去掉亮暗雜點（貼圖細節在 2048 下還看得到）
 # 降噪：Blender 合成器的 Denoise 節點跑在烘好的圖上
 try:
     sc.use_nodes = True; tree = sc.compositing_node_group if hasattr(sc, 'compositing_node_group') else sc.node_tree
 except Exception: tree = None
 out_png = os.path.splitext(OUT)[0] + '_bake.png'
+import numpy as np
+px = np.array(BIMG.pixels[:], dtype=np.float32).reshape(RES, RES, 4)
+st = np.stack([np.roll(np.roll(px, dy, 0), dx, 1) for dy in (-1, 0, 1) for dx in (-1, 0, 1)], 0); px = np.median(st, 0)
+BIMG.pixels[:] = px.ravel()
 BIMG.filepath_raw = out_png; BIMG.file_format = 'PNG'; BIMG.save()
 # 合成一個網格、一個材質（底色＝烘好的圖；遊戲 shopInsideReal 換成不受光的材質）
 bpy.ops.object.select_all(action='DESELECT')

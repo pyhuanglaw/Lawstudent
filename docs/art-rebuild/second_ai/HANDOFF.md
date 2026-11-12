@@ -3,7 +3,16 @@
 
 
 
-## 進度（2026-11-12 19:5x UTC；LAWWW2-C）——以這一節為準
+## 進度（2026-11-12 21:xx UTC；LAWWW2-C）——以這一節為準
+
+- **P0 使用者（UA-LAWWW2-1112-05／06）：SHOP-REALISM-1112（X365，D159）全部店面不准塑膠方塊**。研究 research/SHOP_REALISM_1112.md。溫特寶邸 v1 撤回（LAWWW-C 已 revert e54aa47e2f）。
+  - 溫特寶邸樣板 v2 進行中：`tools/blender/env_second/tz_wente_interior.py`（Poly Haven 掃描模型＋ambientCG 布料材質組＋立體衣服 garment2＋Cycles 烘焙一張貼圖）＋`cc0_fetch.py`（下載到 `~/.cache/lawstudent_cc0`，不進 repo，容器重開會重抓）。工作樹 `$SP/wt_tz5`（本機 commit c758a6f264 之後；備份 wip/tz_wente_win3d_1112/wip_v2/：腳本、code_wip.patch）。
+  - 已做：tingzhou3d.js S.REAL_VIEW／REAL_SB（打烊鐵捲門拉一半，AA_902）、zones3d.js shopInsideReal 支援 s.sb、wz_street.py 溫特寶邸 real=True back=3.7、LICENSES 12 列、測試 tz_wente_interior_1112_unit＋shop_real_inside ㉟c。
+  - 剩：烘焙（背景跑 2048／32 樣本）→ 遊戲內同鏡頭和概念圖並排三組（進門全景、櫃台、衣架近照）→ 交 LAWWW-C 先看圖、BB 判 → 給使用者看。
+  - 之後照同一套重做：汀州路 7 → 新生南路 6 → 公館 → 118 巷 9 → 溫州街。
+- 排在後面：SHOP-FIRST-APPROACH 長幀（先 render 到 1×1）、L118-SHUTTER-FULL-1112（P3）。
+
+## 進度（2026-11-12 19:5x UTC；LAWWW2-C）——舊
 
 - 交（DELIVERED LAWWW-C，等 ACK）：**SHOP-WINDOW-3D-1112 溫特寶邸** 7b35dea9e1（wip/tz_wente_win3d_1112：立體店內 sk_in_wente、shopInsideLit 接線、README 室內對齊基準；汀州路 30 支 ALL PASS）。先將就：tz_wente 沒營業時間、不能進去、只有 Blender 圖。
 - RONG-SIGN-1112 → LAWWW-C 已整合 873d9e7105（outbox 已改 ACK）。

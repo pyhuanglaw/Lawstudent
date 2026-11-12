@@ -1,0 +1,146 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index 191752dfc9..5d262ff810 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -120,6 +120,12 @@
+ | `exterior_aircon_unit`（只取乾淨的那一台） | 冷氣室外機（掛在一樓門楣旁） | 9,493 → 1,517 面；半透明的散熱格柵改 alpha clip | `assets/models/env/second_ai/wenzhou_street.glb`（溫州街 A1 阿德影印） |
+ | `potted_plant_02` | 陶盆合果芋（店門口的大盆栽） | 69,806 → 約 3,000 面（葉子 0.2、盆 0.12、土 0.004） | `wenzhou_street.glb`（阿德影印門口） |
+ | `potted_plant_04` | 白盆多肉（門口的小盆栽，放大 1.5 倍） | 8,929 → 約 1,300 面 | `wenzhou_street.glb`（阿德影印門口） |
++| `CashRegister_01` | 古董收銀機（櫃台）（作者 Joe Seabuhr） | 9,927 → 約 4,000 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
++| `vintage_suitcase` | 古董皮箱一組（後牆上層）（作者 Maximilian Schuster） | 16,474 → 約 4,900 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
++| `ornate_mirror_01` | 雕花穿衣鏡（右牆）（作者 James Ray Cock） | 14,246 → 約 4,300 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
++| `potted_plant_02` | 盆栽兩盆（櫃台、窗邊落地）（作者 Rico Cilliers） | 69,806 → 約 8,400 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
++| `decorative_book_set_01` | 舊書一整排（後牆層板）（作者 James Ray Cock） | 57,028 → 約 8,600 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
++| `mantel_clock_01` | 座鐘（後牆上層）（作者 Yann Kervran、Rico Cilliers） | 25,721 → 約 2,600 面；縮放擺位，光影烘焙 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+ 
+ ## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
+ 
+@@ -128,6 +134,12 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
+ | ambientCG id | 本作的資料夾 | 用途 | 用在哪個模型 |
+ |---|---|---|---|
+ | `Tiles139` | `acg_tiles139` | 暖米色小方磚外牆（一塊 10 cm；外牆種類 `tile_sq`，校成 #ebe0cd 再乘每棟的牆色） | `wenzhou_street.glb`（溫州街 A1 阿德影印整棟） |
++| `Fabric050、Fabric051、Fabric052、Fabric053、Fabric054、Fabric080` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 格紋襯衫、外套（蘇格蘭格紋） | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
++| `Fabric003、Fabric069` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 丹寧外套、牛仔褲 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
++| `Fabric013` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 燈芯絨 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
++| `Fabric031、Fabric036、Fabric061` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 素色襯衫、毛衣、折好的衣服（乘上各件的顏色） | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
++| `Carpet015` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 古董地毯 | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
++| `Leather037` | （不放 repo；`cc0_fetch.acg_material` 下載 1K-JPG 到快取） | 皮夾克、皮包、皮帶、靴子、皮箱（乘上各件的顏色） | `assets/models/env/second_ai/tz_wente_interior.glb`（汀州路溫特寶邸店內，SHOP-REALISM-1112；腳本 `tools/blender/env_second/tz_wente_interior.py`，下載 `cc0_fetch.py`；光影烘進一張貼圖，原始貼圖不進 repo） |
+ 
+ ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
+ 
+diff --git a/src/tingzhou3d.js b/src/tingzhou3d.js
+index a3a0bb48ac..9760d990e2 100644
+--- a/src/tingzhou3d.js
++++ b/src/tingzhou3d.js
+@@ -170,12 +170,18 @@ const TZ3=(function(){
+   /* SHOP-REAL-INSIDE-1112：汀州路走得進去的店（TZ_SHOPS_LAYOUT 裡 zone 是 tz_ 開頭、街上有這一間的）→ Z3.shopInsideReal 的清單。
+      室內的原點在店的中心、正面是 +z。西側的店朝東（轉 π/2）、東側的店朝西（轉 −π/2）；正面那一面（z＝d/2）貼在店面玻璃後面 2 cm。
+      玻璃離立面多遠（S.REAL_DEP）＝街景模型 wz_street.py TZ_ARC 的 dep：有騎樓的三間 3.0 m，沒有騎樓的四間 3.2＋0.3＝3.5 m（整棟退到店面線）。 */
+-  S.REAL_DEP={taimi:3.0,xile:3.0,yindehao:3.0,liantong:3.5,dongnan:3.5,keju:3.5,yuehaochi:3.5};   /* TZ-SHUTTER-POS-1112（BB 11-12：這四間 23:30 的鐵捲門在騎樓外緣，蓋住招牌、機車）：沒有騎樓的四間整棟退到店面線（立面再往裡 arcade 3.2 m，wz_street.py TZ_XS 那一段的 pos），玻璃在那裡再退 0.3＝離立面 3.5 m。原本寫 0.3＝店內模型和鐵捲門都往街上多出 3.2 m */
+-  S.REAL_SX={liantong:[-1.95,1.95,2.8],dongnan:[-3.45,3.45,2.62],keju:[-2.4,1.45,2.7],yuehaochi:[-2.35,1.3,2.8]};   /* 鐵捲門只蓋玻璃那一段、高到玻璃上緣（wz_street.py TZ_XS 的 glass、glass_h）：不蓋住上面的招牌板（y 2.95 起）和旁邊的照片菜單 */
++  S.REAL_DEP={taimi:3.0,xile:3.0,yindehao:3.0,liantong:3.5,dongnan:3.5,keju:3.5,yuehaochi:3.5,wente:3.5};   /* TZ-SHUTTER-POS-1112（BB 11-12：這四間 23:30 的鐵捲門在騎樓外緣，蓋住招牌、機車）：沒有騎樓的四間整棟退到店面線（立面再往裡 arcade 3.2 m，wz_street.py TZ_XS 那一段的 pos），玻璃在那裡再退 0.3＝離立面 3.5 m。原本寫 0.3＝店內模型和鐵捲門都往街上多出 3.2 m */
++  S.REAL_SX={wente:[-2.45,2.45,2.75],liantong:[-1.95,1.95,2.8],dongnan:[-3.45,3.45,2.62],keju:[-2.4,1.45,2.7],yuehaochi:[-2.35,1.3,2.8]};   /* 鐵捲門只蓋玻璃那一段、高到玻璃上緣（wz_street.py TZ_XS 的 glass、glass_h）：不蓋住上面的招牌板（y 2.95 起）和旁邊的照片菜單 */
+   S.SHOP_LIT_PLACE={tzxile:'tz_xile',tztai:'tz_taimi',tzlian:'tz_liantong',tzdong:'tz_dongnan',tzkeju:'tz_keju',tzyue:'tz_yuehaochi',limao:'tz_limao',tzwen:'tz_wente'};   /* 店面板 uv1 店編號 → 地點（溫特寶邸 tzwen：AA_902 營業時間）*/
++  /* SHOP-WINDOW-3D-1112 v2（LAWWW2-C；使用者 11-12 19:5x 對 v1「醜到爆又沒質感 跟2d差太多了 可以停止複製貼上一樣大小的方塊嗎」）：
++     只看得到、還不能進去的店（TINGZHOU-SHOPS5-1110 暫停）——玻璃後面一樣放一顆店內模型（Blender 建模＋Cycles 烘好光影的一張貼圖，tools/blender/env_second/tz_wente_interior.py），
++     和走得進去的七間同一套 Z3.shopInsideReal（走近才顯示、打烊變暗＋鐵捲門）。以後開放走進去，室內就用這一顆。*/
++  S.REAL_SB={wente:1.35};   /* 打烊鐵捲門拉一半（AA_902：溫特寶邸打烊＝鐵捲門拉一半、櫥窗燈關）：門片下緣離地 1.35 m，看得到下面暗掉的店內 */
++  S.REAL_VIEW={wente:{zone:'tz_wente',asset:'bldg.tz_wente_interior',glb:'assets/models/env/second_ai/tz_wente_interior.glb',w:5.2,d:3.6,h:3.1,name:'溫特寶邸'}};
+   S.shopReal=function(){ const T=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:null, Z=typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT:null, out=[]; if(!T||!Z) return out;
+-    for(const q of T.shops){ const L=Z[q.id], dep=S.REAL_DEP[q.id]; if(!L||dep===undefined||!/^tz_/.test(L.zone||'')) continue; const w=q.side==='W', gx=w?T.facade.west-dep:T.facade.east+dep, cz=(q.z0+q.z1)/2;
+-      out.push(Object.assign({id:q.id,place:L.zone,key:L.asset,w:L.w,d:L.d,h:L.h,x:w?gx-0.02-L.d/2:gx+0.02+L.d/2,z:cz,ry:w?Math.PI/2:-Math.PI/2,cx:gx,cz,ex:0,ez:L.w/2},S.REAL_SX[q.id]?{sx:S.REAL_SX[q.id].slice(0,2),sh:S.REAL_SX[q.id][2]}:{})); }
++    const RV=S.REAL_VIEW||{}; for(const k in RV){ const V=RV[k]; if(typeof ASSETS!=='undefined'&&ASSETS.manifest&&!ASSETS.manifest[V.asset]) ASSETS.manifest[V.asset]={url:V.glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/tz_wente_interior.py（'+V.name+' 店內，只從街上看；烘焙光影）'}; }
++    for(const q of T.shops){ const L=Z[q.id]||RV[q.id], dep=S.REAL_DEP[q.id]; if(!L||dep===undefined||!/^tz_/.test(L.zone||'')) continue; const w=q.side==='W', gx=w?T.facade.west-dep:T.facade.east+dep, cz=(q.z0+q.z1)/2;
++      out.push(Object.assign({id:q.id,place:L.zone,key:L.asset,w:L.w,d:L.d,h:L.h,x:w?gx-0.02-L.d/2:gx+0.02+L.d/2,z:cz,ry:w?Math.PI/2:-Math.PI/2,cx:gx,cz,ex:0,ez:L.w/2},S.REAL_SX[q.id]?{sx:S.REAL_SX[q.id].slice(0,2),sh:S.REAL_SX[q.id][2]}:{},(S.REAL_SB||{})[q.id]?{sb:S.REAL_SB[q.id]}:{})); }
+     return out; };
+   return S;
+ })();
+diff --git a/src/zones3d.js b/src/zones3d.js
+index b5f33035bb..2b2296ece7 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1583,13 +1583,13 @@ const Z3 = (function(){
+     if(!(opt&&opt.shutter===false)&&typeof document!=='undefined'&&THREE.CanvasTexture&&THREE.PlaneGeometry){ let mat=null;
+       try{ const c=document.createElement('canvas'); c.width=64; c.height=256; const x=c.getContext('2d'); for(let i=0;i<16;i++){ const y=i*16, gr=x.createLinearGradient(0,y,0,y+16); gr.addColorStop(0,'#9a9c9e'); gr.addColorStop(0.45,'#c9cbcc'); gr.addColorStop(0.8,'#a9abad'); gr.addColorStop(1,'#6f7173'); x.fillStyle=gr; x.fillRect(0,y,64,16); }
+         const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; if(THREE.SRGBColorSpace) t.colorSpace=THREE.SRGBColorSpace; mat=new THREE.MeshLambertMaterial({map:t,side:THREE.DoubleSide}); mat.name='shopreal_shutter'; }catch(e){ mat=null; }
+-      if(mat) for(const s of shops){ const cx=s.cx===undefined?s.x:s.cx, cz=s.cz===undefined?s.z:s.cz, nx=Math.sin(s.ry||0), nz=Math.cos(s.ry||0),   /* 朝街的方向＝室內的正面（+z）轉 ry。原本用「室內中心 → 玻璃面中心」：室內不在這一棟正中間的（SUNNY SIDE 偏東 0.62 m）鐵捲門會斜 7°、一頭縮到玻璃後面 */ sr=Array.isArray(s.sx)?s.sx:null, sw=sr?(sr[1]-sr[0]+0.2):(s.sw||(s.w-0.3)), sh=s.sh||3.0, lx=sr?(sr[0]+sr[1])/2:0, ry=s.ry||0, ox=lx*Math.cos(ry), oz=-lx*Math.sin(ry);   /* sx＝[室內 x0, x1]：只蓋門窗那一段（沒給＝整間寬）*/
+-        const geo=new THREE.PlaneGeometry(sw,sh); const uv=geo.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*sw/0.8,uv.getY(i)*sh/2.0); const m=new THREE.Mesh(geo,mat); m.name='shop_shutter_'+s.id; m.userData.dyn=true;
+-        m.position.set(cx+ox+nx*0.06,(s.y||0)+sh/2,cz+oz+nz*0.06); m.rotation.y=Math.atan2(nx,nz); m.visible=!isOpen(s);
++      if(mat) for(const s of shops){ const cx=s.cx===undefined?s.x:s.cx, cz=s.cz===undefined?s.z:s.cz, nx=Math.sin(s.ry||0), nz=Math.cos(s.ry||0),   /* 朝街的方向＝室內的正面（+z）轉 ry。原本用「室內中心 → 玻璃面中心」：室內不在這一棟正中間的（SUNNY SIDE 偏東 0.62 m）鐵捲門會斜 7°、一頭縮到玻璃後面 */ sr=Array.isArray(s.sx)?s.sx:null, sw=sr?(sr[1]-sr[0]+0.2):(s.sw||(s.w-0.3)), sh=s.sh||3.0, sb=Math.max(0,Math.min(sh-0.4,s.sb||0)), hh=sh-sb, lx=sr?(sr[0]+sr[1])/2:0, ry=s.ry||0, ox=lx*Math.cos(ry), oz=-lx*Math.sin(ry);   /* sx＝[室內 x0, x1]：只蓋門窗那一段（沒給＝整間寬）*/
++        const geo=new THREE.PlaneGeometry(sw,hh); const uv=geo.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*sw/0.8,uv.getY(i)*hh/2.0); const m=new THREE.Mesh(geo,mat); m.name='shop_shutter_'+s.id; m.userData.dyn=true;
++        m.position.set(cx+ox+nx*0.06,(s.y||0)+sb+hh/2,cz+oz+nz*0.06);   /* s.sb（SHOP-WINDOW-3D-1112 v2，AA_902 溫特寶邸打烊「鐵捲門拉一半」）：門片下緣離地 sb 公尺，軌道照舊到地 */ m.rotation.y=Math.atan2(nx,nz); m.visible=!isOpen(s);
+         /* SHUTTER-DEPTH-1112（LAWWW2-C；BB：鐵捲門一片平的）：上面的捲箱、底下的底條、兩邊的軌道——掛在那一片下面（一起顯示／藏），整條街共用一個素色金屬材質；捲箱往街上凸 0.2 m、有影子面 */
+         if(THREE.BoxGeometry){ if(!mat.userData.frame){ mat.userData.frame=new THREE.MeshLambertMaterial({color:0x8d9092}); mat.userData.frame.name='shopreal_shutter_frame'; mat.userData.dark=new THREE.MeshLambertMaterial({color:0x5d6062}); mat.userData.dark.name='shopreal_shutter_dark'; }
+           const part=(n,w,h,d,x,y,z,mm)=>{ const q=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mm); q.name='shop_shutter_'+n+'_'+s.id; q.position.set(x,y,z); q.userData.dyn=true; m.add(q); return q; };
+-          part('box',sw+0.16,0.3,0.24,0,sh/2-0.15,0.1,mat.userData.frame); part('bar',sw-0.04,0.09,0.07,0,-sh/2+0.045,0.03,mat.userData.dark); part('railL',0.08,sh-0.28,0.08,-sw/2+0.02,-0.14,0.03,mat.userData.dark); part('railR',0.08,sh-0.28,0.08,sw/2-0.02,-0.14,0.03,mat.userData.dark); }
++          part('box',sw+0.16,0.3,0.24,0,hh/2-0.15,0.1,mat.userData.frame); part('bar',sw-0.04,0.09,0.07,0,-hh/2+0.045,0.03,mat.userData.dark); part('railL',0.08,sh-0.28,0.08,-sw/2+0.02,-0.14-sb/2,0.03,mat.userData.dark); part('railR',0.08,sh-0.28,0.08,sw/2-0.02,-0.14-sb/2,0.03,mat.userData.dark); }
+         g.add(m); s.shutter=m; } }
+     const fallback=(s,vis)=>{ const R=zone.shopInLit; if(!R) return; for(const it of R.items) if(it.id===s.id&&it.mesh) it.mesh.visible=vis; };
+     const basic=(m,s,cache)=>{ if(!m) return m; let b=cache.get(m); if(b) return b; const map=m.map||m.emissiveMap||null; const col=new THREE.Color(1,1,1);
+diff --git a/tests/shop_real_inside_1112_unit.js b/tests/shop_real_inside_1112_unit.js
+index 3528801d34..36371353f3 100644
+--- a/tests/shop_real_inside_1112_unit.js
++++ b/tests/shop_real_inside_1112_unit.js
+@@ -83,7 +83,8 @@ ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張
+     const mm=new RegExp("'"+q.id+"': dict\\((arcade=False, )?dep=([0-9.]+), real=True, back=([0-9.]+)").exec(ws); if(mm){ const noArc=!!mm[1]; mm[1]=String(+mm[2]+(noArc?T.facade.arcade:0)); mm[2]=mm[3]; }   /* TZ-SHUTTER-POS-1112：沒有騎樓的店整棟退 arcade（3.2 m）到店面線，玻璃離立面＝arcade＋dep（原本這一項只比 dep，四間都少 3.2 m 也過） */
+     ok(mm&&+mm[2]>=q.d+0.1-1e-9&&Math.abs(+mm[1]-Math.abs(q.cx-(w?T.facade.west:T.facade.east)))<1e-9,'㉖ wz_street.py '+q.id+'：real、牆挖 '+(mm&&mm[2])+' m、玻璃離立面 '+(mm&&mm[1])+' m 和遊戲的設定一樣'); } }
+ { const z3=fs.readFileSync(path.join(__dirname,'..','src/zones3d.js'),'utf8');
+-  ok(/part\('box',sw\+0\.16,0\.3,0\.24,0,sh\/2-0\.15/.test(z3)&&/part\('bar'/.test(z3)&&/part\('railL'/.test(z3)&&/part\('railR'/.test(z3)&&/m\.add\(q\)/.test(z3),'㉟b SHUTTER-DEPTH-1112：鐵捲門有捲箱（不高過門窗那一段的頂）、底條、兩邊軌道，掛在那一片下面一起顯示／藏');
++  ok(/sb=Math\.max\(0,Math\.min\(sh-0\.4,s\.sb\|\|0\)\)/.test(z3)&&/\(s\.y\|\|0\)\+sb\+hh\/2/.test(z3),'㉟c SHOP-WINDOW-3D-1112 v2：s.sb＝鐵捲門拉一半（門片下緣離地 sb，沒給＝拉到地，和原本一樣）');
++  ok(/part\('box',sw\+0\.16,0\.3,0\.24,0,(?:sh|hh)\/2-0\.15/.test(z3)&&/part\('bar'/.test(z3)&&/part\('railL'/.test(z3)&&/part\('railR'/.test(z3)&&/m\.add\(q\)/.test(z3),'㉟b SHUTTER-DEPTH-1112：鐵捲門有捲箱（不高過門窗那一段的頂）、底條、兩邊軌道，掛在那一片下面一起顯示／藏');
+   ok(/shop_shutter_'\+s\.id/.test(z3)&&/s\.shutter\.visible=!isOpen\(s\)/.test(z3)&&/m\.visible=!isOpen\(s\)/.test(z3),'㉟ 打烊拉下鐵捲門：每一間在玻璃外放一片（shop_shutter_<店>），營業中藏、打烊顯示，每一拍照營業時間更新（BB 11-12：鮮果打烊沒有鐵門）'); }
+ { const z3=fs.readFileSync(path.join(__dirname,'..','src/zones3d.js'),'utf8');
+   ok(/if\(s\.kx&&s\.kx!==1\) r\.scale\.x=s\.kx;/.test(z3),'㊱ kx：室內可以在寬度方向縮一點（公館：牆厚會伸進隔壁店）'); }
+diff --git a/tests/tz_wente_interior_1112_unit.js b/tests/tz_wente_interior_1112_unit.js
+new file mode 100644
+index 0000000000..6a0017592f
+--- /dev/null
++++ b/tests/tz_wente_interior_1112_unit.js
+@@ -0,0 +1,33 @@
++// SHOP-WINDOW-3D-1112 v2（LAWWW2-C 2026-11-12）：汀州路溫特寶邸玻璃後面的店內（tz_wente_interior.glb）
++// 使用者 11-12 19:5x 對 v1：「醜到爆又沒質感 跟2d差太多了 可以停止複製貼上一樣大小的方塊嗎」→ v2：真形狀＋貼圖＋烘焙光影的一顆店內模型。
++// 檢查：①GLB 在、大小對（5.2×3.1×3.6）、一張烘好的貼圖（不是頂點色方塊）、三角形夠多又不爆量 ②街景模型溫特寶邸那一格不再有照片卡（real）③tingzhou3d.js 把它接到 shopInsideReal
++const fs=require('fs'), path=require('path'); const R=path.join(__dirname,'..');
++let fails=0; const ok=(c,m,x)=>{ console.log((c?'PASS ':'FAIL ')+m+(x?'　'+x:'')); if(!c) fails++; };
++function glb(p){ const b=fs.readFileSync(p); const n=b.readUInt32LE(12); return {j:JSON.parse(b.slice(20,20+n).toString()),size:b.length}; }
++const P=path.join(R,'assets/models/env/second_ai/tz_wente_interior.glb');
++if(!fs.existsSync(P)) ok(false,'① tz_wente_interior.glb 存在');
++else {
++  const {j,size}=glb(P); let tris=0, mn=[1e9,1e9,1e9], mx=[-1e9,-1e9,-1e9], vc=false;
++  for(const m of j.meshes) for(const p of m.primitives){ const a=j.accessors[p.indices!==undefined?p.indices:p.attributes.POSITION]; tris+=Math.floor(a.count/3); if(p.attributes.COLOR_0!==undefined) vc=true;
++    const q=j.accessors[p.attributes.POSITION]; for(let i=0;i<3;i++){ mn[i]=Math.min(mn[i],q.min[i]); mx[i]=Math.max(mx[i],q.max[i]); } }
++  const dim=mx.map((v,i)=>+(v-mn[i]).toFixed(2));
++  ok(Math.abs(dim[0]-5.24)<0.1&&Math.abs(dim[1]-3.12)<0.1&&Math.abs(dim[2]-3.62)<0.1,'① 店內大小 寬 5.2 × 高 3.1 × 深 3.6（遊戲座標 x、y、z）',JSON.stringify(dim));
++  ok(j.materials.length===1&&j.materials[0].pbrMetallicRoughness&&j.materials[0].pbrMetallicRoughness.baseColorTexture!==undefined&&!vc,'① 一個材質、一張烘好的貼圖、沒有頂點色（不是 v1 那種平塗方塊）');
++  ok((j.images||[]).length===1,'① 只有一張圖',(j.images||[]).map(i=>i.mimeType).join(','));
++  ok(tris>=15000&&tris<=80000,'① 三角形 1.5～8 萬（衣服、假人、燈有曲面；不爆量）',String(tris));
++  ok(size<6.5e6,'① 檔案 < 6.5 MB',String(size));
++}
++const st=fs.readFileSync(path.join(R,'tools/blender/env_second/wz_street.py'),'utf8');
++ok(/'wente': dict\([^)]*real=True[^)]*back=3\.7/.test(st),'② wz_street.py：溫特寶邸 real=True、牆挖到 3.7 m（照片卡不放）');
++const tz=fs.readFileSync(path.join(R,'src/tingzhou3d.js'),'utf8');
++ok(/S\.REAL_VIEW=\{wente:\{zone:'tz_wente',asset:'bldg\.tz_wente_interior'/.test(tz)&&/S\.REAL_DEP=\{[^}]*wente:3\.5/.test(tz),'③ tingzhou3d.js：S.REAL_VIEW 溫特寶邸→bldg.tz_wente_interior，玻璃離立面 3.5 m');
++// ③ 跑一次 S.shopReal（照 shop_real_inside_1112_unit 的做法：vm 載入兩份配置，抽出 S.REAL_* 和 shopReal 的函式本體）
++const vm=require('vm'); const c3={Math,console,ASSETS:{manifest:{}}}; vm.createContext(c3);
++for(const f of ['tingzhou_layout.js','tz_shops_layout.js']) vm.runInContext(fs.readFileSync(path.join(R,'src/data',f),'utf8').replace(/^const /mg,'var '),c3);
++const m1=/S\.REAL_DEP=(\{[^}]*\});/.exec(tz), m3=/S\.REAL_SX=(\{[^}]*\});/.exec(tz), m4=/S\.REAL_VIEW=(\{[^\n]*\}\});/.exec(tz), m2=/S\.shopReal=function\(\)\{([\s\S]*?)return out; \};/.exec(tz);
++let list=[]; try{ list=vm.runInContext('(function(){ const S={REAL_DEP:'+m1[1]+',REAL_SX:'+m3[1]+',REAL_VIEW:'+m4[1]+'}; '+m2[1]+' return out; })()',c3); }catch(e){ console.log('  （抽 shopReal 失敗：'+e.message+'）'); }
++global.ASSETS=c3.ASSETS;
++const w=list.find(q=>q.id==='wente');
++ok(!!w&&w.key==='bldg.tz_wente_interior'&&Math.abs(w.cz-5.75)<0.01&&w.place==='tz_wente','③ S.shopReal() 有溫特寶邸（店內模型、地點 tz_wente、在 z 5.75 那一棟）',w?JSON.stringify({x:+w.x.toFixed(2),z:w.cz,ry:+w.ry.toFixed(2)}):'沒有');
++ok(!!(global.ASSETS.manifest['bldg.tz_wente_interior']||{}).url,'③ 資產表補上 bldg.tz_wente_interior');
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tools/blender/env_second/wz_street.py b/tools/blender/env_second/wz_street.py
+index d2e7aa3c53..365e15f895 100644
+--- a/tools/blender/env_second/wz_street.py
++++ b/tools/blender/env_second/wz_street.py
+@@ -390,7 +390,8 @@ if SET == 'tingzhou':
+     # 第 2 版（使用者 11-10 20:5x「混合」）：這五間沒有騎樓、直接臨人行道——整棟退到店面線（立面 x −8.2），用沒有騎樓的店面（wz_shopkit.xs_street_front，同溫州街日常失速）：
+     #   落地窗後面一張店內卡（概念圖裁的）、門框、雨棚、窗上一塊招牌板（概念圖的招牌貼在上面）、門燈。本地 x＝從街上看的左→右。照片菜單貼在窗旁的牆上（panel 的 text）
+     TZ_XS = {
+-        'wente': dict(arcade=False, dep=0.3, glass=(-2.45, 2.45), glass_h=2.75, int='tzwen_int', pane=1.65, transom=2.45, lit=True,   # 溫特寶邸：深色木作櫥窗＋木門；黑底米金字招牌；三盞燈
++        'wente': dict(arcade=False, dep=0.3, real=True, back=3.7, door=(1.42, 2.36, 2.45), glass=(-2.45, 2.45), glass_h=2.75, int='tzwen_int', pane=1.65, transom=2.45, lit=True,   # SHOP-WINDOW-3D-1112 v2：照片卡拿掉、牆挖到店內深（tz_wente_interior.glb 深 3.6），右邊木門框；店內在遊戲 tingzhou3d.js S.REAL_VIEW
++                        # 溫特寶邸：深色木作櫥窗＋木門；黑底米金字招牌；三盞燈
+                       panel=dict(x0=-2.62, x1=2.62, y0=2.95, y1=3.72, color='#26221f', text=[('tzwen_sign', -2.5, 2.5, 2.99, 3.67)]), lamps=[(-1.7, 3.5), (0.0, 3.5), (1.7, 3.5)], frame='#3a2a20'),
+         'liantong': dict(arcade=False, dep=0.3, real=True, back=7.1, glass=(-1.95, 1.95), glass_h=2.75, int='tzlian_int', pane=1.3, transom=2.45, lit=True,   # 汀州聯通：鋁框玻璃、白光、手機殼牆
+                          panel=dict(x0=-2.15, x1=2.15, y0=2.95, y1=3.78, color='#1f3f9a', text=[('tzlian_sign', -2.1, 2.1, 3.0, 3.74)]), frame='#c9ccd0', vsigns=[('tzlian_vsign', 2.05, 4.3, 7.6, 0.85)]),
