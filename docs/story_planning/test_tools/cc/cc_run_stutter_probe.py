@@ -10,8 +10,9 @@
   算：幀數、平均 fps、時間差 >50 ms 的次數、最長一次、p50／p95／p99；每幀位移（m）：位移＝0 的幀連續 ≥2 格後面接一格位移 ≥3 倍中位數＝「凍住再一大跳」記次數與例子；
   另外記遊戲自己的 dt（GAME.E.lastDt／E.dt 有就記）、JS 長任務（PerformanceObserver longtask，有就記）。
 輸出：stutter_<TAG>.json（每段每幀原始資料）＋run.log 總表。判定只有「探針有跑完、量到東西」；數字給 LAWWW 判。
+（第二輪 LAWWW-C 04:42：VIEW／DSF／HOUR；跑步前後記 E.q、renderer 像素比、畫布、render.calls／triangles、programs；每幀記畫質有沒有變；跑不遠就記停的位置和附近 collider）
 CC_02 清單 2026-11-12：1✓ 2✓（座標：椰林大道從 zones3d.js 路面 x 0、z −242～−46；其他場景照出生點＋最長直線） 3n/a（BB 指定三個場景，不挑候選） 4✓ 5✓ 6✓ 7✓ 8✓（門檻 50 ms＝BB 04:23 給的） 9n/a（不截圖判畫面） 10✓ 11✓ 12✓（記「真的有在跑」：runHold、speed、位移） 13✓
-用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [ZONES=wenzhou,campus,gongguan] [RUN_S=10] python3 cc_run_stutter_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests SHA=<sha> TAG=<名字> [ZONES=wenzhou,campus,gongguan] [RUN_S=10] [VIEW=2308x1064 DSF=1|1.25|1.5|2 HOUR=17.58] python3 cc_run_stutter_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, statistics
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import playlib as L
@@ -24,6 +25,9 @@ TAG = os.environ.get('TAG') or 'x'
 SHA = os.environ.get('SHA') or ''
 ZONES = [z for z in (os.environ.get('ZONES') or 'wenzhou,campus,gongguan').split(',') if z]
 RUN_S = float(os.environ.get('RUN_S') or '10')
+VIEW = os.environ.get('VIEW') or ''   # 第二輪（LAWWW-C 04:42：使用者是電腦 Chrome 大視窗 2308×1064＋觸控版面）：VIEW=2308x1064 用桌機視窗（is_mobile 關、has_touch 開）
+DSF = float(os.environ.get('DSF') or '1')
+HOUR = float(os.environ.get('HOUR') or '14')
 R = L.Run('stutter_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 DAY = '2025-10-22'
@@ -32,9 +36,15 @@ PLACE = {'wenzhou': {'x': None, 'z': None, 'dir': None, 'name': '溫州街'},
          'gongguan': {'x': None, 'z': None, 'dir': None, 'name': '公館'}}
 REC_ON = r"""(()=>{ const E=GAME.E, P=E.player; window.__st={f:[], lt:[]}; window.__stOn=true;
   try{ if(!window.__stLT&&typeof PerformanceObserver!=='undefined'){ window.__stLT=new PerformanceObserver(l=>{ if(window.__stOn) for(const e of l.getEntries()) window.__st.lt.push([+e.startTime.toFixed(1), +e.duration.toFixed(1)]); }); window.__stLT.observe({entryTypes:['longtask']}); } }catch(e){}
-  let last=null; const f=t=>{ if(!window.__stOn) return; const o=P.obj.position; window.__st.f.push([+t.toFixed(2), last==null?null:+(t-last).toFixed(2), +o.x.toFixed(4), +o.z.toFixed(4), P.speed==null?null:+(+P.speed).toFixed(2), P.pose||null, E.lastDt!=null?+(+E.lastDt).toFixed(4):(E.dt!=null?+(+E.dt).toFixed(4):null), !!P.runHold]); last=t; requestAnimationFrame(f); };
+  let last=null; const f=t=>{ if(!window.__stOn) return; const o=P.obj.position; const cv=E.renderer&&E.renderer.domElement, qq=E.q||{}; window.__st.f.push([+t.toFixed(2), last==null?null:+(t-last).toFixed(2), +o.x.toFixed(4), +o.z.toFixed(4), P.speed==null?null:+(+P.speed).toFixed(2), P.pose||null, E.lastDt!=null?+(+E.lastDt).toFixed(4):(E.dt!=null?+(+E.dt).toFixed(4):null), !!P.runHold, qq.level||null, qq.pr==null?null:+qq.pr, E.renderer?+E.renderer.getPixelRatio().toFixed(3):null, cv?cv.width+'x'+cv.height:null, !!qq.shadows]); last=t; requestAnimationFrame(f); };
   requestAnimationFrame(f); return true; })()"""
 REC_OFF = "(()=>{ window.__stOn=false; return window.__st; })()"
+INFO_JS = r"""(()=>{ const E=GAME.E, r=E.renderer, i=r&&r.info, cv=r&&r.domElement; return {q:JSON.parse(JSON.stringify(E.q||{})), pr:r?r.getPixelRatio():null, canvas:cv?[cv.width,cv.height]:null, css:cv?[cv.clientWidth,cv.clientHeight]:null, dpr:window.devicePixelRatio,
+  calls:i&&i.render?i.render.calls:null, tris:i&&i.render?i.render.triangles:null, programs:i&&i.programs?i.programs.length:null, geoms:i&&i.memory?i.memory.geometries:null, tex:i&&i.memory?i.memory.textures:null}; })()"""
+BLOCK_JS = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, f=v=>+(+v).toFixed(2); const near=[];
+  for(const c of (E.colliders||[])){ const b=c.box||c.b||c; const cx=b.min&&b.max?(b.min.x+b.max.x)/2:(c.x!=null?c.x:null), cz=b.min&&b.max?(b.min.z+b.max.z)/2:(c.z!=null?c.z:null); if(cx==null) continue; const d=Math.hypot(cx-o.x,cz-o.z); if(d<4) near.push({name:String(c.name||(c.obj&&c.obj.name)||c.kind||'').slice(0,40), cx:f(cx), cz:f(cz), d:f(d)}); }
+  near.sort((a,b)=>a.d-b.d); const ahead=[]; for(let s=0.25;s<=2;s+=0.25) ahead.push([s, E.canStand(o.x,o.z-s,0.3,P.lv|0), E.nav&&E.nav.free?E.nav.free(o.x,o.z-s):null]);
+  return {pos:[f(o.x),f(o.z)], lv:P.lv|0, blockedAt:P.blockedAt||null, stall:P._stall||null, colliders:near.slice(0,8), ahead}; })()"""
 LINE_JS = r"""(()=>{ const E=GAME.E, o=E.player.obj.position; let best=null;
   for(let k=0;k<16;k++){ const a=k*Math.PI/8, dx=Math.sin(a), dz=Math.cos(a); let d=0; for(let s=0.5;s<=60;s+=0.5){ if(!E.canStand(o.x+dx*s,o.z+dz*s,0.3,E.player.lv|0)) break; d=s; } if(!best||d>best.d) best={d, dir:[+dx.toFixed(4),+dz.toFixed(4)], k}; }
   return best; })()"""
@@ -76,15 +86,23 @@ async def main():
     print('CC RUN-STUTTER：TAG %s；SHA %s；ZONES %s；跑 %.0f 秒；Playwright ≠ iPhone' % (TAG, SHA or '?', ','.join(ZONES), RUN_S), flush=True)
     res = {'tag': TAG, 'sha': SHA, 'zones': {}}
     async with async_playwright() as p:
-        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        if VIEW:
+            w, h = [int(v) for v in VIEW.lower().split('x')]
+            kw = {'executable_path': '/opt/pw-browsers/chromium'} if os.path.exists('/opt/pw-browsers/chromium') else {}   # 雲端才用（電腦那台 gpu_wrap 處理瀏覽器和 GPU 參數）
+            b = await p.chromium.launch(args=L.ARGS, **kw)
+            ctx = await b.new_context(viewport={'width': w, 'height': h}, device_scale_factor=DSF, has_touch=True, is_mobile=False)
+            pg = await ctx.new_page(); cdp = await ctx.new_cdp_session(pg); errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
+            R.setup('【前置／捷徑】桌機視窗 %dx%d、deviceScaleFactor %s、has_touch 開、is_mobile 關（LAWWW-C 04:42：使用者是電腦 Chrome 大視窗＋觸控版面）' % (w, h, DSF))
+        else:
+            b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
         res['renderer'] = await pg.evaluate("(()=>{ try{ const g=GAME.E.renderer.getContext(); const x=g.getExtension('WEBGL_debug_renderer_info'); return x?g.getParameter(x.UNMASKED_RENDERER_WEBGL):g.getParameter(g.RENDERER); }catch(e){ return String(e); } })()")
         R.note('WebGL：%s' % res['renderer'])
         for zid in ZONES:
             P = PLACE.get(zid, {'x': None, 'z': None, 'dir': None, 'name': zid}); tag = '[%s]' % P['name']
-            s = await D.load_zone(pg, cdp, zid, DAY, 14.0, x=P['x'], z=P['z'], yaw=0.0, wait=10000) if P['x'] is not None else await D.load_zone(pg, cdp, zid, DAY, 14.0, wait=10000)
-            R.setup('%s 【前置／捷徑】讀檔到 %s %s 14:00%s' % (tag, zid, DAY, '' if P['x'] is None else ' (%.1f, %.1f)' % (P['x'], P['z'])))
+            s = await D.load_zone(pg, cdp, zid, DAY, HOUR, x=P['x'], z=P['z'], yaw=0.0, wait=10000) if P['x'] is not None else await D.load_zone(pg, cdp, zid, DAY, HOUR, wait=10000)
+            R.setup('%s 【前置／捷徑】讀檔到 %s %s %.2f 時%s' % (tag, zid, DAY, HOUR, '' if P['x'] is None else ' (%.1f, %.1f)' % (P['x'], P['z'])))
             if not R.check('%s 讀到 %s' % (tag, zid), s['zone'] == zid, J(s)): continue
             await pg.wait_for_timeout(3000)
             if P['dir']: dr = {'dir': list(P['dir']), 'd': None}
@@ -101,7 +119,18 @@ async def main():
             on = await pg.evaluate("!!GAME.E.player.runHold")
             if not on: await L.tap(pg, cdp, '#btnRun'); await pg.wait_for_timeout(500)
             run_on = await pg.evaluate("!!GAME.E.player.runHold")
+            zres['info_before'] = await pg.evaluate(INFO_JS)
             zres['run'], raw_run = await seg(pg, cdp, tag, '② 跑步 %.0f 秒' % RUN_S, lambda: push(int(RUN_S * 1000)))
+            zres['info_after'] = await pg.evaluate(INFO_JS)
+            chg = []; prev = None
+            for fr in raw_run['f']:
+                key = tuple(fr[8:13]) if len(fr) > 12 else None
+                if key is not None and key != prev: chg.append([fr[0]] + list(key)); prev = key
+            zres['quality_changes'] = chg
+            R.note('%s 跑步前 %s；跑步後 %s；畫質／像素比／畫布在 10 秒內的變化（時間、level、pr、renderer pr、畫布、陰影）%d 筆：%s' % (tag, J(zres['info_before']), J(zres['info_after']), len(chg), J(chg[:8])))
+            R.note('%s 跑步中新編的 shader：programs %s → %s' % (tag, zres['info_before'].get('programs'), zres['info_after'].get('programs')))
+            if (zres['run'].get('dist_m') or 0) < RUN_S * 3:
+                zres['block'] = await pg.evaluate(BLOCK_JS); R.note('%s 跑不遠（%.1f m）：停的位置、附近的 collider、前方站不站得住 %s' % (tag, zres['run'].get('dist_m') or 0, J(zres['block'])))
             R.check('%s ② 真的在跑（按了「跑」runHold=%s、跑了 %.1f m）' % (tag, run_on, zres['run'].get('dist_m') or 0), run_on and (zres['run'].get('dist_m') or 0) > 3, J({k: zres['run'].get(k) for k in ('dist_m', 'runHold_frames', 'poses')}))
             if await pg.evaluate("!!GAME.E.player.runHold"): await L.tap(pg, cdp, '#btnRun'); await pg.wait_for_timeout(500)
             wx, wz = -wx, -wz   # 走回來（同一條線、反方向）
