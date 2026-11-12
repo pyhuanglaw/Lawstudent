@@ -28,6 +28,7 @@ TAG = os.environ.get('TAG') or 'x'
 ZONES = [z for z in (os.environ.get('ZONES') or 'tz_taimi').split(',') if z]
 HOURS = [float(h) for h in (os.environ.get('HOURS') or '14,20.5').split(',') if h]
 PARTS = set((os.environ.get('PARTS') or '1,2,3,4,5,6,7').split(','))
+PAN = (os.environ.get('PAN') or '0') == '1'   # BB-C 11:38：預設連拍鏡頭完全固定；PAN=1＝舊做法（每格轉 0.01 rad）
 STRIPS = (os.environ.get('STRIPS') or '0') == '1'   # BB-C 10:23：每個翻動的格子切成條圖（同一格 12 張並排、每張時間戳），分陰影跳／窗外車人／疊面閃
 PAR_LO, PAR_HI = float(os.environ.get('PAR_LO') or '0.05'), float(os.environ.get('PAR_HI') or '0.15')   # 射線：門面後面還有東西的比例
 SPR_LO, SPR_HI = float(os.environ.get('SPR_LO') or '0.3'), float(os.environ.get('SPR_HI') or '0.8')   # ⑤ 門面後面打到的深度分散 p90−p10（m，暫定，等大步新舊 r3 校正）
@@ -91,11 +92,12 @@ CEIL_JS = r"""(a=>{ const E=GAME.E, rc=new THREE.Raycaster(new THREE.Vector3(a[0
 BURST_JS = r"""(async a=>{ const E=GAME.E, r=E.renderer, c=r.domElement, W=64, H=Math.round(64*c.height/c.width), k=document.createElement('canvas'); k.width=W; k.height=H; const g=k.getContext('2d',{willReadFrequently:true});
   const B=8, bw=Math.floor(W/B), bh=Math.floor(H/B), seq=[]; const y0=E.cam.yaw;
   const fr=[], t00=performance.now(); const FW=640, FH=Math.round(640*c.height/c.width);
-  for(let f=0;f<25;f++){ E.cam.yaw=y0+f*0.01; await new Promise(res=>setTimeout(res,200)); r.render(E.scene,E.camera); g.drawImage(c,0,0,W,H); const d=g.getImageData(0,0,W,H).data; const v=[];
+  const C0=E.camera.clone(); C0.updateMatrixWorld(true); const PO=E.player&&E.player.obj, PV=PO?PO.visible:null; if(PO&&!a.pan) PO.visible=false;   /* BB-C 11:38：連拍鏡頭完全固定（拷一台不動的相機；原本每格轉 0.01 rad＝25 格約 14°，條圖整個畫面在平移、會誤判成閃）；PAN=1 才照舊轉 */
+  for(let f=0;f<25;f++){ if(a.pan) E.cam.yaw=y0+f*0.01; await new Promise(res=>setTimeout(res,200)); r.render(E.scene,a.pan?E.camera:C0); g.drawImage(c,0,0,W,H); const d=g.getImageData(0,0,W,H).data; const v=[];
     if(a.strips){ const q=document.createElement('canvas'); q.width=FW; q.height=FH; q.getContext('2d').drawImage(c,0,0,FW,FH); const G=GAME.G; fr.push({q, ms:Math.round(performance.now()-t00), gh:G?(+G.hour).toFixed(3):''}); }
     for(let by=0;by<B;by++) for(let bx=0;bx<B;bx++){ let s=0,n=0; for(let y=by*bh;y<(by+1)*bh;y++) for(let x=bx*bw;x<(bx+1)*bw;x++){ const o=(y*W+x)*4; s+=0.299*d[o]+0.587*d[o+1]+0.114*d[o+2]; n++; } v.push(s/n); } seq.push(v); }
-  E.cam.yaw=y0; let flick=0; const per=[]; for(let i=0;i<B*B;i++){ let flips=0, prev=0; for(let f=1;f<seq.length;f++){ const dd=seq[f][i]-seq[f-1][i]; if(Math.abs(dd)>12){ const sg=Math.sign(dd); if(prev&&sg!==prev) flips++; prev=sg; } } per.push(flips); if(flips>=3) flick++; }
-  let img=null; if(a.overlay){ r.render(E.scene,E.camera); const ow=640, oh=Math.round(640*c.height/c.width), q=document.createElement('canvas'); q.width=ow; q.height=oh; const qg=q.getContext('2d'); qg.drawImage(c,0,0,ow,oh);
+  if(a.pan) E.cam.yaw=y0; if(PO) PO.visible=PV; let flick=0; const per=[]; for(let i=0;i<B*B;i++){ let flips=0, prev=0; for(let f=1;f<seq.length;f++){ const dd=seq[f][i]-seq[f-1][i]; if(Math.abs(dd)>12){ const sg=Math.sign(dd); if(prev&&sg!==prev) flips++; prev=sg; } } per.push(flips); if(flips>=3) flick++; }
+  let img=null; if(a.overlay){ r.render(E.scene,a.pan?E.camera:C0); const ow=640, oh=Math.round(640*c.height/c.width), q=document.createElement('canvas'); q.width=ow; q.height=oh; const qg=q.getContext('2d'); qg.drawImage(c,0,0,ow,oh);
     const sx=ow/B, sy=oh/B; qg.lineWidth=3; qg.font='bold 14px sans-serif'; for(let i=0;i<B*B;i++){ if(per[i]<3) continue; const bx=i%B, by=Math.floor(i/B); qg.strokeStyle='#ff2d55'; qg.strokeRect(bx*sx+2,by*sy+2,sx-4,sy-4); qg.fillStyle='#ff2d55'; qg.fillText(String(per[i]),bx*sx+6,by*sy+18); }
     img=q.toDataURL('image/jpeg',0.85); }
   let strips=null; if(a.strips&&fr.length){ strips=[]; const sx=FW/B, sy=FH/B, pick=[]; for(let f=0;f<fr.length&&pick.length<12;f+=2) pick.push(f);
@@ -280,8 +282,8 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     if '6' in PARTS:
         z1 = await pg.evaluate(ZF_JS, {'from': [ex + ux * 1.0, 1.6, ez + uz * 1.0], 'at': [cx + ux * m * 0.8, 1.2, cz + uz * m * 0.8]})
         z2 = await pg.evaluate(ZF_JS, {'from': [cx, 1.6, cz], 'at': [ex - ux * 2.0, 1.8, ez - uz * 2.0]})
-        bu = await pg.evaluate(BURST_JS, {'overlay': True})
-        await pg.evaluate(HIDE_PEOPLE + '(true)'); bu2 = await pg.evaluate(BURST_JS, {'overlay': True, 'strips': STRIPS}); await pg.evaluate(HIDE_PEOPLE + '(false)')
+        bu = await pg.evaluate(BURST_JS, {'overlay': True, 'pan': PAN})
+        await pg.evaluate(HIDE_PEOPLE + '(true)'); bu2 = await pg.evaluate(BURST_JS, {'overlay': True, 'strips': STRIPS, 'pan': PAN}); await pg.evaluate(HIDE_PEOPLE + '(false)')
         for st_ in (bu2.pop('strips', None) or []):   # 藏人那一輪的翻動格子：同一格 12 張並排（上面 ms＝連拍開始後幾毫秒、g＝遊戲時間）
             open(os.path.join(OUT, 'strip_%s_%s_b%02d_r%dc%d_f%d.jpg' % (zid, hh, st_['i'], st_['by'], st_['bx'], st_['flips'])), 'wb').write(base64.b64decode(st_['url'].split(',', 1)[1]))
         # BB-C 07:19 ②：翻動的格子圈在截圖上（數字＝翻幾次）；另外把人都藏起來再連拍一次＝分得出是人在走還是真的閃
