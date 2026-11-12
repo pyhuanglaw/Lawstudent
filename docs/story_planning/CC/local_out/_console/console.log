@@ -970,3 +970,18 @@
 [19:58:56] ==== END   SHUT_TZ_door_2330  exit=0  116s   ====
 [19:59:31] solo item DN_PROGRAMS waits: no new items start until the 2 running item(s) finish
 [19:59:39] [res] cpu=2% mem=39% (12.5/31.4 GB) chrome_testing=4  END CLUBBOARD_each_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       966e9cf55..5ed713f3b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:59:46] ==== END   CLUBBOARD_each_r2  exit=0  112s   ====
+[19:59:50] solo item DN_PROGRAMS waits: no new items start until the 1 running item(s) finish
+[20:02:49] 正在跑：SSB_gg3c（已跑 3 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:07:49] 正在跑：SSB_gg3c（已跑 8 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:10:07] memory 41% before starting SHUT_XS_door_14_r2 (1 running)
+[20:10:07] memory 41% before starting SHUT_XS_door_2330_r2 (2 running)
+[20:10:07] ==== START SHUT_XS_door_14_r2  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
+[20:10:07] ==== START SHUT_XS_door_2330_r2  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
+[20:10:10] [res] cpu=0% mem=41% (13.0/31.4 GB) chrome_testing=5  START SHUT_XS_door_2330_r2
+[20:10:10] [res] cpu=0% mem=41% (13.0/31.4 GB) chrome_testing=5  START SHUT_XS_door_14_r2
+[20:10:10] worktree add 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2: invalid reference - fetching main and the commit itself
+[20:12:17] [res] cpu=1% mem=48% (15.3/31.4 GB) chrome_testing=9  END SHUT_XS_door_2330_r2
