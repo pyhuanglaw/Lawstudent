@@ -8604,6 +8604,21 @@
    "noDirectIntegrate": true,
    "remaining": "阿忠鮮果營業中沒有老闆（LAWWW closed3d.js）；林家乾麵仍是簡化版",
    "next": "—"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "7c374c3d0",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED（11-12 11:3xZ），未 ACK",
+   "task": "LUWEI-STALL-3D-1112 宵夜滷味攤驗收＋只有攤車的版本",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/luwei_stall_1112/luwei_cart_v1.patch",
+    "docs/art-rebuild/second_ai/wip/luwei_stall_1112/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "remaining": "src/luwei3d.js 三處要 LAWWW 改（換檔、阻擋一塊、白天藏老闆）；光暈沒加；換檔後遊戲內沒拍",
+   "next": "LAWWW-C 套 patch 改程式、CC 拍"
   }
  ]
 }
