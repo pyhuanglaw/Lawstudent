@@ -870,9 +870,8 @@ const R2Y4B=(function(){
     /* 2-Y4-51 2030 國考重考：和可昕交往中，考前一晚 */
     {tag:'y5_kx_0802',at:['2030-08-02',22],cond:G=>S.retaker(G)&&dating(G,'kexin'),items:G=>[P_('kexin','明天你考。'),P_('kexin','……早點睡。我十點不打給你。')]},
     /* 2-Y4-52 交換延畢：明軒（10 月）、證書那天媽媽在 S.cert */
-    {tag:'y5_mx_oct',at:['2029-10-15',21],cond:G=>delayed(G)&&met(G,'classmate_mingxuan','FAMILIAR'),items:G=>[P_('classmate_mingxuan','（照片：宿舍窗外的樹都黃了）'),P_('classmate_mingxuan','這裡十月就要穿大衣了。')]},
-    /* 2-Y4-59 可昕 K27：第一份工作那一串之後 30 分鐘 */
-    {tag:'y6_kx_shelf',at:['2030-10-01',21.5],cond:G=>!!G.flags.KX_SHELF&&dating(G,'kexin'),items:G=>[P_('kexin','（照片：法律系館讀書室的書架，最右邊那一格放了一本筆記）'),P_('kexin','系館讀書室書架最右邊那一格，我放了第一次開庭的筆記。')]} ];
+    {tag:'y5_mx_oct',at:['2029-10-15',21],cond:G=>delayed(G)&&met(G,'classmate_mingxuan','FAMILIAR'),items:G=>[P_('classmate_mingxuan','（照片：宿舍窗外的樹都黃了）'),P_('classmate_mingxuan','這裡十月就要穿大衣了。')]} ];
+    /* 2-Y4-59 可昕 K27（y6_kx_shelf）：AA_900 第 3 節拿掉（KX_SHELF 不會再有）*/
   const ret=G=>S.retaker(G);
   S.STEPS=[
     /* 2-Y4-54 多段感情 */

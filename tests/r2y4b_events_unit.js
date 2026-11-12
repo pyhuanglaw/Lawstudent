@@ -519,7 +519,7 @@ const date=id=>H.date(id);
     check('2-Y4-58 日本、美國路線：2029 不考，沒有這一件', !OUT.get(H.G,'y4_bar_group_start')&&!H.G.flags.BAR_STUDY_GROUP); }
   /* ===== 2-Y4-59 可昕 K27 ===== */
   { fresh('2030-10-01',20,'dorm',Object.assign({KX_SHELF:true},GD)); date('kexin'); at('2030-10-01',21.5); pg();
-    check('SH1 K25 去了、到 2030 還在交往：2030-10-01 21:30「（照片：法律系館讀書室的書架，最右邊那一格放了一本筆記）」「系館讀書室書架最右邊那一格，我放了第一次開庭的筆記。」（不用回）（CANON-NO-ECON-1112 第四批：照 AA_892 換字）', JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['（照片：法律系館讀書室的書架，最右邊那一格放了一本筆記）','系館讀書室書架最右邊那一格，我放了第一次開庭的筆記。'])&&!(H.G.msgs||[]).some(m=>m.th==='p:kexin'&&m.ask));
+    check('SH1 y6_kx_shelf 那則私訊拿掉：舊存檔有 KX_SHELF、到 2030 還在交往，10/1 也沒有（CANON-NO-ECON-1112 第四批：照 AA_900 第 3 節拿掉）', !PHONE.sent(H.G,'y6_kx_shelf')&&!th('p:kexin').some(t=>/第一次開庭的筆記/.test(t)));
     fresh('2030-10-01',20,'dorm',GD); date('kexin'); at('2030-10-01',21.5); pg(); const noShelf=!th('p:kexin').length; fresh('2030-10-01',20,'dorm',Object.assign({KX_SHELF:true},GD)); at('2030-10-01',21.5); pg();
     check('2-Y4-59 沒有 KX_SHELF、或沒有在交往：沒有；尾聲她仍然只有一句（K27 不放尾聲）', noShelf&&!th('p:kexin').length&&!JSON.stringify(POSTGRAD_LINES.EPI.kx||{}).includes('第一次開庭的筆記')); }
   /* ===== 2-Y4-60 學姊：律師錄取那天的一句（AA_319 那一批的 postgrad 已接）===== */

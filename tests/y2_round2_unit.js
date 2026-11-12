@@ -109,7 +109,7 @@ const K=t=>'kexin:'+t;
 
   // 4. 2-Y2-05 互相出題
   fresh('2026-10-09',20,'dorm',{KX_K6_EXAM:true}); date('kexin'); run('2026-10-09',20.5,21.25);
-  check('4. 10/9 21:00 三則（做過 K6：「規則照舊……」；AA_343 E4：「期中前那個週五，晚上六點半」）',JSON.stringify(txt('p:kexin'))===JSON.stringify([K('這學期起，期中、期末前都互相出題。'),K('規則照舊，只能出老師上課講過的。'),K('第一次：期中前那個週五，晚上六點半，山下那一攤。不能來就視訊，題目照出。')]),JSON.stringify(txt('p:kexin')));
+  check('4. 10/9 21:00 三則（做過 K6：「規則照舊……」；AA_343 E4：「期中前那個週五，晚上六點半」）',JSON.stringify(txt('p:kexin'))===JSON.stringify([K('這學期起，期中、期末前都互相出題。'),K('規則照舊，只能出老師上課講過的。'),K('期中前那個週五，晚上六點半，後門那家。題目一人出五題。')]),JSON.stringify(txt('p:kexin')));   /* （CANON-NO-ECON-1112 第四批：照 AA_901 第 1 項換字）*/
   ans('y2r2_q_ask',0); { const q=OUT.get(G,'y2r2_q'); check('4. 「好。」→「好。題目不要先給我看。」→ 10/23（五）18:30 山下（不是 10/17、不是舊的 10/25 中午；AA_343 E4）',txt('p:kexin').includes(K('好。題目不要先給我看。'))&&q&&q.day===D('2026-10-23')&&q.h===18.5&&q.ev==='ev_kexin_quiz_y2'&&G.flags.KX_QUIZ_MODE_Y2==='meet');
     check('4. 學校後門・湯餃店、走路（CANON-NO-ECON-1112 第四批：照 AA_889 換字）',!!q&&q.place==='學校後門・湯餃店'&&q.title==='互相出題（後門那家湯餃）'&&q.travel==='走路'&&q.travelH===0.1,q&&JSON.stringify({h:q.h,travelH:q.travelH})); }
   { const Q0=JSON.stringify(G.flags.KX_QUIZ||null); await go('y2r2_q',17.8); picks=[];
@@ -298,30 +298,26 @@ const K=t=>'kexin:'+t;
   { const x=bdR(0,21,()=>{ G.events.done.ev_kexin_birthday_y2=1; }); check('13. A2 那一場已經演過之後才傳：「謝謝。」',x.ok&&JSON.stringify(x.L.map(m=>m.text))===JSON.stringify(['謝謝。']),JSON.stringify(x.L.map(m=>m.text))); }
   { const x=bdR(1,18.5,()=>{ OUT.get(G,'y2r2_bd').state='missed'; }); check('13. A2 那一場已經錯過（18:30 出發選單選了不去）之後才傳：「謝謝。」',x.ok&&JSON.stringify(x.L.map(m=>m.text))===JSON.stringify(['謝謝。']),JSON.stringify(x.L.map(m=>m.text))); }
 
-  // 14. 2-Y2-16 回程的公車
-  fresh('2027-04-28',20,'dorm',{met_yu:true}); date('kexin'); run('2027-04-28',20.75,21.25); check('14. 沒有 K12（KX_CIRCLES_MET、麵店分店群組）：沒有',!PHONE.sent(G,'y2r2_u_ask'));
-  const bus=(flags)=>{ fresh('2027-04-28',20,'dorm',Object.assign({met_yu:true,KX_CIRCLES_MET:true},flags||{})); date('kexin'); PHONE.join(G,'noodle_branch','麵店分店'); run('2027-04-28',20.75,21.25); };
-  bus({KX_NCCU_FRIENDS:true});
-  check('14. 4/28 21:00 麵店分店：予樂、阿哲「+1」、Alison「我也要！！」；最後一則可以回（去／不行）',JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['yule:下週六下午一點，老街。搭公車去。司機這次放假。','zhe:+1','yu:我也要！！'])&&JSON.stringify(PHONE.byAsk(G,'y2r2_u_ask').ask.opts.map(o=>o.t))===JSON.stringify(['去。','那天不行。']),JSON.stringify(txt('g:noodle_branch')));
+  // 14. 2-Y2-16 回程的公車（CANON-NO-ECON-1112 第四批：照 AA_900 第 2 節換成同班版——班上的群組、阿哲揪、交往中才有；取名遊戲、群組改名拿掉）
+  fresh('2027-04-28',20,'dorm',{met_yu:true}); PHONE.join(G,'law_class','法律系（全班）'); run('2027-04-28',20.75,21.25); check('14. 沒有在交往：沒有',!PHONE.sent(G,'y2r2_u_ask'));
+  const bus=(flags,noYu)=>{ fresh('2027-04-28',20,'dorm',Object.assign(noYu?{}:{met_yu:true},flags||{})); date('kexin'); PHONE.join(G,'law_class','法律系（全班）'); run('2027-04-28',20.75,21.25); };
+  const LC=()=>txt('g:law_class').filter(t=>/老街|我要！！|📷/.test(t));
+  bus();
+  check('14. 4/28 21:00 班上的群組：阿哲揪、Alison「我要！！」；最後一則可以回（去／不行）',JSON.stringify(LC())===JSON.stringify(['zhe:下週六下午一點，老街。搭公車去。要去的回一下。','yu:我要！！'])&&JSON.stringify(PHONE.byAsk(G,'y2r2_u_ask').ask.opts.map(o=>o.t))===JSON.stringify(['去。','那天不行。']),JSON.stringify(LC()));
   ans('y2r2_u_ask',0); { const q=OUT.get(G,'y2r2_u'); check('14. 「去。」＝5/8 13:00 老街',!!q&&q.day===D('2027-05-08')&&q.h===13); }
-  to('2027-05-08',13.2); tick(); check('14. 5/8 群組名稱改成「老街限定」',PHONE.rec(G).groups.noodle_branch.name==='老街限定');
   await go('y2r2_u',12); picks=['留下來'];
-  check('14. U1 老街逐字：「這家寫百年老店。」「……隔壁那家也寫。」；綽號（{name}）、Alison「書記」、邵鈞詹靖',has('（山邊的老街。一條上坡的窄路，兩邊都是賣吃的。）')&&has('（在第一家店門口）這家寫百年老店。')&&has('……隔壁那家也寫。')&&has('祐廷，你是「放假的司機」。')&&has('Alison 是『書記』。')&&has('邵鈞是『拍照的那個』，詹靖是『找廁所的那個』。')&&has('……這個不能改嗎？')&&has('我是「命名官」。這個不能投票。')&&!any(/假設/),JSON.stringify(said.map(s=>s.t)));
+  check('14. U1 老街逐字（AA_900 第 2 節）：「這家寫百年老店。」「……隔壁那家也寫。」、阿哲的規則、Alison 記哪一家；沒有取名遊戲',has('（山邊的老街。一條上坡的窄路，兩邊都是賣吃的。）')&&has('（在第一家店門口）這家寫百年老店。')&&has('……隔壁那家也寫。')&&has('今天的規則：每一家都要試吃。不買也要試吃。')&&has('我負責記哪一家最好吃。')&&has('那你負責什麼？')&&has('帶路。……我也是第一次來。')&&has('要先回去的舉手。剩下的吃完晚餐，搭晚上的公車。')&&!any(/命名官|放假的司機|書記/),JSON.stringify(said.map(s=>s.t)));
   check('14. 17:00 二選一 → 公車上「車開過一個彎。你不記得自己什麼時候睡著的。」；KX_BUS_HOME kissed；回到臺北 22:30',JSON.stringify(opts[0])===JSON.stringify(['「留下來吃晚餐。」','「我先回去。」'])&&has('車開過一個彎。你不記得自己什麼時候睡著的。')&&G.flags.KX_BUS_HOME==='kissed'&&Math.abs(G.hour-22.5)<0.01,String(G.hour));
   run('2027-05-08',22.75,23.25); { const L=TH('p:kexin').slice(-3); check('14. 23:00 三則（置頂、可以回）',JSON.stringify(L.map(m=>m.text))===JSON.stringify(['你剛剛在公車上睡著了。靠在我肩上。','我親了你一下。你沒醒。','先跟你說一聲。'])&&L.every(m=>m.pin)&&!!PHONE.byAsk(G,'y2r2_u_kiss')); }
   ans('y2r2_u_kiss',2); check('14. 回長頸鹿貼圖 →（她回一隻長頸鹿）「你就是這隻。睡著的那隻。」',JSON.stringify(txt('p:kexin').slice(-3))===JSON.stringify(['player:（貼圖：長頸鹿）',K('（她回一隻長頸鹿）'),K('你就是這隻。睡著的那隻。')]));
   run('2027-05-08',21.5,21.75); check('14. 留下來的沒有照片',!PHONE.sent(G,'y2r2_u_photo'));
-  to('2027-05-09',9); tick(); check('14. 隔天群組名稱改回「麵店分店」',PHONE.rec(G).groups.noodle_branch.name==='麵店分店');
   bus(); ans('y2r2_u_ask',0); said=[]; picks=['先回去']; await go('y2r2_u',12);
-  check('14. U2 先走：「好。到家傳一隻長頸鹿貼圖給我。」；沒有公車；沒有 Alison（不認識）以外的人',has('好。到家傳一隻長頸鹿貼圖給我。')&&!any(/睡著/)&&G.flags.KX_BUS_HOME==='left'&&!has('邵鈞是『拍照的那個』，詹靖是『找廁所的那個』。'));
-  run('2027-05-08',21.25,23.25); check('14. 先走：21:30 群組兩張照片；沒有 23:00',JSON.stringify(txt('g:noodle_branch').slice(-2))===JSON.stringify(['yule:📷（老街的階梯，一排人的背影）','zhe:📷（一桌試吃的小碟子）'])&&!PHONE.sent(G,'y2r2_u_kiss'));
-  { const k12=ev('ev_kexin_two_circles'); if(k12&&typeof k12.after==='function'){ fresh('2027-03-25',20.5,'noodle',{met_yu:true}); date('kexin'); meet('classmate_bohan'); G.flags.KX_CIRCLES_MET=true; k12.after(G); run('2027-04-28',20.75,21.25);
-    check('14. 接 1B-07 的 K12（ev_kexin_two_circles 結束建的「麵店分店」和成員）：4/28 邀約在那個群組；AA_375 第 15 項：Alison、柏翰 19:40 先去讀書會，群組不算他們——只有阿哲',PHONE.inGroup(G,'noodle_branch')&&JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['yule:下週六下午一點，老街。搭公車去。司機這次放假。','zhe:+1']),JSON.stringify(txt('g:noodle_branch'))); }
-    else check('14. 1B-07 的 ev_kexin_two_circles 還沒進來（這個檢查跳過）',true); }
-  bus({NOODLE_BRANCH_MEMBERS:['kexin','yule','zhe','classmate_bohan']});
-  check('14. 1B-07 記的成員（Alison 那天不在、柏翰在）：邀約是阿哲「+1」、柏翰「那天我在總圖。」，沒有 Alison',JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['yule:下週六下午一點，老街。搭公車去。司機這次放假。','zhe:+1','classmate_bohan:那天我在總圖。']),JSON.stringify(txt('g:noodle_branch')));
-  ans('y2r2_u_ask',0); said=[]; picks=['先回去']; await go('y2r2_u',12); check('14. Alison 不在群組：老街沒有「書記」',!has('Alison 是『書記』。'));
-  bus(); ans('y2r2_u_ask',1); run('2027-05-08',12,21.75); check('14. U3 沒參加：群組兩張照片、沒有提公車；KX_BUS_HOME no',JSON.stringify(txt('g:noodle_branch').slice(-2))===JSON.stringify(['yule:📷（老街的階梯，一排人的背影）','zhe:📷（一桌試吃的小碟子）'])&&G.flags.KX_BUS_HOME==='no'&&!txt('g:noodle_branch').some(t=>/公車上/.test(t)));
+  check('14. U2 先走：「好。到家傳一隻長頸鹿貼圖給我。」；沒有公車',has('好。到家傳一隻長頸鹿貼圖給我。')&&!any(/睡著/)&&G.flags.KX_BUS_HOME==='left');
+  run('2027-05-08',21.25,23.25); check('14. 先走：21:30 班上群組兩張照片（阿哲、可昕）；沒有 23:00',JSON.stringify(LC().slice(-2))===JSON.stringify(['zhe:📷（老街的階梯，一排人的背影）','kexin:📷（一桌試吃的小碟子）'])&&!PHONE.sent(G,'y2r2_u_kiss'));
+  bus({},true);
+  check('14. 不認識 Alison：邀約只有阿哲那一句',JSON.stringify(LC())===JSON.stringify(['zhe:下週六下午一點，老街。搭公車去。要去的回一下。']),JSON.stringify(LC()));
+  ans('y2r2_u_ask',0); said=[]; picks=['先回去']; await go('y2r2_u',12); check('14. 不認識 Alison：老街沒有她那句',!has('我負責記哪一家最好吃。'));
+  bus(); ans('y2r2_u_ask',1); run('2027-05-08',12,21.75); check('14. U3 沒參加：群組兩張照片、沒有提公車；KX_BUS_HOME no',JSON.stringify(LC().slice(-2))===JSON.stringify(['zhe:📷（老街的階梯，一排人的背影）','kexin:📷（一桌試吃的小碟子）'])&&G.flags.KX_BUS_HOME==='no'&&!txt('g:law_class').some(t=>/公車上/.test(t)));
 
   // 15. 2-Y2-17 芷若
   fresh('2027-05-11',22,'dorm'); R('heroine_02','FRI'); date('heroine_02'); run('2027-05-11',22.5,22.75);
