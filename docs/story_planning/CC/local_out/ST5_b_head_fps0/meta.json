@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "ST5_b_head_fps0",
+  "sha": "d80eda726fd3cd9dbd6d1a5e16866e7414da75c7",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_run_stutter_probe.py",
+  "env": "SOLO=1;PROBE_HEADED=1;WINPOS=40,40;CC_GPU=1;TAG=st5_b_head_fps0;VIEW=1240x620;DSF=2;HOUR=17.58;ZONES=wenzhou;RUN_S=10;SHA=d80eda726fd3cd9dbd6d1a5e16866e7414da75c7",
+  "machine": "MSI",
+  "start": "2026-11-12T15:16:01",
+  "end": "2026-11-12T15:18:24",
+  "seconds": 142,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8800/index.html?fps=0",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 39,
+    "mem": 47,
+    "used_gb": 15.0,
+    "chrome_testing": 10
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

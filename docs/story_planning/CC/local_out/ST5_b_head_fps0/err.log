@@ -1,0 +1,4 @@
+[gpu_wrap 1.2s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [ST5_b_head_fps0]
+[gpu_wrap 4.8s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+[gpu_wrap 89.5s] page close url=http://127.0.0.1:8800/index.html?fps=0
+[gpu_wrap 89.6s] BROWSER DISCONNECTED
