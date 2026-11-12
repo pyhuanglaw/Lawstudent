@@ -238,3 +238,12 @@
 [14:46:44] [res] cpu=76% mem=40% (12.7/31.4 GB) chrome_testing=0  START X352B_new_b
 [14:46:47] worktree add 42c493ca277073a91d87dca7f971f6625a56d6a0: invalid reference - fetching main and the commit itself
 [14:46:50] [res] cpu=22% mem=37% (11.7/31.4 GB) chrome_testing=0  END X352_DABU_old_r2
+[14:47:48] 正在跑：X352_DABU_old_r2（已跑 5 分／上限 20 分）、X352B_new_a（已跑 1 分／上限 60 分）、X352B_new_b（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a64d216e5..1cbd49a90  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:47:57] ==== END   X352_DABU_old_r2  exit=1  266s   ====
+[14:48:10] memory 48% before starting X352_CON_dabu (2 running)
+[14:48:10] ==== START X352_CON_dabu  (probe @ 42c493ca277073a91d87dca7f971f6625a56d6a0) ====
+[14:48:13] [res] cpu=51% mem=48% (15.1/31.4 GB) chrome_testing=8  START X352_CON_dabu
+[14:52:03] [res] cpu=19% mem=52% (16.4/31.4 GB) chrome_testing=10  END X352_CON_dabu
