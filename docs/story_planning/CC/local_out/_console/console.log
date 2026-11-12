@@ -651,3 +651,12 @@
 [01:47:01] [res] cpu=10% mem=40% (12.8/31.4 GB) chrome_testing=5  START SOCLIB1F_TRAP_tap
 [01:47:01] worktree add a57b6ec8ab549a16ff15a53c38edcba63429f019: invalid reference - fetching main and the commit itself
 [01:51:40] [res] cpu=8% mem=45% (14.2/31.4 GB) chrome_testing=10  END YY_SEATS_3414
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c15d5ab368..e1fa219e6b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:51:49] ==== END   YY_SEATS_3414  exit=1  680s   ====
+[01:51:51] 正在跑：SOFA_SOCLIB2F_r3（已跑 4 分／上限 40 分）、SOCLIB1F_TRAP_tap（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:51:52] memory 46% before starting SOCLIB1F_TRAP_joy (2 running)
+[01:51:52] ==== START SOCLIB1F_TRAP_joy  (probe @ a57b6ec8ab549a16ff15a53c38edcba63429f019) ====
+[01:51:55] [res] cpu=5% mem=40% (14.6/31.4 GB) chrome_testing=5  START SOCLIB1F_TRAP_joy
+[01:52:03] [res] cpu=2% mem=42% (12.8/31.4 GB) chrome_testing=5  END SOCLIB1F_TRAP_tap
