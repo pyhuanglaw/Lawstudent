@@ -11,3 +11,9 @@
 ## 順便查的：公館燒臘 23:30 招牌和三盞投射燈還亮（LAWWW 轉 BB，P3）
 - 三盞「投射燈」是騎樓燈 GLOW_arcadelamp_3／4／5（x −58.2／−61／−63.8，騎樓天花板 3.65 m），整排騎樓共用、本來就設計成不熄（gg_closed_sign 那一包也是）。要不要讓打烊店門前的騎樓燈跟著暗，請 BB 決定。
 - 招牌：街景模型的招牌面（SIGN_FACE_*）全部合成一張 atlas（wz_signs_atlas）、晚上整片一起亮（TK.addNight），不分哪一間——**所有街的招牌打烊都還亮**，不是只有燒臘。修法：atlas 合併時每個頂點記下是哪一間（照 shopRealGlow 那張範圍表），著色器乘那一間的開關。下一包做。
+
+## v2：鏡頭距離 4.2→3.6 m（BB 17:4x 定：要真的天花板，暗殼留著當保險）
+- `l118_cam36_v1.patch`（對開發分支 cfc0fd04bf `apply --check` 過）：`src/data/l118_shop_layouts.js` 八間 cam_dist 4.2→3.6（九間都 3.6）；`tools/blender/env_second/lane118_shops.py` 預設 3.6（重新產生 layout 不會變回去）；`src/l118_shops3d.js` 後備值 3.6；`tests/l118_backdrop_1112_unit.js` 加第 4 項（室內預設俯角 0.38 下鏡頭 1.45＋0.2＋sin(0.38)×3.6＝2.98 m＜天花板 3.18 m；4.2 m 時是 3.21 m）；`tests/place_gate_unit.js` 拿掉八間「天花板比跟隨鏡頭高」的已知未過；`docs/handoff/SHOP_STANDARD_STATUS.md` 重產（PASS 761→769、未過 44→36）。
+- 測試（Node）：l118_backdrop_1112（修改前第 4 項 FAIL）、place_gate、tests/l118*、lane118* 全部通過。
+- BB 的條件（CC 瀏覽器）：place_gate 九間＋進門那一下不被門框擋＋每張座位坐下鏡頭不卡牆；哪一間不行那一間退回 4.2（改 layout 那一間的 cam_dist 就好）。
+- 玩家把鏡頭往上拉（俯角最大 1.05）時鏡頭還是會高過天花板 → 天花板藏起來、看到暗殼，不是天空。
