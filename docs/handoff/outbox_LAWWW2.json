@@ -8932,19 +8932,35 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
+   "sha": "bc5c5a9c90",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "state": "已整合",
+   "noDirectIntegrate": false,
+   "task": "SHOP-STANDARD-BACKFILL-1112",
+   "title": "打烊的店招牌、店內、門口光暈一起熄：溫州街四間、汀州路七間、新生南路（各街共用 shopRealGlow；公館那一半已整合）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_closed_sign_1112/README.md"
+   ],
+   "remaining": "瀏覽器沒拍；溫州街其他店、118 巷還沒有",
+   "next": "LAWWW-C 套 streets_v1；CC 拍 23:30 汀州路、溫州街",
+   "ackNote": "LAWWW-C 整合 v2 於 1b97aa5078"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
    "sha": "(本 commit)",
    "receiver": "LAWWW",
    "ack": "SENT",
    "state": "已交付",
    "noDirectIntegrate": false,
    "task": "SHOP-STANDARD-BACKFILL-1112",
-   "title": "打烊的店招牌、店內、門口光暈一起熄：溫州街四間、汀州路七間、新生南路（各街共用 shopRealGlow；公館那一半已整合）",
+   "title": "溫州街其他店打烊招牌燈一起熄（阿德、溫州書屋、日和、一盞、木曜日、巷口茶飲、夏日冰菓室）",
    "files": [
-    "docs/art-rebuild/second_ai/wip/gg_closed_sign_1112/shop_closed_sign_streets_v1.patch",
+    "docs/art-rebuild/second_ai/wip/gg_closed_sign_1112/wz_closed_sign_v1.patch",
     "docs/art-rebuild/second_ai/wip/gg_closed_sign_1112/README.md"
    ],
-   "remaining": "瀏覽器沒拍；溫州街其他店、118 巷還沒有",
-   "next": "LAWWW-C 套 streets_v1；CC 拍 23:30 汀州路、溫州街"
+   "remaining": "瀏覽器沒拍；洗衣店、鮮果、2:30 AM 沒處理",
+   "next": "LAWWW-C 套 patch；CC 拍溫州街 23:30"
   }
  ]
 }
