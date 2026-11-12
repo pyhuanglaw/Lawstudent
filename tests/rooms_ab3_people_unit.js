@@ -245,20 +245,7 @@ await sec(12,async()=>{
   { fresh('2026-05-27',18.6,'boya'); await GM.enter('boya_203',Object.assign({},L.spawn)); const mem=extras.filter(e=>/rab3_b203_member/.test(e.id)), aud=extras.filter(e=>/rab3_b203_aud/.test(e.id));
     check('12. 那一晚走進 203：社員兩位站在 spots.member、觀眾 8 位（畫質中＝11 的四分之三）坐 spots.audience；第一排品妤、祐廷、阿哲的位子空著',mem.length===2&&mem.every(e=>sp.member.some(p=>near(p,e))&&!e.o.seat)&&aud.length===8&&aud.every(e=>sp.audience.some(p=>near(p,e))&&!!e.o.seat)&&!extras.some(e=>near(e,sp.me)||near(e,sp.pinyu)||near(e,sp.zhe)),J({mem:mem.length,aud:aud.length}));
     fresh('2026-05-27',17,'boya'); await GM.enter('boya_203',Object.assign({},L.spawn)); check('12. 17:00（還沒開）：沒有人',!extras.length); }
-  const q=()=>({id:'sk07_improv',ev:'ev_sk07_improv',day:H.G.day,h:19,late:0.25,place:'博思教學館',title:'唐睿的即興劇',travel:'走過去約 10 分鐘',travelH:1/6,state:'planned'});
-  const run=async(zone,noRoom)=>{ const G=fresh('2026-05-27',18.8,zone); H.said=[]; H.picks=[0]; let sat=null; const s0=GM.sitAt; GM.sitAt=(ent,st)=>{ if(ent===P&&!sat) sat=st; s0(ent,st); };
-    try{ if(noRoom) await without('boya_203',()=>OUT.go(GM,q())); else await OUT.go(GM,q()); } finally { GM.sitAt=s0; } return {G,sat,L:lines(),bg:H.bgs.slice(),sp:spawned.slice(),ex:extras.slice(),en:entered.map(e=>e.z),rm:removed.slice()}; };
-  const a=await run('boya');
-  check('12. 換到博思 203 演，演完回到原本的地方（博思 2F）',J(a.en)===J(['boya_203','boya'])&&a.G.zone==='boya',J(a.en));
-  check('12. 唐睿站在舞台中間（spots.tang）、品妤坐第一排正中間（pinyu）、阿哲坐 zhe',a.sp.some(s=>s.id==='econ_tangrui'&&near(s,sp.tang)&&!(s.o&&s.o.seat))&&a.sp.some(s=>s.id==='econ_pinyu'&&near(s,sp.pinyu)&&s.o.seat)&&a.sp.some(s=>s.id==='zhe'&&near(s,sp.zhe)&&s.o.seat),J(a.sp.map(s=>[s.id,s.x,s.z])));
-  check('12. 祐廷坐品妤旁邊（spots.me）；社員、觀眾在',!!a.sat&&near(a.sat,sp.me)&&a.ex.filter(e=>/rab3_b203_member/.test(e.id)).length===2&&a.ex.filter(e=>/rab3_b203_aud/.test(e.id)).length===8,J(a.sat));
-  check('12. 畫面：blur（場景那一步的 classroom_small 換成 blur）',a.bg.includes('blur')&&!a.bg.some(isImg)&&C.staged===null,J(a.bg));
-  check('12. 台詞照原文；IMPROV_WORD、演一次',a.L.includes('即興劇社借了博思的教室，辦期末的小演出。品妤坐在第一排，沒有表情。阿哲是被你拉來的。')&&a.L[a.L.length-1]==='品妤：他說是為了練膽量。我覺得是為了社辦的冷氣。'&&a.G.flags.IMPROV_WORD==='善意第三人'&&a.G.events.done.ev_sk07_improv===1,J(a.L));
-  const b=await run('boya',true);
-  check('12. 房間不在：照原本 2D（不換區域、classroom_small 的圖），台詞一樣',!b.en.length&&b.bg.some(isImg)&&J(b.L)===J(a.L),J(b.bg));
-  const c=await run('boya_203');
-  check('12. 人已經在 203：不換區域、照樣坐 me；散場唐睿、品妤、阿哲、觀眾離開；台詞一樣',!c.en.length&&!!c.sat&&near(c.sat,sp.me)&&['econ_tangrui','econ_pinyu','zhe'].every(id=>c.rm.includes(id))&&!Object.keys(GM.npc).some(k=>/rab3_b203_/.test(k))&&J(c.L)===J(a.L),J({en:c.en,rm:c.rm}));
-  { const G=fresh('2026-05-28',18.8,'boya'); H.said=[]; H.picks=[0]; await OUT.go(GM,Object.assign(q(),{day:G.day})); check('12. 別的日子（房間沒開）：照原本 2D',!entered.length&&H.bgs.some(isImg)); }
+  /* 12. SK07 唐睿的即興劇在 203 演（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
 });
 
 /* ======================= 13. 宿舍：洗衣間的阿凱、205 的方奕廷 ======================= */

@@ -117,14 +117,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     G=await run(15); check('3-13. 第 15 週第一次去也演',has('民總那份案例作業，第三題你怎麼寫？'));
     G=await run(7); check('3-14. 條件不成立不演：第 7 週（還沒到第 10 週）',!has('你民總幾分？'));
     const e=STORY_EVENTS.find(x=>x.id==='ev_bohan_score'); check('3-15. 事件資料：weeks [10,11]、carryTo 15',JSON.stringify(e.weeks)==='[10,11]'&&e.carryTo===15); }
-  /* ② 便利貼第一張：到第 12 週 */
-  { const run=async w=>{ const G=fresh('2025-11-06',9,'gongtong'); const d=STORY.termDay('Y1S1',w,4); setDay(d,9.1); H.said=[]; H.picks=['椅子也是']; await CLS.beforeClassEvent(GM,{c:{id:'english_y1'}}); return G; };
-    let G=await run(10); check('3-16. 便利貼第一張：第 10 週才第一次來照樣有（原本第 3～5 週以後就沒有）',has('這個位子的插座是壞的。不要白帶充電器。')&&G.flags.SK04_REPLY==='chair');
-    G=await run(13); check('3-17. 第 13 週以後才第一次來：沒有（這條線沒有）',!has('這個位子的插座是壞的。')&&!G.flags.SK04_REPLY); }
-  /* ② P4d：這學期第一次出席經原下就演；10-3 先見過阿勳的走 SK03 */
-  { const run=async(w,flags)=>{ const G=fresh('2026-05-08',9,'putong',Object.assign({introDone:true,classDone:true,afternoonDone:true},flags||{})); const it=itemOf('Y1S2',w,'econ_principles_2'); setDay(it.day,it.t1); H.said=[]; H.picks=['「重修。」']; await CLS.afterClassEvent(GM,it); return G; };
-    let G=await run(11); check('3-18. 第 2～7 週都沒去：第 11 週第一次去演 P4d「你怎麼又在這裡？」、記 P4D_ANSWER（原本不演）',has('……你怎麼又在這裡？')&&G.flags.P4D_ANSWER==='retake',JSON.stringify(lines()));
-    G=await run(11,{MET_XUN:true,XUN_DAY:STORY.termDay('Y1S2',11,4),XUN_NIGHT:true}); check('3-19. 前一天 10-3 已經見過阿勳：照 SK03 的 10-4（「昨天那題我想通了。」），不演 P4d',has('昨天那題我想通了。')&&!has('……你怎麼又在這裡？'),JSON.stringify(lines())); }
+  /* ② 便利貼第一張（SK04）、P4d（舊序章人物的事件）（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   /* ② 沛珊的那張表：上債總一前，第 12 週沒去延到第 14 週；之後走信箱 */
   { const ek=STORY_EVENTS.find(e=>e.id==='ev_peishan_table_later_class'), em=STORY_EVENTS.find(e=>e.id==='ev_peishan_table_mail');
     const run=async w=>{ const G=fresh('2026-05-21',13.3,'classroom',{PS_CANCEL:'later'}); const it=itemOf('Y1S2',w,'oblig_gen1'); setDay(it.day,it.t0); H.said=[]; await CLS.beforeClassEvent(GM,it); return G; };

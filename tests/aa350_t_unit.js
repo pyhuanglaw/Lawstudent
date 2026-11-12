@@ -31,18 +31,7 @@ const D=k=>STORY.dayOfKey(k);
     check('T8. 2028-07-01（週六，他那天才回高雄）遇不到；7/8（週六）遇得到',!a.includes('zhe')&&b.includes('zhe'),JSON.stringify([a,b])); }
   { const z=(ENCOUNTERS.rows||[]).find(x=>x.spot==='D29'&&x.who==='zhe'), s=(CHARACTERS.zhe.daily_schedule||[]).find(x=>x.enc==='D29'), J=JSON.stringify(z&&z.dates);
     check('T8. encounters.js 的暑假三段＝2026／2027／2028-07-02～08-20，characters.js 作息同一組',!!z&&!!s&&JSON.stringify(z.dates)===JSON.stringify(s.dates)&&['2026','2027','2028'].every(y=>J.includes('["'+y+'-07-02","'+y+'-08-20"]'))&&!/-07-01"/.test(J),J); }
-  /* ===== T9b 便當照片 13:00 ===== */
-  const F11=STORY.termDay('Y1S2',11,5), W11T=STORY.termDay('Y1S2',11,4), K=d=>CALENDAR.dateOf(d).key;
-  const photo=h=>{ H.fresh(K(F11),h,'putong',{XUN_NIGHT:true,XUN_DAY:W11T,MET_XUN:true,SK03_FIRST:true}); STORY.phoneRules(GM); PHONE.tick(H.G); return (H.G.msgs||[]).some(m=>m.th==='g:econ_friends'&&m.text==='欠你的，下週。'); };
-  { const a=photo(12.7), b=photo(13.05); check('T9b. 第 11 週週五 12:42 還沒有便當照片；13:03 有（AA_350 T9b：改到 13:00）',!a&&b,JSON.stringify([a,b])); }
-  /* ===== T9c、9-1 R2 學活那一條 ===== */
-  const ev=STORY_EVENTS.find(e=>e.id==='ev_sk03_lunch');
-  const r2=async flags=>{ const F13=STORY.termDay('Y1S2',13,5); H.fresh(K(F13),12.3,'putong',Object.assign({SK03_HUODA:F13,SK03_FIRST:true},flags)); H.said=[]; await EVENTS.run(ev); return H.lines(); };
-  { const L=await r2({});
-    check('9-1. R2 開頭旁白「（學活二樓，靠窗那一桌。阿勳已經坐在那裡了。）」',L[0]==='（學活二樓，靠窗那一桌。阿勳已經坐在那裡了。）',JSON.stringify(L.slice(0,3)));
-    check('T9c. 沒見過阿勳：自我介紹「盧正勳。你經濟系那年的室友。……你該不會連我都忘了。」＋「坐。」，不說「你今天沒來上課」',L[1]==='阿勳：盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'&&L[2]==='阿勳：坐。'&&!L.some(t=>t.includes('你今天沒來上課')),JSON.stringify(L.slice(0,4))); }
-  { const L=await r2({P4D_ANSWER:'retake',MET_XUN:true});
-    check('T9c. 防回歸：見過阿勳＝旁白以後「……你今天沒來上課。坐。」、沒有自我介紹',L[1]==='阿勳：……你今天沒來上課。坐。'&&!L.some(t=>t.includes('盧正勳')),JSON.stringify(L.slice(0,3))); }
+  /* T9b 便當照片、T9c／9-1 R2 學活那一條（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   /* ===== 9-1 柏翰 2027-08-24 ===== */
   { H.fresh('2027-08-24',20.2,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); if(typeof HOLFF!=='undefined') HOLFF.homeMsgs(H.G); PHONE.tick(H.G);
     const m=(H.G.msgs||[]).filter(x=>x.th==='g:noodle_team'&&x.from==='classmate_bohan').map(x=>x.text);

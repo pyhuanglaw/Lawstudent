@@ -36,12 +36,13 @@ const YL='assets/portraits/yule/campus/';
   const ids=[]; for(const id in CHARACTERS) ids.push(id);
   check('1. CHARACTERS 沒有 yule（for in CHARACTERS 看不到她），也沒有人用「予樂」當名字或稱呼',!CHARACTERS.yule&&!ids.includes('yule')&&!ids.some(id=>CHARACTERS[id].name==='予樂'||(CHARACTERS[id].alias||[]).includes('予樂')));
   check('1. 立繪檔：campus 的 neutral、smile、surprised 都在（PORTRAIT_FILES 也有）',['neutral','smile','surprised'].every(e=>fs.existsSync(path.join(ROOT,YL+e+'.webp'))&&PORTRAIT_FILES.yule&&PORTRAIT_FILES.yule.campus.includes(e)));
-  const orphan=fs.readdirSync(path.join(ROOT,'assets/portraits')).filter(d=>!CHARACTERS[d]&&!PO[d]);
+  /* 舊序章人物的立繪資料夾（econ_*）還在、人物拿掉了（CANON-NO-ECON-1112 第三批：這一項拿掉）：檔案等 LAWWW2 刪，這裡先不算 */
+  const orphan=fs.readdirSync(path.join(ROOT,'assets/portraits')).filter(d=>!CHARACTERS[d]&&!PO[d]&&!/^econ_/.test(d));
   check('1. 每個有立繪資料夾的 id 都在 CHARACTERS 或 PORTRAIT_ONLY（只有立繪、沒登錄的人台詞會沒有立繪）',!orphan.length,orphan.join(','));
 
   // 2. 稱呼 → id
   check('2. speakerId：「予樂」→ yule、yule → yule',EVENTS.speakerId('予樂')==='yule'&&EVENTS.speakerId('yule')==='yule');
-  check('2. 其他照舊：阿勳 → econ_zhengxun、kexin → kexin、邵鈞、大伯照原樣、player／null 不變',EVENTS.speakerId('阿勳')==='econ_zhengxun'&&EVENTS.speakerId('kexin')==='kexin'&&EVENTS.speakerId('邵鈞')==='邵鈞'&&EVENTS.speakerId('大伯')==='大伯'&&EVENTS.speakerId('player')==='player'&&EVENTS.speakerId(null)===null);
+  check('2. 其他照舊：kexin → kexin、邵鈞、大伯照原樣、player／null 不變（阿勳那一項（CANON-NO-ECON-1112 第三批：這一項拿掉））',EVENTS.speakerId('kexin')==='kexin'&&EVENTS.speakerId('邵鈞')==='邵鈞'&&EVENTS.speakerId('大伯')==='大伯'&&EVENTS.speakerId('player')==='player'&&EVENTS.speakerId(null)===null);
   check('2. SOCIAL.displayName：yule →「予樂」（不是 id）；不認得的照原樣',SOCIAL.displayName('yule')==='予樂'&&SOCIAL.displayName('大伯')==='大伯');
 
   // 3. 立繪解析

@@ -120,7 +120,7 @@ const EXLIB=(function(){
       default: return true; } };
   /* 劇情寫死的位子不放東西：總圖大廳 0、1（小安「總圖的下午」）、3F 2、8（學姊、小安）、社科圖 16（SK12 品妤）*/
   S.KEEP={library_hall:[0,1],library:[2,8],soclib:[16]};
-  S.PREF={library_hall:{heroine_01:1},soclib:{econ_pinyu:16},soclib_2f:{heroine_03:'byOld',econ_zhengxun:'byOld'}};   /* 以安「二樓靠牆那張長桌」＝總圖的下午那個位子；品妤＝SK12 那張；
+  S.PREF={library_hall:{heroine_01:1},soclib_2f:{heroine_03:'byOld'}};   /* 以安「二樓靠牆那張長桌」＝總圖的下午那個位子；品妤＝SK12 那張；
      社科圖二樓：語彤、阿勳＝靠窗那排、老位子的南邊那一個（AA_669 第 6 節「劇情和占位子會用到其中一排（例：靠窗那排的第三個位子當「老位子」）」：她旁邊就是老位子）*/
   /* PREF 的值：數字＝座位表的第幾號；'byOld'＝老位子（seat.old）南邊那一個（同一層、同一種、x 一樣、往南 0.45～1.2 m）；找不到＝null（照種子）*/
   S.prefIdx=function(seats,v){ if(typeof v==='number') return v; if(v!=='byOld') return null; const o=seats.find(q=>q&&q.old); if(!o) return null;

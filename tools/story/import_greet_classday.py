@@ -15,6 +15,8 @@ PATH = 'docs/story_planning/AA_729_greet_classday.json'
 OUT = 'src/data/greet_classday.js'
 LADDER = 'src/data/ladder.js'
 TAGS = ('classDay', 'playerNoClass', 'nextClassDay')
+# 遊戲裡已經拿掉的人（CANON-NO-ECON-1112 第三批：舊序章人物）：稿上他們的招呼略過；AA 從 AA_729 拿掉以後這裡可以清空
+GONE_WHO = {'econ_zhengxun', 'econ_pinyu', 'econ_weilun', 'econ_jiahao', 'econ_tangrui'}
 KINDS = ('weekend', 'offDay')
 # 2026-11-11（X327 沛珊重寫，AA_753 第三、四份）：她大三、大四招呼 base 的句子換了字（同一格、同一件事），AA_729 上寫的還是舊句——
 # 舊句在 ladder.js 對不到、而且下面對到的新句在＝「只在上課日說」的條件跟著新句子走（不然假日也會說「今天上班級經營…」）。AA_729 自己改成新句以後這張表就用不到。
@@ -76,6 +78,8 @@ def main():
     for tag in TAGS:
         for e in src.get(tag, []):
             who, t = e['who'], e['t']
+            if who in GONE_WHO:
+                continue
             rn = RENAMED.get((who, t)) or ()
             rn = [x for x in ((rn,) if isinstance(rn, str) else rn) if x in have.get(who, set())]   # 換了字的新句（在 ladder.js 的才算；一句舊句可以對好幾句）
             if t in have.get(who, set()):   # 舊句（別的學期還在用）還在：舊句、新句都只在上課日說
@@ -88,6 +92,8 @@ def main():
                 out[tag].setdefault(who, []).append(t)
     add = {}
     for e in src.get('add', []):
+        if e.get('who') in GONE_WHO:
+            continue
         if e.get('kind') not in KINDS:
             bad.append(f'add {e.get("who")}：kind {e.get("kind")} 不是 {KINDS}')
             continue

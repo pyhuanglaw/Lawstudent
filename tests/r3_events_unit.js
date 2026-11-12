@@ -50,7 +50,7 @@ const ans=(id,k)=>PHONE.answer(G,id,k);
 const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):null; };
 (async()=>{
   // ===== 0. 接線 =====
-  const IDS=['ev_fangyt_6am','ev_zhiruo_latte_contest','ev_sk12_soclib_table','ev_sk12_lawlib_hint','ev_ziqing_3am_call'];
+  const IDS=['ev_fangyt_6am','ev_zhiruo_latte_contest','ev_ziqing_3am_call'];   /* SK12 兩場（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   check('0. 事件都在 STORY_EVENTS', IDS.every(id=>!!ev(id)), IDS.filter(id=>!ev(id)).join('、'));
   check('0. R3 掛在 STORY.PHONE_RULES、TICKS、ALARMS；包住 bedOptions、neededAnswered、Y2B.pcLines、HOME.breakArrive、STORY.roomY3Items、MSG.send、PG.epiLine', typeof R3!=='undefined'&&STORY.PHONE_RULES.length>=2&&STORY.TICKS.length>=2&&STORY.ALARMS.length>=1&&!!STORY._r3bed&&!!STORY._r3need&&!!Y2B._r3fee&&!!HOME._r3sum&&!!STORY._r3room&&!!MSG._r3&&!!PG._r3zq);
   { const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), a=h.indexOf('src/group3d.js'), b=h.indexOf('src/data/r3_events.js'), c=h.indexOf('src/r3_3d.js'), z=h.indexOf('GAME.boot()');
@@ -187,27 +187,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(a25,18,'dorm'); G.vac={reg:{'C02@Y2':'done'}}; run(a25,18,18.75); check('6. S3 大二暑假去 C02：SUMMER_Y2 camp（拆箱照 C02 的名牌）', G.flags.SUMMER_Y2==='camp'&&!STORY.roomY3Items(G).some(r=>/^summer_y2_/.test(r[0]))&&STORY.roomY3Items(G).some(r=>r[0]==='vac_C02'));
     fresh(a25,18,'dorm'); run(a25,18,18.75); check('6. 續住沒打工：SUMMER_Y2 dorm', G.flags.SUMMER_Y2==='dorm'); }
 
-  // ===== 7. 3-08 SK12 =====
-  { const p20=D('2027-12-20'), p22=D('2027-12-22');
-    fresh(p22,19.5,'soclib'); STORY.tick(GM,0.6);
-    check('7. P1 12/20～12/23 19:00～21:00 走進社科圖：品妤放在最裡面那張長桌的桌角', !!GM.npc.econ_pinyu&&Math.abs(GM.npc.econ_pinyu.obj.position.x+2.2)<0.01&&Math.abs(GM.npc.econ_pinyu.obj.position.z+5.9)<0.01);
-    E.player.obj.position.x=-9; E.player.obj.position.z=9.3; check('7. 還沒走到她旁邊：不演', !EVENTS.check(ev('ev_sk12_soclib_table')));
-    E.player.obj.position.x=-2.2; E.player.obj.position.z=-4.3; check('7. 走過去：演', EVENTS.check(ev('ev_sk12_soclib_table')));
-    let P=await play('ev_sk12_soclib_table',['陪妳']);
-    check('7. P1「（期末考週。社科圖的長桌坐滿了。……）」；沒見過她＝先自我介紹；「我怕考了三年，才發現自己不喜歡。」；四選一', P[0].startsWith('（期末考週。社科圖的長桌坐滿了。')&&has('曾品妤。經濟系，可昕以前的室友。')&&has('我怕考了三年，才發現自己不喜歡。')&&JSON.stringify(opts[0])===JSON.stringify(['「我陪妳讀到閉館。」','「先考一科看看，不喜歡再說。」','「先去問考過的學長姊？」','「妳可以兩個都試，只是不要同時。」'])&&!has('上次經濟系之夜，你收椅子收得很好。今天換我收你的書。'));
-    check('7. P2「我陪妳讀到閉館」：快轉到 22:00、機率題算錯、「很好。你還是法律系的。」；PINYU_WORRY stay、SK12', has('很好。你還是法律系的。')&&Math.abs(G.hour-22)<0.02&&G.flags.PINYU_WORRY==='stay'&&SOCIAL.has('econ_pinyu','PINYU_WORRY')&&G.flags.SK12===true&&G.flags.MET_PINYU===true);
-    fresh(p22,19.5,'soclib',{MET_PINYU:true,ECON_NIGHT:true}); P=await play('ev_sk12_soclib_table',['一科']);
-    check('7. 見過她：不自我介紹；ECON_NIGHT 多「今天換我收你的書。」；選一科＝「……一科。好。一科我算得出來。」＋九點半先走', !has('曾品妤。經濟系，可昕以前的室友。')&&has('上次經濟系之夜，你收椅子收得很好。今天換我收你的書。')&&has('……一科。好。一科我算得出來。')&&P[P.length-1]==='（你回到自己的位子。九點半，她先收書走了。）'&&G.flags.PINYU_WORRY==='one');
-    fresh(D('2027-12-24'),19.5,'soclib'); STORY.tick(GM,0.6); check('7. 12/24（五）以後不演、不放人', !GM.npc.econ_pinyu&&!EVENTS.check(ev('ev_sk12_soclib_table')));
-    fresh(p20,18.5,'lawlib'); check('7. P3 同一週 18:00 以後先進法圖：「（法律學院圖書館的位子全滿了。窗外，對面社科院的燈還亮著。）」', EVENTS.check(ev('ev_sk12_lawlib_hint'))&&ev('ev_sk12_lawlib_hint').dialogue[0].text==='（法律學院圖書館的位子全滿了。窗外，對面社科院的燈還亮著。）'&&(G.hour=17.5,!EVENTS.check(ev('ev_sk12_lawlib_hint')))&&(G.hour=18.5,G.flags.SK12=true,!EVENTS.check(ev('ev_sk12_lawlib_hint'))));
-    const n10=D('2028-11-10');
-    fresh(n10,20,'dorm',{SK12:true,PINYU_WORRY:'stay',MET_PINYU:true}); C('econ_pinyu'); run(n10,20,20.75);
-    check('7. P2 大四 11/10 20:30「📷（成績單……）」「精算第一科過了。我還滿喜歡的。」「那題機率題，你現在會了嗎？」＋不會／會了', JSON.stringify(txt('p:econ_pinyu'))===JSON.stringify(['econ_pinyu:📷（成績單，第一行：精算 第一科 通過）','econ_pinyu:精算第一科過了。我還滿喜歡的。','econ_pinyu:那題機率題，你現在會了嗎？'])&&JSON.stringify(askOpts('r3_py_actuary'))===JSON.stringify(['不會。','會了。']));
-    ans('r3_py_actuary',1); check('7. 「會了。」→「騙人。」', txt('p:econ_pinyu').slice(-1)[0]==='econ_pinyu:騙人。');
-    fresh(n10,20,'dorm',{SK12:true,PINYU_WORRY:'ask',MET_PINYU:true}); C('econ_pinyu'); run(n10,20,20.75); check('7. ask：「我問了那個學長。他說第一科最難。結果還好。」', txt('p:econ_pinyu').slice(-1)[0]==='econ_pinyu:我問了那個學長。他說第一科最難。結果還好。');
-    fresh(n10,20,'dorm',{MET_PINYU:true}); C('econ_pinyu'); run(n10,20,20.75); check('7. P4 沒去、認識她：只有「精算第一科過了。」', JSON.stringify(txt('p:econ_pinyu'))===JSON.stringify(['econ_pinyu:精算第一科過了。']));
-    fresh(n10,5,'us_apartment',{SK12:true,PINYU_WORRY:'both',MET_PINYU:true,EXCHANGE_ROUTE:'US'}); C('econ_pinyu'); run(n10,5,7.75);
-    check('7. 美國路線：照當地時間（臺灣 20:30＝美東 07:30）', txt('p:econ_pinyu').slice(-1)[0]==='econ_pinyu:沒有同時。一科一科。'&&Math.abs(at('p:econ_pinyu','沒有同時。一科一科。')-(n10*24+7.5))<0.26); }
+  /* 7. 3-08 SK12（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
 
   // ===== 8. 3-10 阿凱 K5 =====
   { const k22=D('2028-11-22');

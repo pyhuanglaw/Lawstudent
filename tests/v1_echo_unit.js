@@ -27,8 +27,7 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 let caps=[]; GM.caption=(w,t)=>caps.push(t);
 const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='putong'; const it={c:{id:'econ_principles_2'}}; said=[]; opts=[]; caps=[]; return await CLS.afterClassEvent(GM,it); };
-  const e=ev('ev_sk03_lunch'); check('1. ev_sk03_lunch 存在（afterClass econ_principles_2、大一下、週五）',!!e&&e.afterClass==='econ_principles_2'&&JSON.stringify(e.term)==='["Y1S2"]');
-  if(!e){ console.log('FAILED '+fails); process.exit(1); }
+  /* ev_sk03_lunch 那一項（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   const F2=termDay('Y1S2',2,5), F3=termDay('Y1S2',3,5), F4=termDay('Y1S2',4,5), F5=termDay('Y1S2',5,5), F7=termDay('Y1S2',7,5), F9=termDay('Y1S2',9,5);
   fresh(F2,12.17,'putong',{introDone:true,classDone:true,afternoonDone:true});
 (async()=>{
@@ -51,12 +50,6 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     const run2=(flags)=>{ fresh(nye,23.8,'dorm',flags); PHONE.join(G,'family_law','法律系直屬家族'); STORY.phoneRules(GM); G.hour=24.1; PHONE.tick(G); return FM(); };
     const a=run2({SIS_NO_STICKER:true}), b=run2({});
     check('5. 跨年夜學姊第一次貼貼圖刪了（AA_218 17-12a：她不在群組主動發言）：有沒有 SIS_NO_STICKER 都沒有',!a.length&&!b.length,JSON.stringify([a,b])); }
-  /* 4. V1-K2P：K2 霖澤館前品妤還在、椰林大道她先走（AA_147；events3d 的 leave） */
-  { const k2=ev('ev_kexin_visits_ntu'); const slots={left:null,right:null}, log=[]; const A0=global.ADV;
-    global.ADV=Object.assign({},A0,{slots,begin(o){ slots.right=o&&o.right?{charId:o.right.charId}:null; slots.left=null; },speaker(id){ if(!id||id==='player') return; if(slots.right&&slots.right.charId===id) return; if(slots.left&&slots.left.charId===id) return; if(!slots.left) slots.left={charId:id}; },hide(sl){ slots[sl]=null; },setBg(){},log(){},end(){}});
-    const snap=[]; const sayO=GM.say; GM.say=async(who,t)=>{ snap.push([t,slots.left&&slots.left.charId]); said.push({who:who?(who.name||String(who)):null,t}); };
-    fresh(termDay('Y1S1',6,6),16,'campus',{dating_kexin:true}); picks=['又是你']; await EVENTS.run(k2); GM.say=sayO; global.ADV=A0;
-    const at=t=>(snap.find(x=>x[0]===t)||[])[1];
-    check('6. K2：霖澤館前品妤的立繪還在（不說話）；椰林大道「品妤先回去了」那句時已經收起來',at('A館。以前每天從社科院看過來。……第一次走進來。')==='econ_pinyu'&&at('品妤先回去了。你們沿著椰影大道走出校門，在附近吃晚餐。')==null,JSON.stringify(snap.map(x=>[x[0].slice(0,12),x[1]]))); }
+  /* 4. V1-K2P 可昕來首都帝大那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

@@ -184,7 +184,8 @@ const B8=(()=>{ const T=['CLASS_INTRO','CLASS_OK','CLASS_BAD','CLASS_UNSURE','MA
 
 /* ---------- 33. 分類 ---------- */
 check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html 全部載入、沒有例外）',!(O.errs||[]).length&&!(N.errs||[]).length,sample((O.errs||[]).concat(N.errs||[])));
-{ const so=O.scan||[], sn=N.scan||[];
+{ const CHG=new Set(['ev_xinci_double','ev_b6_lecture','ev_b10_table']), haveEv=new Set((N.scan||[]).map(s=>s.ev));   /* CANON-NO-ECON-1112 第三批：整場拿掉的事件、拿掉幾列的三場不比 */
+  const so=(O.scan||[]).filter(s=>haveEv.has(s.ev)&&!CHG.has(s.ev)), sn=(N.scan||[]).filter(s=>!CHG.has(s.ev));
   const named=L=>L.filter(s=>s.kind==='named'&&s.wrapped);
   const no=named(so), nn=named(sn);
   check('33. BASE：STORY_EVENTS 有名字、整句「…」的＝這 23 句（事件、說的人、字一句一句對）',no.length===23&&TW.every(([f,e,t,sp])=>no.filter(s=>s.ev===e&&s.text===t&&s.speaker===sp).length===1),sample(no.map(s=>s.ev+'：'+s.text)));
@@ -215,7 +216,8 @@ check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html �
     wlo.length===40&&tab.length===36&&J(wl)===J(OPT4)&&B8.n===36&&tab.every(t=>litN.filter(x=>x===unq(t)).length===1)); }
 
 /* ---------- 34. 資料和 BASE 逐句比 ---------- */
-{ const A=O.data||[], B=N.data||[], bad=[], hit=[];
+{ const reId=L=>{ const id={}; for(const [p,v] of L){ const m=/^STORY_EVENTS\.(\d+)\.id$/.exec(p); if(m) id[m[1]]=v; } return L.map(([p,v])=>[p.replace(/^STORY_EVENTS\.(\d+)/,(z,i)=>'STORY_EVENTS.'+id[i]),v]); };   /* CANON-NO-ECON-1112 第三批：路徑換成事件 id，整場拿掉的事件、拿掉幾列的三場不比 */
+  const CHG=new Set(['ev_xinci_double','ev_b6_lecture','ev_b10_table']), B=reId(N.data||[]).filter(x=>!CHG.has(x[0].split('.')[1])), have=new Set(B.map(x=>x[0].split('.')[1])), A=reId(O.data||[]).filter(x=>have.has(x[0].split('.')[1])), bad=[], hit=[];
   if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
   else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(require('./peishan_rewrite_1111.js').pair(a[1],b[1])) return; if(require('./kx_rewrite_1112.js').pair(a[1],b[1])) return;   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：bbpack_events.js「我來找品妤，順便找你。順序不要問。」照新稿算。舊期望：這一句和 BASE 一字不差 */   /* 2026-11-11（X327 沛珊重寫第四批以後：AA_759、AA_761、AA_762、AA_763；清單在 tests/peishan_rewrite_1111.js 的 PAIRS） */ if(wrapped(a[1])&&unq(a[1])===b[1]&&OLD23.includes(a[1])) hit.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
   check('34. STORY_EVENTS（全部載入以後，每一場的 dialogue，'+B.length+' 個值）和 '+BASE+' 比：只改了這 23 句（一句一次）、只差外面那一對「」，其他一字不差',A.length>30000&&bad.length===0&&J(hit.slice().sort())===J(OLD23.slice().sort()),sample(bad)+'｜'+hit.length); }

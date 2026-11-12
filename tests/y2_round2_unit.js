@@ -47,7 +47,7 @@ const K=t=>'kexin:'+t;
 (async()=>{
   // 0. 登記
   const IDS=['ev_kexin_good_class','ev_kexin_quiz_y2','ev_kexin_quiz_y2_video','ev_kexin_film_night','ev_kexin_xmas_y2','ev_kexin_trip_winter_y2','ev_kexin_valentine_y2','ev_kexin_lunar_eve_y2_call','ev_kexin_birthday_y2','ev_kexin_birthday_y2_call','ev_kexin_bus_home',
-    'ev_kexin_summer_plan','ev_kexin_summer_plan_call','ev_econ_night_y2','ev_zhe_game_y2s2','ev_mx_3on3','ev_zhiruo_admit_call','ev_zhe_deposit','ev_midterm_walkout_y2s2','ev_zhiruo_concert','ev_zhiruo_admitted','ev_mx_m2_egg','ev_mx_m2_walk','ev_ziqing_show2','ev_yt_help_dishes'];
+    'ev_kexin_summer_plan','ev_kexin_summer_plan_call',/* ev_econ_night_y2（CANON-NO-ECON-1112 第三批：這一項拿掉）*/'ev_zhe_game_y2s2','ev_mx_3on3','ev_zhiruo_admit_call','ev_zhe_deposit','ev_midterm_walkout_y2s2','ev_zhiruo_concert','ev_zhiruo_admitted','ev_mx_m2_egg','ev_mx_m2_walk','ev_ziqing_show2','ev_yt_help_dishes'];
   check('0. 25 個事件（生日分見面、電話兩個）都在 STORY_EVENTS、id 不重複',IDS.every(i=>STORY_EVENTS.filter(e=>e.id===i).length===1),IDS.filter(i=>STORY_EVENTS.filter(e=>e.id===i).length!==1).join(','));
   check('0. 掛勾：PHONE_RULES、TALK_OPTS、ROOM_EXTRA、WAKE_AT、OUT.AFTER（打賭的宵夜改到結尾，AA_338 第 3 題；OUT.BEFORE 不再有）、MSG.askOpts 包一層',STORY.PHONE_RULES.includes(Y2R2.rules)&&STORY.TALK_OPTS.includes(Y2R2.talkOpts)&&STORY.ROOM_EXTRA.includes(Y2R2.roomExtra)&&STORY.WAKE_AT.includes(Y2R2.wakeAt)&&Array.isArray(OUT.AFTER)&&OUT.AFTER.includes(Y2R2.afterOuting)&&!OUT.BEFORE.some(f=>f===Y2R2.afterOuting||f===Y2R2.beforeOuting)&&typeof OUT.runAfter==='function'&&MSG._y2r2===true);
   { const src=fs.readFileSync(path.join(ROOT,'src/y2r2_3d.js'),'utf8'); check('0. AA_338 第 9 題：押金、訴願兩句拿掉 LEGAL_REVIEW_REQUIRED，改「AA 已核方向（AA_338 第 9 題）」',!/LEGAL_REVIEW_REQUIRED/.test(src)&&(src.match(/AA 已核方向（AA_338 第 9 題）/g)||[]).length===2); }
@@ -420,16 +420,7 @@ const K=t=>'kexin:'+t;
   to('2027-06-17',18); check('20. 先走的：6/17 也不觸發（關掉了）',!EVENTS.check(ev('ev_yt_help_dishes')));
   await play('ev_yt_help_dishes',['捲起袖子']); check('20. 6/17：不再問門口那兩句、直接兩選一',!has('你不用這樣。')&&JSON.stringify(opts[0])===JSON.stringify(['（捲起袖子，去後面洗碗）','（坐下來吃麵）'])&&G.flags.YT_EV11==='dishes');
 
-  // 21. 2-Y2-23 經濟系之夜
-  fresh('2027-05-31',20,'dorm',{MET_PINYU:true}); date('kexin'); run('2027-05-31',20.75,21.25);
-  check('21. 5/31 21:00 品妤（交往中）：「經濟系之夜。你們兩個都可以來。你們又不是叛徒。」「禮拜五七點，社科院一樓。」',JSON.stringify(txt('p:econ_pinyu'))===JSON.stringify(['econ_pinyu:經濟系之夜。你們兩個都可以來。你們又不是叛徒。','econ_pinyu:禮拜五七點，社科院一樓。']));
-  ans('y2r2_en_ask',0); picks=['揮手']; await go('y2r2_en',18.5);
-  check('21. E1 交往中、去：唐睿「前系友席，今年兩位！而且是一對！」；品妤「前系友席兩張椅子，我只要搬一次。」；KX_ECON_NIGHT together',has('前系友席，今年兩位！而且是一對！')&&has('前系友行使緘默權！')&&has('前系友席兩張椅子，我只要搬一次。')&&!has('謝謝你來。我們這屆的人，少一個就看得出來。')&&G.flags.KX_ECON_NIGHT==='together'&&SOCIAL.has('econ_pinyu','ECON_NIGHT')&&!('Y2R2_EN_KX' in G.flags));
-  fresh('2027-05-31',20,'dorm',{MET_PINYU:true,MET_XUN:true}); date('kexin'); run('2027-05-31',20.75,21.25); ans('y2r2_en_ask',1); run('2027-06-04',21.25,21.75); run('2027-06-05',11.75,12.25);
-  check('21. E2 沒去、認識阿勳：6/5「經濟系之夜，阿勳問你怎麼沒來。」；KX_ECON_NIGHT alone',txt('p:kexin').slice(-1)[0]===K('經濟系之夜，阿勳問你怎麼沒來。')&&G.flags.KX_ECON_NIGHT==='alone');
-  check('21. E3 6/4 沒有 K14（K14 在 6/2）',D('2027-06-02')!==D('2027-06-04')&&!OUT.rec(G).some(q=>q.day===D('2027-06-04')&&/k14/.test(q.id)));
-  fresh('2027-05-31',20,'dorm',{MET_PINYU:true}); run('2027-05-31',20.75,21.25); check('21. 單身：「經濟系之夜你可以來啊，你又不是叛徒。」',txt('p:econ_pinyu')[0]==='econ_pinyu:經濟系之夜你可以來啊，你又不是叛徒。');
-  ans('y2r2_en_ask',0); await go('y2r2_en',18.5); check('21. 單身去：品妤「謝謝你來。我們這屆的人，少一個就看得出來。」',has('謝謝你來。我們這屆的人，少一個就看得出來。')&&!any(/一對/));
+  /* 21. 2-Y2-23 經濟系之夜（舊序章人物）（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
 
   // 22. 2-Y2-24 以安新 13
   fresh('2027-06-04',20,'dorm',{met_yu:true,AN_TUTOR_FAMILY:1}); meet('heroine_01'); PHONE.join(G,'public_law','公法讀書會'); run('2027-06-04',20.75,21.25);

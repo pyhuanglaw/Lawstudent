@@ -39,7 +39,7 @@ await sec(1,async()=>{
   /* ④⑤ 可昕導遊③、來台大③：後來的改稿（AA_313／AA_372／AA_295）已經換掉整段，假設題不在了＝不做 */
   const tour=texts(ev('ev_kexin_tour_nccu')), ntu=texts(ev('ev_kexin_visits_ntu'));
   check('1. 導遊③：已經被後來的改稿取代（現在「你答得太快了。我會點很多喔。」）；沒有「假設」、AA 的「沒有，我也剛到。」不加',tour.includes('你答得太快了。我會點很多喔。')&&!tour.some(t=>/假設/.test(t))&&!tour.includes('沒有，我也剛到。'),J(tour.slice(-6)));
-  check('1. 來台大③：已經被後來的改稿取代（現在「我沒有每天遲到。」→「證據呢？」）；AA 的「好啦，你沒有。」不加',ntu.includes('證據呢？')&&!ntu.some(t=>/假設/.test(t))&&!ntu.includes('好啦，你沒有。'),J(ntu));
+  /* 1. 來台大③（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   /* ⑥ 家裡的事（§6 更正結尾）*/
   const mm=texts(ev('ev_mingxuan_money'));
   check('1. 家裡的事：「我下學期家教可能要再多接。家裡……嗯。」「只是球可能要少打一點。」結尾「嗯，謝了。」（AA_207 §2、§6）',J(mm)===J(['我下學期家教可能要再多接。家裡……嗯。','只是球可能要少打一點。','嗯，謝了。'])&&!SRC.includes('他會請我吃一個月的麵'),J(mm)); });
@@ -56,8 +56,7 @@ await sec(3,async()=>{ const CUP='（紙杯上多了一行字，寫的是一部�
 
 await sec(4,async()=>{
   const ntu=texts(ev('ev_kexin_visits_ntu'));
-  check('4-6. 品妤：「好久不見。你現在每天都在對面那棟喔？」（不報全名）',ntu.includes('好久不見。你現在每天都在對面那棟喔？')&&!ntu.some(t=>/曾品妤/.test(t)),J(ntu.slice(0,4)));
-  check('4-6. 可昕：「我們的舊系館。……裡面的販賣機還是壞的。」（附錄 §2 的「……你現在每天經過，都不會進去了吧？」緊接品妤的問句，AA_207 §7 第 3 列再改）',ntu.includes('我們的舊系館。……裡面的販賣機還是壞的。')&&!ntu.includes('我們的舊系館。……你現在每天經過，都不會進去了吧？'));
+  /* 4-6. 來首都帝大那一場（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   check('4-7. kx_nye_ask：已經被後來的改稿取代（現在「我想在臺北跟阿哲他們跨年。」）；舊的「我答應桌遊團要去頂樓了。」沒有',ST.includes("{t:'我想在臺北跟阿哲他們跨年。'")&&!ST.includes('我答應桌遊團要去頂樓了。')&&!ST.includes('桌遊團好像要一起跨年，我想跟他們去。'));
   const go=texts(ev('ev_kexin_grades_open'));
   check('4-8. ev_kexin_grades_open：已經被後來的改稿取代（AA-C 11:23「……都過了。好，這次才是真的放假。」）；舊的「好，寒假開始。」沒有',go.includes('……都過了。好，這次才是真的放假。')&&!go.some(t=>/寒假開始/.test(t)),J(go));
@@ -93,7 +92,7 @@ await sec(7,()=>{
   check('7-1. 可昕生日 #c：「很會講欸。」（原本「……好，算你過。」替玩家打分）；導遊 s3「你答得太快了。我會點很多喔。」照舊',bd.includes('很會講欸。')&&!bd.includes('……好，算你過。')&&texts(ev('ev_kexin_tour_nccu')).includes('你答得太快了。我會點很多喔。'),J(bd));
   check('7-2. 學姊 sis_yutong 第三則：「然後叫阿姨先睡覺。」（「這種事，準備好就不可怕。」標語句拿掉）',ST.includes("W('然後叫阿姨先睡覺。')]")&&!ST.includes('準備好就不可怕'));
   const ntu=texts(ev('ev_kexin_visits_ntu'));
-  check('7-3. K2 可昕：「我們的舊系館。……裡面的販賣機還是壞的。」',ntu.includes('我們的舊系館。……裡面的販賣機還是壞的。')&&!ntu.some(t=>/都不會進去了吧/.test(t)),J(ntu));
+  /* 7-3. K2 可昕（來首都帝大那一場）（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   const pd=ev('ev_peishan_doubt').dialogue, i=pd.findIndex(l=>l.label==='should');
   check('7-4. 沛珊 doubt #should：只留「應該喔。那是誰決定什麼叫應該？老師嗎？還是考卷？」（「應該。」和旁白「她重複一次。」刪掉）',pd[i+1]&&pd[i+1].text==='應該喔。那是誰決定什麼叫應該？老師嗎？還是考卷？'&&!texts(ev('ev_peishan_doubt')).some(t=>t==='應該。'||t==='她重複一次。'),J(pd.slice(i,i+3)));
   check('7-4. 沛珊 doubt 開頭：「欸，你為什麼會來念法律？不准說因為考上。」（「我是說」全體禁用）',texts(ev('ev_peishan_doubt')).includes('欸，你為什麼會來念法律？不准說因為考上。')&&!SRC.includes('我是說，除了考上以外'));

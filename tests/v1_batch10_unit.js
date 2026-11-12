@@ -100,19 +100,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     { const noMx=WHO.filter(x=>x!=='classmate_mingxuan'); let mxSeen=0, hl=0; for(let n=0;n<60;n++){ const r6=await runX(noMx,'一張手寫卡片',null,null); if(r6.F.XMAS_FROM==='classmate_mingxuan'||r6.L.some(t=>/螢光筆/.test(t))) mxSeen++; } check('A20 明軒的禮物：明軒不在＝抽不到他的、也沒有螢光筆的句子（60 次）',mxSeen===0,String(mxSeen)); }
     r=await runX(['yu','classmate_mingxuan'],'一張手寫卡片','classmate_mingxuan',0.99); check('A20：抽到祐廷禮物的是明軒（Alison 也在）＝明軒抽的是祐廷的，沒有「明軒抽到 Alison 的巨大玩偶」；祐廷抽得到 Alison 的玩偶',r.F.XMAS_TO==='classmate_mingxuan'&&r.F.XMAS_FROM==='yu'&&r.L.includes('你抽到 Alison 的禮物：一個巨大的玩偶。')&&!r.L.includes('明軒抽到 Alison 的巨大玩偶，揹著它去搭公車。'),JSON.stringify(r.L.slice(-3)));
     r=await runX(['heroine_01'],'一張手寫卡片',0,0); const F=G.flags; check('A20：只一次（演完再檢查不會開始）；記 XMAS_Y1',F.XMAS_Y1===true&&!EVENTS.check(ev('ev_xmas_exchange'))); }
-  /* ---------- 可昕 K2 她第一次來台大（BB_95 9-3）---------- */
-  { const FRI=termDay(6,5), SAT=FRI+1;
-    fresh(FRI,19.5,'dorm',{dating_kexin:true}); run(19.5,20.1); const m=G.msgs.find(x=>x.tag==='kx_ntu_ask'); const q=OUT.get(G,'kx_ntu');
-    check('K2：第 6 週週五 20:00「這次換我去首都帝大。我先去找品妤，你四點來社科院門口。」（AA_313 第 2 節第 8 列）；週六 16:00 社科院門口（不和第 4 週六迎新、第 5 週六中秋同一天）',!!m&&m.day===FRI&&Math.abs(m.h-20)<0.06&&m.text==='這次換我去首都帝大。我先去找品妤，你四點來社科院門口。'&&!!q&&q.day===SAT&&q.h===16&&SAT!==termDay(4,6)&&SAT!==termDay(5,6),JSON.stringify(q));
-    const go=async(flags,events,pick)=>{ fresh(SAT,15.7,'campus',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; PHONE.at(G,FRI,20,[{th:'p:kexin',from:'kexin',text:'x'}],'kx_ntu_ask'); run(15.7,15.8); const q2=OUT.get(G,'kx_ntu'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q2); return {L:lines(),O:opts[0]||[]}; };
-    let r=await go({},[],'「今天沒有遲到。」');
-    check('K2：旁白用「你」（BB 2026-10-14）：「社科院門口，可昕和品妤已經在等你。」「品妤先回去了。你們沿著椰影大道走出校門，在附近吃晚餐。」（AA_313 第 2 節第 8 列）；品妤第一次出現＝「好久不見。你現在每天都在對面那棟喔？」（AA_207 §4-6：不報全名）；可昕「我們的舊系館。……裡面的販賣機還是壞的。」（AA_207 §7 第 3 列：原本接在品妤的問句後面又是一個問句）',r.L[0]==='社科院門口，可昕和品妤已經在等你。'&&r.L.includes('品妤先回去了。你們沿著椰影大道走出校門，在附近吃晚餐。')&&!r.L.includes('品妤先回去了。你們沿著椰影大道，一路走到公館吃晚餐。')&&r.L.includes('好久不見。你現在每天都在對面那棟喔？')&&!r.L.includes('你來了。')&&r.L.includes('我們的舊系館。……裡面的販賣機還是壞的。')&&!r.L.includes('我們的舊系館。……你現在每天經過，都不會進去了吧？'),JSON.stringify(r.L.slice(0,4)));
-    check('K2：霖澤館前三選一（AA_295）；「今天沒有遲到。」→「因為我在。」她笑',JSON.stringify(r.O)===JSON.stringify(['「遲到走後門。」','「今天沒有遲到。」','「我沒有每天遲到。」'])&&r.L.includes('A館。以前每天從社科院看過來。……第一次走進來。')&&r.L.includes('你每天第一堂都從這個門進去？……遲到的時候也是？')&&r.L.includes('因為我在。')&&r.L.includes('她笑。'));
-    check('K2：K1 還沒去過＝分開時「下次換你來，我當導遊。」；記 MET_PINYU',r.L.includes('下次換你來，我當導遊。')&&G.flags.MET_PINYU===true);
-    r=await go({MET_PINYU:true},['ev_kexin_tour_nccu'],'「我沒有每天遲到。」');
-    check('K2：之前遇過品妤＝只點頭「你來了。」；K1 去過＝沒有「下次換你來」；「我沒有每天遲到。」→「證據呢？」',r.L.includes('你來了。')&&!r.L.some(t=>t.startsWith('曾品妤。'))&&!r.L.includes('下次換你來，我當導遊。')&&r.L.includes('證據呢？'));
-    fresh(SAT,15.7,'campus',{dating_kexin:true}); PHONE.at(G,FRI,20,[{th:'p:kexin',from:'kexin',text:'x'}],'kx_ntu_ask'); run(15.7,15.8); const q3=OUT.get(G,'kx_ntu'); q3.state='missed'; OUT.onMissed(GM,q3); run(15.8,17.2);
-    const ph=G.msgs.filter(x=>x.tag==='kx_ntu_photo').map(x=>x.text); check('K2：沒去＝她照樣去找品妤，傳兩個人在社科院門口的照片＋「我們等到五點。……你人呢。」（AA_313 第 2 節第 8 列）',JSON.stringify(ph)===JSON.stringify(['📷（她和品妤在社科院門口）','我們等到五點。……你人呢。'])&&G.msgs.filter(x=>x.tag==='kx_ntu_photo').every(x=>Math.abs(x.h-17)<0.06),JSON.stringify(G.msgs.filter(x=>x.tag==='kx_ntu_photo').map(x=>[x.h,x.text]))); }
+  /* 可昕 K2 來首都帝大（和舊序章人物一起）（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   /* ---------- 可昕 K4 第一次視訊一起讀書（BB_95 9-5）---------- */
   { const D=termDay(16,2); const kx=()=>G.msgs.filter(m=>m.th==='p:kexin').map(m=>({day:m.day,h:m.h,from:m.from,text:m.text,ask:m.ask?m.ask.opts.map(o=>o.t):null}));
     const ask=()=>G.msgs.find(m=>m.tag==='kx_video_ask');

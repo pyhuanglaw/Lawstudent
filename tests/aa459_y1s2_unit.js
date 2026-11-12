@@ -130,26 +130,7 @@ await sec(3,()=>{
   check('3. 不在桌遊團（不熟阿哲）：只有系統通知',R8b.length===1&&R8b[0].th==='sys',J(R8b.map(m=>[m.th,m.text])));
 });
 
-/* ---- 4 唐睿的即興劇和籌備會撞期 ---- */
-await sec(4,async()=>{
-  const mon=termDay('Y1S2',14,1), wed=termDay('Y1S2',14,3), TG='g:econ_friends';
-  const setup=camp=>{ fresh(termDay('Y1S2',13,1),9.5,{}); LAWC(); PHONE.join(H.G,'econ_friends','走啦'); if(camp) VAC.signup(H.G,'C02@Y1','yes'); at(mon,20.9); run(20.9,21.2); return byTag('sk07_call'); };
-  const prep=()=>OUT.rec(H.G).find(q=>q.vac&&q.vac.k==='prep'&&q.day===wed);
-  const c0=setup(false);
-  check('4. 沒撞期（沒報隊輔）：照舊——唐睿一則「'+Q4[0].t+'」、不問、直接排 5/27 19:00 出遊',keyOf(wed)==='2026-05-27'&&c0.length===1&&c0[0].text===Q4[0].t&&!c0[0].ask&&!!OUT.get(H.G,'sk07_improv')&&OUT.get(H.G,'sk07_improv').day===wed&&OUT.get(H.G,'sk07_improv').h===19,J(c0.map(m=>m.text)));
-  const c1=setup(true), m=c1[1];
-  check('4. 報了隊輔（籌備會第 14 週週三 19:00）：唐睿兩則「'+Q4.map(q=>q.t).join('」「')+'」，要回「'+O4.join('」／「')+'」；先不排出遊',!!prep()&&prep().h===19&&J(c1.map(x=>x.text))===J(Q4.map(q=>q.t))&&c1.every(x=>x.from===WHO[Q4[0].who]&&x.th===TG)&&!!m&&!!m.ask&&J(m.ask.opts.map(o=>o.t))===J(O4)&&!OUT.get(H.G,'sk07_improv'),J([c1.map(x=>x.text),m&&m.ask&&m.ask.opts.map(o=>o.t)]));
-  PHONE.answer(H.G,m.ask.id,0); run(21.2,21.3);
-  check('4. 回「'+O4[0]+'」：排出遊（5/27 19:00 博雅），籌備會照樣在行程裡（玩家自己選的）',!!OUT.get(H.G,'sk07_improv')&&OUT.get(H.G,'sk07_improv').day===wed&&OUT.get(H.G,'sk07_improv').h===19&&!!prep());
-  const no=answer=>{ const c=setup(true); if(answer!=null) PHONE.answer(H.G,c[1].ask.id,answer); run(21.2,21.3); const rp=thread(TG).filter(x=>x.from==='econ_tangrui').map(x=>x.text); at(wed,21.4); run(21.4,21.6); return {rp,plan:OUT.get(H.G,'sk07_improv'),vid:byTag('sk07_video')}; };
-  const n1=no(1);
-  check('4. 回「'+O4[1]+'」：唐睿「'+R4+'」、不排出遊',n1.rp.slice(-1)[0]===R4&&!n1.plan,J(n1.rp));
-  check('4. 那天晚上 21:30 品妤在群組傳影片：「📹（一段影片）」「'+V4+'」（同 ev_sk07_improv 沒到的那一版）',n1.vid.length===2&&n1.vid[1].text===V4&&n1.vid.every(x=>x.from==='econ_pinyu'&&x.th===TG&&x.day===wed&&x.h>=21.5&&x.h<21.65),J(n1.vid.map(x=>[x.text,x.h])));
-  const n2=no(null);
-  check('4. 沒回（子代理判斷：當作沒去）：不排、那天晚上一樣有影片',!n2.plan&&n2.vid.length===2,J(n2.vid.map(x=>x.text)));
-  fresh(termDay('Y1S2',13,1),9.5,{}); LAWC(); PHONE.join(H.G,'econ_friends','走啦'); VAC.signup(H.G,'C02@Y1','yes'); H.G.msgs.push({day:mon,h:21,th:TG,from:'econ_tangrui',name:'唐睿',text:Q4[0].t,tag:'sk07_call'}); at(mon,21.3); run(21.3,21.5); at(wed,21.4); run(21.4,21.6);
-  check('4. 舊存檔（已經收過舊的那一則）：不重發、不問、不補影片',byTag('sk07_call').length===1&&!byTag('sk07_video').length&&H.G.flags.SK07_ASKED==null);
-});
+/* 4 唐睿的即興劇和籌備會撞期（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
 
 /* ---- 5 小改字 ---- */
 await sec(5,()=>{

@@ -34,10 +34,7 @@ const itOf=(cid,w,o)=>{ const G=H.G, c=CLS.byId(cid); return Object.assign({c,we
 const findDay=(t,weeks,wd,salt,p,pred)=>{ for(const w of weeks){ const d=TD(t,w,wd); if(d==null) continue; const G={day:d}; if(X().roll(G,salt)<p&&(!pred||pred(d,w))) return {d,w}; } return null; };
 
 /* 稿上沒有字、這裡補的（稿上的動作或說明改成旁白、選項的動作、場景字幕；每一句的理由寫在事件檔的註解）*/
-const COMPOSED=new Set(['（站著聊兩句）','（一起去吃飯）','（約整群人）','{name}！我剛在課上講了十分鐘，教授叫我坐下。','法律系的路人。','「我是『{flag:SK08_WORD_TEXT}』。」',
-  '（走廊上，阿勳和芯慈在吵：違約的人只要賠錢就好嗎？阿勳講效率，芯慈講信賴。）','（兩個人同時轉頭看你。）','（打招呼）','（不打擾）','（柏翰在女舍門口等沛珊。）',
-  '（芯慈和阿勳一吵起來，兩個人就先看你。）','（經濟系的迎新。新生在玩「用一個經濟學名詞介紹自己」。）','（站著看一會兒）','（直接去還書）','「第一個。」','「第二個。」','「第三個。」',
-  '{flag:B10_RATE_TEXT}','學活・自助餐','學活','社科院・系上的教室｜迎新','社科院・一樓']);
+const COMPOSED=new Set(['（打招呼）','（不打擾）','（柏翰在女舍門口等沛珊。）','「第一個。」','「第二個。」','「第三個。」','學活・自助餐']);   /* 舊序章人物那幾場用的 16 句（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
 const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=.)/,'').replace(/^[（「]/,'').replace(/[）」]$/,'').replace(/[。：]$/,'');
 
 (async()=>{
@@ -137,18 +134,8 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
   await sec('2',async()=>{
   { const G=fresh('Y2S1',5,6,20.1,{know:[XC],contact:[XC]}); rules();
     check('2. B6 前一個週六 20:00 芯慈私訊兩句（BB_137 2-1）',J(msgs('p:'+XC))===J(['週二晚上博思有一場講座。「經濟和法律，在同一張桌子上」。','這場你應該會想聽。阿勳也會去。']));
-    setDay(TD('Y2S1',6,2),18.1); check('2. B6 收到私訊的玩家，門口不再遇到阿勳',!chk('ev_b6_xun_door'));
-    const G2=fresh('Y2S1',6,2,18.1,{flags:{PLAYED_Y0:true}}); check('2. B6 沒收到私訊、認識阿勳（玩過經濟系那一年）：週二傍晚博思門口',chk('ev_b6_xun_door')&&ev('ev_b6_xun_door').near.x===-38);
-    const L=await run('ev_b6_xun_door'); check('2. 阿勳：法律系時期第一次見＝先重新介紹，再「芯慈約的吧」',L[0]==='盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'&&L[1]==='你也來聽？……芯慈約的吧。她約了全世界。'&&G2.flags.MET_XUN===true,J(L));
-    const G3=fresh('Y2S1',6,2,18.1,{}); check('2. 兩個都不認識的只看海報（門口沒有阿勳）',!chk('ev_b6_xun_door')); }
-  { const G=fresh('Y2S1',6,2,18.45,{zone:'boya',room:'101',know:[XC],flags:{MET_XUN:true,ECON_LAW_BRIDGE:true}}); const a=ACTIVITIES.list.find(q=>q.id==='B6');
-    H.said=[]; H.opts=[]; H.picks=[1]; H.bgs=[]; await CLS.attendActivity(GM,a); const L=said();
-    check('2. B6 聽演講：進場（認識阿勳＝品妤先自我介紹，再兩句）、講座兩句旁白',L[0]==='（芯慈占了一整排，阿勳和品妤坐在旁邊。）'&&L[1]==='曾品妤。經濟系，可昕以前的室友。'&&L.includes('我是陪他來的。我只聽前半場。')&&L.includes('她每次都這樣說，每次都聽完。')&&L.includes('講者說，同一份契約，經濟學問怎樣最有效率，法律問誰信任了誰。')&&L.includes('你發現，左邊的芯慈和右邊的阿勳，在同一句話寫下了不一樣的筆記。'),J(L));
-    check('2. SK09 講座一結束就接著演：走廊、你說、三個翻法、學活（BB_106 SK09）',L.includes('你說。')&&J(H.opts[0]).indexOf('翻給阿勳聽：「她說的是，約定本身就有價值，不只是那筆錢。」')>=0&&L.includes('學活的吸管太細了。')&&L.includes('……這倒是。')&&G.flags.TRANSLATOR===true&&G.flags.SK09_CHOICE==='xinci'&&!!G.events.done.ev_sk09,J(L));
-    const G2=fresh('Y2S1',6,2,18.45,{zone:'boya',room:'101',know:[XC]}); H.said=[]; await CLS.attendActivity(GM,a); const L2=said();
-    check('2. 認識芯慈、不認識阿勳：芯慈介紹阿勳和品妤；沒有 ECON_LAW_BRIDGE＝沒有 SK09',L2.includes('這是阿勳，統計課的。這是品妤。')&&!L2.includes('我是陪他來的。我只聽前半場。')&&!L2.includes('你說。')&&G2.flags.MET_XUN===true,J(L2));
-    const G3=fresh('Y2S1',6,2,21.1,{flags:{ECON_LAW_BRIDGE:true}}); PHONE.join(G3,'noodle_team','桌遊團'); rules();
-    check('2. SK09 沒去（B6 沒聽）：當晚 21:00 桌遊團群組芯慈兩則',J(msgs('g:noodle_team'))===J(['我和統計課那個人在博思吵了一小時，違約只要賠錢就好嗎。','結論：學活的吸管太細。'])); }
+    /* B6 門口遇到舊序章人物那幾項（CANON-NO-ECON-1112 第三批：這一項拿掉） */ }
+  /* B6 講座裡舊序章人物那幾列、SK09（CANON-NO-ECON-1112 第三批：這一項拿掉） */
   { const G=fresh('Y2S2',6,1,21.1,{know:[YT]}); PHONE.join(G,'noodle_team','桌遊團'); rules();
     check('2. B7 週一 21:00 語彤在桌遊團轉海報',msgs('g:noodle_team').some(t=>/老房子、租屋與城市/.test(t)));
     setDay(TD('Y2S2',6,3),18.9); G.zone='boya'; const a=ACTIVITIES.list.find(q=>q.id==='B7'); H.said=[]; await CLS.attendActivity(GM,a); const L=said();
@@ -157,12 +144,10 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
   { const G=fresh('Y3S1',5,5,17.1,{know:[SIS]}); check('2. B8 大三上第 5 週週五 17:00 博思門口、認識學姊',chk('ev_b8_door'));
     const L=await run('ev_b8_door'); check('2. B8：學姊三句（沛珊那一段拿掉）、記 B8_SEEN',J(L)===J(['（散場的人群裡，學姊抱著筆記走出來，看到你。）','你也來聽？','後半段講法律扶助的教育，我是為那段來的。……先走了，七點還有東西要交。'])&&G.flags.B8_SEEN===true,J(L)); }
   { const X0=X(); const G=fresh('Y4S1',3,2,19.5,{zone:'boya',room:'study',know:['zhe','yu',BH]});
-    const RL=a=>{ G.flags.STUDY_EXCHANGE_RATE=a.map((r,i)=>({t:'T'+i,r})); return X0.rateLine(G); };
-    check('2. B10 匯率那一句：一筆＝「那一次是一換二。」照那一筆；都一樣＝AA 那句；有變＝只講變的那幾次（BB_106 SK10 的例子）',
-      RL(['two'])==='以前這張桌子，經濟系那幾個也在。那一次是一換二。'&&RL(['one','one'])==='以前這張桌子，經濟系那幾個也在。一題民法換一題微積分。'&&RL(['two','two','one','snack'])==='以前這張桌子，經濟系那幾個也在。第一次一換二，第三次一換一，最後是宵夜本位。'&&RL([])===null,RL(['two','two','one','snack']));
+    /* B10 匯率那一句（讀 SK10 的紀錄）（CANON-NO-ECON-1112 第三批：這一項拿掉） */
     G.flags.STUDY_EXCHANGE_RATE=[{t:'Y2S1',r:'two'}]; const roll=X0.roll; X0.roll=()=>0; const okc=chk('ev_b10_table');
     const L=await run('ev_b10_table',['大一民總那一題']); X0.roll=roll;
-    check('2. B10 大四平日晚上博思自習區：阿哲開場、匯率那句、懷舊四句（AA_153 第 6 節）',okc&&L[0]==='坐。這桌是國考桌。Alison 說不能講話，所以我們用寫的。'&&L[1]==='以前這張桌子，經濟系那幾個也在。那一次是一換二。'&&L.includes('網拍標錯價那題，我現在會答了。')&&L.includes('說說看。')&&L.includes('（便利貼）四年了。')&&G.flags.B10_NOSTALGIA===true&&G.flags.B10_RATE_SAID===true,J(L));
+    check('2. B10 大四平日晚上博思自習區：阿哲開場、懷舊四句（匯率那句（CANON-NO-ECON-1112 第三批：這一項拿掉））（AA_153 第 6 節）',okc&&L[0]==='坐。這桌是國考桌。Alison 說不能講話，所以我們用寫的。'&&!L.some(t=>/^以前這張桌子/.test(t))&&L.includes('網拍標錯價那題，我現在會答了。')&&L.includes('說說看。')&&L.includes('（便利貼）四年了。')&&G.flags.B10_NOSTALGIA===true,J(L));
     setDay(G.day+1,19.5); X0.roll=()=>0; H.said=[]; H.opts=[]; H.picks=['（坐下讀一點）']; await EVENTS.run(ev('ev_b10_table')); X0.roll=roll; const L2=said();
     check('2. B10 第二次：開場輪到 Alison、懷舊選項沒有了、匯率那句不再說',L2[0]==='（推一包餅乾過來，便利貼上寫「吃。不要出聲。」）'&&!H.opts[0].includes('「大一民總那一題……」')&&L2.includes('Alison 在便利貼上寫：「加油。不用回。」')&&!L2.some(t=>/經濟系那幾個/.test(t)),J(L2));
     setDay(TD('Y4S1',12,2),19.5); G.flags.B10_N=2; H.said=[]; await EVENTS.run(ev('ev_b10_table')); check('2. B10 推甄放榜（第 12 週）以後柏翰換那一句',said()[0]==='我上了。我來陪考。……順便讀我自己的。',J(said())); }
@@ -213,67 +198,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
     EVENTS.zoneChanged(); check('3. D8 冷卻四週',!chk('ev_d8_cancel')); }
   });
 
-  /* ======================= 4 P5 ======================= */
-  await sec('4',async()=>{
-  { const X0=X(), roll=X0.roll; let pick='wl'; X0.roll=(G,s)=>s==='p5w'?['wl','py','xun','tr'].filter(k=>!(G.flags&&(G.flags.P5_USED||[]).includes(k))).indexOf(pick)/4+0.01:0;
-    const G=fresh('Y2S1',3,2,12.5,{flags:{Y0_F1_SEEN:true}});
-    check('4. P5 大二平日中午普通教學館門口、一學期一次',chk('ev_putong_oldmate')&&ev('ev_putong_oldmate').near.z===-48.4);
-    let L=await run('ev_putong_oldmate'); X0.roll=roll;
-    check('4. P5 韋綸（第一次）：重新介紹、「欸！……喔你現在是法律系的。」、「那也走啦！」、已讀不回那句（小年夜選了已讀）',J(L)===J(['韋綸！騎車的！','欸！……喔你現在是法律系的。','那也走啦！我們剛好要去吃飯。','品妤說你上次在群組已讀不回。她記帳了。'])&&G.flags.WL_SAID_LAW===true,J(L));
-    check('4. P5 這學期不再演',!chk('ev_putong_oldmate'));
-    X0.roll=(G,s)=>s==='p5w'?0.01:0; setDay(TD('Y2S2',3,2),12.5); G.flags.MET_PINYU=true; H.said=[]; H.picks=['（一起去吃飯）']; const h0=G.hour; await EVENTS.run(ev('ev_putong_oldmate')); L=said();
-    check('4. P5 下一學期換一個人（品妤）：計量、比較貴、一起去吃飯＝各付各的、時間 +1 小時',L[0]==='喔，法律系的。我們今天上計量。你們上什麼？'&&L.includes('各付各的。不要跟我搶付。')&&Math.abs(G.hour-h0-1)<1e-6,J(L));
-    setDay(TD('Y3S1',3,2),12.5); G.events.done.ev_y0_r7=1; H.said=[]; H.picks=['（站著聊兩句）']; await EVENTS.run(ev('ev_putong_oldmate')); L=said();
-    check('4. P5 阿勳：沒見過先重新介紹、統計、打過保齡球再戰的那一句',L[0]==='盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'&&L.includes('（點頭）祐廷。統計剛下課。……你們有統計嗎？')&&L.includes('保齡球再一場。上次的全倒，我要再有一次證人。'),J(L));
-    setDay(TD('Y3S2',3,2),12.5); G.flags.SOC_ROAD_PERSON=true; G.flags.MET_TANG=true; H.said=[]; H.picks=['（約整群人）']; await EVENTS.run(ev('ev_putong_oldmate')); L=said(); X0.roll=roll;
-    check('4. P5 唐睿：有「法律系的路人」那一句；約整群人',L[0]==='法律系的路人！我剛在課上講了十分鐘，教授叫我坐下。'&&L.includes('我負責講話，你負責安靜。'),J(L));
-    check('4. P5 四個人都演過以後沒有',X0.p5Pick(G)===null);
-    const G2=fresh('Y2S1',3,2,12.5,{flags:{WL_SAID_LAW:true,MET_WEILUN:true}}); X0.roll=(G,s)=>s==='p5w'?0.01:0; H.said=[]; await EVENTS.run(ev('ev_putong_oldmate')); X0.roll=roll;
-    check('4. P5 韋綸已經說過「法律系的」（日常 D2）：只有「走啦！」；沒有已讀不回＝好久沒看到你',J(said())===J(['走啦！','品妤說好久沒看到你了。']),J(said())); }
-  });
-
-  /* ======================= 5 社科院 ======================= */
-  await sec('5',async()=>{
-  { const G=fresh('Y2S1',1,3,12.1,{flags:{PLAYED_Y0:true,E02_WORD:'invisible_hand'}}); rules();
-    check('5. SK08 大二上第 1 週週三 12:00 阿勳私訊（BB_106）',msgs('p:econ_zhengxun').includes('我在帶迎新。你在對面，走過來就好。神秘嘉賓。'));
-    G.hour=14; check('5. SK08 走到社科院門口',chk('ev_sk08_guest')&&ev('ev_sk08_guest').near.x===16);
-    H.said=[]; H.opts=[]; H.picks=['看不見的手','「你為什麼想轉？」']; await EVENTS.run(ev('ev_sk08_guest')); const L=said();
-    check('5. SK08：今年的規則、第 4 個選項（E02 挑的詞）＝阿勳「犯規」、新生的問題、記 SOC_GUEST_SENIOR',L.includes('我們那年有一個人這樣介紹自己，我一直記得。今年改成每個人都要。')&&H.opts[0].includes('「我是『看不見的手』。」')&&L.includes('這個詞，可昕說過是你挑的。……犯規。')&&L.includes('學長，經濟系可以轉法律系嗎？')&&L.includes('……其實沒有。我只是想聽故事。')&&G.flags.SOC_GUEST_SENIOR===true,J(L));
-    const G2=fresh('Y2S1',1,3,12.1,{flags:{MET_XUN:true}}); rules(); H.said=[]; H.opts=[]; G2.hour=14; H.picks=['善意第三人']; await EVENTS.run(ev('ev_sk08_guest'));
-    check('5. SK08 沒玩經濟系那一年＝沒有第 4 個選項；善意第三人＝唐睿、祐廷那兩句',H.opts[0].length===3&&said().includes('那不是經濟學。')&&said().includes('是我現在的身分。'));
-    const G3=fresh('Y2S1',1,3,12.1,{flags:{MET_XUN:true}}); rules(); G3.hour=21.1; rules();
-    check('5. SK08 沒去：當晚阿勳的大合照（看不見的手的學弟）',msgs('p:econ_zhengxun').includes('今年有一個學弟說他是『看不見的手』，然後一直揮手。')); }
-  { const G=fresh('Y2S1',6,1,21.1,{zone:'boya',room:'study',flags:{ECON_LAW_BRIDGE:true,STICKY_NOTES:true}}); rules();
-    check('5. SK10 第 6 週週一 21:00 芯慈在「一題換一題」小群組',PHONE.inGroup(G,'swap_study')&&msgs('g:swap_study').includes('週三晚上七點，博思小桌子。'));
-    setDay(TD('Y2S1',6,3),19.5); check('5. SK10 週三 19:00 博思自習區',chk('ev_sk10_swap'));
-    let L=await run('ev_sk10_swap',['「公平。」']);
-    check('5. SK10 這學期第一次＝匯率談判：便利貼、唐睿的價、一換一＝芯慈記帳；記 STUDY_EXCHANGE_RATE',L.includes('民法一題＝？')&&L.includes('一題民法換兩題微積分。因為民法比較難懂。這是市場決定的。')&&L.includes('同意。我記帳。')&&J(G.flags.STUDY_EXCHANGE_RATE)===J([{t:'Y2S1',r:'one'}]),J(L));
-    setDay(TD('Y2S1',15,1),21.1); rules(); setDay(TD('Y2S1',15,3),21.5); rules();
-    check('5. SK10 第 15 週沒去＝SK10_MISSED',G.flags.SK10_MISSED===true);
-    setDay(TD('Y2S2',6,1),21.1); G.flags.TRANSLATOR=true; rules(); setDay(TD('Y2S2',6,3),19.5); L=await run('ev_sk10_swap',['（接受唐睿的價）']);
-    check('5. SK10 下一學期：唐睿「民法貶值了」、翻譯官、談判（接受＝一換二）',L[0]==='你不在的時候，民法貶值了。'&&L.includes('……翻譯官，你說。')&&G.flags.STUDY_EXCHANGE_RATE.length===2&&G.flags.STUDY_EXCHANGE_RATE[1].r==='two'&&G.flags.SK10_MISSED===false,J(L));
-    setDay(TD('Y2S2',15,1),21.1); rules(); setDay(TD('Y2S2',15,3),19.5); L=await run('ev_sk10_swap');
-    check('5. SK10 同一學期第二次：沒有談判（只有便利貼、翻譯官）',!L.includes('一題民法換兩題微積分。因為民法比較難懂。這是市場決定的。')&&L.includes('民法一題＝？')&&G.flags.STUDY_EXCHANGE_RATE.length===2,J(L));
-    const G2=fresh('Y2S1',6,3,19.5,{zone:'boya',room:'study'}); check('5. SK10 沒有 ECON_LAW_BRIDGE 沒有',!chk('ev_sk10_swap')); }
-  { const G=fresh('Y4S1',1,2,10,{flags:{PLAYED_Y0:true,dating_kexin:true,SOC_WRONG_BUILDING:true}}); G.events.done.ev_y0_e02=1;
-    check('5. SK14 大四上第 1 週社科院門口',chk('ev_sk14_freshmen'));
-    H.said=[]; H.opts=[]; H.picks=['拍下來傳給可昕','「還差一點。」']; await EVENTS.run(ev('ev_sk14_freshmen')); const L=said();
-    check('5. SK14：還書、邊際效用遞減、台下有人笑、交往中＝傳給可昕（她兩句＋回）、系辦助理「又走錯棟了」',L[0]==='你來還一本書。'&&L.includes('我是邊際效用遞減。')&&L.includes('（台下有人笑。你在門口站了一下，才往裡面走。）')&&L.includes('有人用我的名詞。')&&L.includes('……記下來了。今年追上。')&&L[L.length-1]==='你不是那個……來領系外套的？又走錯棟了？',J(L));
-    const G2=fresh('Y4S1',1,2,10,{}); H.said=[]; H.opts=[]; await EVENTS.run(ev('ev_sk14_freshmen')); const L2=said();
-    check('5. SK14 沒玩經濟系大一、分開了：「你自己也玩過這個」「拿出手機又放回口袋」、沒有傳照片的選項、系辦助理「轉去法律的」',L2.includes('你自己也玩過這個。')&&L2.includes('你拿出手機，又放回口袋。')&&H.opts[0].length===2&&L2[L2.length-1]==='你不是那個轉去法律的？',J(L2));
-    const G3=fresh('Y4S1',1,2,10,{flags:{EXCHANGE_ROUTE:'US'}}); check('5. SK14 美國路線那時在美國：沒有',!chk('ev_sk14_freshmen')); }
-  { const d=TD('Y2S1',3,6); const G=fresh('Y2S1',3,6,13.4,{flags:{dating_kexin:true}}); OUT.plan(G,{id:'kx_od_'+d,ev:'ev_kexin_our_day_wk',day:d,h:14,place:'社科院門口',title:'我們的日子：她來首都帝大',odPlace:'ntu',kxod:'Y2S1'});
-    check('5. 第 389 行：交往中、「我們的日子」她來首都帝大那天、約好前 60～15 分鐘社科院門口',chk('ev_kx_pinyu_soc')&&(()=>{ G.hour=13.8; const a=!chk('ev_kx_pinyu_soc'); G.hour=12.9; const b=!chk('ev_kx_pinyu_soc'); G.hour=13.4; return a&&b; })());
-    const L=await run('ev_kx_pinyu_soc');
-    check('5. 第 389 行：可昕、沒見過品妤先自我介紹（記 MET_PINYU）、品妤「有證人」（AA_383 第 7 節）',J(L)===J(['我來找品妤，順便找你。順序不要問。','曾品妤。經濟系，可昕以前的室友。','她先找我的。我有證人。'])&&G.flags.MET_PINYU===true,J(L));   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7，bbpack_events.js:504）：舊期望「我來找品妤。……順便找你。順序不要問。」 */
-    check('5. 第 389 行整個遊戲一次；約好的出遊照舊（這兩句不算見面）',!chk('ev_kx_pinyu_soc')&&OUT.get(G,'kx_od_'+d).state==='planned');
-    const G2=fresh('Y2S1',3,6,13.4,{flags:{dating_kexin:true}}); OUT.plan(G2,{id:'kx_od_'+d,ev:'ev_kexin_our_day_wk',day:d,h:14,place:'木柵大學・山下的小吃街',title:'我們的日子：開車去木柵大學',odPlace:'nccu'});
-    check('5. 第 389 行：那天約的不是來首都帝大＝沒有',!chk('ev_kx_pinyu_soc'));
-    const d2=TD('Y3S2',3,6); const G3=fresh('Y3S2',3,6,13.4,{flags:{dating_kexin:true}}); OUT.plan(G3,{id:'kx_od_'+d2,ev:'ev_kexin_our_day_wk',day:d2,h:14,place:'社科院門口',odPlace:'ntu'}); const aw=STORY.awayNow; STORY.awayNow=(id)=>id==='econ_pinyu';
-    check('5. 第 389 行：品妤那時候不在學校＝不演（留到下一次）',!chk('ev_kx_pinyu_soc')); STORY.awayNow=aw;
-    const d3=STORY.dayOfKey('2028-09-09'); const G4=fresh('Y4S1',1,6,13.4,{flags:{dating_kexin:true}}); setDay(d3,13.4); OUT.plan(G4,{id:'kx_od_'+d3,ev:'ev_kexin_our_day_wk',day:d3,h:14,place:'社科院門口',odPlace:'ntu'});
-    check('5. 第 389 行：經濟系那群 2028-06 畢業以後沒有',!chk('ev_kx_pinyu_soc')); }
-  });
+  /* 4 P5（普通教學館前的舊序章人物）、5 社科院（SK08、SK10、SK14、第 389 行）（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
 
   /* ======================= 6 L4 ======================= */
   await sec('6',async()=>{

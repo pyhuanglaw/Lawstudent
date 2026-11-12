@@ -48,7 +48,7 @@ const cp=require('child_process'), SPEC_SHA='98516b51';
   const DM=['你借我的筆記，我抄完了！','你哪天經過女舍門口跟我說，我拿下去給你！'], DESK='筆記我上課的時候放你桌上了！謝謝你借我！';
   const gameEv=ev('ev_b106_42_game'), st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
   check('0. 讀得到稿（AA_383@'+SPEC_SHA+'）',/韋綸的球賽/.test(spec)&&/沛珊還筆記/.test(spec));
-  check('0. 第 4-1 節三句旁白＝稿、＝遊戲（ev_b106_42_game）',GAME3.every(t=>spec.includes('「'+t+'」'))&&!!gameEv&&J((gameEv.dialogue||[]).map(l=>l.text))===J(GAME3),J(gameEv&&gameEv.dialogue));
+  /* 0. 第 4-1 節三句旁白（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   check('0. 第 4-2 節三則私訊＝稿、＝遊戲',DM.concat([DESK]).every(t=>spec.includes('「'+t+'」')&&st.includes("'"+t+"'")));
   // ---- 2. 以安第 8 週 ----
   const S6={fam:60,trust:45,comf:40,npcRom:55,rom:30};
@@ -66,13 +66,7 @@ const cp=require('child_process'), SPEC_SHA='98516b51';
     check('2. D26 臺中偶遇（以安）大一上只剩 9/27、11/22（10/25 拿掉）',J(ds)===J(['2025-09-27','2025-11-22']),J(ds)); }
   { fresh(w8,15,'campus'); const e=STORY.schedEnt(CHARACTERS.heroine_01,G);
     check('2. 10/25 15:00 以安的作息照樣「在台中」（沒有偶遇，也不會掉回臺北的 Café）',!!e&&e.zone==null&&e.away==='在台中'&&!e.enc,J(e)); }
-  // ---- 4-1. 韋綸的球賽 ----
-  { const d3=TD('Y4S2',6,3), sat=d3+3;
-    for(const [lab,kx,stay,want] of [['和可昕交往中、她說了要來',true,true,GAME3],['沒有交往',false,false,GAME3.slice(0,2)],['說了要來、後來分手了',true,false,GAME3.slice(0,2)]]){
-      fresh(d3,20.5,'campus',kx?{dating_kexin:true}:{}); run(20.5,21.2); PHONE.answer(G,'b106_42_ticket',0); run(21.3,21.4); const q=OUT.get(G,'b106_wl_game');
-      if(kx&&!stay) G.flags.dating_kexin=false;
-      said=[]; setDay(sat,18.0); if(q) await OUT.go(GM,q); const L=lines().filter(t=>/^（/.test(t));
-      check('4-1. '+lab+'：出發以後'+want.length+' 句旁白'+(want.length===3?'（最後「可昕坐在你旁邊……」）':'（沒有可昕那一句）')+'；WL_GAME_KX '+(kx?'記了':'沒有'),!!q&&J(L)===J(want)&&!!G.flags.WL_GAME_KX===kx,J([L,G.flags.WL_GAME_KX])); } }
+  /* 4-1. 韋綸的球賽（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   // ---- 4-2. 沛珊還筆記 ----
   { const d4=TD('Y1S1',4,1), d9=TD('Y1S1',9,1), D4=ev('ev_b105_d4_notes');
     check('4-2. 前提：大一上第 4 週週一＝9/22、第 9 週週一＝10/27',CALENDAR.dateOf(d4).key==='2025-09-22'&&CALENDAR.dateOf(d9).key==='2025-10-27',J([CALENDAR.dateOf(d4).key,CALENDAR.dateOf(d9).key]));

@@ -51,7 +51,7 @@ GM.money=function(n){ G.money+=n; };
   check('C2. 舊資料的 ev_an_study_group 照舊讀成公法讀書會（LADDER_EVENT_ALIAS）',J(STORY.ladLines({id:'X',lines:['舊'],linesIf:[{if:{events:['ev_an_study_group']},lines:['新']}]},G,'heroine_01'))==='["新"]');
   check('C3. 語彤 Y5-L6 等續約（RENT_RENEWED）',!STORY.LADDER_HOLD['Y5-L6']({flags:{}})&&STORY.LADDER_HOLD['Y5-L6']({flags:{RENT_RENEWED:true}}));
   // CANON-NO-ECON-1112：經濟系那一年拿掉（D1 E25 是經濟系那一年的事件）
-  check('D2. SK03（大一下）是學活',ev2('ev_sk03_lunch').title==='週五的學活'&&!/小松/.test(txt1('ev_sk03_lunch')));
+  /* D2 SK03 學活（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   const cls=require('fs').readFileSync(require('path').join(ROOT,'src/classes3d.js'),'utf8');
   check('D3. 午餐選單：大一下起學活的自助餐',/學活的自助餐，夾了三樣菜/.test(cls));
   const NL=NEEDED_MSGS.list;

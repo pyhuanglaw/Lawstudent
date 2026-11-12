@@ -44,7 +44,7 @@ const run=async id=>{ said=[]; opts=[]; await EVENTS.run(ev(id)); };
 const answer=(id,k)=>PHONE.answer(G,id,k);
 const nested=id=>{ const m=PHONE.byAsk(G,id); return m; };
 const mine=(th,first)=>{ const L=txt(th), i=L.indexOf(first); return i<0?[]:L.slice(i); };   /* 只看這一批的訊息（同一天別的規則也會傳）*/
-const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_money','ev_kexin_k18','ev_kexin_k18_call','ev_xun_path','ev_yu_alone_breakfast','ev_yu_alone_call','ev_an_konbini','ev_liheng_japan','ev_y3s2_roof_toast','ev_an_sakura_riverbank','ev_far_call_jp','ev_yu_alone_movie','ev_yu_alone_movie_noodle','ev_yu_alone_movie_video','ev_zhiruo_third_row','ev_kexin_birthday_y3','ev_xinci_first_place','ev_xinci_first_place_video','ev_an_town_notice','ev_an_town_notice_repair','ev_kexin_k20','ev_kexin_k20_call','ev_fangyt_tickets','ev_zhiruo_f3_cafe','ev_x1_moveout_us','ev_an_abroad_video','ev_an_tanabata','ev_an_airport_y3','ev_an_notebook','ev_an_white_day','ev_an_far_video','ev_zhiruo_twelve_slips'];
+const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_money','ev_kexin_k18','ev_kexin_k18_call',/* ev_xun_path（CANON-NO-ECON-1112 第三批：這一項拿掉）*/'ev_yu_alone_breakfast','ev_yu_alone_call','ev_an_konbini','ev_liheng_japan','ev_y3s2_roof_toast','ev_an_sakura_riverbank','ev_far_call_jp','ev_yu_alone_movie','ev_yu_alone_movie_noodle','ev_yu_alone_movie_video','ev_zhiruo_third_row','ev_kexin_birthday_y3','ev_xinci_first_place','ev_xinci_first_place_video','ev_an_town_notice','ev_an_town_notice_repair','ev_kexin_k20','ev_kexin_k20_call','ev_fangyt_tickets','ev_zhiruo_f3_cafe','ev_x1_moveout_us','ev_an_abroad_video','ev_an_tanabata','ev_an_airport_y3','ev_an_notebook','ev_an_white_day','ev_an_far_video','ev_zhiruo_twelve_slips'];
 (async()=>{
   check('0. 事件都在、R2Y3B 掛上去了', IDS.every(id=>!!ev(id))&&typeof R2Y3B!=='undefined'&&STORY.TICKS.length>0&&STORY.PHONE_RULES.length>0, IDS.filter(id=>!ev(id)).join());
   if(fails){ console.log('FAILED '+fails); process.exit(1); }
@@ -122,19 +122,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('R. 婉拒：「……好。那我跟予樂去。」、3/18 18:00 照片；不排出遊、不算 KX_RUB', txt('p:kexin').includes('kexin:……好。那我跟予樂去。')&&txt('p:kexin').includes('kexin:（照片：她和予樂在月台上）')&&!OUT.get(G,'y3_kx_k18')&&!G.flags.KX_RUB&&G.flags.KX_K18==='missed');
   fresh('2028-03-15',21.6,'dorm'); rules(); check('R. 沒交往：不發生', txt('p:kexin').length===0);
 
-  // ---------- 2-Y3-31 SK13 阿勳的那條路 ----------
-  fresh('2028-03-14',21.1,'dorm'); R('econ_zhengxun','FAM'); rules();
-  check('X0. 3/14 21:00 阿勳「下週三我報告。你可以坐後面，不用聽懂。」、兩個回覆', txt('p:econ_zhengxun').join('|')==='econ_zhengxun:下週三我報告。你可以坐後面，不用聽懂。'&&PHONE.byAsk(G,'y3_xun_path').ask.opts.length===2);
-  answer('y3_xun_path',0); rules(); const xq=OUT.get(G,'y3_xun_path');
-  check('X0. 「我去。」→「嗯。三點，社科院。」；排 3/22 15:00 社科院', txt('p:econ_zhengxun').includes('econ_zhengxun:嗯。三點，社科院。')&&xq&&xq.day===D('2028-03-22')&&xq.h===15);
-  picks=[0]; await run('ev_xun_path');
-  check('X1. 去了、舉手：「……我沒想過。」（AA_682 第 1 列）', has('（愣了一下）……我沒想過。')&&opts[0].length===3);
-  check('X2. 散場：「不過你現在的樣子比較好看。」；沒有 XUN_WARM＝沒有「還是很爽」；記 XUN_PATH', has('你留下來的話，現在應該坐我旁邊。')&&has('不過你現在的樣子比較好看。')&&!has('算出來那一下，還是很爽。')&&SOCIAL.has('econ_zhengxun','XUN_PATH'));
-  fresh('2028-03-22',15,'dorm',{XUN_WARM:true}); R('econ_zhengxun','FAM'); picks=[2]; await run('ev_xun_path');
-  check('X. 有 XUN_WARM：多「算出來那一下，還是很爽。」；鼓掌＝他把紙摺起來', has('算出來那一下，還是很爽。')&&has('（他看了你一眼，把那張紙摺起來。）'));
-  fresh('2028-03-14',21.1,'dorm'); R('econ_zhengxun','FAM'); rules(); answer('y3_xun_path',1); at('2028-03-22',16.7); rules();
-  check('X. 沒去：16:40「（照片：報告結束的投影幕）」「沒人問問題。我很安全。」', txt('p:econ_zhengxun').includes('econ_zhengxun:沒人問問題。我很安全。')&&!OUT.get(G,'y3_xun_path'));
-  fresh('2028-03-14',21.1,'dorm'); rules(); check('X3. 沒玩過經濟系那一年（不認識阿勳）：沒有這一件', txt('p:econ_zhengxun').length===0);
+  /* 2-Y3-31 SK13（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
 
   // ---------- 2-Y3-33 語 4 ----------
   const yuHere=()=>{ const n={id:'yu',charId:'yu',obj:{position:{x:0.5,y:0,z:0}},lv:0}; GM.npc.yu=n; E.npcs=[n]; };

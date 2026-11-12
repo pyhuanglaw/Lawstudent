@@ -302,7 +302,11 @@ if(process.env.L118_B6_DEBUG){ const r=cmp772((O.data||{}).inv||[],(N.data||{}).
   check('28b. 比法本身：沒改＝0 個不一樣；故意改別的地點的動詞、新地點的店名、118 巷地點的動詞、slowread 的區域、拿掉一句、改慢讀那一組的一句、改新地點的答應句——每一種都抓得到',base===0&&ids.cafe!=null&&ids.l118_cafe2!=null&&r.every(n=>n>=1),J([base,r])); }
 /* ---------- 28. 資料和 BASE 逐句比 ---------- */
 { for(const [k,nm,want] of [['inv','INVITE_DATA（invites.js 和推進來的）',[NINE[0]]],['enc','ENCOUNTERS（偶遇）',[NINE[4]]],['zrzq','ZRZQ_LINES（子晴芷若）',[NINE[3]]],['ev','STORY_EVENTS（全部載入以後，每一場的 dialogue；子晴那一場是 ZRZQ_EVENTS 推進來的預設版）',[NINE[1],NINE[2],NINE[3]]]]){
-    const A=(O.data||{})[k]||[], B=(N.data||{})[k]||[], bad=[], hit=[], hit7=[];
+    let A=(O.data||{})[k]||[], B=(N.data||{})[k]||[]; const bad=[], hit=[], hit7=[];
+    /* CANON-NO-ECON-1112 第三批：整場拿掉的事件（舊序章人物）、拿掉幾列的三場不比——路徑換成事件 id，只比其他還在的 */
+    if(k==='ev'){ const reId=L=>{ const id={}; for(const [p,v] of L){ const m=/^STORY_EVENTS\.(\d+)\.id$/.exec(p); if(m) id[m[1]]=v; } return L.map(([p,v])=>[p.replace(/^STORY_EVENTS\.(\d+)/,(z,i)=>'STORY_EVENTS.'+id[i]),v]); };
+      const CHG=new Set(['ev_xinci_double','ev_b6_lecture','ev_b10_table']);   /* 這三場裡拿掉了讀舊序章旗標、人物的幾列 */
+      B=reId(B).filter(x=>!CHG.has(x[0].split('.')[1])); const have=new Set(B.map(x=>x[0].split('.')[1])); A=reId(A).filter(x=>have.has(x[0].split('.')[1])); }
     if(k==='inv'){ const isWant=(a,b)=>kindOf(a,b)==='act'&&want.some(x=>x[1]===a&&x[2]===b); const r=cmp772(A,B,(a,b)=>aa731(a[1],b[1])||isWant(a[1],b[1])); bad.push(...r.bad); for(const [a,b] of r.pairs) if(a[1]!==b[1]&&isWant(a[1],b[1])) hit.push(b[0]); }   /* 2026-11-11：INVITE_DATA 改用地點 id 對、照 AA_772／AA_721 逐格驗（上面 cmp772）*/
     else if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
     else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(aa731(a[1],b[1])) return; if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]);
@@ -310,7 +314,7 @@ if(process.env.L118_B6_DEBUG){ const r=cmp772((O.data||{}).inv||[],(N.data||{}).
     /* 第七批（tests/invites_quote_b7_unit.js）：STORY_EVENTS 有名字、整句「…」的拿掉外面那一對——這裡看得到的是上面 SEVEN 那 6 句，只認這 6 句、只差外面那一對、一句一次；其他資料（inv、enc、zrzq）沒有 */
     const w7=k==='ev'?SEVEN:[];
     check('28. '+nm+' 和 '+BASE+' 比（'+B.length+' 個值，含函式原始碼）：只改了 '+hit.length+' 個（'+want.map(x=>x[2]).join('、')+'），只差裡面那一對「」'+(w7.length?'；加上第七批的 '+hit7.length+' 句（只差外面那一對「」）':'')+'，其他一字不差',
-      A.length>100&&bad.length===0&&hit.length===want.length&&J(hit7.slice().sort())===J(w7.slice().sort()),sample(bad)+'｜'+sample(hit)+'｜'+sample(hit7)); } }
+      A.length>100&&bad.length===0&&hit.length===want.length-(k==='ev'?1:0)/* ev：「（便利貼）四年了。」在 ev_b10_table，那一場不比（CANON-NO-ECON-1112 第三批）*/&&J(hit7.slice().sort())===J(w7.slice().sort()),sample(bad)+'｜'+sample(hit)+'｜'+sample(hit7)); } }
 
 /* ---------- 29. 原始碼逐行比（這一個 commit 本身）---------- */
 const findC6=()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format=%H %s','-F','--grep='+TITLE],{encoding:'utf8',maxBuffer:1<<26}).split('\n'); const x=L.find(l=>l.slice(41).startsWith(TITLE)); return x?x.slice(0,40):null; }catch(e){ return null; } };

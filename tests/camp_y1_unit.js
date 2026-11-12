@@ -240,10 +240,7 @@ const day=k=>STORY.dayOfKey(k);
     const lc=G.msgs.filter(m=>m.th==='g:law_class'&&m.day===day('2025-09-09')).map(m=>m.name+':'+m.text);
     check('L4. 第 2 週 9/9 22:00 班群（BB_168 2-2）：沛珊問民總教科書、阿哲「我有學長的舊版」',lc.join('|')==='沛珊:請問有人知道民總的指定教科書要買哪一本嗎|沛珊:老師說了兩本 我只抄到一本|阿哲:我有學長的舊版 你要的話我拍給你|沛珊:好 謝謝！',lc.join(' | '));
     check('L5. 校慶 11/15、運動會 11/21 停課（AA_195 第 3 節：CALENDAR.SCHOOL）',CALENDAR.holiday(day('2025-11-21'))==='運動會（停課）'&&CALENDAR.holiday(day('2025-11-15'))==='校慶'&&CALENDAR.kind(day('2025-11-21'))==='holiday');
-    const sk01=STORY_EVENTS.find(e=>e.id==='ev_sk01_soc'), n1=STORY_EVENTS.find(e=>e.id==='ev_sk04_note1');
-    fresh(); Object.assign(G.flags,{MAIN_D1:STORY.MAIN_D1_NEW,LAW_START_DAY:day('2025-08-29')}); G.day=day('2025-09-10');
-    /* AA_294 ②（企劃 b3ec8820）：第一張延到下一次出席，到第 12 週（原本新局第 1～3 週、第 4 週不行）*/
-    check('L6. SK01 第 1～6 週；SK04 第一張便利貼新局第 2 週可以、第 4 週也可以（AA_294 ②：到第 12 週）、第 13 週不行',JSON.stringify(sk01.weeks)==='[1,2,3,4,5,6]'&&!!n1&&(()=>{ const ok2=n1.prereq.custom(G); G.day=day('2025-09-24'); const ok4=n1.prereq.custom(G); G.day=STORY.termDay('Y1S1',13,4); const ok13=n1.prereq.custom(G); return ok2!==false&&ok4!==false&&ok13===false; })()); }
+    /* L6. SK01、SK04 的週次（CANON-NO-ECON-1112 第三批：這一項拿掉）*/ }
     { /* A2b（CAMP-DAYHOUR-1104，BB-C 11-04 17:30／CC T1 隨機快轉）：換到下一天的日期卡那一刻，日期和時間要一起換——原本先設 G.day、等 1.6 秒字卡才設 G.hour（8/23 配上 8/22 晚上 19:30，接著退回 17:30）*/
     const tc0=GM.titleCard, at=[]; GM.titleCard=async(a,b)=>{ at.push({b:b||'',day:G.day,h:G.hour}); };
     fresh(); await STORY.campY1(GM,{next:false}); GM.titleCard=tc0; const d0=day('2025-08-22');

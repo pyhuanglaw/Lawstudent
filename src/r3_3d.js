@@ -7,7 +7,6 @@
    3-05 芷若 F4 拉花比賽（5/7 Café 在 r3_events.js；沒去、和她 FAMILIAR 以上＝22:07 黑板的照片）
    3-07 阿凱 F5 萬聖節（2027-10-27 23:40 三則＋三選一（期限 10/28 18:00）；沒回 18:10；10/30 13:10 照片）
    3-06 大二暑假三個摘要日的旁白（包住 HOME.breakArrive；8/25 記 SUMMER_Y2；第三個房間的拆箱多兩列：包住 STORY.roomY3Items）
-   3-08 SK12（12/20～12/23 晚上走進社科圖＝品妤放在最裡面那張長桌的桌角；事件在 r3_events.js；大四 2028-11-10 20:30 她的私訊）
    3-10 阿凱 K5（2028-11-22 23:40，期限到 11/23 08:00；11/23 22:30；美國路線照當地時間）
    3-15 子晴凌晨三點的 build（2029-03-16 02:58：醒著＝即時三則＋三選一、睡了＝起床看到四則；電話那一段在 r3_events.js；尾聲 'sleep' 多一句：包住 PG.epiLine）
    3-16 沛珊 2029 年的營隊（交往中三組訊息；沒交往、重新聯絡上的＝7/23～7/27 自動回：包住 MSG.send；不在的日子在 characters.js 的 absentDates）
@@ -128,18 +127,6 @@ const R3=(function(){
   if(typeof STORY!=='undefined'&&STORY.ROOM_Y3_TEXT){ Object.assign(STORY.ROOM_Y3_TEXT,{summer_y2_shift:['那家店的暑假班表影印','最下面一格是你的名字。寫錯一個字，老闆用立可白改過。'],summer_y2_popsicle:['一包小時候那家店的冰棒棍','媽媽塞進行李的。你問她留著做什麼，她說：『……留著。』']}); }
   S.roomY3Extra=function(G){ const v=G&&G.flags&&G.flags.SUMMER_Y2, T3=typeof STORY!=='undefined'&&STORY.ROOM_Y3_TEXT; if(!T3) return []; const id=v==='work'?'summer_y2_shift':(v==='home'?'summer_y2_popsicle':null); return id&&T3[id]?[[id,T3[id][0],[T3[id][1]]]]:[]; };
 
-  /* ===================== 3-08 SK12（BB_106）：品妤放到社科圖最裡面那張長桌的桌角；大四 2028-11-10 20:30 她的私訊 ===================== */
-  S.SK12_SEAT=16;   /* soclib_layout.js 的座位 16＝離入口最遠的長桌（-3.4,-5.1）東端、北側的位子（桌角）*/
-  S.sk12Win=G=>['2027-12-20','2027-12-21','2027-12-22','2027-12-23'].some(k=>{ const d=D(k); return d!=null&&now(G)>=T(d,19)&&now(G)<T(d,21); });
-  S.sk12Place=function(GM,entered){ const G=GM.G, E=GM.E; if(G.zone!=='soclib'||G.flags.SK12||!S.sk12Win(G)||!entered||!GM.spawnCharacter||!E) return 0; if(GM.npc.econ_pinyu) return 0;
-    const st=(E.zone&&E.zone.seats&&E.zone.seats[S.SK12_SEAT])||{x:-2.2,z:-5.9,yaw:0,lv:0,kind:'table'}; const c=GM.spawnCharacter('econ_pinyu',st.x,st.z,{seat:st,pose:'read'}); if(c){ c.idlePose='read'; c.until=22; return 1; } return 0; };
-  S.pinyuActuary=function(G){ const F=G.flags, d=D('2028-11-10'); if(d==null) return; const z=tz(G,d), t=T(d,20.5+z); if(now(G)<t||now(G)>=T(d+5,0)||PHONE.sent(G,'r3_py_actuary')) return;
-    if(!(F.MET_PINYU||knows('econ_pinyu',G))||!contact(G,'econ_pinyu')) return; const P=M('econ_pinyu');
-    if(!F.SK12){ PHONE.at(G,d,20.5+z,[P('精算第一科過了。')],'r3_py_actuary'); return; }   /* 沒去 SK12、但認識她：不提那張桌子 */
-    const L=[P('📷（成績單，第一行：精算 第一科 通過）'),P('精算第一科過了。我還滿喜歡的。')], w=F.PINYU_WORRY;
-    if(w==='stay') L.push(Object.assign(P('那題機率題，你現在會了嗎？'),{ask:{id:'r3_py_actuary',until:T(d+1,18+z),opts:[{t:'不會。',say:[{from:'econ_pinyu',text:'很好。'}]},{t:'會了。',say:[{from:'econ_pinyu',text:'騙人。'}]}]}}));
-    else if(w==='one') L.push(P('一科一科來。你說的。')); else if(w==='ask') L.push(P('我問了那個學長。他說第一科最難。結果還好。')); else if(w==='both') L.push(P('沒有同時。一科一科。'));
-    PHONE.at(G,d,20.5+z,L,'r3_py_actuary'); };
 
   /* ===================== 3-10 阿凱 K5 所以他可以告我嗎（BB_40 K5；BB_99 5-1；AA_117 C7）===================== */
   /* 2028-11-22（三）23:40（臺灣；美國路線照當地時間）。回覆期限例外：到 11/23 08:00。演過＝msg3d.js 的 'kai:k5_sue'（還好嗎的回覆，三天）*/
@@ -361,10 +348,10 @@ const R3=(function(){
 
   /* ===================== 掛勾 ===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return;
-    for(const f of [S.zrFee,S.kaiF2,S.fang6am,S.latteMissed,S.kaiHalloween,S.summerFlag,S.pinyuActuary,S.kaiK5,S.zq3am,S.psCamp,S.sisPlan,S.chiayi,S.desks,S.father,S.dayOff,S.dp3At,S.long]){ try{ f(G,GM); }catch(e){ console.warn('R3 phone',e); } } };
+    for(const f of [S.zrFee,S.kaiF2,S.fang6am,S.latteMissed,S.kaiHalloween,S.summerFlag,S.kaiK5,S.zq3am,S.psCamp,S.sisPlan,S.chiayi,S.desks,S.father,S.dayOff,S.dp3At,S.long]){ try{ f(G,GM); }catch(e){ console.warn('R3 phone',e); } } };
   let lastZone=null;
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(!G||!G.flags||!law(G)) return false; const entered=G.zone!==lastZone; lastZone=G.zone;   /* 剛走進這一區（讀檔也算）：人放好，不在眼前憑空出現 */
-    try{ S.fangPlace(GM); S.sk12Place(GM,entered); }catch(e){ console.warn('R3 place',e); }
+    try{ S.fangPlace(GM); }catch(e){ console.warn('R3 place',e); }
     const free=typeof EVENTS!=='undefined'&&!EVENTS.running&&!(GM.D&&GM.D.active);
     if(S.zqCallDue(G)&&free){ const ev=STORY_EVENTS.find(e=>e.id==='ev_ziqing_3am_call'); if(ev){ void EVENTS.run(ev); return true; } }   /* 3-15 選了「（直接打電話給她）」：手機關掉以後演電話 */
     if(S.noteDue(G)&&free&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))){ void S.noteRun(GM); return true; }   /* 3-11 D：2/3 08:30 考場門口（在家的時候是 home3d.js 的選單問 STORY.y4HomeDue）*/

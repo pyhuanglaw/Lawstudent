@@ -259,26 +259,6 @@ const Y2R2=(function(){
       {label:'b'},{speaker:'kexin',expression:'neutral',text:'……好。我掛了。'},
       {label:'end'} ],
     after:G=>{ G.flags.KX_SUMMER='message'; } });
-  /* ---------- 2-Y2-23 可昕 K13＋經濟系之夜（SK11）：6/4（五）19:00 社科院一樓 ---------- */
-  const EKX=G=>!!G.flags.Y2R2_EN_KX;
-  EV.push({ id:'ev_econ_night_y2', title:'經濟系之夜', participants:['econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    beforeOuting:(G)=>{ G.flags.Y2R2_EN_KX=kx(G); },
-    outingMissed:(G)=>{ G.flags.Y2R2_EN_MISSED=true; },
-    dialogue:[ {scene:'社科院・一樓',bg:'soc_hall'},
-      {speaker:null,text:'（社科院一樓。台上掛著「經濟系之夜」的布條，字是手寫的。）'},
-      {speaker:'econ_pinyu',text:'這排是前系友席，你坐這裡。我們這屆的。'},
-      {if:{custom:EKX},speaker:'econ_tangrui',text:'前系友席，今年兩位！而且是一對！'},
-      {if:{custom:EKX},speaker:null,text:'（全場起鬨。可昕把臉埋進節目單。）'},
-      {speaker:null,text:'（唐睿拿新生喊的詞「邊際效用！」即興了一段，全場笑倒。）'},
-      {speaker:'econ_tangrui',text:'最後一個獎。……前系友席！'},
-      {choice:[{text:'「上台說一句謝謝。」',goto:'a'},{text:'「把餐券給台下的新生。」',goto:'b'},{text:'「只揮手。」',goto:'c'}]},
-      {label:'a'},{speaker:'player',text:'謝謝經濟系。我學到的第一課是機會成本，我覺得很值得。'},{goto:'end'},
-      {label:'b'},{speaker:null,text:'（你把學活自助餐的餐券，遞給台下看起來最餓的那個新生。他站起來鞠躬。）'},{goto:'end'},
-      {label:'c'},{speaker:'econ_tangrui',text:'前系友行使緘默權！'},
-      {label:'end'},
-      {unless:{custom:EKX},speaker:null,text:'（品妤一個人在收椅子。你過去幫忙。）'},{unless:{custom:EKX},speaker:'econ_pinyu',text:'謝謝你來。我們這屆的人，少一個就看得出來。'},
-      {if:{custom:EKX},speaker:null,text:'（品妤一個人在收椅子。你和可昕過去幫忙。）'},{if:{custom:EKX},speaker:'econ_pinyu',text:'前系友席兩張椅子，我只要搬一次。'} ],
-    after:G=>{ const F=G.flags; remember('econ_pinyu','ECON_NIGHT','經濟系之夜：前系友席'); if(F.Y2R2_EN_KX) F.KX_ECON_NIGHT='together'; delete F.Y2R2_EN_KX; } });
   /* ---------- 2-Y2-20 系籃（大二下）：5/29（六）14:00 新體育館 ---------- */
   EV.push({ id:'ev_zhe_game_y2s2', title:'系籃比賽（大二下）', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'新體育館',bg:'gym_court'},   /* 第六批背景（使用者 11-02 生成，BB_132 第 103 組）*/
@@ -623,14 +603,6 @@ const Y2R2=(function(){
         if(F.KX_K14==='yes'&&!outGet(G,'y2r2_k14')&&now(G)<abs(m,17.75)) plan(G,{id:'y2r2_k14',ev:'ev_kexin_summer_plan',day:m,h:17.5,late:0.25,place:'木柵大學',title:'木柵大學（可昕：暑假的事）',travel:'開車約 40 分鐘',travelH:2/3});
         if(sent(G,'y2r2_k14_ask')&&!done(G,'ev_kexin_summer_plan')&&!outGet(G,'y2r2_k14_call')&&past(G,m,21)&&G.day<=m+1){ const q=outGet(G,'y2r2_k14'); if(!q||q.state==='missed'){ if(q&&q.state==='missed') F.Y2R2_K14_NOSHOW=true;
           plan(G,{id:'y2r2_k14_call',ev:'ev_kexin_summer_plan_call',day:m,h:21,late:3,place:'電話',title:'可昕打來',verb:'接起來',must:true,call:true,travel:'',travelH:0,back:'電話結束。'}); } } } }
-    /* --- 2-Y2-23 經濟系之夜 --- */
-    { const a=d('ps0'), m=d('en'); if(a!=null&&m!=null&&law(G)&&F.MET_PINYU){ const PY=t=>({th:'p:econ_pinyu',from:'econ_pinyu',text:t});
-        if(win(G,a,21,3)&&!sent(G,'y2r2_en_ask')) at(G,a,21,[PY(kx(G)?'經濟系之夜。你們兩個都可以來。你們又不是叛徒。':'經濟系之夜你可以來啊，你又不是叛徒。'),Object.assign(PY('禮拜五七點，社科院一樓。'),{ask:{id:'y2r2_en_ask',until:abs(m,18.75),opts:[{t:'好。',set:{ECON_NIGHT_Y2:'yes'},say:[{from:'econ_pinyu',text:'好。椅子算你一張。'}]},{t:'那天不行。',set:{ECON_NIGHT_Y2:'no'},say:[{from:'econ_pinyu',text:'好。少搬一張。'}]}]}})],'y2r2_en_ask');
-        if(F.ECON_NIGHT_Y2==='yes'&&!outGet(G,'y2r2_en')&&now(G)<abs(m,19.25)) plan(G,{id:'y2r2_en',ev:'ev_econ_night_y2',day:m,h:19,late:0.25,place:'社科院一樓',title:'經濟系之夜（社科院）',travel:'走過去約 10 分鐘',travelH:1/6});
-        if(sent(G,'y2r2_en_ask')&&!done(G,'ev_econ_night_y2')&&win(G,m,21.5,2)&&!sent(G,'y2r2_en_photo')){ const th=inGroup(G,'econ_friends')?'g:econ_friends':(inGroup(G,'econ_class')?'g:econ_class':null);
-          if(th) at(G,m,21.5,[{th,from:'econ_tangrui',name:'唐睿',text:'📷（前系友席，一排椅子，中間空著一張，上面貼了一張紙，寫著「法律系」）'}],'y2r2_en_photo'); else (PHONE.rec(G).cut||(PHONE.rec(G).cut=[])).push('y2r2_en_photo');
-          remember('econ_pinyu','HEARD_ECON_NIGHT','經濟系之夜：他沒去，聽說的');
-          if(kx(G)){ F.KX_ECON_NIGHT='alone'; at(G,m+1,12,[K(F.MET_XUN?'經濟系之夜，阿勳問你怎麼沒來。':'經濟系之夜，你以前的室友問你怎麼沒來。')],'y2r2_en_kx'); } } } }
     /* --- 2-Y2-24 以安新 13：6/4 21:00 群組 --- */
     { const m=d('en'); if(m!=null&&law(G)&&knows('heroine_01',G)&&win(G,m,21,2)&&!sent(G,'y2r2_an13')){ const g=inGroup(G,'public_law')?'public_law':(inGroup(G,'noodle_team')?'noodle_team':null);
         if(g){ const A=t=>({th:'g:'+g,from:'heroine_01',text:t}), L=[];

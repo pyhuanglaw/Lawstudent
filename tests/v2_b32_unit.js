@@ -26,8 +26,7 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 let caps=[]; GM.caption=(w,t)=>caps.push(t);
 const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='putong'; const it={c:{id:'econ_principles_2'}}; said=[]; opts=[]; caps=[]; return await CLS.afterClassEvent(GM,it); };
-  const e=ev('ev_sk03_lunch'); check('1. ev_sk03_lunch 存在（afterClass econ_principles_2、大一下、週五）',!!e&&e.afterClass==='econ_principles_2'&&JSON.stringify(e.term)==='["Y1S2"]');
-  if(!e){ console.log('FAILED '+fails); process.exit(1); }
+  /* ev_sk03_lunch 那一項（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
   const F2=termDay('Y1S2',2,5), F3=termDay('Y1S2',3,5), F4=termDay('Y1S2',4,5), F5=termDay('Y1S2',5,5), F7=termDay('Y1S2',7,5), F9=termDay('Y1S2',9,5);
   fresh(F2,12.17,'putong',{introDone:true,classDone:true,afternoonDone:true});
 (async()=>{

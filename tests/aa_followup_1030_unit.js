@@ -79,7 +79,7 @@ const fresh=(k,h,zone,flags)=>{ const G=H.fresh(typeof k==='number'?keyOf(k):k,h
     const M='pool_20', L=POOL.LINES[M], ev=(STORY_EVENTS||[]).find(e=>e.id==='ev_sk02_jacket');
     const want=(L.meetB||[]).filter(l=>!l.meet).map(l=>l.text).concat([(L.gradB||[])[0]]), sk=ev?ev.dialogue.filter(d=>d.text==='我重考了。現在念法律系。'||d.text==='……喔，重考的那個。外套在這裡，等你快一年了。').map(d=>d.text):[];
     const strip=t=>String(t||'').replace(/^「(.*)」$/,'$1'), miss=want.concat(sk).filter(t=>!doc.includes(strip(t)));
-    check('D0. AA_538（b9d816288）讀得到；佳蓉 meetB 五行＋畢業照片句、SK02 系辦兩句都在稿裡（一字不差）',doc.length>500&&want.length===6&&sk.length===2&&!miss.length,doc?J(miss):'git fetch origin claude/story-planning'); });
+    check('D0. AA_538（b9d816288）讀得到；佳蓉 meetB 五行＋畢業照片句都在稿裡（一字不差；SK02 系辦兩句（CANON-NO-ECON-1112 第三批：這一項拿掉））',doc.length>500&&want.length===6&&!miss.length,doc?J(miss):'git fetch origin claude/story-planning'); });
 
   /* ---------- D：AA_528 第 9 點 ---------- */
   await sec('D',async()=>{ const M='pool_20', L=POOL.LINES[M];
