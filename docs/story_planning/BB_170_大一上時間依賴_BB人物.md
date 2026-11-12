@@ -61,7 +61,7 @@
 |---|---|---|
 | 1 | 阿凱 `presence:{from:'Y1S1'}`（`characters.js:70`）：8/29～8/31 不會出現在宿舍 | 法律系開局從 `lawStart` 起算 presence；或 `ev_kai_movein` 自己把阿凱放進房間 |
 | 2 | 開局就有阿凱的聯絡方式（`invites.js:21` 的 `contacts0`）、固定算認識（`game3d.js:320`）、開局好感 `kai:8`（`game3d.js:10`） | 開局 B 的新遊戲 `contacts0` 不放阿凱，由 `ev_kai_movein` 結束時加；好感 8 也在那時給（數值不變，只是時間點） |
-| 7 | 經濟系開局的 `toLaw`（`story3d.js:63`）直接跳到 9/17 21:12 | 改成接 8/29 傍晚的 `ev_kai_movein`（`AA_195` 4-2） |
+| 7 | 舊序章開局的 `toLaw`（`story3d.js:63`）直接跳到 9/17 21:12 | 改成接 8/29 傍晚的 `ev_kai_movein`（`AA_195` 4-2） |
 | 11、32 | 國文、體育、憲法的課堂反應，會直接顯示沛珊、明軒的名字（`classes3d.js:137`，A 層一律顯示真名） | 還沒 `FIRST_MET` 的同學，課堂反應顯示「同學」；認識以後顯示名字 |
 | 16 | 學姊短招呼「我今天法服值班」（`weekParity` 只看單雙週） | 改看 `S.fafuDuty`（值班第 3 週起，`story3d.js:364`） |
 | 22、24 | introDorm（`G.day===1`）、班群加入（`story3d.js:1505`）都寫死第 1 天 | 改成開局的日期（9/3、8/31） |

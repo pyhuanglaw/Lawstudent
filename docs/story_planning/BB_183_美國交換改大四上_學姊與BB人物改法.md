@@ -121,7 +121,7 @@
 | `us_lake` | 春假結冰的湖邊 | **重寫**（11 月底初雪、湖沒結冰） |
 | `us_chapel_steps` | 下雪的晚上 | 照用（12 月初） |
 | `chicago_*` 三張 | 待查提示詞季節 | 改成十月 |
-| `us_airport`、`us_classroom`、`us_restaurant` | 看不出季節 | 照用（中餐館原本「只用三月上旬」→ 改 10 月；**AA 定：10/25（三）何俊朗 5**，`AA_291` 第 2 節） |
+| `us_airport`、`us_classroom`、`us_restaurant` | 看不出季節 | 照用（中餐館原本「只用三月上旬」→ 改 10 月；**AA 定：10/25（三）舊序章的人 5**，`AA_291` 第 2 節） |
 | `airport_departure`、`airport_arrival` | 已通過 | 照用，README 改用途日期 |
 | `heroine05_mask` 學姊口罩差分 | 冬裝＋口罩（還沒生成） | **改夏天版**：薄外套＋口罩 |
 | `heroine05_landed` 剛下飛機 | 夏天旅行的衣服（還沒生成） | **改冬天版**（12 月中） |
