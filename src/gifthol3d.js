@@ -170,7 +170,10 @@ const GIFTH=(function(){
       if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(pid,'GIFT_GIVEN_'+pid,it.name); if(GM.autosave) GM.autosave(); return 'made'; }
     await GM.say(null,'你把'+it.name+'遞給'+(who&&who.name||nm(pid))+'。');
     if(!o.date) await play(GM,who,T.open[h.k][band],q);
-    const ic=T.item[gid]; await play(GM,who,ic?(ic[band]||ic['*']):T[cat][band],q);
+    /* 花序的八樣新花（g_fn_*，love、no 都空）：稿另外寫了各人收到花的那一句（AA_792 give_ok_flower → GIFT_HOLIDAY.flowerOk），取代通用的 ok 句（「我會用的」配花不合）；
+       稿沒寫到的人（芯慈）、舊資料沒有 flowerOk＝照舊 ok */
+    const ic=T.item[gid], FO=X().flowerOk, fo=!ic&&cat==='ok'&&FO&&Array.isArray(FO.items)&&FO.items.includes(gid)&&FO.lines?FO.lines[pid]:null;
+    await play(GM,who,ic?(ic[band]||ic['*']):(fo?[fo]:T[cat][band]),q);
     S.adjust(G,pid,cat);
     if(typeof SOCIAL!=='undefined'&&SOCIAL.remember){ if(cat==='love') SOCIAL.remember(pid,'GIFT_LOVE_'+pid,it.name); SOCIAL.remember(pid,'GIFT_GIVEN_'+pid,it.name); }
     if(pid==='heroine_02'&&gid==='g_old_poster'&&G.flags) G.flags.ZR_POSTER=true;   /* AA_416 1-8 的老電影海報（AA_524 Z8，src/aa524_3d.js）：送到的一樣記 */

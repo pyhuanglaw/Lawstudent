@@ -73,7 +73,8 @@ const same=(r,want)=>J(got(r))===J(want);
     const P=IT.filter(i=>i.fcSignup), p=P[0], L=FLOWER_NOTES_LAYOUT, dm=L.items1.find(i=>i.kind==='demo_table');
     const near=p&&IT.filter(q=>(q.lv|0)===1&&Math.hypot(q.x-p.x,q.z-p.z)<=q.radius).concat(L.seats1.map(q=>({x:q.x,z:q.z,radius:0.7,label:'坐下'})).filter(q=>Math.hypot(q.x-p.x,q.z-p.z)<=q.radius)).sort((a,b)=>Math.hypot(a.x-p.x,a.z-p.z)-Math.hypot(b.x-p.x,b.z-p.z))[0];
     check('2. 報名的互動點：一個、二樓、按鈕＝稿的「'+T.button+'」、在示範長桌前面（桌子旁邊 1 m 內、不在桌子裡）、站在那裡最近的就是它',P.length===1&&p.lv===1&&p.label===T.button&&p.x>dm.x-dm.w/2&&p.x<dm.x+dm.w/2&&p.z>dm.z+dm.d/2+0.33&&p.z<dm.z+dm.d/2+1&&near===p,p?J([p.x,p.z,near&&near.label]):'');
-    const lk=IT.find(i=>i.fnLook==='demo_table'); check('2. 原本的「看示範桌」還在（字沒動）',!!lk&&lk.label===L.looks.find(q=>q.id==='demo').label&&lk.look===FLOWER_NOTES_TEXT.looks.demo_table);
+    const lk=IT.find(i=>i.fnLook==='demo_table'); /* 2026-11-12 STALE-SOURCES-1112：舊期望按鈕字＝配置的「看示範桌」；AA_792 4021747069 的 look_buttons 把每個「看」的按鈕字寫進稿（demo_table「看示範長桌」）＝照稿；位置、那一句沒動 */
+    check('2. 原本的示範桌「看」還在（位置照配置、句子照稿；按鈕字照稿的 look_buttons）',!!lk&&lk.label===FLOWER_NOTES_TEXT.lookButtons.demo_table&&lk.x===L.looks.find(q=>q.id==='demo').x&&lk.z===L.looks.find(q=>q.id==='demo').z&&lk.look===FLOWER_NOTES_TEXT.looks.demo_table);
     const bad=[]; for(const k of KEYS){ const c=X.classes[k], G=setup('2025-10-15',14); const r=await run(()=>STORY.interact(SIGN,GM),[c.name]);
       const body=[['花藝師',T.staff_ask]].concat(flat(c.lines,{narr:true})), want=body.concat(DONE(c)), bag=GIFTH.bag(G);
       const ok=r.r===true&&same(r,want)&&G.money===5000-c.price&&Math.abs(G.hour-(14+c.hours))<1e-9&&bag.length===1&&bag[0].id===c.makes&&bag[0].shop==='gg_flower'&&bag[0].day===G.day

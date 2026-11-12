@@ -9,13 +9,14 @@
      七位女主角（AA_710）的反應照 _meta.notes 的優先順序：
        ① fav：第一次送到她最喜歡的那一樣（AA_410）＝fav 那幾句、記 REMEMBERED_HER；之後再送對照下面。
        ② opinion：她有意見的那一樣（例：芷若收到便利商店的拿鐵、可昕收到有加糖的青茶＝青茶不是無糖的每一種，AA_728 kexinSugar → ns）。
+          AA_710 86619c1195（X350）起也可以是各店菜單上的飲料（照品名：以安的檸檬綠茶…）或整間店（shopAny：語彤收到一盞茶屋買的任何一樣）；比對在下面 match。
        ③ ctx 情境，照這個順序：again 連續兩天送她同一樣／exam 考試週（日曆的期末週，D118 起沒有期中考）／night 晚上（17 點以後）送早餐／
           winterCold 冬天（12～2 月）送冰的／summerHot 夏天（6～8 月）送熱的（冷熱看 S.ITEMS 的 temp；豆漿、米漿沒寫＝不算）。
        ④ yes：交往中有 dating 那一格就用它；不然關係階段（DATE.stageNum）≥ need 的最高那一格。
      每一格有兩三組（pool），輪流、同一組不連續出現；no 也輪流。有幾組只配某一樣（AA_728 _meta.itemOnly → only，「再喝我晚上會睡不著」另有 hour 21 點以後；
      子晴「冰你一下」只配冰的，import_gifts.py BOUND），對不上就跳過那一組、輪到下一組；學姊送到第 3 次起「學弟」換成 {name}（BOUND swap）。
      好感：fav 照 fav 的 rel；其他照④挑到的那一格的 rel（opinion、ctx 稿裡沒有寫 rel，就用她這時候那一格的）；她的戀愛（npcRom）只在朋友（第 3 階）以上才算（AA_710 notes）。
-     朋友六位（AA_728：阿哲、阿凱、Alison、柏翰、明軒、芯慈；芯慈可以攻略也照朋友版）：yes 輪流（同一組不連續）；沒有早餐那一格的照飲料那一格；
+     朋友（AA_728；bb3bdad7df 起稿把阿哲、阿凱、Alison、柏翰、明軒標 unused、不匯入，資料裡只有芯慈；芯慈可以攻略也照朋友版）：yes 輪流（同一組不連續）；沒有早餐那一格的照飲料那一格；
        no＝一天第二次送同一種（輪流）；好感 GIFT_LINES.friends.rel（fam+1、comf+1）一個人一天最多算一次，no 不加不扣；沒有她的戀愛。
      送東西是小事，不算行動次數。
    存檔：G.carry＝[{n:品項, cat:'drink'|'breakfast', day, shop}]；G.flags.GIFT＝{day:{'人物|種類':第幾天}, fav:{人物:第幾天}, n:{人物:次數},
@@ -39,7 +40,7 @@ const GIFT=(function(){
   /* ===== 每一間有賣飲料的店都可以「買一份帶走送人…」（GIFT-ALL-DRINK-SHOPS-1112；使用者 2026-11-12：「你現在應該要認真審查游戲裡面有哪些有賣飲料的店都可以送不是嗎
      不是我跟你說哎這家為什麼不行你才加這一家」；盤點表 docs/handoff/GIFT_DRINK_SHOPS_AUDIT_1112.md）=====
      做法：那間店自己的菜單裡是飲料的品項，照那間店的價錢賣；品名照菜單一字不改。收到的反應用她那一格飲料的一般句子（gift_lines.js 的 yes／no／ctx 不綁品項；
-     fav／opinion／only 綁的是別的品項名＝對不上、不會出現）。和 S.ITEMS 同名的（拿鐵、美式咖啡、鮮奶茶…）照 S.ITEMS 的種類、冷熱、再選一次，價錢照那間店。
+     fav／only 綁的是 S.ITEMS 的品項名＝對不上、不會出現；opinion 有幾格綁的是各店菜單上的品名或整間店，AA_710 86619c1195——對到才出）。和 S.ITEMS 同名的（拿鐵、美式咖啡、鮮奶茶…）照 S.ITEMS 的種類、冷熱、再選一次，價錢照那間店。
      便利商店、2:30 AM 照舊（legacy：只賣 S.ITEMS、原本的價錢）。新的台詞一句都沒有；選項、提示、「你買了…」都是原本的字。
      哪些算飲料：那間店的資料自己有分的照它的（118 巷 shops 的 drink、洋洋的 drinks、泰米的 TAIMI_CAT）；沒有分的照品名對下面這兩張表（只有這一處，要改改這裡）*/
   S.DRINK_WORDS=['茶','咖啡','拿鐵','美式','濃縮','卡布奇諾','摩卡','手沖','可可','鮮奶','牛奶','豆漿','米漿','果汁','甘蔗汁','多多','可樂','汽水','氣泡','運動飲料','可爾必思','冰沙','奶昔'];
@@ -119,7 +120,12 @@ const GIFT=(function(){
   /* 一句開頭是（動作）、後面接著講話的，拆成旁白＋她說的（字不改）*/
   const play=async(GM,who,lines)=>{ for(const t of lines||[]){ const s=S.text(GM.G,t), m=/^(（[^）]*）)(.+)$/.exec(s); if(m){ await GM.say(null,m[1]); await GM.say(who,m[2]); } else if(/^（/.test(s)) await GM.say(null,s); else await GM.say(who,s); } };
   const adj=(id,r)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.adjust||!r) return; const d=Object.assign({},r); if(!(typeof SOCIAL!=='undefined'&&SOCIAL.romOk&&SOCIAL.romOk(id))) delete d.npcRom; SOCIAL.adjust(id,d); };
-  const match=(e,c)=>!!e&&(Array.isArray(e.ns)?e.ns.includes(c.n):e.n===c.n)&&(!e.shop||c.shop===e.shop);   /* ns：可昕「青茶（有加糖）」＝青茶不是無糖的每一種（AA_728 kexinSugar）*/
+  /* 這一筆（fav／opinion）說的是不是手上這一樣。三種寫法（tools/story/import_gifts.py 核對過才會進資料）：
+       n＝照品名（S.ITEMS 的品項，或某一間店菜單上的飲料——檸檬綠茶、珍珠奶茶、冬瓜茶…：在哪一間買的都算，AA_710 86619c1195／X350）；
+       ns＝這幾樣都算（可昕「青茶（有加糖）」＝青茶不是無糖的每一種，AA_728 kexinSugar）；n／ns 另外可以加 shop＝只算在那間店買的（芷若：便利商店的拿鐵）；
+       shopAny＝照店：在那間店買的任何一樣（語彤「一盞茶屋的茶（任何一樣）」）——比 G.carry 記的店名（S.shopDef 的 name）；舊存檔帶著的東西沒有記店名＝不算 */
+  const match=(e,c)=>!!e&&!!c&&(e.shopAny?(!!c.shop&&c.shop===e.shopAny):((Array.isArray(e.ns)?e.ns.includes(c.n):(!!e.n&&e.n===c.n))&&(!e.shop||c.shop===e.shop)));
+  S.match=match;
   /* 這一組現在可以用嗎（only 只在送這幾樣、hour [幾點, 幾點)）*/
   const okG=(g,x)=>!!g&&(!g.only||g.only.includes(x.n))&&(!g.hour||(x.h>=g.hour[0]&&x.h<g.hour[1]));
   /* BOUND swap：學姊送到第 3 次起「學弟」換成 {name}（AA_710 notes）*/
@@ -137,7 +143,7 @@ const GIFT=(function(){
   /* 朋友（AA_728）：{kind:'no'|'yes', lines, rel（今天還沒算過才有）, k, i, cat, friend:true} */
   /* 送東西只給可攻略的對象（使用者 11-08 15:2x「送飲料只需要給可攻略的對象」「飲料改完再發布」；X266、GIFT-ROMANCE-ONLY-1108）：
      七位女主角（AA_710，GIFT_LINES.people）照舊；朋友六位（AA_728）只留可以攻略的——芯慈（AA_728「芯慈可以攻略也照朋友版」；AA-B 15:33「芯慈留」）；阿哲、阿凱、Alison、柏翰、明軒不會出現「送他／她○○」（AA_728 稿那五位標 unused）。
-     稿和匯入照舊（gift_lines.js 的 friends 還在，只是不送）；要再打開某一位，加進這裡就好 */
+     AA_728 bb3bdad7df 起那五位不匯入（gift_lines.js 的 friends 只有芯慈）；要再打開某一位，稿要先拿掉 unused、重新匯入，再加進這裡 */
   /* 芯慈：她的線打開（xcrom3d.js XCROM.ON）才算可以攻略、才能送；線關著＝跟朋友一樣不能送（AA-B 11-08 15:33「芯慈留…條件寫成 XCROM.ON 才能送」）。值是 true 或函式 */
   S.FRIEND_OK={classmate_xinci:()=>typeof XCROM!=='undefined'&&!!XCROM.ON};
   const friendOK=id=>{ const v=S.FRIEND_OK&&S.FRIEND_OK[id]; return typeof v==='function'?!!v():!!v; };
