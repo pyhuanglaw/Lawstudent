@@ -998,7 +998,7 @@ def xs_front(spec, xf, W, wall):
     gx0, gx1 = c.get('glass', (-W / 2 + 0.3, W / 2 - 0.3)); gy1 = c.get('glass_h', 2.95); z = -dep
     # 店內（景深卡＋地板、兩側牆、天花板的燈）
     in3d = bool(c.get('int')) and SET == 'xinsheng' and xs_inside3d(spec, c, xf, gx0, gx1, gy1, z, fr)   # SHOP-WINDOW-3D-1112：有立體店內的不放景深卡
-    if c.get('int') and in3d:
+    if (c.get('int') and in3d) or c.get('real'):   # real＝沒有景深卡也沒有簡化店內：只做玻璃和框，後面由遊戲放室內模型
         xf.quad(acc(M['glass']), [(gx0, 0.12, z + 0.01), (gx1, 0.12, z + 0.01), (gx1, gy1, z + 0.01), (gx0, gy1, z + 0.01)])
         for (a, b) in ((gx0 - 0.05, gx0 + 0.02), (gx1 - 0.02, gx1 + 0.05)): xf.box(fr, a, b, 0.0, gy1 + 0.05, z - 0.04, z + 0.05)
         xf.box(fr, gx0, gx1, gy1, gy1 + 0.08, z - 0.04, z + 0.05); xf.box(fr, gx0, gx1, 0.0, 0.12, z - 0.04, z + 0.05)

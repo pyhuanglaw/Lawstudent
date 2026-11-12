@@ -23,7 +23,7 @@ const XS3=(function(){
      同弦樂器的店在二樓，一樓櫥窗是街景模型自己的（不是室內），不在這裡。 */
   S.SHOP_REAL=(()=>{ const GX=-16.5, mk=(id,place,key,cz,w,d,h)=>({id,place,key,w,d,h,x:GX-0.02-d/2,z:cz,ry:Math.PI/2,cx:GX,cz,ex:0,ez:w/2});
     return [mk('dabu','xs_dabu','bldg.xs_dabu',-16.7,7.4,12,3.4), mk('haopai','xs_haopai','bldg.xs_haopai',-23.2,4.4,14,3.4), mk('xsports','xs_xsports','bldg.xs_xsports',-33,14,16,3.4),
-            mk('shanlan','xs_shanlan','bldg.xs_shanlan',10.2,14,18,3.95), mk('dakou','xs_dakou','bldg.xs_dakou_1f',40.4,12,16,3.6)]; })();
+            mk('shanlan','xs_shanlan','bldg.xs_shanlan',10.2,14,18,3.95), mk('dakou','xs_dakou','bldg.xs_dakou_1f',40.4,12,16,3.6), mk('nanyang','xs_nanyang','bldg.xs_nanyang',25.3,9,14,4.5)];   /* 南洋戲院：大廳（NANYANG_LAYOUT.lobby 9×14×4.5） */ })();
   S.NO_ARCADE_REC=0.2;
   /* XS-FARVIEW-1105：街的兩頭（走不到的遠景）。數字和 tools/blender/env_second/wz_street.py --set xinsheng_far 的 XSF 同一組，改一邊要一起改（tests/xs_farview_unit.js 比對 GLB）*/
   S.FAR={zN:-178,zS:178,armN:[-100,-84],armS:[74,90],armRoad:2};   // 沒有騎樓的那幾段：一樓牆在立面（facade.upper）往裡 0.2 m（wz_street.py 住家／鐵捲門的 rec）

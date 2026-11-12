@@ -293,8 +293,9 @@ if SET in ('lane118', 'nccu_food', 'xinsheng', 'xinsheng_far'):
                         vsigns=[('xsports_v', 6.55, _G + 1.2, _G + 5.0, 0.95)], up=[dict(f=1, x0=-6.6, x1=6.6, y0=_G + 1.15, y1=_G + 2.85, tex='xsports_up', pane=1.1)]),
         'dakou': dict(int='dakou_int', back=16.1, frame='#2a2f3a', lit=True, mullions=[-3.4, 0.0, 3.4], signs=[('dakou_sign', -6.6, 6.6, _G - 0.7, _G + 0.72, 'street')], sign_back='#1f3a6b',
                       vsigns=[('dakou_v', 6.6, _G + 0.9, _G + 4.4, 1.2)], up=[dict(f=1, x0=-6.6, x1=6.6, y0=_G + 0.95, y1=_G + 2.9, tex='dakou_up', pane=1.6)]),
-        'nanyang': dict(int=None, band='stone', signs=[('nanyang_sign', -0.8, 1.6, _G - 1.25, _G - 0.42, 'hang')], sign_back='#3a2a22',
-                        decals=[('nanyang_front', -4.3, 4.3, 0.0, 3.75, 0.02), ('nanyang_poster', -7.0, -5.3, 0.35, 3.55, 0.05), ('nanyang_poster', 5.3, 7.0, 0.35, 3.55, 0.05)],
+        'nanyang': dict(int=None, real=True, back=14.1, glass=(-4.3, 4.3), glass_h=3.6, frame='#5a3a2a', mullions=[-2.9, -1.5, 1.5, 2.9], band='stone',   # SHOP-REAL-INSIDE-1112：門口原本貼一張參考圖（nanyang_front）→ 木框玻璃門，後面放大廳的室內模型（遊戲 Z3.shopInsideReal）
+                        signs=[('nanyang_sign', -0.8, 1.6, _G - 1.25, _G - 0.42, 'hang')], sign_back='#3a2a22',
+                        decals=[('nanyang_poster', -7.0, -5.3, 0.35, 3.55, 0.05), ('nanyang_poster', 5.3, 7.0, 0.35, 3.55, 0.05)],
                         up=[dict(f=1, x0=-4.0, x1=4.0, y0=_G + 0.1, y1=_G + 3.0, tex='nanyang_fascia', solid=True)]),
     }
     SPECS = []; _n = 0; _fi = 0

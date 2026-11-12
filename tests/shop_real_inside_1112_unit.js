@@ -37,7 +37,7 @@ E.player.obj.position.z=40; step(21); ok(!s.on&&g.children.length===0&&disposed=
 E.player.obj.position.z=-16; step(21); ok(s.on&&loads===2,'⑯ 再走回來：重新接上');
 /* 新生南路的設定 */
 const xs=fs.readFileSync(path.join(R,'src/xinsheng3d.js'),'utf8'); ok(/Z3\.shopInsideReal\(E,g,zone,S\.SHOP_REAL\)/.test(xs),'⑰ xinsheng3d.js 接上');
-const lay={dabu:['DABU_LAYOUT','dabu_layout.js',q=>q],haopai:['HAOPAI_LAYOUT','haopai_layout.js',q=>q.haopai],xsports:['XINSHENG_SPORTS_LAYOUT','xinsheng_sports_layout.js',q=>q],shanlan:['SHANLAN_LAYOUT','shanlan_layout.js',q=>q],dakou:['DAKOU_LAYOUT','dakou_layout.js',q=>q.shop]};
+const lay={dabu:['DABU_LAYOUT','dabu_layout.js',q=>q],haopai:['HAOPAI_LAYOUT','haopai_layout.js',q=>q.haopai],xsports:['XINSHENG_SPORTS_LAYOUT','xinsheng_sports_layout.js',q=>q],shanlan:['SHANLAN_LAYOUT','shanlan_layout.js',q=>q],dakou:['DAKOU_LAYOUT','dakou_layout.js',q=>q.shop],nanyang:['NANYANG_LAYOUT','nanyang_layout.js',q=>q.lobby]};
 const c2={Math}; vm.createContext(c2); for(const k in lay) vm.runInContext(fs.readFileSync(path.join(R,'src/data',lay[k][1]),'utf8').replace(/^const /mg,'var '),c2);
 const m=/S\.SHOP_REAL=\(\(\)=>\{([\s\S]*?)\}\)\(\);/.exec(xs); const REAL=vm.runInContext('(()=>{'+m[1]+'})()',c2);
 const XL=JSON.parse((t=>t.slice(t.indexOf('{'),t.lastIndexOf('}')+1))(fs.readFileSync(path.join(R,'src/data/xinsheng_layout.js'),'utf8')));
@@ -46,5 +46,6 @@ for(const q of REAL){ const L=lay[q.id][2](c2[lay[q.id][0]]), sp=XL.shops.find(z
   ok(sp&&Math.abs(q.cz-(sp.z0+sp.z1)/2)<0.06&&Math.abs((q.x+q.d/2)-(XL.arcade.x0-0.02))<1e-6,'⑲ '+q.id+'：中心對著街上那一間、正面貼在店面玻璃（x '+XL.arcade.x0+'）後面'); }
 /* 街景模型：牆挖得夠深（不然室內被一樓牆體切掉） */
 const ws=fs.readFileSync(path.join(R,'tools/blender/env_second/wz_street.py'),'utf8');
-for(const q of REAL){ const mm=new RegExp("'"+q.id+"': dict\\(int='[a-z_]+', back=([0-9.]+)").exec(ws); ok(mm&&+mm[1]>=Math.min(q.d,16)+0.1-1e-9,'⑳ wz_street.py '+q.id+' 的牆往裡挖 '+(mm&&mm[1])+' m（室內深 '+q.d+'）'); }
+for(const q of REAL){ const mm=new RegExp("'"+q.id+"': dict\\(int=(?:'[a-z_]+'|None, real=True), back=([0-9.]+)").exec(ws); ok(mm&&+mm[1]>=Math.min(q.d,16)+0.1-1e-9,'⑳ wz_street.py '+q.id+' 的牆往裡挖 '+(mm&&mm[1])+' m（室內深 '+q.d+'）'); }
+ok(!/'nanyang_front', -4\.3/.test(ws),'㉑ 南洋戲院門口不再貼那一張參考圖（nanyang_front）');
 console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);
