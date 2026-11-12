@@ -28,6 +28,9 @@ DUTY = 'docs/handoff/duty.json'
 ROLE_FILE = 'docs/handoff/duty_{role}.json'
 SNAPDIR = 'docs/handoff/snapshots'
 ROSTER_DOC = 'docs/AI_SESSION_HANDOFF.md'
+HANDOFF_PROGRESS = {   # 各職位自己的交接檔（交班紀錄）：交班以後只補這些＝「交班紀錄補」，不算繼續寫（和 incremental.PROGRESS_FILES 一致，另加 LAWWW 的交班快照頁、BB 交接檔的另一個檔名）
+    'docs/HANDOFF_GAP_MATRIX.md', 'docs/art-rebuild/second_ai/HANDOFF.md', 'docs/story_planning/AA_交接紀錄.md',
+    'docs/story_planning/BB_00_協作規範與交接紀錄.md', 'docs/story_planning/BB_00_交接紀錄.md', 'docs/story_planning/CC/CC_00_交接紀錄.md'}
 ROLES = ('LAWWW', 'LAWWW2', 'AA', 'BB', 'CC')   # CC：使用者 2026-11-02 03:5x 對 BB「請lawww新增這個角色 叫做CC 交班規則也要有」（D119／HV-22）
 ACCOUNTS = ('A', 'B', 'C', 'D')   # 使用者 2026-10-18：可能開第四個帳號（D），四個帳號任意方向輪值
 SUFFIX = {'A': '', 'B': '-B', 'C': '-C', 'D': '-D'}   # 工作階段名稱：LAWWW、LAWWW-B、LAWWW-C、LAWWW-D
@@ -116,7 +119,7 @@ def verify(args, d=None, out=None):
         d, err = load(src)
         if err:
             print(f'[致命] {err}')
-            print('結果：不能判斷誰在值班——不要猜、不要用 commit 時間決定；照總入口第 4 節第 2 步回報使用者，由使用者指定。')
+            print('結果：不能判斷誰在值班——不要猜、不要用 commit 時間決定；照 CLAUDE.md §4 第 2 步回報使用者，由使用者指定。')
             return 2
     st = d.get('accountState') or {}
     on = [a for a, v in st.items() if v == 'on']
@@ -205,9 +208,14 @@ def verify(args, d=None, out=None):
                 href = remote_ref(hb, not getattr(args, 'local', False))
                 last = ((h.get('roles') or {}).get(r) or {}).get('sha')
                 if last and ref_exists(args.root, href) and ref_exists(args.root, last + '^{commit}'):
-                    rc, n = git(args.root, 'rev-list', '--count', f'{last}..{href}')
-                    rc2, files = git(args.root, 'diff', '--name-only', last, href)
-                    real = [f for f in files.splitlines() if f and not (f.startswith('docs/handoff/') or f == ROSTER_DOC)]   # 交班本身的紀錄（duty_*.json、快照、值班表）不算繼續寫
+                    # 2026-11-04（帳號 B→C 三項誤報）：duty handoff 記的 sha 是「交班 commit 的前一個」，交班 commit 本身（第一個改到 duty_<職位>.json 的 commit，
+                    #   常常順手存了最後的成果）不算交班以後繼續寫；從它之後才算。找不到交班 commit（沒 commit 登記）就照舊從 last 算（fail closed）
+                    rc4, bl = git(args.root, 'log', '--no-merges', '--reverse', '--format=%H', f'{last}..{href}', '--', ROLE_FILE.format(role=r))
+                    bnd = (bl.split() or [None])[0] if rc4 == 0 else None
+                    base6 = bnd or last
+                    rc, n = git(args.root, 'rev-list', '--count', f'{base6}..{href}')
+                    rc2, files = git(args.root, '-c', 'core.quotepath=off', 'diff', '--name-only', base6, href)
+                    real = [f for f in files.splitlines() if f and not (f.startswith('docs/handoff/') or f == ROSTER_DOC or f in HANDOFF_PROGRESS)]   # 交班本身的紀錄（duty_*.json、快照、值班表、各職位交接檔的補記）不算繼續寫
                     # 接班的 LAWWW 查核過、記在 anomalies（kind post-handoff-writes、reviewedThrough＝查到的那個 commit）：分支停在那裡就只列資訊；之後又有新 commit 照樣報異常（fail closed）
                     rv = [a for a in d.get('anomalies') or [] if a.get('kind') == 'post-handoff-writes' and a.get('role') == r and a.get('branch') == hb and a.get('resolved') and a.get('reviewedThrough')]
                     rc3, tip = git(args.root, 'rev-parse', href)
@@ -215,7 +223,7 @@ def verify(args, d=None, out=None):
                         info.append(f'{r}：帳號 {h.get("account")} 的分支 {hb} 交班（{last}）以後的 {n} 個 commit 已查核（{rv[-1]["reviewedThrough"]}，見 anomalies）')
                         continue
                     if rc == 0 and n.isdigit() and int(n) > 0 and real:
-                        A(6, f'{r}：帳號 {h.get("account")} 的分支 {hb} 在它交班（{last}）以後還有 {n} 個 commit——疑似兩個帳號同時寫同一個職位；查清楚以前不要合併、不要覆寫，回報使用者')
+                        A(6, f'{r}：帳號 {h.get("account")} 的分支 {hb} 在它交班（{last}{"，交班 commit "+bnd[:9] if bnd else ""}）以後還有 {n} 個 commit（改到 {"、".join(real[:3])}{"…" if len(real)>3 else ""}）——疑似兩個帳號同時寫同一個職位；查清楚以前不要合併、不要覆寫，回報使用者')
     # 11 職位登記的 WIP 分支：還沒整合進自己的分支＝未整合（不能當作完成，也不能刪）
     if not getattr(args, 'no_git', False):
         for r in ROLES:
@@ -241,7 +249,7 @@ def verify(args, d=None, out=None):
             if s.get('account') != lh.get('from'):
                 A(7, f'{r}：交班快照 {fn} 的帳號是 {s.get("account")}，不是上一任 {lh.get("from")}')
         except FileNotFoundError:
-            A(7, f'{r}：上一次交班的快照 {fn} 找不到——照總入口第 4 節做 REMEDIAL_FULL_AUDIT')
+            A(7, f'{r}：上一次交班的快照 {fn} 找不到——照 CLAUDE.md §4 第 7 步做 REMEDIAL_FULL_AUDIT')
         except Exception as e:
             A(7, f'{r}：上一次交班的快照 {fn} 壞掉（{e}）——REMEDIAL_FULL_AUDIT')
     if lh.get('kind') == 'emergency':
@@ -249,7 +257,7 @@ def verify(args, d=None, out=None):
     # 8 換班中
     if d.get('pending'):
         A(8, f'換班還沒完成：{json.dumps(d["pending"], ensure_ascii=False)}')
-    # 9 總入口的值班表要和 duty.json 一致
+    # 9 AI_SESSION_HANDOFF.md 第 1 節的值班表要和 duty.json 一致
     try:
         doc = src.read(ROSTER_DOC)
         if d.get('onDuty') and f'{d["onDuty"]} 值班中' not in doc:
@@ -296,7 +304,7 @@ def plan(args):
     lh = d.get('lastHandoff') or {}
     if lh:
         print(f'  上一次交班：{lh.get("from")} {lh.get("at")}（{lh.get("kind", "handoff")}），快照：{json.dumps(lh.get("snapshots") or {}, ensure_ascii=False)}')
-    print('步驟（總入口第 4 節，14 步）：fetch → RULE_SOURCE（duty.json 的 ruleSource）→ 讀規則與第 13 節 → 上一任（上面）→ 各職位交接檔（六類；含 CC）→ '
+    print('步驟（CLAUDE.md §4，14 步）：fetch → RULE_SOURCE（duty.json 的 ruleSource）→ 讀規則與第 13 節 → 上一任（上面）→ 各職位交接檔（六類；含 CC）→ '
           'check_handoff.py check（任務、交付、快照）→ duty verify → 找未整合／未測／WIP（BRANCH_INVENTORY、deliveries）→ 確認任務都在 → '
           '確認輪到自己寫入 → 合併（不 rebase、不 force push）→ duty register＋commit＋push → 接班確認 → 接續已批准的工作')
     return 0
@@ -317,6 +325,18 @@ def _write(root, path, obj):
 
 def register(args):
     src = Src(args.root)
+    # D157（2026-11-12）：規則包比 RULE_SOURCE 舊就不給登記——工作階段啟動時載入的是自己分支的 CLAUDE.md，舊的等於沒讀到新規則
+    try:
+        import subprocess as _sp, os as _os
+        _rs = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'rules_sync.py')
+        if _os.path.exists(_rs) and not _os.environ.get('RULES_SYNC_SKIP'):
+            _r = _sp.run([sys.executable, _rs, '--check'], capture_output=True, text=True, cwd=args.root or None)
+            if _r.returncode == 1:
+                print(_r.stdout.strip())
+                print('[致命] 規則包是舊的，先跑 python3 tools/handoff/rules_sync.py --apply、commit＋push，再登記（D157）')
+                return 1
+    except Exception as _e:
+        print(f'[資訊] 規則包沒檢查到（{_e}）')
     ref, err = _role_ref(args)
     if err:
         print(f'[致命] {err}——沒有值班狀態不能登記；回報使用者')
@@ -532,9 +552,13 @@ def sync(args):
                 print(f'[略過] {r}：{ref} fetch 以後帳號變了——不收，重新 sync')
                 continue
         # ② 只收比 duty.json 現在這一筆新的登記：職位交班沒用 duty handoff 改自己的 duty_<職位>.json 時，檔案會一直寫 state on，下次那個帳號回來就被當成新登記
-        rt, ct = _ts(reg.get('since')), _ts(cur.get('since'))
-        if rt and ct and rt < ct:
-            print(f'[略過] {r}：{ref} 的登記（帳號 {reg.get("account")}，since {reg.get("since")}）比 duty.json 現在的（帳號 {cur.get("account")}，since {cur.get("since")}）舊——是上一次值班留下的檔，等它重新 duty register')
+        # ③ 2026-11-04 事故：duty.json 上一筆（帳號 A 的 BB）已交班但沒有 since（只有 handedOffAt）→ 原本 ct＝None 不比，收了帳號 C 10-27 的舊檔；
+        #   上一筆沒有 since 就拿 handedOffAt 比（新登記一定在上一任交班以後）；登記本身沒有 since 也不收
+        m5 = lambda t: t[:5] if t else None   # 只比到分鐘：since 通常只記到分鐘、handedOffAt 可能記到秒（同一分鐘內接班不能被當成舊的）
+        rt = m5(_ts(reg.get('handedOffAt') if reg.get('state') == 'handed-off' and reg.get('handedOffAt') else reg.get('since')))   # 交班紀錄沒有 since，用交班時間
+        ct = max((m5(t) for t in (_ts(cur.get('since')), _ts(cur.get('handedOffAt'))) if t), default=None)
+        if not rt or (ct and rt < ct):
+            print(f'[略過] {r}：{ref} 的登記（帳號 {reg.get("account")}，since {reg.get("since")}）比 duty.json 現在的（帳號 {cur.get("account")}，since {cur.get("since")}，交班 {cur.get("handedOffAt")}）舊或沒有 since——是上一次值班留下的檔，等它重新 duty register')
             continue
         tip = git(args.root, 'rev-parse', '--short=8', ref)[1]
         new = {'account': reg['account'], 'session': reg.get('session'), 'branch': reg.get('branch'), 'sha': reg.get('sha') or tip,

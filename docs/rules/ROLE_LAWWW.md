@@ -96,6 +96,8 @@
 7. 發布後發現重大問題：自己修、重新部署，或回滾。
 
 ### 6.1 發布前必跑（原 TESTING.md 第五節）
+
+- **地點關卡（D154）**：這一版動到的每一個進得去的地點，`ROLE_BB.md` 2.6 的三層都要有紀錄（第一層 `node tests/place_gate_unit.js` 綠、第二層四張照、第三層 BB 判定）；LAWWW2 交新地點沒附第一層結果和四張照不整合；整合後第一層紅的不交給 BB。
 發布樹：`bash tools/handoff/mk_release_tree.sh <候選 SHA> <版本> <日期>`（src／tests／assets／lib／index.html／劇情匯入白名單＝候選＋版本字樣，其餘照開發分支；v9.10.20 時 lib 沒換，main 多帶了沒用到的 lib/lz-string.js，之後連 lib 一起換）；合進 main 以後下一個 commit 把這幾個路徑還原成開發分支發布前的 SHA。
 
 對**乾淨 checkout**（`git worktree add --detach <dir> HEAD`，只含 git 追蹤的檔案＝GitHub Pages 實際內容）開 server 後：
