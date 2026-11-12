@@ -1,9 +1,9 @@
 // 公館三間＋汀州路三間店的店內互動與台詞（GG-SHOPS3-STORY-1110／GG-SHOPS3-SYS-1110；AA_742、AA_813，企劃線 75f5de658）——不需要瀏覽器（D131）。
 //   1  資料檔 src/data/gg3_shops_lines.js 每一句都原封不動在 AA_742 或 AA_813 那一版裡；匯入工具 --check 一致；AA_813 不接的句子不在；換說話的人（鮮果老闆、印得好店員）
 //   2  營業時間（places.js；AA_742 開頭的表）、颱風天六間都關
-//   3  關門時按店門：門口那一句（打烊以後／公休／泰米中午休息／洗樂颱風）＋開放時間；開門以前只寫開放時間；開著＝不擋
+//   3  關門時按店門：門口那一句（打烊以後／公休／洗樂颱風）＋開放時間；開門以前只寫開放時間；開著＝不擋
 //   4  進門：一天第一次一句（六間）、同一天再進來不說、今天約在這裡不說
-//   5  打烊：那一刻＝那間店自己的那一句（說話的人照稿）、走到店門外；泰米 14:00 也說；讀檔回到打烊以後＝不說、寫開放時間；洗樂只有颱風假請你出去
+//   5  打烊：那一刻＝那間店自己的那一句（說話的人照稿）、走到店門外；泰米 14:00 不請人出去（午休 11-12 取消）；讀檔回到打烊以後＝不說、寫開放時間；洗樂只有颱風假請你出去
 //   6  安泰藥局：藥師照情況挑一句（一天一次）、看貨架買東西（暖暖包 11～2 月）、錢不夠、量血壓
 //   7  汀州鮮果：情境（20:00 以後香蕉 30、期末考週、17～20 點老闆「切好的在冰箱。」）、要什麼、切好 +5 分鐘、5 結尾算整數、錢不夠、水果禮盒
 //   8  榮恩典文具社：情境（第 1～2 週、考前一週、十二月）、三類選單、試寫筆／筆記本那一句只在買那樣、錢不夠（不賒帳）、卡片包裝（好＝+10 分鐘）、特價推車
@@ -52,7 +52,7 @@ const H=require('./pg_harness.js'); const {check,GM,E}=H;
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=H.ROOT, rd=p=>fs.readFileSync(path.join(ROOT,p),'utf8'), J=JSON.stringify;
 console.warn=()=>{};
-const SHA='8f6650289',   /* 2026-11-11 16:18 AA 回七格（打烊照 AA_700 統一、泰米午休、廚房、柔軟精）；舊 75f5de658 */ P742='docs/story_planning/AA_742_公館六間店_設定與台詞.md', P813='docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md';
+const SHA='90fb5fa77',   /* 2026-11-12 SHOP-LIFE-AA826-1112：泰米午休作廢（AA e24b6cec7；AA_826 lawww_answers 第 7 點）；舊 8f6650289（11-11 AA 回七格：打烊照 AA_700 統一、廚房、柔軟精）、75f5de658 */ P742='docs/story_planning/AA_742_公館六間店_設定與台詞.md', P813='docs/story_planning/AA_813_公館六間店_對照LAWWW2的決定.md';
 const loadErr=[];
 for(const f of ['src/data/tz_shops_layout.js','src/data/eat_lines.js','src/eat3d.js','src/data/gg3_shops_lines.js','src/gg3shops3d.js']){
   if(!fs.existsSync(path.join(ROOT,f))){ loadErr.push(f+'（沒有這個檔）'); continue; }
@@ -99,7 +99,7 @@ await sec(2,()=>{ const o=(k,key,h)=>PLACES.isOpen(k,h,DK(key));
   check('2 汀州鮮果 每天 10:00～22:00',[0,1,2,3,4,5,6].every(i=>!PLACES.isOpen('gg_xianguo',9.98,DK('2025-10-05')+i)&&PLACES.isOpen('gg_xianguo',10,DK('2025-10-05')+i)&&!PLACES.isOpen('gg_xianguo',22,DK('2025-10-05')+i)));
   check('2 榮恩典 週一～六 09:30～21:30、週日公休',!o('gg_rongendian','2025-10-06',9.4)&&o('gg_rongendian','2025-10-06',9.5)&&o('gg_rongendian','2025-10-06',21.4)&&!o('gg_rongendian','2025-10-06',21.5)&&!o('gg_rongendian','2025-10-05',12));
   /* 2026-11-12（SHOP-LIFE-AUDIT-1112）改期望——舊期望：泰米 11:00～14:00、17:00～21:00（中午休息）。使用者 11-12 改成一段 11:00～21:00（places.js）；AA：AA_742 午休那一句作廢。
-     下面第 3、4、5 節的午休情境一起改：15:00 開著（不擋門、照樣說進門句）、14:00 不請出去。台詞資料檔的 rest／closeNoon 還在（自動產生的檔，等 AA 的稿拿掉再重匯），程式只在一天有兩段營業時才用到，現在不會出現。*/
+     下面第 3、4、5 節的午休情境一起改：15:00 開著（不擋門、照樣說進門句）、14:00 不請出去。SHOP-LIFE-AA826-1112：AA 的稿（90fb5fa77）拿掉午休了，重匯以後資料檔沒有 rest／closeNoon，程式裡那兩段也拿掉。*/
   check('2 泰米 11:00～21:00（一段，沒有中午休息）、週一公休',!o('tz_taimi','2025-10-07',10.98)&&o('tz_taimi','2025-10-07',11)&&o('tz_taimi','2025-10-07',13.98)&&o('tz_taimi','2025-10-07',14)&&o('tz_taimi','2025-10-07',16.98)&&o('tz_taimi','2025-10-07',17)&&o('tz_taimi','2025-10-07',20.98)&&!o('tz_taimi','2025-10-07',21)&&!o('tz_taimi','2025-10-06',12));
   check('2 洗樂 24 小時（03:00、23:59 都開）',o('tz_xile','2025-10-06',3)&&o('tz_xile','2025-10-05',23.98)&&PLACES.hours.tz_xile.text==='24 小時');
   check('2 印得好 週一～五 09:00～22:00、週六 10:00～18:00、週日公休',o('tz_yindehao','2025-10-06',9)&&!o('tz_yindehao','2025-10-06',22)&&!o('tz_yindehao','2025-10-04',9.5)&&o('tz_yindehao','2025-10-04',10)&&!o('tz_yindehao','2025-10-04',18)&&!o('tz_yindehao','2025-10-05',12));
@@ -113,7 +113,7 @@ await sec(3,async()=>{ const door=async(key,h,k)=>{ fresh(key,h,k.startsWith('gg
     const x=await door(key,h,k); check(`3 ${k} ${key} ${h}:00 按門：門口那一句（旁白）、不進去、寫開放時間`,x.r===true&&J(x.said)===J([[null,line]])&&!H.entered.length&&x.t.length===1,J([x.said,x.t])); }
   { const x=await door('2025-10-06',7,'gg_antai'); check('3 安泰 07:00（開門以前）：不說話、只寫開放時間',x.r===true&&!x.said.length&&x.t.length===1&&/安泰藥局/.test(x.t[0])&&/09:00/.test(x.t[0]),J(x.t)); }
   { const x=await door('2025-10-07',12,'tz_taimi'); check('3 開著（泰米 12:00）：不擋（不說門口句）',x.r!==true||!x.said.length,J(x)); }
-  { const x=await door('2025-10-07',15,'tz_taimi'); check('3 泰米 15:00（原本的午休時間，現在開著）：不擋、不說午休那一句',(x.r!==true||!x.said.length)&&!x.said.some(q=>q[1]===L.tz_taimi.rest),J(x)); }
+  { const x=await door('2025-10-07',15,'tz_taimi'); check('3 泰米 15:00（原本的午休時間，現在開著）：不擋、不說話',(x.r!==true||!x.said.length),J(x)); }
   { const TC=PLACES.typhoonClosed; PLACES.typhoonClosed=z=>PLACES.typhoonShops.includes(z);
     try{ const x=await door('2025-10-06',12,'tz_xile'); check('3 洗樂颱風假：玻璃門那一句、不進去',x.r===true&&J(x.said)===J([[null,L.tz_xile.typhoon]])&&!H.entered.length,J(x.said));
       const y=await door('2025-10-06',12,'gg_antai'); check('3 安泰颱風假（稿上沒有颱風那一句）：只寫「颱風假」的開放時間',y.r===true&&!y.said.length&&/颱風假/.test(y.t[0]||''),J(y)); } finally { PLACES.typhoonClosed=TC; } } });
@@ -131,9 +131,9 @@ await sec(4,async()=>{ const hrs={gg_antai:12,gg_xianguo:12,gg_rongendian:12,tz_
 // ---- 5 打烊 ----
 await sec(5,async()=>{ for(const [k,key,c,to] of [['gg_antai','2025-10-06',22.1,'gongguan'],['gg_xianguo','2025-10-06',22.1,'gongguan'],['gg_rongendian','2025-10-06',21.6,'gongguan'],['tz_taimi','2025-10-07',21.1,'tingzhou'],['tz_yindehao','2025-10-06',22.1,'tingzhou'],['tz_yindehao','2025-12-10',24.05,'tingzhou']]){
     fresh(key,c,k); GM.enterN++; E.player.seat={x:0,z:0}; const r=await GG3.closeOut(GM);
-    const want=(k==='tz_taimi'&&c<15&&L[k].closeNoon)?L[k].closeNoon:L[k].close;   /* 泰米 14:00＝午休那一句（AA_742 8f6650289）*/
+    const want=L[k].close;
     check(`5 ${k} 打烊那一刻（${c}）：${L[k].who}「${want}」一句（AA_742／AA_700；不另外出旁白）、站起來、走到${to}`,r==='close'&&J(said())===J([[L[k].who,want]])&&H.entered[0]===to&&!E.player.seat,J([r,said(),H.entered])); }
-  check('5 打烊統一 AA_700「我們今天要打烊了。」（五間；洗樂 24 小時沒有）、泰米午休「我們要午休了，五點再開喔。」',['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_yindehao'].every(k=>L[k].close==='我們今天要打烊了。')&&L.tz_taimi.closeNoon==='我們要午休了，五點再開喔。',J(['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_yindehao'].map(k=>L[k].close)));
+  check('5 打烊統一 AA_700「我們今天要打烊了。」（五間；洗樂 24 小時沒有）；泰米的午休句、休息的木牌不在資料檔裡了（AA_742 @ 90fb5fa77 取消；程式也不再讀 closeNoon／rest）',['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_yindehao'].every(k=>L[k].close==='我們今天要打烊了。')&&!('closeNoon' in L.tz_taimi)&&!('rest' in L.tz_taimi)&&!/午休|休息中/.test(JSON.stringify(L))&&!/closeNoon|T\.rest/.test(rd('src/gg3shops3d.js')),J(['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_yindehao'].map(k=>L[k].close)));
   { const G=fresh('2025-10-07',14.1,'tz_taimi'); GM.enterN++; check('5 泰米 14:06（原本午休那一刻）：店開著，不請你出去（2026-11-12 改期望；舊期望＝老闆娘說午休那一句、走到汀州路）',GG3.isOpen('tz_taimi',G)); }
   { fresh('2025-10-07',23.5,'tz_taimi'); GM.enterN++; const r=await GG3.closeOut(GM); check('5 讀檔回到打烊以後（新的一趟、過了那一刻）：不說、走出去、寫開放時間',r==='out'&&!H.said.length&&H.entered[0]==='tingzhou'&&toasts.length===1,J([r,said(),toasts])); }
   { const G=fresh('2025-10-07',20,'tz_taimi'); GM.enterN++; GG3.tick(GM); await sleep(5); G.hour=22.5; const r=await GG3.closeOut(GM); check('5 開著的時候進來、待到過了打烊很久（場景忙）：照樣說那一句',r==='close'&&H.has(L.tz_taimi.close),J(said())); }

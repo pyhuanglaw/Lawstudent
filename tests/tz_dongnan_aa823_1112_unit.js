@@ -198,7 +198,7 @@ await sec(9,async()=>{ const miss=LY.points.filter(p=>!GG3.handles(Z,p.kind)).ma
 
 // ---- 10 原本的店照舊、載入 ----
 await sec(10,async()=>{ const TM=GG3_LINES.tz_taimi;
-  check('10 原本六間＋越好吃小館都還在（東南大聯商行排在後面；它後面是 11-12 加的汀州聯通，tests/tz_liantong_aa824_1112_unit.js）',J(GG3.ZONES.slice(0,8))===J(['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_xile','tz_yindehao','tz_yuehaochi',Z])&&J(GG3.MEALS)===J(['tz_yuehaochi'])&&GG3.GROCERS[0]===Z&&GG3.ACT.tz_taimi_order===GG3.taimiOrder&&GG3.ACT.tz_yue_order===GG3.mealOrder&&GG3.ACT.tz_dongnan_counter===GG3.groceryPay,J(GG3.ZONES));
+  check('10 原本六間＋越好吃小館都還在（東南大聯商行排在後面；它後面是 11-12 加的汀州聯通，tests/tz_liantong_aa824_1112_unit.js）',J(GG3.ZONES.slice(0,9))===J(['gg_antai','gg_xianguo','gg_rongendian','tz_taimi','tz_xile','tz_yindehao','tz_yuehaochi','tz_keju',Z])&&J(GG3.MEALS)===J(['tz_yuehaochi','tz_keju'])&&/* 客居雲南：SHOP-LIFE-AA826-1112（小館排在雜貨店前面）*/GG3.GROCERS[0]===Z&&GG3.ACT.tz_taimi_order===GG3.taimiOrder&&GG3.ACT.tz_yue_order===GG3.mealOrder&&GG3.ACT.tz_dongnan_counter===GG3.groceryPay,J(GG3.ZONES));
   { const G=fresh('2025-10-07',18,'tz_taimi'); H.picks=['泰式椒麻雞飯','點好了']; GM.sitAt=(P,s)=>{ P.seat=s; }; GM.standUp=P=>{ P.seat=null; }; await GG3.taimiOrder(GM); check('10 泰米村食點餐照舊（椒麻雞 130）',G.money===4870,String(G.money)); }
   { const G=fresh('2025-10-07',12,'tz_yuehaochi'); H.picks=['牛肉河粉','點好了']; await GG3.mealOrder(GM); check('10 越好吃小館點餐照舊（牛肉河粉 130）',G.money===4870,String(G.money)); }
   { fresh('2025-10-07',12,'tz_yuehaochi'); await STORY.interact({tzPoint:'menu',kind:'tz_yue_menu',label:'x',look:'x'},GM); check('10 越好吃小館的「看菜單」照舊',J(said())===J([[null,TZ_MEAL_LINES.tz_yuehaochi.look.tz_yue_menu[0]]]),J(said())); }

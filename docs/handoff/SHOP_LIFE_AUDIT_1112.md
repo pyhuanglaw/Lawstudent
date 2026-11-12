@@ -144,6 +144,18 @@
 6. **打工**：哪幾間新店要能打工（見第 5 節）。
 7. 泰米村食午休那兩句（門口 rest、14:00 closeNoon）已經作廢：稿（AA_742）拿掉以後重新匯入 `src/data/gg3_shops_lines.js`，測試第 5 節那一條跟著改。
 
+### 6-1 AA 回了（AA_825、AA_826 @ 企劃線 90fb5fa77）——SHOP-LIFE-AA826-1112 接好的
+
+| 第 6 節 | AA 的回覆 | 接在哪 |
+|---|---|---|
+| 1 客居雲南 | AA_825：11:00～21:00 不午休、六樣菜、老闆娘的句子 | `src/data/tz_meal_lines.js`（`tools/shops/import_tz_meals.py`）、`src/gg3shops3d.js`、`places.js`；`tests/tz_keju_aa825_1112_unit.js`。「點餐」不再是暫時的「看」。稿的「看桌上」配置沒有點＝沒接；配置的「看茶餅櫃」「看廚房」稿沒有句子＝還是只有店名那一句 |
+| 2 店員招呼 | 花序（AA_792）、越好吃（AA_821）、客居（AA_825）本來就有；山嵐、大步、好拍、新生運動廣場各三句（AA_826 staff_greet） | 花序＋那四間：`src/shopmeet3d.js`（一天一次、三句輪流，`G.flags.SHOP_GREET`）；越好吃、客居：`src/gg3shops3d.js` 原本的進門句。`tests/shop_meet_aa826_1112_unit.js` |
+| 3 遇到同學 | 給專屬的第一句（meal_hello：九位各兩句、學姊交往中另一組），之後照原本的「和他說話」；不做併桌 | `src/shopmeet3d.js`（`STORY.PRE_TALK`；朋友以上；一次見面一次，`G.flags.SHOP_MEAL_HI`）。宥辰稿沒有句子＝不說 |
+| 4 名單 | 加學姊 weight 0.6、語彤 weight 0.4；同一個人同一天最多遇到一次；不在臺北不排 | `src/shoplife3d.js`（`S.EXTRA`、`S.weight`、`S.markMet`／`G.flags.SHOP_MEAL_MET`、`S.why` 的 presence／once）。學姊原本是熟客表帶進來的 weight 1，改 0.6 以後大一上平日晚餐 118 巷有同學的日子 44/48 → 40/48（測試那一條從九成改八成；午餐照舊） |
+| 5 禮貌生財 | 上師本人，營業時間他都在；不另外加店員 | 不用改（`S.NO_CLERK.tz_limao` 照舊） |
+| 6 打工 | 名單在 AA_826 lawww_answers 第 6 點；稿 AA 另外寫（SHOP-JOBS-1112） | 這次沒做 |
+| 7 泰米午休 | AA_742 已改（e24b6cec7） | 重匯 `src/data/gg3_shops_lines.js`（90fb5fa77）：closeNoon、rest 拿掉，`src/gg3shops3d.js` 那兩段也拿掉 |
+
 ## 7 要 LAWWW2 看的（站的位置都是照配置和導航算的，沒有在畫面上看過）
 
 1. **山嵐書店店員**：配置沒有店員位置，我取結帳櫃檯東側 (5.45, 2.4)、面向西。請確認不會站進矮櫃裡，或在 `SHANLAN_LAYOUT` 加一個 clerk（`shoplife3d.js` 的 `S.clerkSpot` 改讀它）。

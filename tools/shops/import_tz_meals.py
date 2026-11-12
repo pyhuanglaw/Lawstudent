@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""TINGZHOU-SHOPS5-1110：汀州路的小館（越好吃小館 tz_yuehaochi；之後的客居雲南也走這一支）的店內文字，
+"""TINGZHOU-SHOPS5-1110：汀州路的小館（越好吃小館 tz_yuehaochi、客居雲南 tz_keju）的店內文字，
 從 AA 的稿（一間一份 JSON）匯進 src/data/tz_meal_lines.js（TZ_MEAL_LINES）。流程在 src/gg3shops3d.js（和泰米村食同一套），這支只搬字。
 
 和 tools/shops/import_gg3_shops.py 同一個做法：來源照 docs/handoff/story_import_allow.json 的 sha（import_guard 擋）、字一字照稿（只過 import_guard.read_fix 的換名；被換到會印出來）、
@@ -10,15 +10,18 @@ src/data/places.js 加名字、營業時間、颱風假（和 tz_taimi 一樣）
 
 稿的格式（AA_821）：
   shop {id, name, hours, note}　staff {who, greet[], closed_line, closed_outside, no_money, not_open?}
-  items {<id>: {name, price, eat[]}}　order {id, button, ask, after[], after_<x>_only?, after_no_<x>?}　looks {<kind>: {button, t}}　seat {sit}
+  items {<id>: {name, price, eat[]}}　order {id, button, ask, after[], after_<x>_only?, after_no_<x>?, after_<x>?}　looks {<kind>: {button, t}}　seat {sit}
+客居雲南（AA_825）寫稿的時候互動點還沒出來（稿 _meta：「點位出來再對 id」）：order 沒有 id、looks 的 key 是 menu／wall／table。對到配置的 kind 寫在 SCRIPTS 那一列：
+  order_kind＝點餐的 kind；look_map＝{稿的 key: 配置的 kind 或 None}（None＝配置沒有這個點，這一句不接；匯入時印出來，回報給 AA、LAWWW2）。稿的每一個 key 都要在 look_map 裡，kind 要真的在配置檔裡。
 資料檔的格式（照 GG3_LINES 的寫法，src/gg3shops3d.js 直接讀）：
   name、who、layout、hours（稿的字串；真的檢查的時間在 places.js）、door＝[[說話的人, 字]…]（稿的 greet：一天第一次進門說一句，和泰米村食的「進門」一樣）、
   close（closed_line：打烊時人還在店裡）、sign（closed_outside：打烊以後到門口）、notOpen（not_open：開門以前到門口；稿有才有）、look {kind: [字]}、labels {kind: 按鈕的字}、seat {sit}、
   meal {point（點餐的 kind）、ask、menu [{id, n, p, eat[]}]、after[]、afterOnly {id, line}（只點那一樣時說的；稿的 after_<x>_only＝id 結尾是 _<x> 的那一樣）、
         afterNo {ids[], line}（稿的 after_no_<x>：沒有點 id 裡有 _<x> 那一段的菜時說的；after[] 只在有點的時候說）、
+        afterHas {ids[], line}（稿的 after_<x>，客居雲南的 after_guoqiao：有點 id 裡有 _<x> 那一段的菜時說的，取代 after[]）、
         eatFirst [[id…]…]（SCRIPTS 的 eat_first：一次點好幾樣只演一樣的「吃」，照這幾組的順序挑第一樣；每一樣菜剛好在一組）、short（no_money）}
 
-測試：node tests/tz_yuehaochi_aa821_1112_unit.js（逐字對稿）。
+測試：node tests/tz_yuehaochi_aa821_1112_unit.js、node tests/tz_keju_aa825_1112_unit.js（逐字對稿）。
 用法：python3 tools/shops/import_tz_meals.py [--check]（--check：只比對，資料檔和稿匯出來的不一樣＝結束碼 1）"""
 import json, os, re, subprocess, sys
 
@@ -28,11 +31,29 @@ sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import import_guard as IG
 
 OUT = 'src/data/tz_meal_lines.js'
-# 一間一列。客居雲南（tz_keju）還沒有稿：AA 交了以後加一列就好
+# 一間一列
 SCRIPTS = [
     {'zone': 'tz_yuehaochi', 'layout': 'yuehaochi', 'path': 'docs/story_planning/AA_821_tz_yuehaochi.json', 'sha': '7917d4289',
      'eat_first': ['pho', 'roll', 'banhmi', 'coffee']},   # 一次點好幾樣只演一樣的「吃」：照這個順序挑（AA_821 _meta.lawww_1112 ②：河粉 > 春捲 > 法國麵包 > 咖啡；字＝菜的 id 裡的那一段）
+    {'zone': 'tz_keju', 'layout': 'keju', 'path': 'docs/story_planning/AA_825_tz_keju.json', 'sha': '90fb5fa77',
+     'eat_first': ['guoqiao', 'migan', 'wandou', 'bao', 'muer', 'tea'],   # AA_825 _meta：「一次點多樣只播一樣的 eat（順序照 items 由上到下）」
+     'order_kind': 'tz_keju_order',   # 稿的 order 沒有 id：配置（src/data/tz_shops_layout.js keju.points）的點餐點
+     'look_map': {'menu': 'tz_keju_menu', 'wall': 'tz_keju_batik', 'table': None}},   # 稿的 looks → 配置的 kind：wall（紮染布、雪山照片）＝「看牆上的扎染布」那一點；table（桌上的辣油、醋、酸菜）配置沒有點＝不接
 ]
+SKIPPED = []
+LAYOUT = 'src/data/tz_shops_layout.js'
+_layout_text = None
+
+
+def layout_kinds(layout):
+    """配置檔裡那一間店的互動點 kind（只讀字，不執行）。"""
+    global _layout_text
+    if _layout_text is None:
+        _layout_text = open(os.path.join(ROOT, LAYOUT), encoding='utf-8').read()
+    m = re.search(r'^  "%s": \{.*$' % re.escape(layout), _layout_text, re.M)
+    if not m:
+        die(f'{LAYOUT} 找不到 {layout}')
+    return re.findall(r'"kind": "([a-z0-9_]+)"', m.group(0))
 CHANGED = []
 
 
@@ -106,7 +127,16 @@ def one(spec):
     order = doc['order']
     only_keys = [k for k in order if re.match(r'^after_[a-z0-9]+_only$', k)] if isinstance(order, dict) else []
     no_keys = [k for k in order if re.match(r'^after_no_[a-z0-9]+$', k)] if isinstance(order, dict) else []
-    keys(order, ['id', 'button', 'ask', 'after'], W + ' order', opt=only_keys + no_keys)
+    has_keys = [k for k in order if re.match(r'^after_[a-z0-9]+$', k) and k not in no_keys] if isinstance(order, dict) else []
+    okind = spec.get('order_kind')
+    keys(order, (['button', 'ask', 'after'] if okind else ['id', 'button', 'ask', 'after']), W + ' order', opt=only_keys + no_keys + has_keys)
+    if not okind:
+        okind = order['id']
+    kinds = layout_kinds(spec['layout'])
+    if okind not in kinds:
+        die(f'{W} 點餐的 kind {okind} 不在配置裡（{kinds}）')
+    if len(has_keys) > 1:
+        die(W + ' order：after_<x> 只認得一個')
     if len(no_keys) > 1:
         die(W + ' order：after_no_<x> 只認得一個')
     seg = lambda x: [m['id'] for m in menu if x in m['id'].split('_')]   # id 裡有 _<x> 那一段的菜
@@ -116,6 +146,12 @@ def one(spec):
         if not hit:
             die(f'{W} order.{k}：對不到 id 裡有那一段的菜')
         after_no = {'ids': hit, 'line': fix(order[k], f'{W} order.{k}')}
+    after_has = None
+    for k in has_keys:
+        hit = seg(k[len('after_'):])
+        if not hit:
+            die(f'{W} order.{k}：對不到 id 裡有那一段的菜')
+        after_has = {'ids': hit, 'line': fix(order[k], f'{W} order.{k}')}
     eat_first = None
     if spec.get('eat_first'):
         eat_first = [seg(x) for x in spec['eat_first']]
@@ -134,9 +170,19 @@ def one(spec):
     looks = doc['looks']
     if not isinstance(looks, dict):
         die(W + ' looks：要是物件')
-    look, labels = {}, {order['id']: fix(order['button'], W + ' order.button')}
+    look, labels = {}, {okind: fix(order['button'], W + ' order.button')}
+    lmap = spec.get('look_map')
     for kind, v in looks.items():
         keys(v, ['button', 't'], f'{W} looks.{kind}')
+        if lmap is not None:
+            if kind not in lmap:
+                die(f'{W} looks.{kind}：SCRIPTS 的 look_map 沒有這個 key（稿加了「看」：先對配置的點）')
+            if lmap[kind] is None:
+                SKIPPED.append(f'{W} looks.{kind}（{v["button"]}）：配置沒有這個點，這一句不接')
+                continue
+            kind = lmap[kind]
+        if kind not in kinds:
+            die(f'{W} looks：kind {kind} 不在配置裡（{kinds}）')
         if kind in labels:
             die(f'{W} looks.{kind}：和點餐的 kind 重複')
         look[kind] = [narr(v['t'], f'{W} looks.{kind}.t')]
@@ -146,8 +192,8 @@ def one(spec):
             'door': [[who, t] for t in strs(staff['greet'], W + ' staff.greet')],
             'close': fix(staff['closed_line'], W + ' staff.closed_line'), 'sign': narr(staff['closed_outside'], W + ' staff.closed_outside'),
             'look': look, 'labels': labels, 'seat': {'sit': narr(seat['sit'], W + ' seat.sit')},
-            'meal': {'point': order['id'], 'ask': fix(order['ask'], W + ' order.ask'), 'menu': menu, 'after': strs(order['after'], W + ' order.after'),
-                     'afterOnly': after_only, 'afterNo': after_no, 'eatFirst': eat_first, 'short': fix(staff['no_money'], W + ' staff.no_money')}}
+            'meal': {'point': okind, 'ask': fix(order['ask'], W + ' order.ask'), 'menu': menu, 'after': strs(order['after'], W + ' order.after'),
+                     'afterOnly': after_only, 'afterNo': after_no, 'afterHas': after_has, 'eatFirst': eat_first, 'short': fix(staff['no_money'], W + ' staff.no_money')}}
     if 'not_open' in staff:
         out['notOpen'] = narr(staff['not_open'], W + ' staff.not_open')
     return out
@@ -167,7 +213,7 @@ def render(data):
     head = ('/* ===== 汀州路小館的店內文字（TINGZHOU-SHOPS5-1110）——自動產生，不要手改 =====\n'
             f'   來源：企劃線 {src}（AA 定稿 D109；白名單 docs/handoff/story_import_allow.json）。\n'
             '   產生：python3 tools/shops/import_tz_meals.py（字一字照稿；door＝[說話的人, 字]；格式說明在那支工具開頭）。\n'
-            '   流程在 src/gg3shops3d.js（和泰米村食同一套）；測試 node tests/tz_yuehaochi_aa821_1112_unit.js（逐字對稿）。 */\n')
+            '   流程在 src/gg3shops3d.js（和泰米村食同一套）；測試 node tests/tz_yuehaochi_aa821_1112_unit.js、node tests/tz_keju_aa825_1112_unit.js（逐字對稿）。 */\n')
     body = 'const TZ_MEAL_LINES={\n' + ',\n'.join(f'  {json.dumps(k)}:{json.dumps(v, ensure_ascii=False, separators=(",", ":"))}' for k, v in data.items()) + '\n};\n'
     body += 'TZ_MEAL_LINES._src=' + json.dumps({s['zone']: {'sha': s['sha'], 'doc': s['path']} for s in SCRIPTS}, ensure_ascii=False, separators=(',', ':')) + ';\n'
     return head + "'use strict';\n" + body
@@ -179,6 +225,8 @@ def main():
     path = os.path.join(ROOT, OUT)
     for c in CHANGED:
         print('換名：' + c)
+    for c in SKIPPED:
+        print('不接：' + c)
     if '--check' in sys.argv:
         old = open(path, encoding='utf-8').read() if os.path.exists(path) else ''
         if old != text:

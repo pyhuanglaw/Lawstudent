@@ -10,6 +10,9 @@
 //   5  這次新加客人的店：站著的站得住、前面 0.75 m 是家具或牆、不站在按鈕和出口上；坐著的坐在區域真正的座位；洗樂三張椅子至少留一張
 //   6  吃飯時間遇得到同學（SHOPLIFE）：118 巷九間每一間都排得到人；118 巷比其他店多；平日午餐、晚餐幾乎每天巷子裡都有同學；一間店一餐最多兩位；
 //      原本的作息優先（排進去的時候他原本沒事；AA_705／AA_632 寫好的列不受影響）；考試週、颱風假、經濟系那一年不排；同一天算兩次結果一樣；不動存檔
+//   6b SHOP-LIFE-AA826-1112（AA_826 lawww_answers 第 4 點，AA 11-12）：名單加學姊（weight 0.6）、語彤（weight 0.4；認識以前不出現）；不在臺北的日子不排（學姊在美國那學期、回老家、出國）；
+//      同一個人同一天最多在店裡遇到一次（午餐在店裡遇到了，晚餐就不排；沒遇到的不受影響）。修改前（a5a4cdfa67）：沒有 S.EXTRA／S.weight／S.markMet＝這一節 FAIL。
+//      6 的「晚餐九成」改成八成：學姊原本是熟客表帶進來的（weight 1），AA 定 0.6 以後大一上平日晚餐 118 巷有同學的日子從 44/48 變 40/48（午餐照舊九成以上）。
 //   7  真的走進去看得到：名單上的人，那個時間走進那間店＝他坐在店裡的座位上（有名字的人物，不是路人）；汀州路的新店也遇得到
 //   8  盤點表每一間店都有一列（盤點以後新加的店印 WARN 提醒，不擋）
 // 修改前（開發分支 371fd882b2）：沒有 SHOPLIFE＝第 1 節就 FAIL、後面不跑。改之前用同一套做法量到的（盤點表第 1 節）：花序、客居雲南、越好吃小館、山嵐、大步、好拍、新生運動廣場開著沒有店員；
@@ -145,7 +148,7 @@ const LANE=SHOPLIFE.laneShops().map(s=>'l118_'+s);
   const none=LANE.filter(z=>(per[z]|0)<5);
   check('6 118 巷九間餐廳一個學期每一間都排得到同學（各至少 5 人次）',LANE.length===9&&!none.length,none.length?'排不到：'+none.join(' '):LANE.map(z=>z.slice(5)+' '+per[z]).join('、'));
   check('6 118 巷比其他店多（使用者：118 巷就是要很容易遇到同學）',nLane>=nOther*2.5,'118 巷 '+nLane+' 人次、其他店 '+nOther+' 人次');
-  check('6 平日午餐、晚餐：九成以上的日子 118 巷的店裡至少有一位同學',laneDay.lunch>=okDay.lunch*0.9&&laneDay.dinner>=okDay.dinner*0.9&&okDay.lunch>=40,'午餐 '+laneDay.lunch+'/'+okDay.lunch+' 天、晚餐 '+laneDay.dinner+'/'+okDay.dinner+' 天');
+  check('6 平日午餐九成以上、晚餐八成以上的日子 118 巷的店裡至少有一位同學（晚餐原本九成：AA_826 學姊 weight 1→0.6 以後 40/48）',laneDay.lunch>=okDay.lunch*0.9&&laneDay.dinner>=okDay.dinner*0.8&&okDay.lunch>=40,'午餐 '+laneDay.lunch+'/'+okDay.lunch+' 天、晚餐 '+laneDay.dinner+'/'+okDay.dinner+' 天');
   const others=['tz_taimi','tz_yuehaochi','tz_keju'].filter(z=>Z3.ZONES[z]&&CROWD.SHOP_ZONES[z]);
   check('6 汀州路的新店（泰米村食、越好吃小館、客居雲南）也排得到同學',others.length===3&&others.every(z=>(per[z]|0)>=3),others.map(z=>z+' '+(per[z]|0)).join('、'));
   check('6 一間店一餐最多 '+SHOPLIFE.CFG.perShop+' 位；原本的作息優先（排進去的時刻他原本沒事）',!over2.length&&!clash.length,over2.concat(clash).slice(0,5).join('；'));
@@ -173,6 +176,43 @@ const LANE=SHOPLIFE.laneShops().map(s=>'l118_'+s);
         const a=SHOPNPC.on(g,row); SHOPLIFE.CFG.slots=[]; const b=SHOPNPC.on(g,row); SHOPLIFE.CFG.slots=slots; n++; if(a) on++; if(a!==b) diff.push(row.id+' '+CALENDAR.dateOf(d).key); } }
     const X=STORY.SCHED_X, mineLast=X[X.length-1]===SHOPLIFE.sched, wrapped=X.slice(0,-1).every(f=>typeof f._shopLifeWrap==='function'), len0=X.length; if(X.length>1&&!X.includes(X[0]._shopLifeWrap)) diff.push('includes 認不得包起來的函式'); const extra=()=>null; X.push(extra); const okPush=X[X.length-1]===SHOPLIFE.sched&&X.includes(extra)&&X.length===len0+1; X.splice(X.indexOf(extra),1);
     check('6 AA_705 的每一列（'+n+' 次、成立 '+on+' 次）有沒有 SHOPLIFE 結果都一樣；SHOPLIFE 永遠排在作息的最後一個',!diff.length&&on>20&&mineLast&&wrapped&&okPush,diff.slice(0,4).join('；')||J([mineLast,wrapped,okPush])); }
+  /* ---- 6b AA_826：名單、不在臺北、一天最多遇到一次 ---- */
+  { const P=SHOPLIFE.people(), W=SHOPLIFE.weight;
+    check('6b 名單：午餐那八位＋學姊（weight 0.6）＋語彤（weight 0.4）；原本的 weight 照舊（芯慈 0.7、宥辰 0.4）',typeof W==='function'&&P.length===10&&P.includes('heroine_05')&&P.includes('heroine_03')&&W('heroine_05')===0.6&&W('heroine_03')===0.4&&W('classmate_xinci')===0.7&&W('classmate_youchen')===0.4&&W('heroine_01')===1&&Object.keys(L118_LUNCH_DATA.who).every(id=>P.includes(id)),J(P));
+    /* 一個學期的人次：學姊、語彤比 weight 1 的人少；語彤認識以前（沒有 YT_MET_JOB）一次都不出現 */
+    const cnt={}, cnt0={}; for(const d of TERM_DAYS){ for(const [fl,o] of [[{YT_MET_JOB:true},cnt],[{},cnt0]]){ const g=G0(); Object.assign(g.flags,fl); if(!fl.YT_MET_JOB) delete g.flags.YT_MET_JOB; g.day=d; g.weekday=CALENDAR.dateOf(d).wd%7;
+        for(const slot of ['lunch','dinner']) for(const p of SHOPLIFE.who(Object.assign(g,{hour:slot==='lunch'?12.5:18.5}),slot)) o[p.id]=(o[p.id]|0)+1; } }
+    const planN={}; for(const d of TERM_DAYS) for(const slot of ['lunch','dinner']) for(const p of SHOPLIFE.plan(d,slot)) planN[p.id]=(planN[p.id]|0)+1;
+    check('6b 學姊、語彤排得到（大一上各至少 5 人次），名單上的次數比 weight 1 的以安少（學姊約六成、語彤約四成）',(cnt.heroine_05|0)>=5&&(cnt.heroine_03|0)>=5&&planN.heroine_05<planN.heroine_01*0.8&&planN.heroine_03<planN.heroine_01*0.6&&planN.heroine_03<planN.heroine_05,J({who:[cnt.heroine_05,cnt.heroine_03],plan:[planN.heroine_01,planN.heroine_05,planN.heroine_03]}));
+    check('6b 語彤認識以前（沒有 YT_MET_JOB）：一次都不出現（名單上有她也不算）',!(cnt0.heroine_03|0)&&planN.heroine_03>0&&(cnt0.heroine_05|0)>=5,J([cnt0.heroine_03,planN.heroine_03]));
+    /* 排進去的時刻她們原本沒事（只填空檔）＝上面「原本的作息優先」那一項已經逐筆驗過（who 裡的每一筆都過 S.base）*/
+    /* 不在臺北：學姊在美國（2028-08-02～12-23）那學期——名單上有她、真的出現 0 次；全部學期抽樣：出現的人那一天 presence 都是在 */
+    const us=[]; let usPlan=0, usWho=0; for(let d=DK('2028-09-11');d<=DK('2028-12-22');d++) us.push(d);
+    for(const d of us){ const g=G0(); g.flags.YT_MET_JOB=true; g.day=d; g.weekday=CALENDAR.dateOf(d).wd%7; for(const slot of ['lunch','dinner']){ if(SHOPLIFE.dayOk(g,d)&&SHOPLIFE.plan(d,slot).some(p=>p.id==='heroine_05')) usPlan++; if(SHOPLIFE.who(Object.assign(g,{hour:slot==='lunch'?12.5:18.5}),slot).some(p=>p.id==='heroine_05')) usWho++; } }
+    const gUS=G0(); gUS.day=DK('2028-10-11'); gUS.hour=12.5;
+    check('6b 學姊在美國那學期（2028-09～12）：名單抽到她 '+usPlan+' 次，真的排進店裡 0 次（presence）',usPlan>=10&&usWho===0&&STORY.presence('heroine_05',gUS).here===false,J([usPlan,usWho,STORY.presence('heroine_05',gUS)]));
+    let nAway=0, nSeen=0; const badP=[]; for(let d=DK('2025-09-22');d<=DK('2029-05-25');d+=3){ const g=G0(); g.flags.YT_MET_JOB=true; g.day=d; g.weekday=CALENDAR.dateOf(d).wd%7; if(!SHOPLIFE.dayOk(g,d)) continue;
+      for(const slot of ['lunch','dinner']){ g.hour=slot==='lunch'?12.5:18.5; const who=SHOPLIFE.who(g,slot); nSeen+=who.length;
+        for(const p of who) if(STORY.presence(p.id,g).here===false) badP.push(p.id+' '+CALENDAR.dateOf(d).key);
+        for(const p of SHOPLIFE.plan(d,slot)) if(STORY.presence(p.id,g).here===false){ nAway++; if(SHOPLIFE.why(Object.assign({},g,{hour:(p.t0+p.t1)/2}),CHARACTERS[p.id],p)!=='presence') badP.push(p.id+' '+CALENDAR.dateOf(d).key+' 原因不是 presence'); } } }
+    check('6b 四年抽樣（每三天）：排進店裡的 '+nSeen+' 人次那一天都在臺北；名單抽到但人不在臺北的 '+nAway+' 次都沒有排（回老家、出國、交換、畢業、沛珊離開以後）',!badP.length&&nSeen>300&&nAway>=10,badP.slice(0,5).join('；'));
+    /* 一天最多遇到一次：找一個午餐、晚餐都排到的人 */
+    let hit=null; for(const d of TERM_DAYS){ const g=G0(); g.day=d; g.weekday=CALENDAR.dateOf(d).wd%7; if(!SHOPLIFE.dayOk(g,d)) continue; const a=SHOPLIFE.who(Object.assign(g,{hour:12.5}),'lunch'), b=SHOPLIFE.who(Object.assign(g,{hour:18.5}),'dinner'); const x=a.find(p=>b.some(q=>q.id===p.id)); if(x){ hit={d,lunch:x,dinner:b.find(q=>q.id===x.id)}; break; } }
+    if(!hit) check('6b 找得到午餐、晚餐都排到的人',false);
+    else { const c=CHARACTERS[hit.lunch.id], mk=(h,fl)=>{ const g=G0(); g.day=hit.d; g.weekday=CALENDAR.dateOf(hit.d).wd%7; g.hour=h; Object.assign(g.flags,fl||{}); return g; }, hL=(hit.lunch.t0+hit.lunch.t1)/2, hD=(hit.dinner.t0+hit.dinner.t1)/2;
+      const a0=!!SHOPLIFE.sched(c,mk(hL))&&!!SHOPLIFE.sched(c,mk(hD));
+      const met={SHOP_MEAL_MET:{[c.id]:[hit.d,'lunch']}}; const a1=!!SHOPLIFE.sched(c,mk(hL,met)), a2=!SHOPLIFE.sched(c,mk(hD,met))&&SHOPLIFE.why(mk(hD,met),c,hit.dinner)==='once'&&!SHOPLIFE.who(mk(18.5,met),'dinner').some(p=>p.id===c.id);
+      const e2=STORY.schedEnt(c,mk(hD,met)), a3=!(e2&&e2.shopMeal);
+      const old={SHOP_MEAL_MET:{[c.id]:[hit.d-1,'lunch']}}, a4=!!SHOPLIFE.sched(c,mk(hD,old));   /* 昨天遇到的不算 */
+      const metD={SHOP_MEAL_MET:{[c.id]:[hit.d,'dinner']}}, a5=!!SHOPLIFE.sched(c,mk(hD,metD));   /* 遇到的那一餐照舊 */
+      const others=SHOPLIFE.who(mk(18.5),'dinner').filter(p=>p.id!==c.id).map(p=>p.id), a6=J(SHOPLIFE.who(mk(18.5,met),'dinner').map(p=>p.id))===J(others);
+      check('6b 同一天最多遇到一次：'+c.id+'（'+CALENDAR.dateOf(hit.d).key+'）午餐在店裡遇到了＝晚餐不排（原因 once、作息沒有那一筆）；午餐那一筆照舊；沒遇到＝兩餐都在；昨天遇到的不算；別人不受影響',a0&&a1&&a2&&a3&&a4&&a5&&a6,J([a0,a1,a2,a3,a4,a5,a6]));
+      /* 真的走進去：午餐時間進那間店、他在＝記下來（SHOPLIFE.tick）；沒進去＝不記 */
+      const F0=G.flags.SHOP_MEAL_MET; delete G.flags.SHOP_MEAL_MET; const z=enter(hit.lunch.zone,hit.d,+hL.toFixed(3)); const there=named().some(n=>n.charId===c.id); SHOPLIFE.tick(GM); const rec=G.flags.SHOP_MEAL_MET&&G.flags.SHOP_MEAL_MET[c.id];
+      const b1=there&&J(rec)===J([hit.d,'lunch']); G.hour=hD; const b2=!SHOPLIFE.sched(c,G); enter(hit.dinner.zone,hit.d,+hD.toFixed(3)); const b3=!named().some(n=>n.charId===c.id&&n.seat&&E.zone.seats.includes(n.seat)&&STORY.schedEnt(c,G)&&STORY.schedEnt(c,G).shopMeal);
+      delete G.flags.SHOP_MEAL_MET; enter('dorm',hit.d,+hL.toFixed(3)); SHOPLIFE.tick(GM); const b4=!G.flags.SHOP_MEAL_MET; enter(hit.dinner.zone,hit.d,+hD.toFixed(3)); const b5=named().some(n=>n.charId===c.id);
+      if(F0) G.flags.SHOP_MEAL_MET=F0; else delete G.flags.SHOP_MEAL_MET;
+      check('6b 真的走進去：午餐時間進那間店、他坐在裡面＝記 G.flags.SHOP_MEAL_MET；晚餐走進他原本會在的店＝他不在；午餐沒進店（在宿舍）＝不記、晚餐他照樣在',b1&&b2&&b3&&b4&&b5,J([b1,b2,b3,b4,b5,rec])); } }
   /* 平均（給盤點表）*/
   console.log('INFO 6 一個學期（大一上，'+TERM_DAYS.length+' 天）：午餐、晚餐合計 '+(nLane+nOther)+' 人次的同學在店裡吃飯（118 巷 '+nLane+'、其他店 '+nOther+'）'); }
 
