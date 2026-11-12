@@ -18,7 +18,7 @@
 //  12. 早餐＝豆漿、米漿、飯糰、三明治（AA_728 notes；不加早餐店）：送她豆漿算早餐（同一天再送飯糰＝no）；以安的豆漿、沛珊的米漿 AA_710 寫在飲料（她最喜歡的）＝對她算飲料
 //  13. 挑反應的順序 fav＞opinion＞ctx＞yes；opinion、ctx 沒寫 rel＝用她這時候 yes 那一格的 rel
 //  14. STALE-SOURCES-1112（AA_710 335301d353，X350「所有飲料店賣的飲料都可以買一份帶走送人」新增八格 opinion）：品名綁各店菜單上的飲料（在哪一間買的都算、舊存檔沒記店名也算）、
-//      「一盞茶屋的茶（任何一樣）」＝照店（shopAny；舊存檔沒記店名＝不算；一盞現在還不能買來送人＝匯入工具印提醒）；
+//      「一盞茶屋的茶（任何一樣）」＝照店（shopAny；舊存檔沒記店名＝不算；2026-11-12 YIZHAN-TAKEOUT-1112：一盞開外帶冷泡茶兩樣，買得到、語彤當班有自己的句子）；
 //      匯入工具：品名對不到 → 一次列完再停；沒有那間店 → 停；店的菜單讀不到 → 停（不放行）
 //  朋友（AA_728 people）：tests/gift_friends_unit.js
 // 用法：node tests/gift_unit.js
@@ -295,10 +295,34 @@ const same=(a,b)=>J(a)===J(b);
       const G4=fresh(); stageOf.heroine_03=2; const d=await give(G4,'heroine_03','凍頂烏龍（附一碟茶點）','一盞茶屋'); const G5=fresh(); stageOf.heroine_03=3; const f=await give(G5,'heroine_03','鮮奶茶','一盞茶屋');
       check('14. 語彤「一盞茶屋的茶（任何一樣）」＝照店（shopAny）：一盞茶屋買的任何一樣＝那兩句（稿 335301d353）；同一樣在便利商店買的不是；舊存檔沒記店名的不是、不丟例外；她最喜歡的（鮮奶茶）還是 fav 先',
         !!oy&&!!sy&&oy.shopAny==='一盞茶屋'&&oy.item===sy.item&&oy.n===undefined&&same(oy.pool.map(g=>g.lines),[sy.lines])&&a.r==='opinion'&&same(a.s,split(sy.lines))&&d.r==='opinion'&&same(d.s,split(sy.lines))&&b.r==='yes'&&c==='yes'&&f.r==='fav',J([oy,a.r,a.s,b.r,c,d.r,f.r])); }
-    /* 一盞現在還不能買來送人（盤點表第 2 節；AA_710 _meta 寫「也開」——等 LAWWW、AA 定）：匯入工具照匯、印提醒，不默默放行 */
+    /* 2026-11-12 改期望（YIZHAN-TAKEOUT-1112，AA_710 _meta.lawww_1112b「一盞茶屋外帶」＠335301d353：開外帶、只賣冷泡茶兩樣）。
+       舊期望：一盞茶屋現在不能買來送人 → import_gifts.py --check 印「[提醒] …一盞茶屋 現在不能買來送人，這一格送不到」（等 LAWWW、AA 定外帶賣什麼）。
+       現在：定了——GIFT.SHOPS 有這間（key「溫州街・一盞」、記的店名「一盞茶屋」），匯入工具不再印提醒；語彤那一格送得到 */
     { let out=''; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_gifts.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); }catch(e){ out=String(e.stderr||e.message); }
-      const G=fresh(), sells=!!GIFT.shopOpt(G,'溫州街・一盞')||Object.keys(MENUS.shops).includes('一盞茶屋');
-      check('14. 一盞茶屋現在不能買來送人 → import_gifts.py 印「[提醒] …一盞茶屋 現在不能買來送人，這一格送不到」（哪天 GIFT.SHOPS 加了這間、記的店名是「一盞茶屋」，提醒就沒了）',sells?!/\[提醒\]/.test(out):/\[提醒\] heroine_03\.drink\.opinion\[\d\]\.item「一盞茶屋的茶（任何一樣）」：一盞茶屋 現在不能買來送人/.test(out),out.trim().split('\n').pop().slice(0,160)); }
+      const TK=A710._meta.lawww_1112b['一盞茶屋外帶'], T=GIFT_LINES.takeout&&GIFT_LINES.takeout['一盞茶屋'], G=fresh(), M=GIFT.menu(G,'溫州街・一盞');
+      check('14. 一盞茶屋可以買來送人了：import_gifts.py --check OK、沒有 [提醒]；各店菜單（gift_shop_menus.js）有「一盞茶屋」那兩樣',/^OK/.test(out)&&!/\[提醒\]/.test(out)&&same(MENUS.shops['一盞茶屋'],TK.items.map(x=>x[0])),out.trim().split('\n').pop().slice(0,160));
+      check('14. 外帶的資料（GIFT_LINES.takeout）逐字照稿：兩樣和價錢（冷泡烏龍（一瓶）90、冷泡紅玉（一瓶）90）、店員句、語彤當班的旁白、她當班收到的那一句',!!T&&same(T.items,TK.items)&&same(T.items,[['冷泡烏龍（一瓶）',90],['冷泡紅玉（一瓶）',90]])&&T.staffLine===TK.line_staff&&T.staffLine==='外帶的在這裡。喝之前搖一下。'
+        &&T.onShift.who==='heroine_03'&&T.onShift.buy===TK.line_yt_on_shift&&T.onShift.buy==='（語彤從冰箱拿了一瓶給你，把瓶身的水擦乾才遞過來。）'&&same(T.onShift.give,['你在我店裡買茶送我。……好，我下班喝。'])&&TK.note.includes('她收：「'+T.onShift.give[0]+'」'),J(T));
+      check('14. 一盞的外帶只賣這兩樣（都算飲料、90 元）；內用的一壺茶（凍頂烏龍、東方美人、焙茶）不在裡面；選項是原本那一個「買一份帶走送人…」',same(M.map(x=>[x.n,x.p,x.cat]),[['冷泡烏龍（一瓶）',90,'drink'],['冷泡紅玉（一瓶）',90,'drink']])&&(GIFT.shopOpt(G,'溫州街・一盞')||{}).t===GIFT.SHOP_OPT&&GIFT.shopDef('溫州街・一盞').name==='一盞茶屋');
+      const g3=fs.readFileSync(path.join(H.ROOT,'src/gift3d.js'),'utf8'), wz=fs.readFileSync(path.join(H.ROOT,'src/wzshops3d.js'),'utf8');
+      check('14. 字和價錢不手打在 src：gift3d.js、wzshops3d.js 沒有「冷泡」「喝之前搖一下」「我下班喝」「把瓶身的水擦乾」',![g3,wz].some(t=>/冷泡烏龍|冷泡紅玉|喝之前搖一下|我下班喝|把瓶身的水擦乾/.test(t)));
+      /* 買：蘇姨一句（語彤沒當班）／旁白（語彤當班）→ 原本那一句「你買了…，帶在身上。」；記的店名「一盞茶屋」 */
+      if(typeof EAT_LINES==='undefined') loadG('src/data/eat_lines.js',['EAT_LINES']);   /* 店員是誰照 eat_lines.js 的 staff（蘇姨）*/
+      const S0=global.SHIFTT; let on=false; global.SHIFTT={onShift:(G_,id)=>on&&id==='heroine_03'};
+      try{ H.said=[]; H.picks=['冷泡烏龍']; const c1=await GIFT.buy(GM,'溫州街・一盞'); const s1=H.said.map(x=>[x.who||null,x.t]);
+        check('14. 在一盞買外帶（語彤沒當班）：扣 90、蘇姨「外帶的在這裡。喝之前搖一下。」→「你買了冷泡烏龍（一瓶），帶在身上。」；記店名「一盞茶屋」',!!c1&&c1.n==='冷泡烏龍（一瓶）'&&c1.shop==='一盞茶屋'&&c1.cat==='drink'&&G.money===4910&&same(s1,[['蘇姨',T.staffLine],[null,'你買了冷泡烏龍（一瓶），帶在身上。']]),J(s1));
+        on=true; H.said=[]; H.picks=['冷泡紅玉']; const c2=await GIFT.buy(GM,'溫州街・一盞'); const s2=H.said.map(x=>[x.who||null,x.t]);
+        check('14. 語彤當班：店員句換成旁白「（語彤從冰箱拿了一瓶給你，把瓶身的水擦乾才遞過來。）」（蘇姨那一句不說）',!!c2&&c2.n==='冷泡紅玉（一瓶）'&&G.money===4820&&same(s2,[[null,T.onShift.buy],[null,'你買了冷泡紅玉（一瓶），帶在身上。']]),J(s2));
+        H.said=[]; H.picks=['算了']; const c0=await GIFT.buy(GM,'溫州街・一盞'); check('14. 算了：不扣錢、不說店員句',c0===null&&G.money===4820&&H.said.length===0);
+        /* 送：她當班、送的是在一盞買的＝換那一句；沒當班＝照她原本的（一盞的茶那一格 opinion）；她當班但東西是別間買的＝照原本的；別人不受影響 */
+        const Ga=fresh(); stageOf.heroine_03=2; on=true; const a=await give(Ga,'heroine_03','冷泡烏龍（一瓶）','一盞茶屋');
+        const Gb=fresh(); stageOf.heroine_03=2; on=false; const b2=await give(Gb,'heroine_03','冷泡烏龍（一瓶）','一盞茶屋');
+        const Gc=fresh(); stageOf.heroine_03=2; on=true; const c3=await give(Gc,'heroine_03','無糖綠茶','便利商店');
+        const Gd=fresh(); stageOf.heroine_01=2; on=true; const d4=await give(Gd,'heroine_01','冷泡紅玉（一瓶）','一盞茶屋');
+        const Ge=fresh(); stageOf.heroine_03=2; on=true; await give(Ge,'heroine_03','冷泡烏龍（一瓶）','一盞茶屋'); const e5=await give(Ge,'heroine_03','冷泡紅玉（一瓶）','一盞茶屋');
+        check('14. 語彤當班、送她在一盞買的：收禮換「你在我店裡買茶送我。……好，我下班喝。」（kind shift；東西收下、算今天送過）',a.r==='shift'&&same(a.s,T.onShift.give)&&a.first==='你把冷泡烏龍（一瓶）遞給'+who('heroine_03').name+'。'&&Ga.carry.length===0,J([a.r,a.s,a.first]));
+        check('14. 她沒當班＝照原本的（一盞的茶那一格）；她當班但東西是便利商店買的＝照原本的；以安收到一盞的茶＝一般句子；同一天第二次＝照原本不收',b2.r==='opinion'&&same(b2.s,split(sy.lines))&&c3.r!=='shift'&&d4.r==='yes'&&e5.r==='no',J([b2.r,c3.r,d4.r,e5.r]));
+      } finally { if(S0===undefined) delete global.SHIFTT; else global.SHIFTT=S0; } }
     /* 匯入工具的把關 */
     const P14="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','335301d353:'+M.PATH]).decode());m2=json.loads(subprocess.check_output(['git','show','bb3bdad7df:'+M.PATH2]).decode())['_meta'];I=M.game_items();";
     const e0=py2(P14+"M.build(d,'x',I,m2,M.shop_menus(),[])");
@@ -307,7 +331,7 @@ const same=(a,b)=>J(a)===J(b);
     const e3=py2(P14+"M.MENUS_JS='tools/story/no_such_file.js';M.build(d,'x',I,m2,M.shop_menus(),[])");
     const e4=py2(P14+"d['heroine_01']['breakfast'].setdefault('opinion',[]).append({'item':'檸檬綠茶','lines':['x']});M.build(d,'x',I,m2,M.shop_menus(),[])");
     const e5=py2(P14+"M.build(d,'x',I,m2)");
-    const e6=py2(P14+"p=[];d['heroine_03']['drink']['opinion'].append({'item':'果茶社的茶（任何一樣）','lines':['x']});r,_=M.build(d,'x',I,m2,M.shop_menus(),p);o=r['people']['heroine_03']['drink']['opinion'][-1];assert o.get('shopAny')=='果茶社' and 'n' not in o and len(p)==1,(o,p)");
+    const e6=py2(P14+"p=[];d['heroine_03']['drink']['opinion'].append({'item':'果茶社的茶（任何一樣）','lines':['x']});r,_=M.build(d,'x',I,m2,M.shop_menus(),p);o=r['people']['heroine_03']['drink']['opinion'][-1];assert o.get('shopAny')=='果茶社' and 'n' not in o and len(p)==0,(o,p)");   /* 2026-11-12（YIZHAN-TAKEOUT-1112）：舊期望 len(p)==1（那一個是一盞茶屋「現在不能買來送人」的提醒）；一盞開了外帶，提醒沒了＝0 */
     check('14. 匯入工具：原稿（附各店菜單）通過；兩個品名對不到 → 兩個都列出來再停（交給 AA）；沒有那間店 → 停；菜單讀不到 → 停（不放行）；各店的飲料寫在早餐 → 停；不給菜單（舊的呼叫法）＝照舊只認 S.ITEMS、停下來；可以買來送人的店（果茶社）的整間店寫法＝shopAny、沒有提醒',
       e0==='ran'&&/有 2 個品名對不到/.test(e1)&&/「檸檬綠」/.test(e1)&&/「火龍果冰沙」/.test(e1)&&/沒有「兩盞茶屋」這間可以買來送人的店/.test(e2)&&/跑不起來/.test(e3)&&/不能寫在 breakfast/.test(e4)&&/遊戲沒有這個品項/.test(e5)&&e6==='ran',[e0,e1,e2,e3,e4,e5,e6].map(s=>s.trim().split('\n').pop().slice(0,90)).join(' | ')); }
   H.done();
