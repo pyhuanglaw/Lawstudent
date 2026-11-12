@@ -30,7 +30,7 @@ const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.AN_1112;
 // 1
 { const allow=JSON.parse(read('docs/handoff/story_import_allow.json')).files;
   const bad=LOCS.filter(k=>{ const e=allow.filter(x=>x.path===SP+'date_system/lines/'+k+'.json'); return !(e.length===1&&e[0].sha===C.ALLOW_SHA&&e[0].status==='approved'&&!!e[0].approvedBy&&(e[0].history||[]).some(h=>h.sha===PREV)&&(e[0].history||[]).some(h=>h.sha===C.AN_1112_SHA)); });
-  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；'+C.AN_1112_SHA+'、'+PREV+' 在 history',C.ALLOW_SHA==='b22e4d1277'&&C.AN_1112_SHA==='b84e779563'&&PREV==='74e0421b8'&&bad.length===0,J(bad));
+  check('1. 白名單 D01～D33 都是 '+C.ALLOW_SHA+'、approved、有 approvedBy；'+C.AN_1112_SHA+'、'+PREV+' 在 history',C.ALLOW_SHA==='a573a50dca'&&C.SIS_1112_PREV==='b22e4d1277'&&C.AN_1112_SHA==='b84e779563'&&PREV==='74e0421b8'&&bad.length===0,J(bad));   /* 2026-11-12（X324 學姊續改 AA_837＋AA_838@a573a50dca）：白名單再換 a573a50dca（只動學姊，見 date_src_sha.js SIS_1112）；以安這一輪最後一版 b22e4d1277＝C.SIS_1112_PREV。舊期望：C.ALLOW_SHA==='b22e4d1277' */
   check('1. date_lines.js 的來源寫著 33 個地點 @'+C.ALLOW_SHA,LOCS.every(k=>NOW.source.includes(k+'.json@'+C.ALLOW_SHA))); }
 
 // 2
@@ -41,11 +41,12 @@ const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.AN_1112;
   } else console.log('（跳過第 2 項：讀不到 '+C.ALLOW_SHA+' 的 AA_832／AA_834，企劃線沒 fetch）'); }
 
 // 3
-{ const SRC={}, OLD={}; for(const k of LOCS){ const t=show(C.ALLOW_SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLD[k]=JSON.parse(u); }
+{ const AS=C.SIS_1112_PREV;   /* 2026-11-12（X324 學姊續改 AA_837＋AA_838，白名單換 a573a50dca）：這一項的「源稿」固定讀以安這一輪最後那一版 AS＝b22e4d1277（之後 ALLOW_SHA 只多學姊 78 格＋D01 多一套，tests/sis_dates_1112_unit.js 第 3 項驗）。舊寫法：show(C.ALLOW_SHA,…) */
+  const SRC={}, OLD={}; for(const k of LOCS){ const t=show(AS,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=JSON.parse(t); if(u) OLD[k]=JSON.parse(u); }
   if(Object.keys(SRC).length===33&&Object.keys(OLD).length===33){
     const diff=[]; for(const k of LOCS){ const a=leaves(OLD[k],'',{}), b=leaves(SRC[k],'',{}); for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]) diff.push([k,p,a[p],b[p]]); }
     const want=R.map(r=>J([r.loc,'/lines/'+AN+'/'+r.path,r.old,r.new])).sort(), have=diff.map(x=>J(x)).sort();
-    check('3. 源稿 '+C.ALLOW_SHA+' 和上一版 '+PREV+' 逐格比（含 fx）：只有以安 59 格不同，old／new 都照稿；別人 0 格',diff.length===59&&J(want)===J(have),J(have.filter(x=>!want.includes(x)).slice(0,3)));
+    check('3. 源稿 '+AS+' 和上一版 '+PREV+' 逐格比（含 fx）：只有以安 59 格不同，old／new 都照稿；別人 0 格',diff.length===59&&J(want)===J(have),J(have.filter(x=>!want.includes(x)).slice(0,3)));
   } else console.log('（跳過第 3 項：讀不到源稿，企劃線沒 fetch）'); }
 
 // 4
@@ -59,6 +60,7 @@ const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.AN_1112;
 // 5
 { const wt=show(BASE,'src/data/date_lines.js');
   if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source') diff.push(p);
+    const SISP=[...C.SIS_1112.map(r=>'/loc/'+r.loc+'/lines/heroine_05/'+r.path),...C.SIS_1112_ADD.flatMap(x=>['/tier','/lines/0/who','/lines/0/text'].map(q=>'/loc/'+x.loc+'/lines/heroine_05/'+x.path+'/'+x.index+q))]; { const all=diff.slice(); diff.length=0; for(const p of all) if(!SISP.includes(p)) diff.push(p); check('5. 之後 AA_837＋AA_838（a573a50dca）學姊那 78 格也換了字、D01 交往到達多一套 3 格（date_src_sha.js SIS_1112、SIS_1112_ADD；逐格在 tests/sis_dates_1112_unit.js）——這裡先拿掉再比',SISP.length===81&&SISP.every(p=>all.includes(p)),J(SISP.filter(p=>!all.includes(p)))); }   /* 2026-11-12（X324 學姊續改）：舊期望是拿掉以前就只差這一輪的格子 */
     const want=R.map(r=>'/loc/'+r.loc+'/lines/'+AN+'/'+r.path).sort();
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 59 格不同（別人、fx、短句、交通偏好零差異）',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 59 格重匯以前＝稿的 old',R.every(r=>a['/loc/'+r.loc+'/lines/'+AN+'/'+r.path]===r.old));
