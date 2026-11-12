@@ -52866,7 +52866,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-12 04:1x LAWWW-C】AA_821 越好吃小館定稿（65e38a5de）→ 子代理在做（分支 tz-yuehaochi-1112，基準 9dedfa2088，檢查點 wip_backup/tz_yuehaochi_1112.bundle）；回來當回合合併｜【11-12 04:1x LAWWW-C】客居雲南室內第 1 版已整合（LAWWW2 28c3682f8 tz5_keju_v1.patch；區域 tz_keju、16 座；順便修越好吃的菜單貼圖）；互動點要 AA 的字：tz_keju_order（過橋米線、米干、涼拌、普洱茶）、tz_keju_menu、tz_keju_tea、tz_keju_kitchen、tz_keju_batik；下一間東南大聯商行｜【11-12 04:0x LAWWW-C】越好吃小館室內第 1 版已整合（LAWWW2 3928cdfc1 tz5_yuehaochi_v1.patch；區域 tz_yuehaochi，汀州路店門「進越好吃小館」；tz_shops／tingzhou 五支 Node 過；瀏覽器沒跑→BB 排 CC）；互動點要 AA 的字：tz_yue_order（河粉、春捲、法國麵包、越南咖啡的選單和價錢）、tz_yue_menu、tz_yue_herbs、tz_yue_kitchen、tz_yue_hats、店員；下一間客居雲南｜【11-12 LAWWW-C】使用者 03:5x「你們自己決定」→ LAWWW 定：LAWWW2 第 2 版外觀（騎樓混合：五間照概念圖直接臨人行道、其他老公寓保留騎樓）→ 接著五間室內（一間一間交、最多 3 版 D141；店內字、商品找 AA；店名不改 D147）→ LAWWW 接區域入口、地圖、快速前往 → BB 判｜外觀進遊戲、使用者看過再決定要不要做室內（D141：先進遊戲）",
+   "next": "【LAWWW-C 11-12】越好吃小館接字已合併 4263eec337（AA_821：進門、點餐六樣、錢不夠、四個看、坐下、打烊；tests/tz_yuehaochi_aa821_1112_unit.js ALL PASS）；東南大聯商行室內 v1 已進（等 AA 五個互動點的字）；客居雲南等 AA 字｜【11-12 04:1x LAWWW-C】AA_821 越好吃小館定稿（65e38a5de）→ 子代理在做（分支 tz-yuehaochi-1112，基準 9dedfa2088，檢查點 wip_backup/tz_yuehaochi_1112.bundle）；回來當回合合併｜【11-12 04:1x LAWWW-C】客居雲南室內第 1 版已整合（LAWWW2 28c3682f8 tz5_keju_v1.patch；區域 tz_keju、16 座；順便修越好吃的菜單貼圖）；互動點要 AA 的字：tz_keju_order（過橋米線、米干、涼拌、普洱茶）、tz_keju_menu、tz_keju_tea、tz_keju_kitchen、tz_keju_batik；下一間東南大聯商行｜【11-12 04:0x LAWWW-C】越好吃小館室內第 1 版已整合（LAWWW2 3928cdfc1 tz5_yuehaochi_v1.patch；區域 tz_yuehaochi，汀州路店門「進越好吃小館」；tz_shops／tingzhou 五支 Node 過；瀏覽器沒跑→BB 排 CC）；互動點要 AA 的字：tz_yue_order（河粉、春捲、法國麵包、越南咖啡的選單和價錢）、tz_yue_menu、tz_yue_herbs、tz_yue_kitchen、tz_yue_hats、店員；下一間客居雲南｜【11-12 LAWWW-C】使用者 03:5x「你們自己決定」→ LAWWW 定：LAWWW2 第 2 版外觀（騎樓混合：五間照概念圖直接臨人行道、其他老公寓保留騎樓）→ 接著五間室內（一間一間交、最多 3 版 D141；店內字、商品找 AA；店名不改 D147）→ LAWWW 接區域入口、地圖、快速前往 → BB 判｜外觀進遊戲、使用者看過再決定要不要做室內（D141：先進遊戲）",
    "xai": {
     "spec": "X322",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -54066,9 +54066,9 @@
    "title": "花序 Flower Notes 二樓花藝課：可以上課、有劇情、做出成品送女友（X346）",
    "area": "SHOP",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【11-12 04:1x LAWWW-C】AA_820 定稿（企劃線 65e38a5de；BB_376 第二意見採納）→ 子代理在做（worktree 分支 flower-class-1112，基準 9dedfa2088，檢查點 wip_backup/flower_class_1112.bundle）；回來當回合合併｜【11-12 LAWWW-C】①已請 AA-C 寫：上課流程的劇情與台詞（花藝師上課、黑板三種課：基礎花束、花型設計、季節花藝）、做出來的成品（名字、說明）、送給女友／其他人的反應、要不要能約她一起上課；②LAWWW：上課流程（二樓示範長桌報名、扣錢、占一個時段、得到成品進送禮的東西裡、可以送）——等 AA 的規格，先看 GIFTH 送禮和 studyslot／活動占時段怎麼接；③BB 測。二樓模型已在（flower_notes3d.js，現在只有「看」）；花序 AA_792 文字接線另一件（FLOWER-NOTES-1110，11-12 已合併）",
+   "next": "【LAWWW-C 11-12】子代理交件已合併 4263eec337：花序二樓「報名花藝課」、三門課（900／1200／1500）、成品進禮物包、平日也能當面送、一起上課、學姊三場；tests/flower_class_aa820_1112_unit.js ALL PASS（72 項）；瀏覽器沒跑→BB／CC。七個問題已轉 AA｜【11-12 04:1x LAWWW-C】AA_820 定稿（企劃線 65e38a5de；BB_376 第二意見採納）→ 子代理在做（worktree 分支 flower-class-1112，基準 9dedfa2088，檢查點 wip_backup/flower_class_1112.bundle）；回來當回合合併｜【11-12 LAWWW-C】①已請 AA-C 寫：上課流程的劇情與台詞（花藝師上課、黑板三種課：基礎花束、花型設計、季節花藝）、做出來的成品（名字、說明）、送給女友／其他人的反應、要不要能約她一起上課；②LAWWW：上課流程（二樓示範長桌報名、扣錢、占一個時段、得到成品進送禮的東西裡、可以送）——等 AA 的規格，先看 GIFTH 送禮和 studyslot／活動占時段怎麼接；③BB 測。二樓模型已在（flower_notes3d.js，現在只有「看」）；花序 AA_792 文字接線另一件（FLOWER-NOTES-1110，11-12 已合併）",
    "first": {
     "term": "Y1S1",
     "week": null,
