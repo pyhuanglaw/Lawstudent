@@ -214,6 +214,11 @@ const LANE=SHOPLIFE.laneShops().map(s=>'l118_'+s);
         { const id='heroine_05', c=CHARACTERS[id], m=first(id); const g=gOf(m.d,m.h,brk(id)); const b0=SHOPLIFE.exBlock(g,id)&&SISB4.brokeUp(g)&&!SISB4.rebuild(g).done; g.flags.SIS_REBUILD=g.day-2; const b1=SISB4.rebuild(g).done===true&&!SHOPLIFE.exBlock(g,id)&&!!SHOPLIFE.sched(c,g);
           g.flags.SIS_REBUILD=g.day-30; const b2=SHOPLIFE.exBlock(g,id);   /* 上一次分開的「她要的時間」不算這一次的 */ r.push(b0&&b1&&b2); }
         check('6c 回到朋友以後照舊排（EX_ 還在、沒有重新交往）：以安、語彤＝「重新開始」做完（MREL.rb step＝done）；學姊＝這一次分開以後「她要的時間」演過（SISB4.rebuild().done；上一次分開的不算）',r.every(Boolean)&&r.length===3,J(r)); }
+      /* 6d AA_826 lawww_answers 9（AA-C 11-12 06:17）：沒有和好劇情的人＝分手那個學期結束、下一個學期開學起恢復（寒暑假不算）；被發現劈腿分開的不恢復 */
+      { const ps='classmate_peishan', mp=first(ps), T=CALENDAR.termOf(mp.d); let vac=mp.d; while(CALENDAR.termOf(vac)&&CALENDAR.termOf(vac).id===T.id) vac++; let nx=vac; while(!CALENDAR.termOf(nx)&&nx<vac+120) nx++;   /* vac＝這學期結束後第一天（寒假）；nx＝下一個學期開學那一天 */
+        const mk=(day,how)=>{ const g=gOf(day,12.5,brk(ps,how)); const R=ROM.get(g,ps); R.history[R.history.length-1].day=mp.d; return g; };
+        const gSame=mk(mp.d+3,'apart_talk'), gVac=vac<nx?mk(vac,'apart_talk'):null, gNext=mk(nx+7,'apart_talk'), gCaught=mk(nx+7,'caught');
+        check('6d 沛珊（沒有和好劇情）：同一個學期＝不恢復；寒假＝還不恢復；下一個學期開學以後＝恢復（不擋）；被發現劈腿分開＝下學期也不恢復',CALENDAR.termOf(nx)&&CALENDAR.termOf(nx).id!==T.id&&SHOPLIFE.exBlock(gSame,ps)&&(!gVac||SHOPLIFE.exBlock(gVac,ps))&&SHOPLIFE.reconciled(gNext,ps)&&!SHOPLIFE.exBlock(gNext,ps)&&SHOPLIFE.exBlock(gCaught,ps)&&!SHOPLIFE.reconciled(gCaught,ps),J([T.id,vac,nx,SHOPLIFE.exBlock(gSame,ps),gVac&&SHOPLIFE.exBlock(gVac,ps),SHOPLIFE.reconciled(gNext,ps),SHOPLIFE.exBlock(gCaught,ps)])); }
       /* 被發現（caught）、等你說清楚（paused）、被發現退回朋友（friend_after_catch）也是前任那一把尺（ROM.exOf）；沒有和好的旗標的人＝到重新交往以前都不排 */
       { const id='heroine_01', c=CHARACTERS[id], m=first(id); const gC=gOf(m.d,m.h,brk(id,'caught')), gP=gOf(m.d,m.h,brk(id,'apart_talk','paused')), gF=gOf(m.d,m.h,brk(id,'caught','friend_after_catch'));
         const ps='classmate_peishan', mp=first(ps), gS=gOf(mp.d,mp.h,brk(ps)); gS.flags.SIS_REBUILD=gS.day-2;

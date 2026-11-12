@@ -129,7 +129,14 @@ const SHOPLIFE=(function(){
   S.reconciled=function(G,id){ if(!G||!G.flags) return false;
     if(typeof MREL!=='undefined'&&MREL.rb){ let r=null; try{ r=MREL.rb(G,id); }catch(e){ r=null; } if(r&&r.step==='done') return true; }   /* 以安、語彤：「重新開始」那一場做完 */
     if(id==='heroine_05'&&typeof SISB4!=='undefined'&&SISB4.rebuild){ let rb=null; try{ rb=SISB4.rebuild(G); }catch(e){ rb=null; } if(rb&&rb.done) return true; }   /* 學姊：「她要的時間」演過 */
-    return false; };
+    /* AA_826 lawww_answers 9（AA-C 11-12）：沒有和好劇情的人（沛珊、芯慈、可昕…）＝分手那個學期結束、下一個學期開學起恢復（寒暑假不算，開學才算）；
+       被發現劈腿而分開的（任何人）不恢復，除非重新交往（重新交往 ROM.exOf 本來就是 false）。只讀現有的紀錄：ROM 的 history 最後一筆 end（day、how）、V6EX 記的 EX_<id>_REASON。 */
+    try{ const F=G.flags, R=F.romance&&F.romance[id], H=(R&&R.history)||[]; let e=null; for(let i=H.length-1;i>=0;i--) if(H[i]&&H[i].ev==='end'){ e=H[i]; break; }
+      const caught=F['EX_'+id+'_REASON']==='caught'||(R&&(R.status==='friend_after_catch'||R.status==='paused'))||(e&&['two_hearts','mrel','zq_zr','caught'].includes(e.how));
+      if(caught||!e||e.day==null||typeof CALENDAR==='undefined'||!CALENDAR.termOf) return false;
+      const T0=CALENDAR.termOf(e.day), T1=CALENDAR.termOf(G.day); if(!T1) return false;   /* 現在在寒暑假（沒有學期）＝還沒開學 */
+      if(!T0) return true;                                                                 /* 在寒暑假分手：下一個學期開學（現在在學期裡）就恢復 */
+      return T1.id!==T0.id&&G.day>e.day; }catch(err){ return false; } };
   /* 分手後的前任、還沒回到朋友＝不排進店裡 */
   S.exBlock=function(G,id){ if(!G||!G.flags||typeof ROM==='undefined'||!ROM.exOf||!ROM.exOf(G,id)) return false; return !S.reconciled(G,id); };
   /* 為什麼不排（null＝排）：測試、盤點表用 */
