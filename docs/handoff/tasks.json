@@ -54811,7 +54811,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "【LAWWW-C 11-12 20:2x UTC】D159 質感（BB-C 20:18）：第一層 tests/place_gate_unit.js 加質感警示（店內 mesh 是程式 BoxGeometry／CylinderGeometry、或一網格一純色無貼圖的比例超過門檻＝列出來）；SHOP_STANDARD_STATUS.md 多一欄「質感」；BB 第三層看圖判，已判 PASS 的 8 間 BB 會用這一項重看。規則已寫（§12 第 2 點、ROLE_BB 2.6）。｜【LAWWW-C 11-12】第一層已合併：tests/place_gate_unit.js（13 秒，node-unit-auto 會自動跑；47 店＋18 攤、820 項：PASS 668、已知未過 141、例外 11、第二層 112 格；新問題或「已知未過其實過了」都會紅）＋docs/handoff/SHOP_STANDARD_STATUS.md（--write 產生）。在修之前的 371fd882b2 跑：抓到剛好 7 間沒店員、3 間吃的沒客人、9 間沒窗景、118 巷九間遇不到同學、午休。剩：第二層 CC cc_place_gate_probe.py；天花板門檻用算的 3.208 m，3.2 m 的 13 間差 8 mm 判 FAIL，等 CC 抬頭拍確認再定；疊面只做棘輪｜使用者 11-12：「這要寫進測試規則！！避免以後要我真的開遊戲才能發現……請你查 GitHub 開源遊戲的測試方法……寫進你的規則 之後跟我講修改了什麼」。規則已寫（ROLE_BB 2.6、CLAUDE.md §8 第 7 點，HV-35）。工具：①LAWWW：place_gate_unit.js，從 SHOP-LIFE-AUDIT-1112 子代理的 shop_life_audit_1112_unit.js 擴成全部地點＋天花板／窗景／疊面的模型檢查，接進 node-unit-auto ②CC：cc_place_gate_probe.py（四個鏡頭、往上、左右移、連拍、機器判讀），先在今天有問題的版本（泰米、東南大聯、新生南路櫥窗、日常失速）跑一次確認每一項都抓得到，再跑全部地點 ③BB：2.6 的七項寫進驗收表｜BB-C 11-12 05:02：第一層「有天花板」直接查「每個室內區域天花板高度 ≥ 跟隨鏡頭高度 3.18 m（或鏡頭在室內有上限）」，全部區域掃一次——東南大聯、汀州聯通、安泰 3.1、禮貌生財 3.0 都是房間比鏡頭矮、天花板被藏起來，老房間可能也有",
+   "next": "11-12 21:1x LAWWW-C：地點關卡第一層加「質感（D159）」量測（每間店模型零件數、沒貼圖純色 %、方塊個數；純色≥50% 或方塊≥25% 標★警告，指向 SHOP-REALISM-1112），只量不判、BB 看圖判；SHOP_STANDARD_STATUS.md 重產（47 間：24 間★）。還沒做：程式拼的道具（非 GLB）第一層量不到、同步 BB 新版 place_gate_bb.json。",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",

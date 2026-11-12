@@ -70,7 +70,7 @@ const NOT_SHOP={xs_nanyang_hall:'南洋戲院的影廳（不是店面；大廳 x
 /* 檢查項目 → 店面標準第幾點（狀態表的欄）。layer2＝第一層判不了 */
 const ITEMS={
   name:{col:1,t:'店名'}, closedClerk:{col:1,t:'打烊後店裡不該有店員'}, street3d:{col:1,t:'從店外看進去是立體的',layer2:true}, closedLook:{col:1,t:'打烊看得出來關了',layer2:true},
-  ceiling:{col:2,t:'天花板比跟隨鏡頭高'}, view:{col:2,t:'有窗的有窗景'}, coplanar:{col:2,t:'牆沒有疊在同一平面'},
+  ceiling:{col:2,t:'天花板比跟隨鏡頭高'}, view:{col:2,t:'有窗的有窗景'}, coplanar:{col:2,t:'牆沒有疊在同一平面'}, texture:{col:2,t:'質感（D159）',layer2:true},
   clerk:{col:3,t:'營業中有店員'}, cust:{col:3,t:'尖峰有客人'}, mates:{col:3,t:'遇得到同學'}, tend:{col:3,t:'有人顧攤'},
   wired:{col:4,t:'互動點按了有反應'}, exit:{col:4,t:'出得來'}, buy:{col:4,t:'買得到（有價錢、會扣錢）'}, nomoney:{col:4,t:'錢不夠有對應'}, gift:{col:4,t:'飲料可以買來送人'}, closeOut:{col:4,t:'打烊會請出去'},
   hours:{col:5,t:'營業時間'}, noBreak:{col:5,t:'吃的店不午休'}, typhoon:{col:5,t:'颱風天'}, quick:{col:5,t:'手機快速前往'},
@@ -235,6 +235,15 @@ async function checkShop(z){ const nm=nameOf(z), ty=TYPE[z], L=tzLay(z), s118=l1
     for(const p of gl){ const base=COP[p]; let cur=base; if(!base||base.sha1!==sha1(p)){ const r=copScan(p); if(!r){ st='FAIL'; msg='模型 '+path.basename(p)+' 換了（或沒有基準）、這台機器不能重查（python3＋numpy）：跑 node tests/place_gate_unit.js --coplanar'; break; } cur=r; const b0=base?base.wall:0; if(r.wall>b0+0.05){ st='FAIL'; msg=path.basename(p)+' 牆的疊面 '+r.wall+' m²，比基準 '+b0+' m² 多（'+r.top+'）'; break; } }
       if(cur.wall>0.05) sus.push(path.basename(p)+' '+cur.wall+' m²'); }
     if(!gl.length) set(z,'coplanar','L2','找不到這一區的室內模型檔'); else if(st==='FAIL') fail(z,'coplanar',msg); else if(sus.length) set(z,'coplanar','L2','疑似牆面疊面 '+sus.join('、')+'（基準；連拍確認閃不閃）'); else pass(z,'coplanar'); }
+  /* 質感（D159，CLAUDE.md §9 2a）：第一層只量、不判（BB 看圖判）——模型裡沒貼圖的純色零件、等大方塊零件各佔多少 */
+  { const gl=glbsOf(z); let n=0, flat=0, box=0;
+    for(const p of gl){ const j=glbJson(p); if(!j) continue; const mats=j.materials||[], acc=j.accessors||[];
+      for(const m of (j.meshes||[])) for(const q of (m.primitives||[])){ n++; const mt=q.material!=null?mats[q.material]:null; const pb=mt&&mt.pbrMetallicRoughness||{};
+        if(!pb.baseColorTexture) flat++; const pos=acc[q.attributes&&q.attributes.POSITION], idx=q.indices!=null?acc[q.indices]:null;
+        if(pos&&pos.count<=24&&idx&&idx.count===36) box++; } }
+    if(!n) set(z,'texture','L2','找不到這一區的室內模型檔（程式拼的道具第一層量不到）');
+    else { const fp=Math.round(flat*100/n), bp=Math.round(box*100/n), warn=fp>=50||bp>=25;
+      set(z,'texture','L2',(warn?'★ 警告 ':'')+'零件 '+n+' 個：沒貼圖的純色 '+fp+'%、方塊 '+box+' 個（'+bp+'%）'+(warn?'（純色 ≥50% 或方塊 ≥25%｜SHOP-REALISM-1112）':'')); } }
   /* --- 尖峰有客人（吃的、喝的；平日 12:30、18:30）--- */
   if(ty==='eat'||ty==='drink'){ const bad=[]; let n=0; for(const h of [12.5,18.5]){ const ds=DAYS.filter(d=>isOpen(z,d,h)); if(!ds.length) continue; n++; let mx=0; for(const d of ds){ enter(z,d,h); mx=Math.max(mx,anon().length); if(mx) break; } if(!mx) bad.push(PLACES.hhmm(h)+'（看了 '+ds.length+' 個平日）'); }
     if(!n) fail(z,'cust','平日 12:30、18:30 都沒開，量不到尖峰'); else if(bad.length) fail(z,'cust','尖峰沒有任何路人客人：'+bad.join('、')); else pass(z,'cust'); } else na(z,'cust');
