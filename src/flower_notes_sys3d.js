@@ -70,7 +70,7 @@ const FNS=(function(){
   if(X()){ S.register(); S.hookZone(); }
   if(X()&&typeof STORY!=='undefined'&&STORY.interact&&!STORY._fns){ STORY._fns=true; const oi=STORY.interact;
     STORY.interact=async function(it,GM){ const G=GM&&GM.G;
-      if(it&&G&&S.on()){ if(it.fnDoor&&!S.open(G)) return S.door(GM);
+      if(it&&G&&S.on()){ if(it.fnDoor&&!S.open(G)&&!(typeof JOBS!=='undefined'&&JOBS.early&&JOBS.early(G,S.ZONE))) return S.door(GM);   /* 週六 09:00 的班（AA_829；10:00 才開店）：有班的人進得去 */
         if(it.kind===S.SHOP&&G.zone===S.ZONE){ const r=await S.counter(GM); if(r) return true; } }
       return oi.apply(this,arguments); }; }
   return S;
