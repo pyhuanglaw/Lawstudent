@@ -54518,7 +54518,7 @@
     "confirmed": true
    },
    "sha": "",
-   "next": "使用者 11-12：「這要寫進測試規則！！避免以後要我真的開遊戲才能發現……請你查 GitHub 開源遊戲的測試方法……寫進你的規則 之後跟我講修改了什麼」。規則已寫（ROLE_BB 2.6、CLAUDE.md §8 第 7 點，HV-35）。工具：①LAWWW：place_gate_unit.js，從 SHOP-LIFE-AUDIT-1112 子代理的 shop_life_audit_1112_unit.js 擴成全部地點＋天花板／窗景／疊面的模型檢查，接進 node-unit-auto ②CC：cc_place_gate_probe.py（四個鏡頭、往上、左右移、連拍、機器判讀），先在今天有問題的版本（泰米、東南大聯、新生南路櫥窗、日常失速）跑一次確認每一項都抓得到，再跑全部地點 ③BB：2.6 的七項寫進驗收表",
+   "next": "使用者 11-12：「這要寫進測試規則！！避免以後要我真的開遊戲才能發現……請你查 GitHub 開源遊戲的測試方法……寫進你的規則 之後跟我講修改了什麼」。規則已寫（ROLE_BB 2.6、CLAUDE.md §8 第 7 點，HV-35）。工具：①LAWWW：place_gate_unit.js，從 SHOP-LIFE-AUDIT-1112 子代理的 shop_life_audit_1112_unit.js 擴成全部地點＋天花板／窗景／疊面的模型檢查，接進 node-unit-auto ②CC：cc_place_gate_probe.py（四個鏡頭、往上、左右移、連拍、機器判讀），先在今天有問題的版本（泰米、東南大聯、新生南路櫥窗、日常失速）跑一次確認每一項都抓得到，再跑全部地點 ③BB：2.6 的七項寫進驗收表｜BB-C 11-12 05:02：第一層「有天花板」直接查「每個室內區域天花板高度 ≥ 跟隨鏡頭高度 3.18 m（或鏡頭在室內有上限）」，全部區域掃一次——東南大聯、汀州聯通、安泰 3.1、禮貌生財 3.0 都是房間比鏡頭矮、天花板被藏起來，老房間可能也有",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
