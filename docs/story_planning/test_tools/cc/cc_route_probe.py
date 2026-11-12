@@ -8,6 +8,8 @@
     sit:<字>                 走到標籤含那個字的座位（D.sit_all only＝那一張：點椅子、看按鈕、坐下、位置高度、起身推得動）
     walk:<x>,<z>[,<lv>]      go_to 那一點
     sitat:<x>,<z>[,<lv>]     坐指定的那一張（座標 0.35 m 內、同一層；找不到＝FAIL_SETUP，不換別張）
+    tapvia:<x>,<z>[,<lv>]    只用點地，照 E.pathTo 先點樓梯口、換層後再點目標（BB-C 11-13 路線 A）
+    railtap                  二樓欄杆邊點欄杆外看得到的一樓地板（路線 B，點位自動找）
     tapto:<x>,<z>[,<lv>]     只用點地走到那一點（一直點那一點的地面，點不到就轉鏡頭，最多 45 次）
     joyto:<x>,<z>[,<lv>]     只用搖桿走到那一點（cc_fn_lib.joy_to）
     look:<yaw>               鏡頭轉到那個方向（E.cam.yaw）再截一張（看牆、天花板）
@@ -78,7 +80,7 @@ SEG_PICK = r"""((a)=>{ const E=GAME.E, cam=E.camera, P=E.player.obj.position, W=
   const t=pr(a.tx,a.tz); if(ok(t)) return {x:a.tx, z:a.tz, seg:false, sy:Math.round(t.sy)};
   const dx=a.tx-P.x, dz=a.tz-P.z, D=Math.hypot(dx,dz)||1;
   for(const d of [12,9,7,5,3.5,2.5]){ if(d>=D) continue; const x=P.x+dx/D*d, z=P.z+dz/D*d, q=pr(x,z); if(ok(q)&&(!E.canStand||E.canStand(x,z,0.3,a.lv|0))) return {x:+x.toFixed(2), z:+z.toFixed(2), seg:true, sy:Math.round(q.sy)}; }
-  return {x:null, seg:false, sy:Math.round(t.sy)}; })"""
+  return {x:null, seg:false, turn:(t.z>=1||t.sy<0||t.sx<0||t.sx>W), sy:Math.round(t.sy)}; })"""
 STUCKSHOT = (os.environ.get('STUCKSHOT') or '0') == '1'   # 11-13 BB-C：卡住 4 秒當下截圖（遊戲鏡頭＋正上方往下看）＋列 1.2 m 內的網格，看是什麼擋住
 NEAR_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, mine=new Set(); E.player.obj.traverse(o=>mine.add(o)); const out=[]; const b=new THREE.Box3(), v=new THREE.Vector3();
   E.scene.traverse(o=>{ if(!o.isMesh||mine.has(o)||o.visible===false) return; try{ b.setFromObject(o); }catch(e){ return; } if(b.isEmpty()) return;
@@ -103,6 +105,28 @@ async def stuck_shot(pg, tag, n):
     finally:
         await pg.evaluate(D.UNCAM)
     R.note('%s 【卡住截圖】%s_game.png／_top.png；1.2 m 內的網格 %s' % (tag, nm, J(near)))
+
+
+async def tap_walk(pg, cdp, ax, ay, lv_):
+    a = [ax, ay]
+    # 11-13 BB-C（WZ_TAP_28＝TEST_BUG）：遠的目標投影到地平線、點到最上面 HUD 列（y 49）＝人不動。
+    # 目標在螢幕上 y<120 或出畫面：沿玩家→目標那條線找比較近、在畫面裡（y≥120）、站得住的點先點那裡（分段點），每次點的螢幕座標都記
+    n_ = 0; log_ = []
+    for _ in range(45):
+        p = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.z,GAME.E.player.lv|0]; })()")
+        if ((p[0] - a[0]) ** 2 + (p[1] - a[1]) ** 2) ** 0.5 < 0.6 and (lv_ is None or p[2] == lv_): return {'ok': True, 'taps': n_, 'log': log_[-12:]}
+        pick = await pg.evaluate(SEG_PICK, {'tx': a[0], 'tz': a[1], 'lv': lv_ if lv_ is not None else p[2]})
+        if pick and pick.get('turn'):   # 11-13 BB-C r2：目標在鏡頭後（proj -109）＝先轉鏡頭，不亂點
+            await L.turn_camera_to(pg, cdp, a[0], a[1]); await pg.wait_for_timeout(700); log_.append({'turn': True, 'pl': [round(p[0], 2), round(p[1], 2)], 'proj': pick.get('sy')}); continue
+        gx, gz = (pick['x'], pick['z']) if pick and pick.get('x') is not None else (a[0], a[1])
+        hit = await L.tap_ground(pg, cdp, gx, gz, lv=lv_); n_ += 1
+        log_.append({'n': n_, 'pl': [round(p[0], 2), round(p[1], 2)], 'goal': [round(gx, 2), round(gz, 2)], 'seg': bool(pick and pick.get('seg')), 'screen': hit and [round(hit.get('sx', -1)), round(hit.get('sy', -1))], 'proj': pick and pick.get('sy')})
+        await pg.wait_for_timeout(600)   # 11-13 LAWWW-C：點地找不到路的提示（「那邊過不去。」）有沒有跳
+        log_[-1]['toast'] = await pg.evaluate("(()=>{ const t=document.getElementById('toast'); return t&&t.offsetParent?(t.textContent||'').trim().slice(0,40):''; })()")
+        if log_[-1]['toast'] and n_ <= 3: await pg.screenshot(path=os.path.join(OUT, 'tap_toast_%s_%d.png' % (TAG, n_)))
+        if not hit: await L.turn_camera_to(pg, cdp, gx, gz)
+        await pg.wait_for_timeout(1400)
+    return {'ok': False, 'taps': n_, 'log': log_[-12:]}
 
 
 async def watched(pg, coro, tag):
@@ -149,6 +173,15 @@ async def main():
         R.setup('【前置／捷徑】讀檔到 %s %s %.1f%s（條件事件關掉）' % (ZONE, DAY, HOUR, (' (%s, %s) lv%d' % (X, Z, LV)) if X is not None else '（出生點）'))
         if not R.check('讀到 %s' % ZONE, s['zone'] == ZONE, J(s)): await b.close(); sys.exit(1)
         if STUCKSHOT: R.note('screenToFloor 記錄：%s' % (await pg.evaluate(S2F_HOOK)))
+        # 11-13 BB-C（NAV_FLOWER r2 第 01 段 busy/dlg 還開著）：開跑前先把讀檔後的招呼對話、選單點完
+        said0 = []
+        for _ in range(40):
+            q0 = await D.st(pg)
+            if q0['choices']: said0.append('▶' + q0['choices'][0]); await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); if(b[0]) b[0].click(); })()"); await pg.wait_for_timeout(700); continue
+            if q0['dlg']: await L.tap(pg, cdp, '#dlg'); said0.append('dlg'); await pg.wait_for_timeout(450); continue
+            break
+        q0 = await D.settle(pg)
+        R.check('FAIL_SETUP 檢查：開跑前沒有對話、busy=false（先點完 %d 下）' % len(said0), not q0['dlg'] and not q0['choices'] and not q0.get('busy'), J({k: q0.get(k) for k in ('dlg', 'choices', 'busy')}))
         if PATHSCAN:   # 11-13 LAWWW-C：E.pathTo 起點到終點的回傳；再從起點往終點每 STEP m 試一次，記第一個回 null 的點（nav 格子斷在哪）
             ps = await pg.evaluate("""((a)=>{ const E=GAME.E, [x0,z0,x1,z1,st]=a, lv=E.player.lv|0, out={full:null, steps:[], firstNull:null};
               const pp=r=>r?{n:r.length, head:r.slice(0,3), tail:r.slice(-3)}:null;
@@ -206,25 +239,35 @@ async def main():
                         r_, out['stuck'] = await watched(pg, F.joy_to(pg, cdp, t, a[0], a[1], near=0.6, lv=lv_, max_s=90), t)
                         out['joy'] = {k: r_.get(k) for k in ('ok', 'why', 't', 'pushes')} if isinstance(r_, dict) else r_
                     else:
-                        async def _taps():
-                            # 11-13 BB-C（WZ_TAP_28＝TEST_BUG）：遠的目標投影到地平線、點到最上面 HUD 列（y 49）＝人不動。
-                            # 目標在螢幕上 y<120 或出畫面：沿玩家→目標那條線找比較近、在畫面裡（y≥120）、站得住的點先點那裡（分段點），每次點的螢幕座標都記
-                            n_ = 0; log_ = []
-                            for _ in range(45):
-                                p = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.z,GAME.E.player.lv|0]; })()")
-                                if ((p[0] - a[0]) ** 2 + (p[1] - a[1]) ** 2) ** 0.5 < 0.6 and (lv_ is None or p[2] == lv_): return {'ok': True, 'taps': n_, 'log': log_[-12:]}
-                                pick = await pg.evaluate(SEG_PICK, {'tx': a[0], 'tz': a[1], 'lv': lv_ if lv_ is not None else p[2]})
-                                gx, gz = (pick['x'], pick['z']) if pick and pick.get('x') is not None else (a[0], a[1])
-                                hit = await L.tap_ground(pg, cdp, gx, gz, lv=lv_); n_ += 1
-                                log_.append({'n': n_, 'pl': [round(p[0], 2), round(p[1], 2)], 'goal': [round(gx, 2), round(gz, 2)], 'seg': bool(pick and pick.get('seg')), 'screen': hit and [round(hit.get('sx', -1)), round(hit.get('sy', -1))], 'proj': pick and pick.get('sy')})
-                                await pg.wait_for_timeout(600)   # 11-13 LAWWW-C：點地找不到路的提示（「那邊過不去。」）有沒有跳
-                                log_[-1]['toast'] = await pg.evaluate("(()=>{ const t=document.getElementById('toast'); return t&&t.offsetParent?(t.textContent||'').trim().slice(0,40):''; })()")
-                                if log_[-1]['toast'] and n_ <= 3: await pg.screenshot(path=os.path.join(OUT, 'tap_toast_%s_%d.png' % (TAG, n_)))
-                                if not hit: await L.turn_camera_to(pg, cdp, gx, gz)
-                                await pg.wait_for_timeout(1400)
-                            return {'ok': False, 'taps': n_, 'log': log_[-12:]}
-                        out['tap'], out['stuck'] = await watched(pg, _taps(), t)
+                        out['tap'], out['stuck'] = await watched(pg, tap_walk(pg, cdp, a[0], a[1], lv_), t)
                     await D.settle(pg); out['s'] = await record(pg, k, kind, J(out.get('joy') or out.get('tap')))
+                elif kind == 'tapvia':   # 11-13 BB-C 路線 A：只點地，照遊戲 E.pathTo 先點換層前（樓梯口）→ 換層後幾格 → 目標；每段都是分段點、不點 HUD
+                    a = [float(v) for v in arg.split(',')]; lv_ = int(a[2]) if len(a) > 2 else 0
+                    path = await pg.evaluate("(a=>{ const P=GAME.E.player, p=P.obj.position; const r=GAME.E.pathTo&&GAME.E.pathTo(p.x,p.z,P.lv|0,a.x,a.z,a.lv); return r?r.map(q=>Array.isArray(q)?[+(+q[0]).toFixed(2),+(+q[1]).toFixed(2),q[2]|0]:[+q.x.toFixed(2),+q.z.toFixed(2),q.lv|0]):null; })", {'x': a[0], 'z': a[1], 'lv': lv_})
+                    wps = [w for i in range(1, len(path or [])) if path[i][2] != path[i - 1][2] for w in (path[max(0, i - 1)], path[min(len(path) - 1, i + 3)])] + [[a[0], a[1], lv_]]
+                    R.note('%s E.pathTo %d 點；依序點 %s' % (t, len(path or []), J(wps)))
+                    if not R.check('FAIL_SETUP 檢查：%s 遊戲找得到路（E.pathTo）' % t, bool(path), ''): res['steps'].append(out); break
+
+                    async def _via():
+                        logs = []
+                        for w in wps: logs.append(await tap_walk(pg, cdp, w[0], w[1], w[2]))
+                        return {'ok': bool(logs and logs[-1].get('ok')), 'segs': logs}
+                    out['tap'], out['stuck'] = await watched(pg, _via(), t)
+                    await D.settle(pg); out['s'] = await record(pg, k, kind, J({'ok': out['tap']['ok'], 'n': [g.get('taps') for g in out['tap']['segs']]}))
+                elif kind == 'railtap':   # 11-13 BB-C 路線 B：二樓欄杆邊，點欄杆外看得到的一樓地板（ec4e20f59c 修的情況）；點位自動找：二樓站得住、往外 1.5 m 二樓站不住但一樓站得住
+                    rp = await pg.evaluate("""(()=>{ const E=GAME.E, P=E.player.obj.position, cs=(x,z,l)=>!!E.canStand(x,z,0.3,l); let best=null;
+                      for(let r=0.5;r<12&&!best;r+=0.5) for(let k=0;k<24&&!best;k++){ const an=k*Math.PI/12, x=P.x+Math.sin(an)*r, z=P.z+Math.cos(an)*r; if(!cs(x,z,1)) continue;
+                        for(let j=0;j<8;j++){ const bn=j*Math.PI/4, qx=x+Math.sin(bn)*1.5, qz=z+Math.cos(bn)*1.5; if(!cs(qx,qz,1)&&cs(qx,qz,0)){ best={p:[+x.toFixed(2),+z.toFixed(2)], q:[+qx.toFixed(2),+qz.toFixed(2)]}; break; } } }
+                      return best; })()""")
+                    R.note('%s 二樓欄杆邊 %s → 點一樓 %s' % (t, J(rp and rp['p']), J(rp and rp['q'])))
+                    if not R.check('FAIL_SETUP 檢查：%s 找得到二樓欄杆邊、外面看得到的一樓地板' % t, bool(rp), ''): res['steps'].append(out); break
+
+                    async def _rail():
+                        g1 = await tap_walk(pg, cdp, rp['p'][0], rp['p'][1], 1)
+                        g2 = await tap_walk(pg, cdp, rp['q'][0], rp['q'][1], 0)
+                        return {'ok': bool(g2.get('ok')), 'to_edge': g1, 'down': g2}
+                    out['tap'], out['stuck'] = await watched(pg, _rail(), t)
+                    await D.settle(pg); out['s'] = await record(pg, k, kind, J({'ok': out['tap']['ok'], 'edge': out['tap']['to_edge'].get('ok'), 'down_taps': out['tap']['down'].get('taps')}))
                 elif kind == 'look':
                     await pg.evaluate("(y=>{ GAME.E.cam.yaw=y; })", float(arg)); await pg.wait_for_timeout(700)
                     out['s'] = await record(pg, k, 'look', 'yaw=%s' % arg)
