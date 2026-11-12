@@ -9,7 +9,7 @@
 //   4  路人客人：吃飯／喝東西的店在自己的尖峰平均至少 1 位；其他的店在一週的白天至少看得到客人；一間店同時最多 10 位（原本的上限）
 //   5  這次新加客人的店：站著的站得住、前面 0.75 m 是家具或牆、不站在按鈕和出口上；坐著的坐在區域真正的座位；洗樂三張椅子至少留一張
 //   6  吃飯時間遇得到同學（SHOPLIFE）：118 巷九間每一間都排得到人；118 巷比其他店多；平日午餐、晚餐幾乎每天巷子裡都有同學；一間店一餐最多兩位；
-//      原本的作息優先（排進去的時候他原本沒事）；考試週、颱風假、經濟系那一年不排；同一天算兩次結果一樣；不動存檔
+//      原本的作息優先（排進去的時候他原本沒事；AA_705／AA_632 寫好的列不受影響）；考試週、颱風假、經濟系那一年不排；同一天算兩次結果一樣；不動存檔
 //   7  真的走進去看得到：名單上的人，那個時間走進那間店＝他坐在店裡的座位上（有名字的人物，不是路人）；汀州路的新店也遇得到
 //   8  盤點表每一間店都有一列
 // 修改前（開發分支 371fd882b2）：沒有 SHOPLIFE（第 1 節 FAIL）；花序、客居雲南、越好吃小館、山嵐、大步、好拍、新生運動廣場開著沒有店員（第 2 節 FAIL 7 間）；
@@ -36,7 +36,7 @@ check('1 index.html 的程式全部載得進來（'+FILES.length+' 支）',!load
 check('1 SHOPLIFE 載入了、而且是 index.html 最後一支（包在所有 STORY.populate 的最外面）',typeof SHOPLIFE!=='undefined'&&FILES[FILES.length-1]==='src/shoplife3d.js',FILES[FILES.length-1]);
 if(typeof SHOPLIFE==='undefined'||typeof GAME==='undefined'||!GAME._test){ console.log('FAILED '+fails); process.exit(1); }
 { const code=fs.readFileSync(path.join(ROOT,'src/shoplife3d.js'),'utf8').replace(/\/\*[\s\S]*?\*\//g,'');   /* 拿掉註解以後 */
-  const zh=(code.match(/'[^'\n]*[一-鿿][^'\n]*'/g)||[]).filter(s=>!/^'(自助洗衣店|只有上師一個人|SHOP-LIFE-AUDIT-1112)/.test(s));   /* 例外原因、作息的 note 不是玩家看得到的字 */
+  const zh=(code.match(/'[^'\n]*[一-鿿][^'\n]*'/g)||[]).filter(s=>!/^'(洗衣店是自助的|只有上師一個人|SHOP-LIFE-AUDIT-1112)/.test(s));   /* 例外原因、作息的 note 不是玩家看得到的字 */
   check('1 src/shoplife3d.js 沒有任何台詞（不呼叫 say／caption／toast／choose，沒有玩家看得到的中文字串）',!/\.(say|caption|toast|choose|titleCard|runLines)\(/.test(code)&&!zh.length,zh.slice(0,3).join(' ')); }
 
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; ASSETS.loadOne=()=>new Promise(()=>{});   /* 正式模型不載入（店員、座位、導航不靠模型）*/
@@ -159,6 +159,12 @@ const LANE=SHOPLIFE.laneShops().map(s=>'l118_'+s);
   /* 熟客的時段照舊站在店門口（不被排到別間店）*/
   { const bad=[]; for(const d of TERM_DAYS.slice(14,49)){ const g=G0(); g.day=d; g.weekday=CALENDAR.dateOf(d).wd%7; g.hour=12.4; for(const r of L118.regularsAt(g)){ const c=CHARACTERS[r.id], e=c&&STORY.schedEnt(c,g); if(e&&e.shopMeal) bad.push(r.id+' '+CALENDAR.dateOf(d).key); } }
     check('6 118 巷熟客的時段（平日 12:10～13:00）：照舊站在他那間店門口，不排到別間',!bad.length,bad.slice(0,4).join('；')); }
+  /* AA 寫好的列（新店面遇得到人 AA_705）優先：有沒有 SHOPLIFE，每一列成不成立都一樣（他們算「原本的作息」時看不到這裡加的那一筆）*/
+  { let n=0, on=0; const diff=[]; const slots=SHOPLIFE.CFG.slots;
+    for(const d of TERM_DAYS){ const wd=CALENDAR.dateOf(d).wd%7; for(const row of SHOP_NPC.rows){ if(!row.days||!row.days.includes(wd)||row.hearBy==='alison') continue; const g=G0(); g.day=d; g.weekday=wd; g.hour=Math.min(23.9,(row.from+Math.min(row.to,24))/2); g.flags.YT_MET_JOB=true;
+        const a=SHOPNPC.on(g,row); SHOPLIFE.CFG.slots=[]; const b=SHOPNPC.on(g,row); SHOPLIFE.CFG.slots=slots; n++; if(a) on++; if(a!==b) diff.push(row.id+' '+CALENDAR.dateOf(d).key); } }
+    const X=STORY.SCHED_X, mineLast=X[X.length-1]===SHOPLIFE.sched, wrapped=X.slice(0,-1).every(f=>typeof f._shopLifeWrap==='function'), len0=X.length; if(X.length>1&&!X.includes(X[0]._shopLifeWrap)) diff.push('includes 認不得包起來的函式'); const extra=()=>null; X.push(extra); const okPush=X[X.length-1]===SHOPLIFE.sched&&X.includes(extra)&&X.length===len0+1; X.splice(X.indexOf(extra),1);
+    check('6 AA_705 的每一列（'+n+' 次、成立 '+on+' 次）有沒有 SHOPLIFE 結果都一樣；SHOPLIFE 永遠排在作息的最後一個',!diff.length&&on>20&&mineLast&&wrapped&&okPush,diff.slice(0,4).join('；')||J([mineLast,wrapped,okPush])); }
   /* 平均（給盤點表）*/
   console.log('INFO 6 一個學期（大一上，'+TERM_DAYS.length+' 天）：午餐、晚餐合計 '+(nLane+nOther)+' 人次的同學在店裡吃飯（118 巷 '+nLane+'、其他店 '+nOther+'）'); }
 

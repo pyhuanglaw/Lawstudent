@@ -20,7 +20,7 @@
        每個人每一餐：平日午餐七成半、平日晚餐六成、週末四成的機會出現在某一間店（S.CFG；再乘上 AA_771 那個人的 weight：芯慈 0.7、宥辰 0.4；只在熟客表裡的人從他成為熟客的那一學期起，S.since；亂數＝日期＋餐＋人，同一天存讀檔、進出結果一樣），待 36～54 分鐘。
      哪一間：八成是 118 巷的九間餐廳（照他在 L118_LUNCH_DATA.who 的 prefs 加權；沒寫的人九間平均），兩成是其他吃飯的店（S.CFG.other：汀州路的泰米村食、越好吃小館、客居雲南、
        大口漢堡、林家乾麵、SUNNY SIDE／Daybreak（午餐）、洋洋鹹酥雞、小路（晚餐））；那個時段沒開的照順序換下一間。一間店同一餐最多兩位（S.CFG.perShop）。
-     **原本的作息優先**（和 SHOPNPC 同一把尺）：他這個時間原本有事（上課、社課、打工、約好的、在別的店……）＝這一餐不出現；只有作息表裡單純「在某一區走走」和沒有作息的空檔才算空。
+     **原本的作息優先**（和 SHOPNPC 同一把尺；店內偶遇 AA_632、新店面遇得到人 AA_705 的每一列也都比這裡優先：S.wrapOthers）：他這個時間原本有事（上課、社課、打工、約好的、在別的店……）＝這一餐不出現；只有作息表裡單純「在某一區走走」和沒有作息的空檔才算空。
        那一天跟玩家有約（SHOPNPC.planDay）、那個時段是他 118 巷熟客的時段（照舊站在店門口，lane118.js）、阿哲約的午餐／當面約的 118 巷午餐成行的那一天中午（照那一場）＝不排。
        人不在臺北、休學、畢業照 presence（schedFor 先看）；語彤認識以前不在（STORY.schedEnt 的規則）。
      怎麼出現：作息那一筆（zone＝那間店、act eat、seatAt＝配置的座位）→ 照現有的 populateSchedule 坐在店裡吃飯；手機「找人」、地圖也看得到他在那間店。
@@ -38,7 +38,7 @@ const SHOPLIFE=(function(){
   const placeOpen=(z,h,d)=>typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(z,h,d);
 
   /* ---------- 1 店員 ---------- */
-  S.NO_CLERK={tz_xile:'自助洗衣店，沒有店員（AA_742）',tz_limao:'只有上師一個人，他在騎樓的算命桌（src/limao3d.js）'};
+  S.NO_CLERK={tz_xile:'洗衣店是自助的，沒有店員（AA_742）',tz_limao:'只有上師一個人，他在騎樓的算命桌（src/limao3d.js）'};
   /* 路人底模（STORY.extraSpec：偶數＝女性、奇數＝男性）；沒寫的照區域名字算一個固定的 */
   S.CLERK_I={tz_yuehaochi:66,tz_keju:67,flower_notes:68,xs_shanlan:70,xs_dabu:71,xs_xsports:72,xs_haopai:73};
   S.clerkSpot=function(zoneId,E){ const z=E&&E.zone; if(!z||S.NO_CLERK[zoneId]) return null; const at=(c,lv)=>c&&typeof c.x==='number'&&typeof c.z==='number'?{x:c.x,z:c.z,yaw:c.yaw||0,lv:(c.lv!=null?c.lv:lv)|0}:null;
@@ -104,7 +104,7 @@ const SHOPLIFE=(function(){
       cnt[zone]=(cnt[zone]|0)+1; out.push({id,zone,t0,t1,slot:slotId}); }
     if(planMemo.size>60) planMemo.clear(); planMemo.set(key,out); return out; };
   /* 這個人這個時刻照名單在哪（不看他原本的作息）*/
-  S.planNow=function(G,id){ const t=dayHour(G); if(!S.dayOk(G,t.day)) return null; for(const slot of S.CFG.slots){ if(t.h<slot.from||t.h>=slot.to) continue; const p=S.plan(t.day,slot.id).find(q=>q.id===id); if(p&&t.h>=p.t0&&t.h<p.t1) return p; } return null; };
+  S.planNow=function(G,id){ const t=dayHour(G); for(const slot of S.CFG.slots){ if(t.h<slot.from||t.h>=slot.to) continue; if(!S.dayOk(G,t.day)) return null; const p=S.plan(t.day,slot.id).find(q=>q.id===id); if(p&&t.h>=p.t0&&t.h<p.t1) return p; } return null; };   /* 先看時段（一天裡大部分的時間在這裡就結束，不算日曆）*/
   /* 原本的作息（不算這裡加的）*/
   let guard=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['shoplife3d:guard']=()=>{ guard=false; };
@@ -122,7 +122,7 @@ const SHOPLIFE=(function(){
   const entMemo=new Map();
   S.seatAt=function(zone,id,day){ const def=typeof CROWD!=='undefined'&&CROWD.SHOP_ZONES?CROWD.SHOP_ZONES[zone]:null, seats=[]; if(def) for(const u of def.units) for(const s of u.seats||[]) seats.push(s);
     if(!seats.length) return null; const s=seats[hash('shopmeal-seat|'+zone+'|'+id+'|'+day)%seats.length]; return [s.x,s.z,s.lv|0]; };
-  S.sched=function(c,G){ if(guard||!c||!c.id||!G||typeof CALENDAR==='undefined') return null; const p=S.planNow(G,c.id); if(!p) return null; if(S.why(G,c,p)) return null;
+  S.sched=function(c,G){ if(guard||depth>0||!c||!c.id||!G||typeof CALENDAR==='undefined') return null;   /* depth>0＝別的模組正在算「他原本的作息」（見 S.wrapOthers）：這裡加的不算原本的 */ const p=S.planNow(G,c.id); if(!p) return null; if(S.why(G,c,p)) return null;
     const key=p.id+'|'+(G.day|0)+'|'+p.slot; let e=entMemo.get(key);
     if(!e){ const sa=S.seatAt(p.zone,p.id,G.day|0); if(!sa) return null; const wd=G.weekday!=null?G.weekday:wdOf(G.day);
       e={days:[wd],from:p.t0,to:p.t1,zone:p.zone,act:'eat',seatAt:sa,noPair:true,shopMeal:p.slot,note:'SHOP-LIFE-AUDIT-1112 吃飯時間在店裡（沒有台詞）'}; if(entMemo.size>300) entMemo.clear(); entMemo.set(key,e); }
@@ -130,10 +130,28 @@ const SHOPLIFE=(function(){
   /* 這一天這一餐真的會出現的人（看得到原本的作息；給測試、盤點表）*/
   S.who=function(G,slotId){ const t=dayHour(G); if(!S.dayOk(G,t.day)) return []; const out=[]; for(const p of S.plan(t.day,slotId)){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[p.id]; if(!c) continue; const g=Object.assign({},G,{hour:(p.t0+p.t1)/2}); if(!S.why(g,c,p)) out.push(p); } return out; };
 
+  /* 別的模組（店內偶遇 SHOPENC、新店面遇得到人 SHOPNPC……）排人以前會先問「他原本的作息是什麼」（各自擋掉自己那一筆，再叫 STORY.schedEnt）。
+     這裡排在最後面，那一問會問到這裡加的「在店裡吃飯」——他們會以為他有事，AA 寫好的那一列反而不出現（優先順序倒過來）。
+     所以把 STORY.SCHED_X 裡別人的函式各包一層、記「現在在別人的函式裡」（depth）：那時候這裡一律回 null。結果：別人的每一列都比這裡優先。*/
+  let depth=0;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['shoplife3d:depth']=()=>{ depth=0; };
+  const AP=Array.prototype;
+  const wrapFn=f=>{ if(typeof f!=='function'||f===S.sched||f._shopLifeWrap) return f; const w=function(c,G){ depth++; try{ return f(c,G); } finally { depth--; } }; w._shopLifeWrap=f; return w; };
+  S.wrapOthers=function(){ if(typeof STORY==='undefined'||!Array.isArray(STORY.SCHED_X)) return 0; let k=0; const X=STORY.SCHED_X;
+    for(let i=0;i<X.length;i++){ const w=wrapFn(X[i]); if(w!==X[i]){ X[i]=w; k++; } }
+    const j=AP.indexOf.call(X,S.sched); if(j>=0&&j!==X.length-1){ X.splice(j,1); AP.push.call(X,S.sched); }   /* 永遠排最後 */
+    if(!X._shopLife){   /* 有些模組用 SCHED_X.includes(自己的函式) 判斷加過沒（guitar3d.js、aa613_3d.js，每次進店都判一次）：包起來以後還是要認得，不然會一直重複加 */
+      Object.defineProperty(X,'_shopLife',{value:true,enumerable:false});
+      const def=(k2,fn)=>Object.defineProperty(X,k2,{value:fn,enumerable:false,configurable:true,writable:true});
+      def('indexOf',f=>{ const i=AP.indexOf.call(X,f); return i>=0?i:X.findIndex(w=>!!w&&w._shopLifeWrap===f); });
+      def('includes',f=>X.indexOf(f)>=0);
+      def('push',function(){ for(const f of arguments){ const w=wrapFn(f), j2=AP.indexOf.call(X,S.sched); if(j2>=0&&f!==S.sched) X.splice(j2,0,w); else AP.push.call(X,w); } return X.length; }); }   /* 之後才加的：包好、插在這裡的前面 */
+    return k; };
   /* ---------- 掛上去 ---------- */
-  S.tick=function(GM){ try{ S.dedupClerk(GM); }catch(e){ console.warn('SHOPLIFE.dedupClerk',e); } return false; };
+  S.tick=function(GM){ try{ S.dedupClerk(GM); S.wrapOthers(); }catch(e){ console.warn('SHOPLIFE.tick',e); } return false; };   /* wrapOthers：之後才載入的模組加的作息也包起來 */
   S.install=function(){ if(typeof STORY==='undefined') return false;
     if(Array.isArray(STORY.SCHED_X)&&!STORY._shopLifeSched){ STORY.SCHED_X.push(S.sched); STORY._shopLifeSched=true; }
+    S.wrapOthers();
     if(Array.isArray(STORY.TICKS)&&!STORY._shopLifeTick){ STORY.TICKS.push(S.tick); STORY._shopLifeTick=true; }
     if(STORY.populate&&!STORY._shopLifePop){ const p0=STORY.populate; STORY._shopLifePop=true;
       STORY.populate=function(zoneId,GM){ try{ if(GM&&GM.E) S.attachSeats(GM.E); }catch(e){ console.warn('SHOPLIFE.attachSeats',e); }
@@ -141,7 +159,7 @@ const SHOPLIFE=(function(){
         try{ S.placeClerk(zoneId,GM); }catch(e){ console.warn('SHOPLIFE.placeClerk',e); }
         return r; }; }
     return true; };
-  S._reset=()=>{ guard=false; planMemo.clear(); entMemo.clear(); };
+  S._reset=()=>{ guard=false; depth=0; planMemo.clear(); entMemo.clear(); };
   S.install();
   return S;
 })();

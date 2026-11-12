@@ -26,7 +26,7 @@ const dayOfWd=(G,wd)=>{ for(let d=G.day;d<G.day+7;d++) if(CALENDAR.dateOf(d).wd%
   { const G=fresh('2025-10-15',10,'lane118'); const mon=dayOfWd(G,1), sun=dayOfWd(G,0), wed=dayOfWd(G,3);
     const o=(k,d,h)=>INV.slotOpen(G,P(k),d,h);
     const tue=dayOfWd(G,2), sat=dayOfWd(G,6);
-    check('2. 118牛排（週二休）：週三 12:00、18:00 可以，15:00 不行（午休），週二不行',o('l118_dian',wed,12)&&o('l118_dian',wed,18)&&!o('l118_dian',wed,15)&&!o('l118_dian',tue,12),J([o('l118_dian',wed,12),o('l118_dian',wed,18),o('l118_dian',wed,15),o('l118_dian',tue,12)]));
+    check('2. 118牛排（週二休）：週三 12:00、15:00、18:00 可以（2026-11-12 改期望：L118-SHOPS-REDO-1111 以後是一段 11:30～21:30，沒有午休；舊期望 15:00 不行），週二不行',o('l118_dian',wed,12)&&o('l118_dian',wed,18)&&o('l118_dian',wed,15)&&!o('l118_dian',tue,12),J([o('l118_dian',wed,12),o('l118_dian',wed,18),o('l118_dian',wed,15),o('l118_dian',tue,12)]));
     check('2. 奈良咖哩週一休、五湖四海每天開；大學食堂週末休、平日開',!o('l118_omu',mon,12)&&o('l118_home',mon,12)&&o('l118_omu',wed,12)&&!o('l118_cafe2',sat,12)&&!o('l118_cafe2',sun,12)&&o('l118_cafe2',wed,12));
     check('2. 公休日的說明：「奈良咖哩週一休」（店名照資料）',INV.offWhy(G,P('l118_omu'),mon)===P('l118_omu').name+'週一休'&&P('l118_omu').name==='奈良咖哩',INV.offWhy(G,P('l118_omu'),mon)); }
   { const G=fresh('2025-10-20',9,'lane118'), mon=G.day;   /* 2025-10-20 週一（G.weekday 跟著日期，不要直接改 G.day）*/   /* 選時間的選單（今天、明天）：公休日灰掉、寫原因（BB-B 11-07：原本只有「其他日子…」會灰）*/
